@@ -119,6 +119,7 @@ body{font-family:-apple-system,"Helvetica Neue",sans-serif;background:var(--gb);
 
     <div class="modal-actions">
       <button class="modal-btn primary" onclick="saveAndSync()">保存して同期</button>
+      <button class="modal-btn secondary" onclick="testToken()">🔍 トークン検証</button>
       <button class="modal-btn secondary" onclick="closeSyncModal()">閉じる</button>
     </div>
     <div class="sync-result" id="syncResult"></div>
@@ -344,6 +345,26 @@ async function manualSync() {
     renderSubjects();
   } else {
     openSyncModal();
+  }
+}
+
+async function testToken() {
+  const token = document.getElementById('tokenInput').value.trim();
+  if (!token) { showSyncResult('error', 'トークンを入力してから検証してください'); return; }
+  showSyncResult('ok', '🔄 検証中...');
+  try {
+    const res = await fetch('https://api.github.com/user', {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (res.ok) {
+      const u = await res.json();
+      showSyncResult('ok', `✅ トークン有効！ GitHubユーザー: @${u.login}  (先頭: ${token.slice(0,6)}...)`);
+    } else {
+      const e = await res.json().catch(() => ({}));
+      showSyncResult('error', `❌ 認証失敗 ${res.status}: ${e.message || ''}  先頭: ${token.slice(0,6)}...`);
+    }
+  } catch (e) {
+    showSyncResult('error', `❌ ネットワークエラー: ${e.message}`);
   }
 }
 
