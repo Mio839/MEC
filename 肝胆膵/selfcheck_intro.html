@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>肝胆膵 Introduction セルフチェック（30問）</title>
+<script src="../progress.js"></script>
+<style>
+:root{--or:#B8860B;--nv:#1C2E4A;--gr:#2D8C4E;--grl:#EAF7EE;--gb:#F4F6F8;--cb:#FFF;--bd:#E0E5EB;--tx:#1A2332;--ts:#5A6475;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:var(--gb);color:var(--tx);font-size:14px;line-height:1.7;}
+.hdr{background:var(--nv);color:#fff;padding:10px 12px 8px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+.hdr-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.hdr-title{font-size:15px;font-weight:800;}
+.hub-link{font-size:11px;color:rgba(255,255,255,.7);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,255,255,.3);border-radius:20px;white-space:nowrap;}
+.mec-sync-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(255,255,255,.15);color:#fff;margin-left:auto;}
+.hdr-stats{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px;}
+.hdr-stat{background:rgba(255,255,255,.12);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;}
+.hdr-stat span{color:#F5A623;}
+.filter-row{display:flex;align-items:center;gap:3px;overflow-x:auto;scrollbar-width:none;}
+.filter-row::-webkit-scrollbar{display:none;}
+.nb{flex-shrink:0;background:none;border:1.5px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;color:rgba(255,255,255,.65);transition:all .15s;white-space:nowrap;}
+.nb.on{background:rgba(255,255,255,.2);border-color:#fff;color:#fff;}
+.nb[data-state="flag"].on{background:#C0392B;border-color:#C0392B;}
+.nb[data-state="undone"].on{background:#78909C;border-color:#78909C;}
+.nb[data-state="done"].on{background:#2D8C4E;border-color:#2D8C4E;}
+.vis-count{margin-left:auto;font-size:11px;font-weight:700;color:rgba(255,255,255,.55);white-space:nowrap;flex-shrink:0;}
+.ct{max-width:900px;margin:0 auto;padding:14px 12px 60px;}
+.sc-card{background:var(--cb);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:12px;border-left:4px solid var(--or);overflow:hidden;}
+.sc-head{display:flex;align-items:center;gap:8px;padding:10px 15px 8px;border-bottom:1px solid var(--gb);}
+.sc-num{font-size:14px;font-weight:900;color:var(--nv);min-width:32px;}
+.sc-controls{display:flex;align-items:center;gap:5px;margin-left:auto;}
+.mec-flag-btn{background:none;border:none;font-size:16px;cursor:pointer;opacity:.3;padding:0 2px;line-height:1;transition:opacity .2s;}
+.mec-flag-btn.mec-flagged{opacity:1;}
+.mec-lap-btn{padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700;border:1.5px solid #E0E5EB;color:#A0AAB8;background:none;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;}
+.mec-lap-btn.mec-lapped{background:#2D8C4E;border-color:#2D8C4E;color:#fff;}
+.mec-lap-num{font-size:9px;margin-left:2px;}
+.sc-body{padding:12px 15px 14px;}
+.sc-question{font-size:13.5px;line-height:1.75;margin-bottom:10px;font-weight:600;color:var(--nv);}
+.sc-reveal-btn{display:block;width:100%;padding:8px;background:var(--gb);border:1.5px dashed var(--bd);border-radius:8px;font-size:12px;font-weight:700;color:var(--ts);cursor:pointer;font-family:inherit;transition:all .2s;text-align:center;}
+.sc-reveal-btn:hover{background:#E8ECF0;}
+.sc-reveal-btn.revealed{background:var(--grl);border-color:#A5D6A7;color:var(--gr);}
+.sc-answer{display:none;margin-top:10px;background:var(--grl);border:1.5px solid #A5D6A7;border-radius:8px;padding:10px 13px;font-size:13px;line-height:1.8;color:#1A3828;}
+.sc-answer.open{display:block;}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-row">
+    <span class="hdr-title">🫀 肝胆膵 Introduction セルフチェック</span>
+    <a class="hub-link" href="../index.html">← ハブへ</a>
+    <span class="mec-sync-badge">⚙️ 未設定</span>
+  </div>
+  <div class="hdr-stats">
+    <div class="hdr-stat">済 <span id="statDone">0</span>問</div>
+    <div class="hdr-stat">合計 <span style="color:#F5A623">30</span>問</div>
+  </div>
+  <div class="filter-row">
+    <button class="nb on" data-state="all" onclick="setState('all')">すべて</button>
+    <button class="nb" data-state="flag" onclick="setState('flag')">🚩 赤旗</button>
+    <button class="nb" data-state="undone" onclick="setState('undone')">未済</button>
+    <button class="nb" data-state="done" onclick="setState('done')">済み</button>
+    <span class="vis-count" id="visCount">—</span>
+  </div>
+</header>
+
+<div class="ct" id="cards"></div>
+
+<script>
+const QA = [
+  {q:"de novo肝炎のスクリーニングで確認すべき検査項目を3つ挙げよ。",a:"HBs抗原、HBs抗体、HBc抗体"},
+  {q:"E型肝炎が特に劇症化しやすい背景を答えよ。",a:"妊婦"},
+  {q:"A型肝炎の代表的な感染経路を2つ挙げよ。",a:"汚染された水や食物からの経口感染、性行為（肛門性交など）"},
+  {q:"肝硬変におけるエストロゲン分解能の低下による症状を3つ挙げよ。",a:"クモ状血管腫、手掌紅斑、女性化乳房"},
+  {q:"原発性胆汁性胆管炎PBCでみられる自己抗体、および相関するHLAを挙げよ。",a:"抗ミトコンドリア抗体、HLA-DR8など"},
+  {q:"肝膿瘍の代表的な原因微生物を挙げよ。",a:"大腸菌、クレブシエラ、赤痢アメーバなど"},
+  {q:"肝硬変でみられる手指の変化を答えよ。",a:"ばち指"},
+  {q:"Courvoisier徴候が陽性となる悪性腫瘍の代表的な部位を3つ挙げよ。",a:"膵頭部癌、遠位胆管癌、十二指腸乳頭部癌"},
+  {q:"C型肝炎の代表的な感染経路を挙げよ。",a:"血液（特に針刺し事故）"},
+  {q:"肝硬変患者が腹痛と発熱を訴えた場合、鑑別にあげるべき疾患を答えよ。",a:"特発性細菌性腹膜炎"},
+  {q:"Murphy徴候について述べよ。",a:"右季肋部を圧迫した状態で吸気させると痛みにより吸気が止まる。胆囊炎の徴候。"},
+  {q:"肝硬変の主な死因を3つ挙げよ。",a:"肝不全、静脈瘤破裂、肝細胞癌"},
+  {q:"医原性の急性膵炎の原因となりうる検査を挙げよ。",a:"ERCP"},
+  {q:"急性胆囊炎・胆管炎におけるCharcot三徴およびReynolds五徴を答えよ。",a:"Charcotの三徴：発熱・腹痛・黄疸\nReynoldsの五徴：Charcotの三徴・ショック・意識障害"},
+  {q:"1型自己免疫性膵炎の病理組織において認められる細胞はなにか。",a:"IgG4陽性形質細胞"},
+  {q:"原発性胆汁性胆管炎PBCと原発性硬化性胆管炎PSCで障害される胆管の相違点を答えよ。",a:"PBCは主に小葉間胆管が障害される（ミクロ）。\nPSCは主に肝内外胆管が障害される（マクロ）。"},
+  {q:"膵癌の発生を疑う検査数値の変化について答えよ。",a:"中高年以降の血糖値上昇や、閉塞性黄疸の出現が挙げられる。"},
+  {q:"間接ビリルビン優位となる代表的な体質性黄疸を挙げよ。",a:"Gilbert症候群、Crigler-Najjar症候群"},
+  {q:"肝細胞癌の診断に有用な画像検査を挙げよ。",a:"ダイナミックCT、Gd-EOB-DTPA造影MRI"},
+  {q:"肝硬変におけるRAA系およびADHの動きを答えよ。",a:"RAA系亢進、ADH分泌亢進"},
+  {q:"B型肝炎の代表的な感染経路を3つ挙げよ。",a:"血液、性行為、垂直（母子）感染"},
+  {q:"E型肝炎の代表的な感染経路を挙げよ。",a:"経口感染（ブタ、イノシシ、シカなどの非加熱摂取）"},
+  {q:"膵癌のリスクとなる背景疾患を3つ挙げよ。",a:"慢性膵炎、IPMN（特に主膵管型）、糖尿病"},
+  {q:"胆管癌のリスクとなる背景疾患ならびに職業歴を挙げよ。",a:"PSCや膵胆管合流異常（先天性胆道拡張症）、印刷業（有機溶剤曝露）"},
+  {q:"肝性脳症の原因となる物質、ならびに肝硬変患者においてその誘引となる症候を挙げよ。",a:"アンモニア。便秘、消化管出血など"},
+  {q:"肝硬変における浮腫・腹水の発生機序を答えよ。",a:"門脈圧亢進、血中アルブミン低下、RAA系亢進、ADH分泌亢進"},
+  {q:"急性膵炎でみられる腹部の皮下出血を2つ挙げよ。",a:"Grey-Turner徴候（左側腹部）、Cullen徴候（臍周囲）"},
+  {q:"NAFLD、NAFL、NASHという用語について整理せよ。",a:"NAFLD（非アルコール性脂肪性肝疾患）の中に、NAFL（非アルコール性脂肪肝）とその進展したNASH（非アルコール性脂肪肝炎）がある。"},
+  {q:"肝原発の良性腫瘍で最も頻度が高いものはなにか。",a:"肝血管腫"},
+  {q:"自己免疫性肝炎AIHでみられる自己抗体、および相関するHLAを挙げよ。",a:"抗平滑筋抗体、HLA-DR4など"}
+];
+
+const PREFIX = 'hbp_sc';
+let currentState = 'all';
+
+function buildCards() {
+  const ct = document.getElementById('cards');
+  ct.innerHTML = QA.map((item, i) => {
+    const uid = `${PREFIX}_q${i+1}`;
+    const ans = item.a.replace(/\n/g, '<br>');
+    return `<div class="sc-card" data-uid="${uid}" id="sc${i+1}">
+  <div class="sc-head">
+    <span class="sc-num">Q.${i+1}</span>
+    <div class="sc-controls">
+      <button class="mec-flag-btn" data-uid="${uid}" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button>
+      <button class="mec-lap-btn" data-uid="${uid}" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button>
+    </div>
+  </div>
+  <div class="sc-body">
+    <div class="sc-question">${item.q}</div>
+    <button class="sc-reveal-btn" onclick="toggleAnswer(this)">▶ 答えを見る</button>
+    <div class="sc-answer">${ans}</div>
+  </div>
+</div>`;
+  }).join('');
+}
+
+function toggleAnswer(btn) {
+  const ans = btn.nextElementSibling;
+  const open = ans.classList.toggle('open');
+  btn.textContent = open ? '▼ 答えを隠す' : '▶ 答えを見る';
+  btn.classList.toggle('revealed', open);
+}
+
+function setState(s) {
+  currentState = s;
+  document.querySelectorAll('[data-state]').forEach(b => b.classList.toggle('on', b.dataset.state === s));
+  applyFilter();
+}
+
+function applyFilter() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  let visible = 0;
+  document.querySelectorAll('.sc-card[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    let show;
+    if (currentState === 'all') show = true;
+    else if (currentState === 'flag') show = !!flags[uid];
+    else if (currentState === 'undone') show = !done[uid];
+    else if (currentState === 'done') show = !!done[uid];
+    else show = true;
+    c.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  const vc = document.getElementById('visCount');
+  if (vc) vc.textContent = visible + '問';
+}
+
+function initCards() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  document.querySelectorAll('.sc-card[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    const lapCount = done[uid] || 0;
+    const lapBtn = c.querySelector('.mec-lap-btn');
+    if (lapBtn) {
+      const numEl = lapBtn.querySelector('.mec-lap-num');
+      if (numEl) numEl.textContent = lapCount > 0 ? lapCount : '';
+      lapBtn.classList.toggle('mec-lapped', lapCount > 0);
+    }
+    const fb = c.querySelector('.mec-flag-btn');
+    if (fb && flags[uid]) fb.classList.add('mec-flagged');
+  });
+  const doneCount = Object.keys(done).filter(k => k.startsWith(PREFIX)).length;
+  const el = document.getElementById('statDone');
+  if (el) el.textContent = doneCount;
+  applyFilter();
+}
+
+buildCards();
+document.addEventListener('DOMContentLoaded', () => {
+  initCards();
+  MECSync.syncFromGist().then(r => {
+    if (r.status === 'ok') initCards();
+    if (r.status === 'no-config') document.querySelectorAll('.mec-sync-badge').forEach(e => e.textContent = '⚙️ 未設定');
+  });
+});
+</script>
+</body>
+</html>
