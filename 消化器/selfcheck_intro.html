@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>消化管 Introduction セルフチェック（30問）</title>
+<script src="../progress.js"></script>
+<style>
+:root{--or:#2D8C4E;--nv:#1C2E4A;--gr:#2D8C4E;--grl:#EAF7EE;--gb:#F4F6F8;--cb:#FFF;--bd:#E0E5EB;--tx:#1A2332;--ts:#5A6475;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:var(--gb);color:var(--tx);font-size:14px;line-height:1.7;}
+.hdr{background:var(--nv);color:#fff;padding:10px 12px 8px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+.hdr-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.hdr-title{font-size:15px;font-weight:800;}
+.hub-link{font-size:11px;color:rgba(255,255,255,.7);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,255,255,.3);border-radius:20px;white-space:nowrap;}
+.mec-sync-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(255,255,255,.15);color:#fff;margin-left:auto;}
+.hdr-stats{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px;}
+.hdr-stat{background:rgba(255,255,255,.12);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;}
+.hdr-stat span{color:#F5A623;}
+.filter-row{display:flex;align-items:center;gap:3px;overflow-x:auto;scrollbar-width:none;}
+.filter-row::-webkit-scrollbar{display:none;}
+.nb{flex-shrink:0;background:none;border:1.5px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;color:rgba(255,255,255,.65);transition:all .15s;white-space:nowrap;}
+.nb.on{background:rgba(255,255,255,.2);border-color:#fff;color:#fff;}
+.nb[data-state="flag"].on{background:#C0392B;border-color:#C0392B;}
+.nb[data-state="undone"].on{background:#78909C;border-color:#78909C;}
+.nb[data-state="done"].on{background:#2D8C4E;border-color:#2D8C4E;}
+.vis-count{margin-left:auto;font-size:11px;font-weight:700;color:rgba(255,255,255,.55);white-space:nowrap;flex-shrink:0;}
+.ct{max-width:900px;margin:0 auto;padding:14px 12px 60px;}
+.sc-card{background:var(--cb);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:12px;border-left:4px solid var(--or);overflow:hidden;}
+.sc-head{display:flex;align-items:center;gap:8px;padding:10px 15px 8px;border-bottom:1px solid var(--gb);}
+.sc-num{font-size:14px;font-weight:900;color:var(--nv);min-width:32px;}
+.sc-controls{display:flex;align-items:center;gap:5px;margin-left:auto;}
+.mec-flag-btn{background:none;border:none;font-size:16px;cursor:pointer;opacity:.3;padding:0 2px;line-height:1;transition:opacity .2s;}
+.mec-flag-btn.mec-flagged{opacity:1;}
+.mec-lap-btn{padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700;border:1.5px solid #E0E5EB;color:#A0AAB8;background:none;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;}
+.mec-lap-btn.mec-lapped{background:#2D8C4E;border-color:#2D8C4E;color:#fff;}
+.mec-lap-num{font-size:9px;margin-left:2px;}
+.sc-body{padding:12px 15px 14px;}
+.sc-question{font-size:13.5px;line-height:1.75;margin-bottom:10px;font-weight:600;color:var(--nv);}
+.sc-reveal-btn{display:block;width:100%;padding:8px;background:var(--gb);border:1.5px dashed var(--bd);border-radius:8px;font-size:12px;font-weight:700;color:var(--ts);cursor:pointer;font-family:inherit;transition:all .2s;text-align:center;}
+.sc-reveal-btn:hover{background:#E8ECF0;}
+.sc-reveal-btn.revealed{background:var(--grl);border-color:#A5D6A7;color:var(--gr);}
+.sc-answer{display:none;margin-top:10px;background:var(--grl);border:1.5px solid #A5D6A7;border-radius:8px;padding:10px 13px;font-size:13px;line-height:1.8;color:#1A3828;}
+.sc-answer.open{display:block;}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-row">
+    <span class="hdr-title">🫁 消化管 Introduction セルフチェック</span>
+    <a class="hub-link" href="../index.html">← ハブへ</a>
+    <span class="mec-sync-badge">⚙️ 未設定</span>
+  </div>
+  <div class="hdr-stats">
+    <div class="hdr-stat">済 <span id="statDone">0</span>問</div>
+    <div class="hdr-stat">合計 <span style="color:#F5A623">30</span>問</div>
+  </div>
+  <div class="filter-row">
+    <button class="nb on" data-state="all" onclick="setState('all')">すべて</button>
+    <button class="nb" data-state="flag" onclick="setState('flag')">🚩 赤旗</button>
+    <button class="nb" data-state="undone" onclick="setState('undone')">未済</button>
+    <button class="nb" data-state="done" onclick="setState('done')">済み</button>
+    <span class="vis-count" id="visCount">—</span>
+  </div>
+</header>
+
+<div class="ct" id="cards"></div>
+
+<script>
+const QA = [
+  {q:"消化性潰瘍の主たる成因を2つ挙げよ。",a:"NSAID内服、ピロリ菌感染症"},
+  {q:"治療によって胃食道逆流症GERDが増悪する感染症を挙げよ。",a:"ピロリ菌感染症"},
+  {q:"胃癌の2割前後で陽性になり、その発現が治療方針決定に関わるタンパク質を挙げよ。",a:"HER2"},
+  {q:"GISTは何細胞がどのような遺伝子変異をきたした悪性腫瘍か。",a:"細胞：Cajal介在細胞\n遺伝子変異：c-kitなど"},
+  {q:"偽膜性腸炎の代表的な起因菌を挙げよ。",a:"Clostridioides difficile"},
+  {q:"「腸閉塞」と「イレウス」の用語の使い分けについて答えよ。",a:"イレウス：腸管運動の低下による通過障害\n腸閉塞：腸管の物理的狭窄による通過障害"},
+  {q:"潰瘍性大腸炎の病変の分布について答えよ。",a:"直腸から口側へと連続性に広がる"},
+  {q:"食道・胃静脈瘤の代表的な背景疾患を挙げよ。",a:"肝硬変"},
+  {q:"上腸間膜動脈症候群が増悪する体位を答えよ。",a:"仰臥位"},
+  {q:"ダンピング症候群において、インスリンが病態に深く関与するのは早期・後期のどちらか。",a:"後期"},
+  {q:"Lynch症候群ではどのような遺伝子群にどのような異常がみられるか答えよ。",a:"ミスマッチ修復遺伝子群（MLH1、MSH2など）のgermline変異"},
+  {q:"ストレスなど心理社会的因子が関与する消化管の機能性疾患を2つ挙げよ。",a:"機能性ディスペプシア、過敏性腸症候群"},
+  {q:"飲酒による食道癌のリスクが特に高い者の特徴を答えよ。",a:"フラッシャー（ALDH2活性の低いもの）"},
+  {q:"Meckel憩室の好発部位を答えよ。",a:"回腸末端から口側に数十センチの部位"},
+  {q:"上腸間膜動脈閉塞症の代表的な背景疾患を挙げよ。",a:"心房細動"},
+  {q:"H. pylori感染が関連するリンパ腫を挙げよ。",a:"MALTリンパ腫"},
+  {q:"潰瘍性大腸炎やCrohn病でみられる皮膚病変を挙げよ。",a:"結節性紅斑、壊疽性膿皮症など"},
+  {q:"食道腺癌が発生する代表的な背景を挙げよ。",a:"Barrett食道"},
+  {q:"胃食道逆流症GERDの原因となる代表的な薬剤を2つ挙げよ。また、それらを治療に用いる疾患を答えよ。",a:"Ca拮抗薬、硝酸薬。アカラシアの治療に用いられることがある。"},
+  {q:"潰瘍性大腸炎に合併する胆道疾患を挙げよ。",a:"原発性硬化性胆管炎PSC"},
+  {q:"Crohn病の病変の分布について答えよ。",a:"消化管全域に非連続性病変"},
+  {q:"Krukenberg腫瘍とはなにか答えよ。",a:"胃癌の卵巣への播種性転移"},
+  {q:"Crohn病の特徴的な病理組織学的所見を答えよ。",a:"非乾酪性肉芽腫"},
+  {q:"閉鎖孔ヘルニアでみられる特徴的な症状を答えよ。",a:"Howship-Romberg徴候（大腿内側への放散痛）"},
+  {q:"長年の飲酒・喫煙歴がある患者が食道癌と下咽頭癌を同時に合併した。どのように説明するか。",a:"フィールド効果"},
+  {q:"急性虫垂炎の腹痛が心窩部から右下腹部へと移動する機序を答えよ。",a:"内臓痛（心窩部）から、炎症が進行することで体性痛（右下腹部）へと移行する。"},
+  {q:"「スキルス胃癌」とはなにか。",a:"びまん性に浸潤する低分化で悪性度の高い胃癌（肉眼型4型）。比較的若年に多い。"},
+  {q:"虚血性大腸炎の好発部位を2か所挙げよ。",a:"脾彎曲（Griffith点）、S状結腸（Sudeck点）"},
+  {q:"Mallory-Weiss症候群の典型的エピソードを答えよ。",a:"嘔吐後の吐血"},
+  {q:"潰瘍性大腸炎でみられる特徴的な麻痺性イレウスについて答えよ。",a:"中毒性巨大結腸症"}
+];
+
+const PREFIX = 'dige_sc';
+let currentState = 'all';
+
+function buildCards() {
+  const ct = document.getElementById('cards');
+  ct.innerHTML = QA.map((item, i) => {
+    const uid = `${PREFIX}_q${i+1}`;
+    const ans = item.a.replace(/\n/g, '<br>');
+    return `<div class="sc-card" data-uid="${uid}" id="sc${i+1}">
+  <div class="sc-head">
+    <span class="sc-num">Q.${i+1}</span>
+    <div class="sc-controls">
+      <button class="mec-flag-btn" data-uid="${uid}" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button>
+      <button class="mec-lap-btn" data-uid="${uid}" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button>
+    </div>
+  </div>
+  <div class="sc-body">
+    <div class="sc-question">${item.q}</div>
+    <button class="sc-reveal-btn" onclick="toggleAnswer(this)">▶ 答えを見る</button>
+    <div class="sc-answer">${ans}</div>
+  </div>
+</div>`;
+  }).join('');
+}
+
+function toggleAnswer(btn) {
+  const ans = btn.nextElementSibling;
+  const open = ans.classList.toggle('open');
+  btn.textContent = open ? '▼ 答えを隠す' : '▶ 答えを見る';
+  btn.classList.toggle('revealed', open);
+}
+
+function setState(s) {
+  currentState = s;
+  document.querySelectorAll('[data-state]').forEach(b => b.classList.toggle('on', b.dataset.state === s));
+  applyFilter();
+}
+
+function applyFilter() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  let visible = 0;
+  document.querySelectorAll('.sc-card[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    let show;
+    if (currentState === 'all') show = true;
+    else if (currentState === 'flag') show = !!flags[uid];
+    else if (currentState === 'undone') show = !done[uid];
+    else if (currentState === 'done') show = !!done[uid];
+    else show = true;
+    c.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  const vc = document.getElementById('visCount');
+  if (vc) vc.textContent = visible + '問';
+}
+
+function initCards() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  document.querySelectorAll('.sc-card[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    const lapCount = done[uid] || 0;
+    const lapBtn = c.querySelector('.mec-lap-btn');
+    if (lapBtn) {
+      const numEl = lapBtn.querySelector('.mec-lap-num');
+      if (numEl) numEl.textContent = lapCount > 0 ? lapCount : '';
+      lapBtn.classList.toggle('mec-lapped', lapCount > 0);
+    }
+    const fb = c.querySelector('.mec-flag-btn');
+    if (fb && flags[uid]) fb.classList.add('mec-flagged');
+  });
+  const doneCount = Object.keys(done).filter(k => k.startsWith(PREFIX)).length;
+  const el = document.getElementById('statDone');
+  if (el) el.textContent = doneCount;
+  applyFilter();
+}
+
+buildCards();
+document.addEventListener('DOMContentLoaded', () => {
+  initCards();
+  MECSync.syncFromGist().then(r => {
+    if (r.status === 'ok') initCards();
+    if (r.status === 'no-config') document.querySelectorAll('.mec-sync-badge').forEach(e => e.textContent = '⚙️ 未設定');
+  });
+});
+</script>
+</body>
+</html>
