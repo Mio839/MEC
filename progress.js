@@ -89,8 +89,14 @@
         if (res.ok) { const d = await res.json(); localStorage.setItem(K_GIST, d.id); }
       }
       _setSyncBadge(res.ok ? 'synced' : 'error');
-    } catch {
+      if (!res.ok) {
+        const errBody = await res.json().catch(() => ({}));
+        return { status: 'error', code: res.status, message: errBody.message || '' };
+      }
+      return { status: 'ok' };
+    } catch (e) {
       _setSyncBadge('error');
+      return { status: 'error', message: e.message };
     } finally {
       syncInProgress = false;
     }
