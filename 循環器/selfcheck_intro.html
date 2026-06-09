@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>循環器 Introduction セルフチェック（30問）</title>
+<script src="../progress.js"></script>
+<style>
+:root{--or:#C0392B;--nv:#1C2E4A;--gr:#2D8C4E;--grl:#EAF7EE;--gb:#F4F6F8;--cb:#FFF;--bd:#E0E5EB;--tx:#1A2332;--ts:#5A6475;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:var(--gb);color:var(--tx);font-size:14px;line-height:1.7;}
+.hdr{background:var(--nv);color:#fff;padding:10px 12px 8px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+.hdr-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.hdr-title{font-size:15px;font-weight:800;}
+.hub-link{font-size:11px;color:rgba(255,255,255,.7);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,255,255,.3);border-radius:20px;white-space:nowrap;}
+.mec-sync-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(255,255,255,.15);color:#fff;margin-left:auto;}
+.hdr-stats{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px;}
+.hdr-stat{background:rgba(255,255,255,.12);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;}
+.hdr-stat span{color:#F5A623;}
+.filter-row{display:flex;align-items:center;gap:3px;overflow-x:auto;scrollbar-width:none;}
+.filter-row::-webkit-scrollbar{display:none;}
+.nb{flex-shrink:0;background:none;border:1.5px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;color:rgba(255,255,255,.65);transition:all .15s;white-space:nowrap;}
+.nb.on{background:rgba(255,255,255,.2);border-color:#fff;color:#fff;}
+.nb[data-state="flag"].on{background:#C0392B;border-color:#C0392B;}
+.nb[data-state="undone"].on{background:#78909C;border-color:#78909C;}
+.nb[data-state="done"].on{background:#2D8C4E;border-color:#2D8C4E;}
+.vis-count{margin-left:auto;font-size:11px;font-weight:700;color:rgba(255,255,255,.55);white-space:nowrap;flex-shrink:0;}
+.ct{max-width:900px;margin:0 auto;padding:14px 12px 60px;}
+.sc-card{background:var(--cb);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:12px;border-left:4px solid var(--or);overflow:hidden;}
+.sc-head{display:flex;align-items:center;gap:8px;padding:10px 15px 8px;border-bottom:1px solid var(--gb);}
+.sc-num{font-size:14px;font-weight:900;color:var(--nv);min-width:32px;}
+.sc-controls{display:flex;align-items:center;gap:5px;margin-left:auto;}
+.mec-flag-btn{background:none;border:none;font-size:16px;cursor:pointer;opacity:.3;padding:0 2px;line-height:1;transition:opacity .2s;}
+.mec-flag-btn.mec-flagged{opacity:1;}
+.mec-lap-btn{padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700;border:1.5px solid #E0E5EB;color:#A0AAB8;background:none;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;}
+.mec-lap-btn.mec-lapped{background:#2D8C4E;border-color:#2D8C4E;color:#fff;}
+.mec-lap-num{font-size:9px;margin-left:2px;}
+.sc-body{padding:12px 15px 14px;}
+.sc-question{font-size:13.5px;line-height:1.75;margin-bottom:10px;font-weight:600;color:var(--nv);}
+.sc-reveal-btn{display:block;width:100%;padding:8px;background:var(--gb);border:1.5px dashed var(--bd);border-radius:8px;font-size:12px;font-weight:700;color:var(--ts);cursor:pointer;font-family:inherit;transition:all .2s;text-align:center;}
+.sc-reveal-btn:hover{background:#E8ECF0;}
+.sc-reveal-btn.revealed{background:var(--grl);border-color:#A5D6A7;color:var(--gr);}
+.sc-answer{display:none;margin-top:10px;background:var(--grl);border:1.5px solid #A5D6A7;border-radius:8px;padding:10px 13px;font-size:13px;line-height:1.8;color:#1A3828;}
+.sc-answer.open{display:block;}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-row">
+    <span class="hdr-title">❤️ 循環器 Introduction セルフチェック</span>
+    <a class="hub-link" href="../index.html">← ハブへ</a>
+    <span class="mec-sync-badge">⚙️ 未設定</span>
+  </div>
+  <div class="hdr-stats">
+    <div class="hdr-stat">済 <span id="statDone">0</span>問</div>
+    <div class="hdr-stat">合計 <span style="color:#F5A623">30</span>問</div>
+  </div>
+  <div class="filter-row">
+    <button class="nb on" data-state="all" onclick="setState('all')">すべて</button>
+    <button class="nb" data-state="flag" onclick="setState('flag')">🚩 赤旗</button>
+    <button class="nb" data-state="undone" onclick="setState('undone')">未済</button>
+    <button class="nb" data-state="done" onclick="setState('done')">済み</button>
+    <span class="vis-count" id="visCount">—</span>
+  </div>
+</header>
+
+<div class="ct" id="cards"></div>
+
+<script>
+const QA = [
+  {q:"一般的に、脳梗塞は失神の原因となるか。",a:"基本的に脳梗塞は失神の原因とならない。失神は全脳虚血に伴う一過性意識消失発作。"},
+  {q:"LAD梗塞でみられることの多い代表的な機械的合併症を挙げよ。",a:"心室中隔穿孔、左室自由壁破裂"},
+  {q:"心停止波形を4つ挙げよ。そのうち、除細動の適応となるものを2つ挙げよ。",a:"心室細動VF、無脈性心室頻拍pulseless VT、無脈性電気活動PEA、心静止Asystole。\n除細動適応：VF、pulseless VT"},
+  {q:"甲状腺機能亢進症が原因となる代表的な不整脈を挙げよ。",a:"心房細動AF"},
+  {q:"冠攣縮性狭心症の発作が生じやすい時間帯を答えよ。また、発作を誘発するものを2つ挙げよ。",a:"早朝。誘発因子は過換気、アセチルコリン負荷など。"},
+  {q:"心室細動VFの発作をきたしうる代表的な疾患を2つ挙げよ。",a:"Brugada症候群、QT延長症候群、心筋梗塞、電解質異常（特にK）など"},
+  {q:"Marfan症候群でみられる代表的な僧帽弁および大動脈弁の異常を答えよ。",a:"僧帽弁逸脱症MVP、大動脈弁閉鎖不全症AR"},
+  {q:"重症アトピー性皮膚炎の掻爬を原因とする感染性心内膜炎の起因菌を答えよ。",a:"黄色ブドウ球菌"},
+  {q:"慢性心タンポナーデの原因となる代表的な背景を2つ挙げよ。",a:"甲状腺機能低下症、癌性心膜炎、結核性心膜炎など"},
+  {q:"肥大型心筋症において雑音が増強する要因を挙げよ。",a:"Valsalva手技、立位、硝酸薬、利尿薬など"},
+  {q:"Stanford B型でみられる代表的な血管の閉塞症状を挙げよ。",a:"腎虚血、腸管虚血、下肢虚血、脊髄麻痺、心筋梗塞など"},
+  {q:"失神の定義を答え、主たる原因を3つに大別せよ。そのうち、救急医学で除外が重要なものはどれか。",a:"定義：一過性の全脳虚血により突然発症し短時間で回復する、姿勢保持が不可能な意識消失発作。\n原因の分類：神経調節性（迷走神経反射など）、起立性低血圧、心原性\n救急で除外が重要なもの：心原性失神"},
+  {q:"起立性低血圧の原因となる神経疾患を挙げよ。",a:"Parkinson病、多系統萎縮、糖尿病"},
+  {q:"rate control作用を有する代表的な薬剤を3つ挙げよ。",a:"β遮断薬、非ジヒドロピリジン系Ca拮抗薬（ベラパミルなど）、ジギタリス"},
+  {q:"我が国の心臓移植における最多の原疾患を答えよ。",a:"拡張型心筋症DCM"},
+  {q:"Ⅱ、Ⅲ、aVF誘導のST上昇から推察される心筋梗塞の責任冠動脈を答えよ。",a:"右冠動脈RCA"},
+  {q:"抜歯に伴う感染性心内膜炎の起因菌を答えよ。",a:"緑色連鎖球菌"},
+  {q:"肥大型心筋症の代表的な病理組織学的所見を答えよ。",a:"心筋線維の錯綜配列"},
+  {q:"大動脈弁狭窄症の主たる原因を答えよ。",a:"加齢および動脈硬化による石灰化、先天性二尖弁"},
+  {q:"高血圧の診断基準を答えよ。",a:"2回以上の診察室血圧 ≧ 140/90mmHg、家庭血圧 ≧ 135/85mmHg。"},
+  {q:"RCA梗塞でみられることの多い代表的な機械的合併症を挙げよ。",a:"乳頭筋断裂（→ 僧帽弁閉鎖不全）、右室梗塞"},
+  {q:"WPW症候群におけるpseudo-VTとはなにか。",a:"心電図がVTに似る、WPW症候群で生じたAFの発作。"},
+  {q:"たこつぼ心筋症の代表的な誘引を挙げよ。",a:"ストレス（心理的・身体的）"},
+  {q:"感染性心内膜炎IEを生じにくい先天性心疾患を答えよ。",a:"心房中隔欠損症ASD"},
+  {q:"高拍出性心不全の代表的な背景を4つ答えよ。",a:"脚気心、重症貧血、甲状腺機能亢進症、右左シャント性疾患"},
+  {q:"採血検査に用いる椅子では背もたれつきが推奨されているのはなぜか。",a:"迷走神経反射による失神への対策。"},
+  {q:"感染性心内膜炎IEの末梢所見を3つ挙げよ。",a:"指先の有痛性Osler結節、眼底のRoth斑、掌蹠のJaneway病変、爪下線状出血"},
+  {q:"大動脈瘤の代表的な背景疾患を、動脈硬化以外に挙げよ。",a:"Marfan症候群、大動脈炎症候群（高安動脈炎）、Behçet病、梅毒など"},
+  {q:"心房細動AFを原因とする心原性塞栓症を挙げよ。",a:"脳梗塞、腎梗塞、上腸間膜動脈塞栓など"},
+  {q:"WPW症候群の発作でみられる代表的な不整脈を2つ挙げよ。",a:"発作性上室頻拍PSVT、心房細動AF"}
+];
+
+const PREFIX = 'circ_sc';
+let currentState = 'all';
+
+function buildCards() {
+  const ct = document.getElementById('cards');
+  ct.innerHTML = QA.map((item, i) => {
+    const uid = `${PREFIX}_q${i+1}`;
+    const ans = item.a.replace(/\n/g, '<br>');
+    return `<div class="sc-card" data-uid="${uid}" id="sc${i+1}">
+  <div class="sc-head">
+    <span class="sc-num">Q.${i+1}</span>
+    <div class="sc-controls">
+      <button class="mec-flag-btn" data-uid="${uid}" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button>
+      <button class="mec-lap-btn" data-uid="${uid}" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button>
+    </div>
+  </div>
+  <div class="sc-body">
+    <div class="sc-question">${item.q}</div>
+    <button class="sc-reveal-btn" onclick="toggleAnswer(this)">▶ 答えを見る</button>
+    <div class="sc-answer">${ans}</div>
+  </div>
+</div>`;
+  }).join('');
+}
+
+function toggleAnswer(btn) {
+  const ans = btn.nextElementSibling;
+  const open = ans.classList.toggle('open');
+  btn.textContent = open ? '▼ 答えを隠す' : '▶ 答えを見る';
+  btn.classList.toggle('revealed', open);
+}
+
+function setState(s) {
+  currentState = s;
+  document.querySelectorAll('[data-state]').forEach(b => b.classList.toggle('on', b.dataset.state === s));
+  applyFilter();
+}
+
+function applyFilter() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  let visible = 0;
+  document.querySelectorAll('.sc-card[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    let show;
+    if (currentState === 'all') show = true;
+    else if (currentState === 'flag') show = !!flags[uid];
+    else if (currentState === 'undone') show = !done[uid];
+    else if (currentState === 'done') show = !!done[uid];
+    else show = true;
+    c.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  const vc = document.getElementById('visCount');
+  if (vc) vc.textContent = visible + '問';
+}
+
+function initCards() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  document.querySelectorAll('.sc-card[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    const lapCount = done[uid] || 0;
+    const lapBtn = c.querySelector('.mec-lap-btn');
+    if (lapBtn) {
+      const numEl = lapBtn.querySelector('.mec-lap-num');
+      if (numEl) numEl.textContent = lapCount > 0 ? lapCount : '';
+      lapBtn.classList.toggle('mec-lapped', lapCount > 0);
+    }
+    const fb = c.querySelector('.mec-flag-btn');
+    if (fb && flags[uid]) fb.classList.add('mec-flagged');
+  });
+  const doneCount = Object.keys(done).filter(k => k.startsWith(PREFIX)).length;
+  const el = document.getElementById('statDone');
+  if (el) el.textContent = doneCount;
+  applyFilter();
+}
+
+buildCards();
+document.addEventListener('DOMContentLoaded', () => {
+  initCards();
+  MECSync.syncFromGist().then(r => {
+    if (r.status === 'ok') initCards();
+    if (r.status === 'no-config') document.querySelectorAll('.mec-sync-badge').forEach(e => e.textContent = '⚙️ 未設定');
+  });
+});
+</script>
+</body>
+</html>
