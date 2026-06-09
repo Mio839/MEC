@@ -300,29 +300,35 @@ async function saveAndSync() {
   if (!token) { showSyncResult('error', 'トークンを入力してください'); return; }
   if (window.MECSync) {
     MECSync.setToken(token);
-    if (gistId) MECSync.setGistId(gistId);
-    showSyncResult('ok', '保存中... 同期しています');
+    MECSync.setGistId(gistId); // 空欄なら '' で上書き（古い値をクリア）
+    showSyncResult('ok', '🔄 接続確認中...');
 
-    // まず pull (他デバイスのデータを取得)
-    const pullRes = await MECSync.syncFromGist();
-    if (pullRes.status === 'error' && pullRes.code === 404) {
-      showSyncResult('error', 'Gist ID が見つかりません。空欄にして再試行してください。');
-      return;
-    }
-    if (pullRes.status === 'error') {
-      showSyncResult('error', `エラー (${pullRes.code || pullRes.message})。トークンまたは Gist ID を確認してください。`);
-      return;
+    // Gist ID が空の場合は pull をスキップして直接 push（新規作成）
+    if (gistId) {
+      const pullRes = await MECSync.syncFromGist();
+      if (pullRes.status === 'error') {
+        const msg = pullRes.code === 404
+          ? 'Gist ID が見つかりません。空欄にして再試行してください。'
+          : `取得エラー (${pullRes.code || pullRes.message})。トークンを確認してください。`;
+        showSyncResult('error', msg);
+        return;
+      }
     }
 
-    // push (ローカルデータをアップロード)
+    showSyncResult('ok', '🔄 保存中...');
     const pushRes = await MECSync.pushToGist();
     const newId = MECSync.getGistId();
     document.getElementById('gistIdInput').value = newId;
     if (pushRes && pushRes.status === 'ok') {
       showSyncResult('ok', `✅ 同期成功！Gist ID: ${newId}`);
-      renderSubjects(); // 進捗を再描画
+      renderSubjects();
     } else {
-      showSyncResult('error', '同期に失敗しました。トークンのスコープを確認してください。');
+      showSyncResult('error',
+        'Gist への書き込みに失敗しました。\n' +
+        '→ Classic トークン（Fine-grained ではない）を使っているか確認してください。\n' +
+        '→ スコープは「gist」のみチェック。\n' +
+        '→ Gist ID 欄を空にして再試行してください。'
+      );
     }
   }
 }
