@@ -127,22 +127,21 @@ body{font-family:-apple-system,"Helvetica Neue",sans-serif;background:var(--gb);
 </div>
 
 <script>
-// ── データ定義（chapters_meta.js に腎臓インタラクティブツールを追加）
-const JINZO_TOOL = {
-  id: 'jinzo',
-  name: '腎臓（学習ツール）',
-  icon: '🫘',
+// ── データ定義（chapters_meta.js に統合学習ツールを追加）
+const STUDY_TOOL = {
+  id: 'study',
+  name: '統合学習ツール',
+  icon: '📚',
   color: '#D4570A',
   type: 'tool',
-  href: 'jinzo.html',
-  totalQ: 315,
-  chapters: [{ prefix: 'jinzo_ch', title: '全315問 インタラクティブ', count: 315, file: 'jinzo.html' }]
+  href: 'study.html',
+  chapters: []
 };
 
-// chapters_meta.js の MEC_CHAPTERS に腎臓ツールを先頭追加
+// chapters_meta.js の MEC_CHAPTERS に統合ツールを先頭追加
 const ALL_SUBJECTS = typeof MEC_CHAPTERS !== 'undefined'
-  ? [JINZO_TOOL, ...MEC_CHAPTERS]
-  : [JINZO_TOOL];
+  ? [STUDY_TOOL, ...MEC_CHAPTERS]
+  : [STUDY_TOOL];
 
 // ── 統計計算 ──────────────────────────────────────────────────
 function calcStreak() {
@@ -158,7 +157,7 @@ function calcStreak() {
 }
 
 function calcTotalQ() {
-  let total = 315; // jinzo tool
+  let total = 0;
   if (typeof MEC_CHAPTER_META !== 'undefined') {
     Object.values(MEC_CHAPTER_META).forEach(m => { total += m.count; });
   }
@@ -171,10 +170,8 @@ function getSubjectProgress(subject) {
   const today = new Date().toISOString().slice(0, 10);
   let totalQ = 0, doneCount = 0, dueCount = 0;
 
-  if (subject.id === 'jinzo') {
-    totalQ = 315;
-    doneCount = Object.keys(done).filter(k => k.startsWith('jinzo_ch')).length;
-    dueCount = Object.keys(srs).filter(k => k.startsWith('jinzo_ch') && srs[k].next <= today).length;
+  if (subject.id === 'study') {
+    // 統合ツールは進捗を直接持たない
   } else {
     subject.chapters.forEach(ch => {
       totalQ += ch.count;
@@ -209,23 +206,19 @@ function renderSubjects() {
     const fillColor = subj.color;
     const pct = prog.pct;
 
-    if (subj.id === 'jinzo') {
-      // 腎臓: シングルリンクカード
+    if (subj.id === 'study') {
+      // 統合学習ツール: シングルリンクカード
+      const totalQ = calcTotalQ();
       card.innerHTML = `
         <div class="subject-header" onclick="toggleChapters('subj_${si}')">
           <span class="subject-icon">${subj.icon}</span>
           <span class="subject-name">${subj.name}</span>
-          <div class="subject-prog">
-            ${prog.dueCount ? `<span style="font-size:10px;font-weight:700;color:#fff;background:#C0392B;border-radius:10px;padding:1px 6px">🔔${prog.dueCount}</span>` : ''}
-            <div class="subject-prog-bar"><div class="subject-prog-fill" style="width:${pct}%;background:${fillColor}"></div></div>
-            <span class="subject-prog-txt">${prog.doneCount}/${prog.totalQ}</span>
-          </div>
           <span class="subject-arrow" id="arrow_subj_${si}">▼</span>
         </div>
         <div class="chapter-list" id="subj_${si}">
           <div class="subject-tool-row">
             <a class="subject-tool-link" href="${subj.href}" style="background:${fillColor}">
-              📝 315問 インタラクティブ学習ツールで学ぶ →
+              📝 全科目 ${totalQ}問 難易度・科目フィルターで学ぶ →
             </a>
           </div>
         </div>`;
