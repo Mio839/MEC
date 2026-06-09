@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>腎臓 Introduction セルフチェック（30問）</title>
+<script src="../progress.js"></script>
+<style>
+:root{--or:#78909C;--nv:#1C2E4A;--nvl:#2A4063;--gr:#2D8C4E;--grl:#EAF7EE;--rd:#C0392B;--rdl:#FDEAEA;--yl:#F5A623;--gb:#F4F6F8;--cb:#FFF;--bd:#E0E5EB;--tx:#1A2332;--ts:#5A6475;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:var(--gb);color:var(--tx);font-size:14px;line-height:1.7;}
+
+.hdr{background:var(--nv);color:#fff;padding:10px 12px 8px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+.hdr-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.hdr-title{font-size:15px;font-weight:800;}
+.hub-link{font-size:11px;color:rgba(255,255,255,.7);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,255,255,.3);border-radius:20px;white-space:nowrap;}
+.mec-sync-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(255,255,255,.15);color:#fff;margin-left:auto;}
+.hdr-stats{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px;}
+.hdr-stat{background:rgba(255,255,255,.12);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;}
+.hdr-stat span{color:#F5A623;}
+.filter-row{display:flex;align-items:center;gap:3px;overflow-x:auto;scrollbar-width:none;}
+.filter-row::-webkit-scrollbar{display:none;}
+.nb{flex-shrink:0;background:none;border:1.5px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;color:rgba(255,255,255,.65);transition:all .15s;white-space:nowrap;}
+.nb.on{background:rgba(255,255,255,.2);border-color:#fff;color:#fff;}
+.nb[data-state="flag"].on{background:#C0392B;border-color:#C0392B;}
+.nb[data-state="undone"].on{background:#78909C;border-color:#78909C;}
+.nb[data-state="done"].on{background:#2D8C4E;border-color:#2D8C4E;}
+.vis-count{margin-left:auto;font-size:11px;font-weight:700;color:rgba(255,255,255,.55);white-space:nowrap;flex-shrink:0;}
+
+.ct{max-width:900px;margin:0 auto;padding:14px 12px 60px;}
+
+.sc-card{background:var(--cb);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:12px;border-left:4px solid var(--or);overflow:hidden;}
+.sc-head{display:flex;align-items:center;gap:8px;padding:10px 15px 8px;border-bottom:1px solid var(--gb);}
+.sc-num{font-size:14px;font-weight:900;color:var(--nv);min-width:32px;}
+.sc-controls{display:flex;align-items:center;gap:5px;margin-left:auto;}
+.mec-flag-btn{background:none;border:none;font-size:16px;cursor:pointer;opacity:.3;padding:0 2px;line-height:1;transition:opacity .2s;}
+.mec-flag-btn.mec-flagged{opacity:1;}
+.mec-lap-btn{padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700;border:1.5px solid #E0E5EB;color:#A0AAB8;background:none;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;}
+.mec-lap-btn.mec-lapped{background:#2D8C4E;border-color:#2D8C4E;color:#fff;}
+.mec-lap-num{font-size:9px;margin-left:2px;}
+
+.sc-body{padding:12px 15px 14px;}
+.sc-question{font-size:13.5px;line-height:1.75;margin-bottom:10px;font-weight:600;color:var(--nv);}
+.sc-reveal-btn{display:block;width:100%;padding:8px;background:var(--gb);border:1.5px dashed var(--bd);border-radius:8px;font-size:12px;font-weight:700;color:var(--ts);cursor:pointer;font-family:inherit;transition:all .2s;text-align:center;margin-bottom:0;}
+.sc-reveal-btn:hover{background:#E8ECF0;}
+.sc-reveal-btn.revealed{background:var(--grl);border-color:#A5D6A7;color:var(--gr);}
+.sc-answer{display:none;margin-top:10px;background:var(--grl);border:1.5px solid #A5D6A7;border-radius:8px;padding:10px 13px;font-size:13px;line-height:1.8;color:#1A3828;}
+.sc-answer.open{display:block;}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-row">
+    <span class="hdr-title">💧 腎臓 Introduction セルフチェック</span>
+    <a class="hub-link" href="../index.html">← ハブへ</a>
+    <span class="mec-sync-badge">⚙️ 未設定</span>
+  </div>
+  <div class="hdr-stats">
+    <div class="hdr-stat">済 <span id="statDone">0</span>問</div>
+    <div class="hdr-stat">合計 <span style="color:#F5A623">30</span>問</div>
+  </div>
+  <div class="filter-row">
+    <button class="nb on" data-state="all" onclick="setState('all')">すべて</button>
+    <button class="nb" data-state="flag" onclick="setState('flag')">🚩 赤旗</button>
+    <button class="nb" data-state="undone" onclick="setState('undone')">未済</button>
+    <button class="nb" data-state="done" onclick="setState('done')">済み</button>
+    <span class="vis-count" id="visCount">—</span>
+  </div>
+</header>
+
+<div class="ct" id="cards"></div>
+
+<script>
+const QA = [
+  {q:"代表的な補体低下疾患を5つ挙げよ。",a:"急性糸球体腎炎AGN、膜性増殖性糸球体腎炎MPGN、SLEおよびループス腎炎、コレステロール塞栓症、IgG4関連疾患、肝硬変など。ほか、Ⅲ型アレルギー疾患。"},
+  {q:"随時尿の蛋白/Cr比は、おおよそ何の値と一致するか。",a:"1日尿蛋白排泄量（g/day）"},
+  {q:"微小変化群における光学顕微鏡の病理組織学的所見を答えよ。",a:"ほぼ正常"},
+  {q:"急性糸球体腎炎の主徴を3つ挙げよ。",a:"血尿、高血圧、浮腫"},
+  {q:"二次性膜性腎症の代表的な背景を5つ挙げよ。",a:"悪性腫瘍、感染症（梅毒・B型肝炎・マラリア）、膠原病（RA・SLE・Sjögren症候群）、薬剤（金製剤・ペニシラミン・ブシラミン）など"},
+  {q:"ANCA関連疾患においてみられる半月体の、蛍光抗体染色における所見を答えよ。",a:"陰性（pauci-immune）"},
+  {q:"ネフローゼ症候群の診断基準を答えよ。",a:"下記①②の両所見を認めるもの。\n①1日尿蛋白量3.5g以上の持続（随時尿の蛋白/Cr比3.5g/gCr以上の場合もこれに準ずる）\n②血清アルブミン3.0g/dL以下（血清総蛋白6.0g/dL以下も参考となる）\n③必須でない重要所見：浮腫、脂質異常症（高LDL血症）、脂肪円柱・卵円形脂肪体"},
+  {q:"コレステロール塞栓症でみられる代表的な血液所見の特徴を2つ挙げよ。",a:"好酸球増多、補体低下"},
+  {q:"慢性腎臓病の診断基準を答えよ。",a:"下記①②のいずれか、または両方が3か月以上持続するもの。\n①腎障害を示唆する検査所見の存在（尿・血液・画像・病理）\n②GFR 60ml/min./1.73m²未満"},
+  {q:"AG正常の低K性代謝性アシドーシスをきたす代表的な病態を2つ挙げよ。",a:"Ⅰ・Ⅱ型尿細管性アシドーシスRTA、下痢"},
+  {q:"間質性腎炎をきたす代表的な薬剤を挙げよ。",a:"NSAIDなど"},
+  {q:"造影CT検査の前にビグアナイド系の経口血糖降下薬を休薬すべき理由を答えよ。",a:"乳酸アシドーシスの予防"},
+  {q:"ネフローゼ症候群において注意すべき合併症を挙げよ。",a:"血栓症、脂質異常症、感染症（免疫グロブリン喪失の場合）など"},
+  {q:"eGFRの計算において、クレアチニンの代わりにシスタチンCを用いる利点を答えよ。",a:"筋肉量の影響を受けない"},
+  {q:"二次性膜性増殖性糸球体腎炎MPGNの代表的な背景を2つ挙げよ。",a:"C型肝炎、クリオグロブリン血症"},
+  {q:"Goodpasture症候群においてみられる半月体の、蛍光抗体染色における所見を答えよ。",a:"線状のIgG沈着"},
+  {q:"IgA腎症においてIgAが沈着する部位を答えよ。",a:"糸球体メサンギウム領域"},
+  {q:"造影MRIの造影剤、および重篤な合併症を答えよ。",a:"造影剤：ガドリニウム。重篤な合併症：腎性全身性線維症"},
+  {q:"ネフローゼ症候群の尿沈渣でみられる代表的な構造物を2つ挙げよ。",a:"脂肪円柱、卵円形脂肪体"},
+  {q:"間質性腎炎をきたす代表的な自己免疫疾患を答えよ。",a:"IgG4関連疾患、Sjögren症候群など"},
+  {q:"コレステロール塞栓症の原因となる代表的な手技を答えよ。",a:"血管カテーテル操作、心臓血管手術など"},
+  {q:"試験紙法では検出されない多量の尿蛋白が定量で検出されている場合、どのような背景が考えられるか。",a:"多発性骨髄腫によるBence Jones蛋白"},
+  {q:"慢性腎臓病の患者における、基本的なK・P・Caの動きを答えよ。",a:"高K血症、高P血症、低Ca血症"},
+  {q:"Fanconi症候群でみられる血中Na・K・Pの動きを答えよ。",a:"低Na血症、低K血症、低P血症"},
+  {q:"血尿が稀な原発性糸球体腎炎を2つ挙げよ。",a:"微小変化群MC、膜性腎症MN"},
+  {q:"尿細管性アシドーシスRTAⅠ・Ⅱの代表的な原疾患をそれぞれ答えよ。",a:"RTAⅠ：Sjögren症候群\nRTAⅡ：Fanconi症候群"},
+  {q:"ネフローゼ症候群をきたしにくい原発性糸球体腎炎を2つ挙げよ。",a:"急性糸球体腎炎、IgA腎症"},
+  {q:"eGFRの計算式に含まれるパラメータを3つ答えよ。",a:"クレアチニン、年齢、性別"},
+  {q:"二次性巣状分節性糸球体硬化症FSGSの代表的な背景を2つ挙げよ。",a:"HIV感染、ヘロイン、悪性リンパ腫など"},
+  {q:"慢性腎臓病において線維性骨炎をきたす機序を答えよ。",a:"CKDでは高P血症およびVit.D活性化低下により低Ca血症をきたす。その代償として二次性副甲状腺機能亢進症となり、PTH分泌が亢進してCaを上昇させるために骨吸収が亢進する。"}
+];
+
+let currentState = 'all';
+
+function buildCards() {
+  const ct = document.getElementById('cards');
+  ct.innerHTML = QA.map((item, i) => {
+    const uid = `jinzo_sc_q${i+1}`;
+    const ans = item.a.replace(/\n/g, '<br>');
+    return `<div class="sc-card" data-uid="${uid}" id="sc${i+1}">
+  <div class="sc-head">
+    <span class="sc-num">Q.${i+1}</span>
+    <div class="sc-controls">
+      <button class="mec-flag-btn" data-uid="${uid}" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button>
+      <button class="mec-lap-btn" data-uid="${uid}" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button>
+    </div>
+  </div>
+  <div class="sc-body">
+    <div class="sc-question">${item.q}</div>
+    <button class="sc-reveal-btn" onclick="toggleAnswer(this)">▶ 答えを見る</button>
+    <div class="sc-answer">${ans}</div>
+  </div>
+</div>`;
+  }).join('');
+}
+
+function toggleAnswer(btn) {
+  const ans = btn.nextElementSibling;
+  const open = ans.classList.toggle('open');
+  btn.textContent = open ? '▼ 答えを隠す' : '▶ 答えを見る';
+  btn.classList.toggle('revealed', open);
+}
+
+function setState(s) {
+  currentState = s;
+  document.querySelectorAll('[data-state]').forEach(b => b.classList.toggle('on', b.dataset.state === s));
+  applyFilter();
+}
+
+function applyFilter() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  let visible = 0;
+  document.querySelectorAll('.sc-card[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    let show;
+    if (currentState === 'all') show = true;
+    else if (currentState === 'flag') show = !!flags[uid];
+    else if (currentState === 'undone') show = !done[uid];
+    else if (currentState === 'done') show = !!done[uid];
+    else show = true;
+    c.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  const vc = document.getElementById('visCount');
+  if (vc) vc.textContent = visible + '問';
+}
+
+function initCards() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  document.querySelectorAll('.sc-card[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    const lapCount = done[uid] || 0;
+    const lapBtn = c.querySelector('.mec-lap-btn');
+    if (lapBtn) {
+      const numEl = lapBtn.querySelector('.mec-lap-num');
+      if (numEl) numEl.textContent = lapCount > 0 ? lapCount : '';
+      lapBtn.classList.toggle('mec-lapped', lapCount > 0);
+    }
+    const fb = c.querySelector('.mec-flag-btn');
+    if (fb && flags[uid]) fb.classList.add('mec-flagged');
+  });
+  const doneCount = Object.keys(done).filter(k => k.startsWith('jinzo_sc_q')).length;
+  const el = document.getElementById('statDone');
+  if (el) el.textContent = doneCount;
+  applyFilter();
+}
+
+buildCards();
+document.addEventListener('DOMContentLoaded', () => {
+  initCards();
+  MECSync.syncFromGist().then(r => {
+    if (r.status === 'ok') initCards();
+    if (r.status === 'no-config') document.querySelectorAll('.mec-sync-badge').forEach(e => e.textContent = '⚙️ 未設定');
+  });
+});
+</script>
+</body>
+</html>
