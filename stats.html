@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEC 学習統計</title>
+<script src="chapters_meta.js"></script>
+<script src="progress.js"></script>
+<style>
+:root{--nv:#1C2E4A;--nvl:#2A4063;--or:#D4570A;--gr:#2D8C4E;--grl:#EAF7EE;--rd:#C0392B;--rdl:#FDEAEA;--yl:#F5A623;--yll:#FFF8E6;--gb:#F4F6F8;--bd:#E0E5EB;--tx:#1A2332;--ts:#5A6475;--cb:#fff;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:var(--gb);color:var(--tx);font-size:14px;line-height:1.7;}
+
+.hdr{background:var(--nv);color:#fff;padding:12px 14px 10px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+.hdr-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.hdr-title{font-size:16px;font-weight:800;}
+.hub-link{font-size:11px;color:rgba(255,255,255,.7);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,255,255,.3);border-radius:20px;white-space:nowrap;}
+.hub-link:hover{background:rgba(255,255,255,.15);}
+.mec-sync-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(255,255,255,.15);color:#fff;margin-left:auto;}
+
+.summary-row{display:flex;gap:6px;flex-wrap:wrap;}
+.sum-card{background:rgba(255,255,255,.12);border-radius:12px;padding:6px 14px;text-align:center;flex:1;min-width:70px;}
+.sum-val{font-size:20px;font-weight:900;color:#F5A623;display:block;}
+.sum-lbl{font-size:10px;color:rgba(255,255,255,.7);}
+
+.ct{max-width:700px;margin:0 auto;padding:14px 12px 60px;}
+.sec{background:var(--cb);border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.07);padding:16px;margin-bottom:14px;}
+.sec-title{font-size:13px;font-weight:800;color:var(--nv);margin-bottom:14px;display:flex;align-items:center;gap:6px;}
+
+/* Activity chart */
+.act-wrap{display:flex;flex-direction:column;gap:3px;}
+.act-bars{display:flex;align-items:flex-end;gap:2px;height:72px;}
+.act-bar{flex:1;border-radius:2px 2px 0 0;min-height:2px;background:#A5D6A7;position:relative;cursor:default;}
+.act-bar.today{background:var(--yl);}
+.act-bar.zero{background:#E0E5EB;min-height:3px;}
+.act-bar:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--nv);color:#fff;font-size:9px;padding:2px 5px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:10;}
+.act-dates{display:flex;gap:2px;}
+.act-date{flex:1;font-size:8px;text-align:center;color:var(--ts);overflow:hidden;}
+.act-date.today{color:var(--or);font-weight:800;}
+.act-total{font-size:11px;color:var(--ts);text-align:right;margin-top:6px;}
+
+/* Subject table */
+.subj-table{width:100%;border-collapse:collapse;}
+.subj-table th{font-size:10px;font-weight:700;color:var(--ts);text-align:left;padding:4px 6px;border-bottom:2px solid var(--bd);}
+.subj-table th.r{text-align:right;}
+.subj-table td{padding:7px 6px;border-bottom:1px solid var(--gb);vertical-align:middle;}
+.subj-table td.r{text-align:right;font-size:12px;font-weight:700;}
+.subj-row:hover td{background:var(--gb);}
+.subj-name-cell{display:flex;align-items:center;gap:6px;}
+.subj-icon{font-size:16px;}
+.subj-name{font-size:13px;font-weight:700;}
+.subj-prog-wrap{display:flex;align-items:center;gap:6px;}
+.subj-prog-bar{flex:1;height:6px;background:var(--bd);border-radius:3px;overflow:hidden;min-width:48px;}
+.subj-prog-fill{height:100%;border-radius:3px;}
+.subj-prog-txt{font-size:11px;color:var(--ts);white-space:nowrap;min-width:36px;text-align:right;}
+.flag-num{color:var(--rd);}
+.due-num{color:var(--or);}
+
+/* Level distribution */
+.level-bars{display:flex;gap:6px;align-items:flex-end;height:80px;margin-bottom:6px;}
+.level-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.level-bar{width:100%;border-radius:4px 4px 0 0;min-height:3px;}
+.level-lbl{font-size:9px;font-weight:700;color:var(--ts);white-space:nowrap;}
+.level-val{font-size:10px;font-weight:700;color:var(--ts);}
+.level-legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.legend-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ts);}
+.legend-dot{width:10px;height:10px;border-radius:2px;}
+
+/* SRS stats */
+.srs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.srs-card{background:var(--gb);border-radius:10px;padding:10px 12px;text-align:center;}
+.srs-val{font-size:22px;font-weight:900;display:block;}
+.srs-lbl{font-size:10px;color:var(--ts);}
+.srs-dist{margin-top:14px;}
+.srs-dist-title{font-size:11px;font-weight:700;color:var(--ts);margin-bottom:8px;}
+.srs-dist-bars{display:flex;gap:3px;align-items:flex-end;height:60px;}
+.srs-dist-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;}
+.srs-dist-bar{width:100%;background:#90CAF9;border-radius:3px 3px 0 0;min-height:2px;}
+.srs-dist-lbl{font-size:8px;color:var(--ts);}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-top">
+    <span class="hdr-title">📊 学習統計</span>
+    <a class="hub-link" href="index.html">← ハブへ</a>
+    <span class="mec-sync-badge">⚙️ 未設定</span>
+  </div>
+  <div class="summary-row" id="summaryRow">
+    <div class="sum-card"><span class="sum-val" id="sumDone">—</span><span class="sum-lbl">済み</span></div>
+    <div class="sum-card"><span class="sum-val" id="sumStreak">—</span><span class="sum-lbl">日連続🔥</span></div>
+    <div class="sum-card"><span class="sum-val" id="sumFlag">—</span><span class="sum-lbl">🚩赤旗</span></div>
+    <div class="sum-card"><span class="sum-val" id="sumDue">—</span><span class="sum-lbl">🔔要復習</span></div>
+    <div class="sum-card"><span class="sum-val" id="sumMemo">—</span><span class="sum-lbl">📝メモ</span></div>
+  </div>
+</header>
+
+<div class="ct">
+
+  <section class="sec">
+    <div class="sec-title">📅 30日間の学習記録</div>
+    <div class="act-wrap">
+      <div class="act-bars" id="actBars"></div>
+      <div class="act-dates" id="actDates"></div>
+      <div class="act-total" id="actTotal"></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-title">📚 科目別進捗</div>
+    <table class="subj-table">
+      <thead>
+        <tr>
+          <th>科目</th>
+          <th>進捗</th>
+          <th class="r">済み率</th>
+          <th class="r">🚩</th>
+          <th class="r">🔔</th>
+        </tr>
+      </thead>
+      <tbody id="subjTableBody"></tbody>
+    </table>
+  </section>
+
+  <section class="sec">
+    <div class="sec-title">✅ 済みレベル分布</div>
+    <div class="level-bars" id="levelBars"></div>
+    <div class="level-legend" id="levelLegend"></div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-title">🔄 SRS 統計</div>
+    <div class="srs-grid" id="srsGrid"></div>
+    <div class="srs-dist" id="srsDist"></div>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  const today = new Date().toISOString().slice(0, 10);
+
+  function lsGet(k) { try { return JSON.parse(localStorage.getItem(k) || '{}'); } catch { return {}; } }
+
+  const done   = lsGet('done_v2');
+  const flags  = lsGet('flag_v2');
+  const srs    = lsGet('srs_v2');
+  const memos  = lsGet('memo_v2');
+  const activity = lsGet('activity_v1');
+
+  // ── Summary ──────────────────────────────────────────────
+  const doneCount  = Object.keys(done).length;
+  const flagCount  = Object.keys(flags).length;
+  const dueCount   = Object.values(srs).filter(r => r.next <= today).length;
+  const memoCount  = Object.keys(memos).length;
+
+  function calcStreak() {
+    let streak = 0, d = new Date();
+    while (true) {
+      const ds = d.toISOString().slice(0, 10);
+      if (!activity[ds]) break;
+      streak++;
+      d.setDate(d.getDate() - 1);
+    }
+    return streak;
+  }
+
+  document.getElementById('sumDone').textContent   = doneCount + '問';
+  document.getElementById('sumStreak').textContent = calcStreak();
+  document.getElementById('sumFlag').textContent   = flagCount + '問';
+  document.getElementById('sumDue').textContent    = dueCount + '問';
+  document.getElementById('sumMemo').textContent   = memoCount + '件';
+
+  // ── Activity chart (30 days) ──────────────────────────────
+  const days = [];
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const ds = d.toISOString().slice(0, 10);
+    days.push({ date: ds, count: activity[ds] || 0 });
+  }
+  const maxCount = Math.max(...days.map(d => d.count), 1);
+  const total30  = days.reduce((s, d) => s + d.count, 0);
+
+  const barsEl  = document.getElementById('actBars');
+  const datesEl = document.getElementById('actDates');
+  days.forEach(({ date, count }) => {
+    const isToday = date === today;
+    const pct = Math.round((count / maxCount) * 100);
+    const bar = document.createElement('div');
+    bar.className = 'act-bar' + (isToday ? ' today' : '') + (count === 0 ? ' zero' : '');
+    bar.style.height = (count === 0 ? '3px' : Math.max(pct, 4) + '%');
+    bar.dataset.tip  = date.slice(5) + ' ' + count + '問';
+    barsEl.appendChild(bar);
+
+    const lbl = document.createElement('div');
+    lbl.className = 'act-date' + (isToday ? ' today' : '');
+    const md = date.slice(5);
+    lbl.textContent = md.endsWith('-01') || isToday ? md : (md.slice(3) === '01' ? md : md.slice(3));
+    datesEl.appendChild(lbl);
+  });
+  document.getElementById('actTotal').textContent = '30日合計: ' + total30 + '問';
+
+  // ── Subject stats ─────────────────────────────────────────
+  const tbody = document.getElementById('subjTableBody');
+
+  if (typeof MEC_CHAPTERS !== 'undefined') {
+    let grandTotal = 0, grandDone = 0;
+
+    MEC_CHAPTERS.forEach(subj => {
+      const prefixes = subj.chapters.map(ch => ch.prefix + '_');
+      const isIn = uid => prefixes.some(p => uid.startsWith(p));
+      const totalQ = subj.chapters.reduce((s, ch) => s + ch.count, 0);
+      const doneQ  = Object.keys(done).filter(isIn).length;
+      const flagQ  = Object.keys(flags).filter(isIn).length;
+      const dueQ   = Object.keys(srs).filter(uid => isIn(uid) && srs[uid].next <= today).length;
+      const pct    = totalQ ? Math.round(doneQ / totalQ * 100) : 0;
+      grandTotal  += totalQ; grandDone += doneQ;
+
+      const tr = document.createElement('tr');
+      tr.className = 'subj-row';
+      tr.innerHTML = `
+        <td><div class="subj-name-cell">
+          <span class="subj-icon">${subj.icon}</span>
+          <span class="subj-name">${subj.name}</span>
+        </div></td>
+        <td><div class="subj-prog-wrap">
+          <div class="subj-prog-bar">
+            <div class="subj-prog-fill" style="width:${pct}%;background:${subj.color}"></div>
+          </div>
+          <span class="subj-prog-txt">${doneQ}/${totalQ}</span>
+        </div></td>
+        <td class="r">${pct}%</td>
+        <td class="r flag-num">${flagQ || '—'}</td>
+        <td class="r due-num">${dueQ || '—'}</td>`;
+      tbody.appendChild(tr);
+    });
+
+    // Total row
+    const tr = document.createElement('tr');
+    tr.style.fontWeight = '700';
+    const totalPct = grandTotal ? Math.round(grandDone / grandTotal * 100) : 0;
+    tr.innerHTML = `
+      <td><div class="subj-name-cell"><span class="subj-name">合計</span></div></td>
+      <td><div class="subj-prog-wrap">
+        <div class="subj-prog-bar"><div class="subj-prog-fill" style="width:${totalPct}%;background:#2D8C4E"></div></div>
+        <span class="subj-prog-txt">${grandDone}/${grandTotal}</span>
+      </div></td>
+      <td class="r">${totalPct}%</td>
+      <td class="r flag-num">${Object.keys(flags).length || '—'}</td>
+      <td class="r due-num">${dueCount || '—'}</td>`;
+    tbody.appendChild(tr);
+  }
+
+  // ── Level distribution ────────────────────────────────────
+  const LEVELS = [
+    { label: '未済', color: '#E0E5EB' },
+    { label: '済Ⅰ', color: '#C8EBD4' },
+    { label: '済Ⅱ', color: '#81C784' },
+    { label: '済Ⅲ', color: '#4CAF50' },
+    { label: '済Ⅳ', color: '#2E7D32' },
+    { label: '済Ⅴ', color: '#1B5E20' },
+  ];
+  const levelCounts = [0, 0, 0, 0, 0, 0];
+  Object.values(done).forEach(lv => { if (lv >= 1 && lv <= 5) levelCounts[lv]++; });
+  if (typeof MEC_CHAPTERS !== 'undefined') {
+    const totalQ = MEC_CHAPTERS.reduce((s, subj) => s + subj.chapters.reduce((ss, ch) => ss + ch.count, 0), 0);
+    levelCounts[0] = totalQ - Object.keys(done).length;
+  }
+  const maxLevel = Math.max(...levelCounts, 1);
+  const barsDiv  = document.getElementById('levelBars');
+  const legDiv   = document.getElementById('levelLegend');
+  LEVELS.forEach(({ label, color }, i) => {
+    const pct = Math.round(levelCounts[i] / maxLevel * 100);
+    const col = document.createElement('div');
+    col.className = 'level-col';
+    col.innerHTML = `
+      <span class="level-val">${levelCounts[i]}</span>
+      <div class="level-bar" style="height:${Math.max(pct, 2)}%;background:${color};border:1px solid #ccc"></div>
+      <span class="level-lbl">${label}</span>`;
+    barsDiv.appendChild(col);
+
+    const leg = document.createElement('div');
+    leg.className = 'legend-item';
+    leg.innerHTML = `<div class="legend-dot" style="background:${color};border:1px solid #ccc"></div>${label}: ${levelCounts[i]}問`;
+    legDiv.appendChild(leg);
+  });
+
+  // ── SRS stats ─────────────────────────────────────────────
+  const srsVals   = Object.values(srs);
+  const srsTotal  = srsVals.length;
+  const srsOverdue = srsVals.filter(r => r.next <= today).length;
+  const avgInterval = srsTotal
+    ? Math.round(srsVals.reduce((s, r) => s + (r.interval || 1), 0) / srsTotal * 10) / 10
+    : 0;
+
+  const srsGrid = document.getElementById('srsGrid');
+  [
+    { val: srsTotal,    lbl: 'SRS登録数', color: '#1565C0' },
+    { val: srsOverdue,  lbl: '要復習（期限）', color: '#D4570A' },
+    { val: avgInterval + '日', lbl: '平均復習間隔', color: '#2D8C4E' },
+  ].forEach(({ val, lbl, color }) => {
+    const d = document.createElement('div');
+    d.className = 'srs-card';
+    d.innerHTML = `<span class="srs-val" style="color:${color}">${val}</span><span class="srs-lbl">${lbl}</span>`;
+    srsGrid.appendChild(d);
+  });
+
+  // SRS interval distribution
+  const buckets = { '1': 0, '2-3': 0, '4-7': 0, '8-14': 0, '15-30': 0, '31+': 0 };
+  srsVals.forEach(r => {
+    const iv = r.interval || 1;
+    if (iv === 1) buckets['1']++;
+    else if (iv <= 3) buckets['2-3']++;
+    else if (iv <= 7) buckets['4-7']++;
+    else if (iv <= 14) buckets['8-14']++;
+    else if (iv <= 30) buckets['15-30']++;
+    else buckets['31+']++;
+  });
+  const maxBucket = Math.max(...Object.values(buckets), 1);
+  const distDiv = document.getElementById('srsDist');
+  if (srsTotal > 0) {
+    distDiv.innerHTML = '<div class="srs-dist-title">復習間隔分布</div><div class="srs-dist-bars" id="srsDistBars"></div>';
+    const distBarsEl = distDiv.querySelector('#srsDistBars');
+    Object.entries(buckets).forEach(([lbl, cnt]) => {
+      const col = document.createElement('div');
+      col.className = 'srs-dist-col';
+      const pct = Math.round(cnt / maxBucket * 100);
+      col.innerHTML = `
+        <span style="font-size:9px;color:var(--ts)">${cnt}</span>
+        <div class="srs-dist-bar" style="height:${Math.max(pct, 2)}%"></div>
+        <span class="srs-dist-lbl">${lbl}日</span>`;
+      distBarsEl.appendChild(col);
+    });
+  } else {
+    distDiv.innerHTML = '<div style="font-size:12px;color:var(--ts);text-align:center;padding:12px">理解度ボタンを押すとSRS統計が表示されます</div>';
+  }
+
+})();
+</script>
+</body>
+</html>
