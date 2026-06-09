@@ -72,6 +72,34 @@ document.addEventListener('mecSyncComplete', function() {
 </script>
 """
 
+# 正答率データなし科目向けフィルター (★/無印ベース)
+FILTER_CSS_ADDON = (
+    ".fsep{width:1px;height:20px;background:var(--bd);margin:0 4px;flex-shrink:0;}"
+    '[data-filter].fc-on{background:var(--or);border-color:var(--or);color:#fff;}'
+    '[data-filter="star"].fc-on{background:var(--yl);border-color:var(--yl);}'
+    '[data-filter="nostar"].fc-on{background:var(--gr);border-color:var(--gr);}'
+)
+
+FILTER_BUTTONS_HTML = (
+    '<span class="fsep"></span>'
+    '<button class="nb fc-on" data-filter="all" onclick="filterCards(\'all\')">全問</button>'
+    '<button class="nb" data-filter="star" onclick="filterCards(\'star\')">★問題</button>'
+    '<button class="nb" data-filter="nostar" onclick="filterCards(\'nostar\')">無印</button>'
+)
+
+FILTER_JS = """function filterCards(f){
+  document.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('fc-on',b.dataset.filter===f));
+  document.querySelectorAll('.qc').forEach(c=>{
+    const r=c.dataset.rate!==undefined&&c.dataset.rate!==''?+c.dataset.rate:null;
+    let show;
+    if(f==='all'){show=true;}
+    else if(r!==null){show=(f==='hard'&&r<60)||(f==='mid'&&r>=60&&r<80)||(f==='easy'&&r>=80);}
+    else{const s=!!c.querySelector('.bg.bs');show=(f==='star'&&s)||(f==='nostar'&&!s);}
+    c.style.display=show?'':'none';
+  });
+}
+"""
+
 def make_uid(prefix, q_id):
     """q1 → {prefix}_q1"""
     return f"{prefix}_{q_id}"
@@ -158,10 +186,25 @@ def process_html(src_path, dst_path, prefix):
     if head:
         head.append(BeautifulSoup(INJECT_CSS, 'html.parser'))
 
+    # 正答率データなし科目: フィルターCSS・ボタン・JS を追加
+    has_rate = any(c.get('data-rate') for c in soup.find_all('div', class_='qc'))
+    has_filter_fn = 'filterCards' in content
+    if not has_rate and not has_filter_fn:
+        # CSS追加
+        if head:
+            head.append(BeautifulSoup(f'<style id="filter-css">{FILTER_CSS_ADDON}</style>', 'html.parser'))
+        # ナビバーにフィルターボタン追加
+        sn = soup.find(class_='sn')
+        if sn:
+            sn.append(BeautifulSoup(FILTER_BUTTONS_HTML, 'html.parser'))
+
     # JS 注入 (</body> の前)
     body = soup.find('body')
     if body:
         body.append(BeautifulSoup(INJECT_SCRIPT_TPL, 'html.parser'))
+        # 正答率データなし科目: filterCards関数を追加
+        if not has_rate and not has_filter_fn:
+            body.append(BeautifulSoup(f'<script>{FILTER_JS}</script>', 'html.parser'))
 
     dst_path.parent.mkdir(parents=True, exist_ok=True)
     with open(dst_path, 'w', encoding='utf-8') as f:

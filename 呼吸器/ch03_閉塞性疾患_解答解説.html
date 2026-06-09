@@ -65,7 +65,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--gb);color:var(--tx);
 .rb .pi{margin-top:7px;font-size:12px;color:var(--tx);line-height:1.8;font-weight:400;}
 .pf{background:var(--nv);color:rgba(255,255,255,.5);text-align:center;padding:18px;font-size:12px;margin-top:40px;}
 #st{position:fixed;bottom:22px;right:22px;background:var(--tl);color:#fff;border:none;border-radius:50%;width:42px;height:42px;font-size:18px;cursor:pointer;box-shadow:0 3px 12px rgba(21,101,192,.4);display:none;align-items:center;justify-content:center;z-index:500;}
-</style>
+.fsep{width:1px;height:20px;background:var(--bd);margin:0 4px;flex-shrink:0;}[data-filter].fc-on{background:var(--or);border-color:var(--or);color:#fff;}[data-filter="star"].fc-on{background:var(--yl);border-color:var(--yl);}[data-filter="nostar"].fc-on{background:var(--gr);border-color:var(--gr);}</style>
 
 <style id="mec-inject-css">
 /* MEC injected UI */
@@ -124,7 +124,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--gb);color:var(--tx);
 <button class="nb" onclick="goto('q157')">Q.157連問</button>
 <button class="nb" onclick="goto('q163')">Q.163</button>
 <button class="nb" onclick="goto('q169')">Q.169連問</button>
-</div>
+<span class="fsep"></span><button class="nb fc-on" data-filter="all" onclick="filterCards('all')">全問</button><button class="nb" data-filter="star" onclick="filterCards('star')">★問題</button><button class="nb" data-filter="nostar" onclick="filterCards('nostar')">無印</button></div>
 <div class="ct">
 <div id="s1"><div class="sh" style="background:var(--nv);"><div class="snum">A</div><h2>A 問題（★問題）</h2><div class="sc">Q.106〜Q.124</div></div></div>
 <div class="qc" data-uid="resp_ch03_q106" id="q106"><div class="qh"><span class="qn">Q.106</span><span class="qe">(120A-62)</span><span class="bg bs">★</span><span class="cr ch">正答率 91%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch03_q106" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><label class="mec-check-wrap"><input class="mec-done-cb" data-uid="resp_ch03_q106" onchange="mecOnCheck(this)" type="checkbox"/><span class="mec-check-box">✓ 済</span></label></div></div><div class="qb">
@@ -632,5 +632,16 @@ document.addEventListener('mecSyncComplete', function() {
     if (fb && flags[uid]) fb.classList.add('mec-flagged');
   });
 });
+function filterCards(f){
+  document.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('fc-on',b.dataset.filter===f));
+  document.querySelectorAll('.qc').forEach(c=>{
+    const r=c.dataset.rate!==undefined&&c.dataset.rate!==''?+c.dataset.rate:null;
+    let show;
+    if(f==='all'){show=true;}
+    else if(r!==null){show=(f==='hard'&&r<60)||(f==='mid'&&r>=60&&r<80)||(f==='easy'&&r>=80);}
+    else{const s=!!c.querySelector('.bg.bs');show=(f==='star'&&s)||(f==='nostar'&&!s);}
+    c.style.display=show?'':'none';
+  });
+}
 </script>
 </body></html>

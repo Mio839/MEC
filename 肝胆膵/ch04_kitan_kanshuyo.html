@@ -77,7 +77,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--gb);color:var(--tx);
 #st{position:fixed;bottom:22px;right:22px;background:var(--or);color:#fff;border:none;border-radius:50%;width:42px;height:42px;font-size:18px;cursor:pointer;box-shadow:0 3px 12px rgba(184,134,11,.4);display:none;align-items:center;justify-content:center;z-index:500;}
 @keyframes fi{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 .qc{animation:fi .3s ease both;}
-</style>
+.fsep{width:1px;height:20px;background:var(--bd);margin:0 4px;flex-shrink:0;}[data-filter].fc-on{background:var(--or);border-color:var(--or);color:#fff;}[data-filter="star"].fc-on{background:var(--yl);border-color:var(--yl);}[data-filter="nostar"].fc-on{background:var(--gr);border-color:var(--gr);}</style>
 
 <style id="mec-inject-css">
 /* MEC injected UI */
@@ -117,7 +117,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--gb);color:var(--tx);
 <div class="hs">解答・解説集 全56問（★問題・無印問題すべて収録）</div>
 <div class="hst"><div class="sp"><strong>56</strong>問</div><div class="sp"><strong>★問題</strong> 26問</div><div class="sp"><strong>無印問題</strong> 30問</div></div>
 </div>
-<div class="mec-ch-prog"><a class="mec-hub-link" href="../index.html">← ハブへ</a><div class="mec-ch-prog-bar"><div class="mec-ch-prog-fill" style="width:0%"></div></div><span class="mec-ch-prog-txt">0/0</span><span class="mec-sync-badge">⚙️ 未設定</span></div><div class="sn"><button class="nb" onclick="goto('s1')">★問題</button><button class="nb" onclick="goto('s2')">無印問題</button><button class="nb" onclick="goto('q213')">Q.213</button><button class="nb" onclick="goto('q220')">Q.220</button><button class="nb" onclick="goto('q227')">Q.227</button><button class="nb" onclick="goto('q234')">Q.234</button><button class="nb" onclick="goto('q241')">Q.241</button><button class="nb" onclick="goto('q248')">Q.248</button><button class="nb" onclick="goto('q255')">Q.255</button><button class="nb" onclick="goto('q262')">Q.262</button></div>
+<div class="mec-ch-prog"><a class="mec-hub-link" href="../index.html">← ハブへ</a><div class="mec-ch-prog-bar"><div class="mec-ch-prog-fill" style="width:0%"></div></div><span class="mec-ch-prog-txt">0/0</span><span class="mec-sync-badge">⚙️ 未設定</span></div><div class="sn"><button class="nb" onclick="goto('s1')">★問題</button><button class="nb" onclick="goto('s2')">無印問題</button><button class="nb" onclick="goto('q213')">Q.213</button><button class="nb" onclick="goto('q220')">Q.220</button><button class="nb" onclick="goto('q227')">Q.227</button><button class="nb" onclick="goto('q234')">Q.234</button><button class="nb" onclick="goto('q241')">Q.241</button><button class="nb" onclick="goto('q248')">Q.248</button><button class="nb" onclick="goto('q255')">Q.255</button><button class="nb" onclick="goto('q262')">Q.262</button><span class="fsep"></span><button class="nb fc-on" data-filter="all" onclick="filterCards('all')">全問</button><button class="nb" data-filter="star" onclick="filterCards('star')">★問題</button><button class="nb" data-filter="nostar" onclick="filterCards('nostar')">無印</button></div>
 <div class="ct">
 <div id="s1"><div class="sh"><div class="snum">★</div><h2>★ 問題</h2><div class="sc">26問</div></div></div><div class="qc" data-uid="hbp_ch04_q213" id="q213"><div class="qh"><span class="qn">Q.213</span><span class="qe">(120A-40)</span><span class="bg bs">★</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hbp_ch04_q213" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><label class="mec-check-wrap"><input class="mec-done-cb" data-uid="hbp_ch04_q213" onchange="mecOnCheck(this)" type="checkbox"/><span class="mec-check-box">✓ 済</span></label></div></div><div class="qb">
 <div class="qt">48歳男性、悪寒・発熱（夕方）・軟便、RUQ痛。<strong>最も考えられる診断はどれか。</strong></div>
@@ -346,5 +346,16 @@ document.addEventListener('mecSyncComplete', function() {
     if (fb && flags[uid]) fb.classList.add('mec-flagged');
   });
 });
+function filterCards(f){
+  document.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('fc-on',b.dataset.filter===f));
+  document.querySelectorAll('.qc').forEach(c=>{
+    const r=c.dataset.rate!==undefined&&c.dataset.rate!==''?+c.dataset.rate:null;
+    let show;
+    if(f==='all'){show=true;}
+    else if(r!==null){show=(f==='hard'&&r<60)||(f==='mid'&&r>=60&&r<80)||(f==='easy'&&r>=80);}
+    else{const s=!!c.querySelector('.bg.bs');show=(f==='star'&&s)||(f==='nostar'&&!s);}
+    c.style.display=show?'':'none';
+  });
+}
 </script>
 </body></html>
