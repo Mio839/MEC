@@ -194,14 +194,17 @@
         return !(sec && sec.dataset.visible === 'false');
       });
       const idx = allCards.indexOf(card);
-      if (idx !== -1 && idx + 1 < allCards.length) {
-        const next = allCards[idx + 1];
-        setTimeout(() => {
-          const hdr = document.querySelector('.st-hdr, .sn, .mec-ch-prog');
-          const offset = hdr ? hdr.getBoundingClientRect().height + 8 : 120;
-          const y = next.getBoundingClientRect().top + window.scrollY - offset;
-          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-        }, 150);
+      if (idx !== -1) {
+        // 押したレベルに未到達（done < level）の次カードへジャンプ
+        const next = allCards.slice(idx + 1).find(c => (done[c.dataset.uid] || 0) < level);
+        if (next) {
+          setTimeout(() => {
+            const hdr = document.querySelector('.st-hdr, .sn, .mec-ch-prog');
+            const offset = hdr ? hdr.getBoundingClientRect().height + 8 : 120;
+            const y = next.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+          }, 150);
+        }
       }
     }
   };
