@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>神経 Introduction セルフチェック（30問）</title>
+<script src="../progress.js"></script>
+<style>
+:root{--or:#5C6BC0;--nv:#1C2E4A;--gr:#2D8C4E;--grl:#EAF7EE;--gb:#F4F6F8;--cb:#FFF;--bd:#E0E5EB;--tx:#1A2332;--ts:#5A6475;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:var(--gb);color:var(--tx);font-size:14px;line-height:1.7;}
+.hdr{background:var(--nv);color:#fff;padding:10px 12px 8px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+.hdr-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.hdr-title{font-size:15px;font-weight:800;}
+.hub-link{font-size:11px;color:rgba(255,255,255,.7);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,255,255,.3);border-radius:20px;white-space:nowrap;}
+.mec-sync-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(255,255,255,.15);color:#fff;margin-left:auto;}
+.hdr-stats{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px;}
+.hdr-stat{background:rgba(255,255,255,.12);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;}
+.hdr-stat span{color:#F5A623;}
+.filter-row{display:flex;align-items:center;gap:3px;overflow-x:auto;scrollbar-width:none;}
+.filter-row::-webkit-scrollbar{display:none;}
+.nb{flex-shrink:0;background:none;border:1.5px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;color:rgba(255,255,255,.65);transition:all .15s;white-space:nowrap;}
+.nb.on{background:rgba(255,255,255,.2);border-color:#fff;color:#fff;}
+.nb[data-state="flag"].on{background:#C0392B;border-color:#C0392B;}
+.nb[data-state="undone"].on{background:#78909C;border-color:#78909C;}
+.nb[data-state="done"].on{background:#2D8C4E;border-color:#2D8C4E;}
+.vis-count{margin-left:auto;font-size:11px;font-weight:700;color:rgba(255,255,255,.55);white-space:nowrap;flex-shrink:0;}
+.ct{max-width:900px;margin:0 auto;padding:14px 12px 60px;}
+.sc-card{background:var(--cb);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:12px;border-left:4px solid var(--or);overflow:hidden;}
+.sc-head{display:flex;align-items:center;gap:8px;padding:10px 15px 8px;border-bottom:1px solid var(--gb);}
+.sc-num{font-size:14px;font-weight:900;color:var(--nv);min-width:32px;}
+.sc-controls{display:flex;align-items:center;gap:5px;margin-left:auto;}
+.mec-flag-btn{background:none;border:none;font-size:16px;cursor:pointer;opacity:.3;padding:0 2px;line-height:1;transition:opacity .2s;}
+.mec-flag-btn.mec-flagged{opacity:1;}
+.mec-lap-btn{padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700;border:1.5px solid #E0E5EB;color:#A0AAB8;background:none;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;}
+.mec-lap-btn.mec-lapped{background:#2D8C4E;border-color:#2D8C4E;color:#fff;}
+.mec-lap-num{font-size:9px;margin-left:2px;}
+.sc-body{padding:12px 15px 14px;}
+.sc-question{font-size:13.5px;line-height:1.75;margin-bottom:10px;font-weight:600;color:var(--nv);}
+.sc-reveal-btn{display:block;width:100%;padding:8px;background:var(--gb);border:1.5px dashed var(--bd);border-radius:8px;font-size:12px;font-weight:700;color:var(--ts);cursor:pointer;font-family:inherit;transition:all .2s;text-align:center;}
+.sc-reveal-btn:hover{background:#E8ECF0;}
+.sc-reveal-btn.revealed{background:var(--grl);border-color:#A5D6A7;color:var(--gr);}
+.sc-answer{display:none;margin-top:10px;background:var(--grl);border:1.5px solid #A5D6A7;border-radius:8px;padding:10px 13px;font-size:13px;line-height:1.8;color:#1A3828;}
+.sc-answer.open{display:block;}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-row">
+    <span class="hdr-title">🧠 神経 Introduction セルフチェック</span>
+    <a class="hub-link" href="../index.html">← ハブへ</a>
+    <span class="mec-sync-badge">⚙️ 未設定</span>
+  </div>
+  <div class="hdr-stats">
+    <div class="hdr-stat">済 <span id="statDone">0</span>問</div>
+    <div class="hdr-stat">合計 <span style="color:#F5A623">30</span>問</div>
+  </div>
+  <div class="filter-row">
+    <button class="nb on" data-state="all" onclick="setState('all')">すべて</button>
+    <button class="nb" data-state="flag" onclick="setState('flag')">🚩 赤旗</button>
+    <button class="nb" data-state="undone" onclick="setState('undone')">未済</button>
+    <button class="nb" data-state="done" onclick="setState('done')">済み</button>
+    <span class="vis-count" id="visCount">—</span>
+  </div>
+</header>
+
+<div class="ct" id="cards"></div>
+
+<script>
+const QA = [
+  {q:"脳出血の好発部位を皮質下以外に4か所挙げ、それぞれの眼球位置について答えよ。",a:"被殻：患側へ共同偏視\n視床：内下方\n橋：縮瞳で正中位固定\n小脳：健側へ共同偏視"},
+  {q:"頭頂葉の劣位半球障害および優位半球障害でみられる症候をそれぞれ挙げよ。",a:"劣位半球障害：着衣失行、左半側空間無視、構成失行、左半側身体失認、病態失認など\n優位半球障害：Gerstmann症候群（失算・失書・手指失認・左右失認）、失読、構成失行など"},
+  {q:"特にParkinson病に特徴的な不随意運動を答えよ。",a:"左右差を伴う安静時振戦"},
+  {q:"中枢神経の脱髄疾患である多発性硬化症MSにおいて視神経が障害される理由を答えよ。",a:"視神経の髄鞘が中枢神経と同様にオリゴデンドロサイトにより形成されるため。"},
+  {q:"Treatable dementia の代表的な鑑別疾患を4つ挙げよ。",a:"甲状腺機能低下症、うつ病、正常圧水頭症、慢性硬膜下血腫、電解質異常、神経梅毒など"},
+  {q:"筋強直性ジストロフィーでみられる症状を挙げよ。",a:"筋強直、斧様顔貌、耐糖能異常、知能障害、白内障、心伝導障害、性腺萎縮、若年性禿頭など"},
+  {q:"新生児期および小児期以降の細菌性髄膜炎の代表的な起因菌を2種類ずつ挙げよ。",a:"新生児：GBS（B群溶血性連鎖球菌）、大腸菌\n小児期以降：肺炎球菌、インフルエンザ菌"},
+  {q:"くも膜下出血SAHの合併症を、時間経過に沿って3つ挙げよ。",a:"再出血（24時間以内）、脳血管攣縮（1週間前後）、正常圧水頭症（慢性期）"},
+  {q:"Guillain-Barré症候群GBSの先行感染を挙げよ。",a:"カンピロバクター、マイコプラズマ、サイトメガロウイルス"},
+  {q:"群発頭痛でみられる症状を挙げよ。",a:"片側の眼窩痛、同側の結膜充血、流涙、鼻閉、鼻漏など"},
+  {q:"Lewy小体型認知症を特徴づける症状を3つ挙げよ。",a:"認知症、Parkinsonism、幻視"},
+  {q:"WHO grade 4 の脳腫瘍を2つ挙げよ。",a:"膠芽腫、髄芽腫"},
+  {q:"脳波においてヒプスアリスミアを特徴とする疾患を挙げよ。また、その疾患の好発年齢を答えよ。",a:"West症候群。大部分が1歳未満。"},
+  {q:"一過性脳虚血発作TIAにおける「FAST」について答えよ。",a:"顔面麻痺（Face）、上肢麻痺（Arm）、言語障害（Speech）、救急要請・発症時刻（Time）"},
+  {q:"Duchenne型筋ジストロフィーの遺伝形式を答えよ。",a:"X連鎖劣性遺伝"},
+  {q:"Creutzfeldt-Jakob病でみられる脳波所見を挙げよ。",a:"周期性同期性放電"},
+  {q:"多系統萎縮症における「多系統」の意味するところを答えよ。",a:"錐体路症状、錐体外路症状、自律神経障害、小脳症状"},
+  {q:"代表的なLewy小体病を2つ挙げよ。",a:"Parkinson病、Lewy小体型認知症"},
+  {q:"重症筋無力症でみられる抗体を2つ挙げよ。",a:"抗アセチルコリン受容体抗体、抗MuSK抗体"},
+  {q:"Alzheimer病でみられる妄想を挙げよ。",a:"物盗られ妄想"},
+  {q:"片頭痛の発作の前兆を挙げよ。",a:"閃輝暗点、感覚異常、言語障害など"},
+  {q:"慢性硬膜下血腫の代表的な症状を3つ挙げよ。",a:"認知症、歩行障害、尿失禁"},
+  {q:"下腿において逆シャンペンボトル型の筋萎縮がみられる代表的な疾患を挙げよ。",a:"Charcot-Marie-Tooth病 CMT"},
+  {q:"もやもや病の患者において症状を誘発する行動を挙げよ。",a:"過換気（吹奏楽、号泣、息を吹きかける動作など）"},
+  {q:"Wallenberg症候群の代表的な責任血管、および認める症状を挙げよ。",a:"責任血管：後下小脳動脈PICA\n症状：顔面の温痛覚障害（同側）、四肢の温痛覚障害（対側）、球麻痺、Horner症候群、めまい"},
+  {q:"MLF症候群でみられる眼球運動異常について答えよ。",a:"患側の内転障害＋健側の眼振、輻輳は可能。"},
+  {q:"結節性硬化症でみられる代表的な皮膚所見を4つ挙げよ。",a:"顔面血管線維腫、葉状白斑、爪囲線維腫、シャグリンパッチ"},
+  {q:"多発性嚢胞腎の患者において頭部MRA検査が重要な理由を答えよ。",a:"脳動脈瘤（くも膜下出血のリスク）の合併を評価するため。"},
+  {q:"視神経脊髄炎NMOの診断基準となる自己抗体および画像所見を答えよ。",a:"抗AQP4抗体、MRIで長い脊髄病変（3椎体以上）。"},
+  {q:"筋萎縮性側索硬化症ALSにおける古典的陰性症状を4つ答えよ。",a:"感覚障害、膀胱直腸障害、眼球運動障害、褥瘡。"}
+];
+
+const PREFIX = 'neur_sc';
+let currentState = 'all';
+
+function buildCards() {
+  const ct = document.getElementById('cards');
+  ct.innerHTML = QA.map((item, i) => {
+    const uid = `${PREFIX}_q${i+1}`;
+    const ans = item.a.replace(/\n/g, '<br>');
+    return `<div class="sc-card" data-uid="${uid}" id="sc${i+1}">
+  <div class="sc-head">
+    <span class="sc-num">Q.${i+1}</span>
+    <div class="sc-controls">
+      <button class="mec-flag-btn" data-uid="${uid}" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button>
+      <button class="mec-lap-btn" data-uid="${uid}" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button>
+    </div>
+  </div>
+  <div class="sc-body">
+    <div class="sc-question">${item.q}</div>
+    <button class="sc-reveal-btn" onclick="toggleAnswer(this)">▶ 答えを見る</button>
+    <div class="sc-answer">${ans}</div>
+  </div>
+</div>`;
+  }).join('');
+}
+
+function toggleAnswer(btn) {
+  const ans = btn.nextElementSibling;
+  const open = ans.classList.toggle('open');
+  btn.textContent = open ? '▼ 答えを隠す' : '▶ 答えを見る';
+  btn.classList.toggle('revealed', open);
+}
+
+function setState(s) {
+  currentState = s;
+  document.querySelectorAll('[data-state]').forEach(b => b.classList.toggle('on', b.dataset.state === s));
+  applyFilter();
+}
+
+function applyFilter() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  let visible = 0;
+  document.querySelectorAll('.sc-card[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    let show;
+    if (currentState === 'all') show = true;
+    else if (currentState === 'flag') show = !!flags[uid];
+    else if (currentState === 'undone') show = !done[uid];
+    else if (currentState === 'done') show = !!done[uid];
+    else show = true;
+    c.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  const vc = document.getElementById('visCount');
+  if (vc) vc.textContent = visible + '問';
+}
+
+function initCards() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  document.querySelectorAll('.sc-card[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    const lapCount = done[uid] || 0;
+    const lapBtn = c.querySelector('.mec-lap-btn');
+    if (lapBtn) {
+      const numEl = lapBtn.querySelector('.mec-lap-num');
+      if (numEl) numEl.textContent = lapCount > 0 ? lapCount : '';
+      lapBtn.classList.toggle('mec-lapped', lapCount > 0);
+    }
+    const fb = c.querySelector('.mec-flag-btn');
+    if (fb && flags[uid]) fb.classList.add('mec-flagged');
+  });
+  const doneCount = Object.keys(done).filter(k => k.startsWith(PREFIX)).length;
+  const el = document.getElementById('statDone');
+  if (el) el.textContent = doneCount;
+  applyFilter();
+}
+
+buildCards();
+document.addEventListener('DOMContentLoaded', () => {
+  initCards();
+  MECSync.syncFromGist().then(r => {
+    if (r.status === 'ok') initCards();
+    if (r.status === 'no-config') document.querySelectorAll('.mec-sync-badge').forEach(e => e.textContent = '⚙️ 未設定');
+  });
+});
+</script>
+</body>
+</html>
