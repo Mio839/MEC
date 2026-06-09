@@ -28,10 +28,10 @@ INJECT_CSS = """
 .mec-controls{display:flex;align-items:center;gap:6px;margin-left:auto;flex-shrink:0;}
 .mec-flag-btn{background:none;border:none;font-size:16px;cursor:pointer;opacity:.3;padding:0 2px;line-height:1;transition:opacity .2s;}
 .mec-flag-btn.mec-flagged{opacity:1;}
-.mec-check-wrap{cursor:pointer;}
-.mec-check-wrap input{display:none;}
-.mec-check-box{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;border:1.5px solid #E0E5EB;color:#5A6475;white-space:nowrap;transition:all .2s;}
-.mec-check-wrap input:checked+.mec-check-box{background:#2D8C4E;border-color:#2D8C4E;color:#fff;}
+.mec-done-btns{display:flex;gap:3px;}
+.mec-done-btn{padding:2px 7px;border-radius:12px;font-size:10px;font-weight:700;border:1.5px solid #E0E5EB;color:#A0AAB8;background:none;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;}
+.mec-done-btn.passed{background:#C8EBD4;border-color:#A5D6A7;color:#2D8C4E;}
+.mec-done-btn.active{background:#2D8C4E;border-color:#2D8C4E;color:#fff;}
 .qc.mec-done{opacity:.45;}
 .mec-srs-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:10px 0 8px;padding:10px 0 8px;border-top:1px dashed #c8ebd4;}
 .mec-srs-label{font-size:12px;color:#5A6475;}
@@ -104,16 +104,19 @@ def make_uid(prefix, q_id):
     """q1 → {prefix}_q1"""
     return f"{prefix}_{q_id}"
 
+ROMAN = ['', 'Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ']
+
 def inject_controls_to_qh(qh_tag, uid):
-    """問題ヘッダーにチェック・フラグボタンを追加"""
+    """問題ヘッダーにフラグ・済Ⅰ〜済Ⅴボタンを追加"""
+    done_btns = ''.join(
+        f'<button class="mec-done-btn" data-uid="{uid}" data-level="{i}" onclick="mecSetDone(this,{i})">済{ROMAN[i]}</button>'
+        for i in range(1, 6)
+    )
     ctrl = Tag(name='div')
     ctrl['class'] = 'mec-controls'
     ctrl.append(BeautifulSoup(
         f'<button class="mec-flag-btn" data-uid="{uid}" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button>'
-        f'<label class="mec-check-wrap">'
-        f'<input type="checkbox" class="mec-done-cb" data-uid="{uid}" onchange="mecOnCheck(this)">'
-        f'<span class="mec-check-box">✓ 済</span>'
-        f'</label>',
+        f'<div class="mec-done-btns">{done_btns}</div>',
         'html.parser'
     ))
     qh_tag.append(ctrl)

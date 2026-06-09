@@ -166,6 +166,46 @@
     _updateChapterProgress();
   };
 
+  window.mecSetDone = function (btn, level) {
+    const uid = btn.dataset.uid;
+    const done = lsGet(KD);
+    const cur = done[uid] || 0;
+    if (cur === level) { delete done[uid]; } else { done[uid] = level; }
+    lsRaw(KD, done);
+    logActivity();
+    scheduleSync();
+
+    const card = btn.closest('.qc, .qcard');
+    if (card) {
+      const newLevel = done[uid] || 0;
+      card.querySelectorAll('.mec-done-btn').forEach(b => {
+        const bl = +b.dataset.level;
+        b.classList.toggle('active', bl === newLevel);
+        b.classList.toggle('passed', bl < newLevel);
+      });
+      card.classList.toggle('mec-done', !!newLevel);
+    }
+    _updateChapterProgress();
+
+    if (card && done[uid]) {
+      const allCards = [...document.querySelectorAll('.qc[data-uid]')].filter(c => {
+        if (c.style.display === 'none') return false;
+        const sec = c.closest('[data-visible]');
+        return !(sec && sec.dataset.visible === 'false');
+      });
+      const idx = allCards.indexOf(card);
+      if (idx !== -1 && idx + 1 < allCards.length) {
+        const next = allCards[idx + 1];
+        setTimeout(() => {
+          const hdr = document.querySelector('.st-hdr, .sn, .mec-ch-prog');
+          const offset = hdr ? hdr.getBoundingClientRect().height + 8 : 120;
+          const y = next.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        }, 150);
+      }
+    }
+  };
+
   window.mecToggleFlag = function (btn) {
     const uid = btn.dataset.uid, flags = lsGet(KF);
     if (flags[uid]) { delete flags[uid]; btn.classList.remove('mec-flagged'); }
@@ -198,8 +238,20 @@
     const done = lsGet(KD), flags = lsGet(KF), srs = lsGet(KS), today = todayStr();
     document.querySelectorAll('.qc[data-uid]').forEach(card => {
       const uid = card.dataset.uid;
+      const doneLevel = done[uid] || 0;
+
+      // 5-level done buttons
+      card.querySelectorAll('.mec-done-btn').forEach(b => {
+        const bl = +b.dataset.level;
+        b.classList.toggle('active', bl === doneLevel);
+        b.classList.toggle('passed', bl < doneLevel);
+      });
+      if (doneLevel) card.classList.add('mec-done');
+
+      // Legacy checkbox fallback
       const cb = card.querySelector('.mec-done-cb');
-      if (cb && done[uid]) { cb.checked = true; card.classList.add('mec-done'); }
+      if (cb && doneLevel) { cb.checked = true; card.classList.add('mec-done'); }
+
       const flagBtn = card.querySelector('.mec-flag-btn');
       if (flagBtn && flags[uid]) flagBtn.classList.add('mec-flagged');
       const r = srs[uid];
