@@ -71,7 +71,7 @@ const MEC_CHAPTERS = [
   {
     "id": "resp",
     "name": "呼吸器",
-    "icon": "🫁",
+    "icon": "🌬️",
     "color": "#1565C0",
     "chapters": [
       {
@@ -133,7 +133,7 @@ const MEC_CHAPTERS = [
   {
     "id": "circ",
     "name": "循環器",
-    "icon": "🫀",
+    "icon": "❤️",
     "color": "#C62828",
     "chapters": [
       {
@@ -201,7 +201,7 @@ const MEC_CHAPTERS = [
   {
     "id": "dige",
     "name": "消化器",
-    "icon": "🦠",
+    "icon": "🌿",
     "color": "#6A1B9A",
     "chapters": [
       {
@@ -349,7 +349,7 @@ const MEC_CHAPTERS = [
   {
     "id": "hbp",
     "name": "肝胆膵",
-    "icon": "🏥",
+    "icon": "🧪",
     "color": "#E65100",
     "chapters": [
       {
@@ -404,8 +404,8 @@ const MEC_CHAPTERS = [
   },
   {
     "id": "jinzo_d",
-    "name": "腎臓(解説)",
-    "icon": "🫘",
+    "name": "腎臓",
+    "icon": "💧",
     "color": "#78909C",
     "chapters": [
       {
