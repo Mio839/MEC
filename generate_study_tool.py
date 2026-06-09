@@ -73,10 +73,19 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .fsep{width:1px;height:14px;background:rgba(255,255,255,.25);margin:0 2px;flex-shrink:0;align-self:center;}
 .vis-count{margin-left:auto;font-size:11px;font-weight:700;color:rgba(255,255,255,.55);white-space:nowrap;flex-shrink:0;}
 
+.filter-row2{display:flex;align-items:center;gap:3px;overflow-x:auto;scrollbar-width:none;margin-top:4px;}
+.filter-row2::-webkit-scrollbar{display:none;}
+.nb2{flex-shrink:0;background:none;border:1.5px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;color:rgba(255,255,255,.65);transition:all .15s;white-space:nowrap;}
+.nb2.fs-on{background:rgba(255,255,255,.2);border-color:#fff;color:#fff;}
+.nb2[data-state="flag"].fs-on{background:#C0392B;border-color:#C0392B;color:#fff;}
+.nb2[data-state="due"].fs-on{background:#E65100;border-color:#E65100;color:#fff;}
+.nb2[data-state="undone"].fs-on{background:#78909C;border-color:#78909C;color:#fff;}
+.nb2[data-state="done"].fs-on{background:#2D8C4E;border-color:#2D8C4E;color:#fff;}
+
 .ct{max-width:900px;margin:0 auto;padding:14px 12px 60px;}
 
 .subj-section[data-visible="false"]{display:none;}
-.subj-hdr{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;color:#fff;margin:14px 0 8px;position:sticky;top:158px;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+.subj-hdr{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;color:#fff;margin:14px 0 8px;position:sticky;top:190px;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.2);}
 .subj-hdr-icon{font-size:18px;}
 .subj-hdr-name{font-size:13px;font-weight:800;}
 .subj-hdr-count{margin-left:auto;font-size:11px;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:10px;}
@@ -161,6 +170,7 @@ STUDY_JS = """\
 // State
 const selectedSubjects = new Set(STUDY_SUBJECTS.map(s => s.id));
 let currentFilter = 'all';
+let currentState = 'all';
 
 function toggleSubjectChip(btn, id) {
   if (id === '__all__') {
@@ -225,21 +235,43 @@ function setFilter(f) {
   applyFilters();
 }
 
+function setState(s) {
+  currentState = s;
+  document.querySelectorAll('[data-state]').forEach(b => b.classList.toggle('fs-on', b.dataset.state === s));
+  applyFilters();
+}
+
 function applyFilters() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  const srs = JSON.parse(localStorage.getItem('srs_v2') || '{}');
+  const today = new Date().toISOString().slice(0, 10);
   let visible = 0;
   document.querySelectorAll('.subj-section').forEach(section => {
     const subjVisible = selectedSubjects.has(section.dataset.sid);
     section.dataset.visible = String(subjVisible);
     if (!subjVisible) return;
     section.querySelectorAll('.qc').forEach(c => {
+      const uid = c.dataset.uid;
       const r = c.dataset.rate !== undefined && c.dataset.rate !== '' ? +c.dataset.rate : null;
       const f = currentFilter;
-      let show;
-      if (f === 'all') show = true;
-      else if (f === 'norate') show = r === null;
-      else if (f === 'star') show = !!c.querySelector('.bg.bs');
-      else if (r !== null) show = (f === 'hard' && r < 60) || (f === 'mid' && r >= 60 && r < 80) || (f === 'easy' && r >= 80);
-      else show = false;
+      // Difficulty filter
+      let showDiff;
+      if (f === 'all') showDiff = true;
+      else if (f === 'norate') showDiff = r === null;
+      else if (f === 'star') showDiff = !!c.querySelector('.bg.bs');
+      else if (r !== null) showDiff = (f === 'hard' && r < 60) || (f === 'mid' && r >= 60 && r < 80) || (f === 'easy' && r >= 80);
+      else showDiff = false;
+      // State filter
+      const st = currentState;
+      let showState;
+      if (st === 'all') showState = true;
+      else if (st === 'flag') showState = !!flags[uid];
+      else if (st === 'due') { const sr = srs[uid]; showState = !!sr && sr.next <= today; }
+      else if (st === 'undone') showState = !done[uid];
+      else if (st === 'done') showState = !!done[uid];
+      else showState = true;
+      const show = showDiff && showState;
       c.style.display = show ? '' : 'none';
       if (show) visible++;
     });
@@ -256,8 +288,13 @@ function initCards() {
   const today = new Date().toISOString().slice(0, 10);
   document.querySelectorAll('.qc[data-uid]').forEach(card => {
     const uid = card.dataset.uid;
-    const cb = card.querySelector('.mec-done-cb');
-    if (cb && done[uid]) { cb.checked = true; card.classList.add('mec-done'); }
+    const doneLevel = done[uid] || 0;
+    card.querySelectorAll('.mec-done-btn').forEach(b => {
+      const bl = +b.dataset.level;
+      b.classList.toggle('active', bl === doneLevel);
+      b.classList.toggle('passed', bl < doneLevel);
+    });
+    if (doneLevel) card.classList.add('mec-done');
     const fb = card.querySelector('.mec-flag-btn');
     if (fb && flags[uid]) fb.classList.add('mec-flagged');
     const srsEl = document.getElementById('mecSrs_' + uid);
@@ -386,6 +423,13 @@ def build_html(all_sections):
     <button class="nb" data-filter="star" onclick="setFilter('star')">★問題</button>
     <span class="fsep"></span>
     <span class="vis-count" id="visCount">—</span>
+  </div>
+  <div class="filter-row2">
+    <button class="nb2 fs-on" data-state="all" onclick="setState('all')">すべて</button>
+    <button class="nb2" data-state="flag" onclick="setState('flag')">🚩 赤旗</button>
+    <button class="nb2" data-state="due" onclick="setState('due')">🔔 要復習</button>
+    <button class="nb2" data-state="undone" onclick="setState('undone')">未済</button>
+    <button class="nb2" data-state="done" onclick="setState('done')">済み</button>
   </div>
 </header>
 
