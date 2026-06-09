@@ -70,6 +70,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .nb[data-filter="easy"].fc-on{background:var(--gr);border-color:var(--gr);}
 .nb[data-filter="norate"].fc-on{background:#78909C;border-color:#78909C;}
 .nb[data-filter="star"].fc-on{background:#F5A623;border-color:#F5A623;color:#744A00;}
+.nb[data-filter="img"].fc-on{background:#1565C0;border-color:#1565C0;}
 .fsep{width:1px;height:14px;background:rgba(255,255,255,.25);margin:0 2px;flex-shrink:0;align-self:center;}
 .vis-count{margin-left:auto;font-size:11px;font-weight:700;color:rgba(255,255,255,.55);white-space:nowrap;flex-shrink:0;}
 
@@ -260,6 +261,7 @@ function applyFilters() {
       if (f === 'all') showDiff = true;
       else if (f === 'norate') showDiff = r === null;
       else if (f === 'star') showDiff = !!c.querySelector('.bg.bs');
+      else if (f === 'img') showDiff = !!c.querySelector('.qimg');
       else if (r !== null) showDiff = (f === 'hard' && r < 60) || (f === 'mid' && r >= 60 && r < 80) || (f === 'easy' && r >= 80);
       else showDiff = false;
       // State filter
@@ -421,6 +423,7 @@ def build_html(all_sections):
     <button class="nb" data-filter="easy" onclick="setFilter('easy')">易問</button>
     <button class="nb" data-filter="norate" onclick="setFilter('norate')">正答率なし</button>
     <button class="nb" data-filter="star" onclick="setFilter('star')">★問題</button>
+    <button class="nb" data-filter="img" onclick="setFilter('img')">🖼️ 画像</button>
     <span class="fsep"></span>
     <span class="vis-count" id="visCount">—</span>
   </div>
