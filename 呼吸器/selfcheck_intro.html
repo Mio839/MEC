@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>呼吸器 Introduction セルフチェック（30問）</title>
+<script src="../progress.js"></script>
+<style>
+:root{--or:#E8703A;--nv:#1C2E4A;--gr:#2D8C4E;--grl:#EAF7EE;--gb:#F4F6F8;--cb:#FFF;--bd:#E0E5EB;--tx:#1A2332;--ts:#5A6475;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:var(--gb);color:var(--tx);font-size:14px;line-height:1.7;}
+.hdr{background:var(--nv);color:#fff;padding:10px 12px 8px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+.hdr-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.hdr-title{font-size:15px;font-weight:800;}
+.hub-link{font-size:11px;color:rgba(255,255,255,.7);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,255,255,.3);border-radius:20px;white-space:nowrap;}
+.mec-sync-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(255,255,255,.15);color:#fff;margin-left:auto;}
+.hdr-stats{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px;}
+.hdr-stat{background:rgba(255,255,255,.12);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;}
+.hdr-stat span{color:#F5A623;}
+.filter-row{display:flex;align-items:center;gap:3px;overflow-x:auto;scrollbar-width:none;}
+.filter-row::-webkit-scrollbar{display:none;}
+.nb{flex-shrink:0;background:none;border:1.5px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;color:rgba(255,255,255,.65);transition:all .15s;white-space:nowrap;}
+.nb.on{background:rgba(255,255,255,.2);border-color:#fff;color:#fff;}
+.nb[data-state="flag"].on{background:#C0392B;border-color:#C0392B;}
+.nb[data-state="undone"].on{background:#78909C;border-color:#78909C;}
+.nb[data-state="done"].on{background:#2D8C4E;border-color:#2D8C4E;}
+.vis-count{margin-left:auto;font-size:11px;font-weight:700;color:rgba(255,255,255,.55);white-space:nowrap;flex-shrink:0;}
+.ct{max-width:900px;margin:0 auto;padding:14px 12px 60px;}
+.sc-card{background:var(--cb);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:12px;border-left:4px solid var(--or);overflow:hidden;}
+.sc-head{display:flex;align-items:center;gap:8px;padding:10px 15px 8px;border-bottom:1px solid var(--gb);}
+.sc-num{font-size:14px;font-weight:900;color:var(--nv);min-width:32px;}
+.sc-controls{display:flex;align-items:center;gap:5px;margin-left:auto;}
+.mec-flag-btn{background:none;border:none;font-size:16px;cursor:pointer;opacity:.3;padding:0 2px;line-height:1;transition:opacity .2s;}
+.mec-flag-btn.mec-flagged{opacity:1;}
+.mec-lap-btn{padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700;border:1.5px solid #E0E5EB;color:#A0AAB8;background:none;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;}
+.mec-lap-btn.mec-lapped{background:#2D8C4E;border-color:#2D8C4E;color:#fff;}
+.mec-lap-num{font-size:9px;margin-left:2px;}
+.sc-body{padding:12px 15px 14px;}
+.sc-question{font-size:13.5px;line-height:1.75;margin-bottom:10px;font-weight:600;color:var(--nv);}
+.sc-reveal-btn{display:block;width:100%;padding:8px;background:var(--gb);border:1.5px dashed var(--bd);border-radius:8px;font-size:12px;font-weight:700;color:var(--ts);cursor:pointer;font-family:inherit;transition:all .2s;text-align:center;}
+.sc-reveal-btn:hover{background:#E8ECF0;}
+.sc-reveal-btn.revealed{background:var(--grl);border-color:#A5D6A7;color:var(--gr);}
+.sc-answer{display:none;margin-top:10px;background:var(--grl);border:1.5px solid #A5D6A7;border-radius:8px;padding:10px 13px;font-size:13px;line-height:1.8;color:#1A3828;}
+.sc-answer.open{display:block;}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-row">
+    <span class="hdr-title">🫁 呼吸器 Introduction セルフチェック</span>
+    <a class="hub-link" href="../index.html">← ハブへ</a>
+    <span class="mec-sync-badge">⚙️ 未設定</span>
+  </div>
+  <div class="hdr-stats">
+    <div class="hdr-stat">済 <span id="statDone">0</span>問</div>
+    <div class="hdr-stat">合計 <span style="color:#F5A623">30</span>問</div>
+  </div>
+  <div class="filter-row">
+    <button class="nb on" data-state="all" onclick="setState('all')">すべて</button>
+    <button class="nb" data-state="flag" onclick="setState('flag')">🚩 赤旗</button>
+    <button class="nb" data-state="undone" onclick="setState('undone')">未済</button>
+    <button class="nb" data-state="done" onclick="setState('done')">済み</button>
+    <span class="vis-count" id="visCount">—</span>
+  </div>
+</header>
+
+<div class="ct" id="cards"></div>
+
+<script>
+const QA = [
+  {q:"気管支喘息の症状が悪化する時間帯はいつか。",a:"夜間から早朝"},
+  {q:"肺高血圧症の定義を答えよ。",a:"平均肺動脈圧 ≧ 25（または20）mmHg（肺動脈楔入圧ではないことに注意）"},
+  {q:"間質性肺炎におけるUIPパターンについて答えよ。",a:"胸膜直下・肺底部に優位な不均一な線維化で、蜂巣肺を伴う。"},
+  {q:"肺小細胞癌の代表的な合併症を3つ挙げよ。",a:"SIADH、Cushing症候群、Lambert-Eaton症候群、小脳失調など"},
+  {q:"急性肺血栓塞栓症のリスクとなる代表的な薬剤を挙げよ。",a:"経口避妊薬"},
+  {q:"胸腺腫の代表的な合併症を3つ挙げよ。",a:"重症筋無力症、赤芽球癆、低γグロブリン血症"},
+  {q:"続発性気胸の背景疾患を挙げよ。",a:"COPD、肺リンパ脈管筋腫症LAM、子宮内膜症など"},
+  {q:"アスピリン喘息に合併しやすい耳鼻科の所見を2つ挙げよ。",a:"慢性副鼻腔炎、鼻茸"},
+  {q:"閉塞性ショックをきたす代表的な疾患を3つ挙げよ。",a:"肺血栓塞栓症、心タンポナーデ、緊張性気胸"},
+  {q:"PTHrPを分泌する代表的な悪性腫瘍を3つ挙げよ。",a:"肺扁平上皮癌、成人T細胞性白血病・リンパ腫、腎細胞癌"},
+  {q:"慢性閉塞性肺疾患COPDの栄養指導で、炭水化物・蛋白質・脂質はそれぞれ多め・少なめのどちらが良いか。",a:"炭水化物少なめ、蛋白質多め、脂質多め（呼吸商の関係）"},
+  {q:"咳喘息とアトピー咳嗽の代表的な相違点を挙げよ。",a:"咳喘息は気管支喘息へ4割程度が移行し、気管支拡張薬は有効。\nアトピー咳嗽は喘息に移行せず、気管支拡張薬の有効性は低い。"},
+  {q:"空洞形成をしやすい代表的な肺癌の組織型を挙げよ。",a:"肺扁平上皮癌"},
+  {q:"閉塞性換気障害および拘束性換気障害の定義を答えよ。",a:"閉塞性：FEV1% ＜ 70%\n拘束性：%VC ＜ 80%"},
+  {q:"急性肺血栓塞栓症のリスクとなる代表的な背景疾患を2つ挙げよ。",a:"長時間座位や臥位（術後、航空機、車中泊など）、妊娠、肥満、血栓傾向（経口避妊薬、抗リン脂質抗体症候群、悪性腫瘍など）、先天性（プロテインS欠損、プロテインC欠損など）。"},
+  {q:"過換気症候群でみられる症状を挙げよ。",a:"呼吸困難、手足のしびれ、テタニー"},
+  {q:"肺尖部に生じた肺癌による合併症を答えよ。",a:"Pancoast症候群（腕神経叢障害、Horner症候群）"},
+  {q:"肺動脈楔入圧が高い肺高血圧症の背景となる代表的な病態を答えよ。",a:"左心不全"},
+  {q:"アレルギー性気管支肺アスペルギルス症ABPAの代表的な背景疾患を挙げよ。",a:"気管支喘息"},
+  {q:"夏型過敏性肺炎の抗原となる微生物を学名で答えよ。",a:"Trichosporon asahii"},
+  {q:"睡眠時無呼吸症候群SASで生じる代表的な合併症を挙げよ。",a:"高血圧、二次性赤血球増多症、心血管イベント"},
+  {q:"慢性閉塞性肺疾患COPDの合併症を挙げよ。",a:"気胸、右心不全（肺性心）、肺癌"},
+  {q:"胸部CTにおけるGGO/GGNとはなにか。",a:"結節性すりガラス陰影。早期の肺腺癌の可能性がある。"},
+  {q:"肺腺癌の治療方針決定に重要な遺伝子変異を2つ挙げよ。",a:"EGFR、ALK"},
+  {q:"Ⅱ型呼吸不全の定義を答え、代表的な病態を挙げよ。",a:"PaO2 ≦ 60Torr かつPaCO2 ＞ 45mmHg。\nCOPD、喘息、神経筋疾患、脳幹障害などの肺胞低換気により生じる。"},
+  {q:"肺腺癌、肺扁平上皮癌、肺小細胞癌のうち、喫煙の寄与がほか2つよりも小さいものはどれか。",a:"肺腺癌"},
+  {q:"肺癌の転移により嗄声をきたす代表的なリンパ節を挙げよ。",a:"大動脈弓下リンパ節"},
+  {q:"急性好酸球性肺炎のきっかけとなる代表的な行動を挙げよ。",a:"喫煙開始"},
+  {q:"びまん性汎細気管支炎DPBに相関するHLAを答えよ。",a:"HLA-B54"},
+  {q:"特発性肺動脈性肺高血圧症の典型的なエピソードを答えよ。",a:"若年から中年女性の慢性的な労作時呼吸苦など"}
+];
+
+const PREFIX = 'resp_sc';
+let currentState = 'all';
+
+function buildCards() {
+  const ct = document.getElementById('cards');
+  ct.innerHTML = QA.map((item, i) => {
+    const uid = `${PREFIX}_q${i+1}`;
+    const ans = item.a.replace(/\n/g, '<br>');
+    return `<div class="sc-card" data-uid="${uid}" id="sc${i+1}">
+  <div class="sc-head">
+    <span class="sc-num">Q.${i+1}</span>
+    <div class="sc-controls">
+      <button class="mec-flag-btn" data-uid="${uid}" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button>
+      <button class="mec-lap-btn" data-uid="${uid}" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button>
+    </div>
+  </div>
+  <div class="sc-body">
+    <div class="sc-question">${item.q}</div>
+    <button class="sc-reveal-btn" onclick="toggleAnswer(this)">▶ 答えを見る</button>
+    <div class="sc-answer">${ans}</div>
+  </div>
+</div>`;
+  }).join('');
+}
+
+function toggleAnswer(btn) {
+  const ans = btn.nextElementSibling;
+  const open = ans.classList.toggle('open');
+  btn.textContent = open ? '▼ 答えを隠す' : '▶ 答えを見る';
+  btn.classList.toggle('revealed', open);
+}
+
+function setState(s) {
+  currentState = s;
+  document.querySelectorAll('[data-state]').forEach(b => b.classList.toggle('on', b.dataset.state === s));
+  applyFilter();
+}
+
+function applyFilter() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  let visible = 0;
+  document.querySelectorAll('.sc-card[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    let show;
+    if (currentState === 'all') show = true;
+    else if (currentState === 'flag') show = !!flags[uid];
+    else if (currentState === 'undone') show = !done[uid];
+    else if (currentState === 'done') show = !!done[uid];
+    else show = true;
+    c.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  const vc = document.getElementById('visCount');
+  if (vc) vc.textContent = visible + '問';
+}
+
+function initCards() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  document.querySelectorAll('.sc-card[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    const lapCount = done[uid] || 0;
+    const lapBtn = c.querySelector('.mec-lap-btn');
+    if (lapBtn) {
+      const numEl = lapBtn.querySelector('.mec-lap-num');
+      if (numEl) numEl.textContent = lapCount > 0 ? lapCount : '';
+      lapBtn.classList.toggle('mec-lapped', lapCount > 0);
+    }
+    const fb = c.querySelector('.mec-flag-btn');
+    if (fb && flags[uid]) fb.classList.add('mec-flagged');
+  });
+  const doneCount = Object.keys(done).filter(k => k.startsWith(PREFIX)).length;
+  const el = document.getElementById('statDone');
+  if (el) el.textContent = doneCount;
+  applyFilter();
+}
+
+buildCards();
+document.addEventListener('DOMContentLoaded', () => {
+  initCards();
+  MECSync.syncFromGist().then(r => {
+    if (r.status === 'ok') initCards();
+    if (r.status === 'no-config') document.querySelectorAll('.mec-sync-badge').forEach(e => e.textContent = '⚙️ 未設定');
+  });
+});
+</script>
+</body>
+</html>
