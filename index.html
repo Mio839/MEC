@@ -121,6 +121,7 @@ body{font-family:-apple-system,"Helvetica Neue",sans-serif;background:var(--gb);
     <div class="modal-actions">
       <button class="modal-btn primary" onclick="saveAndSync()">保存して同期</button>
       <button class="modal-btn secondary" onclick="testToken()">🔍 トークン検証</button>
+      <button class="modal-btn secondary" onclick="copySetupURL()">📋 設定URLをコピー</button>
       <button class="modal-btn secondary" onclick="closeSyncModal()">閉じる</button>
     </div>
     <div class="sync-result" id="syncResult"></div>
@@ -340,6 +341,18 @@ async function manualSync() {
   } else {
     openSyncModal();
   }
+}
+
+function copySetupURL() {
+  const token = localStorage.getItem('mec_gist_token') || '';
+  const gistId = localStorage.getItem('mec_gist_id') || '';
+  if (!token) { showSyncResult('error', 'トークンが未設定です。先に「保存して同期」を実行してください。'); return; }
+  const encoded = btoa(JSON.stringify({ t: token, g: gistId }));
+  const base = location.href.replace(/#.*$/, '').replace(/[^/]*$/, 'index.html');
+  const url = base + '#mec:' + encoded;
+  navigator.clipboard.writeText(url)
+    .then(() => showSyncResult('ok', '📋 URLをコピーしました！　別のデバイスでこのURLを開くと自動で設定されます。'))
+    .catch(() => { prompt('このURLをコピーして別のデバイスで開いてください:', url); });
 }
 
 async function testToken() {

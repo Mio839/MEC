@@ -293,6 +293,18 @@
     }
   };
 
+  // ── URL hash auto-configure (#mec:base64) ───────────────────────
+  (function applyHashConfig() {
+    const h = location.hash;
+    if (!h.startsWith('#mec:')) return;
+    try {
+      const cfg = JSON.parse(atob(h.slice(5)));
+      if (cfg.t) localStorage.setItem(K_TOKEN, cfg.t);
+      if (cfg.g) localStorage.setItem(K_GIST, cfg.g);
+    } catch (e) {}
+    history.replaceState(null, '', location.pathname + location.search);
+  })();
+
   // ── Auto-init ────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
     _initQcCards();
