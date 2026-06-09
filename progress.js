@@ -166,48 +166,44 @@
     _updateChapterProgress();
   };
 
-  window.mecSetDone = function (btn, level) {
+  window.mecIncrLap = function (btn) {
     const uid = btn.dataset.uid;
     const done = lsGet(KD);
-    const cur = done[uid] || 0;
-    if (cur === level) { delete done[uid]; } else { done[uid] = level; }
+    done[uid] = (done[uid] || 0) + 1;
     lsRaw(KD, done);
     logActivity();
     scheduleSync();
 
+    const lapCount = done[uid];
+    const numEl = btn.querySelector('.mec-lap-num');
+    if (numEl) numEl.textContent = lapCount;
+    btn.classList.add('mec-lapped');
+
     const card = btn.closest('.qc, .qcard');
-    if (card) {
-      const newLevel = done[uid] || 0;
-      card.querySelectorAll('.mec-done-btn').forEach(b => {
-        const bl = +b.dataset.level;
-        b.classList.toggle('active', bl === newLevel);
-        b.classList.toggle('passed', bl < newLevel);
-      });
-      card.classList.toggle('mec-done', !!newLevel);
-    }
+    if (card) card.classList.add('mec-done');
     _updateChapterProgress();
 
-    if (card && done[uid]) {
-      const allCards = [...document.querySelectorAll('.qc[data-uid]')].filter(c => {
-        if (c.style.display === 'none') return false;
-        const sec = c.closest('[data-visible]');
-        return !(sec && sec.dataset.visible === 'false');
-      });
-      const idx = allCards.indexOf(card);
-      if (idx !== -1) {
-        // 押したレベルに未到達（done < level）の次カードへジャンプ
-        const next = allCards.slice(idx + 1).find(c => (done[c.dataset.uid] || 0) < level);
-        if (next) {
-          setTimeout(() => {
-            const hdr = document.querySelector('.st-hdr, .sn, .mec-ch-prog');
-            const offset = hdr ? hdr.getBoundingClientRect().height + 8 : 120;
-            const y = next.getBoundingClientRect().top + window.scrollY - offset;
-            window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-          }, 150);
-        }
+    const allCards = [...document.querySelectorAll('.qc[data-uid]')].filter(c => {
+      if (c.style.display === 'none') return false;
+      const sec = c.closest('[data-visible]');
+      return !(sec && sec.dataset.visible === 'false');
+    });
+    const idx = card ? allCards.indexOf(card) : -1;
+    if (idx !== -1) {
+      const next = allCards.slice(idx + 1).find(c => (done[c.dataset.uid] || 0) < lapCount);
+      if (next) {
+        setTimeout(() => {
+          const hdr = document.querySelector('.st-hdr, .sn, .mec-ch-prog');
+          const offset = hdr ? hdr.getBoundingClientRect().height + 24 : 140;
+          const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+          const y = next.getBoundingClientRect().top + scrollY - offset;
+          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        }, 300);
       }
     }
   };
+
+  window.mecSetDone = window.mecIncrLap;
 
   window.mecToggleFlag = function (btn) {
     const uid = btn.dataset.uid, flags = lsGet(KF);
@@ -243,15 +239,14 @@
       const uid = card.dataset.uid;
       const doneLevel = done[uid] || 0;
 
-      // 5-level done buttons
-      card.querySelectorAll('.mec-done-btn').forEach(b => {
-        const bl = +b.dataset.level;
-        b.classList.toggle('active', bl === doneLevel);
-        b.classList.toggle('passed', bl < doneLevel);
-      });
+      const lapBtn = card.querySelector('.mec-lap-btn');
+      if (lapBtn) {
+        const numEl = lapBtn.querySelector('.mec-lap-num');
+        if (numEl) numEl.textContent = doneLevel > 0 ? doneLevel : '';
+        lapBtn.classList.toggle('mec-lapped', doneLevel > 0);
+      }
       if (doneLevel) card.classList.add('mec-done');
 
-      // Legacy checkbox fallback
       const cb = card.querySelector('.mec-done-cb');
       if (cb && doneLevel) { cb.checked = true; card.classList.add('mec-done'); }
 
