@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>内分泌代謝 Introduction セルフチェック（30問）</title>
+<script src="../progress.js"></script>
+<style>
+:root{--or:#00838F;--nv:#1C2E4A;--gr:#2D8C4E;--grl:#EAF7EE;--gb:#F4F6F8;--cb:#FFF;--bd:#E0E5EB;--tx:#1A2332;--ts:#5A6475;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:var(--gb);color:var(--tx);font-size:14px;line-height:1.7;}
+.hdr{background:var(--nv);color:#fff;padding:10px 12px 8px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+.hdr-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.hdr-title{font-size:15px;font-weight:800;}
+.hub-link{font-size:11px;color:rgba(255,255,255,.7);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,255,255,.3);border-radius:20px;white-space:nowrap;}
+.mec-sync-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(255,255,255,.15);color:#fff;margin-left:auto;}
+.hdr-stats{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px;}
+.hdr-stat{background:rgba(255,255,255,.12);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;}
+.hdr-stat span{color:#F5A623;}
+.filter-row{display:flex;align-items:center;gap:3px;overflow-x:auto;scrollbar-width:none;}
+.filter-row::-webkit-scrollbar{display:none;}
+.nb{flex-shrink:0;background:none;border:1.5px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;color:rgba(255,255,255,.65);transition:all .15s;white-space:nowrap;}
+.nb.on{background:rgba(255,255,255,.2);border-color:#fff;color:#fff;}
+.nb[data-state="flag"].on{background:#C0392B;border-color:#C0392B;}
+.nb[data-state="undone"].on{background:#78909C;border-color:#78909C;}
+.nb[data-state="done"].on{background:#2D8C4E;border-color:#2D8C4E;}
+.vis-count{margin-left:auto;font-size:11px;font-weight:700;color:rgba(255,255,255,.55);white-space:nowrap;flex-shrink:0;}
+.ct{max-width:900px;margin:0 auto;padding:14px 12px 60px;}
+.sc-card{background:var(--cb);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:12px;border-left:4px solid var(--or);overflow:hidden;}
+.sc-head{display:flex;align-items:center;gap:8px;padding:10px 15px 8px;border-bottom:1px solid var(--gb);}
+.sc-num{font-size:14px;font-weight:900;color:var(--nv);min-width:32px;}
+.sc-controls{display:flex;align-items:center;gap:5px;margin-left:auto;}
+.mec-flag-btn{background:none;border:none;font-size:16px;cursor:pointer;opacity:.3;padding:0 2px;line-height:1;transition:opacity .2s;}
+.mec-flag-btn.mec-flagged{opacity:1;}
+.mec-lap-btn{padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700;border:1.5px solid #E0E5EB;color:#A0AAB8;background:none;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;}
+.mec-lap-btn.mec-lapped{background:#2D8C4E;border-color:#2D8C4E;color:#fff;}
+.mec-lap-num{font-size:9px;margin-left:2px;}
+.sc-body{padding:12px 15px 14px;}
+.sc-question{font-size:13.5px;line-height:1.75;margin-bottom:10px;font-weight:600;color:var(--nv);}
+.sc-reveal-btn{display:block;width:100%;padding:8px;background:var(--gb);border:1.5px dashed var(--bd);border-radius:8px;font-size:12px;font-weight:700;color:var(--ts);cursor:pointer;font-family:inherit;transition:all .2s;text-align:center;}
+.sc-reveal-btn:hover{background:#E8ECF0;}
+.sc-reveal-btn.revealed{background:var(--grl);border-color:#A5D6A7;color:var(--gr);}
+.sc-answer{display:none;margin-top:10px;background:var(--grl);border:1.5px solid #A5D6A7;border-radius:8px;padding:10px 13px;font-size:13px;line-height:1.8;color:#1A3828;}
+.sc-answer.open{display:block;}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-row">
+    <span class="hdr-title">⚗️ 内分泌代謝 Introduction セルフチェック</span>
+    <a class="hub-link" href="../index.html">← ハブへ</a>
+    <span class="mec-sync-badge">⚙️ 未設定</span>
+  </div>
+  <div class="hdr-stats">
+    <div class="hdr-stat">済 <span id="statDone">0</span>問</div>
+    <div class="hdr-stat">合計 <span style="color:#F5A623">30</span>問</div>
+  </div>
+  <div class="filter-row">
+    <button class="nb on" data-state="all" onclick="setState('all')">すべて</button>
+    <button class="nb" data-state="flag" onclick="setState('flag')">🚩 赤旗</button>
+    <button class="nb" data-state="undone" onclick="setState('undone')">未済</button>
+    <button class="nb" data-state="done" onclick="setState('done')">済み</button>
+    <span class="vis-count" id="visCount">—</span>
+  </div>
+</header>
+
+<div class="ct" id="cards"></div>
+
+<script>
+const QA = [
+  {q:"下垂体前葉機能低下症とAddison病の臨床像は似るが、鑑別の一助となる電解質はなにか。",a:"K"},
+  {q:"甲状腺機能亢進症において、甲状腺の触診所見が「びまん性硬」であった。考えられる疾患を答えよ。",a:"無痛性甲状腺炎"},
+  {q:"褐色細胞腫の尿中マーカーを2つ挙げよ。また、それらのマーカーを用いる小児固形腫瘍を挙げよ。",a:"VMA、HVA。神経芽腫"},
+  {q:"尿崩症と心因性多飲症はともに多飲行動を認めるが、両者の相違点を答えよ。",a:"尿崩症は「多尿 → 多飲」であり放置で高Na血症。\n心因性多飲症は「多飲 → 多尿」であり放置で低Na血症。"},
+  {q:"1型・2型糖尿病の患者がきたしやすい糖尿病性昏睡をそれぞれ挙げよ。",a:"1型糖尿病：糖尿病性ケトアシドーシスDKA\n2型糖尿病：高浸透圧高血糖症候群HHS"},
+  {q:"crowned dens syndrome とはなにか答えよ。",a:"歯突起周囲の偽痛風（ピロリン酸カルシウム結晶沈着）"},
+  {q:"Refeeding症候群における代表的な電解質異常を3つ挙げよ。また、発症に注意を要する背景を挙げよ。",a:"低P血症、低K血症、低Mg血症。神経性食思不振症、アルコール依存症など"},
+  {q:"下垂体前葉機能低下症をきたす原因を3つ挙げよ。",a:"Sheehan症候群、リンパ球性下垂体炎、irAE"},
+  {q:"Wilson病における血中セルロプラスミン、血中銅、尿中銅の動きを答えよ。",a:"血中セルロプラスミン：低値、血中銅：低値、尿中銅：高値"},
+  {q:"Cushing症候群における白血球総数、および分画（好中球・好酸球・リンパ球）の動きを答えよ。",a:"白血球総数：増加、好中球：増加、好酸球：減少、リンパ球：減少"},
+  {q:"メタボリックシンドロームの診断基準を答えよ。",a:"下記①に加え、②を2つ以上合併する状態。\n①必須：ウエスト周囲径の増大（男性≧85cm、女性≧90cm）\n②2項目以上の合併\n　1）空腹時血糖上昇（≧110mg/dL）\n　2）収縮期血圧≧130mmHg and/or 拡張期血圧≧85mmHg\n　3）高TG血症（≧150mg/dL） and/or 低HDL血症（＜40mg/dL）"},
+  {q:"遺伝素因が大きく関与する（家族集積性がある）のは糖尿病1型・2型のどちらか。",a:"2型"},
+  {q:"腎性尿崩症をきたす電解質異常および薬剤を挙げよ。",a:"高Ca血症、低K血症、炭酸リチウム"},
+  {q:"脂質異常症の診断基準を答えよ。",a:"①高LDLコレステロール血症：LDL≧140mg/dL\n②低HDLコレステロール血症：HDL＜40mg/dL\n③高トリグリセリド血症：TG空腹時≧150mg/dL、随時≧175mg/dL\n④高non-HDLコレステロール血症：non-HDL≧170mg/dL"},
+  {q:"下垂体腺腫でみられる視野異常を挙げよ。",a:"両耳側半盲"},
+  {q:"Basedow病の男性患者に認められることのある症状を挙げよ。",a:"低K性周期性四肢麻痺"},
+  {q:"多発性内分泌腫瘍症MEN1/MEN2で認める遺伝子変異をそれぞれ挙げ、生じる疾患を3つずつ挙げよ。",a:"MEN1：MEN1遺伝子変異。下垂体腺腫、副甲状腺機能亢進、膵内分泌腫瘍\nMEN2：RET遺伝子変異。甲状腺髄様癌、褐色細胞腫、副甲状腺機能亢進"},
+  {q:"抗利尿ホルモン不適合分泌SIADHの「不適合」の意味するところを答えよ。",a:"低Na血症にもかかわらずADHが検出感度以上に分泌される状態。"},
+  {q:"慢性甲状腺炎（橋本病）でみられる代表的な自己抗体を2つ挙げよ。",a:"抗ミクロソーム/TPO抗体、抗サイログロブリン抗体"},
+  {q:"年齢にそぐわない高血圧患者において、鑑別の一助となる電解質はなにか。",a:"K"},
+  {q:"劇症1型糖尿病における自己抗体について答えよ。",a:"陰性"},
+  {q:"糖尿病型の診断基準を答えよ。また、妊娠糖尿病の診断基準を答えよ。",a:"糖尿病型：空腹時血糖≧126mg/dL、75gOGTT 2時間値≧200mg/dL、随時血糖≧200mg/dL、HbA1c≧6.5%\n妊娠糖尿病：空腹時血糖≧92mg/dL、75gOGTT 1時間値≧180mg/dL、75gOGTT 2時間値≧153mg/dL"},
+  {q:"irAEをきたすのはどのような薬剤か。また、きたしうる症状を挙げよ。",a:"免疫チェックポイント阻害薬（PD-1/PD-L1阻害薬、CTLA-4阻害薬）。様々な自己免疫疾患。"},
+  {q:"急な断薬が急性副腎不全をきたす薬剤を挙げよ。",a:"副腎皮質ステロイド"},
+  {q:"痛風の症状は主に何細胞によるものか。",a:"好中球"},
+  {q:"甲状腺乳頭癌の代表的な病理組織学的所見を挙げよ。",a:"核内細胞質封入体、核溝、乳頭状構造"},
+  {q:"先端巨大症において認める代表的な所見を挙げよ。",a:"高血圧、脂質異常症、高血糖、手根管症候群、睡眠時無呼吸症候群、尿路結石、大腸癌など"},
+  {q:"原発性副甲状腺機能亢進症におけるCa、P、動脈血液ガス分析の動きを答えよ。",a:"Ca上昇、P低下、代謝性アシドーシス"},
+  {q:"FGF23の作用による、血中Pの動きを答えよ。",a:"P低下"},
+  {q:"抗利尿ホルモン不適合分泌SIADHをきたす代表的な悪性腫瘍を挙げよ。",a:"肺小細胞癌"}
+];
+
+const PREFIX = 'endo_sc';
+let currentState = 'all';
+
+function buildCards() {
+  const ct = document.getElementById('cards');
+  ct.innerHTML = QA.map((item, i) => {
+    const uid = `${PREFIX}_q${i+1}`;
+    const ans = item.a.replace(/\n/g, '<br>');
+    return `<div class="sc-card" data-uid="${uid}" id="sc${i+1}">
+  <div class="sc-head">
+    <span class="sc-num">Q.${i+1}</span>
+    <div class="sc-controls">
+      <button class="mec-flag-btn" data-uid="${uid}" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button>
+      <button class="mec-lap-btn" data-uid="${uid}" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button>
+    </div>
+  </div>
+  <div class="sc-body">
+    <div class="sc-question">${item.q}</div>
+    <button class="sc-reveal-btn" onclick="toggleAnswer(this)">▶ 答えを見る</button>
+    <div class="sc-answer">${ans}</div>
+  </div>
+</div>`;
+  }).join('');
+}
+
+function toggleAnswer(btn) {
+  const ans = btn.nextElementSibling;
+  const open = ans.classList.toggle('open');
+  btn.textContent = open ? '▼ 答えを隠す' : '▶ 答えを見る';
+  btn.classList.toggle('revealed', open);
+}
+
+function setState(s) {
+  currentState = s;
+  document.querySelectorAll('[data-state]').forEach(b => b.classList.toggle('on', b.dataset.state === s));
+  applyFilter();
+}
+
+function applyFilter() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  let visible = 0;
+  document.querySelectorAll('.sc-card[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    let show;
+    if (currentState === 'all') show = true;
+    else if (currentState === 'flag') show = !!flags[uid];
+    else if (currentState === 'undone') show = !done[uid];
+    else if (currentState === 'done') show = !!done[uid];
+    else show = true;
+    c.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  const vc = document.getElementById('visCount');
+  if (vc) vc.textContent = visible + '問';
+}
+
+function initCards() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  document.querySelectorAll('.sc-card[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    const lapCount = done[uid] || 0;
+    const lapBtn = c.querySelector('.mec-lap-btn');
+    if (lapBtn) {
+      const numEl = lapBtn.querySelector('.mec-lap-num');
+      if (numEl) numEl.textContent = lapCount > 0 ? lapCount : '';
+      lapBtn.classList.toggle('mec-lapped', lapCount > 0);
+    }
+    const fb = c.querySelector('.mec-flag-btn');
+    if (fb && flags[uid]) fb.classList.add('mec-flagged');
+  });
+  const doneCount = Object.keys(done).filter(k => k.startsWith(PREFIX)).length;
+  const el = document.getElementById('statDone');
+  if (el) el.textContent = doneCount;
+  applyFilter();
+}
+
+buildCards();
+document.addEventListener('DOMContentLoaded', () => {
+  initCards();
+  MECSync.syncFromGist().then(r => {
+    if (r.status === 'ok') initCards();
+    if (r.status === 'no-config') document.querySelectorAll('.mec-sync-badge').forEach(e => e.textContent = '⚙️ 未設定');
+  });
+});
+</script>
+</body>
+</html>
