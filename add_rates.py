@@ -1,6 +1,6 @@
 """
 add_rates.py — PDFから正答率を抽出してHTMLに追記する
-神経/内分泌/循環器/呼吸器 → data-rate + 正答率バッジ + 難問/標準/易問フィルター
+各科目 → data-rate + 正答率バッジ + 難問/標準/易問フィルター
 """
 import re, sys, io, json
 from pathlib import Path
@@ -16,6 +16,8 @@ SUBJECTS = [
     ("内分泌", r"C:\Users\coool\OneDrive\MEC_Claude解答解説\_scripts\内分泌\MEC臓器別講座・内分泌代謝_問題（表紙2026）.pdf"),
     ("循環器", r"C:\Users\coool\OneDrive\MEC_Claude解答解説\_scripts\循環器\MEC臓器別講座・循環器_問題（表紙2026）.pdf"),
     ("呼吸器", r"C:\Users\coool\OneDrive\GoodNotes\MEC - コピー\呼吸器\MEC臓器別講座・呼吸器_問題（表紙2026）.pdf"),
+    ("血液",   r"C:\Users\coool\OneDrive\GoodNotes\MEC - コピー\血液\MEC臓器別講座・血液_問題（表紙2026）.pdf"),
+    ("肝胆膵", r"C:\Users\coool\OneDrive\GoodNotes\MEC - コピー\肝胆膵\MEC臓器別講座・肝胆膵_問題（表紙2026）.pdf"),
 ]
 
 NEW_FILTER_JS = r"""function filterCards(f){

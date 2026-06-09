@@ -9,8 +9,8 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='repla
 
 DST = Path(r"C:\Users\coool\Desktop\MEC")
 
-# rate-based filterを持つ科目のみ
-RATE_SUBJECTS = {"神経", "内分泌", "循環器", "呼吸器"}
+# rate-based filterを持つ科目のみ (消化器は全問率あり)
+RATE_SUBJECTS = {"神経", "内分泌", "循環器", "呼吸器", "血液", "肝胆膵", "消化器"}
 
 NORATE_BUTTON = '<button class="nb" data-filter="norate" onclick="filterCards(\'norate\')">正答率なし</button>'
 
