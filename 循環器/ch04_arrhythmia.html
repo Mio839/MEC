@@ -157,7 +157,7 @@ window.addEventListener('scroll',()=>{
 function goto(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
 document.querySelectorAll('.nb').forEach(b=>{b.addEventListener('click',function(){document.querySelectorAll('.nb').forEach(x=>x.classList.remove('active'));this.classList.add('active');});});
 </script>
-<script src="../progress.js"></script>
+<script src="../progress.js?v=3"></script>
 <script>
 // MECSync が初期化後、章ごとの進捗バーを更新
 document.addEventListener('mecSyncComplete', function() {

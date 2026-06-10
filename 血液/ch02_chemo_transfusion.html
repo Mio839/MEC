@@ -433,7 +433,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--gb);color:var(--tx);
 window.addEventListener('scroll',()=>{const t=document.body.scrollHeight-window.innerHeight;const pb=document.getElementById('pb');if(pb)pb.style.width=(window.scrollY/t*100)+'%';const st=document.getElementById('st');if(st)st.style.display=window.scrollY>300?'flex':'none';});
 function goto(id){const e=document.getElementById(id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'});}
 </script>
-<script src="../progress.js"></script>
+<script src="../progress.js?v=3"></script>
 <script>
 // MECSync が初期化後、章ごとの進捗バーを更新
 document.addEventListener('mecSyncComplete', function() {

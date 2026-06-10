@@ -304,9 +304,11 @@
   // ── Auto-init ────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', () => {
     _initQcCards();
+    if (typeof window.applyFilters === 'function') window.applyFilters();
     syncFromGist().then(r => {
       if (r.status === 'ok') {
         _initQcCards();
+        if (typeof window.applyFilters === 'function') window.applyFilters();
         document.dispatchEvent(new CustomEvent('mecSyncComplete', { detail: r }));
       }
       if (r.status === 'no-config') _setSyncBadge('no-config');
