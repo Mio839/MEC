@@ -224,7 +224,7 @@ function applyFilters() {
     g.style.display = vis ? '' : 'none';
   });
   const vc = document.getElementById('visCount');
-  if (vc) vc.textContent = visible ? visible + '問' : '—';const fp=document.getElementById('filtProgFill');const ft=document.getElementById('filtProgTxt');const pct=visible>0?Math.round(doneVis/visible*100):0;if(fp)fp.style.width=pct+'%';if(ft)ft.textContent=doneVis+'/'+visible+'問済';
+  if (vc) vc.textContent = visible ? visible + '問' : '—';const fp=document.getElementById('filtProgFill');const ft=document.getElementById('filtProgTxt');const pct=visible>0?Math.round(doneVis/visible*100):0;if(fp)fp.style.width=pct+'%';if(ft)ft.textContent='残り'+(visible-doneVis)+'問';
 }
 
 function filterCards(f) { setFilter(f); }
