@@ -201,6 +201,7 @@
         }, 300);
       }
     }
+    if (typeof window.applyFilters === 'function') window.applyFilters();
   };
 
   window.mecSetDone = window.mecIncrLap;
