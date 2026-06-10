@@ -181,12 +181,14 @@ function setFilter(f) {
   currentFilter = f;
   document.querySelectorAll('[data-filter]').forEach(b => b.classList.toggle('fc-on', b.dataset.filter === f));
   applyFilters();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function setState(s) {
   currentState = s;
   document.querySelectorAll('[data-state]').forEach(b => b.classList.toggle('fs-on', b.dataset.state === s));
   applyFilters();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function applyFilters() {
