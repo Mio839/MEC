@@ -11,6 +11,9 @@
   let syncTimer = null;
   let syncInProgress = false;
 
+  // session-level done tracking (resets on page reload)
+  window.mecSessionDone = new Set();
+
   // ── Core storage ─────────────────────────────────────────────────
   function lsGet(k) { try { return JSON.parse(localStorage.getItem(k) || '{}'); } catch { return {}; } }
   function lsRaw(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
@@ -171,6 +174,7 @@
     const done = lsGet(KD);
     done[uid] = (done[uid] || 0) + 1;
     lsRaw(KD, done);
+    window.mecSessionDone.add(uid);
     logActivity();
     scheduleSync();
 

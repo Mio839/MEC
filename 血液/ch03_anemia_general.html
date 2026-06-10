@@ -255,7 +255,7 @@ function applyFilters() {
     else showState = true;
     const show = showDiff && showState;
     c.style.display = show ? '' : 'none';
-    if (show) { visible++; if (done[uid]) doneVis++; }
+    if (show) { visible++; if (window.mecSessionDone && window.mecSessionDone.has(uid)) doneVis++; }
   });
   document.querySelectorAll('.sg').forEach(g => {
     const vis = [...g.querySelectorAll('.qc')].some(c => c.style.display !== 'none');
