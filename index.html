@@ -176,7 +176,6 @@ function calcTotalQ() {
 
 function getSubjectProgress(subject) {
   const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
-  const srs = JSON.parse(localStorage.getItem('srs_v2') || '{}');
   const today = new Date().toISOString().slice(0, 10);
   let totalQ = 0, doneCount = 0, dueCount = 0;
 
@@ -194,7 +193,6 @@ function getSubjectProgress(subject) {
 
 function getChapterProgress(ch) {
   const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
-  const srs = JSON.parse(localStorage.getItem('srs_v2') || '{}');
   const today = new Date().toISOString().slice(0, 10);
   const prefix = ch.prefix + '_q';
   const doneCount = Object.keys(done).filter(k => k.startsWith(prefix)).length;

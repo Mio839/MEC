@@ -137,27 +137,6 @@
     });
   }
 
-  // ── SRS (OneDrive .qc pages) ────────────────────────────────────
-  window.mecApplySRS = function (btn) {
-    const uid = btn.dataset.uid, grade = Number(btn.dataset.g);
-    const srs = lsGet(KS);
-    const r = srs[uid] || { interval: 1, ease: 2.5, next: todayStr(), count: 0 };
-    if (grade === 2) { r.interval = r.count === 0 ? 1 : r.count === 1 ? 4 : Math.round(r.interval * r.ease); r.ease = Math.max(1.3, r.ease + 0.1); }
-    else if (grade === 1) { r.interval = 1; }
-    else { r.interval = 1; r.ease = Math.max(1.3, r.ease - 0.2); }
-    r.next = addDays(todayStr(), r.interval);
-    r.count++;
-    srs[uid] = r;
-    lsRaw(KS, srs);
-    logActivity();
-    scheduleSync();
-    const el = document.getElementById('mecSrs_' + uid);
-    if (el) {
-      el.textContent = grade === 2 ? '📅 次回: ' + r.next : grade === 1 ? '🔔 明日復習' : '❌ もう一度確認';
-      el.style.color = grade === 2 ? '#27AE60' : grade === 1 ? '#E67E22' : '#C0392B';
-    }
-  };
-
   window.mecOnCheck = function (cb) {
     const uid = cb.dataset.uid, done = lsGet(KD);
     if (cb.checked) done[uid] = 1; else delete done[uid];
@@ -239,7 +218,7 @@
 
   // ── Init UI for OneDrive .qc cards ──────────────────────────────
   function _initQcCards() {
-    const done = lsGet(KD), flags = lsGet(KF), srs = lsGet(KS), today = todayStr();
+    const done = lsGet(KD), flags = lsGet(KF);
     document.querySelectorAll('.qc[data-uid]').forEach(card => {
       const uid = card.dataset.uid;
       const doneLevel = done[uid] || 0;
@@ -257,12 +236,6 @@
 
       const flagBtn = card.querySelector('.mec-flag-btn');
       if (flagBtn && flags[uid]) flagBtn.classList.add('mec-flagged');
-      const r = srs[uid];
-      const srsEl = document.getElementById('mecSrs_' + uid);
-      if (srsEl && r) {
-        srsEl.textContent = r.next <= today ? '🔔 復習期限！' : '📅 次回: ' + r.next;
-        srsEl.style.color = r.next <= today ? '#C0392B' : '#888';
-      }
       const memoEl = card.querySelector('.mec-memo-area');
       if (memoEl && lsGet(KM)[uid]) memoEl.value = lsGet(KM)[uid];
     });
@@ -279,12 +252,11 @@
     getGistId: () => localStorage.getItem(K_GIST) || '',
     setGistId: id => localStorage.setItem(K_GIST, id),
     getStats() {
-      const done = lsGet(KD), flags = lsGet(KF), srs = lsGet(KS), today = todayStr();
+      const done = lsGet(KD), flags = lsGet(KF);
       return {
         doneCount: Object.keys(done).length,
         flagCount: Object.keys(flags).length,
-        dueCount: Object.values(srs).filter(r => r.next <= today).length,
-        done, flags, srs
+        done, flags
       };
     },
     getChapterDone(prefix) {
