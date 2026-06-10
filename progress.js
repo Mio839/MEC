@@ -190,7 +190,7 @@
     });
     const idx = card ? allCards.indexOf(card) : -1;
     if (idx !== -1) {
-      const next = allCards.slice(idx + 1).find(c => (done[c.dataset.uid] || 0) < lapCount);
+      const next = allCards[idx + 1];
       if (next) {
         setTimeout(() => {
           const hdr = document.querySelector('.st-hdr, .sn, .mec-ch-prog');
