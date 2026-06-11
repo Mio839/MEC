@@ -87,7 +87,7 @@ svg{display:block;}
 <script>
 const CX = 700, CY = 480;
 const R1 = 230;
-const R2 = 430;
+const R2 = 510;
 
 const CHAPTERS = [
   {
@@ -265,7 +265,7 @@ function chPos(chIdx) {
 
 function disPos(chIdx, dIdx, total) {
   const chAngle = CHAPTERS[chIdx].angle;
-  const fanDeg = Math.min(44, 10 + 7 * total);
+  const fanDeg = Math.min(56, 12 + 8 * total);
   const start = chAngle - fanDeg / 2;
   const a = deg(start + (dIdx + 0.5) * fanDeg / total);
   return { x: CX + R2 * Math.cos(a), y: CY + R2 * Math.sin(a) };
@@ -409,7 +409,7 @@ function drawDiseases() {
       DIS_POS[dis.id] = dp;
       const chColor = ch.color;
       const hasImg = dis.imgs && dis.imgs.length > 0;
-      const nodeR = 22;
+      const nodeR = 32;
 
       const edge = svgNS('path', {
         d: `M ${cp.x} ${cp.y} Q ${(cp.x+dp.x)/2} ${(cp.y+dp.y)/2} ${dp.x} ${dp.y}`,
@@ -451,7 +451,7 @@ function drawDiseases() {
           return label.replace(/（.+?）/g, '').slice(0, 4);
         }
         const ct = svgNS('text', {
-          x:'0', y:'4.5', 'text-anchor':'middle', 'font-size':'8', 'font-weight':'900',
+          x:'0', y:'5', 'text-anchor':'middle', 'font-size':'10', 'font-weight':'900',
           fill:'#fff', 'font-family':'Noto Sans JP,sans-serif', 'pointer-events':'none'
         });
         ct.textContent = getAbbr(dis.label);
@@ -462,14 +462,14 @@ function drawDiseases() {
       const dx = dp.x - CX, dy = dp.y - CY;
       const len = Math.hypot(dx, dy) || 1;
       const nx = dx / len, ny = dy / len;
-      const lx = nx * (nodeR + 8), ly = ny * (nodeR + 8);
+      const lx = nx * (nodeR + 20), ly = ny * (nodeR + 20);
       function getExtLabel(label) {
         const noParens = label.replace(/（.+?）/g, '').replace(/\/.+/, '').trim();
         return noParens.length > 8 ? noParens.slice(0, 7) + '…' : noParens;
       }
       const lt = svgNS('text', {
         x: String(lx), y: String(ly + 4),
-        'text-anchor': anchor(dp.x), 'font-size':'11', 'font-weight':'700',
+        'text-anchor': anchor(dp.x), 'font-size':'12', 'font-weight':'700',
         fill:'rgba(255,255,255,0.9)', 'font-family':'Noto Sans JP,sans-serif',
         'pointer-events':'none'
       });
