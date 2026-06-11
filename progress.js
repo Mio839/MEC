@@ -204,6 +204,26 @@
     scheduleSync();
   };
 
+  // ── Series (連問) position badges ──────────────────────────────
+  function _initSeriesBadges() {
+    document.querySelectorAll('.sg').forEach(sg => {
+      const cards = sg.querySelectorAll(':scope > .qc[data-uid]');
+      const total = cards.length;
+      if (total < 2) return;
+      cards.forEach((card, i) => {
+        if (card.querySelector('.mec-series-pos')) return;
+        const badge = document.createElement('span');
+        badge.className = 'mec-series-pos';
+        badge.textContent = `連問 ${i + 1}/${total}`;
+        const qh = card.querySelector('.qh');
+        if (!qh) return;
+        const qn = qh.querySelector('.qn');
+        if (qn) qn.after(badge);
+        else qh.prepend(badge);
+      });
+    });
+  }
+
   // ── Chapter progress bar (OneDrive pages) ───────────────────────
   function _updateChapterProgress() {
     const done = lsGet(KD);
@@ -278,7 +298,17 @@
   })();
 
   // ── Auto-init ────────────────────────────────────────────────────
+  (function _injectSeriesCSS() {
+    const style = document.createElement('style');
+    style.textContent = '.mec-series-pos{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px;background:#EDE7F6;color:#512DA8;border:1px solid #B39DDB;white-space:nowrap;flex-shrink:0;}'
+      + '.mec-lap-btn{padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700;border:1.5px solid #E0E5EB;color:#A0AAB8;background:none;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;}'
+      + '.mec-lap-btn.mec-lapped{background:#2D8C4E;border-color:#2D8C4E;color:#fff;}'
+      + '.mec-lap-num{font-size:9px;margin-left:2px;}';
+    document.head.appendChild(style);
+  })();
+
   document.addEventListener('DOMContentLoaded', () => {
+    _initSeriesBadges();
     _initQcCards();
     if (typeof window.applyFilters === 'function') window.applyFilters();
     syncFromGist().then(r => {
