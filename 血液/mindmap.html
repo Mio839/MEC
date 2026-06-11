@@ -58,9 +58,17 @@ svg{display:block;}
 </div>
 
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="width:18px;height:18px;background:#C0392B;border-radius:50%;"></div>中枢（科目）</div>
-  <div class="legend-item"><div class="legend-dot l1" style="border-color:#3D7FD4;"></div>章（タップで展開）</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#2D8C4E;"></div>疾患（タップで要点）</div>
+  <div class="legend-item" style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:6px;letter-spacing:0.05em;">ノード種別</div>
+  <div class="legend-item"><div class="legend-dot" style="width:14px;height:14px;background:#C0392B;border-radius:50%;"></div>中枢（科目）</div>
+  <div class="legend-item"><div class="legend-dot l1" style="border-color:rgba(255,255,255,0.6);width:12px;height:12px;"></div>章（タップで展開）</div>
+  <div class="legend-item"><div class="legend-dot" style="width:10px;height:10px;background:rgba(255,255,255,0.35);border-radius:50%;"></div>疾患（タップで要点）</div>
+  <div style="border-top:1px solid rgba(255,255,255,0.1);margin:7px 0;"></div>
+  <div class="legend-item" style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:6px;letter-spacing:0.05em;">色 ＝ 系統</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#DC2626;"></div>赤血球系（貧血・溶血）</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#1D4ED8;"></div>白血球・腫瘍系</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#D97706;"></div>骨髄・造血系</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#047857;"></div>止血・凝固系</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7C3AED;"></div>治療横断</div>
 </div>
 
 <script>
@@ -70,7 +78,7 @@ const R2 = 430;
 
 const CHAPTERS = [
   {
-    id:'ch01', label:'血液の基本', color:'#2E4D8A', angle:-90,
+    id:'ch01', label:'血液の基本', color:'#D97706', angle:-90,
     link:'ch01_blood_basics.html',
     diseases:[
       {id:'d01a', label:'造血幹細胞・分化',
@@ -86,7 +94,7 @@ const CHAPTERS = [
     ]
   },
   {
-    id:'ch02', label:'化学療法・輸血・移植', color:'#6B3FA0', angle:-45,
+    id:'ch02', label:'化学療法・輸血・移植', color:'#7C3AED', angle:-45,
     link:'ch02_chemo_transfusion.html',
     diseases:[
       {id:'d02a', label:'アルキル化薬',
@@ -102,7 +110,7 @@ const CHAPTERS = [
     ]
   },
   {
-    id:'ch03', label:'貧血総論', color:'#C55A00', angle:0,
+    id:'ch03', label:'貧血総論', color:'#DC2626', angle:0,
     link:'ch03_anemia_general.html',
     diseases:[
       {id:'d03a', label:'鉄欠乏性貧血',
@@ -118,7 +126,7 @@ const CHAPTERS = [
     ]
   },
   {
-    id:'ch04', label:'溶血性貧血', color:'#A0520A', angle:45,
+    id:'ch04', label:'溶血性貧血', color:'#B91C1C', angle:45,
     link:'ch04_hemolytic_anemia.html',
     diseases:[
       {id:'d04a', label:'遺伝性球状赤血球症',
@@ -136,7 +144,7 @@ const CHAPTERS = [
     ]
   },
   {
-    id:'ch05', label:'白血病', color:'#1456A8', angle:90,
+    id:'ch05', label:'白血病', color:'#1D4ED8', angle:90,
     link:'ch05_leukemia.html',
     diseases:[
       {id:'d05a', label:'AML（急性骨髄性白血病）',
@@ -152,7 +160,7 @@ const CHAPTERS = [
     ]
   },
   {
-    id:'ch06', label:'骨髄の機能亢進・低下', color:'#1A6B35', angle:135,
+    id:'ch06', label:'骨髄の機能亢進・低下', color:'#B45309', angle:135,
     link:'ch06_bone_marrow.html',
     diseases:[
       {id:'d06a', label:'再生不良性貧血',
@@ -170,7 +178,7 @@ const CHAPTERS = [
     ]
   },
   {
-    id:'ch07', label:'リンパ腫・骨髄腫', color:'#4A148C', angle:180,
+    id:'ch07', label:'リンパ腫・骨髄腫', color:'#4338CA', angle:180,
     link:'ch07_lymphoma_myeloma.html',
     diseases:[
       {id:'d07a', label:'ホジキンリンパ腫',
@@ -188,7 +196,7 @@ const CHAPTERS = [
     ]
   },
   {
-    id:'ch08', label:'血小板・凝固系の異常', color:'#8B1040', angle:225,
+    id:'ch08', label:'血小板・凝固系の異常', color:'#047857', angle:225,
     link:'ch08_coagulation.html',
     diseases:[
       {id:'d08a', label:'ITP（特発性血小板減少性紫斑病）',
