@@ -17,7 +17,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:#06101f;overflow:hidden;wi
 #inner{position:absolute;transform-origin:0 0;will-change:transform;}
 svg{display:block;}
 /* info panel */
-.panel{position:fixed;right:14px;bottom:14px;width:270px;max-height:60vh;overflow-y:auto;background:rgba(10,22,46,.97);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;padding:14px 16px;color:#fff;opacity:0;transform:translateY(12px);transition:opacity .25s,transform .25s;pointer-events:none;z-index:200;scrollbar-width:thin;}
+.panel{position:fixed;right:14px;bottom:14px;width:280px;max-height:65vh;overflow-y:auto;background:rgba(10,22,46,.97);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;padding:14px 16px;color:#fff;opacity:0;transform:translateY(12px);transition:opacity .25s,transform .25s;pointer-events:none;z-index:200;scrollbar-width:thin;}
 .panel.show{opacity:1;transform:translateY(0);pointer-events:auto;}
 .panel-close{position:absolute;top:10px;right:12px;background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;line-height:1;}
 .panel-chapter{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:6px;}
@@ -25,21 +25,28 @@ svg{display:block;}
 .panel-keys{list-style:none;font-size:12px;line-height:1.85;}
 .panel-keys li{display:flex;gap:6px;align-items:flex-start;}
 .panel-keys li::before{content:'▸';color:#F5A623;flex-shrink:0;margin-top:1px;}
+.panel-imgs{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+.panel-imgs img{width:100%;border-radius:6px;cursor:zoom-in;border:1px solid rgba(255,255,255,.1);}
 .panel-link{display:inline-block;margin-top:10px;padding:5px 14px;background:#C0392B;color:#fff;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;}
 .panel-link:hover{background:#E74C3C;}
+/* lightbox */
+#lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1000;cursor:zoom-out;align-items:center;justify-content:center;}
+#lb.open{display:flex;}
+#lb img{max-width:92vw;max-height:88vh;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.8);}
 /* legend */
 .legend{position:fixed;left:14px;bottom:14px;background:rgba(10,22,46,.9);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 14px;z-index:100;}
 .legend-item{display:flex;align-items:center;gap:7px;font-size:11px;color:rgba(255,255,255,.75);margin-bottom:4px;}
 .legend-item:last-child{margin-bottom:0;}
 .legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.legend-dot.l1{width:14px;height:14px;border:2.5px solid #fff;}
+.legend-dot.l1{width:12px;height:12px;border:2px solid rgba(255,255,255,0.6);background:none;}
+.legend-dash{width:20px;height:0;border-top:2px dashed;flex-shrink:0;}
 </style>
 </head>
 <body>
 <div class="hdr">
   <span class="hdr-badge">MEC</span>
   <h1>🩸 血液 疾患マインドマップ</h1>
-  <span class="hdr-hint">章をタップ→疾患 ／ 疾患をタップ→要点</span>
+  <span class="hdr-hint">章をタップ→疾患 ／ 複数章展開で関連線表示</span>
   <a class="hdr-back" href="../index.html">← ホーム</a>
 </div>
 
@@ -54,21 +61,27 @@ svg{display:block;}
   <div class="panel-chapter" id="panelCh"></div>
   <div class="panel-title" id="panelTitle"></div>
   <ul class="panel-keys" id="panelKeys"></ul>
+  <div class="panel-imgs" id="panelImgs"></div>
   <a class="panel-link" id="panelLink" href="#">📚 問題を解く →</a>
 </div>
+
+<div id="lb"><img id="lbImg" src="" alt=""/></div>
 
 <div class="legend">
   <div class="legend-item" style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:6px;letter-spacing:0.05em;">ノード種別</div>
   <div class="legend-item"><div class="legend-dot" style="width:14px;height:14px;background:#C0392B;border-radius:50%;"></div>中枢（科目）</div>
-  <div class="legend-item"><div class="legend-dot l1" style="border-color:rgba(255,255,255,0.6);width:12px;height:12px;"></div>章（タップで展開）</div>
-  <div class="legend-item"><div class="legend-dot" style="width:10px;height:10px;background:rgba(255,255,255,0.35);border-radius:50%;"></div>疾患（タップで要点）</div>
-  <div style="border-top:1px solid rgba(255,255,255,0.1);margin:7px 0;"></div>
+  <div class="legend-item"><div class="legend-dot l1"></div>章（タップで展開）</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.35);"></div>疾患（タップで要点）</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.35);border:1.5px solid rgba(255,255,255,0.7);"></div>疾患（画像あり）</div>
+  <div style="border-top:1px solid rgba(255,255,255,.1);margin:7px 0;"></div>
   <div class="legend-item" style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:6px;letter-spacing:0.05em;">色 ＝ 系統</div>
   <div class="legend-item"><div class="legend-dot" style="background:#DC2626;"></div>赤血球系（貧血・溶血）</div>
   <div class="legend-item"><div class="legend-dot" style="background:#1D4ED8;"></div>白血球・腫瘍系</div>
   <div class="legend-item"><div class="legend-dot" style="background:#D97706;"></div>骨髄・造血系</div>
   <div class="legend-item"><div class="legend-dot" style="background:#047857;"></div>止血・凝固系</div>
   <div class="legend-item"><div class="legend-dot" style="background:#7C3AED;"></div>治療横断</div>
+  <div style="border-top:1px solid rgba(255,255,255,.1);margin:7px 0;"></div>
+  <div class="legend-item"><div class="legend-dash" style="border-color:#FBBF24;"></div>関連疾患（点線）</div>
 </div>
 
 <script>
@@ -81,15 +94,15 @@ const CHAPTERS = [
     id:'ch01', label:'血液の基本', color:'#D97706', angle:-90,
     link:'ch01_blood_basics.html',
     diseases:[
-      {id:'d01a', label:'造血幹細胞・分化',
+      {id:'d01a', label:'造血幹細胞・分化', imgs:[],
        keys:['多能性幹細胞 → 骨髄系/リンパ系','骨髄：胸骨・後腸骨・椎体（成人）','CD34陽性が幹細胞マーカー','CFU-GEMM → CFU-E → 赤血球']},
-      {id:'d01b', label:'赤血球・ヘモグロビン',
+      {id:'d01b', label:'赤血球・ヘモグロビン', imgs:[],
        keys:['貧血定義：男<13・女<12 g/dL（WHO）','MCV正常 80-100 fL','ヘモグロビンF（胎児型）: γ鎖×2+α鎖×2','2,3-DPG↑→O₂解離曲線右方移動（組織酸素供給↑）']},
-      {id:'d01c', label:'貧血の分類（MCV別）',
+      {id:'d01c', label:'貧血の分類（MCV別）', imgs:[],
        keys:['小球性（<80）：鉄欠乏・サラセミア・ACD・鉄芽球性','正球性（80-100）：溶血・再生不良・PRCA','大球性（>100）：VB12/葉酸欠乏・MDS・肝疾患・甲状腺機能低下','網赤血球↑→溶血性・出血後 ／ 網赤血球↓→造血障害']},
-      {id:'d01d', label:'白血球分画',
+      {id:'d01d', label:'白血球分画', imgs:[],
        keys:['好中球：核左方移動（桿状核↑）→細菌感染','好酸球↑：アレルギー・寄生虫・副腎不全','単球↑：結核・マラリア・感染性心内膜炎','リンパ球↑：ウイルス感染・CLL・百日咳']},
-      {id:'d01e', label:'骨髄検査・末梢血塗抹',
+      {id:'d01e', label:'骨髄検査・末梢血塗抹', imgs:['images/95C-30_1.jpeg'],
        keys:['穿刺部位：胸骨（成人）・後腸骨稜','正常核細胞数：10-30万/μL','M/E比（骨髄球系/赤芽球）正常 2-4:1','Auer小体 → AML の診断的所見']},
     ]
   },
@@ -97,15 +110,15 @@ const CHAPTERS = [
     id:'ch02', label:'化学療法・輸血・移植', color:'#7C3AED', angle:-45,
     link:'ch02_chemo_transfusion.html',
     diseases:[
-      {id:'d02a', label:'アルキル化薬',
+      {id:'d02a', label:'アルキル化薬', imgs:[],
        keys:['シクロホスファミド → 出血性膀胱炎（メスナで予防）','メルファラン（骨髄腫・AL アミロイドーシス）','BCNU・CCNU（CNS腫瘍）','副作用：骨髄抑制・性腺毒性・二次性白血病']},
-      {id:'d02b', label:'代謝拮抗薬',
+      {id:'d02b', label:'代謝拮抗薬', imgs:[],
        keys:['MTX（メトトレキサート） → 葉酸拮抗 → ロイコボリンでレスキュー','シタラビン（AraC）：AML・髄腔内投与','6-MP（6-メルカプトプリリン）：ALL維持','ゲムシタビン：固形腫瘍（血液腫瘍にも一部）']},
-      {id:'d02c', label:'輸血の適応・副作用',
+      {id:'d02c', label:'輸血の適応・副作用', imgs:[],
        keys:['RBC輸血：慢性貧血でHb<7 g/dL，症状あれば<8','TRALI：輸血後6時間以内の非心原性肺水腫（白血球抗体）','輸血後GVHD：放射線照射で予防','ABO不適合溶血：最重篤（腎不全・DIC）']},
-      {id:'d02d', label:'造血幹細胞移植',
+      {id:'d02d', label:'造血幹細胞移植', imgs:[],
        keys:['自家移植：再発リスク↑、GVHD(-), GVL(-)','同種移植：GVHD(+), GVL(+), 免疫療法効果','前処置：大量化学療法±全身放射線（TBI）','HLA一致（6座：A/B/DR）が原則']},
-      {id:'d02e', label:'GVHD',
+      {id:'d02e', label:'GVHD', imgs:[],
        keys:['急性GVHD：移植後<100日（皮膚・肝・消化管）','慢性GVHD：>100日（強皮症様・閉塞性細気管支炎）','Grade Ⅲ-Ⅳ → 予後不良','ステロイド・タクロリムス・ルキソリチニブ']},
     ]
   },
@@ -113,15 +126,15 @@ const CHAPTERS = [
     id:'ch03', label:'貧血総論', color:'#DC2626', angle:0,
     link:'ch03_anemia_general.html',
     diseases:[
-      {id:'d03a', label:'鉄欠乏性貧血',
+      {id:'d03a', label:'鉄欠乏性貧血', imgs:[],
        keys:['小球性低色素性（MCV↓, MCHC↓）','血清鉄↓・TIBC↑・フェリチン↓','Plummer-Vinson症候群：嚥下障害・匙状爪・口角炎','経口鉄剤（FeSO₄）第一選択、ビタミンCと同時摂取で吸収↑']},
-      {id:'d03b', label:'巨赤芽球性貧血',
+      {id:'d03b', label:'巨赤芽球性貧血', imgs:[],
        keys:['大球性（MCV>100）・汎血球減少','VB12欠乏 → 亜急性連合変性症（後索+側索：感覚障害・痙性歩行）','悪性貧血（PA）：抗内因子抗体・抗壁細胞抗体','葉酸欠乏では神経症状なし → 治療に葉酸投与（VB12欠乏を除外後）']},
-      {id:'d03c', label:'慢性疾患貧血（ACD）',
+      {id:'d03c', label:'慢性疾患貧血（ACD）', imgs:[],
        keys:['正球性〜小球性','血清鉄↓・TIBC↓・フェリチン↑（鉄欠乏との鑑別）','IL-6→ヘプシジン↑→フェロポーチン分解→血清鉄↓','原疾患の治療が主体；ESA（エポエチン）が有効なことも']},
-      {id:'d03d', label:'腎性貧血',
+      {id:'d03d', label:'腎性貧血', imgs:[],
        keys:['EPO産生低下（傍糸球体細胞）','正球性正色素性','ESA（ダルベポエチン・エポエチン βペゴル）','鉄補充（静注鉄剤）も必須；HIF-PH阻害薬（ロキサデュスタット等）']},
-      {id:'d03e', label:'鉄芽球性貧血',
+      {id:'d03e', label:'鉄芽球性貧血', imgs:[],
        keys:['小球性低色素性','骨髄リング状鉄芽球（ミトコンドリアに鉄沈着）','先天性（ALAS2変異） vs 後天性（MDS-RS・薬剤・アルコール）','ピリドキシン（VB6）が一部に有効']},
     ]
   },
@@ -129,17 +142,17 @@ const CHAPTERS = [
     id:'ch04', label:'溶血性貧血', color:'#B91C1C', angle:45,
     link:'ch04_hemolytic_anemia.html',
     diseases:[
-      {id:'d04a', label:'遺伝性球状赤血球症',
+      {id:'d04a', label:'遺伝性球状赤血球症', imgs:['images/103B-9_1.jpeg'],
        keys:['常染色体顕性（AD）；アンキリン・バンド3・スペクトリン異常','小球性高色素性（MCHC↑）','浸透圧脆弱性試験(+) → 診断補助','脾腫・黄疸・胆石 → 脾摘（5歳以降）']},
-      {id:'d04b', label:'サラセミア',
+      {id:'d04b', label:'サラセミア', imgs:[],
        keys:['α/βグロビン鎖合成障害 → ヘモグロビン異常','小球性低色素性（MCV↓, フェリチン正常）','βサラセミア大（Cooley貧血）：輸血依存・骨変形','HbA₂↑（βサラセミア）→ 鉄欠乏との鑑別に重要']},
-      {id:'d04c', label:'AIHA（自己免疫性溶血性貧血）',
+      {id:'d04c', label:'AIHA（自己免疫性溶血性貧血）', imgs:['images/109D-36_1.jpeg'],
        keys:['温式（IgG）：SLE合併多い；DAT(+)；ステロイド→脾摘','冷式（IgM・補体）：マイコプラズマ・EBV後；寒冷凝集素','DAT（直接クームス試験）陽性が診断の根拠','補体依存性 vs 抗体依存性で治療アプローチ異なる']},
-      {id:'d04d', label:'PNH（発作性夜間ヘモグロビン尿症）',
+      {id:'d04d', label:'PNH（発作性夜間ヘモグロビン尿症）', imgs:['images/102D-45_1.jpeg','images/101A-32_1.jpeg'],
        keys:['GPI錨型蛋白（CD55/CD59）欠損 → 補体に感受性↑','血管内溶血（朝の血色素尿）・血栓症・汎血球減少','Ham試験・蔗糖溶血試験(+)；フローサイトメトリーで確定','エクリズマブ（抗C5モノクローナル抗体）が根治的治療']},
-      {id:'d04e', label:'G6PD欠乏症',
+      {id:'d04e', label:'G6PD欠乏症', imgs:[],
        keys:['X連鎖劣性（男性発症）；アフリカ系・地中海系','酸化ストレス（ソラマメ・PQ・サルファ剤）で急性溶血','Heinz小体（変性Hb）・咬傷赤血球','DAT陰性；発作間欠期は正常']},
-      {id:'d04f', label:'鎌形赤血球症',
+      {id:'d04f', label:'鎌形赤血球症', imgs:['images/117A-45_1.jpeg'],
        keys:['HbS（β鎖Glu→Val置換）；常染色体劣性','脱酸素化でHbS重合→鎌形変形→血管閉塞','疼痛クリーゼ・脾梗塞・脳梗塞・急性胸部症候群','ヒドロキシウレア（HbF産生↑）で再発予防']},
     ]
   },
@@ -147,15 +160,15 @@ const CHAPTERS = [
     id:'ch05', label:'白血病', color:'#1D4ED8', angle:90,
     link:'ch05_leukemia.html',
     diseases:[
-      {id:'d05a', label:'AML（急性骨髄性白血病）',
-       keys:['骨髄芽球≥20%（WHO2016）', 'Auer小体（MPO陽性）が診断的','FAB分類：M0-M7；M3（APL）が特殊','寛解導入：ダウノルビシン+AraC（3+7療法）']},
-      {id:'d05b', label:'APL（急性前骨髄球性白血病 / AML-M3）',
+      {id:'d05a', label:'AML（急性骨髄性白血病）', imgs:[],
+       keys:['骨髄芽球≥20%（WHO2016）','Auer小体（MPO陽性）が診断的','FAB分類：M0-M7；M3（APL）が特殊','寛解導入：ダウノルビシン+AraC（3+7療法）']},
+      {id:'d05b', label:'APL（急性前骨髄球性白血病 / AML-M3）', imgs:['images/119D-10_1.jpeg'],
        keys:['t(15;17) → PML-RARα融合遺伝子','DIC合併（大量の颗粒放出）→ 診断即治療開始','ATRA（all-trans retinoic acid）で分化誘導','亜ヒ酸（As₂O₃）再発例に有効；完全寛解率>90%']},
-      {id:'d05c', label:'ALL（急性リンパ性白血病）',
+      {id:'d05c', label:'ALL（急性リンパ性白血病）', imgs:['images/111I-42_1.jpeg'],
        keys:['小児に最多；B細胞型>T細胞型','Ph染色体（BCR-ABL）陽性→予後不良（成人多い）','CNS浸潤予防（髄腔内化学療法）','ビンクリスチン・L-アスパラギナーゼ・ステロイド']},
-      {id:'d05d', label:'CML（慢性骨髄性白血病）',
+      {id:'d05d', label:'CML（慢性骨髄性白血病）', imgs:['images/120A-32_1.jpeg'],
        keys:['t(9;22) → Ph染色体 → BCR-ABL（p210）','イマチニブ（チロシンキナーゼ阻害薬）が第一選択','急性転化（急性期）→ 予後不良','脾腫著明・好中球増多・好塩基球増多（末梢血）']},
-      {id:'d05e', label:'CLL（慢性リンパ性白血病）',
+      {id:'d05e', label:'CLL（慢性リンパ性白血病）', imgs:['images/108I-66_1.jpeg'],
        keys:['高齢者・西洋人に多い（日本は少ない）','B細胞性（CD5+・CD19+・CD23+）','Richter症候群：大細胞型リンパ腫へ転化','無症状なら経過観察；Ibrutinib・ベネトクラクス']},
     ]
   },
@@ -163,17 +176,17 @@ const CHAPTERS = [
     id:'ch06', label:'骨髄の機能亢進・低下', color:'#B45309', angle:135,
     link:'ch06_bone_marrow.html',
     diseases:[
-      {id:'d06a', label:'再生不良性貧血',
+      {id:'d06a', label:'再生不良性貧血', imgs:['images/120D-56_1.jpeg','images/99G-32_1.jpeg'],
        keys:['造血幹細胞の減少（T細胞性自己免疫が主因）','汎血球減少 + 骨髄低形成（脂肪髄）','重症基準：好中球<0.5万・網赤血球<1万・血小板<2万','治療：同種骨髄移植（若年重症）or ATG+CsA']},
-      {id:'d06b', label:'PRCA（赤芽球癆）',
+      {id:'d06b', label:'PRCA（赤芽球癆）', imgs:['images/108D-52_1.jpeg'],
        keys:['赤血球系のみ選択的低形成','パルボウイルスB19（免疫不全者）・胸腺腫・薬剤性','赤芽球系前駆細胞（BFU-E/CFU-E）の破壊','シクロスポリン A（CsA）が有効']},
-      {id:'d06c', label:'MDS（骨髄異形成症候群）',
+      {id:'d06c', label:'MDS（骨髄異形成症候群）', imgs:[],
        keys:['クローン性造血障害 → 無効造血（骨髄↑・末梢↓）','汎血球減少 + 骨髄異形成（核の奇形・巨大血小板等）','リング状鉄芽球（SF3B1変異）','AML移行（10-30%）→ IPSS スコアで予後評価']},
-      {id:'d06d', label:'真性多血症（PV）',
+      {id:'d06d', label:'真性多血症（PV）', imgs:['images/101A-33_1.jpeg'],
        keys:['JAK2 V617F変異 >95%','Hb↑（男>16.5/女>16 g/dL）・HCT↑・EPO↓','血栓症（脳梗塞・Budd-Chiari症候群）リスク大','瀉血（HCT<45%維持）・ヒドロキシウレア・ルキソリチニブ']},
-      {id:'d06e', label:'本態性血小板血症（ET）',
+      {id:'d06e', label:'本態性血小板血症（ET）', imgs:[],
        keys:['JAK2 V617F（約50%）・CALR・MPL変異','血小板>100万/μL（持続）','血栓症 and/or 出血（逆説的；vWF喪失）','低リスク→観察 or アスピリン；高リスク→ヒドロキシウレア']},
-      {id:'d06f', label:'骨髄線維症（PMF）',
+      {id:'d06f', label:'骨髄線維症（PMF）', imgs:['images/84E-30_1.jpeg','images/103G-39_1.jpeg'],
        keys:['骨髄の線維化 → 造血不全','涙滴赤血球（dacrocyte）+ 髄外造血（肝脾腫）','JAK2/CALR/MPL変異（>90%）','ルキソリチニブ（JAK1/2阻害）；造血幹細胞移植のみ根治']},
     ]
   },
@@ -181,17 +194,17 @@ const CHAPTERS = [
     id:'ch07', label:'リンパ腫・骨髄腫', color:'#4338CA', angle:180,
     link:'ch07_lymphoma_myeloma.html',
     diseases:[
-      {id:'d07a', label:'ホジキンリンパ腫',
+      {id:'d07a', label:'ホジキンリンパ腫', imgs:['images/113C-47_1.jpeg','images/103G-49_1.jpeg'],
        keys:['Reed-Sternberg細胞（CD15+, CD30+, CD20-）','若年者・高齢者の二峰性；縦隔リンパ節腫大多い','B症状：発熱・盗汗・体重減少（>10%）','ABVD療法（A:ドキソルビシン, B:ブレオマイシン, V:ビンブラスチン, D:ダカルバジン）；予後良好']},
-      {id:'d07b', label:'DLBCL（びまん性大細胞型B細胞リンパ腫）',
+      {id:'d07b', label:'DLBCL（びまん性大細胞型B細胞リンパ腫）', imgs:['images/102D-48_1.jpeg'],
        keys:['最多の非ホジキンリンパ腫（約30-40%）','大型B細胞（CD20+・CD19+）','R-CHOP療法（リツキシマブ+CHOP）が標準','GCB型 vs non-GCB型（ABC型）で予後差']},
-      {id:'d07c', label:'バーキットリンパ腫',
+      {id:'d07c', label:'バーキットリンパ腫', imgs:[],
        keys:['t(8;14) → MYC遺伝子再構成','EBV関連（アフリカ地方型）','「星空像」（骨髄像・組織）','腫瘍崩壊症候群（TLS）に注意；高悪性度だが治癒率高い']},
-      {id:'d07d', label:'ATL（成人T細胞白血病/リンパ腫）',
+      {id:'d07d', label:'ATL（成人T細胞白血病/リンパ腫）', imgs:[],
        keys:['HTLV-1感染（潜伏期20-30年）','九州・沖縄に多い；母乳感染が主経路','CD4+・CD25+・花びら核','急性型・リンパ腫型→予後不良；モガムリズマブ']},
-      {id:'d07e', label:'多発性骨髄腫（MM）',
+      {id:'d07e', label:'多発性骨髄腫（MM）', imgs:['images/116D-65_1.jpeg','images/115A-60_1.jpeg'],
        keys:['形質細胞の悪性単クローン性増殖','M蛋白（IgG多い）・尿中BJP（ベンスジョーンズ蛋白）','CRAB：高Ca・腎不全・貧血・骨病変（骨打ち抜き像）','ボルテゾミブ（プロテアソーム阻害）・レナリドミド・サリドマイド']},
-      {id:'d07f', label:'濾胞性リンパ腫',
+      {id:'d07f', label:'濾胞性リンパ腫', imgs:['images/110A-33_1.jpeg'],
        keys:['t(14;18) → BCL-2↑（アポトーシス抑制）','低悪性度・無痛性リンパ節腫大（腋窩・鼠径）','ウォッチ＆ウェイト（無症状なら経過観察）','リツキシマブ（抗CD20）；大細胞型転化（Richter変換）に注意']},
     ]
   },
@@ -199,21 +212,46 @@ const CHAPTERS = [
     id:'ch08', label:'血小板・凝固系の異常', color:'#047857', angle:225,
     link:'ch08_coagulation.html',
     diseases:[
-      {id:'d08a', label:'ITP（特発性血小板減少性紫斑病）',
+      {id:'d08a', label:'ITP（特発性血小板減少性紫斑病）', imgs:['images/119E-38_1.jpeg','images/101G-35_1.jpeg'],
        keys:['血小板GPⅡb/Ⅲaに対する自己抗体（IgG）','血小板<10万/μL；骨髄巨核球↑','一次性ITP vs 二次性（SLE・HP感染・薬剤）','ステロイド第一選択；IVIG（緊急時）；TPO-RA（エルトロンボパグ）；脾摘']},
-      {id:'d08b', label:'TTP（血栓性血小板減少性紫斑病）',
+      {id:'d08b', label:'TTP（血栓性血小板減少性紫斑病）', imgs:['images/116A-37_1.jpeg','images/114A-35_1.jpeg'],
        keys:['ADAMTS13活性<10%（自己抗体または先天性）','5徴：溶血性貧血・血小板減少・神経症状・発熱・腎障害','破砕赤血球・DAT陰性','血漿交換（緊急！）；ヘパリン/血小板輸血は原則禁忌']},
-      {id:'d08c', label:'HUS（溶血性尿毒症症候群）',
+      {id:'d08c', label:'HUS（溶血性尿毒症症候群）', imgs:['images/103A-31_1.jpeg'],
        keys:['腸管出血性大腸菌O157（志賀毒素）','3徴：溶血性貧血・血小板減少・急性腎障害','抗菌薬は禁忌（毒素放出↑）','小児に多い；血漿交換・透析（支持療法）']},
-      {id:'d08d', label:'血友病A・B',
+      {id:'d08d', label:'血友病A・B', imgs:[],
        keys:['A：第Ⅷ因子欠乏（X連鎖劣性）→ APTT延長・PT正常','B：第Ⅸ因子欠乏（X連鎖劣性）','関節内出血・深部血腫（皮下出血より深い）','定期補充療法；エミシズマブ（抗体）がA型に有効']},
-      {id:'d08e', label:'von Willebrand病（vWD）',
+      {id:'d08e', label:'von Willebrand病（vWD）', imgs:[],
        keys:['最多の先天性出血性疾患','vWF量↓ or 機能異常 → Ⅷ因子も低下','APTT延長・出血時間延長（血小板機能依存）','DDAVP（デスモプレシン）で軽症型に対応；血漿由来製剤']},
-      {id:'d08f', label:'DIC（播種性血管内凝固）',
+      {id:'d08f', label:'DIC（播種性血管内凝固）', imgs:[],
        keys:['基礎疾患：敗血症・APL・羊水塞栓・悗死胎児症候群','FDP↑・Dダイマー↑・PT↑・APTT↑・フィブリノゲン↓・血小板↓','出血傾向 AND 血栓症の両面','ヘパリン（血栓優位型）・AT製剤・FFP・rTM（トロンボモジュリン）']},
     ]
   },
 ];
+
+// Cross-links between related diseases
+const RELATIONS = [
+  // Cross-chapter (国試頻出の関連)
+  { from:'d04d', to:'d06a', label:'AA/PNH合併', color:'#FBBF24' },
+  { from:'d05b', to:'d08f', label:'DIC合併',    color:'#F87171' },
+  { from:'d06c', to:'d05a', label:'AML転化',    color:'#C084FC' },
+  { from:'d04d', to:'d06c', label:'汎血球減少', color:'#94A3B8' },
+  { from:'d05c', to:'d07d', label:'T細胞系鑑別', color:'#67E8F9' },
+  // Same-chapter
+  { from:'d05b', to:'d05a', label:'APL亜型',    color:'#93C5FD' },
+  { from:'d05d', to:'d05a', label:'急性転化',   color:'#FCA5A5' },
+  { from:'d08b', to:'d08c', label:'MAHA鑑別',   color:'#6EE7B7' },
+  { from:'d06d', to:'d06e', label:'MPN',        color:'#FDE68A' },
+  { from:'d06e', to:'d06f', label:'MPN',        color:'#FDE68A' },
+  { from:'d06a', to:'d06c', label:'汎血球減少鑑別', color:'#CBD5E1' },
+  { from:'d03a', to:'d03e', label:'小球性鑑別', color:'#FDBA74' },
+];
+
+// Disease position/chapter index maps (populated in drawDiseases)
+const DIS_POS = {};
+const DIS_CHIDX = {};
+CHAPTERS.forEach((ch, ci) => {
+  ch.diseases.forEach(dis => { DIS_CHIDX[dis.id] = ci; });
+});
 
 // ──────────────────────────────────────────────
 // Layout helpers
@@ -233,7 +271,6 @@ function disPos(chIdx, dIdx, total) {
   return { x: CX + R2 * Math.cos(a), y: CY + R2 * Math.sin(a) };
 }
 
-// Text anchor based on x position relative to center
 function anchor(x) {
   if (x < CX - 20) return 'end';
   if (x > CX + 20) return 'start';
@@ -257,20 +294,16 @@ function svgNS(tag, attrs) {
 
 function createDefs() {
   const defs = svgNS('defs', {});
-  // radial gradient for root
   const rg = svgNS('radialGradient', { id:'rootGrad', cx:'50%', cy:'50%', r:'50%' });
-  const s1 = svgNS('stop', { offset:'0%', 'stop-color':'#E74C3C' });
-  const s2 = svgNS('stop', { offset:'100%', 'stop-color':'#8B1C1C' });
-  rg.append(s1, s2);
-  // glow filter
+  rg.append(
+    svgNS('stop', { offset:'0%', 'stop-color':'#E74C3C' }),
+    svgNS('stop', { offset:'100%', 'stop-color':'#8B1C1C' })
+  );
   const f = svgNS('filter', { id:'glow', x:'-50%', y:'-50%', width:'200%', height:'200%' });
   const blur = svgNS('feGaussianBlur', { stdDeviation:'4', result:'colored' });
   const merge = svgNS('feMerge', {});
-  const mn1 = svgNS('feMergeNode', { in:'colored' });
-  const mn2 = svgNS('feMergeNode', { in:'SourceGraphic' });
-  merge.append(mn1, mn2);
+  merge.append(svgNS('feMergeNode', { in:'colored' }), svgNS('feMergeNode', { in:'SourceGraphic' }));
   f.append(blur, merge);
-  // subtle glow for diseases
   const f2 = svgNS('filter', { id:'glow2', x:'-50%', y:'-50%', width:'200%', height:'200%' });
   const blur2 = svgNS('feGaussianBlur', { stdDeviation:'2.5', result:'colored2' });
   const merge2 = svgNS('feMerge', {});
@@ -281,31 +314,29 @@ function createDefs() {
 }
 
 // Layers
-const layerEdgesCh = svgNS('g', { id:'ech' });
+const layerEdgesCh  = svgNS('g', { id:'ech' });
 const layerEdgesDis = svgNS('g', { id:'edis' });
+const layerRelations= svgNS('g', { id:'nrel' });
 const layerNodesDis = svgNS('g', { id:'ndis' });
-const layerNodesCh = svgNS('g', { id:'nch' });
-const layerRoot = svgNS('g', { id:'nroot' });
-svgEl.append(layerEdgesCh, layerEdgesDis, layerNodesDis, layerNodesCh, layerRoot);
+const layerNodesCh  = svgNS('g', { id:'nch' });
+const layerRoot     = svgNS('g', { id:'nroot' });
+svgEl.append(layerEdgesCh, layerEdgesDis, layerRelations, layerNodesDis, layerNodesCh, layerRoot);
 
 createDefs();
 
-// State
-let activeChapter = null;
+// State: Set of open chapter indices
+const activeChapters = new Set();
 const disEdges = {};
 const disNodes = {};
 
 // ──────────── ROOT NODE ────────────
 function drawRoot() {
   const g = svgNS('g', { transform: `translate(${CX},${CY})` });
-  // Pulse ring
   const ring = svgNS('circle', { r:'68', fill:'none', stroke:'rgba(192,57,43,0.25)', 'stroke-width':'12' });
   ring.style.animation = 'pulse 2.5s ease-in-out infinite';
   const ring2 = svgNS('circle', { r:'52', fill:'none', stroke:'rgba(192,57,43,0.18)', 'stroke-width':'8' });
   ring2.style.animation = 'pulse 2.5s ease-in-out infinite 0.8s';
-  // Main circle
   const circ = svgNS('circle', { r:'42', fill:'url(#rootGrad)', filter:'url(#glow)' });
-  // Label
   const txt1 = svgNS('text', { x:'0', y:'-4', 'text-anchor':'middle', 'font-size':'22', 'font-weight':'900', fill:'#fff', 'font-family':'Noto Sans JP,sans-serif' });
   txt1.textContent = '🩸';
   const txt2 = svgNS('text', { x:'0', y:'14', 'text-anchor':'middle', 'font-size':'11', 'font-weight':'900', fill:'#fff', 'font-family':'Noto Sans JP,sans-serif', 'letter-spacing':'0.05em' });
@@ -318,7 +349,6 @@ function drawRoot() {
 function drawChapters() {
   CHAPTERS.forEach((ch, ci) => {
     const p = chPos(ci);
-    // Edge from root to chapter
     const ep1 = { x: CX + 44 * Math.cos(deg(ch.angle)), y: CY + 44 * Math.sin(deg(ch.angle)) };
     const path = svgNS('path', {
       d: `M ${ep1.x} ${ep1.y} Q ${(ep1.x+p.x)/2} ${(ep1.y+p.y)/2} ${p.x} ${p.y}`,
@@ -326,7 +356,6 @@ function drawChapters() {
     });
     layerEdgesCh.append(path);
 
-    // Node group
     const g = svgNS('g', { transform: `translate(${p.x},${p.y})`, style:'cursor:pointer' });
     g.dataset.ci = ci;
 
@@ -334,19 +363,16 @@ function drawChapters() {
     const circ = svgNS('circle', { r:'31', fill: ch.color, 'stroke': '#fff', 'stroke-width': '1.5', filter:'url(#glow2)' });
     circ.style.transition = 'r 0.2s, filter 0.2s';
 
-    // Chapter label: split into max-5-char lines
     const lineH = 12;
     function splitChLabel(lbl) {
       if (lbl.length <= 5) return [lbl];
       const parts = lbl.split('・');
       if (parts.length === 2) return parts;
       if (parts.length === 3) return [parts.slice(0,2).join('・'), parts[2]];
-      // No midpoint char — split at midpoint
       const mid = Math.ceil(lbl.length / 2);
       return [lbl.slice(0, mid), lbl.slice(mid)];
     }
     const lines = splitChLabel(ch.label);
-
     const totalH = lines.length * lineH;
     lines.forEach((line, li) => {
       const t = svgNS('text', {
@@ -357,19 +383,12 @@ function drawChapters() {
       t.textContent = line;
       g.append(t);
     });
-
     g.prepend(circ, outerRing);
 
-    // Click
-    g.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleChapter(ci, p);
-    });
-    g.addEventListener('mouseenter', () => {
-      circ.setAttribute('r', '34');
-    });
+    g.addEventListener('click', (e) => { e.stopPropagation(); toggleChapter(ci); });
+    g.addEventListener('mouseenter', () => { circ.setAttribute('r', '34'); });
     g.addEventListener('mouseleave', () => {
-      circ.setAttribute('r', '31');
+      circ.setAttribute('r', activeChapters.has(ci) ? '34' : '31');
     });
 
     layerNodesCh.append(g);
@@ -378,6 +397,8 @@ function drawChapters() {
 
 // ──────────── DISEASE NODES ────────────
 function drawDiseases() {
+  const defs = svgEl.querySelector('defs');
+
   CHAPTERS.forEach((ch, ci) => {
     const cp = chPos(ci);
     disEdges[ci] = [];
@@ -385,67 +406,85 @@ function drawDiseases() {
 
     ch.diseases.forEach((dis, di) => {
       const dp = disPos(ci, di, ch.diseases.length);
+      DIS_POS[dis.id] = dp;
       const chColor = ch.color;
+      const hasImg = dis.imgs && dis.imgs.length > 0;
+      const nodeR = 22;
 
-      // Edge
       const edge = svgNS('path', {
         d: `M ${cp.x} ${cp.y} Q ${(cp.x+dp.x)/2} ${(cp.y+dp.y)/2} ${dp.x} ${dp.y}`,
-        fill: 'none', stroke: chColor, 'stroke-width': '1.5', opacity: '0',
-        class: 'dis-edge'
+        fill: 'none', stroke: chColor, 'stroke-width': '1.5', opacity: '0'
       });
       edge.style.transition = 'opacity 0.35s';
       layerEdgesDis.append(edge);
       disEdges[ci].push(edge);
 
-      // Node group
-      const g = svgNS('g', { transform: `translate(${dp.x},${dp.y})`, style:'cursor:pointer', opacity:'0', class:'dis-node' });
+      const g = svgNS('g', { transform: `translate(${dp.x},${dp.y})`, style:'cursor:pointer', opacity:'0' });
       g.style.transition = 'opacity 0.35s';
       g.dataset.ci = ci;
       g.dataset.di = di;
 
-      const circ = svgNS('circle', { r:'20', fill: chColor, stroke: 'rgba(255,255,255,0.35)', 'stroke-width':'1' });
-      circ.style.transition = 'r 0.15s';
+      if (hasImg) {
+        // Circular image node
+        const clipId = `clip-${dis.id}`;
+        const cp2 = svgNS('clipPath', { id: clipId });
+        cp2.append(svgNS('circle', { cx:'0', cy:'0', r: String(nodeR) }));
+        defs.append(cp2);
 
-      // Short label helpers
-      function getAbbr(label) {
-        const m = label.match(/^([A-Za-z0-9\-]+)/);
-        if (m && m[1].length >= 2 && m[1].length <= 6) return m[1];
-        return label.replace(/（.+?）/g, '').slice(0, 4);
+        const imgEl = svgNS('image', {
+          href: dis.imgs[0],
+          x: String(-nodeR), y: String(-nodeR),
+          width: String(nodeR * 2), height: String(nodeR * 2),
+          'clip-path': `url(#${clipId})`,
+          preserveAspectRatio: 'xMidYMid slice'
+        });
+        const ring = svgNS('circle', { r: String(nodeR), fill:'none', stroke: chColor, 'stroke-width':'2.5', opacity:'0.9' });
+        ring.style.transition = 'r 0.15s';
+        g.append(imgEl, ring);
+      } else {
+        const circ = svgNS('circle', { r: String(nodeR), fill: chColor, stroke:'rgba(255,255,255,0.35)', 'stroke-width':'1' });
+        circ.style.transition = 'r 0.15s';
+
+        function getAbbr(label) {
+          const m = label.match(/^([A-Za-z0-9\-]+)/);
+          if (m && m[1].length >= 2 && m[1].length <= 6) return m[1];
+          return label.replace(/（.+?）/g, '').slice(0, 4);
+        }
+        const ct = svgNS('text', {
+          x:'0', y:'4.5', 'text-anchor':'middle', 'font-size':'8', 'font-weight':'900',
+          fill:'#fff', 'font-family':'Noto Sans JP,sans-serif', 'pointer-events':'none'
+        });
+        ct.textContent = getAbbr(dis.label);
+        g.append(circ, ct);
       }
+
+      // External label
+      const dx = dp.x - CX, dy = dp.y - CY;
+      const len = Math.hypot(dx, dy) || 1;
+      const nx = dx / len, ny = dy / len;
+      const lx = nx * (nodeR + 8), ly = ny * (nodeR + 8);
       function getExtLabel(label) {
         const noParens = label.replace(/（.+?）/g, '').replace(/\/.+/, '').trim();
         return noParens.length > 8 ? noParens.slice(0, 7) + '…' : noParens;
       }
-
-      const abbr = getAbbr(dis.label);
-      const ct = svgNS('text', {
-        x:'0', y:'4.5', 'text-anchor':'middle', 'font-size':'8', 'font-weight':'900',
-        fill:'#fff', 'font-family':'Noto Sans JP,sans-serif', 'pointer-events':'none'
-      });
-      ct.textContent = abbr;
-
-      // External label — positioned radially outward from center
-      const dx = dp.x - CX, dy = dp.y - CY;
-      const len = Math.hypot(dx, dy) || 1;
-      const nx = dx / len, ny = dy / len;
-      const lx = nx * 28, ly = ny * 28;
-      const anc = anchor(dp.x);
       const lt = svgNS('text', {
         x: String(lx), y: String(ly + 4),
-        'text-anchor': anc, 'font-size':'11', 'font-weight':'700',
+        'text-anchor': anchor(dp.x), 'font-size':'11', 'font-weight':'700',
         fill:'rgba(255,255,255,0.9)', 'font-family':'Noto Sans JP,sans-serif',
         'pointer-events':'none'
       });
       lt.textContent = getExtLabel(dis.label);
+      g.append(lt);
 
-      g.append(circ, ct, lt);
-
-      g.addEventListener('click', (e) => {
-        e.stopPropagation();
-        showPanel(ci, di);
+      g.addEventListener('click', (e) => { e.stopPropagation(); showPanel(ci, di); });
+      g.addEventListener('mouseenter', () => {
+        const c = g.querySelector('circle');
+        if (c) c.setAttribute('r', String(nodeR + 4));
       });
-      g.addEventListener('mouseenter', () => { circ.setAttribute('r', '23'); });
-      g.addEventListener('mouseleave', () => { circ.setAttribute('r', '20'); });
+      g.addEventListener('mouseleave', () => {
+        const c = g.querySelector('circle');
+        if (c) c.setAttribute('r', String(nodeR));
+      });
 
       layerNodesDis.append(g);
       disNodes[ci].push(g);
@@ -453,30 +492,92 @@ function drawDiseases() {
   });
 }
 
-function toggleChapter(ci, pos) {
-  const ch = CHAPTERS[ci];
-  const open = activeChapter === ci;
+// ──────────── RELATION LINES ────────────
+function drawRelations() {
+  RELATIONS.forEach(rel => {
+    const fp = DIS_POS[rel.from];
+    const tp = DIS_POS[rel.to];
+    if (!fp || !tp) return;
 
-  // Close current
-  if (activeChapter !== null) {
-    disNodes[activeChapter].forEach(n => { n.style.opacity = '0'; n.style.pointerEvents = 'none'; });
-    disEdges[activeChapter].forEach(e => { e.style.opacity = '0'; });
-    // Reset chapter circle
-    const prevG = layerNodesCh.children[activeChapter];
-    if (prevG) prevG.querySelector('circle').setAttribute('r', '31');
-  }
+    // Control point curved toward center
+    const mx = (fp.x + tp.x) / 2;
+    const my = (fp.y + tp.y) / 2;
+    const cpx = mx + (CX - mx) * 0.35;
+    const cpy = my + (CY - my) * 0.35;
 
-  if (open) {
-    activeChapter = null;
-    hidePanel();
+    const path = svgNS('path', {
+      d: `M ${fp.x} ${fp.y} Q ${cpx} ${cpy} ${tp.x} ${tp.y}`,
+      fill: 'none', stroke: rel.color,
+      'stroke-width': '1.5',
+      'stroke-dasharray': '5 4',
+      opacity: '0'
+    });
+    path.style.transition = 'opacity 0.4s';
+
+    // Label at curve midpoint
+    const lt = svgNS('text', {
+      x: String(cpx), y: String(cpy - 7),
+      'text-anchor': 'middle', 'font-size': '9', 'font-weight': '700',
+      fill: rel.color, 'font-family': 'Noto Sans JP,sans-serif',
+      opacity: '0', 'pointer-events': 'none'
+    });
+    lt.style.transition = 'opacity 0.4s';
+    lt.textContent = rel.label;
+
+    layerRelations.append(path, lt);
+    rel._path = path;
+    rel._label = lt;
+  });
+}
+
+function updateRelations() {
+  RELATIONS.forEach(rel => {
+    if (!rel._path) return;
+    const fromVis = activeChapters.has(DIS_CHIDX[rel.from]);
+    const toVis   = activeChapters.has(DIS_CHIDX[rel.to]);
+    const vis = fromVis && toVis;
+    rel._path.style.opacity  = vis ? '0.75' : '0';
+    rel._label.style.opacity = vis ? '1'    : '0';
+  });
+}
+
+// ──────────── TOGGLE CHAPTER (multi-expand) ────────────
+function toggleChapter(ci) {
+  const chG = layerNodesCh.children[ci];
+  const circ = chG ? chG.querySelector('circle') : null;
+
+  if (activeChapters.has(ci)) {
+    activeChapters.delete(ci);
+    disNodes[ci].forEach(n => { n.style.opacity = '0'; n.style.pointerEvents = 'none'; });
+    disEdges[ci].forEach(e => { e.style.opacity = '0'; });
+    if (circ) circ.setAttribute('r', '31');
   } else {
-    activeChapter = ci;
+    activeChapters.add(ci);
     disNodes[ci].forEach(n => { n.style.opacity = '1'; n.style.pointerEvents = ''; });
     disEdges[ci].forEach(e => { e.style.opacity = '0.5'; });
-    // Highlight chapter
-    const g = layerNodesCh.children[ci];
-    if (g) g.querySelector('circle').setAttribute('r', '34');
+    if (circ) circ.setAttribute('r', '34');
+    const p = chPos(ci);
+    panTo(p.x, p.y);
   }
+  updateRelations();
+}
+
+// ──────────── AUTO PAN ANIMATION ────────────
+function panTo(px, py, duration = 480) {
+  const ww = wrap.offsetWidth, wh = wrap.offsetHeight;
+  const targetTx = ww / 2 - px * scale;
+  const targetTy = wh / 2 - py * scale;
+  const startTx = tx, startTy = ty;
+  const startTime = performance.now();
+  function step(now) {
+    const prog = Math.min((now - startTime) / duration, 1);
+    const ease = 1 - Math.pow(1 - prog, 3); // cubic ease-out
+    tx = startTx + (targetTx - startTx) * ease;
+    ty = startTy + (targetTy - startTy) * ease;
+    clampAndApply();
+    if (prog < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
 }
 
 // ──────────── INFO PANEL ────────────
@@ -487,6 +588,7 @@ function showPanel(ci, di) {
   document.getElementById('panelCh').style.background = ch.color;
   document.getElementById('panelCh').style.color = '#fff';
   document.getElementById('panelTitle').textContent = dis.label;
+
   const ul = document.getElementById('panelKeys');
   ul.innerHTML = '';
   dis.keys.forEach(k => {
@@ -494,6 +596,19 @@ function showPanel(ci, di) {
     li.textContent = k;
     ul.append(li);
   });
+
+  const imgWrap = document.getElementById('panelImgs');
+  imgWrap.innerHTML = '';
+  if (dis.imgs && dis.imgs.length > 0) {
+    dis.imgs.forEach(src => {
+      const im = document.createElement('img');
+      im.src = src;
+      im.alt = dis.label;
+      im.addEventListener('click', () => openLightbox(src));
+      imgWrap.append(im);
+    });
+  }
+
   document.getElementById('panelLink').href = ch.link;
   document.getElementById('panel').classList.add('show');
 }
@@ -502,16 +617,17 @@ function hidePanel() {
   document.getElementById('panel').classList.remove('show');
 }
 
+function openLightbox(src) {
+  document.getElementById('lbImg').src = src;
+  document.getElementById('lb').classList.add('open');
+}
+
+document.getElementById('lb').addEventListener('click', () => {
+  document.getElementById('lb').classList.remove('open');
+});
 document.getElementById('panelClose').addEventListener('click', hidePanel);
+
 svgEl.addEventListener('click', () => {
-  // click on background
-  if (activeChapter !== null) {
-    disNodes[activeChapter].forEach(n => { n.style.opacity = '0'; n.style.pointerEvents = 'none'; });
-    disEdges[activeChapter].forEach(e => { e.style.opacity = '0'; });
-    const g = layerNodesCh.children[activeChapter];
-    if (g) g.querySelector('circle').setAttribute('r', '31');
-    activeChapter = null;
-  }
   hidePanel();
 });
 
@@ -529,7 +645,6 @@ function clampAndApply() {
   inner.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
 }
 
-// Center the map initially
 window.addEventListener('load', () => {
   const ww = wrap.offsetWidth, wh = wrap.offsetHeight;
   tx = (ww - W * scale) / 2;
@@ -540,7 +655,6 @@ window.addEventListener('load', () => {
 wrap.addEventListener('mousedown', e => {
   dragging = true;
   lastX = e.clientX; lastY = e.clientY;
-  wrap.classList.add('dragging');
   e.preventDefault();
 });
 window.addEventListener('mousemove', e => {
@@ -550,7 +664,7 @@ window.addEventListener('mousemove', e => {
   lastX = e.clientX; lastY = e.clientY;
   clampAndApply();
 });
-window.addEventListener('mouseup', () => { dragging = false; wrap.classList.remove('dragging'); });
+window.addEventListener('mouseup', () => { dragging = false; });
 
 wrap.addEventListener('wheel', e => {
   e.preventDefault();
@@ -563,7 +677,6 @@ wrap.addEventListener('wheel', e => {
   clampAndApply();
 }, { passive: false });
 
-// Touch support (iPad)
 wrap.addEventListener('touchstart', e => {
   if (e.touches.length === 1) {
     dragging = true;
@@ -606,23 +719,18 @@ wrap.addEventListener('touchend', () => { dragging = false; });
 
 // ──────────── BACKGROUND DECORATION ────────────
 function drawBg() {
-  // Subtle grid
   const g = svgNS('g', { opacity:'0.04' });
   for (let x = 0; x <= W; x += 80) {
-    const l = svgNS('line', { x1:x, y1:0, x2:x, y2:H, stroke:'#fff', 'stroke-width':'0.5' });
-    g.append(l);
+    g.append(svgNS('line', { x1:x, y1:0, x2:x, y2:H, stroke:'#fff', 'stroke-width':'0.5' }));
   }
   for (let y = 0; y <= H; y += 80) {
-    const l = svgNS('line', { x1:0, y1:y, x2:W, y2:y, stroke:'#fff', 'stroke-width':'0.5' });
-    g.append(l);
+    g.append(svgNS('line', { x1:0, y1:y, x2:W, y2:y, stroke:'#fff', 'stroke-width':'0.5' }));
   }
   svgEl.prepend(g);
 
-  // Decorative concentric circles
   const gc = svgNS('g', { opacity:'0.05' });
   [R1+20, R2-20, R2+50].forEach(r => {
-    const c = svgNS('circle', { cx:CX, cy:CY, r:r, fill:'none', stroke:'#fff', 'stroke-width':'1', 'stroke-dasharray':'4 8' });
-    gc.append(c);
+    gc.append(svgNS('circle', { cx:CX, cy:CY, r:r, fill:'none', stroke:'#fff', 'stroke-width':'1', 'stroke-dasharray':'4 8' }));
   });
   layerEdgesCh.before(gc);
 }
@@ -642,8 +750,8 @@ drawBg();
 drawRoot();
 drawChapters();
 drawDiseases();
+drawRelations();
 
-// Auto-center on resize
 window.addEventListener('resize', () => {
   const ww = wrap.offsetWidth, wh = wrap.offsetHeight;
   tx = (ww - W * scale) / 2;
