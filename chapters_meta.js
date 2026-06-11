@@ -501,6 +501,44 @@ const MEC_CHAPTERS = [
         "count": 59
       }
     ]
+  },
+  {
+    "id": "imma",
+    "name": "免アレ膠",
+    "icon": "🛡️",
+    "color": "#AD1457",
+    "chapters": [
+      {
+        "prefix": "imma_ch01",
+        "file": "免アレ膠/ch01_immare.html",
+        "title": "免疫の基本",
+        "count": 42
+      },
+      {
+        "prefix": "imma_ch02",
+        "file": "免アレ膠/ch02_immare.html",
+        "title": "アレルギー分類",
+        "count": 37
+      },
+      {
+        "prefix": "imma_ch03",
+        "file": "免アレ膠/ch03_immare.html",
+        "title": "リウマチと類縁疾患",
+        "count": 40
+      },
+      {
+        "prefix": "imma_ch04",
+        "file": "免アレ膠/ch04_immare.html",
+        "title": "結合組織疾患",
+        "count": 78
+      },
+      {
+        "prefix": "imma_ch05",
+        "file": "免アレ膠/ch05_immare.html",
+        "title": "血管炎",
+        "count": 50
+      }
+    ]
   }
 ];
 const MEC_CHAPTER_META = {
@@ -868,5 +906,30 @@ const MEC_CHAPTER_META = {
     "count": 59,
     "title": "血小板・凝固系の異常",
     "file": "血液/ch08_coagulation.html"
+  },
+  "imma_ch01": {
+    "count": 42,
+    "title": "免疫の基本",
+    "file": "免アレ膠/ch01_immare.html"
+  },
+  "imma_ch02": {
+    "count": 37,
+    "title": "アレルギー分類",
+    "file": "免アレ膠/ch02_immare.html"
+  },
+  "imma_ch03": {
+    "count": 40,
+    "title": "リウマチと類縁疾患",
+    "file": "免アレ膠/ch03_immare.html"
+  },
+  "imma_ch04": {
+    "count": 78,
+    "title": "結合組織疾患",
+    "file": "免アレ膠/ch04_immare.html"
+  },
+  "imma_ch05": {
+    "count": 50,
+    "title": "血管炎",
+    "file": "免アレ膠/ch05_immare.html"
   }
 };
