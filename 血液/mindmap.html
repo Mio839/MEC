@@ -505,11 +505,11 @@ function drawRelations() {
 
     let cpx, cpy;
     if (isSameCh) {
-      // Same chapter: bow outward (away from center) to avoid overlapping the chapter circle
+      // Same chapter: bow aggressively outward so the arc clears intermediate nodes
       const outX = mx - CX, outY = my - CY;
       const outLen = Math.hypot(outX, outY) || 1;
-      cpx = mx + (outX / outLen) * 60;
-      cpy = my + (outY / outLen) * 60;
+      cpx = mx + (outX / outLen) * 130;
+      cpy = my + (outY / outLen) * 130;
     } else {
       // Cross-chapter: arc toward center
       cpx = mx + (CX - mx) * 0.35;
@@ -528,6 +528,16 @@ function drawRelations() {
     // Label at actual bezier midpoint (t=0.5): 0.25*fp + 0.5*cp + 0.25*tp
     const lx = 0.25 * fp.x + 0.5 * cpx + 0.25 * tp.x;
     const ly = 0.25 * fp.y + 0.5 * cpy + 0.25 * tp.y - 7;
+
+    // Dark background pill behind label
+    const labelW = rel.label.length * 7 + 10;
+    const bg = svgNS('rect', {
+      x: String(lx - labelW / 2), y: String(ly - 10),
+      width: String(labelW), height: '14',
+      fill: '#06101f', rx: '4', opacity: '0'
+    });
+    bg.style.transition = 'opacity 0.4s';
+
     const lt = svgNS('text', {
       x: String(lx), y: String(ly),
       'text-anchor': 'middle', 'font-size': '9', 'font-weight': '700',
@@ -537,8 +547,9 @@ function drawRelations() {
     lt.style.transition = 'opacity 0.4s';
     lt.textContent = rel.label;
 
-    layerRelations.append(path, lt);
+    layerRelations.append(path, bg, lt);
     rel._path = path;
+    rel._bg = bg;
     rel._label = lt;
   });
 }
@@ -550,6 +561,7 @@ function updateRelations() {
     const toVis   = activeChapters.has(DIS_CHIDX[rel.to]);
     const vis = fromVis && toVis;
     rel._path.style.opacity  = vis ? '0.75' : '0';
+    if (rel._bg)    rel._bg.style.opacity    = vis ? '0.92' : '0';
     rel._label.style.opacity = vis ? '1'    : '0';
   });
 }
