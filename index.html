@@ -195,8 +195,8 @@ function getSubjectProgress(subject) {
   const today = new Date().toISOString().slice(0, 10);
   let totalQ = 0, doneCount = 0, dueCount = 0;
 
-  if (subject.id === 'study') {
-    // 統合ツールは進捗を直接持たない
+  if (subject.id === 'study' || subject.id === 'mindmap') {
+    // 進捗を持たないカード
   } else {
     subject.chapters.forEach(ch => {
       totalQ += ch.count;
