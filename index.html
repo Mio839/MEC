@@ -52,6 +52,11 @@ body{font-family:-apple-system,"Helvetica Neue",sans-serif;background:var(--gb);
 .chapter-prog-txt{font-size:11px;color:var(--ts);width:36px;text-align:right;flex-shrink:0;}
 .chapter-due{font-size:10px;font-weight:700;color:#fff;background:var(--rd);border-radius:10px;padding:1px 6px;flex-shrink:0;}
 
+/* ── Mindmap grid ── */
+.mindmap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;padding:0 16px 14px;}
+.mindmap-btn{display:flex;align-items:center;gap:8px;padding:11px 14px;border-radius:10px;color:#fff;font-size:13px;font-weight:700;text-decoration:none;}
+.mindmap-btn .mm-icon{font-size:18px;}
+
 /* ── Sync settings modal ── */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;align-items:flex-end;justify-content:center;}
 .modal-overlay.open{display:flex;}
@@ -148,10 +153,21 @@ const STUDY_TOOL = {
   chapters: []
 };
 
+const MINDMAP_TOOL = {
+  id: 'mindmap',
+  name: '科目マインドマップ',
+  icon: '🗺️',
+  color: '#1C2E4A',
+  type: 'mindmap',
+  maps: [
+    { subject: '血液', href: '血液/mindmap.html', color: '#DC2626', icon: '🩸' },
+  ]
+};
+
 // chapters_meta.js の MEC_CHAPTERS に統合ツールを先頭追加
 const ALL_SUBJECTS = typeof MEC_CHAPTERS !== 'undefined'
-  ? [STUDY_TOOL, ...MEC_CHAPTERS]
-  : [STUDY_TOOL];
+  ? [STUDY_TOOL, MINDMAP_TOOL, ...MEC_CHAPTERS]
+  : [STUDY_TOOL, MINDMAP_TOOL];
 
 // ── 統計計算 ──────────────────────────────────────────────────
 function calcStreak() {
@@ -229,6 +245,22 @@ function renderSubjects() {
               📝 全科目 ${totalQ}問 難易度・科目フィルターで学ぶ →
             </a>
           </div>
+        </div>`;
+    } else if (subj.id === 'mindmap') {
+      // 科目マインドマップ: 科目別グリッド
+      const mapsHtml = subj.maps.map(m =>
+        `<a class="mindmap-btn" href="${m.href}" style="background:${m.color}">
+           <span class="mm-icon">${m.icon}</span>${m.subject}
+         </a>`
+      ).join('');
+      card.innerHTML = `
+        <div class="subject-header" onclick="toggleChapters('subj_${si}')">
+          <span class="subject-icon">${subj.icon}</span>
+          <span class="subject-name">${subj.name}</span>
+          <span class="subject-arrow" id="arrow_subj_${si}">▼</span>
+        </div>
+        <div class="chapter-list" id="subj_${si}">
+          <div class="mindmap-grid">${mapsHtml}</div>
         </div>`;
     } else {
       // 章リスト型
