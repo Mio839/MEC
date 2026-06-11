@@ -499,11 +499,22 @@ function drawRelations() {
     const tp = DIS_POS[rel.to];
     if (!fp || !tp) return;
 
-    // Control point curved toward center
     const mx = (fp.x + tp.x) / 2;
     const my = (fp.y + tp.y) / 2;
-    const cpx = mx + (CX - mx) * 0.35;
-    const cpy = my + (CY - my) * 0.35;
+    const isSameCh = DIS_CHIDX[rel.from] === DIS_CHIDX[rel.to];
+
+    let cpx, cpy;
+    if (isSameCh) {
+      // Same chapter: bow outward (away from center) to avoid overlapping the chapter circle
+      const outX = mx - CX, outY = my - CY;
+      const outLen = Math.hypot(outX, outY) || 1;
+      cpx = mx + (outX / outLen) * 60;
+      cpy = my + (outY / outLen) * 60;
+    } else {
+      // Cross-chapter: arc toward center
+      cpx = mx + (CX - mx) * 0.35;
+      cpy = my + (CY - my) * 0.35;
+    }
 
     const path = svgNS('path', {
       d: `M ${fp.x} ${fp.y} Q ${cpx} ${cpy} ${tp.x} ${tp.y}`,
@@ -514,9 +525,11 @@ function drawRelations() {
     });
     path.style.transition = 'opacity 0.4s';
 
-    // Label at curve midpoint
+    // Label at actual bezier midpoint (t=0.5): 0.25*fp + 0.5*cp + 0.25*tp
+    const lx = 0.25 * fp.x + 0.5 * cpx + 0.25 * tp.x;
+    const ly = 0.25 * fp.y + 0.5 * cpy + 0.25 * tp.y - 7;
     const lt = svgNS('text', {
-      x: String(cpx), y: String(cpy - 7),
+      x: String(lx), y: String(ly),
       'text-anchor': 'middle', 'font-size': '9', 'font-weight': '700',
       fill: rel.color, 'font-family': 'Noto Sans JP,sans-serif',
       opacity: '0', 'pointer-events': 'none'
