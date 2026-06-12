@@ -78,7 +78,7 @@ const SUBJECTS=[
     {id:'endo_adrenal',label:'副腎不全',      keys:['原発性（Addison）：コルチゾール↓・アルドステロン↓','低血圧・低Na・高K・色素沈着（MSH過剰）','副腎クリーゼ：ヒドロコルチゾン100mg急速静注が最優先','自己免疫（先進国）・転移癌（肺癌が多い）・結核']},
     {id:'endo_met',  label:'代謝症候群',      keys:['内臓脂肪型肥満＋血糖・血圧・脂質の3因子','高LDL：スタチン；FH（腱黄色腫）→PCSK9阻害薬','高尿酸血症（>7 mg/dL）→痛風発作・尿路結石','インスリン抵抗性→2型DM・NASH・多嚢胞性卵巣症候群']},
   ]},
-  {id:'circ',label:'循環器',icon:'🫀',color:'#C62828',angle:-45,href:'循環器/mindmap.html',diseases:[
+  {id:'circ',label:'循環器',icon:'❤️',color:'#C62828',angle:-45,href:'循環器/mindmap.html',diseases:[
     {id:'circ_ami',  label:'急性心筋梗塞',   keys:['STEMI：ST上昇→緊急PCI（DTB<90分）','Killip分類；Tn↑・CK-MB↑','合併症：乳頭筋断裂・VSP・自由壁破裂・心室瘤','二次予防：DAPT＋スタチン＋ACE-I＋βB']},
     {id:'circ_hf',   label:'心不全',         keys:['HFrEF(EF<40%)：ARNI+βB+MRA+SGLT2（4剤）','HFpEF(EF≥50%)：SGLT2・利尿薬','BNP>100 pg/mL；NYHA分類','心腎症候群：心出力↓→腎灌流↓→AKI→利尿薬抵抗']},
     {id:'circ_af',   label:'心房細動',       keys:['f波不整；CHADS₂スコアで脳塞栓リスク評価','CHADS₂≥2：DOAC（抗凝固）必須','レートコントロール vs リズムコントロール','肺静脈隔離術（PVI）：根治的カテーテルアブレーション']},
@@ -88,7 +88,7 @@ const SUBJECTS=[
     {id:'circ_htn',  label:'高血圧',         keys:['≥140/90 mmHg；家庭血圧≥135/85','ARB/ACE-I・Ca拮抗薬・サイアザイド系','二次性高血圧：原発性アルドステロン症（最多）','高血圧緊急症：臓器障害合併→ニカルジピン静注']},
     {id:'circ_pah',  label:'肺高血圧',       keys:['mPAP≥25 mmHg（安静時）；右心カテ確定','PAH：ERA・PDE5阻害薬・プロスタサイクリン','COPD/間質性肺疾患→続発性PH→右心不全','右心不全：頸静脈怒張・肝腫大・下腿浮腫']},
   ]},
-  {id:'resp',label:'呼吸器',icon:'🫁',color:'#0277BD',angle:0,href:'呼吸器/mindmap.html',diseases:[
+  {id:'resp',label:'呼吸器',icon:'💨',color:'#0277BD',angle:0,href:'呼吸器/mindmap.html',diseases:[
     {id:'resp_copd', label:'COPD',           keys:['喫煙→気流制限（FEV1/FVC<0.70）；GOLD分類','LABA/LAMA/ICS；増悪：ステロイド+抗菌薬+NPPV','肺高血圧・右心不全・自然気胸・呼吸不全合併','禁煙が最重要（進行抑制）；肺リハ・在宅酸素']},
     {id:'resp_lc',   label:'肺癌',           keys:['腺癌（末梢型）・扁平上皮癌（中枢型）・SCLC','EGFR変異（腺癌）→オシメルチニブ；ALK転座→アレクチニブ','SCLC：EP療法＋PCI；予後不良','副腎転移（最多）・脳転移・骨転移・肝転移']},
     {id:'resp_tb',   label:'肺結核',         keys:['M. tuberculosis；飛沫核感染；空洞形成・上葉優位','IGRA（T-SPOT/QFN）；HRZE×2→HR×4か月','粟粒結核・結核性髄膜炎・結核性胸膜炎','DOTS；届出（2類感染症）；潜在性結核→INH予防内服']},
@@ -108,7 +108,7 @@ const SUBJECTS=[
     {id:'neur_mg',   label:'重症筋無力症',    keys:['抗AChR抗体（85%）or 抗MuSK抗体；NMJ障害','易疲労性（夕方増悪）；Edrophonium test','胸腺腫合併（15%）→胸腺摘除','MGクリーゼ：呼吸筋麻痺→血漿交換/IVIG＋ICU挿管']},
     {id:'neur_ms',   label:'多発性硬化症',    keys:['時間的・空間的多発；白質脱髄病変','視神経炎・横断性脊髄炎・INO（核間性眼筋麻痺）','急性期：ステロイドパルス；DMT：オクレリズマブ等','視神経脊髄炎（NMOSD）：抗AQP4抗体；β-IFN悪化']},
   ]},
-  {id:'gi',label:'消化器',icon:'🫃',color:'#2E7D32',angle:90,href:'消化器/mindmap.html',diseases:[
+  {id:'gi',label:'消化器',icon:'🍴',color:'#2E7D32',angle:90,href:'消化器/mindmap.html',diseases:[
     {id:'gi_uc',     label:'潰瘍性大腸炎',   keys:['直腸から連続性；びらん・浅潰瘍；粘血便','5-ASA→ステロイド→タクロリムス→抗TNF-α','中毒性巨大結腸症（緊急手術）；長期→大腸癌','PSC合併（UC患者の5%）：黄疸・肝酵素上昇']},
     {id:'gi_cd',     label:'クローン病',      keys:['非連続性・全層性；縦走潰瘍・敷石像・狭窄・瘻孔','回盲部好発；抗TNF-α（infliximab等）第一選択','腸管外合併症：関節炎・虹彩炎・壊疽性膿皮症','栄養療法（成分栄養）；短腸症候群・膿瘍・癌化']},
     {id:'gi_crc',    label:'大腸癌',          keys:['S状結腸・直腸が最多；Dukes/TNM；腺癌','EMR/ESD（T1a）；D3郭清付き外科切除','化学療法：FOLFOX/FOLFIRI＋Bev or Cet（RAS野生型）','同時性肝転移（20-30%）；腹膜播種；肺転移']},
@@ -118,7 +118,7 @@ const SUBJECTS=[
     {id:'gi_ileus',  label:'腸閉塞・急性腹症',keys:['癒着（術後最多）・腫瘍・Meckel・ヘルニア嵌頓','腹部X線：ニボー；CT：拡張腸管・閉塞点','絞扼（血流障害）→緊急手術','急性虫垂炎：McBurney圧痛→腹腔鏡下切除']},
     {id:'gi_ap',     label:'急性膵炎',        keys:['アルコール・胆石（2大原因）；Ranson/CT重症度','絶食・大量補液・鎮痛；感染性壊死→抗菌薬+ドレナージ','重篤合併症：ARDS・AKI・DIC・敗血症','慢性膵炎：石灰化・嚢胞；膵癌リスク↑']},
   ]},
-  {id:'hbp',label:'肝胆膵',icon:'🟠',color:'#E65100',angle:135,href:'肝胆膵/mindmap.html',diseases:[
+  {id:'hbp',label:'肝胆膵',icon:'⚕️',color:'#E65100',angle:135,href:'肝胆膵/mindmap.html',diseases:[
     {id:'hbp_cirr',  label:'肝硬変',          keys:['線維化→門脈圧亢進；Child-Pugh/MELD','四大合併症：食道静脈瘤・腹水（SBP）・肝性脳症・HCC','肝腎症候群：乏尿＋腎不全（予後不良）→肝移植','ナドロール（門脈圧降下）；アルブミン補液（SBP予防）']},
     {id:'hbp_hcc',   label:'肝細胞癌',        keys:['HBV/HCV→肝硬変→HCC（surveillance）','AFP・PIVKA-II↑；動脈相濃染＋門脈相washout','肝切除（Child A）・RFA（小病変）・TACE','Atezolizumab+Bevacizumab（進行期一次治療）']},
     {id:'hbp_hbv',   label:'B型肝炎',         keys:['HBs抗原・HBe抗原；垂直/水平感染','慢性化→肝硬変→HCC；テノホビル/エンテカビル','ワクチンで予防；垂直感染予防：HBIG+ワクチン','劇症肝炎（HBV）：PT<40%→肝移植検討']},
@@ -227,6 +227,7 @@ const lNDis=ns('g',{});const lNCh=ns('g',{});const lRoot=ns('g',{});
 svgEl.append(lBg,lEdCh,lEdDis,lRel,lSRel,lNDis,lNCh,lRoot);
 
 // Defs
+function ltn(hex,p){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return'#'+[r,g,b].map(v=>Math.round(v+(255-v)*p).toString(16).padStart(2,'0')).join('');}
 function mkDefs(){
   const defs=ns('defs',{});
   const rg=ns('radialGradient',{id:'rootGrad',cx:'50%',cy:'50%',r:'50%'});
@@ -238,17 +239,28 @@ function mkDefs(){
   const g2=ns('filter',{id:'glow2',x:'-50%',y:'-50%',width:'200%',height:'200%'});
   const gb2=ns('feGaussianBlur',{stdDeviation:'3',result:'c'});
   const gm2=ns('feMerge',{});gm2.append(ns('feMergeNode',{in:'c'}),ns('feMergeNode',{in:'SourceGraphic'}));
-  g2.append(gb2,gm2);defs.append(rg,glow,g2);svgEl.prepend(defs);
+  g2.append(gb2,gm2);
+  SUBJECTS.forEach(s=>{
+    const sg=ns('radialGradient',{id:'grad_'+s.id,cx:'38%',cy:'35%',r:'62%'});
+    sg.append(ns('stop',{offset:'0%','stop-color':ltn(s.color,0.55)}),ns('stop',{offset:'100%','stop-color':s.color}));
+    defs.append(sg);
+  });
+  defs.append(rg,glow,g2);svgEl.prepend(defs);
 }
 mkDefs();
 
 // Background
 function drawBg(){
-  const g=ns('g',{opacity:'0.035'});
-  for(let x=0;x<=W;x+=100)g.append(ns('line',{x1:x,y1:0,x2:x,y2:H,stroke:'#fff','stroke-width':'0.5'}));
-  for(let y=0;y<=H;y+=100)g.append(ns('line',{x1:0,y1:y,x2:W,y2:y,stroke:'#fff','stroke-width':'0.5'}));
-  lBg.append(g);
-  [R1+20,R2-20,R2+60].forEach(r=>lBg.append(ns('circle',{cx:CX,cy:CY,r,fill:'none',stroke:'rgba(255,255,255,0.04)','stroke-width':'1.5','stroke-dasharray':'6 10'})));
+  const rn=n=>{let x=Math.sin(n*9301+49297)*233280;return x-Math.floor(x);};
+  const sg=ns('g',{});
+  for(let i=0;i<110;i++){
+    const x=rn(i)*W,y=rn(i+100)*H,r=rn(i+200)*1.4+0.3,o=rn(i+300)*0.4+0.07;
+    const sc=ns('circle',{cx:x.toFixed(1),cy:y.toFixed(1),r:r.toFixed(2),fill:'#fff',opacity:o.toFixed(2)});
+    if(i%6===0)sc.style.animation='twinkle '+(rn(i+400)*2.5+1.8).toFixed(1)+'s ease-in-out infinite '+(rn(i+500)*2).toFixed(1)+'s';
+    sg.append(sc);
+  }
+  lBg.append(sg);
+  [R1+20,R2-20,R2+60].forEach(r=>lBg.append(ns('circle',{cx:CX,cy:CY,r,fill:'none',stroke:'rgba(255,255,255,0.05)','stroke-width':'1.5','stroke-dasharray':'6 10'})));
 }
 drawBg();
 
@@ -281,7 +293,7 @@ function drawSubjects(){
     lEdCh.append(ns('path',{d:`M ${ex} ${ey} Q ${(ex+sx)/2} ${(ey+sy)/2} ${sx} ${sy}`,fill:'none',stroke:s.color,'stroke-width':'2.5',opacity:'0.5'}));
     const g=ns('g',{transform:`translate(${sx},${sy})`,style:'cursor:pointer'});
     const outerR=ns('circle',{r:'44',fill:'none',stroke:s.color,'stroke-width':'2',opacity:'0.35'});
-    const circ=ns('circle',{r:'36',fill:s.color,stroke:'rgba(255,255,255,0.3)','stroke-width':'1.5',filter:'url(#glow2)'});
+    const circ=ns('circle',{r:'36',fill:'url(#grad_'+s.id+')',stroke:'rgba(255,255,255,0.3)','stroke-width':'1.5',filter:'url(#glow2)'});
     circ.style.transition='r 0.2s';
     const icon=ns('text',{x:'0',y:'-4','text-anchor':'middle','font-size':'16','font-family':'Noto Sans JP,sans-serif'});icon.textContent=s.icon;
     const lines=splitLbl(s.label);
@@ -307,7 +319,7 @@ function drawSubjects(){
       dg.style.transition='opacity 0.3s';
       const dc=ns('circle',{r:String(NR),fill:s.color,stroke:'rgba(255,255,255,0.3)','stroke-width':'1'});
       dc.style.transition='r 0.15s';
-      function abbr(lbl){const m=lbl.match(/^([A-Z][A-Za-z0-9-]+)/);if(m&&m[1].length>=2&&m[1].length<=6)return m[1];return lbl.replace(/（.+?）/g,'').replace(/[・\/].+/,'').slice(0,4);}
+      function abbr(lbl){const m=lbl.match(/^([A-Z][A-Za-z0-9-]+)/);if(m&&m[1].length>=2&&m[1].length<=6)return m[1];const s=lbl.replace(/（.+?）/g,'');const pts=s.split(/[・\/]/);return pts[pts.length-1].slice(0,4);}
       const dt=ns('text',{x:'0',y:'4','text-anchor':'middle','font-size':'9','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif','pointer-events':'none'});dt.textContent=abbr(dis.label);
       const dx2=dp.x-CX,dy2=dp.y-CY,len2=Math.hypot(dx2,dy2)||1;
       const lx=(dx2/len2)*(NR+22),ly=(dy2/len2)*(NR+22);
@@ -362,7 +374,7 @@ drawRelations();
 function updateRelations(){
   CROSS.forEach(rel=>{
     const v=rel._p&&activeSubjects.has(DIS_SUBJ_IDX[rel.f])&&activeSubjects.has(DIS_SUBJ_IDX[rel.t]);
-    if(rel._p)rel._p.style.opacity=v?'0.7':'0';
+    if(rel._p){rel._p.style.opacity=v?'0.75':'0';rel._p.style.animation=v?'flow 1.1s linear infinite':'';}
     if(rel._bg)rel._bg.style.opacity=v?'0.95':'0';
     if(rel._lt)rel._lt.style.opacity=v?'1':'0';
   });
@@ -381,12 +393,12 @@ function toggleSubject(si){
     activeSubjects.delete(si);
     disNodes[si].forEach(n=>{n.style.opacity='0';n.style.pointerEvents='none';});
     disEdges[si].forEach(e=>e.style.opacity='0');
-    if(circ)circ.setAttribute('r','36');
+    if(circ){circ.setAttribute('r','36');circ.setAttribute('filter','url(#glow2)');}
   }else{
     activeSubjects.add(si);
     disNodes[si].forEach(n=>{n.style.opacity='1';n.style.pointerEvents='';});
     disEdges[si].forEach(e=>e.style.opacity='0.45');
-    if(circ)circ.setAttribute('r','39');
+    if(circ){circ.setAttribute('r','39');circ.setAttribute('filter','url(#glow)');}
     const a=deg(SUBJECTS[si].angle);
     panTo(CX+R1*Math.cos(a),CY+R1*Math.sin(a));
   }
@@ -471,7 +483,7 @@ function panTo(px,py,dur=480){
 window.addEventListener('resize',()=>{const ww=wrap.offsetWidth,wh=wrap.offsetHeight;tx=(ww-W*scale)/2;ty=(wh-H*scale)/2;clampAndApply();});
 
 const style=document.createElement('style');
-style.textContent='@keyframes pulse{0%,100%{opacity:0.5;transform:scale(1);}50%{opacity:0.12;transform:scale(1.2);}}';
+style.textContent='@keyframes pulse{0%,100%{opacity:0.5;transform:scale(1);}50%{opacity:0.12;transform:scale(1.2);}}@keyframes flow{from{stroke-dashoffset:0;}to{stroke-dashoffset:-40;}}@keyframes twinkle{0%,100%{opacity:0.07;}50%{opacity:0.65;}}';
 document.head.append(style);
 </script>
 </body>
