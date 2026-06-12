@@ -85,9 +85,9 @@ svg{display:block;}
 </div>
 
 <script>
-const CX = 750, CY = 510;
+const CX = 800, CY = 660;
 const R1 = 230;
-const R2 = 510;
+const R2 = 600;
 
 const CHAPTERS = [
   {
@@ -265,7 +265,7 @@ function chPos(chIdx) {
 
 function disPos(chIdx, dIdx, total) {
   const chAngle = CHAPTERS[chIdx].angle;
-  const fanDeg = Math.min(56, 12 + 8 * total);
+  const fanDeg = Math.min(36, 8 + 6 * total);
   const start = chAngle - fanDeg / 2;
   const a = deg(start + (dIdx + 0.5) * fanDeg / total);
   return { x: CX + R2 * Math.cos(a), y: CY + R2 * Math.sin(a) };
@@ -281,7 +281,7 @@ function anchor(x) {
 // SVG rendering
 // ──────────────────────────────────────────────
 const svgEl = document.getElementById('svg');
-const W = 1500, H = 1120;
+const W = 1600, H = 1380;
 svgEl.setAttribute('width', W);
 svgEl.setAttribute('height', H);
 svgEl.setAttribute('viewBox', `0 0 ${W} ${H}`);
@@ -529,28 +529,30 @@ function drawRelations() {
     const lx = 0.25 * fp.x + 0.5 * cpx + 0.25 * tp.x;
     const ly = 0.25 * fp.y + 0.5 * cpy + 0.25 * tp.y - 7;
 
-    // Dark background pill behind label
-    const labelW = rel.label.length * 7 + 10;
-    const bg = svgNS('rect', {
-      x: String(lx - labelW / 2), y: String(ly - 10),
-      width: String(labelW), height: '14',
-      fill: '#06101f', rx: '4', opacity: '0'
-    });
-    bg.style.transition = 'opacity 0.4s';
-
-    const lt = svgNS('text', {
-      x: String(lx), y: String(ly),
-      'text-anchor': 'middle', 'font-size': '9', 'font-weight': '700',
-      fill: rel.color, 'font-family': 'Noto Sans JP,sans-serif',
-      opacity: '0', 'pointer-events': 'none'
-    });
-    lt.style.transition = 'opacity 0.4s';
-    lt.textContent = rel.label;
-
-    layerRelations.append(path, bg, lt);
+    layerRelations.append(path);
     rel._path = path;
-    rel._bg = bg;
-    rel._label = lt;
+
+    // Labels only for cross-chapter relations (same-chapter labels cause node overlap)
+    if (!isSameCh) {
+      const labelW = rel.label.length * 7 + 10;
+      const bg = svgNS('rect', {
+        x: String(lx - labelW / 2), y: String(ly - 10),
+        width: String(labelW), height: '14',
+        fill: '#06101f', rx: '4', opacity: '0'
+      });
+      bg.style.transition = 'opacity 0.4s';
+      const lt = svgNS('text', {
+        x: String(lx), y: String(ly),
+        'text-anchor': 'middle', 'font-size': '9', 'font-weight': '700',
+        fill: rel.color, 'font-family': 'Noto Sans JP,sans-serif',
+        opacity: '0', 'pointer-events': 'none'
+      });
+      lt.style.transition = 'opacity 0.4s';
+      lt.textContent = rel.label;
+      layerRelations.append(bg, lt);
+      rel._bg = bg;
+      rel._label = lt;
+    }
   });
 }
 
@@ -560,9 +562,9 @@ function updateRelations() {
     const fromVis = activeChapters.has(DIS_CHIDX[rel.from]);
     const toVis   = activeChapters.has(DIS_CHIDX[rel.to]);
     const vis = fromVis && toVis;
-    rel._path.style.opacity  = vis ? '0.75' : '0';
+    rel._path.style.opacity = vis ? '0.75' : '0';
     if (rel._bg)    rel._bg.style.opacity    = vis ? '0.92' : '0';
-    rel._label.style.opacity = vis ? '1'    : '0';
+    if (rel._label) rel._label.style.opacity = vis ? '1'    : '0';
   });
 }
 
