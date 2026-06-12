@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<title>肝胆膵 疾患マインドマップ | MEC</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans JP',sans-serif;background:#06101f;overflow:hidden;width:100vw;height:100vh;user-select:none;}
+.hdr{position:fixed;top:0;left:0;right:0;height:46px;background:rgba(10,22,46,.97);border-bottom:2px solid #E65100;display:flex;align-items:center;gap:10px;padding:0 16px;z-index:100;}
+.hdr-badge{background:#E65100;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;}
+.hdr h1{font-size:15px;font-weight:900;color:#fff;}
+.hdr-hint{margin-left:auto;font-size:11px;color:rgba(255,255,255,.4);}
+.hdr-back{font-size:11px;color:#F5A623;text-decoration:none;font-weight:700;border:1.5px solid #F5A623;border-radius:20px;padding:3px 10px;white-space:nowrap;}
+#wrap{position:fixed;top:46px;left:0;right:0;bottom:0;overflow:hidden;touch-action:none;}
+#inner{position:absolute;transform-origin:0 0;will-change:transform;}
+svg{display:block;}
+.panel{position:fixed;right:14px;bottom:14px;width:280px;max-height:65vh;overflow-y:auto;background:rgba(10,22,46,.97);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;padding:14px 16px;color:#fff;opacity:0;transform:translateY(12px);transition:opacity .25s,transform .25s;pointer-events:none;z-index:200;scrollbar-width:thin;}
+.panel.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+.panel-close{position:absolute;top:10px;right:12px;background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;line-height:1;}
+.panel-chapter{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:6px;}
+.panel-title{font-size:16px;font-weight:900;margin-bottom:8px;line-height:1.35;}
+.panel-keys{list-style:none;font-size:12px;line-height:1.85;}
+.panel-keys li{display:flex;gap:6px;align-items:flex-start;}
+.panel-keys li::before{content:'▸';color:#F5A623;flex-shrink:0;margin-top:1px;}
+.panel-imgs{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+.panel-imgs img{width:100%;border-radius:6px;cursor:zoom-in;border:1px solid rgba(255,255,255,.1);}
+.panel-link{display:inline-block;margin-top:10px;padding:5px 14px;background:#E65100;color:#fff;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;}
+.panel-link:hover{background:#F4511E;}
+#lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1000;cursor:zoom-out;align-items:center;justify-content:center;}
+#lb.open{display:flex;}
+#lb img{max-width:92vw;max-height:88vh;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.8);}
+.legend{position:fixed;left:14px;bottom:14px;background:rgba(10,22,46,.9);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 14px;z-index:100;}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:11px;color:rgba(255,255,255,.75);margin-bottom:4px;}
+.legend-item:last-child{margin-bottom:0;}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.legend-dot.l1{width:12px;height:12px;border:2px solid rgba(255,255,255,0.6);background:none;}
+.legend-dash{width:20px;height:0;border-top:2px dashed;flex-shrink:0;}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <span class="hdr-badge">MEC</span>
+  <h1>肝胆膵 疾患マインドマップ</h1>
+  <span class="hdr-hint">章をタップ→疾患 ／ 複数章展開で関連線表示</span>
+  <a class="hdr-back" href="../index.html">← ホーム</a>
+</div>
+<div id="wrap"><div id="inner"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div></div>
+<div class="panel" id="panel">
+  <button class="panel-close" id="panelClose">✕</button>
+  <div class="panel-chapter" id="panelCh"></div>
+  <div class="panel-title" id="panelTitle"></div>
+  <ul class="panel-keys" id="panelKeys"></ul>
+  <div class="panel-imgs" id="panelImgs"></div>
+  <a class="panel-link" id="panelLink" href="#">📚 問題を解く →</a>
+</div>
+<div id="lb"><img id="lbImg" src="" alt=""/></div>
+<div class="legend">
+  <div class="legend-item" style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:6px;">色 ＝ 系統</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#D97706;"></div>基礎・検査</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#DC2626;"></div>肝炎・感染</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#B91C1C;"></div>肝硬変・合併症</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#4338CA;"></div>肝腫瘍</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#047857;"></div>胆道・胆石</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#059669;"></div>胆道腫瘍</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#1D4ED8;"></div>膵炎</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7C3AED;"></div>膵腫瘍</div>
+  <div style="border-top:1px solid rgba(255,255,255,.1);margin:7px 0;"></div>
+  <div class="legend-item"><div class="legend-dash" style="border-color:#FBBF24;"></div>関連疾患（点線）</div>
+</div>
+<script>
+const CX = 800, CY = 660;
+const R1 = 230;
+const R2 = 600;
+
+const CHAPTERS = [
+  {
+    id:'ch01', label:'肝臓の基本', color:'#D97706', angle:-90,
+    link:'ch01_kitan_kihon.html',
+    diseases:[
+      {id:'d01a', label:'肝機能検査', imgs:[],
+       keys:['AST/ALT：肝細胞障害（ALTは肝特異性高い）','ALP・γGTP：胆道系酵素（閉塞性黄疸で著増）','直接ビリルビン↑（閉塞性）vs 間接ビリルビン↑（溶血）','PT（プロトロンビン時間）：肝の予備能指標（下がれば重症）']},
+      {id:'d01b', label:'肝炎ウイルスマーカー', imgs:[],
+       keys:['HBsAg(+)：HBV感染；HBsAb(+)：感染既往/ワクチン','HBe抗原(+)：ウイルス増殖・高感染性；HBV-DNA(+)で確定','抗HCV抗体(+)→HCV-RNAで活動性確認','HCV：慢性化率70%（HBVは約10%）']},
+      {id:'d01c', label:'Child-Pugh分類', imgs:[],
+       keys:['肝硬変重症度：腹水・脳症・Bil・Alb・PTの5項目','A(5-6点)：良好；B(7-9点)：中等度；C(10-15点)：不良','MELD score：INR・Bil・Crから算出（移植優先度指標）','6か月以上の腹水や脳症 → 移植検討']},
+      {id:'d01d', label:'肝生検と線維化', imgs:[],
+       keys:['Metavir F0-F4（F4：肝硬変）','FibroScan（肝硬度測定）：非侵襲的線維化評価','FIB-4 index：(Age×AST)/(Plt×√ALT) ≥3.25で重度線維化','腹腔鏡下生検：出血リスク高の場合に経頸静脈的肝生検']},
+    ]
+  },
+  {
+    id:'ch02', label:'肝炎', color:'#DC2626', angle:-45,
+    link:'ch02_kitan_kanen.html',
+    diseases:[
+      {id:'d02a', label:'A型肝炎', imgs:[],
+       keys:['経口感染（生牡蠣・汚染水）；糞口経路','急性肝炎のみ（慢性化なし）；IgM型抗HA抗体(+)','黄疸・発熱・消化器症状；劇症化率1%未満','予防：ワクチン接種；衛生的食習慣']},
+      {id:'d02b', label:'B型肝炎', imgs:['images/113B-8_1.jpeg'],
+       keys:['血液・性行為・母子感染；HBsAg陽性で感染性あり','慢性化（成人感染：10%；垂直感染：90%）','核酸アナログ（テノホビル・エンテカビル）で抑制','HBs消失が実質的な治癒；HBc抗体陽性で再活性化リスク']},
+      {id:'d02c', label:'C型肝炎', imgs:['images/106I-21_1.jpeg'],
+       keys:['血液感染（輸血・注射針共用）；慢性化率70-80%','DAA（直接作用型抗ウイルス薬）：SVR率>95%（グレカプレビル等）','慢性肝炎→肝硬変→肝細胞癌（30年で20%が肝硬変）','治療後も肝細胞癌サーベイランス継続が必要']},
+      {id:'d02d', label:'劇症肝炎', imgs:[],
+       keys:['発症8週以内にPT活性<40%かつ肝性脳症','B型（HBV）とA型が多い；薬剤性も要除外','Ⅱ度以上の脳症→肝移植の適応検討','血漿交換・人工肝補助療法でbridge to transplant']},
+      {id:'d02e', label:'自己免疫性肝炎（AIH）', imgs:[],
+       keys:['中年女性に多い；抗核抗体・抗平滑筋抗体陽性','IgG著増；インターフェース肝炎（組織所見）','ステロイド著効（アザチオプリン併用で維持）','妊娠・産後に悪化しやすい']},
+    ]
+  },
+  {
+    id:'ch03', label:'肝硬変', color:'#B91C1C', angle:0,
+    link:'ch03_kitan_kanshorben.html',
+    diseases:[
+      {id:'d03a', label:'肝硬変の病態', imgs:['images/99H-15_1.jpeg'],
+       keys:['線維化・再生結節形成・門脈圧亢進が三本柱','原因：HCV/HBV・アルコール・NASH・自己免疫','合成能↓（Alb↓・PT延長）；代謝能↓（NH₃↑）','肝細胞癌発生率：HCV肝硬変で年7-8%']},
+      {id:'d03b', label:'食道静脈瘤', imgs:['images/101G-28_1.jpeg'],
+       keys:['門脈圧亢進→側副路（食道・胃底部）','内視鏡所見：F因子（太さ）・RC sign（発赤）で出血予測','出血時：内視鏡的結紮術（EVL）が第一選択','非選択的βブロッカー（プロプラノロール）で予防']},
+      {id:'d03c', label:'肝性脳症', imgs:[],
+       keys:['アンモニア（NH₃）↑→大脳皮質・アストロサイト障害','誘因：便秘・感染・GI出血・高蛋白食・利尿薬過剰','羽ばたき振戦（asterixis）・EEG三相波','ラクツロース（NH₃産生↓）・リファキシミン（腸内細菌↓）']},
+      {id:'d03d', label:'腹水・SBP', imgs:[],
+       keys:['門脈圧↑＋Alb↓＋腎Na貯留が三要因','血清-腹水Alb勾配（SAAG）≥1.1→門脈圧亢進性','自然発症細菌性腹膜炎（SBP）：腹水PMN≥250/μL','SBP治療：セフォタキシム；再発予防：ST合剤/ノルフロキサシン']},
+      {id:'d03e', label:'肝腎症候群', imgs:[],
+       keys:['肝硬変+腹水に伴う機能的腎障害（腎実質は正常）','Type 1（急性）：2週以内にCr倍増；予後不良','テルリプレシン（バソプレシン誘導体）+Alb静注が標準','根治は肝移植のみ；透析は一時的bridge']},
+    ]
+  },
+  {
+    id:'ch04', label:'肝腫瘍', color:'#4338CA', angle:45,
+    link:'ch04_kitan_kanshuyo.html',
+    diseases:[
+      {id:'d04a', label:'肝細胞癌（HCC）', imgs:['images/105A-26_1.jpeg','images/103D-31_1.jpeg'],
+       keys:['HCV肝硬変・HBV・NASHが3大リスク','造影CT：動脈相濃染＋門脈相wash-out（典型像）','AFP↑（>200 ng/mL）・PIVKA-II↑','治療：RFA・肝切除・TACE・ソラフェニブ（切除不能進行例）']},
+      {id:'d04b', label:'転移性肝癌', imgs:[],
+       keys:['原発巣：大腸癌・胃癌・膵癌・肺癌が多い','CT：多発性低吸収域（牛眼病変）','大腸癌の肝転移：肝切除で根治可能（5年生存30-40%）','AFP正常・CEA/CA19-9↑で転移性を疑う']},
+      {id:'d04c', label:'肝内胆管癌（ICC）', imgs:[],
+       keys:['胆管上皮由来（HCCとの鑑別重要）','CA19-9↑；造影CT：rim enhancement','PSC・胆管炎反復が危険因子','切除が唯一の根治手段；切除率低い（予後不良）']},
+      {id:'d04d', label:'肝良性腫瘍', imgs:['images/108D-18_1.jpeg'],
+       keys:['肝血管腫：最多；CT造影で末梢から求心性濃染','限局性結節性過形成（FNH）：中心瘢痕、ガドキセト酸で確認','肝腺腫：経口避妊薬関連；出血リスクあり','肝嚢胞：単純嚢胞は経過観察；水様性無強調']},
+    ]
+  },
+  {
+    id:'ch05', label:'胆嚢炎・胆石', color:'#047857', angle:90,
+    link:'ch05_kitan_cholecystitis.html',
+    diseases:[
+      {id:'d05a', label:'胆石症', imgs:['images/99G-27_1.jpeg'],
+       keys:['コレステロール結石（70%）：黄白色・単発・成人肥満女性','色素結石：溶血・感染（黒色：溶血性貧血；茶色：胆管感染）','超音波：高エコー+音響陰影（posterior acoustic shadow）','無症状なら経過観察；胆石発作→腹腔鏡下胆嚢摘出術']},
+      {id:'d05b', label:'急性胆嚢炎', imgs:['images/95G-22_1.jpeg'],
+       keys:['Charcot三徴：発熱・右季肋部痛・黄疸（胆管炎）','Murphy sign(+)：吸気時右季肋部圧迫で吸気停止','超音波：胆嚢壁肥厚・胆嚢周囲液貯留','軽症→抗菌薬+72時間後早期腹腔鏡；重症→経皮的胆嚢穿刺ドレナージ']},
+      {id:'d05c', label:'急性胆管炎', imgs:[],
+       keys:['Tokyo guidelines 2018で重症度分類','Charcot三徴+血圧低下・意識障害=Reynolds五徴（敗血症）','治療：ERCP＋胆管ドレナージが第一選択（緊急内視鏡）','グラム陰性桿菌（E.coli）→ピペラシリン/タゾバクタム']},
+      {id:'d05d', label:'原発性硬化性胆管炎', imgs:['images/103D-35_1.jpeg'],
+       keys:['免疫性胆管炎；IBD（特にUC）に合併（70-80%）','ERCP：「数珠状」胆管（狭窄と拡張の繰り返し）','pANCA陽性；胆管癌リスク↑（年1.5%）','内視鏡的拡張/ステント；根治は肝移植']},
+    ]
+  },
+  {
+    id:'ch06', label:'胆道腫瘍', color:'#059669', angle:135,
+    link:'ch06_kitan_biliary_tumor.html',
+    diseases:[
+      {id:'d06a', label:'胆嚢癌', imgs:['images/104I-79_1.jpeg'],
+       keys:['胆石合併60-80%；磁器様胆嚢（石灰化胆嚢）がリスク','CT：胆嚢壁不整・浸潤・造影効果あり','早期発見困難；T2以上で転移多い','腹腔鏡下胆嚢摘出後に偶発的発見→追加切除が必要']},
+      {id:'d06b', label:'胆管癌（肝外）', imgs:['images/104A-30_1.jpeg'],
+       keys:['Klatskin腫瘍（肝門部）：最多；切除困難','閉塞性黄疸（直接Bil↑・ALP↑・CA19-9↑）','ERCP：不整な胆管狭窄像；細胞診で確定','切除可能なら拡大肝切除；不能なら胆管ドレナージ＋化学療法']},
+      {id:'d06c', label:'乳頭部癌', imgs:[],
+       keys:['Vater乳頭部に発生；比較的早期発見可能','黄疸を早期呈する；内視鏡で観察可能','膵頭十二指腸切除術（Whipple手術）','5年生存率40-60%（胆管癌・膵癌より良好）']},
+      {id:'d06d', label:'IPMN', imgs:['images/117F-66_1.jpeg'],
+       keys:['膵管内乳頭粘液性腫瘍：膵管内にムチン産生腫瘍','主膵管型（MD-IPMN）：悪性度高い（>60%）','分枝型（BD-IPMN）：大部分が良性（Worrisome feature評価）','高懸念：主膵管拡張>10mm・壁在結節・細胞診陽性']},
+    ]
+  },
+  {
+    id:'ch07', label:'膵炎', color:'#1D4ED8', angle:180,
+    link:'ch07_kitan_pancreatitis.html',
+    diseases:[
+      {id:'d07a', label:'急性膵炎', imgs:['images/95G-26_1.jpeg'],
+       keys:['原因：胆石（40%）・アルコール（40%）・特発性','血清アミラーゼ↑・リパーゼ↑（3倍以上で診断的）','CT Grade：壊死・浸出液・臓器不全で重症度判定','重症：ICU管理；膵壊死感染→経皮ドレナージ/外科的デブリドマン']},
+      {id:'d07b', label:'慢性膵炎', imgs:['images/101H-44_1.jpeg'],
+       keys:['原因：アルコール（70%）；不可逆的な膵実質破壊','3徴：腹痛（膵性疼痛）・脂肪便・糖尿病','CT：膵石灰化（特異的）・膵管拡張','疼痛：鎮痛薬・膵酵素補充；重症→内視鏡/手術（Frey手術）']},
+      {id:'d07c', label:'自己免疫性膵炎', imgs:['images/105D-21_1.jpeg'],
+       keys:['IgG4関連疾患；IgG4≥135 mg/dL','腸管型：膵全体が腸詰め型腫大（CT：sausage appearance）','膵癌との鑑別が重要（切除前にステロイド試験療法）','ステロイド著効（プレドニゾロン40mg→漸減）']},
+    ]
+  },
+  {
+    id:'ch08', label:'膵腫瘍', color:'#7C3AED', angle:225,
+    link:'ch08_kitan_pancreatic_tumor.html',
+    diseases:[
+      {id:'d08a', label:'膵管癌', imgs:['images/109D-35_1.jpeg'],
+       keys:['予後最悪の消化器癌（5年生存率<10%）','主膵管狭窄・膵管拡張；double-duct sign（膵管+胆管）','CA19-9↑（感度70-80%）；膵頭部癌→閉塞性黄疸','切除可能：膵頭十二指腸切除；ゲムシタビン+nab-PTX（切除不能）']},
+      {id:'d08b', label:'膵神経内分泌腫瘍', imgs:[],
+       keys:['機能性（ホルモン産生）vs 非機能性','インスリノーマ：Whipple三徴（低血糖発作・Glu<50・Glu投与で改善）','ガストリノーマ（Z-E症候群）：難治性潰瘍・下痢・MEN1合併','ソマトスタチン受容体シンチ（オクトレオスキャン）が有用']},
+      {id:'d08c', label:'膵嚢胞性腫瘍', imgs:['images/107I-80_1.jpeg'],
+       keys:['IPMN（最多）・粘液性嚢胞腫瘍（MCN）・漿液性腺腫（SCA）','MCN：中年女性・卵巣型間質・悪性ポテンシャル（切除推奨）','SCA：ハニカム状・良性経過・経過観察可','嚢胞内液CEA>200 ng/mLは悪性疑い']},
+      {id:'d08d', label:'膵島腫瘍', imgs:[],
+       keys:['インスリノーマが最多（90%良性・単発）','空腹時低血糖症状：発汗・動悸・意識障害','72時間絶食試験：血糖<50mg/dL+インスリン上昇で診断','治療：腫瘍核出術（良性）；ジアゾキサイドで低血糖制御']},
+    ]
+  },
+];
+
+const RELATIONS = [
+  // 異章間（ラベルあり）
+  { from:'d02c', to:'d03a', label:'HCV→肝硬変', color:'#FBBF24' },
+  { from:'d02b', to:'d04a', label:'HBV→HCC', color:'#F87171' },
+  { from:'d03b', to:'d05c', label:'胆管炎合併', color:'#C084FC' },
+  { from:'d07c', to:'d05d', label:'IgG4関連', color:'#67E8F9' },
+  { from:'d08a', to:'d06b', label:'膵胆管系', color:'#6EE7B7' },
+  { from:'d03a', to:'d04a', label:'肝硬変→HCC', color:'#FDE68A' },
+  { from:'d06d', to:'d08a', label:'嚢胞→癌化', color:'#94A3B8' },
+  // 同章内（点線のみ）
+  { from:'d02b', to:'d02c', label:'', color:'#FCA5A5' },
+  { from:'d03b', to:'d03c', label:'', color:'#93C5FD' },
+  { from:'d03c', to:'d03d', label:'', color:'#93C5FD' },
+  { from:'d08b', to:'d08d', label:'', color:'#C4B5FD' },
+];
+
+const DIS_POS = {};
+const DIS_CHIDX = {};
+CHAPTERS.forEach((ch, ci) => { ch.diseases.forEach(dis => { DIS_CHIDX[dis.id] = ci; }); });
+
+function deg(a){return a*Math.PI/180;}
+function chPos(chIdx){const a=deg(CHAPTERS[chIdx].angle);return{x:CX+R1*Math.cos(a),y:CY+R1*Math.sin(a)};}
+function disPos(chIdx,dIdx,total){const chAngle=CHAPTERS[chIdx].angle;const fanDeg=Math.min(36,8+6*total);const start=chAngle-fanDeg/2;const a=deg(start+(dIdx+0.5)*fanDeg/total);return{x:CX+R2*Math.cos(a),y:CY+R2*Math.sin(a)};}
+function anchor(x){if(x<CX-20)return'end';if(x>CX+20)return'start';return'middle';}
+
+const svgEl=document.getElementById('svg');
+const W=1600,H=1380;
+svgEl.setAttribute('width',W);svgEl.setAttribute('height',H);svgEl.setAttribute('viewBox',`0 0 ${W} ${H}`);
+
+function svgNS(tag,attrs){const el=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v));return el;}
+
+function createDefs(){
+  const defs=svgNS('defs',{});
+  const rg=svgNS('radialGradient',{id:'rootGrad',cx:'50%',cy:'50%',r:'50%'});
+  rg.append(svgNS('stop',{offset:'0%','stop-color':'#FF7043'}),svgNS('stop',{offset:'100%','stop-color':'#BF360C'}));
+  const f=svgNS('filter',{id:'glow',x:'-50%',y:'-50%',width:'200%',height:'200%'});
+  const blur=svgNS('feGaussianBlur',{stdDeviation:'4',result:'colored'});
+  const merge=svgNS('feMerge',{});merge.append(svgNS('feMergeNode',{in:'colored'}),svgNS('feMergeNode',{in:'SourceGraphic'}));f.append(blur,merge);
+  const f2=svgNS('filter',{id:'glow2',x:'-50%',y:'-50%',width:'200%',height:'200%'});
+  const blur2=svgNS('feGaussianBlur',{stdDeviation:'2.5',result:'colored2'});
+  const merge2=svgNS('feMerge',{});merge2.append(svgNS('feMergeNode',{in:'colored2'}),svgNS('feMergeNode',{in:'SourceGraphic'}));f2.append(blur2,merge2);
+  defs.append(rg,f,f2);svgEl.prepend(defs);
+}
+
+const layerEdgesCh=svgNS('g',{id:'ech'});
+const layerEdgesDis=svgNS('g',{id:'edis'});
+const layerRelations=svgNS('g',{id:'nrel'});
+const layerNodesDis=svgNS('g',{id:'ndis'});
+const layerNodesCh=svgNS('g',{id:'nch'});
+const layerRoot=svgNS('g',{id:'nroot'});
+svgEl.append(layerEdgesCh,layerEdgesDis,layerRelations,layerNodesDis,layerNodesCh,layerRoot);
+createDefs();
+
+const activeChapters=new Set();
+const disEdges={};
+const disNodes={};
+
+function drawRoot(){
+  const g=svgNS('g',{transform:`translate(${CX},${CY})`});
+  const ring=svgNS('circle',{r:'68',fill:'none',stroke:'rgba(230,81,0,0.25)','stroke-width':'12'});ring.style.animation='pulse 2.5s ease-in-out infinite';
+  const ring2=svgNS('circle',{r:'52',fill:'none',stroke:'rgba(230,81,0,0.18)','stroke-width':'8'});ring2.style.animation='pulse 2.5s ease-in-out infinite 0.8s';
+  const circ=svgNS('circle',{r:'42',fill:'url(#rootGrad)',filter:'url(#glow)'});
+  const txt1=svgNS('text',{x:'0',y:'-6','text-anchor':'middle','font-size':'13','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif'});txt1.textContent='肝胆膵';
+  const txt2=svgNS('text',{x:'0',y:'10','text-anchor':'middle','font-size':'9','font-weight':'700',fill:'rgba(255,255,255,0.7)','font-family':'Noto Sans JP,sans-serif'});txt2.textContent='Hepato';
+  g.append(ring,ring2,circ,txt1,txt2);layerRoot.append(g);
+}
+
+function drawChapters(){
+  CHAPTERS.forEach((ch,ci)=>{
+    const p=chPos(ci);
+    const ep1={x:CX+44*Math.cos(deg(ch.angle)),y:CY+44*Math.sin(deg(ch.angle))};
+    const path=svgNS('path',{d:`M ${ep1.x} ${ep1.y} Q ${(ep1.x+p.x)/2} ${(ep1.y+p.y)/2} ${p.x} ${p.y}`,fill:'none',stroke:ch.color,'stroke-width':'2.5',opacity:'0.55'});
+    layerEdgesCh.append(path);
+    const g=svgNS('g',{transform:`translate(${p.x},${p.y})`,style:'cursor:pointer'});g.dataset.ci=ci;
+    const outerRing=svgNS('circle',{r:'37',fill:'none',stroke:ch.color,'stroke-width':'2',opacity:'0.4'});
+    const circ=svgNS('circle',{r:'31',fill:ch.color,stroke:'#fff','stroke-width':'1.5',filter:'url(#glow2)'});circ.style.transition='r 0.2s';
+    function splitLabel(lbl){if(lbl.length<=5)return[lbl];const parts=lbl.split('・');if(parts.length>=2)return[parts.slice(0,Math.ceil(parts.length/2)).join('・'),parts.slice(Math.ceil(parts.length/2)).join('・')];const mid=Math.ceil(lbl.length/2);return[lbl.slice(0,mid),lbl.slice(mid)];}
+    const lines=splitLabel(ch.label);const lineH=12;const totalH=lines.length*lineH;
+    lines.forEach((line,li)=>{const t=svgNS('text',{x:'0',y:String(li*lineH-totalH/2+lineH*0.8),'text-anchor':'middle','font-size':'9','font-weight':'700',fill:'#fff','font-family':'Noto Sans JP,sans-serif'});t.textContent=line;g.append(t);});
+    g.prepend(circ,outerRing);
+    g.addEventListener('click',(e)=>{e.stopPropagation();toggleChapter(ci);});g.addEventListener('touchstart',(e)=>{e.stopPropagation();if(e.touches.length===1){dragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;}},{passive:true});
+    g.addEventListener('mouseenter',()=>{circ.setAttribute('r','34');});
+    g.addEventListener('mouseleave',()=>{circ.setAttribute('r',activeChapters.has(ci)?'34':'31');});
+    layerNodesCh.append(g);
+  });
+}
+
+function drawDiseases(){
+  const defs=svgEl.querySelector('defs');
+  CHAPTERS.forEach((ch,ci)=>{
+    const cp=chPos(ci);disEdges[ci]=[];disNodes[ci]=[];
+    ch.diseases.forEach((dis,di)=>{
+      const dp=disPos(ci,di,ch.diseases.length);DIS_POS[dis.id]=dp;
+      const chColor=ch.color;const hasImg=dis.imgs&&dis.imgs.length>0;const nodeR=32;
+      const edge=svgNS('path',{d:`M ${cp.x} ${cp.y} Q ${(cp.x+dp.x)/2} ${(cp.y+dp.y)/2} ${dp.x} ${dp.y}`,fill:'none',stroke:chColor,'stroke-width':'1.5',opacity:'0'});edge.style.transition='opacity 0.35s';
+      layerEdgesDis.append(edge);disEdges[ci].push(edge);
+      const g=svgNS('g',{transform:`translate(${dp.x},${dp.y})`,style:'cursor:pointer',opacity:'0'});g.style.transition='opacity 0.35s';g.dataset.ci=ci;g.dataset.di=di;
+      if(hasImg){
+        const clipId=`clip-${dis.id}`;const cp2=svgNS('clipPath',{id:clipId});cp2.append(svgNS('circle',{cx:'0',cy:'0',r:String(nodeR)}));defs.append(cp2);
+        const imgEl=svgNS('image',{href:dis.imgs[0],x:String(-nodeR),y:String(-nodeR),width:String(nodeR*2),height:String(nodeR*2),'clip-path':`url(#${clipId})`,preserveAspectRatio:'xMidYMid slice'});
+        const ring=svgNS('circle',{r:String(nodeR),fill:'none',stroke:chColor,'stroke-width':'2.5',opacity:'0.9'});ring.style.transition='r 0.15s';g.append(imgEl,ring);
+      }else{
+        const circ=svgNS('circle',{r:String(nodeR),fill:chColor,stroke:'rgba(255,255,255,0.35)','stroke-width':'1'});circ.style.transition='r 0.15s';
+        function getAbbr(label){const m=label.match(/^([A-Za-z0-9\-]+)/);if(m&&m[1].length>=2&&m[1].length<=6)return m[1];return label.replace(/（.+?）/g,'').slice(0,4);}
+        const ct=svgNS('text',{x:'0',y:'5','text-anchor':'middle','font-size':'10','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif','pointer-events':'none'});ct.textContent=getAbbr(dis.label);g.append(circ,ct);
+      }
+      const dx=dp.x-CX,dy=dp.y-CY,len=Math.hypot(dx,dy)||1,nx=dx/len,ny=dy/len;
+      const lx=nx*(nodeR+20),ly=ny*(nodeR+20);
+      function getExtLabel(label){const noParens=label.replace(/（.+?）/g,'').replace(/\/.+/,'').trim();return noParens.length>8?noParens.slice(0,7)+'…':noParens;}
+      const lt=svgNS('text',{x:String(lx),y:String(ly+4),'text-anchor':anchor(dp.x),'font-size':'12','font-weight':'700',fill:'rgba(255,255,255,0.9)','font-family':'Noto Sans JP,sans-serif','pointer-events':'none'});lt.textContent=getExtLabel(dis.label);g.append(lt);
+      g.addEventListener('click',(e)=>{e.stopPropagation();showPanel(ci,di);});g.addEventListener('touchstart',(e)=>{e.stopPropagation();if(e.touches.length===1){dragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;}},{passive:true});
+      g.addEventListener('mouseenter',()=>{const c=g.querySelector('circle');if(c)c.setAttribute('r',String(nodeR+4));});
+      g.addEventListener('mouseleave',()=>{const c=g.querySelector('circle');if(c)c.setAttribute('r',String(nodeR));});
+      layerNodesDis.append(g);disNodes[ci].push(g);
+    });
+  });
+}
+
+function drawRelations(){
+  RELATIONS.forEach(rel=>{
+    const fp=DIS_POS[rel.from],tp=DIS_POS[rel.to];if(!fp||!tp)return;
+    const mx=(fp.x+tp.x)/2,my=(fp.y+tp.y)/2;
+    const isSameCh=DIS_CHIDX[rel.from]===DIS_CHIDX[rel.to];
+    let cpx,cpy;
+    if(isSameCh){const outX=mx-CX,outY=my-CY,outLen=Math.hypot(outX,outY)||1;cpx=mx+(outX/outLen)*130;cpy=my+(outY/outLen)*130;}
+    else{cpx=mx+(CX-mx)*0.35;cpy=my+(CY-my)*0.35;}
+    const path=svgNS('path',{d:`M ${fp.x} ${fp.y} Q ${cpx} ${cpy} ${tp.x} ${tp.y}`,fill:'none',stroke:rel.color,'stroke-width':'1.5','stroke-dasharray':'5 4',opacity:'0'});path.style.transition='opacity 0.4s';
+    layerRelations.append(path);rel._path=path;
+    if(!isSameCh){
+      const lx=0.25*fp.x+0.5*cpx+0.25*tp.x,ly=0.25*fp.y+0.5*cpy+0.25*tp.y-7;
+      const labelW=rel.label.length*7+10;
+      const bg=svgNS('rect',{x:String(lx-labelW/2),y:String(ly-10),width:String(labelW),height:'14',fill:'#06101f',rx:'4',opacity:'0'});bg.style.transition='opacity 0.4s';
+      const lt=svgNS('text',{x:String(lx),y:String(ly),'text-anchor':'middle','font-size':'9','font-weight':'700',fill:rel.color,'font-family':'Noto Sans JP,sans-serif',opacity:'0','pointer-events':'none'});lt.style.transition='opacity 0.4s';lt.textContent=rel.label;
+      layerRelations.append(bg,lt);rel._bg=bg;rel._label=lt;
+    }
+  });
+}
+
+function updateRelations(){
+  RELATIONS.forEach(rel=>{
+    if(!rel._path)return;
+    const vis=activeChapters.has(DIS_CHIDX[rel.from])&&activeChapters.has(DIS_CHIDX[rel.to]);
+    rel._path.style.opacity=vis?'0.75':'0';
+    if(rel._bg)rel._bg.style.opacity=vis?'0.92':'0';
+    if(rel._label)rel._label.style.opacity=vis?'1':'0';
+  });
+}
+
+function toggleChapter(ci){
+  const chG=layerNodesCh.children[ci];const circ=chG?chG.querySelector('circle'):null;
+  if(activeChapters.has(ci)){activeChapters.delete(ci);disNodes[ci].forEach(n=>{n.style.opacity='0';n.style.pointerEvents='none';});disEdges[ci].forEach(e=>{e.style.opacity='0';});if(circ)circ.setAttribute('r','31');}
+  else{activeChapters.add(ci);disNodes[ci].forEach(n=>{n.style.opacity='1';n.style.pointerEvents='';});disEdges[ci].forEach(e=>{e.style.opacity='0.5';});if(circ)circ.setAttribute('r','34');const p=chPos(ci);panTo(p.x,p.y);}
+  updateRelations();
+}
+
+function panTo(px,py,duration=480){
+  const ww=wrap.offsetWidth,wh=wrap.offsetHeight;
+  const targetTx=ww/2-px*scale,targetTy=wh/2-py*scale;
+  const startTx=tx,startTy=ty,startTime=performance.now();
+  function step(now){const prog=Math.min((now-startTime)/duration,1);const ease=1-Math.pow(1-prog,3);tx=startTx+(targetTx-startTx)*ease;ty=startTy+(targetTy-startTy)*ease;clampAndApply();if(prog<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+
+function showPanel(ci,di){
+  const ch=CHAPTERS[ci],dis=ch.diseases[di];
+  document.getElementById('panelCh').textContent='📌 '+ch.label;document.getElementById('panelCh').style.background=ch.color;document.getElementById('panelCh').style.color='#fff';
+  document.getElementById('panelTitle').textContent=dis.label;
+  const ul=document.getElementById('panelKeys');ul.innerHTML='';dis.keys.forEach(k=>{const li=document.createElement('li');li.textContent=k;ul.append(li);});
+  const imgWrap=document.getElementById('panelImgs');imgWrap.innerHTML='';
+  if(dis.imgs&&dis.imgs.length>0){dis.imgs.forEach(src=>{const im=document.createElement('img');im.src=src;im.alt=dis.label;im.addEventListener('click',()=>openLightbox(src));imgWrap.append(im);});}
+  document.getElementById('panelLink').href=ch.link;document.getElementById('panel').classList.add('show');
+}
+function hidePanel(){document.getElementById('panel').classList.remove('show');}
+function openLightbox(src){document.getElementById('lbImg').src=src;document.getElementById('lb').classList.add('open');}
+document.getElementById('lb').addEventListener('click',()=>document.getElementById('lb').classList.remove('open'));
+document.getElementById('panelClose').addEventListener('click',hidePanel);
+svgEl.addEventListener('click',()=>hidePanel());
+
+const wrap=document.getElementById('wrap'),inner=document.getElementById('inner');
+let tx=0,ty=0,scale=1,dragging=false,lastX=0,lastY=0,lastDist=0;
+function clampAndApply(){scale=Math.max(0.4,Math.min(2.5,scale));inner.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`;}
+window.addEventListener('load',()=>{const ww=wrap.offsetWidth,wh=wrap.offsetHeight;tx=(ww-W*scale)/2;ty=(wh-H*scale)/2;clampAndApply();});
+wrap.addEventListener('mousedown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY;e.preventDefault();});
+window.addEventListener('mousemove',e=>{if(!dragging)return;tx+=e.clientX-lastX;ty+=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;clampAndApply();});
+window.addEventListener('mouseup',()=>{dragging=false;});
+wrap.addEventListener('wheel',e=>{e.preventDefault();const factor=e.deltaY>0?0.9:1.1;const rect=wrap.getBoundingClientRect();const mx=e.clientX-rect.left,my=e.clientY-rect.top;tx=mx-(mx-tx)*factor;ty=my-(my-ty)*factor;scale*=factor;clampAndApply();},{passive:false});
+wrap.addEventListener('touchstart',e=>{if(e.touches.length===1){dragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;}else if(e.touches.length===2){dragging=false;lastDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);}e.preventDefault();},{passive:false});
+wrap.addEventListener('touchmove',e=>{if(e.touches.length===1&&dragging){tx+=e.touches[0].clientX-lastX;ty+=e.touches[0].clientY-lastY;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;clampAndApply();}else if(e.touches.length===2){const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);const rect=wrap.getBoundingClientRect();const mx=(e.touches[0].clientX+e.touches[1].clientX)/2-rect.left;const my=(e.touches[0].clientY+e.touches[1].clientY)/2-rect.top;const factor=dist/lastDist;tx=mx-(mx-tx)*factor;ty=my-(my-ty)*factor;scale*=factor;lastDist=dist;clampAndApply();}e.preventDefault();},{passive:false});
+wrap.addEventListener('touchend',()=>{dragging=false;});
+
+function drawBg(){
+  const g=svgNS('g',{opacity:'0.04'});
+  for(let x=0;x<=W;x+=80)g.append(svgNS('line',{x1:x,y1:0,x2:x,y2:H,stroke:'#fff','stroke-width':'0.5'}));
+  for(let y=0;y<=H;y+=80)g.append(svgNS('line',{x1:0,y1:y,x2:W,y2:y,stroke:'#fff','stroke-width':'0.5'}));
+  svgEl.prepend(g);
+  const gc=svgNS('g',{opacity:'0.05'});
+  [R1+20,R2-20,R2+50].forEach(r=>gc.append(svgNS('circle',{cx:CX,cy:CY,r:r,fill:'none',stroke:'#fff','stroke-width':'1','stroke-dasharray':'4 8'})));
+  layerEdgesCh.before(gc);
+}
+
+const style=document.createElement('style');
+style.textContent=`@keyframes pulse{0%,100%{opacity:0.6;transform:scale(1);}50%{opacity:0.15;transform:scale(1.15);}}`;
+document.head.append(style);
+
+drawBg();drawRoot();drawChapters();drawDiseases();drawRelations();
+window.addEventListener('resize',()=>{const ww=wrap.offsetWidth,wh=wrap.offsetHeight;tx=(ww-W*scale)/2;ty=(wh-H*scale)/2;clampAndApply();});
+</script>
+</body>
+</html>

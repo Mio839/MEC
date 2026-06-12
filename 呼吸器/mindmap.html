@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<title>呼吸器 疾患マインドマップ | MEC</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans JP',sans-serif;background:#06101f;overflow:hidden;width:100vw;height:100vh;user-select:none;}
+.hdr{position:fixed;top:0;left:0;right:0;height:46px;background:rgba(10,22,46,.97);border-bottom:2px solid #0288D1;display:flex;align-items:center;gap:10px;padding:0 16px;z-index:100;}
+.hdr-badge{background:#0288D1;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;}
+.hdr h1{font-size:15px;font-weight:900;color:#fff;}
+.hdr-hint{margin-left:auto;font-size:11px;color:rgba(255,255,255,.4);}
+.hdr-back{font-size:11px;color:#F5A623;text-decoration:none;font-weight:700;border:1.5px solid #F5A623;border-radius:20px;padding:3px 10px;white-space:nowrap;}
+#wrap{position:fixed;top:46px;left:0;right:0;bottom:0;overflow:hidden;touch-action:none;}
+#inner{position:absolute;transform-origin:0 0;will-change:transform;}
+svg{display:block;}
+.panel{position:fixed;right:14px;bottom:14px;width:280px;max-height:65vh;overflow-y:auto;background:rgba(10,22,46,.97);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;padding:14px 16px;color:#fff;opacity:0;transform:translateY(12px);transition:opacity .25s,transform .25s;pointer-events:none;z-index:200;scrollbar-width:thin;}
+.panel.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+.panel-close{position:absolute;top:10px;right:12px;background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;line-height:1;}
+.panel-chapter{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:6px;}
+.panel-title{font-size:16px;font-weight:900;margin-bottom:8px;line-height:1.35;}
+.panel-keys{list-style:none;font-size:12px;line-height:1.85;}
+.panel-keys li{display:flex;gap:6px;align-items:flex-start;}
+.panel-keys li::before{content:'▸';color:#F5A623;flex-shrink:0;margin-top:1px;}
+.panel-imgs{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+.panel-imgs img{width:100%;border-radius:6px;cursor:zoom-in;border:1px solid rgba(255,255,255,.1);}
+.panel-link{display:inline-block;margin-top:10px;padding:5px 14px;background:#0288D1;color:#fff;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;}
+.panel-link:hover{background:#03A9F4;}
+#lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1000;cursor:zoom-out;align-items:center;justify-content:center;}
+#lb.open{display:flex;}
+#lb img{max-width:92vw;max-height:88vh;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.8);}
+.legend{position:fixed;left:14px;bottom:14px;background:rgba(10,22,46,.9);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 14px;z-index:100;}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:11px;color:rgba(255,255,255,.75);margin-bottom:4px;}
+.legend-item:last-child{margin-bottom:0;}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.legend-dot.l1{width:12px;height:12px;border:2px solid rgba(255,255,255,0.6);background:none;}
+.legend-dash{width:20px;height:0;border-top:2px dashed;flex-shrink:0;}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <span class="hdr-badge">MEC</span>
+  <h1>🫁 呼吸器 疾患マインドマップ</h1>
+  <span class="hdr-hint">章をタップ→疾患 ／ 複数章展開で関連線表示</span>
+  <a class="hdr-back" href="../index.html">← ホーム</a>
+</div>
+<div id="wrap"><div id="inner"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div></div>
+<div class="panel" id="panel">
+  <button class="panel-close" id="panelClose">✕</button>
+  <div class="panel-chapter" id="panelCh"></div>
+  <div class="panel-title" id="panelTitle"></div>
+  <ul class="panel-keys" id="panelKeys"></ul>
+  <div class="panel-imgs" id="panelImgs"></div>
+  <a class="panel-link" id="panelLink" href="#">📚 問題を解く →</a>
+</div>
+<div id="lb"><img id="lbImg" src="" alt=""/></div>
+<div class="legend">
+  <div class="legend-item" style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:6px;">色 ＝ 系統</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#D97706;"></div>基礎・検査</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#DC2626;"></div>呼吸不全（緊急）</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#B45309;"></div>閉塞性疾患</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#047857;"></div>間質性疾患</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#1D4ED8;"></div>肺循環</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#4338CA;"></div>肺腫瘍</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#6D28D9;"></div>感染症</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#475569;"></div>胸膜・胸郭</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#B91C1C;"></div>乳房</div>
+  <div style="border-top:1px solid rgba(255,255,255,.1);margin:7px 0;"></div>
+  <div class="legend-item"><div class="legend-dash" style="border-color:#FBBF24;"></div>関連疾患（点線）</div>
+</div>
+<script>
+const CX = 800, CY = 660;
+const R1 = 230;
+const R2 = 600;
+
+const CHAPTERS = [
+  {
+    id:'ch01', label:'呼吸器の基本', color:'#D97706', angle:-90,
+    link:'ch01_呼吸器の基本_解答解説.html',
+    diseases:[
+      {id:'d01a', label:'肺機能検査', imgs:['images/107G-11_1.jpeg'],
+       keys:['閉塞性：FEV1%<70%（1秒率低下）；%FVC保たれる','拘束性：%VC<80%（肺活量低下）；FEV1%正常〜上昇','混合性：FEV1%↓かつ%VC↓','DLCO↓→間質性肺炎・肺気腫（気道閉塞より肺胞壁破壊）']},
+      {id:'d01b', label:'胸部X線・CT', imgs:['images/111A-59_1.jpeg'],
+       keys:['浸潤影：感染・水腫；すりガラス影（GGO）：間質性病変初期','蜂巣肺（honeycombing）：UIPパターン（線維化末期）','空洞病変：結核・肺癌（扁平上皮）・肺膿瘍','胸膜肥厚・石灰化：陳旧性結核・アスベスト']},
+      {id:'d01c', label:'喀痰検査・気管支鏡', imgs:[],
+       keys:['喀痰塗抹：Ziehl-Neelsen染色で抗酸菌確認','気管支肺胞洗浄（BAL）：CD4/CD8↓→過敏性肺臓炎；マクロファージ↑→喫煙関連','経気管支肺生検（TBLB）：サルコイドーシスで診断率高い','EBUS-TBNA：縦隔リンパ節腫大の生検に有用']},
+      {id:'d01d', label:'血液ガス', imgs:[],
+       keys:['I型呼吸不全：PaO₂<60 mmHg（PaCO₂正常/低下）','II型：PaO₂<60 + PaCO₂>45 mmHg（換気不全）','A-aDO₂開大→肺胞レベルの障害（間質・V/Qミスマッチ）','CO₂ナルコーシス：高CO₂血症+意識障害→高流量O₂禁忌']},
+    ]
+  },
+  {
+    id:'ch02', label:'呼吸不全', color:'#DC2626', angle:-50,
+    link:'ch02_呼吸不全_解答解説.html',
+    diseases:[
+      {id:'d02a', label:'ARDS', imgs:['images/115C-42_1.jpeg'],
+       keys:['発症1週以内の急性呼吸不全；両側肺浸潤影','P/F ratio（PaO₂/FiO₂）<300（ベルリン定義）','原因：敗血症・誤嚥・外傷・膵炎・輸血','肺保護換気：TV 6 mL/kg（低容量）・PEEP高め']},
+      {id:'d02b', label:'I型/II型呼吸不全', imgs:[],
+       keys:['I型（低酸素性）：O₂投与で改善；ARDS・肺炎・心不全','II型（高炭酸ガス性）：COPD増悪・筋疾患・肥満低換気','NPPV（非侵襲的陽圧換気）：COPD増悪・急性肺水腫に有効','気管挿管の適応：意識低下・分泌物排出困難・NPPV失敗']},
+      {id:'d02c', label:'人工呼吸管理', imgs:[],
+       keys:['VCV（容量制御）vs PCV（圧制御）；SIMVで離脱準備','auto-PEEP：COPDで注意（吸気終末に呼気完了せず）','VAP（人工呼吸器関連肺炎）：48時間以降の発熱・浸潤影','ウィーニング：SBT（自発呼吸トライアル）で離脱判定']},
+    ]
+  },
+  {
+    id:'ch03', label:'閉塞性疾患', color:'#B45309', angle:-10,
+    link:'ch03_閉塞性疾患_解答解説.html',
+    diseases:[
+      {id:'d03a', label:'COPD', imgs:['images/110G-13_1.jpeg'],
+       keys:['40歳以上喫煙者；FEV1%<70%（吸入気管支拡張薬後）','樽状胸・口すぼめ呼吸・補助筋使用・過膨張（X線）','GOLD分類（FEV1%予測値）でI-IV；SGRQ-C','LABA+LAMA（長時間作用型吸入薬）+吸入ステロイド（重症）']},
+      {id:'d03b', label:'気管支喘息', imgs:['images/119C-36_1.jpeg'],
+       keys:['可逆性気流閉塞＋気道過敏性亢進；好酸球性炎症','治療段階1-5：ICS（吸入ステロイド）が基本；重症にSABA追加','重積発作：PaCO₂↑（正常化）＝疲弊危険サイン','アスピリン喘息：NSAIDs投与後に発作；COX-1阻害→LT産生↑']},
+      {id:'d03c', label:'気管支拡張症', imgs:[],
+       keys:['CT：signet-ring sign（気管支径>伴走血管）','原因：反復感染・粘液線毛機能異常・免疫不全・CF','緑膿菌・黄色ブドウ球菌・NTMが起炎菌','体位ドレナージ；急性増悪：抗菌薬（シプロフロキサシン等）']},
+      {id:'d03d', label:'細気管支炎・その他', imgs:[],
+       keys:['閉塞性細気管支炎（BO）：骨髄移植後慢性GVHD；FEV1進行性低下','びまん性汎細気管支炎（DPB）：HLA-B54関連；副鼻腔炎+慢性咳嗽','DPB治療：エリスロマイシン少量長期（14員環マクロライド）','好酸球性肺炎：末梢血好酸球↑；ステロイド著効']},
+    ]
+  },
+  {
+    id:'ch04', label:'間質性疾患', color:'#047857', angle:30,
+    link:'ch04_間質性疾患_解答解説.html',
+    diseases:[
+      {id:'d04a', label:'特発性肺線維症（IPF）', imgs:['images/108E-49_1.jpeg'],
+       keys:['UIPパターン：両側下葉・胸膜下の蜂巣肺+牽引性気管支拡張','60歳以上男性喫煙者；予後不良（中央生存期間3-5年）','KL-6↑・SP-D↑（血清マーカー）','ニンテダニブ・ピルフェニドン（抗線維化薬）で進行抑制']},
+      {id:'d04b', label:'サルコイドーシス', imgs:['images/112A-41_1.jpeg'],
+       keys:['非乾酪性類上皮細胞肉芽腫（全身性）','両側肺門リンパ節腫大（BHL）がX線での典型所見','眼（ブドウ膜炎）・皮膚（結節性紅斑・凍瘡様狼瘡）・心（刺激伝導障害）','ACE↑・Ca↑；自然寛解が多い；眼・心合併でステロイド']},
+      {id:'d04c', label:'過敏性肺臓炎', imgs:[],
+       keys:['原因抗原：鳥の排泄物（過敏性肺臓炎の最多）・農夫肺（カビ）','急性型：原因抗原曝露4-8時間後に発熱・咳・呼吸困難','BAL：リンパ球増多（CD4/CD8↓）','抗原回避が最重要；ステロイド（中等症以上）']},
+      {id:'d04d', label:'膠原病関連間質性肺炎', imgs:[],
+       keys:['RA-ILD：UIPパターン多い；MTX肺炎との鑑別','SSc-ILD：NSIP多い；シクロホスファミド・ニンテダニブ','PM/DM-ILD：抗MDA5抗体→急速進行型（予後不良）','SLE-ILD：ステロイド反応良好']},
+    ]
+  },
+  {
+    id:'ch05', label:'肺循環疾患', color:'#1D4ED8', angle:70,
+    link:'ch05_lung_circulation.html',
+    diseases:[
+      {id:'d05a', label:'肺血栓塞栓症（PTE）', imgs:['images/116A-27_1.jpeg'],
+       keys:['深部静脈血栓（DVT）が遊離→肺動脈閉塞','突然の呼吸困難・胸痛・失神；SpO₂低下','Dダイマー↑（感度高いが特異性低い）；CTPA（造影CT）で確定','急性期：抗凝固（ヘパリン→DOAC/ワルファリン）；大量塞栓→tPA']},
+      {id:'d05b', label:'肺動脈性肺高血圧（PAH）', imgs:[],
+       keys:['平均肺動脈圧（mPAP）≥25 mmHg（安静時）','原発性（IPAH）：若年女性；エンドセリン受容体拮抗薬・PDE5阻害薬','二次性：結合組織病（SSc最多）・先天性心疾患・HIV','右心不全進行→Eisenmenger化；肺移植が根治']},
+      {id:'d05c', label:'肺水腫', imgs:[],
+       keys:['静水圧性（心原性）：PCWP↑；両側陰影・Kerley B line','透過性亢進（非心原性）：ARDS（P/F<300）','治療：原因（心不全vs感染）の鑑別が最重要','心原性：利尿薬・NPPV・ニトロ；ARDS：肺保護換気']},
+    ]
+  },
+  {
+    id:'ch06', label:'肺腫瘍', color:'#4338CA', angle:110,
+    link:'ch06_tumor.html',
+    diseases:[
+      {id:'d06a', label:'肺腺癌', imgs:['images/111E-57_1.jpeg'],
+       keys:['最多（50%）；末梢型；非喫煙女性にも多い','EGFR変異（50%）→ゲフィチニブ（EGFR-TKI）','ALK融合遺伝子（5%）→アレクチニブ','スリガラス陰影（GGO）で発見されることが多い']},
+      {id:'d06b', label:'肺扁平上皮癌', imgs:[],
+       keys:['喫煙と強い関連；中枢型（肺門部）','空洞形成；SCC抗原↑','PD-L1高発現→ペムブロリズマブ（免疫チェックポイント阻害薬）','Pancoast腫瘍（肺尖部）：Horner症候群・腕神経叢障害']},
+      {id:'d06c', label:'小細胞肺癌（SCLC）', imgs:['images/111I-46_1.jpeg'],
+       keys:['10-15%；喫煙者；中枢型；増殖速度速い','SIADH・Cushing・Lambert-Eaton症候群（傍腫瘍）','NSEおよびPro-GRP↑','化学療法+放射線（局限期）；免疫療法+化学療法（進展期）']},
+      {id:'d06d', label:'転移性肺腫瘍', imgs:[],
+       keys:['多発性球形陰影（砲弾影）；原発巣：骨軟部・腎・甲状腺・乳腺','癌性リンパ管症：reticular pattern；DH著明な低酸素','骨肉腫等では肺転移のみなら外科切除適応','血清マーカー（CEA・CA19-9等）で原発巣推定']},
+    ]
+  },
+  {
+    id:'ch07', label:'呼吸器感染症', color:'#6D28D9', angle:150,
+    link:'ch07_other_lung_diseases.html',
+    diseases:[
+      {id:'d07a', label:'肺炎', imgs:['images/112A-66_1.jpeg'],
+       keys:['市中肺炎（CAP）：肺炎球菌（最多）・マイコプラズマ','A-DROP score（高齢者肺炎重症度）','NHCAP/HAP：グラム陰性桿菌・MRSA；ピペラシリン/タゾバクタム等','非定型肺炎：マイコプラズマ・クラミジア（マクロライド）']},
+      {id:'d07b', label:'肺結核', imgs:['images/112C-32_1.jpeg'],
+       keys:['Mycobacterium tuberculosis；飛沫核感染','上葉・S6に好発；空洞形成・Ghon焦点（初感染）','ツベルクリン反応・QFT（IGRA）；喀痰×3でZN染色・培養','治療：INH+RFP+PZA+EB（初期2か月）→INH+RFP（4か月）']},
+      {id:'d07c', label:'非結核性抗酸菌症（NTM）', imgs:['images/111D-45_1.jpeg'],
+       keys:['MAC（M.avium complex）が最多；結核に比べ感染力低い','女性・高齢・痩せ型（Lady Windermere）；右中葉・舌区','結節・気管支拡張型（最多）；空洞型（喫煙男性）','CAM+RFP+EB（3剤12か月以上）；難治例にアミカシン']},
+      {id:'d07d', label:'肺真菌症', imgs:[],
+       keys:['肺アスペルギルス症：好中球減少・ステロイド長期使用者','halo sign（コロナ環）：侵襲性アスペルギルス（CT所見）','カンジダ血症からの肺カンジダ症：ICU患者','PCP（ニューモシスチス肺炎）：HIV（CD4<200）+免疫不全']},
+    ]
+  },
+  {
+    id:'ch08', label:'胸膜・縦隔', color:'#475569', angle:190,
+    link:'ch08_pleura_chest.html',
+    diseases:[
+      {id:'d08a', label:'胸水・胸膜炎', imgs:['images/110G-13_2.jpeg'],
+       keys:['Light基準：滲出液（蛋白比>0.5 or LDH比>0.6 or 胸水LDH>2/3正常上限）','滲出液：悪性腫瘍・結核・膿胸・乳び胸・肺炎パラ肺炎性','漏出液：心不全・肝硬変・ネフローゼ・低アルブミン','胸腔穿刺→細胞診・生化学・培養で鑑別']},
+      {id:'d08b', label:'気胸', imgs:['images/119F-38_1.jpeg'],
+       keys:['自然気胸：若年痩せ型男性（ブレブ破裂）','緊張性気胸：縦隔偏位・頸静脈怒張・チアノーゼ（緊急脱気）','X線：肺虚脱（visceral pleural line）','治療：少量→安静経過；大量→胸腔ドレナージ；再発→胸膜癒着術']},
+      {id:'d08c', label:'縦隔腫瘍', imgs:[],
+       keys:['前縦隔（3T）：胸腺腫・奇形腫・甲状腺腫（Teratoma/Thymoma/Thyroid）','中縦隔：悪性リンパ腫（縦隔型）・気管支嚢胞','後縦隔：神経原性腫瘍（神経鞘腫等）','胸腺腫：重症筋無力症合併（40%）']},
+      {id:'d08d', label:'塵肺・職業性肺疾患', imgs:[],
+       keys:['ケイ肺（silicosis）：卵殻状石灰化・進行性間質性肺炎','石綿肺（asbestosis）：胸膜プラーク・中皮腫リスク↑','胸膜中皮腫：石綿曝露40年後；PET-CT・胸腔鏡生検','ベリリウム肺：サルコイドーシス類似（肉芽腫性）']},
+    ]
+  },
+  {
+    id:'ch09', label:'乳房疾患', color:'#B91C1C', angle:230,
+    link:'ch09_breast.html',
+    diseases:[
+      {id:'d09a', label:'乳癌', imgs:['images/118C-37_1.jpeg'],
+       keys:['女性癌罹患数1位；浸潤性乳管癌が最多','乳房X線（マンモグラフィ）：石灰化・腫瘤が所見','サブタイプ：Luminal A（ER+PR+HER2-，予後良）/HER2+/TNBC','治療：乳房温存+センチネルリンパ節生検；ホルモン療法・抗HER2薬']},
+      {id:'d09b', label:'乳癌の治療', imgs:[],
+       keys:['術前化学療法（NAC）：pCR達成で予後改善','ホルモン受容体陽性：タモキシフェン（閉経前）・AI（閉経後）','HER2陽性：トラスツズマブ+ペルツズマブ','TNBC：化学療法（アントラサイクリン+タキサン）+ペムブロリズマブ']},
+      {id:'d09c', label:'乳腺良性疾患', imgs:[],
+       keys:['線維腺腫：若年女性最多良性腫瘍；弾性硬・境界明瞭','乳腺症：月経周期に一致した疼痛；FNA細胞診で確認','乳管内乳頭腫：血性乳頭分泌→乳管造影で診断','Paget病：乳頭びらん+湿疹様変化→乳癌合併を除外']},
+    ]
+  },
+];
+
+const RELATIONS = [
+  { from:'d03a', to:'d02b', label:'COPD増悪', color:'#FBBF24' },
+  { from:'d07b', to:'d07c', label:'NTM合併', color:'#C084FC' },
+  { from:'d05a', to:'d08a', label:'DVT→胸水', color:'#F87171' },
+  { from:'d04a', to:'d02a', label:'IPF急性増悪', color:'#67E8F9' },
+  { from:'d06c', to:'d02a', label:'SCLC→SIADH', color:'#6EE7B7' },
+  { from:'d04b', to:'d08c', label:'胸腺腫合併', color:'#94A3B8' },
+  { from:'d03a', to:'d03b', label:'', color:'#FDE68A' },
+  { from:'d04a', to:'d04d', label:'', color:'#A7F3D0' },
+  { from:'d07a', to:'d07b', label:'', color:'#C4B5FD' },
+  { from:'d05a', to:'d05b', label:'', color:'#93C5FD' },
+];
+
+const DIS_POS={};const DIS_CHIDX={};
+CHAPTERS.forEach((ch,ci)=>{ch.diseases.forEach(dis=>{DIS_CHIDX[dis.id]=ci;});});
+
+function deg(a){return a*Math.PI/180;}
+function chPos(chIdx){const a=deg(CHAPTERS[chIdx].angle);return{x:CX+R1*Math.cos(a),y:CY+R1*Math.sin(a)};}
+function disPos(chIdx,dIdx,total){const chAngle=CHAPTERS[chIdx].angle;const fanDeg=Math.min(30,8+6*total);const start=chAngle-fanDeg/2;const a=deg(start+(dIdx+0.5)*fanDeg/total);return{x:CX+R2*Math.cos(a),y:CY+R2*Math.sin(a)};}
+function anchor(x){if(x<CX-20)return'end';if(x>CX+20)return'start';return'middle';}
+
+const svgEl=document.getElementById('svg');
+const W=1600,H=1380;
+svgEl.setAttribute('width',W);svgEl.setAttribute('height',H);svgEl.setAttribute('viewBox',`0 0 ${W} ${H}`);
+function svgNS(tag,attrs){const el=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v));return el;}
+
+function createDefs(){
+  const defs=svgNS('defs',{});
+  const rg=svgNS('radialGradient',{id:'rootGrad',cx:'50%',cy:'50%',r:'50%'});
+  rg.append(svgNS('stop',{offset:'0%','stop-color':'#29B6F6'}),svgNS('stop',{offset:'100%','stop-color':'#01579B'}));
+  const f=svgNS('filter',{id:'glow',x:'-50%',y:'-50%',width:'200%',height:'200%'});
+  const blur=svgNS('feGaussianBlur',{stdDeviation:'4',result:'colored'});const merge=svgNS('feMerge',{});merge.append(svgNS('feMergeNode',{in:'colored'}),svgNS('feMergeNode',{in:'SourceGraphic'}));f.append(blur,merge);
+  const f2=svgNS('filter',{id:'glow2',x:'-50%',y:'-50%',width:'200%',height:'200%'});
+  const blur2=svgNS('feGaussianBlur',{stdDeviation:'2.5',result:'colored2'});const merge2=svgNS('feMerge',{});merge2.append(svgNS('feMergeNode',{in:'colored2'}),svgNS('feMergeNode',{in:'SourceGraphic'}));f2.append(blur2,merge2);
+  defs.append(rg,f,f2);svgEl.prepend(defs);
+}
+
+const layerEdgesCh=svgNS('g',{id:'ech'});const layerEdgesDis=svgNS('g',{id:'edis'});const layerRelations=svgNS('g',{id:'nrel'});const layerNodesDis=svgNS('g',{id:'ndis'});const layerNodesCh=svgNS('g',{id:'nch'});const layerRoot=svgNS('g',{id:'nroot'});
+svgEl.append(layerEdgesCh,layerEdgesDis,layerRelations,layerNodesDis,layerNodesCh,layerRoot);
+createDefs();
+const activeChapters=new Set();const disEdges={};const disNodes={};
+
+function drawRoot(){
+  const g=svgNS('g',{transform:`translate(${CX},${CY})`});
+  const ring=svgNS('circle',{r:'68',fill:'none',stroke:'rgba(2,136,209,0.25)','stroke-width':'12'});ring.style.animation='pulse 2.5s ease-in-out infinite';
+  const ring2=svgNS('circle',{r:'52',fill:'none',stroke:'rgba(2,136,209,0.18)','stroke-width':'8'});ring2.style.animation='pulse 2.5s ease-in-out infinite 0.8s';
+  const circ=svgNS('circle',{r:'42',fill:'url(#rootGrad)',filter:'url(#glow)'});
+  const txt1=svgNS('text',{x:'0',y:'-4','text-anchor':'middle','font-size':'22','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif'});txt1.textContent='🫁';
+  const txt2=svgNS('text',{x:'0',y:'14','text-anchor':'middle','font-size':'11','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif'});txt2.textContent='呼吸器';
+  g.append(ring,ring2,circ,txt1,txt2);layerRoot.append(g);
+}
+
+function drawChapters(){
+  CHAPTERS.forEach((ch,ci)=>{
+    const p=chPos(ci);const ep1={x:CX+44*Math.cos(deg(ch.angle)),y:CY+44*Math.sin(deg(ch.angle))};
+    const path=svgNS('path',{d:`M ${ep1.x} ${ep1.y} Q ${(ep1.x+p.x)/2} ${(ep1.y+p.y)/2} ${p.x} ${p.y}`,fill:'none',stroke:ch.color,'stroke-width':'2.5',opacity:'0.55'});
+    layerEdgesCh.append(path);
+    const g=svgNS('g',{transform:`translate(${p.x},${p.y})`,style:'cursor:pointer'});g.dataset.ci=ci;
+    const outerRing=svgNS('circle',{r:'37',fill:'none',stroke:ch.color,'stroke-width':'2',opacity:'0.4'});
+    const circ=svgNS('circle',{r:'31',fill:ch.color,stroke:'#fff','stroke-width':'1.5',filter:'url(#glow2)'});circ.style.transition='r 0.2s';
+    function splitLabel(lbl){if(lbl.length<=5)return[lbl];const parts=lbl.split('・');if(parts.length>=2)return[parts.slice(0,Math.ceil(parts.length/2)).join('・'),parts.slice(Math.ceil(parts.length/2)).join('・')];const mid=Math.ceil(lbl.length/2);return[lbl.slice(0,mid),lbl.slice(mid)];}
+    const lines=splitLabel(ch.label);const lineH=12;const totalH=lines.length*lineH;
+    lines.forEach((line,li)=>{const t=svgNS('text',{x:'0',y:String(li*lineH-totalH/2+lineH*0.8),'text-anchor':'middle','font-size':'9','font-weight':'700',fill:'#fff','font-family':'Noto Sans JP,sans-serif'});t.textContent=line;g.append(t);});
+    g.prepend(circ,outerRing);
+    g.addEventListener('click',(e)=>{e.stopPropagation();toggleChapter(ci);});g.addEventListener('touchstart',(e)=>{e.stopPropagation();if(e.touches.length===1){dragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;}},{passive:true});
+    g.addEventListener('mouseenter',()=>{circ.setAttribute('r','34');});g.addEventListener('mouseleave',()=>{circ.setAttribute('r',activeChapters.has(ci)?'34':'31');});
+    layerNodesCh.append(g);
+  });
+}
+
+function drawDiseases(){
+  const defs=svgEl.querySelector('defs');
+  CHAPTERS.forEach((ch,ci)=>{
+    const cp=chPos(ci);disEdges[ci]=[];disNodes[ci]=[];
+    ch.diseases.forEach((dis,di)=>{
+      const dp=disPos(ci,di,ch.diseases.length);DIS_POS[dis.id]=dp;
+      const chColor=ch.color;const hasImg=dis.imgs&&dis.imgs.length>0;const nodeR=32;
+      const edge=svgNS('path',{d:`M ${cp.x} ${cp.y} Q ${(cp.x+dp.x)/2} ${(cp.y+dp.y)/2} ${dp.x} ${dp.y}`,fill:'none',stroke:chColor,'stroke-width':'1.5',opacity:'0'});edge.style.transition='opacity 0.35s';
+      layerEdgesDis.append(edge);disEdges[ci].push(edge);
+      const g=svgNS('g',{transform:`translate(${dp.x},${dp.y})`,style:'cursor:pointer',opacity:'0'});g.style.transition='opacity 0.35s';g.dataset.ci=ci;g.dataset.di=di;
+      if(hasImg){
+        const clipId=`clip-${dis.id}`;const cp2=svgNS('clipPath',{id:clipId});cp2.append(svgNS('circle',{cx:'0',cy:'0',r:String(nodeR)}));defs.append(cp2);
+        const imgEl=svgNS('image',{href:dis.imgs[0],x:String(-nodeR),y:String(-nodeR),width:String(nodeR*2),height:String(nodeR*2),'clip-path':`url(#${clipId})`,preserveAspectRatio:'xMidYMid slice'});
+        const ring=svgNS('circle',{r:String(nodeR),fill:'none',stroke:chColor,'stroke-width':'2.5',opacity:'0.9'});ring.style.transition='r 0.15s';g.append(imgEl,ring);
+      }else{
+        const circ=svgNS('circle',{r:String(nodeR),fill:chColor,stroke:'rgba(255,255,255,0.35)','stroke-width':'1'});circ.style.transition='r 0.15s';
+        function getAbbr(label){const m=label.match(/^([A-Za-z0-9\-]+)/);if(m&&m[1].length>=2&&m[1].length<=6)return m[1];return label.replace(/（.+?）/g,'').slice(0,4);}
+        const ct=svgNS('text',{x:'0',y:'5','text-anchor':'middle','font-size':'10','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif','pointer-events':'none'});ct.textContent=getAbbr(dis.label);g.append(circ,ct);
+      }
+      const dx=dp.x-CX,dy=dp.y-CY,len=Math.hypot(dx,dy)||1,nx=dx/len,ny=dy/len;
+      const lx=nx*(nodeR+20),ly=ny*(nodeR+20);
+      function getExtLabel(label){const noParens=label.replace(/（.+?）/g,'').replace(/\/.+/,'').trim();return noParens.length>8?noParens.slice(0,7)+'…':noParens;}
+      const lt=svgNS('text',{x:String(lx),y:String(ly+4),'text-anchor':anchor(dp.x),'font-size':'12','font-weight':'700',fill:'rgba(255,255,255,0.9)','font-family':'Noto Sans JP,sans-serif','pointer-events':'none'});lt.textContent=getExtLabel(dis.label);g.append(lt);
+      g.addEventListener('click',(e)=>{e.stopPropagation();showPanel(ci,di);});g.addEventListener('touchstart',(e)=>{e.stopPropagation();if(e.touches.length===1){dragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;}},{passive:true});
+      g.addEventListener('mouseenter',()=>{const c=g.querySelector('circle');if(c)c.setAttribute('r',String(nodeR+4));});g.addEventListener('mouseleave',()=>{const c=g.querySelector('circle');if(c)c.setAttribute('r',String(nodeR));});
+      layerNodesDis.append(g);disNodes[ci].push(g);
+    });
+  });
+}
+
+function drawRelations(){
+  RELATIONS.forEach(rel=>{
+    const fp=DIS_POS[rel.from],tp=DIS_POS[rel.to];if(!fp||!tp)return;
+    const mx=(fp.x+tp.x)/2,my=(fp.y+tp.y)/2;const isSameCh=DIS_CHIDX[rel.from]===DIS_CHIDX[rel.to];
+    let cpx,cpy;
+    if(isSameCh){const outX=mx-CX,outY=my-CY,outLen=Math.hypot(outX,outY)||1;cpx=mx+(outX/outLen)*130;cpy=my+(outY/outLen)*130;}
+    else{cpx=mx+(CX-mx)*0.35;cpy=my+(CY-my)*0.35;}
+    const path=svgNS('path',{d:`M ${fp.x} ${fp.y} Q ${cpx} ${cpy} ${tp.x} ${tp.y}`,fill:'none',stroke:rel.color,'stroke-width':'1.5','stroke-dasharray':'5 4',opacity:'0'});path.style.transition='opacity 0.4s';
+    layerRelations.append(path);rel._path=path;
+    if(!isSameCh){
+      const lx=0.25*fp.x+0.5*cpx+0.25*tp.x,ly=0.25*fp.y+0.5*cpy+0.25*tp.y-7;const labelW=rel.label.length*7+10;
+      const bg=svgNS('rect',{x:String(lx-labelW/2),y:String(ly-10),width:String(labelW),height:'14',fill:'#06101f',rx:'4',opacity:'0'});bg.style.transition='opacity 0.4s';
+      const lt=svgNS('text',{x:String(lx),y:String(ly),'text-anchor':'middle','font-size':'9','font-weight':'700',fill:rel.color,'font-family':'Noto Sans JP,sans-serif',opacity:'0','pointer-events':'none'});lt.style.transition='opacity 0.4s';lt.textContent=rel.label;
+      layerRelations.append(bg,lt);rel._bg=bg;rel._label=lt;
+    }
+  });
+}
+
+function updateRelations(){RELATIONS.forEach(rel=>{if(!rel._path)return;const vis=activeChapters.has(DIS_CHIDX[rel.from])&&activeChapters.has(DIS_CHIDX[rel.to]);rel._path.style.opacity=vis?'0.75':'0';if(rel._bg)rel._bg.style.opacity=vis?'0.92':'0';if(rel._label)rel._label.style.opacity=vis?'1':'0';});}
+
+function toggleChapter(ci){
+  const chG=layerNodesCh.children[ci];const circ=chG?chG.querySelector('circle'):null;
+  if(activeChapters.has(ci)){activeChapters.delete(ci);disNodes[ci].forEach(n=>{n.style.opacity='0';n.style.pointerEvents='none';});disEdges[ci].forEach(e=>{e.style.opacity='0';});if(circ)circ.setAttribute('r','31');}
+  else{activeChapters.add(ci);disNodes[ci].forEach(n=>{n.style.opacity='1';n.style.pointerEvents='';});disEdges[ci].forEach(e=>{e.style.opacity='0.5';});if(circ)circ.setAttribute('r','34');const p=chPos(ci);panTo(p.x,p.y);}
+  updateRelations();
+}
+
+function panTo(px,py,duration=480){
+  const ww=wrap.offsetWidth,wh=wrap.offsetHeight;const targetTx=ww/2-px*scale,targetTy=wh/2-py*scale;const startTx=tx,startTy=ty,startTime=performance.now();
+  function step(now){const prog=Math.min((now-startTime)/duration,1);const ease=1-Math.pow(1-prog,3);tx=startTx+(targetTx-startTx)*ease;ty=startTy+(targetTy-startTy)*ease;clampAndApply();if(prog<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+
+function showPanel(ci,di){
+  const ch=CHAPTERS[ci],dis=ch.diseases[di];
+  document.getElementById('panelCh').textContent='📌 '+ch.label;document.getElementById('panelCh').style.background=ch.color;document.getElementById('panelCh').style.color='#fff';
+  document.getElementById('panelTitle').textContent=dis.label;
+  const ul=document.getElementById('panelKeys');ul.innerHTML='';dis.keys.forEach(k=>{const li=document.createElement('li');li.textContent=k;ul.append(li);});
+  const imgWrap=document.getElementById('panelImgs');imgWrap.innerHTML='';
+  if(dis.imgs&&dis.imgs.length>0){dis.imgs.forEach(src=>{const im=document.createElement('img');im.src=src;im.alt=dis.label;im.addEventListener('click',()=>openLightbox(src));imgWrap.append(im);});}
+  document.getElementById('panelLink').href=ch.link;document.getElementById('panel').classList.add('show');
+}
+function hidePanel(){document.getElementById('panel').classList.remove('show');}
+function openLightbox(src){document.getElementById('lbImg').src=src;document.getElementById('lb').classList.add('open');}
+document.getElementById('lb').addEventListener('click',()=>document.getElementById('lb').classList.remove('open'));
+document.getElementById('panelClose').addEventListener('click',hidePanel);
+svgEl.addEventListener('click',()=>hidePanel());
+
+const wrap=document.getElementById('wrap'),inner=document.getElementById('inner');
+let tx=0,ty=0,scale=1,dragging=false,lastX=0,lastY=0,lastDist=0;
+function clampAndApply(){scale=Math.max(0.4,Math.min(2.5,scale));inner.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`;}
+window.addEventListener('load',()=>{const ww=wrap.offsetWidth,wh=wrap.offsetHeight;tx=(ww-W*scale)/2;ty=(wh-H*scale)/2;clampAndApply();});
+wrap.addEventListener('mousedown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY;e.preventDefault();});
+window.addEventListener('mousemove',e=>{if(!dragging)return;tx+=e.clientX-lastX;ty+=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;clampAndApply();});
+window.addEventListener('mouseup',()=>{dragging=false;});
+wrap.addEventListener('wheel',e=>{e.preventDefault();const factor=e.deltaY>0?0.9:1.1;const rect=wrap.getBoundingClientRect();const mx=e.clientX-rect.left,my=e.clientY-rect.top;tx=mx-(mx-tx)*factor;ty=my-(my-ty)*factor;scale*=factor;clampAndApply();},{passive:false});
+wrap.addEventListener('touchstart',e=>{if(e.touches.length===1){dragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;}else if(e.touches.length===2){dragging=false;lastDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);}e.preventDefault();},{passive:false});
+wrap.addEventListener('touchmove',e=>{if(e.touches.length===1&&dragging){tx+=e.touches[0].clientX-lastX;ty+=e.touches[0].clientY-lastY;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;clampAndApply();}else if(e.touches.length===2){const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);const rect=wrap.getBoundingClientRect();const mx=(e.touches[0].clientX+e.touches[1].clientX)/2-rect.left;const my=(e.touches[0].clientY+e.touches[1].clientY)/2-rect.top;const factor=dist/lastDist;tx=mx-(mx-tx)*factor;ty=my-(my-ty)*factor;scale*=factor;lastDist=dist;clampAndApply();}e.preventDefault();},{passive:false});
+wrap.addEventListener('touchend',()=>{dragging=false;});
+
+function drawBg(){
+  const g=svgNS('g',{opacity:'0.04'});for(let x=0;x<=W;x+=80)g.append(svgNS('line',{x1:x,y1:0,x2:x,y2:H,stroke:'#fff','stroke-width':'0.5'}));for(let y=0;y<=H;y+=80)g.append(svgNS('line',{x1:0,y1:y,x2:W,y2:y,stroke:'#fff','stroke-width':'0.5'}));svgEl.prepend(g);
+  const gc=svgNS('g',{opacity:'0.05'});[R1+20,R2-20,R2+50].forEach(r=>gc.append(svgNS('circle',{cx:CX,cy:CY,r:r,fill:'none',stroke:'#fff','stroke-width':'1','stroke-dasharray':'4 8'})));layerEdgesCh.before(gc);
+}
+
+const style=document.createElement('style');style.textContent=`@keyframes pulse{0%,100%{opacity:0.6;transform:scale(1);}50%{opacity:0.15;transform:scale(1.15);}}`;document.head.append(style);
+drawBg();drawRoot();drawChapters();drawDiseases();drawRelations();
+window.addEventListener('resize',()=>{const ww=wrap.offsetWidth,wh=wrap.offsetHeight;tx=(ww-W*scale)/2;ty=(wh-H*scale)/2;clampAndApply();});
+</script>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<title>内分泌 疾患マインドマップ | MEC</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans JP',sans-serif;background:#06101f;overflow:hidden;width:100vw;height:100vh;user-select:none;}
+.hdr{position:fixed;top:0;left:0;right:0;height:46px;background:rgba(10,22,46,.97);border-bottom:2px solid #7B1FA2;display:flex;align-items:center;gap:10px;padding:0 16px;z-index:100;}
+.hdr-badge{background:#7B1FA2;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;}
+.hdr h1{font-size:15px;font-weight:900;color:#fff;}
+.hdr-hint{margin-left:auto;font-size:11px;color:rgba(255,255,255,.4);}
+.hdr-back{font-size:11px;color:#F5A623;text-decoration:none;font-weight:700;border:1.5px solid #F5A623;border-radius:20px;padding:3px 10px;white-space:nowrap;}
+#wrap{position:fixed;top:46px;left:0;right:0;bottom:0;overflow:hidden;touch-action:none;}
+#inner{position:absolute;transform-origin:0 0;will-change:transform;}
+svg{display:block;}
+.panel{position:fixed;right:14px;bottom:14px;width:280px;max-height:65vh;overflow-y:auto;background:rgba(10,22,46,.97);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;padding:14px 16px;color:#fff;opacity:0;transform:translateY(12px);transition:opacity .25s,transform .25s;pointer-events:none;z-index:200;scrollbar-width:thin;}
+.panel.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+.panel-close{position:absolute;top:10px;right:12px;background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;line-height:1;}
+.panel-chapter{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:6px;}
+.panel-title{font-size:16px;font-weight:900;margin-bottom:8px;line-height:1.35;}
+.panel-keys{list-style:none;font-size:12px;line-height:1.85;}
+.panel-keys li{display:flex;gap:6px;align-items:flex-start;}
+.panel-keys li::before{content:'▸';color:#F5A623;flex-shrink:0;margin-top:1px;}
+.panel-imgs{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+.panel-imgs img{width:100%;border-radius:6px;cursor:zoom-in;border:1px solid rgba(255,255,255,.1);}
+.panel-link{display:inline-block;margin-top:10px;padding:5px 14px;background:#7B1FA2;color:#fff;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;}
+.panel-link:hover{background:#9C27B0;}
+#lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1000;cursor:zoom-out;align-items:center;justify-content:center;}
+#lb.open{display:flex;}
+#lb img{max-width:92vw;max-height:88vh;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.8);}
+.legend{position:fixed;left:14px;bottom:14px;background:rgba(10,22,46,.9);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 14px;z-index:100;}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:11px;color:rgba(255,255,255,.75);margin-bottom:4px;}
+.legend-item:last-child{margin-bottom:0;}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.legend-dot.l1{width:12px;height:12px;border:2px solid rgba(255,255,255,0.6);background:none;}
+.legend-dash{width:20px;height:0;border-top:2px dashed;flex-shrink:0;}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <span class="hdr-badge">MEC</span>
+  <h1>🔬 内分泌 疾患マインドマップ</h1>
+  <span class="hdr-hint">章をタップ→疾患 ／ 複数章展開で関連線表示</span>
+  <a class="hdr-back" href="../index.html">← ホーム</a>
+</div>
+<div id="wrap"><div id="inner"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div></div>
+<div class="panel" id="panel">
+  <button class="panel-close" id="panelClose">✕</button>
+  <div class="panel-chapter" id="panelCh"></div>
+  <div class="panel-title" id="panelTitle"></div>
+  <ul class="panel-keys" id="panelKeys"></ul>
+  <div class="panel-imgs" id="panelImgs"></div>
+  <a class="panel-link" id="panelLink" href="#">📚 問題を解く →</a>
+</div>
+<div id="lb"><img id="lbImg" src="" alt=""/></div>
+<div class="legend">
+  <div class="legend-item" style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:6px;">色 ＝ 系統</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#D97706;"></div>基礎・内分泌総論</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#1D4ED8;"></div>下垂体前葉</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3B82F6;"></div>下垂体後葉</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#047857;"></div>甲状腺</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#059669;"></div>副甲状腺・Ca代謝</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#B45309;"></div>副腎</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#9333EA;"></div>内分泌腫瘍</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7C3AED;"></div>糖尿病</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#DC2626;"></div>脂質代謝</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#B91C1C;"></div>その他の代謝</div>
+  <div style="border-top:1px solid rgba(255,255,255,.1);margin:7px 0;"></div>
+  <div class="legend-item"><div class="legend-dash" style="border-color:#FBBF24;"></div>関連疾患（点線）</div>
+</div>
+<script>
+const CX=800,CY=660,R1=230,R2=600;
+const CHAPTERS=[
+  {id:'ch01',label:'内分泌の基本',color:'#D97706',angle:-90,link:'ch01_endo_basics.html',diseases:[
+    {id:'d01a',label:'ホルモンの作用機序',imgs:[],keys:['ペプチドホルモン：細胞表面受容体→cAMP・IP₃経路','ステロイドホルモン：核内受容体→転写調節','甲状腺ホルモン：核内受容体（ステロイド類似）','フィードバック：負のフィードバックが基本（TRH-TSH-T4）']},
+    {id:'d01b',label:'負荷試験の読み方',imgs:[],keys:['分泌過剰：抑制試験（抑制されなければ自律性）','分泌低下：刺激試験（刺激に反応しなければ機能低下）','ACTH負荷試験：副腎不全の診断（15-30分後にコルチゾール↑確認）','デキサメサゾン抑制試験：1mg/4mg（クッシング症候群の診断・鑑別）']},
+    {id:'d01c',label:'MEN（多発性内分泌腺腫瘍症）',imgs:['images/107I-67_1.jpeg'],keys:['MEN1（ウェルマー）：副甲状腺腫・膵腫瘍・下垂体腫瘍（3P）','MEN2A：甲状腺髄様癌+褐色細胞腫+副甲状腺','MEN2B：髄様癌+褐色細胞腫+粘膜神経腫（マルファン体型）','RET proto-oncogene変異（MEN2）；スクリーニング：遺伝子検査']},
+    {id:'d01d',label:'内分泌緊急症',imgs:[],keys:['副腎クリーゼ：低血圧・低Na・低血糖→ハイドロコルチゾン100 mg IV','甲状腺クリーゼ：高熱・頻脈・心不全→PTU+ルゴール液+βB','粘液水腫性昏睡：低体温・意識障害→T4 IV（緩徐補充）','高Ca血症クリーゼ：意識障害→生食大量補液+ビスホスホネート']},
+  ]},
+  {id:'ch02',label:'下垂体前葉',color:'#1D4ED8',angle:-54,link:'ch02_hypothalamus_pituitary_ant.html',diseases:[
+    {id:'d02a',label:'先端巨大症',imgs:['images/111A-27_1.jpeg'],keys:['GH分泌腺腫（成人）；成長期→巨人症','肢端肥大（手足大・額隆起・下顎突出）・高血糖・多汗','IGF-1↑；GH：75 g OGTTで抑制されない（0.4 ng/mL未満に下がらず）','治療：経蝶形骨洞手術（TSS）；ソマトスタチンアナログ（オクトレオチド）']},
+    {id:'d02b',label:'クッシング病',imgs:['images/105E-28_1.jpeg'],keys:['ACTH産生下垂体腺腫→両側副腎過形成','大量デキサメサゾン（8mg）で抑制→下垂体性（クッシング病）','小量デキサメサゾン（1mg）で抑制なし→クッシング症候群（大きなスクリーニング）','治療：TSS；再発率高く放射線追加も']},
+    {id:'d02c',label:'プロラクチノーマ',imgs:[],keys:['最多の機能性下垂体腺腫','女性：無月経・乳汁分泌；男性：性欲低下・インポテンス','PRL>200 ng/mL→大腺腫の可能性大','カベルゴリン（ドパミン作動薬）が第一選択；外科的切除は薬剤抵抗例']},
+    {id:'d02d',label:'汎下垂体機能低下症',imgs:[],keys:['ACTH↓→cortisol↓（生命に関わる）が最重要','TSH↓→甲状腺ホルモン↓（T4低値でTSH低値）','GH・LH/FSH↓→成長障害・性腺機能低下','シーハン症候群：分娩時出血→下垂体壊死；産後授乳不能が契機']},
+  ]},
+  {id:'ch03',label:'下垂体後葉',color:'#3B82F6',angle:-18,link:'ch03_posterior_pituitary.html',diseases:[
+    {id:'d03a',label:'中枢性尿崩症',imgs:['images/110D-26_1.jpeg'],keys:['ADH（バソプレシン）産生低下→大量希薄尿（3-20 L/日）','尿比重<1.005・尿浸透圧<血漿浸透圧','水制限試験後のDDAVP投与：尿浸透圧が100%以上↑（中枢性）','治療：デスモプレシン（DDAVP）点鼻/経口']},
+    {id:'d03b',label:'SIADH',imgs:[],keys:['ADH不適切分泌症候群：希釈性低Na血症','原因：肺癌（SCLC）・CNS疾患・薬剤（カルバマゼピン・シクロホスファミド）','診断：低Na・低浸透圧血症・尿Na↑・尿浸透圧>血漿浸透圧・浮腫なし','治療：水制限；重症低Na（<120）→高張食塩水（緩徐補正 <8-10 mEq/L/24h）']},
+    {id:'d03c',label:'シーハン症候群',imgs:[],keys:['分娩時大量出血→下垂体前葉の阻血性壊死（後葉は温存されやすい）','産後授乳不能（PRL↓が初発症状）','ACTH→TSH→LH/FSH→GHの順で欠落','ホルモン補充（コルチゾール→甲状腺ホルモン→エストロゲン）']},
+  ]},
+  {id:'ch04',label:'甲状腺',color:'#047857',angle:18,link:'ch04_thyroid.html',diseases:[
+    {id:'d04a',label:'バセドウ病',imgs:['images/117A-40_1.jpeg'],keys:['TSH受容体抗体（TRAb）が刺激→甲状腺ホルモン過剰','3徴：甲状腺腫・眼球突出（グレーブス眼症）・頻脈','T3/T4↑・TSH↓；甲状腺RI摂取率↑','抗甲状腺薬（MMI・PTU）・手術・放射性ヨウ素（RI）治療']},
+    {id:'d04b',label:'橋本病（慢性甲状腺炎）',imgs:[],keys:['自己免疫性甲状腺炎；抗TPO抗体・抗サイログロブリン抗体陽性','緩徐な機能低下（機能亢進期→正常→低下）','甲状腺腫大（びまん性・硬い）；女性に多い','T4低下→TSH↑（低下機能時）；甲状腺ホルモン補充']},
+    {id:'d04c',label:'甲状腺癌',imgs:['images/120D-32_1.jpeg'],keys:['乳頭癌（最多80%）：砂粒小体・RET/PTC再構成・予後良好','濾胞癌：hematogenous転移（骨・肺）；カプセル浸潤が診断根拠','髄様癌：傍濾胞C細胞（カルシトニン産生）；RET変異；MEN2','未分化癌（最悪）：急速進行；外部照射+化学療法']},
+    {id:'d04d',label:'亜急性甲状腺炎',imgs:[],keys:['ウイルス感染後；甲状腺の有痛性腫大（特徴的）','炎症期：T4一過性↑（破壊放出）→正常→低下→回復','CRP↑・赤沈亢進；TRAb陰性（バセドウとの鑑別）','治療：NSAIDs；重症→ステロイド；一過性低下はT4補充']},
+  ]},
+  {id:'ch05',label:'副甲状腺',color:'#059669',angle:54,link:'ch05_parathyroid.html',diseases:[
+    {id:'d05a',label:'原発性副甲状腺機能亢進症',imgs:['images/115A-32_1.jpeg'],keys:['副甲状腺腺腫（85%）→PTH過剰→高Ca血症','症状（Stone・Bone・Groan・Psychic Moan）：尿路結石・骨病変・消化器・精神症状','X線：繊維性骨炎（「虫食い像」・橈骨橈側骨膜下吸収）','手術が根治；ビスホスホネート・シナカルセト（手術不適例）']},
+    {id:'d05b',label:'副甲状腺機能低下症',imgs:[],keys:['Ca↓・P↑・PTH↓（または無効）','原因：甲状腺手術後（最多）・自己免疫・DiGeorge症候群','テタニー：Chvostek徴候（頬叩打で顔面収縮）・Trousseau徴候（血圧計加圧で助産師手）','活性型VitD（カルシトリオール）＋Ca補充']},
+    {id:'d05c',label:'偽性副甲状腺機能低下症',imgs:[],keys:['PTH受容体/Gタンパク異常→PTHに反応しない','高PTH血症+低Ca血症（PTH高値なのに低Ca）','Albright遺伝性骨形成異常症（AHO）：短指症・円形顔・低身長','治療：活性型VitD投与（PTHは下がらない）']},
+    {id:'d05c2',label:'続発性副甲状腺機能亢進症',imgs:[],keys:['CKD→Ca↓+VitD欠乏→PTH代償的↑','長期透析で骨病変（線維性骨炎）・異所性石灰化','リン制限＋リン吸着薬（炭酸Ca・セベラマー）','シナカルセト（カルシウム受容体感作薬）・活性型VitD製剤']},
+  ]},
+  {id:'ch06',label:'副腎',color:'#B45309',angle:90,link:'ch06_adrenal.html',diseases:[
+    {id:'d06a',label:'クッシング症候群',imgs:['images/108I-55_1.jpeg'],keys:['コルチゾール過剰：中心性肥満・満月様顔・野牛肩・皮膚線条（紫）','原因：ACTH依存性（下垂体（クッシング病）・異所性ACTH（SCLC）） vs ACTH非依存（副腎腺腫）','1mg DST→大量DST→CRH試験で鑑別','手術（副腎・下垂体）；手術後副腎不全に注意（長期ステロイド補充）']},
+    {id:'d06b',label:'アジソン病',imgs:[],keys:['原発性副腎皮質機能低下症；自己免疫（先進国）・結核（途上国）','コルチゾール↓・アルドステロン↓→Na↓・K↑・低血圧','色素沈着（ACTH↑→MSH交差作用）；副腎クリーゼで死亡リスク','治療：ハイドロコルチゾン+フルドロコルチゾン（ミネラロコルチコイド補充）']},
+    {id:'d06c',label:'原発性アルドステロン症（Conn）',imgs:['images/114A-42_1.jpeg'],keys:['高血圧患者の10%に存在；難治性高血圧の最多原因','K↓・Na↑傾向・アルドステロン↑・レニン↓','ARR（アルドステロン/レニン比）>200でスクリーニング→CT→副腎静脈サンプリング','片側腺腫→腹腔鏡手術；両側過形成→MRA（スピロノラクトン・エプレレノン）']},
+    {id:'d06d',label:'褐色細胞腫',imgs:['images/117D-27_1.jpeg'],keys:['カテコラミン産生腫瘍（副腎髄質）；10%ルール（悪性・両側・副腎外・家族性・小児）','3主徴：頭痛・発汗・動悸（高血圧発作）；「Rule of 10」','血中・尿中カテコラミン↑（メタネフリン/ノルメタネフリン）；CT/MRI/MIBG','術前：αブロッカー（フェノキシベンザミン）十分投与後βブロッカー']},
+  ]},
+  {id:'ch07',label:'内分泌腫瘍',color:'#9333EA',angle:126,link:'ch07_endocrine_tumors.html',diseases:[
+    {id:'d07a',label:'MEN1型',imgs:[],keys:['ウェルマー症候群：副甲状腺腫（95%最多・ほぼ必発）・膵NET・下垂体腫瘍','MEN1遺伝子（Menin）変異；常染色体顕性','高Ca血症（副甲状腺腺腫）が初発症状が多い','全MEN1家族員のスクリーニング：Ca・PTH・PRL・空腹時Glu・MRI']},
+    {id:'d07b',label:'ガストリノーマ（Z-E症候群）',imgs:[],keys:['MEN1関連（25%）；膵頭部・十二指腸に多い','胃酸過剰→難治性多発消化性潰瘍・下痢','空腹時血清ガストリン↑（>1000 pg/mLで診断的）','PPI（オメプラゾール）で症状制御；切除が根治；MEN1例では手術困難']},
+    {id:'d07c',label:'インスリノーマ',imgs:[],keys:['Whipple三徴：低血糖発作・Glu<50 mg/dL・Glu静注で改善','大多数（90%）良性単発；膵体尾部に多い','72時間絶食試験：血糖<50+インスリン↑（インスリン/血糖比>0.3）','腫瘍核出術（良性）；ジアゾキサイドで低血糖一時管理']},
+    {id:'d07d',label:'カルチノイド腫瘍',imgs:[],keys:['神経内分泌腫瘍（NET）；消化管（最多）・肺・胸腺','カルチノイド症候群：セロトニン産生→顔面紅潮・下痢・気管支攣縮（肝転移後）','尿5-HIAA↑（セロトニン代謝産物）；オクトレオスキャンで局在診断','ソマトスタチンアナログ（オクトレオチド）でホルモン制御']},
+  ]},
+  {id:'ch08',label:'糖尿病',color:'#7C3AED',angle:162,link:'ch08_diabetes.html',diseases:[
+    {id:'d08a',label:'1型糖尿病',imgs:[],keys:['自己免疫（GAD抗体・ICA抗体・インスリン自己抗体）によるβ細胞破壊','急性発症（ケトアシドーシス）；劇症型（1週間以内にインスリン依存）','HLA-DR3/DR4関連；非肥満','インスリン絶対的適応；強化インスリン療法（基礎＋追加）']},
+    {id:'d08b',label:'2型糖尿病の治療',imgs:[],keys:['インスリン抵抗性＋相対的インスリン分泌不全','HbA1c目標<7.0%（厳格管理）または<8.0%（高齢者・重症）','薬剤選択：メトホルミン第一選択；SGLT2阻害薬（心腎保護）；GLP-1RA（体重↓）','低血糖リスク：SU薬・インスリン；高齢者では<7.5%を下限に']},
+    {id:'d08c',label:'DKA・HHS',imgs:[],keys:['DKA（1型）：血糖>250・アニオンギャップ↑・ケトン(+)・pH<7.3','HHS（2型）：血糖>600・高浸透圧（>320）・ケトン(-)・脱水著明','治療：生食大量補液→インスリン持続静注→K補充（DKAはK↓注意）','補液なしでインスリン単独投与禁忌（血糖急降下で脳浮腫リスク）']},
+    {id:'d08d',label:'糖尿病三大合併症',imgs:['images/119A-15_1.jpeg'],keys:['網膜症：単純→増殖前→増殖性（新生血管・硝子体出血）；光凝固術','腎症：微量アルブミン→顕性蛋白尿→腎不全（透析1位）；ARB','神経障害：手袋靴下型感覚障害（最多）・自律神経（起立性低血圧・便秘）','大血管障害（心筋梗塞・脳梗塞）が死因1位']},
+  ]},
+  {id:'ch09',label:'脂質代謝',color:'#DC2626',angle:198,link:'ch09_lipid_metabolism.html',diseases:[
+    {id:'d09a',label:'脂質異常症',imgs:[],keys:['診断基準：LDL≥140 or TG≥150 or HDL<40 mg/dL（空腹時）','スタチン（HMG-CoA還元酵素阻害薬）：LDL低下の第一選択','エゼチミブ（コレステロール吸収阻害）：スタチン不耐に追加','PCSK9阻害薬：家族性高コレステロール血症・高リスク患者で急速低下']},
+    {id:'d09b',label:'家族性高コレステロール血症（FH）',imgs:['images/103F-25_1.jpeg'],keys:['LDL受容体遺伝子変異；ヘテロ（1/500人）・ホモ（1/100万人）','ヘテロ：LDL>180 mg/dL・腱黄色腫（アキレス腱肥厚）','ホモ：LDL>500 mg/dL・皮膚結節性黄色腫・小児期に心筋梗塞','家族性スクリーニング（カスケードスクリーニング）が重要']},
+    {id:'d09c',label:'高尿酸血症・痛風',imgs:[],keys:['血清尿酸>7.0 mg/dL（男女共通）','痛風発作：第1中足趾節（母趾）に多い；コルヒチン・NSAIDsで鎮痛','尿酸降下薬：アロプリノール（産生抑制）・フェブキソスタット・ベンズブロマロン（排泄促進）','急性発作中は尿酸降下薬開始禁忌（発作遷延化）']},
+  ]},
+  {id:'ch10',label:'その他の代謝',color:'#B91C1C',angle:234,link:'ch10_other_metabolic.html',diseases:[
+    {id:'d10a',label:'ウィルソン病',imgs:[],keys:['常染色体劣性；ATP7B遺伝子変異→Cu蓄積','肝障害・神経症状（構音障害・振戦）・Kayser-Fleischer輪（角膜Cu沈着）','血清Cu↓・セルロプラスミン↓・尿中Cu↑','D-ペニシラミン（Cu排泄促進）・亜鉛（吸収阻害）']},
+    {id:'d10b',label:'ヘモクロマトーシス',imgs:[],keys:['HFE遺伝子変異（C282Y最多）→過剰Fe蓄積','肝硬変・心筋症・糖尿病（ブロンズ糖尿病）・性腺機能低下','血清Fe↑・フェリチン↑・トランスフェリン飽和度↑（>45%）','瀉血（定期採血）が第一選択；重症→デフェロキサミン']},
+    {id:'d10c',label:'アミロイドーシス',imgs:[],keys:['線維状蛋白（アミロイド）の組織沈着；コンゴレッド染色（アップルグリーン複屈折）','AL型（形質細胞性）：MM・Waldenström;腎・心・神経','AA型（反応性）：慢性炎症（RA・結核）;腎に好発','TTR型（遺伝性）：ポリニューロパチー・心筋症；タファミジス（TTR安定化）']},
+    {id:'d10d',label:'ポルフィリン症',imgs:[],keys:['ヘム合成酵素の欠損→ポルフィリン蓄積','急性間欠性ポルフィリン症（AIP）：神経症状・腹痛・精神症状','誘因：アルコール・絶食・薬剤（バルビツール・スルホンアミド）','尿中ALA・PBG↑；発作期：高カロリー輸液+ヘマチン']},
+  ]},
+];
+
+const RELATIONS=[
+  {from:'d02b',to:'d06a',label:'ACTH産生',color:'#FBBF24'},
+  {from:'d06d',to:'d07a',label:'MEN2合併',color:'#F87171'},
+  {from:'d01c',to:'d07a',label:'MEN1/2系統',color:'#C084FC'},
+  {from:'d08d',to:'d04c',label:'甲状腺癌合併',color:'#67E8F9'},
+  {from:'d09c',to:'d05a',label:'高Ca+高UA',color:'#6EE7B7'},
+  {from:'d08a',to:'d08c',label:'DKA合併',color:'#94A3B8'},
+  {from:'d06c',to:'d06b',label:'',color:'#FDE68A'},
+  {from:'d04a',to:'d04b',label:'',color:'#A7F3D0'},
+  {from:'d02a',to:'d02b',label:'',color:'#93C5FD'},
+  {from:'d07b',to:'d07c',label:'',color:'#C4B5FD'},
+];
+
+const DIS_POS={};const DIS_CHIDX={};
+CHAPTERS.forEach((ch,ci)=>{ch.diseases.forEach(dis=>{DIS_CHIDX[dis.id]=ci;});});
+
+function deg(a){return a*Math.PI/180;}
+function chPos(chIdx){const a=deg(CHAPTERS[chIdx].angle);return{x:CX+R1*Math.cos(a),y:CY+R1*Math.sin(a)};}
+function disPos(chIdx,dIdx,total){const chAngle=CHAPTERS[chIdx].angle;const fanDeg=Math.min(26,8+6*total);const start=chAngle-fanDeg/2;const a=deg(start+(dIdx+0.5)*fanDeg/total);return{x:CX+R2*Math.cos(a),y:CY+R2*Math.sin(a)};}
+function anchor(x){if(x<CX-20)return'end';if(x>CX+20)return'start';return'middle';}
+
+const svgEl=document.getElementById('svg');const W=1600,H=1380;
+svgEl.setAttribute('width',W);svgEl.setAttribute('height',H);svgEl.setAttribute('viewBox',`0 0 ${W} ${H}`);
+function svgNS(tag,attrs){const el=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v));return el;}
+
+function createDefs(){
+  const defs=svgNS('defs',{});const rg=svgNS('radialGradient',{id:'rootGrad',cx:'50%',cy:'50%',r:'50%'});
+  rg.append(svgNS('stop',{offset:'0%','stop-color':'#CE93D8'}),svgNS('stop',{offset:'100%','stop-color':'#4A148C'}));
+  const f=svgNS('filter',{id:'glow',x:'-50%',y:'-50%',width:'200%',height:'200%'});const blur=svgNS('feGaussianBlur',{stdDeviation:'4',result:'colored'});const merge=svgNS('feMerge',{});merge.append(svgNS('feMergeNode',{in:'colored'}),svgNS('feMergeNode',{in:'SourceGraphic'}));f.append(blur,merge);
+  const f2=svgNS('filter',{id:'glow2',x:'-50%',y:'-50%',width:'200%',height:'200%'});const blur2=svgNS('feGaussianBlur',{stdDeviation:'2.5',result:'colored2'});const merge2=svgNS('feMerge',{});merge2.append(svgNS('feMergeNode',{in:'colored2'}),svgNS('feMergeNode',{in:'SourceGraphic'}));f2.append(blur2,merge2);
+  defs.append(rg,f,f2);svgEl.prepend(defs);
+}
+
+const layerEdgesCh=svgNS('g',{id:'ech'});const layerEdgesDis=svgNS('g',{id:'edis'});const layerRelations=svgNS('g',{id:'nrel'});const layerNodesDis=svgNS('g',{id:'ndis'});const layerNodesCh=svgNS('g',{id:'nch'});const layerRoot=svgNS('g',{id:'nroot'});
+svgEl.append(layerEdgesCh,layerEdgesDis,layerRelations,layerNodesDis,layerNodesCh,layerRoot);
+createDefs();
+const activeChapters=new Set();const disEdges={};const disNodes={};
+
+function drawRoot(){
+  const g=svgNS('g',{transform:`translate(${CX},${CY})`});
+  const ring=svgNS('circle',{r:'68',fill:'none',stroke:'rgba(123,31,162,0.25)','stroke-width':'12'});ring.style.animation='pulse 2.5s ease-in-out infinite';
+  const ring2=svgNS('circle',{r:'52',fill:'none',stroke:'rgba(123,31,162,0.18)','stroke-width':'8'});ring2.style.animation='pulse 2.5s ease-in-out infinite 0.8s';
+  const circ=svgNS('circle',{r:'42',fill:'url(#rootGrad)',filter:'url(#glow)'});
+  const txt1=svgNS('text',{x:'0',y:'-4','text-anchor':'middle','font-size':'22','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif'});txt1.textContent='🔬';
+  const txt2=svgNS('text',{x:'0',y:'14','text-anchor':'middle','font-size':'11','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif'});txt2.textContent='内分泌';
+  g.append(ring,ring2,circ,txt1,txt2);layerRoot.append(g);
+}
+
+function drawChapters(){
+  CHAPTERS.forEach((ch,ci)=>{
+    const p=chPos(ci);const ep1={x:CX+44*Math.cos(deg(ch.angle)),y:CY+44*Math.sin(deg(ch.angle))};
+    const path=svgNS('path',{d:`M ${ep1.x} ${ep1.y} Q ${(ep1.x+p.x)/2} ${(ep1.y+p.y)/2} ${p.x} ${p.y}`,fill:'none',stroke:ch.color,'stroke-width':'2.5',opacity:'0.55'});layerEdgesCh.append(path);
+    const g=svgNS('g',{transform:`translate(${p.x},${p.y})`,style:'cursor:pointer'});g.dataset.ci=ci;
+    const outerRing=svgNS('circle',{r:'37',fill:'none',stroke:ch.color,'stroke-width':'2',opacity:'0.4'});
+    const circ=svgNS('circle',{r:'31',fill:ch.color,stroke:'#fff','stroke-width':'1.5',filter:'url(#glow2)'});circ.style.transition='r 0.2s';
+    function splitLabel(lbl){if(lbl.length<=5)return[lbl];const parts=lbl.split('・');if(parts.length>=2)return[parts.slice(0,Math.ceil(parts.length/2)).join('・'),parts.slice(Math.ceil(parts.length/2)).join('・')];const mid=Math.ceil(lbl.length/2);return[lbl.slice(0,mid),lbl.slice(mid)];}
+    const lines=splitLabel(ch.label);const lineH=12;const totalH=lines.length*lineH;
+    lines.forEach((line,li)=>{const t=svgNS('text',{x:'0',y:String(li*lineH-totalH/2+lineH*0.8),'text-anchor':'middle','font-size':'9','font-weight':'700',fill:'#fff','font-family':'Noto Sans JP,sans-serif'});t.textContent=line;g.append(t);});
+    g.prepend(circ,outerRing);
+    g.addEventListener('click',(e)=>{e.stopPropagation();toggleChapter(ci);});g.addEventListener('touchstart',(e)=>{e.stopPropagation();if(e.touches.length===1){dragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;}},{passive:true});
+    g.addEventListener('mouseenter',()=>{circ.setAttribute('r','34');});g.addEventListener('mouseleave',()=>{circ.setAttribute('r',activeChapters.has(ci)?'34':'31');});
+    layerNodesCh.append(g);
+  });
+}
+
+function drawDiseases(){
+  const defs=svgEl.querySelector('defs');
+  CHAPTERS.forEach((ch,ci)=>{
+    const cp=chPos(ci);disEdges[ci]=[];disNodes[ci]=[];
+    ch.diseases.forEach((dis,di)=>{
+      const dp=disPos(ci,di,ch.diseases.length);DIS_POS[dis.id]=dp;
+      const chColor=ch.color;const hasImg=dis.imgs&&dis.imgs.length>0;const nodeR=32;
+      const edge=svgNS('path',{d:`M ${cp.x} ${cp.y} Q ${(cp.x+dp.x)/2} ${(cp.y+dp.y)/2} ${dp.x} ${dp.y}`,fill:'none',stroke:chColor,'stroke-width':'1.5',opacity:'0'});edge.style.transition='opacity 0.35s';layerEdgesDis.append(edge);disEdges[ci].push(edge);
+      const g=svgNS('g',{transform:`translate(${dp.x},${dp.y})`,style:'cursor:pointer',opacity:'0'});g.style.transition='opacity 0.35s';g.dataset.ci=ci;g.dataset.di=di;
+      if(hasImg){
+        const clipId=`clip-${dis.id}`;const cp2=svgNS('clipPath',{id:clipId});cp2.append(svgNS('circle',{cx:'0',cy:'0',r:String(nodeR)}));defs.append(cp2);
+        const imgEl=svgNS('image',{href:dis.imgs[0],x:String(-nodeR),y:String(-nodeR),width:String(nodeR*2),height:String(nodeR*2),'clip-path':`url(#${clipId})`,preserveAspectRatio:'xMidYMid slice'});
+        const ring=svgNS('circle',{r:String(nodeR),fill:'none',stroke:chColor,'stroke-width':'2.5',opacity:'0.9'});ring.style.transition='r 0.15s';g.append(imgEl,ring);
+      }else{
+        const circ=svgNS('circle',{r:String(nodeR),fill:chColor,stroke:'rgba(255,255,255,0.35)','stroke-width':'1'});circ.style.transition='r 0.15s';
+        function getAbbr(label){const m=label.match(/^([A-Za-z0-9\-]+)/);if(m&&m[1].length>=2&&m[1].length<=6)return m[1];return label.replace(/（.+?）/g,'').slice(0,4);}
+        const ct=svgNS('text',{x:'0',y:'5','text-anchor':'middle','font-size':'10','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif','pointer-events':'none'});ct.textContent=getAbbr(dis.label);g.append(circ,ct);
+      }
+      const dx=dp.x-CX,dy=dp.y-CY,len=Math.hypot(dx,dy)||1,nx=dx/len,ny=dy/len;const lx=nx*(nodeR+20),ly=ny*(nodeR+20);
+      function getExtLabel(label){const noParens=label.replace(/（.+?）/g,'').replace(/\/.+/,'').trim();return noParens.length>8?noParens.slice(0,7)+'…':noParens;}
+      const lt=svgNS('text',{x:String(lx),y:String(ly+4),'text-anchor':anchor(dp.x),'font-size':'12','font-weight':'700',fill:'rgba(255,255,255,0.9)','font-family':'Noto Sans JP,sans-serif','pointer-events':'none'});lt.textContent=getExtLabel(dis.label);g.append(lt);
+      g.addEventListener('click',(e)=>{e.stopPropagation();showPanel(ci,di);});g.addEventListener('touchstart',(e)=>{e.stopPropagation();if(e.touches.length===1){dragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;}},{passive:true});
+      g.addEventListener('mouseenter',()=>{const c=g.querySelector('circle');if(c)c.setAttribute('r',String(nodeR+4));});g.addEventListener('mouseleave',()=>{const c=g.querySelector('circle');if(c)c.setAttribute('r',String(nodeR));});
+      layerNodesDis.append(g);disNodes[ci].push(g);
+    });
+  });
+}
+
+function drawRelations(){
+  RELATIONS.forEach(rel=>{
+    const fp=DIS_POS[rel.from],tp=DIS_POS[rel.to];if(!fp||!tp)return;
+    const mx=(fp.x+tp.x)/2,my=(fp.y+tp.y)/2;const isSameCh=DIS_CHIDX[rel.from]===DIS_CHIDX[rel.to];
+    let cpx,cpy;if(isSameCh){const outX=mx-CX,outY=my-CY,outLen=Math.hypot(outX,outY)||1;cpx=mx+(outX/outLen)*130;cpy=my+(outY/outLen)*130;}else{cpx=mx+(CX-mx)*0.35;cpy=my+(CY-my)*0.35;}
+    const path=svgNS('path',{d:`M ${fp.x} ${fp.y} Q ${cpx} ${cpy} ${tp.x} ${tp.y}`,fill:'none',stroke:rel.color,'stroke-width':'1.5','stroke-dasharray':'5 4',opacity:'0'});path.style.transition='opacity 0.4s';layerRelations.append(path);rel._path=path;
+    if(!isSameCh){
+      const lx=0.25*fp.x+0.5*cpx+0.25*tp.x,ly=0.25*fp.y+0.5*cpy+0.25*tp.y-7;const labelW=rel.label.length*7+10;
+      const bg=svgNS('rect',{x:String(lx-labelW/2),y:String(ly-10),width:String(labelW),height:'14',fill:'#06101f',rx:'4',opacity:'0'});bg.style.transition='opacity 0.4s';
+      const lt=svgNS('text',{x:String(lx),y:String(ly),'text-anchor':'middle','font-size':'9','font-weight':'700',fill:rel.color,'font-family':'Noto Sans JP,sans-serif',opacity:'0','pointer-events':'none'});lt.style.transition='opacity 0.4s';lt.textContent=rel.label;
+      layerRelations.append(bg,lt);rel._bg=bg;rel._label=lt;
+    }
+  });
+}
+
+function updateRelations(){RELATIONS.forEach(rel=>{if(!rel._path)return;const vis=activeChapters.has(DIS_CHIDX[rel.from])&&activeChapters.has(DIS_CHIDX[rel.to]);rel._path.style.opacity=vis?'0.75':'0';if(rel._bg)rel._bg.style.opacity=vis?'0.92':'0';if(rel._label)rel._label.style.opacity=vis?'1':'0';});}
+
+function toggleChapter(ci){
+  const chG=layerNodesCh.children[ci];const circ=chG?chG.querySelector('circle'):null;
+  if(activeChapters.has(ci)){activeChapters.delete(ci);disNodes[ci].forEach(n=>{n.style.opacity='0';n.style.pointerEvents='none';});disEdges[ci].forEach(e=>{e.style.opacity='0';});if(circ)circ.setAttribute('r','31');}
+  else{activeChapters.add(ci);disNodes[ci].forEach(n=>{n.style.opacity='1';n.style.pointerEvents='';});disEdges[ci].forEach(e=>{e.style.opacity='0.5';});if(circ)circ.setAttribute('r','34');const p=chPos(ci);panTo(p.x,p.y);}
+  updateRelations();
+}
+function panTo(px,py,duration=480){const ww=wrap.offsetWidth,wh=wrap.offsetHeight;const targetTx=ww/2-px*scale,targetTy=wh/2-py*scale;const startTx=tx,startTy=ty,startTime=performance.now();function step(now){const prog=Math.min((now-startTime)/duration,1);const ease=1-Math.pow(1-prog,3);tx=startTx+(targetTx-startTx)*ease;ty=startTy+(targetTy-startTy)*ease;clampAndApply();if(prog<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+function showPanel(ci,di){const ch=CHAPTERS[ci],dis=ch.diseases[di];document.getElementById('panelCh').textContent='📌 '+ch.label;document.getElementById('panelCh').style.background=ch.color;document.getElementById('panelCh').style.color='#fff';document.getElementById('panelTitle').textContent=dis.label;const ul=document.getElementById('panelKeys');ul.innerHTML='';dis.keys.forEach(k=>{const li=document.createElement('li');li.textContent=k;ul.append(li);});const imgWrap=document.getElementById('panelImgs');imgWrap.innerHTML='';if(dis.imgs&&dis.imgs.length>0){dis.imgs.forEach(src=>{const im=document.createElement('img');im.src=src;im.alt=dis.label;im.addEventListener('click',()=>openLightbox(src));imgWrap.append(im);});}document.getElementById('panelLink').href=ch.link;document.getElementById('panel').classList.add('show');}
+function hidePanel(){document.getElementById('panel').classList.remove('show');}
+function openLightbox(src){document.getElementById('lbImg').src=src;document.getElementById('lb').classList.add('open');}
+document.getElementById('lb').addEventListener('click',()=>document.getElementById('lb').classList.remove('open'));
+document.getElementById('panelClose').addEventListener('click',hidePanel);
+svgEl.addEventListener('click',()=>hidePanel());
+const wrap=document.getElementById('wrap'),inner=document.getElementById('inner');
+let tx=0,ty=0,scale=1,dragging=false,lastX=0,lastY=0,lastDist=0;
+function clampAndApply(){scale=Math.max(0.4,Math.min(2.5,scale));inner.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`;}
+window.addEventListener('load',()=>{const ww=wrap.offsetWidth,wh=wrap.offsetHeight;tx=(ww-W*scale)/2;ty=(wh-H*scale)/2;clampAndApply();});
+wrap.addEventListener('mousedown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY;e.preventDefault();});
+window.addEventListener('mousemove',e=>{if(!dragging)return;tx+=e.clientX-lastX;ty+=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;clampAndApply();});
+window.addEventListener('mouseup',()=>{dragging=false;});
+wrap.addEventListener('wheel',e=>{e.preventDefault();const factor=e.deltaY>0?0.9:1.1;const rect=wrap.getBoundingClientRect();const mx=e.clientX-rect.left,my=e.clientY-rect.top;tx=mx-(mx-tx)*factor;ty=my-(my-ty)*factor;scale*=factor;clampAndApply();},{passive:false});
+wrap.addEventListener('touchstart',e=>{if(e.touches.length===1){dragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;}else if(e.touches.length===2){dragging=false;lastDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);}e.preventDefault();},{passive:false});
+wrap.addEventListener('touchmove',e=>{if(e.touches.length===1&&dragging){tx+=e.touches[0].clientX-lastX;ty+=e.touches[0].clientY-lastY;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;clampAndApply();}else if(e.touches.length===2){const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);const rect=wrap.getBoundingClientRect();const mx=(e.touches[0].clientX+e.touches[1].clientX)/2-rect.left;const my=(e.touches[0].clientY+e.touches[1].clientY)/2-rect.top;const factor=dist/lastDist;tx=mx-(mx-tx)*factor;ty=my-(my-ty)*factor;scale*=factor;lastDist=dist;clampAndApply();}e.preventDefault();},{passive:false});
+wrap.addEventListener('touchend',()=>{dragging=false;});
+function drawBg(){const g=svgNS('g',{opacity:'0.04'});for(let x=0;x<=W;x+=80)g.append(svgNS('line',{x1:x,y1:0,x2:x,y2:H,stroke:'#fff','stroke-width':'0.5'}));for(let y=0;y<=H;y+=80)g.append(svgNS('line',{x1:0,y1:y,x2:W,y2:y,stroke:'#fff','stroke-width':'0.5'}));svgEl.prepend(g);const gc=svgNS('g',{opacity:'0.05'});[R1+20,R2-20,R2+50].forEach(r=>gc.append(svgNS('circle',{cx:CX,cy:CY,r:r,fill:'none',stroke:'#fff','stroke-width':'1','stroke-dasharray':'4 8'})));layerEdgesCh.before(gc);}
+const style=document.createElement('style');style.textContent=`@keyframes pulse{0%,100%{opacity:0.6;transform:scale(1);}50%{opacity:0.15;transform:scale(1.15);}}`;document.head.append(style);
+drawBg();drawRoot();drawChapters();drawDiseases();drawRelations();
+window.addEventListener('resize',()=>{const ww=wrap.offsetWidth,wh=wrap.offsetHeight;tx=(ww-W*scale)/2;ty=(wh-H*scale)/2;clampAndApply();});
+</script>
+</body>
+</html>
