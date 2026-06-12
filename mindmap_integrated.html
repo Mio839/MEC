@@ -248,7 +248,9 @@ function mkDefs(){
   });
   const nebF=ns('filter',{id:'nebBlur',x:'-80%',y:'-80%',width:'260%',height:'260%'});
   nebF.append(ns('feGaussianBlur',{stdDeviation:'55'}));
-  defs.append(rg,glow,g2,nebF);svgEl.prepend(defs);
+  const mkr=ns('marker',{id:'arrow',markerWidth:'8',markerHeight:'8',refX:'7',refY:'4',orient:'auto','markerUnits':'userSpaceOnUse'});
+  mkr.append(ns('path',{d:'M 0 0 L 8 4 L 0 8 z',fill:'context-stroke',opacity:'0.85'}));
+  defs.append(rg,glow,g2,nebF,mkr);svgEl.prepend(defs);
 }
 mkDefs();
 
@@ -292,7 +294,7 @@ drawRoot();
 
 // Subject nodes
 const activeSubjects=new Set();
-const disEdges={},disNodes={},DIS_NODE={};
+const disEdges={},disNodes={},DIS_NODE={},orbitRings={};
 function anchor(x){return x<CX-20?'end':x>CX+20?'start':'middle';}
 function splitLbl(l){if(l.length<=4)return[l];if(l.includes('・')){const p=l.split('・');return[p.slice(0,Math.ceil(p.length/2)).join('・'),p.slice(Math.ceil(p.length/2)).join('・')];}const m=Math.ceil(l.length/2);return[l.slice(0,m),l.slice(m)];}
 
@@ -360,9 +362,16 @@ function drawRelations(){
     const fp=DIS_POS[rel.f],tp=DIS_POS[rel.t];if(!fp||!tp)return;
     const mx=(fp.x+tp.x)/2,my=(fp.y+tp.y)/2;
     const cpx=mx+(CX-mx)*0.38,cpy=my+(CY-my)*0.38;
-    const pd=`M ${fp.x} ${fp.y} Q ${cpx} ${cpy} ${tp.x} ${tp.y}`;
-    const path=ns('path',{d:pd,fill:'none',stroke:rel.c,'stroke-width':'1.8','stroke-dasharray':'6 4','stroke-dashoffset':'0',opacity:'0'});
-    path.style.transition='opacity 0.4s';lRel.append(path);rel._p=path;
+    const etx=tp.x-cpx,ety=tp.y-cpy,etl=Math.hypot(etx,ety)||1;
+    const tp2x=tp.x-(etx/etl)*32,tp2y=tp.y-(ety/etl)*32;
+    const pd=`M ${fp.x} ${fp.y} Q ${cpx} ${cpy} ${tp2x.toFixed(1)} ${tp2y.toFixed(1)}`;
+    const path=ns('path',{d:pd,fill:'none',stroke:rel.c,'stroke-width':'1.8','stroke-dasharray':'6 4','stroke-dashoffset':'0','marker-end':'url(#arrow)',opacity:'0'});
+    path.style.transition='opacity 0.4s';lRel.append(path);
+    rel._p=path;rel._pl=path.getTotalLength();rel._visible=false;
+    const pulse=ns('path',{d:pd,fill:'none',stroke:'rgba(255,255,255,0.9)','stroke-width':'3.5',opacity:'0','pointer-events':'none',filter:'url(#glow2)'});
+    pulse.style.setProperty('--pdash',`${Math.ceil(rel._pl+10)}px`);
+    pulse.setAttribute('stroke-dasharray',`10 ${Math.ceil(rel._pl)}`);
+    lRel.append(pulse);rel._pulse=pulse;
     const lx=0.25*fp.x+0.5*cpx+0.25*tp.x,ly=0.25*fp.y+0.5*cpy+0.25*tp.y-8;
     if(rel.lb){
       const lw=rel.lb.length*6.5+8;
@@ -400,8 +409,35 @@ drawRelations();
 
 function updateRelations(){
   CROSS.forEach(rel=>{
-    const v=rel._p&&activeSubjects.has(DIS_SUBJ_IDX[rel.f])&&activeSubjects.has(DIS_SUBJ_IDX[rel.t]);
-    if(rel._p){rel._p.style.opacity=v?'0.75':'0';rel._p.style.animation=v?'flow 1.1s linear infinite':'';}
+    const v=!!(rel._p&&activeSubjects.has(DIS_SUBJ_IDX[rel.f])&&activeSubjects.has(DIS_SUBJ_IDX[rel.t]));
+    const wasV=rel._visible||false;rel._visible=v;
+    if(v&&!wasV){
+      rel._p.style.transition='none';
+      rel._p.style.strokeDasharray=`${Math.ceil(rel._pl)} ${Math.ceil(rel._pl)}`;
+      rel._p.style.strokeDashoffset=String(Math.ceil(rel._pl));
+      rel._p.style.opacity='0.75';
+      rel._p.style.animation='drawOn 0.7s ease-out forwards';
+      const onEnd=()=>{
+        rel._p.removeEventListener('animationend',onEnd);
+        if(!rel._visible)return;
+        rel._p.style.strokeDasharray='6 4';
+        rel._p.style.strokeDashoffset='0';
+        rel._p.style.animation='flow 1.1s linear infinite';
+        if(rel._pulse){rel._pulse.style.opacity='0.85';rel._pulse.style.animation='travelDot 2s linear infinite';}
+      };
+      rel._p.addEventListener('animationend',onEnd);
+    }else if(v){
+      rel._p.style.opacity='0.75';
+      if(!rel._p.style.animation.includes('flow'))rel._p.style.animation='flow 1.1s linear infinite';
+      if(rel._pulse&&rel._pulse.style.opacity==='0'){rel._pulse.style.opacity='0.85';rel._pulse.style.animation='travelDot 2s linear infinite';}
+    }else{
+      rel._p.style.transition='opacity 0.4s';
+      rel._p.style.opacity='0';
+      rel._p.style.animation='';
+      rel._p.style.strokeDasharray='6 4';
+      rel._p.style.strokeDashoffset='0';
+      if(rel._pulse){rel._pulse.style.opacity='0';rel._pulse.style.animation='';}
+    }
     if(rel._bg)rel._bg.style.opacity=v?'0.95':'0';
     if(rel._lt)rel._lt.style.opacity=v?'1':'0';
     if(rel._hit)rel._hit.setAttribute('pointer-events',v?'all':'none');
@@ -414,6 +450,15 @@ function updateRelations(){
   });
 }
 
+function shockwave(cx,cy,color){
+  const g=ns('g',{transform:`translate(${cx.toFixed(1)},${cy.toFixed(1)})`,'pointer-events':'none'});
+  const ring=ns('circle',{cx:'0',cy:'0',r:'36',fill:'none',stroke:color,'stroke-width':'3',opacity:'0.9'});
+  ring.style.transformBox='fill-box';
+  ring.style.transformOrigin='center';
+  ring.style.animation='sw 0.65s ease-out forwards';
+  g.append(ring);lNCh.append(g);
+  setTimeout(()=>g.remove(),700);
+}
 function toggleSubject(si){
   const chG=lNCh.children[si];
   const circ=chG?chG.querySelector('circle'):null;
@@ -422,13 +467,20 @@ function toggleSubject(si){
     disNodes[si].forEach(n=>{n.style.opacity='0';n.style.pointerEvents='none';});
     disEdges[si].forEach(e=>e.style.opacity='0');
     if(circ){circ.setAttribute('r','36');circ.setAttribute('filter','url(#glow2)');}
+    if(orbitRings[si]){orbitRings[si].remove();delete orbitRings[si];}
   }else{
     activeSubjects.add(si);
     disNodes[si].forEach(n=>{n.style.opacity='1';n.style.pointerEvents='';});
     disEdges[si].forEach(e=>e.style.opacity='0.45');
     if(circ){circ.setAttribute('r','39');circ.setAttribute('filter','url(#glow)');}
-    const a=deg(SUBJECTS[si].angle);
-    panTo(CX+R1*Math.cos(a),CY+R1*Math.sin(a));
+    const s=SUBJECTS[si];
+    const a=deg(s.angle);
+    const px=CX+R1*Math.cos(a),py=CY+R1*Math.sin(a);
+    shockwave(px,py,s.color);
+    const orb=ns('circle',{cx:px.toFixed(1),cy:py.toFixed(1),r:'56',fill:'none',stroke:s.color,'stroke-width':'1.5','stroke-dasharray':'4 12','stroke-dashoffset':'0',opacity:'0.4','pointer-events':'none'});
+    orb.style.animation='orbitSpin 5s linear infinite';
+    lNCh.append(orb);orbitRings[si]=orb;
+    panTo(px,py);
   }
   updateLegend();
   updateRelations();
@@ -529,7 +581,7 @@ function panTo(px,py,dur=480){
 window.addEventListener('resize',()=>{const ww=wrap.offsetWidth,wh=wrap.offsetHeight;tx=(ww-W*scale)/2;ty=(wh-H*scale)/2;clampAndApply();});
 
 const style=document.createElement('style');
-style.textContent='@keyframes pulse{0%,100%{opacity:0.5;transform:scale(1);}50%{opacity:0.12;transform:scale(1.2);}}@keyframes flow{from{stroke-dashoffset:0;}to{stroke-dashoffset:-40;}}@keyframes twinkle{0%,100%{opacity:0.07;}50%{opacity:0.65;}}';
+style.textContent='@keyframes pulse{0%,100%{opacity:0.5;transform:scale(1);}50%{opacity:0.12;transform:scale(1.2);}}@keyframes flow{from{stroke-dashoffset:0;}to{stroke-dashoffset:-40;}}@keyframes twinkle{0%,100%{opacity:0.07;}50%{opacity:0.65;}}@keyframes sw{to{transform:scale(3.5);opacity:0;}}@keyframes orbitSpin{to{stroke-dashoffset:-16;}}@keyframes travelDot{to{stroke-dashoffset:calc(-1*var(--pdash));}}@keyframes drawOn{to{stroke-dashoffset:0;}}';
 document.head.append(style);
 </script>
 </body>
