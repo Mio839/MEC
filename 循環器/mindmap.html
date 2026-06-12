@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<title>循環器 疾患マインドマップ | MEC</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans JP',sans-serif;background:#06101f;overflow:hidden;width:100vw;height:100vh;user-select:none;}
+.hdr{position:fixed;top:0;left:0;right:0;height:46px;background:rgba(10,22,46,.97);border-bottom:2px solid #C62828;display:flex;align-items:center;gap:10px;padding:0 16px;z-index:100;}
+.hdr-badge{background:#C62828;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;}
+.hdr h1{font-size:15px;font-weight:900;color:#fff;}
+.hdr-hint{margin-left:auto;font-size:11px;color:rgba(255,255,255,.4);}
+.hdr-back{font-size:11px;color:#F5A623;text-decoration:none;font-weight:700;border:1.5px solid #F5A623;border-radius:20px;padding:3px 10px;white-space:nowrap;}
+#wrap{position:fixed;top:46px;left:0;right:0;bottom:0;overflow:hidden;touch-action:none;}
+#inner{position:absolute;transform-origin:0 0;will-change:transform;}
+svg{display:block;}
+.panel{position:fixed;right:14px;bottom:14px;width:280px;max-height:65vh;overflow-y:auto;background:rgba(10,22,46,.97);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;padding:14px 16px;color:#fff;opacity:0;transform:translateY(12px);transition:opacity .25s,transform .25s;pointer-events:none;z-index:200;scrollbar-width:thin;}
+.panel.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+.panel-close{position:absolute;top:10px;right:12px;background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;line-height:1;}
+.panel-chapter{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:6px;}
+.panel-title{font-size:16px;font-weight:900;margin-bottom:8px;line-height:1.35;}
+.panel-keys{list-style:none;font-size:12px;line-height:1.85;}
+.panel-keys li{display:flex;gap:6px;align-items:flex-start;}
+.panel-keys li::before{content:'▸';color:#F5A623;flex-shrink:0;margin-top:1px;}
+.panel-imgs{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+.panel-imgs img{width:100%;border-radius:6px;cursor:zoom-in;border:1px solid rgba(255,255,255,.1);}
+.panel-link{display:inline-block;margin-top:10px;padding:5px 14px;background:#C62828;color:#fff;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;}
+.panel-link:hover{background:#E53935;}
+#lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1000;cursor:zoom-out;align-items:center;justify-content:center;}
+#lb.open{display:flex;}
+#lb img{max-width:92vw;max-height:88vh;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.8);}
+.legend{position:fixed;left:14px;bottom:14px;background:rgba(10,22,46,.9);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 14px;z-index:100;}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:11px;color:rgba(255,255,255,.75);margin-bottom:4px;}
+.legend-item:last-child{margin-bottom:0;}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.legend-dash{width:20px;height:0;border-top:2px dashed;flex-shrink:0;}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <span class="hdr-badge">MEC</span>
+  <h1>🫀 循環器 疾患マインドマップ</h1>
+  <span class="hdr-hint">章をタップ→疾患 ／ 複数章展開で関連線表示</span>
+  <a class="hdr-back" href="../index.html">← ホーム</a>
+</div>
+<div id="wrap"><div id="inner"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div></div>
+<div class="panel" id="panel">
+  <button class="panel-close" id="panelClose">✕</button>
+  <div class="panel-chapter" id="panelCh"></div>
+  <div class="panel-title" id="panelTitle"></div>
+  <ul class="panel-keys" id="panelKeys"></ul>
+  <div class="panel-imgs" id="panelImgs"></div>
+  <a class="panel-link" id="panelLink" href="#">📚 問題を解く →</a>
+</div>
+<div id="lb"><img id="lbImg" src="" alt=""/></div>
+<div class="legend">
+  <div class="legend-item" style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:6px;">色 ＝ 系統</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#D97706;border-radius:50%;"></div>基礎・生理</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#DC2626;border-radius:50%;"></div>心不全（緊急）</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#B91C1C;border-radius:50%;"></div>虚血性心疾患</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#1D4ED8;border-radius:50%;"></div>不整脈</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3B82F6;border-radius:50%;"></div>弁膜症</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#4338CA;border-radius:50%;"></div>心膜・心筋疾患</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7C3AED;border-radius:50%;"></div>心筋疾患</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#047857;border-radius:50%;"></div>大動脈</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#059669;border-radius:50%;"></div>末梢血管</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#B45309;border-radius:50%;"></div>高血圧</div>
+  <div style="border-top:1px solid rgba(255,255,255,.1);margin:7px 0;"></div>
+  <div class="legend-item"><div class="legend-dash" style="border-color:#FBBF24;"></div>関連疾患（点線）</div>
+</div>
+<script>
+const CX=800,CY=660,R1=230,R2=600;
+const CHAPTERS=[
+  {id:'ch01',label:'循環器の基本',color:'#D97706',angle:-90,link:'ch01_circulatory_basics.html',diseases:[
+    {id:'d01a',label:'心電図読影',imgs:['images/108E-69_1.jpeg'],keys:['P-QRS-T：洞調律の基本；PR間隔0.12-0.20秒','QRS幅>0.12秒→脚ブロックまたは心室内伝導障害','ST変化：上昇→急性心筋梗塞；下降→虚血・ジギタリス','QTc（補正QT）延長>450 ms（男）/470 ms（女）→Torsades de pointes']},
+    {id:'d01b',label:'心エコーの基本',imgs:[],keys:['EF（駆出率）正常≥55%；EF低下型(HFrEF) vs 保持型(HFpEF)','僧帽弁E/A比・E/e\'比：左房圧推定','心タンポナーデ：RV虚脱；大動脈弁：PHT法で面積計算','TEE（経食道）：左心耳血栓・弁疾患・感染性心内膜炎']},
+    {id:'d01c',label:'Starlingの心臓',imgs:[],keys:['前負荷（preload）：静脈還流量；Frank-Starling曲線の上昇肢','後負荷（afterload）：体血管抵抗；SVR=MAP×80/CO','心拍出量（CO）=SV×HR；正常5 L/min','代償：心肥大（圧負荷）・心拡大（容量負荷）→最終的に収縮不全']},
+    {id:'d01d',label:'心不全マーカー',imgs:[],keys:['BNP>100 pg/mL（NT-proBNP>400）：心不全診断','BNPは予後指標；退院時に改善を確認','高感度TnT/I：心筋傷害マーカー（ACS・心筋炎）','CRP/プロカルシトニン：感染性心内膜炎の炎症マーカー']},
+  ]},
+  {id:'ch02',label:'心不全',color:'#DC2626',angle:-54,link:'ch02_heart_failure.html',diseases:[
+    {id:'d02a',label:'急性心不全',imgs:['images/116C-33_1.jpeg'],keys:['Killip分類：I（正常）-II（ラ音）-III（肺水腫）-IV（ショック）','端坐呼吸・泡沫様喀痰・ピンク色泡状痰（肺水腫）','治療：LMNOP（ラシックス・モルヒネ・ニトロ・O₂・ポジション）','NPPV（急性肺水腫で有効）；重症→IABP・ECMO']},
+    {id:'d02b',label:'慢性心不全',imgs:[],keys:['HFrEF（EF<40%）：ARNI+β遮断薬+MRA+SGLT2阻害薬（4剤）','HFpEF（EF≥50%）：利尿薬+SGLT2阻害薬（HFpEF初の予後改善薬）','NYHA分類でI-IV；体重管理（2日で2 kg↑→受診）','再入院予防：低塩食・水分制限・毎日体重測定']},
+    {id:'d02c',label:'心原性ショック',imgs:[],keys:['SBP<90 mmHg＋末梢灌流不全（CI<2.2 L/min/m²）','AMI合併心原性ショック：死亡率50%','IABP（大動脈内バルーンパンピング）：後負荷軽減','VA-ECMO（体外膜型人工心肺）：最終的なbridge；移植/VAD検討']},
+    {id:'d02d',label:'右心不全',imgs:[],keys:['原因：左心不全・肺高血圧・肺血栓塞栓症・右心梗塞','頸静脈怒張・肝腫大・下腿浮腫（末梢性）','Kussmaul徴候：吸気時頸静脈圧↑（心膜疾患・重症右心不全）','右心梗塞：下壁STとV4R ST上昇；補液が治療（ニトロ禁忌）']},
+  ]},
+  {id:'ch03',label:'虚血性心疾患',color:'#B91C1C',angle:-18,link:'ch03_ischemic_heart.html',diseases:[
+    {id:'d03a',label:'安定狭心症',imgs:[],keys:['労作時胸痛（安静で軽快）；ST下降（労作時）','冠動脈CT（Ca score・CTA）で狭窄評価','薬物療法：硝酸薬・β遮断薬・Ca拮抗薬','重症例（左主幹部・3枝）：CABG優先；1-2枝：PCI適応検討']},
+    {id:'d03b',label:'急性心筋梗塞（STEMI）',imgs:['images/108A-42_1.jpeg'],keys:['ST上昇+トロポニン上昇；緊急PCI（door-to-balloon<90分）','Killip分類で重症度（KillipIV=心原性ショック）','合併症：乳頭筋断裂（MR）・心室中隔穿孔・自由壁破裂','二次予防：DAPT（アスピリン+P2Y12阻害薬）・スタチン・ACE-I/ARB・βB']},
+    {id:'d03c',label:'NSTEMI・不安定狭心症',imgs:[],keys:['安静時胸痛；ST下降またはT波陰転；TnT/I上昇あり（NSTEMI）・なし（UA）','GRACE score・TIMI scoreでリスク層別化','抗血栓療法（UFH+アスピリン+P2Y12）→早期侵襲戦略（PCI）','高リスク（Tn上昇・hemodynamic不安定）→24時間以内PCI']},
+    {id:'d03d',label:'冠攣縮性狭心症',imgs:[],keys:['安静時（深夜〜早朝）胸痛；ST上昇型','アセチルコリン負荷試験で誘発（冠動脈カテーテル）','Ca拮抗薬（ジルチアゼム・ニフェジピン）が第一選択','喫煙・飲酒・過労が誘因；βB悪化させることがある']},
+  ]},
+  {id:'ch04',label:'不整脈',color:'#1D4ED8',angle:18,link:'ch04_arrhythmia.html',diseases:[
+    {id:'d04a',label:'心房細動（AF）',imgs:['images/116B-38_1.jpeg'],keys:['f波（基線の細動）・不整な心拍；最多の持続性不整脈','脳塞栓症リスク：CHADS₂スコア（≥2→抗凝固）','レートコントロール：βB・非DHP Ca拮抗薬','リズムコントロール：カテーテルアブレーション（肺静脈隔離術）']},
+    {id:'d04b',label:'心室頻拍・心室細動',imgs:['images/114F-32_1.jpeg'],keys:['VT：QRS幅>0.12秒の頻拍（3連発以上）；hemodynamic不安定→即DC除細動','VF：無脈性電気活動→CPR+DC除細動が最優先','アミオダロン：再発予防に有効（甲状腺・肺・肝副作用注意）','ICD（植込み型除細動器）：一次/二次予防']},
+    {id:'d04c',label:'徐脈・ブロック',imgs:['images/112D-50_1.jpeg'],keys:['洞不全症候群（SSS）：洞停止・洞房ブロック；失神・Adams-Stokes発作','III度房室ブロック：P波とQRS解離；逸脱調律（心室性）','適応：症状あるSSS/III度AVB→ペースメーカー植込み','アトロピン（急性）・一時ペーシング→永久ペースメーカー']},
+    {id:'d04d',label:'WPW症候群',imgs:[],keys:['副伝導路（Kent束）経由の早期興奮：Δ波・短PR・幅広QRS','SVT（房室回帰頻拍）：narrow QRS（orthodromic）','AF合併：副路経由の高速心室応答→VFリスク（ジギタリス・ベラパミル禁忌）','カテーテルアブレーションが根治的治療']},
+  ]},
+  {id:'ch05',label:'弁膜症',color:'#3B82F6',angle:54,link:'ch05_valvular.html',diseases:[
+    {id:'d05a',label:'大動脈弁狭窄症（AS）',imgs:['images/100G-96_1.jpeg'],keys:['高齢者の石灰化が最多；先天性二尖弁（若年）','三徴：失神・狭心症・心不全（順に予後悪化）','強いⅡ音消失（A2消失）・Ⅱ肋間右縁収縮期駆出性雑音','AVR（外科的）またはTAVI（経カテーテル的）；症状出現で即手術適応']},
+    {id:'d05b',label:'大動脈弁閉鎖不全症（AR）',imgs:[],keys:['急性（感染性心内膜炎・大動脈解離）：緊急手術','慢性：心拡大・拡張期雑音（Ⅱ肋間右縁・DeMusset徴候等）','Quincke脈（爪毛細管脈）・水撃脈（Corrigan\'s）','左室機能低下前（EF<55%・LVDd>65 mm）に手術']},
+    {id:'d05c',label:'僧帽弁狭窄症（MS）',imgs:['images/110B-6_1.jpeg'],keys:['ほぼリウマチ熱後遺症；弁口面積<1.0 cm²で重症','Ⅰ音亢進・開放音（OS）・低調性拡張期雑音（ランブル）','肺高血圧→右心不全；AFは塞栓症リスク','経皮的僧帽弁交連切開術（PTMC）が弁形態良好例で第一選択']},
+    {id:'d05d',label:'僧帽弁閉鎖不全症（MR）',imgs:[],keys:['急性：乳頭筋断裂（AMI後）→緊急手術','慢性：左室容量負荷→心拡大；ⅢM音・全収縮期逆流性雑音','Barlow症候群（MVP）：最多の原因（先進国）','EF<60% or LVDs>40 mmで手術；弁形成術が優先']},
+  ]},
+  {id:'ch06',label:'心膜疾患',color:'#4338CA',angle:90,link:'ch06_pericardium.html',diseases:[
+    {id:'d06a',label:'急性心膜炎',imgs:[],keys:['胸痛（前傾位で軽快）・心膜摩擦音・心電図（四肢誘導でST上昇・PR低下）','原因：ウイルス（最多）・自己免疫（SLE・RA）・尿毒症・悪性腫瘍','NSAIDs+コルヒチン（再発予防）；細菌性は抗菌薬+ドレナージ','再発性心膜炎：コルヒチン長期・IVIG・ステロイド']},
+    {id:'d06b',label:'心タンポナーデ',imgs:['images/111E-48_1.jpeg'],keys:['Beck三徴：静脈圧↑・血圧↓・心音減弱（絹製心音）','呼吸による収縮期血圧変動（奇脈）：>10 mmHg','エコー：RV free wallの拡張期虚脱が診断的','緊急心嚢ドレナージ（エコーガイド下穿刺）']},
+    {id:'d06c',label:'収縮性心膜炎',imgs:[],keys:['心膜肥厚・石灰化→心室充満制限','Kussmaul徴候・Pericardial knock（拡張早期音）','心臓CT/MRI：心膜肥厚（>4 mm）・石灰化','原因：結核（途上国）・放射線・術後；治療：心膜切除術']},
+  ]},
+  {id:'ch07',label:'心筋疾患',color:'#7C3AED',angle:126,link:'ch07_myocardium.html',diseases:[
+    {id:'d07a',label:'肥大型心筋症（HCM）',imgs:['images/104H-20_1.jpeg'],keys:['非対称性中隔肥厚（ASH）；SAM（収縮期前方運動）→LVOTO','家族性（βミオシン重鎖変異等）；若年の突然死原因','胸骨左縁下部の収縮期駆出性雑音；Valsalva手技で増強','β遮断薬・非DHP Ca拮抗薬；LVOTO>50 mmHg→中隔心筋切除/アルコール中隔焼灼']},
+    {id:'d07b',label:'拡張型心筋症（DCM）',imgs:[],keys:['左室拡大・EF低下（<40%）；原因多様（特発性が多い）','完全左脚ブロック（LBBB）を伴うことが多い','CRT（心臓再同期療法）：LBBB+EF<35%+QRS>130 msで適応','心不全治療（4剤）+ICD；重症例→移植（LVAD bridge）']},
+    {id:'d07c',label:'心筋炎',imgs:[],keys:['原因：ウイルス（コクサッキーB・インフルエンザ）・自己免疫・薬剤（irAE）','胸痛・心不全・不整脈；トロポニン↑（ACSとの鑑別重要）','心臓MRI（Late gadolinium enhancement）：心筋炎の画像診断','巨細胞性心筋炎：最重症；免疫抑制療法・機械的補助']},
+  ]},
+  {id:'ch08',label:'大動脈疾患',color:'#047857',angle:162,link:'ch08_aorta.html',diseases:[
+    {id:'d08a',label:'大動脈解離',imgs:['images/107D-29_1.jpeg'],keys:['Stanford A型（上行大動脈含む）：緊急手術','Stanford B型（下行大動脈のみ）：原則薬物療法（除く合併症例）','突然の激しい背部痛（引き裂かれる）・血圧左右差','CT：内膜翻転（flap）・真腔と偽腔']},
+    {id:'d08b',label:'大動脈瘤',imgs:['images/112D-53_1.jpeg'],keys:['腹部大動脈瘤（AAA）：最多；動脈硬化性；男性喫煙者','胸部大動脈瘤（TAA）：マルファン・大動脈炎症候群','手術適応：AAA≥55 mm（男）/50 mm（女）・TAA≥55-60 mm','破裂：突然の激痛・ショック→緊急開腹/血管内治療']},
+    {id:'d08c',label:'急性大動脈症候群', imgs:[],keys:['大動脈解離・壁内血腫・大動脈潰瘍の総称','壁内血腫：解離なし・内膜肥厚（CT：高吸収）','貫通性大動脈潰瘍（PAU）：動脈硬化性・高齢者','Stanford A型類似病変は緊急手術；B型類似は状態に応じて']},
+  ]},
+  {id:'ch09',label:'末梢血管疾患',color:'#059669',angle:198,link:'ch09_peripheral_vessels.html',diseases:[
+    {id:'d09a',label:'下肢閉塞性動脈硬化症（ASO）',imgs:['images/107I-76_1.jpeg'],keys:['Fontaine分類：I（無症状）-II（間欠性跛行）-III（安静時疼痛）-IV（潰瘍・壊疽）','ABI（足首上腕血圧比）<0.9が診断基準（<0.4：重症）','治療：リスク因子（禁煙・糖尿病・高血圧）管理＋抗血小板薬','血行再建：PTA（経皮的血管形成術）または外科的バイパス']},
+    {id:'d09b',label:'深部静脈血栓症（DVT）',imgs:[],keys:['Virchow三徴：血流うっ滞・血管内皮障害・血液凝固亢進','Homan徴候（足背屈で腓腹筋痛）；下肢腫脹・発赤','超音波（圧迫試験）が簡便；Dダイマー↑（感度高い）','抗凝固（リバーロキサバン等DOAC）；予防：早期離床・弾性ストッキング']},
+    {id:'d09c',label:'バージャー病（TAO）',imgs:[],keys:['閉塞性血栓性血管炎；若年男性喫煙者','四肢末梢の閉塞→壊疽；レイノー現象','病理：血管壁保存した血栓（炎症細胞浸潤）','絶対禁煙が最重要；前立腺素薬剤（アルプロスタジル）']},
+  ]},
+  {id:'ch10',label:'高血圧',color:'#B45309',angle:234,link:'ch10_blood_pressure.html',diseases:[
+    {id:'d10a',label:'本態性高血圧',imgs:[],keys:['診断：診察室≥140/90 mmHg；高血圧患者の90%以上','家庭血圧≥135/85 mmHg（診察室より低い）','非薬物療法：塩分<6 g/日・有酸素運動・禁煙・節酒・体重管理','第一選択薬：ARB/ACE-I・Ca拮抗薬・利尿薬（サイアザイド系）']},
+    {id:'d10b',label:'二次性高血圧',imgs:['images/114F-32_1.jpeg'],keys:['原発性アルドステロン症（最多）：低K・ARR>200','腎実質性：CKD；腎血管性：腎動脈狭窄（若年FMD・高齢動脈硬化）','褐色細胞腫：頭痛・発汗・動悸（発作性）','甲状腺機能亢進症：高収縮期血圧・脈圧拡大']},
+    {id:'d10c',label:'高血圧性緊急症',imgs:[],keys:['高血圧クリーゼ：BP≥180/120＋臓器障害（脳・心・腎）','高血圧性脳症：頭痛・視力障害・意識障害（PRES）','治療：静注降圧薬（ニカルジピン・ラベタロール）で1時間以内に25%低下','ニトロプルシドは最強（シアン化物中毒注意）；ニフェジピン舌下投与は禁忌']},
+    {id:'d10d',label:'起立性低血圧',imgs:[],keys:['起立後3分以内にSBP≥20 mmHg or DBP≥10 mmHg低下','原因：脱水・糖尿病性自律神経障害・パーキンソン病・薬剤（α遮断薬）','症状：立ちくらみ・失神（Syncope）','治療：原因除去・弾性ストッキング；ミドドリン（α₁刺激薬）']},
+  ]},
+];
+
+const RELATIONS=[
+  {from:'d03b',to:'d02a',label:'AMI→心不全',color:'#FBBF24'},
+  {from:'d04a',to:'d05c',label:'AF→MS合併',color:'#F87171'},
+  {from:'d08a',to:'d05b',label:'解離→AR',color:'#C084FC'},
+  {from:'d10b',to:'d03a',label:'高血圧→IHD',color:'#67E8F9'},
+  {from:'d09b',to:'d05a',label:'DVT→PTE',color:'#6EE7B7'},
+  {from:'d07a',to:'d04b',label:'HCM→VT/VF',color:'#94A3B8'},
+  {from:'d03b',to:'d03c',label:'',color:'#FCA5A5'},
+  {from:'d05a',to:'d05b',label:'',color:'#93C5FD'},
+  {from:'d06a',to:'d06b',label:'',color:'#C4B5FD'},
+  {from:'d04a',to:'d04b',label:'',color:'#FDE68A'},
+];
+
+const DIS_POS={};const DIS_CHIDX={};
+CHAPTERS.forEach((ch,ci)=>{ch.diseases.forEach(dis=>{DIS_CHIDX[dis.id]=ci;});});
+
+function deg(a){return a*Math.PI/180;}
+function chPos(chIdx){const a=deg(CHAPTERS[chIdx].angle);return{x:CX+R1*Math.cos(a),y:CY+R1*Math.sin(a)};}
+function disPos(chIdx,dIdx,total){const chAngle=CHAPTERS[chIdx].angle;const fanDeg=Math.min(26,8+6*total);const start=chAngle-fanDeg/2;const a=deg(start+(dIdx+0.5)*fanDeg/total);return{x:CX+R2*Math.cos(a),y:CY+R2*Math.sin(a)};}
+function anchor(x){if(x<CX-20)return'end';if(x>CX+20)return'start';return'middle';}
+
+const svgEl=document.getElementById('svg');const W=1600,H=1380;svgEl.setAttribute('width',W);svgEl.setAttribute('height',H);svgEl.setAttribute('viewBox',`0 0 ${W} ${H}`);
+function svgNS(tag,attrs){const el=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v));return el;}
+function createDefs(){const defs=svgNS('defs',{});const rg=svgNS('radialGradient',{id:'rootGrad',cx:'50%',cy:'50%',r:'50%'});rg.append(svgNS('stop',{offset:'0%','stop-color':'#EF5350'}),svgNS('stop',{offset:'100%','stop-color':'#7F0000'}));const f=svgNS('filter',{id:'glow',x:'-50%',y:'-50%',width:'200%',height:'200%'});const blur=svgNS('feGaussianBlur',{stdDeviation:'4',result:'colored'});const merge=svgNS('feMerge',{});merge.append(svgNS('feMergeNode',{in:'colored'}),svgNS('feMergeNode',{in:'SourceGraphic'}));f.append(blur,merge);const f2=svgNS('filter',{id:'glow2',x:'-50%',y:'-50%',width:'200%',height:'200%'});const blur2=svgNS('feGaussianBlur',{stdDeviation:'2.5',result:'colored2'});const merge2=svgNS('feMerge',{});merge2.append(svgNS('feMergeNode',{in:'colored2'}),svgNS('feMergeNode',{in:'SourceGraphic'}));f2.append(blur2,merge2);defs.append(rg,f,f2);svgEl.prepend(defs);}
+const layerEdgesCh=svgNS('g',{id:'ech'});const layerEdgesDis=svgNS('g',{id:'edis'});const layerRelations=svgNS('g',{id:'nrel'});const layerNodesDis=svgNS('g',{id:'ndis'});const layerNodesCh=svgNS('g',{id:'nch'});const layerRoot=svgNS('g',{id:'nroot'});
+svgEl.append(layerEdgesCh,layerEdgesDis,layerRelations,layerNodesDis,layerNodesCh,layerRoot);createDefs();
+const activeChapters=new Set();const disEdges={};const disNodes={};
+function drawRoot(){const g=svgNS('g',{transform:`translate(${CX},${CY})`});const ring=svgNS('circle',{r:'68',fill:'none',stroke:'rgba(198,40,40,0.25)','stroke-width':'12'});ring.style.animation='pulse 2.5s ease-in-out infinite';const ring2=svgNS('circle',{r:'52',fill:'none',stroke:'rgba(198,40,40,0.18)','stroke-width':'8'});ring2.style.animation='pulse 2.5s ease-in-out infinite 0.8s';const circ=svgNS('circle',{r:'42',fill:'url(#rootGrad)',filter:'url(#glow)'});const txt1=svgNS('text',{x:'0',y:'-4','text-anchor':'middle','font-size':'22','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif'});txt1.textContent='🫀';const txt2=svgNS('text',{x:'0',y:'14','text-anchor':'middle','font-size':'11','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif'});txt2.textContent='循環器';g.append(ring,ring2,circ,txt1,txt2);layerRoot.append(g);}
+function drawChapters(){CHAPTERS.forEach((ch,ci)=>{const p=chPos(ci);const ep1={x:CX+44*Math.cos(deg(ch.angle)),y:CY+44*Math.sin(deg(ch.angle))};const path=svgNS('path',{d:`M ${ep1.x} ${ep1.y} Q ${(ep1.x+p.x)/2} ${(ep1.y+p.y)/2} ${p.x} ${p.y}`,fill:'none',stroke:ch.color,'stroke-width':'2.5',opacity:'0.55'});layerEdgesCh.append(path);const g=svgNS('g',{transform:`translate(${p.x},${p.y})`,style:'cursor:pointer'});g.dataset.ci=ci;const outerRing=svgNS('circle',{r:'37',fill:'none',stroke:ch.color,'stroke-width':'2',opacity:'0.4'});const circ=svgNS('circle',{r:'31',fill:ch.color,stroke:'#fff','stroke-width':'1.5',filter:'url(#glow2)'});circ.style.transition='r 0.2s';function splitLabel(lbl){if(lbl.length<=5)return[lbl];const parts=lbl.split('・');if(parts.length>=2)return[parts.slice(0,Math.ceil(parts.length/2)).join('・'),parts.slice(Math.ceil(parts.length/2)).join('・')];const mid=Math.ceil(lbl.length/2);return[lbl.slice(0,mid),lbl.slice(mid)];}const lines=splitLabel(ch.label);const lineH=12;const totalH=lines.length*lineH;lines.forEach((line,li)=>{const t=svgNS('text',{x:'0',y:String(li*lineH-totalH/2+lineH*0.8),'text-anchor':'middle','font-size':'9','font-weight':'700',fill:'#fff','font-family':'Noto Sans JP,sans-serif'});t.textContent=line;g.append(t);});g.prepend(circ,outerRing);g.addEventListener('click',(e)=>{e.stopPropagation();toggleChapter(ci);});g.addEventListener('mouseenter',()=>{circ.setAttribute('r','34');});g.addEventListener('mouseleave',()=>{circ.setAttribute('r',activeChapters.has(ci)?'34':'31');});layerNodesCh.append(g);});}
+function drawDiseases(){const defs=svgEl.querySelector('defs');CHAPTERS.forEach((ch,ci)=>{const cp=chPos(ci);disEdges[ci]=[];disNodes[ci]=[];ch.diseases.forEach((dis,di)=>{const dp=disPos(ci,di,ch.diseases.length);DIS_POS[dis.id]=dp;const chColor=ch.color;const hasImg=dis.imgs&&dis.imgs.length>0;const nodeR=32;const edge=svgNS('path',{d:`M ${cp.x} ${cp.y} Q ${(cp.x+dp.x)/2} ${(cp.y+dp.y)/2} ${dp.x} ${dp.y}`,fill:'none',stroke:chColor,'stroke-width':'1.5',opacity:'0'});edge.style.transition='opacity 0.35s';layerEdgesDis.append(edge);disEdges[ci].push(edge);const g=svgNS('g',{transform:`translate(${dp.x},${dp.y})`,style:'cursor:pointer',opacity:'0'});g.style.transition='opacity 0.35s';g.dataset.ci=ci;g.dataset.di=di;if(hasImg){const clipId=`clip-${dis.id}`;const cp2=svgNS('clipPath',{id:clipId});cp2.append(svgNS('circle',{cx:'0',cy:'0',r:String(nodeR)}));defs.append(cp2);const imgEl=svgNS('image',{href:dis.imgs[0],x:String(-nodeR),y:String(-nodeR),width:String(nodeR*2),height:String(nodeR*2),'clip-path':`url(#${clipId})`,preserveAspectRatio:'xMidYMid slice'});const ring=svgNS('circle',{r:String(nodeR),fill:'none',stroke:chColor,'stroke-width':'2.5',opacity:'0.9'});ring.style.transition='r 0.15s';g.append(imgEl,ring);}else{const circ=svgNS('circle',{r:String(nodeR),fill:chColor,stroke:'rgba(255,255,255,0.35)','stroke-width':'1'});circ.style.transition='r 0.15s';function getAbbr(label){const m=label.match(/^([A-Za-z0-9\-]+)/);if(m&&m[1].length>=2&&m[1].length<=6)return m[1];return label.replace(/（.+?）/g,'').slice(0,4);}const ct=svgNS('text',{x:'0',y:'5','text-anchor':'middle','font-size':'10','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif','pointer-events':'none'});ct.textContent=getAbbr(dis.label);g.append(circ,ct);}const dx=dp.x-CX,dy=dp.y-CY,len=Math.hypot(dx,dy)||1,nx=dx/len,ny=dy/len;const lx=nx*(nodeR+20),ly=ny*(nodeR+20);function getExtLabel(label){const noParens=label.replace(/（.+?）/g,'').replace(/\/.+/,'').trim();return noParens.length>8?noParens.slice(0,7)+'…':noParens;}const lt=svgNS('text',{x:String(lx),y:String(ly+4),'text-anchor':anchor(dp.x),'font-size':'12','font-weight':'700',fill:'rgba(255,255,255,0.9)','font-family':'Noto Sans JP,sans-serif','pointer-events':'none'});lt.textContent=getExtLabel(dis.label);g.append(lt);g.addEventListener('click',(e)=>{e.stopPropagation();showPanel(ci,di);});g.addEventListener('mouseenter',()=>{const c=g.querySelector('circle');if(c)c.setAttribute('r',String(nodeR+4));});g.addEventListener('mouseleave',()=>{const c=g.querySelector('circle');if(c)c.setAttribute('r',String(nodeR));});layerNodesDis.append(g);disNodes[ci].push(g);});})}
+function drawRelations(){RELATIONS.forEach(rel=>{const fp=DIS_POS[rel.from],tp=DIS_POS[rel.to];if(!fp||!tp)return;const mx=(fp.x+tp.x)/2,my=(fp.y+tp.y)/2;const isSameCh=DIS_CHIDX[rel.from]===DIS_CHIDX[rel.to];let cpx,cpy;if(isSameCh){const outX=mx-CX,outY=my-CY,outLen=Math.hypot(outX,outY)||1;cpx=mx+(outX/outLen)*130;cpy=my+(outY/outLen)*130;}else{cpx=mx+(CX-mx)*0.35;cpy=my+(CY-my)*0.35;}const path=svgNS('path',{d:`M ${fp.x} ${fp.y} Q ${cpx} ${cpy} ${tp.x} ${tp.y}`,fill:'none',stroke:rel.color,'stroke-width':'1.5','stroke-dasharray':'5 4',opacity:'0'});path.style.transition='opacity 0.4s';layerRelations.append(path);rel._path=path;if(!isSameCh){const lx=0.25*fp.x+0.5*cpx+0.25*tp.x,ly=0.25*fp.y+0.5*cpy+0.25*tp.y-7;const labelW=rel.label.length*7+10;const bg=svgNS('rect',{x:String(lx-labelW/2),y:String(ly-10),width:String(labelW),height:'14',fill:'#06101f',rx:'4',opacity:'0'});bg.style.transition='opacity 0.4s';const lt=svgNS('text',{x:String(lx),y:String(ly),'text-anchor':'middle','font-size':'9','font-weight':'700',fill:rel.color,'font-family':'Noto Sans JP,sans-serif',opacity:'0','pointer-events':'none'});lt.style.transition='opacity 0.4s';lt.textContent=rel.label;layerRelations.append(bg,lt);rel._bg=bg;rel._label=lt;}});}
+function updateRelations(){RELATIONS.forEach(rel=>{if(!rel._path)return;const vis=activeChapters.has(DIS_CHIDX[rel.from])&&activeChapters.has(DIS_CHIDX[rel.to]);rel._path.style.opacity=vis?'0.75':'0';if(rel._bg)rel._bg.style.opacity=vis?'0.92':'0';if(rel._label)rel._label.style.opacity=vis?'1':'0';});}
+function toggleChapter(ci){const chG=layerNodesCh.children[ci];const circ=chG?chG.querySelector('circle'):null;if(activeChapters.has(ci)){activeChapters.delete(ci);disNodes[ci].forEach(n=>{n.style.opacity='0';n.style.pointerEvents='none';});disEdges[ci].forEach(e=>{e.style.opacity='0';});if(circ)circ.setAttribute('r','31');}else{activeChapters.add(ci);disNodes[ci].forEach(n=>{n.style.opacity='1';n.style.pointerEvents='';});disEdges[ci].forEach(e=>{e.style.opacity='0.5';});if(circ)circ.setAttribute('r','34');const p=chPos(ci);panTo(p.x,p.y);}updateRelations();}
+function panTo(px,py,duration=480){const ww=wrap.offsetWidth,wh=wrap.offsetHeight;const targetTx=ww/2-px*scale,targetTy=wh/2-py*scale;const startTx=tx,startTy=ty,startTime=performance.now();function step(now){const prog=Math.min((now-startTime)/duration,1);const ease=1-Math.pow(1-prog,3);tx=startTx+(targetTx-startTx)*ease;ty=startTy+(targetTy-startTy)*ease;clampAndApply();if(prog<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+function showPanel(ci,di){const ch=CHAPTERS[ci],dis=ch.diseases[di];document.getElementById('panelCh').textContent='📌 '+ch.label;document.getElementById('panelCh').style.background=ch.color;document.getElementById('panelCh').style.color='#fff';document.getElementById('panelTitle').textContent=dis.label;const ul=document.getElementById('panelKeys');ul.innerHTML='';dis.keys.forEach(k=>{const li=document.createElement('li');li.textContent=k;ul.append(li);});const imgWrap=document.getElementById('panelImgs');imgWrap.innerHTML='';if(dis.imgs&&dis.imgs.length>0){dis.imgs.forEach(src=>{const im=document.createElement('img');im.src=src;im.alt=dis.label;im.addEventListener('click',()=>openLightbox(src));imgWrap.append(im);});}document.getElementById('panelLink').href=ch.link;document.getElementById('panel').classList.add('show');}
+function hidePanel(){document.getElementById('panel').classList.remove('show');}
+function openLightbox(src){document.getElementById('lbImg').src=src;document.getElementById('lb').classList.add('open');}
+document.getElementById('lb').addEventListener('click',()=>document.getElementById('lb').classList.remove('open'));
+document.getElementById('panelClose').addEventListener('click',hidePanel);
+svgEl.addEventListener('click',()=>hidePanel());
+const wrap=document.getElementById('wrap'),inner=document.getElementById('inner');
+let tx=0,ty=0,scale=1,dragging=false,lastX=0,lastY=0,lastDist=0;
+function clampAndApply(){scale=Math.max(0.4,Math.min(2.5,scale));inner.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`;}
+window.addEventListener('load',()=>{const ww=wrap.offsetWidth,wh=wrap.offsetHeight;tx=(ww-W*scale)/2;ty=(wh-H*scale)/2;clampAndApply();});
+wrap.addEventListener('mousedown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY;e.preventDefault();});
+window.addEventListener('mousemove',e=>{if(!dragging)return;tx+=e.clientX-lastX;ty+=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;clampAndApply();});
+window.addEventListener('mouseup',()=>{dragging=false;});
+wrap.addEventListener('wheel',e=>{e.preventDefault();const factor=e.deltaY>0?0.9:1.1;const rect=wrap.getBoundingClientRect();const mx=e.clientX-rect.left,my=e.clientY-rect.top;tx=mx-(mx-tx)*factor;ty=my-(my-ty)*factor;scale*=factor;clampAndApply();},{passive:false});
+wrap.addEventListener('touchstart',e=>{if(e.touches.length===1){dragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;}else if(e.touches.length===2){dragging=false;lastDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);}e.preventDefault();},{passive:false});
+wrap.addEventListener('touchmove',e=>{if(e.touches.length===1&&dragging){tx+=e.touches[0].clientX-lastX;ty+=e.touches[0].clientY-lastY;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;clampAndApply();}else if(e.touches.length===2){const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);const rect=wrap.getBoundingClientRect();const mx=(e.touches[0].clientX+e.touches[1].clientX)/2-rect.left;const my=(e.touches[0].clientY+e.touches[1].clientY)/2-rect.top;const factor=dist/lastDist;tx=mx-(mx-tx)*factor;ty=my-(my-ty)*factor;scale*=factor;lastDist=dist;clampAndApply();}e.preventDefault();},{passive:false});
+wrap.addEventListener('touchend',()=>{dragging=false;});
+function drawBg(){const g=svgNS('g',{opacity:'0.04'});for(let x=0;x<=W;x+=80)g.append(svgNS('line',{x1:x,y1:0,x2:x,y2:H,stroke:'#fff','stroke-width':'0.5'}));for(let y=0;y<=H;y+=80)g.append(svgNS('line',{x1:0,y1:y,x2:W,y2:y,stroke:'#fff','stroke-width':'0.5'}));svgEl.prepend(g);const gc=svgNS('g',{opacity:'0.05'});[R1+20,R2-20,R2+50].forEach(r=>gc.append(svgNS('circle',{cx:CX,cy:CY,r:r,fill:'none',stroke:'#fff','stroke-width':'1','stroke-dasharray':'4 8'})));layerEdgesCh.before(gc);}
+const style=document.createElement('style');style.textContent=`@keyframes pulse{0%,100%{opacity:0.6;transform:scale(1);}50%{opacity:0.15;transform:scale(1.15);}}`;document.head.append(style);
+drawBg();drawRoot();drawChapters();drawDiseases();drawRelations();
+window.addEventListener('resize',()=>{const ww=wrap.offsetWidth,wh=wrap.offsetHeight;tx=(ww-W*scale)/2;ty=(wh-H*scale)/2;clampAndApply();});
+</script>
+</body>
+</html>

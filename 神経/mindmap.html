@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<title>神経 疾患マインドマップ | MEC</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans JP',sans-serif;background:#06091a;overflow:hidden;width:100vw;height:100vh;user-select:none;}
+.hdr{position:fixed;top:0;left:0;right:0;height:46px;background:rgba(10,14,40,.97);border-bottom:2px solid #1565C0;display:flex;align-items:center;gap:10px;padding:0 16px;z-index:100;}
+.hdr-badge{background:#1565C0;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;}
+.hdr h1{font-size:15px;font-weight:900;color:#fff;}
+.hdr-hint{margin-left:auto;font-size:11px;color:rgba(255,255,255,.4);}
+.hdr-back{font-size:11px;color:#F5A623;text-decoration:none;font-weight:700;border:1.5px solid #F5A623;border-radius:20px;padding:3px 10px;white-space:nowrap;}
+#wrap{position:fixed;top:46px;left:0;right:0;bottom:0;overflow:hidden;touch-action:none;}
+#inner{position:absolute;transform-origin:0 0;will-change:transform;}
+svg{display:block;}
+.panel{position:fixed;right:14px;bottom:14px;width:280px;max-height:65vh;overflow-y:auto;background:rgba(10,14,40,.97);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;padding:14px 16px;color:#fff;opacity:0;transform:translateY(12px);transition:opacity .25s,transform .25s;pointer-events:none;z-index:200;scrollbar-width:thin;}
+.panel.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+.panel-close{position:absolute;top:10px;right:12px;background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;line-height:1;}
+.panel-chapter{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:6px;}
+.panel-title{font-size:16px;font-weight:900;margin-bottom:8px;line-height:1.35;}
+.panel-keys{list-style:none;font-size:12px;line-height:1.85;}
+.panel-keys li{display:flex;gap:6px;align-items:flex-start;}
+.panel-keys li::before{content:'▸';color:#F5A623;flex-shrink:0;margin-top:1px;}
+.panel-imgs{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+.panel-imgs img{width:100%;border-radius:6px;cursor:zoom-in;border:1px solid rgba(255,255,255,.1);}
+.panel-link{display:inline-block;margin-top:10px;padding:5px 14px;background:#1565C0;color:#fff;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;}
+.panel-link:hover{background:#0D47A1;}
+#lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1000;cursor:zoom-out;align-items:center;justify-content:center;}
+#lb.open{display:flex;}
+#lb img{max-width:92vw;max-height:88vh;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.8);}
+.legend{position:fixed;left:14px;bottom:14px;background:rgba(10,14,40,.9);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 14px;z-index:100;}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:11px;color:rgba(255,255,255,.75);margin-bottom:4px;}
+.legend-item:last-child{margin-bottom:0;}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.legend-dash{width:20px;height:0;border-top:2px dashed;flex-shrink:0;}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <span class="hdr-badge">MEC</span>
+  <h1>🧠 神経 疾患マインドマップ</h1>
+  <span class="hdr-hint">章をタップ→疾患 ／ 複数章展開で関連線表示</span>
+  <a class="hdr-back" href="../index.html">← ホーム</a>
+</div>
+<div id="wrap"><div id="inner"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div></div>
+<div class="panel" id="panel">
+  <button class="panel-close" id="panelClose">✕</button>
+  <div class="panel-chapter" id="panelCh"></div>
+  <div class="panel-title" id="panelTitle"></div>
+  <ul class="panel-keys" id="panelKeys"></ul>
+  <div class="panel-imgs" id="panelImgs"></div>
+  <a class="panel-link" id="panelLink" href="#">📚 問題を解く →</a>
+</div>
+<div id="lb"><img id="lbImg" src="" alt=""/></div>
+<div class="legend">
+  <div class="legend-item" style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:6px;">色 ＝ 系統</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#D97706;"></div>神経診察・解剖</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#DC2626;"></div>脳血管障害（緊急）</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#B91C1C;"></div>頭蓋内圧亢進・脳腫瘍</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#1D4ED8;"></div>神経感染症</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3B82F6;"></div>脱髄疾患</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#4338CA;"></div>変性疾患（運動）</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7C3AED;"></div>変性疾患（認知症）</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#047857;"></div>てんかん・発作性疾患</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#059669;"></div>末梢神経・筋疾患</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#B45309;"></div>神経筋接合部・筋</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#475569;"></div>頭痛・自律神経</div>
+  <div style="border-top:1px solid rgba(255,255,255,.1);margin:7px 0;"></div>
+  <div class="legend-item"><div class="legend-dash" style="border-color:#FBBF24;"></div>関連疾患（点線）</div>
+</div>
+<script>
+const CX=800,CY=660,R1=230,R2=600;
+const CHAPTERS=[
+  {id:'ch01',label:'神経診察',color:'#D97706',angle:-90,link:'ch01_neuro_exam.html',diseases:[
+    {id:'d01a',label:'意識・JCS/GCS',imgs:[],keys:['JCS（Japan Coma Scale）：0/I（1-3）/II（10-30）/III（100-300）','GCS（Glasgow）：E4+V5+M6=15；GCS≤8→挿管適応を検討','意識障害の鑑別：AEIOU-TIPS（Alcohol/Epilepsy/Insulin/Overdose/Urea/Trauma/Infection/Psychiatric/Stroke）','FOUR score：眼球反応・運動反応・脳幹反射・呼吸']},
+    {id:'d01b',label:'脳神経診察',imgs:[],keys:['I嗅神経/II視神経（視野・対光反射）/III-IV-VI眼球運動/V三叉神経/VII顔面','VIII聴神経・前庭/IX-X咽頭喉頭/XI副神経/XII舌下（舌偏位）','瞳孔：不同＝脳ヘルニア（鉤回ヘルニア）・Horner症候群・薬物','眼振（nystagmus）：末梢性（方向固定）vs 中枢性（方向変換・垂直性）']},
+    {id:'d01c',label:'脊髄・反射',imgs:[],keys:['上位運動ニューロン（UMN）：筋力低下・痙性・腱反射亢進・バビンスキー陽性','下位運動ニューロン（LMN）：弛緩性麻痺・筋萎縮・腱反射低下・線維束攣縮','Brown-Séquard症候群：半側脊髄切断；同側痙性麻痺+深部感覚障害，対側痛温覚障害','脊髄節レベル（C5-上腕二頭，C7-上腕三頭，L4-大腿四頭，S1-アキレス腱）']},
+    {id:'d01d',label:'神経画像・検査',imgs:['images/112E-46_1.jpeg'],keys:['頭部CT：出血（急性期）・骨折・広範梗塞；MRI（DWI）：急性期脳梗塞','MRA/CTA：脳血管評価；造影MRI：腫瘍・炎症','髄液検査（LP）：圧・細胞数・蛋白・糖・培養；禁忌は脳ヘルニア','EEG（脳波）：てんかん（棘波・鋭徐波複合）；EMG/NCS：末梢神経']},
+  ]},
+  {id:'ch02',label:'脳血管障害',color:'#DC2626',angle:-57,link:'ch02_cerebrovascular.html',diseases:[
+    {id:'d02a',label:'脳梗塞（急性期）',imgs:['images/112D-47_1.jpeg'],keys:['TOAST分類：心原性塞栓症/アテローム血栓性/ラクナ/その他','t-PA（アルテプラーゼ）：4.5時間以内；禁忌（ICH・大手術後3か月等）','機械的血栓回収療法：大血管閉塞（ICA/MCA-M1）；24時間以内','DWI高信号+ADC低下=急性期梗塞；NIHSS=重症度スコア']},
+    {id:'d02b',label:'脳出血・くも膜下出血',imgs:['images/107A-61_1.jpeg'],keys:['高血圧性脳出血：被殻（最多）・視床・小脳・橋（予後最悪）','くも膜下出血（SAH）：「今まで経験のない激しい頭痛」；CT（フィッシャー分類）','SAH原因：前交通動脈瘤（最多）→緊急クリッピング/コイル塞栓','再出血予防・脳血管攣縮（SAH4-14日）：Nimodipine・トリプルH療法']},
+    {id:'d02c',label:'TIA・脳梗塞慢性期',imgs:[],keys:['TIA：24時間以内に消失；2日以内の脳梗塞リスク高（ABCD²スコア）','心原性塞栓症：抗凝固（DOAC/ワルファリン）；非心原性：抗血小板薬','2次予防：危険因子管理（BP<130/80、LDL<100）','脳底動脈閉塞・Wallenberg症候群（延髄外側梗塞）：Horner＋交差性感覚障害']},
+    {id:'d02d',label:'脳静脈血栓症・CVST',imgs:[],keys:['頭痛・痙攣・局所神経症状；妊娠・経口避妊薬・脱水','MRI/MRV：静脈洞の血流欠損・empty delta sign（造影CT）','治療：ヘパリン（出血性梗塞があっても抗凝固）','予後は動脈系脳梗塞より良好；再発予防にDOAC']},
+  ]},
+  {id:'ch03',label:'頭蓋内圧・脳腫瘍',color:'#B91C1C',angle:-24,link:'ch03_brain_tumor.html',diseases:[
+    {id:'d03a',label:'脳浮腫・頭蓋内圧亢進',imgs:[],keys:['Monro-Kellie doctrine：頭蓋内容積一定；脳・血液・脳脊髄液','Cushing三徴：徐脈・高血圧・不規則呼吸（脳幹ヘルニア直前）','治療：頭部挙上30°・過換気（PCO₂ 30-35）・マンニトール・デキサメタゾン','脳ヘルニア：テント切痕（鉤回）・扁桃体ヘルニア（中枢性）']},
+    {id:'d03b',label:'神経膠腫（グリオーマ）',imgs:['images/111D-20_1.jpeg'],keys:['WHO分類（2021）：IDH変異型（Grade2-3）vs IDH野生型（GBM；Grade4）','GBM（膠芽腫）：最悪性；MRI造影リング状増強・壊死','治療：最大安全切除＋放射線（60Gy）＋テモゾロミド（Stupp法）','MGMT promoter methylation：テモゾロミド感受性予測']},
+    {id:'d03c',label:'髄膜腫・転移性脳腫瘍',imgs:[],keys:['髄膜腫：良性（WHO1）；女性多い；硬膜付着型；手術適応大きい/症状あり','転移性脳腫瘍：肺癌（最多）・乳癌・腎細胞癌・消化管癌','SRS（定位放射線手術）：少数転移（1-3個）；全脳照射は認知機能低下リスク','デキサメタゾン：脳浮腫・症状改善（手術前）']},
+    {id:'d03d',label:'下垂体腺腫・頭蓋咽頭腫',imgs:[],keys:['下垂体腺腫：PRL産生（最多）/GH産生（先端巨大症）/ACTH産生（Cushing）','半盲（bi-temporal hemianopsia）：視交叉圧迫','経蝶形骨洞アプローチ（transsphenoidal surgery）','頭蓋咽頭腫：石灰化・嚢胞性；鞍上部；小児に多い；尿崩症合併']},
+  ]},
+  {id:'ch04',label:'神経感染症',color:'#1D4ED8',angle:9,link:'ch04_neuro_infection.html',diseases:[
+    {id:'d04a',label:'細菌性髄膜炎',imgs:['images/113A-17_1.jpeg'],keys:['三徴：発熱・頭痛・項部硬直；Kernig/Brudzinski徴候','成人最多：S. pneumoniae；新生児：GBS/大腸菌；10-30代：N. meningitidis','LP前にCT不要（免疫正常・focal sign なし）；LP後即抗菌薬','治療：セフトリアキソン+デキサメタゾン（pneumococcal meningitis）；ABPC（Listeria）']},
+    {id:'d04b',label:'ウイルス性脳炎',imgs:[],keys:['HSV脳炎：側頭葉・辺縁系；MRI FLAIR/DWI高信号','治療：アシクロビル（10 mg/kg q8h×14-21日）；疑い段階で即開始','自己免疫性脳炎（抗NMDA受容体抗体）：若年女性・卵巣奇形腫；精神症状先行','West Nile virus（フラビウイルス）：弛緩性麻痺；鳥死亡が手がかり']},
+    {id:'d04c',label:'脳膿瘍・硬膜下膿胸',imgs:[],keys:['脳膿瘍：歯性・中耳炎・副鼻腔炎；血行性（IE・肺感染）','頭痛・発熱・局所神経症状；MRI DWI：膿瘍腔内高信号','治療：抗菌薬（メトロニダゾール+セフトリアキソン）±外科的ドレナージ','硬膜下膿胸：副鼻腔炎・外傷後；緊急開頭ドレナージ']},
+    {id:'d04d',label:'HIV神経合併症・プリオン病',imgs:[],keys:['HIV関連神経認知障害（HAND）；HIV脳炎（後期）','日和見感染：トキソプラズマ脳症（MRI：リング状増強×多発）；CMV脳室炎','クリプトコッカス髄膜炎：CD4<100；墨汁染色+/インド墨汁染色','クロイツフェルト・ヤコブ病（CJD）：急速進行認知症+ミオクローヌス；PrPSc']},
+  ]},
+  {id:'ch05',label:'脱髄疾患',color:'#3B82F6',angle:42,link:'ch05_demyelinating.html',diseases:[
+    {id:'d05a',label:'多発性硬化症（MS）',imgs:['images/109C-25_1.jpeg'],keys:['空間的・時間的多発；白質病変（MRI：periventricular/juxtacortical/infratentorial）','視神経炎（片眼の視力低下）・横断性脊髄炎・核間性眼筋麻痺（INO）','急性増悪：高用量メチルプレドニゾロン（1g×3-5日）','疾患修飾薬（DMT）：β-IFN/GA→フィンゴリモド/ナタリズマブ→オクレリズマブ']},
+    {id:'d05b',label:'視神経脊髄炎（NMOSD）',imgs:[],keys:['抗AQP4抗体陽性（75%）；視神経炎（重症・両側）・長大脊髄病変（≥3椎体）','MSとの鑑別重要；β-IFNは悪化リスク','再発予防：リツキシマブ/サトラリズマブ/イネビリズマブ','日本人に比較的多い；女性優位']},
+    {id:'d05c',label:'急性散在性脳脊髄炎（ADEM）',imgs:[],keys:['ウイルス感染またはワクチン接種後2-3週；小児多い','多発性白質病変（灰白質もあり）；単相性（MSとの鑑別）','ステロイド大量（IVMP）；重症例IVIG・血漿交換','MOG-IgG陽性：再発性（MOGAD）；視神経炎（成人）']},
+    {id:'d05d',label:'ギラン・バレー症候群（GBS）',imgs:[],keys:['上行性弛緩性麻痺；先行感染（カンピロバクター等）後1-3週','髄液：細胞蛋白解離（蛋白↑・細胞正常）','治療：IVIG（0.4g/kg×5日）or 血漿交換；ステロイド無効','Miller Fisher症候群（眼筋麻痺・運動失調・深部腱反射消失）：抗GQ1b抗体']},
+  ]},
+  {id:'ch06',label:'変性疾患（運動）',color:'#4338CA',angle:75,link:'ch06_motor_neuron.html',diseases:[
+    {id:'d06a',label:'パーキンソン病（PD）',imgs:[],keys:['4主徴：安静時振戦・筋強剛（歯車）・動作緩慢・姿勢反射障害','Lewy小体（α-synuclein）；黒質線条体ドーパミン欠乏','治療：レボドパ+DDC阻害薬（第一選択）；wearing off/on-off→MAO-B阻害薬・COMT阻害薬','非運動症状：自律神経（便秘・起立性低血圧）・認知機能・REM睡眠行動障害']},
+    {id:'d06b',label:'筋萎縮性側索硬化症（ALS）',imgs:[],keys:['UMN＋LMNが混在；球麻痺（嚥下困難・構音障害）','El Escorial基準：definite/probable/possible','リルゾール（NAGlu放出抑制）；エダラボン（酸化ストレス軽減）','呼吸筋麻痺：NPPV→TPPV；胃瘻（PEG）；平均生存3-5年']},
+    {id:'d06c',label:'脊髄小脳変性症・MSA',imgs:[],keys:['SCAs（常染色体優性）：CAGリピート延長（SCA3が最多）；小脳型失調','多系統萎縮症（MSA）：C型（小脳萎縮）/P型（パーキンソン）/自律神経型','PSP（進行性核上性麻痺）：垂直方向核上性眼球運動障害・易転倒','CBD（大脳皮質基底核変性症）：alien hand phenomenon・非対称性パーキンソン症']},
+    {id:'d06d',label:'Huntington病・遺伝性疾患',imgs:[],keys:['HTT遺伝子CAGリピート（>36回）；常染色体優性','舞踏運動（chorea）・認知症・精神症状；30-40歳代発症','遺伝子診断で確定；根本治療なし（舞踏運動：テトラベナジン）','Friedrich失調症（常染色体劣性）：GAA繰り返し；脊髄小脳変性+心筋症']},
+  ]},
+  {id:'ch07',label:'認知症',color:'#7C3AED',angle:108,link:'ch07_dementia.html',diseases:[
+    {id:'d07a',label:'Alzheimer型認知症',imgs:[],keys:['アミロイドβ（Aβ）老人斑＋タウ神経原線維変化；海馬から発症','記憶障害→見当識障害→BPSD（行動・心理症状）→全介護','ChEI（ドネペジル等）：症状緩和；抗Aβ抗体（レカネマブ）：疾患修飾','MMSE/MoCA で認知機能評価；ADL/IADL で日常生活障害']},
+    {id:'d07b',label:'レビー小体型認知症（DLB）',imgs:[],keys:['核心症状：変動する認知機能・繰り返す幻視・パーキンソン症状・REM睡眠行動障害','抗精神病薬（ハロペリドール等）に過敏→重篤な副作用（禁忌に近い）','ドネペジル：有効（DLBにChEIが特に有効）','MIBG心筋シンチ（集積低下）・DAT-scan（線条体摂取低下）']},
+    {id:'d07c',label:'血管性認知症・前頭側頭型',imgs:[],keys:['血管性認知症：脳梗塞・脳出血後；段階的悪化；MRI白質病変','前頭側頭型認知症（FTD）：人格変化・脱抑制・語義失語','FTD：TDP-43/FUS/タウ封入体；若年発症（40-50代）多い','正常圧水頭症（NPH）：三徴（認知症・歩行障害・尿失禁）；シャント手術']},
+    {id:'d07d',label:'せん妄・軽度認知障害',imgs:[],keys:['MCI（軽度認知障害）：MMSE低下なし・ADL保持；年10-15%でADへ進行','せん妄：急性発症・注意障害・日内変動；高齢入院患者の20-30%','せん妄予防：早期離床・環境整備・睡眠管理・水分補給','治療：原因除去（薬剤・感染）；低用量ハロペリドール（症状コントロール）']},
+  ]},
+  {id:'ch08',label:'てんかん',color:'#047857',angle:141,link:'ch08_epilepsy.html',diseases:[
+    {id:'d08a',label:'てんかんの分類',imgs:[],keys:['発作型分類（ILAE 2017）：focal（焦点性）/ generalized（全般性）/ unknown','焦点性：意識保持（単純部分）vs 意識障害（複雑部分）→焦点起始両側強直間代','強直間代発作（大発作）：Postictal state（Todd麻痺）','欠神発作（小発作）：3 Hz棘徐波；小児；バルプロ酸orエトスクシミド']},
+    {id:'d08b',label:'てんかん重積状態',imgs:[],keys:['5分以上持続する発作（または2回以上反復・意識回復なし）','治療ステップ：ジアゼパム静注→ホスフェニトイン→プロポフォール（難治）','NCSE（非痙攣性てんかん重積）：意識障害のみ；EEG確認','ICUでの持続EEGモニタリング（cEEG）が重要']},
+    {id:'d08c',label:'抗てんかん薬',imgs:[],keys:['バルプロ酸：全般性・部分性；妊娠禁忌（神経管閉鎖障害）','レベチラセタム：広域；肝代謝なし→相互作用少ない','ラモトリギン：妊娠中比較的安全；急速増量でStevens-Johnson','カルバマゼピン：部分性てんかん・三叉神経痛；チトクロームP450誘導']},
+    {id:'d08d',label:'神経発作性疾患',imgs:[],keys:['片頭痛：前兆（閃輝暗点）→拍動性片側頭痛；トリプタン急性期','群発頭痛：深夜・眼周囲激痛・自律神経症状（Horner）；酸素吸入・スマトリプタン','失神：Vasovagal（最多；迷走神経）vs 心原性（Adams-Stokes）vs 起立性低血圧','心因性非てんかん発作（PNEA）：EEGで発作波なし']},
+  ]},
+  {id:'ch09',label:'末梢神経疾患',color:'#059669',angle:174,link:'ch09_peripheral_nerve.html',diseases:[
+    {id:'d09a',label:'糖尿病性神経障害・多発神経炎',imgs:[],keys:['手袋靴下型感覚障害（遠位優位）・自律神経障害','HbA1c低下が最重要；NCS（神経伝導速度）低下','アルコール性多発神経炎：ビタミンB1欠乏（チアミン補充）','慢性炎症性脱髄性多発神経炎（CIDP）：IVIG・ステロイド']},
+    {id:'d09b',label:'絞扼性神経障害',imgs:['images/108D-14_1.jpeg'],keys:['手根管症候群（正中神経）：母指・示指・中指のしびれ；Tinel・Phalen徴候','肘部管症候群（尺骨神経）：小指・環指尺側半；鷲手（内在筋萎縮）','橈骨神経麻痺：下垂手（wrist drop）；腋窩（松葉杖）or 上腕骨骨折','腓骨神経麻痺：足背屈障害（drop foot）；腓骨頭圧迫（外傷・長期臥床）']},
+    {id:'d09c',label:'顔面神経麻痺',imgs:[],keys:['Bell麻痺（末梢性；片側全顔面）：HSV再活性化→ステロイド±バラシクロビル','Ramsay Hunt症候群：VZV再活性化；耳介疱疹＋顔面麻痺±難聴','Hunt症候群の治療：バラシクロビル+ステロイド（回復率低い）','中枢性（核上性）：前頭部は保たれる；脳幹病変（対側の他のCN症状あり）']},
+    {id:'d09d',label:'脊髄圧迫・神経根症',imgs:[],keys:['頸椎症性脊髄症：C5-6最多；上肢の放散痛+下肢の錐体路症状','腰椎椎間板ヘルニア：L4/5（L5神経根）・L5/S1（S1神経根）','馬尾症候群：両下肢弛緩性麻痺・鞍状感覚障害・膀胱直腸障害','MRI（T2矢状断）：脊髄圧迫・ヘルニア描出；外科的減圧術']},
+  ]},
+  {id:'ch10',label:'筋・神経筋接合部',color:'#B45309',angle:207,link:'ch10_neuromuscular.html',diseases:[
+    {id:'d10a',label:'重症筋無力症（MG）',imgs:[],keys:['抗AChR抗体（85%）or 抗MuSK抗体；NMJ障害','易疲労性：夕方悪化・Edrophonium test（テンシロン）陽性','胸腺腫合併（10-15%）→胸腺摘除で改善','コリンエステラーゼ阻害薬（ピリドスチグミン）；重症→ステロイド・IVIG；クリーゼ→血漿交換']},
+    {id:'d10b',label:'筋ジストロフィー',imgs:[],keys:['Duchenne型（DMD）：X連鎖劣性；exon欠失；dystrophin欠損','偽性肥大（腓腹筋）・Gowers徴候；CPK著明↑','コルチコステロイド：筋力維持；エクソンスキッピング薬（エテプリルセン）','心筋症・呼吸不全→NPPV/TPPV；遺伝カウンセリング']},
+    {id:'d10c',label:'炎症性筋疾患',imgs:[],keys:['多発性筋炎（PM）：対称性近位筋力低下；間質性肺炎合併','皮膚筋炎（DM）：Gottron丘疹・Heliotrope疹・シャール徴候','自己抗体：抗Jo-1（抗合成酵素症候群）・抗MDA5（急速進行型ILD）','治療：ステロイド（プレドニゾロン1 mg/kg）→免疫抑制薬（AZA・MMF）']},
+    {id:'d10d',label:'Eaton-Lambert症候群・ボツリヌス',imgs:[],keys:['Lambert-Eaton筋無力症候群（LEMS）：肺小細胞癌に合併；抗VGCC抗体','反復刺激試験：漸増（MGと逆）；Facilitation現象','治療：腫瘍治療（SCLC）+3,4-DAP（ジアミノピリジン）','ボツリヌス中毒：缶詰等；神経終末ACh放出阻害→急速下降性麻痺']},
+  ]},
+  {id:'ch11',label:'頭痛・自律神経',color:'#475569',angle:240,link:'ch11_headache.html',diseases:[
+    {id:'d11a',label:'片頭痛',imgs:[],keys:['前兆あり/なし；三叉神経血管説（CRGPが重要）','急性期：NSAIDs・トリプタン（セロトニン5-HT1B/1D作動）；エラヌマブ（抗CGRP抗体）','CGRP関連薬：急性期（ウブロゲパント等小分子）・予防（エレヌマブ等抗体）','月に4日以上→予防薬（バルプロ酸・アミトリプチリン・β遮断薬）']},
+    {id:'d11b',label:'三叉神経痛・二次性頭痛',imgs:[],keys:['三叉神経痛（TN）：電撃様の発作性顔面痛；Trigger point；V2-V3優位','MVD（微小血管減圧術）：根本治療；カルバマゼピンが第一選択薬','二次性頭痛：SAH（最悪頭痛）・髄膜炎（項部硬直）・脳腫瘍（進行性）・CVST','高齢者の新規頭痛→巨細胞性動脈炎（側頭動脈炎）；ESR↑；ステロイド']},
+    {id:'d11c',label:'自律神経障害',imgs:[],keys:['Horner症候群：縮瞳・眼瞼下垂・眼球陥凹；交感神経経路の障害','起立性低血圧：MSA・PD・糖尿病・薬剤性','発汗異常：交感神経（コリン性）障害；無汗症→熱中症リスク','複合性局所疼痛症候群（CRPS）：外傷後の難治性疼痛・浮腫・皮膚変化']},
+    {id:'d11d',label:'睡眠障害',imgs:[],keys:['ナルコレプシー：耐えがたい眠気・情動脱力発作（Cataplexy）・オレキシン欠乏','REM睡眠行動障害（RBD）：夢の内容を体動化；α-synuclein病前駆症状','不眠障害：認知行動療法（CBT-I）が第一選択；スボレキサント（オレキシン拮抗）','むずむず脚症候群（RLS）：鉄欠乏・腎不全・妊娠；ドパミン作動薬']},
+  ]},
+];
+
+const RELATIONS=[
+  {from:'d02a',to:'d07c',label:'脳梗塞→血管性認知症',color:'#FBBF24'},
+  {from:'d06a',to:'d07b',label:'PD→DLB',color:'#C4B5FD'},
+  {from:'d05d',to:'d05a',label:'',color:'#93C5FD'},
+  {from:'d08a',to:'d08b',label:'',color:'#6EE7B7'},
+  {from:'d04a',to:'d02b',label:'',color:'#FCA5A5'},
+  {from:'d06b',to:'d09a',label:'ALS→筋萎縮',color:'#F87171'},
+  {from:'d03b',to:'d07a',label:'',color:'#A7F3D0'},
+  {from:'d10a',to:'d10d',label:'',color:'#FDE68A'},
+  {from:'d02c',to:'d11a',label:'片頭痛→梗塞リスク',color:'#67E8F9'},
+  {from:'d05a',to:'d05b',label:'',color:'#D1D5DB'},
+];
+
+const DIS_POS={};const DIS_CHIDX={};
+CHAPTERS.forEach((ch,ci)=>{ch.diseases.forEach(dis=>{DIS_CHIDX[dis.id]=ci;});});
+
+function deg(a){return a*Math.PI/180;}
+function chPos(chIdx){const a=deg(CHAPTERS[chIdx].angle);return{x:CX+R1*Math.cos(a),y:CY+R1*Math.sin(a)};}
+function disPos(chIdx,dIdx,total){const chAngle=CHAPTERS[chIdx].angle;const fanDeg=Math.min(22,8+6*total);const start=chAngle-fanDeg/2;const a=deg(start+(dIdx+0.5)*fanDeg/total);return{x:CX+R2*Math.cos(a),y:CY+R2*Math.sin(a)};}
+function anchor(x){if(x<CX-20)return'end';if(x>CX+20)return'start';return'middle';}
+
+const svgEl=document.getElementById('svg');const W=1600,H=1380;svgEl.setAttribute('width',W);svgEl.setAttribute('height',H);svgEl.setAttribute('viewBox',`0 0 ${W} ${H}`);
+function svgNS(tag,attrs){const el=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v));return el;}
+function createDefs(){const defs=svgNS('defs',{});const rg=svgNS('radialGradient',{id:'rootGrad',cx:'50%',cy:'50%',r:'50%'});rg.append(svgNS('stop',{offset:'0%','stop-color':'#42A5F5'}),svgNS('stop',{offset:'100%','stop-color':'#0D47A1'}));const f=svgNS('filter',{id:'glow',x:'-50%',y:'-50%',width:'200%',height:'200%'});const blur=svgNS('feGaussianBlur',{stdDeviation:'4',result:'colored'});const merge=svgNS('feMerge',{});merge.append(svgNS('feMergeNode',{in:'colored'}),svgNS('feMergeNode',{in:'SourceGraphic'}));f.append(blur,merge);const f2=svgNS('filter',{id:'glow2',x:'-50%',y:'-50%',width:'200%',height:'200%'});const blur2=svgNS('feGaussianBlur',{stdDeviation:'2.5',result:'colored2'});const merge2=svgNS('feMerge',{});merge2.append(svgNS('feMergeNode',{in:'colored2'}),svgNS('feMergeNode',{in:'SourceGraphic'}));f2.append(blur2,merge2);defs.append(rg,f,f2);svgEl.prepend(defs);}
+const layerEdgesCh=svgNS('g',{id:'ech'});const layerEdgesDis=svgNS('g',{id:'edis'});const layerRelations=svgNS('g',{id:'nrel'});const layerNodesDis=svgNS('g',{id:'ndis'});const layerNodesCh=svgNS('g',{id:'nch'});const layerRoot=svgNS('g',{id:'nroot'});
+svgEl.append(layerEdgesCh,layerEdgesDis,layerRelations,layerNodesDis,layerNodesCh,layerRoot);createDefs();
+const activeChapters=new Set();const disEdges={};const disNodes={};
+function drawRoot(){const g=svgNS('g',{transform:`translate(${CX},${CY})`});const ring=svgNS('circle',{r:'68',fill:'none',stroke:'rgba(21,101,192,0.25)','stroke-width':'12'});ring.style.animation='pulse 2.5s ease-in-out infinite';const ring2=svgNS('circle',{r:'52',fill:'none',stroke:'rgba(21,101,192,0.18)','stroke-width':'8'});ring2.style.animation='pulse 2.5s ease-in-out infinite 0.8s';const circ=svgNS('circle',{r:'42',fill:'url(#rootGrad)',filter:'url(#glow)'});const txt1=svgNS('text',{x:'0',y:'-4','text-anchor':'middle','font-size':'22','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif'});txt1.textContent='🧠';const txt2=svgNS('text',{x:'0',y:'14','text-anchor':'middle','font-size':'11','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif'});txt2.textContent='神経';g.append(ring,ring2,circ,txt1,txt2);layerRoot.append(g);}
+function drawChapters(){CHAPTERS.forEach((ch,ci)=>{const p=chPos(ci);const ep1={x:CX+44*Math.cos(deg(ch.angle)),y:CY+44*Math.sin(deg(ch.angle))};const path=svgNS('path',{d:`M ${ep1.x} ${ep1.y} Q ${(ep1.x+p.x)/2} ${(ep1.y+p.y)/2} ${p.x} ${p.y}`,fill:'none',stroke:ch.color,'stroke-width':'2.5',opacity:'0.55'});layerEdgesCh.append(path);const g=svgNS('g',{transform:`translate(${p.x},${p.y})`,style:'cursor:pointer'});g.dataset.ci=ci;const outerRing=svgNS('circle',{r:'37',fill:'none',stroke:ch.color,'stroke-width':'2',opacity:'0.4'});const circ=svgNS('circle',{r:'31',fill:ch.color,stroke:'#fff','stroke-width':'1.5',filter:'url(#glow2)'});circ.style.transition='r 0.2s';function splitLabel(lbl){if(lbl.length<=5)return[lbl];const parts=lbl.split('・');if(parts.length>=2)return[parts.slice(0,Math.ceil(parts.length/2)).join('・'),parts.slice(Math.ceil(parts.length/2)).join('・')];const mid=Math.ceil(lbl.length/2);return[lbl.slice(0,mid),lbl.slice(mid)];}const lines=splitLabel(ch.label);const lineH=12;const totalH=lines.length*lineH;lines.forEach((line,li)=>{const t=svgNS('text',{x:'0',y:String(li*lineH-totalH/2+lineH*0.8),'text-anchor':'middle','font-size':'9','font-weight':'700',fill:'#fff','font-family':'Noto Sans JP,sans-serif'});t.textContent=line;g.append(t);});g.prepend(circ,outerRing);g.addEventListener('click',(e)=>{e.stopPropagation();toggleChapter(ci);});g.addEventListener('mouseenter',()=>{circ.setAttribute('r','34');});g.addEventListener('mouseleave',()=>{circ.setAttribute('r',activeChapters.has(ci)?'34':'31');});layerNodesCh.append(g);});}
+function drawDiseases(){const defs=svgEl.querySelector('defs');CHAPTERS.forEach((ch,ci)=>{const cp=chPos(ci);disEdges[ci]=[];disNodes[ci]=[];ch.diseases.forEach((dis,di)=>{const dp=disPos(ci,di,ch.diseases.length);DIS_POS[dis.id]=dp;const chColor=ch.color;const hasImg=dis.imgs&&dis.imgs.length>0;const nodeR=32;const edge=svgNS('path',{d:`M ${cp.x} ${cp.y} Q ${(cp.x+dp.x)/2} ${(cp.y+dp.y)/2} ${dp.x} ${dp.y}`,fill:'none',stroke:chColor,'stroke-width':'1.5',opacity:'0'});edge.style.transition='opacity 0.35s';layerEdgesDis.append(edge);disEdges[ci].push(edge);const g=svgNS('g',{transform:`translate(${dp.x},${dp.y})`,style:'cursor:pointer',opacity:'0'});g.style.transition='opacity 0.35s';g.dataset.ci=ci;g.dataset.di=di;if(hasImg){const clipId=`clip-${dis.id}`;const cp2=svgNS('clipPath',{id:clipId});cp2.append(svgNS('circle',{cx:'0',cy:'0',r:String(nodeR)}));defs.append(cp2);const imgEl=svgNS('image',{href:dis.imgs[0],x:String(-nodeR),y:String(-nodeR),width:String(nodeR*2),height:String(nodeR*2),'clip-path':`url(#${clipId})`,preserveAspectRatio:'xMidYMid slice'});const ring=svgNS('circle',{r:String(nodeR),fill:'none',stroke:chColor,'stroke-width':'2.5',opacity:'0.9'});ring.style.transition='r 0.15s';g.append(imgEl,ring);}else{const circ=svgNS('circle',{r:String(nodeR),fill:chColor,stroke:'rgba(255,255,255,0.35)','stroke-width':'1'});circ.style.transition='r 0.15s';function getAbbr(label){const m=label.match(/^([A-Za-z0-9\-]+)/);if(m&&m[1].length>=2&&m[1].length<=6)return m[1];return label.replace(/（.+?）/g,'').slice(0,4);}const ct=svgNS('text',{x:'0',y:'5','text-anchor':'middle','font-size':'10','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif','pointer-events':'none'});ct.textContent=getAbbr(dis.label);g.append(circ,ct);}const dx=dp.x-CX,dy=dp.y-CY,len=Math.hypot(dx,dy)||1,nx=dx/len,ny=dy/len;const lx=nx*(nodeR+20),ly=ny*(nodeR+20);function getExtLabel(label){const noParens=label.replace(/（.+?）/g,'').replace(/\/.+/,'').trim();return noParens.length>8?noParens.slice(0,7)+'…':noParens;}const lt=svgNS('text',{x:String(lx),y:String(ly+4),'text-anchor':anchor(dp.x),'font-size':'12','font-weight':'700',fill:'rgba(255,255,255,0.9)','font-family':'Noto Sans JP,sans-serif','pointer-events':'none'});lt.textContent=getExtLabel(dis.label);g.append(lt);g.addEventListener('click',(e)=>{e.stopPropagation();showPanel(ci,di);});g.addEventListener('mouseenter',()=>{const c=g.querySelector('circle');if(c)c.setAttribute('r',String(nodeR+4));});g.addEventListener('mouseleave',()=>{const c=g.querySelector('circle');if(c)c.setAttribute('r',String(nodeR));});layerNodesDis.append(g);disNodes[ci].push(g);});})}
+function drawRelations(){RELATIONS.forEach(rel=>{const fp=DIS_POS[rel.from],tp=DIS_POS[rel.to];if(!fp||!tp)return;const mx=(fp.x+tp.x)/2,my=(fp.y+tp.y)/2;const isSameCh=DIS_CHIDX[rel.from]===DIS_CHIDX[rel.to];let cpx,cpy;if(isSameCh){const outX=mx-CX,outY=my-CY,outLen=Math.hypot(outX,outY)||1;cpx=mx+(outX/outLen)*130;cpy=my+(outY/outLen)*130;}else{cpx=mx+(CX-mx)*0.35;cpy=my+(CY-my)*0.35;}const path=svgNS('path',{d:`M ${fp.x} ${fp.y} Q ${cpx} ${cpy} ${tp.x} ${tp.y}`,fill:'none',stroke:rel.color,'stroke-width':'1.5','stroke-dasharray':'5 4',opacity:'0'});path.style.transition='opacity 0.4s';layerRelations.append(path);rel._path=path;if(!isSameCh){const lx=0.25*fp.x+0.5*cpx+0.25*tp.x,ly=0.25*fp.y+0.5*cpy+0.25*tp.y-7;const labelW=rel.label.length*7+10;const bg=svgNS('rect',{x:String(lx-labelW/2),y:String(ly-10),width:String(labelW),height:'14',fill:'#06091a',rx:'4',opacity:'0'});bg.style.transition='opacity 0.4s';const lt=svgNS('text',{x:String(lx),y:String(ly),'text-anchor':'middle','font-size':'9','font-weight':'700',fill:rel.color,'font-family':'Noto Sans JP,sans-serif',opacity:'0','pointer-events':'none'});lt.style.transition='opacity 0.4s';lt.textContent=rel.label;layerRelations.append(bg,lt);rel._bg=bg;rel._label=lt;}});}
+function updateRelations(){RELATIONS.forEach(rel=>{if(!rel._path)return;const vis=activeChapters.has(DIS_CHIDX[rel.from])&&activeChapters.has(DIS_CHIDX[rel.to]);rel._path.style.opacity=vis?'0.75':'0';if(rel._bg)rel._bg.style.opacity=vis?'0.92':'0';if(rel._label)rel._label.style.opacity=vis?'1':'0';});}
+function toggleChapter(ci){const chG=layerNodesCh.children[ci];const circ=chG?chG.querySelector('circle'):null;if(activeChapters.has(ci)){activeChapters.delete(ci);disNodes[ci].forEach(n=>{n.style.opacity='0';n.style.pointerEvents='none';});disEdges[ci].forEach(e=>{e.style.opacity='0';});if(circ)circ.setAttribute('r','31');}else{activeChapters.add(ci);disNodes[ci].forEach(n=>{n.style.opacity='1';n.style.pointerEvents='';});disEdges[ci].forEach(e=>{e.style.opacity='0.5';});if(circ)circ.setAttribute('r','34');const p=chPos(ci);panTo(p.x,p.y);}updateRelations();}
+function panTo(px,py,duration=480){const ww=wrap.offsetWidth,wh=wrap.offsetHeight;const targetTx=ww/2-px*scale,targetTy=wh/2-py*scale;const startTx=tx,startTy=ty,startTime=performance.now();function step(now){const prog=Math.min((now-startTime)/duration,1);const ease=1-Math.pow(1-prog,3);tx=startTx+(targetTx-startTx)*ease;ty=startTy+(targetTy-startTy)*ease;clampAndApply();if(prog<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+function showPanel(ci,di){const ch=CHAPTERS[ci],dis=ch.diseases[di];document.getElementById('panelCh').textContent='📌 '+ch.label;document.getElementById('panelCh').style.background=ch.color;document.getElementById('panelCh').style.color='#fff';document.getElementById('panelTitle').textContent=dis.label;const ul=document.getElementById('panelKeys');ul.innerHTML='';dis.keys.forEach(k=>{const li=document.createElement('li');li.textContent=k;ul.append(li);});const imgWrap=document.getElementById('panelImgs');imgWrap.innerHTML='';if(dis.imgs&&dis.imgs.length>0){dis.imgs.forEach(src=>{const im=document.createElement('img');im.src=src;im.alt=dis.label;im.addEventListener('click',()=>openLightbox(src));imgWrap.append(im);});}document.getElementById('panelLink').href=ch.link;document.getElementById('panel').classList.add('show');}
+function hidePanel(){document.getElementById('panel').classList.remove('show');}
+function openLightbox(src){document.getElementById('lbImg').src=src;document.getElementById('lb').classList.add('open');}
+document.getElementById('lb').addEventListener('click',()=>document.getElementById('lb').classList.remove('open'));
+document.getElementById('panelClose').addEventListener('click',hidePanel);
+svgEl.addEventListener('click',()=>hidePanel());
+const wrap=document.getElementById('wrap'),inner=document.getElementById('inner');
+let tx=0,ty=0,scale=1,dragging=false,lastX=0,lastY=0,lastDist=0;
+function clampAndApply(){scale=Math.max(0.4,Math.min(2.5,scale));inner.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`;}
+window.addEventListener('load',()=>{const ww=wrap.offsetWidth,wh=wrap.offsetHeight;tx=(ww-W*scale)/2;ty=(wh-H*scale)/2;clampAndApply();});
+wrap.addEventListener('mousedown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY;e.preventDefault();});
+window.addEventListener('mousemove',e=>{if(!dragging)return;tx+=e.clientX-lastX;ty+=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;clampAndApply();});
+window.addEventListener('mouseup',()=>{dragging=false;});
+wrap.addEventListener('wheel',e=>{e.preventDefault();const factor=e.deltaY>0?0.9:1.1;const rect=wrap.getBoundingClientRect();const mx=e.clientX-rect.left,my=e.clientY-rect.top;tx=mx-(mx-tx)*factor;ty=my-(my-ty)*factor;scale*=factor;clampAndApply();},{passive:false});
+wrap.addEventListener('touchstart',e=>{if(e.touches.length===1){dragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;}else if(e.touches.length===2){dragging=false;lastDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);}e.preventDefault();},{passive:false});
+wrap.addEventListener('touchmove',e=>{if(e.touches.length===1&&dragging){tx+=e.touches[0].clientX-lastX;ty+=e.touches[0].clientY-lastY;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;clampAndApply();}else if(e.touches.length===2){const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);const rect=wrap.getBoundingClientRect();const mx=(e.touches[0].clientX+e.touches[1].clientX)/2-rect.left;const my=(e.touches[0].clientY+e.touches[1].clientY)/2-rect.top;const factor=dist/lastDist;tx=mx-(mx-tx)*factor;ty=my-(my-ty)*factor;scale*=factor;lastDist=dist;clampAndApply();}e.preventDefault();},{passive:false});
+wrap.addEventListener('touchend',()=>{dragging=false;});
+function drawBg(){const g=svgNS('g',{opacity:'0.04'});for(let x=0;x<=W;x+=80)g.append(svgNS('line',{x1:x,y1:0,x2:x,y2:H,stroke:'#fff','stroke-width':'0.5'}));for(let y=0;y<=H;y+=80)g.append(svgNS('line',{x1:0,y1:y,x2:W,y2:y,stroke:'#fff','stroke-width':'0.5'}));svgEl.prepend(g);const gc=svgNS('g',{opacity:'0.05'});[R1+20,R2-20,R2+50].forEach(r=>gc.append(svgNS('circle',{cx:CX,cy:CY,r:r,fill:'none',stroke:'#fff','stroke-width':'1','stroke-dasharray':'4 8'})));layerEdgesCh.before(gc);}
+const style=document.createElement('style');style.textContent=`@keyframes pulse{0%,100%{opacity:0.6;transform:scale(1);}50%{opacity:0.15;transform:scale(1.15);}}`;document.head.append(style);
+drawBg();drawRoot();drawChapters();drawDiseases();drawRelations();
+window.addEventListener('resize',()=>{const ww=wrap.offsetWidth,wh=wrap.offsetHeight;tx=(ww-W*scale)/2;ty=(wh-H*scale)/2;clampAndApply();});
+</script>
+</body>
+</html>
