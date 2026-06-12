@@ -310,15 +310,19 @@ function drawSubjects(){
       function abbr(lbl){const m=lbl.match(/^([A-Z][A-Za-z0-9-]+)/);if(m&&m[1].length>=2&&m[1].length<=6)return m[1];return lbl.replace(/（.+?）/g,'').replace(/[・\/].+/,'').slice(0,4);}
       const dt=ns('text',{x:'0',y:'4','text-anchor':'middle','font-size':'9','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif','pointer-events':'none'});dt.textContent=abbr(dis.label);
       const dx2=dp.x-CX,dy2=dp.y-CY,len2=Math.hypot(dx2,dy2)||1;
-      const lx=(dx2/len2)*(NR+18),ly=(dy2/len2)*(NR+18);
+      const lx=(dx2/len2)*(NR+22),ly=(dy2/len2)*(NR+22);
       const shortLbl=dis.label.replace(/（.+?）/g,'').replace(/・.+/,'').trim();
-      const lt=ns('text',{x:String(lx),y:String(ly+4),'text-anchor':anchor(dp.x),'font-size':'11','font-weight':'700',fill:'rgba(255,255,255,0.9)','font-family':'Noto Sans JP,sans-serif','pointer-events':'none'});
-      lt.textContent=shortLbl.length>7?shortLbl.slice(0,6)+'…':shortLbl;
-      dg.append(dc,dt,lt);
+      const lw=Math.min(shortLbl.length,9)*7.5+10;
+      const lbg=ns('rect',{x:String(lx-(anchor(dp.x)==='end'?lw:anchor(dp.x)==='start'?0:lw/2)),y:String(ly-11),width:String(lw),height:'14',fill:'rgba(6,10,20,0.88)',rx:'4',opacity:'0','pointer-events':'none'});
+      lbg.style.transition='opacity 0.15s';
+      const lt=ns('text',{x:String(lx),y:String(ly+1),'text-anchor':anchor(dp.x),'font-size':'11','font-weight':'700',fill:'#fff','font-family':'Noto Sans JP,sans-serif','pointer-events':'none',opacity:'0'});
+      lt.style.transition='opacity 0.15s';
+      lt.textContent=shortLbl.length>9?shortLbl.slice(0,8)+'…':shortLbl;
+      dg.append(dc,dt,lbg,lt);
       dg.addEventListener('click',e=>{e.stopPropagation();showPanel(si,di);});
       dg.addEventListener('touchstart',e=>{e.stopPropagation();if(e.touches.length===1){dragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;}},{passive:true});
-      dg.addEventListener('mouseenter',()=>dc.setAttribute('r',String(NR+3)));
-      dg.addEventListener('mouseleave',()=>dc.setAttribute('r',String(NR)));
+      dg.addEventListener('mouseenter',()=>{dc.setAttribute('r',String(NR+3));lt.style.opacity='1';lbg.style.opacity='1';});
+      dg.addEventListener('mouseleave',()=>{dc.setAttribute('r',String(NR));lt.style.opacity='0';lbg.style.opacity='0';});
       lNDis.append(dg);disNodes[si].push(dg);
     });
   });
@@ -351,15 +355,6 @@ function drawRelations(){
     const cpx=mx+(ox/ol)*140,cpy=my+(oy/ol)*140;
     const path=ns('path',{d:`M ${fp.x} ${fp.y} Q ${cpx} ${cpy} ${tp.x} ${tp.y}`,fill:'none',stroke:rel.c,'stroke-width':'1.5','stroke-dasharray':'5 4',opacity:'0'});
     path.style.transition='opacity 0.4s';lSRel.append(path);rel._p=path;
-    if(rel.lb){
-      const lx=0.25*fp.x+0.5*cpx+0.25*tp.x,ly=0.25*fp.y+0.5*cpy+0.25*tp.y-6;
-      const lw=rel.lb.length*6+8;
-      const bg=ns('rect',{x:String(lx-lw/2),y:String(ly-10),width:String(lw),height:'13',fill:'#060a14',rx:'3',opacity:'0'});
-      bg.style.transition='opacity 0.4s';
-      const lt=ns('text',{x:String(lx),y:String(ly),'text-anchor':'middle','font-size':'8','font-weight':'700',fill:rel.c,'font-family':'Noto Sans JP,sans-serif',opacity:'0','pointer-events':'none'});
-      lt.style.transition='opacity 0.4s';lt.textContent=rel.lb;
-      lSRel.append(bg,lt);rel._bg=bg;rel._lt=lt;
-    }
   });
 }
 drawRelations();
