@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<title>全科目統合マップ | MEC</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans JP',sans-serif;background:#060a14;overflow:hidden;width:100vw;height:100vh;user-select:none;}
+.hdr{position:fixed;top:0;left:0;right:0;height:46px;background:rgba(6,10,20,.97);border-bottom:2px solid #F5A623;display:flex;align-items:center;gap:10px;padding:0 16px;z-index:100;}
+.hdr-badge{background:#F5A623;color:#000;font-size:11px;font-weight:700;padding:2px 10px;border-radius:20px;}
+.hdr h1{font-size:15px;font-weight:900;color:#fff;}
+.hdr-hint{margin-left:auto;font-size:11px;color:rgba(255,255,255,.4);}
+.hdr-back{font-size:11px;color:#F5A623;text-decoration:none;font-weight:700;border:1.5px solid #F5A623;border-radius:20px;padding:3px 10px;white-space:nowrap;}
+#wrap{position:fixed;top:46px;left:0;right:0;bottom:0;overflow:hidden;touch-action:none;}
+#inner{position:absolute;transform-origin:0 0;will-change:transform;}
+svg{display:block;}
+.panel{position:fixed;right:14px;bottom:14px;width:280px;max-height:65vh;overflow-y:auto;background:rgba(6,10,20,.97);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;padding:14px 16px;color:#fff;opacity:0;transform:translateY(12px);transition:opacity .25s,transform .25s;pointer-events:none;z-index:200;scrollbar-width:thin;}
+.panel.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+.panel-close{position:absolute;top:10px;right:12px;background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;line-height:1;}
+.panel-subject{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:6px;}
+.panel-title{font-size:16px;font-weight:900;margin-bottom:8px;line-height:1.35;}
+.panel-keys{list-style:none;font-size:12px;line-height:1.85;}
+.panel-keys li{display:flex;gap:6px;align-items:flex-start;}
+.panel-keys li::before{content:'▸';color:#F5A623;flex-shrink:0;margin-top:1px;}
+.panel-link{display:inline-block;margin-top:10px;padding:5px 14px;background:#F5A623;color:#000;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none;}
+#lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1000;cursor:zoom-out;align-items:center;justify-content:center;}
+#lb.open{display:flex;}
+#lb img{max-width:92vw;max-height:88vh;border-radius:8px;}
+.ctrl{position:fixed;left:14px;bottom:14px;background:rgba(6,10,20,.9);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 12px;z-index:100;display:flex;flex-direction:column;gap:4px;}
+.ctrl-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:6px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;padding:4px 10px;font-family:Noto Sans JP,sans-serif;}
+.ctrl-btn:hover{background:rgba(255,255,255,.18);}
+.legend{position:fixed;left:14px;top:58px;background:rgba(6,10,20,.9);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 12px;z-index:100;max-height:calc(100vh - 130px);overflow-y:auto;scrollbar-width:none;}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:10px;color:rgba(255,255,255,.75);margin-bottom:3px;cursor:pointer;border-radius:4px;padding:2px 4px;transition:background .15s;}
+.legend-item:hover{background:rgba(255,255,255,.08);}
+.legend-item.active-subj{background:rgba(255,255,255,.12);}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.legend-sep{border-top:1px solid rgba(255,255,255,.1);margin:5px 0;}
+.legend-dash{width:18px;height:0;border-top:2px dashed;flex-shrink:0;}
+.legend-title{font-size:9px;font-weight:700;color:rgba(255,255,255,.4);margin-bottom:4px;}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <span class="hdr-badge">MEC</span>
+  <h1>🗺️ 全科目統合 疾患マインドマップ</h1>
+  <span class="hdr-hint">科目をタップ→疾患展開 ／ 複数科目で横断リンク表示</span>
+  <a class="hdr-back" href="index.html">← ホーム</a>
+</div>
+<div id="wrap"><div id="inner"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div></div>
+<div class="panel" id="panel">
+  <button class="panel-close" id="panelClose">✕</button>
+  <div class="panel-subject" id="panelSubj"></div>
+  <div class="panel-title" id="panelTitle"></div>
+  <ul class="panel-keys" id="panelKeys"></ul>
+  <a class="panel-link" id="panelLink" href="#">📚 科目マップへ →</a>
+</div>
+<div id="lb"><img id="lbImg" src="" alt=""/></div>
+<div class="ctrl">
+  <button class="ctrl-btn" id="btnAll">全科目展開</button>
+  <button class="ctrl-btn" id="btnNone">全科目閉じる</button>
+</div>
+<div class="legend" id="legend">
+  <div class="legend-title">科目（タップで展開）</div>
+</div>
+<script>
+const CX=1000,CY=1000,R1=265,R2=710,W=2000,H=2000;
+
+const SUBJECTS=[
+  {id:'endo',label:'内分泌',icon:'🔬',color:'#9C27B0',angle:-90,href:'内分泌/mindmap.html',diseases:[
+    {id:'endo_dm',   label:'糖尿病',         keys:['1型/2型；HbA1c≥6.5%で診断','DKA（1型）・HHS（2型）：急性合併症','三大慢性合併症：網膜症・腎症・神経障害','心血管リスク：AMI・脳梗塞・末梢動脈疾患の主要危険因子']},
+    {id:'endo_hyper',label:'甲状腺機能亢進症', keys:['バセドウ病（抗TSHr抗体）；FT4↑・TSH↓','心房細動・骨粗鬆症・心不全誘発','甲状腺クリーゼ：発熱・意識障害→緊急（MMI+ヨード+βB+ステロイド）','抗甲状腺薬（MMI第一選択）・RAI・手術']},
+    {id:'endo_cush', label:'クッシング症候群', keys:['ACTH依存性（下垂体/異所性）vs 非依存性','満月様顔・水牛肩・皮膚線条・高血圧・高血糖・易感染','深夜コルチゾール↑・0.5mg DST非抑制','下垂体腺腫→経蝶形骨洞手術；副腎腫瘍→副腎摘除']},
+    {id:'endo_aldo', label:'原発性アルドステロン症',keys:['アルドステロン過剰（副腺腫/過形成）','高血圧＋低K血症；ARR>200で疑い','副腎静脈サンプリングで側性診断','腺腫→腹腔鏡下摘除；両側過形成→MRA（スピロノラクトン）']},
+    {id:'endo_pheo', label:'褐色細胞腫',      keys:['副腎髄質のカテコラミン産生腫瘍（10%悪性・両側・副腎外）','発作性頭痛・発汗・動悸（三徴）','尿中カテコラミン・メタネフリン↑；MIBG/PETシンチ','術前α遮断（フェノキシベンザミン）を十分に行ってから手術']},
+    {id:'endo_hca',  label:'高Ca血症',        keys:['原発性副甲状腺機能亢進症（最多）・悪性腫瘍（PTHrP）','多尿・便秘・筋力低下・精神症状・腎結石','PTH↑→原発性；PTH↓・PTHrP↑→悪性腫瘍','治療：補液＋ビスホスホネート；重症→透析']},
+    {id:'endo_adrenal',label:'副腎不全',      keys:['原発性（Addison）：コルチゾール↓・アルドステロン↓','低血圧・低Na・高K・色素沈着（MSH過剰）','副腎クリーゼ：ヒドロコルチゾン100mg急速静注が最優先','自己免疫（先進国）・転移癌（肺癌が多い）・結核']},
+    {id:'endo_met',  label:'代謝症候群',      keys:['内臓脂肪型肥満＋血糖・血圧・脂質の3因子','高LDL：スタチン；FH（腱黄色腫）→PCSK9阻害薬','高尿酸血症（>7 mg/dL）→痛風発作・尿路結石','インスリン抵抗性→2型DM・NASH・多嚢胞性卵巣症候群']},
+  ]},
+  {id:'circ',label:'循環器',icon:'🫀',color:'#C62828',angle:-45,href:'循環器/mindmap.html',diseases:[
+    {id:'circ_ami',  label:'急性心筋梗塞',   keys:['STEMI：ST上昇→緊急PCI（DTB<90分）','Killip分類；Tn↑・CK-MB↑','合併症：乳頭筋断裂・VSP・自由壁破裂・心室瘤','二次予防：DAPT＋スタチン＋ACE-I＋βB']},
+    {id:'circ_hf',   label:'心不全',         keys:['HFrEF(EF<40%)：ARNI+βB+MRA+SGLT2（4剤）','HFpEF(EF≥50%)：SGLT2・利尿薬','BNP>100 pg/mL；NYHA分類','心腎症候群：心出力↓→腎灌流↓→AKI→利尿薬抵抗']},
+    {id:'circ_af',   label:'心房細動',       keys:['f波不整；CHADS₂スコアで脳塞栓リスク評価','CHADS₂≥2：DOAC（抗凝固）必須','レートコントロール vs リズムコントロール','肺静脈隔離術（PVI）：根治的カテーテルアブレーション']},
+    {id:'circ_ie',   label:'感染性心内膜炎', keys:['疣贅（vegetation）→塞栓症（脳・腎・脾・冠）','発熱＋新規心雑音；血液培養3セット（抗菌薬前）','TEEで疣贅・弁破壊・膿瘍；Duke基準','長期抗菌薬（4-6週）；手術適応：弁破壊・難治・塞栓反復']},
+    {id:'circ_aod',  label:'大動脈解離',     keys:['Stanford A型→緊急手術；B型→降圧薬（ICU管理）','突然の引き裂かれる痛み；血圧左右差','A型合併症：AR・心タンポ・冠動脈閉塞・脳虚血','Marfan・二尖弁・高血圧が背景']},
+    {id:'circ_dvt',  label:'深部静脈血栓症', keys:['Virchow三徴；下肢腫脹・熱感・Homan徴候','D-dimer↑（感度高）；超音波圧迫試験（特異度高）','DOAC治療（リバーロキサバン等）；予防：早期離床','ネフローゼ・癌・長期臥床・経口避妊薬が危険因子']},
+    {id:'circ_htn',  label:'高血圧',         keys:['≥140/90 mmHg；家庭血圧≥135/85','ARB/ACE-I・Ca拮抗薬・サイアザイド系','二次性高血圧：原発性アルドステロン症（最多）','高血圧緊急症：臓器障害合併→ニカルジピン静注']},
+    {id:'circ_pah',  label:'肺高血圧',       keys:['mPAP≥25 mmHg（安静時）；右心カテ確定','PAH：ERA・PDE5阻害薬・プロスタサイクリン','COPD/間質性肺疾患→続発性PH→右心不全','右心不全：頸静脈怒張・肝腫大・下腿浮腫']},
+  ]},
+  {id:'resp',label:'呼吸器',icon:'🫁',color:'#0277BD',angle:0,href:'呼吸器/mindmap.html',diseases:[
+    {id:'resp_copd', label:'COPD',           keys:['喫煙→気流制限（FEV1/FVC<0.70）；GOLD分類','LABA/LAMA/ICS；増悪：ステロイド+抗菌薬+NPPV','肺高血圧・右心不全・自然気胸・呼吸不全合併','禁煙が最重要（進行抑制）；肺リハ・在宅酸素']},
+    {id:'resp_lc',   label:'肺癌',           keys:['腺癌（末梢型）・扁平上皮癌（中枢型）・SCLC','EGFR変異（腺癌）→オシメルチニブ；ALK転座→アレクチニブ','SCLC：EP療法＋PCI；予後不良','副腎転移（最多）・脳転移・骨転移・肝転移']},
+    {id:'resp_tb',   label:'肺結核',         keys:['M. tuberculosis；飛沫核感染；空洞形成・上葉優位','IGRA（T-SPOT/QFN）；HRZE×2→HR×4か月','粟粒結核・結核性髄膜炎・結核性胸膜炎','DOTS；届出（2類感染症）；潜在性結核→INH予防内服']},
+    {id:'resp_iip',  label:'間質性肺炎',     keys:['UIP/IPF：蜂巣肺；ピルフェニドン/ニンテダニブ','膠原病関連ILD（RA・SSc・PM/DM；抗Jo-1抗体）','急性増悪：6か月以内の急速悪化→高死亡率','KL-6・SP-D↑；HRCT：蜂巣肺・牽引性気管支拡張']},
+    {id:'resp_pte',  label:'肺血栓塞栓症',  keys:['DVTからの血栓塞栓；胸痛・呼吸困難・頻脈・SpO₂↓','CT-PA（造影）が標準；D-dimer↑・ECHO：右心負荷','大量PTE（血行不安定）→血栓溶解療法','UFH急性期→DOAC長期；IVCフィルターは限定的']},
+    {id:'resp_ards', label:'ARDS',           keys:['急性発症・両側浸潤影・P/F<300・非心原性','原因：敗血症（最多）・誤嚥・膵炎・DIC・輸血','肺保護換気（Vt 6 mL/kg・Pplat<30）・腹臥位','死亡率30-45%；多臓器不全に進展']},
+    {id:'resp_pneu', label:'重症肺炎',       keys:['市中：肺炎球菌・レジオネラ；A-DROP/PSIスコア','院内：MRSA・緑膿菌；誤嚥性：嫌気性菌','ICU管理：敗血症・ARDS・膿胸・呼吸不全合併時','菌血症→敗血症性ショック→DIC合併']},
+    {id:'resp_sarc', label:'サルコイドーシス',keys:['非乾酪性肉芽腫；BHL（両側肺門リンパ節腫脹）','高Ca血症（活性型VitD産生↑）・眼病変・皮膚病変・心病変','ACE値↑・sIL-2R↑；ガリウムシンチ/FDG-PET','無症状は経過観察；有症状/重症臓器病変→ステロイド']},
+  ]},
+  {id:'neur',label:'神経',icon:'🧠',color:'#1565C0',angle:45,href:'神経/mindmap.html',diseases:[
+    {id:'neur_stroke',label:'脳梗塞',         keys:['心原性（AF）・アテローム血栓性・ラクナ','t-PA（4.5時間）・血栓回収（24時間）；NIHSS','DWI高信号+ADC低下=急性期梗塞','二次予防：AF→DOAC；非心原性→抗血小板薬']},
+    {id:'neur_ich',  label:'脳出血・SAH',     keys:['高血圧性：被殻（最多）・視床・橋・小脳','SAH：今まで最悪の頭痛；CT→腰椎穿刺；動脈瘤クリッピング/コイル','脳血管攣縮（SAH4-14日）：Nimodipine','ICP管理：頭部挙上30°・マンニトール・過換気']},
+    {id:'neur_pd',   label:'パーキンソン病',  keys:['安静時振戦・筋強剛・動作緩慢・姿勢反射障害','Lewy小体（α-syn）；黒質線条体ドパミン欠乏','L-dopa（第一選択）；wearing off/on-off→MAO-B阻害薬','誤嚥性肺炎・起立性低血圧・認知症（DLBへの連続性）']},
+    {id:'neur_ad',   label:'Alzheimer病',     keys:['Aβ老人斑＋タウ；海馬から発症','記憶障害→見当識→BPSD→全介護','ChEI（ドネペジル）・レカネマブ（抗Aβ抗体）','誤嚥性肺炎・感染症が最終的な死因']},
+    {id:'neur_ep',   label:'てんかん',        keys:['焦点性（focal）vs 全般性；脳腫瘍・脳梗塞後・代謝異常が二次性原因','重積状態：5分以上→ジアゼパム→ホスフェニトイン','CBZ→低Na血症（SIADH）；VPA→催奇形性','脳波（EEG）：棘波・鋭徐波複合で診断']},
+    {id:'neur_gbs',  label:'ギラン・バレー症候群',keys:['上行性弛緩性麻痺；先行感染（カンピロ等）後1-3週','髄液：細胞蛋白解離；NCS：脱髄','IVIG（0.4g/kg×5日）or 血漿交換；ステロイド無効','自律神経障害・呼吸筋麻痺→ICU（人工呼吸）']},
+    {id:'neur_mg',   label:'重症筋無力症',    keys:['抗AChR抗体（85%）or 抗MuSK抗体；NMJ障害','易疲労性（夕方増悪）；Edrophonium test','胸腺腫合併（15%）→胸腺摘除','MGクリーゼ：呼吸筋麻痺→血漿交換/IVIG＋ICU挿管']},
+    {id:'neur_ms',   label:'多発性硬化症',    keys:['時間的・空間的多発；白質脱髄病変','視神経炎・横断性脊髄炎・INO（核間性眼筋麻痺）','急性期：ステロイドパルス；DMT：オクレリズマブ等','視神経脊髄炎（NMOSD）：抗AQP4抗体；β-IFN悪化']},
+  ]},
+  {id:'gi',label:'消化器',icon:'🫃',color:'#2E7D32',angle:90,href:'消化器/mindmap.html',diseases:[
+    {id:'gi_uc',     label:'潰瘍性大腸炎',   keys:['直腸から連続性；びらん・浅潰瘍；粘血便','5-ASA→ステロイド→タクロリムス→抗TNF-α','中毒性巨大結腸症（緊急手術）；長期→大腸癌','PSC合併（UC患者の5%）：黄疸・肝酵素上昇']},
+    {id:'gi_cd',     label:'クローン病',      keys:['非連続性・全層性；縦走潰瘍・敷石像・狭窄・瘻孔','回盲部好発；抗TNF-α（infliximab等）第一選択','腸管外合併症：関節炎・虹彩炎・壊疽性膿皮症','栄養療法（成分栄養）；短腸症候群・膿瘍・癌化']},
+    {id:'gi_crc',    label:'大腸癌',          keys:['S状結腸・直腸が最多；Dukes/TNM；腺癌','EMR/ESD（T1a）；D3郭清付き外科切除','化学療法：FOLFOX/FOLFIRI＋Bev or Cet（RAS野生型）','同時性肝転移（20-30%）；腹膜播種；肺転移']},
+    {id:'gi_gc',     label:'胃癌',            keys:['H. pylori・塩分；スキルス（4型）予後不良','EMR/ESD（T1a）；D2郭清付き胃切除','S-1±CDDP；HER2+→トラスツズマブ','腹膜播種（Krukenberg腫瘍）・Virchow転移']},
+    {id:'gi_bleed',  label:'消化管出血',      keys:['上部（吐血/タール便）：消化性潰瘍・食道静脈瘤','下部（鮮血便）：大腸憩室・癌・痔核','緊急内視鏡（24時間）；Forrest分類','慢性出血→鉄欠乏性貧血；大量出血→ショック']},
+    {id:'gi_ulcer',  label:'消化性潰瘍',      keys:['H. pylori（70-90%）・NSAIDs；胃/十二指腸潰瘍','UBT/便中抗原；3剤除菌（PPI+AMPC+CAM）','合併症：出血（Forrest Ia→緊急止血）・穿孔','ストレス潰瘍（ICU）：PPI/H₂B予防的投与']},
+    {id:'gi_ileus',  label:'腸閉塞・急性腹症',keys:['癒着（術後最多）・腫瘍・Meckel・ヘルニア嵌頓','腹部X線：ニボー；CT：拡張腸管・閉塞点','絞扼（血流障害）→緊急手術','急性虫垂炎：McBurney圧痛→腹腔鏡下切除']},
+    {id:'gi_ap',     label:'急性膵炎',        keys:['アルコール・胆石（2大原因）；Ranson/CT重症度','絶食・大量補液・鎮痛；感染性壊死→抗菌薬+ドレナージ','重篤合併症：ARDS・AKI・DIC・敗血症','慢性膵炎：石灰化・嚢胞；膵癌リスク↑']},
+  ]},
+  {id:'hbp',label:'肝胆膵',icon:'🟠',color:'#E65100',angle:135,href:'肝胆膵/mindmap.html',diseases:[
+    {id:'hbp_cirr',  label:'肝硬変',          keys:['線維化→門脈圧亢進；Child-Pugh/MELD','四大合併症：食道静脈瘤・腹水（SBP）・肝性脳症・HCC','肝腎症候群：乏尿＋腎不全（予後不良）→肝移植','ナドロール（門脈圧降下）；アルブミン補液（SBP予防）']},
+    {id:'hbp_hcc',   label:'肝細胞癌',        keys:['HBV/HCV→肝硬変→HCC（surveillance）','AFP・PIVKA-II↑；動脈相濃染＋門脈相washout','肝切除（Child A）・RFA（小病変）・TACE','Atezolizumab+Bevacizumab（進行期一次治療）']},
+    {id:'hbp_hbv',   label:'B型肝炎',         keys:['HBs抗原・HBe抗原；垂直/水平感染','慢性化→肝硬変→HCC；テノホビル/エンテカビル','ワクチンで予防；垂直感染予防：HBIG+ワクチン','劇症肝炎（HBV）：PT<40%→肝移植検討']},
+    {id:'hbp_hcv',   label:'C型肝炎',         keys:['輸血・注射針；慢性化率70-80%','DAA（直接作用型：SOF/VEL等）：SVR>95%','肝硬変・HCC進展リスク；除菌後も6か月毎監視','クリオグロブリン血症・膜性増殖性GN（MPGN）合併']},
+    {id:'hbp_pbc',   label:'原発性胆汁性胆管炎',keys:['中年女性；抗ミトコンドリア抗体（AMA）陽性','ALK-P↑・γ-GTP↑；掻痒感・黄疸（進行期）','UDCA（第一選択）；ベザフィブラート（UDCA不応）','骨粗鬆症・脂溶性Vit欠乏；末期→肝移植']},
+    {id:'hbp_psc',   label:'原発性硬化性胆管炎',keys:['UC合併（70-80%）；胆管の多発狭窄・数珠状変化','MRCP：診断；肝移植が唯一の根治治療','胆管癌リスク↑（年1-1.5%）；年1回サーベイランス','UDCA・バルーン拡張；胆道感染→抗菌薬']},
+    {id:'hbp_pc',    label:'膵癌',             keys:['膵管癌（95%）；K-RAS変異；喫煙・慢性膵炎','体尾部は無症状期長い；頭部→閉塞性黄疸','FOLFIRINOX / GnP（Gem+nab-PTX）','切除可能→膵頭十二指腸切除；5年生存率<10%']},
+    {id:'hbp_panc',  label:'急性・慢性膵炎',   keys:['重症急性膵炎：ARDS・AKI・DIC合併→ICU管理','CT重症度分類；感染性壊死→ネクロソーミー','慢性膵炎：アルコール性（最多）；石灰化・嚢胞','慢性膵炎は膵癌の独立した高危険因子']},
+  ]},
+  {id:'jinzo',label:'腎臓',icon:'💧',color:'#1565C0',angle:180,href:'腎臓/mindmap.html',diseases:[
+    {id:'jinzo_ckd',  label:'CKD',            keys:['eGFR<60 or 蛋白尿>3か月；G/Aステージ分類','高血圧・腎性貧血・CKD-MBD・高K・アシドーシス','ARB/ACE-I：蛋白尿軽減；SGLT2：CKD進行抑制','透析（HD/PD）・腎移植；心血管死が最多死因']},
+    {id:'jinzo_dn',   label:'糖尿病性腎症',   keys:['透析導入原因の第1位（日本）','マイクロアルブミン尿→顕性蛋白尿→腎不全','HbA1c<7%・BP<130/80；ARB/ACE-I＋SGLT2','Kimmelstiel-Wilson結節（糸球体病変）']},
+    {id:'jinzo_ns',   label:'ネフローゼ症候群',keys:['蛋白尿>3.5g/日・低蛋白血症・浮腫','血栓症（DVT/PTE）・感染症（莢膜菌）・脂質異常','MCNS（小児）：ステロイド高反応；膜性腎症（成人最多）','FGS：ステロイド抵抗；IgA腎症・糖尿病・SLE合併も']},
+    {id:'jinzo_aki',  label:'AKI',            keys:['KDIGO基準；前腎性（最多）・腎性・後腎性','ATN：虚血・造影剤・アミノグリコシド・ミオグロビン','横紋筋融解（CPK↑・ミオグロビン尿）・MMキャスト腎症','補液・電解質補正；重症→透析（緊急：高K・肺水腫）']},
+    {id:'jinzo_iga',  label:'IgA腎症',        keys:['最多の原発性GN；IgA免疫複合体沈着','肉眼的血尿（感染後）；蛋白尿＋血尿','扁桃摘出＋ステロイドパルス；ACE-I/ARB','RPGN型：免疫抑制＋ステロイド→CKD進展リスク高']},
+    {id:'jinzo_pkd',  label:'多発性嚢胞腎',   keys:['ADPKD（PKD1/PKD2変異）；常染色体優性','嚢胞増大→腎不全；高血圧・血尿・腰痛','トルバプタン（V2受容体拮抗）：嚢胞増大抑制','脳動脈瘤（10-40%）→SAHリスク；肝嚢胞合併']},
+    {id:'jinzo_lupus',label:'ループス腎炎',    keys:['SLE患者の50-70%；WHO分類（I-VI型）','ANA/抗dsDNA↑・C3/C4↓；血尿・蛋白尿','ステロイド＋MMF or シクロホスファミド（IV型）','活動性：抗dsDNA↑・補体↓；増悪しやすい']},
+    {id:'jinzo_rht',  label:'腎血管性高血圧',  keys:['腎動脈狭窄（FMD・動脈硬化）→RAA系亢進','若年女性：FMD；高齢動脈硬化患者','腎動脈エコー・MRA・造影CT','PTA（FMD優先）；粥状硬化→降圧薬（ARB注意）']},
+  ]},
+  {id:'hema',label:'血液',icon:'🩸',color:'#B71C1C',angle:225,href:'血液/mindmap.html',diseases:[
+    {id:'hema_ife',  label:'鉄欠乏性貧血',    keys:['消化管出血・月経過多・吸収障害が原因','小球性低色素性貧血；血清鉄↓・TIBC↑・フェリチン↓','鉄剤補充（経口/静注）；必ず原因検索','慢性疾患性貧血との鑑別：フェリチン正常〜↑']},
+    {id:'hema_mds',  label:'MDS',             keys:['無効造血→汎血球減少；骨髄異形成','IPSS-R低リスク：輸血＋ESA；高リスク：アザシチジン→移植','AML転化リスク：高リスクMDSで30-40%','del(5q)：レナリドミドが有効；5番染色体異常']},
+    {id:'hema_aml',  label:'AML/APL',         keys:['汎血球減少；Auer小体（AML）','APL（M3/t(15;17)）：ATRA＋As₂O₃；DIC合併（緊急）','7+3療法（Ara-C+アントラサイクリン）→地固め→移植','FLT3変異→ミドスタウリン；IDH1/2変異→阻害薬']},
+    {id:'hema_mm',   label:'多発性骨髄腫',    keys:['形質細胞腫瘍；M蛋白（IgG最多）','CRAB：高Ca・腎不全・貧血・骨病変（溶骨性）','VRd（ボルテゾミブ＋Len＋Dex）→ASCT','ダラツムマブ（抗CD38）；Bisphos（骨病変）']},
+    {id:'hema_lym',  label:'悪性リンパ腫',    keys:['NHL（最多；DLBCL/FL）vs HL（若年・縦隔）','DLBCL：R-CHOP；HL：ABVD/BEACOPP','腫瘍崩壊症候群（TLS）：高K・高P・高尿酸・AKI','縦隔腫瘍（HL）→上大静脈症候群；神経圧迫']},
+    {id:'hema_dic',  label:'DIC',             keys:['消費性凝固障害；基礎疾患（敗血症・APL・産科）','PT/APTT延長・Fb↓・FDP↑・D-dimer↑・血小板↓','APL：ATRA（DIC急速改善）；敗血症性DIC：AT補充','ARDS・腎不全・多臓器不全に合併・進展']},
+    {id:'hema_itp',  label:'ITP/TTP',         keys:['ITP：抗血小板抗体→血小板破壊；<10万/μL','ステロイド→IVIG→リツキシマブ→脾摘','TTP：ADAMTS13欠乏→MAHA＋血小板減少＋AKI','TTP五徴：MAHA・血小板↓・AKI・発熱・神経症状']},
+    {id:'hema_ha',   label:'溶血性貧血',      keys:['AIHA（温式：抗IgG；寒冷凝集素：抗IgM）；DAT陽性','PNH：CD55/CD59欠損→補体溶血；血栓症（特に静脈系）','SLE/CLL合併AIHA；黄疸・脾腫・胆石合併','G6PD欠乏：薬剤/感染誘発性溶血（ハインツ小体）']},
+  ]},
+];
+
+// Cross-subject relations
+const CROSS=[
+  // Diabetes cascade (purple)
+  {f:'endo_dm',    t:'jinzo_dn',    lb:'DM→腎症',        c:'#CE93D8'},
+  {f:'endo_dm',    t:'neur_stroke', lb:'DM→脳梗塞',       c:'#BA68C8'},
+  {f:'endo_dm',    t:'circ_ami',   lb:'DM→AMI',          c:'#AB47BC'},
+  // Renin-angiotensin/HTN (red)
+  {f:'endo_aldo',  t:'circ_htn',   lb:'原アルド→高血圧',  c:'#FF8A80'},
+  {f:'endo_cush',  t:'circ_htn',   lb:'クッシング→高血圧', c:'#FF8A80'},
+  {f:'circ_htn',   t:'neur_ich',   lb:'高血圧→脳出血',    c:'#EF5350'},
+  {f:'circ_htn',   t:'jinzo_ckd',  lb:'高血圧→CKD',       c:'#EF5350'},
+  // Cardiac (orange)
+  {f:'circ_af',    t:'neur_stroke', lb:'AF→脳塞栓',        c:'#FF7043'},
+  {f:'circ_ie',    t:'neur_stroke', lb:'IE→脳塞栓',        c:'#FF8F00'},
+  {f:'circ_hf',    t:'jinzo_ckd',  lb:'心腎症候群',        c:'#FFA726'},
+  // Thrombus (amber)
+  {f:'circ_dvt',   t:'resp_pte',   lb:'DVT→肺塞栓',       c:'#FFD54F'},
+  {f:'jinzo_ns',   t:'circ_dvt',   lb:'ネフローゼ→DVT',    c:'#90CAF9'},
+  // Respiratory (cyan)
+  {f:'resp_copd',  t:'circ_pah',   lb:'COPD→肺高血圧',    c:'#4DD0E1'},
+  {f:'resp_lc',    t:'endo_adrenal',lb:'肺癌→副腎転移',   c:'#80DEEA'},
+  {f:'resp_sarc',  t:'endo_hca',   lb:'サルコイド→高Ca',   c:'#80CBC4'},
+  {f:'resp_pneu',  t:'hema_dic',   lb:'敗血症→DIC',        c:'#A5D6A7'},
+  // Liver-GI (amber/brown)
+  {f:'hbp_cirr',   t:'gi_bleed',   lb:'肝硬変→静脈瘤出血', c:'#FFCC80'},
+  {f:'gi_uc',      t:'hbp_psc',    lb:'UC→PSC',            c:'#C8E6C9'},
+  {f:'gi_crc',     t:'hbp_hcc',    lb:'大腸癌→肝転移',     c:'#A5D6A7'},
+  // Renal-blood (blue)
+  {f:'jinzo_ckd',  t:'hema_ife',   lb:'腎性貧血',          c:'#90CAF9'},
+  {f:'hema_mm',    t:'jinzo_aki',   lb:'MM→cast腎症',       c:'#EF9A9A'},
+  {f:'hema_dic',   t:'resp_ards',  lb:'DIC→ARDS',          c:'#FFCDD2'},
+  // Immune (violet)
+  {f:'jinzo_lupus',t:'hema_itp',   lb:'SLE→ITP',           c:'#CE93D8'},
+  // Pancreas
+  {f:'gi_ap',      t:'resp_ards',  lb:'膵炎→ARDS',         c:'#DCEDC8'},
+  {f:'hbp_hcv',    t:'jinzo_ns',   lb:'HCV→GN',            c:'#FFE0B2'},
+  {f:'endo_hca',   t:'jinzo_aki',  lb:'高Ca→AKI',          c:'#F3E5F5'},
+  // GBS
+  {f:'neur_gbs',   t:'resp_ards',  lb:'GBS→呼吸不全',      c:'#BBDEFB'},
+];
+
+// Same-subject relations (bow outward)
+const SAME=[
+  {f:'hema_mds',  t:'hema_aml',  lb:'AML転化',     c:'#EF9A9A'},
+  {f:'hbp_hbv',   t:'hbp_cirr',  lb:'→肝硬変',     c:'#FFCC80'},
+  {f:'hbp_hcv',   t:'hbp_cirr',  lb:'→肝硬変',     c:'#FFCC80'},
+  {f:'hbp_cirr',  t:'hbp_hcc',   lb:'→HCC',        c:'#FFA726'},
+  {f:'circ_ami',  t:'circ_hf',   lb:'AMI→心不全',  c:'#EF9A9A'},
+  {f:'gi_uc',     t:'gi_crc',    lb:'UC→大腸癌',   c:'#A5D6A7'},
+  {f:'jinzo_dn',  t:'jinzo_ckd', lb:'腎症→CKD',    c:'#90CAF9'},
+  {f:'endo_dm',   t:'endo_met',  lb:'',             c:'#CE93D8'},
+];
+
+// ─── layout ───────────────────────────────────────────────────
+function deg(a){return a*Math.PI/180;}
+const DIS_POS={},DIS_SUBJ_IDX={};
+SUBJECTS.forEach((s,si)=>{
+  const fan=Math.min(30,8+6*s.diseases.length);
+  s.diseases.forEach((d,di)=>{
+    DIS_SUBJ_IDX[d.id]=si;
+    const a=deg(s.angle-fan/2+(di+0.5)*fan/s.diseases.length);
+    DIS_POS[d.id]={x:CX+R2*Math.cos(a),y:CY+R2*Math.sin(a)};
+  });
+});
+
+const svgEl=document.getElementById('svg');
+svgEl.setAttribute('width',W);svgEl.setAttribute('height',H);
+svgEl.setAttribute('viewBox',`0 0 ${W} ${H}`);
+function ns(tag,attrs){const e=document.createElementNS('http://www.w3.org/2000/svg',tag);Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));return e;}
+
+// Layers
+const lBg=ns('g',{});const lEdCh=ns('g',{});const lEdDis=ns('g',{});
+const lRel=ns('g',{});const lSRel=ns('g',{});
+const lNDis=ns('g',{});const lNCh=ns('g',{});const lRoot=ns('g',{});
+svgEl.append(lBg,lEdCh,lEdDis,lRel,lSRel,lNDis,lNCh,lRoot);
+
+// Defs
+function mkDefs(){
+  const defs=ns('defs',{});
+  const rg=ns('radialGradient',{id:'rootGrad',cx:'50%',cy:'50%',r:'50%'});
+  rg.append(ns('stop',{offset:'0%','stop-color':'#FFD54F'}),ns('stop',{offset:'100%','stop-color':'#E65100'}));
+  const glow=ns('filter',{id:'glow',x:'-50%',y:'-50%',width:'200%',height:'200%'});
+  const gb=ns('feGaussianBlur',{stdDeviation:'5',result:'c'});
+  const gm=ns('feMerge',{});gm.append(ns('feMergeNode',{in:'c'}),ns('feMergeNode',{in:'SourceGraphic'}));
+  glow.append(gb,gm);
+  const g2=ns('filter',{id:'glow2',x:'-50%',y:'-50%',width:'200%',height:'200%'});
+  const gb2=ns('feGaussianBlur',{stdDeviation:'3',result:'c'});
+  const gm2=ns('feMerge',{});gm2.append(ns('feMergeNode',{in:'c'}),ns('feMergeNode',{in:'SourceGraphic'}));
+  g2.append(gb2,gm2);defs.append(rg,glow,g2);svgEl.prepend(defs);
+}
+mkDefs();
+
+// Background
+function drawBg(){
+  const g=ns('g',{opacity:'0.035'});
+  for(let x=0;x<=W;x+=100)g.append(ns('line',{x1:x,y1:0,x2:x,y2:H,stroke:'#fff','stroke-width':'0.5'}));
+  for(let y=0;y<=H;y+=100)g.append(ns('line',{x1:0,y1:y,x2:W,y2:y,stroke:'#fff','stroke-width':'0.5'}));
+  lBg.append(g);
+  [R1+20,R2-20,R2+60].forEach(r=>lBg.append(ns('circle',{cx:CX,cy:CY,r,fill:'none',stroke:'rgba(255,255,255,0.04)','stroke-width':'1.5','stroke-dasharray':'6 10'})));
+}
+drawBg();
+
+// Root
+function drawRoot(){
+  const g=ns('g',{transform:`translate(${CX},${CY})`});
+  const r1=ns('circle',{r:'75',fill:'none',stroke:'rgba(255,165,0,0.2)','stroke-width':'14'});
+  r1.style.animation='pulse 3s ease-in-out infinite';
+  const r2=ns('circle',{r:'56',fill:'none',stroke:'rgba(255,165,0,0.14)','stroke-width':'10'});
+  r2.style.animation='pulse 3s ease-in-out infinite 1s';
+  const c=ns('circle',{r:'46',fill:'url(#rootGrad)',filter:'url(#glow)'});
+  const t1=ns('text',{x:'0',y:'-6','text-anchor':'middle','font-size':'20','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif'});t1.textContent='MEC';
+  const t2=ns('text',{x:'0',y:'12','text-anchor':'middle','font-size':'10','font-weight':'700',fill:'rgba(255,255,255,0.85)','font-family':'Noto Sans JP,sans-serif'});t2.textContent='統合マップ';
+  g.append(r1,r2,c,t1,t2);lRoot.append(g);
+}
+drawRoot();
+
+// Subject nodes
+const activeSubjects=new Set();
+const disEdges={},disNodes={};
+function anchor(x){return x<CX-20?'end':x>CX+20?'start':'middle';}
+function splitLbl(l){if(l.length<=4)return[l];if(l.includes('・')){const p=l.split('・');return[p.slice(0,Math.ceil(p.length/2)).join('・'),p.slice(Math.ceil(p.length/2)).join('・')];}const m=Math.ceil(l.length/2);return[l.slice(0,m),l.slice(m)];}
+
+function drawSubjects(){
+  const defs=svgEl.querySelector('defs');
+  SUBJECTS.forEach((s,si)=>{
+    const a=deg(s.angle);
+    const sx=CX+R1*Math.cos(a),sy=CY+R1*Math.sin(a);
+    const ex=CX+50*Math.cos(a),ey=CY+50*Math.sin(a);
+    lEdCh.append(ns('path',{d:`M ${ex} ${ey} Q ${(ex+sx)/2} ${(ey+sy)/2} ${sx} ${sy}`,fill:'none',stroke:s.color,'stroke-width':'2.5',opacity:'0.5'}));
+    const g=ns('g',{transform:`translate(${sx},${sy})`,style:'cursor:pointer'});
+    const outerR=ns('circle',{r:'44',fill:'none',stroke:s.color,'stroke-width':'2',opacity:'0.35'});
+    const circ=ns('circle',{r:'36',fill:s.color,stroke:'rgba(255,255,255,0.3)','stroke-width':'1.5',filter:'url(#glow2)'});
+    circ.style.transition='r 0.2s';
+    const icon=ns('text',{x:'0',y:'-4','text-anchor':'middle','font-size':'16','font-family':'Noto Sans JP,sans-serif'});icon.textContent=s.icon;
+    const lines=splitLbl(s.label);
+    lines.forEach((ln,li)=>{
+      const t=ns('text',{x:'0',y:String(8+li*11),'text-anchor':'middle','font-size':'8.5','font-weight':'700',fill:'#fff','font-family':'Noto Sans JP,sans-serif'});
+      t.textContent=ln;g.append(t);
+    });
+    g.prepend(circ,outerR,icon);
+    g.addEventListener('click',e=>{e.stopPropagation();toggleSubject(si);});
+    g.addEventListener('touchstart',e=>{e.stopPropagation();if(e.touches.length===1){dragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;}},{passive:true});
+    g.addEventListener('mouseenter',()=>circ.setAttribute('r','39'));
+    g.addEventListener('mouseleave',()=>circ.setAttribute('r',activeSubjects.has(si)?'39':'36'));
+    lNCh.append(g);
+
+    // Disease nodes for this subject
+    disEdges[si]=[];disNodes[si]=[];
+    s.diseases.forEach((dis,di)=>{
+      const dp=DIS_POS[dis.id];
+      const NR=27;
+      const edge=ns('path',{d:`M ${sx} ${sy} Q ${(sx+dp.x)/2} ${(sy+dp.y)/2} ${dp.x} ${dp.y}`,fill:'none',stroke:s.color,'stroke-width':'1.5',opacity:'0'});
+      edge.style.transition='opacity 0.3s';lEdDis.append(edge);disEdges[si].push(edge);
+      const dg=ns('g',{transform:`translate(${dp.x},${dp.y})`,style:'cursor:pointer',opacity:'0'});
+      dg.style.transition='opacity 0.3s';
+      const dc=ns('circle',{r:String(NR),fill:s.color,stroke:'rgba(255,255,255,0.3)','stroke-width':'1'});
+      dc.style.transition='r 0.15s';
+      function abbr(lbl){const m=lbl.match(/^([A-Z][A-Za-z0-9-]+)/);if(m&&m[1].length>=2&&m[1].length<=6)return m[1];return lbl.replace(/（.+?）/g,'').replace(/[・\/].+/,'').slice(0,4);}
+      const dt=ns('text',{x:'0',y:'4','text-anchor':'middle','font-size':'9','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif','pointer-events':'none'});dt.textContent=abbr(dis.label);
+      const dx2=dp.x-CX,dy2=dp.y-CY,len2=Math.hypot(dx2,dy2)||1;
+      const lx=(dx2/len2)*(NR+18),ly=(dy2/len2)*(NR+18);
+      const shortLbl=dis.label.replace(/（.+?）/g,'').replace(/・.+/,'').trim();
+      const lt=ns('text',{x:String(lx),y:String(ly+4),'text-anchor':anchor(dp.x),'font-size':'11','font-weight':'700',fill:'rgba(255,255,255,0.9)','font-family':'Noto Sans JP,sans-serif','pointer-events':'none'});
+      lt.textContent=shortLbl.length>7?shortLbl.slice(0,6)+'…':shortLbl;
+      dg.append(dc,dt,lt);
+      dg.addEventListener('click',e=>{e.stopPropagation();showPanel(si,di);});
+      dg.addEventListener('touchstart',e=>{e.stopPropagation();if(e.touches.length===1){dragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;}},{passive:true});
+      dg.addEventListener('mouseenter',()=>dc.setAttribute('r',String(NR+3)));
+      dg.addEventListener('mouseleave',()=>dc.setAttribute('r',String(NR)));
+      lNDis.append(dg);disNodes[si].push(dg);
+    });
+  });
+}
+drawSubjects();
+
+// Relations
+function drawRelations(){
+  const defs=svgEl.querySelector('defs');
+  CROSS.forEach(rel=>{
+    const fp=DIS_POS[rel.f],tp=DIS_POS[rel.t];if(!fp||!tp)return;
+    const mx=(fp.x+tp.x)/2,my=(fp.y+tp.y)/2;
+    const cpx=mx+(CX-mx)*0.38,cpy=my+(CY-my)*0.38;
+    const path=ns('path',{d:`M ${fp.x} ${fp.y} Q ${cpx} ${cpy} ${tp.x} ${tp.y}`,fill:'none',stroke:rel.c,'stroke-width':'1.8','stroke-dasharray':'6 4',opacity:'0'});
+    path.style.transition='opacity 0.4s';lRel.append(path);rel._p=path;
+    const lx=0.25*fp.x+0.5*cpx+0.25*tp.x,ly=0.25*fp.y+0.5*cpy+0.25*tp.y-8;
+    if(rel.lb){
+      const lw=rel.lb.length*6.5+8;
+      const bg=ns('rect',{x:String(lx-lw/2),y:String(ly-10),width:String(lw),height:'13',fill:'#060a14',rx:'3',opacity:'0'});
+      bg.style.transition='opacity 0.4s';
+      const lt=ns('text',{x:String(lx),y:String(ly),'text-anchor':'middle','font-size':'8.5','font-weight':'700',fill:rel.c,'font-family':'Noto Sans JP,sans-serif',opacity:'0','pointer-events':'none'});
+      lt.style.transition='opacity 0.4s';lt.textContent=rel.lb;
+      lRel.append(bg,lt);rel._bg=bg;rel._lt=lt;
+    }
+  });
+  SAME.forEach(rel=>{
+    const fp=DIS_POS[rel.f],tp=DIS_POS[rel.t];if(!fp||!tp)return;
+    const mx=(fp.x+tp.x)/2,my=(fp.y+tp.y)/2;
+    const ox=mx-CX,oy=my-CY,ol=Math.hypot(ox,oy)||1;
+    const cpx=mx+(ox/ol)*140,cpy=my+(oy/ol)*140;
+    const path=ns('path',{d:`M ${fp.x} ${fp.y} Q ${cpx} ${cpy} ${tp.x} ${tp.y}`,fill:'none',stroke:rel.c,'stroke-width':'1.5','stroke-dasharray':'5 4',opacity:'0'});
+    path.style.transition='opacity 0.4s';lSRel.append(path);rel._p=path;
+    if(rel.lb){
+      const lx=0.25*fp.x+0.5*cpx+0.25*tp.x,ly=0.25*fp.y+0.5*cpy+0.25*tp.y-6;
+      const lw=rel.lb.length*6+8;
+      const bg=ns('rect',{x:String(lx-lw/2),y:String(ly-10),width:String(lw),height:'13',fill:'#060a14',rx:'3',opacity:'0'});
+      bg.style.transition='opacity 0.4s';
+      const lt=ns('text',{x:String(lx),y:String(ly),'text-anchor':'middle','font-size':'8','font-weight':'700',fill:rel.c,'font-family':'Noto Sans JP,sans-serif',opacity:'0','pointer-events':'none'});
+      lt.style.transition='opacity 0.4s';lt.textContent=rel.lb;
+      lSRel.append(bg,lt);rel._bg=bg;rel._lt=lt;
+    }
+  });
+}
+drawRelations();
+
+function updateRelations(){
+  CROSS.forEach(rel=>{
+    const v=rel._p&&activeSubjects.has(DIS_SUBJ_IDX[rel.f])&&activeSubjects.has(DIS_SUBJ_IDX[rel.t]);
+    if(rel._p)rel._p.style.opacity=v?'0.7':'0';
+    if(rel._bg)rel._bg.style.opacity=v?'0.95':'0';
+    if(rel._lt)rel._lt.style.opacity=v?'1':'0';
+  });
+  SAME.forEach(rel=>{
+    const v=rel._p&&activeSubjects.has(DIS_SUBJ_IDX[rel.f]);
+    if(rel._p)rel._p.style.opacity=v?'0.65':'0';
+    if(rel._bg)rel._bg.style.opacity=v?'0.95':'0';
+    if(rel._lt)rel._lt.style.opacity=v?'1':'0';
+  });
+}
+
+function toggleSubject(si){
+  const chG=lNCh.children[si];
+  const circ=chG?chG.querySelector('circle'):null;
+  if(activeSubjects.has(si)){
+    activeSubjects.delete(si);
+    disNodes[si].forEach(n=>{n.style.opacity='0';n.style.pointerEvents='none';});
+    disEdges[si].forEach(e=>e.style.opacity='0');
+    if(circ)circ.setAttribute('r','36');
+  }else{
+    activeSubjects.add(si);
+    disNodes[si].forEach(n=>{n.style.opacity='1';n.style.pointerEvents='';});
+    disEdges[si].forEach(e=>e.style.opacity='0.45');
+    if(circ)circ.setAttribute('r','39');
+    const a=deg(SUBJECTS[si].angle);
+    panTo(CX+R1*Math.cos(a),CY+R1*Math.sin(a));
+  }
+  updateLegend();
+  updateRelations();
+}
+
+// Legend
+function buildLegend(){
+  const leg=document.getElementById('legend');
+  SUBJECTS.forEach((s,si)=>{
+    const item=document.createElement('div');
+    item.className='legend-item';item.dataset.si=si;
+    item.innerHTML=`<div class="legend-dot" style="background:${s.color}"></div><span>${s.icon} ${s.label}</span>`;
+    item.addEventListener('click',()=>toggleSubject(si));
+    leg.append(item);
+  });
+  const sep=document.createElement('div');sep.className='legend-sep';leg.append(sep);
+  const r1=document.createElement('div');r1.className='legend-item';r1.style.cursor='default';
+  r1.innerHTML=`<div class="legend-dash" style="border-color:#FBBF24"></div><span style="font-size:9px">科目横断リンク</span>`;
+  const r2=document.createElement('div');r2.className='legend-item';r2.style.cursor='default';
+  r2.innerHTML=`<div class="legend-dash" style="border-color:rgba(255,255,255,0.4)"></div><span style="font-size:9px">同科目内リンク</span>`;
+  leg.append(r1,r2);
+}
+function updateLegend(){
+  document.querySelectorAll('#legend .legend-item[data-si]').forEach(el=>{
+    const si=parseInt(el.dataset.si);
+    el.classList.toggle('active-subj',activeSubjects.has(si));
+  });
+}
+buildLegend();
+
+// Panel
+function showPanel(si,di){
+  const s=SUBJECTS[si],dis=s.diseases[di];
+  document.getElementById('panelSubj').textContent=s.icon+' '+s.label;
+  document.getElementById('panelSubj').style.background=s.color;
+  document.getElementById('panelSubj').style.color='#fff';
+  document.getElementById('panelTitle').textContent=dis.label;
+  const ul=document.getElementById('panelKeys');ul.innerHTML='';
+  dis.keys.forEach(k=>{const li=document.createElement('li');li.textContent=k;ul.append(li);});
+  document.getElementById('panelLink').href=s.href;
+  document.getElementById('panel').classList.add('show');
+}
+function hidePanel(){document.getElementById('panel').classList.remove('show');}
+document.getElementById('panelClose').addEventListener('click',hidePanel);
+svgEl.addEventListener('click',hidePanel);
+document.getElementById('lb').addEventListener('click',()=>document.getElementById('lb').classList.remove('open'));
+
+// All/None buttons
+document.getElementById('btnAll').addEventListener('click',()=>{
+  SUBJECTS.forEach((_,si)=>{if(!activeSubjects.has(si))toggleSubject(si);});
+});
+document.getElementById('btnNone').addEventListener('click',()=>{
+  [...activeSubjects].forEach(si=>toggleSubject(si));
+});
+
+// Pan/zoom
+const wrap=document.getElementById('wrap'),inner=document.getElementById('inner');
+let tx=0,ty=0,scale=0.72,dragging=false,lastX=0,lastY=0,lastDist=0;
+function clampAndApply(){scale=Math.max(0.3,Math.min(3,scale));inner.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`;}
+window.addEventListener('load',()=>{
+  const ww=wrap.offsetWidth,wh=wrap.offsetHeight;
+  tx=(ww-W*scale)/2;ty=(wh-H*scale)/2;clampAndApply();
+});
+wrap.addEventListener('mousedown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY;e.preventDefault();});
+window.addEventListener('mousemove',e=>{if(!dragging)return;tx+=e.clientX-lastX;ty+=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;clampAndApply();});
+window.addEventListener('mouseup',()=>{dragging=false;});
+wrap.addEventListener('wheel',e=>{e.preventDefault();const f=e.deltaY>0?0.9:1.1;const r=wrap.getBoundingClientRect();const mx=e.clientX-r.left,my=e.clientY-r.top;tx=mx-(mx-tx)*f;ty=my-(my-ty)*f;scale*=f;clampAndApply();},{passive:false});
+wrap.addEventListener('touchstart',e=>{if(e.touches.length===1){dragging=true;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;}else if(e.touches.length===2){dragging=false;lastDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);}e.preventDefault();},{passive:false});
+wrap.addEventListener('touchmove',e=>{if(e.touches.length===1&&dragging){tx+=e.touches[0].clientX-lastX;ty+=e.touches[0].clientY-lastY;lastX=e.touches[0].clientX;lastY=e.touches[0].clientY;clampAndApply();}else if(e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);const r=wrap.getBoundingClientRect();const mx=(e.touches[0].clientX+e.touches[1].clientX)/2-r.left,my=(e.touches[0].clientY+e.touches[1].clientY)/2-r.top;const f=d/lastDist;tx=mx-(mx-tx)*f;ty=my-(my-ty)*f;scale*=f;lastDist=d;clampAndApply();}e.preventDefault();},{passive:false});
+wrap.addEventListener('touchend',()=>{dragging=false;});
+
+function panTo(px,py,dur=480){
+  const ww=wrap.offsetWidth,wh=wrap.offsetHeight;
+  const ttx=ww/2-px*scale,tty=wh/2-py*scale;
+  const stx=tx,sty=ty,t0=performance.now();
+  function step(now){const p=Math.min((now-t0)/dur,1),e=1-Math.pow(1-p,3);tx=stx+(ttx-stx)*e;ty=sty+(tty-sty)*e;clampAndApply();if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+
+window.addEventListener('resize',()=>{const ww=wrap.offsetWidth,wh=wrap.offsetHeight;tx=(ww-W*scale)/2;ty=(wh-H*scale)/2;clampAndApply();});
+
+const style=document.createElement('style');
+style.textContent='@keyframes pulse{0%,100%{opacity:0.5;transform:scale(1);}50%{opacity:0.12;transform:scale(1.2);}}';
+document.head.append(style);
+</script>
+</body>
+</html>
