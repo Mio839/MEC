@@ -39,6 +39,7 @@ svg{display:block;}
 .legend-sep{border-top:1px solid rgba(255,255,255,.1);margin:5px 0;}
 .legend-dash{width:18px;height:0;border-top:2px dashed;flex-shrink:0;}
 .legend-title{font-size:9px;font-weight:700;color:rgba(255,255,255,.4);margin-bottom:4px;}
+.rel-hint{font-size:9px;color:rgba(255,255,255,.3);margin-top:5px;text-align:center;}
 </style>
 </head>
 <body>
@@ -153,42 +154,42 @@ const SUBJECTS=[
 // Cross-subject relations
 const CROSS=[
   // Diabetes cascade (purple)
-  {f:'endo_dm',    t:'jinzo_dn',    lb:'DM→腎症',        c:'#CE93D8'},
-  {f:'endo_dm',    t:'neur_stroke', lb:'DM→脳梗塞',       c:'#BA68C8'},
-  {f:'endo_dm',    t:'circ_ami',   lb:'DM→AMI',          c:'#AB47BC'},
+  {f:'endo_dm',    t:'jinzo_dn',    lb:'DM→腎症',        c:'#CE93D8', explain:'持続的高血糖→糸球体内高血圧→基底膜肥厚・Kimmelstiel-Wilson結節形成。マイクロアルブミン尿→顕性蛋白尿→末期腎不全へ進行。日本の透析導入原因第1位。ARB+SGLT2阻害薬で腎保護・進行抑制。'},
+  {f:'endo_dm',    t:'neur_stroke', lb:'DM→脳梗塞',       c:'#BA68C8', explain:'高血糖→酸化ストレス・炎症→大血管症（アテローム硬化）によるアテローム血栓性梗塞、かつ小血管症→ラクナ梗塞。脳梗塞の独立した危険因子。血糖・血圧・脂質の包括管理が必須。'},
+  {f:'endo_dm',    t:'circ_ami',   lb:'DM→AMI',          c:'#AB47BC', explain:'高血糖→酸化ストレス・炎症→冠動脈アテローム硬化促進。DM患者はAMIリスク2〜4倍。自律神経障害による痛覚低下で「無痛性心筋梗塞」を見逃しやすい点に注意。'},
   // Renin-angiotensin/HTN (red)
-  {f:'endo_aldo',  t:'circ_htn',   lb:'原アルド→高血圧',  c:'#FF8A80'},
-  {f:'endo_cush',  t:'circ_htn',   lb:'クッシング→高血圧', c:'#FF8A80'},
-  {f:'circ_htn',   t:'neur_ich',   lb:'高血圧→脳出血',    c:'#EF5350'},
-  {f:'circ_htn',   t:'jinzo_ckd',  lb:'高血圧→CKD',       c:'#EF5350'},
+  {f:'endo_aldo',  t:'circ_htn',   lb:'原アルド→高血圧',  c:'#FF8A80', explain:'副腎腫瘍/過形成→アルドステロン過剰→Na貯留・K喪失→血圧上昇。二次性高血圧の最多原因（10〜20%）。ARR>200で疑い、副腎静脈サンプリングで側性を確定して手術/MRAを選択。'},
+  {f:'endo_cush',  t:'circ_htn',   lb:'クッシング→高血圧', c:'#FF8A80', explain:'コルチゾール過剰→ミネラルコルチコイド様作用・RAA系亢進・交感神経活性化→高血圧。満月様顔・皮膚線条・骨粗鬆症を伴う。原因除去（下垂体/副腎手術）が根本治療。'},
+  {f:'circ_htn',   t:'neur_ich',   lb:'高血圧→脳出血',    c:'#EF5350', explain:'慢性高血圧→細動脈の脂質硝子変性→小動脈瘤（Charcot-Bouchard動脈瘤）形成→破裂。被殻（最多）・視床・橋・小脳に好発。収縮期血圧<140 mmHg管理が一次予防の要。'},
+  {f:'circ_htn',   t:'jinzo_ckd',  lb:'高血圧→CKD',       c:'#EF5350', explain:'高血圧→腎細動脈硬化→糸球体硬化→腎機能低下（高血圧腎硬化症）。逆にCKD→体液貯留・RAA系亢進→高血圧悪化（心腎連関）。ARB/ACE-I+SGLT2阻害薬で双方を保護。'},
   // Cardiac (orange)
-  {f:'circ_af',    t:'neur_stroke', lb:'AF→脳塞栓',        c:'#FF7043'},
-  {f:'circ_ie',    t:'neur_stroke', lb:'IE→脳塞栓',        c:'#FF8F00'},
-  {f:'circ_hf',    t:'jinzo_ckd',  lb:'心腎症候群',        c:'#FFA726'},
+  {f:'circ_af',    t:'neur_stroke', lb:'AF→脳塞栓',        c:'#FF7043', explain:'心房細動→左心耳内血栓形成→塞栓性脳梗塞（心原性脳塞栓）。CHADS₂スコア≥2でDOAC必須。広範梗塞になりやすく重篤。発症6時間以内の機械的血栓回収術（MCA閉塞等）が有効。'},
+  {f:'circ_ie',    t:'neur_stroke', lb:'IE→脳塞栓',        c:'#FF8F00', explain:'感染性心内膜炎の疣贅→剥離→脳塞栓が最多の全身塞栓合併症。抗凝固は推奨されない（出血性梗塞リスク）。疣贅>10 mm・塞栓反復は外科的手術適応。'},
+  {f:'circ_hf',    t:'jinzo_ckd',  lb:'心腎症候群',        c:'#FFA726', explain:'心不全→心拍出量低下・腎静脈うっ血→腎血流減少→AKI/CKD進行（I型・II型心腎症候群）。逆にCKD→体液過剰・心負荷増大。SGLT2阻害薬が心腎両保護効果を示す。'},
   // Thrombus (amber)
-  {f:'circ_dvt',   t:'resp_pte',   lb:'DVT→肺塞栓',       c:'#FFD54F'},
-  {f:'jinzo_ns',   t:'circ_dvt',   lb:'ネフローゼ→DVT',    c:'#90CAF9'},
+  {f:'circ_dvt',   t:'resp_pte',   lb:'DVT→肺塞栓',       c:'#FFD54F', explain:'下肢深部静脈血栓が剥離→右心→肺動脈閉塞→右室後負荷急増。突然の呼吸困難・胸痛・頻脈・SpO₂低下。血行動態不安定の大量PTEでは血栓溶解療法（tPA）が適応。'},
+  {f:'jinzo_ns',   t:'circ_dvt',   lb:'ネフローゼ→DVT',    c:'#90CAF9', explain:'低アルブミン→肝でFb・凝固因子代償産生増加＋抗トロンビンIII・プロテインC/S尿中喪失→過凝固状態。腎静脈血栓を含むDVT・PTEリスクが著明に上昇する。'},
   // Respiratory (cyan)
-  {f:'resp_copd',  t:'circ_pah',   lb:'COPD→肺高血圧',    c:'#4DD0E1'},
-  {f:'resp_lc',    t:'endo_adrenal',lb:'肺癌→副腎転移',   c:'#80DEEA'},
-  {f:'resp_sarc',  t:'endo_hca',   lb:'サルコイド→高Ca',   c:'#80CBC4'},
-  {f:'resp_pneu',  t:'hema_dic',   lb:'敗血症→DIC',        c:'#A5D6A7'},
+  {f:'resp_copd',  t:'circ_pah',   lb:'COPD→肺高血圧',    c:'#4DD0E1', explain:'慢性低酸素血症→肺血管収縮・血管壁リモデリング→肺動脈圧上昇→右室肥大・右心不全（肺性心）。mPAP≥25 mmHgで確定。在宅酸素療法が肺高血圧進行を抑制する。'},
+  {f:'resp_lc',    t:'endo_adrenal',lb:'肺癌→副腎転移',   c:'#80DEEA', explain:'肺癌は副腎転移が最多（剖検の40〜70%）。両側副腎の広範破壊→副腎不全（倦怠感・低血圧・低Na・高K・低血糖）。ACTH・コルチゾール評価と補充が必要。'},
+  {f:'resp_sarc',  t:'endo_hca',   lb:'サルコイド→高Ca',   c:'#80CBC4', explain:'肉芽腫内活性化マクロファージが1α-水酸化酵素を発現→活性型VitD（1,25(OH)₂D）産生過剰→腸管Ca吸収↑→高Ca血症。ステロイドで活性型VitD産生を抑制し改善。'},
+  {f:'resp_pneu',  t:'hema_dic',   lb:'敗血症→DIC',        c:'#A5D6A7', explain:'重症肺炎→敗血症→内毒素・サイトカイン放出→血管内皮障害・組織因子大量発現→凝固連鎖亢進→DIC。AT補充・rTM（トロンボモジュリン）で凝固制御。APLでは逆にDICが先行する。'},
   // Liver-GI (amber/brown)
-  {f:'hbp_cirr',   t:'gi_bleed',   lb:'肝硬変→静脈瘤出血', c:'#FFCC80'},
-  {f:'gi_uc',      t:'hbp_psc',    lb:'UC→PSC',            c:'#C8E6C9'},
-  {f:'gi_crc',     t:'hbp_hcc',    lb:'大腸癌→肝転移',     c:'#A5D6A7'},
+  {f:'hbp_cirr',   t:'gi_bleed',   lb:'肝硬変→静脈瘤出血', c:'#FFCC80', explain:'門脈圧亢進→食道・胃静脈瘤形成→破裂出血（大量吐血/タール便）。急性期は内視鏡的結紮術（EVL）/硬化療法。二次予防はナドロール＋EVL。出血死亡率20〜30%。'},
+  {f:'gi_uc',      t:'hbp_psc',    lb:'UC→PSC',            c:'#C8E6C9', explain:'潰瘍性大腸炎患者の5〜10%に原発性硬化性胆管炎（PSC）合併。胆管周囲の線維性炎症→多発狭窄・数珠状変化。胆管癌リスク年1〜1.5%。根治は肝移植のみ。'},
+  {f:'gi_crc',     t:'hbp_hcc',    lb:'大腸癌→肝転移',     c:'#A5D6A7', explain:'大腸癌は門脈経由で肝転移（同時性20〜30%）。切除可能な孤立性肝転移では原発巣切除＋肝切除で根治を狙う。FOLFOX/FOLFIRI+Bevacizumabで化学療法。'},
   // Renal-blood (blue)
-  {f:'jinzo_ckd',  t:'hema_ife',   lb:'腎性貧血',          c:'#90CAF9'},
-  {f:'hema_mm',    t:'jinzo_aki',   lb:'MM→cast腎症',       c:'#EF9A9A'},
-  {f:'hema_dic',   t:'resp_ards',  lb:'DIC→ARDS',          c:'#FFCDD2'},
+  {f:'jinzo_ckd',  t:'hema_ife',   lb:'腎性貧血',          c:'#90CAF9', explain:'CKD→エリスロポエチン（EPO）産生低下→赤血球造血抑制→正球性正色素性貧血。eGFR<30で顕著。ESA（ダルベポエチン等）またはHIF-PH阻害薬（ロキサデュスタット）で治療。'},
+  {f:'hema_mm',    t:'jinzo_aki',   lb:'MM→cast腎症',       c:'#EF9A9A', explain:'骨髄腫軽鎖（Bence Jones蛋白）→尿細管でTamm-Horsfall蛋白と結合→管型形成→尿細管閉塞・壊死→AKI（骨髄腫腎）。大量補液+VRd化学療法が基本。'},
+  {f:'hema_dic',   t:'resp_ards',  lb:'DIC→ARDS',          c:'#FFCDD2', explain:'DIC→肺微小血管内血栓→肺内皮障害・透過性亢進→両側浸潤影・P/F<300→ARDS。敗血症性DICに合併しやすく多臓器不全へ進展。死亡率30〜45%。'},
   // Immune (violet)
-  {f:'jinzo_lupus',t:'hema_itp',   lb:'SLE→ITP',           c:'#CE93D8'},
+  {f:'jinzo_lupus',t:'hema_itp',   lb:'SLE→ITP',           c:'#CE93D8', explain:'SLE関連ITP：抗血小板抗体（IgG型）産生→RESによる血小板破壊。SLEの活動性と相関。ステロイド→IVIG→リツキシマブで治療。TTPとの鑑別（ADAMTS13測定）も重要。'},
   // Pancreas
-  {f:'gi_ap',      t:'resp_ards',  lb:'膵炎→ARDS',         c:'#DCEDC8'},
-  {f:'hbp_hcv',    t:'jinzo_ns',   lb:'HCV→GN',            c:'#FFE0B2'},
-  {f:'endo_hca',   t:'jinzo_aki',  lb:'高Ca→AKI',          c:'#F3E5F5'},
+  {f:'gi_ap',      t:'resp_ards',  lb:'膵炎→ARDS',         c:'#DCEDC8', explain:'重症急性膵炎→膵消化酵素・炎症性サイトカイン（IL-6・TNF-α）大量放出→SIRS→肺微小血管透過性亢進→ARDS。膵炎合併ARDSの死亡率は30〜50%に達する。'},
+  {f:'hbp_hcv',    t:'jinzo_ns',   lb:'HCV→GN',            c:'#FFE0B2', explain:'HCV→クリオグロブリン産生（II型混合型）→免疫複合体腎沈着→MPGN（膜性増殖性GN）型腎炎。蛋白尿・血尿・腎機能低下。DAA（SOF/VEL等）によるHCV排除が根本治療。'},
+  {f:'endo_hca',   t:'jinzo_aki',  lb:'高Ca→AKI',          c:'#F3E5F5', explain:'高Ca血症→腎血管収縮・尿濃縮力低下（多尿・脱水）→腎前性AKI。さらに腎石灰化（ネフロカルシノーシス）→腎性AKI。大量補液＋ビスホスホネート（ゾレドロン酸）が治療。'},
   // GBS
-  {f:'neur_gbs',   t:'resp_ards',  lb:'GBS→呼吸不全',      c:'#BBDEFB'},
+  {f:'neur_gbs',   t:'resp_ards',  lb:'GBS→呼吸不全',      c:'#BBDEFB', explain:'ギラン・バレー症候群→上行性脱髄→呼吸筋（横隔膜・肋間筋）麻痺→呼吸不全。努力肺活量<20 mL/kgで人工呼吸器適応。ICU管理＋IVIG/血漿交換が治療の柱。'},
 ];
 
 // Same-subject relations (bow outward)
@@ -245,13 +246,24 @@ function mkDefs(){
     sg.append(ns('stop',{offset:'0%','stop-color':ltn(s.color,0.55)}),ns('stop',{offset:'100%','stop-color':s.color}));
     defs.append(sg);
   });
-  defs.append(rg,glow,g2);svgEl.prepend(defs);
+  const nebF=ns('filter',{id:'nebBlur',x:'-80%',y:'-80%',width:'260%',height:'260%'});
+  nebF.append(ns('feGaussianBlur',{stdDeviation:'55'}));
+  defs.append(rg,glow,g2,nebF);svgEl.prepend(defs);
 }
 mkDefs();
 
 // Background
 function drawBg(){
   const rn=n=>{let x=Math.sin(n*9301+49297)*233280;return x-Math.floor(x);};
+  // Nebula blobs per subject
+  const nb=ns('g',{});
+  SUBJECTS.forEach((s,i)=>{
+    const a=deg(s.angle);
+    const bx=CX+(R1+R2)*0.48*Math.cos(a),by=CY+(R1+R2)*0.48*Math.sin(a);
+    nb.append(ns('circle',{cx:bx.toFixed(1),cy:by.toFixed(1),r:'230',fill:s.color,opacity:'0.09',filter:'url(#nebBlur)'}));
+  });
+  nb.append(ns('circle',{cx:CX,cy:CY,r:'260',fill:'#F5A623',opacity:'0.04',filter:'url(#nebBlur)'}));
+  lBg.append(nb);
   const sg=ns('g',{});
   for(let i=0;i<110;i++){
     const x=rn(i)*W,y=rn(i+100)*H,r=rn(i+200)*1.4+0.3,o=rn(i+300)*0.4+0.07;
@@ -280,7 +292,7 @@ drawRoot();
 
 // Subject nodes
 const activeSubjects=new Set();
-const disEdges={},disNodes={};
+const disEdges={},disNodes={},DIS_NODE={};
 function anchor(x){return x<CX-20?'end':x>CX+20?'start':'middle';}
 function splitLbl(l){if(l.length<=4)return[l];if(l.includes('・')){const p=l.split('・');return[p.slice(0,Math.ceil(p.length/2)).join('・'),p.slice(Math.ceil(p.length/2)).join('・')];}const m=Math.ceil(l.length/2);return[l.slice(0,m),l.slice(m)];}
 
@@ -317,7 +329,8 @@ function drawSubjects(){
       edge.style.transition='opacity 0.3s';lEdDis.append(edge);disEdges[si].push(edge);
       const dg=ns('g',{transform:`translate(${dp.x},${dp.y})`,style:'cursor:pointer',opacity:'0'});
       dg.style.transition='opacity 0.3s';
-      const dc=ns('circle',{r:String(NR),fill:s.color,stroke:'rgba(255,255,255,0.3)','stroke-width':'1'});
+      DIS_NODE[dis.id]=dg;
+      const dc=ns('circle',{r:String(NR),fill:'url(#grad_'+s.id+')',stroke:'rgba(255,255,255,0.3)','stroke-width':'1'});
       dc.style.transition='r 0.15s';
       function abbr(lbl){const m=lbl.match(/^([A-Z][A-Za-z0-9-]+)/);if(m&&m[1].length>=2&&m[1].length<=6)return m[1];const s=lbl.replace(/（.+?）/g,'');const pts=s.split(/[・\/]/);return pts[pts.length-1].slice(0,4);}
       const dt=ns('text',{x:'0',y:'4','text-anchor':'middle','font-size':'9','font-weight':'900',fill:'#fff','font-family':'Noto Sans JP,sans-serif','pointer-events':'none'});dt.textContent=abbr(dis.label);
@@ -343,12 +356,12 @@ drawSubjects();
 
 // Relations
 function drawRelations(){
-  const defs=svgEl.querySelector('defs');
   CROSS.forEach(rel=>{
     const fp=DIS_POS[rel.f],tp=DIS_POS[rel.t];if(!fp||!tp)return;
     const mx=(fp.x+tp.x)/2,my=(fp.y+tp.y)/2;
     const cpx=mx+(CX-mx)*0.38,cpy=my+(CY-my)*0.38;
-    const path=ns('path',{d:`M ${fp.x} ${fp.y} Q ${cpx} ${cpy} ${tp.x} ${tp.y}`,fill:'none',stroke:rel.c,'stroke-width':'1.8','stroke-dasharray':'6 4',opacity:'0'});
+    const pd=`M ${fp.x} ${fp.y} Q ${cpx} ${cpy} ${tp.x} ${tp.y}`;
+    const path=ns('path',{d:pd,fill:'none',stroke:rel.c,'stroke-width':'1.8','stroke-dasharray':'6 4','stroke-dashoffset':'0',opacity:'0'});
     path.style.transition='opacity 0.4s';lRel.append(path);rel._p=path;
     const lx=0.25*fp.x+0.5*cpx+0.25*tp.x,ly=0.25*fp.y+0.5*cpy+0.25*tp.y-8;
     if(rel.lb){
@@ -359,6 +372,20 @@ function drawRelations(){
       lt.style.transition='opacity 0.4s';lt.textContent=rel.lb;
       lRel.append(bg,lt);rel._bg=bg;rel._lt=lt;
     }
+    // Wide invisible hit area for click/hover
+    const hit=ns('path',{d:pd,fill:'none',stroke:'rgba(255,255,255,0)','stroke-width':'20',cursor:'pointer','pointer-events':'none'});
+    hit.addEventListener('click',e=>{e.stopPropagation();if(rel._p.style.opacity!=='0')showRelPanel(rel);});
+    hit.addEventListener('touchend',e=>{e.stopPropagation();if(rel._p.style.opacity!=='0')showRelPanel(rel);},{passive:true});
+    hit.addEventListener('mouseenter',()=>{
+      if(rel._p.style.opacity==='0')return;
+      rel._p.setAttribute('stroke-width','3.5');
+      [rel.f,rel.t].forEach(id=>{const n=DIS_NODE[id];if(n&&n.style.opacity==='1'){const c=n.querySelector('circle');if(c)c.setAttribute('r','31');}});
+    });
+    hit.addEventListener('mouseleave',()=>{
+      rel._p.setAttribute('stroke-width','1.8');
+      [rel.f,rel.t].forEach(id=>{const n=DIS_NODE[id];if(n){const c=n.querySelector('circle');if(c)c.setAttribute('r','27');}});
+    });
+    lRel.append(hit);rel._hit=hit;
   });
   SAME.forEach(rel=>{
     const fp=DIS_POS[rel.f],tp=DIS_POS[rel.t];if(!fp||!tp)return;
@@ -377,6 +404,7 @@ function updateRelations(){
     if(rel._p){rel._p.style.opacity=v?'0.75':'0';rel._p.style.animation=v?'flow 1.1s linear infinite':'';}
     if(rel._bg)rel._bg.style.opacity=v?'0.95':'0';
     if(rel._lt)rel._lt.style.opacity=v?'1':'0';
+    if(rel._hit)rel._hit.setAttribute('pointer-events',v?'all':'none');
   });
   SAME.forEach(rel=>{
     const v=rel._p&&activeSubjects.has(DIS_SUBJ_IDX[rel.f]);
@@ -421,7 +449,8 @@ function buildLegend(){
   r1.innerHTML=`<div class="legend-dash" style="border-color:#FBBF24"></div><span style="font-size:9px">科目横断リンク</span>`;
   const r2=document.createElement('div');r2.className='legend-item';r2.style.cursor='default';
   r2.innerHTML=`<div class="legend-dash" style="border-color:rgba(255,255,255,0.4)"></div><span style="font-size:9px">同科目内リンク</span>`;
-  leg.append(r1,r2);
+  const hint=document.createElement('div');hint.className='rel-hint';hint.textContent='横断リンクをタップ→解説';
+  leg.append(r1,r2,hint);
 }
 function updateLegend(){
   document.querySelectorAll('#legend .legend-item[data-si]').forEach(el=>{
@@ -434,13 +463,30 @@ buildLegend();
 // Panel
 function showPanel(si,di){
   const s=SUBJECTS[si],dis=s.diseases[di];
-  document.getElementById('panelSubj').textContent=s.icon+' '+s.label;
-  document.getElementById('panelSubj').style.background=s.color;
-  document.getElementById('panelSubj').style.color='#fff';
+  const pSubj=document.getElementById('panelSubj');
+  pSubj.textContent=s.icon+' '+s.label;
+  pSubj.style.background=s.color;
+  pSubj.style.color='#fff';
   document.getElementById('panelTitle').textContent=dis.label;
   const ul=document.getElementById('panelKeys');ul.innerHTML='';
   dis.keys.forEach(k=>{const li=document.createElement('li');li.textContent=k;ul.append(li);});
-  document.getElementById('panelLink').href=s.href;
+  const lnk=document.getElementById('panelLink');
+  lnk.style.display='';lnk.textContent='📚 科目マップへ →';lnk.href=s.href;
+  document.getElementById('panel').classList.add('show');
+}
+function showRelPanel(rel){
+  const fsi=DIS_SUBJ_IDX[rel.f],tsi=DIS_SUBJ_IDX[rel.t];
+  const fs=SUBJECTS[fsi],ts=SUBJECTS[tsi];
+  const fd=fs.diseases.find(d=>d.id===rel.f),td=ts.diseases.find(d=>d.id===rel.t);
+  const pSubj=document.getElementById('panelSubj');
+  pSubj.textContent='↔ 横断リンク';
+  pSubj.style.background='linear-gradient(90deg,'+fs.color+' 0%,'+ts.color+' 100%)';
+  pSubj.style.color='#fff';
+  document.getElementById('panelTitle').textContent=fd.label+' → '+td.label;
+  const ul=document.getElementById('panelKeys');ul.innerHTML='';
+  const li=document.createElement('li');li.textContent=rel.explain;ul.append(li);
+  const lnk=document.getElementById('panelLink');
+  lnk.style.display='';lnk.textContent='🗺️ '+fs.label+'マップへ →';lnk.href=fs.href;
   document.getElementById('panel').classList.add('show');
 }
 function hidePanel(){document.getElementById('panel').classList.remove('show');}
