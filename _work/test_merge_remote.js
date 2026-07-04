@@ -1,0 +1,388 @@
+/**
+ * Tests for progress.js `_mergeRemote(remote)`.
+ *
+ * These tests load the REAL progress.js source (no copy/paste of the logic)
+ * inside a Node `vm` sandbox with minimal stubs for the browser globals it
+ * touches at load time (window/document/location/history/atob/CustomEvent/
+ * localStorage). The only source transform is exposing the otherwise-private
+ * `_mergeRemote` via `window.__mergeRemote` so tests can call it directly.
+ *
+ * Run:  node _work/test_merge_remote.js
+ * No external deps — Node's built-in `assert`, `vm`, `fs` only.
+ */
+'use strict';
+
+const fs = require('fs');
+const vm = require('vm');
+const path = require('path');
+const assert = require('assert');
+
+const SRC_PATH = path.join(__dirname, '..', 'progress.js');
+const RAW = fs.readFileSync(SRC_PATH, 'utf8');
+
+// Expose the private _mergeRemote without altering its behavior.
+const PATCHED = RAW.replace(
+  'window.MECSync = {',
+  'window.__mergeRemote = _mergeRemote;\n  window.MECSync = {'
+);
+assert(PATCHED !== RAW, 'failed to inject __mergeRemote export (anchor not found)');
+
+const DAY_MS = 24 * 3600 * 1000;
+
+// Build a fresh sandbox + storage for each test, load the real source, and
+// return the real _mergeRemote plus the backing store.
+function makeEnv(initialStore) {
+  const store = Object.assign(Object.create(null), initialStore || {});
+
+  const localStorage = {
+    getItem(k) { return Object.prototype.hasOwnProperty.call(store, k) ? store[k] : null; },
+    setItem(k, v) { store[k] = String(v); },
+    removeItem(k) { delete store[k]; },
+  };
+
+  const stubEl = () => ({
+    style: {}, dataset: {},
+    classList: { add() {}, remove() {}, toggle() {} },
+    textContent: '',
+    addEventListener() {}, appendChild() {}, prepend() {}, after() {}, remove() {},
+    querySelector() { return null; }, querySelectorAll() { return []; },
+    closest() { return null; },
+    getBoundingClientRect() { return { height: 0, top: 0 }; },
+  });
+
+  const document = {
+    addEventListener() {},
+    createElement: stubEl,
+    head: { appendChild() {} },
+    body: { appendChild() {} },
+    querySelector() { return null; },
+    querySelectorAll() { return []; },
+    dispatchEvent() { return true; },
+    getElementById() { return null; },
+  };
+
+  const windowObj = { addEventListener() {} };
+
+  const sandbox = {
+    window: windowObj,
+    document,
+    localStorage,
+    location: { hash: '', pathname: '/', search: '' },
+    history: { replaceState() {} },
+    atob: (s) => Buffer.from(s, 'base64').toString('binary'),
+    CustomEvent: class CustomEvent { constructor(type, opts) { this.type = type; this.detail = opts && opts.detail; } },
+    setTimeout, clearTimeout,
+    console,
+  };
+  sandbox.self = sandbox;
+  sandbox.globalThis = sandbox;
+
+  vm.createContext(sandbox);
+  vm.runInContext(PATCHED, sandbox, { filename: 'progress.js' });
+
+  const mergeRemote = windowObj.__mergeRemote;
+  assert(typeof mergeRemote === 'function', '__mergeRemote not exposed after load');
+
+  return {
+    mergeRemote,
+    store,
+    // helpers to read parsed values back out of the (string) store
+    getObj(k) { return JSON.parse(store[k] || '{}'); },
+    getArr(k) { return JSON.parse(store[k] || '[]'); },
+    getRaw(k) { return Object.prototype.hasOwnProperty.call(store, k) ? store[k] : null; },
+  };
+}
+
+// key constants (mirror progress.js)
+const KD = 'done_v2', KF = 'flag_v2', KA = 'activity_v1', KR = 'myrate_v1',
+      KT = 'studytime_v1', KE = 'mec_exam_resumes_v1', KDT = 'done_tombstones_v1',
+      K_SRS = 'mec_srs_v1', KRT = 'mec_exam_resume_tombstones_v1',
+      KER = 'error_reports_v1', K_ERR_CLEARED = 'mec_err_cleared_at',
+      KCH = 'mec_ch_exam_v1';
+
+// seed helper: turn an object map of {key: value} into a store of JSON strings
+function seed(map) {
+  const s = {};
+  for (const k of Object.keys(map)) s[k] = JSON.stringify(map[k]);
+  return s;
+}
+
+let passed = 0;
+const failures = [];
+function test(name, fn) {
+  try { fn(); passed++; console.log('  ok  - ' + name); }
+  catch (e) { failures.push({ name, e }); console.log('FAIL  - ' + name + '\n        ' + (e && e.message)); }
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+console.log('done_v2 (周回数)');
+
+test('union: distinct UIDs from local and remote both survive', () => {
+  const env = makeEnv(seed({ [KD]: { a: 1 } }));
+  env.mergeRemote({ [KD]: { b: 2 } });
+  assert.deepStrictEqual(env.getObj(KD), { a: 1, b: 2 });
+});
+
+test('max-merge: same UID keeps the larger lap count (remote larger)', () => {
+  const env = makeEnv(seed({ [KD]: { a: 1 } }));
+  env.mergeRemote({ [KD]: { a: 3 } });
+  assert.strictEqual(env.getObj(KD).a, 3);
+});
+
+test('max-merge: same UID keeps the larger lap count (local larger)', () => {
+  const env = makeEnv(seed({ [KD]: { a: 5 } }));
+  env.mergeRemote({ [KD]: { a: 2 } });
+  assert.strictEqual(env.getObj(KD).a, 5);
+});
+
+test('empty remote leaves local done untouched', () => {
+  const env = makeEnv(seed({ [KD]: { a: 4, b: 1 } }));
+  env.mergeRemote({});
+  assert.deepStrictEqual(env.getObj(KD), { a: 4, b: 1 });
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+console.log('done_tombstones_v1 (削除の伝播)');
+
+test('local tombstone deletes a UID that still exists in remote done', () => {
+  const now = Date.now();
+  const env = makeEnv(seed({ [KD]: {}, [KDT]: { x: now } }));
+  env.mergeRemote({ [KD]: { x: 2 } });
+  assert.ok(!('x' in env.getObj(KD)), 'x should be deleted from done');
+  assert.ok('x' in env.getObj(KDT), 'fresh tombstone should be persisted');
+});
+
+test('remote tombstone deletes a UID that exists in local done', () => {
+  const now = Date.now();
+  const env = makeEnv(seed({ [KD]: { x: 1 } }));
+  env.mergeRemote({ [KD]: { x: 3 }, [KDT]: { x: now } });
+  assert.ok(!('x' in env.getObj(KD)), 'x should be deleted from done');
+});
+
+test('tombstone timestamps merge to the max of local/remote', () => {
+  const older = Date.now() - 5 * DAY_MS;
+  const newer = Date.now() - 1 * DAY_MS;
+  const env = makeEnv(seed({ [KDT]: { x: older } }));
+  env.mergeRemote({ [KDT]: { x: newer } });
+  assert.strictEqual(env.getObj(KDT).x, newer);
+});
+
+test('non-tombstoned UIDs are unaffected by a tombstone on another UID', () => {
+  const now = Date.now();
+  const env = makeEnv(seed({ [KD]: { keep: 2 }, [KDT]: { drop: now } }));
+  env.mergeRemote({ [KD]: { drop: 5, keep: 1 } });
+  const done = env.getObj(KD);
+  assert.strictEqual(done.keep, 2);
+  assert.ok(!('drop' in done));
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+console.log('done_tombstones_v1 期限切れ (60日)');
+
+test('expired tombstone (>60d) is dropped from persisted tombstones', () => {
+  const expired = Date.now() - 61 * DAY_MS;
+  const env = makeEnv(seed({ [KD]: {}, [KDT]: { x: expired } }));
+  env.mergeRemote({ [KD]: { x: 2 } });
+  assert.ok(!('x' in env.getObj(KDT)), 'expired tombstone must not persist');
+});
+
+test('after expiry a subsequent merge lets the remote value come back', () => {
+  const expired = Date.now() - 61 * DAY_MS;
+  // Persisted local state carries KDT forward across merges via `store`.
+  // NOTE: _mergeRemote mutates its `remote` arg (deletes tombstoned keys from
+  // remote[KD]); production passes a fresh JSON.parse each sync, so we clone.
+  const env = makeEnv(seed({ [KD]: {}, [KDT]: { x: expired } }));
+  const freshRemote = () => ({ [KD]: { x: 2 } });
+  env.mergeRemote(freshRemote());    // merge #1: tomb applied then expired/dropped
+  env.mergeRemote(freshRemote());    // merge #2: no tombstone remains
+  assert.strictEqual(env.getObj(KD).x, 2, 'remote value should be restored on 2nd merge');
+});
+
+test('QUIRK: within the same merge an expired tombstone still deletes the value', () => {
+  // Documents actual behavior: deletion loop runs BEFORE the expiry filter,
+  // so an already-expired tombstone still removes the value on THIS pass.
+  const expired = Date.now() - 61 * DAY_MS;
+  const env = makeEnv(seed({ [KD]: {}, [KDT]: { x: expired } }));
+  env.mergeRemote({ [KD]: { x: 2 } });
+  assert.ok(!('x' in env.getObj(KD)), 'value still deleted on the expiring pass');
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+console.log('flag_v2 (union)');
+
+test('flags union across local and remote', () => {
+  const env = makeEnv(seed({ [KF]: { a: 1 } }));
+  env.mergeRemote({ [KF]: { b: 1 } });
+  assert.deepStrictEqual(env.getObj(KF), { a: 1, b: 1 });
+});
+
+test('flags: local value wins on key conflict (spread {...remote,...local})', () => {
+  const env = makeEnv(seed({ [KF]: { a: 1 } }));
+  env.mergeRemote({ [KF]: { a: 1, c: 1 } });
+  assert.deepStrictEqual(env.getObj(KF), { a: 1, c: 1 });
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+console.log('activity_v1 / studytime_v1 (日ごと最大値)');
+
+test('activity: per-day max across local and remote', () => {
+  const env = makeEnv(seed({ [KA]: { '2026-01-01': 5 } }));
+  env.mergeRemote({ [KA]: { '2026-01-01': 3, '2026-01-02': 7 } });
+  assert.deepStrictEqual(env.getObj(KA), { '2026-01-01': 5, '2026-01-02': 7 });
+});
+
+test('studytime: per-day max across local and remote', () => {
+  const env = makeEnv(seed({ [KT]: { '2026-01-01': 10, '2026-01-03': 2 } }));
+  env.mergeRemote({ [KT]: { '2026-01-01': 4, '2026-01-02': 8 } });
+  assert.deepStrictEqual(env.getObj(KT), { '2026-01-01': 10, '2026-01-02': 8, '2026-01-03': 2 });
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+console.log('myrate_v1 (total が多い方)');
+
+test('myrate: union of distinct UIDs', () => {
+  const env = makeEnv(seed({ [KR]: { a: { total: 3, correct: 2 } } }));
+  env.mergeRemote({ [KR]: { b: { total: 1, correct: 0 } } });
+  const mr = env.getObj(KR);
+  assert.deepStrictEqual(mr.a, { total: 3, correct: 2 });
+  assert.deepStrictEqual(mr.b, { total: 1, correct: 0 });
+});
+
+test('myrate: entry with larger total wins (local larger)', () => {
+  const env = makeEnv(seed({ [KR]: { a: { total: 9, correct: 4 } } }));
+  env.mergeRemote({ [KR]: { a: { total: 2, correct: 2 } } });
+  assert.strictEqual(env.getObj(KR).a.total, 9);
+});
+
+test('myrate: entry with larger total wins (remote larger)', () => {
+  const env = makeEnv(seed({ [KR]: { a: { total: 1, correct: 1 } } }));
+  env.mergeRemote({ [KR]: { a: { total: 8, correct: 3 } } });
+  assert.strictEqual(env.getObj(KR).a.total, 8);
+});
+
+test('myrate: on equal total, local wins (>= comparison)', () => {
+  const env = makeEnv(seed({ [KR]: { a: { total: 4, correct: 4, tag: 'local' } } }));
+  env.mergeRemote({ [KR]: { a: { total: 4, correct: 0, tag: 'remote' } } });
+  assert.strictEqual(env.getObj(KR).a.tag, 'local');
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+console.log('mec_srs_v1 (lastSeen 新しい方)');
+
+test('srs: union of distinct UIDs', () => {
+  const env = makeEnv(seed({ [K_SRS]: { a: { lastSeen: '2026-01-01' } } }));
+  env.mergeRemote({ [K_SRS]: { b: { lastSeen: '2026-01-02' } } });
+  const ms = env.getObj(K_SRS);
+  assert.ok(ms.a && ms.b);
+});
+
+test('srs: newer lastSeen wins (local newer)', () => {
+  const env = makeEnv(seed({ [K_SRS]: { a: { lastSeen: '2026-03-01', ef: 2.5 } } }));
+  env.mergeRemote({ [K_SRS]: { a: { lastSeen: '2026-01-01', ef: 1.3 } } });
+  assert.strictEqual(env.getObj(K_SRS).a.ef, 2.5);
+});
+
+test('srs: newer lastSeen wins (remote newer)', () => {
+  const env = makeEnv(seed({ [K_SRS]: { a: { lastSeen: '2026-01-01', ef: 1.3 } } }));
+  env.mergeRemote({ [K_SRS]: { a: { lastSeen: '2026-03-01', ef: 2.5 } } });
+  assert.strictEqual(env.getObj(K_SRS).a.ef, 2.5);
+});
+
+test('srs: on equal lastSeen, local wins (>= comparison)', () => {
+  const env = makeEnv(seed({ [K_SRS]: { a: { lastSeen: '2026-02-02', tag: 'local' } } }));
+  env.mergeRemote({ [K_SRS]: { a: { lastSeen: '2026-02-02', tag: 'remote' } } });
+  assert.strictEqual(env.getObj(K_SRS).a.tag, 'local');
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+console.log('mec_ch_exam_v1 (章別試験履歴)');
+
+test('ch-exam: bestScore & sessions take max; newer lastDate supplies last* fields', () => {
+  const local = { neur: { lastDate: '2026-01-01', sessions: 2, bestScore: 70, lastScore: 70, lastCorrect: 7, lastTotal: 10 } };
+  const remote = { neur: { lastDate: '2026-02-01', sessions: 1, bestScore: 60, lastScore: 60, lastCorrect: 6, lastTotal: 10 } };
+  const env = makeEnv(seed({ [KCH]: local }));
+  env.mergeRemote({ [KCH]: remote });
+  const m = env.getObj(KCH).neur;
+  assert.strictEqual(m.bestScore, 70, 'bestScore max');
+  assert.strictEqual(m.sessions, 2, 'sessions max');
+  assert.strictEqual(m.lastDate, '2026-02-01', 'newer lastDate wins');
+  assert.strictEqual(m.lastScore, 60, 'last* fields come from newer-date side');
+});
+
+test('ch-exam: prefix present only in remote is added', () => {
+  const env = makeEnv(seed({ [KCH]: {} }));
+  env.mergeRemote({ [KCH]: { circ: { lastDate: '2026-01-01', sessions: 1, bestScore: 50 } } });
+  assert.ok(env.getObj(KCH).circ);
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+console.log('mec_exam_resumes_v1 (中断再開・最大5件)');
+
+test('resumes: same key keeps the newer savedAt', () => {
+  const env = makeEnv({ [KE]: JSON.stringify([{ key: 'k1', savedAt: 100 }]) });
+  env.mergeRemote({ [KE]: [{ key: 'k1', savedAt: 200 }] });
+  const arr = env.getArr(KE);
+  assert.strictEqual(arr.length, 1);
+  assert.strictEqual(arr[0].savedAt, 200);
+});
+
+test('resumes: distinct keys are merged and sorted newest-first', () => {
+  const env = makeEnv({ [KE]: JSON.stringify([{ key: 'a', savedAt: 100 }]) });
+  env.mergeRemote({ [KE]: [{ key: 'b', savedAt: 300 }] });
+  const arr = env.getArr(KE);
+  assert.deepStrictEqual(arr.map(e => e.key), ['b', 'a']);
+});
+
+test('resumes: capped at 5 entries', () => {
+  const local = [];
+  for (let i = 0; i < 4; i++) local.push({ key: 'L' + i, savedAt: 10 + i });
+  const remote = [];
+  for (let i = 0; i < 4; i++) remote.push({ key: 'R' + i, savedAt: 100 + i });
+  const env = makeEnv({ [KE]: JSON.stringify(local) });
+  env.mergeRemote({ [KE]: remote });
+  assert.strictEqual(env.getArr(KE).length, 5);
+});
+
+test('resumes: tombstoned savedAt from remote is skipped', () => {
+  const env = makeEnv({ [KE]: JSON.stringify([]), [KRT]: JSON.stringify([500]) });
+  env.mergeRemote({ [KE]: [{ key: 'x', savedAt: 500 }] });
+  assert.strictEqual(env.getArr(KE).length, 0, 'tombstoned resume must not be re-added');
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+console.log('error_reports_v1 (union + clear-all)');
+
+test('error reports: union by uid|type', () => {
+  const env = makeEnv({ [KER]: JSON.stringify([{ uid: 'q1', type: 'typo', reported_at: '2026-01-01' }]) });
+  env.mergeRemote({ [KER]: [{ uid: 'q2', type: 'typo', reported_at: '2026-01-02' }] });
+  assert.strictEqual(env.getArr(KER).length, 2);
+});
+
+test('error reports: duplicate uid|type not added twice', () => {
+  const env = makeEnv({ [KER]: JSON.stringify([{ uid: 'q1', type: 'typo', reported_at: '2026-01-01' }]) });
+  env.mergeRemote({ [KER]: [{ uid: 'q1', type: 'typo', reported_at: '2026-01-05' }] });
+  assert.strictEqual(env.getArr(KER).length, 1);
+});
+
+test('error reports: reports older than effective clearedAt are filtered out', () => {
+  const env = makeEnv({ [KER]: JSON.stringify([]), [K_ERR_CLEARED]: '2026-02-01T00:00:00.000Z' });
+  env.mergeRemote({
+    [KER]: [
+      { uid: 'old', type: 't', reported_at: '2026-01-01T00:00:00.000Z' },
+      { uid: 'new', type: 't', reported_at: '2026-03-01T00:00:00.000Z' },
+    ],
+  });
+  const arr = env.getArr(KER);
+  assert.deepStrictEqual(arr.map(r => r.uid), ['new']);
+});
+
+test('error reports: remote clearedAt newer than local is adopted', () => {
+  const env = makeEnv({ [KER]: JSON.stringify([]), [K_ERR_CLEARED]: '2026-01-01T00:00:00.000Z' });
+  env.mergeRemote({ _errClearedAt: '2026-05-01T00:00:00.000Z' });
+  assert.strictEqual(env.getRaw(K_ERR_CLEARED), '2026-05-01T00:00:00.000Z');
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+console.log('\n' + (failures.length ? failures.length + ' FAILED' : 'all passed') +
+            '  (' + passed + '/' + (passed + failures.length) + ')');
+if (failures.length) process.exit(1);

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MecFX デモ（fx_engine.js 動作確認用）</title>
+<style>
+  body{font-family:-apple-system,'Noto Sans JP',sans-serif;background:#f4f5f7;margin:0;padding:16px;}
+  h1{font-size:16px;}
+  .grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+  button{padding:10px 14px;border-radius:10px;border:1.5px solid #ccc;background:#fff;font-weight:700;cursor:pointer;font-size:13px;}
+  button:active{background:#eee;}
+  .fps{position:fixed;right:10px;top:10px;font-weight:900;font-size:18px;background:#fff;padding:4px 10px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:99999;}
+  .card{background:#fff;border-radius:12px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+</style>
+</head>
+<body>
+<div class="fps" id="fps">-- fps</div>
+<h1>MecFX デモ — ボタンを押して動作とfpsを確認</h1>
+<div class="card">
+  <div class="grid" id="btns"></div>
+</div>
+<div class="card">ダミー本文。パーティクルの背面にコンテンツがある状態を再現するためのテキストです。医師国家試験対策の学習ツール。連続正解でエフェクトが派手になります。</div>
+<script src="../fx_engine.js"></script>
+<script>
+const CX = () => innerWidth/2, CY = () => innerHeight*0.3;
+const classic6 = ['#EE88FF','#CC44FF','#FFD700','#FF5722','#4FC3F7','#FFFFFF','#FFE040','#81C784','#F06292'];
+const tests = {
+  'burst t2 (毎正解)': () => MecFX.burst(CX(), CY(), {count:26, colors:['#FFA040','#FFD700','#FFFFFF'], tier:2, speed:520, upBias:150}),
+  'burst t4': () => MecFX.burst(CX(), CY(), {count:340, colors:classic6, shapes:['circle','star','square'], tier:4}),
+  'burst t6': () => MecFX.burst(CX(), CY(), {count:900, colors:classic6, shapes:['circle','star','square'], tier:6}),
+  'confetti': () => MecFX.confetti({count:120, colors:classic6, big:true}),
+  'glyphRain(neon)': () => MecFX.glyphRain({count:50, colors:['#00E5FF','#FF2BD6','#7A5CFF','#39FF88'], bigGlyph:true, additive:true}),
+  'petals(ink)': () => MecFX.petals({count:44}),
+  'warp(space)': () => MecFX.warp({count:80, colors:['#7C4DFF','#448AFF','#40C4FF','#FFD54F','#FFFFFF']}),
+  'bubbles(luxury)': () => MecFX.bubbles({count:40}),
+  'fireworks t6': () => MecFX.fireworks({count:8, colors:classic6, tier:6}),
+  'lightning t6': () => MecFX.lightning(CX(), CY(), {bolts:14, color:'rgba(200,80,255,1)', tier:6}),
+  'rings t6': () => MecFX.rings(CX(), CY(), {count:6, color:'rgba(255,210,0,.85)', thickness:4, maxR:760, additive:true}),
+  'floaters': () => MecFX.floaters({glyphs:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉'], count:26}),
+  'glyphBurst': () => MecFX.glyphBurst(CX(), CY(), {glyphs:['⚡️','💠'], count:6, w:200}),
+  'blackhole→爆発': () => {
+    MecFX.dust({count:80, colors:['#FFFFFF','#FFD54F','#B388FF']});
+    MecFX.attractor(CX(), innerHeight/2, {ttl:.75, strength:130000});
+    setTimeout(() => {
+      MecFX.burst(CX(), innerHeight/2, {count:130, colors:classic6, shapes:['star','circle'], tier:6});
+      MecFX.rings(CX(), innerHeight/2, {count:2, color:'rgba(224,64,251,.85)', thickness:4, maxR:500, additive:true});
+    }, 780);
+  },
+  'glitchBars': () => MecFX.glitchBars({count:19, thick:true, long:true}),
+  'dust(gold)': () => MecFX.dust({count:90}),
+  '★t6フルコンボ再現': () => {
+    const cx = CX(), cy = CY();
+    MecFX.rings(cx, cy, {count:6, color:'rgba(210,80,255,.85)', thickness:4, maxR:760, additive:true});
+    MecFX.lightning(cx, cy, {bolts:14, color:'rgba(200,80,255,1)', tier:6});
+    MecFX.burst(cx, cy, {count:900, colors:classic6, shapes:['circle','star','square'], tier:6});
+    setTimeout(()=>MecFX.burst(cx, cy, {count:220, colors:classic6, tier:6}), 160);
+    setTimeout(()=>MecFX.burst(cx, cy, {count:340, colors:classic6, tier:6}), 200);
+    setTimeout(()=>MecFX.burst(cx, cy, {count:250, colors:classic6, tier:6}), 400);
+    setTimeout(()=>MecFX.burst(cx, cy, {count:170, colors:classic6, tier:6}), 600);
+    MecFX.fireworks({count:8, colors:classic6, tier:6});
+    for (let w = 0; w < 10; w++) setTimeout(()=>MecFX.confetti({count:120, colors:classic6, big:true}), 55+w*120);
+    setTimeout(()=>MecFX.floaters({glyphs:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉','🎊','🥳','🌈','💎','👑','🎆'], count:26}), 80);
+    MecFX.glitchBars({count:14, thick:true});
+  },
+  'clear': () => MecFX.clear()
+};
+const btns = document.getElementById('btns');
+for (const [name, fn] of Object.entries(tests)) {
+  const b = document.createElement('button');
+  b.textContent = name;
+  b.onclick = fn;
+  btns.appendChild(b);
+}
+window.onerror = (msg, src, line, col) => {
+  const d = document.createElement('div');
+  d.style.cssText = 'position:fixed;left:10px;bottom:10px;background:#c00;color:#fff;padding:8px 12px;z-index:99999;font-weight:700;';
+  d.textContent = 'ERROR: ' + msg + ' @' + line + ':' + col;
+  document.body.appendChild(d);
+};
+// #auto でフルコンボを自動発火（ヘッドレス検証用）
+if (location.hash === '#auto') setTimeout(tests['★t6フルコンボ再現'], 100);
+// fps 計測
+let frames = 0, last = performance.now();
+(function loop(){
+  frames++;
+  const now = performance.now();
+  if (now - last >= 1000) {
+    document.getElementById('fps').textContent = frames + ' fps / ' + (window.MecFX ? MecFX.count() : '?') + ' p';
+    frames = 0; last = now;
+  }
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,808 @@
+﻿<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MEC呼吸器 第6章 腫瘍 解答解説</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../vars.css">
+<style>
+:root{--or:#E8703A;--orl:#FFF0E8;--ord:#C85A25;--mn:#B71C1C;}
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--gb);color:var(--tx);font-size:14px;line-height:1.7;}
+#pb{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--mn),var(--or));z-index:9999;transition:width .1s;}
+.ph{background:linear-gradient(135deg,#3A0A0A 0%,#6A1010 100%);color:#fff;padding:36px 24px 28px;position:relative;overflow:hidden;}
+.ph::before{content:'';position:absolute;bottom:-2px;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--mn),var(--or),var(--mn));}
+.ph::after{content:'癌';position:absolute;right:-10px;top:-10px;font-size:100px;font-weight:900;color:rgba(255,255,255,.05);pointer-events:none;}
+.hb{display:inline-block;background:var(--mn);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;}
+.ph h1{font-size:24px;font-weight:900;margin-bottom:6px;}.ph h1 span{color:#FFCDD2;}
+.hs{font-size:12px;color:rgba(255,255,255,.6);margin-top:6px;}
+.hst{display:flex;gap:16px;margin-top:16px;flex-wrap:wrap;}
+.sp{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;font-size:12px;}
+.sp strong{color:#FFCDD2;font-size:15px;font-weight:700;margin-right:4px;}
+.sn{position:sticky;top:0;z-index:100;background:#fff;border-bottom:2px solid var(--mn);padding:7px 14px;display:flex;gap:5px;overflow-x:auto;box-shadow:0 2px 8px rgba(0,0,0,.08);scrollbar-width:none;}
+.sn::-webkit-scrollbar{display:none;}
+.nb{flex-shrink:0;background:none;border:1.5px solid var(--bd);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;color:var(--ts);transition:all .2s;white-space:nowrap;}
+.nb:hover,.nb.active{background:var(--mn);border-color:var(--mn);color:#fff;}
+.ct{max-width:900px;margin:0 auto;padding:20px 14px 60px;}
+.sh{display:flex;align-items:center;gap:10px;background:var(--nv);color:#fff;padding:12px 18px;border-radius:10px;margin:28px 0 14px;}
+.sh .snum{background:var(--mn);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;flex-shrink:0;}
+.sh h2{font-size:14px;font-weight:700;}.sh .sc{margin-left:auto;background:rgba(255,255,255,.15);border-radius:12px;padding:2px 10px;font-size:11px;flex-shrink:0;}
+.qc{background:var(--cb);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:14px;border-left:4px solid var(--or);overflow:hidden;}
+.qh{display:flex;align-items:center;gap:7px;padding:11px 15px 7px;flex-wrap:wrap;border-bottom:1px solid var(--gb);}
+.qn{font-size:14px;font-weight:900;color:var(--nv);min-width:36px;}.qe{font-size:11px;color:var(--ts);}
+.bg{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;}
+.bs{background:#FFF3CD;color:#B45309;border:1px solid #F5D87A;}.bi{background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8;}
+.bm{background:#FFF8E1;color:#E65100;border:1px solid #FFCC80;}.br{background:#E3F2FD;color:#01579B;border:1px solid #81D4FA;}
+.cr{margin-left:auto;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;flex-shrink:0;}
+.ch{background:var(--grl);color:var(--gr);border:1px solid #A5D6A7;}.cm{background:var(--yll);color:#92660A;border:1px solid #FFD54F;}
+.cl{background:var(--rdl);color:var(--rd);border:1px solid #EF9A9A;}
+.qb{padding:11px 15px 14px;}.qt{font-size:13.5px;line-height:1.75;margin-bottom:9px;}.qt strong{color:var(--ord);}
+.cs{background:var(--gb);border-radius:6px;padding:9px 13px;margin-bottom:11px;}
+.ch2{font-size:13px;padding:2px 0;line-height:1.6;}
+.ab{background:var(--grl);border:1.5px solid #81C784;border-radius:8px;padding:9px 13px;margin-bottom:11px;display:flex;align-items:flex-start;gap:7px;}
+.ai{font-size:15px;flex-shrink:0;margin-top:1px;}.ac{font-size:13.5px;font-weight:700;color:var(--gr);line-height:1.5;}
+.as{font-size:12px;font-weight:400;color:#3A7D51;margin-top:2px;}
+.eg{display:grid;gap:9px;margin-top:9px;}
+.eb{border-radius:6px;padding:9px 12px;font-size:13px;line-height:1.7;}
+.eb h4{font-size:11px;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;}
+.ep{background:var(--bl);border-left:3px solid #1976D2;}.ep h4{color:#1565C0;}
+.ee{background:#F0FDF4;border-left:3px solid var(--gr);}.ee h4{color:var(--gr);}
+.ept{background:linear-gradient(135deg,#FFF9F0,#FFF3E0);border:1.5px solid var(--or);border-radius:8px;}.ept h4{color:var(--ord);font-size:11px;}
+.em{background:var(--pul);border-left:3px solid var(--pu);}.em h4{color:var(--pu);}
+.kw{color:var(--ord);font-weight:700;}.kw4{color:var(--rd);font-weight:700;}.kw3{color:var(--gr);font-weight:700;}
+.tb{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:5px;}
+.tb th{background:var(--nv);color:#fff;padding:5px 9px;text-align:left;font-weight:700;}
+.tb td{padding:4px 9px;border-bottom:1px solid var(--bd);}
+.tb tr:last-child td{border-bottom:none;}.tb tr:nth-child(even) td{background:var(--gb);}
+.rb{background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border:1.5px solid #64B5F6;border-radius:8px;padding:9px 14px;margin-bottom:7px;font-size:13px;font-weight:500;color:#01579B;}
+.rb .pi{margin-top:7px;font-size:12px;color:var(--tx);line-height:1.8;font-weight:400;}
+.pf{background:var(--nv);color:rgba(255,255,255,.5);text-align:center;padding:18px;font-size:12px;margin-top:40px;}
+#st{position:fixed;bottom:22px;right:22px;background:var(--mn);color:#fff;border:none;border-radius:50%;width:42px;height:42px;font-size:18px;cursor:pointer;box-shadow:0 3px 12px rgba(183,28,28,.4);display:none;align-items:center;justify-content:center;z-index:500;}
+.fsep{width:1px;height:20px;background:var(--bd);margin:0 4px;flex-shrink:0;}[data-filter].fc-on{background:var(--or);border-color:var(--or);color:#fff;}[data-filter="hard"].fc-on{background:var(--rd);border-color:var(--rd);}[data-filter="mid"].fc-on{background:var(--yl);border-color:var(--yl);color:#744A00;}[data-filter="easy"].fc-on{background:var(--gr);border-color:var(--gr);}[data-filter="norate"].fc-on{background:#78909C;border-color:#78909C;color:#fff;}.qimg-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px;}.qimg{max-height:450px;max-width:80%;object-fit:contain;border-radius:4px;border:1px solid var(--bd,#e0e5eb);cursor:zoom-in;transition:max-height .2s,max-width .2s;}.qimg:active{max-height:none;max-width:100%;}.filt-prog{display:flex;align-items:center;gap:8px;padding:3px 10px 5px;background:rgba(0,0,0,.12);}.filt-prog-bar{flex:1;height:6px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden;}.filt-prog-fill{height:100%;background:var(--or);border-radius:3px;transition:width .3s;}.filt-prog-txt{font-size:10px;font-weight:700;color:rgba(255,255,255,.65);white-space:nowrap;min-width:60px;text-align:right;}.qimg{cursor:zoom-in!important;transition:none!important;}
+.qimg:active{max-height:450px!important;max-width:80%!important;}
+#imgLightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9998;align-items:center;justify-content:center;cursor:zoom-out;}
+#imgLightbox.open{display:flex;}
+#imgLightbox img{max-width:95vw;max-height:90vh;border-radius:8px;object-fit:contain;}
+.compact-mode .cs,.compact-mode .ab,.compact-mode .eg{display:none!important;}
+.compact-mode .qc.compact-open .cs{display:block!important;}
+.compact-mode .qc.compact-open .ab{display:flex!important;}
+.compact-mode .qc.compact-open .eg{display:grid!important;}
+.compact-mode .qc:not(.compact-open) .qt{cursor:pointer;}
+.compact-mode .qc:not(.compact-open) .qt::after{content:" ▼";font-size:10px;opacity:.35;vertical-align:middle;}
+.nb2.compact-on{background:#2E7D32;border-color:#2E7D32;color:#fff;}
+.qc.mec-enter-active{border-left-color:var(--gr)!important;background:linear-gradient(to right,rgba(45,140,78,.08) 0%,transparent 32%);}.mec-enter-badge{display:none;background:var(--gr);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;white-space:nowrap;letter-spacing:.02em;}.qc.mec-enter-active .mec-enter-badge{display:inline-block;}
+</style>
+<link rel="stylesheet" href="../chapter_common.css">
+</head>
+<body>
+<div id="pb"></div>
+<div class="ph">
+<div class="hb">MEC臓器別講座 '26 | 呼吸器</div>
+<h1>第<span>6</span>章｜腫<span>瘍</span></h1>
+<div class="hs">解答・解説集 全81問（肺癌・縦隔腫瘍・転移・肺癌治療・副腫瘍症候群・Pancoast・胸腺腫）</div>
+<div class="hst">
+<div class="sp"><strong>81</strong>問</div>
+<div class="sp"><strong>A問題★</strong> Q.287〜Q.308</div>
+<div class="sp"><strong>A/B問題（無印）</strong> Q.309〜Q.367</div>
+</div>
+</div>
+<div class="mec-ch-prog"><a class="mec-hub-link" href="../index.html">← ハブへ</a><div class="mec-ch-prog-bar"><div class="mec-ch-prog-fill" style="width:0%"></div></div><span class="mec-ch-prog-txt">0/0</span><span class="mec-sync-badge">⚙️ 未設定</span></div><div class="sn">
+<button class="nb" onclick="goto('s1')">A問題★</button>
+<button class="nb" onclick="goto('s2')">B問題★</button>
+<button class="nb" onclick="goto('s3')">A問題（無印）</button>
+<button class="nb" onclick="goto('s4')">B問題（無印）</button>
+<button class="nb" onclick="goto('q287')">Q.287</button>
+<button class="nb" onclick="goto('q291')">Q.291縦隔</button>
+<button class="nb" onclick="goto('q298')">Q.298連問</button>
+<button class="nb" onclick="goto('q307')">Q.307Pancoast</button>
+<button class="nb" onclick="goto('q310')">Q.310連問</button>
+<button class="nb" onclick="goto('q316')">Q.316胸腺腫</button>
+<button class="nb" onclick="goto('q329')">Q.329ProGRP</button>
+<button class="nb" onclick="goto('q348')">Q.348連問</button>
+<button class="nb" onclick="goto('q359')">Q.359連問</button>
+<span class="fsep"></span><button class="nb fc-on" data-filter="all" onclick="filterCards('all')">全問</button><button class="nb" data-filter="hard" onclick="filterCards('hard')">難問</button><button class="nb" data-filter="mid" onclick="filterCards('mid')">標準</button><button class="nb" data-filter="easy" onclick="filterCards('easy')">易問</button><button class="nb" data-filter="norate" onclick="filterCards('norate')">正答率なし</button><button class="nb" data-filter="star" onclick="setFilter('star')">★問題</button><button class="nb" data-filter="img" onclick="setFilter('img')">🖼️ 画像</button><span class="fsep"></span><span class="vis-count" id="visCount">—</span></div><div class="sn2"><button class="nb2 fs-on" data-state="all" onclick="setState('all')">すべて</button><button class="nb2" data-state="flag" onclick="setState('flag')">🚩 赤旗</button><button class="nb2" data-state="undone" onclick="setState('undone')">未済</button><button class="nb2" data-state="done" onclick="setState('done')">済み</button><button id="bookmarkBtn" class="nb2" style="margin-left:auto" onclick="saveBookmark()">📖 しおり</button><button id="compactBtn" class="nb2" onclick="toggleCompact()">📋 コンパクト</button></div><div class="filt-prog"><div class="filt-prog-bar"><div class="filt-prog-fill" id="filtProgFill" style="width:0%"></div></div><span class="filt-prog-txt" id="filtProgTxt">—</span></div>
+<div class="ct">
+<div id="s1"><div class="sh" style="background:var(--nv);"><div class="snum">A</div><h2>A 問題（★問題）</h2><div class="sc">Q.287〜Q.308</div></div></div>
+<div class="qc" data-rate="73" data-uid="resp_ch06_q287" id="q287"><div class="qh"><span class="qn">Q.287</span><span class="qe">(120E-9)</span><span class="bg bs">★</span><span class="cr cm">正答率 73%</span><span class="cr cm">正答率 73%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q287" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q287" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">原発性肺癌で<strong>正しいのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　大細胞癌の頻度が最も高い</div><div class="ch2"><span class="ok">b　小細胞癌は化学療法の感受性が高い</span></div><div class="ch2">c　扁平上皮癌は喫煙者には発生しにくい</div><div class="ch2">d　腺癌は喀痰細胞診で早期発見されやすい</div><div class="ch2">e　腺癌は治療標的となる遺伝子異常に乏しい</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　小細胞癌は化学療法の感受性が高い</div></div></div>
+<div class="eg"><div class="eb ee"><h4>📋 肺癌の組織型まとめ</h4><table class="tb"><tr><th>組織型</th><th>頻度</th><th>特徴</th><th>マーカー</th></tr><tr><td><span class="kw">腺癌</span></td><td>最多（約40%）</td><td>末梢型・EGFR変異多い・非喫煙者に多い</td><td>CEA・CA125</td></tr><tr><td>扁平上皮癌</td><td>2位</td><td>中枢型・喫煙者・空洞形成・喀痰細胞診有効</td><td>SCC</td></tr><tr><td><span class="kw3">小細胞癌（b）</span></td><td>約15%</td><td><span class="kw3">化学療法感受性高い・進行早い・早期転移</span></td><td>NSE・ProGRP</td></tr><tr><td>大細胞癌</td><td>約5%</td><td>分化度低い・大型腫瘤</td><td>—</td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>a：腺癌が最多（誤）。c：扁平上皮癌は喫煙者に多い（誤）。d：腺癌は末梢型→喀痰細胞診で発見しにくい（誤）。e：腺癌はEGFR・ALK・ROS1等<span class="kw">遺伝子異常が多い</span>（誤）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="57" data-uid="resp_ch06_q288" id="q288"><div class="qh"><span class="qn">Q.288</span><span class="qe">(119A-37)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 57%</span><span class="cr cl">正答率 57%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q288" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q288" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">67 歳の男性。労作時の息切れを主訴に来院した。1 週間前から労作時の息切れ、右頸部から顔面の腫脹が出現したため自宅近くの診療所を受診した。胸部エックス線写真で右肺野に異常陰影を指摘されたため紹介受診した。胸痛や腹痛はない。意識は清明。身長168cm、体重69kg。体温36.5℃。脈拍84/ 分、整。血圧138/78mmHg。呼吸数18/ 分。<br>SpO2 96％（room air）。頸静脈の怒張を認める。両側鎖骨上窩に径1 ～2cm のリンパ節を複数触知する。心音と呼吸音とに異常を認めない。腹部は平坦、軟で、肝・脾を触知しない。血液所見に異常を認めない。血液生化学所見で、<br>腎機能と肝機能に異常を認めない。ProGRP 124pg/mL（基準81 以下）。胸部エックス線写真（A）と胸部単純CT（B）<br>とを示す。FDG-PET を施行し、右縦隔・肺門リンパ節と一塊となった腫瘤、多発肺転移および多発肝転移を認めた。<br>気管支鏡検査を施行し腫瘤からの穿刺細胞診で小細胞肺癌と診断された。<br><strong>今後の対応で次に行うべきな</strong>のはどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/119A-37_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/119A-37_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　手術による腫瘍減量</div><div class="ch2"><span class="ok">b　薬物による抗癌治療</span></div><div class="ch2">c　肝転移への放射線治療</div><div class="ch2">d　肺癌遺伝子異常の検索</div><div class="ch2">e　PD-L1蛋白質発現の検索</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　薬物による抗癌治療（化学療法±免疫チェックポイント阻害薬）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>小細胞癌（SCLC）の治療原則：<span class="kw">化学療法（EP療法：シスプラチン+エトポシド）</span>＋<span class="kw">アテゾリズマブ等の免疫チェックポイント阻害薬</span>。手術適応なし（extensive stage）。d：EGFR変異等はNSCLC向け（SCLC不要）。e：PD-L1はNSCLC向け。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="86" data-uid="resp_ch06_q289" id="q289"><div class="qh"><span class="qn">Q.289</span><span class="qe">(119A-62)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 86%</span><span class="cr ch">正答率 86%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q289" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q289" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">65 歳の女性。健康診断の胸部エックス線写真で異常を指摘され来院した。自覚症状はない。喫煙は20 本/ 日を45 年間、1 か月前から禁煙している。身長160cm、体重48kg。体温36.8℃。脈拍60/ 分、整。血圧118/64mmHg。<br>呼吸数16/ 分。SpO2 99 ％（room air）。心音と呼吸音とに異常を認めない。血液所見：赤血球430 万、Hb14.6g/dL、Ht 45％、白血球4,600、血小板21 万。血液生化学所見：総蛋白6.5g/dL、アルブミン4.2g/dL、総ビリルビン0.6mg/dL、AST 20U/L、ALT 17U/L、LD 180U/L（基準124 ～222）、尿素窒素14mg/dL、クレアチニン0.5mg/dL、CEA 8.3ng/mL（基準5 以下）。免疫血清学所見：CRP 0.1mg/dL。呼吸機能検査：％VC 100％、<br>FEV1％ 87％。心電図に異常を認めない。胸部造影CT で左上葉に径2.5cm の充実性腫瘍を認め、気管支鏡検査で左B1 ＋2 から肺生検を行い腺癌と診断された。全身検索の結果、所属リンパ節転移と遠隔転移とを認めなかった。胸部エックス線写真（A）、胸部単純CT（B）及びFDG-PET/CT 像（C）を示す。<br><strong>第一選択になる治療</strong>はどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/119A-62_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/119A-62_2.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/119A-62_3.jpeg"/></div>
+<div class="cs"><div class="ch2">a　抗癌化学療法</div><div class="ch2">b　左肺上葉腫瘍核出術</div><div class="ch2">c　縦隔リンパ節郭清を伴う左肺全摘術</div><div class="ch2">d　放射線治療と抗癌化学療法との併用</div><div class="ch2"><span class="ok">e　縦隔リンパ節郭清を伴う左肺上葉切除術</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　縦隔リンパ節郭清を伴う左肺上葉切除術（Stage I→外科手術の標準術式）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>非小細胞肺癌Stage I/II→<span class="kw">外科手術（葉切除＋縦隔リンパ節郭清）</span>が第一選択。c：全摘は肺機能を大きく損なう（上葉切除で可能なら不要）。b：腫瘍核出術は標準でない（再発リスク高）。d：CRT→Stage IIIの治療。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="63" data-uid="resp_ch06_q290" id="q290"><div class="qh"><span class="qn">Q.290</span><span class="qe">(119D-16)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 63%</span><span class="cr cm">正答率 63%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q290" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q290" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">72 歳の女性。健康診断で胸部異常陰影を指摘され来院した。2 年前から、毎年の健康診断でも胸部エックス線写真で同様の類円形の結節を認めていたが増大傾向はない。自覚症状はない。胸部エックス線写真（A）と胸部造影CT（B，C）を示す。<br><strong>最も考えられる疾患</strong>はどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/119D-16_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/119D-16_2.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/119D-16_3.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　肺過誤腫</span></div><div class="ch2">b　肺分画症</div><div class="ch2">c　原発性肺癌</div><div class="ch2">d　肺動静脈瘻</div><div class="ch2">e　転移性肺腫瘍</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　肺過誤腫（hamartoma）—2年間増大なし・辺縁平滑な良性腫瘤</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">肺過誤腫</span>：最多の良性肺腫瘤。辺縁平滑・増大なし・造影CTで<span class="kw">popcorn様石灰化</span>（脂肪・軟骨・上皮が混在）が特徴。2年間増大なし→悪性を否定する重要な所見。c：肺癌は通常増大する。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="99" data-uid="resp_ch06_q291" id="q291"><div class="qh"><span class="qn">Q.291</span><span class="qe">(119D-32)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 99%</span><span class="cr ch">正答率 99%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q291" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q291" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">18 歳の男子。前胸部痛を主訴に来院した。1 週間前から胸部圧迫感と息切れが出現し、徐々に増悪したため受診した。臥位になるとさらに悪化する。体温37.5℃。脈拍88/ 分、整。血圧110/72mmHg。呼吸数20/ 分。SpO2 96％（room air）。両側の胸部で呼吸音の減弱を認める。血液所見：赤血球502 万、Hb 15.2g/dL、Ht 45％、白血球9,800、<br>血小板26 万。血液生化学所見：総ビリルビン0.6mg/dL、AST 42U/L、ALT 9U/L、LD 768U/L（基準124 ～222）、CEA 1.6ng/mL（基準5 以下）、CA19-9 49U/mL（基準37 以下）、α- フェトプロテイン〈AFP〉200ng/mL（基準20 以下）、hCG 82.6mIU/mL（基準0.7 以下）。免疫血清学所見：CRP 4.8mg/dL、抗アセチルコリン受容体抗体0.1nmol/L（基準0.2 以下）。胸部エックス線写真（A）と胸部単純CT 冠状断像（B）を示す。<br><strong>診断</strong>はどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/119D-32_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/119D-32_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　胸腺腫</div><div class="ch2">b　小細胞癌</div><div class="ch2"><span class="ok">c　胚細胞腫瘍</span></div><div class="ch2">d　悪性リンパ腫</div><div class="ch2">e　サルコイドーシス</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　胚細胞腫瘍（非セミノーマ：AFP↑＋hCG↑が決め手）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 前縦隔腫瘤の鑑別（4T）</h4><table class="tb"><tr><th>疾患</th><th>特徴的マーカー</th><th>好発年齢</th></tr><tr><td><span class="kw">Thymoma（胸腺腫）</span></td><td>抗AChR抗体（MG合併）</td><td>40〜60代</td></tr><tr><td>Teratoma/GCT（胚細胞腫瘍）</td><td><span class="kw">AFP・hCG↑（非セミノーマ）</span></td><td>若年男性</td></tr><tr><td>Terrible Lymphoma（悪性リンパ腫）</td><td>sIL-2R↑</td><td>若〜中年</td></tr><tr><td>Thyroid mass（甲状腺）</td><td>甲状腺ホルモン</td><td>—</td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">若年男性＋前縦隔腫瘤＋AFP↑＋hCG↑</span>→<span class="kw">非セミノーマ型胚細胞腫瘍</span>確定。セミノーマはhCGのみ軽度↑（AFPは正常）。治療：BEP療法（ブレオマイシン+エトポシド+シスプラチン）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="98" data-uid="resp_ch06_q292" id="q292"><div class="qh"><span class="qn">Q.292</span><span class="qe">(118A-27)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 98%</span><span class="cr ch">正答率 98%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q292" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q292" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">59 歳の男性。左肩痛を主訴に来院した。1 か月前から左肩痛を自覚するようになった。脈拍80/ 分、整。血圧130/70mmHg。呼吸数16/ 分。SpO2 99％（room air）。左眼瞼下垂を認める。頸静脈の怒張を認めない。心音に異常を認めない。呼吸音は左肺尖部で減弱を認める。四肢筋力に異常を認めない。血液生化学所見：血糖90mg/dL、<br>HbA1c 5.0％（基準4.9 ～6.0）、Na 140mEq/L、K 3.8mEq/L、Cl 104mEq/L、CEA 3.2ng/mL（基準5 以下）、SCC7.0ng/mL（基準1.5 以下）。気管支鏡下生検で扁平上皮癌と診断された。胸部エックス線写真（A）と胸部造影CT（B）<br>を示す。<br><strong>この患者で認める</strong>のはどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/118A-27_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/118A-27_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　Horner症候群</span></div><div class="ch2">b　上大静脈症候群</div><div class="ch2">c　Cushing症候群</div><div class="ch2">d　Lambert-Eaton症候群</div><div class="ch2">e　ADH不適合分泌症候群</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　Horner症候群（肺尖部腫瘍→交感神経節圧迫）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 Pancoast腫瘍（肺尖部腫瘍）の合併症</h4><span class="kw">Pancoast腫瘍</span>：肺尖部腫瘍が傍脊椎・上縦隔の神経・血管を圧迫。<br/><span class="kw">Horner症候群</span>：頸部交感神経節圧迫→①<span class="kw">眼瞼下垂（ptosis）</span> ②<span class="kw">縮瞳（miosis）</span> ③<span class="kw">無汗症（anhidrosis）</span>。<br/>C8〜T1神経根→上肢内側感覚低下・鷲手。</div>
+<div class="eb em"><h4>💡 副腫瘍症候群まとめ</h4><table class="tb"><tr><th>症候群</th><th>原因腫瘍</th><th>機序</th></tr><tr><td><span class="kw">Horner症候群（a）</span></td><td>Pancoast腫瘍（扁平上皮癌）</td><td>交感神経節圧迫</td></tr><tr><td>Cushing症候群</td><td>小細胞癌</td><td>ACTH異所性産生</td></tr><tr><td>SIADH</td><td>小細胞癌</td><td>ADH異所性産生</td></tr><tr><td>Lambert-Eaton症候群</td><td>小細胞癌</td><td>抗VGCC抗体（神経筋接合部障害）</td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="76" data-uid="resp_ch06_q293" id="q293"><div class="qh"><span class="qn">Q.293</span><span class="qe">(118D-47)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 76%</span><span class="cr cm">正答率 76%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q293" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q293" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">34 歳の男性。健診で胸部異常陰影を指摘され来院した。今までに胸部異常陰影を指摘されたことはなく、咳と痰の症状はない。体温35.9℃。脈拍64/ 分、整。血圧132/84mmHg。呼吸数16/ 分。SpO2 98％（room air）。心音と呼吸音とに異常を認めない。胸部造影CT を示す。<br><strong>最も考えられる</strong>のはどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/118D-47_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　胸腺腫瘍</div><div class="ch2">b　胸膜中皮腫</div><div class="ch2">c　成熟奇形腫</div><div class="ch2">d　悪性リンパ腫</div><div class="ch2"><span class="ok">e　神経原性腫瘍</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　神経原性腫瘍（CT上は後縦隔腫瘤→神経鞘腫等の神経原性腫瘍が最多）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">成熟奇形腫（dermoid cyst）</span>：前縦隔で最も多い良性腫瘍。CTで<span class="kw">脂肪・石灰化・骨・毛髪の混在成分</span>が特徴的。若年者（20〜40代）に好発。AFP・hCGは正常（胚細胞腫瘍と区別）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="90" data-uid="resp_ch06_q294" id="q294"><div class="qh"><span class="qn">Q.294</span><span class="qe">(117F-48)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 90%</span><span class="cr ch">正答率 90%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q294" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q294" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">63 歳の男性。2 か月前から咳嗽が出現し、改善しないため来院した。身長167cm、体重65kg。体温36.2℃。脈拍62/ 分、整。血圧124/80mmHg。呼吸数14/ 分。SpO2 95％（room air）。心音に異常を認めない。呼吸音は左上肺野で軽度減弱を認める。腹部は平坦、軟で、肝・脾を触知しない。胸部エックス線写真で左上肺野に結節影を認めた。<br>FDG-PET 像を示す。精査により、肺扁平上皮癌、臨床病期ⅢA 期と診断され、化学放射線療法の適応と判断された。<br><strong>この患者で、放射線療法単独と比べ薬物による抗癌治療を併用する意義</strong>はどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/117F-48_1.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　生命予後の改善</span></div><div class="ch2">b　白血球減少の抑制</div><div class="ch2">c　放射線肺炎の予防</div><div class="ch2">d　放射線食道炎の予防</div><div class="ch2">e　放射線皮膚炎の軽減</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　生命予後の改善（化学放射線療法はStage IIIで放射線単独より生存率改善）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>Stage IIIA/IIIBの非小細胞肺癌→<span class="kw">同時化学放射線療法（concurrent CRT）</span>が標準治療。化学療法の放射線増感効果＋全身微小転移制御→<span class="kw">生存率改善</span>。b〜e：化学療法は骨髄抑制・粘膜障害を増加させる（逆効果）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="96" data-uid="resp_ch06_q295" id="q295"><div class="qh"><span class="qn">Q.295</span><span class="qe">(116D-16)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 96%</span><span class="cr ch">正答率 96%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q295" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q295" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">72 歳の男性。肺がん検診で胸部異常陰影を指摘され来院した。胸部エックス線写真（A）と胸部造影CT（B）とを示す。<br><strong>この患者で認められる可能性が高い症状</strong>はどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/116D-16_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/116D-16_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　嗄声</span></div><div class="ch2">b　不整脈</div><div class="ch2">c　呼吸困難</div><div class="ch2">d　心窩部痛</div><div class="ch2">e　頸静脈怒張</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　嗄声（左縦隔リンパ節転移→左反回神経麻痺）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">左反回神経（迷走神経の枝）</span>は大動脈弓の周囲を走行→<span class="kw">左縦隔リンパ節転移・大動脈下腫瘤</span>が圧迫→<span class="kw">嗄声（左反回神経麻痺）</span>。右反回神経は鎖骨下動脈周囲→右肺門リンパ節転移で圧迫。</div>
+</div>
+</div></div>
+<div id="s2"><div class="sh" style="background:#1C3A5A;"><div class="snum">B</div><h2>B 問題（★問題）</h2><div class="sc">Q.296〜Q.308</div></div></div>
+<div class="qc" data-rate="70" data-uid="resp_ch06_q296" id="q296"><div class="qh"><span class="qn">Q.296</span><span class="qe">(115D-27)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 70%</span><span class="cr cm">正答率 70%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q296" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q296" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">74 歳の女性。胸部エックス線で異常陰影を指摘され来院した。3 年前に直腸癌に対する手術を施行され、経過観察中である。昨年は異常を指摘されていない。胸部エックス線写真（A）及び胸部造影CT（B）を示す。<br><strong>診断確定のために最も有用な検査</strong>はどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/115D-27_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/115D-27_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　胸部MRI</div><div class="ch2">b　喀痰細胞診</div><div class="ch2">c　腫瘍マーカー</div><div class="ch2"><span class="ok">d　気管支鏡検査</span></div><div class="ch2">e　骨シンチグラフィ</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　気管支鏡検査（組織採取→原発性肺癌 vs 転移性肺癌の病理鑑別）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>直腸癌術後の肺結節→<span class="kw">原発性肺癌か転移性肺癌か</span>の鑑別が最重要（治療方針が大きく異なる）→<span class="kw">組織確定（気管支鏡下生検またはCTガイド下針生検）</span>が必須。腫瘍マーカー（c）は鑑別できない。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="91" data-uid="resp_ch06_q297" id="q297"><div class="qh"><span class="qn">Q.297</span><span class="qe">(114A-38)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 91%</span><span class="cr ch">正答率 91%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q297" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q297" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">76 歳の男性。肺癌治療のため入院中である。根治術として、右肺下葉切除およびリンパ節郭清術を施行された。<br>胸腔ドレーンからの軽度の空気漏れが手術直後から観察されたが、胸部エックス線写真では肺の膨張に問題はなかった。術後3 日目、胸腔ドレーンからは依然空気漏れを認めている。手術直後の胸部エックス線写真（A）及び術後3日目の胸部エックス線写真（B）を示す。<br><strong>この患者で認められる所見</strong>はどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/114A-38_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/114A-38_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　紅斑</div><div class="ch2">b　皮下血腫</div><div class="ch2"><span class="ok">c　皮下握雪感</span></div><div class="ch2">d　表在静脈拡張</div><div class="ch2">e　鎖骨上リンパ節腫脹</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　皮下握雪感（空気漏れ→皮下気腫→触診でcrepitus）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>胸腔ドレーンからの空気漏れ→皮下気腫→<span class="kw">皮下握雪感（crepitus：雪を握る感触）</span>が触診で確認できる。術後の空気漏れは肺切除の際に残った肺実質の縫合部から生じる。SpO₂正常・X線変化なし→経過観察が多い。</div>
+</div>
+</div></div>
+<div class="rb">📋 <strong>連問（Q.298〜300）　次の文を読み、298〜300の問いに答えよ。</strong><div class="pi"><strong>58歳女性。血痰を主訴に来院した。</strong><br/>数年前から咳嗽・喀痰・労作時呼吸困難（喫煙が原因と自己判断）。数日前から血痰が出現。<br/>生活歴：喫煙40本/日を55歳まで35年間（Brinkman 1,400）。<br/>現症：Hb 9.8（貧血）。右背部にcoarse crackles。<br/>画像所見：造影CT(A〜D)=上・中・下肺野条件＋上腹部。<br/>呼吸機能：現在と20歳時のflow-volume曲線(E, F)を示す。<br/><strong>精査の結果、多発病変・肝転移が確認された。</strong></div></div>
+<div class="qc" data-rate="96" data-uid="resp_ch06_q298" id="q298"><div class="qh"><span class="qn">Q.298</span><span class="qe">(113F-77)</span><span class="bg bs">★</span><span class="bg br">連問</span><span class="cr ch">正答率 96%</span><span class="cr ch">正答率 96%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q298" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q298" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 1/3</span>58 歳の女性。血痰を主訴に来院した。<br>現病歴：数年前から咳嗽、喀痰および労作時呼吸困難を自覚していたが、喫煙習慣が原因と自己判断し受診はしてい<br>なかった。数日前から喀痰に鮮血が混じるようになったため受診した。<br>既往歴：20 歳時に交通事故による右膝蓋骨骨折の手術を受けた。<br>生活歴：喫煙は20 歳から55 歳まで40 本/ 日。飲酒は機会飲酒。<br>家族歴：特記すべきことはない。<br>現　症：身長153cm、体重52kg。体温36.2℃。脈拍80/ 分、整。血圧132/74mmHg。呼吸数16/ 分。SpO2 97％（room <br>air）。眼瞼結膜と眼球結膜とに異常を認めない。</span><br><strong>20 歳時と比べた現在のフローボリューム曲線の所見として正しい</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">a　V̇₂₅の増加</div><div class="ch2">b　残気量の低下</div><div class="ch2">c　肺拡散能の上昇</div><div class="ch2"><span class="ok">d　努力性肺活量の低下</span></div><div class="ch2">e　ピークフローの上昇</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　努力性肺活量の低下（喫煙35年間→COPDによるFVC↓）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>大量喫煙（Brinkman 1,400）→<span class="kw">COPD</span>：FVC↓・FEV₁%↓・RV↑・DLco↓・ピークフロー↓・V̇₂₅↓。Flow-volume曲線はscoopingパターン（呼気曲線が凹）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="97" data-uid="resp_ch06_q299" id="q299"><div class="qh"><span class="qn">Q.299</span><span class="qe">(113F-78)</span><span class="bg bs">★</span><span class="bg br">連問</span><span class="cr ch">正答率 97%</span><span class="cr ch">正答率 97%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q299" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q299" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 2/3</span>58 歳の女性。血痰を主訴に来院した。<br>現病歴：数年前から咳嗽、喀痰および労作時呼吸困難を自覚していたが、喫煙習慣が原因と自己判断し受診はしてい<br>なかった。数日前から喀痰に鮮血が混じるようになったため受診した。<br>既往歴：20 歳時に交通事故による右膝蓋骨骨折の手術を受けた。<br>生活歴：喫煙は20 歳から55 歳まで40 本/ 日。飲酒は機会飲酒。<br>家族歴：特記すべきことはない。<br>現　症：身長153cm、体重52kg。体温36.2℃。脈拍80/ 分、整。血圧132/74mmHg。呼吸数16/ 分。SpO2 97％（room <br>air）。眼瞼結膜と眼球結膜とに異常を認めない。</span><br>生検の結果：肺腺癌（多発転移あり＝Stage IV）。患者に説明する内容として<strong>誤っているのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　治癒は困難である。</div><div class="ch2">b　腫瘍の遺伝子検査が必要である。</div><div class="ch2">c　薬物による抗癌治療が適応となる。</div><div class="ch2">d　セカンドオピニオンを受けることができる。</div><div class="ch2"><span class="ok">e　緩和ケアは抗癌治療が終了してから始める。</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　緩和ケアは抗癌治療が終了してから始める（誤り：診断時から並行して開始する）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>現代の緩和ケアの原則：<span class="kw">診断時から抗癌治療と並行して（early palliative care）開始する</span>。「終了してから始める」は古い概念→誤り。早期緩和ケアはQOL改善のみならず生存期間延長効果も示されている（Temelら2010）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="45" data-uid="resp_ch06_q300" id="q300"><div class="qh"><span class="qn">Q.300</span><span class="qe">(113F-79)</span><span class="bg bs">★</span><span class="bg br">連問</span><span class="cr cl">正答率 45%</span><span class="cr cl">正答率 45%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q300" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q300" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">1週後の再受診前日に喀血（30〜50mL×3回）。翌日：咳嗽増加・血痰（赤褐色）。HR 104。SpO₂ 96%。Hb 9.5。<strong>対応としてまず行うのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　赤血球液-LR輸血</div><div class="ch2"><span class="ok">b　鎮咳薬投与</span></div><div class="ch2">c　鉄剤投与</div><div class="ch2">d　酸素投与</div><div class="ch2">e　補液</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　鎮咳薬投与（喀血→咳嗽が出血を増悪→鎮咳薬で咳を抑制→最優先）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>喀血の急性管理：①<span class="kw">酸素投与（最優先）</span> ②体位（患側を下にする）③止血処置。SpO₂ 96%はborderlineだが喀血後の血液誤嚥リスク→酸素投与が最優先。輸血（a）はHb 9.5で急性に低下→適応検討だが酸素より後。鎮咳（b）は逆効果（血液を喀出できない）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="78" data-uid="resp_ch06_q301" id="q301"><div class="qh"><span class="qn">Q.301</span><span class="qe">(112A-21)</span><span class="bg bs">★</span><span class="cr cm">正答率 78%</span><span class="cr cm">正答率 78%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q301" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q301" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">78 歳の男性。4 日前に肺癌のため右上葉切除術およびリンパ節郭清術を受けて入院中である。術後経過は順調だが、<br>胸腔ドレーンはわずかな空気漏れがあり排液はやや血性のため留置している。昨日からせん妄症状がみられている。<br>本日午後9 時に患者は就寝していたが、2 時間後には覚醒しており胸腔ドレーンが抜けていた。呼吸音に変化はみられず、直ちに胸部エックス線撮影を行ったが、日中に撮影した画像と比較して変化はみられない。SpO2 99％（鼻カニューラ2L/ 分酸素投与下）であり、胸腔ドレーン抜去前と比較して低下はみられない。<br><strong>行うべき処置</strong>はどれか。</div>
+<div class="cs"><div class="ch2">a　右胸腔穿刺を行う</div><div class="ch2"><span class="ok">b　ドレーン刺入部を縫合する</span></div><div class="ch2">c　気管挿管下に人工呼吸管理を開始する</div><div class="ch2">d　抜けた胸腔ドレーンを刺入部から再挿入する</div><div class="ch2">e　鼻カニューラをマスクに交換し8L/分で酸素を投与する</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　ドレーン刺入部を縫合する（開放創→空気流入防止）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>胸腔ドレーン自己抜去後→<span class="kw">刺入部を縫合して開放創を閉鎖</span>（空気の流入防止）。X線変化なし・SpO₂ 99%→安定→気胸なし。d：抜去済みドレーンの再挿入は感染リスク↑。c：SpO₂正常→不要。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="32" data-uid="resp_ch06_q302" id="q302"><div class="qh"><span class="qn">Q.302</span><span class="qe">(112A-62)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr cl">正答率 32%（超難問）</span><span class="cr cl">正答率 32%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q302" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q302" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">52 歳の男性。両側の肺腫瘤を指摘されて来院した。2 年前にS 状結腸癌のため他院で手術を受けており、2 日前に経過観察のため行われた胸部CT で肺野に結節影が認められたため紹介されて受診した。喫煙は20 本/ 日を23 年間。<br>意識は清明。身長175cm、体重90kg。体温36.8℃。脈拍92/ 分、整。血圧132/82mmHg。呼吸数16/ 分。SpO2 98％（roomair）。心音と呼吸音とに異常を認めない。血液所見：赤血球456 万、Hb 14.3g/dL、Ht 44％、白血球6,500、血小板18 万。<br>血液生化学所見：総蛋白7.0g/dL、アルブミン4.3g/dL、総ビリルビン0.3mg/dL、AST 19U/L、ALT 40U/L､LD124U/L（基準176 ～353）、クレアチニン0.7mg/dL、Na 144mEq/L､K 4.2mEq/L､Cl 110mEq/L､CEA 6.5ng/mL（基準5.0 以下）。CRP 0.1mg/dL。呼吸機能所見：VC 4.57L、％VC 120％、FEV1 3.81L、FEV1％ 84％。心電図に異常を認めない。肺野条件の胸部CT を示す。S 状結腸に再発はなく、全身検索でも胸部CT で確認された病変以外に異常を認めなかった。<br><strong>治療として最も適切な</strong>のはどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/112A-62_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　放射線化学療法</div><div class="ch2">b　抗癌化学療法</div><div class="ch2">c　放射線療法</div><div class="ch2"><span class="ok">d　手術療法</span></div><div class="ch2">e　免疫療法</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　手術療法（大腸癌肺転移→切除可能ならば外科切除が最善）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 大腸癌肺転移の手術適応</h4><span class="kw">大腸癌肺転移の外科切除</span>：①原発巣のコントロール良好 ②転移巣が切除可能 ③肺機能が手術に耐えられる →本例はすべて満たす→<span class="kw">転移性肺腫瘍切除術</span>が最適。5年生存率40〜60%。b：化学療法は切除不能または術後補助に使用。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="68" data-uid="resp_ch06_q303" id="q303"><div class="qh"><span class="qn">Q.303</span><span class="qe">(112D-31)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 68%</span><span class="cr cm">正答率 68%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q303" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q303" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">46 歳の男性。呼吸困難を主訴に来院した。1 か月前から胸部違和感と労作時呼吸困難とを自覚していたが、徐々に増強するため来院した。1 週間前までは胸部にヒューヒューという音がしていたが、現在は消失しているという。既往歴に特記すべきことはない。喫煙は40 本/ 日を26 年間。胸部エックス線写真を示す。<br><strong>異常所見の原因として最も可能性が高い</strong>のはどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/112D-31_1.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　肺癌</span></div><div class="ch2">b　気胸</div><div class="ch2">c　血胸</div><div class="ch2">d　胸膜炎</div><div class="ch2">e　胸膜中皮腫</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　肺癌（中枢型→気管支閉塞→無気肺。wheeze消失=完全閉塞を示す）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">ヒューヒュー（wheeze）→消失</span>：これは気管支が<span class="kw">完全閉塞</span>したサイン→wheezesは管が狭くなると聞こえるが、完全に詰まると空気が通らず音も消える。右側白肺（無気肺）＋喫煙歴→<span class="kw">中枢型肺癌（扁平上皮癌）</span>が右主気管支を閉塞。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="56" data-uid="resp_ch06_q304" id="q304"><div class="qh"><span class="qn">Q.304</span><span class="qe">(110B-44)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr cl">正答率 56%</span><span class="cr cl">正答率 56%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q304" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q304" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">67 歳の男性。咳嗽を主訴に来院した。1 か月前から乾性咳嗽が続くため自宅近くの診療所を受診したところ、胸部異常陰影を指摘され受診した。既往歴に特記すべきことはない。喫煙は30 本/ 日を45 年間。意識は清明。身長165cm、体重70kg。体温36.8℃。脈拍92/ 分、整。血圧138/82mmHg。呼吸数16/ 分。SpO2 98％（room air）。心音と呼吸音とに異常を認めない。血液所見：赤血球456 万、Hb 14.3g/dL、Ht 43％、白血球7,300、血小板30 万。血液生化学所見：総蛋白7.0g/dL、アルブミン3.6g/dL、総ビリルビン0.3mg/dL、AST 12IU/L、ALT 15IU/L、LD245IU/L（基準176 ～353）、クレアチニン0.5mg/dL、Na 142mEq/L、K 4.2mEq/L、Cl 105mEq/L。SCC 6.3ng/mL（基準1.5 以下）。CRP 0.2mg/dL。呼吸機能検査：FVC 4.20L、％VC 101％、FEV1 3.66L、FEV1％ 83％。心電図に異常を認めない。胸部CT（A，B，C）を示す。気管支内視鏡下に肺の原発巣および縦隔リンパ節の生検を行い、扁平上皮癌の診断を得た。全身検索では肺門と縦隔のリンパ節とに転移を認めるが、それ以外にリンパ節転移および遠隔転移を認めなかった。<br><strong>最も適切な治療法</strong>はどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/110B-44_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/110B-44_2.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/110B-44_3.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　放射線治療と抗癌化学療法の併用</span></div><div class="ch2">b　腫瘍部分切除</div><div class="ch2">c　抗癌化学療法</div><div class="ch2">d　右上葉切除</div><div class="ch2">e　右肺全摘</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　放射線治療と抗癌化学療法の併用（化学放射線療法）—Stage IIIA NSCLCの標準治療</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>N2リンパ節転移（縦隔リンパ節）→<span class="kw">Stage IIIA</span>→<span class="kw">同時化学放射線療法（concurrent CRT）</span>が標準。その後<span class="kw">デュルバルマブ（免疫チェックポイント阻害薬）</span>の維持療法。d,e：手術は通常行わない（N2は外科治療の相対的禁忌）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="40" data-uid="resp_ch06_q305" id="q305"><div class="qh"><span class="qn">Q.305</span><span class="qe">(110E-26)</span><span class="bg bs">★</span><span class="cr cl">正答率 40%</span><span class="cr cl">正答率 40%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q305" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q305" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><strong>肺腺癌において上皮成長因子受容体〈EGFR〉の遺伝子変異と強く関連する因子</strong>はどれか。</div>
+<div class="cs"><div class="ch2">a　男性</div><div class="ch2"><span class="ok">b　日本人</span></div><div class="ch2">c　喫煙者</div><div class="ch2">d　飲酒歴</div><div class="ch2">e　家族歴</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　日本人（東アジア人にEGFR変異が多い）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 EGFR変異の疫学</h4><table class="tb"><tr><th>特徴</th><th>EGFR変異↑</th><th>EGFR変異↓</th></tr><tr><td>人種</td><td><span class="kw">東アジア人（日本・中国・韓国：約40〜60%）</span></td><td>Caucasian（約10〜15%）</td></tr><tr><td>性別</td><td><span class="kw">女性</span></td><td>男性</td></tr><tr><td>喫煙</td><td><span class="kw">非喫煙者</span></td><td>喫煙者</td></tr><tr><td>組織型</td><td><span class="kw">腺癌（主に）</span></td><td>扁平上皮癌等</td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>EGFR変異陽性→<span class="kw">EGFR-TKI（ゲフィチニブ・エルロチニブ・オシメルチニブ）</span>が有効。特にExon 19欠失・Exon 21 L858R変異が代表的。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="89" data-uid="resp_ch06_q306" id="q306"><div class="qh"><span class="qn">Q.306</span><span class="qe">(109A-30)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 89%</span><span class="cr ch">正答率 89%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q306" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q306" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">75 歳の女性。肺がん検診で胸部異常陰影を指摘され来院した。既往歴に特記すべきことはない。喫煙歴はない。<br>意識は清明。身長155cm、体重48kg。体温36.8℃。脈拍92/ 分、整。血圧128/72mmHg。呼吸数16/ 分。SpO2 98％（roomair）。心音と呼吸音とに異常を認めない。血液所見：赤血球406 万、Hb 12.3g/dL、Ht 37％、白血球6,300、血小板30 万。<br>血液生化学所見：総蛋白7.1g/dL、アルブミン3.9g/dL、総ビリルビン0.4mg/dL、AST 12IU/L、ALT 10IU/L、LD182IU/L（基準176 ～353）、クレアチニン0.6mg/dL、Na 140mEq/L、K 4.2mEq/L、Cl 105mEq/L、CEA 2.5ng/mL（基準5 以下）、CA19-9 2.7U/mL（基準37 以下）、SCC 1.1ng/mL（基準1.5 以下）。CRP 0.1mg/dL。呼吸機能検査所見：<br>FVC 2.00L、％VC 101％、FEV1 1.66L、FEV1％ 83％。心電図に異常を認めない。胸部エックス線写真（A）と胸部CT（B）とを示す。気管支内視鏡検査を行い腺癌の診断を得た。全身検索で肺門・縦隔リンパ節転移と遠隔転移とは認めなかった。<br><strong>第一選択とする治療法</strong>はどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/109A-30_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/109A-30_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　縦隔リンパ節郭清を伴う左上葉切除術</span></div><div class="ch2">b　縦隔リンパ節郭清を伴う左肺全摘術</div><div class="ch2">c　放射線治療と抗癌化学療法との併用</div><div class="ch2">d　左上葉腫瘍核出術</div><div class="ch2">e　抗癌化学療法</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　縦隔リンパ節郭清を伴う左上葉切除術</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>Stage I/II非小細胞肺癌→<span class="kw">外科手術（葉切除＋縦隔リンパ節郭清）</span>が第一選択（5年生存率Stage IA:約80%）。肺機能正常（VC正常・FEV₁%83%）→手術に耐えられる。b：全摘は肺機能への影響大。d：腫瘍核出術は不完全切除リスク↑。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="47" data-uid="resp_ch06_q307" id="q307"><div class="qh"><span class="qn">Q.307</span><span class="qe">(109E-58)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="bg bm">3択</span><span class="cr cl">正答率 47%</span><span class="cr cl">正答率 47%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q307" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q307" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">58 歳の男性。右上肢麻痺を主訴に来院した。3 か月前から右上肢の疼痛としびれがあり、複数の医療機関を受診したが診断に至らなかった。1 か月前から右上肢麻痺が現れ次第に悪化したため自宅近くの診療所を受診し、胸部エックス線写真で異常陰影を指摘されたため紹介されて受診した。既往歴に特記すべきことはない。喫煙は30 本/ 日を37 年間。意識は清明。身長165cm、体重62kg。体温36.6℃。脈拍72/ 分、整。血圧130/102mmHg。呼吸数14/ 分。<br>SpO2 98％（room air）。持参した胸部エックス線写真（A）と胸部造影CT（B，C）とを示す。<br>この患者の身体所見として考えられるのはどれか。3 つ選べ。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/109E-58_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/109E-58_2.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/109E-58_3.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　右上肢内側感覚低下</span></div><div class="ch2">b　顔面浮腫</div><div class="ch2">c　嚥下障害</div><div class="ch2"><span class="ok">d　発汗異常</span></div><div class="ch2"><span class="ok">e　鷲手</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　右上肢内側感覚低下　＋　d　発汗異常　＋　e　鷲手</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 Pancoast腫瘍の神経学的合併症</h4>右肺尖部腫瘍が圧迫する構造と症状：<br/><span class="kw">C8〜T1神経根</span>：→右上肢内側感覚低下（a）・<span class="kw">鷲手（ulnar nerve territory）</span>（e）・指の内在筋萎縮<br/><span class="kw">頸部交感神経節</span>：→Horner症候群（右眼瞼下垂・縮瞳）・<span class="kw">右半顔発汗低下</span>（d 発汗異常）<br/>b：顔面浮腫→SVC症候群（縦隔腫瘤）。c：嚥下障害→食道浸潤（肺尖部ではない）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="59" data-uid="resp_ch06_q308" id="q308"><div class="qh"><span class="qn">Q.308</span><span class="qe">(107A-29)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 59%</span><span class="cr cl">正答率 59%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q308" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q308" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">60 歳の女性。咳嗽を主訴に来院した。6 か月前に人間ドックで異常なしと診断されたが、1 か月前から咳嗽が出現し、<br>改善しないため受診した。喫煙は20 本/ 日を40 年間。意識は清明。身長158cm、体重57kg。体温36.2℃。脈拍64/ 分、<br>整。血圧134/82mmHg。呼吸数20/ 分。SpO2 96％（room air）。頸部リンパ節を触知しない。心音と呼吸音とに異常を認めない。血液所見：赤血球418 万、Hb 12.9g/dl、Ht 40％、白血球4,600、血小板15 万。血液生化学所見：総蛋白7.5g/dl、アルブミン3.5g/dl、AST 30IU/l、ALT 28IU/l。胸部エックス線写真（A）、胸部造影CT（B）およびPapanicolaou 染色による喀痰細胞診（C）を示す。全身検索で遠隔転移を認めない。<br><strong>最も適切な治療</strong>はどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/107A-29_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/107A-29_2.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/107A-29_3.jpeg"/></div>
+<div class="cs"><div class="ch2">a　手術</div><div class="ch2">b　免疫療法</div><div class="ch2">c　放射線治療</div><div class="ch2">d　抗癌化学療法</div><div class="ch2"><span class="ok">e　化学放射線療法</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　化学放射線療法（CT所見から縦隔リンパ節転移あり→Stage III→同時化学放射線療法が標準）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>遠隔転移なし（全身検索陰性）→手術適応の可能性が高い。喀痰細胞診＋CT→まず<span class="kw">気管支鏡で組織確定</span>→ステージングして手術（またはCRT）を決定。</div>
+</div>
+</div></div>
+<div id="s3"><div class="sh" style="background:#2A4A35;"><div class="snum">A</div><h2>A 問題（無印）</h2><div class="sc">Q.309〜Q.315</div></div></div>
+<div class="qc" data-rate="97" data-uid="resp_ch06_q309" id="q309"><div class="qh"><span class="qn">Q.309</span><span class="qe">(118C-47)</span><span class="cr ch">正答率 97%</span><span class="cr ch">正答率 97%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q309" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q309" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">76 歳の男性。右胸痛を主訴に来院した。1 か月前から右前胸部痛を自覚し、8 日前から右顔面および右上肢の腫脹を伴うようになった。意識は清明。身長159cm、体重52kg。体温35.9℃。脈拍96/ 分、整。血圧138/78mmHg。呼吸数20/ 分。SpO2 95％（room air）。視診と触診とで右胸部から頸部および上肢にかけて浮腫と腫脹とを認める。血液生化学所見：CEA 75ng/mL（基準5 以下）。胸部エックス線写真で右上肺野縦隔側に腫瘤を認めた。胸腹部造影CT で腫瘍による上大静脈の圧排、肝転移と左副腎転移を認めた。肺癌と診断され、右上肺野縦隔側腫瘤への放射線治療を行うこととした。<br><strong>この患者に対する放射線治療で期待される効果</strong>はどれか。</div>
+<div class="cs"><div class="ch2">a　根治</div><div class="ch2"><span class="ok">b　症状の緩和</span></div><div class="ch2">c　遠隔転移の縮小</div><div class="ch2">d　殺細胞性薬の作用増強</div><div class="ch2">e　PD-L1蛋白質発現減弱</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　症状の緩和（SVC症候群への姑息的放射線療法）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>Stage IV（多発転移）→<span class="kw4">根治不可能</span>→<span class="kw">姑息的（palliative）放射線療法</span>でSVC症候群の症状（顔面浮腫・上肢浮腫）を緩和。局所照射では遠隔転移への効果なし（c誤）。</div>
+</div>
+</div></div>
+<div class="rb">📋 <strong>連問（Q.310〜312）　次の文を読み、310〜312の問いに答えよ。</strong><div class="pi"><strong>78歳男性。嗄声を主訴に来院した。</strong><br/>3年前に右肺下葉切除術（肺癌）→1年前から自己判断で経過観察を中断。<br/>現症：SpO₂ 98%。胸部造影CT：縦隔リンパ節腫大（右第1弓突出）→超音波内視鏡下穿刺生検→{kw("肺腺癌術後リンパ節再発")}。腹部CT・骨シンチグラフィ：異常なし。</div></div>
+<div class="qc" data-rate="68" data-uid="resp_ch06_q310" id="q310"><div class="qh"><span class="qn">Q.310</span><span class="qe">(118C-60)</span><span class="bg br">連問</span><span class="cr cm">正答率 68%</span><span class="cr cm">正答率 68%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q310" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q310" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 1/3</span>78 歳の男性。嗄声を主訴に来院した。<br>現病歴：1 か月前に嗄声が出現した。2 週間前から飲水時に咳嗽が出現するようになり自宅近くの診療所で鎮咳薬を<br>処方された。咳嗽は改善せず、3 日前から喀痰に血液が混じるようになった。<br>既往歴：3 年前に原発性肺癌のために右肺下葉切除術が施行され経過観察となっていた。1 年前から自己判断で定期<br>的な受診を中断していた。<br>生活歴：65 歳までは会社員。妻と2 人暮らし。喫煙は70 歳まで20 本/ 日を50 年間。飲酒はビール350mL/ 日。<br>家族歴：弟が70 歳台で胃癌。<br>現　症：意識は清明。身長162cm、体重54kg。体温36.2℃。</span><br><strong>次に行うべき検査</strong>はどれか。</div>
+<div class="cs"><div class="ch2"><span class="ok">a　頭部造影MRI</span></div><div class="ch2">b　腹部造影MRI</div><div class="ch2">c　頸部超音波検査</div><div class="ch2">d　肺動脈造影検査</div><div class="ch2">e　肺血流シンチグラフィ</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　頭部造影MRI（脳転移の確認→病期評価・治療方針決定）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>縦隔リンパ節再発確定後→<span class="kw">脳転移（M1c）の有無が治療方針に直結</span>。腹部CT・骨シンチは既に施行済み。頭部MRIで脳転移がなければ化学放射線療法（限局再発）、あれば全脳照射＋全身化学療法。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="99" data-uid="resp_ch06_q311" id="q311"><div class="qh"><span class="qn">Q.311</span><span class="qe">(118C-61)</span><span class="bg br">連問</span><span class="cr ch">正答率 99%</span><span class="cr ch">正答率 99%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q311" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q311" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">化学放射線療法→薬剤性肺障害→気管挿管→人工呼吸。14日経過後も長期人工呼吸が必要な状態。<strong>この時点での呼吸管理で適切な処置はどれか。</strong></div>
+<div class="cs"><div class="ch2"><span class="ok">a　気管切開術</span></div><div class="ch2">b　ECMO導入</div><div class="ch2">c　声門上器具挿入</div><div class="ch2">d　経鼻エアウェイ挿入</div><div class="ch2">e　NPPV導入</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　気管切開術（14日以上の長期人工呼吸→気管切開術が標準）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>長期人工呼吸の目安（<span class="kw">14日〜21日以上</span>）→<span class="kw">気管切開術（tracheostomy）</span>：経口挿管より合併症↓・口腔ケア容易・会話・リハビリに有利。b：ECMO→難治性呼吸不全（薬剤性肺障害が改善中なのに適応でない）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="75" data-uid="resp_ch06_q312" id="q312"><div class="qh"><span class="qn">Q.312</span><span class="qe">(118C-62)</span><span class="bg br">連問</span><span class="bg bm">2択</span><span class="cr cm">正答率 75%</span><span class="cr cm">正答率 75%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q312" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q312" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">退院後1ヶ月後に多発転移（縦隔・肝・肺）・悪液質・体重10kg減少。患者本人と家族は<strong>積極的な治療を望まない。</strong>行うべき対応はどれか。<strong>2つ選べ。</strong></div>
+<div class="cs"><div class="ch2">a　放射線療法を勧める</div><div class="ch2"><span class="ok">b　緩和ケアについて説明する</span></div><div class="ch2"><span class="ok">c　在宅ケアに関する患者の意向を聞く</span></div><div class="ch2">d　異なる種類の殺細胞性薬による治療を勧める</div><div class="ch2">e　免疫チェックポイント阻害薬による治療を勧める</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　緩和ケアについて説明する　＋　c　在宅ケアに関する患者の意向を聞く</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>患者・家族が積極的治療を望まない→<span class="kw">アドバンス・ケア・プランニング（ACP）</span>：①<span class="kw">緩和ケアの説明</span>（疼痛管理・QOL向上）②<span class="kw">在宅ケアの意向確認</span>（在宅看取り・訪問看護等）。a,d,e：望まない治療を勧めるのは倫理的に問題。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="89" data-uid="resp_ch06_q313" id="q313"><div class="qh"><span class="qn">Q.313</span><span class="qe">(118E-4)</span><span class="cr ch">正答率 89%</span><span class="cr ch">正答率 89%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q313" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q313" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">Which is NOT the correct combination between the risk factor and its associated disease?</div>
+<div class="cs"><div class="ch2">a　smoking ——— bladder cancer</div><div class="ch2">b　lack of physical activity ——— colon cancer</div><div class="ch2">c　obesity after menopause ——— breast cancer</div><div class="ch2">d　excessive alcohol consumption ——— esophageal cancer</div><div class="ch2"><span class="ok">e　excessive dietary sodium intake ——— lung cancer</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　excessive dietary sodium intake — lung cancer（誤：食塩過多は胃癌・高血圧のリスクであり肺癌ではない）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>肺癌のリスクファクター：<span class="kw">喫煙（最大）</span>・アスベスト・ラドン・大気汚染。食塩過多は<span class="kw4">胃癌</span>のリスク。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="82" data-uid="resp_ch06_q314" id="q314"><div class="qh"><span class="qn">Q.314</span><span class="qe">(116A-66)</span><span class="bg bi">📷 画像</span><span class="bg bm">2択</span><span class="cr cm">正答率 82%</span><span class="cr ch">正答率 82%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q314" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q314" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">34 歳の女性。前胸部痛を主訴に来院した。3 か月前から前胸部痛が出現し徐々に増強してきた。体温36.8℃。血圧118/64mmHg。SpO2 98％（room air）。心音と呼吸音に異常を認めない。胸部エックス線写真（A）と胸部造影CT（B）<br>とを示す。<br>考えられる疾患はどれか。2 つ選べ。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/116A-66_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/116A-66_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　胸腺腫</span></div><div class="ch2">b　神経鞘腫</div><div class="ch2">c　心膜嚢胞</div><div class="ch2">d　胸膜中皮腫</div><div class="ch2"><span class="ok">e　悪性リンパ腫</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　胸腺腫　＋　e　悪性リンパ腫（ともに前縦隔の主要腫瘍）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 縦隔腫瘍の好発部位</h4><table class="tb"><tr><th>部位</th><th>代表腫瘍</th></tr><tr><td><span class="kw">前縦隔</span></td><td><span class="kw3">胸腺腫（a）・悪性リンパ腫（e）・胚細胞腫瘍・甲状腺腫（4T）</span></td></tr><tr><td>中縦隔</td><td>気管支嚢胞・心膜嚢胞・リンパ節腫大（感染・サルコイド等）</td></tr><tr><td><span class="kw">後縦隔</span></td><td><span class="kw">神経鞘腫・神経節腫（b誤：後縦隔）</span></td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="99" data-uid="resp_ch06_q315" id="q315"><div class="qh"><span class="qn">Q.315</span><span class="qe">(116D-54)</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 99%</span><span class="cr ch">正答率 99%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q315" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q315" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">21 歳の男性。1 か月前からの顔面浮腫、労作時の呼吸困難を主訴に来院した。既往歴に特記すべきことはない。顔面と頸部および上肢の浮腫を認め、胸壁静脈の怒張を認めた。経皮的針生検により縦隔原発精上皮腫と診断された。<br>胸部造影CT を示す。<br>この患者の症状はどの部位の狭窄によるものか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/116D-54_1.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　上大静脈</span></div><div class="ch2">b　腕頭動脈</div><div class="ch2">c　肺動脈</div><div class="ch2">d　気管</div><div class="ch2">e　食道</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　上大静脈（SVC症候群：顔面浮腫＋上肢浮腫＋頸静脈怒張＋胸壁静脈怒張）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">上大静脈（SVC）症候群</span>：縦隔腫瘤がSVCを圧迫→上半身の静脈還流障害→顔面・首・上肢の浮腫・頸静脈怒張・胸壁静脈怒張（側副路拡張）。原因：肺癌（最多）・リンパ腫・胸腺腫・精上皮腫等。</div>
+</div>
+</div></div>
+<div id="s4"><div class="sh" style="background:#1C3A5A;"><div class="snum">B</div><h2>B 問題（無印）</h2><div class="sc">Q.316〜Q.367</div></div></div>
+<div class="qc" data-rate="94" data-uid="resp_ch06_q316" id="q316"><div class="qh"><span class="qn">Q.316</span><span class="qe">(115A-68)</span><span class="bg bi">📷 画像</span><span class="bg bm">2択</span><span class="cr ch">正答率 94%</span><span class="cr ch">正答率 94%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q316" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q316" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">55 歳の女性。健康診断で胸部異常陰影を指摘され精査目的で来院した。2 か月ほど前から物が二重に見えることを自覚していた。眼瞼下垂を認める。血中抗アセチルコリン受容体抗体が陽性であった。胸部造影CT を示す。<br>この患者で検索すべき合併症はどれか。2 つ選べ。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/115A-68_1.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　赤芽球癆</span></div><div class="ch2">b　Cushing症候群</div><div class="ch2">c　カルチノイド症候群</div><div class="ch2"><span class="ok">d　低ガンマグロブリン血症</span></div><div class="ch2">e　ADH不適合分泌症候群</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　赤芽球癆（純赤芽球無形成）　＋　d　低ガンマグロブリン血症（Good症候群）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 胸腺腫の合併症</h4><table class="tb"><tr><th>合併症</th><th>頻度</th><th>特徴</th></tr><tr><td><span class="kw">重症筋無力症</span></td><td>約15〜20%</td><td>抗AChR抗体陽性（本例）</td></tr><tr><td><span class="kw3">赤芽球癆（a）</span></td><td>約5%</td><td>免疫学的赤芽球破壊→重篤な貧血</td></tr><tr><td><span class="kw3">低ガンマグロブリン血症（d：Good症候群）</span></td><td>約5〜10%</td><td>反復感染↑</td></tr><tr><td><span class="kw4">Cushing症候群（b）</span></td><td>小細胞癌の副腫瘍（胸腺腫でない）</td><td>—</td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="98" data-uid="resp_ch06_q317" id="q317"><div class="qh"><span class="qn">Q.317</span><span class="qe">(115A-71)</span><span class="bg bi">📷 画像</span><span class="bg bm">2択</span><span class="cr ch">正答率 98%</span><span class="cr ch">正答率 98%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q317" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q317" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">67 歳の男性。血痰を主訴に来院した。2 か月前から血痰、1 か月前から嗄声を自覚するようになった。喫煙歴は20 本/ 日を45 年間で、2 年前から禁煙している。身長164cm、体重52kg。血圧112/84mmHg。呼吸数20/ 分。<br>血液所見：赤血球420 万、Hb 14.8g/dL、Ht 40％、白血球6,800、血小板26 万。喀痰細胞診のPapanicolaou 染色標本に示すような細胞を認めた。<br>考えられる疾患はどれか。2 つ選べ。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/115A-71_1.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　肺癌</span></div><div class="ch2">b　咽頭炎</div><div class="ch2"><span class="ok">c　喉頭癌</span></div><div class="ch2">d　気管支炎</div><div class="ch2">e　唾液腺癌</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　肺癌　＋　c　喉頭癌（いずれも喀痰悪性細胞＋嗄声の原因となり得る）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>喀痰Papanicolaou染色で<span class="kw">クラスV（悪性）</span>→<span class="kw">肺癌または喉頭癌</span>（喉頭癌の剥離細胞も喀痰に混じる）。嗄声→喉頭癌または左反回神経麻痺（肺癌縦隔転移）。鑑別には気管支鏡＋喉頭内視鏡が必要。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="98" data-uid="resp_ch06_q318" id="q318"><div class="qh"><span class="qn">Q.318</span><span class="qe">(115B-38)</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 98%</span><span class="cr ch">正答率 98%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q318" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q318" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">59 歳の女性。手指の腫脹を主訴に来院した。3 週前から急に手指末節が腫脹し、爪甲が隆起し軽度の疼痛を伴うようになったため受診した。数日前から同様の症状が足趾にも生じてきた。関節痛はない。手指の写真を示す。<br><strong>精査すべきな</strong>のはどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/115B-38_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　子宮癌</div><div class="ch2">b　腎癌</div><div class="ch2">c　乳癌</div><div class="ch2"><span class="ok">d　肺癌</span></div><div class="ch2">e　卵巣癌</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　肺癌（ばち指の最多原因→肺癌を優先的に精査）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">ばち指（clubbing）</span>の原因：肺癌（特に腺癌・大細胞癌）が最多→<span class="kw">肺癌の副腫瘍症候群</span>の一つ。他に：慢性肺疾患（IPF・CF）・先天性心疾患・炎症性腸疾患・肝硬変等。急性発症（<span class="kw">肥大性骨関節症：HOA</span>）では特に肺癌との関連が強い。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="87" data-uid="resp_ch06_q319" id="q319"><div class="qh"><span class="qn">Q.319</span><span class="qe">(115B-39)</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 87%</span><span class="cr ch">正答率 87%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q319" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q319" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">68 歳の男性。左肩痛を主訴に来院した。2 か月前に左肩痛が出現し、増悪したため受診した。喫煙歴は30 本/ 日を40 年間、2 年前から禁煙している。脈拍60/ 分、整。血圧120/88mmHg。呼吸数16/ 分。胸部エックス線写真（A）<br>及び胸部造影CT（B）を示す。経気管支肺生検で肺腺癌と診断された。<br><strong>認める可能性が高い</strong>のはどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/115B-39_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/115B-39_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　左散瞳</div><div class="ch2">b　顔面浮腫</div><div class="ch2"><span class="ok">c　左眼瞼下垂</span></div><div class="ch2">d　左上肢の浮腫</div><div class="ch2">e　左側の発汗増加</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　左眼瞼下垂（Horner症候群：左肺尖部→左交感神経節圧迫）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>左Pancoast腫瘍→左交感神経節圧迫→<span class="kw">左Horner症候群</span>：①<span class="kw">左眼瞼下垂（ptosis）</span> ②<span class="kw">左縮瞳（miosis）</span>（散瞳でなく→a誤）③<span class="kw">左無汗症</span>（発汗増加でなく→e誤）。顔面浮腫・上肢浮腫はSVC症候群（縦隔腫瘤）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="83" data-uid="resp_ch06_q320" id="q320"><div class="qh"><span class="qn">Q.320</span><span class="qe">(114B-24)</span><span class="cr cm">正答率 83%</span><span class="cr ch">正答率 83%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q320" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q320" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">症候と疾患の組合せで<strong>適切でないのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　小顎 ——————————— 睡眠時無呼吸症候群</div><div class="ch2">b　皮疹 ——————————— サルコイドーシス</div><div class="ch2"><span class="ok">c　ばち指 ————————————マイコプラズマ肺炎</span></div><div class="ch2">d　チアノーゼ ————————————ARDS</div><div class="ch2">e　口すぼめ呼吸 ——————————— COPD</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　ばち指——マイコプラズマ肺炎（誤り：ばち指は慢性疾患の所見）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw4">ばち指</span>は慢性低酸素血症・慢性炎症性疾患（肺癌・IPF・先天性心疾患等）の所見。<span class="kw4">マイコプラズマ肺炎</span>は急性感染症→ばち指は形成されない（急性疾患→c誤）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="58" data-uid="resp_ch06_q321" id="q321"><div class="qh"><span class="qn">Q.321</span><span class="qe">(114C-48)</span><span class="bg bi">📷 画像</span><span class="cr cl">正答率 58%</span><span class="cr cl">正答率 58%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q321" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q321" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">67 歳の女性。健康診断で胸部エックス線写真の異常陰影を指摘され、精査目的に来院した。喫煙歴は25 本/ 日を47 年間。体温36.4℃。脈拍64/ 分、整。血圧124/76mmHg。呼吸数16/ 分。SpO2 97％（room air）。胸部CT で異常を認めたため、気管支鏡下に擦過細胞診を施行した。胸部エックス線写真（A）、胸部CT（B）及び擦過細胞診のPapanicolaou 染色標本（C）を示す。<br><strong>診断</strong>はどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/114C-48_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/114C-48_2.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/114C-48_3.jpeg"/></div>
+<div class="cs"><div class="ch2">a　腺癌</div><div class="ch2">b　小細胞癌</div><div class="ch2">c　大細胞癌</div><div class="ch2"><span class="ok">d　扁平上皮癌</span></div><div class="ch2">e　カルチノイド</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　扁平上皮癌（大量喫煙歴＋中枢型腫瘤＋気管支擦過→扁平上皮癌の細胞像）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 喀痰細胞診・気管支擦過細胞診の細胞形態</h4><table class="tb"><tr><th>組織型</th><th>Papanicolaou染色の特徴</th></tr><tr><td><span class="kw">扁平上皮癌</span></td><td><span class="kw">角化（赤橙色）・蛇行核・カブト虫様・真珠型</span></td></tr><tr><td>腺癌</td><td>腺腔形成・粘液産生・豊富な細胞質</td></tr><tr><td>小細胞癌</td><td>裸核・数珠状配列・クロマチン顆粒状・モールド（相互陥入）</td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="82" data-uid="resp_ch06_q322" id="q322"><div class="qh"><span class="qn">Q.322</span><span class="qe">(113A-29)</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 82%</span><span class="cr ch">正答率 82%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q322" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q322" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">73 歳の男性。健診で胸部エックス線写真の異常陰影を指摘されて受診した。65 歳から高血圧症で内服治療中。喫煙歴は20 本/ 日を50 年間。気管支内視鏡下擦過細胞診で腺癌と診断された。FDG-PET では腫瘤に一致して集積を認める。他の部位には異常集積を認めない。胸部エックス線写真（正面）（A）及び胸部CT（B）を示す。<br><strong>治療方針を決定するために行うべき検査</strong>はどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/113A-29_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/113A-29_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　呼吸機能検査</span></div><div class="ch2">b　腫瘍マーカー</div><div class="ch2">c　嚥下機能検査</div><div class="ch2">d　喀痰培養検査</div><div class="ch2">e　腹部超音波検査</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　呼吸機能検査（手術適応・術後肺機能の予測に必須）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>手術適応の判断に必要：<span class="kw">①呼吸機能（%VC・FEV₁）</span>→術後予測肺機能（右肺下葉切除なら残存肺機能が許容範囲か）。②心機能。③栄養状態。腫瘍マーカー（b）は術前の手術適応判断には<span class="kw4">不要</span>（病理確定済みなら）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="81" data-uid="resp_ch06_q323" id="q323"><div class="qh"><span class="qn">Q.323</span><span class="qe">(113A-40)</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 81%</span><span class="cr ch">正答率 81%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q323" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q323" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">78 歳の男性。血痰を主訴に来院した。1 か月前から1 日数回の血痰が出現したため受診した。発熱や咳嗽は自覚していない。6か月前の健診では特に異常を指摘されていない。喫煙歴は20本/日を58年間。体温36.7℃。脈拍64/分、整。<br>血圧122/78mmHg。呼吸数16/ 分。SpO2 97％（room air）。眼瞼結膜と眼球結膜とに異常を認めない。心音と呼吸音とに異常を認めない。血液検査および胸部単純CT で異常を認めない。喀痰細胞診のPapanicolaou 染色標本を示す。<br><strong>次に行うべき検査</strong>はどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/113A-40_1.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　気管支内視鏡検査</span></div><div class="ch2">b　胸腔鏡検査</div><div class="ch2">c　縦隔鏡検査</div><div class="ch2">d　胸部MRI</div><div class="ch2">e　PET/CT</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　気管支内視鏡検査（CT陰性＋喀痰陽性→中枢型早期癌を探索）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">CT陰性</span>＋<span class="kw">喀痰細胞診陽性</span>→<span class="kw">中枢型早期肺癌（気管支上皮内癌等）</span>を疑う→<span class="kw">気管支内視鏡（自家蛍光気管支鏡・NBI等）</span>で直接観察。末梢型なら画像に映るがCT陰性→中枢型が有力。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="65" data-uid="resp_ch06_q324" id="q324"><div class="qh"><span class="qn">Q.324</span><span class="qe">(113A-66)</span><span class="bg bi">📷 画像</span><span class="bg bm">2択</span><span class="cr cm">正答率 65%</span><span class="cr cm">正答率 65%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q324" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q324" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">23 歳の女性。入社時の健康診断の胸部エックス線写真で異常陰影を指摘されたため産業医から紹介受診となった。<br>自覚症状はない。喫煙歴はない。胸部エックス線写真（A，B）を示す。<br>次に行うべき検査はどれか。2 つ選べ。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/113A-66_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/113A-66_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　肺血流シンチグラフィ</div><div class="ch2">b　経食道超音波</div><div class="ch2"><span class="ok">c　胸部造影CT</span></div><div class="ch2"><span class="ok">d　胸部MRI</span></div><div class="ch2">e　胸椎MRI</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　胸部造影CT（縦隔腫瘤の精査）　＋　d　胸部MRI（腫瘤の詳細評価・浸潤範囲確認）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>若い女性の縦隔（後縦隔を含む）腫瘤：<span class="kw">c 胸部造影CT</span>で腫瘤の性状・血流・浸潤評価。後縦隔腫瘤（神経原性腫瘍）では<span class="kw">e 胸椎MRI</span>で脊柱管内浸潤（dumbbell型）を確認（外科切除前に必須）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="89" data-uid="resp_ch06_q325" id="q325"><div class="qh"><span class="qn">Q.325</span><span class="qe">(113D-15)</span><span class="bg bm">2択</span><span class="cr ch">正答率 89%</span><span class="cr ch">正答率 89%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q325" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q325" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">右肺尖に発生した肺癌の患者に、右側のみ眼瞼下垂を認める。<br>他にみられる可能性の高い徴候はどれか。2 つ選べ。</div>
+<div class="cs"><div class="ch2">a　嗄声</div><div class="ch2"><span class="ok">b　右縮瞳</span></div><div class="ch2">c　顔面浮腫</div><div class="ch2">d　右眼球突出</div><div class="ch2"><span class="ok">e　右半顔発汗低下</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　右縮瞳　＋　e　右半顔発汗低下（Horner症候群の3徴）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>右Horner症候群（右肺尖部腫瘍→右頸部交感神経節圧迫）：①右眼瞼下垂（ptosis）②<span class="kw">右縮瞳（miosis）</span>③<span class="kw">右半顔無汗症（anhidrosis）</span>。d：眼球陥没（enophthalmos）が正しい（突出でない）。a：嗄声は左反回神経麻痺（右肺尖では通常なし）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="85" data-uid="resp_ch06_q326" id="q326"><div class="qh"><span class="qn">Q.326</span><span class="qe">(113D-19)</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 85%</span><span class="cr ch">正答率 85%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q326" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q326" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">65 歳の男性。胸部エックス線写真で右中肺野に異常陰影を指摘されて受診した。5 年前から間質性肺炎を指摘されている。1 年前に急性増悪で入院し、その後、外来で副腎皮質ステロイドの内服治療を受けていたが、ここ1 年は症状が安定していたため、自己判断で内服を中断し受診していなかった。喫煙は20 本/ 日を40 年間。5 年前から禁煙していたが、6 か月前から喫煙を再開していた。胸部単純CT で右肺上葉に腫瘤影を認め、経気管支肺生検で肺扁平上皮癌と診断された。全身検索の結果、右肺門部リンパ節転移を認めたが、それ以外には転移を認めなかった。体温36.6℃。脈拍76/ 分、整。血圧132/76mmHg。呼吸数12/ 分。SpO2 95％（room air）。両側胸部でﬁne crackles を聴取する。呼吸機能検査：VC 3.5L、FEV1 2.2L。心電図、心エコー検査で異常を認めない。胸部エックス線写真（A）<br>及び胸部単純CT（B）を示す。患者に手術の選択肢もあることを説明したところ手術を希望した。<br><strong>この患者の周術期について適切でない</strong>のはどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/113D-19_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/113D-19_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　術後早期離床を行う</div><div class="ch2">b　術前に禁煙指導を行う</div><div class="ch2"><span class="ok">c　術前から酸素療法を行う</span></div><div class="ch2">d　術後間質性肺炎急性増悪のリスクがある</div><div class="ch2">e　術後在宅酸素療法が必要になるリスクがある</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　術前から酸素療法を行う（術前からの酸素療法は通常不要→適切でない）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>SpO₂ 95%は手術前に酸素療法を開始する適応ではない（術前酸素療法は<span class="kw4">不要</span>）。d：<span class="kw">IPF合併肺切除術は急性増悪リスク大</span>（最重要！）。e：IPF+肺切除→肺機能低下→HOT必要になり得る。b：禁煙は術前必須。a：早期離床は合併症予防。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="85" data-uid="resp_ch06_q327" id="q327"><div class="qh"><span class="qn">Q.327</span><span class="qe">(113D-53)</span><span class="cr cm">正答率 85%</span><span class="cr ch">正答率 85%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q327" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q327" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">72 歳の男性。右肺腺癌に対して右下葉切除術および縦隔リンパ節郭清術を行った。手術時間2 時間40 分。出血量80mL。手術中のバイタルサインに異常を認めなかった。術前の全身状態は良好で、心機能に異常を認めなかった。<br>入院前は20 本/ 日を50 年間喫煙していた。呼吸機能検査はVC 3.51L、％VC 102％、FEV1 2.20L、FEV1％ 65％であった。帰室直後の体温37.2℃。脈拍64/ 分、整。血圧128/68mmHg。呼吸数14/ 分。SpO2 98％（リザーバー付マスク8L/ 分酸素投与下）。血液所見：赤血球383 万、Hb 11.2g/dL、白血球6,800、血小板19 万。血液生化学所見：総蛋白6.2g/dL、アルブミン3.0g/dL。胸腔ドレーンのウォーターシールから呼気のたびに気泡が見られる。排液は少量である。<br><strong>術後の指示として正しい</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">a　赤血球液-LR輸血</div><div class="ch2">b　胸腔ドレーンの抜去</div><div class="ch2">c　アルブミン製剤の投与</div><div class="ch2">d　副腎皮質ステロイドの投与</div><div class="ch2"><span class="ok">e　呼吸リハビリテーションの処方</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　呼吸リハビリテーションの処方（肺切除後の早期回復に必須）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>肺切除後→<span class="kw">早期呼吸リハビリ</span>（呼吸訓練・排痰・早期離床）が肺炎・無気肺予防・回復促進に重要。a：Hb 11.2→輸血基準未満。b：空気漏れあり→ドレーン留置継続。c：Alb 3.0は低いが急性期アルブミン製剤の一般的適応でない。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="66" data-uid="resp_ch06_q328" id="q328"><div class="qh"><span class="qn">Q.328</span><span class="qe">(113D-67)</span><span class="bg bi">📷 画像</span><span class="bg bm">2択</span><span class="cr cm">正答率 66%</span><span class="cr cm">正答率 66%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q328" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q328" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">52 歳の男性。脱力を主訴に来院した。3 か月前から、帰宅時に駅の階段を途中で休まずには昇れなくなったため受診した。血液検査で抗アセチルコリン受容体抗体が陽性であった。胸部エックス線写真（A）及び胸部造影CT（B）<br>を示す。<br>この患者で検索すべき合併症はどれか。2 つ選べ。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/113D-67_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/113D-67_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　赤芽球癆</span></div><div class="ch2">b　気管支喘息</div><div class="ch2">c　高尿酸血症</div><div class="ch2">d　2型糖尿病</div><div class="ch2"><span class="ok">e　低ガンマグロブリン血症</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　赤芽球癆　＋　e　低ガンマグロブリン血症（胸腺腫の合併症）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>胸腺腫の合併症：<span class="kw">重症筋無力症（本例）＋赤芽球癆（a）＋低γグロブリン血症（Good症候群：e）</span>。b〜dは胸腺腫と無関係。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="97" data-uid="resp_ch06_q329" id="q329"><div class="qh"><span class="qn">Q.329</span><span class="qe">(112B-38)</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 97%</span><span class="cr ch">正答率 97%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q329" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q329" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">50 歳の男性。咳嗽を主訴に来院した。2 か月前から咳嗽があり、他院で肺炎と診断され抗菌薬を処方されたが改善しないため受診した。喫煙は40 本/ 日を30 年間。意識は清明。身長175cm、体重78kg。体温36.5℃。脈拍88/ 分、整。<br>血圧126/80mmHg。呼吸数15/ 分。SpO2 96％（room air）。心音と呼吸音とに異常を認めない。血液所見：赤血球508 万、Hb 14.8g/dL、白血球5,600、血小板25 万。血液生化学所見：総ビリルビン0.6mg/dL、AST 10U/L、ALT21U/L、LD 425U/L（基準176 ～353）、尿素窒素14mg/dL、クレアチニン1.2mg/dL、CEA 2.9ng/mL（基準5.0 以下）、SCC 1.2ng/mL（基準1.5 以下）、ProGRP 350pg/mL（基準81 以下）。CRP 0.3mg/dL。胸部エックス線写真（A）<br>と胸部CT（B）とを示す。気管支鏡下生検で肺癌と診断された。<br><strong>肺癌の組織型として最も可能性が高い</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/112B-38_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/112B-38_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　大細胞神経内分泌癌</div><div class="ch2">b　扁平上皮癌</div><div class="ch2"><span class="ok">c　小細胞癌</span></div><div class="ch2">d　大細胞癌</div><div class="ch2">e　腺癌</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　小細胞癌（ProGRP著明高値→小細胞癌の最特異的マーカー）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 肺癌の腫瘍マーカー</h4><table class="tb"><tr><th>マーカー</th><th>対応する組織型</th></tr><tr><td><span class="kw">ProGRP（Pro-Gastrin-Releasing Peptide）</span></td><td><span class="kw3">小細胞癌（最特異的）＋大細胞神経内分泌癌</span></td></tr><tr><td>NSE（神経特異性エノラーゼ）</td><td><span class="kw">小細胞癌（次点）</span></td></tr><tr><td>SCC（扁平上皮癌関連抗原）</td><td>扁平上皮癌</td></tr><tr><td>CEA</td><td>腺癌（非特異的）</td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="96" data-uid="resp_ch06_q330" id="q330"><div class="qh"><span class="qn">Q.330</span><span class="qe">(112D-48)</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 96%</span><span class="cr ch">正答率 96%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q330" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q330" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">28 歳の女性。健診で胸部の異常陰影を指摘されたため来院した。胸部エックス線写真（A）と胸部CT（B）とを示す。<br><strong>診断のために必要性が低い検査項目</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/112D-48_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/112D-48_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　hCG</div><div class="ch2"><span class="ok">b　β-Dグルカン</span></div><div class="ch2">c　可溶性IL-2受容体</div><div class="ch2">d　α-フェトプロテイン（AFP）</div><div class="ch2">e　抗アセチルコリン受容体抗体</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　β-Dグルカン（真菌感染症のマーカー→前縦隔腫瘤の鑑別に不要）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>前縦隔腫瘤の鑑別に必要な検査：<span class="kw">a hCG</span>（胚細胞腫瘍）・<span class="kw">c sIL-2R</span>（悪性リンパ腫）・<span class="kw">d AFP</span>（胚細胞腫瘍）・<span class="kw">e 抗AChR抗体</span>（胸腺腫）。<span class="kw4">b β-Dグルカン</span>は真菌性肺炎（ニューモシスチス等）の診断→前縦隔腫瘤の鑑別に不要。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="73" data-uid="resp_ch06_q331" id="q331"><div class="qh"><span class="qn">Q.331</span><span class="qe">(111A-51)</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 73%</span><span class="cr cm">正答率 73%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q331" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q331" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">65 歳の男性。咳嗽を主訴に来院した。1 か月前から乾性咳嗽が続いている。既往歴に特記すべきことはない。喫煙は20 本/ 日を40 年間。胸部エックス線写真で異常陰影を認める。喀痰細胞診で腺癌細胞を認める。胸部CT で縦隔リンパ節の腫大を認めない。頭部MRI で脳転移を認めない。肺野条件の胸部CT（A）とFDG-PET の全身像（B）<br>とを示す。<br><strong>適切な治療法</strong>はどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/111A-51_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/111A-51_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　放射線療法</div><div class="ch2">b　抗癌化学療法</div><div class="ch2">c　化学放射線療法</div><div class="ch2">d　右肺部分切除術</div><div class="ch2"><span class="ok">e　縦隔リンパ節郭清を伴う右下葉切除術</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　縦隔リンパ節郭清を伴う右下葉切除術（Stage I/II→標準外科手術）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>d：部分切除（楔状切除）は<span class="kw">根治性が低く</span>通常は施行しない（肺機能不良で葉切除不能な場合の代替）。標準術式は<span class="kw">葉切除＋縦隔リンパ節郭清（e）</span>。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="86" data-uid="resp_ch06_q332" id="q332"><div class="qh"><span class="qn">Q.332</span><span class="qe">(111C-16)</span><span class="cr cm">正答率 86%</span><span class="cr ch">正答率 86%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q332" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q332" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">65 歳の男性。胸部エックス線写真で異常陰影を認める。胸部CT で左上葉の径5cm の腫瘤を認め、大動脈下リンパ節は径6cm に腫大している。気管支鏡検査で左上葉の腫瘤は肺小細胞癌と診断された。<br><strong>みられる可能性が高い症候</strong>はどれか。</div>
+<div class="cs"><div class="ch2"><span class="ok">a　嗄声</span></div><div class="ch2">b　喘鳴</div><div class="ch2">c　縮瞳</div><div class="ch2">d　背部痛</div><div class="ch2">e　顔面浮腫</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　嗄声（大動脈下リンパ節腫大→左反回神経圧迫→嗄声）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">大動脈下（#5,6番）リンパ節腫大</span>が<span class="kw">左反回神経</span>（大動脈弓の下をくぐる）を圧迫→<span class="kw">嗄声</span>。c：縮瞳はHorner症候群（肺尖部腫瘍）。e：顔面浮腫はSVC症候群（右縦隔腫瘤）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="87" data-uid="resp_ch06_q333" id="q333"><div class="qh"><span class="qn">Q.333</span><span class="qe">(111G-15)</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 87%</span><span class="cr ch">正答率 87%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q333" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q333" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">手の写真を示す。<br><strong>この症候を呈する</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/111G-15_1.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　肺癌</span></div><div class="ch2">b　結核腫</div><div class="ch2">c　胸腺腫</div><div class="ch2">d　肺分画症</div><div class="ch2">e　自然気胸</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　肺癌（ばち指の最多原因）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">ばち指</span>：肺癌（特に大細胞癌・腺癌）が最多。その他：IPF・肺膿瘍・気管支拡張症・先天性心疾患・肝硬変・炎症性腸疾患。b〜eはばち指と関連なし。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="98" data-uid="resp_ch06_q334" id="q334"><div class="qh"><span class="qn">Q.334</span><span class="qe">(111I-15)</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 98%</span><span class="cr ch">正答率 98%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q334" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q334" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">小細胞肺癌で高値を示すのはどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/111I-15_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　CEA</div><div class="ch2">b　SCC</div><div class="ch2">c　AFP</div><div class="ch2"><span class="ok">d　ProGRP</span></div><div class="ch2">e　PIVKA-Ⅱ</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　ProGRP（Pro-Gastrin-Releasing Peptide）—小細胞癌の最特異的マーカー</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">ProGRP</span>（Pro-GRP）：小細胞癌に最も特異的。<span class="kw">NSE</span>も小細胞癌・神経内分泌腫瘍で上昇。SCC→扁平上皮癌。AFP・PIVKA-II→肝癌・胚細胞腫瘍。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="90" data-uid="resp_ch06_q335" id="q335"><div class="qh"><span class="qn">Q.335</span><span class="qe">(110A-34)</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 90%</span><span class="cr ch">正答率 90%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q335" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q335" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">62 歳の男性。意識障害を主訴に来院した。1 か月前から咳嗽が出現し、血痰を認めたため5 日前に受診した。喫煙は40 本/ 日を42 年間。心臓ペースメーカ植込み術を受けている。初診時の血液所見：赤血球374 万、Hb 11.1g/dL、Ht34％、白血球5,600、血小板14 万。血液生化学所見：総蛋白6.0g/dL、アルブミン2.5g/dL、総ビリルビン0.6mg/dL、<br>AST 35IU/L、ALT 38IU/L、LD 552IU/L（基準176 ～353）、尿素窒素30mg/dL、クレアチニン2.1mg/dL、血糖96mg/dL、Na 145mEq/L、K 4.8mEq/L、Cl 108mEq/L、Ca 10.0mg/dL。心電図でQTc 短縮を認めた。初診時の胸部エックス線写真（A）と喀痰細胞診のPapanicolaou 染色標本（B）とを示す。精密検査目的で入院予約を行い帰宅を指示した。2 日前から倦怠感、食欲不振、口渇および便秘が出現し、つじつまの合わない会話をするようになった。<br>昨日からは呼びかけには反応するもののすぐに眠ってしまい、尿失禁も認めたため家族に付き添われて再度受診した。<br>来院時、錯乱状態を示し、本人からの病歴聴取は困難であった。眼瞼結膜と眼球結膜とに異常を認めない。筋力低下、<br>運動障害は明らかでない。身長168cm、体重53kg（最近6 か月で6kg 減少）。体温36.8℃。脈拍80/ 分、整。血圧130/70mmHg。呼吸数16/ 分。SpO2 93％（room air）。両側の胸部で呼吸音の減弱を認めた。<br><strong>病態悪化の原因検索のため、まず行うべき検査</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/110A-34_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/110A-34_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　髄液検査</div><div class="ch2">b　脳MRI検査</div><div class="ch2">c　心エコー検査</div><div class="ch2"><span class="ok">d　血清電解質の再検査</span></div><div class="ch2">e　血清クレアチニンの再検査</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　血清電解質の再検査（高Ca血症の確認→意識障害の原因）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 高Ca血症の症状（BCU∞：骨・胃・腎・精神）</h4>初診時Ca 10.0（上限）＋<span class="kw">QTc短縮</span>（高Ca血症のECG所見）＋<span class="kw">倦怠感・口渇・便秘・意識障害</span>→<span class="kw4">高Ca血症</span>。肺癌（扁平上皮癌）のPTHrP産生→骨吸収↑→高Ca。まず<span class="kw">血清電解質（Ca）の再検</span>。ペースメーカー→MRI禁忌（b不可）。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>高Ca血症の記憶法：<span class="kw">Bones（骨痛）・Groans（腹痛・便秘）・Stones（腎結石・多尿）・Psychic moans（精神症状・意識障害）</span>。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="89" data-uid="resp_ch06_q336" id="q336"><div class="qh"><span class="qn">Q.336</span><span class="qe">(110D-29)</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 89%</span><span class="cr ch">正答率 89%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q336" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q336" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">20 歳の男性。持続する前胸部痛を主訴に来院した。2 か月前から前胸部痛があった。自宅近くの診療所を受診したところ、胸部異常陰影を指摘されたため紹介されて受診した。身長175cm、体重62kg。体温36.3℃。脈拍60/ 分、整。<br>血圧106/78mmHg。呼吸数14/ 分。心音と呼吸音とに異常を認めない。12 誘導心電図に異常を認めない。胸部エックス線写真（A）と胸部造影CT（B）とを示す。<br><strong>血液検査で有用性が低い</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/110D-29_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/110D-29_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　hCG</div><div class="ch2">b　AFP</div><div class="ch2">c　可溶性IL-2受容体</div><div class="ch2">d　抗アセチルコリン受容体抗体</div><div class="ch2"><span class="ok">e　アンジオテンシン変換酵素（ACE）</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　ACE（サルコイドーシスのマーカー→前縦隔腫瘤の主要鑑別でない）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>前縦隔腫瘤（若い男性）の主要鑑別：胚細胞腫瘍（<span class="kw">a hCG・b AFP</span>）・悪性リンパ腫（<span class="kw">c sIL-2R</span>）・胸腺腫（<span class="kw">d 抗AChR抗体</span>）。<span class="kw4">e ACE</span>はサルコイドーシスのマーカー→前縦隔腫瘤の主要鑑別ではないため有用性が低い。</div>
+</div>
+</div></div>
+<div class="qc" data-uid="resp_ch06_q337" id="q337"><div class="qh"><span class="qn">Q.337</span><span class="qe">(110D-43)</span><span class="bg bi">📷 画像</span><span class="cr cm">採点除外</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q337" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q337" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">72 歳の女性。咳嗽を主訴に来院した。1 か月前から咳嗽が出現し、自宅近くの診療所で投薬を受けたが改善しないため受診した。喫煙は20 本/ 日を50 年間。身長150cm、体重50kg。体温36.5℃。脈拍72/ 分、整。血圧104/80mmHg。呼吸数18/ 分。SpO2 94％（room air）。呼吸音は右側でやや減弱している。血液所見：赤血球422 万、<br>白血球8,800、血小板18 万。血液生化学所見：総蛋白6.8g/dL、アルブミン3.2g/dL、総ビリルビン1.1mg/dL、AST28IU/L、ALT 16IU/L、ALP 320IU/L（基準115 ～359）、γ-GTP 23IU/L（基準8 ～50）。来院時の胸部エックス線写真（A）、胸部造影CT（B，C）及び気管支鏡下に行った穿刺細胞診（D）を示す。PET/CT では胸腔内以外に異常を認めない。<br><strong>適切な治療</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/110D-43_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/110D-43_2.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/110D-43_3.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/110D-43_4.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　腫瘍切除術</span></div><div class="ch2">b　抗癌化学療法</div><div class="ch2">c　抗結核薬投与</div><div class="ch2">d　抗凝固薬投与</div><div class="ch2">e　化学放射線療法</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">⚠️　採点除外（本問は国試において採点対象外となっています）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>PET/CT胸腔内以外に異常なし→<span class="kw">局所病変</span>→穿刺細胞診で診断確定後、胸腔内腫瘤の<span class="kw">外科切除</span>が最適。組織型によって治療が変わるが、局所の縦隔・胸膜腫瘍（胸腺腫等）は手術が基本。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="59" data-uid="resp_ch06_q338" id="q338"><div class="qh"><span class="qn">Q.338</span><span class="qe">(110I-11)</span><span class="cr cm">正答率 59%</span><span class="cr cl">正答率 59%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q338" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q338" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">胸部CT を示す。<br><strong>矢印で示す陰影を呈する疾患について正しい</strong>のはどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/110I-11_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　喘鳴を聴取する</div><div class="ch2"><span class="ok">b　腺癌であることが多い</span></div><div class="ch2">c　抗癌化学療法が行われる</div><div class="ch2">d　PET/CTは強陽性であることが多い</div><div class="ch2">e　胸部エックス線写真で発見されることが多い</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　腺癌であることが多い（GGO→早期肺腺癌：AIS・MIA）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">すりガラス陰影（GGO：ground-glass opacity）</span>→<span class="kw">早期肺腺癌（上皮内腺癌AIS・微少浸潤腺癌MIA）</span>が多い。FDG集積は<span class="kw4">低い（d誤）</span>（分化度高い早期腺癌はFDG代謝が低い）。胸部X線では発見困難でCTが必要（e誤）。治療：手術（葉切除または縮小切除）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="95" data-uid="resp_ch06_q339" id="q339"><div class="qh"><span class="qn">Q.339</span><span class="qe">(110I-55)</span><span class="cr ch">正答率 95%</span><span class="cr ch">正答率 95%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q339" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q339" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">78 歳の男性。腎細胞癌術後の経過観察のため来院した。3 年前に別の医療機関で左腎細胞癌に対して根治的左腎摘除術を受けている。以後、6 か月ごとに胸腹部のCT 検査を受けていた。6 か月前の胸部CT で右肺に直径9mmの単発性の腫瘤を指摘されたが担当医との相談で3 か月ごとの経過観察となった。3 か月前の胸部CT では変化を認めない。1 か月前に転居し、今回定期検査のために紹介されて受診した。自覚症状を認めない。体温35.9℃。血圧128/84mmHg。尿検査に異常を認めない。血液所見と血液生化学所見とに異常を認めない。CRP 0.1mg/dL。診療情報提供書に添付された3 か月前の胸部CT（A）と今回の胸部CT（B）とを示す。胸部以外に新たな病変の出現を認めない。<br><strong>現時点の対応として適切な</strong>のはどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/110I-55_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/110I-55_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　放射線治療</div><div class="ch2">b　抗癌化学療法</div><div class="ch2">c　分子標的薬投与</div><div class="ch2">d　右肺上葉切除術</div><div class="ch2"><span class="ok">e　経過観察（3ヶ月後の再診）</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　経過観察（3ヶ月後の再診）—変化なし→積極的治療の根拠不十分</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>腎細胞癌術後の肺結節（9mm）→3ヶ月で変化なし。現時点では<span class="kw">経過観察継続</span>が適切（増大傾向があれば生検または切除）。性急に手術・化学療法は不要。腎細胞癌肺転移は通常緩徐進行。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="89" data-uid="resp_ch06_q340" id="q340"><div class="qh"><span class="qn">Q.340</span><span class="qe">(109D-6)</span><span class="cr ch">正答率 89%</span><span class="cr ch">正答率 89%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q340" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q340" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">進行肺腺癌の治療方針を決定する上で、異常の有無を検索することが必要な遺伝子はどれか。</div>
+<div class="cs"><div class="ch2">a　BCR-ABL</div><div class="ch2"><span class="ok">b　EGFR</span></div><div class="ch2">c　HER2</div><div class="ch2">d　KRAS</div><div class="ch2">e　VHL</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　EGFR（腺癌の分子標的療法選択に最重要）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 肺腺癌の主要ドライバー遺伝子</h4><table class="tb"><tr><th>遺伝子</th><th>頻度（日本）</th><th>対応治療薬</th></tr><tr><td><span class="kw">EGFR変異</span></td><td>約40〜60%（非喫煙女性に多）</td><td><span class="kw">ゲフィチニブ・エルロチニブ・オシメルチニブ（TKI）</span></td></tr><tr><td>ALK融合</td><td>約5%</td><td><span class="kw">アレクチニブ・クリゾチニブ（ALK-TKI）</span></td></tr><tr><td>ROS1融合</td><td>約1〜2%</td><td>クリゾチニブ等</td></tr><tr><td>KRAS変異（d）</td><td>約10%</td><td><span class="kw4">現在直接標的薬少ない（d→治療選択に使わない）</span></td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="94" data-uid="resp_ch06_q341" id="q341"><div class="qh"><span class="qn">Q.341</span><span class="qe">(109D-30)</span><span class="cr ch">正答率 94%</span><span class="cr ch">正答率 94%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q341" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q341" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">42 歳の女性。前胸部痛を主訴に来院した。3 か月前から軽度の持続する前胸部痛があった。自宅近くの診療所で胸部エックス線写真に異常を指摘され紹介されて受診した。身長150cm、体重42kg。体温36.3℃。脈拍72/ 分、整。<br>血圧96/68mmHg。呼吸数16/ 分。SpO2 98％（room air）。心音と呼吸音とに異常を認めない。胸部エックス線写真（A）<br>と胸部造影CT（B）とを示す。<br><strong>最も考えられる</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/109D-30_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/109D-30_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　奇形腫</span></div><div class="ch2">b　心膜嚢腫</div><div class="ch2">c　甲状腺腫</div><div class="ch2">d　胸腺嚢胞</div><div class="ch2">e　胸膜中皮腫</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　奇形腫（成熟奇形腫：前縦隔の最多嚢胞性腫瘍）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">成熟奇形腫</span>（dermoid cyst）：前縦隔に好発・若い女性・良性・嚢胞性または複合性（脂肪＋骨＋歯）。AFP/hCGは正常（悪性胚細胞腫瘍との鑑別）。治療：外科切除。b：心膜嚢胞は中縦隔下部（心臓前面）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="61" data-uid="resp_ch06_q342" id="q342"><div class="qh"><span class="qn">Q.342</span><span class="qe">(109E-27)</span><span class="cr cl">正答率 61%</span><span class="cr cm">正答率 61%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q342" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q342" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">肺癌患者において放射線治療の適応でないのはどれか。</div>
+<div class="cs"><div class="ch2">a　限局型小細胞癌</div><div class="ch2">b　上大静脈症候群</div><div class="ch2"><span class="ok">c　癌性胸膜炎</span></div><div class="ch2">d　骨転移</div><div class="ch2">e　脳転移</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　癌性胸膜炎（放射線治療の適応でない）</div></div></div>
+<div class="eg"><div class="eb ee"><h4>📋 肺癌における放射線治療の適応</h4><table class="tb"><tr><th>適応</th><th>目的</th></tr><tr><td>a 限局型小細胞癌</td><td><span class="kw3">根治目的：化学放射線療法</span></td></tr><tr><td>b 上大静脈症候群</td><td><span class="kw3">姑息的：SVC症候群の症状緩和</span></td></tr><tr><td><span class="kw4">c 癌性胸膜炎</span></td><td><span class="kw4">適応外：胸膜全体に散在→局所照射効果なし（胸水穿刺・胸膜癒着術が治療）</span></td></tr><tr><td>d 骨転移</td><td><span class="kw3">姑息的：疼痛緩和・病的骨折予防</span></td></tr><tr><td>e 脳転移</td><td><span class="kw3">全脳照射（WBRT）または定位放射線治療（SRS）</span></td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="92" data-uid="resp_ch06_q343" id="q343"><div class="qh"><span class="qn">Q.343</span><span class="qe">(108A-4)</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 92%</span><span class="cr ch">正答率 92%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q343" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q343" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">縦隔腫瘍について<strong>正しいのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　胸腺腫は後縦隔に好発する</div><div class="ch2">b　胸腺腫は良性腫瘍に属する</div><div class="ch2">c　セミノーマは良性腫瘍に属する</div><div class="ch2">d　神経原性腫瘍は前縦隔に好発する</div><div class="ch2"><span class="ok">e　胸腺腫には重症筋無力症を合併する</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　胸腺腫には重症筋無力症を合併する（約15〜20%）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>a：胸腺腫は<span class="kw4">前縦隔</span>（誤）。b：悪性もある（境界悪性〜悪性）（誤）。c：セミノーマは<span class="kw4">悪性（低悪性度）</span>だが化学療法感受性が高い（誤）。d：神経原性腫瘍は<span class="kw4">後縦隔</span>（誤）。e：重症筋無力症合併→<span class="kw3">正しい</span>。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="94" data-uid="resp_ch06_q344" id="q344"><div class="qh"><span class="qn">Q.344</span><span class="qe">(108D-23)</span><span class="cr ch">正答率 94%</span><span class="cr ch">正答率 94%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q344" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q344" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">65 歳の男性。胸部異常陰影を指摘され来院した。既往歴に特記すべきことはない。喫煙は30 本/ 日を30 年間。<br>意識は清明。身長170cm、体重62kg。体温36.8℃。脈拍92/ 分、整。血圧130/84mmHg。呼吸数16/ 分。SpO2 98％（roomair）。心音と呼吸音とに異常を認めない。血液所見：赤血球517 万、Hb 17.0g/dl、Ht 50％、白血球6,200、血小板22万。血液生化学所見：総蛋白7.0g/dl、アルブミン4.6g/dl、総ビリルビン1.1mg/dl、AST 18IU/l、ALT 6IU/l、LD410IU/l（基準176 ～353）、クレアチニン1.0mg/dl、Na 145mEq/l、K 4.2mEq/l、Cl 108mEq/l。CRP 0.1mg/dl。呼吸機能検査所見：％VC 93％、FEV1％ 73％。心電図に異常を認めない。初診時の胸部エックス線写真を示す。気管支内視鏡検査を行い左B3 から肺生検で腺癌の診断を得た。<br><strong>この患者の手術適応を決定する上で有用でない</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/108D-23_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　PET/CT</div><div class="ch2">b　頭部造影MRI</div><div class="ch2"><span class="ok">c　腫瘍マーカー</span></div><div class="ch2">d　胸腹部造影CT</div><div class="ch2">e　腹部超音波検査</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　腫瘍マーカー（手術適応の決定には使用しない）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>手術適応の決定：①<span class="kw">病期（T・N・M）評価</span>（CT・PET/CT・頭部MRI）②<span class="kw">肺機能</span>（すでに施行済み）③<span class="kw">心機能</span>。<span class="kw4">腫瘍マーカー</span>（CEA等）は手術適応の判断に<span class="kw4">使わない</span>（参考情報・術後モニタリングに使用）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="74" data-uid="resp_ch06_q345" id="q345"><div class="qh"><span class="qn">Q.345</span><span class="qe">(108G-48)</span><span class="cr cm">正答率 74%</span><span class="cr cm">正答率 74%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q345" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q345" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">75 歳の男性。血痰を主訴に来院した。1 か月前から血痰を自覚しているため受診した。65 歳時に胃癌（早期癌）<br>の手術の既往がある。喫煙は30 本/ 日を55 年間。家族歴に特記すべきことはない。身長165cm、体重55kg。脈拍72/ 分、整。血圧144/80mmHg。呼吸数20/ 分。SpO2 95％（room air）。心音と呼吸音とに異常を認めない。胸部エックス線写真と胸部単純CT とで軽度の肺気腫を認める。喀痰細胞診のPapanicolaou 染色標本を示す。<br><strong>行うべき検査</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/108G-48_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　PET/CT</div><div class="ch2">b　喀痰培養</div><div class="ch2">c　胸部単純MRI</div><div class="ch2"><span class="ok">d　気管支内視鏡検査</span></div><div class="ch2">e　上部消化管内視鏡検査</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　気管支内視鏡検査（喀痰細胞診陽性・CT異常なし→中枢型早期癌の探索）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">CT異常なし</span>＋<span class="kw">喀痰悪性細胞陽性</span>→<span class="kw">中枢型早期肺癌</span>を疑う→<span class="kw">気管支内視鏡（NBI・自家蛍光気管支鏡）</span>で早期中枢型癌を発見・生検。CT陰性でも喀痰陽性の場合は内視鏡が必須。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="95" data-uid="resp_ch06_q346" id="q346"><div class="qh"><span class="qn">Q.346</span><span class="qe">(108H-27)</span><span class="cr ch">正答率 95%</span><span class="cr ch">正答率 95%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q346" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q346" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">66 歳の男性。胸部違和感を主訴に来院した。1 週前から持続性の前胸部の違和感を感じるようになった。自宅近くの診療所を受診し胸部エックス線写真で異常を指摘されたため紹介されて受診した。身長170cm、体重65kg。脈拍68/ 分、整。血圧130/72mmHg。呼吸数18/ 分。SpO2 96％（room air）。心音と呼吸音とに異常を認めない。既往歴に特記すべきことはない。喫煙は20 本/ 日を45 年間。初診時の胸部エックス線写真（A）と胸部造影CT（B）とを示す。<br><strong>出現しやすい症候</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/108H-27_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/108H-27_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　嗄声</div><div class="ch2">b　縮瞳</div><div class="ch2">c　脱力感</div><div class="ch2">d　上腕のしびれ</div><div class="ch2"><span class="ok">e　顔面と上肢の浮腫</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　顔面と上肢の浮腫（前縦隔腫瘤→SVC圧排→SVC症候群）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>前縦隔腫瘤が<span class="kw">上大静脈（SVC）を圧排</span>→<span class="kw">SVC症候群</span>：顔面・頸部・上肢の浮腫＋頸静脈怒張＋胸壁静脈怒張（側副路）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="83" data-uid="resp_ch06_q347" id="q347"><div class="qh"><span class="qn">Q.347</span><span class="qe">(108I-45)</span><span class="cr cm">正答率 83%</span><span class="cr ch">正答率 83%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q347" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q347" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">27 歳の女性。前胸部痛を主訴に来院した。3 週前から前胸部痛が出現し、次第に悪化したため受診した。喫煙歴はない。意識は清明。身長160cm、体重52kg。脈拍60/ 分、整。血圧108/70mmHg。呼吸数16/ 分。SpO2 98％（roomair）。頸部リンパ節を触知しない。心音と呼吸音とに異常を認めない。血液所見：赤血球460 万、Hb 11.9g/dl、Ht40％、白血球7,300、血小板17 万。胸部エックス線写真（A）と胸部造影CT（B）とを示す。<br><strong>診断する上で必要性が低い検査項目</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/108I-45_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/108I-45_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　可溶性IL-2受容体</div><div class="ch2">b　AFP</div><div class="ch2">c　hCG</div><div class="ch2">d　抗アセチルコリン受容体抗体</div><div class="ch2"><span class="ok">e　アンジオテンシン変換酵素（ACE）</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　ACE（サルコイドーシスのマーカー→前縦隔腫瘤の鑑別で優先度低い）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>前縦隔腫瘤（若い女性）：<span class="kw">a sIL-2R</span>（リンパ腫）・<span class="kw">b AFP＋c hCG</span>（胚細胞腫瘍）・<span class="kw">d 抗AChR抗体</span>（胸腺腫）が優先。<span class="kw4">e ACE</span>はサルコイドーシス向けマーカー→前縦隔腫瘤では優先度低い。</div>
+</div>
+</div></div>
+<div class="rb">📋 <strong>連問（Q.348〜350）　次の文を読み、348〜350の問いに答えよ。</strong><div class="pi"><strong>68歳男性。血痰を主訴に来院した。</strong><br/>3ヶ月前から咳嗽・時々血痰。喫煙20本/日×48年間（Brinkman 960）。飲酒日本酒5合/日×40年間。<br/>現症：右上前胸部で呼吸音減弱。SpO₂ 93%（room air）。白血球8,800（好中球65%）。SCC 9.7↑↑（基準1.5以下）。X線(A)・造影CT(B)→右肺野の大型腫瘤＋右主気管支閉塞。</div></div>
+<div class="qc" data-uid="resp_ch06_q348" id="q348"><div class="qh"><span class="qn">Q.348</span><span class="qe">(107B-55)</span><span class="bg br">連問</span><span class="cr ch">正答率 96%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q348" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q348" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 1/3</span>68 歳の男性。血痰を主訴に来院した。<br>現病歴：3 か月前から咳嗽があり、時々血痰も出現していた。最近血痰の回数が増加したため来院した。<br>既往歴：55 歳時に胆石症で手術。<br>生活歴：中華料理店に50 年間勤務。喫煙は20 本/ 日を48 年間。飲酒は日本酒5 合/ 日を40 年間。<br>家族歴：特記すべきことはない。<br>現　症：意識は清明。身長173cm、体重77kg。体温36.6℃。脈拍64/ 分、整。血圧134/82mmHg。呼吸数18/ 分。<br>SpO2 93％（room air）。頸部リンパ節を触知しない。心音に異常を認めないが、呼吸音は右上前胸部で減弱してい<br>る。</span><br>患者に対する説明で<strong>適切なのはどれか。</strong></div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/107B-55_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　「右肋骨に病変があります」</div><div class="ch2">b　「右肺の血管が詰まっています」</div><div class="ch2">c　「右胸の中に水がたまっています」</div><div class="ch2">d　「右肺の中に膿がたまっています」</div><div class="ch2"><span class="ok">e　「右肺の太い気管支が詰まっています」</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　「右肺の太い気管支が詰まっています」（中枢型肺癌→右主気管支閉塞→無気肺）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>右上前胸部呼吸音減弱＋SCC著明高値（扁平上皮癌）＋CT右肺大型腫瘤→<span class="kw">中枢型肺癌が右気管支を閉塞</span>→無気肺。患者への説明：「太い気管支が腫瘍で塞がれています」が適切。</div>
+</div>
+</div></div>
+<div class="qc" data-uid="resp_ch06_q349" id="q349"><div class="qh"><span class="qn">Q.349</span><span class="qe">(107B-56)</span><span class="bg br">連問</span><span class="cr ch">正答率 89%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q349" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q349" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 2/3</span>68 歳の男性。血痰を主訴に来院した。<br>現病歴：3 か月前から咳嗽があり、時々血痰も出現していた。最近血痰の回数が増加したため来院した。<br>既往歴：55 歳時に胆石症で手術。<br>生活歴：中華料理店に50 年間勤務。喫煙は20 本/ 日を48 年間。飲酒は日本酒5 合/ 日を40 年間。<br>家族歴：特記すべきことはない。<br>現　症：意識は清明。身長173cm、体重77kg。体温36.6℃。脈拍64/ 分、整。血圧134/82mmHg。呼吸数18/ 分。<br>SpO2 93％（room air）。頸部リンパ節を触知しない。心音に異常を認めないが、呼吸音は右上前胸部で減弱してい<br>る。</span><br>診断の過程でまず必要なのはどれか。</div>
+<div class="cs"><div class="ch2">a　胸腔穿刺</div><div class="ch2">b　胸腔鏡検査</div><div class="ch2">c　肺動脈造影</div><div class="ch2"><span class="ok">d　気管支鏡検査</span></div><div class="ch2">e　CTガイド下肺生検</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　気管支鏡検査（中枢型肺癌→直接観察・生検による組織確定）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>中枢型腫瘤（右主気管支閉塞）→<span class="kw">気管支鏡</span>で直接観察・生検（組織型・EGFR変異等の確定に必須）。e：CTガイド下針生検は末梢型腫瘤向け（気管支鏡が届かない場合）。</div>
+</div>
+</div></div>
+<div class="qc" data-uid="resp_ch06_q350" id="q350"><div class="qh"><span class="qn">Q.350</span><span class="qe">(107B-57)</span><span class="bg br">連問</span><span class="cr ch">正答率 99%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q350" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q350" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 3/3</span>68 歳の男性。血痰を主訴に来院した。<br>現病歴：3 か月前から咳嗽があり、時々血痰も出現していた。最近血痰の回数が増加したため来院した。<br>既往歴：55 歳時に胆石症で手術。<br>生活歴：中華料理店に50 年間勤務。喫煙は20 本/ 日を48 年間。飲酒は日本酒5 合/ 日を40 年間。<br>家族歴：特記すべきことはない。<br>現　症：意識は清明。身長173cm、体重77kg。体温36.6℃。脈拍64/ 分、整。血圧134/82mmHg。呼吸数18/ 分。<br>SpO2 93％（room air）。頸部リンパ節を触知しない。心音に異常を認めないが、呼吸音は右上前胸部で減弱してい<br>る。</span><br>この疾患（肺癌）のリスクファクターはどれか。</div>
+<div class="cs"><div class="ch2"><span class="ok">a　喫煙</span></div><div class="ch2">b　糖尿病</div><div class="ch2">c　動脈硬化</div><div class="ch2">d　脂質異常症</div><div class="ch2">e　アルコール多飲</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　喫煙（肺癌の最大リスクファクター）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">喫煙</span>は肺癌（特に扁平上皮癌・小細胞癌）の<span class="kw">最大のリスクファクター</span>（相対危険度4〜10倍）。Brinkman指数400以上で肺癌リスク↑↑。b〜eは肺癌リスクでない。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="81" data-uid="resp_ch06_q351" id="q351"><div class="qh"><span class="qn">Q.351</span><span class="qe">(107D-28)</span><span class="cr cm">正答率 81%</span><span class="cr ch">正答率 81%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q351" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q351" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">52 歳の男性。胸痛を主訴に来院した。1 か月前にがん検診で胸部異常陰影を指摘された。精査したところ手術が必要と診断され、本日外来で手術説明を受け翌週手術が予定された。しかし帰宅途中に車のドアで胸を打ったときに急に右胸痛が出現し再度来院した。再来院時胸痛は右胸部全体にみられ体位と関係しない。喫煙は20 本/ 日を12 年間。意識は清明。身長158cm、体重60kg。体温37.1℃。脈拍76/ 分、整。血圧120/74mmHg。呼吸数16/ 分。SpO298％（鼻カニューラ2ℓ/ 分酸素投与下）。眼瞼結膜に貧血を認めない。頸静脈の怒張を認めない。心音に異常を認めないが、呼吸音は右側が減弱している。血液所見：赤血球354 万、Hb 11.1g/dl、Ht 33％、白血球14,700、血小板15 万。CRP 0.1mg/dl。心電図で異常を認めない。手術説明時の胸部エックス線写真（A）および胸部造影CT（B）、<br>胸痛で再来院した際の胸部エックス線写真（C）および胸部単純CT（D）を示す。<br><strong>胸痛の原因として考えられる</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/107D-28_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/107D-28_2.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/107D-28_3.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/107D-28_4.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　縦隔腫瘍の穿破</span></div><div class="ch2">b　大動脈瘤破裂</div><div class="ch2">c　肺血栓塞栓症</div><div class="ch2">d　急性肺炎</div><div class="ch2">e　無気肺</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　縦隔腫瘍の穿破（外傷後に縦隔腫瘤が穿破→胸腔内出血・気胸）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>既知の縦隔腫瘤がある患者が胸部打撲→<span class="kw">腫瘤の外傷性穿破</span>→急性胸痛＋呼吸音減弱＋白血球↑。手術前後でX線が変化→胸腔内変化（血胸・気胸）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="87" data-uid="resp_ch06_q352" id="q352"><div class="qh"><span class="qn">Q.352</span><span class="qe">(107E-53)</span><span class="cr ch">正答率 87%</span><span class="cr ch">正答率 87%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q352" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q352" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">70 歳の女性。人間ドックの胸部単純CT で異常を指摘されたため来院した。既往歴と家族歴とに特記すべきことはない。喫煙歴と飲酒歴とはない。意識は清明。身長156cm、体重58kg。体温36.2℃。脈拍64/ 分、整。血圧134/82mmHg。呼吸数20/ 分。SpO2 96％（room air）。心音と呼吸音とに異常を認めない。肺野条件の胸部単純CTを示す。<br><strong>確定診断のために行うべき検査</strong>はどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/107E-53_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　PET/CT</div><div class="ch2">b　胸部MRI</div><div class="ch2">c　喀痰培養検査</div><div class="ch2"><span class="ok">d　胸腔鏡下生検</span></div><div class="ch2">e　結核菌特異的全血IFN-γ遊離測定法（IGRA）</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　胸腔鏡下生検（喀痰培養陰性でも確定診断が必要な場合→組織生検が必要）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>両肺結節・気管支拡張・空洞→<span class="kw">非結核性抗酸菌症（NTM症）</span>または<span class="kw">結核</span>を考える。<span class="kw">IGRA（インターフェロンγ遊離試験）</span>でM. tuberculosis感染を鑑別（NTMでは陰性）。確定診断：喀痰の<span class="kw">抗酸菌培養＋同定（種の特定）</span>。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="99" data-uid="resp_ch06_q353" id="q353"><div class="qh"><span class="qn">Q.353</span><span class="qe">(107F-16)</span><span class="cr ch">正答率 99%</span><span class="cr ch">正答率 99%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q353" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q353" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">60 歳の女性。顔のむくみ、息苦しさおよび痰に血が混じることを主訴に来院した。3 か月前から顔面腫脹、咳嗽および呼吸困難のため自宅近くの診療所で抗菌薬と利尿薬とを処方され内服したが軽快しなかった。1 週前から血痰もみられるようになったため受診した。喫煙は30 本/ 日を35 年間。意識は清明。身長160cm、体重68kg。体温36.7℃。脈拍92/ 分、整。血圧140/96mmHg。呼吸数14/ 分。SpO2 96％（room air）。頸静脈と前胸部皮静脈とに怒張を認める。心音と呼吸音とに異常を認めない。右鎖骨上窩に径2cm のリンパ節を触知する。NSE 107ng/ml（基準10 以下）、ProGRP 580pg/ml（基準46 以下）。胸部エックス線写真を示す。<br><strong>狭窄または閉塞が考えられる血管</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/107F-16_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　右上肺静脈</div><div class="ch2">b　腕頭動脈</div><div class="ch2"><span class="ok">c　上大静脈</span></div><div class="ch2">d　右肺動脈</div><div class="ch2">e　下大静脈</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　上大静脈（SVC症候群：NSE/ProGRP↑→小細胞癌がSVCを圧迫）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">SVC症候群</span>：腫瘍（肺癌・リンパ腫等）が<span class="kw">上大静脈</span>を圧迫→上半身の静脈還流障害→顔面・頸部・上肢浮腫・頸静脈怒張・側副路（前胸部皮静脈怒張）。NSE/ProGRP著明↑→<span class="kw">小細胞癌</span>。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="92" data-uid="resp_ch06_q354" id="q354"><div class="qh"><span class="qn">Q.354</span><span class="qe">(107I-52)</span><span class="cr ch">正答率 92%</span><span class="cr ch">正答率 92%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q354" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q354" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">22 歳の男性。胸部圧迫感を主訴に来院した。1 週前から胸部圧迫感と労作時の息切れとを自覚し、徐々に悪化している。体温37.2℃。脈拍88/ 分、整。血圧110/72mmHg。呼吸数20/ 分。SpO2 96％（room air）。身体所見で左呼吸音の減弱を認める。血液所見：赤血球462 万、Hb 14.0g/dl、Ht 43％、白血球7,800、血小板35 万。血液生化学所見：<br>総ビリルビン0.3mg/dl、AST 23IU/l、ALT 15IU/l、LD 450IU/l（基準176 ～353）、ヒト絨毛性ゴナドトロピン〈hCG〉24mIU/ml。CRP 4.8mg/dl。ツベルクリン反応陽性。胸部エックス線写真（A）と胸部造影CT（B）とを示す。<br><strong>最も考えられる</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/107I-52_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/107I-52_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　胸腺腫</div><div class="ch2">b　神経鞘腫</div><div class="ch2"><span class="ok">c　胚細胞腫瘍</span></div><div class="ch2">d　リンパ節結核</div><div class="ch2">e　サルコイドーシス</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　胚細胞腫瘍（若年男性＋前縦隔大型腫瘤＋hCG↑）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">若年男性</span>＋<span class="kw">前縦隔大型腫瘤</span>＋<span class="kw">hCG↑</span>→<span class="kw">胚細胞腫瘍（精上皮腫=セミノーマ）</span>。セミノーマはhCGのみ軽度↑（AFPは正常）。ツベルクリン陽性は結核感染を示すが、主診断は腫瘍マーカー↑から胚細胞腫瘍。治療：BEP療法（セミノーマは放射線療法も）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="88" data-uid="resp_ch06_q355" id="q355"><div class="qh"><span class="qn">Q.355</span><span class="qe">(106D-23)</span><span class="cr ch">正答率 88%</span><span class="cr ch">正答率 88%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q355" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q355" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">60 歳の女性。健康診断の胸部エックス線写真で異常を指摘され来院した。自覚症状はない。既往歴に特記すべきことはない。喫煙歴はない。身長153cm、体重55kg。体温36.8℃。脈拍60/ 分、整。血圧118/64mmHg。呼吸数16/ 分。<br>SpO2 99％（room air）。心音と呼吸音とに異常を認めない。血液所見：赤血球380 万、Hb 13.2g/dl、Ht 33％、白血球5,600、血小板23 万。CRP 0.3mg/dl。胸部エックス線写真（A）と胸部単純CT（B）とを示す。<br><strong>診断のために行うべき検査として最も有用な</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/106D-23_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/106D-23_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　喀痰培養</div><div class="ch2">b　肺動脈造影</div><div class="ch2"><span class="ok">c　経気管支肺生検（TBLB）</span></div><div class="ch2">d　腫瘍マーカー測定</div><div class="ch2">e　PET</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　経気管支肺生検（組織確定が最も重要）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>孤立性肺結節の診断：<span class="kw">経気管支肺生検（TBLB）</span>または<span class="kw">CTガイド下針生検</span>で組織確定。PET（e）は代謝活性（FDG集積）で悪性疑いを評価できるが確定できない。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="72" data-uid="resp_ch06_q356" id="q356"><div class="qh"><span class="qn">Q.356</span><span class="qe">(106D-44)</span><span class="cr cm">正答率 72%</span><span class="cr cm">正答率 72%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q356" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q356" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">69 歳の男性。飲食店経営者。人間ドックで胸部エックス線写真の異常陰影を指摘されたため来院した。58 歳から高血圧症のため内服治療中である。喫煙は20 本/ 日を40 年間。意識は清明。身長164cm、体重70kg。体温36.8℃。<br>脈拍72/ 分、整。血圧148/72mmHg。呼吸数12/ 分。頸部リンパ節と鎖骨上リンパ節とを触知しない。心音と呼吸音とに異常を認めない。腹部は平坦、軟で、肝・脾を触知しない。血液所見：赤血球430 万、Hb 15.3g/dl、Ht42％、白血球8,100、血小板20 万。血液生化学所見：総蛋白7.9g/dl、アルブミン4.6g/dl、尿素窒素12mg/dl、クレアチニン0.8mg/dl、総ビリルビン1.0mg/dl、AST 51IU/l、ALT 38IU/l、LD 217IU/l（基準176 ～353）。免疫学所見：<br>CRP 0.1mg/dl。CEA 8.3ng/ml（基準5 以下）。肺機能検査所見：％VC 92％、FEV1.0％ 75％。心電図に異常を認めない。気管支鏡検査で右B3 から擦過細胞診を行いクラスV 陽性（腺癌）と判定された。精査の結果、所属リンパ節転移と遠隔転移とを認めなかった。胸部エックス線写真で右上肺野の結節影と左第一肋軟骨の石灰化とを認めた。胸部エックス線写真（A）と胸部単純CT（B）とを示す。<br><strong>第一選択になる治療法として適切な</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/106D-44_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/106D-44_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　縦隔リンパ節郭清を伴う右肺上葉切除術</span></div><div class="ch2">b　放射線治療と抗癌化学療法との併用</div><div class="ch2">c　抗癌化学療法</div><div class="ch2">d　放射線治療</div><div class="ch2">e　腫瘍核出術</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　縦隔リンパ節郭清を伴う右肺上葉切除術（Stage I腺癌→外科手術）</div><div class="as">Stage I非小細胞肺癌の標準治療は葉切除＋縦隔リンパ節郭清</div></div></div><div class="eg"><div class="eb ep"><h4>🫀 非小細胞肺癌 Stage I の治療方針</h4><span class="kw">Stage I（T1-2N0M0）</span>：縦隔・遠隔転移なし → <span class="kw">外科手術が第一選択</span><br/><br/>標準術式：<span class="kw">肺葉切除（lobectomy）＋縦隔リンパ節郭清</span><br/>・葉切除は局所切除（楔状切除・区域切除）より再発率が低い<br/>・縦隔リンパ節郭清はStage確認と残存転移の除去に必須<br/><br/>手術不能例（高齢・心肺機能低下）：<span class="kw">体幹部定位放射線治療（SBRT）</span> が代替</div><div class="eb ee"><h4>□ 非小細胞肺癌のStage別治療</h4><table class="tb"><tr><th>Stage</th><th>特徴</th><th>治療</th></tr><tr><td>Stage I-II</td><td>N0-1、遠隔転移なし</td><td><span class="kw">外科手術（葉切除＋リンパ節郭清）</span></td></tr><tr><td>Stage III</td><td>N2-3</td><td>化学放射線療法 ± 手術</td></tr><tr><td>Stage IV</td><td>遠隔転移あり</td><td>薬物療法（driver変異に応じた分子標的薬/免疫CP阻害薬）</td></tr></table></div><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">肺癌Stage I = 手術</span>（葉切除＋縦隔リンパ節郭清）は超頻出。<br/>放射線単独・化学療法単独はStage I手術可能例には選ばない。<br/>腺癌は非喫煙者・女性に多い（EGFR変異陽性が多い）。<br/>Stage Iでも術後病理でN2あればStage IIIに再分類 → 追加治療を考慮。</div></div>
+</div></div>
+<div class="qc" data-rate="51" data-uid="resp_ch06_q357" id="q357"><div class="qh"><span class="qn">Q.357</span><span class="qe">(106E-27)</span><span class="cr cl">正答率 51%</span><span class="cr cl">正答率 51%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q357" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q357" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">原発性肺癌患者の胸部造影CT を示す。<br><strong>この画像所見から、まず生じることが想定される</strong>のはどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/106E-27_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　食道通過障害</div><div class="ch2">b　左横隔膜挙上</div><div class="ch2">c　チアノーゼ</div><div class="ch2">d　顔面浮腫</div><div class="ch2"><span class="ok">e　嗄声</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　嗄声（大動脈弓周囲腫瘤→左反回神経麻痺）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">大動脈弓の下を走行する左反回神経</span>が圧迫される→<span class="kw">嗄声</span>。CT上で大動脈弓周囲の腫瘤・リンパ節腫大がある場合は嗄声を真っ先に疑う。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="93" data-uid="resp_ch06_q358" id="q358"><div class="qh"><span class="qn">Q.358</span><span class="qe">(106F-8)</span><span class="cr ch">正答率 93%</span><span class="cr ch">正答率 93%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q358" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q358" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">肺腺癌について<strong>正しいのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　肺癌の他の組織型に比べてホルモン産生腫瘍が多い</div><div class="ch2">b　胸部エックス線写真の典型像は空洞形成である</div><div class="ch2"><span class="ok">c　肺癌の組織型の中では最も頻度が高い</span></div><div class="ch2">d　喀痰細胞診で早期発見されやすい</div><div class="ch2">e　血清NSEが上昇する</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　肺癌の組織型の中では最も頻度が高い（日本で約40〜50%）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>a：ホルモン産生（副腫瘍症候群）は<span class="kw4">小細胞癌</span>の特徴。b：空洞形成は<span class="kw4">扁平上皮癌</span>の典型。d：喀痰細胞診で発見されやすいのは<span class="kw4">中枢型扁平上皮癌</span>（腺癌は末梢型→喀痰に出にくい）。e：NSEは<span class="kw4">小細胞癌</span>のマーカー。</div>
+</div>
+</div></div>
+<div class="rb">📋 <strong>連問（Q.359〜360）　次の文を読み、359と360の問いに答えよ。</strong><div class="pi"><strong>67歳男性。全身の衰弱を心配した家族に伴われて来院した。</strong><br/>3ヶ月前から体重減少（3か月で徐々に衰弱）、2か月前から外出不可、1週前から家族介助なしに立てない。2日前からほとんど食事が摂れない。<br/>生活歴：喫煙60本/日×47年間（Brinkman 2,820）。飲酒日本酒1〜2合/日。<br/>現症：体温37.6℃。脈拍120。低血圧（96/62）。右前胸部・背部・側胸部で呼吸音減弱。皮膚ツルゴール低下。Hb 13.1。白血球11,700（好中球85%）。Na 133↓。LD 391↑。ALP 435↑。CRP 24↑。胸部X線を示す。</div></div>
+<div class="qc" data-rate="98" data-uid="resp_ch06_q359" id="q359"><div class="qh"><span class="qn">Q.359</span><span class="qe">(106F-28)</span><span class="bg br">連問</span><span class="cr ch">正答率 98%</span><span class="cr ch">正答率 98%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q359" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q359" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 1/2</span>次の文を読み、359 と360 の問いに答えよ。<br>67 歳の男性。全身の衰弱を心配した家族に伴われて来院した。<br>現病歴：3 か月前から徐々に体重が減少し、2 か月前から外出できなくなり、1 週前からは家族の介助がないと立ち<br>上がれなくなった。患者本人は受診を嫌がっていたが、2 日前からはほとんど食事が摂れず、トイレまで歩くこと<br>もできなくなったため受診に同意した。<br>既往歴：健康診断は受けていない。<br>生活歴：喫煙は60 本/ 日を47 年間。飲酒は日本酒1 ～2 合/ 日を47 年間。<br>家族歴：父親が高血圧症で、脳梗塞のため82 歳で死亡。<br>現　症：意識は清明。身長165cm、体重42kg。</span><br>この患者の病態として<strong>考えにくいのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　脱水症</div><div class="ch2">b　感染症</div><div class="ch2">c　糖尿病</div><div class="ch2">d　悪性腫瘍</div><div class="ch2"><span class="ok">e　うっ血性心不全</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　うっ血性心不全（考えにくい：頸静脈怒張なし・下腿浮腫なし）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>a：ツルゴール低下・脈拍120・低血圧→<span class="kw">脱水症</span>。b：CRP 24↑・発熱・白血球↑→<span class="kw">感染症</span>。c：HbA1c記載なし→体重減少の原因として<span class="kw">悪性腫瘍に伴う糖尿病</span>。d：喫煙Brinkman 2820→<span class="kw">肺癌</span>の強力なリスク。e：頸静脈怒張なし・下腿浮腫なし→<span class="kw4">心不全は否定的</span>。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="89" data-uid="resp_ch06_q360" id="q360"><div class="qh"><span class="qn">Q.360</span><span class="qe">(106F-29)</span><span class="bg br">連問</span><span class="cr ch">正答率 89%</span><span class="cr ch">正答率 89%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q360" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q360" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 2/2</span>次の文を読み、359 と360 の問いに答えよ。<br>67 歳の男性。全身の衰弱を心配した家族に伴われて来院した。<br>現病歴：3 か月前から徐々に体重が減少し、2 か月前から外出できなくなり、1 週前からは家族の介助がないと立ち<br>上がれなくなった。患者本人は受診を嫌がっていたが、2 日前からはほとんど食事が摂れず、トイレまで歩くこと<br>もできなくなったため受診に同意した。<br>既往歴：健康診断は受けていない。<br>生活歴：喫煙は60 本/ 日を47 年間。飲酒は日本酒1 ～2 合/ 日を47 年間。<br>家族歴：父親が高血圧症で、脳梗塞のため82 歳で死亡。<br>現　症：意識は清明。身長165cm、体重42kg。</span><br>次に行うべき検査はどれか。</div>
+<div class="cs"><div class="ch2">a　胸部MRI</div><div class="ch2"><span class="ok">b　胸部造影CT</span></div><div class="ch2">c　心臓カテーテル検査</div><div class="ch2">d　ガリウムシンチグラフィ</div><div class="ch2">e　FDG-PET</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　胸部造影CT（右側呼吸音減弱の詳細評価・肺癌ステージング）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>右側全体の呼吸音減弱＋X線異常＋超高喫煙歴→<span class="kw">肺癌疑い</span>（胸水・無気肺等）。まず<span class="kw">胸部造影CT</span>で腫瘤の性状・リンパ節・胸水・胸壁浸潤を評価。e：PETはCTの後（転移の全身評価）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="97" data-uid="resp_ch06_q361" id="q361"><div class="qh"><span class="qn">Q.361</span><span class="qe">(106I-74)</span><span class="cr ch">正答率 97%</span><span class="cr ch">正答率 97%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q361" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q361" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">72 歳の男性。血痰を主訴に来院した。2 か月前から時々血痰が出ることに気付いていた。既往歴に特記すべきことはない。喫煙歴は20 本/ 日を52 年間。身長173cm、体重70kg。体温36.8℃。脈拍60/ 分、整。血圧128/64mmHg。<br>呼吸数16/ 分。SpO2 97％（room air）。心音と呼吸音とに異常を認めない。胸部エックス線写真（A）、胸部造影CT（B）<br>および喀痰細胞診Papanicolaou 染色標本（C）を示す。<br><strong>最も考えられる</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/106I-74_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/106I-74_2.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/106I-74_3.jpeg"/></div>
+<div class="cs"><div class="ch2">a　肺アスペルギルス症</div><div class="ch2">b　サルコイドーシス</div><div class="ch2">c　胸膜中皮腫</div><div class="ch2"><span class="ok">d　肺小細胞癌</span></div><div class="ch2">e　胸腺腫</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　肺小細胞癌（喀痰細胞診：小型・裸核・数珠状配列）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>喀痰Papanicolaou染色で<span class="kw">小型・裸核・クロマチン顆粒状・数珠状配列（モールドパターン）</span>→<span class="kw">小細胞癌</span>の特徴的細胞像。喫煙Brinkman 1,040＋中枢型腫瘤→小細胞癌が合致。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="98" data-uid="resp_ch06_q362" id="q362"><div class="qh"><span class="qn">Q.362</span><span class="qe">(105A-10)</span><span class="bg bm">2択</span><span class="cr ch">正答率 98%</span><span class="cr ch">正答率 98%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q362" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q362" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">肺癌の臨床病期の決定に<strong>関係しない</strong>検査はどれか。</div>
+<div class="cs"><div class="ch2">a　FDG-PET</div><div class="ch2"><span class="ok">b　腫瘍マーカー</span></div><div class="ch2">c　気管支鏡検査</div><div class="ch2">d　頭部造影MRI</div><div class="ch2">e　胸腹部造影CT</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　腫瘍マーカー（病期分類（TNM）に用いない）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>病期（ステージング）はTNM分類（T：原発腫瘤、N：リンパ節、M：遠隔転移）で決まる→<span class="kw">画像診断（CT・PET・MRI）＋組織診（気管支鏡）</span>が必要。<span class="kw4">腫瘍マーカー（CEA等）</span>は病期分類には<span class="kw4">使わない</span>（再発モニタリングに使用）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="84" data-uid="resp_ch06_q363" id="q363"><div class="qh"><span class="qn">Q.363</span><span class="qe">(105A-11)</span><span class="cr cm">正答率 84%</span><span class="cr ch">正答率 84%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q363" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q363" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">肺癌の縦隔リンパ節転移によって起こる症候はどれか。</div>
+<div class="cs"><div class="ch2">a　血胸</div><div class="ch2">b　頻脈</div><div class="ch2">c　散瞳</div><div class="ch2">d　胸やけ</div><div class="ch2"><span class="ok">e　顔面浮腫</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　顔面浮腫（縦隔リンパ節転移→SVC圧迫→上半身浮腫）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>縦隔リンパ節転移による症状：<span class="kw">顔面浮腫（SVC症候群）</span>・<span class="kw">嗄声（左反回神経麻痺）</span>・食道圧迫（嚥下困難）・気管圧迫（喘鳴・呼吸困難）。c：散瞳→Horner症候群は<span class="kw4">縮瞳</span>（散瞳でない）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="43" data-uid="resp_ch06_q364" id="q364"><div class="qh"><span class="qn">Q.364</span><span class="qe">(105A-58)</span><span class="bg bm">3択</span><span class="cr cl">正答率 43%（超難問）</span><span class="cr cl">正答率 43%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q364" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q364" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">52 歳の男性。胸部圧迫感を主訴に来院した。1 か月前から仰向けに寝ると前胸部に違和感を自覚していた。心音と呼吸音とに異常を認めない。初診時の胸部造影CT を示す。<br>診断に必要な検査項目はどれか。3 つ選べ。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/105A-58_1.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　可溶性IL-2受容体</span></div><div class="ch2"><span class="ok">b　絨毛性ゴナドトロピン（hCG）</span></div><div class="ch2">c　抗ミトコンドリア抗体</div><div class="ch2">d　抗サイログロブリン抗体</div><div class="ch2"><span class="ok">e　抗アセチルコリン受容体抗体</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　sIL-2R（悪性リンパ腫）　＋　b　hCG（胚細胞腫瘍）　＋　e　抗AChR抗体（胸腺腫）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 前縦隔腫瘤の診断マーカー</h4><span class="kw">a sIL-2R</span>→悪性リンパ腫。<span class="kw">b hCG</span>（＋AFP）→胚細胞腫瘍（非セミノーマ）。<span class="kw">e 抗AChR抗体</span>→胸腺腫（重症筋無力症合併）。<span class="kw4">c 抗ミトコンドリア抗体</span>→原発性胆汁性胆管炎（前縦隔腫瘤と無関係）。<span class="kw4">d 抗サイログロブリン抗体</span>→橋本甲状腺炎（甲状腺腫でなければ不要）。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>43%の超難問。前縦隔腫瘤の4Tに対応する検査：胸腺腫（抗AChR）・胚細胞腫瘍（AFP・hCG）・Terrible lymphoma（sIL-2R）・甲状腺（甲状腺ホルモン）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="90" data-uid="resp_ch06_q365" id="q365"><div class="qh"><span class="qn">Q.365</span><span class="qe">(105G-12)</span><span class="cr ch">正答率 90%</span><span class="cr ch">正答率 90%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q365" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q365" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">疾患と症候の組合せで<strong>正しいのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　サルコイドーシス——ばち指</div><div class="ch2">b　過換気症候群——チアノーゼ</div><div class="ch2">c　気管支拡張症——胸水</div><div class="ch2">d　気管支嚢胞——喀血</div><div class="ch2"><span class="ok">e　肺癌——嗄声</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　肺癌——嗄声（縦隔リンパ節転移→反回神経麻痺→嗄声）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>a：ばち指→肺癌・IPF等（サルコイドでない）。b：過換気→低CO₂→チアノーゼなし（過換気は低酸素でない）。c：気管支拡張症→coarse crackles・膿性痰（胸水は稀）。d：気管支嚢胞→通常無症状（喀血は主症状でない）。e：<span class="kw3">肺癌→縦隔転移→反回神経麻痺→嗄声</span>→正しい。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="81" data-uid="resp_ch06_q366" id="q366"><div class="qh"><span class="qn">Q.366</span><span class="qe">(105I-62)</span><span class="cr cm">正答率 81%</span><span class="cr ch">正答率 81%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q366" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q366" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">50歳の男性。健康診断で異常を指摘され来院した。精査の結果、肺癌と診断された。初診時の胸部エックス線写真（A）<br>と胸部造影CT（B）とを示す。<br><strong>最も起こりやすい</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/105I-62_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/105I-62_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　右全無気肺</div><div class="ch2">b　Horner症候群</div><div class="ch2">c　右腕神経叢障害</div><div class="ch2">d　右反回神経麻痺</div><div class="ch2"><span class="ok">e　上大静脈症候群</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　上大静脈症候群（右縦隔腫瘤→上大静脈を圧迫→顔面・上肢浮腫・頸静脈怒張）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>右縦隔腫瘤が<span class="kw">右反回神経</span>（右鎖骨下動脈の周囲を走行）を圧迫→<span class="kw">右反回神経麻痺→嗄声</span>。b：Horner症候群は肺尖部腫瘍（Pancoast）。e：SVC症候群は右縦隔腫瘤でも起こるが、反回神経麻痺の方がより直接的。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="67" data-uid="resp_ch06_q367" id="q367"><div class="qh"><span class="qn">Q.367</span><span class="qe">(104E-58)</span><span class="cr cm">正答率 67%</span><span class="cr cm">正答率 67%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch06_q367" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch06_q367" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">55 歳の男性。2 か月前からの全身疲労感、湿性咳嗽、息切れおよび顔面のむくみを主訴に来院した。既往歴に特記すべきことはない。身長158cm、体重46kg。呼吸数18/ 分。脈拍72/ 分、整。血圧144/88mmHg。心音に異常を認めない。両側背部にﬁne crackles を聴取する。腹部に異常を認めない。入院時の胸部エックス線写真（A）と経気管支肺生検組織のH-E 染色標本（B）とを示す。<br><strong>この患者で異常が予測される腫瘍マーカー</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/104E-58_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/104E-58_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　AFP</div><div class="ch2">b　CA19-9</div><div class="ch2"><span class="ok">c　NSE</span></div><div class="ch2">d　PIVKA-Ⅱ</div><div class="ch2">e　SCC</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　NSE（顔面浮腫・両側性病変→小細胞癌→NSE高値）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>顔面浮腫（SVC症候群）＋湿性咳嗽＋両側性変化＋癌性リンパ管症のfine crackles→<span class="kw">小細胞癌（進行期）</span>の典型。<span class="kw">NSE（neuron-specific enolase）</span>は小細胞癌・神経内分泌腫瘍で上昇。ProGRPも上昇するがこの選択肢にはない。</div>
+</div>
+</div></div>
+</div><!-- /ct -->
+<div class="pf">MEC臓器別講座 呼吸器 '26 ｜ 第6章 腫瘍 解答・解説集（全81問）</div>
+<button id="st" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<script>
+window.addEventListener('scroll',()=>{
+  const t=document.body.scrollHeight-window.innerHeight;
+  document.getElementById('pb').style.width=(window.scrollY/t*100)+'%';
+  document.getElementById('st').style.display=window.scrollY>300?'flex':'none';
+});
+function goto(id){const e=document.getElementById(id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'});}
+</script>
+<script src="../progress.js?v=3"></script>
+<script>
+// MECSync が初期化後、章ごとの進捗バーを更新
+document.addEventListener('mecSyncComplete', function() {
+  document.querySelectorAll('.qc[data-uid]').forEach(function(card) {
+    var uid = card.dataset.uid;
+    var done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+    var flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+    var lapBtn = card.querySelector('.mec-lap-btn');
+    if (lapBtn) { var dl = done[uid] || 0; var nl = lapBtn.querySelector('.mec-lap-num');
+      if (nl) nl.textContent = dl > 0 ? dl : ''; lapBtn.classList.toggle('mec-lapped', dl > 0); card.classList.toggle('mec-done', dl > 0); }
+    var fb = card.querySelector('.mec-flag-btn');
+    if (fb && flags[uid]) fb.classList.add('mec-flagged');
+  });
+});
+
+let currentFilter = 'all';
+let currentState = 'all';
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('[data-filter]').forEach(b => b.classList.toggle('fc-on', b.dataset.filter === f));
+  applyFilters();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setState(s) {
+  currentState = s;
+  document.querySelectorAll('[data-state]').forEach(b => b.classList.toggle('fs-on', b.dataset.state === s));
+  applyFilters();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function applyFilters() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  const today = new Date().toISOString().slice(0, 10);
+  let visible = 0, doneVis = 0;
+  document.querySelectorAll('.qc[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    const r = c.dataset.rate !== undefined && c.dataset.rate !== '' ? +c.dataset.rate : null;
+    const f = currentFilter;
+    let showDiff;
+    if (f === 'all') showDiff = true;
+    else if (f === 'norate') showDiff = r === null;
+    else if (f === 'star') showDiff = !!c.querySelector('.bg.bs');
+    else if (f === 'img') showDiff = !!c.querySelector('.qimg');
+    else if (r !== null) showDiff = (f === 'hard' && r < 60) || (f === 'mid' && r >= 60 && r < 80) || (f === 'easy' && r >= 80);
+    else showDiff = false;
+    const st = currentState;
+    let showState;
+    if (st === 'all') showState = true;
+    else if (st === 'flag') showState = !!flags[uid];
+    else if (st === 'undone') showState = !done[uid];
+    else if (st === 'done') showState = !!done[uid];
+    else showState = true;
+    const show = showDiff && showState;
+    c.style.display = show ? '' : 'none';
+    if (show) { visible++; if (window.mecSessionDone && window.mecSessionDone.has(uid)) doneVis++; }
+  });
+  document.querySelectorAll('.sg').forEach(g => {
+    const vis = [...g.querySelectorAll('.qc')].some(c => c.style.display !== 'none');
+    g.style.display = vis ? '' : 'none';
+  });
+  const vc = document.getElementById('visCount');
+  if (vc) vc.textContent = visible ? visible + '問' : '—';const fp=document.getElementById('filtProgFill');const ft=document.getElementById('filtProgTxt');const pct=visible>0?Math.round(doneVis/visible*100):0;if(fp)fp.style.width=pct+'%';if(ft)ft.textContent='残り'+(visible-doneVis)+'問';
+}
+
+function filterCards(f) { setFilter(f); }
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var sn = document.querySelector('.sn');
+  var sn2 = document.querySelector('.sn2');
+  if (sn && sn2) {
+    var setTop = function() { sn2.style.top = sn.offsetHeight + 'px'; };
+    setTop();
+    if (window.ResizeObserver) new ResizeObserver(setTop).observe(sn);
+  }
+});
+</script>
+<script>
+function _bmPageKey(){var p=location.pathname.split('/');var last=p[p.length-1];return last.replace(/\.html$/i,'');}
+function saveBookmark(){var cards=[].slice.call(document.querySelectorAll('.qc[data-uid]')).filter(function(c){return c.style.display!=='none';});if(!cards.length)return;var hdr=document.querySelector('.mec-ch-prog');var hdrH=hdr?hdr.getBoundingClientRect().bottom:80;var best=null;for(var i=0;i<cards.length;i++){if(cards[i].getBoundingClientRect().top>=hdrH-10){best=cards[i];break;}}if(!best)best=cards[0];var bm=JSON.parse(localStorage.getItem('bookmark_v1')||'{}');bm[_bmPageKey()]=best.dataset.uid;localStorage.setItem('bookmark_v1',JSON.stringify(bm));var btn=document.getElementById('bookmarkBtn');if(btn){btn.textContent='📖 保存済';setTimeout(function(){btn.textContent='📖 しおり';},1500);}}
+function restoreBookmark(){var uid=(JSON.parse(localStorage.getItem('bookmark_v1')||'{}'))[_bmPageKey()];if(!uid)return;var card=document.querySelector('.qc[data-uid="'+uid+'"]');if(!card)return;if(card.style.display==='none'){setState('all');card=document.querySelector('.qc[data-uid="'+uid+'"]');}hideBmBanner();var hdr=document.querySelector('.mec-ch-prog');var offset=hdr?hdr.getBoundingClientRect().height+16:80;var y=card.getBoundingClientRect().top+(window.scrollY||document.documentElement.scrollTop)-offset;window.scrollTo({top:Math.max(0,y),behavior:'smooth'});card.style.outline='2px solid #F5A623';setTimeout(function(){card.style.outline='';},2000);}
+function hideBmBanner(){var b=document.getElementById('bmBanner');if(b)b.style.display='none';}
+document.addEventListener('DOMContentLoaded',function(){var uid=(JSON.parse(localStorage.getItem('bookmark_v1')||'{}'))[_bmPageKey()];if(uid){var b=document.getElementById('bmBanner');if(b)b.style.display='flex';}});
+</script>
+<div id="bmBanner" style="display:none;position:fixed;bottom:72px;left:50%;transform:translateX(-50%);background:#1A1A2E;color:#fff;border-radius:24px;padding:8px 16px;font-size:13px;font-weight:700;gap:8px;align-items:center;z-index:1000;box-shadow:0 4px 12px rgba(0,0,0,.4);white-space:nowrap;">📖 前回の続きから<button onclick="restoreBookmark()" style="background:#F5A623;border:none;border-radius:16px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer;color:#000;margin-left:4px;">再開</button><button onclick="hideBmBanner()" style="background:none;border:none;color:rgba(255,255,255,.5);font-size:18px;cursor:pointer;padding:0 0 0 6px;line-height:1;">✕</button></div>
+<script>
+var compactMode=false;
+function toggleCompact(){compactMode=!compactMode;document.body.classList.toggle('compact-mode',compactMode);if(!compactMode)document.querySelectorAll('.qc.compact-open').forEach(function(el){el.classList.remove('compact-open');});var btn=document.getElementById('compactBtn');if(btn){btn.textContent=compactMode?'📋 通常表示':'📋 コンパクト';btn.classList.toggle('compact-on',compactMode);}}
+document.addEventListener('click',function(e){if(!compactMode)return;var card=e.target.closest?e.target.closest('.qc[data-uid]'):null;if(!card)return;if(e.target.closest('button, a, input, textarea'))return;card.classList.toggle('compact-open');});
+function openLightbox(src){var lb=document.getElementById('imgLightbox');var img=document.getElementById('imgLightboxImg');if(!lb||!img)return;img.src=src;lb.classList.add('open');}
+function closeLightbox(){var lb=document.getElementById('imgLightbox');if(lb)lb.classList.remove('open');}
+document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.qimg').forEach(function(img){img.addEventListener('click',function(e){e.stopPropagation();openLightbox(this.src);});});});
+</script>
+<div id="imgLightbox" onclick="closeLightbox()"><img loading="lazy" id="imgLightboxImg" src="" alt=""></div>
+<script>
+document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;var tag=document.activeElement&&document.activeElement.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||tag==='BUTTON')return;e.preventDefault();var hdr=document.querySelector('.mec-ch-prog');var hdrH=hdr?hdr.getBoundingClientRect().bottom:0;var cards=[].slice.call(document.querySelectorAll('.qc[data-uid]')).filter(function(c){return c.style.display!=='none';});var card=cards.find(function(c){var r=c.getBoundingClientRect();return r.top>=hdrH-10&&r.bottom>hdrH;})||cards.find(function(c){return c.getBoundingClientRect().bottom>hdrH;});if(card){var btn=card.querySelector('.mec-lap-btn');if(btn)btn.click();}});
+(function(){document.querySelectorAll('.qc[data-uid]').forEach(function(card){var ctrl=card.querySelector('.mec-controls');if(!ctrl)return;var b=document.createElement('span');b.className='mec-enter-badge';b.textContent='⏎';ctrl.insertBefore(b,ctrl.firstChild);});var _ac=null;function _upd(){var hdr=document.querySelector('.mec-ch-prog');var hdrH=hdr?hdr.getBoundingClientRect().bottom:0;var cards=[].slice.call(document.querySelectorAll('.qc[data-uid]')).filter(function(c){return c.style.display!=='none';});var card=cards.find(function(c){var r=c.getBoundingClientRect();return r.top>=hdrH-10&&r.bottom>hdrH;})||cards.find(function(c){return c.getBoundingClientRect().bottom>hdrH;});if(card===_ac)return;if(_ac)_ac.classList.remove('mec-enter-active');_ac=card||null;if(_ac)_ac.classList.add('mec-enter-active');}var _raf;window.addEventListener('scroll',function(){cancelAnimationFrame(_raf);_raf=requestAnimationFrame(_upd);},{passive:true});window.addEventListener('resize',_upd);document.addEventListener('click',function(){setTimeout(_upd,50);});_upd();})();
+</script>
+<script src="../chapter_exam.js"></script>
+</body></html>

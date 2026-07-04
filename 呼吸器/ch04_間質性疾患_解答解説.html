@@ -1,0 +1,775 @@
+﻿<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MEC呼吸器 第4章 間質性疾患 解答解説</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../vars.css">
+<style>
+:root{--or:#E8703A;--orl:#FFF0E8;--ord:#C85A25;--te:#6A1B9A;}
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--gb);color:var(--tx);font-size:14px;line-height:1.7;}
+#pb{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--te),var(--or));z-index:9999;transition:width .1s;}
+.ph{background:linear-gradient(135deg,#2A1A4A 0%,#4A2A6A 100%);color:#fff;padding:36px 24px 28px;position:relative;overflow:hidden;}
+.ph::before{content:'';position:absolute;bottom:-2px;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--te),var(--or),var(--te));}
+.ph::after{content:'線維';position:absolute;right:-10px;top:-10px;font-size:100px;font-weight:900;color:rgba(255,255,255,.04);pointer-events:none;}
+.hb{display:inline-block;background:var(--te);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;}
+.ph h1{font-size:24px;font-weight:900;margin-bottom:6px;}.ph h1 span{color:#CE93D8;}
+.hs{font-size:12px;color:rgba(255,255,255,.6);margin-top:6px;}
+.hst{display:flex;gap:16px;margin-top:16px;flex-wrap:wrap;}
+.sp{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;font-size:12px;}
+.sp strong{color:#CE93D8;font-size:15px;font-weight:700;margin-right:4px;}
+.sn{position:sticky;top:0;z-index:100;background:#fff;border-bottom:2px solid var(--te);padding:7px 14px;display:flex;gap:5px;overflow-x:auto;box-shadow:0 2px 8px rgba(0,0,0,.08);scrollbar-width:none;}
+.sn::-webkit-scrollbar{display:none;}
+.nb{flex-shrink:0;background:none;border:1.5px solid var(--bd);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;color:var(--ts);transition:all .2s;white-space:nowrap;}
+.nb:hover,.nb.active{background:var(--te);border-color:var(--te);color:#fff;}
+.ct{max-width:900px;margin:0 auto;padding:20px 14px 60px;}
+.sh{display:flex;align-items:center;gap:10px;background:var(--nv);color:#fff;padding:12px 18px;border-radius:10px;margin:28px 0 14px;}
+.sh .snum{background:var(--te);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;flex-shrink:0;}
+.sh h2{font-size:14px;font-weight:700;}.sh .sc{margin-left:auto;background:rgba(255,255,255,.15);border-radius:12px;padding:2px 10px;font-size:11px;flex-shrink:0;}
+.qc{background:var(--cb);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:14px;border-left:4px solid var(--or);overflow:hidden;transition:box-shadow .2s;}
+.qc:hover{box-shadow:0 5px 20px rgba(0,0,0,.12);}
+.qh{display:flex;align-items:center;gap:7px;padding:11px 15px 7px;flex-wrap:wrap;border-bottom:1px solid var(--gb);}
+.qn{font-size:14px;font-weight:900;color:var(--nv);min-width:36px;}.qe{font-size:11px;color:var(--ts);}
+.bg{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;}
+.bs{background:#FFF3CD;color:#B45309;border:1px solid #F5D87A;}.bc{background:#E8F4FD;color:#1565C0;border:1px solid #90CAF9;}
+.bh{background:#FCE4EC;color:#C62828;border:1px solid #F48FB1;}.bi{background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8;}
+.bk{background:#E8F5E9;color:#1B5E20;border:1px solid #A5D6A7;}.bm{background:#FFF8E1;color:#E65100;border:1px solid #FFCC80;}
+.br{background:#E3F2FD;color:#01579B;border:1px solid #81D4FA;}
+.cr{margin-left:auto;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;flex-shrink:0;}
+.ch{background:var(--grl);color:var(--gr);border:1px solid #A5D6A7;}.cm{background:var(--yll);color:#92660A;border:1px solid #FFD54F;}
+.cl{background:var(--rdl);color:var(--rd);border:1px solid #EF9A9A;}
+.qb{padding:11px 15px 14px;}.qt{font-size:13.5px;line-height:1.75;margin-bottom:9px;}.qt strong{color:var(--ord);}
+.cs{background:var(--gb);border-radius:6px;padding:9px 13px;margin-bottom:11px;}
+.ch2{font-size:13px;padding:2px 0;line-height:1.6;}
+.ab{background:var(--grl);border:1.5px solid #81C784;border-radius:8px;padding:9px 13px;margin-bottom:11px;display:flex;align-items:flex-start;gap:7px;}
+.ai{font-size:15px;flex-shrink:0;margin-top:1px;}.ac{font-size:13.5px;font-weight:700;color:var(--gr);line-height:1.5;}
+.as{font-size:12px;font-weight:400;color:#3A7D51;margin-top:2px;}
+.eg{display:grid;gap:9px;margin-top:9px;}
+.eb{border-radius:6px;padding:9px 12px;font-size:13px;line-height:1.7;}
+.eb h4{font-size:11px;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;}
+.ep{background:var(--bl);border-left:3px solid #1976D2;}.ep h4{color:#1565C0;}
+.ee{background:#F0FDF4;border-left:3px solid var(--gr);}.ee h4{color:var(--gr);}
+.ept{background:linear-gradient(135deg,#FFF9F0,#FFF3E0);border:1.5px solid var(--or);border-radius:8px;}.ept h4{color:var(--ord);font-size:11px;}
+.em{background:var(--pul);border-left:3px solid var(--pu);}.em h4{color:var(--pu);}
+.ei{background:#212121;color:#E0E0E0;border-radius:6px;}.ei h4{color:#FFD54F;}
+.ei ul{margin-top:4px;padding-left:16px;}.ei li{font-size:12.5px;color:#BDBDBD;list-style:disc;}
+.kw{color:var(--ord);font-weight:700;}.kw4{color:var(--rd);font-weight:700;}.kw3{color:var(--gr);font-weight:700;}
+.tb{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:5px;}
+.tb th{background:var(--nv);color:#fff;padding:5px 9px;text-align:left;font-weight:700;}
+.tb td{padding:4px 9px;border-bottom:1px solid var(--bd);}
+.tb tr:last-child td{border-bottom:none;}.tb tr:nth-child(even) td{background:var(--gb);}
+.rb{background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border:1.5px solid #64B5F6;border-radius:8px;padding:9px 14px;margin-bottom:7px;font-size:13px;font-weight:500;color:#01579B;}
+.rb .pi{margin-top:7px;font-size:12px;color:var(--tx);line-height:1.8;font-weight:400;}
+.pf{background:var(--nv);color:rgba(255,255,255,.5);text-align:center;padding:18px;font-size:12px;margin-top:40px;}
+#st{position:fixed;bottom:22px;right:22px;background:var(--te);color:#fff;border:none;border-radius:50%;width:42px;height:42px;font-size:18px;cursor:pointer;box-shadow:0 3px 12px rgba(106,27,154,.4);display:none;align-items:center;justify-content:center;z-index:500;}
+.fsep{width:1px;height:20px;background:var(--bd);margin:0 4px;flex-shrink:0;}[data-filter].fc-on{background:var(--or);border-color:var(--or);color:#fff;}[data-filter="hard"].fc-on{background:var(--rd);border-color:var(--rd);}[data-filter="mid"].fc-on{background:var(--yl);border-color:var(--yl);color:#744A00;}[data-filter="easy"].fc-on{background:var(--gr);border-color:var(--gr);}[data-filter="norate"].fc-on{background:#78909C;border-color:#78909C;color:#fff;}.qimg-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px;}.qimg{max-height:450px;max-width:80%;object-fit:contain;border-radius:4px;border:1px solid var(--bd,#e0e5eb);cursor:zoom-in;transition:max-height .2s,max-width .2s;}.qimg:active{max-height:none;max-width:100%;}.filt-prog{display:flex;align-items:center;gap:8px;padding:3px 10px 5px;background:rgba(0,0,0,.12);}.filt-prog-bar{flex:1;height:6px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden;}.filt-prog-fill{height:100%;background:var(--or);border-radius:3px;transition:width .3s;}.filt-prog-txt{font-size:10px;font-weight:700;color:rgba(255,255,255,.65);white-space:nowrap;min-width:60px;text-align:right;}.qimg{cursor:zoom-in!important;transition:none!important;}
+.qimg:active{max-height:450px!important;max-width:80%!important;}
+#imgLightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9998;align-items:center;justify-content:center;cursor:zoom-out;}
+#imgLightbox.open{display:flex;}
+#imgLightbox img{max-width:95vw;max-height:90vh;border-radius:8px;object-fit:contain;}
+.compact-mode .cs,.compact-mode .ab,.compact-mode .eg{display:none!important;}
+.compact-mode .qc.compact-open .cs{display:block!important;}
+.compact-mode .qc.compact-open .ab{display:flex!important;}
+.compact-mode .qc.compact-open .eg{display:grid!important;}
+.compact-mode .qc:not(.compact-open) .qt{cursor:pointer;}
+.compact-mode .qc:not(.compact-open) .qt::after{content:" ▼";font-size:10px;opacity:.35;vertical-align:middle;}
+.nb2.compact-on{background:#2E7D32;border-color:#2E7D32;color:#fff;}
+.qc.mec-enter-active{border-left-color:var(--gr)!important;background:linear-gradient(to right,rgba(45,140,78,.08) 0%,transparent 32%);}.mec-enter-badge{display:none;background:var(--gr);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;white-space:nowrap;letter-spacing:.02em;}.qc.mec-enter-active .mec-enter-badge{display:inline-block;}
+</style>
+<link rel="stylesheet" href="../chapter_common.css">
+</head>
+<body>
+<div id="pb"></div>
+<div class="ph">
+<div class="hb">MEC臓器別講座 '26 | 呼吸器</div>
+<h1>第<span>4</span>章｜間質性<span>疾患</span></h1>
+<div class="hs">解答・解説集 全74問（IPF・過敏性肺炎・サルコイドーシス・悪性中皮腫・じん肺・好酸球性肺炎・薬剤性肺炎・放射線肺炎）</div>
+<div class="hst">
+<div class="sp"><strong>74</strong>問</div>
+<div class="sp"><strong>Q.171〜Q.190</strong> 連問・★問題</div>
+<div class="sp"><strong>Q.191〜Q.244</strong> A/B問題（無印）</div>
+</div>
+</div>
+<div class="mec-ch-prog"><a class="mec-hub-link" href="../index.html">← ハブへ</a><div class="mec-ch-prog-bar"><div class="mec-ch-prog-fill" style="width:0%"></div></div><span class="mec-ch-prog-txt">0/0</span><span class="mec-sync-badge">⚙️ 未設定</span></div><div class="sn">
+<button class="nb" onclick="goto('s0')">追加Q.171-173</button>
+<button class="nb" onclick="goto('s1')">連問Q.174-176</button>
+<button class="nb" onclick="goto('s2')">A問題★</button>
+<button class="nb" onclick="goto('s3')">B問題★</button>
+<button class="nb" onclick="goto('s4')">A問題（無印）</button>
+<button class="nb" onclick="goto('s5')">B問題（無印）</button>
+<button class="nb" onclick="goto('q177')">Q.177</button>
+<button class="nb" onclick="goto('q185')">Q.185</button>
+<button class="nb" onclick="goto('q199')">Q.199</button>
+<button class="nb" onclick="goto('q207')">Q.207連問</button>
+<button class="nb" onclick="goto('q217')">Q.217連問</button>
+<button class="nb" onclick="goto('q230')">Q.230</button>
+<span class="fsep"></span><button class="nb fc-on" data-filter="all" onclick="filterCards('all')">全問</button><button class="nb" data-filter="hard" onclick="filterCards('hard')">難問</button><button class="nb" data-filter="mid" onclick="filterCards('mid')">標準</button><button class="nb" data-filter="easy" onclick="filterCards('easy')">易問</button><button class="nb" data-filter="norate" onclick="filterCards('norate')">正答率なし</button><button class="nb" data-filter="star" onclick="setFilter('star')">★問題</button><button class="nb" data-filter="img" onclick="setFilter('img')">🖼️ 画像</button><span class="fsep"></span><span class="vis-count" id="visCount">—</span></div><div class="sn2"><button class="nb2 fs-on" data-state="all" onclick="setState('all')">すべて</button><button class="nb2" data-state="flag" onclick="setState('flag')">🚩 赤旗</button><button class="nb2" data-state="undone" onclick="setState('undone')">未済</button><button class="nb2" data-state="done" onclick="setState('done')">済み</button><button id="bookmarkBtn" class="nb2" style="margin-left:auto" onclick="saveBookmark()">📖 しおり</button><button id="compactBtn" class="nb2" onclick="toggleCompact()">📋 コンパクト</button></div><div class="filt-prog"><div class="filt-prog-bar"><div class="filt-prog-fill" id="filtProgFill" style="width:0%"></div></div><span class="filt-prog-txt" id="filtProgTxt">—</span></div>
+<div class="ct">
+<div id="s0"><div class="sh" style="background:#3A5A3A;"><div class="snum">追</div><h2>第3章追加（B問題・無印）</h2><div class="sc">Q.171〜Q.173</div></div></div>
+<div class="qc" data-rate="93" data-uid="resp_ch04_q171" id="q171"><div class="qh"><span class="qn">Q.171</span><span class="qe">(106A-33)</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 93%</span><span class="cr ch">正答率 93%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q171" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q171" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">51 歳の女性。咳嗽と膿性痰とを主訴に来院した。3 年前から咳嗽と喀痰とを自覚していたがそのままにしていた。6 か月前から痰の性状が黄色となり、量も増加してきたため受診した。47 歳時に鼻茸切除術の既往がある。喫煙歴はない。体温36.3℃。脈拍88/ 分、整。血圧112/86mmHg。呼吸数16/ 分。後鼻漏を認める。両側の胸部にcoarse crackles を聴取する。白血球7,800（桿状核好中球10％、分葉核好中球50％、好酸球1％、単球7％、リンパ球32％）。CRP 0.5mg/dl。肺機能検査所見：％VC 82％、FEV1.0％ 58％。動脈血ガス分析（自発呼吸、room air）：<br>pH 7.41、PaCO2 36Torr、PaO2 73Torr、HCO3－ 22mEq/l。喀痰Gram 染色標本で緑膿菌は認めるが、好中球による貪食像を認めない。胸部エックス線写真で両側肺野にびまん性粒状影を認める。胸部単純CT を示す。<br><strong>治療として適切な</strong>のはどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/106A-33_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　カルバペネム系抗菌薬の点滴静注</div><div class="ch2"><span class="ok">b　エリスロマイシンの少量長期内服</span></div><div class="ch2">c　副腎皮質ステロイドの内服</div><div class="ch2">d　抗ウイルス薬の内服</div><div class="ch2">e　抗結核薬の長期内服</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　エリスロマイシンの少量長期内服（DPB/気管支拡張症への14員環マクロライド療法）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>後鼻漏＋閉塞性＋粒状影＋非貪食緑膿菌＝<span class="kw">びまん性汎細気管支炎（DPB）または気管支拡張症</span>。<span class="kw">14員環マクロライド（エリスロマイシン・クラリスロマイシン）の少量長期投与</span>（抗炎症＋粘液分泌抑制）が有効。カルバペネムは急性感染期にのみ使用（慢性安定期には不要）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="83" data-uid="resp_ch04_q172" id="q172"><div class="qh"><span class="qn">Q.172</span><span class="qe">(106D-14)</span><span class="bg bi">📷 画像</span><span class="bg bm">2択</span><span class="cr cm">正答率 83%</span><span class="cr ch">正答率 83%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q172" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q172" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">長期の喫煙歴があり、労作時の呼吸困難を訴える患者の胸部エックス線写真を示す。<br>この疾患で認められる可能性が高いのはどれか。2 つ選べ。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/106D-14_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　fine crackles</div><div class="ch2">b　声音振盪の増強</div><div class="ch2"><span class="ok">c　呼吸音の減弱</span></div><div class="ch2">d　胸膜摩擦音</div><div class="ch2"><span class="ok">e　呼気の延長</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　呼吸音の減弱　＋　e　呼気の延長（COPD/肺気腫の典型的所見）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 COPDの身体所見</h4><span class="kw">呼吸音減弱</span>（肺気腫→肺胞の hyperinflation→音の伝導↓）・<span class="kw">呼気延長</span>（気道閉塞→呼気が長くなる）・口すぼめ呼吸・補助呼吸筋使用。fine crackles（a）は間質性肺炎の所見。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="97" data-uid="resp_ch04_q173" id="q173"><div class="qh"><span class="qn">Q.173</span><span class="qe">(106D-34)</span><span class="cr ch">正答率 97%</span><span class="cr ch">正答率 97%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q173" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q173" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">40 歳の女性。喘鳴を主訴に来院した。9 週前に発熱、咽頭痛、咳嗽および喀痰が出現し、自宅近くの医療機関で治療を受けて改善した。2 週前から夜間に喘鳴が出現したが、睡眠が妨げられるほどではなかった。喫煙歴はない。身長160cm、体重52kg。体温36.2℃。脈拍64/ 分、整。血圧106/62mmHg。呼吸数16/ 分。SpO2 98％（roomair）。心音に異常を認めない。強制呼気時に背部でwheezes を聴取する。白血球7,200（桿状核好中球8％、分葉核好中球45％、好酸球16％、好塩基球1％、単球6％、リンパ球24％）。血液生化学所見：IgG 1,610mg/dl（基準960～1,960）、IgA 232mg/dl（基準110 ～410）、IgM 82mg/dl（基準65 ～350）、IgE 540IU/ml（基準250 未満）。CRP0.3mg/dl。心電図と胸部エックス線写真とに異常を認めない。<br><strong>治療薬として適切な</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">a　β遮断薬</div><div class="ch2">b　抗コリン吸入薬</div><div class="ch2">c　抗アルドステロン薬</div><div class="ch2">d　マクロライド系抗菌薬</div><div class="ch2"><span class="ok">e　副腎皮質ステロイド吸入薬</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　副腎皮質ステロイド吸入薬（感染後喘息→ICS維持療法）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>感冒後9週間＋夜間喘鳴＋好酸球↑＋IgE↑＝<span class="kw">感染後気管支喘息または咳喘息（感冒後）</span>。<span class="kw">ICS（吸入ステロイド）</span>が第一選択。β遮断薬は喘息に<span class="kw4">禁忌</span>。</div>
+</div>
+</div></div>
+<div id="s1"><div class="sh" style="background:#2A1A4A;"><div class="snum">連</div><h2>第4章 連問（過敏性肺炎）</h2><div class="sc">Q.174〜Q.176</div></div></div>
+<div class="rb">📋 <strong>連問（Q.174〜176）　次の文を読み、174〜176の問いに答えよ。</strong><div class="pi"><strong>75歳の男性。熱感を主訴に来院した。</strong><br/>5日前の田植え作業中に咳を自覚→感冒薬で症状軽快→田植え作業継続→今朝体温36.8℃（平熱より高い）。<br/>既往歴：45歳時にオートバイ転倒で<strong>脾臓摘出術</strong>。60歳時に高血圧（未治療）。<br/>生活歴：<strong>40年来の専業農家</strong>（土に触れる機会多い）。喫煙40本/日×45年間（Brinkman 1,800）。<br/>現症：体温36.8℃。SpO₂ 96%（room air）。<strong>聴診上呼吸音は減弱</strong>。</div></div>
+<div class="qc" data-uid="resp_ch04_q174" id="q174"><div class="qh"><span class="qn">Q.174</span><span class="qe">(106G-62)</span><span class="bg br">連問</span><span class="cr cm">正答率 70%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q174" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q174" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 1/3</span>75 歳の男性。熱感を主訴に来院した。<br>現病歴：5 日前の田植え作業中に咳を自覚し、その後持続していた。痰は少しからむ程度であり、色は白色透明<br>であった。3 日前に、37.4℃の発熱があったため自宅にあった総合感冒薬を2 日間内服したところ症状は軽快した。<br>頭痛や筋肉痛はなく、田植え作業は継続していた。今朝の体温が36.8℃で、平熱よりも高いことが気になったため<br>受診した。<br>既往歴：45 歳時にオートバイで転倒し脾臓摘出術を受けた。60 歳時に高血圧を指摘されたが、医療機関にはかから<br>なかった。インフルエンザワクチンは年1 回定期的に受けている。</span><br>現時点での主訴への対応として<strong>適切なのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　解熱薬を処方する</div><div class="ch2">b　抗菌薬の点滴静注を行う</div><div class="ch2">c　内服用抗菌薬を処方する</div><div class="ch2">d　内服用抗真菌薬を処方する</div><div class="ch2"><span class="ok">e　治療は必要ないことを説明する</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　治療は必要ないことを説明する（夏型過敏性肺炎→抗原除去で自然軽快）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 夏型過敏性肺炎（Summer-type Hypersensitivity Pneumonitis）</h4>原因：<span class="kw">Trichosporon asahii</span>（自宅・職場の高温多湿環境に生息する真菌）。<br/>特徴：<span class="kw">抗原から離れると軽快→抗原に戻ると再燃</span>。体温36.8℃＝平熱と同じ（「平熱より高い」と本人が感じているだけ）→実質発熱なし。薬物治療よりも<span class="kw">環境除去（田植え作業の中断）</span>が最重要。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>夏型過敏性肺炎のキーワード：<span class="kw">農家・夏・Trichosporon asahii・抗原除去で軽快・帰宅試験陽性</span>。治療は原則<span class="kw">環境（抗原）からの除去</span>→薬物は通常不要（重症時はステロイド）。</div>
+</div>
+</div></div>
+<div class="qc" data-uid="resp_ch04_q175" id="q175"><div class="qh"><span class="qn">Q.175</span><span class="qe">(106G-63)</span><span class="bg br">連問</span><span class="cr cm">正答率 73%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q175" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q175" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 2/3</span>75 歳の男性。熱感を主訴に来院した。<br>現病歴：5 日前の田植え作業中に咳を自覚し、その後持続していた。痰は少しからむ程度であり、色は白色透明<br>であった。3 日前に、37.4℃の発熱があったため自宅にあった総合感冒薬を2 日間内服したところ症状は軽快した。<br>頭痛や筋肉痛はなく、田植え作業は継続していた。今朝の体温が36.8℃で、平熱よりも高いことが気になったため<br>受診した。<br>既往歴：45 歳時にオートバイで転倒し脾臓摘出術を受けた。60 歳時に高血圧を指摘されたが、医療機関にはかから<br>なかった。インフルエンザワクチンは年1 回定期的に受けている。</span><br>この患者に確認すべきなのはどれか。</div>
+<div class="cs"><div class="ch2">a　HBワクチンの接種歴</div><div class="ch2">b　狂犬病ワクチンの接種歴</div><div class="ch2">c　破傷風トキソイドの注射歴</div><div class="ch2"><span class="ok">d　肺炎球菌ワクチンの接種歴</span></div><div class="ch2">e　免疫グロブリンの点滴静注歴</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　肺炎球菌ワクチンの接種歴（脾摘後の無脾症→肺炎球菌感染リスク↑）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 脾摘後（無脾症）のリスク</h4>脾臓摘出→<span class="kw">無脾症（asplenia）</span>→莢膜を持つ細菌への抵抗性↓→<span class="kw">OPSI（Overwhelming Post-Splenectomy Infection）のリスク↑</span>。莢膜菌：<span class="kw">肺炎球菌・インフルエンザ菌・髄膜炎菌</span>。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>脾摘患者への必須ワクチン：<span class="kw">①肺炎球菌ワクチン（PPSV23）②インフルエンザ菌b型ワクチン（Hib）③髄膜炎菌ワクチン</span>。感染症は急速に重症化するため予防が最重要。</div>
+</div>
+</div></div>
+<div class="qc" data-uid="resp_ch04_q176" id="q176"><div class="qh"><span class="qn">Q.176</span><span class="qe">(106G-64)</span><span class="bg bi">📷 画像</span><span class="bg br">連問</span><span class="cr cm">正答率 70%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q176" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q176" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 3/3</span>75 歳の男性。熱感を主訴に来院した。<br>現病歴：5 日前の田植え作業中に咳を自覚し、その後持続していた。痰は少しからむ程度であり、色は白色透明<br>であった。3 日前に、37.4℃の発熱があったため自宅にあった総合感冒薬を2 日間内服したところ症状は軽快した。<br>頭痛や筋肉痛はなく、田植え作業は継続していた。今朝の体温が36.8℃で、平熱よりも高いことが気になったため<br>受診した。<br>既往歴：45 歳時にオートバイで転倒し脾臓摘出術を受けた。60 歳時に高血圧を指摘されたが、医療機関にはかから<br>なかった。インフルエンザワクチンは年1 回定期的に受けている。</span><br>喫煙歴を考慮し、呼吸機能検査を実施した。（%肺活量と1秒率の4象限グラフを示す）。この患者の検査結果が含まれる領域として<strong>予測されるのはどれか。</strong></div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/106G-64_rendered.jpeg"/></div>
+<div class="cs"><div class="ch2">a　①又は②</div><div class="ch2">b　①又は③</div><div class="ch2">c　①又は④</div><div class="ch2">d　②又は③</div><div class="ch2"><span class="ok">e　②又は④</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　②又は④（閉塞性または混合性：喫煙Brinkman 1,800→COPD高リスク）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 4象限グラフの読み方</h4><table class="tb"><tr><th>領域</th><th>%VC</th><th>FEV₁%</th><th>障害パターン</th></tr><tr><td>①</td><td>≥80%</td><td>≥70%</td><td>正常</td></tr><tr><td><span class="kw">②</span></td><td>≥80%</td><td><span class="kw4">&lt;70%</span></td><td><span class="kw">閉塞性（COPDの典型）</span></td></tr><tr><td>③</td><td>&lt;80%</td><td>≥70%</td><td>拘束性（IPF等）</td></tr><tr><td><span class="kw">④</span></td><td>&lt;80%</td><td><span class="kw4">&lt;70%</span></td><td><span class="kw">混合性（重症COPDでも）</span></td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>Brinkman指数1,800（40本×45年）→<span class="kw">COPD高リスク</span>→閉塞性（②）が基本。重症COPDでは空気トラッピング→%VC↓→混合性（④）にもなり得る。</div>
+</div>
+</div></div>
+<div id="s2"><div class="sh" style="background:var(--nv);"><div class="snum">A</div><h2>A 問題（★問題）</h2><div class="sc">Q.177〜Q.190</div></div></div>
+<div class="qc" data-rate="99" data-uid="resp_ch04_q177" id="q177"><div class="qh"><span class="qn">Q.177</span><span class="qe">(120C-51)</span><span class="bg bs">★</span><span class="cr ch">正答率 99%</span><span class="cr ch">正答率 99%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q177" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q177" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">70 歳の男性。1 週間前からの咳と労作時の息切れを主訴に来院した。3 か月前に肺小細胞癌（病期ⅢA）と診断された。<br>診断時、自覚症状はなく、すぐに化学放射線療法が開始され、放射線治療は予定通り終了した。外来で化学療法の継続が予定されている。既往歴に特記すべきことはない。喫煙歴は30 本/ 日を50 年間。飲酒は機会飲酒。石綿などの粉塵吸入歴はない。意識は清明。身長170cm、体重62kg。体温36.5℃。呼吸数16/ 分。SpO2 90％（room air）。<br>右胸部にﬁne crackles を聴取する。血液所見：赤血球468 万、Hb 13.9g/dL、Ht 42％、白血球7,800（分葉核好中球52％、好酸球2％、単球6％、リンパ球40％）、血小板21 万。血液生化学所見：LD 280U/L（基準124 ～222）、<br>BNP 10pg/mL（基準18.4 以下）。免疫血清学所見：CRP 1.0mg/dL、β-D- グルカン2.2pg/mL（基準10 以下）。胸部CT 上の線量分布図（A）と受診時の胸部単純CT（B）とを示す。<br><strong>最も考えられる診断</strong>はどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/120C-51_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/120C-51_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　肺水腫</div><div class="ch2">b　細菌性肺炎</div><div class="ch2"><span class="ok">c　放射線肺炎</span></div><div class="ch2">d　好酸球性肺炎</div><div class="ch2">e　ニューモシスチス肺炎</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　放射線肺炎（照射野に一致する浸潤影→典型的）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 放射線肺炎（Radiation Pneumonitis）</h4>化学放射線療法後<span class="kw">1〜6ヶ月（典型的に2〜3ヶ月）</span>に発症。CT(A)の線量分布と一致した<span class="kw">照射野限局性の浸潤影（CT-B）</span>が特徴的。BNP正常（肺水腫を否定）。β-Dグルカン陰性（ニューモシスチス否定）。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>放射線肺炎の3徴：<span class="kw">①照射後1〜6ヶ月②照射野と一致する浸潤影③乾性咳嗽・発熱</span>。治療：<span class="kw">副腎皮質ステロイド（プレドニゾロン）</span>。IPF合併例は重症化リスク↑。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="99" data-uid="resp_ch04_q178" id="q178"><div class="qh"><span class="qn">Q.178</span><span class="qe">(120E-5)</span><span class="bg bs">★</span><span class="cr ch">正答率 99%</span><span class="cr ch">正答率 99%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q178" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q178" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">体表からの触診で腫大を確認できないリンパ節はどれか。</div>
+<div class="cs"><div class="ch2">a　腋窩リンパ節</div><div class="ch2">b　顎下リンパ節</div><div class="ch2">c　頸部リンパ節</div><div class="ch2"><span class="ok">d　肺門リンパ節</span></div><div class="ch2">e　鎖骨上リンパ節</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　肺門リンパ節（胸腔内深部→体表触診不可）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">肺門リンパ節</span>は胸腔内（肺と縦隔の境界部）に存在→体表から触知不可。X線（BHL）・CT・気管支鏡下超音波（EBUS）・縦隔鏡で確認する。a〜c・eは体表触診可能なリンパ節。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="45" data-uid="resp_ch04_q179" id="q179"><div class="qh"><span class="qn">Q.179</span><span class="qe">(119C-40)</span><span class="bg bs">★</span><span class="cr cl">正答率 45%</span><span class="cr cl">正答率 45%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q179" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q179" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">45 歳の男性。労作時の息苦しさを主訴に来院した。3 年前からカバンを持ったときに手を離しにくく、1 年前からペットボトルのふたが開けにくいと感じるようになった。1 か月前からわずかな労作でも息苦しさを感じるようになった。喫煙歴はない。意識は清明。身長168cm、体重48kg。体温36.5℃。脈拍68/ 分、整。血圧118/70mmHg。<br>呼吸数16/ 分。SpO2 96％（room air）。心音と呼吸音とに異常を認めない。腹部は平坦、軟。下腿に浮腫を認めない。<br>胸鎖乳突筋の萎縮を認める。徒手筋力テストで筋力の低下があり、両下肢遠位筋は萎縮し、四肢の腱反射は低下している。母指球のハンマー叩打でミオトニアを認める。動脈血ガス分析（room air）：pH 7.36、PaCO2 47Torr、PaO279Torr、HCO3－ 26mEq/L。胸部エックス線写真に異常を認めない。<br><strong>以下に示す呼吸機能検査でのﬂow-volume 曲線（①～⑤）のうち、この患者で予想される</strong>のはどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/119C-40_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/119C-40_2.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/119C-40_3.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/119C-40_4.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/119C-40_5.jpeg"/></div>
+<div class="cs"><div class="ch2">a　①</div><div class="ch2">b　②</div><div class="ch2"><span class="ok">c　③</span></div><div class="ch2">d　④</div><div class="ch2">e　⑤</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　③</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 筋強直性ジストロフィー（Myotonic Dystrophy）</h4>常染色体優性遺伝。<span class="kw">ミオトニア（筋強直）</span>＋遠位筋萎縮（手・足首）＋胸鎖乳突筋萎縮。呼吸筋障害→<span class="kw">拘束性換気障害</span>（%VC↓、FEV₁%正常）＋軽度CO₂貯留。</div>
+<div class="eb em"><h4>💡 拘束性 flow-volume 曲線の特徴</h4>ループ全体が<span class="kw">小さく（TLC↓・RV正常）</span>、形は正常（急峻な呼気）。②がこのパターン（vs COPDのscoopingパターン、vs 正常の①）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="62" data-uid="resp_ch04_q180" id="q180"><div class="qh"><span class="qn">Q.180</span><span class="qe">(119D-19)</span><span class="bg bs">★</span><span class="cr cm">正答率 62%</span><span class="cr cm">正答率 62%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q180" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q180" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">30 歳の男性。健康診断で胸部エックス線写真の異常を指摘され来院した。自覚症状はない。意識は清明。体温36.2℃。脈拍56/ 分、整。血圧120/74mmHg。呼吸数14/ 分。SpO2 98％（room air）。頸部リンパ節を触知しない。<br>心音と呼吸音とに異常を認めない。腹部は平坦、軟。下腿に浮腫を認めない。神経診察で異常を認めない。血液生化学所見：尿素窒素14mg/dL、クレアチニン0.8mg/dL、アンジオテンシン変換酵素〈ACE〉37.4U/L（基準3.3 ～21.4）。12 誘導心電図でⅠ度房室ブロックを認める。胸部エックス線写真を示す。<br><strong>この患者でグルココルチコイド内服治療の適応と判断する画像所見</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/119D-19_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　頭部MRAでの脳動脈瘤</div><div class="ch2"><span class="ok">b　FDG-PETでの心筋への異常集積</span></div><div class="ch2">c　胸部造影CTでの両側縦隔リンパ節腫大</div><div class="ch2">d　心エコー検査での心室中隔の非対称性肥大</div><div class="ch2">e　Gaシンチグラフィでの両側肺門リンパ節への集積</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　FDG-PETでの心筋への異常集積（心サルコイドーシス→ステロイド治療適応）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 サルコイドーシスのステロイド適応</h4>無症候性BHL（c,e）→<span class="kw">自然軽快が多い→経過観察</span>（ステロイド不要）。<br/><span class="kw4">ステロイド適応</span>：<span class="kw">心サルコイド（FDG-PET心筋集積・完全房室ブロック）</span>・神経サルコイド・高Ca血症・眼（難治性ぶどう膜炎）・進行性肺サルコイド等。d：非対称性中隔肥大は<span class="kw">肥大型心筋症（HCM）</span>のパターン→サルコイドとは異なる。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="92" data-uid="resp_ch04_q181" id="q181"><div class="qh"><span class="qn">Q.181</span><span class="qe">(118A-46)</span><span class="bg bs">★</span><span class="cr ch">正答率 92%</span><span class="cr ch">正答率 92%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q181" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q181" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">61 歳の男性。右胸痛を主訴に来院した。3 か月前から胸痛を自覚していたが、1 週間前から痛みが増強したため受診した。体温36.9℃。脈拍84/ 分、整。血圧132/80mmHg。呼吸数16/ 分。SpO2 95％（room air）。心音に異常を認めない。右呼吸音の減弱を認める。血液所見：赤血球471 万、Hb 11.0g/dL、Ht 36％、白血球9,200、血小板58 万。<br>血液生化学所見：SCC 0.7ng/mL（基準1.5 以下）、ProGRP 23.8pg/mL（基準81 以下）。CRP 17mg/dL。胸膜生検でカルレチニン免疫組織化学染色が陽性である悪性細胞を認めた。胸部エックス線写真（A）とFDG-PET/CT 像（B）<br>を示す。<br><strong>この疾患で誤っている</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/118A-46_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/118A-46_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　上皮型が最も多い</div><div class="ch2">b　予後は不良である</div><div class="ch2">c　CEAは正常値である</div><div class="ch2">d　胸水中ヒアルロン酸は高値である</div><div class="ch2"><span class="ok">e　アスベスト曝露後5年前後で発症する</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　アスベスト曝露後5年前後で発症する（誤り：実際は30〜50年後）</div></div></div>
+<div class="eg"><div class="eb ee"><h4>📋 悪性胸膜中皮腫まとめ</h4><table class="tb"><tr><th>項目</th><th>内容</th></tr><tr><td>原因</td><td><span class="kw">石綿（アスベスト）曝露（最重要）</span></td></tr><tr><td>潜伏期間</td><td><span class="kw4">30〜50年（e：5年は誤り）</span></td></tr><tr><td>病型</td><td>上皮型（60-65%）・二相型・肉腫型（最悪予後）→<span class="kw3">上皮型が最多（a正）</span></td></tr><tr><td>腫瘍マーカー</td><td><span class="kw">CEA陰性（c正：正常）</span>→ CA125↑・mesothelin↑</td></tr><tr><td>胸水所見</td><td><span class="kw">ヒアルロン酸著明高値（d正）</span>（&gt;50,000 ng/mL）</td></tr><tr><td>予後</td><td><span class="kw4">不良（b正）：中央生存12〜18ヶ月</span></td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="86" data-uid="resp_ch04_q182" id="q182"><div class="qh"><span class="qn">Q.182</span><span class="qe">(118D-64)</span><span class="bg bs">★</span><span class="cr cm">正答率 86%</span><span class="cr ch">正答率 86%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q182" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q182" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">52 歳の男性。2 週間前から続く38℃台の発熱と咳嗽を主訴に来院した。気管支鏡検査を施行後に入院した。職場で咳が出るが、自宅で咳は出ない。既往歴に特記すべきことはない。喫煙歴は40 本/ 日を20 歳～48 歳。自宅は築30 年の一軒家。職業歴は5 年前まで会社員、5 年前からキノコの屋内栽培に従事している。意識は清明。身長163cm、体重61kg。体温37.3℃。脈拍84/ 分、整。血圧132/80mmHg。呼吸数20/ 分。SpO2 94％（room air）。心音と呼吸音とに異常を認めない。血液所見：赤血球440 万、Hb 13.6g/dL、白血球4,200、血小板21 万。血液生化学所見：KL-6 1,300U/mL（基準500 未満）。免疫血清学所見：CRP 3.1mg/dL、抗核抗体陰性。胸部エックス線写真にて両側肺野に粒状影と淡い浸潤影を認めた。胸部CT で粒状影とすりガラス影を認めた。入院後、発熱と咳嗽は速やかに自然寛解した。入院7 日目、SpO2 は98％（room air）であり帰宅試験を行ったが、症状は再燃しないため入院10 日目に退院した。<br><strong>この疾患で特徴的な所見</strong>はどれか。</div>
+<div class="cs"><div class="ch2">a　喀痰：抗酸菌塗抹陽性</div><div class="ch2">b　生化学検査：血清IgA高値</div><div class="ch2">c　呼吸機能検査FEV₁%：60%以下</div><div class="ch2"><span class="ok">d　気管支肺胞洗浄（BAL）：リンパ球分画増加</span></div><div class="ch2">e　経気管支肺生検病理組織：びまん性肺胞障害（DAD）</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　BAL：リンパ球分画増加（過敏性肺炎の特徴的BAL所見）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 過敏性肺炎（Hypersensitivity Pneumonitis）のBAL所見</h4>BAL細胞分画：<span class="kw">リンパ球著明増多（通常&gt;20%、しばしば&gt;50%）</span>、CD8+T細胞優位（CD4/CD8比&lt;1）。肉芽腫形成（病理）。KL-6↑・SP-D↑。d：DAD（びまん性肺胞障害）はARDS/AIPの所見。a：抗酸菌は結核。c：FEV₁%は拘束性（正常か↑）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="60" data-uid="resp_ch04_q183" id="q183"><div class="qh"><span class="qn">Q.183</span><span class="qe">(117A-4)</span><span class="bg bs">★</span><span class="cr cm">正答率 60%</span><span class="cr cm">正答率 60%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q183" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q183" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">急性好酸球性肺炎について<strong>誤っているのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　胸水貯留</div><div class="ch2">b　IL-5上昇</div><div class="ch2">c　末梢血好酸球数正常</div><div class="ch2"><span class="ok">d　片側性すりガラス陰影</span></div><div class="ch2">e　気管支肺胞洗浄液中の好酸球数増加</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　片側性すりガラス陰影（誤り：AEPは両側性）</div></div></div>
+<div class="eg"><div class="eb ee"><h4>📋 急性好酸球性肺炎（AEP）の特徴</h4><table class="tb"><tr><th>項目</th><th>AEP</th><th>慢性好酸球性肺炎（CEP）</th></tr><tr><td>発症</td><td>急性（数日）</td><td>慢性（数週〜月）</td></tr><tr><td>末梢血好酸球</td><td><span class="kw">初期は正常（c正）</span></td><td><span class="kw">増多（&gt;10%）</span></td></tr><tr><td>BAL好酸球</td><td><span class="kw">著明増多 ≥25%（e正）</span></td><td><span class="kw">増多</span></td></tr><tr><td>X線</td><td><span class="kw4">両側性GGO・浸潤影（d誤→両側が正しい）</span></td><td>両側外側優位浸潤影</td></tr><tr><td>喘息合併</td><td><span class="kw4">少ない</span></td><td>多い（&gt;50%）</td></tr><tr><td>ステロイド反応</td><td>良好</td><td>良好</td></tr><tr><td>再発</td><td>少ない</td><td>多い</td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>AEPの<span class="kw">誘因=喫煙（特に開始直後）</span>。急性発症＋<span class="kw">末梢血好酸球は初期は正常</span>（慢性好酸球性肺炎との違い！）＋BAL好酸球↑＋<span class="kw">両側性</span>GGO。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="84" data-uid="resp_ch04_q184" id="q184"><div class="qh"><span class="qn">Q.184</span><span class="qe">(116E-15)</span><span class="bg bs">★</span><span class="cr cm">正答率 84%</span><span class="cr ch">正答率 84%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q184" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q184" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">疾患と聴診所見の組合せで<strong>正しいのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　COPD ———————————— stridor</div><div class="ch2">b　胸膜炎 ———————————— rhonchi</div><div class="ch2"><span class="ok">c　石綿肺 ———————————— fine crackles</span></div><div class="ch2">d　肺水腫 ———————————— Hamman's crunch</div><div class="ch2">e　気管支喘息 —————————— friction rub</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　石綿肺 ——— fine crackles（間質性肺炎→Velcro音）</div></div></div>
+<div class="eg"><div class="eb ee"><h4>📋 疾患と聴診所見</h4><table class="tb"><tr><th>疾患</th><th>正しい聴診所見</th></tr><tr><td>COPD</td><td><span class="kw">wheeze（呼気延長）</span>・呼吸音減弱（stridorは上気道閉塞→a誤）</td></tr><tr><td>胸膜炎</td><td><span class="kw">friction rub（胸膜摩擦音）</span>（rhonchiは気管支分泌物→b誤）</td></tr><tr><td><span class="kw">石綿肺</span></td><td><span class="kw3">fine crackles（Velcro音）</span>（間質性肺炎→c正）</td></tr><tr><td>肺水腫</td><td><span class="kw">coarse crackles</span>（Hamman's crunch=縦隔気腫→d誤）</td></tr><tr><td>気管支喘息</td><td><span class="kw">wheeze</span>（friction rub=胸膜炎→e誤）</td></tr></table></div>
+</div>
+</div></div>
+<div id="s3"><div class="sh" style="background:#1C3A5A;"><div class="snum">B</div><h2>B 問題（★問題）</h2><div class="sc">Q.185〜Q.190</div></div></div>
+<div class="qc" data-rate="92" data-uid="resp_ch04_q185" id="q185"><div class="qh"><span class="qn">Q.185</span><span class="qe">(115A-19)</span><span class="bg bs">★</span><span class="cr ch">正答率 92%</span><span class="cr ch">正答率 92%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q185" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q185" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">63 歳の男性。呼吸困難と発熱を主訴に来院した。1 か月前から乾性咳嗽があり、息苦しさが出現、次第に悪化してきたため受診した。1 週前から37℃台前半の発熱が続いている。既往歴に特記すべきことはない。喫煙歴やペット飼育歴はない。昨年、築50 年の木造建築、日当たりの悪い家に転居し、初めての夏である。体温37.7℃。呼吸数24/ 分。SpO2 94％（room air）。胸部の聴診でわずかにﬁne crackles を聴取する。胸部単純CT を示す。血液検査ではTrichosporon asahii 特異抗体が陽性であった。<br><strong>誤っている</strong>のはどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/115A-19_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　入院で改善する</div><div class="ch2">b　LDが高値である</div><div class="ch2"><span class="ok">c　IgEが高値である</span></div><div class="ch2">d　KL-6が高値である</div><div class="ch2">e　気管支肺胞洗浄液でリンパ球増多を認める</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　IgEが高値（誤り：過敏性肺炎はIgE依存型ではない）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 過敏性肺炎の免疫学</h4>過敏性肺炎は<span class="kw">III型（免疫複合体：沈降抗体↑）とIV型（細胞性免疫：T細胞）</span>の反応が主体。<span class="kw4">I型アレルギー（IgE依存）ではない</span>→IgEは上昇しない。IgEが上昇するのは喘息・ABPA・アレルギー性疾患。a：入院（環境除去）で改善→正。b,d：肺胞障害でLD↑・KL-6↑→正。e：BALリンパ球↑→正。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="84" data-uid="resp_ch04_q186" id="q186"><div class="qh"><span class="qn">Q.186</span><span class="qe">(115A-46)</span><span class="bg bs">★</span><span class="cr ch">正答率 84%</span><span class="cr ch">正答率 84%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q186" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q186" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">54 歳の女性。咳嗽と喀痰を主訴に来院した。喀痰は白色であり、発熱はなかった。自宅近くの診療所を受診し、<br>胸部エックス線写真で異常陰影を指摘され、細菌性肺炎として抗菌薬の投与を受けたが陰影は増強したため紹介され受診した。3 か月前にも胸部エックス線写真で異常陰影を指摘されたが、症状が軽かったため経過観察したところ自然軽快したエピソードがあった。気管支鏡検査を施行し、気管支肺胞洗浄液中の好酸球は37％で、経気管支肺生検では好酸球浸潤を伴った肺胞隔壁の線維化病変を認めた。<br><strong>この疾患について正しい</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">a　高齢者に多い</div><div class="ch2">b　喫煙が発症に関係する</div><div class="ch2"><span class="ok">c　気管支喘息の合併が多い</span></div><div class="ch2">d　ステロイド抵抗性である</div><div class="ch2">e　末梢血好酸球は正常である</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　気管支喘息の合併が多い（CEP：喘息合併50%以上）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>慢性好酸球性肺炎（CEP）：<span class="kw">中年女性</span>に多い（a誤：高齢者ではない）。<span class="kw">気管支喘息の合併が多い（c正）</span>。<span class="kw">ステロイドに良好反応（d誤）</span>。<span class="kw">末梢血好酸球増多（e誤：AEPとの違い）</span>。自然軽快→再燃を繰り返す（=移動性浸潤影）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="97" data-uid="resp_ch04_q187" id="q187"><div class="qh"><span class="qn">Q.187</span><span class="qe">(115D-58)</span><span class="bg bs">★</span><span class="cr ch">正答率 97%</span><span class="cr ch">正答率 97%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q187" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q187" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">77 歳の女性。労作時呼吸困難と咳嗽を主訴に来院した。1 か月前から労作時呼吸困難、咳嗽が出現したため受診した。<br>既往歴と家族歴とに特記すべきことはない。喫煙歴はない。ペットは飼育していない。意識は清明。体温37.2℃。脈拍96/ 分、整。血圧116/60mmHg。呼吸数20/ 分。SpO2 89％（room air）。皮疹は認めない。眼瞼結膜と眼球結膜とに異常を認めない。心音に異常を認めない。呼吸音は両側前胸部に気管支呼吸音、両側背部にﬁne crackles を聴取する。関節腫脹は認めない。下腿に浮腫は認めない。筋力低下は認めない。血液所見：Hb 12.2g/dL、白血球9,400、<br>血小板24 万。血液生化学所見：AST 20U/L、ALT 8U/L、LD 293U/L（基準120 ～245）、尿素窒素12mg/dL、<br>クレアチニン0.7mg/dL。KL-6 2,919U/mL（基準500 未満）。免疫血清学所見：CRP 3.6mg/dL、β-D- グルカン5.0pg/mL（基準10 以下）。抗核抗体40 倍（基準20 以下）、MPO-ANCA 陰性、PR3-ANCA 陰性、抗アミノアシルtRNA 合成酵素抗体〈抗ARS 抗体〉陽性。胸部エックス線写真（A）及び肺野条件の胸部単純CT（B）を示す。呼吸状態の悪化を認め、治療を行い改善した。改善後の胸部エックス線写真（C）を示す。<br><strong>効果を示した治療</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/115D-58_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/115D-58_2.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/115D-58_3.jpeg"/></div>
+<div class="cs"><div class="ch2">a　抗IgE抗体</div><div class="ch2"><span class="ok">b　副腎皮質ステロイド</span></div><div class="ch2">c　マクロライド系抗菌薬</div><div class="ch2">d　免疫チェックポイント阻害薬</div><div class="ch2">e　EGFRチロシンキナーゼ阻害薬</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　副腎皮質ステロイド（抗合成酵素症候群の間質性肺炎）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 抗ARS抗体陽性→抗合成酵素症候群</h4><span class="kw">抗合成酵素症候群（Anti-synthetase syndrome）</span>：<span class="kw">抗Jo-1・抗ARS抗体</span>陽性＋間質性肺炎（主役）＋多発性筋炎/皮膚筋炎±関節炎±Mechanics hands（手指の亀裂）。<br/>治療：<span class="kw">副腎皮質ステロイド（第一選択）</span>±免疫抑制薬（アザチオプリン・タクロリムス等）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="82" data-uid="resp_ch04_q188" id="q188"><div class="qh"><span class="qn">Q.188</span><span class="qe">(110D-57)</span><span class="bg bs">★</span><span class="bg bm">2択</span><span class="cr cm">正答率 82%</span><span class="cr ch">正答率 82%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q188" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q188" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">72 歳の男性。乾性咳嗽、発熱および労作時呼吸困難を主訴に来院した。1 か月前に左肺下葉の原発性肺腺癌に対し抗癌化学療法が開始されていた。治療開始後30 日目の昨日、乾性咳嗽、37.5℃の発熱および労作時呼吸困難を認め、本日には乾性咳嗽の増悪と安静時の呼吸困難とを自覚するようになったため受診した。意識は清明。皮膚は湿潤している。下腿に浮腫を認めない。脈拍112/ 分、整。血圧152/102mmHg。呼吸数22/ 分。SpO2 90％（room air）。<br>血液所見：赤血球380 万、Hb 11.9g/dL、Ht 36％、白血球8,600（分葉核好中球68％、好酸球5％、単球5％、リンパ球22％）、血小板28 万。血液生化学所見：総蛋白7.2g/dL、アルブミン4.2g/dL、AST 48IU/L、ALT 52IU/L、<br>LD 752IU/L（基準176 ～353）、尿素窒素22mg/dL、クレアチニン0.9mg/dL、Na 144mEq/L、K 4.6mEq/L、Cl108mEq/L、Ca 8.0mg/dL。免疫血清学所見：CRP 4.8mg/dL、β-D グルカン10pg/mL 未満（基準10 未満）、サイトメガロウイルス抗原陰性。喀痰を認めないため喀痰培養は実施できなかった。血液培養は陰性。抗癌化学療法開始前の肺野条件の胸部CT（A）と今回来院時の肺野条件の胸部CT（B）とを示す。酸素投与を開始した。<br>対応として適切なのはどれか。2 つ選べ。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/110D-57_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/110D-57_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　放射線療法</div><div class="ch2">b　血栓溶解療法</div><div class="ch2">c　抗コリン薬吸入</div><div class="ch2"><span class="ok">d　抗癌化学療法の中止</span></div><div class="ch2"><span class="ok">e　副腎皮質ステロイドの全身投与</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　抗癌化学療法の中止　＋　e　ステロイド全身投与（薬剤性肺炎の治療の2本柱）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>薬剤性肺炎（Drug-induced Interstitial Lung Disease）：<span class="kw">①原因薬剤の中止（最優先・最重要）</span>＋<span class="kw">②全身ステロイド投与</span>。LD著明↑・KL-6↑が特徴。β-Dグルカン陰性でニューモシスチス否定。CMV陰性で日和見感染否定。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="78" data-uid="resp_ch04_q189" id="q189"><div class="qh"><span class="qn">Q.189</span><span class="qe">(109I-49)</span><span class="bg bs">★</span><span class="cr cm">正答率 78%</span><span class="cr cm">正答率 78%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q189" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q189" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">75 歳の男性。乾性咳嗽と発熱とを主訴に来院した。5 日前に湿性咳嗽、喀痰および発熱が生じたため自宅近くの診療所を受診し、非ステロイド性抗炎症薬と抗菌薬とを5 日分処方された。内服3 日目には解熱したが5 日目に乾性咳嗽と発熱とが出現したため再び診療所を受診し、胸部エックス線写真で異常を認めたため紹介されて受診した。<br>身長165cm、体重63kg。体温37.3℃。脈拍64/ 分、整。血圧132/64mmHg。呼吸数20/ 分。咽頭に発赤を認めない。頸静脈の怒張を認めない。心音に異常を認めない。両側にﬁne crackles を聴取する。下腿に浮腫を認めない。<br>血液所見：赤血球376 万、Hb 13.7g/dL、Ht 35％、白血球10,100（桿状核好中球4％、分葉核好中球76％、好酸球3％、好塩基球0％、単球5％、リンパ球12％）、血小板35 万。血液生化学所見：LD 386IU/L（基準176 ～353）、尿素窒素14mg/dL、クレアチニン0.8mg/dL、血糖98mg/dL、HbA1c 6.1％（基準4.6 ～6.2）、脳性ナトリウム利尿ペプチド〈BNP〉23.9pg/mL（基準18.4 以下）、KL-6 632U/mL（基準500 未満）。免疫血清学所見：CRP 5.0mg/dL、<br>β-D- グルカン4pg/mL 未満（基準10 以下）、サイトメガロウイルス抗原陰性。動脈血ガス分析（room air）：pH 7.43、<br>PaCO2 36Torr、PaO2 69Torr、HCO3－ 23mEq/L。気管支肺胞洗浄液所見：細胞数3.5 × 106/mL（肺胞マクロファージ12％、リンパ球85％、好中球1％、好酸球2％）。胸部エックス線写真（A）と胸部CT（B）とを示す。<br><strong>最も考えられる疾患</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/109I-49_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/109I-49_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　薬剤性肺炎</span></div><div class="ch2">b　急性左心不全</div><div class="ch2">c　日和見感染症</div><div class="ch2">d　特発性肺線維症</div><div class="ch2">e　急性呼吸促迫症候群</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　薬剤性肺炎（NSAIDまたは抗菌薬による薬剤誘発性肺炎）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 診断のポイント</h4>薬剤服用後に乾性咳嗽・発熱が出現→BALリンパ球85%（薬剤性肺炎・過敏性肺炎に特徴的）。感染症否定（β-Dグルカン陰性・CMV陰性）。IPFは急性発症でない。<span class="kw">NSAID→薬剤性肺炎</span>。BALリンパ球著明増多が鍵。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="94" data-uid="resp_ch04_q190" id="q190"><div class="qh"><span class="qn">Q.190</span><span class="qe">(100F-18)</span><span class="bg bs">★</span><span class="cr ch">正答率 94%</span><span class="cr ch">正答率 94%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q190" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q190" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">73 歳の男性。1 か月前からの咳嗽と粘液性痰とを主訴に来院した。30 年間、鉱山で働いていた。呼吸困難はHugh-Jones 分類のⅢ度である。胸部エックス線写真を示す。<br><strong>この疾患で頻度の高い合併症</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/100F-18_1.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　肺結核</span></div><div class="ch2">b　リポイド肺炎</div><div class="ch2">c　好酸球性肺炎</div><div class="ch2">d　びまん性汎細気管支炎</div><div class="ch2">e　ニューモシスチス肺炎</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　肺結核（珪肺症の最も重要な合併症）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 珪肺症（Silicosis）と肺結核</h4><span class="kw">珪肺症</span>：ケイ酸（SiO₂）の吸入→肺線維症。マクロファージがケイ酸を貪食後に死滅→<span class="kw">細胞性免疫が低下</span>→<span class="kw">結核菌（Mycobacterium tuberculosis）への抵抗性低下</span>→<span class="kw">珪肺結核（Silicotuberculosis）</span>が最重要合併症。30年間の鉱山従事＝ケイ酸・石綿への長期曝露。</div>
+</div>
+</div></div>
+<div id="s4"><div class="sh" style="background:#2A4A35;"><div class="snum">A</div><h2>A 問題（無印）</h2><div class="sc">Q.191〜Q.198</div></div></div>
+<div class="qc" data-rate="96" data-uid="resp_ch04_q191" id="q191"><div class="qh"><span class="qn">Q.191</span><span class="qe">(118A-5)</span><span class="cr ch">正答率 96%</span><span class="cr ch">正答率 96%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q191" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q191" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">特発性肺線維症の症状・身体所見で<strong>誤っているのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　ばち指</div><div class="ch2"><span class="ok">b　湿性咳嗽</span></div><div class="ch2">c　体重減少</div><div class="ch2">d　fine crackles</div><div class="ch2">e　労作時呼吸困難</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　湿性咳嗽（誤り：IPFは乾性咳嗽が特徴）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">IPF（特発性肺線維症）</span>の症状：<span class="kw">乾性咳嗽（喀痰なし）・労作時息切れ・fine crackles（Velcro音）・ばち指</span>。湿性咳嗽（b）は気道分泌物が多い疾患（気管支炎・気管支拡張症等）の特徴。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="99" data-uid="resp_ch04_q192" id="q192"><div class="qh"><span class="qn">Q.192</span><span class="qe">(118D-53)</span><span class="cr ch">正答率 99%</span><span class="cr ch">正答率 99%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q192" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q192" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">55 歳の男性。労作時の息切れを主訴に来院した。6 か月前に霧視を訴えぶどう膜炎の診断で治療を受けている。1 か月前から階段昇降時に息切れを自覚したため受診した。意識は清明。体温36.5℃。脈拍40/ 分、整。血圧112/74mmHg。呼吸数16/ 分。SpO2 97％（room air）。心音でⅢ音を聴取する。呼吸音に異常を認めない。神経診察に異常を認めない。血液所見：赤血球423 万、Hb 13.1g/dL、Ht 42％、白血球5,800、血小板18 万。血液生化学所見：<br>総蛋白6.7g/dL、AST 25U/L、ALT 20U/L、尿素窒素24mg/dL、クレアチニン1.2mg/dL、血糖92mg/dL、脳性ナトリウム利尿ペプチド〈BNP〉470pg/mL（基準18.4 以下）。CRP 0.1mg/dL。12 誘導心電図は心拍数42/ 分の完全房室ブロックを認める。心エコー検査で左室拡張末期径60mm、左室駆出率38％、左室壁厚は中隔、後壁とも8mmで左室中隔基部の菲薄化を認めた。心筋生検組織のH-E 染色標本を示す。<br><strong>診断</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/118D-53_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　拡張型心筋症</div><div class="ch2">b　拘束型心筋症</div><div class="ch2">c　肥大型心筋症</div><div class="ch2">d　心アミロイドーシス</div><div class="ch2"><span class="ok">e　心サルコイドーシス</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　心サルコイドーシス（非乾酪性肉芽腫＋ぶどう膜炎＋完全房室ブロック）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 心サルコイドーシスの三徴</h4>①<span class="kw">完全房室ブロック（伝導障害）</span> ②<span class="kw">心室頻拍（不整脈）</span> ③<span class="kw">心不全（心機能低下）</span>。心室中隔基部の菲薄化（肉芽腫→瘢痕→壁薄化）はサルコイドに特徴的。ぶどう膜炎も臓器サルコイドの一つ。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>心サルコイドーシス診断：FDG-PET（炎症巣の集積）、Gaシンチ、心筋生検（非乾酪性肉芽腫）。治療：<span class="kw">ステロイド＋ペースメーカー（完全AVB）</span>。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="99" data-uid="resp_ch04_q193" id="q193"><div class="qh"><span class="qn">Q.193</span><span class="qe">(117A-48)</span><span class="cr ch">正答率 99%</span><span class="cr ch">正答率 99%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q193" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q193" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">63 歳の男性。呼吸困難を主訴に来院した。4 週間前から労作時の呼吸困難を自覚するようになり、1 週間前から右胸の圧迫感を自覚するため受診した。喫煙は20 本/ 日を40 年間、3 年前に禁煙。飲酒は機会飲酒。職業は、18 歳から22 歳まで大学生のときに建築現場の解体作業のアルバイト、23 歳から55 歳まで小学校教員、55 歳から58 歳までタクシー運転手、58 歳から60 歳まで花屋の店員、60 歳からは植木職人である。身長164cm、体重66kg。体温36.2℃。脈拍68/ 分、整。血圧136/72mmHg。呼吸数18/ 分。SpO2 96％（room air）。心音に異常を認めない。右胸部の呼吸音減弱を認めるが、副雑音は聴取しない。血液所見：赤血球549 万、Hb 16.1g/dL、Ht 48％、白血球5,800、<br>血小板36 万。血液生化学所見：総蛋白6.6g/dL、アルブミン3.9g/dL、総ビリルビン0.6mg/dL、AST 22U/L、ALT24U/L、LD 223U/L（基準120 ～245）、尿素窒素20mg/dL、クレアチニン0.7mg/dL、Na 138mEq/L、K 4.7mEq/L、<br>Cl 105mEq/L、CEA 3.8ng/mL（基準5 以下）。CRP 0.2mg/dL。胸水中のヒアルロン酸は150,000ng/mL と著明な増加を認めた。胸部エックス線写真を示す。<br><strong>この患者の職業歴で、疾患との関係が疑われる</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/117A-48_1.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　建築現場の解体作業員</span></div><div class="ch2">b　小学校教員</div><div class="ch2">c　タクシー運転手</div><div class="ch2">d　花屋の店員</div><div class="ch2">e　植木職人</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　建築現場の解体作業員（若年期のアスベスト曝露→40〜50年後に中皮腫）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>悪性胸膜中皮腫：<span class="kw">アスベスト曝露後30〜50年</span>で発症。<span class="kw">建築（特に解体・保温工事）・造船業・自動車整備</span>がリスク職業。胸水ヒアルロン酸150,000（&gt;50,000→中皮腫を強く示唆）。18〜22歳の曝露から40年後（58〜62歳頃）に発症→本例のパターン。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="95" data-uid="resp_ch04_q194" id="q194"><div class="qh"><span class="qn">Q.194</span><span class="qe">(117D-58)</span><span class="cr ch">正答率 95%</span><span class="cr ch">正答率 95%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q194" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q194" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">57 歳の女性。咳嗽、呼吸困難および発熱を主訴に来院した。昨年も8 月に同様の症状で入院し、入院後治療せずに軽快している。1 週間前から症状が増悪したため救急外来を受診した。体温37.8℃。脈拍92/ 分、整。血圧112/70mmHg。SpO2 92％（room air）。呼吸音は両側でﬁne crackles を聴取する。血液所見：赤血球335 万、Hb12.8g/dL、Ht 33％、白血球7,400、血小板15 万。血液生化学所見：AST 25U/L、ALT 28U/L、LD 280U/L（基準120 ～245）、クレアチニン0.5mg/dL。CRP 5.8mg/dL。胸部単純CT で浸潤影、すりガラス陰影および小葉中心性陰影を認めた。<br><strong>この患者の所見として誤っている</strong>のはどれか。</div>
+<div class="cs"><div class="ch2"><span class="ok">a　KL-6低下</span></div><div class="ch2">b　拘束性換気機能障害</div><div class="ch2">c　ツベルクリン反応陰転化</div><div class="ch2">d　抗Trichosporon asahii抗体陽性</div><div class="ch2">e　気管支肺胞洗浄液中CD4/CD8比低下</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　KL-6低下（誤り：過敏性肺炎では間質性肺炎→KL-6は高値↑）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>過敏性肺炎の検査所見：KL-6↑（a誤→正解）・SP-D↑・<span class="kw">拘束性障害</span>（b正）・BALリンパ球増多＋<span class="kw">CD4/CD8比低下（CD8優位）</span>（e正）・<span class="kw">ツベルクリン反応陰性化</span>（c正：細胞性免疫の変化）・<span class="kw">沈降抗体陽性</span>（d正）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="98" data-uid="resp_ch04_q195" id="q195"><div class="qh"><span class="qn">Q.195</span><span class="qe">(117D-75)</span><span class="cr ch">正答率 98%</span><span class="cr ch">正答率 98%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q195" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q195" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">65 歳の男性。胸部痛を主訴に来院した。4 か月前から持続性の右胸部痛が出現し、徐々に増強したため受診した。<br>40 年前から建設業に従事していた。体温36.3℃。脈拍72/ 分、整。血圧128/72mmHg。呼吸数18/ 分。SpO2 98％（roomair）。右胸部の呼吸音は減弱し、打診で濁音を認める。血液検査所見で炎症所見は認めないが、胸水中のヒアルロン酸は125,000ng/mL と著明な増加を認めた。胸部エックス線写真（A）と胸部造影CT（B）を示す。<br><strong>確定診断のために必要な検査</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/117D-75_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/117D-75_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　胸膜生検</span></div><div class="ch2">b　胸部MRI</div><div class="ch2">c　FDG-PET</div><div class="ch2">d　気管支鏡下肺生検</div><div class="ch2">e　腫瘍マーカー測定</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　胸膜生検（組織確定診断→カルレチニン等の免疫組織染色）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>悪性胸膜中皮腫の確定診断には<span class="kw">組織生検（胸膜生検・胸腔鏡下生検）</span>が必須。病理：悪性細胞＋カルレチニン/WT-1/mesothelin陽性。腫瘍マーカー（e）だけでは確定診断不可。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="74" data-uid="resp_ch04_q196" id="q196"><div class="qh"><span class="qn">Q.196</span><span class="qe">(116A-8)</span><span class="cr cm">正答率 74%</span><span class="cr cm">正答率 74%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q196" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q196" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">心不全で来院した患者において心サルコイドーシスの所見に<strong>合致しないのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　房室ブロック</div><div class="ch2">b　持続性心室頻拍</div><div class="ch2">c　左室駆出率の低下</div><div class="ch2"><span class="ok">d　心室中隔の非対称性肥大</span></div><div class="ch2">e　FDG-PETでの心筋への異常集積</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　心室中隔の非対称性肥大（肥大型心筋症HCMの特徴→サルコイドとは異なる）</div></div></div>
+<div class="eg"><div class="eb ee"><h4>📋 心サルコイドvs肥大型心筋症</h4><table class="tb"><tr><th>所見</th><th>心サルコイド</th><th>HCM（肥大型心筋症）</th></tr><tr><td>壁肥厚</td><td>正常or薄化（菲薄化）</td><td><span class="kw">非対称性肥厚（ASH）</span>→d誤</td></tr><tr><td>伝導障害</td><td><span class="kw">房室ブロック（a正）</span></td><td>通常なし</td></tr><tr><td>不整脈</td><td><span class="kw">心室頻拍（b正）</span></td><td>WPW合併のことあり</td></tr><tr><td>EF</td><td><span class="kw">低下（c正）</span></td><td>正常or高値（拡張障害）</td></tr><tr><td>PET</td><td><span class="kw">FDG集積↑（e正）</span></td><td>炎症なし</td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="91" data-uid="resp_ch04_q197" id="q197"><div class="qh"><span class="qn">Q.197</span><span class="qe">(116A-50)</span><span class="cr ch">正答率 91%</span><span class="cr ch">正答率 91%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q197" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q197" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">35 歳の男性。咳嗽、発熱、呼吸困難を主訴に来院した。3 週間前から乾性咳嗽が出現し、5 日前から発熱と呼吸困難を認めるため受診した。1 か月前に築30 年の家の掃除を行ったという。意識は清明。身長168cm、体重80kg。体温38.4℃。脈拍104/ 分、整。血圧112/62mmHg。呼吸数18/ 分。SpO2 90％（room air）。心音と呼吸音に異常を認めない。血液所見：赤血球416 万、Hb 12.6g/dL、Ht 38％、白血球10,500（好中球74％、好酸球4％、好塩基球0％、<br>単球3％、リンパ球19％）、血小板30 万。血液生化学所見：総ビリルビン0.5mg/dL、AST 24U/L、ALT 37U/L、<br>LD 201U/L（基準120 ～245）、ALP 69U/L（基準38 ～113）、γ-GT 52U/L（基準8 ～50）、尿素窒素8.7mg/dL、<br>クレアチニン0.6mg/dL、血糖92mg/dL。CRP 10mg/dL。胸部エックス線写真（A）と胸部単純CT（B）とを示す。<br><strong>最も考えられる</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/116A-50_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/116A-50_2.jpeg"/></div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/116F-47_1.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　過敏性肺炎</span></div><div class="ch2">b　特発性肺線維症</div><div class="ch2">c　非結核性抗酸菌症</div><div class="ch2">d　マイコプラズマ肺炎</div><div class="ch2">e　新型コロナウイルス肺炎</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　過敏性肺炎（築30年の家の掃除→カビ曝露→典型的誘因）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>築30年の家の掃除=<span class="kw">カビ（Trichosporon・Aspergillus等）への曝露</span>→過敏性肺炎の典型的誘因。急性発症（数日〜数週間）＋抗原曝露歴＋GGO→過敏性肺炎。IPFは慢性進行性。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="98" data-uid="resp_ch04_q198" id="q198"><div class="qh"><span class="qn">Q.198</span><span class="qe">(116F-47)</span><span class="cr ch">正答率 98%</span><span class="cr ch">正答率 98%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q198" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q198" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">79 歳の男性。肺がん検診で胸部異常陰影を指摘され来院した。昨年の検診では異常は指摘されず、自覚症状はない。<br>精査の結果、臨床病期ⅠA 期の左下葉肺腺癌と診断された。最大腫瘍径は2.0cm であった。本人の希望で放射線治療を行うこととした。胸部CT を示す。<br><strong>治療に伴う合併症として考えられる</strong>のはどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/116F-47_1.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　肺炎（放射線肺炎）</span></div><div class="ch2">b　心肥大</div><div class="ch2">c　乳び胸</div><div class="ch2">d　上肢浮腫</div><div class="ch2">e　反回神経麻痺</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　肺炎（放射線肺炎）—胸部放射線療法の代表的合併症</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>胸部放射線療法の主な合併症：<span class="kw">放射線肺炎（照射後1〜6ヶ月）</span>・放射線線維症（長期）・放射線食道炎（照射中〜直後）・放射線心膜炎。b〜eは手術合併症（乳癌術後の上肢浮腫・縦隔手術後の反回神経麻痺等）。</div>
+</div>
+</div></div>
+<div id="s5"><div class="sh" style="background:#1C3A5A;"><div class="snum">B</div><h2>B 問題（無印）</h2><div class="sc">Q.199〜Q.244</div></div></div>
+<div class="qc" data-rate="99" data-uid="resp_ch04_q199" id="q199"><div class="qh"><span class="qn">Q.199</span><span class="qe">(115E-24)</span><span class="cr ch">正答率 99%</span><span class="cr ch">正答率 99%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q199" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q199" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">喫煙が発症因子となる疾患はどれか。</div>
+<div class="cs"><div class="ch2">a　過敏性肺炎</div><div class="ch2">b　レジオネラ肺炎</div><div class="ch2"><span class="ok">c　急性好酸球性肺炎</span></div><div class="ch2">d　非結核性抗酸菌症</div><div class="ch2">e　マイコプラズマ肺炎</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　急性好酸球性肺炎（AEP）—喫煙開始直後が典型的誘因</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">AEP（急性好酸球性肺炎）</span>：<span class="kw">喫煙（特に開始直後）</span>が誘因。a：過敏性肺炎は喫煙者に少ない（<span class="kw4">逆相関</span>）→喫煙はむしろ保護的。d：NTM症は温水暴露等（喫煙と直接関係薄）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="82" data-uid="resp_ch04_q200" id="q200"><div class="qh"><span class="qn">Q.200</span><span class="qe">(115F-41)</span><span class="cr cm">正答率 82%</span><span class="cr ch">正答率 82%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q200" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q200" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">72 歳の男性。肺がん検診で胸部異常陰影を指摘され来院した。左肺上葉に径25mm の結節影を認め、臨床病期IA期の原発性肺腺癌と診断された。心機能が低下しているため、手術療法は困難と判断され、根治目的に放射線治療を施行した。<br><strong>治療終了3 か月後の有害事象として認められる可能性が高い</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">a　脱毛</div><div class="ch2">b　血球減少</div><div class="ch2"><span class="ok">c　放射線肺炎</span></div><div class="ch2">d　放射線食道炎</div><div class="ch2">e　放射線皮膚炎</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　放射線肺炎（照射後1〜6ヶ月に好発→3ヶ月後は典型的タイミング）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 放射線治療有害事象の時期</h4><table class="tb"><tr><th>有害事象</th><th>好発時期</th></tr><tr><td><span class="kw">放射線肺炎</span></td><td><span class="kw">照射後1〜6ヶ月（典型2〜3ヶ月）→c正</span></td></tr><tr><td>放射線食道炎</td><td>照射中〜直後</td></tr><tr><td>放射線皮膚炎</td><td>照射中〜直後（3ヶ月後は少ない）</td></tr><tr><td>放射線線維症</td><td>6ヶ月〜数年後</td></tr><tr><td>脱毛</td><td>化学療法の副作用（放射線ではほぼなし）</td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="49" data-uid="resp_ch04_q201" id="q201"><div class="qh"><span class="qn">Q.201</span><span class="qe">(114A-33)</span><span class="cr cl">正答率 49%</span><span class="cr cl">正答率 49%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q201" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q201" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">23 歳の男性。呼吸困難を主訴に来院した。2 週前から続く咳嗽および喀痰、4 日前から発熱がある。1 か月前から喫煙を始めたという。呼吸数22/ 分。SpO2 89％（room air）。心音に異常を認めない。両側背部にﬁne crackles を聴取する。胸部エックス線写真で両側びまん性のすりガラス陰影および浸潤影を認める。胸部CT では、小葉間隔壁の肥厚を伴うすりガラス陰影、区域を超えた浸潤影を認めた。肺生検組織で著明な好酸球浸潤を認めた。気管支肺胞洗浄液中の好酸球は42％と増加を認めた。<br><strong>本疾患の特徴として誤っている</strong>のはどれか。</div>
+<div class="cs"><div class="ch2"><span class="ok">a　気管支喘息の合併が多い</span></div><div class="ch2">b　喫煙が誘因となり得る</div><div class="ch2">c　初期の末梢血好酸球数は正常である</div><div class="ch2">d　治療後の再発は少ない</div><div class="ch2">e　副腎皮質ステロイドの反応性は良好である</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　気管支喘息の合併が多い（誤り：AEPは喘息合併少→慢性好酸球性肺炎との違い）</div></div></div>
+<div class="eg"><div class="eb ee"><h4>📋 AEP vs CEP 重要な相違点</h4><table class="tb"><tr><th>特徴</th><th>AEP</th><th>CEP（慢性）</th></tr><tr><td>喘息合併</td><td><span class="kw4">少ない（a誤→正解）</span></td><td>多い（50%↑）</td></tr><tr><td>末梢血好酸球</td><td><span class="kw">初期は正常（c正）</span></td><td>増多</td></tr><tr><td>喫煙との関連</td><td><span class="kw">あり（b正）</span></td><td>弱い</td></tr><tr><td>治療後再発</td><td><span class="kw">少ない（d正）</span></td><td>多い（繰り返す）</td></tr><tr><td>ステロイド反応</td><td><span class="kw">良好（e正）</span></td><td>良好</td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="91" data-uid="resp_ch04_q202" id="q202"><div class="qh"><span class="qn">Q.202</span><span class="qe">(114A-49)</span><span class="cr ch">正答率 91%</span><span class="cr ch">正答率 91%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q202" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q202" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">78 歳の男性。労作時呼吸困難を主訴に来院した。半年前から労作時呼吸困難を自覚し、2 週前から増悪しているという。意識は清明。体温37.0℃。脈拍100/ 分、整。血圧146/84mmHg。呼吸数24/ 分。SpO2 88％（room air）。心音に異常を認めない。両側の背部にﬁne crackles を聴取する。下腿に浮腫を認めない。胸部エックス線写真（A）及び胸部CT（B）を示す。<br><strong>認められる可能性が高い</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/114A-49_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/114A-49_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　一秒率低下</div><div class="ch2">b　PaCO₂上昇</div><div class="ch2"><span class="ok">c　A-aDO₂開大</span></div><div class="ch2">d　血清LD低下</div><div class="ch2">e　血中SP-D低下</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　A-aDO₂開大（IPF→拡散障害→A-aDO₂↑）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 IPFの検査所見まとめ</h4><table class="tb"><tr><th>項目</th><th>方向</th><th>理由</th></tr><tr><td>A-aDO₂</td><td><span class="kw">↑開大（c正）</span></td><td>拡散障害→ガス交換効率低下</td></tr><tr><td>%VC</td><td><span class="kw4">↓低下</span></td><td>拘束性障害</td></tr><tr><td>FEV₁%</td><td>正常〜↑</td><td>閉塞性ではない</td></tr><tr><td>PaCO₂</td><td><span class="kw4">↓低下（b誤）</span></td><td>代償性過換気</td></tr><tr><td>血清LD</td><td><span class="kw4">↑上昇（d誤）</span></td><td>肺胞上皮障害</td></tr><tr><td>SP-D</td><td><span class="kw4">↑上昇（e誤）</span></td><td>II型肺胞上皮細胞産生↑</td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="93" data-uid="resp_ch04_q203" id="q203"><div class="qh"><span class="qn">Q.203</span><span class="qe">(114A-50)</span><span class="cr ch">正答率 93%</span><span class="cr ch">正答率 93%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q203" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q203" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">56 歳の女性。気が遠くなるようなめまいを主訴に来院した。1 年前に鼻翼に丘疹が出現した。皮膚サルコイドーシスと診断され、副腎皮質ステロイド外用薬の塗布により、3 か月程度で皮疹は改善した。今朝から気が遠くなるようなめまいが出現したため受診した。体温36.7℃。脈拍40/ 分、整。血圧132/72mmHg。眼瞼結膜と眼球結膜とに異常を認めない。頸静脈怒張を認めない。心音と呼吸音とに異常を認めない。血液所見：赤血球414 万、Hb 12.6g/dL、<br>白血球5,400、血小板27 万。血液生化学所見：総蛋白7.4g/dL、アルブミン4.3g/dL、AST 21U/L、ALT 22U/L、LD261U/L（基準120 ～245）、CK 78U/L（基準30 ～140）、クレアチニン0.5mg/dL。CRP 0.1mg/dL。胸部エックス線写真で異常を認めない。心電図で完全房室ブロックを認める。心エコー図を示す。左室駆出率は45％であった。完全房室ブロックに対して一時的ペースメーカーを挿入した。<br><strong>適切な治療</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/114A-50_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　NSAID</div><div class="ch2">b　抗結核薬</div><div class="ch2">c　コルヒチン</div><div class="ch2">d　リツキシマブ</div><div class="ch2"><span class="ok">e　副腎皮質ステロイド</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　副腎皮質ステロイド（心サルコイドーシス→完全房室ブロック→ステロイド第一選択）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>皮膚サルコイド→<span class="kw">心サルコイドーシス（完全房室ブロック）</span>へ進展。治療：<span class="kw">ステロイド（プレドニゾロン 30〜40mg/日）</span>＋<span class="kw">永久ペースメーカー</span>（房室ブロック）。b：抗結核薬は結核（非乾酪性肉芽腫=サルコイド≠結核）に使う。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="97" data-uid="resp_ch04_q204" id="q204"><div class="qh"><span class="qn">Q.204</span><span class="qe">(114D-59)</span><span class="cr ch">正答率 97%</span><span class="cr ch">正答率 97%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q204" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q204" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">65 歳の女性。胸痛を主訴に来院した。1 か月前から右胸痛を自覚していたが改善しないため受診した。13 年前に右乳癌で手術の既往がある。30 年前から建設業に従事していた。呼吸音は右下胸部で減弱、胸部の打診で右背側に濁音を認めた。胸部エックス線写真（A）、胸部造影CT（B）及びFDG-PET/CT（C）を示す。胸腔鏡下生検を施行した結果、カルレチニン免疫組織染色が陽性である悪性細胞を認めた。<br><strong>この患者で高値を示す</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/114D-59_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/114D-59_2.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/114D-59_3.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　胸水ヒアルロン酸</span></div><div class="ch2">b　胸水トリグリセリド</div><div class="ch2">c　血清AFP</div><div class="ch2">d　胸水アデノシンデアミナーゼ（ADA）</div><div class="ch2">e　血清アンジオテンシン変換酵素（ACE）</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　胸水ヒアルロン酸（悪性胸膜中皮腫のマーカー）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 胸水検査のポイント</h4><table class="tb"><tr><th>疾患</th><th>特徴的マーカー</th></tr><tr><td><span class="kw">悪性胸膜中皮腫</span></td><td><span class="kw">胸水ヒアルロン酸著明高値（a正）</span></td></tr><tr><td>乳び胸</td><td><span class="kw">胸水TG（トリグリセリド）高値（b誤）</span></td></tr><tr><td>結核性胸膜炎</td><td><span class="kw">胸水ADA高値（d誤）</span></td></tr><tr><td>サルコイドーシス</td><td><span class="kw">血清ACE高値（e誤）</span></td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="78" data-uid="resp_ch04_q205" id="q205"><div class="qh"><span class="qn">Q.205</span><span class="qe">(113A-24)</span><span class="cr cm">正答率 78%</span><span class="cr cm">正答率 78%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q205" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q205" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">45 歳の女性。発熱、咳嗽および呼吸困難を主訴に来院した。1 週間前の7 月初めに咳嗽が出現し、3 日前から37℃台の発熱があり、昨日から呼吸困難も伴ったため受診した。3 年前から毎年6 月初旬から8 月にかけて同様の症状を起こし、昨年も入院加療している。3 年前から築25 年のアパートに暮らしており、室内には趣味の観葉植物が多くあるという。両側胸部にﬁne crackles を聴取し、胸部エックス線写真ではびまん性散在性粒状陰影を認める。<br>Trichosporon asahii 特異抗体が陽性である。<br><strong>この患者で認められる可能性が低い</strong>のはどれか。</div>
+<div class="cs"><div class="ch2"><span class="ok">a　IgE高値</span></div><div class="ch2">b　帰宅試験陽性</div><div class="ch2">c　拘束性換気障害</div><div class="ch2">d　肺の病理所見で肉芽腫</div><div class="ch2">e　気管支肺胞洗浄液CD4/CD8比低下</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　IgE高値（可能性低い）—過敏性肺炎はIgE関与の少ないIII・IV型免疫反応</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>過敏性肺炎の免疫反応：<span class="kw">III型（免疫複合体＝沈降抗体）＋IV型（細胞性＝T細胞）</span>が主体→<span class="kw4">IgE（I型アレルギー）は関与しない</span>。b〜eはすべて過敏性肺炎の特徴的所見（正しい）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="79" data-uid="resp_ch04_q206" id="q206"><div class="qh"><span class="qn">Q.206</span><span class="qe">(113D-72)</span><span class="bg bm">2択</span><span class="cr cm">正答率 79%</span><span class="cr cm">正答率 79%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q206" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q206" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">50 歳の男性。胸痛を主訴に来院した。4 か月前から胸痛を自覚し、次第に増強するため受診した。18 歳から現在まで造船業に従事している。胸水から悪性細胞が認められたが、組織型は不明である。胸部エックス線写真（A）、<br>胸部造影CT（B）及びPET/CT（C）を示す。<br>組織型を決定するために適切なのはどれか。2 つ選べ。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/113D-72_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/113D-72_2.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/113D-72_3.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　胸腔鏡下生検</span></div><div class="ch2">b　縦隔鏡下生検</div><div class="ch2"><span class="ok">c　CTガイド下生検</span></div><div class="ch2">d　気管支内視鏡下生検</div><div class="ch2">e　上部消化管内視鏡下生検</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　胸腔鏡下生検　＋　c　CTガイド下生検（胸膜への直接アクセス）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>悪性胸膜中皮腫の組織型確定：<span class="kw">胸腔鏡下生検（gold standard）</span>または<span class="kw">CTガイド下針生検</span>（胸膜・胸壁腫瘍）。d：気管支鏡は中枢型肺癌向け（胸膜病変に届かない）。b：縦隔リンパ節生検。</div>
+</div>
+</div></div>
+<div class="rb">📋 <strong>連問（Q.207〜208）　次の文を読み、207と208の問いに答えよ。</strong><div class="pi"><strong>79歳男性。咳嗽と呼吸困難を主訴に来院。</strong><br/>半年前から咳嗽・息切れ（市販鎮咳薬でも持続）。3日前から増悪。喫煙15本/日×35年（禁煙55歳）。<br/>現症：SpO₂ 91%（room air）。背部下胸部fine crackles。KL-6 1,300↑、LD 442↑。CT：蜂巣肺＋牽引性気管支拡張→IPFパターン。</div></div>
+<div class="qc" data-rate="66" data-uid="resp_ch04_q207" id="q207"><div class="qh"><span class="qn">Q.207</span><span class="qe">(113E-50)</span><span class="bg br">連問</span><span class="cr cm">正答率 66%</span><span class="cr cm">正答率 66%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q207" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q207" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 1/2</span>次の文を読み、207 と208 の問いに答えよ。<br>79 歳の男性。咳嗽と呼吸困難を主訴に来院した。<br>現病歴：半年前から咳嗽と労作時の息切れを自覚するようになった。市販の鎮咳薬を服用して様子をみていたが、症<br>状は持続していた。3 日前から咳嗽の増加と呼吸困難の悪化とを自覚したため受診した。<br>既往歴：高血圧症。<br>生活歴：喫煙は15 本/ 日を35 年間。55 歳で禁煙。飲酒は機会飲酒。<br>家族歴：特記すべきことはない。<br>現　症：身長162cm、体重59kg。体温36.5℃。脈拍68/ 分、整。血圧140/90mmHg。呼吸数22/ 分。SpO2 91％（room <br>air）。</span><br>診断に<strong>有用でない</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">a　肺生検</div><div class="ch2">b　高分解能CT（HRCT）</div><div class="ch2">c　スパイロメトリ</div><div class="ch2">d　気管支肺胞洗浄</div><div class="ch2"><span class="ok">e　気道過敏性試験</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　気道過敏性試験（喘息の診断→IPFには無関係）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>IPFの診断：<span class="kw">HRCT（UIPパターン確認）</span>＋<span class="kw">肺生検（UIPパターン組織確認）</span>＋<span class="kw">スパイロメトリ（拘束性確認）</span>＋<span class="kw">BAL（他疾患除外）</span>。<span class="kw4">気道過敏性試験</span>は喘息・咳喘息の診断→IPFには不要。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="95" data-uid="resp_ch04_q208" id="q208"><div class="qh"><span class="qn">Q.208</span><span class="qe">(113E-51)</span><span class="bg br">連問</span><span class="cr ch">正答率 95%</span><span class="cr ch">正答率 95%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q208" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q208" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 2/2</span>次の文を読み、207 と208 の問いに答えよ。<br>79 歳の男性。咳嗽と呼吸困難を主訴に来院した。<br>現病歴：半年前から咳嗽と労作時の息切れを自覚するようになった。市販の鎮咳薬を服用して様子をみていたが、症<br>状は持続していた。3 日前から咳嗽の増加と呼吸困難の悪化とを自覚したため受診した。<br>既往歴：高血圧症。<br>生活歴：喫煙は15 本/ 日を35 年間。55 歳で禁煙。飲酒は機会飲酒。<br>家族歴：特記すべきことはない。<br>現　症：身長162cm、体重59kg。体温36.5℃。脈拍68/ 分、整。血圧140/90mmHg。呼吸数22/ 分。SpO2 91％（room <br>air）。</span><br>認められる可能性が高いのはどれか。</div>
+<div class="cs"><div class="ch2">a　高CO₂血症</div><div class="ch2">b　一秒率の低下</div><div class="ch2"><span class="ok">c　肺拡散能低下</span></div><div class="ch2">d　A-aDO₂値の低下</div><div class="ch2">e　気道過敏性の亢進</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　肺拡散能低下（IPF→拡散障害→DLco↓）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>IPF の生理検査：<span class="kw">拘束性（%VC↓）</span>＋<span class="kw">DLco↓（拡散能低下）</span>＋<span class="kw">A-aDO₂↑（開大）</span>。高CO₂血症（a）は代償性過換気のIPFでは認めない。FEV₁%（b）は拘束性では正常か↑。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="98" data-uid="resp_ch04_q209" id="q209"><div class="qh"><span class="qn">Q.209</span><span class="qe">(113F-61)</span><span class="cr ch">正答率 98%</span><span class="cr ch">正答率 98%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q209" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q209" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">65 歳の男性。健診の胸部エックス線写真で異常陰影を指摘されて来院した。18 歳から35 歳まで工場でボイラーの点検保守を行っており、その後は農業に従事している。喫煙は25 本/ 日を40 年間。身長163cm、体重72kg。体温36.3℃。脈拍72/ 分、整。血圧102/68mmHg。呼吸数16/ 分。SpO2 98％（room air）。心音に異常を認めない。呼吸音は両側下胸部で減弱している。胸部CT で胸膜プラークを認める。<br><strong>原因となる曝露物質として考えられる</strong>のはどれか。</div>
+<div class="cs"><div class="ch2"><span class="ok">a　石綿（アスベスト）</span></div><div class="ch2">b　有機リン</div><div class="ch2">c　二酸化窒素</div><div class="ch2">d　ホルムアルデヒド</div><div class="ch2">e　ポリ塩化ビフェニル（PCB）</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　石綿（アスベスト）—胸膜プラークはアスベスト曝露の最も特異的な証拠</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">胸膜プラーク（pleural plaque）</span>：壁側胸膜の石灰化・肥厚→<span class="kw">アスベスト曝露の証拠（非常に特異的）</span>。ボイラー点検保守＝アスベスト含有保温材への曝露→石綿肺・胸膜プラーク・中皮腫・肺癌のリスク。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="77" data-uid="resp_ch04_q210" id="q210"><div class="qh"><span class="qn">Q.210</span><span class="qe">(112C-38)</span><span class="cr cm">正答率 77%</span><span class="cr cm">正答率 77%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q210" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q210" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">59 歳の男性。労作時の呼吸困難を主訴に来院した。3 年前から労作時の呼吸困難があったがそのままにしていた。<br>健診で胸部の異常陰影を指摘されたため、心配になり受診した。身長172cm、体重70kg。体温36.3℃。脈拍80/ 分、整。<br>血圧128/84mmHg。呼吸数18/ 分。SpO2 95％（room air）。心音に異常を認めない。呼吸音は正常だが、両側の背部にﬁne crackles を聴取する。胸部エックス線写真（A）と胸部CT（B）とを示す。<br><strong>以下に示すﬂow-volume 曲線（C ①～⑤）のうち、この患者で予想される</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/112C-38_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/112C-38_2.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/112C-38_3.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/112C-38_4.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/112C-38_5.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/112C-38_6.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/112C-38_7.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　①</span></div><div class="ch2">b　②</div><div class="ch2">c　③</div><div class="ch2">d　④</div><div class="ch2">e　⑤</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　①</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 IPF/拘束性 flow-volume 曲線</h4>ループ全体が<span class="kw">小さく（TLC↓）</span>、形は正常（急峻な呼気峰）→②。vs COPD：scooping（凹んだ呼気）→③〜⑤。vs 正常：大きなループ→①。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="29" data-uid="resp_ch04_q211" id="q211"><div class="qh"><span class="qn">Q.211</span><span class="qe">(112D-10)</span><span class="cr cl">正答率 29%（超難問）</span><span class="cr cl">正答率 29%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q211" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q211" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">胸膜中皮腫について<strong>正しいのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　良性腫瘍である</div><div class="ch2"><span class="ok">b　上皮型が最も多い</span></div><div class="ch2">c　両側に病変を認めることが多い</div><div class="ch2">d　硅酸（ケイ酸）曝露との関連性が認められる</div><div class="ch2">e　我が国での年間死亡者数は1万を超える</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　上皮型が最も多い（全体の60〜65%）</div></div></div>
+<div class="eg"><div class="eb ee"><h4>📋 胸膜中皮腫の基本事項</h4><table class="tb"><tr><th>項目</th><th>内容</th></tr><tr><td>良悪性</td><td>悪性腫瘍（a誤）</td></tr><tr><td>組織型</td><td><span class="kw">上皮型（60-65%）&gt;二相型&gt;肉腫型（b正）</span></td></tr><tr><td>部位</td><td><span class="kw4">通常片側性（両側は少ない→c誤）</span></td></tr><tr><td>原因</td><td><span class="kw">石綿（アスベスト）曝露（d誤：ケイ酸=珪肺とは別）</span></td></tr><tr><td>日本の死者数</td><td>約1,500〜2,000人/年（1万超えではない→e誤）</td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>29%の超難問。誤肢が多い問題。<span class="kw">上皮型が最多</span>という基本事項が正解。ケイ酸（ケイ酸+石英）→珪肺症；石綿（アスベスト）→中皮腫・石綿肺・肺癌（区別が重要）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="80" data-uid="resp_ch04_q212" id="q212"><div class="qh"><span class="qn">Q.212</span><span class="qe">(112F-47)</span><span class="cr cm">正答率 80%</span><span class="cr ch">正答率 80%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q212" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q212" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">70 歳の男性。肺癌治療後の定期診察のため来院した。6 か月前に肺門リンパ節転移を伴う限局型小細胞肺癌と診断され、抗癌化学療法と胸部放射線療法の同時併用を行った。抗癌化学療法は3 か月で、放射線療法は3 週間で終了している。現在、喀痰と労作時呼吸困難はあるが肺癌治療開始前と比べて変化はない。63 歳時に僧帽弁の人工弁置換術を受けている。体温36.4℃。脈拍68/ 分、整。血圧122/72mmHg。呼吸数18/ 分。SpO2 97％（room air）。呼吸音に異常を認めない。血液所見：Hb 10.8g/dL、白血球5,400。CRP 0.9mg/dL。肺癌治療前と今回来院時の胸部エックス線写真（A）及び放射線治療の照射野（B）を示す。<br><strong>適切な対応</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/112F-47_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/112F-47_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　抗菌薬投与</div><div class="ch2">b　抗癌化学療法の追加</div><div class="ch2">c　胸部放射線療法の追加</div><div class="ch2">d　ステロイドパルス療法</div><div class="ch2"><span class="ok">e　1週間の経過観察後の胸部X線</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　1週間の経過観察後の胸部X線（軽症放射線肺炎→まず経過観察）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>照射野と一致する浸潤影→<span class="kw">放射線肺炎</span>。治療：<span class="kw">プレドニゾロンまたはステロイドパルス</span>。c：追加照射は放射線肺炎を悪化させる（禁忌）。b：腫瘍の再発ではなく治療関連合併症。a：細菌性肺炎の証拠なし。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="54" data-uid="resp_ch04_q213" id="q213"><div class="qh"><span class="qn">Q.213</span><span class="qe">(111A-10)</span><span class="cr cl">正答率 54%</span><span class="cr cl">正答率 54%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q213" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q213" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">胸膜プラークについて<strong>正しいのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　葉間胸膜に好発する</div><div class="ch2">b　胸膜中皮腫の発生母地である</div><div class="ch2">c　胸膜切除術が第一選択である</div><div class="ch2"><span class="ok">d　石綿曝露歴があったことを示す</span></div><div class="ch2">e　飲酒が発症のリスクファクターとなる</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　石綿曝露歴があったことを示す（最も特異的な所見）</div></div></div>
+<div class="eg"><div class="eb ee"><h4>📋 胸膜プラークの基本</h4><table class="tb"><tr><th>項目</th><th>内容</th></tr><tr><td>好発部位</td><td><span class="kw">壁側胸膜（葉間胸膜ではない→a誤）</span></td></tr><tr><td>中皮腫との関係</td><td>プラーク自体は良性→中皮腫の直接の発生母地ではない（b誤）</td></tr><tr><td>治療</td><td>通常不要（切除不要→c誤）</td></tr><tr><td><span class="kw">石綿曝露の証拠</span></td><td><span class="kw3">最も特異的な所見（d正）</span></td></tr><tr><td>飲酒</td><td><span class="kw4">リスクではない（e誤）：石綿（アスベスト）が原因</span></td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="89" data-uid="resp_ch04_q214" id="q214"><div class="qh"><span class="qn">Q.214</span><span class="qe">(111A-37)</span><span class="cr ch">正答率 89%</span><span class="cr ch">正答率 89%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q214" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q214" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">65 歳の男性。健康診断で胸水の貯留を指摘されたため来院した。30 年間、造船業に従事していた。胸部CT で右側の胸水貯留と胸膜肥厚とを認める。<br><strong>次に行うべき検査</strong>はどれか。</div>
+<div class="cs"><div class="ch2">a　縦隔鏡</div><div class="ch2"><span class="ok">b　胸腔穿刺</span></div><div class="ch2">c　喀痰細胞診</div><div class="ch2">d　気管支内視鏡</div><div class="ch2">e　心エコー検査</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　胸腔穿刺（胸水分析→細胞診・ヒアルロン酸・pH・LDH等）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>胸水貯留→まず<span class="kw">胸腔穿刺</span>（胸水の分析）。中皮腫疑い→胸水細胞診・ヒアルロン酸（&gt;50,000→中皮腫を強く示唆）を確認。確定診断には胸膜生検/胸腔鏡が必要。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="94" data-uid="resp_ch04_q215" id="q215"><div class="qh"><span class="qn">Q.215</span><span class="qe">(111E-41)</span><span class="cr ch">正答率 94%</span><span class="cr ch">正答率 94%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q215" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q215" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">68 歳の女性。易疲労感と咳嗽とを主訴に来院した。6 か月前から左上葉肺癌で抗癌化学療法と放射線療法とを受けていた。2 か月前に治療は終了し経過観察されている。2 週間前から易疲労感と乾性咳嗽があり、次第に悪化したため受診した。身長160cm、体重58kg。体温36.6℃。脈拍88/ 分、整。血圧126/80mmHg。呼吸数18/ 分。SpO2 96％（roomair）。眼瞼結膜は軽度貧血様である。心音に異常を認めないが、左胸部で気管支呼吸音と軽度のwheezes を聴取する。<br>血液所見：赤血球389 万、Hb 10.2g/dL、Ht 32％、白血球5,800、血小板25 万。血液生化学所見：総蛋白6.7g/dL、<br>アルブミン3.7g/dL、総ビリルビン0.3mg/dL、AST 16U/L、ALT 13U/L、LD 273U/L（基準176 ～353）、クレアチニン0.9mg/dL、Na 143mEq/L、K 4.4mEq/L、Cl 105mEq/L、CEA 4.8ng/mL（基準5 以下）。CRP 1.3mg/dL。<br>胸部エックス線写真（A）と肺野条件の胸部CT（B）とを示す。<br><strong>最も考えられる</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/111E-41_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/111E-41_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　癌性リンパ管症</div><div class="ch2"><span class="ok">b　放射線肺炎</span></div><div class="ch2">c　細菌性肺炎</div><div class="ch2">d　肺水腫</div><div class="ch2">e　膿胸</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　放射線肺炎（照射終了後2ヶ月・照射野一致・乾性咳嗽）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>照射終了後<span class="kw">2ヶ月（1〜6ヶ月）</span>＋<span class="kw">照射野と一致する浸潤影</span>＋乾性咳嗽＝<span class="kw">放射線肺炎</span>の典型パターン。CEA正常（再発の可能性低い）。治療：ステロイド。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="83" data-uid="resp_ch04_q216" id="q216"><div class="qh"><span class="qn">Q.216</span><span class="qe">(110D-31)</span><span class="cr cm">正答率 83%</span><span class="cr ch">正答率 83%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q216" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q216" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">34 歳の女性。労作時の息切れと易疲労感とを主訴に来院した。1 か月前から、階段昇降時に息切れと疲労感とを自覚するようになった。その後、症状が続くため心配になって受診した。意識は清明。体温36.1℃。脈拍64/ 分、整。<br>血圧110/76mmHg。呼吸数16/ 分。SpO2 97％（room air）。左の鎖骨上窩に径1cm のリンパ節を3 個触知する。<br>胸部の聴診でⅢ音を聴取するが、呼吸音に異常を認めない。眼所見と神経学的所見とに異常を認めない。血液所見：赤血球512 万、Hb 14.6g/dL、白血球3,900、血小板28 万。血液生化学所見：総蛋白6.5g/dL、アルブミン3.8g/dL、AST 27IU/L、ALT 42IU/L、LD 151IU/L（基準176 ～353）、CK 37IU/L（基準30 ～140）、クレアチニン0.9mg/dL、Ca 9.8mg/dL、P 4.5mg/dL。免疫血清学所見：CRP 0.1mg/dL、抗核抗体陰性、ACE 41.2U/L（基準8.3 ～21.4）、可溶性IL-2 受容体726U/mL（基準550 以下）。胸部エックス線写真で両側の肺門リンパ節の腫脹を認める。心電図は洞調律で心拍数68/ 分、不完全右脚ブロックを認める。心エコーで左室拡張末期径64mm、左室駆出率34％、左室壁厚は中隔、後壁とも9mm で心室中隔基部の菲薄化を認める。左の鎖骨上リンパ節の生検組織のH-E染色標本（A，B）を示す。<br><strong>この患者で、心不全の治療とともに行うべきな</strong>のはどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/110D-31_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/110D-31_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　放射線照射</div><div class="ch2">b　α遮断薬投与</div><div class="ch2">c　抗結核薬投与</div><div class="ch2"><span class="ok">d　副腎皮質ステロイド投与</span></div><div class="ch2">e　植込み型除細動器（ICD）の植込み</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　副腎皮質ステロイド投与（心サルコイドーシスの根本治療）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>心サルコイドーシス（心不全+BHL+非乾酪性肉芽腫+ACE↑）→<span class="kw">ステロイド（第一選択）</span>。e：ICDは危険な心室不整脈（持続性VT等）がある場合に適応→本例では不整脈の記載なし（心不全のみ）。c：非乾酪性肉芽腫≠結核。</div>
+</div>
+</div></div>
+<div class="rb">📋 <strong>連問（Q.217〜219）　次の文を読み、217〜219の問いに答えよ。</strong><div class="pi"><strong>60歳男性。右胸部痛1ヶ月＋息切れ1週。</strong><br/>喫煙20本/日×40年。胸水（右）。CEA・CYFRA・CA19-9 すべて正常。X線(A)・CT(B)：右胸水+胸膜肥厚。職業歴詳細不明。</div></div>
+<div class="qc" data-uid="resp_ch04_q217" id="q217"><div class="qh"><span class="qn">Q.217</span><span class="qe">(110E-64)</span><span class="bg br">連問</span><span class="cr ch">正答率 98%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q217" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q217" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 1/3</span>60 歳の男性。胸部痛を主訴に来院した。<br>現病歴：1 か月前から持続性の右胸部痛が出現した。1 週前から息切れも自覚するようになった。自宅近くの医療機関<br>を受診し、胸部エックス線写真で異常を認めたため紹介されて受診した。<br>既往歴：胃潰瘍の治療歴あり。<br>生活歴：喫煙は20 本/ 日を40 年間。飲酒はビール350mL/ 日を40 年間。<br>家族歴：父親が糖尿病で治療中。<br>現　症：意識は清明。身長161cm、体重59kg。体温36.6℃。脈拍80/ 分、整。血圧126/82mmHg。呼吸数20/ 分。<br>SpO2 97％（room air）。心音に異常を認めない。呼吸音は右側で減弱している。</span><br>診断のため追加して確認すべきなのはどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/110E-64_1.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　職業歴</span></div><div class="ch2">b　手術歴</div><div class="ch2">c　海外渡航歴</div><div class="ch2">d　歯科治療歴</div><div class="ch2">e　ペット飼育歴</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　職業歴（アスベスト曝露歴の確認が最重要）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>片側胸水＋胸膜肥厚＋腫瘍マーカー正常（CEA等陰性）→<span class="kw">悪性胸膜中皮腫</span>疑い→<span class="kw">職業歴（アスベスト曝露：建設業・造船業等）の確認が最優先</span>。中皮腫の潜伏期間30〜50年→若い頃の職業歴が重要。</div>
+</div>
+</div></div>
+<div class="qc" data-uid="resp_ch04_q218" id="q218"><div class="qh"><span class="qn">Q.218</span><span class="qe">(110E-65)</span><span class="bg br">連問</span><span class="cr cm">正答率 82%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q218" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q218" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 2/3</span>60 歳の男性。胸部痛を主訴に来院した。<br>現病歴：1 か月前から持続性の右胸部痛が出現した。1 週前から息切れも自覚するようになった。自宅近くの医療機関<br>を受診し、胸部エックス線写真で異常を認めたため紹介されて受診した。<br>既往歴：胃潰瘍の治療歴あり。<br>生活歴：喫煙は20 本/ 日を40 年間。飲酒はビール350mL/ 日を40 年間。<br>家族歴：父親が糖尿病で治療中。<br>現　症：意識は清明。身長161cm、体重59kg。体温36.6℃。脈拍80/ 分、整。血圧126/82mmHg。呼吸数20/ 分。<br>SpO2 97％（room air）。心音に異常を認めない。呼吸音は右側で減弱している。</span><br>診断のため行うべき検査はどれか。</div>
+<div class="cs"><div class="ch2">a　心エコー</div><div class="ch2"><span class="ok">b　胸腔穿刺</span></div><div class="ch2">c　呼吸機能検査</div><div class="ch2">d　気管支内視鏡検査</div><div class="ch2">e　上部消化管内視鏡検査</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　胸腔穿刺（胸水の細胞診・ヒアルロン酸測定→診断のファーストステップ）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>胸水→まず<span class="kw">胸腔穿刺</span>。中皮腫疑い→<span class="kw">胸水ヒアルロン酸</span>（&gt;50,000 ng/mL→中皮腫を強く示唆）・細胞診。確定は胸腔鏡下生検。</div>
+</div>
+</div></div>
+<div class="qc" data-uid="resp_ch04_q219" id="q219"><div class="qh"><span class="qn">Q.219</span><span class="qe">(110E-66)</span><span class="bg bi">📷 画像</span><span class="bg br">連問</span><span class="cr cl">正答率 22%（超難問）</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q219" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q219" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 3/3</span>60 歳の男性。胸部痛を主訴に来院した。<br>現病歴：1 か月前から持続性の右胸部痛が出現した。1 週前から息切れも自覚するようになった。自宅近くの医療機関<br>を受診し、胸部エックス線写真で異常を認めたため紹介されて受診した。<br>既往歴：胃潰瘍の治療歴あり。<br>生活歴：喫煙は20 本/ 日を40 年間。飲酒はビール350mL/ 日を40 年間。<br>家族歴：父親が糖尿病で治療中。<br>現　症：意識は清明。身長161cm、体重59kg。体温36.6℃。脈拍80/ 分、整。血圧126/82mmHg。呼吸数20/ 分。<br>SpO2 97％（room air）。心音に異常を認めない。呼吸音は右側で減弱している。</span><br>後日、胸腔鏡検査を施行。胸腔鏡での胸膜写真(C)を示す。みられる所見はどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/110E-66_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/110E-66_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　膿瘍</div><div class="ch2"><span class="ok">b　腫瘍</span></div><div class="ch2">c　嚢胞</div><div class="ch2">d　胸膜炎</div><div class="ch2">e　胸膜プラーク</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　腫瘍（胸腔鏡：胸膜腫瘍の結節性・白色病変が観察される）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>22%の超難問（画像問題）。胸腔鏡では<span class="kw">胸膜の白色調・結節性の腫瘍病変</span>が観察される。この所見から組織生検を行い病理確定（カルレチニン陽性→中皮腫確定）。胸膜プラーク（e）は平坦で白色の線維性肥厚→腫瘤形成しない。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="71" data-uid="resp_ch04_q220" id="q220"><div class="qh"><span class="qn">Q.220</span><span class="qe">(110I-54)</span><span class="cr cm">正答率 71%</span><span class="cr cm">正答率 71%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q220" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q220" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">65 歳の女性。繰り返す発熱、咳嗽および呼吸困難のため入院中である。10 日前に発熱、咳嗽および呼吸困難のため来院した。胸部エックス線写真で全肺野に陰影が認められたため、ニューキノロン系薬を処方された。治療開始後1 週間経過したが症状が増悪したため入院となった。入院後、血液培養や喀痰培養から原因菌は検出されなかった。<br>ペニシリン系抗菌薬を投与され、5 日後には症状および胸部エックス線写真の所見が改善したため退院となった。しかし、帰宅した翌日に発熱、咳嗽および呼吸困難が再発し、再度入院となった。喫煙歴はない。再入院時、意識は清明。<br>身長153cm、体重53kg。体温38.0℃。脈拍84/ 分、整。血圧120/70mmHg。呼吸数28/ 分。SpO2 88％（room air）。<br>頸静脈の怒張を認めない。心音に異常を認めない。呼吸音は背部にﬁne crackles を聴取する。下腿に浮腫を認めない。<br>血液所見：赤血球486 万、Hb 13.9g/dL、Ht 41％、白血球9,800（桿状核好中球9％、分葉核好中球53％、好酸球1％、<br>好塩基球1％、単球5％、リンパ球31％）、血小板26 万。血液生化学所見：LD 280IU/L（基準176 ～353）、尿素窒素9.6mg/dL、クレアチニン0.6mg/dL。CRP 4.5mg/dL。動脈血ガス分析（room air）：pH 7.48、PaCO2 35Torr、<br>PaO2 60Torr、HCO3－ 25mEq/L。再入院時の胸部エックス線写真（A）と胸部CT（B）とを示す。<br><strong>可能性の高い疾患</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/110I-54_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/110I-54_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　過敏性肺炎</span></div><div class="ch2">b　薬剤性肺炎</div><div class="ch2">c　肺炎球菌肺炎</div><div class="ch2">d　特発性間質性肺炎</div><div class="ch2">e　マイコプラズマ肺炎</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　過敏性肺炎（退院翌日に再燃→自宅抗原への再曝露が原因）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 診断のポイント</h4><span class="kw">退院翌日に再燃</span>というパターンが決定的。<span class="kw">入院（環境除去）で改善→自宅（抗原の場所）に戻ると再燃</span>＝過敏性肺炎の典型。抗菌薬が一時的に効いているように見えるのは入院（環境除去）の効果。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>過敏性肺炎の「帰宅試験」：退院後自宅に帰宅→症状再燃→過敏性肺炎確定。繰り返す発熱・呼吸困難＋抗生薬で改善するが再燃→<span class="kw">抗原除去（入院=環境からの隔離）</span>が治療の根幹。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="81" data-uid="resp_ch04_q221" id="q221"><div class="qh"><span class="qn">Q.221</span><span class="qe">(110I-76)</span><span class="bg bm">2択</span><span class="cr cm">正答率 81%</span><span class="cr ch">正答率 81%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q221" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q221" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">66 歳の男性。労作時呼吸困難を主訴に来院した。約1 年前から労作時の息切れを自覚するようになったが、徐々に増強するため受診した。会社の健康診断で3 年前から胸部エックス線写真で両側の下肺野に淡い浸潤影を指摘されていた。喫煙は現在まで20 本/ 日を46 年間。粉塵曝露の生活歴はない。意識は清明。身長170cm、体重65kg。<br>体温36.3℃。脈拍64/ 分、整。血圧130/70mmHg。呼吸数20/ 分。SpO2 96％（room air）。心音に異常を認めない。<br>両側の下背部でﬁne crackles を聴取する。血液所見：赤血球430 万、Hb 14.9g/dL、Ht 42％、白血球7,300、血小板20 万。血液生化学所見：AST 28IU/L、ALT 18IU/L、LD 370IU/L（基準176 ～353）、CK 42IU/L（基準30 ～140）、<br>尿素窒素12mg/dL、クレアチニン0.6mg/dL、KL-6 780U/mL（基準500 未満）。CRP 0.2mg/dL。胸部エックス線写真（A）と胸部CT（B）とを示す。<br>この患者の検査結果で予測されるのはどれか。2 つ選べ。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/110I-76_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/110I-76_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　%VC低下</span></div><div class="ch2">b　%RV上昇</div><div class="ch2">c　PaCO₂上昇</div><div class="ch2"><span class="ok">d　%DLco低下</span></div><div class="ch2">e　FEV₁%低下</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　%VC低下　＋　d　%DLco低下（IPF=拘束性+拡散障害）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 IPFの呼吸機能</h4><table class="tb"><tr><th>指標</th><th>変化</th><th>理由</th></tr><tr><td><span class="kw">a %VC</span></td><td><span class="kw4">↓低下</span></td><td>拘束性障害（肺が固くなる）</td></tr><tr><td>b %RV</td><td>正常〜↓（COPD:↑）</td><td>気道閉塞なし</td></tr><tr><td>c PaCO₂</td><td>↓低下（代償性過換気）</td><td>呼吸困難→速く浅く呼吸</td></tr><tr><td><span class="kw">d %DLco</span></td><td><span class="kw4">↓↓著明低下</span></td><td>拡散障害（肺胞壁肥厚）</td></tr><tr><td>e FEV₁%</td><td>正常〜↑</td><td>閉塞性でない</td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="95" data-uid="resp_ch04_q222" id="q222"><div class="qh"><span class="qn">Q.222</span><span class="qe">(109A-29)</span><span class="cr ch">正答率 95%</span><span class="cr ch">正答率 95%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q222" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q222" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">78 歳の男性。労作時呼吸困難を主訴に来院した。6 年前から坂道や階段を昇る際に息切れを自覚していた。1 か月前に感冒様症状があり、その後、呼吸困難が増強するため受診した。既往歴と家族歴とに特記すべきことはない。<br>喫煙は60 歳まで50 本/ 日を35 年間。意識は清明。身長162cm、体重63kg。体温36.2℃。脈拍92/ 分、整。血圧132/66mmHg。呼吸数28/ 分。SpO2 91％（room air）。呼吸音は背部にﬁne crackles を聴取する。ばち指を認める。<br>血液所見：赤血球499 万、Hb 16.2g/dL、Ht 47％、白血球8,900（桿状核好中球4％、分葉核好中球78％、好酸球1％、好塩基球0％、単球2％、リンパ球15％）、血小板17 万。血液生化学所見：LD 380IU/L（基準176 ～353）、尿素窒素22mg/dL、クレアチニン0.9mg/dL、脳性ナトリウム利尿ペプチド〈BNP〉37pg/mL（基準18.4 以下）、KL-61,460U/mL（基準500 未満）。CRP 1.2mg/dL。胸部エックス線写真（A）と胸部CT（B）とを示す。<br><strong>検査結果として最も予想される</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/109A-29_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/109A-29_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　肺胞気-動脈血酸素分圧較差（A-aDO₂）の開大</span></div><div class="ch2">b　BAL液中の好酸球増多</div><div class="ch2">c　肺機能における残気率の増加</div><div class="ch2">d　血清抗GM-CSF抗体陽性</div><div class="ch2">e　HLA-B54陽性</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　A-aDO₂の開大（IPF→拡散障害→A-aDO₂↑）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>b：BAL好酸球↑→好酸球性肺炎。c：残気率↑→COPD/肺気腫。d：抗GM-CSF抗体→肺胞蛋白症。e：HLA-B54→DPB。<span class="kw">IPFはA-aDO₂開大・KL-6↑・ばち指・Velcro音</span>が4大特徴。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="70" data-uid="resp_ch04_q223" id="q223"><div class="qh"><span class="qn">Q.223</span><span class="qe">(109D-29)</span><span class="cr cm">正答率 70%</span><span class="cr cm">正答率 70%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q223" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q223" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">27 歳の男性。強い咳嗽、発熱および呼吸困難を主訴に来院した。2 か月前の初夏から咳嗽が出現し次第に増強した。<br>1 週前から発熱とともに呼吸困難が出現し、外来にて低酸素血症を認めたため入院となった。入院2 日後には症状と低酸素血症とが改善し3 日後に退院したが、退院翌日に再び咳嗽、発熱および呼吸困難のために救急外来を受診し、<br>再入院となった。既往歴に特記すべきことはない。再入院時、身長167cm、体重70kg。体温38.0℃。脈拍112/ 分。<br>血圧110/68mmHg。呼吸数24/ 分。SpO2 88％（room air）。吸気時にﬁne crackles を聴取する。血液所見：赤血球510 万、Hb 14.9g/dL、Ht 43％、白血球11,100（桿状核好中球6％、分葉核好中球75％、好酸球3％、好塩基球1％、<br>単球3％、リンパ球12％）、血小板35 万。CRP 2.2mg/dL。再入院時の胸部エックス線写真で両側肺野に淡いスリガラス陰影を認める。再入院時の胸部CT（A）と再入院翌日に行った経気管支肺生検組織のH-E 染色標本（B）とを示す。<br>気管支肺胞洗浄液所見：細胞数4.2 × 106/mL（肺胞マクロファージ4％、リンパ球88％、好中球6％、好酸球2％）。<br><strong>治療法として適切な</strong>のはどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/109D-29_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/109D-29_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　自宅安静</div><div class="ch2">b　抗結核薬の投与</div><div class="ch2">c　ペニシリン系抗菌薬の投与</div><div class="ch2">d　副腎皮質ステロイドのパルス療法</div><div class="ch2"><span class="ok">e　入院継続による生活環境からの隔離</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　入院継続による生活環境からの隔離（抗原除去が根本治療）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 過敏性肺炎の治療原則</h4>「退院翌日に再燃」→<span class="kw">自宅（抗原の存在する場所）</span>が原因。治療の根幹：<span class="kw">抗原除去（生活環境からの隔離）</span>。入院継続＝抗原から離れることで症状が改善。a：自宅安静は逆効果（自宅=抗原の場所）。d：パルス療法より抗原除去が優先。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="97" data-uid="resp_ch04_q224" id="q224"><div class="qh"><span class="qn">Q.224</span><span class="qe">(108D-3)</span><span class="cr ch">正答率 97%</span><span class="cr ch">正答率 97%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q224" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q224" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">サルコイドーシスで<strong>治療の対象とならないのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　骨病変</div><div class="ch2">b　神経病変</div><div class="ch2">c　高カルシウム血症</div><div class="ch2">d　完全房室ブロック</div><div class="ch2"><span class="ok">e　両側肺門リンパ節腫脹（BHL）</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　無症候性BHL（自然軽快することが多い→治療対象外）</div></div></div>
+<div class="eg"><div class="eb ee"><h4>📋 サルコイドーシスのステロイド適応</h4><table class="tb"><tr><th>病態</th><th>適応</th></tr><tr><td><span class="kw">心サルコイド（完全AVB・VT・d）</span></td><td><span class="kw3">✅ ステロイド適応</span></td></tr><tr><td><span class="kw">神経サルコイド（b）</span></td><td><span class="kw3">✅ ステロイド適応</span></td></tr><tr><td><span class="kw">高Ca血症（c）</span></td><td><span class="kw3">✅ ステロイド適応</span></td></tr><tr><td><span class="kw">骨病変（a）</span></td><td><span class="kw3">✅ ステロイド考慮</span></td></tr><tr><td><span class="kw4">無症候性BHL（e）</span></td><td><span class="kw4">❌ 通常経過観察（自然軽快70%）</span></td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="93" data-uid="resp_ch04_q225" id="q225"><div class="qh"><span class="qn">Q.225</span><span class="qe">(108D-58)</span><span class="bg bm">2択</span><span class="cr ch">正答率 93%</span><span class="cr ch">正答率 93%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q225" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q225" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">72 歳の女性。咳と労作時息切れとを主訴に来院した。1 年前から乾性咳嗽と労作時呼吸困難とを自覚し、時に朝方のこわばりも自覚していた。1 か月前から増悪するため受診した。既往歴に特記すべきことはない。意識は清明。<br>身長162cm、体重62kg。体温36.8℃。脈拍76/ 分、整。血圧130/60mmHg。皮疹を認めない。心音に異常を認めない。両側の背下部にﬁne crackles を聴取する。両側手指の変形、腫脹および圧痛は認めない。血液所見：赤血球269 万、Hb 8.7g/dl、Ht 25％、白血球9,700（桿状核好中球5％、分葉核好中球74％、好酸球2％、単球4％、リンパ球13％）、血小板22 万。血液生化学所見：総蛋白6.8g/dl、アルブミン2.8g/dl、AST 22IU/l、ALT 12IU/l、LD253IU/l（基準176 ～353）、尿素窒素18mg/dl、クレアチニン1.1mg/dl、尿酸5.9mg/dl、脳性ナトリウム利尿ペプチド〈BNP〉10pg/ml（基準18.4 以下）、KL-6 996U/ml（基準500 未満）。免疫血清学所見：CRP 8.7mg/dl、リウマトイド因子〈RF〉315IU/ml（基準20 未満）、抗CCP 抗体65U/ml（基準4.5 未満）、抗核抗体80 倍（基準20 以下）、サーファクタントプロテインD〈SP-D〉178ng/ml（基準0 ～109）。動脈血ガス分析（room air）：pH 7.47、PaCO2 34Torr、<br>PaO2 63Torr、HCO3－ 24mEq/l。呼吸機能検査所見：％VC 63％、FEV1％ 79％、％DLco 35.6％。胸部エックス線写真（A）と肺野条件の胸部単純CT（B）とを示す。<br>治療薬として適切なのはどれか。2 つ選べ。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/108D-58_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/108D-58_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　利尿薬</div><div class="ch2">b　抗菌薬</div><div class="ch2"><span class="ok">c　免疫抑制薬</span></div><div class="ch2"><span class="ok">d　副腎皮質ステロイド</span></div><div class="ch2">e　ロイコトリエン受容体拮抗薬</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　免疫抑制薬　＋　d　副腎皮質ステロイド（RA-ILDの標準治療）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>関節リウマチ合併間質性肺炎（RA-ILD）：RF↑・抗CCP抗体↑・拘束性+拡散障害。治療：<span class="kw">ステロイド＋免疫抑制薬（アザチオプリン・タクロリムス等）</span>。ステロイド単独は再発リスクがあるため免疫抑制薬を併用。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="84" data-uid="resp_ch04_q226" id="q226"><div class="qh"><span class="qn">Q.226</span><span class="qe">(108E-51)</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 84%</span><span class="cr ch">正答率 84%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q226" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q226" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">65 歳の男性。咳と労作時の息切れとを主訴に来院した。1 年前に咳嗽と喀痰とを訴え来院し、右下葉の原発性肺癌と診断された。手術適応がなかったため、抗悪性腫瘍薬による化学療法を施行後、根治を目的に放射線治療を行った。<br>照射終了後6 週目に、咳嗽と労作時の息切れとを自覚し受診した。喫煙は20 本/ 日を45 年間。意識は清明。身長165cm、体重72kg。体温36.5℃。呼吸数16/ 分。SpO2 84％（room air）。右胸部にﬁne crackles を聴取する。血液所見：<br>赤血球456 万、Hb 13.3g/dl、Ht 40％、白血球10,800（桿状核好中球9％、分葉核好中球67％、好酸球1％、好塩基球1％、<br>単球10％、リンパ球12％）、血小板35 万。CRP 9.2mg/dl。胸部エックス線写真（A）と肺野条件の胸部単純CT（B）<br>とを示す。<br><strong>この病態について正しい</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/108E-51_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/108E-51_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　発症率は照射総線量に依存しない</div><div class="ch2">b　呼吸機能検査では閉塞性障害を呈する</div><div class="ch2">c　放射線照射開始直後に発症することが多い</div><div class="ch2">d　抗悪性腫瘍薬の併用は、この病態を増強しない</div><div class="ch2"><span class="ok">e　特発性肺線維症の存在は、発症のリスクファクターである</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　IPFの存在は放射線肺炎のリスクファクター</div></div></div>
+<div class="eg"><div class="eb ee"><h4>📋 放射線肺炎の基本事項</h4><table class="tb"><tr><th>項目</th><th>内容</th></tr><tr><td>発症率</td><td>照射線量に依存する（a誤）</td></tr><tr><td>呼吸機能</td><td><span class="kw">拘束性障害（b誤：閉塞性ではない）</span></td></tr><tr><td>好発時期</td><td><span class="kw">照射後1〜6ヶ月（c誤：直後ではない）</span></td></tr><tr><td>化学療法との関係</td><td>化学療法（ゲムシタビン等）は増強する（d誤）</td></tr><tr><td><span class="kw">リスクファクター</span></td><td><span class="kw3">IPF・高齢・喫煙→放射線肺炎リスク↑（e正）</span></td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="93" data-uid="resp_ch04_q227" id="q227"><div class="qh"><span class="qn">Q.227</span><span class="qe">(108I-6)</span><span class="cr ch">正答率 93%</span><span class="cr ch">正答率 93%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q227" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q227" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">急性好酸球性肺炎について<strong>正しいのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　喫煙と関連しない</div><div class="ch2">b　呼吸不全を伴わない</div><div class="ch2"><span class="ok">c　副腎皮質ステロイドが奏効する</span></div><div class="ch2">d　アレルギー性疾患を背景に発症する</div><div class="ch2">e　気管支肺胞洗浄液で好酸球比率は正常である</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　副腎皮質ステロイドが奏効する（AEPのステロイド反応性は良好）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>a：喫煙（特に開始直後）は誘因→a誤。b：<span class="kw4">重篤な呼吸不全</span>を起こす（SpO₂急低下、ICU管理が必要なことも）→b誤。d：喘息合併少ない（背景アレルギー疾患は不要）→d誤。e：<span class="kw">BAL好酸球≥25%</span>→e誤。c：ステロイドで劇的改善（再発少ない）→<span class="kw3">c正</span>。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="97" data-uid="resp_ch04_q228" id="q228"><div class="qh"><span class="qn">Q.228</span><span class="qe">(108I-57)</span><span class="cr ch">正答率 97%</span><span class="cr ch">正答率 97%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q228" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q228" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">68 歳の男性。自宅近くの診療所にて胸部エックス線写真の異常を指摘され、詳しい検査を希望して来院した。2、<br>3 年前から持続する咳と労作時の息切れを自覚している。感冒をきっかけに自宅近くの診療所で胸部エックス線写真を撮影したところ、異常を指摘された。喫煙は20 本/ 日を30 年間。8 年前に禁煙した。意識は清明。身長157cm、<br>体重61kg。体温36.5℃。脈拍84/ 分、整。血圧124/72mmHg。呼吸数16/ 分。SpO2 97％（room air）。両側の背下部にﬁne crackles を聴取する。血液所見：赤血球460 万、Hb 14.4g/dl、Ht 45％、白血球7,600、血小板18 万。CRP0.1mg/dl。動脈血ガス分析（room air）：pH 7.35、PaCO2 47Torr、PaO2 86Torr、HCO3－ 25mEq/l。呼吸機能検査所見：％VC 69％、FEV1％ 72％。胸部エックス線写真（A）と肺野条件の胸部単純CT（B）とを示す。<br><strong>血液検査所見として考えられる</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/108I-57_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/108I-57_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　KL-6高値</span></div><div class="ch2">b　好酸球増多</div><div class="ch2">c　β-Dグルカン高値</div><div class="ch2">d　抗GM-CSF抗体陽性</div><div class="ch2">e　ACE高値</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　KL-6高値（IPF→II型肺胞上皮細胞障害→KL-6↑）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 鑑別疾患と特徴的マーカー</h4><table class="tb"><tr><th>疾患</th><th>特徴的マーカー</th></tr><tr><td><span class="kw">IPF（a正）</span></td><td><span class="kw">KL-6↑・SP-D↑</span></td></tr><tr><td>好酸球性肺炎（b）</td><td>好酸球増多・BAL好酸球↑</td></tr><tr><td>ニューモシスチス肺炎（c）</td><td>β-Dグルカン↑</td></tr><tr><td>肺胞蛋白症（d）</td><td>抗GM-CSF抗体陽性</td></tr><tr><td>サルコイドーシス（e）</td><td>ACE↑・sIL-2R↑</td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="52" data-uid="resp_ch04_q229" id="q229"><div class="qh"><span class="qn">Q.229</span><span class="qe">(107A-16)</span><span class="bg bm">2択</span><span class="cr cl">正答率 52%</span><span class="cr cl">正答率 52%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q229" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q229" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">サルコイドーシスの気管支鏡検査所見として正しいのはどれか。2 つ選べ。</div>
+<div class="cs"><div class="ch2">a　気管支粘膜の白苔</div><div class="ch2"><span class="ok">b　粘膜下血管の網目形成所見</span></div><div class="ch2">c　BAL液中のリンパ球分画低下</div><div class="ch2">d　米のとぎ汁様の白濁したBAL液</div><div class="ch2"><span class="ok">e　経気管支肺生検（TBLB）での非乾酪性類上皮細胞肉芽腫</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　粘膜下血管の網目形成　＋　e　TBLBでの非乾酪性類上皮細胞肉芽腫</div></div></div>
+<div class="eg"><div class="eb ee"><h4>📋 サルコイドーシスの気管支鏡所見</h4><table class="tb"><tr><th>所見</th><th>疾患</th></tr><tr><td>a 白苔</td><td>口腔カンジダ症</td></tr><tr><td><span class="kw3">b 粘膜下血管の網目形成</span></td><td><span class="kw3">サルコイドーシス✓（慢性炎症性変化）</span></td></tr><tr><td>c BAL CD4/CD8比</td><td><span class="kw">↑上昇（CD4優位）→c誤：低下でなく上昇</span></td></tr><tr><td>d 米のとぎ汁様BAL液</td><td><span class="kw">肺胞蛋白症→d誤</span></td></tr><tr><td><span class="kw3">e TBLB非乾酪性肉芽腫</span></td><td><span class="kw3">サルコイドーシスの病理診断✓</span></td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="93" data-uid="resp_ch04_q230" id="q230"><div class="qh"><span class="qn">Q.230</span><span class="qe">(107B-13)</span><span class="cr ch">正答率 93%</span><span class="cr ch">正答率 93%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q230" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q230" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">疾患と呼吸機能の異常との組合せで<strong>正しいのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　肺気腫 ——————— 残気量の減少</div><div class="ch2"><span class="ok">b　肺線維症 —————— 肺コンプライアンスの低下</span></div><div class="ch2">c　肺動静脈瘻 ———— 肺拡散能の低下</div><div class="ch2">d　呼吸筋麻痺 ———— 換気血流不均等分布</div><div class="ch2">e　肺血栓塞栓症 ——— 1秒率の低下</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　肺線維症 ——— 肺コンプライアンスの低下（肺が硬くなる）</div></div></div>
+<div class="eg"><div class="eb ee"><h4>📋 疾患と呼吸機能の異常</h4><table class="tb"><tr><th>疾患</th><th>正しい異常</th></tr><tr><td>肺気腫</td><td><span class="kw4">残気量↑（a誤：減少ではない）</span>・コンプライアンス↑</td></tr><tr><td><span class="kw">肺線維症</span></td><td><span class="kw3">肺コンプライアンス↓（b正）</span>・拘束性・DLco↓</td></tr><tr><td>肺動静脈瘻</td><td><span class="kw4">シャント↑・A-aDO₂↑（c誤：DLco低下でなくシャント）</span></td></tr><tr><td>呼吸筋麻痺</td><td><span class="kw4">低肺胞換気（A-aDO₂正常）（d誤：換気血流不均等ではない）</span></td></tr><tr><td>肺血栓塞栓症</td><td><span class="kw4">死腔換気↑・A-aDO₂↑（e誤：1秒率は正常）</span></td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="73" data-uid="resp_ch04_q231" id="q231"><div class="qh"><span class="qn">Q.231</span><span class="qe">(107D-32)</span><span class="cr m">正答率 73%</span><span class="cr cm">正答率 73%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q231" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q231" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">58 歳の女性。1 か月前からの労作時の呼吸困難を主訴に来院した。2 年前に健康診断で心電図異常を指摘されていたが、そのままにしていた。脈拍68/ 分、不整。血圧108/62mmHg。Ⅲ音を聴取する。呼吸音に異常を認めない。<br>両下腿に浮腫を認めない。頸部リンパ節を触知しない。皮膚に異常を認めない。血液生化学所見では血清ACE の上昇がみられる。胸部エックス線写真で両側の肺門リンパ節が腫大している。心電図（A）と心エコー図（B，C）とを示す。<br><strong>診断に有用な検査</strong>はどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/107D-32_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/107D-32_2.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/107D-32_3.jpeg"/></div>
+<div class="cs"><div class="ch2">a　筋電図</div><div class="ch2">b　骨髄検査</div><div class="ch2">c　呼吸機能検査</div><div class="ch2">d　運動負荷心電図</div><div class="ch2"><span class="ok">e　⁶⁷Gaシンチグラフィ</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　⁶⁷Gaシンチグラフィ（サルコイドーシスの活動性評価・病変分布確認）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>サルコイドーシスの診断・活動性評価：<span class="kw">⁶⁷Gaシンチ</span>（肺門・心筋・唾液腺・涙腺等の炎症性病巣への集積）または<span class="kw">FDG-PET</span>（心サルコイド診断により有用）。ACE↑・sIL-2R↑も参考。確定診断はTBLBでの非乾酪性肉芽腫。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="92" data-uid="resp_ch04_q232" id="q232"><div class="qh"><span class="qn">Q.232</span><span class="qe">(107D-52)</span><span class="bg bm">2択</span><span class="cr ch">正答率 92%</span><span class="cr ch">正答率 92%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q232" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q232" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">68歳の男性。労作時の呼吸困難を主訴に来院した。3年前から労作時の呼吸困難を自覚していたが、3か月前から徐々に増強した。喫煙は20 本/ 日を35 年間。10 年前に禁煙した。既往歴と家族歴とに特記すべきことはない。意識は清明。<br>身長172cm、体重73kg。脈拍72/ 分、整。血圧136/76mmHg。呼吸数18/ 分。SpO2 95％（room air）。聴診で両側の背下部にﬁne crackles を聴取する。血液所見：赤血球461 万、Hb 13.9g/dl、Ht 44％、白血球8,700（好中球58％、<br>好酸球5％、単球6％、リンパ球31％）、血小板26 万。血液生化学所見：総蛋白7.6g/dl、アルブミン4.1g/dl、尿素窒素14mg/dl、クレアチニン0.9mg/dl、AST 22IU/l、ALT 19IU/l、LD 247IU/l（基準130 ～235）。免疫学所見：<br>CRP 1.0mg/dl、サーファクタントプロテインD〈SP-D〉240ng/ml（基準0 ～109）。胸部エックス線写真（A）と胸部高分解能CT（B）とを示す。<br>この患者で低下しているのはどれか。2 つ選べ。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/107D-52_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/107D-52_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　1秒率</div><div class="ch2"><span class="ok">b　肺活量</span></div><div class="ch2">c　A-aDO₂</div><div class="ch2"><span class="ok">d　肺拡散能</span></div><div class="ch2">e　血清KL-6</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　肺活量（%VC↓）　＋　d　肺拡散能（DLco↓）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>IPFで<span class="kw4">低下する</span>もの：<span class="kw">%VC（b）・DLco（d）</span>。<span class="kw4">上昇する</span>もの：A-aDO₂（c：低下でなく開大）・KL-6（e：低下でなく上昇）・SP-D↑。1秒率（a）は正常〜増加（拘束性）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="98" data-uid="resp_ch04_q233" id="q233"><div class="qh"><span class="qn">Q.233</span><span class="qe">(107I-53)</span><span class="cr ch">正答率 98%</span><span class="cr ch">正答率 98%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q233" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q233" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">64 歳の男性。労作時の息切れと左胸痛とを主訴に来院した。20 歳からビルなどの解体業に約30 年間従事した。3か月前から咳が出現し、次第に労作時の息切れと左胸痛とを自覚するようになったため受診した。身長168cm、体重62kg。体温36.9℃。脈拍92/ 分、整。血圧152/88mmHg。呼吸数26/ 分。SpO2 96％（room air）。心音に異常を認めないが、左呼吸音が減弱している。血液所見：赤血球350 万、Hb 11.2g/dl、Ht 34％、白血球8,800、血小板29 万。血液生化学所見：総ビリルビン0.3mg/dl、AST 30IU/l、ALT 24IU/l、LD 460IU/l（基準176 ～353）。CRP3.2mg/dl。胸部CT（A）とFDG-PET（B）とを示す。<br><strong>この疾患でみられる</strong>のはどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/107I-53_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/107I-53_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　胸部の鼓音</div><div class="ch2">b　閉塞性換気障害</div><div class="ch2">c　胸水中のブドウ球菌</div><div class="ch2"><span class="ok">d　胸水ヒアルロン酸高値</span></div><div class="ch2">e　胸水ADA高値</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　胸水ヒアルロン酸高値（悪性胸膜中皮腫の特徴的マーカー）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>中皮腫診断の鍵：<span class="kw">胸水ヒアルロン酸高値（&gt;50,000 ng/mL）</span>・カルレチニン染色陽性・メソテリン↑。a：胸水→濁音（鼓音は気胸）。b：拘束性。c：感染性胸水。e：ADA↑は結核性胸膜炎。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="66" data-uid="resp_ch04_q234" id="q234"><div class="qh"><span class="qn">Q.234</span><span class="qe">(106A-16)</span><span class="bg bm">2択</span><span class="cr m">正答率 66%</span><span class="cr cm">正答率 66%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q234" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q234" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">胸部単純CT を示す。<br>この患者の肺機能検査所見として考えられるのはどれか。2 つ選べ。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/106A-16_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　A-aDO₂正常</div><div class="ch2"><span class="ok">b　拡散能低下</span></div><div class="ch2">c　残気量増加</div><div class="ch2"><span class="ok">d　肺活量低下</span></div><div class="ch2">e　1秒率低下</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　拡散能低下（DLco↓）　＋　d　肺活量低下（%VC↓）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>IPF（蜂巣肺）の肺機能：<span class="kw">拘束性（%VC↓）＋拡散障害（DLco↓）</span>が2大特徴。a：A-aDO₂は↑（開大）（正常ではない）。c：残気量は正常か↓（COPDとの違い）。e：FEV₁%は正常か↑。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="92" data-uid="resp_ch04_q235" id="q235"><div class="qh"><span class="qn">Q.235</span><span class="qe">(106D-48)</span><span class="cr ch">正答率 92%</span><span class="cr ch">正答率 92%</span><span class="bg bi">📷 画像</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q235" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q235" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">70 歳の女性。呼吸困難を主訴に来院した。3 週前に感冒様症状が出現し、自宅近くの診療所で抗菌薬と漢方薬とを処方された。その後も症状は改善せず、乾性咳嗽と呼吸困難とが増悪したため、紹介されて受診した。紹介の時点で、診療所の医師から薬の内服を中止するよう指示されたという。意識は清明。体温36.9℃。脈拍88/ 分、整。血圧122/86mmHg。呼吸数22/ 分。SpO2 92％（room air）。聴診で両側の胸部にﬁne crackles を聴取する。喀痰検査：<br>Gram 染色で有意な菌を認めない。Ziehl-Neelsen 染色でGaﬀky 0 号。血液所見：赤血球456 万、Hb 12.5g/dl、Ht42％、白血球13,140（桿状核好中球10％、分葉核好中球50％、好酸球26％、単球4％、リンパ球10％）、血小板26 万。<br>血液生化学所見：総蛋白7.3g/dl、アルブミン3.5g/dl、総ビリルビン1.7mg/dl、AST 85IU/l、ALT 63IU/l、LD619IU/l（基準176 ～353）、ALP 385IU/l（基準115 ～359）、γ-GTP 171IU/l（基準8 ～50）。免疫学所見：CRP5.2mg/dl。KL-6 733U/ml（基準500 未満）。サイトメガロウイルス抗原血症〈C7-HRP〉（－）、β-D- グルカン8pg/ml（基準10 以下）、アスペルギルス抗原陰性。クラミジア・ニューモニエ抗体価とマイコプラズマ抗体価との有意な上昇を認めない。動脈血ガス分析（自発呼吸、room air）：pH 7.50、PaO2 65Torr、PaCO2 28Torr、HCO3－21mEq/l。胸部エックス線写真で両肺野に浸潤影を認める。胸部単純CT を示す。<br><strong>治療薬として適切な</strong>のはどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/106D-48_1.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　副腎皮質ステロイド</span></div><div class="ch2">b　ガンシクロビル</div><div class="ch2">c　気管支拡張薬</div><div class="ch2">d　抗結核薬</div><div class="ch2">e　ST合剤</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　副腎皮質ステロイド（薬剤性肺炎：原因薬剤中止済み→ステロイド治療）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>薬剤性肺炎：①<span class="kw">原因薬剤の中止（最優先・すでに中止済み）</span> ②<span class="kw">ステロイド全身投与</span>。好酸球26%↑は薬剤性（特にNSAIDs・漢方薬）に多い。β-Dグルカン陰性・CMV陰性で感染性を否定。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="93" data-uid="resp_ch04_q236" id="q236"><div class="qh"><span class="qn">Q.236</span><span class="qe">(106G-8)</span><span class="cr ch">正答率 93%</span><span class="cr ch">正答率 93%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q236" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q236" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">石綿のばく露に起因する可能性が<strong>低いのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　胸膜中皮腫</div><div class="ch2">b　間質性肺炎</div><div class="ch2"><span class="ok">c　気管支喘息</span></div><div class="ch2">d　原発性肺癌</div><div class="ch2">e　胸膜プラーク</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　気管支喘息（石綿との関連性は低い）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 石綿（アスベスト）関連疾患</h4><table class="tb"><tr><th>疾患</th><th>石綿との関係</th></tr><tr><td><span class="kw">胸膜中皮腫（a）</span></td><td><span class="kw3">✅ 最も強い因果関係</span></td></tr><tr><td><span class="kw">石綿肺（間質性肺炎）（b）</span></td><td><span class="kw3">✅ 直接原因</span></td></tr><tr><td><span class="kw4">気管支喘息（c）</span></td><td><span class="kw4">❌ 関連性低い（c正解）</span></td></tr><tr><td><span class="kw">原発性肺癌（d）</span></td><td><span class="kw3">✅ リスク↑（喫煙との相乗効果）</span></td></tr><tr><td><span class="kw">胸膜プラーク（e）</span></td><td><span class="kw3">✅ 曝露の証拠</span></td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="99" data-uid="resp_ch04_q237" id="q237"><div class="qh"><span class="qn">Q.237</span><span class="qe">(106I-57)</span><span class="cr ch">正答率 99%</span><span class="cr ch">正答率 99%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q237" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q237" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">30 歳の男性。2 週前から続く発熱と両眼の霧視とを主訴に来院した。意識は清明。身長170cm、体重54kg。体温37.2℃。脈拍84/ 分、整。血圧144/72mmHg。呼吸数16/ 分。咽頭に異常を認めない。両側の頸部と左腋窩とに無痛性のリンパ節腫脹を認める。心音と呼吸音とに異常を認めない。腹部は平坦、軟で、肝・脾を触知しない。細隙灯顕微鏡検査で両眼に虹彩炎を認める。眼底検査で両眼に真珠の首飾り状の硝子体混濁を認める。胸部エックス線写真を示す。<br><strong>診断に有用な血液検査項目</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/106I-57_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　ALT</div><div class="ch2">b　ALP</div><div class="ch2">c　AFP</div><div class="ch2"><span class="ok">d　ACE</span></div><div class="ch2">e　ACTH</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　ACE（アンジオテンシン変換酵素）—サルコイドーシスの診断マーカー</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>サルコイドーシスの診断マーカー：<span class="kw">ACE（感度57%）・sIL-2R（可溶性IL-2受容体）</span>。ぶどう膜炎（虹彩炎・硝子体混濁）＋BHL→サルコイドの典型。確定：TBLB等での非乾酪性肉芽腫。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="93" data-uid="resp_ch04_q238" id="q238"><div class="qh"><span class="qn">Q.238</span><span class="qe">(105A-19)</span><span class="bg bm">3択</span><span class="cr ch">正答率 93%</span><span class="cr ch">正答率 93%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q238" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q238" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">特発性肺線維症〈IPF〉でみられるのはどれか。3 つ選べ。</div>
+<div class="cs"><div class="ch2">a　残気量増加</div><div class="ch2">b　拡散能上昇</div><div class="ch2"><span class="ok">c　A-aDO₂開大</span></div><div class="ch2"><span class="ok">d　血清KL-6上昇</span></div><div class="ch2"><span class="ok">e　fine crackles聴取</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　A-aDO₂開大　＋　d　KL-6上昇　＋　e　fine crackles</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 IPFの3大特徴</h4><span class="kw">c A-aDO₂↑</span>（拡散障害）＋<span class="kw">d KL-6↑</span>（II型肺胞上皮障害マーカー）＋<span class="kw">e fine crackles（Velcro音）</span>（線維化→Velcro crackles）。a：残気量は正常〜↓（COPD↑とは逆）。b：拡散能は↓（上昇でない）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="92" data-uid="resp_ch04_q239" id="q239"><div class="qh"><span class="qn">Q.239</span><span class="qe">(105B-35)</span><span class="bg bm">2択</span><span class="cr ch">正答率 92%</span><span class="cr ch">正答率 92%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q239" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q239" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">拘束性障害をきたす病態はどれか。2 つ選べ。</div>
+<div class="cs"><div class="ch2"><span class="ok">a　じん肺</span></div><div class="ch2">b　気管腫瘍</div><div class="ch2"><span class="ok">c　肺線維症</span></div><div class="ch2">d　気管支喘息</div><div class="ch2">e　びまん性汎細気管支炎</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　じん肺　＋　c　肺線維症（ともに拘束性）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 換気障害の分類</h4><table class="tb"><tr><th>分類</th><th>代表疾患</th></tr><tr><td><span class="kw">拘束性（%VC↓、FEV₁%正常or↑）</span></td><td><span class="kw">じん肺・肺線維症・IPF・胸郭形成後遺症</span></td></tr><tr><td><span class="kw4">閉塞性（FEV₁%↓）</span></td><td><span class="kw4">COPD・喘息・DPB・気管腫瘍（b,d,e）</span></td></tr><tr><td>混合性（両方↓）</td><td>重症COPD・肺腺癌等</td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="78" data-uid="resp_ch04_q240" id="q240"><div class="qh"><span class="qn">Q.240</span><span class="qe">(105E-56)</span><span class="bg bm">2択</span><span class="cr m">正答率 78%</span><span class="cr cm">正答率 78%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q240" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q240" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">65 歳の男性。健康診断のために来院した。半年前から労作時に息苦しさを感じるようになったが、加齢によるものと思いそのままにしていた。3 年前の健康診断で胸部エックス線写真に経過観察が必要な陰影を指摘されたが、<br>今回まで受診しなかった。喫煙は30 本/ 日を40 年間。20 歳から55 歳まで工場でボイラーの点検保守を行っていた。家族歴に特記すべきことはない。身長170cm、体重64kg。体温36.4℃。呼吸数16/ 分。脈拍64/ 分、整。血圧122/78mmHg。心音と呼吸音とに異常を認めない。肺機能検査所見：％VC 78％、FEV1.0％ 75％。今回の胸部エックス線写真を示す。<br>この病態の原因に関連し、注意すべき疾患はどれか。2 つ選べ。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/105E-56_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　過敏性肺炎</div><div class="ch2">b　珪肺症</div><div class="ch2"><span class="ok">c　肺癌</span></div><div class="ch2"><span class="ok">d　胸膜中皮腫</span></div><div class="ch2">e　胸腺腫瘍</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　肺癌　＋　d　胸膜中皮腫（石綿関連疾患の2大悪性腫瘍）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>石綿（アスベスト）曝露→注意すべき悪性疾患：<span class="kw">①肺癌（喫煙との相乗効果→リスク50倍以上）</span>＋<span class="kw">②悪性胸膜中皮腫（潜伏期30〜50年）</span>。b：珪肺症はケイ酸（SiO₂）曝露→石綿とは別物。a：過敏性肺炎は微生物・有機物への曝露。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="93" data-uid="resp_ch04_q241" id="q241"><div class="qh"><span class="qn">Q.241</span><span class="qe">(105I-16)</span><span class="cr ch">正答率 93%</span><span class="cr ch">正答率 93%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q241" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q241" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">じん肺症について<strong>誤っているのはどれか。</strong></div>
+<div class="cs"><div class="ch2"><span class="ok">a　原因物質へのばく露がなくなると病状の進行は止まる</span></div><div class="ch2">b　植物由来物質が原因に含まれる</div><div class="ch2">c　診断には職業歴が重要である</div><div class="ch2">d　肺癌は重要な合併症である</div><div class="ch2">e　線維増殖性の疾患である</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　原因物質へのばく露がなくなると病状の進行は止まる（誤り：進行し続ける）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw4">じん肺症の最重要特徴</span>：<span class="kw4">曝露が終わっても病状が進行する</span>（線維化が自律的に進行）。これが喘息（曝露終了→症状改善）と大きく異なる点。原因物質の一例：石綿・ケイ酸・石炭塵・綿塵（植物性→b正）。肺癌・珪肺結核が重要な合併症（d正）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="69" data-uid="resp_ch04_q242" id="q242"><div class="qh"><span class="qn">Q.242</span><span class="qe">(105I-32)</span><span class="bg bm">2択</span><span class="cr cm">正答率 69%</span><span class="cr cm">正答率 69%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q242" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q242" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">サルコイドーシスでみられる検査所見はどれか。2 つ選べ。</div>
+<div class="cs"><div class="ch2">a　補体価低下</div><div class="ch2">b　抗核抗体陽性</div><div class="ch2"><span class="ok">c　γ-グロブリン増加</span></div><div class="ch2">d　可溶性免疫複合体増加</div><div class="ch2"><span class="ok">e　ツベルクリン反応陰性</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　γ-グロブリン増加　＋　e　ツベルクリン反応陰性</div></div></div>
+<div class="eg"><div class="eb ee"><h4>📋 サルコイドーシスの検査所見</h4><table class="tb"><tr><th>所見</th><th>正誤</th></tr><tr><td>a 補体価低下</td><td><span class="kw4">誤：SLE等で低下（サルコイドでは正常）</span></td></tr><tr><td>b 抗核抗体陽性</td><td><span class="kw4">誤：SLEで陽性（サルコイドでは通常陰性）</span></td></tr><tr><td><span class="kw3">c γ-グロブリン増加</span></td><td><span class="kw3">正：慢性炎症でIgG↑</span></td></tr><tr><td>d 可溶性免疫複合体増加</td><td><span class="kw4">誤：SLE等（サルコイドでは特徴的でない）</span></td></tr><tr><td><span class="kw3">e ツベルクリン反応陰性</span></td><td><span class="kw3">正：細胞性免疫の抑制（無反応症）</span></td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="96" data-uid="resp_ch04_q243" id="q243"><div class="qh"><span class="qn">Q.243</span><span class="qe">(104A-28)</span><span class="bg bm">2択</span><span class="cr ch">正答率 96%</span><span class="cr ch">正答率 96%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q243" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q243" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">65 歳の男性。胸痛と呼吸困難とを主訴に来院した。3 か月前から胸痛を自覚して次第に増強し、最近呼吸困難も出現した。呼吸数24/ 分。血圧128/84mmHg。経皮的動脈血酸素飽和度〈SpO2〉93％。左呼吸音の減弱を認める。胸部エックス線写真（A）と胸腔ドレナージ後の胸部造影CT（B）とを示す。<br>この疾患について正しいのはどれか。2 つ選べ。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/104A-28_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/104A-28_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　職業に起因する</span></div><div class="ch2">b　先行する感染症がある</div><div class="ch2">c　気管支鏡下生検で診断する</div><div class="ch2">d　放射線感受性が高い</div><div class="ch2"><span class="ok">e　予後は不良である</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　職業に起因する　＋　e　予後は不良である</div></div></div>
+<div class="eg"><div class="eb ee"><h4>📋 悪性胸膜中皮腫の特徴</h4><table class="tb"><tr><th>項目</th><th>内容</th></tr><tr><td><span class="kw">a 職業性</span></td><td><span class="kw3">✅ アスベスト曝露（建設・造船業等）</span></td></tr><tr><td>b 感染症</td><td><span class="kw4">❌ 先行感染症なし（石綿曝露→物理的刺激）</span></td></tr><tr><td>c 診断法</td><td><span class="kw4">❌ 胸腔鏡下生検・CTガイド下（気管支鏡では届かない）</span></td></tr><tr><td>d 放射線感受性</td><td><span class="kw4">❌ 中皮腫は放射線抵抗性</span></td></tr><tr><td><span class="kw">e 予後</span></td><td><span class="kw3">✅ 不良（中央生存期間12〜18ヶ月）</span></td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="84" data-uid="resp_ch04_q244" id="q244"><div class="qh"><span class="qn">Q.244</span><span class="qe">(104E-10)</span><span class="bg bm">2択</span><span class="cr cm">正答率 84%</span><span class="cr ch">正答率 84%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch04_q244" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch04_q244" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">高カルシウム血症を呈するのはどれか。2 つ選べ。</div>
+<div class="cs"><div class="ch2">a　Cushing症候群</div><div class="ch2"><span class="ok">b　サルコイドーシス</span></div><div class="ch2">c　原発性胆汁性肝硬変</div><div class="ch2">d　慢性甲状腺炎（橋本病）</div><div class="ch2"><span class="ok">e　多発性内分泌腫瘍（MEN）I型</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　サルコイドーシス　＋　e　MEN I型（ともに高Ca血症）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 高カルシウム血症の原因（重要）</h4><table class="tb"><tr><th>原因</th><th>機序</th></tr><tr><td><span class="kw">サルコイドーシス（b）</span></td><td>肉芽腫内マクロファージが1α-水酸化酵素を産生→1,25(OH)₂D↑→腸管Ca吸収↑</td></tr><tr><td><span class="kw">MEN I型（e）</span></td><td>副甲状腺腫→PTH↑→高Ca血症（+下垂体腫瘍+膵内分泌腫瘍）</td></tr><tr><td>悪性腫瘍</td><td>PTHrP産生→高Ca血症（悪性高Ca）</td></tr><tr><td>原発性副甲状腺機能亢進症</td><td>PTH↑</td></tr><tr><td><span class="kw4">Cushing症候群（a）</span></td><td><span class="kw4">コルチゾール↑→腸管Ca吸収↓→低Ca傾向</span></td></tr></table></div>
+</div>
+</div></div>
+</div><!-- /ct -->
+<div class="pf">MEC臓器別講座 呼吸器 '26 ｜ 第4章 間質性疾患 解答・解説集（全74問）</div>
+<button id="st" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<script>
+window.addEventListener('scroll',()=>{
+  const t=document.body.scrollHeight-window.innerHeight;
+  document.getElementById('pb').style.width=(window.scrollY/t*100)+'%';
+  document.getElementById('st').style.display=window.scrollY>300?'flex':'none';
+});
+function goto(id){const e=document.getElementById(id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'});}
+</script>
+<script src="../progress.js?v=3"></script>
+<script>
+// MECSync が初期化後、章ごとの進捗バーを更新
+document.addEventListener('mecSyncComplete', function() {
+  document.querySelectorAll('.qc[data-uid]').forEach(function(card) {
+    var uid = card.dataset.uid;
+    var done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+    var flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+    var lapBtn = card.querySelector('.mec-lap-btn');
+    if (lapBtn) { var dl = done[uid] || 0; var nl = lapBtn.querySelector('.mec-lap-num');
+      if (nl) nl.textContent = dl > 0 ? dl : ''; lapBtn.classList.toggle('mec-lapped', dl > 0); card.classList.toggle('mec-done', dl > 0); }
+    var fb = card.querySelector('.mec-flag-btn');
+    if (fb && flags[uid]) fb.classList.add('mec-flagged');
+  });
+});
+
+let currentFilter = 'all';
+let currentState = 'all';
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('[data-filter]').forEach(b => b.classList.toggle('fc-on', b.dataset.filter === f));
+  applyFilters();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setState(s) {
+  currentState = s;
+  document.querySelectorAll('[data-state]').forEach(b => b.classList.toggle('fs-on', b.dataset.state === s));
+  applyFilters();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function applyFilters() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  const today = new Date().toISOString().slice(0, 10);
+  let visible = 0, doneVis = 0;
+  document.querySelectorAll('.qc[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    const r = c.dataset.rate !== undefined && c.dataset.rate !== '' ? +c.dataset.rate : null;
+    const f = currentFilter;
+    let showDiff;
+    if (f === 'all') showDiff = true;
+    else if (f === 'norate') showDiff = r === null;
+    else if (f === 'star') showDiff = !!c.querySelector('.bg.bs');
+    else if (f === 'img') showDiff = !!c.querySelector('.qimg');
+    else if (r !== null) showDiff = (f === 'hard' && r < 60) || (f === 'mid' && r >= 60 && r < 80) || (f === 'easy' && r >= 80);
+    else showDiff = false;
+    const st = currentState;
+    let showState;
+    if (st === 'all') showState = true;
+    else if (st === 'flag') showState = !!flags[uid];
+    else if (st === 'undone') showState = !done[uid];
+    else if (st === 'done') showState = !!done[uid];
+    else showState = true;
+    const show = showDiff && showState;
+    c.style.display = show ? '' : 'none';
+    if (show) { visible++; if (window.mecSessionDone && window.mecSessionDone.has(uid)) doneVis++; }
+  });
+  document.querySelectorAll('.sg').forEach(g => {
+    const vis = [...g.querySelectorAll('.qc')].some(c => c.style.display !== 'none');
+    g.style.display = vis ? '' : 'none';
+  });
+  const vc = document.getElementById('visCount');
+  if (vc) vc.textContent = visible ? visible + '問' : '—';const fp=document.getElementById('filtProgFill');const ft=document.getElementById('filtProgTxt');const pct=visible>0?Math.round(doneVis/visible*100):0;if(fp)fp.style.width=pct+'%';if(ft)ft.textContent='残り'+(visible-doneVis)+'問';
+}
+
+function filterCards(f) { setFilter(f); }
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var sn = document.querySelector('.sn');
+  var sn2 = document.querySelector('.sn2');
+  if (sn && sn2) {
+    var setTop = function() { sn2.style.top = sn.offsetHeight + 'px'; };
+    setTop();
+    if (window.ResizeObserver) new ResizeObserver(setTop).observe(sn);
+  }
+});
+</script>
+<script>
+function _bmPageKey(){var p=location.pathname.split('/');var last=p[p.length-1];return last.replace(/\.html$/i,'');}
+function saveBookmark(){var cards=[].slice.call(document.querySelectorAll('.qc[data-uid]')).filter(function(c){return c.style.display!=='none';});if(!cards.length)return;var hdr=document.querySelector('.mec-ch-prog');var hdrH=hdr?hdr.getBoundingClientRect().bottom:80;var best=null;for(var i=0;i<cards.length;i++){if(cards[i].getBoundingClientRect().top>=hdrH-10){best=cards[i];break;}}if(!best)best=cards[0];var bm=JSON.parse(localStorage.getItem('bookmark_v1')||'{}');bm[_bmPageKey()]=best.dataset.uid;localStorage.setItem('bookmark_v1',JSON.stringify(bm));var btn=document.getElementById('bookmarkBtn');if(btn){btn.textContent='📖 保存済';setTimeout(function(){btn.textContent='📖 しおり';},1500);}}
+function restoreBookmark(){var uid=(JSON.parse(localStorage.getItem('bookmark_v1')||'{}'))[_bmPageKey()];if(!uid)return;var card=document.querySelector('.qc[data-uid="'+uid+'"]');if(!card)return;if(card.style.display==='none'){setState('all');card=document.querySelector('.qc[data-uid="'+uid+'"]');}hideBmBanner();var hdr=document.querySelector('.mec-ch-prog');var offset=hdr?hdr.getBoundingClientRect().height+16:80;var y=card.getBoundingClientRect().top+(window.scrollY||document.documentElement.scrollTop)-offset;window.scrollTo({top:Math.max(0,y),behavior:'smooth'});card.style.outline='2px solid #F5A623';setTimeout(function(){card.style.outline='';},2000);}
+function hideBmBanner(){var b=document.getElementById('bmBanner');if(b)b.style.display='none';}
+document.addEventListener('DOMContentLoaded',function(){var uid=(JSON.parse(localStorage.getItem('bookmark_v1')||'{}'))[_bmPageKey()];if(uid){var b=document.getElementById('bmBanner');if(b)b.style.display='flex';}});
+</script>
+<div id="bmBanner" style="display:none;position:fixed;bottom:72px;left:50%;transform:translateX(-50%);background:#1A1A2E;color:#fff;border-radius:24px;padding:8px 16px;font-size:13px;font-weight:700;gap:8px;align-items:center;z-index:1000;box-shadow:0 4px 12px rgba(0,0,0,.4);white-space:nowrap;">📖 前回の続きから<button onclick="restoreBookmark()" style="background:#F5A623;border:none;border-radius:16px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer;color:#000;margin-left:4px;">再開</button><button onclick="hideBmBanner()" style="background:none;border:none;color:rgba(255,255,255,.5);font-size:18px;cursor:pointer;padding:0 0 0 6px;line-height:1;">✕</button></div>
+<script>
+var compactMode=false;
+function toggleCompact(){compactMode=!compactMode;document.body.classList.toggle('compact-mode',compactMode);if(!compactMode)document.querySelectorAll('.qc.compact-open').forEach(function(el){el.classList.remove('compact-open');});var btn=document.getElementById('compactBtn');if(btn){btn.textContent=compactMode?'📋 通常表示':'📋 コンパクト';btn.classList.toggle('compact-on',compactMode);}}
+document.addEventListener('click',function(e){if(!compactMode)return;var card=e.target.closest?e.target.closest('.qc[data-uid]'):null;if(!card)return;if(e.target.closest('button, a, input, textarea'))return;card.classList.toggle('compact-open');});
+function openLightbox(src){var lb=document.getElementById('imgLightbox');var img=document.getElementById('imgLightboxImg');if(!lb||!img)return;img.src=src;lb.classList.add('open');}
+function closeLightbox(){var lb=document.getElementById('imgLightbox');if(lb)lb.classList.remove('open');}
+document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.qimg').forEach(function(img){img.addEventListener('click',function(e){e.stopPropagation();openLightbox(this.src);});});});
+</script>
+<div id="imgLightbox" onclick="closeLightbox()"><img loading="lazy" id="imgLightboxImg" src="" alt=""></div>
+<script>
+document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;var tag=document.activeElement&&document.activeElement.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||tag==='BUTTON')return;e.preventDefault();var hdr=document.querySelector('.mec-ch-prog');var hdrH=hdr?hdr.getBoundingClientRect().bottom:0;var cards=[].slice.call(document.querySelectorAll('.qc[data-uid]')).filter(function(c){return c.style.display!=='none';});var card=cards.find(function(c){var r=c.getBoundingClientRect();return r.top>=hdrH-10&&r.bottom>hdrH;})||cards.find(function(c){return c.getBoundingClientRect().bottom>hdrH;});if(card){var btn=card.querySelector('.mec-lap-btn');if(btn)btn.click();}});
+(function(){document.querySelectorAll('.qc[data-uid]').forEach(function(card){var ctrl=card.querySelector('.mec-controls');if(!ctrl)return;var b=document.createElement('span');b.className='mec-enter-badge';b.textContent='⏎';ctrl.insertBefore(b,ctrl.firstChild);});var _ac=null;function _upd(){var hdr=document.querySelector('.mec-ch-prog');var hdrH=hdr?hdr.getBoundingClientRect().bottom:0;var cards=[].slice.call(document.querySelectorAll('.qc[data-uid]')).filter(function(c){return c.style.display!=='none';});var card=cards.find(function(c){var r=c.getBoundingClientRect();return r.top>=hdrH-10&&r.bottom>hdrH;})||cards.find(function(c){return c.getBoundingClientRect().bottom>hdrH;});if(card===_ac)return;if(_ac)_ac.classList.remove('mec-enter-active');_ac=card||null;if(_ac)_ac.classList.add('mec-enter-active');}var _raf;window.addEventListener('scroll',function(){cancelAnimationFrame(_raf);_raf=requestAnimationFrame(_upd);},{passive:true});window.addEventListener('resize',_upd);document.addEventListener('click',function(){setTimeout(_upd,50);});_upd();})();
+</script>
+<script src="../chapter_exam.js"></script>
+</body></html>

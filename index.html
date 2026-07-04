@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEC 医師国試 学習ハブ</title>
+<script src="chapters_meta.js"></script>
+<script src="knowledge_notes.js"></script>
+<script src="progress.js?v=3"></script>
+<link rel="stylesheet" href="vars.css">
+<style>
+:root{}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:-apple-system,"Helvetica Neue",sans-serif;background:transparent;color:var(--tx);font-size:15px;line-height:1.7;}
+
+/* ── Header glassmorphism ── */
+.hub-header{background:rgba(5,10,22,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.08);color:#fff;padding:16px 16px 12px;position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,.45);}
+.hub-title{font-size:17px;font-weight:800;margin-bottom:10px;}
+.hub-stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+.hub-stat{background:rgba(255,255,255,.08);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;border:1px solid rgba(255,255,255,.1);}
+.hub-stat span{color:var(--yl);}
+.hub-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.hub-btn{padding:5px 12px;border-radius:8px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.hub-btn:hover{background:rgba(255,255,255,.12);}
+.hub-btn.primary{background:var(--or);border-color:var(--or);}
+.hub-btn.primary:hover{filter:brightness(1.1);}
+.mec-sync-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);margin-left:auto;}
+
+/* ── Subject cards ── */
+.subjects{padding:12px 10px 60px;}
+.subject-card{background:rgba(255,255,255,.06);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);border-radius:14px;margin-bottom:10px;box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.07);overflow:hidden;transition:box-shadow .2s,transform .15s;}
+.subject-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.1);transform:translateY(-1px);}
+.subject-header{display:flex;align-items:center;gap:10px;padding:13px 16px 11px;cursor:pointer;user-select:none;}
+.subject-icon{font-size:22px;width:34px;text-align:center;}
+.subject-name{font-size:15px;font-weight:800;flex:1;color:var(--tx);}
+.subject-prog{display:flex;align-items:center;gap:8px;}
+.subject-prog-bar{width:64px;height:6px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden;}
+.subject-prog-fill{height:100%;border-radius:4px;transition:width .4s;}
+.subject-prog-txt{font-size:11px;color:var(--ts);white-space:nowrap;min-width:52px;text-align:right;}
+.subject-arrow{font-size:11px;color:var(--ts);margin-left:4px;}
+
+/* 腎臓ツール専用行 */
+.subject-tool-row{display:flex;align-items:center;gap:8px;padding:0 16px 12px;}
+.subject-tool-link{flex:1;display:block;padding:9px 14px;border-radius:10px;color:#fff;font-size:13px;font-weight:700;text-decoration:none;text-align:center;}
+
+.sc-row{display:flex;justify-content:flex-end;padding:8px 16px 10px;border-top:1px solid rgba(255,255,255,.07);}
+.sc-btn{font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;background:rgba(255,255,255,.06);color:var(--ts);text-decoration:none;border:1px solid rgba(255,255,255,.1);transition:background .12s;}
+.sc-btn:hover,.sc-btn:active{background:rgba(255,255,255,.1);}
+
+/* ── Chapter list ── */
+.chapter-list{border-top:1px solid rgba(255,255,255,.07);}
+.chapter-list.hidden{display:none;}
+.chapter-row{display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid rgba(255,255,255,.06);text-decoration:none;color:var(--tx);transition:background .12s;}
+.chapter-row:last-child{border-bottom:none;}
+.chapter-row:hover,.chapter-row:active{background:rgba(255,255,255,.05);}
+.chapter-num{font-size:11px;font-weight:700;color:var(--ts);width:28px;flex-shrink:0;}
+.chapter-title{font-size:13px;flex:1;line-height:1.4;}
+.chapter-prog-bar{width:48px;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;flex-shrink:0;}
+.chapter-prog-fill{height:100%;border-radius:3px;transition:width .3s;}
+.chapter-prog-txt{font-size:11px;color:var(--ts);width:36px;text-align:right;flex-shrink:0;}
+
+/* ── Subject accuracy ── */
+.subject-acc{font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+.subject-acc.good{background:rgba(61,214,140,.15);color:var(--gr);border:1px solid rgba(61,214,140,.3);}
+.subject-acc.poor{background:rgba(255,154,60,.15);color:var(--or);border:1px solid rgba(255,154,60,.3);}
+.subject-acc.bad{background:rgba(255,107,107,.15);color:var(--rd);border:1px solid rgba(255,107,107,.3);}
+
+/* ── Chapter exam badge ── */
+.ch-exam-tag{font-size:9px;font-weight:700;padding:1px 5px;border-radius:8px;white-space:nowrap;flex-shrink:0;border:1px solid;}
+.ch-exam-tag.good{background:rgba(61,214,140,.12);color:var(--gr);border-color:rgba(61,214,140,.3);}
+.ch-exam-tag.mid{background:rgba(255,154,60,.12);color:var(--or);border-color:rgba(255,154,60,.3);}
+.ch-exam-tag.bad{background:rgba(255,107,107,.12);color:var(--rd);border-color:rgba(255,107,107,.3);}
+
+/* ── Mindmap grid ── */
+.mindmap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;padding:0 16px 14px;}
+.mindmap-btn{display:flex;align-items:center;gap:8px;padding:11px 14px;border-radius:10px;color:#fff;font-size:13px;font-weight:700;text-decoration:none;transition:filter .15s;}
+.mindmap-btn:hover{filter:brightness(1.1);}
+.mindmap-btn .mm-icon{font-size:18px;}
+
+/* ── 過去問年度ヘッダー ── */
+.kakumon-year-hdr{font-weight:800;}
+.kakumon-year-hdr:hover,.kakumon-year-hdr:active{background:rgba(255,255,255,.06);}
+
+/* ── Sync settings modal ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:1000;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
+.modal-overlay.open{display:flex;}
+.modal-box{background:#0F1B35;border:1px solid rgba(255,255,255,.12);border-top:1px solid rgba(255,255,255,.15);border-radius:18px 18px 0 0;width:100%;max-height:90dvh;overflow-y:auto;padding:20px 18px 40px;}
+
+/* ── Sound settings ── */
+.hub-footer{padding:10px 16px 32px;display:flex;justify-content:center;}
+.hub-footer-btn{padding:7px 18px;border-radius:10px;border:1.5px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:var(--ts);font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .15s;}
+.hub-footer-btn:hover{background:rgba(255,255,255,.1);color:var(--tx);}
+.sound-label{font-size:11px;font-weight:700;color:var(--ts);margin:16px 0 6px;}
+.sound-label:first-child{margin-top:0;}
+.sound-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:4px;}
+.sound-btn{padding:8px 4px;border-radius:10px;border:1.5px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);font-size:12px;font-weight:700;cursor:pointer;color:var(--tx);transition:all .15s;font-family:inherit;}
+.sound-btn:hover,.sound-btn.sel{background:rgba(61,214,140,.14);border-color:rgba(61,214,140,.42);color:var(--gr);}
+.modal-title{font-size:16px;font-weight:800;margin-bottom:4px;color:var(--tx);}
+.modal-sub{font-size:13px;color:var(--ts);margin-bottom:18px;line-height:1.6;}
+.field-label{font-size:12px;font-weight:700;color:var(--ts);margin-bottom:5px;}
+.field-input{width:100%;padding:9px 12px;border-radius:10px;border:1.5px solid rgba(255,255,255,.15);font-size:14px;font-family:inherit;outline:none;margin-bottom:14px;background:rgba(255,255,255,.07);color:var(--tx);}
+.field-input::placeholder{color:var(--ts);}
+.field-input:focus{border-color:rgba(255,255,255,.35);}
+.modal-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.modal-btn{padding:9px 18px;border-radius:10px;border:none;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;}
+.modal-btn.primary{background:var(--or);color:#fff;}
+.modal-btn.secondary{background:rgba(255,255,255,.08);color:var(--tx);border:1px solid rgba(255,255,255,.14);}
+.sync-result{font-size:13px;font-weight:700;margin-top:14px;padding:8px 12px;border-radius:8px;display:none;}
+.sync-result.ok{background:rgba(61,214,140,.12);color:var(--gr);border:1px solid rgba(61,214,140,.25);}
+.sync-result.error{background:rgba(255,107,107,.12);color:var(--rd);border:1px solid rgba(255,107,107,.25);}
+.help-box{background:rgba(96,165,250,.08);border-left:3px solid rgba(96,165,250,.5);border-radius:6px;padding:10px 14px;margin-top:16px;font-size:12px;line-height:1.8;color:var(--tx);}
+.help-box a{color:#60A5FA;}
+.hub-stat.srs{background:rgba(255,154,60,.15);border-color:rgba(255,154,60,.35);color:var(--or);font-weight:800;}
+.srs-due-row{padding:0 16px 12px;}
+.srs-due-link{display:block;padding:9px 14px;border-radius:10px;color:#fff;font-size:13px;font-weight:700;text-decoration:none;text-align:center;background:var(--or);transition:filter .15s;}
+.srs-due-link:hover,.srs-due-link:active{filter:brightness(1.1);}
+</style>
+</head>
+<body>
+
+<header class="hub-header">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+    <div class="hub-title" style="margin-bottom:0">🏥 MEC 医師国試 学習ハブ</div>
+    <div id="lastUpdatedBadge" style="font-size:11px;color:rgba(255,255,255,.6);white-space:nowrap;flex-shrink:0;margin-left:8px;">更新確認中…</div>
+  </div>
+  <div class="hub-stats">
+    <div class="hub-stat">済 <span id="statDone">0</span>問</div>
+    <div class="hub-stat">🔥 <span id="statStreak">0</span>日連続</div>
+    <div class="hub-stat">合計 <span id="statTotal">0</span>問</div>
+    <div class="hub-stat srs" id="srsDueStat" style="display:none">🔔 <span id="statDue">0</span>問 復習</div>
+  </div>
+  <div class="hub-actions">
+    <button class="hub-btn primary" onclick="openSyncModal()">⚙️ 同期設定</button>
+    <button class="hub-btn" onclick="manualSync()">🔄 今すぐ同期</button>
+    <a class="hub-btn" href="stats.html">📊 統計</a>
+<span class="mec-sync-badge">⚙️ 未設定</span>
+  </div>
+</header>
+
+<div id="noSyncWarning" style="display:none;background:#7f3300;color:#fff;font-size:13px;padding:10px 16px;text-align:center;line-height:1.6;">
+  ⚠️ 進捗はこのブラウザのみに保存されています。ブラウザのキャッシュをクリアすると<strong>全データが消えます</strong>。<br>
+  <button onclick="exportBackup()" style="margin:4px 6px 0;padding:4px 12px;border-radius:6px;border:none;background:#fff;color:#7f3300;font-weight:700;cursor:pointer;">📥 今すぐバックアップ</button>
+  <button onclick="openSyncModal()" style="margin:4px 6px 0;padding:4px 12px;border-radius:6px;border:none;background:#F5A623;color:#000;font-weight:700;cursor:pointer;">☁️ クラウド同期を設定</button>
+</div>
+
+<div class="subjects" id="subjectsContainer">
+  <!-- JS で生成 -->
+</div>
+
+<div class="hub-footer">
+  <button class="hub-footer-btn" onclick="openSoundModal()">🔊 効果音設定</button>
+</div>
+
+<!-- 効果音設定モーダル -->
+<div class="modal-overlay" id="soundModal" onclick="if(event.target===this)closeSoundModal()">
+  <div class="modal-box">
+    <div class="modal-title">🔊 効果音設定</div>
+    <div class="modal-sub">試験モードで鳴る音を選択します。</div>
+
+    <div class="sound-label">選択音（選択肢タップ時）</div>
+    <div class="sound-grid" id="selectSoundGrid">
+      <button class="sound-btn" data-ssound="mp3" onclick="saveSoundPref('select','mp3',this)">選択.mp3</button>
+      <button class="sound-btn" data-ssound="click" onclick="saveSoundPref('select','click',this)">クリック</button>
+      <button class="sound-btn" data-ssound="tick" onclick="saveSoundPref('select','tick',this)">ティック</button>
+      <button class="sound-btn" data-ssound="blip" onclick="saveSoundPref('select','blip',this)">ブリップ</button>
+      <button class="sound-btn" data-ssound="soft" onclick="saveSoundPref('select','soft',this)">ソフト</button>
+      <button class="sound-btn" data-ssound="off" onclick="saveSoundPref('select','off',this)">無音</button>
+    </div>
+
+    <div class="sound-label">正解音</div>
+    <div class="sound-grid" id="correctSoundGrid">
+      <button class="sound-btn" data-sound="ping" onclick="saveSoundPref('correct','ping',this)">ピン</button>
+      <button class="sound-btn" data-sound="chime" onclick="saveSoundPref('correct','chime',this)">チャイム</button>
+      <button class="sound-btn" data-sound="pop" onclick="saveSoundPref('correct','pop',this)">ポン</button>
+      <button class="sound-btn" data-sound="bell" onclick="saveSoundPref('correct','bell',this)">ベル</button>
+      <button class="sound-btn" data-sound="coin" onclick="saveSoundPref('correct','coin',this)">コイン</button>
+      <button class="sound-btn" data-sound="sparkle" onclick="saveSoundPref('correct','sparkle',this)">キラキラ</button>
+      <button class="sound-btn" data-sound="fanfare" onclick="saveSoundPref('correct','fanfare',this)">ファンファーレ</button>
+      <button class="sound-btn" data-sound="level" onclick="saveSoundPref('correct','level',this)">レベルUP</button>
+      <button class="sound-btn" data-sound="notice" onclick="saveSoundPref('correct','notice',this)">通知</button>
+      <button class="sound-btn" data-sound="click" onclick="saveSoundPref('correct','click',this)">クリック</button>
+      <button class="sound-btn" data-sound="soft" onclick="saveSoundPref('correct','soft',this)">低めポン</button>
+      <button class="sound-btn" data-sound="custom" onclick="saveSoundPref('correct','custom',this)">WAV</button>
+      <button class="sound-btn" data-sound="off" onclick="saveSoundPref('correct','off',this)">無音</button>
+    </div>
+
+    <div class="modal-actions" style="margin-top:20px;">
+      <button class="modal-btn secondary" onclick="closeSoundModal()">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<!-- 同期設定モーダル -->
+<div class="modal-overlay" id="syncModal" onclick="if(event.target===this)closeSyncModal()">
+  <div class="modal-box">
+    <div class="modal-title">☁️ 進捗の複数デバイス同期</div>
+    <div class="modal-sub">
+      GitHub Gist を使って進捗をクラウドに保存します。<br>
+      PC・iPad・スマホ間で学習記録が共有されます。
+    </div>
+
+    <div class="help-box">
+      <strong>初回セットアップ</strong><br>
+      1. <a href="https://github.com/settings/tokens/new" target="_blank">GitHub → Settings → Developer settings → Personal access tokens</a> を開く<br>
+      2. スコープ「<strong>gist</strong>」だけにチェックしてトークンを生成<br>
+      3. 生成されたトークンを下に貼り付けて「保存して同期」をタップ<br>
+      4. 別のデバイスでも同じトークンと Gist ID を入力すれば同期開始
+    </div>
+
+    <br>
+    <div class="field-label">GitHub Personal Access Token (gist スコープ)</div>
+    <input class="field-input" id="tokenInput" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+    <div style="font-size:11px;color:#8A93A5;margin-top:4px;">⚠️ トークンはこの端末のブラウザに平文で保存されます。共有PC・貸与端末では使用後に下の「🗑️ トークンを削除」を必ず押してください。</div>
+
+    <div class="field-label">Gist ID（初回は空白のまま → 自動作成）</div>
+    <input class="field-input" id="gistIdInput" type="text" placeholder="自動作成される場合は空欄">
+
+    <div class="modal-actions">
+      <button class="modal-btn primary" onclick="saveAndSync()">保存して同期</button>
+      <button class="modal-btn secondary" onclick="testToken()">🔍 トークン検証</button>
+      <button class="modal-btn secondary" onclick="copySetupURL()">📋 設定URLをコピー</button>
+      <button class="modal-btn secondary" onclick="clearSyncToken()">🗑️ トークンを削除</button>
+      <button class="modal-btn secondary" onclick="closeSyncModal()">閉じる</button>
+    </div>
+    <div class="sync-result" id="syncResult"></div>
+    <hr style="border:none;border-top:1px solid #e0e5eb;margin:14px 0;">
+    <div style="font-size:12px;color:#5A6475;margin-bottom:8px;">GitHub を使わないバックアップ</div>
+    <div style="display:flex;gap:8px;">
+      <button class="modal-btn secondary" style="flex:1" onclick="exportBackup()">📥 JSONで書き出し</button>
+      <button class="modal-btn secondary" style="flex:1" onclick="importBackup()">📤 JSONから復元</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── データ定義（chapters_meta.js に統合学習ツールを追加）
+const STUDY_TOOL = {
+  id: 'study',
+  name: '統合学習ツール',
+  icon: '📚',
+  color: '#D4570A',
+  type: 'tool',
+  href: 'study.html',
+  chapters: []
+};
+
+const KNOWLEDGE_TOOL = {
+  id: 'knowledge',
+  name: '検索知識ノート',
+  icon: '🔎',
+  color: '#4A148C',
+  type: 'tool',
+  href: 'knowledge.html',
+  chapters: []
+};
+
+const MINDMAP_TOOL = {
+  id: 'mindmap',
+  name: '科目マインドマップ',
+  icon: '🗺️',
+  color: '#1C2E4A',
+  type: 'mindmap',
+  maps: [
+    { subject: '全科目統合', href: 'mindmap_integrated.html', color: '#F5A623', icon: '🗺️' },
+    { subject: '血液',   href: '血液/mindmap.html',   color: '#DC2626', icon: '🩸' },
+    { subject: '腎臓',   href: '腎臓/mindmap.html',   color: '#1976D2', icon: '💧' },
+    { subject: '肝胆膵', href: '肝胆膵/mindmap.html', color: '#E65100', icon: '🔶' },
+    { subject: '呼吸器', href: '呼吸器/mindmap.html', color: '#0288D1', icon: '🌬️' },
+    { subject: '内分泌', href: '内分泌/mindmap.html', color: '#7B1FA2', icon: '🔬' },
+    { subject: '循環器', href: '循環器/mindmap.html', color: '#C62828', icon: '❤️' },
+    { subject: '消化器', href: '消化器/mindmap.html', color: '#388E3C', icon: '🍴' },
+    { subject: '神経',   href: '神経/mindmap.html',   color: '#1565C0', icon: '🧠' },
+    { subject: '免アレ膠', href: '免アレ膠/mindmap.html', color: '#00897B', icon: '🛡️' },
+  ]
+};
+
+// ── 過去問モード定義 ──────────────────────────────────────────
+const KAKUMON_BLOCKS = {
+  '116A':75,'116B':50,'116C':75,'116D':75,'116E':50,'116F':75,
+  '117C':75,'117D':75,'117F':75,
+  '118A':75,'118B':50,'118C':75,'118D':75,'118E':50,'118F':75,
+  '119A':75,'119B':50,'119C':75,'119D':75,'119E':50,'119F':75,
+  '120A':75,'120B':50,'120C':75,'120D':75,'120E':50,'120F':75,
+};
+
+const KAKUMON_YEARS = [
+  { year:120, label:'第120回（2026年）', blocks:['A','B','C','D','E','F'] },
+  { year:119, label:'第119回（2025年）', blocks:['A','B','C','D','E','F'] },
+  { year:118, label:'第118回（2024年）', blocks:['A','B','C','D','E','F'] },
+  { year:117, label:'第117回（2023年）', blocks:['C','D','F'] },
+  { year:116, label:'第116回（2022年）', blocks:['A','B','C','D','E','F'] },
+];
+
+const KAKUMON_TOOL = { id:'kakumon', name:'国家試験 過去問', icon:'📝', color:'#1A237E' };
+
+// ── 実力試験モード定義 ──────────────────────────────────────
+const JITSU1_CHAPTERS = [
+  { label: 'A問題（一般40問 臨床40問）', prefix: 'jitsu1_ch01', count: 80 },
+  { label: 'B問題（一般40問 臨床40問）', prefix: 'jitsu1_ch02', count: 80 },
+];
+const JITSU1_TOOL = { id:'jitsu1', name:'実力試験Ⅰ', icon:'🎯', color:'#283593' };
+
+// 科目ごとの章一覧カードは廃止（統合学習ツールに一本化）
+const ALL_SUBJECTS = [STUDY_TOOL, KAKUMON_TOOL, JITSU1_TOOL, KNOWLEDGE_TOOL, MINDMAP_TOOL];
+
+// ── SRS due 件数 ─────────────────────────────────────────────
+function getSRSDueCount() {
+  try {
+    const today = new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
+    const srs = JSON.parse(localStorage.getItem('mec_srs_v1') || '{}');
+    return Object.values(srs).filter(e => e.nextReview && e.nextReview <= today).length;
+  } catch { return 0; }
+}
+
+// ── 統計計算 ──────────────────────────────────────────────────
+function calcTotalQ() {
+  let total = 0;
+  if (typeof MEC_CHAPTER_META !== 'undefined') {
+    Object.values(MEC_CHAPTER_META).forEach(m => { total += m.count; });
+  }
+  Object.values(KAKUMON_BLOCKS).forEach(count => { total += count; });
+  JITSU1_CHAPTERS.forEach(ch => { total += ch.count; });
+  return total;
+}
+
+function getSubjectProgress(subject) {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const today = new Date().toISOString().slice(0, 10);
+  let totalQ = 0, doneCount = 0;
+
+  if (subject.id === 'study' || subject.id === 'mindmap' || subject.id === 'kakumon' || subject.id === 'jitsu1' || subject.id === 'knowledge') {
+    // 進捗を持たないカード（kakumon/jitsu1 は renderSubjects 内で直接計算）
+  } else {
+    subject.chapters.forEach(ch => {
+      totalQ += ch.count;
+      doneCount += Object.keys(done).filter(k => k.startsWith(ch.prefix + '_q')).length;
+    });
+  }
+  return { totalQ, doneCount, pct: totalQ ? Math.round(doneCount / totalQ * 100) : 0 };
+}
+
+function getSubjectAccuracy(subject) {
+  if (!subject.chapters || !subject.chapters.length) return null;
+  const myrate = JSON.parse(localStorage.getItem('myrate_v1') || '{}');
+  const prefixes = subject.chapters.map(ch => ch.prefix + '_');
+  const isIn = uid => prefixes.some(p => uid.startsWith(p));
+  const entries = Object.entries(myrate).filter(([uid]) => isIn(uid));
+  const total   = entries.reduce((s, [, v]) => s + (v.total || 0), 0);
+  const correct = entries.reduce((s, [, v]) => s + (v.correct || 0), 0);
+  if (total < 5) return null;
+  return { correct, total, pct: Math.round(correct / total * 100) };
+}
+
+function getChapterProgress(ch) {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const prefix = ch.prefix + '_q';
+  const doneCount = Object.keys(done).filter(k => k.startsWith(prefix)).length;
+  const pct = ch.count ? Math.round(doneCount / ch.count * 100) : 0;
+  return { doneCount, pct };
+}
+
+function getChExamInfo(prefix) {
+  const hist = JSON.parse(localStorage.getItem('mec_ch_exam_v1') || '{}');
+  return hist[prefix] || null;
+}
+
+// ── UI 描画 ───────────────────────────────────────────────────
+function renderSubjects() {
+  const container = document.getElementById('subjectsContainer');
+  container.innerHTML = '';
+
+  ALL_SUBJECTS.forEach((subj, si) => {
+    const prog = getSubjectProgress(subj);
+    const card = document.createElement('div');
+    card.className = 'subject-card';
+
+    const fillColor = subj.color;
+    const pct = prog.pct;
+
+    if (subj.id === 'kakumon') {
+      // 国家試験過去問モード
+      const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+      let totalAll = 0, doneAll = 0;
+      let yearsHtml = '';
+
+      KAKUMON_YEARS.forEach((yr, yi) => {
+        let totalYr = 0, doneYr = 0;
+        let blocksHtml = '';
+
+        yr.blocks.forEach(blk => {
+          const blockId = `${yr.year}${blk}`;
+          const count = KAKUMON_BLOCKS[blockId] || 0;
+          const prefix = `kakumon_${blockId}_q`;
+          const doneCnt = Object.keys(done).filter(k => k.startsWith(prefix)).length;
+          const pct2 = count ? Math.round(doneCnt / count * 100) : 0;
+          const blockType = count === 50 ? '必修' : '一般・臨床';
+          const file = `国家試験過去問/第${yr.year}回/${blockId}_kakuron.html`;
+          totalYr += count; doneYr += doneCnt;
+          blocksHtml += `
+            <a class="chapter-row" href="${file}">
+              <span class="chapter-num">${blk}問題</span>
+              <span class="chapter-title">${blockType}（${count}問）</span>
+              <div class="chapter-prog-bar"><div class="chapter-prog-fill" style="width:${pct2}%;background:#1A237E"></div></div>
+              <span class="chapter-prog-txt">${doneCnt}/${count}</span>
+            </a>`;
+        });
+
+        totalAll += totalYr; doneAll += doneYr;
+        const yrPct = totalYr ? Math.round(doneYr / totalYr * 100) : 0;
+
+        yearsHtml += `
+          <div class="kakumon-year-wrap" style="border-top:1px solid rgba(255,255,255,.07)">
+            <div class="chapter-row kakumon-year-hdr" style="cursor:pointer;font-weight:800;" onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.kakumon-arrow').textContent=this.nextElementSibling.classList.contains('hidden')?'▶':'▼'">
+              <span class="chapter-title">${yr.label}</span>
+              <div class="chapter-prog-bar"><div class="chapter-prog-fill" style="width:${yrPct}%;background:#1A237E"></div></div>
+              <span class="chapter-prog-txt">${doneYr}/${totalYr}</span>
+              <span class="kakumon-arrow" style="font-size:10px;color:var(--ts);margin-left:4px">▶</span>
+            </div>
+            <div class="hidden">${blocksHtml}</div>
+          </div>`;
+      });
+
+      const totPct = totalAll ? Math.round(doneAll / totalAll * 100) : 0;
+      card.innerHTML = `
+        <div class="subject-header" onclick="toggleChapters('subj_${si}')">
+          <span class="subject-icon">${subj.icon}</span>
+          <span class="subject-name">${subj.name}</span>
+          <div class="subject-prog">
+            <div class="subject-prog-bar"><div class="subject-prog-fill" style="width:${totPct}%;background:#1A237E"></div></div>
+            <span class="subject-prog-txt">${doneAll}/${totalAll}</span>
+          </div>
+          <span class="subject-arrow" id="arrow_subj_${si}">▼</span>
+        </div>
+        <div class="chapter-list hidden" id="subj_${si}">${yearsHtml}</div>`;
+
+    } else if (subj.id === 'jitsu1') {
+      // 実力試験モード: A/B問題の2ブロック、リンク先は統合学習ツール
+      const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+      let blocksHtml = '';
+      let totalAll = 0, doneAll = 0;
+
+      JITSU1_CHAPTERS.forEach(ch => {
+        const doneCnt = Object.keys(done).filter(k => k.startsWith(ch.prefix + '_q')).length;
+        const pct2 = ch.count ? Math.round(doneCnt / ch.count * 100) : 0;
+        totalAll += ch.count; doneAll += doneCnt;
+        blocksHtml += `
+          <a class="chapter-row" href="study.html?sid=jitsu1">
+            <span class="chapter-num">${ch.label.slice(0, 1)}問題</span>
+            <span class="chapter-title">${ch.label}</span>
+            <div class="chapter-prog-bar"><div class="chapter-prog-fill" style="width:${pct2}%;background:#283593"></div></div>
+            <span class="chapter-prog-txt">${doneCnt}/${ch.count}</span>
+          </a>`;
+      });
+
+      const totPct = totalAll ? Math.round(doneAll / totalAll * 100) : 0;
+      card.innerHTML = `
+        <div class="subject-header" onclick="toggleChapters('subj_${si}')">
+          <span class="subject-icon">${subj.icon}</span>
+          <span class="subject-name">${subj.name}</span>
+          <div class="subject-prog">
+            <div class="subject-prog-bar"><div class="subject-prog-fill" style="width:${totPct}%;background:#283593"></div></div>
+            <span class="subject-prog-txt">${doneAll}/${totalAll}</span>
+          </div>
+          <span class="subject-arrow" id="arrow_subj_${si}">▼</span>
+        </div>
+        <div class="chapter-list hidden" id="subj_${si}">${blocksHtml}</div>`;
+
+    } else if (subj.id === 'study') {
+      // 統合学習ツール: シングルリンクカード
+      const totalQ = calcTotalQ();
+      const dueCount = getSRSDueCount();
+      const dueRow = dueCount > 0
+        ? `<div class="srs-due-row">
+             <a class="srs-due-link" href="study.html?mode=srs_review">🔔 今日の復習 ${dueCount}問 →</a>
+           </div>`
+        : '';
+      card.innerHTML = `
+        <div class="subject-header" onclick="toggleChapters('subj_${si}')">
+          <span class="subject-icon">${subj.icon}</span>
+          <span class="subject-name">${subj.name}</span>
+          <span class="subject-arrow" id="arrow_subj_${si}">▼</span>
+        </div>
+        <div class="chapter-list" id="subj_${si}">
+          <div class="subject-tool-row">
+            <a class="subject-tool-link" href="${subj.href}" style="background:${fillColor}">
+              📝 全科目 ${totalQ}問 難易度・科目フィルターで学ぶ →
+            </a>
+          </div>
+          ${dueRow}
+        </div>`;
+    } else if (subj.id === 'knowledge') {
+      // 検索知識ノート: シングルリンクカード
+      const noteCount = typeof KNOWLEDGE_NOTES !== 'undefined' ? KNOWLEDGE_NOTES.length : 0;
+      card.innerHTML = `
+        <div class="subject-header" onclick="toggleChapters('subj_${si}')">
+          <span class="subject-icon">${subj.icon}</span>
+          <span class="subject-name">${subj.name}</span>
+          <span class="subject-arrow" id="arrow_subj_${si}">▼</span>
+        </div>
+        <div class="chapter-list" id="subj_${si}">
+          <div class="subject-tool-row">
+            <a class="subject-tool-link" href="${subj.href}" style="background:${fillColor}">
+              🔎 ChatGPT等で調べた知識を整理 ${noteCount}件 →
+            </a>
+          </div>
+        </div>`;
+    } else if (subj.id === 'mindmap') {
+      // 科目マインドマップ: 科目別グリッド
+      const mapsHtml = subj.maps.map(m =>
+        `<a class="mindmap-btn" href="${m.href}" style="background:${m.color}">
+           <span class="mm-icon">${m.icon}</span>${m.subject}
+         </a>`
+      ).join('');
+      card.innerHTML = `
+        <div class="subject-header" onclick="toggleChapters('subj_${si}')">
+          <span class="subject-icon">${subj.icon}</span>
+          <span class="subject-name">${subj.name}</span>
+          <span class="subject-arrow" id="arrow_subj_${si}">▼</span>
+        </div>
+        <div class="chapter-list" id="subj_${si}">
+          <div class="mindmap-grid">${mapsHtml}</div>
+        </div>`;
+    } else {
+      // 章リスト型
+      const acc = getSubjectAccuracy(subj);
+      const accHtml = acc ? (() => {
+        const cls = acc.pct >= 70 ? 'good' : acc.pct >= 50 ? 'poor' : 'bad';
+        return `<span class="subject-acc ${cls}" title="試験モード正解率 ${acc.correct}/${acc.total}問">自${acc.pct}%</span>`;
+      })() : '';
+
+      let chaptersHtml = '';
+      subj.chapters.forEach((ch, ci) => {
+        const cp = getChapterProgress(ch);
+        const ei = getChExamInfo(ch.prefix);
+        const examTag = ei ? (() => {
+          const cls = ei.lastScore >= 80 ? 'good' : ei.lastScore >= 60 ? 'mid' : 'bad';
+          return `<span class="ch-exam-tag ${cls}" title="試験${ei.sessions}回 | 最高${ei.bestScore}%">🎓${ei.lastScore}%</span>`;
+        })() : '';
+        chaptersHtml += `
+          <a class="chapter-row" href="${ch.file}" data-prefix="${ch.prefix}">
+            <span class="chapter-num">第${ci + 1}章</span>
+            <span class="chapter-title">${ch.title}</span>
+            ${examTag}
+            <div class="chapter-prog-bar"><div class="chapter-prog-fill" style="width:${cp.pct}%;background:${fillColor}"></div></div>
+            <span class="chapter-prog-txt">${cp.doneCount}/${ch.count}</span>
+          </a>`;
+      });
+
+      card.innerHTML = `
+        <div class="subject-header" onclick="toggleChapters('subj_${si}')">
+          <span class="subject-icon">${subj.icon}</span>
+          <span class="subject-name">${subj.name}</span>
+          <div class="subject-prog">
+            <div class="subject-prog-bar"><div class="subject-prog-fill" style="width:${pct}%;background:${fillColor}"></div></div>
+            <span class="subject-prog-txt">${prog.doneCount}/${prog.totalQ}</span>
+          </div>
+          ${accHtml}
+          <span class="subject-arrow" id="arrow_subj_${si}">▼</span>
+        </div>
+        <div class="chapter-list hidden" id="subj_${si}">
+          ${chaptersHtml}
+          <div class="sc-row"><a class="sc-btn" href="${subj.name}/selfcheck_intro.html">✏️ セルフチェック →</a></div>
+        </div>`;
+    }
+
+    container.appendChild(card);
+  });
+
+  updateGlobalStats();
+}
+
+function toggleChapters(id) {
+  const el = document.getElementById(id);
+  const arrow = document.getElementById('arrow_' + id);
+  if (!el) return;
+  const isHidden = el.classList.toggle('hidden');
+  if (arrow) arrow.textContent = isHidden ? '▼' : '▲';
+}
+
+function updateGlobalStats() {
+  const stats = window.MECSync ? MECSync.getStats() : { doneCount: 0 };
+  document.getElementById('statDone').textContent = stats.doneCount;
+  document.getElementById('statStreak').textContent = window.MECSync ? window.MECSync.calcStreak() : 0;
+  document.getElementById('statTotal').textContent = calcTotalQ();
+  const due = getSRSDueCount();
+  const dueStat = document.getElementById('srsDueStat');
+  if (dueStat) {
+    dueStat.style.display = due > 0 ? '' : 'none';
+    const dueEl = document.getElementById('statDue');
+    if (dueEl) dueEl.textContent = due;
+  }
+}
+
+// ── 同期設定 ────────────────────────────────────────────────────
+function openSyncModal() {
+  if (window.MECSync) {
+    document.getElementById('tokenInput').value = MECSync.getToken();
+    document.getElementById('gistIdInput').value = MECSync.getGistId();
+  }
+  document.getElementById('syncModal').classList.add('open');
+}
+function closeSyncModal() {
+  document.getElementById('syncModal').classList.remove('open');
+}
+
+async function saveAndSync() {
+  const token = document.getElementById('tokenInput').value.trim();
+  const gistId = document.getElementById('gistIdInput').value.trim();
+  const result = document.getElementById('syncResult');
+  if (!token) { showSyncResult('error', 'トークンを入力してください'); return; }
+  if (window.MECSync) {
+    MECSync.setToken(token);
+    MECSync.setGistId(gistId); // 空欄なら '' で上書き（古い値をクリア）
+    showSyncResult('ok', '🔄 接続確認中...');
+
+    // Gist ID が空の場合は pull をスキップして直接 push（新規作成）
+    if (gistId) {
+      const pullRes = await MECSync.syncFromGist();
+      if (pullRes.status === 'error') {
+        const msg = pullRes.code === 404
+          ? 'Gist ID が見つかりません。空欄にして再試行してください。'
+          : `取得エラー (${pullRes.code || pullRes.message})。トークンを確認してください。`;
+        showSyncResult('error', msg);
+        return;
+      }
+    }
+
+    showSyncResult('ok', '🔄 保存中...');
+    const pushRes = await MECSync.pushToGist();
+    const newId = MECSync.getGistId();
+    document.getElementById('gistIdInput').value = newId;
+    if (pushRes && pushRes.status === 'ok') {
+      showSyncResult('ok', `✅ 同期成功！Gist ID: ${newId}`);
+      renderSubjects();
+    } else {
+      showSyncResult('error',
+        'Gist への書き込みに失敗しました。\n' +
+        '→ Classic トークン（Fine-grained ではない）を使っているか確認してください。\n' +
+        '→ スコープは「gist」のみチェック。\n' +
+        '→ Gist ID 欄を空にして再試行してください。'
+      );
+    }
+  }
+}
+
+async function manualSync() {
+  if (!window.MECSync || !MECSync.getToken()) {
+    openSyncModal();
+    return;
+  }
+  const pullRes = await MECSync.syncFromGist();
+  if (pullRes.status === 'ok') {
+    await MECSync.pushToGist();
+    renderSubjects();
+  } else {
+    openSyncModal();
+  }
+}
+
+function copySetupURL() {
+  const token = localStorage.getItem('mec_gist_token') || '';
+  const gistId = localStorage.getItem('mec_gist_id') || '';
+  if (!token) { showSyncResult('error', 'トークンが未設定です。先に「保存して同期」を実行してください。'); return; }
+  const encoded = btoa(JSON.stringify({ t: token, g: gistId }));
+  const base = location.href.replace(/#.*$/, '').replace(/[^/]*$/, 'index.html');
+  const url = base + '#mec:' + encoded;
+  navigator.clipboard.writeText(url)
+    .then(() => showSyncResult('ok', '📋 URLをコピーしました（トークンを含みます・base64は暗号化ではありません）。第三者に共有したりチャット等に貼り付けたりしないでください。別のデバイスでこのURLを開くと自動で設定されます。'))
+    .catch(() => { prompt('このURLをコピーして別のデバイスで開いてください（トークンを含むため第三者と共有しないこと）:', url); });
+}
+
+function clearSyncToken() {
+  if (window.MECSync) MECSync.clearToken();
+  localStorage.removeItem('mec_gist_id');
+  document.getElementById('tokenInput').value = '';
+  document.getElementById('gistIdInput').value = '';
+  showSyncResult('ok', '🗑️ トークンを削除しました。');
+}
+
+async function testToken() {
+  const token = document.getElementById('tokenInput').value.trim();
+  if (!token) { showSyncResult('error', 'トークンを入力してから検証してください'); return; }
+  showSyncResult('ok', '🔄 検証中...');
+  try {
+    const res = await fetch('https://api.github.com/user', {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (res.ok) {
+      const u = await res.json();
+      showSyncResult('ok', `✅ トークン有効！ GitHubユーザー: @${u.login}  (先頭: ${token.slice(0,6)}...)`);
+    } else {
+      const e = await res.json().catch(() => ({}));
+      showSyncResult('error', `❌ 認証失敗 ${res.status}: ${e.message || ''}  先頭: ${token.slice(0,6)}...`);
+    }
+  } catch (e) {
+    showSyncResult('error', `❌ ネットワークエラー: ${e.message}`);
+  }
+}
+
+function showSyncResult(type, msg) {
+  const el = document.getElementById('syncResult');
+  el.className = 'sync-result ' + type;
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+// ── JSON バックアップ / 復元 ──────────────────────────────────────
+function exportBackup() {
+  const keys = ['done_v2', 'flag_v2', 'activity_v1', 'myrate_v1', 'studytime_v1'];
+  const payload = { _exportDate: new Date().toISOString() };
+  keys.forEach(k => { try { payload[k] = JSON.parse(localStorage.getItem(k) || '{}'); } catch { payload[k] = {}; } });
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'mec_backup_' + new Date().toISOString().slice(0, 10) + '.json';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showSyncResult('ok', '📥 バックアップファイルをダウンロードしました');
+}
+
+function importBackup() {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = '.json';
+  input.onchange = e => {
+    const file = e.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = evt => {
+      try {
+        const data = JSON.parse(evt.target.result);
+        if (!data.done_v2) { alert('無効なバックアップファイルです'); return; }
+        const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+        const importCount = Object.keys(data.done_v2).length;
+        if (!confirm(`バックアップから ${importCount} 問分のデータを復元しますか？\n現在のデータと統合されます（より多い方を優先）`)) return;
+        // done, flag: ローカル優先
+        ['done_v2', 'flag_v2'].forEach(k => {
+          if (!data[k]) return;
+          const local = JSON.parse(localStorage.getItem(k) || '{}');
+          localStorage.setItem(k, JSON.stringify({ ...data[k], ...local }));
+        });
+        // activity, studytime: 日ごと最大値
+        ['activity_v1', 'studytime_v1'].forEach(k => {
+          if (!data[k]) return;
+          const local = JSON.parse(localStorage.getItem(k) || '{}');
+          Object.keys(data[k]).forEach(d => { local[d] = Math.max(local[d]||0, data[k][d]||0); });
+          localStorage.setItem(k, JSON.stringify(local));
+        });
+        // myrate: total が多い方を優先
+        if (data.myrate_v1) {
+          const lr = JSON.parse(localStorage.getItem('myrate_v1') || '{}');
+          Object.keys(data.myrate_v1).forEach(uid => {
+            if (!lr[uid] || (data.myrate_v1[uid].total||0) > (lr[uid].total||0)) lr[uid] = data.myrate_v1[uid];
+          });
+          localStorage.setItem('myrate_v1', JSON.stringify(lr));
+        }
+        showSyncResult('ok', `✅ 復元完了。ページを再読み込みします…`);
+        setTimeout(() => location.reload(), 1200);
+      } catch (e) { alert('読み込み失敗: ' + e.message); }
+    };
+    reader.readAsText(file);
+  };
+  document.body.appendChild(input); input.click(); document.body.removeChild(input);
+}
+
+function checkSyncWarning() {
+  const hasToken = !!localStorage.getItem('mec_gist_token');
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const banner = document.getElementById('noSyncWarning');
+  if (banner) banner.style.display = (!hasToken && Object.keys(done).length > 0) ? '' : 'none';
+}
+
+// ── 最終更新日時（GitHub API） ────────────────────────────────────
+(function fetchLastUpdated() {
+  const el = document.getElementById('lastUpdatedBadge');
+  if (!el) return;
+  fetch('https://api.github.com/repos/Mio839/MEC/commits?per_page=1', { cache: 'no-store' })
+    .then(r => r.json())
+    .then(data => {
+      if (!data[0]) return;
+      const d = new Date(data[0].commit.committer.date);
+      const mm = d.getMonth() + 1, dd = d.getDate();
+      const hh = String(d.getHours()).padStart(2, '0'), min = String(d.getMinutes()).padStart(2, '0');
+      el.textContent = '🕐 最終更新 ' + mm + '/' + dd + ' ' + hh + ':' + min;
+      el.title = data[0].commit.message.split('\n')[0];
+    })
+    .catch(() => { el.textContent = ''; });
+})();
+
+// ── 効果音設定 ────────────────────────────────────────────────────
+function openSoundModal() {
+  const sel = localStorage.getItem('mec_select_sound_v1') || 'mp3';
+  const cor = localStorage.getItem('mec_correct_sound_v1') || 'ping';
+  document.querySelectorAll('#selectSoundGrid .sound-btn').forEach(b => {
+    b.classList.toggle('sel', b.dataset.ssound === sel);
+  });
+  document.querySelectorAll('#correctSoundGrid .sound-btn').forEach(b => {
+    b.classList.toggle('sel', b.dataset.sound === cor);
+  });
+  document.getElementById('soundModal').classList.add('open');
+}
+function closeSoundModal() {
+  document.getElementById('soundModal').classList.remove('open');
+}
+let _previewAudioCtx = null;
+function _getPreviewCtx() {
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return null;
+  if (!_previewAudioCtx) _previewAudioCtx = new AC();
+  if (_previewAudioCtx.state === 'suspended') _previewAudioCtx.resume().catch(() => {});
+  return _previewAudioCtx;
+}
+function _previewSelectSound(value) {
+  if (value === 'off') return;
+  if (value === 'mp3') {
+    const a = new Audio('sounds/選択.mp3');
+    a.volume = 0.6;
+    a.play().catch(() => {});
+    return;
+  }
+  const ctx = _getPreviewCtx();
+  if (!ctx) return;
+  const sounds = {
+    click: { type: 'square',   freq: 1400, dur: 0.04, vol: 0.030 },
+    tick:  { type: 'triangle', freq: 900,  dur: 0.05, vol: 0.040 },
+    blip:  { type: 'sine',     freq: 660,  dur: 0.07, vol: 0.055 },
+    soft:  { type: 'sine',     freq: 400,  dur: 0.09, vol: 0.065 }
+  };
+  const s = sounds[value] || sounds.click;
+  const now = ctx.currentTime;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = s.type;
+  osc.frequency.setValueAtTime(s.freq, now);
+  gain.gain.setValueAtTime(s.vol, now);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + s.dur);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(now);
+  osc.stop(now + s.dur);
+}
+function _previewCorrectSound(value) {
+  if (value === 'off') return;
+  if (value === 'custom') {
+    const a = new Audio('sounds/correct.wav');
+    a.play().catch(() => {});
+    return;
+  }
+  const ctx = _getPreviewCtx();
+  if (!ctx) return;
+  const sounds = {
+    ping:    { type: 'sine',     notes: [659.25, 987.77],                    gap: 0.045, duration: 0.34, volume: 0.12 },
+    chime:   { type: 'triangle', notes: [523.25, 659.25, 1046.5],            gap: 0.06,  duration: 0.56, volume: 0.10 },
+    pop:     { type: 'square',   notes: [392, 523.25],                       gap: 0.035, duration: 0.22, volume: 0.065 },
+    bell:    { type: 'sine',     notes: [880, 1320],                         gap: 0.025, duration: 0.50, volume: 0.09 },
+    coin:    { type: 'triangle', notes: [1318.51, 1760],                     gap: 0.055, duration: 0.28, volume: 0.095 },
+    sparkle: { type: 'sine',     notes: [1046.5, 1318.51, 1567.98, 2093],   gap: 0.04,  duration: 0.42, volume: 0.085 },
+    fanfare: { type: 'triangle', notes: [523.25, 659.25, 783.99, 1046.5],   gap: 0.075, duration: 0.62, volume: 0.10 },
+    level:   { type: 'sine',     notes: [392, 493.88, 587.33, 783.99],      gap: 0.07,  duration: 0.50, volume: 0.095 },
+    notice:  { type: 'triangle', notes: [587.33, 783.99],                   gap: 0.055, duration: 0.24, volume: 0.075 },
+    click:   { type: 'square',   notes: [1200],                             gap: 0,     duration: 0.06, volume: 0.035 },
+    soft:    { type: 'sine',     notes: [261.63, 392],                      gap: 0.045, duration: 0.28, volume: 0.09 }
+  };
+  const s = sounds[value] || sounds.ping;
+  const now = ctx.currentTime;
+  const master = ctx.createGain();
+  master.gain.setValueAtTime(0.0001, now);
+  master.gain.exponentialRampToValueAtTime(s.volume, now + 0.018);
+  master.gain.exponentialRampToValueAtTime(0.0001, now + s.duration + s.gap * Math.max(0, s.notes.length - 1));
+  master.connect(ctx.destination);
+  s.notes.forEach((freq, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const t = now + i * s.gap;
+    osc.type = s.type;
+    osc.frequency.setValueAtTime(freq, t);
+    gain.gain.setValueAtTime(1 / Math.max(1, s.notes.length), t);
+    osc.connect(gain);
+    gain.connect(master);
+    osc.start(t);
+    osc.stop(t + s.duration);
+  });
+}
+function saveSoundPref(type, value, btn) {
+  if (type === 'select') {
+    localStorage.setItem('mec_select_sound_v1', value);
+    document.querySelectorAll('#selectSoundGrid .sound-btn').forEach(b => b.classList.remove('sel'));
+    _previewSelectSound(value);
+  } else {
+    localStorage.setItem('mec_correct_sound_v1', value);
+    document.querySelectorAll('#correctSoundGrid .sound-btn').forEach(b => b.classList.remove('sel'));
+    _previewCorrectSound(value);
+  }
+  btn.classList.add('sel');
+}
+
+// ── 初期化 ───────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  renderSubjects();
+  checkSyncWarning();
+  // 最初のカードは開いた状態にする
+  const firstChapters = document.querySelector('.chapter-list');
+  if (firstChapters) {
+    firstChapters.classList.remove('hidden');
+    const arrow = document.querySelector('.subject-arrow');
+    if (arrow) arrow.textContent = '▲';
+  }
+  // sync 完了後に再描画 + 警告再チェック
+  document.addEventListener('mecSyncComplete', () => { renderSubjects(); checkSyncWarning(); });
+});
+</script>
+<script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});</script>
+</body>
+</html>

@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEC 学習統計</title>
+<script src="chapters_meta.js"></script>
+<script src="rate_index.js?v=1"></script>
+<script src="progress.js?v=3"></script>
+<link rel="stylesheet" href="vars.css">
+<style>
+:root{}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:transparent;color:var(--tx);font-size:14px;line-height:1.7;}
+
+.hdr{background:rgba(5,10,22,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.08);color:#fff;padding:12px 14px 10px;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.45);}
+.hdr-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.hdr-title{font-size:16px;font-weight:800;}
+.hub-link{font-size:11px;color:rgba(255,255,255,.6);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,255,255,.18);border-radius:20px;white-space:nowrap;}
+.hub-link:hover{background:rgba(255,255,255,.1);}
+.mec-sync-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);margin-left:auto;}
+
+.summary-row{display:flex;gap:6px;flex-wrap:wrap;}
+.sum-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:6px 14px;text-align:center;flex:1;min-width:70px;}
+.sum-val{font-size:20px;font-weight:900;color:#FFB830;display:block;}
+.sum-lbl{font-size:10px;color:rgba(255,255,255,.6);}
+
+.ct{max-width:700px;margin:0 auto;padding:14px 12px 60px;}
+.sec{background:rgba(255,255,255,.06);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.07);padding:16px;margin-bottom:14px;}
+.sec-title{font-size:13px;font-weight:800;color:var(--tx);margin-bottom:14px;display:flex;align-items:center;gap:6px;}
+
+/* Activity chart */
+.act-wrap{display:flex;flex-direction:column;gap:3px;}
+.act-bars{display:flex;align-items:flex-end;gap:2px;height:72px;}
+.act-bar{flex:1;border-radius:2px 2px 0 0;min-height:2px;background:#A5D6A7;position:relative;cursor:default;}
+.act-bar.today{background:var(--yl);}
+.act-bar.zero{background:rgba(255,255,255,.08);min-height:3px;}
+.act-bar:hover::after,.act-bar.tap-show::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--nv);color:#fff;font-size:9px;padding:2px 5px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:10;}
+.act-dates{display:flex;gap:2px;}
+.act-date{flex:1;font-size:8px;text-align:center;color:var(--ts);overflow:hidden;}
+.act-date.today{color:var(--or);font-weight:800;}
+.act-total{font-size:11px;color:var(--ts);text-align:right;margin-top:6px;}
+
+/* Subject table */
+.subj-table{width:100%;border-collapse:collapse;}
+.subj-table th{font-size:10px;font-weight:700;color:var(--ts);text-align:left;padding:4px 6px;border-bottom:1px solid rgba(255,255,255,.12);}
+.subj-table th.r{text-align:right;}
+.subj-table td{padding:7px 6px;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:middle;}
+.subj-table td.r{text-align:right;font-size:12px;font-weight:700;}
+.subj-row{cursor:pointer;}
+.subj-row:hover td{background:rgba(255,255,255,.04);}
+.subj-expand-icon{font-size:9px;color:var(--ts);margin-left:2px;transition:transform .2s;}
+.ch-row{cursor:pointer;}
+.ch-row:hover td{background:rgba(255,255,255,.04);}
+.subj-name-cell{display:flex;align-items:center;gap:6px;}
+.subj-icon{font-size:16px;}
+.subj-name{font-size:13px;font-weight:700;}
+.subj-prog-wrap{display:flex;align-items:center;gap:6px;}
+.subj-prog-bar{flex:1;height:6px;background:var(--bd);border-radius:3px;overflow:hidden;min-width:48px;}
+.subj-prog-fill{height:100%;border-radius:3px;}
+.subj-prog-txt{font-size:11px;color:var(--ts);white-space:nowrap;min-width:36px;text-align:right;}
+.flag-num{color:var(--rd);}
+.due-num{color:var(--or);}
+
+/* Level distribution */
+.level-bars{display:flex;gap:6px;align-items:flex-end;height:80px;margin-bottom:6px;}
+.level-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.level-bar{width:100%;border-radius:4px 4px 0 0;min-height:3px;}
+.level-lbl{font-size:9px;font-weight:700;color:var(--ts);white-space:nowrap;}
+.level-val{font-size:10px;font-weight:700;color:var(--ts);}
+.level-legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
+.legend-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ts);}
+.legend-dot{width:10px;height:10px;border-radius:2px;}
+
+/* Study time chart */
+.time-bar{flex:1;border-radius:2px 2px 0 0;min-height:2px;background:#90CAF9;position:relative;cursor:default;}
+.time-bar.today{background:#7B5EA7;}
+.time-bar.zero{background:rgba(255,255,255,.08);min-height:3px;}
+.time-bar:hover::after,.time-bar.tap-show::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--nv);color:#fff;font-size:9px;padding:2px 5px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:10;}
+
+/* Accuracy badge */
+.acc-badge{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:10px;white-space:nowrap;}
+.acc-badge.good{background:rgba(61,214,140,.15);color:#3DD68C;border:1px solid rgba(61,214,140,.3);}
+.acc-badge.poor{background:rgba(255,154,60,.15);color:#FF9A3C;border:1px solid rgba(255,154,60,.3);}
+.acc-badge.bad{background:rgba(255,107,107,.15);color:#FF6B6B;border:1px solid rgba(255,107,107,.3);}
+.acc-badge.none{color:var(--ts);}
+
+/* Rate history chart (H) */
+.rh-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.rh-label{font-size:12px;font-weight:700;width:68px;flex-shrink:0;display:flex;align-items:center;gap:4px;}
+.rh-canvas-wrap{flex:1;position:relative;}
+.rh-canvas{display:block;width:100%;height:40px;}
+.rh-latest{font-size:12px;font-weight:800;width:40px;text-align:right;flex-shrink:0;}
+.rh-no-data{font-size:12px;color:var(--ts);text-align:center;padding:20px 0;}
+
+/* Choice analysis chart (K) */
+.choice-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:8px;}
+.choice-col{text-align:center;}
+.choice-bar-wrap{height:60px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:4px;}
+.choice-bar{width:100%;max-width:36px;border-radius:4px 4px 0 0;min-height:3px;transition:height .3s;}
+.choice-lbl{font-size:13px;font-weight:800;color:var(--tx);}
+.choice-val{font-size:10px;color:var(--ts);margin-top:2px;}
+.choice-note{font-size:11px;color:var(--ts);margin-top:12px;text-align:center;line-height:1.6;}
+.choice-empty{font-size:13px;color:var(--ts);text-align:center;padding:16px 0;}
+
+/* Weak ranking */
+.weak-empty{font-size:13px;color:var(--ts);text-align:center;padding:16px 0;}
+.weak-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--gb);text-decoration:none;color:var(--tx);}
+.weak-row:last-child{border-bottom:none;}
+.weak-row:hover{background:rgba(255,255,255,.05);margin:0 -16px;padding:7px 16px;}
+.weak-rank{font-size:11px;font-weight:700;color:var(--ts);width:20px;flex-shrink:0;text-align:right;}
+.weak-subj-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;color:#fff;white-space:nowrap;flex-shrink:0;}
+.weak-info{flex:1;min-width:0;}
+.weak-ch{font-size:12px;color:var(--ts);}
+.weak-acc{font-size:13px;font-weight:700;flex-shrink:0;}
+
+/* AI export */
+.ai-desc{font-size:12px;color:var(--ts);margin-bottom:12px;line-height:1.6;}
+.ai-export-btn{width:100%;padding:12px 16px;border:none;border-radius:12px;background:linear-gradient(135deg,#7B5EA7,#5C3D99);color:#fff;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(92,61,153,.4);transition:transform .1s,box-shadow .2s;}
+.ai-export-btn:hover{box-shadow:0 6px 20px rgba(92,61,153,.55);}
+.ai-export-btn:active{transform:scale(.98);}
+.ai-export-btn.copied{background:linear-gradient(135deg,#2D8C4E,#1B5E20);}
+.ai-export-msg{font-size:11px;color:var(--ts);text-align:center;margin-top:8px;min-height:14px;}
+.ai-opts{display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
+.ai-opt{font-size:11px;color:var(--ts);display:flex;align-items:center;gap:4px;cursor:pointer;user-select:none;}
+
+/* Miss (取りこぼし) list */
+.miss-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);text-decoration:none;color:var(--tx);}
+.miss-row:last-child{border-bottom:none;}
+.miss-row:hover{background:rgba(255,255,255,.05);margin:0 -16px;padding:7px 16px;}
+.miss-rank{font-size:11px;font-weight:700;color:var(--ts);width:20px;flex-shrink:0;text-align:right;}
+.miss-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;color:#fff;white-space:nowrap;flex-shrink:0;}
+.miss-info{flex:1;min-width:0;font-size:12px;color:var(--ts);}
+.miss-gap{flex-shrink:0;font-size:12px;font-weight:700;text-align:right;}
+.miss-gap .nat{color:#3DD68C;}
+.miss-gap .you{color:#FF6B6B;}
+.miss-empty{font-size:13px;color:var(--ts);text-align:center;padding:16px 0;}
+
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-top">
+    <span class="hdr-title">📊 学習統計</span>
+    <a class="hub-link" href="index.html">← ハブへ</a>
+    <span class="mec-sync-badge">⚙️ 未設定</span>
+  </div>
+  <div class="summary-row" id="summaryRow">
+    <div class="sum-card"><span class="sum-val" id="sumDone">—</span><span class="sum-lbl">済み</span></div>
+    <div class="sum-card"><span class="sum-val" id="sumStreak">—</span><span class="sum-lbl">日連続🔥</span></div>
+    <div class="sum-card"><span class="sum-val" id="sumFlag">—</span><span class="sum-lbl">🚩赤旗</span></div>
+    <div class="sum-card"><span class="sum-val" id="sumTime">—</span><span class="sum-lbl">⏱今日(分)</span></div>
+  </div>
+</header>
+
+<div class="ct">
+
+  <section class="sec" id="aiExportSec">
+    <div class="sec-title">🤖 AI相談用データ</div>
+    <p class="ai-desc">学習データを要約してコピーします。ClaudeなどのAIに貼り付けると、弱点分析や今後の学習計画を相談できます。</p>
+    <button id="aiExportBtn" class="ai-export-btn">📋 AI相談用にコピー</button>
+    <div class="ai-opts">
+      <label class="ai-opt"><input type="checkbox" id="aiOptRaw"> 苦手問題の生リストも含める（長め）</label>
+    </div>
+    <div id="aiExportMsg" class="ai-export-msg"></div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-title">📅 30日間の学習記録</div>
+    <div class="act-wrap">
+      <div class="act-bars" id="actBars"></div>
+      <div class="act-dates" id="actDates"></div>
+      <div class="act-total" id="actTotal"></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-title">⏱ 30日間の学習時間</div>
+    <div class="act-wrap">
+      <div class="act-bars" id="timeBars"></div>
+      <div class="act-dates" id="timeDates"></div>
+      <div class="act-total" id="timeTotal"></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-title">📚 科目別進捗</div>
+    <table class="subj-table">
+      <thead>
+        <tr>
+          <th>科目</th>
+          <th>進捗</th>
+          <th class="r">済み率</th>
+          <th class="r">正解率</th>
+          <th class="r">🚩</th>
+        </tr>
+      </thead>
+      <tbody id="subjTableBody"></tbody>
+    </table>
+  </section>
+
+  <section class="sec" id="missSec" style="display:none">
+    <div class="sec-title">💡 取りこぼし問題 <span style="font-size:11px;font-weight:400;color:var(--ts)">（本番正答率80%以上なのに試験モードで落とした・最優先復習）</span></div>
+    <div id="missList"></div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-title">🎯 苦手問題ランキング <span style="font-size:11px;font-weight:400;color:var(--ts)">（試験モード 3回以上・正解率50%未満）</span></div>
+    <div id="weakList"></div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-title">✅ 済みレベル分布</div>
+    <div class="level-bars" id="levelBars"></div>
+    <div class="level-legend" id="levelLegend"></div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-title">📈 科目別正答率の推移 <span style="font-size:11px;font-weight:400;color:var(--ts)">（stats.html を開くたびに記録）</span></div>
+    <div id="rateHistoryWrap"></div>
+  </section>
+
+  <section class="sec" id="choiceSec">
+    <div class="sec-title">🔍 誤答選択肢パターン <span style="font-size:11px;font-weight:400;color:var(--ts)">（試験モードでどの選択肢を選びがちか）</span></div>
+    <div id="choiceWrap"></div>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  // JST (UTC+9) で今日の日付を計算
+  const today = new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
+
+  function lsGet(k) { try { return JSON.parse(localStorage.getItem(k) || '{}'); } catch { return {}; } }
+
+  const done   = lsGet('done_v2');
+  const flags  = lsGet('flag_v2');
+  const activity = lsGet('activity_v1');
+
+  // ── Summary ──────────────────────────────────────────────
+  const doneCount  = Object.keys(done).length;
+  const flagCount  = Object.keys(flags).length;
+
+  document.getElementById('sumDone').textContent   = doneCount + '問';
+  document.getElementById('sumStreak').textContent = window.MECSync ? window.MECSync.calcStreak() : 0;
+  document.getElementById('sumFlag').textContent   = flagCount + '問';
+
+  // ── Activity chart (30 days) ──────────────────────────────
+  const days = [];
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(Date.now() + 9 * 3600000); d.setUTCDate(d.getUTCDate() - i);
+    const ds = d.toISOString().slice(0, 10);
+    days.push({ date: ds, count: activity[ds] || 0 });
+  }
+  const maxCount = Math.max(...days.map(d => d.count), 1);
+  const total30  = days.reduce((s, d) => s + d.count, 0);
+
+  const barsEl  = document.getElementById('actBars');
+  const datesEl = document.getElementById('actDates');
+  days.forEach(({ date, count }) => {
+    const isToday = date === today;
+    const pct = Math.round((count / maxCount) * 100);
+    const bar = document.createElement('div');
+    bar.className = 'act-bar' + (isToday ? ' today' : '') + (count === 0 ? ' zero' : '');
+    bar.style.height = (count === 0 ? '3px' : Math.max(pct, 4) + '%');
+    bar.dataset.tip  = date.slice(5) + ' ' + count + '問';
+    barsEl.appendChild(bar);
+
+    const lbl = document.createElement('div');
+    lbl.className = 'act-date' + (isToday ? ' today' : '');
+    const md = date.slice(5);
+    lbl.textContent = md.endsWith('-01') || isToday ? md : (md.slice(3) === '01' ? md : md.slice(3));
+    datesEl.appendChild(lbl);
+  });
+  document.getElementById('actTotal').textContent = '30日合計: ' + total30 + '問';
+
+  // ── Study time chart (30 days) ────────────────────────────
+  const studytime = lsGet('studytime_v1');
+  const todayTime = studytime[today] || 0;
+  document.getElementById('sumTime').textContent = todayTime + '分';
+
+  const timeDays = [];
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(Date.now() + 9 * 3600000); d.setUTCDate(d.getUTCDate() - i);
+    const ds = d.toISOString().slice(0, 10);
+    timeDays.push({ date: ds, mins: studytime[ds] || 0 });
+  }
+  const maxMins = Math.max(...timeDays.map(d => d.mins), 1);
+  const total30Mins = timeDays.reduce((s, d) => s + d.mins, 0);
+
+  const timeBarsEl  = document.getElementById('timeBars');
+  const timeDatesEl = document.getElementById('timeDates');
+  timeDays.forEach(({ date, mins }) => {
+    const isToday = date === today;
+    const pct = Math.round((mins / maxMins) * 100);
+    const bar = document.createElement('div');
+    bar.className = 'time-bar' + (isToday ? ' today' : '') + (mins === 0 ? ' zero' : '');
+    bar.style.height = (mins === 0 ? '3px' : Math.max(pct, 4) + '%');
+    bar.dataset.tip  = date.slice(5) + ' ' + mins + '分';
+    timeBarsEl.appendChild(bar);
+
+    const lbl = document.createElement('div');
+    lbl.className = 'act-date' + (isToday ? ' today' : '');
+    const md = date.slice(5);
+    lbl.textContent = md.endsWith('-01') || isToday ? md : md.slice(3);
+    timeDatesEl.appendChild(lbl);
+  });
+  const hrs = Math.floor(total30Mins / 60);
+  const mins30 = total30Mins % 60;
+  document.getElementById('timeTotal').textContent = '30日合計: ' + (hrs > 0 ? hrs + '時間' + mins30 + '分' : total30Mins + '分');
+
+  // タップ操作では:hoverが効かないため、タップでツールチップを表示する（iPad/スマホ向け）
+  [barsEl, timeBarsEl].forEach(container => {
+    container.addEventListener('click', e => {
+      const bar = e.target.closest('.act-bar, .time-bar');
+      container.querySelectorAll('.tap-show').forEach(b => { if (b !== bar) b.classList.remove('tap-show'); });
+      if (!bar) return;
+      bar.classList.toggle('tap-show');
+      if (bar.classList.contains('tap-show')) setTimeout(() => bar.classList.remove('tap-show'), 2000);
+    });
+  });
+
+  // ── Subject stats ─────────────────────────────────────────
+  const myrate = lsGet('myrate_v1');
+  const tbody = document.getElementById('subjTableBody');
+
+  function accBadgeHtml(correct, total) {
+    if (total < 3) return '<span class="acc-badge none">—</span>';
+    const pct = Math.round(correct / total * 100);
+    const cls = pct >= 70 ? 'good' : pct >= 50 ? 'poor' : 'bad';
+    return `<span class="acc-badge ${cls}">${pct}%<span style="font-weight:400;font-size:10px"> (${correct}/${total})</span></span>`;
+  }
+
+  if (typeof MEC_CHAPTERS !== 'undefined') {
+    let grandTotal = 0, grandDone = 0, grandAcc = 0, grandAccT = 0;
+
+    MEC_CHAPTERS.forEach(subj => {
+      const prefixes = subj.chapters.map(ch => ch.prefix + '_');
+      const isIn = uid => prefixes.some(p => uid.startsWith(p));
+      const totalQ = subj.chapters.reduce((s, ch) => s + ch.count, 0);
+      const doneQ  = Object.keys(done).filter(isIn).length;
+      const flagQ  = Object.keys(flags).filter(isIn).length;
+      const pct    = totalQ ? Math.round(doneQ / totalQ * 100) : 0;
+      grandTotal  += totalQ; grandDone += doneQ;
+
+      const mrEntries = Object.entries(myrate).filter(([uid]) => isIn(uid));
+      const accTotal   = mrEntries.reduce((s, [, v]) => s + (v.total || 0), 0);
+      const accCorrect = mrEntries.reduce((s, [, v]) => s + (v.correct || 0), 0);
+      grandAccT += accTotal; grandAcc += accCorrect;
+
+      const tr = document.createElement('tr');
+      tr.className = 'subj-row';
+      tr.style.cursor = 'pointer';
+      tr.title = 'クリックで章別展開';
+      tr.innerHTML = `
+        <td><div class="subj-name-cell">
+          <span class="subj-icon">${subj.icon}</span>
+          <span class="subj-name">${subj.name}</span>
+          <span class="subj-expand-icon">▶</span>
+        </div></td>
+        <td><div class="subj-prog-wrap">
+          <div class="subj-prog-bar">
+            <div class="subj-prog-fill" style="width:${pct}%;background:${subj.color}"></div>
+          </div>
+          <span class="subj-prog-txt">${doneQ}/${totalQ}</span>
+        </div></td>
+        <td class="r">${pct}%</td>
+        <td class="r">${accBadgeHtml(accCorrect, accTotal)}</td>
+        <td class="r flag-num">${flagQ || '—'}</td>`;
+      tr.onclick = () => {
+        const next = tr.nextElementSibling;
+        if (next && next.classList.contains('subj-ch-detail')) {
+          next.remove();
+          tr.querySelector('.subj-expand-icon').textContent = '▶';
+          return;
+        }
+        const chRows = subj.chapters.map((ch, ci) => {
+          const cp = ch.prefix + '_';
+          const cTotal = ch.count;
+          const cDone = Object.keys(done).filter(k => k.startsWith(cp)).length;
+          const cFlag = Object.keys(flags).filter(k => k.startsWith(cp)).length;
+          const cMr = Object.entries(myrate).filter(([uid]) => uid.startsWith(cp));
+          const cAccT = cMr.reduce((s, [, v]) => s + (v.total || 0), 0);
+          const cAccC = cMr.reduce((s, [, v]) => s + (v.correct || 0), 0);
+          const cPct = cTotal ? Math.round(cDone / cTotal * 100) : 0;
+          return `<tr class="ch-row" onclick="location.href='${ch.file}'" title="${ch.title}">
+            <td style="padding:5px 8px 5px 20px;font-size:11px;color:var(--ts)">第${ci+1}章</td>
+            <td><div class="subj-prog-wrap"><div class="subj-prog-bar"><div class="subj-prog-fill" style="width:${cPct}%;background:${subj.color}"></div></div><span class="subj-prog-txt">${cDone}/${cTotal}</span></div></td>
+            <td class="r" style="font-size:11px">${cPct}%</td>
+            <td class="r">${accBadgeHtml(cAccC, cAccT)}</td>
+            <td class="r flag-num" style="font-size:11px">${cFlag || '—'}</td>
+          </tr>`;
+        }).join('');
+        const detailTr = document.createElement('tr');
+        detailTr.className = 'subj-ch-detail';
+        detailTr.innerHTML = `<td colspan="5" style="padding:0"><table style="width:100%;border-collapse:collapse;border-top:1px solid var(--bd)">${chRows}</table></td>`;
+        tr.after(detailTr);
+        tr.querySelector('.subj-expand-icon').textContent = '▼';
+      };
+      tbody.appendChild(tr);
+    });
+
+    // Total row
+    const tr = document.createElement('tr');
+    tr.style.fontWeight = '700';
+    const totalPct = grandTotal ? Math.round(grandDone / grandTotal * 100) : 0;
+    tr.innerHTML = `
+      <td><div class="subj-name-cell"><span class="subj-name">合計</span></div></td>
+      <td><div class="subj-prog-wrap">
+        <div class="subj-prog-bar"><div class="subj-prog-fill" style="width:${totalPct}%;background:#2D8C4E"></div></div>
+        <span class="subj-prog-txt">${grandDone}/${grandTotal}</span>
+      </div></td>
+      <td class="r">${totalPct}%</td>
+      <td class="r">${accBadgeHtml(grandAcc, grandAccT)}</td>
+      <td class="r flag-num">${Object.keys(flags).length || '—'}</td>`;
+    tbody.appendChild(tr);
+  }
+
+  // ── Weak ranking ───────────────────────────────────────────
+  const weakEl = document.getElementById('weakList');
+  if (weakEl) {
+    const chapterMap = {};
+    if (typeof MEC_CHAPTERS !== 'undefined') {
+      MEC_CHAPTERS.forEach(subj => {
+        subj.chapters.forEach((ch, i) => {
+          chapterMap[ch.prefix] = { subjName: subj.name, subjId: subj.id, subjIcon: subj.icon, subjColor: subj.color, chNum: i + 1 };
+        });
+      });
+    }
+
+    const weakItems = Object.entries(myrate)
+      .filter(([, v]) => v.total >= 3 && (v.correct / v.total) < 0.5)
+      .sort((a, b) => (a[1].correct / a[1].total) - (b[1].correct / b[1].total))
+      .slice(0, 20);
+
+    if (!weakItems.length) {
+      weakEl.innerHTML = '<div class="weak-empty">まだ試験モードのデータがありません。<br>試験モードで問題を解くと苦手問題が記録されます。</div>';
+    } else {
+      weakItems.forEach(([uid, v], idx) => {
+        const m = uid.match(/^(.+)_q(\d+)$/);
+        const prefix = m ? m[1] : null;
+        const qNum = m ? m[2] : '?';
+        const info = prefix ? chapterMap[prefix] : null;
+        const pct = Math.round(v.correct / v.total * 100);
+        const accCls = pct < 30 ? 'bad' : 'poor';
+        const link = info ? `study.html?sid=${info.subjId}&filter=weak` : 'study.html?filter=weak';
+
+        const row = document.createElement('a');
+        row.className = 'weak-row';
+        row.href = link;
+        row.innerHTML = `
+          <span class="weak-rank">${idx + 1}</span>
+          <span class="weak-subj-badge" style="background:${info ? info.subjColor : '#888'}">${info ? info.subjIcon + ' ' + info.subjName : uid.split('_')[0]}</span>
+          <span class="weak-info"><span class="weak-ch">${info ? '第' + info.chNum + '章' : prefix || ''} Q.${qNum}</span></span>
+          <span class="weak-acc acc-badge ${accCls}">${pct}% <span style="font-weight:400;font-size:10px">(${v.correct}/${v.total})</span></span>`;
+        weakEl.appendChild(row);
+      });
+    }
+  }
+
+  // ── Level distribution ────────────────────────────────────
+  const LEVELS = [
+    { label: '未済', color: '#E0E5EB' },
+    { label: '済1', color: '#C8EBD4' },
+    { label: '済2', color: '#81C784' },
+    { label: '済3', color: '#4CAF50' },
+    { label: '済4', color: '#2E7D32' },
+    { label: '済5', color: '#1B5E20' },
+    { label: '済6+', color: '#0D3B1A' },
+  ];
+  const levelCounts = [0, 0, 0, 0, 0, 0, 0];
+  Object.values(done).forEach(lv => {
+    if (lv >= 1 && lv <= 5) levelCounts[lv]++;
+    else if (lv >= 6) levelCounts[6]++;
+  });
+  if (typeof MEC_CHAPTERS !== 'undefined') {
+    const totalQ = MEC_CHAPTERS.reduce((s, subj) => s + subj.chapters.reduce((ss, ch) => ss + ch.count, 0), 0);
+    levelCounts[0] = totalQ - Object.keys(done).length;
+  }
+  const maxLevel = Math.max(...levelCounts, 1);
+  const barsDiv  = document.getElementById('levelBars');
+  const legDiv   = document.getElementById('levelLegend');
+  LEVELS.forEach(({ label, color }, i) => {
+    const pct = Math.round(levelCounts[i] / maxLevel * 100);
+    const col = document.createElement('div');
+    col.className = 'level-col';
+    col.innerHTML = `
+      <span class="level-val">${levelCounts[i]}</span>
+      <div class="level-bar" style="height:${Math.max(pct, 2)}%;background:${color};border:1px solid #ccc"></div>
+      <span class="level-lbl">${label}</span>`;
+    barsDiv.appendChild(col);
+
+    const leg = document.createElement('div');
+    leg.className = 'legend-item';
+    leg.innerHTML = `<div class="legend-dot" style="background:${color};border:1px solid #ccc"></div>${label}: ${levelCounts[i]}問`;
+    legDiv.appendChild(leg);
+  });
+
+
+  // ── H: 科目別正答率の推移 ────────────────────────────────────
+  const SNAP_KEY = 'mec_rate_snap_v1';
+  const rateSnap = lsGet(SNAP_KEY);
+
+  // Save today's snapshot
+  if (!rateSnap[today] && typeof MEC_CHAPTERS !== 'undefined') {
+    const snap = {};
+    MEC_CHAPTERS.forEach(subj => {
+      const prefixes = subj.chapters.map(ch => ch.prefix + '_');
+      const isIn = uid => prefixes.some(p => uid.startsWith(p));
+      const entries = Object.entries(myrate).filter(([uid]) => isIn(uid));
+      const t = entries.reduce((s, [, v]) => s + (v.total || 0), 0);
+      const c = entries.reduce((s, [, v]) => s + (v.correct || 0), 0);
+      if (t >= 5) snap[subj.id] = { correct: c, total: t };
+    });
+    if (Object.keys(snap).length) {
+      rateSnap[today] = snap;
+      // Keep only last 60 days
+      const allDates = Object.keys(rateSnap).sort();
+      if (allDates.length > 60) { allDates.slice(0, allDates.length - 60).forEach(d => delete rateSnap[d]); }
+      try { localStorage.setItem(SNAP_KEY, JSON.stringify(rateSnap)); } catch {}
+    }
+  }
+
+  const snapDates = Object.keys(rateSnap).sort().slice(-14);
+  const rhWrap = document.getElementById('rateHistoryWrap');
+  if (snapDates.length < 2) {
+    rhWrap.innerHTML = '<div class="rh-no-data">データが少なすぎます。stats.htmlを複数日開くと推移グラフが表示されます。</div>';
+  } else if (typeof MEC_CHAPTERS !== 'undefined') {
+    MEC_CHAPTERS.forEach(subj => {
+      const pts = snapDates.map(d => {
+        const e = rateSnap[d]?.[subj.id];
+        return (e && e.total >= 5) ? Math.round(e.correct / e.total * 100) : null;
+      });
+      if (pts.every(p => p === null)) return;
+      const latest = pts[pts.length - 1];
+      const latestCls = latest === null ? '' : latest >= 70 ? '#3DD68C' : latest >= 50 ? '#FF9A3C' : '#FF6B6B';
+
+      const row = document.createElement('div');
+      row.className = 'rh-row';
+      const cvId = 'rhcv_' + subj.id;
+      row.innerHTML = `
+        <span class="rh-label"><span>${subj.icon}</span>${subj.name}</span>
+        <div class="rh-canvas-wrap"><canvas class="rh-canvas" id="${cvId}" height="40"></canvas></div>
+        <span class="rh-latest" style="color:${latestCls}">${latest !== null ? latest + '%' : '—'}</span>`;
+      rhWrap.appendChild(row);
+
+      requestAnimationFrame(() => {
+        const cv = document.getElementById(cvId);
+        if (!cv) return;
+        cv.width = cv.parentElement.offsetWidth || 200;
+        const ctx = cv.getContext('2d');
+        const w = cv.width, h = cv.height;
+        const validPts = pts.filter(p => p !== null);
+        if (validPts.length < 2) return;
+        const n = pts.length;
+
+        // 70% reference line
+        ctx.beginPath(); ctx.strokeStyle = 'rgba(255,255,255,.12)'; ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        const refY = h - (70 / 100) * h;
+        ctx.moveTo(0, refY); ctx.lineTo(w, refY); ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Fill area under line
+        ctx.beginPath();
+        let started = false;
+        pts.forEach((v, i) => {
+          if (v === null) return;
+          const x = (i / (n - 1)) * w;
+          const y = h - (v / 100) * h;
+          if (!started) { ctx.moveTo(x, h); ctx.lineTo(x, y); started = true; }
+          else ctx.lineTo(x, y);
+        });
+        ctx.lineTo(((n-1) / (n-1)) * w, h); ctx.closePath();
+        ctx.fillStyle = subj.color + '28';
+        ctx.fill();
+
+        // Main line
+        ctx.beginPath(); ctx.strokeStyle = subj.color; ctx.lineWidth = 2; ctx.lineJoin = 'round';
+        started = false;
+        pts.forEach((v, i) => {
+          if (v === null) return;
+          const x = (i / (n - 1)) * w;
+          const y = h - (v / 100) * h;
+          if (!started) { ctx.moveTo(x, y); started = true; } else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+
+        // Dots
+        pts.forEach((v, i) => {
+          if (v === null) return;
+          const x = (i / (n - 1)) * w;
+          const y = h - (v / 100) * h;
+          ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2);
+          ctx.fillStyle = subj.color; ctx.fill();
+        });
+      });
+    });
+  }
+
+  // ── K: 誤答選択肢パターン分析 ─────────────────────────────────
+  const choiceData = lsGet('mec_choice_v1');
+  const choiceWrap = document.getElementById('choiceWrap');
+  const agg = {};
+  let totalWrong = 0;
+  Object.values(choiceData).forEach(entry => {
+    Object.entries(entry).forEach(([ch, cnt]) => {
+      if (ch === '_last') return;
+      agg[ch] = (agg[ch] || 0) + cnt;
+      totalWrong += cnt;
+    });
+  });
+
+  if (!totalWrong) {
+    choiceWrap.innerHTML = '<div class="choice-empty">試験モードで誤答すると選択肢パターンが記録されます。</div>';
+  } else {
+    const CHOICE_LABELS = ['ａ', 'ｂ', 'ｃ', 'ｄ', 'ｅ'];
+    const maxCnt = Math.max(...CHOICE_LABELS.map(c => agg[c] || 0), 1);
+    const sorted = CHOICE_LABELS.map(c => ({ ch: c, cnt: agg[c] || 0 })).sort((a, b) => b.cnt - a.cnt);
+    const most = sorted[0];
+
+    const grid = document.createElement('div');
+    grid.className = 'choice-grid';
+    CHOICE_LABELS.forEach(ch => {
+      const cnt = agg[ch] || 0;
+      const pct = Math.round((cnt / maxCnt) * 100);
+      const col = document.createElement('div');
+      col.className = 'choice-col';
+      const barColor = cnt === maxCnt && cnt > 0 ? '#FF6B6B' : 'rgba(255,255,255,.25)';
+      col.innerHTML = `
+        <div class="choice-bar-wrap"><div class="choice-bar" style="height:${Math.max(pct, 3)}%;background:${barColor}"></div></div>
+        <div class="choice-lbl">${ch}</div>
+        <div class="choice-val">${cnt}回</div>`;
+      grid.appendChild(col);
+    });
+    choiceWrap.appendChild(grid);
+
+    const note = document.createElement('div');
+    note.className = 'choice-note';
+    const mostPct = Math.round((most.cnt / totalWrong) * 100);
+    note.textContent = `計${totalWrong}回の誤答中、最多は「${most.ch}」（${most.cnt}回・${mostPct}%）。正解の隣や末尾を選びがちな場合は読み飛ばしに注意。`;
+    choiceWrap.appendChild(note);
+  }
+
+  // ── AI相談用エクスポート＋取りこぼし分析 ────────────────────────────
+  const RATE = window.MEC_RATE || {};
+
+  // uid prefix(科目_章) → 章情報
+  const chMap = {};
+  if (typeof MEC_CHAPTERS !== 'undefined') {
+    MEC_CHAPTERS.forEach(subj => {
+      subj.chapters.forEach((ch, i) => {
+        chMap[ch.prefix] = { subjName: subj.name, subjId: subj.id, subjIcon: subj.icon, subjColor: subj.color, chNum: i + 1, chTitle: ch.title };
+      });
+    });
+  }
+  function uidInfo(uid) {
+    const m = uid.match(/^(.+)_q(\d+)$/);
+    if (!m) return { qNum: '?', prefix: null, info: null };
+    return { qNum: m[2], prefix: m[1], info: chMap[m[1]] || null };
+  }
+
+  function subjectStats() {
+    const rows = [];
+    if (typeof MEC_CHAPTERS === 'undefined') return rows;
+    MEC_CHAPTERS.forEach(subj => {
+      const prefixes = subj.chapters.map(ch => ch.prefix + '_');
+      const isIn = uid => prefixes.some(p => uid.startsWith(p));
+      const totalQ = subj.chapters.reduce((s, ch) => s + ch.count, 0);
+      const doneQ = Object.keys(done).filter(isIn).length;
+      const flagQ = Object.keys(flags).filter(isIn).length;
+      const mr = Object.entries(myrate).filter(([uid]) => isIn(uid));
+      const accT = mr.reduce((s, [, v]) => s + (v.total || 0), 0);
+      const accC = mr.reduce((s, [, v]) => s + (v.correct || 0), 0);
+      const natRates = Object.keys(RATE).filter(isIn).map(u => RATE[u]);
+      const natAvg = natRates.length ? Math.round(natRates.reduce((a, b) => a + b, 0) / natRates.length) : null;
+      rows.push({ name: subj.name, icon: subj.icon, totalQ, doneQ, flagQ, accT, accC, natAvg,
+        donePct: totalQ ? Math.round(doneQ / totalQ * 100) : 0,
+        accPct: accT >= 1 ? Math.round(accC / accT * 100) : null });
+    });
+    return rows;
+  }
+
+  // 取りこぼし: 本番正答率>=80 なのに自分の正答率<50%
+  function missItems() {
+    const items = [];
+    Object.entries(myrate).forEach(([uid, v]) => {
+      const nat = RATE[uid];
+      if (nat === undefined || nat < 80) return;
+      if (!v.total || v.correct / v.total >= 0.5) return;
+      const you = Math.round(v.correct / v.total * 100);
+      items.push({ uid, nat, you, correct: v.correct, total: v.total, gap: nat - you, ...uidInfo(uid) });
+    });
+    return items.sort((a, b) => b.gap - a.gap);
+  }
+
+  function weakItemsFull() {
+    return Object.entries(myrate)
+      .filter(([, v]) => v.total >= 3 && (v.correct / v.total) < 0.5)
+      .sort((a, b) => (a[1].correct / a[1].total) - (b[1].correct / b[1].total))
+      .map(([uid, v]) => ({ uid, you: Math.round(v.correct / v.total * 100), correct: v.correct, total: v.total, nat: RATE[uid], ...uidInfo(uid) }));
+  }
+
+  // 取りこぼしセクション描画
+  const miss = missItems();
+  const missSec = document.getElementById('missSec');
+  const missListEl = document.getElementById('missList');
+  if (miss.length && missListEl) {
+    missSec.style.display = '';
+    miss.slice(0, 20).forEach((it, i) => {
+      const label = it.info ? it.info.subjIcon + ' ' + it.info.subjName : (it.prefix || it.uid).split('_')[0];
+      const color = it.info ? it.info.subjColor : '#888';
+      const ch = it.info ? '第' + it.info.chNum + '章 ' : '';
+      const row = document.createElement('a');
+      row.className = 'miss-row';
+      row.href = it.info ? `study.html?sid=${it.info.subjId}` : 'study.html';
+      row.innerHTML = `<span class="miss-rank">${i + 1}</span>
+        <span class="miss-badge" style="background:${color}">${label}</span>
+        <span class="miss-info">${ch}Q.${it.qNum}</span>
+        <span class="miss-gap"><span class="nat">本番${it.nat}%</span> / <span class="you">自分${it.you}%</span></span>`;
+      missListEl.appendChild(row);
+    });
+  }
+
+  function buildMarkdown(includeRaw) {
+    const totalAll = (typeof MEC_CHAPTERS !== 'undefined') ? MEC_CHAPTERS.reduce((s, subj) => s + subj.chapters.reduce((ss, ch) => ss + ch.count, 0), 0) : 0;
+    const donePct = totalAll ? Math.round(doneCount / totalAll * 100) : 0;
+    const streak = window.MECSync ? window.MECSync.calcStreak() : 0;
+    const hrs = Math.floor(total30Mins / 60), mm = total30Mins % 60;
+    const L = [];
+    L.push(`# MEC 医師国試 学習データ (${today})`);
+    L.push('');
+    L.push('## 概況');
+    L.push(`- 済み: ${doneCount} / ${totalAll} 問 (${donePct}%)`);
+    L.push(`- 連続学習: ${streak} 日`);
+    L.push(`- 赤旗（苦手マーク）: ${flagCount} 問`);
+    L.push(`- 直近30日: ${total30} 問 / ${hrs > 0 ? hrs + '時間' + mm + '分' : total30Mins + '分'}`);
+    L.push('');
+    L.push('## 科目別成績');
+    L.push('| 科目 | 済み率 | 試験正答率 | 本番正答率(平均) | 赤旗 |');
+    L.push('|---|---|---|---|---|');
+    subjectStats().forEach(r => {
+      const acc = r.accPct !== null ? `${r.accPct}% (${r.accC}/${r.accT})` : '—';
+      const nat = r.natAvg !== null ? `${r.natAvg}%` : '—';
+      L.push(`| ${r.name} | ${r.donePct}% (${r.doneQ}/${r.totalQ}) | ${acc} | ${nat} | ${r.flagQ || 0} |`);
+    });
+    L.push('');
+    const miss2 = missItems();
+    L.push(`## 取りこぼし問題（本番正答率80%以上なのに試験で落とした・最優先復習） ${miss2.length}件`);
+    if (miss2.length) {
+      miss2.slice(0, 30).forEach(it => {
+        const nm = it.info ? `${it.info.subjName} 第${it.info.chNum}章` : (it.prefix || '');
+        L.push(`- ${nm} Q.${it.qNum} — 本番${it.nat}% / 自分${it.you}%(${it.correct}/${it.total})`);
+      });
+    } else {
+      L.push('- なし（試験モードのデータが少ないか、取りこぼしが無い）');
+    }
+    L.push('');
+    const wk = weakItemsFull();
+    L.push(`## 繰り返し落とす問題（試験正答率50%未満・3回以上） ${wk.length}件`);
+    wk.slice(0, includeRaw ? 60 : 15).forEach(it => {
+      const nm = it.info ? `${it.info.subjName} 第${it.info.chNum}章` : (it.prefix || '');
+      const nat = it.nat !== undefined ? ` / 本番${it.nat}%` : '';
+      L.push(`- ${nm} Q.${it.qNum} — 自分${it.you}%(${it.correct}/${it.total})${nat}`);
+    });
+    L.push('');
+    const agg2 = {}; let tw = 0;
+    Object.values(choiceData).forEach(entry => Object.entries(entry).forEach(([c, n]) => { if (c === '_last') return; agg2[c] = (agg2[c] || 0) + n; tw += n; }));
+    if (tw) {
+      const sorted = Object.entries(agg2).sort((a, b) => b[1] - a[1]);
+      L.push('## 誤答選択肢の傾向');
+      L.push(`- 計${tw}回の誤答。分布: ` + sorted.map(([c, n]) => `${c}=${n}`).join(', '));
+      L.push('');
+    }
+    const lc = [0, 0, 0, 0, 0, 0, 0];
+    Object.values(done).forEach(lv => { if (lv >= 1 && lv <= 5) lc[lv]++; else if (lv >= 6) lc[6]++; });
+    L.push('## 復習状況（SRS周回数分布）');
+    L.push(`- 済1:${lc[1]} 済2:${lc[2]} 済3:${lc[3]} 済4:${lc[4]} 済5:${lc[5]} 済6+:${lc[6]}`);
+    L.push('');
+    L.push('---');
+    L.push('上記は私の医師国家試験対策の学習データです。これをもとに、');
+    L.push('1) 弱点の傾向と原因の仮説、2) 特に優先して取り組むべき科目・分野、3) 今後2週間の具体的な学習計画（日ごとの分量目安つき）を提案してください。');
+    return L.join('\n');
+  }
+
+  const exportBtn = document.getElementById('aiExportBtn');
+  const exportMsg = document.getElementById('aiExportMsg');
+  if (exportBtn) {
+    exportBtn.addEventListener('click', async () => {
+      const raw = document.getElementById('aiOptRaw') && document.getElementById('aiOptRaw').checked;
+      const md = buildMarkdown(raw);
+      const done_ = () => {
+        exportBtn.classList.add('copied');
+        exportBtn.textContent = '✅ コピーしました';
+        exportMsg.textContent = `${md.length}文字をコピー。AIに貼り付けて相談できます。`;
+        setTimeout(() => { exportBtn.classList.remove('copied'); exportBtn.textContent = '📋 AI相談用にコピー'; }, 2500);
+      };
+      try {
+        await navigator.clipboard.writeText(md);
+        done_();
+      } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = md; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand('copy'); done_(); } catch { exportMsg.textContent = 'コピーに失敗しました。'; }
+        ta.remove();
+      }
+    });
+  }
+
+})();
+
+// Reload once after Gist sync to show fresh data
+document.addEventListener('mecSyncComplete', function() {
+  const key = '_mec_stats_sync_reloaded';
+  if (sessionStorage.getItem(key)) { sessionStorage.removeItem(key); return; }
+  sessionStorage.setItem(key, '1');
+  location.reload();
+});
+</script>
+<script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});</script>
+</body>
+</html>

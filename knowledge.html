@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEC 検索知識ノート</title>
+<link rel="stylesheet" href="vars.css">
+<script src="knowledge_notes.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:transparent;color:var(--tx);font-size:14px;line-height:1.7;padding-bottom:40px;}
+
+/* ── Header ── */
+.kn-hdr{background:rgba(5,10,22,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.08);padding:10px 12px 8px;position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,.45);}
+.kn-hdr-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.kn-title{font-size:15px;font-weight:800;flex:1;}
+.hub-link{font-size:11px;color:rgba(255,255,255,.6);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,255,255,.18);border-radius:20px;white-space:nowrap;}
+.hub-link:hover{background:rgba(255,255,255,.1);}
+.kn-count{font-size:11px;font-weight:700;color:rgba(255,255,255,.45);white-space:nowrap;}
+
+.kn-chip-row{display:flex;gap:5px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;margin-bottom:6px;}
+.kn-chip-row::-webkit-scrollbar{display:none;}
+.kn-chip{flex-shrink:0;padding:4px 11px;border-radius:20px;border:1.5px solid rgba(255,255,255,.18);background:rgba(255,255,255,.04);color:rgba(255,255,255,.6);font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.kn-chip.on{color:#fff;border-color:var(--chip-color,#fff);background:var(--chip-color,rgba(255,255,255,.15));}
+
+.kn-search-wrap{position:relative;}
+.kn-search-wrap::before{content:'🔍';position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:11px;pointer-events:none;}
+.kn-search{width:100%;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.14);border-radius:20px;padding:6px 12px 6px 28px;font-size:12px;color:#fff;font-family:inherit;outline:none;}
+.kn-search::placeholder{color:rgba(255,255,255,.28);}
+.kn-search:focus{border-color:rgba(255,255,255,.38);background:rgba(255,255,255,.1);}
+
+/* ── Cards ── */
+.kn-main{max-width:760px;margin:0 auto;padding:14px 12px 0;display:flex;flex-direction:column;gap:12px;}
+.kn-card{background:var(--gb);border:1px solid var(--bd);border-left:4px solid var(--card-color,var(--or));border-radius:10px;overflow:hidden;transition:box-shadow .15s;}
+.kn-card-hdr{display:flex;align-items:center;gap:8px;padding:12px 14px;cursor:pointer;}
+.kn-emoji{font-size:20px;flex-shrink:0;}
+.kn-card-titles{flex:1;min-width:0;}
+.kn-card-title{font-size:15px;font-weight:800;color:var(--tx);}
+.kn-tag-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;}
+.kn-tag{font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px;background:rgba(255,255,255,.08);color:var(--ts);}
+.kn-toggle-arrow{font-size:11px;color:var(--ts);flex-shrink:0;transition:transform .2s;}
+.kn-card.open .kn-toggle-arrow{transform:rotate(180deg);}
+
+.kn-mnemonic-teaser{margin:0 14px 12px;padding:8px 10px;border-radius:8px;background:var(--yll);border:1px solid rgba(255,184,48,.3);font-size:12px;color:var(--ord);font-weight:700;}
+.kn-mnemonic-teaser::before{content:'💡 ';}
+
+.kn-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.kn-card.open .kn-body{max-height:4000px;}
+.kn-body-inner{padding:0 14px 16px;}
+
+.kn-lead{font-size:13px;color:var(--ts);margin-bottom:10px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:8px;}
+.kn-h{font-size:13px;font-weight:800;color:var(--card-color,var(--or));margin:14px 0 6px;padding-left:8px;border-left:3px solid var(--card-color,var(--or));}
+.kn-h:first-of-type{margin-top:0;}
+.kn-list{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.kn-list li{font-size:12.5px;padding-left:14px;position:relative;color:var(--tx);}
+.kn-list li::before{content:'・';position:absolute;left:0;color:var(--card-color,var(--or));}
+.kn-points li::before{content:'✅';left:-2px;}
+.kn-points li{padding-left:20px;}
+
+.kn-table{width:100%;border-collapse:collapse;font-size:11.5px;margin:6px 0;}
+.kn-table th,.kn-table td{border:1px solid var(--bd);padding:6px 8px;text-align:left;}
+.kn-table th{background:rgba(255,255,255,.06);color:var(--ts);font-weight:700;}
+.kn-up{color:var(--rd);}
+.kn-down{color:#60A5FA;}
+
+.kn-danger{font-size:12px;padding:8px 10px;margin-bottom:6px;border-radius:0 8px 8px 0;background:var(--rdl);border-left:3px solid var(--rd);color:var(--tx);}
+.kn-danger.kn-critical{background:rgba(255,107,107,.22);border-left-color:#FF3B3B;font-weight:700;}
+.kn-star{color:var(--yl);font-weight:800;}
+.kn-note{color:var(--ts);font-size:11px;}
+.kn-contra{color:var(--rd);background:rgba(255,107,107,.15);padding:1px 6px;border-radius:4px;}
+
+.kn-meta{margin:12px 14px 0;padding-top:8px;border-top:1px solid rgba(255,255,255,.08);font-size:10.5px;color:var(--ts);display:flex;justify-content:space-between;}
+
+.kn-img{display:block;max-width:100%;border-radius:8px;margin:8px 0;border:1px solid var(--bd);background:#fff;}
+.kn-img-cap{font-size:10.5px;color:var(--ts);text-align:center;margin:-4px 0 10px;}
+
+.kn-empty{text-align:center;color:var(--ts);font-size:13px;padding:40px 0;}
+
+.kn-link{color:var(--card-color,var(--or));font-weight:700;text-decoration:underline;text-decoration-style:dotted;cursor:pointer;}
+.kn-link:hover{opacity:.8;}
+.kn-card.kn-flash{box-shadow:0 0 0 3px var(--card-color,var(--or));}
+</style>
+</head>
+<body>
+
+<header class="kn-hdr">
+  <div class="kn-hdr-row">
+    <span class="kn-title">🔎 検索知識ノート</span>
+    <span class="kn-count" id="knCount"></span>
+    <a class="hub-link" href="index.html">← ハブへ</a>
+  </div>
+  <div class="kn-chip-row" id="subjectChips"></div>
+  <div class="kn-search-wrap">
+    <input type="search" id="searchInput" class="kn-search" placeholder="キーワードで検索（例: プロラクチン）">
+  </div>
+</header>
+
+<main class="kn-main" id="notesContainer"></main>
+
+<script>
+let activeSubject = 'すべて';
+
+function subjectMeta(name) {
+  return (typeof KNOWLEDGE_SUBJECTS !== 'undefined' && KNOWLEDGE_SUBJECTS[name])
+    ? KNOWLEDGE_SUBJECTS[name] : { emoji: '📌', color: '#546E7A' };
+}
+
+function renderChips() {
+  const wrap = document.getElementById('subjectChips');
+  const usedSubjects = [...new Set(KNOWLEDGE_NOTES.map(n => n.subject))];
+  let html = `<button class="kn-chip${activeSubject === 'すべて' ? ' on' : ''}" style="--chip-color:#8099B8" onclick="setSubject('すべて')">すべて</button>`;
+  usedSubjects.forEach(s => {
+    const meta = subjectMeta(s);
+    html += `<button class="kn-chip${activeSubject === s ? ' on' : ''}" style="--chip-color:${meta.color}" onclick="setSubject('${s}')">${meta.emoji} ${s}</button>`;
+  });
+  wrap.innerHTML = html;
+}
+
+function setSubject(s) {
+  activeSubject = s;
+  renderChips();
+  renderNotes();
+}
+
+function toggleCard(id) {
+  const card = document.getElementById('card_' + id);
+  if (card) card.classList.toggle('open');
+}
+
+// [[ノートタイトル]] 記法をクリック可能なリンクに変換する
+function escapeAttr(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+}
+function findNoteByTitle(text) {
+  const exact = KNOWLEDGE_NOTES.find(n => n.title === text);
+  if (exact) return exact;
+  return KNOWLEDGE_NOTES.find(n => n.title.includes(text) || text.includes(n.title)) || null;
+}
+function linkifyNotes(html) {
+  return html.replace(/\[\[([^\]]+)\]\]/g, (m, title) => {
+    const note = findNoteByTitle(title);
+    if (!note) return m; // 対応ノートが見つからない場合はそのまま表示
+    return '<span class="kn-link" data-jump-title="' + escapeAttr(title) + '">' + title + '</span>';
+  });
+}
+function jumpToNote(title) {
+  const note = findNoteByTitle(title);
+  if (!note) return;
+  activeSubject = 'すべて';
+  document.getElementById('searchInput').value = '';
+  renderChips();
+  renderNotes();
+  requestAnimationFrame(() => {
+    const card = document.getElementById('card_' + note.id);
+    if (!card) return;
+    card.classList.add('open');
+    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    card.classList.add('kn-flash');
+    setTimeout(() => card.classList.remove('kn-flash'), 1500);
+  });
+}
+document.getElementById('notesContainer').addEventListener('click', e => {
+  const link = e.target.closest('.kn-link');
+  if (link) jumpToNote(link.dataset.jumpTitle);
+});
+
+function renderNotes() {
+  const container = document.getElementById('notesContainer');
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+
+  const filtered = KNOWLEDGE_NOTES.filter(n => {
+    if (activeSubject !== 'すべて' && n.subject !== activeSubject && !(n.tags || []).includes(activeSubject)) return false;
+    if (!q) return true;
+    const hay = (n.title + ' ' + (n.tags || []).join(' ') + ' ' + n.html).toLowerCase();
+    return hay.includes(q);
+  });
+
+  document.getElementById('knCount').textContent = `${filtered.length}/${KNOWLEDGE_NOTES.length}件`;
+
+  if (!filtered.length) {
+    container.innerHTML = '<div class="kn-empty">該当するノートがありません</div>';
+    return;
+  }
+
+  container.innerHTML = filtered.map(n => {
+    const meta = subjectMeta(n.subject);
+    const tags = (n.tags || []).map(t => `<span class="kn-tag">${t}</span>`).join('');
+    const mnemonic = n.mnemonic ? `<div class="kn-mnemonic-teaser">${linkifyNotes(n.mnemonic)}</div>` : '';
+    return `
+      <div class="kn-card" id="card_${n.id}" style="--card-color:${meta.color}">
+        <div class="kn-card-hdr" onclick="toggleCard('${n.id}')">
+          <span class="kn-emoji">${meta.emoji}</span>
+          <div class="kn-card-titles">
+            <div class="kn-card-title">${n.title}</div>
+            <div class="kn-tag-row">${tags}</div>
+          </div>
+          <span class="kn-toggle-arrow">▼</span>
+        </div>
+        ${mnemonic}
+        <div class="kn-body">
+          <div class="kn-body-inner">
+            ${linkifyNotes(n.html)}
+            <div class="kn-meta"><span>${n.source || ''}</span><span>${n.date || ''}</span></div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+document.getElementById('searchInput').addEventListener('input', renderNotes);
+renderChips();
+renderNotes();
+</script>
+</body>
+</html>
