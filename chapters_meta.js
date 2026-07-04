@@ -8,61 +8,61 @@ const MEC_CHAPTERS = [
     "chapters": [
       {
         "prefix": "endo_ch01",
-        "file": "内分泌/ch01_endo_basics.html",
+        "file": "_archive/内分泌/ch01_endo_basics.html",
         "title": "MEC内分泌代謝 第1章 内分泌代謝の基本 解答解説",
         "count": 16
       },
       {
         "prefix": "endo_ch02",
-        "file": "内分泌/ch02_hypothalamus_pituitary_ant.html",
+        "file": "_archive/内分泌/ch02_hypothalamus_pituitary_ant.html",
         "title": "MEC内分泌代謝 第2章 視床下部・下垂体前葉 解答解説",
         "count": 68
       },
       {
         "prefix": "endo_ch03",
-        "file": "内分泌/ch03_posterior_pituitary.html",
+        "file": "_archive/内分泌/ch03_posterior_pituitary.html",
         "title": "MEC内分泌代謝 第3章 下垂体後葉 解答解説",
         "count": 28
       },
       {
         "prefix": "endo_ch04",
-        "file": "内分泌/ch04_thyroid.html",
+        "file": "_archive/内分泌/ch04_thyroid.html",
         "title": "MEC内分泌代謝 第4章 甲状腺 解答解説",
         "count": 79
       },
       {
         "prefix": "endo_ch05",
-        "file": "内分泌/ch05_parathyroid.html",
+        "file": "_archive/内分泌/ch05_parathyroid.html",
         "title": "MEC内分泌代謝 第5章 副甲状腺 解答解説",
         "count": 16
       },
       {
         "prefix": "endo_ch06",
-        "file": "内分泌/ch06_adrenal.html",
+        "file": "_archive/内分泌/ch06_adrenal.html",
         "title": "MEC内分泌代謝 第6章 副腎 解答解説",
         "count": 89
       },
       {
         "prefix": "endo_ch07",
-        "file": "内分泌/ch07_endocrine_tumors.html",
+        "file": "_archive/内分泌/ch07_endocrine_tumors.html",
         "title": "MEC内分泌代謝 第7章 内分泌腫瘍とIAS 解答解説",
         "count": 29
       },
       {
         "prefix": "endo_ch08",
-        "file": "内分泌/ch08_diabetes.html",
+        "file": "_archive/内分泌/ch08_diabetes.html",
         "title": "MEC内分泌代謝 第8章 糖尿病 解答解説",
         "count": 98
       },
       {
         "prefix": "endo_ch09",
-        "file": "内分泌/ch09_lipid_metabolism.html",
+        "file": "_archive/内分泌/ch09_lipid_metabolism.html",
         "title": "MEC内分泌代謝 第9章 脂質代謝 解答解説",
         "count": 41
       },
       {
         "prefix": "endo_ch10",
-        "file": "内分泌/ch10_other_metabolic.html",
+        "file": "_archive/内分泌/ch10_other_metabolic.html",
         "title": "MEC内分泌代謝 第10章 その他の代謝疾患 解答解説",
         "count": 78
       }
@@ -138,61 +138,61 @@ const MEC_CHAPTERS = [
     "chapters": [
       {
         "prefix": "circ_ch01",
-        "file": "循環器/ch01_circulatory_basics.html",
+        "file": "_archive/循環器/ch01_circulatory_basics.html",
         "title": "MEC循環器 第1章 循環器の基本 解答解説",
         "count": 77
       },
       {
         "prefix": "circ_ch02",
-        "file": "循環器/ch02_heart_failure.html",
+        "file": "_archive/循環器/ch02_heart_failure.html",
         "title": "MEC循環器 第2章 心不全 解答解説",
         "count": 50
       },
       {
         "prefix": "circ_ch03",
-        "file": "循環器/ch03_ischemic_heart.html",
+        "file": "_archive/循環器/ch03_ischemic_heart.html",
         "title": "MEC循環器 第3章 虚血性心疾患 解答解説",
         "count": 98
       },
       {
         "prefix": "circ_ch04",
-        "file": "循環器/ch04_arrhythmia.html",
+        "file": "_archive/循環器/ch04_arrhythmia.html",
         "title": "MEC循環器 第4章 不整脈 解答解説",
         "count": 76
       },
       {
         "prefix": "circ_ch05",
-        "file": "循環器/ch05_valvular.html",
+        "file": "_archive/循環器/ch05_valvular.html",
         "title": "MEC循環器 第5章 弁膜症 解答解説",
         "count": 75
       },
       {
         "prefix": "circ_ch06",
-        "file": "循環器/ch06_pericardium.html",
+        "file": "_archive/循環器/ch06_pericardium.html",
         "title": "MEC循環器 第6章 心膜 解答解説",
         "count": 65
       },
       {
         "prefix": "circ_ch07",
-        "file": "循環器/ch07_myocardium.html",
+        "file": "_archive/循環器/ch07_myocardium.html",
         "title": "MEC循環器 第7章 心筋 解答解説",
         "count": 28
       },
       {
         "prefix": "circ_ch08",
-        "file": "循環器/ch08_aorta.html",
+        "file": "_archive/循環器/ch08_aorta.html",
         "title": "MEC循環器 第8章 大動脈 解答解説",
         "count": 46
       },
       {
         "prefix": "circ_ch09",
-        "file": "循環器/ch09_peripheral_vessels.html",
+        "file": "_archive/循環器/ch09_peripheral_vessels.html",
         "title": "MEC循環器 第9章 末梢動静脈・リンパ 解答解説",
         "count": 31
       },
       {
         "prefix": "circ_ch10",
-        "file": "循環器/ch10_blood_pressure.html",
+        "file": "_archive/循環器/ch10_blood_pressure.html",
         "title": "MEC循環器 第10章 血圧異常 解答解説",
         "count": 26
       }
@@ -206,67 +206,67 @@ const MEC_CHAPTERS = [
     "chapters": [
       {
         "prefix": "dige_ch01",
-        "file": "消化器/ch01_shokakan_kihon.html",
+        "file": "_archive/消化器/ch01_shokakan_kihon.html",
         "title": "MEC消化器 第1章 消化管の基本 解答解説",
         "count": 51
       },
       {
         "prefix": "dige_ch02",
-        "file": "消化器/ch02_eiyou_kanri.html",
+        "file": "_archive/消化器/ch02_eiyou_kanri.html",
         "title": "MEC消化器 第2章 栄養管理・周術期管理 解答解説",
         "count": 38
       },
       {
         "prefix": "dige_ch03",
-        "file": "消化器/ch03_jyobu_shokakan_shukketsu.html",
+        "file": "_archive/消化器/ch03_jyobu_shokakan_shukketsu.html",
         "title": "MEC消化器 第3章 上部消化管出血 解答解説",
         "count": 78
       },
       {
         "prefix": "dige_ch04",
-        "file": "消化器/ch04_shokudo.html",
+        "file": "_archive/消化器/ch04_shokudo.html",
         "title": "MEC消化器 第4章 食道 解答解説",
         "count": 52
       },
       {
         "prefix": "dige_ch05",
-        "file": "消化器/ch05_i.html",
+        "file": "_archive/消化器/ch05_i.html",
         "title": "MEC消化器 第5章 胃 解答解説",
         "count": 55
       },
       {
         "prefix": "dige_ch06",
-        "file": "消化器/ch06_kansen_chouen.html",
+        "file": "_archive/消化器/ch06_kansen_chouen.html",
         "title": "MEC消化器 第6章 感染性腸炎 解答解説",
         "count": 53
       },
       {
         "prefix": "dige_ch07",
-        "file": "消化器/ch07_enshoseityo_kino.html",
+        "file": "_archive/消化器/ch07_enshoseityo_kino.html",
         "title": "MEC消化器 第7章 炎症性腸疾患と機能性消化管障害 解答解説",
         "count": 41
       },
       {
         "prefix": "dige_ch08",
-        "file": "消化器/ch08_ileus_kyoketsu.html",
+        "file": "_archive/消化器/ch08_ileus_kyoketsu.html",
         "title": "MEC消化器 第8章 イレウスと虚血 解答解説",
         "count": 44
       },
       {
         "prefix": "dige_ch09",
-        "file": "消化器/ch09_cho_shuyo.html",
+        "file": "_archive/消化器/ch09_cho_shuyo.html",
         "title": "MEC消化器 第9章 腸腫瘍 解答解説",
         "count": 46
       },
       {
         "prefix": "dige_ch10",
-        "file": "消化器/ch10_komonbu.html",
+        "file": "_archive/消化器/ch10_komonbu.html",
         "title": "MEC消化器 第10章 肛門 解答解説",
         "count": 15
       },
       {
         "prefix": "dige_ch11",
-        "file": "消化器/ch11_yokakumaku_fukumaku_fukuheki.html",
+        "file": "_archive/消化器/ch11_yokakumaku_fukumaku_fukuheki.html",
         "title": "MEC消化器 第11章 横隔膜・腹膜・腹壁 解答解説",
         "count": 28
       }
@@ -280,67 +280,67 @@ const MEC_CHAPTERS = [
     "chapters": [
       {
         "prefix": "neur_ch01",
-        "file": "神経/ch01_neuro_basics.html",
+        "file": "_archive/神経/ch01_neuro_basics.html",
         "title": "MEC神経 第1章 神経の基本 解答解説",
         "count": 70
       },
       {
         "prefix": "neur_ch02",
-        "file": "神経/ch02_cranial_nerves.html",
+        "file": "_archive/神経/ch02_cranial_nerves.html",
         "title": "MEC神経 第2章 脳神経 解答解説",
         "count": 67
       },
       {
         "prefix": "neur_ch03",
-        "file": "神経/ch03_cerebrovascular.html",
+        "file": "_archive/神経/ch03_cerebrovascular.html",
         "title": "MEC神経 第3章 脳血管障害 解答解説",
         "count": 106
       },
       {
         "prefix": "neur_ch04",
-        "file": "神経/ch04_higher_brain.html",
+        "file": "_archive/神経/ch04_higher_brain.html",
         "title": "MEC神経 第4章 高次脳機能障害 解答解説",
         "count": 26
       },
       {
         "prefix": "neur_ch05",
-        "file": "神経/ch05_dementia_parkinsonism.html",
+        "file": "_archive/神経/ch05_dementia_parkinsonism.html",
         "title": "MEC神経 第5章 認知症とParkinsonism 解答解説",
         "count": 74
       },
       {
         "prefix": "neur_ch06",
-        "file": "神経/ch06_motor_neuron_demyelination.html",
+        "file": "_archive/神経/ch06_motor_neuron_demyelination.html",
         "title": "MEC神経 第6章 運動ニューロン障害と脱髄 解答解説",
         "count": 37
       },
       {
         "prefix": "neur_ch07",
-        "file": "神経/ch07_peripheral_nerve_nmj_muscle.html",
+        "file": "_archive/神経/ch07_peripheral_nerve_nmj_muscle.html",
         "title": "MEC神経 第7章 末梢神経・NMJ・筋 解答解説",
         "count": 62
       },
       {
         "prefix": "neur_ch08",
-        "file": "神経/ch08_neuro_infection.html",
+        "file": "_archive/神経/ch08_neuro_infection.html",
         "title": "MEC神経 第8章 神経感染症 解答解説",
         "count": 47
       },
       {
         "prefix": "neur_ch09",
-        "file": "神経/ch09_functional.html",
+        "file": "_archive/神経/ch09_functional.html",
         "title": "MEC神経 第9章 機能性疾患 解答解説",
         "count": 41
       },
       {
         "prefix": "neur_ch10",
-        "file": "神経/ch10_traumatic_intracranial.html",
+        "file": "_archive/神経/ch10_traumatic_intracranial.html",
         "title": "MEC神経 第10章 外傷性頭蓋内出血 解答解説",
         "count": 29
       },
       {
         "prefix": "neur_ch11",
-        "file": "神経/ch11_brain_tumor.html",
+        "file": "_archive/神経/ch11_brain_tumor.html",
         "title": "MEC神経 第11章 脳腫瘍 解答解説",
         "count": 35
       }
@@ -410,37 +410,37 @@ const MEC_CHAPTERS = [
     "chapters": [
       {
         "prefix": "jinzo_d_ch01",
-        "file": "腎臓/ch01_jinzo_腎臓の基本.html",
+        "file": "_archive/腎臓/ch01_jinzo_腎臓の基本.html",
         "title": "MEC腎臓 第1章 腎臓の基本 解答解説",
         "count": 48
       },
       {
         "prefix": "jinzo_d_ch02",
-        "file": "腎臓/ch02_jinzo_血液浄化療法と移植.html",
+        "file": "_archive/腎臓/ch02_jinzo_血液浄化療法と移植.html",
         "title": "MEC腎臓 第2章 血液浄化療法と移植 解答解説",
         "count": 26
       },
       {
         "prefix": "jinzo_d_ch03",
-        "file": "腎臓/ch03_jinzo_体液・電解質・酸塩基.html",
+        "file": "_archive/腎臓/ch03_jinzo_体液・電解質・酸塩基.html",
         "title": "MEC腎臓 第3章 体液・電解質・酸塩基 解答解説",
         "count": 75
       },
       {
         "prefix": "jinzo_d_ch04",
-        "file": "腎臓/ch04_jinzo_腎不全.html",
+        "file": "_archive/腎臓/ch04_jinzo_腎不全.html",
         "title": "MEC腎臓 第4章 腎不全 解答解説",
         "count": 36
       },
       {
         "prefix": "jinzo_d_ch05",
-        "file": "腎臓/ch05_jinzo_糸球体腎炎.html",
+        "file": "_archive/腎臓/ch05_jinzo_糸球体腎炎.html",
         "title": "MEC腎臓 第5章 糸球体腎炎 解答解説",
         "count": 96
       },
       {
         "prefix": "jinzo_d_ch06",
-        "file": "腎臓/ch06_jinzo_その他の腎疾患.html",
+        "file": "_archive/腎臓/ch06_jinzo_その他の腎疾患.html",
         "title": "MEC腎臓 第6章 その他の腎疾患 解答解説",
         "count": 34
       }
@@ -454,49 +454,49 @@ const MEC_CHAPTERS = [
     "chapters": [
       {
         "prefix": "hema_ch01",
-        "file": "血液/ch01_blood_basics.html",
+        "file": "_archive/血液/ch01_blood_basics.html",
         "title": "MEC血液 第1章 血液の基本 解答解説",
         "count": 39
       },
       {
         "prefix": "hema_ch02",
-        "file": "血液/ch02_chemo_transfusion.html",
+        "file": "_archive/血液/ch02_chemo_transfusion.html",
         "title": "MEC血液 第2章 化学療法・輸血・移植 解答解説",
         "count": 33
       },
       {
         "prefix": "hema_ch03",
-        "file": "血液/ch03_anemia_general.html",
+        "file": "_archive/血液/ch03_anemia_general.html",
         "title": "MEC血液 第3章 貧血総論 解答解説",
         "count": 37
       },
       {
         "prefix": "hema_ch04",
-        "file": "血液/ch04_hemolytic_anemia.html",
+        "file": "_archive/血液/ch04_hemolytic_anemia.html",
         "title": "MEC血液 第4章 溶血性貧血 解答解説",
         "count": 52
       },
       {
         "prefix": "hema_ch05",
-        "file": "血液/ch05_leukemia.html",
+        "file": "_archive/血液/ch05_leukemia.html",
         "title": "MEC血液 第5章 白血病 解答解説",
         "count": 53
       },
       {
         "prefix": "hema_ch06",
-        "file": "血液/ch06_bone_marrow.html",
+        "file": "_archive/血液/ch06_bone_marrow.html",
         "title": "MEC血液 第6章 骨髄の機能亢進と低下 解答解説",
         "count": 50
       },
       {
         "prefix": "hema_ch07",
-        "file": "血液/ch07_lymphoma_myeloma.html",
+        "file": "_archive/血液/ch07_lymphoma_myeloma.html",
         "title": "MEC血液 第7章 リンパ腫・骨髄腫 解答解説",
         "count": 55
       },
       {
         "prefix": "hema_ch08",
-        "file": "血液/ch08_coagulation.html",
+        "file": "_archive/血液/ch08_coagulation.html",
         "title": "MEC血液 第8章 血小板・凝固系の異常 解答解説",
         "count": 59
       }
@@ -510,31 +510,31 @@ const MEC_CHAPTERS = [
     "chapters": [
       {
         "prefix": "imma_ch01",
-        "file": "免アレ膠/ch01_immare.html",
+        "file": "_archive/免アレ膠/ch01_immare.html",
         "title": "MEC免アレ膠 第1章 免疫の基本 解答解説",
         "count": 42
       },
       {
         "prefix": "imma_ch02",
-        "file": "免アレ膠/ch02_immare.html",
+        "file": "_archive/免アレ膠/ch02_immare.html",
         "title": "MEC免アレ膠 第2章 アレルギー分類 解答解説",
         "count": 37
       },
       {
         "prefix": "imma_ch03",
-        "file": "免アレ膠/ch03_immare.html",
+        "file": "_archive/免アレ膠/ch03_immare.html",
         "title": "MEC免アレ膠 第3章 リウマチと類縁疾患 解答解説",
         "count": 40
       },
       {
         "prefix": "imma_ch04",
-        "file": "免アレ膠/ch04_immare.html",
+        "file": "_archive/免アレ膠/ch04_immare.html",
         "title": "MEC免アレ膠 第4章 結合組織疾患 解答解説",
         "count": 78
       },
       {
         "prefix": "imma_ch05",
-        "file": "免アレ膠/ch05_immare.html",
+        "file": "_archive/免アレ膠/ch05_immare.html",
         "title": "MEC免アレ膠 第5章 血管炎 解答解説",
         "count": 50
       }
@@ -598,79 +598,79 @@ const MEC_CHAPTERS = [
     "chapters": [
       {
         "prefix": "peds_ch01",
-        "file": "小児科/ch01_seicho_hattatsu.html",
+        "file": "_archive/小児科/ch01_seicho_hattatsu.html",
         "title": "第1章 成長と発達",
         "count": 74
       },
       {
         "prefix": "peds_ch02",
-        "file": "小児科/ch02_shinseiji.html",
+        "file": "_archive/小児科/ch02_shinseiji.html",
         "title": "第2章 新生児",
         "count": 32
       },
       {
         "prefix": "peds_ch03",
-        "file": "小児科/ch03_senten_ijou.html",
+        "file": "_archive/小児科/ch03_senten_ijou.html",
         "title": "第3章 先天異常",
         "count": 33
       },
       {
         "prefix": "peds_ch04",
-        "file": "小児科/ch04_shonika_shinkei.html",
+        "file": "_archive/小児科/ch04_shonika_shinkei.html",
         "title": "第4章 小児の神経",
         "count": 34
       },
       {
         "prefix": "peds_ch05",
-        "file": "小児科/ch05_shonika_junkanki.html",
+        "file": "_archive/小児科/ch05_shonika_junkanki.html",
         "title": "第5章 小児の循環器",
         "count": 25
       },
       {
         "prefix": "peds_ch06",
-        "file": "小児科/ch06_shonika_kokyuki.html",
+        "file": "_archive/小児科/ch06_shonika_kokyuki.html",
         "title": "第6章 小児の呼吸器",
         "count": 22
       },
       {
         "prefix": "peds_ch07",
-        "file": "小児科/ch07_shonika_kansen.html",
+        "file": "_archive/小児科/ch07_shonika_kansen.html",
         "title": "第7章 小児の感染症",
         "count": 26
       },
       {
         "prefix": "peds_ch08",
-        "file": "小児科/ch08_shonika_shokakan.html",
+        "file": "_archive/小児科/ch08_shonika_shokakan.html",
         "title": "第8章 小児の消化管",
         "count": 29
       },
       {
         "prefix": "peds_ch09",
-        "file": "小児科/ch09_shonika_kantanmi.html",
+        "file": "_archive/小児科/ch09_shonika_kantanmi.html",
         "title": "第9章 小児の肝胆膵",
         "count": 8
       },
       {
         "prefix": "peds_ch10",
-        "file": "小児科/ch10_shonika_naibunpitsu.html",
+        "file": "_archive/小児科/ch10_shonika_naibunpitsu.html",
         "title": "第10章 小児の内分泌代謝",
         "count": 32
       },
       {
         "prefix": "peds_ch11",
-        "file": "小児科/ch11_shonika_jinzo.html",
+        "file": "_archive/小児科/ch11_shonika_jinzo.html",
         "title": "第11章 小児の腎・泌尿器",
         "count": 12
       },
       {
         "prefix": "peds_ch12",
-        "file": "小児科/ch12_shonika_immare.html",
+        "file": "_archive/小児科/ch12_shonika_immare.html",
         "title": "第12章 小児の免疫・膠原病・アレルギー",
         "count": 21
       },
       {
         "prefix": "peds_ch13",
-        "file": "小児科/ch13_shonika_sonota.html",
+        "file": "_archive/小児科/ch13_shonika_sonota.html",
         "title": "第13章 その他の重要疾患",
         "count": 25
       }
@@ -681,66 +681,66 @@ const MEC_CHAPTER_META = {
   "peds_ch01": {
     "count": 74,
     "title": "第1章 成長と発達",
-    "file": "小児科/ch01_seicho_hattatsu.html"
+    "file": "_archive/小児科/ch01_seicho_hattatsu.html"
   },
   "peds_ch02": {
     "count": 32,
     "title": "第2章 新生児",
-    "file": "小児科/ch02_shinseiji.html"
+    "file": "_archive/小児科/ch02_shinseiji.html"
   },
   "peds_ch03": {
     "count": 33,
     "title": "第3章 先天異常",
-    "file": "小児科/ch03_senten_ijou.html"
+    "file": "_archive/小児科/ch03_senten_ijou.html"
   },
   "peds_ch04": {
     "count": 34,
     "title": "第4章 小児の神経",
-    "file": "小児科/ch04_shonika_shinkei.html"
+    "file": "_archive/小児科/ch04_shonika_shinkei.html"
   },
   "peds_ch05": {
     "count": 25,
     "title": "第5章 小児の循環器",
-    "file": "小児科/ch05_shonika_junkanki.html"
+    "file": "_archive/小児科/ch05_shonika_junkanki.html"
   },
   "peds_ch06": {
     "count": 22,
     "title": "第6章 小児の呼吸器",
-    "file": "小児科/ch06_shonika_kokyuki.html"
+    "file": "_archive/小児科/ch06_shonika_kokyuki.html"
   },
   "peds_ch07": {
     "count": 26,
     "title": "第7章 小児の感染症",
-    "file": "小児科/ch07_shonika_kansen.html"
+    "file": "_archive/小児科/ch07_shonika_kansen.html"
   },
   "peds_ch08": {
     "count": 29,
     "title": "第8章 小児の消化管",
-    "file": "小児科/ch08_shonika_shokakan.html"
+    "file": "_archive/小児科/ch08_shonika_shokakan.html"
   },
   "peds_ch09": {
     "count": 8,
     "title": "第9章 小児の肝胆膵",
-    "file": "小児科/ch09_shonika_kantanmi.html"
+    "file": "_archive/小児科/ch09_shonika_kantanmi.html"
   },
   "peds_ch10": {
     "count": 32,
     "title": "第10章 小児の内分泌代謝",
-    "file": "小児科/ch10_shonika_naibunpitsu.html"
+    "file": "_archive/小児科/ch10_shonika_naibunpitsu.html"
   },
   "peds_ch11": {
     "count": 12,
     "title": "第11章 小児の腎・泌尿器",
-    "file": "小児科/ch11_shonika_jinzo.html"
+    "file": "_archive/小児科/ch11_shonika_jinzo.html"
   },
   "peds_ch12": {
     "count": 21,
     "title": "第12章 小児の免疫・膠原病・アレルギー",
-    "file": "小児科/ch12_shonika_immare.html"
+    "file": "_archive/小児科/ch12_shonika_immare.html"
   },
   "peds_ch13": {
     "count": 25,
     "title": "第13章 その他の重要疾患",
-    "file": "小児科/ch13_shonika_sonota.html"
+    "file": "_archive/小児科/ch13_shonika_sonota.html"
   }
 };
