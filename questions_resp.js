@@ -327,6 +327,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "HOTの<span class=\"kw\">最大適応はCOPD</span>。CO₂貯留があっても禁忌ではない。目標SpO₂ ≥ 90%。"
+            },
+            {
+              "cls": "ei",
+              "h": "🖼️ 画像所見",
+              "c": "<ul><li>X線(A)：両側肺野の過膨張、横隔膜平低化、肋間腔拡大→肺気腫（COPD）パターン</li><li>CT(B)：両上葉優位に多発低吸収域（ブラ・気腫性変化）、血管陰影減少→重度肺気腫</li></ul>"
             }
           ],
           "imgs": [
@@ -438,6 +443,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "術後<span class=\"kw\">片側横隔膜挙上 + 深呼吸不可 → 横隔神経麻痺</span>。反回神経麻痺は嗄声が主訴。"
+            },
+            {
+              "cls": "ei",
+              "h": "🖼️ 画像所見",
+              "c": "<ul><li>術前：前縦隔〜左肺門部に大きな腫瘤影</li><li>術後：左横隔膜の著明な挙上、左肺容積減少→左横隔神経（phrenic nerve）損傷を示唆</li></ul>"
             }
           ],
           "imgs": [
@@ -728,6 +738,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw\">膜様部に軟骨なし</span> + <span class=\"kw\">気管支内腔腫瘤→閉塞性肺炎</span>は鉄板。"
+            },
+            {
+              "cls": "ei",
+              "h": "🖼️ 気管支内視鏡画像所見",
+              "c": "<ul><li>画像A（気管分岐部）：①=右主気管支（内腔広く短い）、②=後壁の膜様部（軟骨なし・平滑）</li><li>画像B（①の腔内）：④=右主気管支内腔に突出する白色隆起性腫瘤→腫瘤性病変→閉塞性肺炎の原因</li></ul>"
             }
           ],
           "imgs": [
@@ -878,6 +893,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 胸部CT必修ランドマーク",
               "c": "<span class=\"kw\">肺静脈</span>は小葉間隔壁を走行し左心房へ。<span class=\"kw\">下行大動脈</span>は後縦隔左側。気管支・肺動脈は<span class=\"kw\">気管支血管束</span>として並走（小葉中心部）。"
+            },
+            {
+              "cls": "ei",
+              "h": "🖼️ 胸部CT横断像－典型的構造",
+              "c": "<ul><li>①：右主気管支（前方右側）</li><li>②：左上葉気管支起始部</li><li>③：後方左側の丸い構造 → <span style=\"color:#FFD54F\">実際は下行大動脈（胸部大動脈）。左下肺静脈ではない→これが誤り</span></li><li>④：後縦隔中央：食道</li><li>⑤：左側外側：葉間胸膜</li></ul>"
             }
           ],
           "imgs": [
@@ -931,6 +951,11 @@ window["_cardJSON_resp"]={
               "cls": "ee",
               "h": "📋 Flow-Volume曲線パターン",
               "c": "<table class=\"tb\"><tr><th>疾患</th><th>特徴</th></tr><tr><td><span class=\"kw\">COPD（閉塞性）</span></td><td>呼気曲線が凹（Scoop）、RVシフト右方</td></tr><tr><td>拘束性</td><td>ループ全体が小さい、急峻な呼気曲線</td></tr><tr><td>胸腔外上気道閉塞</td><td>吸気部分平坦化</td></tr><tr><td>胸腔内上気道閉塞</td><td>呼気部分平坦化</td></tr></table>"
+            },
+            {
+              "cls": "ei",
+              "h": "🖼️ Flow-Volume曲線パターン",
+              "c": "<ul><li>①：小さなループ（拘束性：VC↓）</li><li>②：正常下限</li><li><span style=\"color:#FFD54F\">③：呼気曲線が凹（Scoop pattern）、RVが右方偏位 → COPD/閉塞性パターン</span></li><li>④：正常</li><li>⑤：大きな正常ループ</li></ul>"
             }
           ],
           "imgs": [
@@ -1549,6 +1574,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw\">喘息治療に反応しない喘鳴 + CT上腫瘤 = 気管支内腔腫瘍</span>（中枢型肺癌・カルチノイド）。局所的・固定性のwheezesは一側性・単一部位→<span class=\"kw\">気管支鏡精査が必要</span>。"
+            },
+            {
+              "cls": "ei",
+              "h": "🖼️ CT所見",
+              "c": "<ul><li>左下葉に境界比較的明瞭な円形〜楕円形の腫瘤影</li><li>腫瘤が左下葉気管支を圧排・閉塞している可能性</li><li>喘息治療不応の局所性呼吸困難→原発性肺腫瘍（カルチノイド・肺癌）を示唆</li></ul>"
             }
           ],
           "imgs": [
@@ -1739,6 +1769,11 @@ window["_cardJSON_resp"]={
               "cls": "em",
               "h": "💡 Silhouette Signの覚え方",
               "c": "<table class=\"tb\"><tr><th>不明瞭になる境界</th><th>対応する肺区域</th></tr><tr><td>右心境界</td><td><span class=\"kw\">右中葉（内側区）</span></td></tr><tr><td>右横隔膜</td><td>右下葉（内側基底区）</td></tr><tr><td>左心境界</td><td><span class=\"kw\">左舌区（上葉）</span></td></tr><tr><td>左横隔膜</td><td>左下葉（前内側基底区）</td></tr><tr><td>上行大動脈</td><td>右上葉（前区）</td></tr></table>"
+            },
+            {
+              "cls": "ei",
+              "h": "🖼️ 画像所見",
+              "c": "<ul><li>X線(A)：右心境界が不明瞭（<span style=\"color:#FFD54F\">Silhouette Sign陽性</span>）→右中葉（心臓と同一前後面）の病変を示唆</li><li>CT(B)：右肺前方（心臓に接する部位）に腫瘤・浸潤影→右中葉（RML）の病変として矛盾なし</li></ul>"
             }
           ],
           "imgs": [
@@ -2289,6 +2324,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw\">Carina = 鋭い隆起、左主気管支 = 細い・水平</span>。②（左主気管支）が正解。"
+            },
+            {
+              "cls": "ei",
+              "h": "🖼️ 気管支内視鏡解剖",
+              "c": "<ul><li>①：気管分岐部またはCarina側</li><li>②：左主気管支入口部（左側に開口）</li><li>③：右上葉支入口部（右主気管支の最初の分岐）</li><li>④：気管軟骨輪の凸部</li><li><span style=\"color:#FFD54F\">⑤：中間幹（bronchus intermedius）= 右主気管支から右上葉支が分岐した後の幹部（中葉支＋下葉支へ続く）</span></li></ul>"
             }
           ],
           "imgs": [
@@ -3293,6 +3333,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "全摘術後7ヶ月：残存肺（右肺）は代償性過膨張。<span class=\"kw\">術側（左）の呼吸音は消失</span>。縦隔は術側に偏位。d：心濁音界は左方偏位するが「拡大」はしない。c：肺肝境界消失は右中葉病変のsilhouette sign（今回は無関係）。"
+            },
+            {
+              "cls": "ei",
+              "h": "🖼️ 胸部X線所見（左肺全摘術後7ヶ月）",
+              "c": "<ul><li>左胸腔：術後変化として線維化・液体貯留が進み白く不透明な均一陰影→左肺が存在しない</li><li>縦隔・心臓は左へシフト（左に引き寄せられた状態）</li><li>右肺：代償性過膨張</li><li><span style=\"color:#FFD54F\">左胸部では肺がないため呼吸音は消失または著明に減弱</span></li></ul>"
             }
           ],
           "imgs": [
@@ -3492,6 +3537,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "溺水・敗血症・誤嚥・外傷などで<span class=\"kw\">ARDS</span>。P/F比：&lt;100重症、100〜200中等症、200〜300軽症。治療の柱は<span class=\"kw\">PEEPと低1回換気量（肺保護換気）</span>。"
+            },
+            {
+              "cls": "ei",
+              "h": "🖼️ 画像所見（溺水後ARDS）",
+              "c": "<ul><li>X線(A)：両側肺野びまん性の白い浸潤影（\"white lung\"）→ 非心原性肺水腫・ARDSパターン</li><li>CT(B)：両側広範な浸潤影（dependent部優位）・透過性低下・一部気腫性変化</li></ul>"
             }
           ],
           "imgs": [
@@ -3661,6 +3711,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "ARDS = <span class=\"kw\">非心原性肺水腫</span>（心原性否定が重要）。ピンク色泡沫状分泌物は肺水腫のサインだが、心エコー正常→ARDS。P/F &lt; 100 = 重症ARDS。"
+            },
+            {
+              "cls": "ei",
+              "h": "🖼️ 胸部X線所見（ICU患者）",
+              "c": "<ul><li>両側広範な浸潤影（均一、white lung）</li><li>PEEP 5cm H₂Oにもかかわらず酸素化改善不良</li><li>心臓拡大は認めない（心原性肺水腫を否定）</li></ul>"
             }
           ],
           "imgs": [
@@ -3724,6 +3779,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "PEEPは<span class=\"kw\">肺胞虚脱防止</span>。Driving pressure = ピーク圧 − PEEP = 1回換気量の効果を決める指標（⑤）。PEEPと混同しないこと。"
+            },
+            {
+              "cls": "ei",
+              "h": "🖼️ 気道内圧波形の読み方",
+              "c": "<ul><li>①：ピーク気道内圧（吸気最高圧）</li><li>②：吸気時間</li><li>③：呼気時間</li><li><span style=\"color:#FFD54F\">④：PEEP（呼気終末陽圧）= 呼気終末でも一定の正圧を維持→肺胞虚脱を防ぐ</span></li><li>⑤：吸気圧とPEEPの差 = driving pressure</li></ul>"
             }
           ],
           "imgs": [
@@ -3787,6 +3847,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "COPD急性増悪II型呼吸不全→<span class=\"kw\">NIPPVが第一選択</span>。aは急性期に無意味。cのみ流量を増やしてもCO₂は改善しない。eのアミノグリコシドは肺炎球菌には無効。"
+            },
+            {
+              "cls": "ei",
+              "h": "🖼️ 画像所見",
+              "c": "<ul><li>CT(A)：両肺に浸潤影（右中下葉優位）→肺炎球菌性肺炎がCOPD急性増悪のトリガー</li><li>Gram染色(B)：グラム陽性双球菌（乳白色の大型双球菌）→Streptococcus pneumoniaeを示唆</li></ul>"
             }
           ],
           "imgs": [
@@ -3846,6 +3911,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "大量胸水排液後の急速悪化→<span class=\"kw\">再膨張性肺水腫</span>を考える。すでに気管挿管→<span class=\"kw\">CPPV（PEEP付き陽圧換気）</span>が最適。NPPV（c）は挿管後には適用不可。胸水は最大1,000〜1,500 mL/回までの排液が推奨（それ以上は再膨張性肺水腫リスク）。"
+            },
+            {
+              "cls": "ei",
+              "h": "🖼️ 画像所見（再膨張性肺水腫）",
+              "c": "<ul><li>来院時(A左)：左胸腔に大量胸水、縦隔右偏位</li><li>穿刺1時間後(A右)：左胸水消退→左肺が急速再膨張→左肺に新たな浸潤影</li><li>CT(B)：左肺に広範な浸潤影（再膨張性肺水腫パターン）</li></ul>"
             }
           ],
           "imgs": [
@@ -4878,6 +4948,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "ピンク色泡沫状痰 = 肺水腫のサイン。<span class=\"kw\">心エコー正常</span>→心原性除外→ARDS。P/F &lt; 100 = 重症ARDS。ほぼQ76と同じ問題（2回出題される重要テーマ）。"
+            },
+            {
+              "cls": "ei",
+              "h": "🖼️ 胸部X線所見",
+              "c": "<ul><li>両側広範な浸潤影（均一・びまん性）</li><li>気管挿管後の撮影→チューブ先端位置確認</li><li>心臓拡大は目立たない（心原性を否定）</li></ul>"
             }
           ],
           "imgs": [

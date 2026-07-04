@@ -7146,7 +7146,18 @@
           ],
           "ans_label": "d　PT<40%かつ肝性脳症（II度以上）で診断される",
           "ans_sub": "",
-          "eg": [],
+          "eg": [
+            {
+              "cls": "ee",
+              "h": "📋 劇症肝炎の診断・治療まとめ（Q79・Q90・Q125と同テーマ）",
+              "c": "<table class=\"tb\"><tr><th>項目</th><th>内容</th></tr><tr><td>診断基準</td><td><span class=\"kw\">PT&lt;40%＋肝性脳症II度以上</span></td></tr><tr><td>急性型</td><td>肝炎発症8週以内に脳症出現</td></tr><tr><td>亜急性型</td><td>8〜24週以内に脳症出現</td></tr><tr><td>治療</td><td><span class=\"kw\">血漿交換（PE）・CHDF→肝移植</span></td></tr><tr><td>予後</td><td><span class=\"kw\">内科治療での生存率&lt;30%（肝移植なしでは予後不良）</span></td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "劇症肝炎の診断：<span class=\"kw\">PT&lt;40%＋脳症（II度以上）</span>。肝移植が唯一の根治療法。早期の評価が予後を左右。"
+            }
+          ],
           "imgs": []
         },
         {

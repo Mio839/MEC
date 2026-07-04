@@ -1,4 +1,4 @@
-const CACHE = "mec-v18";
+const CACHE = "mec-v19";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
