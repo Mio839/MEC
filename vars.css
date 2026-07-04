@@ -1,0 +1,57 @@
+/* MEC shared CSS custom properties */
+.qt-context {
+  display:block;
+  background:rgba(96,165,250,0.08);
+  border-left:3px solid rgba(96,165,250,0.4);
+  padding:6px 10px;
+  margin-bottom:6px;
+  font-size:.9em;
+  color:var(--ts);
+  border-radius:0 4px 4px 0;
+  white-space:pre-line;
+}
+.series-label {
+  display:inline-block;
+  background:rgba(255,255,255,0.15);
+  color:#fff;
+  font-size:.75em;
+  font-weight:700;
+  padding:1px 6px;
+  border-radius:3px;
+  margin-bottom:4px;
+  margin-right:4px;
+  vertical-align:middle;
+  letter-spacing:.03em;
+}
+.badge-series {
+  display:inline-block;
+  background:var(--or);
+  color:#fff;
+  font-size:.72em;
+  font-weight:700;
+  padding:1px 5px;
+  border-radius:3px;
+  margin-left:5px;
+  vertical-align:middle;
+  letter-spacing:.02em;
+  cursor:help;
+}
+/* Fixed page gradient — shows through transparent/glass elements */
+html::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,#070C1A 0%,#0D1B35 50%,#0A1E40 100%);
+  z-index:-1;
+}
+:root {
+  --nv:#1E3F72; --nvl:#2A5494;
+  --gr:#3DD68C; --grl:rgba(61,214,140,0.12);
+  --yl:#FFB830; --yll:rgba(255,184,48,0.12);
+  --rd:#FF6B6B; --rdl:rgba(255,107,107,0.12);
+  --pu:#A78BFA; --pul:rgba(167,139,250,0.12);
+  --bl:rgba(96,165,250,0.15);
+  --gb:rgba(255,255,255,0.04); --cb:rgba(255,255,255,0.07);
+  --bd:rgba(255,255,255,0.12); --tx:#E2EAF4; --ts:#8099B8;
+  --or:#FF9A3C; --orl:rgba(255,154,60,0.12); --ord:#FFB870;
+}

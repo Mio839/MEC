@@ -1,0 +1,500 @@
+﻿<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MEC血液 第2章 化学療法・輸血・移植 解答解説</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../vars.css">
+<style>
+:root{--or:#C0392B;--orl:#FDEAEA;--ord:#922B21;}
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--gb);color:var(--tx);font-size:14px;line-height:1.7;}
+#pb{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--or),var(--yl));z-index:9999;transition:width .1s;}
+.ph{background:linear-gradient(135deg,var(--nv) 0%,var(--nvl) 100%);color:#fff;padding:36px 24px 28px;position:relative;overflow:hidden;}
+.ph::before{content:'';position:absolute;bottom:-2px;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--or),var(--yl),var(--or));}
+.ph::after{content:'血';position:absolute;right:-10px;top:-20px;font-size:160px;font-weight:900;color:rgba(255,255,255,.04);pointer-events:none;}
+.hb{display:inline-block;background:var(--or);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;}
+.ph h1{font-size:24px;font-weight:900;margin-bottom:6px;}.ph h1 span{color:var(--yl);}
+.hs{font-size:12px;color:rgba(255,255,255,.6);margin-top:6px;}
+.hst{display:flex;gap:16px;margin-top:16px;flex-wrap:wrap;}
+.sp{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;font-size:12px;}
+.sp strong{color:var(--yl);font-size:15px;font-weight:700;margin-right:4px;}
+.sn{position:sticky;top:0;z-index:100;background:#fff;border-bottom:2px solid var(--or);padding:7px 14px;display:flex;gap:5px;overflow-x:auto;box-shadow:0 2px 8px rgba(0,0,0,.08);scrollbar-width:none;}
+.sn::-webkit-scrollbar{display:none;}
+.nb{flex-shrink:0;background:none;border:1.5px solid var(--bd);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;color:var(--ts);transition:all .2s;white-space:nowrap;}
+.nb:hover,.nb.active{background:var(--or);border-color:var(--or);color:#fff;}
+.ct{max-width:900px;margin:0 auto;padding:20px 14px 60px;}
+.sh{display:flex;align-items:center;gap:10px;background:var(--nv);color:#fff;padding:12px 18px;border-radius:10px;margin:28px 0 14px;}
+.sh .snum{background:var(--or);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;flex-shrink:0;}
+.sh h2{font-size:14px;font-weight:700;}
+.sh .sc{margin-left:auto;background:rgba(255,255,255,.15);border-radius:12px;padding:2px 10px;font-size:11px;flex-shrink:0;}
+.qc{background:var(--cb);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:14px;border-left:4px solid var(--or);overflow:hidden;transition:box-shadow .2s;}
+.qc:hover{box-shadow:0 5px 20px rgba(0,0,0,.12);}
+.qh{display:flex;align-items:center;gap:7px;padding:11px 15px 7px;flex-wrap:wrap;border-bottom:1px solid var(--gb);}
+.qn{font-size:14px;font-weight:900;color:var(--nv);min-width:30px;}
+.qe{font-size:11px;color:var(--ts);}
+.bg{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;}
+.bs{background:#FFF3CD;color:#B45309;border:1px solid #F5D87A;}
+.bc{background:#E8F4FD;color:#1565C0;border:1px solid #90CAF9;}
+.bh{background:#FCE4EC;color:#C62828;border:1px solid #F48FB1;}
+.bi{background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8;}
+.bk{background:#E8F5E9;color:#1B5E20;border:1px solid #A5D6A7;}
+.bm{background:#FFF8E1;color:#E65100;border:1px solid #FFCC80;}
+.cr{margin-left:auto;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;flex-shrink:0;}
+.ch{background:var(--grl);color:var(--gr);border:1px solid #A5D6A7;}
+.cm{background:var(--yll);color:#92660A;border:1px solid #FFD54F;}
+.cl{background:var(--rdl);color:var(--rd);border:1px solid #EF9A9A;}
+.qb{padding:11px 15px 14px;}
+.qt{font-size:13.5px;line-height:1.75;margin-bottom:9px;}
+.qt strong{color:var(--ord);}
+.cs{background:var(--gb);border-radius:6px;padding:9px 13px;margin-bottom:11px;}
+.ch2{font-size:13px;padding:2px 0;line-height:1.6;}
+.ch2.ok{color:var(--gr);font-weight:700;}
+.ab{background:var(--grl);border:1.5px solid #81C784;border-radius:8px;padding:9px 13px;margin-bottom:11px;display:flex;align-items:flex-start;gap:7px;}
+.ai{font-size:15px;flex-shrink:0;margin-top:1px;}
+.ac{font-size:13.5px;font-weight:700;color:var(--gr);line-height:1.5;}
+.as{font-size:12px;font-weight:400;color:#3A7D51;margin-top:2px;}
+.eg{display:grid;gap:9px;margin-top:9px;}
+.eb{border-radius:6px;padding:9px 12px;font-size:13px;line-height:1.7;}
+.eb h4{font-size:11px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:4px;text-transform:uppercase;letter-spacing:.05em;}
+.ep{background:var(--bl);border-left:3px solid #1976D2;}.ep h4{color:#1565C0;}
+.ee{background:#F0FDF4;border-left:3px solid var(--gr);}.ee h4{color:var(--gr);}
+.ept{background:linear-gradient(135deg,#FFF9F0,#FFF3E0);border:1.5px solid var(--or);border-radius:8px;}.ept h4{color:var(--ord);font-size:11px;}
+.em{background:var(--pul);border-left:3px solid var(--pu);}.em h4{color:var(--pu);}
+.ec{background:#F9FBE7;border-left:3px solid #8BC34A;font-family:monospace;font-size:13px;}.ec h4{color:#558B2F;font-family:'Noto Sans JP',sans-serif;}
+.ei{background:#212121;color:#E0E0E0;border-radius:6px;}.ei h4{color:#FFD54F;}
+.ei ul{margin-top:4px;padding-left:16px;}.ei li{font-size:12.5px;color:#BDBDBD;list-style:disc;}
+.kw{color:var(--ord);font-weight:700;}
+.kw2{color:#1565C0;font-weight:700;}
+.kw3{color:var(--gr);font-weight:700;}
+.kw4{color:var(--rd);font-weight:700;}
+.tb{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:5px;}
+.tb th{background:var(--nv);color:#fff;padding:5px 9px;text-align:left;font-weight:700;}
+.tb td{padding:4px 9px;border-bottom:1px solid var(--bd);}
+.tb tr:last-child td{border-bottom:none;}
+.tb tr:nth-child(even) td{background:var(--gb);}
+.pf{background:var(--nv);color:rgba(255,255,255,.5);text-align:center;padding:18px;font-size:12px;margin-top:40px;}
+#st{position:fixed;bottom:22px;right:22px;background:var(--or);color:#fff;border:none;border-radius:50%;width:42px;height:42px;font-size:18px;cursor:pointer;box-shadow:0 3px 12px rgba(192,57,43,.4);display:none;align-items:center;justify-content:center;z-index:500;}
+@keyframes fi{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.qc{animation:fi .3s ease both;}
+.fsep{width:1px;height:20px;background:var(--bd);margin:0 4px;flex-shrink:0;}[data-filter].fc-on{background:var(--or);border-color:var(--or);color:#fff;}[data-filter="hard"].fc-on{background:var(--rd);border-color:var(--rd);}[data-filter="mid"].fc-on{background:var(--yl);border-color:var(--yl);color:#744A00;}[data-filter="easy"].fc-on{background:var(--gr);border-color:var(--gr);}[data-filter="norate"].fc-on{background:#78909C;border-color:#78909C;color:#fff;}.filt-prog{display:flex;align-items:center;gap:8px;padding:3px 10px 5px;background:rgba(0,0,0,.12);}.filt-prog-bar{flex:1;height:6px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden;}.filt-prog-fill{height:100%;background:var(--or);border-radius:3px;transition:width .3s;}.filt-prog-txt{font-size:10px;font-weight:700;color:rgba(255,255,255,.65);white-space:nowrap;min-width:60px;text-align:right;}.qimg{cursor:zoom-in!important;transition:none!important;}
+.qimg:active{max-height:450px!important;max-width:80%!important;}
+#imgLightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9998;align-items:center;justify-content:center;cursor:zoom-out;}
+#imgLightbox.open{display:flex;}
+#imgLightbox img{max-width:95vw;max-height:90vh;border-radius:8px;object-fit:contain;}
+.compact-mode .cs,.compact-mode .ab,.compact-mode .eg{display:none!important;}
+.compact-mode .qc.compact-open .cs{display:block!important;}
+.compact-mode .qc.compact-open .ab{display:flex!important;}
+.compact-mode .qc.compact-open .eg{display:grid!important;}
+.compact-mode .qc:not(.compact-open) .qt{cursor:pointer;}
+.compact-mode .qc:not(.compact-open) .qt::after{content:" ▼";font-size:10px;opacity:.35;vertical-align:middle;}
+.nb2.compact-on{background:#2E7D32;border-color:#2E7D32;color:#fff;}
+.qc.mec-enter-active{border-left-color:var(--gr)!important;background:linear-gradient(to right,rgba(45,140,78,.08) 0%,transparent 32%);}.mec-enter-badge{display:none;background:var(--gr);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;white-space:nowrap;letter-spacing:.02em;}.qc.mec-enter-active .mec-enter-badge{display:inline-block;}
+</style>
+<link rel="stylesheet" href="../chapter_common.css">
+</head>
+<body>
+<div id="pb"></div>
+<div class="ph">
+<div class="hb">MEC臓器別講座 '26 | 血液</div>
+<h1>第<span>2</span>章｜化学療法・輸血・移植</h1>
+<div class="hs">解答・解説集 全33問</div>
+<div class="hst"><div class="sp"><strong>33</strong>問</div><div class="sp"><strong>★問題</strong> 18問</div><div class="sp"><strong>無印</strong> 15問</div></div>
+</div>
+<div class="mec-ch-prog"><a class="mec-hub-link" href="../index.html">← ハブへ</a><div class="mec-ch-prog-bar"><div class="mec-ch-prog-fill" style="width:0%"></div></div><span class="mec-ch-prog-txt">0/0</span><span class="mec-sync-badge">⚙️ 未設定</span></div><div class="sn"><button class="nb" onclick="goto('s1')">★問題</button><button class="nb" onclick="goto('s2')">B問題</button><span class="fsep"></span><button class="nb fc-on" data-filter="all" onclick="filterCards('all')">全問</button><button class="nb" data-filter="hard" onclick="filterCards('hard')">難問</button><button class="nb" data-filter="mid" onclick="filterCards('mid')">標準</button><button class="nb" data-filter="easy" onclick="filterCards('easy')">易問</button><button class="nb" data-filter="norate" onclick="filterCards('norate')">正答率なし</button><button class="nb" data-filter="star" onclick="setFilter('star')">★問題</button><button class="nb" data-filter="img" onclick="setFilter('img')">🖼️ 画像</button><span class="fsep"></span><span class="vis-count" id="visCount">—</span></div><div class="sn2"><button class="nb2 fs-on" data-state="all" onclick="setState('all')">すべて</button><button class="nb2" data-state="flag" onclick="setState('flag')">🚩 赤旗</button><button class="nb2" data-state="undone" onclick="setState('undone')">未済</button><button class="nb2" data-state="done" onclick="setState('done')">済み</button><button id="bookmarkBtn" class="nb2" style="margin-left:auto" onclick="saveBookmark()">📖 しおり</button><button id="compactBtn" class="nb2" onclick="toggleCompact()">📋 コンパクト</button></div><div class="filt-prog"><div class="filt-prog-bar"><div class="filt-prog-fill" id="filtProgFill" style="width:0%"></div></div><span class="filt-prog-txt" id="filtProgTxt">—</span></div>
+<div class="ct">
+<div id="s1"><div class="sh"><div class="snum">★</div><h2>A 問題（★問題）</h2><div class="sc">Q.40〜Q.57</div></div></div>
+<div class="qc" data-rate="66" data-uid="hema_ch02_q40" id="q40"><div class="qh"><span class="qn">Q.40</span><span class="qe">(120A-6)</span><span class="bg bs">★</span><span class="cr cm">正答率 66%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q40" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q40" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><strong>EGFR 遺伝子変異陽性の進行肺腺癌に対する治療薬であるEGFR チロシンキナーゼ阻害薬の有害事象で頻度が高い</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">ａ　脱　毛</div><div class="ch2">ｂ　貧　血</div><div class="ch2">ｃ　蛋白尿</div><div class="ch2">ｄ　副腎不全</div><div class="ch2 ok">ｅ　痤瘡様皮疹</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　痤瘡様皮疹</div><div class="as">抗PD-1抗体→irAE（免疫関連有害事象）→皮膚障害（痤瘡様皮疹）</div></div></div>
+<div class="eg">
+<div class="eb ep"><h4>💊 免疫チェックポイント阻害薬の副作用</h4><span class="kw">免疫チェックポイント阻害薬（ICIs）</span>：PD-1/PD-L1やCTLA-4を阻害→免疫活性化→腫瘍への攻撃↑。一方、<span class="kw">irAE（immune-related Adverse Events）</span>として自己免疫的な副作用が生じる。<span class="kw">皮膚障害（皮疹・白斑・痤瘡様皮疹）</span>が最も頻度が高い（30〜50%）。</div>
+<div class="eb ee"><h4>📋 ICIs主なirAEと頻度</h4><table class="tb"><tr><th>臓器</th><th>症状</th><th>頻度</th></tr><tr><td><span class="kw">皮膚</span></td><td>痤瘡様皮疹・白斑・皮膚炎</td><td>最多（30〜50%）</td></tr><tr><td>消化管</td><td>大腸炎・下痢</td><td>CTLA-4阻害薬で多い</td></tr><tr><td>内分泌</td><td>甲状腺炎・下垂体炎・1型DM</td><td>10〜20%</td></tr><tr><td>肺</td><td>間質性肺炎</td><td>3〜5%（重篤化あり）</td></tr><tr><td>肝臓</td><td>肝障害（ALT↑）</td><td>5〜10%</td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">ICIs（ニボルマブ・ペムブロリズマブ・イピリムマブ）の特徴的副作用＝irAE</span>。脱毛・貧血・蛋白尿・副腎不全は従来の殺細胞性抗癌薬（シスプラチン・ドキソルビシン等）の副作用。痤瘡様皮疹は<span class="kw">EGFR阻害薬</span>（セツキシマブ・ゲフィチニブ）でも特徴的→本問はICI＋EGFR阻害薬の両方で正解。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="83" data-uid="hema_ch02_q41" id="q41"><div class="qh"><span class="qn">Q.41</span><span class="qe">(120B-28)</span><span class="bg bs">★</span><span class="cr ch">正答率 83%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q41" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q41" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">82 歳の男性。右季肋部痛を主訴に来院した。1 か月前に自宅近くの病院で膵癌および多発肝転移と診断された。薬物による抗癌治療を希望せず、外来でアセトアミノフェンの処方をうけている。1 週間前から右季肋部の痛みが増悪し、食欲が低下している。また大きな息をすることができず、呼吸困難を自覚している。意識は清明。身長162cm、<br>体重52kg。体重減少はない。体温36.2℃。脈拍68/ 分、整。血圧112/58mmHg。呼吸数16/ 分。SpO2 94％（roomair）。腹部造影CT で肝転移の増大を認めた。<br><strong>まず行うべきな</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">ａ　酸素投与</div><div class="ch2">ｂ　制吐薬投与</div><div class="ch2">ｃ　鎮静薬投与</div><div class="ch2 ok">ｄ　オピオイド投与</div><div class="ch2">ｅ　高カロリー輸液</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　オピオイド投与</div><div class="as">WHO疼痛ラダー第3段階：強い疼痛→強オピオイド</div></div></div>
+<div class="eg">
+<div class="eb ep"><h4>🩸 WHO疼痛ラダー</h4><span class="kw">WHO疼痛ラダー（3段階）</span>：<br/>第1段：非オピオイド鎮痛薬（NSAIDs・アセトアミノフェン）<br/>第2段：弱オピオイド（コデイン・トラマドール）<br/>第3段：<span class="kw">強オピオイド（モルヒネ・オキシコドン・フェンタニル・ヒドロモルフォン）</span><br/>NRS 8→強い疼痛→<span class="kw">強オピオイドが適応</span>。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>強い疼痛（NRS 7以上）には強オピオイドを優先。酸素投与は呼吸困難、制吐薬は嘔気、鎮静薬は終末期の難治性苦痛に使用。<span class="kw">オピオイドの副作用：便秘（必発、耐性なし）・悪心・眠気（耐性あり）・呼吸抑制（過剰投与時）</span>。便秘予防として<span class="kw">緩下薬を必ず併用</span>（耐性が生じないため）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="55" data-uid="hema_ch02_q42" id="q42"><div class="qh"><span class="qn">Q.42</span><span class="qe">(120C-46)</span><span class="bg bs">★</span><span class="cr cl">正答率 55%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q42" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q42" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">36 歳の初産婦。妊娠32 週。前置胎盤と診断され、妊娠37 週で帝王切開分娩を予定している。過去に大きな手術歴や輸血歴はない。高血圧症で内服治療中である。術中に出血が予測されるため、術前に自己血輸血を計画し、患者に説明した。<br><strong>この患者への説明で誤っている</strong>のはどれか。</div>
+<div class="cs"><div class="ch2 ok">ａ　「7 日間連続して貯血します」</div><div class="ch2">ｂ　「同種輸血に比べて輸血に伴う感染症のリスクは低いです」</div><div class="ch2">ｃ　「術中に使用しなかった自己血は術後に返血することがあります」</div><div class="ch2">ｄ　「他人の免疫細胞によって自分の体が攻撃されるリスクはありません」</div><div class="ch2">ｅ　「保存期間が限られているため、手術の4 週間程度前から準備します」</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　「7日間連続して貯血します」</div><div class="as">自己血貯血は1回/週のペースで複数回実施</div></div></div>
+<div class="eg">
+<div class="eb ep"><h4>🩸 自己血輸血（貯血式）</h4><span class="kw">貯血式自己血輸血</span>：術前に自分の血液を採血・保存→術中・術後に使用。特徴：①同種輸血関連感染症なし②GVHDなし③輸血反応なし。採血ペース：<span class="kw">週1回</span>（連続7日間は誤り）→身体への負担を考慮。術前<span class="kw">4週間前</span>から準備開始が目安。保存期間：液体保存（CPDA-1液）で<span class="kw">35日</span>。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">自己血輸血の利点</span>：感染症リスクなし・GVHD無し・不規則抗体問題なし・輸血後GVHDなし。<span class="kw">欠点</span>：採血による貧血悪化・保存期間の制限。「7日間連続」は誤り→週1回ペース。術中不使用分の自己血は返血可能。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="99" data-uid="hema_ch02_q43" id="q43"><div class="qh"><span class="qn">Q.43</span><span class="qe">(120E-22)</span><span class="bg bs">★</span><span class="cr ch">正答率 99%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q43" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q43" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><strong>薬剤による便秘をきたすのはどれか。</strong></div>
+<div class="cs"><div class="ch2">ａ　抗菌薬</div><div class="ch2">ｂ　NSAID</div><div class="ch2 ok">ｃ　オピオイド</div><div class="ch2">ｄ　プロトンポンプ阻害薬</div><div class="ch2">ｅ　プロスタグランディン関連薬</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　オピオイド</div><div class="as">オピオイドはμ受容体を介して腸管蠕動↓→便秘（耐性なし）</div></div></div>
+<div class="eg">
+<div class="eb ep"><h4>🩸 オピオイドと便秘</h4><span class="kw">オピオイド誘発性便秘（OIC）</span>：消化管のμオピオイド受容体に作用→腸管蠕動↓・消化液分泌↓→<span class="kw">便秘（ほぼ必発、耐性が生じない）</span>。オピオイド開始時から<span class="kw">緩下薬を必ず予防投与</span>（センナ・酸化Mg等）。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">オピオイドの副作用と耐性</span>：悪心・嘔吐（耐性あり・1〜2週）、眠気（耐性あり）、<span class="kw4">便秘（耐性なし→必ず予防）</span>、呼吸抑制（過量投与時）。NSAIDsは消化管潰瘍・腎障害が主な副作用。抗菌薬は下痢（腸内細菌叢の乱れ）。PPIは副作用少。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="94" data-uid="hema_ch02_q44" id="q44"><div class="qh"><span class="qn">Q.44</span><span class="qe">(120F-1)</span><span class="bg bs">★</span><span class="cr ch">正答率 94%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q44" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q44" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><strong>GVHD の原因となる白血球</strong>はどれか。</div>
+<div class="cs"><div class="ch2">ａ　単　球</div><div class="ch2">ｂ　好酸球</div><div class="ch2">ｃ　好中球</div><div class="ch2">ｄ　好塩基球</div><div class="ch2 ok">ｅ　リンパ球</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　リンパ球</div><div class="as">GVHDはドナーT細胞（リンパ球）がレシピエントの臓器を攻撃</div></div></div>
+<div class="eg">
+<div class="eb ep"><h4>🩸 GVHDの機序</h4><span class="kw">GVHD（移植片対宿主病）</span>：造血幹細胞移植後、<span class="kw">ドナーのT細胞（リンパ球）</span>がレシピエントの組織（皮膚・消化管・肝臓・肺）を異物として認識・攻撃。<br/><span class="kw">急性GVHD</span>（移植後100日以内）：皮疹・下痢・肝障害。<span class="kw">慢性GVHD</span>（100日以降）：全身の線維化・臓器障害。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>GVHDの原因細胞：<span class="kw">ドナーのT細胞（リンパ球）</span>。予防：①免疫抑制薬（シクロスポリン・タクロリムス）②輸血製剤への<span class="kw">放射線照射</span>（リンパ球のDNA損傷→増殖不能）。血縁者からの輸血でGVHDリスク↑（HLAが部分一致→ドナーT細胞がレシピエントを攻撃・逆は免疫応答が起きない）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="91" data-uid="hema_ch02_q45" id="q45"><div class="qh"><span class="qn">Q.45</span><span class="qe">(120F-49)</span><span class="bg bs">★</span><span class="cr ch">正答率 91%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q45" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q45" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">64 歳の男性。腰痛を主訴に来院した。2 週間前に腰痛をきっかけに多発性骨髄腫と診断され治療を受けている。腰痛に対してアセトアミノフェンを服用していたが痛みが強くなったため家族に付き添われて受診した。3 年前から胃潰瘍を繰り返している。意識は清明。身長168cm、体重58kg。体温36.4℃。脈拍80/ 分、整。血圧130/78mmHg。<br>呼吸数14/ 分。SpO2 98％（room air）。眼瞼結膜と眼球結膜とに異常を認めない。心音と呼吸音とに異常を認めない。<br>腹部は平坦、軟で、肝・脾を触知しない。血液所見：赤血球308 万、Hb 10.8g/dL、Ht 29％、白血球4,400（分葉核好中球57％、好酸球4％、単球6％、リンパ球33％）、血小板16 万。血液生化学所見：総蛋白10.8g/dL、アルブミン3.1g/dL、IgG 6,912mg/dL（基準861 ～1,747）、IgA 22mg/dL（基準93 ～393）、IgM 7mg/dL（基準33 ～183）、<br>AST 22U/L、ALT 23U/L、LD 180U/L（基準124 ～222）、尿素窒素17mg/dL、クレアチニン1.8mg/dL。CRP0.1mg/dL。腹部骨盤部単純CT で腰椎と腸骨に多発性の溶骨所見を認めた。<br><strong>疼痛コントロールを強化するにあたり、適切な対応</strong>はどれか。</div>
+<div class="cs"><div class="ch2">ａ　NSAID 経口薬に変更する。</div><div class="ch2">ｂ　塩酸モルヒネを急速静注する。</div><div class="ch2 ok">ｃ　オキシコドン経口薬を追加する。</div><div class="ch2">ｄ　フェンタニル貼付薬に変更する。</div><div class="ch2">ｅ　モルヒネ塩酸塩水和物坐薬に変更する。</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　オキシコドン経口薬を追加する</div><div class="as">突出痛にはレスキュー（1日量の1/6量・同種オピオイド速放剤）を追加</div></div></div>
+<div class="eg">
+<div class="eb ep"><h4>🩸 オピオイドの突出痛対応</h4><span class="kw">突出痛（breakthrough pain）</span>：定期オピオイド内服中に生じる一時的な強い疼痛。対応：同種のオピオイドの<span class="kw">速放剤（レスキュー）</span>を追加→1日量の<span class="kw">1/6量</span>が目安。本例：モルヒネ徐放剤→オキシコドン経口薬（速放剤）が適切。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>突出痛の対応：<span class="kw">同種オピオイドの速放剤</span>を追加（異種への変更は不適切）。塩酸モルヒネの急速静注は呼吸抑制リスクあり→禁忌。フェンタニル貼付薬は安定した疼痛管理に使用（速効性なし）。NSAIDSへの変更は疼痛強度から判断して不適切。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="84" data-uid="hema_ch02_q46" id="q46"><div class="qh"><span class="qn">Q.46</span><span class="qe">(119C-58)</span><span class="bg bs">★</span><span class="bg bm">2択</span><span class="cr ch">正答率 84%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q46" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q46" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">82 歳の男性。全身倦怠感を主訴に来院した。2 週間前から全身倦怠感が持続し2 日前に家族から顔色不良を指摘されため（編註：「されたため」の誤記と思われる）受診した。意識は清明。体温36.6℃。脈拍98/ 分、整。血圧138/80mmHg。血液所見：赤血球174 万、Hb 5.4g/dL、Ht 16％、網赤血球1％、白血球1,800（分葉核好中球20％、<br>好酸球1％、単球2％、リンパ球77％）、血小板8.2 万。貧血に対して濃厚赤血球輸血を行ったが、輸血開始から2 時間経過したところで呼吸困難を訴えた。意識は清明。体温37.0℃。脈拍132/ 分、整。血圧98/62mmHg。呼吸数18/ 分。<br>SpO2 90％（room air）。再度行なった血液型検査では不適合を認めず、不規則抗体は陰性で交差適合試験〈クロスマッチ〉で異常を認めなかった。<br>原因で考えられるのはどれか。2 つ選べ。</div>
+<div class="cs"><div class="ch2 ok">ａ　アナフィラキシー</div><div class="ch2">ｂ　間質性肺炎</div><div class="ch2">ｃ　ヘモクロマトーシス</div><div class="ch2 ok">ｄ　輸血関連急性肺障害</div><div class="ch2">ｅ　輸血後GVHD</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　アナフィラキシー　＋　d　輸血関連急性肺障害（TRALI）</div><div class="as">輸血直後の呼吸困難→TRALI or アナフィラキシー（両肺浸潤影がTRALIの特徴）</div></div></div>
+<div class="eg">
+<div class="eb ee"><h4>📋 輸血副反応の比較</h4><table class="tb"><tr><th>副反応</th><th>発症時期</th><th>症状</th><th>機序</th></tr><tr><td><span class="kw">TRALI</span></td><td>輸血後6時間以内</td><td>呼吸困難・両肺浸潤影・低O₂</td><td>ドナー抗白血球抗体→好中球活性化</td></tr><tr><td><span class="kw">アナフィラキシー</span></td><td>輸血直後（数分）</td><td>蕁麻疹・血圧低下・呼吸困難</td><td>IgA欠乏患者の抗IgA抗体</td></tr><tr><td>輸血後GVHD</td><td>1〜2週後</td><td>発熱・皮疹・下痢・汎血球減少</td><td>ドナーT細胞によるレシピエント攻撃</td></tr><tr><td>溶血反応（急性）</td><td>輸血直後</td><td>発熱・腰痛・血尿・DIC</td><td>ABO不適合</td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">TRALI（輸血関連急性肺障害）</span>：輸血後6時間以内の非心原性肺水腫（両肺浸潤影＋低O₂）→治療：輸血中止＋酸素投与＋人工呼吸管理。輸血後GVHDは<span class="kw4">1〜2週後</span>→今回の急性発症では除外。間質性肺炎・ヘモクロマトーシスは輸血直後の急性発症とは合わない。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="90" data-uid="hema_ch02_q47" id="q47"><div class="qh"><span class="qn">Q.47</span><span class="qe">(119F-56)</span><span class="bg bs">★</span><span class="bg bm">2択</span><span class="cr ch">正答率 90%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q47" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q47" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">78 歳の女性。左季肋部痛を主訴に来院した。6 年前から脾臓原発の悪性リンパ腫に対して薬物による抗癌治療を継続しているが再発を繰り返しており、薬物による抗癌治療を行わない方針となった。1 週間前から悪性リンパ腫による癌性疼痛に対してモルヒネの経口投与を開始したが疼痛が強くなり入院した。意識は清明。体温36.8℃。脈拍74/ 分、<br>整。血圧132/78mmHg。呼吸数14/ 分。SpO2 96％（room air）。心音と呼吸音とに異常を認めない。腹部は平坦、軟。<br>左季肋下に脾を4cm 触知し、圧痛を認める。腹部CT で再発による脾臓の腫大を認めている。入院後、嚥下障害が出現し内服が困難となったためモルヒネ経口投与を中止し、モルヒネ皮下注射を開始した。<br>注意すべき症状や徴候はどれか。2 つ選べ。</div>
+<div class="cs"><div class="ch2">ａ　発　熱</div><div class="ch2 ok">ｂ　便　秘</div><div class="ch2">ｃ　口内炎</div><div class="ch2">ｄ　皮膚潰瘍</div><div class="ch2 ok">ｅ　呼吸数低下</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　便秘　＋　e　呼吸数低下</div><div class="as">オピオイドの重要副作用：便秘（必発）・呼吸抑制（最重篤）</div></div></div>
+<div class="eg">
+<div class="eb ee"><h4>📋 オピオイドの副作用と監視項目</h4><table class="tb"><tr><th>副作用</th><th>耐性</th><th>対応</th></tr><tr><td><span class="kw">便秘</span></td><td>なし（必発）</td><td>緩下薬を必ず予防投与</td></tr><tr><td>悪心・嘔吐</td><td>あり（1〜2週で消失）</td><td>制吐薬を一時的に投与</td></tr><tr><td>眠気・鎮静</td><td>あり（数日で消失）</td><td>経過観察</td></tr><tr><td><span class="kw">呼吸抑制</span></td><td>ある程度あり</td><td>最重篤→<span class="kw">呼吸数を監視</span>。拮抗薬：ナロキソン</td></tr><tr><td>せん妄</td><td>一部あり</td><td>薬剤変更・減量を検討</td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">オピオイドの最重篤副作用は呼吸抑制</span>（呼吸数低下≦8/分が危険）→ナロキソン投与。<span class="kw">便秘は必発で耐性なし</span>→必ず緩下薬を予防投与。発熱・口内炎は骨髄抑制の副作用（殺細胞性抗癌薬）。皮膚潰瘍はベバシズマブ（抗VEGF抗体）の副作用。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="92" data-uid="hema_ch02_q48" id="q48"><div class="qh"><span class="qn">Q.48</span><span class="qe">(117F-37)</span><span class="bg bs">★</span><span class="cr ch">正答率 92%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q48" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q48" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">35 歳の女性。急性骨髄性白血病のため入院中である。寛解導入療法開始後18 日目に発熱を認めた。発熱以外の症状はない。体温38.2℃。脈拍112/ 分、整。血圧102/68mmHg。呼吸数20/ 分。眼瞼結膜は貧血様である。身体所見にその他の異常を認めない。血液所見：赤血球288 万、Hb 8.8g/dL、Ht 26％、網赤血球0.1％、白血球500（好中球1％、<br>好酸球0％、好塩基球0％、単球0％、リンパ球99％）、血小板2.1 万。<br><strong>この時点での抗菌薬選択に際し、最も考慮すべき微生物</strong>はどれか。</div>
+<div class="cs"><div class="ch2">ａ　Clostridium perfringens</div><div class="ch2">ｂ　Enterococcus faecalis</div><div class="ch2">ｃ　Haemophilus inﬂuenzae</div><div class="ch2">ｄ　Moraxella catarrhalis</div><div class="ch2 ok">ｅ　Pseudomonas aeruginosa</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　Pseudomonas aeruginosa（緑膿菌）</div><div class="as">発熱性好中球減少症（FN）→緑膿菌をカバーする広域抗菌薬</div></div></div>
+<div class="eg">
+<div class="eb ep"><h4>🩸 発熱性好中球減少症（FN）</h4><span class="kw">FN（febrile neutropenia）</span>：好中球数<span class="kw">&lt;500/μL</span>＋体温≥38.3℃。<span class="kw">緑膿菌（P. aeruginosa）</span>：日和見感染菌として最も致死的。本例：好中球200/μL→FN→緑膿菌をカバーする<span class="kw">抗緑膿菌活性を持つ広域β-ラクタム薬</span>（タゾバクタム/ピペラシリン、セフェピム、カルバペネム等）を第一選択。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">FNの初期治療：抗緑膿菌活性を持つ広域抗菌薬を直ちに開始（培養採取後）</span>。待機は禁忌。緑膿菌以外にもEnterobacteriaceae、Staphylococcusも重要だが、最重篤は緑膿菌菌血症。FNで最初に考えるのは<span class="kw4">緑膿菌</span>。72時間で改善なければ抗真菌薬（カスポファンギン等）追加を検討。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="99" data-uid="hema_ch02_q49" id="q49"><div class="qh"><span class="qn">Q.49</span><span class="qe">(116B-34)</span><span class="bg bs">★</span><span class="cr ch">正答率 99%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q49" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q49" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">19 歳の男性。交通外傷のため救急車で搬入された。河川沿いの堤防道路でオートバイ運転中に対向車と接触し転倒、<br>崖下に転落した。問いかけに対して名前は言える。心拍数122/ 分。血圧72/50mmHg。呼吸数28/ 分。SpO2 96％（roomair）。右前胸部に圧痛があり、右呼吸音が減弱している。腹部は膨満している。右下肢は外旋位で右下腿の変形と開放創を認める。大量輸液を行っても血圧の上昇がみられなかった。出血の持続と凝固障害の合併が懸念されるため、<br>血液型の確定を待たずに院内にある輸血製剤を用いて輸血療法を行うことにした。<br>投与が可能な濃厚赤血球液と新鮮凍結血漿の組合せはどれか。<br>濃厚赤血球液新鮮凍結血漿</div>
+<div class="cs"><div class="ch2">ａ　O 型Rh（＋）  ―――――  O 型Rh（＋）</div><div class="ch2 ok">ｂ　O 型Rh（＋）  ―――――  AB 型Rh（＋）</div><div class="ch2">ｃ　AB 型Rh（＋）  ――――  O 型Rh（＋）</div><div class="ch2">ｄ　AB 型Rh（＋）  ――――  AB 型Rh（＋）</div><div class="ch2">ｅ　AB 型Rh（＋）  ――――  AB 型Rh（－）</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　O型Rh（+）赤血球液 ── AB型Rh（+）FFP</div><div class="as">赤血球：同型かO型。FFP：同型かAB型（抗体がない）</div></div></div>
+<div class="eg">
+<div class="eb ee"><h4>📋 輸血の血液型適合ルール</h4><table class="tb"><tr><th>製剤</th><th>適合性のルール</th></tr><tr><td><span class="kw">濃厚赤血球液</span></td><td>同型 or <span class="kw">O型</span>（O型は抗原なし→全血液型に投与可）</td></tr><tr><td><span class="kw">新鮮凍結血漿（FFP）</span></td><td>同型 or <span class="kw">AB型</span>（AB型は抗体なし→全血液型に投与可）</td></tr><tr><td>血小板製剤</td><td>原則同型（緊急時はABO不適合でも可）</td></tr></table></div>
+<div class="eb ep"><h4>🩸 本問の解析</h4>B型患者：赤血球は<span class="kw">B型またはO型</span>を使用可。FFPは<span class="kw">B型またはAB型</span>を使用可。選択肢b：赤血球O型✓・FFP AB型✓→<span class="kw3">正解</span>。他の選択肢：AB型赤血球（A・B抗原両方あり→B型患者に不可）が含まれる組み合わせは不可。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">赤血球はO型が万能ドナー、FFPはAB型が万能ドナー</span>。緊急時：赤血球→O型RH(-)を使用。Rh（-）の患者にRh（+）を輸血すると抗D抗体産生→次回輸血で溶血反応リスク（特に妊娠可能な女性で注意）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="85" data-uid="hema_ch02_q50" id="q50"><div class="qh"><span class="qn">Q.50</span><span class="qe">(115C-36)</span><span class="bg bs">★</span><span class="cr ch">正答率 85%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q50" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q50" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">32 歳の経産婦（2 妊2 産）。1 年前からの不正性器出血を主訴に来院した。病期Ⅰの子宮頸癌と診断され、4 週後に広汎子宮全摘術とリンパ節郭清術が予定された。予測出血量は800mL である。血液所見：赤血球390 万、<br>Hb 10.1g/dL、Ht 31％、白血球5,200、血小板30 万。血液生化学所見：総蛋白6.4g/dL、AST 32U/L、ALT 29U/L、<br>フェリチン5ng/mL（基準20 ～120）。血液型はAB 型RhD（－）である。<br><strong>現時点の対応として誤っている</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">ａ　鉄剤投与</div><div class="ch2">ｂ　自己血貯血</div><div class="ch2">ｃ　不規則抗体スクリーニング</div><div class="ch2 ok">ｄ　赤血球液-LR との交差適合試験</div><div class="ch2">ｅ　血液準備量について院内輸血部門と調整</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　赤血球液-LRとの交差適合試験</div><div class="as">不規則抗体陽性→対応抗原陰性の赤血球を選択。通常の交差適合試験は不十分</div></div></div>
+<div class="eg">
+<div class="eb ep"><h4>🩸 不規則抗体と輸血</h4><span class="kw">不規則抗体（ABO系以外の同種抗体）</span>：抗E・抗c・抗Kなど。不規則抗体陽性患者への輸血：<span class="kw">対応する抗原陰性の赤血球製剤を選択</span>→通常の交差適合試験に追加して抗原タイピングが必要。本例：抗E抗体陽性→E抗原陰性の赤血球を選択。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>不規則抗体陽性が判明した場合：①鉄剤で術前貧血改善（a）✓②自己血貯血（b）✓③不規則抗体スクリーニング（c）は既実施④<span class="kw4">通常の交差適合試験（d）のみでは不十分→誤り</span>（対応抗原陰性製剤の選択が必要）⑤輸血部門との調整（e）✓</div>
+</div>
+</div></div>
+<div class="qc" data-rate="87" data-uid="hema_ch02_q51" id="q51"><div class="qh"><span class="qn">Q.51</span><span class="qe">(114E-8)</span><span class="bg bs">★</span><span class="cr ch">正答率 87%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q51" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q51" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><strong>輸血後GVHD で正しい</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">ａ　輸血後6 時間以内に発症する。</div><div class="ch2">ｂ　新鮮血と比較して保存血で起こりやすい。</div><div class="ch2 ok">ｃ　輸血製剤の放射線照射が予防に有効である。</div><div class="ch2">ｄ　初回と比較して複数回の輸血後に起こりやすい。</div><div class="ch2">ｅ　血縁者と比較して非血縁者からの供血で起こりやすい。</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　輸血製剤の放射線照射が予防に有効である</div><div class="as">輸血後GVHDの予防：放射線照射でT細胞増殖能を消失させる</div></div></div>
+<div class="eg">
+<div class="eb ep"><h4>🩸 輸血後GVHD</h4><span class="kw">輸血後GVHD</span>：輸血製剤中のドナーT細胞が免疫不全レシピエントの体内で増殖→レシピエントを攻撃。特徴：①発症は輸血後<span class="kw">1〜2週</span>②<span class="kw">血縁者からの輸血で多い</span>（HLA1ハプロタイプ一致→ドナーT細胞がレシピエントを認識できる）③致死率90%以上。</div>
+<div class="eb ee"><h4>📋 各選択肢の評価</h4><table class="tb"><tr><th>選択肢</th><th>○×</th><th>解説</th></tr><tr><td>a：6時間以内に発症</td><td>❌</td><td>発症は<span class="kw">1〜2週後</span>（6時間以内はTRALIやアナフィラキシー）</td></tr><tr><td>b：保存血で多い</td><td>❌</td><td>新鮮血（T細胞が生存）で多い。保存中にT細胞は徐々に死滅</td></tr><tr><td><span class="kw3">c：放射線照射が予防</span></td><td>✅</td><td>25〜50 Gyの照射→T細胞のDNA損傷→増殖不能→GVHD予防</td></tr><tr><td>d：複数回輸血後に多い</td><td>❌</td><td>回数よりも患者の免疫状態・血縁関係が重要</td></tr><tr><td>e：非血縁者で多い</td><td>❌</td><td><span class="kw4">血縁者からの輸血で多い</span>（HLA部分一致でドナーT細胞が増殖できる）</td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>輸血後GVHDの予防：<span class="kw">放射線照射（15〜50 Gy）</span>。白血球除去フィルターでは予防不可（フィルターはT細胞の機能を消失させない）。輸血後GVHDハイリスク：造血器腫瘍患者・免疫不全患者・<span class="kw">血縁者からの輸血（特に1ハプロタイプ一致）</span>。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="47" data-uid="hema_ch02_q52" id="q52"><div class="qh"><span class="qn">Q.52</span><span class="qe">(110E-55)</span><span class="bg bs">★</span><span class="cr cl">正答率 47%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q52" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q52" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">50歳の男性。献血を希望して献血センターを訪れた。アフリカの森林で3か月間、鳥類の生態の研究を行ってきたが、<br>その間に体調を崩すことはなかった。帰国後も健康上の問題はなく、帰国して5 か月たってから献血センターを訪れた。アフリカ以外の国に滞在経験はない。担当医は感染症の可能性があるために献血はできないと説明した。<br><strong>想定される感染症</strong>はどれか。</div>
+<div class="cs"><div class="ch2">ａ　デング熱</div><div class="ch2 ok">ｂ　マラリア</div><div class="ch2">ｃ　Chagas 病</div><div class="ch2">ｄ　エボラ出血熱</div><div class="ch2">ｅ　変異型Creutzfeldt-Jakob 病</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　マラリア</div><div class="as">輸血後＋熱帯地域渡航歴＋発熱・脾腫・溶血→輸血関連マラリア</div></div></div>
+<div class="eg">
+<div class="eb ep"><h4>🩸 輸血関連マラリア</h4><span class="kw">マラリア</span>：Plasmodium（熱帯熱マラリア原虫など）→赤血球内寄生→溶血性貧血・脾腫・発熱（周期的）。輸血感染：無症候性キャリアからの輸血→潜伏期1〜4週。西アフリカ・サハラ以南アフリカは熱帯熱マラリアの高流行地域。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">輸血由来感染症の代表</span>：①マラリア（熱帯地域渡航歴）②シャーガス病（中南米渡航歴・T. cruzi）③デング熱（東南アジア・中南米）。日本での輸血スクリーニング：HBV・HCV・HIV・HTLV・梅毒はPCR/抗体検査あり。マラリアは<span class="kw4">スクリーニング検査なし</span>→渡航歴確認が重要。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="21" data-uid="hema_ch02_q53" id="q53"><div class="qh"><span class="qn">Q.53</span><span class="qe">(108A-18)</span><span class="bg bs">★</span><span class="bg bm">2択</span><span class="cr cl">正答率 21%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q53" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q53" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">同種骨髄移植から3 週後にみられる移植片対宿主病〈GVHD〉の皮膚症状はどれか。2 つ選べ。</div>
+<div class="cs"><div class="ch2 ok">ａ　紅皮症</div><div class="ch2">ｂ　皮膚硬化</div><div class="ch2 ok">ｃ　浮腫性紅斑</div><div class="ch2">ｄ　多形皮膚萎縮</div><div class="ch2">ｅ　扁平苔癬様皮疹</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　紅皮症　＋　c　浮腫性紅斑</div><div class="as">急性GVHDの皮膚症状：手掌・足底から始まる浮腫性紅斑→紅皮症</div></div></div>
+<div class="eg">
+<div class="eb ee"><h4>📋 急性GVHD vs 慢性GVHDの皮膚症状</h4><table class="tb"><tr><th></th><th>急性GVHD（移植後100日以内）</th><th>慢性GVHD（100日以降）</th></tr><tr><td>皮膚</td><td><span class="kw">浮腫性紅斑（手掌・足底）→紅皮症</span></td><td><span class="kw">扁平苔癬様・皮膚硬化・色素沈着・白斑</span></td></tr><tr><td>消化管</td><td>下痢（大量水様下痢）・腹痛</td><td>口腔扁平苔癬・嚥下困難</td></tr><tr><td>肝臓</td><td>胆汁うっ滞→黄疸↑</td><td>胆汁うっ滞性肝障害</td></tr><tr><td>肺</td><td>（稀）</td><td>閉塞性細気管支炎</td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">急性GVHD皮膚症状：浮腫性紅斑（手掌・足底から体幹へ）→重症化で紅皮症・水疱</span>。皮膚硬化・多形皮膚萎縮・扁平苔癬様皮疹は<span class="kw">慢性GVHDの皮膚症状</span>。治療：ステロイド（メチルプレドニゾロン1〜2 mg/kg/日）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="89" data-uid="hema_ch02_q54" id="q54"><div class="qh"><span class="qn">Q.54</span><span class="qe">(104F-11)</span><span class="bg bs">★</span><span class="cr ch">正答率 89%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q54" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q54" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><strong>輸血で正しいのはどれか。</strong></div>
+<div class="cs"><div class="ch2">ａ　口頭での同意が必要である。</div><div class="ch2 ok">ｂ　新鮮凍結血漿の適応は凝固因子の補充である。</div><div class="ch2">ｃ　白血球除去フィルターは輸血後GVHD を予防できる。</div><div class="ch2">ｄ　血小板数5 万以下の場合は濃厚血小板輸血の適応である。</div><div class="ch2">ｅ　PCR 法検査の導入以降、輸血後HIV 感染症は認められていない。</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　新鮮凍結血漿の適応は凝固因子の補充である</div><div class="as">FFPは凝固因子補充が目的（アルブミン補充・循環血漿量増加には使わない）</div></div></div>
+<div class="eg">
+<div class="eb ee"><h4>📋 各選択肢の評価</h4><table class="tb"><tr><th>選択肢</th><th>○×</th><th>解説</th></tr><tr><td>a：口頭での同意</td><td>❌</td><td>輸血には<span class="kw">書面での説明と同意（インフォームドコンセント）</span>が必要</td></tr><tr><td><span class="kw3">b：FFP→凝固因子補充</span></td><td>✅</td><td>DIC・肝不全・大量出血時の凝固因子補充が適応</td></tr><tr><td>c：WBCフィルター→GVHDに有効</td><td>❌</td><td>白血球除去フィルターは非溶血性発熱反応↓・CMV感染予防。<span class="kw4">輸血後GVHDには無効</span>（放射線照射が必要）</td></tr><tr><td>d：血小板5万以下→輸血適応</td><td>❌</td><td>血小板輸血の適応：<span class="kw">&lt;1万/μL（出血なし）・&lt;5万（侵襲的処置前）・&lt;10万（活動性出血）</span></td></tr><tr><td>e：PCR導入以降HIVなし</td><td>❌</td><td>PCRの<span class="kw">「ウィンドウ期」</span>に採血された場合は感染リスクが残存（完全にゼロにはならない）</td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">FFPの適応</span>：凝固因子欠乏（DIC・肝不全・大量出血・凝固因子欠乏症）。アルブミン補充・循環血漿量増加の目的では使用しない（アルブミン製剤を使用）。血小板輸血適応：<span class="kw">1万未満が予防的輸血の基準</span>（5万未満は術前準備）。</div>
+</div>
+</div></div>
+<div class="qc" data-uid="hema_ch02_q55" id="q55"><div class="qh"><span class="qn">Q.55</span><span class="qe">(103E-56)</span><span class="bg bs">★</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q55" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q55" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">26 歳の男性。オートバイを運転中に乗用車と衝突したため搬入された。意識は混濁。身長165cm、体重65kg。脈拍120/ 分、整。血圧78/60mmHg。脾破裂と診断し緊急手術となった。開腹止血術、輸液および輸血によって循環動態は安定し、術後、集中治療室に収容した。入室時、脈拍76/ 分、整。血圧110/76mmHg。中心静脈圧は5mmHgであったが、Hb 値は6.5g/dl であった。Hb 値10g/dl を目標に赤血球濃厚液を投与することとした。<br>何単位の投与が必要か。<br>ただし、赤血球濃厚液1 単位は全血200ml（Hb 14g/dl）に由来する。</div>
+<div class="cs"><div class="ch2">ａ　3</div><div class="ch2 ok">ｂ　6</div><div class="ch2">ｃ　9</div><div class="ch2">ｄ　12</div><div class="ch2">ｅ　15</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　6単位</div><div class="as">Hb上昇量 = 単位数÷体重(kg)÷0.6 × 10 の逆算</div></div></div>
+<div class="eg">
+<div class="eb eec"><h4>🔢 赤血球輸血量の計算</h4>1単位の赤血球液：全血200mL（Hb 14g/dL）<br/>→赤血球液中のHb量 = 200mL×14g/dL÷100 = <span class="kw">28g/単位</span><br/>必要なHb増加量 = (10.0−8.0)g/dL × 体重60kg × 循環血漿量0.065L/kg × 0.6（補正係数）<br/>= 2 × 60 × 0.065 × 0.6 ≒ 4.68 dL<br/>→ Hb増加 = 28g÷（循環血液量dL）= 28÷（60×0.065×10）≒ 0.72 g/dL/単位<br/>→ 必要単位数 = 2.0÷0.72 ≒ <span class="kw">約6単位（正解b）</span></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>赤血球液1単位でHbは<span class="kw">約0.5〜1.0 g/dL上昇</span>（体重60〜70kgの成人）。覚え方：<span class="kw">2単位輸血で約1 g/dL上昇</span>（体格標準の成人）。本問：2 g/dL上昇必要→約4〜6単位。計算問題で選択肢6単位が最も近い。</div>
+</div>
+</div></div>
+<div class="qc" data-uid="hema_ch02_q56" id="q56"><div class="qh"><span class="qn">Q.56</span><span class="qe">(88D-45)</span><span class="bg bs">★</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q56" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q56" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">40 歳の男性。腹部刺創による大量出血で搬送されて来院した。体重65kg。脈拍116/ 分、整。血圧72/62mmHg。<br>赤血球271 万、Hb 7.8g/dl。Rh 式血液型陽性。ABO 式血液型判定では、患者血清を標準A 型血球と混合すると凝集反応が起こり、標準B 型血球と混合すると凝集反応は起こらない。患者血球を標準抗A 型血清と混合すると凝集反応は起こらず、標準抗B 型血清と混合すると凝集反応が起こる。血液型の適合した保存血と交差適合試験を行った。<br>保存血No.1 では保存血血球と患者血清とを混合すると凝集反応が起こり、保存血No.2 では保存血血清と患者血球とを混合すると凝集反応が起こった。直ちに輸血と手術とを行い、血圧118/72mmHg、赤血球395 万に回復した。<br>誤っているのはどれか。すべて選べ。</div>
+<div class="cs"><div class="ch2 ok">ａ　ABO 式血液型はA 型である。</div><div class="ch2 ok">ｂ　緊急時には保存血No.1 は輸血することもある。</div><div class="ch2 ok">ｃ　保存血No.2 の交差適合試験主反応は陽性である。</div><div class="ch2 ok">ｄ　クエン酸中毒の予防にはカリウム液を投与する。</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a・b・c・d（すべて誤り）</div><div class="as">採点除外問題（すべて誤り）</div></div></div>
+<div class="eg">
+<div class="eb ee"><h4>📋 各選択肢の解説</h4><table class="tb"><tr><th>選択肢</th><th>評価</th><th>解説</th></tr><tr><td>a：ABO型はA型</td><td>誤り</td><td>問題文の患者血液型を確認して判断（問題自体の整合性に問題あり）</td></tr><tr><td>b：緊急時に保存血No.1輸血可</td><td>誤り</td><td>緊急輸血でも型確認・交差適合試験が原則</td></tr><tr><td>c：主反応陽性</td><td>誤り</td><td>交差適合試験の主反応陽性は輸血不可</td></tr><tr><td>d：クエン酸中毒→カリウム液</td><td>誤り</td><td>クエン酸中毒（低Ca血症）の治療は<span class="kw">グルコン酸カルシウム（Ca製剤）</span></td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">クエン酸中毒</span>：大量輸血時にクエン酸（抗凝固剤）がCa²⁺をキレート→低Ca血症→痙攣・心機能低下。治療：<span class="kw">Ca製剤（グルコン酸カルシウム）静注</span>。カリウム液ではなく全く逆の対応→明らかな誤り。</div>
+</div>
+</div></div>
+<div class="qc" data-uid="hema_ch02_q57" id="q57"><div class="qh"><span class="qn">Q.57</span><span class="qe">(87D-43)</span><span class="bg bs">★</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q57" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q57" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">28 歳の男性。身長172cm、体重68kg。フェンタニル、ジアゼパム、笑気による全身麻酔下に股関節固定術を施行した。<br>特記すべき術前合併症はない。手術中に約800ml の出血があった。術前と術中（出血後）との脈拍、血圧、血液Hb値を次に示す。<br>脈　拍（1 分間）<br>血　圧（mmHg）<br>血液Hb 値（g/dl）<br>術　前128/7414.2術中（出血後）<br><strong>102/8811.0使用すべきも</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">ａ　保存血（全血）</div><div class="ch2">ｂ　赤血球濃厚液と新鮮凍結血漿</div><div class="ch2">ｃ　赤血球濃厚液</div><div class="ch2">ｄ　新鮮凍結血漿</div><div class="ch2 ok">ｅ　乳酸リンゲル液</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　乳酸リンゲル液</div><div class="as">ABO型不明の緊急蘇生→まず乳酸リンゲル等の細胞外液補充液で循環を維持</div></div></div>
+<div class="eg">
+<div class="eb ep"><h4>🩸 緊急輸血の原則</h4><span class="kw">ABO型不明の緊急大量出血</span>：血液型確認前は輸血製剤の選択が困難。まず<span class="kw">細胞外液補充液（乳酸リンゲル・生理食塩液）</span>で循環血液量を維持→血液型確認後に輸血。型確認後の緊急輸血：赤血球はO型Rh(-)を使用可。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">緊急蘇生の優先順位</span>：まず細胞外液（乳酸リンゲル・生食）→血液型確認後にO型赤血球。保存血（全血）は現在ほとんど使用されない。新鮮凍結血漿単独は赤血球補充にならない。大量出血では<span class="kw">マッシブトランスフュージョンプロトコル</span>（赤血球：FFP：血小板＝1：1：1）も考慮。</div>
+</div>
+</div></div>
+<div id="s2"><div class="sh"><div class="snum">B</div><h2>B 問題（無印）</h2><div class="sc">Q.58〜Q.72</div></div></div>
+<div class="qc" data-rate="66" data-uid="hema_ch02_q58" id="q58"><div class="qh"><span class="qn">Q.58</span><span class="qe">(115A-43)</span><span class="cr cm">正答率 66%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q58" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q58" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">5歳の女児。急性リンパ性白血病で入院中であり、寛解導入療法を行っている。体温36.4℃。眼瞼結膜は貧血様である。<br>下腿に紫斑を認める。血液所見：赤血球288 万、Hb 8.8g/dL、Ht 26％、網赤血球0.1％、白血球800（分葉核好中球19％、単球0％、リンパ球81％）、血小板1.0 万、PT-INR 1.0（基準0.9 ～1.1）、APTT 29.2 秒（基準対照32.2）、血漿フィブリノゲン170mg/dL（基準200 ～400）。<br><strong>対応として適切な</strong>のはどれか。</div>
+<div class="cs"><div class="ch2 ok">ａ　血小板輸血</div><div class="ch2">ｂ　新鮮凍結血漿輸血</div><div class="ch2">ｃ　赤血球濃厚液輸血</div><div class="ch2">ｄ　エリスロポエチン製剤の投与</div><div class="ch2">ｅ　トロンボポエチン受容体作動薬の投与</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　血小板輸血</div><div class="as">血小板2万→予防的血小板輸血の適応（閾値1万未満が原則だが2万で出血リスク↑なら施行）</div></div></div>
+<div class="eg">
+<div class="eb ep"><h4>🩸 血小板輸血の適応基準</h4><span class="kw">血小板輸血の適応</span>：①<span class="kw">&lt;1万/μL：予防的輸血</span>（無条件）②1〜5万：発熱・出血・侵襲的処置予定があれば輸血③<span class="kw">5万未満＋外科手術・硬膜外穿刺</span>：輸血④<span class="kw">10万未満＋脳・眼手術</span>：輸血。本例2万→化学療法後＋出血リスクを考慮して血小板輸血が適切。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">血小板輸血の最低閾値：1万/μL</span>（出血なし・安定した患者）。エリスロポエチンは赤血球産生↑（貧血治療）。トロンボポエチン受容体作動薬（エルトロンボパグ）はITPの長期治療→急性期対応には不適。FFPは凝固因子補充→血小板数には影響しない。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="37" data-uid="hema_ch02_q59" id="q59"><div class="qh"><span class="qn">Q.59</span><span class="qe">(114E-20)</span><span class="cr cl">正答率 37%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q59" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q59" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><strong>等張液でないのはどれか。</strong></div>
+<div class="cs"><div class="ch2">ａ　生理食塩液</div><div class="ch2">ｂ　5％ブドウ糖液</div><div class="ch2">ｃ　酢酸リンゲル液</div><div class="ch2">ｄ　乳酸リンゲル液</div><div class="ch2 ok">ｅ　25％アルブミン液</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　25%アルブミン液</div><div class="as">25%アルブミンは高張液（膠質浸透圧が高く、組織から水を引き込む）</div></div></div>
+<div class="eg">
+<div class="eb ee"><h4>📋 輸液の種類と浸透圧</h4><table class="tb"><tr><th>輸液</th><th>浸透圧</th><th>用途</th></tr><tr><td>生理食塩液（0.9%NaCl）</td><td><span class="kw3">等張</span>（308 mOsm）</td><td>細胞外液補充</td></tr><tr><td>5%ブドウ糖液</td><td><span class="kw3">等張</span>（278 mOsm）</td><td>自由水補充</td></tr><tr><td>酢酸・乳酸リンゲル液</td><td><span class="kw3">等張</span></td><td>細胞外液補充</td></tr><tr><td><span class="kw4">25%アルブミン液</span></td><td><span class="kw4">高張</span>（1500〜1800 mOsm）</td><td>肝硬変腹水・低Alb血症</td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">5%ブドウ糖液は等張</span>だが、投与後グルコースが代謝されると<span class="kw4">自由水のみが残り低張</span>になる→細胞内にも分布（細胞浮腫注意）。<span class="kw">25%アルブミン</span>は膠質浸透圧↑→組織間液から水を血管内に引き込む（高張性）→血管内脱水の改善に使用。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="66" data-uid="hema_ch02_q60" id="q60"><div class="qh"><span class="qn">Q.60</span><span class="qe">(114F-27)</span><span class="bg bm">2択</span><span class="cr cm">正答率 66%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q60" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q60" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">リンパ球の抑制シグナルに関与し、現在、治療標的となっている分子はどれか。2 つ選べ。</div>
+<div class="cs"><div class="ch2">ａ　CD8</div><div class="ch2">ｂ　CD28</div><div class="ch2">ｃ　TLR〈Toll-like receptor〉-4</div><div class="ch2 ok">ｄ　PD〈programmed cell death〉-1</div><div class="ch2 ok">ｅ　CTLA〈cytotoxic T lymphocyte-associated molecule〉-4</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　PD-1　＋　e　CTLA-4</div><div class="as">PD-1・CTLA-4は免疫チェックポイント分子→阻害薬が癌免疫療法の標的</div></div></div>
+<div class="eg">
+<div class="eb ep"><h4>🩸 免疫チェックポイント分子</h4><span class="kw">免疫チェックポイント</span>：T細胞の過剰活性化を抑制する「ブレーキ」機構。腫瘍はこれを悪用してT細胞から逃避。<br/>①<span class="kw">PD-1（Programmed cell death-1）</span>：T細胞上に発現。PD-L1と結合→T細胞抑制。阻害薬：ニボルマブ・ペムブロリズマブ<br/>②<span class="kw">CTLA-4</span>：CD28と競合してB7に結合→T細胞活性化シグナルを遮断。阻害薬：イピリムマブ</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">PD-1・CTLA-4阻害薬（ICI）</span>：免疫チェックポイント阻害薬。適応：悪性黒色腫・NSCLC・腎細胞癌・ホジキンリンパ腫等。副作用：irAE（免疫関連有害事象）→皮膚炎・腸炎・甲状腺炎・下垂体炎・1型DM・間質性肺炎。CD8＝細胞傷害性T細胞マーカー（抑制シグナルではない）。CD28はT細胞活性化の共刺激分子。TLR-4は自然免疫の受容体。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="40" data-uid="hema_ch02_q61" id="q61"><div class="qh"><span class="qn">Q.61</span><span class="qe">(113A-4)</span><span class="cr cl">正答率 40%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q61" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q61" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">EGFR 遺伝子変異陽性、遠隔転移を有する進行肺腺癌に対する初回治療で、分子標的薬（チロシンキナーゼ阻害薬）<br><strong>の副作用として頻度が高い</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">ａ　貧　血</div><div class="ch2 ok">ｂ　皮膚障害</div><div class="ch2">ｃ　1 型糖尿病</div><div class="ch2">ｄ　好中球減少</div><div class="ch2">ｅ　血小板減少</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　皮膚障害</div><div class="as">抗PD-1抗体のirAEで最頻→皮膚障害（発疹・白斑・痤瘡様皮疹）</div></div></div>
+<div class="eg">
+<div class="eb ept"><h4>🎯 国試ポイント（Q40と同テーマ）</h4><span class="kw">免疫チェックポイント阻害薬（ICI）のirAEで最頻：皮膚障害</span>（30〜50%）。次いで消化管障害・内分泌障害・肝障害・肺障害。従来の殺細胞性抗癌薬は骨髄抑制（貧血・好中球減少・血小板減少）が主。ICIは骨髄抑制は少なく自己免疫的副作用が主体。1型糖尿病はICIのirAEとして起こりうるが頻度は低い。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="34" data-uid="hema_ch02_q62" id="q62"><div class="qh"><span class="qn">Q.62</span><span class="qe">(113E-21)</span><span class="cr cl">正答率 34%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q62" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q62" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">輸血開始1 時間後に、発熱、悪寒および呼吸困難が出現し、血圧が低下した。<br><strong>可能性が低い</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">ａ　輸血関連急性肺障害</div><div class="ch2">ｂ　異型輸血による溶血</div><div class="ch2">ｃ　エンドトキシンショック</div><div class="ch2">ｄ　アナフィラキシーショック</div><div class="ch2 ok">ｅ　輸血後移植片対宿主病〈GVHD〉</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　輸血後移植片対宿主病（GVHD）</div><div class="as">輸血後GVHDは1〜2週後に発症→輸血2時間後の急性症状とは合わない</div></div></div>
+<div class="eg">
+<div class="eb ep"><h4>🩸 輸血副反応の時間軸</h4><span class="kw">輸血開始2時間後</span>の急性症状：急性溶血（ABO不適合）・アナフィラキシー・TRALI・非溶血性発熱反応・エンドトキシンショックが鑑別。<span class="kw4">輸血後GVHD</span>は輸血後<span class="kw4">1〜2週</span>後に発症→2時間後の急性発症とは時間的に一致しない→可能性が低い。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">輸血副反応の時間軸まとめ</span>：①数分〜数時間：アナフィラキシー・急性溶血・TRALI・非溶血性発熱反応 ②1〜2週：輸血後GVHD・遅発性溶血反応 ③数年後：輸血後肝炎・ヘモクロマトーシス（反復輸血）。本問：2時間後→GVHDは時間的に不一致→可能性最も低い。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="19" data-uid="hema_ch02_q63" id="q63"><div class="qh"><span class="qn">Q.63</span><span class="qe">(111E-56)</span><span class="cr cl">正答率 19%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q63" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q63" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">32歳の女性。2回経妊2回経産婦。1年前からの不正性器出血を主訴に来院した。臨床病期1期の子宮頸癌と診断され、<br>3 週間後に広汎子宮全摘術とリンパ節郭清術が予定されている。予測出血量は800mL である。血液所見：赤血球380 万、<br>Hb 11.4g/dL、Ht 37％、白血球5,200、血小板16 万。血液生化学所見：総蛋白6.4g/dL、AST 32U/L、ALT 29U/L。<br>血液型はAB 型RhD（－）である。<br><strong>現時点の対応として誤っている</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">ａ　鉄剤投与</div><div class="ch2">ｂ　自己血貯血</div><div class="ch2">ｃ　不規則抗体スクリーニング</div><div class="ch2 ok">ｄ　赤血球液-LR との交差適合試験</div><div class="ch2">ｅ　血液準備量について院内輸血部門と調整</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　赤血球液-LRとの交差適合試験</div><div class="as">Q50と同じ：不規則抗体陽性→抗原適合血の選択が必要。通常の交差適合試験では不十分</div></div></div>
+<div class="eg">
+<div class="eb ept"><h4>🎯 国試ポイント（Q50と同テーマ）</h4><span class="kw">不規則抗体陽性患者への対応</span>：①産科・外科手術前には必ず不規則抗体スクリーニングを実施②陽性判明→対応抗原陰性の赤血球製剤を準備③通常の交差適合試験だけでは不規則抗体による反応を見落とす可能性あり→<span class="kw4">誤り（d）</span>④輸血部門との事前調整・自己血貯血・鉄剤による術前貧血改善は全て正しい対応。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="56" data-uid="hema_ch02_q64" id="q64"><div class="qh"><span class="qn">Q.64</span><span class="qe">(110E-57)</span><span class="cr cl">正答率 56%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q64" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q64" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">24 歳の初妊婦。妊娠34 週。これまで自宅近くの診療所で妊婦健康診査を受けていた。交通外傷のため救急車で搬入された。出血性ショックがあり、血液型判定結果を待たずに緊急輸血を行うことになった。携帯していた母子健康手帳によると、血液型はA 型RhD（＋）、不規則抗体（－）である。<br>輸血開始時の赤血球液LR と新鮮凍結血漿LR の組合せで適切なのはどれか。<br>赤血球液LR　　　新鮮凍結血漿LR</div>
+<div class="cs"><div class="ch2">ａ　A　型  ―――――  A　型</div><div class="ch2">ｂ　A　型  ―――――  O　型</div><div class="ch2">ｃ　AB 型  ―――――  O　型</div><div class="ch2">ｄ　O　型  ―――――  A　型</div><div class="ch2 ok">ｅ　O　型  ―――――  AB 型</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　O型赤血球 ── AB型FFP</div><div class="as">緊急時：赤血球=O型（万能ドナー）、FFP=AB型（万能ドナー）</div></div></div>
+<div class="eg">
+<div class="eb ept"><h4>🎯 国試ポイント（Q49と同テーマ）</h4>緊急時の輸血：<span class="kw">赤血球→O型（抗原なし）、FFP→AB型（抗体なし）</span>が万能ドナー。B型患者の場合：赤血球は同型（B型）またはO型。FFPは同型（B型）またはAB型→選択肢eがO型赤血球＋AB型FFPで正解。O型FFPには抗A・抗B両抗体あり→B型患者に投与すると溶血リスク→AB型FFPが安全。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="35" data-uid="hema_ch02_q65" id="q65"><div class="qh"><span class="qn">Q.65</span><span class="qe">(109F-3)</span><span class="cr cl">正答率 35%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q65" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q65" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><strong>血液検査項目の組合せで、2 回に分けて採血すべきな</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">ａ　血糖とHbA1c</div><div class="ch2">ｂ　ALT とHBs 抗原</div><div class="ch2">ｃ　白血球分画とCRP</div><div class="ch2">ｄ　アルブミンと蛋白分画</div><div class="ch2 ok">ｅ　血液型と交差適合試験〈クロスマッチ〉</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　血液型と交差適合試験〈クロスマッチ〉</div><div class="as">血液型検査とクロスマッチは別日・別採血が安全確認のルール</div></div></div>
+<div class="eg">
+<div class="eb ep"><h4>🩸 血液型検査の2回採血の理由</h4><span class="kw">血液型検査と交差適合試験</span>：同じ採血管から行うと採血ラベルの誤記・取り違えリスクがある→輸血事故の最大原因。安全確保のため<span class="kw">別の機会（2回）に採血</span>→両方の血液型が一致した場合にのみ輸血製剤を準備。日本輸血・細胞治療学会が推奨。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">輸血における最大の事故原因：患者取り違えによる異型輸血</span>。防止のため血液型確認は<span class="kw">2回（別採血）が原則</span>。ABO型不適合輸血は致死的急性溶血反応（DIC・腎不全）を来たす。他の組み合わせ（血糖とHbA1c、ALTとHBs等）は同時採血で問題ない。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="99" data-uid="hema_ch02_q66" id="q66"><div class="qh"><span class="qn">Q.66</span><span class="qe">(108C-25)</span><span class="cr ch">正答率 99%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q66" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q66" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">80 歳の男性。胸痛と息苦しさとを主訴に来院した。6 か月前に多発転移を伴う肺癌の診断を受けた。「癌に対する積極的な治療は受けない」、「少しでも家族とともに過ごしたい」と訴え自宅で療養していた。1 週前から両側の胸部鈍痛と息苦しさとを自覚し、自宅近くの診療所で非ステロイド性抗炎症薬を処方されたが改善しないため受診した。<br>疼痛で食欲は低下しているが、食事摂取は可能である。来院時、意識は清明。身長168cm、体重40kg。体温36.0℃。<br>脈拍96/ 分、整。血圧110/60mmHg。呼吸数20/ 分。SpO2 96％（room air）。<br><strong>治療として適切な</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">ａ　気管挿管</div><div class="ch2">ｂ　免疫療法</div><div class="ch2">ｃ　抗癌化学療法</div><div class="ch2">ｄ　中心静脈栄養</div><div class="ch2 ok">ｅ　オピオイドの投与</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　オピオイドの投与</div><div class="as">末期癌の強い疼痛→強オピオイドが第一選択</div></div></div>
+<div class="eg">
+<div class="eb ept"><h4>🎯 国試ポイント（Q41・Q45と同テーマ）</h4><span class="kw">末期癌の強い疼痛（NRS 7以上）→強オピオイド</span>（モルヒネ・オキシコドン・ヒドロモルフォン・フェンタニル）が適応。気管挿管は呼吸管理。免疫療法・抗癌化学療法は根治目的（末期癌で疼痛コントロール目的には不適）。中心静脈栄養は栄養管理。<span class="kw">疼痛は緩和ケアの最重要課題</span>→オピオイドを躊躇わずに使用。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="75" data-uid="hema_ch02_q67" id="q67"><div class="qh"><span class="qn">Q.67</span><span class="qe">(106E-41)</span><span class="cr cm">正答率 75%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q67" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q67" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">74 歳の男性。背部痛と呼吸困難とを主訴に来院した。膵体部癌切除術後に有痛性の多発性肺転移をきたしたが積極的な治療は望まず、1 か月前から自宅近くの診療所で経口モルヒネを処方され内服していた。5 日前に体動時の背部痛を認め、それを契機に徐々に息苦しさを感じるようになったため紹介されて受診した。意識は清明。身長164cm、体重48kg。体温36.7℃。脈拍76/ 分、整。血圧120/70mmHg。呼吸数20/ 分。SpO2 97％（room air）。血液所見：赤血球302 万、Hb 7.8g/dl、Ht 29％、白血球2,600、血小板8.0 万。血液生化学所見：総蛋白5.8g/dl、アルブミン2.7g/dl、尿素窒素24mg/dl、クレアチニン1.4mg/dl、総ビリルビン2.1mg/dl、AST 47IU/l、ALT 68IU/l、<br>ALP 378IU/l（基準115 ～359）、γ-GTP 67IU/l（基準8 ～50）。食事の経口摂取は可能で、食欲も保たれている。<br><strong>現時点の対応として適切な</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">ａ　胸腔穿刺を行う。</div><div class="ch2 ok">ｂ　経口モルヒネを増量する。</div><div class="ch2">ｃ　在宅酸素療法を導入する。</div><div class="ch2">ｄ　医療用麻薬の貼付剤を追加する。</div><div class="ch2">ｅ　本人の意思に反して抗悪性腫瘍薬を投与する。</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　経口モルヒネを増量する</div><div class="as">オピオイドは呼吸困難にも有効。増量が適切（酸素療法より優先）</div></div></div>
+<div class="eg">
+<div class="eb ep"><h4>🩸 がん性疼痛・呼吸困難とオピオイド</h4><span class="kw">モルヒネは呼吸困難にも有効</span>（呼吸中枢の感受性を下げ、呼吸困難感を緩和）。現在の量で不十分→<span class="kw">25〜33%増量</span>が標準対応。胸腔穿刺は胸水がある場合の処置。在宅酸素療法はPaO₂&lt;55 Torr等の適応があれば考慮するが、今回は呼吸困難のコントロールが優先。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">モルヒネの適応</span>：①癌性疼痛②呼吸困難（がん患者・COPDの末期）。呼吸困難に対してオピオイドを使用することは<span class="kw">二重効果（double effect）の原則</span>で倫理的に許容される。本人の意思に反する抗癌薬投与は倫理的に不適切（e）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="21" data-uid="hema_ch02_q68" id="q68"><div class="qh"><span class="qn">Q.68</span><span class="qe">(105B-8)</span><span class="cr cl">正答率 21%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q68" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q68" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><strong>慢性GVHD の皮膚症状</strong>はどれか。</div>
+<div class="cs"><div class="ch2 ok">ａ　扁平苔癬</div><div class="ch2">ｂ　結節性紅斑</div><div class="ch2">ｃ　尋常性乾癬</div><div class="ch2">ｄ　中毒性表皮壊死症</div><div class="ch2">ｅ　Stevens-Johnson 症候群</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　扁平苔癬</div><div class="as">慢性GVHDの皮膚所見：扁平苔癬様・強皮症様・皮膚硬化</div></div></div>
+<div class="eg">
+<div class="eb ee"><h4>📋 急性GVHD vs 慢性GVHDの皮膚症状</h4><table class="tb"><tr><th>時期</th><th>皮膚症状</th></tr><tr><td><span class="kw">急性GVHD（≦100日）</span></td><td>浮腫性紅斑（手掌・足底）→紅皮症・水疱</td></tr><tr><td><span class="kw">慢性GVHD（&gt;100日）</span></td><td><span class="kw">扁平苔癬様・皮膚硬化（強皮症様）・色素沈着・乾燥・白斑</span></td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント（Q53と対比）</h4><span class="kw">慢性GVHDの皮膚症状：扁平苔癬様・皮膚硬化（強皮症様）</span>。結節性紅斑・乾癬・TEN・SJSは他疾患で、GVHDとは無関係。慢性GVHDの他の特徴：口腔乾燥・口腔扁平苔癬・ドライアイ・閉塞性細気管支炎（肺）・胆汁うっ滞性肝障害。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="82" data-uid="hema_ch02_q69" id="q69"><div class="qh"><span class="qn">Q.69</span><span class="qe">(105B-39)</span><span class="bg bm">3択</span><span class="cr ch">正答率 82%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q69" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q69" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">同種血輸血の合併症としてみられるのはどれか。3 つ選べ。</div>
+<div class="cs"><div class="ch2 ok">ａ　肝　炎</div><div class="ch2 ok">ｂ　GVHD</div><div class="ch2">ｃ　急性胆管炎</div><div class="ch2">ｄ　Raynaud 症候群</div><div class="ch2 ok">ｅ　急性呼吸促迫症候群</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　肝炎　＋　b　GVHD　＋　e　急性呼吸促迫症候群</div><div class="as">輸血関連合併症：感染症（肝炎）・免疫反応（GVHD）・肺障害（ARDS/TRALI）</div></div></div>
+<div class="eg">
+<div class="eb ee"><h4>📋 同種血輸血の合併症</h4><table class="tb"><tr><th>分類</th><th>合併症</th></tr><tr><td><span class="kw">感染症</span></td><td><span class="kw">肝炎（HCV・HBV）</span>・HIV・マラリア・HTLV-1</td></tr><tr><td><span class="kw">免疫反応</span></td><td>急性/遅発性溶血・<span class="kw">輸血後GVHD</span>・アナフィラキシー・非溶血性発熱</td></tr><tr><td><span class="kw">肺障害</span></td><td><span class="kw">TRALI（ARDS）・TAco（循環過負荷）</span></td></tr><tr><td>その他</td><td>鉄過剰症（反復輸血）・クエン酸中毒（大量輸血）</td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">輸血後GVHD・TRALI・輸血後肝炎は輸血の代表的合併症</span>。急性胆管炎・Raynaud症候群は輸血と無関係。ARDSはTRALIと同義（輸血関連急性肺障害が輸血によるARDS）。反復輸血でヘモクロマトーシス（鉄過剰蓄積→肝・心・膵障害）も重要。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="93" data-uid="hema_ch02_q70" id="q70"><div class="qh"><span class="qn">Q.70</span><span class="qe">(105F-5)</span><span class="cr ch">正答率 93%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q70" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q70" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><strong>新鮮凍結血漿輸血の適応があるのはどれか。</strong></div>
+<div class="cs"><div class="ch2 ok">ａ　血漿フィブリノゲン低下</div><div class="ch2">ｂ　血清γ- グロブリン低下</div><div class="ch2">ｃ　血清アルブミン低下</div><div class="ch2">ｄ　循環血漿量減少</div><div class="ch2">ｅ　低栄養状態</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　血漿フィブリノゲン低下</div><div class="as">FFPの適応：凝固因子欠乏（DIC・肝障害）・フィブリノゲン低下</div></div></div>
+<div class="eg">
+<div class="eb ee"><h4>📋 FFPの適応・非適応</h4><table class="tb"><tr><th>適応</th><th>非適応</th></tr><tr><td><span class="kw">凝固因子欠乏</span>（DIC・肝不全）</td><td>血清Alb低下→<span class="kw4">アルブミン製剤</span>を使用</td></tr><tr><td><span class="kw">大量出血時の凝固因子補充</span></td><td>循環血液量補充→<span class="kw4">細胞外液補充液</span></td></tr><tr><td><span class="kw">フィブリノゲン低下（&lt;150 mg/dL）</span></td><td>γグロブリン低下→<span class="kw4">免疫グロブリン製剤</span></td></tr><tr><td>TTP（血漿交換・補充に使用）</td><td>低栄養→<span class="kw4">経腸/静脈栄養</span></td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">FFP（新鮮凍結血漿）の適応は凝固因子補充のみ</span>。アルブミン補充・免疫グロブリン補充・栄養補給・循環血漿量補充には使わない（それぞれ専用製剤がある）。フィブリノゲン＜150 mg/dLはDICの診断基準の一つ→FFP適応。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="69" data-uid="hema_ch02_q71" id="q71"><div class="qh"><span class="qn">Q.71</span><span class="qe">(104B-37)</span><span class="cr cm">正答率 69%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q71" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q71" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><strong>輸血用赤血球製剤に使われている抗凝固薬はどれか。</strong></div>
+<div class="cs"><div class="ch2">ａ　t-PA</div><div class="ch2">ｂ　ワルファリン</div><div class="ch2">ｃ　ヘパリンナトリウム</div><div class="ch2 ok">ｄ　クエン酸ナトリウム</div><div class="ch2">ｅ　エチレンジアミン四酢酸〈EDTA〉</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　クエン酸ナトリウム</div><div class="as">輸血用血液製剤の保存液にクエン酸Naが使用される（Ca²⁺キレート）</div></div></div>
+<div class="eg">
+<div class="eb ep"><h4>🩸 輸血製剤の保存液</h4><span class="kw">輸血用製剤（赤血球液・FFP等）の抗凝固薬：クエン酸ナトリウム</span>。CPDA-1液（クエン酸・リン酸・デキストロース・アデニン）に含有→Ca²⁺をキレート→凝固を防ぐ→保存期間を延長（35日）。大量輸血時にクエン酸中毒（低Ca血症）→グルコン酸Ca投与。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>輸血製剤の抗凝固薬＝<span class="kw">クエン酸Na</span>（検査用採血管と同じ）。t-PA＝血栓溶解薬（輸血とは無関係）。ワルファリン・EDTA・ヘパリンは輸血製剤の抗凝固薬として不適。大量輸血後の低Ca血症は生命危機→クエン酸中毒として重要。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="60" data-uid="hema_ch02_q72" id="q72"><div class="qh"><span class="qn">Q.72</span><span class="qe">(102G-29)</span><span class="cr cm">正答率 60%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="hema_ch02_q72" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="hema_ch02_q72" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><strong>慢性GVHD の標的臓器となりにくい</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">ａ　肺</div><div class="ch2 ok">ｂ　心　臓</div><div class="ch2">ｃ　肝　臓</div><div class="ch2">ｄ　皮　膚</div><div class="ch2">ｅ　唾液腺</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　心臓</div><div class="as">慢性GVHDは皮膚・肝臓・肺・唾液腺・眼が主標的。心臓は稀</div></div></div>
+<div class="eg">
+<div class="eb ee"><h4>📋 慢性GVHDの主要標的臓器</h4><table class="tb"><tr><th>臓器</th><th>症状</th><th>頻度</th></tr><tr><td><span class="kw">皮膚</span></td><td>扁平苔癬様・皮膚硬化・色素異常</td><td>最多</td></tr><tr><td><span class="kw">口腔</span></td><td>口腔乾燥・扁平苔癬・歯肉炎</td><td>多い</td></tr><tr><td><span class="kw">肺</span></td><td>閉塞性細気管支炎（BOS）</td><td>重篤</td></tr><tr><td><span class="kw">肝臓</span></td><td>胆汁うっ滞性肝障害</td><td>多い</td></tr><tr><td><span class="kw">眼・唾液腺</span></td><td>ドライアイ・ドライマウス</td><td>多い</td></tr><tr><td><span class="kw4">心臓</span></td><td>（稀）</td><td>稀</td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">慢性GVHDの標的臓器：皮膚・口腔・肺・肝臓・眼・唾液腺・腸管・生殖器</span>。<span class="kw4">心臓は標的となりにくい</span>。慢性GVHDはSLE・強皮症・Sjögren症候群様の全身自己免疫疾患に類似した病像を示す。治療：ステロイド・シクロスポリン・タクロリムス。</div>
+</div>
+</div></div>
+</div>
+<div class="pf">MEC臓器別講座 '26 血液 ｜ 第2章 化学療法・輸血・移植 解答・解説集（全33問）</div>
+<button id="st" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<script>
+window.addEventListener('scroll',()=>{const t=document.body.scrollHeight-window.innerHeight;const pb=document.getElementById('pb');if(pb)pb.style.width=(window.scrollY/t*100)+'%';const st=document.getElementById('st');if(st)st.style.display=window.scrollY>300?'flex':'none';});
+function goto(id){const e=document.getElementById(id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'});}
+</script>
+<script src="../progress.js?v=3"></script>
+<script>
+// MECSync が初期化後、章ごとの進捗バーを更新
+document.addEventListener('mecSyncComplete', function() {
+  document.querySelectorAll('.qc[data-uid]').forEach(function(card) {
+    var uid = card.dataset.uid;
+    var done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+    var flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+    var lapBtn = card.querySelector('.mec-lap-btn');
+    if (lapBtn) { var dl = done[uid] || 0; var nl = lapBtn.querySelector('.mec-lap-num');
+      if (nl) nl.textContent = dl > 0 ? dl : ''; lapBtn.classList.toggle('mec-lapped', dl > 0); card.classList.toggle('mec-done', dl > 0); }
+    var fb = card.querySelector('.mec-flag-btn');
+    if (fb && flags[uid]) fb.classList.add('mec-flagged');
+  });
+});
+
+let currentFilter = 'all';
+let currentState = 'all';
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('[data-filter]').forEach(b => b.classList.toggle('fc-on', b.dataset.filter === f));
+  applyFilters();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setState(s) {
+  currentState = s;
+  document.querySelectorAll('[data-state]').forEach(b => b.classList.toggle('fs-on', b.dataset.state === s));
+  applyFilters();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function applyFilters() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  const today = new Date().toISOString().slice(0, 10);
+  let visible = 0, doneVis = 0;
+  document.querySelectorAll('.qc[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    const r = c.dataset.rate !== undefined && c.dataset.rate !== '' ? +c.dataset.rate : null;
+    const f = currentFilter;
+    let showDiff;
+    if (f === 'all') showDiff = true;
+    else if (f === 'norate') showDiff = r === null;
+    else if (f === 'star') showDiff = !!c.querySelector('.bg.bs');
+    else if (f === 'img') showDiff = !!c.querySelector('.qimg');
+    else if (r !== null) showDiff = (f === 'hard' && r < 60) || (f === 'mid' && r >= 60 && r < 80) || (f === 'easy' && r >= 80);
+    else showDiff = false;
+    const st = currentState;
+    let showState;
+    if (st === 'all') showState = true;
+    else if (st === 'flag') showState = !!flags[uid];
+    else if (st === 'undone') showState = !done[uid];
+    else if (st === 'done') showState = !!done[uid];
+    else showState = true;
+    const show = showDiff && showState;
+    c.style.display = show ? '' : 'none';
+    if (show) { visible++; if (window.mecSessionDone && window.mecSessionDone.has(uid)) doneVis++; }
+  });
+  document.querySelectorAll('.sg').forEach(g => {
+    const vis = [...g.querySelectorAll('.qc')].some(c => c.style.display !== 'none');
+    g.style.display = vis ? '' : 'none';
+  });
+  const vc = document.getElementById('visCount');
+  if (vc) vc.textContent = visible ? visible + '問' : '—';const fp=document.getElementById('filtProgFill');const ft=document.getElementById('filtProgTxt');const pct=visible>0?Math.round(doneVis/visible*100):0;if(fp)fp.style.width=pct+'%';if(ft)ft.textContent='残り'+(visible-doneVis)+'問';
+}
+
+function filterCards(f) { setFilter(f); }
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var sn = document.querySelector('.sn');
+  var sn2 = document.querySelector('.sn2');
+  if (sn && sn2) {
+    var setTop = function() { sn2.style.top = sn.offsetHeight + 'px'; };
+    setTop();
+    if (window.ResizeObserver) new ResizeObserver(setTop).observe(sn);
+  }
+});
+</script>
+<script>
+document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;var tag=document.activeElement&&document.activeElement.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||tag==='BUTTON')return;e.preventDefault();var hdr=document.querySelector('.mec-ch-prog');var hdrH=hdr?hdr.getBoundingClientRect().bottom:0;var cards=[].slice.call(document.querySelectorAll('.qc[data-uid]')).filter(function(c){return c.style.display!=='none';});var card=cards.find(function(c){var r=c.getBoundingClientRect();return r.top>=hdrH-10&&r.bottom>hdrH;})||cards.find(function(c){return c.getBoundingClientRect().bottom>hdrH;});if(card){var btn=card.querySelector('.mec-lap-btn');if(btn)btn.click();}});
+(function(){document.querySelectorAll('.qc[data-uid]').forEach(function(card){var ctrl=card.querySelector('.mec-controls');if(!ctrl)return;var b=document.createElement('span');b.className='mec-enter-badge';b.textContent='⏎';ctrl.insertBefore(b,ctrl.firstChild);});var _ac=null;function _upd(){var hdr=document.querySelector('.mec-ch-prog');var hdrH=hdr?hdr.getBoundingClientRect().bottom:0;var cards=[].slice.call(document.querySelectorAll('.qc[data-uid]')).filter(function(c){return c.style.display!=='none';});var card=cards.find(function(c){var r=c.getBoundingClientRect();return r.top>=hdrH-10&&r.bottom>hdrH;})||cards.find(function(c){return c.getBoundingClientRect().bottom>hdrH;});if(card===_ac)return;if(_ac)_ac.classList.remove('mec-enter-active');_ac=card||null;if(_ac)_ac.classList.add('mec-enter-active');}var _raf;window.addEventListener('scroll',function(){cancelAnimationFrame(_raf);_raf=requestAnimationFrame(_upd);},{passive:true});window.addEventListener('resize',_upd);document.addEventListener('click',function(){setTimeout(_upd,50);});_upd();})();
+</script>
+<script src="../chapter_exam.js"></script>
+</body>
+</html>

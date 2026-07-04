@@ -1,0 +1,487 @@
+﻿<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MEC呼吸器 第5章 肺循環障害 解答解説</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../vars.css">
+<style>
+:root{--or:#E8703A;--orl:#FFF0E8;--ord:#C85A25;--cy:#007C8A;}
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--gb);color:var(--tx);font-size:14px;line-height:1.7;}
+#pb{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--cy),var(--or));z-index:9999;transition:width .1s;}
+.ph{background:linear-gradient(135deg,#003A4A 0%,#005A6A 100%);color:#fff;padding:36px 24px 28px;position:relative;overflow:hidden;}
+.ph::before{content:'';position:absolute;bottom:-2px;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--cy),var(--or),var(--cy));}
+.ph::after{content:'塞栓';position:absolute;right:-10px;top:-10px;font-size:100px;font-weight:900;color:rgba(255,255,255,.04);pointer-events:none;}
+.hb{display:inline-block;background:var(--cy);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:10px;}
+.ph h1{font-size:24px;font-weight:900;margin-bottom:6px;}.ph h1 span{color:#80DEEA;}
+.hs{font-size:12px;color:rgba(255,255,255,.6);margin-top:6px;}
+.hst{display:flex;gap:16px;margin-top:16px;flex-wrap:wrap;}
+.sp{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;font-size:12px;}
+.sp strong{color:#80DEEA;font-size:15px;font-weight:700;margin-right:4px;}
+.sn{position:sticky;top:0;z-index:100;background:#fff;border-bottom:2px solid var(--cy);padding:7px 14px;display:flex;gap:5px;overflow-x:auto;box-shadow:0 2px 8px rgba(0,0,0,.08);scrollbar-width:none;}
+.sn::-webkit-scrollbar{display:none;}
+.nb{flex-shrink:0;background:none;border:1.5px solid var(--bd);border-radius:20px;padding:3px 12px;font-size:11px;font-weight:700;font-family:'Noto Sans JP',sans-serif;cursor:pointer;color:var(--ts);transition:all .2s;white-space:nowrap;}
+.nb:hover,.nb.active{background:var(--cy);border-color:var(--cy);color:#fff;}
+.ct{max-width:900px;margin:0 auto;padding:20px 14px 60px;}
+.sh{display:flex;align-items:center;gap:10px;background:var(--nv);color:#fff;padding:12px 18px;border-radius:10px;margin:28px 0 14px;}
+.sh .snum{background:var(--cy);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;flex-shrink:0;}
+.sh h2{font-size:14px;font-weight:700;}.sh .sc{margin-left:auto;background:rgba(255,255,255,.15);border-radius:12px;padding:2px 10px;font-size:11px;flex-shrink:0;}
+.qc{background:var(--cb);border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:14px;border-left:4px solid var(--or);overflow:hidden;}
+.qh{display:flex;align-items:center;gap:7px;padding:11px 15px 7px;flex-wrap:wrap;border-bottom:1px solid var(--gb);}
+.qn{font-size:14px;font-weight:900;color:var(--nv);min-width:36px;}.qe{font-size:11px;color:var(--ts);}
+.bg{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;}
+.bs{background:#FFF3CD;color:#B45309;border:1px solid #F5D87A;}.bc{background:#E8F4FD;color:#1565C0;border:1px solid #90CAF9;}
+.bi{background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8;}
+.bk{background:#E8F5E9;color:#1B5E20;border:1px solid #A5D6A7;}.bm{background:#FFF8E1;color:#E65100;border:1px solid #FFCC80;}
+.br{background:#E3F2FD;color:#01579B;border:1px solid #81D4FA;}
+.cr{margin-left:auto;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;flex-shrink:0;}
+.ch{background:var(--grl);color:var(--gr);border:1px solid #A5D6A7;}.cm{background:var(--yll);color:#92660A;border:1px solid #FFD54F;}
+.cl{background:var(--rdl);color:var(--rd);border:1px solid #EF9A9A;}
+.qb{padding:11px 15px 14px;}.qt{font-size:13.5px;line-height:1.75;margin-bottom:9px;}.qt strong{color:var(--ord);}
+.cs{background:var(--gb);border-radius:6px;padding:9px 13px;margin-bottom:11px;}
+.ch2{font-size:13px;padding:2px 0;line-height:1.6;}
+.ab{background:var(--grl);border:1.5px solid #81C784;border-radius:8px;padding:9px 13px;margin-bottom:11px;display:flex;align-items:flex-start;gap:7px;}
+.ai{font-size:15px;flex-shrink:0;margin-top:1px;}.ac{font-size:13.5px;font-weight:700;color:var(--gr);line-height:1.5;}
+.as{font-size:12px;font-weight:400;color:#3A7D51;margin-top:2px;}
+.eg{display:grid;gap:9px;margin-top:9px;}
+.eb{border-radius:6px;padding:9px 12px;font-size:13px;line-height:1.7;}
+.eb h4{font-size:11px;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;}
+.ep{background:var(--bl);border-left:3px solid #1976D2;}.ep h4{color:#1565C0;}
+.ee{background:#F0FDF4;border-left:3px solid var(--gr);}.ee h4{color:var(--gr);}
+.ept{background:linear-gradient(135deg,#FFF9F0,#FFF3E0);border:1.5px solid var(--or);border-radius:8px;}.ept h4{color:var(--ord);font-size:11px;}
+.em{background:var(--pul);border-left:3px solid var(--pu);}.em h4{color:var(--pu);}
+.ec{background:#F9FBE7;border-left:3px solid #8BC34A;font-family:monospace;}.ec h4{color:#558B2F;font-family:'Noto Sans JP',sans-serif;}
+.kw{color:var(--ord);font-weight:700;}.kw4{color:var(--rd);font-weight:700;}.kw3{color:var(--gr);font-weight:700;}
+.tb{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:5px;}
+.tb th{background:var(--nv);color:#fff;padding:5px 9px;text-align:left;font-weight:700;}
+.tb td{padding:4px 9px;border-bottom:1px solid var(--bd);}
+.tb tr:last-child td{border-bottom:none;}.tb tr:nth-child(even) td{background:var(--gb);}
+.rb{background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border:1.5px solid #64B5F6;border-radius:8px;padding:9px 14px;margin-bottom:7px;font-size:13px;font-weight:500;color:#01579B;}
+.rb .pi{margin-top:7px;font-size:12px;color:var(--tx);line-height:1.8;font-weight:400;}
+.pf{background:var(--nv);color:rgba(255,255,255,.5);text-align:center;padding:18px;font-size:12px;margin-top:40px;}
+#st{position:fixed;bottom:22px;right:22px;background:var(--cy);color:#fff;border:none;border-radius:50%;width:42px;height:42px;font-size:18px;cursor:pointer;box-shadow:0 3px 12px rgba(0,124,138,.4);display:none;align-items:center;justify-content:center;z-index:500;}
+.fsep{width:1px;height:20px;background:var(--bd);margin:0 4px;flex-shrink:0;}[data-filter].fc-on{background:var(--or);border-color:var(--or);color:#fff;}[data-filter="hard"].fc-on{background:var(--rd);border-color:var(--rd);}[data-filter="mid"].fc-on{background:var(--yl);border-color:var(--yl);color:#744A00;}[data-filter="easy"].fc-on{background:var(--gr);border-color:var(--gr);}[data-filter="norate"].fc-on{background:#78909C;border-color:#78909C;color:#fff;}.qimg-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px;}.qimg{max-height:450px;max-width:80%;object-fit:contain;border-radius:4px;border:1px solid var(--bd,#e0e5eb);cursor:zoom-in;transition:max-height .2s,max-width .2s;}.qimg:active{max-height:none;max-width:100%;}.filt-prog{display:flex;align-items:center;gap:8px;padding:3px 10px 5px;background:rgba(0,0,0,.12);}.filt-prog-bar{flex:1;height:6px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden;}.filt-prog-fill{height:100%;background:var(--or);border-radius:3px;transition:width .3s;}.filt-prog-txt{font-size:10px;font-weight:700;color:rgba(255,255,255,.65);white-space:nowrap;min-width:60px;text-align:right;}.qimg{cursor:zoom-in!important;transition:none!important;}
+.qimg:active{max-height:450px!important;max-width:80%!important;}
+#imgLightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9998;align-items:center;justify-content:center;cursor:zoom-out;}
+#imgLightbox.open{display:flex;}
+#imgLightbox img{max-width:95vw;max-height:90vh;border-radius:8px;object-fit:contain;}
+.compact-mode .cs,.compact-mode .ab,.compact-mode .eg{display:none!important;}
+.compact-mode .qc.compact-open .cs{display:block!important;}
+.compact-mode .qc.compact-open .ab{display:flex!important;}
+.compact-mode .qc.compact-open .eg{display:grid!important;}
+.compact-mode .qc:not(.compact-open) .qt{cursor:pointer;}
+.compact-mode .qc:not(.compact-open) .qt::after{content:" ▼";font-size:10px;opacity:.35;vertical-align:middle;}
+.nb2.compact-on{background:#2E7D32;border-color:#2E7D32;color:#fff;}
+.qc.mec-enter-active{border-left-color:var(--gr)!important;background:linear-gradient(to right,rgba(45,140,78,.08) 0%,transparent 32%);}.mec-enter-badge{display:none;background:var(--gr);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;white-space:nowrap;letter-spacing:.02em;}.qc.mec-enter-active .mec-enter-badge{display:inline-block;}
+</style>
+<link rel="stylesheet" href="../chapter_common.css">
+</head>
+<body>
+<div id="pb"></div>
+<div class="ph">
+<div class="hb">MEC臓器別講座 '26 | 呼吸器</div>
+<h1>第<span>5</span>章｜肺循環<span>障害</span></h1>
+<div class="hs">解答・解説集 全37問（肺血栓塞栓症・肺高血圧症・肺動静脈瘻・第4章追加問題）</div>
+<div class="hst">
+<div class="sp"><strong>37</strong>問</div>
+<div class="sp"><strong>Q.245〜247</strong> 第4章追加</div>
+<div class="sp"><strong>Q.248〜281</strong> 第5章本体</div>
+</div>
+</div>
+<div class="mec-ch-prog"><a class="mec-hub-link" href="../index.html">← ハブへ</a><div class="mec-ch-prog-bar"><div class="mec-ch-prog-fill" style="width:0%"></div></div><span class="mec-ch-prog-txt">0/0</span><span class="mec-sync-badge">⚙️ 未設定</span></div><div class="sn">
+<button class="nb" onclick="goto('s0')">追加Q.245-247</button>
+<button class="nb" onclick="goto('s1')">A問題★</button>
+<button class="nb" onclick="goto('s2')">B問題★</button>
+<button class="nb" onclick="goto('s3')">A問題（無印）</button>
+<button class="nb" onclick="goto('q260')">Q.260連問</button>
+<button class="nb" onclick="goto('s4')">B問題（無印）</button>
+<button class="nb" onclick="goto('q267')">Q.267連問</button>
+<button class="nb" onclick="goto('q271')">Q.271連問</button>
+<button class="nb" onclick="goto('q281')">Q.281連問</button>
+<span class="fsep"></span><button class="nb fc-on" data-filter="all" onclick="filterCards('all')">全問</button><button class="nb" data-filter="hard" onclick="filterCards('hard')">難問</button><button class="nb" data-filter="mid" onclick="filterCards('mid')">標準</button><button class="nb" data-filter="easy" onclick="filterCards('easy')">易問</button><button class="nb" data-filter="norate" onclick="filterCards('norate')">正答率なし</button><button class="nb" data-filter="star" onclick="setFilter('star')">★問題</button><button class="nb" data-filter="img" onclick="setFilter('img')">🖼️ 画像</button><span class="fsep"></span><span class="vis-count" id="visCount">—</span></div><div class="sn2"><button class="nb2 fs-on" data-state="all" onclick="setState('all')">すべて</button><button class="nb2" data-state="flag" onclick="setState('flag')">🚩 赤旗</button><button class="nb2" data-state="undone" onclick="setState('undone')">未済</button><button class="nb2" data-state="done" onclick="setState('done')">済み</button><button id="bookmarkBtn" class="nb2" style="margin-left:auto" onclick="saveBookmark()">📖 しおり</button><button id="compactBtn" class="nb2" onclick="toggleCompact()">📋 コンパクト</button></div><div class="filt-prog"><div class="filt-prog-bar"><div class="filt-prog-fill" id="filtProgFill" style="width:0%"></div></div><span class="filt-prog-txt" id="filtProgTxt">—</span></div>
+<div class="ct">
+<div id="s0"><div class="sh" style="background:#3A2A5A;"><div class="snum">追</div><h2>第4章追加（B問題・無印）</h2><div class="sc">Q.245〜Q.247</div></div></div>
+<div class="qc" data-rate="62" data-uid="resp_ch05_q245" id="q245"><div class="qh"><span class="qn">Q.245</span><span class="qe">(104I-67)</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 62%</span><span class="cr cm">正答率 62%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q245" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q245" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">50 歳の女性。主婦。呼吸困難を主訴に来院した。1 か月前から乾性咳嗽と軽い息切れ、1 週前から微熱が出現し、<br>2 日前から呼吸困難を強く感じるようになった。喫煙歴はない。住居は築16 年で往来の激しい道路沿いにある。家では猫を飼い、洋裁の内職をしている。意識は清明。身長153cm、体重47kg。体温37.6℃。呼吸数24/ 分。脈拍84/ 分、整。血圧98/56mmHg。心音と呼吸音とに異常を認めない。赤沈28mm/1 時間。血液所見：赤血球497 万、<br>Hb 13.7g/dl、Ht 42％、白血球5,500（桿状核好中球11％、分葉核好中球51％、好酸球4％、好塩基球0％、単球7％、<br>リンパ球27％）、血小板23 万。血液生化学所見：総蛋白6.8g/dl、アルブミン3.5g/dl、尿素窒素16mg/dl、クレアチニン0.8mg/dl、総ビリルビン0.7mg/dl、AST 19IU/l、ALT 4IU/l、LD 252IU/l（基準176 ～353）、ALP 137IU/l（基準115 ～359）、Na 137mEq/l、K 4.4mEq/l、Cl 103mEq/l。免疫学所見：CRP 6.9mg/dl、IgG 1,225mg/dl（基準960～1,960）、IgA 365mg/dl（基準110 ～410）、IgM 117mg/dl（基準65 ～350）、IgE 96IU/ml（基準120 以下）。ツベルクリン反応陰性。胸部エックス線写真を示す。<br><strong>原因として考えられる</strong>のはどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/104I-67_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　ネコ皮屑</div><div class="ch2">b　チリダニ</div><div class="ch2"><span class="ok">c　トリコスポロン</span></div><div class="ch2">d　自動車排気ガス</div><div class="ch2">e　ニューモシスチス</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　トリコスポロン（Trichosporon asahii）—夏型過敏性肺炎の原因菌</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>夏型過敏性肺炎の原因：<span class="kw">Trichosporon asahii</span>（古い木造住宅・温湿度の高い環境に生息）。ツベルクリン反応陰性（細胞性免疫の変化）。ネコ皮屑は即時型アレルギー（喘息）の原因（過敏性肺炎でない）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="98" data-uid="resp_ch05_q246" id="q246"><div class="qh"><span class="qn">Q.246</span><span class="qe">(104I-68)</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 98%</span><span class="cr ch">正答率 98%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q246" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q246" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">25 歳の男性。職場の健康診断で胸部エックス線写真の異常を指摘され来院した。最近、目のかすみを自覚している。<br>喫煙歴はない。胸部エックス線写真を示す。<br><strong>この疾患の診断に有用な検査項目</strong>はどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/104I-68_1.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　ACE</span></div><div class="ch2">b　NSE</div><div class="ch2">c　ANCA</div><div class="ch2">d　リンパ球刺激試験</div><div class="ch2">e　インターフェロンγ試験</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　ACE（アンジオテンシン変換酵素）—サルコイドーシスの診断マーカー</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>BHL＋ぶどう膜炎→<span class="kw">サルコイドーシス</span>の典型。診断マーカー：<span class="kw">ACE・sIL-2R（可溶性IL-2受容体）</span>。e：IFN-γ試験（T-SPOT/QFT）は結核の診断向け。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="97" data-uid="resp_ch05_q247" id="q247"><div class="qh"><span class="qn">Q.247</span><span class="qe">(103A-24)</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 97%</span><span class="cr ch">正答率 97%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q247" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q247" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">63 歳の男性。労作時呼吸困難を主訴に来院した。7 月末から咳と呼吸困難とが出現するようになった。その後出張で約1 か月自宅を離れた。その間症状は消失した。自宅に戻ったところ、咳と呼吸困難とが再度出現した。喫煙歴はない。意識は清明。身長163cm、体重60kg。体温37.8℃。脈拍84/ 分、整。血圧132/78mmHg。心音に異常を認めない。呼吸音にﬁne crackles を聴取する。腹部、四肢および神経系に異常を認めない。血液所見：赤血球439 万、<br>Hb 13.5g/dl、Ht 40％、白血球9,000。血液生化学所見：総蛋白7.1g/dl、アルブミン3.9g/dl。動脈血ガス分析（roomair）：pH 7.43、PaO2 76Torr、PaCO2 37Torr、HCO3－ 25mEq/l。胸部CT（A）と経気管支肺生検組織のH-E 染色標本（B）とを示す。<br><strong>最も考えられる</strong>のはどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/103A-24_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/103A-24_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　農夫肺</div><div class="ch2">b　鳥飼病</div><div class="ch2">c　加湿器肺</div><div class="ch2">d　塗装工肺</div><div class="ch2"><span class="ok">e　夏型過敏性肺炎</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　夏型過敏性肺炎（自宅離れると消失→帰宅で再燃＝帰宅試験陽性）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>「出張中は症状消失→帰宅で再燃」=<span class="kw">帰宅試験陽性</span>→<span class="kw">過敏性肺炎（自宅が抗原の場所）</span>の確定。7月末発症＝夏型→<span class="kw">夏型過敏性肺炎（Trichosporon asahii）</span>。肉芽腫形成（TBLB所見）も過敏性肺炎に合致。</div>
+</div>
+</div></div>
+<div id="s1"><div class="sh" style="background:var(--nv);"><div class="snum">A</div><h2>A 問題（★問題）</h2><div class="sc">Q.248〜Q.258</div></div></div>
+<div class="qc" data-rate="84" data-uid="resp_ch05_q248" id="q248"><div class="qh"><span class="qn">Q.248</span><span class="qe">(120C-41)</span><span class="bg bs">★</span><span class="cr cm">正答率 84%</span><span class="cr ch">正答率 84%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q248" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q248" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">68 歳の女性。呼吸困難を主訴に救急車で搬入された。自宅トイレに行った際に呼吸困難を訴え倒れたため家族が救急車を要請した。1 か月前に乳癌と診断され、手術を予定していた。意識レベルはJCSⅠ-3。身長158cm、体重72kg。体温36.3℃。心拍数118/ 分、整。血圧78/46mmHg。呼吸数36/ 分。SpO2 90％（リザーバー付マスク10L/ 分酸素投与下）。心音はⅡ音の亢進を認めるが、呼吸音に異常を認めない。腹部は平坦、軟で、肝・脾を触知しない。心エコー検査で左心の圧排像を認めたため、体幹部と下肢の造影CT を撮影したところ肺動脈の広範囲および下肢深部静脈に血栓を認めた。ヘパリン5000 単位の静脈投与を行った。その後ストレッチャーから病室のベッドに移動させた際に、意識レベルが低下し頸動脈を触知しなくなった。直ちに心肺蘇生を開始したが心拍が再開しない。<br><strong>次に考慮すべき治療</strong>はどれか。</div>
+<div class="cs"><div class="ch2">a　緊急ペーシング</div><div class="ch2">b　ワルファリン投与</div><div class="ch2">c　下大静脈フィルター留置</div><div class="ch2">d　ICD植え込み</div><div class="ch2"><span class="ok">e　ECMO（体外式膜型人工肺）装着</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　ECMO装着（大量PTE心停止→CPR不応→ECMOで循環補助）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 大量肺血栓塞栓症の心停止への対応</h4>CPRに反応しない大量PTE心停止→<span class="kw">ECMO（体外式膜型人工肺）</span>で循環・呼吸を補助しながら<span class="kw">血栓溶解療法または外科的血栓摘除術</span>を試みる。ヘパリンは既投与済み→次のステップはECMO。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>大量PTE（massive PTE）の治療ピラミッド：①<span class="kw">ヘパリン（抗凝固）</span> ②<span class="kw">血栓溶解薬（tPA等）</span> ③<span class="kw">外科的血栓摘除・ECMO</span>（CPR不応時）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="59" data-uid="resp_ch05_q249" id="q249"><div class="qh"><span class="qn">Q.249</span><span class="qe">(120D-20)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 59%</span><span class="cr cl">正答率 59%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q249" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q249" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">32 歳の女性。呼吸困難を主訴に来院した。1 か月前から労作時の呼吸困難を自覚していた。徐々に症状が増悪するため受診した。意識は清明。身長170cm、体重88kg。体温36.6℃。脈拍96/ 分、整。血圧128/68mmHg。呼吸数20/ 分。<br>SpO2 90％（room air）。眼瞼結膜と眼球結膜とに異常を認めない。頸静脈の怒張を認める。心音はⅠ音正常、Ⅱ音亢進を認める。呼吸音に異常を認めない。腹部はやや膨満。下腿浮腫を認める。受診時の12 誘導心電図（A）と胸部エックス線写真（B）とを示す。<br><strong>診断のための検査で優先度が低い</strong>のはどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/120D-20_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/120D-20_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　抗核抗体検査</div><div class="ch2">b　呼吸機能検査</div><div class="ch2">c　心エコー検査</div><div class="ch2"><span class="ok">d　頸動脈エコー検査</span></div><div class="ch2">e　肺換気および血流シンチグラフィ</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　頸動脈エコー検査（肺高血圧の診断・原因検索に無関係）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 肺高血圧症のワークアップ</h4>a：抗核抗体→膠原病（PAH原因）の検索 ✓。b：呼吸機能→COPD・IPF（Group3 PAH）の除外 ✓。c：心エコー→PAHの評価（推定肺動脈圧）に必須 ✓。e：肺血流シンチ→肺血栓塞栓性肺高血圧（CTEPH）の鑑別 ✓。<br/><span class="kw4">d：頸動脈エコー</span>→動脈硬化・頸動脈狭窄の評価→肺高血圧の診断には不要。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="95" data-uid="resp_ch05_q250" id="q250"><div class="qh"><span class="qn">Q.250</span><span class="qe">(120D-67)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 95%</span><span class="cr ch">正答率 95%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q250" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q250" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">58 歳の男性。労作時の呼吸困難を主訴に来院した。今朝、起床後から労作時呼吸困難が出現した。通常通りに出勤したが呼吸困難が持続しており、処方されていた吸入薬を使用後も改善がみられなかったため受診した。35 歳時から①喘息に対して吸入療法中。57 歳時から②臨床病期Ⅳ期の非小細胞肺癌に対して治療中。③2 週間前にインフルエンザワクチン接種を受けた。④築35 年の木造住宅に住んでいる。⑤自宅で鳥を飼育している。意識は清明。身長172cm、体重67kg。体温36.5℃。脈拍92/ 分、整。血圧138/90mmHg。呼吸数20/ 分。SpO2 92％（room air）。<br>頸静脈の怒張と口唇のチアノーゼとを認めない。心雑音を聴取しないが胸骨左縁第2 肋間でⅡ音の亢進を認める。呼吸音に異常を認めない。下腿に浮腫を認めない。血液所見：赤血球452 万、Hb 13.8g/dL、Ht 41％、白血球5,400、<br>血小板21 万、PT-INR 1.0（基準0.9 ～1.1）、D ダイマー4.4μg/mL（基準1.0 以下）。血液生化学所見：総ビリルビン1.0mg/dL、AST 21U/L、ALT 9U/L、LD 306U/L（基準124 ～222）、CK 60U/L（基準59 ～248）、尿素窒素11mg/dL、クレアチニン0.6mg/dL、血糖114mg/dL。胸部造影CT を示す。<br><strong>下線部のうち、この疾患のリスクファクター</strong>はどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/120D-67_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　①</div><div class="ch2"><span class="ok">b　②</span></div><div class="ch2">c　③</div><div class="ch2">d　④</div><div class="ch2">e　⑤</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　②　臨床病期IV期非小細胞肺癌（悪性腫瘍→VTE最大リスク）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 Trousseau症候群（癌関連VTE）</h4>進行癌・転移癌（特に肺癌・膵癌・胃癌）は<span class="kw">静脈血栓塞栓症（VTE）の最大のリスクファクター</span>。腫瘍からの<span class="kw">組織因子（TF）産生</span>→凝固カスケード活性化→血栓傾向↑。</div>
+<div class="eb em"><h4>💡 肺血栓塞栓症の主なリスクファクター</h4><span class="kw">長期安静・術後</span>・<span class="kw">悪性腫瘍</span>・<span class="kw">経口避妊薬</span>・<span class="kw">長距離旅行（エコノミークラス症候群）</span>・妊娠・肥満・血栓性素因（プロテインC/S欠乏等）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="90" data-uid="resp_ch05_q251" id="q251"><div class="qh"><span class="qn">Q.251</span><span class="qe">(120F-32)</span><span class="bg bs">★</span><span class="cr ch">正答率 90%</span><span class="cr ch">正答率 90%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q251" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q251" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">左房への血液還流低下が失神の原因と考えられるのはどれか。</div>
+<div class="cs"><div class="ch2">a　急性心筋梗塞</div><div class="ch2">b　僧帽弁狭窄症</div><div class="ch2"><span class="ok">c　肺血栓塞栓症</span></div><div class="ch2">d　房室ブロック</div><div class="ch2">e　大動脈弁狭窄症</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　肺血栓塞栓症（肺循環障害→左房への血液還流↓→失神）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 失神の機序</h4>肺血栓塞栓症：肺動脈閉塞→肺循環抵抗↑→右心後負荷→右心不全→<span class="kw">肺循環血流↓</span>→<span class="kw">左房・左室への血液還流↓</span>→心拍出量↓→失神（distributive or obstructive mechanism）。<br/>他の選択肢：a(心筋梗塞)・b(僧帽弁狭窄)・d(AVブロック)・e(AS)はいずれも左心側の問題→左房への還流は保たれる。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="65" data-uid="resp_ch05_q252" id="q252"><div class="qh"><span class="qn">Q.252</span><span class="qe">(119A-70)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="bg bm">2択</span><span class="cr cm">正答率 65%</span><span class="cr cm">正答率 65%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q252" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q252" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">56 歳の女性。労作時の息切れを主訴に来院した。6 か月前に右下肢に浮腫を自覚したがそのままにしていた。2か月前から両下肢に浮腫が出現し、1 週間前から、労作時の息切れが増強したため受診した。意識は清明。体温36.7℃。脈拍80/ 分、整。血圧146/92mmHg。呼吸数30/ 分。SpO2 95％（room air）。座位で頸静脈の怒張を下顎付近まで認める。心音はⅠ音は正常、Ⅱ音肺動脈成分の亢進、胸骨左縁第3 肋間にLevine 2/6 の収縮期雑音を聴取する。<br>呼吸音に異常を認めない。腹部は平坦、軟で、肋骨弓下に肝を2cm 触知する。脾は触知しない。両下肢に圧痕性浮腫を認める。血液所見：赤血球504 万、Hb 15.1g/dL、Ht 46％、血小板13 万、PT-INR 1.2（基準0.9 ～1.1）、D ダイマー10.3μg/mL（基準1.0 以下）。血液生化学所見：アルブミン4.1g/dL、総ビリルビン1.9mg/dL、AST 31U/L、ALT11U/L、尿素窒素10mg/dL、クレアチニン0.6mg/dL、BNP 98pg/mL（基準18.4 以下）。CRP 1.0mg/dL。心電図（A）<br>と胸部エックス線写真（B）とを示す。心エコー検査で、左室駆出率は68％、三尖弁閉鎖不全を認め、推定肺動脈収縮期圧は60mmHg であった。<br>診断のために行う検査はどれか。2 つ選べ。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/119A-70_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/119A-70_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　胸部造影CT</span></div><div class="ch2">b　気管支鏡検査</div><div class="ch2">c　冠動脈造影検査</div><div class="ch2">d　経食道心エコー検査</div><div class="ch2"><span class="ok">e　肺血流シンチグラフィ</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　胸部造影CT　＋　e　肺血流シンチグラフィ</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 検査の使い分け</h4><span class="kw">a 胸部造影CT</span>：急性PTE（肺動脈内血栓）の確認・gold standard。<br/><span class="kw">e 肺血流シンチ</span>：慢性血栓塞栓性肺高血圧（CTEPH）の評価→換気・血流ミスマッチの確認。<br/>本例は慢性経過（6ヶ月）＋肺高血圧所見→CTEPHの評価に肺血流シンチも重要。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="81" data-uid="resp_ch05_q253" id="q253"><div class="qh"><span class="qn">Q.253</span><span class="qe">(119D-17)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 81%</span><span class="cr ch">正答率 81%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q253" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q253" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">34 歳の女性。労作時の息切れを主訴に来院した。数週間前から発熱、脱毛および両頰部の紅斑が出現し、3 日前から労作時の息切れが出現したため受診した。身長155cm、体重52kg。体温38.2℃。脈拍96/ 分、整。血圧92/46mmHg。呼吸数20/ 分。SpO2 98％（room air）。両頰部の紅斑を認める。眼瞼結膜はやや貧血様である。眼球結膜に異常を認めない。硬口蓋には痛みを伴わない潰瘍性病変を認める。頸静脈の怒張を認めない。心音でⅡ音の亢進を認める。呼吸音に異常を認めない。両手指の近位指節間関節、中手指節間関節および手関節の腫脹を認める。下肢に軽度の浮腫を認める。血液所見：赤血球346 万、Hb 10.8g/dL、Ht 36％、白血球2,200、血小板13 万、PT-INR 1.2（基準0.9 ～1.1）、フィブリノゲン289mg/dL（基準186 ～355）、FDP 3.1μg/mL（基準10 以下）、D ダイマー0.6μg/mL（基準1.0 以下）。血液生化学所見：AST 28U/L、ALT 26U/L、LD 160U/L（基準124 ～222）、CK 42U/L（基準41 ～153）、クレアチニン0.5mg/dL、BNP 76pg/mL（基準18.4 以下）、KL-6 322U/mL（基準500 未満）。免疫血清学所見：<br>抗核抗体640 倍（基準20 以下）、抗dsDNA 抗体325IU/mL（基準12 以下）、血清補体値（CH50）12U/mL（基準値30 ～40）、C3 42mg/dL（基準値52 ～112）、C4 3mg/dL（基準値16 ～51）。心筋トロポニンT 迅速検査陰性。入院時の心電図（A）と胸部エックス線写真（B）を示す。<br><strong>息切れの原因</strong>はどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/119D-17_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/119D-17_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　心外膜炎</div><div class="ch2">b　心筋梗塞</div><div class="ch2">c　間質性肺炎</div><div class="ch2">d　完全房室ブロック</div><div class="ch2"><span class="ok">e　肺動脈性肺高血圧症</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　肺動脈性肺高血圧症（SLE合併→膠原病関連PAH）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 SLE合併肺高血圧症</h4><span class="kw">膠原病関連肺動脈性肺高血圧症（CTD-PAH）</span>：SLE・強皮症・混合性結合組織病等に合併。II音亢進（肺動脈成分↑）・右心負荷（BNP↑・右心拡大）が特徴。KL-6 322（正常以下）→間質性肺炎否定（c誤）。D-dimer正常→PTE否定。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>SLE＋労作時息切れ＋II音亢進→<span class="kw">SLE関連PAH</span>を考える。診断：心エコー（推定肺動脈圧）＋右心カテーテル（確定診断）。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="89" data-uid="resp_ch05_q254" id="q254"><div class="qh"><span class="qn">Q.254</span><span class="qe">(116D-14)</span><span class="bg bs">★</span><span class="bg bm">3択</span><span class="cr ch">正答率 89%</span><span class="cr ch">正答率 89%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q254" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q254" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">肺高血圧患者にみられるのはどれか。3 つ選べ。</div>
+<div class="cs"><div class="ch2">a　奇脈</div><div class="ch2"><span class="ok">b　足のむくみ</span></div><div class="ch2"><span class="ok">c　頸静脈怒張</span></div><div class="ch2"><span class="ok">d　労作時息切れ</span></div><div class="ch2">e　Ⅱ音の肺動脈成分の減弱</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　足のむくみ　＋　c　頸静脈怒張　＋　d　労作時息切れ</div></div></div>
+<div class="eg"><div class="eb ee"><h4>📋 肺高血圧症の症状・身体所見</h4><table class="tb"><tr><th>所見</th><th>機序</th></tr><tr><td><span class="kw">b 足のむくみ（下腿浮腫）</span></td><td>右心不全→末梢浮腫</td></tr><tr><td><span class="kw">c 頸静脈怒張（JVD）</span></td><td>右房圧↑→頸静脈拡張</td></tr><tr><td><span class="kw">d 労作時息切れ</span></td><td>右心拍出量↓→組織酸素供給↓</td></tr><tr><td><span class="kw4">e II音肺動脈成分の亢進（→減弱は誤り）</span></td><td>肺動脈圧↑→II音P₂↑</td></tr><tr><td><span class="kw4">a 奇脈（→心タンポナーデの特徴）</span></td><td>肺高血圧には特徴的でない</td></tr></table></div>
+</div>
+</div></div>
+<div class="qc" data-rate="84" data-uid="resp_ch05_q255" id="q255"><div class="qh"><span class="qn">Q.255</span><span class="qe">(116D-23)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 84%</span><span class="cr ch">正答率 84%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q255" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q255" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">46 歳の女性。職場の健康診断で施行された胸部エックス線検査で異常を指摘されたため精査目的で来院した。自覚症状はない。喫煙歴はない。飲酒は機会飲酒。意識は清明。身長161cm、体重49kg。脈拍72/ 分、整。血圧132/80mmHg。SpO2 97％（room air）。呼吸音と心音に異常を認めない。血液所見：赤血球428 万、Hb 12.1g/dL、Ht37％、白血球3,700、血小板19 万。血液生化学所見：総蛋白7.2g/dL、アルブミン4.1g/dL、クレアチニン0.6mg/dL、<br>HbA1c 5.8％（基準4.6 ～6.2）。胸部エックス線写真（A）で左下肺野に矢印で示す結節影を認めたため、入院精査の方針となった。選択的肺動脈造影（B）と胸部単純CT（C）とを示す。<br><strong>本疾患に合併しやすい病態でない</strong>のはどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/116D-23_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/116D-23_2.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/116D-23_3.jpeg"/></div>
+<div class="cs"><div class="ch2">a　喀血</div><div class="ch2">b　脳梗塞</div><div class="ch2">c　脳膿瘍</div><div class="ch2"><span class="ok">d　ぶどう膜炎</span></div><div class="ch2">e　感染性心内膜炎</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　ぶどう膜炎（PAVMとぶどう膜炎は関連なし）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 肺動静脈瘻（PAVM）の合併症</h4><span class="kw">PAVM</span>は肺内の<span class="kw">右→左シャント</span>を形成→①気泡・血栓・細菌が体循環に入る→<span class="kw">脳梗塞・脳膿瘍</span>（b,c）②喀血（破裂）（a）③<span class="kw">感染性心内膜炎</span>（e）。<br/><span class="kw4">ぶどう膜炎（d）</span>はサルコイドーシス・HLA-B27関連疾患等の免疫異常で発症→PAVMとは無関係。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>PAVMは<span class="kw">Osler-Weber-Rendu病（遺伝性出血性毛細血管拡張症）</span>に合併することが多い。右→左シャント→体循環に入る→脳梗塞・脳膿瘍が重要合併症。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="83" data-uid="resp_ch05_q256" id="q256"><div class="qh"><span class="qn">Q.256</span><span class="qe">(116D-53)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="cr cm">正答率 83%</span><span class="cr ch">正答率 83%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q256" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q256" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">51 歳の男性。右膝前十字靱帯損傷の再建術を施行された。術後出血を認めず、創部の異常も認めない。手術翌日から食事を摂取していた。術後3 日目の午前中に膝関節固定具を外してトイレに立った時、心窩部の違和感と発汗を認めた。しばらく安静にして症状は改善した。その後、悪心、食欲不振が出現したため昼食は摂取できなかった。<br>術前の既往歴、家族歴に特記すべきことはない。体温36.4℃。脈拍84/ 分、整。血圧114/70mmHg。呼吸数18/ 分。<br>SpO2 92％（room air）。鼻カニューラ2L/ 分で酸素投与したところ、SpO2 は99％となった。心音と呼吸音に異常を認めない。腹部は平坦で、肝・脾を触知しない。術創部からの出血は認めない。胸部造影CT を示す。<br><strong>ただちに行うべきな</strong>のはどれか。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/116D-53_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　ECMO</div><div class="ch2">b　緊急手術</div><div class="ch2">c　冠動脈造影</div><div class="ch2"><span class="ok">d　ヘパリン投与</span></div><div class="ch2">e　下大静脈フィルター挿入</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　ヘパリン投与（急性PTE→抗凝固療法が第一選択）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>肺血栓塞栓症の初期治療：<span class="kw">ヘパリン（未分画ヘパリンまたはLMWH）による即時抗凝固療法</span>が第一選択。本例はショックなし・呼吸安定→循環補助（ECMO・緊急手術）は不要。e：下大静脈フィルターは抗凝固禁忌または繰り返すDVT/PTEに限定。</div>
+</div>
+</div></div>
+<div id="s2"><div class="sh" style="background:#1C3A5A;"><div class="snum">B</div><h2>B 問題（★問題）</h2><div class="sc">Q.257〜Q.258</div></div></div>
+<div class="qc" data-rate="65" data-uid="resp_ch05_q257" id="q257"><div class="qh"><span class="qn">Q.257</span><span class="qe">(111A-35)</span><span class="bg bs">★</span><span class="cr cm">正答率 65%</span><span class="cr cm">正答率 65%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q257" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q257" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">69 歳の女性。呼吸困難と胸痛とを主訴に来院した。1 時間前から突然、呼吸困難と胸痛が出現した。様子をみていたが、30 分以上症状が軽快しないため来院した。既往歴に特記すべきことはない。自宅の修繕のため、ここ数日は夜間に自家用車の中で睡眠をとっていた。身長155cm、体重76kg。体温36.0℃。脈拍104/ 分、整。血圧110/80mmHg。呼吸数22/ 分。SpO2 91％（room air）。心音と呼吸音とに異常を認めない。胸部に圧痛を認めない。<br>症状の呼吸性変動を認めない。胸部エックス線写真で異常を認めない。心電図で洞性頻脈を認めるが他に異常を認めない。<br><strong>この患者の診断に有用性が低い</strong>のはどれか。</div>
+<div class="cs"><div class="ch2"><span class="ok">a　DLco（肺拡散能）</span></div><div class="ch2">b　心エコー</div><div class="ch2">c　Dダイマー</div><div class="ch2">d　胸部造影CT</div><div class="ch2">e　動脈血ガス分析</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　DLco（肺拡散能）—肺血栓塞栓症の診断には無関係</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>急性PTE（長距離同一体位＋肥満＋急性発症）の診断に有用：<span class="kw">b 心エコー（右心負荷）</span>・<span class="kw">c Dダイマー（感度高い）</span>・<span class="kw">d 胸部造影CT（gold standard）</span>・<span class="kw">e ABG（A-aDO₂↑）</span>。<br/><span class="kw4">a DLco</span>はIPFや肺気腫の評価に用いる慢性疾患の検査→急性PTEの診断には無関係。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="68" data-uid="resp_ch05_q258" id="q258"><div class="qh"><span class="qn">Q.258</span><span class="qe">(111D-59)</span><span class="bg bs">★</span><span class="bg bi">📷 画像</span><span class="bg bm">3択</span><span class="cr cm">正答率 68%</span><span class="cr cm">正答率 68%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q258" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q258" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">46 歳の女性。軽労作での呼吸困難を主訴に来院した。1 年前から長時間歩行時の息切れを自覚していた。最近になって階段昇降や平地歩行でも息切れが出現するようになり、下肢の浮腫も自覚するようになったため受診した。身長155cm、体重80kg。体温36.2℃。脈拍76/ 分、整。血圧130/60mmHg。呼吸数24/ 分。SpO2 90％（room air）。胸部の聴診でⅡ音の亢進を認める。両下肢に著明な浮腫を認める。神経学的所見に異常を認めない。12 誘導心電図（A）<br>と心エコー図（B）とを示す。<br>この患者の病態の原因として考えられるのはどれか。3 つ選べ。</div><div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/111D-59_1.jpeg"/><img loading="lazy" alt="" class="qimg" src="images/111D-59_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　膠原病</span></div><div class="ch2">b　急性右室梗塞</div><div class="ch2">c　僧帽弁閉鎖不全</div><div class="ch2"><span class="ok">d　特発性肺動脈性肺高血圧症（IPAH）</span></div><div class="ch2"><span class="ok">e　慢性肺血栓塞栓性肺高血圧症（CTEPH）</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　膠原病　＋　d　IPAH　＋　e　CTEPH</div></div></div>
+<div class="eg"><div class="eb ee"><h4>📋 肺高血圧症の分類（WHO分類）</h4><table class="tb"><tr><th>Group</th><th>原因例</th></tr><tr><td>Group 1（PAH）</td><td><span class="kw">IPAH（d）・膠原病関連（a）・先天性心疾患・HIV等</span></td></tr><tr><td>Group 2（左心疾患）</td><td>心不全・弁膜症（僧帽弁閉鎖不全等）</td></tr><tr><td>Group 3（肺疾患）</td><td>COPD・IPF等</td></tr><tr><td><span class="kw">Group 4（CTEPH）</span></td><td><span class="kw">慢性肺血栓塞栓性肺高血圧症（e）</span></td></tr><tr><td>Group 5（その他）</td><td>多因子</td></tr></table></div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>b：<span class="kw4">急性右室梗塞</span>は急性発症（慢性経過の本例とは合わない）。c：<span class="kw4">僧帽弁閉鎖不全</span>→Group 2（左心疾患由来）→左室拡大が先行するはず。a・d・eが正解（若い女性の進行性肺高血圧の鑑別）。</div>
+</div>
+</div></div>
+<div id="s3"><div class="sh" style="background:#2A4A35;"><div class="snum">A</div><h2>A 問題（無印）</h2><div class="sc">Q.259〜Q.265</div></div></div>
+<div class="qc" data-rate="97" data-uid="resp_ch05_q259" id="q259"><div class="qh"><span class="qn">Q.259</span><span class="qe">(118A-19)</span><span class="cr ch">正答率 97%</span><span class="cr ch">正答率 97%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q259" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q259" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">20 歳の男性。胸部不快感と呼吸困難を主訴に来院した。これまでに何度か胸部不快感を自覚したが、医療機関を受診していなかった。昨日から呼吸困難が出現し、持続しているため受診した。既往歴に特記すべきことはない。家族歴は父親が20 歳台で脳静脈洞血栓症を発症。意識は清明。体温36.2℃。脈拍96/ 分、整。血圧104/68mmHg。呼吸数24/ 分。SpO2 94％（room air）。心音と呼吸音とに異常を認めない。腹部は平坦、軟で、肝・脾を触知しない。<br>下肢に軽度の浮腫を認める。血液所見：赤血球450 万、Hb 14.5g/dL、Ht 42％、白血球6,200（好中球62％、好酸球1％、単球5％、リンパ球32％）、血小板22 万、PT-INR 1.0（基準0.9 ～1.1）、活性化部分トロンボプラスチン時間〈APTT〉30 秒（基準対照32.2）、血漿フィブリノゲン288mg/dL（基準186 ～355）、D ダイマー10μg/mL（基準1.0以下）。血液生化学所見：総ビリルビン1.1mg/dL、LD 208U/L（基準124 ～222）、尿素窒素22mg/dL、クレアチニン0.6mg/dL。CRP 0.3mg/dL。胸部エックス線写真で異常を認めない。<br><strong>直ちに行う検査で適切な</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">a　気管支鏡検査</div><div class="ch2">b　呼吸機能検査</div><div class="ch2">c　頸部超音波検査</div><div class="ch2"><span class="ok">d　胸部〜下肢造影CT</span></div><div class="ch2">e　足関節上腕血圧比（ABI）</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　胸部〜下肢造影CT（PTE＋DVT同時評価が最も効率的）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>急性PTE疑い（D-dimer著明↑＋血栓性素因の家族歴）→<span class="kw">胸部〜下肢造影CT</span>で肺動脈血栓（PTE）と深部静脈血栓（DVT）を同時評価。最短時間で確定診断が可能。</div>
+</div>
+</div></div>
+<div class="rb">📋 <strong>連問（Q.260〜262）　次の文を読み、260〜262の問いに答えよ。</strong><div class="pi"><strong>27歳女性。胸痛と呼吸困難を主訴に来院。</strong><br/>昨日から右前胸部痛（吸気で悪化）→本日呼吸困難も出現。<strong>経口避妊薬を3ヶ月服用中。</strong><br/>体温38.0℃。脈拍120/分。SpO₂ 88%↓。頸静脈怒張。II音亢進。右下腿浮腫（DVT）。<br/>ABG（room air）：pH 7.48、PaCO₂ 26（低下）、PaO₂ 52（低下）、HCO₃⁻ 19。<br/>心電図：洞性頻脈、I誘導で深いS波、III誘導でQ波とT波陰転化→S1Q3T3パターン。</div></div>
+<div class="qc" data-rate="99" data-uid="resp_ch05_q260" id="q260"><div class="qh"><span class="qn">Q.260</span><span class="qe">(117F-71)</span><span class="bg br">連問</span><span class="bg bk">計算</span><span class="cr ch">正答率 99%</span><span class="cr ch">正答率 99%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q260" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q260" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 1/3</span>27 歳の女性。胸痛と呼吸困難を主訴に来院した。<br>現病歴：昨日から右前胸部痛を自覚した。息を吸うと痛みが悪化するため、深呼吸ができなかった。本日は胸痛の悪<br>化に加え、労作時の呼吸困難も出現したため救急外来を受診した。<br>既往歴：3 か月前から経口避妊薬を内服している。<br>生活歴：パートナーと2 人暮らし。事務職。喫煙歴はない。飲酒は機会飲酒。<br>家族歴：母方の祖父が癌（詳細不明）。母が糖尿病と高血圧症。<br>現　症：意識は清明。身長163cm、体重60kg。体温38.0℃。脈拍120/ 分、整。血圧112/64mmHg。呼吸数32/ 分。<br>SpO2 88％（room air）。</span><br>この患者の肺胞気- 動脈血酸素分圧較差〈A-aDO2〉を求めよ。なお、大気圧760Torr、37℃での飽和水蒸気圧47Torr、呼吸商0.8 とする。<br>ただし、小数点以下の数値が得られた場合には、小数第1 位を四捨五入すること。<br>解答：① ② Torr（編註：選択肢を省略した。）<br>261. （117F-72）→<br><strong>診断に有用な検査</strong>はどれか。</div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">A-aDO₂ = 65 Torr</div></div></div>
+<div class="eg"><div class="eb ec"><h4>🧮 計算</h4>PAO₂ = 0.21 × (760 − 47) − 26/0.8<br/>= 0.21 × 713 − 32.5<br/>= 149.7 − 32.5 = 117.2 Torr<br/><br/>A-aDO₂ = 117.2 − 52 = 65.2 → <strong>65 Torr</strong>（①6 ②5）</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>急性PTE：<span class="kw">PaCO₂↓（代償性過換気）＋PaO₂↓＋A-aDO₂↑（開大）</span>が典型的。S1Q3T3は約10〜15%のPTEにみられる特異的ECG所見。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="67" data-uid="resp_ch05_q261" id="q261"><div class="qh"><span class="qn">Q.261</span><span class="qe">(117F-72)</span><span class="bg br">連問</span><span class="cr cm">正答率 67%</span><span class="cr cm">正答率 67%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q261" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q261" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 2/3</span>27 歳の女性。胸痛と呼吸困難を主訴に来院した。<br>現病歴：昨日から右前胸部痛を自覚した。息を吸うと痛みが悪化するため、深呼吸ができなかった。本日は胸痛の悪<br>化に加え、労作時の呼吸困難も出現したため救急外来を受診した。<br>既往歴：3 か月前から経口避妊薬を内服している。<br>生活歴：パートナーと2 人暮らし。事務職。喫煙歴はない。飲酒は機会飲酒。<br>家族歴：母方の祖父が癌（詳細不明）。母が糖尿病と高血圧症。<br>現　症：意識は清明。身長163cm、体重60kg。体温38.0℃。脈拍120/ 分、整。血圧112/64mmHg。呼吸数32/ 分。<br>SpO2 88％（room air）。</span><br>診断に有用な検査はどれか。</div>
+<div class="cs"><div class="ch2">a　KL-6</div><div class="ch2"><span class="ok">b　Dダイマー</span></div><div class="ch2">c　フェリチン</div><div class="ch2">d　β-Dグルカン</div><div class="ch2">e　プロカルシトニン</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　Dダイマー（PTE除外・診断に高感度）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>Dダイマー：PTEの<span class="kw">感度&gt;95%</span>（陰性なら高確率でPTE否定）。ただし特異度が低い（癌・炎症・術後でも高値）。PTE確定には<span class="kw">胸部造影CT</span>。a: KL-6→間質性肺炎。d: β-Dグルカン→真菌。e: PCT→細菌感染。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="97" data-uid="resp_ch05_q262" id="q262"><div class="qh"><span class="qn">Q.262</span><span class="qe">(117F-73)</span><span class="bg bi">📷 画像</span><span class="bg br">連問</span><span class="cr ch">正答率 97%</span><span class="cr ch">正答率 97%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q262" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q262" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 3/3</span>27 歳の女性。胸痛と呼吸困難を主訴に来院した。<br>現病歴：昨日から右前胸部痛を自覚した。息を吸うと痛みが悪化するため、深呼吸ができなかった。本日は胸痛の悪<br>化に加え、労作時の呼吸困難も出現したため救急外来を受診した。<br>既往歴：3 か月前から経口避妊薬を内服している。<br>生活歴：パートナーと2 人暮らし。事務職。喫煙歴はない。飲酒は機会飲酒。<br>家族歴：母方の祖父が癌（詳細不明）。母が糖尿病と高血圧症。<br>現　症：意識は清明。身長163cm、体重60kg。体温38.0℃。脈拍120/ 分、整。血圧112/64mmHg。呼吸数32/ 分。<br>SpO2 88％（room air）。</span><br>胸部造影CTを示す（肺動脈血栓確認→PTE確定）。最も適切な治療薬はどれか。</div>
+<div class="qimg-row"><img loading="lazy" alt="" class="qimg" src="images/117F-73_1.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　ヘパリン</span></div><div class="ch2">b　アスピリン</div><div class="ch2">c　血管拡張薬</div><div class="ch2">d　殺細胞性抗癌薬</div><div class="ch2">e　副腎皮質ステロイド</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　ヘパリン（急性PTE→抗凝固療法の第一選択）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>急性PTE治療：①<span class="kw">ヘパリン（未分画ヘパリンまたはLMWH）</span>→速効性抗凝固。②その後<span class="kw">ワルファリンまたはDOAC</span>に移行。③大量PTEはt-PA等の血栓溶解療法も。経口避妊薬→PTE→<span class="kw">OC中止</span>も必要。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="97" data-uid="resp_ch05_q263" id="q263"><div class="qh"><span class="qn">Q.263</span><span class="qe">(116B-26)</span><span class="cr ch">正答率 97%</span><span class="cr ch">正答率 97%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q263" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q263" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">54 歳の女性。3 日前に子宮筋腫のため子宮摘出術を受け入院中である。本日、洗面所で洗顔していたところ突然呼吸困難が生じ、持続している。咳嗽はない。胸痛はない。喫煙歴はない。意識は清明。体温36.4℃。脈拍112/ 分、整。<br>血圧102/62mmHg。呼吸数24/ 分。SpO2 89％（room air）。呼吸音に異常を認めない。<br><strong>最も可能性が高い</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">a　気道異物</div><div class="ch2">b　気管支喘息</div><div class="ch2">c　急性左心不全</div><div class="ch2"><span class="ok">d　肺血栓塞栓症</span></div><div class="ch2">e　特発性肺線維症</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　肺血栓塞栓症（術後3日目＋起立時の急性発症→典型的PTE）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>PTE好発時期：術後<span class="kw">1〜2週間以内（特に3〜5日目）</span>。<span class="kw">起立・歩行開始時</span>に下肢静脈内の血栓が肺動脈に飛ぶ。婦人科手術後・整形外科手術後・長期臥床は特にリスク高い。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="99" data-uid="resp_ch05_q264" id="q264"><div class="qh"><span class="qn">Q.264</span><span class="qe">(116E-11)</span><span class="cr ch">正答率 99%</span><span class="cr ch">正答率 99%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q264" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q264" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">周術期の肺塞栓症に対する予防法として<strong>正しいのはどれか。</strong></div>
+<div class="cs"><div class="ch2">a　絶飲食</div><div class="ch2">b　長期臥床</div><div class="ch2">c　酸素投与</div><div class="ch2">d　尿道カテーテル留置</div><div class="ch2"><span class="ok">e　弾性ストッキング着用</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　弾性ストッキング着用（下肢静脈うっ滞→DVT→PTE予防）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>術後VTE予防法：<span class="kw">①弾性ストッキング</span>（機械的圧迫）②<span class="kw">間欠的空気圧迫法</span>③<span class="kw">早期離床</span>④<span class="kw">抗凝固薬（ヘパリン等）</span>。a：絶飲食→脱水→血液粘稠度↑→逆効果。b：長期臥床→静脈うっ滞→リスク↑。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="97" data-uid="resp_ch05_q265" id="q265"><div class="qh"><span class="qn">Q.265</span><span class="qe">(115A-41)</span><span class="cr ch">正答率 97%</span><span class="cr ch">正答率 97%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q265" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q265" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">52 歳の女性。労作時息切れを主訴に来院した。半年前から息切れを自覚し、徐々に増悪したため受診した。<br>既往歴と家族歴に特記すべきことはない。喫煙歴はない。意識は清明。体温36.2℃。脈拍76/ 分、整。血圧140/76mmHg。呼吸数16/ 分。SpO2 95％（room air）。眼瞼結膜と眼球結膜とに異常を認めない。心雑音を認めない。<br>Ⅱ音肺動脈成分の亢進を認める。呼吸音に異常を認めない。肝・脾を触知しない。下腿に浮腫を認めない。血液所見：<br>Hb 12.6g/dL、白血球6,400、血小板36 万。心電図で右室肥大所見を認める。胸部エックス線写真で肺野に異常を認めないが、肺動脈主幹部の拡張による左第2 弓の突出を認める。胸部造影CT では肺血栓塞栓を認めない。心エコー検査では推定肺動脈収縮期圧は50mmHg であった。<br><strong>治療方針を決定するために必要な検査</strong>はどれか。</div>
+<div class="cs"><div class="ch2">a　胸部MRI</div><div class="ch2">b　FDG-PET</div><div class="ch2">c　喀痰細胞診</div><div class="ch2">d　冠動脈造影</div><div class="ch2"><span class="ok">e　右心カテーテル検査</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　右心カテーテル検査（PAHの確定診断・重症度評価・治療選択に必須）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 右心カテーテル（Swan-Ganz）検査</h4>PAHの確定診断基準：平均肺動脈圧（mPAP）<span class="kw">≥25mmHg（安静時）</span>、<span class="kw">肺動脈楔入圧（PCWP）≤15mmHg</span>（左心疾患を除外）、肺血管抵抗（PVR）&gt;3 Wood単位。治療薬（エポプロステノール・ボセンタン・シルデナフィル等）の選択に必要。</div>
+</div>
+</div></div>
+<div id="s4"><div class="sh" style="background:#1C3A5A;"><div class="snum">B</div><h2>B 問題（無印）</h2><div class="sc">Q.266〜Q.281</div></div></div>
+<div class="qc" data-rate="93" data-uid="resp_ch05_q266" id="q266"><div class="qh"><span class="qn">Q.266</span><span class="qe">(115D-46)</span><span class="bg bi">📷 画像</span><span class="cr ch">正答率 93%</span><span class="cr ch">正答率 93%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q266" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q266" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">48 歳の女性。息切れを主訴に来院した。半年前から長い距離を歩くと息切れを自覚するようになり、症状は徐々に増悪した。最近になり2 階まで階段を上るのも息苦しくなってきたため受診した。喫煙歴はない。脈拍88/ 分、<br>整。血圧134/68mmHg。呼吸数20/ 分。SpO2 93％（room air）。仰臥位で頸静脈怒張を認める。心音ではⅡ音が亢進している。呼吸音に異常を認めない。両下腿に浮腫を認める。血液所見：赤血球390 万、Hb 12.0g/dL、Ht 34％、<br>白血球6,600、血小板9 万。血液生化学所見：総蛋白6.2g/dL、アルブミン3.3g/dL、ALT 26U/L、クレアチニン0.6mg/dL。CRP 0.1mg/dL。胸部エックス線写真（A）及び心電図（B）を示す。<br><strong>この患者の息切れの原因として、最も考えられる</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/115D-46_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/115D-46_2.jpeg"/></div>
+<div class="cs"><div class="ch2"><span class="ok">a　肺高血圧症</span></div><div class="ch2">b　不安定狭心症</div><div class="ch2">c　感染性心内膜炎</div><div class="ch2">d　心タンポナーデ</div><div class="ch2">e　大動脈弁狭窄症</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">a　肺高血圧症（JVD＋II音亢進＋下腿浮腫＋右心肥大）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>PAH診断4点：①<span class="kw">労作時息切れ</span> ②<span class="kw">II音亢進（P₂↑）</span> ③<span class="kw">右心不全（JVD・浮腫）</span> ④<span class="kw">X線：肺動脈拡張・右心拡大</span>。</div>
+</div>
+</div></div>
+<div class="rb">📋 <strong>連問（Q.267〜268）</strong><div class="pi">75歳男性。飛行機旅行（約3時間座席）後→右下肢腫脹・DVT→翌日急性息切れ。頸静脈怒張。D-dimer 2.3↑。Hb 8.4g/dL、MCV 132（大球性貧血）・好中球核過分葉。既往：胃全摘60歳時（進行胃癌）。</div></div>
+<div class="qc" data-uid="resp_ch05_q267" id="q267"><div class="qh"><span class="qn">Q.267</span><span class="qe">(115E-41)</span><span class="bg br">連問</span><span class="cr ch">正答率 99%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q267" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q267" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 1/2</span>次の文を読み、267 と268 の問いに答えよ。<br>75 歳の男性。呼吸困難を主訴に受診した。<br>現病歴：3 日前に飛行機で1 泊2 日の旅行をし、2 日前に帰宅した。機内では約3 時間座っていた。帰宅した翌日に<br>右下肢のむくみと痛みが出現した。受診日の朝起床後に急に労作時の息切れが出現したため、受診した。受診時、<br>呼吸困難を訴えている。<br>既往歴：60 歳時に進行胃癌で胃全摘を受けた。術後5 年間再発なく、通院終了となった。70 歳から高血圧症、糖尿<br>病に対し、降圧薬、経口血糖降下薬を内服中。<br>アレルギー歴：特記すべきことはない。<br>生活歴：喫煙は40 本/ 日を40 年間、15 年前に禁煙。</span><br>診断はどれか。</div>
+<div class="cs"><div class="ch2">a　急性冠症候群</div><div class="ch2">b　脂肪塞栓</div><div class="ch2">c　心膜炎</div><div class="ch2">d　大動脈解離</div><div class="ch2"><span class="ok">e　肺血栓塞栓症</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　肺血栓塞栓症（エコノミークラス症候群）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>飛行機長時間座位→DVT→急性PTE。<span class="kw">エコノミークラス症候群</span>の典型例。</div>
+</div>
+</div></div>
+<div class="qc" data-uid="resp_ch05_q268" id="q268"><div class="qh"><span class="qn">Q.268</span><span class="qe">(115E-42)</span><span class="bg br">連問</span><span class="cr ch">正答率 99%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q268" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q268" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">入院後歩行再開時に洗面所で転倒。暗所でふらつく既往。MCV 132・核過分葉→胃全摘後B12欠乏→脊髄亜急性連合変性症。予想される診察所見はどれか。</div>
+<div class="cs"><div class="ch2">a　静止時振戦</div><div class="ch2">b　眼球運動障害</div><div class="ch2">c　Horner徴候陽性</div><div class="ch2"><span class="ok">d　Romberg徴候陽性</span></div><div class="ch2">e　Chvostek徴候陽性</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　Romberg徴候陽性（脊髄後索障害→深部覚障害→閉眼でふらつき）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 B12欠乏→脊髄亜急性連合変性症</h4>胃全摘→内因子↓→B12吸収障害→後索（深部覚）障害。<span class="kw">Romberg徴候陽性</span>（閉眼立位でふらつく）。大球性貧血＋核過分葉はB12欠乏の典型的血液像。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="96" data-uid="resp_ch05_q269" id="q269"><div class="qh"><span class="qn">Q.269</span><span class="qe">(114C-49)</span><span class="cr ch">正答率 96%</span><span class="cr ch">正答率 96%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q269" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q269" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">29 歳の女性（1 妊1 産）。分娩後1 日で入院中である。妊娠38 週0 日で骨盤位のため帝王切開分娩となった。術中出血量は800mL で術中術後の経過は順調であった。術後の初回歩行を開始したところ、突然の呼吸困難と胸痛とを訴えた。意識は清明。身長154cm、体重77kg。脈拍104/ 分、整。血圧128/76mmHg。呼吸数26/ 分。SpO2 92％（roomair）。呼吸音に異常を認めない。<br><strong>最も考えられる</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">a　羊水塞栓症</div><div class="ch2">b　急性心筋梗塞</div><div class="ch2">c　周産期心筋症</div><div class="ch2"><span class="ok">d　肺血栓塞栓症</span></div><div class="ch2">e　急性大動脈解離</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　肺血栓塞栓症（帝王切開後→DVT→起立時PTE）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>帝王切開後は<span class="kw">PTE高リスク</span>。初回歩行時の急性発症が典型。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="92" data-uid="resp_ch05_q270" id="q270"><div class="qh"><span class="qn">Q.270</span><span class="qe">(114D-69)</span><span class="bg bm">2択</span><span class="cr ch">正答率 92%</span><span class="cr ch">正答率 92%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q270" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q270" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">65 歳の女性。昨日、腰椎固定術を腹臥位で施行された。朝食のため看護師がベッドを座位にしたところ、突然患者が呼吸困難と胸痛を訴え意識レベルが低下した。気管挿管されICU に入室し人工呼吸を開始した。身長152cm、<br>体重70kg。心拍数130/ 分、整。血圧80/40mmHg。血液所見：赤血球352 万、Hb 10.4g/dL、Ht 32％、白血球10,400、血小板16 万、PT-INR 1.1（基準0.9 ～1.1）、APTT 31.5 秒（基準対照32.2）、D ダイマー30.6μg/mL（基準1.0以下）。血液生化学所見：総蛋白5.0g/dL、アルブミン2.8g/dL、AST 80U/L、ALT 56U/L、LD 276U/L（基準120～245）、γ-GT 85U/L（基準8 ～50）、CK 30U/L（基準30 ～140）、尿素窒素10mg/dL、クレアチニン0.6mg/dL。<br>CRP 0.8mg/dL。心筋トロポニンT 陰性。心電図で洞性頻脈を認める。動脈血ガス分析（人工呼吸、FIO2 0.8）：pH 7.39、<br>PaCO2 39Torr、PaO2 95Torr、HCO3－ 24mEq/L。胸部エックス線写真で肺野に明らかな異常陰影を認めない。<br>確定診断のために必要な検査はどれか。2 つ選べ。</div>
+<div class="cs"><div class="ch2">a　頭部MRI</div><div class="ch2">b　冠動脈造影</div><div class="ch2"><span class="ok">c　胸部造影CT</span></div><div class="ch2"><span class="ok">d　心エコー検査</span></div><div class="ch2">e　FDG-PET/CT</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　胸部造影CT　＋　d　心エコー検査</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>大量PTE：<span class="kw">c 胸部造影CT</span>（確定）＋<span class="kw">d 心エコー</span>（右心負荷評価・緊急度判断）。</div>
+</div>
+</div></div>
+<div class="rb">📋 <strong>連問（Q.271〜273）</strong><div class="pi">58歳男性。突然の息苦しさ＋左胸部痛で救急搬送。デスクワーク中に発症。SpO₂ 93%（リザーバー10L/分）。II音亢進。X線正常。</div></div>
+<div class="qc" data-rate="83" data-uid="resp_ch05_q271" id="q271"><div class="qh"><span class="qn">Q.271</span><span class="qe">(113C-57)</span><span class="bg br">連問</span><span class="cr cm">正答率 83%</span><span class="cr ch">正答率 83%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q271" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q271" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 1/3</span>58 歳の男性。息苦しさと左胸部痛を主訴に救急車で搬入された。<br>現病歴：30 分前に職場でデスクワーク中、突然の息苦しさと左胸部全体の痛みが出現した。症状が強く、職場の同僚<br>が救急車を要請した。<br>既往歴：特記すべきことはない。<br>生活歴：喫煙歴はない。飲酒はビール350mL/ 日。<br>家族歴：父親が胃癌で死亡。<br>現　症：意識は清明。身長160cm、体重86kg。体温36.2℃。脈拍108/ 分、整。血圧128/70mmHg。呼吸数30/ 分。<br>SpO2 93％（リザーバー付マスク10L/ 分酸素投与下）。眼瞼結膜と眼球結膜とに異常を認めない。Ⅱ音の亢進を聴<br>取する。呼吸音に異常を認めない。</span><br>心電図を示す。この心電図所見で正しいのはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/113C-57_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　心房粗動</div><div class="ch2"><span class="ok">b　正常電気軸</span></div><div class="ch2">c　デルタ波</div><div class="ch2">d　完全左脚ブロック</div><div class="ch2">e　QT短縮</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　正常電気軸（急性PTE初期では洞性頻脈のみで電気軸正常も多い）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 PTE心電図の特徴</h4>典型的S1Q3T3は約10〜15%のみ。最多所見=<span class="kw">洞性頻脈（正常電気軸）</span>。本例はこのパターン→b正。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="82" data-uid="resp_ch05_q272" id="q272"><div class="qh"><span class="qn">Q.272</span><span class="qe">(113C-58)</span><span class="bg br">連問</span><span class="cr cm">正答率 82%</span><span class="cr ch">正答率 82%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q272" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q272" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 2/3</span>58 歳の男性。息苦しさと左胸部痛を主訴に救急車で搬入された。<br>現病歴：30 分前に職場でデスクワーク中、突然の息苦しさと左胸部全体の痛みが出現した。症状が強く、職場の同僚<br>が救急車を要請した。<br>既往歴：特記すべきことはない。<br>生活歴：喫煙歴はない。飲酒はビール350mL/ 日。<br>家族歴：父親が胃癌で死亡。<br>現　症：意識は清明。身長160cm、体重86kg。体温36.2℃。脈拍108/ 分、整。血圧128/70mmHg。呼吸数30/ 分。<br>SpO2 93％（リザーバー付マスク10L/ 分酸素投与下）。眼瞼結膜と眼球結膜とに異常を認めない。Ⅱ音の亢進を聴<br>取する。呼吸音に異常を認めない。</span><br>心エコー：右心系拡大＋左室圧排像。診断確定のために行うべき検査はどれか。</div>
+<div class="cs"><div class="ch2">a　胸部MRI</div><div class="ch2">b　冠動脈造影</div><div class="ch2"><span class="ok">c　胸部造影CT</span></div><div class="ch2">d　呼吸機能検査</div><div class="ch2">e　運動負荷心電図</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　胸部造影CT（PTE確定診断のgold standard）</div><div class="as">PTEの確定診断はCTPA（造影CT肺動脈造影）</div></div></div><div class="eg"><div class="eb ep"><h4>🩸 PTE 診断戦略</h4><span class="kw">CTPA（胸部造影CT肺動脈造影）</span> がgold standard。<br/>肺動脈内の充填欠損（filling defect）を直接描出する。<br/><br/>各検査の役割：<br/>・<span class="kw">心エコー</span>：右心負荷（D-sign・右心拡大・TR）→スクリーニング<br/>・<span class="kw">Dダイマー</span>：陰性なら除外（感度高・特异度低）<br/>・肺血流シンチ：CT困難例（腔不全・造影剤アレルギー）の代替<br/>・胸部MRI：PTEへの有用性はCTPAに劣る</div><div class="eb ee"><h4>□ PTE 検査比較</h4><table class="tb"><tr><th>検査</th><th>役割</th><th>特徴</th></tr><tr><td>CTPA（造影CT）</td><td>Gold standard</td><td>充填欠損を直接描出</td></tr><tr><td>心エコー</td><td>スクリーニング</td><td>D-sign・右心拡大・TR</td></tr><tr><td>Dダイマー</td><td>除外診断</td><td>陰性 → PTE否定的</td></tr><tr><td>肺血流シンチ</td><td>代替</td><td>CT困難例に使用</td></tr></table></div><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">CTPA = PTE確定診断のgold standard</span>（穴埋最頻出）。<br/>心エコーD-signはスクリーニング所見であり確定診断ではない。<br/>Dダイマー上昇は多疾患でみられ特异度低（診断確定に使えない）。</div></div>
+</div></div>
+<div class="qc" data-rate="88" data-uid="resp_ch05_q273" id="q273"><div class="qh"><span class="qn">Q.273</span><span class="qe">(113C-59)</span><span class="bg br">連問</span><span class="cr ch">正答率 88%</span><span class="cr ch">正答率 88%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q273" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q273" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 3/3</span>58 歳の男性。息苦しさと左胸部痛を主訴に救急車で搬入された。<br>現病歴：30 分前に職場でデスクワーク中、突然の息苦しさと左胸部全体の痛みが出現した。症状が強く、職場の同僚<br>が救急車を要請した。<br>既往歴：特記すべきことはない。<br>生活歴：喫煙歴はない。飲酒はビール350mL/ 日。<br>家族歴：父親が胃癌で死亡。<br>現　症：意識は清明。身長160cm、体重86kg。体温36.2℃。脈拍108/ 分、整。血圧128/70mmHg。呼吸数30/ 分。<br>SpO2 93％（リザーバー付マスク10L/ 分酸素投与下）。眼瞼結膜と眼球結膜とに異常を認めない。Ⅱ音の亢進を聴<br>取する。呼吸音に異常を認めない。</span><br>急速悪化。JCS II-10。BP 70/40（ショック）。SpO₂ 測定不能。JVD↑。考えられる病態はどれか。</div>
+<div class="cs"><div class="ch2">a　出血性ショック</div><div class="ch2">b　心原性ショック</div><div class="ch2"><span class="ok">c　閉塞性ショック</span></div><div class="ch2">d　敗血症性ショック</div><div class="ch2">e　アナフィラキシーショック</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　閉塞性ショック（大量PTE→右心後負荷→左心への血流↓→ショック＋JVD）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>PTE→<span class="kw">閉塞性ショック</span>：肺動脈閉塞→右心拡大→心室中隔偏位→左心圧排→心拍出量↓。JVD（右心に血液貯留）が特徴。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="83" data-uid="resp_ch05_q274" id="q274"><div class="qh"><span class="qn">Q.274</span><span class="qe">(111E-14)</span><span class="cr cm">正答率 83%</span><span class="cr ch">正答率 83%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q274" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q274" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><strong>周術期合併症の肺血栓塞栓症について誤っている</strong>のはどれか。</div>
+<div class="cs"><div class="ch2">a　術後24時間以降の発症が多い</div><div class="ch2">b　起立、歩行開始時に発症することが多い</div><div class="ch2">c　予防策として下肢弾性ストッキングの装着がある</div><div class="ch2">d　DVTの既往がある場合は発症頻度が高い</div><div class="ch2"><span class="ok">e　下大静脈フィルターの永久留置が必要となる場合が多い</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">e　下大静脈フィルターの永久留置が必要となる場合が多い（誤り：永久留置は少数例）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4>IVCフィルター適応：抗凝固薬が使えない場合に限定。多くは<span class="kw">回収可能型（一時的）</span>を使用。「永久留置が多い」は<span class="kw4">誤り</span>。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="75" data-uid="resp_ch05_q275" id="q275"><div class="qh"><span class="qn">Q.275</span><span class="qe">(110D-13)</span><span class="bg bm">2択</span><span class="cr cm">正答率 75%</span><span class="cr cm">正答率 75%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q275" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q275" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">異常がなければ高い確率で肺血栓塞栓症を否定できる検査はどれか。2 つ選べ。</div>
+<div class="cs"><div class="ch2">a　心電図</div><div class="ch2">b　血清LD値</div><div class="ch2"><span class="ok">c　血中Dダイマー</span></div><div class="ch2">d　胸部エックス線</div><div class="ch2"><span class="ok">e　A-aDO₂</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　Dダイマー（感度&gt;95%）　＋　e　A-aDO₂（PTE→開大必発）</div></div></div>
+<div class="eg"><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">Dダイマー陰性</span>→PTE否定力高い（NPV&gt;99%）。<span class="kw">A-aDO₂正常</span>→PTE否定的（PTEでは拡散障害/V-Q不均等→A-aDO₂↑が必発）。心電図・X線は正常でもPTE否定できない。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="25" data-uid="resp_ch05_q276" id="q276"><div class="qh"><span class="qn">Q.276</span><span class="qe">(110I-4)</span><span class="cr cl">正答率 25%（超難問）</span><span class="cr cl">正答率 25%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q276" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q276" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">肺動脈性肺高血圧症について正しいのはどれか。</div>
+<div class="cs"><div class="ch2">a　平均肺動脈圧は低下する</div><div class="ch2">b　肺血栓塞栓症が原因となる</div><div class="ch2">c　心陰影の左第3弓突出がある</div><div class="ch2"><span class="ok">d　先天性心疾患に伴う肺高血圧症が含まれる</span></div><div class="ch2">e　カテーテル検査では肺動脈楔入圧が高値である</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">d　先天性心疾患に伴う肺高血圧症が含まれる（Group 1 PAHに含まれる）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 各誤肢解説</h4>a：mPAP<span class="kw4">↑（上昇）</span>。b：CTEPHは<span class="kw4">Group 4</span>（PAH≠CTEPH）。c：<span class="kw4">左第2弓突出</span>（肺動脈主幹部）→第3弓は左室。e：PCWP<span class="kw4">≤15mmHg</span>（高値ならGroup 2）。d：先天性心疾患（Eisenmenger等）はGroup 1→<span class="kw3">d正</span>。</div>
+<div class="eb ept"><h4>🎯 国試ポイント</h4>PAH（Group 1）= IPAH＋膠原病関連＋先天性心疾患関連＋HIV等。<span class="kw">PCWP≤15mmHg</span>が左心疾患除外の基準。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="95" data-uid="resp_ch05_q277" id="q277"><div class="qh"><span class="qn">Q.277</span><span class="qe">(110I-60)</span><span class="cr ch">正答率 95%</span><span class="cr ch">正答率 95%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q277" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q277" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">58 歳の女性。入院中に突然の呼吸困難と左前胸部痛とを訴えた。3 日前に自宅火災で下半身にⅡ度20％の熱傷を負い、ベッド上で治療を継続していた。今朝、突然、呼吸困難と左前胸部痛が出現した。意識は清明。身長152cm、<br>体重68kg。体温36.1℃。脈拍112/ 分、整。血圧110/76mmHg。呼吸数24/ 分。SpO2 88％（room air）。胸部の聴診でⅡ音の亢進を認め心雑音は聴取しない。呼吸音に異常を認めない。胸部エックス線写真で異常を認めない。心電図は、心拍数120/ 分の洞性頻脈以外には明らかな異常を認めない。SpO2 は直前まで98％であった。<br><strong>確定診断のために最も有用な検査</strong>はどれか。</div>
+<div class="cs"><div class="ch2">a　KL-6</div><div class="ch2">b　冠動脈造影</div><div class="ch2"><span class="ok">c　胸部造影CT</span></div><div class="ch2">d　トロポニンT</div><div class="ch2">e　呼吸機能検査</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">c　胸部造影CT（熱傷入院→長期臥床→DVT→PTE）</div><div class="as">熱傷後の長期臥床にDVT→PTEを疑い造影CTで確定</div></div></div><div class="eg"><div class="eb ep"><h4>🩸 熱傷後DVT・PTEのメカニズム</h4><span class="kw">Virchow三徴</span>：①血流うっ滲（長期臥床）②血管壁損傷（熱傷・血管損傷）③凝固丢進（外傷・炎症・脱水）<br/>熱傷患者は3因子すべてを満たす → DVT・PTEハイリスク。<br/><br/>典型的経過：入院後数日 → 突然の呼吸困難・胸痛・SpO₂急落<br/><span class="kw">重要</span>：<span class="kw4">胸部X線・心電図が正常でもPTEを否定できない</span>（本問のポイント）</div><div class="eb ept"><h4>🎯 国試ポイント</h4>「x線正常・心電図正常 → それでもPTEを疑う」は超頻出。<br/><span class="kw">確定診断 = 胸部造影CT（CTPA）</span>。<br/>KL-6は間質性肺炎マーカー、トロポニンTは心筋傷害マーカー（PTE重症度評価にも使うが確定診断ではない）。</div></div>
+</div></div>
+<div class="qc" data-rate="92" data-uid="resp_ch05_q278" id="q278"><div class="qh"><span class="qn">Q.278</span><span class="qe">(109A-52)</span><span class="cr ch">正答率 92%</span><span class="cr ch">正答率 92%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q278" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q278" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">38 歳の女性。労作時呼吸困難を主訴に来院した。29 歳時に関節炎を発症し、同時にリンパ球減少、血小板減少およびネフローゼ症候群を指摘され、全身性エリテマトーデス〈SLE〉の診断で治療を受けている。3 か月前から労作時の呼吸困難を感じていた。1 か月前から階段を昇るときにも息切れを自覚するようになったため受診した。身長163cm、体重50kg。胸骨左縁第2 肋間でⅡ音の病的分裂と肺動脈弁成分の亢進とを認める。呼吸音に異常を認めない。<br>尿所見：比重1.009、蛋白1 ＋、潜血2 ＋。血液所見：赤血球460 万、Hb 12.1g/dL、Ht 36％、白血球8,600、血小板21 万。血液生化学所見：アルブミン3.5g/dL、AST 67IU/L、ALT 95IU/L、LD 370IU/L（基準176 ～353）、尿素窒素15mg/dL、クレアチニン0.7mg/dL。免疫血清学所見：CRP 0.1mg/dL、抗核抗体640 倍（基準20 以下）。心電図（A）と胸部エックス線写真（B）とを示す。<br><strong>労作時呼吸困難の原因を診断するために最も有用な検査</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/109A-52_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/109A-52_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　冠動脈造影</div><div class="ch2"><span class="ok">b　心エコー検査</span></div><div class="ch2">c　気管支内視鏡</div><div class="ch2">d　ポリソムノグラフィ</div><div class="ch2">e　ガリウムシンチ</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　心エコー検査（SLE合併PAHの評価）</div><div class="as">SLE合併PAHのスクリーニングは心エコー（推算収縮期肺動脈圧を評価）</div></div></div><div class="eg"><div class="eb ep"><h4>🫀 膊原病関連PAH（SLE合併）</h4><span class="kw">PAH（肺動脈性肺高血圧）</span> WHO分類Group 1：<br/>・特発性PAH（IPAH）<br/>・膊原病関連PAH：<span class="kw">SLE・全身性強皮症・混合性結合組織病</span>（国試頻出）<br/><br/>本症例の所見：<br/>・労作時呼吸困難（初期症状）<br/>・<span class="kw">II音尢進（P2尢進）</span>：肺動脈圧上昇→肺動脈弁閉鎖音尢進<br/>・右室肥大（心電図・X線）：慑性右室後負荷増大</div><div class="eb ee"><h4>□ PAH 診断の手順</h4><table class="tb"><tr><th>ステップ</th><th>検査</th><th>基準</th></tr><tr><td>スクリーニング</td><td><span class="kw">心エコー</span></td><td>推算SPAP（収縮期肺動脈圧）≥ 36 mmHg で疑い</td></tr><tr><td>確定診断</td><td>右心カテーテル</td><td>mPAP ≥ 25 mmHg かつ PAWP ≤ 15 mmHg</td></tr></table></div><div class="eb ept"><h4>🎯 国試ポイント</h4><span class="kw">スクリーニング = 心エコー</span>、<span class="kw">確定診断 = 右心カテーテル</span>（頻出セット）。<br/>冠動脈造影は虚血性心疾患の検査。ガリウムシンチはサルコイドーシス等の検査。<br/>ポリソムノグラフィは睡眠時無呼吸の検査（鑑別にはなるが本症例はSLE合併）。</div></div>
+</div></div>
+<div class="qc" data-rate="94" data-uid="resp_ch05_q279" id="q279"><div class="qh"><span class="qn">Q.279</span><span class="qe">(109D-32)</span><span class="cr ch">正答率 94%</span><span class="cr ch">正答率 94%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q279" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q279" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">48 歳の女性。全身倦怠感と浮腫とを主訴に来院した。38 歳時に特発性肺動脈性肺高血圧症と診断され、エポプロステノール（プロスタグランディンI2 製剤）在宅持続静注療法を受けている。1 週前から、だるさで家事がおっくうになり、下腿に浮腫が出現したため受診した。下腿に軽度の浮腫を認める。胸部エックス線写真（A，B）を示す。<br><strong>この患者に認められない検査所見</strong>はどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/109D-32_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/109D-32_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　心電図で肺性P波</div><div class="ch2"><span class="ok">b　心エコー図で左心室拡大</span></div><div class="ch2">c　6分間歩行試験で歩行距離の減少</div><div class="ch2">d　心臓カテーテル検査で肺血管抵抗上昇</div><div class="ch2">e　胸部CTで中枢側肺動脈拡張と末梢側肺動脈急激な狭小化</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　心エコー図で左心室拡大（実際は左室縮小・圧排される）</div></div></div>
+<div class="eg"><div class="eb ep"><h4>🫁 PAHの心エコー所見</h4>PAH→右室圧↑→右室拡大→心室中隔が左室を圧排（D-sign）→<span class="kw4">左室は縮小・圧排（拡大しない）</span>。a：肺性P波（右房負荷）→認められる。e：中枢側拡張＋末梢側狭小化（prune-tree pattern）→認められる。</div>
+</div>
+</div></div>
+<div class="qc" data-rate="68" data-uid="resp_ch05_q280" id="q280"><div class="qh"><span class="qn">Q.280</span><span class="qe">(108A-25)</span><span class="cr cm">正答率 68%</span><span class="cr cm">正答率 68%</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q280" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q280" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt">53 歳の女性。持続する乾性咳嗽を主訴に来院した。2 か月前に感冒様症状が出現し、咽頭痛と微熱とは消失したが、乾性咳嗽が持続している。数日前から、動悸、息苦しさおよび下腿の浮腫を自覚していた。既往歴と家族歴とに特記すべきことはない。喫煙歴はない。意識は清明。身長157cm、体重57kg。体温36.5℃。脈拍112/ 分、整。血圧96/50mmHg。呼吸数20/ 分。SpO2 92％（room air）。心音と呼吸音とに異常を認めない。左下腿に浮腫を認める。<br>血液所見：赤血球480 万、Hb 14.0g/dl、Ht 42％、白血球6,500、血小板26 万。血液生化学所見：総蛋白7.4g/dl、アルブミン3.9g/dl、AST 20IU/l、ALT 12IU/l、LD 296IU/l（基準176 ～353）、尿素窒素10mg/dl、クレアチニン0.7mg/dl、CEA 25ng/ml（基準5 以下）。喀痰細胞診で悪性細胞を認める。胸部エックス線写真（A）と胸部造影CT（B）<br>とを示す。<br><strong>この患者にみられる</strong>のはどれか。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/108A-25_1.jpeg"/><img alt="" class="qimg" loading="lazy" src="images/108A-25_2.jpeg"/></div>
+<div class="cs"><div class="ch2">a　PaCO₂は上昇する</div><div class="ch2"><span class="ok">b　A-aDO₂の開大を認める</span></div><div class="ch2">c　肺血流シンチグラムは正常である</div><div class="ch2">d　心エコー検査で左室の拡大を認める</div><div class="ch2">e　血液検査所見でDダイマーは正常である</div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　A-aDO₂の開大を認める（PTE→V/Q不均等→A-aDO₂↑）</div><div class="as">PTE → 換気血流不均等 → A-aDO₂開大（酸素化障害の指標）</div></div></div><div class="eg"><div class="eb ep"><h4>🩸 PTE の血液ガス所見</h4><span class="kw">A-aDO₂（肺胞-動脈血酸素分圧較差）</span> の開大：<br/>PTE → 肺血流途絶 → V/Q不均等（換気あり・血流なし）→ ガス交換障害 → <span class="kw">A-aDO₂↑</span><br/><br/>各選択肢の検討：<br/>・PaCO₂：<span class="kw4">低下</span>（過呼吸にCO₂呼出増加。上昇はしない）<br/>・肺血流シンチ：<span class="kw4">欠損像</span>（血栓で血流途絶→正常ではない）<br/>・心エコー：<span class="kw4">右室</span>拡大（左室拡大はPTEでみられない）<br/>・Dダイマー：<span class="kw4">上昇</span>（二次線溶丢進→正常値にはならない）</div><div class="eb ept"><h4>🎯 国試ポイント</h4>PTE血ガスの三点セット：<span class="kw">PaO₂↓・PaCO₂↓・A-aDO₂開大</span>（呼吸性アルカローシス）。<br/>Dダイマー↑・右室拡大・肺血流シンチ欠損もセットで覚える。<br/>癢患患者は凝固丢進（Trousseau症候群）でPTE合併しやすい。</div></div>
+</div></div>
+<div class="rb">📋 <strong>連問（Q.281〜283）</strong><div class="pi">72歳女性。半年前から労作時呼吸困難。1年前からネコ飼育。II音亢進（胸骨左縁第2肋間）。D-dimer 3.6↑。BNP 140↑。胸部X線(A)を示す。</div></div>
+<div class="qc" data-uid="resp_ch05_q281" id="q281"><div class="qh"><span class="qn">Q.281</span><span class="qe">(108E-66)</span><span class="bg br">連問</span><span class="bg bi">📷 画像</span><span class="bg bm">2択</span><span class="cr cm">正答率（参考）</span><div class="mec-controls"><button class="mec-flag-btn" data-uid="resp_ch05_q281" onclick="mecToggleFlag(this)" title="苦手フラグ">🚩</button><button class="mec-lap-btn" data-uid="resp_ch05_q281" onclick="mecIncrLap(this)">済<span class="mec-lap-num"></span></button></div></div><div class="qb">
+<div class="qt"><span class="qt-context"><span class="series-label">連問 1/3</span>72 歳の女性。労作時呼吸困難を主訴に来院した。<br>現病歴：約半年前から労作時の呼吸困難を自覚していた。当初は階段や急な坂を登る時のみであったが次第に悪化し、<br>より軽い労作でも呼吸困難を感じるようになった。現在では2 ～3 分の平地歩行でも呼吸困難を自覚するようになっ<br>たが、安静時には症状はない。<br>既往歴：20 歳時に副鼻腔炎手術。38 歳時に子宮筋腫手術。10 年前から高血圧症に対し内服治療中。<br>生活歴：喫煙歴はない。1 年前から室内でネコを飼っている。<br>家族歴：夫が3 年前に肺癌で死亡。<br>現　症：意識は清明。身長152cm、体重52kg。体温36.1℃。脈拍88/ 分、整。</span><br>胸部エックス線写真（A）を示す。<br>認められるのはどれか。2 つ選べ。</div><div class="qimg-row"><img alt="" class="qimg" loading="lazy" src="images/108E-66_1.jpeg"/></div>
+<div class="cs"><div class="ch2">a　肺過膨張</div><div class="ch2"><span class="ok">b　心陰影拡大</span></div><div class="ch2">c　肺円形陰影</div><div class="ch2">d　肺間質性陰影</div><div class="ch2"><span class="ok">e　中枢肺動脈拡張</span></div></div>
+<div class="ab"><span class="ai">✅</span><div><div class="ac">b　心陰影拡大　＋　e　中枢肺動脈拡張（肺高血圧症のX線2大所見）</div></div></div>
+<div class="eg"><div class="eb em"><h4>💡 肺高血圧症のX線所見</h4><span class="kw">b 心陰影拡大</span>（右心拡大）＋<span class="kw">e 肺動脈主幹部拡張</span>（左第2弓突出）。肺野は清明（間質性陰影なし）。</div>
+</div>
+</div></div>
+</div><!-- /ct -->
+<div class="pf">MEC臓器別講座 呼吸器 '26 ｜ 第5章 肺循環障害 解答・解説集（全37問）</div>
+<button id="st" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<script>
+window.addEventListener('scroll',()=>{
+  const t=document.body.scrollHeight-window.innerHeight;
+  document.getElementById('pb').style.width=(window.scrollY/t*100)+'%';
+  document.getElementById('st').style.display=window.scrollY>300?'flex':'none';
+});
+function goto(id){const e=document.getElementById(id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'});}
+</script>
+<script src="../progress.js?v=3"></script>
+<script>
+// MECSync が初期化後、章ごとの進捗バーを更新
+document.addEventListener('mecSyncComplete', function() {
+  document.querySelectorAll('.qc[data-uid]').forEach(function(card) {
+    var uid = card.dataset.uid;
+    var done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+    var flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+    var lapBtn = card.querySelector('.mec-lap-btn');
+    if (lapBtn) { var dl = done[uid] || 0; var nl = lapBtn.querySelector('.mec-lap-num');
+      if (nl) nl.textContent = dl > 0 ? dl : ''; lapBtn.classList.toggle('mec-lapped', dl > 0); card.classList.toggle('mec-done', dl > 0); }
+    var fb = card.querySelector('.mec-flag-btn');
+    if (fb && flags[uid]) fb.classList.add('mec-flagged');
+  });
+});
+
+let currentFilter = 'all';
+let currentState = 'all';
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('[data-filter]').forEach(b => b.classList.toggle('fc-on', b.dataset.filter === f));
+  applyFilters();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setState(s) {
+  currentState = s;
+  document.querySelectorAll('[data-state]').forEach(b => b.classList.toggle('fs-on', b.dataset.state === s));
+  applyFilters();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function applyFilters() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  const today = new Date().toISOString().slice(0, 10);
+  let visible = 0, doneVis = 0;
+  document.querySelectorAll('.qc[data-uid]').forEach(c => {
+    const uid = c.dataset.uid;
+    const r = c.dataset.rate !== undefined && c.dataset.rate !== '' ? +c.dataset.rate : null;
+    const f = currentFilter;
+    let showDiff;
+    if (f === 'all') showDiff = true;
+    else if (f === 'norate') showDiff = r === null;
+    else if (f === 'star') showDiff = !!c.querySelector('.bg.bs');
+    else if (f === 'img') showDiff = !!c.querySelector('.qimg');
+    else if (r !== null) showDiff = (f === 'hard' && r < 60) || (f === 'mid' && r >= 60 && r < 80) || (f === 'easy' && r >= 80);
+    else showDiff = false;
+    const st = currentState;
+    let showState;
+    if (st === 'all') showState = true;
+    else if (st === 'flag') showState = !!flags[uid];
+    else if (st === 'undone') showState = !done[uid];
+    else if (st === 'done') showState = !!done[uid];
+    else showState = true;
+    const show = showDiff && showState;
+    c.style.display = show ? '' : 'none';
+    if (show) { visible++; if (window.mecSessionDone && window.mecSessionDone.has(uid)) doneVis++; }
+  });
+  document.querySelectorAll('.sg').forEach(g => {
+    const vis = [...g.querySelectorAll('.qc')].some(c => c.style.display !== 'none');
+    g.style.display = vis ? '' : 'none';
+  });
+  const vc = document.getElementById('visCount');
+  if (vc) vc.textContent = visible ? visible + '問' : '—';const fp=document.getElementById('filtProgFill');const ft=document.getElementById('filtProgTxt');const pct=visible>0?Math.round(doneVis/visible*100):0;if(fp)fp.style.width=pct+'%';if(ft)ft.textContent='残り'+(visible-doneVis)+'問';
+}
+
+function filterCards(f) { setFilter(f); }
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var sn = document.querySelector('.sn');
+  var sn2 = document.querySelector('.sn2');
+  if (sn && sn2) {
+    var setTop = function() { sn2.style.top = sn.offsetHeight + 'px'; };
+    setTop();
+    if (window.ResizeObserver) new ResizeObserver(setTop).observe(sn);
+  }
+});
+</script>
+<script>
+function _bmPageKey(){var p=location.pathname.split('/');var last=p[p.length-1];return last.replace(/\.html$/i,'');}
+function saveBookmark(){var cards=[].slice.call(document.querySelectorAll('.qc[data-uid]')).filter(function(c){return c.style.display!=='none';});if(!cards.length)return;var hdr=document.querySelector('.mec-ch-prog');var hdrH=hdr?hdr.getBoundingClientRect().bottom:80;var best=null;for(var i=0;i<cards.length;i++){if(cards[i].getBoundingClientRect().top>=hdrH-10){best=cards[i];break;}}if(!best)best=cards[0];var bm=JSON.parse(localStorage.getItem('bookmark_v1')||'{}');bm[_bmPageKey()]=best.dataset.uid;localStorage.setItem('bookmark_v1',JSON.stringify(bm));var btn=document.getElementById('bookmarkBtn');if(btn){btn.textContent='📖 保存済';setTimeout(function(){btn.textContent='📖 しおり';},1500);}}
+function restoreBookmark(){var uid=(JSON.parse(localStorage.getItem('bookmark_v1')||'{}'))[_bmPageKey()];if(!uid)return;var card=document.querySelector('.qc[data-uid="'+uid+'"]');if(!card)return;if(card.style.display==='none'){setState('all');card=document.querySelector('.qc[data-uid="'+uid+'"]');}hideBmBanner();var hdr=document.querySelector('.mec-ch-prog');var offset=hdr?hdr.getBoundingClientRect().height+16:80;var y=card.getBoundingClientRect().top+(window.scrollY||document.documentElement.scrollTop)-offset;window.scrollTo({top:Math.max(0,y),behavior:'smooth'});card.style.outline='2px solid #F5A623';setTimeout(function(){card.style.outline='';},2000);}
+function hideBmBanner(){var b=document.getElementById('bmBanner');if(b)b.style.display='none';}
+document.addEventListener('DOMContentLoaded',function(){var uid=(JSON.parse(localStorage.getItem('bookmark_v1')||'{}'))[_bmPageKey()];if(uid){var b=document.getElementById('bmBanner');if(b)b.style.display='flex';}});
+</script>
+<div id="bmBanner" style="display:none;position:fixed;bottom:72px;left:50%;transform:translateX(-50%);background:#1A1A2E;color:#fff;border-radius:24px;padding:8px 16px;font-size:13px;font-weight:700;gap:8px;align-items:center;z-index:1000;box-shadow:0 4px 12px rgba(0,0,0,.4);white-space:nowrap;">📖 前回の続きから<button onclick="restoreBookmark()" style="background:#F5A623;border:none;border-radius:16px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer;color:#000;margin-left:4px;">再開</button><button onclick="hideBmBanner()" style="background:none;border:none;color:rgba(255,255,255,.5);font-size:18px;cursor:pointer;padding:0 0 0 6px;line-height:1;">✕</button></div>
+<script>
+var compactMode=false;
+function toggleCompact(){compactMode=!compactMode;document.body.classList.toggle('compact-mode',compactMode);if(!compactMode)document.querySelectorAll('.qc.compact-open').forEach(function(el){el.classList.remove('compact-open');});var btn=document.getElementById('compactBtn');if(btn){btn.textContent=compactMode?'📋 通常表示':'📋 コンパクト';btn.classList.toggle('compact-on',compactMode);}}
+document.addEventListener('click',function(e){if(!compactMode)return;var card=e.target.closest?e.target.closest('.qc[data-uid]'):null;if(!card)return;if(e.target.closest('button, a, input, textarea'))return;card.classList.toggle('compact-open');});
+function openLightbox(src){var lb=document.getElementById('imgLightbox');var img=document.getElementById('imgLightboxImg');if(!lb||!img)return;img.src=src;lb.classList.add('open');}
+function closeLightbox(){var lb=document.getElementById('imgLightbox');if(lb)lb.classList.remove('open');}
+document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.qimg').forEach(function(img){img.addEventListener('click',function(e){e.stopPropagation();openLightbox(this.src);});});});
+</script>
+<div id="imgLightbox" onclick="closeLightbox()"><img loading="lazy" id="imgLightboxImg" src="" alt=""></div>
+<script>
+document.addEventListener('keydown',function(e){if(e.key!=='Enter')return;var tag=document.activeElement&&document.activeElement.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||tag==='BUTTON')return;e.preventDefault();var hdr=document.querySelector('.mec-ch-prog');var hdrH=hdr?hdr.getBoundingClientRect().bottom:0;var cards=[].slice.call(document.querySelectorAll('.qc[data-uid]')).filter(function(c){return c.style.display!=='none';});var card=cards.find(function(c){var r=c.getBoundingClientRect();return r.top>=hdrH-10&&r.bottom>hdrH;})||cards.find(function(c){return c.getBoundingClientRect().bottom>hdrH;});if(card){var btn=card.querySelector('.mec-lap-btn');if(btn)btn.click();}});
+(function(){document.querySelectorAll('.qc[data-uid]').forEach(function(card){var ctrl=card.querySelector('.mec-controls');if(!ctrl)return;var b=document.createElement('span');b.className='mec-enter-badge';b.textContent='⏎';ctrl.insertBefore(b,ctrl.firstChild);});var _ac=null;function _upd(){var hdr=document.querySelector('.mec-ch-prog');var hdrH=hdr?hdr.getBoundingClientRect().bottom:0;var cards=[].slice.call(document.querySelectorAll('.qc[data-uid]')).filter(function(c){return c.style.display!=='none';});var card=cards.find(function(c){var r=c.getBoundingClientRect();return r.top>=hdrH-10&&r.bottom>hdrH;})||cards.find(function(c){return c.getBoundingClientRect().bottom>hdrH;});if(card===_ac)return;if(_ac)_ac.classList.remove('mec-enter-active');_ac=card||null;if(_ac)_ac.classList.add('mec-enter-active');}var _raf;window.addEventListener('scroll',function(){cancelAnimationFrame(_raf);_raf=requestAnimationFrame(_upd);},{passive:true});window.addEventListener('resize',_upd);document.addEventListener('click',function(){setTimeout(_upd,50);});_upd();})();
+</script>
+<script src="../chapter_exam.js"></script>
+</body></html>

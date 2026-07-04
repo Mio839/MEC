@@ -1,0 +1,39 @@
+# デバッグ・作業用スクリプト（リポジトリルートに散在）
+debug*.py
+check_*.py
+fix_*.py
+extract_*.py
+find_*.py
+audit_*.py
+add_*.py
+apply_*.py
+convert_*.py
+count_*.py
+diagnose_*.py
+diag_*.py
+enhance_*.py
+migrate_*.py
+test_*.py
+generate_*.py
+
+# 作業メモ・テキスト
+*.txt
+
+# Python キャッシュ
+__pycache__/
+*.pyc
+*.pyo
+
+# 一時ファイル
+*.tmp
+*.bak
+
+# Claude Code 内部ファイル（設定・ワークツリー等、プロジェクト内容ではない）
+.claude/
+
+# 予備校配布資料PDF（著作権・容量の都合でリポジトリに含めない）
+MEC問題文pdf/
+国家試験過去問/*.pdf
+
+# JSON+テンプレート移行前の旧方式カードファイル（未使用）
+cards_*.js
