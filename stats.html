@@ -36,7 +36,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .act-bar{flex:1;border-radius:2px 2px 0 0;min-height:2px;background:#A5D6A7;position:relative;cursor:default;}
 .act-bar.today{background:var(--yl);}
 .act-bar.zero{background:rgba(255,255,255,.08);min-height:3px;}
-.act-bar:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--nv);color:#fff;font-size:9px;padding:2px 5px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:10;}
+.act-bar:hover::after,.act-bar.tap-show::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--nv);color:#fff;font-size:9px;padding:2px 5px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:10;}
 .act-dates{display:flex;gap:2px;}
 .act-date{flex:1;font-size:8px;text-align:center;color:var(--ts);overflow:hidden;}
 .act-date.today{color:var(--or);font-weight:800;}
@@ -77,7 +77,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .time-bar{flex:1;border-radius:2px 2px 0 0;min-height:2px;background:#90CAF9;position:relative;cursor:default;}
 .time-bar.today{background:#7B5EA7;}
 .time-bar.zero{background:rgba(255,255,255,.08);min-height:3px;}
-.time-bar:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--nv);color:#fff;font-size:9px;padding:2px 5px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:10;}
+.time-bar:hover::after,.time-bar.tap-show::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--nv);color:#fff;font-size:9px;padding:2px 5px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:10;}
 
 /* Accuracy badge */
 .acc-badge{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:10px;white-space:nowrap;}
@@ -311,6 +311,17 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   const hrs = Math.floor(total30Mins / 60);
   const mins30 = total30Mins % 60;
   document.getElementById('timeTotal').textContent = '30日合計: ' + (hrs > 0 ? hrs + '時間' + mins30 + '分' : total30Mins + '分');
+
+  // タップ操作では:hoverが効かないため、タップでツールチップを表示する（iPad/スマホ向け）
+  [barsEl, timeBarsEl].forEach(container => {
+    container.addEventListener('click', e => {
+      const bar = e.target.closest('.act-bar, .time-bar');
+      container.querySelectorAll('.tap-show').forEach(b => { if (b !== bar) b.classList.remove('tap-show'); });
+      if (!bar) return;
+      bar.classList.toggle('tap-show');
+      if (bar.classList.contains('tap-show')) setTimeout(() => bar.classList.remove('tap-show'), 2000);
+    });
+  });
 
   // ── Subject stats ─────────────────────────────────────────
   const myrate = lsGet('myrate_v1');

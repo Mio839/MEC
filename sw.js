@@ -1,4 +1,4 @@
-const CACHE = "mec-v17";
+const CACHE = "mec-v18";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -12,6 +12,7 @@ const SHELL = [
   "./rate_index.js",
   "./card_renderer.js",
 ];
+// 新科目追加時は必ずここにも questions_{prefix}.json を追加すること（chapters_meta.js の sid 一覧と一致させる）
 const CARDS = [
   "questions_endo.json","questions_resp.json","questions_circ.json","questions_dige.json",
   "questions_neur.json","questions_hbp.json","questions_jinzo_d.json","questions_hema.json",

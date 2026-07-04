@@ -19,7 +19,7 @@ body{font-family:-apple-system,"Helvetica Neue",sans-serif;background:transparen
 .hub-title{font-size:17px;font-weight:800;margin-bottom:10px;}
 .hub-stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
 .hub-stat{background:rgba(255,255,255,.08);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;border:1px solid rgba(255,255,255,.1);}
-.hub-stat span{color:#FFB830;}
+.hub-stat span{color:var(--yl);}
 .hub-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
 .hub-btn{padding:5px 12px;border-radius:8px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;transition:all .15s;}
 .hub-btn:hover{background:rgba(255,255,255,.12);}
@@ -62,15 +62,15 @@ body{font-family:-apple-system,"Helvetica Neue",sans-serif;background:transparen
 
 /* ── Subject accuracy ── */
 .subject-acc{font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px;white-space:nowrap;flex-shrink:0;}
-.subject-acc.good{background:rgba(61,214,140,.15);color:#3DD68C;border:1px solid rgba(61,214,140,.3);}
-.subject-acc.poor{background:rgba(255,154,60,.15);color:#FF9A3C;border:1px solid rgba(255,154,60,.3);}
-.subject-acc.bad{background:rgba(255,107,107,.15);color:#FF6B6B;border:1px solid rgba(255,107,107,.3);}
+.subject-acc.good{background:rgba(61,214,140,.15);color:var(--gr);border:1px solid rgba(61,214,140,.3);}
+.subject-acc.poor{background:rgba(255,154,60,.15);color:var(--or);border:1px solid rgba(255,154,60,.3);}
+.subject-acc.bad{background:rgba(255,107,107,.15);color:var(--rd);border:1px solid rgba(255,107,107,.3);}
 
 /* ── Chapter exam badge ── */
 .ch-exam-tag{font-size:9px;font-weight:700;padding:1px 5px;border-radius:8px;white-space:nowrap;flex-shrink:0;border:1px solid;}
-.ch-exam-tag.good{background:rgba(61,214,140,.12);color:#3DD68C;border-color:rgba(61,214,140,.3);}
-.ch-exam-tag.mid{background:rgba(255,154,60,.12);color:#FF9A3C;border-color:rgba(255,154,60,.3);}
-.ch-exam-tag.bad{background:rgba(255,107,107,.12);color:#FF6B6B;border-color:rgba(255,107,107,.3);}
+.ch-exam-tag.good{background:rgba(61,214,140,.12);color:var(--gr);border-color:rgba(61,214,140,.3);}
+.ch-exam-tag.mid{background:rgba(255,154,60,.12);color:var(--or);border-color:rgba(255,154,60,.3);}
+.ch-exam-tag.bad{background:rgba(255,107,107,.12);color:var(--rd);border-color:rgba(255,107,107,.3);}
 
 /* ── Mindmap grid ── */
 .mindmap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;padding:0 16px 14px;}
@@ -95,7 +95,7 @@ body{font-family:-apple-system,"Helvetica Neue",sans-serif;background:transparen
 .sound-label:first-child{margin-top:0;}
 .sound-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:4px;}
 .sound-btn{padding:8px 4px;border-radius:10px;border:1.5px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);font-size:12px;font-weight:700;cursor:pointer;color:var(--tx);transition:all .15s;font-family:inherit;}
-.sound-btn:hover,.sound-btn.sel{background:rgba(61,214,140,.14);border-color:rgba(61,214,140,.42);color:#3DD68C;}
+.sound-btn:hover,.sound-btn.sel{background:rgba(61,214,140,.14);border-color:rgba(61,214,140,.42);color:var(--gr);}
 .modal-title{font-size:16px;font-weight:800;margin-bottom:4px;color:var(--tx);}
 .modal-sub{font-size:13px;color:var(--ts);margin-bottom:18px;line-height:1.6;}
 .field-label{font-size:12px;font-weight:700;color:var(--ts);margin-bottom:5px;}
@@ -107,13 +107,13 @@ body{font-family:-apple-system,"Helvetica Neue",sans-serif;background:transparen
 .modal-btn.primary{background:var(--or);color:#fff;}
 .modal-btn.secondary{background:rgba(255,255,255,.08);color:var(--tx);border:1px solid rgba(255,255,255,.14);}
 .sync-result{font-size:13px;font-weight:700;margin-top:14px;padding:8px 12px;border-radius:8px;display:none;}
-.sync-result.ok{background:rgba(61,214,140,.12);color:#3DD68C;border:1px solid rgba(61,214,140,.25);}
-.sync-result.error{background:rgba(255,107,107,.12);color:#FF6B6B;border:1px solid rgba(255,107,107,.25);}
+.sync-result.ok{background:rgba(61,214,140,.12);color:var(--gr);border:1px solid rgba(61,214,140,.25);}
+.sync-result.error{background:rgba(255,107,107,.12);color:var(--rd);border:1px solid rgba(255,107,107,.25);}
 .help-box{background:rgba(96,165,250,.08);border-left:3px solid rgba(96,165,250,.5);border-radius:6px;padding:10px 14px;margin-top:16px;font-size:12px;line-height:1.8;color:var(--tx);}
 .help-box a{color:#60A5FA;}
-.hub-stat.srs{background:rgba(255,154,60,.15);border-color:rgba(255,154,60,.35);color:#FF9A3C;font-weight:800;}
+.hub-stat.srs{background:rgba(255,154,60,.15);border-color:rgba(255,154,60,.35);color:var(--or);font-weight:800;}
 .srs-due-row{padding:0 16px 12px;}
-.srs-due-link{display:block;padding:9px 14px;border-radius:10px;color:#fff;font-size:13px;font-weight:700;text-decoration:none;text-align:center;background:#FF9A3C;transition:filter .15s;}
+.srs-due-link{display:block;padding:9px 14px;border-radius:10px;color:#fff;font-size:13px;font-weight:700;text-decoration:none;text-align:center;background:var(--or);transition:filter .15s;}
 .srs-due-link:hover,.srs-due-link:active{filter:brightness(1.1);}
 </style>
 </head>
@@ -211,6 +211,7 @@ body{font-family:-apple-system,"Helvetica Neue",sans-serif;background:transparen
     <br>
     <div class="field-label">GitHub Personal Access Token (gist スコープ)</div>
     <input class="field-input" id="tokenInput" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+    <div style="font-size:11px;color:#8A93A5;margin-top:4px;">⚠️ トークンはこの端末のブラウザに平文で保存されます。共有PC・貸与端末では使用後に下の「🗑️ トークンを削除」を必ず押してください。</div>
 
     <div class="field-label">Gist ID（初回は空白のまま → 自動作成）</div>
     <input class="field-input" id="gistIdInput" type="text" placeholder="自動作成される場合は空欄">
@@ -219,6 +220,7 @@ body{font-family:-apple-system,"Helvetica Neue",sans-serif;background:transparen
       <button class="modal-btn primary" onclick="saveAndSync()">保存して同期</button>
       <button class="modal-btn secondary" onclick="testToken()">🔍 トークン検証</button>
       <button class="modal-btn secondary" onclick="copySetupURL()">📋 設定URLをコピー</button>
+      <button class="modal-btn secondary" onclick="clearSyncToken()">🗑️ トークンを削除</button>
       <button class="modal-btn secondary" onclick="closeSyncModal()">閉じる</button>
     </div>
     <div class="sync-result" id="syncResult"></div>
@@ -664,8 +666,16 @@ function copySetupURL() {
   const base = location.href.replace(/#.*$/, '').replace(/[^/]*$/, 'index.html');
   const url = base + '#mec:' + encoded;
   navigator.clipboard.writeText(url)
-    .then(() => showSyncResult('ok', '📋 URLをコピーしました！　別のデバイスでこのURLを開くと自動で設定されます。'))
-    .catch(() => { prompt('このURLをコピーして別のデバイスで開いてください:', url); });
+    .then(() => showSyncResult('ok', '📋 URLをコピーしました（トークンを含みます・base64は暗号化ではありません）。第三者に共有したりチャット等に貼り付けたりしないでください。別のデバイスでこのURLを開くと自動で設定されます。'))
+    .catch(() => { prompt('このURLをコピーして別のデバイスで開いてください（トークンを含むため第三者と共有しないこと）:', url); });
+}
+
+function clearSyncToken() {
+  if (window.MECSync) MECSync.clearToken();
+  localStorage.removeItem('mec_gist_id');
+  document.getElementById('tokenInput').value = '';
+  document.getElementById('gistIdInput').value = '';
+  showSyncResult('ok', '🗑️ トークンを削除しました。');
 }
 
 async function testToken() {

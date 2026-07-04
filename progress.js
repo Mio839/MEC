@@ -14,6 +14,7 @@
 
   let syncTimer = null;
   let syncInProgress = false;
+  let syncPendingRetry = false; // ネットワークエラーで同期に失敗し、オンライン復帰待ちの状態
 
   // session-level done tracking (resets on page reload)
   window.mecSessionDone = new Set();
@@ -95,9 +96,11 @@
       _mergeRemote(JSON.parse(raw));
       localStorage.setItem(K_LAST_SYNC, new Date().toISOString());
       _setSyncBadge('synced');
+      syncPendingRetry = false;
       return { status: 'ok' };
     } catch (e) {
       _setSyncBadge('error', 'ネットワークエラー');
+      syncPendingRetry = true;
       return { status: 'error', message: e.message };
     }
   }
@@ -156,6 +159,7 @@
       if (res.ok) {
         localStorage.setItem(K_LAST_SYNC, new Date().toISOString());
         _setSyncBadge('synced');
+        syncPendingRetry = false;
         return { status: 'ok' };
       }
       const errBody = await res.json().catch(() => ({}));
@@ -169,11 +173,19 @@
       return { status: 'error', code: res.status, message: ghMsg };
     } catch (e) {
       _setSyncBadge('error', 'ネットワークエラー');
+      syncPendingRetry = true;
       return { status: 'error', message: e.message };
     } finally {
       syncInProgress = false;
     }
   }
+
+  // オフライン→オンライン復帰時に、ネットワークエラーで失敗した同期を自動再送する
+  window.addEventListener('online', () => {
+    if (syncPendingRetry && localStorage.getItem(K_TOKEN)) {
+      pushToGist();
+    }
+  });
 
   function _mergeRemote(remote) {
     // done: union, but tombstones (undo-to-zero) propagate deletions
@@ -543,6 +555,7 @@
     scheduleSync,
     getToken: () => localStorage.getItem(K_TOKEN) || '',
     setToken: t => localStorage.setItem(K_TOKEN, t),
+    clearToken: () => localStorage.removeItem(K_TOKEN),
     getGistId: () => localStorage.getItem(K_GIST) || '',
     setGistId: id => localStorage.setItem(K_GIST, id),
     getStats() {

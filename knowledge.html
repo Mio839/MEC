@@ -75,6 +75,10 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .kn-img-cap{font-size:10.5px;color:var(--ts);text-align:center;margin:-4px 0 10px;}
 
 .kn-empty{text-align:center;color:var(--ts);font-size:13px;padding:40px 0;}
+
+.kn-link{color:var(--card-color,var(--or));font-weight:700;text-decoration:underline;text-decoration-style:dotted;cursor:pointer;}
+.kn-link:hover{opacity:.8;}
+.kn-card.kn-flash{box-shadow:0 0 0 3px var(--card-color,var(--or));}
 </style>
 </head>
 <body>
@@ -123,6 +127,43 @@ function toggleCard(id) {
   if (card) card.classList.toggle('open');
 }
 
+// [[ノートタイトル]] 記法をクリック可能なリンクに変換する
+function escapeAttr(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+}
+function findNoteByTitle(text) {
+  const exact = KNOWLEDGE_NOTES.find(n => n.title === text);
+  if (exact) return exact;
+  return KNOWLEDGE_NOTES.find(n => n.title.includes(text) || text.includes(n.title)) || null;
+}
+function linkifyNotes(html) {
+  return html.replace(/\[\[([^\]]+)\]\]/g, (m, title) => {
+    const note = findNoteByTitle(title);
+    if (!note) return m; // 対応ノートが見つからない場合はそのまま表示
+    return '<span class="kn-link" data-jump-title="' + escapeAttr(title) + '">' + title + '</span>';
+  });
+}
+function jumpToNote(title) {
+  const note = findNoteByTitle(title);
+  if (!note) return;
+  activeSubject = 'すべて';
+  document.getElementById('searchInput').value = '';
+  renderChips();
+  renderNotes();
+  requestAnimationFrame(() => {
+    const card = document.getElementById('card_' + note.id);
+    if (!card) return;
+    card.classList.add('open');
+    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    card.classList.add('kn-flash');
+    setTimeout(() => card.classList.remove('kn-flash'), 1500);
+  });
+}
+document.getElementById('notesContainer').addEventListener('click', e => {
+  const link = e.target.closest('.kn-link');
+  if (link) jumpToNote(link.dataset.jumpTitle);
+});
+
 function renderNotes() {
   const container = document.getElementById('notesContainer');
   const q = document.getElementById('searchInput').value.trim().toLowerCase();
@@ -144,7 +185,7 @@ function renderNotes() {
   container.innerHTML = filtered.map(n => {
     const meta = subjectMeta(n.subject);
     const tags = (n.tags || []).map(t => `<span class="kn-tag">${t}</span>`).join('');
-    const mnemonic = n.mnemonic ? `<div class="kn-mnemonic-teaser">${n.mnemonic}</div>` : '';
+    const mnemonic = n.mnemonic ? `<div class="kn-mnemonic-teaser">${linkifyNotes(n.mnemonic)}</div>` : '';
     return `
       <div class="kn-card" id="card_${n.id}" style="--card-color:${meta.color}">
         <div class="kn-card-hdr" onclick="toggleCard('${n.id}')">
@@ -158,7 +199,7 @@ function renderNotes() {
         ${mnemonic}
         <div class="kn-body">
           <div class="kn-body-inner">
-            ${n.html}
+            ${linkifyNotes(n.html)}
             <div class="kn-meta"><span>${n.source || ''}</span><span>${n.date || ''}</span></div>
           </div>
         </div>
