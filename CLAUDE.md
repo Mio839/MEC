@@ -15,44 +15,67 @@
 
 | ファイル/フォルダ | 役割 |
 |---|---|
-| `study.html` | 統合学習ツール（全4429問・フィルター） |
-| `index.html` | ハブダッシュボード（全9分野の進捗表示・ナビ） |
-| `progress.js` | 共有モジュール：localStorage + GitHub Gist 同期 |
-| `stats.html` | 学習統計ページ（30日チャート・SRS統計） |
-| `questions_*.json` / `questions_*.js` | **問題データの正本**。study.htmlはこれを読み込んで表示する（.jsはfile://フォールバック用の同内容コピー） |
+| `study.html` | 統合学習ツール（コア11科目4802問＋実力試験・自作・フィルター）。試験モードUI等のマークアップ＋インラインJS |
+| `study_exam.js` | study.htmlの試験モードロジック（state・効果音・演出エフェクト・SRS採点連携）。classic scriptでインライン<script>より前に読込み、共有グローバルスコープで相互参照 |
+| `study.css` | study.html専用のCSS（旧インライン<style>を2026-07-05に外出し）。⚠️ study.htmlはこれに依存＝両方一緒にcommit/push必須 |
+| `index.html` | ハブダッシュボード（全科目の進捗表示・ナビ・同期設定） |
+| `progress.js` | 共有モジュール：localStorage + GitHub Gist 同期。localStorageキーは`K*`定数が正本 |
+| `stats.html` | 学習統計ページ（30日チャート・SRS統計・AI相談Markdownエクスポート） |
+| `knowledge.html` | 検索知識ノート機能 |
+| `card_renderer.js` | JSON→カードHTML描画（`window._renderSubjectFromJson`、エスケープ処理あり） |
+| `fx_engine.js` | エフェクトのCanvas描画エンジン（`window.MecFX`：粒子・花火・グリフバースト等） |
+| `sw.js` | Service Worker（オフラインキャッシュ）。`CACHE`版数は**questions_*.json更新時のみbump**（bumpで全キャッシュ削除＝15MB再DL）。SHELL/CARDSにパス列挙。相対パス必須 |
+| `chapters_meta.js` / `rate_index.js` | stats.html等が参照する章メタ・正答率インデックス（`_work/build.py`系で再生成） |
+| `questions_*.json` / `questions_*.js` | **問題データの正本**（.json）。study.htmlはこれを読み込んで表示。.jsはfile://フォールバック用コピーで**pre-commitフックが自動生成**（[データソースの方針]参照） |
+| `国家試験過去問/` | 過去問ビューアHTML（`chapter_exam.js`で試験モード）。PDFは`.gitignore`済み・追跡はhtmlのみ |
+| `chapter_exam.js` | 過去問ビューアの試験モード（`CE_EFFECT_THEMES`＝study_exam.jsの演出を同配色でミラー） |
 | `内分泌/` `呼吸器/` `循環器/` `消化器/` `神経/` `肝胆膵/` `腎臓/` `血液/` `免アレ膠/` | 各科目のフォルダ（画像・selfcheck_intro.html等）。章別解答解説HTML(ch01.html等)は旧世代の遺物でstudy.htmlからは参照されない → `_archive/{科目}/`へ順次移動中 |
 | `_archive/` | 到達不能になった旧・章別HTMLの保管先。編集対象外、読み物としてのみ残す |
 | `vars.css` | 共通CSSカスタムプロパティ（全ページ共通色変数） |
+| `_work/` | ビルド・検証・マージ用スクリプト（`build.py`・`gen_js_from_json.js`・`check_json_js_sync.js`・`test_merge_remote.js`等） |
 
 ## 問題数
 
-| 分野 | 章数 | 問題数 |
-|---|---|---|
-| 内分泌 | 10 | 542 |
-| 呼吸器 | 9 | 506 |
-| 循環器 | 10 | 572 |
-| 消化器 | 11 | 501 |
-| 神経 | 11 | 594 |
-| 肝胆膵 | 8 | 418 |
-| 腎臓 | 6 | 315 |
-| 血液 | 8 | 378 |
-| 免アレ膠 | 5 | 247 |
-| 感染症 | - | 356 |
-| 小児科 | 13 | 373 |
-| **合計** | **91章+** | **4802問** |
+実測値（`node -e`で `questions_*.json` の `chapters[].qs` を集計、2026-07-05時点）。
+
+| 分野 | prefix | 章数 | 問題数 |
+|---|---|---|---|
+| 内分泌 | endo | 10 | 542 |
+| 呼吸器 | resp | 9 | 506 |
+| 循環器 | circ | 10 | 572 |
+| 消化器 | dige | 11 | 501 |
+| 神経 | neur | 11 | 594 |
+| 肝胆膵 | hbp | 8 | 418 |
+| 腎臓 | jinzo_d | 6 | 315 |
+| 血液 | hema | 8 | 378 |
+| 免アレ膠 | imma | 5 | 247 |
+| 感染症 | kansen | 22 | 356 |
+| 小児科 | peds | 13 | 373 |
+| **コア11科目 小計** | | **113章** | **4802問** |
+| 実力試験Ⅰ | jitsu1 | 2 | 160 |
+| 自作問題 | custom | 1 | 可変（現在28） |
+| **総合計** | | **116章** | **約4990問** |
+
+※ `study.html` タイトルの「4802問」はコア11科目の合計。実力試験・自作は追加セクション。
 
 ## localStorage キー（全ページ共通）
 
-- `done_v2` — UID → 周回数（整数、0=未済）
+**正本は `progress.js` 冒頭の `K*` 定数**（`KD`/`KF`/`KA`/`KR`/`KT`/`KE`/`KDT`/`K_SRS`/`KRT`/`KER`/`K_TOKEN`/`K_GIST` 等）。同期対象キーの追加・変更時はここと `_mergeRemote`（progress.js）・`pushToGist`のpayload・`index.html`の復元パスを揃えること。主要キー:
+
+- `done_v2` — UID → 周回数（整数、0=未済）／ `done_tombstones_v1` — undo削除の墓標（同期で復活防止）
 - `flag_v2` — 苦手UID → 1
-- `activity_v1` — YYYY-MM-DD → 操作回数
-- `mec_gist_token` — GitHub PAT（gistスコープ）
-- `mec_gist_id` — Gist ID
+- `activity_v1` — YYYY-MM-DD → 操作回数（連続日数の算出元）
+- `myrate_v1` — UID → `{correct,total}`（試験モードの自己正答率。マージは各フィールドmax）
+- `studytime_v1` — YYYY-MM-DD → 学習分数
+- `mec_srs_v1` — SRS復習スケジュール ／ `mec_exam_resumes_v1` — 試験中断の再開データ ／ `mec_ch_exam_v1` — 章別試験履歴
+- `error_reports_v1` — 問題エラー報告 ／ `mec_err_cleared_at` — 一括消去のタイムスタンプ
+- `mec_gist_token` — GitHub PAT（gistスコープ）／ `mec_gist_id` — Gist ID ／ `mec_last_sync_v1` — 最終同期時刻
+- UIローカル設定（非同期）: `mec_subjects_v1`（選択科目）/`mec_filter_v1`/`mec_state_v1`/`mec_combo_sound_v1` 等
 
 ## UID フォーマット
 
 - 各科目解説: `{prefix}_ch{nn}_q{n}` 例: `endo_ch01_q1`, `resp_ch02_q3`, `jinzo_d_ch03_q136`
-- 科目prefix: `endo` / `resp` / `circ` / `dige` / `neur` / `hbp` / `jinzo_d` / `hema` / `imma` / `kansen`
+- 科目prefix（全13）: `endo` / `resp` / `circ` / `dige` / `neur` / `hbp` / `jinzo_d` / `hema` / `imma` / `kansen` / `peds` / `jitsu1` / `custom`
 
 ## UI 構造（study.html・各章共通）
 
