@@ -79,7 +79,8 @@ GitHub Gist API で `mec_progress.json` に進捗を保存。
 
 - **解説・問題文の編集は必ず `questions_{prefix}.json` を対象にすること。** 章別HTML(`{科目}/ch*.html`)は編集対象ではない（study.htmlから参照されないため、直しても画面に反映されない）。
 - 過去に神経・血液で「HTMLだけ強化してJSONに未反映」「科目ごとにcls命名がバラバラ(`em` vs `eem`)」という事故が発生済み。新しく解説を追加する科目でも同じ命名規則を使うこと。
-- `eg`配列の`cls`命名規則（共通）: `ep`=病態, `ee`=鑑別, `ept`=国試ポイント, `em`=選択肢別解説（またはニーモニック）, `ec`=計算, `ei`=画像所見。study.html内のCSS(`.ep` `.ee` `.ept` `.em` `.ec` `.ei`)で色分けされるため、独自クラス名を作らない。
-- `questions_{prefix}.json`を更新したら**必ず同名の`.js`も再生成**し、内容を一致させる（`window["_cardJSON_{prefix}"]=<JSON>;`形式）。ズレるとfile://環境でのみ古いデータが表示される。
-  - コミット前に `node _work/check_json_js_sync.js` で全科目の整合性を検証できる。
+- `eg`配列の`cls`命名規則（共通）: `ep`=病態, `ee`=鑑別, `ept`=国試ポイント, `em`=選択肢別解説（またはニーモニック）, `ec`=計算, `ei`=画像所見。`study.css`内のCSS(`.ep` `.ee` `.ept` `.em` `.ec` `.ei`)で色分けされるため、独自クラス名を作らない（旧: study.html内インライン。2026-07-05にstudy.cssへ外出し）。
+- `questions_{prefix}.json`を更新したら同名の`.js`(`window["_cardJSON_{prefix}"]=<JSON>;`形式・file://フォールバック用)も一致させる必要がある。**pre-commitフックが`node _work/gen_js_from_json.js`で自動再生成＋add**するため手動再生成は不要（2026-07-05〜）。ズレるとfile://環境でのみ古いデータが表示される。
+  - 手動で再生成する場合: `node _work/gen_js_from_json.js [prefix...]`（引数なしで全科目）。整合性検証は `node _work/check_json_js_sync.js`。
+  - ⚠️ フックは`.git/hooks/pre-commit`にありGit管理外（マシンローカル）。別マシンでcloneした際は再設定が必要。
 - 章別HTMLをJSONへ完全移行し終えた科目から `_archive/{科目}/` へ`git mv`する。移行未完了（HTML側にのみ存在する解説がある）科目は先にJSONへマージしてから移動する。

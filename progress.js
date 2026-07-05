@@ -208,11 +208,19 @@
     const ma = { ...la };
     Object.keys(ra).forEach(day => { ma[day] = Math.max(ma[day] || 0, ra[day] || 0); });
     lsRaw(KA, ma);
-    // myrate: total が多い方を優先
+    // myrate: correct/total を各フィールドの最大値で統合する。
+    // myrate は端末ごとに単調増加する累積カウンタ（{correct,total}）なので、フィールド
+    // ごとに max を取れば履歴を取りこぼさない。旧「total が多い方を総取り」は片側の履歴を
+    // まるごと捨てていた。加算は同一回答の二重計上になるため採らない。correct<=total も保たれる。
     const lr = lsGet(KR), rr = remote[KR] || {};
     const mr = { ...rr };
     Object.keys(lr).forEach(uid => {
-      if (!mr[uid] || (lr[uid].total || 0) >= (mr[uid].total || 0)) mr[uid] = lr[uid];
+      const l = lr[uid], r = mr[uid];
+      if (!r) { mr[uid] = l; return; }
+      mr[uid] = {
+        correct: Math.max(l.correct || 0, r.correct || 0),
+        total: Math.max(l.total || 0, r.total || 0),
+      };
     });
     lsRaw(KR, mr);
     // studytime: 日ごとの最大値

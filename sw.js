@@ -8,6 +8,7 @@ const SHELL = [
   "./progress.js",
   "./fx_engine.js",
   "./vars.css",
+  "./study.css",
   "./chapters_meta.js",
   "./rate_index.js",
   "./card_renderer.js",

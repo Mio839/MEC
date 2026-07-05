@@ -13,13 +13,30 @@ window["_cardJSON_custom"]={
           "rate_text": "",
           "badges": [],
           "qt": "頭部MRIのFLAIR像を示す。\n高信号域に含まれるのはどれか。",
-          "imgs": ["custom/images/custom_q1_mri.png"],
+          "imgs": [
+            "custom/images/custom_q1_mri.png"
+          ],
           "choices": [
-            {"t": "ａ　淡蒼球", "ok": false},
-            {"t": "ｂ　赤　核", "ok": false},
-            {"t": "ｃ　乳頭体", "ok": false},
-            {"t": "ｄ　線条体", "ok": false},
-            {"t": "ｅ　海　馬", "ok": true}
+            {
+              "t": "ａ　淡蒼球",
+              "ok": false
+            },
+            {
+              "t": "ｂ　赤　核",
+              "ok": false
+            },
+            {
+              "t": "ｃ　乳頭体",
+              "ok": false
+            },
+            {
+              "t": "ｄ　線条体",
+              "ok": false
+            },
+            {
+              "t": "ｅ　海　馬",
+              "ok": true
+            }
           ],
           "ans_label": "ｅ　海馬",
           "ans_sub": "FLAIR像で右側頭葉内側（海馬）に高信号。ヘルペス脳炎の典型像。",
@@ -56,11 +73,26 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "褐色細胞腫が疑われるときに行う検査はどれか。2つ選べ。",
           "choices": [
-            {"t": "ａ　尿中遊離コルチゾール定量", "ok": false},
-            {"t": "ｂ　尿中カテコラミン定量", "ok": true},
-            {"t": "ｃ　血漿アルドステロン測定", "ok": false},
-            {"t": "ｄ　副腎シンチグラフィ", "ok": true},
-            {"t": "ｅ　デキサメタゾン抑制試験", "ok": false}
+            {
+              "t": "ａ　尿中遊離コルチゾール定量",
+              "ok": false
+            },
+            {
+              "t": "ｂ　尿中カテコラミン定量",
+              "ok": true
+            },
+            {
+              "t": "ｃ　血漿アルドステロン測定",
+              "ok": false
+            },
+            {
+              "t": "ｄ　副腎シンチグラフィ",
+              "ok": true
+            },
+            {
+              "t": "ｅ　デキサメタゾン抑制試験",
+              "ok": false
+            }
           ],
           "ans_label": "ｂ　尿中カテコラミン定量、ｄ　副腎シンチグラフィ",
           "ans_sub": "生化学的診断（尿中カテコラミン↑）＋局在診断（131I-MIBGシンチ）が褐色細胞腫の診断の2本柱。",
@@ -102,11 +134,26 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "チアノーゼについて正しいのはどれか。",
           "choices": [
-            {"t": "ａ　中枢性では動脈血酸素飽和度は正常である。", "ok": false},
-            {"t": "ｂ　寒冷時にみられる。", "ok": true},
-            {"t": "ｃ　酸化ヘモグロビンが5g/dL以上で起こる。", "ok": false},
-            {"t": "ｄ　一酸化炭素中毒でみられやすい。", "ok": false},
-            {"t": "ｅ　多血では認めにくい。", "ok": false}
+            {
+              "t": "ａ　中枢性では動脈血酸素飽和度は正常である。",
+              "ok": false
+            },
+            {
+              "t": "ｂ　寒冷時にみられる。",
+              "ok": true
+            },
+            {
+              "t": "ｃ　酸化ヘモグロビンが5g/dL以上で起こる。",
+              "ok": false
+            },
+            {
+              "t": "ｄ　一酸化炭素中毒でみられやすい。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　多血では認めにくい。",
+              "ok": false
+            }
           ],
           "ans_label": "ｂ　寒冷時にみられる。",
           "ans_sub": "寒冷→末梢血管収縮→血流遅延→組織で酸素奪取↑→還元Hb≥5g/dL→末梢性チアノーゼ。",
@@ -143,11 +190,26 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "甲状腺で血中CEA値が上昇するのはどれか。",
           "choices": [
-            {"t": "ａ　濾胞癌", "ok": false},
-            {"t": "ｂ　腺腫様甲状腺腫", "ok": false},
-            {"t": "ｃ　髄様癌", "ok": true},
-            {"t": "ｄ　乳頭癌", "ok": false},
-            {"t": "ｅ　未分化癌", "ok": false}
+            {
+              "t": "ａ　濾胞癌",
+              "ok": false
+            },
+            {
+              "t": "ｂ　腺腫様甲状腺腫",
+              "ok": false
+            },
+            {
+              "t": "ｃ　髄様癌",
+              "ok": true
+            },
+            {
+              "t": "ｄ　乳頭癌",
+              "ok": false
+            },
+            {
+              "t": "ｅ　未分化癌",
+              "ok": false
+            }
           ],
           "ans_label": "ｃ　髄様癌",
           "ans_sub": "髄様癌は傍濾胞細胞（C細胞）由来。カルシトニン＋CEAが特異的マーカー。",
@@ -184,11 +246,26 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "疾患と治療の組合せで誤っているのはどれか。",
           "choices": [
-            {"t": "ａ　急性化膿性閉塞性胆管炎 ――― 内視鏡的胆管ドレナージ", "ok": false},
-            {"t": "ｂ　特発性門脈圧亢進症 ――― 脾摘", "ok": false},
-            {"t": "ｃ　単発肝細胞癌 ――― 肝切除術", "ok": false},
-            {"t": "ｄ　原発性硬化性胆管炎 ――― 副腎皮質ステロイド内服", "ok": true},
-            {"t": "ｅ　主膵管型膵管内乳頭粘液性腫瘍 ――― 外科治療", "ok": false}
+            {
+              "t": "ａ　急性化膿性閉塞性胆管炎 ――― 内視鏡的胆管ドレナージ",
+              "ok": false
+            },
+            {
+              "t": "ｂ　特発性門脈圧亢進症 ――― 脾摘",
+              "ok": false
+            },
+            {
+              "t": "ｃ　単発肝細胞癌 ――― 肝切除術",
+              "ok": false
+            },
+            {
+              "t": "ｄ　原発性硬化性胆管炎 ――― 副腎皮質ステロイド内服",
+              "ok": true
+            },
+            {
+              "t": "ｅ　主膵管型膵管内乳頭粘液性腫瘍 ――― 外科治療",
+              "ok": false
+            }
           ],
           "ans_label": "ｄ　原発性硬化性胆管炎 ――― 副腎皮質ステロイド内服",
           "ans_sub": "PSCにステロイドは無効。第一選択はUDCA、進行例は肝移植。ステロイドが効くのはIgG4関連硬化性胆管炎。",
@@ -225,11 +302,26 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "腎前性急性腎障害と腎性急性腎障害を鑑別する場合に有用な検査はどれか。2つ選べ。",
           "choices": [
-            {"t": "ａ　尿浸透圧", "ok": true},
-            {"t": "ｂ　尿カルシウム濃度", "ok": false},
-            {"t": "ｃ　尿　量", "ok": false},
-            {"t": "ｄ　血清クレアチニン値測定", "ok": false},
-            {"t": "ｅ　尿蛋白定量", "ok": true}
+            {
+              "t": "ａ　尿浸透圧",
+              "ok": true
+            },
+            {
+              "t": "ｂ　尿カルシウム濃度",
+              "ok": false
+            },
+            {
+              "t": "ｃ　尿　量",
+              "ok": false
+            },
+            {
+              "t": "ｄ　血清クレアチニン値測定",
+              "ok": false
+            },
+            {
+              "t": "ｅ　尿蛋白定量",
+              "ok": true
+            }
           ],
           "ans_label": "ａ　尿浸透圧、ｅ　尿蛋白定量",
           "ans_sub": "腎前性は濃縮尿（≥500）・蛋白陰性。腎性は等張尿（≤350）・蛋白陽性。",
@@ -266,11 +358,26 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "尿蛋白について正しいのはどれか。",
           "choices": [
-            {"t": "ａ　尿蛋白の選択性が高い疾患ではサイズバリアの破壊を認める。", "ok": false},
-            {"t": "ｂ　尿細管性蛋白尿は低分子蛋白が主体となる。", "ok": true},
-            {"t": "ｃ　尿試験紙法ではBence-Jones蛋白の検出感度が高い。", "ok": false},
-            {"t": "ｄ　尿蛋白1日排泄量1gは正常である。", "ok": false},
-            {"t": "ｅ　起立性蛋白尿は早朝第一尿で多くみられる。", "ok": false}
+            {
+              "t": "ａ　尿蛋白の選択性が高い疾患ではサイズバリアの破壊を認める。",
+              "ok": false
+            },
+            {
+              "t": "ｂ　尿細管性蛋白尿は低分子蛋白が主体となる。",
+              "ok": true
+            },
+            {
+              "t": "ｃ　尿試験紙法ではBence-Jones蛋白の検出感度が高い。",
+              "ok": false
+            },
+            {
+              "t": "ｄ　尿蛋白1日排泄量1gは正常である。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　起立性蛋白尿は早朝第一尿で多くみられる。",
+              "ok": false
+            }
           ],
           "ans_label": "ｂ　尿細管性蛋白尿は低分子蛋白が主体となる。",
           "ans_sub": "尿細管障害→低分子蛋白（β₂-MG等）の再吸収障害→尿中に漏出。",
@@ -302,11 +409,26 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "女性化乳房の原因となり得るのはどれか。3つ選べ。",
           "choices": [
-            {"t": "ａ　スピロノラクトン", "ok": true},
-            {"t": "ｂ　メトホルミン", "ok": false},
-            {"t": "ｃ　5α還元酵素阻害薬", "ok": true},
-            {"t": "ｄ　マクロライド系抗菌薬", "ok": false},
-            {"t": "ｅ　カルシウム拮抗薬", "ok": true}
+            {
+              "t": "ａ　スピロノラクトン",
+              "ok": true
+            },
+            {
+              "t": "ｂ　メトホルミン",
+              "ok": false
+            },
+            {
+              "t": "ｃ　5α還元酵素阻害薬",
+              "ok": true
+            },
+            {
+              "t": "ｄ　マクロライド系抗菌薬",
+              "ok": false
+            },
+            {
+              "t": "ｅ　カルシウム拮抗薬",
+              "ok": true
+            }
           ],
           "ans_label": "ａ　スピロノラクトン、ｃ　5α還元酵素阻害薬、ｅ　カルシウム拮抗薬",
           "ans_sub": "共通機序：エストロゲン優位（アンドロゲン作用低下）。スピロノラクトン・5αRI・Ca拮抗薬が3大薬剤性原因。",
@@ -347,11 +469,26 @@ window["_cardJSON_custom"]={
             "custom/images/custom_q9_img_b.png"
           ],
           "choices": [
-            {"t": "ａ　放射線療法", "ok": false},
-            {"t": "ｂ　分子標的薬による治療", "ok": true},
-            {"t": "ｃ　内分泌（ホルモン）薬による治療", "ok": false},
-            {"t": "ｄ　経過観察", "ok": false},
-            {"t": "ｅ　胃部分切除術", "ok": false}
+            {
+              "t": "ａ　放射線療法",
+              "ok": false
+            },
+            {
+              "t": "ｂ　分子標的薬による治療",
+              "ok": true
+            },
+            {
+              "t": "ｃ　内分泌（ホルモン）薬による治療",
+              "ok": false
+            },
+            {
+              "t": "ｄ　経過観察",
+              "ok": false
+            },
+            {
+              "t": "ｅ　胃部分切除術",
+              "ok": false
+            }
           ],
           "ans_label": "ｂ　分子標的薬による治療",
           "ans_sub": "GIST（消化管間質腫瘍）の多発肝転移例。KIT陽性・αSMA陰性が確定診断の根拠。切除不能例にはイマチニブ（分子標的薬）が第一選択。",
@@ -393,11 +530,26 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "28歳の男性。全身倦怠感と食事摂取困難を主訴に来院した。生来健康で、毎年の職場健診でも異常を指摘されたことはない。本年の健康診断は3か月前に受診しており、その際には特に異常を指摘されていなかった。1週間前から口渇感を認め、夜間に排尿のため何回も目が覚めるようになった。3日前から強い全身倦怠感を認め、昨日から食事摂取が困難となったため家族に連れられて受診した。身長174cm、体重60kg。脈拍92/分、整。血圧88/64mmHg。口腔内は乾燥している。尿所見：蛋白（−）、糖3+、ケトン体2+、潜血（−）。血液生化学所見：総蛋白8.2g/dL、尿素窒素28mg/dL、クレアチニン1.0mg/dL、血糖466mg/dL、HbA1c 6.3%（基準4.9〜6.0）、Na 128mEq/L、K 5.5mEq/L、Cl 88mEq/L。抗GAD抗体陰性。\n診断として考えられるのはどれか。",
           "choices": [
-            {"t": "ａ　清涼飲料水ケトシス", "ok": false},
-            {"t": "ｂ　緩徐進行性1型糖尿病", "ok": false},
-            {"t": "ｃ　2型糖尿病", "ok": false},
-            {"t": "ｄ　劇症1型糖尿病", "ok": true},
-            {"t": "ｅ　高血糖高浸透圧症候群", "ok": false}
+            {
+              "t": "ａ　清涼飲料水ケトシス",
+              "ok": false
+            },
+            {
+              "t": "ｂ　緩徐進行性1型糖尿病",
+              "ok": false
+            },
+            {
+              "t": "ｃ　2型糖尿病",
+              "ok": false
+            },
+            {
+              "t": "ｄ　劇症1型糖尿病",
+              "ok": true
+            },
+            {
+              "t": "ｅ　高血糖高浸透圧症候群",
+              "ok": false
+            }
           ],
           "ans_label": "ｄ　劇症1型糖尿病",
           "ans_sub": "血糖466mg/dLかつHbA1c 6.3%という「高血糖とHbA1cの著しい乖離」が劇症1型の決め手。1週間以内の超急性発症＋抗GAD抗体陰性。",
@@ -439,11 +591,26 @@ window["_cardJSON_custom"]={
             "custom/images/custom_q11_img_c.png"
           ],
           "choices": [
-            {"t": "ａ　spoke-wheel pattern", "ok": true},
-            {"t": "ｂ　chameleon sign", "ok": false},
-            {"t": "ｃ　mosaic pattern", "ok": false},
-            {"t": "ｄ　acoustic shadow", "ok": false},
-            {"t": "ｅ　bull's eye sign", "ok": false}
+            {
+              "t": "ａ　spoke-wheel pattern",
+              "ok": true
+            },
+            {
+              "t": "ｂ　chameleon sign",
+              "ok": false
+            },
+            {
+              "t": "ｃ　mosaic pattern",
+              "ok": false
+            },
+            {
+              "t": "ｄ　acoustic shadow",
+              "ok": false
+            },
+            {
+              "t": "ｅ　bull's eye sign",
+              "ok": false
+            }
           ],
           "ans_label": "ａ　spoke-wheel pattern",
           "ans_sub": "EOB肝細胞相で周囲肝実質と同等信号（washoutなし）→FNH。FNHの中心瘢痕から放射状血管→spoke-wheel pattern。",
@@ -484,11 +651,26 @@ window["_cardJSON_custom"]={
             "custom/images/custom_q12_img_b.png"
           ],
           "choices": [
-            {"t": "ａ　トシリズマブ", "ok": false},
-            {"t": "ｂ　ミコフェノール酸モフェチル", "ok": false},
-            {"t": "ｃ　ヒドロキシクロロキン", "ok": false},
-            {"t": "ｄ　ベリムマブ", "ok": false},
-            {"t": "ｅ　リツキシマブ", "ok": true}
+            {
+              "t": "ａ　トシリズマブ",
+              "ok": false
+            },
+            {
+              "t": "ｂ　ミコフェノール酸モフェチル",
+              "ok": false
+            },
+            {
+              "t": "ｃ　ヒドロキシクロロキン",
+              "ok": false
+            },
+            {
+              "t": "ｄ　ベリムマブ",
+              "ok": false
+            },
+            {
+              "t": "ｅ　リツキシマブ",
+              "ok": true
+            }
           ],
           "ans_label": "ｅ　リツキシマブ",
           "ans_sub": "GPA（多発血管炎性肉芽腫症）の重症例。ELK（上気道・肺・腎）すべて障害。寛解導入にはステロイド＋リツキシマブ（またはシクロホスファミド）が第一選択。",
@@ -525,11 +707,26 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "虫垂切除術について正しいのはどれか。3つ選べ。",
           "choices": [
-            {"t": "ａ　術後は恒久的なビタミンB12投与が必要となる。", "ok": false},
-            {"t": "ｂ　McBurney交叉切開では腹直筋を切開する。", "ok": false},
-            {"t": "ｃ　虫垂炎に対して行われる。", "ok": true},
-            {"t": "ｄ　腹腔鏡下でも実施できる。", "ok": true},
-            {"t": "ｅ　腰椎麻酔でも実施可能である。", "ok": true}
+            {
+              "t": "ａ　術後は恒久的なビタミンB12投与が必要となる。",
+              "ok": false
+            },
+            {
+              "t": "ｂ　McBurney交叉切開では腹直筋を切開する。",
+              "ok": false
+            },
+            {
+              "t": "ｃ　虫垂炎に対して行われる。",
+              "ok": true
+            },
+            {
+              "t": "ｄ　腹腔鏡下でも実施できる。",
+              "ok": true
+            },
+            {
+              "t": "ｅ　腰椎麻酔でも実施可能である。",
+              "ok": true
+            }
           ],
           "ans_label": "ｃ　虫垂炎に対して行われる、ｄ　腹腔鏡下でも実施できる、ｅ　腰椎麻酔でも実施可能である",
           "ans_sub": "虫垂切除術は腹腔鏡下（全麻）・開腹（腰麻も可）どちらでも行える。McBurney交叉切開は腹直筋を避け側腹壁3層筋を繊維方向に分ける。",
@@ -566,11 +763,26 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "疾患と症候の組み合わせで正しいのはどれか。",
           "choices": [
-            {"t": "ａ　成人T細胞性白血病 ―― 皮　疹", "ok": true},
-            {"t": "ｂ　Hodgkinリンパ腫 ―― 圧痛を伴うリンパ節腫脹", "ok": false},
-            {"t": "ｃ　免疫性血小板減少症 ―― 巨大脾腫", "ok": false},
-            {"t": "ｄ　急性骨髄性白血病 ―― 網膜静脈怒張", "ok": false},
-            {"t": "ｅ　多発性骨髄腫 ―― 肝脾腫", "ok": false}
+            {
+              "t": "ａ　成人T細胞性白血病 ―― 皮　疹",
+              "ok": true
+            },
+            {
+              "t": "ｂ　Hodgkinリンパ腫 ―― 圧痛を伴うリンパ節腫脹",
+              "ok": false
+            },
+            {
+              "t": "ｃ　免疫性血小板減少症 ―― 巨大脾腫",
+              "ok": false
+            },
+            {
+              "t": "ｄ　急性骨髄性白血病 ―― 網膜静脈怒張",
+              "ok": false
+            },
+            {
+              "t": "ｅ　多発性骨髄腫 ―― 肝脾腫",
+              "ok": false
+            }
           ],
           "ans_label": "ａ　成人T細胞性白血病 ―― 皮疹",
           "ans_sub": "ATLは約50%に皮疹（紅斑・結節・腫瘤）を合併。HTLV-1感染・花細胞・高Ca血症もセットで押さえる。",
@@ -602,11 +814,26 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "穿頭によって治療が可能なのはどれか。",
           "choices": [
-            {"t": "ａ　脳血管性認知症", "ok": false},
-            {"t": "ｂ　慢性硬膜下血腫", "ok": true},
-            {"t": "ｃ　脳梗塞", "ok": false},
-            {"t": "ｄ　脳出血", "ok": false},
-            {"t": "ｅ　急性硬膜外血腫", "ok": false}
+            {
+              "t": "ａ　脳血管性認知症",
+              "ok": false
+            },
+            {
+              "t": "ｂ　慢性硬膜下血腫",
+              "ok": true
+            },
+            {
+              "t": "ｃ　脳梗塞",
+              "ok": false
+            },
+            {
+              "t": "ｄ　脳出血",
+              "ok": false
+            },
+            {
+              "t": "ｅ　急性硬膜外血腫",
+              "ok": false
+            }
           ],
           "ans_label": "ｂ　慢性硬膜下血腫",
           "ans_sub": "慢性硬膜下血腫は外傷後数週〜数ヶ月で液状化→穿頭洗浄術（局所麻酔）で排除可。急性硬膜外血腫は凝血塊＋活動性出血→開頭術が必要。",
@@ -643,11 +870,26 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "進行食道癌で認める因子のうち原発巣を含めた切除術の適応とならないのはどれか。",
           "choices": [
-            {"t": "ａ　所属リンパ節転移", "ok": false},
-            {"t": "ｂ　気管浸潤", "ok": true},
-            {"t": "ｃ　全周性の腫瘍", "ok": false},
-            {"t": "ｄ　筋層までの浸潤", "ok": false},
-            {"t": "ｅ　腫瘍径5cm", "ok": false}
+            {
+              "t": "ａ　所属リンパ節転移",
+              "ok": false
+            },
+            {
+              "t": "ｂ　気管浸潤",
+              "ok": true
+            },
+            {
+              "t": "ｃ　全周性の腫瘍",
+              "ok": false
+            },
+            {
+              "t": "ｄ　筋層までの浸潤",
+              "ok": false
+            },
+            {
+              "t": "ｅ　腫瘍径5cm",
+              "ok": false
+            }
           ],
           "ans_label": "ｂ　気管浸潤",
           "ans_sub": "気管・大動脈・椎体への浸潤はT4b＝切除不能。術中大出血・気管壊死・食道気管瘻のリスクのため化学放射線療法が第一選択。",
@@ -684,11 +926,26 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "A型胃炎について正しいのはどれか。",
           "choices": [
-            {"t": "ａ　胃粘膜萎縮は幽門優位に起こる。", "ok": false},
-            {"t": "ｂ　ピロリ菌が原因である。", "ok": false},
-            {"t": "ｃ　ガストリンの低下を伴う。", "ok": false},
-            {"t": "ｄ　再生不良性貧血を合併する。", "ok": false},
-            {"t": "ｅ　抗壁細胞抗体が陽性となる。", "ok": true}
+            {
+              "t": "ａ　胃粘膜萎縮は幽門優位に起こる。",
+              "ok": false
+            },
+            {
+              "t": "ｂ　ピロリ菌が原因である。",
+              "ok": false
+            },
+            {
+              "t": "ｃ　ガストリンの低下を伴う。",
+              "ok": false
+            },
+            {
+              "t": "ｄ　再生不良性貧血を合併する。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　抗壁細胞抗体が陽性となる。",
+              "ok": true
+            }
           ],
           "ans_label": "ｅ　抗壁細胞抗体が陽性となる。",
           "ans_sub": "A型胃炎（自己免疫性胃炎）＝壁細胞・内因子への自己抗体。胃体部萎縮・無酸・高ガストリン血症・悪性貧血（巨赤芽球性）が4点セット。",
@@ -725,19 +982,50 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "成人大腿ヘルニアで正しいのはどれか。2つ選べ。",
           "choices": [
-            {"t": "ａ　両側性が多い。", "ok": false},
-            {"t": "ｂ　高齢男性に多い。", "ok": false},
-            {"t": "ｃ　Howship-Romberg徴候を認める。", "ok": false},
-            {"t": "ｄ　鼠径靭帯の足側から脱出する。", "ok": true},
-            {"t": "ｅ　嵌頓をきたしやすい。", "ok": true}
+            {
+              "t": "ａ　両側性が多い。",
+              "ok": false
+            },
+            {
+              "t": "ｂ　高齢男性に多い。",
+              "ok": false
+            },
+            {
+              "t": "ｃ　Howship-Romberg徴候を認める。",
+              "ok": false
+            },
+            {
+              "t": "ｄ　鼠径靭帯の足側から脱出する。",
+              "ok": true
+            },
+            {
+              "t": "ｅ　嵌頓をきたしやすい。",
+              "ok": true
+            }
           ],
           "ans_label": "ｄ　鼠径靭帯の足側から脱出する。／ｅ　嵌頓をきたしやすい。",
           "ans_sub": "大腿ヘルニア：大腿輪（鼠径靭帯の足側）を通って脱出。硬い靭帯に囲まれた狭い出口→嵌頓頻度が最も高い。",
           "eg": [
-            {"cls": "ep","h": "💡 正解：d + e","c": "<p><strong>d</strong>：<span class=\"kw\">鼠径靭帯よりも足側（尾側）</span>にある大腿輪を通って脱出。<strong>e</strong>：大腿輪は硬い靭帯で囲まれ伸縮性なし→各種ヘルニア中で<span class=\"kw\">嵌頓頻度が最も高い</span>→緊急手術。</p>"},
-            {"cls": "ee","h": "❌ 誤り選択肢","c": "<table class=\"tb\"><tr><th>選択肢</th><th>正しい事実</th></tr><tr><td>a 両側性が多い</td><td>大腿ヘルニアは<strong>片側性</strong></td></tr><tr><td>b 高齢男性に多い</td><td><strong>高齢女性（経産婦）</strong>に多い。男性に多いのは鼠径ヘルニア</td></tr><tr><td>c Howship-Romberg徴候</td><td>大腿内側のしびれ＝<strong>閉鎖孔ヘルニア</strong>の徴候（閉鎖神経圧迫）</td></tr></table>"},
-            {"cls": "ee","h": "📍 ヘルニア脱出ルート対比","c": "<table class=\"tb\"><tr><th>種類</th><th>脱出部位</th><th>好発</th></tr><tr><td>外鼠径ヘルニア</td><td>鼠径靭帯<strong>頭側</strong>・下腹壁動脈<strong>外側</strong></td><td>若〜中年男性</td></tr><tr><td>内鼠径ヘルニア</td><td>鼠径靭帯<strong>頭側</strong>・下腹壁動脈<strong>内側</strong></td><td>高齢男性</td></tr><tr><td><span class=\"kw\">大腿ヘルニア</span></td><td>鼠径靭帯<strong>足側</strong>（大腿輪）</td><td><strong>高齢女性・経産婦</strong></td></tr><tr><td>閉鎖孔ヘルニア</td><td>骨盤の閉鎖管→Howship-Romberg徴候</td><td>痩せた高齢女性</td></tr></table>"},
-            {"cls": "ep","h": "📝 国試のパール","c": "<p><span class=\"kw\">大腿ヘルニア：鼠径靭帯の足側・高齢女性・嵌頓しやすい。Howship-Romberg徴候は閉鎖孔ヘルニア。</span></p>"}
+            {
+              "cls": "ep",
+              "h": "💡 正解：d + e",
+              "c": "<p><strong>d</strong>：<span class=\"kw\">鼠径靭帯よりも足側（尾側）</span>にある大腿輪を通って脱出。<strong>e</strong>：大腿輪は硬い靭帯で囲まれ伸縮性なし→各種ヘルニア中で<span class=\"kw\">嵌頓頻度が最も高い</span>→緊急手術。</p>"
+            },
+            {
+              "cls": "ee",
+              "h": "❌ 誤り選択肢",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>正しい事実</th></tr><tr><td>a 両側性が多い</td><td>大腿ヘルニアは<strong>片側性</strong></td></tr><tr><td>b 高齢男性に多い</td><td><strong>高齢女性（経産婦）</strong>に多い。男性に多いのは鼠径ヘルニア</td></tr><tr><td>c Howship-Romberg徴候</td><td>大腿内側のしびれ＝<strong>閉鎖孔ヘルニア</strong>の徴候（閉鎖神経圧迫）</td></tr></table>"
+            },
+            {
+              "cls": "ee",
+              "h": "📍 ヘルニア脱出ルート対比",
+              "c": "<table class=\"tb\"><tr><th>種類</th><th>脱出部位</th><th>好発</th></tr><tr><td>外鼠径ヘルニア</td><td>鼠径靭帯<strong>頭側</strong>・下腹壁動脈<strong>外側</strong></td><td>若〜中年男性</td></tr><tr><td>内鼠径ヘルニア</td><td>鼠径靭帯<strong>頭側</strong>・下腹壁動脈<strong>内側</strong></td><td>高齢男性</td></tr><tr><td><span class=\"kw\">大腿ヘルニア</span></td><td>鼠径靭帯<strong>足側</strong>（大腿輪）</td><td><strong>高齢女性・経産婦</strong></td></tr><tr><td>閉鎖孔ヘルニア</td><td>骨盤の閉鎖管→Howship-Romberg徴候</td><td>痩せた高齢女性</td></tr></table>"
+            },
+            {
+              "cls": "ep",
+              "h": "📝 国試のパール",
+              "c": "<p><span class=\"kw\">大腿ヘルニア：鼠径靭帯の足側・高齢女性・嵌頓しやすい。Howship-Romberg徴候は閉鎖孔ヘルニア。</span></p>"
+            }
           ]
         },
         {
@@ -750,18 +1038,45 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "胃食道逆流症〈GERD〉の症状で生じにくいのはどれか。",
           "choices": [
-            {"t": "ａ　咽頭痛", "ok": false},
-            {"t": "ｂ　嗄　声", "ok": false},
-            {"t": "ｃ　呑　酸", "ok": false},
-            {"t": "ｄ　急性咳嗽", "ok": true},
-            {"t": "ｅ　胸　痛", "ok": false}
+            {
+              "t": "ａ　咽頭痛",
+              "ok": false
+            },
+            {
+              "t": "ｂ　嗄　声",
+              "ok": false
+            },
+            {
+              "t": "ｃ　呑　酸",
+              "ok": false
+            },
+            {
+              "t": "ｄ　急性咳嗽",
+              "ok": true
+            },
+            {
+              "t": "ｅ　胸　痛",
+              "ok": false
+            }
           ],
           "ans_label": "ｄ　急性咳嗽",
           "ans_sub": "GERDによる咳嗽は胃酸の慢性刺激→「慢性咳嗽（8週間以上）」。「急性」は×。",
           "eg": [
-            {"cls": "ep","h": "💡 正解：d 急性咳嗽","c": "<p>GERDによる咳嗽は<span class=\"kw\">慢性咳嗽（8週間以上）</span>。「急性咳嗽」は生じにくい。<strong>修飾語（急性/慢性）</strong>が正誤の分岐点。</p>"},
-            {"cls": "ee","h": "✅ GERDで生じる食道外症状","c": "<table class=\"tb\"><tr><th>症状</th><th>機序</th></tr><tr><td>a 咽頭痛</td><td>酸による咽頭粘膜の慢性刺激→咽頭炎</td></tr><tr><td>b 嗄声</td><td>酸が声帯に達し化学的炎症（逆流性喉頭炎）</td></tr><tr><td>c 呑酸</td><td>GERDの2大典型症状の1つ</td></tr><tr><td>e 胸痛</td><td>食道粘膜への酸刺激→非心臓性胸痛</td></tr><tr><td>（参考）慢性咳嗽</td><td>気道への慢性酸刺激（8週間以上）→夜間・臥位で悪化</td></tr></table>"},
-            {"cls": "ep","h": "📝 国試のパール","c": "<p><span class=\"kw\">GERDの食道外症状：慢性咳嗽・嗄声・咽頭痛・気管支喘息悪化・歯牙酸蝕。「急性」咳嗽ではなく「慢性」咳嗽。</span></p>"}
+            {
+              "cls": "ep",
+              "h": "💡 正解：d 急性咳嗽",
+              "c": "<p>GERDによる咳嗽は<span class=\"kw\">慢性咳嗽（8週間以上）</span>。「急性咳嗽」は生じにくい。<strong>修飾語（急性/慢性）</strong>が正誤の分岐点。</p>"
+            },
+            {
+              "cls": "ee",
+              "h": "✅ GERDで生じる食道外症状",
+              "c": "<table class=\"tb\"><tr><th>症状</th><th>機序</th></tr><tr><td>a 咽頭痛</td><td>酸による咽頭粘膜の慢性刺激→咽頭炎</td></tr><tr><td>b 嗄声</td><td>酸が声帯に達し化学的炎症（逆流性喉頭炎）</td></tr><tr><td>c 呑酸</td><td>GERDの2大典型症状の1つ</td></tr><tr><td>e 胸痛</td><td>食道粘膜への酸刺激→非心臓性胸痛</td></tr><tr><td>（参考）慢性咳嗽</td><td>気道への慢性酸刺激（8週間以上）→夜間・臥位で悪化</td></tr></table>"
+            },
+            {
+              "cls": "ep",
+              "h": "📝 国試のパール",
+              "c": "<p><span class=\"kw\">GERDの食道外症状：慢性咳嗽・嗄声・咽頭痛・気管支喘息悪化・歯牙酸蝕。「急性」咳嗽ではなく「慢性」咳嗽。</span></p>"
+            }
           ]
         },
         {
@@ -773,20 +1088,49 @@ window["_cardJSON_custom"]={
           "rate_text": "",
           "badges": [],
           "qt": "38歳の女性。尿検査の異常を指摘され来院した。3年前に2型糖尿病と診断され、自宅近くの医療機関にて内服治療中である。糖尿病網膜症はない。2年前に尿潜血陽性を指摘された。3か月前から尿蛋白も認め、精査のため紹介受診した。身長152cm、体重76kg。血圧124/70mmHg。心音と呼吸音とに異常を認めない。尿所見：蛋白2+、潜血2+、Cr比1.8g/gCr、尿沈渣に赤血球20〜29/HPF。血液所見：赤血球383万、Hb 11.6g/dL、Ht 36%、白血球7,300、血小板25万。血液生化学所見：総蛋白7.0g/dL、アルブミン4.0g/dL、クレアチニン0.6mg/dL、HbA1c 6.1%（基準4.9〜6.0）。免疫血清所見：CRP 0.1mg/dL、抗核抗体陰性、血清補体値〈CH₅₀〉35U/mL（基準30〜40）。腎生検のPAS染色標本を示す。この患者の身体診察で注視すべき部位はどれか。",
-          "imgs": ["custom/images/custom_q20_img.png"],
+          "imgs": [
+            "custom/images/custom_q20_img.png"
+          ],
           "choices": [
-            {"t": "ａ　外耳道", "ok": false},
-            {"t": "ｂ　鼻　腔", "ok": false},
-            {"t": "ｃ　口　腔", "ok": true},
-            {"t": "ｄ　側頭部", "ok": false},
-            {"t": "ｅ　眼球結膜", "ok": false}
+            {
+              "t": "ａ　外耳道",
+              "ok": false
+            },
+            {
+              "t": "ｂ　鼻　腔",
+              "ok": false
+            },
+            {
+              "t": "ｃ　口　腔",
+              "ok": true
+            },
+            {
+              "t": "ｄ　側頭部",
+              "ok": false
+            },
+            {
+              "t": "ｅ　眼球結膜",
+              "ok": false
+            }
           ],
           "ans_label": "ｃ　口腔",
           "ans_sub": "糖尿病3年・HbA1c 6.1%・網膜症なし→IgA腎症。TSP療法（扁桃摘出+ステロイドパルス）→口腔（口蓋扁桃）を確認。",
           "eg": [
-            {"cls": "ep","h": "💡 正解：c 口腔（IgA腎症→扁桃腺）","c": "<p>診断は<span class=\"kw\">IgA腎症</span>。治療として<span class=\"kw\">TSP療法（Tonsillectomy＋Steroid Pulse）</span>が行われる。術前に口腔内の<strong>口蓋扁桃</strong>（肥大・膿栓の有無）を確認することが重要。</p>"},
-            {"cls": "ee","h": "🔑 IgA腎症と診断する根拠","c": "<table class=\"tb\"><tr><th>臨床情報</th><th>IgA腎症を示唆する理由</th></tr><tr><td>糖尿病歴3年・HbA1c 6.1%・網膜症なし</td><td>血糖コントロール良好＋経過短＋網膜症なし→<strong>糖尿病性腎症では説明困難</strong></td></tr><tr><td>顕微鏡的血尿2年（赤血球20-29/HPF）</td><td>糖尿病性腎症は血尿が少ない→別の糸球体疾患を強く疑う</td></tr><tr><td>抗核抗体陰性・補体正常</td><td>SLE・ループス腎炎を除外</td></tr><tr><td>PAS染色：メサンギウム増殖</td><td>IgA腎症の典型的所見</td></tr></table>"},
-            {"cls": "ep","h": "📝 国試のパール","c": "<p><span class=\"kw\">IgA腎症のTSP療法＝Tonsillectomy（扁桃摘出）+ Steroid Pulse。扁桃摘出前に「口腔」（口蓋扁桃の状態）を確認。糖尿病+血尿+正常補体+ANA陰性→IgA腎症を疑え。</span></p>"}
+            {
+              "cls": "ep",
+              "h": "💡 正解：c 口腔（IgA腎症→扁桃腺）",
+              "c": "<p>診断は<span class=\"kw\">IgA腎症</span>。治療として<span class=\"kw\">TSP療法（Tonsillectomy＋Steroid Pulse）</span>が行われる。術前に口腔内の<strong>口蓋扁桃</strong>（肥大・膿栓の有無）を確認することが重要。</p>"
+            },
+            {
+              "cls": "ee",
+              "h": "🔑 IgA腎症と診断する根拠",
+              "c": "<table class=\"tb\"><tr><th>臨床情報</th><th>IgA腎症を示唆する理由</th></tr><tr><td>糖尿病歴3年・HbA1c 6.1%・網膜症なし</td><td>血糖コントロール良好＋経過短＋網膜症なし→<strong>糖尿病性腎症では説明困難</strong></td></tr><tr><td>顕微鏡的血尿2年（赤血球20-29/HPF）</td><td>糖尿病性腎症は血尿が少ない→別の糸球体疾患を強く疑う</td></tr><tr><td>抗核抗体陰性・補体正常</td><td>SLE・ループス腎炎を除外</td></tr><tr><td>PAS染色：メサンギウム増殖</td><td>IgA腎症の典型的所見</td></tr></table>"
+            },
+            {
+              "cls": "ep",
+              "h": "📝 国試のパール",
+              "c": "<p><span class=\"kw\">IgA腎症のTSP療法＝Tonsillectomy（扁桃摘出）+ Steroid Pulse。扁桃摘出前に「口腔」（口蓋扁桃の状態）を確認。糖尿病+血尿+正常補体+ANA陰性→IgA腎症を疑え。</span></p>"
+            }
           ]
         },
         {
@@ -798,20 +1142,49 @@ window["_cardJSON_custom"]={
           "rate_text": "",
           "badges": [],
           "qt": "急速進行性糸球体腎炎〈RPGN〉の原因とならないのはどれか。腎生検のPAS染色標本（半月体形成性糸球体腎炎）を示す。",
-          "imgs": ["custom/images/custom_q20_img.png"],
+          "imgs": [
+            "custom/images/custom_q20_img.png"
+          ],
           "choices": [
-            {"t": "ａ　顕微鏡的多発血管炎", "ok": false},
-            {"t": "ｂ　多発血管炎性肉芽腫症", "ok": false},
-            {"t": "ｃ　巣状分節性糸球体硬化症〈FSGS〉", "ok": true},
-            {"t": "ｄ　全身性エリテマトーデス", "ok": false},
-            {"t": "ｅ　Goodpasture症候群", "ok": false}
+            {
+              "t": "ａ　顕微鏡的多発血管炎",
+              "ok": false
+            },
+            {
+              "t": "ｂ　多発血管炎性肉芽腫症",
+              "ok": false
+            },
+            {
+              "t": "ｃ　巣状分節性糸球体硬化症〈FSGS〉",
+              "ok": true
+            },
+            {
+              "t": "ｄ　全身性エリテマトーデス",
+              "ok": false
+            },
+            {
+              "t": "ｅ　Goodpasture症候群",
+              "ok": false
+            }
           ],
           "ans_label": "ｃ　巣状分節性糸球体硬化症〈FSGS〉",
           "ans_sub": "FSGSは糸球体の分節性硬化→ネフローゼ症候群の原因だが半月体を形成しない。RPGNの原因はANCA関連型・免疫複合体型・抗GBM抗体型の3分類。",
           "eg": [
-            {"cls": "ep","h": "💡 正解：c FSGS（半月体を形成しない）","c": "<p><span class=\"kw\">FSGSは糸球体の分節性硬化</span>が主体で半月体を形成しない→RPGNの原因にならない。FSGSの臨床像はネフローゼ症候群。</p>"},
-            {"cls": "ee","h": "⚠️ RPGNの3大分類","c": "<table class=\"tb\"><tr><th>分類</th><th>代表疾患</th><th>蛍光抗体法</th></tr><tr><td><span class=\"kw\">ANCA関連型</span></td><td>MPA（MPO-ANCA）・GPA（PR3-ANCA）</td><td>沈着なし（pauci-immune）</td></tr><tr><td><span class=\"kw\">免疫複合体型</span></td><td>SLE・IgA腎症（重症）</td><td>顆粒状沈着</td></tr><tr><td><span class=\"kw\">抗GBM抗体型</span></td><td>Goodpasture症候群</td><td>基底膜沿いにlinear沈着</td></tr></table>"},
-            {"cls": "ep","h": "📝 国試のパール","c": "<p><span class=\"kw\">半月体形成（RPGN）：ANCA関連（MPA・GPA）・免疫複合体（SLE）・抗GBM（Goodpasture）。FSGSは半月体を形成しない。蛍光抗体法（線状/顆粒状/沈着なし）とセットで暗記。</span></p>"}
+            {
+              "cls": "ep",
+              "h": "💡 正解：c FSGS（半月体を形成しない）",
+              "c": "<p><span class=\"kw\">FSGSは糸球体の分節性硬化</span>が主体で半月体を形成しない→RPGNの原因にならない。FSGSの臨床像はネフローゼ症候群。</p>"
+            },
+            {
+              "cls": "ee",
+              "h": "⚠️ RPGNの3大分類",
+              "c": "<table class=\"tb\"><tr><th>分類</th><th>代表疾患</th><th>蛍光抗体法</th></tr><tr><td><span class=\"kw\">ANCA関連型</span></td><td>MPA（MPO-ANCA）・GPA（PR3-ANCA）</td><td>沈着なし（pauci-immune）</td></tr><tr><td><span class=\"kw\">免疫複合体型</span></td><td>SLE・IgA腎症（重症）</td><td>顆粒状沈着</td></tr><tr><td><span class=\"kw\">抗GBM抗体型</span></td><td>Goodpasture症候群</td><td>基底膜沿いにlinear沈着</td></tr></table>"
+            },
+            {
+              "cls": "ep",
+              "h": "📝 国試のパール",
+              "c": "<p><span class=\"kw\">半月体形成（RPGN）：ANCA関連（MPA・GPA）・免疫複合体（SLE）・抗GBM（Goodpasture）。FSGSは半月体を形成しない。蛍光抗体法（線状/顆粒状/沈着なし）とセットで暗記。</span></p>"
+            }
           ]
         },
         {
@@ -823,21 +1196,54 @@ window["_cardJSON_custom"]={
           "rate_text": "",
           "badges": [],
           "qt": "63歳の男性。呼吸困難と発熱を主訴に来院した。1か月前から乾性咳嗽があり、息苦しさが出現、次第に悪化してきたため受診した。1週間前から37℃台前半の発熱が続いている。既往歴に特記すべきことはない。喫煙歴やペット飼育歴はない。昨年、築50年の木造建築、日当たりの悪い家に転居し、初めての夏である。体温37.7℃。呼吸数24/分。SpO₂：94%（room air）。胸部の聴診でわずかにfine cracklesを聴取する。胸部単純CTを示す。この疾患について正しいのはどれか。2つ選べ。",
-          "imgs": ["custom/images/custom_q22_img.png"],
+          "imgs": [
+            "custom/images/custom_q22_img.png"
+          ],
           "choices": [
-            {"t": "ａ　Ⅲ型アレルギー疾患である。", "ok": true},
-            {"t": "ｂ　拘束性換気障害を認める。", "ok": true},
-            {"t": "ｃ　気管支肺胞洗浄液中のリンパ球のCD4/CD8比が1以上となる。", "ok": false},
-            {"t": "ｄ　ツベルクリン反応が陽性となる。", "ok": false},
-            {"t": "ｅ　気管支肺胞洗浄液で好酸球増多を認める。", "ok": false}
+            {
+              "t": "ａ　Ⅲ型アレルギー疾患である。",
+              "ok": true
+            },
+            {
+              "t": "ｂ　拘束性換気障害を認める。",
+              "ok": true
+            },
+            {
+              "t": "ｃ　気管支肺胞洗浄液中のリンパ球のCD4/CD8比が1以上となる。",
+              "ok": false
+            },
+            {
+              "t": "ｄ　ツベルクリン反応が陽性となる。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　気管支肺胞洗浄液で好酸球増多を認める。",
+              "ok": false
+            }
           ],
           "ans_label": "ａ　Ⅲ型アレルギー疾患である。／ｂ　拘束性換気障害を認める。",
           "ans_sub": "夏型過敏性肺炎（トリコスポロン）：築古木造・初夏・fine crackles。Ⅲ型+Ⅳ型アレルギー・拘束性換気障害・BALF リンパ球増多（CD4/CD8比↓<1）。",
           "eg": [
-            {"cls": "ep","h": "💡 正解：a + b（夏型過敏性肺炎）","c": "<p>診断のキーワード：<span class=\"kw\">築50年の木造・日当たり悪い・初めての夏・乾性咳嗽・fine crackles</span>→<strong>夏型過敏性肺炎</strong>（原因：トリコスポロン等のカビ）。<br><strong>a</strong>：<span class=\"kw\">Ⅲ型（免疫複合体）＋Ⅳ型（遅延型）</span>アレルギーが関与。<br><strong>b</strong>：間質性肺疾患→<span class=\"kw\">拘束性換気障害（%VC&lt;80%）</span>。</p>"},
-            {"cls": "ee","h": "❌ 各選択肢の誤りのポイント","c": "<table class=\"tb\"><tr><th>選択肢</th><th>誤りのポイント</th></tr><tr><td>c CD4/CD8比1以上</td><td>過敏性肺炎は<strong>CD8優位</strong>→CD4/CD8比<strong>1未満（低下）</strong>。上昇はサルコイドーシス（>3.5）</td></tr><tr><td>d ツベルクリン反応陽性</td><td>ツベルクリン反応は<strong>結核菌特異的</strong>。「Ⅳ型だから陽性」という論理は誤り</td></tr><tr><td>e 好酸球増多</td><td>過敏性肺炎は<strong>リンパ球</strong>増多。好酸球増多は<strong>好酸球性肺炎</strong></td></tr></table>"},
-            {"cls": "ee","h": "🔑 過敏性肺炎 vs サルコイドーシス（BALF対比）","c": "<table class=\"tb\"><tr><th>疾患</th><th>アレルギー型</th><th>BALF</th><th>CD4/CD8比</th></tr><tr><td><span class=\"kw\">過敏性肺炎</span></td><td>Ⅲ型＋Ⅳ型</td><td>リンパ球↑↑（CD8優位）</td><td><strong>1未満（低下）</strong></td></tr><tr><td><span class=\"kw\">サルコイドーシス</span></td><td>Ⅳ型（肉芽腫）</td><td>リンパ球↑↑（CD4優位）</td><td><strong>3.5以上（著明上昇）</strong></td></tr></table>"},
-            {"cls": "ep","h": "📝 国試のパール","c": "<p><span class=\"kw\">夏型過敏性肺炎：築古木造・初夏・fine crackles。BALF：リンパ球↑・CD4/CD8比&lt;1。ツベルクリン陽性は誤り。サルコイドーシスとのBALF対比を完璧に。</span></p>"}
+            {
+              "cls": "ep",
+              "h": "💡 正解：a + b（夏型過敏性肺炎）",
+              "c": "<p>診断のキーワード：<span class=\"kw\">築50年の木造・日当たり悪い・初めての夏・乾性咳嗽・fine crackles</span>→<strong>夏型過敏性肺炎</strong>（原因：トリコスポロン等のカビ）。<br><strong>a</strong>：<span class=\"kw\">Ⅲ型（免疫複合体）＋Ⅳ型（遅延型）</span>アレルギーが関与。<br><strong>b</strong>：間質性肺疾患→<span class=\"kw\">拘束性換気障害（%VC&lt;80%）</span>。</p>"
+            },
+            {
+              "cls": "ee",
+              "h": "❌ 各選択肢の誤りのポイント",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>誤りのポイント</th></tr><tr><td>c CD4/CD8比1以上</td><td>過敏性肺炎は<strong>CD8優位</strong>→CD4/CD8比<strong>1未満（低下）</strong>。上昇はサルコイドーシス（>3.5）</td></tr><tr><td>d ツベルクリン反応陽性</td><td>ツベルクリン反応は<strong>結核菌特異的</strong>。「Ⅳ型だから陽性」という論理は誤り</td></tr><tr><td>e 好酸球増多</td><td>過敏性肺炎は<strong>リンパ球</strong>増多。好酸球増多は<strong>好酸球性肺炎</strong></td></tr></table>"
+            },
+            {
+              "cls": "ee",
+              "h": "🔑 過敏性肺炎 vs サルコイドーシス（BALF対比）",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>アレルギー型</th><th>BALF</th><th>CD4/CD8比</th></tr><tr><td><span class=\"kw\">過敏性肺炎</span></td><td>Ⅲ型＋Ⅳ型</td><td>リンパ球↑↑（CD8優位）</td><td><strong>1未満（低下）</strong></td></tr><tr><td><span class=\"kw\">サルコイドーシス</span></td><td>Ⅳ型（肉芽腫）</td><td>リンパ球↑↑（CD4優位）</td><td><strong>3.5以上（著明上昇）</strong></td></tr></table>"
+            },
+            {
+              "cls": "ep",
+              "h": "📝 国試のパール",
+              "c": "<p><span class=\"kw\">夏型過敏性肺炎：築古木造・初夏・fine crackles。BALF：リンパ球↑・CD4/CD8比&lt;1。ツベルクリン陽性は誤り。サルコイドーシスとのBALF対比を完璧に。</span></p>"
+            }
           ]
         },
         {
@@ -850,18 +1256,45 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "42歳の女性。関節痛を主訴に来院した。1年ほど前から眼の乾燥感を自覚していた。自宅近くの眼科を受診し、ドライアイと診断されて点眼薬の処方を受けていた。3か月前から手のこわばりと両側手指の関節痛を自覚し、症状が改善しないため受診した。体温36.5℃。脈拍72/分、整。血圧124/82mmHg。眼球結膜に充血を認める。舌の乾燥を認める。心音と呼吸音に異常を認めない。右中指近位指節間関節と両側手関節に圧痛を認める。血液所見：赤血球410万、Hb 13.7g/dL、Ht 38%、白血球3,400（好中球72%、好酸球2%、好塩基球1%、単球12%、リンパ球13%）、血小板17万。免疫血清所見：CRP 0.3mg/dL、リウマトイド因子〈RF〉128IU/mL（基準20未満）、抗核抗体640倍（基準20以下）。この疾患で認めるのはどれか。",
           "choices": [
-            {"t": "ａ　虹彩毛様体炎", "ok": false},
-            {"t": "ｂ　近位尿細管性アシドーシス", "ok": false},
-            {"t": "ｃ　回盲部潰瘍", "ok": false},
-            {"t": "ｄ　Raynaud現象", "ok": true},
-            {"t": "ｅ　肺高血圧症", "ok": false}
+            {
+              "t": "ａ　虹彩毛様体炎",
+              "ok": false
+            },
+            {
+              "t": "ｂ　近位尿細管性アシドーシス",
+              "ok": false
+            },
+            {
+              "t": "ｃ　回盲部潰瘍",
+              "ok": false
+            },
+            {
+              "t": "ｄ　Raynaud現象",
+              "ok": true
+            },
+            {
+              "t": "ｅ　肺高血圧症",
+              "ok": false
+            }
           ],
           "ans_label": "ｄ　Raynaud現象",
           "ans_sub": "シェーグレン症候群（ドライアイ+ドライマウス+RF陽性+抗核抗体高値）。腺外症状：Raynaud現象（20〜30%）・遠位尿細管性アシドーシス（Ⅰ型RTA）・悪性リンパ腫合併。",
           "eg": [
-            {"cls": "ep","h": "💡 正解：d Raynaud現象（シェーグレン症候群の腺外症状）","c": "<p>診断：<span class=\"kw\">シェーグレン症候群（SS）</span>。ドライアイ＋ドライマウス＋RF陽性＋抗核抗体640倍＋白血球減少。<strong>d：Raynaud現象</strong>はSSの<strong>20〜30%</strong>に認める<span class=\"kw\">腺外症状</span>。</p>"},
-            {"cls": "ee","h": "❌ 各選択肢の誤りのポイント","c": "<table class=\"tb\"><tr><th>選択肢</th><th>誤りのポイント</th><th>正しい疾患</th></tr><tr><td>a 虹彩毛様体炎</td><td>SSの眼症状は<strong>角結膜乾燥症（ドライアイ）</strong></td><td><strong>Behcet病・サルコイドーシス</strong></td></tr><tr><td>b 近位尿細管性アシドーシス</td><td>SSは<strong>遠位（Ⅰ型）RTA</strong>。近位（Ⅱ型）RTA＝Fanconi症候群・骨髄腫</td><td>最頻出ひっかけ</td></tr><tr><td>c 回盲部潰瘍</td><td>打ち抜き潰瘍＝<strong>Behcet病（腸管型）・クローン病</strong></td><td>SSとは無関係</td></tr><tr><td>e 肺高血圧症</td><td>膠原病性肺高血圧は<strong>全身性強皮症・MCTD・SLE</strong>が代表</td><td>SSの肺病変＝<strong>間質性肺炎</strong></td></tr></table>"},
-            {"cls": "ep","h": "📝 国試のパール","c": "<p><span class=\"kw\">SS腺外症状：Raynaud現象・遠位RTA（Ⅰ型、近位×）・悪性リンパ腫合併。虹彩毛様体炎はBehcet病。「遠位」と「近位」の入れ替えに注意。</span></p>"}
+            {
+              "cls": "ep",
+              "h": "💡 正解：d Raynaud現象（シェーグレン症候群の腺外症状）",
+              "c": "<p>診断：<span class=\"kw\">シェーグレン症候群（SS）</span>。ドライアイ＋ドライマウス＋RF陽性＋抗核抗体640倍＋白血球減少。<strong>d：Raynaud現象</strong>はSSの<strong>20〜30%</strong>に認める<span class=\"kw\">腺外症状</span>。</p>"
+            },
+            {
+              "cls": "ee",
+              "h": "❌ 各選択肢の誤りのポイント",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>誤りのポイント</th><th>正しい疾患</th></tr><tr><td>a 虹彩毛様体炎</td><td>SSの眼症状は<strong>角結膜乾燥症（ドライアイ）</strong></td><td><strong>Behcet病・サルコイドーシス</strong></td></tr><tr><td>b 近位尿細管性アシドーシス</td><td>SSは<strong>遠位（Ⅰ型）RTA</strong>。近位（Ⅱ型）RTA＝Fanconi症候群・骨髄腫</td><td>最頻出ひっかけ</td></tr><tr><td>c 回盲部潰瘍</td><td>打ち抜き潰瘍＝<strong>Behcet病（腸管型）・クローン病</strong></td><td>SSとは無関係</td></tr><tr><td>e 肺高血圧症</td><td>膠原病性肺高血圧は<strong>全身性強皮症・MCTD・SLE</strong>が代表</td><td>SSの肺病変＝<strong>間質性肺炎</strong></td></tr></table>"
+            },
+            {
+              "cls": "ep",
+              "h": "📝 国試のパール",
+              "c": "<p><span class=\"kw\">SS腺外症状：Raynaud現象・遠位RTA（Ⅰ型、近位×）・悪性リンパ腫合併。虹彩毛様体炎はBehcet病。「遠位」と「近位」の入れ替えに注意。</span></p>"
+            }
           ]
         },
         {
@@ -874,18 +1307,45 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "65歳の女性。多発関節痛を主訴に来院した。5か月前に自宅近くの医療機関で関節リウマチの診断を受けた。メトトレキサートによる治療が開始されたが、症状が改善しないため紹介受診となった。多発関節炎を認め、生物学的製剤による治療の適応と考えられた。併存疾患はない。輸血歴と、結核の家族歴や接触歴はない。末梢血白血球数、リンパ球数、血清IgG、胸部エックス線撮影に異常を認めない。この患者で生物学的製剤による治療開始前に追加すべき検査として誤っているのはどれか。",
           "choices": [
-            {"t": "ａ　抗水痘・帯状疱疹ウイルス抗体", "ok": true},
-            {"t": "ｂ　β-D-グルカン", "ok": false},
-            {"t": "ｃ　HCV抗体", "ok": false},
-            {"t": "ｄ　結核菌特異的全血インターフェロンγ遊離測定法〈IGRA〉", "ok": false},
-            {"t": "ｅ　HBs抗体", "ok": false}
+            {
+              "t": "ａ　抗水痘・帯状疱疹ウイルス抗体",
+              "ok": true
+            },
+            {
+              "t": "ｂ　β-D-グルカン",
+              "ok": false
+            },
+            {
+              "t": "ｃ　HCV抗体",
+              "ok": false
+            },
+            {
+              "t": "ｄ　結核菌特異的全血インターフェロンγ遊離測定法〈IGRA〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　HBs抗体",
+              "ok": false
+            }
           ],
           "ans_label": "ａ　抗水痘・帯状疱疹ウイルス抗体",
           "ans_sub": "生物学的製剤開始前の必須スクリーニング：結核（IGRA）・HBV（3点セット）・HCV・β-D-グルカン。抗VZV抗体は成人の多くが保有し、検査結果が導入方針に影響しないため不要。",
           "eg": [
-            {"cls": "ep","h": "💡 正解：a 抗VZV抗体（ルーチン測定は不要）","c": "<p>生物学的製剤は免疫を強く抑制するため<strong>潜伏感染の再活性化</strong>リスクが上がる。しかし<span class=\"kw\">抗VZV抗体のルーチン測定は推奨されない</span>。日本の成人の大多数がすでに抗体を保有しており、抗体価が再活性化の予測や治療方針の変更に直結しないため。</p>"},
-            {"cls": "ee","h": "✅ 生物学的製剤開始前の3大必須スクリーニング","c": "<table class=\"tb\"><tr><th>感染症</th><th>検査</th><th>陽性時の対応</th></tr><tr><td><span class=\"kw\">結核（LTBI）</span></td><td>胸部X線/CT＋<strong>IGRA</strong>（QFT・T-SPOT）</td><td>イソニアジド予防投与後に生物学的製剤開始</td></tr><tr><td><span class=\"kw\">B型肝炎（HBV）</span></td><td><strong>HBs抗原・HBs抗体・HBc抗体</strong>の3点</td><td>HBV-DNA定量でモニタリング</td></tr><tr><td><span class=\"kw\">C型肝炎（HCV）</span></td><td>HCV抗体</td><td>肝臓専門医と連携</td></tr><tr><td>真菌（PCP等）</td><td>β-D-グルカン</td><td>陽性時はST合剤を検討</td></tr></table>"},
-            {"cls": "ep","h": "📝 国試のパール","c": "<p><span class=\"kw\">生物学的製剤前の3大スクリーニング：①結核（IGRA絶対必須）②HBV（3点セット）③HCV（HCV抗体）。抗VZV抗体はルーチン検査対象外。</span></p>"}
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 抗VZV抗体（ルーチン測定は不要）",
+              "c": "<p>生物学的製剤は免疫を強く抑制するため<strong>潜伏感染の再活性化</strong>リスクが上がる。しかし<span class=\"kw\">抗VZV抗体のルーチン測定は推奨されない</span>。日本の成人の大多数がすでに抗体を保有しており、抗体価が再活性化の予測や治療方針の変更に直結しないため。</p>"
+            },
+            {
+              "cls": "ee",
+              "h": "✅ 生物学的製剤開始前の3大必須スクリーニング",
+              "c": "<table class=\"tb\"><tr><th>感染症</th><th>検査</th><th>陽性時の対応</th></tr><tr><td><span class=\"kw\">結核（LTBI）</span></td><td>胸部X線/CT＋<strong>IGRA</strong>（QFT・T-SPOT）</td><td>イソニアジド予防投与後に生物学的製剤開始</td></tr><tr><td><span class=\"kw\">B型肝炎（HBV）</span></td><td><strong>HBs抗原・HBs抗体・HBc抗体</strong>の3点</td><td>HBV-DNA定量でモニタリング</td></tr><tr><td><span class=\"kw\">C型肝炎（HCV）</span></td><td>HCV抗体</td><td>肝臓専門医と連携</td></tr><tr><td>真菌（PCP等）</td><td>β-D-グルカン</td><td>陽性時はST合剤を検討</td></tr></table>"
+            },
+            {
+              "cls": "ep",
+              "h": "📝 国試のパール",
+              "c": "<p><span class=\"kw\">生物学的製剤前の3大スクリーニング：①結核（IGRA絶対必須）②HBV（3点セット）③HCV（HCV抗体）。抗VZV抗体はルーチン検査対象外。</span></p>"
+            }
           ]
         },
         {
@@ -898,11 +1358,26 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "82歳の男性。易疲労感を主訴に来院した。3か月前から顔面が蒼白であることを指摘され、息切れと易疲労感とを自覚するようになった。2か月前から味覚異常と手足のしびれとを感じていた。3週間前から易疲労感が増悪するため受診した。20年前に胃癌に対し胃全摘術を受けたが、10年前から自らの判断で薬をやめていた。身長172cm、体重56kg。体温36.2℃。脈拍92/分、整。血圧102/66mmHg。呼吸数18/分。眼球結膜は貧血様である。眼球結膜に黄染を認めない。下腿に軽度の浮腫を認める。下腿から遠位に感覚障害を認める。血液所見：赤血球172万、Hb 6.8g/dL、Ht 21%、白血球3,300、血小板11万。血液生化学所見：総蛋白5.8g/dL、アルブミン2.8g/dL、総ビリルビン1.2mg/dL、AST 24U/L、ALT 32U/L、LD 385U/L（基準124〜222）、尿素窒素11mg/dL、クレアチニン0.9mg/dL、血糖106mg/dL。この患者に認められる所見はどれか。2つ選べ。",
           "choices": [
-            {"t": "ａ　尿中メチルマロン酸排泄量低下", "ok": false},
-            {"t": "ｂ　骨髄中赤芽球増加", "ok": true},
-            {"t": "ｃ　異食症", "ok": false},
-            {"t": "ｄ　抗内因子抗体陽性", "ok": false},
-            {"t": "ｅ　血清ビタミンB₁₂低下", "ok": true}
+            {
+              "t": "ａ　尿中メチルマロン酸排泄量低下",
+              "ok": false
+            },
+            {
+              "t": "ｂ　骨髄中赤芽球増加",
+              "ok": true
+            },
+            {
+              "t": "ｃ　異食症",
+              "ok": false
+            },
+            {
+              "t": "ｄ　抗内因子抗体陽性",
+              "ok": false
+            },
+            {
+              "t": "ｅ　血清ビタミンB₁₂低下",
+              "ok": true
+            }
           ],
           "ans_label": "ｂ　骨髄中赤芽球増加／ｅ　血清ビタミンB₁₂低下",
           "ans_sub": "胃全摘20年→内因子消失→B12吸収障害→巨赤芽球性貧血（大球性・無効造血・LD高値・末梢神経障害）。骨髄は赤芽球過形成（無効造血）、血清B12は著明低下。",
@@ -938,13 +1413,31 @@ window["_cardJSON_custom"]={
           "rate_text": "",
           "badges": [],
           "qt": "63歳の男性。突然起こった激しい後頭部痛、悪心および嘔吐を主訴に来院した。症状出現後、後頭部痛は少しやわらいだが、市販の鎮痛薬を服薬しても継続したため受診した。頭部CTを示す。現在この患者の身体所見として認められる可能性が高いのはどれか。",
-          "imgs": ["custom/images/custom_q26_img_a.png", "custom/images/custom_q26_img_b.png"],
+          "imgs": [
+            "custom/images/custom_q26_img_a.png",
+            "custom/images/custom_q26_img_b.png"
+          ],
           "choices": [
-            {"t": "ａ　手指振戦", "ok": false},
-            {"t": "ｂ　運動失調", "ok": false},
-            {"t": "ｃ　右片麻痺", "ok": false},
-            {"t": "ｄ　瞳孔不同", "ok": true},
-            {"t": "ｅ　左半身の温痛覚低下", "ok": false}
+            {
+              "t": "ａ　手指振戦",
+              "ok": false
+            },
+            {
+              "t": "ｂ　運動失調",
+              "ok": false
+            },
+            {
+              "t": "ｃ　右片麻痺",
+              "ok": false
+            },
+            {
+              "t": "ｄ　瞳孔不同",
+              "ok": true
+            },
+            {
+              "t": "ｅ　左半身の温痛覚低下",
+              "ok": false
+            }
           ],
           "ans_label": "ｄ　瞳孔不同",
           "ans_sub": "突然の激しい後頭部痛→SAH（くも膜下出血）。脳底部高吸収域（star sign）。IC-PC動脈瘤破裂→動眼神経圧迫→患側瞳孔散大＋対光反射消失→瞳孔不同。",
@@ -981,11 +1474,26 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "23歳の男性。咽頭痛、嘔吐および下痢を主訴に来院した。半年前から不特定多数の男性との性交渉を繰り返していた。2週間前から間欠的に39℃台の発熱があり、1週間前から咽頭痛が出現した。2日前から嘔吐と下痢も加わり持続するため受診した。身体所見では明らかな異常を認めなかったが、血液検査においてHIV抗原・抗体同時スクリーニング検査が陽性であり、Western blot法による抗HIV抗体測定も陽性であった。この患者の治療方針決定に有用ではない検査はどれか。",
           "choices": [
-            {"t": "ａ　血中HIV RNA定量検査", "ok": false},
-            {"t": "ｂ　抗EBNA抗体", "ok": true},
-            {"t": "ｃ　CD4陽性Tリンパ球数測定", "ok": false},
-            {"t": "ｄ　胸部CT", "ok": false},
-            {"t": "ｅ　サイトメガロウイルス抗原", "ok": false}
+            {
+              "t": "ａ　血中HIV RNA定量検査",
+              "ok": false
+            },
+            {
+              "t": "ｂ　抗EBNA抗体",
+              "ok": true
+            },
+            {
+              "t": "ｃ　CD4陽性Tリンパ球数測定",
+              "ok": false
+            },
+            {
+              "t": "ｄ　胸部CT",
+              "ok": false
+            },
+            {
+              "t": "ｅ　サイトメガロウイルス抗原",
+              "ok": false
+            }
           ],
           "ans_label": "ｂ　抗EBNA抗体",
           "ans_sub": "HIV感染確定後→治療方針決定には①HIV RNA量②CD4数③日和見感染スクリーニング（胸部CT・CMV抗原）が必須。抗EBNA抗体（EBV既感染の指標）はART方針に影響しないため不要。",
@@ -1022,11 +1530,26 @@ window["_cardJSON_custom"]={
           "badges": [],
           "qt": "36歳の女性。多発関節痛を主訴に来院した。3か月前から微熱が出現し、脱毛が増加した。2か月前から両手のこわばり、関節痛が出現した。3週間前から両手指に紅斑が出現し、先週から38℃台の発熱があり紹介受診した。体温37.4℃。脈拍96/分、整。血圧108/58mmHg。前頭部に頭髪の減少を認める。顔面に紅斑を認めない。硬口蓋粘膜に発赤とびらんを認める。両側頸部、腋窩に径1cm未満の軽度圧痛を伴うリンパ節を触知する。心音と呼吸音とに異常を認めない。両手指に凍瘡様皮疹を認める。右手関節と両手指近位指節間関節に腫脹と圧痛を認める。尿所見：蛋白2+、糖(－)、潜血2+、沈渣で赤血球10~19/HPF、変形赤血球を認める。血液所見：赤血球409万、Hb 10.5g/dL、Ht 34%、白血球2,800（好中球75%、単球7%、リンパ球18%）、血小板9.6万、PT-INR 1.1（基準0.9~1.1）、APTT 43秒（基準対照32.2）、血漿フィブリノゲン248mg/dL（基準186~355）。血液生化学所見：総蛋白7.4g/dL、アルブミン3.0g/dL、AST 23U/L、ALT 15U/L、LD 237U/L（基準120~245）、CK 26U/L（基準30~140）、尿素窒素12mg/dL、クレアチニン0.6mg/dL、血糖93mg/dL。CRP 0.1mg/dL。<br/><strong>最も考えられる</strong>のはどれか。",
           "choices": [
-            {"t": "ａ　皮膚筋炎", "ok": false},
-            {"t": "ｂ　Behçet病", "ok": false},
-            {"t": "ｃ　関節リウマチ", "ok": false},
-            {"t": "ｄ　Sjögren症候群", "ok": false},
-            {"t": "ｅ　全身性エリテマトーデス", "ok": true}
+            {
+              "t": "ａ　皮膚筋炎",
+              "ok": false
+            },
+            {
+              "t": "ｂ　Behçet病",
+              "ok": false
+            },
+            {
+              "t": "ｃ　関節リウマチ",
+              "ok": false
+            },
+            {
+              "t": "ｄ　Sjögren症候群",
+              "ok": false
+            },
+            {
+              "t": "ｅ　全身性エリテマトーデス",
+              "ok": true
+            }
           ],
           "ans_label": "ｅ　全身性エリテマトーデス",
           "ans_sub": "皮膚・粘膜症状、多関節炎、血球減少、腎ループス、抗リン脂質抗体を疑う凝固異常、そして高熱にもかかわらずCRPが上昇しないという特徴的な乖離所見がSLEに合致する。",
@@ -1051,5 +1574,4 @@ window["_cardJSON_custom"]={
       ]
     }
   ]
-}
-;
+};

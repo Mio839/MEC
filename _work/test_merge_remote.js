@@ -238,7 +238,7 @@ test('studytime: per-day max across local and remote', () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────
-console.log('myrate_v1 (total が多い方)');
+console.log('myrate_v1 (correct/total を各フィールドの最大値で統合)');
 
 test('myrate: union of distinct UIDs', () => {
   const env = makeEnv(seed({ [KR]: { a: { total: 3, correct: 2 } } }));
@@ -248,22 +248,32 @@ test('myrate: union of distinct UIDs', () => {
   assert.deepStrictEqual(mr.b, { total: 1, correct: 0 });
 });
 
-test('myrate: entry with larger total wins (local larger)', () => {
+test('myrate: field-wise max keeps larger total (local larger)', () => {
   const env = makeEnv(seed({ [KR]: { a: { total: 9, correct: 4 } } }));
   env.mergeRemote({ [KR]: { a: { total: 2, correct: 2 } } });
-  assert.strictEqual(env.getObj(KR).a.total, 9);
+  assert.deepStrictEqual(env.getObj(KR).a, { total: 9, correct: 4 });
 });
 
-test('myrate: entry with larger total wins (remote larger)', () => {
+test('myrate: field-wise max keeps larger total (remote larger)', () => {
   const env = makeEnv(seed({ [KR]: { a: { total: 1, correct: 1 } } }));
   env.mergeRemote({ [KR]: { a: { total: 8, correct: 3 } } });
-  assert.strictEqual(env.getObj(KR).a.total, 8);
+  assert.deepStrictEqual(env.getObj(KR).a, { total: 8, correct: 3 });
 });
 
-test('myrate: on equal total, local wins (>= comparison)', () => {
-  const env = makeEnv(seed({ [KR]: { a: { total: 4, correct: 4, tag: 'local' } } }));
-  env.mergeRemote({ [KR]: { a: { total: 4, correct: 0, tag: 'remote' } } });
-  assert.strictEqual(env.getObj(KR).a.tag, 'local');
+test('myrate: correct と total を独立に max（分岐した履歴を取りこぼさない）', () => {
+  // local が correct 多め、remote が total 多め → 双方の最大を採る
+  const env = makeEnv(seed({ [KR]: { a: { total: 2, correct: 2 } } }));
+  env.mergeRemote({ [KR]: { a: { total: 5, correct: 1 } } });
+  assert.deepStrictEqual(env.getObj(KR).a, { total: 5, correct: 2 });
+});
+
+test('myrate: correct <= total 不変条件が保たれる', () => {
+  const env = makeEnv(seed({ [KR]: { a: { total: 3, correct: 0 } } }));
+  env.mergeRemote({ [KR]: { a: { total: 2, correct: 2 } } });
+  const a = env.getObj(KR).a;
+  assert.strictEqual(a.total, 3);
+  assert.strictEqual(a.correct, 2);
+  assert.ok(a.correct <= a.total, 'correct must not exceed total');
 });
 
 // ─────────────────────────────────────────────────────────────────────────

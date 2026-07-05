@@ -746,11 +746,16 @@ function importBackup() {
           Object.keys(data[k]).forEach(d => { local[d] = Math.max(local[d]||0, data[k][d]||0); });
           localStorage.setItem(k, JSON.stringify(local));
         });
-        // myrate: total が多い方を優先
+        // myrate: correct/total を各フィールドの最大値で統合（progress.js の _mergeRemote と同一方針）
         if (data.myrate_v1) {
           const lr = JSON.parse(localStorage.getItem('myrate_v1') || '{}');
           Object.keys(data.myrate_v1).forEach(uid => {
-            if (!lr[uid] || (data.myrate_v1[uid].total||0) > (lr[uid].total||0)) lr[uid] = data.myrate_v1[uid];
+            const r = data.myrate_v1[uid], l = lr[uid];
+            if (!l) { lr[uid] = r; return; }
+            lr[uid] = {
+              correct: Math.max(l.correct || 0, r.correct || 0),
+              total: Math.max(l.total || 0, r.total || 0),
+            };
           });
           localStorage.setItem('myrate_v1', JSON.stringify(lr));
         }
