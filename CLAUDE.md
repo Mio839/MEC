@@ -64,6 +64,45 @@
 - `🚩` 赤旗ボタン（`mecToggleFlag`）
 - `済` 周回ボタン（`mecIncrLap`）: 押すたびに周回数 +1、数字が横に表示
 
+## 試験モードの演出エフェクト仕様
+
+試験モード（🎓）で選択肢を選んだ瞬間に発火する視覚エフェクトの仕様。実装は `study_exam.js`（統合study.html用）と `chapter_exam.js`（章別過去問用・同一配色をミラー）。CSSアニメの一部は `study.css`。パーティクル描画は `fx_engine.js`（`window.MecFX`）。
+
+### 演出セット（テーマ）
+- 全7セット: `classic` / `neon` / `ink` / `ecg` / `space` / `retro` / `luxury`（`EXAM_EFFECT_SETS`）。定義本体は `EXAM_EFFECT_THEMES`（study_exam.js）。
+- **試験開始ごとにランダム選択**（ユーザー選択UIは無い・localStorage永続もしない）。`EXAM_EFFECT_POOL` は classic を1票・他を各2票の重み付き（classicは他の半分の確率）。
+- セットは正解／連続正解エフェクトの見た目（配色パレット・絵文字・ラベル・雷/紙吹雪/花火などのON/OFF）を丸ごと切り替える。各テーマは `burstPalettes` `labels(n)` `comboLabel(n)` `comboColors` `fullscreenCols/Glow` `flashColors` `borderColors` `meterGrads` `floaterGlyphs` `correctEmoji` `use*`（useConfetti/useFireworks/useLightning/useGlitch 等のフラグ）を持つ。
+- ⚠️ `body.exam-effect-*` クラスのCSS定義は `neon`/`ink` のみ（`study.css`）。他セット（ecg/space/retro/luxury）はJS（`EXAM_EFFECT_THEMES` + `MecFX`）だけで描画される。classicは `body` クラス無し。
+
+### 正解時（単発・連続数に関係なく毎回）
+`_triggerChoiceCorrectPop()`:
+- 選んだ選択肢を pop（scale+brightness、420ms）＋カードを bounce（480ms）＋ `popOverlay` 色オーバーレイをカードに重ねてフェード。
+- フローティングコンボ `_spawnFloatingCombo()`: カード上に浮かぶ数字。連続1（＝単発）は `+1`、2以上は `comboLabel(n)`（例 classic=`×n COMBO!`）。上へ飛んで消える（900ms）。
+- classic以外は `correctEmoji`（例 neon=`⚡️💠🔷`）を6個バースト（`MecFX.glyphBurst`）。
+
+### 連続正解時（ストリーク）
+連続数 `examStreak` は正解で+1、**不正解で0にリセット**。ティア判定 `_examTier(n)`:
+
+| tier | 連続数 n |
+|---|---|
+| 1 | 2〜3 |
+| 2 | 4〜6 |
+| 3 | 7〜9 |
+| 4 | 10〜14 |
+| 5 | 15〜19 |
+| 6 | 20〜 |
+
+`_showStreakEffect(n)` は **n≥2 でのみ発火**し、tierに応じて段階的に増える:
+- **全tier(≥2)**: 上部トースト（`t1`〜`t6`、`labels[tier]` 例 classic=`🔥 n連続！！`）＋ 背景ブレス（`_triggerBgBreath`）＋ コンボ音（`_playComboNote`・設定キー `mec_combo_sound_v1`）＋ 上端コンボメーター（`_updateComboMeter`）
+- **tier≥2**: 画面中央に特大 `×n`（`_triggerFullscreenCombo`）＋ 全画面フラッシュ（`flashColors`）＋ ストリーク粒子（`_spawnStreakParticles`）
+- **tier≥3**: 画面シェイク（`_triggerScreenShake`）
+- **tier≥4**: タイムストップ暗転（`_triggerTimeStop`）＋ 画面外周ボーダーグロー（`_triggerBorderGlow`）＋ フラッシュが複数回パルス
+- **tier≥5**: 絵文字フローター群（`floaterGlyphs`）＋ グリッチ（`useGlitch`）or 墨スワイプ（`useBrushSwipe`）＋ dust（luxury/space）
+- 個別フラグで花火・雷・紙吹雪・CRT・ECGスイープ・ブラックホール等がテーマごとに追加（`use*`）。
+
+### 章別（chapter_exam.js）との関係
+過去問ビューア側は `CE_EFFECT_THEMES` / `CE_EFFECT_POOL` として同一配色をミラー実装。片方の配色・ラベルを変えたら**もう片方も合わせる**こと（乖離リスク・改善案バックログ参照）。
+
 ## 複数デバイス同期
 
 GitHub Gist API で `mec_progress.json` に進捗を保存。
