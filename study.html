@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MEC 統合学習ツール (4802問)</title>
+<script>
+// iOS/iPadOS の WebKit は content-visibility:auto 自体に描画バグがあり、スクロールで
+// カードが空白化・背景裏にちらつく（2026-07-07 iPad Brave 実機確認。セクション側の
+// 入れ子解消後も再現したためカード側ごと無効化する）。study.css がこのクラスを見て
+// .qc の描画スキップと backdrop-filter を外す。
+// iPadOS はデスクトップ表示モードだと UA が Macintosh になるため maxTouchPoints でも判定。
+if (/iP(ad|hone|od)/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) {
+  document.documentElement.classList.add('ios-no-cv');
+}
+</script>
 <script src="progress.js"></script>
 <script src="fx_engine.js"></script>
 <script src="fixed_uids.js"></script>
