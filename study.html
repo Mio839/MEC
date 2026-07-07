@@ -257,6 +257,11 @@ if ('serviceWorker' in navigator) {
 </div>
 
 <div class="ct">
+<div id="mecNoSubj" style="display:none;text-align:center;color:var(--ts,rgba(255,255,255,.6));padding:56px 20px;font-size:14px;line-height:1.9;">
+  <div style="font-size:34px;margin-bottom:10px;">📚</div>
+  上の科目バーから学習したい科目を選んでください。<br>
+  選んだ科目だけを読み込みます（動作を軽くするため）。
+</div>
 <div class="subj-section" data-sid="endo" data-visible="true">
 <div class="subj-hdr" style="background:#00838F"><span class="subj-hdr-icon">⚗️</span><span class="subj-hdr-name">内分泌</span><span class="subj-hdr-count">542問</span></div>
 <div class="subj-cards-loading" data-sid="endo">読み込み中...</div>
@@ -534,8 +539,14 @@ function _refreshCache() {
 
 window.mecMarkStale = function() { _cacheStale = true; };
 
+function _updateEmptyState() {
+  const el = document.getElementById('mecNoSubj');
+  if (el) el.style.display = selectedSubjects.size === 0 ? '' : 'none';
+}
+
 function applyFilters() {
   if (examMode) return;
+  _updateEmptyState();
   if (!_cards.length) return;
   if (_cacheStale) _refreshCache();
   const f = currentFilter, st = currentState, search = currentSearch;
@@ -881,11 +892,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedState = localStorage.getItem('mec_state_v1');
   if (savedState) { currentState = savedState; document.querySelectorAll('[data-state]').forEach(b => b.classList.toggle('fs-on', b.dataset.state === savedState)); }
 
-  // 初回訪問（localStorage未設定）は全科目をデフォルト選択
-  if (selectedSubjects.size === 0) {
-    STUDY_SUBJECTS.forEach(s => selectedSubjects.add(s.id));
-    _syncChipStyles();
-  }
+  // 初回訪問（localStorage未設定）はどの科目も未選択のままにする（軽量な初期状態）。
+  // 上の科目バーから選ぶと _fetchSubjectCards で読み込まれる。チップ表示状態を反映。
+  _syncChipStyles();
 
   const _initialSids = [...selectedSubjects];
   function _removeLoader() {
