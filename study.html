@@ -315,6 +315,9 @@ if ('serviceWorker' in navigator) {
 <div class="subj-cards-loading" data-sid="custom">読み込み中...</div>
 </div>
 
+<!-- SRS復習でdue問題だけを起こす専用ホスト（通常は非表示・復習中のみ表示） -->
+<div id="srsReviewHost" style="display:none"></div>
+
 </div>
 
 <script>
@@ -1191,6 +1194,65 @@ function _updateSRS(uid, isCorrect) {
   _saveSRS();
 }
 
+// ── SRS復習用: due問題だけをDOMに起こす仕組み ────────────────────────────────
+// 従来は復習対象がある科目を「まるごと」読み込んでいたため、dueが数十問でも
+// 数千枚のカードを描画してから始まり、立ち上がりが遅かった。ここではdue問題だけを
+// 専用ホスト(#srsReviewHost)に描画する。全dueをシャッフルしたまま出せるので
+// 科目ミックスの復習効果も保たれる。既にロード済みの科目は既存カードを流用する。
+
+// 科目JSONを取得するだけ（描画しない）。fetch失敗時は.jsフォールバック。
+function _fetchSubjectJson(sid) {
+  return fetch('questions_' + sid + '.json')
+    .then(r => { if (!r.ok) throw new Error('http'); return r.json(); })
+    .catch(() => new Promise(resolve => {
+      if (window['_cardJSON_' + sid]) return resolve(window['_cardJSON_' + sid]);
+      const sc = document.createElement('script');
+      sc.src = 'questions_' + sid + '.js';
+      sc.onload = () => resolve(window['_cardJSON_' + sid] || null);
+      sc.onerror = () => resolve(null);
+      document.head.appendChild(sc);
+    }));
+}
+
+function _srsHostShow() { const h = document.getElementById('srsReviewHost'); if (h) h.style.display = ''; }
+function _srsHostHide() { const h = document.getElementById('srsReviewHost'); if (h) h.style.display = 'none'; }
+function _srsHostClear() { const h = document.getElementById('srsReviewHost'); if (h) { h.innerHTML = ''; h.style.display = 'none'; } }
+window._srsHostShow = _srsHostShow;
+window._srsHostHide = _srsHostHide;
+window._srsHostClear = _srsHostClear;
+
+// due問題を科目別にまとめ、未ロード科目のみdueカードをホストへ描画する。
+async function _renderDueCardsForReview(dueUids) {
+  const host = document.getElementById('srsReviewHost');
+  if (!host) return;
+  host.innerHTML = '';
+  const bySid = new Map();
+  dueUids.forEach(uid => {
+    const sid = uid.split('_ch')[0];
+    if (!STUDY_SUBJECTS.find(s => s.id === sid)) return;
+    if (!bySid.has(sid)) bySid.set(sid, []);
+    bySid.get(sid).push(uid);
+  });
+  // 未ロード科目のJSONを並列取得（ロード済み科目は既存カードを流用するので取得不要）
+  const targets = [...bySid.entries()].filter(([sid]) => !_loadedSids.has(sid));
+  const datas = await Promise.all(targets.map(([sid]) => _fetchSubjectJson(sid)));
+  targets.forEach(([sid, uids], i) => {
+    const data = datas[i];
+    if (!data || !data.chapters) return;
+    const qByUid = {};
+    data.chapters.forEach(ch => (ch.qs || []).forEach(q => { qByUid[q.uid] = q; }));
+    const htmlParts = [];
+    uids.forEach(uid => {
+      const q = qByUid[uid];
+      if (!q) return;
+      if (document.querySelector(`.qc[data-uid="${uid}"]`)) return; // 既にDOMにあれば重複回避
+      htmlParts.push(window._renderCardFromJson(q));
+    });
+    if (htmlParts.length) host.appendChild(document.createRange().createContextualFragment(htmlParts.join('')));
+  });
+  _applyFixedBadges(host);
+}
+
 // ── SRS Review Session ────────────────────────────────────────────────────────
 async function startSRSReview() {
   const today = _today();
@@ -1205,25 +1267,21 @@ async function startSRSReview() {
     return;
   }
 
-  // 必要な科目を特定してロード
-  const neededSids = new Set(
-    dueUids.map(uid => uid.split('_ch')[0])
-           .filter(sid => STUDY_SUBJECTS.find(s => s.id === sid))
-  );
-  neededSids.forEach(sid => selectedSubjects.add(sid));
-  _syncChipStyles();
-  await Promise.all([...neededSids].map(sid => _fetchSubjectCards(sid)));
-  neededSids.forEach(sid => { if (!_cachedSids.has(sid)) _buildSectionCache(sid); });
+  // due問題だけを起こす（科目まるごとの読み込みはしない）
+  _srsHostClear();
+  await _renderDueCardsForReview(dueUids);
 
   const availableUids = dueUids.filter(uid => {
     const card = document.querySelector(`.qc[data-uid="${uid}"]`);
     return !!card && !_isScoreExcluded(card);
   });
   if (!availableUids.length) {
+    _srsHostClear();
     alert('問題が見つかりませんでした。ページを再読み込みしてください。');
     return;
   }
 
+  _srsHostShow();
   _srsReviewMode = true;
   _examFilterLabel = 'SRS復習';
   startExam(availableUids);
@@ -1247,6 +1305,12 @@ function reviewWrongAnswers() {
   const txt = document.getElementById('reviewBannerTxt');
   if (banner) banner.classList.add('show');
   if (txt) txt.textContent = '❌ 誤答 ' + examWrong.length + '問 — 解説を確認してください';
+  // SRS復習の誤答カードはホスト内にあるため、誤答のみ表示してホストを見せる
+  _srsHostShow();
+  const _srsHost = document.getElementById('srsReviewHost');
+  if (_srsHost) _srsHost.querySelectorAll('.qc[data-uid]').forEach(c => {
+    c.style.display = _reviewUids.has(c.dataset.uid) ? '' : 'none';
+  });
   // 誤答した選択肢をカード上にマーク
   const storedChoices = JSON.parse(localStorage.getItem('mec_choice_v1') || '{}');
   examWrong.forEach(uid => {
@@ -1273,6 +1337,7 @@ function clearReviewMode() {
   document.querySelectorAll('.ch2.exam-review-chosen').forEach(el => el.classList.remove('exam-review-chosen'));
   const banner = document.getElementById('reviewBanner');
   if (banner) banner.classList.remove('show');
+  _srsHostClear(); // SRS復習のdueカードを片付ける
   _cacheStale = true;
   applyFilters();
 }
@@ -1530,6 +1595,9 @@ function _fetchSubjectCards(sid) {
     const frag = document.createRange().createContextualFragment(html);
     section.appendChild(frag);
     _applyFixedBadges(section);
+    // SRS復習ホストに同科目のdueカードが残っていれば除去（data-uid重複を防ぐ）
+    const _srsHost = document.getElementById('srsReviewHost');
+    if (_srsHost) _srsHost.querySelectorAll('.qc[data-uid^="' + sid + '_ch"]').forEach(c => c.remove());
     section.dataset.loaded = 'true';
     _loadedSids.add(sid);
     _pendingLoads.delete(sid);

@@ -87,4 +87,6 @@
   // Replaces _fetchSubjectCards for JSON-based loading.
   // Called from study.html after this file is loaded.
   window._renderSubjectFromJson = renderSubject;
+  // 単一問題のカードHTMLを描画（SRS復習でdueカードだけを起こす用途）。
+  window._renderCardFromJson = renderCard;
 })();

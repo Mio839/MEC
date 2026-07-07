@@ -434,6 +434,9 @@ function _buildExamQueue(cards) {
 
 function startExam(overrideUids = null) {
   if (!overrideUids) closeExamStart();
+  // SRS復習ホスト（dueカード）を表示状態にしておく。通常試験ではホストは空か、
+  // キュー外のカードは直後に display:none にされるため無害。
+  window._srsHostShow?.();
   _prepareSelectSound();
   if (_correctSound === 'custom') _prepareCustomCorrectSound();
   const chFilter = !overrideUids ? _examChPrefix : null;
@@ -2030,6 +2033,8 @@ function exitExam() {
   const _cmMeter = document.getElementById('examComboMeter');
   if (_cmFill) { _cmFill.getAnimations?.().forEach(a => a.cancel()); _cmFill.style.width = '0%'; }
   if (_cmMeter) { _cmMeter.getAnimations?.().forEach(a => a.cancel()); _cmMeter.style.opacity = '0'; }
+  // SRS復習ホストを隠す（誤答復習/再試験で再表示される。通常閲覧への漏れを防ぐ）
+  window._srsHostHide?.();
   // サマリーを先に表示してから後処理（後処理でエラーが出てもモーダルが開く）
   try { showExamSummary(); } catch(e) { console.error('showExamSummary error:', e); document.getElementById('examOverlay')?.classList.add('open'); }
   _srsReviewMode = false;
