@@ -300,8 +300,11 @@ body.exam-mode .exam-prog{display:flex;}
 .ct{max-width:900px;margin:0 auto;padding:14px 12px 60px;}
 
 .subj-section[data-visible="false"]{display:none;}
-.subj-section[data-visible="true"]{content-visibility:auto;contain-intrinsic-block-size:auto 300000px;}
-.exam-mode .subj-section{content-visibility:visible;}
+/* ⚠️ .subj-section に content-visibility:auto を付けてはいけない。
+   .qc（カード側）も content-visibility:auto を持つため入れ子になり、iOS WebKit の
+   既知バグ（入れ子の内側がスクロールで再描画されず永久に空白）を踏む。
+   2026-07-07 iPad Brave で「スクロールするとカードが全く出なくなる」実害を確認して撤去。
+   セクションは素のブロックのまま＝描画スキップはカード単位（.qc）だけで行う。 */
 .subj-hdr{display:none;}
 .subj-hdr-icon{font-size:18px;}
 .subj-hdr-name{font-size:13px;font-weight:800;}
@@ -338,7 +341,7 @@ mark.sh{background:rgba(255,215,0,.28);color:inherit;border-radius:2px;padding:0
 .ch2.exam-review-chosen:not(.ok)::after{content:' ← あなたの選択';font-size:10px;color:var(--rd);font-weight:700;opacity:.85;}
 
 /* ── Glass question cards ── */
-.qc{background:rgba(255,255,255,.06);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08);margin-bottom:12px;border:1px solid rgba(255,255,255,.1);border-left:3px solid var(--or);overflow:hidden;transition:box-shadow .2s,transform .15s;contain:layout style;content-visibility:auto;contain-intrinsic-block-size:auto 300px;}
+.qc{background:rgba(255,255,255,.06);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08);margin-bottom:12px;border:1px solid rgba(255,255,255,.1);border-left:3px solid var(--or);overflow:hidden;transition:box-shadow .2s,transform .15s;contain:layout style;content-visibility:auto;contain-intrinsic-block-size:300px;contain-intrinsic-block-size:auto 300px;}
 /* ジャンプ到達カードの一瞬のハイライト */
 @keyframes mecJumpFlash{0%{box-shadow:0 0 0 3px var(--yl),0 0 22px rgba(255,184,48,.5);}100%{box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08);}}
 .qc.mec-jump-flash{animation:mecJumpFlash 1.2s ease forwards;}
