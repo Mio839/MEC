@@ -55,6 +55,7 @@ if ('serviceWorker' in navigator) {
     <button class="chip" data-sid="kansen" onclick="toggleSubjectChip(this,'kansen')">🦠&nbsp;感染症</button>
     <button class="chip" data-sid="peds" onclick="toggleSubjectChip(this,'peds')">🧸&nbsp;小児科</button>
     <button class="chip" data-sid="custom" onclick="toggleSubjectChip(this,'custom')">✏️&nbsp;自作問題</button>
+    <button class="chip" data-sid="memo" onclick="toggleSubjectChip(this,'memo')">📝&nbsp;暗記メモ</button>
   </div>
   <div class="filter-row">
     <button class="nb fc-on" data-filter="all" onclick="setFilter('all')">全問</button>
@@ -314,6 +315,10 @@ if ('serviceWorker' in navigator) {
 <div class="subj-hdr" style="background:#5C3D99"><span class="subj-hdr-icon">✏️</span><span class="subj-hdr-name">自作問題</span><span class="subj-hdr-count" id="custom-count">0問</span></div>
 <div class="subj-cards-loading" data-sid="custom">読み込み中...</div>
 </div>
+<div class="subj-section" data-sid="memo" data-visible="true">
+<div class="subj-hdr" style="background:#455A64"><span class="subj-hdr-icon">📝</span><span class="subj-hdr-name">暗記メモ</span><span class="subj-hdr-count" id="memo-count">0問</span></div>
+<div class="subj-cards-loading" data-sid="memo">読み込み中...</div>
+</div>
 
 <!-- SRS復習でdue問題だけを起こす専用ホスト（通常は非表示・復習中のみ表示） -->
 <div id="srsReviewHost" style="display:none"></div>
@@ -321,7 +326,7 @@ if ('serviceWorker' in navigator) {
 </div>
 
 <script>
-const STUDY_SUBJECTS = [{"id": "endo", "name": "内分泌", "icon": "⚗️", "color": "#00838F"}, {"id": "resp", "name": "呼吸器", "icon": "🌬️", "color": "#1565C0"}, {"id": "circ", "name": "循環器", "icon": "❤️", "color": "#C62828"}, {"id": "dige", "name": "消化器", "icon": "🌿", "color": "#6A1B9A"}, {"id": "neur", "name": "神経", "icon": "🧠", "color": "#2E7D32"}, {"id": "hbp", "name": "肝胆膵", "icon": "🧪", "color": "#E65100"}, {"id": "jinzo_d", "name": "腎臓", "icon": "💧", "color": "#78909C"}, {"id": "hema", "name": "血液", "icon": "🩸", "color": "#B71C1C"}, {"id": "imma", "name": "免アレ膠", "icon": "🛡️", "color": "#AD1457"}, {"id": "kansen", "name": "感染症", "icon": "🦠", "color": "#00695C"}, {"id": "peds", "name": "小児科", "icon": "🧸", "color": "#EC407A"}, {"id": "jitsu1", "name": "実力試験Ⅰ", "icon": "🎯", "color": "#283593"}, {"id": "custom", "name": "自作問題", "icon": "✏️", "color": "#5C3D99"}];
+const STUDY_SUBJECTS = [{"id": "endo", "name": "内分泌", "icon": "⚗️", "color": "#00838F"}, {"id": "resp", "name": "呼吸器", "icon": "🌬️", "color": "#1565C0"}, {"id": "circ", "name": "循環器", "icon": "❤️", "color": "#C62828"}, {"id": "dige", "name": "消化器", "icon": "🌿", "color": "#6A1B9A"}, {"id": "neur", "name": "神経", "icon": "🧠", "color": "#2E7D32"}, {"id": "hbp", "name": "肝胆膵", "icon": "🧪", "color": "#E65100"}, {"id": "jinzo_d", "name": "腎臓", "icon": "💧", "color": "#78909C"}, {"id": "hema", "name": "血液", "icon": "🩸", "color": "#B71C1C"}, {"id": "imma", "name": "免アレ膠", "icon": "🛡️", "color": "#AD1457"}, {"id": "kansen", "name": "感染症", "icon": "🦠", "color": "#00695C"}, {"id": "peds", "name": "小児科", "icon": "🧸", "color": "#EC407A"}, {"id": "jitsu1", "name": "実力試験Ⅰ", "icon": "🎯", "color": "#283593"}, {"id": "custom", "name": "自作問題", "icon": "✏️", "color": "#5C3D99"}, {"id": "memo", "name": "暗記メモ", "icon": "📝", "color": "#455A64"}];
 // Study time tracking
 let _studyStartTime = Date.now();
 let _studyTimeSaved = false;
@@ -1100,11 +1105,16 @@ window.addEventListener('pagehide', function() {
 // ── Search Highlight (C) ─────────────────────────────────────────────────────
 const _shMap = new Map(); // card el → original .qt innerHTML
 
+// innerHTML書き換えは重いので先頭N枚まで（全科目選択＋短い検索語で数千枚が
+// ヒットすると、キー入力のたびに全カード書き換えでiPadが固まるのを防ぐ）
+const _SH_MAX = 200;
+
 function _applySearchHighlight(term) {
   if (!term) { _clearSearchHighlight(); return; }
   const re = new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+  let applied = 0;
   for (const m of _cards) {
-    if (m.el.style.display === 'none') {
+    if (m.el.style.display === 'none' || applied >= _SH_MAX) {
       if (_shMap.has(m.el)) {
         const qt = m.el.querySelector('.qt');
         if (qt) qt.innerHTML = _shMap.get(m.el);
@@ -1116,6 +1126,7 @@ function _applySearchHighlight(term) {
     if (!qt) continue;
     if (!_shMap.has(m.el)) _shMap.set(m.el, qt.innerHTML);
     qt.innerHTML = _shMap.get(m.el).replace(re, '<mark class="sh">$&</mark>');
+    applied++;
   }
 }
 
@@ -1601,9 +1612,9 @@ function _fetchSubjectCards(sid) {
     section.dataset.loaded = 'true';
     _loadedSids.add(sid);
     _pendingLoads.delete(sid);
-    if (sid === 'custom') {
+    if (sid === 'custom' || sid === 'memo') {
       const n = data.chapters.reduce((s, ch) => s + (ch.qs ? ch.qs.length : 0), 0);
-      const el = document.getElementById('custom-count');
+      const el = document.getElementById(sid + '-count');
       if (el) el.textContent = n + '問';
     }
   }
