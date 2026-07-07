@@ -437,6 +437,7 @@ function startExam(overrideUids = null) {
   // SRS復習ホスト（dueカード）を表示状態にしておく。通常試験ではホストは空か、
   // キュー外のカードは直後に display:none にされるため無害。
   window._srsHostShow?.();
+  document.getElementById('examFinishBtn')?.remove(); // 前回の結果ボタンが残っていれば除去
   _prepareSelectSound();
   if (_correctSound === 'custom') _prepareCustomCorrectSound();
   const chFilter = !overrideUids ? _examChPrefix : null;
@@ -592,6 +593,7 @@ function revealAnswer(card) {
     _saveExamResume();
     requestAnimationFrame(_updateExamFocus);
     if (isCorrect) setTimeout(() => _scrollToNextCard(card), 500);
+    else _maybeShowFinishBtn();
     return;
   }
 
@@ -631,6 +633,7 @@ function revealAnswer(card) {
     _updateExamProg();
     _saveExamResume();
     requestAnimationFrame(_updateExamFocus);
+    _maybeShowFinishBtn();
   }
 }
 
@@ -1672,10 +1675,42 @@ function _updateMultiInfo(card) {
   if (info) { info.textContent = sel + ' / ' + req + ' 選択中'; info.dataset.ready = sel >= req ? '1' : '0'; }
 }
 
+// 全問回答し終えたら「結果画面に進む」ボタンを最後の問題カードの直後に表示する。
+// 正解/不正解を問わず、最後の1問を終えた時点で呼ばれる（自動では結果へ飛ばさない）。
+function _maybeShowFinishBtn() {
+  if (!examMode || !examQueue.length) return null;
+  const remaining = examQueue.filter(c => !c.classList.contains('exam-revealed'));
+  let btn = document.getElementById('examFinishBtn');
+  if (remaining.length) { if (btn) btn.remove(); return null; } // まだ未回答が残る
+  if (btn) return btn;
+  btn = document.createElement('button');
+  btn.id = 'examFinishBtn';
+  btn.className = 'exam-finish-btn';
+  btn.textContent = '📊 結果画面に進む';
+  btn.onclick = () => { btn.disabled = true; exitExam(); };
+  // DOM順で最後の試験カードの直後に挿入
+  const ordered = examQueue.slice().sort((a, b) =>
+    (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1);
+  const lastCard = ordered[ordered.length - 1];
+  if (lastCard && lastCard.parentNode) lastCard.after(btn);
+  else (document.querySelector('.ct') || document.body).appendChild(btn);
+  return btn;
+}
+
+function _showFinishAndScroll() {
+  const btn = _maybeShowFinishBtn();
+  if (!btn) return;
+  requestAnimationFrame(() => {
+    const hdr = document.querySelector('.st-hdr');
+    const y = btn.getBoundingClientRect().top + window.scrollY - (hdr ? hdr.offsetHeight + 20 : 20);
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+  });
+}
+
 function _scrollToNextCard(fromCard) {
   const allShown = [...document.querySelectorAll('.qc[data-uid]')].filter(c => c.style.display !== 'none');
   const unrevealed = allShown.filter(c => !c.classList.contains('exam-revealed'));
-  if (!unrevealed.length) { exitExam(); return; }
+  if (!unrevealed.length) { _showFinishAndScroll(); return; }
   let next;
   if (fromCard) {
     const idx = allShown.indexOf(fromCard);
@@ -2006,6 +2041,7 @@ function exitExam() {
   }
   _restoreChoices();
   document.querySelectorAll('.exam-reveal-btn').forEach(b => b.remove());
+  document.getElementById('examFinishBtn')?.remove();
   document.querySelectorAll('.qc.exam-revealed').forEach(c => c.classList.remove('exam-revealed', 'exam-multi-correct', 'exam-answer-opened'));
   document.querySelectorAll('.ch2.exam-selected').forEach(c => c.classList.remove('exam-selected'));
   document.querySelectorAll('.ch2.exam-instant-correct').forEach(c => c.classList.remove('exam-instant-correct'));
