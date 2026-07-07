@@ -188,7 +188,10 @@ body.exam-mode .qc:has(.exam-instant-wrong){animation:cardWrongGlow .8s ease for
 #examStreakFlash{position:fixed;inset:0;pointer-events:none;z-index:9050;opacity:0;}
 #examStreakFlash.flash{animation:streakFlashIn .75s ease forwards;}
 #examStreakBorder{position:fixed;inset:0;pointer-events:none;z-index:9045;opacity:0;}
-#examTimestopOv{position:fixed;inset:0;z-index:9000;backdrop-filter:grayscale(.9) blur(1.8px) brightness(.72);-webkit-backdrop-filter:grayscale(.9) blur(1.8px) brightness(.72);pointer-events:none;opacity:0;}
+/* display:none を既定に。JSがタイムストップ演出中だけ display を空にして表示する。
+   これがないと backdrop-filter を持つ全画面要素が常時重なり、一部端末（iPad/WebKit）で
+   画面が暗いまま残る不具合につながる。 */
+#examTimestopOv{position:fixed;inset:0;z-index:9000;backdrop-filter:grayscale(.9) blur(1.8px) brightness(.72);-webkit-backdrop-filter:grayscale(.9) blur(1.8px) brightness(.72);pointer-events:none;opacity:0;display:none;}
 #streakFullscreen{position:fixed;inset:0;z-index:9080;display:flex;align-items:center;justify-content:center;pointer-events:none;font-weight:900;line-height:1;font-size:42vmin;letter-spacing:-.04em;opacity:0;}
 .streak-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:9055;}
 @keyframes rainbowHue{0%{filter:hue-rotate(0deg);}100%{filter:hue-rotate(360deg);}}
@@ -330,6 +333,9 @@ mark.sh{background:rgba(255,215,0,.28);color:inherit;border-radius:2px;padding:0
 
 /* ── Glass question cards ── */
 .qc{background:rgba(255,255,255,.06);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08);margin-bottom:12px;border:1px solid rgba(255,255,255,.1);border-left:3px solid var(--or);overflow:hidden;transition:box-shadow .2s,transform .15s;contain:layout style;content-visibility:auto;contain-intrinsic-block-size:auto 300px;}
+/* ジャンプ到達カードの一瞬のハイライト */
+@keyframes mecJumpFlash{0%{box-shadow:0 0 0 3px var(--yl),0 0 22px rgba(255,184,48,.5);}100%{box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08);}}
+.qc.mec-jump-flash{animation:mecJumpFlash 1.2s ease forwards;}
 .qc:hover{box-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.1);transform:translateY(-1px);}
 .qh{display:flex;align-items:center;gap:7px;padding:11px 15px 7px;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.07);}
 .qn{font-size:14px;font-weight:900;color:#7BB3FF;min-width:30px;}

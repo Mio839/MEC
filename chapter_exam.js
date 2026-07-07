@@ -134,7 +134,7 @@
       '#chExamComboMeter{position:fixed;top:0;left:0;right:0;height:3px;z-index:9300;pointer-events:none;opacity:0;transition:opacity .3s;}',
       '#chExamComboMeterFill{height:100%;width:0%;transition:width .35s cubic-bezier(.22,.68,0,1.25),background .4s;}',
       '#chStreakFullscreen{position:fixed;inset:0;z-index:9080;display:flex;align-items:center;justify-content:center;pointer-events:none;font-weight:900;line-height:1;font-size:42vmin;letter-spacing:-.04em;opacity:0;}',
-      '#chTimestopOv{position:fixed;inset:0;z-index:9000;backdrop-filter:grayscale(.9) blur(1.8px) brightness(.72);-webkit-backdrop-filter:grayscale(.9) blur(1.8px) brightness(.72);pointer-events:none;opacity:0;}',
+      '#chTimestopOv{position:fixed;inset:0;z-index:9000;backdrop-filter:grayscale(.9) blur(1.8px) brightness(.72);-webkit-backdrop-filter:grayscale(.9) blur(1.8px) brightness(.72);pointer-events:none;opacity:0;display:none;}',
       /* history badge */
       '.ce-hist-badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(255,154,60,.15);color:#FF9A3C;border:1px solid rgba(255,154,60,.3);white-space:nowrap;margin-left:6px;cursor:default;}',
       '.ce-hist-badge.good{background:rgba(61,214,140,.15);color:#3DD68C;border-color:rgba(61,214,140,.3);}',
@@ -1281,9 +1281,14 @@
   function ceTimeStop(tier) {
     var ov = document.getElementById('chTimestopOv');
     if (!ov) return;
+    ov.style.display = '';
     var holdMs = tier >= 6 ? 400 : tier >= 5 ? 300 : 220;
-    ov.animate([{opacity:1},{opacity:1},{opacity:0}],
-      {duration:holdMs+150, easing:'ease-in', fill:'forwards', composite:'replace', iterationComposite:'replace'});
+    var anim = ov.animate([{opacity:1},{opacity:1},{opacity:0}],
+      {duration:holdMs+150, easing:'ease-in', composite:'replace', iterationComposite:'replace'});
+    // 演出後は display:none に戻す（backdrop-filter の暗転が残らないように）
+    var hide = function(){ ov.style.display = 'none'; };
+    anim.onfinish = hide;
+    anim.oncancel = hide;
   }
 
   function ceFullscreenCombo(n, tier) {

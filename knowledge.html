@@ -79,6 +79,19 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .kn-link{color:var(--card-color,var(--or));font-weight:700;text-decoration:underline;text-decoration-style:dotted;cursor:pointer;}
 .kn-link:hover{opacity:.8;}
 .kn-card.kn-flash{box-shadow:0 0 0 3px var(--card-color,var(--or));}
+
+/* ── 並べ替えモード（カード長押しで起動） ── */
+body.kn-reorder .kn-card{touch-action:none;-webkit-user-select:none;user-select:none;}
+body.kn-reorder .kn-card-hdr{cursor:grab;}
+body.kn-reorder .kn-card-hdr::after{content:'≡';margin-left:6px;font-size:16px;color:var(--ts);flex-shrink:0;}
+body.kn-reorder .kn-toggle-arrow{display:none;}
+body.kn-reorder .kn-card{box-shadow:0 0 0 1px rgba(255,255,255,.12);}
+.kn-card.kn-dragging{opacity:.9;transform:scale(1.02);box-shadow:0 10px 30px rgba(0,0,0,.55),0 0 0 2px var(--card-color,var(--or));position:relative;z-index:50;}
+.kn-card.kn-drop-target{outline:2px dashed var(--card-color,var(--or));outline-offset:2px;}
+#knReorderBar{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:300;display:none;align-items:center;gap:10px;background:rgba(5,10,22,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.18);border-radius:24px;padding:8px 10px 8px 16px;box-shadow:0 8px 30px rgba(0,0,0,.5);}
+body.kn-reorder #knReorderBar{display:flex;}
+#knReorderBar .kn-rb-txt{font-size:12px;font-weight:700;color:var(--ts);}
+#knReorderBar .kn-rb-done{font-size:12px;font-weight:800;color:#fff;background:var(--or,#FF9A3C);border:none;border-radius:18px;padding:6px 14px;cursor:pointer;font-family:inherit;}
 </style>
 </head>
 <body>
@@ -96,6 +109,11 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 </header>
 
 <main class="kn-main" id="notesContainer"></main>
+
+<div id="knReorderBar">
+  <span class="kn-rb-txt">↕ ドラッグで並べ替え</span>
+  <button class="kn-rb-done" onclick="exitReorder()">完了</button>
+</div>
 
 <script>
 let activeSubject = 'すべて';
@@ -123,8 +141,41 @@ function setSubject(s) {
 }
 
 function toggleCard(id) {
+  // 並べ替えモード中・ドラッグ直後はカードの開閉を無効化する
+  if (document.body.classList.contains('kn-reorder') || _knSuppressClick) return;
   const card = document.getElementById('card_' + id);
   if (card) card.classList.toggle('open');
+}
+
+// ── カスタム並び順（長押しドラッグで変更・localStorage永続） ───────────────────
+const KN_ORDER_KEY = 'mec_knowledge_order_v1';
+function loadKnOrder() {
+  try { const a = JSON.parse(localStorage.getItem(KN_ORDER_KEY) || 'null'); return Array.isArray(a) ? a : null; }
+  catch (e) { return null; }
+}
+// 保存順に従って notes を並べ替える。保存順に無い（新規）ノートは末尾へ元順で残す。
+function applyKnOrder(notes) {
+  const order = loadKnOrder();
+  if (!order) return notes;
+  const rank = new Map(order.map((id, i) => [id, i]));
+  return notes.map((n, i) => [n, i]).sort((a, b) => {
+    const ra = rank.has(a[0].id) ? rank.get(a[0].id) : Infinity + a[1];
+    const rb = rank.has(b[0].id) ? rank.get(b[0].id) : Infinity + b[1];
+    if (ra !== rb) return ra - rb;
+    return a[1] - b[1];
+  }).map(x => x[0]);
+}
+// 現在DOMに並んでいる（＝表示中の）カード順を master 順に反映して保存。
+// 非表示ノートのスロットは保持し、表示中ノートだけを新しい順に詰め直す。
+function saveKnOrderFromDom() {
+  const container = document.getElementById('notesContainer');
+  const shown = [...container.querySelectorAll('.kn-card')].map(c => c.id.replace(/^card_/, ''));
+  let master = loadKnOrder() || KNOWLEDGE_NOTES.map(n => n.id);
+  KNOWLEDGE_NOTES.forEach(n => { if (!master.includes(n.id)) master.push(n.id); });
+  const shownSet = new Set(shown);
+  let si = 0;
+  master = master.map(id => (shownSet.has(id) && si < shown.length) ? shown[si++] : id);
+  localStorage.setItem(KN_ORDER_KEY, JSON.stringify(master));
 }
 
 // [[ノートタイトル]] 記法をクリック可能なリンクに変換する
@@ -168,7 +219,7 @@ function renderNotes() {
   const container = document.getElementById('notesContainer');
   const q = document.getElementById('searchInput').value.trim().toLowerCase();
 
-  const filtered = KNOWLEDGE_NOTES.filter(n => {
+  const filtered = applyKnOrder(KNOWLEDGE_NOTES).filter(n => {
     if (activeSubject !== 'すべて' && n.subject !== activeSubject && !(n.tags || []).includes(activeSubject)) return false;
     if (!q) return true;
     const hay = (n.title + ' ' + (n.tags || []).join(' ') + ' ' + n.html).toLowerCase();
@@ -208,6 +259,94 @@ function renderNotes() {
 }
 
 document.getElementById('searchInput').addEventListener('input', renderNotes);
+
+// ── 長押し → 並べ替えモード → ドラッグ入れ替え ─────────────────────────────────
+let _knSuppressClick = false;
+(function setupReorder() {
+  const container = document.getElementById('notesContainer');
+  let lpTimer = null, startX = 0, startY = 0, activePointer = null;
+  let dragging = null;
+
+  function enterReorder() {
+    if (document.body.classList.contains('kn-reorder')) return;
+    document.body.classList.add('kn-reorder');
+    navigator.vibrate && navigator.vibrate(30);
+  }
+  window.exitReorder = function () {
+    document.body.classList.remove('kn-reorder');
+    if (dragging) { dragging.classList.remove('kn-dragging'); dragging = null; }
+  };
+
+  // ドラッグ中：ポインタ位置から挿入先を決めて DOM を即時入れ替え
+  function cardAfterPoint(y) {
+    const cards = [...container.querySelectorAll('.kn-card:not(.kn-dragging)')];
+    for (const c of cards) {
+      const r = c.getBoundingClientRect();
+      if (y < r.top + r.height / 2) return c;
+    }
+    return null;
+  }
+
+  container.addEventListener('pointerdown', e => {
+    if (e.target.closest('.kn-link') || e.target.closest('.kn-rb-done')) return;
+    const card = e.target.closest('.kn-card');
+    if (!card) return;
+    startX = e.clientX; startY = e.clientY; activePointer = e.pointerId;
+
+    if (document.body.classList.contains('kn-reorder')) {
+      // 並べ替えモード中はすぐドラッグ開始
+      dragging = card;
+      card.classList.add('kn-dragging');
+      card.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    } else {
+      // 通常モード：450ms 静止で並べ替えモードへ
+      lpTimer = setTimeout(() => {
+        lpTimer = null;
+        enterReorder();
+        _knSuppressClick = true; // この長押しに続くクリック（開閉）を無効化
+        dragging = card;
+        card.classList.add('kn-dragging');
+        try { card.setPointerCapture(activePointer); } catch (err) {}
+      }, 450);
+    }
+  });
+
+  container.addEventListener('pointermove', e => {
+    if (lpTimer) {
+      // 長押し判定中に大きく動いたらスクロール意図とみなし中止
+      if (Math.abs(e.clientY - startY) > 10 || Math.abs(e.clientX - startX) > 10) {
+        clearTimeout(lpTimer); lpTimer = null;
+      }
+      return;
+    }
+    if (!dragging) return;
+    e.preventDefault();
+    const ref = cardAfterPoint(e.clientY);
+    if (ref == null) {
+      if (container.lastElementChild !== dragging) container.appendChild(dragging);
+    } else if (ref !== dragging) {
+      container.insertBefore(dragging, ref);
+    }
+  }, { passive: false });
+
+  function endPointer() {
+    if (lpTimer) { clearTimeout(lpTimer); lpTimer = null; }
+    if (dragging) {
+      dragging.classList.remove('kn-dragging');
+      dragging = null;
+      saveKnOrderFromDom();
+      // ドラッグ直後のクリックで開閉されないよう一瞬だけ抑制
+      setTimeout(() => { _knSuppressClick = false; }, 60);
+    } else {
+      _knSuppressClick = false;
+    }
+    activePointer = null;
+  }
+  container.addEventListener('pointerup', endPointer);
+  container.addEventListener('pointercancel', endPointer);
+})();
+
 renderChips();
 renderNotes();
 </script>

@@ -723,7 +723,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>児の神経学的発達段階で誤っているのはどれか。</strong>\nａ　1 か月でMoro 反射が認められる。\nｂ　3 か月で寝返りをする。\nｃ　7 か月で顔にタオルをかけるとすぐにタオルを取り除く。\nｄ　10 か月でパラシュート反射が認められる。\nｅ　12 か月で抱き上げて立位にし、前後左右に倒すと足を出して体を支えようとする。",
+          "qt": "<strong>児の神経学的発達段階で誤っているのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　1 か月でMoro 反射が認められる。",
@@ -775,7 +775,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>離乳開始の目安となる乳児の発達で誤っているのはどれか。</strong>\nａ　5 秒以上座れる。\nｂ　食べ物に興味を示す。\nｃ　複数の臼歯が生える。\nｄ　首のすわりがしっかりしている。\nｅ　スプーンを口に入れても嫌がらない。",
+          "qt": "<strong>離乳開始の目安となる乳児の発達で誤っているのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　5 秒以上座れる。",
@@ -1031,7 +1031,9 @@ window["_cardJSON_peds"]={
               "c": "母乳が足りているかの評価は<span class=\"kw\">体重増加のペースと排尿・排便回数（特に薄い尿が1日6回以上）</span>で行う。母親の主観的な心配だけで安易に人工乳の追加や混合栄養への変更をせず、客観的指標を用いた説明・安心付けを優先する。"
             }
           ],
-          "imgs": []
+          "imgs": [
+            "小児科/images/117E-36_table.png"
+          ]
         },
         {
           "uid": "peds_ch01_q20",
@@ -1202,7 +1204,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>精神運動発達において、可能になる時期が最も遅いのはどれか。</strong>\nａ　円をえがく。\nｂ　はさみを使う。\nｃ　左右が分かる。\nｄ　片足立ちをする。\nｅ　ごっこ遊びをする。",
+          "qt": "<strong>精神運動発達において、可能になる時期が最も遅いのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　円をえがく。",
@@ -1254,7 +1256,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>1 歳6 か月の健康診査における言語発達の問診として適切なのはどれか。</strong>\nａ　自分の名前が言えますか。\nｂ　2 語文（ワンワンキタ、マンマチョウダイ）などを言いますか。\nｃ　ママ、ブーブーなど意味のあることばをいくつか話しますか。\nｄ　家族といっしょにいるとき、話しかけるような声を出しますか。\nｅ　大人の言う簡単なことば（おいで、ちょうだいなど）がわかりますか。",
+          "qt": "<strong>1 歳6 か月の健康診査における言語発達の問診として適切なのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　自分の名前が言えますか。",
@@ -1310,7 +1312,7 @@ window["_cardJSON_peds"]={
               "t": "2択"
             }
           ],
-          "qt": "<strong>新生児期の基準値が成人期より高いのはどれか。2 つ選べ。</strong>\nａ　IgM\nｂ　総蛋白\nｃ　総ビリルビン\nｄ　クレアチニン\nｅ　アルカリフォスファターゼ",
+          "qt": "<strong>新生児期の基準値が成人期より高いのはどれか。2 つ選べ。</strong>",
           "choices": [
             {
               "t": "ａ　IgM",
@@ -2145,7 +2147,9 @@ window["_cardJSON_peds"]={
               "c": "小児の脱水治療では<span class=\"kw\">「初期輸液（ボーラス）は等張液」「維持輸液は年齢・病態に応じた低張～等張液」という区別</span>が重要。体重減少率（喪失体重÷健常時体重×100）から脱水の重症度を評価する計算問題としても頻出。"
             }
           ],
-          "imgs": []
+          "imgs": [
+            "小児科/images/110A-54_table.png"
+          ]
         },
         {
           "uid": "peds_ch01_q41",
@@ -2629,7 +2633,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "ch",
           "rate_text": "99%",
           "badges": [],
-          "qt": "<strong>10 か月児に認められる反射はどれか。</strong>\nａ　吸啜反射\nｂ　Moro 反射\nｃ　手掌把握反射\nｄ　パラシュート反射\nｅ　非対称性緊張性頸反射",
+          "qt": "<strong>10 か月児に認められる反射はどれか。</strong>",
           "choices": [
             {
               "t": "ａ　吸啜反射",
@@ -2676,7 +2680,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "",
           "rate_text": "",
           "badges": [],
-          "qt": "<strong>2 歳0 か月時の発達で遅れがあるのはどれか。</strong>\nａ　三輪車をこげない。\nｂ　片足立ちができない。\nｃ　自分の姓名が言えない。\nｄ　はさみで紙を切れない。\nｅ　興味のあるものに指さしをしない。",
+          "qt": "<strong>2 歳0 か月時の発達で遅れがあるのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　三輪車をこげない。",
@@ -2723,7 +2727,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "ch",
           "rate_text": "98%",
           "badges": [],
-          "qt": "<strong>乳幼児揺さぶられ症候群〈Shaken Baby Syndrome〉を疑った場合、確認すべき眼所見はどれか。</strong>\nａ　眼瞼炎\nｂ　白内障\nｃ　緑内障\nｄ　角膜白斑\nｅ　網膜出血",
+          "qt": "<strong>乳幼児揺さぶられ症候群〈Shaken Baby Syndrome〉を疑った場合、確認すべき眼所見はどれか。</strong>",
           "choices": [
             {
               "t": "ａ　眼瞼炎",
@@ -2874,7 +2878,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "ch",
           "rate_text": "95%",
           "badges": [],
-          "qt": "<strong>成人と比較したときの乳児の特徴はどれか。</strong>\nａ　尿濃縮力が低い。\nｂ　体重あたりの体液の割合が少ない。\nｃ　体重あたりの水分必要量が少ない。\nｄ　体表面積あたりの不感蒸泄量が少ない。\nｅ　体重あたりのエネルギー必要量が少ない。",
+          "qt": "<strong>成人と比較したときの乳児の特徴はどれか。</strong>",
           "choices": [
             {
               "t": "ａ　尿濃縮力が低い。",
@@ -2926,7 +2930,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "ch",
           "rate_text": "81%",
           "badges": [],
-          "qt": "<strong>出生後30 分を経過した在胎40 週の新生児で異常を疑う所見はどれか。</strong>\nａ　直腸温37.1℃\nｂ　心拍数120/分\nｃ　収縮期血圧60mmHg\nｄ　呼吸数44/分\nｅ　SpO2 85％（room air）",
+          "qt": "<strong>出生後30 分を経過した在胎40 週の新生児で異常を疑う所見はどれか。</strong>\nｂ　心拍数120/分\nｄ　呼吸数44/分",
           "choices": [
             {
               "t": "ａ　直腸温37.1℃",
@@ -3020,7 +3024,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "cl",
           "rate_text": "55%",
           "badges": [],
-          "qt": "<strong>女子の二次性徴のうち最も遅れてみられるのはどれか。</strong>\nａ　初　経\nｂ　子宮発育\nｃ　恥毛発生\nｄ　乳房発育\nｅ　全身の骨端線閉鎖",
+          "qt": "<strong>女子の二次性徴のうち最も遅れてみられるのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　初　経",
@@ -3114,7 +3118,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "ch",
           "rate_text": "82%",
           "badges": [],
-          "qt": "<strong>発達過程において、可能になる年齢が最も遅いのはどれか。</strong>\nａ　ごっこ遊びをする。\nｂ　自分の年齢を言う。\nｃ　スキップをする。\nｄ　片足立ちをする。\nｅ　三輪車に乗る。",
+          "qt": "<strong>発達過程において、可能になる年齢が最も遅いのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　ごっこ遊びをする。",
@@ -3161,7 +3165,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "ch",
           "rate_text": "95%",
           "badges": [],
-          "qt": "<strong>正期産で出生した生後5 日の新生児の所見として精査が必要なのはどれか。</strong>\nａ　心拍数60/分\nｂ　呼吸数50/分\nｃ　1 日3 回の溢乳\nｄ　哺乳3 時間後の啼泣\nｅ　1 日5 回の黄色水様便",
+          "qt": "<strong>正期産で出生した生後5 日の新生児の所見として精査が必要なのはどれか。</strong>\nａ　心拍数60/分\nｂ　呼吸数50/分",
           "choices": [
             {
               "t": "ａ　心拍数60/ 分",
@@ -3302,7 +3306,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "ch",
           "rate_text": "97%",
           "badges": [],
-          "qt": "<strong>二次性徴について正しいのはどれか。</strong>\nａ　女子では陰毛の出現が最初の徴候である。\nｂ　男子では腋毛の出現が最初の徴候である。\nｃ　発現は暦年齢より骨年齢によく相関する。\nｄ　陰茎の成長は思春期後期に出現する。\nｅ　身長急伸は初経の後に起こる。",
+          "qt": "<strong>二次性徴について正しいのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　女子では陰毛の出現が最初の徴候である。",
@@ -3396,7 +3400,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "cm",
           "rate_text": "66%",
           "badges": [],
-          "qt": "<strong>旅客機の客室内が急に減圧した場合に上から落ちて来る酸素マスクを、幼児より先に同伴の親が装着するよう勧められている理由はどれか。</strong>\nａ　親がやり方を子どもに示すため。\nｂ　小児は成人より減圧症に強いから。\nｃ　小児の脳は成人より低酸素に耐えるから。\nｄ　親が意識を失えば子どもを助けられないから。\nｅ　幼児用酸素マスクが配られるのを待たなければならないから。",
+          "qt": "<strong>旅客機の客室内が急に減圧した場合に上から落ちて来る酸素マスクを、幼児より先に同伴の親が装着するよう勧められている理由はどれか。</strong>",
           "choices": [
             {
               "t": "ａ　親がやり方を子どもに示すため。",
@@ -3443,7 +3447,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "cm",
           "rate_text": "69%",
           "badges": [],
-          "qt": "<strong>乳児における高張性脱水の特徴はどれか。</strong>\nａ　口腔粘膜湿潤\nｂ　大泉門膨隆\nｃ　腱反射減弱\nｄ　徐　脈\nｅ　興　奮",
+          "qt": "<strong>乳児における高張性脱水の特徴はどれか。</strong>",
           "choices": [
             {
               "t": "ａ　口腔粘膜湿潤",
@@ -3495,7 +3499,7 @@ window["_cardJSON_peds"]={
               "t": "3択"
             }
           ],
-          "qt": "<strong>9～10 か月健康診査で行われる項目はどれか。3 つ選べ。</strong>\nａ　乳歯萌出の確認\nｂ　知能指数の測定\nｃ　行動発達の評価\nｄ　先天奇形の有無の評価\nｅ　離乳の進行具合の確認",
+          "qt": "<strong>9～10 か月健康診査で行われる項目はどれか。3 つ選べ。</strong>",
           "choices": [
             {
               "t": "ａ　乳歯萌出の確認",
@@ -3542,7 +3546,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "ch",
           "rate_text": "88%",
           "badges": [],
-          "qt": "<strong>正期産児における体重増加不良の所見はどれか。</strong>\nａ　生後1 週で出生時体重に回復\nｂ　生後1 か月時の体重増加が1 日30g\nｃ　生後8 か月で出生時体重の2 倍\nｄ　生後9 か月時のKaup 指数16\nｅ　1 歳で出生時体重の3 倍",
+          "qt": "<strong>正期産児における体重増加不良の所見はどれか。</strong>",
           "choices": [
             {
               "t": "ａ　生後1 週で出生時体重に回復",
@@ -3589,7 +3593,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "ch",
           "rate_text": "98%",
           "badges": [],
-          "qt": "<strong>健常な3 歳児に認められる反射はどれか。</strong>\nａ　背反射\nｂ　把握反射\nｃ　Landau 反射\nｄ　緊張性頸反射\nｅ　パラシュート反射",
+          "qt": "<strong>健常な3 歳児に認められる反射はどれか。</strong>",
           "choices": [
             {
               "t": "ａ　背反射",
@@ -3688,7 +3692,7 @@ window["_cardJSON_peds"]={
               "t": "2択"
             }
           ],
-          "qt": "<strong>思春期前後の男子において誤っているのはどれか。</strong>\nａ　女子より思春期到来が早い。\nｂ　声変りの前に恥毛が発生する。\nｃ　女子より骨端線の閉鎖が早い。\nｄ　二次性徴はTanner 分類で評価する。\nｅ　二次性徴の開始時には精巣容積が増大する。",
+          "qt": "<strong>思春期前後の男子において誤っているのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　女子より思春期到来が早い。",
@@ -3735,7 +3739,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "ch",
           "rate_text": "93%",
           "badges": [],
-          "qt": "<strong>身長について誤っているのはどれか。</strong>\nａ　出生時の平均は50cm である。\nｂ　出生時は4 頭身である。\nｃ　11 歳の女児は男児より高い。\nｄ　12 歳で出生時の3 倍になる。\nｅ　思春期に1 年間の伸び率が最大になる。",
+          "qt": "<strong>身長について誤っているのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　出生時の平均は50cm である。",
@@ -3782,7 +3786,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "",
           "rate_text": "",
           "badges": [],
-          "qt": "<strong>母体の抗SS-A 抗体のクラスで新生児の心拍数に異常をきたすのはどれか。</strong>\nａ　IgA\nｂ　IgD\nｃ　IgE\nｄ　IgG\nｅ　IgM",
+          "qt": "<strong>母体の抗SS-A 抗体のクラスで新生児の心拍数に異常をきたすのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　IgA",
@@ -3948,7 +3952,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>Which of the following is a target disease for neonatal screening using tandem mass spectrometry?</strong>\nａ　Wilson disease\nｂ　Spinal muscular atrophy〈SMA〉\nｃ　Methylmalonic acidemia〈MMA〉\nｄ　Severe combined immunodeficiency〈SCID〉\nｅ　Congenital cytomegalovirus infection〈cCMV〉",
+          "qt": "<strong>Which of the following is a target disease for neonatal screening using tandem mass spectrometry?</strong>",
           "choices": [
             {
               "t": "ａ　Wilson disease",
@@ -4004,7 +4008,7 @@ window["_cardJSON_peds"]={
               "t": "2択"
             }
           ],
-          "qt": "<strong>正期産児で、日齢0 より日齢28 で高値となるのはどれか。2 つ選べ。</strong>\nａ　IgA\nｂ　IgG\nｃ　IgM\nｄ　白血球\nｅ　ヘモグロビン",
+          "qt": "<strong>正期産児で、日齢0 より日齢28 で高値となるのはどれか。2 つ選べ。</strong>",
           "choices": [
             {
               "t": "ａ　IgA",
@@ -4056,7 +4060,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>2 歳児のけいれんの原因で最も頻度が高いのはどれか。</strong>\nａ　急性脳症\nｂ　てんかん\nｃ　細菌性髄膜炎\nｄ　熱性けいれん\nｅ　憤怒けいれん〈泣き入りひきつけ〉",
+          "qt": "<strong>2 歳児のけいれんの原因で最も頻度が高いのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　急性脳症",
@@ -4230,7 +4234,7 @@ window["_cardJSON_peds"]={
               "t": "2択"
             }
           ],
-          "qt": "<strong>新生児マススクリーニングで正しいのはどれか。2 つ選べ。</strong>\nａ　尿で検査される。\nｂ　患者家族の一部負担金がある。\nｃ　都道府県および指定都市が実施する。\nｄ　発見者数はフェニルケトン尿症が最多である。\nｅ　先天性代謝異常にはタンデムマス・スクリーニングが使用される。",
+          "qt": "<strong>新生児マススクリーニングで正しいのはどれか。2 つ選べ。</strong>",
           "choices": [
             {
               "t": "ａ　尿で検査される。",
@@ -4395,7 +4399,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>新生児の生理的黄疸の成因に関与しないのはどれか。</strong>\nａ　多血症\nｂ　腸肝循環\nｃ　赤血球寿命\nｄ　血清アルブミン値\nｅ　グルクロン酸抱合酵素活性",
+          "qt": "<strong>新生児の生理的黄疸の成因に関与しないのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　多血症",
@@ -4618,7 +4622,7 @@ window["_cardJSON_peds"]={
               "t": "2択"
             }
           ],
-          "qt": "<strong>高濃度酸素が誘因となる早産児の合併症はどれか。2 つ選べ。</strong>\nａ　壊死性腸炎\nｂ　頭蓋内出血\nｃ　慢性肺疾患\nｄ　未熟児貧血\nｅ　未熟児網膜症",
+          "qt": "<strong>高濃度酸素が誘因となる早産児の合併症はどれか。2 つ選べ。</strong>",
           "choices": [
             {
               "t": "ａ　壊死性腸炎",
@@ -4722,7 +4726,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>新生児期に光線療法の対象となる黄疸を生じるのはどれか。</strong>\nａ　新生児肝炎\nｂ　胆道閉鎖症\nｃ　先天性胆道拡張症\nｄ　ABO 血液型不適合\nｅ　Dubin-Johnson 症候群",
+          "qt": "<strong>新生児期に光線療法の対象となる黄疸を生じるのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　新生児肝炎",
@@ -4878,7 +4882,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>正期産児より早産児にみられる所見はどれか。</strong>\nａ　うぶ毛が多い。\nｂ　耳介軟骨が厚い。\nｃ　皮下脂肪が厚い。\nｄ　皮膚角化層が厚い。\nｅ　足底のしわが多い。",
+          "qt": "<strong>正期産児より早産児にみられる所見はどれか。</strong>",
           "choices": [
             {
               "t": "ａ　うぶ毛が多い。",
@@ -4930,7 +4934,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>新生児期、乳児期に高間接型ビリルビン血症をきたす疾患はどれか。</strong>\nａ　クレチン症\nｂ　新生児肝炎\nｃ　Rotor 症候群\nｄ　先天性胆道拡張症\nｅ　Dubin-Johnson 症候群",
+          "qt": "<strong>新生児期、乳児期に高間接型ビリルビン血症をきたす疾患はどれか。</strong>",
           "choices": [
             {
               "t": "ａ　クレチン症",
@@ -4982,7 +4986,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>新生児の体液生理について正しいのはどれか。</strong>\nａ　尿濃縮力は成人と同程度である。\nｂ　細胞内液量は細胞外液量より多い。\nｃ　尿細管のNa 再吸収能は成人より低い。\nｄ　体重当たりの不感蒸泄量は成人より多い。\nｅ　出生後の生理的体重減少は15％程度である。",
+          "qt": "<strong>新生児の体液生理について正しいのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　尿濃縮力は成人と同程度である。",
@@ -5083,7 +5087,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "ch",
           "rate_text": "93%",
           "badges": [],
-          "qt": "<strong>正常新生児で正しいのはどれか。</strong>\nａ　7 頭身である。\nｂ　胸式呼吸が主体である。\nｃ　大泉門は生後1 か月ごろ閉鎖する。\nｄ　生理的体重減少は10％以下である。\nｅ　生理的黄疸のピークは生後1～2 日である。",
+          "qt": "<strong>正常新生児で正しいのはどれか。</strong>\nｅ　生理的黄疸のピークは生後1～2 日である。",
           "choices": [
             {
               "t": "ａ　7 頭身である。",
@@ -5422,7 +5426,7 @@ window["_cardJSON_peds"]={
               "t": "2択"
             }
           ],
-          "qt": "<strong>生後1 か月の健康診査で経過観察として良いのはどれか。2 つ選べ。</strong>\nａ　後弓反張\nｂ　大泉門閉鎖\nｃ　Moro 反射陽性\nｄ　股関節開排制限\nｅ　サーモンパッチ",
+          "qt": "<strong>生後1 か月の健康診査で経過観察として良いのはどれか。2 つ選べ。</strong>",
           "choices": [
             {
               "t": "ａ　後弓反張",
@@ -5474,7 +5478,7 @@ window["_cardJSON_peds"]={
               "t": "2択"
             }
           ],
-          "qt": "<strong>日齢10 の新生児で日齢0 の新生児より低値を示すのはどれか。</strong>\nａ　AST\nｂ　白血球\nｃ　血小板\nｄ　総ビリルビン\nｅ　血中クレアチニン",
+          "qt": "<strong>日齢10 の新生児で日齢0 の新生児より低値を示すのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　AST",
@@ -5531,7 +5535,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>X 染色体連鎖性遺伝形式を呈する疾患はどれか。</strong>\nａ　Huntington 病\nｂ　脊髄性筋萎縮症\nｃ　球脊髄性筋萎縮症\nｄ　筋強直性ジストロフィー\nｅ　福山型先天性筋ジストロフィー",
+          "qt": "<strong>X 染色体連鎖性遺伝形式を呈する疾患はどれか。</strong>",
           "choices": [
             {
               "t": "ａ　Huntington 病",
@@ -5705,7 +5709,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>最も多くの遺伝子を含む染色体はどれか。</strong>\nａ　1 番染色体\nｂ　16 番染色体\nｃ　18 番染色体\nｄ　21 番染色体\nｅ　X 染色体",
+          "qt": "<strong>最も多くの遺伝子を含む染色体はどれか。</strong>",
           "choices": [
             {
               "t": "ａ　1 番染色体",
@@ -5761,7 +5765,7 @@ window["_cardJSON_peds"]={
               "t": "2択"
             }
           ],
-          "qt": "<strong>成人期に低身長をきたすのはどれか。2 つ選べ。</strong>\nａ　Marfan 症候群\nｂ　Turner 症候群\nｃ　Kallmann 症候群\nｄ　Prader-Willi 症候群\nｅ　アロマターゼ欠損症",
+          "qt": "<strong>成人期に低身長をきたすのはどれか。2 つ選べ。</strong>",
           "choices": [
             {
               "t": "ａ　Marfan 症候群",
@@ -6144,7 +6148,7 @@ window["_cardJSON_peds"]={
               "t": "3択"
             }
           ],
-          "qt": "<strong>Turner 症候群の成人期にきたしやすいのはどれか。3 つ選べ。</strong>\nａ　無月経\nｂ　骨粗鬆症\nｃ　耐糖能異常\nｄ　下垂体機能低下症\nｅ　低コレステロール血症",
+          "qt": "<strong>Turner 症候群の成人期にきたしやすいのはどれか。3 つ選べ。</strong>",
           "choices": [
             {
               "t": "ａ　無月経",
@@ -6196,7 +6200,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>隣接遺伝子症候群はどれか。</strong>\nａ　Sotos 症候群\nｂ　Down 症候群\nｃ　Turner 症候群\nｄ　Klinefelter 症候群\nｅ　Prader-Willi 症候群",
+          "qt": "<strong>隣接遺伝子症候群はどれか。</strong>",
           "choices": [
             {
               "t": "ａ　Sotos 症候群",
@@ -6308,7 +6312,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>Down 症候群の合併症でまれなのはどれか。</strong>\nａ　固形腫瘍\nｂ　消化管閉鎖\nｃ　環軸椎亜脱臼\nｄ　先天性心疾患\nｅ　甲状腺機能異常",
+          "qt": "<strong>Down 症候群の合併症でまれなのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　固形腫瘍",
@@ -6360,7 +6364,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>35 歳の女性から21 trisomy の児が出生する確率に最も近いのはどれか。</strong>\nａ　1/10\nｂ　1/300\nｃ　1/1,000\nｄ　1/3,000\nｅ　1/10,000",
+          "qt": "<strong>35 歳の女性から21 trisomy の児が出生する確率に最も近いのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　1/10",
@@ -6468,7 +6472,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "ch",
           "rate_text": "97%",
           "badges": [],
-          "qt": "<strong>染色体数の減少が原因となる疾患はどれか。</strong>\nａ　Down 症候群\nｂ　Klinefelter 症候群\nｃ　Marfan 症候群\nｄ　Prader-Willi 症候群\nｅ　Turner 症候群",
+          "qt": "<strong>染色体数の減少が原因となる疾患はどれか。</strong>",
           "choices": [
             {
               "t": "ａ　Down 症候群",
@@ -6874,7 +6878,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "ch",
           "rate_text": "94%",
           "badges": [],
-          "qt": "<strong>精神発達遅滞をきたさないのはどれか。</strong>\nａ　13 trisomy\nｂ　Down 症候群\nｃ　Marfan 症候群\nｄ　Angelman 症候群\nｅ　Prader-Willi 症候群",
+          "qt": "<strong>精神発達遅滞をきたさないのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　13 trisomy",
@@ -7645,7 +7649,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>幼児期以降に筋力低下が明らかになるのはどれか。</strong>\nａ　Werdnig-Hoffmann 病\nｂ　新生児一過性重症筋無力症\nｃ　Duchenne 型筋ジストロフィー\nｄ　福山型先天性筋ジストロフィー\nｅ　先天性筋強直性ジストロフィー",
+          "qt": "<strong>幼児期以降に筋力低下が明らかになるのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　Werdnig-Hoffmann 病",
@@ -7697,7 +7701,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>小児で痙性麻痺を生じる疾患はどれか。</strong>\nａ　脳性麻痺\nｂ　ボツリヌス症\nｃ　脊髄性筋萎縮症\nｄ　Prader-Willi 症候群\nｅ　Guillain-Barré 症候群",
+          "qt": "<strong>小児で痙性麻痺を生じる疾患はどれか。</strong>",
           "choices": [
             {
               "t": "ａ　脳性麻痺",
@@ -7749,7 +7753,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>ミトコンドリア遺伝病について正しいのはどれか。</strong>\nａ　女性患者が多い。\nｂ　両親が保因者である。\nｃ　次子の罹患率を予測できる。\nｄ　子は親より重症化する傾向がある。\nｅ　ミトコンドリア遺伝子の点変異は母から子に伝達する。",
+          "qt": "<strong>ミトコンドリア遺伝病について正しいのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　女性患者が多い。",
@@ -7859,7 +7863,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>単純型熱性けいれんの特徴はどれか。</strong>\nａ　片側性のけいれんを呈する。\nｂ　けいれんは20 分以上持続する。\nｃ　1～3 歳で発症することが多い。\nｄ　24 時間以内にけいれんを繰り返す。\nｅ　けいれんの後に24 時間以上意識障害が持続する。",
+          "qt": "<strong>単純型熱性けいれんの特徴はどれか。</strong>\nｃ　1～3 歳で発症することが多い。",
           "choices": [
             {
               "t": "ａ　片側性のけいれんを呈する。",
@@ -7963,7 +7967,7 @@ window["_cardJSON_peds"]={
               "t": "★"
             }
           ],
-          "qt": "<strong>神経線維腫症1 型〈von Recklinghausen 病〉について正しいのはどれか。</strong>\nａ　聴神経腫瘍を合併する。\nｂ　脊椎の変形は幼児期から発症する。\nｃ　神経線維腫は学童期以降に出現する。\nｄ　café au lait 斑は生後6 か月以降に出現する。\nｅ　café au lait 斑の数と神経線維腫の数は相関する。",
+          "qt": "<strong>神経線維腫症1 型〈von Recklinghausen 病〉について正しいのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　聴神経腫瘍を合併する。",
@@ -8310,7 +8314,7 @@ window["_cardJSON_peds"]={
               "t": "2択"
             }
           ],
-          "qt": "<strong>乳児期のけいれんの原因となるのはどれか。2 つ選べ。</strong>\nａ　低血糖症\nｂ　高尿酸血症\nｃ　低カリウム血症\nｄ　低カルシウム血症\nｅ　高マグネシウム血症",
+          "qt": "<strong>乳児期のけいれんの原因となるのはどれか。2 つ選べ。</strong>",
           "choices": [
             {
               "t": "ａ　低血糖症",
@@ -9048,7 +9052,7 @@ window["_cardJSON_peds"]={
           "rate_cls": "",
           "rate_text": "",
           "badges": [],
-          "qt": "<strong>母体における欠乏によって胎児に二分脊椎が発生しうるビタミンはどれか。</strong>\nａ　ナイアシン\nｂ　ビタミンA\nｃ　ビタミンB1\nｄ　ビタミンK\nｅ　葉　酸",
+          "qt": "<strong>母体における欠乏によって胎児に二分脊椎が発生しうるビタミンはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　ナイアシン",

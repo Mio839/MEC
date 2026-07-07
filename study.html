@@ -1304,10 +1304,27 @@ function _jumpScrollToEl(el) {
   if (section && section.dataset.visible === 'false') section.dataset.visible = 'true';
   if (el.style.display === 'none') el.style.display = '';
   const hdrH = (document.querySelector('.st-hdr')?.offsetHeight || 112) + 8;
-  // scrollIntoView forces content-visibility:auto sections to render; use block:'start'
-  // then correct for sticky header in the next frame once scroll has settled
-  el.scrollIntoView({ block: 'start' });
-  requestAnimationFrame(() => window.scrollBy({ top: -hdrH, behavior: 'smooth' }));
+  // content-visibility:auto を使っているため、未描画のセクション／カードの高さは
+  // 推定値（contain-intrinsic-block-size）でしかなく、一発の scrollIntoView では
+  // 目的地が大きくずれる（＝「少しスクロールするだけで章まで飛ばない」の原因）。
+  // 目標位置へ instant スクロール → 近傍が実描画され高さが確定 → 再計測、を数フレーム
+  // 繰り返して収束させる。最後に一瞬ハイライトして到達位置を分かりやすくする。
+  let tries = 0, lastY = -1;
+  function settle() {
+    const y = Math.max(0, el.getBoundingClientRect().top + window.scrollY - hdrH);
+    window.scrollTo({ top: y, behavior: 'auto' });
+    tries++;
+    // 位置が安定（前回と±2px以内）したら終了。最大12フレームで打ち切り。
+    if (Math.abs(y - lastY) > 2 && tries < 12) { lastY = y; requestAnimationFrame(settle); }
+    else _flashJumpTarget(el);
+  }
+  requestAnimationFrame(settle);
+}
+
+function _flashJumpTarget(el) {
+  if (!el.classList || el.classList.contains('ch-divider')) return;
+  el.classList.add('mec-jump-flash');
+  setTimeout(() => el.classList.remove('mec-jump-flash'), 1200);
 }
 
 // フィルター後の先頭可視カードを返す

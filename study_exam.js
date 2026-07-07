@@ -580,6 +580,7 @@ function revealAnswer(card) {
     } else {
       examStreak = 0;
       _resetComboMeter();
+      _clearDarkFx();
       examWrong.push(card.dataset.uid);
       card.classList.add('exam-revealed');
       if (revBtn) { revBtn.textContent = '▼ 解答を隠す'; revBtn.onclick = () => _toggleWrongAnswer(card, revBtn); }
@@ -620,6 +621,7 @@ function revealAnswer(card) {
   } else {
     examStreak = 0;
     _resetComboMeter();
+    _clearDarkFx();
     examWrong.push(card.dataset.uid);
     card.classList.add('exam-revealed');
     if (revBtn) { revBtn.textContent = '▼ 解答を隠す'; revBtn.onclick = () => _toggleWrongAnswer(card, revBtn); }
@@ -639,6 +641,21 @@ function _toggleCorrectAnswer(card, btn) {
   btn.textContent = opened ? '▼ 解説を隠す' : '▶ 解説を見る';
 }
 
+// 暗転系オーバーレイ（タイムストップ暗転・ブラックホール暈し・除細動暗転など）を確実に消す。
+// 不正解でストリークが途切れた瞬間に呼び、残った暗い全画面要素が居座らないようにする。
+function _clearDarkFx() {
+  const ov = document.getElementById('examTimestopOv');
+  if (ov) {
+    ov.getAnimations?.().forEach(a => a.cancel());
+    ov.style.display = 'none';
+    ov.style.opacity = '0';
+  }
+  document.querySelectorAll('.exam-fx-temp').forEach(el => {
+    el.getAnimations?.().forEach(a => a.cancel());
+    el.remove();
+  });
+}
+
 function _triggerTimeStop(tier) {
   const ov = document.getElementById('examTimestopOv');
   if (!ov) return;
@@ -648,11 +665,17 @@ function _triggerTimeStop(tier) {
   ov.style.backdropFilter = '';
   ov.style['-webkit-backdrop-filter'] = '';
   const holdMs = tier >= 6 ? 400 : tier >= 5 ? 300 : 220;
-  ov.animate(
+  const anim = ov.animate(
     [{opacity:1},{opacity:1},{opacity:0}],
     {duration: holdMs + 150, easing:'ease-in',
      composite:'replace', iterationComposite:'replace'}
   );
+  // アニメ終了後は必ず display:none に戻す。これをしないと iPad/WebKit では
+  // opacity:0 でも要素の backdrop-filter(brightness .72 等)が描画され続け、
+  // 一度でも高ストリークが出ると以降ずっと画面が暗い（＝「間違えると真っ暗」）状態になる。
+  const _hide = () => { ov.style.display = 'none'; };
+  anim.onfinish = _hide;
+  anim.oncancel = _hide;
 }
 
 function _triggerFullscreenCombo(n, tier) {
@@ -1690,8 +1713,16 @@ function _shuffleChoices(card) {
   if (!cs) return;
   const choices = [...cs.querySelectorAll('.ch2')];
   if (choices.length < 2) return;
-  // Don't shuffle table-row questions where choices are bare letters only (ａ-ｅ)
-  if (choices.every(ch => /^[ａ-ｅa-e]$/.test(ch.textContent.trim()))) return;
+  // 選択肢が「番号・記号の参照」だけの問題はシャッフルしない。
+  // 例: Q26「下線部①〜⑤のどれか」/ 表の行 a〜e を選ぶ問題では、問題文が
+  // ①②③… や a b c… の順序に依存しており、並べ替えると正誤対応が崩れて意味不明になる。
+  // 先頭の選択肢ラベル(ａ-ｅ/a-e)を除いた本文が、丸囲み数字・ローマ数字・単独の英字/カナ/数字
+  // だけなら参照型とみなす。
+  const _isRefChoice = ch => {
+    const body = ch.textContent.trim().replace(/^[ａ-ｅa-e][　\s]*/i, '').trim();
+    return body === '' || /^[①-⑳⓪❶-❿Ⅰ-Ⅻⅰ-ⅹ]$/.test(body) || /^[（(]?[0-9]{1,2}[）)]?$/.test(body) || /^[ア-オア-ンa-eA-E]$/.test(body);
+  };
+  if (choices.every(_isRefChoice)) return;
   _examChoiceBackup.set(card.dataset.uid, choices.map(c => c.cloneNode(true)));
   const shuffled = choices.slice().sort(() => Math.random() - 0.5);
   shuffled.forEach((ch, i) => {
