@@ -76,55 +76,55 @@ const MEC_CHAPTERS = [
     "chapters": [
       {
         "prefix": "resp_ch01",
-        "file": "呼吸器/ch01_呼吸器の基本_解答解説.html",
+        "file": "_archive/呼吸器/ch01_呼吸器の基本_解答解説.html",
         "title": "MEC呼吸器 第1章 解答解説",
         "count": 72
       },
       {
         "prefix": "resp_ch02",
-        "file": "呼吸器/ch02_呼吸不全_解答解説.html",
+        "file": "_archive/呼吸器/ch02_呼吸不全_解答解説.html",
         "title": "MEC呼吸器 第2章 呼吸不全 解答解説",
         "count": 33
       },
       {
         "prefix": "resp_ch03",
-        "file": "呼吸器/ch03_閉塞性疾患_解答解説.html",
+        "file": "_archive/呼吸器/ch03_閉塞性疾患_解答解説.html",
         "title": "MEC呼吸器 第3章 閉塞性疾患 解答解説",
         "count": 65
       },
       {
         "prefix": "resp_ch04",
-        "file": "呼吸器/ch04_間質性疾患_解答解説.html",
+        "file": "_archive/呼吸器/ch04_間質性疾患_解答解説.html",
         "title": "MEC呼吸器 第4章 間質性疾患 解答解説",
         "count": 74
       },
       {
         "prefix": "resp_ch05",
-        "file": "呼吸器/ch05_lung_circulation.html",
+        "file": "_archive/呼吸器/ch05_lung_circulation.html",
         "title": "MEC呼吸器 第5章 肺循環障害 解答解説",
         "count": 37
       },
       {
         "prefix": "resp_ch06",
-        "file": "呼吸器/ch06_tumor.html",
+        "file": "_archive/呼吸器/ch06_tumor.html",
         "title": "MEC呼吸器 第6章 腫瘍 解答解説",
         "count": 81
       },
       {
         "prefix": "resp_ch07",
-        "file": "呼吸器/ch07_other_lung_diseases.html",
+        "file": "_archive/呼吸器/ch07_other_lung_diseases.html",
         "title": "MEC呼吸器 第7章 その他の肺疾患 解答解説",
         "count": 40
       },
       {
         "prefix": "resp_ch08",
-        "file": "呼吸器/ch08_pleura_chest.html",
+        "file": "_archive/呼吸器/ch08_pleura_chest.html",
         "title": "MEC呼吸器 第8章 胸膜・胸腔・縦隔 解答解説",
         "count": 66
       },
       {
         "prefix": "resp_ch09",
-        "file": "呼吸器/ch09_breast.html",
+        "file": "_archive/呼吸器/ch09_breast.html",
         "title": "MEC呼吸器 第9章 乳房 解答解説",
         "count": 38
       }
@@ -354,49 +354,49 @@ const MEC_CHAPTERS = [
     "chapters": [
       {
         "prefix": "hbp_ch01",
-        "file": "肝胆膵/ch01_kitan_kihon.html",
+        "file": "_archive/肝胆膵/ch01_kitan_kihon.html",
         "title": "MEC肝胆膵 第1章 肝胆膵の基本 解答解説",
         "count": 68
       },
       {
         "prefix": "hbp_ch02",
-        "file": "肝胆膵/ch02_kitan_kanen.html",
+        "file": "_archive/肝胆膵/ch02_kitan_kanen.html",
         "title": "MEC肝胆膵 第2章 急性・慢性肝炎 解答解説",
         "count": 80
       },
       {
         "prefix": "hbp_ch03",
-        "file": "肝胆膵/ch03_kitan_kanshorben.html",
+        "file": "_archive/肝胆膵/ch03_kitan_kanshorben.html",
         "title": "MEC肝胆膵 第3章 肝硬変 解答解説",
         "count": 64
       },
       {
         "prefix": "hbp_ch04",
-        "file": "肝胆膵/ch04_kitan_kanshuyo.html",
+        "file": "_archive/肝胆膵/ch04_kitan_kanshuyo.html",
         "title": "MEC肝胆膵 第4章 肝腫瘍 解答解説",
         "count": 56
       },
       {
         "prefix": "hbp_ch05",
-        "file": "肝胆膵/ch05_kitan_cholecystitis.html",
+        "file": "_archive/肝胆膵/ch05_kitan_cholecystitis.html",
         "title": "MEC肝胆膵 第5章 胆石・胆囊炎・胆管炎 解答解説",
         "count": 55
       },
       {
         "prefix": "hbp_ch06",
-        "file": "肝胆膵/ch06_kitan_biliary_tumor.html",
+        "file": "_archive/肝胆膵/ch06_kitan_biliary_tumor.html",
         "title": "MEC肝胆膵 第6章 胆腫瘍 解答解説",
         "count": 21
       },
       {
         "prefix": "hbp_ch07",
-        "file": "肝胆膵/ch07_kitan_pancreatitis.html",
+        "file": "_archive/肝胆膵/ch07_kitan_pancreatitis.html",
         "title": "MEC肝胆膵 第7章 膵炎 解答解説",
         "count": 39
       },
       {
         "prefix": "hbp_ch08",
-        "file": "肝胆膵/ch08_kitan_pancreatic_tumor.html",
+        "file": "_archive/肝胆膵/ch08_kitan_pancreatic_tumor.html",
         "title": "MEC肝胆膵 第8章 膵腫瘍 解答解説",
         "count": 35
       }
@@ -548,43 +548,43 @@ const MEC_CHAPTERS = [
     "chapters": [
       {
         "prefix": "kansen_ch01",
-        "file": "感染症/ch01_kansen_basics.html",
+        "file": "_archive/感染症/ch01_kansen_basics.html",
         "title": "MEC感染症 第1章 感染症の基本 解答解説",
         "count": 80
       },
       {
         "prefix": "kansen_ch02",
-        "file": "感染症/ch02_kansen_gi.html",
+        "file": "_archive/感染症/ch02_kansen_gi.html",
         "title": "MEC感染症 第2章 消化器の感染症 解答解説",
         "count": 18
       },
       {
         "prefix": "kansen_ch03",
-        "file": "感染症/ch03_kansen_skin.html",
+        "file": "_archive/感染症/ch03_kansen_skin.html",
         "title": "MEC感染症 第3章 皮膚の感染症 解答解説",
         "count": 45
       },
       {
         "prefix": "kansen_ch04",
-        "file": "感染症/ch04_kansen_resp.html",
+        "file": "_archive/感染症/ch04_kansen_resp.html",
         "title": "MEC感染症 第4章 呼吸器の感染症 解答解説",
         "count": 96
       },
       {
         "prefix": "kansen_ch05",
-        "file": "感染症/ch05_kansen_ntm.html",
+        "file": "_archive/感染症/ch05_kansen_ntm.html",
         "title": "MEC感染症 第5章 抗酸菌感染症 解答解説",
         "count": 40
       },
       {
         "prefix": "kansen_ch06",
-        "file": "感染症/ch06_kansen_hiv.html",
+        "file": "_archive/感染症/ch06_kansen_hiv.html",
         "title": "MEC感染症 第6章 HIVと日和見感染症 解答解説",
         "count": 53
       },
       {
         "prefix": "kansen_ch07",
-        "file": "感染症/ch07_kansen_other.html",
+        "file": "_archive/感染症/ch07_kansen_other.html",
         "title": "MEC感染症 第7章 その他の感染症 解答解説",
         "count": 24
       }
