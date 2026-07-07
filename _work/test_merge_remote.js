@@ -98,7 +98,7 @@ const KD = 'done_v2', KF = 'flag_v2', KA = 'activity_v1', KR = 'myrate_v1',
       KT = 'studytime_v1', KE = 'mec_exam_resumes_v1', KDT = 'done_tombstones_v1',
       K_SRS = 'mec_srs_v1', KRT = 'mec_exam_resume_tombstones_v1',
       KER = 'error_reports_v1', K_ERR_CLEARED = 'mec_err_cleared_at',
-      KCH = 'mec_ch_exam_v1';
+      KCH = 'mec_ch_exam_v1', KFT = 'flag_tombstones_v1', KC = 'mec_choice_v1';
 
 // seed helper: turn an object map of {key: value} into a store of JSON strings
 function seed(map) {
@@ -220,6 +220,81 @@ test('flags: local value wins on key conflict (spread {...remote,...local})', ()
   const env = makeEnv(seed({ [KF]: { a: 1 } }));
   env.mergeRemote({ [KF]: { a: 1, c: 1 } });
   assert.deepStrictEqual(env.getObj(KF), { a: 1, c: 1 });
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+console.log('flag_tombstones_v1 (旗解除の伝播)');
+
+test('flag tombstone: local unflag deletes an older remote flag', () => {
+  const flaggedAt = Date.now() - 2 * DAY_MS;
+  const unflaggedAt = Date.now() - 1 * DAY_MS;
+  const env = makeEnv(seed({ [KF]: {}, [KFT]: { x: unflaggedAt } }));
+  env.mergeRemote({ [KF]: { x: flaggedAt } });
+  assert.ok(!('x' in env.getObj(KF)), 'unflagged x must not revive from remote');
+  assert.ok('x' in env.getObj(KFT), 'tombstone persists for future merges');
+});
+
+test('flag tombstone: legacy flag value 1 is treated as older than any tombstone', () => {
+  const env = makeEnv(seed({ [KF]: {}, [KFT]: { x: Date.now() } }));
+  env.mergeRemote({ [KF]: { x: 1 } });
+  assert.ok(!('x' in env.getObj(KF)));
+});
+
+test('flag tombstone: re-flag newer than tombstone survives and clears the tombstone', () => {
+  const unflaggedAt = Date.now() - 2 * DAY_MS;
+  const reflaggedAt = Date.now() - 1 * DAY_MS;
+  const env = makeEnv(seed({ [KF]: { x: reflaggedAt } }));
+  env.mergeRemote({ [KF]: {}, [KFT]: { x: unflaggedAt } });
+  assert.strictEqual(env.getObj(KF).x, reflaggedAt, 're-flag must survive an older remote tombstone');
+  assert.ok(!('x' in env.getObj(KFT)), 'obsolete tombstone must be dropped');
+});
+
+test('flag tombstone: remote tombstone deletes a legacy local flag', () => {
+  const env = makeEnv(seed({ [KF]: { x: 1 } }));
+  env.mergeRemote({ [KFT]: { x: Date.now() } });
+  assert.ok(!('x' in env.getObj(KF)));
+});
+
+test('flag tombstone: expired (>60d) tombstone is dropped from persisted store', () => {
+  const expired = Date.now() - 61 * DAY_MS;
+  const env = makeEnv(seed({ [KF]: {}, [KFT]: { x: expired } }));
+  env.mergeRemote({});
+  assert.ok(!('x' in env.getObj(KFT)));
+});
+
+test('flag tombstone: flags on other UIDs are unaffected', () => {
+  const env = makeEnv(seed({ [KF]: { keep: 1 }, [KFT]: { drop: Date.now() } }));
+  env.mergeRemote({ [KF]: { drop: 1, keep: 1 } });
+  const f = env.getObj(KF);
+  assert.ok('keep' in f);
+  assert.ok(!('drop' in f));
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+console.log('mec_choice_v1 (誤答選択肢の記録)');
+
+test('choice: uid present only in remote is adopted', () => {
+  const env = makeEnv(seed({ [KC]: {} }));
+  env.mergeRemote({ [KC]: { q1: { a: 2, _last: 'a' } } });
+  assert.deepStrictEqual(env.getObj(KC).q1, { a: 2, _last: 'a' });
+});
+
+test('choice: per-choice counts take field-wise max', () => {
+  const env = makeEnv(seed({ [KC]: { q1: { a: 3, b: 1, _last: 'b' } } }));
+  env.mergeRemote({ [KC]: { q1: { a: 1, b: 4, c: 2, _last: 'c' } } });
+  assert.deepStrictEqual(env.getObj(KC).q1, { a: 3, b: 4, c: 2, _last: 'b' });
+});
+
+test('choice: local _last wins; remote _last fills only when local has none', () => {
+  const env = makeEnv(seed({ [KC]: { q1: { a: 1 } } }));
+  env.mergeRemote({ [KC]: { q1: { a: 1, _last: 'a' } } });
+  assert.strictEqual(env.getObj(KC).q1._last, 'a', 'remote _last adopted when local missing');
+});
+
+test('choice: empty remote leaves local untouched', () => {
+  const env = makeEnv(seed({ [KC]: { q1: { a: 2, _last: 'a' } } }));
+  env.mergeRemote({});
+  assert.deepStrictEqual(env.getObj(KC).q1, { a: 2, _last: 'a' });
 });
 
 // ─────────────────────────────────────────────────────────────────────────

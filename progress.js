@@ -6,6 +6,7 @@
   'use strict';
 
   const KD = 'done_v2', KF = 'flag_v2', KA = 'activity_v1', KR = 'myrate_v1', KT = 'studytime_v1', KE = 'mec_exam_resumes_v1', KDT = 'done_tombstones_v1';
+  const KFT = 'flag_tombstones_v1'; // 旗解除の墓標（uid → 解除時刻ms）。同期で解除済み旗が復活するのを防ぐ
   const K_SRS = 'mec_srs_v1';
   const KRT = 'mec_exam_resume_tombstones_v1'; // deleted resume savedAt values
   const KER = 'error_reports_v1';
@@ -27,6 +28,8 @@
     } catch (e) {
       if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
         _handleStorageQuota();
+        // 容量確保後に元の書き込みをリトライしないと、そのとき押した済/旗が黙って消える
+        try { localStorage.setItem(k, JSON.stringify(v)); } catch {}
       }
     }
   }
@@ -129,7 +132,7 @@
     }
 
     const payload = {};
-    [KD, KF, KA, KR, KT, KDT, K_SRS].forEach(k => { try { payload[k] = JSON.parse(localStorage.getItem(k) || '{}'); } catch { payload[k] = {}; } });
+    [KD, KF, KA, KR, KT, KDT, KFT, K_SRS, 'mec_choice_v1'].forEach(k => { try { payload[k] = JSON.parse(localStorage.getItem(k) || '{}'); } catch { payload[k] = {}; } });
     try { payload[KE] = JSON.parse(localStorage.getItem(KE) || '[]'); } catch { payload[KE] = []; }
     try { payload[KRT] = JSON.parse(localStorage.getItem(KRT) || '[]'); } catch { payload[KRT] = []; }
     try { payload[KER] = JSON.parse(localStorage.getItem(KER) || '[]'); } catch { payload[KER] = []; }
@@ -200,9 +203,24 @@
     const mergedDone = { ...rd };
     Object.keys(ld).forEach(k => { mergedDone[k] = Math.max(mergedDone[k] || 0, ld[k] || 0); });
     lsRaw(KD, mergedDone);
-    // flag: union
+    // flag: 墓標つきunion。旗の値は設定時刻ms（旧形式は1）、墓標は解除時刻ms。
+    // uidごとに「旗 vs 墓標」の新しい方が勝つ — 解除後に別端末の古い旗が同期されても
+    // 復活せず、解除より後に付け直した旗は墓標より新しいので生き残る。
+    // 旧形式の旗(値1)は必ず墓標より古い扱い＝解除が優先（意図と一致）。
     const lf = lsGet(KF), rf = remote[KF] || {};
-    lsRaw(KF, { ...rf, ...lf });
+    const lfTombs = lsGet(KFT), rfTombs = remote[KFT] || {};
+    const mfTombs = { ...rfTombs };
+    Object.keys(lfTombs).forEach(k => { mfTombs[k] = Math.max(mfTombs[k] || 0, lfTombs[k]); });
+    const mf = { ...rf };
+    Object.keys(lf).forEach(k => { mf[k] = Math.max(mf[k] || 0, lf[k] || 0); });
+    Object.keys(mfTombs).forEach(uid => {
+      if ((mf[uid] || 0) <= mfTombs[uid]) delete mf[uid]; // 墓標の方が新しい → 旗は解除済み
+      else delete mfTombs[uid]; // 旗の方が新しい → 墓標は用済み
+    });
+    const flagCutoff = Date.now() - 60 * 24 * 3600 * 1000;
+    Object.keys(mfTombs).forEach(k => { if (mfTombs[k] < flagCutoff) delete mfTombs[k]; });
+    lsRaw(KFT, mfTombs);
+    lsRaw(KF, mf);
     // activity: 日ごとの最大値
     const la = lsGet(KA), ra = remote[KA] || {};
     const ma = { ...la };
@@ -223,6 +241,23 @@
       };
     });
     lsRaw(KR, mr);
+    // choice(誤答選択肢の記録): 選択肢ごとの回数はmax、_last(最後に選んだ肢)は
+    // タイムスタンプが無いためローカル優先（ローカルに記録がない問題のみリモート採用）。
+    // 別端末で受けた試験の誤答復習でも「自分が選んだ肢」をマークできるようにする。
+    const lc = lsGet('mec_choice_v1'), rc = remote['mec_choice_v1'] || {};
+    if (Object.keys(rc).length) {
+      const mc = { ...lc };
+      Object.keys(rc).forEach(uid => {
+        const r = rc[uid] || {}, l = mc[uid];
+        if (!l) { mc[uid] = r; return; }
+        Object.keys(r).forEach(ch => {
+          if (ch === '_last') return;
+          l[ch] = Math.max(l[ch] || 0, r[ch] || 0);
+        });
+        if (!l._last && r._last) l._last = r._last;
+      });
+      lsRaw('mec_choice_v1', mc);
+    }
     // studytime: 日ごとの最大値
     const lt = lsGet(KT), rt = remote[KT] || {};
     const mt = { ...lt };
@@ -474,8 +509,15 @@
 
   window.mecToggleFlag = function (btn) {
     const uid = btn.dataset.uid, flags = lsGet(KF);
-    if (flags[uid]) { delete flags[uid]; btn.classList.remove('mec-flagged'); }
-    else { flags[uid] = 1; btn.classList.add('mec-flagged'); }
+    const tombs = lsGet(KFT);
+    if (flags[uid]) {
+      delete flags[uid]; btn.classList.remove('mec-flagged');
+      tombs[uid] = Date.now(); // 解除の墓標 — 同期での復活を防ぐ
+    } else {
+      flags[uid] = Date.now(); btn.classList.add('mec-flagged');
+      delete tombs[uid];
+    }
+    lsRaw(KFT, tombs);
     lsRaw(KF, flags);
     window.mecMarkStale?.();
     scheduleSync();

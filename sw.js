@@ -7,6 +7,8 @@ const SHELL = [
   "./stats.html",
   "./progress.js",
   "./fx_engine.js",
+  "./study_exam.js",
+  "./fixed_uids.js",
   "./vars.css",
   "./study.css",
   "./chapters_meta.js",

@@ -29,7 +29,7 @@
 | `questions_*.json` / `questions_*.js` | **問題データの正本**（.json）。study.htmlはこれを読み込んで表示。.jsはfile://フォールバック用コピーで**pre-commitフックが自動生成**（[データソースの方針]参照） |
 | `国家試験過去問/` | 過去問ビューアHTML（`chapter_exam.js`で試験モード）。PDFは`.gitignore`済み・追跡はhtmlのみ |
 | `chapter_exam.js` | 過去問ビューアの試験モード（`CE_EFFECT_THEMES`＝study_exam.jsの演出を同配色でミラー） |
-| `内分泌/` `呼吸器/` `循環器/` `消化器/` `神経/` `肝胆膵/` `腎臓/` `血液/` `免アレ膠/` | 各科目のフォルダ（画像・selfcheck_intro.html等）。章別解答解説HTML(ch01.html等)は旧世代の遺物でstudy.htmlからは参照されない → `_archive/{科目}/`へ順次移動中 |
+| `内分泌/` `呼吸器/` `循環器/` `消化器/` `神経/` `肝胆膵/` `腎臓/` `血液/` `免アレ膠/` | 各科目のフォルダ（画像・selfcheck_intro.html等）。章別解答解説HTML(ch01.html等)は全科目 `_archive/{科目}/` へ移動済み（2026-07-07完了） |
 | `_archive/` | 到達不能になった旧・章別HTMLの保管先。編集対象外、読み物としてのみ残す |
 | `vars.css` | 共通CSSカスタムプロパティ（全ページ共通色変数） |
 | `_work/` | ビルド・検証・マージ用スクリプト（`build.py`・`gen_js_from_json.js`・`check_json_js_sync.js`・`test_merge_remote.js`等） |
@@ -63,7 +63,8 @@
 **正本は `progress.js` 冒頭の `K*` 定数**（`KD`/`KF`/`KA`/`KR`/`KT`/`KE`/`KDT`/`K_SRS`/`KRT`/`KER`/`K_TOKEN`/`K_GIST` 等）。同期対象キーの追加・変更時はここと `_mergeRemote`（progress.js）・`pushToGist`のpayload・`index.html`の復元パスを揃えること。主要キー:
 
 - `done_v2` — UID → 周回数（整数、0=未済）／ `done_tombstones_v1` — undo削除の墓標（同期で復活防止）
-- `flag_v2` — 苦手UID → 1
+- `flag_v2` — 苦手UID → 設定時刻ms（旧データは1）／ `flag_tombstones_v1` — 旗解除の墓標（uid→解除時刻ms、マージは旗vs墓標の新しい方が勝つ）
+- `mec_choice_v1` — UID → 選択肢別の誤答回数＋`_last`（最後に選んだ肢）。同期対象（回数はmax、`_last`はローカル優先）
 - `activity_v1` — YYYY-MM-DD → 操作回数（連続日数の算出元）
 - `myrate_v1` — UID → `{correct,total}`（試験モードの自己正答率。マージは各フィールドmax）
 - `studytime_v1` — YYYY-MM-DD → 学習分数
@@ -124,7 +125,7 @@
 - 個別フラグで花火・雷・紙吹雪・CRT・ECGスイープ・ブラックホール等がテーマごとに追加（`use*`）。
 
 ### 章別（chapter_exam.js）との関係
-過去問ビューア側は `CE_EFFECT_THEMES` / `CE_EFFECT_POOL` として同一配色をミラー実装。片方の配色・ラベルを変えたら**もう片方も合わせる**こと（乖離リスク・改善案バックログ参照）。
+過去問ビューア側は `CE_EFFECT_THEMES` / `CE_EFFECT_POOL` として同一配色をミラー実装。片方の配色・ラベルを変えたら**もう片方も合わせる**こと。乖離は `node _work/check_effect_themes_sync.js` で自動検出でき、pre-commitフックが study_exam.js / chapter_exam.js のステージ時に自動実行する（study側のみの `fx` キーは除外。フックはGit管理外＝別マシンでは要再設定）。
 
 ## 複数デバイス同期
 
