@@ -378,6 +378,32 @@ function _buildCardCache() {
   });
 }
 
+// 科目のカードをDOMから解放してメモリを開放する。
+// 全13科目デフォルト選択時は約5000枚のカード（約20万ノード）が常駐し、iPad Safari が
+// メモリ退避でタブを強制再読み込みする原因になる。選択解除された科目はDOMから外し、
+// 再選択時に _fetchSubjectCards で再描画する（見た目・データは不変）。
+function _unloadSubjectCards(sid) {
+  if (typeof examMode !== 'undefined' && examMode) return; // 試験中は解放しない
+  if (!_loadedSids.has(sid)) return;
+  const section = _sectionMap.get(sid) || document.querySelector('.subj-section[data-sid="' + sid + '"]');
+  if (!section) return;
+  // ヘッダ以外（カード・章見出し・エラーパネル等）を撤去し、再ロード用プレースホルダを戻す
+  [...section.children].forEach(ch => { if (!ch.classList.contains('subj-hdr')) ch.remove(); });
+  const ph = document.createElement('div');
+  ph.className = 'subj-cards-loading';
+  ph.dataset.sid = sid;
+  ph.textContent = '読み込み中...';
+  section.appendChild(ph);
+  delete section.dataset.loaded;
+  // 各種キャッシュから除去（el 参照を落として GC 対象にする）
+  _cards = _cards.filter(m => m.sid !== sid);
+  window._studyCards = _cards;
+  _cachedSids.delete(sid);
+  _loadedSids.delete(sid);
+  _initedSids.delete(sid);
+  _pendingLoads.delete(sid);
+}
+
 // State
 const selectedSubjects = new Set();
 let currentFilter = 'all';
@@ -421,6 +447,7 @@ function toggleSubjectChip(btn, id) {
         c.style.borderColor = 'rgba(255,255,255,.3)';
         c.style.color = 'rgba(255,255,255,.6)';
       });
+      [..._loadedSids].forEach(s => _unloadSubjectCards(s));
     } else {
       STUDY_SUBJECTS.forEach(s => selectedSubjects.add(s.id));
       document.querySelectorAll('.chip[data-sid="__all__"]').forEach(c => {
@@ -446,6 +473,7 @@ function toggleSubjectChip(btn, id) {
       btn.style.background = 'none';
       btn.style.borderColor = 'rgba(255,255,255,.3)';
       btn.style.color = 'rgba(255,255,255,.6)';
+      _unloadSubjectCards(id);
     } else {
       selectedSubjects.add(id);
       btn.classList.add('on');
@@ -466,15 +494,16 @@ function toggleSubjectChip(btn, id) {
   }
   localStorage.setItem('mec_subjects_v1', JSON.stringify([...selectedSubjects]));
   const _unloaded = [...selectedSubjects].filter(s => !_loadedSids.has(s));
-  if (_unloaded.length) {
-    Promise.all(_unloaded.map(s => _fetchSubjectCards(s))).then(() => {
-      selectedSubjects.forEach(sid => _ensureSubjInit(sid));
-      applyFilters();
-      requestAnimationFrame(() => { _buildChapterMap(); _buildChapterJumpOptions(); });
-    });
-  } else {
+  const _finish = () => {
     selectedSubjects.forEach(sid => _ensureSubjInit(sid));
     applyFilters();
+    // 解放で章見出し(divEl)が消える・ロードで増えるため、章マップとジャンプ候補を必ず再構築
+    requestAnimationFrame(() => { _buildChapterMap(); _buildChapterJumpOptions(); _updateChapterProgressBadges(); });
+  };
+  if (_unloaded.length) {
+    Promise.all(_unloaded.map(s => _fetchSubjectCards(s))).then(_finish);
+  } else {
+    _finish();
   }
 }
 
