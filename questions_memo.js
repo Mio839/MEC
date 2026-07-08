@@ -3634,7 +3634,1028 @@ window["_cardJSON_memo"]={
     },
     {
       "title": "小児科",
-      "qs": []
+      "qs": [
+        {
+          "uid": "memo_ch03_q1",
+          "qn": "Q.1",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "Marfan症候群の遺伝形式はどれか。",
+          "choices": [
+            {
+              "t": "ａ　常染色体顕性〈優性〉遺伝〈AD〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　常染色体潜性〈劣性〉遺伝〈AR〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　X連鎖顕性〈優性〉遺伝〈XD〉",
+              "ok": false
+            },
+            {
+              "t": "ｄ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　ミトコンドリア遺伝",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　常染色体顕性〈優性〉遺伝〈AD〉",
+          "ans_sub": "Marfan症候群はフィブリリン（FBN1）遺伝子異常による常染色体顕性遺伝。高身長・クモ状指・水晶体偏位・大動脈解離が特徴。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 常染色体顕性〈AD〉",
+              "c": "Marfan症候群は結合組織の<span class=\"kw\">フィブリリン（FBN1）遺伝子異常</span>による常染色体顕性遺伝。高身長・細長い四肢・クモ状指・水晶体偏位・大動脈基部拡張／解離をきたす。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 同じADの結合組織・骨系疾患",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>特徴</th></tr><tr><td>Marfan症候群</td><td>FBN1・大動脈解離</td></tr><tr><td>Ehlers-Danlos症候群</td><td>皮膚過伸展・関節過可動</td></tr><tr><td>骨形成不全症</td><td>易骨折・青色強膜</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">Marfan＝AD＝FBN1（フィブリリン）</span>。結合組織・骨格系の代表的AD疾患としてEhlers-Danlos・骨形成不全とまとめて覚える。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q2",
+          "qn": "Q.2",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "神経線維腫症Ⅰ型〈von Recklinghausen病〉の遺伝形式はどれか。",
+          "choices": [
+            {
+              "t": "ａ　常染色体顕性〈優性〉遺伝〈AD〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　常染色体潜性〈劣性〉遺伝〈AR〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　X連鎖顕性〈優性〉遺伝〈XD〉",
+              "ok": false
+            },
+            {
+              "t": "ｄ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　多因子遺伝",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　常染色体顕性〈優性〉遺伝〈AD〉",
+          "ans_sub": "神経線維腫症Ⅰ型はNF1遺伝子異常の常染色体顕性遺伝。カフェオレ斑・神経線維腫・虹彩過誤腫（Lisch結節）が特徴。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 常染色体顕性〈AD〉",
+              "c": "神経線維腫症Ⅰ型は<span class=\"kw\">NF1遺伝子異常による常染色体顕性遺伝</span>。<strong>カフェオレ斑</strong>・多発する神経線維腫・虹彩のLisch結節・腋窩雀卵斑が診断の手がかり。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 母斑症（神経皮膚症候群）の遺伝形式",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>遺伝形式</th></tr><tr><td>神経線維腫症Ⅰ型</td><td>AD</td></tr><tr><td>結節性硬化症</td><td>AD</td></tr><tr><td>von Hippel-Lindau病</td><td>AD</td></tr><tr><td>色素失調症</td><td>XD（男児致死）</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">母斑症の多く（NF1・結節性硬化症・VHL）はAD</span>。色素失調症だけXDで例外、と対比で押さえる。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q3",
+          "qn": "Q.3",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "Huntington病の遺伝形式はどれか。",
+          "choices": [
+            {
+              "t": "ａ　常染色体顕性〈優性〉遺伝〈AD〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　常染色体潜性〈劣性〉遺伝〈AR〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　X連鎖顕性〈優性〉遺伝〈XD〉",
+              "ok": false
+            },
+            {
+              "t": "ｄ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　ミトコンドリア遺伝",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　常染色体顕性〈優性〉遺伝〈AD〉",
+          "ans_sub": "Huntington病はCAGリピート伸長による常染色体顕性遺伝。世代を経るごとに発症が早く重くなる表現促進（anticipation）を示す。舞踏運動・認知症・精神症状。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 常染色体顕性〈AD〉",
+              "c": "Huntington病は<span class=\"kw\">CAGリピートの異常伸長</span>による常染色体顕性遺伝。中年以降に舞踏運動・精神症状・認知症で発症する。世代とともに発症が早期化・重症化する<strong>表現促進（anticipation）</strong>が特徴。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 リピート病（トリプレットリピート病）",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>リピート・遺伝形式</th></tr><tr><td>Huntington病</td><td>CAG・AD</td></tr><tr><td>筋強直性ジストロフィー</td><td>CTG・AD</td></tr><tr><td>球脊髄性筋萎縮症〈Kennedy病〉</td><td>CAG・XR</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">Huntington＝AD＝CAGリピート＋表現促進</span>。同じCAGでも球脊髄性筋萎縮症（Kennedy）はXRで別枠。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q4",
+          "qn": "Q.4",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "家族性大腸腺腫症〈家族性大腸ポリポーシス・FAP〉の遺伝形式はどれか。",
+          "choices": [
+            {
+              "t": "ａ　常染色体顕性〈優性〉遺伝〈AD〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　常染色体潜性〈劣性〉遺伝〈AR〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　X連鎖顕性〈優性〉遺伝〈XD〉",
+              "ok": false
+            },
+            {
+              "t": "ｄ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　多因子遺伝",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　常染色体顕性〈優性〉遺伝〈AD〉",
+          "ans_sub": "FAPはAPC遺伝子異常の常染色体顕性遺伝。大腸に多数の腺腫が生じ高率に癌化する。Gardner症候群を含む。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 常染色体顕性〈AD〉",
+              "c": "FAPは<span class=\"kw\">APC遺伝子（がん抑制遺伝子）異常</span>による常染色体顕性遺伝。大腸に100個以上の腺腫が多発し、放置すればほぼ必発で大腸癌に至る。骨腫・軟部腫瘍を伴う<strong>Gardner症候群</strong>もこの範疇。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 AD遺伝の家族性腫瘍",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>関連</th></tr><tr><td>家族性大腸腺腫症〈FAP〉</td><td>APC・大腸癌</td></tr><tr><td>Peutz-Jeghers症候群</td><td>STK11・口唇色素斑＋消化管ポリープ</td></tr><tr><td>von Hippel-Lindau病</td><td>血管芽腫・腎癌・褐色細胞腫</td></tr><tr><td>多発性内分泌腫瘍〈MEN〉</td><td>RET等</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">遺伝性腫瘍症候群は基本AD</span>。FAP・Peutz-Jeghers・VHL・MENをまとめてAD群として覚える。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q5",
+          "qn": "Q.5",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "遺伝性球状赤血球症の遺伝形式として最も多いのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　常染色体顕性〈優性〉遺伝〈AD〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　常染色体潜性〈劣性〉遺伝〈AR〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　X連鎖顕性〈優性〉遺伝〈XD〉",
+              "ok": false
+            },
+            {
+              "t": "ｄ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　ミトコンドリア遺伝",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　常染色体顕性〈優性〉遺伝〈AD〉",
+          "ans_sub": "遺伝性球状赤血球症は赤血球膜蛋白（スペクトリン等）の異常による常染色体顕性遺伝が多い。溶血性貧血・黄疸・脾腫、脾摘が有効。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 常染色体顕性〈AD〉",
+              "c": "遺伝性球状赤血球症は赤血球の<span class=\"kw\">膜骨格蛋白（スペクトリン・アンキリン等）の異常</span>で、多くが常染色体顕性遺伝。球状化した赤血球が脾で破壊され<strong>溶血性貧血・黄疸・脾腫</strong>をきたす。脾摘が有効で、浸透圧脆弱性試験が陽性。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 遺伝性溶血性貧血の遺伝形式",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>遺伝形式</th></tr><tr><td>遺伝性球状赤血球症</td><td>AD（が多い）</td></tr><tr><td>G6PD欠損症</td><td>XR</td></tr><tr><td>サラセミア</td><td>AR</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">遺伝性球状赤血球症＝ADの溶血性貧血・脾摘が有効</span>。同じ溶血でもG6PD欠損はXR、と対比する。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q6",
+          "qn": "Q.6",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "Wilson病の遺伝形式はどれか。",
+          "choices": [
+            {
+              "t": "ａ　常染色体潜性〈劣性〉遺伝〈AR〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　常染色体顕性〈優性〉遺伝〈AD〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　X連鎖顕性〈優性〉遺伝〈XD〉",
+              "ok": false
+            },
+            {
+              "t": "ｄ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　ミトコンドリア遺伝",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　常染色体潜性〈劣性〉遺伝〈AR〉",
+          "ans_sub": "Wilson病はATP7B異常による常染色体潜性遺伝。銅代謝障害で肝障害・神経症状・Kayser-Fleischer輪をきたす。セルロプラスミン低値。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 常染色体潜性〈AR〉",
+              "c": "Wilson病は<span class=\"kw\">ATP7B（銅輸送体）異常</span>による常染色体潜性遺伝。銅が肝・脳・角膜に蓄積し、<strong>肝障害・錐体外路症状・Kayser-Fleischer輪</strong>をきたす。血清セルロプラスミン低値、尿中銅排泄増加。治療はD-ペニシラミン等。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 AR遺伝の代表疾患",
+              "c": "<table class=\"tb\"><tr><th>分類</th><th>疾患</th></tr><tr><td>金属代謝</td><td><strong>Wilson病（銅）</strong></td></tr><tr><td>先天代謝異常全般</td><td>フェニルケトン尿症・糖原病 など</td></tr><tr><td>神経筋</td><td>脊髄性筋萎縮症・福山型筋ジストロフィー</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">代謝疾患は原則AR＝Wilson病もAR</span>。若年の肝障害＋神経症状＋K-F輪でWilson病を想起。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q7",
+          "qn": "Q.7",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "脊髄性筋萎縮症〈SMA〉の遺伝形式はどれか。",
+          "choices": [
+            {
+              "t": "ａ　常染色体潜性〈劣性〉遺伝〈AR〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　常染色体顕性〈優性〉遺伝〈AD〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　X連鎖顕性〈優性〉遺伝〈XD〉",
+              "ok": false
+            },
+            {
+              "t": "ｄ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　多因子遺伝",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　常染色体潜性〈劣性〉遺伝〈AR〉",
+          "ans_sub": "脊髄性筋萎縮症〈SMA〉はSMN1遺伝子異常による常染色体潜性遺伝。脊髄前角細胞の変性で筋力低下・筋萎縮をきたす。球脊髄性筋萎縮症（Kennedy病・XR）と混同しない。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 常染色体潜性〈AR〉",
+              "c": "脊髄性筋萎縮症〈SMA〉は<span class=\"kw\">SMN1遺伝子異常による常染色体潜性遺伝</span>。脊髄前角細胞（下位運動ニューロン）の変性で、乳児期からの筋力低下・筋萎縮・呼吸障害をきたす。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 紛らわしい「筋萎縮症」の遺伝形式",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>遺伝形式</th></tr><tr><td><strong>脊髄性筋萎縮症〈SMA〉</strong></td><td><strong>AR</strong>（SMN1）</td></tr><tr><td>球脊髄性筋萎縮症〈Kennedy病〉</td><td>XR（アンドロゲン受容体CAG）</td></tr></table><p>名前が似るが遺伝形式が違う点が頻出の落とし穴。</p>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">脊髄性筋萎縮症＝AR、球脊髄性筋萎縮症（Kennedy）＝XR</span>。「球」が付く方がX連鎖＋女性化乳房を伴う、で区別する。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q8",
+          "qn": "Q.8",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "フェニルケトン尿症をはじめとする先天代謝異常症の多くがとる遺伝形式はどれか。",
+          "choices": [
+            {
+              "t": "ａ　常染色体潜性〈劣性〉遺伝〈AR〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　常染色体顕性〈優性〉遺伝〈AD〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　X連鎖顕性〈優性〉遺伝〈XD〉",
+              "ok": false
+            },
+            {
+              "t": "ｄ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　ミトコンドリア遺伝",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　常染色体潜性〈劣性〉遺伝〈AR〉",
+          "ans_sub": "酵素欠損による先天代謝異常症は大半が常染色体潜性遺伝。ただしFabry病・Hunter症候群などX連鎖の例外がある。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 常染色体潜性〈AR〉",
+              "c": "酵素をコードする遺伝子の変異で起こる<span class=\"kw\">先天代謝異常症の多くは常染色体潜性遺伝</span>（フェニルケトン尿症・糖原病・ホモシスチン尿症など）。片アレルが正常なら酵素活性が保たれるため、両アレル変異で発症する。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 代謝異常症でもX連鎖の例外",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>遺伝形式</th></tr><tr><td>フェニルケトン尿症など大多数</td><td>AR</td></tr><tr><td><strong>Fabry病</strong></td><td>XR</td></tr><tr><td><strong>Hunter症候群〈MPS Ⅱ〉</strong></td><td>XR</td></tr><tr><td>Lesch-Nyhan症候群</td><td>XR</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">代謝疾患＝原則AR、例外のX連鎖（Fabry・Hunter・Lesch-Nyhan）を覚える</span>。「原則AR、例外だけ暗記」が効率的。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q9",
+          "qn": "Q.9",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "血友病A・Bの遺伝形式はどれか。",
+          "choices": [
+            {
+              "t": "ａ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　常染色体顕性〈優性〉遺伝〈AD〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　常染色体潜性〈劣性〉遺伝〈AR〉",
+              "ok": false
+            },
+            {
+              "t": "ｄ　X連鎖顕性〈優性〉遺伝〈XD〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　ミトコンドリア遺伝",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+          "ans_sub": "血友病Aは第Ⅷ因子、Bは第Ⅸ因子欠乏によるX連鎖潜性遺伝。原則男児が発症し、母が保因者。関節内出血・深部出血が特徴。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a X連鎖潜性〈XR〉",
+              "c": "血友病Aは<strong>第Ⅷ因子</strong>、血友病Bは<strong>第Ⅸ因子</strong>の欠乏による<span class=\"kw\">X連鎖潜性遺伝</span>。X染色体が1本の男児が発症し、女性は基本的に保因者。関節内出血・筋肉内出血・APTT延長が特徴。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 XR遺伝の見分け方（家系）",
+              "c": "<table class=\"tb\"><tr><th>特徴</th><th>内容</th></tr><tr><td>発症</td><td>ほぼ<strong>男児</strong>のみ</td></tr><tr><td>保因者</td><td>母（無症状のことが多い）</td></tr><tr><td>父→息子</td><td>伝わらない（男→男の伝達なし）</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">血友病＝XR＝男児発症・母が保因者</span>。家系図で男児にのみ患者が出て、父から息子へ伝わらなければX連鎖を疑う。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q10",
+          "qn": "Q.10",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "Duchenne型筋ジストロフィーの遺伝形式はどれか。",
+          "choices": [
+            {
+              "t": "ａ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　常染色体顕性〈優性〉遺伝〈AD〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　常染色体潜性〈劣性〉遺伝〈AR〉",
+              "ok": false
+            },
+            {
+              "t": "ｄ　X連鎖顕性〈優性〉遺伝〈XD〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　多因子遺伝",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+          "ans_sub": "Duchenne/Becker型筋ジストロフィーはジストロフィン遺伝子異常のX連鎖潜性遺伝。男児が発症し、動揺性歩行・登攀性起立（Gowers徴候）・仮性肥大・CK著増。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a X連鎖潜性〈XR〉",
+              "c": "Duchenne型筋ジストロフィーは<span class=\"kw\">ジストロフィン遺伝子異常によるX連鎖潜性遺伝</span>。男児が幼児期に発症し、動揺性歩行・<strong>登攀性起立（Gowers徴候）</strong>・下腿仮性肥大・血清CK著増をきたす。筋強直性ジストロフィー（AD）とは遺伝形式が異なる。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 筋ジストロフィーの遺伝形式（対比）",
+              "c": "<table class=\"tb\"><tr><th>型</th><th>遺伝形式</th></tr><tr><td><strong>Duchenne/Becker型</strong></td><td><strong>XR</strong>（ジストロフィン）</td></tr><tr><td>筋強直性ジストロフィー</td><td>AD（CTGリピート）</td></tr><tr><td>福山型先天性筋ジストロフィー</td><td>AR（FKTN）</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">Duchenne＝XR＝男児・Gowers徴候・CK著増</span>。筋ジストロフィーは型ごとに遺伝形式が違う（XR/AD/AR）ので混同注意。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q11",
+          "qn": "Q.11",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "Fabry病の遺伝形式はどれか。",
+          "choices": [
+            {
+              "t": "ａ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　常染色体顕性〈優性〉遺伝〈AD〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　常染色体潜性〈劣性〉遺伝〈AR〉",
+              "ok": false
+            },
+            {
+              "t": "ｄ　X連鎖顕性〈優性〉遺伝〈XD〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　ミトコンドリア遺伝",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+          "ans_sub": "Fabry病はα-ガラクトシダーゼA欠損によるX連鎖潜性遺伝。四肢末端痛・被角血管腫・腎障害・心肥大。代謝異常症だがX連鎖の例外。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a X連鎖潜性〈XR〉",
+              "c": "Fabry病は<span class=\"kw\">α-ガラクトシダーゼA欠損</span>による糖脂質蓄積症で、X連鎖潜性遺伝。四肢末端の灼熱痛・<strong>被角血管腫</strong>・腎障害・心肥大・角膜混濁をきたす。代謝異常症は原則ARだが、Fabryは例外的にX連鎖。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 X連鎖の代謝・蓄積症",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>欠損酵素</th></tr><tr><td>Fabry病</td><td>α-ガラクトシダーゼA</td></tr><tr><td>Hunter症候群〈MPS Ⅱ〉</td><td>イズロン酸-2-スルファターゼ</td></tr><tr><td>Lesch-Nyhan症候群</td><td>HPRT</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">Fabry病＝XRの例外的代謝疾患・四肢末端痛＋被角血管腫</span>。酵素補充療法が可能。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q12",
+          "qn": "Q.12",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "高尿酸血症と自傷行為・不随意運動を特徴とするLesch-Nyhan症候群の遺伝形式はどれか。",
+          "choices": [
+            {
+              "t": "ａ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　常染色体顕性〈優性〉遺伝〈AD〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　常染色体潜性〈劣性〉遺伝〈AR〉",
+              "ok": false
+            },
+            {
+              "t": "ｄ　X連鎖顕性〈優性〉遺伝〈XD〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　多因子遺伝",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+          "ans_sub": "Lesch-Nyhan症候群はHPRT欠損によるX連鎖潜性遺伝。プリン代謝障害で高尿酸血症をきたし、自傷行為・不随意運動・知的障害を伴う。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a X連鎖潜性〈XR〉",
+              "c": "Lesch-Nyhan症候群は<span class=\"kw\">HPRT（プリン再利用酵素）欠損</span>によるX連鎖潜性遺伝。尿酸産生亢進で<strong>高尿酸血症</strong>となり、特徴的な<strong>自傷行為（咬傷）</strong>・不随意運動・知的障害を呈する。男児に発症。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 XR遺伝の神経・代謝疾患",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>キーワード</th></tr><tr><td>Lesch-Nyhan症候群</td><td>高尿酸・自傷</td></tr><tr><td>副腎白質ジストロフィー</td><td>長鎖脂肪酸・副腎不全＋脱髄</td></tr><tr><td>Menkes病</td><td>銅欠乏・縮れ毛</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">Lesch-Nyhan＝XR＝HPRT欠損・高尿酸・自傷行為</span>。男児の高尿酸血症＋自傷でこの病名を想起。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q13",
+          "qn": "Q.13",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "G-6-PD（グルコース-6-リン酸脱水素酵素）欠損症の遺伝形式はどれか。",
+          "choices": [
+            {
+              "t": "ａ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　常染色体顕性〈優性〉遺伝〈AD〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　常染色体潜性〈劣性〉遺伝〈AR〉",
+              "ok": false
+            },
+            {
+              "t": "ｄ　X連鎖顕性〈優性〉遺伝〈XD〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　ミトコンドリア遺伝",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+          "ans_sub": "G6PD欠損症はX連鎖潜性遺伝。酸化ストレス（ソラマメ・薬剤・感染）で溶血発作を起こす。Heinz小体が出現する。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a X連鎖潜性〈XR〉",
+              "c": "G6PD欠損症は<span class=\"kw\">X連鎖潜性遺伝</span>で、赤血球が酸化ストレスに弱くなる。<strong>ソラマメ・特定の薬剤（抗マラリア薬・スルホンアミド等）・感染</strong>を契機に溶血発作を起こす。変性ヘモグロビン（<strong>Heinz小体</strong>）が出現する。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 溶血性貧血の遺伝形式（再掲）",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>遺伝形式</th></tr><tr><td><strong>G6PD欠損症</strong></td><td>XR</td></tr><tr><td>遺伝性球状赤血球症</td><td>AD</td></tr><tr><td>サラセミア</td><td>AR</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">G6PD欠損＝XR＝酸化ストレスで溶血・Heinz小体</span>。誘因（ソラマメ・薬剤）を避けることが基本。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q14",
+          "qn": "Q.14",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "ムコ多糖症のうち、Hunter症候群〈MPS Ⅱ型〉の遺伝形式はどれか。",
+          "choices": [
+            {
+              "t": "ａ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　常染色体潜性〈劣性〉遺伝〈AR〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　常染色体顕性〈優性〉遺伝〈AD〉",
+              "ok": false
+            },
+            {
+              "t": "ｄ　X連鎖顕性〈優性〉遺伝〈XD〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　ミトコンドリア遺伝",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+          "ans_sub": "Hunter症候群〈MPS Ⅱ〉はX連鎖潜性遺伝で男児に発症。同じムコ多糖症でもHurler症候群〈MPS Ⅰ〉は常染色体潜性遺伝で、角膜混濁の有無が鑑別点。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a X連鎖潜性〈XR〉",
+              "c": "Hunter症候群〈MPS Ⅱ〉は<span class=\"kw\">イズロン酸-2-スルファターゼ欠損によるX連鎖潜性遺伝</span>で男児に発症。粗な顔貌・肝脾腫・関節拘縮・知的障害をきたす。ムコ多糖症のなかでX連鎖なのはHunterのみ。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 HunterとHurlerの鑑別",
+              "c": "<table class=\"tb\"><tr><th></th><th>Hunter〈MPS Ⅱ〉</th><th>Hurler〈MPS Ⅰ〉</th></tr><tr><td>遺伝形式</td><td><strong>XR</strong></td><td>AR</td></tr><tr><td>角膜混濁</td><td><strong>なし</strong></td><td>あり</td></tr><tr><td>性別</td><td>男児のみ</td><td>男女とも</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">Hunter＝XR・角膜混濁なし／Hurler＝AR・角膜混濁あり</span>。「HunterのHはX（Hunter=男のハンター）」で男児・XRと結びつける。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q15",
+          "qn": "Q.15",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "血尿・進行性腎不全・感音難聴を特徴とするAlport症候群の代表的な遺伝形式はどれか。",
+          "choices": [
+            {
+              "t": "ａ　X連鎖顕性〈優性〉遺伝〈XD〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　常染色体顕性〈優性〉遺伝〈AD〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　常染色体潜性〈劣性〉遺伝〈AR〉",
+              "ok": false
+            },
+            {
+              "t": "ｄ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　ミトコンドリア遺伝",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　X連鎖顕性〈優性〉遺伝〈XD〉",
+          "ans_sub": "Alport症候群はⅣ型コラーゲン（COL4A5）異常によるX連鎖遺伝が最多。血尿・進行性腎不全・感音難聴が三徴。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a X連鎖顕性〈XD〉",
+              "c": "Alport症候群は基底膜の<span class=\"kw\">Ⅳ型コラーゲン（COL4A5）異常</span>によるもので、X連鎖型が最多。<strong>血尿・進行性腎不全・感音難聴</strong>が三徴で、しばしば眼病変を伴う。X連鎖のため男性で重症化しやすい。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 X連鎖顕性〈XD〉の代表",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>特徴</th></tr><tr><td>Alport症候群</td><td>血尿・腎不全・難聴</td></tr><tr><td>色素失調症</td><td>皮膚色素異常・<strong>男児致死</strong></td></tr></table><p>XDは数が少なく、この2つが代表。</p>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">Alport＝X連鎖・Ⅳ型コラーゲン・血尿＋難聴＋腎不全</span>。XDの代表はAlportと色素失調症の2つ、と押さえる。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q16",
+          "qn": "Q.16",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "色素失調症〈incontinentia pigmenti〉について正しいのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　X連鎖顕性遺伝で、男児は多くが胎生致死となる。",
+              "ok": true
+            },
+            {
+              "t": "ｂ　常染色体潜性遺伝である。",
+              "ok": false
+            },
+            {
+              "t": "ｃ　女児は発症しない。",
+              "ok": false
+            },
+            {
+              "t": "ｄ　X連鎖潜性遺伝で男児に多い。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　ミトコンドリア遺伝である。",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　X連鎖顕性遺伝で、男児は多くが胎生致死となる。",
+          "ans_sub": "色素失調症はX連鎖顕性遺伝。罹患男児の多くは胎生致死となるため、患者はほぼ女児。皮膚は水疱→疣状→渦巻き状色素沈着と変化する。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a XD・男児は多く胎生致死",
+              "c": "色素失調症は<span class=\"kw\">X連鎖顕性遺伝</span>。X染色体1本の<strong>男児は多くが胎生致死</strong>となるため、実際の患者はほぼ女児に限られる。皮膚病変は水疱期→疣状期→<strong>渦巻き状・線状の色素沈着</strong>と経時的に変化する。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 XD遺伝の家系の特徴",
+              "c": "<table class=\"tb\"><tr><th>特徴</th><th>内容</th></tr><tr><td>患者</td><td>ほぼ<strong>女児</strong>（男児は致死）</td></tr><tr><td>代表疾患</td><td>色素失調症・Alport症候群</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">色素失調症＝XD＝男児致死でほぼ女児のみ</span>。「患者が女児ばかり＋流産（男児）が多い家系」でXDを想起。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q17",
+          "qn": "Q.17",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "多発性嚢胞腎の遺伝形式について正しいのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　成人型は常染色体顕性、幼児型は常染色体潜性遺伝である。",
+              "ok": true
+            },
+            {
+              "t": "ｂ　成人型・幼児型ともに常染色体潜性遺伝である。",
+              "ok": false
+            },
+            {
+              "t": "ｃ　成人型はX連鎖潜性遺伝である。",
+              "ok": false
+            },
+            {
+              "t": "ｄ　幼児型は常染色体顕性遺伝である。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　いずれもミトコンドリア遺伝である。",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　成人型は常染色体顕性、幼児型は常染色体潜性遺伝である。",
+          "ans_sub": "多発性嚢胞腎は成人型〈ADPKD〉が常染色体顕性、幼児型〈ARPKD〉が常染色体潜性。成人型は肝嚢胞・脳動脈瘤を合併しうる。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 成人型AD・幼児型AR",
+              "c": "多発性嚢胞腎は<span class=\"kw\">成人型〈ADPKD〉が常染色体顕性、幼児型〈ARPKD〉が常染色体潜性</span>遺伝。成人型は中年以降に高血圧・腎機能低下で顕在化し、<strong>肝嚢胞・脳動脈瘤</strong>を合併しうる。幼児型は乳児期から重篤。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 病型と遺伝形式",
+              "c": "<table class=\"tb\"><tr><th>病型</th><th>遺伝形式</th><th>発症</th></tr><tr><td>成人型〈ADPKD〉</td><td><strong>AD</strong></td><td>中年以降</td></tr><tr><td>幼児型〈ARPKD〉</td><td><strong>AR</strong></td><td>乳幼児期</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">成人型＝AD、幼児型＝AR</span>。「大人になって出る＝顕性(AD)、幼くて出る＝潜性(AR)」で対応させる。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q18",
+          "qn": "Q.18",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "多発性内分泌腫瘍〈MEN〉および家族性の甲状腺髄様癌の遺伝形式はどれか。",
+          "choices": [
+            {
+              "t": "ａ　常染色体顕性〈優性〉遺伝〈AD〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　常染色体潜性〈劣性〉遺伝〈AR〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　X連鎖顕性〈優性〉遺伝〈XD〉",
+              "ok": false
+            },
+            {
+              "t": "ｄ　X連鎖潜性〈劣性〉遺伝〈XR〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　ミトコンドリア遺伝",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　常染色体顕性〈優性〉遺伝〈AD〉",
+          "ans_sub": "MEN・家族性甲状腺髄様癌は常染色体顕性遺伝（MEN2はRET遺伝子）。家族例では褐色細胞腫・副甲状腺機能亢進症の合併検索が重要。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 常染色体顕性〈AD〉",
+              "c": "多発性内分泌腫瘍〈MEN〉は常染色体顕性遺伝で、<span class=\"kw\">MEN2はRET遺伝子変異</span>による。家族性甲状腺髄様癌もこの範疇で、<strong>褐色細胞腫・副甲状腺機能亢進症</strong>を合併しうる（MEN2A）。内分泌の暗記メモの髄様癌の項とも対応。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 AD遺伝の内分泌・腫瘍症候群",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>遺伝子</th></tr><tr><td>多発性内分泌腫瘍〈MEN〉</td><td>RET（MEN2）・MEN1</td></tr><tr><td>甲状腺髄様癌（家族性）</td><td>RET</td></tr><tr><td>von Hippel-Lindau病</td><td>VHL</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">MEN・家族性髄様癌＝AD＝RET</span>。家族歴のある髄様癌ではまず褐色細胞腫を否定してから手術、という流れも押さえる。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q19",
+          "qn": "Q.19",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "次のうちX連鎖潜性〈劣性〉遺伝〈XR〉を示すのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　Wiskott-Aldrich症候群",
+              "ok": true
+            },
+            {
+              "t": "ｂ　Marfan症候群",
+              "ok": false
+            },
+            {
+              "t": "ｃ　Wilson病",
+              "ok": false
+            },
+            {
+              "t": "ｄ　Alport症候群",
+              "ok": false
+            },
+            {
+              "t": "ｅ　網膜色素変性症",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　Wiskott-Aldrich症候群",
+          "ans_sub": "Wiskott-Aldrich症候群はXR（湿疹・血小板減少・易感染の三徴）。Marfan=AD、Wilson病=AR、Alport=XD、網膜色素変性症=AR（表の分類）。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a Wiskott-Aldrich症候群（XR）",
+              "c": "Wiskott-Aldrich症候群は<span class=\"kw\">X連鎖潜性遺伝の原発性免疫不全症</span>で、<strong>湿疹・血小板減少（小型血小板）・易感染</strong>の三徴を示す。他は Marfan＝AD、Wilson病＝AR、Alport＝XD、網膜色素変性症＝AR（本表の分類）で、4つの遺伝形式が1問に揃っている。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 XR遺伝の原発性免疫不全症",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>特徴</th></tr><tr><td>Wiskott-Aldrich症候群</td><td>湿疹・血小板減少・易感染</td></tr><tr><td>Bruton型無ガンマグロブリン血症</td><td>B細胞欠損・抗体産生不能</td></tr><tr><td>慢性肉芽腫症</td><td>好中球の殺菌能低下</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">主要な原発性免疫不全（Wiskott-Aldrich・Bruton・慢性肉芽腫症）はXRが多い</span>＝男児に重症感染が出る。選択肢に4形式が並ぶ問題は各疾患の分類で解く。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch03_q20",
+          "qn": "Q.20",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "常染色体顕性〈優性〉遺伝〈AD〉を示さないのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　脊髄性筋萎縮症",
+              "ok": true
+            },
+            {
+              "t": "ｂ　Marfan症候群",
+              "ok": false
+            },
+            {
+              "t": "ｃ　Huntington病",
+              "ok": false
+            },
+            {
+              "t": "ｄ　神経線維腫症Ⅰ型",
+              "ok": false
+            },
+            {
+              "t": "ｅ　結節性硬化症",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　脊髄性筋萎縮症",
+          "ans_sub": "脊髄性筋萎縮症は常染色体潜性〈AR〉遺伝。Marfan・Huntington・神経線維腫症Ⅰ型・結節性硬化症はいずれも常染色体顕性〈AD〉。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 脊髄性筋萎縮症（AR＝ADではない）",
+              "c": "脊髄性筋萎縮症〈SMA〉は<span class=\"kw\">常染色体潜性〈AR〉遺伝</span>で、ADではない。他の Marfan症候群・Huntington病・神経線維腫症Ⅰ型・結節性硬化症はいずれも代表的な常染色体顕性〈AD〉疾患。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 代表的なAD疾患（まとめ）",
+              "c": "<table class=\"tb\"><tr><th>系統</th><th>AD疾患</th></tr><tr><td>神経</td><td>Huntington病・筋強直性ジストロフィー・Charcot-Marie-Tooth病</td></tr><tr><td>母斑症</td><td>神経線維腫症Ⅰ型・結節性硬化症・von Hippel-Lindau病</td></tr><tr><td>結合組織</td><td>Marfan症候群・Ehlers-Danlos症候群・骨形成不全症</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">脊髄性筋萎縮症だけAR＝仲間外れ</span>。ADは「母斑症・結合組織病・遺伝性腫瘍・Huntington系」でまとめ、ARの代謝疾患・SMAと区別する。"
+            }
+          ]
+        }
+      ]
     },
     {
       "title": "その他（核医学・中毒・救急ほか）",
