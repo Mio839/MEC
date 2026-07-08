@@ -989,12 +989,24 @@ function _showStreakEffect(n) {
   _updateComboMeter(n);
 }
 
+// 演出用の固定オーバーレイ（周縁ヴィネット）。body を揺らさないための受け皿。
+function _ensureShakeOverlay() {
+  let el = document.getElementById('examShakeOverlay');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'examShakeOverlay';
+    el.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9040;opacity:0;';
+    document.body.appendChild(el);
+  }
+  return el;
+}
+
 function _triggerScreenShake(tier) {
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const si = tier >= 6 ? 13 : tier >= 5 ? 8 : tier >= 4 ? 5 : 3;
   const dur = tier >= 5 ? 480 : tier >= 4 ? 340 : 210;
   const easing = theme.chunkyShake ? `steps(${tier >= 5 ? 8 : 5})` : 'ease-in-out';
-  document.body.animate([
+  const kf = [
     {transform:'translate(0,0)'},
     {transform:`translate(-${si}px,-${si*.5}px)`},
     {transform:`translate(${si}px,${si*.6}px)`},
@@ -1002,7 +1014,17 @@ function _triggerScreenShake(tier) {
     {transform:`translate(${si*.4}px,-${si*.8}px)`},
     {transform:`translate(-${si*.3}px,${si*.4}px)`},
     {transform:'translate(0,0)'}
-  ], {duration: dur, easing});
+  ];
+  // body 全体（最大約5000カード）を transform すると iPad WebKit が巨大レイヤーを再合成し、
+  // 重さ・白タイル化を招く。代わりに fixed な演出レイヤー（パーティクルcanvas＋周縁ヴィネット）
+  // だけを揺らす。問題カード本体は静止＝安全なまま「画面枠が揺れる」印象を出す。
+  const fxCanvas = document.getElementById('mecFxCanvas');
+  if (fxCanvas) fxCanvas.animate(kf, {duration: dur, easing});
+  const ov = _ensureShakeOverlay();
+  const vig = tier >= 6 ? .5 : tier >= 5 ? .42 : .3;
+  ov.style.boxShadow = `inset 0 0 ${tier >= 5 ? 160 : 110}px ${tier >= 5 ? 30 : 18}px rgba(0,0,0,${vig})`;
+  ov.animate([{opacity:0},{opacity:1,offset:.15},{opacity:1,offset:.7},{opacity:0}], {duration: dur, easing:'ease-out'});
+  ov.animate(kf, {duration: dur, easing});
 }
 
 function _triggerBorderGlow(tier) {
@@ -1075,6 +1097,13 @@ function _spawnStreakParticles(tier) {
 
   const burstCounts = [0, 0, 50, 140, 340, 580, 900];
   _spawnBurst(cx, cy, tier, burstCounts[Math.min(tier,6)] || 50);
+
+  // 中tier(2-3)は最頻出。単発だと弱いので時間差の二段バースト＋追撃リングで密度を出す
+  // （高tier ≥4 は下で既に多段化されているのでそのまま）。
+  if (tier === 2 || tier === 3) {
+    setTimeout(() => _spawnBurst(cx, cy, tier, tier === 3 ? 80 : 36), tier === 3 ? 150 : 130);
+    setTimeout(() => _spawnShockwaveRings(cx, cy, tier), tier === 3 ? 140 : 120);
+  }
 
   if (tier >= 4) setTimeout(() => _spawnBurst(cx, cy, tier, tier >= 6 ? 220 : tier >= 5 ? 150 : 90), 160);
   if (tier >= 5) setTimeout(() => _spawnBurst(cx, cy, tier, tier >= 6 ? 340 : 200), tier >= 6 ? 200 : 340);
@@ -1471,7 +1500,36 @@ function _triggerChoiceCorrectPop(el) {
     card.prepend(ov);
     ov.animate([{opacity:1},{opacity:.5,offset:.3},{opacity:0}], {duration:650, easing:'ease-out'}).onfinish = () => ov.remove();
   }
+  _spawnCorrectSpark(el, theme);
   if (examEffectSet !== 'classic') _spawnCorrectEmojiPop(el, theme);
+}
+
+// 単発正解でも毎回、選んだ肢からリング1枚＋小さめのスパークを出して手応えを強める。
+// 全テーマ共通（classic含む）。粒子は十数個なので iPad でも負荷は無視できる範囲。
+function _spawnCorrectSpark(el, theme) {
+  if (!window.MecFX) return;
+  const r = el.getBoundingClientRect();
+  if (!r.width) return;
+  const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  const t = Math.max(2, Math.min(_examTier(examStreak) || 2, 6));
+  const pal = theme.burstPalettes[t] || theme.burstPalettes[2];
+  const isInk = examEffectSet === 'ink';
+  window.MecFX.rings(cx, cy, {
+    count: 1,
+    color: theme.ringColor(t),
+    thickness: 2.5,
+    maxR: 110 + t * 16,
+    additive: !isInk
+  });
+  window.MecFX.burst(cx, cy, {
+    count: 10 + t * 2,
+    colors: pal,
+    shapes: isInk ? ['shard', 'square'] : ['circle', 'star'],
+    tier: 2,
+    scale: .85,
+    glow: !isInk,
+    additive: !isInk
+  });
 }
 
 function _spawnCorrectEmojiPop(el, theme) {
