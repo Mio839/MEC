@@ -1089,8 +1089,11 @@ function _spawnStreakParticles(tier) {
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const toast = document.getElementById('examStreakToast');
   if (!toast) return;
-  const r = toast.getBoundingClientRect();
-  const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  // パーティクルの発生原点はトースト位置(top:68px≒画面最上部)ではなく画面中央寄りにする。
+  // 上端だと上向きに飛ぶ粒子・バーストが画面外に抜けて半分しか見えないため（iPad実機・2026-07-08）。
+  // 縦は全画面コンボ数字(#streakFullscreen=中央)と重なる 0.44 付近に置き、四方に広がっても収まるようにする。
+  const cx = window.innerWidth / 2;
+  const cy = Math.round(window.innerHeight * 0.44);
 
   _spawnShockwaveRings(cx, cy, tier);
   _spawnLightning(cx, cy, tier);

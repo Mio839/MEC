@@ -943,8 +943,10 @@
   function spawnParticles(tier) {
     var toast = document.getElementById('chExamStreakToast');
     if (!toast) return;
-    var r = toast.getBoundingClientRect();
-    var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    // パーティクル原点はトースト(画面最上部)でなく画面中央寄りに（上端だと粒子が画面外へ抜けて
+    // 半分しか見えない。study_exam.js と同方針・2026-07-08）。
+    var cx = window.innerWidth / 2;
+    var cy = Math.round(window.innerHeight * 0.44);
     var theme = ceTheme();
 
     spawnRings(cx, cy, tier);
