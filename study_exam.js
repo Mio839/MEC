@@ -1550,14 +1550,16 @@ function _spawnCorrectEmojiPop(el, theme) {
 }
 
 function _spawnFloatingCombo(card, n, tier) {
-  if (!card) return;
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const r = card.getBoundingClientRect();
   const el = document.createElement('div');
   const cols = theme.comboColors;
   const sz = 16 + Math.min(tier,6) * 4;
   el.textContent = theme.comboLabel(n);
-  el.style.cssText = `position:fixed;left:${(r.left+r.width/2).toFixed(0)}px;top:${(r.top+r.height*.3).toFixed(0)}px;font-weight:900;font-size:${sz}px;color:${cols[Math.min(tier,6)]};pointer-events:none;z-index:9200;text-shadow:0 2px 12px rgba(0,0,0,.7);transform:translateX(-50%);white-space:nowrap;`;
+  // 位置はカード相対だとカードのスクロール位置で上端に寄って見切れ、演出ごとに高さがバラつく。
+  // 粒子・全画面コンボ数字と同じ画面中央(やや上)の焦点に統一して、正解/連続正解の演出をまとめる。
+  const cx = window.innerWidth / 2;
+  const cy = Math.round(window.innerHeight * 0.40);
+  el.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;font-weight:900;font-size:${sz}px;color:${cols[Math.min(tier,6)]};pointer-events:none;z-index:9200;text-shadow:0 2px 12px rgba(0,0,0,.7);transform:translateX(-50%);white-space:nowrap;`;
   document.body.appendChild(el);
   el.animate([
     {opacity:1,transform:'translateX(-50%) translateY(0) scale(1)'},

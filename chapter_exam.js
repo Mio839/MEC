@@ -88,9 +88,9 @@
       '.ce-go-btn:hover{filter:brightness(1.1);}',
       '.ce-cancel-btn{background:none;border:none;color:var(--ts,#8899aa);font-size:12px;cursor:pointer;font-family:inherit;}',
       /* result modal */
-      '#chExamResultOv{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:5000;align-items:center;justify-content:center;backdrop-filter:blur(4px);}',
+      '#chExamResultOv{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;height:100dvh;background:rgba(0,0,0,.75);z-index:5000;align-items:center;justify-content:center;padding:12px;backdrop-filter:blur(4px);}',
       '#chExamResultOv.open{display:flex;}',
-      '.ce-result-box{background:#0F1B35;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:24px 28px;max-width:360px;width:90%;text-align:center;}',
+      '.ce-result-box{background:#0F1B35;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:24px 28px;max-width:360px;width:90%;text-align:center;max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);overflow-y:auto;-webkit-overflow-scrolling:touch;}',
       '.ce-pct{font-size:52px;font-weight:900;line-height:1;color:var(--tx,#e8edf5);}',
       '.ce-pct-sub{font-size:12px;color:var(--ts,#8899aa);margin-bottom:14px;}',
       '.ce-detail{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px;}',
@@ -1414,14 +1414,15 @@
   }
 
   function ceSpawnFloatingCombo(card, n, tier) {
-    if (!card) return;
     var theme = ceTheme();
-    var r = card.getBoundingClientRect();
     var el = document.createElement('div');
     var cols = theme.comboColors;
     var sz = 16 + Math.min(tier,6) * 4;
     el.textContent = theme.comboLabel(n);
-    el.style.cssText = 'position:fixed;left:'+(r.left+r.width/2).toFixed(0)+'px;top:'+(r.top+r.height*.3).toFixed(0)+'px;font-weight:900;font-size:'+sz+'px;color:'+cols[Math.min(tier,6)]+';pointer-events:none;z-index:9200;text-shadow:0 2px 12px rgba(0,0,0,.7);transform:translateX(-50%);white-space:nowrap;';
+    // カード相対だと見切れ・高さバラつきが出るため画面中央(やや上)基準に統一（study_exam.jsと同方針）。
+    var cx = window.innerWidth / 2;
+    var cy = Math.round(window.innerHeight * 0.40);
+    el.style.cssText = 'position:fixed;left:'+cx+'px;top:'+cy+'px;font-weight:900;font-size:'+sz+'px;color:'+cols[Math.min(tier,6)]+';pointer-events:none;z-index:9200;text-shadow:0 2px 12px rgba(0,0,0,.7);transform:translateX(-50%);white-space:nowrap;';
     document.body.appendChild(el);
     el.animate([
       {opacity:1,transform:'translateX(-50%) translateY(0) scale(1)'},
