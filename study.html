@@ -10,10 +10,19 @@
 // 入れ子解消後も再現したためカード側ごと無効化する）。study.css がこのクラスを見て
 // .qc の描画スキップと backdrop-filter を外す。
 // iPadOS はデスクトップ表示モードだと UA が Macintosh になるため maxTouchPoints でも判定。
-if (/iP(ad|hone|od)/.test(navigator.userAgent) ||
-    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) {
-  document.documentElement.classList.add('ios-no-cv');
-}
+// さらに Brave 等のフィンガープリント保護で UA/platform/maxTouchPoints が隠されても、
+// iPad は全ブラウザが WebKit なので「WebKit エンジン × タッチ(coarse pointer)」で拾う
+// （デスクトップ Mac Safari は pointer:fine なので誤検出しない）。
+(function(){
+  var ua = navigator.userAgent;
+  var isIOS = /iP(ad|hone|od)/.test(ua);
+  var isIPadDesktop = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+  var isWebKit = /AppleWebKit/.test(ua) && !/(Chrome|CriOS|Chromium|Firefox|FxiOS|Edg|OPR|SamsungBrowser)/.test(ua);
+  var isTouch = navigator.maxTouchPoints > 1 || (window.matchMedia && matchMedia('(pointer:coarse)').matches);
+  if (isIOS || isIPadDesktop || (isWebKit && isTouch)) {
+    document.documentElement.classList.add('ios-no-cv');
+  }
+})();
 </script>
 <script src="progress.js"></script>
 <script src="fx_engine.js"></script>
