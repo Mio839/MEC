@@ -1503,52 +1503,45 @@ function _triggerChoiceCorrectPop(el) {
     card.prepend(ov);
     ov.animate([{opacity:1},{opacity:.5,offset:.3},{opacity:0}], {duration:650, easing:'ease-out'}).onfinish = () => ov.remove();
   }
-  _spawnCorrectSpark(el, theme);
-  if (examEffectSet !== 'classic') _spawnCorrectEmojiPop(el, theme);
+  _spawnScatteredCelebration(theme);
 }
 
-// 単発正解でも毎回、選んだ肢からリング1枚＋小さめのスパークを出して手応えを強める。
-// 全テーマ共通（classic含む）。粒子は十数個なので iPad でも負荷は無視できる範囲。
-function _spawnCorrectSpark(el, theme) {
+// 選択肢付近以外に出す祝祭エフェクト。中央1点に固定せず、互いに離れたランダムな複数箇所へ
+// 0.05秒ずつ遅延して連続発火する（肢のポップは別途肢の上で光る＝そちらは文脈表示として維持）。
+// 位置は最小距離リジェクションで重複を避ける。上寄り中央帯に置き、答えた肢や下のカードに被りにくくする。
+function _scatterPositions(n, minDist) {
+  const W = window.innerWidth, H = window.innerHeight;
+  const x0 = W * 0.14, x1 = W * 0.86;
+  const y0 = H * 0.14, y1 = H * 0.60;
+  const pts = [];
+  let guard = 0;
+  while (pts.length < n && guard < n * 40) {
+    guard++;
+    const x = x0 + Math.random() * (x1 - x0);
+    const y = y0 + Math.random() * (y1 - y0);
+    if (pts.every(p => Math.hypot(p.x - x, p.y - y) >= minDist)) pts.push({ x, y });
+  }
+  // 最小距離を満たす点が足りなければ距離条件を無視して埋める
+  while (pts.length < n) pts.push({ x: x0 + Math.random() * (x1 - x0), y: y0 + Math.random() * (y1 - y0) });
+  return pts;
+}
+
+function _spawnScatteredCelebration(theme) {
   if (!window.MecFX) return;
-  // 発生位置は選んだ肢(el)相対だとカードのスクロール位置で上端に寄ったり中央に来たりして
-  // 発火位置が不安定になる。肢のポップ(_triggerChoiceCorrectPop)が肢上で光る一方、スパークは
-  // 画面中央(粒子・コンボと同じ焦点)に固定して演出を安定させる。
-  const cx = window.innerWidth / 2;
-  const cy = Math.round(window.innerHeight * 0.44);
   const t = Math.max(2, Math.min(_examTier(examStreak) || 2, 6));
   const pal = theme.burstPalettes[t] || theme.burstPalettes[2];
   const isInk = examEffectSet === 'ink';
-  window.MecFX.rings(cx, cy, {
-    count: 1,
-    color: theme.ringColor(t),
-    thickness: 2.5,
-    maxR: 110 + t * 16,
-    additive: !isInk
-  });
-  window.MecFX.burst(cx, cy, {
-    count: 10 + t * 2,
-    colors: pal,
-    shapes: isInk ? ['shard', 'square'] : ['circle', 'star'],
-    tier: 2,
-    scale: .85,
-    glow: !isInk,
-    additive: !isInk
-  });
-}
-
-function _spawnCorrectEmojiPop(el, theme) {
-  if (!window.MecFX) return;
-  const glyphs = theme.correctEmoji;
-  if (!glyphs || !glyphs.length) return;
-  // 肢相対だと発火位置が不安定なので画面中央固定（スパーク・コンボと同じ焦点）。
-  const cx = window.innerWidth / 2;
-  const cy = Math.round(window.innerHeight * 0.44);
-  window.MecFX.glyphBurst(cx, cy, {
-    glyphs: glyphs,
-    count: 6,
-    w: 260,
-    spread: 110
+  const glyphs = theme.correctEmoji; // classic は無し
+  const n = 4 + Math.min(t, 3);       // 4〜7 箇所
+  const minDist = Math.min(window.innerWidth, window.innerHeight) * 0.22;
+  const pts = _scatterPositions(n, minDist);
+  pts.forEach((p, i) => {
+    setTimeout(() => {
+      if (!window.MecFX) return;
+      window.MecFX.rings(p.x, p.y, { count: 1, color: theme.ringColor(t), thickness: 2.2, maxR: 70 + t * 12, additive: !isInk });
+      window.MecFX.burst(p.x, p.y, { count: 7 + t, colors: pal, shapes: isInk ? ['shard', 'square'] : ['circle', 'star'], tier: 2, scale: .7, glow: !isInk, additive: !isInk });
+      if (glyphs && glyphs.length) window.MecFX.glyphBurst(p.x, p.y, { glyphs: glyphs, count: 2, w: 70, spread: 70 });
+    }, i * 50);   // 0.05秒ずつ遅延して連続発火
   });
 }
 

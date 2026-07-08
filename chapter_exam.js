@@ -1390,50 +1390,44 @@
       card.prepend(ov);
       ov.animate([{opacity:1},{opacity:.5,offset:.3},{opacity:0}], {duration:650, easing:'ease-out'}).onfinish = function () { ov.remove(); };
     }
-    if (exam.effectSet !== 'classic') ceSpawnCorrectEmojiPop(el);
-    ceSpawnCorrectSpark(el);
+    ceSpawnScatteredCelebration();
   }
 
-  // 単発正解ごとにリング1枚＋小バースト。連続数に応じ配色・サイズが少し育つ（study と同方針）。
-  function ceSpawnCorrectSpark(el) {
+  // 選択肢付近以外の祝祭エフェクト。互いに離れたランダム複数箇所へ0.05秒ずつ遅延して連続発火
+  // （最小距離リジェクションで重複回避・study_exam.js と同方針）。
+  function ceScatterPositions(n, minDist) {
+    var W = window.innerWidth, H = window.innerHeight;
+    var x0 = W * 0.14, x1 = W * 0.86, y0 = H * 0.14, y1 = H * 0.60;
+    var pts = [], guard = 0;
+    while (pts.length < n && guard < n * 40) {
+      guard++;
+      var x = x0 + Math.random() * (x1 - x0);
+      var y = y0 + Math.random() * (y1 - y0);
+      var ok = true;
+      for (var j = 0; j < pts.length; j++) { if (Math.hypot(pts[j].x - x, pts[j].y - y) < minDist) { ok = false; break; } }
+      if (ok) pts.push({ x: x, y: y });
+    }
+    while (pts.length < n) pts.push({ x: x0 + Math.random() * (x1 - x0), y: y0 + Math.random() * (y1 - y0) });
+    return pts;
+  }
+
+  function ceSpawnScatteredCelebration() {
     if (!window.MecFX) return;
-    // 肢相対だと発火位置が不安定なので画面中央固定（study_exam.js と同方針）。
-    var cx = window.innerWidth / 2;
-    var cy = Math.round(window.innerHeight * 0.44);
     var t = Math.max(2, Math.min(ceTier(exam.streak) || 2, 6));
     var theme = ceTheme();
     var pal = theme.burstPalettes[t] || theme.burstPalettes[2];
     var isInk = exam.effectSet === 'ink';
-    window.MecFX.rings(cx, cy, {
-      count: 1,
-      color: theme.ringColor(t),
-      thickness: 2.5,
-      maxR: 110 + t * 16,
-      additive: !isInk
-    });
-    window.MecFX.burst(cx, cy, {
-      count: 10 + t * 2,
-      colors: pal,
-      shapes: isInk ? ['shard', 'square'] : ['circle', 'star'],
-      tier: 2,
-      scale: .85,
-      glow: !isInk,
-      additive: !isInk
-    });
-  }
-
-  function ceSpawnCorrectEmojiPop(el) {
-    if (!window.MecFX) return;
-    var glyphs = ceTheme().correctEmoji;
-    if (!glyphs || !glyphs.length) return;
-    // 肢相対だと発火位置が不安定なので画面中央固定（study_exam.js と同方針）。
-    var cx = window.innerWidth / 2;
-    var cy = Math.round(window.innerHeight * 0.44);
-    window.MecFX.glyphBurst(cx, cy, {
-      glyphs: glyphs,
-      count: 6,
-      w: 260,
-      spread: 110
+    var glyphs = theme.correctEmoji;
+    var n = 4 + Math.min(t, 3);
+    var minDist = Math.min(window.innerWidth, window.innerHeight) * 0.22;
+    var pts = ceScatterPositions(n, minDist);
+    pts.forEach(function (p, i) {
+      setTimeout(function () {
+        if (!window.MecFX) return;
+        window.MecFX.rings(p.x, p.y, { count: 1, color: theme.ringColor(t), thickness: 2.2, maxR: 70 + t * 12, additive: !isInk });
+        window.MecFX.burst(p.x, p.y, { count: 7 + t, colors: pal, shapes: isInk ? ['shard', 'square'] : ['circle', 'star'], tier: 2, scale: .7, glow: !isInk, additive: !isInk });
+        if (glyphs && glyphs.length) window.MecFX.glyphBurst(p.x, p.y, { glyphs: glyphs, count: 2, w: 70, spread: 70 });
+      }, i * 50);
     });
   }
 
