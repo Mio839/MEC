@@ -350,5 +350,6 @@ let _knSuppressClick = false;
 renderChips();
 renderNotes();
 </script>
+<script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});</script>
 </body>
 </html>

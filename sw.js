@@ -5,6 +5,8 @@ const SHELL = [
   "./study.html",
   "./index.html",
   "./stats.html",
+  "./knowledge.html",
+  "./knowledge_notes.js",
   "./progress.js",
   "./fx_engine.js",
   "./study_exam.js",
