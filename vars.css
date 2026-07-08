@@ -36,6 +36,12 @@
   letter-spacing:.02em;
   cursor:help;
 }
+/* ⚠️ iOS Safari/Brave は position:fixed の背景(下の html::before)を、動的ツールバーで
+   ビューポート高が変わると下半分ぶん塗り残し、そこにブラウザ既定の白が出る（カード0枚でも
+   発生・スクロールで一緒に動く＝白washの真因・2026-07-08）。root要素 html に暗色を敷くと
+   iOS でもビューポート全体へ確実に伝播（root background propagation＝コンポジタ最下層）し、
+   固定背景やタイルの塗り残し部が「白」でなく暗色になって症状が消える。 */
+html { background-color:#0A1730; }
 /* Fixed page gradient — shows through transparent/glass elements */
 html::before {
   content:'';
