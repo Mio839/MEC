@@ -848,11 +848,22 @@
     }
   }
 
+  function ceEnsureShakeOverlay() {
+    var el = document.getElementById('ceExamShakeOverlay');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'ceExamShakeOverlay';
+      el.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9040;opacity:0;';
+      document.body.appendChild(el);
+    }
+    return el;
+  }
+
   function triggerShake(tier) {
     var si = tier >= 6 ? 13 : tier >= 5 ? 8 : tier >= 4 ? 5 : 3;
     var dur = tier >= 5 ? 480 : tier >= 4 ? 340 : 210;
     var easing = ceTheme().chunkyShake ? 'steps(' + (tier >= 5 ? 8 : 5) + ')' : 'ease-in-out';
-    document.body.animate([
+    var kf = [
       {transform:'translate(0,0)'},
       {transform:'translate(-'+si+'px,-'+(si*.5)+'px)'},
       {transform:'translate('+si+'px,'+(si*.6)+'px)'},
@@ -860,7 +871,16 @@
       {transform:'translate('+(si*.4)+'px,-'+(si*.8)+'px)'},
       {transform:'translate(-'+(si*.3)+'px,'+(si*.4)+'px)'},
       {transform:'translate(0,0)'}
-    ], {duration: dur, easing: easing});
+    ];
+    // body 全体を transform すると iPad WebKit が重い/白タイル化する。固定の演出レイヤー
+    // （パーティクルcanvas＋周縁ヴィネット）だけを揺らす（study_exam.js と同方針）。
+    var fxCanvas = document.getElementById('mecFxCanvas');
+    if (fxCanvas) fxCanvas.animate(kf, {duration: dur, easing: easing});
+    var ov = ceEnsureShakeOverlay();
+    var vig = tier >= 6 ? .5 : tier >= 5 ? .42 : .3;
+    ov.style.boxShadow = 'inset 0 0 ' + (tier >= 5 ? 160 : 110) + 'px ' + (tier >= 5 ? 30 : 18) + 'px rgba(0,0,0,' + vig + ')';
+    ov.animate([{opacity:0},{opacity:1,offset:.15},{opacity:1,offset:.7},{opacity:0}], {duration: dur, easing:'ease-out'});
+    ov.animate(kf, {duration: dur, easing: easing});
   }
 
   function triggerBorderGlow(tier) {
@@ -932,6 +952,12 @@
 
     var burstCounts = [0, 0, 50, 140, 340, 580, 900];
     spawnBurst(cx, cy, tier, burstCounts[Math.min(tier,6)] || 50);
+
+    // 中tier(2-3)は最頻出。時間差の二段バースト＋追撃リングで密度を出す（study と同方針）。
+    if (tier === 2 || tier === 3) {
+      setTimeout(function(){ spawnBurst(cx, cy, tier, tier === 3 ? 80 : 36); }, tier === 3 ? 150 : 130);
+      setTimeout(function(){ spawnRings(cx, cy, tier); }, tier === 3 ? 140 : 120);
+    }
 
     if (tier >= 4) setTimeout(function(){ spawnBurst(cx, cy, tier, tier>=6?220:tier>=5?150:90); }, 160);
     if (tier >= 5) setTimeout(function(){ spawnBurst(cx, cy, tier, tier>=6?340:200); }, tier>=6?200:340);
@@ -1340,23 +1366,35 @@
       ov.animate([{opacity:1},{opacity:.5,offset:.3},{opacity:0}], {duration:650, easing:'ease-out'}).onfinish = function () { ov.remove(); };
     }
     if (exam.effectSet !== 'classic') ceSpawnCorrectEmojiPop(el);
-    // 毎正解ごとの小バースト（Canvas なので毎問出しても軽い）
-    if (window.MecFX) {
-      var rr = el.getBoundingClientRect();
-      if (rr.width > 0) {
-        var theme2 = ceTheme();
-        window.MecFX.burst(rr.left + Math.min(24, rr.width * .5), rr.top + rr.height / 2, {
-          count: 26,
-          colors: theme2.burstPalettes[2],
-          shapes: theme2.shapes(2),
-          tier: 2,
-          speed: 520,
-          upBias: 150,
-          glow: exam.effectSet !== 'ink',
-          additive: exam.effectSet !== 'ink'
-        });
-      }
-    }
+    ceSpawnCorrectSpark(el);
+  }
+
+  // 単発正解ごとにリング1枚＋小バースト。連続数に応じ配色・サイズが少し育つ（study と同方針）。
+  function ceSpawnCorrectSpark(el) {
+    if (!window.MecFX) return;
+    var rr = el.getBoundingClientRect();
+    if (!rr.width) return;
+    var cx = rr.left + rr.width / 2, cy = rr.top + rr.height / 2;
+    var t = Math.max(2, Math.min(ceTier(exam.streak) || 2, 6));
+    var theme = ceTheme();
+    var pal = theme.burstPalettes[t] || theme.burstPalettes[2];
+    var isInk = exam.effectSet === 'ink';
+    window.MecFX.rings(cx, cy, {
+      count: 1,
+      color: theme.ringColor(t),
+      thickness: 2.5,
+      maxR: 110 + t * 16,
+      additive: !isInk
+    });
+    window.MecFX.burst(cx, cy, {
+      count: 10 + t * 2,
+      colors: pal,
+      shapes: isInk ? ['shard', 'square'] : ['circle', 'star'],
+      tier: 2,
+      scale: .85,
+      glow: !isInk,
+      additive: !isInk
+    });
   }
 
   function ceSpawnCorrectEmojiPop(el) {
