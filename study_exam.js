@@ -1511,8 +1511,8 @@ function _triggerChoiceCorrectPop(el) {
 // 位置は最小距離リジェクションで重複を避ける。上寄り中央帯に置き、答えた肢や下のカードに被りにくくする。
 function _scatterPositions(n, minDist) {
   const W = window.innerWidth, H = window.innerHeight;
-  const x0 = W * 0.14, x1 = W * 0.86;
-  const y0 = H * 0.14, y1 = H * 0.60;
+  const x0 = W * 0.08, x1 = W * 0.92;
+  const y0 = H * 0.10, y1 = H * 0.72;
   const pts = [];
   let guard = 0;
   while (pts.length < n && guard < n * 40) {
@@ -1533,14 +1533,14 @@ function _spawnScatteredCelebration(theme) {
   const isInk = examEffectSet === 'ink';
   const glyphs = theme.correctEmoji; // classic は無し
   const n = 4 + Math.min(t, 3);       // 4〜7 箇所
-  const minDist = Math.min(window.innerWidth, window.innerHeight) * 0.22;
+  const minDist = Math.min(window.innerWidth, window.innerHeight) * 0.264; // 0.22 ×1.2（重複回避を強化）
   const pts = _scatterPositions(n, minDist);
   pts.forEach((p, i) => {
     setTimeout(() => {
       if (!window.MecFX) return;
-      window.MecFX.rings(p.x, p.y, { count: 1, color: theme.ringColor(t), thickness: 2.2, maxR: 70 + t * 12, additive: !isInk });
-      window.MecFX.burst(p.x, p.y, { count: 7 + t, colors: pal, shapes: isInk ? ['shard', 'square'] : ['circle', 'star'], tier: 2, scale: .7, glow: !isInk, additive: !isInk });
-      if (glyphs && glyphs.length) window.MecFX.glyphBurst(p.x, p.y, { glyphs: glyphs, count: 2, w: 70, spread: 70 });
+      window.MecFX.rings(p.x, p.y, { count: 1, color: theme.ringColor(t), thickness: 3, maxR: 105 + t * 18, additive: !isInk });
+      window.MecFX.burst(p.x, p.y, { count: 12 + t * 2, colors: pal, shapes: isInk ? ['shard', 'square'] : ['circle', 'star'], tier: 3, scale: 1.2, glow: !isInk, additive: !isInk });
+      if (glyphs && glyphs.length) window.MecFX.glyphBurst(p.x, p.y, { glyphs: glyphs, count: 3, w: 110, spread: 110 });
     }, i * 50);   // 0.05秒ずつ遅延して連続発火
   });
 }

@@ -1397,7 +1397,7 @@
   // （最小距離リジェクションで重複回避・study_exam.js と同方針）。
   function ceScatterPositions(n, minDist) {
     var W = window.innerWidth, H = window.innerHeight;
-    var x0 = W * 0.14, x1 = W * 0.86, y0 = H * 0.14, y1 = H * 0.60;
+    var x0 = W * 0.08, x1 = W * 0.92, y0 = H * 0.10, y1 = H * 0.72;
     var pts = [], guard = 0;
     while (pts.length < n && guard < n * 40) {
       guard++;
@@ -1419,14 +1419,14 @@
     var isInk = exam.effectSet === 'ink';
     var glyphs = theme.correctEmoji;
     var n = 4 + Math.min(t, 3);
-    var minDist = Math.min(window.innerWidth, window.innerHeight) * 0.22;
+    var minDist = Math.min(window.innerWidth, window.innerHeight) * 0.264; // 0.22 ×1.2（重複回避を強化）
     var pts = ceScatterPositions(n, minDist);
     pts.forEach(function (p, i) {
       setTimeout(function () {
         if (!window.MecFX) return;
-        window.MecFX.rings(p.x, p.y, { count: 1, color: theme.ringColor(t), thickness: 2.2, maxR: 70 + t * 12, additive: !isInk });
-        window.MecFX.burst(p.x, p.y, { count: 7 + t, colors: pal, shapes: isInk ? ['shard', 'square'] : ['circle', 'star'], tier: 2, scale: .7, glow: !isInk, additive: !isInk });
-        if (glyphs && glyphs.length) window.MecFX.glyphBurst(p.x, p.y, { glyphs: glyphs, count: 2, w: 70, spread: 70 });
+        window.MecFX.rings(p.x, p.y, { count: 1, color: theme.ringColor(t), thickness: 3, maxR: 105 + t * 18, additive: !isInk });
+        window.MecFX.burst(p.x, p.y, { count: 12 + t * 2, colors: pal, shapes: isInk ? ['shard', 'square'] : ['circle', 'star'], tier: 3, scale: 1.2, glow: !isInk, additive: !isInk });
+        if (glyphs && glyphs.length) window.MecFX.glyphBurst(p.x, p.y, { glyphs: glyphs, count: 3, w: 110, spread: 110 });
       }, i * 50);
     });
   }
