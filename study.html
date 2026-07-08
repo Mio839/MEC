@@ -55,7 +55,7 @@ if ('serviceWorker' in navigator) {
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
     <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
     <button class="hdr-toggle" onclick="document.getElementById('mecKbHelp').classList.add('open')" title="キーボードショートカット (?)">⌨️</button>
-    <span id="mecBuildVer" title="読み込まれているビルド版数（キャッシュ確認用）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0708k</span>
+    <span id="mecBuildVer" title="読み込まれているビルド版数（キャッシュ確認用）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0708l</span>
   </div>
   <div class="st-stats">
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
@@ -104,7 +104,7 @@ if ('serviceWorker' in navigator) {
     <div class="search-wrap">
       <input class="search-input" type="search" id="searchInput" placeholder="キーワード検索..." oninput="onSearchInput(this.value)">
     </div>
-    <select class="jump-select" id="chJumpSel" onchange="if(this.value){jumpToChapter(this.value);this.value='';}">
+    <select class="jump-select" id="chJumpSel" onchange="if(this.value){var _v=this.value;this.value='';this.blur();jumpToChapter(_v);}">
       <option value="">📍 章ジャンプ…</option>
     </select>
     <input class="jump-qnum" type="number" id="qJumpInput" placeholder="Q#" min="1" onkeydown="if(event.key==='Enter')jumpToQnum()">
@@ -1489,14 +1489,15 @@ function _jumpScrollToEl(el) {
     lastY = y;
     if (stable < 2 && tries < 24) { requestAnimationFrame(settle); return; }
     _flashJumpTarget(el);
-    // 画像遅延ロード等の着地後ドリフトを最終補正してから content-visibility を元へ戻す
-    setTimeout(() => {
-      if (Math.abs((window.scrollY || 0) - lastY) <= 150) {
-        const drift = el.getBoundingClientRect().top - hdrH;
-        if (Math.abs(drift) > 4) window.scrollTo({ top: Math.max(0, (window.scrollY || 0) + drift), behavior: 'auto' });
-      }
-      restore();
-    }, 450);
+    // iOS は sticky ヘッダ内の select を閉じた後、フォーカス要素(文書先頭)を可視化しようと
+    // 文書を先頭へ戻す（＝ジャンプ直後に Q1 へ吹き飛ぶ）。これを打ち消すため、着地後に目標カードが
+    // ヘッダ直下へ来る位置へ強制再アサートする（画像遅延ロードのドリフトも同時に補正）。
+    const forceToTarget = () => {
+      const drift = el.getBoundingClientRect().top - hdrH;
+      if (Math.abs(drift) > 3) window.scrollTo({ top: Math.max(0, (window.scrollY || 0) + drift), behavior: 'auto' });
+    };
+    setTimeout(forceToTarget, 180);
+    setTimeout(() => { forceToTarget(); restore(); }, 460);
   }
   requestAnimationFrame(settle);
 }
@@ -1513,7 +1514,8 @@ function _firstVisibleCardInChapter(ch) {
   const escUid = uid => (window.CSS && CSS.escape) ? CSS.escape(uid) : uid;
   let firstAny = null;
   for (const uid of ch.uids) {
-    const el = document.querySelector('.qc[data-uid="' + escUid(uid) + '"]');
+    // .subj-section 配下に限定（SRS復習ホストの同 data-uid 複製を誤って掴まない）
+    const el = document.querySelector('.subj-section .qc[data-uid="' + escUid(uid) + '"]');
     if (!el) continue;
     if (!firstAny) firstAny = el;
     if (el.style.display !== 'none') return el;
@@ -1553,6 +1555,7 @@ function jumpToQnum() {
   }
   if (!target) { inp.style.borderColor = 'var(--rd)'; setTimeout(() => { inp.style.borderColor = ''; }, 700); return; }
   inp.value = '';
+  inp.blur(); // iOS が入力欄(ヘッダ)を可視化しようと文書先頭へ戻すのを防ぐ
   _jumpScrollToEl(target);
 }
 
