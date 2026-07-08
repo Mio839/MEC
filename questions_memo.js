@@ -2043,6 +2043,2097 @@ window["_cardJSON_memo"]={
               "c": "<span class=\"kw\">FNの初手＝抗緑膿菌βラクタム単剤・即開始</span>。抗真菌薬や抗MRSA薬は初手ではなく、状況に応じて追加する。"
             }
           ]
+        },
+        {
+          "uid": "memo_ch01_q41",
+          "qn": "Q.41",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "先端巨大症の診断に用いる負荷試験で、正常では成長ホルモン〈GH〉が抑制されるのに対し、本症では抑制されないことを利用するのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　75g経口ブドウ糖負荷試験〈OGTT〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　水制限試験",
+              "ok": false
+            },
+            {
+              "t": "ｃ　迅速ACTH負荷試験",
+              "ok": false
+            },
+            {
+              "t": "ｄ　絶食試験",
+              "ok": false
+            },
+            {
+              "t": "ｅ　Ellsworth-Howard試験",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　75g経口ブドウ糖負荷試験〈OGTT〉",
+          "ans_sub": "正常ではブドウ糖負荷でGHが抑制されるが、先端巨大症では自律性分泌のためGHが抑制されない（底値が下がらない）ことを診断に用いる。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 75g OGTT",
+              "c": "健常者ではブドウ糖負荷で血糖が上がると<strong>GHが抑制される</strong>。先端巨大症ではGHが下垂体腺腫から自律性に分泌されるため、<span class=\"kw\">75g OGTTを行ってもGHが十分に抑制されない（底値が下がらない）</span>。これが確定診断の中心的検査で、IGF-1高値も併せて評価する。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 先端巨大症で用いる負荷試験（表の対応）",
+              "c": "<table class=\"tb\"><tr><th>試験</th><th>本症での反応</th></tr><tr><td><strong>75g OGTT</strong></td><td>GHが<strong>抑制されない</strong>（診断の軸）</td></tr><tr><td>TRH・GnRH〈LHRH〉負荷</td><td>GHが<strong>奇異性に上昇</strong>（本来上がらない）</td></tr><tr><td>L-Dopa負荷</td><td>GHが<strong>奇異性に低下</strong>（本来は上昇）</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">先端巨大症＝OGTTでGHが下げ止まる＋IGF-1高値</span>。TRH/GnRH/L-Dopaでの「奇異反応」もセットで問われる。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q42",
+          "qn": "Q.42",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "先端巨大症でみられる負荷試験の「奇異反応」として正しいのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　TRH・GnRH〈LHRH〉負荷でGHが上昇する。",
+              "ok": true
+            },
+            {
+              "t": "ｂ　TRH負荷でGHが低下する。",
+              "ok": false
+            },
+            {
+              "t": "ｃ　L-Dopa負荷でGHが上昇する。",
+              "ok": false
+            },
+            {
+              "t": "ｄ　OGTTでGHが正常に抑制される。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　インスリン低血糖でGHが低下する。",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　TRH・GnRH〈LHRH〉負荷でGHが上昇する。",
+          "ans_sub": "本来GH分泌を刺激しないTRH・GnRHでGHが上昇するのが奇異反応。L-Dopaは正常ではGHを上げるが、先端巨大症では逆に低下する。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a TRH・GnRHでGH上昇（奇異反応）",
+              "c": "TRHやGnRH〈LHRH〉は本来GH分泌を刺激しないが、先端巨大症の腫瘍細胞ではこれらに<span class=\"kw\">奇異性にGHが上昇</span>する。一方、正常ではGHを上昇させる<strong>L-Dopaでは逆にGHが低下</strong>する。受容体発現の異常により正常と反対の反応が出る。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 刺激と反応の正常 vs 先端巨大症",
+              "c": "<table class=\"tb\"><tr><th>負荷</th><th>正常</th><th>先端巨大症</th></tr><tr><td>TRH・GnRH</td><td>GH不変</td><td><strong>GH上昇</strong></td></tr><tr><td>L-Dopa</td><td>GH上昇</td><td><strong>GH低下</strong></td></tr><tr><td>OGTT</td><td>GH抑制</td><td>抑制されない</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">先端巨大症＝正常と反対の反応（奇異反応）</span>。「TRH/GnRHで上がる・L-Dopaで下がる・OGTTで下げ止まる」を三点セットで覚える。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q43",
+          "qn": "Q.43",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "尿崩症〈DI〉が中枢性か腎性かを鑑別するのに最も有用な負荷試験はどれか。",
+          "choices": [
+            {
+              "t": "ａ　ADH〈バソプレシン〉負荷試験",
+              "ok": true
+            },
+            {
+              "t": "ｂ　75g経口ブドウ糖負荷試験",
+              "ok": false
+            },
+            {
+              "t": "ｃ　CRH負荷試験",
+              "ok": false
+            },
+            {
+              "t": "ｄ　カプトプリル負荷試験",
+              "ok": false
+            },
+            {
+              "t": "ｅ　メチラポン負荷試験",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　ADH〈バソプレシン〉負荷試験",
+          "ans_sub": "水制限試験で尿が濃縮しないことを確認したうえでADH（バソプレシン/デスモプレシン）を投与し、尿浸透圧が上昇すれば中枢性、反応しなければ腎性と鑑別する。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a ADH〈バソプレシン〉負荷試験",
+              "c": "まず<strong>水制限試験</strong>で「水を絶っても尿が濃縮しない（尿浸透圧が上がらない）」ことを確認して尿崩症を診断する。次に<span class=\"kw\">ADH（バソプレシン/デスモプレシン）を投与し、尿浸透圧が上昇すれば中枢性、反応しなければ腎性</span>と鑑別する。中枢性はADHの欠乏、腎性はADHへの反応性低下。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 尿崩症で用いる負荷試験（表の対応）",
+              "c": "<table class=\"tb\"><tr><th>試験</th><th>目的・判定</th></tr><tr><td>水制限試験</td><td>尿が濃縮しない＝尿崩症を診断</td></tr><tr><td><strong>ADH負荷試験</strong></td><td>反応あり＝<strong>中枢性</strong>／反応なし＝<strong>腎性</strong></td></tr><tr><td>高張食塩水負荷試験</td><td>血漿浸透圧上昇に対するADH分泌能を評価</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">尿崩症は「水制限で診断→ADH負荷で中枢性か腎性か鑑別」</span>。デスモプレシン（ADH）が効けば中枢性、効かなければ腎性。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q44",
+          "qn": "Q.44",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "Ellsworth-Howard試験（PTH負荷試験）が診断に用いられる疾患はどれか。",
+          "choices": [
+            {
+              "t": "ａ　副甲状腺機能低下症（特発性と偽性の鑑別）",
+              "ok": true
+            },
+            {
+              "t": "ｂ　原発性副甲状腺機能亢進症",
+              "ok": false
+            },
+            {
+              "t": "ｃ　原発性アルドステロン症",
+              "ok": false
+            },
+            {
+              "t": "ｄ　インスリノーマ",
+              "ok": false
+            },
+            {
+              "t": "ｅ　褐色細胞腫",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　副甲状腺機能低下症（特発性と偽性の鑑別）",
+          "ans_sub": "PTHを投与し尿中cAMPとリン排泄の増加をみる。反応があれば特発性（PTH欠乏）、反応が乏しければ偽性副甲状腺機能低下症（PTH抵抗性）と鑑別する。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 副甲状腺機能低下症の鑑別",
+              "c": "Ellsworth-Howard試験は<strong>PTHを外から投与</strong>し、腎での<span class=\"kw\">尿中cAMP・リン排泄の増加反応</span>をみる検査。反応があれば<strong>特発性（PTH自体が欠乏）</strong>、反応が乏しければ<strong>偽性副甲状腺機能低下症（標的臓器のPTH抵抗性）</strong>と鑑別できる。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 副甲状腺機能低下症の分類",
+              "c": "<table class=\"tb\"><tr><th>病型</th><th>PTH値</th><th>PTH負荷への反応</th></tr><tr><td>特発性（真の低下症）</td><td>低い</td><td><strong>反応あり</strong></td></tr><tr><td>偽性副甲状腺機能低下症</td><td>高い（抵抗性）</td><td><strong>反応乏しい</strong></td></tr></table><p>いずれも共通して<strong>低カルシウム血症・高リン血症・テタニー</strong>をきたす。</p>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">Ellsworth-Howard試験＝PTHを打ってcAMP/リン排泄が上がるか＝特発性か偽性かの鑑別</span>。偽性はPTH高値なのに低Ca＝ホルモン抵抗性。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q45",
+          "qn": "Q.45",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "Cushing症候群を疑ったときにスクリーニングとして最初に行う負荷試験はどれか。",
+          "choices": [
+            {
+              "t": "ａ　少量（1mg）デキサメタゾン抑制試験",
+              "ok": true
+            },
+            {
+              "t": "ｂ　大量デキサメタゾン抑制試験",
+              "ok": false
+            },
+            {
+              "t": "ｃ　迅速ACTH負荷試験",
+              "ok": false
+            },
+            {
+              "t": "ｄ　インスリン低血糖試験",
+              "ok": false
+            },
+            {
+              "t": "ｅ　絶食試験",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　少量（1mg）デキサメタゾン抑制試験",
+          "ans_sub": "少量デキサメタゾンでコルチゾールが抑制されなければCushing症候群を疑う（スクリーニング）。局在診断は大量抑制試験・CRH負荷・メチラポン試験で行う。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 少量デキサメタゾン抑制試験",
+              "c": "健常者では少量（1mg）デキサメタゾンでフィードバックがかかり<strong>翌朝コルチゾールが抑制</strong>される。<span class=\"kw\">Cushing症候群では抑制されない</span>ため、これがスクリーニングになる。深夜コルチゾール・尿中遊離コルチゾールも併用する。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 Cushingで用いる負荷試験（表の対応）",
+              "c": "<table class=\"tb\"><tr><th>試験</th><th>役割</th></tr><tr><td><strong>少量デキサメタゾン抑制</strong></td><td>スクリーニング（抑制されない＝疑い）</td></tr><tr><td>大量デキサメタゾン抑制</td><td>局在：下垂体性〈Cushing病〉は抑制、副腎性・異所性は抑制されない</td></tr><tr><td>CRH負荷</td><td>Cushing病はACTH過剰反応、異所性ACTHは無反応</td></tr><tr><td>メチラポン負荷</td><td>下垂体ACTH予備能の評価</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">少量デキサ＝診断（ふるい分け）、大量デキサ＋CRH＝局在（下垂体か異所性か）</span>。この使い分けが頻出。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q46",
+          "qn": "Q.46",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "ACTH依存性Cushing症候群で、下垂体性〈Cushing病〉と異所性ACTH症候群を鑑別する所見として正しいのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　Cushing病では大量デキサメタゾンでコルチゾールが抑制され、CRH負荷でACTHが過剰反応する。",
+              "ok": true
+            },
+            {
+              "t": "ｂ　異所性ACTH症候群では大量デキサメタゾンで抑制される。",
+              "ok": false
+            },
+            {
+              "t": "ｃ　Cushing病ではCRH負荷でACTHが無反応となる。",
+              "ok": false
+            },
+            {
+              "t": "ｄ　異所性ACTH症候群ではCRH負荷でACTHが過剰反応する。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　副腎腺腫ではACTHが高値となる。",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　Cushing病では大量デキサメタゾンでコルチゾールが抑制され、CRH負荷でACTHが過剰反応する。",
+          "ans_sub": "下垂体性（Cushing病）はフィードバックとCRH反応性が部分的に保たれるため大量デキサで抑制・CRHで過剰反応。異所性ACTHは自律性でどちらにも反応しない。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a Cushing病＝大量デキサで抑制・CRHで過剰反応",
+              "c": "下垂体腺腫による<strong>Cushing病</strong>は、フィードバックやCRHへの反応性が部分的に残る。そのため<span class=\"kw\">大量デキサメタゾンでコルチゾールが抑制され、CRH負荷でACTHが過剰に上昇</span>する。異所性ACTH産生腫瘍は完全に自律性で、どちらにも反応しないのが鑑別点。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 局在診断のまとめ",
+              "c": "<table class=\"tb\"><tr><th></th><th>大量デキサ抑制</th><th>CRH負荷</th><th>ACTH</th></tr><tr><td>Cushing病（下垂体）</td><td><strong>抑制される</strong></td><td><strong>過剰反応</strong></td><td>正常〜高</td></tr><tr><td>異所性ACTH</td><td>抑制されない</td><td>無反応</td><td>著高</td></tr><tr><td>副腎腺腫</td><td>抑制されない</td><td>無反応</td><td>低値</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">「反応が残る＝下垂体（Cushing病）」「無反応＝異所性」</span>。ACTH低値なら副腎性。メチラポン負荷は下垂体ACTH予備能をみる補助検査。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q47",
+          "qn": "Q.47",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "原発性アルドステロン症の機能確認検査（確定診断）に用いられるのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　生理食塩水負荷試験・カプトプリル負荷試験・フロセミド立位試験",
+              "ok": true
+            },
+            {
+              "t": "ｂ　75g経口ブドウ糖負荷試験",
+              "ok": false
+            },
+            {
+              "t": "ｃ　水制限試験・ADH負荷試験",
+              "ok": false
+            },
+            {
+              "t": "ｄ　絶食試験",
+              "ok": false
+            },
+            {
+              "t": "ｅ　Ellsworth-Howard試験",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　生理食塩水負荷試験・カプトプリル負荷試験・フロセミド立位試験",
+          "ans_sub": "アルドステロン/レニン比〈ARR〉でスクリーニング後、これらの負荷でアルドステロンが抑制されない（自律性分泌）ことを確認して確定する。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 生理食塩水・カプトプリル・フロセミド立位",
+              "c": "原発性アルドステロン症はまず<strong>アルドステロン/レニン比〈ARR〉</strong>でスクリーニングし、次に機能確認検査で確定する。正常なら容量負荷やACE阻害でアルドステロンは抑制されるが、<span class=\"kw\">本症では自律性分泌のため抑制されない</span>。レニンは低値のまま。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 各確認検査の原理",
+              "c": "<table class=\"tb\"><tr><th>試験</th><th>原理・本症の判定</th></tr><tr><td>生理食塩水負荷</td><td>容量負荷でも<strong>アルドステロン抑制されず</strong></td></tr><tr><td>カプトプリル負荷</td><td>ACE阻害でも<strong>アルドステロン低下せず</strong></td></tr><tr><td>フロセミド立位試験</td><td>刺激しても<strong>レニンが上昇しない</strong>（低反応）</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">原発性アルドステロン症＝アルドステロン高値・レニン低値（ARR高値）＋負荷でアルドステロンが抑制されない</span>。局在（片側性か）は副腎静脈サンプリングで決める。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q48",
+          "qn": "Q.48",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "原発性副腎皮質機能低下症〈Addison病〉の診断に用いる負荷試験はどれか。",
+          "choices": [
+            {
+              "t": "ａ　迅速ACTH〈コシントロピン〉負荷試験",
+              "ok": true
+            },
+            {
+              "t": "ｂ　デキサメタゾン抑制試験",
+              "ok": false
+            },
+            {
+              "t": "ｃ　絶食試験",
+              "ok": false
+            },
+            {
+              "t": "ｄ　水制限試験",
+              "ok": false
+            },
+            {
+              "t": "ｅ　75g経口ブドウ糖負荷試験",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　迅速ACTH〈コシントロピン〉負荷試験",
+          "ans_sub": "ACTHを投与してもコルチゾールが十分に上昇しなければ原発性副腎不全（Addison病）と診断する。原発性ではACTHは高値、色素沈着を伴う。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 迅速ACTH負荷試験",
+              "c": "合成ACTH（コシントロピン）を投与し、副腎のコルチゾール分泌予備能をみる。<span class=\"kw\">Addison病ではACTHを打ってもコルチゾールが十分上昇しない</span>。副腎自体の障害なので<strong>内因性ACTHはむしろ高値</strong>となり、皮膚・粘膜の色素沈着を伴う。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 原発性 vs 続発性の副腎不全",
+              "c": "<table class=\"tb\"><tr><th></th><th>原発性〈Addison〉</th><th>続発性（下垂体性）</th></tr><tr><td>ACTH</td><td><strong>高値</strong></td><td>低〜正常</td></tr><tr><td>色素沈着</td><td>あり</td><td>なし</td></tr><tr><td>アルドステロン</td><td>低下</td><td>ほぼ保たれる</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">Addison病＝ACTH負荷でコルチゾール上がらない＋ACTH高値＋色素沈着</span>。急性増悪（副腎クリーゼ）は低血圧・低Na・高Kで致死的、まずステロイド補充。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q49",
+          "qn": "Q.49",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "インスリノーマの診断に用いる検査で、低血糖時にもインスリン分泌が抑制されないことを証明するのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　絶食試験（72時間絶食試験）",
+              "ok": true
+            },
+            {
+              "t": "ｂ　75g経口ブドウ糖負荷試験",
+              "ok": false
+            },
+            {
+              "t": "ｃ　迅速ACTH負荷試験",
+              "ok": false
+            },
+            {
+              "t": "ｄ　水制限試験",
+              "ok": false
+            },
+            {
+              "t": "ｅ　メチラポン負荷試験",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　絶食試験（72時間絶食試験）",
+          "ans_sub": "絶食で低血糖を誘発しても、インスリン・Cペプチドが抑制されない（不適切に高い）ことを確認する。Whippleの三徴とあわせて診断。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 絶食試験",
+              "c": "正常では低血糖になればインスリン分泌は止まる。インスリノーマでは腫瘍が自律性にインスリンを出すため、<span class=\"kw\">絶食で低血糖を誘発してもインスリン・Cペプチドが抑制されず不適切に高値</span>となる。<strong>Whippleの三徴</strong>（低血糖症状・血糖低値・糖投与で改善）も診断の柱。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 絶食試験の解釈ポイント",
+              "c": "<table class=\"tb\"><tr><th>項目</th><th>インスリノーマ</th></tr><tr><td>血糖</td><td>低下（≦45〜55mg/dL）</td></tr><tr><td>インスリン・Cペプチド</td><td><strong>抑制されず高値</strong>（内因性）</td></tr><tr><td>Cペプチド</td><td>高い＝インスリン自己注射（詐病）との鑑別に有用</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">インスリノーマ＝低血糖なのにインスリン・Cペプチドが高い（絶食試験で証明）</span>。Cペプチド低値なら外因性インスリンを疑う。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q50",
+          "qn": "Q.50",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "糖尿病の検査について、75g経口ブドウ糖負荷試験〈OGTT〉とグルカゴン負荷試験の目的の組合せで正しいのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　OGTT＝耐糖能（診断）、グルカゴン負荷試験＝内因性インスリン分泌能の評価",
+              "ok": true
+            },
+            {
+              "t": "ｂ　OGTT＝インスリン分泌能、グルカゴン負荷試験＝耐糖能の診断",
+              "ok": false
+            },
+            {
+              "t": "ｃ　OGTT＝GH分泌能、グルカゴン負荷試験＝ACTH予備能",
+              "ok": false
+            },
+            {
+              "t": "ｄ　両者とも成長ホルモン分泌能の評価",
+              "ok": false
+            },
+            {
+              "t": "ｅ　両者とも尿の濃縮能の評価",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　OGTT＝耐糖能（診断）、グルカゴン負荷試験＝内因性インスリン分泌能の評価",
+          "ans_sub": "OGTTは血糖の推移から糖尿病型を診断する。グルカゴン負荷試験は静注後のCペプチド増加でβ細胞のインスリン分泌予備能をみる（インスリン導入の判断など）。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a OGTT＝診断／グルカゴン負荷＝分泌能",
+              "c": "<strong>75g OGTT</strong>は空腹時・負荷後2時間の血糖から糖尿病型・境界型を判定する<span class=\"kw\">診断のための検査</span>。<strong>グルカゴン負荷試験</strong>はグルカゴン静注後の<span class=\"kw\">Cペプチド増加で内因性インスリン分泌能（β細胞予備能）を評価</span>し、インスリン療法の要否判断などに用いる。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 糖尿病で用いる負荷試験（表の対応）",
+              "c": "<table class=\"tb\"><tr><th>試験</th><th>目的</th><th>指標</th></tr><tr><td><strong>75g OGTT</strong></td><td>耐糖能の診断</td><td>血糖（空腹時・2時間値）</td></tr><tr><td><strong>グルカゴン負荷試験</strong></td><td>インスリン分泌能の評価</td><td>Cペプチド（前後の増加）</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">OGTTは「診断」、グルカゴン負荷は「分泌能（Cペプチド反応）」</span>。先端巨大症でもOGTTを使うが、こちらは血糖ではなくGH抑制をみる目的で使い分ける。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q51",
+          "qn": "Q.51",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "低ゴナドトロピン性性腺機能低下症に嗅覚障害を伴うことが特徴的な疾患はどれか。",
+          "choices": [
+            {
+              "t": "ａ　Kallmann症候群",
+              "ok": true
+            },
+            {
+              "t": "ｂ　Klinefelter症候群",
+              "ok": false
+            },
+            {
+              "t": "ｃ　Turner症候群",
+              "ok": false
+            },
+            {
+              "t": "ｄ　Prader-Willi症候群",
+              "ok": false
+            },
+            {
+              "t": "ｅ　精巣性女性化症候群",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　Kallmann症候群",
+          "ans_sub": "Kallmann症候群はGnRH（LHRH）分泌障害による低ゴナドトロピン性性腺機能低下症で、嗅神経とGnRHニューロンの発生異常のため嗅覚脱失・低下を伴う。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a Kallmann症候群",
+              "c": "Kallmann症候群は<span class=\"kw\">GnRH（LHRH）の分泌障害による低ゴナドトロピン性（中枢性）性腺機能低下症</span>。胎生期にGnRHニューロンと嗅神経が同じ経路を移動して発生するため、その遊走障害により<strong>嗅覚脱失・低下を合併</strong>するのが最大の特徴。二次性徴が来ない＋においが分からない、で想起する。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 ゴナドトロピンでの分類（鑑別）",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>ゴナドトロピン(LH/FSH)</th><th>特徴</th></tr><tr><td><strong>Kallmann症候群</strong></td><td><strong>低下</strong>（中枢性）</td><td>嗅覚障害を伴う</td></tr><tr><td>Klinefelter症候群(47,XXY)</td><td>上昇（原発性）</td><td>高身長・女性化乳房・小精巣</td></tr><tr><td>Turner症候群(45,X)</td><td>上昇（原発性）</td><td>低身長・翼状頸・性腺形成不全</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">Kallmann＝GnRH欠損（LH/FSH低下）＋嗅覚障害</span>。「性腺機能低下＋においがわからない」でこの病名。治療はゴナドトロピンやGnRH補充。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q52",
+          "qn": "Q.52",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "新生児期の筋緊張低下で発症し、乳児期以降の過食・肥満、知的障害、性腺機能低下、低身長を特徴とする「HHHO症候群」とも呼ばれる疾患はどれか。",
+          "choices": [
+            {
+              "t": "ａ　Prader-Willi症候群",
+              "ok": true
+            },
+            {
+              "t": "ｂ　Kallmann症候群",
+              "ok": false
+            },
+            {
+              "t": "ｃ　Laurence-Moon-Biedl症候群",
+              "ok": false
+            },
+            {
+              "t": "ｄ　Marfan症候群",
+              "ok": false
+            },
+            {
+              "t": "ｅ　Down症候群",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　Prader-Willi症候群",
+          "ans_sub": "Prader-Willi症候群は父由来15q11-13の欠失などによる。HHHO＝Hypotonia（筋緊張低下）・Hypomentia（知能低下）・Hypogonadism（性腺機能低下）・Obesity（肥満）に低身長を伴う。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a Prader-Willi症候群",
+              "c": "Prader-Willi症候群は<strong>父由来の15番染色体長腕（15q11-13）の異常</strong>による。新生児期は<span class=\"kw\">著明な筋緊張低下（哺乳不良）</span>で始まり、幼児期以降は<strong>過食・肥満</strong>が前面に出る。頭文字をとった<span class=\"kw\">HHHO＝Hypotonia・Hypomentia・Hypogonadism・Obesity</span>に低身長を加えて覚える。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 HHHOの内訳",
+              "c": "<table class=\"tb\"><tr><th>頭文字</th><th>英語</th><th>意味</th></tr><tr><td>H</td><td>Hypotonia</td><td>筋緊張低下</td></tr><tr><td>H</td><td>Hypomentia</td><td>知能低下</td></tr><tr><td>H</td><td>Hypogonadism</td><td>性腺機能低下</td></tr><tr><td>O</td><td>Obesity</td><td>肥満</td></tr></table><p>＋低身長。成長ホルモン治療の適応がある。</p>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">Prader-Willi＝HHHO＋低身長・新生児期の筋緊張低下→のちに過食肥満</span>。父由来15q欠失（母由来欠失ならAngelman症候群）という刷り込みの対比も頻出。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q53",
+          "qn": "Q.53",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "副腎髄質由来の褐色細胞腫の局在診断に用いるシンチグラフィはどれか。",
+          "choices": [
+            {
+              "t": "ａ　MIBGシンチグラフィ",
+              "ok": true
+            },
+            {
+              "t": "ｂ　アドステロールシンチグラフィ",
+              "ok": false
+            },
+            {
+              "t": "ｃ　ガリウムシンチグラフィ",
+              "ok": false
+            },
+            {
+              "t": "ｄ　骨シンチグラフィ",
+              "ok": false
+            },
+            {
+              "t": "ｅ　タリウム心筋シンチグラフィ",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　MIBGシンチグラフィ",
+          "ans_sub": "MIBGはノルアドレナリンの類似体で、副腎髄質・交感神経・褐色細胞腫や神経芽腫に集積する。副腎皮質の評価にはアドステロールシンチを用いる。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a MIBGシンチグラフィ",
+              "c": "MIBG（メタヨードベンジルグアニジン）は<strong>ノルアドレナリンの類似体</strong>で、カテコラミンを取り込む<span class=\"kw\">副腎髄質・交感神経節・褐色細胞腫・パラガングリオーマ・神経芽腫</span>に集積する。副腎の「髄質」機能・腫瘍の評価に用いる。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 副腎シンチの皮質と髄質",
+              "c": "<table class=\"tb\"><tr><th>対象</th><th>核種・製剤</th><th>主な疾患</th></tr><tr><td><strong>副腎皮質</strong></td><td>アドステロールシンチ</td><td>原発性アルドステロン症・Cushing症候群の局在</td></tr><tr><td><strong>副腎髄質</strong></td><td>MIBGシンチ</td><td>褐色細胞腫・神経芽腫</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">副腎「皮質」＝アドステロール、「髄質」＝MIBG</span>。MIBGはカテコラミン産生腫瘍を光らせる、と覚える。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q54",
+          "qn": "Q.54",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "原発性アルドステロン症やCushing症候群で、副腎皮質腫瘍の局在・機能評価に用いるシンチグラフィはどれか。",
+          "choices": [
+            {
+              "t": "ａ　アドステロールシンチグラフィ",
+              "ok": true
+            },
+            {
+              "t": "ｂ　MIBGシンチグラフィ",
+              "ok": false
+            },
+            {
+              "t": "ｃ　骨シンチグラフィ",
+              "ok": false
+            },
+            {
+              "t": "ｄ　レノグラム",
+              "ok": false
+            },
+            {
+              "t": "ｅ　甲状腺シンチグラフィ",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　アドステロールシンチグラフィ",
+          "ans_sub": "アドステロール（コレステロール類似体）は副腎皮質のステロイド合成細胞に取り込まれ、皮質腺腫や過形成の局在・機能亢進を評価できる。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a アドステロールシンチグラフィ",
+              "c": "アドステロールは<strong>コレステロールの類似体</strong>で、ステロイドホルモンを合成する<span class=\"kw\">副腎皮質細胞に取り込まれる</span>。機能亢進している皮質腺腫・過形成に集積が増えるため、<strong>原発性アルドステロン症やCushing症候群の局在・機能診断</strong>に用いられる。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 内分泌科で使うシンチ（表の対応）",
+              "c": "<table class=\"tb\"><tr><th>シンチ</th><th>評価対象</th></tr><tr><td>アドステロールシンチ</td><td>副腎皮質機能（アルドステロン症・Cushing）</td></tr><tr><td>MIBGシンチ</td><td>副腎髄質機能（褐色細胞腫）</td></tr><tr><td>甲状腺シンチ</td><td>甲状腺機能評価（Basedow・機能性結節など）</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">アドステロール＝副腎皮質、MIBG＝副腎髄質</span>。皮質のホルモン（アルドステロン・コルチゾール）が過剰なら皮質シンチ、と結びつける。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q55",
+          "qn": "Q.55",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "心筋血流シンチグラフィ（安静時・運動負荷）で、虚血や心筋バイアビリティの評価に用いる放射性医薬品はどれか。",
+          "choices": [
+            {
+              "t": "ａ　タリウム〈201Tl〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　ガリウム〈67Ga〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　アドステロール",
+              "ok": false
+            },
+            {
+              "t": "ｄ　放射性ヨウ素〈123I-イオダイド〉",
+              "ok": false
+            },
+            {
+              "t": "ｅ　99mTc-MDP",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　タリウム〈201Tl〉",
+          "ans_sub": "タリウムはカリウム類似体で心筋血流に応じて集積する。安静時と運動（薬剤）負荷を比較し、負荷時のみの欠損＝虚血、常時欠損で再分布なし＝梗塞（バイアビリティ低下）と判定する。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a タリウム〈201Tl〉",
+              "c": "タリウムは<strong>カリウムに似た挙動</strong>で血流の保たれた心筋に取り込まれる。<span class=\"kw\">運動（または薬剤）負荷時と安静時を比較</span>し、負荷時だけ欠損して安静時に取り込みが戻る（再分布）なら<strong>虚血</strong>、常に欠損して再分布しないなら<strong>心筋梗塞（生存心筋なし）</strong>と判定する。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 心筋シンチの2つの使い道（診療科で製剤が違う）",
+              "c": "<table class=\"tb\"><tr><th>目的</th><th>製剤</th><th>読み方</th></tr><tr><td>循環器：虚血評価</td><td><strong>タリウム</strong>（血流）</td><td>負荷/安静の比較で虚血・梗塞を判定</td></tr><tr><td>神経：Parkinsonismの鑑別</td><td><strong>MIBG</strong>（交感神経）</td><td>集積低下＝Lewy小体病（Parkinson病等）</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">虚血をみる心筋シンチ＝タリウム（負荷と安静を比較）</span>。同じ「心筋シンチ」でもMIBGは神経内科でParkinsonism鑑別に使う別物、と区別する。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q56",
+          "qn": "Q.56",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "心臓MIBGシンチグラフィで心臓への集積低下がみられ、Parkinson病の鑑別に有用とされる病態はどれか。",
+          "choices": [
+            {
+              "t": "ａ　Lewy小体病（Parkinson病・Lewy小体型認知症）",
+              "ok": true
+            },
+            {
+              "t": "ｂ　多系統萎縮症",
+              "ok": false
+            },
+            {
+              "t": "ｃ　進行性核上性麻痺",
+              "ok": false
+            },
+            {
+              "t": "ｄ　本態性振戦",
+              "ok": false
+            },
+            {
+              "t": "ｅ　薬剤性パーキンソニズム",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　Lewy小体病（Parkinson病・Lewy小体型認知症）",
+          "ans_sub": "Parkinson病・Lewy小体型認知症では心臓交感神経が障害され、心臓MIBG集積（H/M比）が低下する。他のパーキンソニズム（MSA・PSPなど）では比較的保たれ、鑑別に役立つ。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a Lewy小体病",
+              "c": "MIBGは心臓交感神経終末に取り込まれる。<span class=\"kw\">Parkinson病・Lewy小体型認知症では心臓交感神経の変性により集積（心/縦隔比＝H/M比）が低下</span>する。パーキンソニズムを呈するが集積が保たれる<strong>多系統萎縮症・進行性核上性麻痺・薬剤性・本態性振戦</strong>との鑑別に有用。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 パーキンソニズムと心臓MIBG",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>心臓MIBG集積</th></tr><tr><td><strong>Parkinson病・Lewy小体型認知症</strong></td><td><strong>低下</strong></td></tr><tr><td>多系統萎縮症・進行性核上性麻痺</td><td>保たれる（正常）</td></tr><tr><td>本態性振戦・薬剤性</td><td>正常</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">心臓MIBG低下＝Lewy小体病（Parkinson病）</span>。同じMIBGでも「心臓＝Parkinson鑑別」「副腎＝褐色細胞腫」と使い道を分ける。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q57",
+          "qn": "Q.57",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "腎血流・排泄能や左右の分腎機能の評価に用いる検査（レノグラム）はどれか。",
+          "choices": [
+            {
+              "t": "ａ　腎シンチグラフィ",
+              "ok": true
+            },
+            {
+              "t": "ｂ　骨シンチグラフィ",
+              "ok": false
+            },
+            {
+              "t": "ｃ　ガリウムシンチグラフィ",
+              "ok": false
+            },
+            {
+              "t": "ｄ　甲状腺シンチグラフィ",
+              "ok": false
+            },
+            {
+              "t": "ｅ　アドステロールシンチグラフィ",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　腎シンチグラフィ",
+          "ans_sub": "腎シンチ（レノグラム）は放射性医薬品の腎への集積・排泄を経時的に描出し、腎血流・排泄能・左右別（分腎）機能を評価する。水腎症・腎血管性病変・移植腎評価に有用。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 腎シンチグラフィ（レノグラム）",
+              "c": "腎シンチグラフィは放射性医薬品が腎に集積し尿へ排泄される様子を<span class=\"kw\">経時的な曲線（レノグラム）</span>として描出する。<strong>腎血流・排泄能の評価、左右それぞれの分腎機能</strong>を数値で出せるのが特徴で、閉塞（水腎症）や腎血管性高血圧、移植腎の評価に使う。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 何を評価するか",
+              "c": "<table class=\"tb\"><tr><th>項目</th><th>内容</th></tr><tr><td>血流・排泄能</td><td>集積〜排泄のカーブで評価</td></tr><tr><td>分腎機能</td><td><strong>左右別</strong>の機能割合を定量</td></tr><tr><td>主な適応</td><td>水腎症・腎血管性高血圧・移植腎</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">レノグラム＝腎の血流・排泄・左右差（分腎機能）を経時的にみる</span>。「片方の腎がどれだけ働いているか」を知りたいときの検査。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q58",
+          "qn": "Q.58",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "悪性腫瘍の骨転移の有無を全身で検索するのに最も適したシンチグラフィはどれか。",
+          "choices": [
+            {
+              "t": "ａ　骨シンチグラフィ",
+              "ok": true
+            },
+            {
+              "t": "ｂ　腎シンチグラフィ",
+              "ok": false
+            },
+            {
+              "t": "ｃ　甲状腺シンチグラフィ",
+              "ok": false
+            },
+            {
+              "t": "ｄ　アドステロールシンチグラフィ",
+              "ok": false
+            },
+            {
+              "t": "ｅ　タリウム心筋シンチグラフィ",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　骨シンチグラフィ",
+          "ans_sub": "骨シンチは骨代謝が亢進した部位に集積（hot spot）し、骨転移・骨折・炎症を全身一度に検索できる。骨転移の全身スクリーニングとして有用。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 骨シンチグラフィ",
+              "c": "骨シンチは<strong>骨代謝（骨形成）が亢進した部位に集積</strong>し、その部位が<span class=\"kw\">集積亢進（hot spot）</span>として全身像に描出される。転移巣・骨折・炎症などで陽性になり、<strong>骨転移の有無を一度に全身で検索</strong>できる。どの科の悪性腫瘍でも用いられる。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 骨シンチのポイント",
+              "c": "<table class=\"tb\"><tr><th>項目</th><th>内容</th></tr><tr><td>集積する部位</td><td>骨代謝亢進部（転移・骨折・炎症）</td></tr><tr><td>強み</td><td><strong>全身を一度に</strong>スクリーニング</td></tr><tr><td>注意</td><td>転移以外（変形性関節症・骨折）でも集積＝特異度は高くない</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">骨転移の全身検索＝骨シンチ（hot spot）</span>。ただし近年は転移検索をPET-CTで行うことが増え、骨シンチの実施機会は減っている。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q59",
+          "qn": "Q.59",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "サルコイドーシス・悪性リンパ腫・IgG4関連疾患など、全身性の炎症・腫瘍の検出に用いられてきたシンチグラフィはどれか。",
+          "choices": [
+            {
+              "t": "ａ　ガリウムシンチグラフィ",
+              "ok": true
+            },
+            {
+              "t": "ｂ　骨シンチグラフィ",
+              "ok": false
+            },
+            {
+              "t": "ｃ　MIBGシンチグラフィ",
+              "ok": false
+            },
+            {
+              "t": "ｄ　レノグラム",
+              "ok": false
+            },
+            {
+              "t": "ｅ　アドステロールシンチグラフィ",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　ガリウムシンチグラフィ",
+          "ans_sub": "ガリウム〈67Ga〉は炎症・腫瘍組織に集積し、サルコイドーシス・悪性リンパ腫・IgG4関連疾患・不明熱の検索に用いる。現在は多くがPET-CTに置き換わっている。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a ガリウムシンチグラフィ",
+              "c": "ガリウム〈67Ga〉は<strong>炎症細胞や腫瘍組織</strong>に集積する性質があり、<span class=\"kw\">サルコイドーシス・悪性リンパ腫・IgG4関連疾患・不明熱・感染巣</span>など全身性の炎症・腫瘍の検出に用いられてきた。サルコイドーシスでは唾液腺・涙腺・肺門部への集積（パンダ・ラムダサイン）が知られる。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 主な適応と位置づけ",
+              "c": "<table class=\"tb\"><tr><th>項目</th><th>内容</th></tr><tr><td>集積するもの</td><td>炎症・腫瘍（サルコイドーシス・悪性リンパ腫・IgG4関連ほか）</td></tr><tr><td>現状</td><td>全身の炎症・転移検索は<strong>PET-CT</strong>が主流となり実施機会は減少</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">ガリウムシンチ＝全身の炎症・腫瘍（サルコイドーシス・リンパ腫・IgG4）</span>。骨シンチと並び、近年はPET-CTに置き換わりつつある点も押さえる。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q60",
+          "qn": "Q.60",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "核医学検査（シンチグラフィ）の放射線被ばくについて正しいのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　被ばく量はおおむねCT検査1回分程度で、想像されるより少ない。",
+              "ok": true
+            },
+            {
+              "t": "ｂ　単純エックス線写真より必ず被ばくが少ない。",
+              "ok": false
+            },
+            {
+              "t": "ｃ　被ばくが大きいため妊娠の有無にかかわらず全例で禁忌である。",
+              "ok": false
+            },
+            {
+              "t": "ｄ　放射性医薬品を用いるためMRIより常に被ばくが大きい。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　被ばくは体外からの照射によるものである。",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　被ばく量はおおむねCT検査1回分程度で、想像されるより少ない。",
+          "ans_sub": "核医学検査の被ばくは数mSv程度でCT一回分と同等のオーダー。体内に投与した放射性医薬品からの内部被ばくだが、過度に多いわけではない。MRIは被ばくなし。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a CT1回分程度で意外と少ない",
+              "c": "「放射性の薬を注射する」と聞くと被ばくが多そうに思えるが、<span class=\"kw\">シンチグラフィの被ばくは数mSv程度で、おおむねCT検査1回分と同等のオーダー</span>。投与した放射性医薬品による<strong>内部被ばく</strong>だが、半減期の短い核種を使うため過大ではない。MRIは磁場を使うため被ばくはない。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 検査ごとの被ばくの目安（オーダー）",
+              "c": "<table class=\"tb\"><tr><th>検査</th><th>被ばく</th></tr><tr><td>単純エックス線（胸部）</td><td>ごく少ない（〜0.1mSv程度）</td></tr><tr><td><strong>シンチグラフィ</strong></td><td><strong>数mSv（CT1回分程度）</strong></td></tr><tr><td>CT</td><td>数〜十数mSv</td></tr><tr><td>MRI・超音波</td><td>被ばくなし</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">シンチの被ばく＝内部被ばくだがCT一回分くらいで意外と少ない</span>。ただし妊婦・授乳婦では原則慎重（授乳は一時中断など）に扱う。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q61",
+          "qn": "Q.61",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "摂食障害について正しいのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　神経性大食症〈神経性過食症〉は神経性やせ症〈神経性無食欲症〉より有病率が高い。",
+              "ok": true
+            },
+            {
+              "t": "ｂ　神経性やせ症の方が神経性大食症より有病率が高い。",
+              "ok": false
+            },
+            {
+              "t": "ｃ　神経性大食症では必ず著明なやせを伴う。",
+              "ok": false
+            },
+            {
+              "t": "ｄ　いずれも男性に多い。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　自己誘発性嘔吐は電解質異常を起こさない。",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　神経性大食症〈神経性過食症〉は神経性やせ症〈神経性無食欲症〉より有病率が高い。",
+          "ans_sub": "一般に神経性大食症のほうが神経性やせ症より有病率が高い。ただし致死率（死亡率）は神経性やせ症のほうが高い。いずれも思春期〜若年女性に多い。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 大食症のほうが有病率が高い",
+              "c": "摂食障害では<span class=\"kw\">神経性大食症〈過食症〉のほうが神経性やせ症〈無食欲症〉より有病率が高い</span>。大食症は体重が正常範囲のことが多く目立ちにくいため受診が遅れやすい。一方、<strong>致死率（死亡率）はやせ症のほうが高い</strong>点は取り違えないこと。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 神経性やせ症 vs 神経性大食症",
+              "c": "<table class=\"tb\"><tr><th></th><th>神経性やせ症</th><th>神経性大食症</th></tr><tr><td>体重</td><td><strong>著明なやせ（低体重）</strong></td><td>正常〜やや過体重が多い</td></tr><tr><td>有病率</td><td>低い</td><td><strong>高い</strong></td></tr><tr><td>死亡率</td><td><strong>高い</strong></td><td>比較的低い</td></tr><tr><td>過食・排出行動</td><td>過食排出型ではあり</td><td>むちゃ食い＋代償行動（嘔吐・下剤）</td></tr><tr><td>病識</td><td>乏しい</td><td>比較的保たれる</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">有病率は大食症＞やせ症、死亡率はやせ症＞大食症</span>。自己誘発嘔吐は<strong>低カリウム血症・代謝性アルカローシス</strong>やう歯・唾液腺腫脹・吐きだこ（Russell徴候）を招く。どちらも若年女性に多い。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q62",
+          "qn": "Q.62",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "女性化乳房の成因は「男性ホルモン作用の欠乏」と「女性ホルモン作用の増強」に大別される。このうち、女性ホルモン作用の増強が主因となるのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　肝硬変",
+              "ok": true
+            },
+            {
+              "t": "ｂ　Klinefelter症候群",
+              "ok": false
+            },
+            {
+              "t": "ｃ　球脊髄性筋萎縮症",
+              "ok": false
+            },
+            {
+              "t": "ｄ　抗男性ホルモン薬の使用",
+              "ok": false
+            },
+            {
+              "t": "ｅ　スピロノラクトンの使用",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　肝硬変",
+          "ans_sub": "肝硬変ではエストロゲンの代謝・分解が低下し、相対的に女性ホルモン作用が増強して女性化乳房をきたす。他の選択肢はいずれも男性ホルモン作用の欠乏による。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 肝硬変（女性ホルモン作用の増強）",
+              "c": "肝臓はエストロゲンを代謝・分解する。<span class=\"kw\">肝硬変ではエストロゲンの分解が低下</span>し、体内で相対的に女性ホルモン作用が高まって女性化乳房を生じる（クモ状血管腫・手掌紅斑も同じ機序）。一方、Klinefelter・球脊髄性筋萎縮症・抗男性ホルモン薬・スピロノラクトンは<strong>男性ホルモン作用の欠乏</strong>側の原因。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 女性化乳房の原因の2大別（表の対応）",
+              "c": "<table class=\"tb\"><tr><th>男性ホルモン作用の欠乏</th><th>女性ホルモン作用の増強</th></tr><tr><td>Klinefelter症候群</td><td>ホルモン産生腫瘍（エストロゲン・ゴナドトロピン産生）</td></tr><tr><td>球脊髄性筋萎縮症</td><td><strong>肝硬変</strong>（エストロゲン分解低下）</td></tr><tr><td>抗男性ホルモン薬</td><td>ジギタリス</td></tr><tr><td>スピロノラクトン</td><td></td></tr></table><p>その他、Ca拮抗薬・高プロラクチン血症でも生じうる。</p>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">女性化乳房＝アンドロゲン↓かエストロゲン↑（相対バランスの崩れ）</span>。薬剤ではスピロノラクトン・ジギタリス・抗男性ホルモン薬・Ca拮抗薬が頻出。肝硬変は「エストロゲンを壊せない」で増強側。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q63",
+          "qn": "Q.63",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "女性化乳房をきたす原因として、誤っているのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　テストステロン製剤の補充",
+              "ok": true
+            },
+            {
+              "t": "ｂ　スピロノラクトン",
+              "ok": false
+            },
+            {
+              "t": "ｃ　ジギタリス",
+              "ok": false
+            },
+            {
+              "t": "ｄ　肝硬変",
+              "ok": false
+            },
+            {
+              "t": "ｅ　高プロラクチン血症",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　テストステロン製剤の補充",
+          "ans_sub": "女性化乳房は男性ホルモン作用の欠乏または女性ホルモン作用の増強で生じる。スピロノラクトン・ジギタリス・肝硬変・高プロラクチン血症はいずれも原因となる。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a テストステロン補充（誤り＝原因ではない）",
+              "c": "女性化乳房は<strong>アンドロゲン作用の低下</strong>または<strong>エストロゲン作用の増強</strong>で起こる。テストステロン（男性ホルモン）の補充はむしろアンドロゲン作用を高める方向で、女性化乳房の原因にはならない。他の選択肢はすべて原因となりうる。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 主な薬剤性・病態性の原因",
+              "c": "<table class=\"tb\"><tr><th>分類</th><th>原因</th></tr><tr><td>薬剤</td><td>スピロノラクトン・ジギタリス・抗男性ホルモン薬・Ca拮抗薬</td></tr><tr><td>病態</td><td>肝硬変・ホルモン産生腫瘍・高プロラクチン血症・Klinefelter症候群</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">スピロノラクトン・ジギタリス・肝硬変は女性化乳房の頻出原因</span>。テストステロン補充は逆方向＝原因にならない、というひっかけに注意。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q64",
+          "qn": "Q.64",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "女性化乳房の原因のうち、「男性ホルモン作用の欠乏」に分類されるのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　Klinefelter症候群",
+              "ok": true
+            },
+            {
+              "t": "ｂ　肝硬変",
+              "ok": false
+            },
+            {
+              "t": "ｃ　ジギタリス",
+              "ok": false
+            },
+            {
+              "t": "ｄ　エストロゲン産生腫瘍",
+              "ok": false
+            },
+            {
+              "t": "ｅ　ヒト絨毛性ゴナドトロピン〈hCG〉産生腫瘍",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　Klinefelter症候群",
+          "ans_sub": "Klinefelter症候群は原発性性腺機能低下によりテストステロンが低下する＝男性ホルモン作用の欠乏側。肝硬変・ジギタリス・ホルモン産生腫瘍は女性ホルモン作用の増強側。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a Klinefelter症候群",
+              "c": "Klinefelter症候群（47,XXY）は<strong>原発性性腺機能低下</strong>を呈し、テストステロンが低下してLH/FSHが上昇する。<span class=\"kw\">男性ホルモン作用の欠乏</span>によりエストロゲン/アンドロゲン比が上がり女性化乳房をきたす。他の選択肢はいずれもエストロゲン側が増える「女性ホルモン作用の増強」に属する。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 原因の2大別（表の対応）",
+              "c": "<table class=\"tb\"><tr><th>男性ホルモン作用の欠乏</th><th>女性ホルモン作用の増強</th></tr><tr><td>Klinefelter症候群</td><td>ホルモン産生腫瘍（エストロゲン・hCG/ゴナドトロピン）</td></tr><tr><td>球脊髄性筋萎縮症</td><td>肝硬変</td></tr><tr><td>抗男性ホルモン薬・スピロノラクトン</td><td>ジギタリス</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">Klinefelter＝原発性性腺機能低下（テストステロン↓）＝欠乏側</span>。女性化乳房は「アンドロゲン↓かエストロゲン↑」の相対バランスで理解する。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q65",
+          "qn": "Q.65",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "球脊髄性筋萎縮症〈Kennedy病〉で女性化乳房がみられる機序として正しいのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　アンドロゲン受容体の機能異常による男性ホルモン作用の低下",
+              "ok": true
+            },
+            {
+              "t": "ｂ　エストロゲンの過剰産生",
+              "ok": false
+            },
+            {
+              "t": "ｃ　プロラクチンの著明な上昇",
+              "ok": false
+            },
+            {
+              "t": "ｄ　hCGの産生",
+              "ok": false
+            },
+            {
+              "t": "ｅ　エストロゲンの分解低下",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　アンドロゲン受容体の機能異常による男性ホルモン作用の低下",
+          "ans_sub": "Kennedy病はアンドロゲン受容体遺伝子のCAGリピート伸長による。受容体機能低下でアンドロゲン作用が減弱し（部分的アンドロゲン不応）、男性ホルモン作用の欠乏側として女性化乳房を伴う。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a アンドロゲン受容体の機能異常",
+              "c": "球脊髄性筋萎縮症〈Kennedy病〉はX連鎖で、<span class=\"kw\">アンドロゲン受容体遺伝子のCAGリピート伸長</span>により受容体機能が低下する。テストステロンがあっても効きにくい（部分的アンドロゲン不応）ため、<strong>男性ホルモン作用の欠乏</strong>として女性化乳房・精巣萎縮を伴う。運動ニューロン変性による球麻痺・四肢筋萎縮が主症状。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 「欠乏側」の中の位置づけ",
+              "c": "<table class=\"tb\"><tr><th>欠乏の型</th><th>例</th></tr><tr><td>産生低下</td><td>Klinefelter症候群（原発性性腺機能低下）</td></tr><tr><td>受容体異常（不応）</td><td><strong>球脊髄性筋萎縮症〈Kennedy病〉</strong></td></tr><tr><td>薬剤で遮断</td><td>抗男性ホルモン薬・スピロノラクトン</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">Kennedy病＝アンドロゲン受容体CAGリピート伸長→アンドロゲン不応→女性化乳房</span>。神経症状（球麻痺・筋萎縮）＋内分泌症状（女性化乳房）が併存する。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q66",
+          "qn": "Q.66",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "スピロノラクトンが女性化乳房を起こす主な機序はどれか。",
+          "choices": [
+            {
+              "t": "ａ　抗アンドロゲン作用による男性ホルモン作用の低下",
+              "ok": true
+            },
+            {
+              "t": "ｂ　エストロゲンの分解低下",
+              "ok": false
+            },
+            {
+              "t": "ｃ　hCGの産生",
+              "ok": false
+            },
+            {
+              "t": "ｄ　アンドロゲン受容体の遺伝子変異",
+              "ok": false
+            },
+            {
+              "t": "ｅ　テストステロンの補充作用",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　抗アンドロゲン作用による男性ホルモン作用の低下",
+          "ans_sub": "スピロノラクトンはアルドステロン拮抗薬だが、アンドロゲン受容体を遮断する抗アンドロゲン作用（＋弱いエストロゲン様作用）をもち、男性ホルモン作用の欠乏側として女性化乳房を生じる。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 抗アンドロゲン作用",
+              "c": "スピロノラクトンは抗アルドステロン薬（K保持性利尿薬）だが、<span class=\"kw\">アンドロゲン受容体を遮断する抗アンドロゲン作用</span>を併せもつ。これによりアンドロゲン作用が減弱し、相対的にエストロゲン優位となって女性化乳房を生じる（女性では多毛の治療にも応用される）。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 女性化乳房を起こす代表的薬剤と機序",
+              "c": "<table class=\"tb\"><tr><th>薬剤</th><th>機序</th><th>分類</th></tr><tr><td><strong>スピロノラクトン</strong></td><td>抗アンドロゲン</td><td>男性ホルモン作用の欠乏</td></tr><tr><td>抗男性ホルモン薬</td><td>アンドロゲン遮断</td><td>男性ホルモン作用の欠乏</td></tr><tr><td>ジギタリス</td><td>エストロゲン様作用</td><td>女性ホルモン作用の増強</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">スピロノラクトン＝抗アルドステロンだが抗アンドロゲン作用で女性化乳房</span>。エプレレノンは選択性が高く女性化乳房が少ない、という対比も押さえる。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q67",
+          "qn": "Q.67",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "「女性ホルモン作用の増強」による女性化乳房をきたす原因として正しいのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　ヒト絨毛性ゴナドトロピン〈hCG〉産生腫瘍",
+              "ok": true
+            },
+            {
+              "t": "ｂ　Klinefelter症候群",
+              "ok": false
+            },
+            {
+              "t": "ｃ　球脊髄性筋萎縮症",
+              "ok": false
+            },
+            {
+              "t": "ｄ　抗男性ホルモン薬",
+              "ok": false
+            },
+            {
+              "t": "ｅ　スピロノラクトン",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　ヒト絨毛性ゴナドトロピン〈hCG〉産生腫瘍",
+          "ans_sub": "hCG産生腫瘍（精巣胚細胞腫瘍・一部の肺癌など）はLeydig細胞やアロマターゼを刺激してエストロゲン産生を高め、女性ホルモン作用の増強で女性化乳房をきたす。他はすべて欠乏側。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a hCG産生腫瘍",
+              "c": "hCGはLHと似た作用でLeydig細胞を刺激し、アロマターゼ活性を高めて<span class=\"kw\">エストロゲン産生を増やす</span>。hCG産生腫瘍（精巣胚細胞腫瘍・一部の肺癌・肝芽腫など）やエストロゲン産生腫瘍は「女性ホルモン作用の増強」として女性化乳房をきたす。若年男性の女性化乳房では精巣腫瘍の検索が重要。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 増強側のホルモン産生腫瘍",
+              "c": "<table class=\"tb\"><tr><th>産生されるもの</th><th>代表</th></tr><tr><td>hCG産生</td><td>精巣胚細胞腫瘍・一部の肺癌・肝芽腫</td></tr><tr><td>エストロゲン産生</td><td>副腎皮質腫瘍・精巣(Sertoli/Leydig)腫瘍</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">若年男性の片側性・進行性の女性化乳房＝精巣腫瘍(hCG/エストロゲン産生)を疑う</span>。増強側は「エストロゲンを作る腫瘍」がキーワード。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q68",
+          "qn": "Q.68",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "ジギタリスが女性化乳房を起こす機序として正しいのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　エストロゲン様作用（女性ホルモン作用の増強）",
+              "ok": true
+            },
+            {
+              "t": "ｂ　抗アンドロゲン作用",
+              "ok": false
+            },
+            {
+              "t": "ｃ　アンドロゲン受容体の遺伝子変異",
+              "ok": false
+            },
+            {
+              "t": "ｄ　テストステロン産生の低下",
+              "ok": false
+            },
+            {
+              "t": "ｅ　プロラクチンの直接産生",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　エストロゲン様作用（女性ホルモン作用の増強）",
+          "ans_sub": "ジギタリスはステロイド類似の構造をもち、エストロゲン様作用を示すため女性ホルモン作用の増強側として女性化乳房をきたす。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a エストロゲン様作用",
+              "c": "ジギタリス（強心配糖体）は<strong>ステロイド骨格に似た構造</strong>をもち、<span class=\"kw\">エストロゲン様作用</span>を示す。このため「女性ホルモン作用の増強」側の原因として女性化乳房をきたす。抗アンドロゲン（欠乏側）のスピロノラクトンとは機序が反対の分類になる点に注意。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 薬剤の分類（機序で分ける）",
+              "c": "<table class=\"tb\"><tr><th>機序</th><th>薬剤</th><th>分類</th></tr><tr><td>エストロゲン様作用</td><td><strong>ジギタリス</strong></td><td>女性ホルモン作用の増強</td></tr><tr><td>抗アンドロゲン</td><td>スピロノラクトン・抗男性ホルモン薬</td><td>男性ホルモン作用の欠乏</td></tr><tr><td>機序多様</td><td>Ca拮抗薬</td><td>その他</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">ジギタリス＝エストロゲン様作用で増強側、スピロノラクトン＝抗アンドロゲンで欠乏側</span>。同じ「薬剤性」でも分類が分かれる代表例。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q69",
+          "qn": "Q.69",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "女性化乳房の原因分類で、2大別（男性ホルモン作用の欠乏／女性ホルモン作用の増強）以外の「その他」の原因として挙げられるのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　高プロラクチン血症・Ca拮抗薬",
+              "ok": true
+            },
+            {
+              "t": "ｂ　鉄欠乏性貧血・変形性関節症",
+              "ok": false
+            },
+            {
+              "t": "ｃ　痛風・尿路結石",
+              "ok": false
+            },
+            {
+              "t": "ｄ　テストステロン補充・成長ホルモン欠乏",
+              "ok": false
+            },
+            {
+              "t": "ｅ　高尿酸血症・骨粗鬆症",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　高プロラクチン血症・Ca拮抗薬",
+          "ans_sub": "2大別のほか、高プロラクチン血症やCa拮抗薬（ニフェジピン等）も女性化乳房をきたしうる。高プロラクチン血症はゴナドトロピン抑制を介して間接的にも作用する。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 高プロラクチン血症・Ca拮抗薬",
+              "c": "主要な2大別（欠乏／増強）に加え、<span class=\"kw\">高プロラクチン血症・Ca拮抗薬（ニフェジピン・ベラパミル等）</span>も女性化乳房をきたしうる。高プロラクチン血症はGnRH/ゴナドトロピンを抑制して<strong>二次的にテストステロンを下げる</strong>形でも関与する。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 原因の全体像",
+              "c": "<table class=\"tb\"><tr><th>分類</th><th>原因</th></tr><tr><td>男性ホルモン作用の欠乏</td><td>Klinefelter・球脊髄性筋萎縮症・抗男性ホルモン薬・スピロノラクトン</td></tr><tr><td>女性ホルモン作用の増強</td><td>ホルモン産生腫瘍・肝硬変・ジギタリス</td></tr><tr><td><strong>その他</strong></td><td><strong>高プロラクチン血症・Ca拮抗薬</strong></td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">「その他」＝高プロラクチン血症・Ca拮抗薬</span>。プロラクチンは乳汁分泌だけでなく性腺抑制を介して女性化乳房にも関わる。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q70",
+          "qn": "Q.70",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "女性化乳房の原因と分類の組合せで正しいのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　肝硬変 ――― 女性ホルモン作用の増強",
+              "ok": true
+            },
+            {
+              "t": "ｂ　Klinefelter症候群 ――― 女性ホルモン作用の増強",
+              "ok": false
+            },
+            {
+              "t": "ｃ　スピロノラクトン ――― 女性ホルモン作用の増強",
+              "ok": false
+            },
+            {
+              "t": "ｄ　ジギタリス ――― 男性ホルモン作用の欠乏",
+              "ok": false
+            },
+            {
+              "t": "ｅ　抗男性ホルモン薬 ――― 女性ホルモン作用の増強",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　肝硬変 ――― 女性ホルモン作用の増強",
+          "ans_sub": "肝硬変はエストロゲン分解低下で女性ホルモン作用の増強側。Klinefelter・スピロノラクトン・抗男性ホルモン薬は欠乏側、ジギタリスは増強側で、b〜eはすべて分類が誤り。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 肝硬変 ― 女性ホルモン作用の増強",
+              "c": "肝硬変は<span class=\"kw\">エストロゲンの分解低下</span>で女性ホルモン作用が増強する（正しい組合せ）。b・c・eは「欠乏側」を誤って増強側とし、dは「増強側」のジギタリスを誤って欠乏側としており、いずれも分類が入れ替わっている。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 正しい分類の再確認",
+              "c": "<table class=\"tb\"><tr><th>原因</th><th>正しい分類</th></tr><tr><td>肝硬変</td><td>女性ホルモン作用の増強</td></tr><tr><td>Klinefelter・スピロノラクトン・抗男性ホルモン薬</td><td>男性ホルモン作用の欠乏</td></tr><tr><td>ジギタリス</td><td>女性ホルモン作用の増強</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">肝硬変・ジギタリス・ホルモン産生腫瘍＝増強／Klinefelter・スピロノラクトン・抗男性ホルモン薬＝欠乏</span>。組合せ問題は分類の入れ替えがひっかけ。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q71",
+          "qn": "Q.71",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "薬剤性女性化乳房の原因薬剤として誤っているのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　メトホルミン",
+              "ok": true
+            },
+            {
+              "t": "ｂ　スピロノラクトン",
+              "ok": false
+            },
+            {
+              "t": "ｃ　ジギタリス",
+              "ok": false
+            },
+            {
+              "t": "ｄ　抗男性ホルモン薬",
+              "ok": false
+            },
+            {
+              "t": "ｅ　Ca拮抗薬",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　メトホルミン",
+          "ans_sub": "スピロノラクトン（抗アンドロゲン）・ジギタリス（エストロゲン様）・抗男性ホルモン薬・Ca拮抗薬は女性化乳房の原因薬剤。メトホルミンは典型的な原因薬剤ではない。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a メトホルミン（誤り＝原因ではない）",
+              "c": "女性化乳房を起こす代表的薬剤は、抗アンドロゲン作用の<strong>スピロノラクトン・抗男性ホルモン薬</strong>（＝欠乏側）、エストロゲン様作用の<strong>ジギタリス</strong>（＝増強側）、機序多様の<strong>Ca拮抗薬</strong>（＝その他）。メトホルミン（ビグアナイド系血糖降下薬）はこれらに含まれない。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 薬剤を分類で整理",
+              "c": "<table class=\"tb\"><tr><th>分類</th><th>薬剤</th></tr><tr><td>男性ホルモン作用の欠乏</td><td>スピロノラクトン・抗男性ホルモン薬</td></tr><tr><td>女性ホルモン作用の増強</td><td>ジギタリス</td></tr><tr><td>その他</td><td>Ca拮抗薬</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">女性化乳房の薬剤＝スピロノラクトン・ジギタリス・抗男性ホルモン薬・Ca拮抗薬</span>を機序（欠乏／増強／その他）とセットで覚える。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q72",
+          "qn": "Q.72",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "甲状腺癌のうち最も頻度が高いのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　乳頭癌",
+              "ok": true
+            },
+            {
+              "t": "ｂ　濾胞癌",
+              "ok": false
+            },
+            {
+              "t": "ｃ　髄様癌",
+              "ok": false
+            },
+            {
+              "t": "ｄ　未分化癌",
+              "ok": false
+            },
+            {
+              "t": "ｅ　悪性リンパ腫",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　乳頭癌",
+          "ans_sub": "甲状腺癌の約90%が乳頭癌。濾胞癌が約5%、髄様癌・未分化癌は各1%程度。いずれも女性に好発する。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 乳頭癌",
+              "c": "甲状腺癌の<span class=\"kw\">約90%を乳頭癌が占め、圧倒的に最多</span>。次いで濾胞癌が約5%、髄様癌・未分化癌は各1%程度とまれ。乳頭癌・濾胞癌は濾胞細胞由来の「分化癌」で予後良好、女性に好発する。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 甲状腺癌の頻度と由来",
+              "c": "<table class=\"tb\"><tr><th>組織型</th><th>頻度</th><th>由来細胞</th></tr><tr><td><strong>乳頭癌</strong></td><td><strong>約90%</strong></td><td>濾胞細胞</td></tr><tr><td>濾胞癌</td><td>約5%</td><td>濾胞細胞</td></tr><tr><td>髄様癌</td><td>約1%</td><td>傍濾胞細胞（C細胞）</td></tr><tr><td>未分化癌</td><td>約1%</td><td>濾胞細胞（分化癌から転化）</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">甲状腺癌＝乳頭癌が9割・すべて女性に好発</span>。「乳頭＞濾胞＞髄様≒未分化」の頻度順を押さえる。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q73",
+          "qn": "Q.73",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "甲状腺髄様癌の由来細胞はどれか。",
+          "choices": [
+            {
+              "t": "ａ　傍濾胞細胞〈C細胞〉",
+              "ok": true
+            },
+            {
+              "t": "ｂ　濾胞細胞",
+              "ok": false
+            },
+            {
+              "t": "ｃ　濾胞傍のリンパ球",
+              "ok": false
+            },
+            {
+              "t": "ｄ　上皮小体（副甲状腺）主細胞",
+              "ok": false
+            },
+            {
+              "t": "ｅ　血管内皮細胞",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　傍濾胞細胞〈C細胞〉",
+          "ans_sub": "髄様癌はカルシトニンを産生する傍濾胞細胞（C細胞）由来。乳頭癌・濾胞癌・未分化癌は濾胞細胞由来である点と対比する。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 傍濾胞細胞〈C細胞〉",
+              "c": "髄様癌は<span class=\"kw\">カルシトニンを分泌する傍濾胞細胞（C細胞）から発生</span>する。乳頭癌・濾胞癌・未分化癌はいずれも甲状腺ホルモンを作る濾胞細胞由来であり、由来細胞が違う点が髄様癌の最大の特徴。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 由来細胞とマーカーの対応",
+              "c": "<table class=\"tb\"><tr><th>組織型</th><th>由来</th><th>採血マーカー</th></tr><tr><td>乳頭癌・濾胞癌</td><td>濾胞細胞</td><td>サイログロブリン↑（信頼性は低い）</td></tr><tr><td><strong>髄様癌</strong></td><td><strong>傍濾胞細胞（C細胞）</strong></td><td><strong>カルシトニン↑・CEA↑</strong></td></tr><tr><td>未分化癌</td><td>濾胞細胞</td><td>白血球↑・赤沈↑・CRP↑のことがある</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">髄様癌だけC細胞由来＝カルシトニン・CEAが腫瘍マーカー</span>。C細胞＝カルシトニン、で由来とマーカーを一本に結ぶ。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q74",
+          "qn": "Q.74",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "甲状腺髄様癌で上昇する腫瘍マーカーの組合せとして正しいのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　カルシトニン・CEA",
+              "ok": true
+            },
+            {
+              "t": "ｂ　サイログロブリン・AFP",
+              "ok": false
+            },
+            {
+              "t": "ｃ　CA19-9・PSA",
+              "ok": false
+            },
+            {
+              "t": "ｄ　hCG・CA125",
+              "ok": false
+            },
+            {
+              "t": "ｅ　NSE・PIVKA-Ⅱ",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　カルシトニン・CEA",
+          "ans_sub": "髄様癌はカルシトニン・CEAが上昇する。RET遺伝子変異による多発性内分泌腫瘍症〈MEN2〉に合併する家族性があり、褐色細胞腫・副甲状腺機能亢進症を伴いうる。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a カルシトニン・CEA",
+              "c": "髄様癌はC細胞由来のため<span class=\"kw\">カルシトニンとCEAが上昇</span>し、診断・術後のフォローに用いる。<strong>RET遺伝子の変異</strong>による多発性内分泌腫瘍症〈MEN2A/2B〉として家族性に発生することがあり、<strong>褐色細胞腫・副甲状腺機能亢進症</strong>の合併検索が重要。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 MEN2に伴う髄様癌",
+              "c": "<table class=\"tb\"><tr><th>型</th><th>合併</th></tr><tr><td>MEN2A</td><td>髄様癌＋褐色細胞腫＋副甲状腺機能亢進症</td></tr><tr><td>MEN2B</td><td>髄様癌＋褐色細胞腫＋粘膜神経腫・マルファン様体型</td></tr></table><p>原因遺伝子は<strong>RET</strong>。家族例では予防的甲状腺全摘も考慮。</p>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">髄様癌＝カルシトニン・CEA＋RET変異（MEN2）</span>。若年・家族歴のある髄様癌ではまず褐色細胞腫の合併を否定してから手術する。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q75",
+          "qn": "Q.75",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "甲状腺乳頭癌に特徴的な病理・超音波所見はどれか。",
+          "choices": [
+            {
+              "t": "ａ　砂粒体〈psammoma body〉と微細石灰化",
+              "ok": true
+            },
+            {
+              "t": "ｂ　アミロイド沈着",
+              "ok": false
+            },
+            {
+              "t": "ｃ　被膜・血管への浸潤のみで悪性と診断",
+              "ok": false
+            },
+            {
+              "t": "ｄ　カルチノイド様の索状構造",
+              "ok": false
+            },
+            {
+              "t": "ｅ　多数の未分化な巨細胞",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　砂粒体〈psammoma body〉と微細石灰化",
+          "ans_sub": "乳頭癌は砂粒体（石灰化した層状構造）とすりガラス状核・核内細胞質封入体が特徴で、超音波では微細石灰化を伴う。細胞診で診断しやすい。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 砂粒体・微細石灰化",
+              "c": "乳頭癌は病理で<span class=\"kw\">砂粒体（psammoma body：同心円状に石灰化した小体）</span>や<strong>すりガラス状核・核内細胞質封入体・核の切れ込み</strong>を示す。超音波では砂粒体を反映した<strong>微細（点状）石灰化</strong>がみられ、穿刺吸引細胞診で診断しやすい。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 組織型ごとの特徴的所見",
+              "c": "<table class=\"tb\"><tr><th>組織型</th><th>特徴</th></tr><tr><td><strong>乳頭癌</strong></td><td>砂粒体・微細石灰化・すりガラス状核</td></tr><tr><td>濾胞癌</td><td>細胞診で良性と区別困難、被膜・血管浸潤で診断</td></tr><tr><td>髄様癌</td><td>アミロイド沈着</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">乳頭癌＝砂粒体＋微細石灰化＋すりガラス状核</span>。細胞診で確定しやすいのも乳頭癌の特徴。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q76",
+          "qn": "Q.76",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "甲状腺乳頭癌の主な転移様式はどれか。",
+          "choices": [
+            {
+              "t": "ａ　リンパ行性（頸部リンパ節転移）",
+              "ok": true
+            },
+            {
+              "t": "ｂ　血行性（肺・骨転移）",
+              "ok": false
+            },
+            {
+              "t": "ｃ　髄腔内播種",
+              "ok": false
+            },
+            {
+              "t": "ｄ　経気道性",
+              "ok": false
+            },
+            {
+              "t": "ｅ　転移をきたさない",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　リンパ行性（頸部リンパ節転移）",
+          "ans_sub": "乳頭癌はリンパ行性に頸部リンパ節へ転移しやすい。濾胞癌は血行性に肺・骨へ転移するのが対照的。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a リンパ行性",
+              "c": "乳頭癌は<span class=\"kw\">リンパ行性転移が主で、頸部リンパ節転移</span>をきたしやすい（それでも予後は良好）。一方、濾胞癌は<strong>血行性に肺・骨へ転移</strong>するのが対照的。転移様式の乳頭＝リンパ／濾胞＝血行、の対比が頻出。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 転移様式の比較",
+              "c": "<table class=\"tb\"><tr><th>組織型</th><th>転移様式</th></tr><tr><td><strong>乳頭癌</strong></td><td>リンパ行性</td></tr><tr><td>濾胞癌</td><td>血行性（肺・骨）</td></tr><tr><td>髄様癌</td><td>リンパ・血行性</td></tr><tr><td>未分化癌</td><td>リンパ・血行性＋直接浸潤</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">乳頭＝リンパ行性、濾胞＝血行性</span>。「濾胞は血に乗って肺・骨へ飛ぶ」で覚える。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q77",
+          "qn": "Q.77",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "甲状腺濾胞癌について正しいのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　穿刺吸引細胞診では良性の濾胞腺腫との区別が難しく、被膜・血管への浸潤の有無で診断する。",
+              "ok": true
+            },
+            {
+              "t": "ｂ　リンパ行性転移が主体である。",
+              "ok": false
+            },
+            {
+              "t": "ｃ　カルシトニンが上昇する。",
+              "ok": false
+            },
+            {
+              "t": "ｄ　砂粒体が特徴的である。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　放射性ヨードを全く取り込まない。",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　穿刺吸引細胞診では良性の濾胞腺腫との区別が難しく、被膜・血管への浸潤の有無で診断する。",
+          "ans_sub": "濾胞癌は細胞の形態では良性の濾胞腺腫と区別できず、被膜浸潤・脈管浸潤の有無（組織診）で悪性と診断する。血行性転移をきたし、放射性ヨードは取り込む。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 被膜・血管浸潤で診断",
+              "c": "濾胞癌は細胞そのものの形態が良性の<strong>濾胞腺腫と区別できない</strong>ため、<span class=\"kw\">穿刺吸引細胞診では確定できず、切除標本での被膜浸潤・脈管（血管）浸潤の有無で悪性と診断</span>する。転移は血行性（肺・骨）。濾胞細胞由来なので放射性ヨードを取り込み、内用療法が有効。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 乳頭癌との診断の違い",
+              "c": "<table class=\"tb\"><tr><th></th><th>乳頭癌</th><th>濾胞癌</th></tr><tr><td>細胞診</td><td>診断しやすい</td><td><strong>良悪の区別困難</strong></td></tr><tr><td>確定診断</td><td>細胞診で可能</td><td>組織で<strong>被膜・血管浸潤</strong>を確認</td></tr><tr><td>転移</td><td>リンパ行性</td><td>血行性</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">濾胞癌＝細胞診では良性と区別不能、被膜・脈管浸潤で悪性と診断</span>。この「細胞診で決まらない」点が乳頭癌との決定的な違い。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q78",
+          "qn": "Q.78",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "甲状腺未分化癌の特徴として正しいのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　高齢者に多く、急速に進行して予後は極めて不良である。",
+              "ok": true
+            },
+            {
+              "t": "ｂ　若年者に多く、進行は緩徐である。",
+              "ok": false
+            },
+            {
+              "t": "ｃ　予後は甲状腺癌の中で最も良好である。",
+              "ok": false
+            },
+            {
+              "t": "ｄ　放射性ヨード内用療法が著効する。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　カルシトニンが著明に上昇する。",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　高齢者に多く、急速に進行して予後は極めて不良である。",
+          "ans_sub": "未分化癌は高齢者に多く、急速増大し気道・周囲へ浸潤する。予後は極めて不良で、根治術は困難。分化癌から転化して生じることがある。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 高齢者・急速進行・予後極めて不良",
+              "c": "未分化癌は<span class=\"kw\">高齢者に多く、急速に増大して気道・周囲組織へ直接浸潤</span>する。予後は甲状腺癌で最も悪く（しばしば数か月）、根治手術は難しい。治療は化学療法・放射線療法・気道確保などが中心。<strong>分化癌（乳頭・濾胞）から転化</strong>して発生することがある。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 好発年齢・進行の比較",
+              "c": "<table class=\"tb\"><tr><th></th><th>分化癌（乳頭・濾胞）</th><th>未分化癌</th></tr><tr><td>好発年齢</td><td>若年〜中年</td><td><strong>高齢者</strong></td></tr><tr><td>進行</td><td>緩徐</td><td><strong>急速</strong></td></tr><tr><td>予後</td><td>良好</td><td><strong>極めて不良</strong></td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">未分化癌＝高齢者・急速増大・予後最悪・根治困難</span>。急速に大きくなる頸部腫瘤＋高齢＝未分化癌を想起する。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q79",
+          "qn": "Q.79",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "甲状腺癌の予後を良い順に並べたものとして正しいのはどれか。",
+          "choices": [
+            {
+              "t": "ａ　乳頭癌 ＞ 濾胞癌 ＞ 髄様癌 ＞ 未分化癌",
+              "ok": true
+            },
+            {
+              "t": "ｂ　未分化癌 ＞ 髄様癌 ＞ 濾胞癌 ＞ 乳頭癌",
+              "ok": false
+            },
+            {
+              "t": "ｃ　髄様癌 ＞ 乳頭癌 ＞ 未分化癌 ＞ 濾胞癌",
+              "ok": false
+            },
+            {
+              "t": "ｄ　濾胞癌 ＞ 乳頭癌 ＞ 未分化癌 ＞ 髄様癌",
+              "ok": false
+            },
+            {
+              "t": "ｅ　乳頭癌 ＞ 未分化癌 ＞ 濾胞癌 ＞ 髄様癌",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　乳頭癌 ＞ 濾胞癌 ＞ 髄様癌 ＞ 未分化癌",
+          "ans_sub": "予後は乳頭癌が最も良好、濾胞癌が良好、髄様癌は良〜不良、未分化癌は極めて不良の順。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 乳頭 ＞ 濾胞 ＞ 髄様 ＞ 未分化",
+              "c": "予後は<span class=\"kw\">乳頭癌が最も良好、濾胞癌が良好、髄様癌は良〜不良、未分化癌は極めて不良</span>の順。分化度が高い（正常細胞に近い）ほど予後がよく、未分化になるほど悪化する。頻度順（乳頭＞濾胞＞髄様≒未分化）とほぼ一致する。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 予後のまとめ",
+              "c": "<table class=\"tb\"><tr><th>組織型</th><th>予後</th></tr><tr><td>乳頭癌</td><td>最も良好</td></tr><tr><td>濾胞癌</td><td>良好</td></tr><tr><td>髄様癌</td><td>良〜不良</td></tr><tr><td>未分化癌</td><td>極めて不良</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">分化癌（乳頭・濾胞）は予後良好、未分化癌は最悪</span>。乳頭癌は進行が極めて遅く、微小癌では経過観察が選ばれることもある。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q80",
+          "qn": "Q.80",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "甲状腺分化癌（乳頭癌・濾胞癌）の術後経過観察に用いられる腫瘍マーカーはどれか。",
+          "choices": [
+            {
+              "t": "ａ　サイログロブリン",
+              "ok": true
+            },
+            {
+              "t": "ｂ　カルシトニン",
+              "ok": false
+            },
+            {
+              "t": "ｃ　AFP",
+              "ok": false
+            },
+            {
+              "t": "ｄ　PSA",
+              "ok": false
+            },
+            {
+              "t": "ｅ　CA19-9",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　サイログロブリン",
+          "ans_sub": "サイログロブリンは濾胞細胞が産生するため分化癌のマーカーとなり、全摘後の再発モニタリングに有用。ただし未手術時の診断特異性は低い（良性でも上昇）。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a サイログロブリン",
+              "c": "サイログロブリンは濾胞細胞が作る蛋白で、<span class=\"kw\">分化癌（乳頭・濾胞）の腫瘍マーカー</span>となる。とくに甲状腺<strong>全摘後は本来ゼロに近づく</strong>ため、再上昇が再発の指標になり術後フォローに有用。ただし良性甲状腺疾患でも上がるため、未手術での診断特異性は低い。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 組織型とマーカーの対応",
+              "c": "<table class=\"tb\"><tr><th>組織型</th><th>マーカー</th></tr><tr><td>乳頭癌・濾胞癌（分化癌）</td><td><strong>サイログロブリン</strong></td><td></td></tr><tr><td>髄様癌</td><td>カルシトニン・CEA</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">分化癌＝サイログロブリン（術後再発モニタリング）、髄様癌＝カルシトニン・CEA</span>。由来細胞（濾胞細胞かC細胞か）でマーカーが分かれる。"
+            }
+          ]
+        },
+        {
+          "uid": "memo_ch01_q81",
+          "qn": "Q.81",
+          "episode": "",
+          "rate": null,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "術後に放射性ヨード〈131I〉内用療法が有効なのはどの甲状腺癌か。",
+          "choices": [
+            {
+              "t": "ａ　分化癌（乳頭癌・濾胞癌）",
+              "ok": true
+            },
+            {
+              "t": "ｂ　髄様癌",
+              "ok": false
+            },
+            {
+              "t": "ｃ　未分化癌",
+              "ok": false
+            },
+            {
+              "t": "ｄ　悪性リンパ腫",
+              "ok": false
+            },
+            {
+              "t": "ｅ　いずれの甲状腺癌にも無効",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　分化癌（乳頭癌・濾胞癌）",
+          "ans_sub": "ヨードを取り込む濾胞細胞由来の分化癌で内用療法が有効。C細胞由来の髄様癌や脱分化した未分化癌はヨードを取り込まず無効。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💡 正解：a 分化癌（乳頭癌・濾胞癌）",
+              "c": "放射性ヨード内用療法は、<span class=\"kw\">ヨードを取り込む濾胞細胞由来の分化癌（乳頭・濾胞）で有効</span>。全摘後の残存・転移巣の治療に用いる。<strong>髄様癌（C細胞由来）や未分化癌（脱分化）はヨードを取り込まないため無効</strong>。甲状腺癌の治療は外科的切除（全摘・葉切除）が基本。"
+            },
+            {
+              "cls": "ee",
+              "h": "🩺 治療の要点",
+              "c": "<table class=\"tb\"><tr><th>組織型</th><th>治療</th></tr><tr><td>分化癌（乳頭・濾胞）</td><td>手術＋<strong>放射性ヨード内用療法</strong>が有効。乳頭微小癌は経過観察も</td></tr><tr><td>髄様癌</td><td>手術中心（ヨード無効）、MEN2の検索</td></tr><tr><td>未分化癌</td><td>根治困難、化学・放射線療法、気道確保</td></tr></table>"
+            },
+            {
+              "cls": "ept",
+              "h": "📝 国試のパール",
+              "c": "<span class=\"kw\">放射性ヨードが効く＝ヨードを取り込む分化癌だけ</span>。髄様癌・未分化癌には無効、という点が治療の頻出ポイント。"
+            }
+          ]
         }
       ]
     }
