@@ -55,7 +55,7 @@ if ('serviceWorker' in navigator) {
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
     <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
     <button class="hdr-toggle" onclick="document.getElementById('mecKbHelp').classList.add('open')" title="キーボードショートカット (?)">⌨️</button>
-    <span id="mecBuildVer" title="読み込まれているビルド版数（キャッシュ確認用）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0708j</span>
+    <span id="mecBuildVer" title="読み込まれているビルド版数（キャッシュ確認用）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0708k</span>
   </div>
   <div class="st-stats">
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
@@ -1460,16 +1460,26 @@ function _buildChapterJumpOptions() {
 }
 
 function _jumpScrollToEl(el) {
+  if (!el) return;
   const section = el.closest('.subj-section');
   if (section && section.dataset.visible === 'false') section.dataset.visible = 'true';
   if (el.style.display === 'none') el.style.display = '';
+  // カード(.qc)が content-visibility:auto を使うと、画面外カードの高さが推定値
+  // （contain-intrinsic-block-size）になり、スクロール中に上のカードが再スキップされて
+  // 高さが変わり続け、目標が収束せず「章まで飛ばず先頭付近で止まる」。ジャンプ中だけ全カードの
+  // スキップを止めて高さを確定させ（html.mec-jumping）、着地後に元へ戻す（iOSは元々visible）。
+  document.documentElement.classList.add('mec-jumping');
   const hdrH = (document.querySelector('.st-hdr')?.offsetHeight || 112) + 8;
-  // カード(.qc)が content-visibility:auto を使っているため、未描画カードの高さは
-  // 推定値（contain-intrinsic-block-size）でしかなく、一発の scrollIntoView では
-  // 目的地が大きくずれる（＝「少しスクロールするだけで章まで飛ばない」の原因）。
-  // 目標位置へ instant スクロール → 近傍が実描画され高さが確定 → 再計測、を数フレーム
-  // 繰り返して収束させる。最後に一瞬ハイライトして到達位置を分かりやすくする。
   let tries = 0, lastY = -1, stable = 0;
+  function restore() {
+    const beforeTop = el.getBoundingClientRect().top;
+    document.documentElement.classList.remove('mec-jumping');
+    // スキップ再開で上のカードが縮み表示がずれるのを、目標カードの見た目位置を維持して打ち消す
+    requestAnimationFrame(() => {
+      const shift = el.getBoundingClientRect().top - beforeTop;
+      if (Math.abs(shift) > 2) window.scrollTo({ top: Math.max(0, (window.scrollY || 0) + shift), behavior: 'auto' });
+    });
+  }
   function settle() {
     const y = Math.max(0, el.getBoundingClientRect().top + window.scrollY - hdrH);
     window.scrollTo({ top: y, behavior: 'auto' });
@@ -1479,12 +1489,13 @@ function _jumpScrollToEl(el) {
     lastY = y;
     if (stable < 2 && tries < 24) { requestAnimationFrame(settle); return; }
     _flashJumpTarget(el);
-    // 近傍カードの遅延描画・画像ロードで着地後にレイアウトがずれた場合の最終補正。
-    // ユーザーが既に手でスクロールし始めていたら（目標位置から大きく離れていたら）触らない
+    // 画像遅延ロード等の着地後ドリフトを最終補正してから content-visibility を元へ戻す
     setTimeout(() => {
-      if (Math.abs((window.scrollY || 0) - lastY) > 150) return;
-      const drift = el.getBoundingClientRect().top - hdrH;
-      if (Math.abs(drift) > 4) window.scrollTo({ top: Math.max(0, (window.scrollY || 0) + drift), behavior: 'auto' });
+      if (Math.abs((window.scrollY || 0) - lastY) <= 150) {
+        const drift = el.getBoundingClientRect().top - hdrH;
+        if (Math.abs(drift) > 4) window.scrollTo({ top: Math.max(0, (window.scrollY || 0) + drift), behavior: 'auto' });
+      }
+      restore();
     }, 450);
   }
   requestAnimationFrame(settle);
@@ -1496,13 +1507,18 @@ function _flashJumpTarget(el) {
   setTimeout(() => el.classList.remove('mec-jump-flash'), 1200);
 }
 
-// フィルター後の先頭可視カードを返す
+// 章の先頭カードを返す（可視を優先）。_cards 配列は科目のロード/アンロードで古い(detached)
+// 参照を含みうるため、ライブDOMを data-uid で毎回引き直して確実に現在の要素を返す。
 function _firstVisibleCardInChapter(ch) {
-  const uidSet = new Set(ch.uids);
-  for (const m of _cards) {
-    if (uidSet.has(m.uid) && m.el.style.display !== 'none') return m.el;
+  const escUid = uid => (window.CSS && CSS.escape) ? CSS.escape(uid) : uid;
+  let firstAny = null;
+  for (const uid of ch.uids) {
+    const el = document.querySelector('.qc[data-uid="' + escUid(uid) + '"]');
+    if (!el) continue;
+    if (!firstAny) firstAny = el;
+    if (el.style.display !== 'none') return el;
   }
-  return null;
+  return firstAny;
 }
 
 function jumpToChapter(idxStr) {

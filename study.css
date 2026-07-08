@@ -356,6 +356,10 @@ mark.sh{background:rgba(255,215,0,.28);color:inherit;border-radius:2px;padding:0
 @supports (-webkit-touch-callout: none) {
   .qc{content-visibility:visible;contain-intrinsic-block-size:none;}
 }
+/* 章ジャンプ中は content-visibility:auto の画面外カード高さが推定値に変わって目標がずれ、
+   章まで飛ばず先頭付近で止まる。ジャンプ中だけ全カードのスキップを止めて高さを確定させ、
+   着地後に元へ戻す（study.html _jumpScrollToEl が付与/除去。iOSは元々 visible なので影響なし）。 */
+html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-block-size:none!important;}
 /* ジャンプ到達カードの一瞬のハイライト */
 @keyframes mecJumpFlash{0%{box-shadow:0 0 0 3px var(--yl),0 0 22px rgba(255,184,48,.5);}100%{box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08);}}
 .qc.mec-jump-flash{animation:mecJumpFlash 1.2s ease forwards;}
