@@ -342,14 +342,18 @@ mark.sh{background:rgba(255,215,0,.28);color:inherit;border-radius:2px;padding:0
 
 /* ── Glass question cards ── */
 .qc{background:rgba(255,255,255,.06);border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08);margin-bottom:12px;border:1px solid rgba(255,255,255,.1);border-left:3px solid var(--or);overflow:hidden;transition:box-shadow .2s,transform .15s;contain:layout style;content-visibility:auto;contain-intrinsic-block-size:300px;contain-intrinsic-block-size:auto 300px;}
-/* ⚠️ 白wash（画面下半分が白くなりスクロールで一緒に動く）の真因整理（iPad Brave・2026-07-08）:
-   ① backdrop-filter:blur() が .qc/.st-hdr/.sgh に載っていると iOS WebKit の合成が破綻して
-      白タイル化する → これらは backdrop-filter を base から完全撤去して恒久対策（上の各ルール）。
-   ② content-visibility:visible を強制して全カード（全問=約5000枚）を一度に描画すると、iOS が
-      タイル/メモリ上限を超えて画面下部が白くなる（★フィルタ=少数では出ないが全問・試験モードで再発）。
-      → 逆効果だった visible 強制はやめ、content-visibility:auto を全端末で維持して描画枚数を抑える。
-   backdrop-filter を外した今 ① が消えたため、content-visibility:auto 自体は iOS でも成立する見込み。
-   もし auto で「カード空白化」が再発する場合は、UA判定でなく仮想スクロール(描画枚数の上限化)へ移行する。 */
+/* ⚠️ 白wash（画面下が白くなりスクロールで一緒に動く）真因の確定整理（iPad Brave・2026-07-08）:
+   ① backdrop-filter:blur() が .qc/.st-hdr/.sgh に載ると iOS WebKit の合成が破綻し白タイル化
+      → base から完全撤去して恒久対策（上の各ルール）。
+   ② content-visibility:auto は iOS でカードを白く描画する実バグがある（★=少数でも再発を実機確認）。
+      一方 visible は正しく描画されるが、全問=約5000枚を一度に描くとページが高すぎて iOS の
+      タイル上限を超え下部が白化する。→ **visible を採用して描画を正しくし（下の @supports）**、
+      全問の枚数過多は別途ページング/仮想化で抑える方針（描画枚数の上限化）。 */
+/* iOS 限定でカードの描画スキップ(content-visibility:auto)を無効化。@supports(-webkit-touch-callout)
+   は iOS WebKit のみ真＝UA/JS非依存で Brave でも確実に効く（navigatorのUA判定は保護機能で外れる）。 */
+@supports (-webkit-touch-callout: none) {
+  .qc{content-visibility:visible;contain-intrinsic-block-size:none;}
+}
 /* ジャンプ到達カードの一瞬のハイライト */
 @keyframes mecJumpFlash{0%{box-shadow:0 0 0 3px var(--yl),0 0 22px rgba(255,184,48,.5);}100%{box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08);}}
 .qc.mec-jump-flash{animation:mecJumpFlash 1.2s ease forwards;}
