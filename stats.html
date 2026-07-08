@@ -28,6 +28,11 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
 .ct{max-width:700px;margin:0 auto;padding:14px 12px 60px;}
 .sec{background:rgba(255,255,255,.06);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.07);padding:16px;margin-bottom:14px;}
+/* iOS WebKit の backdrop-filter タイル白化対策（UA非依存・study.css と同方針）。 */
+@supports (-webkit-touch-callout: none){
+  .hdr{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(6,11,24,.97)!important;}
+  .sec{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+}
 .sec-title{font-size:13px;font-weight:800;color:var(--tx);margin-bottom:14px;display:flex;align-items:center;gap:6px;}
 
 /* Activity chart */
