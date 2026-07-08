@@ -1,4 +1,9 @@
 const CACHE = "mec-v20";
+// シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
+// 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
+// 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
+// （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
+const SHELL_VERSION = "2026-07-08a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -26,8 +31,13 @@ const CARDS = [
 ];
 
 self.addEventListener("install", e => {
+  // cache:'reload' で HTTP キャッシュを無視し必ず最新シェルを取得する（deploy 直後、GitHub Pages の
+  // max-age 内でもブラウザHTTPキャッシュの旧ファイルを掴まない＝「pushしたのに反映されない」を根絶）。
+  // 1ファイル失敗しても install 全体は落とさない。skipWaiting で待機せず即座に新SWへ切替える。
   e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(SHELL))
+    caches.open(CACHE).then(c => Promise.all(
+      SHELL.map(u => fetch(u, { cache: "reload" }).then(r => { if (r.ok) return c.put(u, r); }).catch(() => {}))
+    )).then(() => self.skipWaiting())
   );
 });
 
