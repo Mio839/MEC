@@ -1511,9 +1511,11 @@ function _triggerChoiceCorrectPop(el) {
 // 全テーマ共通（classic含む）。粒子は十数個なので iPad でも負荷は無視できる範囲。
 function _spawnCorrectSpark(el, theme) {
   if (!window.MecFX) return;
-  const r = el.getBoundingClientRect();
-  if (!r.width) return;
-  const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  // 発生位置は選んだ肢(el)相対だとカードのスクロール位置で上端に寄ったり中央に来たりして
+  // 発火位置が不安定になる。肢のポップ(_triggerChoiceCorrectPop)が肢上で光る一方、スパークは
+  // 画面中央(粒子・コンボと同じ焦点)に固定して演出を安定させる。
+  const cx = window.innerWidth / 2;
+  const cy = Math.round(window.innerHeight * 0.44);
   const t = Math.max(2, Math.min(_examTier(examStreak) || 2, 6));
   const pal = theme.burstPalettes[t] || theme.burstPalettes[2];
   const isInk = examEffectSet === 'ink';
@@ -1539,12 +1541,13 @@ function _spawnCorrectEmojiPop(el, theme) {
   if (!window.MecFX) return;
   const glyphs = theme.correctEmoji;
   if (!glyphs || !glyphs.length) return;
-  const r = el.getBoundingClientRect();
-  if (r.width === 0) return;
-  window.MecFX.glyphBurst(r.left + r.width / 2, r.top + r.height / 2, {
+  // 肢相対だと発火位置が不安定なので画面中央固定（スパーク・コンボと同じ焦点）。
+  const cx = window.innerWidth / 2;
+  const cy = Math.round(window.innerHeight * 0.44);
+  window.MecFX.glyphBurst(cx, cy, {
     glyphs: glyphs,
     count: 6,
-    w: Math.min(r.width, 260),
+    w: 260,
     spread: 110
   });
 }
@@ -2142,6 +2145,26 @@ function exitExam() {
   try { if (window.MECSync) window.MECSync.pushToGist(); } catch(e) {}
 }
 
+// iOS: position:fixed はレイアウトビューポート(アドレスバーの裏まで)基準になり、dvh でも中央寄せが
+// 実際の可視領域より上へずれ、モーダル上端が見切れる。visualViewport に合わせてオーバーレイの高さ・
+// 位置を補正し可視領域の中央に来るようにする（PC等は offset=0 で従来同等）。
+function _fitOverlayToVV(ov) {
+  const vv = window.visualViewport;
+  if (!ov || !vv) return;
+  ov.style.height = vv.height + 'px';
+  ov.style.width = vv.width + 'px';
+  ov.style.transform = 'translate(' + vv.offsetLeft + 'px,' + vv.offsetTop + 'px)';
+  const modal = ov.querySelector('.exam-modal');
+  if (modal) modal.style.maxHeight = (vv.height - 24) + 'px';
+}
+function _bindOverlayVV(ov) {
+  if (!ov || ov._vvBound || !window.visualViewport) return;
+  ov._vvBound = true;
+  const upd = () => { if (ov.classList.contains('open')) _fitOverlayToVV(ov); };
+  window.visualViewport.addEventListener('resize', upd);
+  window.visualViewport.addEventListener('scroll', upd);
+}
+
 function showExamSummary() {
   const titleEl = document.querySelector('#examOverlay h2');
   if (titleEl) titleEl.textContent = _srsReviewMode ? '🔔 復習セッション結果' : '📊 セッション結果';
@@ -2171,7 +2194,11 @@ function showExamSummary() {
   const retryCount = document.getElementById('sumRetryCount');
   if (retryBtn) retryBtn.style.display = examWrong.length > 0 ? '' : 'none';
   if (retryCount) retryCount.textContent = examWrong.length;
-  document.getElementById('examOverlay').classList.add('open');
+  const _ov = document.getElementById('examOverlay');
+  _ov.classList.add('open');
+  _bindOverlayVV(_ov);
+  _fitOverlayToVV(_ov);
+  requestAnimationFrame(() => _fitOverlayToVV(_ov));
   // Save per-chapter exam history when a single chapter was tested
   if (_examActiveChPrefix && examAnswered > 0) {
     try {

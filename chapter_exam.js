@@ -408,8 +408,31 @@
       '<div class="ce-di"><div class="lbl">問題数</div><div class="val">' + exam.answered + '</div></div>' +
       '<div class="ce-di"><div class="lbl">時間</div><div class="val" style="font-size:14px">' + ts + '</div></div>';
 
-    document.getElementById('chExamResultOv').classList.add('open');
+    var _rov = document.getElementById('chExamResultOv');
+    _rov.classList.add('open');
+    _ceBindOverlayVV(_rov);
+    _ceFitOverlayVV(_rov);
+    requestAnimationFrame(function () { _ceFitOverlayVV(_rov); });
     saveHistory(pct);
+  }
+
+  // iOS の position:fixed はレイアウトビューポート基準でモーダル上端が見切れるため、
+  // visualViewport に合わせて可視領域の中央へ補正する（study_exam.js と同方針）。
+  function _ceFitOverlayVV(ov) {
+    var vv = window.visualViewport;
+    if (!ov || !vv) return;
+    ov.style.height = vv.height + 'px';
+    ov.style.width = vv.width + 'px';
+    ov.style.transform = 'translate(' + vv.offsetLeft + 'px,' + vv.offsetTop + 'px)';
+    var box = ov.querySelector('.ce-result-box');
+    if (box) box.style.maxHeight = (vv.height - 24) + 'px';
+  }
+  function _ceBindOverlayVV(ov) {
+    if (!ov || ov._vvBound || !window.visualViewport) return;
+    ov._vvBound = true;
+    var upd = function () { if (ov.classList.contains('open')) _ceFitOverlayVV(ov); };
+    window.visualViewport.addEventListener('resize', upd);
+    window.visualViewport.addEventListener('scroll', upd);
   }
 
   window._ceCloseResult = function () {
@@ -1374,9 +1397,9 @@
   // 単発正解ごとにリング1枚＋小バースト。連続数に応じ配色・サイズが少し育つ（study と同方針）。
   function ceSpawnCorrectSpark(el) {
     if (!window.MecFX) return;
-    var rr = el.getBoundingClientRect();
-    if (!rr.width) return;
-    var cx = rr.left + rr.width / 2, cy = rr.top + rr.height / 2;
+    // 肢相対だと発火位置が不安定なので画面中央固定（study_exam.js と同方針）。
+    var cx = window.innerWidth / 2;
+    var cy = Math.round(window.innerHeight * 0.44);
     var t = Math.max(2, Math.min(ceTier(exam.streak) || 2, 6));
     var theme = ceTheme();
     var pal = theme.burstPalettes[t] || theme.burstPalettes[2];
@@ -1403,12 +1426,13 @@
     if (!window.MecFX) return;
     var glyphs = ceTheme().correctEmoji;
     if (!glyphs || !glyphs.length) return;
-    var r = el.getBoundingClientRect();
-    if (r.width === 0) return;
-    window.MecFX.glyphBurst(r.left + r.width / 2, r.top + r.height / 2, {
+    // 肢相対だと発火位置が不安定なので画面中央固定（study_exam.js と同方針）。
+    var cx = window.innerWidth / 2;
+    var cy = Math.round(window.innerHeight * 0.44);
+    window.MecFX.glyphBurst(cx, cy, {
       glyphs: glyphs,
       count: 6,
-      w: Math.min(r.width, 260),
+      w: 260,
       spread: 110
     });
   }
