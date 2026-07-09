@@ -75,8 +75,11 @@ def excluded(q):
 
 
 def multi_answer(q):
-    """「複数正解」問題。どれを選んでも正解なので ok数 と「Nつ選べ」は一致しない。"""
-    return any(b['t'] == '複数正解' for b in q['badges'])
+    """ok数 と「Nつ選べ」が一致しなくて正しい問題:
+    「複数正解」バッジ付き、または PDF 自身に「編註：現在の正答は1つ」と注記された問題。"""
+    if any(b['t'] == '複数正解' for b in q['badges']):
+        return True
+    return bool(re.search(r'編[註注]', plain(q['qt'])))
 
 
 def dhash(im):
