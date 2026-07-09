@@ -2083,7 +2083,12 @@
           "rate": -1,
           "rate_cls": "cl",
           "rate_text": "38%",
-          "badges": [],
+          "badges": [
+            {
+              "cls": "bi",
+              "t": "📷 画像"
+            }
+          ],
           "qt": "個人防護具（手袋）脱衣の手順で<strong>誤っている</strong>のはどれか。",
           "choices": [
             {
@@ -2126,7 +2131,13 @@
               "c": "<span class=\"kw4\">素手で手袋外面をつかむ → 誤り</span><br/>正しい手順：手袋した手で外側を持って外す→素手は内側に差し込む<br/>脱衣後は必ず手指衛生"
             }
           ],
-          "imgs": []
+          "imgs": [
+            "感染症/images/118F-7_1.jpeg",
+            "感染症/images/118F-7_2.jpeg",
+            "感染症/images/118F-7_3.jpeg",
+            "感染症/images/118F-7_4.jpeg",
+            "感染症/images/118F-7_5.jpeg"
+          ]
         },
         {
           "uid": "kansen_ch01_q38",
@@ -6403,6 +6414,10 @@
             {
               "cls": "bm",
               "t": "2択"
+            },
+            {
+              "cls": "bi",
+              "t": "📷 画像"
             }
           ],
           "qt": "連問（症例：女性、外陰部・会陰部の急速進行する紅斑・浮腫・壊疽様変化。糖尿病あり）。原因病原体として<strong>可能性が高い</strong>のはどれか。2つ選べ。",
@@ -6442,7 +6457,10 @@
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th><th>根拠</th></tr><tr><td>a Candida albicans</td><td>×</td><td>真菌→糖尿病での日和見感染はあるが、壊死性筋膜炎の主役は細菌</td></tr><tr><td>b Chlamydia trachomatis</td><td>×</td><td>性感染症の原因→壊死性筋膜炎の起炎菌ではない</td></tr><tr><td>c Clostridioides difficile</td><td>×</td><td>C.difficileは腸炎の原因（偽膜性腸炎）→壊死性筋膜炎の主要原因でない</td></tr><tr><td>d Escherichia coli</td><td>○</td><td>会陰部→腸内細菌（大腸菌等）が混合感染の主役の一つ→好気性グラム陰性桿菌</td></tr><tr><td>e Peptostreptococcus anaerobius</td><td>○</td><td>嫌気性連鎖球菌→Fournier壊疽は好気性＋嫌気性菌の混合感染が特徴</td></tr></table>"
             }
           ],
-          "imgs": []
+          "imgs": [
+            "感染症/images/114F-72_1.jpeg",
+            "感染症/images/114F-72_2.jpeg"
+          ]
         },
         {
           "uid": "kansen_ch03_q120",
@@ -7702,7 +7720,12 @@
           "rate": -1,
           "rate_cls": "cm",
           "rate_text": "75%",
-          "badges": [],
+          "badges": [
+            {
+              "cls": "bi",
+              "t": "📷 画像"
+            }
+          ],
           "qt": "連問（症例：糖尿病患者、下肢の広範な壊死性病変・捻髪音・急速進行）。<strong>診断</strong>はどれか。",
           "choices": [
             {
@@ -7740,7 +7763,10 @@
               "c": "<table class=\"tb\"><tr><th>疾患</th><th>特徴</th><th>選択肢</th></tr><tr><td>疾患</td><td>特徴</td><td>選択肢</td></tr><tr><td>Buerger病（血栓閉塞性血管炎）</td><td>若年喫煙者・末梢虚血</td><td><span class=\"kw4\">× 急性感染ではない</span></td></tr><tr><td>リンパ浮腫</td><td>慢性の浮腫・感染症状なし</td><td><span class=\"kw4\">× 無熱・慢性</span></td></tr><tr><td><span class=\"kw\">壊死性筋膜炎</span></td><td><span class=\"kw\">捻髪音・急速進行・全身症状</span></td><td><span class=\"kw\">○</span></td></tr><tr><td>深部静脈血栓症（DVT）</td><td>腫脹・圧痛・ホーマン徴候</td><td><span class=\"kw4\">× 感染症状なし</span></td></tr><tr><td>静脈うっ滞性潰瘍</td><td>慢性・浮腫・色素沈着</td><td><span class=\"kw4\">× 慢性経過</span></td></tr></table>"
             }
           ],
-          "imgs": []
+          "imgs": [
+            "感染症/images/108F-28_1.jpeg",
+            "感染症/images/108F-28_2.jpeg"
+          ]
         },
         {
           "uid": "kansen_ch03_q143",
@@ -8844,6 +8870,10 @@
             {
               "cls": "bs",
               "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷 画像"
             }
           ],
           "qt": "52歳男性。糖尿病。発熱・膿性痰・咳嗽。SpO2 97%。食事・飲水可能。<strong>最も適切な説明</strong>はどれか。",
@@ -8888,7 +8918,9 @@
               "c": "<span class=\"kw\">A-DROP = Age・Dehydration・Respiration・Orientation・Pressure</span><br/>52歳糖尿病でもA-DROP 0点なら外来治療が原則<br/>糖尿病は重症化リスクだが即入院適応ではない"
             }
           ],
-          "imgs": []
+          "imgs": [
+            "感染症/images/113D-61_1.jpeg"
+          ]
         },
         {
           "uid": "kansen_ch04_q162",
@@ -15925,6 +15957,10 @@
             {
               "cls": "bs",
               "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷 画像"
             }
           ],
           "qt": "30歳男性。咳嗽・労作時呼吸困難。口腔カンジダ（HIV疑い）。PCP診断。治療はどれか。",
@@ -15969,7 +16005,11 @@
               "c": "<span class=\"kw\">PCP治療 → ST合剤（TMP-SMX）21日間</span><br/>重症（PaO2 &lt; 70mmHg）→ST合剤 + プレドニゾロン<br/>予防：CD4 &lt; 200/mm³でST合剤予防投与（1錠/日）"
             }
           ],
-          "imgs": []
+          "imgs": [
+            "感染症/images/116D-32_1.jpeg",
+            "感染症/images/116D-32_2.jpeg",
+            "感染症/images/116D-32_3.jpeg"
+          ]
         },
         {
           "uid": "kansen_ch06_q287",
@@ -16615,6 +16655,10 @@
             {
               "cls": "bs",
               "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷 画像"
             }
           ],
           "qt": "65歳女性。全身倦怠感・微熱。胸部CT：右上肺野に径2cmの結節影。クリプトコックス症について正しいのはどれか。",
@@ -16659,7 +16703,10 @@
               "c": "<span class=\"kw\">クリプトコックス → 血清莢膜抗原（感度・特異度高）</span><br/>β-D-グルカンは陰性（莢膜多糖体がβ-D-グルカンを覆うため）<br/>墨汁染色：髄液中の莢膜を黒背景に白いハロー"
             }
           ],
-          "imgs": []
+          "imgs": [
+            "感染症/images/107A-28_1.jpeg",
+            "感染症/images/107A-28_2.jpeg"
+          ]
         },
         {
           "uid": "kansen_ch06_q298",

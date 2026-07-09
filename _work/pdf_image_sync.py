@@ -38,7 +38,7 @@ SUBJECTS = {
 
 ANCHOR = re.compile(r'(\d{1,3})\s*[.．]\s*[（(]\s*(\d{2,3}[A-Z]-\d+)\s*[）)]')
 LABEL_REF = re.compile(r'[（(]\s*([A-H])(?:\s*[，,、]\s*([A-H]))?(?:\s*[，,、]\s*([A-H]))?\s*[）)]')
-SHOW = re.compile(r'示す|呈示')
+SHOW = re.compile(r'示す|呈示|(?:is|are)\s+shown', re.IGNORECASE)   # 英語問題もある（circ 116E-38 等）
 STEM = '次の文を読み'
 MIN_AREA, MIN_LONG, BOTTOM_MARGIN = 5000, 100, 80
 IMG_BADGE = {'cls': 'bi', 't': '📷 画像'}

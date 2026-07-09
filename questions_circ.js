@@ -1274,6 +1274,10 @@ window["_cardJSON_circ"]={
             {
               "cls": "bs",
               "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷 画像"
             }
           ],
           "qt": "心電図と左心の心周期とを図に示す。<br/>Ⅲ音を聴取するのはどこか。",
@@ -1292,7 +1296,9 @@ window["_cardJSON_circ"]={
               "c": "Ⅲ音の位置：<span class=\"kw\">Ⅱ音の直後（拡張早期）</span>。Ⅳ音の位置：<span class=\"kw\">Ⅰ音の直前（拡張末期）</span>。「Ken-tuck-y」（ケンタッキー）＝Ⅲ音gallop（S1-S2-S3）リズム。"
             }
           ],
-          "imgs": []
+          "imgs": [
+            "循環器/images/103E-15_1.jpeg"
+          ]
         },
         {
           "uid": "circ_ch01_q25",
@@ -16334,6 +16340,10 @@ window["_cardJSON_circ"]={
             {
               "cls": "bs",
               "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷 画像"
             }
           ],
           "qt": "<strong>心尖部に以下の模式図に示すパターンで心雑音が聴取される疾患</strong>はどれか。",
@@ -16373,7 +16383,9 @@ window["_cardJSON_circ"]={
               "c": "<span class=\"kw\">心尖部全収縮期雑音=MR</span>。MRの腋窩放散が特徴。VSDも全収縮期だが胸骨左縁（thrill触れる）。TR=胸骨左縁下部+吸気で増強。MSは拡張期（収縮期でない）。"
             }
           ],
-          "imgs": []
+          "imgs": [
+            "循環器/images/117E-22_1.jpeg"
+          ]
         },
         {
           "uid": "circ_ch05_q308",
@@ -20766,6 +20778,10 @@ window["_cardJSON_circ"]={
             {
               "cls": "bs",
               "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷 画像"
             }
           ],
           "qt": "A 21-year-old previously healthy man presented to the emergency room with chest pain, which was worse onbreathing, lasting for two days.Lung and heart examinations were unremarkable. Chest X-ray（A）and ECG（B）are shown in the ﬁgure.What is the most likely diagnosis?",
@@ -20810,7 +20826,10 @@ window["_cardJSON_circ"]={
               "c": "<span class=\"kw\">Pericarditis ECG</span>：Diffuse ST elevation (saddle-shaped) + PR depression. Treatment: NSAIDs + colchicine. <span class=\"kw4\">Avoid anticoagulants</span>（bleeding risk）."
             }
           ],
-          "imgs": []
+          "imgs": [
+            "循環器/images/116E-38_1.jpeg",
+            "循環器/images/116E-38_2.jpeg"
+          ]
         },
         {
           "uid": "circ_ch06_q390",
