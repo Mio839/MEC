@@ -1264,10 +1264,6 @@ window["_cardJSON_resp"]={
           "rate_text": "正答率 67%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -1304,9 +1300,7 @@ window["_cardJSON_resp"]={
               "c": "<table class=\"tb\"><tr><th>原因</th><th>機序</th><th>SpO₂方向</th></tr><tr><td>CO中毒</td><td>COHbを酸化Hbと誤認識</td><td>偽高値</td></tr><tr><td>メトHb血症</td><td>吸収スペクトル混在</td><td>85%に収束</td></tr><tr><td>マニキュア</td><td>光の吸収に干渉</td><td>偽低値・不安定</td></tr><tr><td>低体温・脱水</td><td>末梢血流↓→シグナル不安定</td><td>不安定</td></tr><tr><td><span class=\"kw\">高血糖</span></td><td><span class=\"kw4\">無関係</span></td><td>影響なし</td></tr></table>"
             }
           ],
-          "imgs": [
-            "呼吸器/images/103B-32_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "resp_ch01_q25",
@@ -1841,7 +1835,7 @@ window["_cardJSON_resp"]={
               "t": "連問"
             }
           ],
-          "qt": "ABG分析結果：pH 7.38、PaCO₂ 45 Torr、PaO₂ <strong>30 Torr</strong>、HCO₃⁻ 26 mEq/L。しかし患者のSpO₂（room air）は来院時と変化なし。採血時に<strong>陰圧をかけながら採取した</strong>とのことであった。<strong>適切な対応はどれか。</strong>",
+          "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 2/3</span>83 歳の男性。食欲が低下し元気がないため妻とともに来院した。<br/>現病歴：約5 年前から物忘れが目立ち、Alzheimer 型認知症と診断されていた。1 年前から記憶の低下がさらに進行<br/>し、5 分前のことも忘れていることが多かった。同居する妻によると、2 週前に38℃の発熱があったが市販の総合<br/>感冒薬を内服して解熱したという。その頃から家でうとうとしながら座っていることが増え、食事量も半分くらい<br/>に減った。1 週前、通い慣れている施設から家へ帰る道が初めて分からなくなった。昨日トイレ動作にも介助を要<br/>するようになったため、他院において緊急で頭部単純CT を行ったが、異常はなかった。</span><br/>検査の結果を確認すると「動脈血ガス分析（room air）：pH 7.38、PaCO2 45Torr、PaO2 30Torr、HCO3－ 26mEq/L」とあった。患者の呼吸数やSpO2（room air）は来院時と変化はない。採血時の状況を確認すると、シリンジへの逆流が弱く陰圧をかけながら採取したとのことであった。<strong>適切な対応はどれか。</strong>",
           "choices": [
             {
               "t": "a　深呼吸を促す",
@@ -1888,7 +1882,7 @@ window["_cardJSON_resp"]={
               "t": "連問"
             }
           ],
-          "qt": "退院後介護保健施設入所予定。介助でのきざみ食摂取可能だが食事中にむせ込むことが多い。今後の栄養摂取方法決定にあたり<strong>まず行うべきなのはどれか。</strong>",
+          "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 3/3</span>83 歳の男性。食欲が低下し元気がないため妻とともに来院した。<br/>現病歴：約5 年前から物忘れが目立ち、Alzheimer 型認知症と診断されていた。1 年前から記憶の低下がさらに進行<br/>し、5 分前のことも忘れていることが多かった。同居する妻によると、2 週前に38℃の発熱があったが市販の総合<br/>感冒薬を内服して解熱したという。その頃から家でうとうとしながら座っていることが増え、食事量も半分くらい<br/>に減った。1 週前、通い慣れている施設から家へ帰る道が初めて分からなくなった。昨日トイレ動作にも介助を要<br/>するようになったため、他院において緊急で頭部単純CT を行ったが、異常はなかった。</span><br/>患者は入院加療の後、退院して介護保健施設に入所する方針となった。介助をすればきざみ食を摂ることができるが、食事中にむせ込むことも多い。<strong>今後の栄養摂取方法を決定するにあたりまず行うべきなのはどれか。</strong>",
           "choices": [
             {
               "t": "a　握力の測定",
@@ -2394,11 +2388,19 @@ window["_cardJSON_resp"]={
           "qt": "60 歳の男性。1 か月前から続く咳嗽を主訴に来院した。身長165cm、体重70kg。血圧120/82mmHg。喫煙は20 本/ 日を40 年間。飲酒は日本酒1 合/ 日を30 年間。運動は通勤時に1 日平均5,000 歩。胸部エックス線写真と喀痰細胞診とに異常を認めない。<br/><strong>咳嗽の治療とともに指導すべきな</strong>のはどれか。",
           "choices": [
             {
-              "t": "a「塩分制限が必要です」　/　b「お酒はビールに変えましょう」",
+              "t": "a「塩分制限が必要です」",
               "ok": false
             },
             {
-              "t": "c「体重を15kg減らしましょう」　/　d「2万歩を目指して頑張りましょう」",
+              "t": "b「お酒はビールに変えましょう」",
+              "ok": false
+            },
+            {
+              "t": "c「体重を15kg減らしましょう」",
+              "ok": false
+            },
+            {
+              "t": "d「2万歩を目指して頑張りましょう」",
               "ok": false
             },
             {
@@ -3064,10 +3066,6 @@ window["_cardJSON_resp"]={
           "rate_text": "正答率 58%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "br",
               "t": "連問"
             },
@@ -3108,9 +3106,7 @@ window["_cardJSON_resp"]={
               "c": "既知COPD + 急性増悪 + <span class=\"kw\">頸静脈怒張（JVD）+ 肝腫大 + 呼吸音減弱</span>→ <span class=\"kw\">急性肺性心（Acute cor pulmonale）</span>：COPD急性増悪による肺高血圧急増→右心不全→JVD・肝腫大。これは循環不全（心拍出量低下）を直接示す緊急介入が必要な状態。"
             }
           ],
-          "imgs": [
-            "呼吸器/images/102C-28_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "resp_ch01_q65",
@@ -3191,7 +3187,11 @@ window["_cardJSON_resp"]={
               "ok": true
             },
             {
-              "t": "d　Ⅰ型肺胞上皮細胞　/　e　Ⅱ型肺胞上皮細胞",
+              "t": "d　Ⅰ型肺胞上皮細胞",
+              "ok": false
+            },
+            {
+              "t": "e　Ⅱ型肺胞上皮細胞",
               "ok": false
             }
           ],
@@ -3517,7 +3517,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　高い呼気終末陽圧（PEEP）による呼吸管理",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　高い呼気終末陽圧（PEEP）による呼吸管理",
@@ -3578,7 +3578,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　鼻カニューラ 2L/分",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　鼻カニューラ 0.5L/分",
@@ -3691,7 +3691,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　急性呼吸窮迫症候群（ARDS）",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　急性呼吸窮迫症候群（ARDS）",
@@ -3755,7 +3755,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　④呼気終末陽圧（PEEP）",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　⑤吸気圧と呼気終末陽圧（PEEP）の差",
@@ -3815,7 +3815,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　非侵襲的陽圧換気を開始する",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　鼻カニューラの酸素流量を増やす",
@@ -3884,7 +3884,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　持続的陽圧換気（CPPV）",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　非侵襲的陽圧換気（NPPV）",
@@ -3956,7 +3956,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　リザーバー付きマスク 10L/分 ——— 90%以上",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　リザーバー付きマスク 10L/分 → FIO₂ 90%以上",
@@ -4012,7 +4012,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　(760 − 47) × 1.0 − 32/0.8",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　(760 − 47) × 1.0 − 32/0.8",
@@ -4056,7 +4056,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　COPD増悪",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　上気道閉塞",
@@ -4064,11 +4064,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　心原性肺水腫",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　筋萎縮性側索硬化症（ALS）",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "b　COPD増悪　＋　d　心原性肺水腫　＋　e　ALS",
@@ -4108,7 +4108,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　気管挿管",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　胸腔ドレナージ",
@@ -4167,7 +4167,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　換気回数を増やす",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　一回換気量を減らす",
@@ -4219,7 +4219,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　肺塞栓症",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　横隔膜麻痺",
@@ -4292,7 +4292,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　肺胞壁の肥厚",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　肺胞壁の肥厚（拡散障害）",
@@ -4345,7 +4345,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　肺胞低換気",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　肺循環障害",
@@ -4398,7 +4398,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　心拍出量の増加",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　尿量の減少",
@@ -4458,7 +4458,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　肺サーファクタント減少",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　肺サーファクタント減少",
@@ -4493,7 +4493,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　非侵襲的陽圧換気（NPPV）",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　短時間作用性β₂刺激薬吸入",
@@ -4552,7 +4552,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　代償性呼吸性アシドーシス",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　代償性呼吸性アシドーシス",
@@ -4597,7 +4597,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　鼻カニューラ 2L/分",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　鼻カニューラ 4L/分",
@@ -4661,7 +4661,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　臨床検査技師",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　ケアマネジャー",
@@ -4700,7 +4700,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　鼻カニューラ ————————— 1L/分",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　鼻カニューラ ————————— 7L/分",
@@ -4793,7 +4793,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　リザーバー付マスクによる酸素投与",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　リザーバー付マスクによる酸素投与（CO₂ narcosissをさらに悪化させる→禁忌）",
@@ -4842,7 +4842,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　肺血管透過性亢進",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　肺サーファクタント増加",
@@ -4933,7 +4933,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　急性呼吸促迫症候群（ARDS）",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　急性呼吸促迫症候群（ARDS）",
@@ -5018,7 +5018,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　鼻カニューラ 1.5L/分",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　鼻カニューラ 0.5L/分",
@@ -5057,13 +5057,17 @@ window["_cardJSON_resp"]={
             {
               "cls": "bm",
               "t": "2択"
+            },
+            {
+              "cls": "bi",
+              "t": "📷 画像"
             }
           ],
           "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 1/3</span>84 歳の男性。早期胃癌の治療のため入院中である。<br/>現病歴：2 か月前から上腹部痛を自覚し、改善がないため受診した。上部消化管内視鏡検査で胃前庭部小彎の早期胃<br/>癌と診断された。5日前に入院し、翌日に内視鏡的粘膜下層剝離術が行われたが、同日夜に200mL程度の吐血があり、<br/>緊急で内視鏡的止血術が行われた。吐血した際には激しい咳を伴っていた。昨日から38.7℃の発熱と呼吸困難とを<br/>自覚している。<br/>既往歴：60 歳時に胆囊摘出術。<br/>生活歴：喫煙は60 歳まで10 本/ 日を40 年間。飲酒歴はない。石綿などの粉塵吸入歴はない。<br/>家族歴：父親が肺癌で死亡。母親が脳梗塞で死亡。<br/>現　症：意識は清明。</span><br/>この患者にみられる所見はどれか。2 つ選べ。",
           "choices": [
             {
               "t": "a　両肺の浸潤影",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　右下葉無気肺",
@@ -5075,7 +5079,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　縦隔気腫",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　蜂巣肺",
@@ -5096,7 +5100,9 @@ window["_cardJSON_resp"]={
               "c": "ESD中または吐血時の<span class=\"kw\">誤嚥</span>→両肺の浸潤影（誤嚥性肺炎）。ESD手技による<span class=\"kw\">消化管穿孔→縦隔気腫</span>も生じている（内視鏡手術の重篤合併症）。空洞・蜂巣肺・無気肺は画像上認めない。"
             }
           ],
-          "imgs": []
+          "imgs": [
+            "呼吸器/images/111G-66_1.jpeg"
+          ]
         },
         {
           "uid": "resp_ch02_q103",
@@ -5126,7 +5132,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　抗菌薬",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　抗菌薬（誤嚥性肺炎への治療）",
@@ -5156,7 +5162,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　肺コンプライアンスの低下",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　肺内シャントの減少",
@@ -5206,7 +5212,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　肺胞低換気は原因となる",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　急速にPaCO₂を低下させる必要がある",
@@ -5264,7 +5270,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　短時間作用型β₂刺激薬吸入",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　生物学的製剤の皮下投与",
@@ -5308,7 +5314,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　気管短縮",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　甲状腺腫",
@@ -5358,9 +5364,13 @@ window["_cardJSON_resp"]={
             {
               "cls": "bi",
               "t": "📷 画像"
+            },
+            {
+              "cls": "br",
+              "t": "連問"
             }
           ],
-          "qt": "次に検査所見を示す。白血球16,460（好中球89%）、CRP 10.1mg/dL。ABG（room air）：pH 7.45、PaCO₂ 38、PaO₂ 54、HCO₃⁻ 24mEq/L。D-dimer 0.5μg/mL（基準1.0以下）。胸部X線(C)を示す。<br>現時点の治療で<strong>適切でないのはどれか。</strong></br>",
+          "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 2/2</span>次の文を読み、107 と108 の問いに答えよ。<br/>84 歳の男性。呼吸困難を主訴に来院した。<br/>現病歴：昨日から呼吸困難があり、本日38.8℃の発熱もあり受診した。普段は平地を通常の速度で歩けるが、現在は<br/>室内の移動で呼吸困難がある。咳嗽も新たに出現し、喀痰は黄色である。<br/>既往歴：慢性閉塞性肺疾患〈COPD〉を5 年前に診断されて副腎皮質ステロイド/ 長時間作用性β2 刺激薬/ 長時間<br/>作用性抗コリン薬の合剤を吸入し、高血圧症で降圧薬を内服している。<br/>生活歴：喫煙は20 歳から60 歳まで60 本/ 日、以後は禁煙している。飲酒歴はない。元会社員。<br/>現　症：意識は清明。</span><br/>次に検査所見を示す。血液所見：赤血球436 万、Hb 13.0g/dL、Ht 39％、白血球16,460（好中球89％、好酸球0％、好塩基球0％、単球6％、リンパ球5％）、血小板33 万、PT-INR 1.0（基準0.9 ～1.1）、D ダイマー0.5μg/mL（基準1.0 以下）。血液生化学所見：総蛋白5.7g/dL、アルブミン3.3g/dL、総ビリルビン2.1mg/dL、直接ビリルビン0.6mg/dL、AST 27U/L、ALT 16U/L、LD 219U/L（基準124 ～222）、ALP 112U/L（基準38 ～113）、γ-GT 22U/L（基準13 ～64）、CK 39U/L（基準59 ～248）、尿素窒素28mg/dL、クレアチニン0.6mg/dL、尿酸6.9mg/dL、血糖177mg/dL、HbA1c 5.6％（基準4.9 ～6.0）、Na 138mEq/L、K 3.7mEq/L、Cl 100mEq/L。CRP 10.1mg/dL。動脈血ガス分析（room air）：pH 7.45、PaCO2 38Torr、PaO2 54Torr、HCO3－ 24mEq/L。心電図は洞性頻脈でST-T 変化を認めない。胸部エックス線写真（C）を示す。入院することとなり、SpO2 92％以上となるように酸素投与が開始された。血液培養2 セットと喀痰培養検体を提出した。<strong>現時点の治療で適切でないのはどれか。</strong>",
           "choices": [
             {
               "t": "a　輸液",
@@ -5376,7 +5386,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　ヘパリン持続点滴",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　グルココルチコイド全身投与",
@@ -5433,7 +5443,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　口腔カンジダ症",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　口腔カンジダ症（ICS使用による免疫抑制→Candida増殖）",
@@ -5479,7 +5489,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　慢性閉塞性肺疾患",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　急性呼吸窮迫症候群",
@@ -5526,7 +5536,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　FEV₁% 70%未満",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　静肺コンプライアンス低下",
@@ -5573,7 +5583,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　長時間作用型β₂刺激薬の吸入",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　セフェム系薬の少量長期の内服",
@@ -5606,9 +5616,13 @@ window["_cardJSON_resp"]={
             {
               "cls": "bs",
               "t": "★"
+            },
+            {
+              "cls": "br",
+              "t": "連問"
             }
           ],
-          "qt": "外来で「最近つまずきやすくなり、物覚えが悪くなった」と相談。高齢者機能評価簡易版（CGA7）を用いて評価を行うことになった。<strong>評価のための質問で適切でないのはどれか。</strong>",
+          "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 3/3</span>80 歳の男性。労作時の息切れを主訴に来院した。<br/>現病歴：3 年前から労作時に息切れを自覚していた。6 か月前から咳、痰が出現し、1 か月前から坂道や階段を途中<br/>で休まないと昇れなくなったため受診した。<br/>既往歴：2 年前に閉塞隅角緑内障と診断されたが、以後、通院はしていない。<br/>生活歴：喫煙は40 本/ 日を60 年間。飲酒は機会飲酒。<br/>家族歴：父が脳梗塞。<br/>現　症：意識は清明。身長170cm、体重58kg。体温36.2℃。脈拍92/ 分、整。血圧138/62mmHg。呼吸数24/ 分。<br/>SpO2 90％（room air）。眼瞼結膜と眼球結膜とに異常を認めない。頸静脈の怒張を認めない。</span><br/>退院後、患者は定期的に外来通院することになった。ある日の外来で「最近、つまずきやすくなり、物覚えが悪くなった」と相談を受け、高齢者機能評価簡易版〈CGA7〉を用いて評価を行うことになった。<strong>評価のための質問で適切でないのはどれか。</strong>",
           "choices": [
             {
               "t": "a　「自分が無力だと思いますか」",
@@ -5616,7 +5630,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　「会話が聴き取りにくいことはありますか」",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　「これから言う言葉を繰り返してください」",
@@ -5671,7 +5685,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　呼吸リハビリテーション",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　ネーザルハイフロー療法",
@@ -5679,7 +5693,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　長時間作用性β₂刺激薬吸入の追加",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "c　呼吸リハビリテーション　＋　e　LABA吸入の追加（LAMA+LABA併用療法）",
@@ -5722,7 +5736,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　アセトアミノフェン",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　グルココルチコイド",
@@ -5778,7 +5792,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　患者から見えないように寝衣の袖の中に点滴ルートを通す",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　寝衣の袖の中に点滴ルートを通す（視覚的刺激を取り除いて自己抜去を予防）",
@@ -5825,7 +5839,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　グルココルチコイド",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　グルココルチコイド（全身投与）",
@@ -5859,8 +5873,24 @@ window["_cardJSON_resp"]={
           "qt": "胸部の模式図を示す。<br/>慢性閉塞性肺疾患〈COPD〉の重症例にみられる心尖拍動はどこか。",
           "choices": [
             {
-              "t": "a　①　/　b　②　/　c　③　/　d　④　/　e　⑤",
+              "t": "a　①",
               "ok": false
+            },
+            {
+              "t": "b　②",
+              "ok": false
+            },
+            {
+              "t": "c　③",
+              "ok": false
+            },
+            {
+              "t": "d　④",
+              "ok": false
+            },
+            {
+              "t": "e　⑤",
+              "ok": true
             }
           ],
           "ans_label": "e　⑤（剣状突起下：epigastric area）",
@@ -5910,15 +5940,15 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　左心不全",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　気管支喘息",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　慢性閉塞性肺疾患",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "c　左心不全　＋　d　気管支喘息　＋　e　COPD",
@@ -5958,7 +5988,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　気管支喘息",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　慢性気管支炎",
@@ -6022,7 +6052,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　副鼻腔気管支症候群",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　副鼻腔気管支症候群（SBS）—後鼻漏＋気管支炎→湿性咳嗽＋膿性痰",
@@ -6057,7 +6087,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　呼気延長",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　犬吠様咳嗽",
@@ -6094,10 +6124,6 @@ window["_cardJSON_resp"]={
             {
               "cls": "bs",
               "t": "★"
-            },
-            {
-              "cls": "bm",
-              "t": "2択"
             }
           ],
           "qt": "43 歳の男性。持続する咳、痰および労作時呼吸困難を主訴に来院した。小児期から風邪をひきやすく20 歳台から咳と痰の回数が増加した。2 年前から膿性痰が1 日中持続し息切れを自覚するようになった。自宅近くの診療所で抗菌薬を処方され症状は少し改善したが、再燃したため紹介受診した。喫煙歴はない。意識は清明。体温36.9℃。脈拍76/ 分、整。血圧116/68mmHg。呼吸数20/ 分。SpO2 97％（room air）。心音に異常を認めない。呼吸音は両側下胸部にcoarse crackles を聴取する。胸部エックス線写真で両側中・下肺野を中心にびまん性粒状陰影を認めた。胸部単純CT でびまん性小葉中心性粒状影を認めた。<br/><strong>診断</strong>はどれか。",
@@ -6120,7 +6146,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　びまん性汎細気管支炎",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　びまん性汎細気管支炎（DPB）",
@@ -6150,10 +6176,6 @@ window["_cardJSON_resp"]={
             {
               "cls": "bs",
               "t": "★"
-            },
-            {
-              "cls": "bm",
-              "t": "3択"
             }
           ],
           "qt": "53 歳の男性。3 年前から喘息のコントロールが不良でしばしば増悪を起こし、肺炎を繰り返すようになった。<br/>2 週間前から近くの医療機関で肺炎と診断され治療中であったが、抗菌薬への反応が悪いとのことで紹介され来院した。2 歳から気管支喘息として治療を受けている。身長168cm、体重64kg。体温36.4℃。脈拍68/ 分、整。血圧118/68mmHg。呼吸音は両側全肺野でwheezes を聴取する。入院時血液所見：赤血球465 万、Hb 12.8g/dL、Ht39％、白血球13,100（分葉核好中球51％、好酸球27％、好塩基球2％、リンパ球20％）、血小板27 万。血液生化学所見：総ビリルビン0.6mg/dL、AST 22U/L、ALT 27U/L、LD 150U/L（基準120 ～245）、ALP 46U/L（基準38～113）、γ-GT 36U/L（基準8 ～50）、尿素窒素8.5mg/dL、クレアチニン0.7mg/dL、IgE 2,540IU/mL。免疫血清学所見：CRP 0.2mg/dL、抗アスペルギルス沈降抗体陽性、β-D-グルカン120pg/mL（基準10 以下）、喀痰培養でAspergillus fumigatus が検出された。<br/><strong>この患者に対する治療として適切な</strong>のはどれか。",
@@ -6172,7 +6194,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　経口副腎皮質ステロイド",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　アスペルギルス減感作療法",
@@ -6228,7 +6250,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　マイコプラズマ肺炎",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　マイコプラズマ肺炎（感染症→急性咳嗽の典型）",
@@ -6272,7 +6294,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　炭水化物主体の食事にする",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　十分なエネルギー量を摂取する",
@@ -6327,7 +6349,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　慢性閉塞性肺疾患（COPD）",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　COPD（飲酒はCOPDのリスクファクターでない；喫煙が主要リスク）",
@@ -6366,7 +6388,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　③",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　④",
@@ -6423,7 +6445,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　夜中から明け方に悪化する",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　夜中から明け方に悪化する（喘息の日内変動の特徴）",
@@ -6470,7 +6492,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　吸入副腎皮質ステロイド/長時間作用性β₂刺激薬配合剤",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　ICS/LABA配合剤（喘息の維持療法の中心）",
@@ -6500,7 +6522,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　喘息増悪はウイルス感染後が最も多い",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　吸入ステロイド薬は喫煙により作用が増強する",
@@ -6563,7 +6585,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　アンジオテンシン変換酵素（ACE）阻害薬の内服",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　ACE阻害薬の内服（誤嚥性肺炎の「予防」因子）",
@@ -6576,7 +6598,8 @@ window["_cardJSON_resp"]={
             }
           ],
           "imgs": [
-            "呼吸器/images/117C-72_1.jpeg"
+            "呼吸器/images/117C-72_1.jpeg",
+            "呼吸器/images/117C-72_2.jpeg"
           ]
         },
         {
@@ -6600,7 +6623,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　β₂刺激薬",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　アルブミン製剤",
@@ -6639,7 +6662,7 @@ window["_cardJSON_resp"]={
               "t": "連問"
             }
           ],
-          "qt": "入院3日目、状態改善傾向で酸素も不要となったが、急に呼吸心拍モニターを引きちぎり「今日は仕事に行く」と言い病室から出ようとした（→入院中のせん妄）。対応で<strong>誤っているのはどれか。</strong>",
+          "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 3/3</span>85 歳の男性。発熱と呼吸困難を主訴に家族とともに来院した。<br/>現病歴：1 年前から息切れのため自宅の階段を昇ることが困難となり、食事や飲水の際のむせが出現した。食事量も<br/>低下し、半年間で体重が5kg 減少した。1 週間前から咳嗽と喀痰が多くなり、2 日前から38℃の発熱と呼吸困難が<br/>みられるようになったため家族に伴われて受診し、入院した。<br/>既往歴：15 年前から高血圧症に対してアンジオテンシン変換酵素〈ACE〉阻害薬を内服している。5 年前から物忘<br/>れが目立つようになり、2 年前にAlzheimer 型認知症と診断された。<br/>生活歴：65 歳まで会社員。現在は娘の家族と同居。</span><br/>入院3 日目、患者の状態は改善傾向で酸素も不要となったが、急に呼吸心拍モニターを引きちぎり、「今日は仕事に行く」と言い病室から出ようとした。表情は乏しく、入院中であることを説明しても聞きいれず、複数名での制止を要する状態であった。<strong>対応で誤っているのはどれか。</strong>",
           "choices": [
             {
               "t": "a　脱水を避ける",
@@ -6659,7 +6682,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　夜間はベンゾジアゼピン系睡眠薬を用いる",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　夜間はベンゾジアゼピン系睡眠薬を用いる（せん妄を悪化させる→禁忌）",
@@ -6690,7 +6713,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　Ⅱ型呼吸不全",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　呼気時間短縮",
@@ -6753,7 +6776,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　ヒスタミンH1受容体拮抗薬投与",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　ヒスタミンH1受容体拮抗薬投与（COPD急性増悪に適応なし）",
@@ -6780,7 +6803,7 @@ window["_cardJSON_resp"]={
               "t": "連問"
             }
           ],
-          "qt": "その後SpO₂ 86%に低下→マスク5L/分酸素投与。ABG（マスク5L/分）：pH 7.30、PaCO₂ 86Torr、PaO₂ 92Torr。JCS II-10（意識混濁）。喘鳴やや改善。<strong>適切な治療法はどれか。</strong>",
+          "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 3/3</span>75 歳の男性。労作時の呼吸困難を主訴に来院した。<br/>現病歴：数年前から労作時の息切れがあったが、約1 年前から階段や坂道は途中で休まないと昇れなくなった。1 週<br/>間前から呼吸困難と膿性痰が出現し、改善しないため受診した。<br/>既往歴：60 歳時より高血圧症。<br/>生活歴：喫煙は25 歳から現在まで40 本/ 日を50 年間。飲酒は機会飲酒。<br/>家族歴：母が気管支喘息。<br/>現　症：意識は清明。身長163cm、体重65kg。体温36.6℃。脈拍92/ 分、整。血圧142/56mmHg。呼吸数24/ 分。<br/>SpO2 90％（room air）。眼瞼結膜と眼球結膜とに異常を認めない。頸静脈の怒張を認めない。</span><br/>その後、SpO2 86％に低下したため、ストレッチャーに移動し、マスク5L/ 分の酸素投与を行った。喘鳴はやや改善したが、呼吸困難は続いていた。意識レベルはJCSⅡ-10。心拍数130/ 分、整。血圧152/82mmHg。呼吸数28/ 分。動脈血ガス分析（マスク5L/ 分酸素投与下）：pH 7.30、PaCO2 86Torr、PaO2 92Torr、HCO3－ 36mEq/L。<strong>適切な治療法はどれか。</strong>",
           "choices": [
             {
               "t": "a　気管切開",
@@ -6800,7 +6823,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　非侵襲的陽圧換気（NPPV）",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　非侵襲的陽圧換気（NPPV）—CO₂ narcosissへの対処",
@@ -6834,7 +6857,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　中枢性鎮咳薬の投与",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　副腎皮質ステロイドの投与",
@@ -6868,7 +6891,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　肺拡散能検査",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　気道過敏性試験",
@@ -6922,7 +6945,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　静肺コンプライアンス増加",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　上に凸のフローボリューム曲線",
@@ -6957,7 +6980,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　後鼻漏",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　食道憩室",
@@ -6965,7 +6988,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　逆流性食道炎",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　食道カンジダ症",
@@ -7011,7 +7034,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　胃食道逆流症 ————————— 後鼻漏",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　副鼻腔気管支症候群 ————— 膿性痰",
@@ -7045,7 +7068,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　吸入副腎皮質ステロイド薬",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　吸入長時間作用性β₂刺激薬",
@@ -7104,7 +7127,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　ピークフロー",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　ピークフロー（peak expiratory flow rate）—喘息の特徴的日内変動",
@@ -7151,7 +7174,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　ロイコトリエン受容体拮抗薬投与",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　ロイコトリエン受容体拮抗薬（LTRA）投与（COPD単独には標準適応なし）",
@@ -7184,7 +7207,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　β遮断薬",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　ヒスタミンH1受容体拮抗薬",
@@ -7227,7 +7250,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　残気量増加",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　拡散能上昇",
@@ -7235,7 +7258,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　A-aDO₂開大",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　血清KL-6上昇",
@@ -7290,11 +7313,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　長時間作用性吸入β₂刺激薬（LABA）投与",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　長時間作用性吸入抗コリン薬（LAMA）投与",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "d　LABA　＋　e　LAMA（LAMA+LABA併用が安定期COPD中等症〜重症の標準治療）",
@@ -7340,11 +7363,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　スパイロメトリ",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　喀痰中好酸球比率算定",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "d　スパイロメトリ（気道閉塞・可逆性確認）　＋　e　喀痰中好酸球比率算定（咳喘息・アトピー咳嗽の鑑別）",
@@ -7387,7 +7410,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　安静時エネルギー消費量は予測値より低下する",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　食事に伴う呼吸困難が食事摂取量減少の一因となる",
@@ -7442,7 +7465,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　喀痰培養で抗酸菌が検出される",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　第一選択の治療薬は経口副腎皮質ステロイドである",
@@ -7492,7 +7515,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　副鼻腔気管支症候群にはマクロライド系抗菌薬が有効である",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　副鼻腔気管支症候群にはマクロライド系抗菌薬が有効",
@@ -7540,7 +7563,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　口腔カンジダ症",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　アフタ性口内炎",
@@ -7585,11 +7608,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　アミノフィリン点滴静注",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　短時間作用性β₂刺激薬吸入",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　ロイコトリエン受容体拮抗薬内服",
@@ -7635,7 +7658,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　副腎皮質ステロイド全身投与",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　副腎皮質ステロイド全身投与（喘息急性増悪の標準治療）",
@@ -7682,7 +7705,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　14員環マクロライド系薬の内服",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　14員環マクロライド系薬の内服（気管支拡張症/DPBへの少量長期療法）",
@@ -7724,7 +7747,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　口すぼめ呼吸",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　Biot呼吸",
@@ -7767,7 +7790,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　残気量",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　肺拡散能",
@@ -7805,7 +7828,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　気管支喘息",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　過敏性肺炎",
@@ -7851,7 +7874,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　気管支拡張症",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　慢性好酸球性肺炎",
@@ -7898,11 +7921,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　インフルエンザワクチン接種",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　長時間作用性β₂刺激薬の吸入",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　短時間作用性抗コリン薬の吸入",
@@ -7952,7 +7975,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　アレルギー性気管支肺アスペルギルス症 ——— 副腎皮質ステロイド",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　ABPA — 副腎皮質ステロイド（第一選択）",
@@ -7987,7 +8010,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　抗菌薬の投与",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　副腎皮質ステロイドの吸入",
@@ -7999,11 +8022,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　副腎皮質ステロイドの内服",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　短時間作用型β₂刺激薬の吸入",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "a　抗菌薬　＋　d　全身ステロイド内服　＋　e　SABA吸入",
@@ -8049,7 +8072,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　慢性閉塞性肺疾患（COPD）",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　COPD",
@@ -8087,7 +8110,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　副腎皮質ステロイド吸入",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　プロトンポンプ阻害薬内服",
@@ -8138,7 +8161,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　⑤",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　⑤（COPD：呼気曲線がscoopingパターン）",
@@ -8181,7 +8204,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　抗菌薬の投与",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　気管支肺胞洗浄",
@@ -8197,7 +8220,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　気管支拡張薬の投与",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "a　抗菌薬　＋　e　気管支拡張薬（SABA/SAMA）",
@@ -8235,7 +8258,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　抗菌薬の投与",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　胸腔ドレナージ",
@@ -8251,7 +8274,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　気管支拡張薬の投与",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "a　抗菌薬　＋　e　気管支拡張薬",
@@ -8279,13 +8302,17 @@ window["_cardJSON_resp"]={
             {
               "cls": "br",
               "t": "連問"
+            },
+            {
+              "cls": "bi",
+              "t": "📷 画像"
             }
           ],
           "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 1/2</span>次の文を読み、169 と170 の問いに答えよ。<br/>32 歳の女性。持続する咳嗽を主訴に来院した。<br/>現病歴：2 か月前から鼻汁と鼻閉とを感じていた。1 か月前から咳を自覚するようになり、3 週前から咳が増強し、<br/>続いている。特に夜間に咳嗽が強い。<br/>既往歴：5 歳時にアトピー性皮膚炎を発症。<br/>生活歴：両親と3 人暮らし。事務職。喫煙歴はない。飲酒は機会飲酒。5 か月前からハムスターを飼っている。<br/>家族歴：父親が高血圧症で治療中。<br/>現　症：意識は清明。身長160cm、体重50kg。体温36.4℃。脈拍88/ 分、整。血圧126/72mmHg。呼吸数20/ 分。<br/>SpO2 98％（room air）。</span><br/>診断のために<strong>最も適切な検査はどれか。</strong>",
           "choices": [
             {
               "t": "a　スパイロメトリー",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　心エコー検査",
@@ -8313,7 +8340,9 @@ window["_cardJSON_resp"]={
               "c": "夜間主体の咳嗽・強制呼出でwheeze・アトピー既往・ハムスター（アレルゲン）→<span class=\"kw\">気管支喘息疑い</span>。確定診断には<span class=\"kw\">スパイロメトリ（気道可逆性試験＋気道過敏性試験）</span>。FEV₁%低下かつβ₂刺激薬吸入後に≥12%＆≥200mL改善→喘息確定。"
             }
           ],
-          "imgs": []
+          "imgs": [
+            "呼吸器/images/107H-35_1.jpeg"
+          ]
         },
         {
           "uid": "resp_ch03_q170",
@@ -8328,7 +8357,7 @@ window["_cardJSON_resp"]={
               "t": "連問"
             }
           ],
-          "qt": "外来で通院治療中。市販の鎮痛薬を服用したところ約30分後に喘鳴・呼吸困難→受診。両側wheeze。<strong>直ちに行う処置はどれか。</strong>",
+          "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 2/2</span>次の文を読み、169 と170 の問いに答えよ。<br/>32 歳の女性。持続する咳嗽を主訴に来院した。<br/>現病歴：2 か月前から鼻汁と鼻閉とを感じていた。1 か月前から咳を自覚するようになり、3 週前から咳が増強し、<br/>続いている。特に夜間に咳嗽が強い。<br/>既往歴：5 歳時にアトピー性皮膚炎を発症。<br/>生活歴：両親と3 人暮らし。事務職。喫煙歴はない。飲酒は機会飲酒。5 か月前からハムスターを飼っている。<br/>家族歴：父親が高血圧症で治療中。<br/>現　症：意識は清明。身長160cm、体重50kg。体温36.4℃。脈拍88/ 分、整。血圧126/72mmHg。呼吸数20/ 分。<br/>SpO2 98％（room air）。</span><br/>外来で通院治療していたが、自宅で歯痛があり市販の鎮痛薬を服用したところ、約30 分後喘鳴と呼吸困難とを生じたため受診した。意識は清明。両側の胸部にwheezes を聴取する。<strong>直ちに行う処置はどれか。</strong>",
           "choices": [
             {
               "t": "a　硝酸薬の舌下投与",
@@ -8336,7 +8365,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　β₂刺激薬の吸入",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　利尿薬の静注",
@@ -8388,7 +8417,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　エリスロマイシンの少量長期内服",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　副腎皮質ステロイドの内服",
@@ -8445,7 +8474,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　呼吸音の減弱",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　胸膜摩擦音",
@@ -8453,7 +8482,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　呼気の延長",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "c　呼吸音の減弱　＋　e　呼気の延長（COPD/肺気腫の典型的所見）",
@@ -8497,7 +8526,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　副腎皮質ステロイド吸入薬",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　副腎皮質ステロイド吸入薬（感染後喘息→ICS維持療法）",
@@ -8544,7 +8573,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　治療は必要ないことを説明する",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　治療は必要ないことを説明する（夏型過敏性肺炎→抗原除去で自然軽快）",
@@ -8592,7 +8621,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　肺炎球菌ワクチンの接種歴",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　免疫グロブリンの点滴静注歴",
@@ -8652,7 +8681,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　②又は④",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　②又は④（閉塞性または混合性：喫煙Brinkman 1,800→COPD高リスク）",
@@ -8702,7 +8731,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　放射線肺炎",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　好酸球性肺炎",
@@ -8761,7 +8790,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　肺門リンパ節",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　鎖骨上リンパ節",
@@ -8808,7 +8837,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　③",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　④",
@@ -8866,7 +8895,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　FDG-PETでの心筋への異常集積",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　胸部造影CTでの両側縦隔リンパ節腫大",
@@ -8931,7 +8960,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　アスベスト曝露後5年前後で発症する",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　アスベスト曝露後5年前後で発症する（誤り：実際は30〜50年後）",
@@ -8977,7 +9006,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　気管支肺胞洗浄（BAL）：リンパ球分画増加",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　経気管支肺生検病理組織：びまん性肺胞障害（DAD）",
@@ -9024,7 +9053,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　片側性すりガラス陰影",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　気管支肺胞洗浄液中の好酸球数増加",
@@ -9072,7 +9101,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　石綿肺 ———————————— fine crackles",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　肺水腫 ———————————— Hamman's crunch",
@@ -9123,7 +9152,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　IgEが高値である",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　KL-6が高値である",
@@ -9172,7 +9201,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　気管支喘息の合併が多い",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　ステロイド抵抗性である",
@@ -9219,7 +9248,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　副腎皮質ステロイド",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　マクロライド系抗菌薬",
@@ -9286,11 +9315,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　抗癌化学療法の中止",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　副腎皮質ステロイドの全身投与",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "d　抗癌化学療法の中止　＋　e　ステロイド全身投与（薬剤性肺炎の治療の2本柱）",
@@ -9328,7 +9357,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　薬剤性肺炎",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　急性左心不全",
@@ -9382,7 +9411,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　肺結核",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　リポイド肺炎",
@@ -9430,7 +9459,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　湿性咳嗽",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　体重減少",
@@ -9489,7 +9518,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　心サルコイドーシス",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　心サルコイドーシス（非乾酪性肉芽腫＋ぶどう膜炎＋完全房室ブロック）",
@@ -9527,7 +9556,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　建築現場の解体作業員",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　小学校教員",
@@ -9571,7 +9600,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　KL-6低下",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　拘束性換気機能障害",
@@ -9618,7 +9647,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　胸膜生検",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　胸部MRI",
@@ -9675,7 +9704,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　心室中隔の非対称性肥大",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　FDG-PETでの心筋への異常集積",
@@ -9710,7 +9739,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　過敏性肺炎",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　特発性肺線維症",
@@ -9760,7 +9789,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　肺炎（放射線肺炎）",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　心肥大",
@@ -9812,7 +9841,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　急性好酸球性肺炎",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　非結核性抗酸菌症",
@@ -9854,7 +9883,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　放射線肺炎",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　放射線食道炎",
@@ -9888,7 +9917,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　気管支喘息の合併が多い",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　喫煙が誘因となり得る",
@@ -9943,7 +9972,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　A-aDO₂開大",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　血清LD低下",
@@ -10001,7 +10030,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　副腎皮質ステロイド",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　副腎皮質ステロイド（心サルコイドーシス→完全房室ブロック→ステロイド第一選択）",
@@ -10034,7 +10063,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　胸水ヒアルロン酸",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　胸水トリグリセリド",
@@ -10080,7 +10109,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　IgE高値",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　帰宅試験陽性",
@@ -10131,7 +10160,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　胸腔鏡下生検",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　縦隔鏡下生検",
@@ -10139,7 +10168,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　CTガイド下生検",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　気管支内視鏡下生検",
@@ -10176,6 +10205,10 @@ window["_cardJSON_resp"]={
             {
               "cls": "br",
               "t": "連問"
+            },
+            {
+              "cls": "bi",
+              "t": "📷 画像"
             }
           ],
           "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 1/2</span>次の文を読み、207 と208 の問いに答えよ。<br/>79 歳の男性。咳嗽と呼吸困難を主訴に来院した。<br/>現病歴：半年前から咳嗽と労作時の息切れを自覚するようになった。市販の鎮咳薬を服用して様子をみていたが、症<br/>状は持続していた。3 日前から咳嗽の増加と呼吸困難の悪化とを自覚したため受診した。<br/>既往歴：高血圧症。<br/>生活歴：喫煙は15 本/ 日を35 年間。55 歳で禁煙。飲酒は機会飲酒。<br/>家族歴：特記すべきことはない。<br/>現　症：身長162cm、体重59kg。体温36.5℃。脈拍68/ 分、整。血圧140/90mmHg。呼吸数22/ 分。SpO2 91％（room <br/>air）。</span><br/>診断に<strong>有用でない</strong>のはどれか。",
@@ -10198,7 +10231,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　気道過敏性試験",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　気道過敏性試験（喘息の診断→IPFには無関係）",
@@ -10210,7 +10243,9 @@ window["_cardJSON_resp"]={
               "c": "IPFの診断：<span class=\"kw\">HRCT（UIPパターン確認）</span>＋<span class=\"kw\">肺生検（UIPパターン組織確認）</span>＋<span class=\"kw\">スパイロメトリ（拘束性確認）</span>＋<span class=\"kw\">BAL（他疾患除外）</span>。<span class=\"kw4\">気道過敏性試験</span>は喘息・咳喘息の診断→IPFには不要。"
             }
           ],
-          "imgs": []
+          "imgs": [
+            "呼吸器/images/113E-50_1.jpeg"
+          ]
         },
         {
           "uid": "resp_ch04_q208",
@@ -10237,7 +10272,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　肺拡散能低下",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　A-aDO₂値の低下",
@@ -10271,7 +10306,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　石綿（アスベスト）",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　有機リン",
@@ -10318,7 +10353,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　①",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　②",
@@ -10372,7 +10407,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　上皮型が最も多い",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　両側に病変を認めることが多い",
@@ -10436,7 +10471,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　1週間の経過観察後の胸部X線",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　1週間の経過観察後の胸部X線（軽症放射線肺炎→まず経過観察）",
@@ -10477,7 +10512,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　石綿曝露歴があったことを示す",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　飲酒が発症のリスクファクターとなる",
@@ -10511,7 +10546,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　胸腔穿刺",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　喀痰細胞診",
@@ -10558,7 +10593,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　放射線肺炎",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　細菌性肺炎",
@@ -10616,7 +10651,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　副腎皮質ステロイド投与",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　植込み型除細動器（ICD）の植込み",
@@ -10658,7 +10693,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　職業歴",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　手術歴",
@@ -10687,7 +10722,8 @@ window["_cardJSON_resp"]={
             }
           ],
           "imgs": [
-            "呼吸器/images/110E-64_1.jpeg"
+            "呼吸器/images/110E-64_1.jpeg",
+            "呼吸器/images/110E-64_2.jpeg"
           ]
         },
         {
@@ -10711,7 +10747,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　胸腔穿刺",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　呼吸機能検査",
@@ -10762,7 +10798,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　腫瘍",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　嚢胞",
@@ -10787,8 +10823,7 @@ window["_cardJSON_resp"]={
             }
           ],
           "imgs": [
-            "呼吸器/images/110E-66_1.jpeg",
-            "呼吸器/images/110E-66_2.jpeg"
+            "呼吸器/images/110E-66_1.jpeg"
           ]
         },
         {
@@ -10808,7 +10843,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　過敏性肺炎",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　薬剤性肺炎",
@@ -10867,7 +10902,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　%VC低下",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　%RV上昇",
@@ -10879,7 +10914,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　%DLco低下",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　FEV₁%低下",
@@ -10917,7 +10952,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　肺胞気-動脈血酸素分圧較差（A-aDO₂）の開大",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　BAL液中の好酸球増多",
@@ -10983,7 +11018,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　入院継続による生活環境からの隔離",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　入院継続による生活環境からの隔離（抗原除去が根本治療）",
@@ -11028,7 +11063,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　両側肺門リンパ節腫脹（BHL）",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　無症候性BHL（自然軽快することが多い→治療対象外）",
@@ -11071,11 +11106,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　免疫抑制薬",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　副腎皮質ステロイド",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　ロイコトリエン受容体拮抗薬",
@@ -11129,7 +11164,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　特発性肺線維症の存在は、発症のリスクファクターである",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　IPFの存在は放射線肺炎のリスクファクター",
@@ -11166,7 +11201,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　副腎皮質ステロイドが奏効する",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　アレルギー性疾患を背景に発症する",
@@ -11205,7 +11240,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　KL-6高値",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　好酸球増多",
@@ -11259,7 +11294,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　粘膜下血管の網目形成所見",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　BAL液中のリンパ球分画低下",
@@ -11271,7 +11306,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　経気管支肺生検（TBLB）での非乾酪性類上皮細胞肉芽腫",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "b　粘膜下血管の網目形成　＋　e　TBLBでの非乾酪性類上皮細胞肉芽腫",
@@ -11301,7 +11336,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　肺線維症 —————— 肺コンプライアンスの低下",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　肺動静脈瘻 ———— 肺拡散能の低下",
@@ -11360,7 +11395,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　⁶⁷Gaシンチグラフィ",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　⁶⁷Gaシンチグラフィ（サルコイドーシスの活動性評価・病変分布確認）",
@@ -11403,7 +11438,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　肺活量",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　A-aDO₂",
@@ -11411,7 +11446,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　肺拡散能",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　血清KL-6",
@@ -11461,7 +11496,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　胸水ヒアルロン酸高値",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　胸水ADA高値",
@@ -11507,7 +11542,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　拡散能低下",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　残気量増加",
@@ -11515,7 +11550,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　肺活量低下",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　1秒率低下",
@@ -11552,7 +11587,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　副腎皮質ステロイド",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　ガンシクロビル",
@@ -11604,7 +11639,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　気管支喘息",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　原発性肺癌",
@@ -11655,7 +11690,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　ACE",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　ACTH",
@@ -11700,15 +11735,15 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　A-aDO₂開大",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　血清KL-6上昇",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　fine crackles聴取",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "c　A-aDO₂開大　＋　d　KL-6上昇　＋　e　fine crackles",
@@ -11739,7 +11774,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　じん肺",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　気管腫瘍",
@@ -11747,7 +11782,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　肺線維症",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　気管支喘息",
@@ -11798,11 +11833,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　肺癌",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　胸膜中皮腫",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　胸腺腫瘍",
@@ -11834,7 +11869,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　原因物質へのばく露がなくなると病状の進行は止まる",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　植物由来物質が原因に含まれる",
@@ -11889,7 +11924,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　γ-グロブリン増加",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　可溶性免疫複合体増加",
@@ -11897,7 +11932,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　ツベルクリン反応陰性",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "c　γ-グロブリン増加　＋　e　ツベルクリン反応陰性",
@@ -11932,7 +11967,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　職業に起因する",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　先行する感染症がある",
@@ -11948,7 +11983,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　予後は不良である",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "a　職業に起因する　＋　e　予後は不良である",
@@ -11986,7 +12021,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　サルコイドーシス",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　原発性胆汁性肝硬変",
@@ -11998,7 +12033,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　多発性内分泌腫瘍（MEN）I型",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "b　サルコイドーシス　＋　e　MEN I型（ともに高Ca血症）",
@@ -12042,7 +12077,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　トリコスポロン",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　自動車排気ガス",
@@ -12083,7 +12118,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　ACE",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　NSE",
@@ -12148,7 +12183,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　夏型過敏性肺炎",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　夏型過敏性肺炎（自宅離れると消失→帰宅で再燃＝帰宅試験陽性）",
@@ -12198,7 +12233,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　ECMO（体外式膜型人工肺）装着",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　ECMO装着（大量PTE心停止→CPR不応→ECMOで循環補助）",
@@ -12250,7 +12285,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　頸動脈エコー検査",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　肺換気および血流シンチグラフィ",
@@ -12296,7 +12331,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　②",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　③",
@@ -12354,7 +12389,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　肺血栓塞栓症",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　房室ブロック",
@@ -12401,7 +12436,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　胸部造影CT",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　気管支鏡検査",
@@ -12417,7 +12452,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　肺血流シンチグラフィ",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "a　胸部造影CT　＋　e　肺血流シンチグラフィ",
@@ -12471,7 +12506,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　肺動脈性肺高血圧症",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　肺動脈性肺高血圧症（SLE合併→膠原病関連PAH）",
@@ -12518,15 +12553,15 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　足のむくみ",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　頸静脈怒張",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　労作時息切れ",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　Ⅱ音の肺動脈成分の減弱",
@@ -12577,7 +12612,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　ぶどう膜炎",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　感染性心内膜炎",
@@ -12637,7 +12672,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　ヘパリン投与",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　下大静脈フィルター挿入",
@@ -12674,7 +12709,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　DLco（肺拡散能）",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　心エコー",
@@ -12729,7 +12764,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　膠原病",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　急性右室梗塞",
@@ -12741,11 +12776,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　特発性肺動脈性肺高血圧症（IPAH）",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　慢性肺血栓塞栓性肺高血圧症（CTEPH）",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "a　膠原病　＋　d　IPAH　＋　e　CTEPH",
@@ -12791,7 +12826,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　胸部〜下肢造影CT",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　足関節上腕血圧比（ABI）",
@@ -12826,7 +12861,7 @@ window["_cardJSON_resp"]={
               "t": "計算"
             }
           ],
-          "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 1/3</span>27 歳の女性。胸痛と呼吸困難を主訴に来院した。<br/>現病歴：昨日から右前胸部痛を自覚した。息を吸うと痛みが悪化するため、深呼吸ができなかった。本日は胸痛の悪<br/>化に加え、労作時の呼吸困難も出現したため救急外来を受診した。<br/>既往歴：3 か月前から経口避妊薬を内服している。<br/>生活歴：パートナーと2 人暮らし。事務職。喫煙歴はない。飲酒は機会飲酒。<br/>家族歴：母方の祖父が癌（詳細不明）。母が糖尿病と高血圧症。<br/>現　症：意識は清明。身長163cm、体重60kg。体温38.0℃。脈拍120/ 分、整。血圧112/64mmHg。呼吸数32/ 分。<br/>SpO2 88％（room air）。</span><br/>この患者の肺胞気- 動脈血酸素分圧較差〈A-aDO2〉を求めよ。なお、大気圧760Torr、37℃での飽和水蒸気圧47Torr、呼吸商0.8 とする。<br/>ただし、小数点以下の数値が得られた場合には、小数第1 位を四捨五入すること。<br/>解答：① ② Torr（編註：選択肢を省略した。）<br/><strong>261. （117F-72）→診断に有用な検査</strong>はどれか。",
+          "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 1/3</span>27 歳の女性。胸痛と呼吸困難を主訴に来院した。<br/>現病歴：昨日から右前胸部痛を自覚した。息を吸うと痛みが悪化するため、深呼吸ができなかった。本日は胸痛の悪<br/>化に加え、労作時の呼吸困難も出現したため救急外来を受診した。<br/>既往歴：3 か月前から経口避妊薬を内服している。<br/>生活歴：パートナーと2 人暮らし。事務職。喫煙歴はない。飲酒は機会飲酒。<br/>家族歴：母方の祖父が癌（詳細不明）。母が糖尿病と高血圧症。<br/>現　症：意識は清明。身長163cm、体重60kg。体温38.0℃。脈拍120/ 分、整。血圧112/64mmHg。呼吸数32/ 分。<br/>SpO2 88％（room air）。</span><br/>この患者の肺胞気- 動脈血酸素分圧較差〈A-aDO2〉を求めよ。なお、大気圧760Torr、37℃での飽和水蒸気圧47Torr、呼吸商0.8 とする。ただし、小数点以下の数値が得られた場合には、小数第1 位を四捨五入すること。解答：① ② Torr（編註：選択肢を省略した。）",
           "choices": [],
           "ans_label": "A-aDO₂ = 65 Torr",
           "ans_sub": "",
@@ -12865,7 +12900,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　Dダイマー",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　フェリチン",
@@ -12908,11 +12943,11 @@ window["_cardJSON_resp"]={
               "t": "連問"
             }
           ],
-          "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 3/3</span>27 歳の女性。胸痛と呼吸困難を主訴に来院した。<br/>現病歴：昨日から右前胸部痛を自覚した。息を吸うと痛みが悪化するため、深呼吸ができなかった。本日は胸痛の悪<br/>化に加え、労作時の呼吸困難も出現したため救急外来を受診した。<br/>既往歴：3 か月前から経口避妊薬を内服している。<br/>生活歴：パートナーと2 人暮らし。事務職。喫煙歴はない。飲酒は機会飲酒。<br/>家族歴：母方の祖父が癌（詳細不明）。母が糖尿病と高血圧症。<br/>現　症：意識は清明。身長163cm、体重60kg。体温38.0℃。脈拍120/ 分、整。血圧112/64mmHg。呼吸数32/ 分。<br/>SpO2 88％（room air）。</span><br/>胸部造影CTを示す（肺動脈血栓確認→PTE確定）。最も適切な治療薬はどれか。",
+          "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 3/3</span>27 歳の女性。胸痛と呼吸困難を主訴に来院した。<br/>現病歴：昨日から右前胸部痛を自覚した。息を吸うと痛みが悪化するため、深呼吸ができなかった。本日は胸痛の悪<br/>化に加え、労作時の呼吸困難も出現したため救急外来を受診した。<br/>既往歴：3 か月前から経口避妊薬を内服している。<br/>生活歴：パートナーと2 人暮らし。事務職。喫煙歴はない。飲酒は機会飲酒。<br/>家族歴：母方の祖父が癌（詳細不明）。母が糖尿病と高血圧症。<br/>現　症：意識は清明。身長163cm、体重60kg。体温38.0℃。脈拍120/ 分、整。血圧112/64mmHg。呼吸数32/ 分。<br/>SpO2 88％（room air）。</span><br/>胸部造影CT を示す。<strong>最も適切な治療薬はどれか。</strong>",
           "choices": [
             {
               "t": "a　ヘパリン",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　アスピリン",
@@ -12968,7 +13003,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　肺血栓塞栓症",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　特発性肺線維症",
@@ -13014,7 +13049,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　弾性ストッキング着用",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　弾性ストッキング着用（下肢静脈うっ滞→DVT→PTE予防）",
@@ -13056,7 +13091,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　右心カテーテル検査",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　右心カテーテル検査（PAHの確定診断・重症度評価・治療選択に必須）",
@@ -13087,7 +13122,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　肺高血圧症",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　不安定狭心症",
@@ -13131,6 +13166,10 @@ window["_cardJSON_resp"]={
             {
               "cls": "br",
               "t": "連問"
+            },
+            {
+              "cls": "bi",
+              "t": "📷 画像"
             }
           ],
           "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 1/2</span>次の文を読み、267 と268 の問いに答えよ。<br/>75 歳の男性。呼吸困難を主訴に受診した。<br/>現病歴：3 日前に飛行機で1 泊2 日の旅行をし、2 日前に帰宅した。機内では約3 時間座っていた。帰宅した翌日に<br/>右下肢のむくみと痛みが出現した。受診日の朝起床後に急に労作時の息切れが出現したため、受診した。受診時、<br/>呼吸困難を訴えている。<br/>既往歴：60 歳時に進行胃癌で胃全摘を受けた。術後5 年間再発なく、通院終了となった。70 歳から高血圧症、糖尿<br/>病に対し、降圧薬、経口血糖降下薬を内服中。<br/>アレルギー歴：特記すべきことはない。<br/>生活歴：喫煙は40 本/ 日を40 年間、15 年前に禁煙。</span><br/>診断はどれか。",
@@ -13153,7 +13192,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　肺血栓塞栓症",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　肺血栓塞栓症（エコノミークラス症候群）",
@@ -13165,7 +13204,10 @@ window["_cardJSON_resp"]={
               "c": "飛行機長時間座位→DVT→急性PTE。<span class=\"kw\">エコノミークラス症候群</span>の典型例。"
             }
           ],
-          "imgs": []
+          "imgs": [
+            "呼吸器/images/115E-41_1.jpeg",
+            "呼吸器/images/115E-41_2.jpeg"
+          ]
         },
         {
           "uid": "resp_ch05_q268",
@@ -13180,7 +13222,7 @@ window["_cardJSON_resp"]={
               "t": "連問"
             }
           ],
-          "qt": "入院後歩行再開時に洗面所で転倒。暗所でふらつく既往。MCV 132・核過分葉→胃全摘後B12欠乏→脊髄亜急性連合変性症。予想される診察所見はどれか。",
+          "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 2/2</span>次の文を読み、267 と268 の問いに答えよ。<br/>75 歳の男性。呼吸困難を主訴に受診した。<br/>現病歴：3 日前に飛行機で1 泊2 日の旅行をし、2 日前に帰宅した。機内では約3 時間座っていた。帰宅した翌日に<br/>右下肢のむくみと痛みが出現した。受診日の朝起床後に急に労作時の息切れが出現したため、受診した。受診時、<br/>呼吸困難を訴えている。<br/>既往歴：60 歳時に進行胃癌で胃全摘を受けた。術後5 年間再発なく、通院終了となった。70 歳から高血圧症、糖尿<br/>病に対し、降圧薬、経口血糖降下薬を内服中。<br/>アレルギー歴：特記すべきことはない。<br/>生活歴：喫煙は40 本/ 日を40 年間、15 年前に禁煙。</span><br/>入院後呼吸状態が安定した。病棟内歩行を再開したところ、洗面所で洗顔時に転倒した。詳しく問診すると、以前から、夜間に暗い場所ではふらつくようなことがあったという。<strong>予想される診察所見はどれか。</strong>",
           "choices": [
             {
               "t": "a　静止時振戦",
@@ -13196,7 +13238,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　Romberg徴候陽性",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　Chvostek徴候陽性",
@@ -13238,7 +13280,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　肺血栓塞栓症",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　急性大動脈解離",
@@ -13281,11 +13323,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　胸部造影CT",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　心エコー検査",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　FDG-PET/CT",
@@ -13328,7 +13370,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　正常電気軸",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　デルタ波",
@@ -13381,7 +13423,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　胸部造影CT",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　呼吸機能検査",
@@ -13438,7 +13480,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　閉塞性ショック",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　敗血症性ショック",
@@ -13488,7 +13530,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　下大静脈フィルターの永久留置が必要となる場合が多い",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　下大静脈フィルターの永久留置が必要となる場合が多い（誤り：永久留置は少数例）",
@@ -13527,7 +13569,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　血中Dダイマー",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　胸部エックス線",
@@ -13535,7 +13577,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　A-aDO₂",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "c　Dダイマー（感度>95%）　＋　e　A-aDO₂（PTE→開大必発）",
@@ -13573,7 +13615,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　先天性心疾患に伴う肺高血圧症が含まれる",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　カテーテル検査では肺動脈楔入圧が高値である",
@@ -13616,7 +13658,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　胸部造影CT",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　トロポニンT",
@@ -13664,7 +13706,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　心エコー検査",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　気管支内視鏡",
@@ -13724,7 +13766,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　心エコー図で左心室拡大",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　6分間歩行試験で歩行距離の減少",
@@ -13774,7 +13816,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　A-aDO₂の開大を認める",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　肺血流シンチグラムは正常である",
@@ -13837,7 +13879,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　心陰影拡大",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　肺円形陰影",
@@ -13849,7 +13891,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　中枢肺動脈拡張",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "b　心陰影拡大　＋　e　中枢肺動脈拡張（肺高血圧症のX線2大所見）",
@@ -13891,7 +13933,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　小細胞癌は化学療法の感受性が高い",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　扁平上皮癌は喫煙者には発生しにくい",
@@ -13947,7 +13989,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　薬物による抗癌治療",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　肝転移への放射線治療",
@@ -14013,7 +14055,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　縦隔リンパ節郭清を伴う左肺上葉切除術",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　縦隔リンパ節郭清を伴う左肺上葉切除術（Stage I→外科手術の標準術式）",
@@ -14052,7 +14094,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　肺過誤腫",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　肺分画症",
@@ -14115,7 +14157,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　胚細胞腫瘍",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　悪性リンパ腫",
@@ -14166,7 +14208,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　Horner症候群",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　上大静脈症候群",
@@ -14241,7 +14283,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　神経原性腫瘍",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　神経原性腫瘍（CT上は後縦隔腫瘤→神経鞘腫等の神経原性腫瘍が最多）",
@@ -14278,7 +14320,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　生命予後の改善",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　白血球減少の抑制",
@@ -14331,7 +14373,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　嗄声",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　不整脈",
@@ -14397,7 +14439,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　気管支鏡検査",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　骨シンチグラフィ",
@@ -14447,7 +14489,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　皮下握雪感",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　表在静脈拡張",
@@ -14487,6 +14529,10 @@ window["_cardJSON_resp"]={
             {
               "cls": "br",
               "t": "連問"
+            },
+            {
+              "cls": "bi",
+              "t": "📷 画像"
             }
           ],
           "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 1/3</span>58 歳の女性。血痰を主訴に来院した。<br/>現病歴：数年前から咳嗽、喀痰および労作時呼吸困難を自覚していたが、喫煙習慣が原因と自己判断し受診はしてい<br/>なかった。数日前から喀痰に鮮血が混じるようになったため受診した。<br/>既往歴：20 歳時に交通事故による右膝蓋骨骨折の手術を受けた。<br/>生活歴：喫煙は20 歳から55 歳まで40 本/ 日。飲酒は機会飲酒。<br/>家族歴：特記すべきことはない。<br/>現　症：身長153cm、体重52kg。体温36.2℃。脈拍80/ 分、整。血圧132/74mmHg。呼吸数16/ 分。SpO2 97％（room <br/>air）。眼瞼結膜と眼球結膜とに異常を認めない。</span><br/><strong>20 歳時と比べた現在のフローボリューム曲線の所見として正しい</strong>のはどれか。",
@@ -14505,7 +14551,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　努力性肺活量の低下",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　ピークフローの上昇",
@@ -14521,7 +14567,10 @@ window["_cardJSON_resp"]={
               "c": "大量喫煙（Brinkman 1,400）→<span class=\"kw\">COPD</span>：FVC↓・FEV₁%↓・RV↑・DLco↓・ピークフロー↓・V̇₂₅↓。Flow-volume曲線はscoopingパターン（呼気曲線が凹）。"
             }
           ],
-          "imgs": []
+          "imgs": [
+            "呼吸器/images/113F-77_1.jpeg",
+            "呼吸器/images/113F-77_2.jpeg"
+          ]
         },
         {
           "uid": "resp_ch06_q299",
@@ -14560,7 +14609,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　緩和ケアは抗癌治療が終了してから始める。",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　緩和ケアは抗癌治療が終了してから始める（誤り：診断時から並行して開始する）",
@@ -14591,7 +14640,7 @@ window["_cardJSON_resp"]={
               "t": "連問"
             }
           ],
-          "qt": "1週後の再受診前日に喀血（30〜50mL×3回）。翌日：咳嗽増加・血痰（赤褐色）。HR 104。SpO₂ 96%。Hb 9.5。<strong>対応としてまず行うのはどれか。</strong>",
+          "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 3/3</span>58 歳の女性。血痰を主訴に来院した。<br/>現病歴：数年前から咳嗽、喀痰および労作時呼吸困難を自覚していたが、喫煙習慣が原因と自己判断し受診はしてい<br/>なかった。数日前から喀痰に鮮血が混じるようになったため受診した。<br/>既往歴：20 歳時に交通事故による右膝蓋骨骨折の手術を受けた。<br/>生活歴：喫煙は20 歳から55 歳まで40 本/ 日。飲酒は機会飲酒。<br/>家族歴：特記すべきことはない。<br/>現　症：身長153cm、体重52kg。体温36.2℃。脈拍80/ 分、整。血圧132/74mmHg。呼吸数16/ 分。SpO2 97％（room <br/>air）。眼瞼結膜と眼球結膜とに異常を認めない。</span><br/>説明を聞いた患者は家族と相談してからの意思決定を希望し、1 週間後の再受診を予定した。その再受診の前日に咳嗽の増加に伴い1 回30 ～50mL 程度の喀血を連続して3 回認めた。翌日の受診時、咳嗽を頻繁に認めるが喀血は認めず、喀痰には赤褐色の血液が付着している。脈拍104/ 分、整。血圧140/88mmHg。呼吸数12/ 分。SpO2 96％（room air）。血液所見：赤血球339 万、Hb 9.5g/dL、Ht 29％、白血球8,900、血小板29 万。<strong>対応としてまず行うのはどれか。</strong>",
           "choices": [
             {
               "t": "a　赤血球液-LR輸血",
@@ -14599,7 +14648,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　鎮咳薬投与",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　鉄剤投与",
@@ -14646,7 +14695,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　ドレーン刺入部を縫合する",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　気管挿管下に人工呼吸管理を開始する",
@@ -14705,7 +14754,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　手術療法",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　免疫療法",
@@ -14746,7 +14795,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　肺癌",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　気胸",
@@ -14799,7 +14848,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　放射線治療と抗癌化学療法の併用",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　腫瘍部分切除",
@@ -14854,7 +14903,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　日本人",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　喫煙者",
@@ -14906,7 +14955,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　縦隔リンパ節郭清を伴う左上葉切除術",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　縦隔リンパ節郭清を伴う左肺全摘術",
@@ -14964,7 +15013,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　右上肢内側感覚低下",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　顔面浮腫",
@@ -14976,11 +15025,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　発汗異常",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　鷲手",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "a　右上肢内側感覚低下　＋　d　発汗異常　＋　e　鷲手",
@@ -15035,7 +15084,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　化学放射線療法",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　化学放射線療法（CT所見から縦隔リンパ節転移あり→Stage III→同時化学放射線療法が標準）",
@@ -15069,7 +15118,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　症状の緩和",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　遠隔転移の縮小",
@@ -15112,7 +15161,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　頭部造影MRI",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　腹部造影MRI",
@@ -15155,11 +15204,11 @@ window["_cardJSON_resp"]={
               "t": "連問"
             }
           ],
-          "qt": "化学放射線療法→薬剤性肺障害→気管挿管→人工呼吸。14日経過後も長期人工呼吸が必要な状態。<strong>この時点での呼吸管理で適切な処置はどれか。</strong>",
+          "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 2/3</span>78 歳の男性。嗄声を主訴に来院した。<br/>現病歴：1 か月前に嗄声が出現した。2 週間前から飲水時に咳嗽が出現するようになり自宅近くの診療所で鎮咳薬を<br/>処方された。咳嗽は改善せず、3 日前から喀痰に血液が混じるようになった。<br/>既往歴：3 年前に原発性肺癌のために右肺下葉切除術が施行され経過観察となっていた。1 年前から自己判断で定期<br/>的な受診を中断していた。<br/>生活歴：65 歳までは会社員。妻と2 人暮らし。喫煙は70 歳まで20 本/ 日を50 年間。飲酒はビール350mL/ 日。<br/>家族歴：弟が70 歳台で胃癌。<br/>現　症：意識は清明。身長162cm、体重54kg。体温36.2℃。</span><br/>縦隔リンパ節の局所再発に対して化学放射線療法を施行した。その後、薬剤性肺障害による呼吸不全をきたし、気管挿管による人工呼吸療法となった。薬剤性肺障害に対して治療を継続したが、呼吸状態の改善がみられない。14 日経過後も長期間の人工呼吸療法が必要な状態である。<strong>この時点での呼吸管理で適切な処置はどれか。</strong>",
           "choices": [
             {
               "t": "a　気管切開術",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　ECMO導入",
@@ -15206,7 +15255,7 @@ window["_cardJSON_resp"]={
               "t": "2択"
             }
           ],
-          "qt": "退院後1ヶ月後に多発転移（縦隔・肝・肺）・悪液質・体重10kg減少。患者本人と家族は<strong>積極的な治療を望まない。</strong>行うべき対応はどれか。<strong>2つ選べ。</strong>",
+          "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 3/3</span>78 歳の男性。嗄声を主訴に来院した。<br/>現病歴：1 か月前に嗄声が出現した。2 週間前から飲水時に咳嗽が出現するようになり自宅近くの診療所で鎮咳薬を<br/>処方された。咳嗽は改善せず、3 日前から喀痰に血液が混じるようになった。<br/>既往歴：3 年前に原発性肺癌のために右肺下葉切除術が施行され経過観察となっていた。1 年前から自己判断で定期<br/>的な受診を中断していた。<br/>生活歴：65 歳までは会社員。妻と2 人暮らし。喫煙は70 歳まで20 本/ 日を50 年間。飲酒はビール350mL/ 日。<br/>家族歴：弟が70 歳台で胃癌。<br/>現　症：意識は清明。身長162cm、体重54kg。体温36.2℃。</span><br/>その後、薬剤性肺障害が改善し人工呼吸器から離脱、一般病棟へ転棟となった。リハビリテーションを開始して身体機能と食事摂取量は回復し、入院してから2 か月後に自宅退院となった。退院して1 か月後に家族に付き添われて外来受診した。かろうじて自力歩行しており体重は3 か月前から10kg 減少していた。全身精査を行ったところ、縦隔リンパ節は以前よりさらに腫大し新たに肝臓と肺に多発転移を認めた。患者本人と家族は積極的な治療を望んでいない。疼痛を認めないが、癌悪液質が進行していると診断された。この時点で行うべき対応はどれか。<strong>2 つ選べ。</strong>",
           "choices": [
             {
               "t": "a　放射線療法を勧める",
@@ -15214,11 +15263,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　緩和ケアについて説明する",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　在宅ケアに関する患者の意向を聞く",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　異なる種類の殺細胞性薬による治療を勧める",
@@ -15268,7 +15317,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　excessive dietary sodium intake ——— lung cancer",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　excessive dietary sodium intake — lung cancer（誤：食塩過多は胃癌・高血圧のリスクであり肺癌ではない）",
@@ -15303,7 +15352,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　胸腺腫",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　神経鞘腫",
@@ -15319,7 +15368,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　悪性リンパ腫",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "a　胸腺腫　＋　e　悪性リンパ腫（ともに前縦隔の主要腫瘍）",
@@ -15353,7 +15402,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　上大静脈",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　腕頭動脈",
@@ -15406,7 +15455,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　赤芽球癆",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　Cushing症候群",
@@ -15418,7 +15467,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　低ガンマグロブリン血症",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　ADH不適合分泌症候群",
@@ -15459,7 +15508,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　肺癌",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　咽頭炎",
@@ -15467,7 +15516,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　喉頭癌",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　気管支炎",
@@ -15520,7 +15569,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　肺癌",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　卵巣癌",
@@ -15565,7 +15614,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　左眼瞼下垂",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　左上肢の浮腫",
@@ -15610,7 +15659,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　ばち指 ————————————マイコプラズマ肺炎",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　チアノーゼ ————————————ARDS",
@@ -15661,7 +15710,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　扁平上皮癌",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　カルチノイド",
@@ -15700,7 +15749,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　呼吸機能検査",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　腫瘍マーカー",
@@ -15750,7 +15799,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　気管支内視鏡検査",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　胸腔鏡検査",
@@ -15811,11 +15860,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　胸部造影CT",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　胸部MRI",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　胸椎MRI",
@@ -15857,7 +15906,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　右縮瞳",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　顔面浮腫",
@@ -15869,7 +15918,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　右半顔発汗低下",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "b　右縮瞳　＋　e　右半顔発汗低下（Horner症候群の3徴）",
@@ -15908,7 +15957,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　術前から酸素療法を行う",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　術後間質性肺炎急性増悪のリスクがある",
@@ -15961,7 +16010,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　呼吸リハビリテーションの処方",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　呼吸リハビリテーションの処方（肺切除後の早期回復に必須）",
@@ -15996,7 +16045,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　赤芽球癆",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　気管支喘息",
@@ -16012,7 +16061,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　低ガンマグロブリン血症",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "a　赤芽球癆　＋　e　低ガンマグロブリン血症（胸腺腫の合併症）",
@@ -16054,7 +16103,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　小細胞癌",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　大細胞癌",
@@ -16100,7 +16149,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　β-Dグルカン",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　可溶性IL-2受容体",
@@ -16162,7 +16211,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　縦隔リンパ節郭清を伴う右下葉切除術",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　縦隔リンパ節郭清を伴う右下葉切除術（Stage I/II→標準外科手術）",
@@ -16191,7 +16240,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　嗄声",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　喘鳴",
@@ -16238,7 +16287,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　肺癌",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　結核腫",
@@ -16299,7 +16348,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　ProGRP",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　PIVKA-Ⅱ",
@@ -16348,7 +16397,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　血清電解質の再検査",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　血清クレアチニンの再検査",
@@ -16407,7 +16456,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　アンジオテンシン変換酵素（ACE）",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　ACE（サルコイドーシスのマーカー→前縦隔腫瘤の主要鑑別でない）",
@@ -16435,6 +16484,10 @@ window["_cardJSON_resp"]={
             {
               "cls": "bi",
               "t": "📷 画像"
+            },
+            {
+              "cls": "bx",
+              "t": "採点除外"
             }
           ],
           "qt": "72 歳の女性。咳嗽を主訴に来院した。1 か月前から咳嗽が出現し、自宅近くの診療所で投薬を受けたが改善しないため受診した。喫煙は20 本/ 日を50 年間。身長150cm、体重50kg。体温36.5℃。脈拍72/ 分、整。血圧104/80mmHg。呼吸数18/ 分。SpO2 94％（room air）。呼吸音は右側でやや減弱している。血液所見：赤血球422 万、<br/>白血球8,800、血小板18 万。血液生化学所見：総蛋白6.8g/dL、アルブミン3.2g/dL、総ビリルビン1.1mg/dL、AST28IU/L、ALT 16IU/L、ALP 320IU/L（基準115 ～359）、γ-GTP 23IU/L（基準8 ～50）。来院時の胸部エックス線写真（A）、胸部造影CT（B，C）及び気管支鏡下に行った穿刺細胞診（D）を示す。PET/CT では胸腔内以外に異常を認めない。<br/><strong>適切な治療</strong>はどれか。",
@@ -16497,7 +16550,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　腺癌であることが多い",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　抗癌化学療法が行われる",
@@ -16558,7 +16611,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　経過観察（3ヶ月後の再診）",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　経過観察（3ヶ月後の再診）—変化なし→積極的治療の根拠不十分",
@@ -16591,7 +16644,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　EGFR",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　HER2",
@@ -16634,7 +16687,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　奇形腫",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　心膜嚢腫",
@@ -16687,7 +16740,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　癌性胸膜炎",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　骨転移",
@@ -16737,7 +16790,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　胸腺腫には重症筋無力症を合併する",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　胸腺腫には重症筋無力症を合併する（約15〜20%）",
@@ -16776,7 +16829,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　腫瘍マーカー",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　胸腹部造影CT",
@@ -16829,7 +16882,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　気管支内視鏡検査",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　上部消化管内視鏡検査",
@@ -16882,7 +16935,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　顔面と上肢の浮腫",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　顔面と上肢の浮腫（前縦隔腫瘤→SVC圧排→SVC症候群）",
@@ -16932,7 +16985,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　アンジオテンシン変換酵素（ACE）",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　ACE（サルコイドーシスのマーカー→前縦隔腫瘤の鑑別で優先度低い）",
@@ -16986,7 +17039,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　「右肺の太い気管支が詰まっています」",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　「右肺の太い気管支が詰まっています」（中枢型肺癌→右主気管支閉塞→無気肺）",
@@ -16999,7 +17052,8 @@ window["_cardJSON_resp"]={
             }
           ],
           "imgs": [
-            "呼吸器/images/107B-55_1.jpeg"
+            "呼吸器/images/107B-55_1.jpeg",
+            "呼吸器/images/107B-55_2.jpeg"
           ]
         },
         {
@@ -17031,7 +17085,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　気管支鏡検査",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　CTガイド下肺生検",
@@ -17066,7 +17120,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　喫煙",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　糖尿病",
@@ -17113,7 +17167,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　縦隔腫瘍の穿破",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　大動脈瘤破裂",
@@ -17177,7 +17231,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　胸腔鏡下生検",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　結核菌特異的全血IFN-γ遊離測定法（IGRA）",
@@ -17222,7 +17276,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　上大静脈",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　右肺動脈",
@@ -17271,7 +17325,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　胚細胞腫瘍",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　リンパ節結核",
@@ -17321,7 +17375,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　経気管支肺生検（TBLB）",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　腫瘍マーカー測定",
@@ -17363,7 +17417,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　縦隔リンパ節郭清を伴う右肺上葉切除術",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　放射線治療と抗癌化学療法との併用",
@@ -17439,7 +17493,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　嗄声",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　嗄声（大動脈弓周囲腫瘤→左反回神経麻痺）",
@@ -17475,7 +17529,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　肺癌の組織型の中では最も頻度が高い",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　喀痰細胞診で早期発見されやすい",
@@ -17508,6 +17562,10 @@ window["_cardJSON_resp"]={
             {
               "cls": "br",
               "t": "連問"
+            },
+            {
+              "cls": "bi",
+              "t": "📷 画像"
             }
           ],
           "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 1/2</span>次の文を読み、359 と360 の問いに答えよ。<br/>67 歳の男性。全身の衰弱を心配した家族に伴われて来院した。<br/>現病歴：3 か月前から徐々に体重が減少し、2 か月前から外出できなくなり、1 週前からは家族の介助がないと立ち<br/>上がれなくなった。患者本人は受診を嫌がっていたが、2 日前からはほとんど食事が摂れず、トイレまで歩くこと<br/>もできなくなったため受診に同意した。<br/>既往歴：健康診断は受けていない。<br/>生活歴：喫煙は60 本/ 日を47 年間。飲酒は日本酒1 ～2 合/ 日を47 年間。<br/>家族歴：父親が高血圧症で、脳梗塞のため82 歳で死亡。<br/>現　症：意識は清明。身長165cm、体重42kg。</span><br/>この患者の病態として<strong>考えにくいのはどれか。</strong>",
@@ -17530,7 +17588,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　うっ血性心不全",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　うっ血性心不全（考えにくい：頸静脈怒張なし・下腿浮腫なし）",
@@ -17542,7 +17600,9 @@ window["_cardJSON_resp"]={
               "c": "a：ツルゴール低下・脈拍120・低血圧→<span class=\"kw\">脱水症</span>。b：CRP 24↑・発熱・白血球↑→<span class=\"kw\">感染症</span>。c：HbA1c記載なし→体重減少の原因として<span class=\"kw\">悪性腫瘍に伴う糖尿病</span>。d：喫煙Brinkman 2820→<span class=\"kw\">肺癌</span>の強力なリスク。e：頸静脈怒張なし・下腿浮腫なし→<span class=\"kw4\">心不全は否定的</span>。"
             }
           ],
-          "imgs": []
+          "imgs": [
+            "呼吸器/images/106F-28_1.jpeg"
+          ]
         },
         {
           "uid": "resp_ch06_q360",
@@ -17565,7 +17625,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　胸部造影CT",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　心臓カテーテル検査",
@@ -17620,7 +17680,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　肺小細胞癌",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　胸腺腫",
@@ -17649,12 +17709,7 @@ window["_cardJSON_resp"]={
           "rate": 98,
           "rate_cls": "ch",
           "rate_text": "正答率 98%",
-          "badges": [
-            {
-              "cls": "bm",
-              "t": "2択"
-            }
-          ],
+          "badges": [],
           "qt": "肺癌の臨床病期の決定に<strong>関係しない</strong>検査はどれか。",
           "choices": [
             {
@@ -17663,7 +17718,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　腫瘍マーカー",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　気管支鏡検査",
@@ -17717,7 +17772,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　顔面浮腫",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　顔面浮腫（縦隔リンパ節転移→SVC圧迫→上半身浮腫）",
@@ -17752,11 +17807,11 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　可溶性IL-2受容体",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　絨毛性ゴナドトロピン（hCG）",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　抗ミトコンドリア抗体",
@@ -17768,7 +17823,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　抗アセチルコリン受容体抗体",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "a　sIL-2R（悪性リンパ腫）　＋　b　hCG（胚細胞腫瘍）　＋　e　抗AChR抗体（胸腺腫）",
@@ -17817,7 +17872,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　肺癌——嗄声",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　肺癌——嗄声（縦隔リンパ節転移→反回神経麻痺→嗄声）",
@@ -17864,7 +17919,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　上大静脈症候群",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　上大静脈症候群（右縦隔腫瘤→上大静脈を圧迫→顔面・上肢浮腫・頸静脈怒張）",
@@ -17906,7 +17961,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　NSE",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　PIVKA-Ⅱ",
@@ -17965,11 +18020,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　左眼縮瞳",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　左瞼裂狭小",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　左上肢冷感",
@@ -18018,7 +18073,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　肋間神経切離",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　肋間神経切離（肺癌手術の標準手技でない：術後疼痛・感覚障害の原因）",
@@ -18049,7 +18104,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　腺癌の頻度が最も高い",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　扁平上皮癌は女性に多い",
@@ -18057,7 +18112,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　扁平上皮癌は喫煙が危険因子である",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　小細胞癌は抗癌化学療法薬に感受性が低い",
@@ -18112,7 +18167,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　肥大型心筋症",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　肥大型心筋症（OSASとの関連性が低い）",
@@ -18147,7 +18202,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　肺胞蛋白症",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　特発性肺線維症",
@@ -18207,7 +18262,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　体重の減量を指導",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　仰臥位での就寝の推奨",
@@ -18219,7 +18274,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　持続的気道陽圧法（CPAP）の導入",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　ベンゾジアゼピン系睡眠薬の処方",
@@ -18270,7 +18325,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　ゆっくり呼吸するように指導する",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　ゆっくり呼吸するように指導する（意識的な呼吸訓練）",
@@ -18314,7 +18369,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　α遮断薬が第一選択薬である",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　家庭血圧では早朝に高血圧となることが多い",
@@ -18369,7 +18424,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　持続的気道陽圧法（CPAP）",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　持続的気道陽圧法（CPAP）—OSASの在宅標準療法",
@@ -18416,7 +18471,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　全身麻酔下での全肺洗浄",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　ニューキノロン系抗菌薬の投与",
@@ -18471,7 +18526,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　血清中の抗体が糸球体構成成分に結合",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　糸球体に沈着した流血抗原に血清中の抗体が結合",
@@ -18533,11 +18588,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　PEEP適用",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　気管支ファイバースコープによる喀痰吸引",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "d　PEEP適用　＋　e　気管支ファイバースコープによる喀痰吸引",
@@ -18582,7 +18637,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　肺分画症",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　肺動静脈瘻",
@@ -18645,7 +18700,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　全肺気量が低下する",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　全肺気量が低下する（誤り：LAMでは正常〜増加）",
@@ -18696,7 +18751,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　ポリソムノグラフィー（PSG）",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　ポリソムノグラフィー（PSG）—OSAS診断の標準検査",
@@ -18722,7 +18777,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　気胸の既往",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　昼間の眠気",
@@ -18780,7 +18835,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　収縮性心膜炎",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　収縮性心膜炎（OSASと無関係）",
@@ -18824,7 +18879,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　過換気症候群",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　慢性気管支炎",
@@ -18863,15 +18918,15 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　肺リンパ脈管筋腫症（LAM）",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　特発性肺線維症（IPF）",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　特発性肺動脈性肺高血圧症",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　肺アスペルギルス症",
@@ -18917,7 +18972,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　Kussmaul呼吸——過換気症候群",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　Cheyne-Stokes呼吸——脳梗塞",
@@ -18951,7 +19006,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　血圧",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　筋電図",
@@ -18994,7 +19049,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　「禁煙しましょう」",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　「減量手術をしましょう」",
@@ -19002,7 +19057,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　「飲酒を制限しましょう」",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　「仰向けに寝るようにしましょう」",
@@ -19010,7 +19065,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　「内服薬の見直しについて相談しましょう」",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "a　禁煙　＋　c　飲酒制限　＋　e　内服薬見直し",
@@ -19048,7 +19103,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　無気肺",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　肺塞栓",
@@ -19087,7 +19142,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　「減量のため栄養指導を受けましょう」",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　「就寝前に水をコップ2杯飲みましょう」",
@@ -19142,7 +19197,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　無気肺",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　肺塞栓",
@@ -19198,7 +19253,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　気管支内視鏡による吸引",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　気管支内視鏡による吸引（CABG後の術後無気肺→喀痰吸引）",
@@ -19243,7 +19298,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　アルカローシス",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　アルカローシス（過換気→CO₂↓→呼吸性アルカローシス→Ca↓→テタニー）",
@@ -19279,11 +19334,11 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　体重の減量",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　口腔内装具",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　間欠的強制換気（IMV）",
@@ -19291,7 +19346,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　持続的気道陽圧法（CPAP）",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　ベンゾジアゼピン系薬投与",
@@ -19334,7 +19389,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　無気肺",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　肺塞栓",
@@ -19384,7 +19439,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　自己免疫性溶血性貧血",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　アレルギー性肉芽腫性血管炎",
@@ -19427,7 +19482,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　体重を減らすよう指導する",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　ビール1,000ml/日程度の飲酒は問題ない",
@@ -19439,7 +19494,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　睡眠中に経鼻的持続的気道陽圧法（CPAP）による呼吸管理を行う",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "b　体重減量　＋　e　経鼻CPAP",
@@ -19482,7 +19537,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　過換気症候群",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　肺血栓塞栓症",
@@ -19524,7 +19579,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　無気肺",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　肺塞栓",
@@ -19580,7 +19635,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　肺リンパ脈管筋腫症（LAM）",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　LAM（若い女性＋気胸＋腎血管筋脂肪腫→LAM/TSCの典型）",
@@ -19613,7 +19668,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　PaO₂ 70.2 Torr",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　PaCO₂ 24.8 Torr",
@@ -19659,7 +19714,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　血液ガス分析はアルカローシスを示す",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　胸部エックス線写真は肺の過膨張を示す",
@@ -19702,7 +19757,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　肺リンパ管筋腫症（LAM）は男性に多い",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　肺Langerhans組織球症は喫煙者に多い",
@@ -19749,7 +19804,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　アデノイド",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　気管狭窄症",
@@ -19761,7 +19816,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　睡眠時無呼吸症候群",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "b　アデノイド（咽頭扁桃肥大→いびき）　＋　e　OSAS（いびきが主要症状）",
@@ -19800,7 +19855,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　睡眠薬の内服",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　体重の減量",
@@ -19842,7 +19897,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　過換気症候群",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　慢性副鼻腔炎",
@@ -19895,7 +19950,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　緊急手術",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　胸膜癒着術",
@@ -19952,7 +20007,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　低脂肪食",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　抗菌薬投与",
@@ -19999,7 +20054,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　抗菌薬投与",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　放射線治療",
@@ -20015,7 +20070,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　頸部・縦隔ドレナージ術",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "a　抗菌薬投与　＋　e　頸部・縦隔ドレナージ術",
@@ -20056,7 +20111,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　胸膜炎",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　肺塞栓症",
@@ -20105,7 +20160,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　抗菌薬",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　抗結核薬",
@@ -20160,7 +20215,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　局所麻酔をしながら胸腔までの距離を確認する",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　胸水が吸引されたら穿刺針をさらに5cm進める",
@@ -20199,7 +20254,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　胸腔ドレナージ",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　昇圧薬投与",
@@ -20268,7 +20323,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　右側胸部の握雪感",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　右側胸部の握雪感（Valsalva後→気管支瘻→皮下気腫→握雪感）",
@@ -20299,6 +20354,10 @@ window["_cardJSON_resp"]={
             {
               "cls": "br",
               "t": "連問"
+            },
+            {
+              "cls": "bi",
+              "t": "📷 画像"
             }
           ],
           "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 1/3</span>30 歳の男性。左前胸部痛と呼吸困難を主訴に来院した。<br/>現病歴：格闘技の選手。試合中に左前胸部を蹴られ、試合会場近くの病院を受診した。<br/>既往歴：特記すべきことはない。<br/>生活歴：一人暮らし。喫煙歴と飲酒歴はない。<br/>家族歴：父が大腸癌。<br/>現　症：来院時、意識は清明。身長180cm、体重98kg。体温<br/>36.4℃。脈拍96/ 分、整。血圧102/72mmHg。呼吸数18/ 分。<br/>SpO2 97％（room air）。眼瞼結膜と眼球結膜とに異常を認めな<br/>い。口腔内に異常を認めない。甲状腺と頸部リンパ節とを触知<br/>しない。左前胸部に痛みを訴え、皮下出血を認める。腹部は平坦、<br/>軟で、肝・脾を触知しない。</span><br/>この患者でみられる所見はどれか。",
@@ -20309,7 +20368,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　左呼吸音の減弱",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　左胸部のwheezes",
@@ -20327,7 +20386,9 @@ window["_cardJSON_resp"]={
           "ans_label": "b　左呼吸音の減弱（血気胸→左肺虚脱）",
           "ans_sub": "",
           "eg": [],
-          "imgs": []
+          "imgs": [
+            "呼吸器/images/119C-65_1.jpeg"
+          ]
         },
         {
           "uid": "resp_ch08_q417",
@@ -20370,14 +20431,15 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　左胸腔内液体貯留の増加",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　左胸腔内液体貯留の増加（外傷性血胸→出血継続→液体増加）",
           "ans_sub": "",
           "eg": [],
           "imgs": [
-            "呼吸器/images/119C-66_1.jpeg"
+            "呼吸器/images/119C-66_1.jpeg",
+            "呼吸器/images/119C-66_2.jpeg"
           ]
         },
         {
@@ -20413,7 +20475,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　胸腔ドレーン挿入",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　NPPV",
@@ -20460,7 +20522,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　胸腔ドレナージ",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　人工呼吸器管理",
@@ -20493,6 +20555,10 @@ window["_cardJSON_resp"]={
             {
               "cls": "br",
               "t": "連問"
+            },
+            {
+              "cls": "bi",
+              "t": "📷 画像"
             }
           ],
           "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 1/2</span>次の文を読み、420 と421 の問いに答えよ。<br/>17 歳の男子。胸痛を主訴に来院した。<br/>現病歴：昨日午後、高校の授業中に左胸部痛と呼吸困難を自覚し、当院を受診し、胸部エックス線撮影を施行された。<br/>一旦帰宅したが、本日朝になっても軽度の左胸痛が持続するため、再度受診した。<br/>既往歴：特記すべきことはない。<br/>生活歴：両親、大学生の兄と同居。アレルギー歴はない。<br/>現　症：意識は清明。身長182cm、体重66kg。体温36.5℃。脈拍80/ 分、整。血圧110/78mmHg。呼吸数18/ 分。<br/>SpO2 96％（room air）。心音に異常を認めない。</span><br/>この患者でみられる所見はどれか。",
@@ -20515,13 +20581,16 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　左呼吸音減弱",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　左呼吸音減弱（自然気胸→左肺虚脱）",
           "ans_sub": "",
           "eg": [],
-          "imgs": []
+          "imgs": [
+            "呼吸器/images/119E-49_1.jpeg",
+            "呼吸器/images/119E-49_2.jpeg"
+          ]
         },
         {
           "uid": "resp_ch08_q421",
@@ -20552,7 +20621,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　外来で経過観察",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　気管支拡張薬吸入",
@@ -20599,7 +20668,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　肺水腫",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　不整脈",
@@ -20656,7 +20725,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　中心静脈栄養",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　カテコラミン投与",
@@ -20701,7 +20770,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　入院安静",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　胸腔ドレナージ",
@@ -20755,7 +20824,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　肝硬変",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　急性膵炎",
@@ -20811,7 +20880,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　胸部エックス線撮影を行う",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　持続吸引圧を2倍に上げる",
@@ -20858,11 +20927,11 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　抗菌薬投与",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　ドレナージ",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　放射線治療",
@@ -20921,7 +20990,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　直ちに外科手術を行う",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　副腎皮質ステロイドを投与する",
@@ -20960,7 +21029,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　経過観察",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　気管支拡張薬投与",
@@ -20998,7 +21067,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　胸腔穿刺",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　低体温療法",
@@ -21048,7 +21117,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　血圧低下",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　縦隔動揺",
@@ -21087,7 +21156,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　胸部CT",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　胸部MRI",
@@ -21144,7 +21213,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　弾性ストッキング着用",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　弾性ストッキング着用（安静臥床→DVT→PTE予防）",
@@ -21173,7 +21242,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　胸腔穿刺",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　昇圧薬投与",
@@ -21220,7 +21289,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　鼻から挿入する",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　抵抗に注意しながら挿入する",
@@ -21267,7 +21336,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　肺水腫",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　無気肺",
@@ -21307,6 +21376,10 @@ window["_cardJSON_resp"]={
             {
               "cls": "br",
               "t": "連問"
+            },
+            {
+              "cls": "bi",
+              "t": "📷 画像"
             }
           ],
           "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 1/2</span>次の文を読み、437 と438 の問いに答えよ。<br/>23 歳の男性。胸痛を主訴に来院した。<br/>現病歴：朝、通勤中に突然胸痛が出現した。駅のベンチで休息すると少し改善したため歩きかけたが、呼吸困難感も<br/>出現したため救急搬送された。<br/>既往歴：2 か月前に労作時の息切れが急に出現し軽快したが、心配になり受診した。自宅近くの病院で胸部CT を施<br/>行された。その時の胸部単純CT（A）を示す。<br/>生活歴：高校、大学と硬式野球部で、現在も社会人チームに所属している。仕事の都合で毎月数回は飛行機で出張し<br/>ている。<br/>家族歴：母親が脂質異常症で内服加療中である。<br/>現　症：意識は清明。身長178cm、体重65kg。</span><br/>この患者で認められる所見はどれか。",
@@ -21329,13 +21402,16 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　患側の呼吸音減弱",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　患側の呼吸音減弱（気胸→肺虚脱→患側呼吸音減弱+打診鼓音）",
           "ans_sub": "",
           "eg": [],
-          "imgs": []
+          "imgs": [
+            "呼吸器/images/116E-43_1.jpeg",
+            "呼吸器/images/116E-43_2.jpeg"
+          ]
         },
         {
           "uid": "resp_ch08_q438",
@@ -21362,7 +21438,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　胸腔ドレナージ",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　緊急胸腔鏡下手術",
@@ -21408,7 +21484,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　肺線維症",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　降下性壊死性縦隔炎",
@@ -21447,7 +21523,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　食道癌手術",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　細菌性胸膜炎",
@@ -21459,7 +21535,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　肺リンパ脈管筋腫症（LAM）",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "b　食道癌手術（胸管損傷）　＋　e　LAM（リンパ管障害）",
@@ -21502,7 +21578,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　心室ペーシング",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　完全右脚ブロック",
@@ -21523,7 +21599,8 @@ window["_cardJSON_resp"]={
             }
           ],
           "imgs": [
-            "呼吸器/images/115E-43_1.jpeg"
+            "呼吸器/images/115E-43_1.jpeg",
+            "呼吸器/images/115E-43_2.jpeg"
           ]
         },
         {
@@ -21547,7 +21624,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　胸膜炎",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　大動脈解離",
@@ -21584,7 +21661,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　胸部CT",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　喀痰細胞診",
@@ -21630,7 +21707,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　Triglyceride",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　Malignant cells",
@@ -21680,7 +21757,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　胸腔ドレーン挿入",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　胸腔ドレーン挿入（緊張性気胸→即座の脱気）",
@@ -21713,11 +21790,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　胸管結紮術",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　完全静脈栄養",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　胸腔ドレーン追加挿入",
@@ -21763,7 +21840,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　患側の呼吸音減弱",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　患側の呼吸音減弱（気胸→肺虚脱→呼吸音消失・減弱）",
@@ -21804,7 +21881,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　細菌感染",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　腎不全",
@@ -21821,7 +21898,9 @@ window["_cardJSON_resp"]={
             }
           ],
           "imgs": [
-            "呼吸器/images/112E-44_1.jpeg"
+            "呼吸器/images/112E-44_1.jpeg",
+            "呼吸器/images/112E-44_2.jpeg",
+            "呼吸器/images/112E-44_3.jpeg"
           ]
         },
         {
@@ -21841,7 +21920,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　胸腔穿刺",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　FDG-PET",
@@ -21881,7 +21960,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　胸腔ドレナージ",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　昇圧薬投与",
@@ -21922,11 +22001,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　皮下気腫",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　肺過膨張",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　胸腺肥大",
@@ -21965,7 +22044,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　胸管結紮術",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　利尿薬の投与",
@@ -21977,11 +22056,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　胸腔ドレナージ",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　絶食とし中心静脈栄養",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "a　胸管結紮術　＋　d　胸腔ドレナージ　＋　e　絶食+中心静脈栄養",
@@ -22012,11 +22091,11 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　膿胸",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　血胸",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　肺気腫",
@@ -22024,7 +22103,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　乳び胸",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　心タンポナーデ",
@@ -22071,7 +22150,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　左肺虚脱",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　胸水貯留",
@@ -22104,7 +22183,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　既往歴",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　喫煙歴",
@@ -22151,7 +22230,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　食道穿孔から発症することがある",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　癌性胸膜炎から発症することがある",
@@ -22159,11 +22238,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　深頸部膿瘍から拡がるものは重篤化しやすい",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　治療は抗菌薬投与と外科的ドレナージである",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "b　食道穿孔から発症　＋　d　深頸部膿瘍→重篤化しやすい　＋　e　抗菌薬+外科ドレナージ",
@@ -22201,7 +22280,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　急性膿胸",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　鎖骨下静脈穿刺",
@@ -22238,7 +22317,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　乳び胸",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　無気肺",
@@ -22285,7 +22364,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　汎収縮期心雑音",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　汎収縮期心雑音（鎖骨下静脈穿刺の合併症でない→弁膜症等）",
@@ -22320,7 +22399,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　頸部切開排膿",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　口蓋扁桃摘出術",
@@ -22332,7 +22411,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　縦隔搔爬ドレナージ術",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　上行大動脈人工血管置換術",
@@ -22376,11 +22455,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　抗菌薬の投与",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　胸腔ドレナージ",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "d　抗菌薬の投与　＋　e　胸腔ドレナージ（急性膿胸の初期標準治療）",
@@ -22417,7 +22496,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　頸部膿瘍",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　急性喉頭蓋炎",
@@ -22466,7 +22545,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　呼吸音の左右差",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　呼吸音の左右差（自然気胸→左肺虚脱→左呼吸音減弱）",
@@ -22507,7 +22586,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　胸部エックス線撮影",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　胸部エックス線撮影（自然気胸を確認するための最初の検査）",
@@ -22532,7 +22611,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　膿胸",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　肺気腫",
@@ -22540,7 +22619,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　血気胸",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　肺水腫",
@@ -22548,7 +22627,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　乳び胸",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "a　膿胸　＋　c　血気胸　＋　e　乳び胸",
@@ -22577,7 +22656,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　肺水腫",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　無気肺",
@@ -22616,7 +22695,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　気胸",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　無気肺",
@@ -22663,11 +22742,11 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　気道閉塞",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　緊張性気胸",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　肺血栓塞栓",
@@ -22718,7 +22797,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　左胸部の鼓音",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　腹部の膨隆",
@@ -22751,7 +22830,7 @@ window["_cardJSON_resp"]={
               "t": "2択"
             }
           ],
-          "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 3/3</span>75 歳の男性。重症肺炎で入院中である。<br/>現病歴：2 週前に肺炎と低酸素血症のため搬入された。救急室で気管挿管を施行され、集中治療室に入院となった。<br/>既往歴：53 歳から糖尿病で内服加療中。60 歳から高血圧症で内服加療中。<br/>生活歴：長男夫婦と同居。妻が5 年前に脳梗塞のため死亡。<br/>家族歴：父親が糖尿病。<br/>入院後、人工呼吸器管理が長期にわたったため、本日気管切開術を行い、引き続き人工呼吸器管理を行った。1 時<br/>間後にアラームが鳴ったため駆けつけると、人工呼吸器のモニターで気道内圧が上昇しており、患者の頸静脈は怒張<br/>していた。</span><br/>心拍数42/分。頸動脈触知不能→心停止（PEA）。直ちに行うべき治療はどれか。<strong>2つ選べ。</strong>",
+          "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 3/3</span>75 歳の男性。重症肺炎で入院中である。<br/>現病歴：2 週前に肺炎と低酸素血症のため搬入された。救急室で気管挿管を施行され、集中治療室に入院となった。<br/>既往歴：53 歳から糖尿病で内服加療中。60 歳から高血圧症で内服加療中。<br/>生活歴：長男夫婦と同居。妻が5 年前に脳梗塞のため死亡。<br/>家族歴：父親が糖尿病。<br/>入院後、人工呼吸器管理が長期にわたったため、本日気管切開術を行い、引き続き人工呼吸器管理を行った。1 時<br/>間後にアラームが鳴ったため駆けつけると、人工呼吸器のモニターで気道内圧が上昇しており、患者の頸静脈は怒張<br/>していた。</span><br/>心電図モニター波形上、心拍数42/ 分。頸動脈の拍動を触知しない。直ちに行うべき治療として適切なのはどれか。<strong>2 つ選べ。</strong>",
           "choices": [
             {
               "t": "a　心嚢穿刺",
@@ -22759,11 +22838,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　胸骨圧迫",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　胸腔穿刺",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　ヘパリン投与",
@@ -22806,7 +22885,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　胸腔穿刺",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　強心薬の投与",
@@ -22854,7 +22933,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　深呼吸をすると強くなる",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　食事をするときに強くなる",
@@ -22901,11 +22980,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　Marfan症候群",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　肺リンパ脈管筋腫症（LAM）",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　アレルギー性肉芽腫性血管炎",
@@ -22961,7 +23040,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　乳腺線維腺腫",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　乳房Paget病",
@@ -23007,7 +23086,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　②",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　③",
@@ -23067,7 +23146,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　乳房超音波検査",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　骨シンチグラフィ",
@@ -23102,7 +23181,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　乳汁分泌",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　乳頭陥凹",
@@ -23153,11 +23232,11 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　頭部MRI",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　乳房造影MRI",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　腋窩リンパ管造影",
@@ -23169,7 +23248,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　頸部・胸腹部造影CT",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "a　頭部MRI（脳転移）　＋　b　乳房造影MRI（局所病変の範囲評価）　＋　e　胸腹部造影CT（転移評価）",
@@ -23216,7 +23295,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　乳腺葉状腫瘍",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　乳管内乳頭腫",
@@ -23273,7 +23352,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　乳腺線維腺腫",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　乳腺線維腺腫（若い女性・可動性良好・楕円形・均一エコー）",
@@ -23304,7 +23383,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　乳腺症",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　線維腺腫",
@@ -23355,7 +23434,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　乳癌",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　乳腺症",
@@ -23367,7 +23446,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　乳腺乳管内乳頭腫",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　プロラクチノーマ",
@@ -23420,7 +23499,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　全身抗癌化学療法",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　分子標的薬（トラスツズマブ）の投与",
@@ -23478,7 +23557,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　乳房Paget病",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　悪性リンパ腫",
@@ -23510,7 +23589,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　乳癌",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　乳腺症",
@@ -23568,7 +23647,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　マンモグラフィ",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　マンモグラフィ（国の対策型乳がん検診：40歳以上に2年に1回）",
@@ -23603,7 +23682,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　目的として切除範囲の決定がある",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　検体をホルマリンに浸漬して提出する",
@@ -23611,7 +23690,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　凍結してから切片を作成する",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　免疫染色を行う",
@@ -23657,7 +23736,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　乳頭の色素沈着",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　乳頭の色素沈着（悪性疾患の特異的所見でない）",
@@ -23682,7 +23761,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　乳癌",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　乳腺炎",
@@ -23733,7 +23812,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　経皮的針生検",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　FDG-PET/CT",
@@ -23786,7 +23865,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　大胸筋前面での可動性低下",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　大胸筋前面での可動性低下（深部浸潤→悪性の特異的所見）",
@@ -23833,7 +23912,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　超音波ガイド下針生検",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　超音波ガイド下針生検（マンモグラフィで異常→組織確定が最優先）",
@@ -23864,7 +23943,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　穿刺細胞診",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　腹部造影CT",
@@ -23915,11 +23994,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　経皮的針生検",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　乳房超音波検査",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　骨シンチグラフィ",
@@ -23972,7 +24051,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　乳腺葉状腫瘍",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　乳腺葉状腫瘍（30年前からの腫瘤が最近急速増大→葉状腫瘍の経過に合致）",
@@ -24018,7 +24097,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　経皮的針生検",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　骨シンチグラフィ",
@@ -24050,7 +24129,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　えくぼ徴候は乳癌を疑う所見である",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　痛みを伴う乳房腫瘤は乳癌の可能性が高い",
@@ -24100,7 +24179,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　乳腺葉状腫瘍",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　乳腺乳管内乳頭腫",
@@ -24142,7 +24221,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　遺伝カウンセリング",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　⁶⁷Gaシンチグラフィ",
@@ -24185,7 +24264,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　超音波検査",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　経皮的針生検",
@@ -24219,7 +24298,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　視診は座位と仰臥位とで行う",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　乳房の触診は指先ではなく手掌で行う",
@@ -24274,11 +24353,11 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　経皮的針生検",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　乳房超音波検査",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　骨シンチグラフィ",
@@ -24325,7 +24404,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "e　乳腺線維腺腫",
-              "ok": false
+              "ok": true
             }
           ],
           "ans_label": "e　乳腺線維腺腫（若い女性・可動性良好・楕円形）",
@@ -24347,7 +24426,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　エストロゲン",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　LH-RHアゴニスト",
@@ -24394,7 +24473,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　乳癌",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　嚢胞",
@@ -24447,7 +24526,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　乳癌",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　脂肪腫",
@@ -24499,7 +24578,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　乳房の皮膚のひきつれ",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　乳房の大きさの左右差",
@@ -24532,7 +24611,7 @@ window["_cardJSON_resp"]={
           "choices": [
             {
               "t": "a　皮膚",
-              "ok": false
+              "ok": true
             },
             {
               "t": "b　縦隔",
@@ -24540,7 +24619,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "c　大胸筋",
-              "ok": false
+              "ok": true
             },
             {
               "t": "d　肩甲骨",
@@ -24574,7 +24653,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　温熱療法",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　放射線治療",
@@ -24621,7 +24700,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "b　乳房超音波検査",
-              "ok": false
+              "ok": true
             },
             {
               "t": "c　乳管内視鏡検査",
@@ -24667,7 +24746,7 @@ window["_cardJSON_resp"]={
             },
             {
               "t": "d　乳腺管内乳頭腫",
-              "ok": false
+              "ok": true
             },
             {
               "t": "e　乳腺葉状腫瘍",
