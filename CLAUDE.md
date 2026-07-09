@@ -30,6 +30,7 @@
 | `国家試験過去問/` | 過去問ビューアHTML（`chapter_exam.js`で試験モード）。PDFは`.gitignore`済み・追跡はhtmlのみ |
 | `chapter_exam.js` | 過去問ビューアの試験モード（`CE_EFFECT_THEMES`＝study_exam.jsの演出を同配色でミラー） |
 | `内分泌/` `呼吸器/` `循環器/` `消化器/` `神経/` `肝胆膵/` `腎臓/` `血液/` `免アレ膠/` | 各科目のフォルダ（画像・selfcheck_intro.html等）。章別解答解説HTML(ch01.html等)は全科目 `_archive/{科目}/` へ移動済み（2026-07-07完了） |
+| `産婦人科/` | 章別HTML(ch01〜ch13)＋`images/`＋`obg_questions.json`（メタ）。HTMLが`questions_obg.json`のソース＝`_work/build_obg_json.py`で再生成 |
 | `_archive/` | 到達不能になった旧・章別HTMLの保管先。編集対象外、読み物としてのみ残す |
 | `vars.css` | 共通CSSカスタムプロパティ（全ページ共通色変数） |
 | `_work/` | ビルド・検証・マージ用スクリプト（`build.py`・`gen_js_from_json.js`・`check_json_js_sync.js`・`test_merge_remote.js`等） |
@@ -51,12 +52,13 @@
 | 免アレ膠 | imma | 5 | 247 |
 | 感染症 | kansen | 22 | 356 |
 | 小児科 | peds | 13 | 373 |
-| **コア11科目 小計** | | **113章** | **4802問** |
+| 産婦人科 | obg | 13 | 685 |
+| **コア12科目 小計** | | **126章** | **5487問** |
 | 実力試験Ⅰ | jitsu1 | 2 | 160 |
 | 自作問題 | custom | 1 | 可変（現在28） |
-| **総合計** | | **116章** | **約4990問** |
+| **総合計** | | **129章** | **約5675問** |
 
-※ `study.html` タイトルの「4802問」はコア11科目の合計。実力試験・自作は追加セクション。
+※ `study.html` タイトルの「5487問」はコア12科目の合計。実力試験・自作・暗記メモは追加セクション。
 
 ## localStorage キー（全ページ共通）
 
@@ -76,7 +78,7 @@
 ## UID フォーマット
 
 - 各科目解説: `{prefix}_ch{nn}_q{n}` 例: `endo_ch01_q1`, `resp_ch02_q3`, `jinzo_d_ch03_q136`
-- 科目prefix（全13）: `endo` / `resp` / `circ` / `dige` / `neur` / `hbp` / `jinzo_d` / `hema` / `imma` / `kansen` / `peds` / `jitsu1` / `custom`
+- 科目prefix（全14）: `endo` / `resp` / `circ` / `dige` / `neur` / `hbp` / `jinzo_d` / `hema` / `imma` / `kansen` / `peds` / `obg` / `jitsu1` / `custom`
 
 ## UI 構造（study.html・各章共通）
 

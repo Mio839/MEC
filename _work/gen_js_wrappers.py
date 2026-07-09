@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 BASE = Path(__file__).parent.parent
-SIDS = ['endo','resp','circ','dige','neur','hbp','jinzo_d','hema','imma','kansen','jitsu1','peds']
+SIDS = ['endo','resp','circ','dige','neur','hbp','jinzo_d','hema','imma','kansen','jitsu1','peds','obg']
 
 for sid in SIDS:
     src = BASE / f'questions_{sid}.json'

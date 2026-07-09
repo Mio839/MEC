@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MEC 統合学習ツール (4802問)</title>
+<title>MEC 統合学習ツール (5487問)</title>
 <script>
 // iOS/iPadOS の WebKit は content-visibility:auto 自体に描画バグがあり、スクロールで
 // カードが空白化・背景裏にちらつく（2026-07-07 iPad Brave 実機確認。セクション側の
@@ -42,7 +42,7 @@ if ('serviceWorker' in navigator) {
 
 <div id="mecLoader">
   <div class="mec-loader-spinner"></div>
-  <div class="mec-loader-txt">読み込み中… (4802問)</div>
+  <div class="mec-loader-txt">読み込み中… (5487問)</div>
 </div>
 
 <header class="st-hdr">
@@ -59,7 +59,7 @@ if ('serviceWorker' in navigator) {
   </div>
   <div class="st-stats">
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
-    <div class="st-stat">合計 <span style="color:#F5A623">4802</span>問</div>
+    <div class="st-stat">合計 <span style="color:#F5A623">5487</span>問</div>
     <div class="st-stat"><span class="st-streak">🔥 <span id="studyStreak">0</span>日連続</span></div>
   </div>
   <div class="st-filter-panel" id="stFilterPanel">
@@ -76,6 +76,7 @@ if ('serviceWorker' in navigator) {
     <button class="chip" data-sid="imma" onclick="toggleSubjectChip(this,'imma')">🛡️&nbsp;免アレ膠</button>
     <button class="chip" data-sid="kansen" onclick="toggleSubjectChip(this,'kansen')">🦠&nbsp;感染症</button>
     <button class="chip" data-sid="peds" onclick="toggleSubjectChip(this,'peds')">🧸&nbsp;小児科</button>
+    <button class="chip" data-sid="obg" onclick="toggleSubjectChip(this,'obg')">🤰&nbsp;産婦人科</button>
     <button class="chip" data-sid="custom" onclick="toggleSubjectChip(this,'custom')">✏️&nbsp;自作問題</button>
     <button class="chip" data-sid="memo" onclick="toggleSubjectChip(this,'memo')">📝&nbsp;暗記メモ</button>
   </div>
@@ -329,6 +330,10 @@ if ('serviceWorker' in navigator) {
 <div class="subj-hdr" style="background:#EC407A"><span class="subj-hdr-icon">🧸</span><span class="subj-hdr-name">小児科</span><span class="subj-hdr-count">373問</span></div>
 <div class="subj-cards-loading" data-sid="peds">読み込み中...</div>
 </div>
+<div class="subj-section" data-sid="obg" data-visible="true">
+<div class="subj-hdr" style="background:#C2185B"><span class="subj-hdr-icon">🤰</span><span class="subj-hdr-name">産婦人科</span><span class="subj-hdr-count">685問</span></div>
+<div class="subj-cards-loading" data-sid="obg">読み込み中...</div>
+</div>
 <div class="subj-section" data-sid="jitsu1" data-visible="true">
 <div class="subj-hdr" style="background:#283593"><span class="subj-hdr-icon">🎯</span><span class="subj-hdr-name">実力試験Ⅰ</span><span class="subj-hdr-count">160問</span></div>
 <div class="subj-cards-loading" data-sid="jitsu1">読み込み中...</div>
@@ -348,7 +353,7 @@ if ('serviceWorker' in navigator) {
 </div>
 
 <script>
-const STUDY_SUBJECTS = [{"id": "endo", "name": "内分泌", "icon": "⚗️", "color": "#00838F"}, {"id": "resp", "name": "呼吸器", "icon": "🌬️", "color": "#1565C0"}, {"id": "circ", "name": "循環器", "icon": "❤️", "color": "#C62828"}, {"id": "dige", "name": "消化器", "icon": "🌿", "color": "#6A1B9A"}, {"id": "neur", "name": "神経", "icon": "🧠", "color": "#2E7D32"}, {"id": "hbp", "name": "肝胆膵", "icon": "🧪", "color": "#E65100"}, {"id": "jinzo_d", "name": "腎臓", "icon": "💧", "color": "#78909C"}, {"id": "hema", "name": "血液", "icon": "🩸", "color": "#B71C1C"}, {"id": "imma", "name": "免アレ膠", "icon": "🛡️", "color": "#AD1457"}, {"id": "kansen", "name": "感染症", "icon": "🦠", "color": "#00695C"}, {"id": "peds", "name": "小児科", "icon": "🧸", "color": "#EC407A"}, {"id": "jitsu1", "name": "実力試験Ⅰ", "icon": "🎯", "color": "#283593"}, {"id": "custom", "name": "自作問題", "icon": "✏️", "color": "#5C3D99"}, {"id": "memo", "name": "暗記メモ", "icon": "📝", "color": "#455A64"}];
+const STUDY_SUBJECTS = [{"id": "endo", "name": "内分泌", "icon": "⚗️", "color": "#00838F"}, {"id": "resp", "name": "呼吸器", "icon": "🌬️", "color": "#1565C0"}, {"id": "circ", "name": "循環器", "icon": "❤️", "color": "#C62828"}, {"id": "dige", "name": "消化器", "icon": "🌿", "color": "#6A1B9A"}, {"id": "neur", "name": "神経", "icon": "🧠", "color": "#2E7D32"}, {"id": "hbp", "name": "肝胆膵", "icon": "🧪", "color": "#E65100"}, {"id": "jinzo_d", "name": "腎臓", "icon": "💧", "color": "#78909C"}, {"id": "hema", "name": "血液", "icon": "🩸", "color": "#B71C1C"}, {"id": "imma", "name": "免アレ膠", "icon": "🛡️", "color": "#AD1457"}, {"id": "kansen", "name": "感染症", "icon": "🦠", "color": "#00695C"}, {"id": "peds", "name": "小児科", "icon": "🧸", "color": "#EC407A"}, {"id": "obg", "name": "産婦人科", "icon": "🤰", "color": "#C2185B"}, {"id": "jitsu1", "name": "実力試験Ⅰ", "icon": "🎯", "color": "#283593"}, {"id": "custom", "name": "自作問題", "icon": "✏️", "color": "#5C3D99"}, {"id": "memo", "name": "暗記メモ", "icon": "📝", "color": "#455A64"}];
 // Study time tracking
 let _studyStartTime = Date.now();
 let _studyTimeSaved = false;
@@ -791,7 +796,7 @@ const _ERR_TYPE_LABELS = {
   image_extract_error: '🔧 画像抽出エラー',
   choice_extract_error:'📋 選択肢エラー'
 };
-const _SID_NAMES = {endo:'内分泌',resp:'呼吸器',circ:'循環器',dige:'消化器',neur:'神経',hbp:'肝胆膵',jinzo_d:'腎臓',hema:'血液',imma:'免アレ膠',kansen:'感染症',peds:'小児科'};
+const _SID_NAMES = {endo:'内分泌',resp:'呼吸器',circ:'循環器',dige:'消化器',neur:'神経',hbp:'肝胆膵',jinzo_d:'腎臓',hema:'血液',imma:'免アレ膠',kansen:'感染症',peds:'小児科',obg:'産婦人科'};
 
 function _updateErrBadge() {
   const count = (window.mecGetErrorReports?.() || []).length;

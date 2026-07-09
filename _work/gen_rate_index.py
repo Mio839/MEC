@@ -10,7 +10,7 @@ sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 BASE = r'C:\Users\coool\Desktop\MEC'
 SIDS = ['endo', 'resp', 'circ', 'dige', 'neur', 'hbp', 'jinzo_d', 'hema',
-        'imma', 'kansen', 'peds', 'jitsu1', 'custom']
+        'imma', 'kansen', 'peds', 'obg', 'jitsu1', 'custom']
 
 index = {}
 per_sid = {}

@@ -1,9 +1,9 @@
-const CACHE = "mec-v20";
+const CACHE = "mec-v21";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-07-08l";
+const SHELL_VERSION = "2026-07-09a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -27,7 +27,7 @@ const CARDS = [
   "questions_endo.json","questions_resp.json","questions_circ.json","questions_dige.json",
   "questions_neur.json","questions_hbp.json","questions_jinzo_d.json","questions_hema.json",
   "questions_imma.json","questions_kansen.json","questions_jitsu1.json",
-  "questions_peds.json"
+  "questions_peds.json","questions_obg.json"
 ];
 
 self.addEventListener("install", e => {

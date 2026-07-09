@@ -233,7 +233,7 @@ function _saveResumes(arr) {
   if (window.MECSync) window.MECSync.scheduleSync();
 }
 function _renderResumeList() {
-  const subjNameMap = { endo:'内分泌', resp:'呼吸器', circ:'循環器', dige:'消化器', neur:'神経', hbp:'肝胆膵', jinzo_d:'腎臓', hema:'血液', kansen:'感染症', peds:'小児科' };
+  const subjNameMap = { endo:'内分泌', resp:'呼吸器', circ:'循環器', dige:'消化器', neur:'神経', hbp:'肝胆膵', jinzo_d:'腎臓', hema:'血液', imma:'免アレ膠', kansen:'感染症', peds:'小児科', obg:'産婦人科' };
   const resumes = _loadResumes().filter(r => r.total > r.answeredCount);
   const sec = document.getElementById('examResumeSection');
   const list = document.getElementById('examResumeList');
