@@ -9185,12 +9185,7 @@ window["_cardJSON_imma"]={
           "rate": 72,
           "rate_cls": "cm",
           "rate_text": "正答率 72%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "小児の全身性エリテマトーデス〈SLE〉の<strong>活動性を示す</strong>のはどれか。",
           "choices": [
             {
@@ -9228,9 +9223,7 @@ window["_cardJSON_imma"]={
               "c": "SLE活動性 = <span class=\"kw\">白血球・リンパ球減少</span>＋補体↓＋抗dsDNA↑<br/>SLEでCRP高値→感染症合併を疑う"
             }
           ],
-          "imgs": [
-            "免アレ膠/images/102I-30_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "imma_ch04_q59",

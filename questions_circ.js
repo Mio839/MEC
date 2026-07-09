@@ -1036,10 +1036,6 @@ window["_cardJSON_circ"]={
           "rate_text": "正答率 90%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -1060,9 +1056,7 @@ window["_cardJSON_circ"]={
               "c": "<span class=\"kw\">正常CI：2.2〜4.0 L/分/m²</span>。CI&lt;2.2→心原性ショック領域（Forrester分類）。本例は急性心筋梗塞で<span class=\"kw4\">CI=2.0（低下）</span>→Forresterサブセット分類でII/IVへの対応が必要。"
             }
           ],
-          "imgs": [
-            "循環器/images/108D-60_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "circ_ch01_q20",
@@ -29580,10 +29574,6 @@ window["_cardJSON_circ"]={
           "rate_text": "正答率 37%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             },
@@ -29629,9 +29619,7 @@ window["_cardJSON_circ"]={
               "c": "<span class=\"kw\">高齢者高血圧</span>：収縮期高血圧が多い→Ca拮抗薬（アムロジピン等）が第一選択。降圧目標：75歳未満&lt;130/80、75歳以上&lt;140/90（フレイル考慮）。過降圧（&lt;110）も有害。"
             }
           ],
-          "imgs": [
-            "循環器/images/115A-51_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "circ_ch10_q551",

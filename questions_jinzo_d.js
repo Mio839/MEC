@@ -179,10 +179,6 @@ window["_cardJSON_jinzo_d"]={
           "rate_text": "正答率 66%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             },
@@ -228,9 +224,7 @@ window["_cardJSON_jinzo_d"]={
               "c": "「潜血＋」「赤血球ほとんどない」→<span class=\"kw\">ヘモグロビン尿またはミオグロビン尿</span><br/>溶血性貧血（AIHA・PNH）は血管内溶血→ヘモグロビン尿"
             }
           ],
-          "imgs": [
-            "腎臓/images/119C-10_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "jinzo_d_ch01_q5",
@@ -490,10 +484,6 @@ window["_cardJSON_jinzo_d"]={
           "rate_text": "正答率 95%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -540,9 +530,7 @@ window["_cardJSON_jinzo_d"]={
               "c": "<span class=\"kw\">NSF（腎性全身性線維症）</span>：ガドリニウム造影剤が引き金<br>透析患者・重症CKD（eGFR&lt;30）では原則禁忌<br>ABI：&lt;0.9でPAD疑い、&lt;0.4で重症虚血肢</br></br>"
             }
           ],
-          "imgs": [
-            "腎臓/images/116A-33_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "jinzo_d_ch01_q11",
@@ -1117,15 +1105,11 @@ window["_cardJSON_jinzo_d"]={
           "rate_text": "正答率 81%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
           ],
-          "qt": "高尿酸血症患者の検査結果を示す。<br/>尿所見：pH 5.5、クレアチニン80mg/dl、尿酸34mg/dl。<br/>血液生化学所見：クレアチニン1.0mg/dl、尿酸8.0mg/dl。<br/>尿酸排泄率〈FEUA〉を求めよ。<br/>ただし、小数点以下第2 位を四捨五入すること。<br/>解答：① . ② ％（編註：選択肢を省略した。）<br/>-B9E/to&amp;~ Exx-GriskGriskig&amp;/20%&amp;200h&amp;I⑪⑫PIFED&amp;Fer-=5- 3",
+          "qt": "高尿酸血症患者の検査結果を示す。<br/>尿所見：pH 5.5、クレアチニン80mg/dl、尿酸34mg/dl。<br/>血液生化学所見：クレアチニン1.0mg/dl、尿酸8.0mg/dl。<br/>ただし、小数点以下第2 位を四捨五入すること。<br/><strong>尿酸排泄率〈FEUA〉を求めよ。</strong><br/>解答：①．② ％（編註：選択肢を省略した。）",
           "choices": [],
           "ans_label": "計算答：5,3",
           "ans_sub": "",
@@ -1141,9 +1125,7 @@ window["_cardJSON_jinzo_d"]={
               "c": "FEUA低下（&lt;6%）：<span class=\"kw\">尿酸排泄低下型</span>→ベンズブロマロン（尿酸排泄促進薬）適応<br/>FEUA高値（&gt;11%）：尿酸産生過剰型 → アロプリノール・フェブキソスタット（尿酸合成阻害薬）適応"
             }
           ],
-          "imgs": [
-            "腎臓/images/106I-80_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "jinzo_d_ch01_q22",
@@ -4528,15 +4510,11 @@ window["_cardJSON_jinzo_d"]={
           "rate_text": "正答率 93%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
           ],
-          "qt": "動脈血ガス分析（room air）の結果を示す。<br/>pHPaCO2（Torr）<br/>PaO2（Torr）<br/>HCO3－（mEq/L）<br/>7.48単純性の酸塩基平衡障害として、最初の変化（1 次性変化）と代償性変化（2 次性変化）の組合せで正しいのはどれか。<br/>1 次性変化　　　　　　　  2 次性変化",
+          "qt": "動脈血ガス分析（room air）の結果を示す。<br/><table class=\"tb\"><tr><th>pH</th><th>PaCO<sub>2</sub>（Torr）</th><th>PaO<sub>2</sub>（Torr）</th><th>HCO<sub>3</sub><sup>－</sup>（mEq/L）</th></tr><tr><td>7.48</td><td>52</td><td>72</td><td>37</td></tr></table><br/><strong>単純性の酸塩基平衡障害として、最初の変化（1 次性変化）と代償性変化（2 次性変化）の組合せで正しいのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　呼吸性アシドーシス ― ―――――― なし",
@@ -4585,9 +4563,7 @@ window["_cardJSON_jinzo_d"]={
               "c": "代謝性アルカローシスの代償：<span class=\"kw\">PaCO₂↑（hypoventilation）</span><br/>まずpH→次にHCO₃⁻とPaCO₂を見て1次性変化を決める<br/>HCO₃⁻↑ + pH↑ → 代謝性アルカローシス<br/>PaCO₂↑（アルカローシスなのに高い）→ 代償性呼吸性アシドーシス"
             }
           ],
-          "imgs": [
-            "腎臓/images/117A-75_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "jinzo_d_ch03_q88",
@@ -4845,15 +4821,11 @@ window["_cardJSON_jinzo_d"]={
           "rate_text": "正答率 52%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
           ],
-          "qt": "44 歳の男性。消化管検査のため1 日絶食が必要になり、末梢静脈から1,500mL/ 日の輸液を行うことになった。耐糖能異常と電解質異常はない。身長167cm、体重61kg。Na ＋は成人推奨量を、K ＋は平均的な経口摂取量の半分程度を入れたい。アミノ酸や脂肪乳剤の投与は行わない。輸液の既製市販品の組成を示す。<br/>輸液の名称Na＋（mEq/L）<br/>K＋（mEq/L）<br/>ブドウ糖（g/dL）<br/><strong>A 液B 液3.2C 液4.31 日分の輸液として適切な</strong>のはどれか。",
+          "qt": "44 歳の男性。消化管検査のため1 日絶食が必要になり、末梢静脈から1,500mL/日の輸液を行うことになった。耐糖能異常と電解質異常はない。身長167cm、体重61kg。Na<sup>＋</sup>は成人推奨量を、K<sup>＋</sup>は平均的な経口摂取量の半分程度を入れたい。アミノ酸や脂肪乳剤の投与は行わない。輸液の既製市販品の組成を示す。<br/><table class=\"tb\"><tr><th>輸液の名称</th><th>Na<sup>＋</sup>（mEq/L）</th><th>K<sup>＋</sup>（mEq/L）</th><th>ブドウ糖（g/dL）</th></tr><tr><td>A 液</td><td>30</td><td>20</td><td>20</td></tr><tr><td>B 液</td><td>84</td><td>20</td><td>3.2</td></tr><tr><td>C 液</td><td>35</td><td>20</td><td>4.3</td></tr></table><br/><strong>1 日分の輸液として適切なのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　A 液1,500mL",
@@ -4890,9 +4862,7 @@ window["_cardJSON_jinzo_d"]={
               "c": "1日絶食での維持輸液選択：Na 約100mEq/日を目標<br/>A液は糖分過剰（20g/dL）→ 高血糖・浸透圧上昇のリスク<br/>C液はNa 35mEq/L × 1.5L = 52.5 mEq → 成人推奨量（70-100mEq）に不足"
             }
           ],
-          "imgs": [
-            "腎臓/images/112C-36_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "jinzo_d_ch03_q94",
@@ -6462,13 +6432,8 @@ window["_cardJSON_jinzo_d"]={
           "rate": 79,
           "rate_cls": "cm",
           "rate_text": "正答率 79%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
-          "qt": "動脈血ガス分析（room air）の結果を示す。<br/>pHPaCO2（Torr）<br/>PaO2（Torr）<br/>HCO3－（mEq/L）<br/>7.48単純性の酸塩基平衡障害として、最初の変化（1 次性変化）と代償性変化（2 次性変化）の組合せで正しいのはどれか。<br/>1 次性変化2 次性変化",
+          "badges": [],
+          "qt": "動脈血ガス分析（room air）の結果を示す。<br/><table class=\"tb\"><tr><th>pH</th><th>PaCO<sub>2</sub>（Torr）</th><th>PaO<sub>2</sub>（Torr）</th><th>HCO<sub>3</sub><sup>－</sup>（mEq/L）</th></tr><tr><td>7.48</td><td>52</td><td>72</td><td>37</td></tr></table><br/><strong>単純性の酸塩基平衡障害として、最初の変化（1 次性変化）と代償性変化（2 次性変化）の組合せで正しいのはどれか。</strong>",
           "choices": [
             {
               "t": "ａ　呼吸性アシドーシス ― ―――――  なし",
@@ -6517,9 +6482,7 @@ window["_cardJSON_jinzo_d"]={
               "c": "代謝性アルカローシスの代償：<span class=\"kw\">PaCO₂↑（hypoventilation）</span><br/>pH↑ + HCO₃⁻↑ → 代謝性アルカローシス確定<br/>PaCO₂も↑ → 「アルカローシスなのに換気低下？」→ 代償性"
             }
           ],
-          "imgs": [
-            "腎臓/images/110G-69_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "jinzo_d_ch03_q126",
@@ -8141,10 +8104,6 @@ window["_cardJSON_jinzo_d"]={
           "rate_text": "正答率 88%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -8165,9 +8124,7 @@ window["_cardJSON_jinzo_d"]={
               "c": "AG = Na − (Cl + HCO₃) で求める（正常8〜12）<br/>補正Ca式（低Alb時に必須）：<span class=\"kw\">補正Ca = 測定Ca + (4.0 − Alb g/dL) × 0.8</span>（mg/dL単位版）<br/>低Albでは測定Caが低く見えるため補正して判断"
             }
           ],
-          "imgs": [
-            "腎臓/images/103G-68_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "jinzo_d_ch04_q160",
@@ -8799,12 +8756,7 @@ window["_cardJSON_jinzo_d"]={
           "rate": 81,
           "rate_cls": "ch",
           "rate_text": "正答率 81%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "水様下痢が持続し乏尿となった若年男性の検査結果を示す。血圧86/52mmHg。血液所見：Ht 54％。血液生化学所見：<br/>尿素窒素64mg/dl、クレアチニン2.8mg/dl、尿酸8.4mg/dl、Na 138mEq/l、K 4.1mEq/l、Cl 101mEq/l。<br/><strong>尿所見として予想される</strong>のはどれか。",
           "choices": [
             {
@@ -8842,9 +8794,7 @@ window["_cardJSON_jinzo_d"]={
               "c": "腎前性AKI = 尿Na <span class=\"kw\">&lt;20 mEq/L</span>・FeNa &lt;1%・尿浸透圧高値<br/>腎性AKI（ATN等）= 尿Na &gt;40・FeNa &gt;2%・等張尿<br/>下痢+Ht上昇（54%）= 血液濃縮 = 脱水の証拠"
             }
           ],
-          "imgs": [
-            "腎臓/images/107B-23_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "jinzo_d_ch04_q174",

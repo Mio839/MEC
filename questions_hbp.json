@@ -1111,10 +1111,6 @@
           "rate_text": "",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             },
@@ -1164,9 +1160,7 @@
               "c": "<span class=\"kw\">Child-Pugh分類</span>：アルブミン・Bil・PT・腹水・脳症の5項目で評価（A:5-6点/B:7-9点/C:10-15点）。ASTとALTは<span class=\"kw4\">肝予備能指標ではない</span>（肝細胞障害のマーカー）。"
             }
           ],
-          "imgs": [
-            "肝胆膵/images/105E-34_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hbp_ch01_q21",
@@ -4706,10 +4700,6 @@
           "rate_text": "",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -4751,9 +4741,7 @@
               "c": "A型肝炎：旅行後・生カキ・集団発生。<span class=\"kw\">HAV IgM抗体</span>で診断。慢性化なし・予後良好。"
             }
           ],
-          "imgs": [
-            "肝胆膵/images/97A-27_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hbp_ch02_q90",

@@ -51,6 +51,9 @@ SUBJECTS = {
 VECTOR_RENDERED = {
     'resp': {'106G-64_1.jpeg'},                    # %肺活量×1秒率の4象限グラフ
     'obg':  {'116D-1_1.png', '108I-40_1.png'},     # 組合せ表
+    'circ': {'109A-32_2.jpeg', '112A-28_3.jpeg',   # PDF内でベクター描画された12誘導心電図
+             '114D-26_1.jpeg', '120D-44_3.jpeg'},
+    'peds': {'110A-54_table.png', '117E-36_table.png'},   # 手作りの組合せ表
 }
 
 ANCHOR = re.compile(r'(\d{1,3})\s*[.．]\s*[（(]\s*(\d{2,3}[A-Z]-\d+)\s*[）)]')

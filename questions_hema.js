@@ -1758,32 +1758,27 @@ window["_cardJSON_hema"]={
           "rate": 97,
           "rate_cls": "ch",
           "rate_text": "正答率 97%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
-          "qt": "基礎疾患を有さない成人の生化学データを示す。<br/>採血時の溶血を示唆するのはどれか。<br/>AST（IU/L）<br/>ALT（IU/L）<br/>LD（IU/L）<br/>（基準176 ～353）<br/>γ-GTP（IU/L）<br/>（基準8 ～50）<br/>Na ＋（mEq/L）<br/>K ＋（mEq/L）",
+          "badges": [],
+          "qt": "基礎疾患を有さない成人の生化学データを示す。<br/><table class=\"tb\"><tr><th></th><th>AST（IU/L）</th><th>ALT（IU/L）</th><th>LD（IU/L）<br/>（基準176〜353）</th><th>γ-GTP（IU/L）<br/>（基準8〜50）</th><th>Na<sup>＋</sup>（mEq/L）</th><th>K<sup>＋</sup>（mEq/L）</th></tr><tr><td>ａ</td><td>30</td><td>56</td><td>200</td><td>36</td><td>152</td><td>4.0</td></tr><tr><td>ｂ</td><td>30</td><td>56</td><td>200</td><td>62</td><td>137</td><td>4.0</td></tr><tr><td>ｃ</td><td>30</td><td>56</td><td>200</td><td>62</td><td>137</td><td>6.0</td></tr><tr><td>ｄ</td><td>48</td><td>16</td><td>420</td><td>36</td><td>137</td><td>6.0</td></tr><tr><td>ｅ</td><td>48</td><td>16</td><td>420</td><td>62</td><td>137</td><td>4.0</td></tr></table><br/><strong>採血時の溶血を示唆するのはどれか。</strong>",
           "choices": [
             {
-              "t": "ａ　30 56 200 36 152 4.0",
+              "t": "ａ　AST 30・ALT 56・LD 200・γ-GTP 36・Na 152・K 4.0",
               "ok": false
             },
             {
-              "t": "ｂ　30 56 200 62 137 4.0",
+              "t": "ｂ　AST 30・ALT 56・LD 200・γ-GTP 62・Na 137・K 4.0",
               "ok": false
             },
             {
-              "t": "ｃ　30 56 200 62 137 6.0",
+              "t": "ｃ　AST 30・ALT 56・LD 200・γ-GTP 62・Na 137・K 6.0",
               "ok": false
             },
             {
-              "t": "ｄ　48 16 420 36 137 6.0",
+              "t": "ｄ　AST 48・ALT 16・LD 420・γ-GTP 36・Na 137・K 6.0",
               "ok": true
             },
             {
-              "t": "ｅ　48 16 420 62 137 4.0",
+              "t": "ｅ　AST 48・ALT 16・LD 420・γ-GTP 62・Na 137・K 4.0",
               "ok": false
             }
           ],
@@ -1806,9 +1801,7 @@ window["_cardJSON_hema"]={
               "c": "溶血を示唆する検査所見：①<span class=\"kw\">LDH（LD）の著明な上昇</span>②<span class=\"kw\">K偽高値</span>③AST上昇（赤血球に豊富）④血清の赤色調。臨床的な溶血性貧血でも同様→ただし採血手技上の溶血と区別が重要（採血し直して確認）。"
             }
           ],
-          "imgs": [
-            "血液/images/110E-32_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hema_ch01_q31",
@@ -2042,12 +2035,7 @@ window["_cardJSON_hema"]={
           "rate": 99,
           "rate_cls": "ch",
           "rate_text": "正答率 99%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "<strong>採血時の溶血によって異常値を示すのはどれか。</strong>",
           "choices": [
             {
@@ -2090,9 +2078,7 @@ window["_cardJSON_hema"]={
               "c": "<span class=\"kw\">溶血で影響を受ける検査：K↑・LDH↑・AST↑・グルコース↓</span>。Na・Ca・Cl・P・ALT・BUNは溶血の影響が少ない。臨床的高K血症vs採血溶血の鑑別：溶血時は心電図正常・症状なし→採血し直して確認。Q28と同テーマ（頻出）。"
             }
           ],
-          "imgs": [
-            "血液/images/108C-10_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hema_ch01_q36",
@@ -7283,10 +7269,6 @@ window["_cardJSON_hema"]={
           "rate_text": "",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             },
@@ -7337,9 +7319,7 @@ window["_cardJSON_hema"]={
               "c": "<span class=\"kw\">血清鉄↑なのに貧血→鉄の利用障害</span>（鉄芽球性・サラセミア）。サラセミアへの鉄剤投与は禁忌→ヘモクロマトーシス（鉄過剰症）リスク。"
             }
           ],
-          "imgs": [
-            "血液/images/98H-39_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hema_ch04_q131",
@@ -8826,10 +8806,6 @@ window["_cardJSON_hema"]={
           "rate_text": "",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bm",
               "t": "3択"
             }
@@ -8871,9 +8847,7 @@ window["_cardJSON_hema"]={
               "c": "<span class=\"kw\">溶血の検査3主徴：①間接ビリルビン↑②LDH↑③ハプトグロビン↓</span>。加えて：網赤血球↑・尿ウロビリノゲン↑・（血管内溶血）遊離Hb↑・Hb尿。フェリチンは正常〜↑（鉄の再利用↑）→フェリチン↓は鉄欠乏性の所見。"
             }
           ],
-          "imgs": [
-            "血液/images/94A-55_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hema_ch04_q161",
