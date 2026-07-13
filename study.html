@@ -1658,14 +1658,24 @@ function jumpToQnum() {
   if (!inp || !inp.value) return;
   const qnum = parseInt(inp.value, 10);
   if (!qnum) return;
-  // フィルター内（表示中）のカードのみ対象
-  let target = null;
-  for (const m of _cards) {
-    if (m.el.style.display === 'none') continue;
-    const qn = m.el.querySelector('.qn');
-    if (qn && qn.textContent.replace(/[^0-9]/g, '') === String(qnum)) { target = m.el; break; }
+  const want = String(qnum);
+  // Q番号は科目ごとの連番なので同番号が複数科目に存在する（例: Q.324 は10科目にある）。
+  // DOM上の全カードから一致を集め、「今見ている位置に最も近い一致」へ飛ぶ
+  // （＝見ている科目のQへ来る）。表示中カードを優先し、無ければ非表示のものも開いて飛ぶ。
+  const matches = [...document.querySelectorAll('.qc[data-uid]')].filter(c => {
+    const qn = c.querySelector('.qn');
+    return qn && qn.textContent.replace(/[^0-9]/g, '') === want;
+  });
+  if (!matches.length) { inp.style.borderColor = 'var(--rd)'; setTimeout(() => { inp.style.borderColor = ''; }, 900); return; }
+  const shown = c => c.style.display !== 'none' && c.closest('.subj-section')?.dataset.visible !== 'false';
+  const pool = matches.filter(shown);
+  const cand = pool.length ? pool : matches;
+  const refY = window.scrollY + window.innerHeight / 2;
+  let target = cand[0], best = Infinity;
+  for (const c of cand) {
+    const d = Math.abs(c.getBoundingClientRect().top + window.scrollY - refY);
+    if (d < best) { best = d; target = c; }
   }
-  if (!target) { inp.style.borderColor = 'var(--rd)'; setTimeout(() => { inp.style.borderColor = ''; }, 700); return; }
   inp.value = '';
   inp.blur(); // iOS が入力欄(ヘッダ)を可視化しようと文書先頭へ戻すのを防ぐ
   _jumpScrollToEl(target);
