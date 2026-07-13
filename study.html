@@ -946,10 +946,10 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => _loader.remove(), 320);
     }
   }
-  // 初回訪問は全13科目がデフォルト選択され、全JSON（約15MB）を一斉fetchすると
-  // 回線が細い端末でネットワークが競合し初回描画が遅れる。まず先頭数科目だけ読み込んで
-  // ローダーを外し操作可能にし、残りは背後で追って読み込む（全科目は最終的に表示され
-  // 見た目は不変。保存済み科目が少ない復帰ユーザーでは _restSids が空で従来どおり）。
+  // 初回訪問はどの科目も未選択（0ca731dで変更）。選択科目が多い復帰ユーザー（旧デフォルトで
+  // 全科目が保存された端末など）では全JSON（約15MB）を一斉fetchすると回線が細い端末で
+  // ネットワークが競合し初回描画が遅れるため、まず先頭数科目だけ読み込んでローダーを外し
+  // 操作可能にし、残りは背後で追って読み込む（見た目は不変。保存科目が少なければ _restSids は空）。
   const _PRIORITY_LOAD = 3;
   const _firstSids = _initialSids.slice(0, _PRIORITY_LOAD);
   const _restSids  = _initialSids.slice(_PRIORITY_LOAD);
