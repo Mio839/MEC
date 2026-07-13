@@ -15056,10 +15056,6 @@ window["_cardJSON_hbp"]={
           "rate_text": "正答率 86%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             },
@@ -15113,9 +15109,7 @@ window["_cardJSON_hbp"]={
               "c": "Courvoisier＝無痛性黄疸＋胆囊腫大→悪性（膵頭部癌）を強く示唆。第1章・第5章で繰り返し出題。"
             }
           ],
-          "imgs": [
-            "肝胆膵/images/108G-37_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hbp_ch05_q283",

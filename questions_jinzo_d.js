@@ -15891,10 +15891,6 @@ window["_cardJSON_jinzo_d"]={
           "rate_text": "正答率 90%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bm",
               "t": "2択"
             }
@@ -15936,9 +15932,7 @@ window["_cardJSON_jinzo_d"]={
               "c": "低K血症をきたす高血圧 → <span class=\"kw\">腎血管性高血圧（二次性アルドステロン症）＋原発性アルドステロン症</span><br/>低K + 高血圧 → アルドステロン過剰（原発性 or 二次性）を疑う<br/>褐色細胞腫は低Kでない（カテコラミン過剰）"
             }
           ],
-          "imgs": [
-            "腎臓/images/103A-14_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "jinzo_d_ch06_q309",

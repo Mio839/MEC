@@ -1642,12 +1642,7 @@ window["_cardJSON_hema"]={
           "rate": 97,
           "rate_cls": "ch",
           "rate_text": "正答率 97%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "<strong>血液検体を遠心分離せずに長時間放置した場合、本来の値より高値を示す項目はどれか。</strong>",
           "choices": [
             {
@@ -1695,9 +1690,7 @@ window["_cardJSON_hema"]={
               "c": "<span class=\"kw\">高K血症を疑ったら溶血・採血手技を確認</span>。確認方法：①採血管の色（赤→溶血の視覚確認）②採血し直しで再測定③心電図（偽高K血症では正常）。臨床的に高K血症の症状（心電図変化・筋力低下）がなければ偽性高K血症を考慮。"
             }
           ],
-          "imgs": [
-            "血液/images/111G-13_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hema_ch01_q29",
@@ -6936,10 +6929,6 @@ window["_cardJSON_hema"]={
           "rate_text": "正答率 49%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -6986,9 +6975,7 @@ window["_cardJSON_hema"]={
               "c": "MDSの予後不良因子：<span class=\"kw\">①芽球比率高い②染色体複雑核型（del(7)等）③重度血球減少</span>。del(5q)は比較的良好予後＋レナリドマイド有効。"
             }
           ],
-          "imgs": [
-            "血液/images/110I-20_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hema_ch04_q125",
@@ -8503,10 +8490,6 @@ window["_cardJSON_hema"]={
           "rate_text": "",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bm",
               "t": "2択"
             }
@@ -8548,9 +8531,7 @@ window["_cardJSON_hema"]={
               "c": "①GPI欠損（PIG-A変異）②CD55・CD59欠損③補体C5b-9による血管内溶血④<span class=\"kw\">血栓症（門脈・肝静脈血栓が特徴）</span>⑤汎血球減少⑥<span class=\"kw\">フローサイトメトリーで診断</span>⑦エクリズマブ治療⑧Coombs陰性。"
             }
           ],
-          "imgs": [
-            "血液/images/99A-33_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hema_ch04_q155",
@@ -9668,10 +9649,6 @@ window["_cardJSON_hema"]={
           "rate_text": "正答率 91%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             },
@@ -9722,9 +9699,7 @@ window["_cardJSON_hema"]={
               "c": "<span class=\"kw\">TKI（BCR-ABL阻害薬）の適応：CML・Ph+ALL</span> 。第1世代：イマチニブ。第2世代：ダサチニブ・ニロチニブ（より強力）。第3世代：ポナチニブ（T315I変異に有効）。耐性変異の確認が治療変更の判断に必要。"
             }
           ],
-          "imgs": [
-            "血液/images/111D-17_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hema_ch05_q175",
@@ -11894,12 +11869,7 @@ window["_cardJSON_hema"]={
           "rate": -1,
           "rate_cls": "",
           "rate_text": "",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "34 歳の男性。咳嗽と発熱とを主訴に来院した。眼瞼結膜に貧血はなく眼球結膜に黄疸はない。リンパ節腫脹はなく、<br/>腹部に肝・脾は触知しない。血液所見：赤血球370 万、Hb 11.9g/dl、Ht 36％、白血球49,500、血小板6 万。末梢血塗抹標本では異常細胞が68.5％ある。骨髄血塗抹May-Giemsa 染色標本を示す。<br/><strong>まず行うべき検査</strong>はどれか。",
           "choices": [
             {
@@ -11942,9 +11912,7 @@ window["_cardJSON_hema"]={
               "c": "<span class=\"kw\">AML vs ALLの最初の鑑別：ペルオキシダーゼ（POX）染色</span> 。AML→POX陽性（特にM1〜M5）。APL（M3）→POX強陽性・Fagot細胞。ALL→POX陰性→TdTで確認。NAP（好中球ALP）スコアはCML vs 類白血病反応の鑑別に使用（ALLとAMLの鑑別ではない）。"
             }
           ],
-          "imgs": [
-            "血液/images/98B-20_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hema_ch05_q214",
@@ -12966,10 +12934,6 @@ window["_cardJSON_hema"]={
           "rate_text": "",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -13016,9 +12980,7 @@ window["_cardJSON_hema"]={
               "c": "<span class=\"kw4\">脱水→相対的赤血球増加症（血漿量↓）→二次性赤血球増加症ではない</span> 。二次性赤血球増加症（絶対的）：低O₂（COPD・高地居住・喫煙）・腎細胞癌（EPO産生腫瘍）・蛋白同化ホルモン（アンドロゲン）・睡眠時無呼吸症候群。"
             }
           ],
-          "imgs": [
-            "血液/images/107I-12_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hema_ch06_q232",
@@ -14038,12 +14000,7 @@ window["_cardJSON_hema"]={
           "rate": 85,
           "rate_cls": "ch",
           "rate_text": "正答率 85%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "56 歳の男性。全身倦怠感と腹部膨満とを主訴に来院した。6 か月前から左上腹部の重圧感を自覚し、少量の摂食でも満腹になった。顔色は不良でるいそうを認める。右肋骨弓下に肝を4cm、左肋骨弓下に脾を5cm 触知し、いずれも弾性硬で圧痛はない。血液所見：赤血球320 万、Hb 9.5g/dl、Ht 31％、網赤血球1.3％、白血球23,000（前骨髄球2％、<br/>骨髄球3％、後骨髄球3％、桿状核好中球13％、分葉核好中球55％、好酸球1％、好塩基球3％、単球4％、リンパ球16％、赤芽球4 個/100 白血球）、血小板62 万。好中球アルカリホスファターゼスコア312（基準120 ～320）。末梢血塗抹May-Giemsa 染色標本を示す。<br/><strong>最も考えられる</strong>のはどれか。",
           "choices": [
             {
@@ -14081,9 +14038,7 @@ window["_cardJSON_hema"]={
               "c": "<span class=\"kw\">PMFの典型的所見：①Dry tap②涙滴赤血球（teardrop cell）③白赤芽球像（幼若顆粒球＋有核赤血球）④骨盤腔に達する巨大脾腫（髄外造血）⑤骨髄生検で線維化（鍍銀染色陽性）</span> 。JAK2変異（約50%）・CALR変異・MPL変異。治療：ルキソリチニブ（JAK阻害薬）。"
             }
           ],
-          "imgs": [
-            "血液/images/102D-47_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hema_ch06_q251",
@@ -16028,10 +15983,6 @@ window["_cardJSON_hema"]={
           "rate_text": "正答率 61%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             },
@@ -16087,9 +16038,7 @@ window["_cardJSON_hema"]={
               "c": "<span class=\"kw\">HPS（HLH）の特徴：汎血球減少＋発熱＋脾腫＋フェリチン著明↑＋凝固異常＋高ビリルビン</span> 。原因：EBV・CMV感染、悪性リンパ腫、自己免疫疾患（SLE）、薬剤。治療：デキサメタゾン・エトポシド・シクロスポリン（HLH-94プロトコル）。"
             }
           ],
-          "imgs": [
-            "血液/images/104I-22_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hema_ch07_q286",
@@ -16162,10 +16111,6 @@ window["_cardJSON_hema"]={
           "rate_text": "",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             },
@@ -16216,9 +16161,7 @@ window["_cardJSON_hema"]={
               "c": "<span class=\"kw\">HLの特徴：頸部リンパ節が好発（約70%）・B症状（発熱・寝汗・体重減少）・連続的拡散</span> 。Reed-Sternberg（RS）細胞（大型・双核・鳥眼状核小体）が特徴的病理所見。HLの予後：NHLより良好（Stage I-IIの治癒率&gt;90%）。治療：ABVD±放射線。"
             }
           ],
-          "imgs": [
-            "血液/images/101F-41_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hema_ch07_q288",
@@ -17349,12 +17292,7 @@ window["_cardJSON_hema"]={
           "rate": 46,
           "rate_cls": "cl",
           "rate_text": "正答率 46%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "造血器腫瘍細胞の染色体検査写真を示す。<br/><strong>この異常を生じる</strong>のはどれか。",
           "choices": [
             {
@@ -17392,9 +17330,7 @@ window["_cardJSON_hema"]={
               "c": "<span class=\"kw\">t(14;18)→BCL2-IgH融合→濾胞性リンパ腫（FL）に特異的</span> 。CML：t(9;22)。AML M2：t(8;21)。マントル細胞リンパ腫（MCL）：t(11;14)（BCL1/CCND1-IgH）。APL（M3）：t(15;17)。Burkittリンパ腫：t(8;14)（MYC-IgH）。"
             }
           ],
-          "imgs": [
-            "血液/images/108D-12_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hema_ch07_q309",
@@ -17886,10 +17822,6 @@ window["_cardJSON_hema"]={
           "rate_text": "正答率 84%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bm",
               "t": "2択"
             }
@@ -17936,9 +17868,7 @@ window["_cardJSON_hema"]={
               "c": "<span class=\"kw\">縦隔・肺門リンパ節腫脹＋発熱・体重減少（B症状）→ホジキンリンパ腫・DLBCL or 転移性腫瘍</span> 。HL：縦隔（特に前縦隔）に好発。確定診断：生検。サルコイドーシス：両側肺門（BHL）・ACE↑。"
             }
           ],
-          "imgs": [
-            "血液/images/103G-49_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hema_ch07_q319",
@@ -18944,10 +18874,6 @@ window["_cardJSON_hema"]={
           "rate_text": "正答率 93%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -18994,10 +18920,7 @@ window["_cardJSON_hema"]={
               "c": "<span class=\"kw\">血小板増加をきたす疾患：ET（本態性血小板血症）・PV（全血球増多の一部として）・CML・反応性（炎症・鉄欠乏・脾摘後）</span> 。PVで血小板↑（全血球増多）。ETは血小板のみ著明↑。"
             }
           ],
-          "imgs": [
-            "血液/images/105E-69_1.jpeg",
-            "血液/images/105E-69_2.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "hema_ch08_q337",

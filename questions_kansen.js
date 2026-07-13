@@ -418,8 +418,7 @@ window["_cardJSON_kansen"]={
             }
           ],
           "imgs": [
-            "感染症/images/119C-63_1.jpeg",
-            "感染症/images/119C-63_2.jpeg"
+            "感染症/images/119C-63_1.jpeg"
           ]
         },
         {
@@ -430,10 +429,6 @@ window["_cardJSON_kansen"]={
           "rate_cls": "ch",
           "rate_text": "97%",
           "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
             {
               "cls": "bs",
               "t": "★"
@@ -481,9 +476,7 @@ window["_cardJSON_kansen"]={
               "c": "病理解剖 ≠ 司法解剖（警察関係なし）<br/>感染性遺体の解剖：適切な感染予防策を取りながら実施（廃棄は不要）<br/>死亡診断書：主治医が生前の情報と死因を記載→解剖結果を待たない"
             }
           ],
-          "imgs": [
-            "感染症/images/119C-64_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch01_q9",
@@ -712,10 +705,6 @@ window["_cardJSON_kansen"]={
           "rate_text": "14%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -762,9 +751,7 @@ window["_cardJSON_kansen"]={
               "c": "<span class=\"kw4\">CRPで投与期間を決める → 誤り</span><br/>CRPは炎症マーカーであり参考にはするが、単独で期間決定の基準にはしない<br/>投与期間の指標：解熱、培養陰性化、白血球正常化、臨床症状改善"
             }
           ],
-          "imgs": [
-            "感染症/images/116B-4_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch01_q14",
@@ -1006,10 +993,6 @@ window["_cardJSON_kansen"]={
             {
               "cls": "bs",
               "t": "★"
-            },
-            {
-              "cls": "bi",
-              "t": "📷 画像"
             }
           ],
           "qt": "歳の男性。高熱を主訴に来院した。3 日前からの発熱、咳嗽および膿性痰のために受診した。既往歴に特記すべきことはない。意識は清明。体温39.5℃。脈拍116/ 分、整。血圧128/82mmHg。呼吸数24/ 分。右肺にcoarse crackles を聴取する。血液所見：白血球19,200（桿状核好中球4％、分葉核好中球84％、単球2％、リンパ球10％）。血液生化学所見：AST 48U/L、ALT 42U/L。CRP 19.8mg/dL。腎機能は正常である。胸部エックス線写真で右下肺野に浸潤影を認める。急性肺炎と診断し、入院させてスルバクタム・アンピシリン合剤の投与を開始することにした。<strong>1 日の投与量を同一とした場合、この患者に対する投与方法として最も適切なのはどれか。</strong>",
@@ -1054,9 +1037,7 @@ window["_cardJSON_kansen"]={
               "c": "スルバクタム・アンピシリン（ユナシン）= <span class=\"kw\">時間依存性βラクタム</span><br/>→ 3回/日点滴が標準（MIC以上の血中濃度を時間の40-50%以上維持）<br/>覚え方：βラクタム系は \"時間をかけて何度も\" 与える"
             }
           ],
-          "imgs": [
-            "感染症/images/112A-37_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch01_q19",
@@ -6083,12 +6064,7 @@ window["_cardJSON_kansen"]={
           "rate": -1,
           "rate_cls": "ch",
           "rate_text": "99%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "歳の女性。頸部リンパ節腫大を主訴に来院した。3 週間前から左頸部の腫れに気付いていた。その後、右頸部も腫れてきたので受診した。発熱、体重減少および盗汗はない。生来健康。ペット飼育歴とアレルギー歴はない。夫は3 か月前、陰茎に無痛性潰瘍があり治療歴がある。意識は清明。身長168cm、体重61kg。体温36.7℃。脈拍78/ 分、整。血圧106/68mmHg。呼吸数16/ 分。SpO2 100％（room air）。手掌と足底にびまん性の一部癒合した径3mm の紅斑・丘疹を認める。口腔内には潰瘍性病変を認めない。咽頭は発赤を認めない。左頸部に径5cm の可動性があり、柔軟なリンパ節を1 個触知する。右頸部にも同様に径3cm のリンパ節腫大を1 個触知する。心音と呼吸音とに異常を認めない。腹部に肝・脾を触知しない。<strong>最も適切な治療薬はどれか。</strong>",
           "choices": [
             {
@@ -6131,9 +6107,7 @@ window["_cardJSON_kansen"]={
               "c": "猫ひっかき病 → Bartonella henselae<br/>肉芽腫性リンパ節炎の鑑別：結核・サルコイドーシス・リンパ腫・猫ひっかき病<br/>国試では「ペニシリン系が有効」として出題されることがある（注意）"
             }
           ],
-          "imgs": [
-            "感染症/images/118B-37_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch03_q114",
@@ -6758,12 +6732,7 @@ window["_cardJSON_kansen"]={
           "rate": -1,
           "rate_cls": "ch",
           "rate_text": "90%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "<span class=\"qt-context\"><span class=\"series-label\">連問 2/2</span>23 歳の男性。陰茎の潰瘍を主訴に来院した。<br/>現病歴：1 週間前に陰茎に潰瘍が出現し、次第に拡大するため受診した。潰瘍部に疼痛はない。頻尿や排尿時痛もない。<br/>既往歴：14 歳時に肺炎球菌性肺炎。アンピシリン/ スルバクタム投与後に血圧低下と全身の皮疹を認めた。<br/>生活歴：喫煙は20 本/ 日を3 年間。飲酒は機会飲酒。不特定多数の相手と性交渉がある。<br/>現　症：意識は清明。身長170cm。体重74kg。体温36.3℃。脈拍80/ 分、整。血圧128/68mmHg。呼吸数12/ 分。<br/>心音と呼吸音とに異常を認めない。腹部は平坦、軟で、肝・脾を触知しない。神経診察に異常を認めない。下腿に<br/>浮腫を認めない。陰茎に潰瘍を認める。<br/>検査所見：赤沈32mm/1 時間。血液所見：赤血球418 万、Hb 13.3g/dL、Ht 42％、白血球9,900（桿状核好中球<br/>14％、分葉核好中球66％、好酸球2％、好塩基球3％、単球9％、リンパ球6％）、血小板20 万。血液生化学所見：<br/>総蛋白7.6g/dL、アルブミン4.2g/dL、尿素窒素20mg/dL、クレアチニン1.0mg/dL、Na 137mEq/L、K 4.2mEq/L、<br/>Cl 105mEq/L。免疫血清学所見：CRP 3.2mg/dL、抗HIV 抗体スクリーニング検査陰性、尿中クラミジア抗原陰性、<br/>RPR 32 倍（基準1 倍未満）、TPHA 80 倍未満（基準80 倍未満）。</span><br/>か月後にトレポネーマ抗体値の上昇を認めた。<strong>今後の治療効果判定に最も有用な検査はどれか。</strong>",
           "choices": [
             {
@@ -6801,9 +6770,7 @@ window["_cardJSON_kansen"]={
               "c": "<table class=\"tb\"><tr><th>検査</th><th>有用性</th><th>理由</th></tr><tr><td>検査</td><td>有用性</td><td>理由</td></tr><tr><td><span class=\"kw\">RPR</span></td><td><span class=\"kw\">○ 最有用</span></td><td>治療で低下・正常化→活動性の指標</td></tr><tr><td>CRP</td><td><span class=\"kw4\">△</span></td><td>炎症マーカーだが梅毒特異的ではない</td></tr><tr><td><span class=\"kw4\">TPHA</span></td><td><span class=\"kw4\">× 有用でない</span></td><td>治療後も長期陽性持続→効果判定に使えない</td></tr><tr><td>赤沈</td><td><span class=\"kw4\">△</span></td><td>非特異的炎症マーカー</td></tr><tr><td>白血球数</td><td><span class=\"kw4\">×</span></td><td>梅毒の治療効果の指標にならない</td></tr></table>"
             }
           ],
-          "imgs": [
-            "感染症/images/113E-49_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch03_q126",
@@ -8801,10 +8768,6 @@ window["_cardJSON_kansen"]={
           "rate_text": "89%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             },
@@ -8855,9 +8818,7 @@ window["_cardJSON_kansen"]={
               "c": "<span class=\"kw\">重症肺炎の初期検査2点セット</span>：血液培養＋喀痰Gram染色<br/>血液培養は抗菌薬投与前に採取（投与後は感度低下）<br/>免疫正常者→真菌検査は基本不要"
             }
           ],
-          "imgs": [
-            "感染症/images/114D-67_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch04_q161",
@@ -10657,12 +10618,7 @@ window["_cardJSON_kansen"]={
           "rate": -1,
           "rate_cls": "ch",
           "rate_text": "98%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "歳の女性。Alzheimer 型認知症と骨粗鬆症があり、グループホームに入所中である。月に1 回の訪問診療、週に1 回の訪問看護を受けている。昨夜から39.0℃の発熱と湿性咳嗽があり呼吸困難を訴えていると、今朝、施設の介護福祉士から病院へ連絡が入った。電話を受けた看護師がバイタルサインを聞いたところ、JCSⅡ-10。体温39.8℃。脈拍120/ 分、整。血圧78/60mmHg。呼吸数30/ 分であった。<strong>この情報を受け取った担当医が指示する内容として適切なのはどれか。</strong>",
           "choices": [
             {
@@ -10705,9 +10661,7 @@ window["_cardJSON_kansen"]={
               "c": "発熱＋呼吸困難＋高齢者 → <span class=\"kw\">救急搬送適応</span><br/>電話での状況判断が問われる問題。呼吸困難は「待てない」症状"
             }
           ],
-          "imgs": [
-            "感染症/images/114B-39_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch04_q194",
@@ -10949,12 +10903,7 @@ window["_cardJSON_kansen"]={
           "rate": -1,
           "rate_cls": "ch",
           "rate_text": "94%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "歳の女子。発熱を主訴に祖母に連れられて来院した。4 日前から発熱を認め、2 日前から両側眼瞼の腫脹と両側頸部に腫瘤を触れるのに気が付いた。本日も解熱しないため受診した。体温38.9℃。脈拍92/ 分、整。呼吸数20/ 分。SpO2 98％（room air）。四肢、体幹に発疹を認めない。両側眼瞼の腫脹を認める。眼瞼結膜に貧血を認めない。眼球結膜に黄染や充血を認めない。口蓋扁桃は発赤し白苔を認める。両側頸部に径2cm のリンパ節を数個ずつ触知する。心音と呼吸音とに異常を認めない。腹部は平坦、軟で、右肋骨弓下に肝を2cm、左肋骨弓下に脾を3cm 触知する。<strong>診断に有用な血液検査項目はどれか。</strong>",
           "choices": [
             {
@@ -10997,9 +10946,7 @@ window["_cardJSON_kansen"]={
               "c": "<span class=\"kw\">伝染性単核球症の診断</span>：<br/>発熱＋咽頭扁桃炎＋頸部リンパ節腫脹＋脾腫 ＋ <span class=\"kw\">異型リンパ球（白血球分画）</span><br/>CK（筋逸脱酵素）やアミラーゼは本疾患の診断に有用でない"
             }
           ],
-          "imgs": [
-            "感染症/images/113D-17_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch04_q199",
@@ -12981,12 +12928,7 @@ window["_cardJSON_kansen"]={
           "rate": -1,
           "rate_cls": "cl",
           "rate_text": "31%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "歳の女児。咳と発熱とを主訴に来院した。7 日前から咳嗽が出現し、次第に増強している。4 日前から38℃台の発熱が続き、市販の感冒薬を服用している。本日、躯幹に発疹が出てきた。咽頭は軽度の発赤を認める。口腔粘膜に異常を認めない。心音と呼吸音とに異常を認めない。腹部は平坦、軟で、肝・脾を触知しない。<strong>病原体として考えられるのはどれか。</strong>",
           "choices": [
             {
@@ -13029,9 +12971,7 @@ window["_cardJSON_kansen"]={
               "c": "<span class=\"kw\">マイコプラズマ肺炎</span>：学童＋遷延する咳嗽＋聴診所見乏しい<br/>皮疹（多形性紅斑）の合併に注意；肝脾腫も軽度みられる"
             }
           ],
-          "imgs": [
-            "感染症/images/103I-63_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch04_q236",
@@ -13570,10 +13510,6 @@ window["_cardJSON_kansen"]={
           "rate_text": "65%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -13620,9 +13556,7 @@ window["_cardJSON_kansen"]={
               "c": "隔離要否の判断 = <span class=\"kw\">喀痰抗酸菌染色（塗抹）</span>（速報性が高い）<br/>培養は2〜8週間かかる→隔離判断には遅すぎる<br/>免疫抑制状態（ステロイド・生物学的製剤）→結核再活性化リスク↑"
             }
           ],
-          "imgs": [
-            "感染症/images/118B-29_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch05_q246",
@@ -14724,12 +14658,7 @@ window["_cardJSON_kansen"]={
           "rate": -1,
           "rate_cls": "ch",
           "rate_text": "95%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "歳の女性。長引く咳を主訴に来院した。3 か月前から咳と痰とが出現していたがそのままにしていた。1 か月前から症状が悪化し微熱を伴うようになってきた。身長156cm、体重48kg。体温37.6℃。脈拍80/ 分、整。血圧120/74mmHg。呼吸数20/ 分。胸部の聴診でcoarse crackles を聴取する。喀痰塗抹Ziehl-Neelsen 染色陽性。胸部エックス線写真で両側上肺野に異常陰影を認める。<strong>現時点の対応として適切なのはどれか。</strong>",
           "choices": [
             {
@@ -14772,9 +14701,7 @@ window["_cardJSON_kansen"]={
               "c": "来院時の<span class=\"kw\">最初のアクション</span>：患者にマスクをして個室へ<br/>届出・接触者健診・治療は「感染拡大防止」の後<br/>保健所届出は確定後（PCR・培養）が原則だが、初期対応は感染予防が先"
             }
           ],
-          "imgs": [
-            "感染症/images/111I-70_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch05_q266",
@@ -15712,10 +15639,6 @@ window["_cardJSON_kansen"]={
           "rate_text": "73%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -15762,10 +15685,7 @@ window["_cardJSON_kansen"]={
               "c": "<span class=\"kw\">HBs抗体十分（≧10 mIU/mL）→ 経過観察</span><br/>未接種・非免疫→ワクチン＋抗HBs免疫グロブリンの同時投与（72時間以内）<br/>針刺し直後：流水で洗浄→報告→HBs抗体価確認→対応決定"
             }
           ],
-          "imgs": [
-            "感染症/images/119F-40_1.jpeg",
-            "感染症/images/119F-40_2.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch06_q283",
@@ -15778,6 +15698,10 @@ window["_cardJSON_kansen"]={
             {
               "cls": "bs",
               "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷 画像"
             }
           ],
           "qt": "（シリーズ：PCP疑い）気管支肺胞洗浄液を採取した。確定診断に有用な染色法はどれか。",
@@ -15822,7 +15746,10 @@ window["_cardJSON_kansen"]={
               "c": "<span class=\"kw\">ニューモシスチス（真菌）→ Grocott染色</span><br/>抗酸菌 → Ziehl-Neelsen染色<br/>細菌 → Gram染色 / 真菌全般 → Grocott染色 or PAS染色"
             }
           ],
-          "imgs": []
+          "imgs": [
+            "感染症/images/119F-72_1.jpeg",
+            "感染症/images/119F-72_2.jpeg"
+          ]
         },
         {
           "uid": "kansen_ch06_q284",
@@ -15890,10 +15817,6 @@ window["_cardJSON_kansen"]={
           "rate_text": "90%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -15940,11 +15863,7 @@ window["_cardJSON_kansen"]={
               "c": "<span class=\"kw\">挿管回避＋高流量酸素 → ネーザルハイフロー（HFNC）</span><br/>マスク5L/分で不十分 → HFNCへステップアップ<br/>適応：軽〜中等度の低酸素血症（挿管前のブリッジ）"
             }
           ],
-          "imgs": [
-            "感染症/images/119F-74_1.jpeg",
-            "感染症/images/119F-74_2.jpeg",
-            "感染症/images/119F-74_3.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch06_q286",
@@ -16020,10 +15939,6 @@ window["_cardJSON_kansen"]={
           "rate_text": "72%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             },
@@ -16074,9 +15989,7 @@ window["_cardJSON_kansen"]={
               "c": "<span class=\"kw\">急性HIV感染（ウィンドウ期）→ HIV RNA定量検査で診断</span><br/>Western blot→確認検査（偽陽性除外）<br/>HIV抗体検査は急性期（ウィンドウ期）に陰性になりうる"
             }
           ],
-          "imgs": [
-            "感染症/images/116D-68_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch06_q288",
@@ -16522,8 +16435,7 @@ window["_cardJSON_kansen"]={
             }
           ],
           "imgs": [
-            "感染症/images/110B-56_1.jpeg",
-            "感染症/images/110B-56_2.jpeg"
+            "感染症/images/110B-56_1.jpeg"
           ]
         },
         {
@@ -17198,8 +17110,7 @@ window["_cardJSON_kansen"]={
             }
           ],
           "imgs": [
-            "感染症/images/114E-46_1.jpeg",
-            "感染症/images/114E-46_2.jpeg"
+            "感染症/images/114E-46_1.jpeg"
           ]
         },
         {
@@ -17501,12 +17412,7 @@ window["_cardJSON_kansen"]={
           "rate": -1,
           "rate_cls": "cl",
           "rate_text": "55%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "25 歳の男性。研修医1 年目。担当患者の採血をしていたところ<strong>針刺し事故</strong>を起こした。担当していた患者は<strong>C 型慢性肝炎</strong>を合併しており、現時点でウイルスは排除されていない。研修医の就職時の検査では<strong>HCV 抗体は陰性</strong>であった。針刺し後、すぐに流水中で傷口から血液を絞り出した。<br>連絡を受けた医師の研修医への説明として適切なのはどれか。",
           "choices": [
             {
@@ -17549,11 +17455,7 @@ window["_cardJSON_kansen"]={
               "c": "<span class=\"kw\">HCV針刺し → PEPなし → 経時的な感染確認</span><br/>1〜2週後にHCV RNA（早期診断可能）<br/>感染が確認されたら直接作用型抗ウイルス薬（DAA）で治療"
             }
           ],
-          "imgs": [
-            "感染症/images/112F-58_1.jpeg",
-            "感染症/images/112F-58_2.jpeg",
-            "感染症/images/112F-58_3.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch06_q313",
@@ -17677,10 +17579,6 @@ window["_cardJSON_kansen"]={
           "rate_text": "67%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bm",
               "t": "3択"
             }
@@ -17727,10 +17625,7 @@ window["_cardJSON_kansen"]={
               "c": "<span class=\"kw\">AIDS急性感染症 → 輸液＋抗菌薬＋抗真菌薬が緊急対応</span><br/>ART（抗HIV薬）は急性感染コントロール後に開始（IRIS予防）<br/>無菌室→好中球減少症の適応（CD4低下≠好中球減少）"
             }
           ],
-          "imgs": [
-            "感染症/images/110A-58_1.jpeg",
-            "感染症/images/110A-58_2.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch06_q316",
@@ -18157,12 +18052,7 @@ window["_cardJSON_kansen"]={
           "rate": -1,
           "rate_cls": "cm",
           "rate_text": "79%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "24 歳の男性。臨床研修医。<strong>HIV 感染者の採血で用いた針を誤って自分の指に刺した</strong>。同部位に出血はない。既往歴に特記すべきことはない。<br><strong>投与が推奨されるのはどれか。</strong>",
           "choices": [
             {
@@ -18205,10 +18095,7 @@ window["_cardJSON_kansen"]={
               "c": "<span class=\"kw\">HIV針刺し → 抗HIV薬PEP（72時間以内に開始、28日間）</span><br/>HIVワクチンは存在しない（免疫グロブリンも無効）<br/>出血なし＝低リスクだが、PEPは実施する"
             }
           ],
-          "imgs": [
-            "感染症/images/108A-36_1.jpeg",
-            "感染症/images/108A-36_2.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch06_q324",
@@ -18430,7 +18317,6 @@ window["_cardJSON_kansen"]={
             }
           ],
           "imgs": [
-            "感染症/images/107E-46_1.jpeg",
             "感染症/images/107E-46_2.jpeg"
           ]
         },
@@ -19851,12 +19737,7 @@ window["_cardJSON_kansen"]={
           "rate": -1,
           "rate_cls": "cm",
           "rate_text": "77%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "肝吸虫症において白血球分画の中で最も増加するのはどれか。",
           "choices": [
             {
@@ -19899,9 +19780,7 @@ window["_cardJSON_kansen"]={
               "c": "<span class=\"kw\">寄生虫（多細胞：蠕虫・吸虫等）→ 好酸球増多</span><br/>単細胞（細菌・ウイルス・原虫）は好酸球増多を起こさない<br/>好酸球増多→寄生虫感染を疑う（DDDAADH：薬物・皮膚疾患・アトピー・喘息等も"
             }
           ],
-          "imgs": [
-            "感染症/images/106E-29_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "kansen_ch07_q353",

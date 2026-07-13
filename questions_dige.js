@@ -5485,10 +5485,6 @@ window["_cardJSON_dige"]={
           "rate_text": "正答率 85%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -5530,9 +5526,7 @@ window["_cardJSON_dige"]={
               "c": "<span class=\"kw\">タール便（上部GI出血）→ BUN↑・クレアチニン正常 → BUN/Cr比上昇</span><br/>BUN/Cr&gt;20：上部消化管出血を強く示唆。"
             }
           ],
-          "imgs": [
-            "消化器/images/109C-6_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "dige_ch03_q107",
@@ -8523,10 +8517,6 @@ window["_cardJSON_dige"]={
           "rate_text": "正答率 99%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -8568,9 +8558,7 @@ window["_cardJSON_dige"]={
               "c": "<span class=\"kw\">GERD食道外症状：慢性咳嗽・嗄声・咽頭炎</span><br/>原因不明の慢性咳嗽→GERDを鑑別に入れてPPI試験投与。"
             }
           ],
-          "imgs": [
-            "消化器/images/120A-12_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "dige_ch04_q169",

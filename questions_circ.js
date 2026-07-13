@@ -12714,10 +12714,6 @@ window["_cardJSON_circ"]={
           "rate_text": "正答率 92%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -12759,9 +12755,7 @@ window["_cardJSON_circ"]={
               "c": "AV block誘発薬：<span class=\"kw\">ジゴキシン・β遮断薬・非DHP型Ca拮抗薬（ベラパミル・ジルチアゼム）・アミオダロン</span>。β遮断薬+ベラパミルの併用は<span class=\"kw4\">禁忌</span>（完全AVブロック）。"
             }
           ],
-          "imgs": [
-            "循環器/images/117D-13_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "circ_ch04_q241",
@@ -13216,8 +13210,7 @@ window["_cardJSON_circ"]={
             }
           ],
           "imgs": [
-            "循環器/images/113F-30_1.jpeg",
-            "循環器/images/113F-30_2.jpeg"
+            "循環器/images/113F-30_1.jpeg"
           ]
         },
         {
@@ -14577,10 +14570,6 @@ window["_cardJSON_circ"]={
           "rate_text": "正答率 86%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bm",
               "t": "2択"
             }
@@ -14622,10 +14611,7 @@ window["_cardJSON_circ"]={
               "c": "<span class=\"kw\">WPW+血行動態不安定→緊急DC（カルディオバージョン）</span>。意識障害=cardiac emergency→除細動優先。血行動態安定のWPW+Af→プロカインアミド or アミオダロン。ジゴキシン・ベラパミル・β遮断薬はWPW+Afに禁忌。"
             }
           ],
-          "imgs": [
-            "循環器/images/111D-21_1.jpeg",
-            "循環器/images/111D-21_2.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "circ_ch04_q275",
@@ -20103,10 +20089,6 @@ window["_cardJSON_circ"]={
           "rate_text": "正答率 99%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             },
@@ -20157,9 +20139,7 @@ window["_cardJSON_circ"]={
               "c": "<span class=\"kw\">IE</span>：発熱+歯科処置歴+心雑音+眼瞼点状出血→まず血液培養（3セット）+心エコー。抗菌薬：ペニシリン+アミノグリコシド（原因菌に応じて6週間）。"
             }
           ],
-          "imgs": [
-            "循環器/images/120B-35_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "circ_ch06_q378",
@@ -21025,10 +21005,6 @@ window["_cardJSON_circ"]={
           "rate_text": "正答率 43%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             },
@@ -21074,9 +21050,7 @@ window["_cardJSON_circ"]={
               "c": "収縮性心膜炎：心臓拡張障害・左右室拡張末期圧等値化・Kussmaul徴候・心膜ノック音・心膜石灰化。治療：<span class=\"kw\">心膜剥離術</span>（根治）。"
             }
           ],
-          "imgs": [
-            "循環器/images/106D-18_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "circ_ch06_q394",
@@ -21150,10 +21124,6 @@ window["_cardJSON_circ"]={
           "rate_text": "正答率 79%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -21195,10 +21165,7 @@ window["_cardJSON_circ"]={
               "c": "<span class=\"kw\">心タンポナーデ≠肺うっ血</span>。肺うっ血（起坐呼吸・ラ音・胸水）は左心不全に特有。心タンポナーデでは肺野は<span class=\"kw4\">清明</span>。"
             }
           ],
-          "imgs": [
-            "循環器/images/102G-1_1.jpeg",
-            "循環器/images/102G-1_2.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "circ_ch06_q396",
@@ -23222,12 +23189,7 @@ window["_cardJSON_circ"]={
           "rate": 98,
           "rate_cls": "ch",
           "rate_text": "正答率 98%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "50 歳の男性。胸痛を主訴に来院した。数日前から風邪気味であったが、昨日から左前胸部痛が出現した。痛みは数時間続くことがあり、深吸気時と仰臥位とで増強する。意識は清明。身長170cm、体重67kg。体温36.9℃。脈拍84/ 分、整。血圧140/84mmHg。収縮期と拡張期とに高調な雑音を聴取する。呼吸音に異常を認めない。血液所見：<br/>赤血球456 万、Hb 14.5g/dl、白血球8,900。CRP 4.5mg/dl。心電図を示す。<br/><strong>最も考えられる</strong>のはどれか。",
           "choices": [
             {
@@ -23265,9 +23227,7 @@ window["_cardJSON_circ"]={
               "c": "感冒後+胸膜炎様胸痛+<span class=\"kw\">心膜摩擦音（収縮・拡張期の高調雑音）</span>→急性心膜炎。治療：NSAIDs＋コルヒチン3か月。"
             }
           ],
-          "imgs": [
-            "循環器/images/102D-27_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "circ_ch06_q436",
@@ -23896,10 +23856,6 @@ window["_cardJSON_circ"]={
           "rate_text": "正答率 99%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -23946,9 +23902,7 @@ window["_cardJSON_circ"]={
               "c": "<span class=\"kw\">心臓リハビリ</span>：①低強度から段階的②栄養・筋力評価を並行③体調変化で処方修正。<span class=\"kw4\">高負荷から開始は禁忌</span>。心不全リハビリはQOL改善・再入院↓のエビデンスあり。"
             }
           ],
-          "imgs": [
-            "循環器/images/120F-75_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "circ_ch07_q448",
@@ -24211,10 +24165,6 @@ window["_cardJSON_circ"]={
           "rate_text": "正答率 24%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -24261,10 +24211,7 @@ window["_cardJSON_circ"]={
               "c": "<span class=\"kw4\">DCMと虚血性心筋症の鑑別＝冠動脈造影</span>。エコー・BNP・Holterは両疾患で異常を示すため鑑別には不十分。冠動脈造影で冠動脈正常→DCM確定。"
             }
           ],
-          "imgs": [
-            "循環器/images/107I-7_1.jpeg",
-            "循環器/images/107I-7_2.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "circ_ch07_q453",
@@ -25662,10 +25609,6 @@ window["_cardJSON_circ"]={
           "rate_text": "正答率 98%",
           "badges": [
             {
-              "cls": "bi",
-              "t": "📷 画像"
-            },
-            {
               "cls": "bs",
               "t": "★"
             }
@@ -25707,9 +25650,7 @@ window["_cardJSON_circ"]={
               "c": "<span class=\"kw\">大動脈解離の痛みの3特徴</span>：①<span class=\"kw\">突然発症</span>（最重要）②引き裂かれる・移動する③胸背部〜腰部。高熱先行・前屈軽減・圧迫軽減・呼吸変動はいずれも大動脈解離の特徴ではない。"
             }
           ],
-          "imgs": [
-            "循環器/images/112B-12_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "circ_ch08_q478",

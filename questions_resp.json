@@ -16346,12 +16346,7 @@
           "rate": 98,
           "rate_cls": "ch",
           "rate_text": "正答率 98%",
-          "badges": [
-            {
-              "cls": "bi",
-              "t": "📷 画像"
-            }
-          ],
+          "badges": [],
           "qt": "小細胞肺癌で高値を示すのはどれか。",
           "choices": [
             {
@@ -16384,9 +16379,7 @@
               "c": "<span class=\"kw\">ProGRP</span>（Pro-GRP）：小細胞癌に最も特異的。<span class=\"kw\">NSE</span>も小細胞癌・神経内分泌腫瘍で上昇。SCC→扁平上皮癌。AFP・PIVKA-II→肝癌・胚細胞腫瘍。"
             }
           ],
-          "imgs": [
-            "呼吸器/images/111I-15_1.jpeg"
-          ]
+          "imgs": []
         },
         {
           "uid": "resp_ch06_q335",
