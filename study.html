@@ -906,6 +906,12 @@ document.addEventListener('click', function(e) {
     document.querySelectorAll('.mec-err-panel.open').forEach(p => p.classList.remove('open'));
   }
 });
+// 復習モード起動時、全科目ロード＋初期化は復習を抜けてから走らせる（下記で設定）。
+let _fullInitStarted = false;
+let _deferredFullInit = null;
+function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
+window._runDeferredInit = _runDeferredInit;
+
 document.addEventListener('DOMContentLoaded', () => {
   const sidParam = new URLSearchParams(location.search).get('sid');
   if (sidParam) {
@@ -947,58 +953,74 @@ document.addEventListener('DOMContentLoaded', () => {
   const _PRIORITY_LOAD = 3;
   const _firstSids = _initialSids.slice(0, _PRIORITY_LOAD);
   const _restSids  = _initialSids.slice(_PRIORITY_LOAD);
-  const _firstPromises = _firstSids.map(sid => _fetchSubjectCards(sid));
-  // 最初の科目がDOMに入った時点でローダーを外す（全科目の完了を待たない）。
-  // 済/旗マークとフィルターは後続の initCards で追って反映される
-  Promise.any(_firstPromises.length ? _firstPromises : [Promise.resolve()]).then(_removeLoader).catch(() => {});
-  Promise.all(_firstPromises)
-    .then(() => Promise.all(_restSids.map(sid => _fetchSubjectCards(sid))))
-    .then(() => {
-    try {
-      _buildCardCache();
-      _loadSRS();
-      initCards();
-      requestAnimationFrame(() => { _buildChapterMap(); _buildChapterJumpOptions(); _updateChapterProgressBadges(); });
-      const _streakEl = document.getElementById('studyStreak');
-      if (_streakEl && window.MECSync) _streakEl.textContent = MECSync.calcStreak();
-      window._restoreScroll?.();
-      _updateErrBadge();
-      document.addEventListener('mecSyncComplete', () => { if (!examMode) initCards(); _updateErrBadge(); });
-      document.addEventListener('mecResumesUpdated', () => {
-        const ov = document.getElementById('examStartOv');
-        if (ov && ov.classList.contains('open')) _renderResumeList();
-      });
-      if (new URLSearchParams(location.search).get('mode') === 'srs_review') {
-        setTimeout(() => startSRSReview(), 150);
-      } else {
-        // 試験中にページが再読み込みされた場合は自動復元
-        const _autoKey = localStorage.getItem('mec_exam_active_key');
-        if (_autoKey) {
-          const _autoResumes = _loadResumes();
-          const _autoR = _autoResumes.find(r => r.key === _autoKey && r.total > r.answeredCount);
-          if (_autoR && _autoR.uids && _autoR.uids.length) {
-            const _autoNeeded = new Set(_autoR.uids.map(u => u.split('_ch')[0]).filter(s => STUDY_SUBJECTS.find(x => x.id === s)));
-            const _autoMissing = [..._autoNeeded].filter(sid => !_loadedSids.has(sid));
-            _autoMissing.forEach(sid => selectedSubjects.add(sid));
-            if (_autoMissing.length) _syncChipStyles();
-            Promise.all(_autoMissing.map(sid => _fetchSubjectCards(sid))).then(() => {
-              _autoMissing.forEach(sid => { if (!_cachedSids.has(sid)) _buildSectionCache(sid); });
-              setTimeout(() => resumeExam(_autoR.savedAt), 400);
-            }).catch(e => console.error('MEC auto-resume error:', e));
-          } else {
-            localStorage.removeItem('mec_exam_active_key');
+  const _srsLaunch = new URLSearchParams(location.search).get('mode') === 'srs_review';
+
+  // 通常の全科目初期化（fetch→描画→キャッシュ→initCards→章メタ→自動復元）。
+  // 復習起動時はこれを走らせず _runDeferredInit（復習を抜けたとき）で実行する。
+  function _runFullInit() {
+    if (_fullInitStarted) return Promise.resolve();
+    _fullInitStarted = true;
+    const _firstPromises = _firstSids.map(sid => _fetchSubjectCards(sid));
+    // 最初の科目がDOMに入った時点でローダーを外す（全科目の完了を待たない）。
+    Promise.any(_firstPromises.length ? _firstPromises : [Promise.resolve()]).then(_removeLoader).catch(() => {});
+    return Promise.all(_firstPromises)
+      .then(() => Promise.all(_restSids.map(sid => _fetchSubjectCards(sid))))
+      .then(() => {
+      try {
+        _buildCardCache();
+        _loadSRS();
+        initCards();
+        requestAnimationFrame(() => { _buildChapterMap(); _buildChapterJumpOptions(); _updateChapterProgressBadges(); });
+        const _streakEl = document.getElementById('studyStreak');
+        if (_streakEl && window.MECSync) _streakEl.textContent = MECSync.calcStreak();
+        window._restoreScroll?.();
+        _updateErrBadge();
+        document.addEventListener('mecSyncComplete', () => { if (!examMode) initCards(); _updateErrBadge(); });
+        document.addEventListener('mecResumesUpdated', () => {
+          const ov = document.getElementById('examStartOv');
+          if (ov && ov.classList.contains('open')) _renderResumeList();
+        });
+        // 試験中リロードの自動復元（復習起動でない通常ロード時のみ）
+        if (!_srsLaunch) {
+          const _autoKey = localStorage.getItem('mec_exam_active_key');
+          if (_autoKey) {
+            const _autoResumes = _loadResumes();
+            const _autoR = _autoResumes.find(r => r.key === _autoKey && r.total > r.answeredCount);
+            if (_autoR && _autoR.uids && _autoR.uids.length) {
+              const _autoNeeded = new Set(_autoR.uids.map(u => u.split('_ch')[0]).filter(s => STUDY_SUBJECTS.find(x => x.id === s)));
+              const _autoMissing = [..._autoNeeded].filter(sid => !_loadedSids.has(sid));
+              _autoMissing.forEach(sid => selectedSubjects.add(sid));
+              if (_autoMissing.length) _syncChipStyles();
+              Promise.all(_autoMissing.map(sid => _fetchSubjectCards(sid))).then(() => {
+                _autoMissing.forEach(sid => { if (!_cachedSids.has(sid)) _buildSectionCache(sid); });
+                setTimeout(() => resumeExam(_autoR.savedAt), 400);
+              }).catch(e => console.error('MEC auto-resume error:', e));
+            } else {
+              localStorage.removeItem('mec_exam_active_key');
+            }
           }
         }
+      } catch (e) {
+        console.error('MEC init error:', e);
+      } finally {
+        _removeLoader();
       }
-    } catch (e) {
-      console.error('MEC init error:', e);
-    } finally {
+    }).catch(e => {
+      console.error('MEC init fetch error:', e);
       _removeLoader();
-    }
-  }).catch(e => {
-    console.error('MEC init fetch error:', e);
+    });
+  }
+  _deferredFullInit = _runFullInit;
+
+  if (_srsLaunch) {
+    // 復習は due カードだけを専用ホストに即描画するので、全科目のfetch/描画/初期化を待たない。
+    // 全科目ロードは復習を抜けたとき(_runDeferredInit)に実行する。
     _removeLoader();
-  });
+    _loadSRS();
+    startSRSReview();
+  } else {
+    _runFullInit();
+  }
 });
 
 // 学習時間を保存してから多重発火防止フラグを立てる。
@@ -1262,8 +1284,52 @@ function _updateSRS(uid, isCorrect) {
 // 専用ホスト(#srsReviewHost)に描画する。全dueをシャッフルしたまま出せるので
 // 科目ミックスの復習効果も保たれる。既にロード済みの科目は既存カードを流用する。
 
-// 科目JSONを取得するだけ（描画しない）。fetch失敗時は.jsフォールバック。
-function _fetchSubjectJson(sid) {
+// ── 科目データのキャッシュ層（メモリ＋IndexedDB） ─────────────────────────────
+// 復習・通常ロードの双方がここを通す。同一セッションでの二重fetch/二重parseを防ぎ、
+// IndexedDBに置くことで再訪時の巨大JSON(1〜3MB)のfetch/parseも省く。
+// 版管理: SWのCacheStorage名(mec-vNN)をキーにするので、questions_*.json更新で
+// sw.jsのCACHEをbumpすれば自動的に旧キャッシュは無効化される（新たな手動bump不要）。
+// caches が使えない(file://)、または遷移中で版が一意でない場合は IndexedDB を使わずメモリのみ。
+const _subjDataCache = new Map();
+let _idbPromise = null, _cacheVerP = null;
+
+function _idbOpen() {
+  if (_idbPromise) return _idbPromise;
+  _idbPromise = new Promise(resolve => {
+    try {
+      if (!window.indexedDB) return resolve(null);
+      const req = indexedDB.open('mec_subj_cache', 1);
+      req.onupgradeneeded = () => { const db = req.result; if (!db.objectStoreNames.contains('subj')) db.createObjectStore('subj'); };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => resolve(null);
+    } catch (e) { resolve(null); }
+  });
+  return _idbPromise;
+}
+function _idbGet(sid) {
+  return _idbOpen().then(db => db && new Promise(res => {
+    try { const rq = db.transaction('subj', 'readonly').objectStore('subj').get(sid);
+      rq.onsuccess = () => res(rq.result || null); rq.onerror = () => res(null);
+    } catch (e) { res(null); }
+  }));
+}
+function _idbPut(sid, rec) {
+  return _idbOpen().then(db => { if (!db) return; try { db.transaction('subj', 'readwrite').objectStore('subj').put(rec, sid); } catch (e) {} });
+}
+// SWのキャッシュ世代名を版とする。mec- が0個/複数(遷移中)なら空=IndexedDB無効。
+function _cacheVersion() {
+  if (_cacheVerP) return _cacheVerP;
+  _cacheVerP = (async () => {
+    try {
+      if (!window.caches) return '';
+      const mec = (await caches.keys()).filter(k => k.startsWith('mec-'));
+      return mec.length === 1 ? mec[0] : '';
+    } catch (e) { return ''; }
+  })();
+  return _cacheVerP;
+}
+// network取得（json優先、失敗時は.jsフォールバック＝file://対応）
+function _fetchSubjectDataNetwork(sid) {
   return fetch('questions_' + sid + '.json')
     .then(r => { if (!r.ok) throw new Error('http'); return r.json(); })
     .catch(() => new Promise(resolve => {
@@ -1275,6 +1341,24 @@ function _fetchSubjectJson(sid) {
       document.head.appendChild(sc);
     }));
 }
+// 科目データを1回だけ取得・parse: メモリ → IndexedDB → network。
+async function _getSubjectData(sid) {
+  if (_subjDataCache.has(sid)) return _subjDataCache.get(sid);
+  const ver = await _cacheVersion();
+  if (ver) {
+    try { const rec = await _idbGet(sid); if (rec && rec.v === ver && rec.data) { _subjDataCache.set(sid, rec.data); return rec.data; } } catch (e) {}
+  }
+  const data = await _fetchSubjectDataNetwork(sid);
+  if (data) {
+    _subjDataCache.set(sid, data);
+    // IndexedDB書き込み(構造化クローン)は起動描画と競合しないようidle時に回す
+    if (ver) (window.requestIdleCallback || setTimeout)(() => _idbPut(sid, { v: ver, data }));
+  }
+  return data;
+}
+
+// 科目JSONを取得するだけ（描画しない）。キャッシュ層経由。
+function _fetchSubjectJson(sid) { return _getSubjectData(sid); }
 
 function _srsHostShow() { const h = document.getElementById('srsReviewHost'); if (h) h.style.display = ''; }
 function _srsHostHide() { const h = document.getElementById('srsReviewHost'); if (h) h.style.display = 'none'; }
@@ -1326,6 +1410,7 @@ async function startSRSReview() {
 
   if (!dueUids.length) {
     alert('今日の復習問題はありません。');
+    _runDeferredInit(); // 復習が無いので通常閲覧へ（全科目ロードを開始）
     return;
   }
 
@@ -1340,6 +1425,7 @@ async function startSRSReview() {
   if (!availableUids.length) {
     _srsHostClear();
     alert('問題が見つかりませんでした。ページを再読み込みしてください。');
+    _runDeferredInit();
     return;
   }
 
@@ -1400,6 +1486,7 @@ function clearReviewMode() {
   const banner = document.getElementById('reviewBanner');
   if (banner) banner.classList.remove('show');
   _srsHostClear(); // SRS復習のdueカードを片付ける
+  _runDeferredInit(); // 復習起動だった場合はここで全科目ロード（ホストは上でクリア済＝競合なし）
   _cacheStale = true;
   applyFilters();
 }
@@ -1685,9 +1772,13 @@ function _fetchSubjectCards(sid) {
     const frag = document.createRange().createContextualFragment(html);
     section.appendChild(frag);
     _applyFixedBadges(section);
-    // SRS復習ホストに同科目のdueカードが残っていれば除去（data-uid重複を防ぐ）
-    const _srsHost = document.getElementById('srsReviewHost');
-    if (_srsHost) _srsHost.querySelectorAll('.qc[data-uid^="' + sid + '_ch"]').forEach(c => c.remove());
+    // SRS復習ホストに同科目のdueカードが残っていれば除去（data-uid重複を防ぐ）。
+    // ただし復習セッション進行中は、そのカードが examQueue の実体なので除去しない
+    // （復習を抜けると clearReviewMode → _srsHostClear で一括除去される）。
+    if (!(typeof examMode !== 'undefined' && examMode && _srsReviewMode)) {
+      const _srsHost = document.getElementById('srsReviewHost');
+      if (_srsHost) _srsHost.querySelectorAll('.qc[data-uid^="' + sid + '_ch"]').forEach(c => c.remove());
+    }
     section.dataset.loaded = 'true';
     _loadedSids.add(sid);
     _pendingLoads.delete(sid);
@@ -1698,34 +1789,18 @@ function _fetchSubjectCards(sid) {
     }
   }
 
-  function _loadViaScript() {
-    return new Promise(function(resolve, reject) {
-      if (window['_cardJSON_' + sid]) { _applyJson(window['_cardJSON_' + sid]); resolve(); return; }
-      const sc = document.createElement('script');
-      sc.src = 'questions_' + sid + '.js';
-      sc.onload = function() {
-        if (window['_cardJSON_' + sid]) { _applyJson(window['_cardJSON_' + sid]); resolve(); }
-        else reject(new Error('no data: ' + sid));
-      };
-      sc.onerror = function() { reject(new Error('script load failed: ' + sid)); };
-      document.head.appendChild(sc);
-    });
-  }
-
-  const p = fetch('questions_' + sid + '.json')
-    .then(function(r) {
-      if (!r.ok) throw new Error('load failed: ' + sid);
-      return r.json();
+  // キャッシュ層(_getSubjectData)経由で取得。json→.jsフォールバックとメモリ/IndexedDB
+  // キャッシュはそちらが担う。ここは描画とロード状態管理のみ。
+  const p = _getSubjectData(sid)
+    .then(function(data) {
+      if (!data) throw new Error('no data: ' + sid);
+      _applyJson(data);
     })
-    .then(function(data) { _applyJson(data); })
-    .catch(function() {
-      // fetch fails on file:// protocol — fall back to <script> loading
-      return _loadViaScript().catch(function(err) {
-        const loading = section.querySelector('.subj-cards-loading');
-        if (loading) { loading.style.color = 'var(--rd)'; loading.textContent = '⚠️ 読み込みエラー: ' + sid; }
-        _pendingLoads.delete(sid);
-        throw err;
-      });
+    .catch(function(err) {
+      const loading = section.querySelector('.subj-cards-loading');
+      if (loading) { loading.style.color = 'var(--rd)'; loading.textContent = '⚠️ 読み込みエラー: ' + sid; }
+      _pendingLoads.delete(sid);
+      throw err;
     });
   _pendingLoads.set(sid, p);
   return p;

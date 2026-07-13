@@ -478,7 +478,8 @@ function startExam(overrideUids = null) {
   if (!_srsReviewMode) localStorage.setItem('mec_exam_active_key', _examSessionKey);
   _examChoiceBackup.clear();
   document.body.classList.add('exam-mode');
-  document.querySelectorAll('.qc[data-uid]').forEach(c => { if (!examQueue.includes(c)) c.style.display = 'none'; });
+  const _eqSet = new Set(examQueue);
+  document.querySelectorAll('.qc[data-uid]').forEach(c => { if (!_eqSet.has(c)) c.style.display = 'none'; });
   examQueue.forEach(card => {
     card.style.display = '';
     _shuffleChoices(card);
@@ -1959,7 +1960,8 @@ function resumeExam(savedAt) {
   localStorage.setItem('mec_exam_active_key', saved.key || '');
   _examChoiceBackup.clear();
   document.body.classList.add('exam-mode');
-  document.querySelectorAll('.qc[data-uid]').forEach(c => { if (!examQueue.includes(c)) c.style.display = 'none'; });
+  const _eqSet = new Set(examQueue);
+  document.querySelectorAll('.qc[data-uid]').forEach(c => { if (!_eqSet.has(c)) c.style.display = 'none'; });
 
   const revealedUids = saved.revealedUids || {};
 
@@ -2213,4 +2215,7 @@ function showExamSummary() {
 
 function closeExamSummary() {
   document.getElementById('examOverlay').classList.remove('open');
+  // 復習モードで起動していた場合、通常閲覧に戻る時点で全科目ロードを開始する
+  // （通常フローでは初期化済みのため no-op）。
+  window._runDeferredInit?.();
 }
