@@ -55,7 +55,7 @@ if ('serviceWorker' in navigator) {
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
     <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
     <button class="hdr-toggle" onclick="document.getElementById('mecKbHelp').classList.add('open')" title="キーボードショートカット (?)">⌨️</button>
-    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0713f</span>
+    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0713g</span>
   </div>
   <div class="st-stats">
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
@@ -913,7 +913,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0713f";
+const MEC_BUILD = "b-0713g";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
@@ -1571,15 +1571,6 @@ function _jumpScrollToEl(el) {
   document.documentElement.classList.add('mec-jumping');
   const hdrH = (document.querySelector('.st-hdr')?.offsetHeight || 112) + 8;
   let tries = 0, lastY = -1, stable = 0;
-  function restore() {
-    const beforeTop = el.getBoundingClientRect().top;
-    document.documentElement.classList.remove('mec-jumping');
-    // スキップ再開で上のカードが縮み表示がずれるのを、目標カードの見た目位置を維持して打ち消す
-    requestAnimationFrame(() => {
-      const shift = el.getBoundingClientRect().top - beforeTop;
-      if (Math.abs(shift) > 2) window.scrollTo({ top: Math.max(0, (window.scrollY || 0) + shift), behavior: 'auto' });
-    });
-  }
   function settle() {
     const y = Math.max(0, el.getBoundingClientRect().top + window.scrollY - hdrH);
     window.scrollTo({ top: y, behavior: 'auto' });
@@ -1589,15 +1580,19 @@ function _jumpScrollToEl(el) {
     lastY = y;
     if (stable < 2 && tries < 24) { requestAnimationFrame(settle); return; }
     _flashJumpTarget(el);
-    // iOS は sticky ヘッダ内の select を閉じた後、フォーカス要素(文書先頭)を可視化しようと
-    // 文書を先頭へ戻す（＝ジャンプ直後に Q1 へ吹き飛ぶ）。これを打ち消すため、着地後に目標カードが
-    // ヘッダ直下へ来る位置へ強制再アサートする（画像遅延ロードのドリフトも同時に補正）。
-    const forceToTarget = () => {
+    // mec-jumping を外すと画面外カードが推定高さ(300px)へ戻り目標位置がずれる。深い問題ほど
+    // ずれが大きく先頭(Q1)へ吹き飛ぶため、外した直後に数フレーム el をヘッダ直下へ再アンカー
+    // して固定する（着地後の画像遅延ロード等のドリフトも同時に補正）。
+    const reanchor = () => {
       const drift = el.getBoundingClientRect().top - hdrH;
-      if (Math.abs(drift) > 3) window.scrollTo({ top: Math.max(0, (window.scrollY || 0) + drift), behavior: 'auto' });
+      if (Math.abs(drift) > 2) window.scrollTo({ top: Math.max(0, (window.scrollY || 0) + drift), behavior: 'auto' });
     };
-    setTimeout(forceToTarget, 180);
-    setTimeout(() => { forceToTarget(); restore(); }, 460);
+    document.documentElement.classList.remove('mec-jumping');
+    let rn = 0;
+    const loop = () => { reanchor(); if (++rn < 12) requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+    setTimeout(reanchor, 220);
+    setTimeout(reanchor, 520);
   }
   requestAnimationFrame(settle);
 }
