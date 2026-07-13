@@ -55,7 +55,7 @@ if ('serviceWorker' in navigator) {
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
     <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
     <button class="hdr-toggle" onclick="document.getElementById('mecKbHelp').classList.add('open')" title="キーボードショートカット (?)">⌨️</button>
-    <span id="mecBuildVer" title="読み込まれているビルド版数（キャッシュ確認用）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0708l</span>
+    <span id="mecBuildVer" title="読み込まれているキャッシュ世代（強制リフレッシュ後に変われば最新）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">—</span>
   </div>
   <div class="st-stats">
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
@@ -913,6 +913,16 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 document.addEventListener('DOMContentLoaded', () => {
+  // ビルド版数バッジ: 実際のSWキャッシュ世代(mec-vNN)を表示（キャッシュ確認用・自動追随）。
+  // sw.jsのCACHE bumpで自動更新。caches不可(file://)や未キャッシュ時はプレースホルダのまま。
+  if (window.caches) caches.keys().then(ks => {
+    const mec = ks.filter(k => k.startsWith('mec-'));
+    if (!mec.length) return;
+    mec.sort((a, b) => (parseInt(a.replace(/\D/g, '')) || 0) - (parseInt(b.replace(/\D/g, '')) || 0));
+    const el = document.getElementById('mecBuildVer');
+    if (el) el.textContent = mec[mec.length - 1];
+  }).catch(() => {});
+
   const sidParam = new URLSearchParams(location.search).get('sid');
   if (sidParam) {
     selectedSubjects.clear();
