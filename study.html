@@ -55,7 +55,7 @@ if ('serviceWorker' in navigator) {
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
     <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
     <button class="hdr-toggle" onclick="document.getElementById('mecKbHelp').classList.add('open')" title="キーボードショートカット (?)">⌨️</button>
-    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0713e</span>
+    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0713f</span>
   </div>
   <div class="st-stats">
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
@@ -913,7 +913,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0713e";
+const MEC_BUILD = "b-0713f";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
@@ -1647,23 +1647,26 @@ function jumpToQnum() {
   const qnum = parseInt(inp.value, 10);
   if (!qnum) return;
   const want = String(qnum);
-  // Q番号は科目ごとの連番なので同番号が複数科目に存在する（例: Q.324 は10科目にある）。
-  // DOM上の全カードから一致を集め、「今見ている位置に最も近い一致」へ飛ぶ
-  // （＝見ている科目のQへ来る）。表示中カードを優先し、無ければ非表示のものも開いて飛ぶ。
-  const matches = [...document.querySelectorAll('.qc[data-uid]')].filter(c => {
-    const qn = c.querySelector('.qn');
-    return qn && qn.textContent.replace(/[^0-9]/g, '') === want;
-  });
-  if (!matches.length) { inp.style.borderColor = 'var(--rd)'; setTimeout(() => { inp.style.borderColor = ''; }, 900); return; }
-  const shown = c => c.style.display !== 'none' && c.closest('.subj-section')?.dataset.visible !== 'false';
-  const pool = matches.filter(shown);
-  const cand = pool.length ? pool : matches;
-  const refY = window.scrollY + window.innerHeight / 2;
-  let target = cand[0], best = Infinity;
-  for (const c of cand) {
-    const d = Math.abs(c.getBoundingClientRect().top + window.scrollY - refY);
-    if (d < best) { best = d; target = c; }
+  // Q番号は科目ごとの連番で同番号が複数科目にある（例: Q.324 は10科目）。
+  // content-visibility:auto のため画面外カードの座標は不正確 → 位置計算はしない。
+  // 「今ビューポート上端に実表示されている科目」を elementFromPoint で特定し、その科目のQへ飛ぶ。
+  const matchIn = root => {
+    const qn = [...root.querySelectorAll('.qc[data-uid] .qn')]
+      .find(e => e.textContent.replace(/[^0-9]/g, '') === want);
+    return qn ? qn.closest('.qc') : null;
+  };
+  const hdrH = (document.querySelector('.st-hdr')?.offsetHeight || 112) + 24;
+  const atTop = document.elementFromPoint(Math.floor(window.innerWidth / 2), hdrH);
+  const curSection = atTop && atTop.closest ? atTop.closest('.subj-section') : null;
+  let target = (curSection && curSection.dataset.visible !== 'false') ? matchIn(curSection) : null;
+  if (!target) { // 見ている科目に無ければ、表示中の科目を上から順に探す
+    for (const sec of document.querySelectorAll('.subj-section')) {
+      if (sec.dataset.visible === 'false') continue;
+      target = matchIn(sec);
+      if (target) break;
+    }
   }
+  if (!target) { inp.style.borderColor = 'var(--rd)'; setTimeout(() => { inp.style.borderColor = ''; }, 900); return; }
   inp.value = '';
   inp.blur(); // iOS が入力欄(ヘッダ)を可視化しようと文書先頭へ戻すのを防ぐ
   _jumpScrollToEl(target);
