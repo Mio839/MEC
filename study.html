@@ -55,7 +55,7 @@ if ('serviceWorker' in navigator) {
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
     <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
     <button class="hdr-toggle" onclick="document.getElementById('mecKbHelp').classList.add('open')" title="キーボードショートカット (?)">⌨️</button>
-    <span id="mecBuildVer" title="読み込まれているキャッシュ世代（強制リフレッシュ後に変われば最新）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">—</span>
+    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0713e</span>
   </div>
   <div class="st-stats">
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
@@ -912,26 +912,14 @@ let _deferredFullInit = null;
 function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
+// ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
+const MEC_BUILD = "b-0713e";
+
 document.addEventListener('DOMContentLoaded', () => {
-  // ビルド版数バッジ: 実際のSWキャッシュ世代(mec-vNN)を表示（キャッシュ確認用・自動追随）。
-  // 強制リフレッシュ直後はSW再インストール中でキャッシュ生成前なので、出るまでポーリングし、
-  // SWが有効化されたら即再取得する。caches不可(file://)ではプレースホルダのまま。
-  (function _showBuildVer() {
-    const el = document.getElementById('mecBuildVer');
-    if (!el || !window.caches) return;
-    let tries = 0;
-    const tick = () => caches.keys().then(ks => {
-      const mec = ks.filter(k => k.startsWith('mec-'));
-      if (mec.length) {
-        mec.sort((a, b) => (parseInt(a.replace(/\D/g, '')) || 0) - (parseInt(b.replace(/\D/g, '')) || 0));
-        el.textContent = mec[mec.length - 1];
-      } else if (++tries < 15) {
-        setTimeout(tick, 600); // キャッシュ生成待ち（最大~9秒）
-      }
-    }).catch(() => {});
-    tick();
-    if (navigator.serviceWorker) navigator.serviceWorker.ready.then(tick).catch(() => {});
-  })();
+  // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
+  // シェルは network-first なのでリロードで最新の study.html が届き、この値も最新になる。
+  // ⚠️ 各shipでこの MEC_BUILD と sw.js の SHELL_VERSION を一緒に上げること。
+  { const _bv = document.getElementById('mecBuildVer'); if (_bv) _bv.textContent = MEC_BUILD; }
 
   const sidParam = new URLSearchParams(location.search).get('sid');
   if (sidParam) {
