@@ -4378,6 +4378,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw\">ノロウイルス</span>：エンベロープなし（Non-enveloped）→ アルコール無効<br/>環境消毒：次亜塩素酸ナトリウム（0.1%）が有効<br/>覚え方：ノロ＝\"流水で流す\"（アルコールは効かない）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "アルコール抵抗性の病原体は流水＋石鹸の手洗いを要する。<br/><b>a ノロウイルス</b>：<span class=\"kw\">アルコール抵抗性で流水下の手洗いが必要</span>。✓<br/><b>b 新型コロナウイルス</b>：アルコール消毒が有効。<br/><b>c インフルエンザウイルス</b>：有効。<br/><b>d 水痘・帯状疱疹ウイルス</b>：有効。<br/><b>e ヒト免疫不全ウイルス〈HIV〉</b>：有効。"
             }
           ],
           "imgs": []
@@ -4435,6 +4440,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "ノロウイルスの基本治療は対症療法のみ：<span class=\"kw\">補液（細胞外液）</span><br/>昇圧薬は敗血症性ショックに使用（ノロ胃腸炎には不要）<br/>解熱薬は対症的に使えるが「まず」投与すべきは補液"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "ノロ性腸炎による脱水性ショック。<br/><b>a 解熱薬</b>：主でない。<br/><b>b 止痢薬</b>：感染性下痢に不適。<br/><b>c 昇圧薬</b>：まず輸液が先。<br/><b>d 細胞外液</b>：<span class=\"kw\">脱水性ショックに細胞外液の急速輸液</span>。✓<br/><b>e 抗ウイルス薬</b>：ノロに無効。"
             }
           ],
           "imgs": []
@@ -4487,6 +4497,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 各選択肢の正誤",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>正誤</th><th>理由</th></tr><tr><td>選択肢</td><td>正誤</td><td>理由</td></tr><tr><td>共用トイレの使用を許可</td><td><span class=\"kw4\">×</span></td><td>トイレが汚染源になる→専用トイレまたは最後に使用</td></tr><tr><td><span class=\"kw\">ドアノブを頻回消毒</span></td><td><span class=\"kw\">○</span></td><td>次亜塩素酸Naで環境消毒</td></tr><tr><td>N95マスクで診察</td><td><span class=\"kw4\">×</span></td><td>ノロは飛沫・接触感染→サージカルマスクで可</td></tr><tr><td>食器をアルコールで消毒</td><td><span class=\"kw4\">×</span></td><td>ノロにアルコール無効→次亜塩素酸Naまたは加熱</td></tr><tr><td>処理手袋を一般廃棄</td><td><span class=\"kw4\">×</span></td><td>汚染物品→感染性廃棄物として処理</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "ノロウイルスの接触感染対策。<br/><b>a 共用トイレの使用を許可する</b>：接触感染で不適。<br/><b>b 病室のドアノブは頻回に消毒する</b>：<span class=\"kw\">次亜塩素酸で環境(高頻度接触面)を消毒</span>。✓<br/><b>c N95マスクの着用を要する</b>：空気感染でなく不要。<br/><b>d 食器はアルコールで消毒</b>：ノロはアルコール抵抗性で不適。<br/><b>e 手袋は一般廃棄物として処理</b>：感染性廃棄物として処理する。"
             }
           ],
           "imgs": []
@@ -4544,6 +4559,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "ノロウイルス消毒：<span class=\"kw4\">アルコール無効</span>→<span class=\"kw\">次亜塩素酸Na（0.5%）が有効</span><br/>嘔吐物処理：0.5%次亜塩素酸Na<br/>環境消毒（ドアノブ等）：0.1%次亜塩素酸Na<br/>食品（貝類）加熱：85℃以上1分以上"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "ノロ吐物処理の手順で誤っているものを選ぶ。<br/><b>a ①ペーパータオルで拭き取り〜c ③医療廃棄物へ</b>：適切。<br/><b>d ④アルコール綿で拭いて消毒</b>：<span class=\"kw\">ノロはアルコール抵抗性で次亜塩素酸を用いるべき</span>ため誤り。✓<br/><b>e ⑤</b>：適切。"
             }
           ],
           "imgs": []
@@ -4596,6 +4616,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "ノロウイルス消毒：<span class=\"kw\">次亜塩素酸Na</span>のみ有効（アルコール・逆性石鹸は無効）<br/>食品（貝類）は85℃以上1分以上加熱<br/>環境消毒：0.1%（食器・手すり等）、嘔吐物処理後は0.5%"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 逆性石鹸</b>：無効。<br/><b>b 40℃の温水</b>：無効。<br/><b>c 40％アルコール</b>：無効。<br/><b>d 1分間の赤外線照射</b>：無効。<br/><b>e 1,000ppm(0.1％)次亜塩素酸ナトリウム</b>：<span class=\"kw\">ノロの不活化に次亜塩素酸ナトリウム</span>。✓"
             }
           ],
           "imgs": []
@@ -4643,6 +4668,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 各選択肢の正誤",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>正誤</th><th>理由</th></tr><tr><td>選択肢</td><td>正誤</td><td>理由</td></tr><tr><td><span class=\"kw\">食前加熱が有効</span></td><td><span class=\"kw\">○</span></td><td>85℃1分以上でウイルス不活化</td></tr><tr><td>抗ウイルス薬が有効</td><td><span class=\"kw4\">×</span></td><td>ノロ特異的抗ウイルス薬なし（対症療法のみ）</td></tr><tr><td>ベロトキシンを産生</td><td><span class=\"kw4\">×</span></td><td>ベロ毒素はO157（腸管出血性大腸菌）が産生</td></tr><tr><td>ワクチンが定期接種</td><td><span class=\"kw4\">×</span></td><td>ノロワクチンは現在なし</td></tr><tr><td>患者数が最少</td><td><span class=\"kw4\">×</span></td><td>ノロウイルスは食中毒患者数の約半数を占める（最多）</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 食前加熱が有効である</b>：<span class=\"kw\">85〜90℃90秒以上の加熱で不活化</span>し正しい。✓<br/><b>b 抗ウイルス薬が有効である</b>：有効な抗ウイルス薬はなく誤り。<br/><b>c 生体内でベロトキシンを産生する</b>：ベロ毒素はO157で誤り。<br/><b>d ワクチンが定期接種に位置付けられている</b>：ワクチンはなく誤り。<br/><b>e 患者数は第3位</b>：食中毒患者数は第1位で誤り。"
             }
           ],
           "imgs": []
@@ -4690,6 +4720,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 各消毒薬の評価",
               "c": "<table class=\"tb\"><tr><th>消毒薬</th><th>特性</th><th>適否</th></tr><tr><td>消毒薬</td><td>特性</td><td>適否</td></tr><tr><td><span class=\"kw4\">エタノール（70%）</span></td><td><span class=\"kw4\">エンベロープありウイルスに有効</span></td><td><span class=\"kw4\">× ノロウイルスに無効</span></td></tr><tr><td><span class=\"kw4\">ポビドンヨード</span></td><td>皮膚消毒用</td><td><span class=\"kw4\">× 汚物処理には不向き</span></td></tr><tr><td><span class=\"kw4\">塩化ベンザルコニウム（逆性石鹸）</span></td><td>細菌に有効</td><td><span class=\"kw4\">× ノロウイルスに無効</span></td></tr><tr><td><span class=\"kw\">次亜塩素酸ナトリウム</span></td><td>ノロウイルスを不活化</td><td><span class=\"kw\">○ 汚物処理0.5%が適切</span></td></tr><tr><td><span class=\"kw4\">グルコン酸クロルヘキシジン</span></td><td>手術部位消毒</td><td><span class=\"kw4\">× ノロウイルスに無効</span></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a エタノール</b>：ノロに抵抗性。<br/><b>b ポビドンヨード</b>：主でない。<br/><b>c 塩化ベンザルコニウム</b>：無効。<br/><b>d 次亜塩素酸ナトリウム</b>：<span class=\"kw\">ウイルス性胃腸炎(ノロ等)の汚物消毒に次亜塩素酸</span>。✓<br/><b>e グルコン酸クロルヘキシジン</b>：無効。"
             }
           ],
           "imgs": []
@@ -4747,6 +4782,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 加熱が効果的でない・または不十分な食中毒",
               "c": "<table class=\"tb\"><tr><th>原因</th><th>問題点</th><th>予防</th></tr><tr><td>原因</td><td>問題点</td><td>予防</td></tr><tr><td>Bacillus cereus（セレウス菌）</td><td><span class=\"kw4\">耐熱性芽胞</span>（100℃でも生存）</td><td>調理後速やかに食す</td></tr><tr><td>Clostridium botulinum</td><td><span class=\"kw4\">毒素は熱に弱い</span>が芽胞は耐熱性</td><td>120℃以上加圧加熱で芽胞除去</td></tr><tr><td>Clostridium perfringens</td><td><span class=\"kw4\">耐熱性芽胞</span>（再加熱でも生存）</td><td>カレー等の作り置き注意</td></tr><tr><td>Staphylococcus aureus</td><td><span class=\"kw4\">エンテロトキシンが耐熱性</span>（100℃30分で不活化できず）</td><td>調理前の手洗い</td></tr><tr><td><span class=\"kw\">Campylobacter jejuni</span></td><td><span class=\"kw\">熱に弱い → 加熱で完全予防可</span></td><td>中心温度75℃以上で1分以上</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "毒素型・芽胞形成菌は加熱抵抗性、感染型は加熱で予防できる。<br/><b>a Bacillus cereus</b>：芽胞・耐熱性毒素で加熱抵抗性。<br/><b>b Campylobacter jejuni</b>：<span class=\"kw\">易熱性で加熱により予防できる</span>。✓<br/><b>c Clostridium botulinum</b>：芽胞で加熱抵抗性。<br/><b>d Clostridium perfringens</b>：芽胞で加熱抵抗性。<br/><b>e Staphylococcus aureus</b>：耐熱性エンテロトキシンで加熱無効。"
             }
           ],
           "imgs": []
@@ -4808,6 +4848,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "バーベキュー後の血便 → O157・カンピロバクター・サルモネラの3つを念頭に<br/>O157：HUS（溶血性尿毒症症候群）→尿量減少・貧血・血小板減少<br/>→ 抗菌薬は<span class=\"kw4\">使わない</span>（O157にフルオロキノロン等→毒素放出↑）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "バーベキュー(食肉)後の血便性腸炎。<br/><b>a Escherichia coli</b>：<span class=\"kw\">腸管出血性大腸菌(血便)</span>。✓<br/><b>b Helicobacter pylori</b>：胃の菌で腸炎でない。<br/><b>c Campylobacter jejuni</b>：<span class=\"kw\">鶏肉から血便性腸炎</span>。✓<br/><b>d Pseudomonas aeruginosa</b>：食中毒の原因でない。<br/><b>e Salmonella spp.</b>：<span class=\"kw\">食肉から血便性腸炎</span>。✓"
             }
           ],
           "imgs": []
@@ -4860,6 +4905,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw4\">細菌性赤痢</span>：Shigella属（志賀菌）が原因<br/>症状：腹痛・粘血便・テネスムス（裏急後重）<br/>感染経路：糞口感染（少量の菌で発症、ヒト→ヒット感染あり）<br/>Shiga toxin（ベロ毒素）を産生するシゲラも存在（1型）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a Waterhouse-Friderichsen症候群―髄膜炎菌</b>：正しい。<br/><b>b 偽膜性腸炎―Clostridium difficile</b>：正しい。<br/><b>c 細菌性赤痢―サルモネラ属菌</b>：<span class=\"kw\">赤痢菌(Shigella)が原因</span>で誤り。✓<br/><b>d 院内肺炎―緑膿菌</b>：正しい。<br/><b>e 食中毒―腸炎ビブリオ</b>：正しい。"
             }
           ],
           "imgs": []
@@ -4912,6 +4962,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 腸チフスの臨床特徴",
               "c": "<table class=\"tb\"><tr><th>特徴</th><th>詳細</th></tr><tr><td>特徴</td><td>詳細</td></tr><tr><td><span class=\"kw\">病原体</span></td><td>Salmonella enterica serovar Typhi</td></tr><tr><td>感染経路</td><td>糞口感染（汚染食品・水）、東南アジア・アフリカ旅行者に多い</td></tr><tr><td>発熱パターン</td><td><span class=\"kw\">階段状上昇</span>（1週目）→稽留熱（2〜3週目）</td></tr><tr><td>皮疹</td><td><span class=\"kw\">ローズスポット（バラ疹）</span>：圧迫で退色、胸腹部に出現</td></tr><tr><td>抗菌薬</td><td>セフトリアキソン・フルオロキノロン系（ニューキノロン）</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "東南アジア旅行後の腸チフス(比較的徐脈)。<br/><b>a〜d</b>：腸チフスの検査所見と合致しない。<br/><b>e 脈拍70/分・白血球3,000・好酸球0％</b>：<span class=\"kw\">腸チフスの比較的徐脈＋白血球減少＋好酸球減少</span>。✓"
             }
           ],
           "imgs": []
@@ -4959,6 +5014,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 各検査の位置づけ",
               "c": "<table class=\"tb\"><tr><th>検査</th><th>目的</th><th>適否</th></tr><tr><td>検査</td><td>目的</td><td>適否</td></tr><tr><td><span class=\"kw\">便のGram染色</span></td><td><span class=\"kw\">起因菌の迅速推定</span></td><td><span class=\"kw\">○ 最初に行う</span></td></tr><tr><td>腹部造影CT</td><td>腹腔内病変（腸穿孔・腸重積）</td><td>急性下痢への初期検査としては不適</td></tr><tr><td>腹部超音波</td><td>虫垂炎・胆嚢炎等の除外</td><td>細菌性下痢の診断には寄与しない</td></tr><tr><td>便の抗酸菌染色</td><td>結核性腸炎（慢性経過に用いる）</td><td>急性旅行者下痢には不要</td></tr><tr><td>便のC.diff毒素</td><td>抗菌薬関連下痢（入院中の患者）</td><td>旅行者下痢には不適切</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "東南アジア旅行後の細菌性腸炎。<br/><b>a 腹部造影CT</b>：主でない。<br/><b>b 便のGram染色</b>：<span class=\"kw\">細菌性腸炎の起因菌評価(便Gram染色/培養)</span>。✓<br/><b>c 腹部超音波検査</b>：主でない。<br/><b>d 便の抗酸菌染色</b>：結核でなく不適。<br/><b>e 便のClostridioides difficile毒素</b>：抗菌薬歴がなく不適。"
             }
           ],
           "imgs": []
@@ -5011,6 +5071,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 脱水改善の指標（2つ選べ）",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th><th>根拠</th></tr><tr><td>a CRP</td><td>×</td><td>炎症マーカー→脱水改善の直接指標にならない（改善に数日かかる）</td></tr><tr><td>b 体重</td><td>×</td><td>脱水改善の参考にはなるが、急性期での即時性・感度は低い</td></tr><tr><td>c 脈拍</td><td>○</td><td>脱水→頻脈→輸液後に脈拍数が正常化→循環改善の早期指標</td></tr><tr><td>d 尿比重</td><td>○</td><td>脱水→濃縮尿（比重高）→輸液後に尿量増加・尿希釈（比重低下）→腎灌流改善の指標</td></tr><tr><td>e 白血球数</td><td>×</td><td>感染症・炎症の指標→脱水改善の直接指標にならない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "カンピロバクター腸炎(鳥刺し)＋脱水。<br/><b>a CRP</b>：脱水の指標でない。<br/><b>b 体重</b>：主でない。<br/><b>c 脈拍</b>：<span class=\"kw\">循環血漿量(脱水)の指標</span>。✓<br/><b>d 尿比重</b>：<span class=\"kw\">脱水(尿濃縮)の指標</span>。✓<br/><b>e 白血球数</b>：脱水の指標でない。"
             }
           ],
           "imgs": []
@@ -5058,6 +5123,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 他の検査の位置づけ",
               "c": "<table class=\"tb\"><tr><th>検査</th><th>意義</th><th>適否</th></tr><tr><td>検査</td><td>意義</td><td>適否</td></tr><tr><td><span class=\"kw\">便培養</span></td><td><span class=\"kw\">細菌性下痢症の確定診断</span></td><td><span class=\"kw\">○ 次に行うべき検査</span></td></tr><tr><td>便潜血</td><td>血便の有無確認（既に血便あり）</td><td>不要（既に確認済み）</td></tr><tr><td>便脂肪染色</td><td>脂肪吸収不全（慢性下痢の評価）</td><td>急性感染性下痢には不適</td></tr><tr><td>便中ロタウイルス抗原</td><td>ロタウイルス検出（5歳以下に多い）</td><td>血便→細菌性の可能性が高い</td></tr><tr><td>便中C.diff毒素</td><td>偽膜性腸炎（抗菌薬使用後）</td><td>本症例は旅行者下痢→不適</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 便潜血検査</b>：起因菌同定でない。<br/><b>b 便培養検査</b>：<span class=\"kw\">カンピロバクター等の起因菌を同定</span>。✓<br/><b>c 便脂肪染色</b>：吸収不良の検査。<br/><b>d 便中ロタウイルス抗原検査</b>：小児の冬季で本例と合わない。<br/><b>e 便中Clostridium difficile抗原検査</b>：抗菌薬歴がなく不適。"
             }
           ],
           "imgs": []
@@ -5105,6 +5175,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 各選択肢との鑑別",
               "c": "<table class=\"tb\"><tr><th>疾患</th><th>特徴</th><th>鑑別点</th></tr><tr><td>疾患</td><td>特徴</td><td>鑑別点</td></tr><tr><td>脳梗塞</td><td>片側性麻痺・急性発症</td><td>本症例は両側性・亜急性</td></tr><tr><td>多発性硬化症</td><td>中枢神経脱髄・若年女性</td><td>再燃・寛解を繰り返す</td></tr><tr><td>重症筋無力症</td><td>眼瞼下垂・易疲労性</td><td>腸炎後との関連なし</td></tr><tr><td>ウイルス性髄膜炎</td><td>頭痛・発熱・髄膜刺激徴候</td><td>麻痺は通常起こさない</td></tr><tr><td><span class=\"kw\">Guillain-Barré症候群</span></td><td><span class=\"kw\">腸炎後・上行性弛緩性麻痺</span></td><td><span class=\"kw\">カンピロバクターが最多の誘因</span></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 脳梗塞</b>：合わない。<br/><b>b 多発性硬化症</b>：合わない。<br/><b>c 重症筋無力症</b>：合わない。<br/><b>d ウイルス性髄膜炎</b>：合わない。<br/><b>e Guillain-Barré症候群</b>：<span class=\"kw\">カンピロバクター感染後のGBS</span>。✓"
             }
           ],
           "imgs": []
@@ -5157,6 +5232,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "缶詰を開けてすぐ食べた（加熱なし）→細菌性食中毒の可能性<br/>ボツリヌス食中毒：嚥下困難・複視・下行性麻痺が特徴（消化器症状は初期のみ）<br/>挫創（傷）→破傷風や蜂窩織炎は別問題"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 亜鉛中毒</b>：合わない。<br/><b>b 農薬中毒</b>：合わない。<br/><b>c アニサキス症</b>：胃アニサキスは激痛で経過が異なる。<br/><b>d 細菌性食中毒</b>：<span class=\"kw\">摂取後短時間で発症し数時間で軽快する毒素型食中毒</span>。✓<br/><b>e 急性アルコール中毒</b>：日本酒1合で合わない。"
             }
           ],
           "imgs": []
@@ -5209,6 +5289,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 血便下痢の原因菌（2つ選べ）",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th><th>根拠</th></tr><tr><td>a サルモネラ</td><td>○</td><td>集団感染（合宿）・鶏肉・卵→サルモネラ食中毒→発熱・腹痛・血性下痢（6〜48時間）</td></tr><tr><td>b ロタウイルス</td><td>×</td><td>乳幼児の白色水様下痢が特徴→発熱はあるが血便は少ない・9歳では典型的でない</td></tr><tr><td>c ノロウイルス</td><td>×</td><td>嘔吐・水様下痢が主体→血便は少ない</td></tr><tr><td>d 黄色ブドウ球菌</td><td>×</td><td>毒素型→潜伏期1〜6時間・嘔吐主体→血便は特徴的でない</td></tr><tr><td>e カンピロバクター</td><td>○</td><td>鶏肉（生や不十分加熱）→発熱・強い腹痛・血便下痢（2〜7日潜伏期）・少年野球合宿で多い</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "鶏肉バーベキュー後の集団発生の血便性腸炎。<br/><b>a サルモネラ</b>：<span class=\"kw\">鶏肉から血便性腸炎</span>。✓<br/><b>b ロタウイルス</b>：血便はまれ。<br/><b>c ノロウイルス</b>：血便はまれ。<br/><b>d 黄色ブドウ球菌</b>：毒素型で血便でない。<br/><b>e カンピロバクター</b>：<span class=\"kw\">鶏肉から血便性腸炎</span>。✓"
             }
           ],
           "imgs": []
@@ -5256,6 +5341,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 不適切な治療の理由",
               "c": "<table class=\"tb\"><tr><th>治療</th><th>不適切な理由</th></tr><tr><td>治療</td><td>不適切な理由</td></tr><tr><td>抗菌薬</td><td>ノロはウイルス→抗菌薬無効</td></tr><tr><td>抗コリン薬（止痢薬）</td><td>腸管蠕動↓→ウイルス排除妨害・腸管麻痺リスク</td></tr><tr><td>抗ウイルス薬</td><td>ノロに特効薬なし</td></tr><tr><td>NSAIDs</td><td>対症療法として使えるが「まず」は補液</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "貝類・魚介生食後の軽症の感染性下痢。<br/><b>a 経口補液</b>：<span class=\"kw\">軽症の感染性下痢は経口補液(対症療法)</span>。✓<br/><b>b 抗菌薬の投与</b>：軽症で不要。<br/><b>c 抗コリン薬の投与</b>：不適。<br/><b>d 抗ウイルス薬の投与</b>：無効。<br/><b>e NSAIDsの投与</b>：不適。"
             }
           ],
           "imgs": []
