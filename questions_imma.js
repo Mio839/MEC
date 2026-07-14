@@ -11261,6 +11261,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "PMR + 側頭動脈圧痛 → GCA合併を疑う<br/><span class=\"kw\">血管超音波（halo sign）</span>→ GCA診断<br/>治療：ステロイド（PSL 15〜20mg/日/PMR単独、GCA合併は40〜60mg/日）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高齢・頭痛＋顎跛行＋側頭動脈の圧痛＝巨細胞性動脈炎＋PMR。<br/><b>a 脳波〜c 針筋電図、e 神経伝導</b>：主でない。<br/><b>d 血管超音波検査</b>：<span class=\"kw\">側頭動脈のhalo sign(壁肥厚)を検出</span>。✓"
             }
           ],
           "imgs": []
@@ -11321,6 +11326,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "MPA = MPO-ANCA ＋ <span class=\"kw\">RPGN</span>＋<span class=\"kw\">肺胞出血</span><br/>治療：ステロイド＋シクロホスファミド（重症例）またはリツキシマブ"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高齢・体重減少＋(ANCA関連血管炎)の合併を2つ。<br/><b>a 心筋炎〜c 後腹膜線維症、d 自己免疫性肝炎</b>：主でない。<br/><b>b 肺胞出血</b>：<span class=\"kw\">肺毛細血管炎による肺胞出血</span>。✓<br/><b>e 急速進行性糸球体腎炎</b>：<span class=\"kw\">壊死性半月体形成性腎炎</span>。✓"
             }
           ],
           "imgs": [
@@ -11379,6 +11389,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント（正答率41%！）",
               "c": "GPA（Wegener）の寛解導入 = <span class=\"kw\">リツキシマブ or シクロホスファミド</span>＋ステロイド<br/>メトトレキサートは軽症の維持療法（重症寛解導入には不十分）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "鼻出血＋難聴＋咳嗽＝多発血管炎性肉芽腫症(GPA)。治療を2つ。<br/><b>a コルヒチン〜c シクロスポリン、d MTX</b>：寛解導入の主でない。<br/><b>b リツキシマブ</b>：<span class=\"kw\">ANCA関連血管炎の寛解導入</span>。✓<br/><b>e シクロホスファミド</b>：<span class=\"kw\">重症ANCA関連血管炎の寛解導入</span>。✓"
             }
           ],
           "imgs": []
@@ -11431,6 +11446,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "ANCA陽性疾患 = <span class=\"kw\">GPA（PR3-ANCA）・MPA（MPO-ANCA）・EGPA（MPO-ANCA）</span><br/>PAN・GCA・高安動脈炎はANCA陰性（重要！）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "好中球の構成成分に対する自己抗体(ANCA)が有用な疾患。<br/><b>a 川崎病〜d 結節性多発動脈炎</b>：ANCA陰性。<br/><b>e 顕微鏡的多発血管炎</b>：<span class=\"kw\">MPO-ANCA陽性</span>。✓"
             }
           ],
           "imgs": []
@@ -11487,6 +11507,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "Behçet病 = <span class=\"kw\">口腔アフタ（必須）</span>+ 陰部潰瘍 + 眼病変 + 皮膚病変<br/>血管型Behçet = 血栓性静脈炎・DVT（治療：コルヒチン・免疫抑制薬・抗凝固薬）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "反復する口腔/陰部潰瘍＋結節性紅斑＋関節痛＝Behçet病。<br/><b>b 高安動脈炎〜e May-Thurner</b>：合わない。<br/><b>a Behçet病</b>：<span class=\"kw\">口腔/陰部潰瘍・皮膚症状・眼病変の反復</span>。✓"
             }
           ],
           "imgs": [
@@ -11537,6 +11562,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント（連問①）",
               "c": "GCA疑い→まず<span class=\"kw\">視力確認（虚血性視神経症→失明リスク）</span><br>視力低下あり→ステロイド緊急大量投与（mPSL パルス療法）<br>視力喪失は不可逆→早期確認が最重要</br></br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高齢・近位筋こわばり＋頭痛＝PMR＋巨細胞性動脈炎。聴取すべきこと。<br/><b>b 歯科治療歴〜e 片頭痛家族歴</b>：主でない。<br/><b>a 視力低下</b>：<span class=\"kw\">巨細胞性動脈炎は虚血性視神経症(失明)を合併しうる</span>。✓"
             }
           ],
           "imgs": []
@@ -11594,6 +11624,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント（連問 113B-42/43）",
               "c": "GCA = まず<span class=\"kw\">視力確認（失明リスク）</span>→ ステロイド投与前に<span class=\"kw\">血糖確認</span><br/>GCA治療：PSL 1mg/kg/日（重症/視力喪失リスク：mPSL パルス療法）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "PMR/巨細胞性動脈炎でステロイド開始前に確認すべき検査。<br/><b>b 血小板〜e クレアチニン</b>：主でない。<br/><b>a 血糖</b>：<span class=\"kw\">ステロイド糖尿病のベースライン評価</span>。✓"
             }
           ],
           "imgs": []
@@ -11650,6 +11685,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント（正答率58%）",
               "c": "高安動脈炎（活動期） = <span class=\"kw\">副腎皮質ステロイド</span>（第一選択）<br/>ステロイド抵抗性 → MTX・タクロリムス・IL-6阻害薬（トシリズマブ）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "若年女性・上肢血圧左右差＋大動脈弁逆流＝高安動脈炎。<br/><b>a 抗凝固〜d 人工血管置換</b>：急性期の第一でない。<br/><b>e 副腎皮質ステロイドの投与</b>：<span class=\"kw\">活動性大血管炎の炎症を抑制</span>。✓"
             }
           ],
           "imgs": [
@@ -11708,6 +11748,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "PTU（チオウラシル系薬剤）→ <span class=\"kw\">薬剤誘発性MPO-ANCA血管炎</span><br/>PTU内服中に血痰・血尿・発熱 → MPO-ANCA検査＋PTU中止"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "プロピルチオウラシル内服＋肺胞出血/腎障害＝薬剤性ANCA関連血管炎。<br/><b>a 抗Jo-1〜e 抗カルジオリピン</b>：合わない。<br/><b>b MPO-ANCA</b>：<span class=\"kw\">PTUによるMPO-ANCA陽性血管炎</span>。✓"
             }
           ],
           "imgs": [
@@ -11764,6 +11809,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "網状皮斑 = <span class=\"kw\">PAN（結節性多発動脈炎）</span>→ 皮膚血管炎の特徴的所見<br/>PAN：中型血管炎・ANCA陰性・HBV関連・腎動脈瘤（微小動脈瘤）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "網状皮斑(livedo)から疑うべき疾患。<br/><b>a 糖尿病〜b 甲状腺機能低下、d サルコイド、e アミロイド</b>：主でない。<br/><b>c 結節性多発動脈炎</b>：<span class=\"kw\">中型血管炎による網状皮斑・皮下結節</span>。✓"
             }
           ],
           "imgs": []
@@ -11820,6 +11870,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "GPA = 耳鼻科・眼・肺・腎 + <span class=\"kw\">PR3-ANCA（c-ANCA）陽性</span><br/>抗菌薬無効の中耳炎様症状＋全身症状 → GPA鑑別を必ず考える"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "難聴＋発熱体重減少＋(ANCA)＝多発血管炎性肉芽腫症(GPA)。<br/><b>a 滲出性中耳炎〜d 真珠腫性中耳炎</b>：合わない。<br/><b>e Wegener肉芽腫症</b>：<span class=\"kw\">上気道(中耳/鼻)の肉芽腫性病変</span>。✓"
             }
           ],
           "imgs": [
@@ -11875,6 +11930,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "血管炎の神経合併症 = <span class=\"kw\">多発単神経炎（mononeuritis multiplex）</span><br/>複数の非連続な末梢神経障害 = 血管炎・糖尿病・ハンセン病（国試では血管炎）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "血管炎に特異性の高い徴候。<br/><b>a 弛張熱〜c 爪下線状出血、e 早朝呼吸困難</b>：非特異的。<br/><b>d 多発単神経炎</b>：<span class=\"kw\">栄養血管の血管炎による多発単神経炎</span>。✓"
             }
           ],
           "imgs": []
@@ -11931,6 +11991,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "鞍鼻 = <span class=\"kw\">再発性多発軟骨炎（軟骨融解）</span>＋<span class=\"kw\">GPA（肉芽腫性鼻中隔穿孔）</span><br/>再発性多発軟骨炎（RP）：耳鼻気管軟骨炎＋眼炎＋関節炎。抗II型コラーゲン抗体"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "鞍鼻をきたすものを2つ。<br/><b>a 側頭動脈炎〜d JIA、e 強皮症</b>：鞍鼻をきたさない。<br/><b>b 再発性多発軟骨炎</b>：<span class=\"kw\">鼻軟骨の破壊で鞍鼻</span>。✓<br/><b>c Wegener肉芽腫症</b>：<span class=\"kw\">鼻中隔の肉芽腫性破壊で鞍鼻</span>。✓"
             }
           ],
           "imgs": []
@@ -11983,6 +12048,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント（正答率56%）",
               "c": "EGPA = 喘息（必発）＋好酸球増多（≥1,000/μL）＋<span class=\"kw\">血管炎（多発単神経炎）</span><br/>ANCA（MPO-ANCA）陽性：約50%。治療：ステロイド（重症：シクロホスファミド）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高齢・間質性肺炎様＋発熱体重減少＋関節痛(ANCA関連血管炎)。<br/><b>b 抗Sm〜e 抗リン脂質抗体</b>：合わない。<br/><b>a ANCA</b>：<span class=\"kw\">ANCA関連血管炎(MPA/EGPA等)を疑う</span>。✓"
             }
           ],
           "imgs": []
@@ -12035,6 +12105,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "高安動脈炎＋腎動脈狭窄 = 腎血管性高血圧 + <span class=\"kw\">腎臓の左右差（萎縮腎）</span><br/>腎動脈狭窄：レニン↑→アルドステロン↑→K低下（二次性アルドステロン症）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "若年女性・高血圧＋腹部血管雑音＝高安動脈炎/腎血管性高血圧。<br/><b>a 上肢浮腫〜d アルドステロン低下</b>：合わない。<br/><b>e 腎臓の大きさの有意な左右差</b>：<span class=\"kw\">片側腎動脈狭窄で患側腎が萎縮(左右差)</span>。✓"
             }
           ],
           "imgs": []
@@ -12087,6 +12162,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "若年女性＋無脈症（橈骨動脈触知不能） = <span class=\"kw\">高安動脈炎（大動脈炎症候群）</span><br/>治療：ステロイド（活動期）・抗血小板薬（維持期）・バイパス手術（狭窄高度）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "若年女性・上肢血圧左右差＋鎖骨上血管雑音＝高安動脈炎。<br/><b>a 大動脈縮窄〜d 大動脈解離</b>：合わない。<br/><b>e 高安動脈炎</b>：<span class=\"kw\">大動脈と分枝の狭窄(脈なし病)</span>。✓"
             }
           ],
           "imgs": [
@@ -12141,6 +12221,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "MPO-ANCA＋半月体形成性腎炎 = <span class=\"kw\">MPA（顕微鏡的多発血管炎）</span><br/>Goodpasture（抗GBM）と違い「線状沈着なし」、IgA血管炎と違い「IgA沈着なし」"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高齢・発熱＋腎障害＋fine crackles＝顕微鏡的多発血管炎。<br/><b>a IgA血管炎〜b PN、d GPA、e クリオグロブリン</b>：合わない。<br/><b>c 顕微鏡的多発血管炎</b>：<span class=\"kw\">MPO-ANCA陽性の壊死性小血管炎(腎・肺)</span>。✓"
             }
           ],
           "imgs": [
@@ -12176,7 +12261,7 @@ window["_cardJSON_imma"]={
             },
             {
               "t": "ｄ　FDG-PET",
-              "ok": false
+              "ok": true
             },
             {
               "t": "ｅ　頸動脈超音波検査 －",
@@ -12200,6 +12285,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "① 若年女性＋発熱＋血管雑音＋血圧左右差＝<span class=\"kw\">高安動脈炎</span>。診断は<span class=\"kw\">画像</span>。<br>② 50歳以上＋頭痛＋側頭動脈の圧痛＋顎跛行＋視力障害＝<span class=\"kw\">巨細胞性動脈炎</span>。こちらは<span class=\"kw\">側頭動脈生検</span>を行い、失明予防のため生検を待たずステロイドを開始する。<br>③ 本問は国家試験で<span class=\"kw4\">採点除外</span>となった。正解を一つに絞れない選択肢が含まれていたためと考えられるが、問われている知識自体は重要なので押さえておく。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "若年女性・持続発熱＋頸動脈の圧痛/血管雑音＝高安動脈炎(大血管炎)。<br/><b>a 造影CT〜c 造影MRI、e 頸動脈エコー</b>：局所評価は可能だが全身分布・活動性の把握に劣る。<br/><b>b 動脈生検</b>：高安動脈炎では通常行わない。<br/><b>d FDG-PET</b>：<span class=\"kw\">大動脈と分枝の炎症を全身的に評価(活動性)</span>。✓"
             }
           ],
           "imgs": []
@@ -12247,6 +12337,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "高安動脈炎 = <span class=\"kw\">若年女性・大動脈とその分枝・HLA-B52</span><br/>浅側頭動脈炎（GCA）と混同しないこと（高齢者・側頭動脈）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "本邦の高安動脈炎で正しいもの。<br/><b>a 中年男性〜d 浅側頭動脈</b>：誤り(若年女性・大血管)。<br/><b>e 大動脈およびその分枝に病変をきたしやすい</b>：<span class=\"kw\">大動脈とその主要分枝の狭窄/閉塞</span>。✓"
             }
           ],
           "imgs": []
@@ -12299,6 +12394,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "GPA = 耳鼻科病変 + 肺空洞 + 腎炎 + <span class=\"kw\">PR3-ANCA（c-ANCA）陽性</span><br/>鞍鼻（鼻中隔穿孔）・肺空洞はGPAの特徴的X線所見"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "頬部痛＋難聴＋鼻出血＋眼球突出＋血痰＝多発血管炎性肉芽腫症(GPA)。<br/><b>a 肺癌〜d 播種性真菌</b>：合わない。<br/><b>e 多発血管炎性肉芽腫症〈Wegener肉芽腫症〉</b>：<span class=\"kw\">上気道・肺・腎の壊死性肉芽腫性血管炎</span>。✓"
             }
           ],
           "imgs": [
@@ -12354,6 +12454,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "多発単神経炎＋急性腎炎＋MPO-ANCA = <span class=\"kw\">MPA（顕微鏡的多発血管炎）</span><br/>MPA≒「ANCA陽性のPAN」（PANはANCA陰性・中型血管炎）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高血糖＋多発単神経炎＋体重減少＝ANCA関連血管炎。<br/><b>a 糖尿病腎症〜b 悪性腎硬化症、d 感染後GN、e コレステロール塞栓</b>：合わない。<br/><b>c 顕微鏡的多発血管炎</b>：<span class=\"kw\">多発単神経炎・全身症状を伴う小血管炎</span>。✓"
             }
           ],
           "imgs": [
@@ -12408,6 +12513,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "若年女性＋無脈症（橈骨動脈触知不能）＋頸動脈雑音 = <span class=\"kw\">高安動脈炎</span><br/>日本・アジアに多い。HLA-B52（日本人）との関連"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "若年女性・発熱＋上肢血圧左右差＝高安動脈炎。<br/><b>a Behçet〜d MPA</b>：合わない。<br/><b>e 高安動脈炎</b>：<span class=\"kw\">大動脈分枝の狭窄で脈拍/血圧の左右差</span>。✓"
             }
           ],
           "imgs": [
@@ -12463,6 +12573,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "非連続の複数末梢神経障害（多発単神経炎）＋腎炎 = <span class=\"kw\">ANCA関連血管炎（MPA）</span><br/>腓骨神経麻痺（下垂足）はMPA・PANの多発単神経炎の典型"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "多発単神経炎(下垂足・手のしびれ)＋発熱＝血管炎。<br/><b>a 多発性硬化症〜b サルコイド、d GBS、e SLE</b>：合わない。<br/><b>c 顕微鏡的多発血管炎</b>：<span class=\"kw\">栄養血管の血管炎による多発単神経炎</span>。✓"
             }
           ],
           "imgs": [
@@ -12517,6 +12632,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント（正答率64%）",
               "c": "PMR+<span class=\"kw\">頭痛＋複視</span>→ GCA合併を強く疑う<br/>GCA合併→ ステロイド増量（PSL 40〜60mg/日）→失明予防"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高齢・近位筋こわばり＋赤沈高値＝PMR＋巨細胞性動脈炎。合併症状を2つ。<br/><b>b 盗汗〜d 網状皮斑、e Raynaud</b>：主でない。<br/><b>a 複視</b>：<span class=\"kw\">眼動脈虚血による複視/視力障害</span>。✓<br/><b>c 頭痛</b>：<span class=\"kw\">側頭動脈炎による頭痛</span>。✓"
             }
           ],
           "imgs": []
@@ -12569,6 +12689,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "高齢者の肺-腎症候群（肺胞出血＋RPGN）＋MPO-ANCA = <span class=\"kw\">MPA</span><br/>PAN（ANCA陰性）・Goodpasture（抗GBM抗体）との鑑別が重要"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高齢・血痰＋(腎/ANCA)＝顕微鏡的多発血管炎。<br/><b>a PN〜b Goodpasture、d GPA、e EGPA</b>：合わない。<br/><b>c 顕微鏡的多発血管炎</b>：<span class=\"kw\">MPO-ANCA陽性の肺腎病変</span>。✓"
             }
           ],
           "imgs": [
@@ -12624,6 +12749,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "抗菌薬無効の発熱＋多発単神経炎＋腎炎（高齢者）→ <span class=\"kw\">MPA（MPO-ANCA）</span><br/>感染症と間違えやすい（抗菌薬無効）→ 血管炎を疑う"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高齢・発熱＋多発単神経炎＋下垂足＝ANCA関連血管炎。<br/><b>a 抗ARS〜e 抗ミトコンドリア</b>：合わない。<br/><b>b MPO-ANCA</b>：<span class=\"kw\">顕微鏡的多発血管炎(多発単神経炎)</span>。✓"
             }
           ],
           "imgs": [
@@ -12673,6 +12803,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "EGPA = 喘息（必発）＋好酸球増多＋<span class=\"kw\">多発単神経炎</span>→ MPO-ANCA有用<br/>EGPAの好酸球は1,000〜数千/μL（好酸球増多症の基準1,000↑）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "気管支喘息＋好酸球＋多発単神経炎＝好酸球性多発血管炎性肉芽腫症(EGPA)。<br/><b>b 抗Jo-1〜e 抗リン脂質抗体</b>：合わない。<br/><b>a MPO-ANCA</b>：<span class=\"kw\">EGPAでMPO-ANCA陽性</span>。✓"
             }
           ],
           "imgs": []
@@ -12729,6 +12864,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "Behçet病 = 口腔アフタ + <span class=\"kw\">針反応陽性（pathergy test）</span>+ HLA-B51<br/>血管型Behçet：血栓性静脈炎・DVT・Budd-Chiari症候群。治療：コルヒチン"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "口腔潰瘍＋前房蓄膿＋皮疹＝Behçet病。みられるものを3つ。<br/><b>a 耳下腺腫脹〜e 肺門リンパ節腫脹</b>：合わない。<br/><b>b 針反応陽性</b>：<span class=\"kw\">皮膚の被刺激性亢進</span>。✓<br/><b>c 血栓性静脈炎</b>：<span class=\"kw\">血管型Behçet</span>。✓<br/><b>d HLA-B51陽性</b>：<span class=\"kw\">Behçetと関連するHLA</span>。✓"
             }
           ],
           "imgs": [
@@ -12787,6 +12927,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "ANCA関連血管炎（重症）の寛解導入 = <span class=\"kw\">ステロイド＋シクロホスファミド</span><br/>維持療法：低用量ステロイド＋アザチオプリン（or MTX）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高齢・血痰＋発熱＋貧血＝肺腎症候群(ANCA関連血管炎)。治療を2つ。<br/><b>a フロセミド〜b ニトログリセリン、e サラゾスルファピリジン</b>：不適。<br/><b>c シクロホスファミド</b>：<span class=\"kw\">重症ANCA関連血管炎の寛解導入</span>。✓<br/><b>d 副腎皮質ステロイド</b>：<span class=\"kw\">寛解導入の基本</span>。✓"
             }
           ],
           "imgs": [
@@ -12841,6 +12986,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "高齢者のMPA = しびれ（多発単神経炎）＋血痰（肺出血）＋腎炎 + <span class=\"kw\">MPO-ANCA陽性</span><br/>日本での主要な小型血管炎。PAN（ANCA陰性）と混同しないこと"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高齢・多発単神経炎＋紫斑＋発熱＝顕微鏡的多発血管炎。<br/><b>a 老人性紫斑〜b Goodpasture、d 巨細胞性動脈炎、e EGPA</b>：合わない。<br/><b>c 顕微鏡的多発血管炎</b>：<span class=\"kw\">小血管炎(紫斑・多発単神経炎・腎)</span>。✓"
             }
           ],
           "imgs": [
@@ -12890,6 +13040,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント（正答率62%）",
               "c": "思春期〜若年成人に好発 = <span class=\"kw\">高安動脈炎（10〜40歳・若年女性）</span><br/>GCAは50歳以上。HSPは小児（10歳未満が最多）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "思春期〜若年成人に好発する血管炎。<br/><b>a MPA〜c 巨細胞性動脈炎、d EGPA、e IgA血管炎(小児)</b>：好発年齢が異なる。<br/><b>b 高安動脈炎</b>：<span class=\"kw\">若年女性に好発する大血管炎</span>。✓"
             }
           ],
           "imgs": []
@@ -12942,6 +13097,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "EGPA = <span class=\"kw\">喘息（必須）</span>＋<span class=\"kw\">好酸球増多</span>＋多発単神経炎<br/>治療：PSL（重症：シクロホスファミド・メポリズマブ）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "気管支喘息＋多発単神経炎＋発熱＝好酸球性多発血管炎性肉芽腫症。<br/><b>a 過敏性肺炎〜d GPA</b>：合わない。<br/><b>e アレルギー性肉芽腫性血管炎〈Churg-Strauss症候群〉</b>：<span class=\"kw\">喘息＋好酸球増多＋血管炎</span>。✓"
             }
           ],
           "imgs": [
@@ -12992,6 +13152,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "PMR＋頭痛→ GCA合併疑い→ まず「<span class=\"kw\">目は見えにくくないですか</span>」（視力確認）<br/>GCAで視力低下→ステロイド緊急投与（mPSL）。視力喪失は不可逆"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高齢・近位筋こわばり＋頭痛＝PMR＋巨細胞性動脈炎で必ず確認すべきこと。<br/><b>a 睡眠〜c 寝汗、e 大腿の痛み</b>：主でない。<br/><b>d 「目は見えにくくないですか」</b>：<span class=\"kw\">虚血性視神経症(失明)の有無を確認</span>。✓"
             }
           ],
           "imgs": []
@@ -13044,6 +13209,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント（正答率64%）",
               "c": "急速進行性腎機能低下（1か月）＋多発単神経炎 → <span class=\"kw\">MPA（糖尿病腎症ではない）</span><br/>糖尿病腎症は緩徐な経過。MPAは急激→治療遅延で透析"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高血糖＋下肢感覚鈍麻＋体重減少＝ANCA関連血管炎。<br/><b>a 悪性腎硬化症〜b 感染後GN、d コレステロール塞栓、e 糖尿病腎症</b>：合わない。<br/><b>c 顕微鏡的多発血管炎</b>：<span class=\"kw\">多発単神経炎・全身症状を伴う小血管炎</span>。✓"
             }
           ],
           "imgs": [
@@ -13098,6 +13268,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "Behçet病の口腔潰瘍 = 自己免疫性（<span class=\"kw\">培養陰性</span>）<br/>口腔アフタ（必須）＋陰部潰瘍＋眼病変（ぶどう膜炎）= Behçet病の三大症状"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "反復口内炎＋前房蓄膿＋下腿皮疹＝Behçet病(無菌性)。<br/><b>a 黄色ブドウ球菌〜d 緑膿菌</b>：Behçetは無菌性。<br/><b>e 菌は検出されない</b>：<span class=\"kw\">Behçetの病変(前房蓄膿等)は無菌性の炎症</span>。✓"
             }
           ],
           "imgs": [
@@ -13152,6 +13327,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "自己抗体の対応: <span class=\"kw\">抗RNP → MCTD、ANCA → GPA/MPA/EGPA</span><br/>抗Sm → SLE、抗Scl-70 → 強皮症（びまん型）、抗ミトコンドリア → PBC"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "疾患と自己抗体の組合せを2つ。<br/><b>a 多発性筋炎―抗ミトコンドリア〜d SLE―抗Scl-70</b>：組合せが誤り。<br/><b>c 混合性結合組織病―抗RNP抗体</b>：<span class=\"kw\">MCTDの必須抗体</span>。✓<br/><b>e Wegener肉芽腫症―ANCA</b>：<span class=\"kw\">PR3-ANCA陽性</span>。✓"
             }
           ],
           "imgs": []
@@ -13199,6 +13379,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "PMR = 50歳↑ + <span class=\"kw\">肩・骨盤帯の筋痛（朝こわばり）</span>+ 赤沈↑ + CK正常<br/>ステロイド（低用量）で劇的改善→ 診断的治療にもなる"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高齢・近位筋こわばり＋発熱＋赤沈高値＋筋原性酵素正常＝リウマチ性多発筋痛症。<br/><b>a 偽痛風〜d 大動脈炎症候群</b>：合わない。<br/><b>e リウマチ性多発筋痛症</b>：<span class=\"kw\">近位筋のこわばり・赤沈高値(CK正常)・ステロイド著効</span>。✓"
             }
           ],
           "imgs": []
@@ -13246,6 +13431,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "GCA＋顎跛行 → <span class=\"kw\">眼底検査（AION確認）</span>→ 視神経乳頭の蒼白浮腫<br/>顎跛行は視力喪失リスクの予測因子→ 緊急ステロイド投与（mPSL）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "頭痛＋顎跛行＋側頭動脈の索状物＝巨細胞性動脈炎。留意すべき部位。<br/><b>b 鼓膜〜e 咽頭</b>：主でない。<br/><b>a 眼底</b>：<span class=\"kw\">虚血性視神経症(失明)の評価</span>。✓"
             }
           ],
           "imgs": []
@@ -13293,6 +13483,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "若年女性＋腹部血管性雑音 = <span class=\"kw\">高安動脈炎（大動脈炎症候群）</span>（腎動脈狭窄）<br/>腎動脈狭窄→レニン↑→アンジオテンシンII↑→高血圧。治療：ステロイド＋ACE阻害薬"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "若年女性・高血圧＋腹部血管雑音＝高安動脈炎(腎血管性高血圧)。<br/><b>a Liddle〜b Bartter、d 甲状腺、e 原発性アルドステロン症</b>：合わない。<br/><b>c 大動脈炎症候群</b>：<span class=\"kw\">腎動脈狭窄による二次性高血圧</span>。✓"
             }
           ],
           "imgs": []
@@ -13345,6 +13540,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "GPA（Wegener）の三徴 = 上気道（鼻）＋<span class=\"kw\">肺（空洞）</span>＋<span class=\"kw\">腎（RPGN）</span><br/>PR3-ANCA（c-ANCA）陽性→ これらの臓器をスクリーニング"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "鼻出血＋PR3-ANCA＋眼窩腫瘤＝GPA。障害される臓器を2つ。<br/><b>a 脳〜c 肝、d 脾</b>：主でない。<br/><b>b 肺</b>：<span class=\"kw\">肺の結節/空洞</span>。✓<br/><b>e 腎</b>：<span class=\"kw\">壊死性半月体形成性腎炎</span>。✓"
             }
           ],
           "imgs": []
@@ -13392,6 +13592,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "EGPA診断 = <span class=\"kw\">喘息（必須）</span>＋<span class=\"kw\">好酸球≥1000/μL</span>＋多発単神経炎<br/>MPO-ANCA陽性（約50%）。治療：PSL。重症：シクロホスファミド or メポリズマブ"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "気管支喘息＋多発単神経炎＋筋力低下＝EGPA。<br/><b>a 過敏性肺炎〜b PN、d PM/DM、e ABPA</b>：合わない。<br/><b>c Churg-Strauss症候群</b>：<span class=\"kw\">喘息＋好酸球増多＋多発単神経炎</span>。✓"
             }
           ],
           "imgs": []
@@ -13439,6 +13644,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "EGPA = 喘息（必須）＋好酸球増多＋多発単神経炎 → <span class=\"kw\">MPO-ANCA（p-ANCA）</span><br/>ANCAは診断的（陰性でも否定できないが陽性なら強く支持）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "気管支喘息＋下肢筋肉痛しびれ＋好酸球＝EGPA。<br/><b>a 抗リン脂質〜d 抗AChR</b>：合わない。<br/><b>e 抗好中球細胞質抗体〈ANCA〉</b>：<span class=\"kw\">EGPAでMPO-ANCA陽性</span>。✓"
             }
           ],
           "imgs": []
@@ -13486,6 +13696,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "Behçet病の皮膚病変 = <span class=\"kw\">結節性紅斑・痤瘡様皮疹（毛嚢炎）</span>＋針反応陽性<br/>血管型Behçet = 血栓性静脈炎・DVT（静脈系が多い）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "疾患と症候の組合せで正しいもの。<br/><b>a PN―黄疸〜e 過敏性血管炎―血圧左右差</b>：組合せが誤り。<br/><b>b Behçet病―結節性紅斑</b>：<span class=\"kw\">Behçetの皮膚症状</span>。✓"
             }
           ],
           "imgs": []
@@ -13533,6 +13748,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "副鼻腔炎＋皮下結節（肉芽腫性）＋<span class=\"kw\">PR3-ANCA（c-ANCA）高値</span> = GPA（Wegener）<br/>GPAの初発は局所型（上気道のみ）が多い→全身型への移行を監視"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "副鼻腔炎＋下腿有痛性紅斑＋(ANCA)＝多発血管炎性肉芽腫症。<br/><b>a 悪性リンパ腫〜d 半月体形成性腎炎</b>：単独で合わない。<br/><b>e Wegener肉芽腫症</b>：<span class=\"kw\">上気道(副鼻腔)＋皮膚/全身の壊死性肉芽腫性血管炎</span>。✓"
             }
           ],
           "imgs": []
@@ -13580,6 +13800,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "EGPA（アレルギー性肉芽腫性血管炎）= 喘息＋<span class=\"kw\">好酸球増加（≥1,000/μL）</span>＋血管炎<br/>PANに小動脈瘤（腎・腸間膜）。MPAに小動脈瘤なし（細血管炎）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "疾患と所見の組合せで正しいもの。<br/><b>a PN―抗DNA〜e 過敏性血管炎―皮膚潰瘍(...組合せ誤り)</b>：誤り。<br/><b>b アレルギー性肉芽腫性血管炎―好酸球増加</b>：<span class=\"kw\">EGPAは著明な好酸球増多</span>。✓"
             }
           ],
           "imgs": []
@@ -13632,6 +13857,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "高安動脈炎の合併症 = <span class=\"kw\">失神（脳虚血）＋腎性高血圧＋大動脈瘤</span><br/>大動脈瘤は生命予後に影響→定期的な画像評価が必須"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "若年女性・左上肢しびれ＋鎖骨下動脈雑音＝高安動脈炎。合併を3つ。<br/><b>b 気管支喘息〜c 回盲部潰瘍</b>：他疾患。<br/><b>a 失神発作</b>：<span class=\"kw\">頸動脈狭窄による脳虚血</span>。✓<br/><b>d 腎性高血圧</b>：<span class=\"kw\">腎動脈狭窄による高血圧</span>。✓<br/><b>e 胸部大動脈瘤</b>：<span class=\"kw\">大動脈壁の炎症による拡張/瘤</span>。✓"
             }
           ],
           "imgs": []
@@ -13684,6 +13914,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "ANCA陽性 = <span class=\"kw\">GPA（PR3-ANCA）・MPA（MPO-ANCA）・EGPA（MPO-ANCA）</span><br/>PAN・GCA・高安動脈炎・IgA血管炎はANCA陰性（重要な区別）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "ANCAが陽性となる疾患。<br/><b>a ループス腎炎〜c PN、e FSGS</b>：ANCA陰性。<br/><b>d Wegener肉芽腫症</b>：<span class=\"kw\">PR3-ANCA陽性</span>。✓"
             }
           ],
           "imgs": []
@@ -13736,6 +13971,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "EGPA検査 = <span class=\"kw\">好酸球増加（必須）</span>＋赤沈↑＋MPO-ANCA（50%陽性）<br/>血小板減少はSLEやDICの所見（EGPAの特徴ではない）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "アレルギー性肉芽腫性血管炎(EGPA)でみられるものを3つ。<br/><b>c 血小板減少〜d 抗セントロメア</b>：合わない。<br/><b>a 赤沈亢進</b>：<span class=\"kw\">炎症で亢進</span>。✓<br/><b>b 好酸球増加</b>：<span class=\"kw\">著明な好酸球増多</span>。✓<br/><b>e ANCA陽性</b>：<span class=\"kw\">MPO-ANCA陽性</span>。✓"
             }
           ],
           "imgs": []
@@ -13788,6 +14028,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "Behçet病の特殊型 = <span class=\"kw\">神経型（髄膜炎）・血管型（大動脈瘤・DVT）・消化管型（回盲部潰瘍）</span><br/>消化管型Behçet vs Crohn病：Behçetは「打ち抜き型」（深い穿通性）潰瘍。Crohnは縦走潰瘍"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "反復する口腔/陰部潰瘍＋毛囊炎様皮疹＝Behçet病。みられるものを3つ。<br/><b>d 糸球体腎炎〜e 仙腸関節炎</b>：主でない。<br/><b>a 髄膜炎</b>：<span class=\"kw\">神経Behçet</span>。✓<br/><b>b 大動脈瘤</b>：<span class=\"kw\">血管型Behçet</span>。✓<br/><b>c 回盲部潰瘍</b>：<span class=\"kw\">腸管型Behçet</span>。✓"
             }
           ],
           "imgs": []
@@ -13840,6 +14085,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント（正答率58%！）",
               "c": "Behçet病の四大主症状 = <span class=\"kw\">口腔アフタ（必須）＋陰部潰瘍＋眼病変（ぶどう膜炎）＋皮膚病変</span><br/>消化管病変 = 回盲部（食道ではない）。肺胞出血はGPA・MPAの病変"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "Behçet病でみられるものを3つ。<br/><b>c 食道潰瘍〜d 肺胞出血</b>：主でない。<br/><b>a 結節性紅斑</b>：<span class=\"kw\">皮膚症状</span>。✓<br/><b>b 虹彩毛様体炎</b>：<span class=\"kw\">ぶどう膜炎(前房蓄膿)</span>。✓<br/><b>e 陰部潰瘍</b>：<span class=\"kw\">主症状の一つ</span>。✓"
             }
           ],
           "imgs": []
