@@ -5412,6 +5412,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "若年男性＋B型肝炎既往＋繰り返す皮疹 → <span class=\"kw\">HIV感染のリスク因子</span><br/>B型肝炎とHIVは共通の感染経路（血液・性行為）→ HIV合併検索が必須<br/>HIV検査：抗原抗体検査（HIV-1/2 antigen/antibody combined test）→ 4th世代"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "MSM＋反復皮疹＋急性B型肝炎既往。<br/><b>a 喀痰細胞診〜c 腹部超音波検査</b>：主でない。<br/><b>d HIV抗原・抗体検査</b>：<span class=\"kw\">MSM＋反復皮疹＝HIV/性感染症のスクリーニング</span>。✓<br/><b>e 胸部エックス線撮影</b>：主でない。"
       }
      ],
      "imgs": []
@@ -5468,6 +5473,11 @@
        "cls": "ee",
        "h": "□ 各選択肢の評価",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>正誤</th><th>理由</th></tr><tr><td>選択肢</td><td>正誤</td><td>理由</td></tr><tr><td><span class=\"kw\">保健所への届け出</span></td><td><span class=\"kw\">○</span></td><td>梅毒は5類感染症→7日以内に届け出</td></tr><tr><td>生物学的偽陽性と判断</td><td><span class=\"kw4\">×</span></td><td>TPHA陽性→真の梅毒感染（BFP はTPHA陰性）</td></tr><tr><td><span class=\"kw\">妊娠13週までに治療開始</span></td><td><span class=\"kw\">○</span></td><td>先天梅毒予防のため早期治療必要</td></tr><tr><td>パートナーの検査は不要</td><td><span class=\"kw4\">×</span></td><td>性感染症はパートナーも検査・治療が必要</td></tr><tr><td>クリンダマイシン点滴</td><td><span class=\"kw4\">×</span></td><td>梅毒第一選択はペニシリン系（点滴は不要）</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊婦の梅毒(RPR16・TPHA640陽性)。<br/><b>a 保健所へ届け出る</b>：<span class=\"kw\">梅毒は全数届出</span>。✓<br/><b>b 生物学的偽陽性と判断する</b>：TPHA陽性で真の梅毒であり誤り。<br/><b>c 妊娠13週までに治療を開始する</b>：<span class=\"kw\">先天梅毒予防のため早期治療</span>。✓<br/><b>d パートナーの検査は不要</b>：必要で誤り。<br/><b>e クリンダマイシンの点滴静注</b>：第一選択はペニシリンで誤り。"
       }
      ],
      "imgs": []
@@ -5524,6 +5534,11 @@
        "cls": "ee",
        "h": "□ 誤った説明内容",
        "c": "<table class=\"tb\"><tr><th>説明</th><th>正誤</th><th>理由</th></tr><tr><td>説明</td><td>正誤</td><td>理由</td></tr><tr><td><span class=\"kw\">眼科受診が必要</span></td><td><span class=\"kw\">○</span></td><td>Hutchinson徴候→眼合併症リスク</td></tr><tr><td>水疱を破る必要あり</td><td><span class=\"kw4\">×</span></td><td>水疱は破らない（二次感染リスク）</td></tr><tr><td>昔かかった麻疹によるもの</td><td><span class=\"kw4\">×</span></td><td>帯状疱疹はVZV（麻疹ウイルスではない）</td></tr><tr><td>シャワーは控える</td><td><span class=\"kw4\">×</span></td><td>入浴可（痂皮化後は通常通り）</td></tr><tr><td><span class=\"kw\">他人に感染する可能性あり</span></td><td><span class=\"kw\">○</span></td><td>水痘未罹患の人への接触感染あり</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "三叉神経第1枝領域の帯状疱疹(眼部)。<br/><b>a 「眼科の受診が必要です」</b>：<span class=\"kw\">眼部帯状疱疹で角膜炎等の眼合併症</span>。✓<br/><b>b 「水疱を破る必要があります」</b>：不要。<br/><b>c 「昔かかった麻疹によるものです」</b>：水痘の再活性化で誤り。<br/><b>d 「シャワーを控えましょう」</b>：不要。<br/><b>e 「皮疹から他人に感染する可能性があります」</b>：<span class=\"kw\">水疱内容から水痘として感染しうる</span>。✓"
       }
      ],
      "imgs": []
@@ -5585,6 +5600,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "壊死性筋膜炎のSCORE（LRINEC score）で重症度評価<br/>DIC：WBC↑・血小板↓・Hb↓・CRP大幅上昇 → 典型的なDICパターン<br/>最終的な治療はデブリドマン（外科的)が必須だが、まず輸血で全身状態安定化"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "壊死性軟部組織感染による敗血症性ショック。初期対応で適切でないものを選ぶ。<br/><b>a 胃管留置・b 気管挿管</b>：呼吸・全身管理で適切。<br/><b>c 赤血球輸血</b>：<span class=\"kw\">貧血・出血が主体でなく初期対応として不要</span>。✓（適切でない）<br/><b>d 血液培養検査</b>：起因菌検索で適切。<br/><b>e 乳酸リンゲル液輸液</b>：ショックの初期輸液で適切。"
       }
      ],
      "imgs": [
@@ -5643,6 +5663,11 @@
        "cls": "ee",
        "h": "□ 各原因菌の特徴",
        "c": "<table class=\"tb\"><tr><th>菌</th><th>特徴</th></tr><tr><td>菌</td><td>特徴</td></tr><tr><td>Clostridium perfringens</td><td>ガス壊疽（ガス産生・溶血）→外傷・手術後</td></tr><tr><td>Pseudomonas aeruginosa</td><td>院内感染・日和見感染（急速進行は少ない）</td></tr><tr><td>Staphylococcus aureus</td><td>蜂窩織炎・膿瘍（進行は比較的遅い）</td></tr><tr><td><span class=\"kw\">Streptococcus pyogenes</span></td><td><span class=\"kw\">壊死性筋膜炎・急速進行・外毒素による劇症型</span></td></tr><tr><td>Vibrio vulnificus</td><td>生牡蠣・海水曝露、肝疾患患者に致死的感染</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "指→上腕への急速な腫脹＋ショック。<br/><b>a Clostridium perfringens</b>：ガス壊疽だが本例は劇症型溶連菌。<br/><b>b 緑膿菌〜c 黄色ブドウ球菌</b>：この急速進展・ショックの主因でない。<br/><b>d Streptococcus pyogenes</b>：<span class=\"kw\">A群溶連菌による劇症型(壊死性筋膜炎・TSS)</span>。✓<br/><b>e Vibrio vulnificus</b>：海水・肝疾患の背景を要する。"
       }
      ],
      "imgs": [
@@ -5702,6 +5727,11 @@
        "cls": "ee",
        "h": "□ 各選択肢の評価",
        "c": "<table class=\"tb\"><tr><th>抗菌薬</th><th>適否</th><th>理由</th></tr><tr><td>抗菌薬</td><td>適否</td><td>理由</td></tr><tr><td>クラリスロマイシン（マクロライド）</td><td><span class=\"kw4\">×</span></td><td>化膿性関節炎には効果不十分</td></tr><tr><td>クリンダマイシン</td><td><span class=\"kw4\">△</span></td><td>MRSAが疑われる場合の選択肢（初期経験的治療には使わない）</td></tr><tr><td><span class=\"kw\">セファゾリン</span></td><td><span class=\"kw\">○</span></td><td>Gram陽性球菌に優れた活性、第一選択</td></tr><tr><td>メロペネム（カルバペネム）</td><td><span class=\"kw4\">×</span></td><td>過剰→耐性菌選択リスク</td></tr><tr><td>レボフロキサシン（ニューキノロン）</td><td><span class=\"kw4\">×</span></td><td>小児（18歳未満）には軟骨障害リスクあり</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "小児の皮膚軟部組織感染(蜂窩織炎)。<br/><b>a クラリスロマイシン・b クリンダマイシン</b>：第一でない。<br/><b>c セファゾリン</b>：<span class=\"kw\">黄色ブドウ球菌/レンサ球菌の皮膚軟部組織感染に第1世代セフェム</span>。✓<br/><b>d メロペネム</b>：過剰。<br/><b>e レボフロキサシン</b>：小児で第一でない。"
       }
      ],
      "imgs": [
@@ -5765,6 +5795,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "BADL（基本的ADL）：Barthel Index 10項目（食事・更衣・入浴・排泄・移動等）<br/>IADL（手段的ADL）：Lawton Scale（社会生活に必要な応用動作）<br/>画像③④が「食事」「入浴」または「更衣」「移動」等のBADL項目に相当"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "神経梅毒(認知症様)のADL評価。基本的ADLは保たれIADLが障害される。<br/><b>a ①バスで買い物・b ②レジ支払い</b>：手段的ADL(IADL)で障害されている。<br/><b>c ③ひとりで食べられる</b>：<span class=\"kw\">基本的ADL(食事)は自立</span>。✓<br/><b>d ④着替えは自分でできる</b>：<span class=\"kw\">基本的ADL(更衣)は自立</span>。✓<br/><b>e ⑤ゲートボールに行かない</b>：社会活動の低下。"
       }
      ],
      "imgs": []
@@ -5826,6 +5861,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "神経梅毒の認知機能低下→VitB1欠乏・甲状腺機能低下の鑑別が必要<br/>葉酸・VitD・β2MG（腎機能）は本症例の評価には直接関係が薄い"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "治療可能な認知症(可逆性)の原因検索。<br/><b>a 葉酸・b ビタミンD</b>：主でない。<br/><b>c ビタミンB1</b>：<span class=\"kw\">ビタミンB1欠乏(Wernicke脳症)</span>。✓<br/><b>d β2-マイクログロブリン</b>：主でない。<br/><b>e 甲状腺刺激ホルモン〈TSH〉</b>：<span class=\"kw\">甲状腺機能低下症</span>。✓"
       }
      ],
      "imgs": []
@@ -5878,6 +5918,11 @@
        "cls": "ee",
        "h": "□ 正しい説明内容の確認",
        "c": "<table class=\"tb\"><tr><th>説明</th><th>正誤</th><th>理由</th></tr><tr><td>説明</td><td>正誤</td><td>理由</td></tr><tr><td>脳脊髄液検査を行います</td><td><span class=\"kw\">○</span></td><td>神経梅毒の評価にCSF検査が必要</td></tr><tr><td>ペニシリン系で治療</td><td><span class=\"kw\">○</span></td><td>梅毒の第一選択はペニシリン系</td></tr><tr><td><span class=\"kw4\">家族が予防内服必要</span></td><td><span class=\"kw4\">×</span></td><td><span class=\"kw4\">日常接触では感染しない→不要</span></td></tr><tr><td>治療後も定期的に血液検査</td><td><span class=\"kw\">○</span></td><td>RPR（STS）で治療効果を経時的に監視</td></tr><tr><td>トイレ共用で感染しない</td><td><span class=\"kw\">○</span></td><td>梅毒は日常接触では感染しない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "神経梅毒の説明で誤っているものを選ぶ。<br/><b>a 「脳脊髄液検査を行います」</b>：神経梅毒で適切。<br/><b>b 「ペニシリン系で治療します」</b>：適切。<br/><b>c 「家族の方は抗菌薬の予防内服が必要です」</b>：<span class=\"kw\">日常接触で感染せず家族の予防内服は不要</span>で誤り。✓<br/><b>d 「治療終了後も定期的に血液検査を行います」</b>：適切(RPRで治療効果判定)。<br/><b>e 「トイレの共用で家族に感染しない」</b>：正しい。"
       }
      ],
      "imgs": []
@@ -5930,6 +5975,11 @@
        "cls": "ee",
        "h": "□ 旅行後発熱の鑑別",
        "c": "<table class=\"tb\"><tr><th>疾患</th><th>潜伏期</th><th>特徴</th></tr><tr><td>疾患</td><td>潜伏期</td><td>特徴</td></tr><tr><td>エボラ出血熱</td><td>2〜21日</td><td>アフリカ（中西部）、出血傾向</td></tr><tr><td>A型肝炎</td><td>15〜50日</td><td>長い潜伏期、黄疸</td></tr><tr><td>腸チフス</td><td>1〜3週</td><td>階段状発熱・バラ疹</td></tr><tr><td><span class=\"kw\">デング熱</span></td><td><span class=\"kw\">2〜7日</span></td><td><span class=\"kw\">短潜伏期・血小板低下・東南アジア</span></td></tr><tr><td>マラリア</td><td>7〜30日</td><td>周期性発熱、熱帯地域</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "東南アジア＋発熱＋口腔粘膜の点状出血＋筋肉痛。<br/><b>a エボラ出血熱〜c 腸チフス</b>：合わない。<br/><b>d デング熱</b>：<span class=\"kw\">東南アジア＋発熱＋点状出血(血小板減少)＋筋肉痛</span>。✓<br/><b>e マラリア</b>：周期熱・溶血が主で点状出血は主でない。"
       }
      ],
      "imgs": []
@@ -5987,6 +6037,11 @@
        "cls": "ept",
        "h": "🎯 National Exam Point",
        "c": "Zika = RNA flavivirus → <span class=\"kw4\">Acyclovir is WRONG (for herpes/DNA viruses)</span><br/>Zika treatment: only supportive care (hydration, rest)<br/>Guillain-Barré syndrome can follow Zika infection (similar to Campylobacter)"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "Zika virus感染の誤った記述を選ぶ。<br/><b>a〜d</b>：蚊媒介・潜伏期・症状・妊娠中の小頭症は正しい。<br/><b>e Acyclovir is used for treatment</b>：<span class=\"kw\">ジカに特異的治療はなく対症療法で誤り</span>。✓"
       }
      ],
      "imgs": []
@@ -6044,6 +6099,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "熱傷後感染の原因菌：<span class=\"kw\">黄色ブドウ球菌</span>→緑膿菌（入院後・長期熱傷）<br/>MRSA疑いの場合：バンコマイシンまたはリネゾリド<br/>緑膿菌は院内感染（長期入院）で問題→本症例は入院していない→黄色ブドウ球菌優先"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "熱傷創後の発熱・下痢・紅斑・ショック＝トキシックショック症候群。<br/><b>a 大腸菌〜d 肺炎球菌</b>：TSSの起因でない。<br/><b>e 黄色ブドウ球菌</b>：<span class=\"kw\">熱傷創からのTSST-1によるトキシックショック症候群</span>。✓"
       }
      ],
      "imgs": []
@@ -6096,6 +6156,11 @@
        "cls": "ee",
        "h": "□ 各選択肢が無効な理由",
        "c": "<table class=\"tb\"><tr><th>薬剤</th><th>適否</th><th>理由</th></tr><tr><td>薬剤</td><td>適否</td><td>理由</td></tr><tr><td>ペニシリン</td><td><span class=\"kw4\">×</span></td><td>リケッチアに細胞壁がなく（細胞内寄生）βラクタム無効</td></tr><tr><td>アシクロビル</td><td><span class=\"kw4\">×</span></td><td>抗ウイルス薬（リケッチアには無効）</td></tr><tr><td>アミノグリコシド</td><td><span class=\"kw4\">×</span></td><td>細胞内寄生菌への移行が悪い</td></tr><tr><td>アムホテリシンB</td><td><span class=\"kw4\">×</span></td><td>抗真菌薬（細菌感染には無効）</td></tr><tr><td><span class=\"kw\">テトラサイクリン</span></td><td><span class=\"kw\">○</span></td><td>細胞内移行良好・リケッチアに有効</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "山の伐採後の発熱発疹＋刺し口(痂皮)＝リケッチア症。<br/><b>a ペニシリン〜d アムホテリシンB</b>：無効。<br/><b>e テトラサイクリン</b>：<span class=\"kw\">リケッチア(ツツガ虫病/日本紅斑熱)にテトラサイクリン</span>。✓"
       }
      ],
      "imgs": []
@@ -6143,6 +6208,11 @@
        "cls": "ee",
        "h": "□ 正しい記述の確認",
        "c": "<table class=\"tb\"><tr><th>記述</th><th>正誤</th><th>理由</th></tr><tr><td>記述</td><td>正誤</td><td>理由</td></tr><tr><td><span class=\"kw4\">TPHAが活動性指標</span></td><td><span class=\"kw4\">×（誤り）</span></td><td><span class=\"kw4\">TPHA治療後も陽性→活動性判定に使えない</span></td></tr><tr><td>他のSTI合併を検索</td><td><span class=\"kw\">○</span></td><td>梅毒はHIV・クラミジア・淋菌との合併が多い</td></tr><tr><td>神経梅毒は期間問わず起こる</td><td><span class=\"kw\">○</span></td><td>早期・晩期どちらでも神経梅毒あり</td></tr><tr><td>未治療妊婦→先天梅毒</td><td><span class=\"kw\">○</span></td><td>垂直感染率高い（早期梅毒で50〜70%）</td></tr><tr><td>日本で報告数増加</td><td><span class=\"kw\">○</span></td><td>近年特に若年女性・男性で増加中</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "<b>a TPHAは疾患活動性の指標となる</b>：<span class=\"kw\">TPHAは治療後も陽性が持続し、活動性はRPRで判定</span>ため誤り。✓<br/><b>b 他の性感染症の合併を検索する</b>：正しい。<br/><b>c 神経梅毒は感染からの期間を問わず起こる</b>：正しい。<br/><b>d 妊婦未治療で先天梅毒の原因となる</b>：正しい。<br/><b>e 10年前と比較して報告数が増加</b>：正しい。"
       }
      ],
      "imgs": []
@@ -6195,6 +6265,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "猫ひっかき病 → Bartonella henselae<br/>肉芽腫性リンパ節炎の鑑別：結核・サルコイドーシス・リンパ腫・猫ひっかき病<br/>国試では「ペニシリン系が有効」として出題されることがある（注意）"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "夫の無痛性潰瘍＋手掌足底の紅斑＝2期梅毒。<br/><b>a 抗真菌薬〜c セフェム系薬</b>：第一選択でない。<br/><b>d ペニシリン系薬</b>：<span class=\"kw\">梅毒の第一選択(ペニシリン)</span>。✓<br/><b>e カルバペネム系薬</b>：不適。"
       }
      ],
      "imgs": []
@@ -6247,6 +6322,11 @@
        "cls": "ee",
        "h": "□ 誤った選択肢の理由",
        "c": "<table class=\"tb\"><tr><th>薬剤</th><th>理由</th></tr><tr><td>薬剤</td><td>理由</td></tr><tr><td><span class=\"kw\">アシクロビル</span></td><td><span class=\"kw\">○ 帯状疱疹（VZV）の第一選択</span></td></tr><tr><td>イトラコナゾール</td><td>抗真菌薬（帯状疱疹には無効）</td></tr><tr><td>ST合剤</td><td>細菌感染・ニューモシスチス肺炎（VZVには無効）</td></tr><tr><td>ベンジルペニシリン</td><td>梅毒・連鎖球菌感染（VZVには無効）</td></tr><tr><td>メトロニダゾール</td><td>嫌気性菌・原虫感染（VZVには無効）</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "低栄養・片側性の水疱性皮疹＝帯状疱疹。<br/><b>a アシクロビル</b>：<span class=\"kw\">帯状疱疹に抗ウイルス薬</span>。✓<br/><b>b イトラコナゾール</b>：抗真菌薬。<br/><b>c ST合剤〜e メトロニダゾール</b>：不適。"
       }
      ],
      "imgs": [
@@ -6301,6 +6381,11 @@
        "cls": "ee",
        "h": "□ Fournier壊疽（陰嚢壊死性筋膜炎）の検査",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th><th>根拠</th></tr><tr><td>a 便培養</td><td>×</td><td>腸管感染症の診断→会陰部壊死性筋膜炎の評価には関係ない</td></tr><tr><td>b 下部消化管内視鏡</td><td>×</td><td>腸管の評価→Fournier壊疽の感染範囲確認には不要</td></tr><tr><td>c 持続血糖モニタリング</td><td>×</td><td>糖尿病管理に有用だが感染の緊急評価ではない</td></tr><tr><td>d ガリウムシンチグラフィ</td><td>×</td><td>骨髄炎・腫瘍の診断（時間がかかる）→緊急評価に不適</td></tr><tr><td>e 骨盤から大腿のCT</td><td>○</td><td>壊死性筋膜炎→CTで感染範囲・皮下ガス産生・筋膜への進展を迅速評価→緊急手術の判断に必須</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "糖尿病＋陰囊〜会陰の握雪感＝Fournier壊疽。<br/><b>a 便培養〜d ガリウムシンチグラフィ</b>：主でない。<br/><b>e 骨盤から大腿にかけてのCT</b>：<span class=\"kw\">Fournier壊疽の進展範囲・ガス像を評価</span>。✓"
       }
      ],
      "imgs": [
@@ -6355,6 +6440,11 @@
        "cls": "ee",
        "h": "□ 各選択肢との鑑別",
        "c": "<table class=\"tb\"><tr><th>菌/病原体</th><th>特徴</th><th>選択肢</th></tr><tr><td>菌/病原体</td><td>特徴</td><td>選択肢</td></tr><tr><td>Haemophilus ducreyi</td><td>軟性下疳（有痛性外陰潰瘍）</td><td><span class=\"kw4\">× 手掌・足底の皮疹ではない</span></td></tr><tr><td>Staphylococcus aureus</td><td>膿痂疹・蜂窩織炎</td><td><span class=\"kw4\">× 手掌足底パターンではない</span></td></tr><tr><td>Streptococcus agalactiae</td><td>新生児B群連鎖球菌感染</td><td><span class=\"kw4\">× 成人の皮疹とは関連薄い</span></td></tr><tr><td><span class=\"kw\">Treponema pallidum</span></td><td><span class=\"kw\">梅毒・手掌足底の皮疹</span></td><td><span class=\"kw\">○ 最有力</span></td></tr><tr><td>Vibrio cholerae</td><td>コレラ（水様性下痢）</td><td><span class=\"kw4\">× 皮膚疾患ではない</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "手掌足底の皮疹＋RPR陽性＝2期梅毒。<br/><b>a Haemophilus ducreyi</b>：軟性下疳。<br/><b>b Staphylococcus aureus〜c Streptococcus agalactiae</b>：合わない。<br/><b>d Treponema pallidum</b>：<span class=\"kw\">梅毒トレポネーマ(2期梅毒)</span>。✓<br/><b>e Vibrio cholerae</b>：コレラ。"
       }
      ],
      "imgs": [
@@ -6409,6 +6499,11 @@
        "cls": "ee",
        "h": "□ 正しい説明内容",
        "c": "<table class=\"tb\"><tr><th>説明</th><th>正誤</th><th>理由</th></tr><tr><td>説明</td><td>正誤</td><td>理由</td></tr><tr><td>迅速検査を行います</td><td><span class=\"kw\">○</span></td><td>A群溶連菌迅速抗原検査</td></tr><tr><td>腎炎の合併に注意</td><td><span class=\"kw\">○</span></td><td>溶連菌後糸球体腎炎（AGN）の合併あり</td></tr><tr><td>ペニシリン系抗菌薬</td><td><span class=\"kw\">○</span></td><td>溶連菌感染症の第一選択</td></tr><tr><td><span class=\"kw4\">全例届出が必要</span></td><td><span class=\"kw4\">×（誤り）</span></td><td><span class=\"kw4\">定点把握疾患→全例届出不要</span></td></tr><tr><td>解熱・元気回復で登園可</td><td><span class=\"kw\">○</span></td><td>熱が下がり状態良好なら登園可能</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "発疹＋咽頭痛＋扁桃腫脹＝A群溶連菌感染(猩紅熱)。適切でないものを選ぶ。<br/><b>a 「迅速検査を行います」</b>：適切。<br/><b>b 「腎炎の合併に注意」</b>：急性糸球体腎炎で適切。<br/><b>c 「ペニシリン系抗菌薬を処方」</b>：適切。<br/><b>d 「全例届出が必要なので保健所へ届け出ます」</b>：<span class=\"kw\">A群溶連菌咽頭炎は全数届出でなく誤り</span>。✓（適切でない）<br/><b>e 「解熱し元気が回復すれば登園可」</b>：適切。"
       }
      ],
      "imgs": [
@@ -6463,6 +6558,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "<span class=\"kw\">無痛性外陰潰瘍 = 梅毒硬性下疳</span>（第1期）<br/>有痛性外陰潰瘍 = 性器ヘルペス（HSV-2）または軟性下疳（H. ducreyi）<br/>梅毒第1期：TPHA陽性・RPR陽性、治療：ベンジルペニシリン"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "外陰の無痛性硬結・潰瘍＋無痛性鼠径リンパ節腫大。<br/><b>a 梅毒</b>：<span class=\"kw\">硬性下疳(無痛性硬結・潰瘍)＝1期梅毒</span>。✓<br/><b>b 淋菌感染症</b>：膿性帯下が主。<br/><b>c 性器ヘルペス</b>：有痛性水疱・潰瘍。<br/><b>d クラミジア感染症</b>：無症候が多い。<br/><b>e 尖圭コンジローマ</b>：疣贅。"
       }
      ],
      "imgs": []
@@ -6519,6 +6619,11 @@
        "cls": "ee",
        "h": "□ Fournier壊疽の原因病原体（2つ選べ）",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th><th>根拠</th></tr><tr><td>a Candida albicans</td><td>×</td><td>真菌→糖尿病での日和見感染はあるが、壊死性筋膜炎の主役は細菌</td></tr><tr><td>b Chlamydia trachomatis</td><td>×</td><td>性感染症の原因→壊死性筋膜炎の起炎菌ではない</td></tr><tr><td>c Clostridioides difficile</td><td>×</td><td>C.difficileは腸炎の原因（偽膜性腸炎）→壊死性筋膜炎の主要原因でない</td></tr><tr><td>d Escherichia coli</td><td>○</td><td>会陰部→腸内細菌（大腸菌等）が混合感染の主役の一つ→好気性グラム陰性桿菌</td></tr><tr><td>e Peptostreptococcus anaerobius</td><td>○</td><td>嫌気性連鎖球菌→Fournier壊疽は好気性＋嫌気性菌の混合感染が特徴</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "殿部瘻孔＋腟排膿(骨盤内膿瘍/瘻孔)＝混合感染。<br/><b>a Candida albicans〜c Clostridioides difficile</b>：主でない。<br/><b>d Escherichia coli</b>：<span class=\"kw\">腸内細菌(混合感染)</span>。✓<br/><b>e Peptostreptococcus anaerobius</b>：<span class=\"kw\">嫌気性菌(混合感染)</span>。✓"
       }
      ],
      "imgs": [
@@ -6578,6 +6683,11 @@
        "cls": "ee",
        "h": "□ 不適切な治療",
        "c": "<table class=\"tb\"><tr><th>治療</th><th>適否</th><th>理由</th></tr><tr><td>治療</td><td>適否</td><td>理由</td></tr><tr><td>高圧酸素療法</td><td><span class=\"kw4\">△</span></td><td>補助療法（緊急ではない）</td></tr><tr><td><span class=\"kw\">抗菌薬投与</span></td><td><span class=\"kw\">○ 緊急</span></td><td>広域スペクトル（カルバペネム等）</td></tr><tr><td>抗凝固療法</td><td><span class=\"kw4\">×</span></td><td>DIC対応だが壊死性筋膜炎の主治療ではない</td></tr><tr><td>腟瘻孔閉鎖</td><td><span class=\"kw4\">×</span></td><td>後期の処置（今は緊急デブリドマンが先）</td></tr><tr><td><span class=\"kw\">デブリドマン</span></td><td><span class=\"kw\">○ 緊急</span></td><td>壊死組織除去が最優先</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "<b>a 高圧酸素療法</b>：主でない。<br/><b>b 抗菌薬投与</b>：<span class=\"kw\">混合感染に抗菌薬</span>。✓<br/><b>c 抗凝固療法</b>：不適。<br/><b>d 腟瘻孔閉鎖</b>：急性期でない。<br/><b>e デブリドマン</b>：<span class=\"kw\">膿瘍/壊死組織の外科的処置</span>。✓"
       }
      ],
      "imgs": [
@@ -6638,6 +6748,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "<span class=\"kw4\">ALT（肝酵素）はLRINEC scoreに含まれない</span><br/>LRINEC scoreの代わりに「白血球・クレアチニン・血小板・総ビリルビン」が重症度指標<br/>本問で有用な指標：白血球数・血小板数・総ビリルビン・クレアチニン（ALT以外）"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "敗血症の重症度判定に有用でないものを選ぶ。<br/><b>a ALT</b>：<span class=\"kw\">SOFAの肝機能はビリルビンで評価し、ALTは重症度判定に用いない</span>。✓<br/><b>b 白血球数</b>：感染の指標。<br/><b>c 血小板数</b>：SOFA(凝固)の指標。<br/><b>d 総ビリルビン</b>：SOFA(肝)の指標。<br/><b>e クレアチニン</b>：SOFA(腎)の指標。"
       }
      ],
      "imgs": [
@@ -6698,6 +6813,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "RPR正常 + TPHA陽性 → <span class=\"kw\">治療後の状態（治療不要）</span><br/>TPHA陽性は治療後も持続→施設入所前検査で引っかかっても治療済みなら問題なし<br/>要注意：RPRが上昇してきたら再燃・再感染の可能性→治療再開を検討"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "梅毒治療後(RPR陰性・TPHA陽性)＝治癒後の血清瘢痕。<br/><b>a 「治療の必要はありません」</b>：<span class=\"kw\">RPR陰性＝治癒後でTPHAは陽性が持続(血清瘢痕)</span>。✓<br/><b>b 「抗核抗体検査を行います」</b>：不要。<br/><b>c 「ペニシリン内服で加療」</b>：不要。<br/><b>d 「7日以内に保健所へ届出」</b>：既治療で不要。<br/><b>e 「3か月後に再検査」</b>：不要。"
       }
      ],
      "imgs": []
@@ -6750,6 +6870,11 @@
        "cls": "ee",
        "h": "□ 選択肢評価（eschar＋全身皮疹＋山菜採り）",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th><th>根拠</th></tr><tr><td>a デング熱</td><td>×</td><td>蚊媒介（ネッタイシマカ）→日本国内での山菜採りでは通常感染しない・eschariを形成しない</td></tr><tr><td>b マラリア</td><td>×</td><td>蚊媒介（ハマダラカ）→発熱・貧血が主症状→escharは形成しない</td></tr><tr><td>c ツツガ虫病</td><td>○</td><td>野外活動（山菜採り）→ツツガムシ（Leptotrombidium属）→Orientia tsutsugamushiによる感染→eschar（刺し口）＋全身皮疹＋発熱が三主徴</td></tr><tr><td>d 伝染性単核球症</td><td>×</td><td>EBV感染→咽頭炎・リンパ節腫脹・肝脾腫→eschariを形成しない</td></tr><tr><td>e レプトスピラ感染症</td><td>×</td><td>水田・河川での感染（土壌・水中の細菌）→発熱・黄疸→eschariは形成しない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "山菜採り後の刺し口(痂皮)＋発熱発疹＋セフェム無効。<br/><b>a デング熱〜b マラリア</b>：合わない。<br/><b>c ツツガ虫病</b>：<span class=\"kw\">刺し口(痂皮)＋発熱＋発疹＋セフェム無効(リケッチア)</span>。✓<br/><b>d 伝染性単核球症〜e レプトスピラ感染症</b>：合わない。"
       }
      ],
      "imgs": [
@@ -6809,6 +6934,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "梅毒第一選択：ペニシリン系（第1・2・3期とも）<br/>ペニシリンアレルギー：テトラサイクリン系（ただし妊婦禁忌）<br/>本問では「ペニシリン系」が選択肢にないためテトラサイクリン系が正解"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "陰茎無痛性潰瘍(1期梅毒)＋ペニシリンアレルギー。<br/><b>a セフェム系〜d カルバペネム系</b>：第一でない/交差リスク。<br/><b>e テトラサイクリン系</b>：<span class=\"kw\">ペニシリンアレルギー時の梅毒治療(ドキシサイクリン)</span>。✓"
       }
      ],
      "imgs": [
@@ -6858,6 +6988,11 @@
        "cls": "ee",
        "h": "□ 各検査の治療効果判定への有用性",
        "c": "<table class=\"tb\"><tr><th>検査</th><th>有用性</th><th>理由</th></tr><tr><td>検査</td><td>有用性</td><td>理由</td></tr><tr><td><span class=\"kw\">RPR</span></td><td><span class=\"kw\">○ 最有用</span></td><td>治療で低下・正常化→活動性の指標</td></tr><tr><td>CRP</td><td><span class=\"kw4\">△</span></td><td>炎症マーカーだが梅毒特異的ではない</td></tr><tr><td><span class=\"kw4\">TPHA</span></td><td><span class=\"kw4\">× 有用でない</span></td><td>治療後も長期陽性持続→効果判定に使えない</td></tr><tr><td>赤沈</td><td><span class=\"kw4\">△</span></td><td>非特異的炎症マーカー</td></tr><tr><td>白血球数</td><td><span class=\"kw4\">×</span></td><td>梅毒の治療効果の指標にならない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "<b>a CRP</b>：非特異的。<br/><b>b RPR</b>：<span class=\"kw\">活動性・治療効果の判定(RPR)</span>。✓<br/><b>c TPHA</b>：治療後も陽性が持続。<br/><b>d 赤沈・e 白血球数</b>：非特異的。"
       }
      ],
      "imgs": []
@@ -6915,6 +7050,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "若年者の帯状疱疹 → まず<span class=\"kw\">HIV感染を除外</span>すること<br/>HIV感染でCD4&lt;200/μL → 帯状疱疹の発症リスク大幅上昇<br/>EB・麻疹・風疹・コクサッキーは帯状疱疹とは直接関係なし"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "若年での反復性帯状疱疹＋B型肝炎既往。<br/><b>a HIV</b>：<span class=\"kw\">若年での反復性帯状疱疹はHIV感染(免疫低下)を疑う</span>。✓<br/><b>b EBウイルス〜e コクサッキーウイルス</b>：反復性帯状疱疹の背景として主でない。"
       }
      ],
      "imgs": [
@@ -6969,6 +7109,11 @@
        "cls": "ee",
        "h": "□ 誤った治療選択",
        "c": "<table class=\"tb\"><tr><th>治療</th><th>適否</th><th>理由</th></tr><tr><td>治療</td><td>適否</td><td>理由</td></tr><tr><td><span class=\"kw\">切開排膿</span></td><td><span class=\"kw\">○</span></td><td>波動を触れる膿瘍の基本治療</td></tr><tr><td>湿布薬貼付</td><td><span class=\"kw4\">×</span></td><td>膿瘍への効果なし</td></tr><tr><td>紫外線照射</td><td><span class=\"kw4\">×</span></td><td>膿瘍治療に適さない</td></tr><tr><td>抗ウイルス薬点滴</td><td><span class=\"kw4\">×</span></td><td>帯状疱疹ではない（細菌性膿瘍）</td></tr><tr><td>ステロイド軟膏</td><td><span class=\"kw4\">×</span></td><td>感染に使用すると悪化</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "殿部の熱感・圧痛を伴う疼痛(膿瘍/せつ)。<br/><b>a 切開排膿</b>：<span class=\"kw\">膿瘍の切開排膿</span>。✓<br/><b>b 湿布薬貼付〜e 副腎皮質ステロイド軟膏</b>：不適。"
       }
      ],
      "imgs": [
@@ -7029,6 +7174,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "急速進行する下肢の感染 → <span class=\"kw\">壊死性筋膜炎</span>を常に念頭に<br/>抗菌薬単独・ステロイド・利尿薬では壊死性筋膜炎は改善しない<br/>「捻髪音（crepitus）」があればガス産生菌の壊疽→緊急手術"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "糖尿病＋下腿の握雪感＋ケトン＝ガス産生性の壊死性軟部組織感染。<br/><b>a 局所切開</b>：<span class=\"kw\">ガス壊疽/壊死性筋膜炎に緊急切開・デブリドマン</span>。✓<br/><b>b 利尿薬投与〜e ステロイドパルス療法</b>：不適。"
       }
      ],
      "imgs": [
@@ -7089,6 +7239,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "帯状疱疹：<span class=\"kw\">バラシクロビル</span>または<span class=\"kw\">アシクロビル</span>（VZV用）<br/>オセルタミビル（タミフル）はインフルエンザ用→帯状疱疹には無効<br/>フルコナゾールは真菌感染→無効<br/>レボフロキサシンは細菌感染→ウイルスには無効"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "右胸部の疼痛性皮疹＋浸出液＝帯状疱疹。<br/><b>a メロペネム</b>：無効。<br/><b>b バラシクロビル</b>：<span class=\"kw\">帯状疱疹に抗ウイルス薬</span>。✓<br/><b>c オセルタミビル</b>：インフルエンザ用。<br/><b>d フルコナゾール〜e レボフロキサシン</b>：無効。"
       }
      ],
      "imgs": [
@@ -7147,6 +7302,11 @@
        "cls": "ee",
        "h": "□ 各指標の敗血症性ショック診断への有用性",
        "c": "<table class=\"tb\"><tr><th>指標</th><th>有用性</th><th>理由</th></tr><tr><td>指標</td><td>有用性</td><td>理由</td></tr><tr><td>尿量</td><td><span class=\"kw4\">△</span></td><td>臓器灌流の参考（ショック診断基準ではない）</td></tr><tr><td>心拍数</td><td><span class=\"kw4\">△</span></td><td>頻脈は敗血症所見だがショック診断基準ではない</td></tr><tr><td>呼吸数</td><td><span class=\"kw4\">△</span></td><td>qSOFAの指標（ショック基準ではない）</td></tr><tr><td><span class=\"kw\">平均血圧（MAP）</span></td><td><span class=\"kw\">○</span></td><td>MAP&lt;65mmHg：昇圧薬必要がショック基準の一つ</td></tr><tr><td><span class=\"kw\">血清乳酸値</span></td><td><span class=\"kw\">○</span></td><td>乳酸&gt;2mmol/L：組織低灌流を示す→ショック基準の一つ</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "打撲後の急速進展＋発熱＝壊死性筋膜炎/敗血症。ショックの指標を選ぶ。<br/><b>a 尿量〜c 呼吸数</b>：qSOFAの一部だが本問はd,e。<br/><b>d 平均血圧</b>：<span class=\"kw\">敗血症性ショック(平均血圧≧65維持に昇圧薬)</span>。✓<br/><b>e 血清乳酸値</b>：<span class=\"kw\">組織低灌流(乳酸>2mmol/L)</span>。✓"
       }
      ],
      "imgs": [
@@ -7201,6 +7361,11 @@
        "cls": "ee",
        "h": "□ 壊死性筋膜炎の最優先治療",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th><th>根拠</th></tr><tr><td>a 高圧酸素療法</td><td>×</td><td>壊死性筋膜炎に補助療法として用いることはあるが、外科的デブリドマンが先</td></tr><tr><td>b 右膝関節穿刺</td><td>×</td><td>関節炎の評価目的→壊死性筋膜炎の根本治療ではない</td></tr><tr><td>c 右下肢デブリドマン</td><td>○</td><td>壊死性筋膜炎の根本治療は緊急外科的デブリドマン→坏死組織を徹底除去しないと抗菌薬単独では救命不能</td></tr><tr><td>d 副腎皮質ステロイド投与</td><td>×</td><td>感染症に高用量ステロイド→免疫抑制により感染が悪化するリスク</td></tr><tr><td>e 破傷風ガンマグロブリン投与</td><td>×</td><td>破傷風の受動免疫→壊死性筋膜炎の治療ではない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "<b>a 高圧酸素療法</b>：補助的。<br/><b>b 右膝関節穿刺</b>：関節炎でなく不適。<br/><b>c 右下肢デブリドマン</b>：<span class=\"kw\">壊死性筋膜炎の緊急デブリドマン</span>。✓<br/><b>d 副腎皮質ステロイド投与〜e 破傷風ガンマグロブリン</b>：主でない。"
       }
      ],
      "imgs": [
@@ -7255,6 +7420,11 @@
        "cls": "ee",
        "h": "□ Gram陽性連鎖状球菌（GAS）に対する抗菌薬変更",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th><th>根拠</th></tr><tr><td>a セフタジジム</td><td>×</td><td>第3世代セフェム（グラム陰性桿菌・緑膿菌対応）→Gram陽性連鎖球菌には不適切</td></tr><tr><td>b ゲンタマイシン</td><td>×</td><td>アミノグリコシド系→グラム陰性桿菌が主対象・連鎖球菌単独治療には不適</td></tr><tr><td>c アジスロマイシン</td><td>×</td><td>非定型肺炎・軽症GAS感染の代替薬だが、菌血症の重症感染には不十分</td></tr><tr><td>d レボフロキサシン</td><td>×</td><td>キノロン系はGASへの有効性はあるが第一選択ではない</td></tr><tr><td>e ベンジルペニシリン（ペニシリンG）</td><td>○</td><td>Gram陽性連鎖球菌（A群β溶血性連鎖球菌）→ベンジルペニシリンが第一選択・GASはペニシリン100%感受性</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "A群溶連菌による壊死性筋膜炎。<br/><b>a セフタジジム〜d レボフロキサシン</b>：第一でない。<br/><b>e ベンジルペニシリン〈ペニシリンG〉</b>：<span class=\"kw\">A群溶連菌にペニシリンG(クリンダマイシン併用)</span>。✓"
       }
      ],
      "imgs": [
@@ -7314,6 +7484,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "外陰部潰瘍 → まず梅毒を鑑別<br/>病変部生検（②）は必ずしも必要ではない<br/>淋菌・クラミジアは尿道炎・子宮頸管炎→潰瘍ではない<br/>ヘルペスは有痛性・水疱→本症例とは異なる"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "陰茎無痛性潰瘍(硬性下疳)＋寝汗＝梅毒/HIV疑い。<br/><b>a 梅毒血清反応</b>：<span class=\"kw\">無痛性潰瘍(硬性下疳)の梅毒診断</span>。✓<br/><b>b 病変部の生検〜e ヘルペス抗原検査</b>：第一でない。"
       }
      ],
      "imgs": [
@@ -7368,6 +7543,11 @@
        "cls": "ee",
        "h": "□ 梅毒第1期（硬性下疳）の治療薬",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th><th>根拠</th></tr><tr><td>a アシクロビル</td><td>×</td><td>抗ヘルペス薬→細菌（Treponema pallidum）には無効</td></tr><tr><td>b レボフロキサシン</td><td>×</td><td>キノロン系は梅毒の標準治療に含まれない</td></tr><tr><td>c アムホテリシンB</td><td>×</td><td>抗真菌薬→梅毒（細菌）には無効</td></tr><tr><td>d クラリスロマイシン</td><td>×</td><td>マクロライド系→梅毒の代替薬として使用可能だが第一選択ではない</td></tr><tr><td>e ベンジルペニシリン（ペニシリンG）</td><td>○</td><td>梅毒（全期）の第一選択薬→Treponema pallidumはペニシリン100%感受性（耐性なし）</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "<b>a アシクロビル〜d クラリスロマイシン</b>：無効/不適。<br/><b>e ベンジルペニシリン〈ペニシリンG〉</b>：<span class=\"kw\">梅毒の第一選択(ペニシリン)</span>。✓"
       }
      ],
      "imgs": [
@@ -7426,6 +7606,11 @@
        "cls": "ee",
        "h": "□ 各選択肢の感染経路",
        "c": "<table class=\"tb\"><tr><th>病原体</th><th>感染経路</th><th>梅毒との合併</th></tr><tr><td>病原体</td><td>感染経路</td><td>梅毒との合併</td></tr><tr><td><span class=\"kw\">HIV</span></td><td>血液・性行為</td><td><span class=\"kw\">○ 合併多い</span></td></tr><tr><td>EBウイルス</td><td>唾液感染（キス病）</td><td><span class=\"kw4\">× 梅毒との特異的関連なし</span></td></tr><tr><td>風疹ウイルス</td><td>飛沫感染</td><td><span class=\"kw4\">× 性感染症ではない</span></td></tr><tr><td><span class=\"kw\">B型肝炎ウイルス（HBV）</span></td><td>血液・性行為・母子</td><td><span class=\"kw\">○ 合併多い</span></td></tr><tr><td>パルボウイルスB19</td><td>飛沫感染</td><td><span class=\"kw4\">× 性感染症ではない</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "梅毒に合併検索すべき性感染症のウイルスを選ぶ。<br/><b>a HIV</b>：<span class=\"kw\">性感染症の合併検索(HIV)</span>。✓<br/><b>b EBウイルス・c 風疹・e パルボB19</b>：性感染症でない。<br/><b>d B型肝炎ウイルス</b>：<span class=\"kw\">性感染するB型肝炎</span>。✓"
       }
      ],
      "imgs": [
@@ -7485,6 +7670,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "<span class=\"kw\">X線でガス像 → ガス壊疽 → Clostridium perfringens</span><br/>糖尿病・透析患者は嫌気性菌感染リスク↑<br/>高圧酸素療法：好気的環境でClostridiumの増殖を抑制"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "透析＋下腿の握雪感＝ガス壊疽。<br/><b>a Aspergillus fumigatus〜b Brucella abortus</b>：合わない。<br/><b>c Clostridium perfringens</b>：<span class=\"kw\">ガス壊疽(クロストリジウム)</span>。✓<br/><b>d 結核菌〜e 緑膿菌</b>：ガス壊疽の主因でない。"
       }
      ],
      "imgs": [
@@ -7540,6 +7730,11 @@
        "cls": "ee",
        "h": "□ 各選択肢の評価",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>正誤</th><th>理由</th></tr><tr><td>選択肢</td><td>正誤</td><td>理由</td></tr><tr><td><span class=\"kw\">個室隔離が必要</span></td><td><span class=\"kw\">○</span></td><td>VZVは水疱期に感染性あり→個室管理</td></tr><tr><td>アスピリンは禁忌</td><td><span class=\"kw4\">×</span></td><td>ライ症候群はインフルエンザ・水痘でのNSAIDs（アスピリン）使用→本症例は成人・帯状疱疹→禁忌ではない</td></tr><tr><td>直ちにワクチン接種</td><td><span class=\"kw4\">×</span></td><td>帯状疱疹の治療中にワクチンは不可（活性化ウイルス）</td></tr><tr><td>ステロイドを直ちに中止</td><td><span class=\"kw4\">×</span></td><td>基礎疾患（皮膚筋炎）のコントロールに必要→急な中止は悪化</td></tr><tr><td>ステロイド外用薬塗布</td><td><span class=\"kw4\">×</span></td><td>感染性皮疹にステロイドは禁忌</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "免疫抑制中の播種性帯状疱疹。<br/><b>a 個室隔離が必要である</b>：<span class=\"kw\">播種性帯状疱疹は空気感染対策(個室隔離)</span>。✓<br/><b>b アスピリンは禁忌</b>：本例で主でない。<br/><b>c 直ちにワクチン接種</b>：発症中で不適。<br/><b>d ステロイド内服を直ちに中止</b>：原疾患管理を要し一律中止でない。<br/><b>e 皮疹にステロイド外用薬</b>：不適。"
       }
      ],
      "imgs": [
@@ -7599,6 +7794,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "毒素性ショック症候群（TSS）の2大原因：<span class=\"kw\">黄色ブドウ球菌＋A群β溶連菌</span><br/>外毒素（超抗原）→T細胞を非特異的に活性化→サイトカイン大量産生→ショック<br/>黄色ブドウ球菌TSS：月経関連（タンポン使用）、創傷感染"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "<b>a 腸球菌〜c 表皮ブドウ球菌</b>：外毒素性ショックの主でない。<br/><b>d 黄色ブドウ球菌</b>：<span class=\"kw\">TSST-1によるトキシックショック症候群</span>。✓<br/><b>e A群β溶血性連鎖球菌</b>：<span class=\"kw\">発熱毒素による劇症型/TSS</span>。✓"
       }
      ],
      "imgs": []
@@ -7656,6 +7856,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "波動を触れる（膿瘍）→ <span class=\"kw\">切開排膿が必須</span><br/>免疫グロブリン・ステロイドは適応なし（細菌感染→外科的ドレナージ＋抗菌薬）<br/>透析患者の感染：MRSA頻度高い→バンコマイシンを早期から考慮"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "透析＋会陰部潰瘍＋悪臭膿＝Fournier壊疽。<br/><b>a 抗真菌薬投与</b>：主でない。<br/><b>b 創の縫合閉鎖</b>：禁忌。<br/><b>c 切開排膿ドレナージ</b>：<span class=\"kw\">Fournier壊疽の外科的デブリドマン・ドレナージ</span>。✓<br/><b>d 免疫グロブリン製剤〜e 副腎皮質ステロイド</b>：主でない。"
       }
      ],
      "imgs": [
@@ -7711,6 +7916,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "デング熱ワクチン：2019年にDengvaxia（Sanofi）が一部の血清型陽性者に限定承認<br/>旅行者への予防：現時点では虫除け・蚊帳による物理的予防が主<br/>最新情報は変動しうるため、国試では出題当時の知識を基に回答"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "<b>a 旅行者下痢症では発熱はない</b>：発熱を伴い誤り。<br/><b>b マラリアで死亡することはない</b>：熱帯熱マラリアで死亡し誤り。<br/><b>c 狂犬病は犬以外から感染しない</b>：コウモリ等からも感染し誤り。<br/><b>d デング熱のワクチンは実用化されていない</b>：<span class=\"kw\">(国内では)実用化されていない</span>。✓<br/><b>e 都道府県知事に届出義務のある疾患はない</b>：届出義務があり誤り。"
       }
      ],
      "imgs": []
@@ -7763,6 +7973,11 @@
        "cls": "ee",
        "h": "□ ツツガ虫病（eschar＋皮疹＋発熱）の治療薬",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th><th>根拠</th></tr><tr><td>a 抗真菌薬</td><td>×</td><td>真菌感染でない→Orientia tsutsugamushi（グラム陰性桿菌様の偏性細胞内寄生菌）</td></tr><tr><td>b 抗ウイルス薬</td><td>×</td><td>ウイルス感染でない（細菌の一種）</td></tr><tr><td>c 副腎皮質ステロイド</td><td>×</td><td>自己免疫性疾患向け→感染症に単独投与は禁忌</td></tr><tr><td>d ペニシリン系抗菌薬</td><td>×</td><td>細胞壁合成阻害→偏性細胞内寄生のOrientiaは細胞内に存在→βラクタム系は移行不良で無効</td></tr><tr><td>e テトラサイクリン系抗菌薬</td><td>○</td><td>ドキシサイクリン（テトラサイクリン系）→細胞内移行良好→Orientia tsutsugamushiの第一選択</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "山菜採り後の刺し口(痂皮)＋発熱発疹＝ツツガ虫病。<br/><b>a 抗真菌薬〜d ペニシリン系抗菌薬</b>：無効。<br/><b>e テトラサイクリン系抗菌薬</b>：<span class=\"kw\">リケッチア(ツツガ虫病)にテトラサイクリン</span>。✓"
       }
      ],
      "imgs": [
@@ -7818,6 +8033,11 @@
        "cls": "ee",
        "h": "□ 類似疾患との鑑別",
        "c": "<table class=\"tb\"><tr><th>疾患</th><th>特徴</th><th>選択肢</th></tr><tr><td>疾患</td><td>特徴</td><td>選択肢</td></tr><tr><td>Buerger病（血栓閉塞性血管炎）</td><td>若年喫煙者・末梢虚血</td><td><span class=\"kw4\">× 急性感染ではない</span></td></tr><tr><td>リンパ浮腫</td><td>慢性の浮腫・感染症状なし</td><td><span class=\"kw4\">× 無熱・慢性</span></td></tr><tr><td><span class=\"kw\">壊死性筋膜炎</span></td><td><span class=\"kw\">捻髪音・急速進行・全身症状</span></td><td><span class=\"kw\">○</span></td></tr><tr><td>深部静脈血栓症（DVT）</td><td>腫脹・圧痛・ホーマン徴候</td><td><span class=\"kw4\">× 感染症状なし</span></td></tr><tr><td>静脈うっ滞性潰瘍</td><td>慢性・浮腫・色素沈着</td><td><span class=\"kw4\">× 慢性経過</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "糖尿病＋足の創から下腿への急速進展＋悪臭。<br/><b>a Buerger病〜b リンパ浮腫</b>：合わない。<br/><b>c 壊死性筋膜炎</b>：<span class=\"kw\">糖尿病＋創部からの急速進展・悪臭・全身症状</span>。✓<br/><b>d 深部静脈血栓症〜e 静脈うっ滞性潰瘍</b>：合わない。"
       }
      ],
      "imgs": [
@@ -7873,6 +8093,11 @@
        "cls": "ee",
        "h": "□ 治療の優先順位",
        "c": "<table class=\"tb\"><tr><th>治療</th><th>優先度</th><th>役割</th></tr><tr><td>治療</td><td>優先度</td><td>役割</td></tr><tr><td>創の縫合</td><td><span class=\"kw4\">×</span></td><td>感染巣を閉鎖すると悪化</td></tr><tr><td><span class=\"kw\">デブリドマン</span></td><td><span class=\"kw\">最優先</span></td><td>壊死組織除去→感染根絶</td></tr><tr><td>ワセリン塗布</td><td><span class=\"kw4\">×</span></td><td>表在性の創処置（壊死性筋膜炎には不適）</td></tr><tr><td>免疫グロブリン静注</td><td><span class=\"kw4\">△</span></td><td>補助療法（一部のStreptococcalTSSで使用）</td></tr><tr><td>長時間作用型インスリン</td><td><span class=\"kw4\">△</span></td><td>血糖コントロール（補助的）</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "<b>a 創の縫合</b>：禁忌。<br/><b>b デブリドマン</b>：<span class=\"kw\">壊死性筋膜炎の緊急デブリドマン</span>。✓<br/><b>c ワセリン塗布〜e インスリン皮下注</b>：急性期の主治療でない。"
       }
      ],
      "imgs": [
