@@ -6866,6 +6866,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント（正答率49%！）",
               "c": "軽症SLE（腎障害なし）の第一選択 = <span class=\"kw\">ヒドロキシクロロキン（HCQ）</span><br/>シクロフォスファミドは重症ループス腎炎・CNSループスに使用（軽症には過剰）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "蝶形紅斑＋口腔潰瘍＋血球減少＝SLE。<br/><b>a リツキシマブ〜b シクロホスファミド、d ベリムマブ、e MMF</b>：重症/難治例向け。<br/><b>c ヒドロキシクロロキン</b>：<span class=\"kw\">皮膚/関節症状主体のSLEの基礎治療</span>。✓"
             }
           ],
           "imgs": []
@@ -6918,6 +6923,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "Sjögren症候群 = ドライアイ＋口腔乾燥（シクエン症状）＋<span class=\"kw\">う歯多発</span><br/>抗SS-A抗体・抗SS-B抗体陽性。Schirmer試験（涙液量測定）で確認"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "Sjögren症候群に特徴的な症候。<br/><b>b 兎眼〜e 爪部点状陥凹</b>：合わない。<br/><b>a う歯</b>：<span class=\"kw\">唾液分泌低下(口腔乾燥)で多発性う歯</span>。✓"
             }
           ],
           "imgs": []
@@ -6974,6 +6984,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "急速進行性ILD＋皮膚筋炎（muscle-spared型）→ <span class=\"kw\">抗MDA5抗体</span><br/>予後不良。ステロイド＋免疫抑制薬の早期投与が重要"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "Gottron徴候＋急速進行性の間質性肺炎＝抗MDA5抗体陽性皮膚筋炎。<br/><b>a 抗Scl-70〜e 抗MuSK</b>：合わない。<br/><b>b 抗MDA5抗体</b>：<span class=\"kw\">無筋症性皮膚筋炎＋急速進行性間質性肺炎</span>。✓"
             }
           ],
           "imgs": [
@@ -7028,6 +7043,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "皮膚筋炎 = <span class=\"kw\">ヘリオトロープ疹（上眼瞼紫紅色浮腫）</span>＋<span class=\"kw\">Gottron丘疹（関節背側）</span><br/>近位筋力低下＋CK上昇→筋炎。悪性腫瘍・間質性肺炎に注意"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "皮膚筋炎でみられる皮膚所見。<br/><b>a 口腔潰瘍〜b 指尖潰瘍、d 蝶形紅斑、e 網状皮斑</b>：他疾患。<br/><b>c 上眼瞼の紫紅色の浮腫</b>：<span class=\"kw\">ヘリオトロープ疹</span>。✓"
             }
           ],
           "imgs": []
@@ -7084,6 +7104,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "強皮症のRaynaud → <span class=\"kw\">指尖潰瘍・陥凹性瘢痕・皮膚硬化</span>を伴う<br/>続発性Raynaud = 背景疾患あり（SLE・強皮症・MCTD等）<br/>特発性Raynaud = 若い女性・基礎疾患なし・軽症"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "寒冷での三相性のRaynaud現象＋皮膚硬化＝全身性強皮症。<br/><b>a 皮膚筋炎〜b RA、d PN、e APS</b>：合わない。<br/><b>c 全身性強皮症</b>：<span class=\"kw\">Raynaud現象＋手指の皮膚硬化</span>。✓"
             }
           ],
           "imgs": [
@@ -7145,6 +7170,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "抗ARS抗体 = <span class=\"kw\">筋炎＋間質性肺炎（ILD）＋関節炎＋Mechanic's hand</span><br/>抗Jo-1（最多）は抗ARS抗体の代表。肺病変が予後を規定"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "自己抗体と臓器障害の組合せ。<br/><b>a 抗MDA5―間質性腎炎〜d 抗TIF1γ―硬化性胆管炎</b>：組合せが誤り。<br/><b>e 抗ARS抗体―間質性肺炎</b>：<span class=\"kw\">抗合成酵素症候群で間質性肺炎</span>。✓"
             }
           ],
           "imgs": []
@@ -7201,6 +7231,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "APS = <span class=\"kw\">動静脈血栓症＋習慣流産</span>＋抗リン脂質抗体（抗カルジオリピン等）<br/>APTTが延長しているのに血栓症→矛盾する検査所見が診断の手がかり"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "抗リン脂質抗体症候群の徴候を2つ。<br/><b>c 早発閉経〜d 指尖陥凹瘢痕、e 口腔潰瘍</b>：合わない。<br/><b>a 脳梗塞</b>：<span class=\"kw\">動脈血栓</span>。✓<br/><b>b 不育症</b>：<span class=\"kw\">胎盤血栓による習慣流産/胎児死亡</span>。✓"
             }
           ],
           "imgs": []
@@ -7253,6 +7288,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SLE妊娠で胎児リスク = <span class=\"kw\">抗SS-A抗体（先天性完全房室ブロック）</span><br/>先天性CHBは永続性（ペースメーカーが必要なことも）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "SLE妊娠前に確認すべき抗体(胎児への影響)。<br/><b>a 抗Sm〜b 抗RNP、d 抗dsDNA、e RF</b>：胎児への直接影響は主でない。<br/><b>c 抗SS-A抗体</b>：<span class=\"kw\">胎盤を通過し新生児ループス・先天性心ブロックを起こしうる</span>。✓"
             }
           ],
           "imgs": []
@@ -7305,6 +7345,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "強皮症＋急激な血圧上昇 = <span class=\"kw\">強皮症腎クリーゼ</span> → <span class=\"kw\">ACE阻害薬</span><br/>高用量ステロイドはSRCのリスク→強皮症ではステロイド増量に注意"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "強皮症＋急激な高血圧＝強皮症腎クリーゼ。<br/><b>a β遮断薬〜d 抗コリンエステラーゼ</b>：不適。<br/><b>e ACE阻害薬</b>：<span class=\"kw\">強皮症腎クリーゼの第一選択(ACE阻害薬)</span>。✓"
             }
           ],
           "imgs": []
@@ -7357,6 +7402,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SLEのキーワード：<span class=\"kw\">蝶形紅斑・光線過敏・口腔潰瘍・脱毛・関節炎</span><br/>脱毛はSLEで多く（前頭部・側頭部が特徴的）→ Sjögren・RA・薬剤性との鑑別"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "脱毛＋関節痛＋口腔潰瘍＋発熱＝SLE。<br/><b>a 皮膚筋炎〜d Sjögren</b>：合わない。<br/><b>e 全身性エリテマトーデス</b>：<span class=\"kw\">多彩な全身症状(脱毛・口腔潰瘍・関節炎)</span>。✓"
             }
           ],
           "imgs": []
@@ -7414,6 +7464,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "APS = APTT延長＋血小板減少 → でも<span class=\"kw\">血栓症</span>（矛盾）<br/>妊娠中→<span class=\"kw\">ヘパリン</span>（ワルファリンは胎盤通過→催奇形性・禁忌）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "抗リン脂質抗体症候群で正しいもの。<br/><b>a 血小板増加〜c PT短縮、e ステロイド第一選択</b>：誤り(血小板減少・APTT延長・抗凝固が治療)。<br/><b>d 妊娠高血圧症候群の高リスクである</b>：<span class=\"kw\">胎盤血栓で妊娠合併症のリスクが高い</span>。✓"
             }
           ],
           "imgs": []
@@ -7470,6 +7525,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "強皮症 + 右心不全症状（II音亢進・右室拡大）= <span class=\"kw\">肺動脈性肺高血圧症（PAH）</span><br/>間質性肺炎はfine cracklesが特徴（今回は心エコーで右心負荷が陽性所見）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "強皮症(Raynaud)＋指尖潰瘍＋労作時息切れ。<br/><b>a 間質性肺炎〜c 収縮性心膜炎、d COPD、e 心アミロイド</b>：本例で主でない。<br/><b>b 肺高血圧症</b>：<span class=\"kw\">強皮症に伴う肺動脈性肺高血圧症</span>。✓"
             }
           ],
           "imgs": [
@@ -7524,6 +7584,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "重症SLE（NPSLE・class III/IV LN）→ <span class=\"kw\">シクロフォスファミド＋ステロイド</span><br/>SLEでは抗TNF-α製剤は禁忌に近い（IFN-αを誘発しSLE悪化）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "SLE＋発熱・頭痛(中枢神経ループス/重症)。<br/><b>a コルヒチン〜d 抗IL-6</b>：不適。<br/><b>e シクロフォスファミド</b>：<span class=\"kw\">重症SLE(中枢神経/腎)の寛解導入</span>。✓"
             }
           ],
           "imgs": []
@@ -7580,6 +7645,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "小児皮膚筋炎 = <span class=\"kw\">Gottron丘疹（手背関節背側）</span>＋ヘリオトロープ疹＋近位筋力低下<br/>Gottron丘疹はPIP・DIP・MCPすべてに出る（乾癬性関節炎のDIPのみと異なる）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "小児・顔面紅斑＋Gottron丘疹＋近位筋把握痛＝(若年性)皮膚筋炎。<br/><b>b 線維筋痛症〜e SLE</b>：合わない。<br/><b>a 皮膚筋炎</b>：<span class=\"kw\">ヘリオトロープ/Gottron＋近位筋障害</span>。✓"
             }
           ],
           "imgs": [
@@ -7635,6 +7705,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "高齢者（特に成人女性）＋小児との接触歴＋多発関節炎 → <span class=\"kw\">パルボウイルスB19感染症</span><br/>孫に伝染性紅斑があれば→パルボウイルスB19による関節炎と診断"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "孫の伝染性紅斑後の関節炎＝パルボウイルスB19感染を疑う。<br/><b>a 職業歴〜b 難聴、d 解熱薬、e 陰部潰瘍</b>：主でない。<br/><b>c 孫の臨床経過</b>：<span class=\"kw\">小児の伝染性紅斑(パルボB19)への曝露を確認</span>。✓"
             }
           ],
           "imgs": []
@@ -7687,6 +7762,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SLE患者への指導：<span class=\"kw\">妊娠は病状安定後</span>＋<span class=\"kw\">光線過敏→紫外線を避ける</span><br/>インフルエンザワクチン（不活化）はSLEでも接種可。生ワクチンは禁忌に注意"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "円板状皮疹＋関節痛＝SLE。若年女性への説明。<br/><b>a 関節変形〜c MTX、d ワクチン回避、e 日光浴</b>：誤り(日光は増悪)。<br/><b>b 「病状が安定するまで妊娠は避けてください」</b>：<span class=\"kw\">活動期の妊娠は増悪/合併症リスクで避ける</span>。✓"
             }
           ],
           "imgs": []
@@ -7743,6 +7823,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント（正答率52%！）",
               "c": "炎症性筋疾患の活動性確認 → <span class=\"kw\">MRI T2（STIR）で筋内高信号</span><br/>MG：抗AChR抗体・反復刺激試験<br/>筋強直性ジストロフィー：ミオトニー放電（叩打性・握力開放遅延）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "亜急性の近位筋筋力低下＝多発筋炎。<br/><b>a 末梢神経伝導低下〜d ミオトニー放電</b>：他疾患。<br/><b>e 四肢MRIのT2強調像で筋内の高信号</b>：<span class=\"kw\">筋の炎症/浮腫を反映(生検部位の指標)</span>。✓"
             }
           ],
           "imgs": [
@@ -7801,6 +7886,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "強皮症の2大臓器合併症：<span class=\"kw\">食道蠕動低下（GERD）</span>＋<span class=\"kw\">間質性肺炎</span><br/>Raynaud＋胸やけ（食道症状）＋fine crackles → 強皮症の典型的プレゼンテーション"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "Raynaud＋皮膚硬化＋指潰瘍＋胸やけ＝全身性強皮症の合併を2つ。<br/><b>a 脳血管障害〜d 肺血流障害、e 強皮症腎</b>：主でない。<br/><b>b 食道蠕動運動低下</b>：<span class=\"kw\">食道平滑筋の線維化で逆流症</span>。✓<br/><b>c 間質性肺炎</b>：<span class=\"kw\">強皮症肺(間質性肺炎)</span>。✓"
             }
           ],
           "imgs": []
@@ -7853,6 +7943,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "腎障害が少ない結合組織疾患 = <span class=\"kw\">多発筋炎（PM）・皮膚筋炎（DM）</span><br/>PMは筋・肺（間質性肺炎）・悪性腫瘍が主要合併症。腎は通常侵されない"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "腎障害の合併が少ない疾患。<br/><b>a SLE〜c 紫斑病、e 強皮症</b>：腎障害を合併。<br/><b>d 多発筋炎</b>：<span class=\"kw\">腎障害の合併は少ない</span>。✓"
             }
           ],
           "imgs": []
@@ -7909,6 +8004,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "薬物誘発ループス（DIL）を起こす薬剤：<span class=\"kw\">プロカインアミド・ヒドララジン・イソニアジド</span><br/>特徴：抗histone抗体陽性・中止で改善・腎障害まれ・抗dsDNA抗体は陰性が多い"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "薬物と副作用の組合せを3つ。<br/><b>a プロプラノロール―喘息発作</b>：<span class=\"kw\">β遮断で気管支収縮</span>。✓<br/><b>b ブスルファン―間質性肺炎</b>：<span class=\"kw\">肺線維症</span>。✓<br/><b>c コデイン―下痢〜d リファンピシン―SAS</b>：誤り。<br/><b>e プロカインアミド―薬物誘発ループス</b>：<span class=\"kw\">薬剤性ループスの代表</span>。✓"
             }
           ],
           "imgs": []
@@ -7956,6 +8056,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "振動工具作業 → <span class=\"kw\">振動病（白ろう病）</span> → <span class=\"kw\">Raynaud現象</span><br/>職業性疾患：チェーンソー・削岩機・電動ドリル等の使用歴が重要"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "局所振動障害でみられるもの。<br/><b>a Gottron〜c Osler結節、e Romberg</b>：合わない。<br/><b>d Raynaud現象</b>：<span class=\"kw\">振動工具による末梢血管攣縮(白ろう病)</span>。✓"
             }
           ],
           "imgs": []
@@ -8003,6 +8108,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "皮膚筋炎（高齢発症）= 悪性腫瘍の合併を必ず検索<br/><span class=\"kw\">抗TIF1-γ抗体</span> → 悪性腫瘍合併のバイオマーカー"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高齢・近位筋筋力低下＋ヘリオトロープ＋嚥下困難＝皮膚筋炎。合併を確認。<br/><b>a 肝不全〜e 膀胱直腸障害</b>：主でない。<br/><b>b 悪性腫瘍</b>：<span class=\"kw\">中高年の皮膚筋炎は悪性腫瘍の合併(傍腫瘍性)に注意</span>。✓"
             }
           ],
           "imgs": []
@@ -8050,6 +8160,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SLE診断・活動性評価 = <span class=\"kw\">抗dsDNA抗体</span>＋<span class=\"kw\">補体低下（CH50/C3/C4）</span><br>抗dsDNA抗体↑・補体↓ = SLE活動性増悪のサイン</br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "顔面紅斑＋関節炎＋腎病変＝SLE(ループス腎炎)。<br/><b>a 抗CCP〜d 抗Scl-70</b>：他疾患。<br/><b>e 抗dsDNA抗体</b>：<span class=\"kw\">SLEに特異的で腎炎/活動性と相関</span>。✓"
             }
           ],
           "imgs": []
@@ -8097,6 +8212,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "続発性Raynaud（強皮症）= <span class=\"kw\">指の腫脹・皮膚硬化・指尖潰瘍・陥凹性瘢痕</span><br/>特発性との鑑別：背景疾患の有無・手指腫脹・血管壊死の有無"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "全身性強皮症の続発性Raynaud現象の特徴。<br/><b>a 片側性〜c 若年発症、e 血圧左右差</b>：一次性/他疾患の特徴。<br/><b>d 手指腫脹を伴う</b>：<span class=\"kw\">皮膚硬化/手指腫脹を伴い爪郭毛細血管異常あり(続発性)</span>。✓"
             }
           ],
           "imgs": []
@@ -8149,6 +8269,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "皮膚筋炎（CADM）+ 抗MDA5抗体 → <span class=\"kw\">急速進行性間質性肺炎（RP-ILD）</span><br/>fine crackles＋Gottron丘疹 → 皮膚筋炎のILDを疑う"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "手指皮疹＋発熱＋fine crackles＝皮膚筋炎の間質性肺炎。<br/><b>a 心不全〜c 嚥下障害、e 肺高血圧</b>：主でない。<br/><b>d 間質性肺炎</b>：<span class=\"kw\">皮膚筋炎に合併する間質性肺炎(fine crackles)</span>。✓"
             }
           ],
           "imgs": [
@@ -8203,6 +8328,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "振動病の治療・対策第一 = <span class=\"kw\">工具の見直し（防振工具・使用制限）</span><br/>職業病では「原因の除去」が最優先"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "振動工具作業＋白指＝振動障害(白ろう病)。<br/><b>a 減量〜b 禁酒、d 戸外運動、e 塩分水</b>：本質でない。<br/><b>c 工具の見直し</b>：<span class=\"kw\">振動曝露の低減(工具/作業の見直し)</span>。✓"
             }
           ],
           "imgs": [
@@ -8252,6 +8382,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "Sjögren症候群 = <span class=\"kw\">抗SS-A抗体（Ro）</span>（感度70%・Sjögren診断の必須抗体）<br/>抗SS-B（La）も同時陽性なら更に特異度↑"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "眼乾燥＋口腔乾燥＋関節痛＝Sjögren症候群。<br/><b>a PR3-ANCA〜e 抗アクアポリン4</b>：合わない。<br/><b>b 抗SS-A抗体</b>：<span class=\"kw\">Sjögren症候群の代表的自己抗体</span>。✓"
             }
           ],
           "imgs": []
@@ -8304,6 +8439,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "DVT+PE疑い = <span class=\"kw\">下肢静脈超音波</span>＋<span class=\"kw\">胸部造影CT</span><br/>3回流産＋DVT → APS疑い → 後で抗リン脂質抗体測定"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "反復流産＋DVT＋肺塞栓＝抗リン脂質抗体症候群。検査を2つ。<br/><b>a 血液培養〜c 頭部MRI</b>：主でない。<br/><b>d 胸部造影CT</b>：<span class=\"kw\">肺血栓塞栓症を評価</span>。✓<br/><b>e 下肢静脈超音波検査</b>：<span class=\"kw\">深部静脈血栓を評価</span>。✓"
             }
           ],
           "imgs": []
@@ -8351,6 +8491,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "APS妊娠中の抗凝固 = <span class=\"kw\">ヘパリン（ワルファリン禁忌）</span><br/>ヘパリン→胎盤通過せず安全。分娩後はワルファリンに変更可能"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "習慣流産＋血栓症＝抗リン脂質抗体症候群。<br/><b>b ビタミンD〜e 黄体ホルモン</b>：不適。<br/><b>a ヘパリン</b>：<span class=\"kw\">妊娠中の血栓予防・流産予防(ヘパリン＋アスピリン)</span>。✓"
             }
           ],
           "imgs": []
@@ -8403,6 +8548,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "強皮症の自己抗体：<span class=\"kw\">抗Scl-70（びまん型・ILD）</span>＋<span class=\"kw\">抗セントロメア（限局型・PAH）</span>＋<span class=\"kw\">抗RNAポリメラーゼIII（腎クリーゼ）</span><br/>MCTD = 抗RNP抗体（必須）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "疾患と特異的自己抗体の組合せ。<br/><b>a 多発性筋炎―抗Sm〜e SLE―抗ARS</b>：組合せが誤り。<br/><b>b 全身性強皮症―抗RNAポリメラーゼⅢ抗体</b>：<span class=\"kw\">びまん皮膚硬化型・腎クリーゼと関連</span>。✓"
             }
           ],
           "imgs": []
@@ -8450,6 +8600,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "強皮症＋ステロイド増量後の血圧急上昇 = <span class=\"kw\">強皮症腎クリーゼ</span> → <span class=\"kw\">ACE阻害薬</span><br/>ステロイド増量でSRCが誘発される→強皮症患者はステロイド増量に注意"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "強皮症＋ステロイド増量後の急激な高血圧＝強皮症腎クリーゼ。<br/><b>a 緊急透析〜d ステロイドパルス</b>：第一でない(ステロイドは誘因)。<br/><b>e ACE阻害薬投与</b>：<span class=\"kw\">強皮症腎クリーゼの第一選択</span>。✓"
             }
           ],
           "imgs": []
@@ -8502,6 +8657,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "皮膚筋炎 + 高齢 = <span class=\"kw\">悪性腫瘍</span>を必ず検索<br/>全身CT・内視鏡・腫瘍マーカー・PET-CTを施行"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高齢・露光部紅斑＋近位筋筋力低下＝皮膚筋炎。合併を確認。<br/><b>b 指尖潰瘍〜e びらん性関節炎</b>：主でない。<br/><b>a 悪性腫瘍</b>：<span class=\"kw\">中高年の皮膚筋炎は悪性腫瘍を合併しやすい</span>。✓"
             }
           ],
           "imgs": [
@@ -8557,6 +8717,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SLE+DVT → <span class=\"kw\">APS（抗リン脂質抗体症候群）合併</span>を必ず検索<br/>抗カルジオリピン抗体・ループスアンチコアグラント・抗β2GPI抗体"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "光線過敏＋顔面紅斑＝SLE＋下腿浮腫(DVT/APS)。検査を2つ。<br/><b>a 腎生検〜c 抗Jo-1</b>：主でない。<br/><b>d 下肢静脈超音波検査</b>：<span class=\"kw\">深部静脈血栓を評価</span>。✓<br/><b>e 抗カルジオリピン抗体測定</b>：<span class=\"kw\">抗リン脂質抗体症候群の合併を評価</span>。✓"
             }
           ],
           "imgs": []
@@ -8609,6 +8774,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "ドライアイ＋う歯 → Sjögren症候群 → <span class=\"kw\">抗SS-A抗体</span><br/>挙児希望がある場合→抗SS-A抗体陽性なら先天性心ブロックリスクを説明"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "リウマチ反応陽性＋ドライアイ＋う歯＝Sjögren症候群。<br/><b>a 抗ARS〜e 抗dsDNA</b>：合わない。<br/><b>b 抗SS-A抗体</b>：<span class=\"kw\">Sjögren症候群の代表的自己抗体</span>。✓"
             }
           ],
           "imgs": [
@@ -8658,6 +8828,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "強皮症 + 労作時息切れ → <span class=\"kw\">心エコーで肺動脈圧測定（PAH評価）</span><br/>確定診断は右心カテーテル（mPAP &gt;25mmHg）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "強皮症(Raynaud・皮膚硬化)＋労作時息切れ＝肺高血圧を疑う。<br/><b>a 冠動脈造影〜e ガリウムシンチ</b>：第一でない。<br/><b>b 心エコー検査</b>：<span class=\"kw\">肺高血圧(推定肺動脈圧)を非侵襲的に評価</span>。✓"
             }
           ],
           "imgs": []
@@ -8710,6 +8885,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SLE急性増悪（AIHA/ITP）→ <span class=\"kw\">ステロイドパルス療法</span><br/>パルス後はPSL 1〜2mg/kg/日の経口投与へ移行"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "蝶形紅斑＋発熱＋関節炎＝活動性SLE。<br/><b>a 緊急手術〜d 分子標的薬</b>：第一でない。<br/><b>e ステロイドパルス療法</b>：<span class=\"kw\">重症/活動性SLEの寛解導入</span>。✓"
             }
           ],
           "imgs": [
@@ -8766,6 +8946,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "強皮症 = <span class=\"kw\">CREST症候群</span>：Calcinosis（石灰化）＋Raynaud＋Esophageal dysmotility（食道蠕動低下）＋Sclerodactyly（指硬化）＋Telangiectasia（毛細血管拡張）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "強皮症でみられるものを2つ。<br/><b>a 陰部潰瘍〜c ぶどう膜炎</b>：他疾患。<br/><b>d 肺高血圧症</b>：<span class=\"kw\">肺動脈性肺高血圧症</span>。✓<br/><b>e 胃食道逆流症</b>：<span class=\"kw\">食道平滑筋線維化による逆流</span>。✓"
             }
           ],
           "imgs": []
@@ -8813,6 +8998,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SLE活動性マーカー = <span class=\"kw\">補体（CH50/C3/C4）↓</span>＋<span class=\"kw\">抗dsDNA抗体↑</span><br/>SLEでCRP高値 → 感染合併を疑う（SLE自体ではCRPはあまり上がらない）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "頰部紅斑＋腎炎＝SLE。活動性を反映する検査。<br/><b>a LD〜e 総コレステロール</b>：活動性の指標でない。<br/><b>b 補体価(CH50)</b>：<span class=\"kw\">免疫複合体消費で低下(活動性と逆相関)</span>。✓"
             }
           ],
           "imgs": []
@@ -8865,6 +9055,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SLE = <span class=\"kw\">赤沈↑＋CRP正常</span>（CRPが低いのがSLEの特徴）<br/>リンパ球減少・血小板減少・補体低下・抗dsDNA高値が活動期の典型所見"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "光線過敏＋口腔潰瘍＋尿泡立ち(腎炎)＝SLE。予想される所見を3つ。<br/><b>a 赤沈亢進</b>：<span class=\"kw\">炎症で亢進</span>。✓<br/><b>b 尿蛋白陽性</b>：<span class=\"kw\">ループス腎炎</span>。✓<br/><b>c 血小板増加〜e 補体高値</b>：誤り(血小板減少・補体低下)。<br/><b>d リンパ球数減少</b>：<span class=\"kw\">SLEの血球減少</span>。✓"
             }
           ],
           "imgs": []
@@ -8912,6 +9107,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "多発筋炎の精査 = <span class=\"kw\">筋生検・呼吸機能・心エコー・内視鏡</span><br>頸動脈超音波は動脈硬化・脳血管疾患リスク評価用（炎症性筋疾患とは無関係）</br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "皮膚筋炎(近位筋筋力低下＋顔面頭皮皮疹)の精査。必要性が低い検査。<br/><b>a 筋生検・b 呼吸機能(ILD)・c 心エコー(心筋炎)・e 上部消化管内視鏡(悪性腫瘍/嚥下)</b>：必要。<br/><b>d 頸動脈超音波検査</b>：<span class=\"kw\">皮膚筋炎の精査として必要性が低い</span>。✓"
             }
           ],
           "imgs": []
@@ -8959,6 +9159,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "多発筋炎/皮膚筋炎の第一選択 = <span class=\"kw\">副腎皮質ステロイド</span><br>ステロイドで筋力・CKが改善→効果判定。ILD合併時は積極的治療</br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "皮膚筋炎の治療。<br/><b>a β遮断薬〜c 葉酸拮抗薬、e 免疫グロブリン</b>：第一でない。<br/><b>d 副腎皮質ステロイド</b>：<span class=\"kw\">炎症性筋疾患の第一選択</span>。✓"
             }
           ],
           "imgs": []
@@ -9011,6 +9216,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "強皮症の4徴 = <span class=\"kw\">Raynaud＋皮膚硬化＋指尖潰瘍・瘢痕＋食道蠕動低下</span><br/>男性でも発症する（女性&gt;男性だが男性の方が重症化しやすい）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "Raynaud＋皮膚硬化＋胸やけ＋指腹小潰瘍＝全身性硬化症。<br/><b>a ペラグラ〜c クリオグロブリン、e SLE</b>：合わない。<br/><b>d 全身性硬化症〈強皮症〉</b>：<span class=\"kw\">皮膚硬化＋Raynaud＋逆流症</span>。✓"
             }
           ],
           "imgs": [
@@ -9065,6 +9275,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "多発筋炎/皮膚筋炎の診断抗体 = <span class=\"kw\">抗Jo-1抗体（抗ARS抗体の代表）</span><br/>CK↑＋近位筋力低下＋Gottron丘疹→皮膚筋炎→抗Jo-1・抗MDA5等を検索"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "顔面/四肢伸側紅斑＋近位筋筋痛＝皮膚筋炎。<br/><b>b 抗dsDNA〜e 抗トポイソメラーゼⅠ</b>：他疾患。<br/><b>a 抗Jo-1抗体</b>：<span class=\"kw\">多発筋炎/皮膚筋炎(抗合成酵素症候群)</span>。✓"
             }
           ],
           "imgs": [
@@ -9119,6 +9334,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SLE = 補体低値（<span class=\"kw\">CH50↓・C3↓・C4↓</span>）→「補体は消費される」<br/>対照的に感染症や悪性腫瘍では補体は上昇"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "発熱＋関節痛＋顔面皮疹＋貧血＝SLE。<br/><b>a IgA高値〜b ASO、d 抗基底膜、e ANCA</b>：合わない。<br/><b>c 血清補体価低値</b>：<span class=\"kw\">免疫複合体消費で補体低下</span>。✓"
             }
           ],
           "imgs": [
@@ -9168,6 +9388,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "強皮症の総合的な腎・血管保護 = <span class=\"kw\">ACE阻害薬</span><br/>強皮症腎クリーゼはACE阻害薬が特異的治療薬（β遮断薬は禁忌）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "Raynaud＋皮膚硬化＋fine crackles＝全身性強皮症。<br/><b>a 利尿薬〜c 尿酸排泄</b>：不適。<br/><b>d ステロイド増量</b>：<span class=\"kw\">高用量ステロイドは腎クリーゼを誘発するため避ける</span>。<br/><b>e ACE阻害薬の投与</b>：<span class=\"kw\">腎保護/腎クリーゼ予防に用いる(ステロイドは避ける)</span>。✓"
             }
           ],
           "imgs": []
@@ -9215,6 +9440,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "DVT = APS（血栓性疾患）。APSはAPTT延長なのに血栓症という逆説的特徴<br/><span class=\"kw\">APTT延長＋血小板減少→でも血栓症</span> = APSの典型パターン"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "深部静脈血栓症がみられる疾患。<br/><b>a 再生不良性貧血〜e ピロリ感染</b>：血栓傾向でない。<br/><b>c 抗リン脂質抗体症候群</b>：<span class=\"kw\">動静脈血栓・習慣流産</span>。✓"
             }
           ],
           "imgs": []
@@ -9262,6 +9492,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SLE = <span class=\"kw\">白血球減少（リンパ球減少）</span>・血小板減少・溶血性貧血<br/>SLEのCRPは低い→感染合併時のCRP上昇を見逃すな"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "白血球減少をきたす疾患。<br/><b>a Sweet病〜d Weber-Christian病</b>：白血球増加/主でない。<br/><b>e 全身性エリテマトーデス</b>：<span class=\"kw\">汎血球減少(白血球/リンパ球減少)</span>。✓"
             }
           ],
           "imgs": []
@@ -9309,6 +9544,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "MCTD = 抗RNP抗体 + 強皮症＋SLE＋PM様の混合 + <span class=\"kw\">PAH（肺高血圧）が予後規定</span><br/>Raynaud・手指腫脹（ソーセージ指）・食道症状が特徴的"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "疾患と病態の組合せ。<br/><b>a 強皮症―ネフローゼ〜e 皮膚筋炎―高血圧緊急症</b>：組合せが誤り。<br/><b>b 混合性結合組織病―肺高血圧症</b>：<span class=\"kw\">MCTDの予後を規定する肺動脈性肺高血圧症</span>。✓"
             }
           ],
           "imgs": []
@@ -9361,6 +9601,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "皮膚筋炎 + 呼吸数増加 → <span class=\"kw\">間質性肺炎（ILD）</span>の合併を疑う<br/>呼吸機能検査（拘束性換気障害）・胸部CTで確認"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "顔面/肘手の皮疹＋近位筋筋力低下＋頻呼吸＝皮膚筋炎の合併。<br/><b>a ぶどう膜炎〜b 間質性腎炎、d 虚血性心筋症、e 自己免疫性肝炎</b>：主でない。<br/><b>c 間質性肺炎</b>：<span class=\"kw\">皮膚筋炎に合併し予後を左右する間質性肺炎</span>。✓"
             }
           ],
           "imgs": [
@@ -9411,6 +9656,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "10週以降の流産＋DVT = <span class=\"kw\">APS（抗リン脂質抗体症候群）</span><br/>次回妊娠管理：抗リン脂質抗体確認後→ヘパリン＋低用量アスピリン"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "子宮内胎児死亡＋分娩後DVT＝抗リン脂質抗体症候群。<br/><b>a 子宮卵管造影〜c 染色体、e プロゲステロン</b>：主でない。<br/><b>d 抗リン脂質抗体測定</b>：<span class=\"kw\">不育症＋血栓の原因検索(APS)</span>。✓"
             }
           ],
           "imgs": []
@@ -9510,6 +9760,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "Schirmer試験低下 → <span class=\"kw\">Sjögren症候群（乾性角結膜炎）</span><br/>ドライアイ症状（異物感・痛み）＋口腔乾燥（う歯）→Sjögren二大症状"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "両眼異物感＋Schirmer低下＋角膜上皮欠損＝Sjögren症候群(乾燥性角結膜炎)。<br/><b>a Reiter〜e Wilson病</b>：合わない。<br/><b>b Sjögren症候群</b>：<span class=\"kw\">涙液分泌低下(乾燥性角結膜炎)</span>。✓"
             }
           ],
           "imgs": []
@@ -9557,6 +9812,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "Sjögren症候群 = 口腔乾燥 → <span class=\"kw\">う歯多発（唾液保護機能低下）</span><br/>乾燥症状の治療：人工涙液・人工唾液・ピロカルピン（唾液分泌促進）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "白血球減少＋RF陽性＋抗SS-A/SS-B陽性＝Sjögren症候群。<br/><b>a 易感染性〜c 流産、e 乾燥にステロイド有効</b>：誤り。<br/><b>d う歯の多発傾向がある</b>：<span class=\"kw\">唾液分泌低下で多発性う歯</span>。✓"
             }
           ],
           "imgs": []
@@ -9656,6 +9916,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "Raynaud症候群の原因にならない = <span class=\"kw\">甲状腺機能亢進症</span><br/>機能亢進症は血流増加→逆にのぼせ・発汗・頻脈。Raynaudは血管収縮疾患"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "Raynaud症候群の原因とならないもの。<br/><b>a 振動工具〜b ASO、d 強皮症、e SLE</b>：原因となる。<br/><b>c 甲状腺機能亢進症</b>：<span class=\"kw\">末梢は温かくRaynaudの原因でない</span>。✓"
             }
           ],
           "imgs": []
@@ -9703,6 +9968,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "網状皮斑＋習慣流産＋若年脳梗塞 = <span class=\"kw\">APS</span> → <span class=\"kw\">抗カルジオリピン抗体</span><br/>SLEに合併するAPSも多い→同時にANA・抗dsDNA抗体も検査"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "網状皮斑＋反復流産＋脳梗塞＝抗リン脂質抗体症候群。<br/><b>a 抗RNP〜d 抗Scl-70</b>：合わない。<br/><b>e 抗カルジオリピン抗体</b>：<span class=\"kw\">抗リン脂質抗体症候群の診断</span>。✓"
             }
           ],
           "imgs": []
@@ -9755,6 +10025,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "HSP = 触知可能な紫斑（可触性紫斑）＋関節炎＋腹痛＋腎炎<br/><span class=\"kw\">疝痛性腹痛</span> = HSPで腸管病変（腸重積・腸管壁浮腫）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "組合せで正しいものを2つ。<br/><b>a Schönlein-Henoch紫斑病―疝痛性腹痛</b>：<span class=\"kw\">腸管の血管炎による腹痛</span>。✓<br/><b>b Sjögren―関節拘縮〜d JIA―輪状紅斑、e SLE―Gottron</b>：誤り。<br/><b>c 抗リン脂質抗体症候群―深部静脈血栓症</b>：<span class=\"kw\">静脈血栓</span>。✓"
             }
           ],
           "imgs": []
@@ -9802,6 +10077,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SLE活動性 = <span class=\"kw\">白血球・リンパ球減少</span>＋補体↓＋抗dsDNA↑<br/>SLEでCRP高値→感染症合併を疑う"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "小児SLEの活動性を示すもの。<br/><b>a リンパ節腫脹〜c 血尿、e CRP高値</b>：活動性の直接指標でない。<br/><b>d 白血球減少</b>：<span class=\"kw\">SLEの疾患活動性を反映する血球減少</span>。✓"
             }
           ],
           "imgs": []
@@ -9854,6 +10134,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "MCTD の特徴的皮膚所見 = <span class=\"kw\">ソーセージ様手指（腊腸指）＋Raynaud現象</span><br/>APS の皮膚所見 = <span class=\"kw\">網状皮斑</span>（血管障害による網目状パターン）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "疾患と皮膚所見の組合せを2つ。<br/><b>a PN―多形皮膚萎縮〜c 紫斑病―Raynaud、e SLE―Gottron</b>：誤り。<br/><b>b 抗リン脂質抗体症候群―網状皮斑</b>：<span class=\"kw\">livedo(網状皮斑)</span>。✓<br/><b>d 混合性結合組織病―ソーセージ様手指</b>：<span class=\"kw\">手指腫脹(ソーセージ様)</span>。✓"
             }
           ],
           "imgs": []
@@ -9901,6 +10186,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SLE＋血小板減少（免疫性）→ <span class=\"kw\">副腎皮質ステロイド</span><br/>難治性→リツキシマブ（抗CD20抗体）・エルトロンボパグ（TPO受容体作動薬）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "光線過敏＋顔面紅斑＋発熱＝SLE。<br/><b>a 抗菌薬〜c 血管拡張薬、e NSAID</b>：第一でない。<br/><b>d 副腎皮質ステロイド投与</b>：<span class=\"kw\">活動性SLEの基本治療</span>。✓"
             }
           ],
           "imgs": []
@@ -9953,6 +10243,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "強皮症の必発 = <span class=\"kw\">Raynaud現象</span>（三相性変色）<br/>Raynaud進行→<span class=\"kw\">指尖潰瘍→陥凹性瘢痕（pitted scars）</span><br/>CREST症候群（限局型強皮症）：<span class=\"kw\">Calcinosis・Raynaud・Esophagus・Sclerodactyly・Telangiectasia</span>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "全身性強皮症でみられるものを2つ。<br/><b>a 環状紅斑〜b 光線過敏、d 口腔内びらん</b>：他疾患。<br/><b>c 指尖部潰瘍</b>：<span class=\"kw\">末梢循環障害による指尖潰瘍</span>。✓<br/><b>e Raynaud症状</b>：<span class=\"kw\">末梢血管攣縮</span>。✓"
             }
           ],
           "imgs": []
@@ -10005,6 +10300,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント（正答率25%！）",
               "c": "皮膚筋炎/多発筋炎の検査 = <span class=\"kw\">CK・LD・アルドラーゼ高値</span>（筋逸脱酵素）<br/>Gottron徴候（肘・膝伸側の紅斑）→皮膚筋炎→筋逸脱酵素を検索"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "小児・両頬紅斑＋肘頭のGottron様皮疹＝(若年性)皮膚筋炎。<br/><b>a ASO〜e γグロブリン増加</b>：主でない。<br/><b>b LD高値</b>：<span class=\"kw\">筋逸脱酵素(LD/CK)の上昇</span>。✓"
             }
           ],
           "imgs": [
@@ -10055,6 +10355,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "強皮症＋三尖弁逆流性雑音 → <span class=\"kw\">PAH（肺高血圧症）</span>→ 心エコーで評価<br/>PAH確定診断：右心カテーテル（mPAP &gt;25mmHg）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "Raynaud＋手指硬化＋収縮期雑音＋fine crackles＝強皮症＋肺高血圧を疑う。<br/><b>a 心エコー検査</b>：<span class=\"kw\">肺高血圧(推定肺動脈圧)を評価</span>。✓<br/><b>b 呼吸機能〜e 右心カテ</b>：確定的だが第一でない/主でない。"
             }
           ],
           "imgs": []
@@ -10102,6 +10407,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SLEの検査所見：<span class=\"kw\">ANA陽性・抗dsDNA陽性・補体低下・リンパ球減少・血小板減少</span><br/>高IgG（高γグロブリン血症）も特徴。CRPは通常正常〜軽度上昇"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "Raynaud＋蝶形紅斑＋光線過敏＝SLE。<br/><b>a 補体上昇〜d IgG低値</b>：誤り(補体低下)。<br/><b>e 抗DNA抗体陽性</b>：<span class=\"kw\">SLEに特異的</span>。✓"
             }
           ],
           "imgs": []
@@ -10154,6 +10464,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "皮膚筋炎の2大合併症 = <span class=\"kw\">悪性腫瘍</span>＋<span class=\"kw\">間質性肺炎</span><br>体重減少・リンパ節腫大＋皮膚筋炎 → 悪性腫瘍を優先検索</br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "ヘリオトロープ＋Gottron＋体重減少＝皮膚筋炎。合併を2つ。<br/><b>a 感染症〜b 腎障害、e 中枢神経</b>：主でない。<br/><b>c 悪性腫瘍</b>：<span class=\"kw\">中高年で合併しやすい</span>。✓<br/><b>d 間質性肺炎</b>：<span class=\"kw\">予後を左右する合併症</span>。✓"
             }
           ],
           "imgs": []
@@ -10210,6 +10525,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "皮膚筋炎の検査 = <span class=\"kw\">CK・LD高値</span>（筋逸脱酵素）＋<span class=\"kw\">尿中クレアチン増加</span><br/>神経原性（GBS等）では尿中クレアチンは増加しない→鑑別に有用"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "眼瞼紅斑＋近位筋筋痛＋筋生検＝多発筋炎/皮膚筋炎。所見を2つ。<br/><b>b 抗AChR〜d 食道蠕動低下、e 神経伝導低下</b>：他疾患。<br/><b>a 抗Jo-1抗体高値</b>：<span class=\"kw\">抗合成酵素抗体</span>。✓<br/><b>c 尿中クレアチン増加</b>：<span class=\"kw\">筋崩壊でクレアチン尿</span>。✓"
             }
           ],
           "imgs": [
@@ -10259,6 +10579,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SLE産褥期増悪 = 産後にSLE再燃・増悪（特に最初の3か月）<br/>妊娠中のループス腎炎→ <span class=\"kw\">ヒドロキシクロロキン＋ステロイド</span>で管理"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "妊娠中の関節腫脹＋高血圧蛋白尿＋Raynaud＝SLE。<br/><b>b 強皮症〜e Sjögren</b>：合わない。<br/><b>a 全身性エリテマトーデス</b>：<span class=\"kw\">妊娠を契機に顕在化/増悪する多臓器病変</span>。✓"
             }
           ],
           "imgs": []
@@ -10311,6 +10636,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "強皮症の2大死因 = <span class=\"kw\">肺病変（PAH/ILD）</span>＋<span class=\"kw\">腎クリーゼ</span><br/>特に肺高血圧症（PAH）は予後不良。腎クリーゼはACE阻害薬で改善可"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "全身性強皮症の生命予後を悪化させるものを2つ。<br/><b>a 皮膚〜b 関節、e 消化管</b>：予後を直接規定しにくい。<br/><b>c 肺病変</b>：<span class=\"kw\">間質性肺炎/肺高血圧が予後を規定</span>。✓<br/><b>d 腎病変</b>：<span class=\"kw\">強皮症腎クリーゼ</span>。✓"
             }
           ],
           "imgs": []
@@ -10363,6 +10693,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "APS特有の所見 = <span class=\"kw\">梅毒血清反応偽陽性（RPR偽陽性）</span><br/>APSの確認検査：抗カルジオリピン抗体・ループスアンチコアグラント・抗β2GPI抗体（12週以上あけて2回陽性）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "前胸部痛＋呼吸困難＋反復流産＋DVT＝抗リン脂質抗体症候群/肺塞栓。所見を2つ。<br/><b>a 血小板増加〜b CK高値、d ST上昇</b>：合わない。<br/><b>c 梅毒血清反応偽陽性</b>：<span class=\"kw\">抗リン脂質抗体による生物学的偽陽性</span>。✓<br/><b>e 肺血流シンチグラムでの欠損像</b>：<span class=\"kw\">肺血栓塞栓症</span>。✓"
             }
           ],
           "imgs": []
@@ -10410,6 +10745,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "MCTD = 抗RNP抗体 + <span class=\"kw\">ソーセージ様手指</span>+ Raynaud + 食道蠕動低下<br/>MCTDは強皮症・SLE・PMの特徴が混在（mixed = 混合）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "疾患と皮膚所見の組合せ。<br/><b>a Behçet―蝶形紅斑〜d 悪性RA―輪状紅斑</b>：組合せが誤り。<br/><b>e 混合性結合組織病―ソーセージ様指</b>：<span class=\"kw\">手指腫脹(ソーセージ様)</span>。✓"
             }
           ],
           "imgs": []
@@ -10462,6 +10802,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "強皮症の肺病変 = <span class=\"kw\">ILD（間質性肺炎・肺線維症）</span>＋<span class=\"kw\">PAH（肺高血圧）</span><br/>びまん型 → ILD多い。限局型（CREST）→ PAH多い"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "Raynaud＋関節痛＋労作時息切れ＝MCTD/膠原病の合併を2つ。<br/><b>a 高安動脈炎〜b 肺動脈弁狭窄、e 左心不全</b>：合わない。<br/><b>c 肺高血圧</b>：<span class=\"kw\">膠原病に伴う肺動脈性肺高血圧症</span>。✓<br/><b>d 肺線維症</b>：<span class=\"kw\">間質性肺炎(肺線維症)</span>。✓"
             }
           ],
           "imgs": []
@@ -10509,6 +10854,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "APS = <span class=\"kw\">抗カルジオリピン抗体陽性</span>（APS診断抗体）<br/>APTT延長・血小板減少・梅毒偽陽性もAPSの特徴的検査所見"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "抗リン脂質抗体症候群でみられるもの。<br/><b>a 血小板増加〜c γグロブリン低下、e ANCA</b>：合わない。<br/><b>d 抗カルジオリピン抗体陽性</b>：<span class=\"kw\">抗リン脂質抗体症候群の診断</span>。✓"
             }
           ],
           "imgs": []
@@ -10561,6 +10911,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SLE = 多系統病変 + <span class=\"kw\">ANA陽性</span>（感度99%）<br/>ANA陽性 + 関節炎 + 腎障害 + 血球減少 → SLEの診断基準を満たす"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "手関節痛＋微熱＋尿蛋白＋白血球減少＝SLE。<br/><b>b RA〜e MCTD</b>：合わない。<br/><b>a 全身性エリテマトーデス</b>：<span class=\"kw\">多臓器病変＋血球減少＋腎障害</span>。✓"
             }
           ],
           "imgs": [
@@ -10615,6 +10970,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "APS血栓症 = <span class=\"kw\">動脈：TIA・心筋梗塞・腸間膜動脈</span>＋<span class=\"kw\">静脈：DVT・肺塞栓・Budd-Chiari</span><br/>APTTは延長しているのに血栓症→「矛盾」がAPSの特徴"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "反復流産＋DVT＋APTT延長＋抗核抗体＝抗リン脂質抗体症候群。起こりうる血栓症を選ぶ。<br/><b>a 一過性脳虚血発作</b>：<span class=\"kw\">動脈血栓(脳)</span>。✓<br/><b>b 中耳炎〜c DIC</b>：主でない。<br/><b>d 腸間膜動脈血栓症</b>：<span class=\"kw\">動脈血栓(腸間膜)</span>。✓<br/><b>e Budd-Chiari症候群</b>：<span class=\"kw\">肝静脈血栓</span>。✓"
             }
           ],
           "imgs": []
@@ -10667,6 +11027,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SLE「3点セット」: <span class=\"kw\">赤沈↑・補体↓・抗dsDNA↑</span><br/>CRPは正常〜軽度（高値なら感染合併疑い）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "反復流産＋光線過敏＋顔面紅斑＋筋痛＝SLE。予想所見を3つ。<br/><b>a 尿蛋白陽性</b>：<span class=\"kw\">ループス腎炎</span>。✓<br/><b>b 赤沈亢進</b>：<span class=\"kw\">炎症</span>。✓<br/><b>c 好中球増加〜d ASO</b>：誤り。<br/><b>e 補体価低下</b>：<span class=\"kw\">免疫複合体消費</span>。✓"
             }
           ],
           "imgs": []
@@ -10714,6 +11079,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "強皮症（びまん型） = <span class=\"kw\">抗Scl-70抗体</span>→ ILD合併多い<br/>強皮症（限局型CREST） = <span class=\"kw\">抗セントロメア抗体</span>→ PAH合併多い"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "Raynaud＋指先潰瘍＋皮膚硬化＋色素脱失＝全身性強皮症。<br/><b>a 抗dsDNA〜b 抗Jo-1、d 抗ミトコンドリア、e RF</b>：他疾患。<br/><b>c 抗Scl-70抗体</b>：<span class=\"kw\">びまん皮膚硬化型強皮症・肺線維症と関連</span>。✓"
             }
           ],
           "imgs": []
@@ -10770,6 +11140,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SLE皮膚・粘膜症状 = <span class=\"kw\">蝶形紅斑・光線過敏・口腔潰瘍（無痛性）・脱毛</span><br/>蝶形紅斑＋光線過敏＋口腔潰瘍→SLE診断基準の3項目同時に満たす"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "発熱＋関節痛＋顔面皮疹＋汎血球減少＝SLE。みられる所見を3つ。<br/><b>a 脱毛</b>：<span class=\"kw\">SLEの皮膚症状</span>。✓<br/><b>b 光線過敏症</b>：<span class=\"kw\">SLEの分類項目</span>。✓<br/><b>c 口腔粘膜潰瘍</b>：<span class=\"kw\">無痛性の口腔潰瘍</span>。✓<br/><b>d 舌小帯短縮〜e 内臓悪性腫瘍</b>：SLEの所見でない。"
             }
           ],
           "imgs": [
@@ -10824,6 +11199,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "Sjögren症候群 + 肝機能異常 → <span class=\"kw\">PBC合併</span> → <span class=\"kw\">抗ミトコンドリア抗体（AMA）</span><br/>Sjögren症候群の腺外病変：ILD・腎尿細管性アシドーシス・PBC・MALTリンパ腫"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "肝機能異常＋眼/口腔乾燥＋う歯＝Sjögren症候群＋原発性胆汁性胆管炎(PBC)。抗体を2つ。<br/><b>a 抗dsDNA〜d 抗Jo-1、e 抗Scl-70</b>：合わない。<br/><b>b 抗ミトコンドリア抗体</b>：<span class=\"kw\">PBCに特異的</span>。✓<br/><b>c 抗SS-B抗体</b>：<span class=\"kw\">Sjögren症候群</span>。✓"
             }
           ],
           "imgs": []
