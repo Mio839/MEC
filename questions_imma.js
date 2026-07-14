@@ -52,6 +52,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "「抗原提示→獲得免疫活性化」＝<span class=\"kw\">樹状細胞</span>が最頻出の正解<br/>「抗原提示能をもつ」ならAPC3種（樹状細胞・マクロファージ・B細胞）すべて該当<br/>本問は「獲得免疫を活性化する」という限定→樹状細胞が最強APC"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "抗原提示で獲得免疫を活性化する細胞。<br/><b>a 好酸球〜d 好塩基球</b>：抗原提示の主役でない。<br/><b>e 樹状細胞</b>：<span class=\"kw\">最も強力な抗原提示細胞(獲得免疫を始動)</span>。✓"
             }
           ],
           "imgs": []
@@ -104,6 +109,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "分泌液・粘膜免疫 → <span class=\"kw\">IgA</span>（分泌型IgA / SIgA）<br/>胎盤通過 → <span class=\"kw\">IgG</span>　　初感染早期 → <span class=\"kw\">IgM</span><br/>I型アレルギー → <span class=\"kw\">IgE</span>　　最も少量 → <span class=\"kw\">IgE</span>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "分泌液に豊富で粘膜免疫に重要なもの。<br/><b>b IgD〜e IgM</b>：合わない。<br/><b>a IgA</b>：<span class=\"kw\">分泌型IgAが粘膜表面の局所免疫を担う</span>。✓"
             }
           ],
           "imgs": []
@@ -161,6 +171,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "免疫抑制・化学療法前 → <span class=\"kw\">HBV再活性化</span>を必ず評価<br/>HBs抗原陰性でもde novo肝炎起こりうる<br/>確認順序：HBc抗体・HBs抗体 → 陽性ならHBV-DNA定量"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "DLBCLへのリツキシマブ前のHBV再活性化リスク評価。<br/><b>a HBc抗原〜c HBe抗体、e HCV-RNA</b>：主でない。<br/><b>d HBV-DNA定量</b>：<span class=\"kw\">免疫抑制/リツキシマブでHBV再活性化のリスク評価</span>。✓"
             }
           ],
           "imgs": []
@@ -213,6 +228,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "Q1と同じテーマ。「抗原提示能」＝APC3種を暗記<br/>1択問題では<span class=\"kw\">樹状細胞</span>が頻出正解"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "抗原提示能をもつ細胞。<br/><b>a T細胞〜d 好中球</b>：主でない。<br/><b>e 樹状細胞</b>：<span class=\"kw\">プロフェッショナル抗原提示細胞</span>。✓"
             }
           ],
           "imgs": []
@@ -265,6 +285,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "生物学的製剤（特にTNF-α阻害薬）使用中に感染症 → <span class=\"kw\">即中止</span><br/>結核再活性化リスクは抗TNF-α製剤が最も高い（JAK阻害薬も注意）<br/>他の薬剤（NSAID・Ca製剤・PPI・ビタミンD）は関係なし"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "抗TNF治療中に発症した肺結核。中止すべき薬。<br/><b>a NSAID〜b Ca製剤、d PPI、e 活性型VitD</b>：中止対象でない。<br/><b>c 抗TNF-α抗体製剤</b>：<span class=\"kw\">TNF阻害で結核が顕在化・重症化するため中止</span>。✓"
             }
           ],
           "imgs": []
@@ -317,6 +342,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "B細胞の活性化 → <span class=\"kw\">ヘルパーT細胞</span>（CD4陽性）が必須<br/>IgEクラススイッチ：IL-4が鍵 → IgE産生 → I型アレルギー"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "B細胞の活性化に直接関与する細胞。<br/><b>a NK細胞〜c マクロファージ、d Treg、e CTL</b>：主でない。<br/><b>b ヘルパーT細胞</b>：<span class=\"kw\">CD40L/サイトカインでB細胞を活性化(抗体産生を補助)</span>。✓"
             }
           ],
           "imgs": []
@@ -378,6 +408,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "補体低下 ＝ 「肝不全（産生低下）」か「免疫複合体疾患（消費亢進）」<br/>免疫複合体疾患：SLE・急性GN・クリオグロブリン血症・悪性RA"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "低補体血症をきたしやすいものを2つ。<br/><b>a 胃癌〜c Behçet病、d 非結核性抗酸菌症</b>：合わない。<br/><b>b 肝不全</b>：<span class=\"kw\">補体は肝で産生され肝不全で低下</span>。✓<br/><b>e 全身性エリテマトーデス</b>：<span class=\"kw\">免疫複合体による補体消費</span>。✓"
             }
           ],
           "imgs": []
@@ -430,6 +465,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "CRP産生誘導の主役 → <span class=\"kw\">IL-6</span><br/>治療薬：<span class=\"kw\">トシリズマブ</span>（抗IL-6受容体抗体）→ RA・全身性若年性特発性関節炎に使用<br/>IL-6阻害 → CRP劇的低下（正常化）する"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "CRP上昇に最も関与するサイトカイン。<br/><b>a IL-1〜e IFNγ</b>：主でない。<br/><b>b IL-6</b>：<span class=\"kw\">肝でのCRP産生を誘導する主要サイトカイン</span>。✓"
             }
           ],
           "imgs": []
@@ -487,6 +527,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "MTX + 骨髄抑制・口内炎 → <span class=\"kw\">フォリン酸（活性型葉酸/ロイコボリン）</span>が解毒薬<br/>MTXは必ず中止。ステロイドは感染リスクで×"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "メトトレキサート中毒(粘膜障害・骨髄抑制)の解毒。<br/><b>a ST合剤〜b 抗真菌薬、d ビタミンB、e ステロイド</b>：解毒でない。<br/><b>c 活性型葉酸</b>：<span class=\"kw\">ロイコボリン(活性型葉酸)でMTXの葉酸拮抗作用を解除</span>。✓"
             }
           ],
           "imgs": []
@@ -543,6 +588,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "感染「初期」→ <span class=\"kw\">自然免疫</span>（NK細胞・マクロファージ）<br/>感染「後期・再感染」→ <span class=\"kw\">獲得免疫</span>（T・B細胞・形質細胞）<br/>B細胞・T細胞は「初期から」ではない → 獲得免疫は遅延型"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "ウイルス初感染の初期に働く(自然免疫)細胞を2つ。<br/><b>a B細胞〜b T細胞、d 形質細胞</b>：獲得免疫で反応が遅い。<br/><b>c NK細胞</b>：<span class=\"kw\">抗原非特異的にウイルス感染細胞を傷害</span>。✓<br/><b>e マクロファージ</b>：<span class=\"kw\">貪食・初期の自然免疫</span>。✓"
             }
           ],
           "imgs": []
@@ -595,6 +645,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "妊娠前中止 → <span class=\"kw\">MTX</span>（葉酸拮抗薬＝催奇形性最強）<br/>MTXの排泄は遅い → 妊娠<span class=\"kw\">3か月前</span>から中止<br/>MTX使用中は葉酸補充で口内炎予防するが催奇形性は回避できない"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "妊娠前に中止すべき抗リウマチ薬。<br/><b>a タクロリムス〜c エタネルセプト、e サラゾスルファピリジン</b>：妊娠中も比較的使用可。<br/><b>d メトトレキサート</b>：<span class=\"kw\">催奇形性があり妊娠前に中止</span>。✓"
             }
           ],
           "imgs": []
@@ -652,6 +707,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "MTX使用中 + 発熱 + リンパ節腫脹 → <span class=\"kw\">MTX-LPD</span>を疑い<span class=\"kw\">MTX中止</span><br/>JAK阻害薬・生物学的製剤の追加より先にMTX中止が優先"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "RA・MTX中の発熱＋リンパ節腫大＝メトトレキサート関連リンパ増殖性疾患。<br/><b>a NSAID中止〜d プレドニゾロン中止</b>：主でない。<br/><b>e メトトレキサートの中止</b>：<span class=\"kw\">MTX中止でリンパ増殖性疾患が退縮しうる</span>。✓"
             }
           ],
           "imgs": []
@@ -770,6 +830,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント（正答率11%！）",
               "c": "ステロイド糖尿病 → 空腹時血糖は正常、<span class=\"kw\">昼食後血糖</span>が鋭敏<br/>「繰り返し行うべき」→ 簡便で感度が高い昼食後2時間血糖"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "ステロイド糖尿病(食後高血糖)の発見。<br/><b>a HbA1c〜c 早朝空腹時尿糖、e OGTT</b>：早期発見に不向き。<br/><b>d 昼食後2時間血糖</b>：<span class=\"kw\">ステロイド糖尿病は食後高血糖が先行するため食後血糖で発見</span>。✓"
             }
           ],
           "imgs": []
@@ -830,6 +895,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "好中球の主機能：<span class=\"kw\">貪食</span>＋<span class=\"kw\">遊走（走化性）</span><br/>抗体産生→形質細胞　細胞性免疫→T細胞　ウイルス傷害→NK/CTL"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "好中球で正しいものを2つ。<br/><b>a 抗体産生〜d 細胞性免疫、e 感染細胞傷害</b>：好中球の機能でない。<br/><b>b 貪食能を有する</b>：<span class=\"kw\">細菌を貪食</span>。✓<br/><b>c 遊走能を有する</b>：<span class=\"kw\">感染巣へ遊走(走化性)</span>。✓"
             }
           ],
           "imgs": [
@@ -884,6 +954,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "IgE産生誘導 → <span class=\"kw\">IL-4</span>（Th2サイトカイン）<br/>好酸球活性化 → <span class=\"kw\">IL-5</span><br/>CRP産生誘導 → <span class=\"kw\">IL-6</span>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "IgE産生に関連するサイトカイン。<br/><b>a IL-1〜c IL-3、e IL-5</b>：主でない。<br/><b>d IL-4</b>：<span class=\"kw\">Th2由来IL-4がB細胞のIgEクラススイッチを誘導</span>。✓"
             }
           ],
           "imgs": []
@@ -936,6 +1011,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "赤沈亢進 → 「炎症・妊娠・高グロブリン・貧血」<br/>肥満・片頭痛・便秘・骨粗鬆症は赤沈亢進の原因にならない"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "赤沈が亢進するもの。<br/><b>b 肥満症〜e 骨粗鬆症</b>：亢進させない。<br/><b>a 妊娠</b>：<span class=\"kw\">フィブリノゲン増加等で赤沈が亢進</span>。✓"
             }
           ],
           "imgs": []
@@ -988,6 +1068,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "ステロイドで「みられない」→ <span class=\"kw\">末梢神経障害</span><br/>ステロイド筋症（proximal myopathy）はみられるが末梢神経障害は起こさない<br/>白内障→後嚢下、緑内障（眼圧上昇）もみられる"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "ステロイド大量投与でみられないもの。<br/><b>a 多毛〜d 満月様顔貌</b>：ステロイドの副作用。<br/><b>e 末梢神経障害</b>：<span class=\"kw\">ステロイドの典型的副作用でない</span>。✓"
             }
           ],
           "imgs": []
@@ -1040,6 +1125,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "IgG：胎盤通過性 → 新生児は生後6か月まで母親のIgGで保護<br/>IgA：分泌液（×胎盤通過）　IgM：最大分子（×胎盤通過）<br/>IgE：最少量・即時型アレルギー"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "免疫グロブリンで正しいもの。<br/><b>a IgE最多〜c IgD分泌液、d IgM最小、e IgA即時型</b>：誤り。<br/><b>b IgGは胎盤を通過する</b>：<span class=\"kw\">IgGのみ胎盤通過し新生児に移行免疫を与える</span>。✓"
             }
           ],
           "imgs": []
@@ -1096,6 +1186,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "T細胞の正しい機能：CD3陽性・ウイルス傷害（CTL）・抗体産生補助（Th）<br/>T細胞は貪食能なし・抗原提示能なし（APCが担当）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "Tリンパ球で正しいものを3つ。<br/><b>a 細胞表面にCD3抗原を有する</b>：<span class=\"kw\">T細胞の共通マーカー</span>。✓<br/><b>b ウイルス感染細胞を傷害する</b>：<span class=\"kw\">CTLによる細胞傷害</span>。✓<br/><b>c 貪食能〜d 抗原提示能</b>：T細胞の機能でない。<br/><b>e 抗体産生を補助する</b>：<span class=\"kw\">ヘルパーT細胞がB細胞を補助</span>。✓"
             }
           ],
           "imgs": []
@@ -1121,7 +1216,7 @@ window["_cardJSON_imma"]={
             },
             {
               "t": "ｂ　β-D-グルカン",
-              "ok": false
+              "ok": true
             },
             {
               "t": "ｃ　抗アスペルギルス抗体",
@@ -1153,6 +1248,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "① 生物学的製剤の前に見るのは<span class=\"kw\">結核とB型肝炎</span>。この2つを外さない。<br>② HBs抗原が陰性でも<span class=\"kw\">HBc抗体</span>が陽性なら再活性化に警戒する。<br>③ 本問は国家試験で<span class=\"kw4\">採点除外</span>となった。正解を一つに絞れない選択肢が含まれていたためと考えられるが、問われている知識自体は重要なので押さえておく。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "生物学的製剤導入前の感染スクリーニング(HBV・結核は確認済)。<br/><b>a 抗EBNA〜c 抗アスペルギルス、d 抗VZV、e CMV抗原</b>：ルーチンの導入前検査でない。<br/><b>b β-D-グルカン</b>：<span class=\"kw\">深在性真菌症/ニューモシスチスのスクリーニング</span>。✓"
             }
           ],
           "imgs": []
@@ -1205,6 +1305,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "R-CHOP（リツキシマブ）前HBVスクリーニング：<span class=\"kw\">HBc抗体</span>＋<span class=\"kw\">HBs抗体</span><br/>HBs抗原陰性でもde novo肝炎（致死的）が起こりうる"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "DLBCLへのリツキシマブ前のHBV既往感染(de novo再活性化)の確認を2つ。<br/><b>a HBc抗体</b>：<span class=\"kw\">既往感染の指標(HBs抗原陰性でも再活性化)</span>。✓<br/><b>b HBe抗原〜c HBe抗体、e HBc-IgM</b>：主でない。<br/><b>d HBs抗体</b>：<span class=\"kw\">既往感染/ワクチンの評価</span>。✓"
             }
           ],
           "imgs": []
@@ -1262,6 +1367,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "低補体 = 免疫複合体（III型）疾患が多い<br/>SLE・急性GN・クリオグロブリン血症はセットで覚える"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "低補体血症を認める疾患を2つ。<br/><b>a 蜂窩織炎〜c 虚血性大腸炎</b>：補体は低下しない。<br/><b>d 急性糸球体腎炎</b>：<span class=\"kw\">免疫複合体による補体消費</span>。✓<br/><b>e 混合型クリオグロブリン血症</b>：<span class=\"kw\">補体を消費し低下</span>。✓"
             }
           ],
           "imgs": []
@@ -1309,6 +1419,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "発熱・感染症 → <span class=\"kw\">生物学的製剤を休薬</span>（注射しない）<br/>これは患者への指導として重要（自己注射なので患者自身が判断する必要がある）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "抗TNF治療中の発熱・感染徴候。<br/><b>a 抗菌薬〜d MTX増量</b>：まず免疫抑制の中止が優先。<br/><b>e 本日の抗TNF-α抗体の自己注射をしないよう指導する</b>：<span class=\"kw\">感染時は生物学的製剤を一時中止(感染増悪の回避)</span>。✓"
             }
           ],
           "imgs": []
@@ -1356,6 +1471,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw\">クリオグロブリン血症</span>（特に混合型 II・III型、HCV関連）→ 低補体<br/>ANCAが関連する血管炎（顕微鏡的多発血管炎・GPA等）→ 補体は通常正常"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "低補体血症をきたす疾患。<br/><b>a 巨細胞性動脈炎〜c 結節性多発動脈炎、d 顕微鏡的多発血管炎、e 高安動脈炎</b>：補体は正常。<br/><b>b クリオグロブリン血症性血管炎</b>：<span class=\"kw\">補体を消費し低下</span>。✓"
             }
           ],
           "imgs": []
@@ -1408,6 +1528,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "Th1：<span class=\"kw\">IFN-γ → マクロファージ活性化</span>（細胞性免疫）<br/>Th2：<span class=\"kw\">IL-4/IL-5 → B細胞・好酸球活性化</span>（液性免疫・アレルギー）<br/>Th17：<span class=\"kw\">IL-17 → 好中球活性化</span>（自己免疫）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "Tリンパ球と働きの組合せ。<br/><b>a Th1細胞―マクロファージの活性化</b>：<span class=\"kw\">Th1はIFNγでマクロファージを活性化(細胞性免疫)</span>。✓<br/><b>b Th2―好中球〜e Treg―IL-6誘導</b>：組合せが誤り。"
             }
           ],
           "imgs": []
@@ -1455,6 +1580,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "生物学的製剤中の黄疸・肝障害 → まず<span class=\"kw\">HBV再活性化</span>を疑う<br/>確認：HBs抗原（陽性転化確認）→ 陽性なら核酸アナログ（エンテカビル）開始"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "抗TNF治療中に出現した肝障害・黄疸＝HBV再活性化。<br/><b>a HA抗体〜c HCV抗体、d HEV抗体、e 抗核抗体</b>：主でない。<br/><b>b HBs抗原</b>：<span class=\"kw\">免疫抑制によるHBV再活性化を確認</span>。✓"
             }
           ],
           "imgs": []
@@ -1507,6 +1637,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント（正答率34%！）",
               "c": "HBs抗原（−）・HBs抗体（−）→ 次に<span class=\"kw\">HBc抗体</span>を確認<br/>HBc抗体陽性→既往感染→免疫抑制療法でde novo肝炎リスク→HBV-DNA定量へ"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "抗リウマチ薬前(HBs抗原・抗体陰性)にまず測定するもの。<br/><b>a HBc抗原〜e HBV-DNA</b>：主でない。<br/><b>b HBc抗体</b>：<span class=\"kw\">既往感染(HBs抗原陰性でも再活性化)を検出しde novo肝炎を防ぐ</span>。✓"
             }
           ],
           "imgs": []
@@ -1554,6 +1689,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "AIDS：HIV → CD4陽性T細胞 → CD4&lt;200/μLで日和見感染<br/><span class=\"kw\">CD4/CD8比は通常2程度 → AIDSでは1以下に低下</span><br/>末梢血リンパ球：T細胞70-80%（うちCD4：CD8 = 2:1）、B細胞10-15%、NK細胞5-10%"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "T細胞で正しいもの。<br/><b>a 形質細胞に分化〜d CTLはCD4陽性</b>：誤り。<br/><b>e AIDSではCD4/CD8比が低下する</b>：<span class=\"kw\">HIVでCD4が減少しCD4/CD8比が低下</span>。✓"
             }
           ],
           "imgs": []
@@ -1601,6 +1741,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "自然免疫 → <span class=\"kw\">NK細胞・マクロファージ・好中球・樹状細胞</span><br/>獲得免疫 → T細胞・B細胞・形質細胞<br/>本問は1択→NK細胞（他はすべて獲得免疫の細胞）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "自然免疫に関与する細胞。<br/><b>b 形質細胞〜e B細胞</b>：獲得免疫。<br/><b>a NK細胞</b>：<span class=\"kw\">抗原非特異的に感染/腫瘍細胞を傷害(自然免疫)</span>。✓"
             }
           ],
           "imgs": []
@@ -1658,6 +1803,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "サブクラスあり → <span class=\"kw\">IgG（4種）</span>・<span class=\"kw\">IgA（2種）</span><br/>5量体 → <span class=\"kw\">IgM</span>　　胎盤通過 → <span class=\"kw\">IgG</span><br/>初感染早期 → <span class=\"kw\">IgM</span>　再感染・長期 → <span class=\"kw\">IgG</span>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "免疫グロブリンの特徴を2つ。<br/><b>a IgA胎盤通過〜b IgD5量体、c IgE―Ⅲ型</b>：誤り。<br/><b>d IgGは4つのサブクラスがある</b>：<span class=\"kw\">IgG1〜4</span>。✓<br/><b>e IgMは感染早期に産生される</b>：<span class=\"kw\">一次応答で最初に産生(5量体)</span>。✓"
             }
           ],
           "imgs": []
@@ -1705,6 +1855,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "悪性RA（malignant RA）：RA + 血管炎・多臓器病変<br/>→ 免疫複合体 → <span class=\"kw\">CH50↓・RF高値・抗CCP抗体高値</span><br/>他のRA（普通のRA）はCH50は通常正常"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "血清補体価(CH50)が低下する疾患。<br/><b>a 偽痛風〜c 多発性筋炎、e サルコイドーシス</b>：低下しない。<br/><b>d 悪性関節リウマチ</b>：<span class=\"kw\">免疫複合体による補体消費(血管炎合併)</span>。✓"
             }
           ],
           "imgs": []
@@ -1757,6 +1912,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "サブクラスあり → IgG（4種：IgG1〜4）・IgA（2種：IgA1・IgA2）<br/>IgG4関連疾患（膵炎・涙腺・唾液腺腫脹など）でIgG4上昇が重要"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "サブクラスがある免疫グロブリンを2つ。<br/><b>b IgD〜c IgE、e IgM</b>：サブクラスなし。<br/><b>a IgA</b>：<span class=\"kw\">IgA1・IgA2</span>。✓<br/><b>d IgG</b>：<span class=\"kw\">IgG1〜4</span>。✓"
             }
           ],
           "imgs": []
@@ -1809,6 +1969,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "抗原提示能あり（APC3種）：<span class=\"kw\">樹状細胞・マクロファージ・B細胞</span><br/>好酸球・好中球・NK細胞・肥満細胞：抗原提示能なし"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "抗原提示能を有する細胞を3つ。<br/><b>a 好酸球〜b 好中球</b>：抗原提示細胞でない。<br/><b>c 樹状細胞</b>：<span class=\"kw\">プロフェッショナル抗原提示細胞</span>。✓<br/><b>d マクロファージ</b>：<span class=\"kw\">抗原提示能あり</span>。✓<br/><b>e Bリンパ球</b>：<span class=\"kw\">抗原提示能あり</span>。✓"
             }
           ],
           "imgs": []
@@ -1856,6 +2021,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "貪食能なし → <span class=\"kw\">リンパ球</span>（T細胞・B細胞・NK細胞）<br/>NK細胞は「貪食」でなく「パーフォリン・グランザイムで直接傷害」<br/>好中球は「貪食殺菌」が主機能"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "貪食能がないもの。<br/><b>a 好中球〜d マクロファージ</b>：貪食能あり。<br/><b>e リンパ球</b>：<span class=\"kw\">貪食能をもたない</span>。✓"
             }
           ],
           "imgs": []
@@ -1955,6 +2125,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "リウマチ性多発筋痛症（PMR）：補体正常、CRP高値・血沈亢進<br/><span class=\"kw\">低補体疾患</span>：SLE、急性GN、クリオグロブリン血症、悪性RA<br/>PMR・多発性筋炎・強皮症：補体は通常正常"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "血清補体価(CH50)が低下しない疾患。<br/><b>a 悪性関節リウマチ〜d SLE</b>：免疫複合体で補体が低下。<br/><b>e リウマチ性多発筋痛症</b>：<span class=\"kw\">補体消費を伴わず低下しない</span>。✓"
             }
           ],
           "imgs": []
@@ -2007,6 +2182,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "初感染早期 → <span class=\"kw\">IgM</span>（5量体、補体活性化最強）<br/>再感染・長期保護 → <span class=\"kw\">IgG</span>（胎盤通過、血中最多）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "初感染早期に産生され感染防御に有効なもの。<br/><b>a IgA〜d IgG</b>：主でない。<br/><b>e IgM</b>：<span class=\"kw\">一次応答で最初に産生(感染早期)</span>。✓"
             }
           ],
           "imgs": []
@@ -2064,6 +2244,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "好中球促進 → <span class=\"kw\">G-CSF</span>　　T細胞活性化 → <span class=\"kw\">IL-2</span><br/>赤血球産生 → <span class=\"kw\">EPO（腎臓産生）</span>　　血小板産生 → TPO"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "血球とサイトカインの組合せを3つ。<br/><b>a 好中球―G-CSF</b>：<span class=\"kw\">好中球産生を促進</span>。✓<br/><b>b 好酸球―IFNα〜e 血小板―IL-4</b>：組合せが誤り。<br/><b>c Tリンパ球―IL-2</b>：<span class=\"kw\">T細胞増殖因子</span>。✓<br/><b>d 赤血球―EPO</b>：<span class=\"kw\">赤血球産生を促進</span>。✓"
             }
           ],
           "imgs": []
@@ -2121,6 +2306,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "細菌貪食 → <span class=\"kw\">好中球</span>　　炎症物質（ヒスタミン）放出 → <span class=\"kw\">好塩基球・肥満細胞</span><br/>寄生虫傷害 → 好酸球（MBP）　抗原提示 → APC（樹状細胞・マクロファージ・B細胞）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "白血球と機能の組合せを2つ。<br/><b>a 好中球―細菌の貪食</b>：<span class=\"kw\">貪食殺菌</span>。✓<br/><b>b 好酸球―抗原提示〜e リンパ球―凝固因子産生</b>：組合せが誤り。<br/><b>c 好塩基球―炎症物質の放出</b>：<span class=\"kw\">ヒスタミン等を放出</span>。✓"
             }
           ],
           "imgs": []
@@ -2173,6 +2363,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "赤沈亢進 ← <span class=\"kw\">フィブリノゲン↑</span>（炎症・妊娠・悪性腫瘍で増加）<br/>アルブミンは逆に赤沈を低下させる（覚え方：フィブリンでくっつく→沈む）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "血中増加が赤沈を亢進させるもの。<br/><b>a 赤血球〜c 血小板、d アルブミン</b>：亢進させない/むしろ抑制。<br/><b>e フィブリノゲン</b>：<span class=\"kw\">陽性荷電で赤血球連銭形成を促し赤沈を亢進</span>。✓"
             }
           ],
           "imgs": []
@@ -2230,6 +2425,11 @@ window["_cardJSON_imma"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "NK細胞 = 大型顆粒リンパ球（LGL）、抗原特異性なし（自然免疫）<br/>IL-2で活性化。パーフォリン・グランザイムでウイルス感染細胞・腫瘍細胞傷害<br/>貪食能なし・抗原提示能なし・抗体産生なし"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "NK細胞で正しいものを2つ。<br/><b>b 抗原特異的〜c 細菌貪食、d 抗原提示</b>：誤り(抗原非特異的)。<br/><b>a 顆粒を有する大型リンパ球である</b>：<span class=\"kw\">大型顆粒リンパ球(LGL)</span>。✓<br/><b>e インターロイキン2によって活性化される</b>：<span class=\"kw\">IL-2で活性化(LAK)</span>。✓"
             }
           ],
           "imgs": []
