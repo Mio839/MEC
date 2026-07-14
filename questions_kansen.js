@@ -61,6 +61,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "室温保存 → <span class=\"kw\">血液</span>・<span class=\"kw\">髄液</span>（低温死滅菌に注意）<br/>冷蔵保存 → 尿・便・喀痰（常在菌の増殖防止）<br/>近年では \"血液も冷蔵\" とする施設もあるが、国試では室温が正解"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 尿〜d 胸水</b>：冷蔵保存する。<br/><b>e 血液</b>：<span class=\"kw\">血液培養は室温保存(冷蔵で菌が死滅)</span>。✓"
             }
           ],
           "imgs": []
@@ -113,6 +118,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 血液培養の誤りやすいポイント",
               "c": "<table class=\"tb\"><tr><th>誤り</th><th>正しくは</th></tr><tr><td>誤り</td><td>正しくは</td></tr><tr><td>消毒薬が乾く前に採血</td><td>乾燥を待ってから刺入</td></tr><tr><td>同部位から2セット</td><td>異なる部位から採取</td></tr><tr><td>嫌気ボトルを先に注入</td><td>好気ボトルを先に注入</td></tr><tr><td>採取後に冷蔵</td><td>室温保存（またはすぐに培養室へ）</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 消毒薬が乾かないうちに採血</b>：乾いてから採血し誤り。<br/><b>b 採血時には滅菌手袋を使用する</b>：正しい。✓<br/><b>c 同部位から複数回採取</b>：異なる部位から採取し誤り。<br/><b>d 鼠径部からの採取が推奨</b>：汚染リスクで非推奨。<br/><b>e 好気性→嫌気性ボトルの順に注入</b>：翼状針採血では順序に注意を要し一律でなく誤り。"
             }
           ],
           "imgs": []
@@ -170,6 +180,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw\">MRSA</span>＝接触感染→手指衛生が最重要予防策<br/>破傷風・プリオン病は医療従事者の手を介さない<br/>C型肝炎・レジオネラも血液/環境水が主経路（手ではない）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 破傷風〜d レジオネラ症</b>：手指を介した伝播が主でない。<br/><b>e MRSA感染症</b>：<span class=\"kw\">接触感染(医療従事者の手指)で伝播</span>。✓"
             }
           ],
           "imgs": []
@@ -236,6 +251,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "インフルエンザ後の再発熱 → <span class=\"kw\">黄色ブドウ球菌</span>を最優先<br/>糖尿病・高齢・免疫不全 → 易感染リスク↑<br/>治療：MRSA疑いなら<span class=\"kw\">バンコマイシン</span>、感受性あればoxacillin系"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "インフルエンザ後の二次性細菌性肺炎(糖尿病)。<br/><b>a Candida〜d Pseudomonas</b>：この状況の主因でない。<br/><b>e Staphylococcus aureus</b>：<span class=\"kw\">インフルエンザ後の二次性細菌性肺炎(黄色ブドウ球菌)</span>。✓"
             }
           ],
           "imgs": [
@@ -296,6 +316,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "集尿袋の尿 → <span class=\"kw4\">絶対NG</span>（細菌汚染あり）<br/>中間尿・清潔間欠導尿 → OK<br/>カテーテル尿採取 → カテーテルから直接（バッグからではない）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 中間尿〜d 腎瘻造設時の尿</b>：培養検体に適する。<br/><b>e 尿道留置カテーテルの集尿袋内の尿</b>：<span class=\"kw\">停滞し汚染され培養に適さない</span>。✓"
             }
           ],
           "imgs": []
@@ -352,6 +377,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 昇圧薬比較",
               "c": "<table class=\"tb\"><tr><th>薬剤</th><th>作用</th><th>適応</th></tr><tr><td><span class=\"kw\">ノルアドレナリン</span></td><td>α1↑↑ β1↑</td><td>敗血症性ショック第一選択</td></tr><tr><td>アドレナリン</td><td>α1↑ β1↑↑</td><td>アナフィラキシー第一選択</td></tr><tr><td>ドパミン</td><td>D↑ β1↑ α1↑</td><td>以前の標準、現在は第二選択</td></tr><tr><td>バソプレシン</td><td>V1↑</td><td>ノルアドレナリン補助</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "脾摘後の重症感染症(OPSI)による敗血症性ショック。<br/><b>a 血小板製剤〜b ニトログリセリン</b>：主でない。<br/><b>c ノルアドレナリン</b>：<span class=\"kw\">敗血症性ショックの昇圧薬第一選択</span>。✓<br/><b>d グルココルチコイド〜e 重炭酸ナトリウム</b>：第一でない。"
             }
           ],
           "imgs": [
@@ -415,6 +445,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "無脾症（脾摘後・機能的無脾）→ <span class=\"kw\">莢膜菌感染リスク↑</span><br/>→ 肺炎球菌・髄膜炎菌・インフルエンザ菌（HIB）<br/>予防：ニューモバックスNP（肺炎球菌ワクチン）は脾摘前に接種"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a Clostridium perfringens〜d Neisseria meningitidis</b>：主でない。<br/><b>e Streptococcus pneumoniae</b>：<span class=\"kw\">脾摘後重症感染症(OPSI)は肺炎球菌が最多</span>。✓"
             }
           ],
           "imgs": [
@@ -474,6 +509,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "病理解剖 ≠ 司法解剖（警察関係なし）<br/>感染性遺体の解剖：適切な感染予防策を取りながら実施（廃棄は不要）<br/>死亡診断書：主治医が生前の情報と死因を記載→解剖結果を待たない"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 解剖終了後は遺体を家族に返還する</b>：正しい。✓<br/><b>b 器具を全て廃棄〜e 死亡診断書は報告書完成後</b>：不適。"
             }
           ],
           "imgs": []
@@ -531,6 +571,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "上皮細胞多い（≧10/HPF）→ <span class=\"kw4\">培養不適</span>（口腔内常在菌で汚染）<br/>採取タイミング：うがい後（口腔内洗浄）、起床時深部喀痰が良質<br/>食塩水吸入誘発：特に結核など喀出困難時に有用"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a うがい後の検体〜d 白血球が多い検体</b>：質は良い/許容。<br/><b>e Gram染色で上皮細胞が多い検体</b>：<span class=\"kw\">唾液混入で質が低い(Geckler分類)</span>。✓"
             }
           ],
           "imgs": []
@@ -583,6 +628,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 真の菌血症 vs コンタミ",
               "c": "<table class=\"tb\"><tr><th>真の菌血症と解釈</th><th>コンタミの可能性</th></tr><tr><td>真の菌血症と解釈</td><td>コンタミの可能性</td></tr><tr><td>2セット以上陽性</td><td>1セットのみ陽性</td></tr><tr><td>病原菌（黄色ブドウ球菌など）</td><td>皮膚常在菌（表皮ブドウ球菌など）</td></tr><tr><td>発熱・臨床像に合致</td><td>臨床像に合わない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a Candida〜d Staphylococcus aureus</b>：1セットでも起因菌として扱う。<br/><b>e Staphylococcus epidermidis</b>：<span class=\"kw\">皮膚常在菌でコンタミネーションの可能性</span>。✓"
             }
           ],
           "imgs": []
@@ -640,6 +690,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント（英語問題対策）",
               "c": "Airborne = <span class=\"kw\">空気感染</span> → varicella（水痘）・measles（麻疹）・tuberculosis（結核）<br/>herpes（帯状疱疹は接触感染）、influenza・mumps・rubella（飛沫感染）<br/>覚え方：<span class=\"kw\">VRTが空気感染</span>＝Varicella/Rubeola（麻疹）/TB"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a herpes〜d rubella</b>：接触/飛沫感染。<br/><b>e varicella</b>：<span class=\"kw\">水痘は空気感染(airborne)</span>。✓"
             }
           ],
           "imgs": []
@@ -692,6 +747,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 薬力学分類とTDM",
               "c": "<table class=\"tb\"><tr><th>PK/PD分類</th><th>代表薬</th><th>TDM</th></tr><tr><td>PK/PD分類</td><td>代表薬</td><td>TDM</td></tr><tr><td><span class=\"kw\">濃度依存性</span></td><td>キノロン・アミノグリコシド</td><td>アミノグリコシドは必要</td></tr><tr><td>時間依存性</td><td>βラクタム・マクロライド</td><td>基本不要</td></tr><tr><td>AUC依存性</td><td>バンコマイシン</td><td>必要</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a カルバペネム系〜c リンコマイシン系</b>：TDM対象でない。<br/><b>d アミノグリコシド系</b>：<span class=\"kw\">腎毒性・耳毒性でTDMが必要</span>。✓<br/><b>e セファロスポリン系</b>：TDM対象でない。"
             }
           ],
           "imgs": []
@@ -749,6 +809,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw4\">CRPで投与期間を決める → 誤り</span><br/>CRPは炎症マーカーであり参考にはするが、単独で期間決定の基準にはしない<br/>投与期間の指標：解熱、培養陰性化、白血球正常化、臨床症状改善"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 培養検査提出後に開始する</b>：正しい。<br/><b>b 薬物動態に合わせて投与量調整</b>：正しい。<br/><b>c 開始時のCRP値で投与期間を決定する</b>：<span class=\"kw\">CRP単独で期間を決定せず誤り</span>。✓<br/><b>d 臓器移行性を考慮して選択</b>：正しい。<br/><b>e 感受性検査に応じて変更</b>：正しい。"
             }
           ],
           "imgs": []
@@ -806,6 +871,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "ボトルは真空→注入した血液が吸引される仕組み<br/>注入後に空気が入ると嫌気性菌の培養が妨害される<br/>分注前の針交換は不要（換えると菌が死滅することあり）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 抗菌薬投与後に採取</b>：投与前に採取し誤り。<br/><b>b 2セットとも1か所から</b>：異なる部位で誤り。<br/><b>c 消毒薬が乾く前に採血</b>：乾いてからで誤り。<br/><b>d 好気→嫌気の順</b>：一律でなく誤り。<br/><b>e ボトルに注入後、培地と血液を転倒混和する</b>：正しい。✓"
             }
           ],
           "imgs": []
@@ -867,6 +937,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "Listeria + <span class=\"kw4\">セフェム系が効かない</span> → アンピシリンに変更<br/>妊婦のST合剤：妊娠後期（34週以降）は胎児の核黄疸リスクで禁忌<br/>本症例（妊娠30週）：アンピシリンが安全かつ有効"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "妊婦の尿路感染。<br/><b>a アンピシリンに変更する</b>：<span class=\"kw\">感受性に応じて狭域へ(デ・エスカレーション)</span>。✓<br/><b>b セフトリアキソンを継続〜d メロペネムに変更</b>：狭域化が原則。<br/><b>e レボフロキサシンに変更</b>：妊婦にキノロンは避ける。"
             }
           ],
           "imgs": [
@@ -921,6 +996,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw4\">緑膿菌</span>に無効な薬：ミノサイクリン、セファゾリン、アンピシリン<br/>緑膿菌に有効：ピペラシリン、セフタジジム、イミペネム、シプロフロキサシン、アミカシン"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a オウム病―ミノサイクリン</b>：正しい。<br/><b>b 放線菌症―アンピシリン</b>：正しい(ペニシリン系)。<br/><b>c ノカルジア症―ST合剤</b>：正しい。<br/><b>d 緑膿菌感染症―セファゾリン</b>：<span class=\"kw\">第1世代セフェムは緑膿菌に無効</span>で誤り。✓<br/><b>e レジオネラ症―レボフロキサシン</b>：正しい。"
             }
           ],
           "imgs": []
@@ -978,6 +1058,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw\">悪寒戦慄</span> → まず血液培養2セット採取 → 抗菌薬開始<br/>悪心・頭痛・関節痛・リンパ節腫脹は非特異的<br/>血圧低下＋悪寒戦慄→敗血症性ショックの可能性も考慮"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 悪心〜c 関節痛</b>：非特異的。<br/><b>d 悪寒戦慄</b>：<span class=\"kw\">shaking chills(悪寒戦慄)は菌血症を強く示唆</span>。✓<br/><b>e リンパ節腫脹</b>：菌血症の直接指標でない。"
             }
           ],
           "imgs": []
@@ -1035,6 +1120,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "スルバクタム・アンピシリン（ユナシン）= <span class=\"kw\">時間依存性βラクタム</span><br/>→ 3回/日点滴が標準（MIC以上の血中濃度を時間の40-50%以上維持）<br/>覚え方：βラクタム系は \"時間をかけて何度も\" 与える"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "急性細菌性肺炎(βラクタム系)。<br/><b>a 1回経口投与〜d 2回点滴静注</b>：不十分。<br/><b>e 3回点滴静注</b>：<span class=\"kw\">βラクタムは時間依存性で頻回投与(time above MIC)</span>。✓"
             }
           ],
           "imgs": []
@@ -1092,6 +1182,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "カルバペネム系 → <span class=\"kw\">最後の切り札抗菌薬</span><br/>使用には感染制御チーム（ICT）の承認が必要な施設が多い<br/>MDRP定義：カルバペネム＋アミノグリコシド＋キノロン系の3系統に耐性"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a セフェム系〜b ペニシリン系</b>：管理の主対象でない。<br/><b>c カルバペネム系</b>：<span class=\"kw\">広域で耐性化防止のため使用を管理(許可/届出制)</span>。✓<br/><b>d マクロライド系〜e アミノグリコシド系</b>：主対象でない。"
             }
           ],
           "imgs": []
@@ -1149,6 +1244,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "本症例のWBC 6,600：正常範囲（4,000〜12,000）→SIRS白血球基準を満たさない<br/>治療2日後に正常化→抗菌薬が効いている証拠<br/>Sepsis-3では「SOFA score≥2点の急性臓器障害」が診断基準に変更"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "SIRS基準(体温・脈拍・呼吸数・白血球)を2項目未満なら脱出。<br/><b>a、b、d、e</b>：低体温・頻脈・発熱・頻呼吸などで2項目以上を満たす。<br/><b>c 体温37.0・脈拍112・血圧120/72・呼吸数14</b>：<span class=\"kw\">脈拍のみ1項目でSIRSから脱出</span>。✓"
             }
           ],
           "imgs": []
@@ -1206,6 +1306,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw\">Clostridium属</span>：有芽胞偏性嫌気性桿菌<br/>C. difficile → 偽膜性大腸炎（抗菌薬使用後）→バンコマイシン経口・メトロニダゾール<br/>C. perfringens → ガス壊疽・食中毒<br/>C. tetani → 破傷風<br/>C. botulinum → ボツリヌス中毒"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a Campylobacter jejuni</b>：微好気性。<br/><b>b Clostridium difficile</b>：<span class=\"kw\">偏性嫌気性菌</span>。✓<br/><b>c Helicobacter pylori</b>：微好気性。<br/><b>d 結核菌〜e 緑膿菌</b>：好気性。"
             }
           ],
           "imgs": []
@@ -1267,6 +1372,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "画像問題では白血球豊富＆扁平上皮少ない → 良質<br/>扁平上皮（平たい大きな細胞）が目立つ → 不良<br/>採取前のうがいは重要（口腔内細菌除去）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "喀痰Gram染色に適さない(唾液様)検体を選ぶ。<br/><b>a〜d</b>：膿性で好中球が多く適する。<br/><b>e ⑤</b>：<span class=\"kw\">扁平上皮細胞が多く唾液混入で不適</span>。✓"
             }
           ],
           "imgs": [
@@ -1330,6 +1440,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "院内感染ビッグ4：CLABSI（中心静脈）・CAUTI（尿道）・VAP（人工呼吸）・SSI（手術部位）<br/>腰椎穿刺：穿刺後に抜針→デバイスが体内に残らない→感染源にならない<br/>持続導尿（留置カテーテル）はCAUTIリスク大"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 褥瘡処置・b 持続導尿・d 人工呼吸・e 中心静脈栄養</b>：デバイス/創で院内感染リスクが高い。<br/><b>c 腰椎穿刺</b>：<span class=\"kw\">単回手技でデバイス留置がなくリスクが低い</span>。✓"
             }
           ],
           "imgs": []
@@ -1382,6 +1497,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "腎機能低下で常用量OK：ミノサイクリン・セフトリアキソン・クリンダマイシン<br/>腎機能低下で要調整：アミノグリコシド系・バンコマイシン・キノロン系・ST合剤・βラクタム系多数"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a ST合剤・b オセルタミビル・d レボフロキサシン・e カルバペネム系</b>：腎排泄性で減量を要する。<br/><b>c ミノサイクリン</b>：<span class=\"kw\">肝代謝で腎不全でも常用量投与可能</span>。✓"
             }
           ],
           "imgs": []
@@ -1439,6 +1559,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "「血液と髄液は室温」と覚える（低温死滅菌に注意）<br/>Q1（120B-14）と同内容だが選択肢が違う→両方とも出題"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 尿〜c 喀痰、e 胸水</b>：冷蔵保存する。<br/><b>d 髄液</b>：<span class=\"kw\">髄液は室温保存(冷蔵で髄膜炎菌等が死滅)</span>。✓"
             }
           ],
           "imgs": []
@@ -1496,6 +1621,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "濃度依存性 = キノロン系・アミノグリコシド系 → <span class=\"kw\">単回大量投与</span><br/>時間依存性 = βラクタム系 → <span class=\"kw\">頻回投与（3〜4回/日）</span><br/>覚え方：\"キノ配(きのはい)は濃度に依存\" → キノロン・アミノグリコシド"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "単回(1日1回)投与が有効な濃度依存性の薬剤を選ぶ。<br/><b>a キノロン系薬</b>：<span class=\"kw\">濃度依存性で1日1回high dose</span>。✓<br/><b>b ペニシリン系〜e テトラサイクリン系</b>：時間依存性で頻回投与が有利。"
             }
           ],
           "imgs": []
@@ -1552,6 +1682,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 主要染色法比較",
               "c": "<table class=\"tb\"><tr><th>染色法</th><th>目的</th><th>被染対象</th></tr><tr><td>染色法</td><td>目的</td><td>被染対象</td></tr><tr><td>Gram染色</td><td>細菌一般</td><td>Gram陽性（紫）/陰性（赤）</td></tr><tr><td>Ziehl-Neelsen染色</td><td>抗酸菌</td><td>結核菌（赤）</td></tr><tr><td>Grocott染色</td><td>真菌</td><td>アスペルギルス・ニューモシスチス（黒）</td></tr><tr><td>May-Giemsa染色</td><td>原虫・血液</td><td>マラリア原虫、血液細胞</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a Gram染色</b>：<span class=\"kw\">クリスタルバイオレット→ヨード→脱色→サフラニンの手順</span>。✓<br/><b>b H-E染色〜e Ziehl-Neelsen染色</b>：手順が異なる。"
             }
           ],
           "imgs": [
@@ -1613,6 +1748,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ バクテロイデスの抗菌薬感受性",
               "c": "<table class=\"tb\"><tr><th>薬剤</th><th>効果</th></tr><tr><td>薬剤</td><td>効果</td></tr><tr><td><span class=\"kw\">有効</span></td><td>メトロニダゾール、クリンダマイシン、カルバペネム系、βラクタム/βラクタマーゼ阻害剤配合薬</td></tr><tr><td><span class=\"kw4\">無効</span></td><td><span class=\"kw4\">アミノグリコシド系</span>（嫌気的環境では薬剤取込み不能）、セファロスポリン系（多く）</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 有芽胞嫌気性菌感染症</b>：無芽胞嫌気性菌で誤り。<br/><b>b 薬物性大腸炎と関連が深い</b>：C.difficileで誤り。<br/><b>c 腹腔内膿瘍と関連が深い</b>：正しい。✓<br/><b>d アミノグリコシド系は無効</b>：<span class=\"kw\">嫌気性菌にアミノグリコシドは無効</span>。✓<br/><b>e バンコマイシンが有効</b>：無効で誤り。"
             }
           ],
           "imgs": []
@@ -1674,6 +1814,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "比較的徐脈 → 腸チフス・レジオネラ・オウム病・ウイルス性髄膜炎<br/>覚え方：<span class=\"kw\">\"腸レジオウイルス\"は比較的徐脈</span><br/>肺炎球菌は細菌性 → 通常は発熱に比例した頻脈"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "比較的徐脈を示す疾患(レジオネラ・オウム病・腸チフス・ウイルス性髄膜炎)。<br/><b>a レジオネラ肺炎・c オウム病・d 腸チフス・e ウイルス性髄膜炎</b>：比較的徐脈を示しうる。<br/><b>b 肺炎球菌性肺炎</b>：<span class=\"kw\">比較的徐脈を示さない(発熱に応じ頻脈)</span>。✓"
             }
           ],
           "imgs": [
@@ -1733,6 +1878,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "NSAIDs＋ニューキノロン → <span class=\"kw4\">痙攣発作</span><br/>他の重要な相互作用：ニューキノロン＋制酸剤（Al/Mg）→ キレート形成→吸収低下<br/>覚え方：\"キノロンはNSAIDsと一緒にけいれんする\""
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a イソニアジド〜b マクロライド系</b>：該当しない。<br/><b>c ニューキノロン系抗菌薬</b>：<span class=\"kw\">NSAIDsとの併用でGABA拮抗→痙攣を起こしうる</span>。✓<br/><b>d セフェム系〜e アミノ配糖体系</b>：該当しない。"
             }
           ],
           "imgs": []
@@ -1789,6 +1939,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 抗菌薬の主なスペクトル",
               "c": "<table class=\"tb\"><tr><th>抗菌薬系統</th><th>Gram陽性</th><th>Gram陰性</th><th>備考</th></tr><tr><td>抗菌薬系統</td><td>Gram陽性</td><td>Gram陰性</td><td>備考</td></tr><tr><td>ペニシリン系</td><td>◎</td><td>△〜◎</td><td>アンピシリン→Gram陰性に有効</td></tr><tr><td>セフェム系</td><td>◎</td><td>◎</td><td>第3世代以降でGram陰性カバー広い</td></tr><tr><td>マクロライド系</td><td>◎</td><td>△</td><td>非定型菌に有効</td></tr><tr><td><span class=\"kw4\">テトラサイクリン系</span></td><td>○</td><td>○</td><td>但しGram陰性桿菌敗血症には不向き</td></tr><tr><td><span class=\"kw4\">リンコマイシン系</span></td><td>◎</td><td><span class=\"kw4\">×</span></td><td>Gram陰性に無効</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a リンコマイシン系</b>：グラム陰性桿菌に無効。<br/><b>b セフェム系</b>：<span class=\"kw\">グラム陰性桿菌に有効</span>。✓<br/><b>c ペニシリン系</b>：<span class=\"kw\">広域ペニシリン等が有効</span>。✓<br/><b>d マクロライド系〜e テトラサイクリン系</b>：主でない。"
             }
           ],
           "imgs": []
@@ -1846,6 +2001,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw4\">嫌気性菌 + アミノグリコシド = 無効</span><br/>アミノグリコシドは好気性Gram陰性桿菌・Gram陽性球菌（補助的）に有効<br/>嫌気性菌感染が疑われる腹腔内感染→メトロニダゾールまたはカルバペネム系"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a βラクタム・c マクロライド・d クリンダマイシン・e テトラサイクリン</b>：嫌気性菌に有効。<br/><b>b アミノ配糖体</b>：<span class=\"kw\">酸素依存性取り込みのため嫌気性菌に無効</span>。✓"
             }
           ],
           "imgs": []
@@ -1902,6 +2062,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ テトラサイクリンが無効な微生物",
               "c": "<table class=\"tb\"><tr><th>無効</th><th>理由</th></tr><tr><td>無効</td><td>理由</td></tr><tr><td>緑膿菌</td><td>Gram陰性桿菌→βラクタム系+アミノグリコシドが基本</td></tr><tr><td>セラチア</td><td>Gram陰性桿菌、テトラサイクリン耐性多い</td></tr><tr><td>クリプトコックス</td><td>真菌→抗真菌薬が必要</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a セラチア〜b 緑膿菌</b>：無効。<br/><b>c マイコプラズマ</b>：<span class=\"kw\">細胞壁のない菌にテトラサイクリン</span>。✓<br/><b>d クラミジア</b>：<span class=\"kw\">細胞内寄生菌にテトラサイクリン</span>。✓<br/><b>e クリプトコックス</b>：真菌で無効。"
             }
           ],
           "imgs": []
@@ -1949,6 +2114,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 各選択肢の評価",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>正誤</th><th>理由</th></tr><tr><td>選択肢</td><td>正誤</td><td>理由</td></tr><tr><td>個室管理は必要ない</td><td><span class=\"kw4\">×</span></td><td>接触感染対策に個室は重要</td></tr><tr><td>N95マスクを着用</td><td><span class=\"kw4\">×</span></td><td>MDRPは接触感染→N95は空気感染用</td></tr><tr><td><span class=\"kw\">病室出入り者全員が予防策</span></td><td><span class=\"kw\">○</span></td><td>手袋・ガウンを全員が着用</td></tr><tr><td>手袋を外した後は手指消毒不要</td><td><span class=\"kw4\">×</span></td><td>必ず手指消毒</td></tr><tr><td>PPEは吸引時のみ</td><td><span class=\"kw4\">×</span></td><td>入室時は常に必要</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "MDRP検出。<br/><b>a 個室管理は必要ない</b>：接触予防で個室/コホートを要し誤り。<br/><b>b N95マスクを着用</b>：空気感染でなく不要。<br/><b>c 病室に出入りする人全員が同様に予防策を理解する</b>：<span class=\"kw\">接触予防策の徹底</span>。✓<br/><b>d 手袋を外せば手洗い不要</b>：手指衛生は必要で誤り。<br/><b>e 吸引しなければPPE不要</b>：接触予防で必要。"
             }
           ],
           "imgs": []
@@ -2001,6 +2171,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "眼鏡は患者の<span class=\"kw\">非体液接触物品</span>→手袋不要<br/>標準予防策：感染症の有無に関わらず、血液・体液・分泌物・排泄物をすべて感染性と見なして対応<br/>手指衛生：WHO5moments（接触前後、清潔操作前、体液暴露後、患者周囲接触後）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "標準予防策で手袋なしで扱えるもの。<br/><b>a 患者の眼鏡</b>：<span class=\"kw\">体液が付着しておらず手袋不要</span>。✓<br/><b>b 創部のガーゼ〜e 喀痰が付着したティッシュ</b>：体液が付着し手袋が必要。"
             }
           ],
           "imgs": []
@@ -2053,6 +2228,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "蕁麻疹はアナフィラキシーショックの症状<br/>敗血症性ショック：<span class=\"kw\">warm shock（初期）</span>→皮膚温かく（vasodilation）<br/>Distributive shock（血液分布異常性）に分類"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 出血性ショック―頻脈</b>：正しい。<br/><b>b 心原性ショック―乏尿</b>：正しい。<br/><b>c 神経原性ショック―徐脈</b>：正しい。<br/><b>d 敗血症性ショック―蕁麻疹</b>：<span class=\"kw\">蕁麻疹はアナフィラキシーの所見</span>で誤り。✓<br/><b>e アナフィラキシーショック―喉頭浮腫</b>：正しい。"
             }
           ],
           "imgs": []
@@ -2110,6 +2290,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw4\">素手で手袋外面をつかむ → 誤り</span><br/>正しい手順：手袋した手で外側を持って外す→素手は内側に差し込む<br/>脱衣後は必ず手指衛生"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "手袋脱衣の手順。<br/><b>a〜c、e</b>：汚染面(表面)を素手で触れない正しい手順。<br/><b>d 脱いだ素手で対側の手袋の表面をつかむ</b>：<span class=\"kw\">素手で汚染面(手袋の表面)に触れてはいけない</span>ため誤り。✓"
             }
           ],
           "imgs": [
@@ -2163,6 +2348,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 各感染症の感染経路と隔離",
               "c": "<table class=\"tb\"><tr><th>疾患</th><th>感染経路</th><th>隔離</th></tr><tr><td>疾患</td><td>感染経路</td><td>隔離</td></tr><tr><td><span class=\"kw\">肺結核</span></td><td>空気感染</td><td><span class=\"kw\">陰圧室 + N95</span></td></tr><tr><td>インフルエンザ</td><td>飛沫感染</td><td>個室またはコホート（陰圧不要）</td></tr><tr><td>ウイルス性胃腸炎（ノロ）</td><td>接触・飛沫感染</td><td>個室・手袋・ガウン</td></tr><tr><td>流行性角結膜炎</td><td>接触感染</td><td>個室・手袋</td></tr><tr><td>流行性耳下腺炎（ムンプス）</td><td>飛沫感染</td><td>個室（陰圧不要）</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a インフルエンザ〜b ウイルス性胃腸炎</b>：飛沫/接触感染。<br/><b>c 肺結核</b>：<span class=\"kw\">空気感染で陰圧空調の個室管理</span>。✓<br/><b>d 流行性角結膜炎〜e 流行性耳下腺炎</b>：陰圧個室は不要。"
             }
           ],
           "imgs": []
@@ -2220,6 +2410,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "図中④は通常「廊下と前室の境界付近」に設定される<br/>正しいルール：\"病室内で着る→廊下に出る前に脱ぐ\"（汚染を外に出さない）<br/>手袋→ガウン→マスク→ゴーグルの順で脱衣"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "空気感染対策(結核疑い)のPPE脱衣場所を選ぶ。<br/><b>a〜c、e</b>：適切な脱衣位置でない。<br/><b>d ④</b>：<span class=\"kw\">前室等の適切な位置でPPEを脱衣</span>。✓"
             }
           ],
           "imgs": [
@@ -2274,6 +2469,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 肺炎球菌 vs 他の市中肺炎",
               "c": "<table class=\"tb\"><tr><th>病原体</th><th>Gram染色</th><th>特徴</th></tr><tr><td>病原体</td><td>Gram染色</td><td>特徴</td></tr><tr><td><span class=\"kw\">肺炎球菌</span></td><td>G陽性双球菌</td><td>錆色痰・急性発症・大葉性</td></tr><tr><td>マイコプラズマ</td><td>染まらない（細胞壁なし）</td><td>若年・乾性咳嗽・非定型</td></tr><tr><td>レジオネラ</td><td>G陰性桿菌</td><td>比較的徐脈・温泉/空調関連</td></tr><tr><td>クレブシエラ</td><td>G陰性太い桿菌</td><td>赤カーラント様痰・糖尿病</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "悪寒戦慄＋膿性痰＋Gram陽性双球菌。<br/><b>a 肺結核</b>：抗酸菌で異なる。<br/><b>b 肺炎球菌肺炎</b>：<span class=\"kw\">Gram陽性双球菌＋急性大葉性肺炎</span>。✓<br/><b>c レジオネラ〜e 黄色ブドウ球菌肺炎</b>：Gram所見が合わない。"
             }
           ],
           "imgs": [
@@ -2334,6 +2534,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "標準予防策の基本：感染症診断前から<span class=\"kw\">全患者</span>に適用<br/>対象：血液・体液（尿・便・唾液・嘔吐物・創液など）<br/>手指消毒：アルコール（速乾性）—次亜塩素酸Naは環境消毒に使用"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 滅菌手袋を着用</b>：清潔手袋で足り誤り。<br/><b>b 感染症と診断してから実施</b>：全患者に適用し誤り。<br/><b>c 次亜塩素酸で手指衛生</b>：アルコール/石鹸で誤り。<br/><b>d 患者が嘔吐している場合は撥水性ガウンを着用して診察する</b>：<span class=\"kw\">体液曝露に撥水性ガウン</span>。✓<br/><b>e 木製舌圧子は一般廃棄物</b>：感染性廃棄物として処理し誤り。"
             }
           ],
           "imgs": []
@@ -2376,6 +2581,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ ショックの原因と治療薬",
               "c": "<table class=\"tb\"><tr><th>ショック</th><th>治療薬</th><th>正誤</th></tr><tr><td>ショック</td><td>治療薬</td><td>正誤</td></tr><tr><td><span class=\"kw\">敗血症</span></td><td><span class=\"kw\">ノルアドレナリン</span></td><td><span class=\"kw\">○（第一選択昇圧薬）</span></td></tr><tr><td>大量出血</td><td>ヘパリン → <span class=\"kw4\">×</span></td><td><span class=\"kw4\">出血には輸血・細胞外液（ヘパリンは血栓に使う）</span></td></tr><tr><td>徐脈性不整脈</td><td>グルカゴン → △</td><td>通常はアトロピン・ペーシングが優先</td></tr><tr><td>肺血栓塞栓症</td><td>アルテプラーゼ（t-PA）</td><td>血栓溶解療法が正しい</td></tr><tr><td>アナフィラキシー</td><td>リドカイン → <span class=\"kw4\">×</span></td><td><span class=\"kw4\">アドレナリン（エピネフリン）が第一選択</span></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 敗血症―ノルアドレナリン</b>：<span class=\"kw\">敗血症性ショックの昇圧薬</span>で正しい。✓<br/><b>b 大量出血―ヘパリン</b>：輸血が必要で誤り。<br/><b>c 徐脈性不整脈―グルコース</b>：アトロピンで誤り。<br/><b>d 肺血栓塞栓症―アミノフィリン</b>：抗凝固/血栓溶解で誤り。<br/><b>e アナフィラキシー―リドカイン</b>：アドレナリンで誤り。"
             }
           ],
           "imgs": []
@@ -2423,6 +2633,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 誤った選択肢の理由",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>誤りの理由</th></tr><tr><td>選択肢</td><td>誤りの理由</td></tr><tr><td>体温で選択</td><td><span class=\"kw4\">体温は起因菌を示さない</span></td></tr><tr><td>白血球数で選択</td><td><span class=\"kw4\">白血球数は起因菌を示さない</span></td></tr><tr><td>培養最終結果まで待つ</td><td><span class=\"kw4\">培養結果は2〜5日→待っていたら治療遅延</span></td></tr><tr><td>CRP正常化を判定指標</td><td><span class=\"kw4\">CRP単独では投与期間を決めない</span></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 体温で選択〜b 白血球数で選択</b>：起因菌推定に基づかず誤り。<br/><b>c 培養の最終結果が出てから開始</b>：治療が遅れ誤り。<br/><b>d 喀痰のGram染色を確認してから開始する</b>：<span class=\"kw\">塗抹で起因菌を推定し抗菌薬を選択</span>。✓<br/><b>e CRPの正常化を効果判定の指標とする</b>：主でない。"
             }
           ],
           "imgs": []
@@ -2470,6 +2685,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ TDMが必要な抗菌薬",
               "c": "<table class=\"tb\"><tr><th>薬剤</th><th>TDM</th><th>理由</th></tr><tr><td>薬剤</td><td>TDM</td><td>理由</td></tr><tr><td><span class=\"kw\">バンコマイシン</span></td><td>必要</td><td>腎毒性・AUC/MIC管理</td></tr><tr><td><span class=\"kw\">アミノグリコシド系</span></td><td>必要</td><td>腎毒性・耳毒性</td></tr><tr><td>クリンダマイシン</td><td>不要</td><td>毒性が低く治療域が広い</td></tr><tr><td>セファゾリン</td><td>不要</td><td>βラクタム系は毒性低い</td></tr><tr><td>レボフロキサシン</td><td>通常不要</td><td>腎機能低下時は用量調整のみ</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a クリンダマイシン〜b セファゾリン</b>：TDM対象でない。<br/><b>c バンコマイシン</b>：<span class=\"kw\">腎毒性でTDMが必要</span>。✓<br/><b>d ペニシリンG〜e レボフロキサシン</b>：TDM対象でない。"
             }
           ],
           "imgs": []
@@ -2527,6 +2747,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "吸入ステロイド ≠ 全身免疫抑制（口腔内カンジダリスクはあるが肺炎リスクはそれほど高くない）<br/>市中肺炎の最多起因菌 = <span class=\"kw\">肺炎球菌</span>（どの年齢でも基本的に第1位）<br/>非定型（マイコプラズマ）は若年・乾性咳嗽・家族・職場での流行が手がかり"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "市中肺炎(膿性痰)。<br/><b>a Haemophilus〜d Staphylococcus aureus</b>：主因でない。<br/><b>e Streptococcus pneumoniae</b>：<span class=\"kw\">市中肺炎の最多起因菌(肺炎球菌)</span>。✓"
             }
           ],
           "imgs": [
@@ -2587,6 +2812,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw4\">PPEでないもの</span>：聴診器・血圧計などの診察器具<br/>聴診器は患者間でアルコール清拭が必要（間接感染リスク）<br/>画像問題：④が聴診器と判断→医療器具 → PPEではない"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "個人防護具(PPE)でないものを選ぶ。<br/><b>a〜c、e</b>：手袋・ガウン・マスク等のPPE。<br/><b>d ④</b>：<span class=\"kw\">PPEに該当しない物品</span>。✓"
             }
           ],
           "imgs": [
@@ -2640,6 +2870,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 抗菌薬の適正使用（正しいものを選ぶ）",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th><th>根拠</th></tr><tr><td>ａ 解熱後すぐに中止</td><td>×</td><td>早期中止→再燃・耐性菌誘導リスク→規定期間継続が原則</td></tr><tr><td>ｂ 発熱があれば投与</td><td>×</td><td>ウイルス感染・非感染性疾患の発熱には不要→適応を確認してから投与</td></tr><tr><td>ｃ 検体採取後に投与</td><td>○</td><td>血液培養・喀痰等の検体採取後に開始→培養感度の維持（抗菌薬前採取が原則）</td></tr><tr><td>ｄ 感受性によらず広域継続</td><td>×</td><td>de-escalation原則→感受性判明後に最も狭域の抗菌薬に変更</td></tr><tr><td>ｅ 解熱薬併用で判定容易</td><td>×</td><td>解熱薬は解熱効果があり治療効果の判定を困難にする</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 解熱後すぐに中止</b>：適切な期間を要し誤り。<br/><b>b 発熱があれば投与</b>：発熱＝細菌感染でなく誤り。<br/><b>c 細菌検査の検体を採取後に抗菌薬を投与する</b>：<span class=\"kw\">培養前に検体を採取</span>。✓<br/><b>d 感受性によらず広域を継続</b>：狭域化すべきで誤り。<br/><b>e 解熱薬併用で効果判定が容易</b>：判定を困難にし誤り。"
             }
           ],
           "imgs": []
@@ -2687,6 +2922,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 他の選択肢の感染経路",
               "c": "<table class=\"tb\"><tr><th>病原体</th><th>感染経路</th><th>予防策</th></tr><tr><td>病原体</td><td>感染経路</td><td>予防策</td></tr><tr><td>A群レンサ球菌</td><td>飛沫・接触感染</td><td>飛沫・接触予防策</td></tr><tr><td>ムンプスウイルス</td><td>飛沫感染</td><td>飛沫予防策</td></tr><tr><td><span class=\"kw\">水痘帯状疱疹ウイルス</span></td><td><span class=\"kw\">空気感染</span></td><td><span class=\"kw\">空気感染予防策（N95・陰圧室）</span></td></tr><tr><td>MDRP</td><td>接触感染</td><td>接触予防策</td></tr><tr><td>MRSA</td><td>接触感染</td><td>接触予防策</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "麻疹＝空気感染。同じ経路の予防策を要するもの。<br/><b>a A群レンサ球菌〜b ムンプス</b>：飛沫感染。<br/><b>c 水痘帯状疱疹ウイルス</b>：<span class=\"kw\">空気感染(麻疹・水痘・結核)</span>。✓<br/><b>d MDRP〜e MRSA</b>：接触感染。"
             }
           ],
           "imgs": []
@@ -2739,6 +2979,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "qSOFA＝<span class=\"kw\">血圧・呼吸数・意識</span>の3項目<br/>体温・脈拍はSIRS基準の項目（qSOFAには含まない）<br/>qSOFA 2点以上 → Sepsis-3での臓器障害を強く疑う"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "qSOFAは意識・収縮期血圧・呼吸数。<br/><b>a〜d</b>：qSOFAの組合せでない。<br/><b>e 血圧と呼吸数</b>：<span class=\"kw\">qSOFA=意識・収縮期血圧≤100・呼吸数≥22</span>。✓"
             }
           ],
           "imgs": []
@@ -2791,6 +3036,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "GCS 15は正常（14以下で意識変容）→ qSOFAの意識変容は0点<br/>血圧92：≦100mmHg → 1点、呼吸数26：≧22/分 → 1点<br/>合計2点 → 敗血症による臓器障害を強く疑い、入院・ICU管理を考慮"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "qSOFA(意識正常・血圧92/50・呼吸26)。<br/><b>a 0点〜b 1点</b>：該当しない。<br/><b>c 2点</b>：<span class=\"kw\">収縮期血圧≤100(1)＋呼吸数≥22(1)=2点</span>。✓<br/><b>d 3点〜e 4点</b>：意識障害がなく該当しない。"
             }
           ],
           "imgs": []
@@ -2838,6 +3088,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 血液培養の感度を下げる操作",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th><th>根拠</th></tr><tr><td>ａ 検体を冷蔵保存</td><td>○（感度↓）</td><td>低温で死滅する菌（肺炎球菌・髄膜炎菌・淋菌等）を見逃す→室温保存が原則</td></tr><tr><td>ｂ 採取回数を増やす</td><td>×（感度↑）</td><td>複数セット採取→感度が上昇する</td></tr><tr><td>ｃ 抗菌薬投与前に採取</td><td>×（感度↑）</td><td>投与前採取→菌の生存率が高い→感度維持</td></tr><tr><td>ｄ 異なる部位から2セット</td><td>×（感度↑）</td><td>部位を変えることでコンタミ鑑別＋感度向上</td></tr><tr><td>ｅ 好気→嫌気ボトルの順</td><td>×</td><td>感度に大きな影響なし</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 検体を冷蔵保存する</b>：<span class=\"kw\">冷蔵で菌が死滅し感度が低下</span>。✓<br/><b>b 採取回数を増やす〜e 嫌気ボトルに先に分注</b>：感度を下げない。"
             }
           ],
           "imgs": []
@@ -2885,6 +3140,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 各所見の意義（本問での位置づけ）",
               "c": "<table class=\"tb\"><tr><th>所見</th><th>確認の意義</th></tr><tr><td>所見</td><td>確認の意義</td></tr><tr><td>眼振</td><td>小脳・脳幹病変（髄膜炎とは別）</td></tr><tr><td>筋強剛</td><td>パーキンソン病・錐体外路</td></tr><tr><td><span class=\"kw\">項部硬直</span></td><td><span class=\"kw\">髄膜刺激徴候 → 髄膜炎診断の最優先所見</span></td></tr><tr><td>Barré徴候</td><td>軽度錐体路障害</td></tr><tr><td>Babinski徴候</td><td>錐体路障害（重症化の評価）</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "髄膜炎疑い。<br/><b>a 眼振〜b 筋強剛</b>：主でない。<br/><b>c 項部硬直</b>：<span class=\"kw\">髄膜刺激徴候</span>を確認。✓<br/><b>d Barré徴候〜e Babinski徴候</b>：主でない。"
             }
           ],
           "imgs": []
@@ -2932,6 +3192,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 誤った選択肢の確認",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>正誤</th><th>理由</th></tr><tr><td>選択肢</td><td>正誤</td><td>理由</td></tr><tr><td><span class=\"kw\">2セット採取</span></td><td><span class=\"kw\">○</span></td><td>感度向上・コンタミ判定</td></tr><tr><td>抗菌薬投与後に採取</td><td><span class=\"kw4\">×</span></td><td>菌が死滅→感度低下</td></tr><tr><td>採取後は冷蔵</td><td><span class=\"kw4\">×</span></td><td>低温死滅菌リスク</td></tr><tr><td>素手で採取</td><td><span class=\"kw4\">×</span></td><td>滅菌/清潔手袋必要</td></tr><tr><td>動脈からの採取を優先</td><td><span class=\"kw4\">×</span></td><td>静脈採血が標準（動脈は特別な場合のみ）</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 2セット採取する</b>：<span class=\"kw\">コンタミ判別・感度向上のため2セット</span>。✓<br/><b>b 抗菌薬投与後に採取</b>：投与前で誤り。<br/><b>c 冷蔵</b>：室温で誤り。<br/><b>d 素手で採取</b>：清潔操作で誤り。<br/><b>e 動脈からの採取が優先</b>：静脈でよく誤り。"
             }
           ],
           "imgs": []
@@ -2979,6 +3244,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 各昇圧薬の使い分け",
               "c": "<table class=\"tb\"><tr><th>薬剤</th><th>適応</th><th>備考</th></tr><tr><td>薬剤</td><td>適応</td><td>備考</td></tr><tr><td><span class=\"kw\">ノルアドレナリン</span></td><td>敗血症性ショック第一選択</td><td>α1↑ β1↑</td></tr><tr><td>アドレナリン</td><td>アナフィラキシー第一選択</td><td>α↑ β↑↑</td></tr><tr><td>ドパミン</td><td>以前は第一選択（現在は第二選択）</td><td>D β1 α1</td></tr><tr><td>アトロピン</td><td>徐脈性不整脈</td><td>抗コリン薬</td></tr><tr><td>イソプロテレノール</td><td>β1↑ β2↑（徐脈や気管支攣縮）</td><td>α作用なし</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a アトロピン〜d ドパミン</b>：第一選択でない。<br/><b>e ノルアドレナリン</b>：<span class=\"kw\">敗血症性ショックの循環作動薬の第一選択</span>。✓"
             }
           ],
           "imgs": []
@@ -3036,6 +3306,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "COPD患者の急性増悪 → <span class=\"kw\">Moraxella catarrhalis</span>は重要な起因菌<br/>他の選択肢との鑑別：腸球菌は尿路・腹腔感染、肺炎球菌は市中肺炎全般<br/>治療：βラクタム/βラクタマーゼ阻害剤（Moraxellaはβラクタマーゼ産生することあり）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "COPDの二次感染(Gram陰性双球菌)。<br/><b>a 腸球菌〜d 黄色ブドウ球菌</b>：Gram所見が合わない。<br/><b>e Moraxella catarrhalis</b>：<span class=\"kw\">COPDの気道感染(グラム陰性双球菌)</span>。✓"
             }
           ],
           "imgs": [
@@ -3086,6 +3361,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 誤った選択肢の確認",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>正誤</th><th>理由</th></tr><tr><td>選択肢</td><td>正誤</td><td>理由</td></tr><tr><td>動脈採血を第一選択</td><td><span class=\"kw4\">×</span></td><td>静脈採血が標準</td></tr><tr><td><span class=\"kw\">複数部位から採取</span></td><td><span class=\"kw\">○</span></td><td>感度↑＋コンタミ判定</td></tr><tr><td>血液量はなるべく少量</td><td><span class=\"kw4\">×</span></td><td>8〜10mL必要</td></tr><tr><td>分注前に針交換</td><td><span class=\"kw4\">×</span></td><td>不要（菌が死滅する可能性）</td></tr><tr><td>好気用ボトルを先</td><td><span class=\"kw4\">×（本問）</span></td><td>好気→先が正しいが選択肢の文脈に注意</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 動脈採血を第一選択</b>：静脈でよく誤り。<br/><b>b 複数部位より採取する</b>：<span class=\"kw\">異なる部位から2セット</span>。✓<br/><b>c 血液量は少量</b>：十分量が必要で誤り。<br/><b>d 針を交換</b>：不要/推奨されず誤り。<br/><b>e 好気用ボトルに先に分注</b>：一律でなく誤り。"
             }
           ],
           "imgs": []
@@ -3133,6 +3413,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 良質な喀痰：好中球と扁平上皮細胞の基準",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>好中球(/HPF)</th><th>扁平上皮(/HPF)</th><th>評価</th></tr><tr><td>ａ</td><td>0</td><td>0</td><td>×（白血球がなく炎症部位でない）</td></tr><tr><td>ｂ</td><td>5</td><td>5</td><td>×（好中球が少なく深部からの検体でない）</td></tr><tr><td>ｃ</td><td>5</td><td>30</td><td>×（扁平上皮多い＝口腔汚染・好中球少ない）</td></tr><tr><td>ｄ</td><td>30</td><td>5</td><td>○（好中球≥25個で炎症あり・扁平上皮&lt;10個で口腔汚染少ない）</td></tr><tr><td>ｅ</td><td>30</td><td>30</td><td>×（好中球は十分だが扁平上皮≥10個→口腔汚染あり）</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "良質な喀痰は好中球が多く扁平上皮が少ない。<br/><b>a〜c、e</b>：好中球が少ない/上皮が多く不良。<br/><b>d 好中球30・扁平上皮5</b>：<span class=\"kw\">好中球多・上皮少で良質(Geckler 4〜5群)</span>。✓"
             }
           ],
           "imgs": []
@@ -3175,6 +3460,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 微生物の生物学的分類",
               "c": "<table class=\"tb\"><tr><th>微生物</th><th>正しい分類</th><th>備考</th></tr><tr><td>微生物</td><td>正しい分類</td><td>備考</td></tr><tr><td><span class=\"kw\">クラミジア</span></td><td><span class=\"kw\">細菌（偏性細胞内寄生）</span></td><td>細胞壁あり、ATPを自己産生できない</td></tr><tr><td>マイコプラズマ</td><td>細菌</td><td>細胞壁なし（βラクタム無効）</td></tr><tr><td>トキソプラズマ</td><td><span class=\"kw4\">原虫（Apicomplexa）</span></td><td>真核生物・猫が終宿主</td></tr><tr><td>ニューモシスチス</td><td><span class=\"kw4\">真菌</span></td><td>β-Dグルカン陽性（カリニ肺炎）</td></tr><tr><td>クリプトコッカス</td><td><span class=\"kw4\">真菌（担子菌類）</span></td><td>莢膜あり・墨汁染色</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a クラミジア―細胞内寄生菌</b>：正しい。✓<br/><b>b マイコプラズマ―抗酸菌</b>：細胞壁なしで誤り。<br/><b>c トキソプラズマ―真菌</b>：原虫で誤り。<br/><b>d ニューモシスチス―原虫</b>：真菌で誤り。<br/><b>e クリプトコッカス―嫌気性菌</b>：真菌で誤り。"
             }
           ],
           "imgs": []
@@ -3227,6 +3517,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "敗血症性ショックの初期治療 = <span class=\"kw\">急速輸液（30mL/kg）</span>が最優先<br/>アトロピン（徐脈）・アドレナリン（アナフィラキシー）・ジゴキシン（心不全）ではない<br/>ステロイドは補助療法（輸液・昇圧薬でも改善しない場合）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "肺炎からの敗血症性ショック(血圧86/64)。<br/><b>a アトロピン〜c ジゴキシン</b>：不適。<br/><b>d 生理食塩液の急速輸液</b>：<span class=\"kw\">敗血症性ショックの初期輸液(細胞外液)</span>。✓<br/><b>e 副腎皮質ステロイド</b>：第一でない。"
             }
           ],
           "imgs": []
@@ -3274,6 +3569,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 敗血症の治療方針（誤りを選ぶ）",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th><th>根拠</th></tr><tr><td>ａ 心電図で心拍数を監視</td><td>正しい</td><td>循環動態の継続的モニタリング→必要な処置</td></tr><tr><td>ｂ 尿道カテで時間尿量監視</td><td>正しい</td><td>腎灌流の指標（目標尿量：0.5mL/kg/hr以上）→敗血症管理の基本</td></tr><tr><td>ｃ 抗菌薬は感受性判明後に開始</td><td>○（誤り）</td><td>敗血症は時間が命→1時間以内に経験的抗菌薬投与が必須。感受性待ちは死亡率を上昇させる</td></tr><tr><td>ｄ SpO₂参考に酸素調節</td><td>正しい</td><td>組織酸素化の維持→SpO₂ 94-98%を目標に投与量調節</td></tr><tr><td>ｅ 血液培養複数セット提出</td><td>正しい</td><td>起因菌の同定→異なる部位から2セット（抗菌薬投与前に）</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "敗血症の管理で適切でないものを選ぶ。<br/><b>a 心拍数の監視〜b 時間尿量の監視・d SpO2で酸素調節・e 複数セットの血液培養</b>：適切。<br/><b>c 抗菌薬は感受性が判明してから開始する</b>：<span class=\"kw\">敗血症では速やかに経験的抗菌薬を開始すべき</span>で誤り。✓（適切でない）"
             }
           ],
           "imgs": []
@@ -3336,6 +3636,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "空気感染の3大病原体：<span class=\"kw\">麻疹・水痘・結核菌</span>（M・V・T）<br/>風疹・百日咳・インフルエンザは飛沫感染（空気感染ではない）<br/>水痘帯状疱疹ウイルスは接触感染+空気感染（空気感染対策が必要）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a インフルエンザ〜b 風疹・d 百日咳</b>：飛沫感染。<br/><b>c 麻疹ウイルス</b>：<span class=\"kw\">空気感染</span>。✓<br/><b>e 結核菌</b>：<span class=\"kw\">空気感染</span>。✓"
             }
           ],
           "imgs": []
@@ -3383,6 +3688,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 指標の選択理由",
               "c": "<table class=\"tb\"><tr><th>指標</th><th>重要性</th><th>理由</th></tr><tr><td>指標</td><td>重要性</td><td>理由</td></tr><tr><td><span class=\"kw\">eGFR</span></td><td><span class=\"kw\">最重要</span></td><td>腎排泄薬の蓄積リスク評価</td></tr><tr><td>体表面積</td><td>△</td><td>一般的な投与量計算（腎機能とは別）</td></tr><tr><td>心拍出量</td><td>×</td><td>アミノグリコシドの排泄と無関係</td></tr><tr><td>ICG試験</td><td>×</td><td>肝機能指標（アミノグリコシドは肝代謝ではない）</td></tr><tr><td>血清アルブミン</td><td>△</td><td>低アルブミン血症で分布変化あるが最重要ではない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a eGFR</b>：<span class=\"kw\">アミノグリコシドは腎排泄性で腎機能(eGFR)で投与量を調整</span>。✓<br/><b>b 体表面積〜e 血清アルブミン値</b>：主でない。"
             }
           ],
           "imgs": []
@@ -3435,6 +3745,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "血液培養は<span class=\"kw\">室温保存</span>が原則<br/>Q51（113B-11）と同内容でQ63（107H-12）でも出題→頻出テーマ"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 検体を冷蔵保存する</b>：<span class=\"kw\">冷蔵で菌が死滅し感度が低下</span>。✓<br/><b>b 採取回数を増やす〜e 嫌気ボトルに先に分注</b>：感度を下げない。"
             }
           ],
           "imgs": []
@@ -3492,6 +3807,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "陽圧室 vs 陰圧室：<br/>陽圧室（無菌室）= 外界からの病原体侵入防止（血液疾患・骨髄移植後）<br/>陰圧室 = 室内の病原体を外部に出さない（結核・空気感染症）<br/>清潔空気の流れ方向で清潔度が決まる（供給口側 &gt; 排気口側）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "陽圧無菌室で医師の立ち位置として好ましくないものを選ぶ。<br/><b>a ①</b>：<span class=\"kw\">清浄空気の供給口と患者の間に立ち気流を妨げる位置で不適</span>。✓<br/><b>b〜e</b>：気流を妨げにくい。"
             }
           ],
           "imgs": [
@@ -3546,6 +3866,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "SIRS診断：4項目中2項目以上を満たす<br/><span class=\"kw\">低体温（&lt;36℃）もSIRS基準</span>→重篤な感染症・敗血症でも低体温を示すことあり<br/>本症例：35℃だけが基準を満たす（1項目のみ→SIRSとは診断されない）"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "SIRS基準：体温>38 or <36、脈拍>90、呼吸数>20、白血球異常。<br/><b>a 白血球6,000〜d 尿量40ml/時</b>：SIRS基準を満たさない。<br/><b>e 体温35.0℃</b>：<span class=\"kw\">体温<36でSIRS基準を満たす</span>。✓"
             }
           ],
           "imgs": []
@@ -3593,6 +3918,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 他の選択肢の感染経路",
               "c": "<table class=\"tb\"><tr><th>疾患</th><th>感染経路</th><th>隔離</th></tr><tr><td>疾患</td><td>感染経路</td><td>隔離</td></tr><tr><td><span class=\"kw\">麻疹</span></td><td><span class=\"kw\">空気感染</span></td><td><span class=\"kw\">陰圧室（最厳重）</span></td></tr><tr><td>インフルエンザ</td><td>飛沫感染</td><td>飛沫予防策（陰圧不要）</td></tr><tr><td>急性細気管支炎（RSV）</td><td>接触・飛沫感染</td><td>接触・飛沫予防策</td></tr><tr><td>伝染性単核球症</td><td>接触感染（唾液）</td><td>標準予防策</td></tr><tr><td>百日咳</td><td>飛沫感染</td><td>飛沫予防策</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a インフルエンザ〜d 百日咳</b>：飛沫感染。<br/><b>e 麻疹</b>：<span class=\"kw\">空気感染で陰圧室隔離の必要性が最も高い</span>。✓"
             }
           ],
           "imgs": []
@@ -3645,6 +3975,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 敗血症に関与しない選択肢",
               "c": "<table class=\"tb\"><tr><th>物質</th><th>役割</th><th>関与</th></tr><tr><td>物質</td><td>役割</td><td>関与</td></tr><tr><td><span class=\"kw\">TNF-α</span></td><td>サイトカイン（炎症性）</td><td><span class=\"kw\">○ 関与</span></td></tr><tr><td><span class=\"kw\">エンドトキシン</span></td><td>Gram陰性菌外膜成分</td><td><span class=\"kw\">○ 関与</span></td></tr><tr><td>ハプトグロビン</td><td>ヘモグロビン結合蛋白（急性期蛋白）</td><td><span class=\"kw4\">× 多臓器障害には関与せず</span></td></tr><tr><td>クリオグロブリン</td><td>低温沈降グロブリン</td><td><span class=\"kw4\">× 敗血症との関連なし</span></td></tr><tr><td>von Willebrand因子</td><td>血小板接着因子</td><td><span class=\"kw4\">× 間接的だが主役ではない</span></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 腫瘍壊死因子〈TNF〉</b>：<span class=\"kw\">炎症性サイトカインが臓器障害に関与</span>。✓<br/><b>b エンドトキシン</b>：<span class=\"kw\">グラム陰性菌のLPSが関与</span>。✓<br/><b>c ハプトグロビン〜e von Willebrand因子</b>：主でない。"
             }
           ],
           "imgs": []
@@ -3666,15 +4001,15 @@ window["_cardJSON_kansen"]={
           "choices": [
             {
               "t": "ａ　ニューキノロン系",
-              "ok": false
+              "ok": true
             },
             {
               "t": "ｂ　カルバペネム系",
-              "ok": false
+              "ok": true
             },
             {
               "t": "ｃ　アミノ配糖体系",
-              "ok": false
+              "ok": true
             },
             {
               "t": "ｄ　ペニシリン系",
@@ -3702,6 +4037,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "MDRP = <span class=\"kw\">カルバペネム＋フルオロキノロン＋アミノグリコシドの3系統耐性</span><br/>本問は採点除外（出題時の定義変更などによる）<br/>選択肢：ニューキノロン系（≒フルオロキノロン）・カルバペネム系・アミノ配糖体系の3つが正解"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "MDRP＝ニューキノロン・カルバペネム・アミノ配糖体の3系統すべてに耐性。<br/><b>a ニューキノロン系</b>：<span class=\"kw\">MDRP定義の3系統</span>。✓<br/><b>b カルバペネム系</b>：<span class=\"kw\">MDRP定義の3系統</span>。✓<br/><b>c アミノ配糖体系</b>：<span class=\"kw\">MDRP定義の3系統</span>。✓<br/><b>d ペニシリン系〜e セフェム系</b>：MDRPの定義に含まれない。"
             }
           ],
           "imgs": []
@@ -3754,6 +4094,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ Gram染色形態と菌の鑑別",
               "c": "<table class=\"tb\"><tr><th>形態</th><th>代表菌</th></tr><tr><td>形態</td><td>代表菌</td></tr><tr><td>Gram陽性双球菌</td><td>肺炎球菌、腸球菌</td></tr><tr><td><span class=\"kw\">Gram陽性球菌（ブドウ状集簇）</span></td><td><span class=\"kw\">黄色ブドウ球菌（MRSA含む）</span></td></tr><tr><td>Gram陽性連鎖球菌</td><td>A群レンサ球菌</td></tr><tr><td>Gram陰性双球菌</td><td>淋菌・髄膜炎菌</td></tr><tr><td>Gram陰性桿菌</td><td>大腸菌・緑膿菌・肺炎桿菌</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "MRSA＝Gram陽性ブドウ状球菌。<br/><b>a〜d</b>：Gram所見がMRSAと合わない。<br/><b>e ⑤</b>：<span class=\"kw\">Gram陽性のブドウ状球菌でMRSAの可能性</span>。✓"
             }
           ],
           "imgs": [
@@ -3817,6 +4162,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw4\">口蹄疫</span>：動物のみの疾患（ヒトへの病原性はほぼなし）→ズーノーシスではない<br/><span class=\"kw4\">天然痘</span>：ヒトのみに感染（根絶済み）→ズーノーシスではない<br/>レジオネラ：環境（水系）→ヒト（動物は関与しない）→ズーノーシスではない"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 口蹄疫〜b 天然痘</b>：ヒト-ヒトが主/家畜病。<br/><b>c 狂犬病</b>：<span class=\"kw\">動物咬傷から感染する人獣共通感染症</span>。✓<br/><b>d ブルセラ症</b>：<span class=\"kw\">家畜由来の人獣共通感染症</span>。✓<br/><b>e レジオネラ肺炎</b>：環境(水系)由来。"
             }
           ],
           "imgs": []
@@ -3864,6 +4214,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 各選択肢の確認",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>正誤</th><th>理由</th></tr><tr><td>選択肢</td><td>正誤</td><td>理由</td></tr><tr><td>高圧酸素療法が有効</td><td><span class=\"kw4\">×</span></td><td>ガス壊疽（C. perfringens）に有効</td></tr><tr><td>間質性肺炎を起こす</td><td><span class=\"kw4\">×</span></td><td>緑膿菌は気管支肺炎・壊死性肺炎</td></tr><tr><td>飛沫感染が主</td><td><span class=\"kw4\">×</span></td><td>接触感染が主（飛沫では広がりにくい）</td></tr><tr><td><span class=\"kw\">日和見感染が多い</span></td><td><span class=\"kw\">○</span></td><td>免疫低下者に多い</td></tr><tr><td>市中肺炎に多い</td><td><span class=\"kw4\">×</span></td><td>院内感染が主</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 高圧酸素療法が有効</b>：ガス壊疽用で誤り。<br/><b>b 間質性肺炎を起こしやすい</b>：主でない。<br/><b>c 飛沫感染が主</b>：環境/接触で誤り。<br/><b>d 日和見感染が多い</b>：<span class=\"kw\">弱毒菌で易感染宿主に日和見感染</span>。✓<br/><b>e 市中肺炎に多い</b>：院内感染が主で誤り。"
             }
           ],
           "imgs": []
@@ -3916,6 +4271,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 他の選択肢の感染経路",
               "c": "<table class=\"tb\"><tr><th>病原体</th><th>感染経路</th></tr><tr><td>病原体</td><td>感染経路</td></tr><tr><td>A群レンサ球菌</td><td>飛沫・接触感染</td></tr><tr><td><span class=\"kw\">水痘・帯状疱疹</span></td><td><span class=\"kw\">空気感染（麻疹と同様）</span></td></tr><tr><td>MDRP</td><td>接触感染</td></tr><tr><td>MRSA</td><td>接触感染</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "麻疹＝空気感染。同じ経路のもの。<br/><b>a 結核菌</b>：<span class=\"kw\">空気感染</span>。✓<br/><b>b A群レンサ球菌</b>：飛沫感染。<br/><b>c 水痘・帯状疱疹ウイルス</b>：<span class=\"kw\">空気感染</span>。✓<br/><b>d MDRP〜e MRSA</b>：接触感染。"
             }
           ],
           "imgs": []
@@ -3963,6 +4323,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 各疾患の感染源",
               "c": "<table class=\"tb\"><tr><th>疾患</th><th>感染経路</th><th>ヒト専用か</th></tr><tr><td>疾患</td><td>感染経路</td><td>ヒト専用か</td></tr><tr><td><span class=\"kw\">天然痘</span></td><td>ヒト→ヒト</td><td><span class=\"kw\">○ ヒトのみ（根絶済み）</span></td></tr><tr><td>炭疽</td><td>牛・羊等の動物から</td><td><span class=\"kw4\">× ズーノーシス</span></td></tr><tr><td>ペスト</td><td>ネズミ・ノミから</td><td><span class=\"kw4\">× ズーノーシス</span></td></tr><tr><td>ボツリヌス症</td><td>芽胞汚染食品から（環境中）</td><td><span class=\"kw4\">× 食品媒介（ヒト→ヒトはなし）</span></td></tr><tr><td>野兎病</td><td>ウサギ・げっ歯類から</td><td><span class=\"kw4\">× ズーノーシス</span></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 天然痘</b>：<span class=\"kw\">ヒトのみが宿主でヒト-ヒト間でのみ伝播</span>。✓<br/><b>b 炭疽〜e 野兎病</b>：動物/環境由来。"
             }
           ],
           "imgs": []
@@ -4015,6 +4380,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 多臓器不全（MOF）でみられる所見（3つ）",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th><th>根拠</th></tr><tr><td>ａ 尿量減少</td><td>○</td><td>腎不全（急性尿細管壊死）→乏尿・無尿→MOFの腎障害指標</td></tr><tr><td>ｂ 低酸素血症</td><td>○</td><td>ARDS（急性呼吸窮迫症候群）→肺胞膜障害→低酸素血症→MOFの肺障害指標</td></tr><tr><td>ｃ 乳酸アシドーシス</td><td>○</td><td>組織低灌流→嫌気性代謝亢進→乳酸蓄積→代謝性アシドーシス</td></tr><tr><td>ｄ 血清アルブミン増加</td><td>×</td><td>MOFでは肝機能低下・血管透過性亢進→アルブミンは低下（増加しない）</td></tr><tr><td>ｅ 血清クレアチニン減少</td><td>×</td><td>腎不全→クレアチニンは上昇（減少しない）</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 尿量減少</b>：<span class=\"kw\">急性腎障害</span>。✓<br/><b>b 低酸素血症</b>：<span class=\"kw\">呼吸不全(ARDS)</span>。✓<br/><b>c 乳酸アシドーシス</b>：<span class=\"kw\">組織低灌流</span>。✓<br/><b>d 血清アルブミン増加</b>：低下し誤り。<br/><b>e 血清クレアチニン減少</b>：上昇し誤り。"
             }
           ],
           "imgs": []
@@ -4062,6 +4432,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 院内感染（CLABSI）のリスクが最も高い処置",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th><th>根拠</th></tr><tr><td>ａ 出血時間検査</td><td>×</td><td>皮膚への小切開（Ivy法）→短時間で完了・留置なし</td></tr><tr><td>ｂ 末梢静脈からの採血</td><td>×</td><td>一過性の穿刺→留置なし・感染リスクは低い</td></tr><tr><td>ｃ 末梢静脈での点滴針留置</td><td>×</td><td>留置はあるが、末梢静脈→感染リスクは中程度（CVKより低い）</td></tr><tr><td>ｄ 中心静脈栄養カテーテル留置</td><td>○</td><td>CLABSI（中心ライン関連血流感染）→大血管への長期留置・栄養液が培地→感染リスク最高</td></tr><tr><td>ｅ 血液ガス分析のための動脈穿刺</td><td>×</td><td>一過性穿刺（動脈）→留置なし・感染リスクは低い</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 出血時間検査〜c 末梢静脈での点滴針留置</b>：リスクは相対的に低い。<br/><b>d 中心静脈栄養カテーテル留置</b>：<span class=\"kw\">カテーテル関連血流感染(CLABSI)のリスクが最も高い</span>。✓<br/><b>e 動脈穿刺</b>：単回でリスクが低い。"
             }
           ],
           "imgs": []
@@ -4109,6 +4484,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 各選択肢の正誤",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>正誤</th><th>理由</th></tr><tr><td>選択肢</td><td>正誤</td><td>理由</td></tr><tr><td><span class=\"kw\">誤嚥は原因になる</span></td><td><span class=\"kw\">○</span></td><td>主要発症機序</td></tr><tr><td>高齢者は若年者より予後良い</td><td><span class=\"kw4\">×</span></td><td>高齢者の方が予後不良</td></tr><tr><td>院内感染症の中で最頻</td><td><span class=\"kw4\">×</span></td><td>CAUTIが最頻（尿路感染が最多）</td></tr><tr><td>最多起因菌は肺炎球菌</td><td><span class=\"kw4\">×</span></td><td>院内肺炎は緑膿菌・MRSA・腸内細菌が多い</td></tr><tr><td>喀痰で起因菌同定容易</td><td><span class=\"kw4\">×</span></td><td>常在菌汚染があり同定は困難</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 誤嚥は院内肺炎の原因になる</b>：正しい。✓<br/><b>b 高齢者は予後がよい</b>：予後が悪く誤り。<br/><b>c 院内感染で最も頻度が高い</b>：尿路感染等が多く誤り。<br/><b>d 最も多い起因菌は肺炎球菌</b>：グラム陰性桿菌等が多く誤り。<br/><b>e 喀痰検査で容易に同定できる</b>：同定は困難で誤り。"
             }
           ],
           "imgs": []
@@ -4156,6 +4536,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ 主要病原体と有効抗菌薬（正しい組合せ）",
               "c": "<table class=\"tb\"><tr><th>病原体</th><th>有効薬</th><th>備考</th></tr><tr><td>病原体</td><td>有効薬</td><td>備考</td></tr><tr><td>結核菌</td><td>イソニアジド・リファンピシン・エタンブトール・ピラジナミド</td><td>HRZE</td></tr><tr><td>肺炎球菌</td><td>βラクタム系・マクロライド系</td><td></td></tr><tr><td><span class=\"kw\">マイコプラズマ</span></td><td><span class=\"kw\">マクロライド系・テトラサイクリン系</span></td><td><span class=\"kw\">βラクタム無効</span></td></tr><tr><td>非結核性抗酸菌</td><td>クラリスロマイシン・エタンブトール</td><td>MAC：多剤療法</td></tr><tr><td>真菌</td><td>アムホテリシンB・アゾール系・ミカファンギン</td><td></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a マイコプラズマ―寒天培地</b>：<span class=\"kw\">PPLO培地(特殊)を要し通常の寒天では発育しにくく</span>誤り。✓<br/><b>b 結核菌―小川培地</b>：正しい。<br/><b>c 肺炎球菌―Gram染色</b>：正しい。<br/><b>d 非結核性抗酸菌―Ziehl-Neelsen染色</b>：正しい。<br/><b>e 真菌―Grocott染色</b>：正しい。"
             }
           ],
           "imgs": []
@@ -4208,6 +4593,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw4\">変性疾患</span>（パーキンソン病・アルツハイマー病等）は通常発熱を起こさない<br/>不明熱は感染症・腫瘍・膠原病・薬剤の4つを鑑別の中心に<br/>原因不明のまま経過することも30%以上ある"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "不明熱の3大原因は感染症・腫瘍・膠原病(＋薬剤)。<br/><b>a 薬剤〜d 膠原病</b>：不明熱の原因となる。<br/><b>e 変性疾患</b>：<span class=\"kw\">発熱をきたさず不明熱の原因となりにくい</span>。✓"
             }
           ],
           "imgs": []
@@ -4255,6 +4645,11 @@ window["_cardJSON_kansen"]={
               "cls": "ee",
               "h": "□ MOF指標として不適切な代謝産物",
               "c": "<table class=\"tb\"><tr><th>物質</th><th>臨床的意義</th><th>MOFの指標か</th></tr><tr><td>物質</td><td>臨床的意義</td><td>MOFの指標か</td></tr><tr><td><span class=\"kw\">乳酸</span></td><td>低灌流・嫌気代謝のマーカー</td><td><span class=\"kw\">○ 最重要指標</span></td></tr><tr><td>クエン酸</td><td>TCA回路中間体</td><td><span class=\"kw4\">× MOFとの直接関連なし</span></td></tr><tr><td>酢酸</td><td>腸内細菌産生・エネルギー基質</td><td><span class=\"kw4\">× MOFの指標ではない</span></td></tr><tr><td>尿酸</td><td>核酸代謝産物</td><td>腫瘍崩壊症候群の指標</td></tr><tr><td>酪酸</td><td>短鎖脂肪酸（腸上皮のエネルギー）</td><td><span class=\"kw4\">× MOFの指標ではない</span></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a クエン酸〜b 酢酸</b>：指標でない。<br/><b>c 乳酸</b>：<span class=\"kw\">組織低灌流を反映し多臓器不全の進行の指標</span>。✓<br/><b>d 尿酸〜e 酪酸</b>：指標でない。"
             }
           ],
           "imgs": []
@@ -4312,6 +4707,11 @@ window["_cardJSON_kansen"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw\">つつが虫病</span>：リケッチア（偏性細胞内寄生菌）→テトラサイクリン系（ミノサイクリン）<br/><span class=\"kw\">百日咳</span>：Bordetella（Gram陰性桿菌）→マクロライド系（アジスロマイシン）<br/>ウイルス性疾患（日本脳炎・伝染性紅斑・突発性発疹）→抗菌薬無効"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "<b>a 百日咳</b>：<span class=\"kw\">マクロライドが有効</span>。✓<br/><b>b 日本脳炎〜d 突発性発疹</b>：ウイルス性で抗菌薬は無効。<br/><b>e つつが虫病</b>：<span class=\"kw\">リケッチアでテトラサイクリンが有効</span>。✓"
             }
           ],
           "imgs": []
