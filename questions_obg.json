@@ -14435,6 +14435,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "<span class=\"kw\">糖尿病合併妊娠の奇形リスクは「妊娠初期の血糖コントロール」で決まる</span>。計画妊娠でHbA1cを6.0〜6.5%未満に整えてから妊娠するのが理想。本問は<span class=\"kw\">良好管理＝リスク上昇なし</span>を選ばせる。"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "血糖管理が良好な糖尿病妊婦への説明。<br/><b>a 中絶を勧める／b 形態異常は超音波で分かる（すべては分からない）／c 経口薬に変更（妊娠中はインスリン）／d 75gOGTTで再評価</b>：不適/不要。<br/><b>e 「胎児形態異常のリスクは糖尿病ではない方とほとんど変わりません」</b>：<span class=\"kw\">良好な血糖コントロール下では形態異常リスクは大きく上昇しない</span>。✓"
       }
      ],
      "imgs": []
@@ -14487,6 +14492,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　羊水検査</td><td><span class=\"kw4\">不適切</span>。羊水過少で穿刺は困難かつ胎児well-being評価にならない</td></tr><tr><td>ｂ　胎児MRI</td><td><span class=\"kw4\">不急</span>。形態評価目的で、緊急の機能評価にならない</td></tr><tr><td>ｃ　胎児心拍数モニタリング</td><td><span class=\"kw3\">正しい</span>。羊水過少＋FGRでまず胎児機能を評価</td></tr><tr><td>ｄ　75g OGTT</td><td><span class=\"kw4\">無関係</span>。羊水過多や巨大児なら糖代謝を疑うが、本例は過少・低体重</td></tr><tr><td>ｅ　ATL（HTLV-1）ウイルス検査</td><td><span class=\"kw4\">無関係</span>。初期スクリーニングの項目で本状況の緊急検査ではない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊娠後期/過期で胎児の状態を評価する次の検査。<br/><b>a 羊水検査／b 胎児MRI／d 75gOGTT／e ATLウイルス検査</b>：本目的でない。<br/><b>c 胎児心拍数モニタリング</b>：<span class=\"kw\">NST/CTGで胎児の健常性を評価</span>。✓"
       }
      ],
      "imgs": []
@@ -14544,6 +14554,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "<span class=\"kw\">経胎盤移行して胎児に悪さをするIgG自己抗体</span>を覚える：<br/>・<span class=\"kw\">抗SS-A/SS-B抗体 → 新生児ループス・先天性房室ブロック</span><br/>・<span class=\"kw\">抗TSH受容体抗体〈TRAb〉 → 新生児バセドウ病</span><br/>・<span class=\"kw\">抗血小板抗体（ITP）→ 新生児血小板減少</span><br/>・<span class=\"kw\">抗リン脂質抗体 → 流産・胎盤梗塞（本例は陰性）</span>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "膠原病の妊婦で胎児に影響を与える可能性がある自己抗体。<br/><b>a 抗Sm／b 抗RNP／d 抗dsDNA／e RF</b>：胎児への直接影響は主でない。<br/><b>c 抗SS-A抗体</b>：<span class=\"kw\">胎盤を通過し胎児の先天性完全房室ブロックをきたす</span>。✓"
       }
      ],
      "imgs": []
@@ -14776,6 +14791,11 @@
        "cls": "ept",
        "h": "🎯 国試ポイント",
        "c": "<span class=\"kw\">梅毒の妊婦 = 診断次第すぐペニシリン治療 → 先天梅毒を防ぐ</span>。妊娠中の禁忌抗菌薬（テトラサイクリン＝歯牙・骨、ニューキノロン＝軟骨、アミノグリコシド＝聴器）も頻出。"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊婦の梅毒について正しいものを2つ。<br/><b>a 生物学的偽陽性／d 妊娠14週以降に治療（早期に開始）／e ミノサイクリン点滴（ペニシリン）</b>：誤り。<br/><b>b 保健所への届出が必要である</b>：<span class=\"kw\">梅毒は5類感染症で届出が必要</span>。✓<br/><b>c パートナーの検査が必要である</b>：<span class=\"kw\">性感染症でパートナーも検査・治療</span>。✓"
       }
      ],
      "imgs": []
@@ -14946,6 +14966,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　陽性判明の時点</td><td><span class=\"kw4\">誤り</span>。分娩まで日数があり、投与しても再増殖する</td></tr><tr><td>ｂ　妊娠37週時</td><td><span class=\"kw4\">誤り</span>。同上。分娩前投与は無効</td></tr><tr><td>ｃ　陣痛開始時</td><td><span class=\"kw3\">正しい</span>。分娩時の産道内菌量を確実に減らせる</td></tr><tr><td>ｄ　子宮口全開大時</td><td><span class=\"kw4\">遅い</span>。児が産道を通過する直前では十分な効果が得られない</td></tr><tr><td>ｅ　児頭排臨時</td><td><span class=\"kw4\">遅すぎ</span>。娩出直前で予防効果がない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "GBS陽性妊婦へのペニシリン系抗菌薬の投与時期。<br/><b>a 陽性判明時／b 妊娠37週時／d 全開大時／e 児頭排臨時</b>：適切でない。<br/><b>c 陣痛開始時</b>：<span class=\"kw\">分娩時（陣痛開始/破水後）に投与し新生児GBS感染を予防</span>。✓"
       }
      ],
      "imgs": []
@@ -15124,6 +15149,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　人工妊娠中絶が必要</td><td><span class=\"kw4\">誤り</span>。予防可能であり中絶の理由はない</td></tr><tr><td>ｂ　母乳栄養は避ける</td><td><span class=\"kw4\">誤り</span>。適切な予防処置下では<span class=\"kw\">母乳は可</span></td></tr><tr><td>ｃ　今すぐ本人にワクチン</td><td><span class=\"kw4\">誤り</span>。母体は既にキャリアで、母体へのワクチンは無意味</td></tr><tr><td>ｄ　妊娠中に感染する可能性が高い</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw\">経胎盤感染はまれ、主に分娩時感染</span></td></tr><tr><td>ｅ　出産後、児に抗HBsヒト免疫グロブリン</td><td><span class=\"kw3\">正しい</span>。HBIG＋ワクチンで母子感染を予防</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "HBe抗原陽性妊婦への説明。<br/><b>a 中絶／b 母乳を避ける（母乳は可）／c 今すぐワクチン（出生後）／d 妊娠中に感染（主に産道感染）</b>：誤り。<br/><b>e 「出産後、赤ちゃんに抗HBsヒト免疫グロブリンを接種しましょう」</b>：<span class=\"kw\">HBIG＋HBワクチンで母子感染を予防</span>。✓"
       }
      ],
      "imgs": []
@@ -15176,6 +15206,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　TRAb</td><td><span class=\"kw3\">正しい</span>。Basedow病と妊娠一過性甲状腺機能亢進症の鑑別に必須</td></tr><tr><td>ｂ　サイログロブリン</td><td><span class=\"kw4\">不適</span>。破壊性甲状腺炎などの補助で鑑別の第一選択ではない</td></tr><tr><td>ｃ　尿中ヨウ素排泄量</td><td><span class=\"kw4\">不適</span>。ヨード摂取量の指標で鑑別に使わない</td></tr><tr><td>ｄ　抗TPO抗体</td><td><span class=\"kw4\">不適</span>。橋本病でも陽性となり特異性が低い</td></tr><tr><td>ｅ　放射性ヨード摂取率</td><td><span class=\"kw4\">禁忌</span>。<span class=\"kw4\">妊娠中は胎児甲状腺被曝のため禁忌</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "甲状腺機能亢進の妊婦で次に測定すべき検査。<br/><b>b サイログロブリン／c 尿中ヨウ素／d 抗TPO抗体／e 放射性ヨード摂取率（妊娠中禁忌）</b>：第一でない。<br/><b>a TRAb</b>：<span class=\"kw\">BasedowのTRAbは胎盤を通過し胎児甲状腺機能に影響</span>。✓"
       }
      ],
      "imgs": []
@@ -15228,6 +15263,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　流早産の原因とはならない</td><td><span class=\"kw4\">誤り</span>。穿孔・腹膜炎で流早産を起こしうる</td></tr><tr><td>ｂ　発症頻度は低い</td><td><span class=\"kw4\">誤り</span>。非妊時と大きく変わらない</td></tr><tr><td>ｃ　診断は容易である</td><td><span class=\"kw4\">誤り</span>。子宮増大・圧痛点移動で<span class=\"kw\">診断は難しい</span></td></tr><tr><td>ｄ　圧痛点は頭側に移動する</td><td><span class=\"kw3\">正しい</span>。妊娠子宮に押され虫垂・圧痛点が頭側へ</td></tr><tr><td>ｅ　抗菌薬による保存療法が第一選択</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw\">原則は虫垂切除術</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊婦の急性虫垂炎について正しいもの。<br/><b>a 流早産の原因とならない（なりうる）／b 発症頻度が低い（変わらない）／c 診断が容易（困難）／e 抗菌薬が第一選択（手術）</b>：誤り。<br/><b>d 妊娠経過に伴い圧痛点は頭側に移動する</b>：<span class=\"kw\">増大子宮で虫垂が頭側・外側へ押し上げられる</span>。✓"
       }
      ],
      "imgs": []
@@ -15280,6 +15320,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　産後に母体の再検査が必要</td><td><span class=\"kw4\">文脈外</span>。母体のフォローは要るが「分娩前の説明」として最適でない</td></tr><tr><td>ｂ　必ずしも帝王切開の必要はない</td><td><span class=\"kw3\">正しい</span>。<span class=\"kw\">HCVは帝王切開の適応ではない</span></td></tr><tr><td>ｃ　児を個室に隔離する</td><td><span class=\"kw4\">誤り</span>。隔離不要</td></tr><tr><td>ｄ　人工乳で哺育する</td><td><span class=\"kw4\">誤り</span>。母乳は可（禁止する根拠なし）</td></tr><tr><td>ｅ　児にインターフェロン投与</td><td><span class=\"kw4\">誤り</span>。新生児への予防的IFN投与は行わない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "母子感染症（HTLV-1/HBV等）の分娩前の説明。<br/><b>a 母体再検査／c 個室隔離／d 人工乳で哺育（一律でない）／e IFN投与</b>：不適。<br/><b>b 「必ずしも帝王切開の必要はありません」</b>：<span class=\"kw\">感染様式により経腟分娩が可能な場合もある</span>。✓"
       }
      ],
      "imgs": []
@@ -15389,6 +15434,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　経過観察</td><td><span class=\"kw4\">不適</span>。FGR＋BPS 6点を放置できない</td></tr><tr><td>ｂ　副腎皮質ステロイド投与</td><td><span class=\"kw4\">不適</span>。妊娠35週で肺成熟促進の適応は乏しく、待つ余裕もない</td></tr><tr><td>ｃ　羊水穿刺</td><td><span class=\"kw4\">不適</span>。肺成熟確認は本状況の優先事項でない</td></tr><tr><td>ｄ　分娩誘発</td><td><span class=\"kw3\">正しい</span>。頭位・週数十分でまず経腟分娩を図る</td></tr><tr><td>ｅ　帝王切開術</td><td><span class=\"kw4\">この時点では性急</span>。BPS 6点で頭位、まず誘発。胎児機能不全が高度／誘発無効なら帝切へ</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "BPS 6点（要注意）への対応。<br/><b>a 経過観察／b ステロイド／c 羊水穿刺／e 帝王切開</b>：本場面で第一でない。<br/><b>d 分娩誘発</b>：<span class=\"kw\">胎児の状態悪化が懸念され娩出（分娩誘発）を検討</span>。✓"
       }
      ],
      "imgs": []
@@ -15436,6 +15486,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　子宮底長</td><td><span class=\"kw4\">不正確</span>。羊水量・胎児数・母体体格で変動</td></tr><tr><td>ｂ　胎動初覚時期</td><td><span class=\"kw4\">不正確</span>。初産・経産で差があり主観的</td></tr><tr><td>ｃ　悪阻の出現時期</td><td><span class=\"kw4\">不正確</span>。個人差が大きい</td></tr><tr><td>ｄ　児心音の聴取時期</td><td><span class=\"kw4\">不正確</span>。機器・体格に左右される</td></tr><tr><td>ｅ　妊娠初期の胎児超音波検査</td><td><span class=\"kw3\">正しい</span>。<span class=\"kw\">CRLが最も正確な週数指標</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "在胎週数の確認に最も有用なもの。<br/><b>a 子宮底長／b 胎動初覚／c 悪阻出現／d 児心音聴取</b>：不正確。<br/><b>e 妊娠初期の胎児超音波検査</b>：<span class=\"kw\">初期のCRLで正確に週数を決定</span>。✓"
       }
      ],
      "imgs": []
@@ -15540,6 +15595,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　妊娠糖尿病である</td><td><span class=\"kw4\">判定不能</span>。OGTT等の記載がなく断定できない</td></tr><tr><td>ｂ　胎児発育不全である</td><td><span class=\"kw4\">否定的</span>。超音波で異常なし</td></tr><tr><td>ｃ　体重増加量は適切である</td><td><span class=\"kw4\">誤り</span>。非妊時53kg→68kg（＋15kg）で<span class=\"kw\">普通体格の推奨増加7〜12kgを超え過多</span></td></tr><tr><td>ｄ　妊娠高血圧症候群である</td><td><span class=\"kw4\">誤り</span>。血圧136/88で140/90未満、蛋白尿もなし</td></tr><tr><td>ｅ　受診間隔は適切である</td><td><span class=\"kw3\">正しい</span>。妊娠中期は2週ごとで標準的</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊婦健診の記録に対する評価で適切なもの。<br/><b>a 妊娠糖尿病／b 胎児発育不全／c 体重増加（過剰/不足）／d 妊娠高血圧症候群</b>：本例で該当しない。<br/><b>e 妊婦健康診査の受診間隔は適切である</b>：<span class=\"kw\">妊娠週数に応じた適切な健診間隔</span>。✓"
       }
      ],
      "imgs": [
@@ -15807,6 +15867,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　妊娠高血圧</td><td>含まれる（GH）</td></tr><tr><td>ｂ　妊娠蛋白尿</td><td><span class=\"kw3\">含まれない</span>。<span class=\"kw4\">病型に存在しない</span></td></tr><tr><td>ｃ　高血圧合併妊娠</td><td>含まれる</td></tr><tr><td>ｄ　妊娠高血圧腎症</td><td>含まれる（PE）</td></tr><tr><td>ｅ　加重型妊娠高血圧腎症</td><td>含まれる</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊娠高血圧症候群の病型分類に「含まれない」もの。<br/><b>a 妊娠高血圧／c 高血圧合併妊娠／d 妊娠高血圧腎症／e 加重型妊娠高血圧腎症</b>：病型に含まれる。<br/><b>b 妊娠蛋白尿</b>：<span class=\"kw\">蛋白尿単独は病型分類に含まれない</span>。✓（これが正解肢）"
       }
      ],
      "imgs": []
@@ -15854,6 +15919,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　喫煙 ─ 常位胎盤早期剝離</td><td><span class=\"kw3\">正しい</span>。喫煙は早剝の危険因子</td></tr><tr><td>ｂ　高齢 ─ 流産</td><td><span class=\"kw3\">正しい</span>。染色体異常増加</td></tr><tr><td>ｃ　肥満 ─ 妊娠高血圧症候群</td><td><span class=\"kw3\">正しい</span></td></tr><tr><td>ｄ　低体重 ─ 巨大児出産</td><td><span class=\"kw4\">誤り</span>。低体重は<span class=\"kw\">FGR・低出生体重児</span>と関連。巨大児は糖尿病・肥満</td></tr><tr><td>ｅ　子宮筋腫術後 ─ 子宮破裂</td><td><span class=\"kw3\">正しい</span>。子宮壁の瘢痕が破裂の素地</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "周産期合併症の組合せで「誤っている」もの。<br/><b>a 喫煙→常位胎盤早期剝離／b 高齢→流産／c 肥満→妊娠高血圧症候群／e 子宮筋腫術後→子宮破裂</b>：正しい。<br/><b>d 低体重→巨大児出産</b>：<span class=\"kw\">低体重（やせ）はむしろ低出生体重児（巨大児は肥満/糖尿病）＝誤り</span>。✓（これが正解肢）"
       }
      ],
      "imgs": []
@@ -15906,6 +15976,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　梗塞</td><td><span class=\"kw4\">誤り</span>。DWIで明瞭な拡散制限がなく細胞性浮腫（梗塞）とは異なる</td></tr><tr><td>ｂ　出血</td><td><span class=\"kw4\">誤り</span>。出血の信号パターンではない</td></tr><tr><td>ｃ　腫瘍</td><td><span class=\"kw4\">誤り</span>。占拠性病変ではない</td></tr><tr><td>ｄ　脱髄</td><td><span class=\"kw4\">誤り</span>。脱髄疾患の分布・経過ではない</td></tr><tr><td>ｅ　浮腫</td><td><span class=\"kw3\">正しい</span>。PRESの血管性浮腫（可逆性）</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "子癇/PRES（可逆性後頭葉白質脳症）の脳の病態。<br/><b>a 梗塞／b 出血／c 腫瘍／d 脱髄</b>：合わない。<br/><b>e 浮腫</b>：<span class=\"kw\">高血圧による血管性浮腫（可逆性）</span>。✓"
       }
      ],
      "imgs": [
@@ -15956,6 +16031,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　妊娠高血圧</td><td><span class=\"kw4\">誤り</span>。蛋白尿があり「高血圧のみ」ではない</td></tr><tr><td>ｂ　HELLP 症候群</td><td><span class=\"kw4\">誤り</span>。溶血・肝酵素上昇・血小板減少なし</td></tr><tr><td>ｃ　高血圧合併妊娠</td><td><span class=\"kw4\">誤り</span>。20週前からの高血圧がない</td></tr><tr><td>ｄ　妊娠高血圧腎症</td><td><span class=\"kw3\">正しい</span>。20週以降初発の高血圧＋蛋白尿</td></tr><tr><td>ｅ　加重型妊娠高血圧腎症</td><td><span class=\"kw4\">誤り</span>。既存高血圧・腎疾患がない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "高血圧＋蛋白尿（妊娠20週以降新規）。<br/><b>a 妊娠高血圧（蛋白尿なし）／b HELLP症候群／c 高血圧合併妊娠（もとから高血圧）／e 加重型（もとの腎疾患等に加重）</b>：合わない。<br/><b>d 妊娠高血圧腎症</b>：<span class=\"kw\">妊娠20週以降の高血圧＋蛋白尿</span>。✓"
       }
      ],
      "imgs": []
@@ -16112,6 +16192,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　風疹ワクチンを接種しましょう</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\">妊娠中は生ワクチン禁忌</span>（接種は産褥期）</td></tr><tr><td>ｂ　ATLウイルス感染の精密検査が必要</td><td><span class=\"kw3\">正しい</span>。PA法陽性→確認検査</td></tr><tr><td>ｃ　トキソプラズマの母子感染リスクはない</td><td><span class=\"kw4\">誤り</span>。抗体高値で初感染・母子感染のリスクあり</td></tr><tr><td>ｄ　梅毒に感染している可能性はない</td><td><span class=\"kw4\">誤り</span>。RPR・TPHA陽性で梅毒</td></tr><tr><td>ｅ　児にC型肝炎ワクチンを接種</td><td><span class=\"kw4\">誤り</span>。HCVワクチンは存在しない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊婦のスクリーニング陽性への説明。<br/><b>a 風疹ワクチン（妊娠中禁忌）／c トキソプラズマのリスクなし／d 梅毒に感染していない／e C型肝炎ワクチン（存在しない）</b>：誤り。<br/><b>b 「成人T細胞白血病ウイルス感染の精密検査が必要です」</b>：<span class=\"kw\">HTLV-1スクリーニング陽性は確認検査が必要</span>。✓"
       }
      ],
      "imgs": []
@@ -16268,6 +16353,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　鉄剤を投与する</td><td><span class=\"kw4\">不要</span>。Hb 11.8は妊娠中期の生理的希釈範囲で鉄剤の絶対適応でない</td></tr><tr><td>ｂ　帝王切開を行う</td><td><span class=\"kw4\">誤り</span>。適応となる異常がない</td></tr><tr><td>ｃ　BPSを評価する</td><td><span class=\"kw4\">不要</span>。FGRや胎児機能不全を疑う所見がない</td></tr><tr><td>ｄ　2週間後に妊婦健診を受けるよう指導</td><td><span class=\"kw3\">正しい</span>。妊娠中期は2週ごと</td></tr><tr><td>ｅ　75g OGTTを行う</td><td><span class=\"kw4\">不要</span>。糖±のみでGDMを疑う根拠に乏しい</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "母子健康手帳の記載（正常範囲）への対応。<br/><b>a 鉄剤／b 帝王切開／c BPS評価／e 75gOGTT</b>：不要。<br/><b>d 2週間後に妊婦健康診査を受けるよう指導する</b>：<span class=\"kw\">正常経過で定期健診を継続</span>。✓"
       }
      ],
      "imgs": [
@@ -16317,6 +16407,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　梅毒の検査は省略しましょう</td><td><span class=\"kw4\">誤り</span>。梅毒は初期検査の必須項目</td></tr><tr><td>ｂ　GBS検査が含まれます</td><td><span class=\"kw4\">誤り</span>。GBSは妊娠末期（35〜37週）の検査</td></tr><tr><td>ｃ　風疹抗体陽性→先天性風疹症候群を発症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw\">陽性は免疫あり</span></td></tr><tr><td>ｄ　HCV陽性→児にワクチン</td><td><span class=\"kw4\">誤り</span>。HCVワクチンは存在しない</td></tr><tr><td>ｅ　HBV陽性→児に抗HBsヒト免疫グロブリン</td><td><span class=\"kw3\">正しい</span>。HBIG＋ワクチンで予防</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊娠初期血液検査の説明で適切なもの。<br/><b>a 梅毒検査を省略／b GBS検査が含まれる（後期に実施）／c 風疹抗体陽性で先天性風疹症候群を発症（陽性は免疫あり）／d C型肝炎陽性でワクチン（存在しない）</b>：誤り。<br/><b>e 「B型肝炎ウイルス検査が陽性の場合、赤ちゃんに抗HBsヒト免疫グロブリンを（接種します）」</b>：<span class=\"kw\">HBV母子感染予防（HBIG＋ワクチン）</span>。✓"
       }
      ],
      "imgs": []
@@ -16421,6 +16516,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　NSAIDs</td><td><span class=\"kw4\">無関係</span>。鎮痛薬で血糖に無効。妊娠後期は動脈管収縮で禁忌</td></tr><tr><td>ｂ　β遮断薬</td><td><span class=\"kw4\">無関係</span>。降圧・抗不整脈薬</td></tr><tr><td>ｃ　インスリン</td><td><span class=\"kw3\">正しい</span>。妊娠中の高血糖の第一選択</td></tr><tr><td>ｄ　経口血糖降下薬</td><td><span class=\"kw4\">誤り</span>。胎盤通過のため妊娠中は用いない</td></tr><tr><td>ｅ　陽イオン交換樹脂製剤</td><td><span class=\"kw4\">無関係</span>。高カリウム血症の薬</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊娠糖尿病の薬物療法。<br/><b>a NSAIDs／b β遮断薬／d 経口血糖降下薬（妊娠中は原則使わない）／e 陽イオン交換樹脂</b>：不適。<br/><b>c インスリン</b>：<span class=\"kw\">妊娠中の血糖管理はインスリンが基本</span>。✓"
       }
      ],
      "imgs": []
@@ -16468,6 +16568,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　頭部MRI</td><td><span class=\"kw4\">不急</span>。頭蓋内病変を疑う所見が乏しい</td></tr><tr><td>ｂ　血糖値測定</td><td><span class=\"kw3\">正しい</span>。IDM＋振戦でまず低血糖を否定</td></tr><tr><td>ｃ　神経伝導検査</td><td><span class=\"kw4\">不適</span>。急性期に行わない</td></tr><tr><td>ｄ　動脈血ガス分析</td><td><span class=\"kw4\">次順位</span>。呼吸障害の所見がなく優先度低い</td></tr><tr><td>ｅ　胸腹部エックス線</td><td><span class=\"kw4\">不適</span>。振戦の評価にならない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "糖尿病母体児に直ちに行う検査。<br/><b>a 頭部MRI／c 神経伝導検査／d 血液ガス／e 胸腹部X線</b>：第一でない。<br/><b>b 血糖値測定</b>：<span class=\"kw\">高インスリン血症による新生児低血糖を監視</span>。✓"
       }
      ],
      "imgs": []
@@ -16515,6 +16620,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　血液検査</td><td>必要。溶血・血小板減少の評価</td></tr><tr><td>ｂ　血液生化学検査</td><td>必要。肝酵素・LDの評価（HELLP）</td></tr><tr><td>ｃ　腹部超音波検査</td><td>必要。肝・胎盤の評価</td></tr><tr><td>ｄ　上部消化管内視鏡検査</td><td><span class=\"kw3\">優先度が低い</span>。産科的緊急の評価が先</td></tr><tr><td>ｅ　NST</td><td>必要。胎児well-beingの評価</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊娠高血圧症候群（浮腫）で優先度の「低い」検査。<br/><b>a 血液検査／b 生化学検査／c 腹部超音波／e NST</b>：評価に有用。<br/><b>d 上部消化管内視鏡検査</b>：<span class=\"kw\">本病態の評価で優先度が低い</span>。✓（これが正解肢）"
       }
      ],
      "imgs": []
@@ -16567,6 +16677,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　ヘパリン静注</td><td><span class=\"kw4\">誤り</span>。抗凝固の適応がなく出血リスク</td></tr><tr><td>ｂ　フロセミド静注</td><td><span class=\"kw4\">誤り</span>。肺水腫でなければ第一選択でない（循環血漿量減少に注意）</td></tr><tr><td>ｃ　マニトール点滴静注</td><td><span class=\"kw4\">誤り</span>。PRESは血管性浮腫で頭蓋内圧亢進治療の適応ではない</td></tr><tr><td>ｄ　塩酸リトドリン点滴静注</td><td><span class=\"kw4\">誤り</span>。子宮収縮抑制薬で降圧に無関係、頻脈・血圧に悪影響</td></tr><tr><td>ｅ　ニカルジピン静注</td><td><span class=\"kw3\">正しい</span>。重症高血圧の降圧</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊娠高血圧（重症/PRES）の降圧治療。<br/><b>a ヘパリン／b フロセミド／c マニトール／d リトドリン</b>：不適。<br/><b>e ニカルジピン（カルシウム拮抗薬）静注</b>：<span class=\"kw\">妊娠高血圧の急性期降圧に用いる</span>。✓"
       }
      ],
      "imgs": [
@@ -16618,6 +16733,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　頭部</td><td><span class=\"kw4\">温存</span>。brain sparingで最後まで保たれる</td></tr><tr><td>ｂ　心臓</td><td><span class=\"kw4\">温存</span>。重要臓器で血流維持</td></tr><tr><td>ｃ　肝臓</td><td><span class=\"kw3\">正しい</span>。グリコーゲン減少で最も早く発育抑制（腹囲低下）</td></tr><tr><td>ｄ　副腎</td><td><span class=\"kw4\">温存</span>。血流優先臓器</td></tr><tr><td>ｅ　肺</td><td><span class=\"kw4\">該当せず</span>。肝が先に抑制される</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "胎児発育不全（不均衡型）で最も早期から発育が抑制される部位。<br/><b>a 頭部（脳保護で保たれる）／b 心臓／d 副腎／e 肺</b>：早期に抑制されにくい。<br/><b>c 肝臓</b>：<span class=\"kw\">腹部（肝）が早期から発育抑制（頭部は保たれる＝brain sparing）</span>。✓"
       }
      ],
      "imgs": []
@@ -16665,6 +16785,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　18 trisomy</td><td><span class=\"kw3\">正しい</span>。overlapping fingers＋VSD＋FGR</td></tr><tr><td>ｂ　Down症候群（21trisomy）</td><td><span class=\"kw4\">誤り</span>。房室中隔欠損・十二指腸閉鎖・後頸部浮腫が典型</td></tr><tr><td>ｃ　Potter症候群</td><td><span class=\"kw4\">誤り</span>。両側腎無形成・羊水過少・肺低形成</td></tr><tr><td>ｄ　Turner症候群</td><td><span class=\"kw4\">誤り</span>。囊胞性ヒグローマ・胎児水腫・大動脈縮窄</td></tr><tr><td>ｅ　Klinefelter症候群</td><td><span class=\"kw4\">誤り</span>。出生前所見に乏しい</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "胎児の複数の形態異常（重複奇形）で疑うべき疾患。<br/><b>b Down症候群／c Potter症候群／d Turner症候群／e Klinefelter症候群</b>：合わない。<br/><b>a 18 trisomy</b>：<span class=\"kw\">多発奇形・重症の発育不全（Edwards症候群）</span>。✓"
       }
      ],
      "imgs": []
@@ -16712,6 +16837,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　抗核抗体</td><td>SLEで陽性だが胎児への直接影響はない</td></tr><tr><td>ｂ　抗Sm 抗体</td><td>SLEに特異的な診断マーカー。胎児影響なし</td></tr><tr><td>ｃ　抗RNP 抗体</td><td>混合性結合組織病関連。胎児影響なし</td></tr><tr><td>ｄ　抗SS-A 抗体</td><td><span class=\"kw3\">正しい</span>。経胎盤移行→先天性房室ブロック・新生児ループス</td></tr><tr><td>ｅ　リウマトイド因子〈RF〉</td><td>非特異的。胎児影響なし</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "膠原病妊婦で胎児に影響を与える可能性がある抗体。<br/><b>a 抗核抗体／b 抗Sm／c 抗RNP／e RF</b>：胎児への直接影響は主でない。<br/><b>d 抗SS-A抗体</b>：<span class=\"kw\">胎児先天性房室ブロックの原因</span>。✓"
       }
      ],
      "imgs": []
@@ -16759,6 +16889,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　人工妊娠中絶を勧める</td><td><span class=\"kw4\">誤り</span>。予防可能で中絶の理由はない</td></tr><tr><td>ｂ　B型肝炎ワクチンを本人に投与</td><td><span class=\"kw4\">誤り</span>。母体は既にキャリアで無意味</td></tr><tr><td>ｃ　感染予防のため授乳を禁止</td><td><span class=\"kw4\">誤り</span>。予防処置下で母乳可</td></tr><tr><td>ｄ　ウイルスが胎盤を通して児に移ることが多い</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw\">経胎盤感染はまれ、主に分娩時</span></td></tr><tr><td>ｅ　抗HBs人免疫グロブリンを児に生後速やかに投与</td><td><span class=\"kw3\">正しい</span>。HBIG＋ワクチンで予防</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "HBe抗原陰性のHBVキャリア妊婦で正しいもの。<br/><b>a 中絶／b 本人にワクチン／c 授乳禁止／d 経胎盤感染が多い（主に産道感染）</b>：誤り。<br/><b>e 抗HBs人免疫グロブリンを児に生後速やかに投与する</b>：<span class=\"kw\">HBIG＋ワクチンで母子感染を予防</span>。✓"
       }
      ],
      "imgs": []
@@ -16806,6 +16941,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　人工妊娠中絶を勧める</td><td><span class=\"kw4\">誤り</span>。良好管理で中絶の理由なし</td></tr><tr><td>ｂ　胎児奇形は羊水検査で診断できる</td><td><span class=\"kw4\">誤り</span>。羊水検査は染色体・一部の評価で万能でない</td></tr><tr><td>ｃ　インスリンを経口薬に変更</td><td><span class=\"kw4\">禁忌</span>。妊娠中はインスリンが原則</td></tr><tr><td>ｄ　奇形リスクは一般より高い状況ではない</td><td><span class=\"kw3\">正しい</span>。良好な血糖管理を反映</td></tr><tr><td>ｅ　今から葉酸で奇形が減少する</td><td><span class=\"kw4\">不適切</span>。既に良好管理下でこの説明は当を得ない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "糖尿病妊婦への説明。<br/><b>a 中絶／b 羊水検査で診断／c 経口薬に変更／e 今から葉酸で奇形減少（神経管は既に形成）</b>：不適。<br/><b>d 「胎児奇形のリスクが一般の方より高い状況ではありません」</b>：<span class=\"kw\">良好な血糖管理下では奇形リスクは大きく上昇しない</span>。✓"
       }
      ],
      "imgs": []
@@ -16858,6 +16998,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　人工破膜を行う</td><td><span class=\"kw4\">不適</span>。胎児機能不全は解決せず、臍帯脱出のリスク</td></tr><tr><td>ｂ　帝王切開を行う</td><td><span class=\"kw3\">正しい</span>。胎児機能不全＋高位で急速遂娩</td></tr><tr><td>ｃ　内診指で児頭を挙上する</td><td><span class=\"kw4\">不適</span>。臍帯脱出時の一時処置で本状況の解決策でない</td></tr><tr><td>ｄ　メチルドパ内服を増量</td><td><span class=\"kw4\">無関係</span>。血圧142/86で降圧増量の場面でない</td></tr><tr><td>ｅ　エルゴメトリンを投与</td><td><span class=\"kw4\">禁忌</span>。分娩前の子宮収縮薬は胎児をさらに危険にする</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊娠高血圧＋胎児機能不全のCTG。<br/><b>a 人工破膜／c 児頭挙上／d メチルドパ増量／e エルゴメトリン</b>：不適。<br/><b>b 帝王切開を行う</b>：<span class=\"kw\">胎児機能不全は速やかに娩出</span>。✓"
       }
      ],
      "imgs": [
@@ -16912,6 +17057,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　Ca</td><td><span class=\"kw4\">不要</span>。HELLPの診断項目でない</td></tr><tr><td>ｂ　LD</td><td><span class=\"kw3\">正しい</span>。溶血・肝障害の指標</td></tr><tr><td>ｃ　AST</td><td><span class=\"kw3\">正しい</span>。肝逸脱酵素</td></tr><tr><td>ｄ　血小板数</td><td><span class=\"kw3\">正しい</span>。HELLPで減少</td></tr><tr><td>ｅ　ヘモグロビン</td><td><span class=\"kw4\">二次的</span>。溶血の傍証にはなるが、まず確認すべき3項目に入らない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "HELLP症候群を疑い確認すべき血液検査を3つ。<br/><b>a Ca／e ヘモグロビン</b>：主要指標でない。<br/><b>b LD</b>：<span class=\"kw\">溶血でLD上昇</span>。✓<br/><b>c AST</b>：<span class=\"kw\">肝障害（Elevated Liver enzymes）</span>。✓<br/><b>d 血小板数</b>：<span class=\"kw\">Low Platelets（血小板減少）</span>。✓"
       }
      ],
      "imgs": []
@@ -16959,6 +17109,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　セフェム系</td><td><span class=\"kw3\">正しい</span>。妊娠中安全でグラム陰性桿菌をカバー</td></tr><tr><td>ｂ　マクロライド系</td><td><span class=\"kw4\">不適</span>。グラム陰性桿菌への効果が不十分</td></tr><tr><td>ｃ　ニューキノロン系</td><td><span class=\"kw4\">禁忌</span>。胎児の軟骨障害</td></tr><tr><td>ｄ　テトラサイクリン系</td><td><span class=\"kw4\">禁忌</span>。歯牙着色・骨発育障害</td></tr><tr><td>ｅ　アミノグリコシド系</td><td><span class=\"kw4\">注意/回避</span>。胎児第Ⅷ脳神経障害・腎毒性</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "グラム陰性桿菌（尿路感染等）への抗菌薬。<br/><b>b マクロライド／c ニューキノロン（妊娠中避ける）／d テトラサイクリン（妊娠中禁忌）／e アミノグリコシド（第八脳神経障害）</b>：不適。<br/><b>a セフェム系</b>：<span class=\"kw\">妊娠中も使用可でグラム陰性桿菌に有効</span>。✓"
       }
      ],
      "imgs": []
@@ -17011,6 +17166,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　13 trisomy</td><td><span class=\"kw4\">誤り</span>。全前脳胞症・多指・口唇口蓋裂が典型</td></tr><tr><td>ｂ　18 trisomy</td><td><span class=\"kw4\">誤り</span>。overlapping fingers・VSD・FGRが典型</td></tr><tr><td>ｃ　Down症候群</td><td><span class=\"kw3\">正しい</span>。房室中隔欠損＋十二指腸閉鎖＋羊水過多</td></tr><tr><td>ｄ　Turner症候群</td><td><span class=\"kw4\">誤り</span>。囊胞性ヒグローマ・胎児水腫</td></tr><tr><td>ｅ　Klinefelter症候群</td><td><span class=\"kw4\">誤り</span>。出生前所見に乏しい</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "胎児の後頸部浮腫（NT肥厚）等で最も考えられる疾患。<br/><b>a 13 trisomy／b 18 trisomy／d Turner症候群／e Klinefelter症候群</b>：頻度/所見で合わない。<br/><b>c Down症候群</b>：<span class=\"kw\">NT肥厚・鼻骨低形成等（21トリソミー）</span>。✓"
       }
      ],
      "imgs": [
@@ -17066,6 +17226,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　羊水過多症</td><td><span class=\"kw4\">低い</span>。子宮底長が大きく出る所見が必要</td></tr><tr><td>ｂ　妊娠糖尿病</td><td><span class=\"kw4\">低い</span>。血糖・巨大児の所見が必要</td></tr><tr><td>ｃ　胎児発育不全</td><td><span class=\"kw3\">正しい</span>。発育曲線の下方偏位</td></tr><tr><td>ｄ　妊娠週数の誤り</td><td><span class=\"kw4\">低い</span>。初期の週数補正の記載が必要</td></tr><tr><td>ｅ　妊娠高血圧症候群</td><td><span class=\"kw4\">低い</span>。血圧上昇・蛋白尿の所見が必要</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊婦健診の記載で認められる可能性が高いもの。<br/><b>a 羊水過多症／b 妊娠糖尿病／d 妊娠週数の誤り／e 妊娠高血圧症候群</b>：本例で該当しない。<br/><b>c 胎児発育不全</b>：<span class=\"kw\">子宮底長/推定体重の伸び悩み</span>。✓"
       }
      ],
      "imgs": [
@@ -17115,6 +17280,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　CRP</td><td><span class=\"kw4\">×</span>。ルーチンの初期項目でない</td></tr><tr><td>ｂ　血糖</td><td><span class=\"kw3\">正しい</span>。糖代謝異常のスクリーニング</td></tr><tr><td>ｃ　抗核抗体</td><td><span class=\"kw4\">×</span>。膠原病を疑う場合のみ</td></tr><tr><td>ｄ　Dダイマー</td><td><span class=\"kw4\">×</span>。血栓症を疑う場合のみ</td></tr><tr><td>ｅ　プロラクチン</td><td><span class=\"kw4\">×</span>。ルーチン項目でない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊娠初期に行う血液検査項目。<br/><b>a CRP／c 抗核抗体／d Dダイマー／e プロラクチン</b>：初期のルーチンでない。<br/><b>b 血糖</b>：<span class=\"kw\">妊娠初期に随時血糖で糖代謝異常をスクリーニング</span>。✓"
       }
      ],
      "imgs": []
@@ -17167,6 +17337,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　脳</td><td><span class=\"kw3\">正しい</span>。中大脳動脈拡張（brain sparing）</td></tr><tr><td>ｂ　肝臓</td><td><span class=\"kw4\">低下</span>。最も早く発育抑制（腹囲低下）</td></tr><tr><td>ｃ　小腸</td><td><span class=\"kw4\">低下</span>。消化管血流は減少</td></tr><tr><td>ｄ　心筋</td><td><span class=\"kw3\">正しい</span>。生命維持のため血流維持・増加</td></tr><tr><td>ｅ　骨格筋</td><td><span class=\"kw4\">低下</span>。筋血流は減少</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "胎児低酸素時に血流が増加する組織を2つ（血流再分配）。<br/><b>b 肝臓／c 小腸／e 骨格筋</b>：血流は減少。<br/><b>a 脳</b>：<span class=\"kw\">脳保護（brain sparing）で脳血流が増加</span>。✓<br/><b>d 心筋</b>：<span class=\"kw\">重要臓器へ血流を再分配</span>。✓"
       }
      ],
      "imgs": []
@@ -17214,6 +17389,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　インスリン注射を考慮</td><td><span class=\"kw3\">正しい</span>。食事療法で目標未達なら導入</td></tr><tr><td>ｂ　DPP-4阻害薬を考慮</td><td><span class=\"kw4\">誤り</span>。妊娠中は経口薬を用いない</td></tr><tr><td>ｃ　ビグアナイド薬を考慮</td><td><span class=\"kw4\">誤り</span>。妊娠中は経口薬を用いない</td></tr><tr><td>ｄ　運動量を400kcal増やす</td><td><span class=\"kw4\">誤り</span>。過度の運動はケトーシスを招く</td></tr><tr><td>ｅ　食事を200kcal減量</td><td><span class=\"kw4\">誤り</span>。過度の制限はFGR・ケトーシスを招く</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊娠糖尿病で食事療法で不十分な場合の対応。<br/><b>b DPP-4阻害薬／c ビグアナイド／d 運動400kcal増／e 200kcal減量</b>：妊娠中に不適。<br/><b>a インスリン注射を考慮する</b>：<span class=\"kw\">食事で不十分ならインスリンを導入</span>。✓"
       }
      ],
      "imgs": []
@@ -17261,6 +17441,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　ワクチンを接種しましょう</td><td><span class=\"kw4\">誤り</span>。HTLV-1ワクチンは存在しない</td></tr><tr><td>ｂ　診断には精密検査が必要</td><td><span class=\"kw3\">正しい</span>。スクリーニング陽性→確認検査</td></tr><tr><td>ｃ　母乳を与えてはいけない</td><td><span class=\"kw4\">早計</span>。確定後に母乳指導。かつHTLVは帝王切開でなく母乳が主経路</td></tr><tr><td>ｄ　スクリーニングを再度行う</td><td><span class=\"kw4\">誤り</span>。同じスクリーニングでなく確認検査へ</td></tr><tr><td>ｅ　帝王切開がよい</td><td><span class=\"kw4\">誤り</span>。HTLV-1は主に母乳感染で帝王切開は無効</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "スクリーニング陽性（HTLV-1等）の初妊婦への説明。<br/><b>a ワクチン／c 母乳禁止（一律でない）／d 再スクリーニング／e 帝王切開</b>：不適。<br/><b>b 「診断には精密検査が必要です」</b>：<span class=\"kw\">スクリーニング陽性は確認検査で確定</span>。✓"
       }
      ],
      "imgs": []
@@ -17313,6 +17498,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　降圧薬は中止します</td><td><span class=\"kw4\">誤り</span>。高血圧は継続治療が必要（妊娠可の薬に変更して継続）</td></tr><tr><td>ｂ　人工妊娠中絶が必要</td><td><span class=\"kw4\">誤り</span>。厳重管理下で妊娠継続を検討</td></tr><tr><td>ｃ　慢性腎臓病の病期Ⅳ</td><td><span class=\"kw4\">誤り</span>。eGFR 46は<span class=\"kw\">G3b＝病期III</span></td></tr><tr><td>ｄ　腎機能が悪化するリスクが高い</td><td><span class=\"kw3\">正しい</span>。CKD合併妊娠の重要な説明</td></tr><tr><td>ｅ　副腎皮質ステロイド大量療法が必要</td><td><span class=\"kw4\">誤り</span>。本例で大量ステロイドの適応はない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "慢性腎臓病合併妊娠への説明。<br/><b>a 降圧薬中止／b 中絶／c CKD病期Ⅳ（データから判断）／e ステロイド大量</b>：不適。<br/><b>d 「腎機能が悪化するリスクが高いです」</b>：<span class=\"kw\">妊娠は腎負荷を増し腎機能悪化のリスク</span>。✓"
       }
      ],
      "imgs": [
@@ -17362,6 +17552,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　β遮断薬</td><td><span class=\"kw4\">無関係</span>。適応なし</td></tr><tr><td>ｂ　硫酸マグネシウム</td><td><span class=\"kw4\">不適</span>。子癇・切迫早産管理の薬で本状況の第一でない</td></tr><tr><td>ｃ　副腎皮質ステロイド</td><td><span class=\"kw4\">不適</span>。妊娠36週で肺成熟促進の適応は乏しい</td></tr><tr><td>ｄ　ペニシリン系抗菌薬</td><td><span class=\"kw3\">正しい</span>。GBS母子感染予防</td></tr><tr><td>ｅ　NSAIDs</td><td><span class=\"kw4\">禁忌</span>。妊娠後期は動脈管収縮</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "前期破水/GBS保菌でまず投与する薬。<br/><b>a β遮断薬／b 硫酸Mg／c ステロイド／e NSAIDs</b>：第一でない。<br/><b>d ペニシリン系抗菌薬</b>：<span class=\"kw\">GBS感染予防・絨毛膜羊膜炎への抗菌薬</span>。✓"
       }
      ],
      "imgs": []
@@ -17414,6 +17609,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　食道閉鎖</td><td><span class=\"kw4\">×</span>。羊水過多を来すが肺低形成は主でない</td></tr><tr><td>ｂ　Potter症候群</td><td><span class=\"kw3\">正しい</span>。腎無形成→羊水過少→肺低形成</td></tr><tr><td>ｃ　十二指腸閉鎖</td><td><span class=\"kw4\">×</span>。羊水過多（double bubble）</td></tr><tr><td>ｄ　完全大血管転位症</td><td><span class=\"kw4\">×</span>。心奇形で肺低形成は伴わない</td></tr><tr><td>ｅ　先天性横隔膜ヘルニア</td><td><span class=\"kw3\">正しい</span>。腹部臓器が肺を圧迫→肺低形成</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "胎児肺低形成を伴うものを2つ。<br/><b>a 食道閉鎖／c 十二指腸閉鎖／d 完全大血管転位症</b>：肺低形成を伴わない。<br/><b>b Potter症候群</b>：<span class=\"kw\">羊水過少による肺低形成</span>。✓<br/><b>e 先天性横隔膜ヘルニア</b>：<span class=\"kw\">腹部臓器の胸腔内脱出で肺が圧迫され低形成</span>。✓"
       }
      ],
      "imgs": []
@@ -17466,6 +17666,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　ペンタゾシン</td><td><span class=\"kw4\">誤り</span>。鎮痛薬でけいれん予防に無効</td></tr><tr><td>ｂ　硫酸マグネシウム</td><td><span class=\"kw3\">正しい</span>。子癇のけいれん再発予防</td></tr><tr><td>ｃ　炭酸水素ナトリウム</td><td><span class=\"kw4\">誤り</span>。適応なし</td></tr><tr><td>ｄ　ガベキサートメシル酸塩</td><td><span class=\"kw4\">誤り</span>。DIC治療薬で本時点の適応でない</td></tr><tr><td>ｅ　麦角アルカロイド</td><td><span class=\"kw4\">禁忌</span>。分娩前の子宮収縮薬・昇圧で危険</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "子癇の予防/治療で投与する薬剤。<br/><b>a ペンタゾシン／c 炭酸水素Na／d ガベキサート／e エルゴメトリン</b>：不適。<br/><b>b 硫酸マグネシウム</b>：<span class=\"kw\">子癇（けいれん）の予防・治療の第一選択</span>。✓"
       }
      ],
      "imgs": [
@@ -17520,6 +17725,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　羊水過多</td><td><span class=\"kw4\">×</span>。HELLPの合併症でない</td></tr><tr><td>ｂ　急性腎不全</td><td><span class=\"kw3\">正しい</span>。腎微小血管障害</td></tr><tr><td>ｃ　妊娠糖尿病</td><td><span class=\"kw4\">×</span>。血糖96で無関係</td></tr><tr><td>ｄ　児頭骨盤不均衡〈CPD〉</td><td><span class=\"kw4\">×</span>。胎児発育正常で無関係</td></tr><tr><td>ｅ　DIC</td><td><span class=\"kw3\">正しい</span>。凝固消費で進展しうる</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "常位胎盤早期剝離後に注意すべき病態を2つ。<br/><b>a 羊水過多／c 妊娠糖尿病／d CPD</b>：合わない。<br/><b>b 急性腎不全</b>：<span class=\"kw\">大量出血・ショックによる腎前性腎不全</span>。✓<br/><b>e 播種性血管内凝固〈DIC〉</b>：<span class=\"kw\">胎盤剝離部からの組織因子でDIC</span>。✓"
       }
      ],
      "imgs": []
@@ -17572,6 +17782,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　水頭症</td><td><span class=\"kw3\">正しい</span>。側脳室拡大</td></tr><tr><td>ｂ　胎児水腫</td><td><span class=\"kw4\">誤り</span>。皮下浮腫・胸腹水・心拡大が主で頭部超音波の主所見でない</td></tr><tr><td>ｃ　脊髄空洞症</td><td><span class=\"kw4\">誤り</span>。脊髄の病変で頭部超音波所見でない</td></tr><tr><td>ｄ　正中頸囊胞</td><td><span class=\"kw4\">誤り</span>。頸部の囊胞</td></tr><tr><td>ｅ　頭蓋骨早期癒合症</td><td><span class=\"kw4\">誤り</span>。頭蓋形態異常で脳室拡大ではない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "頭部超音波で脳室拡大。<br/><b>b 胎児水腫／c 脊髄空洞症／d 正中頸囊胞／e 頭蓋骨早期癒合症</b>：合わない。<br/><b>a 水頭症</b>：<span class=\"kw\">脳室拡大（脳脊髄液の貯留）</span>。✓"
       }
      ],
      "imgs": [
@@ -17621,6 +17836,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　腎盂拡張</td><td><span class=\"kw4\">誤り</span>。生理的水腎症は<span class=\"kw\">右側に多い</span>（右尿管が卵巣静脈・子宮に圧迫）</td></tr><tr><td>ｂ　尿管結石症</td><td><span class=\"kw4\">誤り</span>。特に左優位ではない</td></tr><tr><td>ｃ　卵管膨大部妊娠</td><td><span class=\"kw4\">誤り</span>。左右差はない</td></tr><tr><td>ｄ　Bartholin腺囊胞</td><td><span class=\"kw4\">誤り</span>。左右差はない</td></tr><tr><td>ｅ　下肢深部静脈血栓症</td><td><span class=\"kw3\">正しい</span>。左腸骨静脈の圧迫で左側に多い</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊婦の合併症で左側に多く発生するもの。<br/><b>a 腎盂拡張（右に多い）／b 尿管結石／c 卵管妊娠／d Bartholin腺囊胞</b>：左優位でない。<br/><b>e 下肢深部静脈血栓症</b>：<span class=\"kw\">左腸骨静脈が右腸骨動脈に圧迫され左下肢に好発</span>。✓"
       }
      ],
      "imgs": []
@@ -17668,6 +17888,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　喫煙</td><td><span class=\"kw3\">正しい</span>。胎盤血流低下→FGR</td></tr><tr><td>ｂ　多産</td><td><span class=\"kw4\">×</span>。FGRの主因でない</td></tr><tr><td>ｃ　肥満</td><td><span class=\"kw4\">×</span>。むしろ巨大児と関連</td></tr><tr><td>ｄ　高身長</td><td><span class=\"kw4\">×</span>。無関係</td></tr><tr><td>ｅ　運動不足</td><td><span class=\"kw4\">×</span>。主因でない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "胎児発育不全と関連が深いもの。<br/><b>b 多産／c 肥満／d 高身長／e 運動不足</b>：発育不全の主因でない。<br/><b>a 喫煙</b>：<span class=\"kw\">胎盤血流低下により胎児発育不全</span>。✓"
       }
      ],
      "imgs": []
@@ -17724,6 +17949,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　妊婦ただちに／夫ただちに</td><td><span class=\"kw4\">誤り</span>。妊婦は生ワクチン禁忌</td></tr><tr><td>ｂ　妊婦ただちに／夫妊娠全期間</td><td><span class=\"kw4\">誤り</span>。妊婦は接種不可</td></tr><tr><td>ｃ　妊婦妊娠全期間／夫ただちに</td><td><span class=\"kw4\">誤り</span>。妊婦は妊娠中いつでも接種不可</td></tr><tr><td>ｄ　妊婦妊娠全期間／夫妊娠全期間</td><td><span class=\"kw4\">誤り</span>。妊婦不可、夫は即接種すべき</td></tr><tr><td>ｅ　妊婦産褥期／夫ただちに</td><td><span class=\"kw3\">正しい</span>。妊婦は産後、夫は即接種</td></tr><tr><td>ｆ　妊婦産褥期／夫妊娠全期間</td><td><span class=\"kw4\">誤り</span>。夫は「ただちに」が正しい</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "風疹の妊婦・夫への適切なワクチン接種時期。<br/><b>a〜d、f</b>：組合せが不適。<br/><b>e 妊婦 産褥期／夫 ただちに</b>：<span class=\"kw\">生ワクチンは妊娠中禁忌→妊婦は産褥期、夫（家族）はただちに接種し感染源を減らす</span>。✓"
       }
      ],
      "imgs": [
@@ -17773,6 +18003,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　糖尿病 ─ 頸管無力症</td><td><span class=\"kw4\">誤り</span>。糖尿病は巨大児・奇形</td></tr><tr><td>ｂ　慢性腎炎 ─ 前置胎盤</td><td><span class=\"kw4\">誤り</span>。慢性腎炎は妊娠高血圧腎症・FGR</td></tr><tr><td>ｃ　気管支喘息 ─ 双胎間輸血症候群</td><td><span class=\"kw4\">誤り</span>。TTTSは一絨毛膜双胎の合併</td></tr><tr><td>ｄ　甲状腺機能亢進症 ─ 巨大児</td><td><span class=\"kw4\">誤り</span>。むしろ流早産・低出生体重</td></tr><tr><td>ｅ　SLE ─ 流産</td><td><span class=\"kw3\">正しい</span>。抗リン脂質抗体合併で流産・胎児死亡</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "合併症妊娠で起こりやすい異常の組合せで正しいもの。<br/><b>a 糖尿病→頸管無力症／b 慢性腎炎→前置胎盤／c 気管支喘息→双胎間輸血症候群／d 甲状腺機能亢進症→巨大児</b>：誤り。<br/><b>e SLE→流産</b>：<span class=\"kw\">抗リン脂質抗体等により流産・胎児死亡が増加</span>。✓"
       }
      ],
      "imgs": []
@@ -17825,6 +18060,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　右胸心</td><td><span class=\"kw4\">誤り</span>。心臓の位置異常のみで腫瘤・羊水過多を説明しない</td></tr><tr><td>ｂ　乳び胸</td><td><span class=\"kw4\">誤り</span>。胸水は貯留するが「腫瘤」ではない</td></tr><tr><td>ｃ　心臓腫瘍</td><td><span class=\"kw4\">誤り</span>。羊水過多・胸部腫瘤の像に合いにくい</td></tr><tr><td>ｄ　縦隔腫瘍</td><td><span class=\"kw4\">誤り</span>。頻度が低く典型的でない</td></tr><tr><td>ｅ　横隔膜ヘルニア</td><td><span class=\"kw3\">正しい</span>。腹部臓器が胸腔へ脱出、羊水過多を伴う</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "胎児の縦隔偏位＋胸腔内の腹部臓器。<br/><b>a 右胸心／b 乳び胸／c 心臓腫瘍／d 縦隔腫瘍</b>：合わない。<br/><b>e 横隔膜ヘルニア</b>：<span class=\"kw\">腹部臓器が胸腔へ脱出し心臓を偏位</span>。✓"
       }
      ],
      "imgs": [
@@ -17879,6 +18119,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　羊水量</td><td><span class=\"kw3\">正しい</span>。胎盤機能・慢性低酸素の指標</td></tr><tr><td>ｂ　胎盤の位置</td><td><span class=\"kw4\">不適</span>。前置胎盤の評価で胎動減少とは無関係</td></tr><tr><td>ｃ　胎児推定体重</td><td><span class=\"kw3\">正しい</span>。FGRの評価</td></tr><tr><td>ｄ　子宮壁の厚さ</td><td><span class=\"kw4\">不適</span>。胎動評価に無関係</td></tr><tr><td>ｅ　胎児後頸部浮腫〈NT〉</td><td><span class=\"kw4\">不適</span>。初期の染色体異常スクリーニング指標で時期外れ</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "糖尿病妊娠で注意して観察すべき項目を2つ。<br/><b>b 胎盤の位置／d 子宮壁の厚さ／e 胎児後頸部浮腫</b>：本例の主眼でない。<br/><b>a 羊水量</b>：<span class=\"kw\">高血糖で羊水過多をきたす</span>。✓<br/><b>c 胎児推定体重</b>：<span class=\"kw\">巨大児のリスクを評価</span>。✓"
       }
      ],
      "imgs": []
@@ -17931,6 +18176,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　硝酸薬</td><td><span class=\"kw4\">×</span>。狭心症・心不全の薬で第一選択でない</td></tr><tr><td>ｂ　α-メチルドパ</td><td><span class=\"kw3\">正しい</span>。中枢性降圧薬、妊娠で安全</td></tr><tr><td>ｃ　塩酸ヒドララジン</td><td><span class=\"kw3\">正しい</span>。血管拡張薬、妊娠で安全</td></tr><tr><td>ｄ　サイアザイド系利尿薬</td><td><span class=\"kw4\">×</span>。循環血漿量減少のため原則使わない</td></tr><tr><td>ｅ　ARB</td><td><span class=\"kw4\">禁忌</span>。<span class=\"kw4\">胎児腎障害・羊水過少（ACE阻害薬も同様）</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊娠中の降圧薬として使用されるものを2つ。<br/><b>a 硝酸薬／d サイアザイド（避ける）／e ARB（禁忌）</b>：不適。<br/><b>b α-メチルドパ</b>：<span class=\"kw\">妊娠中の第一選択降圧薬</span>。✓<br/><b>c 塩酸ヒドララジン</b>：<span class=\"kw\">妊娠高血圧に用いる</span>。✓"
       }
      ],
      "imgs": []
@@ -18035,6 +18285,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　異所性妊娠 ─ 血中エストラジオール</td><td><span class=\"kw4\">誤り</span>。経腟超音波＋hCGで診断</td></tr><tr><td>ｂ　過期妊娠 ─ 羊水マイクロバブルテスト</td><td><span class=\"kw4\">誤り</span>。それは肺成熟の検査</td></tr><tr><td>ｃ　子宮筋腫合併妊娠 ─ 羊水染色体検査</td><td><span class=\"kw4\">誤り</span>。超音波で評価</td></tr><tr><td>ｄ　胎児水腫 ─ 子宮頸管長計測</td><td><span class=\"kw4\">誤り</span>。頸管長は早産の指標</td></tr><tr><td>ｅ　胎児発育不全 ─ 胎児臍帯動脈血流計測</td><td><span class=\"kw3\">正しい</span>。胎盤機能の評価</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "疾患と検査の組合せで正しいもの。<br/><b>a 異所性妊娠→E2定量／b 過期妊娠→羊水マイクロバブル／c 子宮筋腫合併→羊水染色体／d 胎児水腫→頸管長</b>：誤り。<br/><b>e 胎児発育不全→胎児臍帯動脈血流計測</b>：<span class=\"kw\">臍帯動脈血流で胎盤機能・胎児状態を評価</span>。✓"
       }
      ],
      "imgs": []
@@ -18082,6 +18337,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　腹部MRI</td><td><span class=\"kw4\">不適</span>。羊水過多の原因診断の第一でない</td></tr><tr><td>ｂ　心エコー検査</td><td><span class=\"kw4\">不適</span>。母体心機能評価で本状況に不要</td></tr><tr><td>ｃ　腟分泌物培養</td><td><span class=\"kw4\">不適</span>。感染兆候がない</td></tr><tr><td>ｄ　経口グルコース負荷試験</td><td><span class=\"kw3\">正しい</span>。妊娠糖尿病の診断→治療方針決定</td></tr><tr><td>ｅ　コントラクションストレステスト</td><td><span class=\"kw4\">不適</span>。子宮収縮なく胎児良好で不要</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊娠糖尿病を疑う場合の治療方針決定の検査。<br/><b>a 腹部MRI／b 心エコー／c 腟分泌物培養／e CST</b>：本目的でない。<br/><b>d 経口グルコース負荷試験</b>：<span class=\"kw\">75gOGTTで妊娠糖尿病を診断</span>。✓"
       }
      ],
      "imgs": []
@@ -18129,6 +18389,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　尿蛋白3＋である</td><td><span class=\"kw3\">正しい（異常）</span>。産後12週で残存は腎疾患を疑う</td></tr><tr><td>ｂ　乳房に緊満がある</td><td><span class=\"kw4\">正常</span>。授乳期の生理的変化</td></tr><tr><td>ｃ　月経が発来していない</td><td><span class=\"kw4\">正常</span>。授乳性無月経</td></tr><tr><td>ｄ　血圧が136/84mmHg</td><td><span class=\"kw4\">正常域</span>。140/90未満</td></tr><tr><td>ｅ　妊娠前の体重に復していない</td><td><span class=\"kw4\">正常</span>。徐々に戻る</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "産褥1か月の時点で「異常所見」なもの。<br/><b>b 乳房緊満／c 月経未発来／d 血圧136/84／e 妊娠前体重に未復</b>：産褥として許容範囲。<br/><b>a 尿蛋白3＋である</b>：<span class=\"kw\">分娩後も持続する蛋白尿は腎障害を示唆（異常）</span>。✓"
       }
      ],
      "imgs": []
@@ -18176,6 +18441,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　血圧</td><td>注意は要るが144/92で管理可能。最重要は胎児</td></tr><tr><td>ｂ　尿蛋白</td><td>注意は要るが単独で緊急性は低い</td></tr><tr><td>ｃ　血小板数</td><td>20万で正常、HELLPなし</td></tr><tr><td>ｄ　肝機能検査値</td><td>AST/ALT正常でHELLPなし</td></tr><tr><td>ｅ　胎児推定体重</td><td><span class=\"kw3\">正しい</span>。FGR合併で胎児の状態が最重要</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "胎児発育不全の児管理で最も注意すべきもの。<br/><b>a 血圧／b 尿蛋白／c 血小板数／d 肝機能（母体の指標）</b>：胎児評価でない。<br/><b>e 胎児推定体重</b>：<span class=\"kw\">発育の推移を評価</span>。✓"
       }
      ],
      "imgs": []
@@ -18239,6 +18509,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ〜ｅ・ｇ〜ｉ　Na/K/Cl/Ca/P/Cu/Fe/Zn</td><td><span class=\"kw4\">誤り</span>。子癇治療薬の有効成分でない</td></tr><tr><td>ｆ　Mg</td><td><span class=\"kw3\">正しい</span>。硫酸マグネシウムの有効成分。子癇の第一選択</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "子癇のけいれん治療薬の有効成分。<br/><b>a Na〜e P、g Cu、h Fe、i Zn</b>：治療成分でない。<br/><b>f Mg</b>：<span class=\"kw\">硫酸マグネシウムが子癇の第一選択</span>。✓"
       }
      ],
      "imgs": []
@@ -18291,6 +18566,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　肺</td><td><span class=\"kw4\">誤り</span>。肺の占拠病変・低形成の像ではない</td></tr><tr><td>ｂ　心臓</td><td><span class=\"kw4\">誤り</span>。心奇形の所見ではない</td></tr><tr><td>ｃ　横隔膜</td><td><span class=\"kw4\">誤り</span>。横隔膜ヘルニアなら臓器は胸腔へ（腹壁でなく胸部腫瘤）</td></tr><tr><td>ｄ　腹壁</td><td><span class=\"kw3\">正しい</span>。腹壁欠損から臓器が体外へ脱出</td></tr><tr><td>ｅ　脊椎</td><td><span class=\"kw4\">誤り</span>。二分脊椎の所見ではない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "胎児の腹部の欠損（臍帯ヘルニア/腹壁破裂）。<br/><b>a 肺／b 心臓／c 横隔膜／e 脊椎</b>：本例でない。<br/><b>d 腹壁</b>：<span class=\"kw\">腹壁の欠損（臍帯ヘルニア・腹壁破裂）</span>。✓"
       }
      ],
      "imgs": [
@@ -18340,6 +18620,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　低血糖</td><td><span class=\"kw4\">起こりやすい</span>。高インスリン血症</td></tr><tr><td>ｂ　分娩外傷</td><td><span class=\"kw4\">起こりやすい</span>。巨大児の肩甲難産</td></tr><tr><td>ｃ　壊死性腸炎</td><td><span class=\"kw3\">起こりにくい（正解）</span>。早産・低出生体重児の疾患</td></tr><tr><td>ｄ　胎便吸引症候群</td><td><span class=\"kw4\">起こりやすい</span>。過熟・低酸素で</td></tr><tr><td>ｅ　高ビリルビン血症</td><td><span class=\"kw4\">起こりやすい</span>。多血症・未熟性で</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "糖尿病母体児の新生児合併症として「起こりにくい」もの。<br/><b>a 低血糖／b 分娩外傷／d 胎便吸引症候群／e 高ビリルビン血症</b>：起こりやすい。<br/><b>c 壊死性腸炎</b>：<span class=\"kw\">早産児に多く糖尿病母体児では起こりにくい</span>。✓（これが正解肢）"
       }
      ],
      "imgs": []
@@ -18392,6 +18677,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　梗塞</td><td><span class=\"kw4\">誤り</span>。DWIで拡散制限が乏しく細胞性浮腫でない</td></tr><tr><td>ｂ　出血</td><td><span class=\"kw4\">誤り</span>。出血の信号でない</td></tr><tr><td>ｃ　腫瘍</td><td><span class=\"kw4\">誤り</span>。占拠性病変でない</td></tr><tr><td>ｄ　脱髄</td><td><span class=\"kw4\">誤り</span>。脱髄の分布・経過でない</td></tr><tr><td>ｅ　浮腫</td><td><span class=\"kw3\">正しい</span>。PRESの血管性浮腫（可逆性）</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "子癇/PRESの脳の病態。<br/><b>a 梗塞／b 出血／c 腫瘍／d 脱髄</b>：合わない。<br/><b>e 浮腫</b>：<span class=\"kw\">後頭葉優位の可逆性血管性浮腫（PRES）</span>。✓"
       }
      ],
      "imgs": [
@@ -18494,6 +18784,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　尿蛋白</td><td>重要。妊娠高血圧腎症の合併監視</td></tr><tr><td>ｂ　胎児発育</td><td>重要。巨大児・FGRの評価</td></tr><tr><td>ｃ　凝固・線溶検査</td><td>重要。HELLP・DICの監視</td></tr><tr><td>ｄ　血糖値の日内変動</td><td>重要。血糖管理の指標</td></tr><tr><td>ｅ　75g OGTT</td><td><span class=\"kw3\">重要でない（正解）</span>。既に診断済みで再検不要</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊娠高血圧症候群の入院後検査で「重要でない」もの。<br/><b>a 尿蛋白／b 胎児発育／c 凝固・線溶／d 血糖日内変動</b>：評価に有用。<br/><b>e 75g経口ブドウ糖負荷試験</b>：<span class=\"kw\">本病態の管理で優先度が低い</span>。✓（これが正解肢）"
       }
      ],
      "imgs": []
@@ -18650,6 +18945,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　淋菌</td><td><span class=\"kw4\">×</span>。産道感染（新生児結膜炎）</td></tr><tr><td>ｂ　GBS</td><td><span class=\"kw4\">×</span>。産道感染（新生児敗血症）</td></tr><tr><td>ｃ　サイトメガロウイルス</td><td><span class=\"kw3\">正しい</span>。FGRを来す代表的な子宮内感染</td></tr><tr><td>ｄ　インフルエンザ</td><td><span class=\"kw4\">×</span>。FGRの確立した原因でない</td></tr><tr><td>ｅ　クラミジア</td><td><span class=\"kw4\">×</span>。産道感染（新生児結膜炎・肺炎）</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "胎児発育不全・小頭・石灰化と関連するもの。<br/><b>a 淋菌／b GBS／d インフルエンザ／e クラミジア</b>：合わない。<br/><b>c サイトメガロウイルス</b>：<span class=\"kw\">先天性CMV感染（小頭症・脳内石灰化・発育不全）</span>。✓"
       }
      ],
      "imgs": []
@@ -18697,6 +18997,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　淋菌</td><td><span class=\"kw4\">産道感染あり</span>。新生児結膜炎（膿漏眼）</td></tr><tr><td>ｂ　GBS</td><td><span class=\"kw4\">産道感染あり</span>。新生児敗血症・髄膜炎</td></tr><tr><td>ｃ　風疹ウイルス</td><td><span class=\"kw3\">正しい（産道感染は問題でない）</span>。経胎盤感染が問題</td></tr><tr><td>ｄ　B型肝炎ウイルス</td><td><span class=\"kw4\">産道感染あり</span>。分娩時の血液曝露</td></tr><tr><td>ｅ　単純ヘルペスウイルス</td><td><span class=\"kw4\">産道感染あり</span>。新生児ヘルペス</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "産道感染が問題と「ならない」もの。<br/><b>a 淋菌／b GBS／d B型肝炎ウイルス／e 単純ヘルペスウイルス</b>：産道感染する。<br/><b>c 風疹ウイルス</b>：<span class=\"kw\">経胎盤感染（先天性風疹症候群）で産道感染でない</span>。✓（これが正解肢）"
       }
      ],
      "imgs": []
@@ -18796,6 +19101,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　脈拍</td><td><span class=\"kw4\">×</span>。104/分は妊娠でよくある軽度頻脈</td></tr><tr><td>ｂ　血圧</td><td><span class=\"kw3\">正しい</span>。148/94で妊娠高血圧症候群の進展に注意</td></tr><tr><td>ｃ　赤血球数</td><td><span class=\"kw4\">×</span>。妊娠性貧血の範囲</td></tr><tr><td>ｄ　白血球数</td><td><span class=\"kw4\">×</span>。妊娠中は生理的に増加</td></tr><tr><td>ｅ　ALP値</td><td><span class=\"kw4\">×</span>。胎盤・骨由来で妊娠後期に生理的上昇</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊娠高血圧症候群の経過観察で注意するもの。<br/><b>a 脈拍／c 赤血球数／d 白血球数／e ALP</b>：主指標でない。<br/><b>b 血圧</b>：<span class=\"kw\">血圧の推移（重症化・子癇の予防）</span>。✓"
       }
      ],
      "imgs": []
@@ -18848,6 +19158,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　胎児心拍数陣痛計の装着</td><td><span class=\"kw3\">正しい</span>。2児と子宮収縮の監視</td></tr><tr><td>ｂ　血液生化学検査</td><td><span class=\"kw3\">正しい</span>。HELLP・DICの評価</td></tr><tr><td>ｃ　降圧薬の投与</td><td><span class=\"kw4\">保留</span>。血圧148/92で即座に重症域でなく、評価が先</td></tr><tr><td>ｄ　子宮収縮抑制薬の投与</td><td><span class=\"kw4\">保留</span>。HELLP疑いで娩出方針もあり得る</td></tr><tr><td>ｅ　輸血</td><td><span class=\"kw4\">保留</span>。Hbは保たれ、血小板輸血もまず病態評価が先</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊娠高血圧症候群（頭位）で次に行うことを2つ。<br/><b>c 降圧薬（評価後）／d 子宮収縮抑制薬／e 輸血</b>：第一でない。<br/><b>a 胎児心拍数陣痛計の装着</b>：<span class=\"kw\">胎児の状態を評価</span>。✓<br/><b>b 血液生化学検査</b>：<span class=\"kw\">HELLP・腎肝機能を評価</span>。✓"
       }
      ],
      "imgs": []
@@ -18895,6 +19210,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　妊娠糖尿病</td><td><span class=\"kw4\">×</span>。むしろ巨大児</td></tr><tr><td>ｂ　18 trisomy</td><td><span class=\"kw3\">正しい</span>。染色体異常で早期からの均衡型FGR</td></tr><tr><td>ｃ　血液型不適合妊娠</td><td><span class=\"kw4\">×</span>。胎児貧血・水腫（発育遅延の型が違う）</td></tr><tr><td>ｄ　胎児心室中隔欠損</td><td><span class=\"kw4\">×</span>。単独VSDはFGRの主因でない</td></tr><tr><td>ｅ　妊娠高血圧症候群</td><td><span class=\"kw4\">×</span>。後期の胎盤機能不全で不均衡型FGR</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "均衡型（対称型）の子宮内発育遅延をきたしやすいもの。<br/><b>a 妊娠糖尿病／c 血液型不適合／d 心室中隔欠損／e 妊娠高血圧症候群（不均衡型）</b>：合わない。<br/><b>b 18 trisomy</b>：<span class=\"kw\">染色体異常は早期からの均衡型（対称型）発育遅延</span>。✓"
       }
      ],
      "imgs": []
@@ -19004,6 +19324,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　治療にはインスリンを用いる</td><td><span class=\"kw3\">正しい</span>。経口薬は用いない</td></tr><tr><td>ｂ　新生児は高血糖をきたしやすい</td><td><span class=\"kw4\">誤り</span>。新生児は低血糖</td></tr><tr><td>ｃ　妊娠高血圧症候群を合併しやすい</td><td><span class=\"kw3\">正しい</span></td></tr><tr><td>ｄ　血糖管理は中期以降に開始</td><td><span class=\"kw4\">誤り</span>。妊娠前〜初期から</td></tr><tr><td>ｅ　食後2時間150mg/dL以下に保つ</td><td><span class=\"kw4\">誤り</span>。目標は120mg/dL未満</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "糖尿病合併妊娠で正しいものを2つ。<br/><b>b 新生児は高血糖（低血糖）／d 妊娠中期以降に管理開始（早期から）／e 食後2時間150mg/dL以下（より厳格）</b>：誤り。<br/><b>a 治療にはインスリンを用いる</b>：<span class=\"kw\">妊娠中はインスリンで管理</span>。✓<br/><b>c 妊娠高血圧症候群を合併しやすい</b>：<span class=\"kw\">糖尿病は妊娠高血圧症候群のリスク</span>。✓"
       }
      ],
      "imgs": []
@@ -19172,6 +19497,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　経過観察</td><td><span class=\"kw4\">誤り</span>。血圧増悪で継続はリスク</td></tr><tr><td>ｂ　メチルドパの増量</td><td><span class=\"kw4\">不十分</span>。降圧強化しても根本解決は娩出</td></tr><tr><td>ｃ　塩酸リトドリンの増量</td><td><span class=\"kw4\">誤り</span>。娩出すべき状況で子宮収縮抑制は逆行</td></tr><tr><td>ｄ　副腎皮質ステロイドの投与</td><td><span class=\"kw4\">不要</span>。マイクロバブル陽性で肺成熟済み、待つ必要なし</td></tr><tr><td>ｅ　分娩誘発</td><td><span class=\"kw3\">正しい</span>。HDP増悪＋肺成熟確認で娩出</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "妊娠高血圧症候群/過期等で娩出を要する場合の対応。<br/><b>a 経過観察／b メチルドパ増量／c リトドリン増量／d ステロイド</b>：本場面で不適。<br/><b>e 分娩誘発</b>：<span class=\"kw\">母児のため妊娠を終了（分娩誘発）</span>。✓"
       }
      ],
      "imgs": [
