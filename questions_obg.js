@@ -26295,6 +26295,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　腹部単純CT</td><td><span class=\"kw4\">誤り</span>。妊娠の可能性がある時点で被曝を伴う検査は避ける</td></tr><tr><td>ｂ　妊娠反応検査</td><td><span class=\"kw3\">正しい</span>。最も簡便・迅速で、以後の方針をすべて規定する</td></tr><tr><td>ｃ　経腟超音波検査</td><td>重要だが<span class=\"kw4\">順序は妊娠反応の後</span>。妊娠反応陽性なら直ちに施行</td></tr><tr><td>ｄ　子宮内膜組織診</td><td><span class=\"kw4\">誤り</span>。妊娠を否定せずに施行すれば妊娠子宮を損傷しうる</td></tr><tr><td>ｅ　プロゲステロン投与</td><td><span class=\"kw4\">誤り</span>。診断確定前の治療的介入は不適切</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "続発性無月経/不正出血の女性で最初に行う対応。<br/><b>a 腹部CT／c 経腟超音波／d 内膜組織診／e プロゲステロン投与</b>：第一でない。<br/><b>b 妊娠反応検査</b>：<span class=\"kw\">無月経ではまず妊娠を除外</span>。✓"
             }
           ],
           "imgs": []
@@ -26477,6 +26482,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　痤　瘡</td><td><span class=\"kw4\">誤り</span>。アンドロゲン過剰（PCOSなど）でみられる</td></tr><tr><td>ｂ　脂肪肝</td><td><span class=\"kw4\">誤り</span>。肥満・過栄養に伴う。やせでは考えにくい</td></tr><tr><td>ｃ　骨粗鬆症</td><td><span class=\"kw3\">正しい</span>。三主徴の一つで疲労骨折の原因</td></tr><tr><td>ｄ　下垂体腺腫</td><td><span class=\"kw4\">誤り</span>。やせや運動と因果関係はない</td></tr><tr><td>ｅ　子宮腺筋症</td><td><span class=\"kw4\">誤り</span>。エストロゲン依存性で、低エストロゲン状態では進展しない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "女性アスリート（無月経・低エストロゲン）で注意すべき合併症。<br/><b>a 痤瘡／b 脂肪肝／d 下垂体腺腫／e 子宮腺筋症</b>：本病態でない。<br/><b>c 骨粗鬆症</b>：<span class=\"kw\">エストロゲン低下で骨密度が低下（女性アスリートの三主徴）</span>。✓"
             }
           ],
           "imgs": []
@@ -26591,6 +26601,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　「排卵日を見つけましょう」</td><td><span class=\"kw3\">正しい</span>。まずタイミング指導</td></tr><tr><td>ｂ　「子宮卵管造影検査をします」</td><td><span class=\"kw4\">時期尚早</span>。1年経過後の不妊検査で考慮</td></tr><tr><td>ｃ　「排卵誘発薬を服用してください」</td><td><span class=\"kw4\">誤り</span>。二相性＝排卵しており適応なし</td></tr><tr><td>ｄ　「あなたの染色体検査をしましょう」</td><td><span class=\"kw4\">誤り</span>。反復流産（不育症）などで考慮</td></tr><tr><td>ｅ　「抗カルジオリピン抗体を検査します」</td><td><span class=\"kw4\">誤り</span>。不育症の検査であり本例に適応なし</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "基礎体温が二相性（排卵あり）の不妊女性への説明。<br/><b>b 子宮卵管造影／c 排卵誘発薬／d 染色体検査／e 抗カルジオリピン抗体</b>：この時点で第一でない。<br/><b>a 「排卵日を見つけましょう」</b>：<span class=\"kw\">排卵があるので排卵日を推定しタイミング指導</span>。✓"
             }
           ],
           "imgs": []
@@ -26648,6 +26663,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　エストロゲン・プロゲスチン療法</td><td><span class=\"kw3\">正しい</span>。二次性徴誘導＋子宮内膜保護</td></tr><tr><td>ｂ　ゴナドトロピン療法</td><td><span class=\"kw4\">誤り</span>。卵巣（索状性腺）が反応しない</td></tr><tr><td>ｃ　プロゲスチン療法</td><td><span class=\"kw4\">誤り</span>。単独では二次性徴を誘導できない</td></tr><tr><td>ｄ　クロミフェン療法</td><td><span class=\"kw4\">誤り</span>。卵胞が存在せず排卵誘発は不可能</td></tr><tr><td>ｅ　エストロゲン療法</td><td><span class=\"kw4\">不適</span>。子宮があるため単独投与は<span class=\"kw4\">子宮体癌のリスク</span></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "低ゴナドトロピン性の性腺機能低下（原発性無月経等）の治療。<br/><b>b ゴナドトロピン療法／c プロゲスチン／d クロミフェン／e エストロゲン単独</b>：第一でない。<br/><b>a エストロゲン・プロゲスチン療法</b>：<span class=\"kw\">カウフマン療法で消退出血を起こし内膜を保護</span>。✓"
             }
           ],
           "imgs": []
@@ -26906,6 +26926,11 @@ window["_cardJSON_obg"]={
               "cls": "ei",
               "h": "💡 排卵誘発のステップ",
               "c": "<ul><li>第一選択：<span class=\"kw\">クロミフェン</span>（経口、OHSS・多胎が比較的少ない）</li><li>無効例：<span class=\"kw\">hMG（またはFSH）製剤で卵胞発育 → hCGで排卵トリガー</span>（hMG-hCG療法）</li><li>hMG-hCG療法は<span class=\"kw4\">OHSSと多胎妊娠のリスクが高い</span></li></ul>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "排卵誘発の治療薬X・Yを2つ。<br/><b>a エストロゲン／c GnRHアゴニスト／e hMG</b>：本例の組合せでない。<br/><b>b クロミフェン</b>：<span class=\"kw\">視床下部に作用し排卵を誘発</span>。✓<br/><b>d ヒト絨毛性ゴナドトロピン〈hCG〉</b>：<span class=\"kw\">排卵をトリガー</span>。✓"
             }
           ],
           "imgs": []
@@ -27020,6 +27045,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　①</td><td><span class=\"kw3\">正しい</span>。両児頭位＝経腟分娩の可能性が最も高い</td></tr><tr><td>ｂ　②</td><td>第1子が頭位でない、あるいは横位を含む組合せで経腟分娩は困難</td></tr><tr><td>ｃ　③</td><td>同上</td></tr><tr><td>ｄ　④</td><td>同上</td></tr><tr><td>ｅ　⑤</td><td>同上</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "帝王切開が選択される可能性が最も高い状況。<br/><b>b ②〜e ⑤</b>：経腟分娩が可能。<br/><b>a ①</b>：<span class=\"kw\">経腟分娩が困難な状況（骨盤位/前置胎盤等）</span>。✓"
             }
           ],
           "imgs": [
@@ -27173,6 +27203,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　GH</td><td><span class=\"kw4\">誤り</span>。先端巨大症を示す所見（手足の腫大等）がない</td></tr><tr><td>ｂ　FSH</td><td><span class=\"kw4\">誤り</span>。高PRL血症ではGnRHが抑制されFSHはむしろ<span class=\"kw4\">低〜正常</span></td></tr><tr><td>ｃ　TSH</td><td><span class=\"kw4\">やや不適</span>。甲状腺機能低下症は高PRL血症の原因となりうるが、甲状腺腫大なく本例で「最も」高値が予想されるのはPRL</td></tr><tr><td>ｄ　ACTH</td><td><span class=\"kw4\">誤り</span>。Cushing徴候を示す所見がない</td></tr><tr><td>ｅ　プロラクチン</td><td><span class=\"kw3\">正しい</span>。乳汁漏出―無月経症候群</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "無月経＋基礎体温1相性（無排卵）で高値が予想されるもの。<br/><b>a GH／b FSH／c TSH／d ACTH</b>：本例で第一でない。<br/><b>e プロラクチン</b>：<span class=\"kw\">高プロラクチン血症による無排卵性無月経</span>。✓"
             }
           ],
           "imgs": []
@@ -27334,6 +27369,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　浮　腫</td><td><span class=\"kw3\">注意すべき</span>。腎でのNa・水貯留</td></tr><tr><td>ｂ　鼻出血</td><td><span class=\"kw3\">注意すべき</span>。血小板機能抑制による出血傾向</td></tr><tr><td>ｃ　血圧上昇</td><td><span class=\"kw3\">注意すべき</span>。Na貯留・腎血管収縮</td></tr><tr><td>ｄ　乳汁漏出</td><td><span class=\"kw4\">誤り</span>。NSAIDの副作用ではない（高PRL血症で起こる）</td></tr><tr><td>ｅ　上腹部痛</td><td><span class=\"kw3\">注意すべき</span>。消化性潰瘍・胃粘膜障害</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "排卵誘発（OHSS）で注意すべき事項として「誤っている」もの。<br/><b>a 浮腫／b 鼻出血／c 血圧上昇／e 上腹部痛</b>：OHSSでみられる。<br/><b>d 乳汁漏出</b>：<span class=\"kw\">OHSSの所見でない（高PRLの症状）＝誤り</span>。✓（これが正解肢）"
             }
           ],
           "imgs": []
@@ -27433,6 +27473,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　帝王切開実施率</td><td><span class=\"kw4\">高率</span>。微弱陣痛・軟産道強靱・合併症の増加による</td></tr><tr><td>ｂ　妊娠糖尿病の罹患率</td><td><span class=\"kw4\">高率</span>。加齢に伴うインスリン抵抗性の増大</td></tr><tr><td>ｃ　児の染色体異常発生率</td><td><span class=\"kw4\">高率</span>。卵子の減数分裂時の染色体不分離が増加</td></tr><tr><td>ｄ　妊娠成立後の生児獲得率</td><td><span class=\"kw3\">低率</span>。流産率が上昇するため</td></tr><tr><td>ｅ　体外受精－胚移植を行った場合の妊娠率</td><td><span class=\"kw3\">低率</span>。卵子の質の低下は補えない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高年齢女性の妊娠で「低率」なものを2つ。<br/><b>a 帝王切開実施率（高い）／b 妊娠糖尿病罹患率（高い）／c 児の染色体異常（高い）</b>：高率。<br/><b>d 妊娠成立後の生児獲得率</b>：<span class=\"kw\">流産が多く生児獲得率は低下</span>。✓<br/><b>e 体外受精-胚移植の妊娠率</b>：<span class=\"kw\">加齢で妊娠率が低下</span>。✓"
             }
           ],
           "imgs": []
@@ -27695,6 +27740,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　持続期間5 日</td><td><span class=\"kw3\">正常</span>。基準は3〜7日</td></tr><tr><td>ｂ　周期28 日</td><td><span class=\"kw3\">正常</span>。基準は25〜38日</td></tr><tr><td>ｃ　周期の変動2 日</td><td><span class=\"kw3\">正常</span>。基準は6日以内</td></tr><tr><td>ｄ　初経12 歳</td><td><span class=\"kw3\">正常</span>。平均は約12歳</td></tr><tr><td>ｅ　閉経38 歳</td><td><span class=\"kw4\">異常</span>。43歳未満の閉経＝早発閉経</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "月経の「異常」なもの。<br/><b>a 持続5日／b 周期28日／c 変動2日／d 初経12歳</b>：正常範囲。<br/><b>e 閉経38歳</b>：<span class=\"kw\">43歳未満の閉経は早発閉経（異常）</span>。✓"
             }
           ],
           "imgs": []
@@ -27799,6 +27849,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　甲状腺機能亢進症</td><td><span class=\"kw4\">誤り</span>。むしろ<span class=\"kw4\">毛髪は細く脱毛</span>傾向となる</td></tr><tr><td>ｂ　多囊胞性卵巣症候群</td><td><span class=\"kw3\">正しい</span>。卵巣性アンドロゲン過剰</td></tr><tr><td>ｃ　副甲状腺機能低下症</td><td><span class=\"kw4\">誤り</span>。テタニー・低Ca血症が主でアンドロゲンと無関係</td></tr><tr><td>ｄ　下垂体前葉機能低下症</td><td><span class=\"kw4\">誤り</span>。ACTH・ゴナドトロピン低下で<span class=\"kw4\">むしろ体毛は脱落</span>する</td></tr><tr><td>ｅ　先天性副腎皮質過形成</td><td><span class=\"kw3\">正しい</span>。副腎アンドロゲン過剰</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "多毛をきたすものを2つ。<br/><b>a 甲状腺機能亢進症／c 副甲状腺機能低下症／d 下垂体前葉機能低下症</b>：多毛をきたさない。<br/><b>b 多囊胞性卵巣症候群</b>：<span class=\"kw\">アンドロゲン過剰で多毛</span>。✓<br/><b>e 先天性副腎皮質過形成</b>：<span class=\"kw\">副腎アンドロゲン過剰で多毛・男性化</span>。✓"
             }
           ],
           "imgs": []
@@ -27846,6 +27901,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　出生500人に約1人が体外受精児である。</td><td><span class=\"kw4\">誤り</span>。生殖補助医療による出生児は年々増加しており、近年は<span class=\"kw4\">出生児の10人に1人前後</span>を占める。500人に1人は著しい過小評価</td></tr><tr><td>ｂ　女性不妊の頻度は男性不妊の約5倍である。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\">男性因子は不妊原因の約半数</span>に関与し、女性因子と大きな差はない</td></tr><tr><td>ｃ　40歳代女性の不妊症の頻度は約10％である。</td><td><span class=\"kw4\">誤り</span>。40歳代では妊孕性が著しく低下し、不妊の頻度ははるかに高い</td></tr><tr><td>ｄ　同年齢層では体外受精の流産率は自然妊娠よりも高い。</td><td><span class=\"kw4\">誤り</span>。流産率を規定するのは<span class=\"kw4\">年齢（卵子の質）であり受精方法ではない</span>。同年齢なら同程度</td></tr><tr><td>ｅ　女性の加齢とともに体外受精による妊娠率は低下する。</td><td><span class=\"kw3\">正しい</span></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "我が国の不妊症の現状について正しいもの。<br/><b>a 500人に1人が体外受精児（もっと多い）／b 女性不妊が男性の5倍（同程度）／c 40歳代の不妊10%（もっと高い）／d 体外受精の流産率が高い（同程度）</b>：誤り。<br/><b>e 女性の加齢とともに体外受精による妊娠率は低下する</b>：<span class=\"kw\">加齢で卵子の質が低下し妊娠率が低下</span>。✓"
             }
           ],
           "imgs": []
@@ -27893,6 +27953,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　希発月経</td><td><span class=\"kw4\">誤り</span>。周期39日以上のこと。本例は周期28〜35日で正常</td></tr><tr><td>ｂ　黄体機能不全</td><td><span class=\"kw4\">誤り</span>。黄体期短縮・不妊が問題となる。2週続く出血の説明にならない</td></tr><tr><td>ｃ　機能性子宮出血</td><td><span class=\"kw3\">正しい</span>。思春期の無排卵性周期による破綻出血</td></tr><tr><td>ｄ　子宮内膜増殖症</td><td><span class=\"kw4\">誤り</span>。長期の無排卵で生じるが15歳では稀</td></tr><tr><td>ｅ　子宮内膜ポリープ</td><td><span class=\"kw4\">誤り</span>。性成熟期〜更年期に多く、思春期では稀</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "排卵期以外の不正出血で最も考えられるもの。<br/><b>a 希発月経／b 黄体機能不全／d 子宮内膜増殖症／e 子宮内膜ポリープ</b>：本例で第一でない。<br/><b>c 機能性子宮出血</b>：<span class=\"kw\">器質的疾患のないホルモン失調による出血</span>。✓"
             }
           ],
           "imgs": []
@@ -27945,6 +28010,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　20〜24歳</td><td><span class=\"kw4\">誤り</span>。晩産化で大きく減少</td></tr><tr><td>ｂ　25〜29歳</td><td><span class=\"kw4\">誤り</span>。かつての最多年齢階級だが現在は2位</td></tr><tr><td>ｃ　30〜34歳</td><td><span class=\"kw3\">正しい</span>。2005年以降の最多年齢階級</td></tr><tr><td>ｄ　35〜39歳</td><td><span class=\"kw4\">誤り</span>。増加傾向だが30〜34歳には及ばない</td></tr><tr><td>ｅ　40〜44歳</td><td><span class=\"kw4\">誤り</span>。増加しているが出生数は少ない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "年齢階級別出生数が最も多い年齢階級。<br/><b>a 20-24／b 25-29／d 35-39／e 40-44</b>：最多でない。<br/><b>c 30-34歳</b>：<span class=\"kw\">近年の出生は30〜34歳が最多</span>。✓"
             }
           ],
           "imgs": []
@@ -27997,6 +28067,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　不育症</td><td><span class=\"kw4\">誤り</span>。妊娠は成立しており、受精を助ける治療では解決しない</td></tr><tr><td>ｂ　乏精子症</td><td><span class=\"kw3\">正しい</span>。体外受精（高度例はICSI）の適応</td></tr><tr><td>ｃ　子宮筋腫</td><td><span class=\"kw4\">誤り</span>。まず筋腫核出術など原因治療を行う</td></tr><tr><td>ｄ　黄体機能不全</td><td><span class=\"kw4\">誤り</span>。黄体補充（プロゲステロン投与）で対応</td></tr><tr><td>ｅ　両側卵管閉塞</td><td><span class=\"kw3\">正しい</span>。IVF-ETの最も古典的かつ絶対的な適応</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "体外受精・胚移植の適応となるものを2つ。<br/><b>a 不育症／c 子宮筋腫／d 黄体機能不全</b>：第一適応でない。<br/><b>b 乏精子症</b>：<span class=\"kw\">男性因子（顕微授精等）</span>。✓<br/><b>e 両側卵管閉塞</b>：<span class=\"kw\">卵管性不妊で体外受精の適応</span>。✓"
             }
           ],
           "imgs": []
@@ -28210,6 +28285,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　視床下部・下垂体</td><td><span class=\"kw3\">正しい</span>。体重減少によるGnRHパルス分泌の抑制</td></tr><tr><td>ｂ　甲状腺</td><td><span class=\"kw4\">誤り</span>。甲状腺機能異常を示す所見がない</td></tr><tr><td>ｃ　副腎皮質</td><td><span class=\"kw4\">誤り</span>。Cushing症候群・副腎不全を示す所見がない</td></tr><tr><td>ｄ　卵　巣</td><td><span class=\"kw4\">誤り</span>。卵巣性ならLH・FSHが高値となる</td></tr><tr><td>ｅ　子　宮</td><td><span class=\"kw4\">誤り</span>。子宮性なら子宮内容除去術などの既往がある</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "無月経の原因として最も考えられる部位（低ゴナドトロピン）。<br/><b>b 甲状腺／c 副腎皮質／d 卵巣／e 子宮</b>：本例で第一でない。<br/><b>a 視床下部・下垂体</b>：<span class=\"kw\">ゴナドトロピン分泌の中枢性障害による無月経</span>。✓"
             }
           ],
           "imgs": []
@@ -28569,6 +28649,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　染色体異常</td><td><span class=\"kw3\">正しい</span>。夫婦の均衡型転座が代表</td></tr><tr><td>ｂ　高プロラクチン血症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\">排卵障害による不妊</span>を来すが、妊娠成立後の流産の原因としては確立していない</td></tr><tr><td>ｃ　副甲状腺機能低下症</td><td><span class=\"kw4\">誤り</span>。不育症との関連は知られていない</td></tr><tr><td>ｄ　抗リン脂質抗体症候群</td><td><span class=\"kw3\">正しい</span>。胎盤血栓による流産・死産</td></tr><tr><td>ｅ　子宮腔癒着〈Asherman症候群〉</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\">子宮性無月経・着床障害（不妊）</span>の原因であり、妊娠を繰り返す不育症の原因としては典型的でない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "不育症の原因となるものを2つ。<br/><b>b 高プロラクチン血症／c 副甲状腺機能低下症／e Asherman症候群（不妊の要素）</b>：本設問の主でない。<br/><b>a 染色体異常</b>：<span class=\"kw\">カップルの均衡型転座等</span>。✓<br/><b>d 抗リン脂質抗体症候群</b>：<span class=\"kw\">血栓・胎盤梗塞で反復流産</span>。✓"
             }
           ],
           "imgs": []
@@ -28896,6 +28981,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　視床下部</td><td><span class=\"kw3\">関係あり</span>。GnRHパルス分泌の障害（体重減少・過度の運動）</td></tr><tr><td>ｂ　卵　巣</td><td><span class=\"kw3\">関係あり</span>。早発卵巣不全・Turner症候群</td></tr><tr><td>ｃ　卵　管</td><td><span class=\"kw4\">関係なし</span>。卵子輸送・受精の場であり月経に関与しない</td></tr><tr><td>ｄ　子　宮</td><td><span class=\"kw3\">関係あり</span>。Asherman症候群・子宮欠損</td></tr><tr><td>ｅ　腟</td><td><span class=\"kw3\">関係あり</span>。腟閉鎖・処女膜閉鎖で経血が排出されない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "無月経と関係が「ない」もの。<br/><b>a 視床下部／b 卵巣／d 子宮／e 腟</b>：月経に関与（性器/内分泌）。<br/><b>c 卵管</b>：<span class=\"kw\">卵管は月経の発来に関与しない</span>。✓（これが正解肢）"
             }
           ],
           "imgs": []
@@ -29259,6 +29349,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　腹部触診</td><td><span class=\"kw3\">適切</span>。無侵襲で腫瘤・腹水を評価</td></tr><tr><td>ｂ　月経の聴取</td><td><span class=\"kw3\">適切</span>。化学療法後の卵巣機能・妊孕性の評価</td></tr><tr><td>ｃ　腹部造影CT</td><td><span class=\"kw4\">適切でない</span>。被曝・造影剤負荷があり毎回は行わない</td></tr><tr><td>ｄ　腹部超音波検査</td><td><span class=\"kw3\">適切</span>。無侵襲で骨盤内を反復評価できる</td></tr><tr><td>ｅ　腫瘍マーカー測定</td><td><span class=\"kw3\">適切</span>。AFPが再発を最も鋭敏に反映する</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "婦人科腫瘍の定期診察時に毎回行うのが「適切でない」もの。<br/><b>a 腹部触診／b 月経の聴取／d 腹部超音波／e 腫瘍マーカー</b>：毎回可能で有用。<br/><b>c 腹部造影CT</b>：<span class=\"kw\">被曝・造影剤負荷があり毎回行うのは不適切</span>。✓（これが正解肢）"
             }
           ],
           "imgs": []
@@ -29450,6 +29545,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　手術療法</td><td><span class=\"kw3\">正しい</span>。子宮体癌の第一選択。手術で進行期も確定する</td></tr><tr><td>ｂ　抗菌薬投与</td><td><span class=\"kw4\">誤り</span>。感染ではない</td></tr><tr><td>ｃ　動注化学療法</td><td><span class=\"kw4\">誤り</span>。標準治療ではない</td></tr><tr><td>ｄ　化学放射線療法</td><td><span class=\"kw4\">誤り</span>。子宮頸癌ⅢB期などの治療</td></tr><tr><td>ｅ　密封小線源治療</td><td><span class=\"kw4\">誤り</span>。子宮体癌は放射線感受性が低い。手術不能例に限って考慮する</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "限局した婦人科腫瘍（子宮筋腫/早期癌）の治療。<br/><b>b 抗菌薬／c 動注化学療法／d 化学放射線／e 密封小線源</b>：本例で第一でない。<br/><b>a 手術療法</b>：<span class=\"kw\">切除可能な腫瘍は手術が基本</span>。✓"
             }
           ],
           "imgs": [
@@ -29973,6 +30073,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　子宮腺筋症</td><td><span class=\"kw3\">正しい</span>。過多月経と強い月経困難症を来す</td></tr><tr><td>ｂ　子宮腔癒着症</td><td><span class=\"kw4\">誤り</span>。Asherman症候群。<span class=\"kw4\">過少月経〜子宮性無月経</span>となる</td></tr><tr><td>ｃ　Sheehan症候群</td><td><span class=\"kw4\">誤り</span>。下垂体前葉機能低下で無月経</td></tr><tr><td>ｄ　多囊胞性卵巣症候群</td><td><span class=\"kw4\">誤り</span>。無排卵で<span class=\"kw4\">稀発月経・無月経</span></td></tr><tr><td>ｅ　高プロラクチン血症</td><td><span class=\"kw4\">誤り</span>。無排卵で<span class=\"kw4\">無月経</span></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "過多月経の原因となるもの。<br/><b>b 子宮腔癒着症（過少月経）／c Sheehan症候群（無月経）／d 多囊胞性卵巣症候群（希発月経）／e 高プロラクチン血症（無月経）</b>：合わない。<br/><b>a 子宮腺筋症</b>：<span class=\"kw\">子宮筋層の肥厚で過多月経・月経困難</span>。✓"
             }
           ],
           "imgs": []
@@ -30295,6 +30400,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　手術療法</td><td><span class=\"kw4\">誤り</span>。肺転移があり子宮摘出では治らない。挙児希望もある</td></tr><tr><td>ｂ　放射線療法</td><td><span class=\"kw4\">誤り</span>。標準治療ではない（脳転移例で補助的に用いる程度）</td></tr><tr><td>ｃ　ホルモン療法</td><td><span class=\"kw4\">誤り</span>。絨毛性腫瘍はホルモン依存性でない</td></tr><tr><td>ｄ　抗癌化学療法</td><td><span class=\"kw3\">正しい</span>。MTX・アクチノマイシンDが著効し治癒しうる</td></tr><tr><td>ｅ　分子標的薬投与</td><td><span class=\"kw4\">誤り</span>。標準治療ではない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "進行/転移を伴う婦人科悪性腫瘍（絨毛癌等）の治療。<br/><b>a 手術／b 放射線／c ホルモン療法／e 分子標的薬</b>：第一でない。<br/><b>d 抗癌化学療法</b>：<span class=\"kw\">絨毛癌等は化学療法が奏効</span>。✓"
             }
           ],
           "imgs": [
@@ -30486,6 +30596,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　骨盤部CT</td><td><span class=\"kw4\">誤り</span>。被曝を伴い、良性が強く疑われる時点では不要</td></tr><tr><td>ｂ　右付属器摘出</td><td><span class=\"kw4\">過剰</span>。若年で妊孕性を損なう。良性で自然消退しうる</td></tr><tr><td>ｃ　囊胞穿刺吸引</td><td><span class=\"kw4\">誤り</span>。播種の危険があり原則行わない</td></tr><tr><td>ｄ　GnRHアゴニスト療法</td><td><span class=\"kw4\">誤り</span>。機能性囊胞に投与する必要はない</td></tr><tr><td>ｅ　経過観察（3か月後の再診）</td><td><span class=\"kw3\">正しい</span>。多くは自然消退する</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "内部エコー均一な卵巣嚢胞（機能性）への対応。<br/><b>a 骨盤CT／b 付属器摘出／c 穿刺吸引／d GnRHアゴニスト</b>：不要/過大。<br/><b>e 経過観察（3か月後の再診）</b>：<span class=\"kw\">機能性嚢胞は自然消退し経過観察</span>。✓"
             }
           ],
           "imgs": [
@@ -30549,6 +30664,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　低用量ピル</td><td><span class=\"kw3\">正しい</span>。排卵を抑制し月経量・疼痛を減らす。長期継続可能</td></tr><tr><td>ｂ　GnRHアゴニスト</td><td><span class=\"kw3\">正しい</span>。偽閉経療法。<span class=\"kw4\">骨粗鬆症のため原則6か月まで</span></td></tr><tr><td>ｃ　黄体ホルモン療法</td><td><span class=\"kw3\">正しい</span>。ジエノゲスト等が病巣を萎縮させる</td></tr><tr><td>ｄ　副腎皮質ステロイド</td><td><span class=\"kw4\">誤り</span>。子宮内膜症に有効でない</td></tr><tr><td>ｅ　エストロゲン補充療法</td><td><span class=\"kw4\">禁忌</span>。<span class=\"kw4\">内膜症はエストロゲン依存性であり病巣を増悪させる</span></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "子宮内膜症の治療を3つ。<br/><b>d 副腎皮質ステロイド／e エストロゲン補充（悪化）</b>：不適。<br/><b>a 低用量ピル</b>：<span class=\"kw\">月経・病変を抑制</span>。✓<br/><b>b GnRHアゴニスト</b>：<span class=\"kw\">偽閉経療法で病変を縮小</span>。✓<br/><b>c 黄体ホルモン療法</b>：<span class=\"kw\">ジエノゲスト等で病変を抑制</span>。✓"
             }
           ],
           "imgs": []
@@ -30729,6 +30849,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　陰　核</td><td><span class=\"kw3\">摘出する</span>。外陰の構成要素</td></tr><tr><td>ｂ　会　陰</td><td><span class=\"kw3\">摘出する</span>。外陰の構成要素</td></tr><tr><td>ｃ　肛　門</td><td><span class=\"kw4\">摘出しない</span>。浸潤がなければ温存する（便失禁を避ける）</td></tr><tr><td>ｄ　小陰唇</td><td><span class=\"kw3\">摘出する</span>。外陰の構成要素</td></tr><tr><td>ｅ　大陰唇</td><td><span class=\"kw3\">摘出する</span>。病変の主座</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "外陰癌の根治手術で「摘出しない」もの。<br/><b>a 陰核／b 会陰／d 小陰唇／e 大陰唇</b>：外陰切除の範囲。<br/><b>c 肛門</b>：<span class=\"kw\">外陰切除では肛門は温存する</span>。✓"
             }
           ],
           "imgs": [
@@ -30779,6 +30904,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　①胞状奇胎</td><td><span class=\"kw4\">誤り</span>。絨毛性疾患は絨毛癌のリスクだが子宮体部癌肉腫とは無関係</td></tr><tr><td>ｂ　②HPV検査陽性</td><td><span class=\"kw4\">誤り</span>。HPVは<span class=\"kw4\">子宮頸癌の原因</span>であり体癌の原因ではない</td></tr><tr><td>ｃ　③薬物による抗癌治療</td><td>一部の抗癌薬（アルキル化剤）は二次性白血病のリスクだが、子宮体部の腫瘍発生との関連は放射線ほど明確でない</td></tr><tr><td>ｄ　④根治的放射線治療</td><td><span class=\"kw3\">正しい</span>。照射野内・長い潜伏期・肉腫成分の3点が合致</td></tr><tr><td>ｅ　⑤ビスホスホネート製剤</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw\">顎骨壊死・非定型大腿骨骨折</span>が副作用で発癌性はない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "子宮体部癌肉腫の発生と最も関連が深いもの。<br/><b>a ①／b ②／c ③／e ⑤</b>：関連が薄い。<br/><b>d ④</b>：<span class=\"kw\">子宮内膜（体癌）を背景に発生</span>。✓"
             }
           ],
           "imgs": []
@@ -30831,6 +30961,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　赤血球輸血</td><td><span class=\"kw3\">正しい</span>。Hb 4.5g/dLの出血性ショック。直ちに酸素運搬能を回復</td></tr><tr><td>ｂ　鉄剤静脈内投与</td><td><span class=\"kw4\">誤り</span>。効果発現に数週間を要し急性期の救命にならない</td></tr><tr><td>ｃ　内分泌（ホルモン）薬による治療</td><td><span class=\"kw4\">誤り</span>。止血効果の発現が遅い</td></tr><tr><td>ｄ　子宮全摘出術</td><td><span class=\"kw4\">誤り</span>。28歳・挙児希望あり。まず循環を安定させる</td></tr><tr><td>ｅ　子宮動脈塞栓術</td><td><span class=\"kw4\">誤り</span>。輸血で全身状態を立て直してから検討</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高度貧血を伴う婦人科出血で直ちに行う治療。<br/><b>b 鉄剤静注／c ホルモン薬／d 子宮全摘／e 子宮動脈塞栓術</b>：第一でない。<br/><b>a 赤血球輸血</b>：<span class=\"kw\">高度貧血の是正に輸血</span>。✓"
             }
           ],
           "imgs": [
@@ -30942,6 +31077,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　胚細胞腫瘍</td><td><span class=\"kw3\">正しい</span>。若年・急速増大・AFP著明高値</td></tr><tr><td>ｂ　扁平上皮癌</td><td><span class=\"kw4\">誤り</span>。卵巣原発は稀（奇形腫の悪性転化）で高齢者に多い</td></tr><tr><td>ｃ　性索間質腫瘍</td><td><span class=\"kw4\">誤り</span>。ホルモン産生が特徴でAFPは上昇しない</td></tr><tr><td>ｄ　機能性卵巣囊胞</td><td><span class=\"kw4\">誤り</span>。腫瘍マーカーは上昇せず自然消退する</td></tr><tr><td>ｅ　チョコレート囊胞</td><td><span class=\"kw4\">誤り</span>。月経困難症を伴い、AFPは上昇しない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "脂肪・毛髪・石灰化を含む卵巣腫瘍（MRI）。<br/><b>b 扁平上皮癌／c 性索間質腫瘍／d 機能性卵巣囊胞／e チョコレート囊胞</b>：合わない。<br/><b>a 胚細胞腫瘍</b>：<span class=\"kw\">成熟囊胞性奇形腫（皮様囊腫）＝胚細胞腫瘍</span>。✓"
             }
           ],
           "imgs": [
@@ -30996,6 +31136,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　術後出血</td><td><span class=\"kw3\">正しい</span>。排液の性状と量から早期に察知できる</td></tr><tr><td>ｂ　腸管癒着</td><td><span class=\"kw4\">誤り</span>。ドレーンでは検出できず、むしろ癒着の原因にもなる</td></tr><tr><td>ｃ　神経因性膀胱</td><td><span class=\"kw4\">誤り</span>。排尿状態・残尿測定で評価する</td></tr><tr><td>ｄ　骨盤内の癌再発</td><td><span class=\"kw4\">誤り</span>。術後長期の画像・診察で発見する</td></tr><tr><td>ｅ　深部静脈血栓症</td><td><span class=\"kw4\">誤り</span>。下肢の腫脹・超音波検査で評価する</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "術後にドレーン留置により早期発見できるもの。<br/><b>b 腸管癒着／c 神経因性膀胱／d 骨盤内の癌再発／e 深部静脈血栓症</b>：ドレーンで発見できない。<br/><b>a 術後出血</b>：<span class=\"kw\">ドレーンからの血性排液で術後出血を早期発見</span>。✓"
             }
           ],
           "imgs": []
@@ -31173,6 +31318,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　身　長</td><td><span class=\"kw4\">誤り</span>。治療方針と無関係</td></tr><tr><td>ｂ　飲酒歴</td><td><span class=\"kw4\">誤り</span>。機会飲酒であり治療方針に影響しない</td></tr><tr><td>ｃ　家族歴</td><td><span class=\"kw4\">誤り</span>。母の子宮筋腫は本人の内膜症の治療選択を変えない</td></tr><tr><td>ｄ　疼痛の強さ</td><td><span class=\"kw3\">正しい</span>。治療介入の要否と強度を決める</td></tr><tr><td>ｅ　妊孕性温存の希望</td><td><span class=\"kw3\">正しい</span>。薬物療法か手術か、術式を決める</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "子宮筋腫の治療方針決定で考慮すべきものを2つ。<br/><b>a 身長／b 飲酒歴／c 家族歴</b>：主眼でない。<br/><b>d 疼痛の強さ</b>：<span class=\"kw\">症状の程度で治療適応を判断</span>。✓<br/><b>e 妊孕性温存の希望</b>：<span class=\"kw\">挙児希望で核出術か全摘かを選択</span>。✓"
             }
           ],
           "imgs": [
@@ -31222,6 +31372,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　腟　壁</td><td><span class=\"kw4\">誤り</span>。浸潤がなければ切除しない</td></tr><tr><td>ｂ　膀　胱</td><td><span class=\"kw4\">誤り</span>。浸潤がなければ切除しない</td></tr><tr><td>ｃ　S状結腸</td><td><span class=\"kw4\">誤り</span>。腫瘤と腸管の癒着はなく切除不要</td></tr><tr><td>ｄ　右付属器</td><td><span class=\"kw3\">正しい</span>。両側性・多中心性発生のため対側も摘出</td></tr><tr><td>ｅ　腸間膜リンパ節</td><td><span class=\"kw4\">誤り</span>。郭清対象は<span class=\"kw\">骨盤・傍大動脈リンパ節</span></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "卵巣癌で子宮・大網に加えて切除すべきもの。<br/><b>a 腟壁／b 膀胱／c S状結腸／e 腸間膜リンパ節</b>：本例で第一でない。<br/><b>d 右付属器</b>：<span class=\"kw\">両側付属器（対側卵巣）も切除</span>。✓"
             }
           ],
           "imgs": []
@@ -31328,6 +31483,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　片頭痛</td><td><span class=\"kw4\">誤り</span>。子宮筋腫と関連しない</td></tr><tr><td>ｂ　無排卵</td><td><span class=\"kw4\">誤り</span>。筋腫はホルモンを産生せず排卵は保たれる</td></tr><tr><td>ｃ　過多月経</td><td><span class=\"kw3\">正しい</span>。内膜面積の増加と子宮収縮の妨げによる</td></tr><tr><td>ｄ　希発月経</td><td><span class=\"kw4\">誤り</span>。月経周期は正常に保たれる</td></tr><tr><td>ｅ　月経前症候群</td><td><span class=\"kw4\">誤り</span>。黄体期のホルモン変動によるもので筋腫と無関係</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "子宮筋層内筋腫が原因となって生じ得るもの。<br/><b>a 片頭痛／b 無排卵／d 希発月経／e 月経前症候群</b>：筋腫と直接関連しない。<br/><b>c 過多月経</b>：<span class=\"kw\">筋腫による子宮内腔面積の増大・収縮不全で過多月経</span>。✓"
             }
           ],
           "imgs": []
@@ -31486,6 +31646,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　妊娠反応</td><td><span class=\"kw3\">適切</span>。まず妊娠を否定するのが鉄則</td></tr><tr><td>ｂ　腹部造影CT</td><td><span class=\"kw4\">適切でない</span>。被曝・造影剤負荷があり初期評価に不要</td></tr><tr><td>ｃ　経腟超音波検査</td><td><span class=\"kw3\">適切</span>。無侵襲で子宮内膜・卵巣を評価</td></tr><tr><td>ｄ　性ホルモン検査</td><td><span class=\"kw3\">適切</span>。稀発月経の背景（PCOS等）の検索</td></tr><tr><td>ｅ　子宮頸部細胞診</td><td><span class=\"kw3\">適切</span>。不正出血では子宮頸癌の除外が必要</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "若年女性の不正出血の精査でこの時点で「適切でない」検査。<br/><b>a 妊娠反応／c 経腟超音波／d 性ホルモン検査／e 頸部細胞診</b>：適切。<br/><b>b 腹部造影CT</b>：<span class=\"kw\">被曝・造影剤負荷があり第一に行うべきでない</span>。✓（これが正解肢）"
             }
           ],
           "imgs": []
@@ -31538,6 +31703,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　外陰癌</td><td><span class=\"kw3\">正しい</span>。高齢・潰瘍性腫瘤・鼠径リンパ節腫大</td></tr><tr><td>ｂ　外陰ヘルペス</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\">強い疼痛を伴う多発性の小水疱・浅い潰瘍</span></td></tr><tr><td>ｃ　カンジダ外陰炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\">強い掻痒</span>と白色酒粕状帯下</td></tr><tr><td>ｄ　尖圭コンジローマ</td><td><span class=\"kw4\">誤り</span>。HPV 6・11型による<span class=\"kw4\">乳頭状・鶏冠状の腫瘤</span>で潰瘍を作らない</td></tr><tr><td>ｅ　バルトリン腺囊胞</td><td><span class=\"kw4\">誤り</span>。腟前庭後方の弾性軟な囊胞。潰瘍化しない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "外陰部の腫瘤・潰瘍（高齢者）。<br/><b>b 外陰ヘルペス／c カンジダ外陰炎／d 尖圭コンジローマ／e バルトリン腺囊胞</b>：合わない。<br/><b>a 外陰癌</b>：<span class=\"kw\">高齢者の外陰の腫瘤・潰瘍（扁平上皮癌）</span>。✓"
             }
           ],
           "imgs": [
@@ -31587,6 +31757,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　卵管炎</td><td><span class=\"kw4\">誤り</span>。発熱・CRP上昇・白血球増多を伴う</td></tr><tr><td>ｂ　黄体出血</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\">Douglas窩の液体貯留（腹腔内出血）</span>を伴い、月経初日ではなく黄体期に起こる</td></tr><tr><td>ｃ　子宮内膜症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\">Douglas窩の有痛性硬結</span>を欠く</td></tr><tr><td>ｄ　卵巣腫瘍茎捻転</td><td><span class=\"kw4\">誤り</span>。超音波で卵巣に異常がなく、突然の激痛と悪心・嘔吐を伴う</td></tr><tr><td>ｅ　機能性月経困難症</td><td><span class=\"kw3\">正しい</span>。器質的疾患がすべて否定される</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "月経時の下腹部痛で器質的異常を認めない。<br/><b>a 卵管炎／b 黄体出血／c 子宮内膜症／d 卵巣腫瘍茎捻転</b>：合わない。<br/><b>e 機能性月経困難症</b>：<span class=\"kw\">器質的異常のない月経困難症</span>。✓"
             }
           ],
           "imgs": []
@@ -31644,6 +31819,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　経過観察</td><td><span class=\"kw3\">正しい</span>。自然消退する生理的な黄体囊胞</td></tr><tr><td>ｂ　抗菌薬投与</td><td><span class=\"kw4\">誤り</span>。発熱・CRP上昇なく感染徴候がない</td></tr><tr><td>ｃ　抗凝固薬投与</td><td><span class=\"kw4\">誤り</span>。血栓症を示す所見がない</td></tr><tr><td>ｄ　囊胞穿刺吸引術</td><td><span class=\"kw4\">誤り</span>。不要であり出血・播種の危険を伴う</td></tr><tr><td>ｅ　左付属器摘出術</td><td><span class=\"kw4\">過剰</span>。生理的構造物のために卵巣を失う</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "内部エコー均一な卵巣嚢胞（機能性）への対応。<br/><b>b 抗菌薬／c 抗凝固薬／d 穿刺吸引／e 付属器摘出</b>：不要/過大。<br/><b>a 経過観察</b>：<span class=\"kw\">機能性嚢胞は自然消退し経過観察</span>。✓"
             }
           ],
           "imgs": [
@@ -31712,6 +31892,11 @@ window["_cardJSON_obg"]={
               "cls": "ei",
               "h": "💡 この問題から学ぶべきこと",
               "c": "<ul><li><span class=\"kw4\">子宮内膜症の治療方針は「疼痛の強さ」と「妊孕性温存の希望」で決まる</span></li><li><span class=\"kw4\">挙児希望があるなら薬物療法（排卵を止める治療）は選べない</span></li><li><span class=\"kw3\">卵巣は「切除」ではなく「囊胞摘出（核出）」して温存する</span>のが原則</li><li>チョコレート囊胞の内部エコーは<span class=\"kw\">均一なすりガラス様</span>で、MRIでは<span class=\"kw\">T1高信号・T2低信号（shading）</span></li></ul>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "内部エコー均一な右卵巣嚢胞の治療（本問は<b>採点除外</b>）。<br/><b>a プロゲスチン療法／b クロミフェン療法／c GnRHアゴニスト／e エストロゲン・プロゲスチン療法</b>：機能性なら経過観察が基本。<br/><b>d 腹腔鏡下右卵巣切除術</b>：<span class=\"kw\">腫瘍性が疑われれば摘出も選択肢</span>。<br/>※採点除外問題。"
             }
           ],
           "imgs": [
@@ -31766,6 +31951,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　飲　酒</td><td><span class=\"kw4\">誤り</span>。食道癌・肝癌などのリスクだが子宮頸癌との関連は明確でない</td></tr><tr><td>ｂ　喫　煙</td><td><span class=\"kw3\">正しい</span>。HPVの持続感染と発癌を促進する</td></tr><tr><td>ｃ　睡　眠</td><td><span class=\"kw4\">誤り</span>。子宮頸癌との関連はない</td></tr><tr><td>ｄ　塩分摂取</td><td><span class=\"kw4\">誤り</span>。胃癌・高血圧のリスク因子</td></tr><tr><td>ｅ　身体活動</td><td><span class=\"kw4\">誤り</span>。むしろ大腸癌・乳癌には保護的に働く</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "子宮頸癌の罹患と最も関連が深いもの。<br/><b>a 飲酒／c 睡眠／d 塩分摂取／e 身体活動</b>：主要因でない。<br/><b>b 喫煙</b>：<span class=\"kw\">喫煙はHPV感染とともに子宮頸癌のリスク</span>。✓"
             }
           ],
           "imgs": []
@@ -31870,6 +32060,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　大　網</td><td><span class=\"kw3\">摘出する</span>。卵巣癌が最も転移しやすい部位。進行期決定に必須</td></tr><tr><td>ｂ　小　網</td><td><span class=\"kw4\">摘出する必要がない</span>。卵巣癌の好発転移部位ではない</td></tr><tr><td>ｃ　子　宮</td><td><span class=\"kw3\">摘出する</span>。基本術式に含まれる</td></tr><tr><td>ｄ　卵　巣</td><td><span class=\"kw3\">摘出する</span>。<span class=\"kw4\">対側も摘出</span>（両側性・多中心性発生）</td></tr><tr><td>ｅ　卵　管</td><td><span class=\"kw3\">摘出する</span>。付属器摘出術に含まれる（近年は漿液性癌の発生母地と考えられている）</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "進行卵巣癌の手術で「摘出する必要がない」もの。<br/><b>a 大網／c 子宮／d 卵巣／e 卵管</b>：切除対象。<br/><b>b 小網</b>：<span class=\"kw\">卵巣癌の標準手術で小網は切除しない</span>。✓"
             }
           ],
           "imgs": []
@@ -31974,6 +32169,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　鉄剤投与</td><td><span class=\"kw3\">正しい</span>。術前の貧血改善と自己血貯血の準備</td></tr><tr><td>ｂ　自己血貯血</td><td><span class=\"kw3\">正しい</span>。RhD陰性で同種血が得にくく、待機手術で適応</td></tr><tr><td>ｃ　不規則抗体スクリーニング</td><td><span class=\"kw3\">正しい</span>。陽性なら適合血確保に時間を要する</td></tr><tr><td>ｄ　赤血球液-LRとの交差適合試験</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\">輸血直前に行う検査</span>で、3週間前では有効期限切れとなる</td></tr><tr><td>ｅ　血液準備量について院内輸血部門と調整</td><td><span class=\"kw3\">正しい</span>。稀な血液型で事前調整が必須</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "術前貧血・出血予測例の現時点の対応で「誤っている」もの。<br/><b>a 鉄剤／b 自己血貯血／c 不規則抗体スクリーニング／e 血液準備量の調整</b>：適切。<br/><b>d 赤血球液-LRとの交差適合試験</b>：<span class=\"kw\">輸血直前に行うもので、この時点では不要（誤り）</span>。✓（これが正解肢）"
             }
           ],
           "imgs": []
@@ -32267,6 +32467,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　経過観察</td><td><span class=\"kw4\">誤り</span>。捻転は再発し卵巣壊死に至る</td></tr><tr><td>ｂ　腫瘍摘出</td><td><span class=\"kw3\">正しい</span>。捻転解除＋腫瘍核出で卵巣を温存</td></tr><tr><td>ｃ　抗菌薬投与</td><td><span class=\"kw4\">誤り</span>。発熱・炎症所見がなく感染ではない</td></tr><tr><td>ｄ　経腟穿刺吸引</td><td><span class=\"kw4\">禁忌</span>。内容の腹腔内散布・播種の危険</td></tr><tr><td>ｅ　黄体ホルモン療法</td><td><span class=\"kw4\">誤り</span>。器質的腫瘍に薬物療法は無効</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "卵巣腫瘍（充実性/疑腫瘍性）への対応。<br/><b>a 経過観察／c 抗菌薬／d 経腟穿刺吸引／e 黄体ホルモン療法</b>：不適。<br/><b>b 腫瘍摘出</b>：<span class=\"kw\">腫瘍性が疑われる卵巣腫瘤は摘出し組織診断</span>。✓"
             }
           ],
           "imgs": [
@@ -32583,6 +32788,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　卵　巣</td><td><span class=\"kw4\">誤り</span>。細胞診で直接採取できない</td></tr><tr><td>ｂ　卵　管</td><td><span class=\"kw4\">誤り</span>。細胞診で直接採取できない</td></tr><tr><td>ｃ　子宮体部</td><td><span class=\"kw3\">正しい</span>。子宮腔内に挿入して内膜細胞を採取する器具</td></tr><tr><td>ｄ　子宮頸部</td><td><span class=\"kw4\">誤り</span>。ヘラ・綿棒・サイトブラシを腟鏡下に用いる</td></tr><tr><td>ｅ　腟</td><td><span class=\"kw4\">誤り</span>。綿棒で擦過する</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "これらの器具（子宮ゾンデ・キュレット等）で検査する共通部位。<br/><b>a 卵巣／b 卵管／d 子宮頸部／e 腟</b>：対象でない。<br/><b>c 子宮体部</b>：<span class=\"kw\">子宮腔（内膜）の検査に用いる</span>。✓"
             }
           ],
           "imgs": [
@@ -32642,6 +32852,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　鉄　剤</td><td><span class=\"kw3\">投与すべき</span>。Hb 6.0g/dLの鉄欠乏性貧血を改善</td></tr><tr><td>ｂ　止血薬</td><td><span class=\"kw3\">投与すべき</span>。過多月経による出血量を減らす</td></tr><tr><td>ｃ　鎮痛薬</td><td><span class=\"kw3\">投与すべき</span>。月経困難症の緩和</td></tr><tr><td>ｄ　エストロゲン</td><td><span class=\"kw4\">投与すべきでない</span>。筋腫を増大させる</td></tr><tr><td>ｅ　GnRHアゴニスト</td><td><span class=\"kw3\">投与すべき</span>。筋腫を縮小させ月経を止め貧血を改善</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "手術までの管理として「投与すべきでない」もの。<br/><b>a 鉄剤／b 止血薬／c 鎮痛薬／e GnRHアゴニスト</b>：許容。<br/><b>d エストロゲン</b>：<span class=\"kw\">エストロゲン依存性腫瘍を増悪させ投与すべきでない</span>。✓（これが正解肢）"
             }
           ],
           "imgs": [
@@ -32871,6 +33086,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　メトトレキサート</td><td><span class=\"kw3\">正しい</span>。絨毛癌の第一選択薬</td></tr><tr><td>ｂ　マイトマイシンC</td><td><span class=\"kw4\">誤り</span>。胃癌・肺癌などに用いる</td></tr><tr><td>ｃ　アドリアマイシン</td><td><span class=\"kw4\">誤り</span>。乳癌・悪性リンパ腫などに用いる</td></tr><tr><td>ｄ　アクチノマイシンD</td><td><span class=\"kw3\">正しい</span>。絨毛癌の第一選択薬</td></tr><tr><td>ｅ　酢酸メドロキシプロゲステロン</td><td><span class=\"kw4\">誤り</span>。黄体ホルモン製剤。絨毛癌はホルモン依存性でない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "妊娠性絨毛癌に用いる薬剤を2つ。<br/><b>b マイトマイシンC／c アドリアマイシン／e 酢酸メドロキシプロゲステロン</b>：第一でない。<br/><b>a メトトレキサート</b>：<span class=\"kw\">絨毛癌の第一選択（葉酸拮抗薬）</span>。✓<br/><b>d アクチノマイシンD</b>：<span class=\"kw\">絨毛癌に有効</span>。✓"
             }
           ],
           "imgs": []
@@ -33293,6 +33513,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　子宮内膜組織診</td><td><span class=\"kw4\">誤り</span>。子宮体癌の検査。超音波で子宮に異常がない</td></tr><tr><td>ｂ　コルポスコピィ</td><td><span class=\"kw3\">正しい</span>。病変の位置を特定し狙い組織診につなげる</td></tr><tr><td>ｃ　腟分泌物培養検査</td><td><span class=\"kw4\">誤り</span>。帯下は白色で感染を疑う所見がない</td></tr><tr><td>ｄ　低用量経口避妊薬の投与</td><td><span class=\"kw4\">誤り</span>。診断確定前の治療的介入は不適切</td></tr><tr><td>ｅ　子宮頸部レーザー蒸散術</td><td><span class=\"kw4\">誤り</span>。組織診で診断を確定してから検討する治療</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "子宮頸部細胞診異常への対応。<br/><b>a 内膜組織診／c 腟分泌物培養／d 低用量ピル／e レーザー蒸散（診断確定後）</b>：第一でない。<br/><b>b コルポスコピィ</b>：<span class=\"kw\">拡大鏡で頸部を観察し狙い組織診</span>。✓"
             }
           ],
           "imgs": [
@@ -33399,6 +33624,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　卵巣出血</td><td><span class=\"kw4\">誤り</span>。突然の激痛と腹腔内出血。月経初日に一致しない</td></tr><tr><td>ｂ　子宮頸管炎</td><td><span class=\"kw4\">誤り</span>。膿性帯下・発熱・CRP上昇を伴う</td></tr><tr><td>ｃ　子宮内膜炎</td><td><span class=\"kw4\">誤り</span>。発熱・子宮の圧痛・CRP上昇を伴う</td></tr><tr><td>ｄ　子宮留膿症</td><td><span class=\"kw4\">誤り</span>。高齢者に多く、発熱と膿性帯下を伴う</td></tr><tr><td>ｅ　月経困難症</td><td><span class=\"kw3\">正しい</span>。器質的疾患を欠き、月経初日に一致する疼痛</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "月経時の下腹部痛（器質的異常なし）。<br/><b>a 卵巣出血／b 子宮頸管炎／c 子宮内膜炎／d 子宮留膿症</b>：合わない。<br/><b>e 月経困難症</b>：<span class=\"kw\">月経に伴う下腹部痛（機能性）</span>。✓"
             }
           ],
           "imgs": []
@@ -33451,6 +33681,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　子宮鏡検査</td><td><span class=\"kw4\">誤り</span>。子宮内腔（体部）を観察する検査</td></tr><tr><td>ｂ　子宮頸部組織診</td><td><span class=\"kw3\">正しい</span>。確定診断はこれによる</td></tr><tr><td>ｃ　血中CA125測定</td><td><span class=\"kw4\">誤り</span>。子宮頸部病変の診断に役立たない</td></tr><tr><td>ｄ　腟分泌物培養検査</td><td><span class=\"kw4\">誤り</span>。感染を疑う所見が乏しい</td></tr><tr><td>ｅ　HPV検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\">HPV陽性でも病変の程度は分からない</span>。組織診が優先</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "子宮頸部の異常（細胞診/視診）で次に行う検査。<br/><b>a 子宮鏡／c CA125／d 腟分泌物培養／e HPV検査</b>：確定診断でない。<br/><b>b 子宮頸部組織診</b>：<span class=\"kw\">狙い組織診で確定診断</span>。✓"
             }
           ],
           "imgs": [
@@ -33686,6 +33921,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　直腸指診</td><td><span class=\"kw3\">有用</span>。Douglas窩の有痛性硬結を触知</td></tr><tr><td>ｂ　骨盤部MRI</td><td><span class=\"kw3\">有用</span>。チョコレート囊胞・深部病変・癒着を評価</td></tr><tr><td>ｃ　頸管粘液検査</td><td><span class=\"kw4\">有用でない</span>。排卵時期の評価であり内膜症と無関係</td></tr><tr><td>ｄ　子宮頸部細胞診</td><td><span class=\"kw4\">有用でない</span>。子宮頸癌のスクリーニング</td></tr><tr><td>ｅ　経腟超音波検査</td><td><span class=\"kw3\">有用</span>。チョコレート囊胞を無侵襲に描出</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "子宮内膜症/骨盤内病変の診断に有用なものを3つ。<br/><b>c 頸管粘液検査／d 子宮頸部細胞診</b>：本病態の診断でない。<br/><b>a 直腸指診</b>：<span class=\"kw\">ダグラス窩の硬結・圧痛を触知</span>。✓<br/><b>b 骨盤部MRI</b>：<span class=\"kw\">チョコレート囊胞・深部内膜症を評価</span>。✓<br/><b>e 経腟超音波検査</b>：<span class=\"kw\">卵巣・子宮の評価</span>。✓"
             }
           ],
           "imgs": []
@@ -33743,6 +33983,11 @@ window["_cardJSON_obg"]={
               "cls": "ei",
               "h": "💡 押さえるべきこと",
               "c": "<ul><li><span class=\"kw4\">水様帯下〈hydrops tubae profluens〉が卵管癌に「特徴的」</span>な症状であることは確実</li><li>「特徴的」と「最も高頻度」は必ずしも一致しない――<span class=\"kw4\">本問が採点除外となった理由はここにある</span></li><li>腰痛・下腿浮腫は進行癌の圧迫症状、貧血は出血の結果であり、いずれも卵管癌に特徴的な症状ではない</li><li><span class=\"kw3\">近年は卵管采が漿液性卵巣癌の発生母地</span>と考えられ、BRCA変異保因者にはリスク低減卵管卵巣摘出術が行われる</li></ul>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "卵管癌で最も高頻度にみられる症状（本問は<b>採点除外</b>）。<br/><b>a 貧血／b 腰痛／c 不妊／e 下腿浮腫</b>：主症状でない。<br/><b>d 水様帯下</b>：<span class=\"kw\">間欠的な多量の水様帯下（hydrops tubae profluens）が特徴</span>。<br/>※採点除外問題。"
             }
           ],
           "imgs": []
@@ -33918,6 +34163,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　肥　満</td><td><span class=\"kw3\">正しい</span>。アロマターゼによるエストロゲン産生</td></tr><tr><td>ｂ　糖尿病</td><td><span class=\"kw3\">正しい</span>。高インスリン血症が内膜増殖を促す</td></tr><tr><td>ｃ　未経産</td><td><span class=\"kw3\">正しい</span>。プロゲステロンによる保護期間がない</td></tr><tr><td>ｄ　経口避妊薬服用</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\">むしろ保護的に働く</span></td></tr><tr><td>ｅ　HPV感染</td><td><span class=\"kw4\">誤り</span>。子宮頸癌の原因</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "子宮体癌の危険因子を3つ。<br/><b>d 経口避妊薬服用（保護的）／e HPV感染（子宮頸癌）</b>：体癌の危険因子でない。<br/><b>a 肥満</b>：<span class=\"kw\">末梢でのエストロゲン産生増加</span>。✓<br/><b>b 糖尿病</b>：<span class=\"kw\">体癌のリスク（メタボ関連）</span>。✓<br/><b>c 未経産</b>：<span class=\"kw\">エストロゲン曝露が長く体癌のリスク</span>。✓"
             }
           ],
           "imgs": []
@@ -34154,6 +34404,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　黄体囊胞</td><td><span class=\"kw4\">誤り</span>。数cmの機能性囊胞で自然消退する。脂肪は含まない</td></tr><tr><td>ｂ　チョコレート囊胞</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\">脂肪抑制T1でも高信号のまま</span>。月経痛を伴う</td></tr><tr><td>ｃ　漿液性囊胞腺腫</td><td><span class=\"kw4\">誤り</span>。単純な液体でT1低信号</td></tr><tr><td>ｄ　粘液性囊胞腺腫</td><td><span class=\"kw4\">誤り</span>。多房性で粘液を含む。脂肪抑制で消えない</td></tr><tr><td>ｅ　成熟囊胞性奇形腫</td><td><span class=\"kw3\">正しい</span>。脂肪成分＋CA19-9上昇＋可動性腫瘤</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "脂肪・毛髪等を含む卵巣腫瘤（MRIで脂肪抑制）。<br/><b>a 黄体囊胞／b チョコレート囊胞／c 漿液性囊胞腺腫／d 粘液性囊胞腺腫</b>：合わない。<br/><b>e 成熟囊胞性奇形腫</b>：<span class=\"kw\">脂肪成分を含む皮様囊腫（脂肪抑制で信号低下）</span>。✓"
             }
           ],
           "imgs": [
@@ -34385,6 +34640,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　経過観察</td><td><span class=\"kw4\">誤り</span>。Hb 6.8g/dlの高度貧血で放置できない</td></tr><tr><td>ｂ　放射線治療</td><td><span class=\"kw4\">誤り</span>。良性腫瘍に適応なし。卵巣機能も失われる</td></tr><tr><td>ｃ　腹腔鏡下腫瘍摘出術</td><td><span class=\"kw4\">誤り</span>。腫瘍は子宮内腔〜頸管にあり腹腔鏡では届かない</td></tr><tr><td>ｄ　子宮鏡下腫瘍摘出術</td><td><span class=\"kw3\">正しい</span>。低侵襲で子宮と妊孕性を温存できる</td></tr><tr><td>ｅ　GnRHアゴニスト投与</td><td><span class=\"kw4\">誤り</span>。一時的な縮小にとどまり根治しない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "子宮腔内に突出する粘膜下筋腫/ポリープへの対応。<br/><b>a 経過観察／b 放射線／c 腹腔鏡下／e GnRHアゴニスト</b>：第一でない。<br/><b>d 子宮鏡下腫瘍摘出術</b>：<span class=\"kw\">子宮鏡下に腔内病変を切除</span>。✓"
             }
           ],
           "imgs": [
@@ -34503,6 +34763,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　エストロゲン</td><td><span class=\"kw4\">禁忌</span>。<span class=\"kw4\">筋腫を増大させ過多月経を悪化</span>させる</td></tr><tr><td>ｂ　GnRHアゴニスト</td><td><span class=\"kw3\">正しい</span>。偽閉経状態で筋腫を縮小させ月経を止める</td></tr><tr><td>ｃ　メトトレキサート</td><td><span class=\"kw4\">誤り</span>。絨毛癌・異所性妊娠に用いる</td></tr><tr><td>ｄ　ブロモクリプチン</td><td><span class=\"kw4\">誤り</span>。高プロラクチン血症の治療薬</td></tr><tr><td>ｅ　プロスタグランディン</td><td><span class=\"kw4\">誤り</span>。子宮収縮薬。むしろ月経痛を増強させる</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "子宮筋腫の薬物療法。<br/><b>a エストロゲン（増悪）／c メトトレキサート／d ブロモクリプチン／e プロスタグランディン</b>：不適。<br/><b>b GnRHアゴニスト</b>：<span class=\"kw\">偽閉経療法で筋腫を縮小</span>。✓"
             }
           ],
           "imgs": [
@@ -34552,6 +34817,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　卵巣過剰刺激症候群</td><td><span class=\"kw3\">来す</span>。VEGFによる血管透過性亢進</td></tr><tr><td>ｂ　Meigs症候群</td><td><span class=\"kw3\">来す</span>。卵巣線維腫＋腹水＋胸水の三徴</td></tr><tr><td>ｃ　子宮内膜症</td><td><span class=\"kw4\">来さない</span>。出血は少量で線維化・癒着に置き換わる</td></tr><tr><td>ｄ　卵管癌</td><td><span class=\"kw3\">来す</span>。腹膜播種による癌性腹膜炎</td></tr><tr><td>ｅ　卵巣癌</td><td><span class=\"kw3\">来す</span>。腹膜播種による癌性腹膜炎。腹部膨満が初発症状のことも</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "多量の腹水貯留を「きたさない」もの。<br/><b>a 卵巣過剰刺激症候群／b Meigs症候群／d 卵管癌／e 卵巣癌</b>：腹水をきたす。<br/><b>c 子宮内膜症</b>：<span class=\"kw\">多量の腹水をきたさない</span>。✓（これが正解肢）"
             }
           ],
           "imgs": []
@@ -34728,6 +34998,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　閉経後に好発する。</td><td><span class=\"kw4\">誤り</span>。生殖年齢に好発（エストロゲン依存性）</td></tr><tr><td>ｂ　不妊の原因となる。</td><td><span class=\"kw3\">正しい</span>。癒着と卵巣機能低下による</td></tr><tr><td>ｃ　性交痛はまれである。</td><td><span class=\"kw4\">誤り</span>。Douglas窩病変により高頻度</td></tr><tr><td>ｄ　仙骨子宮靱帯に好発する。</td><td><span class=\"kw3\">正しい</span>。Douglas窩・卵巣とともに好発部位</td></tr><tr><td>ｅ　卵巣癌の発生とは関連しない。</td><td><span class=\"kw4\">誤り</span>。明細胞腺癌・類内膜腺癌の発生母地となる</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "子宮内膜症について正しいものを2つ。<br/><b>a 閉経後に好発（生殖年齢）／c 性交痛はまれ（多い）／e 卵巣癌と無関係（明細胞癌等のリスク）</b>：誤り。<br/><b>b 不妊の原因となる</b>：<span class=\"kw\">卵管・骨盤の癒着で不妊</span>。✓<br/><b>d 仙骨子宮靱帯に好発する</b>：<span class=\"kw\">ダグラス窩・仙骨子宮靱帯に好発</span>。✓"
             }
           ],
           "imgs": []
@@ -35073,6 +35348,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　クロミフェン療法</td><td><span class=\"kw4\">誤り</span>。基礎体温2相性で排卵しており適応なし</td></tr><tr><td>ｂ　ゴナドトロピン療法</td><td><span class=\"kw4\">誤り</span>。同上。OHSSのリスクもある</td></tr><tr><td>ｃ　ブロモクリプチン療法</td><td><span class=\"kw4\">誤り</span>。PRL 12ng/mlと正常</td></tr><tr><td>ｄ　体外受精・胚移植</td><td><span class=\"kw4\">時期尚早</span>。まず手術で癒着と囊胞を処理する</td></tr><tr><td>ｅ　腹腔鏡下卵巣囊胞摘出術</td><td><span class=\"kw3\">正しい</span>。妊孕性を温存しつつ癒着を解除</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "卵巣嚢胞（子宮内膜症性等）の治療。<br/><b>a クロミフェン／b ゴナドトロピン／c ブロモクリプチン／d 体外受精</b>：本病変の治療でない。<br/><b>e 腹腔鏡下卵巣囊胞摘出術</b>：<span class=\"kw\">嚢胞を摘出し組織診断・症状改善</span>。✓"
             }
           ],
           "imgs": [
@@ -35321,6 +35601,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　扁平上皮異形成</td><td><span class=\"kw4\">誤り</span>。上皮内の病変で頸部は腫大せず粘液も産生しない</td></tr><tr><td>ｂ　微小浸潤扁平上皮癌</td><td><span class=\"kw4\">誤り</span>。粘液を産生せず頸部腫大も来さない</td></tr><tr><td>ｃ　扁平上皮癌</td><td><span class=\"kw4\">誤り</span>。粘液を産生しない</td></tr><tr><td>ｄ　上皮内腺癌</td><td><span class=\"kw4\">誤り</span>。浸潤しておらず頸部は腫大しない</td></tr><tr><td>ｅ　腺　癌</td><td><span class=\"kw3\">正しい</span>。粘液産生＋頸管内発育による頸部腫大</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "子宮頸部の病変（細胞診/組織）。<br/><b>a 扁平上皮異形成／b 微小浸潤扁平上皮癌／c 扁平上皮癌／d 上皮内腺癌</b>：合わない。<br/><b>e 腺癌</b>：<span class=\"kw\">頸管腺由来の腺癌</span>。✓"
             }
           ],
           "imgs": [
@@ -36819,6 +37104,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　黄褐色</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\">灰白色</span>が典型（黄色調を帯びることはある）。「黄褐色」という表現は該当しない</td></tr><tr><td>ｂ　泡沫状</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\">トリコモナス腟炎</span>の帯下</td></tr><tr><td>ｃ　pH＜3.0</td><td><span class=\"kw4\">誤り</span>。乳酸桿菌が減少するため<span class=\"kw4\">pHはむしろ4.5より高くなる</span></td></tr><tr><td>ｄ　アミン臭</td><td><span class=\"kw3\">正しい</span>。嫌気性菌が産生するアミンによる魚臭様の悪臭</td></tr><tr><td>ｅ　シダ状結晶</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\">排卵期の頸管粘液</span>を乾燥させたときに見られる生理的所見</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "細菌性腟症の帯下所見。<br/><b>a 黄褐色／b 泡沫状（トリコモナス）／c pH<3.0（pH上昇）／e シダ状結晶（頸管粘液）</b>：合わない。<br/><b>d アミン臭</b>：<span class=\"kw\">KOH添加で魚臭（アミン臭）が生じる（whiff test陽性）</span>。✓"
             }
           ],
           "imgs": []
@@ -38363,6 +38653,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　「今日中に生まれます」</td><td><span class=\"kw4\">誤り</span>。子宮収縮抑制薬で遅らせうる</td></tr><tr><td>ｂ　「帝王切開を行います」</td><td><span class=\"kw4\">誤り</span>。頭位で胎児心拍正常。適応がない</td></tr><tr><td>ｃ　「子宮頸管をしばりましょう」</td><td><span class=\"kw4\">誤り</span>。既に子宮口開大・陣痛があり適応外</td></tr><tr><td>ｄ　「赤ちゃんを管理できる病院にあなたを救急搬送します」</td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\">母体搬送</span>が児の予後を最も改善する</td></tr><tr><td>ｅ　「今生まれても、正期産児と同程度の発達が期待できます」</td><td><span class=\"kw4\">誤り</span>。27週の超早産児は後遺症のリスクが高い</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "極早産の切迫状態への説明。<br/><b>a 今日中に生まれます／b 帝王切開／c 頸管をしばる／e 正期産児と同程度の発達</b>：不適/不正確。<br/><b>d 「赤ちゃんを管理できる病院にあなたを救急搬送します」</b>：<span class=\"kw\">新生児管理可能な施設への母体搬送（母体搬送）</span>。✓"
             }
           ],
           "imgs": []
@@ -38482,6 +38777,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　尿管は腹腔内を走行する。</td><td><span class=\"kw4\">誤り</span>。後腹膜腔を走行</td></tr><tr><td>ｂ　卵巣動脈は腎動脈から分枝する。</td><td><span class=\"kw4\">誤り</span>。腹大動脈から直接分枝</td></tr><tr><td>ｃ　子宮円索は基靱帯の一部を構成する。</td><td><span class=\"kw4\">誤り</span>。独立した索状構造</td></tr><tr><td>ｄ　子宮動脈は内腸骨動脈から分枝する。</td><td><span class=\"kw3\">正しい</span></td></tr><tr><td>ｅ　Douglas窩とは子宮と膀胱の間を指す。</td><td><span class=\"kw4\">誤り</span>。子宮と<span class=\"kw4\">直腸</span>の間</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "女性の骨盤内解剖で正しいもの。<br/><b>a 尿管は腹腔内（後腹膜）／b 卵巣動脈は腎動脈から（腹部大動脈から）／c 子宮円索は基靱帯の一部（別の靱帯）／e Douglas窩は子宮と膀胱の間（子宮と直腸の間）</b>：誤り。<br/><b>d 子宮動脈は内腸骨動脈から分枝する</b>：<span class=\"kw\">内腸骨動脈の枝</span>。✓"
             }
           ],
           "imgs": []
@@ -38544,6 +38844,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　「今から降圧薬は中止しましょう」</td><td><span class=\"kw4\">誤り</span>。高血圧の放置は危険</td></tr><tr><td>ｂ　「今から降圧薬をメチルドパに変更しましょう」</td><td><span class=\"kw4\">不要</span>。Ca拮抗薬で良好にコントロールされている</td></tr><tr><td>ｃ　「妊娠しても現在の治療を継続しましょう」</td><td><span class=\"kw3\">正しい</span>。Ca拮抗薬は妊娠中も使用できる</td></tr><tr><td>ｄ　「妊娠したら降圧薬を中止しましょう」</td><td><span class=\"kw4\">誤り</span>。妊娠中こそ管理が重要</td></tr><tr><td>ｅ　「妊娠したらACE阻害薬に変更しましょう」</td><td><span class=\"kw4\">禁忌</span>。胎児腎障害・羊水過少を来す</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "妊娠を希望する慢性高血圧の女性への説明。<br/><b>a 降圧薬中止／b メチルドパに変更（現行が安全なら変更不要）／d 妊娠したら中止／e ACE阻害薬に変更（妊娠中禁忌）</b>：不適。<br/><b>c 「妊娠しても現在の治療を継続しましょう」</b>：<span class=\"kw\">妊娠に適合した降圧薬であれば継続（血圧管理を続ける）</span>。✓"
             }
           ],
           "imgs": []
@@ -38601,6 +38906,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　羊水量を測定する。</td><td><span class=\"kw4\">不要</span>。妊娠10週で羊水過少を評価する意味がない</td></tr><tr><td>ｂ　頭部MRIを撮像する。</td><td><span class=\"kw4\">誤り</span>。頭痛の精査を要する所見がない</td></tr><tr><td>ｃ　人工妊娠中絶を勧める。</td><td><span class=\"kw4\">誤り</span>。NSAID 1回の内服は中絶の理由にならない</td></tr><tr><td>ｄ　羊水染色体検査を勧める。</td><td><span class=\"kw4\">誤り</span>。NSAIDは染色体異常を起こさない。侵襲的検査の適応もない</td></tr><tr><td>ｅ　NSAIDをアセトアミノフェンに変更する。</td><td><span class=\"kw3\">正しい</span>。妊娠後期の動脈管早期閉鎖を防ぐ</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "NSAID使用中の羊水過少への対応。<br/><b>a 羊水量測定／b 頭部MRI／c 中絶／d 羊水染色体検査</b>：第一でない。<br/><b>e NSAIDをアセトアミノフェンに変更する</b>：<span class=\"kw\">NSAIDは胎児腎障害・羊水過少・動脈管収縮の原因で中止し変更</span>。✓"
             }
           ],
           "imgs": []
@@ -38671,6 +38981,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　輸血療法</td><td><span class=\"kw3\">正しい</span>。出血性ショックの循環と酸素運搬能を回復させる</td></tr><tr><td>ｂ　開腹止血術</td><td><span class=\"kw3\">正しい</span>。腹腔内出血であり開腹して止血する</td></tr><tr><td>ｃ　双手子宮圧迫</td><td><span class=\"kw4\">誤り</span>。弛緩出血への処置。腹腔内出血には無効</td></tr><tr><td>ｄ　子宮動脈塞栓術</td><td><span class=\"kw4\">誤り</span>。準備に時間を要し、ショック下の腹腔内出血では開腹が優先</td></tr><tr><td>ｅ　子宮腔内バルーンタンポナーデ</td><td><span class=\"kw4\">誤り</span>。子宮内腔の出血への処置</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "分娩後の大量出血（腹腔内貯留）への処置を2つ。<br/><b>c 双手子宮圧迫／d 子宮動脈塞栓術／e 子宮腔内バルーン</b>：本場面で第一でない。<br/><b>a 輸血療法</b>：<span class=\"kw\">循環維持のための輸血</span>。✓<br/><b>b 開腹止血術</b>：<span class=\"kw\">腹腔内出血は開腹止血</span>。✓"
             }
           ],
           "imgs": [
@@ -38725,6 +39040,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　900g</td><td><span class=\"kw4\">誤り</span>。妊娠25〜26週ころの体重</td></tr><tr><td>ｂ　1,200g</td><td><span class=\"kw4\">誤り</span>。妊娠28週ころの体重</td></tr><tr><td>ｃ　1,500g</td><td><span class=\"kw3\">正しい</span>。妊娠30週の標準体重</td></tr><tr><td>ｄ　1,800g</td><td><span class=\"kw4\">誤り</span>。妊娠32週ころの体重</td></tr><tr><td>ｅ　2,100g</td><td><span class=\"kw4\">誤り</span>。妊娠34〜35週ころの体重</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "妊娠30週の標準的な胎児体重。<br/><b>a 900g／b 1200g／d 1800g／e 2100g</b>：合わない。<br/><b>c 1,500g</b>：<span class=\"kw\">妊娠30週で約1500g</span>。✓"
             }
           ],
           "imgs": []
@@ -38860,6 +39180,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　運動を勧める。</td><td><span class=\"kw3\">正しい</span>。インスリン抵抗性を改善する</td></tr><tr><td>ｂ　減量を指導する。</td><td><span class=\"kw4\">誤り</span>。妊娠中の減量はケトーシスを招き不適切</td></tr><tr><td>ｃ　直ちにインスリン療法を導入する。</td><td><span class=\"kw4\">誤り</span>。まず食事・運動療法から開始する</td></tr><tr><td>ｄ　分娩6週間後に耐糖能を再評価する。</td><td><span class=\"kw3\">正しい</span>。将来の2型糖尿病リスクが高く産後の再評価が必須</td></tr><tr><td>ｅ　非妊婦と同じ摂取エネルギー量を指導する。</td><td><span class=\"kw4\">誤り</span>。妊娠中はエネルギーの付加が必要</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "妊娠糖尿病（軽度）への対応を2つ。<br/><b>b 減量指導（妊娠中は減量しない）／c 直ちにインスリン／e 非妊婦と同じエネルギー量</b>：不適。<br/><b>a 運動を勧める</b>：<span class=\"kw\">食事・運動療法が基本</span>。✓<br/><b>d 分娩6週間後に耐糖能を再評価する</b>：<span class=\"kw\">産後に糖尿病への移行を評価</span>。✓"
             }
           ],
           "imgs": []
@@ -38917,6 +39242,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　24</td><td><span class=\"kw4\">誤り</span>。生育限界の週数（22週）に近いが投与上限ではない</td></tr><tr><td>ｂ　27</td><td><span class=\"kw4\">誤り</span>。超早産の範囲だが上限ではない</td></tr><tr><td>ｃ　30</td><td><span class=\"kw4\">誤り</span>。上限ではない</td></tr><tr><td>ｄ　33</td><td><span class=\"kw3\">正しい</span>。<span class=\"kw4\">妊娠34週未満＝33週6日まで</span>が適応</td></tr><tr><td>ｅ　36</td><td><span class=\"kw4\">誤り</span>。34週以降は胎児肺がほぼ成熟しルーチン投与しない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "胎児肺成熟のためグルココルチコイドを投与する上限の妊娠週。<br/><b>a 24／b 27／c 30／e 36</b>：合わない。<br/><b>d 33</b>：<span class=\"kw\">概ね妊娠34週未満（〜33週）の早産で投与</span>。✓"
             }
           ],
           "imgs": []
@@ -38978,6 +39308,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　吸引分娩</td><td><span class=\"kw4\">誤り</span>。適応がない</td></tr><tr><td>ｂ　経過観察</td><td><span class=\"kw3\">正しい</span>。分娩は順調、胎児心拍数波形も正常</td></tr><tr><td>ｃ　人工破膜</td><td><span class=\"kw4\">誤り</span>。順調に進行しており不要</td></tr><tr><td>ｄ　緊急帝王切開</td><td><span class=\"kw4\">誤り</span>。胎児機能不全を示す所見がない</td></tr><tr><td>ｅ　子宮収縮薬投与</td><td><span class=\"kw4\">誤り</span>。微弱陣痛ではない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "正常に進行する分娩への対応。<br/><b>a 吸引分娩／c 人工破膜／d 緊急帝王切開／e 子宮収縮薬</b>：不要。<br/><b>b 経過観察</b>：<span class=\"kw\">正常進行なら経過観察</span>。✓"
             }
           ],
           "imgs": [
@@ -39098,6 +39433,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　エストリオール</td><td><span class=\"kw4\">誤り</span>。乳腺の発育を促すが乳汁産生は抑制する</td></tr><tr><td>ｂ　オキシトシン</td><td><span class=\"kw3\">正しい</span>。筋上皮細胞を収縮させ乳汁を射出（射乳反射）</td></tr><tr><td>ｃ　プロゲステロン</td><td><span class=\"kw4\">誤り</span>。妊娠中の乳汁産生を抑制する</td></tr><tr><td>ｄ　プロスタグランディン</td><td><span class=\"kw4\">誤り</span>。子宮収縮・頸管熟化に関与</td></tr><tr><td>ｅ　プロラクチン</td><td><span class=\"kw3\">正しい</span>。腺房細胞に作用し乳汁を産生させる</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "乳汁産生・射乳に直接的に作用するホルモンを2つ。<br/><b>a エストリオール／c プロゲステロン／d プロスタグランディン</b>：直接作用でない。<br/><b>b オキシトシン</b>：<span class=\"kw\">乳腺の筋上皮を収縮させ射乳を起こす</span>。✓<br/><b>e プロラクチン</b>：<span class=\"kw\">乳汁の産生を促進</span>。✓"
             }
           ],
           "imgs": []
@@ -39164,6 +39504,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　羊水除去</td><td><span class=\"kw4\">時期尚早</span>。侵襲的で、まず頸管長と子宮収縮を評価する</td></tr><tr><td>ｂ　子宮頸管長測定</td><td><span class=\"kw3\">正しい</span>。子宮過伸展による早産リスクをまず評価する</td></tr><tr><td>ｃ　ベタメタゾン筋肉注射</td><td><span class=\"kw4\">時期尚早</span>。早産が差し迫っていると判断してから</td></tr><tr><td>ｄ　塩酸リトドリン点滴静注</td><td><span class=\"kw4\">時期尚早</span>。切迫早産と診断してから</td></tr><tr><td>ｅ　75g経口ブドウ糖負荷試験</td><td><span class=\"kw4\">不要</span>。50g試験が陰性で妊娠糖尿病は既に否定されている</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "切迫早産（形態異常なし）でまず行う対応。<br/><b>a 羊水除去／c ベタメタゾン（次段階）／d リトドリン（次段階）／e 75gOGTT</b>：第一でない。<br/><b>b 子宮頸管長測定</b>：<span class=\"kw\">頸管長で早産リスクを評価</span>。✓"
             }
           ],
           "imgs": [
@@ -39227,6 +39572,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　「妊娠継続は難しいでしょう」</td><td><span class=\"kw4\">誤り</span>。妊娠継続は可能</td></tr><tr><td>ｂ　「出産は経腟分娩で行いましょう」</td><td><span class=\"kw4\">不適</span>。分娩様式は病態により慎重に決定</td></tr><tr><td>ｃ　「出生後直ちに処置が必要でしょう」</td><td><span class=\"kw3\">正しい</span>。脱出臓器の被覆・保温・輸液と外科的閉鎖が必要</td></tr><tr><td>ｄ　「お母さんにステロイドを投与しましょう」</td><td><span class=\"kw4\">誤り</span>。ベタメタゾンは胎児肺成熟のためのもの</td></tr><tr><td>ｅ　「赤ちゃんの臓器の脱出は自然に戻るでしょう」</td><td><span class=\"kw4\">誤り</span>。自然閉鎖しない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "腹壁破裂/横隔膜ヘルニア等の胎児異常の両親への説明。<br/><b>a 妊娠継続が難しい／b 経腟分娩で／d 母にステロイド／e 自然に戻る</b>：不適。<br/><b>c 「出生後直ちに処置が必要でしょう」</b>：<span class=\"kw\">出生後に外科的処置が必要な病態</span>。✓"
             }
           ],
           "imgs": [
@@ -39291,6 +39641,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　「陣痛を待ちましょう」</td><td><span class=\"kw4\">誤り</span>。CPDでは児頭は通過できない</td></tr><tr><td>ｂ　「帝王切開が必要です」</td><td><span class=\"kw3\">正しい</span>。狭骨盤＋大きめの児＋児頭浮動＝児頭骨盤不均衡</td></tr><tr><td>ｃ　「分娩誘発しましょう」</td><td><span class=\"kw4\">誤り</span>。分娩停止・子宮破裂を招く</td></tr><tr><td>ｄ　「破水させてみましょう」</td><td><span class=\"kw4\">誤り</span>。児頭浮動下の人工破膜は臍帯脱出の危険</td></tr><tr><td>ｅ　「もっと運動してください」</td><td><span class=\"kw4\">誤り</span>。骨盤の大きさは変わらない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "経腟分娩が困難な状況（前置胎盤/骨盤位等）の説明。<br/><b>a 陣痛を待つ／c 分娩誘発／d 破水させる／e 運動</b>：不適。<br/><b>b 「帝王切開が必要です」</b>：<span class=\"kw\">経腟分娩が困難で帝王切開の適応</span>。✓"
             }
           ],
           "imgs": [
@@ -39363,6 +39718,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　陣痛促進</td><td><span class=\"kw4\">誤り</span>。子宮収縮を強め臍帯圧迫を悪化させる</td></tr><tr><td>ｂ　体位変換</td><td><span class=\"kw3\">正しい</span>。臍帯圧迫を即座に解除しうる第一の処置</td></tr><tr><td>ｃ　緊急帝王切開</td><td><span class=\"kw4\">時期尚早</span>。体位変換で改善しうる。臍帯脱出が確認されれば直ちに適応</td></tr><tr><td>ｄ　経腹超音波検査</td><td><span class=\"kw3\">正しい</span>。臍帯下垂・脱出、胎位、羊水量を確認する</td></tr><tr><td>ｅ　子宮収縮抑制薬の投与</td><td><span class=\"kw4\">誤り</span>。妊娠39週の分娩進行中で適応がない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "胎児機能不全を示すCTGで次に行う対応を2つ。<br/><b>a 陣痛促進（悪化）／c 緊急帝王切開（まず改善を試みる）／e 子宮収縮抑制薬</b>：第一でない。<br/><b>b 体位変換</b>：<span class=\"kw\">子宮左方転位等で臍帯圧迫を解除</span>。✓<br/><b>d 経腹超音波検査</b>：<span class=\"kw\">原因（胎盤・臍帯）を評価</span>。✓"
             }
           ],
           "imgs": [
@@ -39488,6 +39848,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　子宮鏡検査</td><td><span class=\"kw3\">正しい</span>。子宮腔内の癒着を直視し、同時に治療もできる</td></tr><tr><td>ｂ　腹腔鏡検査</td><td><span class=\"kw4\">誤り</span>。子宮の外側（内膜症・癒着）を見る検査で、子宮腔内は評価できない</td></tr><tr><td>ｃ　腹部単純CT</td><td><span class=\"kw4\">誤り</span>。子宮内膜の評価には適さず被曝を伴う</td></tr><tr><td>ｄ　頭部単純MRI</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\">PRL 6.6ng/mLと正常</span>でプロラクチノーマは否定的</td></tr><tr><td>ｅ　コルポスコピー</td><td><span class=\"kw4\">誤り</span>。子宮頸部の異型上皮を探す検査</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "子宮内病変（超音波）の診断に必要な検査。<br/><b>b 腹腔鏡／c 腹部CT／d 頭部MRI／e コルポスコピー（頸部）</b>：本病変でない。<br/><b>a 子宮鏡検査</b>：<span class=\"kw\">子宮腔内を直接観察（内膜ポリープ/粘膜下筋腫）</span>。✓"
             }
           ],
           "imgs": [
@@ -39628,6 +39993,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　胸腹部造影CT</td><td><span class=\"kw3\">正しい</span>。リンパ節・遠隔転移の評価</td></tr><tr><td>ｂ　骨盤部造影MRI</td><td><span class=\"kw3\">正しい</span>。筋層浸潤・頸部浸潤の評価で術式が決まる</td></tr><tr><td>ｃ　コルポスコピー</td><td><span class=\"kw4\">誤り</span>。子宮頸癌の検査</td></tr><tr><td>ｄ　子宮卵管造影検査</td><td><span class=\"kw4\">誤り</span>。癌細胞の腹腔内散布を招く</td></tr><tr><td>ｅ　子宮頸部狙い組織診</td><td><span class=\"kw4\">誤り</span>。頸部異常の記載がなく進展度評価に寄与しない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "婦人科悪性腫瘍の治療方針決定に必要な検査を2つ。<br/><b>c コルポスコピー／d 子宮卵管造影／e 頸部狙い組織診（診断済み）</b>：病期診断の主でない。<br/><b>a 胸腹部造影CT</b>：<span class=\"kw\">遠隔転移・リンパ節を評価</span>。✓<br/><b>b 骨盤部造影MRI</b>：<span class=\"kw\">局所進展（浸潤範囲）を評価</span>。✓"
             }
           ],
           "imgs": [
@@ -39682,6 +40052,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　アンドロゲン</td><td><span class=\"kw4\">誤り</span>。過剰なら多毛・男性化徴候を来す</td></tr><tr><td>ｂ　エストロゲン</td><td><span class=\"kw3\">正しい</span>。その欠乏が更年期障害の本態</td></tr><tr><td>ｃ　甲状腺ホルモン</td><td><span class=\"kw4\">誤り</span>。機能亢進症は発汗・動悸を来し鑑別を要するが、更年期障害の原因ではない</td></tr><tr><td>ｄ　プロゲステロン</td><td><span class=\"kw4\">誤り</span>。低下するが症状の主因ではない</td></tr><tr><td>ｅ　副腎皮質ホルモン</td><td><span class=\"kw4\">誤り</span>。更年期障害と直接の関係はない</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "更年期障害の発症に最も関与するもの。<br/><b>a アンドロゲン／c 甲状腺ホルモン／d プロゲステロン／e 副腎皮質ホルモン</b>：主でない。<br/><b>b エストロゲン</b>：<span class=\"kw\">卵巣機能低下によるエストロゲンの低下・変動が主因</span>。✓"
             }
           ],
           "imgs": []
@@ -39805,6 +40180,11 @@ window["_cardJSON_obg"]={
               "cls": "ee",
               "h": "□ 選択肢の検討",
               "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　人工授精</td><td><span class=\"kw3\">適切</span>。性交回数が少なく性交痛もある。卵管は通っている</td></tr><tr><td>ｂ　卵管形成術</td><td><span class=\"kw4\">適切でない</span>。<span class=\"kw4\">卵管の疎通性は良好で治すべき病変がない</span></td></tr><tr><td>ｃ　性交時期の指導</td><td><span class=\"kw3\">適切</span>。月1回の性交では排卵日と重なりにくい</td></tr><tr><td>ｄ　クロミフェン療法</td><td><span class=\"kw3\">適切</span>。排卵日を安定させ妊娠率を上げる</td></tr><tr><td>ｅ　ゴナドトロピン療法</td><td><span class=\"kw3\">適切</span>。クロミフェン無効例の次段階</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "不妊症の治療で「適切でない」もの。<br/><b>a 人工授精／c 性交時期の指導／d クロミフェン療法／e ゴナドトロピン療法</b>：適切。<br/><b>b 卵管形成術</b>：<span class=\"kw\">本例（卵管性でない不妊）では適応でない</span>。✓（これが正解肢）"
             }
           ],
           "imgs": [
