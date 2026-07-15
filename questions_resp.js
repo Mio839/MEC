@@ -5723,6 +5723,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw\">喘息急性増悪 → SABA吸入が最優先</span>（全身ステロイドは次のステップ）。鼻茸+NSAIDで増悪歴=<span class=\"kw\">アスピリン喘息（NSAID過敏症）</span>を疑う。NSAIDは禁忌。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "喘息発作（鼻茸あり）で酸素後に次に行う治療。<br/><b>a NSAID（アスピリン喘息の危険）／b ICS（急性発作の第一でない）／d 生物学的製剤／e 抗菌薬</b>：第一でない。<br/><b>c 短時間作用型β₂刺激薬吸入</b>：<span class=\"kw\">急性発作の第一選択（気管支拡張）</span>。✓"
             }
           ],
           "imgs": []
@@ -5775,6 +5780,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "COPDの頸部所見：<span class=\"kw\">気管短縮</span>・胸鎖乳突筋肥大（補助呼吸筋使用）。気管短縮は肺過膨張の体格的反映。甲状腺腫・リンパ節腫大は別疾患。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "COPD（肺過膨張）でみられる頸部所見。<br/><b>b 甲状腺腫／c 正中頸嚢胞／d 頸部蜂窩織炎／e リンパ節腫大</b>：本病態でない。<br/><b>a 気管短縮</b>：<span class=\"kw\">肺の過膨張で気管が短縮（触知）</span>。✓"
             }
           ],
           "imgs": []
@@ -5830,6 +5840,11 @@ window["_cardJSON_resp"]={
               "cls": "ep",
               "h": "🫁 各選択肢の評価",
               "c": "a：輸液→脱水補正で適切。b：白血球↑・CRP↑・黄色痰→細菌性感染→<span class=\"kw\">抗菌薬適切</span>。c：COPD急性増悪→<span class=\"kw\">気管支拡張薬適切</span>。e：ステロイド全身→COPD急性増悪の<span class=\"kw\">標準治療</span>。<br>d：<span class=\"kw4\">D-dimer 0.5（正常）</span>→肺塞栓の根拠なし→ヘパリン不要・<span class=\"kw4\">不適切</span>。</br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "COPD急性増悪の治療で「適切でない」もの。<br/><b>a 輸液／b 抗菌薬／c 気管支拡張薬／e ステロイド全身投与</b>：適切。<br/><b>d ヘパリン持続点滴</b>：<span class=\"kw\">COPD増悪の治療でヘパリンは不要（適切でない）</span>。✓（これが正解肢）"
             }
           ],
           "imgs": [
@@ -5888,6 +5903,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "ICS使用時の<span class=\"kw\">口腔カンジダ症は代表的な副作用</span>。予防：吸入後にうがいをする（口腔内ステロイドを洗い流す）。治療：<span class=\"kw\">アゾール系抗真菌薬（フルコナゾール）</span>または<span class=\"kw\">ナイスタチンうがい液</span>。白板症・扁平苔癬はこすっても取れない。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "こすると剝離可能な口腔内白苔。<br/><b>a 白板症（剝離不能）／b 扁平苔癬／c 単純ヘルペス／d アフタ性口内炎</b>：合わない。<br/><b>e 口腔カンジダ症</b>：<span class=\"kw\">白苔が剝離可能な偽膜性カンジダ症（吸入ステロイド等が誘因）</span>。✓"
             }
           ],
           "imgs": [
@@ -5937,6 +5957,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw\">COPD = 喫煙病</span>（日本人喫煙者の15〜20%がCOPD）。Brinkman指数400以上でリスク↑。a：胸膜プラーク=石綿（アスベスト）。b：サルコイドーシス=喫煙者に少ない（逆相関）。d：ARDS=敗血症・外傷等。e：ニューモシスチス=HIV/免疫不全。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "喫煙と発症の因果関係が強いもの。<br/><b>a 胸膜プラーク（石綿）／b サルコイドーシス／d ARDS／e ニューモシスチス肺炎</b>：喫煙との因果が弱い。<br/><b>c 慢性閉塞性肺疾患</b>：<span class=\"kw\">喫煙が最大の危険因子</span>。✓"
             }
           ],
           "imgs": []
@@ -5984,6 +6009,11 @@ window["_cardJSON_resp"]={
               "cls": "ee",
               "h": "📋 COPDの呼吸機能",
               "c": "<table class=\"tb\"><tr><th>指標</th><th>方向</th><th>理由</th></tr><tr><td>FEV₁%</td><td><span class=\"kw4\">&lt; 70%</span></td><td><span class=\"kw4\">COPDの診断基準（気管支拡張薬後でも）</span></td></tr><tr><td>残気量（RV）</td><td><span class=\"kw\">↑増加</span></td><td>空気トラッピング（a誤）</td></tr><tr><td>肺拡散能（DLco）</td><td><span class=\"kw\">↓低下</span></td><td>肺気腫で肺胞壁破壊（b誤）</td></tr><tr><td>静肺コンプライアンス</td><td><span class=\"kw\">↑増加</span></td><td>肺胞弾性低下（d誤：低下ではない）</td></tr><tr><td>Flow-volume曲線</td><td>呼気曲線が凹（scoop）</td><td><span class=\"kw\">scooping pattern（e誤：下に凸）</span></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "横隔膜平低化・滴状心（COPD）の呼吸機能。<br/><b>a 残気量減少（増加）／b 拡散能増加（低下）／d 静肺コンプライアンス低下（上昇）／e 上に凸のflow-volume曲線（下に凸）</b>：誤り。<br/><b>c FEV₁% 70%未満</b>：<span class=\"kw\">閉塞性障害（1秒率低下）</span>。✓"
             }
           ],
           "imgs": []
@@ -6031,6 +6061,11 @@ window["_cardJSON_resp"]={
               "cls": "ep",
               "h": "🫁 COPD治療薬選択の注意点",
               "c": "COPD標準維持療法はLAMA（第一選択）またはLABA。<br>しかし<span class=\"kw4\">閉塞隅角緑内障</span>が既往にあるため：<br><span class=\"kw4\">LAMA（抗コリン薬）→ 眼圧上昇→ 閉塞隅角緑内障の禁忌！</span><br><span class=\"kw3\">LABA→ 緑内障に影響なし→ 適切</span><br>a：抗コリン薬の内服→禁忌。b：経口ステロイド長期→避ける。d：セフェム少量長期→気管支拡張症向け。e：LTRA→喘息向け。</br></br></br></br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "COPDの退院前に開始する治療。<br/><b>a 抗コリン薬内服（吸入）／b ステロイド内服／d セフェム少量長期／e ロイコトリエン拮抗薬</b>：第一でない。<br/><b>c 長時間作用型β₂刺激薬の吸入</b>：<span class=\"kw\">COPDの安定期は長時間作用性吸入気管支拡張薬が基本</span>。✓"
             }
           ],
           "imgs": []
@@ -6082,6 +6117,11 @@ window["_cardJSON_resp"]={
               "cls": "ee",
               "h": "📋 CGA7（高齢者総合機能評価簡易版）の内容",
               "c": "a：<span class=\"kw\">気分・抑うつ評価</span>（GDS由来）✓<br>c：<span class=\"kw\">認知機能評価</span>（語句の即時再生）✓<br>d：<span class=\"kw\">ADL評価</span>（入浴・整容）✓<br>e：<span class=\"kw\">排尿機能評価</span>（尿失禁）✓<br>b：<span class=\"kw4\">聴力評価</span>→ CGA7に含まれない（聴力は別途聴力検査または音叉で評価）</br></br></br></br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高齢者の生活機能評価の質問で「適切でない」もの。<br/><b>a 無力感（うつ）／c 言葉の復唱（認知）／d 入浴自立（ADL）／e 排泄失敗（ADL）</b>：評価項目。<br/><b>b 「会話が聴き取りにくいことはありますか」</b>：<span class=\"kw\">聴力の質問で本評価の主眼でない</span>。✓（これが正解肢）"
             }
           ],
           "imgs": []
@@ -6133,6 +6173,11 @@ window["_cardJSON_resp"]={
               "cls": "ee",
               "h": "📋 COPD安定期管理",
               "c": "既にLAMA使用中→<span class=\"kw\">LABA追加（LAMA+LABA併用）</span>で気管支拡張効果の相乗。<span class=\"kw\">呼吸リハビリ</span>は労作時呼吸困難・QOL改善にエビデンスA。ネーザルハイフロー（d）はII型呼吸不全の急性期管理向け（安定期ではない）。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "COPD（肺過膨張）への適切な対応を2つ。<br/><b>a 抗菌薬／b 免疫抑制薬／d ネーザルハイフロー</b>：第一でない。<br/><b>c 呼吸リハビリテーション</b>：<span class=\"kw\">運動耐容能・QOLを改善</span>。✓<br/><b>e 長時間作用性β₂刺激薬吸入の追加</b>：<span class=\"kw\">気流閉塞の改善</span>。✓"
             }
           ],
           "imgs": []
@@ -6232,6 +6277,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "認知症患者の自己抜去対策：<span class=\"kw\">ルートを見えにくくする</span>（袖や包帯で隠す）が有効かつ倫理的。b：身体拘束は最終手段（倫理的問題＋せん妄を悪化させる）。d：夜間に明るくすると睡眠障害→認知症悪化→せん妄↑→逆効果。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "点滴の静脈留置針の自己抜去を防ぐ対応。<br/><b>a 持続点滴／b 抑制帯で固定／c 太い留置針／d 夜間も明るく</b>：不適/身体拘束。<br/><b>e 患者から見えないように寝衣の袖の中に点滴ルートを通す</b>：<span class=\"kw\">視界から外し抜去を防ぐ（拘束によらない工夫）</span>。✓"
             }
           ],
           "imgs": []
@@ -6279,6 +6329,11 @@ window["_cardJSON_resp"]={
               "cls": "ep",
               "h": "🫁 喘息急性増悪の治療ステップ",
               "c": "①<span class=\"kw\">SABA吸入</span>（第一選択）→ 改善不十分なら②<span class=\"kw\">グルコルチコイド全身投与（静注または内服）</span> + SABA反復吸入 + 酸素。<br>d：アドレナリンはアナフィラキシー・心停止向け（喘息の標準静注治療ではない）。c：フロセミドは心不全向け。b：ジアゼパムは呼吸抑制リスクあり。</br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "β₂刺激薬で改善しない喘息発作に次に静注する薬剤。<br/><b>a アトロピン／b ジアゼパム／c フロセミド／d アドレナリン（アナフィラキシー向け）</b>：不適。<br/><b>e グルココルチコイド</b>：<span class=\"kw\">気道炎症を抑える全身ステロイド</span>。✓"
             }
           ],
           "imgs": []
@@ -6335,6 +6390,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "COPD胸部X線3大所見：<span class=\"kw\">横隔膜平低化・肺野過膨張・滴状心</span>。心尖拍動は剣状突起下（⑤）→これはCOPD重症の典型的所見。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "COPD重症例でみられる心尖拍動の位置。<br/><b>a ①〜d ④</b>：合わない。<br/><b>e ⑤</b>：<span class=\"kw\">肺過膨張により心尖拍動が心窩部（剣状突起下）に触れる</span>。✓"
             }
           ],
           "imgs": [
@@ -6393,6 +6453,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw\">左心不全（cardiac asthma）</span>でもwheezesを聴取する→喘息との鑑別が重要（BNP・心エコーで鑑別）。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "笛音〈wheezes〉の原因となるものを3つ。<br/><b>a 気胸／b 無気肺</b>：呼吸音減弱で笛音でない。<br/><b>c 左心不全</b>：<span class=\"kw\">気道浮腫による心臓喘息（wheezes）</span>。✓<br/><b>d 気管支喘息</b>：<span class=\"kw\">気道狭窄によるwheezes</span>。✓<br/><b>e 慢性閉塞性肺疾患</b>：<span class=\"kw\">末梢気道狭窄によるwheezes</span>。✓"
             }
           ],
           "imgs": []
@@ -6492,6 +6557,11 @@ window["_cardJSON_resp"]={
               "cls": "ee",
               "h": "📋 咳嗽の性状と疾患",
               "c": "<table class=\"tb\"><tr><th>疾患</th><th>咳の性状</th><th>特徴</th></tr><tr><td>咳喘息</td><td><span class=\"kw\">乾性</span></td><td>夜間・早朝悪化、気道過敏性↑</td></tr><tr><td>間質性肺炎</td><td><span class=\"kw\">乾性</span></td><td>fine crackles、安静時でも</td></tr><tr><td>感染後咳嗽</td><td>乾性〜湿性</td><td>感冒後8週間以上</td></tr><tr><td>GERD</td><td><span class=\"kw\">乾性</span></td><td>食後・横臥位で悪化</td></tr><tr><td><span class=\"kw\">副鼻腔気管支症候群（SBS）</span></td><td><span class=\"kw\">湿性</span></td><td><span class=\"kw3\">後鼻漏＋気管支炎→膿性痰→マクロライド有効</span></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "主に湿性咳嗽をきたす疾患。<br/><b>a 咳喘息／b 間質性肺炎／c 感染後咳嗽／d 胃食道逆流症</b>：乾性咳嗽が主。<br/><b>e 副鼻腔気管支症候群</b>：<span class=\"kw\">後鼻漏・膿性痰による湿性咳嗽</span>。✓"
             }
           ],
           "imgs": []
@@ -6539,6 +6609,11 @@ window["_cardJSON_resp"]={
               "cls": "ee",
               "h": "📋 鑑別：小児の喘鳴疾患",
               "c": "<table class=\"tb\"><tr><th>疾患</th><th>特徴的症状</th><th>年齢</th></tr><tr><td><span class=\"kw\">気管支喘息</span></td><td><span class=\"kw\">呼気延長・wheeze・陥没呼吸</span></td><td>全年齢（本例）</td></tr><tr><td>クループ症候群</td><td><span class=\"kw\">嗄声・犬吠様咳嗽・吸気性喘鳴</span></td><td>生後6か月〜3歳</td></tr><tr><td>百日咳</td><td><span class=\"kw\">レプリーゼ（吸気性ウー音）・笑い声様咳</span></td><td>乳幼児</td></tr><tr><td>RSウイルス感染症</td><td><span class=\"kw\">無呼吸発作・喘鳴</span></td><td>2歳以下</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "肺の過膨張（COPD）でみられるもの。<br/><b>a 嗄声／c 犬吠様咳嗽／d 無呼吸発作／e レプリーゼ（百日咳）</b>：本病態でない。<br/><b>b 呼気延長</b>：<span class=\"kw\">気流閉塞による呼気時間の延長</span>。✓"
             }
           ],
           "imgs": []
@@ -6591,6 +6666,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 DPBの治療",
               "c": "<span class=\"kw\">14員環マクロライド少量長期投与（エリスロマイシン・クラリスロマイシン）</span>が劇的に有効（抗炎症・抗菌・粘液分泌抑制）。予後改善効果も証明済み。気管支拡張症も鑑別だが、CTでの小葉中心性粒状影はDPBの特徴。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "びまん性小葉中心性粒状影＋副鼻腔炎。<br/><b>a 肺気腫／b 粟粒結核／c 気管支拡張症／d 慢性気管支炎</b>：合わない。<br/><b>e びまん性汎細気管支炎</b>：<span class=\"kw\">副鼻腔炎を伴う小葉中心性粒状影（DPB）</span>。✓"
             }
           ],
           "imgs": []
@@ -6643,6 +6723,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw\">ABPA = 喘息 + 好酸球増多 + IgE↑ + Aspergillus → 経口ステロイド</span>。移動性浸潤影（fleeting shadows）・中枢型気管支拡張症が特徴的。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "喀痰からAspergillus検出（ABPA）の治療。<br/><b>a シクロスポリン／b セフェム／c 高用量吸入ステロイド／e 減感作療法</b>：第一でない。<br/><b>d 経口副腎皮質ステロイド</b>：<span class=\"kw\">ABPAの第一選択は経口ステロイド</span>。✓"
             }
           ],
           "imgs": []
@@ -6695,6 +6780,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "a〜dはすべて<span class=\"kw\">慢性咳嗽</span>の原因。急性咳嗽の最多は感冒（普通感冒：ライノウイルス等）。選択肢の中ではeが唯一の急性感染症（急性咳嗽の典型）。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "急性咳嗽の原因として頻度が高いもの。<br/><b>a COPD／b 咳喘息／c 胃食道逆流症／d 副鼻腔気管支症候群</b>：慢性咳嗽の原因。<br/><b>e マイコプラズマ肺炎</b>：<span class=\"kw\">感染性（急性）咳嗽の原因</span>。✓"
             }
           ],
           "imgs": []
@@ -6747,6 +6837,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "COPD栄養療法：<span class=\"kw\">高エネルギー・高脂質・高蛋白、分食（少量多回）</span>。炭水化物主体はCO₂産生↑→禁忌に近い。RQ（呼吸商）の概念が重要。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "COPDの栄養療法で「適切でない」もの。<br/><b>a 塩分過剰を避ける／b 1回量を減らす／d 十分なエネルギー／e 分岐鎖アミノ酸</b>：適切。<br/><b>c 炭水化物主体の食事にする</b>：<span class=\"kw\">炭水化物はCO2産生を増やすため脂質主体が望ましい（誤り）</span>。✓（これが正解肢）"
             }
           ],
           "imgs": []
@@ -6789,6 +6884,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw\">COPD</span>のリスク：<span class=\"kw\">喫煙（最大）</span>、大気汚染、職業性粉塵、気道過敏性。飲酒は直接的なリスクでない。a：食道扁平上皮癌は飲酒・喫煙のダブルリスク。d：アルコール多飲→ビタミンB1欠乏→Wernicke脳症（眼球運動障害・失調・意識障害）。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "飲酒がリスクファクターと「ならない」もの。<br/><b>a 食道癌／b 認知症／c 骨粗鬆症／d Wernicke脳症</b>：飲酒がリスク。<br/><b>e 慢性閉塞性肺疾患（COPD）</b>：<span class=\"kw\">COPDの主因は喫煙で飲酒はリスクでない</span>。✓（これが正解肢）"
             }
           ],
           "imgs": []
@@ -6885,6 +6985,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "気管支喘息の特徴的パターン：<span class=\"kw\">夜間・早朝に悪化</span>（気道過敏性が夜間〜朝方に高い；迷走神経優位・コルチゾール低下）。座位（起座呼吸）は心不全で悪化、喘息は<span class=\"kw3\">座位で楽になる</span>（喘息は臥位でも同様）。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "気管支喘息の呼吸困難で正しいもの。<br/><b>a 座位で悪化（臥位で悪化）／b 食後／c 夕方／d 左側臥位</b>：典型でない。<br/><b>e 夜中から明け方に悪化する</b>：<span class=\"kw\">喘息は夜間〜早朝に増悪しやすい</span>。✓"
             }
           ],
           "imgs": []
@@ -6932,6 +7037,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "気管支喘息の長期管理薬：<span class=\"kw\">ICS（吸入副腎皮質ステロイド）が基盤</span>。中等症以上はICS+LABA配合剤（フルチカゾン/サルメテロール等）が標準。d：LAMA（チオトロピウム等）はCOPDの第一選択（喘息単独には通常使わない、重症喘息の追加療法）。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "喘息発作後、翌日外来で処方すべき薬剤。<br/><b>a 利尿薬／b 抗ヒスタミン薬／c マクロライド／d 吸入抗コリン薬</b>：第一でない。<br/><b>e 吸入副腎皮質ステロイド/長時間作用性β₂刺激薬配合剤</b>：<span class=\"kw\">喘息の長期管理はICS/LABAが基本</span>。✓"
             }
           ],
           "imgs": []
@@ -6974,6 +7084,11 @@ window["_cardJSON_resp"]={
               "cls": "ee",
               "h": "📋 各選択肢解説",
               "c": "a：日本の喘息死は<span class=\"kw3\">減少傾向</span>（ICS普及の成果）。c：喫煙はICSの効果を<span class=\"kw4\">減弱</span>させる（ICSに対するステロイド抵抗性↑）。d：抗IgE抗体（オマリズマブ）は<span class=\"kw\">重症難治性喘息の追加療法</span>（第一選択ではない）。e：急性増悪時は<span class=\"kw\">SABA（短時間作用性）</span>が第一選択（LABAは急性期に使わない）。b：ウイルス感染（ライノウイルス等）→喘息増悪の最多原因（約50〜80%）。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "気管支喘息について正しいもの。<br/><b>a 喘息死は増加（減少傾向）／c 吸入ステロイドは喫煙で作用増強（減弱）／d 抗IgEが第一選択／e 急性増悪にLABA（SABA）</b>：誤り。<br/><b>b 喘息増悪はウイルス感染後が最も多い</b>：<span class=\"kw\">気道ウイルス感染が最多の増悪誘因</span>。✓"
             }
           ],
           "imgs": []
@@ -7025,6 +7140,11 @@ window["_cardJSON_resp"]={
               "cls": "ep",
               "h": "🫁 ACE阻害薬と誤嚥性肺炎",
               "c": "<span class=\"kw\">ACE阻害薬の副作用：慢性咳嗽</span>（ブラジキニン蓄積→気道反射↑）。この咳嗽反射の亢進は逆に<span class=\"kw3\">誤嚥性肺炎を予防</span>する（咳で気道内容物を排出）。→ ACE阻害薬内服は急性増悪の原因<span class=\"kw4\">ではない</span>。<br>a〜dは誤嚥リスク上昇因子：体重減少→嚥下筋力低下、認知機能↓→誤嚥↑、口腔不衛生→口腔内細菌→誤嚥性肺炎。</br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "高齢者の状態変化（誤嚥性肺炎）の要因として「考えにくい」もの。<br/><b>a 体重減少／b 認知機能低下／c 口腔衛生不良／d 食事のむせ</b>：誤嚥のリスク。<br/><b>e ACE阻害薬の内服</b>：<span class=\"kw\">ACE阻害薬はむしろ咳反射を高め誤嚥を減らす（悪化要因でない）</span>。✓（これが正解肢）"
             }
           ],
           "imgs": [
@@ -7075,6 +7195,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "COPD急性増悪の3本柱：①<span class=\"kw\">気管支拡張薬（β₂刺激薬＋抗コリン薬）</span> ②<span class=\"kw\">全身ステロイド</span> ③<span class=\"kw\">抗菌薬</span>（感染誘因時）。テオフィリン（e）は現在第2選択以下（副作用・薬物相互作用多い）。アルブミン（c）は低栄養補正だが急性期主役でない。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "呼吸状態の急性増悪で抗菌薬とともに用いる薬剤。<br/><b>a NSAID／c アルブミン／d 抗ヒスタミン薬／e テオフィリン（第一でない）</b>：不適。<br/><b>b β₂刺激薬</b>：<span class=\"kw\">気管支拡張で気流閉塞を改善</span>。✓"
             }
           ],
           "imgs": []
@@ -7122,6 +7247,11 @@ window["_cardJSON_resp"]={
               "cls": "ep",
               "h": "🫁 入院中のせん妄（delirium）対策",
               "c": "<span class=\"kw\">せん妄の非薬物療法</span>：早期離床・日中覚醒保持・脱水避ける・不要なカテーテル・ラインの抜去（d：改善後モニター終了は正しい）。<br><span class=\"kw4\">ベンゾジアゼピン系（e）</span>：GABA受容体作動性→認知機能↓→<span class=\"kw4\">せん妄を悪化・遷延</span>させる（禁忌）。せん妄への薬物療法は<span class=\"kw\">ハロペリドール（non-BZ系抗精神病薬）</span>が使用される。</br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "せん妄状態への対応で「誤っている」もの。<br/><b>a 脱水を避ける／b 早期離床／c 日中覚醒／d モニター終了（不穏時は継続だが）</b>：概ね適切。<br/><b>e 夜間はベンゾジアゼピン系睡眠薬を用いる</b>：<span class=\"kw\">ベンゾジアゼピンはせん妄を悪化させるため避ける</span>。✓（これが正解肢）"
             }
           ],
           "imgs": []
@@ -7169,6 +7299,11 @@ window["_cardJSON_resp"]={
               "cls": "ep",
               "h": "🫁 ABG解析",
               "c": "PaCO₂ 54（&gt;45）= CO₂貯留、PaO₂ 56（&lt;60）= 低酸素血症 → <span class=\"kw\">II型呼吸不全</span>。pH 7.41は正常（HCO₃⁻ 33.1で慢性代償）。<br>b：COPD→<span class=\"kw4\">呼気延長</span>（閉塞性）。c：<span class=\"kw4\">呼気性呼吸困難</span>（呼気時に気道閉塞）。d：P/F = 56/0.21 = 267（&gt;200、ARDSレベルではない）。e：<span class=\"kw4\">呼吸性アシドーシス</span>（PaCO₂高い）。</br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "CO2貯留（HCO3高値）の患者で正しいもの。<br/><b>b 呼気時間短縮（延長）／c 吸気性呼吸困難（呼気性）／d P/F＜200／e 呼吸性アルカローシス</b>：誤り。<br/><b>a Ⅱ型呼吸不全</b>：<span class=\"kw\">低酸素＋高CO2血症のⅡ型呼吸不全</span>。✓"
             }
           ],
           "imgs": []
@@ -7216,6 +7351,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "COPD急性増悪の標準治療：①<span class=\"kw\">酸素（目標SpO₂ 88〜92%）</span> ②<span class=\"kw\">抗菌薬（感染誘因）</span> ③<span class=\"kw\">全身ステロイド</span> ④<span class=\"kw\">SABA/SAMA吸入</span>。<span class=\"kw4\">抗ヒスタミン薬（H1拮抗薬）</span>は喘息のアレルギー成分に補助的に使うが、COPDの急性増悪には<span class=\"kw4\">標準適応なし</span>。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "COPD増悪の対応で「誤っている」もの。<br/><b>a 酸素投与／b 抗菌薬／c ステロイド／d SABA吸入</b>：適切。<br/><b>e ヒスタミンH1受容体拮抗薬投与</b>：<span class=\"kw\">抗ヒスタミン薬はCOPD増悪の治療でない（気道分泌を粘稠化させ不適）</span>。✓（これが正解肢）"
             }
           ],
           "imgs": []
@@ -7263,6 +7403,11 @@ window["_cardJSON_resp"]={
               "cls": "ep",
               "h": "🫁 状況評価",
               "c": "pH 7.30 + PaCO₂ 86 = 重篤なCO₂ narcosis。マスク5L/分酸素（FIO₂≒40%）投与中でもPaO₂は保たれたがCO₂が蓄積。JCS II-10（意識混濁あり）。<br><span class=\"kw\">NPPV（BiPAP）</span>で換気量↑→CO₂強制排出。気管挿管は<span class=\"kw\">NIPPVが奏効しない/禁忌</span>の場合の次の手段。c：高流量酸素→CO₂ narcosissをさらに悪化→<span class=\"kw4\">禁忌</span>。</br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "CO2貯留（HCO3高値）を伴う呼吸不全の治療。<br/><b>a 気管切開／b 気管挿管（まだ）／c 高流量酸素（CO2貯留の危険）／d 高気圧酸素</b>：不適。<br/><b>e 非侵襲的陽圧換気（NPPV）</b>：<span class=\"kw\">高CO2血症の換気補助</span>。✓"
             }
           ],
           "imgs": []
@@ -7305,6 +7450,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw4\">中枢性鎮咳薬（コデイン等）</span>：COPD急性増悪では咳が分泌物排出の重要な防御機構→抑制すると痰が排出できず悪化。<span class=\"kw4\">禁忌</span>に近い。正しい治療は<span class=\"kw\">去痰薬</span>または<span class=\"kw\">気管支拡張薬</span>で排痰を助ける方向。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "喘息/気道疾患の初期治療で「誤っている」もの。<br/><b>a 酸素療法／b 抗菌薬／d ステロイド／e SABA吸入</b>：適切。<br/><b>c 中枢性鎮咳薬の投与</b>：<span class=\"kw\">気道分泌の喀出を妨げ不適切（喘息に鎮咳薬は避ける）</span>。✓（これが正解肢）"
             }
           ],
           "imgs": []
@@ -7347,6 +7497,11 @@ window["_cardJSON_resp"]={
               "cls": "ep",
               "h": "🫁 職業性喘息の診断",
               "c": "<span class=\"kw\">職業性喘息</span>（職場曝露→喘息）の診断に有用：<span class=\"kw\">b 気道過敏性試験</span>（職場前後の比較）・<span class=\"kw\">c 特異的IgE</span>（職業抗原への感作）・<span class=\"kw\">d 気道可逆性試験</span>・<span class=\"kw\">e ピークフロー日内変動</span>（職場/自宅での比較が診断的）。<br><span class=\"kw4\">a 肺拡散能</span>（DLco）は間質性肺炎等の評価指標→職業性喘息の診断には直接役立たない。</br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "気管支喘息の診断に有用な検査で「誤っている」もの。<br/><b>b 気道過敏性試験／c 特異的IgE／d 気道可逆性試験／e ピークフロー日内変動</b>：喘息の診断に有用。<br/><b>a 肺拡散能検査</b>：<span class=\"kw\">拡散能は喘息の診断に有用でない（間質性疾患の指標）</span>。✓（これが正解肢）"
             }
           ],
           "imgs": []
@@ -7436,6 +7591,11 @@ window["_cardJSON_resp"]={
               "cls": "ee",
               "h": "📋 慢性咳嗽の3大原因（日本）",
               "c": "<table class=\"tb\"><tr><th>原因</th><th>特徴</th></tr><tr><td><span class=\"kw\">後鼻漏（上気道咳嗽症候群）</span></td><td>鼻汁が気道後部に滴下→咳反射。副鼻腔炎が多い。</td></tr><tr><td><span class=\"kw\">胃食道逆流症（GERD）</span></td><td>食後・横臥位で悪化、喉の違和感。PPIが有効。</td></tr><tr><td>咳喘息</td><td>夜間・早朝悪化、気道過敏性↑、吸入ステロイドが有効。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "慢性咳嗽をきたすものを2つ。<br/><b>b 食道憩室／d 食道カンジダ症／e 機能性ディスペプシア</b>：慢性咳嗽の主因でない。<br/><b>a 後鼻漏</b>：<span class=\"kw\">後鼻漏症候群による慢性咳嗽</span>。✓<br/><b>c 逆流性食道炎</b>：<span class=\"kw\">胃食道逆流による慢性咳嗽</span>。✓"
             }
           ],
           "imgs": []
@@ -7478,6 +7638,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw4\">後鼻漏</span>は<span class=\"kw\">副鼻腔気管支症候群（SBS）</span>または<span class=\"kw\">上気道咳嗽症候群</span>の特徴。GERDの症状は<span class=\"kw\">食後の咳嗽・喉の違和感（食道咽頭逆流症状）・胸焼け</span>であり後鼻漏ではない。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "慢性咳嗽の原因と特徴の組合せで「誤っている」もの。<br/><b>a COPD→喫煙歴／b 咳喘息→季節性／c アトピー咳嗽→咽喉頭掻痒感／e 副鼻腔気管支症候群→膿性痰</b>：正しい。<br/><b>d 胃食道逆流症→後鼻漏</b>：<span class=\"kw\">GERDの咳は胸やけ・食後増悪が特徴で後鼻漏は副鼻腔炎（誤り）</span>。✓（これが正解肢）"
             }
           ],
           "imgs": []
@@ -7525,6 +7690,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "特異的IgE陰性＝非アトピー型喘息（非アレルギー性）。喘息であることに変わりはなく<span class=\"kw\">ICSは必須</span>。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "喘息治療で「中止すべきでない」もの。<br/><b>a テオフィリン／c LABA／d LAMA／e ロイコトリエン拮抗薬</b>：補助/中止可。<br/><b>b 吸入副腎皮質ステロイド薬</b>：<span class=\"kw\">喘息長期管理の基盤で継続が必要</span>。✓"
             }
           ],
           "imgs": []
@@ -7567,6 +7737,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "喘息の特徴：<span class=\"kw\">ピークフローの日内変動≥20%</span>（早朝が最低値、午後が最高値）。ピークフローメーターで自宅で簡単に測定可能→喘息コントロールの指標として使用。残気量・肺活量・肺拡散能は喘息でもコントロール良好なら日内変動は少ない。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "気管支喘息で日内変動を認めるもの。<br/><b>a 残気量／b 肺活量／c 肺拡散能／d 1回換気量</b>：日内変動しない。<br/><b>e ピークフロー</b>：<span class=\"kw\">気道狭窄の程度を反映し日内変動（早朝低下）</span>。✓"
             }
           ],
           "imgs": []
@@ -7614,6 +7789,11 @@ window["_cardJSON_resp"]={
               "cls": "ee",
               "h": "📋 COPDの管理",
               "c": "a：<span class=\"kw\">禁煙</span>（最優先・唯一の進行阻止）。b・c：ワクチン接種は急性増悪予防に推奨。d：<span class=\"kw\">LAMA（長時間作用性抗コリン薬）</span>はCOPDの第一選択気管支拡張薬。<br>e：<span class=\"kw4\">LTRA（ロイコトリエン受容体拮抗薬）</span>は<span class=\"kw\">喘息</span>の治療薬→COPD単独には標準的適応なし。</br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "COPDの対応として「適切でない」もの。<br/><b>a 禁煙指導／b 肺炎球菌ワクチン／c インフルワクチン／d 長時間作用性抗コリン薬</b>：適切。<br/><b>e ロイコトリエン受容体拮抗薬投与</b>：<span class=\"kw\">喘息の薬でCOPDの標準治療でない</span>。✓（これが正解肢）"
             }
           ],
           "imgs": [
@@ -7659,6 +7839,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw4\">β遮断薬</span>：β₂受容体を遮断→気管支平滑筋の収縮→喘息に<span class=\"kw4\">禁忌</span>（最重要！）。<br>喘息悪化薬剤の重要2大項目：①<span class=\"kw4\">β遮断薬</span>（気管支収縮）②<span class=\"kw4\">NSAIDs（酸性）</span>（アスピリン喘息）。<br>d：「塩基性」NSAIDsはアスピリン喘息を誘発しにくい（酸性NSAIDsがリスク）。ARBはACE阻害薬と異なり咳嗽副作用なし・喘息悪化なし。</br></br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "成人喘息の増悪をきたす可能性が最も高い薬剤。<br/><b>a 利尿薬／c H1拮抗薬／d 塩基性NSAID／e ARB</b>：増悪リスクが低い。<br/><b>b β遮断薬</b>：<span class=\"kw\">気管支収縮を起こし喘息を増悪</span>。✓"
             }
           ],
           "imgs": []
@@ -7706,6 +7891,11 @@ window["_cardJSON_resp"]={
               "cls": "ee",
               "h": "📋 COPDの特徴と鑑別",
               "c": "<table class=\"tb\"><tr><th>所見</th><th>COPD</th><th>間質性肺炎（IPF）</th></tr><tr><td>残気量</td><td><span class=\"kw\">↑増加</span></td><td>正常〜↓</td></tr><tr><td>拡散能（DLco）</td><td><span class=\"kw4\">↓低下（b誤）</span></td><td>↓↓低下</td></tr><tr><td>A-aDO₂</td><td><span class=\"kw\">↑開大（c正）</span></td><td>↑開大</td></tr><tr><td>KL-6</td><td><span class=\"kw4\">正常（d誤）</span></td><td><span class=\"kw\">↑上昇</span></td></tr><tr><td>聴診</td><td><span class=\"kw4\">wheeze・呼吸音減弱（e誤）</span></td><td><span class=\"kw\">fine crackles（Velcro音）</span></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "COPDでみられるものを2つ。<br/><b>b 拡散能上昇（低下）／d KL-6上昇（間質性）／e fine crackles（間質性）</b>：COPDでない。<br/><b>a 残気量増加</b>：<span class=\"kw\">エアトラッピングによる残気量増加</span>。✓<br/><b>c A-aDO₂開大</b>：<span class=\"kw\">換気血流不均衡でA-aDO2開大</span>。✓"
             }
           ],
           "imgs": []
@@ -7757,6 +7947,11 @@ window["_cardJSON_resp"]={
               "cls": "ee",
               "h": "📋 安定期COPD初期治療",
               "c": "<span class=\"kw\">LAMA＋LABA</span>の併用はGOLDガイドラインで推奨。b：PaO₂明記なし・6分間歩行91%ではHOT基準（PaO₂≤55 or ≤60+合併症）が明確でない→初期からHOTは不確定。c：ICSはCOPD+頻回増悪歴 or 好酸球増多に追加する（単独では効果不十分）。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "COPD安定期の初期治療を2つ。<br/><b>a 抗菌薬／b 在宅酸素（適応次第）／c ICS（第一でない）</b>：第一でない。<br/><b>d 長時間作用性吸入β₂刺激薬（LABA）</b>：<span class=\"kw\">気流閉塞の改善</span>。✓<br/><b>e 長時間作用性吸入抗コリン薬（LAMA）</b>：<span class=\"kw\">COPDの基本の気管支拡張薬</span>。✓"
             }
           ],
           "imgs": [
@@ -7807,6 +8002,11 @@ window["_cardJSON_resp"]={
               "cls": "ep",
               "h": "🫁 季節性乾性咳嗽のワークアップ",
               "c": "毎年2〜5月（花粉シーズン）＋アレルギー性鼻炎＋乾性咳嗽→<span class=\"kw\">咳喘息またはアトピー咳嗽</span>を疑う。<br><span class=\"kw\">d スパイロメトリ</span>：FEV₁%低下+気道可逆性（喘息）を確認。<span class=\"kw\">e 喀痰好酸球比率</span>：好酸球性気道炎症の証拠（咳喘息・アトピー咳嗽・EOE等の鑑別）。</br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "喘息を疑い次に行う検査を2つ。<br/><b>a 胸部CT／b 気管支鏡／c 動脈血ガス</b>：第一でない。<br/><b>d スパイロメトリ</b>：<span class=\"kw\">気流閉塞と可逆性を評価</span>。✓<br/><b>e 喀痰中好酸球比率算定</b>：<span class=\"kw\">好酸球性気道炎症を評価</span>。✓"
             }
           ],
           "imgs": []
@@ -7859,6 +8059,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "COPD栄養管理：<span class=\"kw\">高エネルギー（≥35 kcal/kg/day）</span>・<span class=\"kw\">高蛋白</span>・<span class=\"kw\">脂質中心（RQ=0.7）</span>・<span class=\"kw\">分食（1回量を減らす）</span>。除脂肪体重（FFM）低下は予後不良因子（a正）。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "COPDの栄養・代謝について「誤っている」もの。<br/><b>a 除脂肪体重は予後と関連／b 高蛋白・高エネルギー食／c 脂質の割合が高い配分／e 食事に伴う呼吸困難</b>：正しい。<br/><b>d 安静時エネルギー消費量は予測値より低下する</b>：<span class=\"kw\">呼吸仕事量増大で安静時エネルギー消費はむしろ増加（誤り）</span>。✓（これが正解肢）"
             }
           ],
           "imgs": [
@@ -7909,6 +8114,11 @@ window["_cardJSON_resp"]={
               "cls": "ee",
               "h": "📋 ABPA（アレルギー性気管支肺アスペルギルス症）まとめ",
               "c": "<table class=\"tb\"><tr><th>特徴</th><th>内容</th></tr><tr><td>病因</td><td><span class=\"kw\">Aspergillus fumigatus（真菌）</span>への過剰免疫反応（抗酸菌ではない→d誤）</td></tr><tr><td>診断</td><td>IgE高値（a正）、好酸球増多（b正）、移動性浸潤影（c正）、沈降抗体陽性</td></tr><tr><td>CT所見</td><td>中枢型気管支拡張症、mucus plug（茶褐色粘稠痰）</td></tr><tr><td>治療</td><td><span class=\"kw\">経口ステロイド＋イトラコナゾール（e正）</span></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "ABPA（移動性浸潤影・好酸球増多）で「誤っている」もの。<br/><b>a IgE高値／b 好酸球増多／c 移動性肺浸潤影／e 経口ステロイドが第一選択</b>：正しい。<br/><b>d 喀痰培養で抗酸菌が検出される</b>：<span class=\"kw\">起因はAspergillusで抗酸菌でない（誤り）</span>。✓（これが正解肢）"
             }
           ],
           "imgs": [
@@ -8007,6 +8217,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw\">ICS（吸入ステロイド）→ 口腔カンジダ症</span>は最も重要な副作用。鑑別：白板症・扁平苔癬はこすっても剥離しない。予防：<span class=\"kw\">吸入後のうがい（必須指導）</span>、スペーサー使用。治療：フルコナゾール内服。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "こすると剝離可能な口腔・咽頭の白苔。<br/><b>a 白板症／b 扁平苔癬／c 単純ヘルペス／e アフタ性口内炎</b>：合わない。<br/><b>d 口腔カンジダ症</b>：<span class=\"kw\">剝離可能な偽膜性カンジダ症</span>。✓"
             }
           ],
           "imgs": [
@@ -8056,6 +8271,11 @@ window["_cardJSON_resp"]={
               "cls": "ep",
               "h": "🫁 喘息急性増悪の治療順位",
               "c": "①<span class=\"kw\">SABA（短時間作用型β₂刺激薬）</span>吸入（第一選択）→ ②<span class=\"kw\">全身ステロイド</span>（選択肢にない）→ ③<span class=\"kw\">アミノフィリン点滴</span>（β₂刺激薬への反応不良時の追加）。<br>b：吸入ステロイドは急性期に気管支拡張効果なし・刺激になる可能性。e：LTRAは長期管理薬。a：細菌感染なし。</br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "喘息発作で直ちに行う治療を2つ。<br/><b>a 抗菌薬／b ICS（急性発作の第一でない）／e ロイコトリエン拮抗薬内服</b>：不適。<br/><b>c アミノフィリン点滴静注</b>：<span class=\"kw\">気管支拡張の補助</span>。✓<br/><b>d 短時間作用性β₂刺激薬吸入</b>：<span class=\"kw\">急性発作の第一選択</span>。✓"
             }
           ],
           "imgs": []
@@ -8098,6 +8318,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "アスピリン喘息に<span class=\"kw4\">NSAIDs（b）は禁忌</span>（最重要禁忌）。酸素投与後の次ステップ：<span class=\"kw\">SABA吸入</span>（選択肢なし）→<span class=\"kw\">全身ステロイド投与</span>。c：利尿薬は心不全向け。a：意識清明・会話可能な段階では過剰。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "喘息発作（酸素後）で次に行う治療。<br/><b>a 人工呼吸／b NSAIDs／c 利尿薬／d 抗菌薬</b>：不適。<br/><b>e 副腎皮質ステロイド全身投与</b>：<span class=\"kw\">気道炎症を抑える全身ステロイド</span>。✓"
             }
           ],
           "imgs": []
@@ -8145,6 +8370,11 @@ window["_cardJSON_resp"]={
               "cls": "ep",
               "h": "🫁 気管支拡張症とマクロライド",
               "c": "喫煙歴なし＋慢性膿性痰＋coarse crackles＋CT小葉中心性陰影＋ムコイド型緑膿菌→<span class=\"kw\">気管支拡張症またはDPB</span>（びまん性汎細気管支炎）。<br>治療：<span class=\"kw\">14員環マクロライド系薬（エリスロマイシン・クラリスロマイシン）の少量長期投与</span>→抗炎症・気道分泌物減少・抗菌（緑膿菌含む）効果。d：カルバペネムは急性感染期の強力な抗菌薬（安定期外来患者に点滴は過剰）。</br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "びまん性汎細気管支炎（DPB）の治療。<br/><b>a β₂刺激薬／b 抗コリン薬／c ステロイド内服／d カルバペネム</b>：第一でない。<br/><b>e 14員環マクロライド系薬の内服</b>：<span class=\"kw\">少量長期マクロライド療法が有効</span>。✓"
             }
           ],
           "imgs": [
@@ -8195,6 +8425,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "<span class=\"kw\">口すぼめ呼吸</span>：呼気時に口をすぼめて圧抵抗をかけることで気道内圧を高め、呼気時の末梢気道虚脱を防ぐ（intrinsic PEEPの自己形成）。COPD患者が自然に獲得する代償機構。<span class=\"kw\">Cheyne-Stokes（心不全・脳卒中）</span>、<span class=\"kw\">Kussmaul（代謝性アシドーシス）</span>、Biot（髄膜炎・脳圧↑）、下顎呼吸（瀕死）との鑑別。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "COPD（過膨張）でみられる可能性が高い呼吸様式。<br/><b>a Cheyne-Stokes／b Kussmaul／d Biot／e 下顎呼吸</b>：本病態でない。<br/><b>c 口すぼめ呼吸</b>：<span class=\"kw\">気道虚脱を防ぎ呼気を助ける口すぼめ呼吸</span>。✓"
             }
           ],
           "imgs": []
@@ -8242,6 +8477,11 @@ window["_cardJSON_resp"]={
               "cls": "ee",
               "h": "📋 COPD悪化に伴う各指標の変化",
               "c": "<table class=\"tb\"><tr><th>指標</th><th>変化方向</th><th>理由</th></tr><tr><td>一秒量（FEV₁）</td><td><span class=\"kw4\">↓低下</span></td><td>閉塞性障害の進行</td></tr><tr><td><span class=\"kw\">残気量（RV）</span></td><td><span class=\"kw\">↑増加</span></td><td><span class=\"kw3\">空気トラッピング増大（正解）</span></td></tr><tr><td>肺拡散能（DLco）</td><td><span class=\"kw4\">↓低下</span></td><td>肺気腫の進行</td></tr><tr><td>努力肺活量（FVC）</td><td><span class=\"kw4\">↓低下</span></td><td>空気トラッピング→VCも低下</td></tr><tr><td>PaO₂</td><td><span class=\"kw4\">↓低下</span></td><td>ガス交換障害の進行</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "COPDの病状悪化とともに増加/上昇するもの。<br/><b>a 一秒量／c 肺拡散能／d 努力肺活量／e 動脈血酸素分圧</b>：低下する。<br/><b>b 残気量</b>：<span class=\"kw\">エアトラッピングで残気量が増加</span>。✓"
             }
           ],
           "imgs": []
@@ -8326,6 +8566,11 @@ window["_cardJSON_resp"]={
               "cls": "ee",
               "h": "📋 疾患と好酸球増多",
               "c": "<table class=\"tb\"><tr><th>疾患</th><th>好酸球増多</th><th>備考</th></tr><tr><td>気管支喘息（a）</td><td><span class=\"kw\">あり</span></td><td>アレルギー性炎症</td></tr><tr><td><span class=\"kw4\">気管支拡張症（b）</span></td><td><span class=\"kw4\">通常なし</span></td><td><span class=\"kw4\">細菌性気道感染が主体（b：最も少ない）</span></td></tr><tr><td>慢性好酸球性肺炎（c）</td><td><span class=\"kw\">著明（&gt;40%）</span></td><td>定義の一部</td></tr><tr><td>EGPA（d）</td><td><span class=\"kw\">著明（&gt;10%）</span></td><td>診断基準に好酸球増多</td></tr><tr><td>ABPA（e）</td><td><span class=\"kw\">あり（10〜50%）</span></td><td>Aspergillusへの過剰IgE反応</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "末梢血で好酸球増多を呈することが「最も少ない」もの。<br/><b>a 気管支喘息／c 慢性好酸球性肺炎／d 好酸球性多発血管炎性肉芽腫症／e ABPA</b>：好酸球増多を伴う。<br/><b>b 気管支拡張症</b>：<span class=\"kw\">好酸球増多は乏しい</span>。✓（これが正解肢）"
             }
           ],
           "imgs": []
@@ -8373,6 +8618,11 @@ window["_cardJSON_resp"]={
               "cls": "ee",
               "h": "📋 COPD増悪予防の手段",
               "c": "<table class=\"tb\"><tr><th>手段</th><th>エビデンス</th></tr><tr><td><span class=\"kw\">インフルエンザワクチン（b）</span></td><td><span class=\"kw3\">✅ Grade A（ウイルス性増悪の予防）</span></td></tr><tr><td><span class=\"kw\">LABA/LAMA吸入（c）</span></td><td><span class=\"kw3\">✅ 気管支拡張→増悪回数↓</span></td></tr><tr><td>酸素療法（a）</td><td>PaO₂≤55 or 60+合併症で適応（SpO₂ 95%では未達）</td></tr><tr><td><span class=\"kw4\">SAMA（短時間作用性抗コリン）（d）</span></td><td><span class=\"kw4\">急性期の頓用→増悪予防エビデンス弱</span></td></tr><tr><td><span class=\"kw4\">経口ペニシリン（e）</span></td><td><span class=\"kw4\">COPDへの少量長期→推奨なし（マクロライドが検討対象）</span></td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "COPDの増悪予防に有用なものを2つ。<br/><b>a 酸素療法（低酸素例のみ）／d 短時間作用性抗コリン（頓用）／e ペニシリン少量長期</b>：予防の主でない。<br/><b>b インフルエンザワクチン接種</b>：<span class=\"kw\">感染による増悪を予防</span>。✓<br/><b>c 長時間作用性β₂刺激薬の吸入</b>：<span class=\"kw\">気流閉塞を改善し増悪を減らす</span>。✓"
             }
           ],
           "imgs": []
@@ -8415,6 +8665,11 @@ window["_cardJSON_resp"]={
               "cls": "ee",
               "h": "📋 誤肢解説",
               "c": "a：β遮断薬は喘息に<span class=\"kw4\">禁忌</span>。b：抗コリン薬は肺高血圧症に適応なし（COPDのLAMA）。c：マイコプラズマは細胞壁がない→<span class=\"kw4\">ペニシリン無効</span>→マクロライド系・テトラサイクリン・ニューキノロンが有効。d：ニューモシスチスは「真菌」様だが<span class=\"kw4\">ST合剤（抗菌薬）</span>が第一選択（抗真菌薬ではない）。e：ABPA→経口ステロイド✓。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "疾患と治療薬の組合せで適切なもの。<br/><b>a 喘息→β遮断薬（禁忌）／b 肺高血圧→抗コリン薬／c マイコプラズマ→ペニシリン（マクロライド）／d ニューモシスチス→抗真菌薬（ST合剤）</b>：誤り。<br/><b>e ABPA→副腎皮質ステロイド</b>：<span class=\"kw\">ABPAの第一選択は経口ステロイド</span>。✓"
             }
           ],
           "imgs": []
@@ -8466,6 +8721,11 @@ window["_cardJSON_resp"]={
               "cls": "ep",
               "h": "🫁 COPD急性増悪の3本柱",
               "c": "①<span class=\"kw\">SABA（e）</span>：気管支拡張、即効性 ②<span class=\"kw\">全身ステロイド（d内服）</span>：炎症抑制 ③<span class=\"kw\">抗菌薬（a）</span>：CRP 6.5・白血球12000→感染誘因あり。<br>b：ICSは急性期主役でない。c：LTRAはCOPD急性増悪に適応なし。<br>BNP↑・JVDは急性肺性心（COPD合併）を示すが、COPDの急性増悪として上記3本柱が最優先。</br></br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "感染を伴う喘息/気道疾患でまず行う治療を3つ。<br/><b>b ICS（急性の第一でない）／c 抗ロイコトリエン薬</b>：第一でない。<br/><b>a 抗菌薬の投与</b>：<span class=\"kw\">感染への対応</span>。✓<br/><b>d 副腎皮質ステロイドの内服</b>：<span class=\"kw\">気道炎症の抑制</span>。✓<br/><b>e 短時間作用型β₂刺激薬の吸入</b>：<span class=\"kw\">気管支拡張</span>。✓"
             }
           ],
           "imgs": [
@@ -8554,6 +8814,11 @@ window["_cardJSON_resp"]={
               "cls": "ep",
               "h": "🫁 感冒後に発症した喘息の管理",
               "c": "感冒→気道炎症・過敏性亢進→<span class=\"kw\">気管支喘息</span>の発症or増悪。夜間・早朝の悪化・wheeze→喘息パターン。<span class=\"kw\">ICS吸入</span>が維持療法の中心。<br>b：Ca拮抗薬は喘息に問題なし（ACE阻害薬は咳嗽の原因だが本例にACE阻害薬はない）。e：PPIはGERD性咳嗽向け（食後悪化・横臥位でも悪化する場合に考慮）。</br>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "両側wheezes（喘息様）への対応。<br/><b>a 利尿薬／b 降圧薬中止／c 抗菌薬／e PPI</b>：不適。<br/><b>d 副腎皮質ステロイド吸入</b>：<span class=\"kw\">気道炎症を抑える吸入ステロイド</span>。✓"
             }
           ],
           "imgs": []
@@ -8601,6 +8866,11 @@ window["_cardJSON_resp"]={
               "cls": "ep",
               "h": "🫁 COPD flow-volume曲線パターン",
               "c": "<span class=\"kw\">COPD（肺気腫型）</span>のflow-volume曲線：<span class=\"kw\">呼気曲線が下方に凹（scooping pattern）</span>。RVが右方にシフト（全体のループが右に偏位）。ピークフローは比較的保たれるが中・低肺量域の呼気流速が著明に低下。③がこのパターンを示す（残りは拘束性・正常・可変性上気道閉塞等）。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "閉塞性障害で予想されるフローボリューム曲線。<br/><b>a ①〜d ④</b>：閉塞性でない。<br/><b>e ⑤</b>：<span class=\"kw\">呼気の下に凸（コンケーブ）の閉塞性パターン</span>。✓"
             }
           ],
           "imgs": [
@@ -8660,6 +8930,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "COPD急性増悪の治療：<span class=\"kw\">a 抗菌薬（感染誘因）＋ e 気管支拡張薬（SABA/SAMA）</span>＋全身ステロイド（選択肢なし）＋<span class=\"kw\">NPPV</span>（pH 7.29→NPPV適応だが選択肢なし）。b：BALは診断的手技。d：気胸なし。c：侵襲的人工換気はNIPPV失敗時の次の手段（ここでは最初の選択でない）。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "気道感染を伴う病態の治療を2つ。<br/><b>b 気管支肺胞洗浄／c 侵襲的人工換気／d 胸腔ドレナージ</b>：第一でない。<br/><b>a 抗菌薬の投与</b>：<span class=\"kw\">感染への対応</span>。✓<br/><b>e 気管支拡張薬の投与</b>：<span class=\"kw\">気流閉塞の改善</span>。✓"
             }
           ],
           "imgs": [
@@ -8714,6 +8989,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "d：<span class=\"kw4\">高濃度酸素は禁忌</span>（PaCO₂ 78→重篤なII型呼吸不全→CO₂ narcosissリスク）。JVD・肝腫大=急性肺性心→<span class=\"kw\">NPPV</span>（選択肢なし）+利尿薬も考慮。b：気胸なし。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "感染を伴う気道疾患の治療を2つ。<br/><b>b 胸腔ドレナージ／c 免疫抑制薬／d 高濃度酸素（CO2貯留の危険）</b>：不適。<br/><b>a 抗菌薬の投与</b>：<span class=\"kw\">感染への対応</span>。✓<br/><b>e 気管支拡張薬の投与</b>：<span class=\"kw\">気流閉塞の改善</span>。✓"
             }
           ],
           "imgs": [
@@ -8768,6 +9048,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "夜間主体の咳嗽・強制呼出でwheeze・アトピー既往・ハムスター（アレルゲン）→<span class=\"kw\">気管支喘息疑い</span>。確定診断には<span class=\"kw\">スパイロメトリ（気道可逆性試験＋気道過敏性試験）</span>。FEV₁%低下かつβ₂刺激薬吸入後に≥12%＆≥200mL改善→喘息確定。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "喘息の診断のために最も適切な検査。<br/><b>b 心エコー／c 気管支鏡／d 胸部CT／e 喀痰培養</b>：第一でない。<br/><b>a スパイロメトリー</b>：<span class=\"kw\">気流閉塞と可逆性を評価</span>。✓"
             }
           ],
           "imgs": [
@@ -8817,6 +9102,11 @@ window["_cardJSON_resp"]={
               "cls": "ept",
               "h": "🎯 国試ポイント",
               "c": "市販鎮痛薬（NSAID）→アスピリン喘息の急性増悪発作。<span class=\"kw4\">今後NSAIDs全般を禁忌</span>として指導が必要。急性発作への対処：<span class=\"kw\">SABAの吸入（β₂刺激薬）</span>が最優先。意識清明・会話可能な段階→SABA→効果不十分なら全身ステロイド静注。"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 選択肢解説",
+              "c": "両側wheezes（喘息発作）で直ちに行う処置。<br/><b>a 硝酸薬舌下／c 利尿薬／d 抗菌薬／e 気管挿管</b>：不適/まだ。<br/><b>b β₂刺激薬の吸入</b>：<span class=\"kw\">急性発作の第一選択（気管支拡張）</span>。✓"
             }
           ],
           "imgs": []
