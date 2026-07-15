@@ -19561,6 +19561,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　吸引分娩</td><td><span class=\"kw4\">時期尚早</span>。SP±0で児頭がまだ高く吸引の要件（低在・全開）を満たさない</td></tr><tr><td>ｂ　経過観察</td><td><span class=\"kw4\">不適</span>。第2期遷延で放置はできない</td></tr><tr><td>ｃ　帝王切開</td><td><span class=\"kw4\">不要</span>。CPD・胎児機能不全がなく、まず陣痛促進</td></tr><tr><td>ｄ　胎児圧出法</td><td><span class=\"kw4\">不適</span>。微弱陣痛の是正が先</td></tr><tr><td>ｅ　子宮収縮薬投与</td><td><span class=\"kw3\">正しい</span>。微弱陣痛による遷延を陣痛促進で是正</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "一過性頻脈を認めるreassuringなCTG（微弱陣痛）。<br/><b>a 吸引分娩／c 帝王切開／d 胎児圧出法</b>：不要/不適。<br/><b>b 経過観察</b>：（reassuringだが分娩促進が必要な場合）／<b>e 子宮収縮薬投与</b>：<span class=\"kw\">胎児が良好で微弱陣痛なら子宮収縮薬で分娩を促進</span>。✓"
       }
      ],
      "imgs": []
@@ -19670,6 +19675,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　①規則的子宮収縮開始</td><td><span class=\"kw4\">正常</span>。分娩開始</td></tr><tr><td>ｂ　②子宮口全開大</td><td><span class=\"kw4\">正常</span>。第1期終了</td></tr><tr><td>ｃ　③顔面を母体腹壁側へ回旋</td><td><span class=\"kw3\">異常（正解）</span>。後方後頭位</td></tr><tr><td>ｄ　④前在肩甲が先に娩出</td><td><span class=\"kw4\">正常</span>。腹壁側の肩甲が先</td></tr><tr><td>ｅ　⑤9分後に胎盤娩出</td><td><span class=\"kw4\">正常</span>。第3期は15〜30分以内</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "記載された分娩経過で「異常」なもの。<br/><b>a ①／b ②／d ④／e ⑤</b>：正常範囲。<br/><b>c ③</b>：<span class=\"kw\">分娩進行の停滞など異常な経過を示す</span>。✓"
       }
      ],
      "imgs": []
@@ -19783,6 +19793,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　吸引分娩</td><td><span class=\"kw4\">不可</span>。子宮口7cmで全開大でなく要件を満たさない</td></tr><tr><td>ｂ　人工破膜</td><td><span class=\"kw4\">不適</span>。まず保存的処置。破膜で臍帯脱出のリスクも</td></tr><tr><td>ｃ　体位変換</td><td><span class=\"kw3\">正しい</span>。まず非侵襲的な子宮内蘇生</td></tr><tr><td>ｄ　帝王切開</td><td><span class=\"kw4\">性急</span>。一過性徐脈で回復しうる。まず保存的対応</td></tr><tr><td>ｅ　子宮収縮抑制薬投与</td><td><span class=\"kw4\">次順位</span>。過強陣痛が原因ならオキシトシン中止が先</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "胎胞触知（臍帯下垂/前期破水前）でまず行う対応。<br/><b>a 吸引分娩／b 人工破膜（臍帯脱出の危険）／d 帝王切開／e 抑制薬</b>：第一でない。<br/><b>c 体位変換</b>：<span class=\"kw\">臍帯脱出を避けるため骨盤高位等の体位変換</span>。✓"
       }
      ],
      "imgs": [
@@ -19900,6 +19915,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　遷延分娩</td><td><span class=\"kw4\">誤り</span>。順調に全開大へ進行</td></tr><tr><td>ｂ　早期破水</td><td><span class=\"kw3\">正しい</span>。分娩開始後・全開大前の破水</td></tr><tr><td>ｃ　微弱陣痛</td><td><span class=\"kw4\">誤り</span>。3分周期・持続1分で有効陣痛</td></tr><tr><td>ｄ　分娩停止</td><td><span class=\"kw4\">誤り</span>。進行が停止していない</td></tr><tr><td>ｅ　後方後頭位</td><td><span class=\"kw4\">誤り</span>。小泉門1時（前方）で正常回旋</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "分娩経過の評価で正しいもの。<br/><b>a 遷延分娩／c 微弱陣痛／d 分娩停止／e 後方後頭位</b>：本例で該当しない。<br/><b>b 早期破水</b>：<span class=\"kw\">分娩開始後・子宮口全開前の破水</span>。✓"
       }
      ],
      "imgs": []
@@ -20015,6 +20035,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　第2回旋の異常である</td><td><span class=\"kw4\">誤り</span>。小泉門12時へ正常に内回旋完了</td></tr><tr><td>ｂ　産瘤は右頭頂骨後部にできる</td><td><span class=\"kw3\">正しい</span>。第1頭位の先進部</td></tr><tr><td>ｃ　骨重積は右頭頂骨が左頭頂骨の下</td><td><span class=\"kw4\">誤り</span>。重積の向きが逆（記述として不適）</td></tr><tr><td>ｄ　第4回旋で顔は母体左側へ</td><td><span class=\"kw4\">誤り</span>。第1頭位（児背左）では顔は<span class=\"kw\">右側</span>へ</td></tr><tr><td>ｅ　左側の肩甲が先に娩出</td><td><span class=\"kw4\">誤り</span>。前在（母体腹壁側）の肩甲が先に娩出</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "分娩機転について正しいもの。<br/><b>a 第2回旋の異常／c 骨重積で右が左の下（下になる方は状況次第）／d 第4回旋で顔面が左（回旋方向次第）／e 左肩甲が先に娩出</b>：本例で誤り。<br/><b>b 産瘤は右頭頂骨後部にできる</b>：<span class=\"kw\">先進部（下降時に先行する部位）に産瘤ができる</span>。✓"
       }
      ],
      "imgs": []
@@ -20071,6 +20096,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　吸引分娩</td><td><span class=\"kw4\">時期尚早</span>。全開大前で要件を満たさない</td></tr><tr><td>ｂ　経過観察</td><td><span class=\"kw3\">正しい</span>。順調な進行で介入不要</td></tr><tr><td>ｃ　骨盤計測</td><td><span class=\"kw4\">不要</span>。順調に下降しCPDを疑わない</td></tr><tr><td>ｄ　帝王切開</td><td><span class=\"kw4\">不要</span>。異常所見がない</td></tr><tr><td>ｅ　オキシトシン投与</td><td><span class=\"kw4\">不要</span>。有効陣痛で自然進行中</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "reassuringなCTG。<br/><b>a 吸引分娩／c 骨盤計測／d 帝王切開／e オキシトシン</b>：不要。<br/><b>b 経過観察</b>：<span class=\"kw\">胎児が良好なら経過観察</span>。✓"
       }
      ],
      "imgs": [
@@ -20129,6 +20159,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　会陰切開</td><td><span class=\"kw4\">無意味</span>。児頭が下降していない</td></tr><tr><td>ｂ　吸引分娩</td><td><span class=\"kw4\">不可</span>。SP−1で高位、CPDが背景</td></tr><tr><td>ｃ　経過観察</td><td><span class=\"kw4\">不適</span>。4時間停止を放置できない</td></tr><tr><td>ｄ　帝王切開</td><td><span class=\"kw3\">正しい</span>。CPDによる分娩停止</td></tr><tr><td>ｅ　オキシトシン投与</td><td><span class=\"kw4\">禁忌に近い</span>。CPDに陣痛促進は子宮破裂の危険</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "胎児機能不全を示すCTG。<br/><b>a 会陰切開／b 吸引分娩（条件を満たさない）／c 経過観察／e オキシトシン（悪化）</b>：不適。<br/><b>d 帝王切開</b>：<span class=\"kw\">胎児機能不全は速やかに娩出</span>。✓"
       }
      ],
      "imgs": [
@@ -20187,6 +20222,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　額位</td><td><span class=\"kw4\">第1回旋異常</span>。反屈位</td></tr><tr><td>ｂ　横位</td><td><span class=\"kw4\">胎位異常</span>。回旋以前の問題</td></tr><tr><td>ｃ　高在縦定位</td><td><span class=\"kw4\">進入の異常</span>。骨盤入口で縦径のまま（内回旋そのものの異常と区別）</td></tr><tr><td>ｄ　後方後頭位</td><td><span class=\"kw3\">正しい</span>。後頭が後方に回旋（内回旋異常）</td></tr><tr><td>ｅ　低在横定位</td><td><span class=\"kw3\">正しい</span>。骨盤底で矢状縫合が横径のまま停止</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "頭位分娩における第2回旋の異常を2つ。<br/><b>a 額位（反屈＝第1回旋）／b 横位（胎位異常）／c 高在縦定位（第1回旋）</b>：第2回旋の異常でない。<br/><b>d 後方後頭位</b>：<span class=\"kw\">第2回旋（内回旋）の異常</span>。✓<br/><b>e 低在横定位</b>：<span class=\"kw\">内回旋の停止（第2回旋の異常）</span>。✓"
       }
      ],
      "imgs": []
@@ -20243,6 +20283,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　経過観察</td><td><span class=\"kw4\">不適</span>。胎児機能不全があり急速遂娩が必要</td></tr><tr><td>ｂ　吸引分娩</td><td><span class=\"kw3\">正しい</span>。全開・低在・回旋完了で経腟急速遂娩</td></tr><tr><td>ｃ　体位変換</td><td><span class=\"kw4\">不十分</span>。すでに娩出可能で急速遂娩が優先</td></tr><tr><td>ｄ　帝王切開術</td><td><span class=\"kw4\">不適</span>。児頭が低在で吸引の方が速く低侵襲</td></tr><tr><td>ｅ　子宮収縮抑制薬投与</td><td><span class=\"kw4\">禁忌に近い</span>。娩出すべき状況で抑制は逆行</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "児頭が骨盤底（坐骨棘以下）まで下降した第2期。<br/><b>a 経過観察／c 体位変換／d 帝王切開／e 抑制薬</b>：不適。<br/><b>b 吸引分娩</b>：<span class=\"kw\">児頭が十分下降し急速遂娩が必要な場合は吸引分娩</span>。✓"
       }
      ],
      "imgs": [
@@ -20487,6 +20532,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　①高齢初産</td><td>一情報だが分娩様式の決定因子ではない</td></tr><tr><td>ｂ　②不妊治療・IVF</td><td>妊娠成立の背景で分娩様式の決定因子でない</td></tr><tr><td>ｃ　③腹腔鏡下卵巣手術既往</td><td>子宮筋層の手術ではなく子宮破裂リスクは高くない</td></tr><tr><td>ｄ　④推定胎児体重</td><td>重要だが第一決定因子は胎位</td></tr><tr><td>ｅ　⑤胎位（先進児骨盤位）</td><td><span class=\"kw3\">正しい</span>。先進児の胎位が分娩様式を決める</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "経腟分娩の可否を判断する上で最も重要な情報。<br/><b>a ①〜d ④</b>：判断の主でない。<br/><b>e ⑤</b>：<span class=\"kw\">児頭骨盤不均衡（CPD）の有無に関わる情報</span>。✓"
       }
      ],
      "imgs": []
@@ -20539,6 +20589,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　破水</td><td><span class=\"kw4\">誤り</span>。前期破水（陣痛前）もあり定義でない</td></tr><tr><td>ｂ　児頭の下降</td><td><span class=\"kw4\">誤り</span>。陣痛に伴う結果であり開始の定義でない</td></tr><tr><td>ｃ　子宮口開大の開始</td><td><span class=\"kw4\">誤り</span>。定義は陣痛の周期</td></tr><tr><td>ｄ　陣痛周期が10分以内</td><td><span class=\"kw3\">正しい</span>。分娩開始の定義</td></tr><tr><td>ｅ　陣痛頻度が1時間に6回以上</td><td><span class=\"kw3\">正しい</span>。10分以内周期と同義</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "分娩開始と判断する所見を2つ。<br/><b>a 破水／b 児頭の下降／c 子宮口開大の開始</b>：分娩開始の定義でない。<br/><b>d 陣痛周期が10分以内</b>：<span class=\"kw\">規則的陣痛（10分以内）で分娩開始</span>。✓<br/><b>e 陣痛頻度が1時間に6回以上</b>：<span class=\"kw\">1時間6回以上の陣痛で分娩開始</span>。✓"
       }
      ],
      "imgs": []
@@ -20595,6 +20650,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　適時破水</td><td><span class=\"kw4\">誤り</span>。全開大前（12時破水）で早期破水</td></tr><tr><td>ｂ　微弱陣痛</td><td><span class=\"kw3\">正しい</span>。進行しない有効陣痛の欠如</td></tr><tr><td>ｃ　分娩停止</td><td><span class=\"kw3\">正しい</span>。進行の停止</td></tr><tr><td>ｄ　後方後頭位</td><td><span class=\"kw4\">誤り</span>。所見は横定位（後方でない）</td></tr><tr><td>ｅ　低在横定位</td><td><span class=\"kw3\">正しい</span>。横径のまま停止</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "パルトグラムの診断を3つ。<br/><b>a 適時破水／d 後方後頭位</b>：本例で該当しない。<br/><b>b 微弱陣痛</b>：<span class=\"kw\">陣痛が弱く分娩が進行しない</span>。✓<br/><b>c 分娩停止</b>：<span class=\"kw\">子宮口開大/児頭下降が停止</span>。✓<br/><b>e 低在横定位</b>：<span class=\"kw\">内回旋の停止</span>。✓"
       }
      ],
      "imgs": [
@@ -20644,6 +20704,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　羊水塞栓症</td><td><span class=\"kw4\">低い</span>。分娩中〜直後の急変で、術後1日・歩行時発症は非典型</td></tr><tr><td>ｂ　急性心筋梗塞</td><td><span class=\"kw4\">低い</span>。若年で誘因・心電図変化の記載なし</td></tr><tr><td>ｃ　周産期心筋症</td><td><span class=\"kw4\">低い</span>。心不全（起坐呼吸・浮腫）が主で急な胸痛と違う</td></tr><tr><td>ｄ　肺血栓塞栓症</td><td><span class=\"kw3\">正しい</span>。術後・肥満・初回歩行時の突然の呼吸困難</td></tr><tr><td>ｅ　急性大動脈解離</td><td><span class=\"kw4\">低い</span>。血圧左右差・引き裂く背部痛の記載なし</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "分娩中の突然の呼吸困難・循環虚脱。<br/><b>a 羊水塞栓症／b 急性心筋梗塞／c 周産期心筋症／e 急性大動脈解離</b>：本例で第一でない。<br/><b>d 肺血栓塞栓症</b>：<span class=\"kw\">周産期のDVTからの肺塞栓</span>。✓"
       }
      ],
      "imgs": []
@@ -20760,6 +20825,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　吸引分娩</td><td><span class=\"kw3\">正しい</span>。全開・低在・回旋完了で経腟急速遂娩</td></tr><tr><td>ｂ　帝王切開</td><td><span class=\"kw4\">不適</span>。児頭が低在で吸引の方が速く低侵襲</td></tr><tr><td>ｃ　抗菌薬投与</td><td><span class=\"kw4\">不適</span>。感染徴候の記載がなく娩出が優先</td></tr><tr><td>ｄ　陣痛促進薬投与</td><td><span class=\"kw4\">不適</span>。すでに全開・低在で娩出段階</td></tr><tr><td>ｅ　子宮収縮抑制薬投与</td><td><span class=\"kw4\">禁忌に近い</span>。娩出すべき状況で抑制は逆行</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "児頭が下降した第2期の急速遂娩。<br/><b>b 帝王切開／c 抗菌薬／d 陣痛促進薬／e 抑制薬</b>：不適。<br/><b>a 吸引分娩</b>：<span class=\"kw\">児頭下降例の急速遂娩に吸引分娩</span>。✓"
       }
      ],
      "imgs": [
@@ -20913,6 +20983,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　岬角</td><td><span class=\"kw3\">正しい（触れない）</span>。触れれば狭骨盤を示唆</td></tr><tr><td>ｂ　尾骨</td><td><span class=\"kw4\">触れる</span>。骨盤後壁</td></tr><tr><td>ｃ　坐骨棘</td><td><span class=\"kw4\">触れる</span>。下降度の基準点</td></tr><tr><td>ｄ　小泉門</td><td><span class=\"kw4\">触れる</span>。頭位の先進部</td></tr><tr><td>ｅ　矢状縫合</td><td><span class=\"kw4\">触れる</span>。回旋の判定に用いる</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "正常骨盤の分娩第1期の内診で「触れない」もの。<br/><b>b 尾骨／c 坐骨棘／d 小泉門／e 矢状縫合</b>：触知できる。<br/><b>a 岬角</b>：<span class=\"kw\">正常骨盤では岬角（仙骨岬）に届かない（触れれば狭骨盤を疑う）</span>。✓"
       }
      ],
      "imgs": []
@@ -21012,6 +21087,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　頸管の展退（%）</td><td><span class=\"kw4\">誤り</span>。Bishopの項目だが曲線の主軸でない</td></tr><tr><td>ｂ　子宮口の開大（cm）</td><td><span class=\"kw3\">正しい</span>。Friedman曲線の縦軸</td></tr><tr><td>ｃ　陣痛発作の持続時間（秒）</td><td><span class=\"kw4\">誤り</span>。陣痛の評価項目</td></tr><tr><td>ｄ　頸部の硬さ</td><td><span class=\"kw4\">誤り</span>。Bishopの項目</td></tr><tr><td>ｅ　子宮口の位置</td><td><span class=\"kw4\">誤り</span>。Bishopの項目</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "パルトグラム（Friedman曲線）の分娩進行の評価項目。<br/><b>a 頸管の展退／c 陣痛持続時間／d 頸部の硬さ／e 子宮口の位置</b>：主軸でない。<br/><b>b 子宮口の開大（cm）</b>：<span class=\"kw\">子宮口開大度と児頭下降度で進行を評価</span>。✓"
       }
      ],
      "imgs": []
@@ -21064,6 +21144,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　経過観察</td><td><span class=\"kw3\">正しい</span>。順調な進行・正常CTG</td></tr><tr><td>ｂ　鉗子分娩</td><td><span class=\"kw4\">不適</span>。全開・低在でなく要件を満たさない</td></tr><tr><td>ｃ　帝王切開</td><td><span class=\"kw4\">不要</span>。異常所見がない</td></tr><tr><td>ｄ　β2刺激薬投与</td><td><span class=\"kw4\">不適</span>。切迫（過強陣痛）の記載がない</td></tr><tr><td>ｅ　オキシトシン投与</td><td><span class=\"kw4\">不要</span>。有効陣痛で自然進行中</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "正常に進行する分娩への対応。<br/><b>b 鉗子分娩／c 帝王切開／d β2刺激薬／e オキシトシン</b>：不要。<br/><b>a 経過観察</b>：<span class=\"kw\">正常進行なら経過観察</span>。✓"
       }
      ],
      "imgs": [
@@ -21114,6 +21199,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　適時破水である</td><td><span class=\"kw4\">紛らわしい</span>。全開直後の破水で適時破水だが、本問の正解は分娩時間</td></tr><tr><td>ｂ　胎位は第2頭位</td><td><span class=\"kw4\">誤り</span>。児背が母体左＝第1頭位</td></tr><tr><td>ｃ　出血量は異常</td><td><span class=\"kw4\">誤り</span>。420mLは正常範囲</td></tr><tr><td>ｄ　分娩時間は10時間50分</td><td><span class=\"kw3\">正しい</span>。午前6時〜午後4時50分</td></tr><tr><td>ｅ　右頭頂骨が左頭頂骨の下</td><td><span class=\"kw4\">誤り</span>。骨重積の向きの断定はできない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "分娩経過について正しいもの。<br/><b>b 第2頭位（データ次第）／c 出血量が異常（正常範囲）／d 分娩時間10時間50分（記載次第）／e 右頭頂骨が下（骨重積）</b>：本例で誤り。<br/><b>a 適時破水である</b>：<span class=\"kw\">子宮口全開大ごろの破水（適時破水）</span>。✓"
       }
      ],
      "imgs": []
@@ -21166,6 +21256,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　臍帯脱出</td><td><span class=\"kw3\">正しい</span>。破水直後に起こる急な徐脈</td></tr><tr><td>ｂ　子宮破裂</td><td><span class=\"kw3\">正しい</span>。強収縮で破裂し胎盤循環破綻</td></tr><tr><td>ｃ　羊水塞栓症</td><td><span class=\"kw3\">正しい</span>。母体虚脱に伴う胎児徐脈</td></tr><tr><td>ｄ　絨毛膜羊膜炎</td><td><span class=\"kw4\">誤り</span>。徐脈でなく発熱・頻脈が主で急な徐脈は非典型</td></tr><tr><td>ｅ　HELLP症候群</td><td><span class=\"kw4\">誤り</span>。母体の肝・血小板異常で急な徐脈は来さない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "分娩中の胎児徐脈・母体急変の原因を3つ。<br/><b>d 絨毛膜羊膜炎／e HELLP症候群</b>：急性の胎児徐脈の主因でない。<br/><b>a 臍帯脱出</b>：<span class=\"kw\">臍帯圧迫による急激な胎児徐脈</span>。✓<br/><b>b 子宮破裂</b>：<span class=\"kw\">胎児機能不全・母体ショック</span>。✓<br/><b>c 羊水塞栓症</b>：<span class=\"kw\">母体の急変・胎児機能不全</span>。✓"
       }
      ],
      "imgs": []
@@ -21213,6 +21308,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　骨盤位</td><td><span class=\"kw4\">相対的</span>。条件により経腟分娩も可能</td></tr><tr><td>ｂ　微弱陣痛</td><td><span class=\"kw4\">相対的</span>。まず陣痛促進を試みる</td></tr><tr><td>ｃ　不正軸進入</td><td><span class=\"kw4\">相対的</span>。管理で経腟分娩しうる</td></tr><tr><td>ｄ　軟産道強靱</td><td><span class=\"kw4\">相対的</span>。</td></tr><tr><td>ｅ　児頭骨盤不均衡</td><td><span class=\"kw3\">正しい</span>。絶対的適応</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "帝王切開の絶対的適応。<br/><b>a 骨盤位（相対的）／b 微弱陣痛／c 不正軸進入／d 軟産道強靱</b>：絶対的適応でない。<br/><b>e 児頭骨盤不均衡</b>：<span class=\"kw\">CPDは経腟分娩不可能で帝王切開の絶対的適応</span>。✓"
       }
      ],
      "imgs": []
@@ -21260,6 +21360,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　腟</td><td><span class=\"kw4\">誤り</span>。作用部位でない</td></tr><tr><td>ｂ　子宮頸部</td><td><span class=\"kw4\">誤り</span>。熟化はプロスタグランジンが主</td></tr><tr><td>ｃ　子宮峡部</td><td><span class=\"kw4\">誤り</span>。主作用は体部</td></tr><tr><td>ｄ　子宮体部</td><td><span class=\"kw3\">正しい</span>。子宮筋層を収縮させる</td></tr><tr><td>ｅ　卵管</td><td><span class=\"kw4\">誤り</span>。分娩時の主作用部位でない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "女性生殖器におけるオキシトシンの作用部位。<br/><b>a 腟／b 子宮頸部／c 子宮峡部／e 卵管</b>：主作用部位でない。<br/><b>d 子宮体部</b>：<span class=\"kw\">子宮体部平滑筋を収縮させ陣痛を起こす</span>。✓"
       }
      ],
      "imgs": []
@@ -21307,6 +21412,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　胎動減少</td><td><span class=\"kw4\">誤り</span>。陣痛発来の指標でない</td></tr><tr><td>ｂ　胎児下降</td><td><span class=\"kw4\">誤り</span>。前駆症状</td></tr><tr><td>ｃ　血性帯下増加</td><td><span class=\"kw4\">誤り</span>。産徴（前駆症状）</td></tr><tr><td>ｄ　子宮頸管短縮</td><td><span class=\"kw4\">誤り</span>。前駆的変化</td></tr><tr><td>ｅ　規則的子宮収縮</td><td><span class=\"kw3\">正しい</span>。10分以内周期で分娩開始</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "陣痛発来とする所見。<br/><b>a 胎動減少／b 胎児下降／c 血性帯下増加／d 子宮頸管短縮</b>：陣痛発来の定義でない。<br/><b>e 規則的子宮収縮</b>：<span class=\"kw\">規則的な子宮収縮（10分以内周期）で陣痛発来</span>。✓"
       }
      ],
      "imgs": []
@@ -21354,6 +21464,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　応形</td><td><span class=\"kw4\">誤り</span>。産道通過に伴う頭の変形</td></tr><tr><td>ｂ　嵌入</td><td><span class=\"kw4\">誤り</span>。児頭が骨盤入口を通過（適合）</td></tr><tr><td>ｃ　固定</td><td><span class=\"kw4\">誤り</span>。骨盤内に固定＝下降している</td></tr><tr><td>ｄ　浮動</td><td><span class=\"kw3\">正しい</span>。末期に嵌入しない＝CPD示唆</td></tr><tr><td>ｅ　骨重積</td><td><span class=\"kw4\">誤り</span>。産道通過時の生理的変化</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "児頭骨盤不均衡を示唆する児頭の所見。<br/><b>a 応形／b 嵌入／c 固定／e 骨重積</b>：下降が進んだ所見。<br/><b>d 浮動</b>：<span class=\"kw\">児頭が骨盤に固定せず浮動する（CPDを示唆）</span>。✓"
       }
      ],
      "imgs": []
@@ -21453,6 +21568,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　岬角</td><td><span class=\"kw3\">正しい（触れない）</span>。触れれば狭骨盤を示唆</td></tr><tr><td>ｂ　尾骨</td><td><span class=\"kw4\">触れる</span></td></tr><tr><td>ｃ　坐骨棘</td><td><span class=\"kw4\">触れる</span>。下降度の基準</td></tr><tr><td>ｄ　小泉門</td><td><span class=\"kw4\">触れる</span>。頭位の先進部</td></tr><tr><td>ｅ　矢状縫合</td><td><span class=\"kw4\">触れる</span>。回旋の判定</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "正常骨盤の分娩第1期の内診で「触れない」もの。<br/><b>b 尾骨／c 坐骨棘／d 小泉門／e 矢状縫合</b>：触知できる。<br/><b>a 岬角</b>：<span class=\"kw\">正常骨盤では届かない（触れれば狭骨盤）</span>。✓"
       }
      ],
      "imgs": []
@@ -21500,6 +21620,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　過期産である</td><td><span class=\"kw4\">誤り</span>。42週未満で過期産でない</td></tr><tr><td>ｂ　前期破水である</td><td><span class=\"kw4\">誤り</span>。分娩開始後の早期破水</td></tr><tr><td>ｃ　第2期遷延である</td><td><span class=\"kw3\">正しい</span>。全開大〜娩出が2時間50分</td></tr><tr><td>ｄ　巨大児である</td><td><span class=\"kw4\">誤り</span>。3,805gで4,000g未満</td></tr><tr><td>ｅ　新生児仮死である</td><td><span class=\"kw4\">誤り</span>。Apgar 8点で仮死でない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "分娩について正しいもの。<br/><b>a 過期産／b 前期破水／d 巨大児／e 新生児仮死</b>：データで該当しない。<br/><b>c 第2期遷延である</b>：<span class=\"kw\">分娩第2期が長引いている（遷延）</span>。✓"
       }
      ],
      "imgs": []
@@ -21547,6 +21672,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　経過観察</td><td><span class=\"kw3\">正しい</span>。異常なく予定帝切まで経過観察</td></tr><tr><td>ｂ　鉄剤投与</td><td><span class=\"kw4\">不要</span>。Hb 11.4は妊娠性の生理的範囲</td></tr><tr><td>ｃ　抗菌薬投与</td><td><span class=\"kw4\">不要</span>。感染徴候がない</td></tr><tr><td>ｄ　利尿薬投与</td><td><span class=\"kw4\">不要</span>。生理的浮腫で利尿薬は不適</td></tr><tr><td>ｅ　スタチン投与</td><td><span class=\"kw4\">禁忌</span>。妊娠中は禁忌、かつ適応がない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "正常な分娩経過/産褥への対応。<br/><b>b 鉄剤／c 抗菌薬／d 利尿薬／e スタチン</b>：不要。<br/><b>a 経過観察</b>：<span class=\"kw\">正常経過で経過観察</span>。✓"
       }
      ],
      "imgs": []
@@ -21594,6 +21724,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　横位 ─ 帝王切開</td><td><span class=\"kw3\">正しい</span>。経腟分娩不可能</td></tr><tr><td>ｂ　骨盤位 ─ 吸引分娩</td><td><span class=\"kw4\">誤り</span>。吸引は頭位のみ</td></tr><tr><td>ｃ　肩甲難産 ─ 鉗子分娩</td><td><span class=\"kw4\">誤り</span>。解除手技で対応</td></tr><tr><td>ｄ　低在横定位 ─ 会陰切開</td><td><span class=\"kw4\">誤り</span>。回旋の是正が必要</td></tr><tr><td>ｅ　不正軸進入 ─ 陣痛促進</td><td><span class=\"kw4\">誤り</span>。促進では解決しない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "分娩の異常とその対応の組合せで正しいもの。<br/><b>b 骨盤位→吸引分娩／c 肩甲難産→鉗子分娩／d 低在横定位→会陰切開／e 不正軸進入→陣痛促進</b>：誤り。<br/><b>a 横位→帝王切開</b>：<span class=\"kw\">横位は経腟分娩不能で帝王切開</span>。✓"
       }
      ],
      "imgs": []
@@ -21641,6 +21776,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　巻絡</td><td><span class=\"kw4\">誤り</span>。超音波で疑う（内診で確定できない）</td></tr><tr><td>ｂ　脱出</td><td><span class=\"kw3\">正しい</span>。内診で拍動する臍帯を触知</td></tr><tr><td>ｃ　過捻転</td><td><span class=\"kw4\">誤り</span>。分娩後の臍帯観察で判明</td></tr><tr><td>ｄ　真結節</td><td><span class=\"kw4\">誤り</span>。分娩後に確認</td></tr><tr><td>ｅ　卵膜付着</td><td><span class=\"kw4\">誤り</span>。超音波・胎盤観察で判明</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "内診で診断できる臍帯異常。<br/><b>a 巻絡／c 過捻転／d 真結節／e 卵膜付着</b>：内診で診断困難。<br/><b>b 脱出</b>：<span class=\"kw\">臍帯脱出は内診で触知して診断</span>。✓"
       }
      ],
      "imgs": []
@@ -21693,6 +21833,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　狭骨盤</td><td><span class=\"kw3\">正しい</span>。骨産道の狭小で嵌入を妨げる</td></tr><tr><td>ｂ　過長臍帯</td><td><span class=\"kw4\">誤り</span>。固定を直接妨げない（臍帯脱出・巻絡の素因）</td></tr><tr><td>ｃ　頸部筋腫</td><td><span class=\"kw3\">正しい</span>。軟産道を占拠し下降を妨げる</td></tr><tr><td>ｄ　前置血管</td><td><span class=\"kw4\">誤り</span>。破水時出血のリスクだが固定は妨げない</td></tr><tr><td>ｅ　羊水過少症</td><td><span class=\"kw4\">誤り</span>。児頭固定を直接妨げない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "児頭の固定を妨げるものを2つ。<br/><b>b 過長臍帯／d 前置血管／e 羊水過少症</b>：固定を妨げる主因でない。<br/><b>a 狭骨盤</b>：<span class=\"kw\">骨産道が狭く児頭が固定できない</span>。✓<br/><b>c 頸部筋腫</b>：<span class=\"kw\">子宮下部の筋腫が児頭下降を妨げる</span>。✓"
       }
      ],
      "imgs": []
@@ -21749,6 +21894,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　第Ⅶ因子活性</td><td><span class=\"kw4\">誤り</span>。外因系（PT延長）で本例はPT正常</td></tr><tr><td>ｂ　第Ⅷ因子活性</td><td><span class=\"kw3\">正しい</span>。血友病Aの確定</td></tr><tr><td>ｃ　第Ⅸ因子活性</td><td><span class=\"kw3\">正しい</span>。血友病Bの確定</td></tr><tr><td>ｄ　第XⅢ因子活性</td><td><span class=\"kw4\">誤り</span>。PT/APTT正常でも出血する型で本例のAPTT延長を説明しない</td></tr><tr><td>ｅ　von Willebrand因子活性</td><td><span class=\"kw4\">誤り</span>。通常は出血時間延長を伴う</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "出血傾向（血友病）の確定診断に必要な検査を2つ。<br/><b>a 第Ⅶ因子／d 第XⅢ因子／e vWF活性</b>：本病態でない。<br/><b>b 第Ⅷ因子活性</b>：<span class=\"kw\">血友病Aで低下</span>。✓<br/><b>c 第Ⅸ因子活性</b>：<span class=\"kw\">血友病Bで低下</span>。✓"
       }
      ],
      "imgs": [
@@ -21803,6 +21953,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　母体右下腹部</td><td><span class=\"kw4\">誤り</span>。頭位だが児背が右＝第2頭位の聴取部位</td></tr><tr><td>ｂ　母体右上腹部</td><td><span class=\"kw4\">誤り</span>。骨盤位かつ第2胎向に相当</td></tr><tr><td>ｃ　上腹部正中</td><td><span class=\"kw4\">誤り</span>。子宮底付近で頭位の聴取部位でない</td></tr><tr><td>ｄ　母体左上腹部</td><td><span class=\"kw4\">誤り</span>。児背左だが上腹部＝骨盤位の聴取部位</td></tr><tr><td>ｅ　母体左下腹部</td><td><span class=\"kw3\">正しい</span>。第1頭位（児背左・頭位）の聴取部位</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "第1頭位で胎児心拍を聴取する部位。<br/><b>a 右下腹部／b 右上腹部／c 上腹部正中／d 左上腹部</b>：合わない。<br/><b>e 母体左下腹部（臍の左下）</b>：<span class=\"kw\">第1頭位は児背が左前で左下腹部で心音を聴取</span>。✓"
       }
      ],
      "imgs": [
@@ -21909,6 +22064,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　三叉神経</td><td><span class=\"kw4\">誤り</span>。分娩損傷を受けにくい</td></tr><tr><td>ｂ　腕神経叢</td><td><span class=\"kw3\">正しい</span>。肩甲難産でErb/Klumpke麻痺</td></tr><tr><td>ｃ　迷走神経</td><td><span class=\"kw4\">誤り</span>。</td></tr><tr><td>ｄ　横隔神経</td><td><span class=\"kw3\">正しい</span>。C3〜5で腕神経叢と近接</td></tr><tr><td>ｅ　坐骨神経</td><td><span class=\"kw4\">誤り</span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "肩甲難産で児が損傷を受けやすい神経を2つ。<br/><b>a 三叉神経／c 迷走神経／e 坐骨神経</b>：損傷しにくい。<br/><b>b 腕神経叢</b>：<span class=\"kw\">肩甲娩出時の牽引で腕神経叢麻痺（Erb麻痺）</span>。✓<br/><b>d 横隔神経</b>：<span class=\"kw\">C3-5由来で腕神経叢損傷に伴い障害されうる</span>。✓"
       }
      ],
      "imgs": []
@@ -21961,6 +22121,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　顔位 ─ 第1回旋</td><td><span class=\"kw3\">正しい</span>。屈曲の異常（反屈）</td></tr><tr><td>ｂ　骨盤位 ─ 第2回旋</td><td><span class=\"kw4\">誤り</span>。骨盤位は胎位異常</td></tr><tr><td>ｃ　後方後頭位 ─ 第2回旋</td><td><span class=\"kw3\">正しい</span>。内回旋の異常</td></tr><tr><td>ｄ　低在横定位 ─ 第3回旋</td><td><span class=\"kw4\">誤り</span>。第2回旋の異常</td></tr><tr><td>ｅ　反屈位 ─ 第4回旋</td><td><span class=\"kw4\">誤り</span>。第1回旋の異常</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "胎位・胎勢異常と回旋の組合せで正しいものを2つ。<br/><b>b 骨盤位→第2回旋／d 低在横定位→第3回旋／e 反屈位→第4回旋</b>：誤り。<br/><b>a 顔位→第1回旋</b>：<span class=\"kw\">反屈（第1回旋）の異常</span>。✓<br/><b>c 後方後頭位→第2回旋</b>：<span class=\"kw\">内回旋（第2回旋）の異常</span>。✓"
       }
      ],
      "imgs": []
@@ -22065,6 +22230,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　内診所見の進行</td><td><span class=\"kw3\">正しい</span>。開大・下降の進行が有効陣痛の証拠</td></tr><tr><td>ｂ　陣痛周期が5分以内</td><td><span class=\"kw4\">誤り</span>。周期だけでは有効性を判断できない</td></tr><tr><td>ｃ　血性粘液性帯下の出現</td><td><span class=\"kw4\">誤り</span>。産徴で有効性の指標でない</td></tr><tr><td>ｄ　子宮収縮ごとの疼痛の訴え</td><td><span class=\"kw4\">誤り</span>。主観的で分娩進行を示さない</td></tr><tr><td>ｅ　発作持続時間が1分以上</td><td><span class=\"kw4\">誤り</span>。持続時間だけでは判断できない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "陣痛が有効と判断できるもの。<br/><b>b 陣痛周期5分以内／c 血性粘液性帯下／d 疼痛の訴え／e 発作持続1分以上</b>：有効性の直接指標でない。<br/><b>a 内診所見の進行</b>：<span class=\"kw\">子宮口開大・児頭下降の進行で陣痛の有効性を判断</span>。✓"
       }
      ],
      "imgs": []
@@ -22112,6 +22282,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　頭位第1胎向</td><td><span class=\"kw4\">誤り</span>。子宮底に頭部＝骨盤位（頭位でない）</td></tr><tr><td>ｂ　頭位第2胎向</td><td><span class=\"kw4\">誤り</span>。同上、骨盤位</td></tr><tr><td>ｃ　骨盤位第1胎向</td><td><span class=\"kw4\">誤り</span>。児背は母体右＝第2胎向</td></tr><tr><td>ｄ　骨盤位第2胎向</td><td><span class=\"kw3\">正しい</span>。頭が上・児背右</td></tr><tr><td>ｅ　横位</td><td><span class=\"kw4\">誤り</span>。下向部が骨盤内進入で縦位</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "骨盤位で背が右後方に進入した児の胎位・胎向。<br/><b>a 頭位第1胎向／b 頭位第2胎向／c 骨盤位第1胎向／e 横位</b>：合わない。<br/><b>d 骨盤位第2胎向</b>：<span class=\"kw\">骨盤位で児背が右側（第2胎向）</span>。✓"
       }
      ],
      "imgs": []
@@ -22159,6 +22334,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　破水している</td><td><span class=\"kw4\">誤り</span>。緊満胎胞・卵膜触知＝未破水</td></tr><tr><td>ｂ　反屈位である</td><td><span class=\"kw4\">誤り</span>。小泉門先進で屈曲良好</td></tr><tr><td>ｃ　後方後頭位である</td><td><span class=\"kw4\">誤り</span>。小泉門は前方寄り</td></tr><tr><td>ｄ　分娩第2期である</td><td><span class=\"kw4\">誤り</span>。子宮口7cmで第1期</td></tr><tr><td>ｅ　児頭は陥入している</td><td><span class=\"kw3\">正しい</span>。SP+3で坐骨棘を越えて下降</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "小泉門を触れ大泉門を触れない内診所見。<br/><b>a 破水／b 反屈位／c 後方後頭位／d 分娩第2期</b>：この所見から断定できない。<br/><b>e 児頭は陥入している</b>：<span class=\"kw\">小泉門を先進部に触れる＝屈位で児頭が陥入</span>。✓"
       }
      ],
      "imgs": []
@@ -22258,6 +22438,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　外子宮口から進行する</td><td><span class=\"kw4\">誤り</span>。内子宮口側から進行</td></tr><tr><td>ｂ　破水すると進行しにくい</td><td><span class=\"kw4\">誤り</span>。関係しない</td></tr><tr><td>ｃ　経腟超音波で診断する</td><td><span class=\"kw4\">誤り</span>。内診で評価</td></tr><tr><td>ｄ　100%なら子宮口は全開大</td><td><span class=\"kw4\">誤り</span>。展退と開大は別項目</td></tr><tr><td>ｅ　子宮頸管の短縮度として表現される</td><td><span class=\"kw3\">正しい</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "子宮頸管の展退について正しいもの。<br/><b>a 外子宮口から進行（内子宮口から）／b 破水で進行しにくい／c 経腟超音波で診断（内診）／d 100%で全開大（開大とは別）</b>：誤り。<br/><b>e 子宮頸管の短縮度として表現される</b>：<span class=\"kw\">展退（%）は頸管の短縮の程度を表す</span>。✓"
       }
      ],
      "imgs": []
@@ -22310,6 +22495,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　軟産道 ─ 骨盤外計測法</td><td><span class=\"kw4\">誤り</span>。骨盤外計測は骨産道の評価</td></tr><tr><td>ｂ　骨産道 ─ 超音波検査</td><td><span class=\"kw4\">誤り</span>。骨盤計測（X線・内診）で評価</td></tr><tr><td>ｃ　陣痛周期 ─ 内診</td><td><span class=\"kw4\">誤り</span>。触診・CTGで評価</td></tr><tr><td>ｄ　胎児心拍 ─ ドプラ法</td><td><span class=\"kw3\">正しい</span>。超音波ドプラで聴取</td></tr><tr><td>ｅ　胎位・胎向 ─ パルトグラム</td><td><span class=\"kw3\">正しい</span>。回旋・胎向を記録</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "母児評価とその方法の組合せで正しいものを2つ。<br/><b>a 軟産道→骨盤外計測／b 骨産道→超音波／c 陣痛周期→内診</b>：組合せが誤り。<br/><b>d 胎児心拍→ドプラ〈Doppler〉法</b>：<span class=\"kw\">ドプラで胎児心拍を聴取</span>。✓<br/><b>e 胎位・胎向→パルトグラム</b>：<span class=\"kw\">分娩経過の記録（パルトグラム）で評価</span>。✓"
       }
      ],
      "imgs": []
@@ -22414,6 +22604,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　胎動の増加</td><td><span class=\"kw4\">誤り</span>。むしろ減少傾向</td></tr><tr><td>ｂ　子宮底の上昇</td><td><span class=\"kw4\">誤り</span>。児頭下降で子宮底は下がる</td></tr><tr><td>ｃ　子宮頸管の熟化</td><td><span class=\"kw3\">正しい</span>。軟化・短縮</td></tr><tr><td>ｄ　胎児先進部の固定</td><td><span class=\"kw3\">正しい</span>。児頭下降</td></tr><tr><td>ｅ　血性粘液性の腟分泌物</td><td><span class=\"kw3\">正しい</span>。産徴（おしるし）</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "分娩の前駆症状を3つ。<br/><b>a 胎動の増加／b 子宮底の上昇（下降する）</b>：前駆症状でない。<br/><b>c 子宮頸管の熟化</b>：<span class=\"kw\">頸管が軟化・短縮</span>。✓<br/><b>d 胎児先進部の固定</b>：<span class=\"kw\">児頭が骨盤に下降・固定</span>。✓<br/><b>e 血性粘液性の腟分泌物</b>：<span class=\"kw\">産徴（おしるし）</span>。✓"
       }
      ],
      "imgs": []
@@ -22461,6 +22656,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　尿検査</td><td><span class=\"kw4\">後回し</span>。緊急性が低い</td></tr><tr><td>ｂ　血圧測定</td><td><span class=\"kw4\">必要だが</span>。まず児の生存確認が優先</td></tr><tr><td>ｃ　血球検査</td><td><span class=\"kw4\">後回し</span>。</td></tr><tr><td>ｄ　胎向診断</td><td><span class=\"kw4\">後回し</span>。</td></tr><tr><td>ｅ　胎児心拍確認</td><td><span class=\"kw3\">正しい</span>。まず児のwell-beingを評価</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "分娩進行中の産婦でまず行うこと。<br/><b>a 尿検査／b 血圧測定／c 血球検査／d 胎向診断</b>：第一でない。<br/><b>e 胎児心拍確認</b>：<span class=\"kw\">まず胎児の生存・状態を確認</span>。✓"
       }
      ],
      "imgs": []
@@ -22560,6 +22760,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　骨盤入口部</td><td><span class=\"kw4\">誤り</span>。SP−3〜−4の高さ</td></tr><tr><td>ｂ　産科真結合線上</td><td><span class=\"kw4\">誤り</span>。骨盤入口の前後径で高位</td></tr><tr><td>ｃ　骨盤闊部</td><td><span class=\"kw4\">誤り</span>。SP−2〜−1の高さ</td></tr><tr><td>ｄ　骨盤峡部</td><td><span class=\"kw3\">正しい</span>。SP±0〜+1</td></tr><tr><td>ｅ　骨盤出口部</td><td><span class=\"kw4\">誤り</span>。SP+2〜+3の高さ</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "児頭が坐骨棘レベルを越えた先進部の位置。<br/><b>a 骨盤入口部／b 産科真結合線上／c 骨盤闊部／e 骨盤出口部</b>：合わない。<br/><b>d 骨盤峡部</b>：<span class=\"kw\">坐骨棘の高さ（station 0付近）＝骨盤峡部</span>。✓"
       }
      ],
      "imgs": []
@@ -22607,6 +22812,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　酸素投与</td><td><span class=\"kw4\">不十分</span>。補助的だが娩出を急ぐべき</td></tr><tr><td>ｂ　体位変換</td><td><span class=\"kw4\">不十分</span>。低在＋遷延徐脈で急速遂娩が優先</td></tr><tr><td>ｃ　子宮収縮薬投与</td><td><span class=\"kw4\">禁忌に近い</span>。徐脈中に収縮を強めるのは危険</td></tr><tr><td>ｄ　子宮収縮抑制薬投与</td><td><span class=\"kw4\">不適</span>。娩出すべき状況で抑制は逆行</td></tr><tr><td>ｅ　吸引分娩</td><td><span class=\"kw3\">正しい</span>。全開・低在で急速遂娩</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "児頭が下降した第2期の急速遂娩。<br/><b>a 酸素／b 体位変換／c 子宮収縮薬／d 抑制薬</b>：不適。<br/><b>e 吸引分娩</b>：<span class=\"kw\">児頭下降例の急速遂娩</span>。✓"
       }
      ],
      "imgs": []
@@ -22654,6 +22864,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　陣痛周期2分は過強陣痛</td><td><span class=\"kw4\">誤り</span>。周期だけでは断定できない</td></tr><tr><td>ｂ　37週未満の破水を前期破水という</td><td><span class=\"kw4\">誤り</span>。前期破水は陣痛前破水の意</td></tr><tr><td>ｃ　児娩出〜胎盤娩出が分娩第2期</td><td><span class=\"kw4\">誤り</span>。それは第3期</td></tr><tr><td>ｄ　第1頭位で第2回旋は反時計方向</td><td><span class=\"kw3\">正しい</span>。後頭が前方へ</td></tr><tr><td>ｅ　第3回旋は肩甲の分娩機転</td><td><span class=\"kw4\">誤り</span>。第3回旋は児頭の伸展</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "分娩について正しいもの。<br/><b>a 周期2分は過強陣痛（1分以内等）／b 37週未満の破水を前期破水（陣痛前の破水を前期破水）／c 胎児娩出〜胎盤娩出を第2期（第3期）／e 第3回旋は肩甲の分娩（第4回旋）</b>：誤り。<br/><b>d 第1頭位の場合、第2回旋で児頭は反時計方向に回る</b>：<span class=\"kw\">第1頭位では内回旋で反時計方向に回旋</span>。✓"
       }
      ],
      "imgs": []
@@ -22805,6 +23020,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　第1期は分娩開始〜胎児娩出</td><td><span class=\"kw4\">誤り</span>。全開大まで</td></tr><tr><td>ｂ　第2期は児娩出〜胎盤娩出</td><td><span class=\"kw4\">誤り</span>。それは第3期</td></tr><tr><td>ｃ　進入時、矢状縫合は入口の横径に一致</td><td><span class=\"kw3\">正しい</span></td></tr><tr><td>ｄ　第2回旋で頤部が胸に接近</td><td><span class=\"kw4\">誤り</span>。屈曲は第1回旋</td></tr><tr><td>ｅ　排臨で間欠時も児頭が後退しない</td><td><span class=\"kw4\">誤り</span>。それは発露</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "分娩機転について正しいもの。<br/><b>a 第1期は分娩開始〜胎児娩出（〜子宮口全開）／b 第2期は胎児娩出後〜胎盤娩出（第3期）／d 第2回旋で頤部が胸部に接近（第1回旋の屈位）／e 排臨は間欠時も後退しない（発露）</b>：誤り。<br/><b>c 児頭が骨盤に進入するとき、矢状縫合は骨盤入口の横径に一致する</b>：<span class=\"kw\">進入時は矢状縫合が横径に一致</span>。✓"
       }
      ],
      "imgs": []
@@ -22852,6 +23072,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　骨産道</td><td><span class=\"kw4\">影響する</span>。狭骨盤は難産</td></tr><tr><td>ｂ　軟産道</td><td><span class=\"kw4\">影響する</span>。軟産道強靱は難産</td></tr><tr><td>ｃ　胎向</td><td><span class=\"kw3\">正しい（影響しない）</span>。児背の左右は経過を大きく左右しない</td></tr><tr><td>ｄ　胎位</td><td><span class=\"kw4\">影響する</span>。横位は経腟分娩不可</td></tr><tr><td>ｅ　胎勢</td><td><span class=\"kw4\">影響する</span>。反屈位は難産</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "分娩経過に「影響しない」もの。<br/><b>a 骨産道／b 軟産道／d 胎位／e 胎勢</b>：分娩3要素（産道・娩出物・娩出力）に関わる。<br/><b>c 胎向</b>：<span class=\"kw\">胎向（児背の向き）は分娩経過に大きく影響しない</span>。✓（これが正解肢）"
       }
      ],
      "imgs": []
@@ -22899,6 +23124,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　12時</td><td><span class=\"kw4\">誤り</span>。内回旋完了時の前方（横径一致でない）</td></tr><tr><td>ｂ　2時</td><td><span class=\"kw4\">誤り</span>。斜径</td></tr><tr><td>ｃ　3時</td><td><span class=\"kw4\">誤り</span>。母体左（第1胎向の後頭側）</td></tr><tr><td>ｄ　6時</td><td><span class=\"kw4\">誤り</span>。後方（後方後頭位）</td></tr><tr><td>ｅ　9時</td><td><span class=\"kw3\">正しい</span>。第2胎向で後頭が母体右</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "第1頭位の内診での児頭小泉門の位置。<br/><b>a 12時／b 2時／c 3時／d 6時</b>：合わない。<br/><b>e 9時</b>：<span class=\"kw\">第1頭位では小泉門が母体左側（9時方向）に触れる</span>。✓"
       }
      ],
      "imgs": []
@@ -22946,6 +23176,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　経過観察</td><td><span class=\"kw4\">不適</span>。3時間停止を放置できない</td></tr><tr><td>ｂ　頸管熟化薬投与</td><td><span class=\"kw4\">不適</span>。すでに8cm開大で熟化は進んでいる</td></tr><tr><td>ｃ　陣痛促進薬投与</td><td><span class=\"kw3\">正しい</span>。続発性微弱陣痛を是正</td></tr><tr><td>ｄ　会陰切開術</td><td><span class=\"kw4\">不適</span>。全開・娩出間近でない</td></tr><tr><td>ｅ　吸引分娩</td><td><span class=\"kw4\">不可</span>。子宮口8cmで全開大でない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "微弱陣痛で分娩が進行しない場合の処置。<br/><b>a 経過観察／b 頸管熟化薬／d 会陰切開／e 吸引分娩</b>：第一でない。<br/><b>c 陣痛促進薬投与</b>：<span class=\"kw\">オキシトシン等で陣痛を促進</span>。✓"
       }
      ],
      "imgs": []
@@ -22993,6 +23228,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　腟壁裂傷</td><td><span class=\"kw4\">誤り</span>。子宮収縮は良好なのに出血する</td></tr><tr><td>ｂ　頸管裂傷</td><td><span class=\"kw4\">誤り</span>。同上、子宮は硬い</td></tr><tr><td>ｃ　子宮破裂</td><td><span class=\"kw4\">誤り</span>。分娩前〜分娩中の急変・胎児徐脈で顕在化</td></tr><tr><td>ｄ　弛緩出血</td><td><span class=\"kw3\">正しい</span>。子宮収縮不良（子宮底高位・軟）</td></tr><tr><td>ｅ　子宮内反症</td><td><span class=\"kw4\">誤り</span>。子宮底が触れず陥凹し、ショックを伴う</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "分娩後の子宮からの多量出血の原因。<br/><b>a 腟壁裂傷／b 頸管裂傷／c 子宮破裂／e 子宮内反症</b>：本例で第一でない。<br/><b>d 弛緩出血</b>：<span class=\"kw\">子宮収縮不良（弛緩）による分娩後出血</span>。✓"
       }
      ],
      "imgs": []
@@ -23286,6 +23526,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　500mL</td><td><span class=\"kw4\">過少</span>。ショックを来す量でない</td></tr><tr><td>ｂ　1,000mL</td><td><span class=\"kw4\">過少</span>。SI 1.5の状態に合わない</td></tr><tr><td>ｃ　1,500mL</td><td><span class=\"kw4\">やや過少</span>。SI 1.0相当</td></tr><tr><td>ｄ　2,500mL</td><td><span class=\"kw3\">正しい</span>。SI 1.5・ショック状態に相当</td></tr><tr><td>ｅ　4,000mL</td><td><span class=\"kw4\">過大</span>。SI 2.0以上・より高度なショック</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "ショック徴候（血圧低下・頻脈）を伴う分娩後出血の推定出血量。<br/><b>a 500／b 1000／c 1500／e 4000</b>：合わない。<br/><b>d 2,500mL</b>：<span class=\"kw\">ショックインデックス・バイタルから重症の出血量を推定</span>。✓"
       }
      ],
      "imgs": []
@@ -23447,6 +23692,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　頭部単純CT</td><td><span class=\"kw4\">不適</span>。頭部病変を疑う所見がない</td></tr><tr><td>ｂ　腹部造影CT</td><td><span class=\"kw4\">不適</span>。不安定な患者の移動はリスク</td></tr><tr><td>ｃ　腹部超音波検査</td><td><span class=\"kw3\">正しい</span>。ベッドサイドで早剝・腹腔内出血を評価</td></tr><tr><td>ｄ　子宮動脈造影検査</td><td><span class=\"kw4\">不適</span>。治療的塞栓は診断後</td></tr><tr><td>ｅ　CTG</td><td><span class=\"kw4\">二次的</span>。まず母体の出血源評価（超音波）が優先</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "分娩後出血で直ちに行う検査。<br/><b>a 頭部CT／b 腹部造影CT／d 子宮動脈造影／e CTG（娩出後）</b>：第一でない。<br/><b>c 腹部超音波検査</b>：<span class=\"kw\">子宮内遺残・腹腔内出血を評価</span>。✓"
       }
      ],
      "imgs": []
@@ -23546,6 +23796,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　スルピリド</td><td><span class=\"kw4\">逆</span>。ドパミン遮断でプロラクチン上昇（分泌促進）</td></tr><tr><td>ｂ　ニフェジピン</td><td><span class=\"kw4\">無関係</span>。Ca拮抗薬（降圧・切迫早産）</td></tr><tr><td>ｃ　ブロモクリプチン</td><td><span class=\"kw3\">正しい</span>。ドパミン作動薬でプロラクチン抑制</td></tr><tr><td>ｄ　メトクロプラミド</td><td><span class=\"kw4\">逆</span>。ドパミン遮断で分泌促進</td></tr><tr><td>ｅ　メチルエルゴメトリン</td><td><span class=\"kw4\">無関係</span>。子宮収縮薬</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "乳汁分泌抑制（断乳）のために投与する薬剤。<br/><b>a スルピリド（PRL上昇）／b ニフェジピン／d メトクロプラミド（PRL上昇）／e メチルエルゴメトリン</b>：不適。<br/><b>c ブロモクリプチン</b>：<span class=\"kw\">ドパミン作動薬でプロラクチンを抑制し乳汁分泌を止める</span>。✓"
       }
      ],
      "imgs": []
@@ -23650,6 +23905,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　破水前の時期に多い</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw\">破水後</span>に多い</td></tr><tr><td>ｂ　母体の予後は良好</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\">予後不良（死亡率が高い）</span></td></tr><tr><td>ｃ　下腹部は板状硬となる</td><td><span class=\"kw4\">誤り</span>。板状硬は常位胎盤早期剝離</td></tr><tr><td>ｄ　DICを伴う</td><td><span class=\"kw3\">正しい</span>。非凝固性出血を来す</td></tr><tr><td>ｅ　妊娠高血圧症候群に合併しやすい</td><td><span class=\"kw4\">誤り</span>。特に関連しない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "羊水塞栓症について正しいもの。<br/><b>a 破水前に多い（分娩時/破水後）／b 母体予後良好（不良）／c 下腹部が板状硬（早期剝離）／e 妊娠高血圧に合併しやすい</b>：誤り。<br/><b>d 播種性血管内凝固〈DIC〉を伴う</b>：<span class=\"kw\">急激なDIC・心肺虚脱をきたす</span>。✓"
       }
      ],
      "imgs": []
@@ -23697,6 +23957,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　臍帯下垂 ─ 分娩第1期</td><td><span class=\"kw4\">正しい</span>。破水前に臍帯が下がる</td></tr><tr><td>ｂ　会陰裂傷 ─ 分娩第2期</td><td><span class=\"kw4\">正しい</span>。児娩出時</td></tr><tr><td>ｃ　過強陣痛 ─ 分娩第2期</td><td><span class=\"kw4\">正しい</span></td></tr><tr><td>ｄ　不正軸進入 ─ 分娩第1期</td><td><span class=\"kw4\">正しい</span></td></tr><tr><td>ｅ　子宮内反症 ─ 分娩第2期</td><td><span class=\"kw3\">誤り（正解）</span>。第3期（胎盤娩出時）</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "産科異常と発症時期の組合せで「誤っている」もの。<br/><b>a 臍帯下垂→第1期／b 会陰裂傷→第2期／c 過強陣痛→第2期／d 不正軸進入→第1期</b>：正しい。<br/><b>e 子宮内反症→分娩第2期</b>：<span class=\"kw\">子宮内反症は胎盤娩出時（第3期）に起こる（第2期は誤り）</span>。✓（これが正解肢）"
       }
      ],
      "imgs": []
@@ -23744,6 +24009,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　多産</td><td><span class=\"kw4\">リスク</span>。子宮筋の疲弊</td></tr><tr><td>ｂ　子宮筋腫</td><td><span class=\"kw4\">リスク</span>。収縮を妨げる</td></tr><tr><td>ｃ　羊水過少症</td><td><span class=\"kw3\">正しい（リスクでない）</span>。過伸展しない</td></tr><tr><td>ｄ　子宮腺筋症</td><td><span class=\"kw4\">リスク</span>。収縮を妨げる</td></tr><tr><td>ｅ　帝王切開術</td><td><span class=\"kw4\">リスク</span>。瘢痕で収縮不良</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "子宮復古不全のリスクファクターで「ない」もの。<br/><b>a 多産／b 子宮筋腫／d 子宮腺筋症／e 帝王切開術</b>：復古不全のリスク。<br/><b>c 羊水過少症</b>：<span class=\"kw\">復古不全のリスクでない（羊水過多は関与）</span>。✓（これが正解肢）"
       }
      ],
      "imgs": []
@@ -23791,6 +24061,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　乳房腫脹</td><td><span class=\"kw4\">生理的</span>。乳汁産生に伴う</td></tr><tr><td>ｂ　子宮の圧痛</td><td><span class=\"kw4\">要観察</span>だが軽度なら生理的範囲</td></tr><tr><td>ｃ　赤色悪露の排出</td><td><span class=\"kw4\">生理的</span>。産褥2日は赤色</td></tr><tr><td>ｄ　子宮底臍下3cm</td><td><span class=\"kw4\">生理的</span>。復古の経過に一致</td></tr><tr><td>ｅ　下腿の腫脹と疼痛</td><td><span class=\"kw3\">正しい</span>。DVTを疑い直ちに精査</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "産褥で身体所見上、直ちに精密検査が必要なもの。<br/><b>a 乳房腫脹／b 子宮の圧痛／c 赤色悪露／d 子宮底臍下3cm</b>：産褥として許容/経過観察。<br/><b>e 下腿の腫脹と疼痛</b>：<span class=\"kw\">深部静脈血栓症を疑い精査</span>。✓"
       }
      ],
      "imgs": []
@@ -23890,6 +24165,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　横位 ─ 分娩誘発</td><td><span class=\"kw4\">誤り</span>。帝王切開</td></tr><tr><td>ｂ　子宮破裂 ─ 開腹手術</td><td><span class=\"kw3\">正しい</span></td></tr><tr><td>ｃ　頸管裂傷 ─ 頸管縫縮術</td><td><span class=\"kw4\">誤り</span>。裂傷は縫合</td></tr><tr><td>ｄ　弛緩出血 ─ β2刺激薬</td><td><span class=\"kw4\">誤り</span>。収縮を抑制し逆効果</td></tr><tr><td>ｅ　絨毛膜羊膜炎 ─ ステロイド</td><td><span class=\"kw4\">誤り</span>。抗菌薬・娩出</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "産科異常と処置の組合せで正しいもの。<br/><b>a 横位→分娩誘発（帝王切開）／c 頸管裂傷→頸管縫縮術（裂傷縫合）／d 弛緩出血→β2刺激薬（子宮収縮薬）／e 絨毛膜羊膜炎→ステロイド（抗菌薬）</b>：誤り。<br/><b>b 子宮破裂→開腹手術</b>：<span class=\"kw\">子宮破裂は緊急開腹手術</span>。✓"
       }
      ],
      "imgs": []
@@ -24041,6 +24321,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　腟炎</td><td><span class=\"kw4\">誤り</span>。腟・腸内細菌</td></tr><tr><td>ｂ　乳腺炎</td><td><span class=\"kw3\">正しい</span>。黄色ブドウ球菌が主</td></tr><tr><td>ｃ　卵管炎</td><td><span class=\"kw4\">誤り</span>。淋菌・クラミジア等</td></tr><tr><td>ｄ　腎盂腎炎</td><td><span class=\"kw4\">誤り</span>。大腸菌が主</td></tr><tr><td>ｅ　子宮内膜炎</td><td><span class=\"kw4\">誤り</span>。腟・腸内の多菌種</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "黄色ブドウ球菌の頻度が高いもの。<br/><b>a 腟炎／c 卵管炎／d 腎盂腎炎／e 子宮内膜炎</b>：起因菌が異なる。<br/><b>b 乳腺炎</b>：<span class=\"kw\">授乳期乳腺炎は黄色ブドウ球菌が主</span>。✓"
       }
      ],
      "imgs": []
@@ -24140,6 +24425,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　うつ病</td><td><span class=\"kw3\">正しい</span>。産後うつ病が好発</td></tr><tr><td>ｂ　悪性腫瘍</td><td><span class=\"kw4\">誤り</span>。産褥好発でない</td></tr><tr><td>ｃ　尿路結石</td><td><span class=\"kw4\">誤り</span></td></tr><tr><td>ｄ　気管支喘息</td><td><span class=\"kw4\">誤り</span></td></tr><tr><td>ｅ　急性虫垂炎</td><td><span class=\"kw4\">誤り</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "産褥期が好発時期である疾患。<br/><b>b 悪性腫瘍／c 尿路結石／d 気管支喘息／e 急性虫垂炎</b>：産褥に特有でない。<br/><b>a うつ病</b>：<span class=\"kw\">産後うつ病は産褥期に好発</span>。✓"
       }
      ],
      "imgs": []
@@ -24187,6 +24477,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　排尿異常を調べる</td><td><span class=\"kw4\">不要</span>。裂傷部浮腫による違和感で排尿障害でない</td></tr><tr><td>ｂ　下肢静脈血栓症を調べる</td><td><span class=\"kw4\">不要</span>。発赤・圧痛がない生理的浮腫</td></tr><tr><td>ｃ　便を軟らかくする薬を処方</td><td><span class=\"kw4\">不要</span>。一時的な排便遅延</td></tr><tr><td>ｄ　乳房のホルモン検査</td><td><span class=\"kw4\">不要</span>。産褥1日で緊満なしは正常</td></tr><tr><td>ｅ　下腹部痛は後陣痛で心配ない</td><td><span class=\"kw3\">正しい</span>。子宮復古に伴う</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "産褥の下腹部痛（圧痛なし）への説明。<br/><b>a 排尿異常／b 静脈血栓症／c 排便遅延／d ホルモン検査</b>：本例で不適。<br/><b>e 「下腹部の痛みは子宮収縮による後陣痛なので心配ありません」</b>：<span class=\"kw\">授乳等で子宮が収縮する後陣痛（生理的）</span>。✓"
       }
      ],
      "imgs": []
@@ -24286,6 +24581,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　子宮摘出</td><td><span class=\"kw4\">過剰</span>。復古不全に摘出は不要</td></tr><tr><td>ｂ　止血薬の投与</td><td><span class=\"kw4\">不十分</span>。原因は子宮収縮不良</td></tr><tr><td>ｃ　利尿薬の投与</td><td><span class=\"kw4\">無関係</span>。生理的浮腫に利尿薬は不要</td></tr><tr><td>ｄ　子宮動脈塞栓術</td><td><span class=\"kw4\">過剰</span>。まず子宮収縮薬</td></tr><tr><td>ｅ　子宮収縮薬の投与</td><td><span class=\"kw3\">正しい</span>。子宮復古不全の治療</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "子宮収縮不良による分娩後出血（弛緩出血）。<br/><b>a 子宮摘出／b 止血薬／c 利尿薬／d 子宮動脈塞栓術</b>：第一でない。<br/><b>e 子宮収縮薬の投与</b>：<span class=\"kw\">オキシトシン等で子宮を収縮させ止血</span>。✓"
       }
      ],
      "imgs": []
@@ -24333,6 +24633,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　外陰</td><td><span class=\"kw4\">少ない</span>。裂傷部感染はあるが最多でない</td></tr><tr><td>ｂ　腟</td><td><span class=\"kw4\">少ない</span></td></tr><tr><td>ｃ　子宮頸管</td><td><span class=\"kw4\">少ない</span></td></tr><tr><td>ｄ　子宮内膜</td><td><span class=\"kw3\">正しい</span>。胎盤剝離面が最も多い</td></tr><tr><td>ｅ　卵管</td><td><span class=\"kw4\">少ない</span>。上行性に波及する二次的部位</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "産褥熱の感染巣として最も多い部位。<br/><b>a 外陰／b 腟／c 子宮頸管／e 卵管</b>：最多でない。<br/><b>d 子宮内膜</b>：<span class=\"kw\">胎盤剝離面（子宮内膜）の感染が最多</span>。✓"
       }
      ],
      "imgs": []
@@ -24385,6 +24690,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　帝王切開術</td><td><span class=\"kw3\">正しい</span>。子宮壁の瘢痕で脱落膜欠損</td></tr><tr><td>ｂ　卵管結紮術</td><td><span class=\"kw4\">誤り</span>。子宮内膜に及ばない</td></tr><tr><td>ｃ　子宮頸管縫縮術</td><td><span class=\"kw4\">誤り</span>。頸管の手術で内膜を傷害しない</td></tr><tr><td>ｄ　子宮内容除去術</td><td><span class=\"kw3\">正しい</span>。内膜掻爬で脱落膜欠損</td></tr><tr><td>ｅ　卵巣囊腫摘出術</td><td><span class=\"kw4\">誤り</span>。子宮内膜に及ばない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "子宮腔内の癒着（Asherman症候群）をきたす可能性がある手術を2つ。<br/><b>b 卵管結紮術／c 頸管縫縮術／e 卵巣囊腫摘出術</b>：子宮内膜を損傷しない。<br/><b>a 帝王切開術</b>：<span class=\"kw\">子宮壁の手術で癒着をきたしうる</span>。✓<br/><b>d 子宮内容除去術</b>：<span class=\"kw\">内膜基底層の損傷で子宮腔癒着</span>。✓"
       }
      ],
      "imgs": []
@@ -24432,6 +24742,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　血漿分画製剤と新鮮凍結血漿</td><td><span class=\"kw4\">不適</span>。血漿分画製剤（アルブミン等）は凝固因子を含まない</td></tr><tr><td>ｂ　血漿分画製剤と濃厚血小板</td><td><span class=\"kw4\">不適</span>。同上、貧血・凝固因子補充にならない</td></tr><tr><td>ｃ　赤血球濃厚液と新鮮凍結血漿</td><td><span class=\"kw3\">正しい</span>。貧血＋凝固因子を補う</td></tr><tr><td>ｄ　赤血球濃厚液と濃厚血小板</td><td><span class=\"kw4\">不適</span>。血小板は保たれ、凝固因子補充が必要</td></tr><tr><td>ｅ　濃厚血小板と新鮮凍結血漿</td><td><span class=\"kw4\">不適</span>。貧血に対する赤血球が必要</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "産科大量出血に用いる輸血製剤の組合せ。<br/><b>a 血漿分画製剤とFFP／b 血漿分画製剤と血小板／d 赤血球と血小板／e 血小板とFFP</b>：初期の組合せでない。<br/><b>c 赤血球濃厚液と新鮮凍結血漿</b>：<span class=\"kw\">酸素運搬（赤血球）と凝固因子（FFP）を補充</span>。✓"
       }
      ],
      "imgs": []
@@ -24479,6 +24794,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　輸血</td><td><span class=\"kw4\">不要</span>。循環は安定</td></tr><tr><td>ｂ　子宮全摘術</td><td><span class=\"kw4\">過剰</span>。まず保存的処置</td></tr><tr><td>ｃ　抗DIC療法</td><td><span class=\"kw4\">不要</span>。DICの所見がない</td></tr><tr><td>ｄ　子宮内容除去術</td><td><span class=\"kw4\">不要</span>。胎盤欠損なく遺残を疑わない</td></tr><tr><td>ｅ　子宮底輪状マッサージ</td><td><span class=\"kw3\">正しい</span>。まず子宮収縮を促す</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "子宮が柔らかく臍上に触れる弛緩出血でまず行うこと。<br/><b>a 輸血／b 子宮全摘／c 抗DIC／d 内容除去</b>：第一でない。<br/><b>e 子宮底輪状マッサージ</b>：<span class=\"kw\">子宮底のマッサージで収縮を促し止血</span>。✓"
       }
      ],
      "imgs": []
@@ -24526,6 +24846,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　子癇</td><td><span class=\"kw4\">起こす</span>。重症HDP/HELLP</td></tr><tr><td>ｂ　弛緩出血</td><td><span class=\"kw4\">起こす</span>。大量出血の消費性</td></tr><tr><td>ｃ　羊水塞栓症</td><td><span class=\"kw4\">起こす</span>。DICが主病態</td></tr><tr><td>ｄ　胎盤機能不全</td><td><span class=\"kw3\">正しい（起こしにくい）</span>。慢性のFGRが主</td></tr><tr><td>ｅ　常位胎盤早期剝離</td><td><span class=\"kw4\">起こす</span>。組織因子流入で急激なDIC</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "産科DICを起こし「にくい」もの。<br/><b>a 子癇／b 弛緩出血／c 羊水塞栓症／e 常位胎盤早期剝離</b>：DICを起こしやすい。<br/><b>d 胎盤機能不全</b>：<span class=\"kw\">急性のDICを起こしにくい</span>。✓（これが正解肢）"
       }
      ],
      "imgs": []
@@ -24573,6 +24898,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　未破水例に多い</td><td><span class=\"kw4\">誤り</span>。破水後に多い</td></tr><tr><td>ｂ　DICを伴う</td><td><span class=\"kw3\">正しい</span></td></tr><tr><td>ｃ　母体の予後は良好</td><td><span class=\"kw4\">誤り</span>。予後不良</td></tr><tr><td>ｄ　下腹部は板状硬</td><td><span class=\"kw4\">誤り</span>。板状硬は常位胎盤早期剝離</td></tr><tr><td>ｅ　HDPに合併しやすい</td><td><span class=\"kw4\">誤り</span>。特に関連しない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "羊水塞栓症について正しいもの。<br/><b>a 未破水例に多い（破水後）／c 母体予後良好（不良）／d 下腹部が板状硬（早期剝離）／e 妊娠高血圧に合併しやすい</b>：誤り。<br/><b>b 播種性血管内凝固を伴う</b>：<span class=\"kw\">急激なDIC・心肺虚脱</span>。✓"
       }
      ],
      "imgs": []
@@ -24625,6 +24955,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　母体年齢</td><td><span class=\"kw4\">誤り</span>。直接の誘因でない</td></tr><tr><td>ｂ　分娩回数</td><td><span class=\"kw3\">正しい</span>。多産で子宮筋疲弊</td></tr><tr><td>ｃ　分娩週数</td><td><span class=\"kw4\">誤り</span>。40週で正常範囲</td></tr><tr><td>ｄ　児体重</td><td><span class=\"kw3\">正しい</span>。巨大児で子宮過伸展</td></tr><tr><td>ｅ　分娩時間</td><td><span class=\"kw3\">正しい</span>。遷延分娩で子宮筋疲労</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "弛緩出血の誘因として考えられるものを3つ。<br/><b>a 母体年齢／c 分娩週数</b>：主要誘因でない。<br/><b>b 分娩回数</b>：<span class=\"kw\">多産で子宮収縮力が低下</span>。✓<br/><b>d 児体重</b>：<span class=\"kw\">巨大児で子宮が過伸展</span>。✓<br/><b>e 分娩時間</b>：<span class=\"kw\">遷延分娩で子宮が疲労</span>。✓"
       }
      ],
      "imgs": []
@@ -24724,6 +25059,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　腹腔鏡検査</td><td><span class=\"kw4\">不適</span>。適応でない</td></tr><tr><td>ｂ　抗菌薬の投与</td><td><span class=\"kw4\">不適</span>。発熱・CRP上昇なく感染徴候がない</td></tr><tr><td>ｃ　子宮全摘出術</td><td><span class=\"kw4\">過剰</span>。保存的に対応可能</td></tr><tr><td>ｄ　子宮動脈塞栓術</td><td><span class=\"kw4\">過剰</span>。まず子宮収縮薬</td></tr><tr><td>ｅ　子宮収縮薬の投与</td><td><span class=\"kw3\">正しい</span>。子宮復古不全の治療</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "子宮収縮不良の分娩後出血への対応。<br/><b>a 腹腔鏡／b 抗菌薬／c 子宮全摘／d 子宮動脈塞栓術</b>：第一でない。<br/><b>e 子宮収縮薬の投与</b>：<span class=\"kw\">子宮収縮を促し止血</span>。✓"
       }
      ],
      "imgs": []
@@ -24771,6 +25111,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　ビタミンKが豊富</td><td><span class=\"kw4\">誤り</span>。母乳はビタミンKが少ない</td></tr><tr><td>ｂ　産後の月経発来を促進</td><td><span class=\"kw4\">誤り</span>。授乳は排卵・月経を抑制</td></tr><tr><td>ｃ　産褥1か月までは初乳</td><td><span class=\"kw4\">誤り</span>。初乳は産褥数日</td></tr><tr><td>ｄ　プロラクチンは射乳を促進</td><td><span class=\"kw4\">誤り</span>。射乳はオキシトシン</td></tr><tr><td>ｅ　黄体ホルモンは乳汁分泌を抑制</td><td><span class=\"kw3\">正しい</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "母乳について正しいもの。<br/><b>a ビタミンKが豊富（不足しがち）／b 月経発来を促進（抑制）／c 産褥1か月まで初乳（数日）／d プロラクチンが射乳を促進（オキシトシン）</b>：誤り。<br/><b>e 黄体ホルモンは乳汁分泌を抑制する</b>：<span class=\"kw\">妊娠中のプロゲステロンは乳汁分泌を抑制（分娩後低下で分泌開始）</span>。✓"
       }
      ],
      "imgs": []
@@ -24818,6 +25163,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　輸血</td><td><span class=\"kw3\">正しい</span>。出血性ショックの蘇生が最優先</td></tr><tr><td>ｂ　子宮全摘術</td><td><span class=\"kw4\">順序が後</span>。まず循環蘇生してから止血術</td></tr><tr><td>ｃ　子宮動脈塞栓術</td><td><span class=\"kw4\">順序が後</span>。蘇生が先</td></tr><tr><td>ｄ　子宮内容除去術</td><td><span class=\"kw4\">不適</span>。子宮内出血でなく腹腔内出血</td></tr><tr><td>ｅ　腟内ガーゼ充填</td><td><span class=\"kw4\">不適</span>。腟からの出血源でない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "出血性ショックでまず行うべき処置。<br/><b>b 子宮全摘／c 子宮動脈塞栓術／d 内容除去／e 腟内ガーゼ充填</b>：第一でない。<br/><b>a 輸血</b>：<span class=\"kw\">循環血液量の補充（輸液・輸血）</span>。✓"
       }
      ],
      "imgs": []
@@ -24927,6 +25277,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　微弱陣痛である</td><td><span class=\"kw4\">誤り</span>。陣痛周期3分で有効</td></tr><tr><td>ｂ　第2胎向である</td><td><span class=\"kw4\">誤り</span>。児背が母体左＝第1胎向</td></tr><tr><td>ｃ　第2回旋の異常である</td><td><span class=\"kw3\">正しい</span>。小泉門が後方＝後方後頭位</td></tr><tr><td>ｄ　Bishopスコアは4点</td><td><span class=\"kw4\">誤り</span>。計算すると11点</td></tr><tr><td>ｅ　児頭最大周囲径は骨盤闊部にある</td><td><span class=\"kw3\">正しい</span>。先進部SP+1の上方</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "分娩停止の診断で正しいものを2つ。<br/><b>a 微弱陣痛／b 第2胎向／d Bishopスコア4点</b>：本例で該当しない。<br/><b>c 第2回旋の異常である</b>：<span class=\"kw\">内回旋が停止（回旋異常）</span>。✓<br/><b>e 児頭最大周囲径の位置は骨盤闊部にある</b>：<span class=\"kw\">下降が停止した位置</span>。✓"
       }
      ],
      "imgs": []
@@ -24979,6 +25334,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　壊死性腸炎</td><td><span class=\"kw4\">誤り</span>。早産・低出生体重児の疾患</td></tr><tr><td>ｂ　新生児黄疸</td><td><span class=\"kw4\">△</span>。生理的にも起こり特記の異常でない</td></tr><tr><td>ｃ　帽状腱膜下血腫</td><td><span class=\"kw3\">正しい</span>。吸引分娩の合併症</td></tr><tr><td>ｄ　胎便吸引症候群</td><td><span class=\"kw3\">正しい</span>。羊水混濁＋胎児機能不全</td></tr><tr><td>ｅ　呼吸窮迫症候群〈RDS〉</td><td><span class=\"kw4\">誤り</span>。早産児の疾患</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "吸引分娩で児に注意すべき異常を2つ。<br/><b>a 壊死性腸炎／b 新生児黄疸／e RDS</b>：吸引分娩に特有でない。<br/><b>c 帽状腱膜下血腫</b>：<span class=\"kw\">吸引による頭部の出血</span>。✓<br/><b>d 胎便吸引症候群</b>：<span class=\"kw\">胎児機能不全に伴う胎便吸引</span>。✓"
       }
      ],
      "imgs": []
@@ -25130,6 +25490,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　産褥熱は増加傾向</td><td><span class=\"kw4\">誤り</span>。減少傾向</td></tr><tr><td>ｂ　褐色悪露から赤色悪露に変化</td><td><span class=\"kw4\">誤り</span>。赤色→褐色の順</td></tr><tr><td>ｃ　産褥熱の主な起炎菌はGBS</td><td><span class=\"kw4\">誤り</span>。多菌種（大腸菌等）</td></tr><tr><td>ｄ　初乳はラクトアルブミンが多い</td><td><span class=\"kw3\">正しい</span></td></tr><tr><td>ｅ　HDP評価には産後8週</td><td><span class=\"kw4\">誤り</span>。分娩後12週まで</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "産褥期・初乳について正しいもの。<br/><b>a 産褥熱は増加傾向（減少）／b 褐色→赤色悪露（赤色→褐色→白色）／c 主起炎菌はGBS（多菌種）／e 妊娠高血圧の評価に産後8週（12週）</b>：誤り。<br/><b>d 初乳は成乳に比べてラクトアルブミンが多く含まれる</b>：<span class=\"kw\">初乳は蛋白・免疫グロブリンが豊富</span>。✓"
       }
      ],
      "imgs": []
@@ -25177,6 +25542,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　恥骨結合上縁圧迫で臍帯が引き戻される</td><td><span class=\"kw4\">誤り</span>。Küstner陰性＝未剝離のサイン</td></tr><tr><td>ｂ　子宮底を叩くと衝撃が臍帯に伝わる</td><td><span class=\"kw4\">誤り</span>。未剝離（付着している）のサイン</td></tr><tr><td>ｃ　臍帯が下がってくる</td><td><span class=\"kw3\">正しい</span>。Ahlfeld徴候（剝離）</td></tr><tr><td>ｄ　子宮底が下降する</td><td><span class=\"kw4\">誤り</span>。剝離時は子宮底が上昇し硬く球状になる</td></tr><tr><td>ｅ　産婦が尿意を訴える</td><td><span class=\"kw4\">誤り</span>。剝離のサインは肛門圧迫感（便意）</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "胎盤剝離徴候として正しいもの。<br/><b>a 臍帯が引き戻される（剝離すれば引き戻されない）／b 子宮底の衝撃が臍帯に伝わる（伝わらなくなる）／d 子宮底が下降（上昇し硬く）／e 尿意</b>：誤り。<br/><b>c 臍帯が児娩出直後と比べて下がってくる</b>：<span class=\"kw\">胎盤が剝離し下降すると臍帯が延びて下がる</span>。✓"
       }
      ],
      "imgs": []
@@ -25229,6 +25599,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　輸血</td><td><span class=\"kw3\">正しい</span>。高度貧血・ショックの蘇生</td></tr><tr><td>ｂ　抗DIC療法</td><td><span class=\"kw3\">正しい</span>。血小板低下・凝固障害</td></tr><tr><td>ｃ　子宮内容除去術</td><td><span class=\"kw4\">誤り</span>。子宮内腔は正常</td></tr><tr><td>ｄ　腹腔鏡手術</td><td><span class=\"kw4\">誤り</span>。大量腹腔内出血には開腹止血</td></tr><tr><td>ｅ　開腹手術</td><td><span class=\"kw3\">正しい</span>。腹腔内出血源の止血</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "子宮破裂/DICを伴う産科危機的出血への対応を3つ。<br/><b>c 内容除去術／d 腹腔鏡手術</b>：不適。<br/><b>a 輸血</b>：<span class=\"kw\">循環維持のための輸血</span>。✓<br/><b>b 抗DIC療法</b>：<span class=\"kw\">凝固障害への対応</span>。✓<br/><b>e 開腹手術</b>：<span class=\"kw\">子宮破裂は緊急開腹</span>。✓"
       }
      ],
      "imgs": []
@@ -25276,6 +25651,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　無排卵となる</td><td><span class=\"kw4\">誤り</span>。排卵を伴う月経再開もある</td></tr><tr><td>ｂ　授乳によって期間が延長する</td><td><span class=\"kw3\">正しい</span>。プロラクチン高値による</td></tr><tr><td>ｃ　ゴナドトロピン分泌の亢進による</td><td><span class=\"kw4\">誤り</span>。抑制による</td></tr><tr><td>ｄ　オキシトシン上昇による</td><td><span class=\"kw4\">誤り</span>。プロラクチンによる</td></tr><tr><td>ｅ　プロラクチン低下による</td><td><span class=\"kw4\">誤り</span>。プロラクチン高値による</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "産褥無月経について正しいもの。<br/><b>a 無排卵となる（一律でない）／c ゴナドトロピン亢進（抑制）／d オキシトシン上昇による／e プロラクチン低下による</b>：誤り。<br/><b>b 授乳によって期間が延長する</b>：<span class=\"kw\">授乳刺激でプロラクチンが上昇し排卵・月経を抑制</span>。✓"
       }
      ],
      "imgs": []
@@ -25323,6 +25703,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　硫酸マグネシウム投与</td><td><span class=\"kw4\">誤り</span>。子宮収縮を抑制し逆効果</td></tr><tr><td>ｂ　プロスタグランディンF2α投与</td><td><span class=\"kw3\">正しい</span>。子宮収縮薬</td></tr><tr><td>ｃ　輸血</td><td><span class=\"kw4\">不要</span>。循環は安定（Hb 9.8）</td></tr><tr><td>ｄ　子宮動脈塞栓術</td><td><span class=\"kw4\">過剰</span>。まず子宮収縮薬</td></tr><tr><td>ｅ　子宮全摘術</td><td><span class=\"kw4\">過剰</span>。保存的に対応</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "子宮収縮不良の分娩後出血への対応。<br/><b>a 硫酸Mg（子宮弛緩）／c 輸血（対症）／d 子宮動脈塞栓術／e 子宮全摘</b>：第一でない。<br/><b>b プロスタグランディンF2α投与</b>：<span class=\"kw\">強力な子宮収縮薬で止血</span>。✓"
       }
      ],
      "imgs": []
@@ -25370,6 +25755,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　心電図</td><td><span class=\"kw4\">次順位</span>。肺塞栓の評価で下肢症状の第一でない</td></tr><tr><td>ｂ　血球検査</td><td><span class=\"kw4\">補助</span>。DVTの確定にならない</td></tr><tr><td>ｃ　動脈血ガス分析</td><td><span class=\"kw4\">次順位</span>。肺塞栓合併時</td></tr><tr><td>ｄ　下肢静脈超音波検査</td><td><span class=\"kw3\">正しい</span>。DVTの第一検査</td></tr><tr><td>ｅ　胸部エックス線撮影</td><td><span class=\"kw4\">次順位</span>。肺塞栓の評価</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "産褥の下腿腫脹・下腿浮腫でまず行う検査。<br/><b>a 心電図／b 血球検査／c 血液ガス／e 胸部X線</b>：第一でない。<br/><b>d 下肢静脈超音波検査</b>：<span class=\"kw\">深部静脈血栓症を評価</span>。✓"
       }
      ],
      "imgs": []
@@ -25469,6 +25859,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　臍帯牽引</td><td><span class=\"kw4\">危険</span>。子宮内反・臍帯断裂のリスク</td></tr><tr><td>ｂ　胎盤用手剝離</td><td><span class=\"kw4\">順序が後</span>。30分経過や大量出血時に行う</td></tr><tr><td>ｃ　子宮底輪状マッサージ</td><td><span class=\"kw3\">正しい</span>。まず剝離・娩出を促す</td></tr><tr><td>ｄ　胎盤鉗子による娩出</td><td><span class=\"kw4\">不適</span>。まだ剝離を待つ段階</td></tr><tr><td>ｅ　エルゴメトリン投与</td><td><span class=\"kw4\">不適</span>。剝離前の子宮収縮薬は嵌頓の恐れ</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "胎盤娩出前後の性器出血でまず行うこと。<br/><b>a 臍帯牽引／b 胎盤用手剝離／d 胎盤鉗子／e エルゴメトリン</b>：第一でない。<br/><b>c 子宮底輪状マッサージ</b>：<span class=\"kw\">子宮収縮を促し止血</span>。✓"
       }
      ],
      "imgs": []
@@ -25516,6 +25911,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　血栓塞栓症は妊娠中より多い</td><td><span class=\"kw3\">正しい</span>。産褥は凝固能亢進のピーク</td></tr><tr><td>ｂ　産褥出血の原因は頸管裂傷が最多</td><td><span class=\"kw4\">誤り</span>。弛緩出血が最多</td></tr><tr><td>ｃ　初乳の蛋白質は成熟乳より少ない</td><td><span class=\"kw4\">誤り</span>。多い</td></tr><tr><td>ｄ　産褥熱の起因菌はグラム陽性球菌が多い</td><td><span class=\"kw4\">誤り</span>。多菌種（陰性桿菌等）</td></tr><tr><td>ｅ　赤色→黄色→褐色→白色</td><td><span class=\"kw4\">誤り</span>。赤色→褐色→黄色→白色</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "産褥について正しいもの。<br/><b>b 産褥出血は頸管裂傷が最多（弛緩出血）／c 初乳の蛋白は成熟乳より少ない（多い）／d 産褥熱の起因菌はグラム陽性球菌が多い（多菌種）／e 悪露は赤色→黄色→褐色→白色（赤色→褐色→黄色→白色）</b>：誤り。<br/><b>a 血栓塞栓症の発症は妊娠中よりも多い</b>：<span class=\"kw\">産褥期は凝固能亢進・臥床で血栓リスクが高い</span>。✓"
       }
      ],
      "imgs": []
@@ -25615,6 +26015,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　脳波</td><td><span class=\"kw3\">緊急性が低い（正解）</span>。急性期の対応に直結しない</td></tr><tr><td>ｂ　血球検査</td><td><span class=\"kw4\">緊急</span>。貧血・血小板の評価</td></tr><tr><td>ｃ　交差適合試験</td><td><span class=\"kw4\">緊急</span>。輸血準備</td></tr><tr><td>ｄ　動脈血ガス分析</td><td><span class=\"kw4\">緊急</span>。呼吸・酸塩基の評価</td></tr><tr><td>ｅ　凝固・線溶検査</td><td><span class=\"kw4\">緊急</span>。DICの評価</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "羊水塞栓症を疑う場面で緊急性が「低い」検査。<br/><b>b 血球検査／c 交差適合試験／d 血液ガス／e 凝固・線溶検査</b>：緊急に必要。<br/><b>a 脳波</b>：<span class=\"kw\">本病態の急性期評価で緊急性が低い</span>。✓（これが正解肢）"
       }
      ],
      "imgs": []
@@ -25662,6 +26067,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　搾乳</td><td><span class=\"kw4\">適切</span>。うっ滞の解除</td></tr><tr><td>ｂ　授乳継続</td><td><span class=\"kw4\">適切</span>。乳汁の排出を促す</td></tr><tr><td>ｃ　乳頭清拭</td><td><span class=\"kw4\">適切</span>。感染予防</td></tr><tr><td>ｄ　乳房切開排膿</td><td><span class=\"kw3\">適切でない（正解）</span>。膿瘍がなく不要</td></tr><tr><td>ｅ　乳房マッサージ</td><td><span class=\"kw4\">適切</span>。うっ滞の解除</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "早期の乳腺炎（うっ滞性）への対応で「適切でない」もの。<br/><b>a 搾乳／b 授乳継続／c 乳頭清拭／e 乳房マッサージ</b>：うっ滞解除に適切。<br/><b>d 乳房切開排膿</b>：<span class=\"kw\">膿瘍形成前は切開不要（早期は排乳が基本）</span>。✓（これが正解肢）"
       }
      ],
      "imgs": []
@@ -25709,6 +26119,11 @@
        "cls": "ee",
        "h": "□ 選択肢の検討",
        "c": "<table class=\"tb\"><tr><th>選択肢</th><th>評価</th></tr><tr><td>ａ　造血能が高い</td><td><span class=\"kw4\">正しい</span>。分娩後の回復</td></tr><tr><td>ｂ　初乳に免疫グロブリンが多い</td><td><span class=\"kw4\">正しい</span>。IgA</td></tr><tr><td>ｃ　母乳保育は子宮復古を促進</td><td><span class=\"kw4\">正しい</span>。オキシトシンによる</td></tr><tr><td>ｄ　循環血液量は経日的に減少</td><td><span class=\"kw4\">正しい</span>。妊娠時の増加分が戻る</td></tr><tr><td>ｅ　プロラクチンは妊娠末期より高い</td><td><span class=\"kw3\">誤り（正解）</span>。妊娠末期がピーク</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 選択肢解説",
+       "c": "産褥期の生理学的特徴で「誤っている」もの。<br/><b>a 造血能が高い／b 初乳に免疫グロブリンが多い／c 母乳保育は子宮復古を促進／d 循環血液量は経日的に減少</b>：正しい。<br/><b>e プロラクチンの血中濃度は妊娠末期よりも高い</b>：<span class=\"kw\">産褥の基礎プロラクチンは妊娠末期より低下（授乳時に一過性上昇）＝誤り</span>。✓（これが正解肢）"
       }
      ],
      "imgs": []
