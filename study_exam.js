@@ -347,7 +347,7 @@ function _populateChapterChips() {
     const scoreCls = !h ? ' sc-none' : h.bestScore >= 80 ? ' sc-hi' : h.bestScore >= 60 ? ' sc-mid' : ' sc-lo';
     btn.innerHTML = '<span class="cc-num">' + info.chNum + '章</span>'
       + '<span class="cc-cnt">' + info.count + '問</span>'
-      + '<span class="cc-score' + scoreCls + '">' + (h ? '●' + h.bestScore + '%' : '—') + '</span>';
+      + '<span class="cc-score' + scoreCls + '">' + (h ? h.bestScore + '%' : '—') + '</span>';
     btn.title = (info.subj ? info.subj.name : info.subjId) + ' 第' + info.chNum + '章（' + info.count + '問）' + (h ? ' | 最高' + h.bestScore + '% · ' + h.sessions + '回' : '');
     btn.onclick = () => _selectExamChapter(prefix);
     grid.appendChild(btn);
