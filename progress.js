@@ -9,6 +9,7 @@
   const KFT = 'flag_tombstones_v1'; // 旗解除の墓標（uid → 解除時刻ms）。同期で解除済み旗が復活するのを防ぐ
   const K_SRS = 'mec_srs_v1';
   const KRT = 'mec_exam_resume_tombstones_v1'; // deleted resume savedAt values
+  const KRK = 'mec_exam_resume_key_tombs_v1'; // 中断データのキー別墓標（key → 削除時刻ms）。savedAt墓標だけでは他端末の古いコピーが復活するため
   const KER = 'error_reports_v1';
   const K_ERR_CLEARED = 'mec_err_cleared_at';
   const K_TOKEN = 'mec_gist_token', K_GIST = 'mec_gist_id', K_LAST_SYNC = 'mec_last_sync_v1';
@@ -135,6 +136,7 @@
     [KD, KF, KA, KR, KT, KDT, KFT, K_SRS, 'mec_choice_v1'].forEach(k => { try { payload[k] = JSON.parse(localStorage.getItem(k) || '{}'); } catch { payload[k] = {}; } });
     try { payload[KE] = JSON.parse(localStorage.getItem(KE) || '[]'); } catch { payload[KE] = []; }
     try { payload[KRT] = JSON.parse(localStorage.getItem(KRT) || '[]'); } catch { payload[KRT] = []; }
+    try { payload[KRK] = JSON.parse(localStorage.getItem(KRK) || '{}'); } catch { payload[KRK] = {}; }
     try { payload[KER] = JSON.parse(localStorage.getItem(KER) || '[]'); } catch { payload[KER] = []; }
     try { payload['mec_ch_exam_v1'] = JSON.parse(localStorage.getItem('mec_ch_exam_v1') || '{}'); } catch { payload['mec_ch_exam_v1'] = {}; }
     payload._errClearedAt = localStorage.getItem(K_ERR_CLEARED) || '';
@@ -303,17 +305,31 @@
     const remoteTomb = remote[KRT] || [];
     const allTomb = [...new Set([...localTomb, ...remoteTomb])];
     if (allTomb.length > localTomb.length) localStorage.setItem(KRT, JSON.stringify(allTomb.slice(-200)));
-    if (remoteR.length) {
-      const merged = [...localR];
-      remoteR.forEach(re => {
-        if (allTomb.includes(re.savedAt)) return; // skip tombstoned (deleted) entries
-        const idx = merged.findIndex(e => e.key === re.key);
-        if (idx >= 0) {
-          if ((re.savedAt || 0) > (merged[idx].savedAt || 0)) merged[idx] = re;
-        } else {
-          merged.push(re);
-        }
-      });
+    // key-based tombstones: 「キーKは時刻Tに削除」を端末間で共有し、Tより古い同キーの
+    // 中断データはローカル・リモートを問わず破棄する（savedAtは保存のたびに変わるため、
+    // savedAt墓標だけでは他端末に残った古いコピーが復活してしまう）
+    const localKT = lsGet(KRK);
+    const remoteKT = remote[KRK] || {};
+    const keyTomb = { ...localKT };
+    Object.keys(remoteKT).forEach(k => { if ((remoteKT[k] || 0) > (keyTomb[k] || 0)) keyTomb[k] = remoteKT[k]; });
+    const ktCutoff = Date.now() - 60 * 86400000; // 60日で失効（無限に溜めない）
+    Object.keys(keyTomb).forEach(k => { if (keyTomb[k] < ktCutoff) delete keyTomb[k]; });
+    lsRaw(KRK, keyTomb);
+    const _resumeDead = e => allTomb.includes(e.savedAt) || (keyTomb[e.key] || 0) > (e.savedAt || 0);
+    const keptLocalR = localR.filter(e => !_resumeDead(e));
+    let resumesChanged = keptLocalR.length !== localR.length;
+    const merged = [...keptLocalR];
+    remoteR.forEach(re => {
+      if (_resumeDead(re)) return; // skip tombstoned (deleted) entries
+      const idx = merged.findIndex(e => e.key === re.key);
+      if (idx >= 0) {
+        if ((re.savedAt || 0) > (merged[idx].savedAt || 0)) { merged[idx] = re; resumesChanged = true; }
+      } else {
+        merged.push(re);
+        resumesChanged = true;
+      }
+    });
+    if (resumesChanged) {
       merged.sort((a, b) => (b.savedAt || 0) - (a.savedAt || 0));
       localStorage.setItem(KE, JSON.stringify(merged.slice(0, 5)));
       document.dispatchEvent(new CustomEvent('mecResumesUpdated'));

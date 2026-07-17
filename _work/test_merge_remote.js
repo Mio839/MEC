@@ -97,6 +97,7 @@ function makeEnv(initialStore) {
 const KD = 'done_v2', KF = 'flag_v2', KA = 'activity_v1', KR = 'myrate_v1',
       KT = 'studytime_v1', KE = 'mec_exam_resumes_v1', KDT = 'done_tombstones_v1',
       K_SRS = 'mec_srs_v1', KRT = 'mec_exam_resume_tombstones_v1',
+      KRK = 'mec_exam_resume_key_tombs_v1',
       KER = 'error_reports_v1', K_ERR_CLEARED = 'mec_err_cleared_at',
       KCH = 'mec_ch_exam_v1', KFT = 'flag_tombstones_v1', KC = 'mec_choice_v1';
 
@@ -432,6 +433,67 @@ test('resumes: tombstoned savedAt from remote is skipped', () => {
   const env = makeEnv({ [KE]: JSON.stringify([]), [KRT]: JSON.stringify([500]) });
   env.mergeRemote({ [KE]: [{ key: 'x', savedAt: 500 }] });
   assert.strictEqual(env.getArr(KE).length, 0, 'tombstoned resume must not be re-added');
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+console.log('mec_exam_resume_key_tombs_v1 (キー別墓標: 削除の確実な伝播)');
+
+test('key tombstone: remote copy with an OLDER savedAt of a deleted key is not resurrected', () => {
+  // savedAt は保存のたびに変わるため savedAt 墓標では他端末の古いコピーを消せない。
+  // キー墓標(削除時刻T)より古い同キーのエントリはリモート由来でも破棄される。
+  const T = Date.now();
+  const env = makeEnv({ [KE]: JSON.stringify([]), [KRK]: JSON.stringify({ 'neur:50': T }) });
+  env.mergeRemote({ [KE]: [{ key: 'neur:50', savedAt: T - 5000 }] });
+  assert.strictEqual(env.getArr(KE).length, 0, 'older remote copy of a deleted key must stay deleted');
+});
+
+test('key tombstone: remote tombstone deletes a LOCAL older entry (deletion propagates)', () => {
+  const T = Date.now();
+  const env = makeEnv({ [KE]: JSON.stringify([{ key: 'neur:50', savedAt: T - 5000 }]) });
+  env.mergeRemote({ [KRK]: { 'neur:50': T } });
+  assert.strictEqual(env.getArr(KE).length, 0, 'local stale entry must be removed by remote key tombstone');
+});
+
+test('key tombstone: a NEWER session with the same key survives', () => {
+  const T = Date.now() - 60000;
+  const env = makeEnv({
+    [KE]: JSON.stringify([{ key: 'neur:50', savedAt: T + 30000 }]),
+    [KRK]: JSON.stringify({ 'neur:50': T }),
+  });
+  env.mergeRemote({ [KE]: [] });
+  const arr = env.getArr(KE);
+  assert.strictEqual(arr.length, 1, 'a session started after the deletion must survive');
+});
+
+test('key tombstone: entry saved at the exact tombstone time survives (start-then-save same ms)', () => {
+  // startExam は _clearExamResume 直後に _saveExamResume するため、墓標と savedAt が
+  // 同一msになり得る。比較は strict > で「同時刻」は生かす。
+  const T = Date.now();
+  const env = makeEnv({
+    [KE]: JSON.stringify([{ key: 'neur:50', savedAt: T }]),
+    [KRK]: JSON.stringify({ 'neur:50': T }),
+  });
+  env.mergeRemote({ [KE]: [] });
+  assert.strictEqual(env.getArr(KE).length, 1);
+});
+
+test('key tombstone: local and remote tombstones merge to the max time and persist', () => {
+  const T = Date.now();
+  const env = makeEnv({ [KRK]: JSON.stringify({ a: T - 1000, b: T - 2000 }) });
+  env.mergeRemote({ [KRK]: { a: T, c: T - 500 } });
+  const kt = env.getObj(KRK);
+  assert.strictEqual(kt.a, T, 'newer remote time wins');
+  assert.strictEqual(kt.b, T - 2000, 'local-only tombstone kept');
+  assert.strictEqual(kt.c, T - 500, 'remote-only tombstone adopted');
+});
+
+test('key tombstone: expired (>60d) tombstones are pruned from the persisted store', () => {
+  const T = Date.now();
+  const env = makeEnv({ [KRK]: JSON.stringify({ old: T - 61 * DAY_MS, fresh: T - 1000 }) });
+  env.mergeRemote({});
+  const kt = env.getObj(KRK);
+  assert.ok(!('old' in kt), 'expired tombstone must be dropped');
+  assert.ok('fresh' in kt, 'fresh tombstone must persist');
 });
 
 // ─────────────────────────────────────────────────────────────────────────

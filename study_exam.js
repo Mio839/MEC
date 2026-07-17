@@ -244,12 +244,18 @@ function _renderResumeList() {
       const subjLabel = subjs.length <= 2
         ? subjs.map(s => subjNameMap[s] || s).join('・')
         : '複数科目(' + subjs.length + ')';
+      // 1科目・1章に収まる出題なら章番号も表示（旧形式の中断データでもuidから導出できる）
+      let chLabel = '';
+      if (subjs.length === 1) {
+        const chNums = [...new Set((r.uids || []).map(u => { const m = u.match(/_ch(\d+)_q/); return m ? parseInt(m[1], 10) : 0; }).filter(Boolean))];
+        if (chNums.length === 1) chLabel = ' 第' + chNums[0] + '章';
+      }
       const dt = r.savedAt ? new Date(r.savedAt).toLocaleString('ja-JP', {month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit'}) : '';
       const prog = r.answeredCount > 0 ? r.answeredCount + '/' + r.total + '問 回答済み' : '全' + r.total + '問・未回答';
       const filterTag = r.filterLabel ? ' <span style="background:rgba(61,214,140,.2);border-radius:4px;padding:1px 6px;font-size:10px;margin-left:4px;">' + r.filterLabel + '</span>' : '';
       return '<div class="exam-resume-card">'
         + '<div class="exam-resume-info">'
-        + '<div class="er-title">📎 ' + subjLabel + filterTag + '</div>'
+        + '<div class="er-title">📎 ' + subjLabel + chLabel + filterTag + '</div>'
         + '<div class="er-sub">' + prog + (dt ? '　' + dt : '') + '</div>'
         + '</div>'
         + '<div style="display:flex;gap:6px;flex-shrink:0">'
@@ -354,8 +360,23 @@ function _addResumeTombstone(savedAt) {
     localStorage.setItem('mec_exam_resume_tombstones_v1', JSON.stringify(t.slice(-200)));
   }
 }
+// キー別墓標: savedAt は保存のたびに変わるため、savedAt 墓標だけでは他端末に残った
+// 古いコピーが同期で復活する。「このキーは時刻Tに削除された」を記録し、それより古い
+// 同キーの中断データはどの端末でも復活させない（progress.js の _mergeRemote が参照）。
+function _addResumeKeyTombstone(key) {
+  if (!key) return;
+  try {
+    const t = JSON.parse(localStorage.getItem('mec_exam_resume_key_tombs_v1') || '{}');
+    t[key] = Date.now();
+    const keys = Object.keys(t);
+    if (keys.length > 50) keys.sort((a, b) => t[a] - t[b]).slice(0, keys.length - 50).forEach(k => delete t[k]);
+    localStorage.setItem('mec_exam_resume_key_tombs_v1', JSON.stringify(t));
+  } catch {}
+}
 function discardExamResume(savedAt) {
+  const entry = _loadResumes().find(r => r.savedAt === savedAt);
   _addResumeTombstone(savedAt);
+  if (entry && entry.key) _addResumeKeyTombstone(entry.key);
   _saveResumes(_loadResumes().filter(r => r.savedAt !== savedAt));
   if (window.MECSync) window.MECSync.pushToGist();
   _renderResumeList();
@@ -369,7 +390,9 @@ function startFreshExam() {
 
 function _saveExamResume() {
   if (_srsReviewMode) return;
-  if (!examQueue.length || examAnswered >= examQueue.length) return;
+  if (!examQueue.length) return;
+  // 全問回答済みなら中断データは不要。終了ボタンを押さずに閉じても残らないよう、ここで自動削除する
+  if (examAnswered >= examQueue.length) { _clearExamResume(); return; }
   const revealedUids = {};
   const pendingWrong = [];
   let pendingCorrect = 0;
@@ -401,7 +424,8 @@ function _saveExamResume() {
     bySubj: examBySubj,
     total: examQueue.length,
     count: _examCount,
-    filterLabel: _examFilterLabel
+    filterLabel: _examFilterLabel,
+    chPrefix: _examActiveChPrefix
   };
   const resumes = _loadResumes();
   const ri = resumes.findIndex(r => r.key === _examSessionKey);
@@ -411,6 +435,7 @@ function _saveExamResume() {
 function _clearExamResume() {
   const toDelete = _loadResumes().filter(r => r.key === _examSessionKey);
   toDelete.forEach(r => _addResumeTombstone(r.savedAt));
+  _addResumeKeyTombstone(_examSessionKey);
   _saveResumes(_loadResumes().filter(r => r.key !== _examSessionKey));
 }
 
@@ -467,7 +492,8 @@ function startExam(overrideUids = null) {
   if (!examQueue.length) { alert('表示中の問題がありません。科目・フィルターを確認してください。'); return; }
   const _subj = [...new Set(examQueue.map(c => c.dataset.uid.split('_ch')[0]))].sort().join(',');
   _examSessionKey = _subj + ':' + examQueue.length;
-  _clearExamResume();
+  // SRS復習は中断データを持たないので消さない（同じキーの通常試験の中断データを巻き込まないため）
+  if (!_srsReviewMode) _clearExamResume();
   examMode = true; examAnswered = 0; examCorrect = 0; examStreak = 0; examBySubj = {}; examWrong = []; _examSessionWrongChoices.clear(); examStartTime = Date.now(); _examPausedMs = 0; _examPauseStart = null;
   examEffectSet = EXAM_EFFECT_POOL[Math.floor(Math.random() * EXAM_EFFECT_POOL.length)];
   document.body.classList.remove('exam-effect-neon', 'exam-effect-ink');
@@ -1937,6 +1963,10 @@ function resumeExam(savedAt) {
   const saved = _loadResumes().find(r => r.savedAt == savedAt);
   if (!saved || !saved.uids || !saved.uids.length) { alert('再開データが見つかりません。'); return; }
   _examSessionKey = saved.key || '';
+  // 章別試験・フィルター情報を復元する。復元しないと、再開して完走しても章別履歴
+  // (mec_ch_exam_v1) に記録されず、再中断時にフィルタータグも消える。
+  _examActiveChPrefix = saved.chPrefix || null;
+  _examFilterLabel = saved.filterLabel || '';
   closeExamStart();
 
   const uidToCard = {};
@@ -2079,8 +2109,10 @@ function resumeExam(savedAt) {
 
 function exitExam() {
   if (!examMode) return;
-  if (examAnswered >= examQueue.length) _clearExamResume();
-  else _saveExamResume();
+  if (!_srsReviewMode) {
+    if (examAnswered >= examQueue.length) _clearExamResume();
+    else _saveExamResume();
+  }
   examMode = false;
   localStorage.removeItem('mec_exam_active_key');
   document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink');
