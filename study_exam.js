@@ -248,19 +248,23 @@ function _renderResumeList() {
       let chLabel = '';
       if (subjs.length === 1) {
         const chNums = [...new Set((r.uids || []).map(u => { const m = u.match(/_ch(\d+)_q/); return m ? parseInt(m[1], 10) : 0; }).filter(Boolean))];
-        if (chNums.length === 1) chLabel = ' 第' + chNums[0] + '章';
+        if (chNums.length === 1) chLabel = ' <span class="er-ch">第' + chNums[0] + '章</span>';
       }
       const dt = r.savedAt ? new Date(r.savedAt).toLocaleString('ja-JP', {month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit'}) : '';
-      const prog = r.answeredCount > 0 ? r.answeredCount + '/' + r.total + '問 回答済み' : '全' + r.total + '問・未回答';
-      const filterTag = r.filterLabel ? ' <span style="background:rgba(61,214,140,.2);border-radius:4px;padding:1px 6px;font-size:10px;margin-left:4px;">' + r.filterLabel + '</span>' : '';
+      const prog = r.answeredCount > 0
+        ? '<span class="er-prog">' + r.answeredCount + '/' + r.total + '問</span> 回答済み'
+        : '全' + r.total + '問・未回答';
+      const pctDone = r.total > 0 ? Math.round(r.answeredCount / r.total * 100) : 0;
+      const filterTag = r.filterLabel ? ' <span class="er-filter">' + r.filterLabel + '</span>' : '';
       return '<div class="exam-resume-card">'
         + '<div class="exam-resume-info">'
         + '<div class="er-title">📎 ' + subjLabel + chLabel + filterTag + '</div>'
         + '<div class="er-sub">' + prog + (dt ? '　' + dt : '') + '</div>'
+        + '<div class="er-bar"><div class="er-bar-fill" style="width:' + pctDone + '%"></div></div>'
         + '</div>'
         + '<div style="display:flex;gap:6px;flex-shrink:0">'
         + '<button class="exam-resume-btn" onclick="resumeExam(' + r.savedAt + ')">再開</button>'
-        + '<button onclick="discardExamResume(' + r.savedAt + ')" style="background:none;border:1px solid #ccc;border-radius:8px;padding:6px 10px;font-size:12px;color:#888;cursor:pointer;" title="削除">✕</button>'
+        + '<button onclick="discardExamResume(' + r.savedAt + ')" style="background:none;border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:6px 10px;font-size:12px;color:rgba(255,255,255,.55);cursor:pointer;" title="削除">✕</button>'
         + '</div></div>';
     }).join('');
     sec.style.display = '';

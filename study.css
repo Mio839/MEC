@@ -265,10 +265,18 @@ body.exam-mode .exam-prog{display:flex;}
 .exam-cancel-btn{background:none;border:none;color:var(--ts);font-size:12px;cursor:pointer;}
 /* Resume section */
 .exam-resume-section{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08);}
-.exam-resume-card{background:rgba(61,214,140,.08);border:1.5px solid rgba(61,214,140,.2);border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;text-align:left;}
-.exam-resume-info{flex:1;}
-.exam-resume-info .er-title{font-size:12px;font-weight:700;color:var(--gr);margin-bottom:2px;}
-.exam-resume-info .er-sub{font-size:11px;color:rgba(61,214,140,.7);}
+/* 中断データカード: 全緑だと情報が塊で読めないため種類ごとに色分けする。
+   タイトル=白 / 章=青(.er-ch) / フィルター=オレンジ(.er-filter) / 進捗数=アンバー(.er-prog)
+   ＋進捗バー(.er-bar) / 日付=グレー。緑は主アクションの「再開」ボタンだけに残す */
+.exam-resume-card{background:var(--cb);border:1.5px solid var(--bd);border-left:4px solid #60A5FA;border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;text-align:left;}
+.exam-resume-info{flex:1;min-width:0;}
+.exam-resume-info .er-title{font-size:12px;font-weight:700;color:var(--tx);margin-bottom:2px;}
+.exam-resume-info .er-sub{font-size:11px;color:var(--ts);}
+.er-ch{color:#60A5FA;}
+.er-filter{background:var(--orl);color:var(--ord);border:1px solid rgba(255,154,60,.35);border-radius:4px;padding:1px 6px;font-size:10px;font-weight:700;margin-left:5px;white-space:nowrap;}
+.er-prog{color:var(--yl);font-weight:700;}
+.er-bar{height:4px;background:rgba(255,255,255,.1);border-radius:2px;margin-top:6px;overflow:hidden;}
+.er-bar-fill{height:100%;background:linear-gradient(90deg,var(--yl),var(--gr));border-radius:2px;}
 .exam-resume-btn{background:var(--gr);color:#061a0f;border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit;flex-shrink:0;}
 .exam-resume-btn:hover{filter:brightness(1.1);}
 .exam-resume-or{font-size:11px;color:var(--ts);margin-bottom:10px;}
