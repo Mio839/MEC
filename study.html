@@ -125,16 +125,20 @@ if ('serviceWorker' in navigator) {
   <div class="exam-start-box">
     <h2>🎓 試験モード</h2>
     <p>現在の科目・フィルターから出題<br>選択肢はシャッフルされます（下線部がある問題を除く）</p>
-    <div class="exam-ch-section">
-      <div class="exam-ch-label">📚 章を絞り込む（任意）<button class="exam-ch-clear" id="examChClearBtn" onclick="clearExamChFilter()">✕ 解除</button></div>
-      <div class="exam-ch-chips" id="examChChips"></div>
-    </div>
     <div class="exam-resume-section" id="examResumeSection" style="display:none">
+      <div class="exam-resume-head">▶ 続きから</div>
       <div id="examResumeList"></div>
       <div class="exam-resume-or">— 現在のフィルターで新しく始める —</div>
     </div>
-    <button class="exam-go-btn" onclick="startExam()">開始</button>
-    <button class="exam-cancel-btn" onclick="closeExamStart()">キャンセル</button>
+    <div class="exam-ch-section">
+      <div class="exam-ch-label">📚 章を絞り込む（任意）<button class="exam-ch-clear" id="examChClearBtn" onclick="clearExamChFilter()">✕ 解除</button></div>
+      <div class="exam-subj-tabs" id="examSubjTabs"></div>
+      <div class="exam-ch-grid" id="examChChips"></div>
+    </div>
+    <div class="exam-start-foot">
+      <button class="exam-go-btn" onclick="startExam()">🚀 開始</button>
+      <button class="exam-cancel-btn" onclick="closeExamStart()">キャンセル</button>
+    </div>
   </div>
 </div>
 
@@ -938,7 +942,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0717c";
+const MEC_BUILD = "b-0717d";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。

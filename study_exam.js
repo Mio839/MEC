@@ -14,6 +14,7 @@ const EXAM_EFFECT_POOL = EXAM_EFFECT_SETS.flatMap(s => s === 'classic' ? [s] : [
 let examEffectSet = 'classic';
 let examBySubj = {};
 let _examChPrefix = null;   // selected chapter prefix for exam (e.g. "neur_ch01")
+let _examTabSubj = null;    // 試験開始モーダルの章グリッドで表示中の科目タブ
 let _examActiveChPrefix = null; // chapter prefix that was active when exam started
 let examWrong = [];
 let _examSessionWrongChoices = new Map(); // uid → 選んだ選択肢のテキスト（今セッション限定）
@@ -282,8 +283,8 @@ function openExamStart() {
 }
 
 function _populateChapterChips() {
-  const chips = document.getElementById('examChChips');
-  if (!chips) return;
+  const grid = document.getElementById('examChChips');
+  if (!grid) return;
 
   const visibleCards = [...document.querySelectorAll('.qc[data-uid]')].filter(c => {
     if (c.style.display === 'none') return false;
@@ -312,46 +313,58 @@ function _populateChapterChips() {
     return oi !== 0 ? oi : a.chNum - b.chNum;
   });
 
+  // 科目タブ: 表示中の科目が2つ以上のときだけ出す
+  const subjIds = [...new Set(entries.map(([, i]) => i.subjId))];
+  if (!subjIds.includes(_examTabSubj)) {
+    const selSubj = _examChPrefix ? _examChPrefix.replace(/_ch\d+$/, '') : null;
+    _examTabSubj = subjIds.includes(selSubj) ? selSubj : subjIds[0];
+  }
+  const tabs = document.getElementById('examSubjTabs');
+  if (tabs) {
+    tabs.innerHTML = '';
+    tabs.style.display = subjIds.length > 1 ? '' : 'none';
+    subjIds.forEach(sid => {
+      const subj = STUDY_SUBJECTS.find(s => s.id === sid);
+      const tbtn = document.createElement('button');
+      const hasPick = _examChPrefix && _examChPrefix.replace(/_ch\d+$/, '') === sid;
+      tbtn.className = 'exam-subj-tab' + (sid === _examTabSubj ? ' sel' : '') + (hasPick ? ' has-pick' : '');
+      tbtn.textContent = subj ? subj.icon + ' ' + subj.name : sid;
+      tbtn.onclick = () => { _examTabSubj = sid; _populateChapterChips(); };
+      tabs.appendChild(tbtn);
+    });
+    const selTab = tabs.querySelector('.exam-subj-tab.sel');
+    if (selTab && selTab.scrollIntoView) selTab.scrollIntoView({ inline: 'nearest', block: 'nearest' });
+  }
+
   const chExamHist = JSON.parse(localStorage.getItem('mec_ch_exam_v1') || '{}');
-  chips.innerHTML = '';
-  entries.forEach(([prefix, info]) => {
+  grid.innerHTML = '';
+  entries.filter(([, info]) => info.subjId === _examTabSubj).forEach(([prefix, info]) => {
     const h = chExamHist[prefix];
     const btn = document.createElement('button');
-    btn.className = 'exam-ch-chip' + (_examChPrefix === prefix ? ' sel' : '') + (h ? ' done' : '');
+    btn.className = 'exam-ch-card' + (_examChPrefix === prefix ? ' sel' : '');
     btn.dataset.prefix = prefix;
-    const baseLabel = (info.subj ? info.subj.icon + ' ' : '') + info.chNum + '章';
-    if (h) {
-      btn.innerHTML = baseLabel + '<span class="ch-exam-score">' + h.bestScore + '%</span>';
-    } else {
-      btn.textContent = baseLabel;
-    }
+    // ベスト正答率で色分け: 80%↑緑 / 60-79黄 / 60未満赤 / 未受験グレー
+    const scoreCls = !h ? ' sc-none' : h.bestScore >= 80 ? ' sc-hi' : h.bestScore >= 60 ? ' sc-mid' : ' sc-lo';
+    btn.innerHTML = '<span class="cc-num">' + info.chNum + '章</span>'
+      + '<span class="cc-cnt">' + info.count + '問</span>'
+      + '<span class="cc-score' + scoreCls + '">' + (h ? '●' + h.bestScore + '%' : '—') + '</span>';
     btn.title = (info.subj ? info.subj.name : info.subjId) + ' 第' + info.chNum + '章（' + info.count + '問）' + (h ? ' | 最高' + h.bestScore + '% · ' + h.sessions + '回' : '');
-    btn.onclick = () => _selectExamChapter(prefix, btn);
-    chips.appendChild(btn);
+    btn.onclick = () => _selectExamChapter(prefix);
+    grid.appendChild(btn);
   });
 
   const clearBtn = document.getElementById('examChClearBtn');
   if (clearBtn) clearBtn.style.display = _examChPrefix ? '' : 'none';
 }
 
-function _selectExamChapter(prefix, el) {
-  if (_examChPrefix === prefix) {
-    _examChPrefix = null;
-    el.classList.remove('sel');
-  } else {
-    _examChPrefix = prefix;
-    document.querySelectorAll('.exam-ch-chip').forEach(b => b.classList.remove('sel'));
-    el.classList.add('sel');
-  }
-  const clearBtn = document.getElementById('examChClearBtn');
-  if (clearBtn) clearBtn.style.display = _examChPrefix ? '' : 'none';
+function _selectExamChapter(prefix) {
+  _examChPrefix = (_examChPrefix === prefix) ? null : prefix;
+  _populateChapterChips();
 }
 
 function clearExamChFilter() {
   _examChPrefix = null;
-  document.querySelectorAll('.exam-ch-chip').forEach(b => b.classList.remove('sel'));
-  const clearBtn = document.getElementById('examChClearBtn');
-  if (clearBtn) clearBtn.style.display = 'none';
+  _populateChapterChips();
 }
 function closeExamStart() {
   document.getElementById('examStartOv').classList.remove('open');
