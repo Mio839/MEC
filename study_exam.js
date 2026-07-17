@@ -278,7 +278,7 @@ function closeSelfcheck(){document.getElementById('scOv').classList.remove('open
 let _chipRetryInt = null;
 function openExamStart() {
   _renderResumeList();
-  _populateChapterChips();
+  _populateChapterChips(true);
   document.getElementById('examStartOv').classList.add('open');
   if (window.MECSync) window.MECSync.syncFromGist().then(r => { if (r.status === 'ok') _renderResumeList(); });
   // 段階ローダーでカード読み込み中に開くと章グリッドが空になる。読み込み完了を拾って再描画する
@@ -290,11 +290,11 @@ function openExamStart() {
       clearInterval(_chipRetryInt);
       return;
     }
-    _populateChapterChips();
+    _populateChapterChips(true);
   }, 800);
 }
 
-function _populateChapterChips() {
+function _populateChapterChips(animate = false) {
   const grid = document.getElementById('examChChips');
   if (!grid) return;
 
@@ -351,7 +351,7 @@ function _populateChapterChips() {
       const hasPick = _examChPrefix && _examChPrefix.replace(/_ch\d+$/, '') === sid;
       tbtn.className = 'exam-subj-tab' + (sid === _examTabSubj ? ' sel' : '') + (hasPick ? ' has-pick' : '');
       tbtn.textContent = subj ? subj.icon + ' ' + subj.name : sid;
-      tbtn.onclick = () => { _examTabSubj = sid; _populateChapterChips(); };
+      tbtn.onclick = () => { _examTabSubj = sid; _populateChapterChips(true); };
       tabs.appendChild(tbtn);
     });
     const selTab = tabs.querySelector('.exam-subj-tab.sel');
@@ -360,7 +360,7 @@ function _populateChapterChips() {
 
   const chExamHist = JSON.parse(localStorage.getItem('mec_ch_exam_v1') || '{}');
   grid.innerHTML = '';
-  entries.filter(([, info]) => info.subjId === _examTabSubj).forEach(([prefix, info]) => {
+  entries.filter(([, info]) => info.subjId === _examTabSubj).forEach(([prefix, info], idx) => {
     const h = chExamHist[prefix];
     const btn = document.createElement('button');
     btn.className = 'exam-ch-card' + (_examChPrefix === prefix ? ' sel' : '');
@@ -371,9 +371,17 @@ function _populateChapterChips() {
       + '<span class="cc-cnt">' + info.count + '問</span>'
       + '<span class="cc-score' + scoreCls + '">' + (h ? h.bestScore + '%' : '—') + '</span>';
     btn.title = (info.subj ? info.subj.name : info.subjId) + ' 第' + info.chNum + '章（' + info.count + '問）' + (h ? ' | 最高' + h.bestScore + '% · ' + h.sessions + '回' : '');
+    btn.style.animationDelay = (idx * 22) + 'ms';
     btn.onclick = () => _selectExamChapter(prefix);
     grid.appendChild(btn);
   });
+
+  // モーダルを開いた時・タブ切替時だけカードを順番にポップさせる
+  // （選択・解除の再描画では replay しない）
+  try {
+    if (animate) { grid.classList.remove('anim-in'); void grid.offsetWidth; grid.classList.add('anim-in'); }
+    else grid.classList.remove('anim-in');
+  } catch (e) {}
 
   const clearBtn = document.getElementById('examChClearBtn');
   if (clearBtn) clearBtn.style.display = _examChPrefix ? '' : 'none';
@@ -476,6 +484,23 @@ function _clearExamResume() {
   toDelete.forEach(r => _addResumeTombstone(r.savedAt));
   _addResumeKeyTombstone(_examSessionKey);
   _saveResumes(_loadResumes().filter(r => r.key !== _examSessionKey));
+}
+
+// 再開ボタン押下時の演出: 中央に「▶ 続きから再開！」＋MecFXのリング・バースト・グリフ
+function _playResumeIntroFx() {
+  try {
+    const pop = document.createElement('div');
+    pop.className = 'resume-intro-pop';
+    pop.textContent = '▶ 続きから再開！';
+    document.body.appendChild(pop);
+    setTimeout(() => pop.remove(), 1250);
+    if (window.MecFX) {
+      const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+      window.MecFX.rings(cx, cy, { count: 2, color: 'rgba(61,214,140,.8)', thickness: 3, maxR: 180, additive: true });
+      window.MecFX.burst(cx, cy, { count: 26, colors: ['#3DD68C', '#60A5FA', '#FFD37A'], shapes: ['circle', 'star'], tier: 3, scale: 1.3, glow: true, additive: true });
+      window.MecFX.glyphBurst(cx, cy, { glyphs: ['📎', '✨', '⚡️'], count: 8, w: 140, spread: 130 });
+    }
+  } catch (e) {}
 }
 
 function retryWrongExam() {
@@ -2007,6 +2032,7 @@ function resumeExam(savedAt) {
   _examActiveChPrefix = saved.chPrefix || null;
   _examFilterLabel = saved.filterLabel || '';
   closeExamStart();
+  setTimeout(_playResumeIntroFx, 200); // モーダルが閉じてから中央演出を発火
 
   const uidToCard = {};
   document.querySelectorAll('.qc[data-uid]').forEach(c => { uidToCard[c.dataset.uid] = c; });
