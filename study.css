@@ -242,12 +242,17 @@ body.exam-mode .exam-prog{display:flex;}
 .sc-link{display:block;padding:8px 10px;border-radius:10px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:var(--tx);text-decoration:none;font-size:12px;font-weight:700;text-align:center;transition:all .15s;}
 .sc-link:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);}
 /* Start modal */
-.exam-start-ov{display:none;position:fixed;inset:0;background:rgba(3,7,18,.6);z-index:5000;align-items:center;justify-content:center;backdrop-filter:blur(10px) saturate(1.2);-webkit-backdrop-filter:blur(10px) saturate(1.2);}
+/* ⚠️ iOS WebKit対策: backdrop-filterの入れ子(オーバーレイ＋ボックス)や、backdrop-filter付き
+   要素のアニメーションはカクつき・チラつき・ぼかし欠落を起こす。ぼかしはオーバーレイ1枚だけに
+   して、アニメーションするボックス自体はほぼ不透明なグラデ背景で表現する */
+.exam-start-ov{display:none;position:fixed;inset:0;background:rgba(3,7,18,.62);z-index:5000;align-items:center;justify-content:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
 .exam-start-ov.open{display:flex;}
-.exam-start-box{background:linear-gradient(160deg,rgba(32,54,100,.92),rgba(13,22,45,.96) 55%);backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:24px 24px 0;max-width:480px;width:92%;text-align:center;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.08);}
+.exam-start-box{background:linear-gradient(160deg,rgba(32,54,100,.97),rgba(13,22,45,.99) 55%);border:1px solid rgba(255,255,255,.16);border-radius:20px;padding:24px 24px 0;max-width:480px;width:92%;text-align:center;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.08);}
 .exam-start-ov.open .exam-start-box{animation:examBoxIn .32s cubic-bezier(.18,.9,.32,1.15);}
 @keyframes examBoxIn{from{opacity:0;transform:translateY(16px) scale(.95);}to{opacity:1;transform:none;}}
-.exam-start-box h2{font-size:18px;font-weight:800;letter-spacing:.03em;margin-bottom:4px;background:linear-gradient(90deg,#FFD9A8,var(--or) 45%,#FF7A59);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.exam-start-box h2{font-size:18px;font-weight:800;letter-spacing:.03em;margin-bottom:4px;color:var(--tx);}
+/* 絵文字はグラデクリップの外に置く（-webkit-text-fill-color:transparentで絵文字が消える環境対策） */
+.exam-start-box h2 .grad-txt{background:linear-gradient(90deg,#FFD9A8,var(--or) 45%,#FF7A59);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
 .exam-start-box p{font-size:12px;color:var(--ts);margin-bottom:14px;}
 /* Chapter filter in exam modal */
 .exam-ch-section{margin-bottom:14px;text-align:left;}

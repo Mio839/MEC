@@ -123,7 +123,7 @@ if ('serviceWorker' in navigator) {
 <!-- Exam start modal -->
 <div class="exam-start-ov" id="examStartOv">
   <div class="exam-start-box">
-    <h2>🎓 試験モード</h2>
+    <h2>🎓 <span class="grad-txt">試験モード</span></h2>
     <p>現在の科目・フィルターから出題<br>選択肢はシャッフルされます（下線部がある問題を除く）</p>
     <div class="exam-resume-section" id="examResumeSection" style="display:none">
       <div class="exam-resume-head">▶ 続きから</div>
@@ -942,7 +942,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0717e";
+const MEC_BUILD = "b-0717f";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
