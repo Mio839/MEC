@@ -942,7 +942,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0717i";
+const MEC_BUILD = "b-0718a";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
@@ -1052,9 +1052,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (_srsLaunch) {
     // 復習は due カードだけを専用ホストに即描画するので、全科目のfetch/描画/初期化を待たない。
     // 全科目ロードは復習を抜けたとき(_runDeferredInit)に実行する。
-    _removeLoader();
+    // ローダーは復習の準備完了（またはエラー）まで残す＝準備中に真っ白な画面を見せない。
     _loadSRS();
-    startSRSReview();
+    Promise.resolve(startSRSReview()).catch(e => console.error('SRS review start error:', e)).finally(_removeLoader);
   } else {
     _runFullInit();
   }
@@ -1336,8 +1336,13 @@ function _idbOpen() {
   _idbPromise = new Promise(resolve => {
     try {
       if (!window.indexedDB) return resolve(null);
-      const req = indexedDB.open('mec_subj_cache', 1);
-      req.onupgradeneeded = () => { const db = req.result; if (!db.objectStoreNames.contains('subj')) db.createObjectStore('subj'); };
+      const req = indexedDB.open('mec_subj_cache', 2);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains('subj')) db.createObjectStore('subj');
+        // srsq: SRS対象問題の単品キャッシュ(uid → {v,q})。復習起動を科目JSONなしで行うため
+        if (!db.objectStoreNames.contains('srsq')) db.createObjectStore('srsq');
+      };
       req.onsuccess = () => resolve(req.result);
       req.onerror = () => resolve(null);
     } catch (e) { resolve(null); }
@@ -1384,15 +1389,66 @@ async function _getSubjectData(sid) {
   if (_subjDataCache.has(sid)) return _subjDataCache.get(sid);
   const ver = await _cacheVersion();
   if (ver) {
-    try { const rec = await _idbGet(sid); if (rec && rec.v === ver && rec.data) { _subjDataCache.set(sid, rec.data); return rec.data; } } catch (e) {}
+    try {
+      const rec = await _idbGet(sid);
+      if (rec && rec.v === ver && rec.data) {
+        _subjDataCache.set(sid, rec.data);
+        _scheduleSrsHarvest(sid, rec.data, ver);
+        return rec.data;
+      }
+    } catch (e) {}
   }
   const data = await _fetchSubjectDataNetwork(sid);
   if (data) {
     _subjDataCache.set(sid, data);
     // IndexedDB書き込み(構造化クローン)は起動描画と競合しないようidle時に回す
     if (ver) (window.requestIdleCallback || setTimeout)(() => _idbPut(sid, { v: ver, data }));
+    if (ver) _scheduleSrsHarvest(sid, data, ver);
   }
   return data;
+}
+
+// ── SRS問題の単品キャッシュ(srsq) ──────────────────────────────────────────────
+// 復習(SRS)に載る問題は「過去に解いた問題」だけ。科目データを開いたついでに、その科目の
+// SRS対象問題(60日以内にdue)を uid 単位で IndexedDB に収穫しておくと、翌日以降の復習起動は
+// 科目JSON(1科目2〜3MB)のfetch/parseを一切せずに due カードを即描画できる。
+function _scheduleSrsHarvest(sid, data, ver) {
+  (window.requestIdleCallback || setTimeout)(() => {
+    try {
+      const srs = JSON.parse(localStorage.getItem('mec_srs_v1') || '{}');
+      const cutoff = (() => { const d = new Date(); d.setDate(d.getDate() + 60); return d.toISOString().slice(0, 10); })();
+      const pre = sid + '_ch';
+      const uids = Object.keys(srs).filter(u => u.startsWith(pre) && srs[u] && srs[u].nextReview && srs[u].nextReview <= cutoff);
+      if (!uids.length || !data || !data.chapters) return;
+      const byUid = {};
+      data.chapters.forEach(ch => (ch.qs || []).forEach(q => { byUid[q.uid] = q; }));
+      _idbOpen().then(db => {
+        if (!db) return;
+        try {
+          const st = db.transaction('srsq', 'readwrite').objectStore('srsq');
+          uids.forEach(u => { if (byUid[u]) st.put({ v: ver, q: byUid[u] }, u); });
+        } catch (e) {}
+      });
+    } catch (e) {}
+  });
+}
+// due uid 群を srsq からまとめて読む（版が合う q だけ返す）
+function _srsqGetMany(uids, ver) {
+  return _idbOpen().then(db => {
+    if (!db || !uids.length) return {};
+    return new Promise(res => {
+      const out = {};
+      try {
+        const st = db.transaction('srsq', 'readonly').objectStore('srsq');
+        let pending = uids.length;
+        uids.forEach(u => {
+          const rq = st.get(u);
+          rq.onsuccess = () => { if (rq.result && rq.result.v === ver && rq.result.q) out[u] = rq.result.q; if (--pending === 0) res(out); };
+          rq.onerror = () => { if (--pending === 0) res(out); };
+        });
+      } catch (e) { res(out); }
+    });
+  });
 }
 
 // 科目JSONを取得するだけ（描画しない）。キャッシュ層経由。
@@ -1406,6 +1462,7 @@ window._srsHostHide = _srsHostHide;
 window._srsHostClear = _srsHostClear;
 
 // due問題を科目別にまとめ、未ロード科目のみdueカードをホストへ描画する。
+// srsqキャッシュにある問題は科目JSONを開かずに即描画し、無いものだけ科目単位でfetchする。
 async function _renderDueCardsForReview(dueUids) {
   const host = document.getElementById('srsReviewHost');
   if (!host) return;
@@ -1417,23 +1474,49 @@ async function _renderDueCardsForReview(dueUids) {
     if (!bySid.has(sid)) bySid.set(sid, []);
     bySid.get(sid).push(uid);
   });
-  // 未ロード科目のJSONを並列取得（ロード済み科目は既存カードを流用するので取得不要）
+  // ロード済み科目は既存カードを流用するので取得不要
   const targets = [...bySid.entries()].filter(([sid]) => !_loadedSids.has(sid));
-  const datas = await Promise.all(targets.map(([sid]) => _fetchSubjectJson(sid)));
-  targets.forEach(([sid, uids], i) => {
-    const data = datas[i];
-    if (!data || !data.chapters) return;
-    const qByUid = {};
-    data.chapters.forEach(ch => (ch.qs || []).forEach(q => { qByUid[q.uid] = q; }));
-    const htmlParts = [];
+  if (!targets.length) { _applyFixedBadges(host); return; }
+
+  // ① due単品キャッシュ(srsq)にあるものは即描画（科目JSONのfetch/parseを丸ごと省略）
+  const ver = await _cacheVersion();
+  const wantUids = targets.flatMap(([, uids]) => uids);
+  const cachedQ = ver ? await _srsqGetMany(wantUids, ver) : {};
+  const hitParts = [];
+  const missingBySid = new Map();
+  targets.forEach(([sid, uids]) => {
     uids.forEach(uid => {
-      const q = qByUid[uid];
-      if (!q) return;
       if (document.querySelector(`.qc[data-uid="${uid}"]`)) return; // 既にDOMにあれば重複回避
-      htmlParts.push(window._renderCardFromJson(q));
+      if (cachedQ[uid]) {
+        hitParts.push(window._renderCardFromJson(cachedQ[uid]));
+      } else {
+        if (!missingBySid.has(sid)) missingBySid.set(sid, []);
+        missingBySid.get(sid).push(uid);
+      }
     });
-    if (htmlParts.length) host.appendChild(document.createRange().createContextualFragment(htmlParts.join('')));
   });
+  if (hitParts.length) host.appendChild(document.createRange().createContextualFragment(hitParts.join('')));
+
+  // ② キャッシュに無いdueだけ科目JSONを取得して描画
+  //   （取得時に _getSubjectData → _scheduleSrsHarvest が走り、次回からは①で済むようになる）
+  const missTargets = [...missingBySid.entries()];
+  if (missTargets.length) {
+    const datas = await Promise.all(missTargets.map(([sid]) => _fetchSubjectJson(sid)));
+    missTargets.forEach(([sid, uids], i) => {
+      const data = datas[i];
+      if (!data || !data.chapters) return;
+      const qByUid = {};
+      data.chapters.forEach(ch => (ch.qs || []).forEach(q => { qByUid[q.uid] = q; }));
+      const htmlParts = [];
+      uids.forEach(uid => {
+        const q = qByUid[uid];
+        if (!q) return;
+        if (document.querySelector(`.qc[data-uid="${uid}"]`)) return;
+        htmlParts.push(window._renderCardFromJson(q));
+      });
+      if (htmlParts.length) host.appendChild(document.createRange().createContextualFragment(htmlParts.join('')));
+    });
+  }
   _applyFixedBadges(host);
 }
 
