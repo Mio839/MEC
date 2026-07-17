@@ -275,11 +275,23 @@ function _renderResumeList() {
 }
 function openSelfcheck(){document.getElementById('scOv').classList.add('open');}
 function closeSelfcheck(){document.getElementById('scOv').classList.remove('open');}
+let _chipRetryInt = null;
 function openExamStart() {
   _renderResumeList();
   _populateChapterChips();
   document.getElementById('examStartOv').classList.add('open');
   if (window.MECSync) window.MECSync.syncFromGist().then(r => { if (r.status === 'ok') _renderResumeList(); });
+  // 段階ローダーでカード読み込み中に開くと章グリッドが空になる。読み込み完了を拾って再描画する
+  clearInterval(_chipRetryInt);
+  let _tries = 0;
+  _chipRetryInt = setInterval(() => {
+    const ov = document.getElementById('examStartOv');
+    if (!ov || !ov.classList.contains('open') || document.querySelector('.exam-ch-card') || ++_tries > 20) {
+      clearInterval(_chipRetryInt);
+      return;
+    }
+    _populateChapterChips();
+  }, 800);
 }
 
 function _populateChapterChips() {
@@ -312,6 +324,16 @@ function _populateChapterChips() {
     const oi = (subjOrder[a.subjId] ?? 99) - (subjOrder[b.subjId] ?? 99);
     return oi !== 0 ? oi : a.chNum - b.chNum;
   });
+
+  // カード未ロード（段階ロード中 or 科目未選択）なら空白ではなく案内を出す
+  if (!entries.length) {
+    const tabsEmpty = document.getElementById('examSubjTabs');
+    if (tabsEmpty) { tabsEmpty.innerHTML = ''; tabsEmpty.style.display = 'none'; }
+    grid.innerHTML = '<div class="exam-ch-empty">⏳ 問題を読み込み中です…（完了すると章が表示されます）</div>';
+    const cb = document.getElementById('examChClearBtn');
+    if (cb) cb.style.display = 'none';
+    return;
+  }
 
   // 科目タブ: 表示中の科目が2つ以上のときだけ出す
   const subjIds = [...new Set(entries.map(([, i]) => i.subjId))];
