@@ -212,14 +212,14 @@ if ('serviceWorker' in navigator) {
 <!-- Exam summary modal -->
 <div class="exam-overlay" id="examOverlay" onclick="if(event.target===this)closeExamSummary()">
   <div class="exam-modal">
-    <h2>📊 セッション結果</h2>
-    <div class="exam-pct" id="sumPct">—</div>
+    <h2>📊 <span class="grad-txt">セッション結果</span></h2>
+    <div class="exam-pct-ring" id="sumPctRing"><div class="exam-pct" id="sumPct">—</div></div>
     <div class="exam-pct-sub">正答率</div>
     <div class="exam-detail">
-      <div class="exam-detail-item"><div class="lbl">正解</div><div class="val" id="sumCorrect" style="color:#2D8C4E">0</div></div>
-      <div class="exam-detail-item"><div class="lbl">不正解</div><div class="val" id="sumWrong" style="color:#C0392B">0</div></div>
-      <div class="exam-detail-item"><div class="lbl">回答</div><div class="val" id="sumAnswered">0</div></div>
-      <div class="exam-detail-item"><div class="lbl">時間</div><div class="val" id="sumTime" style="font-size:13px">0分</div></div>
+      <div class="exam-detail-item di-ok"><div class="lbl">正解</div><div class="val" id="sumCorrect">0</div></div>
+      <div class="exam-detail-item di-ng"><div class="lbl">不正解</div><div class="val" id="sumWrong">0</div></div>
+      <div class="exam-detail-item di-n"><div class="lbl">回答</div><div class="val" id="sumAnswered">0</div></div>
+      <div class="exam-detail-item di-t"><div class="lbl">時間</div><div class="val" id="sumTime" style="font-size:13px">0分</div></div>
     </div>
     <div class="exam-subj-wrap">
       <h3>科目別</h3>
@@ -942,7 +942,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0717h";
+const MEC_BUILD = "b-0717i";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。

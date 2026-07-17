@@ -2259,11 +2259,27 @@ function _bindOverlayVV(ov) {
 
 function showExamSummary() {
   const titleEl = document.querySelector('#examOverlay h2');
-  if (titleEl) titleEl.textContent = _srsReviewMode ? '🔔 復習セッション結果' : '📊 セッション結果';
+  if (titleEl) titleEl.innerHTML = _srsReviewMode ? '🔔 <span class="grad-txt">復習セッション結果</span>' : '📊 <span class="grad-txt">セッション結果</span>';
   const elapsed = examStartTime ? Math.floor((_examActiveMs()) / 1000) : 0;
   const pct = examAnswered > 0 ? Math.round(examCorrect / examAnswered * 100) : 0;
+  // スコアの色は章カードと同じ基準（80↑緑/60-79黄/60未満赤）。数字は0→pctへカウントアップし、
+  // 周囲のconic-gradientリングも同時に伸びる（--p/--ringc は study.css の .exam-pct-ring が参照）
   const pctEl = document.getElementById('sumPct');
-  if (pctEl) { pctEl.textContent = pct + '%'; pctEl.style.color = pct >= 60 ? '#2D8C4E' : pct >= 40 ? '#E65100' : '#C0392B'; }
+  const pctRing = document.getElementById('sumPctRing');
+  const pctCol = pct >= 80 ? '#3DD68C' : pct >= 60 ? '#FFB830' : '#FF6B6B';
+  if (pctEl) pctEl.style.color = pctCol;
+  if (pctRing) { pctRing.style.setProperty('--ringc', pctCol); pctRing.style.setProperty('--p', 0); }
+  if (pctEl) {
+    const t0 = performance.now(), dur = 900;
+    const tick = now => {
+      const k = Math.min(1, (now - t0) / dur);
+      const v = Math.round(pct * (1 - Math.pow(1 - k, 3)));
+      pctEl.textContent = v + '%';
+      if (pctRing) pctRing.style.setProperty('--p', v);
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
   document.getElementById('sumCorrect').textContent = examCorrect;
   document.getElementById('sumWrong').textContent = examAnswered - examCorrect;
   document.getElementById('sumAnswered').textContent = examAnswered;
@@ -2273,7 +2289,8 @@ function showExamSummary() {
     subjEl.innerHTML = Object.entries(examBySubj).map(([sid, s]) => {
       const subj = STUDY_SUBJECTS.find(x => x.id === sid);
       const p = Math.round(s.correct / s.total * 100);
-      return `<tr><td>${subj ? subj.icon + ' ' + subj.name : sid}</td><td style="font-weight:700">${s.correct}/${s.total}</td><td style="font-weight:700;color:${p>=60?'#2D8C4E':'#C0392B'}">${p}%</td></tr>`;
+      const pc = p >= 80 ? '#7CEFB2' : p >= 60 ? '#FFD37A' : '#FF9B9B';
+      return `<tr><td>${subj ? subj.icon + ' ' + subj.name : sid}</td><td style="font-weight:700">${s.correct}/${s.total}</td><td style="font-weight:700;color:${pc}">${p}%</td></tr>`;
     }).join('');
   }
   const noteEl = document.getElementById('sumFlagNote');
@@ -2291,6 +2308,19 @@ function showExamSummary() {
   _bindOverlayVV(_ov);
   _fitOverlayToVV(_ov);
   requestAnimationFrame(() => _fitOverlayToVV(_ov));
+  // スコアに応じた祝賀エフェクト（FXキャンバスはz9070＝モーダルより上に描画される）
+  if (examAnswered > 0 && window.MecFX) {
+    try {
+      if (pct >= 80) {
+        window.MecFX.fireworks({ count: 5, colors: ['#3DD68C', '#60A5FA', '#FFD37A', '#FF5E8A'], tier: 5 });
+        window.MecFX.confetti({ count: 90, colors: ['#3DD68C', '#60A5FA', '#FFB830', '#FF5E8A', '#A78BFA'], big: true });
+      } else if (pct >= 60) {
+        window.MecFX.confetti({ count: 50, colors: ['#60A5FA', '#FFB830', '#3DD68C'] });
+      } else {
+        window.MecFX.rings(window.innerWidth / 2, window.innerHeight * 0.35, { count: 1, color: 'rgba(96,165,250,.7)', thickness: 3, maxR: 140, additive: true });
+      }
+    } catch (e) {}
+  }
   // Save per-chapter exam history when a single chapter was tested
   if (_examActiveChPrefix && examAnswered > 0) {
     try {
