@@ -199,7 +199,7 @@ if ('serviceWorker' in navigator) {
     <div class="mec-err-actions">
       <button class="mec-err-copy" onclick="copyErrReports('text', this)">📋 テキストコピー</button>
       <button class="mec-err-copy" onclick="copyErrReports('json', this)">📋 JSONコピー</button>
-      <button class="mec-err-del" onclick="clearErrReports()">🗑️ 全消去</button>
+      <button class="mec-err-del" onclick="clearErrReports(this)">🗑️ 全消去</button>
       <button class="mec-err-close" onclick="document.getElementById('mecErrOv').classList.remove('open')">閉じる</button>
     </div>
   </div>
@@ -856,8 +856,33 @@ function copyErrReports(fmt, btn) {
   });
 }
 
-function clearErrReports() {
-  if (!confirm('全エラー報告を削除しますか？')) return;
+// iOS（ホーム画面追加のPWA・Safariの「追加のダイアログ表示を許可しない」設定）では
+// confirm() がダイアログを出さずに即 false を返すため「押しても何も起きない」になる。
+// ネイティブダイアログは使わず、ボタン自体の2段階タップ（3秒以内にもう一度）で確認する。
+function _tapConfirm(btn, armedLabel) {
+  if (!btn) return true;
+  if (btn.dataset.armed === '1') {
+    clearTimeout(btn._armTimer);
+    btn.dataset.armed = '';
+    btn.classList.remove('tap-arm');
+    btn.textContent = btn.dataset.origLabel || btn.textContent;
+    return true;
+  }
+  btn.dataset.armed = '1';
+  btn.dataset.origLabel = btn.textContent;
+  btn.textContent = armedLabel;
+  btn.classList.add('tap-arm');
+  clearTimeout(btn._armTimer);
+  btn._armTimer = setTimeout(() => {
+    btn.dataset.armed = '';
+    btn.textContent = btn.dataset.origLabel;
+    btn.classList.remove('tap-arm');
+  }, 3000);
+  return false;
+}
+
+function clearErrReports(btn) {
+  if (!_tapConfirm(btn, '⚠️ もう一度タップで全消去')) return;
   localStorage.removeItem('error_reports_v1');
   localStorage.setItem('mec_err_cleared_at', new Date().toISOString());
   window.MECSync?.scheduleSync?.();
@@ -913,7 +938,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0717a";
+const MEC_BUILD = "b-0717b";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
@@ -1050,7 +1075,8 @@ window.addEventListener('pagehide', function() {
 // 「更新をpushしたのにiPadに反映されない」時の脱出ハッチ。localStorage（済・旗・SRS・
 // 同期設定など学習データ）には一切触れない。問題データJSONは次回表示時に再DLされる。
 async function mecForceRefresh(btn) {
-  if (!confirm('キャッシュを削除して最新版を読み込み直します。\n学習データ（済・旗・SRS・同期設定）は消えません。\n問題データは選択中の科目分が再ダウンロードされます。')) return;
+  // confirm() は iOS PWA 等で表示されないことがあるため2段階タップで確認（_tapConfirm 参照）
+  if (!_tapConfirm(btn, '🔄再タップで実行')) return;
   if (btn) { btn.disabled = true; btn.textContent = '⏳'; }
   try {
     if (window.caches) {
