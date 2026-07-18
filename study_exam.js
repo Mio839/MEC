@@ -1800,6 +1800,7 @@ function _recordMyRate(uid, isCorrect) {
   localStorage.setItem('myrate_v1', JSON.stringify(_myrate));
   if (window.MECSync) window.MECSync.scheduleSync();
   _updateMyRateBadge(uid, _myrate[uid]);
+  try { window.MecGamify?.onAnswer?.(uid, isCorrect); } catch {}
 }
 
 function _refreshExamLapUI() {
@@ -2338,6 +2339,7 @@ function showExamSummary() {
     } catch(e) {}
     _examActiveChPrefix = null;
   }
+  try { window.MecGamify?.onExamFinish?.(examAnswered, examCorrect); } catch {}
 }
 
 function closeExamSummary() {

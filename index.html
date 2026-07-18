@@ -7,6 +7,7 @@
 <script src="chapters_meta.js"></script>
 <script src="knowledge_notes.js"></script>
 <script src="progress.js?v=3"></script>
+<script src="gamify.js"></script>
 <link rel="stylesheet" href="vars.css">
 <style>
 :root{}
@@ -148,6 +149,8 @@ body{font-family:-apple-system,"Helvetica Neue",sans-serif;background:transparen
   <button onclick="exportBackup()" style="margin:4px 6px 0;padding:4px 12px;border-radius:6px;border:none;background:#fff;color:#7f3300;font-weight:700;cursor:pointer;">📥 今すぐバックアップ</button>
   <button onclick="openSyncModal()" style="margin:4px 6px 0;padding:4px 12px;border-radius:6px;border:none;background:#F5A623;color:#000;font-weight:700;cursor:pointer;">☁️ クラウド同期を設定</button>
 </div>
+
+<div style="padding:12px 10px 0;" id="gamifyPanel"><!-- gamify.js が描画（レベル・炎・ミッション・実績） --></div>
 
 <div class="subjects" id="subjectsContainer">
   <!-- JS で生成 -->

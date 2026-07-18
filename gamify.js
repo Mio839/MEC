@@ -1,0 +1,761 @@
+// gamify.js — MEC 学習ゲーミフィケーション共有モジュール
+// XP/レベル・実績バッジ・連続日数の炎・デイリーミッション・章/科目制覇演出・通常モードのマイクロ演出。
+// study.html / index.html の両方から読み込む。CSSは自己注入（study.cssには依存しない）。
+//
+// データ方針:
+//  - XP・実績は既存の同期済みデータ（done_v2 / myrate_v1 / activity_v1 / mec_srs_v1）から毎回
+//    決定論的に算出する → 新しい同期キーをほぼ増やさず、複数デバイスで自動的に一致し、
+//    導入前の学習履歴も遡って反映される。
+//  - 唯一の新・同期キーは mec_gamify_v1 = {bestStreak}（最高連続正解。field-wise max でマージ。
+//    progress.js の payload / _mergeRemote に追加済み）。
+//  - mec_gamify_local_v1 は端末ローカル（演出の既視管理・デイリーミッション進捗）で同期しない。
+//
+// iPad/iOS 注意: backdrop-filter は使わない・アニメは transform/opacity のみ・confirm() 不使用。
+(function () {
+  'use strict';
+
+  const K_SYNC = 'mec_gamify_v1';        // 同期対象 {bestStreak}
+  const K_LOCAL = 'mec_gamify_local_v1'; // 端末ローカル {lastLevel,seenAch,chDone,subjDone,missions,sound}
+
+  // 科目メタ（total は CLAUDE.md の実測値。科目全問制覇の判定にのみ使用）
+  const SUBJECTS = [
+    { id: 'endo',    name: '内分泌',     icon: '⚗️', color: '#00A5B5', total: 542 },
+    { id: 'resp',    name: '呼吸器',     icon: '🌬️', color: '#3B82F6', total: 506 },
+    { id: 'circ',    name: '循環器',     icon: '❤️', color: '#EF4444', total: 572 },
+    { id: 'dige',    name: '消化器',     icon: '🌿', color: '#A855F7', total: 501 },
+    { id: 'neur',    name: '神経',       icon: '🧠', color: '#22C55E', total: 594 },
+    { id: 'hbp',     name: '肝胆膵',     icon: '🧪', color: '#F97316', total: 418 },
+    { id: 'jinzo_d', name: '腎臓',       icon: '💧', color: '#94A3B8', total: 315 },
+    { id: 'hema',    name: '血液',       icon: '🩸', color: '#DC2626', total: 378 },
+    { id: 'imma',    name: '免アレ膠',   icon: '🛡️', color: '#EC4899', total: 247 },
+    { id: 'kansen',  name: '感染症',     icon: '🦠', color: '#14B8A6', total: 356 },
+    { id: 'peds',    name: '小児科',     icon: '🧸', color: '#F472B6', total: 373 },
+    { id: 'obg',     name: '産婦人科',   icon: '🤰', color: '#E11D48', total: 685 },
+    { id: 'jitsu1',  name: '実力試験Ⅰ', icon: '🎯', color: '#6366F1', total: 160 },
+  ];
+
+  const TITLES = [
+    [100, '伝説の医師'], [90, '名医'], [80, '教授'], [70, '准教授'], [60, '専門医'],
+    [50, '指導医'], [40, '主治医'], [30, '医員'], [20, '専攻医'], [10, '研修医'], [1, '医学生'],
+  ];
+
+  function _todayJST() { return new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10); }
+  function _g(k, d) { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch { return d; } }
+  function _s(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+
+  // ── ローカル状態 ─────────────────────────────────────────────────
+  const L = _g(K_LOCAL, {});
+  L.seenAch = L.seenAch || [];   // 解除演出を見せた実績id
+  L.chDone = L.chDone || [];     // 章制覇演出を見せた章prefix
+  L.subjDone = L.subjDone || []; // 科目制覇演出を見せたsid
+  if (!L.missions || L.missions.date !== _todayJST()) {
+    L.missions = { date: _todayJST(), ans: 0, cor: 0, exam: 0, doneIds: [], allDone: false };
+  }
+  if (!L.sound) L.sound = 'on';
+  function saveL() { _s(K_LOCAL, L); }
+
+  // ── XP・レベル・統計 ─────────────────────────────────────────────
+  // XP = 済周回×10 + 試験解答×4 + 試験正解×6（すべて同期済みデータから再計算）
+  function _cumXp(level) { const n = level - 1; return 30 * n * n + 70 * n; } // Lv.level 到達に必要な累計XP
+  function _levelFromXp(xp) { let n = 1; while (n < 999 && _cumXp(n + 1) <= xp) n++; return n; }
+  function _titleFor(level) { for (const [min, t] of TITLES) { if (level >= min) return t; } return TITLES[TITLES.length - 1][1]; }
+
+  let _statsCache = null, _statsAt = 0;
+  function stats(force) {
+    if (!force && _statsCache && Date.now() - _statsAt < 400) return _statsCache;
+    const done = _g('done_v2', {});
+    const myrate = _g('myrate_v1', {});
+    let laps = 0, doneCount = 0;
+    const bySubj = {};
+    for (const uid in done) {
+      const v = done[uid] || 0;
+      if (v <= 0) continue;
+      laps += v; doneCount++;
+      const i = uid.indexOf('_ch');
+      if (i > 0) { const sid = uid.slice(0, i); bySubj[sid] = (bySubj[sid] || 0) + 1; }
+    }
+    let exT = 0, exC = 0;
+    for (const uid in myrate) { const r = myrate[uid]; if (r) { exT += r.total || 0; exC += r.correct || 0; } }
+    let srsLong = 0;
+    const srs = _g('mec_srs_v1', {});
+    for (const uid in srs) { const e = srs[uid]; if (e && (e.reps || 0) > 0 && (e.interval || 0) >= 30) srsLong++; }
+    const xp = laps * 10 + exT * 4 + exC * 6;
+    const level = _levelFromXp(xp);
+    const cur = _cumXp(level), next = _cumXp(level + 1);
+    const streak = (window.MECSync && MECSync.calcStreak) ? MECSync.calcStreak() : 0;
+    const sync = _g(K_SYNC, {});
+    _statsCache = {
+      xp, level, title: _titleFor(level),
+      lvProgress: Math.max(0, Math.min(1, (xp - cur) / Math.max(1, next - cur))),
+      lvCurXp: xp - cur, lvNeedXp: next - cur,
+      laps, doneCount, exT, exC, bySubj, srsLong, streak,
+      accPct: exT > 0 ? Math.round(exC / exT * 100) : 0,
+      bestStreak: sync.bestStreak || 0,
+    };
+    _statsAt = Date.now();
+    return _statsCache;
+  }
+
+  // ── 実績定義 ─────────────────────────────────────────────────────
+  // g(s) → [現在値, 目標値]。現在値>=目標値 で解除。
+  const ACH = [
+    { id: 'd1',    icon: '🌱', name: 'はじめの一歩',   desc: '1問を済にする',            g: s => [s.doneCount, 1] },
+    { id: 'd100',  icon: '💪', name: '百問修行',       desc: '100問を済にする',          g: s => [s.doneCount, 100] },
+    { id: 'd500',  icon: '🥉', name: '五百問の壁',     desc: '500問を済にする',          g: s => [s.doneCount, 500] },
+    { id: 'd1000', icon: '🥈', name: '千問クラブ',     desc: '1000問を済にする',         g: s => [s.doneCount, 1000] },
+    { id: 'd3000', icon: '🥇', name: '三千問の高み',   desc: '3000問を済にする',         g: s => [s.doneCount, 3000] },
+    { id: 'd5000', icon: '👑', name: '五千問の王者',   desc: '5000問を済にする',         g: s => [s.doneCount, 5000] },
+    { id: 'lap10000', icon: '🔁', name: '周回重ねて一万', desc: '延べ周回1万回',         g: s => [s.laps, 10000] },
+    { id: 's3',    icon: '🔥', name: '三日坊主卒業',   desc: '3日連続で学習',            g: s => [s.streak, 3] },
+    { id: 's7',    icon: '⚡', name: '一週間の炎',     desc: '7日連続で学習',            g: s => [s.streak, 7] },
+    { id: 's14',   icon: '🌋', name: '二週間の溶岩',   desc: '14日連続で学習',           g: s => [s.streak, 14] },
+    { id: 's30',   icon: '☄️', name: '一ヶ月の彗星',   desc: '30日連続で学習',           g: s => [s.streak, 30] },
+    { id: 's60',   icon: '💫', name: '六十日の超新星', desc: '60日連続で学習',           g: s => [s.streak, 60] },
+    { id: 'c10',   icon: '🎯', name: '十連撃',         desc: '試験モードで10連続正解',   g: s => [s.bestStreak, 10] },
+    { id: 'c20',   icon: '🚀', name: '二十連撃',       desc: '試験モードで20連続正解',   g: s => [s.bestStreak, 20] },
+    { id: 'c30',   icon: '🌟', name: '三十連撃・無双', desc: '試験モードで30連続正解',   g: s => [s.bestStreak, 30] },
+    { id: 'e100',  icon: '📝', name: '試験百戦',       desc: '試験モードで100問解答',    g: s => [s.exT, 100] },
+    { id: 'e1000', icon: '🎓', name: '試験千戦',       desc: '試験モードで1000問解答',   g: s => [s.exT, 1000] },
+    { id: 'e5000', icon: '🏛️', name: '試験五千戦',     desc: '試験モードで5000問解答',   g: s => [s.exT, 5000] },
+    { id: 'acc80', icon: '🎖️', name: '精密射撃',       desc: '通算正答率80%以上（200問以上解答）', g: s => [s.exT >= 200 ? s.accPct : 0, 80] },
+    { id: 'srs100', icon: '🧬', name: '長期記憶百問',  desc: 'SRS間隔30日以上の問題を100問', g: s => [s.srsLong, 100] },
+    { id: 'lv10',  icon: '🩺', name: '研修医デビュー', desc: 'Lv.10に到達',              g: s => [s.level, 10] },
+    { id: 'lv30',  icon: '⚕️', name: '医員の風格',     desc: 'Lv.30に到達',              g: s => [s.level, 30] },
+    { id: 'lv50',  icon: '🏥', name: '指導医の貫禄',   desc: 'Lv.50に到達',              g: s => [s.level, 50] },
+    { id: 'lv80',  icon: '🎓', name: '教授就任',       desc: 'Lv.80に到達',              g: s => [s.level, 80] },
+  ].concat(SUBJECTS.map(sub => ({
+    id: 'm_' + sub.id, icon: sub.icon, name: sub.name + 'マスター',
+    desc: sub.name + ' 全' + sub.total + '問を済にする',
+    g: s => [s.bySubj[sub.id] || 0, sub.total],
+  })));
+
+  function achState(s) {
+    return ACH.map(a => {
+      const [cur, target] = a.g(s);
+      return { ...a, cur: Math.min(cur, target), target, unlocked: cur >= target || L.seenAch.includes(a.id) };
+    });
+  }
+
+  // ── 効果音（軽量シンセ・低音量） ─────────────────────────────────
+  let _ctx = null;
+  function _audio() {
+    if (L.sound === 'off') return null;
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    if (!_ctx) { try { _ctx = new AC(); } catch { return null; } }
+    if (_ctx.state === 'suspended') _ctx.resume().catch(() => {});
+    return _ctx;
+  }
+  function _notes(notes, type, gap, dur, vol) {
+    const ctx = _audio();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const master = ctx.createGain();
+    master.gain.setValueAtTime(0.0001, now);
+    master.gain.exponentialRampToValueAtTime(vol, now + 0.02);
+    master.gain.exponentialRampToValueAtTime(0.0001, now + dur + gap * Math.max(0, notes.length - 1));
+    master.connect(ctx.destination);
+    notes.forEach((f, i) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      const t = now + i * gap;
+      o.type = type; o.frequency.setValueAtTime(f, t);
+      g.gain.setValueAtTime(1 / Math.max(1, notes.length), t);
+      o.connect(g); g.connect(master); o.start(t); o.stop(t + dur);
+    });
+  }
+  const SND = {
+    levelup: () => _notes([392, 523.25, 659.25, 783.99, 1046.5], 'triangle', 0.09, 0.7, 0.11),
+    ach:     () => _notes([1046.5, 1318.51, 1567.98, 2093], 'sine', 0.05, 0.45, 0.08),
+    mission: () => _notes([1318.51, 1760], 'triangle', 0.06, 0.3, 0.09),
+    clear:   () => _notes([261.63, 392, 523.25, 783.99], 'triangle', 0.08, 0.6, 0.1),
+    subject: () => _notes([523.25, 659.25, 783.99, 1046.5, 1318.51], 'triangle', 0.1, 0.8, 0.11),
+  };
+
+  // ── CSS 注入 ─────────────────────────────────────────────────────
+  const CSS = `
+.gm-panel{background:linear-gradient(160deg,rgba(24,34,62,.96),rgba(10,16,34,.97));border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px 14px 12px;color:#EAF0FA;box-shadow:0 6px 28px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.06);font-family:inherit;}
+.gm-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.gm-ring{--p:0;width:86px;height:86px;border-radius:50%;background:conic-gradient(#FFD166 calc(var(--p)*360deg),rgba(255,255,255,.09) 0);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 18px rgba(255,209,102,.25);}
+.gm-ring-in{width:72px;height:72px;border-radius:50%;background:#0B1428;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;}
+.gm-lv-big{font-size:19px;font-weight:900;color:#FFD166;letter-spacing:.5px;}
+.gm-lv-title{font-size:9px;font-weight:700;color:rgba(255,255,255,.65);margin-top:1px;}
+.gm-xp-col{flex:1;min-width:150px;}
+.gm-xp-line{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;color:rgba(255,255,255,.7);font-weight:700;margin-bottom:4px;}
+.gm-xp-line b{color:#FFD166;font-size:13px;}
+.gm-xp-bar{height:8px;border-radius:6px;background:rgba(255,255,255,.09);overflow:hidden;}
+.gm-xp-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#F5A623,#FFD166,#FFF3C4);transition:width .6s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 10px rgba(255,209,102,.6);}
+.gm-xp-total{font-size:10px;color:rgba(255,255,255,.45);margin-top:4px;font-weight:700;}
+.gm-flame{display:flex;flex-direction:column;align-items:center;flex-shrink:0;min-width:74px;}
+.gm-flame-emoji{font-size:34px;line-height:1;filter:grayscale(1) opacity(.45);transform-origin:50% 90%;}
+.gm-flame-days{font-size:11px;font-weight:800;color:rgba(255,255,255,.7);margin-top:2px;}
+.gm-flame-days b{font-size:16px;color:#FFB84D;}
+.gm-flame.t1 .gm-flame-emoji{filter:none;}
+.gm-flame.t2 .gm-flame-emoji{filter:drop-shadow(0 0 8px rgba(255,150,50,.8));animation:gmFlicker 1.6s ease-in-out infinite;}
+.gm-flame.t3 .gm-flame-emoji{font-size:40px;filter:drop-shadow(0 0 12px rgba(255,90,40,.95));animation:gmFlicker 1.1s ease-in-out infinite;}
+.gm-flame.t4 .gm-flame-emoji{font-size:44px;filter:drop-shadow(0 0 14px rgba(255,60,120,.9)) hue-rotate(-20deg);animation:gmFlicker .9s ease-in-out infinite;}
+.gm-flame.t5 .gm-flame-emoji{font-size:48px;filter:drop-shadow(0 0 18px rgba(80,160,255,.95)) hue-rotate(180deg);animation:gmFlicker .7s ease-in-out infinite;}
+.gm-flame.t4 .gm-flame-days b{color:#FF5E8A;}
+.gm-flame.t5 .gm-flame-days b{color:#60A5FA;}
+@keyframes gmFlicker{0%,100%{transform:scale(1) rotate(-2deg)}30%{transform:scale(1.08) rotate(2deg)}60%{transform:scale(.96) rotate(-1deg)}}
+.gm-sec-title{font-size:11px;font-weight:800;color:rgba(255,255,255,.55);letter-spacing:1px;margin:12px 0 6px;display:flex;align-items:center;gap:6px;}
+.gm-sec-title .gm-cnt{color:#FFD166;}
+.gm-missions{display:flex;flex-direction:column;gap:6px;}
+.gm-mission{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:6px 10px;}
+.gm-mission.done{background:rgba(61,214,140,.1);border-color:rgba(61,214,140,.35);}
+.gm-mission-ic{font-size:16px;flex-shrink:0;}
+.gm-mission-lbl{flex:1;font-size:12px;font-weight:700;color:#EAF0FA;}
+.gm-mission.done .gm-mission-lbl{color:#7CEFB2;}
+.gm-mission-bar{width:64px;height:6px;border-radius:4px;background:rgba(255,255,255,.1);overflow:hidden;flex-shrink:0;}
+.gm-mission-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#3DD68C,#7CEFB2);transition:width .4s;}
+.gm-mission-num{font-size:10px;font-weight:800;color:rgba(255,255,255,.6);width:42px;text-align:right;flex-shrink:0;}
+.gm-mission.done .gm-mission-num{color:#3DD68C;}
+.gm-badges{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;-webkit-overflow-scrolling:touch;}
+.gm-badge{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:58px;padding:8px 4px 6px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);cursor:pointer;flex-shrink:0;transition:transform .15s;}
+.gm-badge:active{transform:scale(.94);}
+.gm-badge .bi{font-size:22px;line-height:1;}
+.gm-badge .bn{font-size:8px;font-weight:700;color:rgba(255,255,255,.75);text-align:center;line-height:1.2;}
+.gm-badge.locked{opacity:.75;}
+.gm-badge.locked .bi{filter:grayscale(1) opacity(.4);}
+.gm-badge.locked .bn{color:rgba(255,255,255,.35);}
+.gm-badge.unlocked{background:linear-gradient(160deg,rgba(255,209,102,.16),rgba(255,255,255,.04));border-color:rgba(255,209,102,.45);box-shadow:0 0 10px rgba(255,209,102,.18);}
+.gm-badge-desc{font-size:11px;color:rgba(255,255,255,.75);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:7px 10px;margin-top:2px;line-height:1.6;display:none;}
+.gm-badge-desc.show{display:block;}
+.gm-badge-desc b{color:#FFD166;}
+.gm-sound-btn{float:right;background:none;border:1px solid rgba(255,255,255,.18);border-radius:8px;color:rgba(255,255,255,.7);font-size:11px;font-weight:700;padding:2px 8px;cursor:pointer;font-family:inherit;}
+/* ── study.html ヘッダーチップ ── */
+.gm-lv-chip{cursor:pointer;display:flex;align-items:center;gap:6px;user-select:none;}
+.gm-lv-chip b{color:#FFD166;}
+.gm-chip-bar{width:44px;height:5px;border-radius:4px;background:rgba(255,255,255,.14);overflow:hidden;display:inline-block;}
+.gm-chip-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#F5A623,#FFD166);transition:width .5s;}
+.gm-mission-chip{cursor:pointer;user-select:none;}
+.gm-mission-chip.all{color:#7CEFB2!important;}
+.st-streak.gm-t2{color:#FF9A3C;text-shadow:0 0 8px rgba(255,150,50,.6);}
+.st-streak.gm-t3{color:#FF7043;text-shadow:0 0 10px rgba(255,90,40,.75);}
+.st-streak.gm-t4{color:#FF5E8A;text-shadow:0 0 12px rgba(255,60,120,.8);}
+.st-streak.gm-t5{color:#60A5FA;text-shadow:0 0 12px rgba(80,160,255,.9);}
+/* ── モーダル（study.html でチップから開く） ── */
+#gmOv{position:fixed;inset:0;z-index:9500;display:none;align-items:flex-start;justify-content:center;background:rgba(2,6,16,.78);padding:24px 12px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+#gmOv.open{display:flex;}
+#gmOv .gm-panel{width:100%;max-width:560px;margin:auto 0;}
+.gm-close-btn{width:100%;margin-top:12px;padding:9px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:rgba(255,255,255,.8);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
+/* ── トースト ── */
+#gmToast{position:fixed;top:14px;left:50%;z-index:9600;transform:translate(-50%,-130%);transition:transform .35s cubic-bezier(.2,.9,.3,1.2);display:flex;align-items:center;gap:10px;background:linear-gradient(160deg,rgba(30,40,72,.97),rgba(14,20,40,.97));border:1px solid rgba(255,209,102,.5);border-radius:14px;padding:10px 18px;box-shadow:0 8px 32px rgba(0,0,0,.5),0 0 24px rgba(255,209,102,.25);pointer-events:none;max-width:min(92vw,420px);}
+#gmToast.show{transform:translate(-50%,0);}
+#gmToast .ti{font-size:26px;line-height:1;}
+#gmToast .tt{font-size:13px;font-weight:800;color:#FFD166;line-height:1.3;}
+#gmToast .ts{font-size:11px;font-weight:700;color:rgba(255,255,255,.75);line-height:1.35;}
+/* ── セレモニー（レベルアップ・章/科目制覇・ミッション） ── */
+#gmCerOv{position:fixed;inset:0;z-index:9550;display:none;align-items:center;justify-content:center;background:rgba(2,6,16,.55);pointer-events:none;}
+#gmCerOv.show{display:flex;}
+.gm-cer{text-align:center;animation:gmCerIn .55s cubic-bezier(.2,1.4,.3,1) both;}
+@keyframes gmCerIn{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
+.gm-cer.out{animation:gmCerOut .4s ease both;}
+@keyframes gmCerOut{to{transform:scale(1.15);opacity:0}}
+.gm-cer-ic{font-size:64px;line-height:1;animation:gmCerFloat 1.6s ease-in-out infinite;}
+@keyframes gmCerFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.gm-cer-big{font-size:30px;font-weight:900;letter-spacing:2px;color:#FFD166;text-shadow:0 0 24px rgba(255,209,102,.9),0 2px 8px rgba(0,0,0,.6);margin-top:6px;}
+.gm-cer-sub{font-size:15px;font-weight:800;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.7);margin-top:6px;}
+.gm-cer-note{font-size:12px;font-weight:700;color:rgba(255,255,255,.8);text-shadow:0 2px 8px rgba(0,0,0,.7);margin-top:4px;}
+.gm-cer-stars{font-size:22px;letter-spacing:4px;color:#FFD166;text-shadow:0 0 16px rgba(255,209,102,.8);margin-top:4px;}
+/* ── 章仕切りの星 ── */
+.gm-ch-stars{float:right;margin-right:8px;font-size:11px;font-weight:800;color:#FFD166;text-shadow:0 0 6px rgba(255,209,102,.5);letter-spacing:1px;}
+.gm-ch-stars .off{color:rgba(255,255,255,.18);text-shadow:none;}
+/* ── 済ボタンのマイクロ演出 ── */
+@keyframes gmPop{0%{transform:scale(1)}40%{transform:scale(1.35) rotate(-4deg)}70%{transform:scale(.92)}100%{transform:scale(1)}}
+.gm-pop{animation:gmPop .45s cubic-bezier(.2,1.2,.3,1);}
+@keyframes gmFlagWiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-16deg) scale(1.25)}60%{transform:rotate(12deg) scale(1.15)}}
+.gm-flag-wiggle{animation:gmFlagWiggle .5s ease;}
+`;
+
+  function _injectCss() {
+    if (document.getElementById('gamifyCss')) return;
+    const st = document.createElement('style');
+    st.id = 'gamifyCss';
+    st.textContent = CSS;
+    document.head.appendChild(st);
+  }
+
+  // ── トースト（キュー式） ─────────────────────────────────────────
+  const _toastQ = [];
+  let _toastBusy = false;
+  function toast(icon, title, sub) {
+    _toastQ.push({ icon, title, sub });
+    _drainToast();
+  }
+  function _drainToast() {
+    if (_toastBusy || !_toastQ.length) return;
+    _toastBusy = true;
+    let el = document.getElementById('gmToast');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'gmToast';
+      el.innerHTML = '<span class="ti"></span><span><div class="tt"></div><div class="ts"></div></span>';
+      document.body.appendChild(el);
+    }
+    const { icon, title, sub } = _toastQ.shift();
+    el.querySelector('.ti').textContent = icon;
+    el.querySelector('.tt').textContent = title;
+    el.querySelector('.ts').textContent = sub || '';
+    requestAnimationFrame(() => el.classList.add('show'));
+    setTimeout(() => {
+      el.classList.remove('show');
+      setTimeout(() => { _toastBusy = false; _drainToast(); }, 420);
+    }, 3000);
+  }
+
+  // ── セレモニー（全画面・自動フェード） ────────────────────────────
+  function ceremony(html, opts) {
+    opts = opts || {};
+    let ov = document.getElementById('gmCerOv');
+    if (!ov) { ov = document.createElement('div'); ov.id = 'gmCerOv'; document.body.appendChild(ov); }
+    ov.innerHTML = '<div class="gm-cer">' + html + '</div>';
+    ov.classList.add('show');
+    const dur = opts.dur || 2300;
+    setTimeout(() => {
+      const c = ov.querySelector('.gm-cer');
+      if (c) c.classList.add('out');
+      setTimeout(() => ov.classList.remove('show'), 420);
+    }, dur);
+    try { opts.fx && opts.fx(); } catch {}
+    try { opts.snd && opts.snd(); } catch {}
+  }
+
+  function _fxConfetti(big) {
+    if (!window.MecFX) return;
+    try {
+      window.MecFX.confetti({ count: big ? 90 : 45, colors: ['#FFD166', '#3DD68C', '#60A5FA', '#FF5E8A', '#A78BFA'], big: !!big });
+      if (big) window.MecFX.fireworks({ count: 4, colors: ['#FFD166', '#3DD68C', '#60A5FA', '#FF5E8A'], tier: 5 });
+    } catch {}
+  }
+
+  // ── レベルアップ検知 ─────────────────────────────────────────────
+  function _checkLevelUp(celebrate) {
+    const s = stats();
+    if (L.lastLevel == null) { L.lastLevel = s.level; saveL(); return; }
+    if (s.level > L.lastLevel) {
+      const from = L.lastLevel;
+      L.lastLevel = s.level; saveL();
+      if (celebrate) {
+        ceremony(
+          '<div class="gm-cer-ic">🎉</div><div class="gm-cer-big">LEVEL UP!</div>' +
+          '<div class="gm-cer-sub">Lv.' + from + ' → Lv.' + s.level + '</div>' +
+          '<div class="gm-cer-note">' + s.title + '</div>',
+          { fx: () => _fxConfetti(true), snd: SND.levelup, dur: 2400 }
+        );
+      } else {
+        toast('⬆️', 'Lv.' + s.level + ' にレベルアップ', '同期された学習が反映されました');
+      }
+    } else if (s.level < L.lastLevel) {
+      L.lastLevel = s.level; saveL(); // undo等でXPが減った場合は静かに追従
+    }
+  }
+
+  // ── 実績検知 ─────────────────────────────────────────────────────
+  function _checkAchievements(celebrate) {
+    const s = stats();
+    const fresh = [];
+    for (const a of ACH) {
+      if (L.seenAch.includes(a.id)) continue;
+      const [cur, target] = a.g(s);
+      if (cur >= target) { L.seenAch.push(a.id); fresh.push(a); }
+    }
+    if (fresh.length) {
+      saveL();
+      if (celebrate) {
+        fresh.forEach(a => toast(a.icon, '実績解除「' + a.name + '」', a.desc));
+        try { SND.ach(); } catch {}
+      }
+    }
+  }
+
+  // ── ミッション ───────────────────────────────────────────────────
+  const MISSIONS = [
+    { id: 'ans',  icon: '📝', label: '30問 解答する',            target: 30, cur: m => m.ans },
+    { id: 'cor',  icon: '✅', label: '試験モードで15問 正解',    target: 15, cur: m => m.cor },
+    { id: 'exam', icon: '🎓', label: '試験セッション完了(10問+)', target: 1,  cur: m => m.exam },
+  ];
+  function _missionRoll() {
+    if (L.missions.date !== _todayJST()) {
+      L.missions = { date: _todayJST(), ans: 0, cor: 0, exam: 0, doneIds: [], allDone: false };
+      saveL();
+    }
+  }
+  function _bumpMission(id, by) {
+    _missionRoll();
+    const m = L.missions;
+    m[id] = (m[id] || 0) + (by || 1);
+    const def = MISSIONS.find(d => d.id === id);
+    if (def && !m.doneIds.includes(id) && def.cur(m) >= def.target) {
+      m.doneIds.push(id);
+      toast(def.icon, 'ミッション達成！', def.label);
+      try { SND.mission(); } catch {}
+    }
+    if (!m.allDone && MISSIONS.every(d => d.cur(m) >= d.target)) {
+      m.allDone = true;
+      ceremony(
+        '<div class="gm-cer-ic">🎯</div><div class="gm-cer-big">MISSION COMPLETE</div>' +
+        '<div class="gm-cer-sub">本日のミッション 全達成！</div>' +
+        '<div class="gm-cer-note">この調子で明日も🔥</div>',
+        { fx: () => _fxConfetti(true), snd: SND.clear, dur: 2400 }
+      );
+    }
+    saveL();
+    _updateHeaderChips();
+  }
+  function missionSummary() {
+    _missionRoll();
+    const m = L.missions;
+    const done = MISSIONS.filter(d => d.cur(m) >= d.target).length;
+    return { done, total: MISSIONS.length };
+  }
+
+  // ── 章・科目の制覇検知＋星 ───────────────────────────────────────
+  // 章uid一覧は study.html の _chapterMap（グローバル束縛）を参照。ハブでは存在しない→スキップ。
+  let _chIndex = null, _chIndexLen = -1;
+  function _chapterFor(uid) {
+    if (typeof _chapterMap === 'undefined' || !_chapterMap.length) return null;
+    if (!_chIndex || _chIndexLen !== _chapterMap.length) {
+      _chIndex = new Map();
+      _chapterMap.forEach(entry => {
+        if (entry.uids.length) {
+          const u0 = entry.uids[0], i = u0.indexOf('_q');
+          if (i > 0) _chIndex.set(u0.slice(0, i), entry);
+        }
+      });
+      _chIndexLen = _chapterMap.length;
+    }
+    const i = uid.indexOf('_q');
+    return i > 0 ? _chIndex.get(uid.slice(0, i)) : null;
+  }
+
+  function _chapterStars(entry) {
+    const my = _g('myrate_v1', {});
+    let t = 0, c = 0, answered = 0;
+    entry.uids.forEach(u => { const r = my[u]; if (r && r.total > 0) { answered++; t += r.total; c += r.correct || 0; } });
+    if (!t || answered < entry.uids.length * 0.5) return 0; // 章の半分以上を解答してから評価
+    const pct = c / t * 100;
+    return pct >= 90 ? 3 : pct >= 70 ? 2 : 1;
+  }
+
+  function _renderChapterStars(entry) {
+    if (!entry || !entry.divEl || !entry.divEl.isConnected) return;
+    const n = _chapterStars(entry);
+    let el = entry.divEl.querySelector('.gm-ch-stars');
+    if (!n) { if (el) el.remove(); return; }
+    if (!el) {
+      el = document.createElement('span');
+      el.className = 'gm-ch-stars';
+      const prog = entry.divEl.querySelector('.ch-div-prog');
+      if (prog) entry.divEl.insertBefore(el, prog); else entry.divEl.appendChild(el);
+    }
+    el.innerHTML = '★'.repeat(n) + '<span class="off">' + '★'.repeat(3 - n) + '</span>';
+    el.title = '試験モードの章正答率評価（★3=90%↑ ★2=70%↑）';
+  }
+
+  function refreshAllStars() {
+    if (typeof _chapterMap === 'undefined' || !_chapterMap.length) return;
+    const list = _chapterMap.slice();
+    let i = 0;
+    const step = () => {
+      const end = Math.min(i + 20, list.length);
+      for (; i < end; i++) _renderChapterStars(list[i]);
+      if (i < list.length) (window.requestIdleCallback || setTimeout)(step);
+    };
+    step();
+  }
+
+  function _checkChapterClear(uid) {
+    const entry = _chapterFor(uid);
+    if (!entry) return;
+    _renderChapterStars(entry);
+    const i = uid.indexOf('_q');
+    const chKey = i > 0 ? uid.slice(0, i) : '';
+    if (!chKey || L.chDone.includes(chKey)) return;
+    const done = _g('done_v2', {});
+    if (!entry.uids.length || !entry.uids.every(u => done[u])) return;
+    L.chDone.push(chKey); saveL();
+    const title = (entry.divEl && entry.divEl.childNodes[0] && entry.divEl.childNodes[0].textContent || '').trim() || '章';
+    const n = _chapterStars(entry);
+    ceremony(
+      '<div class="gm-cer-ic">🏆</div><div class="gm-cer-big">章 制覇！</div>' +
+      '<div class="gm-cer-sub">' + title.replace(/[<>&]/g, '') + '</div>' +
+      (n ? '<div class="gm-cer-stars">' + '★'.repeat(n) + '<span style="opacity:.25">' + '★'.repeat(3 - n) + '</span></div>' : '') +
+      '<div class="gm-cer-note">全' + entry.uids.length + '問クリア</div>',
+      { fx: () => _fxConfetti(false), snd: SND.clear, dur: 2300 }
+    );
+  }
+
+  function _checkSubjectClear(uid) {
+    const i = uid.indexOf('_ch');
+    if (i <= 0) return;
+    const sid = uid.slice(0, i);
+    const sub = SUBJECTS.find(s => s.id === sid);
+    if (!sub || L.subjDone.includes(sid)) return;
+    const s = stats();
+    if ((s.bySubj[sid] || 0) < sub.total) return;
+    L.subjDone.push(sid); saveL();
+    ceremony(
+      '<div class="gm-cer-ic">' + sub.icon + '</div><div class="gm-cer-big">' + sub.name + ' 全問制覇！！</div>' +
+      '<div class="gm-cer-sub">' + sub.total + '問 完全走破</div>' +
+      '<div class="gm-cer-note">「' + sub.name + 'マスター」の称号を獲得</div>',
+      { fx: () => _fxConfetti(true), snd: SND.subject, dur: 3000 }
+    );
+  }
+
+  // ── マイクロ演出（通常モードの済/旗） ─────────────────────────────
+  function _microLapFx(btn) {
+    if (typeof examMode !== 'undefined' && examMode) return; // 試験モードは既存演出に任せる
+    if (!btn) return;
+    btn.classList.remove('gm-pop'); void btn.offsetWidth;
+    btn.classList.add('gm-pop');
+    if (window.MecFX) {
+      try {
+        const r = btn.getBoundingClientRect();
+        const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        window.MecFX.burst(cx, cy, { count: 12, colors: ['#3DD68C', '#7CEFB2', '#FFD166', '#fff'], shapes: ['circle', 'square'], tier: 1, speed: 300, upBias: 80, glow: true });
+        window.MecFX.glyphBurst(cx, cy, { glyphs: ['✓', '⭐'], count: 2, spread: 60, w: 20 });
+      } catch {}
+    }
+  }
+  function _microFlagFx(btn, nowFlagged) {
+    if (!btn) return;
+    btn.classList.remove('gm-flag-wiggle'); void btn.offsetWidth;
+    btn.classList.add('gm-flag-wiggle');
+    if (nowFlagged && window.MecFX) {
+      try {
+        const r = btn.getBoundingClientRect();
+        window.MecFX.glyphBurst(r.left + r.width / 2, r.top + r.height / 2, { glyphs: ['🚩'], count: 2, spread: 55, w: 16 });
+      } catch {}
+    }
+  }
+
+  // ── 連続正解（試験モード）→ bestStreak 同期 ──────────────────────
+  let _curStreak = 0;
+  function _trackStreak(isCorrect) {
+    if (!isCorrect) { _curStreak = 0; return; }
+    _curStreak++;
+    const sync = _g(K_SYNC, {});
+    if (_curStreak > (sync.bestStreak || 0)) {
+      sync.bestStreak = _curStreak;
+      _s(K_SYNC, sync);
+      if (window.MECSync) MECSync.scheduleSync();
+    }
+  }
+
+  // ── ヘッダーチップ（study.html） ─────────────────────────────────
+  function _mountStudyHeader() {
+    const row = document.querySelector('.st-stats');
+    if (!row || document.getElementById('gmLvChip')) return;
+    const lv = document.createElement('div');
+    lv.className = 'st-stat gm-lv-chip';
+    lv.id = 'gmLvChip';
+    lv.title = 'タップでレベル・実績・ミッションを表示';
+    lv.innerHTML = 'Lv.<b id="gmLvNum">–</b><span class="gm-chip-bar"><span class="gm-chip-fill" id="gmChipFill" style="width:0%"></span></span>';
+    lv.addEventListener('click', openPanelModal);
+    const mi = document.createElement('div');
+    mi.className = 'st-stat gm-mission-chip';
+    mi.id = 'gmMissionChip';
+    mi.title = '今日のミッション';
+    mi.textContent = '🎯 –';
+    mi.addEventListener('click', openPanelModal);
+    row.appendChild(lv);
+    row.appendChild(mi);
+    _updateHeaderChips();
+  }
+
+  function _updateHeaderChips() {
+    const s = stats(); // 400msキャッシュ許容（_afterEventが直前にキャッシュを破棄して呼ぶため実質最新）
+    const lvNum = document.getElementById('gmLvNum');
+    const fill = document.getElementById('gmChipFill');
+    if (lvNum) lvNum.textContent = s.level;
+    if (fill) fill.style.width = Math.round(s.lvProgress * 100) + '%';
+    const mc = document.getElementById('gmMissionChip');
+    if (mc) {
+      const ms = missionSummary();
+      mc.textContent = '🎯 ' + ms.done + '/' + ms.total;
+      mc.classList.toggle('all', ms.done >= ms.total);
+    }
+    // 既存の🔥連続日数チップにティア色を付ける
+    const streakEl = document.querySelector('.st-streak');
+    if (streakEl) {
+      const t = _flameTier(s.streak);
+      streakEl.classList.remove('gm-t2', 'gm-t3', 'gm-t4', 'gm-t5');
+      if (t >= 2) streakEl.classList.add('gm-t' + t);
+    }
+  }
+
+  function _flameTier(days) {
+    return days >= 30 ? 5 : days >= 14 ? 4 : days >= 7 ? 3 : days >= 3 ? 2 : days >= 1 ? 1 : 0;
+  }
+
+  // ── パネル描画（ハブ埋め込み＋studyモーダルで共用） ───────────────
+  function renderPanel(container) {
+    if (!container) return;
+    const s = stats(true);
+    _missionRoll();
+    const m = L.missions;
+    const achList = achState(s);
+    const unlockedCount = achList.filter(a => a.unlocked).length;
+    const tier = _flameTier(s.streak);
+
+    const missionsHtml = MISSIONS.map(d => {
+      const cur = Math.min(d.cur(m), d.target);
+      const done = cur >= d.target;
+      return '<div class="gm-mission' + (done ? ' done' : '') + '">' +
+        '<span class="gm-mission-ic">' + (done ? '✅' : d.icon) + '</span>' +
+        '<span class="gm-mission-lbl">' + d.label + '</span>' +
+        '<span class="gm-mission-bar"><span class="gm-mission-fill" style="width:' + Math.round(cur / d.target * 100) + '%"></span></span>' +
+        '<span class="gm-mission-num">' + cur + '/' + d.target + '</span></div>';
+    }).join('');
+
+    const badgesHtml = achList.map(a =>
+      '<div class="gm-badge ' + (a.unlocked ? 'unlocked' : 'locked') + '" data-ach="' + a.id + '">' +
+      '<span class="bi">' + (a.unlocked ? a.icon : '🔒') + '</span>' +
+      '<span class="bn">' + a.name + '</span></div>'
+    ).join('');
+
+    container.innerHTML =
+      '<div class="gm-panel">' +
+      '<button class="gm-sound-btn" id="gmSoundBtn">' + (L.sound === 'off' ? '🔇 演出音OFF' : '🔊 演出音ON') + '</button>' +
+      '<div class="gm-top">' +
+        '<div class="gm-ring" style="--p:' + s.lvProgress.toFixed(3) + '"><div class="gm-ring-in">' +
+          '<div class="gm-lv-big">Lv.' + s.level + '</div><div class="gm-lv-title">' + s.title + '</div></div></div>' +
+        '<div class="gm-xp-col">' +
+          '<div class="gm-xp-line"><span>次のレベルまで</span><b>' + (s.lvNeedXp - s.lvCurXp).toLocaleString() + ' XP</b></div>' +
+          '<div class="gm-xp-bar"><div class="gm-xp-fill" style="width:' + Math.round(s.lvProgress * 100) + '%"></div></div>' +
+          '<div class="gm-xp-total">累計 ' + s.xp.toLocaleString() + ' XP ｜ 済 ' + s.doneCount.toLocaleString() + '問 ｜ 試験 ' + s.exT.toLocaleString() + '問' + (s.exT ? '（正答' + s.accPct + '%）' : '') + '</div>' +
+        '</div>' +
+        '<div class="gm-flame t' + tier + '"><span class="gm-flame-emoji">🔥</span>' +
+          '<div class="gm-flame-days"><b>' + s.streak + '</b>日連続</div></div>' +
+      '</div>' +
+      '<div class="gm-sec-title">🎯 今日のミッション</div>' +
+      '<div class="gm-missions">' + missionsHtml + '</div>' +
+      '<div class="gm-sec-title">🏆 実績 <span class="gm-cnt">' + unlockedCount + '/' + achList.length + '</span></div>' +
+      '<div class="gm-badges">' + badgesHtml + '</div>' +
+      '<div class="gm-badge-desc" id="gmBadgeDesc"></div>' +
+      '</div>';
+
+    container.querySelectorAll('.gm-badge').forEach(b => {
+      b.addEventListener('click', () => {
+        const a = achList.find(x => x.id === b.dataset.ach);
+        if (!a) return;
+        const descEl = container.querySelector('#gmBadgeDesc');
+        descEl.innerHTML = '<b>' + a.icon + ' ' + a.name + '</b> — ' + a.desc +
+          (a.unlocked ? '（解除済み）' : '　<b>' + a.cur.toLocaleString() + ' / ' + a.target.toLocaleString() + '</b>');
+        descEl.classList.add('show');
+      });
+    });
+    const sb = container.querySelector('#gmSoundBtn');
+    if (sb) sb.addEventListener('click', () => {
+      L.sound = L.sound === 'off' ? 'on' : 'off';
+      saveL();
+      sb.textContent = L.sound === 'off' ? '🔇 演出音OFF' : '🔊 演出音ON';
+      if (L.sound === 'on') { try { SND.mission(); } catch {} }
+    });
+  }
+
+  function openPanelModal() {
+    let ov = document.getElementById('gmOv');
+    if (!ov) {
+      ov = document.createElement('div');
+      ov.id = 'gmOv';
+      ov.addEventListener('click', e => { if (e.target === ov) ov.classList.remove('open'); });
+      document.body.appendChild(ov);
+    }
+    ov.innerHTML = '<div id="gmOvInner" style="width:100%;max-width:560px;margin:auto 0;"></div>';
+    const inner = ov.querySelector('#gmOvInner');
+    renderPanel(inner);
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'gm-close-btn';
+    closeBtn.textContent = '閉じる';
+    closeBtn.addEventListener('click', () => ov.classList.remove('open'));
+    inner.querySelector('.gm-panel').appendChild(closeBtn);
+    ov.classList.add('open');
+  }
+
+  // ── イベントAPI（progress.js / study_exam.js から呼ばれる） ────────
+  function _afterEvent(uid) {
+    _statsCache = null;
+    _updateHeaderChips();
+    _checkLevelUp(true);
+    _checkAchievements(true);
+    if (uid) { _checkChapterClear(uid); _checkSubjectClear(uid); }
+    _rerenderHubPanel();
+  }
+
+  function onLap(uid, btn) {
+    _bumpMission('ans');
+    _microLapFx(btn);
+    _afterEvent(uid);
+  }
+
+  function onAnswer(uid, isCorrect) {
+    _bumpMission('ans');
+    if (isCorrect) _bumpMission('cor');
+    _trackStreak(isCorrect);
+    _afterEvent(uid);
+  }
+
+  function onFlag(uid, btn, nowFlagged) {
+    _microFlagFx(btn, nowFlagged);
+  }
+
+  function onExamFinish(answered, correct) {
+    if (answered >= 10) _bumpMission('exam');
+    _afterEvent(null);
+  }
+
+  // ── ハブパネル ───────────────────────────────────────────────────
+  function _rerenderHubPanel() {
+    const host = document.getElementById('gamifyPanel');
+    if (host) renderPanel(host);
+  }
+
+  // ── 初期化 ───────────────────────────────────────────────────────
+  function _init() {
+    _injectCss();
+    _rerenderHubPanel();     // index.html（#gamifyPanel がある場合のみ）
+    _mountStudyHeader();     // study.html（.st-stats がある場合のみ）
+    _checkLevelUp(false);    // 初回は基準記録のみ／同期差分はトースト
+    _checkAchievements(false); // 過去データ由来の実績は演出なしで既視化（初回導入時の連発防止）
+
+    // study.html: _chapterMap は非同期構築 → 構築後に星を描画し、再構築(_buildChapterMap)を
+    // ラップして以後も追従する（章仕切りは科目の解放/再ロードで作り直されるため）。
+    let tries = 0;
+    const arm = () => {
+      tries++;
+      if (typeof window._buildChapterMap === 'function' && !window._buildChapterMap._gmWrapped) {
+        const orig = window._buildChapterMap;
+        const wrapped = function () {
+          const r = orig.apply(this, arguments);
+          _chIndex = null;
+          (window.requestIdleCallback || setTimeout)(refreshAllStars);
+          return r;
+        };
+        wrapped._gmWrapped = true;
+        window._buildChapterMap = wrapped;
+      }
+      if (typeof _chapterMap !== 'undefined' && _chapterMap.length) {
+        refreshAllStars();
+        return;
+      }
+      if (tries < 25) setTimeout(arm, 800);
+    };
+    setTimeout(arm, 400);
+
+    // 同期完了で他端末の進捗が入ったら表示を追従
+    document.addEventListener('mecSyncComplete', () => {
+      _statsCache = null;
+      _updateHeaderChips();
+      _checkLevelUp(false);
+      _checkAchievements(false);
+      _rerenderHubPanel();
+      refreshAllStars();
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _init);
+  else _init();
+
+  window.MecGamify = { onLap, onAnswer, onFlag, onExamFinish, stats, renderPanel, openPanelModal, refreshAllStars };
+})();

@@ -28,6 +28,7 @@
 <script src="fx_engine.js"></script>
 <script src="fixed_uids.js"></script>
 <script src="study_exam.js"></script>
+<script src="gamify.js"></script>
 <link rel="stylesheet" href="vars.css">
 <link rel="stylesheet" href="study.css">
 <script>
@@ -942,7 +943,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0718a";
+const MEC_BUILD = "b-0718b";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
@@ -1093,7 +1094,7 @@ async function mecForceRefresh(btn) {
     }
     // ブラウザのHTTPキャッシュに残った旧シェルも cache:'reload' の再取得で上書きする
     const shell = ['study.html','study.css','study_exam.js','progress.js','fx_engine.js',
-                   'card_renderer.js','vars.css','fixed_uids.js','sw.js','index.html'];
+                   'card_renderer.js','vars.css','fixed_uids.js','sw.js','index.html','gamify.js'];
     await Promise.all(shell.map(f => fetch(f, { cache: 'reload' }).catch(() => {})));
   } catch (e) { /* 失敗してもリロードは実行する */ }
   location.reload();

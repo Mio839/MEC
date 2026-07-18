@@ -13,6 +13,7 @@
   const KER = 'error_reports_v1';
   const K_ERR_CLEARED = 'mec_err_cleared_at';
   const K_TOKEN = 'mec_gist_token', K_GIST = 'mec_gist_id', K_LAST_SYNC = 'mec_last_sync_v1';
+  const K_GAMIFY = 'mec_gamify_v1'; // ゲーミフィケーション（bestStreak等の数値のみ・field-wise maxでマージ）
 
   let syncTimer = null;
   let syncInProgress = false;
@@ -133,7 +134,7 @@
     }
 
     const payload = {};
-    [KD, KF, KA, KR, KT, KDT, KFT, K_SRS, 'mec_choice_v1'].forEach(k => { try { payload[k] = JSON.parse(localStorage.getItem(k) || '{}'); } catch { payload[k] = {}; } });
+    [KD, KF, KA, KR, KT, KDT, KFT, K_SRS, 'mec_choice_v1', K_GAMIFY].forEach(k => { try { payload[k] = JSON.parse(localStorage.getItem(k) || '{}'); } catch { payload[k] = {}; } });
     try { payload[KE] = JSON.parse(localStorage.getItem(KE) || '[]'); } catch { payload[KE] = []; }
     try { payload[KRT] = JSON.parse(localStorage.getItem(KRT) || '[]'); } catch { payload[KRT] = []; }
     try { payload[KRK] = JSON.parse(localStorage.getItem(KRK) || '{}'); } catch { payload[KRK] = {}; }
@@ -275,6 +276,16 @@
       if (locDate >= remDate) ms[uid] = loc;
     });
     lsRaw(K_SRS, ms);
+    // gamify: 数値フィールドは max（bestStreak等の単調増加カウンタ）、その他はローカル優先
+    const lgm = lsGet(K_GAMIFY), rgm = remote[K_GAMIFY] || {};
+    if (Object.keys(rgm).length) {
+      const mgm = { ...lgm };
+      Object.keys(rgm).forEach(k => {
+        if (typeof rgm[k] === 'number') mgm[k] = Math.max(mgm[k] || 0, rgm[k]);
+        else if (mgm[k] === undefined) mgm[k] = rgm[k];
+      });
+      lsRaw(K_GAMIFY, mgm);
+    }
     // chapter exam history: 章ごとに bestScore の最大値を保持、sessions は最大値、日付は新しい方
     const lch = JSON.parse(localStorage.getItem('mec_ch_exam_v1') || '{}');
     const rch = remote['mec_ch_exam_v1'] || {};
@@ -518,6 +529,7 @@
       }
     }
     window.mecShowUndoToast?.(uid, prevCount, btn);
+    try { window.MecGamify?.onLap?.(uid, btn); } catch {}
     if (typeof window.applyFilters === 'function') window.applyFilters();
   };
 
@@ -526,17 +538,21 @@
   window.mecToggleFlag = function (btn) {
     const uid = btn.dataset.uid, flags = lsGet(KF);
     const tombs = lsGet(KFT);
+    let nowFlagged;
     if (flags[uid]) {
       delete flags[uid]; btn.classList.remove('mec-flagged');
       tombs[uid] = Date.now(); // 解除の墓標 — 同期での復活を防ぐ
+      nowFlagged = false;
     } else {
       flags[uid] = Date.now(); btn.classList.add('mec-flagged');
       delete tombs[uid];
+      nowFlagged = true;
     }
     lsRaw(KFT, tombs);
     lsRaw(KF, flags);
     window.mecMarkStale?.();
     scheduleSync();
+    try { window.MecGamify?.onFlag?.(uid, btn, nowFlagged); } catch {}
   };
 
   window.mecReportError = function(uid, type) {
