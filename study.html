@@ -56,7 +56,7 @@ if ('serviceWorker' in navigator) {
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
     <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
     <button class="hdr-toggle" onclick="document.getElementById('mecKbHelp').classList.add('open')" title="キーボードショートカット (?)">⌨️</button>
-    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0713g</span>
+    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0720a</span>
   </div>
   <div class="st-stats">
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
@@ -943,7 +943,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0718b";
+const MEC_BUILD = "b-0720a";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
@@ -1119,6 +1119,18 @@ async function mecForceRefresh(btn) {
 })();
 
 /* ── Correct-answer FX system ── */
+// OSの「動きを減らす」設定を尊重: 画面フラッシュ・粒子・浮遊グリフを丸ごと抑止する
+function _mecReducedMotion() {
+  return window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+// MecFX（Canvas粒子）は全メソッドがfire-and-forgetなので、設定ONならno-op化して一括抑止
+window.addEventListener('load', function() {
+  if (_mecReducedMotion() && window.MecFX) {
+    Object.keys(MecFX).forEach(k => {
+      if (k !== 'clear' && k !== 'count' && typeof MecFX[k] === 'function') MecFX[k] = function(){};
+    });
+  }
+});
 (function() {
   const GREEN = ['#3DD68C','#52FFB8','#A7F3D0','#00FF80','#B9FFE0'];
   const GOLD  = ['#FFD700','#FFE566','#FFF0A0','#FFBB00'];
@@ -1127,7 +1139,7 @@ async function mecForceRefresh(btn) {
   function _spawn(cx, cy, opt) {
     const d = document.createElement('div');
     if (opt.cls) d.className = opt.cls;
-    d.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;pointer-events:none;z-index:9998;` + (opt.css||'');
+    d.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;pointer-events:none;z-index:var(--z-fx);` + (opt.css||'');
     document.body.appendChild(d);
     return d;
   }
@@ -1138,12 +1150,13 @@ async function mecForceRefresh(btn) {
   }
 
   function mecFireCorrect(el) {
+    if (_mecReducedMotion()) return;
     const fx = _correctFx();
     const r = el.getBoundingClientRect();
     const cx = r.left + Math.min(16, r.width * .5), cy = r.top + r.height * .5;
 
     /* 1. Screen flash */
-    const flash = _spawn(0, 0, {css:`inset:0;width:100vw;height:100vh;left:0;top:0;background:rgba(${fx.rgb},.1);z-index:9997;`});
+    const flash = _spawn(0, 0, {css:`inset:0;left:0;top:0;background:rgba(${fx.rgb},.1);`});
     flash.animate([{opacity:1},{opacity:0}], {duration:350, fill:'forwards'}).onfinish = () => flash.remove();
 
     /* 2. Shockwave rings */
@@ -1152,7 +1165,7 @@ async function mecForceRefresh(btn) {
     }
 
     /* 3. Floating glyph */
-    const chk = _spawn(cx, cy - 8, {css:`transform:translate(-50%,-50%);font-size:36px;font-weight:900;color:${fx.hex};line-height:1;text-shadow:0 0 24px rgba(${fx.rgb},1),0 0 50px rgba(${fx.rgb},.6),0 0 80px rgba(${fx.rgb},.4);z-index:9999;`});
+    const chk = _spawn(cx, cy - 8, {css:`transform:translate(-50%,-50%);font-size:36px;font-weight:900;color:${fx.hex};line-height:1;text-shadow:0 0 24px rgba(${fx.rgb},1),0 0 50px rgba(${fx.rgb},.6),0 0 80px rgba(${fx.rgb},.4);`});
     chk.textContent = fx.glyph;
     chk.animate([
       {transform:'translate(-50%,-50%) scale(.2)', opacity:0},
@@ -1188,10 +1201,11 @@ async function mecForceRefresh(btn) {
   }
 
   function mecFireWrong(el) {
+    if (_mecReducedMotion()) return;
     const r = el.getBoundingClientRect();
     const cx = r.left + r.width * .5, cy = r.top + r.height * .5;
     /* Red screen flash */
-    const flash = _spawn(0, 0, {css:'inset:0;width:100vw;height:100vh;left:0;top:0;background:rgba(255,60,60,.1);z-index:9997;'});
+    const flash = _spawn(0, 0, {css:'inset:0;left:0;top:0;background:rgba(255,60,60,.1);'});
     flash.animate([{opacity:1},{opacity:0}], {duration:280, fill:'forwards'}).onfinish = () => flash.remove();
     /* Red ring */
     const ring = _spawn(cx, cy, {css:'width:10px;height:10px;border-radius:50%;border:2px solid #FF6B6B;box-shadow:0 0 12px rgba(255,80,80,.7);transform:translate(-50%,-50%);'});
@@ -1521,6 +1535,20 @@ async function _renderDueCardsForReview(dueUids) {
   _applyFixedBadges(host);
 }
 
+// alert()代替の通知トースト。iOS PWA / 「ダイアログ非表示」設定でも確実に表示される。
+function _mecNotify(msg) {
+  let t = document.getElementById('mecNoteToast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'mecNoteToast';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
 // ── SRS Review Session ────────────────────────────────────────────────────────
 async function startSRSReview() {
   const today = _today();
@@ -1531,7 +1559,7 @@ async function startSRSReview() {
   });
 
   if (!dueUids.length) {
-    alert('今日の復習問題はありません。');
+    _mecNotify('今日の復習問題はありません。');
     _runDeferredInit(); // 復習が無いので通常閲覧へ（全科目ロードを開始）
     return;
   }
@@ -1546,7 +1574,7 @@ async function startSRSReview() {
   });
   if (!availableUids.length) {
     _srsHostClear();
-    alert('問題が見つかりませんでした。ページを再読み込みしてください。');
+    _mecNotify('問題が見つかりませんでした。ページを再読み込みしてください。');
     _runDeferredInit();
     return;
   }

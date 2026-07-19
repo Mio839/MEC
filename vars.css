@@ -60,4 +60,21 @@ html::before {
   --gb:rgba(255,255,255,0.04); --cb:rgba(255,255,255,0.07);
   --bd:rgba(255,255,255,0.12); --tx:#E2EAF4; --ts:#8099B8;
   --or:#FF9A3C; --orl:rgba(255,154,60,0.12); --ord:#FFB870;
+  --blu:#60A5FA;
+  /* z-index 名前付きスケール（即値の 9999 等を使わずこれを参照する） */
+  --z-hdr:200; --z-modal:5000; --z-toast:9000; --z-ov:9100;
+  --z-lightbox:9500; --z-fx:9990; --z-loader:9999;
+}
+/* キーボードフォーカスリング（全ページ共通・アニメ無しで即時表示） */
+:focus-visible{outline:2px solid #7BB3FF;outline-offset:2px;}
+/* 動きを減らす設定のユーザーには装飾アニメ・フラッシュ・スムーススクロールを止める。
+   （JS駆動のWeb Animations/Canvas粒子は study.html 側でガード） */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
 }

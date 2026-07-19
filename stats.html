@@ -12,9 +12,9 @@
 :root{}
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:transparent;color:var(--tx);font-size:14px;line-height:1.7;}
+body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:transparent;color:var(--tx);font-size:14px;line-height:1.7;font-variant-numeric:tabular-nums;}
 
-.hdr{background:rgba(5,10,22,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.08);color:#fff;padding:12px 14px 10px;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.45);}
+.hdr{background:rgba(6,11,24,.97);border-bottom:1px solid rgba(255,255,255,.08);color:#fff;padding:12px 14px 10px;position:sticky;top:0;z-index:var(--z-hdr);box-shadow:0 2px 20px rgba(0,0,0,.45);}
 .hdr-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
 .hdr-title{font-size:16px;font-weight:800;}
 .hub-link{font-size:11px;color:rgba(255,255,255,.6);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,255,255,.18);border-radius:20px;white-space:nowrap;}
@@ -27,12 +27,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .sum-lbl{font-size:10px;color:rgba(255,255,255,.6);}
 
 .ct{max-width:700px;margin:0 auto;padding:14px 12px 60px;}
-.sec{background:rgba(255,255,255,.06);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.07);padding:16px;margin-bottom:14px;}
-/* iOS WebKit の backdrop-filter タイル白化対策（UA非依存・study.css と同方針）。 */
-@supports (-webkit-touch-callout: none){
-  .hdr{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(6,11,24,.97)!important;}
-  .sec{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
-}
+.sec{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.07);padding:16px;margin-bottom:14px;}
 .sec-title{font-size:13px;font-weight:800;color:var(--tx);margin-bottom:14px;display:flex;align-items:center;gap:6px;}
 
 /* Activity chart */
@@ -468,7 +463,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
   // ── Level distribution ────────────────────────────────────
   const LEVELS = [
-    { label: '未済', color: '#E0E5EB' },
+    { label: '未済', color: 'rgba(255,255,255,.28)' },
     { label: '済1', color: '#C8EBD4' },
     { label: '済2', color: '#81C784' },
     { label: '済3', color: '#4CAF50' },
@@ -494,13 +489,13 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     col.className = 'level-col';
     col.innerHTML = `
       <span class="level-val">${levelCounts[i]}</span>
-      <div class="level-bar" style="height:${Math.max(pct, 2)}%;background:${color};border:1px solid #ccc"></div>
+      <div class="level-bar" style="height:${Math.max(pct, 2)}%;background:${color};border:1px solid rgba(255,255,255,.18)"></div>
       <span class="level-lbl">${label}</span>`;
     barsDiv.appendChild(col);
 
     const leg = document.createElement('div');
     leg.className = 'legend-item';
-    leg.innerHTML = `<div class="legend-dot" style="background:${color};border:1px solid #ccc"></div>${label}: ${levelCounts[i]}問`;
+    leg.innerHTML = `<div class="legend-dot" style="background:${color};border:1px solid rgba(255,255,255,.18)"></div>${label}: ${levelCounts[i]}問`;
     legDiv.appendChild(leg);
   });
 
