@@ -553,12 +553,14 @@ function startExam(overrideUids = null) {
       });
   const shuffled = _buildExamQueue(allVisible);
   examQueue = shuffled;
-  if (!examQueue.length) { alert('表示中の問題がありません。科目・フィルターを確認してください。'); return; }
+  // alert() は iOS PWA で表示されないことがあるためトーストで通知する
+  if (!examQueue.length) { (window._mecNotify || function(m){})('表示中の問題がありません。科目・フィルターを確認してください。'); return; }
   const _subj = [...new Set(examQueue.map(c => c.dataset.uid.split('_ch')[0]))].sort().join(',');
   _examSessionKey = _subj + ':' + examQueue.length;
   // SRS復習は中断データを持たないので消さない（同じキーの通常試験の中断データを巻き込まないため）
   if (!_srsReviewMode) _clearExamResume();
   examMode = true; examAnswered = 0; examCorrect = 0; examStreak = 0; examBySubj = {}; examWrong = []; _examSessionWrongChoices.clear(); examStartTime = Date.now(); _examPausedMs = 0; _examPauseStart = null;
+  _examCardSeenAt.clear(); _zoneStop(false); _setAwaken(false);
   examEffectSet = EXAM_EFFECT_POOL[Math.floor(Math.random() * EXAM_EFFECT_POOL.length)];
   document.body.classList.remove('exam-effect-neon', 'exam-effect-ink');
   if (examEffectSet !== 'classic') document.body.classList.add('exam-effect-' + examEffectSet);
@@ -641,6 +643,7 @@ function startExam(overrideUids = null) {
   if (modeBtn) { modeBtn.textContent = '📖 終了'; modeBtn.classList.add('exam-on'); modeBtn.onclick = exitExam; }
   window.scrollTo({ top: 0 });
   _saveExamResume();
+  _examCountdown();   // C9: 3・2・1・START（非ブロッキング＝裏で試験は既に開始済み）
 }
 
 function revealAnswer(card) {
@@ -670,12 +673,16 @@ function revealAnswer(card) {
       _playCorrectSound();
       _showStreakEffect(examStreak);
       { const _t=_examTier(examStreak); card.querySelectorAll('.ch2.ok').forEach(c=>_triggerChoiceCorrectPop(c)); _spawnFloatingCombo(card,examStreak,_t); }
+      // A2/A3/A1: ショックウェーブ・ボーダートレース・速答ボーナス
+      { const _ok = card.querySelector('.ch2.ok'); _correctShockwave(_ok); if (_isFastAnswer(card)) setTimeout(() => _triggerFastBonus(_ok), 90); }
+      _traceCardBorder(card);
       card.classList.add('exam-revealed', 'exam-multi-correct');
       if (revBtn) { revBtn.textContent = '▶ 解説を見る'; revBtn.onclick = () => _toggleCorrectAnswer(card, revBtn); }
     } else {
       examStreak = 0;
       _resetComboMeter();
       _clearDarkFx();
+      _zoneStop(true);   // B5: ゾーン崩壊（漂う粒子が一点に吸い込まれて消える）
       examWrong.push(card.dataset.uid);
       card.classList.add('exam-revealed');
       if (revBtn) { revBtn.textContent = '▼ 解答を隠す'; revBtn.onclick = () => _toggleWrongAnswer(card, revBtn); }
@@ -708,6 +715,10 @@ function revealAnswer(card) {
     _playCorrectSound();
     _showStreakEffect(examStreak);
     { const _t=_examTier(examStreak); _triggerChoiceCorrectPop(sel); _spawnFloatingCombo(card,examStreak,_t); }
+    // A2/A3/A1: ショックウェーブ・ボーダートレース・速答ボーナス
+    _correctShockwave(sel);
+    _traceCardBorder(card);
+    if (_isFastAnswer(card)) setTimeout(() => _triggerFastBonus(sel), 90);
     card.classList.add('exam-revealed', 'exam-multi-correct');
     if (revBtn) { revBtn.textContent = '▶ 解説を見る'; revBtn.onclick = () => _toggleCorrectAnswer(card, revBtn); }
     _updateExamProg(true);
@@ -718,6 +729,7 @@ function revealAnswer(card) {
     examStreak = 0;
     _resetComboMeter();
     _clearDarkFx();
+    _zoneStop(true);   // B5: ゾーン崩壊
     examWrong.push(card.dataset.uid);
     card.classList.add('exam-revealed');
     if (revBtn) { revBtn.textContent = '▼ 解答を隠す'; revBtn.onclick = () => _toggleWrongAnswer(card, revBtn); }
@@ -831,7 +843,12 @@ const EXAM_EFFECT_THEMES = {
     lightningCols: {3:'rgba(255,120,32,.95)',4:'rgba(255,210,0,1)',5:'rgba(255,235,0,1)',6:'rgba(200,80,255,1)'},
     useGlitch: true,
     useMedalDrop: true,
-    floaterGlyphs: { 5:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉'], 6:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉','🎊','🥳','🌈','💎','👑','🎆'] }
+    floaterGlyphs: { 5:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉'], 6:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉','🎊','🥳','🌈','💎','👑','🎆'] },
+    fastLabel: '⚡ 速答！',
+    tierUpLabel: (t) => '🔥 TIER ' + Math.max(1, Math.min(t, 6)) + ' 突入',
+    signature: (n) => '🔥 ' + n + ' 連鎖',
+    zoneGlyphs: ['🔥','✨','💥'],
+    zoneColors: ['#FFA040','#FFD700','#FF5820']
   },
   neon: {
     burstPalettes: {
@@ -862,7 +879,12 @@ const EXAM_EFFECT_THEMES = {
     lightningCols: {3:'rgba(0,229,255,.95)',4:'rgba(255,43,214,1)',5:'rgba(122,92,255,1)',6:'rgba(57,255,136,1)'},
     useGlitch: true,
     useHeavyGlitch: true,
-    floaterGlyphs: { 5:['⚡️','💠','🔷','👾','🤖'], 6:['⚡️','💠','🔷','👾','🛸','🤖','🔋','📡'] }
+    floaterGlyphs: { 5:['⚡️','💠','🔷','👾','🤖'], 6:['⚡️','💠','🔷','👾','🛸','🤖','🔋','📡'] },
+    fastLabel: '⚡ FAST!',
+    tierUpLabel: (t) => '▲ LEVEL ' + Math.max(1, Math.min(t, 6)) + ' UNLOCKED',
+    signature: (n) => 'SYNC ' + Math.min(99, 40 + n * 3) + '%',
+    zoneGlyphs: ['⚡️','💠','🔷'],
+    zoneColors: ['#00E5FF','#FF2BD6','#7A5CFF']
   },
   ink: {
     burstPalettes: {
@@ -891,7 +913,12 @@ const EXAM_EFFECT_THEMES = {
     useFireworks: false, useBrushCircle: true,
     useLightning: false,
     useGlitch: false, useBrushSwipe: true,
-    floaterGlyphs: { 5:['💮','🏮','🎐','🧧','⛩️'], 6:['💮','🏮','⛩️','🀄','🎐','🧧','🎏','🐉'] }
+    floaterGlyphs: { 5:['💮','🏮','🎐','🧧','⛩️'], 6:['💮','🏮','⛩️','🀄','🎐','🧧','🎏','🐉'] },
+    fastLabel: '⚡ 早業！',
+    tierUpLabel: (t) => '『 ' + (['','初伝','中伝','奥伝','皆伝','免許','極意'][Math.max(1, Math.min(t, 6))] || '') + ' 』',
+    signature: (n) => '連 ' + n + ' 手',
+    zoneGlyphs: ['💮','🏮','🎐'],
+    zoneColors: ['#C93A3A','#C9A24B','#F5EFE0']
   },
   ecg: {
     burstPalettes: {
@@ -922,7 +949,12 @@ const EXAM_EFFECT_THEMES = {
     useLightning: false,
     useGlitch: true,
     pulseBeat: true, useDefib: true,
-    floaterGlyphs: { 5:['💊','🩺','❤️','➕','💉'], 6:['💊','🩺','❤️','➕','💉','🫀','⚕️','🏥'] }
+    floaterGlyphs: { 5:['💊','🩺','❤️','➕','💉'], 6:['💊','🩺','❤️','➕','💉','🫀','⚕️','🏥'] },
+    fastLabel: '⚡ 即断！',
+    tierUpLabel: (t) => '♥ STAGE ' + Math.max(1, Math.min(t, 6)),
+    signature: (n) => '♥ ' + Math.min(180, 60 + n * 6) + ' bpm',
+    zoneGlyphs: ['➕','💓','🩺'],
+    zoneColors: ['#00E676','#FF1744','#FFEA00']
   },
   space: {
     burstPalettes: {
@@ -952,7 +984,12 @@ const EXAM_EFFECT_THEMES = {
     useLightning: false,
     useGlitch: true,
     useBlackHole: true,
-    floaterGlyphs: { 5:['🌟','⭐','☄️','🪐','🚀'], 6:['🌟','⭐','☄️','🪐','🚀','🌌','👽','🛰️'] }
+    floaterGlyphs: { 5:['🌟','⭐','☄️','🪐','🚀'], 6:['🌟','⭐','☄️','🪐','🚀','🌌','👽','🛰️'] },
+    fastLabel: '⚡ 光速回答！',
+    tierUpLabel: (t) => '🚀 PHASE ' + Math.max(1, Math.min(t, 6)),
+    signature: (n) => 'WARP ' + (n * 0.4).toFixed(1) + 'c',
+    zoneGlyphs: ['⭐','✨','☄️'],
+    zoneColors: ['#7C4DFF','#40C4FF','#FFD54F']
   },
   retro: {
     burstPalettes: {
@@ -983,7 +1020,12 @@ const EXAM_EFFECT_THEMES = {
     useLightning: false,
     useGlitch: true,
     useCRT: true, chunkyShake: true,
-    floaterGlyphs: { 5:['🕹️','👾','🎮','⭐','💎'], 6:['🕹️','👾','🎮','⭐','💎','🍄','🏆','💰'] }
+    floaterGlyphs: { 5:['🕹️','👾','🎮','⭐','💎'], 6:['🕹️','👾','🎮','⭐','💎','🍄','🏆','💰'] },
+    fastLabel: '⚡ QUICK!',
+    tierUpLabel: (t) => '★ STAGE ' + Math.max(1, Math.min(t, 6)) + ' CLEAR',
+    signature: (n) => 'SCORE ' + (n * 1000).toLocaleString('en-US'),
+    zoneGlyphs: ['★','◆','▲'],
+    zoneColors: ['#FF1053','#00A8E8','#FFD400']
   },
   luxury: {
     burstPalettes: {
@@ -1016,26 +1058,304 @@ const EXAM_EFFECT_THEMES = {
     useGlitch: false, useBrushSwipe: true,
     brushColorRgb: '255,215,0',
     useSpotlight: true,
-    floaterGlyphs: { 5:['💎','👑','🏆','💰','✨'], 6:['💎','👑','🏆','💰','✨','🥂','🎩','💍'] }
+    floaterGlyphs: { 5:['💎','👑','🏆','💰','✨'], 6:['💎','👑','🏆','💰','✨','🥂','🎩','💍'] },
+    fastLabel: '⚡ 即決！',
+    tierUpLabel: (t) => '✦ RANK ' + (['','Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ'][Math.max(1, Math.min(t, 6))] || ''),
+    signature: (n) => '× ' + n + ' BONUS',
+    zoneGlyphs: ['💎','✨','👑'],
+    zoneColors: ['#FFD700','#F7E7CE','#FFF3C4']
   }
 };
+
+/* ══════════ 追加演出（2026-07-20）══════════
+   設計方針: 総量を増やすのではなく「山谷」を作る。ティア昇格の瞬間だけフル演出にし、
+   同ティア内の連続正解はむしろ軽くする（_showStreakEffect の promoted 分岐）。
+   DOM系の演出は _fxOff() でガードする（MecFXはstudy.html側で既にno-op化される）。 */
+const FAST_ANSWER_MS = 3000;          // これ以内の正解を「速答」とみなす
+const _examCardSeenAt = new Map();    // uid → 最初に画面フォーカスされた時刻ms
+let _zoneTimer = null;                // ゾーン（tier4+の常駐環境演出）のemitインターバル
+let _zoneActive = false;
+
+function _fxOff() {
+  return typeof _mecReducedMotion === 'function' && _mecReducedMotion();
+}
+
+function _examTheme() {
+  return EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
+}
+
+// A1: 出題カードが最初に画面フォーカスされた時刻を控える（速答判定の起点）
+function _markCardSeen(card) {
+  if (!card || !examMode) return;
+  const uid = card.dataset && card.dataset.uid;
+  if (uid && !_examCardSeenAt.has(uid)) _examCardSeenAt.set(uid, Date.now());
+}
+
+function _isFastAnswer(card) {
+  const uid = card && card.dataset && card.dataset.uid;
+  if (!uid) return false;
+  const t0 = _examCardSeenAt.get(uid);
+  return !!t0 && (Date.now() - t0) <= FAST_ANSWER_MS;
+}
+
+// A1: 速答ボーナス。ラベル＋⚡グリフを選んだ肢の位置から出す
+function _triggerFastBonus(el) {
+  if (_fxOff()) return;
+  const theme = _examTheme();
+  const r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
+  const cx = r && r.width ? r.left + r.width / 2 : window.innerWidth / 2;
+  const cy = r && r.width ? r.top : window.innerHeight * 0.4;
+  const lab = document.createElement('div');
+  lab.className = 'exam-fast-pop';
+  lab.textContent = theme.fastLabel || '⚡ 速答！';
+  lab.style.left = cx + 'px';
+  lab.style.top = cy + 'px';
+  lab.style.color = (theme.comboColors && theme.comboColors[3]) || '#FFD700';
+  document.body.appendChild(lab);
+  lab.animate([
+    { opacity: 0, transform: 'translate(-50%,0) scale(.6)' },
+    { opacity: 1, transform: 'translate(-50%,-16px) scale(1.15)', offset: .25 },
+    { opacity: 1, transform: 'translate(-50%,-24px) scale(1)', offset: .55 },
+    { opacity: 0, transform: 'translate(-50%,-52px) scale(.95)' }
+  ], { duration: 900, easing: 'cubic-bezier(.22,.68,0,1.2)', fill: 'forwards' }).onfinish = () => lab.remove();
+  if (window.MecFX) {
+    try { window.MecFX.glyphBurst(cx, cy, { glyphs: ['⚡'], count: 4, w: 50, spread: 130 }); } catch (e) {}
+  }
+}
+
+// A2: 正解した肢の位置から広がるショックウェーブ（単発正解でも必ず出る手応え）
+function _correctShockwave(el) {
+  if (!window.MecFX || !el || !el.getBoundingClientRect) return;
+  const r = el.getBoundingClientRect();
+  if (!r.width) return;
+  const theme = _examTheme();
+  const t = Math.max(1, Math.min(_examTier(examStreak) || 1, 6));
+  try {
+    window.MecFX.rings(r.left + r.width / 2, r.top + r.height / 2, {
+      count: t >= 4 ? 3 : 2,
+      color: theme.ringColor(t),
+      thickness: t >= 4 ? 3 : 2,
+      maxR: 150 + t * 45,
+      additive: examEffectSet !== 'ink',
+      stagger: .075
+    });
+  } catch (e) {}
+}
+
+// A3: カード外周を光が一周するボーダートレース（SVGのstroke-dashoffsetアニメ）
+function _traceCardBorder(card) {
+  if (!card || _fxOff()) return;
+  const r = card.getBoundingClientRect();
+  if (!r.width || !r.height) return;
+  const theme = _examTheme();
+  const col = (theme.fx && theme.fx.hex) || (theme.comboColors && theme.comboColors[3]) || '#FFD700';
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('class', 'exam-trace-svg');
+  svg.setAttribute('viewBox', '0 0 ' + r.width + ' ' + r.height);
+  svg.style.cssText = 'left:' + r.left + 'px;top:' + r.top + 'px;width:' + r.width + 'px;height:' + r.height + 'px;';
+  const rect = document.createElementNS(NS, 'rect');
+  rect.setAttribute('x', '1.5'); rect.setAttribute('y', '1.5');
+  rect.setAttribute('width', String(Math.max(1, r.width - 3)));
+  rect.setAttribute('height', String(Math.max(1, r.height - 3)));
+  rect.setAttribute('rx', '12'); rect.setAttribute('fill', 'none');
+  rect.setAttribute('stroke', col); rect.setAttribute('stroke-width', '2.5');
+  rect.setAttribute('stroke-linecap', 'round');
+  const per = 2 * (r.width + r.height);
+  const seg = per * 0.22;
+  rect.setAttribute('stroke-dasharray', seg + ' ' + per);
+  svg.appendChild(rect);
+  document.body.appendChild(svg);
+  rect.animate([
+    { strokeDashoffset: String(seg), opacity: 1 },
+    { strokeDashoffset: String(-per), opacity: .35 }
+  ], { duration: 640, easing: 'cubic-bezier(.3,.7,.4,1)', fill: 'forwards' }).onfinish = () => svg.remove();
+}
+
+// B4: ティア昇格スタンプ。昇格した瞬間だけ「TIER UP」を叩き込む
+function _triggerTierUpStamp(tier, n) {
+  if (_fxOff()) return;
+  const theme = _examTheme();
+  const el = document.createElement('div');
+  el.className = 'exam-tierup';
+  const col = (theme.fullscreenCols && theme.fullscreenCols[Math.min(tier, 6)]) || '#FFD700';
+  const glow = (theme.fullscreenGlow && theme.fullscreenGlow[Math.min(tier, 6)]) || '255,215,0';
+  el.innerHTML = '<span class="tu-lbl">TIER UP</span>' +
+    '<span class="tu-main">' + ((theme.tierUpLabel && theme.tierUpLabel(tier)) || ('TIER ' + tier)) + '</span>';
+  el.style.setProperty('--tu-col', col);
+  el.style.setProperty('--tu-glow', glow);
+  document.body.appendChild(el);
+  el.animate([
+    { opacity: 0, transform: 'translate(-50%,-50%) scale(3.2) rotate(-16deg)' },
+    { opacity: 1, transform: 'translate(-50%,-50%) scale(.92) rotate(-6deg)', offset: .22 },
+    { transform: 'translate(-50%,-50%) scale(1.06) rotate(-6deg)', offset: .34 },
+    { opacity: 1, transform: 'translate(-50%,-50%) scale(1) rotate(-6deg)', offset: .46 },
+    { opacity: 1, offset: .74 },
+    { opacity: 0, transform: 'translate(-50%,-50%) scale(1.12) rotate(-6deg)' }
+  ], { duration: 1250, easing: 'cubic-bezier(.2,1.3,.35,1)', fill: 'forwards' }).onfinish = () => el.remove();
+  // メーター位置からの祝砲（B6と連動）
+  if (window.MecFX) {
+    try {
+      window.MecFX.burst(window.innerWidth / 2, 6, {
+        count: 40 + tier * 14,
+        colors: (theme.burstPalettes && theme.burstPalettes[Math.min(tier, 6)]) || ['#FFD700'],
+        shapes: theme.shapes(tier), tier: tier, glow: examEffectSet !== 'ink', additive: examEffectSet !== 'ink'
+      });
+    } catch (e) {}
+  }
+}
+
+// B5: ゾーン（tier4以上の間だけ画面に薄く漂う環境演出）
+function _zoneStart() {
+  if (_zoneActive || _fxOff() || !window.MecFX) return;
+  _zoneActive = true;
+  document.body.classList.add('exam-zone');
+  const emit = () => {
+    if (!_zoneActive || !window.MecFX || !examMode) return;
+    const theme = _examTheme();
+    try {
+      window.MecFX.dust({ count: 6, colors: theme.zoneColors || ['#FFD700'] });
+      if (Math.random() < .55) {
+        window.MecFX.floaters({ glyphs: theme.zoneGlyphs || ['✨'], count: 2, scale: .65 });
+      }
+    } catch (e) {}
+  };
+  emit();
+  _zoneTimer = setInterval(emit, 1100);
+}
+
+// B5: ゾーン崩壊。ミスで途切れた瞬間、漂う粒子を一点に吸い込んで消す（喪失の演出）
+function _zoneStop(collapse) {
+  const wasActive = _zoneActive;
+  _zoneActive = false;
+  if (_zoneTimer) { clearInterval(_zoneTimer); _zoneTimer = null; }
+  document.body.classList.remove('exam-zone', 'exam-awaken');
+  if (!wasActive || !collapse || _fxOff()) return;
+  const cx = window.innerWidth / 2, cy = Math.round(window.innerHeight * 0.44);
+  if (window.MecFX) {
+    try {
+      window.MecFX.attractor(cx, cy, { ttl: .9, strength: 260000 });
+      window.MecFX.rings(cx, cy, { count: 2, color: 'rgba(255,100,100,.65)', thickness: 2, maxR: 240, additive: true });
+    } catch (e) {}
+  }
+  const ov = document.createElement('div');
+  ov.className = 'exam-zone-collapse';
+  document.body.appendChild(ov);
+  ov.animate([{ opacity: 0 }, { opacity: 1, offset: .25 }, { opacity: 0 }],
+    { duration: 620, easing: 'ease-out', fill: 'forwards' }).onfinish = () => ov.remove();
+}
+
+// B7: 覚醒モード（20連続〜）。テーマ配色を高彩度側へ寄せる。ミスで解除。
+function _setAwaken(on) {
+  if (on && _fxOff()) return;
+  document.body.classList.toggle('exam-awaken', !!on);
+}
+
+// C9: 開始カウントダウン（3・2・1・START）。試験自体は裏で既に開始しているので非ブロッキング。
+function _examCountdown() {
+  if (_fxOff()) return;
+  const theme = _examTheme();
+  let host = document.getElementById('examCountdown');
+  if (!host) {
+    host = document.createElement('div');
+    host.id = 'examCountdown';
+    document.body.appendChild(host);
+  }
+  host.innerHTML = '';
+  host.style.display = 'flex';
+  const col = (theme.fullscreenCols && theme.fullscreenCols[3]) || '#FFD700';
+  const steps = ['3', '2', '1', 'START'];
+  steps.forEach((s, i) => {
+    setTimeout(() => {
+      if (!examMode) { host.style.display = 'none'; return; }
+      host.innerHTML = '';
+      const el = document.createElement('div');
+      el.className = 'exam-cd-num' + (s === 'START' ? ' go' : '');
+      el.textContent = s;
+      el.style.color = col;
+      host.appendChild(el);
+      el.animate([
+        { opacity: 0, transform: 'scale(2.2)' },
+        { opacity: 1, transform: 'scale(1)', offset: .3 },
+        { opacity: 1, transform: 'scale(1)', offset: .7 },
+        { opacity: 0, transform: 'scale(.82)' }
+      ], { duration: s === 'START' ? 620 : 420, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
+      if (window.MecFX) {
+        try {
+          window.MecFX.rings(window.innerWidth / 2, window.innerHeight / 2,
+            { count: 1, color: theme.ringColor(s === 'START' ? 5 : 2), thickness: 3, maxR: s === 'START' ? 420 : 220, additive: examEffectSet !== 'ink' });
+        } catch (e) {}
+      }
+      if (s === 'START') setTimeout(() => { host.style.display = 'none'; host.innerHTML = ''; }, 640);
+    }, i * 430);
+  });
+}
+
+// C10: 結果画面のランクスタンプ（S/A/B/C・100%はPERFECT）
+function _stampRank(pct) {
+  const modal = document.querySelector('#examOverlay .exam-modal');
+  if (!modal || _fxOff()) return;
+  modal.querySelectorAll('.exam-rank-stamp').forEach(el => el.remove());
+  const perfect = pct >= 100;
+  // 基準は章カードの色分け（80/60）に合わせ、90以上をSとして上乗せする
+  const rank = perfect ? 'PERFECT' : pct >= 90 ? 'S' : pct >= 80 ? 'A' : pct >= 60 ? 'B' : 'C';
+  const col = perfect ? '#FFD700' : pct >= 90 ? '#FFD700' : pct >= 80 ? '#3DD68C' : pct >= 60 ? '#FFB830' : '#FF6B6B';
+  const el = document.createElement('div');
+  el.className = 'exam-rank-stamp' + (perfect ? ' perfect' : '');
+  el.textContent = rank;
+  el.style.setProperty('--rk-col', col);
+  modal.appendChild(el);
+  el.animate([
+    { opacity: 0, transform: 'translate(-50%,-50%) scale(2.8) rotate(-24deg)' },
+    { opacity: 1, transform: 'translate(-50%,-50%) scale(.94) rotate(-13deg)', offset: .3 },
+    { transform: 'translate(-50%,-50%) scale(1.05) rotate(-13deg)', offset: .42 },
+    { transform: 'translate(-50%,-50%) scale(1) rotate(-13deg)', offset: .55 },
+    { opacity: 1, transform: 'translate(-50%,-50%) scale(1) rotate(-13deg)' }
+  ], { duration: 720, easing: 'cubic-bezier(.2,1.35,.35,1)', fill: 'forwards' });
+  // 押印の衝撃（スタンプ位置から）
+  if (window.MecFX) {
+    try {
+      const r = el.getBoundingClientRect();
+      window.MecFX.rings(r.left + r.width / 2, r.top + r.height / 2,
+        { count: 2, color: 'rgba(255,255,255,.55)', thickness: 3, maxR: 220, additive: true });
+    } catch (e) {}
+  }
+}
+
+// C11: SRS復習セッションを完走した時の完了演出（習慣化の達成感）
+function _srsCompleteCelebration() {
+  if (!window.MecFX) return;
+  try {
+    window.MecFX.glyphRain({ glyphs: ['🔔', '🎉', '✨', '⭐'], colors: ['#FF9A3C', '#FFD166', '#3DD68C', '#60A5FA'], count: 26 });
+    window.MecFX.confetti({ count: 60, colors: ['#FF9A3C', '#FFD166', '#3DD68C', '#60A5FA'] });
+  } catch (e) {}
+}
 
 function _showStreakEffect(n) {
   if (n < 2) return;
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const tier = _examTier(n);
+  // B4: 昇格フレーム（tierが上がった瞬間）だけフル演出。同ティア内はあえて軽くして山谷を作る。
+  const prevTier = (n - 1) < 2 ? 0 : _examTier(n - 1);
+  const promoted = tier > prevTier;
   const labels = theme.labels(n);
   const durs   = [0, 2.0, 2.5, 3.2, 4.2, 5.2, 5.8];
 
-  if (theme.useCRT) _spawnCRTOverlay(tier);
-  if (tier >= 4) _triggerTimeStop(tier);
-  if (tier >= 2) _triggerFullscreenCombo(n, tier);
+  // B5/B7: tier4以上でゾーン突入、20連続で覚醒モード
+  if (tier >= 4) _zoneStart();
+  _setAwaken(n >= 20);
+  if (promoted) _triggerTierUpStamp(tier, n);
+
+  if (promoted && theme.useCRT) _spawnCRTOverlay(tier);
+  if (promoted && tier >= 4) _triggerTimeStop(tier);
+  if (promoted && tier >= 2) _triggerFullscreenCombo(n, tier);
 
   const toast = document.getElementById('examStreakToast');
   if (!toast) return;
   toast.getAnimations?.().forEach(a => a.cancel());
-  toast.className = 't' + tier;
+  toast.className = 't' + tier + (promoted ? '' : ' quiet');
   toast.textContent = labels[tier];
+  _showStreakSignature(n, tier, promoted);
   void toast.offsetWidth;
   toast.animate([
     {opacity:0, transform:'translateX(-50%) translateY(-22px) scale(.65) rotate(-4deg)', offset:0},
@@ -1046,10 +1366,10 @@ function _showStreakEffect(n) {
     {transform:'translateX(-50%) translateY(0) scale(1)', offset:.50},
     {opacity:1, offset:.68},
     {opacity:0, transform:'translateX(-50%) translateY(-16px) scale(.88)', offset:1}
-  ], {duration: durs[tier] * 1000, easing:'ease'});
+  ], {duration: durs[tier] * (promoted ? 1000 : 520), easing:'ease'});
 
   const flash = document.getElementById('examStreakFlash');
-  if (flash && tier >= 2) {
+  if (flash && promoted && tier >= 2) {
     flash.getAnimations?.().forEach(a => a.cancel());
     const fc = theme.flashColors;
     flash.style.background = fc[tier];
@@ -1067,17 +1387,57 @@ function _showStreakEffect(n) {
     }
   }
 
-  if (tier >= 2) _spawnStreakParticles(tier);
-  if (tier >= 3) _triggerScreenShake(tier);
-  if (tier >= 4) _triggerBorderGlow(tier);
-  if (tier >= 5) {
-    setTimeout(() => _spawnEmojiFloaters(tier), 80);
-    if (theme.useGlitch) _triggerGlitch(tier);
-    else if (theme.useBrushSwipe) _inkBrushSwipe(tier);
+  if (promoted) {
+    if (tier >= 2) _spawnStreakParticles(tier);
+    if (tier >= 3) _triggerScreenShake(tier);
+    if (tier >= 4) _triggerBorderGlow(tier);
+    if (tier >= 5) {
+      setTimeout(() => _spawnEmojiFloaters(tier), 80);
+      if (theme.useGlitch) _triggerGlitch(tier);
+      else if (theme.useBrushSwipe) _inkBrushSwipe(tier);
+    }
+  } else {
+    // 同ティア内の継続。控えめな中央バースト＋リングのみで「積み上がっている」感じだけ残す
+    _spawnLightStreakFx(tier);
   }
   _triggerBgBreath(tier);
   _playComboNote(n);
   _updateComboMeter(n);
+}
+
+// B4: 昇格しなかったフレーム用の軽量エフェクト
+function _spawnLightStreakFx(tier) {
+  if (!window.MecFX) return;
+  const cx = window.innerWidth / 2;
+  const cy = Math.round(window.innerHeight * 0.44);
+  const counts = [0, 14, 22, 30, 40, 52, 64];
+  _spawnBurst(cx, cy, tier, counts[Math.min(tier, 6)] || 14);
+  const theme = _examTheme();
+  try {
+    window.MecFX.rings(cx, cy, { count: 1, color: theme.ringColor(tier), thickness: 2, maxR: 130 + tier * 22, additive: examEffectSet !== 'ink' });
+  } catch (e) {}
+}
+
+// B8: テーマ固有のシグネチャー表示（ecg=心拍数 / retro=スコア / space=ワープ速度 等）
+function _showStreakSignature(n, tier, promoted) {
+  if (_fxOff()) return;
+  const theme = _examTheme();
+  if (!theme.signature) return;
+  let el = document.getElementById('examStreakSig');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'examStreakSig';
+    document.body.appendChild(el);
+  }
+  el.getAnimations?.().forEach(a => a.cancel());
+  el.textContent = theme.signature(n);
+  el.style.color = (theme.comboColors && theme.comboColors[Math.min(tier, 6)]) || '#FFD700';
+  el.animate([
+    { opacity: 0, transform: 'translateX(-50%) translateY(-6px)' },
+    { opacity: 1, transform: 'translateX(-50%) translateY(0)', offset: .18 },
+    { opacity: 1, offset: promoted ? .72 : .5 },
+    { opacity: 0, transform: 'translateX(-50%) translateY(-8px)' }
+  ], { duration: promoted ? 2200 : 1200, easing: 'ease-out', fill: 'forwards' });
 }
 
 // 演出用の固定オーバーレイ（周縁ヴィネット）。body を揺らさないための受け皿。
@@ -1721,8 +2081,9 @@ function _playComboNote(n) {
 function _updateComboMeter(n) {
   const meter = document.getElementById('examComboMeter');
   const fill  = document.getElementById('examComboMeterFill');
+  const lbl   = document.getElementById('examComboMeterLbl');
   if (!meter || !fill) return;
-  if (n < 2) { meter.style.opacity='0'; fill.style.width='0%'; return; }
+  if (n < 2) { meter.style.opacity='0'; fill.style.width='0%'; if (lbl) lbl.style.opacity='0'; return; }
   meter.style.opacity = '1';
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const tier = _examTier(n);
@@ -1731,6 +2092,15 @@ function _updateComboMeter(n) {
   const grads = theme.meterGrads;
   fill.style.background = grads[Math.min(tier,6)];
   fill.style.width = pct.toFixed(1) + '%';
+  // B6: 次のティアまで残り何問かを表示（今まで3pxバーだけで誰も気づけなかった）
+  if (lbl) {
+    const remain = tier >= 6 ? 0 : ends[tier] - n;
+    lbl.textContent = tier >= 6 ? '⚡ MAX' : ('あと ' + remain + ' で TIER ' + (tier + 1));
+    lbl.style.color = (theme.comboColors && theme.comboColors[Math.min(tier,6)]) || '#FFD700';
+    lbl.style.opacity = '1';
+    lbl.getAnimations?.().forEach(a => a.cancel());
+    lbl.animate([{opacity:1},{opacity:1,offset:.7},{opacity:0}], {duration:2400, easing:'ease-out', fill:'forwards'});
+  }
   const prev = n-1 < 2 ? 0 : _examTier(n-1);
   if (tier > prev) meter.animate([{height:'3px'},{height:'7px'},{height:'3px'}],{duration:400,easing:'ease-out'});
 }
@@ -1738,6 +2108,8 @@ function _updateComboMeter(n) {
 function _resetComboMeter() {
   const meter = document.getElementById('examComboMeter');
   const fill  = document.getElementById('examComboMeterFill');
+  const lbl   = document.getElementById('examComboMeterLbl');
+  if (lbl) { lbl.getAnimations?.().forEach(a => a.cancel()); lbl.style.opacity = '0'; }
   if (!meter || !fill || !parseFloat(fill.style.width)) return;
   fill.animate([{width:fill.style.width},{width:'0%'}],{duration:280,easing:'ease-in',fill:'forwards'})
     .onfinish = () => { meter.style.opacity='0'; fill.style.width='0%'; };
@@ -1965,7 +2337,7 @@ function _getExamTargetCard() {
 function _updateExamFocus() {
   const card = _getExamTargetCard();
   document.querySelectorAll('.qc.exam-key-focus').forEach(c => c.classList.remove('exam-key-focus'));
-  if (card) card.classList.add('exam-key-focus');
+  if (card) { card.classList.add('exam-key-focus'); _markCardSeen(card); }
 }
 function _onExamScroll() {
   if (_examScrollRaf) cancelAnimationFrame(_examScrollRaf);
@@ -2181,6 +2553,7 @@ function exitExam() {
   }
   examMode = false;
   localStorage.removeItem('mec_exam_active_key');
+  _zoneStop(false); _setAwaken(false);
   document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink');
   clearInterval(examTimerInt);
   document.removeEventListener('keydown', _examKeyHandler);
@@ -2222,7 +2595,10 @@ function exitExam() {
     }
   });
   document.body.getAnimations?.().forEach(a => a.cancel());
-  document.querySelectorAll('.streak-particle,.streak-ring,.exam-bg-breath,.exam-fx-temp,.mec-cfx').forEach(el => el.remove());
+  document.querySelectorAll('.streak-particle,.streak-ring,.exam-bg-breath,.exam-fx-temp,.mec-cfx,.exam-tierup,.exam-fast-pop,.exam-trace-svg,.exam-zone-collapse').forEach(el => el.remove());
+  { const _cd = document.getElementById('examCountdown'); if (_cd) { _cd.style.display = 'none'; _cd.innerHTML = ''; } }
+  { const _sig = document.getElementById('examStreakSig'); if (_sig) { _sig.getAnimations?.().forEach(a => a.cancel()); _sig.style.opacity = '0'; } }
+  { const _lbl = document.getElementById('examComboMeterLbl'); if (_lbl) { _lbl.getAnimations?.().forEach(a => a.cancel()); _lbl.style.opacity = '0'; } }
   if (window.MecFX) window.MecFX.clear();
   const _cmFill = document.getElementById('examComboMeterFill');
   const _cmMeter = document.getElementById('examComboMeter');
@@ -2259,6 +2635,8 @@ function _bindOverlayVV(ov) {
 }
 
 function showExamSummary() {
+  // 前回セッションの残骸（ランクスタンプ・復習完了バナー）を消してから描き直す
+  document.querySelectorAll('#examOverlay .exam-rank-stamp, #examOverlay .exam-srs-done').forEach(el => el.remove());
   const titleEl = document.querySelector('#examOverlay h2');
   if (titleEl) titleEl.innerHTML = _srsReviewMode ? '🔔 <span class="grad-txt">復習セッション結果</span>' : '📊 <span class="grad-txt">セッション結果</span>';
   const elapsed = examStartTime ? Math.floor((_examActiveMs()) / 1000) : 0;
@@ -2309,18 +2687,42 @@ function showExamSummary() {
   _bindOverlayVV(_ov);
   _fitOverlayToVV(_ov);
   requestAnimationFrame(() => _fitOverlayToVV(_ov));
+  // C10: スコアのカウントアップ完了後にランクスタンプを「ドン」と押す（S/A/B/C・100%はPERFECT）
+  if (examAnswered > 0) {
+    setTimeout(() => _stampRank(pct), 950);
+  }
   // スコアに応じた祝賀エフェクト（FXキャンバスはz9070＝モーダルより上に描画される）
   if (examAnswered > 0 && window.MecFX) {
     try {
-      if (pct >= 80) {
-        window.MecFX.fireworks({ count: 5, colors: ['#3DD68C', '#60A5FA', '#FFD37A', '#FF5E8A'], tier: 5 });
-        window.MecFX.confetti({ count: 90, colors: ['#3DD68C', '#60A5FA', '#FFB830', '#FF5E8A', '#A78BFA'], big: true });
+      if (pct >= 100) {
+        // PERFECT: 金の花火＋金紙吹雪をスタンプに合わせて遅らせる
+        setTimeout(() => {
+          window.MecFX.fireworks({ count: 7, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830'], tier: 6 });
+          window.MecFX.confetti({ count: 120, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], big: true });
+          window.MecFX.dust({ count: 70, colors: ['#FFD700', '#FFF3C4', '#FFFFFF'] });
+        }, 980);
+      } else if (pct >= 90) {
+        setTimeout(() => {
+          window.MecFX.fireworks({ count: 5, colors: ['#3DD68C', '#60A5FA', '#FFD37A', '#FF5E8A'], tier: 5 });
+          window.MecFX.confetti({ count: 90, colors: ['#3DD68C', '#60A5FA', '#FFB830', '#FF5E8A', '#A78BFA'], big: true });
+        }, 980);
+      } else if (pct >= 80) {
+        window.MecFX.confetti({ count: 70, colors: ['#3DD68C', '#60A5FA', '#FFB830', '#A78BFA'], big: true });
       } else if (pct >= 60) {
         window.MecFX.confetti({ count: 50, colors: ['#60A5FA', '#FFB830', '#3DD68C'] });
       } else {
         window.MecFX.rings(window.innerWidth / 2, window.innerHeight * 0.35, { count: 1, color: 'rgba(96,165,250,.7)', thickness: 3, maxR: 140, additive: true });
       }
     } catch (e) {}
+  }
+  // C11: SRS復習セッションを完走した時だけの完了演出（習慣化に一番効く場所）
+  if (_srsReviewMode && examAnswered > 0 && examAnswered >= examQueue.length) {
+    const note = document.getElementById('sumFlagNote');
+    if (note) {
+      note.insertAdjacentHTML('beforebegin',
+        '<div class="exam-srs-done">🔔 今日の復習、完了！<span>' + examAnswered + '問すべて消化しました</span></div>');
+    }
+    setTimeout(_srsCompleteCelebration, 700);
   }
   // Save per-chapter exam history when a single chapter was tested
   if (_examActiveChPrefix && examAnswered > 0) {

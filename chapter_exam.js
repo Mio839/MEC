@@ -56,7 +56,7 @@
       'body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok{color:inherit;font-weight:normal;}',
       'body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2 .ok{color:inherit;font-weight:normal;}',
       'body.ch-exam-mode .qc.ch-exam-key-focus:not(.ch-exam-revealed){outline:3px solid #FFB830;outline-offset:2px;box-shadow:0 0 0 5px rgba(255,184,48,.15);}',
-      '.ch-exam-multi-info{font-size:11px;font-weight:700;padding:4px 8px;margin:4px 0;border-radius:6px;background:rgba(0,0,0,.04);color:#5A6475;border:1.5px solid rgba(0,0,0,.08);transition:all .2s;}',
+      '.ch-exam-multi-info{font-size:11px;font-weight:700;padding:4px 8px;margin:4px 0;border-radius:6px;background:rgba(0,0,0,.04);color:#5A6475;border:1.5px solid rgba(0,0,0,.08);transition:background .2s,border-color .2s,color .2s;}',
       '.ch-exam-multi-info[data-ready="1"]{background:rgba(45,140,78,.1);color:#2D8C4E;border-color:rgba(45,140,78,.3);}',
       '@keyframes ceMultiShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}',
       '@keyframes ceCorrect{0%{background:#00E676;color:#fff;}100%{background:#C8F7C5;color:#1a6b2f;}}',
@@ -138,7 +138,22 @@
       /* history badge */
       '.ce-hist-badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(255,154,60,.15);color:#FF9A3C;border:1px solid rgba(255,154,60,.3);white-space:nowrap;margin-left:6px;cursor:default;}',
       '.ce-hist-badge.good{background:rgba(61,214,140,.15);color:#3DD68C;border-color:rgba(61,214,140,.3);}',
-      '.ce-hist-badge.bad{background:rgba(255,107,107,.15);color:#FF6B6B;border-color:rgba(255,107,107,.3);}'
+      '.ce-hist-badge.bad{background:rgba(255,107,107,.15);color:#FF6B6B;border-color:rgba(255,107,107,.3);}',
+      /* 追加演出（2026-07-20・study側 study.css と同仕様のミラー） */
+      '.ce-fast-pop{position:fixed;z-index:9220;pointer-events:none;font-size:18px;font-weight:900;letter-spacing:.06em;white-space:nowrap;text-shadow:0 2px 10px rgba(0,0,0,.7);transform:translate(-50%,0);}',
+      '.ce-trace-svg{position:fixed;z-index:8500;pointer-events:none;overflow:visible;}',
+      '.ce-tierup{position:fixed;left:50%;top:38%;z-index:9350;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;}',
+      '.ce-tierup .tu-lbl{font-size:13px;font-weight:900;letter-spacing:.42em;text-indent:.42em;color:rgba(255,255,255,.92);text-shadow:0 2px 8px rgba(0,0,0,.8);}',
+      '.ce-tierup .tu-main{font-size:38px;font-weight:900;letter-spacing:.04em;white-space:nowrap;color:var(--tu-col,#FFD700);text-shadow:0 0 22px rgba(var(--tu-glow,255,215,0),.85),0 0 52px rgba(var(--tu-glow,255,215,0),.45),0 3px 12px rgba(0,0,0,.75);}',
+      '.ce-zone-collapse{position:fixed;inset:0;z-index:9060;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 44%,rgba(255,60,60,.20) 0%,rgba(0,0,0,.45) 70%);}',
+      '#chExamComboMeterLbl{position:fixed;top:7px;right:10px;z-index:9310;pointer-events:none;opacity:0;font-size:10px;font-weight:800;letter-spacing:.04em;white-space:nowrap;font-variant-numeric:tabular-nums;text-shadow:0 1px 6px rgba(0,0,0,.8);}',
+      '#chExamStreakSig{position:fixed;top:112px;left:50%;transform:translateX(-50%);z-index:9150;pointer-events:none;opacity:0;font-size:13px;font-weight:800;letter-spacing:.1em;white-space:nowrap;font-variant-numeric:tabular-nums;text-shadow:0 2px 10px rgba(0,0,0,.75);}',
+      'body.ce-awaken #mecFxCanvas{filter:saturate(1.45) brightness(1.1);}',
+      'body.ce-awaken #chExamComboMeter{height:5px;}',
+      '#chExamCountdown{position:fixed;inset:0;z-index:9400;display:none;align-items:center;justify-content:center;pointer-events:none;}',
+      '.ce-cd-num{font-size:22vmin;font-weight:900;line-height:1;letter-spacing:-.03em;text-shadow:0 0 40px rgba(0,0,0,.55),0 6px 24px rgba(0,0,0,.7);}',
+      '.ce-cd-num.go{font-size:13vmin;letter-spacing:.08em;}',
+      '@media (prefers-reduced-motion: reduce){.ce-fast-pop,.ce-trace-svg,.ce-tierup,.ce-zone-collapse,#chExamCountdown,#chExamStreakSig{display:none!important;}}'
     ].join('');
     document.head.appendChild(s);
   }
@@ -293,6 +308,7 @@
     exam.active = true;
     exam.startTime = Date.now();
     exam.effectSet = CE_EFFECT_POOL[Math.floor(Math.random() * CE_EFFECT_POOL.length)];
+    _ceSeenAt = {}; ceZoneStop(false); ceSetAwaken(false);
     document.body.classList.remove.apply(document.body.classList, CE_EFFECT_SETS.map(function (s) { return 'ch-effect-' + s; }));
     if (exam.effectSet !== 'classic') document.body.classList.add('ch-effect-' + exam.effectSet);
     if (location.search.indexOf('debug=1') !== -1) alert('[chapter_exam.js] effectSet: ' + exam.effectSet);
@@ -321,6 +337,7 @@
     document.addEventListener('keydown', ceKeyHandler);
     window.addEventListener('scroll', ceOnScroll, { passive: true });
     requestAnimationFrame(ceUpdateFocus);
+    ceCountdown();   // 3・2・1・START（非ブロッキング）
   };
 
   // ─── Choice shuffle (skip images / bare-letter tables) ─────────
@@ -374,6 +391,7 @@
 
   function cleanup() {
     exam.active = false;
+    ceZoneStop(false); ceSetAwaken(false);
     clearInterval(exam.timerInt);
     document.body.classList.remove.apply(document.body.classList, ['ch-exam-mode'].concat(CE_EFFECT_SETS.map(function (s) { return 'ch-effect-' + s; })));
     var btn = document.getElementById('chExamBtn');
@@ -385,7 +403,7 @@
       c.classList.remove('ch-exam-selected', 'ch-exam-instant-correct', 'ch-exam-instant-wrong');
     });
     document.querySelectorAll('.ch-exam-multi-info').forEach(function (el) { el.remove(); });
-    document.querySelectorAll('.ce-particle,.ce-ring,.ce-fx-temp').forEach(function (el) {
+    document.querySelectorAll('.ce-particle,.ce-ring,.ce-fx-temp,.ce-tierup,.ce-fast-pop,.ce-trace-svg,.ce-zone-collapse').forEach(function (el) {
       el.remove();
     });
     if (window.MecFX) window.MecFX.clear();
@@ -530,6 +548,11 @@
       var _ceTier = ceTier(exam.streak);
       card.querySelectorAll('.ch2.ch-exam-instant-correct').forEach(function (c) { ceTriggerChoiceCorrectPop(c); });
       ceSpawnFloatingCombo(card, exam.streak, _ceTier);
+      // ショックウェーブ・ボーダートレース・速答ボーナス
+      var _ceOk = card.querySelector('.ch2.ch-exam-instant-correct');
+      ceCorrectShockwave(_ceOk);
+      ceTraceCardBorder(card);
+      if (ceIsFast(card)) setTimeout(function () { ceFastBonus(_ceOk); }, 90);
       var _ceIdx = exam.queue.indexOf(card);
       var _ceNext = null;
       for (var _ci = _ceIdx + 1; _ci < exam.queue.length; _ci++) {
@@ -543,6 +566,7 @@
       });
       exam.streak = 0;
       ceResetComboMeter();
+      ceZoneStop(true);   // ゾーン崩壊
       saveMyRate(card.dataset.uid, false);
     }
 
@@ -570,7 +594,7 @@
   function ceUpdateFocus() {
     document.querySelectorAll('.qc.ch-exam-key-focus').forEach(function (c) { c.classList.remove('ch-exam-key-focus'); });
     var card = ceGetTargetCard();
-    if (card) card.classList.add('ch-exam-key-focus');
+    if (card) { card.classList.add('ch-exam-key-focus'); ceMarkSeen(card); }
   }
 
   function ceOnScroll() {
@@ -636,7 +660,12 @@
       lightningCols: {3:'rgba(255,120,32,.95)',4:'rgba(255,210,0,1)',5:'rgba(255,235,0,1)',6:'rgba(200,80,255,1)'},
       useGlitch: true,
       useMedalDrop: true,
-      floaterGlyphs: { 5:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉'], 6:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉','🎊','🥳','🌈','💎','👑','🎆'] }
+      floaterGlyphs: { 5:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉'], 6:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉','🎊','🥳','🌈','💎','👑','🎆'] },
+      fastLabel: '⚡ 速答！',
+      tierUpLabel: (t) => '🔥 TIER ' + Math.max(1, Math.min(t, 6)) + ' 突入',
+      signature: (n) => '🔥 ' + n + ' 連鎖',
+      zoneGlyphs: ['🔥','✨','💥'],
+      zoneColors: ['#FFA040','#FFD700','#FF5820']
     },
     neon: {
       burstPalettes: {
@@ -666,7 +695,12 @@
       lightningCols: {3:'rgba(0,229,255,.95)',4:'rgba(255,43,214,1)',5:'rgba(122,92,255,1)',6:'rgba(57,255,136,1)'},
       useGlitch: true,
       useHeavyGlitch: true,
-      floaterGlyphs: { 5:['⚡️','💠','🔷','👾','🤖'], 6:['⚡️','💠','🔷','👾','🛸','🤖','🔋','📡'] }
+      floaterGlyphs: { 5:['⚡️','💠','🔷','👾','🤖'], 6:['⚡️','💠','🔷','👾','🛸','🤖','🔋','📡'] },
+      fastLabel: '⚡ FAST!',
+      tierUpLabel: (t) => '▲ LEVEL ' + Math.max(1, Math.min(t, 6)) + ' UNLOCKED',
+      signature: (n) => 'SYNC ' + Math.min(99, 40 + n * 3) + '%',
+      zoneGlyphs: ['⚡️','💠','🔷'],
+      zoneColors: ['#00E5FF','#FF2BD6','#7A5CFF']
     },
     ink: {
       burstPalettes: {
@@ -694,7 +728,12 @@
       useFireworks: false, useBrushCircle: true,
       useLightning: false,
       useGlitch: false, useBrushSwipe: true,
-      floaterGlyphs: { 5:['💮','🏮','🎐','🧧','⛩️'], 6:['💮','🏮','⛩️','🀄','🎐','🧧','🎏','🐉'] }
+      floaterGlyphs: { 5:['💮','🏮','🎐','🧧','⛩️'], 6:['💮','🏮','⛩️','🀄','🎐','🧧','🎏','🐉'] },
+      fastLabel: '⚡ 早業！',
+      tierUpLabel: (t) => '『 ' + (['','初伝','中伝','奥伝','皆伝','免許','極意'][Math.max(1, Math.min(t, 6))] || '') + ' 』',
+      signature: (n) => '連 ' + n + ' 手',
+      zoneGlyphs: ['💮','🏮','🎐'],
+      zoneColors: ['#C93A3A','#C9A24B','#F5EFE0']
     },
     ecg: {
       burstPalettes: {
@@ -724,7 +763,12 @@
       useLightning: false,
       useGlitch: true,
       pulseBeat: true, useDefib: true,
-      floaterGlyphs: { 5:['💊','🩺','❤️','➕','💉'], 6:['💊','🩺','❤️','➕','💉','🫀','⚕️','🏥'] }
+      floaterGlyphs: { 5:['💊','🩺','❤️','➕','💉'], 6:['💊','🩺','❤️','➕','💉','🫀','⚕️','🏥'] },
+      fastLabel: '⚡ 即断！',
+      tierUpLabel: (t) => '♥ STAGE ' + Math.max(1, Math.min(t, 6)),
+      signature: (n) => '♥ ' + Math.min(180, 60 + n * 6) + ' bpm',
+      zoneGlyphs: ['➕','💓','🩺'],
+      zoneColors: ['#00E676','#FF1744','#FFEA00']
     },
     space: {
       burstPalettes: {
@@ -753,7 +797,12 @@
       useLightning: false,
       useGlitch: true,
       useBlackHole: true,
-      floaterGlyphs: { 5:['🌟','⭐','☄️','🪐','🚀'], 6:['🌟','⭐','☄️','🪐','🚀','🌌','👽','🛰️'] }
+      floaterGlyphs: { 5:['🌟','⭐','☄️','🪐','🚀'], 6:['🌟','⭐','☄️','🪐','🚀','🌌','👽','🛰️'] },
+      fastLabel: '⚡ 光速回答！',
+      tierUpLabel: (t) => '🚀 PHASE ' + Math.max(1, Math.min(t, 6)),
+      signature: (n) => 'WARP ' + (n * 0.4).toFixed(1) + 'c',
+      zoneGlyphs: ['⭐','✨','☄️'],
+      zoneColors: ['#7C4DFF','#40C4FF','#FFD54F']
     },
     retro: {
       burstPalettes: {
@@ -783,7 +832,12 @@
       useLightning: false,
       useGlitch: true,
       useCRT: true, chunkyShake: true,
-      floaterGlyphs: { 5:['🕹️','👾','🎮','⭐','💎'], 6:['🕹️','👾','🎮','⭐','💎','🍄','🏆','💰'] }
+      floaterGlyphs: { 5:['🕹️','👾','🎮','⭐','💎'], 6:['🕹️','👾','🎮','⭐','💎','🍄','🏆','💰'] },
+      fastLabel: '⚡ QUICK!',
+      tierUpLabel: (t) => '★ STAGE ' + Math.max(1, Math.min(t, 6)) + ' CLEAR',
+      signature: (n) => 'SCORE ' + (n * 1000).toLocaleString('en-US'),
+      zoneGlyphs: ['★','◆','▲'],
+      zoneColors: ['#FF1053','#00A8E8','#FFD400']
     },
     luxury: {
       burstPalettes: {
@@ -815,12 +869,227 @@
       useGlitch: false, useBrushSwipe: true,
       brushColorRgb: '255,215,0',
       useSpotlight: true,
-      floaterGlyphs: { 5:['💎','👑','🏆','💰','✨'], 6:['💎','👑','🏆','💰','✨','🥂','🎩','💍'] }
+      floaterGlyphs: { 5:['💎','👑','🏆','💰','✨'], 6:['💎','👑','🏆','💰','✨','🥂','🎩','💍'] },
+      fastLabel: '⚡ 即決！',
+      tierUpLabel: (t) => '✦ RANK ' + (['','Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ'][Math.max(1, Math.min(t, 6))] || ''),
+      signature: (n) => '× ' + n + ' BONUS',
+      zoneGlyphs: ['💎','✨','👑'],
+      zoneColors: ['#FFD700','#F7E7CE','#FFF3C4']
     }
   };
 
   function ceTheme() {
     return CE_EFFECT_THEMES[exam.effectSet] || CE_EFFECT_THEMES.classic;
+  }
+
+  /* ══ 追加演出（2026-07-20・study_exam.js のミラー）══
+     ティア昇格の瞬間だけフル演出にし、同ティア内は軽くして山谷を作る。 */
+  var CE_FAST_MS = 3000;
+  var _ceSeenAt = {};        // uid → 最初にフォーカスされた時刻ms
+  var _ceZoneTimer = null;
+  var _ceZoneActive = false;
+
+  function ceReduced() {
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
+  function ceMarkSeen(card) {
+    if (!card || !exam.active) return;
+    var uid = card.dataset && card.dataset.uid;
+    if (uid && !_ceSeenAt[uid]) _ceSeenAt[uid] = Date.now();
+  }
+  function ceIsFast(card) {
+    var uid = card && card.dataset && card.dataset.uid;
+    if (!uid || !_ceSeenAt[uid]) return false;
+    return (Date.now() - _ceSeenAt[uid]) <= CE_FAST_MS;
+  }
+  function ceFastBonus(el) {
+    if (ceReduced()) return;
+    var theme = ceTheme();
+    var r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
+    var cx = r && r.width ? r.left + r.width / 2 : window.innerWidth / 2;
+    var cy = r && r.width ? r.top : window.innerHeight * 0.4;
+    var lab = document.createElement('div');
+    lab.className = 'ce-fast-pop';
+    lab.textContent = theme.fastLabel || '⚡ 速答！';
+    lab.style.left = cx + 'px'; lab.style.top = cy + 'px';
+    lab.style.color = (theme.comboColors && theme.comboColors[3]) || '#FFD700';
+    document.body.appendChild(lab);
+    lab.animate([
+      {opacity:0, transform:'translate(-50%,0) scale(.6)'},
+      {opacity:1, transform:'translate(-50%,-16px) scale(1.15)', offset:.25},
+      {opacity:1, transform:'translate(-50%,-24px) scale(1)', offset:.55},
+      {opacity:0, transform:'translate(-50%,-52px) scale(.95)'}
+    ], {duration:900, easing:'cubic-bezier(.22,.68,0,1.2)', fill:'forwards'}).onfinish = function(){ lab.remove(); };
+    if (window.MecFX) { try { window.MecFX.glyphBurst(cx, cy, {glyphs:['⚡'], count:4, w:50, spread:130}); } catch(e){} }
+  }
+  function ceCorrectShockwave(el) {
+    if (!window.MecFX || !el || !el.getBoundingClientRect) return;
+    var r = el.getBoundingClientRect();
+    if (!r.width) return;
+    var theme = ceTheme();
+    var t = Math.max(1, Math.min(ceTier(exam.streak) || 1, 6));
+    try {
+      window.MecFX.rings(r.left + r.width / 2, r.top + r.height / 2, {
+        count: t >= 4 ? 3 : 2, color: theme.ringColor(t), thickness: t >= 4 ? 3 : 2,
+        maxR: 150 + t * 45, additive: exam.effectSet !== 'ink', stagger: .075
+      });
+    } catch (e) {}
+  }
+  function ceTraceCardBorder(card) {
+    if (!card || ceReduced()) return;
+    var r = card.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    var theme = ceTheme();
+    var col = (theme.comboColors && theme.comboColors[3]) || '#FFD700';
+    var NS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('class', 'ce-trace-svg');
+    svg.setAttribute('viewBox', '0 0 ' + r.width + ' ' + r.height);
+    svg.style.cssText = 'left:' + r.left + 'px;top:' + r.top + 'px;width:' + r.width + 'px;height:' + r.height + 'px;';
+    var rect = document.createElementNS(NS, 'rect');
+    rect.setAttribute('x', '1.5'); rect.setAttribute('y', '1.5');
+    rect.setAttribute('width', String(Math.max(1, r.width - 3)));
+    rect.setAttribute('height', String(Math.max(1, r.height - 3)));
+    rect.setAttribute('rx', '12'); rect.setAttribute('fill', 'none');
+    rect.setAttribute('stroke', col); rect.setAttribute('stroke-width', '2.5');
+    rect.setAttribute('stroke-linecap', 'round');
+    var per = 2 * (r.width + r.height), seg = per * 0.22;
+    rect.setAttribute('stroke-dasharray', seg + ' ' + per);
+    svg.appendChild(rect); document.body.appendChild(svg);
+    rect.animate([
+      {strokeDashoffset:String(seg), opacity:1},
+      {strokeDashoffset:String(-per), opacity:.35}
+    ], {duration:640, easing:'cubic-bezier(.3,.7,.4,1)', fill:'forwards'}).onfinish = function(){ svg.remove(); };
+  }
+  function ceTierUpStamp(tier) {
+    if (ceReduced()) return;
+    var theme = ceTheme();
+    var el = document.createElement('div');
+    el.className = 'ce-tierup';
+    el.innerHTML = '<span class="tu-lbl">TIER UP</span><span class="tu-main"></span>';
+    el.querySelector('.tu-main').textContent = (theme.tierUpLabel && theme.tierUpLabel(tier)) || ('TIER ' + tier);
+    el.style.setProperty('--tu-col', (theme.fullscreenCols && theme.fullscreenCols[Math.min(tier,6)]) || '#FFD700');
+    el.style.setProperty('--tu-glow', (theme.fullscreenGlow && theme.fullscreenGlow[Math.min(tier,6)]) || '255,215,0');
+    document.body.appendChild(el);
+    el.animate([
+      {opacity:0, transform:'translate(-50%,-50%) scale(3.2) rotate(-16deg)'},
+      {opacity:1, transform:'translate(-50%,-50%) scale(.92) rotate(-6deg)', offset:.22},
+      {transform:'translate(-50%,-50%) scale(1.06) rotate(-6deg)', offset:.34},
+      {opacity:1, transform:'translate(-50%,-50%) scale(1) rotate(-6deg)', offset:.46},
+      {opacity:1, offset:.74},
+      {opacity:0, transform:'translate(-50%,-50%) scale(1.12) rotate(-6deg)'}
+    ], {duration:1250, easing:'cubic-bezier(.2,1.3,.35,1)', fill:'forwards'}).onfinish = function(){ el.remove(); };
+    if (window.MecFX) {
+      try {
+        window.MecFX.burst(window.innerWidth / 2, 6, {
+          count: 40 + tier * 14,
+          colors: (theme.burstPalettes && theme.burstPalettes[Math.min(tier,6)]) || ['#FFD700'],
+          shapes: theme.shapes(tier), tier: tier,
+          glow: exam.effectSet !== 'ink', additive: exam.effectSet !== 'ink'
+        });
+      } catch (e) {}
+    }
+  }
+  function ceZoneStart() {
+    if (_ceZoneActive || ceReduced() || !window.MecFX) return;
+    _ceZoneActive = true;
+    var emit = function () {
+      if (!_ceZoneActive || !window.MecFX || !exam.active) return;
+      var theme = ceTheme();
+      try {
+        window.MecFX.dust({count:6, colors: theme.zoneColors || ['#FFD700']});
+        if (Math.random() < .55) window.MecFX.floaters({glyphs: theme.zoneGlyphs || ['✨'], count:2, scale:.65});
+      } catch (e) {}
+    };
+    emit();
+    _ceZoneTimer = setInterval(emit, 1100);
+  }
+  function ceZoneStop(collapse) {
+    var was = _ceZoneActive;
+    _ceZoneActive = false;
+    if (_ceZoneTimer) { clearInterval(_ceZoneTimer); _ceZoneTimer = null; }
+    document.body.classList.remove('ce-awaken');
+    if (!was || !collapse || ceReduced()) return;
+    var cx = window.innerWidth / 2, cy = Math.round(window.innerHeight * 0.44);
+    if (window.MecFX) {
+      try {
+        window.MecFX.attractor(cx, cy, {ttl:.9, strength:260000});
+        window.MecFX.rings(cx, cy, {count:2, color:'rgba(255,100,100,.65)', thickness:2, maxR:240, additive:true});
+      } catch (e) {}
+    }
+    var ov = document.createElement('div');
+    ov.className = 'ce-zone-collapse';
+    document.body.appendChild(ov);
+    ov.animate([{opacity:0},{opacity:1,offset:.25},{opacity:0}],
+      {duration:620, easing:'ease-out', fill:'forwards'}).onfinish = function(){ ov.remove(); };
+  }
+  function ceSetAwaken(on) {
+    if (on && ceReduced()) return;
+    document.body.classList.toggle('ce-awaken', !!on);
+  }
+  function ceShowSignature(n, tier, promoted) {
+    if (ceReduced()) return;
+    var theme = ceTheme();
+    if (!theme.signature) return;
+    var el = document.getElementById('chExamStreakSig');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'chExamStreakSig';
+      document.body.appendChild(el);
+    }
+    if (el.getAnimations) el.getAnimations().forEach(function (a) { a.cancel(); });
+    el.textContent = theme.signature(n);
+    el.style.color = (theme.comboColors && theme.comboColors[Math.min(tier,6)]) || '#FFD700';
+    el.animate([
+      {opacity:0, transform:'translateX(-50%) translateY(-6px)'},
+      {opacity:1, transform:'translateX(-50%) translateY(0)', offset:.18},
+      {opacity:1, offset: promoted ? .72 : .5},
+      {opacity:0, transform:'translateX(-50%) translateY(-8px)'}
+    ], {duration: promoted ? 2200 : 1200, easing:'ease-out', fill:'forwards'});
+  }
+  function ceLightStreakFx(tier) {
+    if (!window.MecFX) return;
+    var cx = window.innerWidth / 2, cy = Math.round(window.innerHeight * 0.44);
+    var counts = [0, 14, 22, 30, 40, 52, 64];
+    spawnBurst(cx, cy, tier, counts[Math.min(tier,6)] || 14);
+    try {
+      window.MecFX.rings(cx, cy, {count:1, color: ceTheme().ringColor(tier), thickness:2, maxR:130 + tier*22, additive: exam.effectSet !== 'ink'});
+    } catch (e) {}
+  }
+  function ceCountdown() {
+    if (ceReduced()) return;
+    var theme = ceTheme();
+    var host = document.getElementById('chExamCountdown');
+    if (!host) {
+      host = document.createElement('div');
+      host.id = 'chExamCountdown';
+      document.body.appendChild(host);
+    }
+    host.innerHTML = ''; host.style.display = 'flex';
+    var col = (theme.fullscreenCols && theme.fullscreenCols[3]) || '#FFD700';
+    ['3','2','1','START'].forEach(function (s, i) {
+      setTimeout(function () {
+        if (!exam.active) { host.style.display = 'none'; return; }
+        host.innerHTML = '';
+        var el = document.createElement('div');
+        el.className = 'ce-cd-num' + (s === 'START' ? ' go' : '');
+        el.textContent = s; el.style.color = col;
+        host.appendChild(el);
+        el.animate([
+          {opacity:0, transform:'scale(2.2)'},
+          {opacity:1, transform:'scale(1)', offset:.3},
+          {opacity:1, transform:'scale(1)', offset:.7},
+          {opacity:0, transform:'scale(.82)'}
+        ], {duration: s === 'START' ? 620 : 420, easing:'cubic-bezier(.2,1,.3,1)', fill:'forwards'});
+        if (window.MecFX) {
+          try {
+            window.MecFX.rings(window.innerWidth / 2, window.innerHeight / 2,
+              {count:1, color: theme.ringColor(s === 'START' ? 5 : 2), thickness:3, maxR: s === 'START' ? 420 : 220, additive: exam.effectSet !== 'ink'});
+          } catch (e) {}
+        }
+        if (s === 'START') setTimeout(function () { host.style.display = 'none'; host.innerHTML = ''; }, 640);
+      }, i * 430);
+    });
   }
 
   // ─── Streak effects ────────────────────────────────────────────
@@ -830,22 +1099,29 @@
     var tier = ceTier(n);
     var labels = theme.labels(n);
     var durs = [0, 2.0, 2.5, 3.2, 4.2, 5.2, 5.8];
-    if (theme.useCRT) ceSpawnCRTOverlay(tier);
-    if (tier >= 4) ceTimeStop(tier);
-    if (tier >= 2) ceFullscreenCombo(n, tier);
+    // 昇格フレーム（tierが上がった瞬間）だけフル演出にする
+    var prevTier = (n - 1) < 2 ? 0 : ceTier(n - 1);
+    var promoted = tier > prevTier;
+    if (tier >= 4) ceZoneStart();
+    ceSetAwaken(n >= 20);
+    if (promoted) ceTierUpStamp(tier);
+    if (promoted && theme.useCRT) ceSpawnCRTOverlay(tier);
+    if (promoted && tier >= 4) ceTimeStop(tier);
+    if (promoted && tier >= 2) ceFullscreenCombo(n, tier);
     ceTriggerBgBreath(tier);
     cePlayComboNote(n);
     ceUpdateComboMeter(n);
+    ceShowSignature(n, tier, promoted);
     var toast = document.getElementById('chExamStreakToast');
     if (!toast) return;
     toast.className = '';
     void toast.offsetWidth;
     toast.textContent = labels[tier];
-    toast.style.setProperty('--sd', durs[tier] + 's');
+    toast.style.setProperty('--sd', (promoted ? durs[tier] : durs[tier] * 0.52) + 's');
     toast.className = 't' + tier + ' show';
 
     var flash = document.getElementById('chExamStreakFlash');
-    if (flash && tier >= 2) {
+    if (flash && promoted && tier >= 2) {
       var fc = theme.flashColors;
       flash.style.background = fc[tier];
       flash.style.opacity = '0';
@@ -861,13 +1137,17 @@
         flash.className = 'flash';
       }
     }
-    if (tier >= 2) spawnParticles(tier);
-    if (tier >= 3) triggerShake(tier);
-    if (tier >= 4) triggerBorderGlow(tier);
-    if (tier >= 5) {
-      setTimeout(function() { spawnEmojiFloaters(tier); }, 80);
-      if (theme.useGlitch) triggerGlitch(tier);
-      else if (theme.useBrushSwipe) ceInkBrushSwipe(tier);
+    if (promoted) {
+      if (tier >= 2) spawnParticles(tier);
+      if (tier >= 3) triggerShake(tier);
+      if (tier >= 4) triggerBorderGlow(tier);
+      if (tier >= 5) {
+        setTimeout(function() { spawnEmojiFloaters(tier); }, 80);
+        if (theme.useGlitch) triggerGlitch(tier);
+        else if (theme.useBrushSwipe) ceInkBrushSwipe(tier);
+      }
+    } else {
+      ceLightStreakFx(tier);
     }
   }
 
@@ -1480,15 +1760,28 @@
   function ceUpdateComboMeter(n) {
     var meter = document.getElementById('chExamComboMeter');
     var fill  = document.getElementById('chExamComboMeterFill');
+    var lbl = document.getElementById('chExamComboMeterLbl');
     if (!meter || !fill) return;
-    if (n < 2) { meter.style.opacity='0'; fill.style.width='0%'; return; }
+    if (n < 2) { meter.style.opacity='0'; fill.style.width='0%'; if (lbl) lbl.style.opacity='0'; return; }
     meter.style.opacity = '1';
     var tier = ceTier(n);
     var starts=[0,2,4,7,10,15,20], ends=[0,4,7,10,15,20,25];
     var pct = tier>=6 ? 100 : ((n-starts[tier])/(ends[tier]-starts[tier])*100);
-    var grads = ceTheme().meterGrads;
+    var theme = ceTheme();
+    var grads = theme.meterGrads;
     fill.style.background = grads[Math.min(tier,6)];
     fill.style.width = pct.toFixed(1) + '%';
+    // 次のティアまで残り何問か
+    if (!lbl) {
+      lbl = document.createElement('div');
+      lbl.id = 'chExamComboMeterLbl';
+      document.body.appendChild(lbl);
+    }
+    lbl.textContent = tier >= 6 ? '⚡ MAX' : ('あと ' + (ends[tier] - n) + ' で TIER ' + (tier + 1));
+    lbl.style.color = (theme.comboColors && theme.comboColors[Math.min(tier,6)]) || '#FFD700';
+    lbl.style.opacity = '1';
+    if (lbl.getAnimations) lbl.getAnimations().forEach(function (a) { a.cancel(); });
+    lbl.animate([{opacity:1},{opacity:1,offset:.7},{opacity:0}], {duration:2400, easing:'ease-out', fill:'forwards'});
     var prev = (n-1)>=20?6:(n-1)>=15?5:(n-1)>=10?4:(n-1)>=7?3:(n-1)>=4?2:(n-1)>=2?1:0;
     if (tier > prev) meter.animate([{height:'3px'},{height:'7px'},{height:'3px'}],{duration:400,easing:'ease-out'});
   }
@@ -1496,6 +1789,8 @@
   function ceResetComboMeter() {
     var meter = document.getElementById('chExamComboMeter');
     var fill  = document.getElementById('chExamComboMeterFill');
+    var lbl   = document.getElementById('chExamComboMeterLbl');
+    if (lbl) { if (lbl.getAnimations) lbl.getAnimations().forEach(function (a) { a.cancel(); }); lbl.style.opacity = '0'; }
     if (!meter || !fill || !parseFloat(fill.style.width)) return;
     fill.animate([{width:fill.style.width},{width:'0%'}],{duration:280,easing:'ease-in',fill:'forwards'})
       .onfinish = function(){ meter.style.opacity='0'; fill.style.width='0%'; };

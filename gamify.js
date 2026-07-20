@@ -474,6 +474,12 @@
     const done = _g('done_v2', {});
     if (!entry.uids.length || !entry.uids.every(u => done[u])) return;
     L.chDone.push(chKey); saveL();
+    // 章仕切り線を光が一本走る（章を「閉じた」ことを在席する場所で示す）
+    if (entry.divEl && !_reducedMotion()) {
+      const dv = entry.divEl;
+      dv.classList.remove('gm-ch-sweep'); void dv.offsetWidth; dv.classList.add('gm-ch-sweep');
+      setTimeout(() => dv.classList.remove('gm-ch-sweep'), 1100);
+    }
     const title = (entry.divEl && entry.divEl.childNodes[0] && entry.divEl.childNodes[0].textContent || '').trim() || '章';
     const n = _chapterStars(entry);
     ceremony(
@@ -686,9 +692,47 @@
     _rerenderHubPanel();
   }
 
+  // 動きを減らす設定のユーザーには gamify 側の追加FXも出さない
+  // （index.html は study.html のような MecFX no-op 化を持たないため、ここで自前に判定する）
+  function _reducedMotion() {
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
+
+  // 周回マイルストーン（3周・5周到達時だけ祝う。毎周鳴らすとうるさいので節目のみ）
+  const LAP_MILESTONES = { 3: { label: '3周目！', col: '#FFD166' }, 5: { label: '5周目 完成！', col: '#FFD700' } };
+  function _lapMilestoneFx(uid, btn) {
+    if (typeof examMode !== 'undefined' && examMode) return;
+    if (!btn || _reducedMotion()) return;
+    const lap = (_g('done_v2', {})[uid]) | 0;
+    const ms = LAP_MILESTONES[lap];
+    if (!ms) return;
+    const r = btn.getBoundingClientRect();
+    if (!r.width) return;
+    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    const lbl = document.createElement('div');
+    lbl.textContent = ms.label;
+    lbl.style.cssText = 'position:fixed;left:' + cx + 'px;top:' + cy + 'px;z-index:9220;pointer-events:none;' +
+      'font-size:14px;font-weight:900;letter-spacing:.04em;white-space:nowrap;color:' + ms.col +
+      ';text-shadow:0 2px 10px rgba(0,0,0,.75);transform:translate(-50%,0);font-family:inherit;';
+    document.body.appendChild(lbl);
+    lbl.animate([
+      { opacity: 0, transform: 'translate(-50%,0) scale(.7)' },
+      { opacity: 1, transform: 'translate(-50%,-18px) scale(1.1)', offset: .3 },
+      { opacity: 1, transform: 'translate(-50%,-26px) scale(1)', offset: .6 },
+      { opacity: 0, transform: 'translate(-50%,-52px) scale(.95)' }
+    ], { duration: 1000, easing: 'cubic-bezier(.22,.68,0,1.2)', fill: 'forwards' }).onfinish = () => lbl.remove();
+    if (window.MecFX) {
+      try {
+        window.MecFX.burst(cx, cy, { count: lap >= 5 ? 34 : 22, colors: ['#FFD700', '#FFD166', '#FFF3C4', '#fff'], shapes: ['circle', 'star'], tier: 3, glow: true, additive: true, upBias: 90 });
+        window.MecFX.rings(cx, cy, { count: 1, color: 'rgba(255,209,102,.75)', thickness: 2, maxR: 120, additive: true });
+      } catch {}
+    }
+  }
+
   function onLap(uid, btn) {
     _bumpMission('ans');
     _microLapFx(btn);
+    _lapMilestoneFx(uid, btn);
     _afterEvent(uid);
   }
 
@@ -709,9 +753,35 @@
   }
 
   // ── ハブパネル ───────────────────────────────────────────────────
+  // ハブの炎: 連続日数が前回より伸びた日の初回表示だけ、炎チップから火の粉を立ち上らせる。
+  // sessionStorage で1セッション1回に制限し、localStorage で「伸びた日」だけに絞る。
+  const K_FLAME_SEEN = 'mec_flame_last_v1';
+  function _maybeFlameEmbers(container) {
+    if (!container || _reducedMotion()) return;
+    try {
+      const streak = stats().streak | 0;
+      const last = parseInt(localStorage.getItem(K_FLAME_SEEN) || '0', 10) || 0;
+      if (streak <= last) { if (streak !== last) localStorage.setItem(K_FLAME_SEEN, String(streak)); return; }
+      localStorage.setItem(K_FLAME_SEEN, String(streak));
+      if (sessionStorage.getItem('mec_flame_fx_shown')) return;
+      sessionStorage.setItem('mec_flame_fx_shown', '1');
+      const el = container.querySelector('.gm-flame-emoji');
+      if (!el || !window.MecFX) return;
+      setTimeout(() => {
+        const r = el.getBoundingClientRect();
+        if (!r.width) return;
+        const cx = r.left + r.width / 2, cy = r.top + r.height * .45;
+        try {
+          window.MecFX.burst(cx, cy, { count: 30, colors: ['#FFB84D', '#FF7043', '#FFD166', '#FFF3C4'], shapes: ['circle'], tier: 2, glow: true, additive: true, upBias: 140 });
+          window.MecFX.glyphBurst(cx, cy, { glyphs: ['🔥', '✨'], count: 4, w: 22, spread: 90 });
+        } catch {}
+      }, 280);
+    } catch {}
+  }
+
   function _rerenderHubPanel() {
     const host = document.getElementById('gamifyPanel');
-    if (host) renderPanel(host);
+    if (host) { renderPanel(host); _maybeFlameEmbers(host); }
   }
 
   // ── 初期化 ───────────────────────────────────────────────────────
