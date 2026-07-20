@@ -108,6 +108,48 @@ html.pal-plum {
   --panel-a:42,28,68; --panel-b:22,14,38;
   --gmtoast-a:54,36,88; --gmtoast-b:28,18,46;
 }
+/* ── プラム系の派生（色相・彩度だけ振り、明度構造は紺と同一に保つ）──
+   wine=赤寄り / indigo=青寄り / deep=暗く沈める / mauve=くすませる。
+   既存UIの紫アクセント(--pu .em .bi 等)との干渉を避ける狙いもある。 */
+html.pal-plum-wine {
+  --bg-root:#2F0C21; --bg-g0:#190711; --bg-g1:#340F25;
+  --bg-g2:#3F0C2C; --hdr-rgb:23,7,16; --surf-1:#331025;
+  --surf-2:#381228; --surf-3:#280D1C; --surf-4:#2E0E1E;
+  --loader-g0:#190711; --loader-g1:#2F0E22; --loader-g2:#3D0C2B;
+  --exam-modal-a:98,34,72; --exam-modal-b:44,14,31; --ov-rgb:17,4,11;
+  --toast-rgb:39,11,26; --panel-a:61,26,45; --panel-b:33,11,22;
+  --gmtoast-a:70,32,51; --gmtoast-b:40,16,28;
+}
+html.pal-plum-wine body { --tx:#F3E9EE; --ts:#B79AA8; }
+html.pal-plum-indigo {
+  --bg-root:#110A30; --bg-g0:#0B0719; --bg-g1:#140D35;
+  --bg-g2:#120A41; --hdr-rgb:11,6,24; --surf-1:#160F35;
+  --surf-2:#19103A; --surf-3:#120B2A; --surf-4:#170D30;
+  --loader-g0:#0B0719; --loader-g1:#130C31; --loader-g2:#120A3F;
+  --exam-modal-a:44,32,100; --exam-modal-b:21,13,45; --ov-rgb:7,3,18;
+  --toast-rgb:17,10,40; --panel-a:32,24,62; --panel-b:16,10,34;
+  --gmtoast-a:42,30,72; --gmtoast-b:22,15,42;
+}
+html.pal-plum-deep {
+  --bg-root:#180D23; --bg-g0:#0E0813; --bg-g1:#1B1027;
+  --bg-g2:#1E0F2E; --hdr-rgb:13,7,18; --surf-1:#1C1126;
+  --surf-2:#1F122A; --surf-3:#170D1E; --surf-4:#1B0F23;
+  --loader-g0:#0E0813; --loader-g1:#190F24; --loader-g2:#1D0F2D;
+  --exam-modal-a:55,34,74; --exam-modal-b:25,15,33; --ov-rgb:9,4,13;
+  --toast-rgb:22,12,29; --panel-a:36,24,46; --panel-b:19,11,25;
+  --gmtoast-a:45,30,54; --gmtoast-b:25,15,31;
+}
+html.pal-plum-mauve {
+  --bg-root:#241728; --bg-g0:#140D15; --bg-g1:#281A2C;
+  --bg-g2:#2E1C34; --hdr-rgb:19,12,20; --surf-1:#281B2C;
+  --surf-2:#2D1E30; --surf-3:#201523; --surf-4:#261828;
+  --loader-g0:#140D15; --loader-g1:#251829; --loader-g2:#2C1B32;
+  --exam-modal-a:79,55,85; --exam-modal-b:36,24,38; --ov-rgb:13,8,14;
+  --toast-rgb:31,20,33; --panel-a:51,37,54; --panel-b:27,18,29;
+  --gmtoast-a:61,45,63; --gmtoast-b:34,24,36;
+}
+html.pal-plum-mauve body { --tx:#EEEAF3; --ts:#A99EB6; }
+
 /* 暖色は寒色寄りの既定文字色(--tx/--ts)が浮くため、文字色もセットで振り直す */
 html.pal-warm {
   --bg-root:#241413;

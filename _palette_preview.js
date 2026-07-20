@@ -15,13 +15,18 @@
   'use strict';
 
   var KEY = 'mec_palette_preview';
+  // プラムが有力のため、プラム系の派生を主役に据えて先頭へ並べる
   var PALETTES = [
-    { id: '',           name: '現在（紺）',   sw: '#0D1B35' },
-    { id: 'charcoal',   name: 'チャコール',   sw: '#17191E' },
-    { id: 'forest',     name: '深緑',         sw: '#0D2018' },
-    { id: 'teal',       name: 'ティール',     sw: '#0A2530' },
-    { id: 'plum',       name: 'プラム',       sw: '#1F1435' },
-    { id: 'warm',       name: '焦茶（暖色）', sw: '#281614' }
+    { id: 'plum',        name: 'プラム(基準)', sw: '#1F1435', grp: 'plum' },
+    { id: 'plum-wine',   name: 'ワイン(赤寄)', sw: '#340F25', grp: 'plum' },
+    { id: 'plum-indigo', name: 'インディゴ',   sw: '#140D35', grp: 'plum' },
+    { id: 'plum-deep',   name: '深プラム',     sw: '#1B1027', grp: 'plum' },
+    { id: 'plum-mauve',  name: 'モーヴ(くすみ)', sw: '#281A2C', grp: 'plum' },
+    { id: '',            name: '現在(紺)',     sw: '#0D1B35', grp: 'other' },
+    { id: 'charcoal',    name: 'チャコール',   sw: '#17191E', grp: 'other' },
+    { id: 'forest',      name: '深緑',         sw: '#0D2018', grp: 'other' },
+    { id: 'teal',        name: 'ティール',     sw: '#0A2530', grp: 'other' },
+    { id: 'warm',        name: '焦茶',         sw: '#281614', grp: 'other' }
   ];
 
   function current() {
@@ -53,7 +58,14 @@
     var bar = document.createElement('div');
     bar.className = 'palprev-bar';
 
+    var lastGrp = null;
     PALETTES.forEach(function (p) {
+      if (lastGrp && p.grp !== lastGrp) {
+        var sep = document.createElement('span');
+        sep.className = 'palprev-sep';
+        bar.appendChild(sep);
+      }
+      lastGrp = p.grp;
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'palprev-btn' + (cur === p.id ? ' sel' : '');
@@ -91,6 +103,7 @@
       '.palprev-btn:hover{background:rgba(255,255,255,.12);}',
       '.palprev-btn.sel{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.55);color:#fff;}',
       '.palprev-sw{width:13px;height:13px;border-radius:4px;border:1px solid rgba(255,255,255,.35);flex-shrink:0;}',
+      '.palprev-sep{width:1px;align-self:stretch;background:rgba(255,255,255,.22);margin:2px 3px;flex-shrink:0;}',
       '.palprev-close{background:none;border:1px solid rgba(255,255,255,.2);border-radius:8px;color:rgba(255,255,255,.55);',
       '  font-size:11px;font-weight:700;padding:4px 7px;cursor:pointer;font-family:inherit;margin-left:2px;}',
       '.palprev-close:hover{background:rgba(255,255,255,.12);color:#fff;}',
