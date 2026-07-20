@@ -5,19 +5,26 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
 /* ── Header glassmorphism ── */
 .st-hdr{background:rgba(var(--hdr-rgb),.94);border-bottom:1px solid rgba(255,255,255,.08);color:#fff;padding:10px 12px 8px;position:sticky;top:0;z-index:var(--z-hdr);box-shadow:0 2px 20px rgba(0,0,0,.45);}
-.st-title-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+/* ⚠️ flex-wrap 必須。既定ではテキスト要素が最小幅まで縮み、日本語は文字間で改行できるため
+   狭い画面（iPhone実機・2026-07-20）で「統合学習ツール」が1文字幅の縦書きに潰れ、
+   ヘッダーだけで画面の4割を占めていた。折りたたみボタンは .st-filter-panel しか畳まないので
+   この行が肥大化すると回避手段が無くなる。子要素側の white-space:nowrap と必ずセットで維持すること。 */
+.st-title-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;flex-wrap:wrap;}
 .hdr-toggle{background:none;border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.65);font-size:12px;font-weight:700;cursor:pointer;padding:3px 9px;border-radius:20px;font-family:inherit;flex-shrink:0;transition:transform .25s,background .15s;}
 .hdr-toggle:hover{background:rgba(var(--glass-rgb),.1);}
 .st-hdr.hdr-collapsed .hdr-toggle{transform:rotate(-90deg);}
 .st-filter-panel{overflow:hidden;max-height:220px;transition:max-height .3s cubic-bezier(.16,1,.3,1);}
 .st-hdr.hdr-collapsed .st-filter-panel{max-height:0;}
 .st-hdr.hdr-collapsed .st-stats{margin-bottom:0;}
-.st-title{font-size:15px;font-weight:800;}
+.st-title{font-size:15px;font-weight:800;white-space:nowrap;flex-shrink:0;}
 .hub-link{font-size:11px;color:rgba(255,255,255,.6);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,255,255,.18);border-radius:20px;white-space:nowrap;}
 .hub-link:hover{background:rgba(var(--glass-rgb),.1);}
-.mec-sync-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(var(--glass-rgb),.1);color:rgba(255,255,255,.8);margin-left:auto;}
-.st-stats{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:7px;}
-.st-stat{background:rgba(var(--glass-rgb),.08);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;border:1px solid rgba(255,255,255,.1);font-variant-numeric:tabular-nums;}
+.mec-sync-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(var(--glass-rgb),.1);color:rgba(255,255,255,.8);margin-left:auto;white-space:nowrap;flex-shrink:0;}
+/* 統計チップは折り返さず横スクロール＝常に1行に収める（Lv/ミッションのチップが増えて
+   狭い画面では2〜3行に折り返し、ヘッダーを押し上げていた） */
+.st-stats{display:flex;align-items:center;gap:5px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-bottom:7px;}
+.st-stats::-webkit-scrollbar{display:none;}
+.st-stat{background:rgba(var(--glass-rgb),.08);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;border:1px solid rgba(255,255,255,.1);font-variant-numeric:tabular-nums;flex-shrink:0;white-space:nowrap;}
 .st-stat span{color:var(--yl);}
 
 /* ── Filter chips ── */
@@ -645,3 +652,8 @@ body.exam-awaken #examComboMeter{height:5px;}
 .diag-row{font-size:11.5px;color:var(--ts);padding:3px 0;border-bottom:1px solid rgba(255,255,255,.06);line-height:1.6;}
 .diag-row:last-of-type{border-bottom:none;}
 .diag-row b{color:var(--tx);}
+
+/* ヘッダー右端の小要素も縦組みに潰さない（狭い画面で "b-" / "0720h" と2行に割れていた） */
+#mecBuildVer{white-space:nowrap;flex-shrink:0;}
+.mec-err-badge{white-space:nowrap;flex-shrink:0;}
+.vis-count{flex-shrink:0;}
