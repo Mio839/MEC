@@ -680,3 +680,13 @@ body.srs-review .st-stats{margin-bottom:6px;}
    出題カードは #srsReviewHost にあるので、これで画面最上部から問題が始まる。 */
 body.srs-review .subj-section{display:none!important;}
 body.srs-review #mecNoSubj{display:none!important;}
+
+/* スマホの復習中は統計チップ（済/合計/連続日数/Lv/ミッション）も出さない。
+   復習は「残り何問・経過時間・やめる手段」だけあれば成立する集中セッションで、
+   統計はその場で使わない情報のため縦を食うだけになる（iPhone実機の要望・2026-07-20）。
+   横向き時も縦が乏しいので max-height でも同じ扱いにする。
+   タブレット/PCは余白があるので従来どおり表示する。 */
+@media (max-width:540px), (max-height:520px){
+  body.srs-review .st-stats{display:none;}
+  body.srs-review .st-title-row{margin-bottom:4px;}
+}
