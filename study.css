@@ -632,10 +632,17 @@ body.exam-awaken #examComboMeter{height:5px;}
 .cd-br.tr{top:14px;right:14px;border-left:none;border-bottom:none;}
 .cd-br.bl{bottom:14px;left:14px;border-right:none;border-top:none;}
 .cd-br.br{bottom:14px;right:14px;border-left:none;border-top:none;}
-/* ブートログ（左上に積む） */
-.cd-log{position:absolute;left:22px;top:52px;right:22px;font-family:'SFMono-Regular',Menlo,Consolas,monospace;
-  font-size:11px;line-height:1.85;color:var(--cd-col,#FFD700);text-shadow:0 0 8px rgba(var(--cd-glow,255,215,0),.5);}
-.cd-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+/* ブートログ。まず画面中央で大きく読ませ、カウント開始で上へ退いて小さくなる。
+   （左上に小さく出していた初版は存在に気づけなかったため中央主役に変更） */
+.cd-log{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  font-family:'SFMono-Regular',Menlo,Consolas,monospace;
+  font-size:clamp(13px,3.4vmin,20px);line-height:2;letter-spacing:.02em;
+  color:var(--cd-col,#FFD700);text-shadow:0 0 12px rgba(var(--cd-glow,255,215,0),.65);
+  white-space:nowrap;text-align:left;
+  transition:top .45s cubic-bezier(.16,1,.3,1),font-size .45s cubic-bezier(.16,1,.3,1),opacity .45s;}
+/* カウントダウン開始後（JSが #examCountdown に .cd-p2 を付ける） */
+#examCountdown.cd-p2 .cd-log{top:19%;font-size:clamp(10px,2vmin,13px);opacity:.5;}
+.cd-line{overflow:hidden;}
 /* 中央の数字と起動語 */
 .cd-num{position:relative;font-size:24vmin;font-weight:900;line-height:1;letter-spacing:-.04em;
   color:var(--cd-col,#FFD700);opacity:0;
@@ -649,14 +656,18 @@ body.exam-awaken #examComboMeter{height:5px;}
   box-shadow:0 0 24px rgba(var(--cd-glow,255,215,0),.9);}
 
 /* ── mecha: 照準レティクル ── */
-.cd-reticle{position:absolute;width:46vmin;height:46vmin;}
-.cd-reticle b{position:absolute;inset:0;border:1.5px solid var(--cd-col,#FFD700);opacity:.5;
-  clip-path:polygon(0 0,26% 0,26% 2%,2% 2%,2% 26%,0 26%,0 100%,26% 100%,26% 98%,2% 98%,2% 74%,0 74%,
-    100% 100%,74% 100%,74% 98%,98% 98%,98% 74%,100% 74%,100% 0,74% 0,74% 2%,98% 2%,98% 26%,100% 26%);
+.cd-reticle{position:absolute;width:52vmin;height:52vmin;
   animation:cdReticle 2.6s cubic-bezier(.16,1,.3,1);}
-.cd-reticle .rh,.cd-reticle .rv{position:absolute;background:var(--cd-col,#FFD700);opacity:.35;}
-.cd-reticle .rh{left:-30vmin;right:-30vmin;top:50%;height:1px;}
-.cd-reticle .rv{top:-30vmin;bottom:-30vmin;left:50%;width:1px;}
+/* ⚠️ 初版は1枚のborderをclip-pathで角括弧に切り出そうとしたが、多角形が自己交差して
+   何も描画されなかった。角は独立した4要素で作るのが確実（実機で不発・2026-07-20）。 */
+.cd-reticle i.c{position:absolute;width:22%;height:22%;border:2.5px solid var(--cd-col,#FFD700);opacity:.65;}
+.cd-reticle i.c.tl{top:0;left:0;border-right:none;border-bottom:none;}
+.cd-reticle i.c.tr{top:0;right:0;border-left:none;border-bottom:none;}
+.cd-reticle i.c.bl{bottom:0;left:0;border-right:none;border-top:none;}
+.cd-reticle i.c.br{bottom:0;right:0;border-left:none;border-top:none;}
+.cd-reticle .rh,.cd-reticle .rv{position:absolute;background:var(--cd-col,#FFD700);opacity:.32;}
+.cd-reticle .rh{left:-24vmin;right:-24vmin;top:50%;height:1px;}
+.cd-reticle .rv{top:-24vmin;bottom:-24vmin;left:50%;width:1px;}
 @keyframes cdReticle{0%{transform:scale(1.5) rotate(-3deg);opacity:0}35%{opacity:.5}100%{transform:none;opacity:.5}}
 
 /* ── cyber: 同心円リング＋データ列 ── */
@@ -674,7 +685,6 @@ body.exam-awaken #examComboMeter{height:5px;}
 @keyframes cdFall{from{transform:translateY(-30%)}to{transform:translateY(130%)}}
 
 @media (max-width:480px){
-  .cd-log{font-size:10px;top:46px;}
   .cd-sub{font-size:10px;letter-spacing:.22em;}
 }
 

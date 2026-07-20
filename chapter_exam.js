@@ -161,17 +161,22 @@
       '.cd-br.tr{top:14px;right:14px;border-left:none;border-bottom:none;}',
       '.cd-br.bl{bottom:14px;left:14px;border-right:none;border-top:none;}',
       '.cd-br.br{bottom:14px;right:14px;border-left:none;border-top:none;}',
-      '.cd-log{position:absolute;left:22px;top:52px;right:22px;font-family:Menlo,Consolas,monospace;font-size:11px;line-height:1.85;color:var(--cd-col,#FFD700);text-shadow:0 0 8px rgba(var(--cd-glow,255,215,0),.5);}',
-      '.cd-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}',
+      '.cd-log{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:Menlo,Consolas,monospace;font-size:clamp(13px,3.4vmin,20px);line-height:2;letter-spacing:.02em;color:var(--cd-col,#FFD700);text-shadow:0 0 12px rgba(var(--cd-glow,255,215,0),.65);white-space:nowrap;text-align:left;transition:top .45s cubic-bezier(.16,1,.3,1),font-size .45s cubic-bezier(.16,1,.3,1),opacity .45s;}',
+      '#chExamCountdown.cd-p2 .cd-log{top:19%;font-size:clamp(10px,2vmin,13px);opacity:.5;}',
+      '.cd-line{overflow:hidden;}',
       '.cd-num{position:relative;font-size:24vmin;font-weight:900;line-height:1;letter-spacing:-.04em;color:var(--cd-col,#FFD700);opacity:0;text-shadow:0 0 28px rgba(var(--cd-glow,255,215,0),.85),0 0 70px rgba(var(--cd-glow,255,215,0),.4),0 6px 24px rgba(0,0,0,.75);}',
       '.cd-num.go{font-size:11vmin;letter-spacing:.14em;}',
       '.cd-sub{position:absolute;bottom:23%;font-size:12px;font-weight:800;letter-spacing:.3em;text-indent:.3em;opacity:0;color:var(--cd-col,#FFD700);font-family:Menlo,Consolas,monospace;}',
       '.cd-sweep{position:absolute;left:0;right:0;top:calc(50% - 2px);height:4px;background:linear-gradient(90deg,transparent,var(--cd-col,#FFD700),transparent);box-shadow:0 0 24px rgba(var(--cd-glow,255,215,0),.9);}',
-      '.cd-reticle{position:absolute;width:46vmin;height:46vmin;}',
-      '.cd-reticle b{position:absolute;inset:0;border:1.5px solid var(--cd-col,#FFD700);opacity:.5;animation:cdReticle 2.6s cubic-bezier(.16,1,.3,1);}',
+      '.cd-reticle{position:absolute;width:52vmin;height:52vmin;animation:cdReticle 2.6s cubic-bezier(.16,1,.3,1);}',
+      '.cd-reticle i.c{position:absolute;width:22%;height:22%;border:2.5px solid var(--cd-col,#FFD700);opacity:.65;}',
+      '.cd-reticle i.c.tl{top:0;left:0;border-right:none;border-bottom:none;}',
+      '.cd-reticle i.c.tr{top:0;right:0;border-left:none;border-bottom:none;}',
+      '.cd-reticle i.c.bl{bottom:0;left:0;border-right:none;border-top:none;}',
+      '.cd-reticle i.c.br{bottom:0;right:0;border-left:none;border-top:none;}',
       '.cd-reticle .rh,.cd-reticle .rv{position:absolute;background:var(--cd-col,#FFD700);opacity:.35;}',
-      '.cd-reticle .rh{left:-30vmin;right:-30vmin;top:50%;height:1px;}',
-      '.cd-reticle .rv{top:-30vmin;bottom:-30vmin;left:50%;width:1px;}',
+      '.cd-reticle .rh{left:-24vmin;right:-24vmin;top:50%;height:1px;}',
+      '.cd-reticle .rv{top:-24vmin;bottom:-24vmin;left:50%;width:1px;}',
       '@keyframes cdReticle{0%{transform:scale(1.5) rotate(-3deg);opacity:0}35%{opacity:.5}100%{transform:none;opacity:.5}}',
       '.cd-rings{position:absolute;width:58vmin;height:58vmin;overflow:visible;}',
       '.cd-rings circle{fill:none;stroke:var(--cd-col,#00E5FF);transform-origin:100px 100px;}',
@@ -1123,7 +1128,7 @@
       (style === 'cyber' ? '<div class="cd-stream">' + cols + '</div>' : '') +
       '<i class="cd-br tl"></i><i class="cd-br tr"></i><i class="cd-br bl"></i><i class="cd-br br"></i>' +
       (style === 'mecha'
-        ? '<div class="cd-reticle"><i class="rh"></i><i class="rv"></i><b></b></div>'
+        ? '<div class="cd-reticle"><i class="rh"></i><i class="rv"></i><i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i></div>'
         : '<svg class="cd-rings" viewBox="0 0 200 200"><circle class="r1" cx="100" cy="100" r="86"/><circle class="r2" cx="100" cy="100" r="66"/><circle class="r3" cx="100" cy="100" r="46"/></svg>') +
       '<div class="cd-log"></div><div class="cd-num"></div><div class="cd-sub"></div>';
     var logEl = host.querySelector('.cd-log');
@@ -1144,6 +1149,7 @@
     var t0 = 60 + lines.length * 105 + 120;
     ['3', '2', '1'].forEach(function (n, i) {
       at(t0 + i * 420, function () {
+        host.classList.add('cd-p2');
         numEl.textContent = n; numEl.className = 'cd-num'; void numEl.offsetWidth;
         numEl.animate([
           { opacity: 0, transform: 'scale(2.1)', filter: 'blur(6px)' },

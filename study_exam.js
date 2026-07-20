@@ -1312,7 +1312,8 @@ function _examCountdown() {
     (style === 'cyber' ? '<div class="cd-stream">' + cols.join('') + '</div>' : '') +
     '<i class="cd-br tl"></i><i class="cd-br tr"></i><i class="cd-br bl"></i><i class="cd-br br"></i>' +
     (style === 'mecha'
-      ? '<div class="cd-reticle"><i class="rh"></i><i class="rv"></i><b></b></div>'
+      ? '<div class="cd-reticle"><i class="rh"></i><i class="rv"></i>'
+        + '<i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i></div>'
       : '<svg class="cd-rings" viewBox="0 0 200 200" aria-hidden="true">' +
         '<circle class="r1" cx="100" cy="100" r="86"/><circle class="r2" cx="100" cy="100" r="66"/>' +
         '<circle class="r3" cx="100" cy="100" r="46"/></svg>') +
@@ -1343,6 +1344,7 @@ function _examCountdown() {
   const goWord = style === 'mecha' ? 'ALL GREEN' : 'DIVE';
   const t0 = 60 + lines.length * 105 + 120;
   ['3', '2', '1'].forEach((n, i) => at(t0 + i * 420, () => {
+    host.classList.add('cd-p2');   // ログを上へ退かせて中央を数字に譲る
     numEl.textContent = n;
     numEl.className = 'cd-num';
     void numEl.offsetWidth;
