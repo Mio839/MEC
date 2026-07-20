@@ -173,10 +173,10 @@
 
   // ── CSS 注入 ─────────────────────────────────────────────────────
   const CSS = `
-.gm-panel{background:linear-gradient(160deg,rgba(24,34,62,.96),rgba(10,16,34,.97));border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px 14px 12px;color:#EAF0FA;box-shadow:0 6px 28px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.06);font-family:inherit;}
+.gm-panel{background:linear-gradient(160deg,rgba(var(--panel-a),.96),rgba(var(--panel-b),.97));border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px 14px 12px;color:#EAF0FA;box-shadow:0 6px 28px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.06);font-family:inherit;}
 .gm-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
 .gm-ring{--p:0;width:86px;height:86px;border-radius:50%;background:conic-gradient(#FFD166 calc(var(--p)*360deg),rgba(255,255,255,.09) 0);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.gm-ring-in{width:72px;height:72px;border-radius:50%;background:#0B1428;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;}
+.gm-ring-in{width:72px;height:72px;border-radius:50%;background:var(--surf-3);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;}
 .gm-lv-big{font-size:19px;font-weight:900;color:#FFD166;letter-spacing:.5px;}
 .gm-lv-title{font-size:9px;font-weight:700;color:rgba(255,255,255,.65);margin-top:1px;}
 .gm-xp-col{flex:1;min-width:150px;}
@@ -234,18 +234,18 @@
 .st-streak.gm-t4{color:#FF5E8A;text-shadow:0 0 12px rgba(255,60,120,.8);}
 .st-streak.gm-t5{color:#60A5FA;text-shadow:0 0 12px rgba(80,160,255,.9);}
 /* ── モーダル（study.html でチップから開く） ── */
-#gmOv{position:fixed;inset:0;z-index:var(--z-gm-ov,9500);display:none;align-items:flex-start;justify-content:center;background:rgba(2,6,16,.78);padding:24px 12px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+#gmOv{position:fixed;inset:0;z-index:var(--z-gm-ov,9500);display:none;align-items:flex-start;justify-content:center;background:rgba(var(--ov-rgb),.78);padding:24px 12px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 #gmOv.open{display:flex;}
 #gmOv .gm-panel{width:100%;max-width:560px;margin:auto 0;}
 .gm-close-btn{width:100%;margin-top:12px;padding:9px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:rgba(255,255,255,.8);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
 /* ── トースト ── */
-#gmToast{position:fixed;top:14px;left:50%;z-index:var(--z-gm-toast,9600);transform:translate(-50%,-130%);transition:transform .35s cubic-bezier(.2,.9,.3,1.2);display:flex;align-items:center;gap:10px;background:linear-gradient(160deg,rgba(30,40,72,.97),rgba(14,20,40,.97));border:1px solid rgba(255,209,102,.5);border-radius:14px;padding:10px 18px;box-shadow:0 8px 32px rgba(0,0,0,.5);pointer-events:none;max-width:min(92vw,420px);}
+#gmToast{position:fixed;top:14px;left:50%;z-index:var(--z-gm-toast,9600);transform:translate(-50%,-130%);transition:transform .35s cubic-bezier(.2,.9,.3,1.2);display:flex;align-items:center;gap:10px;background:linear-gradient(160deg,rgba(var(--gmtoast-a),.97),rgba(var(--gmtoast-b),.97));border:1px solid rgba(255,209,102,.5);border-radius:14px;padding:10px 18px;box-shadow:0 8px 32px rgba(0,0,0,.5);pointer-events:none;max-width:min(92vw,420px);}
 #gmToast.show{transform:translate(-50%,0);}
 #gmToast .ti{font-size:26px;line-height:1;}
 #gmToast .tt{font-size:13px;font-weight:800;color:#FFD166;line-height:1.3;}
 #gmToast .ts{font-size:11px;font-weight:700;color:rgba(255,255,255,.75);line-height:1.35;}
 /* ── セレモニー（レベルアップ・章/科目制覇・ミッション） ── */
-#gmCerOv{position:fixed;inset:0;z-index:var(--z-gm-cer,9550);display:none;align-items:center;justify-content:center;background:rgba(2,6,16,.55);pointer-events:none;}
+#gmCerOv{position:fixed;inset:0;z-index:var(--z-gm-cer,9550);display:none;align-items:center;justify-content:center;background:rgba(var(--ov-rgb),.55);pointer-events:none;}
 #gmCerOv.show{display:flex;}
 .gm-cer{text-align:center;animation:gmCerIn .55s cubic-bezier(.2,1.4,.3,1) both;}
 @keyframes gmCerIn{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}

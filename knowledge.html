@@ -5,13 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MEC 検索知識ノート</title>
 <link rel="stylesheet" href="vars.css">
+<script src="_palette_preview.js"></script>
 <script src="knowledge_notes.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:transparent;color:var(--tx);font-size:14px;line-height:1.7;padding-bottom:40px;}
 
 /* ── Header ── */
-.kn-hdr{background:rgba(6,11,24,.97);border-bottom:1px solid rgba(255,255,255,.08);padding:10px 12px 8px;position:sticky;top:0;z-index:var(--z-hdr);box-shadow:0 2px 20px rgba(0,0,0,.45);}
+.kn-hdr{background:rgba(var(--hdr-rgb),.97);border-bottom:1px solid rgba(255,255,255,.08);padding:10px 12px 8px;position:sticky;top:0;z-index:var(--z-hdr);box-shadow:0 2px 20px rgba(0,0,0,.45);}
 .kn-hdr-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
 .kn-title{font-size:15px;font-weight:800;flex:1;}
 .hub-link{font-size:11px;color:rgba(255,255,255,.6);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,255,255,.18);border-radius:20px;white-space:nowrap;}
@@ -88,7 +89,7 @@ body.kn-reorder .kn-toggle-arrow{display:none;}
 body.kn-reorder .kn-card{box-shadow:0 0 0 1px rgba(255,255,255,.12);}
 .kn-card.kn-dragging{opacity:.9;transform:scale(1.02);box-shadow:0 10px 30px rgba(0,0,0,.55),0 0 0 2px var(--card-color,var(--or));position:relative;z-index:50;}
 .kn-card.kn-drop-target{outline:2px dashed var(--card-color,var(--or));outline-offset:2px;}
-#knReorderBar{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:var(--z-toast);display:none;align-items:center;gap:10px;background:rgba(5,10,22,.96);border:1px solid rgba(255,255,255,.18);border-radius:24px;padding:8px 10px 8px 16px;box-shadow:0 8px 30px rgba(0,0,0,.5);}
+#knReorderBar{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:var(--z-toast);display:none;align-items:center;gap:10px;background:rgba(var(--toast-rgb),.96);border:1px solid rgba(255,255,255,.18);border-radius:24px;padding:8px 10px 8px 16px;box-shadow:0 8px 30px rgba(0,0,0,.5);}
 body.kn-reorder #knReorderBar{display:flex;}
 #knReorderBar .kn-rb-txt{font-size:12px;font-weight:700;color:var(--ts);}
 #knReorderBar .kn-rb-done{font-size:12px;font-weight:800;color:#fff;background:var(--or,#FF9A3C);border:none;border-radius:18px;padding:6px 14px;cursor:pointer;font-family:inherit;}

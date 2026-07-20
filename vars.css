@@ -36,18 +36,105 @@
   letter-spacing:.02em;
   cursor:help;
 }
+/* ══════════ ベース配色トークン（2026-07-20 トークン化）══════════
+   紺色ベースを構成していた即値を全てここへ集約した。以後ベース色を変えるときは
+   このブロック（と下の html.pal-* パレット）だけを触れば全ページに伝播する。
+   ⚠️ 演出7テーマ（study_exam.js の EXAM_EFFECT_THEMES）の配色はベース色ではないので
+      ここには含めない＝テーマ側は独立して維持される。 */
+:root {
+  --bg-root:#0A1730;                                  /* html の下地（iOS白wash対策の最下層） */
+  --bg-g0:#070C1A; --bg-g1:#0D1B35; --bg-g2:#0A1E40;  /* 固定背景グラデーションの3停止点 */
+  --hdr-rgb:6,11,24;                                  /* 各ページの sticky ヘッダー（透過度は使用箇所ごと） */
+  --surf-1:#0F1B35;                                   /* モーダル箱（セルフチェック/音/ヘルプ/エラー/同期） */
+  --surf-2:#101C38;                                   /* スコアリング内側 */
+  --surf-3:#0B1428;                                   /* gamify レベルリング内側 */
+  --surf-4:#0D1530;                                   /* select の option 背景 */
+  --loader-g0:#070C1A; --loader-g1:#0D1730; --loader-g2:#0A1E3D; /* 読込オーバーレイ */
+  --exam-modal-a:32,54,100; --exam-modal-b:13,22,45;  /* 試験の開始/結果モーダルのグラデ */
+  --ov-rgb:3,7,18;                                    /* モーダル背後の暗幕 */
+  --toast-rgb:10,18,40;                               /* 取消/通知トースト・並べ替えバー */
+  --panel-a:24,34,62; --panel-b:10,16,34;             /* gamify パネルのグラデ */
+  --gmtoast-a:30,40,72; --gmtoast-b:14,20,40;         /* gamify 実績トーストのグラデ */
+}
+
+/* ── 配色パレット候補（一時プレビュー用・_palette_preview.js が html に付与）──
+   確定したら採用色の値を上の :root へ移し、この html.pal-* ブロックと
+   _palette_preview.js／各ページの script タグを削除すること。 */
+html.pal-charcoal {
+  --bg-root:#16181C;
+  --bg-g0:#0E0F12; --bg-g1:#17191E; --bg-g2:#1B1E24;
+  --hdr-rgb:10,11,13;
+  --surf-1:#1A1D22; --surf-2:#1B1E23; --surf-3:#131519; --surf-4:#16181D;
+  --loader-g0:#0E0F12; --loader-g1:#16181C; --loader-g2:#1B1E24;
+  --exam-modal-a:58,62,72; --exam-modal-b:24,26,31;
+  --ov-rgb:8,9,11;
+  --toast-rgb:22,24,28;
+  --panel-a:34,37,43; --panel-b:20,22,26;
+  --gmtoast-a:44,47,54; --gmtoast-b:26,28,33;
+}
+html.pal-forest {
+  --bg-root:#0C1D16;
+  --bg-g0:#06120D; --bg-g1:#0D2018; --bg-g2:#0A251A;
+  --hdr-rgb:5,15,11;
+  --surf-1:#0F2419; --surf-2:#10251B; --surf-3:#0A1B13; --surf-4:#0D2016;
+  --loader-g0:#06120D; --loader-g1:#0C1D16; --loader-g2:#0A2519;
+  --exam-modal-a:30,74,55; --exam-modal-b:11,32,23;
+  --ov-rgb:3,14,10;
+  --toast-rgb:12,29,22;
+  --panel-a:20,45,34; --panel-b:10,25,18;
+  --gmtoast-a:26,58,43; --gmtoast-b:13,32,23;
+}
+html.pal-teal {
+  --bg-root:#08222B;
+  --bg-g0:#04141A; --bg-g1:#0A2530; --bg-g2:#072B38;
+  --hdr-rgb:4,14,18;
+  --surf-1:#0B2833; --surf-2:#0C2A35; --surf-3:#071E27; --surf-4:#0A2530;
+  --loader-g0:#04141A; --loader-g1:#08222B; --loader-g2:#072B38;
+  --exam-modal-a:26,66,84; --exam-modal-b:9,32,42;
+  --ov-rgb:2,12,16;
+  --toast-rgb:10,34,43;
+  --panel-a:16,50,63; --panel-b:8,30,38;
+  --gmtoast-a:22,64,80; --gmtoast-b:11,38,48;
+}
+html.pal-plum {
+  --bg-root:#1C1230;
+  --bg-g0:#120A20; --bg-g1:#1F1435; --bg-g2:#241340;
+  --hdr-rgb:14,8,24;
+  --surf-1:#211636; --surf-2:#221739; --surf-3:#180F29; --surf-4:#1E1333;
+  --loader-g0:#120A20; --loader-g1:#1C1230; --loader-g2:#241340;
+  --exam-modal-a:66,42,110; --exam-modal-b:26,16,45;
+  --ov-rgb:10,5,18;
+  --toast-rgb:28,18,48;
+  --panel-a:42,28,68; --panel-b:22,14,38;
+  --gmtoast-a:54,36,88; --gmtoast-b:28,18,46;
+}
+/* 暖色は寒色寄りの既定文字色(--tx/--ts)が浮くため、文字色もセットで振り直す */
+html.pal-warm {
+  --bg-root:#241413;
+  --bg-g0:#170B0A; --bg-g1:#281614; --bg-g2:#301715;
+  --hdr-rgb:18,9,8;
+  --surf-1:#2A1817; --surf-2:#2C1A18; --surf-3:#1F1211; --surf-4:#271615;
+  --loader-g0:#170B0A; --loader-g1:#241413; --loader-g2:#301715;
+  --exam-modal-a:84,46,42; --exam-modal-b:40,20,18;
+  --ov-rgb:14,6,5;
+  --toast-rgb:36,20,19;
+  --panel-a:52,30,28; --panel-b:30,17,16;
+  --gmtoast-a:66,38,35; --gmtoast-b:36,20,18;
+}
+html.pal-warm body { --tx:#F4EAE6; --ts:#B89A92; }
+
 /* ⚠️ iOS Safari/Brave は position:fixed の背景(下の html::before)を、動的ツールバーで
    ビューポート高が変わると下半分ぶん塗り残し、そこにブラウザ既定の白が出る（カード0枚でも
    発生・スクロールで一緒に動く＝白washの真因・2026-07-08）。root要素 html に暗色を敷くと
    iOS でもビューポート全体へ確実に伝播（root background propagation＝コンポジタ最下層）し、
    固定背景やタイルの塗り残し部が「白」でなく暗色になって症状が消える。 */
-html { background-color:#0A1730; }
+html { background-color:var(--bg-root); }
 /* Fixed page gradient — shows through transparent/glass elements */
 html::before {
   content:'';
   position:fixed;
   inset:0;
-  background:linear-gradient(135deg,#070C1A 0%,#0D1B35 50%,#0A1E40 100%);
+  background:linear-gradient(135deg,var(--bg-g0) 0%,var(--bg-g1) 50%,var(--bg-g2) 100%);
   z-index:-1;
 }
 :root {
