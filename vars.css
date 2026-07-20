@@ -55,6 +55,7 @@
   --toast-rgb:10,18,40;                               /* 取消/通知トースト・並べ替えバー */
   --panel-a:24,34,62; --panel-b:10,16,34;             /* gamify パネルのグラデ */
   --gmtoast-a:30,40,72; --gmtoast-b:14,20,40;         /* gamify 実績トーストのグラデ */
+  --glass-rgb:255,255,255;                            /* カード・チップ等の重ね塗り。既定は純白＝従来と同一 */
 }
 
 /* ── 配色パレット候補（一時プレビュー用・_palette_preview.js が html に付与）──
@@ -150,6 +151,52 @@ html.pal-plum-mauve {
 }
 html.pal-plum-mauve body { --tx:#EEEAF3; --ts:#A99EB6; }
 
+/* ── インディゴ系の派生 ──
+   ここは色相ではなく「カード面に色を乗せるか」「背景とカードの明度差」を振っている。
+   カード類は従来 rgba(255,255,255,.0x) の無彩色で、ベース色を変えても画面の大半が
+   灰色のままだった＝色替えの手応えが薄い主因。--glass-rgb で面にも色が届くようにした。 */
+/* カード面にも色を乗せる */
+html.pal-indigo-tint {
+  --bg-root:#110A30; --bg-g0:#0B0719; --bg-g1:#140D35;
+  --bg-g2:#120A41; --hdr-rgb:11,6,24; --surf-1:#160F35;
+  --surf-2:#19103A; --surf-3:#120B2A; --surf-4:#170D30;
+  --loader-g0:#0B0719; --loader-g1:#130C31; --loader-g2:#120A3F;
+  --exam-modal-a:44,32,100; --exam-modal-b:21,13,45; --ov-rgb:7,3,18;
+  --toast-rgb:17,10,40; --panel-a:32,24,62; --panel-b:16,10,34;
+  --gmtoast-a:42,30,72; --gmtoast-b:22,15,42; --glass-rgb:175,159,239;
+}
+/* 背景を沈めカードを浮かせる */
+html.pal-indigo-deep {
+  --bg-root:#0D0726; --bg-g0:#080514; --bg-g1:#0F092A;
+  --bg-g2:#0E0734; --hdr-rgb:8,4,19; --surf-1:#100B2A;
+  --surf-2:#130C2E; --surf-3:#0E0821; --surf-4:#120A26;
+  --loader-g0:#080514; --loader-g1:#0E0927; --loader-g2:#0D0732;
+  --exam-modal-a:34,23,80; --exam-modal-b:16,10,36; --ov-rgb:5,2,14;
+  --toast-rgb:13,7,32; --panel-a:25,18,49; --panel-b:12,7,27;
+  --gmtoast-a:32,23,57; --gmtoast-b:17,11,33; --glass-rgb:206,200,239;
+}
+/* 彩度高め */
+html.pal-indigo-vivid {
+  --bg-root:#0B033B; --bg-g0:#08031F; --bg-g1:#0D0541;
+  --bg-g2:#09004F; --hdr-rgb:8,3,29; --surf-1:#100840;
+  --surf-2:#130846; --surf-3:#0E0633; --surf-4:#13063A;
+  --loader-g0:#08031F; --loader-g1:#0D053C; --loader-g2:#09004D;
+  --exam-modal-a:34,19,121; --exam-modal-b:17,7,55; --ov-rgb:5,0,22;
+  --toast-rgb:14,4,49; --panel-a:28,18,74; --panel-b:14,5,41;
+  --gmtoast-a:39,23,85; --gmtoast-b:19,10,50; --glass-rgb:175,161,247;
+}
+/* 青灰・落ち着き */
+html.pal-indigo-slate {
+  --bg-root:#1A1729; --bg-g0:#0F0D16; --bg-g1:#1D1B2E;
+  --bg-g2:#1F1D36; --hdr-rgb:14,12,21; --surf-1:#1E1C2E;
+  --surf-2:#221F32; --surf-3:#181624; --surf-4:#1D1929;
+  --loader-g0:#0F0D16; --loader-g1:#1B192A; --loader-g2:#1E1C34;
+  --exam-modal-a:60,57,89; --exam-modal-b:27,25,39; --ov-rgb:9,8,15;
+  --toast-rgb:23,21,34; --panel-a:41,39,56; --panel-b:21,19,30;
+  --gmtoast-a:51,46,66; --gmtoast-b:27,25,37; --glass-rgb:207,205,228;
+}
+html.pal-indigo-slate body { --tx:#E8ECF3; --ts:#95A3B8; }
+
 /* 暖色は寒色寄りの既定文字色(--tx/--ts)が浮くため、文字色もセットで振り直す */
 html.pal-warm {
   --bg-root:#241413;
@@ -186,7 +233,7 @@ html::before {
   --rd:#FF6B6B; --rdl:rgba(255,107,107,0.12);
   --pu:#A78BFA; --pul:rgba(167,139,250,0.12);
   --bl:rgba(96,165,250,0.15);
-  --gb:rgba(255,255,255,0.04); --cb:rgba(255,255,255,0.07);
+  --gb:rgba(var(--glass-rgb),0.04); --cb:rgba(var(--glass-rgb),0.07);
   --bd:rgba(255,255,255,0.12); --tx:#E2EAF4; --ts:#8099B8;
   --or:#FF9A3C; --orl:rgba(255,154,60,0.12); --ord:#FFB870;
   --blu:#60A5FA;

@@ -15,18 +15,22 @@
   'use strict';
 
   var KEY = 'mec_palette_preview';
-  // プラムが有力のため、プラム系の派生を主役に据えて先頭へ並べる
+  // インディゴが有力。今回は色相ではなく「カード面に色が乗るか」「奥行き」を振った派生を先頭に置く
   var PALETTES = [
-    { id: 'plum',        name: 'プラム(基準)', sw: '#1F1435', grp: 'plum' },
-    { id: 'plum-wine',   name: 'ワイン(赤寄)', sw: '#340F25', grp: 'plum' },
-    { id: 'plum-indigo', name: 'インディゴ',   sw: '#140D35', grp: 'plum' },
-    { id: 'plum-deep',   name: '深プラム',     sw: '#1B1027', grp: 'plum' },
-    { id: 'plum-mauve',  name: 'モーヴ(くすみ)', sw: '#281A2C', grp: 'plum' },
-    { id: '',            name: '現在(紺)',     sw: '#0D1B35', grp: 'other' },
-    { id: 'charcoal',    name: 'チャコール',   sw: '#17191E', grp: 'other' },
-    { id: 'forest',      name: '深緑',         sw: '#0D2018', grp: 'other' },
-    { id: 'teal',        name: 'ティール',     sw: '#0A2530', grp: 'other' },
-    { id: 'warm',        name: '焦茶',         sw: '#281614', grp: 'other' }
+    { id: 'plum-indigo',  name: 'インディゴ(基準)', sw: '#140D35', grp: 'indigo' },
+    { id: 'indigo-tint',  name: '面にも色',       sw: '#140D35', grp: 'indigo' },
+    { id: 'indigo-deep',  name: '奥行き',         sw: '#0F0A28', grp: 'indigo' },
+    { id: 'indigo-vivid', name: '鮮やか',         sw: '#150A44', grp: 'indigo' },
+    { id: 'indigo-slate', name: '青灰',           sw: '#1A1D2B', grp: 'indigo' },
+    { id: 'plum',         name: 'プラム',         sw: '#1F1435', grp: 'plum' },
+    { id: 'plum-wine',    name: 'ワイン',         sw: '#340F25', grp: 'plum' },
+    { id: 'plum-deep',    name: '深プラム',       sw: '#1B1027', grp: 'plum' },
+    { id: 'plum-mauve',   name: 'モーヴ',         sw: '#281A2C', grp: 'plum' },
+    { id: '',             name: '現在(紺)',       sw: '#0D1B35', grp: 'other' },
+    { id: 'charcoal',     name: 'チャコール',     sw: '#17191E', grp: 'other' },
+    { id: 'forest',       name: '深緑',           sw: '#0D2018', grp: 'other' },
+    { id: 'teal',         name: 'ティール',       sw: '#0A2530', grp: 'other' },
+    { id: 'warm',         name: '焦茶',           sw: '#281614', grp: 'other' }
   ];
 
   function current() {
