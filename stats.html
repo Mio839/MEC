@@ -7,6 +7,7 @@
 <script src="chapters_meta.js"></script>
 <script src="rate_index.js?v=1"></script>
 <script src="progress.js?v=3"></script>
+<script src="fx_engine.js"></script>
 <link rel="stylesheet" href="vars.css">
 <script src="_palette_preview.js"></script>
 <style>
@@ -126,6 +127,123 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .ai-opts{display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
 .ai-opt{font-size:11px;color:var(--ts);display:flex;align-items:center;gap:4px;cursor:pointer;user-select:none;}
 
+.sec-note{font-size:11px;font-weight:400;color:var(--ts);}
+
+/* ── A1/B1: ヒーロー（カウントダウン＋達成リング） ── */
+.hero-sec{padding:18px 16px 16px;}
+.hero-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+/* conic-gradient で達成率ぶんだけ着色（--p はJSが更新）。study.css の結果リングと同方式 */
+.hero-ring{--p:0;--ringc:var(--gr);width:104px;height:104px;border-radius:50%;flex-shrink:0;
+  background:conic-gradient(var(--ringc) calc(var(--p)*1%),rgba(255,255,255,.08) 0);
+  display:flex;align-items:center;justify-content:center;}
+.hero-ring-in{width:84px;height:84px;border-radius:50%;background:var(--surf-2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1;}
+.hero-pct{font-size:26px;font-weight:900;color:var(--tx);font-variant-numeric:tabular-nums;}
+.hero-pct-lbl{font-size:10px;font-weight:700;color:var(--ts);margin-top:1px;}
+.hero-info{flex:1;min-width:150px;}
+.hero-cd-lbl{font-size:11px;font-weight:700;color:var(--ts);}
+.hero-cd{display:flex;align-items:baseline;gap:4px;}
+.hero-cd #heroDays{font-size:44px;font-weight:900;color:var(--or);line-height:1.05;font-variant-numeric:tabular-nums;}
+.hero-cd-u{font-size:15px;font-weight:800;color:var(--or);}
+.hero-date{font-size:11px;color:var(--ts);margin-top:2px;}
+.pace-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;}
+.pace-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:8px 6px;text-align:center;}
+.pace-lbl{font-size:10px;font-weight:700;color:var(--ts);}
+.pace-val{font-size:17px;font-weight:900;color:var(--tx);font-variant-numeric:tabular-nums;margin-top:1px;}
+.pace-msg{font-size:12px;font-weight:700;margin-top:10px;padding:8px 11px;border-radius:10px;line-height:1.6;}
+.pace-msg.ok{background:rgba(61,214,140,.12);color:var(--gr);border:1px solid rgba(61,214,140,.3);}
+.pace-msg.warn{background:rgba(255,154,60,.12);color:var(--or);border:1px solid rgba(255,154,60,.3);}
+.pace-msg.bad{background:rgba(255,107,107,.12);color:var(--rd);border:1px solid rgba(255,107,107,.3);}
+/* 実績ペースが必要ペースの何%かを示すバー。100%の位置に目盛りを立てる */
+.pace-bar{position:relative;height:7px;border-radius:4px;background:rgba(255,255,255,.09);margin-top:9px;overflow:hidden;}
+.pace-bar-fill{height:100%;border-radius:4px;width:0;background:var(--gr);transition:width .5s cubic-bezier(.16,1,.3,1);}
+.pace-bar-mark{position:absolute;top:-2px;bottom:-2px;width:2px;background:rgba(255,255,255,.55);}
+.pace-foot{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.pace-foot label{font-size:11px;font-weight:700;color:var(--ts);}
+.exam-date-input{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);border-radius:9px;
+  padding:5px 9px;font-size:12px;color:var(--tx);font-family:inherit;}
+.pace-reset{background:none;border:1px solid rgba(255,255,255,.18);border-radius:9px;color:var(--ts);
+  font-size:11px;font-weight:700;padding:5px 10px;cursor:pointer;font-family:inherit;}
+.pace-reset:hover{background:rgba(255,255,255,.1);color:var(--tx);}
+
+/* ── A2: 復習の見通し ── */
+.fc-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.fc-card{border-radius:11px;padding:8px 6px;text-align:center;border:1px solid;}
+.fc-card .v{font-size:18px;font-weight:900;font-variant-numeric:tabular-nums;}
+.fc-card .l{font-size:10px;font-weight:700;color:var(--ts);}
+.fc-card.over{background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.3);}
+.fc-card.over .v{color:var(--rd);}
+.fc-card.today{background:rgba(255,154,60,.12);border-color:rgba(255,154,60,.3);}
+.fc-card.today .v{color:var(--or);}
+.fc-card.week{background:rgba(96,165,250,.12);border-color:rgba(96,165,250,.3);}
+.fc-card.week .v{color:var(--blu);}
+.fc-bars{display:flex;align-items:flex-end;gap:5px;height:84px;}
+.fc-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;justify-content:flex-end;}
+.fc-bar{width:100%;border-radius:4px 4px 0 0;min-height:3px;background:var(--blu);}
+.fc-col.is-today .fc-bar{background:var(--or);}
+.fc-col.is-over .fc-bar{background:var(--rd);}
+.fc-n{font-size:10px;font-weight:800;color:var(--ts);font-variant-numeric:tabular-nums;}
+.fc-d{font-size:9px;color:var(--ts);white-space:nowrap;}
+.fc-note{font-size:11px;color:var(--ts);margin-top:10px;line-height:1.6;}
+
+/* ── B2: 学習カレンダー（週×曜日のグリッド） ── */
+.cal-wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
+.cal-wrap::-webkit-scrollbar{display:none;}
+.cal-dow{display:grid;grid-template-rows:repeat(7,1fr);gap:3px;flex-shrink:0;}
+.cal-dow span{font-size:8px;color:var(--ts);height:13px;line-height:13px;text-align:right;padding-right:2px;}
+.cal-grid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,1fr);gap:3px;flex:1;min-width:0;}
+.cal-cell{width:13px;height:13px;border-radius:3px;background:rgba(255,255,255,.06);}
+.cal-cell.l1{background:rgba(61,214,140,.3);}
+.cal-cell.l2{background:rgba(61,214,140,.5);}
+.cal-cell.l3{background:rgba(61,214,140,.72);}
+.cal-cell.l4{background:var(--gr);}
+.cal-cell.is-today{outline:1.5px solid var(--yl);outline-offset:1px;}
+.cal-legend{display:flex;align-items:center;gap:4px;margin-top:9px;font-size:10px;color:var(--ts);}
+.cal-lg{width:11px;height:11px;border-radius:3px;display:inline-block;background:rgba(255,255,255,.06);}
+.cal-lg.l1{background:rgba(61,214,140,.3);}.cal-lg.l2{background:rgba(61,214,140,.5);}
+.cal-lg.l3{background:rgba(61,214,140,.72);}.cal-lg.l4{background:var(--gr);}
+.cal-total{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums;}
+/* B3: 曜日別の学習量 */
+.dow-wrap{display:flex;gap:5px;margin-top:14px;align-items:flex-end;height:56px;}
+.dow-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;height:100%;justify-content:flex-end;}
+.dow-bar{width:100%;border-radius:3px 3px 0 0;min-height:2px;background:rgba(96,165,250,.65);}
+.dow-col.best .dow-bar{background:var(--gr);}
+.dow-col.worst .dow-bar{background:rgba(255,107,107,.6);}
+.dow-l{font-size:9px;color:var(--ts);}
+.dow-v{font-size:9px;font-weight:700;color:var(--ts);font-variant-numeric:tabular-nums;}
+
+/* ── A3: 章別ヒートマップ ── */
+.hm-mode{display:flex;gap:6px;margin-bottom:10px;}
+.hm-mode-btn{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;cursor:pointer;font-family:inherit;
+  background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.14);color:var(--ts);
+  transition:background .15s,border-color .15s,color .15s;}
+.hm-mode-btn.on{background:rgba(96,165,250,.18);border-color:rgba(96,165,250,.5);color:#A8CDFF;}
+.hm-row{display:flex;align-items:center;gap:7px;padding:3px 0;}
+.hm-name{width:66px;flex-shrink:0;font-size:11px;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:3px;
+  text-decoration:none;white-space:nowrap;overflow:hidden;}
+.hm-cells{display:flex;gap:3px;flex-wrap:wrap;flex:1;min-width:0;}
+.hm-cell{width:15px;height:15px;border-radius:3px;background:rgba(255,255,255,.06);cursor:default;}
+.hm-cell.s5{background:var(--gr);}
+.hm-cell.s4{background:rgba(61,214,140,.6);}
+.hm-cell.s3{background:var(--yl);}
+.hm-cell.s2{background:rgba(255,154,60,.75);}
+.hm-cell.s1{background:var(--rd);}
+.hm-cell.s0{background:rgba(255,255,255,.06);}
+.hm-legend{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:10px;color:var(--ts);flex-wrap:wrap;}
+.hm-legend i{width:11px;height:11px;border-radius:3px;display:inline-block;}
+
+/* ── A4: 本番との差 ── */
+.gap-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.gap-row:last-child{border-bottom:none;}
+.gap-name{width:74px;flex-shrink:0;font-size:12px;font-weight:700;color:var(--tx);white-space:nowrap;overflow:hidden;}
+.gap-track{flex:1;height:8px;background:rgba(255,255,255,.08);border-radius:4px;position:relative;overflow:hidden;}
+.gap-fill{position:absolute;top:0;bottom:0;border-radius:4px;}
+.gap-fill.minus{background:var(--rd);right:50%;}
+.gap-fill.plus{background:var(--gr);left:50%;}
+.gap-mid{position:absolute;left:50%;top:-2px;bottom:-2px;width:1.5px;background:rgba(255,255,255,.4);}
+.gap-val{width:52px;text-align:right;font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;flex-shrink:0;}
+.gap-empty{font-size:13px;color:var(--ts);text-align:center;padding:16px 0;}
+
 /* Miss (取りこぼし) list */
 .miss-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);text-decoration:none;color:var(--tx);}
 .miss-row:last-child{border-bottom:none;}
@@ -158,6 +276,41 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
 <div class="ct">
 
+  <!-- A1/B1: 国試カウントダウンと必要ペース。統計が「過去」しか映していなかったので、
+       「間に合うのか」に答える主役セクションとして最上部に置く -->
+  <section class="sec hero-sec">
+    <div class="hero-top">
+      <div class="hero-ring" id="heroRing"><div class="hero-ring-in">
+        <span class="hero-pct" id="heroPct">—</span><span class="hero-pct-lbl">達成</span>
+      </div></div>
+      <div class="hero-info">
+        <div class="hero-cd-lbl">第121回 医師国家試験まで</div>
+        <div class="hero-cd"><span id="heroDays">—</span><span class="hero-cd-u">日</span></div>
+        <div class="hero-date" id="heroDate">—</div>
+      </div>
+    </div>
+    <div class="pace-grid">
+      <div class="pace-item"><div class="pace-lbl">未着手</div><div class="pace-val" id="paceLeft">—</div></div>
+      <div class="pace-item"><div class="pace-lbl">必要ペース</div><div class="pace-val" id="paceNeed">—</div></div>
+      <div class="pace-item"><div class="pace-lbl">直近7日の実績</div><div class="pace-val" id="paceReal">—</div></div>
+    </div>
+    <div class="pace-msg" id="paceMsg"></div>
+    <div class="pace-bar"><div class="pace-bar-fill" id="paceBarFill"></div><div class="pace-bar-mark" id="paceBarMark"></div></div>
+    <div class="pace-foot">
+      <label for="examDateInput">試験日</label>
+      <input type="date" id="examDateInput" class="exam-date-input">
+      <button class="pace-reset" id="examDateReset">既定に戻す</button>
+    </div>
+  </section>
+
+  <!-- A2: 今後の復習予測。mec_srs_v1 は今まで統計側で完全に未使用だった -->
+  <section class="sec" id="srsForecastSec">
+    <div class="sec-title">🔔 復習の見通し <span class="sec-note">（SRSの予定日から集計）</span></div>
+    <div class="fc-summary" id="fcSummary"></div>
+    <div class="fc-bars" id="fcBars"></div>
+    <div class="fc-note" id="fcNote"></div>
+  </section>
+
   <section class="sec" id="aiExportSec">
     <div class="sec-title">🤖 AI相談用データ</div>
     <p class="ai-desc">学習データを要約してコピーします。ClaudeなどのAIに貼り付けると、弱点分析や今後の学習計画を相談できます。</p>
@@ -166,6 +319,22 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
       <label class="ai-opt"><input type="checkbox" id="aiOptRaw"> 苦手問題の生リストも含める（長め）</label>
     </div>
     <div id="aiExportMsg" class="ai-export-msg"></div>
+  </section>
+
+  <!-- B2: 学習カレンダー。30日の棒グラフより一覧性が高く、連続の途切れも直感的に分かる -->
+  <section class="sec">
+    <div class="sec-title">🗓 学習カレンダー <span class="sec-note">（直近12週間）</span></div>
+    <div class="cal-wrap">
+      <div class="cal-dow" id="calDow"></div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+    <div class="cal-legend">
+      <span>少</span>
+      <i class="cal-lg l0"></i><i class="cal-lg l1"></i><i class="cal-lg l2"></i><i class="cal-lg l3"></i><i class="cal-lg l4"></i>
+      <span>多</span>
+      <span class="cal-total" id="calTotal"></span>
+    </div>
+    <div class="dow-wrap" id="dowWrap"></div>
   </section>
 
   <section class="sec">
@@ -200,6 +369,23 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
       </thead>
       <tbody id="subjTableBody"></tbody>
     </table>
+  </section>
+
+  <!-- A3: 章別ヒートマップ。111章を一望して弱点を地図として掴む -->
+  <section class="sec">
+    <div class="sec-title">🗺 章別ヒートマップ <span class="sec-note">（色=試験正答率／薄い=未着手・タップで該当科目へ）</span></div>
+    <div class="hm-mode">
+      <button class="hm-mode-btn on" data-hm="acc">正答率で見る</button>
+      <button class="hm-mode-btn" data-hm="prog">進捗で見る</button>
+    </div>
+    <div id="heatmap"></div>
+    <div class="hm-legend" id="hmLegend"></div>
+  </section>
+
+  <!-- A4: 本番正答率と自分の正答率のギャップ -->
+  <section class="sec" id="gapSec" style="display:none">
+    <div class="sec-title">📐 本番との差 <span class="sec-note">（本番正答率 − 自分の試験正答率。マイナスが大きいほど要対策）</span></div>
+    <div id="gapList"></div>
   </section>
 
   <section class="sec" id="missSec" style="display:none">
@@ -786,6 +972,365 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     L.push('1) 弱点の傾向と原因の仮説、2) 特に優先して取り組むべき科目・分野、3) 今後2週間の具体的な学習計画（日ごとの分量目安つき）を提案してください。');
     return L.join('\n');
   }
+
+  // ══════════ 拡張セクション（2026-07-20）══════════
+  // 動きを減らす設定では数値を即確定し、アニメーションは一切走らせない
+  const _rm = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  // 数値のカウントアップ。to が小数なら小数1桁で見せる
+  function countUp(el, to, opt) {
+    if (!el) return;
+    opt = opt || {};
+    const dec = opt.dec || 0, suf = opt.suf || '', dur = opt.dur || 900;
+    const fmt = v => (dec ? v.toFixed(dec) : Math.round(v).toLocaleString('ja-JP')) + suf;
+    if (_rm) { el.textContent = fmt(to); return; }
+    const t0 = performance.now();
+    const step = now => {
+      const k = Math.min(1, (now - t0) / dur);
+      el.textContent = fmt(to * (1 - Math.pow(1 - k, 3)));
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  // セルを少しずつずらして出す（ヒートマップ・カレンダー用）
+  function stagger(nodes, per, from) {
+    if (_rm || !nodes.length) return;
+    nodes.forEach((n, i) => {
+      n.animate([{ opacity: 0, transform: from || 'scale(.4)' }, { opacity: 1, transform: 'none' }],
+        { duration: 260, delay: Math.min(i * per, 900), easing: 'cubic-bezier(.2,1.2,.3,1)', fill: 'backwards' });
+    });
+  }
+
+  // 各セクションを一度だけスクロール入場させる（ページが落ち着いた後は動かない）
+  function armReveal() {
+    if (_rm || !('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver(es => {
+      es.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.animate([{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }],
+          { duration: 420, easing: 'cubic-bezier(.16,1,.3,1)' });
+        io.unobserve(e.target);
+      });
+    }, { threshold: .12 });
+    document.querySelectorAll('.ct .sec').forEach(s => io.observe(s));
+  }
+
+  function dstr(d) { return d.toISOString().slice(0, 10); }
+  function jstNow() { return new Date(Date.now() + 9 * 3600000); }
+  function daysBetween(a, b) {
+    return Math.round((Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / 86400000);
+  }
+  function addDaysStr(s, n) {
+    const d = new Date(Date.parse(s + 'T00:00:00Z') + n * 86400000);
+    return dstr(d);
+  }
+
+  const TOTAL_Q = (typeof MEC_CHAPTERS !== 'undefined')
+    ? MEC_CHAPTERS.reduce((s, x) => s + x.chapters.reduce((t, c) => t + c.count, 0), 0) : 0;
+
+  // ── A1/B1: 国試カウントダウンと必要ペース ─────────────────────────
+  // 第121回 医師国家試験 = 令和9年2月6日(土)・7日(日) → 2027-02-06
+  const EXAM_DATE_DEFAULT = '2027-02-06';
+  const K_EXAM_DATE = 'mec_exam_date_v1';
+  function examDate() {
+    try { return localStorage.getItem(K_EXAM_DATE) || EXAM_DATE_DEFAULT; } catch (e) { return EXAM_DATE_DEFAULT; }
+  }
+
+  function renderHero() {
+    const ed = examDate();
+    const left = Math.max(0, daysBetween(today, ed));
+    const donePct = TOTAL_Q ? (doneCount / TOTAL_Q * 100) : 0;
+    const remain = Math.max(0, TOTAL_Q - doneCount);
+    const need = left > 0 ? remain / left : remain;
+    // 直近7日の実績（今日を含む）
+    let last7 = 0;
+    for (let i = 0; i < 7; i++) last7 += (activity[addDaysStr(today, -i)] || 0);
+    const real = last7 / 7;
+
+    const ring = document.getElementById('heroRing');
+    const pctCol = donePct >= 80 ? '#3DD68C' : donePct >= 50 ? '#FFB830' : '#FF9A3C';
+    if (ring) ring.style.setProperty('--ringc', pctCol);
+    const pctEl = document.getElementById('heroPct');
+    if (pctEl) pctEl.style.color = pctCol;
+    // リングの塗りと数字を同時に伸ばす
+    if (_rm) {
+      if (ring) ring.style.setProperty('--p', donePct.toFixed(1));
+      if (pctEl) pctEl.textContent = Math.round(donePct) + '%';
+    } else {
+      const t0 = performance.now(), dur = 1100;
+      const tick = now => {
+        const k = Math.min(1, (now - t0) / dur);
+        const v = donePct * (1 - Math.pow(1 - k, 3));
+        if (ring) ring.style.setProperty('--p', v.toFixed(1));
+        if (pctEl) pctEl.textContent = Math.round(v) + '%';
+        if (k < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+
+    countUp(document.getElementById('heroDays'), left, { dur: 1000 });
+    const dd = new Date(Date.parse(ed + 'T00:00:00Z'));
+    const wd = ['日', '月', '火', '水', '木', '金', '土'][dd.getUTCDay()];
+    const dEl = document.getElementById('heroDate');
+    if (dEl) dEl.textContent = `${dd.getUTCFullYear()}年${dd.getUTCMonth() + 1}月${dd.getUTCDate()}日(${wd}) 開始`;
+
+    countUp(document.getElementById('paceLeft'), remain, { suf: '問', dur: 900 });
+    countUp(document.getElementById('paceNeed'), need, { dec: 1, suf: '問/日', dur: 900 });
+    countUp(document.getElementById('paceReal'), real, { dec: 1, suf: '問/日', dur: 900 });
+
+    const ratio = need > 0 ? real / need : (remain === 0 ? 2 : 0);
+    const msg = document.getElementById('paceMsg');
+    if (msg) {
+      if (remain === 0) {
+        msg.className = 'pace-msg ok';
+        msg.textContent = '🎉 全問走破。あとは復習で精度を上げる段階です。';
+      } else if (ratio >= 1) {
+        msg.className = 'pace-msg ok';
+        msg.textContent = `✅ このペースなら間に合います（必要の${Math.round(ratio * 100)}%）。約${Math.ceil(remain / Math.max(real, .1))}日で完走できる計算です。`;
+      } else if (ratio >= .7) {
+        msg.className = 'pace-msg warn';
+        msg.textContent = `⚠️ わずかに遅れています（必要の${Math.round(ratio * 100)}%）。1日あと${(need - real).toFixed(1)}問で追いつきます。`;
+      } else {
+        msg.className = 'pace-msg bad';
+        msg.textContent = `🚨 ペースが不足しています（必要の${Math.round(ratio * 100)}%）。1日あと${(need - real).toFixed(1)}問、または試験日までの計画見直しを。`;
+      }
+    }
+    // バーは 0〜150% の範囲。100%（＝必要ペース到達）の位置に目盛りを立てる
+    const fill = document.getElementById('paceBarFill');
+    const mark = document.getElementById('paceBarMark');
+    if (mark) mark.style.left = (100 / 150 * 100) + '%';
+    if (fill) {
+      fill.style.background = ratio >= 1 ? 'var(--gr)' : ratio >= .7 ? 'var(--yl)' : 'var(--rd)';
+      const w = Math.min(150, ratio * 100) / 150 * 100;
+      if (_rm) fill.style.width = w + '%';
+      else setTimeout(() => { fill.style.width = w + '%'; }, 120);
+    }
+    // ペースが足りている時だけ、リングから小さく祝う
+    if (!_rm && ratio >= 1 && window.MecFX && ring) {
+      setTimeout(() => {
+        try {
+          const r = ring.getBoundingClientRect();
+          window.MecFX.burst(r.left + r.width / 2, r.top + r.height / 2, {
+            count: 26, colors: ['#3DD68C', '#7CEFB2', '#FFD166', '#fff'],
+            shapes: ['circle', 'star'], tier: 2, glow: true, additive: true
+          });
+        } catch (e) {}
+      }, 900);
+    }
+
+    const inp = document.getElementById('examDateInput');
+    if (inp) {
+      inp.value = ed;
+      inp.onchange = () => {
+        if (!inp.value) return;
+        try { localStorage.setItem(K_EXAM_DATE, inp.value); } catch (e) {}
+        renderHero();
+      };
+    }
+    const rst = document.getElementById('examDateReset');
+    if (rst) rst.onclick = () => {
+      try { localStorage.removeItem(K_EXAM_DATE); } catch (e) {}
+      renderHero();
+    };
+  }
+
+  // ── A2: 復習の見通し（mec_srs_v1 は従来 統計で未使用だった） ──────
+  function renderForecast() {
+    const srs = lsGet('mec_srs_v1');
+    const byDate = {};
+    let overdue = 0, todayN = 0;
+    Object.values(srs).forEach(e => {
+      if (!e || !e.nextReview) return;
+      if (e.nextReview < today) overdue++;
+      else if (e.nextReview === today) todayN++;
+      else byDate[e.nextReview] = (byDate[e.nextReview] || 0) + 1;
+    });
+    const days = [];
+    for (let i = 1; i <= 7; i++) {
+      const d = addDaysStr(today, i);
+      days.push({ d, n: byDate[d] || 0 });
+    }
+    const week = days.reduce((s, x) => s + x.n, 0);
+
+    const sum = document.getElementById('fcSummary');
+    if (sum) {
+      sum.innerHTML =
+        '<div class="fc-card over"><div class="v">' + overdue + '</div><div class="l">期限切れ</div></div>' +
+        '<div class="fc-card today"><div class="v">' + todayN + '</div><div class="l">今日</div></div>' +
+        '<div class="fc-card week"><div class="v">' + week + '</div><div class="l">今後7日</div></div>';
+    }
+
+    const cols = [{ d: today, n: overdue + todayN, today: true, over: overdue > 0 }].concat(days);
+    const max = Math.max(...cols.map(c => c.n), 1);
+    const bars = document.getElementById('fcBars');
+    if (bars) {
+      bars.innerHTML = cols.map((c, i) => {
+        const dd = new Date(Date.parse(c.d + 'T00:00:00Z'));
+        const lbl = i === 0 ? '今日' : (dd.getUTCMonth() + 1) + '/' + dd.getUTCDate();
+        const cls = i === 0 ? (c.over ? ' is-over' : ' is-today') : '';
+        return '<div class="fc-col' + cls + '">' +
+          '<span class="fc-n">' + c.n + '</span>' +
+          '<div class="fc-bar" data-h="' + Math.max(3, Math.round(c.n / max * 100)) + '"></div>' +
+          '<span class="fc-d">' + lbl + '</span></div>';
+      }).join('');
+      // 棒は下から伸ばす
+      bars.querySelectorAll('.fc-bar').forEach((b, i) => {
+        const h = b.dataset.h + '%';
+        if (_rm) { b.style.height = h; return; }
+        b.style.height = h;
+        b.animate([{ height: '0%' }, { height: h }], { duration: 520, delay: i * 45, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' });
+      });
+    }
+    const note = document.getElementById('fcNote');
+    if (note) {
+      const peak = days.reduce((a, b) => (b.n > a.n ? b : a), { n: -1 });
+      note.textContent = overdue > 0
+        ? `期限切れが${overdue}問あります。1セッション50問ずつ消化できます（${Math.ceil((overdue + todayN) / 50)}セッションで解消）。`
+        : (peak.n > 0 ? `今後のピークは ${peak.d.slice(5).replace('-', '/')} の${peak.n}問です。` : '直近7日に大きな山はありません。');
+    }
+  }
+
+  // ── B2/B3: 学習カレンダーと曜日別 ──────────────────────────────
+  function renderCalendar() {
+    const WEEKS = 12, DOW = ['日', '月', '火', '水', '木', '金', '土'];
+    const end = jstNow();
+    // 週の頭(日曜)に揃えるため、今日の曜日ぶん戻してから 11週前へ
+    const endSunday = new Date(end); endSunday.setUTCDate(endSunday.getUTCDate() - endSunday.getUTCDay());
+    const start = new Date(endSunday); start.setUTCDate(start.getUTCDate() - (WEEKS - 1) * 7);
+
+    const dowEl = document.getElementById('calDow');
+    if (dowEl) dowEl.innerHTML = DOW.map((d, i) => '<span>' + (i % 2 ? d : '') + '</span>').join('');
+
+    const vals = [];
+    for (let w = 0; w < WEEKS; w++) for (let d = 0; d < 7; d++) {
+      const cur = new Date(start); cur.setUTCDate(cur.getUTCDate() + w * 7 + d);
+      vals.push({ ds: dstr(cur), n: activity[dstr(cur)] || 0, future: dstr(cur) > today });
+    }
+    const nz = vals.filter(v => v.n > 0).map(v => v.n).sort((a, b) => a - b);
+    const q = p => nz.length ? nz[Math.min(nz.length - 1, Math.floor(nz.length * p))] : 1;
+    const t1 = q(.25), t2 = q(.5), t3 = q(.75);
+    const lv = n => n <= 0 ? 0 : n <= t1 ? 1 : n <= t2 ? 2 : n <= t3 ? 3 : 4;
+
+    const grid = document.getElementById('calGrid');
+    if (grid) {
+      grid.innerHTML = vals.map(v =>
+        '<div class="cal-cell l' + (v.future ? 0 : lv(v.n)) + (v.ds === today ? ' is-today' : '') +
+        '" title="' + v.ds + ' ' + v.n + '問"></div>').join('');
+      stagger([...grid.querySelectorAll('.cal-cell')], 4);
+    }
+    const tot = vals.filter(v => !v.future).reduce((s, v) => s + v.n, 0);
+    const activeDays = vals.filter(v => v.n > 0).length;
+    const totEl = document.getElementById('calTotal');
+    if (totEl) totEl.textContent = `12週間 ${tot.toLocaleString('ja-JP')}問 / 学習日 ${activeDays}日`;
+
+    // 曜日別（平均問数）。行動パターンを掴むためのもの
+    const sums = [0, 0, 0, 0, 0, 0, 0], cnts = [0, 0, 0, 0, 0, 0, 0];
+    vals.forEach(v => {
+      if (v.future) return;
+      const wd = new Date(Date.parse(v.ds + 'T00:00:00Z')).getUTCDay();
+      sums[wd] += v.n; cnts[wd]++;
+    });
+    const avgs = sums.map((s, i) => cnts[i] ? s / cnts[i] : 0);
+    const mx = Math.max(...avgs, 1);
+    const best = avgs.indexOf(Math.max(...avgs)), worst = avgs.indexOf(Math.min(...avgs));
+    const dw = document.getElementById('dowWrap');
+    if (dw) {
+      dw.innerHTML = avgs.map((a, i) => {
+        const cls = a > 0 && i === best ? ' best' : (i === worst ? ' worst' : '');
+        return '<div class="dow-col' + cls + '"><span class="dow-v">' + a.toFixed(0) + '</span>' +
+          '<div class="dow-bar" data-h="' + Math.max(2, Math.round(a / mx * 100)) + '"></div>' +
+          '<span class="dow-l">' + DOW[i] + '</span></div>';
+      }).join('');
+      dw.querySelectorAll('.dow-bar').forEach((b, i) => {
+        const h = b.dataset.h + '%';
+        b.style.height = h;
+        if (!_rm) b.animate([{ height: '0%' }, { height: h }], { duration: 480, delay: i * 40, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' });
+      });
+    }
+  }
+
+  // ── A3: 章別ヒートマップ ────────────────────────────────────────
+  function renderHeatmap(mode) {
+    const host = document.getElementById('heatmap');
+    if (!host || typeof MEC_CHAPTERS === 'undefined') return;
+    host.innerHTML = MEC_CHAPTERS.map(subj => {
+      const cells = subj.chapters.map((ch, ci) => {
+        const p = ch.prefix + '_';
+        let s, tip;
+        if (mode === 'prog') {
+          const d = Object.keys(done).filter(k => k.startsWith(p)).length;
+          const pct = ch.count ? d / ch.count * 100 : 0;
+          s = pct >= 100 ? 5 : pct >= 75 ? 4 : pct >= 50 ? 3 : pct >= 25 ? 2 : pct > 0 ? 1 : 0;
+          tip = `第${ci + 1}章 進捗${Math.round(pct)}% (${d}/${ch.count})`;
+        } else {
+          const mr = Object.entries(myrate).filter(([uid]) => uid.startsWith(p));
+          const t = mr.reduce((a, [, v]) => a + (v.total || 0), 0);
+          const c = mr.reduce((a, [, v]) => a + (v.correct || 0), 0);
+          if (t < 1) { s = 0; tip = `第${ci + 1}章 未受験`; }
+          else {
+            const pct = c / t * 100;
+            s = pct >= 80 ? 5 : pct >= 70 ? 4 : pct >= 60 ? 3 : pct >= 50 ? 2 : 1;
+            tip = `第${ci + 1}章 正答率${Math.round(pct)}% (${c}/${t})`;
+          }
+        }
+        return `<div class="hm-cell s${s}" title="${subj.name} ${tip}"></div>`;
+      }).join('');
+      return `<div class="hm-row"><a class="hm-name" href="study.html?sid=${subj.id}" title="${subj.name}を開く">` +
+        `<span>${subj.icon}</span>${subj.name}</a><div class="hm-cells">${cells}</div></div>`;
+    }).join('');
+    stagger([...host.querySelectorAll('.hm-cell')], 3);
+
+    const lg = document.getElementById('hmLegend');
+    if (lg) {
+      lg.innerHTML = mode === 'prog'
+        ? '<span>未着手</span><i class="hm-cell s0"></i><i class="hm-cell s1"></i><i class="hm-cell s2"></i><i class="hm-cell s3"></i><i class="hm-cell s4"></i><i class="hm-cell s5"></i><span>完了</span>'
+        : '<span>低</span><i class="hm-cell s1"></i><i class="hm-cell s2"></i><i class="hm-cell s3"></i><i class="hm-cell s4"></i><i class="hm-cell s5"></i><span>高</span><i class="hm-cell s0"></i><span>未受験</span>';
+    }
+  }
+  document.querySelectorAll('.hm-mode-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.hm-mode-btn').forEach(x => x.classList.toggle('on', x === b));
+      renderHeatmap(b.dataset.hm);
+    });
+  });
+
+  // ── A4: 本番正答率と自分の差（みんな解けるのに落とす科目を出す） ──
+  function renderGap() {
+    if (typeof MEC_CHAPTERS === 'undefined') return;
+    const rows = [];
+    MEC_CHAPTERS.forEach(subj => {
+      const pres = subj.chapters.map(c => c.prefix + '_');
+      const isIn = uid => pres.some(p => uid.startsWith(p));
+      const mr = Object.entries(myrate).filter(([uid]) => isIn(uid));
+      const t = mr.reduce((s, [, v]) => s + (v.total || 0), 0);
+      const c = mr.reduce((s, [, v]) => s + (v.correct || 0), 0);
+      if (t < 5) return;
+      const nat = Object.keys(RATE).filter(isIn).map(u => RATE[u]);
+      if (!nat.length) return;
+      const natAvg = nat.reduce((a, b) => a + b, 0) / nat.length;
+      rows.push({ name: subj.name, icon: subj.icon, mine: c / t * 100, nat: natAvg, diff: c / t * 100 - natAvg });
+    });
+    if (!rows.length) return;
+    rows.sort((a, b) => a.diff - b.diff);
+    document.getElementById('gapSec').style.display = '';
+    const maxAbs = Math.max(...rows.map(r => Math.abs(r.diff)), 10);
+    document.getElementById('gapList').innerHTML = rows.map(r => {
+      const w = Math.min(50, Math.abs(r.diff) / maxAbs * 50);
+      const cls = r.diff < 0 ? 'minus' : 'plus';
+      const col = r.diff < 0 ? 'var(--rd)' : 'var(--gr)';
+      return `<div class="gap-row"><span class="gap-name">${r.icon} ${r.name}</span>` +
+        `<span class="gap-track"><span class="gap-fill ${cls}" style="width:${w}%"></span><span class="gap-mid"></span></span>` +
+        `<span class="gap-val" style="color:${col}">${r.diff >= 0 ? '+' : ''}${r.diff.toFixed(1)}pt</span></div>`;
+    }).join('');
+  }
+
+  try { renderHero(); } catch (e) { console.error('hero', e); }
+  try { renderForecast(); } catch (e) { console.error('forecast', e); }
+  try { renderCalendar(); } catch (e) { console.error('calendar', e); }
+  try { renderHeatmap('acc'); } catch (e) { console.error('heatmap', e); }
+  try { renderGap(); } catch (e) { console.error('gap', e); }
+  armReveal();
 
   const exportBtn = document.getElementById('aiExportBtn');
   const exportMsg = document.getElementById('aiExportMsg');
