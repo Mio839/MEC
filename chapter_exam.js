@@ -153,6 +153,36 @@
       '#chExamCountdown{position:fixed;inset:0;z-index:9400;display:none;align-items:center;justify-content:center;pointer-events:none;}',
       '.ce-cd-num{font-size:22vmin;font-weight:900;line-height:1;letter-spacing:-.03em;text-shadow:0 0 40px rgba(0,0,0,.55),0 6px 24px rgba(0,0,0,.7);}',
       '.ce-cd-num.go{font-size:13vmin;letter-spacing:.08em;}',
+      /* 開始ブートシーケンス（study.css と同仕様のミラー） */
+      '#chExamCountdown{background:rgba(2,5,12,.72);overflow:hidden;}',
+      '.cd-scan{position:absolute;inset:0;pointer-events:none;opacity:.5;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.045) 0 1px,transparent 1px 3px);}',
+      '.cd-br{position:absolute;width:26px;height:26px;border:2px solid var(--cd-col,#FFD700);opacity:.85;}',
+      '.cd-br.tl{top:14px;left:14px;border-right:none;border-bottom:none;}',
+      '.cd-br.tr{top:14px;right:14px;border-left:none;border-bottom:none;}',
+      '.cd-br.bl{bottom:14px;left:14px;border-right:none;border-top:none;}',
+      '.cd-br.br{bottom:14px;right:14px;border-left:none;border-top:none;}',
+      '.cd-log{position:absolute;left:22px;top:52px;right:22px;font-family:Menlo,Consolas,monospace;font-size:11px;line-height:1.85;color:var(--cd-col,#FFD700);text-shadow:0 0 8px rgba(var(--cd-glow,255,215,0),.5);}',
+      '.cd-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}',
+      '.cd-num{position:relative;font-size:24vmin;font-weight:900;line-height:1;letter-spacing:-.04em;color:var(--cd-col,#FFD700);opacity:0;text-shadow:0 0 28px rgba(var(--cd-glow,255,215,0),.85),0 0 70px rgba(var(--cd-glow,255,215,0),.4),0 6px 24px rgba(0,0,0,.75);}',
+      '.cd-num.go{font-size:11vmin;letter-spacing:.14em;}',
+      '.cd-sub{position:absolute;bottom:23%;font-size:12px;font-weight:800;letter-spacing:.3em;text-indent:.3em;opacity:0;color:var(--cd-col,#FFD700);font-family:Menlo,Consolas,monospace;}',
+      '.cd-sweep{position:absolute;left:0;right:0;top:calc(50% - 2px);height:4px;background:linear-gradient(90deg,transparent,var(--cd-col,#FFD700),transparent);box-shadow:0 0 24px rgba(var(--cd-glow,255,215,0),.9);}',
+      '.cd-reticle{position:absolute;width:46vmin;height:46vmin;}',
+      '.cd-reticle b{position:absolute;inset:0;border:1.5px solid var(--cd-col,#FFD700);opacity:.5;animation:cdReticle 2.6s cubic-bezier(.16,1,.3,1);}',
+      '.cd-reticle .rh,.cd-reticle .rv{position:absolute;background:var(--cd-col,#FFD700);opacity:.35;}',
+      '.cd-reticle .rh{left:-30vmin;right:-30vmin;top:50%;height:1px;}',
+      '.cd-reticle .rv{top:-30vmin;bottom:-30vmin;left:50%;width:1px;}',
+      '@keyframes cdReticle{0%{transform:scale(1.5) rotate(-3deg);opacity:0}35%{opacity:.5}100%{transform:none;opacity:.5}}',
+      '.cd-rings{position:absolute;width:58vmin;height:58vmin;overflow:visible;}',
+      '.cd-rings circle{fill:none;stroke:var(--cd-col,#00E5FF);transform-origin:100px 100px;}',
+      '.cd-rings .r1{stroke-width:1;opacity:.45;stroke-dasharray:34 12;animation:cdSpin 7s linear infinite;}',
+      '.cd-rings .r2{stroke-width:2;opacity:.7;stroke-dasharray:110 300;animation:cdSpinR 3.4s linear infinite;}',
+      '.cd-rings .r3{stroke-width:1;opacity:.3;stroke-dasharray:4 9;animation:cdSpin 5s linear infinite reverse;}',
+      '@keyframes cdSpin{to{transform:rotate(360deg)}}',
+      '@keyframes cdSpinR{from{transform:rotate(360deg)}to{transform:rotate(0)}}',
+      '.cd-stream{position:absolute;inset:0;overflow:hidden;opacity:.28;}',
+      '.cd-col{position:absolute;top:-40%;left:var(--x,0);white-space:pre;line-height:1.25;font-family:Menlo,Consolas,monospace;font-size:13px;color:var(--cd-col,#00E5FF);animation:cdFall 2.6s linear var(--d,0s) both;}',
+      '@keyframes cdFall{from{transform:translateY(-30%)}to{transform:translateY(130%)}}',
       '@media (prefers-reduced-motion: reduce){.ce-fast-pop,.ce-trace-svg,.ce-tierup,.ce-zone-collapse,#chExamCountdown,#chExamStreakSig{display:none!important;}}'
     ].join('');
     document.head.appendChild(s);
@@ -1056,41 +1086,102 @@
       window.MecFX.rings(cx, cy, {count:1, color: ceTheme().ringColor(tier), thickness:2, maxR:130 + tier*22, additive: exam.effectSet !== 'ink'});
     } catch (e) {}
   }
+  var CE_BOOT_STYLES = ['mecha', 'cyber'];
+  // 開始ブートシーケンス（study_exam.js の _examCountdown をミラー）。
+  // 様式=レイアウトと動き / 配色=演出テーマ由来 なので7テーマ×2様式になる。
   function ceCountdown() {
     if (ceReduced()) return;
     var theme = ceTheme();
+    var style = CE_BOOT_STYLES[(Math.random() * CE_BOOT_STYLES.length) | 0];
     var host = document.getElementById('chExamCountdown');
     if (!host) {
       host = document.createElement('div');
       host.id = 'chExamCountdown';
       document.body.appendChild(host);
     }
-    host.innerHTML = ''; host.style.display = 'flex';
     var col = (theme.fullscreenCols && theme.fullscreenCols[3]) || '#FFD700';
-    ['3','2','1','START'].forEach(function (s, i) {
-      setTimeout(function () {
-        if (!exam.active) { host.style.display = 'none'; return; }
-        host.innerHTML = '';
-        var el = document.createElement('div');
-        el.className = 'ce-cd-num' + (s === 'START' ? ' go' : '');
-        el.textContent = s; el.style.color = col;
-        host.appendChild(el);
-        el.animate([
-          {opacity:0, transform:'scale(2.2)'},
-          {opacity:1, transform:'scale(1)', offset:.3},
-          {opacity:1, transform:'scale(1)', offset:.7},
-          {opacity:0, transform:'scale(.82)'}
-        ], {duration: s === 'START' ? 620 : 420, easing:'cubic-bezier(.2,1,.3,1)', fill:'forwards'});
-        if (window.MecFX) {
-          try {
-            window.MecFX.rings(window.innerWidth / 2, window.innerHeight / 2,
-              {count:1, color: theme.ringColor(s === 'START' ? 5 : 2), thickness:3, maxR: s === 'START' ? 420 : 220, additive: exam.effectSet !== 'ink'});
-          } catch (e) {}
-        }
-        if (s === 'START') setTimeout(function () { host.style.display = 'none'; host.innerHTML = ''; }, 640);
-      }, i * 430);
+    var glow = (theme.fullscreenGlow && theme.fullscreenGlow[3]) || '255,215,0';
+    var qn = (exam.queue && exam.queue.length) || 0;
+    var label = ((document.querySelector('.sn-title, h1') || {}).textContent || '過去問').trim().slice(0, 18);
+    var kana = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロABCDEF0123456789';
+    var cols = '';
+    if (style === 'cyber') {
+      for (var i = 0; i < 7; i++) {
+        var t = '';
+        for (var j = 0; j < 18; j++) t += kana[(Math.random() * kana.length) | 0] + '\n';
+        cols += '<span class="cd-col" style="--d:' + (i * .17).toFixed(2) + 's;--x:' + (6 + i * 14) + '%">' + t + '</span>';
+      }
+    }
+    var lines = style === 'mecha'
+      ? ['MEC-OS  BOOT SEQUENCE', 'MEMORY CHECK ............ OK', 'QUESTION BANK ........... ' + qn, 'SOURCE .................. ' + label, 'ALL SYSTEMS GREEN']
+      : ['接続確立 / LINK ESTABLISHED', '電脳ダイブ ... STAND BY', 'BANK ' + qn + ' Q  //  ' + label];
+    host.className = 'cd-' + style;
+    host.style.setProperty('--cd-col', col);
+    host.style.setProperty('--cd-glow', glow);
+    host.style.display = 'flex';
+    host.innerHTML = '<div class="cd-scan"></div>' +
+      (style === 'cyber' ? '<div class="cd-stream">' + cols + '</div>' : '') +
+      '<i class="cd-br tl"></i><i class="cd-br tr"></i><i class="cd-br bl"></i><i class="cd-br br"></i>' +
+      (style === 'mecha'
+        ? '<div class="cd-reticle"><i class="rh"></i><i class="rv"></i><b></b></div>'
+        : '<svg class="cd-rings" viewBox="0 0 200 200"><circle class="r1" cx="100" cy="100" r="86"/><circle class="r2" cx="100" cy="100" r="66"/><circle class="r3" cx="100" cy="100" r="46"/></svg>') +
+      '<div class="cd-log"></div><div class="cd-num"></div><div class="cd-sub"></div>';
+    var logEl = host.querySelector('.cd-log');
+    var numEl = host.querySelector('.cd-num');
+    var subEl = host.querySelector('.cd-sub');
+    var timers = [];
+    var kill = function () { timers.forEach(clearTimeout); host.style.display = 'none'; host.innerHTML = ''; host.className = ''; };
+    var at = function (ms, fn2) { timers.push(setTimeout(function () { if (!exam.active) { kill(); return; } fn2(); }, ms)); };
+    lines.forEach(function (ln, i) {
+      at(60 + i * 105, function () {
+        var d = document.createElement('div');
+        d.className = 'cd-line';
+        d.textContent = (style === 'mecha' ? '> ' : '// ') + ln;
+        logEl.appendChild(d);
+        d.animate([{ opacity: 0, transform: 'translateX(-8px)' }, { opacity: 1, transform: 'none' }], { duration: 200, easing: 'ease-out' });
+      });
     });
+    var t0 = 60 + lines.length * 105 + 120;
+    ['3', '2', '1'].forEach(function (n, i) {
+      at(t0 + i * 420, function () {
+        numEl.textContent = n; numEl.className = 'cd-num'; void numEl.offsetWidth;
+        numEl.animate([
+          { opacity: 0, transform: 'scale(2.1)', filter: 'blur(6px)' },
+          { opacity: 1, transform: 'scale(1)', filter: 'blur(0)', offset: .32 },
+          { opacity: 1, transform: 'scale(1)', offset: .72 },
+          { opacity: 0, transform: 'scale(.88)' }
+        ], { duration: 400, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
+        if (window.MecFX) {
+          try { window.MecFX.rings(window.innerWidth / 2, window.innerHeight / 2, { count: 1, color: theme.ringColor(2), thickness: 2, maxR: 200, additive: exam.effectSet !== 'ink' }); } catch (e) {}
+        }
+      });
+    });
+    at(t0 + 3 * 420, function () {
+      numEl.textContent = style === 'mecha' ? 'ALL GREEN' : 'DIVE';
+      numEl.className = 'cd-num go';
+      subEl.textContent = style === 'mecha' ? 'COMBAT MODE ENGAGED' : 'GHOST LINK — ONLINE';
+      void numEl.offsetWidth;
+      numEl.animate([
+        { opacity: 0, transform: 'scale(1.5) translateY(6px)' },
+        { opacity: 1, transform: 'scale(1)', offset: .3 },
+        { opacity: 1, offset: .72 },
+        { opacity: 0, transform: 'scale(1.06)' }
+      ], { duration: 760, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
+      subEl.animate([{ opacity: 0 }, { opacity: 1, offset: .35 }, { opacity: 1, offset: .7 }, { opacity: 0 }], { duration: 760, easing: 'ease-out', fill: 'forwards' });
+      var sw = document.createElement('div');
+      sw.className = 'cd-sweep';
+      host.appendChild(sw);
+      sw.animate([{ transform: 'translateX(-110%)' }, { transform: 'translateX(110%)' }], { duration: 520, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' });
+      if (window.MecFX) {
+        try {
+          window.MecFX.rings(window.innerWidth / 2, window.innerHeight / 2, { count: 3, color: theme.ringColor(5), thickness: 3, maxR: 520, additive: exam.effectSet !== 'ink', stagger: .07 });
+          window.MecFX.burst(window.innerWidth / 2, window.innerHeight / 2, { count: 70, colors: (theme.burstPalettes && theme.burstPalettes[4]) || ['#FFD700'], shapes: theme.shapes(4), tier: 4, glow: exam.effectSet !== 'ink', additive: exam.effectSet !== 'ink' });
+        } catch (e) {}
+      }
+    });
+    at(t0 + 3 * 420 + 780, kill);
   }
+
 
   // ─── Streak effects ────────────────────────────────────────────
   function showStreak(n) {

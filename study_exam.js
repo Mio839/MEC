@@ -1252,43 +1252,145 @@ function _setAwaken(on) {
 }
 
 // C9: 開始カウントダウン（3・2・1・START）。試験自体は裏で既に開始しているので非ブロッキング。
+// C9: 開始カウントダウン。メカ起動シーケンス／電脳ダイブの2種を試験ごとにランダムで出す。
+// 様式（レイアウトと動き）で世界観を作り、配色は演出テーマ(EXAM_EFFECT_THEMES)から取るので
+// 7テーマ×2様式の組み合わせになる。試験自体は裏で既に開始済み＝非ブロッキング。
+const EXAM_BOOT_STYLES = ['mecha', 'cyber'];
+
+function _examBootLines(style, qn, subjLabel) {
+  if (style === 'mecha') {
+    return [
+      'MEC-OS  BOOT SEQUENCE',
+      'MEMORY CHECK ............ OK',
+      'QUESTION BANK ........... ' + qn,
+      'SUBJECT ................. ' + subjLabel,
+      'ALL SYSTEMS GREEN'
+    ];
+  }
+  return ['接続確立 / LINK ESTABLISHED', '電脳ダイブ ... STAND BY', 'BANK ' + qn + ' Q  //  ' + subjLabel];
+}
+
 function _examCountdown() {
   if (_fxOff()) return;
   const theme = _examTheme();
+  const style = EXAM_BOOT_STYLES[(Math.random() * EXAM_BOOT_STYLES.length) | 0];
   let host = document.getElementById('examCountdown');
   if (!host) {
     host = document.createElement('div');
     host.id = 'examCountdown';
     document.body.appendChild(host);
   }
-  host.innerHTML = '';
-  host.style.display = 'flex';
   const col = (theme.fullscreenCols && theme.fullscreenCols[3]) || '#FFD700';
-  const steps = ['3', '2', '1', 'START'];
-  steps.forEach((s, i) => {
-    setTimeout(() => {
-      if (!examMode) { host.style.display = 'none'; return; }
-      host.innerHTML = '';
-      const el = document.createElement('div');
-      el.className = 'exam-cd-num' + (s === 'START' ? ' go' : '');
-      el.textContent = s;
-      el.style.color = col;
-      host.appendChild(el);
-      el.animate([
-        { opacity: 0, transform: 'scale(2.2)' },
-        { opacity: 1, transform: 'scale(1)', offset: .3 },
-        { opacity: 1, transform: 'scale(1)', offset: .7 },
-        { opacity: 0, transform: 'scale(.82)' }
-      ], { duration: s === 'START' ? 620 : 420, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
-      if (window.MecFX) {
-        try {
-          window.MecFX.rings(window.innerWidth / 2, window.innerHeight / 2,
-            { count: 1, color: theme.ringColor(s === 'START' ? 5 : 2), thickness: 3, maxR: s === 'START' ? 420 : 220, additive: examEffectSet !== 'ink' });
-        } catch (e) {}
-      }
-      if (s === 'START') setTimeout(() => { host.style.display = 'none'; host.innerHTML = ''; }, 640);
-    }, i * 430);
+  const glow = (theme.fullscreenGlow && theme.fullscreenGlow[3]) || '255,215,0';
+
+  // 出題内容をブートログに出す（何が始まるのかが分かる実用も兼ねる）
+  const qn = (typeof examQueue !== 'undefined' && examQueue) ? examQueue.length : 0;
+  let subjLabel = '—';
+  try {
+    const ids = [...new Set(examQueue.map(c => c.dataset.uid.split('_ch')[0]))];
+    const names = ids.map(id => (STUDY_SUBJECTS.find(x => x.id === id) || {}).name || id);
+    subjLabel = names.length > 1 ? (names[0] + ' 他' + (names.length - 1)) : (names[0] || '—');
+    if (_srsReviewMode) subjLabel = 'SRS REVIEW';
+  } catch (e) {}
+
+  const katakana = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロABCDEF0123456789';
+  const cols = [];
+  if (style === 'cyber') {
+    for (let i = 0; i < 7; i++) {
+      let t = '';
+      for (let j = 0; j < 18; j++) t += katakana[(Math.random() * katakana.length) | 0] + '\n';
+      cols.push('<span class="cd-col" style="--d:' + (i * .17).toFixed(2) + 's;--x:' + (6 + i * 14) + '%">' + t + '</span>');
+    }
+  }
+
+  host.className = 'cd-' + style;
+  host.style.setProperty('--cd-col', col);
+  host.style.setProperty('--cd-glow', glow);
+  host.style.display = 'flex';
+  host.innerHTML =
+    '<div class="cd-scan"></div>' +
+    (style === 'cyber' ? '<div class="cd-stream">' + cols.join('') + '</div>' : '') +
+    '<i class="cd-br tl"></i><i class="cd-br tr"></i><i class="cd-br bl"></i><i class="cd-br br"></i>' +
+    (style === 'mecha'
+      ? '<div class="cd-reticle"><i class="rh"></i><i class="rv"></i><b></b></div>'
+      : '<svg class="cd-rings" viewBox="0 0 200 200" aria-hidden="true">' +
+        '<circle class="r1" cx="100" cy="100" r="86"/><circle class="r2" cx="100" cy="100" r="66"/>' +
+        '<circle class="r3" cx="100" cy="100" r="46"/></svg>') +
+    '<div class="cd-log"></div>' +
+    '<div class="cd-num"></div>' +
+    '<div class="cd-sub"></div>';
+
+  const logEl = host.querySelector('.cd-log');
+  const numEl = host.querySelector('.cd-num');
+  const subEl = host.querySelector('.cd-sub');
+  const lines = _examBootLines(style, qn, subjLabel);
+
+  const timers = [];
+  const kill = () => { timers.forEach(clearTimeout); host.style.display = 'none'; host.innerHTML = ''; host.className = ''; };
+  const at = (ms, fn) => timers.push(setTimeout(() => { if (!examMode) { kill(); return; } fn(); }, ms));
+
+  // ① ブートログを1行ずつ点灯
+  lines.forEach((ln, i) => at(60 + i * 105, () => {
+    const d = document.createElement('div');
+    d.className = 'cd-line';
+    d.textContent = (style === 'mecha' ? '> ' : '// ') + ln;
+    logEl.appendChild(d);
+    d.animate([{ opacity: 0, transform: 'translateX(-8px)' }, { opacity: 1, transform: 'none' }],
+      { duration: 200, easing: 'ease-out' });
+  }));
+
+  // ② 3 → 2 → 1 → 起動語
+  const goWord = style === 'mecha' ? 'ALL GREEN' : 'DIVE';
+  const t0 = 60 + lines.length * 105 + 120;
+  ['3', '2', '1'].forEach((n, i) => at(t0 + i * 420, () => {
+    numEl.textContent = n;
+    numEl.className = 'cd-num';
+    void numEl.offsetWidth;
+    numEl.animate([
+      { opacity: 0, transform: 'scale(2.1)', filter: 'blur(6px)' },
+      { opacity: 1, transform: 'scale(1)', filter: 'blur(0)', offset: .32 },
+      { opacity: 1, transform: 'scale(1)', offset: .72 },
+      { opacity: 0, transform: 'scale(.88)' }
+    ], { duration: 400, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
+    if (window.MecFX) {
+      try {
+        window.MecFX.rings(window.innerWidth / 2, window.innerHeight / 2,
+          { count: 1, color: theme.ringColor(2), thickness: 2, maxR: 200, additive: examEffectSet !== 'ink' });
+      } catch (e) {}
+    }
+  }));
+
+  // ③ 起動。横一閃のスイープを走らせて締める
+  at(t0 + 3 * 420, () => {
+    numEl.textContent = goWord;
+    numEl.className = 'cd-num go';
+    subEl.textContent = style === 'mecha' ? 'COMBAT MODE ENGAGED' : 'GHOST LINK — ONLINE';
+    void numEl.offsetWidth;
+    numEl.animate([
+      { opacity: 0, transform: 'scale(1.5) translateY(6px)' },
+      { opacity: 1, transform: 'scale(1)', offset: .3 },
+      { opacity: 1, offset: .72 },
+      { opacity: 0, transform: 'scale(1.06)' }
+    ], { duration: 760, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
+    subEl.animate([{ opacity: 0 }, { opacity: 1, offset: .35 }, { opacity: 1, offset: .7 }, { opacity: 0 }],
+      { duration: 760, easing: 'ease-out', fill: 'forwards' });
+    const sw = document.createElement('div');
+    sw.className = 'cd-sweep';
+    host.appendChild(sw);
+    sw.animate([{ transform: 'translateX(-110%)' }, { transform: 'translateX(110%)' }],
+      { duration: 520, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' });
+    if (window.MecFX) {
+      try {
+        window.MecFX.rings(window.innerWidth / 2, window.innerHeight / 2,
+          { count: 3, color: theme.ringColor(5), thickness: 3, maxR: 520, additive: examEffectSet !== 'ink', stagger: .07 });
+        window.MecFX.burst(window.innerWidth / 2, window.innerHeight / 2, {
+          count: 70, colors: (theme.burstPalettes && theme.burstPalettes[4]) || ['#FFD700'],
+          shapes: theme.shapes(4), tier: 4, glow: examEffectSet !== 'ink', additive: examEffectSet !== 'ink'
+        });
+      } catch (e) {}
+    }
   });
+  at(t0 + 3 * 420 + 780, kill);
 }
 
 // C10: 結果画面のランクスタンプ（S/A/B/C・100%はPERFECT）

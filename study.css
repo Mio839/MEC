@@ -617,12 +617,66 @@ body.exam-awaken #examComboMeter{height:5px;}
    キーフレームが触らない filter で控えめさを表現する。 */
 #examStreakToast.quiet{filter:saturate(.7) brightness(.9);}
 
-/* C9: 開始カウントダウン */
+/* ══ C9: 開始ブートシーケンス ══
+   mecha=メカ起動 / cyber=電脳ダイブ の2様式。様式はレイアウトと動きで作り、
+   配色は --cd-col / --cd-glow（演出テーマ由来）を受け取るので7テーマと噛み合う。
+   全て pointer-events:none で操作を妨げない。reduced-motion では JS が最初から出さない。 */
 #examCountdown{position:fixed;inset:0;z-index:9400;display:none;align-items:center;justify-content:center;
-  pointer-events:none;}
-.exam-cd-num{font-size:22vmin;font-weight:900;line-height:1;letter-spacing:-.03em;
-  text-shadow:0 0 40px rgba(0,0,0,.55),0 6px 24px rgba(0,0,0,.7);}
-.exam-cd-num.go{font-size:13vmin;letter-spacing:.08em;}
+  pointer-events:none;overflow:hidden;background:rgba(2,5,12,.72);}
+/* 走査線。動かさず静止させる（動かすとiOSで重くなるうえ視覚的にうるさい） */
+.cd-scan{position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.045) 0 1px,transparent 1px 3px);}
+/* 四隅のブラケット */
+.cd-br{position:absolute;width:26px;height:26px;border:2px solid var(--cd-col,#FFD700);opacity:.85;}
+.cd-br.tl{top:14px;left:14px;border-right:none;border-bottom:none;}
+.cd-br.tr{top:14px;right:14px;border-left:none;border-bottom:none;}
+.cd-br.bl{bottom:14px;left:14px;border-right:none;border-top:none;}
+.cd-br.br{bottom:14px;right:14px;border-left:none;border-top:none;}
+/* ブートログ（左上に積む） */
+.cd-log{position:absolute;left:22px;top:52px;right:22px;font-family:'SFMono-Regular',Menlo,Consolas,monospace;
+  font-size:11px;line-height:1.85;color:var(--cd-col,#FFD700);text-shadow:0 0 8px rgba(var(--cd-glow,255,215,0),.5);}
+.cd-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+/* 中央の数字と起動語 */
+.cd-num{position:relative;font-size:24vmin;font-weight:900;line-height:1;letter-spacing:-.04em;
+  color:var(--cd-col,#FFD700);opacity:0;
+  text-shadow:0 0 28px rgba(var(--cd-glow,255,215,0),.85),0 0 70px rgba(var(--cd-glow,255,215,0),.4),0 6px 24px rgba(0,0,0,.75);}
+.cd-num.go{font-size:11vmin;letter-spacing:.14em;}
+.cd-sub{position:absolute;bottom:23%;font-size:12px;font-weight:800;letter-spacing:.3em;text-indent:.3em;opacity:0;
+  color:var(--cd-col,#FFD700);font-family:'SFMono-Regular',Menlo,Consolas,monospace;}
+/* 起動時の横一閃 */
+.cd-sweep{position:absolute;left:0;right:0;top:calc(50% - 2px);height:4px;
+  background:linear-gradient(90deg,transparent,var(--cd-col,#FFD700),transparent);
+  box-shadow:0 0 24px rgba(var(--cd-glow,255,215,0),.9);}
+
+/* ── mecha: 照準レティクル ── */
+.cd-reticle{position:absolute;width:46vmin;height:46vmin;}
+.cd-reticle b{position:absolute;inset:0;border:1.5px solid var(--cd-col,#FFD700);opacity:.5;
+  clip-path:polygon(0 0,26% 0,26% 2%,2% 2%,2% 26%,0 26%,0 100%,26% 100%,26% 98%,2% 98%,2% 74%,0 74%,
+    100% 100%,74% 100%,74% 98%,98% 98%,98% 74%,100% 74%,100% 0,74% 0,74% 2%,98% 2%,98% 26%,100% 26%);
+  animation:cdReticle 2.6s cubic-bezier(.16,1,.3,1);}
+.cd-reticle .rh,.cd-reticle .rv{position:absolute;background:var(--cd-col,#FFD700);opacity:.35;}
+.cd-reticle .rh{left:-30vmin;right:-30vmin;top:50%;height:1px;}
+.cd-reticle .rv{top:-30vmin;bottom:-30vmin;left:50%;width:1px;}
+@keyframes cdReticle{0%{transform:scale(1.5) rotate(-3deg);opacity:0}35%{opacity:.5}100%{transform:none;opacity:.5}}
+
+/* ── cyber: 同心円リング＋データ列 ── */
+.cd-rings{position:absolute;width:58vmin;height:58vmin;overflow:visible;}
+.cd-rings circle{fill:none;stroke:var(--cd-col,#00E5FF);transform-origin:100px 100px;}
+.cd-rings .r1{stroke-width:1;opacity:.45;stroke-dasharray:34 12;animation:cdSpin 7s linear infinite;}
+.cd-rings .r2{stroke-width:2;opacity:.7;stroke-dasharray:110 300;animation:cdSpinR 3.4s linear infinite;}
+.cd-rings .r3{stroke-width:1;opacity:.3;stroke-dasharray:4 9;animation:cdSpin 5s linear infinite reverse;}
+@keyframes cdSpin{to{transform:rotate(360deg)}}
+@keyframes cdSpinR{from{transform:rotate(360deg)}to{transform:rotate(0)}}
+.cd-stream{position:absolute;inset:0;overflow:hidden;opacity:.28;}
+.cd-col{position:absolute;top:-40%;left:var(--x,0);white-space:pre;line-height:1.25;
+  font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:13px;color:var(--cd-col,#00E5FF);
+  animation:cdFall 2.6s linear var(--d,0s) both;}
+@keyframes cdFall{from{transform:translateY(-30%)}to{transform:translateY(130%)}}
+
+@media (max-width:480px){
+  .cd-log{font-size:10px;top:46px;}
+  .cd-sub{font-size:10px;letter-spacing:.22em;}
+}
 
 /* C10: 結果画面のランクスタンプ */
 .exam-rank-stamp{position:absolute;top:150px;left:76%;z-index:5;pointer-events:none;
