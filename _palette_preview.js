@@ -15,6 +15,16 @@
   'use strict';
 
   var KEY = 'mec_palette_preview';
+  var KEY_CS = 'mec_cardscheme_preview';
+
+  // 問題カード内の配色（背景色とは独立）。滞在時間が最も長い場所なので別軸で選べるようにする。
+  var SCHEMES = [
+    { id: '',        name: '現状(6色)',   note: '青・紫を含む従来配色' },
+    { id: 'cs-warm', name: '寒色回避',    note: '青紫を暖色/ティールへ逃がす' },
+    { id: 'cs-trio', name: '3色集約',     note: '構造/強調/補足の3系統に絞る' },
+    { id: 'cs-quiet',name: '静か',        note: '地は無彩色・見出しだけ色' },
+    { id: 'cs-amber',name: '暖色主体',    note: '琥珀〜赤系。寒色背景と対比' }
+  ];
   // インディゴが有力。今回は色相ではなく「カード面に色が乗るか」「奥行き」を振った派生を先頭に置く
   var PALETTES = [
     { id: 'plum-indigo',  name: 'インディゴ(基準)', sw: '#140D35', grp: 'indigo' },
@@ -36,19 +46,29 @@
   function current() {
     try { return localStorage.getItem(KEY) || ''; } catch (e) { return ''; }
   }
+  function currentCs() {
+    try { return localStorage.getItem(KEY_CS) || ''; } catch (e) { return ''; }
+  }
 
   // クラス適用は head 実行時点で行う＝body描画前なので色のちらつきが出ない
-  function apply(id) {
+  function apply(id, cs) {
     var el = document.documentElement;
     PALETTES.forEach(function (p) { if (p.id) el.classList.remove('pal-' + p.id); });
     if (id) el.classList.add('pal-' + id);
+    SCHEMES.forEach(function (c) { if (c.id) el.classList.remove(c.id); });
+    if (cs) el.classList.add(cs);
   }
 
-  apply(current());
+  apply(current(), currentCs());
 
   function select(id) {
     try { localStorage.setItem(KEY, id); } catch (e) {}
-    apply(id);
+    apply(id, currentCs());
+    render();
+  }
+  function selectCs(cs) {
+    try { localStorage.setItem(KEY_CS, cs); } catch (e) {}
+    apply(current(), cs);
     render();
   }
 
@@ -90,6 +110,25 @@
     bar.appendChild(close);
 
     host.appendChild(bar);
+
+    // 2段目: 問題カード内の配色（背景とは独立に選べる）
+    var curCs = currentCs();
+    var bar2 = document.createElement('div');
+    bar2.className = 'palprev-bar palprev-bar2';
+    var lbl = document.createElement('span');
+    lbl.className = 'palprev-lbl';
+    lbl.textContent = 'カード内';
+    bar2.appendChild(lbl);
+    SCHEMES.forEach(function (c) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'palprev-btn' + (curCs === c.id ? ' sel' : '');
+      b.title = c.note;
+      b.textContent = c.name;
+      b.addEventListener('click', function () { selectCs(c.id); });
+      bar2.appendChild(b);
+    });
+    host.appendChild(bar2);
   }
 
   function mount() {
@@ -97,7 +136,10 @@
 
     var css = document.createElement('style');
     css.textContent = [
-      '#palPreview{position:fixed;left:8px;bottom:8px;z-index:9700;font-family:-apple-system,"Noto Sans JP",sans-serif;}',
+      '#palPreview{position:fixed;left:8px;bottom:8px;z-index:9700;font-family:-apple-system,"Noto Sans JP",sans-serif;',
+      '  display:flex;flex-direction:column;gap:4px;align-items:flex-start;}',
+      '.palprev-bar2{background:rgba(8,10,16,.88);}',
+      '.palprev-lbl{font-size:10px;font-weight:800;color:rgba(255,255,255,.45);padding:0 4px 0 2px;white-space:nowrap;}',
       '.palprev-bar{display:flex;align-items:center;gap:3px;flex-wrap:wrap;max-width:min(94vw,520px);',
       '  background:rgba(8,10,16,.92);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:5px 6px;',
       '  box-shadow:0 6px 22px rgba(0,0,0,.5);}',
