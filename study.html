@@ -57,7 +57,7 @@ if ('serviceWorker' in navigator) {
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
     <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
     <button class="hdr-toggle" onclick="document.getElementById('mecKbHelp').classList.add('open')" title="キーボードショートカット (?)">⌨️</button>
-    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0720g</span>
+    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0720h</span>
   </div>
   <div class="st-stats">
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
@@ -277,6 +277,7 @@ if ('serviceWorker' in navigator) {
       <button class="ssov-btn" data-csound="drum" onclick="saveStudySoundPref('combo','drum',this)">ドン</button>
       <button class="ssov-btn" data-csound="off" onclick="saveStudySoundPref('combo','off',this)">無音</button>
     </div>
+    <div id="studyDiag"></div>
     <div style="margin-top:14px">
       <button style="width:100%;padding:9px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--ts);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;" onclick="document.getElementById('studySoundOv').classList.remove('open')">閉じる</button>
     </div>
@@ -947,7 +948,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0720g";
+const MEC_BUILD = "b-0720h";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
@@ -1822,6 +1823,50 @@ function openStudySoundOv() {
   document.querySelectorAll('#ssovCorrectGrid .ssov-btn').forEach(b => b.classList.toggle('sel', b.dataset.sound === cor));
   document.querySelectorAll('#ssovComboGrid .ssov-btn').forEach(b => b.classList.toggle('sel', b.dataset.csound === com));
   document.getElementById('studySoundOv').classList.add('open');
+  _renderStudyDiag();
+}
+
+// 演出が出ない等の切り分け用の自己診断。iPhone等の実機でも状態を目視できるようにする。
+function _renderStudyDiag() {
+  const el = document.getElementById('studyDiag');
+  if (!el) return;
+  const reduced = _mecReducedMotion();
+  // MecFX は reduced-motion 時に全メソッドが no-op 化される（load時に差し替え）
+  const fxNoop = !window.MecFX || String(window.MecFX.burst).indexOf('function(){}') !== -1
+                 || String(window.MecFX.burst).replace(/\s/g, '') === 'function(){}';
+  const inExam = typeof examMode !== 'undefined' && examMode;
+  const inReview = typeof _srsReviewMode !== 'undefined' && _srsReviewMode;
+  const qn = (typeof examQueue !== 'undefined' && examQueue) ? examQueue.length : 0;
+  const wired = document.querySelectorAll('.ch2[data-exam-init="1"]').length;
+  const ok = (b) => b ? '<b style="color:var(--gr)">OK</b>' : '<b style="color:var(--rd)">NG</b>';
+  el.innerHTML =
+    '<div class="ssov-lbl">🩺 自己診断（演出が出ない時の切り分け用）</div>' +
+    '<div class="diag-row">ビルド <b>' + MEC_BUILD + '</b></div>' +
+    '<div class="diag-row">動きを減らす設定 <b style="color:' + (reduced ? 'var(--rd)' : 'var(--gr)') + '">' +
+      (reduced ? 'ON（演出は意図的に抑止されます）' : 'OFF') + '</b></div>' +
+    '<div class="diag-row">粒子エンジン ' + ok(!fxNoop) + '</div>' +
+    '<div class="diag-row">試験モード ' + ok(inExam) + ' ／ 復習モード ' + (inReview ? 'ON' : 'OFF') +
+      ' ／ 出題 <b>' + qn + '</b>問</div>' +
+    '<div class="diag-row">選択肢の反応登録 <b>' + wired + '</b>件 ' + ok(wired > 0) + '</div>' +
+    '<button class="ssov-btn" style="width:100%;margin-top:8px" onclick="_diagFireFx(this)">▶ 正解エフェクトをテスト発火</button>';
+}
+
+// タップ経路とは独立に演出だけを発火させ、「演出が壊れている」のか
+// 「タップが届いていない」のかを切り分ける
+function _diagFireFx(btn) {
+  document.getElementById('studySoundOv').classList.remove('open');
+  setTimeout(() => {
+    try {
+      const cx = window.innerWidth / 2, cy = window.innerHeight * 0.45;
+      if (window.MecFX) {
+        window.MecFX.burst(cx, cy, { count: 80, colors: ['#3DD68C', '#FFD700', '#fff'], shapes: ['circle', 'star'], tier: 4, glow: true, additive: true });
+        window.MecFX.rings(cx, cy, { count: 2, color: 'rgba(61,214,140,.8)', thickness: 3, maxR: 260, additive: true });
+      }
+      _mecNotify('テスト発火しました。粒子が見えなければ演出側、見えるならタップ側の問題です。');
+    } catch (e) {
+      _mecNotify('エフェクト発火でエラー: ' + e.message);
+    }
+  }, 260);
 }
 
 function saveStudySoundPref(type, value, btn) {
