@@ -175,7 +175,7 @@
   const CSS = `
 .gm-panel{background:linear-gradient(160deg,rgba(24,34,62,.96),rgba(10,16,34,.97));border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px 14px 12px;color:#EAF0FA;box-shadow:0 6px 28px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.06);font-family:inherit;}
 .gm-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
-.gm-ring{--p:0;width:86px;height:86px;border-radius:50%;background:conic-gradient(#FFD166 calc(var(--p)*360deg),rgba(255,255,255,.09) 0);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 18px rgba(255,209,102,.25);}
+.gm-ring{--p:0;width:86px;height:86px;border-radius:50%;background:conic-gradient(#FFD166 calc(var(--p)*360deg),rgba(255,255,255,.09) 0);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .gm-ring-in{width:72px;height:72px;border-radius:50%;background:#0B1428;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;}
 .gm-lv-big{font-size:19px;font-weight:900;color:#FFD166;letter-spacing:.5px;}
 .gm-lv-title{font-size:9px;font-weight:700;color:rgba(255,255,255,.65);margin-top:1px;}
@@ -183,7 +183,7 @@
 .gm-xp-line{display:flex;justify-content:space-between;align-items:baseline;font-size:11px;color:rgba(255,255,255,.7);font-weight:700;margin-bottom:4px;}
 .gm-xp-line b{color:#FFD166;font-size:13px;}
 .gm-xp-bar{height:8px;border-radius:6px;background:rgba(255,255,255,.09);overflow:hidden;}
-.gm-xp-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#F5A623,#FFD166,#FFF3C4);transition:width .6s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 10px rgba(255,209,102,.6);}
+.gm-xp-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#F5A623,#FFD166,#FFF3C4);transition:width .6s cubic-bezier(.2,.8,.2,1);}
 .gm-xp-total{font-size:10px;color:rgba(255,255,255,.45);margin-top:4px;font-weight:700;}
 .gm-flame{display:flex;flex-direction:column;align-items:center;flex-shrink:0;min-width:74px;}
 .gm-flame-emoji{font-size:34px;line-height:1;filter:grayscale(1) opacity(.45);transform-origin:50% 90%;}
@@ -210,42 +210,42 @@
 .gm-mission-num{font-size:10px;font-weight:800;color:rgba(255,255,255,.6);width:42px;text-align:right;flex-shrink:0;}
 .gm-mission.done .gm-mission-num{color:#3DD68C;}
 .gm-badges{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;-webkit-overflow-scrolling:touch;}
-.gm-badge{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:58px;padding:8px 4px 6px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);cursor:pointer;flex-shrink:0;transition:transform .15s;}
+.gm-badge{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:58px;padding:8px 4px 6px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);cursor:pointer;flex-shrink:0;transition:transform .15s;font-family:inherit;color:inherit;}
 .gm-badge:active{transform:scale(.94);}
 .gm-badge .bi{font-size:22px;line-height:1;}
 .gm-badge .bn{font-size:8px;font-weight:700;color:rgba(255,255,255,.75);text-align:center;line-height:1.2;}
 .gm-badge.locked{opacity:.75;}
 .gm-badge.locked .bi{filter:grayscale(1) opacity(.4);}
 .gm-badge.locked .bn{color:rgba(255,255,255,.35);}
-.gm-badge.unlocked{background:linear-gradient(160deg,rgba(255,209,102,.16),rgba(255,255,255,.04));border-color:rgba(255,209,102,.45);box-shadow:0 0 10px rgba(255,209,102,.18);}
+.gm-badge.unlocked{background:linear-gradient(160deg,rgba(255,209,102,.16),rgba(255,255,255,.04));border-color:rgba(255,209,102,.45);}
 .gm-badge-desc{font-size:11px;color:rgba(255,255,255,.75);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:7px 10px;margin-top:2px;line-height:1.6;display:none;}
 .gm-badge-desc.show{display:block;}
 .gm-badge-desc b{color:#FFD166;}
 .gm-sound-btn{float:right;background:none;border:1px solid rgba(255,255,255,.18);border-radius:8px;color:rgba(255,255,255,.7);font-size:11px;font-weight:700;padding:2px 8px;cursor:pointer;font-family:inherit;}
 /* ── study.html ヘッダーチップ ── */
-.gm-lv-chip{cursor:pointer;display:flex;align-items:center;gap:6px;user-select:none;}
+.gm-lv-chip{cursor:pointer;display:flex;align-items:center;gap:6px;user-select:none;font-family:inherit;color:inherit;}
 .gm-lv-chip b{color:#FFD166;}
 .gm-chip-bar{width:44px;height:5px;border-radius:4px;background:rgba(255,255,255,.14);overflow:hidden;display:inline-block;}
 .gm-chip-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#F5A623,#FFD166);transition:width .5s;}
-.gm-mission-chip{cursor:pointer;user-select:none;}
+.gm-mission-chip{cursor:pointer;user-select:none;font-family:inherit;color:inherit;}
 .gm-mission-chip.all{color:#7CEFB2!important;}
 .st-streak.gm-t2{color:#FF9A3C;text-shadow:0 0 8px rgba(255,150,50,.6);}
 .st-streak.gm-t3{color:#FF7043;text-shadow:0 0 10px rgba(255,90,40,.75);}
 .st-streak.gm-t4{color:#FF5E8A;text-shadow:0 0 12px rgba(255,60,120,.8);}
 .st-streak.gm-t5{color:#60A5FA;text-shadow:0 0 12px rgba(80,160,255,.9);}
 /* ── モーダル（study.html でチップから開く） ── */
-#gmOv{position:fixed;inset:0;z-index:9500;display:none;align-items:flex-start;justify-content:center;background:rgba(2,6,16,.78);padding:24px 12px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+#gmOv{position:fixed;inset:0;z-index:var(--z-gm-ov,9500);display:none;align-items:flex-start;justify-content:center;background:rgba(2,6,16,.78);padding:24px 12px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 #gmOv.open{display:flex;}
 #gmOv .gm-panel{width:100%;max-width:560px;margin:auto 0;}
 .gm-close-btn{width:100%;margin-top:12px;padding:9px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:rgba(255,255,255,.8);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
 /* ── トースト ── */
-#gmToast{position:fixed;top:14px;left:50%;z-index:9600;transform:translate(-50%,-130%);transition:transform .35s cubic-bezier(.2,.9,.3,1.2);display:flex;align-items:center;gap:10px;background:linear-gradient(160deg,rgba(30,40,72,.97),rgba(14,20,40,.97));border:1px solid rgba(255,209,102,.5);border-radius:14px;padding:10px 18px;box-shadow:0 8px 32px rgba(0,0,0,.5),0 0 24px rgba(255,209,102,.25);pointer-events:none;max-width:min(92vw,420px);}
+#gmToast{position:fixed;top:14px;left:50%;z-index:var(--z-gm-toast,9600);transform:translate(-50%,-130%);transition:transform .35s cubic-bezier(.2,.9,.3,1.2);display:flex;align-items:center;gap:10px;background:linear-gradient(160deg,rgba(30,40,72,.97),rgba(14,20,40,.97));border:1px solid rgba(255,209,102,.5);border-radius:14px;padding:10px 18px;box-shadow:0 8px 32px rgba(0,0,0,.5);pointer-events:none;max-width:min(92vw,420px);}
 #gmToast.show{transform:translate(-50%,0);}
 #gmToast .ti{font-size:26px;line-height:1;}
 #gmToast .tt{font-size:13px;font-weight:800;color:#FFD166;line-height:1.3;}
 #gmToast .ts{font-size:11px;font-weight:700;color:rgba(255,255,255,.75);line-height:1.35;}
 /* ── セレモニー（レベルアップ・章/科目制覇・ミッション） ── */
-#gmCerOv{position:fixed;inset:0;z-index:9550;display:none;align-items:center;justify-content:center;background:rgba(2,6,16,.55);pointer-events:none;}
+#gmCerOv{position:fixed;inset:0;z-index:var(--z-gm-cer,9550);display:none;align-items:center;justify-content:center;background:rgba(2,6,16,.55);pointer-events:none;}
 #gmCerOv.show{display:flex;}
 .gm-cer{text-align:center;animation:gmCerIn .55s cubic-bezier(.2,1.4,.3,1) both;}
 @keyframes gmCerIn{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
@@ -546,13 +546,16 @@
   function _mountStudyHeader() {
     const row = document.querySelector('.st-stats');
     if (!row || document.getElementById('gmLvChip')) return;
-    const lv = document.createElement('div');
+    // キーボード操作可能にするため <button>（見た目は .st-stat ＋チップ用リセットで維持）
+    const lv = document.createElement('button');
+    lv.type = 'button';
     lv.className = 'st-stat gm-lv-chip';
     lv.id = 'gmLvChip';
     lv.title = 'タップでレベル・実績・ミッションを表示';
     lv.innerHTML = 'Lv.<b id="gmLvNum">–</b><span class="gm-chip-bar"><span class="gm-chip-fill" id="gmChipFill" style="width:0%"></span></span>';
     lv.addEventListener('click', openPanelModal);
-    const mi = document.createElement('div');
+    const mi = document.createElement('button');
+    mi.type = 'button';
     mi.className = 'st-stat gm-mission-chip';
     mi.id = 'gmMissionChip';
     mi.title = '今日のミッション';
@@ -609,9 +612,9 @@
     }).join('');
 
     const badgesHtml = achList.map(a =>
-      '<div class="gm-badge ' + (a.unlocked ? 'unlocked' : 'locked') + '" data-ach="' + a.id + '">' +
+      '<button type="button" class="gm-badge ' + (a.unlocked ? 'unlocked' : 'locked') + '" data-ach="' + a.id + '">' +
       '<span class="bi">' + (a.unlocked ? a.icon : '🔒') + '</span>' +
-      '<span class="bn">' + a.name + '</span></div>'
+      '<span class="bn">' + a.name + '</span></button>'
     ).join('');
 
     container.innerHTML =

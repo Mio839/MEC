@@ -13,7 +13,7 @@
 :root{}
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:-apple-system,"Helvetica Neue",sans-serif;background:transparent;color:var(--tx);font-size:15px;line-height:1.7;}
+body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:transparent;color:var(--tx);font-size:15px;line-height:1.7;}
 
 /* ── Header（ぼかしはモーダルオーバーレイ1枚だけの方針。ヘッダーは半透明ソリッド） ── */
 .hub-header{background:rgba(6,11,24,.97);border-bottom:1px solid rgba(255,255,255,.08);color:#fff;padding:16px 16px 12px;position:sticky;top:0;z-index:var(--z-hdr);box-shadow:0 2px 20px rgba(0,0,0,.45);}
@@ -142,7 +142,7 @@ body{font-family:-apple-system,"Helvetica Neue",sans-serif;background:transparen
 <div id="noSyncWarning" style="display:none;background:#7f3300;color:#fff;font-size:13px;padding:10px 16px;text-align:center;line-height:1.6;">
   ⚠️ 進捗はこのブラウザのみに保存されています。ブラウザのキャッシュをクリアすると<strong>全データが消えます</strong>。<br>
   <button onclick="exportBackup()" style="margin:4px 6px 0;padding:4px 12px;border-radius:6px;border:none;background:#fff;color:#7f3300;font-weight:700;cursor:pointer;">📥 今すぐバックアップ</button>
-  <button onclick="openSyncModal()" style="margin:4px 6px 0;padding:4px 12px;border-radius:6px;border:none;background:#F5A623;color:#000;font-weight:700;cursor:pointer;">☁️ クラウド同期を設定</button>
+  <button onclick="openSyncModal()" style="margin:4px 6px 0;padding:4px 12px;border-radius:6px;border:none;background:var(--yl);color:#000;font-weight:700;cursor:pointer;">☁️ クラウド同期を設定</button>
 </div>
 
 <div style="padding:12px 10px 0;" id="gamifyPanel"><!-- gamify.js が描画（レベル・炎・ミッション・実績） --></div>
@@ -265,7 +265,7 @@ const MINDMAP_TOOL = {
   color: '#1C2E4A',
   type: 'mindmap',
   maps: [
-    { subject: '全科目統合', href: 'mindmap_integrated.html', color: '#F5A623', icon: '🗺️' },
+    { subject: '全科目統合', href: 'mindmap_integrated.html', color: 'var(--yl)', icon: '🗺️' },
     { subject: '血液',   href: '血液/mindmap.html',   color: '#DC2626', icon: '🩸' },
     { subject: '腎臓',   href: '腎臓/mindmap.html',   color: '#1976D2', icon: '💧' },
     { subject: '肝胆膵', href: '肝胆膵/mindmap.html', color: '#E65100', icon: '🔶' },
@@ -615,7 +615,7 @@ async function saveAndSync() {
   if (window.MECSync) {
     MECSync.setToken(token);
     MECSync.setGistId(gistId); // 空欄なら '' で上書き（古い値をクリア）
-    showSyncResult('ok', '🔄 接続確認中...');
+    showSyncResult('ok', '🔄 接続確認中…');
 
     // Gist ID が空の場合は pull をスキップして直接 push（新規作成）
     if (gistId) {
@@ -629,7 +629,7 @@ async function saveAndSync() {
       }
     }
 
-    showSyncResult('ok', '🔄 保存中...');
+    showSyncResult('ok', '🔄 保存中…');
     const pushRes = await MECSync.pushToGist();
     const newId = MECSync.getGistId();
     document.getElementById('gistIdInput').value = newId;
@@ -670,7 +670,24 @@ function copySetupURL() {
   const url = base + '#mec:' + encoded;
   navigator.clipboard.writeText(url)
     .then(() => showSyncResult('ok', '📋 URLをコピーしました（トークンを含みます・base64は暗号化ではありません）。第三者に共有したりチャット等に貼り付けたりしないでください。別のデバイスでこのURLを開くと自動で設定されます。'))
-    .catch(() => { prompt('このURLをコピーして別のデバイスで開いてください（トークンを含むため第三者と共有しないこと）:', url); });
+    .catch(() => {
+      // prompt() は iOS PWA / ダイアログ抑制設定で表示されないことがある（alert/confirm と同じ）。
+      // モーダル内にURLを選択可能な状態で出して手動コピーしてもらう。
+      const el = document.getElementById('syncResult');
+      el.className = 'sync-result ok';
+      el.style.display = 'block';
+      el.textContent = '自動コピーできませんでした。下のURLを選択してコピーしてください（トークンを含むため第三者と共有しないこと）。';
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.readOnly = true;
+      inp.value = url;
+      inp.className = 'field-input';
+      inp.style.cssText = 'margin:8px 0 0;font-size:11px;';
+      inp.addEventListener('focus', () => inp.select());
+      el.appendChild(inp);
+      inp.focus();
+      inp.select();
+    });
 }
 
 function clearSyncToken() {
@@ -684,7 +701,7 @@ function clearSyncToken() {
 async function testToken() {
   const token = document.getElementById('tokenInput').value.trim();
   if (!token) { showSyncResult('error', 'トークンを入力してから検証してください'); return; }
-  showSyncResult('ok', '🔄 検証中...');
+  showSyncResult('ok', '🔄 検証中…');
   try {
     const res = await fetch('https://api.github.com/user', {
       headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }

@@ -62,8 +62,10 @@ html::before {
   --or:#FF9A3C; --orl:rgba(255,154,60,0.12); --ord:#FFB870;
   --blu:#60A5FA;
   /* z-index 名前付きスケール（即値の 9999 等を使わずこれを参照する） */
-  --z-hdr:200; --z-modal:5000; --z-toast:9000; --z-ov:9100;
-  --z-lightbox:9500; --z-fx:9990; --z-loader:9999;
+  --z-hdr:200; --z-modal:5000; --z-mfx:6000; --z-toast:9000; --z-ov:9100;
+  --z-lightbox:9500; --z-gm-ov:9500; --z-gm-cer:9550; --z-gm-toast:9600;
+  --z-fx:9990; --z-loader:9999;
+  /* --z-mfx=モーダル上の演出テキスト / --z-gm-*=gamifyのモーダル・セレモニー・実績トースト */
 }
 /* キーボードフォーカスリング（全ページ共通・アニメ無しで即時表示） */
 :focus-visible{outline:2px solid #7BB3FF;outline-offset:2px;}

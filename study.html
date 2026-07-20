@@ -56,11 +56,11 @@ if ('serviceWorker' in navigator) {
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
     <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
     <button class="hdr-toggle" onclick="document.getElementById('mecKbHelp').classList.add('open')" title="キーボードショートカット (?)">⌨️</button>
-    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0720a</span>
+    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0720b</span>
   </div>
   <div class="st-stats">
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
-    <div class="st-stat">合計 <span style="color:#F5A623">5487</span>問</div>
+    <div class="st-stat">合計 <span>5487</span>問</div>
     <div class="st-stat"><span class="st-streak">🔥 <span id="studyStreak">0</span>日連続</span></div>
   </div>
   <div class="st-filter-panel" id="stFilterPanel">
@@ -104,7 +104,7 @@ if ('serviceWorker' in navigator) {
   </div>
   <div class="jump-row">
     <div class="search-wrap">
-      <input class="search-input" type="search" id="searchInput" placeholder="キーワード検索..." oninput="onSearchInput(this.value)">
+      <input class="search-input" type="search" id="searchInput" placeholder="キーワード検索…" oninput="onSearchInput(this.value)">
     </div>
     <select class="jump-select" id="chJumpSel" onchange="if(this.value){var _v=this.value;this.value='';this.blur();jumpToChapter(_v);}">
       <option value="">📍 章ジャンプ…</option>
@@ -293,63 +293,63 @@ if ('serviceWorker' in navigator) {
 </div>
 <div class="subj-section" data-sid="endo" data-visible="true">
 <div class="subj-hdr" style="background:#00838F"><span class="subj-hdr-icon">⚗️</span><span class="subj-hdr-name">内分泌</span><span class="subj-hdr-count">542問</span></div>
-<div class="subj-cards-loading" data-sid="endo">読み込み中...</div>
+<div class="subj-cards-loading" data-sid="endo">読み込み中…</div>
 </div>
 <div class="subj-section" data-sid="resp" data-visible="true">
 <div class="subj-hdr" style="background:#1565C0"><span class="subj-hdr-icon">🌬️</span><span class="subj-hdr-name">呼吸器</span><span class="subj-hdr-count">506問</span></div>
-<div class="subj-cards-loading" data-sid="resp">読み込み中...</div>
+<div class="subj-cards-loading" data-sid="resp">読み込み中…</div>
 </div>
 <div class="subj-section" data-sid="circ" data-visible="true">
 <div class="subj-hdr" style="background:#C62828"><span class="subj-hdr-icon">❤️</span><span class="subj-hdr-name">循環器</span><span class="subj-hdr-count">572問</span></div>
-<div class="subj-cards-loading" data-sid="circ">読み込み中...</div>
+<div class="subj-cards-loading" data-sid="circ">読み込み中…</div>
 </div>
 <div class="subj-section" data-sid="dige" data-visible="true">
 <div class="subj-hdr" style="background:#6A1B9A"><span class="subj-hdr-icon">🌿</span><span class="subj-hdr-name">消化器</span><span class="subj-hdr-count">501問</span></div>
-<div class="subj-cards-loading" data-sid="dige">読み込み中...</div>
+<div class="subj-cards-loading" data-sid="dige">読み込み中…</div>
 </div>
 <div class="subj-section" data-sid="neur" data-visible="true">
 <div class="subj-hdr" style="background:#2E7D32"><span class="subj-hdr-icon">🧠</span><span class="subj-hdr-name">神経</span><span class="subj-hdr-count">594問</span></div>
-<div class="subj-cards-loading" data-sid="neur">読み込み中...</div>
+<div class="subj-cards-loading" data-sid="neur">読み込み中…</div>
 </div>
 <div class="subj-section" data-sid="hbp" data-visible="true">
 <div class="subj-hdr" style="background:#E65100"><span class="subj-hdr-icon">🧪</span><span class="subj-hdr-name">肝胆膵</span><span class="subj-hdr-count">418問</span></div>
-<div class="subj-cards-loading" data-sid="hbp">読み込み中...</div>
+<div class="subj-cards-loading" data-sid="hbp">読み込み中…</div>
 </div>
 <div class="subj-section" data-sid="jinzo_d" data-visible="true">
 <div class="subj-hdr" style="background:#78909C"><span class="subj-hdr-icon">💧</span><span class="subj-hdr-name">腎臓</span><span class="subj-hdr-count">315問</span></div>
-<div class="subj-cards-loading" data-sid="jinzo_d">読み込み中...</div>
+<div class="subj-cards-loading" data-sid="jinzo_d">読み込み中…</div>
 </div>
 <div class="subj-section" data-sid="hema" data-visible="true">
 <div class="subj-hdr" style="background:#B71C1C"><span class="subj-hdr-icon">🩸</span><span class="subj-hdr-name">血液</span><span class="subj-hdr-count">378問</span></div>
-<div class="subj-cards-loading" data-sid="hema">読み込み中...</div>
+<div class="subj-cards-loading" data-sid="hema">読み込み中…</div>
 </div>
 <div class="subj-section" data-sid="imma" data-visible="true">
 <div class="subj-hdr" style="background:#AD1457"><span class="subj-hdr-icon">🛡️</span><span class="subj-hdr-name">免アレ膠</span><span class="subj-hdr-count">247問</span></div>
-<div class="subj-cards-loading" data-sid="imma">読み込み中...</div>
+<div class="subj-cards-loading" data-sid="imma">読み込み中…</div>
 </div>
 <div class="subj-section" data-sid="kansen" data-visible="true">
 <div class="subj-hdr" style="background:#00695C"><span class="subj-hdr-icon">🦠</span><span class="subj-hdr-name">感染症</span><span class="subj-hdr-count">356問</span></div>
-<div class="subj-cards-loading" data-sid="kansen">読み込み中...</div>
+<div class="subj-cards-loading" data-sid="kansen">読み込み中…</div>
 </div>
 <div class="subj-section" data-sid="peds" data-visible="true">
 <div class="subj-hdr" style="background:#EC407A"><span class="subj-hdr-icon">🧸</span><span class="subj-hdr-name">小児科</span><span class="subj-hdr-count">373問</span></div>
-<div class="subj-cards-loading" data-sid="peds">読み込み中...</div>
+<div class="subj-cards-loading" data-sid="peds">読み込み中…</div>
 </div>
 <div class="subj-section" data-sid="obg" data-visible="true">
 <div class="subj-hdr" style="background:#C2185B"><span class="subj-hdr-icon">🤰</span><span class="subj-hdr-name">産婦人科</span><span class="subj-hdr-count">685問</span></div>
-<div class="subj-cards-loading" data-sid="obg">読み込み中...</div>
+<div class="subj-cards-loading" data-sid="obg">読み込み中…</div>
 </div>
 <div class="subj-section" data-sid="jitsu1" data-visible="true">
 <div class="subj-hdr" style="background:#283593"><span class="subj-hdr-icon">🎯</span><span class="subj-hdr-name">実力試験Ⅰ</span><span class="subj-hdr-count">160問</span></div>
-<div class="subj-cards-loading" data-sid="jitsu1">読み込み中...</div>
+<div class="subj-cards-loading" data-sid="jitsu1">読み込み中…</div>
 </div>
 <div class="subj-section" data-sid="custom" data-visible="true">
 <div class="subj-hdr" style="background:#5C3D99"><span class="subj-hdr-icon">✏️</span><span class="subj-hdr-name">自作問題</span><span class="subj-hdr-count" id="custom-count">0問</span></div>
-<div class="subj-cards-loading" data-sid="custom">読み込み中...</div>
+<div class="subj-cards-loading" data-sid="custom">読み込み中…</div>
 </div>
 <div class="subj-section" data-sid="memo" data-visible="true">
 <div class="subj-hdr" style="background:#455A64"><span class="subj-hdr-icon">📝</span><span class="subj-hdr-name">暗記メモ</span><span class="subj-hdr-count" id="memo-count">0問</span></div>
-<div class="subj-cards-loading" data-sid="memo">読み込み中...</div>
+<div class="subj-cards-loading" data-sid="memo">読み込み中…</div>
 </div>
 
 <!-- SRS復習でdue問題だけを起こす専用ホスト（通常は非表示・復習中のみ表示） -->
@@ -437,7 +437,7 @@ function _unloadSubjectCards(sid) {
   const ph = document.createElement('div');
   ph.className = 'subj-cards-loading';
   ph.dataset.sid = sid;
-  ph.textContent = '読み込み中...';
+  ph.textContent = '読み込み中…';
   section.appendChild(ph);
   delete section.dataset.loaded;
   // 各種キャッシュから除去（el 参照を落として GC 対象にする）
@@ -943,7 +943,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0720a";
+const MEC_BUILD = "b-0720b";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。

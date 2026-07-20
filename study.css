@@ -9,7 +9,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .hdr-toggle{background:none;border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.65);font-size:12px;font-weight:700;cursor:pointer;padding:3px 9px;border-radius:20px;font-family:inherit;flex-shrink:0;transition:transform .25s,background .15s;}
 .hdr-toggle:hover{background:rgba(255,255,255,.1);}
 .st-hdr.hdr-collapsed .hdr-toggle{transform:rotate(-90deg);}
-.st-filter-panel{overflow:hidden;max-height:220px;transition:max-height .3s ease;}
+.st-filter-panel{overflow:hidden;max-height:220px;transition:max-height .3s cubic-bezier(.16,1,.3,1);}
 .st-hdr.hdr-collapsed .st-filter-panel{max-height:0;}
 .st-hdr.hdr-collapsed .st-stats{margin-bottom:0;}
 .st-title{font-size:15px;font-weight:800;}
@@ -315,7 +315,8 @@ body.exam-mode .exam-prog{display:flex;}
 @keyframes erShine{from{transform:translateX(-100%);}to{transform:translateX(100%);}}
 .exam-resume-btn{background:linear-gradient(135deg,#4BE29B,#2BB673);color:#04180C;border:none;border-radius:9px;padding:7px 14px;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;font-family:inherit;flex-shrink:0;transition:transform .2s,box-shadow .2s;box-shadow:0 3px 10px rgba(0,0,0,.3);}
 /* 再開ボタン押下時の中央演出テキスト（MecFXのバースト・リングと同時発火） */
-.resume-intro-pop{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:6000;pointer-events:none;font-size:30px;font-weight:900;letter-spacing:.06em;white-space:nowrap;background:linear-gradient(90deg,#7CEFB2,var(--blu));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 4px 18px rgba(61,214,140,.5));animation:resumePop 1.15s cubic-bezier(.2,1.3,.4,1) both;}
+/* 単色（グラデ文字＝background-clip:text は .grad-txt と同様に廃止・2026-07-20） */
+.resume-intro-pop{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:var(--z-mfx);pointer-events:none;font-size:30px;font-weight:900;letter-spacing:.06em;white-space:nowrap;color:#7CEFB2;filter:drop-shadow(0 4px 18px rgba(61,214,140,.5));animation:resumePop 1.15s cubic-bezier(.2,1.3,.4,1) both;}
 @keyframes resumePop{0%{opacity:0;transform:translate(-50%,-50%) scale(.5);}18%{opacity:1;transform:translate(-50%,-50%) scale(1.12);}30%{transform:translate(-50%,-50%) scale(1);}75%{opacity:1;}100%{opacity:0;transform:translate(-50%,-58%) scale(1.04);}}
 .exam-resume-btn:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(0,0,0,.4);}
 .exam-resume-btn:active{transform:scale(.96);}
