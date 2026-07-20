@@ -2636,7 +2636,7 @@ function _bindOverlayVV(ov) {
 
 function showExamSummary() {
   // 前回セッションの残骸（ランクスタンプ・復習完了バナー）を消してから描き直す
-  document.querySelectorAll('#examOverlay .exam-rank-stamp, #examOverlay .exam-srs-done').forEach(el => el.remove());
+  document.querySelectorAll('#examOverlay .exam-rank-stamp, #examOverlay .exam-srs-done, #examOverlay .exam-srs-continue').forEach(el => el.remove());
   const titleEl = document.querySelector('#examOverlay h2');
   if (titleEl) titleEl.innerHTML = _srsReviewMode ? '🔔 <span class="grad-txt">復習セッション結果</span>' : '📊 <span class="grad-txt">セッション結果</span>';
   const elapsed = examStartTime ? Math.floor((_examActiveMs()) / 1000) : 0;
@@ -2717,10 +2717,24 @@ function showExamSummary() {
   }
   // C11: SRS復習セッションを完走した時だけの完了演出（習慣化に一番効く場所）
   if (_srsReviewMode && examAnswered > 0 && examAnswered >= examQueue.length) {
+    // 上限で切っている場合、この時点の残りdueを数え直す（解いた分は次回日付へ繰り延べ済み）
+    const _rest = window._srsDueRemaining ? window._srsDueRemaining() : 0;
     const note = document.getElementById('sumFlagNote');
     if (note) {
       note.insertAdjacentHTML('beforebegin',
-        '<div class="exam-srs-done">🔔 今日の復習、完了！<span>' + examAnswered + '問すべて消化しました</span></div>');
+        '<div class="exam-srs-done">🔔 今日の復習、完了！' +
+        '<span>' + examAnswered + '問すべて消化しました' +
+        (_rest > 0 ? ' ／ 残り ' + _rest + '問' : '') + '</span></div>');
+    }
+    if (_rest > 0) {
+      const btn = document.getElementById('sumReviewBtn');
+      if (btn && btn.parentNode) {
+        const cont = document.createElement('button');
+        cont.className = 'exam-review-btn exam-srs-continue';
+        cont.textContent = '🔔 続けて次の' + Math.min(_rest, 50) + '問';
+        cont.onclick = () => { closeExamSummary(); setTimeout(() => window.startSRSReview?.(), 120); };
+        btn.parentNode.insertBefore(cont, btn);
+      }
     }
     setTimeout(_srsCompleteCelebration, 700);
   }

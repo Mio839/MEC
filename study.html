@@ -57,7 +57,7 @@ if ('serviceWorker' in navigator) {
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
     <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
     <button class="hdr-toggle" onclick="document.getElementById('mecKbHelp').classList.add('open')" title="キーボードショートカット (?)">⌨️</button>
-    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0720i</span>
+    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0720j</span>
   </div>
   <div class="st-stats">
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
@@ -948,7 +948,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0720i";
+const MEC_BUILD = "b-0720j";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
@@ -1555,13 +1555,38 @@ function _mecNotify(msg) {
 }
 
 // ── SRS Review Session ────────────────────────────────────────────────────────
+// 1セッションの出題上限。due が数千件に膨らむと、その全てをDOMへ起こしてから
+// 始まるため iPhone では起動が重く実用にならない（実測: due 2101問＝選択肢1万件超）。
+const SRS_SESSION_LIMIT = 50;
+
+// 残りdue件数（結果画面の「続けてもう50問」判定に使う）
+window._srsDueRemaining = function () {
+  try {
+    const today = _today();
+    const srs = JSON.parse(localStorage.getItem('mec_srs_v1') || '{}');
+    return Object.keys(srs).filter(uid => {
+      const e = srs[uid];
+      return e && e.nextReview && e.nextReview <= today;
+    }).length;
+  } catch (e) { return 0; }
+};
+
 async function startSRSReview() {
   const today = _today();
   const srs = JSON.parse(localStorage.getItem('mec_srs_v1') || '{}');
-  const dueUids = Object.keys(srs).filter(uid => {
+  const allDue = Object.keys(srs).filter(uid => {
     const e = srs[uid];
     return e && e.nextReview && e.nextReview <= today;
   });
+  // 上限で切るので「どの50問か」が学習効果を決める。
+  // 期限超過が古い＝最も待たされている問題を先に、同着なら ef が低い＝苦手な問題を先に。
+  allDue.sort((a, b) => {
+    const A = srs[a] || {}, B = srs[b] || {};
+    if (A.nextReview !== B.nextReview) return A.nextReview < B.nextReview ? -1 : 1;
+    return (A.ef == null ? 2.5 : A.ef) - (B.ef == null ? 2.5 : B.ef);
+  });
+  const _dueTotal = allDue.length;
+  const dueUids = allDue.slice(0, SRS_SESSION_LIMIT);
 
   if (!dueUids.length) {
     _mecNotify('今日の復習問題はありません。');
@@ -1588,6 +1613,9 @@ async function startSRSReview() {
   _srsReviewMode = true;
   _examFilterLabel = 'SRS復習';
   startExam(availableUids);
+  if (_dueTotal > dueUids.length) {
+    _mecNotify('復習 ' + availableUids.length + '問を出題します（残り ' + (_dueTotal - dueUids.length) + '問は完了後に続けられます）');
+  }
 }
 
 // ── Review Mode (post-exam wrong-answer review) ───────────────────────────────
