@@ -57,7 +57,7 @@ if ('serviceWorker' in navigator) {
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
     <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
     <button class="hdr-toggle" onclick="document.getElementById('mecKbHelp').classList.add('open')" title="キーボードショートカット (?)">⌨️</button>
-    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0720r</span>
+    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0720s</span>
   </div>
   <div class="st-stats">
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
@@ -895,7 +895,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0720r";
+const MEC_BUILD = "b-0720s";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
@@ -1517,13 +1517,30 @@ let _srsUnloadedForReview = false;
 
 // 復習を抜けた後に通常閲覧へ戻す。解放した科目を読み直してキャッシュ類を作り直す。
 async function _srsRestoreAfterReview() {
+  // ⚠️ 試験中は一切触らない。誤答再試験や「続けて次の50問」は結果画面を閉じた直後に
+  // 別の試験を始めるため、ここで科目カードを描画すると出題外の問題が画面に出る
+  // （applyFilters は examMode 中に早期returnするので隠されない）。
+  // フラグを残すので、本当に通常閲覧へ戻るときに改めて復元される。
+  if (typeof examMode !== 'undefined' && examMode) return;
+  // 復習用の最小表示を解くのはここだけ。exitExam で解くと結果画面〜再試験の間に
+  // 解放済みの科目セクション（「読み込み中…」だけ）とフィルターが復活してしまう。
+  document.body.classList.remove('srs-review');
   if (!_srsUnloadedForReview) return;
   _srsUnloadedForReview = false;
-  document.body.classList.remove('srs-review');
   const sids = [...selectedSubjects];
   if (!sids.length) { _updateEmptyState?.(); return; }
   try {
     await Promise.all(sids.map(sid => _fetchSubjectCards(sid)));
+    // 読み込み中に試験が始まっていたら、増えたカードを隠して出題を汚さない。
+    // 復元自体は次に通常閲覧へ戻るときへ持ち越す。
+    if (typeof examMode !== 'undefined' && examMode) {
+      _srsUnloadedForReview = true;
+      const q = new Set(typeof examQueue !== 'undefined' ? examQueue : []);
+      document.querySelectorAll('.qc[data-uid]').forEach(c => { if (!q.has(c)) c.style.display = 'none'; });
+      return;
+    }
+    // 復習ホストに移設したカードは科目側に再描画されたので重複になる。消しておく。
+    window._srsHostClear?.();
     _buildCardCache();
     initCards();
     requestAnimationFrame(() => { _buildChapterMap(); _buildChapterJumpOptions(); _updateChapterProgressBadges(); });

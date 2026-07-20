@@ -35,6 +35,9 @@ let _examCount = 0;
 let _examSessionKey = '';
 let _examFilterLabel = '';
 let _srsReviewMode = false;
+// 直前に終えたセッションが復習だったか。誤答再試験で復習モードへ戻すために使う
+// （exitExam が _srsReviewMode を false に戻すので、その前に控えておく必要がある）。
+let _lastSessionWasSrs = false;
 const _examChoiceBackup = new Map();
 let _examAudioCtx = null;
 let _correctSound = localStorage.getItem('mec_correct_sound_v1') || 'ping';
@@ -503,10 +506,23 @@ function _playResumeIntroFx() {
   } catch (e) {}
 }
 
+// 結果画面を閉じるだけ（科目の復元は起こさない）。直後に別の試験を始める経路で使う。
+// closeExamSummary は「通常閲覧へ戻る」前提なので復元を走らせてしまう。
+function _closeSummaryOverlayOnly() {
+  document.getElementById('examOverlay')?.classList.remove('open');
+}
+
 function retryWrongExam() {
   const uids = [...examWrong];
   if (!uids.length) return;
-  closeExamSummary();
+  _closeSummaryOverlayOnly();
+  // 復習セッションの誤答再試験は復習モードのまま続ける。
+  // ここで戻さないと通常試験として開始され、科目フィルターと科目セクションが復活する。
+  if (_lastSessionWasSrs) {
+    _srsReviewMode = true;
+    document.body.classList.add('srs-review');
+    window._srsHostShow?.();
+  }
   startExam(uids);
 }
 
@@ -2658,7 +2674,9 @@ function exitExam() {
   examMode = false;
   localStorage.removeItem('mec_exam_active_key');
   _zoneStop(false); _setAwaken(false);
-  document.body.classList.remove('srs-review');
+  // srs-review クラスはここでは外さない。結果画面〜誤答再試験の間も復習の最小表示を保つため、
+  // 解除は通常閲覧へ戻る _srsRestoreAfterReview() に集約している。
+  _lastSessionWasSrs = _srsReviewMode;
   document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink');
   clearInterval(examTimerInt);
   document.removeEventListener('keydown', _examKeyHandler);
@@ -2837,7 +2855,7 @@ function showExamSummary() {
         const cont = document.createElement('button');
         cont.className = 'exam-review-btn exam-srs-continue';
         cont.textContent = '🔔 続けて次の' + Math.min(_rest, 50) + '問';
-        cont.onclick = () => { closeExamSummary(); setTimeout(() => window.startSRSReview?.(), 120); };
+        cont.onclick = () => { _closeSummaryOverlayOnly(); setTimeout(() => window.startSRSReview?.(), 120); };
         btn.parentNode.insertBefore(cont, btn);
       }
     }
