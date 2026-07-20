@@ -674,3 +674,11 @@ body.srs-review .vis-count{display:none;}
 body.srs-review #mecBuildVer{display:none;}
 body.srs-review .st-title::after{content:' · 復習';font-size:11px;font-weight:700;color:var(--or);}
 body.srs-review .st-stats{margin-bottom:6px;}
+
+/* 復習中は科目セクションを一切見せない。
+   ⚠️ _unloadSubjectCards は解放したセクションへ「読み込み中…」のプレースホルダを戻すため、
+   これを隠さないと復習中ずっと「読み込みが終わらない」ように見える（実機報告・2026-07-20）。
+   科目選択そのものを出さない以上、空状態の案内文(#mecNoSubj)も無意味なので併せて隠す。
+   出題カードは #srsReviewHost にあるので、これで画面最上部から問題が始まる。 */
+body.srs-review .subj-section{display:none!important;}
+body.srs-review #mecNoSubj{display:none!important;}
