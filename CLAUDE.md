@@ -146,6 +146,37 @@
 ### 章別（chapter_exam.js）との関係
 過去問ビューア側は `CE_EFFECT_THEMES` / `CE_EFFECT_POOL` として同一配色をミラー実装。片方の配色・ラベルを変えたら**もう片方も合わせる**こと。乖離は `node _work/check_effect_themes_sync.js` で自動検出でき、pre-commitフックが study_exam.js / chapter_exam.js のステージ時に自動実行する（study側のみの `fx` キーは除外。フックはGit管理外＝別マシンでは要再設定）。
 
+## 科目選択は単一選択（2026-07-20〜）
+
+study.html の科目チップは**1科目だけ選べる**。「全科目」ボタンは廃止した。
+
+- **理由**: 全科目選択は最大5487問（約22万ノード）をDOMに載せ、iPad/iPhone がメモリ退避で
+  タブを強制リロードする主因だった。実運用でも複数科目を同時に開く場面が無かった。
+- **効果**: DOMは常に1科目ぶん（最大594問・神経）に固定される。
+- `toggleSubjectChip` が「前の科目を `_unloadSubjectCards` で捨ててから次を読む」を担保する。
+  同じチップの再タップで未選択に戻れる（`#mecNoSubj` の案内が出る）。
+- `applyFilters` は元々 `selectedSubjects` に限定されているため、難易度・状態・検索・
+  🎯苦手・🔔復習の**すべてが選択中の1科目内**になる。これは仕様。
+- 科目横断が必要な用途には既に代替がある:
+  - 苦手 → stats.html の苦手ランキング（科目横断）から `study.html?sid=X&filter=weak`
+  - 復習 → SRS復習モード（🔔ボタン / `?mode=srs_review`）は科目横断で動く
+  - 用語の横断検索 → knowledge.html
+
+### 将来の検討事項: 全科目ミックスの総合演習（未実装）
+
+本番は全科目ミックスだが、単一選択化により study.html 上での総合演習はできなくなった。
+現状は **実力試験Ⅰ（jitsu1・160問）** と **章別試験** でカバーしている。
+
+もし実装するなら、**全科目をDOMに載せる方式に戻してはいけない**（上記の理由で却下済み）。
+**SRS復習モードと同じ「必要な問題だけをDOMに起こす」方式**を流用するのが筋:
+
+- `_renderDueCardsForReview` / `srsq` 単品キャッシュ（IndexedDB）/ `_srsHostShow` の仕組みが
+  そのまま使える。出題uidを決めてから、そのuidぶんだけホストへ描画する。
+- 出題数は上限を設ける（SRS復習は `SRS_SESSION_LIMIT = 50`）。100問程度が現実的。
+- 科目配分は本番の出題比率に寄せるか、`myrate_v1` の弱点重み付けにするかを決める必要がある。
+- 起動経路は `?mode=mock` 等を新設し、`_srsLaunch` と同様に全科目初期化をスキップする。
+- 終了後の復帰は `_srsRestoreAfterReview()` と同じ考え方が要る（解放した科目の読み直し）。
+
 ## 複数デバイス同期
 
 GitHub Gist API で `mec_progress.json` に進捗を保存。

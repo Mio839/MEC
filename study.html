@@ -57,7 +57,7 @@ if ('serviceWorker' in navigator) {
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
     <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
     <button class="hdr-toggle" onclick="document.getElementById('mecKbHelp').classList.add('open')" title="キーボードショートカット (?)">⌨️</button>
-    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0720o</span>
+    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0720p</span>
   </div>
   <div class="st-stats">
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
@@ -66,7 +66,6 @@ if ('serviceWorker' in navigator) {
   </div>
   <div class="st-filter-panel" id="stFilterPanel">
     <div class="chip-row">
-    <button class="chip" data-sid="__all__" onclick="toggleSubjectChip(this,'__all__')">全科目</button>
     <button class="chip" data-sid="endo" onclick="toggleSubjectChip(this,'endo')">⚗️&nbsp;内分泌</button>
     <button class="chip" data-sid="resp" onclick="toggleSubjectChip(this,'resp')">🌬️&nbsp;呼吸器</button>
     <button class="chip" data-sid="circ" onclick="toggleSubjectChip(this,'circ')">❤️&nbsp;循環器</button>
@@ -294,7 +293,7 @@ if ('serviceWorker' in navigator) {
 <div id="mecNoSubj" style="display:none;text-align:center;color:var(--ts,rgba(255,255,255,.6));padding:56px 20px;font-size:14px;line-height:1.9;">
   <div style="font-size:34px;margin-bottom:10px;">📚</div>
   上の科目バーから学習したい科目を選んでください。<br>
-  選んだ科目だけを読み込みます（動作を軽くするため）。
+  科目は1つずつ選びます（その科目だけを読み込むので軽く動きます）。
 </div>
 <div class="subj-section" data-sid="endo" data-visible="true">
 <div class="subj-hdr" style="background:#00838F"><span class="subj-hdr-icon">⚗️</span><span class="subj-hdr-name">内分泌</span><span class="subj-hdr-count">542問</span></div>
@@ -467,7 +466,7 @@ function onSearchInput(val) {
 }
 
 function _syncChipStyles() {
-  document.querySelectorAll('.chip:not([data-sid="__all__"])').forEach(c => {
+  document.querySelectorAll('.chip[data-sid]').forEach(c => {
     const id = c.dataset.sid;
     const subj = STUDY_SUBJECTS.find(s => s.id === id);
     const on = selectedSubjects.has(id);
@@ -476,85 +475,33 @@ function _syncChipStyles() {
     c.style.borderColor = on && subj ? subj.color : 'rgba(255,255,255,.3)';
     c.style.color = on ? '#fff' : 'rgba(255,255,255,.6)';
   });
-  const allChip = document.querySelector('.chip[data-sid="__all__"]');
-  if (allChip) {
-    const allOn = selectedSubjects.size === STUDY_SUBJECTS.length;
-    allChip.classList.toggle('on', allOn);
-    allChip.style.background = allOn ? 'rgba(255,255,255,.2)' : 'none';
-    allChip.style.borderColor = allOn ? '#fff' : 'rgba(255,255,255,.3)';
-    allChip.style.color = allOn ? '#fff' : 'rgba(255,255,255,.6)';
-  }
 }
 
 function toggleSubjectChip(btn, id) {
-  if (id === '__all__') {
-    const allOn = selectedSubjects.size === STUDY_SUBJECTS.length;
-    if (allOn) {
-      selectedSubjects.clear();
-      document.querySelectorAll('.chip').forEach(c => {
-        c.classList.remove('on');
-        c.style.background = 'none';
-        c.style.borderColor = 'rgba(255,255,255,.3)';
-        c.style.color = 'rgba(255,255,255,.6)';
-      });
-      [..._loadedSids].forEach(s => _unloadSubjectCards(s));
-    } else {
-      STUDY_SUBJECTS.forEach(s => selectedSubjects.add(s.id));
-      document.querySelectorAll('.chip[data-sid="__all__"]').forEach(c => {
-        c.classList.add('on');
-        c.style.background = 'rgba(255,255,255,.2)';
-        c.style.borderColor = '#fff';
-        c.style.color = '#fff';
-      });
-      document.querySelectorAll('.chip:not([data-sid="__all__"])').forEach(c => {
-        const subj = STUDY_SUBJECTS.find(s => s.id === c.dataset.sid);
-        if (!subj) return;
-        c.classList.add('on');
-        c.style.background = subj.color + 'bb';
-        c.style.borderColor = subj.color;
-        c.style.color = '#fff';
-      });
-    }
-  } else {
-    const subj = STUDY_SUBJECTS.find(s => s.id === id);
-    if (selectedSubjects.has(id)) {
-      selectedSubjects.delete(id);
-      btn.classList.remove('on');
-      btn.style.background = 'none';
-      btn.style.borderColor = 'rgba(255,255,255,.3)';
-      btn.style.color = 'rgba(255,255,255,.6)';
-      _unloadSubjectCards(id);
-    } else {
-      selectedSubjects.add(id);
-      btn.classList.add('on');
-      if (subj) {
-        btn.style.background = subj.color + 'bb';
-        btn.style.borderColor = subj.color;
-        btn.style.color = '#fff';
-      }
-    }
-    const allChip = document.querySelector('.chip[data-sid="__all__"]');
-    if (allChip) {
-      const allOn = selectedSubjects.size === STUDY_SUBJECTS.length;
-      allChip.classList.toggle('on', allOn);
-      allChip.style.background = allOn ? 'rgba(255,255,255,.2)' : 'none';
-      allChip.style.borderColor = allOn ? '#fff' : 'rgba(255,255,255,.3)';
-      allChip.style.color = allOn ? '#fff' : 'rgba(255,255,255,.6)';
-    }
-  }
+  // 単一選択。複数科目を同時に開く運用が無く、全科目選択は最大5487問(約22万ノード)を
+  // DOMに載せてiPadのメモリ退避によるタブ強制リロードを招いていたため2026-07-20に廃止した。
+  // 「常に1科目だけがDOMに載っている」状態を保つのがこの関数の役割。
+  const subj = STUDY_SUBJECTS.find(s => s.id === id);
+  const already = selectedSubjects.has(id);
+
+  // 直前の科目は必ず解放してから次を読む（切替=捨てて読む の一対一対応）
+  [...selectedSubjects].forEach(prev => { if (prev !== id) _unloadSubjectCards(prev); });
+  selectedSubjects.clear();
+  if (!already) selectedSubjects.add(id);   // 同じチップの再タップで解除（未選択状態に戻れる）
+  else _unloadSubjectCards(id);
+
+  _syncChipStyles();
   localStorage.setItem('mec_subjects_v1', JSON.stringify([...selectedSubjects]));
-  const _unloaded = [...selectedSubjects].filter(s => !_loadedSids.has(s));
+
   const _finish = () => {
     selectedSubjects.forEach(sid => _ensureSubjInit(sid));
     applyFilters();
     // 解放で章見出し(divEl)が消える・ロードで増えるため、章マップとジャンプ候補を必ず再構築
     requestAnimationFrame(() => { _buildChapterMap(); _buildChapterJumpOptions(); _updateChapterProgressBadges(); });
   };
-  if (_unloaded.length) {
-    Promise.all(_unloaded.map(s => _fetchSubjectCards(s))).then(_finish);
-  } else {
-    _finish();
-  }
+  const need = [...selectedSubjects].filter(s => !_loadedSids.has(s));
+  if (need.length) Promise.all(need.map(s => _fetchSubjectCards(s))).then(_finish);
+  else _finish();
 }
 
 function setFilter(f) {
@@ -948,7 +895,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0720o";
+const MEC_BUILD = "b-0720p";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
@@ -964,9 +911,11 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('mec_subjects_v1', JSON.stringify([sidParam]));
   } else {
     const savedSubjects = JSON.parse(localStorage.getItem('mec_subjects_v1') || 'null');
-    if (savedSubjects) {
+    if (savedSubjects && savedSubjects.length) {
+      // 単一選択化(2026-07-20)以前に複数科目が保存されている場合があるため先頭1つだけ復元する
       selectedSubjects.clear();
-      savedSubjects.forEach(id => selectedSubjects.add(id));
+      selectedSubjects.add(savedSubjects[0]);
+      if (savedSubjects.length > 1) localStorage.setItem('mec_subjects_v1', JSON.stringify([savedSubjects[0]]));
       _syncChipStyles();
     }
   }
@@ -993,6 +942,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // 全科目が保存された端末など）では全JSON（約15MB）を一斉fetchすると回線が細い端末で
   // ネットワークが競合し初回描画が遅れるため、まず先頭数科目だけ読み込んでローダーを外し
   // 操作可能にし、残りは背後で追って読み込む（見た目は不変。保存科目が少なければ _restSids は空）。
+  // 単一選択化により _initialSids は最大1件。段階ロードの分割は実質不要だが、
+  // 自動復元などで一時的に複数入る余地を残すため構造はそのままにしてある。
   const _PRIORITY_LOAD = 3;
   const _firstSids = _initialSids.slice(0, _PRIORITY_LOAD);
   const _restSids  = _initialSids.slice(_PRIORITY_LOAD);
