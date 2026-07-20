@@ -2554,6 +2554,7 @@ function exitExam() {
   examMode = false;
   localStorage.removeItem('mec_exam_active_key');
   _zoneStop(false); _setAwaken(false);
+  document.body.classList.remove('srs-review');
   document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink');
   clearInterval(examTimerInt);
   document.removeEventListener('keydown', _examKeyHandler);
@@ -2763,4 +2764,7 @@ function closeExamSummary() {
   // 復習モードで起動していた場合、通常閲覧に戻る時点で全科目ロードを開始する
   // （通常フローでは初期化済みのため no-op）。
   window._runDeferredInit?.();
+  // 復習のために科目カードを解放していた場合は読み直す（_runDeferredInit は
+  // 既に全体初期化が済んでいるケースでは何もしないため、こちらが本命の復帰経路）。
+  window._srsRestoreAfterReview?.();
 }

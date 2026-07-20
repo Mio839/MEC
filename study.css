@@ -613,7 +613,11 @@ body.exam-awaken #examComboMeter{height:5px;}
   font-variant-numeric:tabular-nums;text-shadow:0 2px 10px rgba(0,0,0,.75);}
 
 /* B4: 昇格しなかったフレームのトーストは控えめに（山谷をつける） */
-#examStreakToast.quiet{opacity:.85;}
+/* ⚠️ ここで opacity を指定してはいけない。トーストは #examStreakToast{opacity:0} を「消えた状態」とし、
+   JS側は fill 指定なしの WAAPI で一時的に見せている。opacity を上書きするとアニメ終了後に
+   その値へ戻り、トーストが画面に残り続ける（2026-07-20 実機報告の原因）。
+   キーフレームが触らない filter で控えめさを表現する。 */
+#examStreakToast.quiet{filter:saturate(.7) brightness(.9);}
 
 /* C9: 開始カウントダウン */
 #examCountdown{position:fixed;inset:0;z-index:9400;display:none;align-items:center;justify-content:center;
@@ -657,3 +661,16 @@ body.exam-awaken #examComboMeter{height:5px;}
 #mecBuildVer{white-space:nowrap;flex-shrink:0;}
 .mec-err-badge{white-space:nowrap;flex-shrink:0;}
 .vis-count{flex-shrink:0;}
+
+/* ══ SRS復習モードのヘッダー最小化 ══
+   復習は出題が自動で決まるため、科目チップ・難易度/状態フィルター・検索・章ジャンプは
+   一つも使わない。出さないと決めたことで他科目カードをDOMから外せるようになり
+   （study.html の startSRSReview で解放）、iPhoneでの起動と描画が大幅に軽くなる。
+   残すもの: 残り問題数・タイマー・終了ボタン（.exam-prog）と Lv/連続日数（.st-stats）。 */
+body.srs-review .st-filter-panel{display:none;}
+body.srs-review .hdr-toggle{display:none;}      /* 畳む対象が無いのでボタン自体を出さない */
+body.srs-review .mec-err-badge{display:none;}
+body.srs-review .vis-count{display:none;}
+body.srs-review #mecBuildVer{display:none;}
+body.srs-review .st-title::after{content:' · 復習';font-size:11px;font-weight:700;color:var(--or);}
+body.srs-review .st-stats{margin-bottom:6px;}

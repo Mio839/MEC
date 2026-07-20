@@ -57,7 +57,7 @@ if ('serviceWorker' in navigator) {
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
     <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
     <button class="hdr-toggle" onclick="document.getElementById('mecKbHelp').classList.add('open')" title="キーボードショートカット (?)">⌨️</button>
-    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0720j</span>
+    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0720k</span>
   </div>
   <div class="st-stats">
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
@@ -948,7 +948,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0720j";
+const MEC_BUILD = "b-0720k";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
@@ -1559,6 +1559,28 @@ function _mecNotify(msg) {
 // 始まるため iPhone では起動が重く実用にならない（実測: due 2101問＝選択肢1万件超）。
 const SRS_SESSION_LIMIT = 50;
 
+// 復習のために科目カードを解放したか。復習を抜けた時に読み直す必要があるかの判定に使う
+// （_runFullInit は _fullInitStarted で二度目を弾くため、通常閲覧から入った場合は
+//   _runDeferredInit では戻せない＝専用の復帰処理が要る）。
+let _srsUnloadedForReview = false;
+
+// 復習を抜けた後に通常閲覧へ戻す。解放した科目を読み直してキャッシュ類を作り直す。
+async function _srsRestoreAfterReview() {
+  if (!_srsUnloadedForReview) return;
+  _srsUnloadedForReview = false;
+  document.body.classList.remove('srs-review');
+  const sids = [...selectedSubjects];
+  if (!sids.length) { _updateEmptyState?.(); return; }
+  try {
+    await Promise.all(sids.map(sid => _fetchSubjectCards(sid)));
+    _buildCardCache();
+    initCards();
+    requestAnimationFrame(() => { _buildChapterMap(); _buildChapterJumpOptions(); _updateChapterProgressBadges(); });
+    applyFilters();
+  } catch (e) { console.error('MEC srs restore error:', e); }
+}
+window._srsRestoreAfterReview = _srsRestoreAfterReview;
+
 // 残りdue件数（結果画面の「続けてもう50問」判定に使う）
 window._srsDueRemaining = function () {
   try {
@@ -1594,8 +1616,22 @@ async function startSRSReview() {
     return;
   }
 
-  // due問題だけを起こす（科目まるごとの読み込みはしない）
+  // 復習は科目チップ・難易度・状態・検索・章ジャンプを一切使わない。
+  // フィルターが「全カードをDOMに置いたまま display で出し入れする」方式である以上、
+  // フィルターを出さないと決めた復習中は他科目のカードを保持する理由が無い。
+  // ① 既にDOMにある due カードはホストへ移設（再fetchを避けつつ、この後の解放から守る）
+  //    → ② 残りの科目カードを解放 → ③ 不足分だけキャッシュ/JSONから描画、の順で行う。
   _srsHostClear();
+  const _host = document.getElementById('srsReviewHost');
+  if (_host) {
+    dueUids.forEach(uid => {
+      const el = document.querySelector('.subj-section .qc[data-uid="' + uid + '"]');
+      if (el) _host.appendChild(el); // appendChild は移動（複製ではない）
+    });
+  }
+  const _hadLoaded = _loadedSids.size > 0;
+  [..._loadedSids].forEach(sid => _unloadSubjectCards(sid));
+  _srsUnloadedForReview = _hadLoaded;
   await _renderDueCardsForReview(dueUids);
 
   const availableUids = dueUids.filter(uid => {
@@ -1605,13 +1641,16 @@ async function startSRSReview() {
   if (!availableUids.length) {
     _srsHostClear();
     _mecNotify('問題が見つかりませんでした。ページを再読み込みしてください。');
+    document.body.classList.remove('srs-review');
     _runDeferredInit();
+    _srsRestoreAfterReview();   // 上で科目を解放済みのため戻す
     return;
   }
 
   _srsHostShow();
   _srsReviewMode = true;
   _examFilterLabel = 'SRS復習';
+  document.body.classList.add('srs-review'); // フィルター類を隠し、ヘッダーを最小化する
   startExam(availableUids);
   if (_dueTotal > dueUids.length) {
     _mecNotify('復習 ' + availableUids.length + '問を出題します（残り ' + (_dueTotal - dueUids.length) + '問は完了後に続けられます）');
