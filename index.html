@@ -137,6 +137,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     <button class="hub-btn primary" onclick="openSyncModal()">⚙️ 同期設定</button>
     <button class="hub-btn" onclick="manualSync()">🔄 今すぐ同期</button>
     <a class="hub-btn" href="stats.html">📊 統計</a>
+    <button class="hub-btn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">♻️ 最新に更新</button>
 <span class="mec-sync-badge">⚙️ 未設定</span>
   </div>
 </header>
@@ -595,6 +596,55 @@ function updateGlobalStats() {
     const dueEl = document.getElementById('statDue');
     if (dueEl) dueEl.textContent = due;
   }
+}
+
+// ── キャッシュ削除＋再読み込み ─────────────────────────────────────
+// study.html の同名関数と同じ挙動。confirm() は iOS PWA 等で表示されないことがあるため
+// 2段階タップで確認する（1回目で赤くなり「再タップで実行」、3秒で自動解除）。
+function _tapConfirm(btn, armedLabel) {
+  if (!btn) return true;
+  if (btn.dataset.armed === '1') {
+    clearTimeout(btn._armTimer);
+    btn.dataset.armed = '';
+    btn.classList.remove('tap-arm');
+    btn.textContent = btn.dataset.origLabel || btn.textContent;
+    return true;
+  }
+  btn.dataset.armed = '1';
+  btn.dataset.origLabel = btn.textContent;
+  btn.textContent = armedLabel;
+  btn.classList.add('tap-arm');
+  clearTimeout(btn._armTimer);
+  btn._armTimer = setTimeout(() => {
+    btn.dataset.armed = '';
+    btn.textContent = btn.dataset.origLabel;
+    btn.classList.remove('tap-arm');
+  }, 3000);
+  return false;
+}
+
+async function mecForceRefresh(btn) {
+  if (!_tapConfirm(btn, '♻️再タップで実行')) return;
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ 更新中…'; }
+  try {
+    // ① Service Worker のキャッシュを全削除（学習データは localStorage なので消えない）
+    if (window.caches) {
+      const keys = await caches.keys();
+      await Promise.all(keys.map(k => caches.delete(k)));
+    }
+    // ② SW 自体を登録解除（次回ロードで新しい sw.js が入る）
+    if (navigator.serviceWorker) {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map(r => r.unregister()));
+    }
+    // ③ ブラウザのHTTPキャッシュに残った旧シェルも cache:'reload' の再取得で上書きする
+    const shell = ['index.html','study.html','stats.html','knowledge.html',
+                   'vars.css','study.css','progress.js','study_exam.js','fx_engine.js',
+                   'card_renderer.js','fixed_uids.js','gamify.js','chapters_meta.js',
+                   'knowledge_notes.js','rate_index.js','_palette_preview.js','sw.js'];
+    await Promise.all(shell.map(f => fetch(f, { cache: 'reload' }).catch(() => {})));
+  } catch (e) { /* 失敗してもリロードは実行する */ }
+  location.reload();
 }
 
 // ── 同期設定 ────────────────────────────────────────────────────
