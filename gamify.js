@@ -375,11 +375,11 @@
   // ── ミッション（日次・週次／端末別カウンタで同期） ───────────────
   // 各ミッションは counter（ans/cor/exam/lap/flag）の端末横断合計が target 以上で達成。
   const MISSIONS_DAILY = [
-    { id: 'ans',  icon: '📝', label: '40問 解答する',             target: 40, counter: 'ans' },
-    { id: 'lap',  icon: '🔁', label: '「済」を25問つける',        target: 25, counter: 'lap' },
-    { id: 'cor',  icon: '✅', label: '試験モードで20問 正解',     target: 20, counter: 'cor' },
-    { id: 'exam', icon: '🎓', label: '試験セッション完了(10問+)', target: 1,  counter: 'exam' },
-    { id: 'flag', icon: '🚩', label: '苦手を3問 登録',            target: 3,  counter: 'flag' },
+    { id: 'ans',     icon: '📝', label: '40問 解答する',              target: 40, counter: 'ans' },
+    { id: 'cor',     icon: '✅', label: '試験モードで20問 正解',      target: 20, counter: 'cor' },
+    { id: 'exam',    icon: '🎓', label: '試験セッション完了(10問+)',  target: 1,  counter: 'exam' },
+    { id: 'acc',     icon: '🎯', label: '試験で正答率80%以上を1回',   target: 1,  counter: 'acc80' },
+    { id: 'perfect', icon: '💯', label: '試験で全問正解を1回',        target: 1,  counter: 'perfect' },
   ];
   const MISSIONS_WEEKLY = [
     { id: 'w_ans',  icon: '📅', label: '今週 250問 解答する',     target: 250, counter: 'ans' },
@@ -832,11 +832,15 @@
 
   function onFlag(uid, btn, nowFlagged) {
     _microFlagFx(btn, nowFlagged);
-    if (nowFlagged) _bumpMission('flag'); // 苦手登録ミッション
   }
 
   function onExamFinish(answered, correct) {
-    if (answered >= 10) _bumpMission('exam');
+    if (answered >= 10) {
+      const bumps = ['exam'];
+      if (correct / answered >= 0.8) bumps.push('acc80');   // 高正答率セッション（80%以上）
+      if (correct >= answered) bumps.push('perfect');       // 全問正解セッション
+      _bumpMission(bumps);
+    }
     _afterEvent(null);
   }
 
