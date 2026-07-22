@@ -15,7 +15,11 @@
   'use strict';
 
   const K_SYNC = 'mec_gamify_v1';        // 同期対象 {bestStreak}
-  const K_LOCAL = 'mec_gamify_local_v1'; // 端末ローカル {lastLevel,seenAch,chDone,subjDone,missions,sound}
+  const K_LOCAL = 'mec_gamify_local_v1'; // 端末ローカル {lastLevel,seenAch,chDone,subjDone,sound,devId,mDone}
+  const K_MISSIONS = 'mec_missions_v1';  // 同期対象。日次/週次ミッションの進捗を端末別カウンタで保持
+  //   構造: { d:{ [YYYY-MM-DD]:{ [devId]:{ans,cor,exam,lap,flag} } }, w:{ [週(月曜日付)]:{ [devId]:{...} } } }
+  //   マージ: 同一(期間,端末,カウンタ)は max（端末内は単調増加）／表示・達成判定は端末横断で sum。
+  //   → iPad と iPhone で分担しても合算されるので「達成状況」が正しく共有される。
 
   // 科目メタ（total は CLAUDE.md の実測値。科目全問制覇の判定にのみ使用）
   const SUBJECTS = [
@@ -48,9 +52,9 @@
   L.seenAch = L.seenAch || [];   // 解除演出を見せた実績id
   L.chDone = L.chDone || [];     // 章制覇演出を見せた章prefix
   L.subjDone = L.subjDone || []; // 科目制覇演出を見せたsid
-  if (!L.missions || L.missions.date !== _todayJST()) {
-    L.missions = { date: _todayJST(), ans: 0, cor: 0, exam: 0, doneIds: [], allDone: false };
-  }
+  L.mDone = L.mDone || {};       // ミッション達成トースト既視管理 { [期間キー]:[missionId] }（ローカル）
+  if (!L.devId) L.devId = 'd' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
+  delete L.missions;             // 旧・端末ローカルのみのミッション進捗は廃止（同期版へ移行）
   if (!L.sound) L.sound = 'on';
   function saveL() { _s(K_LOCAL, L); }
 
@@ -368,45 +372,94 @@
     }
   }
 
-  // ── ミッション ───────────────────────────────────────────────────
-  const MISSIONS = [
-    { id: 'ans',  icon: '📝', label: '30問 解答する',            target: 30, cur: m => m.ans },
-    { id: 'cor',  icon: '✅', label: '試験モードで15問 正解',    target: 15, cur: m => m.cor },
-    { id: 'exam', icon: '🎓', label: '試験セッション完了(10問+)', target: 1,  cur: m => m.exam },
+  // ── ミッション（日次・週次／端末別カウンタで同期） ───────────────
+  // 各ミッションは counter（ans/cor/exam/lap/flag）の端末横断合計が target 以上で達成。
+  const MISSIONS_DAILY = [
+    { id: 'ans',  icon: '📝', label: '40問 解答する',             target: 40, counter: 'ans' },
+    { id: 'lap',  icon: '🔁', label: '「済」を25問つける',        target: 25, counter: 'lap' },
+    { id: 'cor',  icon: '✅', label: '試験モードで20問 正解',     target: 20, counter: 'cor' },
+    { id: 'exam', icon: '🎓', label: '試験セッション完了(10問+)', target: 1,  counter: 'exam' },
+    { id: 'flag', icon: '🚩', label: '苦手を3問 登録',            target: 3,  counter: 'flag' },
   ];
-  function _missionRoll() {
-    if (L.missions.date !== _todayJST()) {
-      L.missions = { date: _todayJST(), ans: 0, cor: 0, exam: 0, doneIds: [], allDone: false };
-      saveL();
-    }
+  const MISSIONS_WEEKLY = [
+    { id: 'w_ans',  icon: '📅', label: '今週 250問 解答する',     target: 250, counter: 'ans' },
+    { id: 'w_cor',  icon: '✅', label: '今週 試験で120問 正解',   target: 120, counter: 'cor' },
+    { id: 'w_exam', icon: '🎓', label: '今週 試験セッション7回',  target: 7,   counter: 'exam' },
+    { id: 'w_lap',  icon: '🔁', label: '今週「済」を150問',       target: 150, counter: 'lap' },
+  ];
+  // 週キー = その週の月曜(JST)の日付。日次・週次とも古い期間はプルーニングして肥大化を防ぐ。
+  function _weekKeyJST() {
+    const d = new Date(Date.now() + 9 * 3600000);
+    const dow = (d.getUTCDay() + 6) % 7; // 月=0 … 日=6
+    d.setUTCDate(d.getUTCDate() - dow);
+    return d.toISOString().slice(0, 10);
   }
-  function _bumpMission(id, by) {
-    _missionRoll();
-    const m = L.missions;
-    m[id] = (m[id] || 0) + (by || 1);
-    const def = MISSIONS.find(d => d.id === id);
-    if (def && !m.doneIds.includes(id) && def.cur(m) >= def.target) {
-      m.doneIds.push(id);
-      toast(def.icon, 'ミッション達成！', def.label);
-      try { SND.mission(); } catch {}
-    }
-    if (!m.allDone && MISSIONS.every(d => d.cur(m) >= d.target)) {
-      m.allDone = true;
-      ceremony(
-        '<div class="gm-cer-ic">🎯</div><div class="gm-cer-big">MISSION COMPLETE</div>' +
-        '<div class="gm-cer-sub">本日のミッション 全達成！</div>' +
-        '<div class="gm-cer-note">この調子で明日も🔥</div>',
-        { fx: () => _fxConfetti(true), snd: SND.clear, dur: 2400 }
-      );
-    }
-    saveL();
+  function _missionStore() {
+    let s; try { s = JSON.parse(localStorage.getItem(K_MISSIONS) || '{}'); } catch { s = {}; }
+    if (!s.d || typeof s.d !== 'object') s.d = {};
+    if (!s.w || typeof s.w !== 'object') s.w = {};
+    return s;
+  }
+  function _pruneMissions(s) {
+    const keep = (obj, n) => { const ks = Object.keys(obj).sort(); while (ks.length > n) delete obj[ks.shift()]; };
+    keep(s.d, 14); keep(s.w, 10);
+  }
+  // 端末横断の合計（period: 'd' | 'w'、key: 日付 or 週キー）
+  function _missionSum(period, counter, key) {
+    const bucket = (_missionStore()[period] || {})[key] || {};
+    let n = 0;
+    for (const dev in bucket) n += (bucket[dev] && bucket[dev][counter]) || 0;
+    return n;
+  }
+  // counter は文字列 or 配列。この端末ぶんを日次・週次の両方へ加算し、達成判定＋同期予約。
+  function _bumpMission(counters, by) {
+    by = by || 1;
+    const list = Array.isArray(counters) ? counters : [counters];
+    const dev = L.devId, dk = _todayJST(), wk = _weekKeyJST();
+    const s = _missionStore();
+    const dd = (s.d[dk] = s.d[dk] || {}); dd[dev] = dd[dev] || {};
+    const ww = (s.w[wk] = s.w[wk] || {}); ww[dev] = ww[dev] || {};
+    list.forEach(c => { dd[dev][c] = (dd[dev][c] || 0) + by; ww[dev][c] = (ww[dev][c] || 0) + by; });
+    _pruneMissions(s);
+    _s(K_MISSIONS, s);
+    _checkMissionCompletions();
+    if (window.MECSync) MECSync.scheduleSync();
     _updateHeaderChips();
   }
+  // 合計が target を超えた瞬間だけ達成トースト（端末ローカルで既視管理し重複発火を防ぐ）
+  function _checkMissionCompletions() {
+    const dk = _todayJST(), wk = _weekKeyJST();
+    const run = (defs, period, key, allLabel) => {
+      const seen = (L.mDone[key] = L.mDone[key] || []);
+      defs.forEach(def => {
+        if (_missionSum(period, def.counter, key) >= def.target && !seen.includes(def.id)) {
+          seen.push(def.id);
+          toast(def.icon, 'ミッション達成！', def.label);
+          try { SND.mission(); } catch {}
+        }
+      });
+      if (defs.every(def => _missionSum(period, def.counter, key) >= def.target) && !seen.includes('__all__')) {
+        seen.push('__all__');
+        ceremony(
+          '<div class="gm-cer-ic">🎯</div><div class="gm-cer-big">MISSION COMPLETE</div>' +
+          '<div class="gm-cer-sub">' + allLabel + '</div>' +
+          '<div class="gm-cer-note">この調子で🔥</div>',
+          { fx: () => _fxConfetti(true), snd: SND.clear, dur: 2400 }
+        );
+      }
+    };
+    run(MISSIONS_DAILY, 'd', dk, '本日のミッション 全達成！');
+    run(MISSIONS_WEEKLY, 'w', wk, '今週のミッション 全達成！');
+    // L.mDone の古い期間キーを掃除
+    const alive = new Set([dk, wk]);
+    Object.keys(L.mDone).forEach(k => { if (!alive.has(k)) delete L.mDone[k]; });
+    saveL();
+  }
+  // ヘッダー🎯チップ用（日次の達成数）
   function missionSummary() {
-    _missionRoll();
-    const m = L.missions;
-    const done = MISSIONS.filter(d => d.cur(m) >= d.target).length;
-    return { done, total: MISSIONS.length };
+    const dk = _todayJST();
+    const done = MISSIONS_DAILY.filter(def => _missionSum('d', def.counter, dk) >= def.target).length;
+    return { done, total: MISSIONS_DAILY.length };
   }
 
   // ── 章・科目の制覇検知＋星 ───────────────────────────────────────
@@ -625,24 +678,28 @@
   }
 
   // ── パネル描画（ハブ埋め込み＋studyモーダルで共用） ───────────────
-  function renderPanel(container) {
-    if (!container) return;
-    const s = stats(true);
-    _missionRoll();
-    const m = L.missions;
-    const achList = achState(s);
-    const unlockedCount = achList.filter(a => a.unlocked).length;
-    const tier = _flameTier(s.streak);
-
-    const missionsHtml = MISSIONS.map(d => {
-      const cur = Math.min(d.cur(m), d.target);
-      const done = cur >= d.target;
+  function _renderMissionList(defs, period, key) {
+    return defs.map(d => {
+      const raw = _missionSum(period, d.counter, key);
+      const cur = Math.min(raw, d.target);
+      const done = raw >= d.target;
       return '<div class="gm-mission' + (done ? ' done' : '') + '">' +
         '<span class="gm-mission-ic">' + (done ? '✅' : d.icon) + '</span>' +
         '<span class="gm-mission-lbl">' + d.label + '</span>' +
         '<span class="gm-mission-bar"><span class="gm-mission-fill" style="width:' + Math.round(cur / d.target * 100) + '%"></span></span>' +
         '<span class="gm-mission-num">' + cur + '/' + d.target + '</span></div>';
     }).join('');
+  }
+
+  function renderPanel(container) {
+    if (!container) return;
+    const s = stats(true);
+    const achList = achState(s);
+    const unlockedCount = achList.filter(a => a.unlocked).length;
+    const tier = _flameTier(s.streak);
+
+    const missionsHtml = _renderMissionList(MISSIONS_DAILY, 'd', _todayJST());
+    const weeklyHtml = _renderMissionList(MISSIONS_WEEKLY, 'w', _weekKeyJST());
 
     const badgesHtml = achList.map(a =>
       '<button type="button" class="gm-badge ' + (a.unlocked ? 'unlocked' : 'locked') + '" data-ach="' + a.id + '">' +
@@ -666,6 +723,8 @@
       '</div>' +
       '<div class="gm-sec-title">🎯 今日のミッション</div>' +
       '<div class="gm-missions">' + missionsHtml + '</div>' +
+      '<div class="gm-sec-title">📅 今週のミッション</div>' +
+      '<div class="gm-missions">' + weeklyHtml + '</div>' +
       '<div class="gm-sec-title">🏆 実績 <span class="gm-cnt">' + unlockedCount + '/' + achList.length + '</span></div>' +
       '<div class="gm-badges">' + badgesHtml + '</div>' +
       '<div class="gm-badge-desc" id="gmBadgeDesc"></div>' +
@@ -757,15 +816,14 @@
   }
 
   function onLap(uid, btn) {
-    _bumpMission('ans');
+    _bumpMission(['ans', 'lap']); // 「済」は解答数＋周回数の両方に効く
     _microLapFx(btn);
     _lapMilestoneFx(uid, btn);
     _afterEvent(uid);
   }
 
   function onAnswer(uid, isCorrect) {
-    _bumpMission('ans');
-    if (isCorrect) _bumpMission('cor');
+    _bumpMission(isCorrect ? ['ans', 'cor'] : 'ans');
     _trackStreak(isCorrect);
     _afterEvent(uid);
     // XP = 試験解答×4 ＋ 試験正解×6 → 正解 +10 / 不正解 +4（stats() の配点と一致させること）
@@ -774,6 +832,7 @@
 
   function onFlag(uid, btn, nowFlagged) {
     _microFlagFx(btn, nowFlagged);
+    if (nowFlagged) _bumpMission('flag'); // 苦手登録ミッション
   }
 
   function onExamFinish(answered, correct) {

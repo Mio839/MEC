@@ -14,6 +14,7 @@
   const K_ERR_CLEARED = 'mec_err_cleared_at';
   const K_TOKEN = 'mec_gist_token', K_GIST = 'mec_gist_id', K_LAST_SYNC = 'mec_last_sync_v1';
   const K_GAMIFY = 'mec_gamify_v1'; // ゲーミフィケーション（bestStreak等の数値のみ・field-wise maxでマージ）
+  const K_MISSIONS = 'mec_missions_v1'; // 日次/週次ミッション進捗（端末別G-counter・同一(期間,端末,カウンタ)はmax）
 
   let syncTimer = null;
   let syncInProgress = false;
@@ -134,7 +135,7 @@
     }
 
     const payload = {};
-    [KD, KF, KA, KR, KT, KDT, KFT, K_SRS, 'mec_choice_v1', K_GAMIFY].forEach(k => { try { payload[k] = JSON.parse(localStorage.getItem(k) || '{}'); } catch { payload[k] = {}; } });
+    [KD, KF, KA, KR, KT, KDT, KFT, K_SRS, 'mec_choice_v1', K_GAMIFY, K_MISSIONS].forEach(k => { try { payload[k] = JSON.parse(localStorage.getItem(k) || '{}'); } catch { payload[k] = {}; } });
     try { payload[KE] = JSON.parse(localStorage.getItem(KE) || '[]'); } catch { payload[KE] = []; }
     try { payload[KRT] = JSON.parse(localStorage.getItem(KRT) || '[]'); } catch { payload[KRT] = []; }
     try { payload[KRK] = JSON.parse(localStorage.getItem(KRK) || '{}'); } catch { payload[KRK] = {}; }
@@ -285,6 +286,32 @@
         else if (mgm[k] === undefined) mgm[k] = rgm[k];
       });
       lsRaw(K_GAMIFY, mgm);
+    }
+    // missions: 日次/週次ミッションの端末別カウンタ。構造 { d:{期間:{端末:{カウンタ:n}}}, w:{...} }。
+    // 同一(期間,端末,カウンタ)は max（端末内は単調増加）＝表示時に端末横断 sum で合算される。
+    // 別端末の分担ぶんが取りこぼされず「達成状況」が正しく共有される。
+    const rmi = remote[K_MISSIONS];
+    if (rmi && (rmi.d || rmi.w)) {
+      const lmi = lsGet(K_MISSIONS);
+      const mmi = { d: (lmi && lmi.d) || {}, w: (lmi && lmi.w) || {} };
+      ['d', 'w'].forEach(pk => {
+        const rp = rmi[pk] || {};
+        Object.keys(rp).forEach(period => {
+          mmi[pk][period] = mmi[pk][period] || {};
+          const rdev = rp[period] || {};
+          Object.keys(rdev).forEach(dev => {
+            mmi[pk][period][dev] = mmi[pk][period][dev] || {};
+            const rc = rdev[dev] || {};
+            Object.keys(rc).forEach(c => {
+              mmi[pk][period][dev][c] = Math.max(mmi[pk][period][dev][c] || 0, rc[c] || 0);
+            });
+          });
+        });
+      });
+      // 古い期間を掃除（日次14件・週次10件）
+      const keep = (obj, n) => { const ks = Object.keys(obj).sort(); while (ks.length > n) delete obj[ks.shift()]; };
+      keep(mmi.d, 14); keep(mmi.w, 10);
+      lsRaw(K_MISSIONS, mmi);
     }
     // chapter exam history: 章ごとに bestScore の最大値を保持、sessions は最大値、日付は新しい方
     const lch = JSON.parse(localStorage.getItem('mec_ch_exam_v1') || '{}');
