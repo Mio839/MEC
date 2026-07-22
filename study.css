@@ -78,6 +78,7 @@ body.exam-mode .qc.exam-multi-correct.exam-answer-opened{opacity:1;}
 body.exam-mode .qc.exam-multi-correct::after{content:'✓ 正解';display:block;text-align:center;color:var(--gr);font-weight:700;font-size:13px;padding:4px 0;}
 .exam-multi-info{font-size:11px;font-weight:700;padding:4px 8px;margin:4px 0;border-radius:6px;background:rgba(var(--glass-rgb),.06);color:var(--ts);border:1.5px solid rgba(255,255,255,.12);transition:background .2s,border-color .2s,color .2s;}
 .exam-multi-info[data-ready="1"]{background:rgba(61,214,140,.1);color:var(--gr);border-color:rgba(61,214,140,.3);}
+.exam-excluded-note{font-size:11px;font-weight:700;padding:5px 9px;margin:5px 0;border-radius:6px;background:rgba(196,181,253,.12);color:#C4B5FD;border:1.5px solid rgba(196,181,253,.32);}
 body.exam-mode .qc.exam-key-focus:not(.exam-revealed){outline:3px solid var(--yl);outline-offset:2px;box-shadow:0 0 0 5px rgba(255,184,48,.15);}
 @keyframes examShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 /* ── Correct answer effects ── */

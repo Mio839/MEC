@@ -17,6 +17,8 @@ let _examChPrefix = null;   // selected chapter prefix for exam (e.g. "neur_ch01
 let _examTabSubj = null;    // 試験開始モーダルの章グリッドで表示中の科目タブ
 let _examActiveChPrefix = null; // chapter prefix that was active when exam started
 let examWrong = [];
+// 採点除外（正解肢が無い）問題数。採点対象外にするため分母から差し引く。
+let _examExcludedCount = 0;
 let _examSessionWrongChoices = new Map(); // uid → 選んだ選択肢のテキスト（今セッション限定）
 let examStartTime = null;
 let examTimerInt = null;
@@ -569,6 +571,7 @@ function startExam(overrideUids = null) {
       });
   const shuffled = _buildExamQueue(allVisible);
   examQueue = shuffled;
+  _recountExcluded();
   // alert() は iOS PWA で表示されないことがあるためトーストで通知する
   if (!examQueue.length) { (window._mecNotify || function(m){})('表示中の問題がありません。科目・フィルターを確認してください。'); return; }
   const _subj = [...new Set(examQueue.map(c => c.dataset.uid.split('_ch')[0]))].sort().join(',');
@@ -617,6 +620,12 @@ function startExam(overrideUids = null) {
           _playSelectSound();
           const c = this.closest('.qc');
           const r = _getRequiredCount(c);
+          if (_isExamUngraded(c)) { // 採点除外＝赤フラッシュ無しでそのまま中立表示へ
+            this.closest('.cs').querySelectorAll('.ch2').forEach(x => x.classList.remove('exam-selected'));
+            this.classList.add('exam-selected');
+            setTimeout(() => revealAnswer(c), 10);
+            return;
+          }
           if (r > 1) {
             this.classList.toggle('exam-selected');
             if (this.classList.contains('exam-selected') && !this.classList.contains('ok')) {
@@ -664,6 +673,8 @@ function startExam(overrideUids = null) {
 
 function revealAnswer(card) {
   if (card.classList.contains('exam-revealed')) return;
+  // 採点除外（正解肢なし）は採点対象外。分母・正誤・myrate・赤旗・再試験のどれにも入れない。
+  if (_isExamUngraded(card)) { _revealExcludedNeutral(card); return; }
   const req = _getRequiredCount(card);
   const sid = card.dataset.uid.split('_ch')[0];
   if (!examBySubj[sid]) examBySubj[sid] = { correct: 0, total: 0 };
@@ -2329,6 +2340,39 @@ function _getRequiredCount(card) {
   return Math.max(1, card.querySelectorAll('.ch2.ok').length);
 }
 
+// 採点除外かつ正解肢が1つも無い＝何を選んでも不正解になる問題。採点対象外として扱う。
+// （正解肢ありの採点除外11問は通常採点。判定は正解肢0個に限定して巻き込まない）
+function _isExamUngraded(card) {
+  if (!card) return false;
+  if (card.querySelectorAll('.ch2.ok').length > 0) return false;
+  return typeof _isScoreExcluded === 'function' ? _isScoreExcluded(card) : false;
+}
+function _recountExcluded() {
+  try { _examExcludedCount = examQueue.filter(c => _isExamUngraded(c)).length; }
+  catch { _examExcludedCount = 0; }
+}
+// 採点除外問題を中立（○×どちらでもない）で開く。分母・正誤・myrate・赤旗・再試験に含めない。
+function _revealExcludedNeutral(card) {
+  _markExamDone(card.dataset.uid); // 見た＝周回はカウント（採点はしない）
+  card.querySelectorAll('.ch2.exam-instant-wrong,.ch2.exam-instant-correct')
+    .forEach(c => c.classList.remove('exam-instant-wrong', 'exam-instant-correct'));
+  card.classList.add('exam-revealed');
+  const revBtn = card.querySelector('.exam-reveal-btn');
+  if (revBtn) { revBtn.textContent = '▶ 解説を見る'; revBtn.onclick = () => _toggleCorrectAnswer(card, revBtn); }
+  if (!card.querySelector('.exam-excluded-note')) {
+    const note = document.createElement('div');
+    note.className = 'exam-excluded-note';
+    note.textContent = '⚠️ 採点除外 — 正解肢が無いため採点対象外です（正誤・正解率・再試験に含めません）';
+    const qb = card.querySelector('.qb');
+    const ab = qb && qb.querySelector('.ab');
+    if (ab) ab.parentNode.insertBefore(note, ab); else if (qb) qb.appendChild(note); else card.appendChild(note);
+  }
+  _updateExamProg();
+  _saveExamResume();
+  requestAnimationFrame(_updateExamFocus);
+  setTimeout(() => _scrollToNextCard(card), 300);
+}
+
 function _updateMultiInfo(card) {
   const req = _getRequiredCount(card);
   const sel = card.querySelectorAll('.ch2.exam-selected').length;
@@ -2443,7 +2487,7 @@ function _restoreChoices() {
 }
 
 function _updateExamProg(isCorrect = false) {
-  const total = examQueue.length;
+  const total = Math.max(0, examQueue.length - (_examExcludedCount || 0)); // 採点除外は分母から除く
   const fill = document.getElementById('examProgFill');
   const txt = document.getElementById('examProgTxt');
   if (fill) fill.style.width = total > 0 ? (examAnswered / total * 100) + '%' : '0%';
@@ -2548,6 +2592,7 @@ function resumeExam(savedAt) {
   const uidToCard = {};
   document.querySelectorAll('.qc[data-uid]').forEach(c => { uidToCard[c.dataset.uid] = c; });
   examQueue = saved.uids.map(uid => uidToCard[uid]).filter(Boolean);
+  _recountExcluded();
   if (!examQueue.length) { alert('前回の試験を復元できませんでした。'); _clearExamResume(); return; }
 
   // セクション（科目）が非表示でもカードを見せるため visible に強制する
