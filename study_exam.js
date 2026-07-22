@@ -240,7 +240,9 @@ function _saveResumes(arr) {
 }
 function _renderResumeList() {
   const subjNameMap = { endo:'内分泌', resp:'呼吸器', circ:'循環器', dige:'消化器', neur:'神経', hbp:'肝胆膵', jinzo_d:'腎臓', hema:'血液', imma:'免アレ膠', kansen:'感染症', peds:'小児科', obg:'産婦人科' };
-  const resumes = _loadResumes().filter(r => r.total > r.answeredCount);
+  // 達成度は doneCount（開封済み・採点除外含む）基準。旧データは answeredCount にフォールバック。
+  const _done = r => (r.doneCount != null ? r.doneCount : r.answeredCount);
+  const resumes = _loadResumes().filter(r => r.total > _done(r));
   const sec = document.getElementById('examResumeSection');
   const list = document.getElementById('examResumeList');
   if (!sec || !list) return;
@@ -257,10 +259,11 @@ function _renderResumeList() {
         if (chNums.length === 1) chLabel = ' <span class="er-ch">第' + chNums[0] + '章</span>';
       }
       const dt = r.savedAt ? new Date(r.savedAt).toLocaleString('ja-JP', {month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit'}) : '';
-      const prog = r.answeredCount > 0
-        ? '<span class="er-prog">' + r.answeredCount + '/' + r.total + '問</span> 回答済み'
+      const doneN = _done(r);
+      const prog = doneN > 0
+        ? '<span class="er-prog">' + doneN + '/' + r.total + '問</span> 回答済み'
         : '全' + r.total + '問・未回答';
-      const pctDone = r.total > 0 ? Math.round(r.answeredCount / r.total * 100) : 0;
+      const pctDone = r.total > 0 ? Math.round(doneN / r.total * 100) : 0;
       const filterTag = r.filterLabel ? ' <span class="er-filter">' + r.filterLabel + '</span>' : '';
       return '<div class="exam-resume-card">'
         + '<div class="exam-resume-info">'
@@ -477,8 +480,13 @@ function startFreshExam() {
 function _saveExamResume() {
   if (_srsReviewMode) return;
   if (!examQueue.length) return;
-  // 全問回答済みなら中断データは不要。終了ボタンを押さずに閉じても残らないよう、ここで自動削除する
-  if (examAnswered >= examQueue.length) { _clearExamResume(); return; }
+  // 開封済み（=対応済み）カード数。採点除外の中立開封も含むので、全問こなせば必ず total に達する。
+  // examAnswered は採点除外を除くため、これで判定しないと除外問題がある章で 100% にならなかった。
+  const seenCount = examQueue.filter(c =>
+    c.classList.contains('exam-revealed') ||
+    c.querySelector('.ch2.exam-instant-wrong, .ch2.exam-instant-correct')).length;
+  // 全カード開封済みなら中断データは不要。終了ボタンを押さずに閉じても残らないよう自動削除する
+  if (seenCount >= examQueue.length) { _clearExamResume(); return; }
   const revealedUids = {};
   const pendingWrong = [];
   let pendingCorrect = 0;
@@ -504,7 +512,8 @@ function _saveExamResume() {
     savedAt: Date.now(),
     uids: examQueue.map(c => c.dataset.uid),
     revealedUids,
-    answeredCount: examAnswered + pendingWrong.length + pendingCorrect,
+    answeredCount: examAnswered + pendingWrong.length + pendingCorrect, // 採点対象数（examAnswered復元用）
+    doneCount: seenCount, // 開封済み総数（採点除外含む・一覧の達成度用）
     correctCount: examCorrect + pendingCorrect,
     wrongUids: [...examWrong, ...pendingWrong],
     bySubj: examBySubj,
