@@ -382,10 +382,11 @@
     { id: 'perfect', icon: '💯', label: '試験で全問正解を1回',        target: 1,  counter: 'perfect' },
   ];
   const MISSIONS_WEEKLY = [
-    { id: 'w_ans',  icon: '📅', label: '今週 250問 解答する',     target: 250, counter: 'ans' },
-    { id: 'w_cor',  icon: '✅', label: '今週 試験で120問 正解',   target: 120, counter: 'cor' },
-    { id: 'w_exam', icon: '🎓', label: '今週 試験セッション7回',  target: 7,   counter: 'exam' },
-    { id: 'w_lap',  icon: '🔁', label: '今週「済」を150問',       target: 150, counter: 'lap' },
+    { id: 'w_ans',     icon: '📅', label: '今週 250問 解答する',    target: 250, counter: 'ans' },
+    { id: 'w_cor',     icon: '✅', label: '今週 試験で120問 正解',  target: 120, counter: 'cor' },
+    { id: 'w_exam',    icon: '🎓', label: '今週 試験セッション7回', target: 7,   counter: 'exam' },
+    { id: 'w_perfect', icon: '💯', label: '今週 全問正解を3回',     target: 3,   counter: 'perfect' },
+    { id: 'w_chapter', icon: '🏆', label: '今週 章を3つ制覇',       target: 3,   counter: 'chclear' },
   ];
   // 週キー = その週の月曜(JST)の日付。日次・週次とも古い期間はプルーニングして肥大化を防ぐ。
   function _weekKeyJST() {
@@ -527,6 +528,7 @@
     const done = _g('done_v2', {});
     if (!entry.uids.length || !entry.uids.every(u => done[u])) return;
     L.chDone.push(chKey); saveL();
+    _bumpMission('chclear'); // 週次「章を3つ制覇」ミッション（この端末が初めて制覇検知した章のみ算入）
     // 章仕切り線を光が一本走る（章を「閉じた」ことを在席する場所で示す）
     if (entry.divEl && !_reducedMotion()) {
       const dv = entry.divEl;
@@ -816,7 +818,7 @@
   }
 
   function onLap(uid, btn) {
-    _bumpMission(['ans', 'lap']); // 「済」は解答数＋周回数の両方に効く
+    _bumpMission('ans'); // 「済」も解答数ミッションに算入
     _microLapFx(btn);
     _lapMilestoneFx(uid, btn);
     _afterEvent(uid);
