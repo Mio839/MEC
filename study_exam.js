@@ -323,11 +323,25 @@ function _populateChapterChips(animate = false) {
       const subjId = prefix.replace(/_ch\d+$/, '');
       const chNum = parseInt(prefix.match(/_ch(\d+)$/)[1], 10);
       const subj = STUDY_SUBJECTS.find(s => s.id === subjId);
-      prefixMap.set(prefix, { subjId, chNum, subj, count: 0, done: 0, star: 0, starDone: 0 });
+      // count=フィルター後の出題数 / total等=章の全問（カバー率はフィルターに左右させない）
+      prefixMap.set(prefix, { subjId, chNum, subj, count: 0, total: 0, done: 0, star: 0, starDone: 0 });
     }
-    const e = prefixMap.get(prefix);
-    e.count++;
-    const isDone = (doneMap[uid] || 0) > 0;
+    prefixMap.get(prefix).count++; // 出題数はフィルター後の可視分
+  });
+
+  // カバー率は「章の全問」を固定分母にする＝display:none で隠れた問題も含めて集計。
+  // （★フィルター中でも「全問中どれだけ学習したか」がブレないようにする）
+  const allChapterCards = [...document.querySelectorAll('.qc[data-uid]')].filter(c => {
+    const sec = c.closest('.subj-section');
+    return !sec || sec.dataset.visible === 'true';
+  });
+  allChapterCards.forEach(c => {
+    const m = c.dataset.uid.match(/^(.+_ch\d+)_q/);
+    if (!m) return;
+    const e = prefixMap.get(m[1]);
+    if (!e) return; // 現フィルターで1問も可視でない章は表示しない（既存仕様）
+    e.total++;
+    const isDone = (doneMap[c.dataset.uid] || 0) > 0;
     if (isDone) e.done++;
     if (c.querySelector('.bg.bs')) { e.star++; if (isDone) e.starDone++; } // ★問題の学習内訳
   });
@@ -381,16 +395,20 @@ function _populateChapterChips(animate = false) {
     btn.dataset.prefix = prefix;
     // ベスト正答率で色分け: 80%↑緑 / 60-79黄 / 60未満赤 / 未受験グレー
     const scoreCls = !h ? ' sc-none' : h.bestScore >= 80 ? ' sc-hi' : h.bestScore >= 60 ? ' sc-mid' : ' sc-lo';
-    // 学習カバー率: この章で回答（学習）済みの問題の割合。★だけやったか全問やったかの判別用。
-    const cov = info.count > 0 ? Math.round(info.done / info.count * 100) : 0;
+    // 学習カバー率: 章の全問（固定分母）に対する学習済み割合。★だけやったか全問やったかの判別用。
+    const total = info.total || info.count;
+    const cov = total > 0 ? Math.round(info.done / total * 100) : 0;
     const covCls = cov >= 100 ? ' cov-full' : cov >= 50 ? ' cov-mid' : cov > 0 ? ' cov-lo' : ' cov-none';
+    // ★クリア判定: ★を全て学習済み かつ 章はまだ未完（＝「★だけ終わっている」状態）
+    const starCleared = info.star > 0 && info.starDone >= info.star && info.done < total;
     btn.innerHTML = '<span class="cc-num">' + info.chNum + '章</span>'
+      + (starCleared ? '<span class="cc-star-badge" title="★問は全て学習済み（章はまだ未完）">★</span>' : '')
       + '<span class="cc-cnt">' + info.count + '問</span>'
       + '<span class="cc-cov' + covCls + '"><span class="cc-cov-bar"><span class="cc-cov-fill" style="width:' + cov + '%"></span></span>' + cov + '%</span>'
       + '<span class="cc-score' + scoreCls + '">' + (h ? h.bestScore + '%' : '—') + '</span>';
-    btn.title = (info.subj ? info.subj.name : info.subjId) + ' 第' + info.chNum + '章（' + info.count + '問）'
-      + ' | 学習 ' + info.done + '/' + info.count + '問(' + cov + '%)'
-      + (info.star ? ' · ★ ' + info.starDone + '/' + info.star + '問' : '')
+    btn.title = (info.subj ? info.subj.name : info.subjId) + ' 第' + info.chNum + '章（全' + total + '問）'
+      + ' | 学習 ' + info.done + '/' + total + '問(' + cov + '%)'
+      + (info.star ? ' · ★ ' + info.starDone + '/' + info.star + '問' + (starCleared ? '（★クリア）' : '') : '')
       + (h ? ' | 最高' + h.bestScore + '% · ' + h.sessions + '回' : '');
     btn.style.animationDelay = (idx * 22) + 'ms';
     btn.onclick = () => _selectExamChapter(prefix);

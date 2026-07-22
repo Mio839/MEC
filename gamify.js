@@ -226,7 +226,7 @@
 .gm-lv-chip{cursor:pointer;display:flex;align-items:center;gap:6px;user-select:none;font-family:inherit;color:inherit;}
 .gm-lv-chip b{color:#FFD166;}
 .gm-chip-bar{width:44px;height:5px;border-radius:4px;background:rgba(var(--glass-rgb),.14);overflow:hidden;display:inline-block;}
-.gm-chip-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#F5A623,#FFD166);transition:width .5s;}
+.gm-chip-fill{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#F5A623,#FFD166);transition:width .5s;}
 .gm-mission-chip{cursor:pointer;user-select:none;font-family:inherit;color:inherit;}
 .gm-mission-chip.all{color:#7CEFB2!important;}
 .st-streak.gm-t2{color:#FF9A3C;text-shadow:0 0 8px rgba(255,150,50,.6);}
