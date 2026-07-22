@@ -294,6 +294,15 @@ body.exam-mode .exam-prog{display:flex;}
 .cc-score.sc-hi{color:#7CEFB2;background:rgba(61,214,140,.15);}
 .cc-score.sc-mid{color:#FFD37A;background:rgba(255,184,48,.15);}
 .cc-score.sc-lo{color:#FF9B9B;background:rgba(255,107,107,.15);}
+/* 学習カバー率（この章で回答済みの割合）。正答率(cc-score)と混同しないよう青系で表示。
+   低い＝一部(★のみ等)しか学習していない、100%＝全問学習済みの目安。 */
+.exam-ch-card .cc-cov{display:flex;flex-direction:column;align-items:center;gap:1.5px;font-size:8px;font-weight:800;line-height:1;margin-top:1px;color:var(--ts);}
+.cc-cov-bar{width:36px;height:3px;border-radius:3px;background:rgba(var(--glass-rgb),.16);overflow:hidden;}
+.cc-cov-fill{display:block;height:100%;border-radius:3px;background:#60A5FA;transition:width .3s;}
+.cc-cov.cov-full{color:#7CEFB2;} .cc-cov.cov-full .cc-cov-fill{background:#3DD68C;}
+.cc-cov.cov-mid{color:#93C5FD;} .cc-cov.cov-mid .cc-cov-fill{background:#60A5FA;}
+.cc-cov.cov-lo{color:rgba(147,197,253,.72);} .cc-cov.cov-lo .cc-cov-fill{background:rgba(96,165,250,.72);}
+.cc-cov.cov-none{color:rgba(255,255,255,.28);} .cc-cov.cov-none .cc-cov-fill{background:transparent;}
 /* 開始ボタンをモーダル下部に吸着（スクロールしても常に見える） */
 .exam-start-foot{position:sticky;bottom:0;background:linear-gradient(180deg,rgba(var(--exam-modal-b),0) 0%,rgba(var(--exam-modal-b),.97) 30%);padding:14px 0 18px;margin-top:4px;}
 /* 開始ボタン: グラデ脈動＋光沢スイープ */

@@ -309,18 +309,27 @@ function _populateChapterChips(animate = false) {
     return !sec || sec.dataset.visible === 'true';
   });
 
+  // 学習カバー率算出用: done_v2>0（済ボタン or 試験で回答済み）を「学習済み」とみなす
+  let doneMap = {};
+  try { doneMap = JSON.parse(localStorage.getItem('done_v2') || '{}'); } catch { doneMap = {}; }
+
   const prefixMap = new Map();
   visibleCards.forEach(c => {
-    const m = c.dataset.uid.match(/^(.+_ch\d+)_q/);
+    const uid = c.dataset.uid;
+    const m = uid.match(/^(.+_ch\d+)_q/);
     if (!m) return;
     const prefix = m[1];
     if (!prefixMap.has(prefix)) {
       const subjId = prefix.replace(/_ch\d+$/, '');
       const chNum = parseInt(prefix.match(/_ch(\d+)$/)[1], 10);
       const subj = STUDY_SUBJECTS.find(s => s.id === subjId);
-      prefixMap.set(prefix, { subjId, chNum, subj, count: 0 });
+      prefixMap.set(prefix, { subjId, chNum, subj, count: 0, done: 0, star: 0, starDone: 0 });
     }
-    prefixMap.get(prefix).count++;
+    const e = prefixMap.get(prefix);
+    e.count++;
+    const isDone = (doneMap[uid] || 0) > 0;
+    if (isDone) e.done++;
+    if (c.querySelector('.bg.bs')) { e.star++; if (isDone) e.starDone++; } // ★問題の学習内訳
   });
 
   // Sort: subject order in STUDY_SUBJECTS, then chapter number
@@ -372,10 +381,17 @@ function _populateChapterChips(animate = false) {
     btn.dataset.prefix = prefix;
     // ベスト正答率で色分け: 80%↑緑 / 60-79黄 / 60未満赤 / 未受験グレー
     const scoreCls = !h ? ' sc-none' : h.bestScore >= 80 ? ' sc-hi' : h.bestScore >= 60 ? ' sc-mid' : ' sc-lo';
+    // 学習カバー率: この章で回答（学習）済みの問題の割合。★だけやったか全問やったかの判別用。
+    const cov = info.count > 0 ? Math.round(info.done / info.count * 100) : 0;
+    const covCls = cov >= 100 ? ' cov-full' : cov >= 50 ? ' cov-mid' : cov > 0 ? ' cov-lo' : ' cov-none';
     btn.innerHTML = '<span class="cc-num">' + info.chNum + '章</span>'
       + '<span class="cc-cnt">' + info.count + '問</span>'
+      + '<span class="cc-cov' + covCls + '"><span class="cc-cov-bar"><span class="cc-cov-fill" style="width:' + cov + '%"></span></span>' + cov + '%</span>'
       + '<span class="cc-score' + scoreCls + '">' + (h ? h.bestScore + '%' : '—') + '</span>';
-    btn.title = (info.subj ? info.subj.name : info.subjId) + ' 第' + info.chNum + '章（' + info.count + '問）' + (h ? ' | 最高' + h.bestScore + '% · ' + h.sessions + '回' : '');
+    btn.title = (info.subj ? info.subj.name : info.subjId) + ' 第' + info.chNum + '章（' + info.count + '問）'
+      + ' | 学習 ' + info.done + '/' + info.count + '問(' + cov + '%)'
+      + (info.star ? ' · ★ ' + info.starDone + '/' + info.star + '問' : '')
+      + (h ? ' | 最高' + h.bestScore + '% · ' + h.sessions + '回' : '');
     btn.style.animationDelay = (idx * 22) + 'ms';
     btn.onclick = () => _selectExamChapter(prefix);
     grid.appendChild(btn);
