@@ -1114,13 +1114,28 @@ function _isFastAnswer(card) {
   return !!t0 && (Date.now() - t0) <= FAST_ANSWER_MS;
 }
 
+// 演出の発火座標を可視領域内に収める。直前の正解カードから次カードへのスムーススクロールが
+// まだ動いている間に選んだ肢の矩形を読むと、肢が画面上端まで来ておりリング／ラベルが
+// 「上の端」でズレて発火する（再試験は問題数が少なく速答が続くため起きやすい）。
+// ヘッダー下端〜画面下端に必ずクランプして、答えたカードの位置で発火させる。
+function _examFxHeaderBottom() {
+  const h = document.querySelector('.st-hdr');
+  return h ? h.getBoundingClientRect().bottom : 0;
+}
+function _examClampFxXY(cx, cy) {
+  const top = _examFxHeaderBottom() + 18;
+  const bottom = window.innerHeight - 18;
+  return [cx, Math.max(top, Math.min(bottom, cy))];
+}
+
 // A1: 速答ボーナス。ラベル＋⚡グリフを選んだ肢の位置から出す
 function _triggerFastBonus(el) {
   if (_fxOff()) return;
   const theme = _examTheme();
   const r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
-  const cx = r && r.width ? r.left + r.width / 2 : window.innerWidth / 2;
-  const cy = r && r.width ? r.top : window.innerHeight * 0.4;
+  const cx0 = r && r.width ? r.left + r.width / 2 : window.innerWidth / 2;
+  const cy0 = r && r.width ? r.top : window.innerHeight * 0.4;
+  const [cx, cy] = _examClampFxXY(cx0, cy0);
   const lab = document.createElement('div');
   lab.className = 'exam-fast-pop';
   lab.textContent = theme.fastLabel || '⚡ 速答！';
@@ -1146,8 +1161,9 @@ function _correctShockwave(el) {
   if (!r.width) return;
   const theme = _examTheme();
   const t = Math.max(1, Math.min(_examTier(examStreak) || 1, 6));
+  const [sx, sy] = _examClampFxXY(r.left + r.width / 2, r.top + r.height / 2);
   try {
-    window.MecFX.rings(r.left + r.width / 2, r.top + r.height / 2, {
+    window.MecFX.rings(sx, sy, {
       count: t >= 4 ? 3 : 2,
       color: theme.ringColor(t),
       thickness: t >= 4 ? 3 : 2,
@@ -1163,6 +1179,7 @@ function _traceCardBorder(card) {
   if (!card || _fxOff()) return;
   const r = card.getBoundingClientRect();
   if (!r.width || !r.height) return;
+  if (r.bottom < _examFxHeaderBottom() + 20 || r.top > window.innerHeight) return; // カードが可視域外＝枠が上端等でズレる
   const theme = _examTheme();
   const col = (theme.fx && theme.fx.hex) || (theme.comboColors && theme.comboColors[3]) || '#FFD700';
   const NS = 'http://www.w3.org/2000/svg';
@@ -2037,6 +2054,7 @@ function _spawnChoiceRipple(el) {
   const _fxRgb = (_fxTheme && _fxTheme.fx && _fxTheme.fx.rgb) || '61,214,140';
   const r = el.getBoundingClientRect();
   if (r.width === 0) return;
+  if (r.top < _examFxHeaderBottom() - 4) return; // スクロール途中で肢がヘッダー下に潜っている＝位置が不正
   const x = r.left, y = r.top, w = r.width, h = r.height;
   [0, 100, 200].forEach((delay, i) => {
     const ring = document.createElement('div');

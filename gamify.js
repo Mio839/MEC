@@ -577,7 +577,9 @@
     const lvNum = document.getElementById('gmLvNum');
     const fill = document.getElementById('gmChipFill');
     if (lvNum) lvNum.textContent = s.level;
-    if (fill) fill.style.width = Math.round(s.lvProgress * 100) + '%';
+    // 整数%へ丸めると1問あたりの微小な伸び（44pxバーで0.1px前後）が消え「増えない」ように見えるため、
+    // 端数を保持して実際の進行度をそのまま反映する。
+    if (fill) fill.style.width = (Math.max(0, Math.min(1, s.lvProgress)) * 100).toFixed(2) + '%';
     const mc = document.getElementById('gmMissionChip');
     if (mc) {
       const ms = missionSummary();
@@ -595,6 +597,31 @@
 
   function _flameTier(days) {
     return days >= 30 ? 5 : days >= 14 ? 4 : days >= 7 ? 3 : days >= 3 ? 2 : days >= 1 ? 1 : 0;
+  }
+
+  // 試験の1問ごとに、Lvチップの位置で「+N XP」を立ち上げ＆ゲージを一瞬ハイライトする。
+  // レベルが上がるほど1問の伸び幅は小さくなるが、獲得XPそのものを見せることで
+  // 「実際の進行度がLvに反映されている」ことを毎問はっきり示す。
+  function _gmXpGain(delta) {
+    const chip = document.getElementById('gmLvChip');
+    if (!chip) return;
+    const fill = document.getElementById('gmChipFill');
+    if (fill) { try { fill.animate([{ filter: 'brightness(2)' }, { filter: 'brightness(1)' }], { duration: 520, easing: 'ease-out' }); } catch {} }
+    if (_reducedMotion()) return;
+    const r = chip.getBoundingClientRect();
+    if (!r.width) return; // ヘッダーが見えていない等
+    const f = document.createElement('div');
+    f.textContent = '+' + delta + ' XP';
+    f.style.cssText = 'position:fixed;left:' + (r.left + r.width / 2) + 'px;top:' + (r.top - 2) +
+      'px;transform:translate(-50%,0);z-index:9300;pointer-events:none;font-weight:800;font-size:11px;' +
+      'color:#FFD166;text-shadow:0 1px 6px rgba(0,0,0,.65);white-space:nowrap;font-family:inherit;';
+    document.body.appendChild(f);
+    f.animate([
+      { opacity: 0, transform: 'translate(-50%,5px) scale(.8)' },
+      { opacity: 1, transform: 'translate(-50%,-6px) scale(1)', offset: .3 },
+      { opacity: 1, transform: 'translate(-50%,-14px) scale(1)', offset: .6 },
+      { opacity: 0, transform: 'translate(-50%,-26px) scale(.95)' }
+    ], { duration: 950, easing: 'cubic-bezier(.22,.68,0,1.2)', fill: 'forwards' }).onfinish = () => f.remove();
   }
 
   // ── パネル描画（ハブ埋め込み＋studyモーダルで共用） ───────────────
@@ -741,6 +768,8 @@
     if (isCorrect) _bumpMission('cor');
     _trackStreak(isCorrect);
     _afterEvent(uid);
+    // XP = 試験解答×4 ＋ 試験正解×6 → 正解 +10 / 不正解 +4（stats() の配点と一致させること）
+    _gmXpGain(isCorrect ? 10 : 4);
   }
 
   function onFlag(uid, btn, nowFlagged) {
