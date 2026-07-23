@@ -10,7 +10,6 @@
 <script src="fx_engine.js"></script>
 <script src="gamify.js"></script>
 <link rel="stylesheet" href="vars.css">
-<script src="_palette_preview.js"></script>
 <style>
 :root{}
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -657,7 +656,7 @@ async function mecForceRefresh(btn) {
     const shell = ['index.html','study.html','stats.html','knowledge.html',
                    'vars.css','study.css','progress.js','study_exam.js','fx_engine.js',
                    'card_renderer.js','fixed_uids.js','gamify.js','chapters_meta.js',
-                   'knowledge_notes.js','rate_index.js','_palette_preview.js','sw.js'];
+                   'knowledge_notes.js','rate_index.js','sw.js'];
     await Promise.all(shell.map(f => fetch(f, { cache: 'reload' }).catch(() => {})));
   } catch (e) { /* 失敗してもリロードは実行する */ }
   location.reload();
