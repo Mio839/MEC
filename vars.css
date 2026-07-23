@@ -72,6 +72,97 @@
   --tbl-th:17,94,89;   --qn-col:#5EEAD4;
 }
 
+/* ══════════ ベース配色テーマ（2026-07-23）══════════
+   html.th-* が上の :root を上書きする。付与は theme.js（<head>で同期実行）。
+   既定「深夜のインディゴ」はクラス無し＝上の :root がそのまま効くのでここには無い。
+
+   ⚠️ 追加・変更時の制約 ── 破ると科目色が読めなくなる:
+     カード面（ページ地 --bg-g1 の上に --glass-rgb を6%重ねた色）の
+     相対輝度を **0.0235 以下** に保つこと。
+     chapters_meta.js の科目18色は、この明るさを「許容しうる最も明るい暗色テーマ」と
+     想定して 4.5:1 を満たすよう導出されている。ここを超えると全科目色が基準割れする。
+   ⚠️ 明色テーマは作れない。study.css 等に rgba(255,255,255,.0x) の重ね塗りが
+     178箇所あり、明るい地では全て消える。設計をやり直す規模になる。
+   ⚠️ カード内の解説ブロック配色（--eb-*）はテーマで振らない。
+     あの6色は病態/鑑別/国試ポイント…と意味を持っており、テーマ毎に変えると
+     意味の学習がやり直しになるため、全テーマ共通で固定する。
+   検証: node _work/check_themes.js （全テーマの面輝度・文字・科目色を実測） */
+
+/* 炭 — 無彩色。色を主張せず問題文だけが立つ */
+html.th-charcoal {
+  --bg-root:#16181C;
+  --bg-g0:#0E0F12; --bg-g1:#17191E; --bg-g2:#1B1E24;
+  --hdr-rgb:10,11,13;
+  --surf-1:#1A1D22; --surf-2:#1B1E23; --surf-3:#131519; --surf-4:#16181D;
+  --loader-g0:#0E0F12; --loader-g1:#16181C; --loader-g2:#1B1E24;
+  --exam-modal-a:58,62,72; --exam-modal-b:24,26,31;
+  --ov-rgb:8,9,11; --toast-rgb:22,24,28;
+  --panel-a:34,37,43; --panel-b:20,22,26;
+  --gmtoast-a:44,47,54; --gmtoast-b:26,28,33;
+  --glass-rgb:214,218,226;
+}
+html.th-charcoal body { --tx:#E8EAEE; --ts:#93999F; }
+
+/* 深緑 — 落ち着いた森。長時間でも疲れにくい */
+html.th-forest {
+  --bg-root:#0C1D16;
+  --bg-g0:#06120D; --bg-g1:#0D2018; --bg-g2:#0A251A;
+  --hdr-rgb:5,15,11;
+  --surf-1:#0F2419; --surf-2:#10251B; --surf-3:#0A1B13; --surf-4:#0D2016;
+  --loader-g0:#06120D; --loader-g1:#0C1D16; --loader-g2:#0A2519;
+  --exam-modal-a:30,74,55; --exam-modal-b:11,32,23;
+  --ov-rgb:3,14,10; --toast-rgb:12,29,22;
+  --panel-a:20,45,34; --panel-b:10,25,18;
+  --gmtoast-a:26,58,43; --gmtoast-b:13,32,23;
+  --glass-rgb:170,222,196;
+}
+html.th-forest body { --tx:#E4EFE8; --ts:#8FAE9C; }
+
+/* 深海 — インディゴから最も遠い寒色。上限に収めるため元案より一段沈めてある */
+html.th-teal {
+  --bg-root:#061D25;
+  --bg-g0:#031016; --bg-g1:#08202A; --bg-g2:#052531;
+  --hdr-rgb:3,11,14;
+  --surf-1:#08222C; --surf-2:#09242E; --surf-3:#051921; --surf-4:#08202A;
+  --loader-g0:#031016; --loader-g1:#061D25; --loader-g2:#052531;
+  --exam-modal-a:26,66,84; --exam-modal-b:9,32,42;
+  --ov-rgb:2,12,16; --toast-rgb:10,34,43;
+  --panel-a:16,50,63; --panel-b:8,30,38;
+  --gmtoast-a:22,64,80; --gmtoast-b:11,38,48;
+  --glass-rgb:160,214,230;
+}
+html.th-teal body { --tx:#E1EEF2; --ts:#8AA8B2; }
+
+/* 琥珀の書斎 — 暖色。夜に紙の本を読む雰囲気 */
+html.th-amber {
+  --bg-root:#241413;
+  --bg-g0:#170B0A; --bg-g1:#281614; --bg-g2:#301715;
+  --hdr-rgb:18,9,8;
+  --surf-1:#2A1817; --surf-2:#2C1A18; --surf-3:#1F1211; --surf-4:#271615;
+  --loader-g0:#170B0A; --loader-g1:#241413; --loader-g2:#301715;
+  --exam-modal-a:84,46,42; --exam-modal-b:40,20,18;
+  --ov-rgb:14,6,5; --toast-rgb:36,20,19;
+  --panel-a:52,30,28; --panel-b:30,17,16;
+  --gmtoast-a:66,38,35; --gmtoast-b:36,20,18;
+  --glass-rgb:240,203,178;
+}
+html.th-amber body { --tx:#F4EAE6; --ts:#B89A92; }
+
+/* 薔薇 — ピンク寄りのローズ。彩度を抑え、面輝度を上限内に収めてある */
+html.th-rose {
+  --bg-root:#2B111F;
+  --bg-g0:#1E0815; --bg-g1:#301423; --bg-g2:#39182C;
+  --hdr-rgb:26,10,20;
+  --surf-1:#341927; --surf-2:#361B29; --surf-3:#27101D; --surf-4:#2E1623;
+  --loader-g0:#1E0815; --loader-g1:#2B111F; --loader-g2:#39182C;
+  --exam-modal-a:104,44,74; --exam-modal-b:46,18,32;
+  --ov-rgb:20,6,14; --toast-rgb:44,16,30;
+  --panel-a:66,28,48; --panel-b:36,14,26;
+  --gmtoast-a:84,36,60; --gmtoast-b:46,18,32;
+  --glass-rgb:244,186,214;
+}
+html.th-rose body { --tx:#F7EAF0; --ts:#C09FAE; }
+
 /* ⚠️ iOS Safari/Brave は position:fixed の背景(下の html::before)を、動的ツールバーで
    ビューポート高が変わると下半分ぶん塗り残し、そこにブラウザ既定の白が出る（カード0枚でも
    発生・スクロールで一緒に動く＝白washの真因・2026-07-08）。root要素 html に暗色を敷くと
