@@ -54,8 +54,11 @@
 
   /* ボタン。暗色面ではカラーグローで高さを出さず、面の明るさで出す。
      いずれも下地が明るいので文字は暗インクにしてコントラストを取る */
-  --btn-ai:var(--pu);   --btn-ai-h:#BCA5FC;   --btn-ai-ink:#1A1030;
-  --btn-drill:var(--blu); --btn-drill-h:#8FC0FC; --btn-drill-ink:#06152B;
+  /* 主ボタンはテーマのブランドアクセントに追随させる。以前は固定の紫で、
+     無彩色が主旨の「炭」テーマでもここだけ紫が残って浮いていた。
+     2つ目（ドリル）は用途が違うので分けるが、色相ではなく
+     「塗り vs 輪郭」の階層で分ける＝どのテーマでも成立する。 */
+  --btn-ai:var(--or);   --btn-ai-h:var(--ord);   --btn-ai-ink:var(--subj-ink);
   --btn-ok:var(--gr);   --btn-ok-ink:#04231A;
 
   /* 意味色の枠線。淡い面は vars.css の --grl/--orl/--rdl/--bl を使う */
@@ -87,7 +90,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .summary-row{display:flex;gap:6px;flex-wrap:wrap;}
 /* 375px 以下では「2241問」が「2241 / 問」と縦に割れていた。数値は折らず、
    入らないときはカード自体を段に落とす（flex-wrap 済み） */
-.sum-card{background:rgba(var(--glass-rgb),.08);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:6px 8px;text-align:center;flex:1;min-width:74px;}
+.sum-card{background:rgba(var(--glass-rgb),.08);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-md);padding:6px 8px;text-align:center;flex:1;min-width:74px;}
 .sum-val{font-size:20px;font-weight:900;color:var(--yl);display:block;white-space:nowrap;}
 /* 赤旗はページ内の他所（.flag-num）で赤を意味色として使っているので揃える */
 .sum-val.flag{color:var(--rd);}
@@ -101,8 +104,8 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
      .sec--lead  主役。面を持ち上げ、余白を広く取る
      .sec        通常。従来の箱のまま
      .sec--aside 参考。箱を外し、罫線と余白だけで区切る */
-.sec{background:var(--sec-bg);border:1px solid var(--sec-bd);border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.07);padding:16px;margin-bottom:14px;}
-.sec--lead{background:var(--lead-bg);border-color:var(--lead-bd);border-radius:16px;padding:20px 18px 18px;margin-bottom:20px;
+.sec{background:var(--sec-bg);border:1px solid var(--sec-bd);border-radius:var(--r-lg);box-shadow:var(--shadow-card);padding:16px;margin-bottom:14px;}
+.sec--lead{background:var(--lead-bg);border-color:var(--lead-bd);border-radius:var(--r-lg);padding:20px 18px 18px;margin-bottom:20px;
   box-shadow:0 8px 34px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.12);}
 .sec--aside{background:none;border:none;border-radius:0;box-shadow:none;
   padding:20px 2px 0;margin-bottom:22px;border-top:1px solid rgba(255,255,255,.09);}
@@ -176,7 +179,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .time-bar.zero{background:rgba(var(--glass-rgb),.08);min-height:3px;}
 
 /* Accuracy badge */
-.acc-badge{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:10px;white-space:nowrap;}
+.acc-badge{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:var(--r-md);white-space:nowrap;}
 .acc-badge.good{background:var(--grl);color:var(--gr);border:1px solid var(--gr-bd);}
 .acc-badge.poor{background:var(--orl);color:var(--or);border:1px solid var(--or-bd);}
 .acc-badge.bad{background:var(--rdl);color:var(--rd);border:1px solid var(--rd-bd);}
@@ -207,11 +210,11 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .weak-empty{font-size:13px;color:var(--ts);text-align:center;padding:16px 0;}
 /* hover で margin/padding を動かすと行が飛び跳ねるので、幅は常時広げておき
    hover では背景色だけを変える（レイアウトを触らない） */
-.weak-row{display:flex;align-items:center;gap:8px;margin:0 -16px;padding:7px 16px;border-bottom:1px solid var(--gb);text-decoration:none;color:var(--tx);border-radius:8px;}
+.weak-row{display:flex;align-items:center;gap:8px;margin:0 -16px;padding:7px 16px;border-bottom:1px solid var(--gb);text-decoration:none;color:var(--tx);border-radius:var(--r-sm);}
 .weak-row:last-child{border-bottom:none;}
 .weak-row:hover{background:rgba(var(--glass-rgb),.05);}
 .weak-rank{font-size:11px;font-weight:700;color:var(--ts);width:20px;flex-shrink:0;text-align:right;}
-.weak-subj-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;color:var(--subj-ink);white-space:nowrap;flex-shrink:0;}
+.weak-subj-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:var(--r-md);color:var(--subj-ink);white-space:nowrap;flex-shrink:0;}
 .weak-info{flex:1;min-width:0;}
 .weak-ch{font-size:12px;color:var(--ts);}
 .weak-acc{font-size:13px;font-weight:700;flex-shrink:0;}
@@ -220,7 +223,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .ai-desc{font-size:12px;color:var(--ts);margin-bottom:12px;line-height:1.6;}
 /* 暗色面のボタンは「グラデ＋同色のグロー」で浮かせない（最も生成物らしく見える組み合わせ）。
    単色の面で塗り、高さは面の明るさで出す。下地が明るいので文字は暗インク。 */
-.ai-export-btn{width:100%;padding:12px 16px;border:none;border-radius:12px;
+.ai-export-btn{width:100%;padding:12px 16px;border:none;border-radius:var(--r-md);
   background:var(--btn-ai);color:var(--btn-ai-ink);
   font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;
   transition:background-color .18s var(--ease-out),transform .1s var(--ease-out);}
@@ -232,12 +235,15 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .ai-opt{font-size:11px;color:var(--ts);display:flex;align-items:center;gap:4px;cursor:pointer;user-select:none;}
 /* 2つ目のボタンは用途が違う（相談ではなく出題）ので配色を分け、区切り線で段を切る */
 .ai-desc2{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);}
-.ai-drill-btn{background:var(--btn-drill);color:var(--btn-drill-ink);}
-.ai-drill-btn:hover{background:var(--btn-drill-h);}
+/* 用途違いを色相ではなく階層で示す（塗り＝主／輪郭＝副）。
+   どのテーマのアクセントでも成立し、テーマ固有の色を足さずに済む */
+.ai-drill-btn{background:transparent;color:var(--or);
+  box-shadow:inset 0 0 0 1.5px var(--or);}
+.ai-drill-btn:hover{background:var(--orl);color:var(--ord);}
 /* コピーが端末に拒否されたときの退避先。font-size 16px 未満はiOSが自動ズームする */
 .ai-copy-fallback{width:100%;min-height:110px;margin-top:10px;resize:vertical;font-size:16px;
   font-family:monospace;background:rgba(0,0,0,.4);border:1.5px solid rgba(255,255,255,.2);
-  border-radius:10px;padding:10px 12px;color:var(--tx);line-height:1.6;
+  border-radius:var(--r-md);padding:10px 12px;color:var(--tx);line-height:1.6;
   -webkit-user-select:text;user-select:text;}
 .ai-copy-fallback[hidden]{display:none;}
 
@@ -270,7 +276,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .pace-item:first-child{border-left:none;padding-left:0;}
 .pace-lbl{font-size:10px;font-weight:700;color:var(--ts);white-space:nowrap;}
 .pace-val{font-size:18px;font-weight:900;color:var(--tx);font-variant-numeric:tabular-nums;margin-top:2px;white-space:nowrap;}
-.pace-msg{font-size:12px;font-weight:700;margin-top:14px;padding:8px 11px;border-radius:10px;line-height:1.6;}
+.pace-msg{font-size:12px;font-weight:700;margin-top:14px;padding:8px 11px;border-radius:var(--r-md);line-height:1.6;}
 .pace-msg.ok{background:var(--grl);color:var(--gr);border:1px solid var(--gr-bd);}
 .pace-msg.warn{background:var(--orl);color:var(--or);border:1px solid var(--or-bd);}
 .pace-msg.bad{background:var(--rdl);color:var(--rd);border:1px solid var(--rd-bd);}
@@ -284,9 +290,9 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .pace-bar-mark{position:absolute;top:-2px;bottom:-2px;width:2px;background:rgba(255,255,255,.55);}
 .pace-foot{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap;}
 .pace-foot label{font-size:11px;font-weight:700;color:var(--ts);}
-.exam-date-input{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);border-radius:9px;
+.exam-date-input{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);border-radius:var(--r-sm);
   padding:5px 9px;font-size:12px;color:var(--tx);font-family:inherit;}
-.pace-reset{background:none;border:1px solid rgba(255,255,255,.18);border-radius:9px;color:var(--ts);
+.pace-reset{background:none;border:1px solid rgba(255,255,255,.18);border-radius:var(--r-sm);color:var(--ts);
   font-size:11px;font-weight:700;padding:5px 10px;cursor:pointer;font-family:inherit;}
 .pace-reset:hover{background:rgba(255,255,255,.1);color:var(--tx);}
 
@@ -393,11 +399,11 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .gap-empty{font-size:13px;color:var(--ts);text-align:center;padding:16px 0;}
 
 /* Miss (取りこぼし) list */
-.miss-row{display:flex;align-items:center;gap:8px;margin:0 -16px;padding:7px 16px;border-bottom:1px solid rgba(255,255,255,.05);text-decoration:none;color:var(--tx);border-radius:8px;}
+.miss-row{display:flex;align-items:center;gap:8px;margin:0 -16px;padding:7px 16px;border-bottom:1px solid rgba(255,255,255,.05);text-decoration:none;color:var(--tx);border-radius:var(--r-sm);}
 .miss-row:last-child{border-bottom:none;}
 .miss-row:hover{background:rgba(var(--glass-rgb),.05);}
 .miss-rank{font-size:11px;font-weight:700;color:var(--ts);width:20px;flex-shrink:0;text-align:right;}
-.miss-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;color:var(--subj-ink);white-space:nowrap;flex-shrink:0;}
+.miss-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:var(--r-md);color:var(--subj-ink);white-space:nowrap;flex-shrink:0;}
 .miss-info{flex:1;min-width:0;font-size:12px;color:var(--ts);}
 .miss-gap{flex-shrink:0;font-size:12px;font-weight:700;text-align:right;}
 .miss-gap .nat{color:var(--gr);}
@@ -412,7 +418,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .hm{border-collapse:separate;border-spacing:2px;width:100%;min-width:340px;}
 .hm th{font-size:10px;font-weight:700;color:var(--ts);padding:2px 4px;white-space:nowrap;text-align:center;}
 .hm th.hm-rh{text-align:left;font-size:11px;color:var(--tx);padding-right:8px;}
-.hm td{width:15%;height:34px;border-radius:6px;text-align:center;font-size:11px;font-weight:700;
+.hm td{width:15%;height:34px;border-radius:var(--r-sm);text-align:center;font-size:11px;font-weight:700;
   color:var(--tx);border:1px solid rgba(255,255,255,.10);background:transparent;cursor:default;}
 .hm td.hm-nd{color:var(--ts);font-weight:400;border-style:dashed;}
 .hm td.hm-low{color:rgba(255,255,255,.55);}

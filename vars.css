@@ -105,6 +105,10 @@ html.th-charcoal {
   --or:#98A8B8; --ord:#AEC0D3; --orl:rgba(152,168,184,0.14);
   --font-display-ls:.045em;
   --bg-gradient:linear-gradient(180deg,var(--bg-g0) 0%,var(--bg-g1) 55%,var(--bg-g2) 100%);
+
+  /* 角を落とし影も消す＝製図された道具の顔 */
+  --r-sm:2px; --r-md:3px; --r-lg:4px;
+  --shadow-card:none;
 }
 html.th-charcoal body { --tx:#E8EAEE; --ts:#93999F; }
 
@@ -124,6 +128,10 @@ html.th-forest {
   /* 若草のアクセント。上から光が差す放射グラデ */
   --or:#69B857; --ord:#78D364; --orl:rgba(105,184,87,0.14);
   --bg-gradient:radial-gradient(120% 95% at 50% 0%,var(--bg-g2) 0%,var(--bg-g1) 48%,var(--bg-g0) 100%);
+
+  /* 標準寄り。柔らかく浮かせる */
+  --r-sm:8px; --r-md:12px; --r-lg:16px;
+  --shadow-card:0 4px 22px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.06);
 }
 html.th-forest body { --tx:#E4EFE8; --ts:#8FAE9C; }
 
@@ -144,6 +152,10 @@ html.th-teal {
   --or:#0AB6D3; --ord:#0DD0F1; --orl:rgba(10,182,211,0.14);
   --bg-gradient:linear-gradient(180deg,var(--bg-g0) 0%,var(--bg-g1) 45%,var(--bg-g2) 100%);
   --bg-grain:var(--grain-tile);
+
+  /* やや締めた角＋深い影で水中の奥行き */
+  --r-sm:6px; --r-md:9px; --r-lg:12px;
+  --shadow-card:0 8px 30px rgba(0,0,0,.46),inset 0 1px 0 rgba(255,255,255,.05);
 }
 html.th-teal body { --tx:#E1EEF2; --ts:#8AA8B2; }
 
@@ -166,6 +178,10 @@ html.th-amber {
   --font-display-ls:.01em;
   --bg-gradient:linear-gradient(150deg,var(--bg-g0) 0%,var(--bg-g1) 55%,var(--bg-g2) 100%);
   --bg-grain:var(--grain-tile);
+
+  /* ★角をほぼ落とし影を消す＝印刷された紙面。明朝と粒子に揃える */
+  --r-sm:3px; --r-md:5px; --r-lg:7px;
+  --shadow-card:none;
 }
 html.th-amber body { --tx:#F4EAE6; --ts:#B89A92; }
 
@@ -187,6 +203,10 @@ html.th-rose {
   --font-display:'Hiragino Maru Gothic ProN','Yu Gothic UI','Meiryo',sans-serif;
   --font-display-ls:.01em;
   --bg-gradient:radial-gradient(115% 90% at 30% 0%,var(--bg-g2) 0%,var(--bg-g1) 50%,var(--bg-g0) 100%);
+
+  /* ★大きく丸め、内側ハイライトを外して柔らかい影だけに */
+  --r-sm:14px; --r-md:18px; --r-lg:24px;
+  --shadow-card:0 6px 26px rgba(0,0,0,.30);
 }
 html.th-rose body { --tx:#F7EAF0; --ts:#C09FAE; }
 
@@ -253,6 +273,17 @@ html::before {
      背景レイヤーを差し替えるだけにしてある（iOS の白wash対策を壊さないため）。 */
   --bg-gradient:linear-gradient(135deg,var(--bg-g0) 0%,var(--bg-g1) 50%,var(--bg-g2) 100%);
   --bg-grain:none;
+
+  /* 構造面の角丸3段。カード・ボタン・入力・モーダルが参照する。
+     ⚠️ ピル（20px以上のバッジ・チップ）と極小チップ（5px以下）はここに含めない。
+        あれらは形そのものが意味なので、テーマで振ると別物になってしまう。
+     ⚠️ 棒グラフ上端のような複数値指定（border-radius:2px 2px 0 0）も対象外。 */
+  --r-sm:8px;   /* 小さめの面: チップ・入力・小ボタン */
+  --r-md:11px;  /* 標準: ボタン・パネル */
+  --r-lg:15px;  /* 大きい面: カード・セクション・モーダル */
+
+  /* カードの高さ表現。テーマごとに「浮かせる/紙のように平ら」を振る */
+  --shadow-card:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.07);
 }
 /* 粒子（紙のような質感）。テーマ側が --bg-grain にこれを指定する。
    グレースケール化した fractalNoise を極低不透明度でタイル敷きする。

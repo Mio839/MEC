@@ -24,7 +24,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .hub-stat{background:rgba(var(--glass-rgb),.08);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;border:1px solid rgba(255,255,255,.1);font-variant-numeric:tabular-nums;}
 .hub-stat span{color:var(--yl);}
 .hub-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
-.hub-btn{padding:5px 12px;border-radius:8px;border:1.5px solid rgba(255,255,255,.2);background:rgba(var(--glass-rgb),.06);color:#fff;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s,color .15s;}
+.hub-btn{padding:5px 12px;border-radius:var(--r-sm);border:1.5px solid rgba(255,255,255,.2);background:rgba(var(--glass-rgb),.06);color:#fff;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s,color .15s;}
 .hub-btn:hover{background:rgba(var(--glass-rgb),.12);}
 /* 地が明るいアクセントなので白文字だと 2.1:1。暗インクへ反転（テーマでアクセントが変わっても成立する） */
 .hub-btn.primary{background:var(--or);border-color:var(--or);color:var(--subj-ink);}
@@ -36,7 +36,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
 /* ── Subject cards ── */
 .subjects{padding:12px 10px 60px;}
-.subject-card{background:rgba(var(--glass-rgb),.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;margin-bottom:10px;box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.07);overflow:hidden;transition:box-shadow .2s;}
+.subject-card{background:rgba(var(--glass-rgb),.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-lg);margin-bottom:10px;box-shadow:var(--shadow-card);overflow:hidden;transition:box-shadow .2s;}
 .subject-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.1);}
 .subject-header{display:flex;align-items:center;gap:10px;padding:13px 16px 11px;cursor:pointer;user-select:none;}
 .subject-icon{font-size:22px;width:34px;text-align:center;}
@@ -51,7 +51,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .subject-tool-row{display:flex;align-items:center;gap:8px;padding:0 16px 12px;}
 /* 背景はハブのツール色（STUDY_TOOL / KNOWLEDGE_TOOL の暗色）であって科目色ではない。
    暗インクではなく白文字が正しい（暗色地なので白で 4.9:1 / 11.4:1）。 */
-.subject-tool-link{flex:1;display:block;padding:9px 14px;border-radius:10px;color:#fff;font-size:13px;font-weight:700;text-decoration:none;text-align:center;}
+.subject-tool-link{flex:1;display:block;padding:9px 14px;border-radius:var(--r-md);color:#fff;font-size:13px;font-weight:700;text-decoration:none;text-align:center;}
 
 .sc-row{display:flex;justify-content:flex-end;padding:8px 16px 10px;border-top:1px solid rgba(255,255,255,.07);}
 .sc-btn{font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;background:rgba(var(--glass-rgb),.06);color:var(--ts);text-decoration:none;border:1px solid rgba(255,255,255,.1);transition:background .12s;}
@@ -70,20 +70,20 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .chapter-prog-txt{font-size:11px;color:var(--ts);width:36px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums;}
 
 /* ── Subject accuracy ── */
-.subject-acc{font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+.subject-acc{font-size:10px;font-weight:700;padding:1px 7px;border-radius:var(--r-md);white-space:nowrap;flex-shrink:0;}
 .subject-acc.good{background:rgba(61,214,140,.15);color:var(--gr);border:1px solid rgba(61,214,140,.3);}
 .subject-acc.poor{background:rgba(255,154,60,.15);color:var(--or);border:1px solid rgba(255,154,60,.3);}
 .subject-acc.bad{background:rgba(255,107,107,.15);color:var(--rd);border:1px solid rgba(255,107,107,.3);}
 
 /* ── Chapter exam badge ── */
-.ch-exam-tag{font-size:9px;font-weight:700;padding:1px 5px;border-radius:8px;white-space:nowrap;flex-shrink:0;border:1px solid;}
+.ch-exam-tag{font-size:9px;font-weight:700;padding:1px 5px;border-radius:var(--r-sm);white-space:nowrap;flex-shrink:0;border:1px solid;}
 .ch-exam-tag.good{background:rgba(61,214,140,.12);color:var(--gr);border-color:rgba(61,214,140,.3);}
 .ch-exam-tag.mid{background:rgba(255,154,60,.12);color:var(--or);border-color:rgba(255,154,60,.3);}
 .ch-exam-tag.bad{background:rgba(255,107,107,.12);color:var(--rd);border-color:rgba(255,107,107,.3);}
 
 /* ── Mindmap grid ── */
 .mindmap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;padding:0 16px 14px;}
-.mindmap-btn{display:flex;align-items:center;gap:8px;padding:11px 14px;border-radius:10px;color:var(--subj-ink);font-size:13px;font-weight:700;text-decoration:none;transition:filter .15s;}
+.mindmap-btn{display:flex;align-items:center;gap:8px;padding:11px 14px;border-radius:var(--r-md);color:var(--subj-ink);font-size:13px;font-weight:700;text-decoration:none;transition:filter .15s;}
 .mindmap-btn:hover{filter:brightness(1.1);}
 .mindmap-btn .mm-icon{font-size:18px;}
 
@@ -101,46 +101,46 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
 /* ── テーマ選択 ── */
 .theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-bottom:4px;}
-.theme-btn{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer;
+.theme-btn{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r-md);cursor:pointer;
   background:rgba(var(--glass-rgb),.06);border:1.5px solid rgba(255,255,255,.14);color:var(--tx);
   font-family:inherit;text-align:left;
   transition:background-color .15s var(--ease-out),border-color .15s var(--ease-out);}
 .theme-btn:hover{background:rgba(var(--glass-rgb),.12);}
 .theme-btn.on{border-color:var(--or);background:rgba(255,154,60,.12);}
 /* スウォッチはそのテーマのページ地。枠を付けないと暗い色が地に沈んで見えない */
-.theme-sw{width:26px;height:26px;border-radius:8px;flex-shrink:0;border:1px solid rgba(255,255,255,.28);}
+.theme-sw{width:26px;height:26px;border-radius:var(--r-sm);flex-shrink:0;border:1px solid rgba(255,255,255,.28);}
 .theme-tx{min-width:0;}
 /* span を並べるだけだと名前と説明が同じ行に繋がるので block にする */
 .theme-nm{font-family:var(--font-display);letter-spacing:var(--font-display-ls);display:block;font-size:13px;font-weight:800;white-space:nowrap;}
 .theme-note{display:block;font-size:10px;color:var(--ts);line-height:1.4;margin-top:1px;}
 .theme-btn.on .theme-nm{color:var(--or);}
-.hub-footer-btn{padding:7px 18px;border-radius:10px;border:1.5px solid rgba(255,255,255,.16);background:rgba(var(--glass-rgb),.06);color:var(--ts);font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .15s,border-color .15s,color .15s;}
+.hub-footer-btn{padding:7px 18px;border-radius:var(--r-md);border:1.5px solid rgba(255,255,255,.16);background:rgba(var(--glass-rgb),.06);color:var(--ts);font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .15s,border-color .15s,color .15s;}
 .hub-footer-btn:hover{background:rgba(var(--glass-rgb),.1);color:var(--tx);}
 .sound-label{font-size:11px;font-weight:700;color:var(--ts);margin:16px 0 6px;}
 .sound-label:first-child{margin-top:0;}
 .sound-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:4px;}
-.sound-btn{padding:8px 4px;border-radius:10px;border:1.5px solid rgba(255,255,255,.14);background:rgba(var(--glass-rgb),.06);font-size:12px;font-weight:700;cursor:pointer;color:var(--tx);transition:background .15s,border-color .15s,color .15s;font-family:inherit;}
+.sound-btn{padding:8px 4px;border-radius:var(--r-md);border:1.5px solid rgba(255,255,255,.14);background:rgba(var(--glass-rgb),.06);font-size:12px;font-weight:700;cursor:pointer;color:var(--tx);transition:background .15s,border-color .15s,color .15s;font-family:inherit;}
 .sound-btn:hover,.sound-btn.sel{background:rgba(61,214,140,.14);border-color:rgba(61,214,140,.42);color:var(--gr);}
 .modal-title{font-family:var(--font-display);letter-spacing:var(--font-display-ls);font-size:16px;font-weight:800;margin-bottom:4px;color:var(--tx);}
 .modal-sub{font-size:13px;color:var(--ts);margin-bottom:18px;line-height:1.6;}
 .field-label{font-size:12px;font-weight:700;color:var(--ts);margin-bottom:5px;}
-.field-input{width:100%;padding:9px 12px;border-radius:10px;border:1.5px solid rgba(255,255,255,.15);font-size:14px;font-family:inherit;margin-bottom:14px;background:rgba(var(--glass-rgb),.07);color:var(--tx);}
+.field-input{width:100%;padding:9px 12px;border-radius:var(--r-md);border:1.5px solid rgba(255,255,255,.15);font-size:14px;font-family:inherit;margin-bottom:14px;background:rgba(var(--glass-rgb),.07);color:var(--tx);}
 .field-input::placeholder{color:var(--ts);}
 .field-input:focus{border-color:rgba(255,255,255,.35);}
 .modal-actions{display:flex;gap:8px;flex-wrap:wrap;}
-.modal-btn{padding:9px 18px;border-radius:10px;border:none;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;}
+.modal-btn{padding:9px 18px;border-radius:var(--r-md);border:none;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;}
 .modal-btn.primary{background:var(--or);color:var(--subj-ink);}
 .modal-btn.secondary{background:rgba(var(--glass-rgb),.08);color:var(--tx);border:1px solid rgba(255,255,255,.14);}
-.sync-result{font-size:13px;font-weight:700;margin-top:14px;padding:8px 12px;border-radius:8px;display:none;}
+.sync-result{font-size:13px;font-weight:700;margin-top:14px;padding:8px 12px;border-radius:var(--r-sm);display:none;}
 .sync-result.ok{background:rgba(61,214,140,.12);color:var(--gr);border:1px solid rgba(61,214,140,.25);}
 .sync-result.error{background:rgba(255,107,107,.12);color:var(--rd);border:1px solid rgba(255,107,107,.25);}
-.help-box{background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.35);border-radius:6px;padding:10px 14px;margin-top:16px;font-size:12px;line-height:1.8;color:var(--tx);}
+.help-box{background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.35);border-radius:var(--r-sm);padding:10px 14px;margin-top:16px;font-size:12px;line-height:1.8;color:var(--tx);}
 .help-box a{color:var(--blu);}
 .hub-stat.srs{background:rgba(255,154,60,.15);border-color:rgba(255,154,60,.35);color:var(--or);font-weight:800;}
 .srs-due-row{padding:0 16px 12px;}
 /* 地が明るい --or(#FF9A3C) なので白文字だと 2.11:1 しか無かった（今回の色替えとは無関係の既存不具合）。
    暗インクへ反転して 7.3:1 に。 */
-.srs-due-link{display:block;padding:9px 14px;border-radius:10px;color:var(--subj-ink);font-size:13px;font-weight:700;text-decoration:none;text-align:center;background:var(--or);transition:filter .15s;}
+.srs-due-link{display:block;padding:9px 14px;border-radius:var(--r-md);color:var(--subj-ink);font-size:13px;font-weight:700;text-decoration:none;text-align:center;background:var(--or);transition:filter .15s;}
 .srs-due-link:hover,.srs-due-link:active{filter:brightness(1.1);}
 </style>
 </head>
@@ -170,8 +170,8 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
 <div id="noSyncWarning" style="display:none;background:#7f3300;color:#fff;font-size:13px;padding:10px 16px;text-align:center;line-height:1.6;">
   ⚠️ 進捗はこのブラウザのみに保存されています。ブラウザのキャッシュをクリアすると<strong>全データが消えます</strong>。<br>
-  <button onclick="exportBackup()" style="margin:4px 6px 0;padding:4px 12px;border-radius:6px;border:none;background:#fff;color:#7f3300;font-weight:700;cursor:pointer;">📥 今すぐバックアップ</button>
-  <button onclick="openSyncModal()" style="margin:4px 6px 0;padding:4px 12px;border-radius:6px;border:none;background:var(--yl);color:#000;font-weight:700;cursor:pointer;">☁️ クラウド同期を設定</button>
+  <button onclick="exportBackup()" style="margin:4px 6px 0;padding:4px 12px;border-radius:var(--r-sm);border:none;background:#fff;color:#7f3300;font-weight:700;cursor:pointer;">📥 今すぐバックアップ</button>
+  <button onclick="openSyncModal()" style="margin:4px 6px 0;padding:4px 12px;border-radius:var(--r-sm);border:none;background:var(--yl);color:#000;font-weight:700;cursor:pointer;">☁️ クラウド同期を設定</button>
 </div>
 
 <div style="padding:12px 10px 0;" id="gamifyPanel"><!-- gamify.js が描画（レベル・炎・ミッション・実績） --></div>
@@ -908,7 +908,7 @@ function showSyncConfirm(msg, onOk) {
   el.append(msg + ' ');
   const btn = document.createElement('button');
   btn.textContent = '復元を実行';
-  btn.style.cssText = 'margin-left:8px;padding:4px 12px;border-radius:8px;border:none;background:var(--or);color:#fff;font-weight:700;cursor:pointer;font-family:inherit;';
+  btn.style.cssText = 'margin-left:8px;padding:4px 12px;border-radius:var(--r-sm);border:none;background:var(--or);color:#fff;font-weight:700;cursor:pointer;font-family:inherit;';
   btn.onclick = () => { el.style.display = 'none'; onOk(); };
   el.appendChild(btn);
 }
