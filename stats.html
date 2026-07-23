@@ -7,6 +7,7 @@
 <script src="chapters_meta.js"></script>
 <script src="rate_index.js?v=1"></script>
 <script src="progress.js?v=3"></script>
+<script src="attempts.js"></script>
 <script src="fx_engine.js"></script>
 <link rel="stylesheet" href="vars.css">
 <script src="_palette_preview.js"></script>
@@ -256,6 +257,36 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .miss-gap .you{color:#FF6B6B;}
 .miss-empty{font-size:13px;color:var(--ts);text-align:center;padding:16px 0;}
 
+/* ── 弱点カルテ: 科目×設問形式ヒートマップ ─────────────────────────────
+   セルの塗りは「弱さ」の逐次ランプ（アンバー単一色相・L単調）。強い＝面に沈み、
+   弱い＝明るく浮くので、目が弱点へ先に向く。塗りだけに意味を負わせないよう
+   全セルに％を印字し、ハイライン枠で升目そのものは常に見えるようにしてある。 */
+.hm-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px;}
+.hm{border-collapse:separate;border-spacing:2px;width:100%;min-width:340px;}
+.hm th{font-size:10px;font-weight:700;color:var(--ts);padding:2px 4px;white-space:nowrap;text-align:center;}
+.hm th.hm-rh{text-align:left;font-size:11px;color:var(--tx);padding-right:8px;}
+.hm td{width:15%;height:34px;border-radius:6px;text-align:center;font-size:11px;font-weight:700;
+  color:var(--tx);border:1px solid rgba(255,255,255,.10);background:transparent;cursor:default;}
+.hm td.hm-nd{color:var(--ts);font-weight:400;border-style:dashed;}
+.hm td.hm-low{color:rgba(255,255,255,.55);}
+.hm-sub{display:block;font-size:9px;font-weight:400;color:rgba(255,255,255,.5);line-height:1.2;}
+.hm-foot{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:10px;}
+.hm-legend{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--ts);}
+.hm-legend .hm-sw{display:flex;gap:2px;}
+.hm-legend i{width:16px;height:10px;border-radius:2px;border:1px solid rgba(255,255,255,.10);}
+.hm-note{font-size:10px;color:var(--ts);flex:1;min-width:140px;}
+
+/* 本番正答率帯ごとの自分の正答率 */
+.band-wrap{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);}
+.band-title{font-size:11px;font-weight:700;color:var(--tx);margin-bottom:10px;}
+.band-rows{display:flex;flex-direction:column;gap:7px;}
+.band-row{display:flex;align-items:center;gap:8px;font-size:11px;}
+.band-lbl{width:78px;flex-shrink:0;color:var(--ts);}
+.band-track{flex:1;height:9px;border-radius:5px;background:rgba(255,255,255,.07);overflow:hidden;}
+.band-fill{height:100%;border-radius:5px;}
+.band-val{width:74px;flex-shrink:0;text-align:right;font-weight:700;color:var(--tx);}
+.band-val small{font-weight:400;color:var(--ts);}
+
 </style>
 </head>
 <body>
@@ -380,6 +411,23 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     </div>
     <div id="heatmap"></div>
     <div class="hm-legend" id="hmLegend"></div>
+  </section>
+
+  <!-- 弱点カルテ: 科目×設問形式のヒートマップ（qmeta.json × myrate_v1）。
+       章別集計では見えない「治療選択だけ落ちる」型の弱点を出すのが目的 -->
+  <section class="sec" id="chartSec" style="display:none">
+    <div class="sec-title">🩺 弱点カルテ <span class="sec-note">（科目 × 設問形式の試験正答率）</span></div>
+    <div class="hm-scroll">
+      <table class="hm" id="hmTable"></table>
+    </div>
+    <div class="hm-foot">
+      <div class="hm-legend" id="hmLegend"></div>
+      <div class="hm-note" id="hmNote"></div>
+    </div>
+    <div class="band-wrap" id="bandWrap">
+      <div class="band-title">本番正答率帯ごとの自分の正答率 <span class="sec-note">（易しい帯で崩れる＝読み落とし型／難しい帯だけ落ちる＝知識型）</span></div>
+      <div class="band-rows" id="bandRows"></div>
+    </div>
   </section>
 
   <!-- A4: 本番正答率と自分の正答率のギャップ -->
@@ -912,6 +960,194 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     });
   }
 
+  // ══════════ 弱点カルテ（qmeta.json × myrate_v1）══════════
+  // 章別の集計では「循環器が弱い」までしか言えない。設問形式の軸を掛けることで
+  // 「循環器の“治療選択”だけ落ちる」まで絞り込めるようにする。
+  // qmeta.json は _work/build_qmeta.py が questions_*.json から生成する派生物。
+
+  const QTYPES = [
+    { k: 'dx', label: '診断' },
+    { k: 'ix', label: '検査' },
+    { k: 'tx', label: '治療' },
+    { k: 'mgmt', label: '対応' },
+    { k: 'know', label: '知識' },
+  ];
+  // 「弱さ」の逐次ランプ（アンバー単一色相・明度単調・段差>=0.06 で検証済み）。
+  // 正答率が高いほど面に沈み、低いほど明るく浮く＝弱点に目が行く向き。
+  // 明るい2段は白文字だと読めないので文字色を反転させる。
+  // 刻みは弱い側を細かくしてある。強い側は「もう見なくていい」ので潰れてよく、
+  // 弱い側は 17% と 43% が同じ見た目になると優先順位が付けられなくなるため。
+  const HM_RAMP = [
+    { bg: '#281d0b', fg: 'var(--tx)' },   // 90%以上
+    { bg: '#443110', fg: 'var(--tx)' },   // 80-89
+    { bg: '#5f4516', fg: 'var(--tx)' },   // 70-79
+    { bg: '#7d5a1d', fg: 'var(--tx)' },   // 60-69
+    { bg: '#9c7124', fg: 'var(--tx)' },   // 50-59
+    { bg: '#bd882b', fg: '#241a05' },     // 35-49
+    { bg: '#e5a634', fg: '#241a05' },     // 35%未満
+  ];
+  const HM_MIN_N = 3;   // これ未満の受験数はノイズなので数値を出さない
+
+  function rampIndex(pct) {
+    if (pct >= 90) return 0;
+    if (pct >= 80) return 1;
+    if (pct >= 70) return 2;
+    if (pct >= 60) return 3;
+    if (pct >= 50) return 4;
+    if (pct >= 35) return 5;
+    return 6;
+  }
+
+  // カルテの集計結果。AI相談Markdownからも参照するので外に持つ
+  let _karte = null;
+
+  function subjIdOfUid(uid) {
+    const i = uid.indexOf('_ch');
+    return i > 0 ? uid.slice(0, i) : null;
+  }
+
+  function buildKarte(qmeta) {
+    const subjects = (typeof MEC_CHAPTERS !== 'undefined') ? MEC_CHAPTERS : [];
+    const cells = {};    // subjId → type → {correct,total}
+    const colTot = {};   // type → {correct,total}
+    const rowTot = {};   // subjId → {correct,total}
+    const all = { correct: 0, total: 0 };
+    const bands = [
+      { k: 'e', label: '本番80%以上', min: 80, max: 101, correct: 0, total: 0 },
+      { k: 'm', label: '本番60-79%', min: 60, max: 80, correct: 0, total: 0 },
+      { k: 'h', label: '本番40-59%', min: 40, max: 60, correct: 0, total: 0 },
+      { k: 'x', label: '本番40%未満', min: 0, max: 40, correct: 0, total: 0 },
+    ];
+    const flagAgg = {};  // フラグ別（neg/multi/img/case/calc）の正答率
+
+    Object.entries(myrate).forEach(([uid, v]) => {
+      const total = v.total || 0;
+      if (!total) return;
+      const correct = v.correct || 0;
+      const m = qmeta[uid];
+      // 正解肢ゼロの問題は何を選んでも不正解になるため母数から外す
+      if (m && m.f && m.f.indexOf('ungraded') !== -1) return;
+      const sid = subjIdOfUid(uid);
+      all.correct += correct; all.total += total;
+
+      if (sid && m) {
+        cells[sid] = cells[sid] || {};
+        const c = cells[sid][m.ty] = cells[sid][m.ty] || { correct: 0, total: 0 };
+        c.correct += correct; c.total += total;
+        const ct = colTot[m.ty] = colTot[m.ty] || { correct: 0, total: 0 };
+        ct.correct += correct; ct.total += total;
+        const rt = rowTot[sid] = rowTot[sid] || { correct: 0, total: 0 };
+        rt.correct += correct; rt.total += total;
+        (m.f || []).forEach(f => {
+          if (f === 'ungraded' || f === 'excl') return;
+          const fa = flagAgg[f] = flagAgg[f] || { correct: 0, total: 0 };
+          fa.correct += correct; fa.total += total;
+        });
+      }
+      const nat = RATE[uid];
+      if (typeof nat === 'number') {
+        const b = bands.find(b2 => nat >= b2.min && nat < b2.max);
+        if (b) { b.correct += correct; b.total += total; }
+      }
+    });
+
+    const rows = subjects
+      .filter(s => rowTot[s.id] && rowTot[s.id].total > 0)
+      .map(s => ({ id: s.id, name: s.name, icon: s.icon }));
+
+    return { cells, colTot, rowTot, all, bands, flagAgg, rows };
+  }
+
+  function renderKarte(k) {
+    const sec = document.getElementById('chartSec');
+    const table = document.getElementById('hmTable');
+    if (!sec || !table || !k.rows.length) return;
+    sec.style.display = '';
+
+    const cell = (d) => {
+      if (!d || !d.total) return '<td class="hm-nd">—</td>';
+      if (d.total < HM_MIN_N) {
+        return `<td class="hm-nd">—<span class="hm-sub">${d.total}回</span></td>`;
+      }
+      const pct = Math.round(d.correct / d.total * 100);
+      const r = HM_RAMP[rampIndex(pct)];
+      return `<td style="background:${r.bg};color:${r.fg}">${pct}%<span class="hm-sub" style="color:${r.fg};opacity:.72">${d.total}回</span></td>`;
+    };
+
+    const head = '<tr><th class="hm-rh">科目</th>' +
+      QTYPES.map(t => `<th>${t.label}</th>`).join('') + '<th>計</th></tr>';
+    const body = k.rows.map(s =>
+      `<tr><th class="hm-rh">${s.icon} ${s.name}</th>` +
+      QTYPES.map(t => cell(k.cells[s.id] && k.cells[s.id][t.k])).join('') +
+      cell(k.rowTot[s.id]) + '</tr>'
+    ).join('');
+    const foot = '<tr><th class="hm-rh">全科目</th>' +
+      QTYPES.map(t => cell(k.colTot[t.k])).join('') + cell(k.all) + '</tr>';
+    table.innerHTML = head + body + foot;
+
+    const legend = document.getElementById('hmLegend');
+    if (legend) {
+      legend.innerHTML = '<span>強い</span><span class="hm-sw">' +
+        HM_RAMP.map(r => `<i style="background:${r.bg}"></i>`).join('') +
+        '</span><span>弱い</span>';
+    }
+    const note = document.getElementById('hmNote');
+    if (note) {
+      note.textContent = `試験モードの解答のみ集計（${HM_MIN_N}回未満は「—」）。設問形式は設問文からの自動分類なので、傾向を見る目安として使うこと。`;
+    }
+
+    // 本番正答率帯ごとの自分の正答率
+    const bandRows = document.getElementById('bandRows');
+    const bandWrap = document.getElementById('bandWrap');
+    const withData = k.bands.filter(b => b.total >= HM_MIN_N);
+    if (bandRows && withData.length) {
+      bandRows.innerHTML = withData.map(b => {
+        const pct = Math.round(b.correct / b.total * 100);
+        const r = HM_RAMP[rampIndex(pct)];
+        return `<div class="band-row">
+          <span class="band-lbl">${b.label}</span>
+          <span class="band-track"><span class="band-fill" style="width:${pct}%;background:${HM_RAMP[Math.max(2, rampIndex(pct))].bg}"></span></span>
+          <span class="band-val">${pct}% <small>${b.correct}/${b.total}</small></span>
+        </div>`;
+      }).join('');
+    } else if (bandWrap) {
+      bandWrap.style.display = 'none';
+    }
+  }
+
+  // qmeta.json は派生物なので、取得できなければカルテを出さないだけで他の統計には影響させない
+  fetch('qmeta.json')
+    .then(r => r.ok ? r.json() : null)
+    .then(doc => {
+      if (!doc || !doc.q) return;
+      _karte = buildKarte(doc.q);
+      renderKarte(_karte);
+    })
+    .catch(() => {});
+
+  // 一度も正解していない問題（試験2回以上）。計画に直接落とせるので最優先で提示する
+  function neverCorrect() {
+    return Object.entries(myrate)
+      .filter(([, v]) => (v.total || 0) >= 2 && (v.correct || 0) === 0)
+      .map(([uid, v]) => ({ uid, total: v.total, nat: RATE[uid], ...uidInfo(uid) }))
+      .sort((a, b) => (b.total - a.total) || ((b.nat || 0) - (a.nat || 0)));
+  }
+
+  // 解答ログから「前回正解 → 今回誤答」の反転を数える。ログが溜まるまでは 0 件で何も出ない
+  function flipStats() {
+    if (!window.MecAttempts) return null;
+    const log = MecAttempts.all();
+    if (log.length < 20) return null;
+    const last = {};
+    let flips = 0, repeats = 0;
+    log.forEach(a => {
+      if (last[a.uid] === true) { repeats++; if (!a.ok) flips++; }
+      last[a.uid] = a.ok;
+    });
+    if (repeats < 5) return null;
+    return { flips, repeats, pct: Math.round(flips / repeats * 100) };
+  }
+
   function buildMarkdown(includeRaw) {
     const totalAll = (typeof MEC_CHAPTERS !== 'undefined') ? MEC_CHAPTERS.reduce((s, subj) => s + subj.chapters.reduce((ss, ch) => ss + ch.count, 0), 0) : 0;
     const donePct = totalAll ? Math.round(doneCount / totalAll * 100) : 0;
@@ -921,6 +1157,8 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     L.push(`# MEC 医師国試 学習データ (${today})`);
     L.push('');
     L.push('## 概況');
+    const _ed = (typeof examDate === 'function') ? examDate() : '';
+    if (_ed) L.push(`- 試験日: ${_ed}（あと ${Math.max(0, daysBetween(today, _ed))} 日）`);
     L.push(`- 済み: ${doneCount} / ${totalAll} 問 (${donePct}%)`);
     L.push(`- 連続学習: ${streak} 日`);
     L.push(`- 赤旗（苦手マーク）: ${flagCount} 問`);
@@ -935,6 +1173,64 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
       L.push(`| ${r.name} | ${r.donePct}% (${r.doneQ}/${r.totalQ}) | ${acc} | ${nat} | ${r.flagQ || 0} |`);
     });
     L.push('');
+    // 弱点カルテ: 科目×設問形式。章別の集計では出ない「形式による弱点」をAIに渡す主材料
+    if (_karte && _karte.rows.length) {
+      const fmt = d => (d && d.total >= HM_MIN_N) ? `${Math.round(d.correct / d.total * 100)}%(${d.correct}/${d.total})` : '—';
+      L.push('## 科目 × 設問形式の正答率（試験モード）');
+      L.push('※ 設問形式は設問文からの自動分類。' + HM_MIN_N + '回未満は「—」。');
+      L.push('| 科目 | ' + QTYPES.map(t => t.label).join(' | ') + ' | 計 |');
+      L.push('|---|' + QTYPES.map(() => '---|').join('') + '---|');
+      _karte.rows.forEach(s => {
+        L.push('| ' + s.name + ' | ' +
+          QTYPES.map(t => fmt(_karte.cells[s.id] && _karte.cells[s.id][t.k])).join(' | ') +
+          ' | ' + fmt(_karte.rowTot[s.id]) + ' |');
+      });
+      L.push('| **全科目** | ' + QTYPES.map(t => fmt(_karte.colTot[t.k])).join(' | ') + ' | ' + fmt(_karte.all) + ' |');
+      L.push('');
+
+      const fl = _karte.flagAgg || {};
+      const flNames = { neg: '否定形（〜でないのはどれか）', multi: '複数選択（Nつ選べ）', img: '画像問題', case: '症例問題', calc: '数値・計算' };
+      const flRows = Object.keys(flNames).filter(f => fl[f] && fl[f].total >= HM_MIN_N);
+      if (flRows.length) {
+        L.push('## 設問の性質ごとの正答率');
+        const base = _karte.all.total ? Math.round(_karte.all.correct / _karte.all.total * 100) : 0;
+        L.push(`- 全体平均: ${base}%`);
+        flRows.forEach(f => {
+          const d = fl[f], p = Math.round(d.correct / d.total * 100);
+          const diff = p - base;
+          L.push(`- ${flNames[f]}: ${p}% (${d.correct}/${d.total}) — 全体比 ${diff >= 0 ? '+' : ''}${diff}pt`);
+        });
+        L.push('');
+      }
+
+      const bd = _karte.bands.filter(b => b.total >= HM_MIN_N);
+      if (bd.length) {
+        L.push('## 本番正答率帯ごとの自分の正答率');
+        bd.forEach(b => L.push(`- ${b.label}: ${Math.round(b.correct / b.total * 100)}% (${b.correct}/${b.total})`));
+        L.push('');
+      }
+    }
+
+    const nc = neverCorrect();
+    L.push(`## 一度も正解できていない問題（試験2回以上） ${nc.length}件`);
+    if (nc.length) {
+      nc.slice(0, includeRaw ? 60 : 20).forEach(it => {
+        const nm = it.info ? `${it.info.subjName} 第${it.info.chNum}章` : (it.prefix || '');
+        const nat = it.nat !== undefined ? ` / 本番${it.nat}%` : '';
+        L.push(`- ${nm} Q.${it.qNum} — ${it.total}回受験して全問不正解${nat}`);
+      });
+    } else {
+      L.push('- なし');
+    }
+    L.push('');
+
+    const fs2 = flipStats();
+    if (fs2) {
+      L.push('## 定着（解答ログから）');
+      L.push(`- 一度正解した問題を再度落とした割合: ${fs2.pct}%（再受験${fs2.repeats}回中${fs2.flips}回）`);
+      L.push('');
+    }
+
     const miss2 = missItems();
     L.push(`## 取りこぼし問題（本番正答率80%以上なのに試験で落とした・最優先復習） ${miss2.length}件`);
     if (miss2.length) {
@@ -968,8 +1264,16 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     L.push(`- 済1:${lc[1]} 済2:${lc[2]} 済3:${lc[3]} 済4:${lc[4]} 済5:${lc[5]} 済6+:${lc[6]}`);
     L.push('');
     L.push('---');
-    L.push('上記は私の医師国家試験対策の学習データです。これをもとに、');
-    L.push('1) 弱点の傾向と原因の仮説、2) 特に優先して取り組むべき科目・分野、3) 今後2週間の具体的な学習計画（日ごとの分量目安つき）を提案してください。');
+    L.push('上記は私の医師国家試験対策の学習データです。数値はすべて集計済みなので、再計算ではなく解釈をしてください。');
+    L.push('');
+    L.push('1) **弱点分野の特定**: 「科目 × 設問形式」の表と「設問の性質ごとの正答率」から、');
+    L.push('   どこが弱いかを具体的に指摘してください。科目だけでなく形式（診断/検査/治療/対応/知識）の');
+    L.push('   偏りにも触れ、全科目平均との差が大きいセルを根拠として挙げること。');
+    L.push('2) **学習計画の立案**: 上の試験日までの残り日数から逆算し、優先順位つきの週次プランを');
+    L.push('   出してください。1日あたりの問題数の目安と、どの科目・形式に時間を割くかを明示すること。');
+    L.push('3) 直近2週間で最初に着手すべきことを3つに絞って教えてください。');
+    L.push('');
+    L.push('※ 問題文そのものは含めていません。個別の問題の中身を検討したい場合は、対象を数問に絞って指定してください。');
     return L.join('\n');
   }
 

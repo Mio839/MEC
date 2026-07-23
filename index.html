@@ -782,6 +782,8 @@ function exportBackup() {
   const keys = ['done_v2', 'flag_v2', 'activity_v1', 'myrate_v1', 'studytime_v1'];
   const payload = { _exportDate: new Date().toISOString() };
   keys.forEach(k => { try { payload[k] = JSON.parse(localStorage.getItem(k) || '{}'); } catch { payload[k] = {}; } });
+  // 解答イベントログは配列（{}ではなく[]で初期化する）
+  try { payload['mec_attempts_v1'] = JSON.parse(localStorage.getItem('mec_attempts_v1') || '[]'); } catch { payload['mec_attempts_v1'] = []; }
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -819,6 +821,23 @@ function _applyBackupData(data) {
       };
     });
     localStorage.setItem('myrate_v1', JSON.stringify(lr));
+  }
+  // attempts: 追記専用ログなので sess+n をキーに union（progress.js の _mergeRemote と同一方針）
+  if (Array.isArray(data.mec_attempts_v1)) {
+    let la = [];
+    try { la = JSON.parse(localStorage.getItem('mec_attempts_v1') || '[]'); } catch {}
+    const seen = new Set(), merged = [];
+    (Array.isArray(la) ? la : []).concat(data.mec_attempts_v1).forEach(line => {
+      if (typeof line !== 'string') return;
+      const p = line.split('|');
+      if (p.length < 8 || !p[0]) return;
+      const key = p[6] + '|' + p[7];
+      if (seen.has(key)) return;
+      seen.add(key);
+      merged.push(line);
+    });
+    merged.sort((a, b) => (Number(a.split('|')[1]) || 0) - (Number(b.split('|')[1]) || 0));
+    localStorage.setItem('mec_attempts_v1', JSON.stringify(merged.slice(-2000)));
   }
   showSyncResult('ok', `✅ 復元完了。ページを再読み込みします…`);
   setTimeout(() => location.reload(), 1200);

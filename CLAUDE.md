@@ -20,6 +20,8 @@
 | `study.css` | study.html専用のCSS（旧インライン<style>を2026-07-05に外出し）。⚠️ study.htmlはこれに依存＝両方一緒にcommit/push必須 |
 | `index.html` | ハブダッシュボード（全科目の進捗表示・ナビ・同期設定） |
 | `progress.js` | 共有モジュール：localStorage + GitHub Gist 同期。localStorageキーは`K*`定数が正本 |
+| `attempts.js` | 解答イベントログ（`mec_attempts_v1`・`window.MecAttempts`）。1解答=パイプ区切り1行の文字列で上限2000件のリングバッファ。集計値の`myrate_v1`と違い時刻・出題順・所要秒・選んだ肢を残す＝弱点分析の素材。study.html／stats.htmlが読込み |
+| `qmeta.json` | 設問メタ（全科目1ファイル・`_work/build_qmeta.py`が生成する**派生物**）。設問形式(診断/検査/治療/対応/知識)・否定形・複数選択・画像・症例・計算・採点除外を自動分類。stats.htmlの弱点カルテが使う。**questions_*.json は一切変更しない**（pdf_audit.pyの監査対象を汚さないため） |
 | `stats.html` | 学習統計ページ（30日チャート・SRS統計・AI相談Markdownエクスポート） |
 | `knowledge.html` | 検索知識ノート機能 |
 | `card_renderer.js` | JSON→カードHTML描画（`window._renderSubjectFromJson`、エスケープ処理あり） |
@@ -33,7 +35,7 @@
 | `産婦人科/` | 章別HTML(ch01〜ch13)＋`images/`＋`obg_questions.json`（メタ）。HTMLが`questions_obg.json`のソース＝`_work/build_obg_json.py`で再生成 |
 | `_archive/` | 到達不能になった旧・章別HTMLの保管先。編集対象外、読み物としてのみ残す |
 | `vars.css` | 共通CSSカスタムプロパティ（全ページ共通色変数） |
-| `_work/` | ビルド・検証・マージ用スクリプト（`build.py`・`gen_js_from_json.js`・`check_json_js_sync.js`・`pdf_audit.py`・`test_merge_remote.js`等） |
+| `_work/` | ビルド・検証・マージ用スクリプト（`build.py`・`gen_js_from_json.js`・`check_json_js_sync.js`・`pdf_audit.py`・`test_merge_remote.js`・`build_qmeta.py`・`test_attempts.js`・`test_karte.js`等） |
 
 ## 問題数
 
@@ -71,6 +73,7 @@
 - `myrate_v1` — UID → `{correct,total}`（試験モードの自己正答率。マージは各フィールドmax）
 - `studytime_v1` — YYYY-MM-DD → 学習分数
 - `mec_srs_v1` — SRS復習スケジュール ／ `mec_exam_resumes_v1` — 試験中断の再開データ ／ `mec_ch_exam_v1` — 章別試験履歴
+- `mec_attempts_v1` — 解答イベントログ（attempts.js）。`"uid|t|c|o|s|m|sess|n"` の文字列配列・上限2000件。追記専用なので同期は`sess+n`をキーにしたunion＋時刻昇順ソート＋上限切り詰め
 - `error_reports_v1` — 問題エラー報告 ／ `mec_err_cleared_at` — 一括消去のタイムスタンプ
 - `mec_gist_token` — GitHub PAT（gistスコープ）／ `mec_gist_id` — Gist ID ／ `mec_last_sync_v1` — 最終同期時刻
 - UIローカル設定（非同期）: `mec_subjects_v1`（選択科目）/`mec_filter_v1`/`mec_state_v1`/`mec_combo_sound_v1` 等
@@ -106,6 +109,30 @@
 検査は `python _work/pdf_audit.py {sid}` （PDFを正本に中身まで照合。`--no-image` で画像照合を省略）。
 既存の `_work/audit_image_mismatch.py` はファイル名しか見ないため、ページのスクリーンショットが
 正しい名前で貼られているケースを見逃す。`pdf_audit.py` はこれを知覚ハッシュで検出する。
+
+## 弱点分析（2026-07-23〜）
+
+「事実の抽出はJS、解釈だけAI」が方針。指標はローカルの決定論コードで計算し、AIには数字の解釈だけ聞く。
+AIを呼ばなくても stats.html の弱点カルテとして単体で成立する。
+
+```
+attempts.js (mec_attempts_v1)  ← 解答イベントの生ログ（時刻・出題順・所要秒・選んだ肢）
+qmeta.json  (build_qmeta.py)   ← 設問形式の自動分類
+        ↓
+stats.html「🩺 弱点カルテ」     ← 科目×設問形式ヒートマップ／本番正答率帯カーブ
+        ↓
+「AI相談用にコピー」のMarkdown  ← 集計済みの表だけを渡す（問題文は含めない）
+```
+
+- **正誤が記録されるのは試験モード＋SRSのみ**（`_recordMyRate`／`_logAttempt`・study_exam.js）。
+  通常モードの「済」はSRSに正解扱いで入るだけで正誤は残らない。分析の母数はこれで確定。
+- `questions_*.json` を更新したら `python _work/build_qmeta.py` を流して qmeta.json を作り直す。
+- ヒートマップの配色は**アンバー単一色相の逐次ランプ**（強い＝面に沈む／弱い＝明るく浮く）。
+  塗りだけに意味を負わせないよう全セルに％と受験回数を印字してある。赤緑は使わない。
+- AIへ渡すのは uid・章・形式タグ・成績まで。**問題文・解説の全文は送らない**（MEC教材の著作物）。
+  個別に深掘りする場合だけ対象を数問に絞って手で添付する。
+- テスト: `node _work/test_attempts.js`（ログ）・`node _work/test_karte.js`（集計）・
+  `node _work/test_merge_remote.js`（同期マージ）。いずれも実ソースを読み込むのでロジックの二重管理は無い。
 
 ## 試験モードの演出エフェクト仕様
 

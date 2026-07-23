@@ -14,6 +14,8 @@
   const K_ERR_CLEARED = 'mec_err_cleared_at';
   const K_TOKEN = 'mec_gist_token', K_GIST = 'mec_gist_id', K_LAST_SYNC = 'mec_last_sync_v1';
   const K_GAMIFY = 'mec_gamify_v1'; // ゲーミフィケーション（bestStreak等の数値のみ・field-wise maxでマージ）
+  const K_ATT = 'mec_attempts_v1';  // 解答イベントログ（attempts.js が追記・追記専用でunionマージ）
+  const ATT_CAP = 2000;             // attempts.js の CAP と一致させること
   const K_MISSIONS = 'mec_missions_v1'; // 日次/週次ミッション進捗（端末別G-counter・同一(期間,端末,カウンタ)はmax）
 
   let syncTimer = null;
@@ -140,6 +142,7 @@
     try { payload[KRT] = JSON.parse(localStorage.getItem(KRT) || '[]'); } catch { payload[KRT] = []; }
     try { payload[KRK] = JSON.parse(localStorage.getItem(KRK) || '{}'); } catch { payload[KRK] = {}; }
     try { payload[KER] = JSON.parse(localStorage.getItem(KER) || '[]'); } catch { payload[KER] = []; }
+    try { payload[K_ATT] = JSON.parse(localStorage.getItem(K_ATT) || '[]'); } catch { payload[K_ATT] = []; }
     try { payload['mec_ch_exam_v1'] = JSON.parse(localStorage.getItem('mec_ch_exam_v1') || '{}'); } catch { payload['mec_ch_exam_v1'] = {}; }
     payload._errClearedAt = localStorage.getItem(K_ERR_CLEARED) || '';
     payload._ts = new Date().toISOString();
@@ -312,6 +315,26 @@
       const keep = (obj, n) => { const ks = Object.keys(obj).sort(); while (ks.length > n) delete obj[ks.shift()]; };
       keep(mmi.d, 14); keep(mmi.w, 10);
       lsRaw(K_MISSIONS, mmi);
+    }
+    // attempts: 解答イベントログ（attempts.js の mec_attempts_v1）。1件=パイプ区切り1文字列で
+    // "uid|t|c|o|s|m|sess|n"。端末ごとに追記されるだけで書き換わらないため、sess+n を一意キーに
+    // した union で衝突なくマージできる。時刻(t・分単位epoch)の昇順に並べて上限件数で打ち切る。
+    const latt = JSON.parse(localStorage.getItem(K_ATT) || '[]');
+    const ratt = remote[K_ATT] || [];
+    if (Array.isArray(ratt) && ratt.length) {
+      const seen = new Set();
+      const merged = [];
+      (Array.isArray(latt) ? latt : []).concat(ratt).forEach(line => {
+        if (typeof line !== 'string') return;
+        const p = line.split('|');
+        if (p.length < 8 || !p[0]) return;
+        const key = p[6] + '|' + p[7];   // sess + セッション内の出題順
+        if (seen.has(key)) return;
+        seen.add(key);
+        merged.push(line);
+      });
+      merged.sort((a, b) => (Number(a.split('|')[1]) || 0) - (Number(b.split('|')[1]) || 0));
+      localStorage.setItem(K_ATT, JSON.stringify(merged.slice(-ATT_CAP)));
     }
     // chapter exam history: 章ごとに bestScore の最大値を保持、sessions は最大値、日付は新しい方
     const lch = JSON.parse(localStorage.getItem('mec_ch_exam_v1') || '{}');

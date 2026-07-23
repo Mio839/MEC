@@ -99,7 +99,15 @@ const KD = 'done_v2', KF = 'flag_v2', KA = 'activity_v1', KR = 'myrate_v1',
       K_SRS = 'mec_srs_v1', KRT = 'mec_exam_resume_tombstones_v1',
       KRK = 'mec_exam_resume_key_tombs_v1',
       KER = 'error_reports_v1', K_ERR_CLEARED = 'mec_err_cleared_at',
-      KCH = 'mec_ch_exam_v1', KFT = 'flag_tombstones_v1', KC = 'mec_choice_v1';
+      KCH = 'mec_ch_exam_v1', KFT = 'flag_tombstones_v1', KC = 'mec_choice_v1',
+      KAT = 'mec_attempts_v1';
+
+// attempts のレコード文字列を組み立てる: uid|t|c|o|s|m|sess|n
+function att(uid, t, sess, n, opt) {
+  opt = opt || {};
+  return [uid, t, opt.c || 'a', opt.o === undefined ? 1 : opt.o,
+          opt.s === undefined ? 10 : opt.s, opt.m || 'e', sess, n].join('|');
+}
 
 // seed helper: turn an object map of {key: value} into a store of JSON strings
 function seed(map) {
@@ -527,6 +535,65 @@ test('error reports: remote clearedAt newer than local is adopted', () => {
   const env = makeEnv({ [KER]: JSON.stringify([]), [K_ERR_CLEARED]: '2026-01-01T00:00:00.000Z' });
   env.mergeRemote({ _errClearedAt: '2026-05-01T00:00:00.000Z' });
   assert.strictEqual(env.getRaw(K_ERR_CLEARED), '2026-05-01T00:00:00.000Z');
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+console.log('mec_attempts_v1 (append-only union by sess+n)');
+
+test('attempts: local and remote records are unioned', () => {
+  const env = makeEnv({ [KAT]: JSON.stringify([att('q1', 100, 'aaa', 1)]) });
+  env.mergeRemote({ [KAT]: [att('q2', 101, 'bbb', 1)] });
+  const a = env.getArr(KAT);
+  assert.strictEqual(a.length, 2);
+  assert.deepStrictEqual(a.map(l => l.split('|')[0]), ['q1', 'q2']);
+});
+
+test('attempts: same sess+n is not duplicated (local wins)', () => {
+  const env = makeEnv({ [KAT]: JSON.stringify([att('q1', 100, 'aaa', 1, { o: 1 })]) });
+  env.mergeRemote({ [KAT]: [att('q1', 100, 'aaa', 1, { o: 0 })] });
+  const a = env.getArr(KAT);
+  assert.strictEqual(a.length, 1);
+  assert.strictEqual(a[0].split('|')[3], '1', 'local record must be kept');
+});
+
+test('attempts: same uid answered twice in one session is kept (n differs)', () => {
+  const env = makeEnv({ [KAT]: JSON.stringify([att('q1', 100, 'aaa', 1)]) });
+  env.mergeRemote({ [KAT]: [att('q1', 105, 'aaa', 2)] });
+  assert.strictEqual(env.getArr(KAT).length, 2);
+});
+
+test('attempts: merged records are sorted by time ascending', () => {
+  const env = makeEnv({ [KAT]: JSON.stringify([att('q3', 300, 'aaa', 1)]) });
+  env.mergeRemote({ [KAT]: [att('q1', 100, 'bbb', 1), att('q2', 200, 'bbb', 2)] });
+  const times = env.getArr(KAT).map(l => Number(l.split('|')[1]));
+  assert.deepStrictEqual(times, [100, 200, 300]);
+});
+
+test('attempts: total is capped at 2000, oldest dropped', () => {
+  const local = [];
+  for (let i = 0; i < 1500; i++) local.push(att('q' + i, i, 'aaa', i));
+  const remote = [];
+  for (let i = 0; i < 1000; i++) remote.push(att('r' + i, 10000 + i, 'bbb', i));
+  const env = makeEnv({ [KAT]: JSON.stringify(local) });
+  env.mergeRemote({ [KAT]: remote });
+  const a = env.getArr(KAT);
+  assert.strictEqual(a.length, 2000);
+  assert.strictEqual(a[a.length - 1].split('|')[0], 'r999', 'newest must survive');
+  assert.strictEqual(a[0].split('|')[0], 'q500', 'oldest 500 must be dropped');
+});
+
+test('attempts: malformed lines are dropped', () => {
+  const env = makeEnv({ [KAT]: JSON.stringify(['garbage', '', 'a|b|c']) });
+  env.mergeRemote({ [KAT]: [att('q1', 100, 'aaa', 1), 42, null] });
+  const a = env.getArr(KAT);
+  assert.strictEqual(a.length, 1);
+  assert.strictEqual(a[0].split('|')[0], 'q1');
+});
+
+test('attempts: absent remote key leaves local untouched', () => {
+  const env = makeEnv({ [KAT]: JSON.stringify([att('q1', 100, 'aaa', 1)]) });
+  env.mergeRemote({});
+  assert.strictEqual(env.getArr(KAT).length, 1);
 });
 
 // ─────────────────────────────────────────────────────────────────────────

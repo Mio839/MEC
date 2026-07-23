@@ -35,6 +35,8 @@ function _examVisibilityHandler() {
 }
 let _examCount = 0;
 let _examSessionKey = '';
+// 解答ログ(mec_attempts_v1)のセッションID。_examSessionKey は "科目:問題数" で一意にならないため別に持つ
+let _attemptSessionId = '';
 let _examFilterLabel = '';
 let _srsReviewMode = false;
 // 直前に終えたセッションが復習だったか。誤答再試験で復習モードへ戻すために使う
@@ -622,6 +624,7 @@ function startExam(overrideUids = null) {
   // SRS復習は中断データを持たないので消さない（同じキーの通常試験の中断データを巻き込まないため）
   if (!_srsReviewMode) _clearExamResume();
   examMode = true; examAnswered = 0; examCorrect = 0; examStreak = 0; examBySubj = {}; examWrong = []; _examSessionWrongChoices.clear(); examStartTime = Date.now(); _examPausedMs = 0; _examPauseStart = null;
+  _attemptSessionId = window.MecAttempts ? MecAttempts.newSession() : '';
   _examCardSeenAt.clear(); _zoneStop(false); _setAwaken(false);
   examEffectSet = EXAM_EFFECT_POOL[Math.floor(Math.random() * EXAM_EFFECT_POOL.length)];
   document.body.classList.remove('exam-effect-neon', 'exam-effect-ink');
@@ -734,6 +737,7 @@ function revealAnswer(card) {
     examBySubj[sid].total++;
     _markExamDone(card.dataset.uid);
     _recordMyRate(card.dataset.uid, isCorrect);
+    _logAttempt(card, isCorrect, _selectedChoiceStr(selected));
     if (!_isScoreExcluded(card)) _updateSRS(card.dataset.uid, isCorrect);
     const revBtn = card.querySelector('.exam-reveal-btn');
     if (isCorrect) {
@@ -773,6 +777,7 @@ function revealAnswer(card) {
   examBySubj[sid].total++;
   _markExamDone(card.dataset.uid);
   _recordMyRate(card.dataset.uid, isCorrect);
+  _logAttempt(card, isCorrect, _selectedChoiceStr([sel]));
   if (!_isScoreExcluded(card)) _updateSRS(card.dataset.uid, isCorrect);
   if (!isCorrect) {
     _recordWrongChoice(card.dataset.uid, (sel?.textContent?.trim() || '').charAt(0) || '?');
@@ -2367,6 +2372,34 @@ function _recordMyRate(uid, isCorrect) {
   try { window.MecGamify?.onAnswer?.(uid, isCorrect); } catch {}
 }
 
+// 解答イベントを mec_attempts_v1 へ1行追記する（弱点分析の素材）。
+// 集計値の myrate_v1 と違い、時刻・セッション内の出題順・所要秒・選んだ肢をそのまま残すので、
+// 「一度正解したのに後で落とした」「セッション後半で崩れる」といった時系列の傾向が後から出せる。
+function _logAttempt(card, isCorrect, choiceStr) {
+  if (!window.MecAttempts) return;
+  const uid = card && card.dataset && card.dataset.uid;
+  if (!uid) return;
+  try {
+    MecAttempts.log({
+      uid,
+      ok: isCorrect,
+      choice: choiceStr || '',
+      seenAt: _examCardSeenAt.get(uid),
+      mode: _srsReviewMode ? 's' : (_examActiveChPrefix ? 'c' : 'e'),
+      sess: _attemptSessionId,
+      n: examAnswered,
+    });
+  } catch {}
+}
+
+// カード内の選択済み肢 → 半角小文字の連結（複数選択は昇順 "ac"）
+function _selectedChoiceStr(els) {
+  if (!window.MecAttempts) return '';
+  return [...els]
+    .map(ch => MecAttempts.normChoice((ch.textContent || '').trim()))
+    .filter(Boolean).sort().join('');
+}
+
 function _refreshExamLapUI() {
   const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
   document.querySelectorAll('.mec-lap-btn[data-uid]').forEach(btn => {
@@ -2649,6 +2682,8 @@ function resumeExam(savedAt) {
 
   examMode = true;
   examStartTime = Date.now(); _examPausedMs = 0; _examPauseStart = null;
+  // 再開は別セッション扱い（n は examAnswered の続きなので中断前後で連番が繋がる）
+  _attemptSessionId = window.MecAttempts ? MecAttempts.newSession() : '';
   document.removeEventListener('visibilitychange', _examVisibilityHandler);
   document.addEventListener('visibilitychange', _examVisibilityHandler);
   localStorage.setItem('mec_exam_active_key', saved.key || '');
