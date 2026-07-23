@@ -205,6 +205,11 @@ if ('serviceWorker' in navigator) {
   <div class="mec-err-box">
     <h3>⚠️ エラー報告一覧</h3>
     <div class="mec-err-list" id="mecErrList">（報告はまだありません）</div>
+    <!-- コピーが端末側で拒否されたときの退避先。長押しで手動選択できるよう本物の
+         textarea を出す（iOSではクリップボードAPIが使えない設定がある）。
+         案内文は枠の前に置く（後ろに置くと「枠」がどれを指すか分からない） -->
+    <div class="mec-err-msg" id="mecErrMsg"></div>
+    <textarea id="mecErrFallback" class="mec-err-fallback" readonly hidden></textarea>
     <div class="mec-err-actions">
       <button class="mec-err-copy" onclick="copyErrReports('text', this)">📋 テキストコピー</button>
       <button class="mec-err-copy" onclick="copyErrReports('json', this)">📋 JSONコピー</button>
@@ -808,10 +813,26 @@ function copyErrReports(fmt, btn) {
         const sid = r.uid.replace(/_ch\d+.*$/, '');
         return '科目: ' + (_SID_NAMES[sid] || sid) + '\nUID: ' + r.uid + '\n種別: ' + (_ERR_TYPE_LABELS[r.type] || r.type) + '\n日付: ' + (r.reported_at || '—').slice(0, 10);
       }).join('\n---\n');
-  navigator.clipboard.writeText(text).then(() => {
-    // タップ操作では:hoverが安定して効かないため、クリックされたボタン自身を直接更新する
-    if (btn) { const orig = btn.textContent; btn.textContent = '✅ コピー済み'; setTimeout(() => btn.textContent = orig, 1500); }
-  });
+  const msgEl = document.getElementById('mecErrMsg');
+  const fbEl = document.getElementById('mecErrFallback');
+  const orig = btn ? btn.textContent : '';
+  const done = ok => {
+    if (ok) {
+      // タップ操作では:hoverが安定して効かないため、クリックされたボタン自身を直接更新する
+      if (btn) { btn.textContent = '✅ コピー済み'; setTimeout(() => { btn.textContent = orig; }, 1500); }
+      if (msgEl) msgEl.textContent = '';
+      if (fbEl) { fbEl.hidden = true; fbEl.value = ''; }
+      return;
+    }
+    // 端末がクリップボードを拒否した場合。黙って何も起きないと原因が分からないので、
+    // テキストを画面に出して長押しでコピーできるようにする。
+    if (btn) { btn.textContent = '⚠️ 手動コピーへ'; setTimeout(() => { btn.textContent = orig; }, 2500); }
+    if (fbEl) { fbEl.hidden = false; fbEl.value = text; fbEl.focus(); fbEl.setSelectionRange(0, text.length); }
+    if (msgEl) msgEl.textContent = 'この端末ではコピーが許可されていません。下の枠は全選択済みです。枠内を長押しして「コピー」を選んでください。';
+  };
+  // mecCopyText は必ずタップの同期フレーム内で呼ぶこと（iOSはPromiseを跨ぐと操作文脈を失う）
+  if (window.mecCopyText) window.mecCopyText(text).then(done);
+  else done(false);
 }
 
 // iOS（ホーム画面追加のPWA・Safariの「追加のダイアログ表示を許可しない」設定）では
@@ -896,7 +917,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0723c";
+const MEC_BUILD = "b-0723d";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。

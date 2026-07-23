@@ -720,7 +720,11 @@ function copySetupURL() {
   const encoded = btoa(JSON.stringify({ t: token, g: gistId }));
   const base = location.href.replace(/#.*$/, '').replace(/[^/]*$/, 'index.html');
   const url = base + '#mec:' + encoded;
-  navigator.clipboard.writeText(url)
+  // iOSでは navigator.clipboard が拒否されることがあるので mecCopyText（execCommand先行）を使う
+  const _copy = window.mecCopyText
+    ? window.mecCopyText(url).then(ok => { if (!ok) throw new Error('copy refused'); })
+    : navigator.clipboard.writeText(url);
+  _copy
     .then(() => showSyncResult('ok', '📋 URLをコピーしました（トークンを含みます・base64は暗号化ではありません）。第三者に共有したりチャット等に貼り付けたりしないでください。別のデバイスでこのURLを開くと自動で設定されます。'))
     .catch(() => {
       // prompt() は iOS PWA / ダイアログ抑制設定で表示されないことがある（alert/confirm と同じ）。

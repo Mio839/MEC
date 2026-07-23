@@ -624,6 +624,60 @@
     return JSON.parse(localStorage.getItem(KER) || '[]');
   };
 
+  // ── クリップボードコピー（iOS対応） ──────────────────────────────
+  // iOS Safari では navigator.clipboard.writeText が拒否されることがある
+  // （ホーム画面追加のPWA・Safariの設定・非セキュアコンテキスト）。しかも拒否は
+  // 例外ではなく Promise の reject で返るため、.catch を書いていないと
+  // 「ボタンを押しても何も起きない」になる。実際その状態だった。
+  //
+  // 対策として、まずユーザー操作の同期フレーム内で旧APIの execCommand を試す。
+  // Promise を待つと iOS はユーザー操作の文脈を失い、あとから execCommand を
+  // 呼んでも効かないので、順序を逆にはできない。
+  //
+  // iOS の execCommand には固有の作法がある:
+  //   - textarea.select() だけでは選択されない。Range を作って Selection に入れる
+  //   - readOnly にしないとソフトウェアキーボードがせり上がる
+  //   - contentEditable を立てないと選択自体を受け付けない端末がある
+  //   - display:none / visibility:hidden だとコピーできない（画面外に1pxで置く）
+  function _copyLegacy(text) {
+    let ok = false;
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.contentEditable = 'true';
+    ta.readOnly = true;
+    ta.setAttribute('aria-hidden', 'true');
+    ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;padding:0;' +
+      'border:none;outline:none;box-shadow:none;background:transparent;opacity:0;' +
+      'font-size:16px;';  // 16px未満だとiOSが自動ズームする
+    document.body.appendChild(ta);
+    try {
+      const sel = window.getSelection();
+      const prev = sel && sel.rangeCount ? sel.getRangeAt(0) : null;
+      const range = document.createRange();
+      range.selectNodeContents(ta);
+      if (sel) { sel.removeAllRanges(); sel.addRange(range); }
+      ta.setSelectionRange(0, text.length);
+      ok = document.execCommand('copy');
+      if (sel) {
+        sel.removeAllRanges();
+        if (prev) sel.addRange(prev);   // 元の選択を壊さない
+      }
+    } catch { ok = false; }
+    ta.remove();
+    return ok;
+  }
+
+  // text をクリップボードへ入れる。成功可否を Promise<boolean> で返す。
+  // 必ずクリックなどのユーザー操作から同期的に呼ぶこと。
+  window.mecCopyText = function (text) {
+    text = String(text == null ? '' : text);
+    if (_copyLegacy(text)) return Promise.resolve(true);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).then(() => true, () => false);
+    }
+    return Promise.resolve(false);
+  };
+
   // ── Series (連問) position badges ──────────────────────────────
   function _initSeriesBadges() {
     document.querySelectorAll('.sg').forEach(sg => {

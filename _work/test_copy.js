@@ -1,0 +1,137 @@
+/**
+ * progress.js の mecCopyText（iOS向けクリップボード）を実ソースから検証する。
+ * Run: node _work/test_copy.js
+ */
+'use strict';
+const fs = require('fs'), path = require('path'), vm = require('vm'), assert = require('assert');
+const SRC = fs.readFileSync(path.join(__dirname, '..', 'progress.js'), 'utf8');
+
+// 最小限のDOM/ブラウザスタブ。execCommand と clipboard の可否を差し替えて挙動を見る
+function env({ execOk = true, execThrows = false, clipboard = null, noSelection = false } = {}) {
+  const log = [];
+  const store = Object.create(null);
+  const mkEl = () => {
+    const el = {
+      style: { cssText: '' }, dataset: {}, value: '', _attrs: {},
+      classList: { add() {}, remove() {}, toggle() {}, contains: () => false },
+      setAttribute(k, v) { this._attrs[k] = v; }, removeAttribute(k) { delete this._attrs[k]; },
+      appendChild() {}, prepend() {}, after() {}, remove() { log.push('remove'); },
+      addEventListener() {}, focus() {},
+      setSelectionRange(a, b) { log.push('setSelectionRange:' + a + ',' + b); },
+      querySelector: () => null, querySelectorAll: () => [],
+      closest: () => null, getBoundingClientRect: () => ({ height: 0, top: 0 }),
+    };
+    return el;
+  };
+  const document = {
+    addEventListener() {}, dispatchEvent: () => true,
+    createElement(tag) { log.push('createElement:' + tag); return mkEl(); },
+    createRange() {
+      return { selectNodeContents(n) { log.push('selectNodeContents'); } };
+    },
+    execCommand(cmd) {
+      log.push('execCommand:' + cmd);
+      if (execThrows) throw new Error('boom');
+      return execOk;
+    },
+    head: { appendChild() {} },
+    body: { appendChild(el) { log.push('append'); }, classList: { add() {}, remove() {} } },
+    querySelector: () => null, querySelectorAll: () => [],
+    documentElement: mkEl(), hidden: false,
+  };
+  const win = {
+    document, localStorage: {
+      getItem: k => (k in store ? store[k] : null),
+      setItem: (k, v) => { store[k] = String(v); }, removeItem: k => { delete store[k]; },
+    },
+    location: { href: 'https://x/', search: '', hash: '', pathname: '/' },
+    history: { replaceState() {} },
+    getSelection: noSelection ? () => null : () => ({
+      rangeCount: 0, getRangeAt() { return null; },
+      removeAllRanges() { log.push('removeAllRanges'); },
+      addRange() { log.push('addRange'); },
+    }),
+    navigator: clipboard ? { clipboard, onLine: true } : { onLine: true },
+    addEventListener() {}, setTimeout, clearTimeout, matchMedia: () => ({ matches: false, addEventListener() {} }),
+    CustomEvent: function () {}, atob: s => s, btoa: s => s,
+    requestAnimationFrame: fn => fn(),
+  };
+  const ctx = Object.assign(win, { window: win });
+  ctx.globalThis = ctx;
+  vm.createContext(ctx);
+  vm.runInContext(SRC, ctx);
+  return { copy: win.mecCopyText, log };
+}
+
+let passed = 0; const fails = [];
+function test(n, f) {
+  return Promise.resolve().then(f).then(
+    () => { passed++; console.log('  ok  - ' + n); },
+    e => { fails.push(n); console.log('FAIL  - ' + n + '\n        ' + (e && e.message)); });
+}
+
+(async () => {
+  await test('mecCopyText が公開されている', () => {
+    const { copy } = env();
+    assert.strictEqual(typeof copy, 'function');
+  });
+
+  await test('execCommand が成功したら clipboard API を呼ばない（iOSで操作文脈を失わない）', async () => {
+    let called = false;
+    const { copy, log } = env({ execOk: true, clipboard: { writeText: () => { called = true; return Promise.resolve(); } } });
+    assert.strictEqual(await copy('hello'), true);
+    assert.ok(log.includes('execCommand:copy'), 'execCommand が呼ばれていない');
+    assert.strictEqual(called, false, 'execCommand成功時にclipboard APIを呼んではいけない');
+  });
+
+  await test('execCommand が失敗したら clipboard API に落ちる', async () => {
+    let got = null;
+    const { copy } = env({ execOk: false, clipboard: { writeText: t => { got = t; return Promise.resolve(); } } });
+    assert.strictEqual(await copy('fallback'), true);
+    assert.strictEqual(got, 'fallback');
+  });
+
+  await test('clipboard API が拒否したら false を返す（例外を投げない）', async () => {
+    const { copy } = env({ execOk: false, clipboard: { writeText: () => Promise.reject(new Error('NotAllowed')) } });
+    assert.strictEqual(await copy('x'), false);
+  });
+
+  await test('clipboard API が無くても落ちない', async () => {
+    const { copy } = env({ execOk: false, clipboard: null });
+    assert.strictEqual(await copy('x'), false);
+  });
+
+  await test('execCommand が例外を投げても clipboard API に落ちる', async () => {
+    const { copy } = env({ execThrows: true, clipboard: { writeText: () => Promise.resolve() } });
+    assert.strictEqual(await copy('x'), true);
+  });
+
+  await test('iOS作法: Rangeで選択し setSelectionRange まで行う', async () => {
+    const { copy, log } = env({ execOk: true });
+    await copy('abcde');
+    assert.ok(log.includes('selectNodeContents'), 'Range選択していない（iOSはselect()だけでは効かない）');
+    assert.ok(log.includes('setSelectionRange:0,5'), 'setSelectionRange していない');
+  });
+
+  await test('作業用textareaは必ず取り除かれる', async () => {
+    const { copy, log } = env({ execOk: true });
+    await copy('x');
+    assert.ok(log.includes('createElement:textarea'));
+    assert.ok(log.includes('remove'), 'textarea が残っている');
+  });
+
+  await test('getSelection が使えない環境でも例外にならない', async () => {
+    const { copy } = env({ execOk: true, noSelection: true });
+    assert.strictEqual(await copy('x'), true);
+  });
+
+  await test('null / undefined は空文字として扱う', async () => {
+    const { copy } = env({ execOk: true });
+    assert.strictEqual(await copy(null), true);
+    assert.strictEqual(await copy(undefined), true);
+  });
+
+  console.log('\n' + (fails.length ? fails.length + ' FAILED' : 'all passed') +
+              '  (' + passed + '/' + (passed + fails.length) + ')');
+  if (fails.length) process.exit(1);
+})();

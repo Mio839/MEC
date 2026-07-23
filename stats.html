@@ -131,6 +131,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .ai-desc2{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);}
 .ai-drill-btn{background:linear-gradient(135deg,#2E7D8C,#1B5566);box-shadow:0 4px 14px rgba(27,85,102,.4);}
 .ai-drill-btn:hover{box-shadow:0 6px 20px rgba(27,85,102,.55);}
+/* コピーが端末に拒否されたときの退避先。font-size 16px 未満はiOSが自動ズームする */
+.ai-copy-fallback{width:100%;min-height:110px;margin-top:10px;resize:vertical;font-size:16px;
+  font-family:monospace;background:rgba(0,0,0,.4);border:1.5px solid rgba(255,255,255,.2);
+  border-radius:10px;padding:10px 12px;color:var(--tx);line-height:1.6;
+  -webkit-user-select:text;user-select:text;}
+.ai-copy-fallback[hidden]{display:none;}
 
 .sec-note{font-size:11px;font-weight:400;color:var(--ts);}
 
@@ -1785,25 +1791,38 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   armReveal();
 
   // クリップボードへコピーしてボタンを一時的に完了表示にする。
-  // navigator.clipboard は非セキュアコンテキストや一部のiOS設定で使えないため textarea 経由に落とす
-  async function copyWithFeedback(text, btn, msgEl, origLabel, doneMsg) {
-    const done_ = () => {
+  // 実処理は progress.js の mecCopyText（iOSはPromiseを跨ぐと操作文脈を失うため、
+  // 同期フレーム内で execCommand を先に試してから clipboard API に落とす）。
+  // 拒否されたときは黙って終わらせず、手動選択できる textarea を出す。
+  function copyWithFeedback(text, btn, msgEl, origLabel, doneMsg) {
+    const ok_ = () => {
       btn.classList.add('copied');
       btn.textContent = '✅ コピーしました';
       if (msgEl) msgEl.textContent = doneMsg;
+      // 前回失敗して出した退避枠が残っていると成功したのか分からないので畳む
+      const old = document.getElementById('aiCopyFallback');
+      if (old) { old.hidden = true; old.value = ''; }
       setTimeout(() => { btn.classList.remove('copied'); btn.textContent = origLabel; }, 2500);
     };
-    try {
-      await navigator.clipboard.writeText(text);
-      done_();
-    } catch (e) {
-      const ta = document.createElement('textarea');
-      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
-      document.body.appendChild(ta); ta.select();
-      try { document.execCommand('copy'); done_(); }
-      catch { if (msgEl) msgEl.textContent = 'コピーに失敗しました。'; }
-      ta.remove();
-    }
+    const ng_ = () => {
+      btn.textContent = '⚠️ 手動コピーへ';
+      setTimeout(() => { btn.textContent = origLabel; }, 2500);
+      let ta = document.getElementById('aiCopyFallback');
+      if (!ta) {
+        ta = document.createElement('textarea');
+        ta.id = 'aiCopyFallback';
+        ta.className = 'ai-copy-fallback';
+        ta.readOnly = true;
+        btn.parentNode.insertBefore(ta, btn.nextSibling);
+      }
+      ta.value = text;
+      ta.hidden = false;
+      ta.focus();
+      ta.setSelectionRange(0, text.length);
+      if (msgEl) msgEl.textContent = 'この端末ではコピーが許可されていません。下の枠は全選択済みです。枠内を長押しして「コピー」を選んでください。';
+    };
+    if (window.mecCopyText) window.mecCopyText(text).then(o => (o ? ok_() : ng_()));
+    else ng_();
   }
 
   const exportBtn = document.getElementById('aiExportBtn');
