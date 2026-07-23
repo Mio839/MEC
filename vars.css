@@ -111,6 +111,12 @@ html::before {
   --ease-out:cubic-bezier(.16,1,.3,1);
   --ease-in:cubic-bezier(.7,0,.84,0);
   --ease-in-out:cubic-bezier(.65,0,.35,1);
+
+  /* 科目色（chapters_meta.js の color）の上に載せる文字色。
+     2026-07-23 に科目色を暗色→明色へ反転させた際に導入した。
+     ⚠️ 科目色を地にするときは #fff ではなくこれを使うこと
+     （明るい地に白文字だと 3:1 前後まで落ちる）。全18色で 5.6:1 以上を確認済み。 */
+  --subj-ink:#1A1206;
 }
 /* 2段階タップ確認のarmed状態（confirm()代替。_tapConfirm がbtnに付与し3秒で自動解除）。
    study.html とハブの「♻️ 最新に更新」で共用するため全ページ共通の vars.css に置く。 */

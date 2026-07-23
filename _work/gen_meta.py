@@ -10,15 +10,15 @@ from collections import Counter
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 SUBJECTS = [
-    {'id': 'endo',    'name': '内分泌',   'icon': '⚗️',  'color': '#00838F', 'dir': '内分泌'},
-    {'id': 'resp',    'name': '呼吸器',   'icon': '🌬️', 'color': '#1565C0', 'dir': '呼吸器'},
-    {'id': 'circ',    'name': '循環器',   'icon': '❤️',  'color': '#C62828', 'dir': '循環器'},
-    {'id': 'dige',    'name': '消化器',   'icon': '🌿',  'color': '#6A1B9A', 'dir': '消化器'},
-    {'id': 'neur',    'name': '神経',     'icon': '🧠',  'color': '#2E7D32', 'dir': '神経'},
-    {'id': 'hbp',     'name': '肝胆膵',   'icon': '🧪',  'color': '#E65100', 'dir': '肝胆膵'},
-    {'id': 'jinzo_d', 'name': '腎臓',     'icon': '💧',  'color': '#78909C', 'dir': '腎臓'},
-    {'id': 'hema',    'name': '血液',     'icon': '🩸',  'color': '#B71C1C', 'dir': '血液'},
-    {'id': 'imma',    'name': '免アレ膠', 'icon': '🛡️', 'color': '#AD1457', 'dir': '免アレ膠'},
+    {'id': 'endo',    'name': '内分泌',   'icon': '⚗️',  'color': '#169E9F', 'dir': '内分泌'},
+    {'id': 'resp',    'name': '呼吸器',   'icon': '🌬️', 'color': '#4390EE', 'dir': '呼吸器'},
+    {'id': 'circ',    'name': '循環器',   'icon': '❤️',  'color': '#E16E33', 'dir': '循環器'},
+    {'id': 'dige',    'name': '消化器',   'icon': '🌿',  'color': '#8A81EF', 'dir': '消化器'},
+    {'id': 'neur',    'name': '神経',     'icon': '🧠',  'color': '#619E37', 'dir': '神経'},
+    {'id': 'hbp',     'name': '肝胆膵',   'icon': '🧪',  'color': '#C0820E', 'dir': '肝胆膵'},
+    {'id': 'jinzo_d', 'name': '腎臓',     'icon': '💧',  'color': '#7494A1', 'dir': '腎臓'},
+    {'id': 'hema',    'name': '血液',     'icon': '🩸',  'color': '#E56574', 'dir': '血液'},
+    {'id': 'imma',    'name': '免アレ膠', 'icon': '🛡️', 'color': '#B973D7', 'dir': '免アレ膠'},
 ]
 
 SKIP = {'mindmap.html', 'selfcheck_intro.html'}

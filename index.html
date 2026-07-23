@@ -47,6 +47,8 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
 /* 腎臓ツール専用行 */
 .subject-tool-row{display:flex;align-items:center;gap:8px;padding:0 16px 12px;}
+/* 背景はハブのツール色（STUDY_TOOL / KNOWLEDGE_TOOL の暗色）であって科目色ではない。
+   暗インクではなく白文字が正しい（暗色地なので白で 4.9:1 / 11.4:1）。 */
 .subject-tool-link{flex:1;display:block;padding:9px 14px;border-radius:10px;color:#fff;font-size:13px;font-weight:700;text-decoration:none;text-align:center;}
 
 .sc-row{display:flex;justify-content:flex-end;padding:8px 16px 10px;border-top:1px solid rgba(255,255,255,.07);}
@@ -79,7 +81,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
 /* ── Mindmap grid ── */
 .mindmap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;padding:0 16px 14px;}
-.mindmap-btn{display:flex;align-items:center;gap:8px;padding:11px 14px;border-radius:10px;color:#fff;font-size:13px;font-weight:700;text-decoration:none;transition:filter .15s;}
+.mindmap-btn{display:flex;align-items:center;gap:8px;padding:11px 14px;border-radius:10px;color:var(--subj-ink);font-size:13px;font-weight:700;text-decoration:none;transition:filter .15s;}
 .mindmap-btn:hover{filter:brightness(1.1);}
 .mindmap-btn .mm-icon{font-size:18px;}
 
@@ -118,7 +120,9 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .help-box a{color:var(--blu);}
 .hub-stat.srs{background:rgba(255,154,60,.15);border-color:rgba(255,154,60,.35);color:var(--or);font-weight:800;}
 .srs-due-row{padding:0 16px 12px;}
-.srs-due-link{display:block;padding:9px 14px;border-radius:10px;color:#fff;font-size:13px;font-weight:700;text-decoration:none;text-align:center;background:var(--or);transition:filter .15s;}
+/* 地が明るい --or(#FF9A3C) なので白文字だと 2.11:1 しか無かった（今回の色替えとは無関係の既存不具合）。
+   暗インクへ反転して 7.3:1 に。 */
+.srs-due-link{display:block;padding:9px 14px;border-radius:10px;color:var(--subj-ink);font-size:13px;font-weight:700;text-decoration:none;text-align:center;background:var(--or);transition:filter .15s;}
 .srs-due-link:hover,.srs-due-link:active{filter:brightness(1.1);}
 </style>
 </head>
@@ -249,7 +253,8 @@ const STUDY_TOOL = {
   id: 'study',
   name: '統合学習ツール',
   icon: '📚',
-  color: '#D4570A',
+  // 白文字を載せるので地は暗めに保つ。#D4570A では 4.06:1 しか無かった
+  color: '#C34F08',
   type: 'tool',
   href: 'study.html',
   chapters: []
@@ -273,15 +278,15 @@ const MINDMAP_TOOL = {
   type: 'mindmap',
   maps: [
     { subject: '全科目統合', href: 'mindmap_integrated.html', color: 'var(--yl)', icon: '🗺️' },
-    { subject: '血液',   href: '血液/mindmap.html',   color: '#DC2626', icon: '🩸' },
-    { subject: '腎臓',   href: '腎臓/mindmap.html',   color: '#1976D2', icon: '💧' },
-    { subject: '肝胆膵', href: '肝胆膵/mindmap.html', color: '#E65100', icon: '🔶' },
-    { subject: '呼吸器', href: '呼吸器/mindmap.html', color: '#0288D1', icon: '🌬️' },
-    { subject: '内分泌', href: '内分泌/mindmap.html', color: '#7B1FA2', icon: '🔬' },
-    { subject: '循環器', href: '循環器/mindmap.html', color: '#C62828', icon: '❤️' },
-    { subject: '消化器', href: '消化器/mindmap.html', color: '#388E3C', icon: '🍴' },
-    { subject: '神経',   href: '神経/mindmap.html',   color: '#1565C0', icon: '🧠' },
-    { subject: '免アレ膠', href: '免アレ膠/mindmap.html', color: '#00897B', icon: '🛡️' },
+    { subject: '血液',   href: '血液/mindmap.html',   color: '#E56574', icon: '🩸' },
+    { subject: '腎臓',   href: '腎臓/mindmap.html',   color: '#7494A1', icon: '💧' },
+    { subject: '肝胆膵', href: '肝胆膵/mindmap.html', color: '#C0820E', icon: '🔶' },
+    { subject: '呼吸器', href: '呼吸器/mindmap.html', color: '#4390EE', icon: '🌬️' },
+    { subject: '内分泌', href: '内分泌/mindmap.html', color: '#169E9F', icon: '🔬' },
+    { subject: '循環器', href: '循環器/mindmap.html', color: '#E16E33', icon: '❤️' },
+    { subject: '消化器', href: '消化器/mindmap.html', color: '#8A81EF', icon: '🍴' },
+    { subject: '神経',   href: '神経/mindmap.html',   color: '#619E37', icon: '🧠' },
+    { subject: '免アレ膠', href: '免アレ膠/mindmap.html', color: '#B973D7', icon: '🛡️' },
   ]
 };
 

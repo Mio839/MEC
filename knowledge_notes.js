@@ -5,19 +5,19 @@
 // 科目メタ情報（絵文字・色）。既存9科目は index.html の MINDMAP_TOOL と統一。
 // 精神科・薬理・感染症など既存9科目に収まらないものは、必要になった時点でここへ追記する。
 const KNOWLEDGE_SUBJECTS = {
-  '内分泌':   { emoji: '🔬', color: '#7B1FA2' },
-  '呼吸器':   { emoji: '🌬️', color: '#0288D1' },
-  '循環器':   { emoji: '❤️', color: '#C62828' },
-  '消化器':   { emoji: '🍴', color: '#388E3C' },
-  '神経':     { emoji: '🧠', color: '#1565C0' },
-  '肝胆膵':   { emoji: '🔶', color: '#E65100' },
-  '腎臓':     { emoji: '💧', color: '#1976D2' },
-  '血液':     { emoji: '🩸', color: '#DC2626' },
-  '免アレ膠': { emoji: '🛡️', color: '#00897B' },
-  '感染症':   { emoji: '🦠', color: '#F9A825' },
-  '精神科':   { emoji: '💭', color: '#5C6BC0' },
-  '薬理':     { emoji: '💊', color: '#6D4C41' },
-  '総合':     { emoji: '📌', color: '#546E7A' },
+  '内分泌':   { emoji: '🔬', color: '#169E9F' },
+  '呼吸器':   { emoji: '🌬️', color: '#4390EE' },
+  '循環器':   { emoji: '❤️', color: '#E16E33' },
+  '消化器':   { emoji: '🍴', color: '#8A81EF' },
+  '神経':     { emoji: '🧠', color: '#619E37' },
+  '肝胆膵':   { emoji: '🔶', color: '#C0820E' },
+  '腎臓':     { emoji: '💧', color: '#7494A1' },
+  '血液':     { emoji: '🩸', color: '#E56574' },
+  '免アレ膠': { emoji: '🛡️', color: '#B973D7' },
+  '感染症':   { emoji: '🦠', color: '#9B920A' },
+  '精神科':   { emoji: '💭', color: '#B6B5EA' },
+  '薬理':     { emoji: '💊', color: '#C5927C' },
+  '総合':     { emoji: '📌', color: '#A6D6D5' },
 };
 
 const KNOWLEDGE_NOTES = [

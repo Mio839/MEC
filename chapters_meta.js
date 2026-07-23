@@ -4,7 +4,7 @@ const MEC_CHAPTERS = [
     "id": "endo",
     "name": "内分泌",
     "icon": "⚗️",
-    "color": "#00838F",
+    "color": "#169E9F",
     "chapters": [
       {
         "prefix": "endo_ch01",
@@ -72,7 +72,7 @@ const MEC_CHAPTERS = [
     "id": "resp",
     "name": "呼吸器",
     "icon": "🌬️",
-    "color": "#1565C0",
+    "color": "#4390EE",
     "chapters": [
       {
         "prefix": "resp_ch01",
@@ -134,7 +134,7 @@ const MEC_CHAPTERS = [
     "id": "circ",
     "name": "循環器",
     "icon": "❤️",
-    "color": "#C62828",
+    "color": "#E16E33",
     "chapters": [
       {
         "prefix": "circ_ch01",
@@ -202,7 +202,7 @@ const MEC_CHAPTERS = [
     "id": "dige",
     "name": "消化器",
     "icon": "🌿",
-    "color": "#6A1B9A",
+    "color": "#8A81EF",
     "chapters": [
       {
         "prefix": "dige_ch01",
@@ -276,7 +276,7 @@ const MEC_CHAPTERS = [
     "id": "neur",
     "name": "神経",
     "icon": "🧠",
-    "color": "#2E7D32",
+    "color": "#619E37",
     "chapters": [
       {
         "prefix": "neur_ch01",
@@ -350,7 +350,7 @@ const MEC_CHAPTERS = [
     "id": "hbp",
     "name": "肝胆膵",
     "icon": "🧪",
-    "color": "#E65100",
+    "color": "#C0820E",
     "chapters": [
       {
         "prefix": "hbp_ch01",
@@ -406,7 +406,7 @@ const MEC_CHAPTERS = [
     "id": "jinzo_d",
     "name": "腎臓",
     "icon": "💧",
-    "color": "#78909C",
+    "color": "#7494A1",
     "chapters": [
       {
         "prefix": "jinzo_d_ch01",
@@ -450,7 +450,7 @@ const MEC_CHAPTERS = [
     "id": "hema",
     "name": "血液",
     "icon": "🩸",
-    "color": "#B71C1C",
+    "color": "#E56574",
     "chapters": [
       {
         "prefix": "hema_ch01",
@@ -506,7 +506,7 @@ const MEC_CHAPTERS = [
     "id": "imma",
     "name": "免アレ膠",
     "icon": "🛡️",
-    "color": "#AD1457",
+    "color": "#B973D7",
     "chapters": [
       {
         "prefix": "imma_ch01",
@@ -544,7 +544,7 @@ const MEC_CHAPTERS = [
     "id": "kansen",
     "name": "感染症",
     "icon": "🦠",
-    "color": "#E65100",
+    "color": "#9B920A",
     "chapters": [
       {
         "prefix": "kansen_ch01",
@@ -594,7 +594,7 @@ const MEC_CHAPTERS = [
     "id": "peds",
     "name": "小児科",
     "icon": "🧸",
-    "color": "#EC407A",
+    "color": "#10A276",
     "chapters": [
       {
         "prefix": "peds_ch01",
@@ -680,7 +680,7 @@ const MEC_CHAPTERS = [
     "id": "obg",
     "name": "産婦人科",
     "icon": "🤰",
-    "color": "#C2185B",
+    "color": "#D36BAA",
     "chapters": [
       {
         "prefix": "obg_ch01",
