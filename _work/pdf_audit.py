@@ -54,6 +54,7 @@ VECTOR_RENDERED = {
     'circ': {'109A-32_2.jpeg', '112A-28_3.jpeg',   # PDF内でベクター描画された12誘導心電図
              '114D-26_1.jpeg', '120D-44_3.jpeg'},
     'peds': {'110A-54_table.png', '117E-36_table.png'},   # 手作りの組合せ表
+    'hbp':  {'90D-14_table.png'},                  # 手作りの検査値表（選択肢が表）
 }
 
 ANCHOR = re.compile(r'(\d{1,3})\s*[.．]\s*[（(]\s*(\d{2,3}[A-Z]-\d+)\s*[）)]')
