@@ -12,9 +12,69 @@
 <link rel="stylesheet" href="vars.css">
 <script src="_palette_preview.js"></script>
 <style>
-:root{}
+/* ══════════ stats.html のローカルトークン ══════════
+   ベース配色・z-index・イージングは vars.css が正本。ここには統計ページ固有の
+   グラフ配色だけを置く。⚠️ 以下のいずれの値も CSS/JS から直値で書かないこと
+   （html.pal-* でベース色を替えたときにここだけ追従せず取り残されるため）。
+
+   データの配色言語は 2 つだけに絞ってある:
+     ・弱さランプ (--ramp-w*)  アンバー単一色相・弱いほど明るく浮く＝目が先に向く
+     ・網羅ランプ (--ramp-c*)  グリーン単一色相・やった量が増えるほど濃い
+   赤と緑を対で意味に使わない（色覚特性で最も読めなくなる組み合わせのため）。 */
+:root{
+  /* 弱さランプ7段（アンバー単一色相・相対輝度で単調増加・最小段差 0.024）。
+     ⚠️ 段の明度は自由に決められない。明インク(--tx)が 4.5:1 を保てるのは L<=0.142、
+     暗インク(--ramp-w-ink)が保てるのは L>=0.226 で、その間はどちらを載せても
+     読めない死角になる。w1〜w4 を死角の下、w5〜w7 を上へ寄せてあるのはそのため
+     （旧実装の w5 は L=0.190 ＝ちょうど死角で、11px太字が 3.61:1 しかなかった）。
+     値を触るときは必ずコントラストを測り直すこと。 */
+  --ramp-w1:#2a1b03; --ramp-w2:#483209; --ramp-w3:#644711; --ramp-w4:#825c19;
+  --ramp-w5:#b07f26; --ramp-w6:#c9912c; --ramp-w7:#e5a634;
+  --ramp-w-ink:#241a05;                  /* 明るい3段(w5〜w7)の上に載せる文字色 */
+  /* 網羅ランプ5段。学習カレンダーと共通の緑＝「やった量」の言語 */
+  --ramp-c1:rgba(61,214,140,.22); --ramp-c2:rgba(61,214,140,.38);
+  --ramp-c3:rgba(61,214,140,.55); --ramp-c4:rgba(61,214,140,.75);
+  --ramp-c5:var(--gr);
+  --ramp-none:rgba(255,255,255,.06);     /* データ無し。ランプの外に置く中立色 */
+
+  /* 30日グラフの系列色 */
+  --c-act:#A5D6A7; --c-time:#90CAF9; --c-time-today:#7B5EA7;
+  --bar-idle:rgba(255,255,255,.25);      /* 誤答選択肢の非最多バー */
+  --canvas-grid:rgba(255,255,255,.12);   /* 推移グラフの70%基準線 */
+  /* 達成リングの祝福パーティクル。Canvas には var() が届かないので cssVar() で実値を引く */
+  --fx-1:var(--gr); --fx-2:#7CEFB2; --fx-3:#FFD166; --fx-4:#FFFFFF;
+
+  /* 済みレベル分布（未済→済6+ の緑シーケンシャル） */
+  --lv0:rgba(255,255,255,.28); --lv1:#C8EBD4; --lv2:#81C784; --lv3:#4CAF50;
+  --lv4:#2E7D32; --lv5:#1B5E20; --lv6:#0D3B1A; --lv-bd:rgba(255,255,255,.18);
+  --prog-total:#2D8C4E;                  /* 科目別進捗の合計行 */
+  /* 科目が特定できなかったバッジの下地。白文字を載せるので暗めに取る
+     （旧実装の #888 は白文字とのコントラストが 2.9:1 しかなかった） */
+  --badge-none:#4A5A72;
+
+  /* ボタン。暗色面ではカラーグローで高さを出さず、面の明るさで出す。
+     いずれも下地が明るいので文字は暗インクにしてコントラストを取る */
+  --btn-ai:var(--pu);   --btn-ai-h:#BCA5FC;   --btn-ai-ink:#1A1030;
+  --btn-drill:var(--blu); --btn-drill-h:#8FC0FC; --btn-drill-ink:#06152B;
+  --btn-ok:var(--gr);   --btn-ok-ink:#04231A;
+
+  /* 意味色の枠線。淡い面は vars.css の --grl/--orl/--rdl/--bl を使う */
+  --gr-bd:rgba(61,214,140,.3); --or-bd:rgba(255,154,60,.3);
+  --rd-bd:rgba(255,107,107,.3); --blu-bd:rgba(96,165,250,.3);
+
+  /* 面の3階層。全セクションが同じ箱だと主役と余談が同じ重さで並ぶ */
+  --sec-bg:rgba(var(--glass-rgb),.06);
+  --sec-bd:rgba(255,255,255,.1);
+  --lead-bg:rgba(var(--glass-rgb),.11);
+  --lead-bd:rgba(255,255,255,.16);
+}
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
+/* ページ本体は横スクロールさせない最後の砦。広い表やグリッドは各自
+   overflow-x:auto の器を持つこと（.subj-scroll / .hm-scroll / .cal-wrap）。
+   ⚠️ html 側には掛けない。vars.css の html::before（固定背景・iOS白wash対策）に
+   触れるのを避けるため、body だけに留めてある。 */
+body{overflow-x:clip;}
 body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:transparent;color:var(--tx);font-size:14px;line-height:1.7;font-variant-numeric:tabular-nums;}
 
 .hdr{background:rgba(var(--hdr-rgb),.97);border-bottom:1px solid rgba(255,255,255,.08);color:#fff;padding:12px 14px 10px;position:sticky;top:0;z-index:var(--z-hdr);box-shadow:0 2px 20px rgba(0,0,0,.45);}
@@ -25,28 +85,58 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .mec-sync-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(var(--glass-rgb),.1);color:rgba(255,255,255,.8);margin-left:auto;}
 
 .summary-row{display:flex;gap:6px;flex-wrap:wrap;}
-.sum-card{background:rgba(var(--glass-rgb),.08);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:6px 14px;text-align:center;flex:1;min-width:70px;}
-.sum-val{font-size:20px;font-weight:900;color:var(--yl);display:block;}
-.sum-lbl{font-size:10px;color:rgba(255,255,255,.6);}
+/* 375px 以下では「2241問」が「2241 / 問」と縦に割れていた。数値は折らず、
+   入らないときはカード自体を段に落とす（flex-wrap 済み） */
+.sum-card{background:rgba(var(--glass-rgb),.08);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:6px 8px;text-align:center;flex:1;min-width:74px;}
+.sum-val{font-size:20px;font-weight:900;color:var(--yl);display:block;white-space:nowrap;}
+/* 赤旗はページ内の他所（.flag-num）で赤を意味色として使っているので揃える */
+.sum-val.flag{color:var(--rd);}
+.sum-lbl{font-size:10px;color:rgba(255,255,255,.6);white-space:nowrap;}
 
-.ct{max-width:700px;margin:0 auto;padding:14px 12px 60px;}
-.sec{background:rgba(var(--glass-rgb),.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.07);padding:16px;margin-bottom:14px;}
-.sec-title{font-size:13px;font-weight:800;color:var(--tx);margin-bottom:14px;display:flex;align-items:center;gap:6px;}
+.ct{max-width:700px;margin:0 auto;padding:14px 12px 32px;}
+
+/* ── 面の3階層 ──────────────────────────────────────────
+   旧実装は14セクションが全て同じ箱で、「試験まであと何日」（このページの主役）と
+   「誤答選択肢パターン」（参考）が同じ視覚的重みで並んでいた。3段に分ける:
+     .sec--lead  主役。面を持ち上げ、余白を広く取る
+     .sec        通常。従来の箱のまま
+     .sec--aside 参考。箱を外し、罫線と余白だけで区切る */
+.sec{background:var(--sec-bg);border:1px solid var(--sec-bd);border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.07);padding:16px;margin-bottom:14px;}
+.sec--lead{background:var(--lead-bg);border-color:var(--lead-bd);border-radius:16px;padding:20px 18px 18px;margin-bottom:20px;
+  box-shadow:0 8px 34px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.12);}
+.sec--aside{background:none;border:none;border-radius:0;box-shadow:none;
+  padding:20px 2px 0;margin-bottom:22px;border-top:1px solid rgba(255,255,255,.09);}
+/* 参考段の先頭だけ、通常段との間を余分に空けて「ここから下は補足」を示す */
+.sec--aside.is-first{margin-top:16px;}
+.sec-title{font-size:13px;font-weight:800;color:var(--tx);margin-bottom:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.sec--lead .sec-title{font-size:14px;}
+.sec--aside .sec-title{color:var(--ts);margin-bottom:12px;}
 
 /* Activity chart */
 .act-wrap{display:flex;flex-direction:column;gap:3px;}
 .act-bars{display:flex;align-items:flex-end;gap:2px;height:72px;}
-.act-bar{flex:1;border-radius:2px 2px 0 0;min-height:2px;background:#A5D6A7;position:relative;cursor:default;}
+.act-bar{flex:1;border-radius:2px 2px 0 0;min-height:2px;background:var(--c-act);position:relative;cursor:default;}
 .act-bar.today{background:var(--yl);}
 .act-bar.zero{background:rgba(var(--glass-rgb),.08);min-height:3px;}
-.act-bar:hover::after,.act-bar.tap-show::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--nv);color:#fff;font-size:9px;padding:2px 5px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:10;}
+/* 棒グラフのツールチップ。周囲に overflow を切る親が無いのでここは吹き出しでよい
+   （13pxのセルが並ぶカレンダー/章別ヒートマップは吹き出しが潰れるので読み取り行方式にした） */
+.act-bar:hover::after,.act-bar.tap-show::after,
+.time-bar:hover::after,.time-bar.tap-show::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--nv);color:#fff;font-size:11px;padding:3px 7px;border-radius:5px;white-space:nowrap;pointer-events:none;z-index:var(--z-tip);box-shadow:0 2px 10px rgba(0,0,0,.5);}
 .act-dates{display:flex;gap:2px;}
-.act-date{flex:1;font-size:8px;text-align:center;color:var(--ts);overflow:hidden;}
+/* 30個すべてに日付を出すと 8px でも入らず overflow:hidden で切れていた。
+   JS側で5日ごと＋今日だけに間引き、そのぶん文字を読める大きさに戻す */
+.act-date{flex:1;font-size:10px;text-align:center;color:var(--ts);overflow:hidden;white-space:nowrap;}
 .act-date.today{color:var(--or);font-weight:800;}
 .act-total{font-size:11px;color:var(--ts);text-align:right;margin-top:6px;}
 
-/* Subject table */
-.subj-table{width:100%;border-collapse:collapse;}
+/* Subject table
+   5列あり、320/375px では列が潰れきってページごと横スクロールしていた。
+   広い表は「自前の器の中でスクロールさせる」＝ページ本体は絶対に横スクロールさせない
+   （弱点カルテの .hm-scroll と同じ作法） */
+.subj-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px;}
+/* min-width が無いと width:100% のまま列が潰れ、「循環器」が縦書きに割れる。
+   下限を切って、入らない幅では器の中で横スクロールさせる */
+.subj-table{width:100%;min-width:430px;border-collapse:collapse;}
 .subj-table th{font-size:10px;font-weight:700;color:var(--ts);text-align:left;padding:4px 6px;border-bottom:1px solid rgba(255,255,255,.12);}
 .subj-table th.r{text-align:right;}
 .subj-table td{padding:7px 6px;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:middle;}
@@ -56,9 +146,13 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .subj-expand-icon{font-size:9px;color:var(--ts);margin-left:2px;transition:transform .2s;}
 .ch-row{cursor:pointer;}
 .ch-row:hover td{background:rgba(var(--glass-rgb),.04);}
+.ch-num{padding:5px 8px 5px 20px;font-size:11px;color:var(--ts);}
+.ch-sm{font-size:11px;}
+.ch-host{padding:0;}
+.ch-table{width:100%;border-collapse:collapse;border-top:1px solid var(--bd);}
 .subj-name-cell{display:flex;align-items:center;gap:6px;}
 .subj-icon{font-size:16px;}
-.subj-name{font-size:13px;font-weight:700;}
+.subj-name{font-size:13px;font-weight:700;white-space:nowrap;}
 .subj-prog-wrap{display:flex;align-items:center;gap:6px;}
 .subj-prog-bar{flex:1;height:6px;background:var(--bd);border-radius:3px;overflow:hidden;min-width:48px;}
 .subj-prog-fill{height:100%;border-radius:3px;}
@@ -70,24 +164,24 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .level-bars{display:flex;gap:6px;align-items:flex-end;height:80px;margin-bottom:6px;}
 .level-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
 .level-bar{width:100%;border-radius:4px 4px 0 0;min-height:3px;}
-.level-lbl{font-size:9px;font-weight:700;color:var(--ts);white-space:nowrap;}
+.level-lbl{font-size:10px;font-weight:700;color:var(--ts);white-space:nowrap;}
 .level-val{font-size:10px;font-weight:700;color:var(--ts);}
 .level-legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
 .legend-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ts);}
 .legend-dot{width:10px;height:10px;border-radius:2px;}
 
-/* Study time chart */
-.time-bar{flex:1;border-radius:2px 2px 0 0;min-height:2px;background:#90CAF9;position:relative;cursor:default;}
-.time-bar.today{background:#7B5EA7;}
+/* Study time chart（吹き出しの定義は .act-bar とまとめてある） */
+.time-bar{flex:1;border-radius:2px 2px 0 0;min-height:2px;background:var(--c-time);position:relative;cursor:default;}
+.time-bar.today{background:var(--c-time-today);}
 .time-bar.zero{background:rgba(var(--glass-rgb),.08);min-height:3px;}
-.time-bar:hover::after,.time-bar.tap-show::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--nv);color:#fff;font-size:9px;padding:2px 5px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:10;}
 
 /* Accuracy badge */
 .acc-badge{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:10px;white-space:nowrap;}
-.acc-badge.good{background:rgba(61,214,140,.15);color:#3DD68C;border:1px solid rgba(61,214,140,.3);}
-.acc-badge.poor{background:rgba(255,154,60,.15);color:#FF9A3C;border:1px solid rgba(255,154,60,.3);}
-.acc-badge.bad{background:rgba(255,107,107,.15);color:#FF6B6B;border:1px solid rgba(255,107,107,.3);}
+.acc-badge.good{background:var(--grl);color:var(--gr);border:1px solid var(--gr-bd);}
+.acc-badge.poor{background:var(--orl);color:var(--or);border:1px solid var(--or-bd);}
+.acc-badge.bad{background:var(--rdl);color:var(--rd);border:1px solid var(--rd-bd);}
 .acc-badge.none{color:var(--ts);}
+.acc-sub{font-weight:400;font-size:10px;}
 
 /* Rate history chart (H) */
 .rh-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
@@ -101,7 +195,9 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .choice-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:8px;}
 .choice-col{text-align:center;}
 .choice-bar-wrap{height:60px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:4px;}
-.choice-bar{width:100%;max-width:36px;border-radius:4px 4px 0 0;min-height:3px;transition:height .3s;}
+/* 高さは描画時に一度決まり以後変わらないので transition は効いていなかった。
+   レイアウトプロパティのアニメでもあるので外す */
+.choice-bar{width:100%;max-width:36px;border-radius:4px 4px 0 0;min-height:3px;}
 .choice-lbl{font-size:13px;font-weight:800;color:var(--tx);}
 .choice-val{font-size:10px;color:var(--ts);margin-top:2px;}
 .choice-note{font-size:11px;color:var(--ts);margin-top:12px;text-align:center;line-height:1.6;}
@@ -109,9 +205,11 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
 /* Weak ranking */
 .weak-empty{font-size:13px;color:var(--ts);text-align:center;padding:16px 0;}
-.weak-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--gb);text-decoration:none;color:var(--tx);}
+/* hover で margin/padding を動かすと行が飛び跳ねるので、幅は常時広げておき
+   hover では背景色だけを変える（レイアウトを触らない） */
+.weak-row{display:flex;align-items:center;gap:8px;margin:0 -16px;padding:7px 16px;border-bottom:1px solid var(--gb);text-decoration:none;color:var(--tx);border-radius:8px;}
 .weak-row:last-child{border-bottom:none;}
-.weak-row:hover{background:rgba(var(--glass-rgb),.05);margin:0 -16px;padding:7px 16px;}
+.weak-row:hover{background:rgba(var(--glass-rgb),.05);}
 .weak-rank{font-size:11px;font-weight:700;color:var(--ts);width:20px;flex-shrink:0;text-align:right;}
 .weak-subj-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;color:#fff;white-space:nowrap;flex-shrink:0;}
 .weak-info{flex:1;min-width:0;}
@@ -120,17 +218,22 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
 /* AI export */
 .ai-desc{font-size:12px;color:var(--ts);margin-bottom:12px;line-height:1.6;}
-.ai-export-btn{width:100%;padding:12px 16px;border:none;border-radius:12px;background:linear-gradient(135deg,#7B5EA7,#5C3D99);color:#fff;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(92,61,153,.4);transition:transform .1s,box-shadow .2s;}
-.ai-export-btn:hover{box-shadow:0 6px 20px rgba(92,61,153,.55);}
-.ai-export-btn:active{transform:scale(.98);}
-.ai-export-btn.copied{background:linear-gradient(135deg,#2D8C4E,#1B5E20);}
+/* 暗色面のボタンは「グラデ＋同色のグロー」で浮かせない（最も生成物らしく見える組み合わせ）。
+   単色の面で塗り、高さは面の明るさで出す。下地が明るいので文字は暗インク。 */
+.ai-export-btn{width:100%;padding:12px 16px;border:none;border-radius:12px;
+  background:var(--btn-ai);color:var(--btn-ai-ink);
+  font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;
+  transition:background-color .18s var(--ease-out),transform .1s var(--ease-out);}
+.ai-export-btn:hover{background:var(--btn-ai-h);}
+.ai-export-btn:active{transform:translateY(1px);}
+.ai-export-btn.copied{background:var(--btn-ok);color:var(--btn-ok-ink);}
 .ai-export-msg{font-size:11px;color:var(--ts);text-align:center;margin-top:8px;min-height:14px;}
 .ai-opts{display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
 .ai-opt{font-size:11px;color:var(--ts);display:flex;align-items:center;gap:4px;cursor:pointer;user-select:none;}
 /* 2つ目のボタンは用途が違う（相談ではなく出題）ので配色を分け、区切り線で段を切る */
 .ai-desc2{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);}
-.ai-drill-btn{background:linear-gradient(135deg,#2E7D8C,#1B5566);box-shadow:0 4px 14px rgba(27,85,102,.4);}
-.ai-drill-btn:hover{box-shadow:0 6px 20px rgba(27,85,102,.55);}
+.ai-drill-btn{background:var(--btn-drill);color:var(--btn-drill-ink);}
+.ai-drill-btn:hover{background:var(--btn-drill-h);}
 /* コピーが端末に拒否されたときの退避先。font-size 16px 未満はiOSが自動ズームする */
 .ai-copy-fallback{width:100%;min-height:110px;margin-top:10px;resize:vertical;font-size:16px;
   font-family:monospace;background:rgba(0,0,0,.4);border:1.5px solid rgba(255,255,255,.2);
@@ -157,17 +260,27 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .hero-cd #heroDays{font-size:44px;font-weight:900;color:var(--or);line-height:1.05;font-variant-numeric:tabular-nums;}
 .hero-cd-u{font-size:15px;font-weight:800;color:var(--or);}
 .hero-date{font-size:11px;color:var(--ts);margin-top:2px;}
-.pace-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;}
-.pace-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:11px;padding:8px 6px;text-align:center;}
-.pace-lbl{font-size:10px;font-weight:700;color:var(--ts);}
-.pace-val{font-size:17px;font-weight:900;color:var(--tx);font-variant-numeric:tabular-nums;margin-top:1px;}
-.pace-msg{font-size:12px;font-weight:700;margin-top:10px;padding:8px 11px;border-radius:10px;line-height:1.6;}
-.pace-msg.ok{background:rgba(61,214,140,.12);color:var(--gr);border:1px solid rgba(61,214,140,.3);}
-.pace-msg.warn{background:rgba(255,154,60,.12);color:var(--or);border:1px solid rgba(255,154,60,.3);}
-.pace-msg.bad{background:rgba(255,107,107,.12);color:var(--rd);border:1px solid rgba(255,107,107,.3);}
+/* 箱の中の箱をやめ、区切りは細い縦罫だけに任せる。
+   後段の「復習の見通し」も3値だったので、あちらは1行の文へ形を変えて重複を避けた */
+/* 3列固定だと 320px で「16.4問/日」が「16.4問/ + 日」に割れる。
+   auto-fit にして、入らない幅では列数のほうを落とす（値は折らない） */
+.pace-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));
+  row-gap:12px;margin-top:16px;}
+.pace-item{padding:0 12px;border-left:1px solid rgba(255,255,255,.13);}
+.pace-item:first-child{border-left:none;padding-left:0;}
+.pace-lbl{font-size:10px;font-weight:700;color:var(--ts);white-space:nowrap;}
+.pace-val{font-size:18px;font-weight:900;color:var(--tx);font-variant-numeric:tabular-nums;margin-top:2px;white-space:nowrap;}
+.pace-msg{font-size:12px;font-weight:700;margin-top:14px;padding:8px 11px;border-radius:10px;line-height:1.6;}
+.pace-msg.ok{background:var(--grl);color:var(--gr);border:1px solid var(--gr-bd);}
+.pace-msg.warn{background:var(--orl);color:var(--or);border:1px solid var(--or-bd);}
+.pace-msg.bad{background:var(--rdl);color:var(--rd);border:1px solid var(--rd-bd);}
 /* 実績ペースが必要ペースの何%かを示すバー。100%の位置に目盛りを立てる */
 .pace-bar{position:relative;height:7px;border-radius:4px;background:rgba(255,255,255,.09);margin-top:9px;overflow:hidden;}
-.pace-bar-fill{height:100%;border-radius:4px;width:0;background:var(--gr);transition:width .5s cubic-bezier(.16,1,.3,1);}
+/* width ではなく transform を伸ばす（width は毎フレーム再レイアウトを起こす）。
+   角丸は親側の overflow:hidden が担うので、fill 自身は角丸を持たなくてよい */
+.pace-bar-fill{height:100%;width:100%;background:var(--gr);
+  transform:scaleX(0);transform-origin:left center;
+  transition:transform .5s var(--ease-out);}
 .pace-bar-mark{position:absolute;top:-2px;bottom:-2px;width:2px;background:rgba(255,255,255,.55);}
 .pace-foot{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap;}
 .pace-foot label{font-size:11px;font-weight:700;color:var(--ts);}
@@ -178,68 +291,92 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .pace-reset:hover{background:rgba(255,255,255,.1);color:var(--tx);}
 
 /* ── A2: 復習の見通し ── */
-.fc-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
-.fc-card{border-radius:11px;padding:8px 6px;text-align:center;border:1px solid;}
-.fc-card .v{font-size:18px;font-weight:900;font-variant-numeric:tabular-nums;}
-.fc-card .l{font-size:10px;font-weight:700;color:var(--ts);}
-.fc-card.over{background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.3);}
-.fc-card.over .v{color:var(--rd);}
-.fc-card.today{background:rgba(255,154,60,.12);border-color:rgba(255,154,60,.3);}
-.fc-card.today .v{color:var(--or);}
-.fc-card.week{background:rgba(96,165,250,.12);border-color:rgba(96,165,250,.3);}
-.fc-card.week .v{color:var(--blu);}
+/* 旧実装は「小ラベル＋大きい数字」の箱が3つ並ぶ形で、ヒーローの .pace-grid と
+   同じ形が2セクション離れて再演されていた。ここは下に棒グラフが控えているので
+   数値は1行の文に落とし、視覚的な重みはグラフ側に集める */
+.fc-summary{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 16px;margin-bottom:14px;}
+.fc-stat{display:inline-flex;align-items:baseline;gap:5px;font-size:11px;font-weight:700;color:var(--ts);}
+.fc-stat .v{font-size:19px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--tx);}
+.fc-stat.over .v{color:var(--rd);}
+.fc-stat.today .v{color:var(--or);}
+.fc-stat.week .v{color:var(--blu);}
 .fc-bars{display:flex;align-items:flex-end;gap:5px;height:84px;}
 .fc-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;justify-content:flex-end;}
-.fc-bar{width:100%;border-radius:4px 4px 0 0;min-height:3px;background:var(--blu);}
+.fc-bar{width:100%;border-radius:4px 4px 0 0;min-height:3px;background:var(--blu);transform-origin:bottom center;}
 .fc-col.is-today .fc-bar{background:var(--or);}
 .fc-col.is-over .fc-bar{background:var(--rd);}
 .fc-n{font-size:10px;font-weight:800;color:var(--ts);font-variant-numeric:tabular-nums;}
-.fc-d{font-size:9px;color:var(--ts);white-space:nowrap;}
+.fc-d{font-size:10px;color:var(--ts);white-space:nowrap;}
 .fc-note{font-size:11px;color:var(--ts);margin-top:10px;line-height:1.6;}
 
 /* ── B2: 学習カレンダー（週×曜日のグリッド） ── */
 .cal-wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
 .cal-wrap::-webkit-scrollbar{display:none;}
 .cal-dow{display:grid;grid-template-rows:repeat(7,1fr);gap:3px;flex-shrink:0;}
-.cal-dow span{font-size:8px;color:var(--ts);height:13px;line-height:13px;text-align:right;padding-right:2px;}
+.cal-dow span{font-size:10px;color:var(--ts);height:13px;line-height:13px;text-align:right;padding-right:3px;}
 .cal-grid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,1fr);gap:3px;flex:1;min-width:0;}
-.cal-cell{width:13px;height:13px;border-radius:3px;background:rgba(255,255,255,.06);}
-.cal-cell.l1{background:rgba(61,214,140,.3);}
-.cal-cell.l2{background:rgba(61,214,140,.5);}
-.cal-cell.l3{background:rgba(61,214,140,.72);}
-.cal-cell.l4{background:var(--gr);}
+.cal-cell{width:13px;height:13px;border-radius:3px;background:var(--ramp-none);cursor:pointer;}
+.cal-cell.l1{background:var(--ramp-c2);}
+.cal-cell.l2{background:var(--ramp-c3);}
+.cal-cell.l3{background:var(--ramp-c4);}
+.cal-cell.l4{background:var(--ramp-c5);}
 .cal-cell.is-today{outline:1.5px solid var(--yl);outline-offset:1px;}
+.cal-cell.is-sel{outline:2px solid var(--tx);outline-offset:1px;}
 .cal-legend{display:flex;align-items:center;gap:4px;margin-top:9px;font-size:10px;color:var(--ts);}
-.cal-lg{width:11px;height:11px;border-radius:3px;display:inline-block;background:rgba(255,255,255,.06);}
-.cal-lg.l1{background:rgba(61,214,140,.3);}.cal-lg.l2{background:rgba(61,214,140,.5);}
-.cal-lg.l3{background:rgba(61,214,140,.72);}.cal-lg.l4{background:var(--gr);}
+.cal-lg{width:11px;height:11px;border-radius:3px;display:inline-block;background:var(--ramp-none);}
+.cal-lg.l1{background:var(--ramp-c2);}.cal-lg.l2{background:var(--ramp-c3);}
+.cal-lg.l3{background:var(--ramp-c4);}.cal-lg.l4{background:var(--ramp-c5);}
 .cal-total{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums;}
+/* 13px のセルに吹き出しを出すと、親の overflow-x:auto に上端を切られるうえ
+   指では狙えない。タップした値をこの1行に書き出す方式に変えた（iPadに hover は無い） */
+.grid-readout{margin-top:8px;font-size:11px;color:var(--ts);min-height:17px;line-height:17px;
+  font-variant-numeric:tabular-nums;}
+.grid-readout.has-val{color:var(--tx);font-weight:700;}
 /* B3: 曜日別の学習量 */
 .dow-wrap{display:flex;gap:5px;margin-top:14px;align-items:flex-end;height:56px;}
 .dow-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;height:100%;justify-content:flex-end;}
-.dow-bar{width:100%;border-radius:3px 3px 0 0;min-height:2px;background:rgba(96,165,250,.65);}
+.dow-bar{width:100%;border-radius:3px 3px 0 0;min-height:2px;background:rgba(96,165,250,.65);transform-origin:bottom center;}
+/* 最多／最少を緑と赤の対で示していたが、色覚特性で最も読めなくなる組み合わせ。
+   ページ全体の言語（緑＝やった量／アンバー＝要注意）に合わせて赤をアンバーへ寄せる */
 .dow-col.best .dow-bar{background:var(--gr);}
-.dow-col.worst .dow-bar{background:rgba(255,107,107,.6);}
-.dow-l{font-size:9px;color:var(--ts);}
-.dow-v{font-size:9px;font-weight:700;color:var(--ts);font-variant-numeric:tabular-nums;}
+.dow-col.worst .dow-bar{background:var(--ramp-w7);}
+.dow-l{font-size:10px;color:var(--ts);}
+.dow-v{font-size:10px;font-weight:700;color:var(--ts);font-variant-numeric:tabular-nums;}
 
 /* ── A3: 章別ヒートマップ ── */
 .hm-mode{display:flex;gap:6px;margin-bottom:10px;}
 .hm-mode-btn{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;cursor:pointer;font-family:inherit;
   background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.14);color:var(--ts);
-  transition:background .15s,border-color .15s,color .15s;}
-.hm-mode-btn.on{background:rgba(96,165,250,.18);border-color:rgba(96,165,250,.5);color:#A8CDFF;}
+  transition:background-color .15s var(--ease-out),border-color .15s var(--ease-out),color .15s var(--ease-out);}
+.hm-mode-btn.on{background:rgba(96,165,250,.18);border-color:var(--blu-bd);color:var(--blu);}
 .hm-row{display:flex;align-items:center;gap:7px;padding:3px 0;}
 .hm-name{width:66px;flex-shrink:0;font-size:11px;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:3px;
   text-decoration:none;white-space:nowrap;overflow:hidden;}
 .hm-cells{display:flex;gap:3px;flex-wrap:wrap;flex:1;min-width:0;}
-.hm-cell{width:15px;height:15px;border-radius:3px;background:rgba(255,255,255,.06);cursor:default;}
-.hm-cell.s5{background:var(--gr);}
-.hm-cell.s4{background:rgba(61,214,140,.6);}
-.hm-cell.s3{background:var(--yl);}
-.hm-cell.s2{background:rgba(255,154,60,.75);}
-.hm-cell.s1{background:var(--rd);}
-.hm-cell.s0{background:rgba(255,255,255,.06);}
+/* 旧実装は 緑→黄→赤 の混色スケールだった。同じページ内の弱点カルテが
+   「赤緑は使わない」方針で作られていたので、言語が真っ向から食い違っていた。
+   ここを2言語に統一する:
+     .a1〜.a5  正答率モード = 弱さランプ（弱いほど明るく浮く。a5が最も強い＝暗い）
+     .p1〜.p5  進捗モード   = 網羅ランプ（やった量が増えるほど濃い。カレンダーと同じ緑）
+   .n0 はデータ無し。ランプの外の中立色に置き、「弱い」と誤読させない */
+/* ハイライン枠は必須。ランプ最暗段(w1 L=0.013)はセクションの地(L≈0.017)より暗く、
+   枠が無いと「最も強い章」がそのまま地に沈んで穴のように見える。カルテ(.hm td)と同じ作法。 */
+.hm-cell{width:15px;height:15px;border-radius:3px;background:var(--ramp-none);cursor:pointer;
+  border:1px solid rgba(255,255,255,.10);}
+.hm-cell.a5{background:var(--ramp-w1);}
+.hm-cell.a4{background:var(--ramp-w3);}
+.hm-cell.a3{background:var(--ramp-w4);}
+.hm-cell.a2{background:var(--ramp-w6);}
+.hm-cell.a1{background:var(--ramp-w7);}
+.hm-cell.p5{background:var(--ramp-c5);}
+.hm-cell.p4{background:var(--ramp-c4);}
+.hm-cell.p3{background:var(--ramp-c3);}
+.hm-cell.p2{background:var(--ramp-c2);}
+.hm-cell.p1{background:var(--ramp-c1);}
+/* データ無しは「弱い」ではなくランプの外。塗りで表すと最暗段(＝最も強い)と
+   明度が近く、未受験が得意に見えてしまう。カルテの「—」と同じく破線で外へ出す */
+.hm-cell.n0{background:transparent;border-style:dashed;border-color:rgba(255,255,255,.22);}
+.hm-cell.is-sel{outline:2px solid var(--tx);outline-offset:1px;}
 .hm-legend{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:10px;color:var(--ts);flex-wrap:wrap;}
 .hm-legend i{width:11px;height:11px;border-radius:3px;display:inline-block;}
 
@@ -256,15 +393,15 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .gap-empty{font-size:13px;color:var(--ts);text-align:center;padding:16px 0;}
 
 /* Miss (取りこぼし) list */
-.miss-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);text-decoration:none;color:var(--tx);}
+.miss-row{display:flex;align-items:center;gap:8px;margin:0 -16px;padding:7px 16px;border-bottom:1px solid rgba(255,255,255,.05);text-decoration:none;color:var(--tx);border-radius:8px;}
 .miss-row:last-child{border-bottom:none;}
-.miss-row:hover{background:rgba(var(--glass-rgb),.05);margin:0 -16px;padding:7px 16px;}
+.miss-row:hover{background:rgba(var(--glass-rgb),.05);}
 .miss-rank{font-size:11px;font-weight:700;color:var(--ts);width:20px;flex-shrink:0;text-align:right;}
 .miss-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;color:#fff;white-space:nowrap;flex-shrink:0;}
 .miss-info{flex:1;min-width:0;font-size:12px;color:var(--ts);}
 .miss-gap{flex-shrink:0;font-size:12px;font-weight:700;text-align:right;}
-.miss-gap .nat{color:#3DD68C;}
-.miss-gap .you{color:#FF6B6B;}
+.miss-gap .nat{color:var(--gr);}
+.miss-gap .you{color:var(--rd);}
 .miss-empty{font-size:13px;color:var(--ts);text-align:center;padding:16px 0;}
 
 /* ── 弱点カルテ: 科目×設問形式ヒートマップ ─────────────────────────────
@@ -279,11 +416,26 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   color:var(--tx);border:1px solid rgba(255,255,255,.10);background:transparent;cursor:default;}
 .hm td.hm-nd{color:var(--ts);font-weight:400;border-style:dashed;}
 .hm td.hm-low{color:rgba(255,255,255,.55);}
-.hm-sub{display:block;font-size:9px;font-weight:400;color:rgba(255,255,255,.5);line-height:1.2;}
+/* 弱さランプ7段。JS が数値からクラスを選ぶ（背景を style 属性で直に書かない） */
+.hm td.w1{background:var(--ramp-w1);} .hm td.w2{background:var(--ramp-w2);}
+.hm td.w3{background:var(--ramp-w3);} .hm td.w4{background:var(--ramp-w4);}
+.hm td.w5{background:var(--ramp-w5);color:var(--ramp-w-ink);}
+.hm td.w6{background:var(--ramp-w6);color:var(--ramp-w-ink);}
+.hm td.w7{background:var(--ramp-w7);color:var(--ramp-w-ink);}
+.hm-sub{display:block;font-size:10px;font-weight:400;color:var(--tx);opacity:.66;line-height:1.2;}
+/* 明るい3段は白文字が読めないので、副文字も暗インクへ反転させる */
+.hm td.w5 .hm-sub,.hm td.w6 .hm-sub,.hm td.w7 .hm-sub{color:var(--ramp-w-ink);opacity:.72;}
+.hm td.hm-nd .hm-sub{color:var(--ts);opacity:1;}
 .hm-foot{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:10px;}
-.hm-legend{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--ts);}
-.hm-legend .hm-sw{display:flex;gap:2px;}
-.hm-legend i{width:16px;height:10px;border-radius:2px;border:1px solid rgba(255,255,255,.10);}
+/* ⚠️ 旧実装ではこれが上の章別ヒートマップと同じ .hm-legend という名前で、
+   後勝ちで章別側のスウォッチ寸法まで奪っていた。別名に分けてある */
+.karte-legend{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--ts);}
+.karte-legend .hm-sw{display:flex;gap:2px;}
+.karte-legend i{width:16px;height:10px;border-radius:2px;border:1px solid rgba(255,255,255,.10);}
+.karte-legend i.w1{background:var(--ramp-w1);} .karte-legend i.w2{background:var(--ramp-w2);}
+.karte-legend i.w3{background:var(--ramp-w3);} .karte-legend i.w4{background:var(--ramp-w4);}
+.karte-legend i.w5{background:var(--ramp-w5);} .karte-legend i.w6{background:var(--ramp-w6);}
+.karte-legend i.w7{background:var(--ramp-w7);}
 .hm-note{font-size:10px;color:var(--ts);flex:1;min-width:140px;}
 
 /* 本番正答率帯ごとの自分の正答率 */
@@ -296,36 +448,58 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .band-fill{height:100%;border-radius:5px;}
 .band-val{width:74px;flex-shrink:0;text-align:right;font-weight:700;color:var(--tx);}
 .band-val small{font-weight:400;color:var(--ts);}
+/* 帯グラフも弱さランプで塗る。ただし最も暗い2段は暗色の地に沈んで棒が見えなくなるので
+   w3 から下だけを使う（JS 側で下限を掛けている） */
+.band-fill.w3{background:var(--ramp-w3);} .band-fill.w4{background:var(--ramp-w4);}
+.band-fill.w5{background:var(--ramp-w5);} .band-fill.w6{background:var(--ramp-w6);}
+.band-fill.w7{background:var(--ramp-w7);}
 
+/* 意味色の文字ユーティリティ。JS から色を組み立てるときは style 属性に hex を
+   書かず、このクラスを付け外しする */
+.t-gr{color:var(--gr);} .t-or{color:var(--or);} .t-rd{color:var(--rd);}
+.t-yl{color:var(--yl);} .t-ts{color:var(--ts);}
+
+/* 展開できる行のキーボード操作。旧実装は <tr onclick> だけで、Tabで到達できず
+   Enter でも開けなかった（vars.css のフォーカスリングは可フォーカス要素にしか効かない） */
+.subj-row:focus-visible,.ch-row:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-2px;}
+.hm-cell:focus-visible,.cal-cell:focus-visible{outline:2px solid var(--focus-ring);outline-offset:1px;}
+
+/* ページを閉じる1行。14セクションのあと何も無く終わっていた */
+.foot{max-width:700px;margin:0 auto;padding:18px 12px 40px;display:flex;flex-wrap:wrap;
+  align-items:baseline;gap:6px 14px;font-size:11px;color:var(--ts);
+  border-top:1px solid rgba(255,255,255,.08);}
+.foot a{color:var(--ts);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.2);white-space:nowrap;}
+.foot a:hover{color:var(--tx);}
+.foot .foot-sp{margin-left:auto;}
 </style>
 </head>
 <body>
 
 <header class="hdr">
   <div class="hdr-top">
-    <span class="hdr-title">📊 学習統計</span>
+    <h1 class="hdr-title">📊 学習統計</h1>
     <a class="hub-link" href="index.html">← ハブへ</a>
     <span class="mec-sync-badge">⚙️ 未設定</span>
   </div>
   <div class="summary-row" id="summaryRow">
     <div class="sum-card"><span class="sum-val" id="sumDone">—</span><span class="sum-lbl">済み</span></div>
     <div class="sum-card"><span class="sum-val" id="sumStreak">—</span><span class="sum-lbl">日連続🔥</span></div>
-    <div class="sum-card"><span class="sum-val" id="sumFlag">—</span><span class="sum-lbl">🚩赤旗</span></div>
+    <div class="sum-card"><span class="sum-val flag" id="sumFlag">—</span><span class="sum-lbl">🚩赤旗</span></div>
     <div class="sum-card"><span class="sum-val" id="sumTime">—</span><span class="sum-lbl">⏱今日(分)</span></div>
   </div>
 </header>
 
-<div class="ct">
+<main class="ct">
 
   <!-- A1/B1: 国試カウントダウンと必要ペース。統計が「過去」しか映していなかったので、
        「間に合うのか」に答える主役セクションとして最上部に置く -->
-  <section class="sec hero-sec">
+  <section class="sec sec--lead hero-sec">
     <div class="hero-top">
       <div class="hero-ring" id="heroRing"><div class="hero-ring-in">
         <span class="hero-pct" id="heroPct">—</span><span class="hero-pct-lbl">達成</span>
       </div></div>
       <div class="hero-info">
-        <div class="hero-cd-lbl">第121回 医師国家試験まで</div>
+        <h2 class="hero-cd-lbl">第121回 医師国家試験まで</h2>
         <div class="hero-cd"><span id="heroDays">—</span><span class="hero-cd-u">日</span></div>
         <div class="hero-date" id="heroDate">—</div>
       </div>
@@ -346,14 +520,14 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
   <!-- A2: 今後の復習予測。mec_srs_v1 は今まで統計側で完全に未使用だった -->
   <section class="sec" id="srsForecastSec">
-    <div class="sec-title">🔔 復習の見通し <span class="sec-note">（SRSの予定日から集計）</span></div>
+    <h2 class="sec-title">🔔 復習の見通し <span class="sec-note">（SRSの予定日から集計）</span></h2>
     <div class="fc-summary" id="fcSummary"></div>
     <div class="fc-bars" id="fcBars"></div>
     <div class="fc-note" id="fcNote"></div>
   </section>
 
   <section class="sec" id="aiExportSec">
-    <div class="sec-title">🤖 AI相談用データ</div>
+    <h2 class="sec-title">🤖 AI相談用データ</h2>
     <p class="ai-desc">学習データを要約してコピーします。ClaudeなどのAIに貼り付けると、弱点分析や今後の学習計画を相談できます。</p>
     <button id="aiExportBtn" class="ai-export-btn">📋 AI相談用にコピー</button>
     <div class="ai-opts">
@@ -367,11 +541,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
   <!-- B2: 学習カレンダー。30日の棒グラフより一覧性が高く、連続の途切れも直感的に分かる -->
   <section class="sec">
-    <div class="sec-title">🗓 学習カレンダー <span class="sec-note">（直近12週間）</span></div>
+    <h2 class="sec-title">🗓 学習カレンダー <span class="sec-note">（直近12週間・セルをタップで内訳）</span></h2>
     <div class="cal-wrap">
       <div class="cal-dow" id="calDow"></div>
       <div class="cal-grid" id="calGrid"></div>
     </div>
+    <div class="grid-readout" id="calReadout"></div>
     <div class="cal-legend">
       <span>少</span>
       <i class="cal-lg l0"></i><i class="cal-lg l1"></i><i class="cal-lg l2"></i><i class="cal-lg l3"></i><i class="cal-lg l4"></i>
@@ -382,7 +557,75 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   </section>
 
   <section class="sec">
-    <div class="sec-title">📅 30日間の学習記録</div>
+    <h2 class="sec-title">📚 科目別進捗</h2>
+    <div class="subj-scroll">
+      <table class="subj-table">
+        <thead>
+          <tr>
+            <th>科目</th>
+            <th>進捗</th>
+            <th class="r">済み率</th>
+            <th class="r">正解率</th>
+            <th class="r">🚩</th>
+          </tr>
+        </thead>
+        <tbody id="subjTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- A3: 章別ヒートマップ。111章を一望して弱点を地図として掴む -->
+  <section class="sec">
+    <h2 class="sec-title">🗺 章別ヒートマップ <span class="sec-note">（章をタップで内訳／科目名から該当科目へ）</span></h2>
+    <div class="hm-mode">
+      <button class="hm-mode-btn on" data-hm="acc">正答率で見る</button>
+      <button class="hm-mode-btn" data-hm="prog">進捗で見る</button>
+    </div>
+    <div id="heatmap"></div>
+    <div class="grid-readout" id="hmReadout"></div>
+    <div class="hm-legend" id="hmLegend"></div>
+  </section>
+
+  <!-- 弱点カルテ: 科目×設問形式のヒートマップ（qmeta.json × myrate_v1）。
+       章別集計では見えない「治療選択だけ落ちる」型の弱点を出すのが目的 -->
+  <section class="sec" id="chartSec" style="display:none">
+    <h2 class="sec-title">🩺 弱点カルテ <span class="sec-note">（科目 × 設問形式の試験正答率）</span></h2>
+    <div class="hm-scroll">
+      <table class="hm" id="hmTable"></table>
+    </div>
+    <div class="hm-foot">
+      <div class="karte-legend" id="hmKarteLegend"></div>
+      <div class="hm-note" id="hmNote"></div>
+    </div>
+    <div class="band-wrap" id="bandWrap">
+      <h3 class="band-title">本番正答率帯ごとの自分の正答率 <span class="sec-note">（易しい帯で崩れる＝読み落とし型／難しい帯だけ落ちる＝知識型）</span></h3>
+      <div class="band-rows" id="bandRows"></div>
+    </div>
+  </section>
+
+  <!-- A4: 本番正答率と自分の正答率のギャップ -->
+  <section class="sec" id="gapSec" style="display:none">
+    <h2 class="sec-title">📐 本番との差 <span class="sec-note">（本番正答率 − 自分の試験正答率。マイナスが大きいほど要対策）</span></h2>
+    <div id="gapList"></div>
+  </section>
+
+  <section class="sec" id="missSec" style="display:none">
+    <h2 class="sec-title">💡 取りこぼし問題 <span class="sec-note">（本番正答率80%以上なのに試験モードで落とした・最優先復習）</span></h2>
+    <div id="missList"></div>
+  </section>
+
+  <section class="sec">
+    <h2 class="sec-title">🎯 苦手問題ランキング <span class="sec-note">（試験モード 3回以上・正解率50%未満）</span></h2>
+    <div id="weakList"></div>
+  </section>
+
+  <!-- ── ここから下は参考段（.sec--aside）──────────────────────────────
+       箱を外し、罫線と余白だけで区切る。上の段（行動を決めるための指標）と
+       同じ視覚的重みで並べないための階層分け。
+       30日の2グラフは上の「学習カレンダー」（12週間）に内容が包含されるので、
+       日単位で細かく追いたいとき用の参照としてこちらへ落としてある。 -->
+  <section class="sec sec--aside is-first">
+    <h2 class="sec-title">📅 30日間の学習記録</h2>
     <div class="act-wrap">
       <div class="act-bars" id="actBars"></div>
       <div class="act-dates" id="actDates"></div>
@@ -390,8 +633,8 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     </div>
   </section>
 
-  <section class="sec">
-    <div class="sec-title">⏱ 30日間の学習時間</div>
+  <section class="sec sec--aside">
+    <h2 class="sec-title">⏱ 30日間の学習時間</h2>
     <div class="act-wrap">
       <div class="act-bars" id="timeBars"></div>
       <div class="act-dates" id="timeDates"></div>
@@ -399,83 +642,30 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     </div>
   </section>
 
-  <section class="sec">
-    <div class="sec-title">📚 科目別進捗</div>
-    <table class="subj-table">
-      <thead>
-        <tr>
-          <th>科目</th>
-          <th>進捗</th>
-          <th class="r">済み率</th>
-          <th class="r">正解率</th>
-          <th class="r">🚩</th>
-        </tr>
-      </thead>
-      <tbody id="subjTableBody"></tbody>
-    </table>
-  </section>
-
-  <!-- A3: 章別ヒートマップ。111章を一望して弱点を地図として掴む -->
-  <section class="sec">
-    <div class="sec-title">🗺 章別ヒートマップ <span class="sec-note">（色=試験正答率／薄い=未着手・タップで該当科目へ）</span></div>
-    <div class="hm-mode">
-      <button class="hm-mode-btn on" data-hm="acc">正答率で見る</button>
-      <button class="hm-mode-btn" data-hm="prog">進捗で見る</button>
-    </div>
-    <div id="heatmap"></div>
-    <div class="hm-legend" id="hmLegend"></div>
-  </section>
-
-  <!-- 弱点カルテ: 科目×設問形式のヒートマップ（qmeta.json × myrate_v1）。
-       章別集計では見えない「治療選択だけ落ちる」型の弱点を出すのが目的 -->
-  <section class="sec" id="chartSec" style="display:none">
-    <div class="sec-title">🩺 弱点カルテ <span class="sec-note">（科目 × 設問形式の試験正答率）</span></div>
-    <div class="hm-scroll">
-      <table class="hm" id="hmTable"></table>
-    </div>
-    <div class="hm-foot">
-      <div class="hm-legend" id="hmLegend"></div>
-      <div class="hm-note" id="hmNote"></div>
-    </div>
-    <div class="band-wrap" id="bandWrap">
-      <div class="band-title">本番正答率帯ごとの自分の正答率 <span class="sec-note">（易しい帯で崩れる＝読み落とし型／難しい帯だけ落ちる＝知識型）</span></div>
-      <div class="band-rows" id="bandRows"></div>
-    </div>
-  </section>
-
-  <!-- A4: 本番正答率と自分の正答率のギャップ -->
-  <section class="sec" id="gapSec" style="display:none">
-    <div class="sec-title">📐 本番との差 <span class="sec-note">（本番正答率 − 自分の試験正答率。マイナスが大きいほど要対策）</span></div>
-    <div id="gapList"></div>
-  </section>
-
-  <section class="sec" id="missSec" style="display:none">
-    <div class="sec-title">💡 取りこぼし問題 <span style="font-size:11px;font-weight:400;color:var(--ts)">（本番正答率80%以上なのに試験モードで落とした・最優先復習）</span></div>
-    <div id="missList"></div>
-  </section>
-
-  <section class="sec">
-    <div class="sec-title">🎯 苦手問題ランキング <span style="font-size:11px;font-weight:400;color:var(--ts)">（試験モード 3回以上・正解率50%未満）</span></div>
-    <div id="weakList"></div>
-  </section>
-
-  <section class="sec">
-    <div class="sec-title">✅ 済みレベル分布</div>
+  <section class="sec sec--aside">
+    <h2 class="sec-title">✅ 済みレベル分布</h2>
     <div class="level-bars" id="levelBars"></div>
     <div class="level-legend" id="levelLegend"></div>
   </section>
 
-  <section class="sec">
-    <div class="sec-title">📈 科目別正答率の推移 <span style="font-size:11px;font-weight:400;color:var(--ts)">（stats.html を開くたびに記録）</span></div>
+  <section class="sec sec--aside">
+    <h2 class="sec-title">📈 科目別正答率の推移 <span class="sec-note">（stats.html を開くたびに記録）</span></h2>
     <div id="rateHistoryWrap"></div>
   </section>
 
-  <section class="sec" id="choiceSec">
-    <div class="sec-title">🔍 誤答選択肢パターン <span style="font-size:11px;font-weight:400;color:var(--ts)">（試験モードでどの選択肢を選びがちか）</span></div>
+  <section class="sec sec--aside" id="choiceSec">
+    <h2 class="sec-title">🔍 誤答選択肢パターン <span class="sec-note">（試験モードでどの選択肢を選びがちか）</span></h2>
     <div id="choiceWrap"></div>
   </section>
 
-</div>
+</main>
+
+<footer class="foot">
+  <span id="footUpdated">—</span>
+  <span class="foot-sp"><a href="index.html">ハブ</a></span>
+  <span><a href="study.html">学習ツール</a></span>
+  <span><a href="knowledge.html">知識ノート</a></span>
+</footer>
 
 <script>
 (function () {
@@ -483,6 +673,22 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   const today = new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
 
   function lsGet(k) { try { return JSON.parse(localStorage.getItem(k) || '{}'); } catch { return {}; } }
+
+  // Canvas と MecFX は CSS の var() を解釈しないので、トークンの実値をここで解決する。
+  // （html.pal-* で配色を替えたときグラフだけ旧色のまま取り残されるのを防ぐ）
+  const _cs = getComputedStyle(document.documentElement);
+  function cssVar(name, fallback) {
+    const v = _cs.getPropertyValue(name).trim();
+    return v || fallback || '#888';
+  }
+
+  // 30日ぶんの日付を全部並べると、どのサイズでも文字が潰れて overflow:hidden に
+  // 切られていた。5日ごと＋今日だけに間引き、そのぶん読める大きさで出す
+  function actLabel(date, i, isToday) {
+    if (!isToday && i % 5 !== 0) return '';
+    const p = date.split('-');
+    return (+p[1]) + '/' + (+p[2]);
+  }
 
   const done   = lsGet('done_v2');
   const flags  = lsGet('flag_v2');
@@ -508,7 +714,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
   const barsEl  = document.getElementById('actBars');
   const datesEl = document.getElementById('actDates');
-  days.forEach(({ date, count }) => {
+  days.forEach(({ date, count }, i) => {
     const isToday = date === today;
     const pct = Math.round((count / maxCount) * 100);
     const bar = document.createElement('div');
@@ -519,8 +725,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
     const lbl = document.createElement('div');
     lbl.className = 'act-date' + (isToday ? ' today' : '');
-    const md = date.slice(5);
-    lbl.textContent = md.endsWith('-01') || isToday ? md : (md.slice(3) === '01' ? md : md.slice(3));
+    lbl.textContent = actLabel(date, i, isToday);
     datesEl.appendChild(lbl);
   });
   document.getElementById('actTotal').textContent = '30日合計: ' + total30 + '問';
@@ -541,7 +746,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
   const timeBarsEl  = document.getElementById('timeBars');
   const timeDatesEl = document.getElementById('timeDates');
-  timeDays.forEach(({ date, mins }) => {
+  timeDays.forEach(({ date, mins }, i) => {
     const isToday = date === today;
     const pct = Math.round((mins / maxMins) * 100);
     const bar = document.createElement('div');
@@ -552,8 +757,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
     const lbl = document.createElement('div');
     lbl.className = 'act-date' + (isToday ? ' today' : '');
-    const md = date.slice(5);
-    lbl.textContent = md.endsWith('-01') || isToday ? md : md.slice(3);
+    lbl.textContent = actLabel(date, i, isToday);
     timeDatesEl.appendChild(lbl);
   });
   const hrs = Math.floor(total30Mins / 60);
@@ -579,7 +783,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     if (total < 3) return '<span class="acc-badge none">—</span>';
     const pct = Math.round(correct / total * 100);
     const cls = pct >= 70 ? 'good' : pct >= 50 ? 'poor' : 'bad';
-    return `<span class="acc-badge ${cls}">${pct}%<span style="font-weight:400;font-size:10px"> (${correct}/${total})</span></span>`;
+    return `<span class="acc-badge ${cls}">${pct}%<span class="acc-sub"> (${correct}/${total})</span></span>`;
   }
 
   if (typeof MEC_CHAPTERS !== 'undefined') {
@@ -603,6 +807,11 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
       tr.className = 'subj-row';
       tr.style.cursor = 'pointer';
       tr.title = 'クリックで章別展開';
+      // <tr onclick> のままだと Tab で到達できず Enter でも開けなかった。
+      // 行そのものを操作対象として公開する
+      tr.tabIndex = 0;
+      tr.setAttribute('role', 'button');
+      tr.setAttribute('aria-expanded', 'false');
       tr.innerHTML = `
         <td><div class="subj-name-cell">
           <span class="subj-icon">${subj.icon}</span>
@@ -618,11 +827,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
         <td class="r">${pct}%</td>
         <td class="r">${accBadgeHtml(accCorrect, accTotal)}</td>
         <td class="r flag-num">${flagQ || '—'}</td>`;
-      tr.onclick = () => {
+      const toggleRow = () => {
         const next = tr.nextElementSibling;
         if (next && next.classList.contains('subj-ch-detail')) {
           next.remove();
           tr.querySelector('.subj-expand-icon').textContent = '▶';
+          tr.setAttribute('aria-expanded', 'false');
           return;
         }
         const chRows = subj.chapters.map((ch, ci) => {
@@ -634,19 +844,24 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
           const cAccT = cMr.reduce((s, [, v]) => s + (v.total || 0), 0);
           const cAccC = cMr.reduce((s, [, v]) => s + (v.correct || 0), 0);
           const cPct = cTotal ? Math.round(cDone / cTotal * 100) : 0;
-          return `<tr class="ch-row" onclick="location.href='${ch.file}'" title="${ch.title}">
-            <td style="padding:5px 8px 5px 20px;font-size:11px;color:var(--ts)">第${ci+1}章</td>
+          return `<tr class="ch-row" tabindex="0" role="link" data-href="${ch.file}" title="${ch.title}">
+            <td class="ch-num">第${ci+1}章</td>
             <td><div class="subj-prog-wrap"><div class="subj-prog-bar"><div class="subj-prog-fill" style="width:${cPct}%;background:${subj.color}"></div></div><span class="subj-prog-txt">${cDone}/${cTotal}</span></div></td>
-            <td class="r" style="font-size:11px">${cPct}%</td>
+            <td class="r ch-sm">${cPct}%</td>
             <td class="r">${accBadgeHtml(cAccC, cAccT)}</td>
-            <td class="r flag-num" style="font-size:11px">${cFlag || '—'}</td>
+            <td class="r flag-num ch-sm">${cFlag || '—'}</td>
           </tr>`;
         }).join('');
         const detailTr = document.createElement('tr');
         detailTr.className = 'subj-ch-detail';
-        detailTr.innerHTML = `<td colspan="5" style="padding:0"><table style="width:100%;border-collapse:collapse;border-top:1px solid var(--bd)">${chRows}</table></td>`;
+        detailTr.innerHTML = `<td colspan="5" class="ch-host"><table class="ch-table">${chRows}</table></td>`;
         tr.after(detailTr);
         tr.querySelector('.subj-expand-icon').textContent = '▼';
+        tr.setAttribute('aria-expanded', 'true');
+      };
+      tr.onclick = toggleRow;
+      tr.onkeydown = e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleRow(); }
       };
       tbody.appendChild(tr);
     });
@@ -658,13 +873,23 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     tr.innerHTML = `
       <td><div class="subj-name-cell"><span class="subj-name">合計</span></div></td>
       <td><div class="subj-prog-wrap">
-        <div class="subj-prog-bar"><div class="subj-prog-fill" style="width:${totalPct}%;background:#2D8C4E"></div></div>
+        <div class="subj-prog-bar"><div class="subj-prog-fill" style="width:${totalPct}%;background:var(--prog-total)"></div></div>
         <span class="subj-prog-txt">${grandDone}/${grandTotal}</span>
       </div></td>
       <td class="r">${totalPct}%</td>
       <td class="r">${accBadgeHtml(grandAcc, grandAccT)}</td>
       <td class="r flag-num">${Object.keys(flags).length || '—'}</td>`;
     tbody.appendChild(tr);
+
+    // 章行はテーブル展開のたびに作り直されるので、個別に配線せず tbody へ委譲する
+    const goCh = el => { if (el && el.dataset.href) location.href = el.dataset.href; };
+    tbody.addEventListener('click', e => goCh(e.target.closest('.ch-row')));
+    tbody.addEventListener('keydown', e => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const row = e.target.closest('.ch-row');
+      if (!row) return;
+      e.preventDefault(); goCh(row);
+    });
   }
 
   // ── Weak ranking ───────────────────────────────────────────
@@ -701,9 +926,9 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
         row.href = link;
         row.innerHTML = `
           <span class="weak-rank">${idx + 1}</span>
-          <span class="weak-subj-badge" style="background:${info ? info.subjColor : '#888'}">${info ? info.subjIcon + ' ' + info.subjName : uid.split('_')[0]}</span>
+          <span class="weak-subj-badge" style="background:${info ? info.subjColor : 'var(--badge-none)'}">${info ? info.subjIcon + ' ' + info.subjName : uid.split('_')[0]}</span>
           <span class="weak-info"><span class="weak-ch">${info ? '第' + info.chNum + '章' : prefix || ''} Q.${qNum}</span></span>
-          <span class="weak-acc acc-badge ${accCls}">${pct}% <span style="font-weight:400;font-size:10px">(${v.correct}/${v.total})</span></span>`;
+          <span class="weak-acc acc-badge ${accCls}">${pct}% <span class="acc-sub">(${v.correct}/${v.total})</span></span>`;
         weakEl.appendChild(row);
       });
     }
@@ -711,13 +936,13 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
   // ── Level distribution ────────────────────────────────────
   const LEVELS = [
-    { label: '未済', color: 'rgba(255,255,255,.28)' },
-    { label: '済1', color: '#C8EBD4' },
-    { label: '済2', color: '#81C784' },
-    { label: '済3', color: '#4CAF50' },
-    { label: '済4', color: '#2E7D32' },
-    { label: '済5', color: '#1B5E20' },
-    { label: '済6+', color: '#0D3B1A' },
+    { label: '未済', color: 'var(--lv0)' },
+    { label: '済1', color: 'var(--lv1)' },
+    { label: '済2', color: 'var(--lv2)' },
+    { label: '済3', color: 'var(--lv3)' },
+    { label: '済4', color: 'var(--lv4)' },
+    { label: '済5', color: 'var(--lv5)' },
+    { label: '済6+', color: 'var(--lv6)' },
   ];
   const levelCounts = [0, 0, 0, 0, 0, 0, 0];
   Object.values(done).forEach(lv => {
@@ -737,13 +962,13 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     col.className = 'level-col';
     col.innerHTML = `
       <span class="level-val">${levelCounts[i]}</span>
-      <div class="level-bar" style="height:${Math.max(pct, 2)}%;background:${color};border:1px solid rgba(255,255,255,.18)"></div>
+      <div class="level-bar" style="height:${Math.max(pct, 2)}%;background:${color};border:1px solid var(--lv-bd)"></div>
       <span class="level-lbl">${label}</span>`;
     barsDiv.appendChild(col);
 
     const leg = document.createElement('div');
     leg.className = 'legend-item';
-    leg.innerHTML = `<div class="legend-dot" style="background:${color};border:1px solid rgba(255,255,255,.18)"></div>${label}: ${levelCounts[i]}問`;
+    leg.innerHTML = `<div class="legend-dot" style="background:${color};border:1px solid var(--lv-bd)"></div>${label}: ${levelCounts[i]}問`;
     legDiv.appendChild(leg);
   });
 
@@ -784,7 +1009,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
       });
       if (pts.every(p => p === null)) return;
       const latest = pts[pts.length - 1];
-      const latestCls = latest === null ? '' : latest >= 70 ? '#3DD68C' : latest >= 50 ? '#FF9A3C' : '#FF6B6B';
+      const latestCls = latest === null ? 't-ts' : latest >= 70 ? 't-gr' : latest >= 50 ? 't-or' : 't-rd';
 
       const row = document.createElement('div');
       row.className = 'rh-row';
@@ -792,21 +1017,26 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
       row.innerHTML = `
         <span class="rh-label"><span>${subj.icon}</span>${subj.name}</span>
         <div class="rh-canvas-wrap"><canvas class="rh-canvas" id="${cvId}" height="40"></canvas></div>
-        <span class="rh-latest" style="color:${latestCls}">${latest !== null ? latest + '%' : '—'}</span>`;
+        <span class="rh-latest ${latestCls}">${latest !== null ? latest + '%' : '—'}</span>`;
       rhWrap.appendChild(row);
 
       requestAnimationFrame(() => {
         const cv = document.getElementById(cvId);
         if (!cv) return;
-        cv.width = cv.parentElement.offsetWidth || 200;
+        // 実ピクセル数で描かないと Retina では 1倍解像度のまま拡大され線が甘くなる。
+        // 表示サイズは CSS（width:100%/height:40px）が持つので、ここは裏のバッファだけ広げる
+        const dpr = Math.min(window.devicePixelRatio || 1, 3);
+        const w = cv.parentElement.offsetWidth || 200, h = 40;
+        cv.width = Math.round(w * dpr);
+        cv.height = Math.round(h * dpr);
         const ctx = cv.getContext('2d');
-        const w = cv.width, h = cv.height;
+        ctx.scale(dpr, dpr);
         const validPts = pts.filter(p => p !== null);
         if (validPts.length < 2) return;
         const n = pts.length;
 
         // 70% reference line
-        ctx.beginPath(); ctx.strokeStyle = 'rgba(255,255,255,.12)'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.strokeStyle = cssVar('--canvas-grid'); ctx.lineWidth = 1;
         ctx.setLineDash([3, 3]);
         const refY = h - (70 / 100) * h;
         ctx.moveTo(0, refY); ctx.lineTo(w, refY); ctx.stroke();
@@ -877,7 +1107,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
       const pct = Math.round((cnt / maxCnt) * 100);
       const col = document.createElement('div');
       col.className = 'choice-col';
-      const barColor = cnt === maxCnt && cnt > 0 ? '#FF6B6B' : 'rgba(255,255,255,.25)';
+      const barColor = cnt === maxCnt && cnt > 0 ? 'var(--rd)' : 'var(--bar-idle)';
       col.innerHTML = `
         <div class="choice-bar-wrap"><div class="choice-bar" style="height:${Math.max(pct, 3)}%;background:${barColor}"></div></div>
         <div class="choice-lbl">${ch}</div>
@@ -985,20 +1215,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     { k: 'mgmt', label: '対応' },
     { k: 'know', label: '知識' },
   ];
-  // 「弱さ」の逐次ランプ（アンバー単一色相・明度単調・段差>=0.06 で検証済み）。
-  // 正答率が高いほど面に沈み、低いほど明るく浮く＝弱点に目が行く向き。
-  // 明るい2段は白文字だと読めないので文字色を反転させる。
-  // 刻みは弱い側を細かくしてある。強い側は「もう見なくていい」ので潰れてよく、
+  // 「弱さ」の逐次ランプ7段（90以上 / 80-89 / 70-79 / 60-69 / 50-59 / 35-49 / 35未満）。
+  // 実際の色と文字色の反転は CSS の .hm td.w1〜.w7 が持つ（:root の --ramp-w* を参照）。
+  // ここでは段の名前だけを持ち、JS から色を組み立てない。
+  // 刻みが弱い側で細かいのは、強い側は「もう見なくていい」ので潰れてよく、
   // 弱い側は 17% と 43% が同じ見た目になると優先順位が付けられなくなるため。
-  const HM_RAMP = [
-    { bg: '#281d0b', fg: 'var(--tx)' },   // 90%以上
-    { bg: '#443110', fg: 'var(--tx)' },   // 80-89
-    { bg: '#5f4516', fg: 'var(--tx)' },   // 70-79
-    { bg: '#7d5a1d', fg: 'var(--tx)' },   // 60-69
-    { bg: '#9c7124', fg: 'var(--tx)' },   // 50-59
-    { bg: '#bd882b', fg: '#241a05' },     // 35-49
-    { bg: '#e5a634', fg: '#241a05' },     // 35%未満
-  ];
+  const HM_RAMP = ['w1', 'w2', 'w3', 'w4', 'w5', 'w6', 'w7'];
   const HM_MIN_N = 3;   // これ未満の受験数はノイズなので数値を出さない
 
   function rampIndex(pct) {
@@ -1083,8 +1305,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
         return `<td class="hm-nd">—<span class="hm-sub">${d.total}回</span></td>`;
       }
       const pct = Math.round(d.correct / d.total * 100);
-      const r = HM_RAMP[rampIndex(pct)];
-      return `<td style="background:${r.bg};color:${r.fg}">${pct}%<span class="hm-sub" style="color:${r.fg};opacity:.72">${d.total}回</span></td>`;
+      return `<td class="${HM_RAMP[rampIndex(pct)]}">${pct}%<span class="hm-sub">${d.total}回</span></td>`;
     };
 
     const head = '<tr><th class="hm-rh">科目</th>' +
@@ -1098,10 +1319,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
       QTYPES.map(t => cell(k.colTot[t.k])).join('') + cell(k.all) + '</tr>';
     table.innerHTML = head + body + foot;
 
-    const legend = document.getElementById('hmLegend');
+    // ⚠️ 旧実装はここが章別ヒートマップと同じ id="hmLegend" を掴んでいたため、
+    //    カルテの凡例が章別ヒートマップの凡例欄を上書きし、カルテ側は空のままだった
+    const legend = document.getElementById('hmKarteLegend');
     if (legend) {
       legend.innerHTML = '<span>強い</span><span class="hm-sw">' +
-        HM_RAMP.map(r => `<i style="background:${r.bg}"></i>`).join('') +
+        HM_RAMP.map(c => `<i class="${c}"></i>`).join('') +
         '</span><span>弱い</span>';
     }
     const note = document.getElementById('hmNote');
@@ -1116,10 +1339,11 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     if (bandRows && withData.length) {
       bandRows.innerHTML = withData.map(b => {
         const pct = Math.round(b.correct / b.total * 100);
-        const r = HM_RAMP[rampIndex(pct)];
+        // 最も暗い2段は暗色の地に沈んで棒が見えないので、w3 を下限にする
+        const cls = HM_RAMP[Math.max(2, rampIndex(pct))];
         return `<div class="band-row">
           <span class="band-lbl">${b.label}</span>
-          <span class="band-track"><span class="band-fill" style="width:${pct}%;background:${HM_RAMP[Math.max(2, rampIndex(pct))].bg}"></span></span>
+          <span class="band-track"><span class="band-fill ${cls}" style="width:${pct}%"></span></span>
           <span class="band-val">${pct}% <small>${b.correct}/${b.total}</small></span>
         </div>`;
       }).join('');
@@ -1451,28 +1675,63 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     requestAnimationFrame(step);
   }
 
-  // セルを少しずつずらして出す（ヒートマップ・カレンダー用）
+  // WAAPI の easing は CSS の var() を解決しないので、トークンの実値を一度引いておく
+  const EASE_OUT = cssVar('--ease-out', 'cubic-bezier(.16,1,.3,1)');
+
+  // セルを少しずつずらして出す（ヒートマップ・カレンダー用）。
+  // 旧実装は cubic-bezier(.2,1.2,.3,1) ＝行き過ぎ戻りだった。あれはドラッグ解放のような
+  // 物理操作にだけ許されるもので、データセルの入場に使うと安く見える
   function stagger(nodes, per, from) {
     if (_rm || !nodes.length) return;
     nodes.forEach((n, i) => {
       n.animate([{ opacity: 0, transform: from || 'scale(.4)' }, { opacity: 1, transform: 'none' }],
-        { duration: 260, delay: Math.min(i * per, 900), easing: 'cubic-bezier(.2,1.2,.3,1)', fill: 'backwards' });
+        { duration: 260, delay: Math.min(i * per, 900), easing: EASE_OUT, fill: 'backwards' });
     });
   }
 
-  // 各セクションを一度だけスクロール入場させる（ページが落ち着いた後は動かない）
-  function armReveal() {
-    if (_rm || !('IntersectionObserver' in window)) return;
-    const io = new IntersectionObserver(es => {
-      es.forEach(e => {
-        if (!e.isIntersecting) return;
-        e.target.animate([{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'none' }],
-          { duration: 420, easing: 'cubic-bezier(.16,1,.3,1)' });
-        io.unobserve(e.target);
-      });
-    }, { threshold: .12 });
-    document.querySelectorAll('.ct .sec').forEach(s => io.observe(s));
+  // 13〜15px のセルは指では狙えないうえ、吹き出しを出しても親の overflow に切られる。
+  // タップ／Enter で下の1行に値を書き出す方式にした（iPad に hover は無い＝
+  // 旧実装の title 属性だけでは 195セルぶんのデータが物理的に読めなかった）
+  // 呼び出し側が選択を解除できるよう clear を返す（モード切替で中身を作り直すため）
+  function wireGridReadout(host, cellSel, readout, defaultText) {
+    if (!host || !readout) return null;
+    const clear = () => {
+      readout.textContent = defaultText;
+      readout.classList.remove('has-val');
+    };
+    clear();
+    const pick = cell => {
+      host.querySelectorAll('.is-sel').forEach(c => c.classList.remove('is-sel'));
+      if (!cell) { clear(); return; }
+      cell.classList.add('is-sel');
+      readout.textContent = cell.dataset.tip || '';
+      readout.classList.add('has-val');
+    };
+    host.addEventListener('click', e => pick(e.target.closest(cellSel)));
+    host.addEventListener('keydown', e => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const c = e.target.closest(cellSel);
+      if (!c) return;
+      e.preventDefault(); pick(c);
+    });
+    return clear;
   }
+
+  // 棒を下から伸ばす。height ではなく transform を動かす
+  // （height/width は毎フレーム再レイアウトを起こす。ここは合計90本ぶん走る）
+  function growBars(nodes) {
+    nodes.forEach((b, i) => {
+      b.style.height = b.dataset.h + '%';
+      if (_rm) return;
+      b.animate([{ transform: 'scaleY(0)' }, { transform: 'scaleY(1)' }],
+        { duration: 500, delay: i * 45, easing: EASE_OUT, fill: 'backwards' });
+    });
+  }
+
+  // ⚠️ 旧実装にはここに armReveal() があり、.ct .sec 全14セクションを
+  //    IntersectionObserver で fade+translateY させていた。カウントアップ・リング・
+  //    セルの stagger・棒の伸長と合わせて同時に6系統が走り、ページが落ち着かなかった。
+  //    入場演出は主役（達成リングとカウントダウン）1つに絞ってある。
 
   function dstr(d) { return d.toISOString().slice(0, 10); }
   function jstNow() { return new Date(Date.now() + 9 * 3600000); }
@@ -1507,7 +1766,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     const real = last7 / 7;
 
     const ring = document.getElementById('heroRing');
-    const pctCol = donePct >= 80 ? '#3DD68C' : donePct >= 50 ? '#FFB830' : '#FF9A3C';
+    const pctCol = donePct >= 80 ? 'var(--gr)' : donePct >= 50 ? 'var(--yl)' : 'var(--or)';
     if (ring) ring.style.setProperty('--ringc', pctCol);
     const pctEl = document.getElementById('heroPct');
     if (pctEl) pctEl.style.color = pctCol;
@@ -1560,9 +1819,10 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     if (mark) mark.style.left = (100 / 150 * 100) + '%';
     if (fill) {
       fill.style.background = ratio >= 1 ? 'var(--gr)' : ratio >= .7 ? 'var(--yl)' : 'var(--rd)';
-      const w = Math.min(150, ratio * 100) / 150 * 100;
-      if (_rm) fill.style.width = w + '%';
-      else setTimeout(() => { fill.style.width = w + '%'; }, 120);
+      const w = Math.min(150, ratio * 100) / 150;   // 0〜1（バーの範囲は 0〜150%）
+      // width ではなく scaleX を伸ばす（width は毎フレーム再レイアウトを起こす）
+      if (_rm) fill.style.transform = 'scaleX(' + w + ')';
+      else setTimeout(() => { fill.style.transform = 'scaleX(' + w + ')'; }, 120);
     }
     // ペースが足りている時だけ、リングから小さく祝う
     if (!_rm && ratio >= 1 && window.MecFX && ring) {
@@ -1570,7 +1830,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
         try {
           const r = ring.getBoundingClientRect();
           window.MecFX.burst(r.left + r.width / 2, r.top + r.height / 2, {
-            count: 26, colors: ['#3DD68C', '#7CEFB2', '#FFD166', '#fff'],
+            count: 26, colors: [cssVar('--fx-1'), cssVar('--fx-2'), cssVar('--fx-3'), cssVar('--fx-4')],
             shapes: ['circle', 'star'], tier: 2, glow: true, additive: true
           });
         } catch (e) {}
@@ -1611,12 +1871,14 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     }
     const week = days.reduce((s, x) => s + x.n, 0);
 
+    // 旧実装は3枚のカードだった。ヒーローの .pace-grid と同じ形の再演になるうえ
+    // 箱の中の箱でもあったので、1行の文へ落として下の棒グラフに重みを預ける
     const sum = document.getElementById('fcSummary');
     if (sum) {
       sum.innerHTML =
-        '<div class="fc-card over"><div class="v">' + overdue + '</div><div class="l">期限切れ</div></div>' +
-        '<div class="fc-card today"><div class="v">' + todayN + '</div><div class="l">今日</div></div>' +
-        '<div class="fc-card week"><div class="v">' + week + '</div><div class="l">今後7日</div></div>';
+        '<span class="fc-stat over"><b class="v">' + overdue + '</b>期限切れ</span>' +
+        '<span class="fc-stat today"><b class="v">' + todayN + '</b>今日</span>' +
+        '<span class="fc-stat week"><b class="v">' + week + '</b>今後7日</span>';
     }
 
     const cols = [{ d: today, n: overdue + todayN, today: true, over: overdue > 0 }].concat(days);
@@ -1632,13 +1894,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
           '<div class="fc-bar" data-h="' + Math.max(3, Math.round(c.n / max * 100)) + '"></div>' +
           '<span class="fc-d">' + lbl + '</span></div>';
       }).join('');
-      // 棒は下から伸ばす
-      bars.querySelectorAll('.fc-bar').forEach((b, i) => {
-        const h = b.dataset.h + '%';
-        if (_rm) { b.style.height = h; return; }
-        b.style.height = h;
-        b.animate([{ height: '0%' }, { height: h }], { duration: 520, delay: i * 45, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' });
-      });
+      growBars([...bars.querySelectorAll('.fc-bar')]);
     }
     const note = document.getElementById('fcNote');
     if (note) {
@@ -1672,15 +1928,23 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
     const grid = document.getElementById('calGrid');
     if (grid) {
-      grid.innerHTML = vals.map(v =>
-        '<div class="cal-cell l' + (v.future ? 0 : lv(v.n)) + (v.ds === today ? ' is-today' : '') +
-        '" title="' + v.ds + ' ' + v.n + '問"></div>').join('');
+      const DOWJ = ['日', '月', '火', '水', '木', '金', '土'];
+      grid.innerHTML = vals.map(v => {
+        const d = new Date(Date.parse(v.ds + 'T00:00:00Z'));
+        const tip = v.future
+          ? `${d.getUTCMonth() + 1}/${d.getUTCDate()}(${DOWJ[d.getUTCDay()]}) — これから`
+          : `${d.getUTCMonth() + 1}/${d.getUTCDate()}(${DOWJ[d.getUTCDay()]}) ${v.n}問`;
+        return '<div class="cal-cell l' + (v.future ? 0 : lv(v.n)) +
+          (v.ds === today ? ' is-today' : '') + '" tabindex="0" role="button" data-tip="' + tip + '"></div>';
+      }).join('');
       stagger([...grid.querySelectorAll('.cal-cell')], 4);
     }
     const tot = vals.filter(v => !v.future).reduce((s, v) => s + v.n, 0);
     const activeDays = vals.filter(v => v.n > 0).length;
     const totEl = document.getElementById('calTotal');
     if (totEl) totEl.textContent = `12週間 ${tot.toLocaleString('ja-JP')}問 / 学習日 ${activeDays}日`;
+    wireGridReadout(grid, '.cal-cell', document.getElementById('calReadout'),
+      'セルをタップすると、その日の問題数が出ます。');
 
     // 曜日別（平均問数）。行動パターンを掴むためのもの
     const sums = [0, 0, 0, 0, 0, 0, 0], cnts = [0, 0, 0, 0, 0, 0, 0];
@@ -1700,11 +1964,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
           '<div class="dow-bar" data-h="' + Math.max(2, Math.round(a / mx * 100)) + '"></div>' +
           '<span class="dow-l">' + DOW[i] + '</span></div>';
       }).join('');
-      dw.querySelectorAll('.dow-bar').forEach((b, i) => {
-        const h = b.dataset.h + '%';
-        b.style.height = h;
-        if (!_rm) b.animate([{ height: '0%' }, { height: h }], { duration: 480, delay: i * 40, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' });
-      });
+      growBars([...dw.querySelectorAll('.dow-bar')]);
     }
   }
 
@@ -1732,7 +1992,9 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
             tip = `第${ci + 1}章 正答率${Math.round(pct)}% (${c}/${t})`;
           }
         }
-        return `<div class="hm-cell s${s}" title="${subj.name} ${tip}"></div>`;
+        // 0 はデータ無し＝ランプの外。1〜5 は正答率なら弱さランプ(a*)、進捗なら網羅ランプ(p*)
+        const cls = s === 0 ? 'n0' : (mode === 'prog' ? 'p' : 'a') + s;
+        return `<div class="hm-cell ${cls}" tabindex="0" role="button" data-tip="${subj.name} ${tip}"></div>`;
       }).join('');
       return `<div class="hm-row"><a class="hm-name" href="study.html?sid=${subj.id}" title="${subj.name}を開く">` +
         `<span>${subj.icon}</span>${subj.name}</a><div class="hm-cells">${cells}</div></div>`;
@@ -1742,14 +2004,23 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     const lg = document.getElementById('hmLegend');
     if (lg) {
       lg.innerHTML = mode === 'prog'
-        ? '<span>未着手</span><i class="hm-cell s0"></i><i class="hm-cell s1"></i><i class="hm-cell s2"></i><i class="hm-cell s3"></i><i class="hm-cell s4"></i><i class="hm-cell s5"></i><span>完了</span>'
-        : '<span>低</span><i class="hm-cell s1"></i><i class="hm-cell s2"></i><i class="hm-cell s3"></i><i class="hm-cell s4"></i><i class="hm-cell s5"></i><span>高</span><i class="hm-cell s0"></i><span>未受験</span>';
+        ? '<span>未着手</span><i class="hm-cell n0"></i><span>少</span>' +
+          '<i class="hm-cell p1"></i><i class="hm-cell p2"></i><i class="hm-cell p3"></i>' +
+          '<i class="hm-cell p4"></i><i class="hm-cell p5"></i><span>多</span>'
+        // 弱点カルテと同じ向き（強い＝暗い → 弱い＝明るい）で並べる
+        : '<span>強い</span><i class="hm-cell a5"></i><i class="hm-cell a4"></i>' +
+          '<i class="hm-cell a3"></i><i class="hm-cell a2"></i><i class="hm-cell a1"></i><span>弱い</span>' +
+          '<i class="hm-cell n0"></i><span>未受験</span>';
     }
   }
+  // wireGridReadout が返す解除関数。モード切替でセルを作り直すと選択が消えるので、
+  // 読み取り行に前モードの文言（例: 進捗モードなのに「正答率70%」）が残らないよう一緒に戻す
+  let _hmClearReadout = null;
   document.querySelectorAll('.hm-mode-btn').forEach(b => {
     b.addEventListener('click', () => {
       document.querySelectorAll('.hm-mode-btn').forEach(x => x.classList.toggle('on', x === b));
       renderHeatmap(b.dataset.hm);
+      if (_hmClearReadout) _hmClearReadout();
     });
   });
 
@@ -1776,10 +2047,10 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     document.getElementById('gapList').innerHTML = rows.map(r => {
       const w = Math.min(50, Math.abs(r.diff) / maxAbs * 50);
       const cls = r.diff < 0 ? 'minus' : 'plus';
-      const col = r.diff < 0 ? 'var(--rd)' : 'var(--gr)';
+      const col = r.diff < 0 ? 't-rd' : 't-gr';
       return `<div class="gap-row"><span class="gap-name">${r.icon} ${r.name}</span>` +
         `<span class="gap-track"><span class="gap-fill ${cls}" style="width:${w}%"></span><span class="gap-mid"></span></span>` +
-        `<span class="gap-val" style="color:${col}">${r.diff >= 0 ? '+' : ''}${r.diff.toFixed(1)}pt</span></div>`;
+        `<span class="gap-val ${col}">${r.diff >= 0 ? '+' : ''}${r.diff.toFixed(1)}pt</span></div>`;
     }).join('');
   }
 
@@ -1788,7 +2059,22 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   try { renderCalendar(); } catch (e) { console.error('calendar', e); }
   try { renderHeatmap('acc'); } catch (e) { console.error('heatmap', e); }
   try { renderGap(); } catch (e) { console.error('gap', e); }
-  armReveal();
+
+  // 章別ヒートマップはモード切替のたびに中身を作り直すので、読み取り行の配線は
+  // ホスト側へ一度だけ張る（renderHeatmap の中で呼ぶとリスナーが積み上がる）
+  _hmClearReadout = wireGridReadout(document.getElementById('heatmap'), '.hm-cell',
+    document.getElementById('hmReadout'), '章をタップすると、その章の内訳が出ます。');
+
+  // フッターの最終更新。同期していれば同期時刻、していなければ今日の日付を出す
+  const footEl = document.getElementById('footUpdated');
+  if (footEl) {
+    let ls = '';
+    try { ls = localStorage.getItem('mec_last_sync_v1') || ''; } catch (e) {}
+    const d = ls ? new Date(+ls || ls) : null;
+    footEl.textContent = (d && !isNaN(d))
+      ? '最終同期 ' + d.toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+      : '集計日 ' + today + '（未同期）';
+  }
 
   // クリップボードへコピーしてボタンを一時的に完了表示にする。
   // 実処理は progress.js の mecCopyText（iOSはPromiseを跨ぐと操作文脈を失うため、
