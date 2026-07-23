@@ -200,24 +200,7 @@ if ('serviceWorker' in navigator) {
   </div>
 </div>
 
-<!-- Error reports viewer -->
-<div id="mecErrOv" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="mec-err-box">
-    <h3>⚠️ エラー報告一覧</h3>
-    <div class="mec-err-list" id="mecErrList">（報告はまだありません）</div>
-    <!-- コピーが端末側で拒否されたときの退避先。長押しで手動選択できるよう本物の
-         textarea を出す（iOSではクリップボードAPIが使えない設定がある）。
-         案内文は枠の前に置く（後ろに置くと「枠」がどれを指すか分からない） -->
-    <div class="mec-err-msg" id="mecErrMsg"></div>
-    <textarea id="mecErrFallback" class="mec-err-fallback" readonly hidden></textarea>
-    <div class="mec-err-actions">
-      <button class="mec-err-copy" onclick="copyErrReports('text', this)">📋 テキストコピー</button>
-      <button class="mec-err-copy" onclick="copyErrReports('json', this)">📋 JSONコピー</button>
-      <button class="mec-err-del" onclick="clearErrReports(this)">🗑️ 全消去</button>
-      <button class="mec-err-close" onclick="document.getElementById('mecErrOv').classList.remove('open')">閉じる</button>
-    </div>
-  </div>
-</div>
+<!-- エラー報告ビューアのモーダルは progress.js が注入する（hubと共通実装） -->
 
 <!-- Exam summary modal -->
 <div class="exam-overlay" id="examOverlay" onclick="if(event.target===this)closeExamSummary()">
@@ -751,15 +734,10 @@ document.addEventListener('keydown', function(e) {
 });
 
 // ── Error reporting ──────────────────────────────────────────────────────────
-const _ERR_TYPE_LABELS = {
-  missing_image:       '🖼️ 画像なし',
-  wrong_image_present: '🚫 画像不要',
-  wrong_image:         '🔀 画像違い',
-  unreadable:          '✂️ 問題文不完全',
-  image_extract_error: '🔧 画像抽出エラー',
-  choice_extract_error:'📋 選択肢エラー'
-};
-const _SID_NAMES = {endo:'内分泌',resp:'呼吸器',circ:'循環器',dige:'消化器',neur:'神経',hbp:'肝胆膵',jinzo_d:'腎臓',hema:'血液',imma:'免アレ膠',kansen:'感染症',peds:'小児科',obg:'産婦人科'};
+// 種別ラベル・科目名・ビューア本体は progress.js が持つ（hubと共通実装）。
+// ここに残すのはカード内のエラー報告パネルと、ヘッダーのバッジ更新だけ。
+const _ERR_TYPE_LABELS = window.mecErrTypeLabels;
+const _SID_NAMES = window.mecSidNames;
 
 function _updateErrBadge() {
   const count = (window.mecGetErrorReports?.() || []).length;
@@ -768,6 +746,8 @@ function _updateErrBadge() {
   if (countEl) countEl.textContent = count;
   if (badge) badge.classList.toggle('visible', count > 0);
 }
+// 共有ビューアが全消去したあとにバッジを追随させる
+window._mecUpdateErrBadge = _updateErrBadge;
 
 function _getErrTypesForUid(uid) {
   return (window.mecGetErrorReports?.() || []).filter(r => r.uid === uid).map(r => r.type);
@@ -792,82 +772,11 @@ function _openErrPanel(card) {
   });
 }
 
-function openErrReports() {
-  const reports = window.mecGetErrorReports?.() || [];
-  const listEl = document.getElementById('mecErrList');
-  if (listEl) {
-    listEl.textContent = reports.length ? reports.map(r => {
-      const sid = r.uid.replace(/_ch\d+.*$/, '');
-      const subj = _SID_NAMES[sid] || sid;
-      return '[' + subj + '] ' + r.uid + '\n  種別: ' + (_ERR_TYPE_LABELS[r.type] || r.type) + '\n  日付: ' + (r.reported_at || '—').slice(0, 10);
-    }).join('\n\n') : '（報告はまだありません）';
-  }
-  document.getElementById('mecErrOv')?.classList.add('open');
-}
+// ビューアは progress.js の mecOpenErrReports（hubと共通）。旧 openErrReports 呼び出しの互換用。
+const openErrReports = () => window.mecOpenErrReports();
 
-function copyErrReports(fmt, btn) {
-  const reports = window.mecGetErrorReports?.() || [];
-  const text = fmt === 'json'
-    ? JSON.stringify(reports, null, 2)
-    : 'エラー報告一覧\n' + '='.repeat(40) + '\n' + reports.map(r => {
-        const sid = r.uid.replace(/_ch\d+.*$/, '');
-        return '科目: ' + (_SID_NAMES[sid] || sid) + '\nUID: ' + r.uid + '\n種別: ' + (_ERR_TYPE_LABELS[r.type] || r.type) + '\n日付: ' + (r.reported_at || '—').slice(0, 10);
-      }).join('\n---\n');
-  const msgEl = document.getElementById('mecErrMsg');
-  const fbEl = document.getElementById('mecErrFallback');
-  const orig = btn ? btn.textContent : '';
-  const done = ok => {
-    if (ok) {
-      // タップ操作では:hoverが安定して効かないため、クリックされたボタン自身を直接更新する
-      if (btn) { btn.textContent = '✅ コピー済み'; setTimeout(() => { btn.textContent = orig; }, 1500); }
-      if (msgEl) msgEl.textContent = '';
-      if (fbEl) { fbEl.hidden = true; fbEl.value = ''; }
-      return;
-    }
-    // 端末がクリップボードを拒否した場合。黙って何も起きないと原因が分からないので、
-    // テキストを画面に出して長押しでコピーできるようにする。
-    if (btn) { btn.textContent = '⚠️ 手動コピーへ'; setTimeout(() => { btn.textContent = orig; }, 2500); }
-    if (fbEl) { fbEl.hidden = false; fbEl.value = text; fbEl.focus(); fbEl.setSelectionRange(0, text.length); }
-    if (msgEl) msgEl.textContent = 'この端末ではコピーが許可されていません。下の枠は全選択済みです。枠内を長押しして「コピー」を選んでください。';
-  };
-  // mecCopyText は必ずタップの同期フレーム内で呼ぶこと（iOSはPromiseを跨ぐと操作文脈を失う）
-  if (window.mecCopyText) window.mecCopyText(text).then(done);
-  else done(false);
-}
-
-// iOS（ホーム画面追加のPWA・Safariの「追加のダイアログ表示を許可しない」設定）では
-// confirm() がダイアログを出さずに即 false を返すため「押しても何も起きない」になる。
-// ネイティブダイアログは使わず、ボタン自体の2段階タップ（3秒以内にもう一度）で確認する。
-function _tapConfirm(btn, armedLabel) {
-  if (!btn) return true;
-  if (btn.dataset.armed === '1') {
-    clearTimeout(btn._armTimer);
-    btn.dataset.armed = '';
-    btn.classList.remove('tap-arm');
-    btn.textContent = btn.dataset.origLabel || btn.textContent;
-    return true;
-  }
-  btn.dataset.armed = '1';
-  btn.dataset.origLabel = btn.textContent;
-  btn.textContent = armedLabel;
-  btn.classList.add('tap-arm');
-  clearTimeout(btn._armTimer);
-  btn._armTimer = setTimeout(() => {
-    btn.dataset.armed = '';
-    btn.textContent = btn.dataset.origLabel;
-    btn.classList.remove('tap-arm');
-  }, 3000);
-  return false;
-}
-
-function clearErrReports(btn) {
-  if (!_tapConfirm(btn, '⚠️ もう一度タップで全消去')) return;
-  localStorage.removeItem('error_reports_v1');
-  localStorage.setItem('mec_err_cleared_at', new Date().toISOString());
-  window.MECSync?.scheduleSync?.();
-  _updateErrBadge();
-  openErrReports();
-}
+// 2段階タップ確認は progress.js の mecTapConfirm（iOSでconfirm()が出ない件の対策）。
+const _tapConfirm = (btn, armedLabel) => window.mecTapConfirm(btn, armedLabel);
 
 // Event delegation replacing per-card inline handlers
 document.addEventListener('click', function(e) {
@@ -917,7 +826,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0723d";
+const MEC_BUILD = "b-0723e";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。

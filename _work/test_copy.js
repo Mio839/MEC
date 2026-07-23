@@ -60,7 +60,7 @@ function env({ execOk = true, execThrows = false, clipboard = null, noSelection 
   ctx.globalThis = ctx;
   vm.createContext(ctx);
   vm.runInContext(SRC, ctx);
-  return { copy: win.mecCopyText, log };
+  return { copy: win.mecCopyText, log, win };
 }
 
 let passed = 0; const fails = [];
@@ -129,6 +129,29 @@ function test(n, f) {
     const { copy } = env({ execOk: true });
     assert.strictEqual(await copy(null), true);
     assert.strictEqual(await copy(undefined), true);
+  });
+
+  // ── エラー報告ビューア（study.html / index.html 共通実装） ─────────────
+  await test('共有ビューアと定数が公開されている', () => {
+    const e = env();
+    assert.strictEqual(typeof e.win.mecOpenErrReports, 'function');
+    assert.strictEqual(typeof e.win.mecTapConfirm, 'function');
+    assert.strictEqual(Object.keys(e.win.mecErrTypeLabels).length, 6, '種別ラベルは6種');
+    assert.strictEqual(e.win.mecSidNames.dige, '消化器');
+  });
+
+  await test('mecTapConfirm は1回目false・2回目trueで、ラベルを元に戻す', () => {
+    const e = env();
+    const btn = { dataset: {}, textContent: '🗑️ 全消去', classList: { add() {}, remove() {} } };
+    assert.strictEqual(e.win.mecTapConfirm(btn, '⚠️ もう一度'), false, '1回目は実行しない');
+    assert.strictEqual(btn.textContent, '⚠️ もう一度', '警告ラベルに変わる');
+    assert.strictEqual(e.win.mecTapConfirm(btn, '⚠️ もう一度'), true, '2回目で実行');
+    assert.strictEqual(btn.textContent, '🗑️ 全消去', 'ラベルが戻る');
+  });
+
+  await test('mecTapConfirm はボタン無しなら素通しする', () => {
+    const e = env();
+    assert.strictEqual(e.win.mecTapConfirm(null, 'x'), true);
   });
 
   console.log('\n' + (fails.length ? fails.length + ' FAILED' : 'all passed') +

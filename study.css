@@ -572,24 +572,8 @@ html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-bloc
 .mec-err-type.selected{background:rgba(255,154,60,.25);border-color:var(--or);color:var(--or);}
 .mec-err-badge{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:700;background:rgba(255,154,60,.15);color:var(--or);border:1px solid rgba(255,154,60,.35);cursor:pointer;font-family:inherit;display:none;}
 .mec-err-badge.visible{display:inline-block;}
-#mecErrOv{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:var(--z-ov);align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);}
-#mecErrOv.open{display:flex;}
-.mec-err-box{background:var(--surf-1);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:20px;max-width:560px;width:100%;max-height:80vh;display:flex;flex-direction:column;gap:12px;}
-.mec-err-box h3{font-size:15px;font-weight:800;color:var(--or);margin:0;}
-.mec-err-list{overflow-y:auto;flex:1;font-size:12px;font-family:monospace;background:rgba(0,0,0,.35);border-radius:8px;padding:10px 12px;color:rgba(255,255,255,.8);white-space:pre-wrap;line-height:1.9;min-height:60px;}
-/* コピーが端末に拒否されたときの退避先。長押しで手動選択するため実体のあるtextareaを出す。
-   font-size は16px以上にしないとiOSがフォーカス時に自動ズームする */
-.mec-err-fallback{width:100%;min-height:96px;resize:vertical;font-size:16px;font-family:monospace;
-  background:rgba(0,0,0,.45);border:1.5px solid rgba(255,154,60,.45);border-radius:8px;
-  padding:10px 12px;color:rgba(255,255,255,.9);line-height:1.6;-webkit-user-select:text;user-select:text;}
-.mec-err-fallback[hidden]{display:none;}
-.mec-err-msg{font-size:12px;color:var(--or);line-height:1.6;}
-.mec-err-msg:empty{display:none;}
-.mec-err-actions{display:flex;gap:8px;flex-wrap:wrap;}
-.mec-err-copy{padding:7px 13px;border-radius:10px;border:1.5px solid rgba(255,154,60,.4);background:rgba(255,154,60,.1);color:var(--or);font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .2s;}
-.mec-err-copy:hover{background:rgba(255,154,60,.2);}
-.mec-err-del{padding:7px 13px;border-radius:10px;border:1.5px solid rgba(255,107,107,.4);background:rgba(255,107,107,.08);color:var(--rd);font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;}
-.mec-err-close{padding:7px 13px;border-radius:10px;border:1.5px solid rgba(255,255,255,.15);background:none;color:rgba(255,255,255,.55);font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;}
+/* モーダル本体のCSSは progress.js が注入する（hubと共通実装のため）。
+   ここに残すのはカード内パネル・ヘッダーバッジなど study.html 固有のものだけ。 */
 
 /* ══════════ 追加演出（2026-07-20 拡張）══════════
    z-index は試験ストリーク演出の内部ラダー(9000-9400)に属する即値。

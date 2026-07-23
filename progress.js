@@ -678,6 +678,184 @@
     return Promise.resolve(false);
   };
 
+  // ── エラー報告ビューア（study.html / index.html 共通） ─────────────────
+  // 報告そのものは mecReportError / mecGetErrorReports が持っている。閲覧とコピーは
+  // どのページからでも要るのでここに置く。ページ側に実装を置くと study と hub で
+  // 二重管理になり、片方だけ直る事故が起きる（この repo で何度か起きている）。
+  // モーダルのDOMとCSSは初回に注入するので、読み込むだけで使える。
+
+  const ERR_TYPE_LABELS = {
+    missing_image:       '🖼️ 画像なし',
+    wrong_image_present: '🚫 画像不要',
+    wrong_image:         '🔀 画像違い',
+    unreadable:          '✂️ 問題文不完全',
+    image_extract_error: '🔧 画像抽出エラー',
+    choice_extract_error:'📋 選択肢エラー'
+  };
+  const SID_NAMES = {
+    endo:'内分泌', resp:'呼吸器', circ:'循環器', dige:'消化器', neur:'神経',
+    hbp:'肝胆膵', jinzo_d:'腎臓', hema:'血液', imma:'免アレ膠', kansen:'感染症',
+    peds:'小児科', obg:'産婦人科', jitsu1:'実力試験', custom:'自作', memo:'暗記メモ'
+  };
+  window.mecErrTypeLabels = ERR_TYPE_LABELS;
+  window.mecSidNames = SID_NAMES;
+
+  // iOS（ホーム画面追加のPWA・Safariの「追加のダイアログ表示を許可しない」設定）では
+  // confirm() がダイアログを出さずに即 false を返し「押しても何も起きない」になる。
+  // ネイティブダイアログは使わず、ボタン自体の2段階タップ（3秒以内にもう一度）で確認する。
+  window.mecTapConfirm = function (btn, armedLabel) {
+    if (!btn) return true;
+    if (btn.dataset.armed === '1') {
+      clearTimeout(btn._armTimer);
+      btn.dataset.armed = '';
+      btn.classList.remove('tap-arm');
+      btn.textContent = btn.dataset.origLabel || btn.textContent;
+      return true;
+    }
+    btn.dataset.armed = '1';
+    btn.dataset.origLabel = btn.textContent;
+    btn.textContent = armedLabel;
+    btn.classList.add('tap-arm');
+    clearTimeout(btn._armTimer);
+    btn._armTimer = setTimeout(() => {
+      btn.dataset.armed = '';
+      btn.textContent = btn.dataset.origLabel;
+      btn.classList.remove('tap-arm');
+    }, 3000);
+    return false;
+  };
+
+  const ERR_CSS = `
+#mecErrOv{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:var(--z-ov,9000);
+  align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);}
+#mecErrOv.open{display:flex;}
+.mec-err-box{background:var(--surf-1,#16203a);border:1px solid rgba(255,255,255,.12);border-radius:16px;
+  padding:20px;max-width:560px;width:100%;max-height:80vh;display:flex;flex-direction:column;gap:12px;}
+.mec-err-box h3{font-size:15px;font-weight:800;color:var(--or,#FF9A3C);margin:0;}
+.mec-err-list{overflow-y:auto;flex:1;font-size:12px;font-family:monospace;background:rgba(0,0,0,.35);
+  border-radius:8px;padding:10px 12px;color:rgba(255,255,255,.8);white-space:pre-wrap;line-height:1.9;min-height:60px;}
+.mec-err-msg{font-size:12px;color:var(--or,#FF9A3C);line-height:1.6;}
+.mec-err-msg:empty{display:none;}
+/* コピーが端末に拒否されたときの退避先。長押しで手動選択するため実体のあるtextareaを出す。
+   font-size は16px以上にしないとiOSがフォーカス時に自動ズームする */
+.mec-err-fallback{width:100%;min-height:96px;resize:vertical;font-size:16px;font-family:monospace;
+  background:rgba(0,0,0,.45);border:1.5px solid rgba(255,154,60,.45);border-radius:8px;padding:10px 12px;
+  color:rgba(255,255,255,.9);line-height:1.6;-webkit-user-select:text;user-select:text;}
+.mec-err-fallback[hidden]{display:none;}
+.mec-err-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.mec-err-copy{padding:7px 13px;border-radius:10px;border:1.5px solid rgba(255,154,60,.4);
+  background:rgba(255,154,60,.1);color:var(--or,#FF9A3C);font-size:12px;font-weight:700;
+  font-family:inherit;cursor:pointer;transition:background .2s;}
+.mec-err-copy:hover{background:rgba(255,154,60,.2);}
+.mec-err-del{padding:7px 13px;border-radius:10px;border:1.5px solid rgba(255,107,107,.4);
+  background:rgba(255,107,107,.08);color:var(--rd,#FF6B6B);font-size:12px;font-weight:700;
+  font-family:inherit;cursor:pointer;}
+.mec-err-close{padding:7px 13px;border-radius:10px;border:1.5px solid rgba(255,255,255,.15);
+  background:none;color:rgba(255,255,255,.55);font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;}
+`;
+
+  function _errEnsureDom() {
+    let ov = document.getElementById('mecErrOv');
+    if (ov) return ov;
+    if (!document.getElementById('mecErrStyle')) {
+      const st = document.createElement('style');
+      st.id = 'mecErrStyle';
+      st.textContent = ERR_CSS;
+      document.head.appendChild(st);
+    }
+    ov = document.createElement('div');
+    ov.id = 'mecErrOv';
+    // 案内文は枠の前に置く（後ろだと「枠」がどれを指すか分からない）
+    ov.innerHTML =
+      '<div class="mec-err-box">' +
+        '<h3>⚠️ エラー報告一覧</h3>' +
+        '<div class="mec-err-list" id="mecErrList">（報告はまだありません）</div>' +
+        '<div class="mec-err-msg" id="mecErrMsg"></div>' +
+        '<textarea id="mecErrFallback" class="mec-err-fallback" readonly hidden></textarea>' +
+        '<div class="mec-err-actions">' +
+          '<button class="mec-err-copy" data-err="text">📋 テキストコピー</button>' +
+          '<button class="mec-err-copy" data-err="json">📋 JSONコピー</button>' +
+          '<button class="mec-err-del" data-err="clear">🗑️ 全消去</button>' +
+          '<button class="mec-err-close" data-err="close">閉じる</button>' +
+        '</div>' +
+      '</div>';
+    ov.addEventListener('click', e => {
+      if (e.target === ov) { ov.classList.remove('open'); return; }
+      const btn = e.target.closest('[data-err]');
+      if (!btn) return;
+      const act = btn.dataset.err;
+      if (act === 'close') ov.classList.remove('open');
+      else if (act === 'clear') _errClear(btn);
+      else _errCopy(act, btn);
+    });
+    document.body.appendChild(ov);
+    return ov;
+  }
+
+  function _errFormat(fmt) {
+    const reports = window.mecGetErrorReports ? window.mecGetErrorReports() : [];
+    if (fmt === 'json') return JSON.stringify(reports, null, 2);
+    return 'エラー報告一覧\n' + '='.repeat(40) + '\n' + reports.map(r => {
+      const sid = r.uid.replace(/_ch\d+.*$/, '');
+      return '科目: ' + (SID_NAMES[sid] || sid) + '\nUID: ' + r.uid +
+             '\n種別: ' + (ERR_TYPE_LABELS[r.type] || r.type) +
+             '\n日付: ' + (r.reported_at || '—').slice(0, 10);
+    }).join('\n---\n');
+  }
+
+  function _errCopy(fmt, btn) {
+    const text = _errFormat(fmt);
+    const msgEl = document.getElementById('mecErrMsg');
+    const fbEl = document.getElementById('mecErrFallback');
+    const orig = btn ? btn.textContent : '';
+    const done = ok => {
+      if (ok) {
+        // タップでは :hover が安定しないので押されたボタン自身を書き換える
+        if (btn) { btn.textContent = '✅ コピー済み'; setTimeout(() => { btn.textContent = orig; }, 1500); }
+        if (msgEl) msgEl.textContent = '';
+        if (fbEl) { fbEl.hidden = true; fbEl.value = ''; }
+        return;
+      }
+      // 端末がクリップボードを拒否した場合。黙って終わると原因が分からないので、
+      // 全選択済みの枠を出して長押しコピーに逃がす。
+      if (btn) { btn.textContent = '⚠️ 手動コピーへ'; setTimeout(() => { btn.textContent = orig; }, 2500); }
+      if (fbEl) { fbEl.hidden = false; fbEl.value = text; fbEl.focus(); fbEl.setSelectionRange(0, text.length); }
+      if (msgEl) msgEl.textContent = 'この端末ではコピーが許可されていません。下の枠は全選択済みです。枠内を長押しして「コピー」を選んでください。';
+    };
+    // mecCopyText は必ずタップの同期フレーム内で呼ぶ（iOSはPromiseを跨ぐと操作文脈を失う）
+    if (window.mecCopyText) window.mecCopyText(text).then(done);
+    else done(false);
+  }
+
+  function _errClear(btn) {
+    if (!window.mecTapConfirm(btn, '⚠️ もう一度タップで全消去')) return;
+    localStorage.removeItem(KER);
+    localStorage.setItem(K_ERR_CLEARED, new Date().toISOString());
+    if (window.MECSync && window.MECSync.scheduleSync) window.MECSync.scheduleSync();
+    if (window._mecUpdateErrBadge) window._mecUpdateErrBadge();
+    window.mecOpenErrReports();
+    document.dispatchEvent(new CustomEvent('mecErrReportsCleared'));
+  }
+
+  window.mecOpenErrReports = function () {
+    const ov = _errEnsureDom();
+    const reports = window.mecGetErrorReports ? window.mecGetErrorReports() : [];
+    const listEl = document.getElementById('mecErrList');
+    if (listEl) {
+      listEl.textContent = reports.length ? reports.map(r => {
+        const sid = r.uid.replace(/_ch\d+.*$/, '');
+        return '[' + (SID_NAMES[sid] || sid) + '] ' + r.uid +
+               '\n  種別: ' + (ERR_TYPE_LABELS[r.type] || r.type) +
+               '\n  日付: ' + (r.reported_at || '—').slice(0, 10);
+      }).join('\n\n') : '（報告はまだありません）';
+    }
+    const msgEl = document.getElementById('mecErrMsg');
+    const fbEl = document.getElementById('mecErrFallback');
+    if (msgEl) msgEl.textContent = '';
+    if (fbEl) { fbEl.hidden = true; fbEl.value = ''; }
+    ov.classList.add('open');
+  };
+
   // ── Series (連問) position badges ──────────────────────────────
   function _initSeriesBadges() {
     document.querySelectorAll('.sg').forEach(sg => {
