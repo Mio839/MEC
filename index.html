@@ -12,92 +12,179 @@
 <link rel="stylesheet" href="vars.css">
 <script src="theme.js"></script>
 <style>
-:root{}
+/* Hallmark · genre: atmospheric · macrostructure: Stat-Led · theme: project-locked (vars.css)
+ * nav: N9 edge-aligned · footer: Ft2 inline · enrichment: none (typography only)
+ * register: quiet luxury · accent: --or (theme-driven, single hue)
+ * pre-emit critique: P4 H5 E4 S4 R5 V4
+ *
+ * ⚠️ 色・書体・角丸・影は vars.css のトークンだけを参照すること（6テーマ全部で成立させるため）。
+ *    ここに hex を直書きすると、そのテーマだけ配色が破れる。
+ */
+:root{
+  /* 4pt スペーシングスケール（このページ内で完結。生の px を書かずこれを参照する） */
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px; --sp-7:48px;
+  /* 罫線2段。面を塗り分けるのではなく線で仕切るのが「静かな高級感」の骨 */
+  --hair:rgba(255,255,255,.09);
+  --hair-2:rgba(255,255,255,.15);
+  --hub-max:720px;   /* 読みやすい測り幅。iPad/PCで全幅に広がるのを止める */
+}
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
+/* 巨大な数字が狭い画面で溢れても、文書ごと横スクロールさせない。
+   clip（hidden ではない）＝ sticky ヘッダーを壊さない */
+html,body{overflow-x:clip;}
 body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:transparent;color:var(--tx);font-size:15px;line-height:1.7;}
 
-/* ── Header（ぼかしはモーダルオーバーレイ1枚だけの方針。ヘッダーは半透明ソリッド） ── */
-.hub-header{background:rgba(var(--hdr-rgb),.97);border-bottom:1px solid rgba(255,255,255,.08);color:#fff;padding:16px 16px 12px;position:sticky;top:0;z-index:var(--z-hdr);box-shadow:0 2px 20px rgba(0,0,0,.45);}
-.hub-title{font-family:var(--font-display);letter-spacing:var(--font-display-ls);font-size:17px;font-weight:800;margin-bottom:10px;}
-.hub-stats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
-.hub-stat{background:rgba(var(--glass-rgb),.08);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;border:1px solid rgba(255,255,255,.1);font-variant-numeric:tabular-nums;}
-.hub-stat span{color:var(--yl);}
-.hub-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
-.hub-btn{padding:5px 12px;border-radius:var(--r-sm);border:1.5px solid rgba(255,255,255,.2);background:rgba(var(--glass-rgb),.06);color:#fff;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s,color .15s;}
-.hub-btn:hover{background:rgba(var(--glass-rgb),.12);}
-/* 地が明るいアクセントなので白文字だと 2.1:1。暗インクへ反転（テーマでアクセントが変わっても成立する） */
-.hub-btn.primary{background:var(--or);border-color:var(--or);color:var(--subj-ink);}
-.hub-btn.primary:hover{filter:brightness(1.1);}
-/* エラー報告は件数が0でなければ目に入ってほしいので、他のボタンと色を分ける */
-.hub-err-btn{background:rgba(255,154,60,.15);border-color:rgba(255,154,60,.45);color:var(--or);}
-.hub-err-btn:hover{background:rgba(255,154,60,.28);}
-.mec-sync-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(var(--glass-rgb),.1);color:rgba(255,255,255,.8);margin-left:auto;}
+/* ── Header: N9 edge-aligned（細い一本線。道具は ☰ の中へ集約した） ──
+   ぼかしはモーダルオーバーレイ1枚だけの方針。ヘッダーは半透明ソリッド */
+.hub-header{position:sticky;top:0;z-index:var(--z-hdr);
+  display:flex;align-items:center;gap:var(--sp-3);
+  padding:var(--sp-3) var(--sp-4);
+  background:rgba(var(--hdr-rgb),.94);border-bottom:1px solid var(--hair);}
+/* 同期バッジが長文（⚠️ ストレージ不足）になっても道具側を潰さない。
+   狭い画面では先に屋号のほうを詰める */
+.hub-mark{display:flex;align-items:baseline;gap:6px;white-space:nowrap;min-width:0;overflow:hidden;
+  font-family:var(--font-display);letter-spacing:var(--font-display-ls);
+  font-size:14px;font-weight:800;color:var(--tx);text-decoration:none;}
+.hub-mark em{font-style:normal;font-size:11.5px;font-weight:700;color:var(--ts);letter-spacing:.06em;
+  overflow:hidden;text-overflow:ellipsis;}
+.hub-tools{margin-left:auto;flex-shrink:0;display:flex;align-items:center;gap:var(--sp-2);}
+.hub-icon{position:relative;width:34px;height:34px;flex-shrink:0;
+  display:grid;place-items:center;font-size:15px;line-height:1;
+  border-radius:var(--r-sm);border:1px solid var(--hair);background:rgba(var(--glass-rgb),.05);
+  color:var(--tx);text-decoration:none;cursor:pointer;font-family:inherit;
+  transition:background-color .15s var(--ease-out),border-color .15s var(--ease-out);}
+.hub-icon:hover{background:rgba(var(--glass-rgb),.12);border-color:var(--hair-2);}
+/* エラー報告が1件でもあるとき ☰ に点が付く。件数はメニューの中で読める */
+.hub-dot{position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:var(--or);}
+.mec-sync-badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;
+  background:rgba(var(--glass-rgb),.07);border:1px solid var(--hair);color:var(--ts);}
 
-/* ── Subject cards ── */
-.subjects{padding:12px 10px 60px;}
-.subject-card{background:rgba(var(--glass-rgb),.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-lg);margin-bottom:10px;box-shadow:var(--shadow-card);overflow:hidden;transition:box-shadow .2s;}
-.subject-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.1);}
-.subject-header{display:flex;align-items:center;gap:10px;padding:13px 16px 11px;cursor:pointer;user-select:none;}
-.subject-icon{font-size:22px;width:34px;text-align:center;}
-.subject-name{font-family:var(--font-display);letter-spacing:var(--font-display-ls);font-size:15px;font-weight:800;flex:1;color:var(--tx);}
-.subject-prog{display:flex;align-items:center;gap:8px;}
-.subject-prog-bar{width:64px;height:6px;background:rgba(var(--glass-rgb),.1);border-radius:4px;overflow:hidden;}
-.subject-prog-fill{height:100%;border-radius:4px;transition:width .4s;}
-.subject-prog-txt{font-size:11px;color:var(--ts);white-space:nowrap;min-width:52px;text-align:right;font-variant-numeric:tabular-nums;}
-.subject-arrow{font-size:11px;color:var(--ts);margin-left:4px;}
+.hub-main{max-width:var(--hub-max);margin:0 auto;padding:var(--sp-5) var(--sp-4) var(--sp-7);}
 
-/* 腎臓ツール専用行 */
-.subject-tool-row{display:flex;align-items:center;gap:8px;padding:0 16px 12px;}
-/* 背景はハブのツール色（STUDY_TOOL / KNOWLEDGE_TOOL の暗色）であって科目色ではない。
-   暗インクではなく白文字が正しい（暗色地なので白で 4.9:1 / 11.4:1）。 */
-.subject-tool-link{flex:1;display:block;padding:9px 14px;border-radius:var(--r-md);color:#fff;font-size:13px;font-weight:700;text-decoration:none;text-align:center;}
+/* ── Hero: Stat-Led（巨大な数字が主役。左寄せで軸を1本に絞る） ── */
+.hero{position:relative;padding:var(--sp-6) var(--sp-5) var(--sp-5);
+  border:1px solid var(--hair-2);border-radius:var(--r-lg);box-shadow:var(--shadow-card);
+  background:linear-gradient(165deg,rgba(var(--glass-rgb),.11),rgba(var(--glass-rgb),.035) 62%);}
+.hero-label{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--ts);}
+.hero-fig{display:flex;align-items:baseline;gap:.16em;min-width:0;margin-top:var(--sp-2);
+  font-family:var(--font-display);}
+.hero-num{font-size:clamp(3.4rem,17vw,5.4rem);font-weight:800;line-height:.92;
+  letter-spacing:-.035em;color:var(--tx);font-variant-numeric:tabular-nums;overflow-wrap:anywhere;}
+.hero-unit{font-size:clamp(1rem,4vw,1.35rem);font-weight:700;color:var(--ts);}
+/* 数字を受ける細い線。ページ内でアクセント色を面に使うのはここと主ボタンだけ */
+.hero-rule{width:84px;height:2px;border-radius:2px;background:var(--or);margin:var(--sp-4) 0 var(--sp-3);}
+.hero-say{font-size:13px;line-height:1.7;color:var(--ts);max-width:34em;}
+.hero-meter{height:4px;border-radius:3px;margin-top:var(--sp-4);overflow:hidden;
+  background:rgba(var(--glass-rgb),.10);}
+.hero-meter-fill{height:100%;width:0;border-radius:3px;background:var(--or);
+  transition:width .9s var(--ease-out);}
+.hero-stats{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--sp-1) var(--sp-4);
+  margin-top:var(--sp-3);font-size:12px;color:var(--ts);font-variant-numeric:tabular-nums;}
+.hero-stats b{font-size:14px;font-weight:800;color:var(--tx);}
+.hero-cta{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-5);}
+/* 明るいアクセントが地なので白文字だと 2.1:1。暗インクへ反転（テーマで色が変わっても成立する） */
+.cta-main{flex:1 1 200px;padding:13px 18px;border-radius:var(--r-md);text-align:center;
+  background:var(--or);color:var(--subj-ink);font-size:14px;font-weight:800;
+  text-decoration:none;white-space:nowrap;
+  transition:filter .15s var(--ease-out),transform .12s var(--ease-out);}
+.cta-main:hover{filter:brightness(1.08);}
+.cta-main:active{transform:translateY(1px);}
+.cta-sub{flex:1 1 150px;padding:13px 16px;border-radius:var(--r-md);text-align:center;
+  border:1px solid var(--hair-2);background:rgba(var(--glass-rgb),.05);color:var(--tx);
+  font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;
+  transition:background-color .15s var(--ease-out),border-color .15s var(--ease-out);}
+.cta-sub:hover{background:rgba(var(--glass-rgb),.12);border-color:rgba(255,255,255,.26);}
 
-.sc-row{display:flex;justify-content:flex-end;padding:8px 16px 10px;border-top:1px solid rgba(255,255,255,.07);}
-.sc-btn{font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;background:rgba(var(--glass-rgb),.06);color:var(--ts);text-decoration:none;border:1px solid rgba(255,255,255,.1);transition:background .12s;}
-.sc-btn:hover,.sc-btn:active{background:rgba(var(--glass-rgb),.1);}
+/* ── セクション見出し（ヒーローに対して従属。線1本と小さい字だけ） ── */
+.sec-h{display:flex;align-items:center;gap:var(--sp-2);width:100%;
+  margin:var(--sp-7) 0 var(--sp-3);padding:0 0 var(--sp-2);
+  border:0;border-bottom:1px solid var(--hair);background:none;color:var(--ts);
+  font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.08em;text-align:left;
+  transition:color .15s var(--ease-out);}
+button.sec-h{cursor:pointer;}
+button.sec-h:hover{color:var(--tx);}
+.sec-h .ar{margin-left:auto;font-size:10px;transition:transform .2s var(--ease-out);}
+.sec-h[aria-expanded="false"] .ar{transform:rotate(-90deg);}
+#gamifyPanel{margin-top:var(--sp-3);}
+#gamifyPanel[hidden]{display:none;}
 
-/* ── Chapter list ── */
-.chapter-list{border-top:1px solid rgba(255,255,255,.07);}
+/* ── Tiles（ヒーローに従属する行き先。4枚とも同じ静かな面） ── */
+/* auto-fit だと4枚が 3+1 に割れて端数が事故に見える。2×2 に固定して面を揃える */
+.tiles{display:grid;grid-template-columns:1fr;gap:var(--sp-2);}
+@media (min-width:520px){.tiles{grid-template-columns:repeat(2,1fr);}}
+.tile{display:flex;flex-direction:column;gap:var(--sp-2);
+  padding:var(--sp-4);text-align:left;font-family:inherit;color:var(--tx);text-decoration:none;cursor:pointer;
+  border:1px solid var(--hair);border-radius:var(--r-md);background:rgba(var(--glass-rgb),.045);
+  transition:background-color .16s var(--ease-out),border-color .16s var(--ease-out),transform .16s var(--ease-out);}
+.tile:hover{background:rgba(var(--glass-rgb),.10);border-color:var(--hair-2);transform:translateY(-1px);}
+.tile[aria-expanded="true"]{background:rgba(var(--glass-rgb),.11);border-color:var(--or);}
+.tile-top{display:flex;align-items:center;gap:var(--sp-2);min-width:0;}
+.tile-ic{font-size:17px;line-height:1;flex-shrink:0;}
+.tile-nm{flex:1;min-width:0;font-family:var(--font-display);letter-spacing:var(--font-display-ls);
+  font-size:13.5px;font-weight:800;}
+.tile-ar{flex-shrink:0;font-size:10px;color:var(--ts);transition:transform .2s var(--ease-out);}
+.tile[aria-expanded="true"] .tile-ar{transform:rotate(180deg);color:var(--or);}
+.tile-bar{display:block;height:3px;border-radius:2px;overflow:hidden;background:rgba(var(--glass-rgb),.10);}
+.tile-bar span{display:block;height:100%;border-radius:2px;background:var(--or);}
+/* 進捗バーを持たないタイル（ノート・マップ）と高さを揃え、脚を下端で合わせる */
+.tile-sub{margin-top:auto;font-size:11px;color:var(--ts);font-variant-numeric:tabular-nums;}
+
+/* ── Tile detail（開いたタイルの中身は全幅でここに1つだけ出る） ── */
+.tile-detail{margin-top:var(--sp-2);overflow:hidden;
+  border:1px solid var(--hair);border-radius:var(--r-md);background:rgba(var(--glass-rgb),.035);}
+.tile-detail[hidden]{display:none;}
 .chapter-list.hidden{display:none;}
-.chapter-row{display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid rgba(255,255,255,.06);text-decoration:none;color:var(--tx);transition:background .12s;}
+.chapter-row{display:flex;align-items:center;gap:var(--sp-3);padding:9px var(--sp-4);
+  border-bottom:1px solid rgba(255,255,255,.05);text-decoration:none;color:var(--tx);
+  transition:background-color .12s var(--ease-out);}
 .chapter-row:last-child{border-bottom:none;}
-.chapter-row:hover,.chapter-row:active{background:rgba(var(--glass-rgb),.05);}
-.chapter-num{font-size:11px;font-weight:700;color:var(--ts);width:28px;flex-shrink:0;}
-.chapter-title{font-size:13px;flex:1;line-height:1.4;}
-.chapter-prog-bar{width:48px;height:5px;background:rgba(var(--glass-rgb),.1);border-radius:3px;overflow:hidden;flex-shrink:0;}
-.chapter-prog-fill{height:100%;border-radius:3px;transition:width .3s;}
-.chapter-prog-txt{font-size:11px;color:var(--ts);width:36px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums;}
+.chapter-row:hover,.chapter-row:active{background:rgba(var(--glass-rgb),.06);}
+.chapter-num{width:46px;flex-shrink:0;font-size:11px;font-weight:700;color:var(--ts);}
+.chapter-title{flex:1;min-width:0;font-size:13px;line-height:1.4;}
+.chapter-prog-bar{display:block;width:48px;height:4px;flex-shrink:0;border-radius:3px;overflow:hidden;
+  background:rgba(var(--glass-rgb),.10);}
+.chapter-prog-fill{display:block;height:100%;border-radius:3px;background:var(--or);}
+.chapter-prog-txt{width:58px;flex-shrink:0;text-align:right;font-size:11px;color:var(--ts);
+  font-variant-numeric:tabular-nums;}
+/* 狭い画面では棒を落として題名に幅を渡す（数字が残るので情報は失わない） */
+@media (max-width:420px){.chapter-prog-bar{display:none;}}
+.kakumon-year-wrap+.kakumon-year-wrap{border-top:1px solid rgba(255,255,255,.05);}
+.kakumon-year-hdr{cursor:pointer;font-weight:800;}
+.kakumon-arrow{flex-shrink:0;font-size:10px;color:var(--ts);}
 
-/* ── Subject accuracy ── */
-.subject-acc{font-size:10px;font-weight:700;padding:1px 7px;border-radius:var(--r-md);white-space:nowrap;flex-shrink:0;}
-.subject-acc.good{background:rgba(61,214,140,.15);color:var(--gr);border:1px solid rgba(61,214,140,.3);}
-.subject-acc.poor{background:rgba(255,154,60,.15);color:var(--or);border:1px solid rgba(255,154,60,.3);}
-.subject-acc.bad{background:rgba(255,107,107,.15);color:var(--rd);border:1px solid rgba(255,107,107,.3);}
-
-/* ── Chapter exam badge ── */
-.ch-exam-tag{font-size:9px;font-weight:700;padding:1px 5px;border-radius:var(--r-sm);white-space:nowrap;flex-shrink:0;border:1px solid;}
-.ch-exam-tag.good{background:rgba(61,214,140,.12);color:var(--gr);border-color:rgba(61,214,140,.3);}
-.ch-exam-tag.mid{background:rgba(255,154,60,.12);color:var(--or);border-color:rgba(255,154,60,.3);}
-.ch-exam-tag.bad{background:rgba(255,107,107,.12);color:var(--rd);border-color:rgba(255,107,107,.3);}
-
-/* ── Mindmap grid ── */
-.mindmap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;padding:0 16px 14px;}
-.mindmap-btn{display:flex;align-items:center;gap:8px;padding:11px 14px;border-radius:var(--r-md);color:var(--subj-ink);font-size:13px;font-weight:700;text-decoration:none;transition:filter .15s;}
+/* ── Mindmap grid（科目色は chapters_meta 由来の検証済み配色。暗インクを載せる） ── */
+.mindmap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:var(--sp-2);padding:var(--sp-3) var(--sp-4);}
+.mindmap-btn{display:flex;align-items:center;gap:var(--sp-2);padding:11px var(--sp-3);
+  border-radius:var(--r-md);color:var(--subj-ink);font-size:13px;font-weight:700;
+  text-decoration:none;transition:filter .15s var(--ease-out);}
 .mindmap-btn:hover{filter:brightness(1.1);}
 .mindmap-btn .mm-icon{font-size:18px;}
 
-/* ── 過去問年度ヘッダー ── */
-.kakumon-year-hdr{font-weight:800;}
-.kakumon-year-hdr:hover,.kakumon-year-hdr:active{background:rgba(var(--glass-rgb),.06);}
+/* ── Footer: Ft2 inline single line ── */
+.hub-foot{display:flex;flex-wrap:wrap;gap:var(--sp-1) var(--sp-4);
+  margin-top:var(--sp-7);padding-top:var(--sp-4);border-top:1px solid var(--hair);
+  font-size:11px;color:var(--ts);}
+
+/* ── メニュー（旧ヘッダーのボタン群＋旧フッターのテーマ/効果音をここへ集約） ── */
+.menu-list{display:flex;flex-direction:column;gap:var(--sp-1);margin-bottom:var(--sp-4);}
+.menu-row{display:flex;align-items:flex-start;gap:var(--sp-3);width:100%;
+  padding:11px 13px;text-align:left;text-decoration:none;cursor:pointer;
+  border:1px solid transparent;border-radius:var(--r-md);background:rgba(var(--glass-rgb),.05);
+  color:var(--tx);font-family:inherit;font-size:13.5px;font-weight:700;
+  transition:background-color .15s var(--ease-out),border-color .15s var(--ease-out);}
+.menu-row:hover{background:rgba(var(--glass-rgb),.12);border-color:var(--hair-2);}
+.menu-row .mr-ic{flex-shrink:0;font-size:15px;line-height:1.5;}
+.menu-row .mr-b{min-width:0;}
+.menu-row .mr-n{display:block;margin-top:1px;font-size:11px;font-weight:500;line-height:1.5;color:var(--ts);}
+.menu-row b{color:var(--or);}
 
 /* ── Sync settings modal ── */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:var(--z-modal);align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(var(--ov-rgb),.76);z-index:var(--z-modal);align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
 .modal-overlay.open{display:flex;}
-.modal-box{background:var(--surf-1);border:1px solid rgba(255,255,255,.12);border-top:1px solid rgba(255,255,255,.15);border-radius:18px 18px 0 0;width:100%;max-height:90dvh;overflow-y:auto;padding:20px 18px 40px;}
-
-/* ── Sound settings ── */
-.hub-footer{padding:10px 16px 32px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;}
+.modal-box{background:var(--surf-1);border:1px solid rgba(255,255,255,.12);border-top:1px solid rgba(255,255,255,.15);border-radius:18px 18px 0 0;width:100%;max-width:640px;max-height:90dvh;overflow-y:auto;padding:20px 18px 40px;}
+.modal-row{display:flex;gap:var(--sp-2);}
 
 /* ── テーマ選択 ── */
 .theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-bottom:4px;}
@@ -106,7 +193,8 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   font-family:inherit;text-align:left;
   transition:background-color .15s var(--ease-out),border-color .15s var(--ease-out);}
 .theme-btn:hover{background:rgba(var(--glass-rgb),.12);}
-.theme-btn.on{border-color:var(--or);background:rgba(255,154,60,.12);}
+/* テーマごとのアクセント半透明（--orl）を使う。即値のオレンジだと他テーマで浮く */
+.theme-btn.on{border-color:var(--or);background:var(--orl);}
 /* スウォッチはそのテーマのページ地。枠を付けないと暗い色が地に沈んで見えない */
 .theme-sw{width:26px;height:26px;border-radius:var(--r-sm);flex-shrink:0;border:1px solid rgba(255,255,255,.28);}
 .theme-tx{min-width:0;}
@@ -114,8 +202,6 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .theme-nm{font-family:var(--font-display);letter-spacing:var(--font-display-ls);display:block;font-size:13px;font-weight:800;white-space:nowrap;}
 .theme-note{display:block;font-size:10px;color:var(--ts);line-height:1.4;margin-top:1px;}
 .theme-btn.on .theme-nm{color:var(--or);}
-.hub-footer-btn{padding:7px 18px;border-radius:var(--r-md);border:1.5px solid rgba(255,255,255,.16);background:rgba(var(--glass-rgb),.06);color:var(--ts);font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .15s,border-color .15s,color .15s;}
-.hub-footer-btn:hover{background:rgba(var(--glass-rgb),.1);color:var(--tx);}
 .sound-label{font-size:11px;font-weight:700;color:var(--ts);margin:16px 0 6px;}
 .sound-label:first-child{margin-top:0;}
 .sound-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:4px;}
@@ -136,53 +222,92 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .sync-result.error{background:rgba(255,107,107,.12);color:var(--rd);border:1px solid rgba(255,107,107,.25);}
 .help-box{background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.35);border-radius:var(--r-sm);padding:10px 14px;margin-top:16px;font-size:12px;line-height:1.8;color:var(--tx);}
 .help-box a{color:var(--blu);}
-.hub-stat.srs{background:rgba(255,154,60,.15);border-color:rgba(255,154,60,.35);color:var(--or);font-weight:800;}
-.srs-due-row{padding:0 16px 12px;}
-/* 地が明るい --or(#FF9A3C) なので白文字だと 2.11:1 しか無かった（今回の色替えとは無関係の既存不具合）。
-   暗インクへ反転して 7.3:1 に。 */
-.srs-due-link{display:block;padding:9px 14px;border-radius:var(--r-md);color:var(--subj-ink);font-size:13px;font-weight:700;text-decoration:none;text-align:center;background:var(--or);transition:filter .15s;}
-.srs-due-link:hover,.srs-due-link:active{filter:brightness(1.1);}
+/* 進捗未同期の警告帯。アクセントではなく警告色なので固定の暗い橙を地にし、白文字を載せる */
+.hub-warn{padding:10px var(--sp-4);text-align:center;font-size:13px;line-height:1.6;
+  background:#7F3300;color:#fff;border-bottom:1px solid rgba(0,0,0,.35);}
+.hub-warn-btn{margin:var(--sp-1) 6px 0;padding:4px 12px;border-radius:var(--r-sm);border:none;
+  background:#fff;color:#7F3300;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;}
+.hub-warn-btn.alt{background:var(--yl);color:#000;}
 </style>
 </head>
 <body>
 
 <header class="hub-header">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-    <div class="hub-title" style="margin-bottom:0">🏥 MEC 医師国試 学習ハブ</div>
-    <div id="lastUpdatedBadge" style="font-size:11px;color:rgba(255,255,255,.6);white-space:nowrap;flex-shrink:0;margin-left:8px;">更新確認中…</div>
-  </div>
-  <div class="hub-stats">
-    <div class="hub-stat">済 <span id="statDone">0</span>問</div>
-    <div class="hub-stat">🔥 <span id="statStreak">0</span>日連続</div>
-    <div class="hub-stat">合計 <span id="statTotal">0</span>問</div>
-    <div class="hub-stat srs" id="srsDueStat" style="display:none">🔔 <span id="statDue">0</span>問 復習</div>
-  </div>
-  <div class="hub-actions">
-    <button class="hub-btn primary" onclick="openSyncModal()">⚙️ 同期設定</button>
-    <button class="hub-btn" onclick="manualSync()">🔄 今すぐ同期</button>
-    <a class="hub-btn" href="stats.html">📊 統計</a>
-    <button class="hub-btn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">♻️ 最新に更新</button>
-    <!-- 報告が1件も無いときは出さない（押しても空の一覧が出るだけなので） -->
-    <button class="hub-btn hub-err-btn" id="hubErrBtn" style="display:none" onclick="window.mecOpenErrReports()">⚠️ エラー報告 <span id="hubErrCount">0</span>件</button>
-<span class="mec-sync-badge">⚙️ 未設定</span>
+  <a class="hub-mark" href="study.html">🏥 MEC <em>学習ハブ</em></a>
+  <div class="hub-tools">
+    <!-- 同期状態は常時見えていてほしい（stale/error を progress.js が data-status で塗る） -->
+    <span class="mec-sync-badge">⚙️ 未設定</span>
+    <a class="hub-icon" href="stats.html" title="学習統計" aria-label="学習統計">📊</a>
+    <button class="hub-icon" id="hubMenuBtn" onclick="openMenuModal()" title="メニュー" aria-label="メニュー">☰<span class="hub-dot" id="hubMenuDot" hidden></span></button>
   </div>
 </header>
 
-<div id="noSyncWarning" style="display:none;background:#7f3300;color:#fff;font-size:13px;padding:10px 16px;text-align:center;line-height:1.6;">
+<div class="hub-warn" id="noSyncWarning" style="display:none">
   ⚠️ 進捗はこのブラウザのみに保存されています。ブラウザのキャッシュをクリアすると<strong>全データが消えます</strong>。<br>
-  <button onclick="exportBackup()" style="margin:4px 6px 0;padding:4px 12px;border-radius:var(--r-sm);border:none;background:#fff;color:#7f3300;font-weight:700;cursor:pointer;">📥 今すぐバックアップ</button>
-  <button onclick="openSyncModal()" style="margin:4px 6px 0;padding:4px 12px;border-radius:var(--r-sm);border:none;background:var(--yl);color:#000;font-weight:700;cursor:pointer;">☁️ クラウド同期を設定</button>
+  <button class="hub-warn-btn" onclick="exportBackup()">📥 今すぐバックアップ</button>
+  <button class="hub-warn-btn alt" onclick="openSyncModal()">☁️ クラウド同期を設定</button>
 </div>
 
-<div style="padding:12px 10px 0;" id="gamifyPanel"><!-- gamify.js が描画（レベル・炎・ミッション・実績） --></div>
+<main class="hub-main">
 
-<div class="subjects" id="subjectsContainer">
-  <!-- JS で生成 -->
-</div>
+  <!-- Stat-Led hero: 巨大な数字＝いま何をすべきか。中身は renderHero() が入れる -->
+  <section class="hero" aria-labelledby="heroLabel">
+    <p class="hero-label" id="heroLabel">読み込み中…</p>
+    <p class="hero-fig"><span class="hero-num" id="heroNum">0</span><span class="hero-unit" id="heroUnit">問</span></p>
+    <div class="hero-rule"></div>
+    <p class="hero-say" id="heroSay"></p>
+    <div class="hero-meter"><div class="hero-meter-fill" id="heroMeterFill"></div></div>
+    <p class="hero-stats">
+      <span>済 <b id="statDone">0</b> / <b id="statTotal">0</b>問（<b id="statPct">0</b>%）</span>
+      <span>🔥 <b id="statStreak">0</b>日連続</span>
+    </p>
+    <div class="hero-cta">
+      <a class="cta-main" id="heroPrimary" href="study.html">📚 全科目から選ぶ</a>
+      <a class="cta-sub" id="heroSecondary" href="stats.html">📊 統計を見る →</a>
+    </div>
+  </section>
 
-<div class="hub-footer">
-  <button class="hub-footer-btn" onclick="openThemeModal()">🎨 テーマ</button>
-  <button class="hub-footer-btn" onclick="openSoundModal()">🔊 効果音設定</button>
+  <h2 class="sec-h">ほかの行き先</h2>
+  <nav class="tiles" id="hubTiles"><!-- renderTiles() が生成 --></nav>
+  <!-- 開いたタイルの中身は全幅でここに1つだけ出る（同時に開くのは1つ） -->
+  <div class="tile-detail" id="hubDetail" hidden></div>
+
+  <section class="hub-sec">
+    <button class="sec-h" id="gmToggle" type="button" aria-expanded="true" aria-controls="gamifyPanel" onclick="toggleGmSection()">
+      レベル・ミッション・実績<span class="ar">▾</span>
+    </button>
+    <div id="gamifyPanel"><!-- gamify.js が描画（レベル・炎・ミッション・実績） --></div>
+  </section>
+
+  <footer class="hub-foot">
+    <span id="lastUpdatedBadge">更新確認中…</span>
+  </footer>
+</main>
+
+<!-- メニュー（旧ヘッダーのボタン群＋旧フッターのテーマ/効果音をここへ集約した） -->
+<div class="modal-overlay" id="menuModal" onclick="if(event.target===this)closeMenuModal()">
+  <div class="modal-box">
+    <div class="modal-title">☰ メニュー</div>
+    <div class="modal-sub">同期・表示・キャッシュの設定。</div>
+    <div class="menu-list">
+      <button class="menu-row" type="button" onclick="closeMenuModal();openSyncModal()">
+        <span class="mr-ic">☁️</span><span class="mr-b">同期設定<span class="mr-n">GitHub Gist で PC・iPad・スマホの進捗を共有</span></span></button>
+      <button class="menu-row" type="button" onclick="closeMenuModal();manualSync()">
+        <span class="mr-ic">🔄</span><span class="mr-b">今すぐ同期</span></button>
+      <a class="menu-row" href="stats.html">
+        <span class="mr-ic">📊</span><span class="mr-b">学習統計<span class="mr-n">30日チャート・SRS統計・弱点カルテ</span></span></a>
+      <button class="menu-row" type="button" onclick="closeMenuModal();openThemeModal()">
+        <span class="mr-ic">🎨</span><span class="mr-b">テーマ<span class="mr-n">画面全体の配色（この端末だけに保存）</span></span></button>
+      <button class="menu-row" type="button" onclick="closeMenuModal();openSoundModal()">
+        <span class="mr-ic">🔊</span><span class="mr-b">効果音設定</span></button>
+      <!-- 報告が1件も無いときは出さない（押しても空の一覧が出るだけなので） -->
+      <button class="menu-row" type="button" id="menuErrRow" style="display:none" onclick="closeMenuModal();window.mecOpenErrReports()">
+        <span class="mr-ic">⚠️</span><span class="mr-b">エラー報告 <b id="hubErrCount">0</b>件</span></button>
+      <!-- ⚠️ _tapConfirm が textContent を書き換えるので、この行だけは子要素を持たせない -->
+      <button class="menu-row" type="button" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">♻️ 最新に更新</button>
+    </div>
+    <div class="modal-row"><button class="modal-btn secondary" style="flex:1" onclick="closeMenuModal()">閉じる</button></div>
+  </div>
 </div>
 
 <!-- テーマ選択モーダル -->
@@ -279,28 +404,9 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 </div>
 
 <script>
-// ── データ定義（chapters_meta.js に統合学習ツールを追加）
-const STUDY_TOOL = {
-  id: 'study',
-  name: '統合学習ツール',
-  icon: '📚',
-  // 白文字を載せるので地は暗めに保つ。#D4570A では 4.06:1 しか無かった
-  color: '#C34F08',
-  type: 'tool',
-  href: 'study.html',
-  chapters: []
-};
-
-const KNOWLEDGE_TOOL = {
-  id: 'knowledge',
-  name: '検索知識ノート',
-  icon: '🔎',
-  color: '#4A148C',
-  type: 'tool',
-  href: 'knowledge.html',
-  chapters: []
-};
-
+// ── データ定義 ────────────────────────────────────────────────
+// 統合学習ツール（study.html）はカードではなくヒーローの主ボタンになった（2026-07-23 の再構成）。
+// タイルの面はテーマのアクセント（--or）に揃えるので、ここに配色は持たせない。
 const MINDMAP_TOOL = {
   id: 'mindmap',
   name: '科目マインドマップ',
@@ -338,17 +444,19 @@ const KAKUMON_YEARS = [
   { year:116, label:'第116回（2022年）', blocks:['A','B','C','D','E','F'] },
 ];
 
-const KAKUMON_TOOL = { id:'kakumon', name:'国家試験 過去問', icon:'📝', color:'#1A237E' };
-
 // ── 実力試験モード定義 ──────────────────────────────────────
 const JITSU1_CHAPTERS = [
   { label: 'A問題（一般40問 臨床40問）', prefix: 'jitsu1_ch01', count: 80 },
   { label: 'B問題（一般40問 臨床40問）', prefix: 'jitsu1_ch02', count: 80 },
 ];
-const JITSU1_TOOL = { id:'jitsu1', name:'実力試験Ⅰ', icon:'🎯', color:'#283593' };
 
-// 科目ごとの章一覧カードは廃止（統合学習ツールに一本化）
-const ALL_SUBJECTS = [STUDY_TOOL, KAKUMON_TOOL, JITSU1_TOOL, KNOWLEDGE_TOOL, MINDMAP_TOOL];
+// ヒーローに載らない行き先。expand は #hubDetail に中身を出す・link はそのまま遷移する
+const HUB_TILES = [
+  { id:'kakumon',   icon:'📝',  name:'国家試験 過去問',   kind:'expand' },
+  { id:'jitsu1',    icon:'🎯',  name:'実力試験Ⅰ',        kind:'expand' },
+  { id:'knowledge', icon:'🔎',  name:'検索知識ノート',    kind:'link', href:'knowledge.html' },
+  { id:'mindmap',   icon:'🗺️', name:'科目マインドマップ', kind:'expand' },
+];
 
 // ── SRS due 件数 ─────────────────────────────────────────────
 function getSRSDueCount() {
@@ -362,7 +470,13 @@ function getSRSDueCount() {
 // ── 統計計算 ──────────────────────────────────────────────────
 function calcTotalQ() {
   let total = 0;
-  if (typeof MEC_CHAPTER_META !== 'undefined') {
+  // ⚠️ 正本は MEC_CHAPTERS（12科目5487問）。MEC_CHAPTER_META は
+  //    add_peds_to_meta.py / add_obg_to_meta.py が足した小児科・産婦人科だけの
+  //    部分マップ（26章1058問）で、全科目の合計ではない。
+  //    2026-07-23まで META を合計していたため「合計3043問」と過少表示されていた。
+  if (typeof MEC_CHAPTERS !== 'undefined') {
+    MEC_CHAPTERS.forEach(subj => { (subj.chapters || []).forEach(ch => { total += ch.count || 0; }); });
+  } else if (typeof MEC_CHAPTER_META !== 'undefined') {
     Object.values(MEC_CHAPTER_META).forEach(m => { total += m.count; });
   }
   Object.values(KAKUMON_BLOCKS).forEach(count => { total += count; });
@@ -370,282 +484,271 @@ function calcTotalQ() {
   return total;
 }
 
-function getSubjectProgress(subject) {
+function _fmtN(n) { return (n || 0).toLocaleString('ja-JP'); }
+
+// done_v2 のキーを prefix で数える。ハブの進捗表示はすべてこれが根拠
+function _doneCountBy(prefix) {
   const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
-  const today = new Date().toISOString().slice(0, 10);
-  let totalQ = 0, doneCount = 0;
-
-  if (subject.id === 'study' || subject.id === 'mindmap' || subject.id === 'kakumon' || subject.id === 'jitsu1' || subject.id === 'knowledge') {
-    // 進捗を持たないカード（kakumon/jitsu1 は renderSubjects 内で直接計算）
-  } else {
-    subject.chapters.forEach(ch => {
-      totalQ += ch.count;
-      doneCount += Object.keys(done).filter(k => k.startsWith(ch.prefix + '_q')).length;
-    });
-  }
-  return { totalQ, doneCount, pct: totalQ ? Math.round(doneCount / totalQ * 100) : 0 };
+  return Object.keys(done).filter(k => k.startsWith(prefix)).length;
 }
 
-function getSubjectAccuracy(subject) {
-  if (!subject.chapters || !subject.chapters.length) return null;
-  const myrate = JSON.parse(localStorage.getItem('myrate_v1') || '{}');
-  const prefixes = subject.chapters.map(ch => ch.prefix + '_');
-  const isIn = uid => prefixes.some(p => uid.startsWith(p));
-  const entries = Object.entries(myrate).filter(([uid]) => isIn(uid));
-  const total   = entries.reduce((s, [, v]) => s + (v.total || 0), 0);
-  const correct = entries.reduce((s, [, v]) => s + (v.correct || 0), 0);
-  if (total < 5) return null;
-  return { correct, total, pct: Math.round(correct / total * 100) };
-}
-
-function getChapterProgress(ch) {
+// 過去問（全年度・全ブロックの合計）
+function getKakumonProgress() {
   const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
-  const prefix = ch.prefix + '_q';
-  const doneCount = Object.keys(done).filter(k => k.startsWith(prefix)).length;
-  const pct = ch.count ? Math.round(doneCount / ch.count * 100) : 0;
-  return { doneCount, pct };
+  let total = 0, doneCount = 0;
+  Object.keys(KAKUMON_BLOCKS).forEach(id => {
+    total += KAKUMON_BLOCKS[id];
+    doneCount += Object.keys(done).filter(k => k.startsWith('kakumon_' + id + '_q')).length;
+  });
+  return { total, doneCount, pct: total ? Math.round(doneCount / total * 100) : 0 };
 }
 
-function getChExamInfo(prefix) {
-  const hist = JSON.parse(localStorage.getItem('mec_ch_exam_v1') || '{}');
-  return hist[prefix] || null;
+// 実力試験Ⅰ（A/B の合計）
+function getJitsuProgress() {
+  let total = 0, doneCount = 0;
+  JITSU1_CHAPTERS.forEach(ch => { total += ch.count; doneCount += _doneCountBy(ch.prefix + '_q'); });
+  return { total, doneCount, pct: total ? Math.round(doneCount / total * 100) : 0 };
 }
 
 // ── UI 描画 ───────────────────────────────────────────────────
-function renderSubjects() {
-  const container = document.getElementById('subjectsContainer');
-  container.innerHTML = '';
+// Stat-Led ヒーロー: 「いま何をすべきか」を1つの巨大な数字で名指しする。
+// 復習期限が来ていればその件数、無ければ到達済み問題数を出す。
+// ⚠️ 数字は必ず実データ由来にすること。架空の数字を置くくらいなら数字を出さない。
+let _heroTicked = false;
 
-  ALL_SUBJECTS.forEach((subj, si) => {
-    const prog = getSubjectProgress(subj);
-    const card = document.createElement('div');
-    card.className = 'subject-card';
-
-    const fillColor = subj.color;
-    const pct = prog.pct;
-
-    if (subj.id === 'kakumon') {
-      // 国家試験過去問モード
-      const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
-      let totalAll = 0, doneAll = 0;
-      let yearsHtml = '';
-
-      KAKUMON_YEARS.forEach((yr, yi) => {
-        let totalYr = 0, doneYr = 0;
-        let blocksHtml = '';
-
-        yr.blocks.forEach(blk => {
-          const blockId = `${yr.year}${blk}`;
-          const count = KAKUMON_BLOCKS[blockId] || 0;
-          const prefix = `kakumon_${blockId}_q`;
-          const doneCnt = Object.keys(done).filter(k => k.startsWith(prefix)).length;
-          const pct2 = count ? Math.round(doneCnt / count * 100) : 0;
-          const blockType = count === 50 ? '必修' : '一般・臨床';
-          const file = `国家試験過去問/第${yr.year}回/${blockId}_kakuron.html`;
-          totalYr += count; doneYr += doneCnt;
-          blocksHtml += `
-            <a class="chapter-row" href="${file}">
-              <span class="chapter-num">${blk}問題</span>
-              <span class="chapter-title">${blockType}（${count}問）</span>
-              <div class="chapter-prog-bar"><div class="chapter-prog-fill" style="width:${pct2}%;background:#1A237E"></div></div>
-              <span class="chapter-prog-txt">${doneCnt}/${count}</span>
-            </a>`;
-        });
-
-        totalAll += totalYr; doneAll += doneYr;
-        const yrPct = totalYr ? Math.round(doneYr / totalYr * 100) : 0;
-
-        yearsHtml += `
-          <div class="kakumon-year-wrap" style="border-top:1px solid rgba(255,255,255,.07)">
-            <div class="chapter-row kakumon-year-hdr" style="cursor:pointer;font-weight:800;" onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.kakumon-arrow').textContent=this.nextElementSibling.classList.contains('hidden')?'▶':'▼'">
-              <span class="chapter-title">${yr.label}</span>
-              <div class="chapter-prog-bar"><div class="chapter-prog-fill" style="width:${yrPct}%;background:#1A237E"></div></div>
-              <span class="chapter-prog-txt">${doneYr}/${totalYr}</span>
-              <span class="kakumon-arrow" style="font-size:10px;color:var(--ts);margin-left:4px">▶</span>
-            </div>
-            <div class="hidden">${blocksHtml}</div>
-          </div>`;
-      });
-
-      const totPct = totalAll ? Math.round(doneAll / totalAll * 100) : 0;
-      card.innerHTML = `
-        <div class="subject-header" onclick="toggleChapters('subj_${si}')">
-          <span class="subject-icon">${subj.icon}</span>
-          <span class="subject-name">${subj.name}</span>
-          <div class="subject-prog">
-            <div class="subject-prog-bar"><div class="subject-prog-fill" style="width:${totPct}%;background:#1A237E"></div></div>
-            <span class="subject-prog-txt">${doneAll}/${totalAll}</span>
-          </div>
-          <span class="subject-arrow" id="arrow_subj_${si}">▼</span>
-        </div>
-        <div class="chapter-list hidden" id="subj_${si}">${yearsHtml}</div>`;
-
-    } else if (subj.id === 'jitsu1') {
-      // 実力試験モード: A/B問題の2ブロック、リンク先は統合学習ツール
-      const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
-      let blocksHtml = '';
-      let totalAll = 0, doneAll = 0;
-
-      JITSU1_CHAPTERS.forEach(ch => {
-        const doneCnt = Object.keys(done).filter(k => k.startsWith(ch.prefix + '_q')).length;
-        const pct2 = ch.count ? Math.round(doneCnt / ch.count * 100) : 0;
-        totalAll += ch.count; doneAll += doneCnt;
-        blocksHtml += `
-          <a class="chapter-row" href="study.html?sid=jitsu1">
-            <span class="chapter-num">${ch.label.slice(0, 1)}問題</span>
-            <span class="chapter-title">${ch.label}</span>
-            <div class="chapter-prog-bar"><div class="chapter-prog-fill" style="width:${pct2}%;background:#283593"></div></div>
-            <span class="chapter-prog-txt">${doneCnt}/${ch.count}</span>
-          </a>`;
-      });
-
-      const totPct = totalAll ? Math.round(doneAll / totalAll * 100) : 0;
-      card.innerHTML = `
-        <div class="subject-header" onclick="toggleChapters('subj_${si}')">
-          <span class="subject-icon">${subj.icon}</span>
-          <span class="subject-name">${subj.name}</span>
-          <div class="subject-prog">
-            <div class="subject-prog-bar"><div class="subject-prog-fill" style="width:${totPct}%;background:#283593"></div></div>
-            <span class="subject-prog-txt">${doneAll}/${totalAll}</span>
-          </div>
-          <span class="subject-arrow" id="arrow_subj_${si}">▼</span>
-        </div>
-        <div class="chapter-list hidden" id="subj_${si}">${blocksHtml}</div>`;
-
-    } else if (subj.id === 'study') {
-      // 統合学習ツール: シングルリンクカード
-      const totalQ = calcTotalQ();
-      const dueCount = getSRSDueCount();
-      const dueRow = dueCount > 0
-        ? `<div class="srs-due-row">
-             <a class="srs-due-link" href="study.html?mode=srs_review">🔔 今日の復習 ${dueCount}問 →</a>
-           </div>`
-        : '';
-      card.innerHTML = `
-        <div class="subject-header" onclick="toggleChapters('subj_${si}')">
-          <span class="subject-icon">${subj.icon}</span>
-          <span class="subject-name">${subj.name}</span>
-          <span class="subject-arrow" id="arrow_subj_${si}">▼</span>
-        </div>
-        <div class="chapter-list" id="subj_${si}">
-          <div class="subject-tool-row">
-            <a class="subject-tool-link" href="${subj.href}" style="background:${fillColor}">
-              📝 全科目 ${totalQ}問 難易度・科目フィルターで学ぶ →
-            </a>
-          </div>
-          ${dueRow}
-        </div>`;
-    } else if (subj.id === 'knowledge') {
-      // 検索知識ノート: シングルリンクカード
-      const noteCount = typeof KNOWLEDGE_NOTES !== 'undefined' ? KNOWLEDGE_NOTES.length : 0;
-      card.innerHTML = `
-        <div class="subject-header" onclick="toggleChapters('subj_${si}')">
-          <span class="subject-icon">${subj.icon}</span>
-          <span class="subject-name">${subj.name}</span>
-          <span class="subject-arrow" id="arrow_subj_${si}">▼</span>
-        </div>
-        <div class="chapter-list" id="subj_${si}">
-          <div class="subject-tool-row">
-            <a class="subject-tool-link" href="${subj.href}" style="background:${fillColor}">
-              🔎 ChatGPT等で調べた知識を整理 ${noteCount}件 →
-            </a>
-          </div>
-        </div>`;
-    } else if (subj.id === 'mindmap') {
-      // 科目マインドマップ: 科目別グリッド
-      const mapsHtml = subj.maps.map(m =>
-        `<a class="mindmap-btn" href="${m.href}" style="background:${m.color}">
-           <span class="mm-icon">${m.icon}</span>${m.subject}
-         </a>`
-      ).join('');
-      card.innerHTML = `
-        <div class="subject-header" onclick="toggleChapters('subj_${si}')">
-          <span class="subject-icon">${subj.icon}</span>
-          <span class="subject-name">${subj.name}</span>
-          <span class="subject-arrow" id="arrow_subj_${si}">▼</span>
-        </div>
-        <div class="chapter-list" id="subj_${si}">
-          <div class="mindmap-grid">${mapsHtml}</div>
-        </div>`;
-    } else {
-      // 章リスト型
-      const acc = getSubjectAccuracy(subj);
-      const accHtml = acc ? (() => {
-        const cls = acc.pct >= 70 ? 'good' : acc.pct >= 50 ? 'poor' : 'bad';
-        return `<span class="subject-acc ${cls}" title="試験モード正解率 ${acc.correct}/${acc.total}問">自${acc.pct}%</span>`;
-      })() : '';
-
-      let chaptersHtml = '';
-      subj.chapters.forEach((ch, ci) => {
-        const cp = getChapterProgress(ch);
-        const ei = getChExamInfo(ch.prefix);
-        const examTag = ei ? (() => {
-          const cls = ei.lastScore >= 80 ? 'good' : ei.lastScore >= 60 ? 'mid' : 'bad';
-          return `<span class="ch-exam-tag ${cls}" title="試験${ei.sessions}回 | 最高${ei.bestScore}%">🎓${ei.lastScore}%</span>`;
-        })() : '';
-        chaptersHtml += `
-          <a class="chapter-row" href="${ch.file}" data-prefix="${ch.prefix}">
-            <span class="chapter-num">第${ci + 1}章</span>
-            <span class="chapter-title">${ch.title}</span>
-            ${examTag}
-            <div class="chapter-prog-bar"><div class="chapter-prog-fill" style="width:${cp.pct}%;background:${fillColor}"></div></div>
-            <span class="chapter-prog-txt">${cp.doneCount}/${ch.count}</span>
-          </a>`;
-      });
-
-      card.innerHTML = `
-        <div class="subject-header" onclick="toggleChapters('subj_${si}')">
-          <span class="subject-icon">${subj.icon}</span>
-          <span class="subject-name">${subj.name}</span>
-          <div class="subject-prog">
-            <div class="subject-prog-bar"><div class="subject-prog-fill" style="width:${pct}%;background:${fillColor}"></div></div>
-            <span class="subject-prog-txt">${prog.doneCount}/${prog.totalQ}</span>
-          </div>
-          ${accHtml}
-          <span class="subject-arrow" id="arrow_subj_${si}">▼</span>
-        </div>
-        <div class="chapter-list hidden" id="subj_${si}">
-          ${chaptersHtml}
-          <div class="sc-row"><a class="sc-btn" href="${subj.name}/selfcheck_intro.html">✏️ セルフチェック →</a></div>
-        </div>`;
-    }
-
-    container.appendChild(card);
-  });
-
-  updateGlobalStats();
-}
-
-function toggleChapters(id) {
-  const el = document.getElementById(id);
-  const arrow = document.getElementById('arrow_' + id);
+// 0 → target のカウントアップ。初回描画のときだけ動かす
+// （同期完了の再描画で毎回animateすると数字が読めない）。
+function _tickNumber(el, target) {
   if (!el) return;
-  const isHidden = el.classList.toggle('hidden');
-  if (arrow) arrow.textContent = isHidden ? '▼' : '▲';
+  const rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (rm || _heroTicked) { el.textContent = _fmtN(target); return; }
+  _heroTicked = true;
+  const dur = 520, t0 = performance.now();
+  (function step(t) {
+    const k = Math.min(1, (t - t0) / dur);
+    const e = 1 - Math.pow(1 - k, 3);
+    el.textContent = _fmtN(Math.round(target * e));
+    if (k < 1) requestAnimationFrame(step);
+  })(t0);
 }
 
-function updateGlobalStats() {
-  const stats = window.MECSync ? MECSync.getStats() : { doneCount: 0 };
-  document.getElementById('statDone').textContent = stats.doneCount;
-  document.getElementById('statStreak').textContent = window.MECSync ? window.MECSync.calcStreak() : 0;
-  document.getElementById('statTotal').textContent = calcTotalQ();
+function renderHero() {
+  const st = window.MECSync ? MECSync.getStats() : { doneCount: 0 };
+  const doneCount = st.doneCount || 0;
+  const totalQ = calcTotalQ();
+  const streak = window.MECSync ? MECSync.calcStreak() : 0;
   const due = getSRSDueCount();
-  const dueStat = document.getElementById('srsDueStat');
-  if (dueStat) {
-    dueStat.style.display = due > 0 ? '' : 'none';
-    const dueEl = document.getElementById('statDue');
-    if (dueEl) dueEl.textContent = due;
+  const pct = totalQ ? Math.round(doneCount / totalQ * 100) : 0;
+
+  const label = document.getElementById('heroLabel');
+  const say   = document.getElementById('heroSay');
+  const unit  = document.getElementById('heroUnit');
+  const p1    = document.getElementById('heroPrimary');
+  const p2    = document.getElementById('heroSecondary');
+
+  let figure;
+  if (due > 0) {
+    figure = due;
+    label.textContent = '今日の復習';
+    unit.textContent  = '問';
+    say.textContent   = 'SRS の復習期限が来た問題です。科目をまたいで出題されます。';
+    p1.href = 'study.html?mode=srs_review'; p1.textContent = '🔔 復習をはじめる';
+    p2.href = 'study.html';                 p2.textContent = '📚 全科目から選ぶ →';
+  } else {
+    figure = doneCount;
+    label.textContent = 'これまでに済ませた問題';
+    unit.textContent  = '問';
+    say.textContent   = '復習の期限が来た問題はありません。全 ' + _fmtN(totalQ) + ' 問から次を選べます。';
+    p1.href = 'study.html'; p1.textContent = '📚 全科目から選ぶ';
+    p2.href = 'stats.html'; p2.textContent = '📊 統計を見る →';
   }
+
+  _tickNumber(document.getElementById('heroNum'), figure);
+  document.getElementById('statDone').textContent   = _fmtN(doneCount);
+  document.getElementById('statTotal').textContent  = _fmtN(totalQ);
+  document.getElementById('statPct').textContent    = pct;
+  document.getElementById('statStreak').textContent = streak;
+  // 幅0から伸ばす（CSSのtransitionが拾う）。reduced-motion は vars.css が全体で止める
+  requestAnimationFrame(() => {
+    const f = document.getElementById('heroMeterFill');
+    if (f) f.style.width = pct + '%';
+  });
+}
+
+// ── タイル（ヒーローに従属する行き先） ──────────────────────────
+function _tileHtml(t) {
+  let sub = '', pct = null;
+  if (t.id === 'kakumon') {
+    const p = getKakumonProgress(); pct = p.pct;
+    sub = _fmtN(p.doneCount) + ' / ' + _fmtN(p.total) + '問';
+  } else if (t.id === 'jitsu1') {
+    const p = getJitsuProgress(); pct = p.pct;
+    sub = _fmtN(p.doneCount) + ' / ' + _fmtN(p.total) + '問';
+  } else if (t.id === 'knowledge') {
+    sub = (typeof KNOWLEDGE_NOTES !== 'undefined' ? KNOWLEDGE_NOTES.length : 0) + ' 件のノート';
+  } else if (t.id === 'mindmap') {
+    sub = MINDMAP_TOOL.maps.length + ' 科目';
+  }
+
+  const bar = pct === null ? '' : '<span class="tile-bar"><span style="width:' + pct + '%"></span></span>';
+  const inner =
+    '<span class="tile-top">' +
+      '<span class="tile-ic">' + t.icon + '</span>' +
+      '<span class="tile-nm">' + t.name + '</span>' +
+      '<span class="tile-ar">' + (t.kind === 'link' ? '→' : '▾') + '</span>' +
+    '</span>' + bar +
+    '<span class="tile-sub">' + sub + '</span>';
+
+  return t.kind === 'link'
+    ? '<a class="tile" href="' + t.href + '">' + inner + '</a>'
+    : '<button class="tile" type="button" data-tile="' + t.id + '" aria-expanded="false" aria-controls="hubDetail">' + inner + '</button>';
+}
+
+function renderTiles() {
+  const host = document.getElementById('hubTiles');
+  if (!host) return;
+  // 再描画（同期完了など）で開いていたタイルを閉じてしまわないよう覚えておく
+  const openBtn = host.querySelector('.tile[aria-expanded="true"]');
+  const keep = openBtn ? openBtn.dataset.tile : null;
+
+  host.innerHTML = HUB_TILES.map(_tileHtml).join('');
+
+  const detail = document.getElementById('hubDetail');
+  if (keep) {
+    const b = host.querySelector('.tile[data-tile="' + keep + '"]');
+    if (b) {
+      b.setAttribute('aria-expanded', 'true');
+      detail.innerHTML = tileDetailHtml(keep);
+      detail.hidden = false;
+    }
+  } else if (detail) {
+    detail.hidden = true;
+    detail.innerHTML = '';
+  }
+}
+
+// 開けるのは常に1つだけ。中身は #hubDetail に全幅で出す
+function toggleTile(btn) {
+  const host = document.getElementById('hubDetail');
+  const wasOpen = btn.getAttribute('aria-expanded') === 'true';
+  document.querySelectorAll('#hubTiles .tile[data-tile]').forEach(b => b.setAttribute('aria-expanded', 'false'));
+  if (wasOpen) { host.hidden = true; host.innerHTML = ''; return; }
+  btn.setAttribute('aria-expanded', 'true');
+  host.innerHTML = tileDetailHtml(btn.dataset.tile);
+  host.hidden = false;
+}
+
+function tileDetailHtml(id) {
+  if (id === 'kakumon') return _kakumonDetailHtml();
+  if (id === 'jitsu1')  return _jitsuDetailHtml();
+  if (id === 'mindmap') return _mindmapDetailHtml();
+  return '';
+}
+
+function _kakumonDetailHtml() {
+  const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+  return KAKUMON_YEARS.map(yr => {
+    let totalYr = 0, doneYr = 0, blocksHtml = '';
+    yr.blocks.forEach(blk => {
+      const blockId = '' + yr.year + blk;
+      const count = KAKUMON_BLOCKS[blockId] || 0;
+      const doneCnt = Object.keys(done).filter(k => k.startsWith('kakumon_' + blockId + '_q')).length;
+      const pct = count ? Math.round(doneCnt / count * 100) : 0;
+      totalYr += count; doneYr += doneCnt;
+      blocksHtml +=
+        '<a class="chapter-row" href="国家試験過去問/第' + yr.year + '回/' + blockId + '_kakuron.html">' +
+          '<span class="chapter-num">' + blk + '問題</span>' +
+          '<span class="chapter-title">' + (count === 50 ? '必修' : '一般・臨床') + '（' + count + '問）</span>' +
+          '<span class="chapter-prog-bar"><span class="chapter-prog-fill" style="width:' + pct + '%"></span></span>' +
+          '<span class="chapter-prog-txt">' + doneCnt + '/' + count + '</span>' +
+        '</a>';
+    });
+    const yrPct = totalYr ? Math.round(doneYr / totalYr * 100) : 0;
+    return '<div class="kakumon-year-wrap">' +
+      '<div class="chapter-row kakumon-year-hdr" role="button" tabindex="0" aria-expanded="false"' +
+        ' onclick="toggleKakumonYear(this)"' +
+        ' onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();toggleKakumonYear(this);}">' +
+        '<span class="chapter-title">' + yr.label + '</span>' +
+        '<span class="chapter-prog-bar"><span class="chapter-prog-fill" style="width:' + yrPct + '%"></span></span>' +
+        '<span class="chapter-prog-txt">' + doneYr + '/' + totalYr + '</span>' +
+        '<span class="kakumon-arrow">▶</span>' +
+      '</div>' +
+      '<div class="chapter-list hidden">' + blocksHtml + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function toggleKakumonYear(hdr) {
+  const list = hdr.nextElementSibling;
+  if (!list) return;
+  const nowHidden = list.classList.toggle('hidden');
+  hdr.setAttribute('aria-expanded', String(!nowHidden));
+  const ar = hdr.querySelector('.kakumon-arrow');
+  if (ar) ar.textContent = nowHidden ? '▶' : '▼';
+}
+
+function _jitsuDetailHtml() {
+  // A/B とも遷移先は統合学習ツールの jitsu1 セクション。ここは進捗の内訳を見せる行
+  return JITSU1_CHAPTERS.map(ch => {
+    const doneCnt = _doneCountBy(ch.prefix + '_q');
+    const pct = ch.count ? Math.round(doneCnt / ch.count * 100) : 0;
+    return '<a class="chapter-row" href="study.html?sid=jitsu1">' +
+      '<span class="chapter-num">' + ch.label.slice(0, 1) + '問題</span>' +
+      '<span class="chapter-title">' + ch.label + '</span>' +
+      '<span class="chapter-prog-bar"><span class="chapter-prog-fill" style="width:' + pct + '%"></span></span>' +
+      '<span class="chapter-prog-txt">' + doneCnt + '/' + ch.count + '</span>' +
+    '</a>';
+  }).join('');
+}
+
+function _mindmapDetailHtml() {
+  // 科目色は chapters_meta 由来の検証済み配色。明るい地なので文字は --subj-ink
+  return '<div class="mindmap-grid">' + MINDMAP_TOOL.maps.map(m =>
+    '<a class="mindmap-btn" href="' + m.href + '" style="background:' + m.color + '">' +
+      '<span class="mm-icon">' + m.icon + '</span>' + m.subject +
+    '</a>').join('') + '</div>';
+}
+
+function renderHub() {
+  renderHero();
+  renderTiles();
   updateErrBtn();
 }
+// 旧名の呼び出し口（saveAndSync / manualSync）が残っているので別名を張っておく
+function renderSubjects() { renderHub(); }
 
-// エラー報告ボタン（報告0件なら隠す）。progress.js の共有ビューアが全消去したあとも呼ばれる
+// ── メニュー（旧ヘッダーのボタン群をここへ集約した） ─────────────
+function openMenuModal()  { document.getElementById('menuModal').classList.add('open'); }
+function closeMenuModal() { document.getElementById('menuModal').classList.remove('open'); }
+
+// ── レベル・ミッション・実績の開閉 ───────────────────────────────
+// この端末だけの UI 設定（同期しない）。progress.js の同期キーには足さないこと。
+const K_HUB_GM = 'mec_hub_gm_open_v1';
+function toggleGmSection() {
+  const btn = document.getElementById('gmToggle');
+  const panel = document.getElementById('gamifyPanel');
+  const open = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', String(!open));
+  panel.hidden = open;
+  localStorage.setItem(K_HUB_GM, open ? '0' : '1');
+}
+function initGmSection() {
+  if (localStorage.getItem(K_HUB_GM) !== '0') return;
+  const btn = document.getElementById('gmToggle');
+  const panel = document.getElementById('gamifyPanel');
+  if (btn) btn.setAttribute('aria-expanded', 'false');
+  if (panel) panel.hidden = true;
+}
+
+// エラー報告（0件なら ☰ の点も行も出さない）。progress.js の共有ビューアが全消去したあとも呼ばれる
 function updateErrBtn() {
   const n = (window.mecGetErrorReports ? window.mecGetErrorReports() : []).length;
-  const btn = document.getElementById('hubErrBtn');
   const cnt = document.getElementById('hubErrCount');
+  const row = document.getElementById('menuErrRow');
+  const dot = document.getElementById('hubMenuDot');
   if (cnt) cnt.textContent = n;
-  if (btn) btn.style.display = n > 0 ? '' : 'none';
+  if (row) row.style.display = n > 0 ? '' : 'none';
+  if (dot) dot.hidden = !(n > 0);
 }
 window._mecUpdateErrBadge = updateErrBtn;
 
@@ -1104,17 +1207,17 @@ function saveSoundPref(type, value, btn) {
 
 // ── 初期化 ───────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  renderSubjects();
+  initGmSection();
+  renderHub();
   checkSyncWarning();
-  // 最初のカードは開いた状態にする
-  const firstChapters = document.querySelector('.chapter-list');
-  if (firstChapters) {
-    firstChapters.classList.remove('hidden');
-    const arrow = document.querySelector('.subject-arrow');
-    if (arrow) arrow.textContent = '▲';
-  }
+  // タイルは再描画で作り直されるので、個々ではなく親に1つだけ委譲で張る
+  const tiles = document.getElementById('hubTiles');
+  if (tiles) tiles.addEventListener('click', e => {
+    const btn = e.target.closest('.tile[data-tile]');
+    if (btn) toggleTile(btn);
+  });
   // sync 完了後に再描画 + 警告再チェック
-  document.addEventListener('mecSyncComplete', () => { renderSubjects(); checkSyncWarning(); });
+  document.addEventListener('mecSyncComplete', () => { renderHub(); checkSyncWarning(); });
 });
 </script>
 <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});</script>
