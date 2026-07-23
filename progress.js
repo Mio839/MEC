@@ -640,35 +640,68 @@
   //   - contentEditable を立てないと選択自体を受け付けない端末がある
   //   - display:none / visibility:hidden だとコピーできない（画面外に1pxで置く）
   function _copyLegacy(text) {
-    let ok = false;
+    // copy イベントで内容を直接書き込む。選択範囲に頼らないので確実で、
+    // かつ「イベントが発火したか」が本当にコピーされたかの判定になる。
+    // execCommand の戻り値は当てにならない（コピーしていなくても true を返す端末がある）。
+    let fired = false;
+    const onCopy = e => {
+      fired = true;
+      try {
+        e.clipboardData.setData('text/plain', text);
+        e.preventDefault();
+      } catch { fired = false; }
+    };
+    document.addEventListener('copy', onCopy, true);
+
+    let ret = false;
     const ta = document.createElement('textarea');
     ta.value = text;
-    ta.contentEditable = 'true';
-    ta.readOnly = true;
+    ta.textContent = text;   // .value はDOMに載らない。Range経路の端末のために実体も入れる
+    ta.contentEditable = 'true';  // iOS: これが無いと選択を受け付けない端末がある
+    ta.readOnly = false;     // 選択中は false。execCommand の直前に true へ戻す
+    ta.inputMode = 'none';   // iOS: focus してもソフトウェアキーボードを出さない
     ta.setAttribute('aria-hidden', 'true');
     ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;padding:0;' +
       'border:none;outline:none;box-shadow:none;background:transparent;opacity:0;' +
       'font-size:16px;';  // 16px未満だとiOSが自動ズームする
     document.body.appendChild(ta);
+
+    const prevActive = document.activeElement;
+    const sel = window.getSelection();
+    const prevRange = sel && sel.rangeCount ? sel.getRangeAt(0) : null;
     try {
-      const sel = window.getSelection();
-      const prev = sel && sel.rangeCount ? sel.getRangeAt(0) : null;
-      const range = document.createRange();
-      range.selectNodeContents(ta);
-      if (sel) { sel.removeAllRanges(); sel.addRange(range); }
-      ta.setSelectionRange(0, text.length);
-      ok = document.execCommand('copy');
+      // 順序が重要。Range を張ると textarea 側の選択（selectionStart/End）が 0/0 に
+      // 潰れるため、setSelectionRange は必ず最後に呼ぶ。逆にすると選択が空のまま
+      // execCommand が走り、コピーしていないのに true が返る。
+      ta.focus({ preventScroll: true });
+      ta.select();
       if (sel) {
+        const range = document.createRange();
+        range.selectNodeContents(ta);
         sel.removeAllRanges();
-        if (prev) sel.addRange(prev);   // 元の選択を壊さない
+        sel.addRange(range);
       }
-    } catch { ok = false; }
+      ta.setSelectionRange(0, text.length);
+      ta.readOnly = true;   // キーボードのせり上がりを抑えつつコピーする
+      ret = document.execCommand('copy');
+    } catch { ret = false; }
+
+    document.removeEventListener('copy', onCopy, true);
     ta.remove();
-    return ok;
+    // 元の選択とフォーカスを壊さない
+    if (sel) {
+      sel.removeAllRanges();
+      if (prevRange) sel.addRange(prevRange);
+    }
+    if (prevActive && prevActive.focus) { try { prevActive.focus({ preventScroll: true }); } catch {} }
+    return ret && fired;
   }
 
   // text をクリップボードへ入れる。成功可否を Promise<boolean> で返す。
   // 必ずクリックなどのユーザー操作から同期的に呼ぶこと。
+  // 順序は「同期フレーム内で完結する execCommand」→「clipboard API」。
+  // 逆にすると、clipboard API の reject を待った時点で iOS はユーザー操作の文脈を失い、
+  // あとから execCommand を呼んでも効かなくなる。
   window.mecCopyText = function (text) {
     text = String(text == null ? '' : text);
     if (_copyLegacy(text)) return Promise.resolve(true);

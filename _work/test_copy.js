@@ -7,8 +7,13 @@ const fs = require('fs'), path = require('path'), vm = require('vm'), assert = r
 const SRC = fs.readFileSync(path.join(__dirname, '..', 'progress.js'), 'utf8');
 
 // 最小限のDOM/ブラウザスタブ。execCommand と clipboard の可否を差し替えて挙動を見る
-function env({ execOk = true, execThrows = false, clipboard = null, noSelection = false } = {}) {
+// execOk … execCommand の戻り値
+// fireCopy … 実際に copy イベントが起きるか。execCommand は「コピーしていないのに true」を
+//            返す端末があるため、mecCopyText はイベント発火を成功の根拠にしている。
+//            この2つを別々に振れることがこのテストの肝。
+function env({ execOk = true, fireCopy = true, execThrows = false, clipboard = null, noSelection = false } = {}) {
   const log = [];
+  const written = {};
   const store = Object.create(null);
   const mkEl = () => {
     const el = {
@@ -16,15 +21,24 @@ function env({ execOk = true, execThrows = false, clipboard = null, noSelection 
       classList: { add() {}, remove() {}, toggle() {}, contains: () => false },
       setAttribute(k, v) { this._attrs[k] = v; }, removeAttribute(k) { delete this._attrs[k]; },
       appendChild() {}, prepend() {}, after() {}, remove() { log.push('remove'); },
-      addEventListener() {}, focus() {},
+      addEventListener() {}, focus() { log.push('focus'); },
+      select() { log.push('select'); },
+      textContent: '',
       setSelectionRange(a, b) { log.push('setSelectionRange:' + a + ',' + b); },
       querySelector: () => null, querySelectorAll: () => [],
       closest: () => null, getBoundingClientRect: () => ({ height: 0, top: 0 }),
     };
     return el;
   };
+  const copyListeners = [];
   const document = {
-    addEventListener() {}, dispatchEvent: () => true,
+    addEventListener(type, fn) { if (type === 'copy') copyListeners.push(fn); },
+    removeEventListener(type, fn) {
+      if (type !== 'copy') return;
+      const i = copyListeners.indexOf(fn);
+      if (i >= 0) copyListeners.splice(i, 1);
+    },
+    dispatchEvent: () => true,
     createElement(tag) { log.push('createElement:' + tag); return mkEl(); },
     createRange() {
       return { selectNodeContents(n) { log.push('selectNodeContents'); } };
@@ -32,6 +46,14 @@ function env({ execOk = true, execThrows = false, clipboard = null, noSelection 
     execCommand(cmd) {
       log.push('execCommand:' + cmd);
       if (execThrows) throw new Error('boom');
+      if (fireCopy) {
+        // 本物のブラウザと同じく、コピーが成立したときだけ copy イベントが飛ぶ
+        const ev = {
+          clipboardData: { setData(type, v) { written[type] = v; } },
+          preventDefault() { log.push('preventDefault'); },
+        };
+        copyListeners.slice().forEach(fn => fn(ev));
+      }
       return execOk;
     },
     head: { appendChild() {} },
@@ -60,7 +82,7 @@ function env({ execOk = true, execThrows = false, clipboard = null, noSelection 
   ctx.globalThis = ctx;
   vm.createContext(ctx);
   vm.runInContext(SRC, ctx);
-  return { copy: win.mecCopyText, log, win };
+  return { copy: win.mecCopyText, log, win, written };
 }
 
 let passed = 0; const fails = [];
@@ -129,6 +151,41 @@ function test(n, f) {
     const { copy } = env({ execOk: true });
     assert.strictEqual(await copy(null), true);
     assert.strictEqual(await copy(undefined), true);
+  });
+
+  // ── 「コピーしていないのに成功と言う」経路の回帰テスト ────────────────
+  // 実際にiPadで、ボタンが✅になるのにクリップボードが空という状態が起きた。
+  // 原因は execCommand の戻り値だけを信じていたこと。copy イベントの発火を根拠にする。
+  await test('execCommandがtrueでもcopyイベントが起きなければ成功としない', async () => {
+    let called = false;
+    const { copy } = env({
+      execOk: true, fireCopy: false,
+      clipboard: { writeText: () => { called = true; return Promise.resolve(); } },
+    });
+    assert.strictEqual(await copy('x'), true, 'clipboard API に落ちて成功するはず');
+    assert.strictEqual(called, true, 'copyイベントが無いのに execCommand を信じてはいけない');
+  });
+
+  await test('execCommandがtrueでもcopyイベント無し・clipboard無しなら false', async () => {
+    const { copy } = env({ execOk: true, fireCopy: false, clipboard: null });
+    assert.strictEqual(await copy('x'), false);
+  });
+
+  await test('copyイベントで本文を直接書き込む（選択範囲に依存しない）', async () => {
+    const { copy, written, log } = env({ execOk: true });
+    assert.strictEqual(await copy('エラー報告一覧\n科目: 消化器'), true);
+    assert.strictEqual(written['text/plain'], 'エラー報告一覧\n科目: 消化器', 'クリップボードへ載る中身が違う');
+    assert.ok(log.includes('preventDefault'), '既定動作を止めていない');
+  });
+
+  await test('textareaはフォーカスしてから選択する（focusを忘れると選択が採用されない）', async () => {
+    const { copy, log } = env({ execOk: true });
+    await copy('abcde');
+    assert.ok(log.includes('focus'), 'focus していない');
+    assert.ok(log.includes('select'), 'select() していない');
+    // Range を張ると textarea 側の選択が潰れるので setSelectionRange は Range より後
+    assert.ok(log.indexOf('selectNodeContents') < log.indexOf('setSelectionRange:0,5'),
+      'setSelectionRange は Range のあとに呼ぶこと（順序が逆だと選択が空になる）');
   });
 
   // ── エラー報告ビューア（study.html / index.html 共通実装） ─────────────
