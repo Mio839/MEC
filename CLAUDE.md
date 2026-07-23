@@ -69,7 +69,7 @@
 - `done_v2` — UID → 周回数（整数、0=未済）／ `done_tombstones_v1` — undo削除の墓標（同期で復活防止）
 - `flag_v2` — 苦手UID → 設定時刻ms（旧データは1）／ `flag_tombstones_v1` — 旗解除の墓標（uid→解除時刻ms、マージは旗vs墓標の新しい方が勝つ）
 - `mec_choice_v1` — UID → 選択肢別の誤答回数＋`_last`（最後に選んだ肢）。同期対象（回数はmax、`_last`はローカル優先）
-- `activity_v1` — YYYY-MM-DD → 操作回数（連続日数の算出元）
+- `activity_v1` — YYYY-MM-DD → 操作回数（連続日数🔥と30日間の学習記録の算出元）。**書き込み口は `logActivity()` の1本だけ**。通常モードは`mecIncrLap`、試験モード／SRS復習は`_markExamDone`（study_exam.js）から`window.mecLogActivity()`を呼ぶ。done_v2を直接書く新経路を足すときはここも通すこと（通し忘れるとその日が学習日として残らない）
 - `myrate_v1` — UID → `{correct,total}`（試験モードの自己正答率。マージは各フィールドmax）
 - `studytime_v1` — YYYY-MM-DD → 学習分数
 - `mec_srs_v1` — SRS復習スケジュール ／ `mec_exam_resumes_v1` — 試験中断の再開データ ／ `mec_ch_exam_v1` — 章別試験履歴

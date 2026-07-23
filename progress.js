@@ -76,6 +76,9 @@
     if (keys.length > 90) keys.slice(0, keys.length - 90).forEach(k => delete log[k]);
     lsRaw(KA, log);
   }
+  // 試験モード側（study_exam.js の _markExamDone）からも呼ぶ。ここを通さないと
+  // 試験モードだけで学習した日が activity_v1 に残らず、連続日数も学習記録も0のままになる。
+  window.mecLogActivity = logActivity;
 
   // ── Gist sync ────────────────────────────────────────────────────
   function scheduleSync() {

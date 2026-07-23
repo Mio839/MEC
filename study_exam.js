@@ -2331,12 +2331,17 @@ function _applyChoiceShimmer(card) {
 }
 
 function _markExamDone(uid) {
+  // 通常モードの mecIncrLap と同じく「そのセッションで初めて触れた問題」だけを
+  // 活動としてカウントする。これを忘れていたため、試験モードだけで学習した日は
+  // activity_v1 に何も残らず、連続日数（🔥）も30日間の学習記録も0のままだった。
+  const firstThisSession = !(window.mecSessionDone && window.mecSessionDone.has(uid));
   try {
     const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
     done[uid] = (done[uid] || 0) + 1;
     localStorage.setItem('done_v2', JSON.stringify(done));
   } catch {}
   if (window.mecSessionDone) window.mecSessionDone.add(uid);
+  if (firstThisSession) { try { window.mecLogActivity?.(); } catch {} }
   if (window.MECSync) window.MECSync.scheduleSync();
 }
 
