@@ -100,6 +100,11 @@ html.th-charcoal {
   --panel-a:34,37,43; --panel-b:20,22,26;
   --gmtoast-a:44,47,54; --gmtoast-b:26,28,33;
   --glass-rgb:214,218,226;
+
+  /* 冷たい銀白のアクセント。字間を広げ、背景は縦のごく浅いグラデだけ＝ほぼ無地。粒子も無し */
+  --or:#98A8B8; --ord:#AEC0D3; --orl:rgba(152,168,184,0.14);
+  --font-display-ls:.045em;
+  --bg-gradient:linear-gradient(180deg,var(--bg-g0) 0%,var(--bg-g1) 55%,var(--bg-g2) 100%);
 }
 html.th-charcoal body { --tx:#E8EAEE; --ts:#93999F; }
 
@@ -115,6 +120,10 @@ html.th-forest {
   --panel-a:20,45,34; --panel-b:10,25,18;
   --gmtoast-a:26,58,43; --gmtoast-b:13,32,23;
   --glass-rgb:170,222,196;
+
+  /* 若草のアクセント。上から光が差す放射グラデ */
+  --or:#69B857; --ord:#78D364; --orl:rgba(105,184,87,0.14);
+  --bg-gradient:radial-gradient(120% 95% at 50% 0%,var(--bg-g2) 0%,var(--bg-g1) 48%,var(--bg-g0) 100%);
 }
 html.th-forest body { --tx:#E4EFE8; --ts:#8FAE9C; }
 
@@ -130,6 +139,11 @@ html.th-teal {
   --panel-a:16,50,63; --panel-b:8,30,38;
   --gmtoast-a:22,64,80; --gmtoast-b:11,38,48;
   --glass-rgb:160,214,230;
+
+  /* シアンのアクセント。深く沈む縦グラデ＋薄い粒子で水中の質感 */
+  --or:#0AB6D3; --ord:#0DD0F1; --orl:rgba(10,182,211,0.14);
+  --bg-gradient:linear-gradient(180deg,var(--bg-g0) 0%,var(--bg-g1) 45%,var(--bg-g2) 100%);
+  --bg-grain:var(--grain-tile);
 }
 html.th-teal body { --tx:#E1EEF2; --ts:#8AA8B2; }
 
@@ -145,6 +159,13 @@ html.th-amber {
   --panel-a:52,30,28; --panel-b:30,17,16;
   --gmtoast-a:66,38,35; --gmtoast-b:36,20,18;
   --glass-rgb:240,203,178;
+
+  /* ★見出しを明朝体に。琥珀のアクセントと粒子で、夜に紙の本を読む質感を作る */
+  --or:#DE9816; --ord:#FEAF1B; --orl:rgba(222,152,22,0.14);
+  --font-display:'Hiragino Mincho ProN','Yu Mincho',YuMincho,'MS PMincho',serif;
+  --font-display-ls:.01em;
+  --bg-gradient:linear-gradient(150deg,var(--bg-g0) 0%,var(--bg-g1) 55%,var(--bg-g2) 100%);
+  --bg-grain:var(--grain-tile);
 }
 html.th-amber body { --tx:#F4EAE6; --ts:#B89A92; }
 
@@ -160,6 +181,12 @@ html.th-rose {
   --panel-a:66,28,48; --panel-b:36,14,26;
   --gmtoast-a:84,36,60; --gmtoast-b:46,18,32;
   --glass-rgb:244,186,214;
+
+  /* ★見出しを丸ゴシックに。ローズゴールドのアクセントと柔らかい放射グラデ */
+  --or:#E2918A; --ord:#FFA69E; --orl:rgba(226,145,138,0.14);
+  --font-display:'Hiragino Maru Gothic ProN','Yu Gothic UI','Meiryo',sans-serif;
+  --font-display-ls:.01em;
+  --bg-gradient:radial-gradient(115% 90% at 30% 0%,var(--bg-g2) 0%,var(--bg-g1) 50%,var(--bg-g0) 100%);
 }
 html.th-rose body { --tx:#F7EAF0; --ts:#C09FAE; }
 
@@ -169,12 +196,16 @@ html.th-rose body { --tx:#F7EAF0; --ts:#C09FAE; }
    iOS でもビューポート全体へ確実に伝播（root background propagation＝コンポジタ最下層）し、
    固定背景やタイルの塗り残し部が「白」でなく暗色になって症状が消える。 */
 html { background-color:var(--bg-root); }
-/* Fixed page gradient — shows through transparent/glass elements */
+/* Fixed page gradient — shows through transparent/glass elements.
+   2レイヤー構成: 上が粒子（テーマが --bg-grain を none 以外にした時だけ出る）、
+   下がグラデーション本体。テーマは --bg-gradient / --bg-grain だけを差し替える。 */
 html::before {
   content:'';
   position:fixed;
   inset:0;
-  background:linear-gradient(135deg,var(--bg-g0) 0%,var(--bg-g1) 50%,var(--bg-g2) 100%);
+  background-image:var(--bg-grain),var(--bg-gradient);
+  background-size:120px 120px,cover;
+  background-repeat:repeat,no-repeat;
   z-index:-1;
 }
 :root {
@@ -203,11 +234,31 @@ html::before {
   --ease-in:cubic-bezier(.7,0,.84,0);
   --ease-in-out:cubic-bezier(.65,0,.35,1);
 
-  /* 科目色（chapters_meta.js の color）の上に載せる文字色。
-     2026-07-23 に科目色を暗色→明色へ反転させた際に導入した。
-     ⚠️ 科目色を地にするときは #fff ではなくこれを使うこと
-     （明るい地に白文字だと 3:1 前後まで落ちる）。全18色で 5.6:1 以上を確認済み。 */
+  /* 明るい面に載せる暗インク。科目色（chapters_meta.js の color）と
+     ブランドアクセント（--or）の両方に使う。
+     ⚠️ これらを地にするときは #fff ではなくこれを使うこと
+     （明るい地に白文字だと 2〜3:1 まで落ちる）。
+     科目18色で 5.6:1 以上、全テーマのアクセントで 7.6:1 以上を確認済み。 */
   --subj-ink:#1A1206;
+
+  /* 見出し用の書体。テーマごとに振る（本文は振らない＝長文の可読性を優先）。
+     Webフォントは使わない。明朝は iOS/macOS の Hiragino Mincho ProN と
+     Windows の Yu Mincho、丸ゴは Hiragino Maru Gothic ProN（Windows には
+     等価物が無いので通常のゴシックへ落ちる）。 */
+  --font-display:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;
+  --font-display-ls:0;
+
+  /* 固定背景。テーマごとにグラデーションの形と粒子の有無を振る。
+     ⚠️ 新しい position:fixed 要素は足さないこと。既存の html::before の
+     背景レイヤーを差し替えるだけにしてある（iOS の白wash対策を壊さないため）。 */
+  --bg-gradient:linear-gradient(135deg,var(--bg-g0) 0%,var(--bg-g1) 50%,var(--bg-g2) 100%);
+  --bg-grain:none;
+}
+/* 粒子（紙のような質感）。テーマ側が --bg-grain にこれを指定する。
+   グレースケール化した fractalNoise を極低不透明度でタイル敷きする。
+   120px の小タイルなので描画は一度きりで済む。 */
+:root{
+  --grain-tile:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
 }
 /* 2段階タップ確認のarmed状態（confirm()代替。_tapConfirm がbtnに付与し3秒で自動解除）。
    study.html とハブの「♻️ 最新に更新」で共用するため全ページ共通の vars.css に置く。 */
