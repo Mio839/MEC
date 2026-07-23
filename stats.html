@@ -127,6 +127,10 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .ai-export-msg{font-size:11px;color:var(--ts);text-align:center;margin-top:8px;min-height:14px;}
 .ai-opts{display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
 .ai-opt{font-size:11px;color:var(--ts);display:flex;align-items:center;gap:4px;cursor:pointer;user-select:none;}
+/* 2つ目のボタンは用途が違う（相談ではなく出題）ので配色を分け、区切り線で段を切る */
+.ai-desc2{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);}
+.ai-drill-btn{background:linear-gradient(135deg,#2E7D8C,#1B5566);box-shadow:0 4px 14px rgba(27,85,102,.4);}
+.ai-drill-btn:hover{box-shadow:0 6px 20px rgba(27,85,102,.55);}
 
 .sec-note{font-size:11px;font-weight:400;color:var(--ts);}
 
@@ -350,6 +354,9 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
       <label class="ai-opt"><input type="checkbox" id="aiOptRaw"> 苦手問題の生リストも含める（長め）</label>
     </div>
     <div id="aiExportMsg" class="ai-export-msg"></div>
+    <p class="ai-desc ai-desc2">弱点に合わせて一問一答を出題させるプロンプトも作れます。貼り付けるとAIが1問ずつ出題し、答えるまで正解を伏せます。</p>
+    <button id="aiDrillBtn" class="ai-export-btn ai-drill-btn">🎯 一問一答プロンプトをコピー</button>
+    <div id="aiDrillMsg" class="ai-export-msg"></div>
   </section>
 
   <!-- B2: 学習カレンダー。30日の棒グラフより一覧性が高く、連続の途切れも直感的に分かる -->
@@ -1148,6 +1155,147 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     return { flips, repeats, pct: Math.round(flips / repeats * 100) };
   }
 
+  // ══════════ 一問一答ドリル用プロンプト ══════════
+  // AI に一般問題（症例文なしの知識問題）を1問ずつ出させるための指示文を組み立てる。
+  // 出題範囲だけを学習データから差し込み、進行のルールは固定文にしてある。
+
+  // 章タイトルは科目により「MEC循環器 第2章 心不全 解答解説」「第1章 産婦人科総論」等と
+  // 表記がまちまちで、そのまま並べると科目名と章番号が二重に出る。中身だけ取り出す。
+  function cleanChTitle(title, subjName) {
+    let t = String(title || '');
+    t = t.replace(/^MEC\s*/, '');
+    if (subjName) t = t.replace(new RegExp('^' + subjName + '\\s*'), '');
+    t = t.replace(/第\s*[0-9０-９]+\s*章\s*/g, '');
+    t = t.replace(/\s*解答\s*解説\s*$/, '');
+    return t.trim();
+  }
+
+  // 章ごとの試験正答率。ドリルの出題範囲は章名まで指定できた方が具体的になる
+  function weakChapters(minTotal, maxPct, limit) {
+    const agg = {};
+    Object.entries(myrate).forEach(([uid, v]) => {
+      if (!v.total) return;
+      const m = uid.match(/^(.+)_q\d+$/);
+      if (!m) return;
+      const a = agg[m[1]] = agg[m[1]] || { correct: 0, total: 0 };
+      a.correct += v.correct || 0; a.total += v.total;
+    });
+    return Object.entries(agg)
+      .filter(([, a]) => a.total >= minTotal && (a.correct / a.total) * 100 < maxPct)
+      .map(([prefix, a]) => ({ prefix, pct: Math.round(a.correct / a.total * 100), total: a.total, info: chMap[prefix] }))
+      .filter(x => x.info)
+      .sort((a, b) => a.pct - b.pct)
+      .slice(0, limit);
+  }
+
+  // 科目×設問形式のうち弱いセル。「循環器の治療選択」のように範囲を絞れる
+  function weakCells(limit) {
+    if (!_karte) return [];
+    const out = [];
+    _karte.rows.forEach(s => {
+      const row = _karte.cells[s.id] || {};
+      QTYPES.forEach(t => {
+        const d = row[t.k];
+        if (!d || d.total < HM_MIN_N) return;
+        const pct = Math.round(d.correct / d.total * 100);
+        if (pct >= 70) return;
+        out.push({ name: s.name, type: t.label, pct, total: d.total });
+      });
+    });
+    return out.sort((a, b) => a.pct - b.pct).slice(0, limit);
+  }
+
+  function buildDrillPrompt() {
+    const scope = [];
+    const cells = weakCells(6);
+    const chs = weakChapters(5, 65, 8);
+
+    if (cells.length) {
+      scope.push('正答率が低い組み合わせです。上から順に重点的に出してください。');
+      cells.forEach(c => scope.push(`- ${c.name}の「${c.type}」を問う問題（試験正答率 ${c.pct}%）`));
+      scope.push('');
+    }
+    if (chs.length) {
+      scope.push('正答率が低い章は次のとおりです。論点はここから拾ってください。');
+      chs.forEach(c => {
+        const t = cleanChTitle(c.info.chTitle, c.info.subjName);
+        scope.push(`- ${c.info.subjName} 第${c.info.chNum}章${t ? ' ' + t : ''}（${c.pct}%・${c.total}問受験）`);
+      });
+      scope.push('');
+    }
+    if (_karte && _karte.flagAgg && _karte.all.total) {
+      const base = Math.round(_karte.all.correct / _karte.all.total * 100);
+      const names = { neg: '否定形（〜でないのはどれか）', multi: '複数選択（2つ選べ）', calc: '数値・計算' };
+      const weak = Object.keys(names).filter(f => {
+        const d = _karte.flagAgg[f];
+        return d && d.total >= HM_MIN_N && Math.round(d.correct / d.total * 100) <= base - 5;
+      });
+      if (weak.length) {
+        scope.push('次の形式で全体平均より落としています。意識して混ぜてください。');
+        weak.forEach(f => {
+          const d = _karte.flagAgg[f];
+          scope.push(`- ${names[f]}: ${Math.round(d.correct / d.total * 100)}%（全体平均 ${base}%）`);
+        });
+        scope.push('');
+      }
+    }
+    if (!scope.length) {
+      scope.push('全科目からランダムに出題してください。');
+      scope.push('（試験モードのデータがまだ少ないため、弱点の指定はありません）');
+      scope.push('');
+    }
+
+    return [
+      'あなたは医師国家試験の「一般問題」を出題する出題官です。',
+      '私が答えを書くまで、正解・解説・次の問題を絶対に書かないでください。これが最優先ルールです。',
+      '',
+      '# 出題範囲',
+      ...scope,
+      '# 出題形式',
+      '- 1回の発言につき1問だけ。',
+      '- 症例文は付けない。設問は1〜2行の知識問題にする。',
+      '- 選択肢は a〜e の5つ。原則「1つ選べ」。5問に1問くらい「2つ選べ」を混ぜる。',
+      '- 難易度は本番レベル（想定正答率60〜85%）。丸暗記ではなく、鑑別・機序・数値の境界を問う。',
+      '- もっともらしい誤りの選択肢を必ず2つ以上入れる。明らかな捨て肢は1つまで。',
+      '- 同じ論点は繰り返さない。',
+      '- 自信のない事実は出題しない。ガイドラインで変動しやすい数値は避けるか、基準の年を明記する。',
+      '',
+      '# 出題テンプレート（厳守）',
+      '【第N問】通算 X問正解 / Y問（Z%）',
+      '〈分野〉',
+      '設問文',
+      'a　…',
+      'b　…',
+      'c　…',
+      'd　…',
+      'e　…',
+      '',
+      '↑ここで発言を終える。解答も解説も書かない。',
+      '',
+      '# 私が答えた後の動き',
+      '私は「a」のように1文字だけ答えることがある。それも解答として受け付ける。',
+      '1) 採点する',
+      '   - 正解: 「⭕ 正解 a」＋要点1〜2行のみ。長く書かない。',
+      '   - 誤答: 「❌ 正解は c」＋ ①なぜcが正しいか2〜3行 ②私が選んだ肢がなぜ違うか1〜2行',
+      '           ③セットで覚える論点1行',
+      '2) 採点と解説を書いたら、同じ発言の続きでそのまま次の問題を出す。私の合図は待たない。',
+      '3) 私が誤答した論点は、5問後と15問後に角度を変えて再出題する。',
+      '   出題時は再出題だと明かさず、採点のときに「（第N問の再出題）」と添える。',
+      '',
+      '# 私が使うコマンド',
+      '- 「解説」… 直前の問題をもっと詳しく',
+      '- 「飛ばす」… その問題を捨てて次へ',
+      '- 「難しく」「易しく」… 以降の難易度を調整',
+      '- 「分野: ○○」… 以降の出題範囲を変更',
+      '- 「まとめ」… ここまでに誤答した論点を箇条書きで一覧化する（次のセッションに引き継ぐため）',
+      '',
+      '# 禁止',
+      '前置き・励まし・「頑張りましょう」の類は書かない。絵文字は採点の⭕❌だけ。テンポを最優先する。',
+      '',
+      '準備ができたら第1問だけを出してください。',
+    ].join('\n');
+  }
+
   function buildMarkdown(includeRaw) {
     const totalAll = (typeof MEC_CHAPTERS !== 'undefined') ? MEC_CHAPTERS.reduce((s, subj) => s + subj.chapters.reduce((ss, ch) => ss + ch.count, 0), 0) : 0;
     const donePct = totalAll ? Math.round(doneCount / totalAll * 100) : 0;
@@ -1636,28 +1784,49 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   try { renderGap(); } catch (e) { console.error('gap', e); }
   armReveal();
 
+  // クリップボードへコピーしてボタンを一時的に完了表示にする。
+  // navigator.clipboard は非セキュアコンテキストや一部のiOS設定で使えないため textarea 経由に落とす
+  async function copyWithFeedback(text, btn, msgEl, origLabel, doneMsg) {
+    const done_ = () => {
+      btn.classList.add('copied');
+      btn.textContent = '✅ コピーしました';
+      if (msgEl) msgEl.textContent = doneMsg;
+      setTimeout(() => { btn.classList.remove('copied'); btn.textContent = origLabel; }, 2500);
+    };
+    try {
+      await navigator.clipboard.writeText(text);
+      done_();
+    } catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done_(); }
+      catch { if (msgEl) msgEl.textContent = 'コピーに失敗しました。'; }
+      ta.remove();
+    }
+  }
+
   const exportBtn = document.getElementById('aiExportBtn');
   const exportMsg = document.getElementById('aiExportMsg');
   if (exportBtn) {
-    exportBtn.addEventListener('click', async () => {
+    exportBtn.addEventListener('click', () => {
       const raw = document.getElementById('aiOptRaw') && document.getElementById('aiOptRaw').checked;
       const md = buildMarkdown(raw);
-      const done_ = () => {
-        exportBtn.classList.add('copied');
-        exportBtn.textContent = '✅ コピーしました';
-        exportMsg.textContent = `${md.length}文字をコピー。AIに貼り付けて相談できます。`;
-        setTimeout(() => { exportBtn.classList.remove('copied'); exportBtn.textContent = '📋 AI相談用にコピー'; }, 2500);
-      };
-      try {
-        await navigator.clipboard.writeText(md);
-        done_();
-      } catch (e) {
-        const ta = document.createElement('textarea');
-        ta.value = md; ta.style.position = 'fixed'; ta.style.opacity = '0';
-        document.body.appendChild(ta); ta.select();
-        try { document.execCommand('copy'); done_(); } catch { exportMsg.textContent = 'コピーに失敗しました。'; }
-        ta.remove();
-      }
+      copyWithFeedback(md, exportBtn, exportMsg, '📋 AI相談用にコピー',
+        `${md.length}文字をコピー。AIに貼り付けて相談できます。`);
+    });
+  }
+
+  const drillBtn = document.getElementById('aiDrillBtn');
+  const drillMsg = document.getElementById('aiDrillMsg');
+  if (drillBtn) {
+    drillBtn.addEventListener('click', () => {
+      const p = buildDrillPrompt();
+      const cells = weakCells(6).length, chs = weakChapters(5, 65, 8).length;
+      const scope = (cells || chs)
+        ? `弱点${cells}件・弱い章${chs}件を出題範囲に入れました。`
+        : '弱点データがまだ少ないため、全科目ランダムの指定になっています。';
+      copyWithFeedback(p, drillBtn, drillMsg, '🎯 一問一答プロンプトをコピー', scope);
     });
   }
 
