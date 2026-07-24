@@ -13,7 +13,40 @@ const EXAM_EFFECT_SETS = ['classic', 'neon', 'ink', 'ecg', 'space', 'retro', 'lu
 const EXAM_EFFECT_POOL = EXAM_EFFECT_SETS.flatMap(s => s === 'classic' ? [s] : [s, s]);
 let examEffectSet = 'classic';
 let examBySubj = {};
+// 章別の集計。key = "{sid}_{章番号}"（例 "endo_1"）→ {sid, ch, correct, total}。
+// 結果画面の「章別」表と中断再開の復元に使う。examBySubj と同じ寿命で扱う。
+let examByChapter = {};
 let _examChPrefix = null;   // selected chapter prefix for exam (e.g. "neur_ch01")
+
+// 章名の解決。MEC_CHAPTERS（chapters_meta.js）の prefix→title から章名だけを抜く。
+// title は2形式ある: 「MEC○○ 第N章 章名 解答解説」と「第N章 章名」（obg/peds）。
+// どちらも「第N章」より前と末尾「解答解説」を捨てれば章名が残る。無ければ空文字。
+// 初回だけ prefix→章名の辞書を作ってキャッシュする。
+let _chapNameMap = null;
+function _chapterName(sid, ch) {
+  if (_chapNameMap === null) {
+    _chapNameMap = {};
+    if (typeof MEC_CHAPTERS !== 'undefined') {
+      MEC_CHAPTERS.forEach(subj => (subj.chapters || []).forEach(c => {
+        const m = /^(.+)_ch(\d+)$/.exec(c.prefix || '');
+        if (!m) return;
+        const name = (c.title || '').replace(/^.*?第\d+章\s*/, '').replace(/\s*解答解説\s*$/, '').trim();
+        if (name) _chapNameMap[m[1] + '_' + parseInt(m[2], 10)] = name;
+      }));
+    }
+  }
+  return _chapNameMap[sid + '_' + ch] || '';
+}
+
+// uid から章を1件ぶん集計する。examAnswered/examBySubj を増やす箇所と対で呼ぶこと。
+function _tallyChapter(uid, isCorrect) {
+  const m = /^(.+)_ch(\d+)_q/.exec(uid || '');
+  if (!m) return;                       // jitsu1/custom 等 ch を持たない uid は章別に出さない
+  const key = m[1] + '_' + parseInt(m[2], 10);
+  if (!examByChapter[key]) examByChapter[key] = { sid: m[1], ch: parseInt(m[2], 10), correct: 0, total: 0 };
+  examByChapter[key].total++;
+  if (isCorrect) examByChapter[key].correct++;
+}
 let _examTabSubj = null;    // 試験開始モーダルの章グリッドで表示中の科目タブ
 let _examActiveChPrefix = null; // chapter prefix that was active when exam started
 let examWrong = [];
@@ -519,6 +552,7 @@ function _saveExamResume() {
     correctCount: examCorrect + pendingCorrect,
     wrongUids: [...examWrong, ...pendingWrong],
     bySubj: examBySubj,
+    byChapter: examByChapter,
     total: examQueue.length,
     count: _examCount,
     filterLabel: _examFilterLabel,
@@ -623,7 +657,7 @@ function startExam(overrideUids = null) {
   _examSessionKey = _subj + ':' + examQueue.length;
   // SRS復習は中断データを持たないので消さない（同じキーの通常試験の中断データを巻き込まないため）
   if (!_srsReviewMode) _clearExamResume();
-  examMode = true; examAnswered = 0; examCorrect = 0; examStreak = 0; examBySubj = {}; examWrong = []; _examSessionWrongChoices.clear(); examStartTime = Date.now(); _examPausedMs = 0; _examPauseStart = null;
+  examMode = true; examAnswered = 0; examCorrect = 0; examStreak = 0; examBySubj = {}; examByChapter = {}; examWrong = []; _examSessionWrongChoices.clear(); examStartTime = Date.now(); _examPausedMs = 0; _examPauseStart = null;
   _attemptSessionId = window.MecAttempts ? MecAttempts.newSession() : '';
   _examCardSeenAt.clear(); _zoneStop(false); _setAwaken(false);
   examEffectSet = EXAM_EFFECT_POOL[Math.floor(Math.random() * EXAM_EFFECT_POOL.length)];
@@ -735,6 +769,7 @@ function revealAnswer(card) {
     const isCorrect = selected.length === req && selected.every(ch => ch.classList.contains('ok'));
     examAnswered++;
     examBySubj[sid].total++;
+    _tallyChapter(card.dataset.uid, isCorrect);
     _markExamDone(card.dataset.uid);
     _recordMyRate(card.dataset.uid, isCorrect);
     _logAttempt(card, isCorrect, _selectedChoiceStr(selected));
@@ -775,6 +810,7 @@ function revealAnswer(card) {
   const isCorrect = sel.classList.contains('ok');
   examAnswered++;
   examBySubj[sid].total++;
+  _tallyChapter(card.dataset.uid, isCorrect);
   _markExamDone(card.dataset.uid);
   _recordMyRate(card.dataset.uid, isCorrect);
   _logAttempt(card, isCorrect, _selectedChoiceStr([sel]));
@@ -2683,6 +2719,7 @@ function resumeExam(savedAt) {
   examAnswered = saved.answeredCount;
   examCorrect = saved.correctCount;
   examBySubj = saved.bySubj || {};
+  examByChapter = saved.byChapter || {};
   examWrong = saved.wrongUids || [];
 
   examMode = true;
@@ -2939,6 +2976,25 @@ function showExamSummary() {
       const p = Math.round(s.correct / s.total * 100);
       const pc = p >= 80 ? '#7CEFB2' : p >= 60 ? '#FFD37A' : '#FF9B9B';
       return `<tr><td>${subj ? subj.icon + ' ' + subj.name : sid}</td><td style="font-weight:700">${s.correct}/${s.total}</td><td style="font-weight:700;color:${pc}">${p}%</td></tr>`;
+    }).join('');
+  }
+  // 章別。どの章をやったかを科目別表の下に出す。sid→章番号順に並べる。
+  const chapWrap = document.getElementById('sumChapWrap');
+  const chapEl = document.getElementById('sumChapTable');
+  if (chapEl) {
+    const rows = Object.values(examByChapter)
+      .sort((a, b) => a.sid === b.sid ? a.ch - b.ch : (a.sid < b.sid ? -1 : 1));
+    if (chapWrap) chapWrap.style.display = rows.length ? '' : 'none';
+    // 単一科目のセッションなら各行に科目名を繰り返さない（章番号だけで足りる）
+    const multiSubj = new Set(rows.map(r => r.sid)).size > 1;
+    chapEl.innerHTML = rows.map(s => {
+      const subj = STUDY_SUBJECTS.find(x => x.id === s.sid);
+      const p = Math.round(s.correct / s.total * 100);
+      const pc = p >= 80 ? '#7CEFB2' : p >= 60 ? '#FFD37A' : '#FF9B9B';
+      const prefix = multiSubj && subj ? subj.icon + ' ' + subj.name + ' ' : '';
+      const nm = _chapterName(s.sid, s.ch);   // MEC_CHAPTERS 由来の自データ（科目名と同じく生で入れる）
+      const chLabel = '第' + s.ch + '章' + (nm ? ' ' + nm : '');
+      return `<tr><td>${prefix}${chLabel}</td><td style="font-weight:700">${s.correct}/${s.total}</td><td style="font-weight:700;color:${pc}">${p}%</td></tr>`;
     }).join('');
   }
   const noteEl = document.getElementById('sumFlagNote');

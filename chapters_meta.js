@@ -77,7 +77,7 @@ const MEC_CHAPTERS = [
       {
         "prefix": "resp_ch01",
         "file": "_archive/呼吸器/ch01_呼吸器の基本_解答解説.html",
-        "title": "MEC呼吸器 第1章 解答解説",
+        "title": "MEC呼吸器 第1章 呼吸器の基本 解答解説",
         "count": 72
       },
       {

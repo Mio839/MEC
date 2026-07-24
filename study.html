@@ -28,6 +28,9 @@
 <script src="attempts.js"></script>
 <script src="fx_engine.js"></script>
 <script src="fixed_uids.js"></script>
+<!-- 章名（試験結果画面の「章別」表）用。MEC_CHAPTERS の prefix→title を引く。
+     study_exam.js より前に置き、参照できるようにする -->
+<script src="chapters_meta.js"></script>
 <script src="study_exam.js"></script>
 <script src="gamify.js"></script>
 <link rel="stylesheet" href="vars.css">
@@ -219,6 +222,10 @@ if ('serviceWorker' in navigator) {
     <div class="exam-subj-wrap">
       <h3>科目別</h3>
       <table class="exam-subj-table" id="sumSubjTable"></table>
+    </div>
+    <div class="exam-subj-wrap" id="sumChapWrap" style="display:none">
+      <h3>章別</h3>
+      <table class="exam-subj-table" id="sumChapTable"></table>
     </div>
     <div class="exam-flag-note" id="sumFlagNote"></div>
     <button class="exam-review-btn" id="sumReviewBtn" onclick="reviewWrongAnswers()" style="display:none">📖 誤答 <span id="sumReviewCount">0</span>問の解説を見る</button>
