@@ -12,21 +12,38 @@
 <link rel="stylesheet" href="vars.css">
 <script src="theme.js"></script>
 <style>
-/* Hallmark · genre: atmospheric · macrostructure: Stat-Led · theme: project-locked (vars.css)
+/* Hallmark · genre: atmospheric · macrostructure: Workbench · theme: project-locked (vars.css)
  * nav: N9 edge-aligned · footer: Ft2 inline · enrichment: none (typography only)
- * register: quiet luxury · accent: --or (theme-driven, single hue)
- * pre-emit critique: P4 H5 E4 S4 R5 V4
+ * register: mission control（計器盤）· accent: --or (theme-driven, single hue)
+ * motion: reveal-stagger · ring-draw + count-up · header-scan · spark-rise · tile-edge-wipe
+ * pre-emit critique: P5 H5 E5 S4 R4 V5
  *
  * ⚠️ 色・書体・角丸・影は vars.css のトークンだけを参照すること（6テーマ全部で成立させるため）。
  *    ここに hex を直書きすると、そのテーマだけ配色が破れる。
+ * ⚠️ 動かすのは transform / opacity / stroke-dashoffset だけ。width・height を
+ *    アニメーションさせるとレイアウトが毎フレーム走って iPad で落ちる。
  */
 :root{
   /* 4pt スペーシングスケール（このページ内で完結。生の px を書かずこれを参照する） */
   --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px; --sp-7:48px;
-  /* 罫線2段。面を塗り分けるのではなく線で仕切るのが「静かな高級感」の骨 */
+  /* 罫線3段。面を塗り分けるのではなく線で仕切るのが計器盤の骨 */
   --hair:rgba(255,255,255,.09);
-  --hair-2:rgba(255,255,255,.15);
-  --hub-max:720px;   /* 読みやすい測り幅。iPad/PCで全幅に広がるのを止める */
+  --hair-2:rgba(255,255,255,.16);
+  --hair-3:rgba(255,255,255,.26);
+  --hub-max:760px;   /* 読みやすい測り幅。iPad/PCで全幅に広がるのを止める */
+  /* 時間3段（vars.css のイージング3種と対で使う） */
+  --dur-micro:120ms; --dur-short:220ms; --dur-long:420ms;
+}
+
+/* ── 入場: 1回だけのオーケストレーション。--i の順に 70ms ずつずらす ──
+   ⚠️ animation が効かない環境で中身が消えないよう forwards ではなく both を使い、
+      reduced-motion では完全に無効化して初期状態を可視にする */
+.rv{opacity:0;transform:translateY(10px);
+  animation:rv var(--dur-long) var(--ease-out) both;
+  animation-delay:calc(var(--i,0) * 70ms);}
+@keyframes rv{to{opacity:1;transform:none;}}
+@media (prefers-reduced-motion:reduce){
+  .rv{opacity:1;transform:none;animation:none;}
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -37,17 +54,37 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
 /* ── Header: N9 edge-aligned（細い一本線。道具は ☰ の中へ集約した） ──
    ぼかしはモーダルオーバーレイ1枚だけの方針。ヘッダーは半透明ソリッド */
-.hub-header{position:sticky;top:0;z-index:var(--z-hdr);
+.hub-header{position:relative;position:sticky;top:0;z-index:var(--z-hdr);
   display:flex;align-items:center;gap:var(--sp-3);
   padding:var(--sp-3) var(--sp-4);
   background:rgba(var(--hdr-rgb),.94);border-bottom:1px solid var(--hair);}
+/* 起動時に一度だけ下端を走る光。計器に電源が入る合図で、以後は動かない
+   （無限ループは目を引き続けるので使わない） */
+.hub-header::after{content:'';position:absolute;left:0;bottom:-1px;height:1px;width:42%;
+  background:linear-gradient(90deg,transparent,var(--or),transparent);
+  animation:scan 1.5s var(--ease-in-out) .25s both;}
+@keyframes scan{
+  0%{transform:translateX(-110%);opacity:0;}
+  18%{opacity:.9;}
+  100%{transform:translateX(320%);opacity:0;}
+}
+@media (prefers-reduced-motion:reduce){.hub-header::after{display:none;}}
 /* 同期バッジが長文（⚠️ ストレージ不足）になっても道具側を潰さない。
    狭い画面では先に屋号のほうを詰める */
-.hub-mark{display:flex;align-items:baseline;gap:6px;white-space:nowrap;min-width:0;overflow:hidden;
-  font-family:var(--font-display);letter-spacing:var(--font-display-ls);
+.hub-mark{display:flex;align-items:baseline;gap:7px;white-space:nowrap;min-width:0;overflow:hidden;
+  font-family:var(--font-display);letter-spacing:.14em;
   font-size:14px;font-weight:800;color:var(--tx);text-decoration:none;}
-.hub-mark em{font-style:normal;font-size:11.5px;font-weight:700;color:var(--ts);letter-spacing:.06em;
+.hub-mark em{font-style:normal;font-size:11px;font-weight:700;color:var(--ts);letter-spacing:.1em;
   overflow:hidden;text-overflow:ellipsis;}
+/* 屋号と副題の間の細い縦棒。線で仕切るのがこのページの語彙 */
+.hub-mark i{width:1px;height:11px;flex-shrink:0;background:var(--hair-3);align-self:center;}
+/* 最終更新。屋号のすぐ右に置く。狭い画面では屋号より先にこちらを詰める */
+.hub-upd{flex-shrink:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+  font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--ts);
+  font-variant-numeric:tabular-nums;}
+/* 360px級では屋号・更新時刻・同期バッジ・道具2つが一行に収まらない。
+   情報量の一番少ない「学習ハブ」を落として時刻のほうを残す（題はタブに出ている） */
+@media (max-width:430px){.hub-mark i,.hub-mark em{display:none;}}
 .hub-tools{margin-left:auto;flex-shrink:0;display:flex;align-items:center;gap:var(--sp-2);}
 .hub-icon{position:relative;width:34px;height:34px;flex-shrink:0;
   display:grid;place-items:center;font-size:15px;line-height:1;
@@ -62,85 +99,228 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
 .hub-main{max-width:var(--hub-max);margin:0 auto;padding:var(--sp-5) var(--sp-4) var(--sp-7);}
 
-/* ── Hero: Stat-Led（巨大な数字が主役。左寄せで軸を1本に絞る） ── */
-.hero{position:relative;padding:var(--sp-6) var(--sp-5) var(--sp-5);
+/* ── Hero: 計器盤（大きな読み値ひとつ＋ゲージひとつ＋計器行＋30日の波形） ── */
+.hero{position:relative;isolation:isolate;overflow:hidden;
+  padding:var(--sp-6) var(--sp-5) var(--sp-5);
   border:1px solid var(--hair-2);border-radius:var(--r-lg);box-shadow:var(--shadow-card);
-  background:linear-gradient(165deg,rgba(var(--glass-rgb),.11),rgba(var(--glass-rgb),.035) 62%);}
-.hero-label{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--ts);}
-.hero-fig{display:flex;align-items:baseline;gap:.16em;min-width:0;margin-top:var(--sp-2);
+  background:linear-gradient(165deg,rgba(var(--glass-rgb),.13),rgba(var(--glass-rgb),.04) 62%);}
+/* 盤面の質感。粒子＋極薄の横罫を敷き、下へ向けて消す。静的な背景なので描画は一度きり。
+   --grain-tile は vars.css 共通のノイズタイル（テーマ非依存） */
+.hero::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:var(--grain-tile),repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 5px);
+  background-size:120px 120px,auto;
+  -webkit-mask-image:linear-gradient(180deg,#000,transparent 76%);
+  mask-image:linear-gradient(180deg,#000,transparent 76%);}
+/* 左上の見出し帯。ページ内でアクセントを「線」でなく「面」で使うのはここと主ボタンだけ */
+.hero::after{content:'';position:absolute;left:0;top:0;width:92px;height:3px;background:var(--or);}
+/* 四隅のブラケット＝計器の枠。静的・アクセント色・薄め。左上は上の見出し帯が担当する。
+   下2つは計器ベイの余白（左右24px・下24px）の内側に収める＝波形や「30日」と重ならない */
+.hero-cnr{position:absolute;width:14px;height:14px;pointer-events:none;
+  border:1.5px solid var(--or);opacity:.5;}
+.hero-cnr.tr{top:10px;right:10px;border-left:0;border-bottom:0;}
+.hero-cnr.bl{bottom:7px;left:7px;border-right:0;border-top:0;}
+.hero-cnr.br{bottom:7px;right:7px;border-left:0;border-top:0;}
+/* アクセントの発光。--orl はテーマごとの半透明アクセントなので6テーマ全部で成立する。
+   blur フィルタは掛けない（放射グラデ自体が既に柔らかい＋iPadの合成負荷を避ける） */
+.hero-bloom{position:absolute;z-index:-1;pointer-events:none;
+  top:-46%;right:-18%;width:min(440px,88%);aspect-ratio:1;
+  background:radial-gradient(circle at 50% 50%,var(--orl) 0%,transparent 64%);}
+
+.hero-body{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--sp-5);align-items:center;}
+.hero-label{display:flex;align-items:center;gap:8px;min-width:0;
+  font-size:12.5px;font-weight:800;letter-spacing:.14em;color:var(--tx);}
+/* 見出し語だけを詰める。先頭の点（.hero-live）まで巻き込まないよう限定する */
+.hero-label .lb{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.hero-live{width:7px;height:7px;flex-shrink:0;border-radius:50%;
+  background:var(--or);box-shadow:0 0 0 4px var(--orl);}
+.hero-fig{display:flex;align-items:baseline;gap:.14em;min-width:0;margin-top:var(--sp-3);
   font-family:var(--font-display);}
-.hero-num{font-size:clamp(3.4rem,17vw,5.4rem);font-weight:800;line-height:.92;
-  letter-spacing:-.035em;color:var(--tx);font-variant-numeric:tabular-nums;overflow-wrap:anywhere;}
-.hero-unit{font-size:clamp(1rem,4vw,1.35rem);font-weight:700;color:var(--ts);}
-/* 数字を受ける細い線。ページ内でアクセント色を面に使うのはここと主ボタンだけ */
-.hero-rule{width:84px;height:2px;border-radius:2px;background:var(--or);margin:var(--sp-4) 0 var(--sp-3);}
-.hero-say{font-size:13px;line-height:1.7;color:var(--ts);max-width:34em;}
-.hero-meter{height:4px;border-radius:3px;margin-top:var(--sp-4);overflow:hidden;
-  background:rgba(var(--glass-rgb),.10);}
-.hero-meter-fill{height:100%;width:0;border-radius:3px;background:var(--or);
-  transition:width .9s var(--ease-out);}
-.hero-stats{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--sp-1) var(--sp-4);
-  margin-top:var(--sp-3);font-size:12px;color:var(--ts);font-variant-numeric:tabular-nums;}
-.hero-stats b{font-size:14px;font-weight:800;color:var(--tx);}
+.hero-num{font-size:clamp(3.4rem,17vw,5.6rem);font-weight:800;line-height:.86;
+  letter-spacing:-.045em;color:var(--tx);font-variant-numeric:tabular-nums;overflow-wrap:anywhere;}
+/* 単位だけアクセント。数字そのものに発光を掛けるより静かで、かつ効く */
+.hero-unit{font-size:clamp(1.1rem,4.4vw,1.5rem);font-weight:800;color:var(--or);}
+/* 今日のXP。問題数の次に強い読み値なので、アクセントを地にした帯にする */
+.hero-xp{display:inline-flex;align-items:baseline;gap:3px;margin-top:var(--sp-3);
+  padding:5px 11px;border-radius:var(--r-sm);
+  background:var(--orl);border:1px solid var(--or);
+  font-family:var(--font-display);font-size:clamp(15px,4.6vw,19px);font-weight:800;
+  color:var(--or);font-variant-numeric:tabular-nums;letter-spacing:-.01em;}
+.hero-xp em{font-style:normal;font-size:.62em;font-weight:800;letter-spacing:.06em;}
+/* 内訳。アクセントの帯の中に灰色を入れると濁るので、帯の下に別行で置く */
+.hero-xp-n{margin-top:6px;font-size:11.5px;font-weight:700;color:var(--ts);
+  font-variant-numeric:tabular-nums;}
+.hero-xp-n:empty{display:none;}
+.hero-say{margin-top:var(--sp-3);font-size:13px;line-height:1.75;color:var(--ts);max-width:34em;}
+
+/* ── ゲージ（全体進捗）。円弧は stroke-dashoffset だけを動かす ── */
+.gauge{width:clamp(112px,30vw,152px);flex-shrink:0;text-align:center;}
+.gauge-ring{position:relative;}
+.gauge-ring svg{display:block;width:100%;height:auto;transform:rotate(-90deg);}
+.gauge-ring circle{fill:none;}
+/* 外周の目盛り。破線で36本の刻みを作る（r=64 の円周 402.12 ÷ 36 = 11.17） */
+.gauge-tick{stroke:rgba(var(--glass-rgb),.28);stroke-width:5;stroke-dasharray:1.8 9.37;}
+.gauge-trk{stroke:rgba(var(--glass-rgb),.14);stroke-width:10;}
+/* 円周 = 2π×54 = 339.29。offset は renderHero() が実測値から入れる。
+   ⚠️ この値・CSS の dasharray・JS の GAUGE_C の3つは必ず揃えること */
+.gauge-val{stroke:var(--or);stroke-width:10;stroke-linecap:round;
+  stroke-dasharray:339.29;stroke-dashoffset:339.29;
+  animation:ringDraw 1.15s var(--ease-out) .25s backwards;}
+@keyframes ringDraw{from{stroke-dashoffset:339.29;}}
+.gauge-mid{position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--font-display);font-size:clamp(22px,6.4vw,30px);font-weight:800;
+  letter-spacing:-.03em;color:var(--tx);font-variant-numeric:tabular-nums;line-height:1;}
+.gauge-mid em{font-style:normal;font-size:.5em;color:var(--ts);margin-left:1px;}
+.gauge-cap{margin-top:var(--sp-2);font-size:10.5px;font-weight:700;letter-spacing:.14em;
+  color:var(--ts);white-space:nowrap;}
+/* 狭い画面ではゲージを数字の下へ落とす。横に並べたままだと巨大な数字の幅が足りない */
+@media (max-width:440px){
+  .hero-body{grid-template-columns:minmax(0,1fr);gap:var(--sp-4);}
+  .gauge{width:124px;justify-self:end;}
+}
+
 .hero-cta{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-5);}
+
+/* ── 計器ベイ。読み値のブロックより一段沈めて、盤面の下部に埋め込む ── */
+.hero-inst{margin:var(--sp-5) calc(var(--sp-5) * -1) calc(var(--sp-5) * -1);
+  padding:var(--sp-4) var(--sp-5) var(--sp-5);
+  border-top:1px solid var(--hair-2);
+  background:rgba(0,0,0,.18);}  /* 面を沈めるための中立の暗幕（色相を持たせない） */
+
+/* ── 計器行。3つの読み値を縦罫で仕切る ── */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));}
+.strip-c{padding-left:var(--sp-3);border-left:1px solid var(--hair);min-width:0;}
+.strip-c:first-child{padding-left:0;border-left:0;}
+.strip dt{font-size:10.5px;font-weight:700;letter-spacing:.12em;color:var(--ts);}
+.strip dd{margin-top:3px;font-family:var(--font-display);font-size:clamp(16px,5vw,20px);
+  font-weight:800;color:var(--tx);font-variant-numeric:tabular-nums;white-space:nowrap;}
+/* 数字は b・単位は span。両方 span にすると単位の小さいグレーが数字にも掛かる */
+.strip dd span{margin-left:2px;font-size:11px;font-weight:700;color:var(--ts);}
+
+/* ── 直近30日の波形。棒は scaleY だけを伸ばす（height は触らない） ── */
+.spark-row{display:flex;align-items:flex-end;gap:var(--sp-3);margin-top:var(--sp-4);}
+.spark-lb{padding-bottom:3px;font-size:10px;letter-spacing:.1em;color:var(--ts);white-space:nowrap;}
+.spark{display:flex;align-items:flex-end;gap:2px;flex:1;min-width:0;height:26px;}
+.spark i{flex:1;min-width:0;border-radius:1px;background:rgba(var(--glass-rgb),.16);
+  transform-origin:bottom;animation:sparkUp .5s var(--ease-out) backwards;
+  animation-delay:calc(.3s + var(--i,0) * 10ms);}
+.spark i.on{background:var(--or);}
+@keyframes sparkUp{from{transform:scaleY(.02);}}
+/* 30本入るので狭い画面では隙間を詰める（詰めないと棒が1px未満になって波形が読めない） */
+@media (max-width:420px){.spark{gap:1px;}}
+/* 再描画（同期完了）で全部の棒がもう一度立ち上がると読みづらいので2回目以降は止める */
+.hero.settled .spark i,.hero.settled .gauge-val{animation:none;}
 /* 明るいアクセントが地なので白文字だと 2.1:1。暗インクへ反転（テーマで色が変わっても成立する） */
 .cta-main{flex:1 1 200px;padding:13px 18px;border-radius:var(--r-md);text-align:center;
-  background:var(--or);color:var(--subj-ink);font-size:14px;font-weight:800;
+  background:var(--or);color:var(--subj-ink);font-size:14px;font-weight:800;letter-spacing:.02em;
   text-decoration:none;white-space:nowrap;
-  transition:filter .15s var(--ease-out),transform .12s var(--ease-out);}
-.cta-main:hover{filter:brightness(1.08);}
+  transition:filter var(--dur-micro) var(--ease-out),transform var(--dur-micro) var(--ease-out);}
+.cta-main:hover{filter:brightness(1.08);transform:translateY(-1px);}
 .cta-main:active{transform:translateY(1px);}
 .cta-sub{flex:1 1 150px;padding:13px 16px;border-radius:var(--r-md);text-align:center;
   border:1px solid var(--hair-2);background:rgba(var(--glass-rgb),.05);color:var(--tx);
   font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;
-  transition:background-color .15s var(--ease-out),border-color .15s var(--ease-out);}
-.cta-sub:hover{background:rgba(var(--glass-rgb),.12);border-color:rgba(255,255,255,.26);}
+  transition:background-color var(--dur-short) var(--ease-out),border-color var(--dur-short) var(--ease-out),transform var(--dur-micro) var(--ease-out);}
+.cta-sub:hover{background:rgba(var(--glass-rgb),.12);border-color:var(--hair-3);transform:translateY(-1px);}
+.cta-sub:active{transform:translateY(1px);}
 
-/* ── セクション見出し（ヒーローに対して従属。線1本と小さい字だけ） ── */
-.sec-h{display:flex;align-items:center;gap:var(--sp-2);width:100%;
-  margin:var(--sp-7) 0 var(--sp-3);padding:0 0 var(--sp-2);
-  border:0;border-bottom:1px solid var(--hair);background:none;color:var(--ts);
-  font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.08em;text-align:left;
-  transition:color .15s var(--ease-out);}
+/* ── セクション見出し（計器のラベル。左のアクセント刻み＋消えていく罫） ── */
+.sec-h{display:flex;align-items:center;gap:10px;width:100%;
+  margin:var(--sp-7) 0 var(--sp-3);padding:0;
+  border:0;background:none;color:var(--tx);
+  font-family:inherit;font-size:12.5px;font-weight:800;letter-spacing:.16em;text-align:left;
+  transition:color var(--dur-short) var(--ease-out);}
+.sec-h::before{content:'';flex-shrink:0;width:3px;height:13px;border-radius:1px;background:var(--or);}
+.sec-h .ln{flex:1;min-width:12px;height:1px;background:linear-gradient(90deg,var(--hair-2),transparent 92%);}
 button.sec-h{cursor:pointer;}
-button.sec-h:hover{color:var(--tx);}
-.sec-h .ar{margin-left:auto;font-size:10px;transition:transform .2s var(--ease-out);}
+button.sec-h:hover{color:var(--or);}
+.sec-h .ar{flex-shrink:0;font-size:10px;transition:transform var(--dur-short) var(--ease-out);}
 .sec-h[aria-expanded="false"] .ar{transform:rotate(-90deg);}
+.sec-n{flex-shrink:0;font-size:11px;font-weight:800;color:var(--tx);
+  font-variant-numeric:tabular-nums;letter-spacing:.04em;}
 #gamifyPanel{margin-top:var(--sp-3);}
 #gamifyPanel[hidden]{display:none;}
 
-/* ── Tiles（ヒーローに従属する行き先。4枚とも同じ静かな面） ── */
-/* auto-fit だと4枚が 3+1 に割れて端数が事故に見える。2×2 に固定して面を揃える */
+/* ── ヒーロー直下へ上げた「今日のミッション」の面だけを計器盤の語彙に寄せる ──
+   gamify.js の CSS は study.html と共用なので触らず、#gmDaily 配下だけを上書きする。
+   未達成のバー＝テーマのアクセント／達成＝緑（--gr）。緑は「完了」の意味を持つので
+   テーマで振らない（vars.css の解説ブロック配色と同じ考え方）。 */
+#gmDaily .gm-missions{gap:var(--sp-2);}
+#gmDaily .gm-mission{border-radius:var(--r-md);border-color:var(--hair);
+  background:rgba(var(--glass-rgb),.05);padding:9px 12px;}
+#gmDaily .gm-mission-lbl{color:var(--tx);font-size:12.5px;}
+#gmDaily .gm-mission-bar{width:72px;height:4px;background:rgba(var(--glass-rgb),.12);}
+#gmDaily .gm-mission-fill{background:var(--or);}
+#gmDaily .gm-mission-num{color:var(--ts);}
+/* 地の色だけをここで決める。枠線・影・光り物は .mfx 側（週間ミッションと共通）が持つので
+   border-color はここに書かない（ID セレクタが .mfx に競り勝って弱い枠に戻ってしまう） */
+#gmDaily .gm-mission.done{background:var(--grl);}
+#gmDaily .gm-mission.done .gm-mission-fill{background:var(--gr);}
+
+/* ── Tiles（非対称ベント: 縦長1＋小2＋横長1）──
+   面を等分すると4枚とも同じ重さになり、どれから触ればいいか分からなくなる。
+   最も問題数が多い過去問だけを縦長にして重さを付ける */
 .tiles{display:grid;grid-template-columns:1fr;gap:var(--sp-2);}
-@media (min-width:520px){.tiles{grid-template-columns:repeat(2,1fr);}}
-.tile{display:flex;flex-direction:column;gap:var(--sp-2);
-  padding:var(--sp-4);text-align:left;font-family:inherit;color:var(--tx);text-decoration:none;cursor:pointer;
-  border:1px solid var(--hair);border-radius:var(--r-md);background:rgba(var(--glass-rgb),.045);
-  transition:background-color .16s var(--ease-out),border-color .16s var(--ease-out),transform .16s var(--ease-out);}
-.tile:hover{background:rgba(var(--glass-rgb),.10);border-color:var(--hair-2);transform:translateY(-1px);}
-.tile[aria-expanded="true"]{background:rgba(var(--glass-rgb),.11);border-color:var(--or);}
+@media (min-width:560px){
+  .tiles{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .tile.t-lead{grid-row:span 2;}
+  .tile.t-wide{grid-column:span 2;flex-direction:row;align-items:center;}
+  .tile.t-wide .tile-top{flex:1;}
+}
+.tile{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:var(--sp-3);
+  padding:var(--sp-4) var(--sp-4) var(--sp-4) 18px;
+  text-align:left;font-family:inherit;color:var(--tx);text-decoration:none;cursor:pointer;
+  border:1px solid var(--hair);border-radius:var(--r-md);background:rgba(var(--glass-rgb),.05);
+  transition:background-color var(--dur-short) var(--ease-out),border-color var(--dur-short) var(--ease-out),transform var(--dur-short) var(--ease-out);}
+/* 縦長タイルは「まず触る場所」。面を一段持ち上げて他3枚と差を付ける */
+.tile.t-lead{background:rgba(var(--glass-rgb),.10);border-color:var(--hair-2);}
+/* 左端のアクセント帯。ホバー/選択で下から立ち上がる（scaleY のみ＝レイアウト無し） */
+.tile::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--or);
+  transform:scaleY(0);transform-origin:bottom;
+  transition:transform var(--dur-short) var(--ease-out);}
+/* 縦長タイルの帯は常時出す＝静止画でも優先順位が読める */
+.tile.t-lead::before{transform:scaleY(1);}
+.tile:hover::before,.tile:focus-visible::before,.tile[aria-expanded="true"]::before{transform:scaleY(1);}
+.tile:hover{background:rgba(var(--glass-rgb),.11);border-color:var(--hair-2);transform:translateY(-2px);}
+.tile:active{transform:translateY(0);}
+.tile[aria-expanded="true"]{background:rgba(var(--glass-rgb),.12);border-color:var(--hair-3);}
 .tile-top{display:flex;align-items:center;gap:var(--sp-2);min-width:0;}
-.tile-ic{font-size:17px;line-height:1;flex-shrink:0;}
+.tile-ic{font-size:19px;line-height:1;flex-shrink:0;}
 .tile-nm{flex:1;min-width:0;font-family:var(--font-display);letter-spacing:var(--font-display-ls);
-  font-size:13.5px;font-weight:800;}
-.tile-ar{flex-shrink:0;font-size:10px;color:var(--ts);transition:transform .2s var(--ease-out);}
+  font-size:15px;font-weight:800;}
+.tile-ar{flex-shrink:0;font-size:10px;color:var(--ts);
+  transition:transform var(--dur-short) var(--ease-out),color var(--dur-short) var(--ease-out);}
+.tile:hover .tile-ar{color:var(--tx);}
+a.tile:hover .tile-ar{transform:translateX(3px);}
 .tile[aria-expanded="true"] .tile-ar{transform:rotate(180deg);color:var(--or);}
-.tile-bar{display:block;height:3px;border-radius:2px;overflow:hidden;background:rgba(var(--glass-rgb),.10);}
-.tile-bar span{display:block;height:100%;border-radius:2px;background:var(--or);}
+/* 縦長タイルだけが持つ大きな読み値。ここが「まず触る場所」の合図になる */
+.tile-big{margin-top:auto;display:flex;align-items:baseline;gap:.1em;
+  font-family:var(--font-display);font-size:clamp(2.4rem,10vw,3.2rem);font-weight:800;
+  line-height:1;letter-spacing:-.04em;color:var(--tx);font-variant-numeric:tabular-nums;}
+.tile-big i{font-style:normal;font-size:.4em;font-weight:800;color:var(--or);}
+.tile-bar{display:block;height:4px;border-radius:2px;overflow:hidden;background:rgba(var(--glass-rgb),.12);}
+.tile-bar span{display:block;height:100%;border-radius:2px;background:var(--or);
+  transform-origin:left;animation:barGrow .85s var(--ease-out) .2s backwards;}
+@keyframes barGrow{from{transform:scaleX(0);}}
+.tiles.settled .tile-bar span{animation:none;}
 /* 進捗バーを持たないタイル（ノート・マップ）と高さを揃え、脚を下端で合わせる */
 .tile-sub{margin-top:auto;font-size:11px;color:var(--ts);font-variant-numeric:tabular-nums;}
+.tile.t-lead .tile-sub,.tile.t-wide .tile-sub{margin-top:0;}
 
 /* ── Tile detail（開いたタイルの中身は全幅でここに1つだけ出る） ── */
 .tile-detail{margin-top:var(--sp-2);overflow:hidden;
   border:1px solid var(--hair);border-radius:var(--r-md);background:rgba(var(--glass-rgb),.035);}
 .tile-detail[hidden]{display:none;}
 .chapter-list.hidden{display:none;}
-.chapter-row{display:flex;align-items:center;gap:var(--sp-3);padding:9px var(--sp-4);
+.chapter-row{position:relative;display:flex;align-items:center;gap:var(--sp-3);padding:9px var(--sp-4);
   border-bottom:1px solid rgba(255,255,255,.05);text-decoration:none;color:var(--tx);
-  transition:background-color .12s var(--ease-out);}
+  transition:background-color var(--dur-micro) var(--ease-out);}
+.chapter-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--or);
+  transform:scaleY(0);transform-origin:center;transition:transform var(--dur-micro) var(--ease-out);}
+.chapter-row:hover::before,.chapter-row:focus-visible::before{transform:scaleY(1);}
 .chapter-row:last-child{border-bottom:none;}
 .chapter-row:hover,.chapter-row:active{background:rgba(var(--glass-rgb),.06);}
-.chapter-num{width:46px;flex-shrink:0;font-size:11px;font-weight:700;color:var(--ts);}
+.chapter-num{width:46px;flex-shrink:0;font-size:11px;font-weight:700;color:var(--ts);
+  font-variant-numeric:tabular-nums;}
 .chapter-title{flex:1;min-width:0;font-size:13px;line-height:1.4;}
 .chapter-prog-bar{display:block;width:48px;height:4px;flex-shrink:0;border-radius:3px;overflow:hidden;
   background:rgba(var(--glass-rgb),.10);}
@@ -162,10 +342,179 @@ button.sec-h:hover{color:var(--tx);}
 .mindmap-btn:hover{filter:brightness(1.1);}
 .mindmap-btn .mm-icon{font-size:18px;}
 
-/* ── Footer: Ft2 inline single line ── */
-.hub-foot{display:flex;flex-wrap:wrap;gap:var(--sp-1) var(--sp-4);
-  margin-top:var(--sp-7);padding-top:var(--sp-4);border-top:1px solid var(--hair);
-  font-size:11px;color:var(--ts);}
+/* フッターは廃止。唯一の中身だった「最終更新」はヘッダー（.hub-upd）へ移した。
+   ページ下端の余白は .hub-main の padding-bottom が持っている */
+
+/* ════════ 動きの層 ════════════════════════════════════════════════
+   ⚠️ 動かすのは transform / opacity / stroke-dashoffset だけ。
+   ⚠️ 常時ループは「計器が生きている」ことを示す4つに限る（目盛り・在線灯・
+      達成ミッションの光沢と✅・主ボタンの光沢）。いずれも1周の大半を
+      無変化で過ごす設計にして、視線を奪い続けないようにしてある。
+   ⚠️ 入場アニメの fill は backwards。both にするとアニメ終了後も最終値を
+      固定してしまい、hover の transform が効かなくなる（.rv だけは
+      「隠れている状態」が素の指定なので both が正しい）。 */
+
+/* ── ゲージの目盛りが極めてゆっくり回る＝計器が動いている ── */
+.gauge-tick{transform-box:fill-box;transform-origin:center;
+  animation:tickSpin 26s linear infinite;}
+@keyframes tickSpin{to{transform:rotate(360deg);}}
+
+/* ── 在線灯。点そのものではなく外側の輪が広がって消える ── */
+.hero-live{position:relative;}
+.hero-live::after{content:'';position:absolute;inset:-4px;border-radius:50%;
+  border:1.5px solid var(--or);
+  animation:livePing 2.4s var(--ease-out) infinite;}
+@keyframes livePing{0%{transform:scale(.6);opacity:.9;}70%,100%{transform:scale(2);opacity:0;}}
+
+/* ── 大きな読み値は下端を軸に立ち上がる ── */
+.hero-num{transform-origin:0 100%;animation:numIn .55s var(--ease-out) backwards;}
+@keyframes numIn{from{opacity:0;transform:scale(.92);}}
+/* 再描画で止めるのは「入場」だけ。目盛りの回転は常時演出なので止めない */
+.hero.settled .hero-num{animation:none;}
+
+/* ── 主ボタンをたまに光沢が走る。押せる場所だと目で分かる ── */
+.cta-main{position:relative;overflow:hidden;}
+.cta-main::after{content:'';position:absolute;top:0;bottom:0;left:0;width:38%;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.40),transparent);
+  animation:sheen 5s var(--ease-in-out) 1.2s infinite;}
+/* 28%で走り切って残り72%は画面外で待つ＝「時々光る」 */
+@keyframes sheen{0%{transform:translateX(-170%);}28%,100%{transform:translateX(400%);}}
+
+/* ── 今日の棒だけ息をする ── */
+.spark i{position:relative;}
+.spark i.today::after{content:'';position:absolute;inset:-2px -1px;border-radius:2px;
+  background:var(--or);animation:todayGlow 2.4s var(--ease-in-out) infinite;}
+@keyframes todayGlow{0%,100%{opacity:.12;}50%{opacity:.5;}}
+
+/* ── タイルは1枚ずつ立ち上がる。読み込み時ではなくスクロールで面に入った時（.in） ── */
+.tiles.in .tile{animation:tileIn var(--dur-long) var(--ease-out) backwards;
+  animation-delay:calc(var(--i,0) * 80ms);}
+@keyframes tileIn{from{opacity:0;transform:translateY(12px);}}
+.tiles.settled .tile{animation:none;}
+
+/* ── 達成したミッションはキラキラする ────────────────────────────
+   ⚠️ スコープは #gmDaily（今日のミッション）と #gamifyPanel（週間ミッション）の両方。
+      ハブに出るミッション行はこの2箇所しかない。study.html はモーダル(#gmOv)に描くので
+      巻き込まない＝gamify.js の共用CSSは触らずに済む。
+      以前 #gmDaily だけに書いていたため、週間ミッションに一切効いていなかった。
+   新しい要素は足せない（行を描くのは gamify.js）ので、行と4つの子要素が持つ
+   ::after / ::before を割り当てて6層を作っている:
+     行::before = 下を回る光    行::after = 面を横切る光沢
+     ✅::after / ラベル::after / 数字::after = 明滅する✨（位相をずらす）
+     バーの中身::after = 満タンのバーを走る光
+   読み込み時と全達成の粒子は MecFX（_sparkleMissions）が撒く */
+.mfx .gm-mission{position:relative;overflow:hidden;
+  transition:transform var(--dur-short) var(--ease-out),box-shadow var(--dur-short) var(--ease-out);}
+.mfx .gm-mission.done{transform:translateY(-1px);
+  border-color:rgba(61,214,140,.55);
+  box-shadow:0 4px 20px rgba(61,214,140,.30),inset 0 0 22px rgba(61,214,140,.14);}
+/* 面の下を回る光。行より大きい正方形を回して overflow で切る＝角丸に沿って光が回る */
+.mfx .gm-mission.done::before{content:'';position:absolute;z-index:0;pointer-events:none;
+  top:50%;left:50%;width:170%;aspect-ratio:1;
+  background:conic-gradient(from 0deg,transparent 0deg,rgba(61,214,140,.38) 34deg,
+    rgba(255,255,255,.40) 60deg,rgba(61,214,140,.38) 86deg,transparent 150deg);
+  animation:conicSpin 4.2s linear infinite;}
+@keyframes conicSpin{
+  from{transform:translate(-50%,-50%) rotate(0deg);}
+  to{transform:translate(-50%,-50%) rotate(360deg);}
+}
+/* 回る光より前に中身を出す */
+.mfx .gm-mission > *{position:relative;z-index:1;}
+.mfx .gm-mission.done::after{content:'';position:absolute;z-index:2;top:0;bottom:0;left:0;width:45%;
+  pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.52),transparent);
+  animation:sheen 3s var(--ease-in-out) infinite;}
+/* 同時に光ると点滅に見えるので行ごとに位相をずらす（負の delay ＝ 途中から開始）。
+   週間は5行あるので5段ぶん用意する */
+.mfx .gm-mission:nth-child(2).done::after{animation-delay:-.6s;}
+.mfx .gm-mission:nth-child(3).done::after{animation-delay:-1.2s;}
+.mfx .gm-mission:nth-child(4).done::after{animation-delay:-1.8s;}
+.mfx .gm-mission:nth-child(5).done::after{animation-delay:-2.4s;}
+.mfx .gm-mission:nth-child(2).done::before{animation-delay:-.85s;}
+.mfx .gm-mission:nth-child(3).done::before{animation-delay:-1.7s;}
+.mfx .gm-mission:nth-child(4).done::before{animation-delay:-2.55s;}
+.mfx .gm-mission:nth-child(5).done::before{animation-delay:-3.4s;}
+
+/* ✅は脈打ちながら少し傾ぐ */
+.mfx .gm-mission.done .gm-mission-ic{display:inline-block;position:relative;
+  animation:icPulse 2s var(--ease-in-out) infinite;}
+@keyframes icPulse{
+  0%,100%{transform:scale(1) rotate(0deg);}
+  26%{transform:scale(1.34) rotate(-11deg);}
+  58%{transform:scale(1.1) rotate(8deg);}
+}
+/* 明滅する✨3つ。位置は自然に散るよう子要素に相乗りさせる */
+.mfx .gm-mission.done .gm-mission-ic::after,
+.mfx .gm-mission.done .gm-mission-num::after{content:'✨';position:absolute;
+  font-size:12px;line-height:1;pointer-events:none;
+  animation:twinkle 1.6s var(--ease-in-out) infinite;}
+.mfx .gm-mission.done .gm-mission-ic::after{top:-5px;right:-7px;}
+.mfx .gm-mission.done .gm-mission-num{position:relative;}
+.mfx .gm-mission.done .gm-mission-num::after{top:-6px;left:-8px;animation-delay:-.8s;}
+.mfx .gm-mission.done .gm-mission-lbl::after{content:'✨';display:inline-block;
+  margin-left:6px;font-size:12px;line-height:1;vertical-align:middle;
+  animation:twinkle 1.6s var(--ease-in-out) -1.15s infinite;}
+@keyframes twinkle{
+  0%,100%{opacity:0;transform:scale(.25) rotate(-30deg);}
+  50%{opacity:1;transform:scale(1.15) rotate(18deg);}
+}
+/* ラベルも淡く発光させる。行の中で一番面積があるので効きが大きい */
+.mfx .gm-mission.done .gm-mission-lbl{animation:lblGlow 2.6s var(--ease-in-out) infinite;}
+@keyframes lblGlow{0%,100%{text-shadow:none;}50%{text-shadow:0 0 10px rgba(124,239,178,.75);}}
+/* 満タンのバーを光が走る */
+.mfx .gm-mission.done .gm-mission-fill{position:relative;overflow:hidden;}
+.mfx .gm-mission.done .gm-mission-fill::after{content:'';position:absolute;
+  top:0;bottom:0;left:0;width:60%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.95),transparent);
+  animation:sheen 1.8s var(--ease-in-out) infinite;}
+
+/* 全達成。見出しの件数を緑にして脈打たせる（数字は gamify.js が入れる実データ） */
+.sec-n.all{color:var(--gr);animation:allPulse 1.8s var(--ease-in-out) infinite;}
+@keyframes allPulse{0%,100%{opacity:.72;}50%{opacity:1;}}
+
+/* ── 大きな読み値が着地した瞬間、桁が順に立ち上がる ──
+   カウントアップ中は textContent を毎フレーム書き換えるので、着地後に
+   桁を span へ組み直してから走らせる（_landHeroNumber）。
+   overflow は掛けない＝ベースラインが崩れず「問」が浮かない */
+.hero-num .dg{display:inline-block;animation:digitIn .46s var(--ease-out) backwards;
+  animation-delay:calc(var(--i,0) * 55ms);}
+@keyframes digitIn{from{opacity:0;transform:translateY(.24em) scale(.86);}}
+
+/* ── ゲージ先端の光点。円弧と同じ時間で回り込む ── */
+.gauge-dot{transform:rotate(0deg);transition:transform 1.15s var(--ease-out) .25s;}
+.gauge-dot circle{fill:var(--or);}
+.gauge-dot .halo{fill:var(--or);opacity:.28;animation:haloPulse 2s var(--ease-in-out) infinite;}
+@keyframes haloPulse{0%,100%{opacity:.14;}50%{opacity:.42;}}
+.hero.settled .gauge-dot{transition:transform var(--dur-long) var(--ease-out);}
+
+/* ── XPの帯。着地でひと突き ── */
+.hero-xp.pop{animation:xpPop .42s var(--ease-out);}
+@keyframes xpPop{0%{transform:scale(1);}38%{transform:scale(1.09);}100%{transform:scale(1);}}
+
+/* ── ヘッダーのスクロール進捗（下端の帯を scaleX で伸ばす） ── */
+.hub-prog{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--or);
+  transform:scaleX(0);transform-origin:left;}
+
+/* ── スクロールで下の段が出る（IntersectionObserver が .in を付ける） ── */
+.rv-s{opacity:0;transform:translateY(16px);
+  transition:opacity var(--dur-long) var(--ease-out),transform var(--dur-long) var(--ease-out);}
+.rv-s.in{opacity:1;transform:none;}
+
+@media (prefers-reduced-motion:reduce){
+  .rv-s{opacity:1;transform:none;}
+  .gauge-tick,.hero-live::after,.cta-main::after,.spark i.today::after,.gauge-dot .halo,
+  .hero-num .dg,.hero-xp.pop,.sec-n.all,
+  .mfx .gm-mission.done::before,.mfx .gm-mission.done::after,
+  .mfx .gm-mission.done .gm-mission-ic,.mfx .gm-mission.done .gm-mission-lbl,
+  .mfx .gm-mission.done .gm-mission-fill::after{animation:none;}
+  .hero-live::after,.cta-main::after,.spark i.today::after,
+  .mfx .gm-mission.done::before,.mfx .gm-mission.done::after,
+  .mfx .gm-mission.done .gm-mission-ic::after,
+  .mfx .gm-mission.done .gm-mission-num::after,
+  .mfx .gm-mission.done .gm-mission-lbl::after,
+  .mfx .gm-mission.done .gm-mission-fill::after{display:none;}
+  .gauge-dot{transition:none;}
+}
 
 /* ── メニュー（旧ヘッダーのボタン群＋旧フッターのテーマ/効果音をここへ集約） ── */
 .menu-list{display:flex;flex-direction:column;gap:var(--sp-1);margin-bottom:var(--sp-4);}
@@ -233,13 +582,16 @@ button.sec-h:hover{color:var(--tx);}
 <body>
 
 <header class="hub-header">
-  <a class="hub-mark" href="study.html">🏥 MEC <em>学習ハブ</em></a>
+  <a class="hub-mark" href="study.html">🏥 MEC<i aria-hidden="true"></i><em>学習ハブ</em></a>
+  <!-- 最終更新（GitHub の最新コミット時刻）。fetchLastUpdated() が入れる -->
+  <span class="hub-upd" id="lastUpdatedBadge">…</span>
   <div class="hub-tools">
     <!-- 同期状態は常時見えていてほしい（stale/error を progress.js が data-status で塗る） -->
     <span class="mec-sync-badge">⚙️ 未設定</span>
     <a class="hub-icon" href="stats.html" title="学習統計" aria-label="学習統計">📊</a>
     <button class="hub-icon" id="hubMenuBtn" onclick="openMenuModal()" title="メニュー" aria-label="メニュー">☰<span class="hub-dot" id="hubMenuDot" hidden></span></button>
   </div>
+  <span class="hub-prog" id="hubProg" aria-hidden="true"></span>
 </header>
 
 <div class="hub-warn" id="noSyncWarning" style="display:none">
@@ -250,38 +602,82 @@ button.sec-h:hover{color:var(--tx);}
 
 <main class="hub-main">
 
-  <!-- Stat-Led hero: 巨大な数字＝いま何をすべきか。中身は renderHero() が入れる -->
-  <section class="hero" aria-labelledby="heroLabel">
-    <p class="hero-label" id="heroLabel">読み込み中…</p>
-    <p class="hero-fig"><span class="hero-num" id="heroNum">0</span><span class="hero-unit" id="heroUnit">問</span></p>
-    <div class="hero-rule"></div>
-    <p class="hero-say" id="heroSay"></p>
-    <div class="hero-meter"><div class="hero-meter-fill" id="heroMeterFill"></div></div>
-    <p class="hero-stats">
-      <span>済 <b id="statDone">0</b> / <b id="statTotal">0</b>問（<b id="statPct">0</b>%）</span>
-      <span>🔥 <b id="statStreak">0</b>日連続</span>
-    </p>
+  <!-- 計器盤ヒーロー: 大きな読み値＝いま何をすべきか。中身は renderHero() が入れる。
+       ⚠️ 数字は必ず実データ由来にすること。架空の数字を置くくらいなら数字を出さない -->
+  <section class="hero rv" style="--i:0" aria-labelledby="heroLabelTx">
+    <div class="hero-bloom" aria-hidden="true"></div>
+    <span class="hero-cnr tr" aria-hidden="true"></span>
+    <span class="hero-cnr bl" aria-hidden="true"></span>
+    <span class="hero-cnr br" aria-hidden="true"></span>
+
+    <div class="hero-body">
+      <div>
+        <p class="hero-label"><span class="hero-live" aria-hidden="true"></span><span class="lb" id="heroLabelTx">読み込み中…</span></p>
+        <p class="hero-fig"><span class="hero-num" id="heroNum">0</span><span class="hero-unit" id="heroUnit">問</span></p>
+        <p class="hero-xp"><span id="heroXp">+0</span><em>XP</em></p>
+        <p class="hero-xp-n" id="heroXpNote"></p>
+        <p class="hero-say" id="heroSay"></p>
+      </div>
+      <div class="gauge">
+        <div class="gauge-ring">
+          <svg viewBox="0 0 140 140" aria-hidden="true">
+            <circle class="gauge-tick" cx="70" cy="70" r="64"></circle>
+            <circle class="gauge-trk"  cx="70" cy="70" r="54"></circle>
+            <circle class="gauge-val" id="gaugeVal" cx="70" cy="70" r="54"></circle>
+            <!-- 円弧の先端に付く光点。SVG の既定 transform-box は view-box なので
+                 transform-origin にユーザー単位の中心(70,70)をそのまま書ける -->
+            <g class="gauge-dot" id="gaugeDot" style="transform-origin:70px 70px">
+              <circle class="halo" cx="70" cy="16" r="9"></circle>
+              <circle cx="70" cy="16" r="4.5"></circle>
+            </g>
+          </svg>
+          <span class="gauge-mid"><span id="statPct">0</span><em>%</em></span>
+        </div>
+        <p class="gauge-cap">全体進捗</p>
+      </div>
+    </div>
+
     <div class="hero-cta">
       <a class="cta-main" id="heroPrimary" href="study.html">📚 全科目から選ぶ</a>
       <a class="cta-sub" id="heroSecondary" href="stats.html">📊 統計を見る →</a>
     </div>
+
+    <!-- 計器ベイ: 読み値のブロックより一段沈めた面に、細かい数字だけをまとめる -->
+    <div class="hero-inst">
+      <dl class="strip">
+        <div class="strip-c"><dt>復習待ち</dt><dd><b id="statDue">0</b><span>問</span></dd></div>
+        <div class="strip-c"><dt>連続</dt><dd><b id="statStreak">0</b><span>日</span></dd></div>
+        <div class="strip-c"><dt>済 累計</dt><dd><b id="statDone">0</b><span>問</span></dd></div>
+      </dl>
+
+      <div class="spark-row">
+        <span class="spark-lb">30日</span>
+        <div class="spark" id="heroSpark" role="img" aria-label="直近30日の学習量"></div>
+      </div>
+    </div>
   </section>
 
-  <h2 class="sec-h">ほかの行き先</h2>
-  <nav class="tiles" id="hubTiles"><!-- renderTiles() が生成 --></nav>
+  <!-- 今日のミッションだけはヒーローの直下。「今日なにをするか」を名指しする前向きな情報で、
+       ヒーローと同じ仕事をしている。レベル・週間・実績（＝後ろ向きのごほうび）は下の折りたたみ。
+       中身は gamify.js の _rerenderHubPanel() が renderPanel(..., {only:'daily'}) で入れる -->
+  <section class="rv" style="--i:1" aria-labelledby="gmDailyH">
+    <h2 class="sec-h" id="gmDailyH">今日のミッション<span class="ln"></span><span class="sec-n" id="gmDailyCnt"></span></h2>
+    <!-- .mfx ＝ 達成ミッションの演出を効かせる印。週間側(#gamifyPanel)にも付ける -->
+    <div id="gmDaily" class="mfx"></div>
+  </section>
+
+  <!-- ここから下は折り返しの外に出やすいので、時間差ではなくスクロール到達で出す（.rv-s） -->
+  <h2 class="sec-h rv-s">ほかの行き先<span class="ln"></span></h2>
+  <nav class="tiles rv-s" id="hubTiles"><!-- renderTiles() が生成 --></nav>
   <!-- 開いたタイルの中身は全幅でここに1つだけ出る（同時に開くのは1つ） -->
   <div class="tile-detail" id="hubDetail" hidden></div>
 
-  <section class="hub-sec">
+  <section class="hub-sec rv-s">
     <button class="sec-h" id="gmToggle" type="button" aria-expanded="true" aria-controls="gamifyPanel" onclick="toggleGmSection()">
-      レベル・ミッション・実績<span class="ar">▾</span>
+      レベル・週間ミッション・実績<span class="ln"></span><span class="ar">▾</span>
     </button>
-    <div id="gamifyPanel"><!-- gamify.js が描画（レベル・炎・ミッション・実績） --></div>
+    <div id="gamifyPanel" class="mfx"><!-- gamify.js が描画（レベル・炎・週間ミッション・実績） --></div>
   </section>
-
-  <footer class="hub-foot">
-    <span id="lastUpdatedBadge">更新確認中…</span>
-  </footer>
 </main>
 
 <!-- メニュー（旧ヘッダーのボタン群＋旧フッターのテーマ/効果音をここへ集約した） -->
@@ -450,12 +846,15 @@ const JITSU1_CHAPTERS = [
   { label: 'B問題（一般40問 臨床40問）', prefix: 'jitsu1_ch02', count: 80 },
 ];
 
-// ヒーローに載らない行き先。expand は #hubDetail に中身を出す・link はそのまま遷移する
+// ヒーローに載らない行き先。expand は #hubDetail に中身を出す・link はそのまま遷移する。
+// span は非対称ベントでの面の重さ:
+//   lead = 縦長（大きな読み値を持つ）/ wide = 横長 / 無指定 = 1マス。
+//   4枚固定の並びなので CSS 側は nth-child ではなくこのクラスで組んでいる。
 const HUB_TILES = [
-  { id:'kakumon',   icon:'📝',  name:'国家試験 過去問',   kind:'expand' },
+  { id:'kakumon',   icon:'📝',  name:'国家試験 過去問',   kind:'expand', span:'lead' },
   { id:'jitsu1',    icon:'🎯',  name:'実力試験Ⅰ',        kind:'expand' },
   { id:'knowledge', icon:'🔎',  name:'検索知識ノート',    kind:'link', href:'knowledge.html' },
-  { id:'mindmap',   icon:'🗺️', name:'科目マインドマップ', kind:'expand' },
+  { id:'mindmap',   icon:'🗺️', name:'科目マインドマップ', kind:'expand', span:'wide' },
 ];
 
 // ── SRS due 件数 ─────────────────────────────────────────────
@@ -465,6 +864,52 @@ function getSRSDueCount() {
     const srs = JSON.parse(localStorage.getItem('mec_srs_v1') || '{}');
     return Object.values(srs).filter(e => e.nextReview && e.nextReview <= today).length;
   } catch { return 0; }
+}
+
+// ── 今日の学習量とXP ──────────────────────────────────────────
+// ⚠️ 数字の出どころ（ここを崩すと嘘の数字が出る）:
+//   ・試験/SRS/章別試験は mec_attempts_v1 に1解答=1行で時刻付きで残る＝今日ぶんは正確。
+//   ・通常モードの「済」には時刻が一切残らない（done_v2 は uid→周回数だけ）。
+//     そこで activity_v1[today]（＝その日セッション内で初めて触れた問題の数・
+//     mecIncrLap と _markExamDone の両方が同じ条件で足す）から
+//     今日の試験ぶん（セッション×UIDの異なり数）を引いて通常モードぶんを出す。
+//   ・XP式は gamify.js の stats() と同じ: laps×10 + 試験解答×4 + 試験正解×6。
+//     _markExamDone は解答のたびに done_v2 も +1 するので、試験1問 = 14XP（正解なら20XP）。
+//   ・既知の誤差: 同一セッションで同じ問題を2回「済」にすると通常モードぶんが
+//     1問（10XP）少なく出る。無くすには日別台帳の新設＝同期キー追加が要る。
+const XP_LAP = 10, XP_EX_ANSWER = 4, XP_EX_CORRECT = 6;
+
+function _jstDay(ms) { return new Date(ms + 9 * 3600000).toISOString().slice(0, 10); }
+
+function getTodayLearning() {
+  const today = _jstDay(Date.now());
+  let att = [];
+  try { att = JSON.parse(localStorage.getItem('mec_attempts_v1') || '[]'); } catch {}
+
+  let exT = 0, exC = 0;
+  const firstTouch = new Set();          // sess|uid の異なり＝activity_v1 と同じ数え方
+  (Array.isArray(att) ? att : []).forEach(line => {
+    if (typeof line !== 'string') return;
+    const p = line.split('|');
+    if (p.length < 8) return;
+    const t = Number(p[1]);              // 分単位epoch
+    if (!t || _jstDay(t * 60000) !== today) return;
+    exT++;
+    if (p[3] === '1') exC++;
+    firstTouch.add(p[6] + '|' + p[0]);
+  });
+
+  let act = 0;
+  try { act = (JSON.parse(localStorage.getItem('activity_v1') || '{}'))[today] || 0; } catch {}
+  // 引き算が負になる状況（attempts だけ他端末から同期された等）は0で止める
+  const normal = Math.max(0, act - firstTouch.size);
+
+  return {
+    solved: exT + normal,
+    exT, exC, normal,
+    accPct: exT > 0 ? Math.round(exC / exT * 100) : 0,
+    xp: (exT + normal) * XP_LAP + exT * XP_EX_ANSWER + exC * XP_EX_CORRECT,
+  };
 }
 
 // ── 統計計算 ──────────────────────────────────────────────────
@@ -482,6 +927,19 @@ function calcTotalQ() {
   Object.values(KAKUMON_BLOCKS).forEach(count => { total += count; });
   JITSU1_CHAPTERS.forEach(ch => { total += ch.count; });
   return total;
+}
+
+// calcTotalQ の分母に入っている範囲（コア12科目＋過去問＋実力試験Ⅰ）だけを数える。
+// MECSync.getStats().doneCount は done_v2 の全キー数で、分母に含まれない
+// 自作問題(custom_)と暗記メモ(memo_)まで足してしまうため、そのまま割ると達成率が
+// 実際より高く出る。分子と分母のスコープは必ず揃えること。
+const _OUT_OF_SCOPE_PREFIXES = ['custom_', 'memo_'];
+function calcDoneInScope() {
+  let done = {};
+  try { done = JSON.parse(localStorage.getItem('done_v2') || '{}'); } catch {}
+  return Object.keys(done)
+    .filter(k => !_OUT_OF_SCOPE_PREFIXES.some(p => k.startsWith(p)))
+    .length;
 }
 
 function _fmtN(n) { return (n || 0).toLocaleString('ja-JP'); }
@@ -514,68 +972,118 @@ function getJitsuProgress() {
 // Stat-Led ヒーロー: 「いま何をすべきか」を1つの巨大な数字で名指しする。
 // 復習期限が来ていればその件数、無ければ到達済み問題数を出す。
 // ⚠️ 数字は必ず実データ由来にすること。架空の数字を置くくらいなら数字を出さない。
-let _heroTicked = false;
+// 初回描画が済んだか。2回目以降は盤面の入場アニメ（円弧・波形・棒）を止める
+let _heroSettled = false;
 
-// 0 → target のカウントアップ。初回描画のときだけ動かす
-// （同期完了の再描画で毎回animateすると数字が読めない）。
-function _tickNumber(el, target) {
-  if (!el) return;
-  const rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (rm || _heroTicked) { el.textContent = _fmtN(target); return; }
-  _heroTicked = true;
-  const dur = 520, t0 = performance.now();
-  (function step(t) {
-    const k = Math.min(1, (t - t0) / dur);
-    const e = 1 - Math.pow(1 - k, 3);
-    el.textContent = _fmtN(Math.round(target * e));
-    if (k < 1) requestAnimationFrame(step);
-  })(t0);
+// 円弧の全長 = 2π×54。CSS の .gauge-val の stroke-dasharray / @keyframes ringDraw と
+// 必ず同じ値にすること（片方だけ変えるとゲージが常に満タン or 空になる）
+const GAUGE_C = 339.29;
+
+// 直近30日の学習量の波形。素材は activity_v1（日→操作回数）。
+// 高さは「その30日の最大日」を100%とした相対値＝実データのみで作る。
+function _renderSpark() {
+  const host = document.getElementById('heroSpark');
+  if (!host) return;
+  let log = {};
+  try { log = JSON.parse(localStorage.getItem('activity_v1') || '{}'); } catch {}
+  const base = Date.now() + 9 * 3600000;   // JST。日付の切り方を calcStreak と揃える
+  const days = [];
+  for (let i = 29; i >= 0; i--) days.push(log[new Date(base - i * 86400000).toISOString().slice(0, 10)] || 0);
+  const mx = Math.max(1, ...days);
+  const active = days.filter(v => v > 0).length;
+
+  host.innerHTML = days.map((v, i) => {
+    // 1回でも触った日は必ず見える高さを与える（14%未満だと線に潰れて0日と区別が付かない）
+    const h = v ? Math.max(14, Math.round(v / mx * 100)) + '%' : '2px';
+    // 末尾＝今日。学習済みなら息をさせる（.today の演出は CSS 側）
+    const cls = (v ? 'on' : '') + (i === 29 && v ? ' today' : '');
+    return '<i class="' + cls + '" style="--i:' + i + ';height:' + h + '"></i>';
+  }).join('');
+  host.setAttribute('aria-label', '直近30日の学習量。学習した日は ' + active + ' 日');
 }
 
 function renderHero() {
-  const st = window.MECSync ? MECSync.getStats() : { doneCount: 0 };
-  const doneCount = st.doneCount || 0;
+  // 分子は calcTotalQ と同じスコープで数える（custom_ / memo_ は分母に無いので除外）
+  const doneCount = calcDoneInScope();
   const totalQ = calcTotalQ();
   const streak = window.MECSync ? MECSync.calcStreak() : 0;
   const due = getSRSDueCount();
   const pct = totalQ ? Math.round(doneCount / totalQ * 100) : 0;
 
-  const label = document.getElementById('heroLabel');
+  const td = getTodayLearning();
+
+  const label = document.getElementById('heroLabelTx');
   const say   = document.getElementById('heroSay');
-  const unit  = document.getElementById('heroUnit');
   const p1    = document.getElementById('heroPrimary');
   const p2    = document.getElementById('heroSecondary');
 
-  let figure;
+  // 大きな読み値は常に「今日どれだけやったか」。何をすべきかは主ボタンと計器行が担う。
+  label.textContent = '今日解いた問題';
+  document.getElementById('heroUnit').textContent = '問';
+  document.getElementById('heroXp').textContent = '+' + _fmtN(td.xp);
+
+  // 内訳は実際に数えられたものだけを書く（通常モードは時刻が無いので「済」としか言えない）
+  const parts = [];
+  if (td.exT) parts.push('試験・復習 ' + _fmtN(td.exT) + '問（正答 ' + td.accPct + '%）');
+  if (td.normal) parts.push('通常の済 ' + _fmtN(td.normal) + '問');
+  document.getElementById('heroXpNote').textContent = parts.length ? parts.join(' ／ ') : '';
+
   if (due > 0) {
-    figure = due;
-    label.textContent = '今日の復習';
-    unit.textContent  = '問';
-    say.textContent   = 'SRS の復習期限が来た問題です。科目をまたいで出題されます。';
+    say.textContent = '復習の期限が来た問題が ' + _fmtN(due) + ' 問あります。科目をまたいで出題されます。';
     p1.href = 'study.html?mode=srs_review'; p1.textContent = '🔔 復習をはじめる';
     p2.href = 'study.html';                 p2.textContent = '📚 全科目から選ぶ →';
+  } else if (td.solved > 0) {
+    say.textContent = '復習の期限が来た問題はありません。全 ' + _fmtN(totalQ) + ' 問から次を選べます。';
+    p1.href = 'study.html'; p1.textContent = '📚 全科目から選ぶ';
+    p2.href = 'stats.html'; p2.textContent = '📊 統計を見る →';
   } else {
-    figure = doneCount;
-    label.textContent = 'これまでに済ませた問題';
-    unit.textContent  = '問';
-    say.textContent   = '復習の期限が来た問題はありません。全 ' + _fmtN(totalQ) + ' 問から次を選べます。';
+    say.textContent = 'まだ今日の記録がありません。1問でも解くとここに積み上がります。';
     p1.href = 'study.html'; p1.textContent = '📚 全科目から選ぶ';
     p2.href = 'stats.html'; p2.textContent = '📊 統計を見る →';
   }
 
-  _tickNumber(document.getElementById('heroNum'), figure);
+  // 大きな読み値: カウントアップ → 着地で桁が順に立ち上がり、下から粒子が散る
+  const numEl = document.getElementById('heroNum');
+  _tweenNum(numEl, td.solved, 900, () => _landHeroNumber(numEl));
+
+  // XP: カウントアップ → 着地で帯がひと突きし、✨が上がる
+  const xpEl = document.getElementById('heroXp');
+  if (xpEl) {
+    const chip = xpEl.closest('.hero-xp');
+    _tweenNum(xpEl, td.xp, 1000, () => {
+      xpEl.textContent = '+' + _fmtN(td.xp);
+      if (!chip || td.xp <= 0) return;
+      chip.classList.remove('pop');
+      void chip.offsetWidth;            // アニメを再生させるための強制リフロー
+      chip.classList.add('pop');
+      const c = _centerOf(chip);
+      if (c && _fxOk()) MecFX.glyphBurst(c.x, c.y, { glyphs: ['✨'], count: 4, spread: 60, w: c.r.width * .6 });
+    });
+  }
+
+  document.getElementById('statDue').textContent    = _fmtN(due);
   document.getElementById('statDone').textContent   = _fmtN(doneCount);
-  document.getElementById('statTotal').textContent  = _fmtN(totalQ);
   document.getElementById('statPct').textContent    = pct;
   document.getElementById('statStreak').textContent = streak;
-  // 幅0から伸ばす（CSSのtransitionが拾う）。reduced-motion は vars.css が全体で止める
-  requestAnimationFrame(() => {
-    const f = document.getElementById('heroMeterFill');
-    if (f) f.style.width = pct + '%';
-  });
+  _startStreakEmbers(streak);
+
+  // ゲージ。CSS の ringDraw が backwards fill で全長から引くので、ここは終値を置くだけ
+  const g = document.getElementById('gaugeVal');
+  if (g) g.style.strokeDashoffset = String(GAUGE_C * (1 - Math.min(100, Math.max(0, pct)) / 100));
+  _driveGauge(Math.min(100, Math.max(0, pct)));
+
+  // 2回目以降（同期完了の再描画）は入場アニメを止めてから描き直す。
+  // ⚠️ 波形は innerHTML で作り直すので、.settled を付けるのは _renderSpark() より前でないと
+  //    同期のたびに30本が立ち上がり直して読めなくなる
+  const hero = document.querySelector('.hero');
+  if (hero && _heroSettled) hero.classList.add('settled');
+  _renderSpark();
+  _heroSettled = true;
 }
 
 // ── タイル（ヒーローに従属する行き先） ──────────────────────────
+let _tilesSettled = false;
+
 function _tileHtml(t) {
   let sub = '', pct = null;
   if (t.id === 'kakumon') {
@@ -591,17 +1099,22 @@ function _tileHtml(t) {
   }
 
   const bar = pct === null ? '' : '<span class="tile-bar"><span style="width:' + pct + '%"></span></span>';
+  // 縦長タイルだけ達成率を大きく出す。残りは小さな脚だけ＝面の重さで優先順位を作る
+  const big = (t.span === 'lead' && pct !== null)
+    ? '<span class="tile-big">' + pct + '<i>%</i></span>' : '';
   const inner =
     '<span class="tile-top">' +
       '<span class="tile-ic">' + t.icon + '</span>' +
       '<span class="tile-nm">' + t.name + '</span>' +
       '<span class="tile-ar">' + (t.kind === 'link' ? '→' : '▾') + '</span>' +
-    '</span>' + bar +
+    '</span>' + big + bar +
     '<span class="tile-sub">' + sub + '</span>';
 
+  const cls = 'tile' + (t.span ? ' t-' + t.span : '');
+  const st = ' style="--i:' + HUB_TILES.indexOf(t) + '"';   // 1枚ずつずらして立ち上げる
   return t.kind === 'link'
-    ? '<a class="tile" href="' + t.href + '">' + inner + '</a>'
-    : '<button class="tile" type="button" data-tile="' + t.id + '" aria-expanded="false" aria-controls="hubDetail">' + inner + '</button>';
+    ? '<a class="' + cls + '" href="' + t.href + '"' + st + '>' + inner + '</a>'
+    : '<button class="' + cls + '" type="button"' + st + ' data-tile="' + t.id + '" aria-expanded="false" aria-controls="hubDetail">' + inner + '</button>';
 }
 
 function renderTiles() {
@@ -611,7 +1124,10 @@ function renderTiles() {
   const openBtn = host.querySelector('.tile[aria-expanded="true"]');
   const keep = openBtn ? openBtn.dataset.tile : null;
 
+  // 2回目以降（同期完了の再描画）は棒の伸びを止める。ヒーローの .settled と同じ理由
+  if (_tilesSettled) host.classList.add('settled');
   host.innerHTML = HUB_TILES.map(_tileHtml).join('');
+  _tilesSettled = true;
 
   const detail = document.getElementById('hubDetail');
   if (keep) {
@@ -716,6 +1232,280 @@ function renderHub() {
 }
 // 旧名の呼び出し口（saveAndSync / manualSync）が残っているので別名を張っておく
 function renderSubjects() { renderHub(); }
+
+// ══════ 演出（粒子は fx_engine.js の MecFX＝全画面の固定canvas・座標はビューポート） ══════
+// ⚠️ 新しい position:fixed 要素は足さない（iOSの白wash対策を壊す）。MecFX の canvas を使う。
+// ⚠️ 常時ループはタブが非表示・画面外・reduced-motion のとき必ず止める。
+//    MecFX 自体も visibilitychange で粒子を捨てるが、撒く側でも止めないと無駄に回る。
+function _reducedMotion() {
+  return !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+}
+// テーマのアクセントはその場の計算値を取る（hex を直書きするとテーマで浮く）
+function _accent() {
+  const v = getComputedStyle(document.body).getPropertyValue('--or');
+  return (v || '').trim() || '#FF9A3C';
+}
+function _fxOk() { return !!window.MecFX && !_reducedMotion() && !document.hidden; }
+// 要素の中心のビューポート座標。画面外なら null（撒いても見えないので撒かない）
+function _centerOf(el) {
+  if (!el) return null;
+  const r = el.getBoundingClientRect();
+  if (!r.width || r.bottom < 0 || r.top > innerHeight) return null;
+  return { x: r.left + r.width / 2, y: r.top + r.height / 2, r };
+}
+
+// 数値のトゥイーン。カウントアップはここに集約する
+function _tweenNum(el, to, dur, done) {
+  if (!el) return;
+  if (_reducedMotion()) { el.textContent = _fmtN(to); if (done) done(); return; }
+  const from = Number(String(el.textContent).replace(/[^\d-]/g, '')) || 0;
+  const t0 = performance.now();
+  (function step(t) {
+    const k = Math.min(1, (t - t0) / dur);
+    const e = 1 - Math.pow(1 - k, 3);
+    el.textContent = _fmtN(Math.round(from + (to - from) * e));
+    if (k < 1) requestAnimationFrame(step);
+    else if (done) done();
+  })(t0);
+}
+
+// 大きな読み値の着地。桁を span に組み直して順に立ち上げ、下から粒子を散らす
+function _landHeroNumber(el) {
+  if (!el || _reducedMotion()) return;
+  const s = el.textContent;
+  let d = 0;
+  el.innerHTML = [...s].map(ch => (ch >= '0' && ch <= '9')
+    ? '<span class="dg" style="--i:' + (d++) + '">' + ch + '</span>'
+    : '<span class="dg-s">' + ch + '</span>').join('');
+  const c = _centerOf(el);
+  if (c && _fxOk()) {
+    setTimeout(() => MecFX.glyphBurst(c.x, c.r.bottom - 6, {
+      glyphs: ['✦', '✧'], count: 4, spread: 60, w: c.r.width * .8
+    }), d * 55 + 120);
+  }
+}
+
+// ゲージ: 先端の光点を pct の角度へ回し、描き終わりに先端で弾けさせる
+let _gaugeBurstDone = false;
+function _driveGauge(pct) {
+  const dot = document.getElementById('gaugeDot');
+  if (dot) dot.style.transform = 'rotate(' + (pct * 3.6) + 'deg)';
+  if (_gaugeBurstDone || pct <= 0) return;
+  _gaugeBurstDone = true;
+  // CSS の描画は .25s 遅延 + 1.15s。終わり際に合わせる
+  setTimeout(() => {
+    if (!_fxOk() || !dot) return;
+    const c = _centerOf(dot);
+    if (!c) return;
+    MecFX.rings(c.x, c.y, { count: 2, maxR: 90, thickness: 2, color: _accent(), additive: true });
+    MecFX.burst(c.x, c.y, { tier: 2, count: 14, colors: [_accent(), '#FFFFFF'], shapes: ['circle'], speed: 300 });
+  }, 1350);
+}
+
+// 連続日数の熾火。3日以上つながっているときだけ、画面内で時々1粒
+let _emberTimer = 0;
+function _startStreakEmbers(streak) {
+  clearInterval(_emberTimer);
+  if (streak < 3 || _reducedMotion()) return;
+  _emberTimer = setInterval(() => {
+    if (!_fxOk()) return;
+    const c = _centerOf(document.getElementById('statStreak'));
+    if (!c) return;
+    MecFX.glyphBurst(c.x, c.y, { glyphs: ['🔥'], count: 1, spread: 26, w: 10 });
+  }, 5200);
+}
+
+// ヒーロー周辺の塵。ページ最上部を見ているときだけ撒く（全画面に散るので常時は煩い）
+let _dustTimer = 0;
+function _startHeroDust() {
+  clearInterval(_dustTimer);
+  if (_reducedMotion()) return;
+  _dustTimer = setInterval(() => {
+    if (!_fxOk() || scrollY > 220) return;
+    MecFX.dust({ count: 8, colors: [_accent(), '#FFFFFF'] });
+  }, 6000);
+}
+
+// ヘッダー下端のスクロール進捗。
+// scroll イベントを使うのはここだけ（進捗そのものがスクロール量なので IO では出せない）。
+// passive + rAF で1フレーム1回に間引く。
+function _initScrollProgress() {
+  const bar = document.getElementById('hubProg');
+  if (!bar) return;
+  let ticking = false;
+  const upd = () => {
+    ticking = false;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, scrollY / max) : 0) + ')';
+  };
+  addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(upd);
+  }, { passive: true });
+  upd();
+}
+
+// 押した場所で弾ける。iPad で「触った」感触が出る
+function _initTapBurst() {
+  if (_reducedMotion()) return;
+  document.addEventListener('pointerdown', e => {
+    if (!_fxOk()) return;
+    if (!e.target.closest('.tile, .cta-main, .cta-sub, .hub-icon, .menu-row, .chapter-row, .mindmap-btn')) return;
+    MecFX.burst(e.clientX, e.clientY, {
+      tier: 2, count: 10, colors: [_accent(), '#FFFFFF'], shapes: ['circle'], speed: 260, gravity: 520
+    });
+  }, { passive: true });
+}
+
+// 縦長タイルの達成率を、面に入った時にカウントアップさせる
+function _tickLeadTile() {
+  const el = document.querySelector('.tile.t-lead .tile-big');
+  if (!el) return;
+  const node = el.firstChild;                       // 数字のテキストノード（<i>%</i> の手前）
+  if (!node || node.nodeType !== 3) return;
+  const to = Number(node.nodeValue) || 0;
+  if (_reducedMotion()) return;
+  node.nodeValue = '0';
+  const t0 = performance.now();
+  (function step(t) {
+    const k = Math.min(1, (t - t0) / 900);
+    node.nodeValue = String(Math.round(to * (1 - Math.pow(1 - k, 3))));
+    if (k < 1) requestAnimationFrame(step);
+  })(t0);
+}
+
+// ── 達成ミッションのキラキラ（粒子は fx_engine.js の MecFX） ──────
+// CSS 側は常時の光沢と✅の脈動。ここは「達成した瞬間の一発」を担当する。
+// ハブでミッションが達成されることは無い（達成は study.html 側）ので、
+// 初回表示では達成済みの行すべてに撒き、以後は同期で新たに達成された行だけに撒く。
+// ハブ上でミッション行が出るのはこの2箇所だけ（今日＝#gmDaily／週間＝#gamifyPanel）
+const MISSION_HOSTS = '.mfx';
+function _missionRows() { return [...document.querySelectorAll(MISSION_HOSTS + ' .gm-mission')]; }
+
+const _sparkledMissions = new Set();
+function _sparkleMissions() {
+  if (!_fxOk()) return;
+
+  const accent = _accent();
+  const rows = _missionRows();
+  const doneRows = rows.filter(r => r.classList.contains('done'));
+  let n = 0;
+
+  doneRows.forEach((row, i) => {
+    // 行の中身（ラベル）をキーにする。位置で覚えると、週間と今日で番号が衝突する
+    const key = (row.querySelector('.gm-mission-lbl') || {}).textContent || ('m' + rows.indexOf(row));
+    if (_sparkledMissions.has(key)) return;
+    const c = _centerOf(row);
+    // ⚠️ 画面外なら「撒いた」印を付けずに抜ける。先に印を付けると、週間パネルのように
+    //    折り返しの下にある行がスクロールで出てきたときに二度と撒かれない
+    if (!c) return;
+    _sparkledMissions.add(key);
+    n++;
+    setTimeout(() => {
+      MecFX.rings(c.x, c.y, { count: 2, maxR: 200, thickness: 2, color: MISSION_GREEN, additive: true });
+      MecFX.burst(c.x, c.y, {
+        tier: 3, count: 18, colors: [MISSION_GREEN, '#7CEFB2', '#FFFFFF'], shapes: ['circle', 'star'], speed: 340
+      });
+      MecFX.glyphBurst(c.x, c.y, { glyphs: ['✨', '⭐️', '💫'], count: 6, spread: 80, w: c.r.width * .7 });
+    }, i * 150);
+  });
+
+  // 全部達成していたら、行ごとの粒子に加えて花火と絵文字の吹き上げでちゃんと祝う
+  if (n > 0 && doneRows.length === rows.length && rows.length > 0) {
+    const c = _centerOf(doneRows[doneRows.length - 1]);
+    if (!c) return;
+    setTimeout(() => {
+      MecFX.burst(c.x, c.y, {
+        tier: 4, count: 40, colors: [accent, '#FFD166', '#FFFFFF'], shapes: ['circle', 'star']
+      });
+      MecFX.confetti({ colors: [MISSION_GREEN, accent, '#FFD166', '#FFFFFF'], count: 46 });
+      MecFX.floaters({ glyphs: ['🎉', '✨', '🏅'], count: 10, scale: .8 });
+    }, doneRows.length * 150 + 120);
+  }
+}
+
+// 達成の緑。gamify.js の .gm-mission.done と vars.css の --gr が同じ値（完了の意味を持つ
+// ので、この色だけはテーマで振らない）。粒子は CSS 変数を読めないのでここに定数を置く。
+const MISSION_GREEN = '#3DD68C';
+
+// 全達成なら見出しの件数を緑にして脈打たせる。件数の数字自体は gamify.js が入れる実データ
+function _markAllDone() {
+  const host = document.getElementById('gmDaily');
+  const cnt = document.getElementById('gmDailyCnt');
+  if (!host || !cnt) return;
+  const rows = [...host.querySelectorAll('.gm-mission')];
+  cnt.classList.toggle('all', rows.length > 0 && rows.every(r => r.classList.contains('done')));
+}
+
+// #gamifyPanel は gamify.js が innerHTML で作り直すので、描き直された瞬間に
+// 演出（常時撒き・全達成判定）を仕切り直す。MutationObserver で拾うのが確実。
+function _watchGamifyPanel() {
+  const panel = document.getElementById('gamifyPanel');
+  if (!panel || !('MutationObserver' in window)) return;
+  let t = 0;
+  new MutationObserver(() => {
+    clearTimeout(t);
+    t = setTimeout(() => { _markAllDone(); _sparkleMissions(); }, 150);
+  }).observe(panel, { childList: true });
+}
+
+// 達成行から時々ひと粒。3行あっても同時には撒かず1行ずつ順に回す
+let _missionAmbientTimer = 0, _missionAmbientAt = 0;
+function _startMissionAmbient() {
+  clearInterval(_missionAmbientTimer);
+  if (_reducedMotion()) return;
+  _missionAmbientTimer = setInterval(() => {
+    if (!_fxOk()) return;
+    // 画面内にある達成行だけを対象にする（週間パネルは折り返しの下にいることが多い）
+    const done = _missionRows().filter(r => r.classList.contains('done') && _centerOf(r));
+    if (!done.length) return;
+    const row = done[_missionAmbientAt++ % done.length];
+    const c = _centerOf(row);
+    if (!c) return;
+    // 行の幅のどこかから1粒。毎回同じ位置だと作り物に見える
+    const x = c.r.left + c.r.width * (.15 + Math.random() * .7);
+    MecFX.glyphBurst(x, c.y, { glyphs: ['✨', '✦'], count: 1, spread: 34, w: 8 });
+  }, 2600);
+}
+
+// 達成行を押すと祝いをやり直す。触って反応が返るのが一番効く
+function _initMissionTap() {
+  // 週間パネルは gamify.js が作り直すので、個々の行ではなく document に1つだけ張る
+  document.addEventListener('pointerdown', e => {
+    const row = e.target.closest('.mfx .gm-mission.done');
+    if (!row || !_fxOk()) return;
+    const c = _centerOf(row);
+    if (!c) return;
+    MecFX.rings(c.x, c.y, { count: 2, maxR: 190, thickness: 2, color: MISSION_GREEN, additive: true });
+    MecFX.burst(e.clientX, e.clientY, {
+      tier: 3, count: 22, colors: [MISSION_GREEN, '#7CEFB2', '#FFFFFF'], shapes: ['circle', 'star']
+    });
+    MecFX.glyphBurst(e.clientX, e.clientY, { glyphs: ['✨', '⭐️', '💫'], count: 4, spread: 90, w: 24 });
+  }, { passive: true });
+}
+
+// ── スクロールで下の段を出す（scroll イベントではなく IntersectionObserver） ──
+function _initScrollReveal() {
+  const targets = document.querySelectorAll('.rv-s');
+  if (!targets.length) return;
+  if (!('IntersectionObserver' in window)) {   // 非対応ブラウザでは隠したままにしない
+    targets.forEach(el => el.classList.add('in'));
+    return;
+  }
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      obs.unobserve(e.target);   // 出したら二度と戻さない（往復すると酔う）
+      // タイルが面に入ったら、縦長タイルの達成率もそこで回し始める
+      if (e.target.id === 'hubTiles') setTimeout(_tickLeadTile, 260);
+      // 週間ミッションは折り返しの下にいるので、面に入ってから祝う
+      if (e.target.classList.contains('hub-sec')) setTimeout(_sparkleMissions, 420);
+    });
+  }, { rootMargin: '0px 0px -12% 0px' });
+  targets.forEach(el => io.observe(el));
+}
 
 // ── メニュー（旧ヘッダーのボタン群をここへ集約した） ─────────────
 function openMenuModal()  { document.getElementById('menuModal').classList.add('open'); }
@@ -1056,8 +1846,10 @@ function checkSyncWarning() {
       const d = new Date(data[0].commit.committer.date);
       const mm = d.getMonth() + 1, dd = d.getDate();
       const hh = String(d.getHours()).padStart(2, '0'), min = String(d.getMinutes()).padStart(2, '0');
-      el.textContent = '🕐 最終更新 ' + mm + '/' + dd + ' ' + hh + ':' + min;
-      el.title = data[0].commit.message.split('\n')[0];
+      const stamp = mm + '/' + dd + ' ' + hh + ':' + min;
+      // ヘッダーは幅が足りないので表示は時刻だけ。説明と最新コミット題は title に回す
+      el.textContent = '🕐 ' + stamp;
+      el.title = '最終更新 ' + stamp + '\n' + data[0].commit.message.split('\n')[0];
     })
     .catch(() => { el.textContent = ''; });
 })();
@@ -1210,14 +2002,33 @@ document.addEventListener('DOMContentLoaded', () => {
   initGmSection();
   renderHub();
   checkSyncWarning();
+  _initScrollReveal();
+  _initScrollProgress();
+  _initTapBurst();
+  _startHeroDust();
+  _initMissionTap();
+  // gamify.js は <head> で読まれるので _init（＝#gmDaily の描画）はこの前に済んでいる。
+  // 粒子は入場アニメが落ち着いてから撒く
+  _markAllDone();
+  _startMissionAmbient();
+  _watchGamifyPanel();
+  setTimeout(_sparkleMissions, 700);
+  // タブを戻したときに常時演出を仕切り直す（隠れている間 MecFX は粒子を捨てている）
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) _startHeroDust(); });
   // タイルは再描画で作り直されるので、個々ではなく親に1つだけ委譲で張る
   const tiles = document.getElementById('hubTiles');
   if (tiles) tiles.addEventListener('click', e => {
     const btn = e.target.closest('.tile[data-tile]');
     if (btn) toggleTile(btn);
   });
-  // sync 完了後に再描画 + 警告再チェック
-  document.addEventListener('mecSyncComplete', () => { renderHub(); checkSyncWarning(); });
+  // sync 完了後に再描画 + 警告再チェック。gamify.js の再描画も同じイベントで走るので、
+  // 他端末で新たに達成されたミッションがあればここでキラキラする
+  document.addEventListener('mecSyncComplete', () => {
+    renderHub(); checkSyncWarning();
+    // gamify.js が #gmDaily を作り直すので、状態クラスも撒き直しもここでやり直す
+    _markAllDone();
+    setTimeout(_sparkleMissions, 120);
+  });
 });
 </script>
 <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});</script>

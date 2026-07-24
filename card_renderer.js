@@ -28,17 +28,38 @@
     }
     qhInner +=
       '<div class="mec-controls">' +
-      '<button type="button" class="mec-err-btn" data-uid="' + esc(uid) + '" data-action="error" title="エラー報告">⚠️報告</button>' +
-      '<button type="button" class="mec-flag-btn" data-uid="' + esc(uid) + '" data-action="flag" title="苦手フラグ">🚩</button>' +
-      '<button type="button" class="mec-lap-btn" data-uid="' + esc(uid) + '" data-action="lap">済<span class="mec-lap-num"></span></button>' +
+      '<button type="button" class="mec-err-btn" data-uid="' + esc(uid) + '" data-action="error" title="エラー報告" aria-label="この問題のエラーを報告">⚠️報告</button>' +
+      '<button type="button" class="mec-flag-btn" data-uid="' + esc(uid) + '" data-action="flag" title="苦手フラグ" aria-label="苦手フラグ" aria-pressed="false">🚩</button>' +
+      // 自己採点（× あやふや ○）。旧「済」ボタンは ○ に相当し、class も data-action も
+      // そのまま残してある — study_exam.js / progress.js / selfcheck_intro.html /
+      // キーボードショートカット(btn.click())が .mec-lap-btn を掴んでいるため、
+      // ここを別クラスに変えると周回数の表示と試験後の同期が黙って壊れる。
+      // 3つとも data-action="lap" で、違いは data-grade だけ（既定は ok）。
+      '<div class="mec-grade" role="group" aria-label="自己採点して次へ">' +
+      '<button type="button" class="mec-grade-btn g-ng" data-uid="' + esc(uid) + '" data-action="lap" data-grade="ng" title="わからなかった（明日また出す）" aria-label="わからなかった">×</button>' +
+      '<button type="button" class="mec-grade-btn g-mid" data-uid="' + esc(uid) + '" data-action="lap" data-grade="mid" title="あやふや（間隔を控えめに伸ばす）" aria-label="あやふや">△</button>' +
+      '<button type="button" class="mec-lap-btn" data-uid="' + esc(uid) + '" data-action="lap" data-grade="ok" title="余裕だった（間隔を伸ばす）" aria-label="余裕だった">○<span class="mec-lap-num"></span></button>' +
+      '</div>' +
       '</div>';
 
     // Images
+    // width/height は必ず出すこと。無いと loading="lazy" の画像はデコードまで高さ0で、
+    // デコード後に最大220pxへ跳ねる＝画像問題が並ぶ科目でスクロール位置が後からズレ続ける
+    // （章ジャンプが目標に収束しなかった原因）。属性があればブラウザが aspect-ratio を
+    // 先に確定させ、デコード前から正しい高さの箱を確保する。
+    // 実寸の出所は image_dims.json（_work/build_image_dims.py が生成する派生物）。
+    // 未ロード・未知パスのときは属性を省くだけで、表示自体は従来どおり成立する。
     let imgRow = '';
     if (q.imgs && q.imgs.length) {
+      const dims = (typeof window !== 'undefined' && window.MEC_IMG_DIMS) || null;
       imgRow = '<div class="qimg-row">' +
         q.imgs.map(function (src) {
-          return '<img loading="lazy" alt="" class="qimg" src="' + esc(src) + '"/>';
+          const d = dims && dims[src];
+          const size = (d && d.length === 2)
+            ? ' width="' + d[0] + '" height="' + d[1] + '"'
+            : '';
+          return '<img loading="lazy" decoding="async"' + size +
+                 ' alt="" class="qimg" src="' + esc(src) + '"/>';
         }).join('') +
         '</div>';
     }

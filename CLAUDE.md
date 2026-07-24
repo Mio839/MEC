@@ -26,16 +26,17 @@
 | `knowledge.html` | 検索知識ノート機能 |
 | `card_renderer.js` | JSON→カードHTML描画（`window._renderSubjectFromJson`、エスケープ処理あり） |
 | `fx_engine.js` | エフェクトのCanvas描画エンジン（`window.MecFX`：粒子・花火・グリフバースト等） |
-| `sw.js` | Service Worker（オフラインキャッシュ）。`CACHE`版数は**questions_*.json更新時のみbump**（bumpで全キャッシュ削除＝15MB再DL）。SHELL/CARDSにパス列挙。相対パス必須 |
+| `image_dims.json` | 問題画像の実寸（パス→[w,h]・約109KB・**派生物**。`_work/build_image_dims.py`が生成）。`card_renderer.js`が`<img width height>`を出す材料。これが無いと遅延読込の画像でレイアウトが後からずれ、章ジャンプが目標に収束しない。**画像を差し替え・追加したら必ず再生成** |
+| `sw.js` | Service Worker（オフラインキャッシュ）。`CACHE`版数は**questions_*.json・画像を更新した時にbump**（bumpで全キャッシュ削除＝再DL）。SHELL/CARDSにパス列挙。相対パス必須 |
 | `chapters_meta.js` / `rate_index.js` | stats.html等が参照する章メタ・正答率インデックス（`_work/build.py`系で再生成） |
-| `questions_*.json` / `questions_*.js` | **問題データの正本**（.json）。study.htmlはこれを読み込んで表示。.jsはfile://フォールバック用コピーで**pre-commitフックが自動生成**（[データソースの方針]参照） |
+| `questions_*.json` | **問題データの正本**。study.htmlはこれを読み込んで表示。⚠️ 2026-07-24に`questions_*.js`（file://フォールバック用の同内容コピー・計約15MB）を廃止した。運用はGitHub Pages一本で、コピーはリポジトリを二重に太らせ更新のたびに再生成が要るだけだったため。`_work/gen_js_from_json.js`・`_work/check_json_js_sync.js`・pre-commitフックの自動生成ステップも同時に撤去済み |
 | `国家試験過去問/` | 過去問ビューアHTML（`chapter_exam.js`で試験モード）。PDFは`.gitignore`済み・追跡はhtmlのみ |
 | `chapter_exam.js` | 過去問ビューアの試験モード（`CE_EFFECT_THEMES`＝study_exam.jsの演出を同配色でミラー） |
 | `内分泌/` `呼吸器/` `循環器/` `消化器/` `神経/` `肝胆膵/` `腎臓/` `血液/` `免アレ膠/` | 各科目のフォルダ（画像・selfcheck_intro.html等）。章別解答解説HTML(ch01.html等)は全科目 `_archive/{科目}/` へ移動済み（2026-07-07完了） |
 | `産婦人科/` | 章別HTML(ch01〜ch13)＋`images/`＋`obg_questions.json`（メタ）。HTMLが`questions_obg.json`のソース＝`_work/build_obg_json.py`で再生成 |
 | `_archive/` | 到達不能になった旧・章別HTMLの保管先。編集対象外、読み物としてのみ残す |
 | `vars.css` | 共通CSSカスタムプロパティ（全ページ共通色変数） |
-| `_work/` | ビルド・検証・マージ用スクリプト（`build.py`・`gen_js_from_json.js`・`check_json_js_sync.js`・`pdf_audit.py`・`test_merge_remote.js`・`build_qmeta.py`・`test_attempts.js`・`test_karte.js`等） |
+| `_work/` | ビルド・検証・マージ用スクリプト（`build.py`・`pdf_audit.py`・`build_qmeta.py`・`build_image_dims.py`・`compress_images.py`・`fix_missing_bi_badges.py`・各`test_*.js`等） |
 
 ## 問題数
 
@@ -91,7 +92,30 @@
 
 ### カード内ボタン
 - `🚩` 赤旗ボタン（`mecToggleFlag`）
-- `済` 周回ボタン（`mecIncrLap`）: 押すたびに周回数 +1、数字が横に表示
+- 自己採点 `×` `△` `○`（`mecIncrLap`・キーボード `1` `2` `3`／`Enter`=○）:
+  3つとも `data-action="lap"` で、違いは `data-grade`（`ng`/`mid`/`ok`）だけ。
+  どれを押しても周回数 +1・学習日の記録・次カードへのスクロールは共通で、
+  変わるのは SRS へ渡す自己申告のみ（[SRSの自己採点]参照）。
+  周回数と緑の塗りは常に `○`（`.mec-lap-btn`）が持つ。
+  ⚠️ `.mec-lap-btn` というクラス名は変えないこと。`study_exam.js`・`progress.js`・
+  キーボード操作・旧`selfcheck_intro.html`がこの名前で掴んでいる。
+
+### SRSの自己採点（2026-07-24〜）
+
+以前は「済」1つで、押すたびに**無条件で正解扱い**として SRS の間隔を伸ばしていた。
+想起テストを経ずに間隔だけ伸びるため、通常モードで一周すると SRS が「定着済み」で埋まり、
+試験モードでしか書かれない `myrate_v1` と食い違っていた。`_updateSRS(uid, grade)`（study.html）:
+
+| grade | ef | 間隔 |
+|---|---|---|
+| `ok`（○ 余裕） | +0.1（上限2.5） | 1 → 6 → 前回×ef |
+| `mid`（△ あやふや） | 据え置き | 1 → 3 → 前回×max(1.15, ef-0.6) |
+| `ng`（× わからない） | -0.2（下限1.3） | 1日へ戻し reps=0 |
+
+- 試験モードは従来どおり真偽値で呼ぶ（`true`=○ / `false`=×）。互換は維持されている。
+- 直近の申告は `mec_srs_v1` の `g` に入る（同期対象）。カード上の選択表示に使う。
+- 間隔上限90日・ef上限2.5は意図的（本番まで1年スパンで間隔を暴走させないため）。
+- テスト: `node _work/test_srs_grade.js`
 
 ## 採点データの不変条件（試験モードが壊れる原因になる）
 
@@ -103,6 +127,8 @@
 - 選択肢は `a`,`b`,`c`… の順で1つずつ独立した要素であること。`"a　①　/　b　②"` のように結合していると選べない。
 - `ok` の個数は問題文末尾の「Nつ選べ」と一致すること（`複数正解`・`採点除外` バッジのある問題を除く）。
 - 📷バッジ（`bi`）と `imgs` の有無は必ず一致させること（🖼️フィルタの根拠）。
+  2026-07-24に jitsu1 53問・custom 8問で欠落が見つかり `_work/fix_missing_bi_badges.py` で修正した。
+  同スクリプトを `--dry-run` で流せばいつでも検出できる（現在0件）。
 - `N択` バッジは PDF の `↗N`（画像枚数と無関係の内部マーカー）を誤読していたことがある。**正解数の根拠は問題文の「Nつ選べ」のみ**。
 - 連問の図は右段にまとめて置かれ、図の直下に `A` `B` `C` のラベルが描かれる。**帰属はラベル文字の座標で決めること**（読み順=A,B,C とは限らず、実際に `B A` の順で並ぶ紙面がある）。ステムが参照する図は連問1問目、後続の設問が参照する図はその設問に付ける。
 
@@ -133,6 +159,26 @@ stats.html「🩺 弱点カルテ」     ← 科目×設問形式ヒートマッ
   個別に深掘りする場合だけ対象を数問に絞って手で添付する。
 - テスト: `node _work/test_attempts.js`（ログ）・`node _work/test_karte.js`（集計）・
   `node _work/test_merge_remote.js`（同期マージ）。いずれも実ソースを読み込むのでロジックの二重管理は無い。
+
+## テスト一覧
+
+いずれも実ソースを読み込む（ロジックの二重管理をしない）。コミット前に全部通すこと。
+
+```
+node _work/test_attempts.js        解答イベントログ            (9)
+node _work/test_karte.js           弱点カルテの集計            (14)
+node _work/test_merge_remote.js    Gist同期のマージ戦略        (57)
+node _work/test_streak.js          連続日数と activity_v1      (9)
+node _work/test_copy.js            クリップボード/2段階タップ  (17)
+node _work/test_today_learning.js  ハブの「今日解いた問題」
+node _work/test_srs_grade.js       SRSの自己採点3段階          (10)
+node _work/test_subject_totals.js  科目別問題数の三者一致      (3)
+node _work/test_card_render.js     カード描画（画像実寸・採点ボタン）(7)
+node _work/check_effect_themes_sync.js  演出テーマのミラー整合
+```
+
+`test_subject_totals.js` は questions_*.json / `gamify.js`の`SUBJECTS` / `chapters_meta.js`
+の3か所に散らばった問題数が一致しているかを見る。問題を増減したら必ずここが落ちる。
 
 ## 試験モードの演出エフェクト仕様
 
@@ -220,7 +266,8 @@ GitHub Gist API で `mec_progress.json` に進捗を保存。
 - **解説・問題文の編集は必ず `questions_{prefix}.json` を対象にすること。** 章別HTML(`{科目}/ch*.html`)は編集対象ではない（study.htmlから参照されないため、直しても画面に反映されない）。
 - 過去に神経・血液で「HTMLだけ強化してJSONに未反映」「科目ごとにcls命名がバラバラ(`em` vs `eem`)」という事故が発生済み。新しく解説を追加する科目でも同じ命名規則を使うこと。
 - `eg`配列の`cls`命名規則（共通）: `ep`=病態, `ee`=鑑別, `ept`=国試ポイント, `em`=選択肢別解説（またはニーモニック）, `ec`=計算, `ei`=画像所見。`study.css`内のCSS(`.ep` `.ee` `.ept` `.em` `.ec` `.ei`)で色分けされるため、独自クラス名を作らない（旧: study.html内インライン。2026-07-05にstudy.cssへ外出し）。
-- `questions_{prefix}.json`を更新したら同名の`.js`(`window["_cardJSON_{prefix}"]=<JSON>;`形式・file://フォールバック用)も一致させる必要がある。**pre-commitフックが`node _work/gen_js_from_json.js`で自動再生成＋add**するため手動再生成は不要（2026-07-05〜）。ズレるとfile://環境でのみ古いデータが表示される。
-  - 手動で再生成する場合: `node _work/gen_js_from_json.js [prefix...]`（引数なしで全科目）。整合性検証は `node _work/check_json_js_sync.js`。
-  - ⚠️ フックは`.git/hooks/pre-commit`にありGit管理外（マシンローカル）。別マシンでcloneした際は再設定が必要。
+- `questions_*.json` の整形はファイルごとにバラバラ（compact＝jitsu1 / indent=1+CRLF＝resp / 手書き混在＝custom）。**書き戻しで整形を変えないこと**。1問直しただけで全行が差分になりレビュー不能になる。`_work/fix_missing_bi_badges.py` が「往復で再現できるならjson.dumps、できなければ行単位パッチ」の実装例。
+- 画像を追加・差し替えたら `python _work/build_image_dims.py` で `image_dims.json` を作り直す（`<img width height>` の材料。忘れるとその画像だけレイアウトシフトが戻る）。
+- 画像は `python _work/compress_images.py`（長辺1200px・JPEG q85・**ファイル名は不変**）を通す。2026-07-24に全2544枚で461MB→228MBにした。パスが変わらないのでJSON/HTML/sw.jsの書き換えは不要。
+- ⚠️ pre-commitフックは`.git/hooks/pre-commit`にありGit管理外（マシンローカル）。別マシンでcloneした際は再設定が必要。現在は「演出テーマ乖離チェック」と「画像整合性チェック」の2本。
 - 章別HTMLをJSONへ完全移行し終えた科目から `_archive/{科目}/` へ`git mv`する。移行未完了（HTML側にのみ存在する解説がある）科目は先にJSONへマージしてから移動する。

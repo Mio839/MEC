@@ -1,9 +1,12 @@
-const CACHE = "mec-v101";
+// v102: 画像2544枚を再エンコード（461MB→228MB）＋ questions_jitsu1/custom.json の📷バッジ修正。
+// 画像は CARDS に列挙していないが汎用fetchハンドラでキャッシュに載るため、CACHE を bump して
+// 旧キャッシュごと捨てないと端末に古い大きい画像が residual で残る。
+const CACHE = "mec-v102";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-07-23n";
+const SHELL_VERSION = "2026-07-24b";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -23,6 +26,7 @@ const SHELL = [
   "./chapters_meta.js",
   "./rate_index.js",
   "./qmeta.json",
+  "./image_dims.json",
   "./card_renderer.js",
   "./gamify.js",
 ];

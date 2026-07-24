@@ -515,7 +515,11 @@ html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-bloc
 .sg>.qc:last-child{border-radius:0 0 12px 12px;margin-bottom:12px;}
 /* Images */
 .qimg-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px;}
-.qimg{max-height:220px;max-width:48%;object-fit:contain;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,.12);cursor:zoom-in;transition:max-height .2s,max-width .2s;}
+/* ⚠️ width/height:auto は必須。card_renderer.js が実寸を width/height 属性で出すため、
+   auto を外すと max-width:48% で横だけ縮んで縦が属性値のまま残り、画像が潰れる。
+   auto にしておくと属性は「縦横比の先出し」だけに効き、デコード前から正しい高さの箱が
+   確保される（＝画像の遅延読込によるスクロールずれが消える）。 */
+.qimg{width:auto;height:auto;max-height:220px;max-width:48%;object-fit:contain;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,.12);cursor:zoom-in;transition:max-height .2s,max-width .2s;}
 /* Image lightbox */
 #mecImgLb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:var(--z-lightbox);align-items:center;justify-content:center;cursor:zoom-out;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
 #mecImgLb.open{display:flex;}
@@ -523,6 +527,37 @@ html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-bloc
 
 /* ── Controls ── */
 .mec-controls{display:flex;align-items:center;gap:6px;margin-left:auto;flex-shrink:0;}
+
+/* 自己採点（× / △ / ○）。旧「済」1つを3分割したもの。
+   ⚠️ progress.js の _injectSeriesCSS が .mec-lap-btn の旧・章ページ用パレット（白地）を
+   実行時に <style> で注ぎ込む。あれは study.css の <link> より後ろに入るので、
+   同じ詳細度だと向こうが勝つ。ここは必ず .mec-controls を前置して詳細度で上回ること。 */
+.mec-controls .mec-grade{display:inline-flex;align-items:stretch;gap:2px;padding:2px;
+  border-radius:var(--r-md);background:rgba(var(--glass-rgb),.07);border:1px solid var(--bd);}
+.mec-controls .mec-grade-btn,
+.mec-controls .mec-grade .mec-lap-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:2px;
+  min-width:26px;padding:2px 7px;border-radius:calc(var(--r-md) - 2px);
+  font-size:11px;font-weight:800;line-height:1.5;font-family:inherit;
+  border:1px solid transparent;background:none;color:var(--ts);
+  cursor:pointer;white-space:nowrap;transition:background .18s,color .18s,border-color .18s;}
+/* タップ標的は最低36px確保する（iPadで隣の段階を誤爆すると復習間隔が壊れる） */
+@media (hover:none){
+  .mec-controls .mec-grade-btn,
+  .mec-controls .mec-grade .mec-lap-btn{min-width:36px;padding:5px 9px;}
+}
+.mec-controls .mec-grade-btn.g-ng:hover{color:var(--rd);background:var(--rdl);}
+.mec-controls .mec-grade-btn.g-mid:hover{color:var(--or);background:var(--orl);}
+.mec-controls .mec-grade .mec-lap-btn:hover{color:var(--gr);background:var(--grl);}
+/* 直近に選んだ段階を残す（mec_srs_v1 の g）。「今どう自己申告したか」が一目で分かる */
+.mec-controls .mec-grade-btn.g-ng.mec-grade-on{color:var(--rd);background:var(--rdl);border-color:var(--rd);}
+.mec-controls .mec-grade-btn.g-mid.mec-grade-on{color:var(--or);background:var(--orl);border-color:var(--or);}
+/* 周回済み（done_v2>0）は従来どおり ○ が緑で満ちる。既存の .mec-lapped を踏襲 */
+.mec-controls .mec-grade .mec-lap-btn.mec-lapped,
+.mec-controls .mec-grade .mec-lap-btn.mec-grade-on{color:var(--gr);background:var(--grl);border-color:var(--gr);}
+.mec-controls .mec-grade .mec-lap-num{font-size:9px;font-weight:800;opacity:.8;margin-left:1px;}
+.mec-controls .mec-grade-btn:focus-visible,
+.mec-controls .mec-grade .mec-lap-btn:focus-visible{outline:2px solid var(--ord);outline-offset:1px;}
 .mec-flag-btn{background:none;border:none;font-size:16px;cursor:pointer;opacity:.3;padding:0 2px;line-height:1;transition:opacity .2s;}
 .mec-fixed-badge{display:inline-flex;align-items:center;font-size:9px;font-weight:800;background:rgba(255,165,0,.15);color:#FFA040;border:1px solid rgba(255,165,0,.45);border-radius:4px;padding:1px 6px;letter-spacing:.04em;cursor:default;white-space:nowrap;}
 .mec-flag-btn.mec-flagged{opacity:1;}

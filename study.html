@@ -54,11 +54,11 @@ if ('serviceWorker' in navigator) {
     <a class="hub-link" href="index.html">← ハブへ</a>
     <span class="mec-sync-badge">⚙️ 未設定</span>
     <button class="mec-err-badge" id="mecErrBadge" onclick="openErrReports()">⚠️ <span id="errCount">0</span>件</button>
-    <span class="vis-count" id="visCount">—</span>
+    <span class="vis-count" id="visCount" role="status" aria-live="polite" aria-atomic="true">—</span>
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
     <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
     <button class="hdr-toggle" onclick="document.getElementById('mecKbHelp').classList.add('open')" title="キーボードショートカット (?)">⌨️</button>
-    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0722h</span>
+    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0724a</span>
   </div>
   <div class="st-stats">
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
@@ -66,52 +66,52 @@ if ('serviceWorker' in navigator) {
     <div class="st-stat"><span class="st-streak">🔥 <span id="studyStreak">0</span>日連続</span></div>
   </div>
   <div class="st-filter-panel" id="stFilterPanel">
-    <div class="chip-row">
-    <button class="chip" data-sid="endo" onclick="toggleSubjectChip(this,'endo')">⚗️&nbsp;内分泌</button>
-    <button class="chip" data-sid="resp" onclick="toggleSubjectChip(this,'resp')">🌬️&nbsp;呼吸器</button>
-    <button class="chip" data-sid="circ" onclick="toggleSubjectChip(this,'circ')">❤️&nbsp;循環器</button>
-    <button class="chip" data-sid="dige" onclick="toggleSubjectChip(this,'dige')">🌿&nbsp;消化器</button>
-    <button class="chip" data-sid="neur" onclick="toggleSubjectChip(this,'neur')">🧠&nbsp;神経</button>
-    <button class="chip" data-sid="hbp" onclick="toggleSubjectChip(this,'hbp')">🧪&nbsp;肝胆膵</button>
-    <button class="chip" data-sid="jinzo_d" onclick="toggleSubjectChip(this,'jinzo_d')">💧&nbsp;腎臓</button>
-    <button class="chip" data-sid="hema" onclick="toggleSubjectChip(this,'hema')">🩸&nbsp;血液</button>
-    <button class="chip" data-sid="imma" onclick="toggleSubjectChip(this,'imma')">🛡️&nbsp;免アレ膠</button>
-    <button class="chip" data-sid="kansen" onclick="toggleSubjectChip(this,'kansen')">🦠&nbsp;感染症</button>
-    <button class="chip" data-sid="peds" onclick="toggleSubjectChip(this,'peds')">🧸&nbsp;小児科</button>
-    <button class="chip" data-sid="obg" onclick="toggleSubjectChip(this,'obg')">🤰&nbsp;産婦人科</button>
-    <button class="chip" data-sid="custom" onclick="toggleSubjectChip(this,'custom')">✏️&nbsp;自作問題</button>
-    <button class="chip" data-sid="memo" onclick="toggleSubjectChip(this,'memo')">📝&nbsp;暗記メモ</button>
+    <div class="chip-row" role="group" aria-label="科目を選ぶ（1科目のみ）">
+    <button class="chip" data-sid="endo" onclick="toggleSubjectChip(this,'endo')" aria-pressed="false">⚗️&nbsp;内分泌</button>
+    <button class="chip" data-sid="resp" onclick="toggleSubjectChip(this,'resp')" aria-pressed="false">🌬️&nbsp;呼吸器</button>
+    <button class="chip" data-sid="circ" onclick="toggleSubjectChip(this,'circ')" aria-pressed="false">❤️&nbsp;循環器</button>
+    <button class="chip" data-sid="dige" onclick="toggleSubjectChip(this,'dige')" aria-pressed="false">🌿&nbsp;消化器</button>
+    <button class="chip" data-sid="neur" onclick="toggleSubjectChip(this,'neur')" aria-pressed="false">🧠&nbsp;神経</button>
+    <button class="chip" data-sid="hbp" onclick="toggleSubjectChip(this,'hbp')" aria-pressed="false">🧪&nbsp;肝胆膵</button>
+    <button class="chip" data-sid="jinzo_d" onclick="toggleSubjectChip(this,'jinzo_d')" aria-pressed="false">💧&nbsp;腎臓</button>
+    <button class="chip" data-sid="hema" onclick="toggleSubjectChip(this,'hema')" aria-pressed="false">🩸&nbsp;血液</button>
+    <button class="chip" data-sid="imma" onclick="toggleSubjectChip(this,'imma')" aria-pressed="false">🛡️&nbsp;免アレ膠</button>
+    <button class="chip" data-sid="kansen" onclick="toggleSubjectChip(this,'kansen')" aria-pressed="false">🦠&nbsp;感染症</button>
+    <button class="chip" data-sid="peds" onclick="toggleSubjectChip(this,'peds')" aria-pressed="false">🧸&nbsp;小児科</button>
+    <button class="chip" data-sid="obg" onclick="toggleSubjectChip(this,'obg')" aria-pressed="false">🤰&nbsp;産婦人科</button>
+    <button class="chip" data-sid="custom" onclick="toggleSubjectChip(this,'custom')" aria-pressed="false">✏️&nbsp;自作問題</button>
+    <button class="chip" data-sid="memo" onclick="toggleSubjectChip(this,'memo')" aria-pressed="false">📝&nbsp;暗記メモ</button>
   </div>
-  <div class="filter-row">
-    <button class="nb fc-on" data-filter="all" onclick="setFilter('all')">全問</button>
-    <button class="nb" data-filter="hard" onclick="setFilter('hard')">難問</button>
-    <button class="nb" data-filter="mid" onclick="setFilter('mid')">標準</button>
-    <button class="nb" data-filter="easy" onclick="setFilter('easy')">易問</button>
-    <button class="nb" data-filter="norate" onclick="setFilter('norate')">未採点</button>
-    <button class="nb" data-filter="star" onclick="setFilter('star')">★</button>
-    <button class="nb" data-filter="img" onclick="setFilter('img')">🖼</button>
-    <button class="nb" data-filter="weak" onclick="setFilter('weak')">🎯苦手</button>
-    <button class="nb" data-filter="due" onclick="setFilter('due')">🔔復習</button>
+  <div class="filter-row" role="group" aria-label="絞り込みと学習モード">
+    <button class="nb fc-on" data-filter="all" onclick="setFilter('all')" aria-pressed="false">全問</button>
+    <button class="nb" data-filter="hard" onclick="setFilter('hard')" aria-pressed="false">難問</button>
+    <button class="nb" data-filter="mid" onclick="setFilter('mid')" aria-pressed="false">標準</button>
+    <button class="nb" data-filter="easy" onclick="setFilter('easy')" aria-pressed="false">易問</button>
+    <button class="nb" data-filter="norate" onclick="setFilter('norate')" aria-pressed="false">未採点</button>
+    <button class="nb" data-filter="star" onclick="setFilter('star')" aria-pressed="false" aria-label="★問題だけ">★</button>
+    <button class="nb" data-filter="img" onclick="setFilter('img')" aria-pressed="false" aria-label="画像問題だけ">🖼</button>
+    <button class="nb" data-filter="weak" onclick="setFilter('weak')" aria-pressed="false">🎯苦手</button>
+    <button class="nb" data-filter="due" onclick="setFilter('due')" aria-pressed="false">🔔復習</button>
     <span class="fsep"></span>
-    <button class="nb2 fs-on" data-state="all" onclick="setState('all')">全</button>
-    <button class="nb2" data-state="flag" onclick="setState('flag')">🚩</button>
-    <button class="nb2" data-state="undone" onclick="setState('undone')">未済</button>
-    <button class="nb2" data-state="done" onclick="setState('done')">済</button>
+    <button class="nb2 fs-on" data-state="all" onclick="setState('all')" aria-pressed="false">全</button>
+    <button class="nb2" data-state="flag" onclick="setState('flag')" aria-pressed="false" aria-label="赤旗を付けた問題だけ">🚩</button>
+    <button class="nb2" data-state="undone" onclick="setState('undone')" aria-pressed="false">未済</button>
+    <button class="nb2" data-state="done" onclick="setState('done')" aria-pressed="false">済</button>
     <span class="fsep"></span>
     <button class="nb" id="examModeBtn" onclick="openExamStart()">🎓試験</button>
-    <button class="nb" id="srsReviewBtn" onclick="startSRSReview()" title="今日の復習セッション">🔔</button>
-    <button class="nb" onclick="openSelfcheck()">✏️</button>
-    <button class="nb" onclick="openStudySoundOv()">🔊</button>
+    <button class="nb" id="srsReviewBtn" onclick="startSRSReview()" title="今日の復習セッション" aria-label="今日の復習セッションを始める">🔔</button>
+    <button class="nb" onclick="openSelfcheck()" aria-label="自作問題を追加">✏️</button>
+    <button class="nb" onclick="openStudySoundOv()" aria-label="効果音の設定">🔊</button>
   </div>
   <div class="jump-row">
     <div class="search-wrap">
-      <input class="search-input" type="search" id="searchInput" placeholder="キーワード検索…" oninput="onSearchInput(this.value)">
+      <input class="search-input" type="search" id="searchInput" placeholder="キーワード検索…" aria-label="問題文と解説をキーワード検索" oninput="onSearchInput(this.value)">
     </div>
-    <select class="jump-select" id="chJumpSel" onchange="if(this.value){var _v=this.value;this.value='';this.blur();jumpToChapter(_v);}">
+    <select class="jump-select" id="chJumpSel" aria-label="章へジャンプ" onchange="if(this.value){var _v=this.value;this.value='';this.blur();jumpToChapter(_v);}">
       <option value="">📍 章ジャンプ…</option>
     </select>
-    <input class="jump-qnum" type="number" id="qJumpInput" placeholder="Q#" min="1" onkeydown="if(event.key==='Enter')jumpToQnum()">
-    <button class="jump-go" onclick="jumpToQnum()">→</button>
+    <input class="jump-qnum" type="number" id="qJumpInput" placeholder="Q#" aria-label="問題番号へジャンプ" min="1" onkeydown="if(event.key==='Enter')jumpToQnum()">
+    <button class="jump-go" onclick="jumpToQnum()" aria-label="入力した問題番号へ移動">→</button>
   </div>
   </div><!-- /st-filter-panel -->
   <div class="exam-prog" id="examProg">
@@ -176,13 +176,13 @@ if ('serviceWorker' in navigator) {
 <div id="examCountdown"></div>
 
 <!-- Image lightbox -->
-<div id="mecImgLb" onclick="this.classList.remove('open')">
+<div id="mecImgLb" role="dialog" aria-modal="true" aria-label="画像を拡大表示（クリックで閉じる）" onclick="this.classList.remove('open')">
   <img loading="lazy" id="mecImgLbImg" src="" alt="">
 </div>
 
 <!-- Undo toast -->
-<div id="mecUndoToast">
-  <span>済みにしました</span>
+<div id="mecUndoToast" role="status" aria-live="polite">
+  <span class="mec-undo-msg">済みにしました</span>
   <button class="mec-undo-btn" onclick="mecUndoLastLap()">取消</button>
   <div class="mec-undo-prog" id="mecUndoProg"></div>
 </div>
@@ -193,7 +193,9 @@ if ('serviceWorker' in navigator) {
     <h3>⌨️ キーボードショートカット</h3>
     <div class="kb-row"><div class="kb-keys"><span class="kb-key">j</span><span class="kb-key">↓</span></div><span class="kb-desc">次の問題へ</span></div>
     <div class="kb-row"><div class="kb-keys"><span class="kb-key">k</span><span class="kb-key">↑</span></div><span class="kb-desc">前の問題へ</span></div>
-    <div class="kb-row"><div class="kb-keys"><span class="kb-key">Enter</span></div><span class="kb-desc">済みにする</span></div>
+    <div class="kb-row"><div class="kb-keys"><span class="kb-key">1</span></div><span class="kb-desc">× わからなかった（明日また出す）</span></div>
+    <div class="kb-row"><div class="kb-keys"><span class="kb-key">2</span></div><span class="kb-desc">△ あやふや（控えめに伸ばす）</span></div>
+    <div class="kb-row"><div class="kb-keys"><span class="kb-key">3</span><span class="kb-key">Enter</span></div><span class="kb-desc">○ 余裕だった（間隔を伸ばす）</span></div>
     <div class="kb-row"><div class="kb-keys"><span class="kb-key">f</span></div><span class="kb-desc">赤旗トグル</span></div>
     <div class="kb-row"><div class="kb-keys"><span class="kb-key">/</span></div><span class="kb-desc">キーワード検索</span></div>
     <div class="kb-row"><div class="kb-keys"><span class="kb-key">?</span></div><span class="kb-desc">このヘルプを閉じる</span></div>
@@ -374,7 +376,8 @@ function _saveStudyTime() {
 }
 
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden) { _saveStudyTime(); if (examMode) _saveExamResume(); }
+  // タブ退避（iOSはこの後そのまま破棄されうる）。遅延書き込みは必ずここで吐き切る。
+  if (document.hidden) { _saveStudyTime(); window._flushSRS?.(); window._flushChoices?.(); if (examMode) _saveExamResume(); }
   else { _studyStartTime = Date.now(); _studyTimeSaved = false; }
 });
 
@@ -460,6 +463,7 @@ function _syncChipStyles() {
     const subj = STUDY_SUBJECTS.find(s => s.id === id);
     const on = selectedSubjects.has(id);
     c.classList.toggle('on', on);
+    c.setAttribute('aria-pressed', String(on));   // 見た目の .on と必ず一対一で動かす
     c.style.background = on && subj ? subj.color : 'none';
     c.style.borderColor = on && subj ? subj.color : 'rgba(255,255,255,.3)';
     c.style.color = on ? 'var(--subj-ink)' : 'rgba(255,255,255,.6)';
@@ -493,16 +497,33 @@ function toggleSubjectChip(btn, id) {
   else _finish();
 }
 
+// 選択中の見た目(.fc-on/.fs-on)と aria-pressed は必ず一緒に動かす。
+// 片方だけ書く場所が増えると読み上げと画面がズレるので、書き込み口はこの2本に集約する。
+function _syncFilterBtns(f) {
+  document.querySelectorAll('[data-filter]').forEach(b => {
+    const on = b.dataset.filter === f;
+    b.classList.toggle('fc-on', on);
+    b.setAttribute('aria-pressed', String(on));
+  });
+}
+function _syncStateBtns(s) {
+  document.querySelectorAll('[data-state]').forEach(b => {
+    const on = b.dataset.state === s;
+    b.classList.toggle('fs-on', on);
+    b.setAttribute('aria-pressed', String(on));
+  });
+}
+
 function setFilter(f) {
   currentFilter = f;
-  document.querySelectorAll('[data-filter]').forEach(b => b.classList.toggle('fc-on', b.dataset.filter === f));
+  _syncFilterBtns(f);
   localStorage.setItem('mec_filter_v1', f);
   applyFilters();
 }
 
 function setState(s) {
   currentState = s;
-  document.querySelectorAll('[data-state]').forEach(b => b.classList.toggle('fs-on', b.dataset.state === s));
+  _syncStateBtns(s);
   localStorage.setItem('mec_state_v1', s);
   applyFilters();
 }
@@ -585,7 +606,15 @@ function _ensureSubjInit(sid) {
       if (numEl) numEl.textContent = doneLevel > 0 ? doneLevel : '';
       m.lapBtn.classList.toggle('mec-lapped', doneLevel > 0);
     }
-    if (m.flagBtn) m.flagBtn.classList.toggle('mec-flagged', !!_flags[uid]);
+    if (m.flagBtn) {
+      const flagged = !!_flags[uid];
+      m.flagBtn.classList.toggle('mec-flagged', flagged);
+      m.flagBtn.setAttribute('aria-pressed', String(flagged));
+    }
+    // 直近の自己申告（× / △ / ○）を復元する。mec_srs_v1 の g が正本で、同期対象。
+    const g = _srsData[uid] && _srsData[uid].g;
+    if (g) m.el.querySelectorAll('.mec-grade [data-grade]')
+      .forEach(b => b.classList.toggle('mec-grade-on', b.dataset.grade === g));
     const mr = _myrate[uid];
     if (mr && mr.total > 0) _updateMyRateBadge(uid, mr);
     const errBtn = m.el.querySelector('.mec-err-btn');
@@ -670,6 +699,14 @@ window.mecShowUndoToast = function(uid, prevCount, btn) {
   const toast = document.getElementById('mecUndoToast');
   const prog  = document.getElementById('mecUndoProg');
   if (!toast) return;
+  // 何を申告したかを言い直す（取消の判断材料になる）
+  const lbl = toast.querySelector('.mec-undo-msg');
+  if (lbl) {
+    const g = (btn && btn.dataset && btn.dataset.grade) || 'ok';
+    lbl.textContent = g === 'ng' ? '× 明日また出します'
+      : g === 'mid' ? '△ 控えめに間隔を伸ばしました'
+      : '○ 間隔を伸ばしました';
+  }
   toast.classList.add('show');
   prog.style.transition = 'none';
   prog.style.width = '100%';
@@ -710,7 +747,8 @@ document.addEventListener('keydown', function(e) {
   }
 
   if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || tag === 'BUTTON') return;
-  if (!['Enter','j','k','f','ArrowDown','ArrowUp'].includes(e.key)) return;
+  // 1/2/3 は自己採点（× / △ / ○）。Enter は従来どおり ○ に相当する。
+  if (!['Enter','j','k','f','1','2','3','ArrowDown','ArrowUp'].includes(e.key)) return;
   const hdr = document.querySelector('.st-hdr');
   const hdrH = hdr ? hdr.getBoundingClientRect().bottom : 0;
   const cards = [...document.querySelectorAll('.qc[data-uid]')].filter(c => c.style.display !== 'none');
@@ -720,8 +758,11 @@ document.addEventListener('keydown', function(e) {
   if (!card) return;
   e.preventDefault();
   const scrollOffset = hdrH + 16;
-  if (e.key === 'Enter') {
+  if (e.key === 'Enter' || e.key === '3') {
     const btn = card.querySelector('.mec-lap-btn'); if (btn) btn.click();
+  } else if (e.key === '1' || e.key === '2') {
+    const g = e.key === '1' ? 'ng' : 'mid';
+    const btn = card.querySelector('.mec-grade [data-grade="' + g + '"]'); if (btn) btn.click();
   } else if (e.key === 'j' || e.key === 'ArrowDown') {
     const next = cards[ci + 1];
     if (next) { const y = next.getBoundingClientRect().top + (window.scrollY || document.documentElement.scrollTop) - scrollOffset; window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' }); }
@@ -900,7 +941,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (_streakEl && window.MECSync) _streakEl.textContent = MECSync.calcStreak();
         window._restoreScroll?.();
         _updateErrBadge();
-        document.addEventListener('mecSyncComplete', () => { if (!examMode) initCards(); _updateErrBadge(); });
+        document.addEventListener('mecSyncComplete', () => {
+          // マージ結果を読み直す。吐き出しはマージ前に mecFlushPending で済んでいるので
+          // ここではメモリ側を捨てて localStorage を正に戻すだけでよい。
+          _loadSRS();
+          _choiceData = null;
+          if (!examMode) initCards();
+          _updateErrBadge();
+        });
         document.addEventListener('mecResumesUpdated', () => {
           const ov = document.getElementById('examStartOv');
           if (ov && ov.classList.contains('open')) _renderResumeList();
@@ -954,11 +1002,13 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('beforeunload', function() {
   if (examMode) _saveExamResume();
   _saveStudyTime();
+  _flushSRS(); _flushChoices();
   _studyTimeSaved = true;
 });
 window.addEventListener('pagehide', function() {
   if (examMode) _saveExamResume();
   _saveStudyTime();
+  _flushSRS(); _flushChoices();
   _studyTimeSaved = true;
 });
 
@@ -1152,15 +1202,43 @@ function _clearSearchHighlight() {
 }
 
 // ── Wrong Choice Recording (K) ────────────────────────────────────────────────
+// 誤答した選択肢の記録。SRS と同じく、毎回 parse+stringify すると誤答のたびに
+// 辞書全体（最終的に数千件）を往復することになるので、メモリ上に持って遅延書き込みする。
+// 読み出し側（reviewWrongAnswers 等）は localStorage を直接読むため、遅延中でも
+// 齟齬が出ないよう書き込み予約と同時にメモリのキャッシュを正とする。
+let _choiceData = null, _choiceDirty = false, _choiceTimer = null;
+
+function _loadChoices() {
+  if (_choiceData) return _choiceData;
+  try { _choiceData = JSON.parse(localStorage.getItem('mec_choice_v1') || '{}'); }
+  catch { _choiceData = {}; }
+  return _choiceData;
+}
+
+function _flushChoices() {
+  if (!_choiceDirty || !_choiceData) return;
+  _choiceDirty = false;
+  clearTimeout(_choiceTimer); _choiceTimer = null;
+  try { localStorage.setItem('mec_choice_v1', JSON.stringify(_choiceData)); } catch {}
+}
+window._flushChoices = _flushChoices;
+
+// 同期（マージ／push）の直前に progress.js から呼ばれる。遅延書き込みが残ったまま
+// マージが走ると、マージ後に古いメモリ内容を書き戻して他端末ぶんを消してしまう。
+window.mecFlushPending = function () {
+  try { _flushSRS(); } catch {}
+  try { _flushChoices(); } catch {}
+};
+
 function _recordWrongChoice(uid, choiceChar) {
   if (!choiceChar || choiceChar === '?') return;
-  try {
-    const data = JSON.parse(localStorage.getItem('mec_choice_v1') || '{}');
-    if (!data[uid]) data[uid] = {};
-    data[uid][choiceChar] = (data[uid][choiceChar] || 0) + 1;
-    data[uid]._last = choiceChar;
-    localStorage.setItem('mec_choice_v1', JSON.stringify(data));
-  } catch {}
+  const data = _loadChoices();
+  if (!data[uid]) data[uid] = {};
+  data[uid][choiceChar] = (data[uid][choiceChar] || 0) + 1;
+  data[uid]._last = choiceChar;
+  _choiceDirty = true;
+  if (!_choiceTimer) _choiceTimer = setTimeout(_flushChoices, 800);
+  if (window.MECSync) MECSync.scheduleSync();
 }
 
 // ── SRS (Spaced Repetition System — SM-2) ────────────────────────────────────
@@ -1181,41 +1259,85 @@ function _loadSRS() {
   _srsLoaded = true;
 }
 
-// 通常モードの「済」ボタン → 正解扱いでSRS更新（progress.js の mecIncrLap から呼ばれる）
-// examMode 中は解答時に _updateSRS 済みなので二重更新しない
-window.mecOnLapSRS = function (uid) {
+// 通常モードの自己採点ボタン（× / △ / ○）→ SRS更新（progress.js の mecIncrLap から呼ばれる）
+// examMode 中は解答時に _updateSRS 済みなので二重更新しない。
+// 2026-07-24まではボタンが「済」1つで、押すたびに無条件で正解扱いだった。想起テストを
+// 経ずに間隔だけが伸びていくため、通常モードで一周すると SRS が「定着済み」で埋まり、
+// 試験モードでしか書かれない myrate_v1 と食い違っていた。自己申告を受け取るようにして、
+// 「解説を読んだ」と「思い出せた」を分ける。
+window.mecOnLapSRS = function (uid, grade) {
   if (!_srsLoaded || examMode) return;
-  _updateSRS(uid, true);
+  _updateSRS(uid, grade || 'ok');
 };
 
-function _saveSRS() {
+// 試験モード・SRS復習は1解答ごとに _saveSRS を呼ぶ。_srsData は解いた問題ぶん育つので
+// （最終的に数千件＝数百KB）、毎回 JSON.stringify すると解答のたびに直列化が走り、
+// iPad で体感できる引っかかりになる。書き込みは短くまとめ、離脱・非表示では必ず吐き切る。
+// メモリ上の _srsData が常に正であり、遅延しているのは localStorage への反映だけ。
+let _srsDirty = false, _srsSaveTimer = null;
+
+function _flushSRS() {
+  if (!_srsDirty) return;
+  _srsDirty = false;
+  clearTimeout(_srsSaveTimer); _srsSaveTimer = null;
   try { localStorage.setItem('mec_srs_v1', JSON.stringify(_srsData)); } catch {}
-  if (window.MECSync) MECSync.scheduleSync();
 }
 
-// SM-2 アルゴリズム: 正解で間隔が伸び(ef↑)、不正解でリセット(ef↓)
-function _updateSRS(uid, isCorrect) {
+function _saveSRS() {
+  _srsDirty = true;
+  if (!_srsSaveTimer) _srsSaveTimer = setTimeout(_flushSRS, 800);
+  // 同期予約自体は元々30秒デバウンスなので即座に呼んでよい
+  if (window.MECSync) MECSync.scheduleSync();
+}
+window._flushSRS = _flushSRS;
+
+// SM-2 アルゴリズム。grade は 'ok'（余裕）/ 'mid'（あやふや）/ 'ng'（わからない）。
+// 試験モードからは真偽値で呼ばれる（正解=ok、不正解=ng）ので両方を受ける。
+//   ok  … 従来どおり。ef +0.1、間隔 1 → 6 → 前回×ef
+//   mid … 通した扱いだが伸ばしすぎない。ef 据え置き、間隔 1 → 3 → 前回×(ef-0.6)
+//         （最低でも1.15倍にはするので、あやふやを繰り返しても間隔は緩やかに伸びる）
+//   ng  … 失敗。ef -0.2、翌日へ戻して reps リセット
+// ef の上限が2.5なのは意図的（本番まで1年スパンで間隔を暴走させない）。上限90日も同じ理由。
+function _updateSRS(uid, grade) {
+  if (grade === true) grade = 'ok';
+  else if (grade === false) grade = 'ng';
+  else if (grade !== 'mid' && grade !== 'ng') grade = 'ok';
+
   const e = _srsData[uid] || { reps: 0, ef: 2.5, interval: 0 };
   const reps = e.reps || 0;
   const ef = e.ef ?? 2.5;
-  if (isCorrect) {
-    let interval;
-    if (reps === 0) interval = 1;
-    else if (reps === 1) interval = 6;
-    else interval = Math.round((e.interval || 6) * ef);
-    interval = Math.min(interval, 90); // 最大90日
-    e.ef = Math.min(2.5, Math.max(1.3, Math.round((ef + 0.1) * 100) / 100));
-    e.interval = interval;
-    e.reps = reps + 1;
-  } else {
-    e.ef = Math.max(1.3, Math.round((ef - 0.2) * 100) / 100);
+  const round2 = v => Math.round(v * 100) / 100;
+
+  if (grade === 'ng') {
+    e.ef = Math.max(1.3, round2(ef - 0.2));
     e.interval = 1;
     e.reps = 0;
+  } else {
+    const easy = grade === 'ok';
+    let interval;
+    if (reps === 0) interval = easy ? 1 : 1;
+    else if (reps === 1) interval = easy ? 6 : 3;
+    else {
+      const mult = easy ? ef : Math.max(1.15, ef - 0.6);
+      interval = Math.round((e.interval || (easy ? 6 : 3)) * mult);
+    }
+    e.ef = easy ? Math.min(2.5, Math.max(1.3, round2(ef + 0.1))) : Math.max(1.3, round2(ef));
+    e.interval = Math.min(interval, 90);
+    e.reps = reps + 1;
   }
+  e.g = grade;                 // 直近の自己申告（カード上の選択表示に使う・同期対象）
   e.nextReview = _addDays(_today(), e.interval);
   e.lastSeen = _today();
   _srsData[uid] = e;
   _saveSRS();
+  _markGradeOn(uid, grade);
+}
+
+// カード上の × / △ / ○ に「直近どれを押したか」を反映する
+function _markGradeOn(uid, grade) {
+  document.querySelectorAll('.qc[data-uid="' + uid + '"] .mec-grade [data-grade]').forEach(b => {
+    b.classList.toggle('mec-grade-on', b.dataset.grade === grade);
+  });
 }
 
 // ── SRS復習用: due問題だけをDOMに起こす仕組み ────────────────────────────────
@@ -1273,18 +1395,15 @@ function _cacheVersion() {
   })();
   return _cacheVerP;
 }
-// network取得（json優先、失敗時は.jsフォールバック＝file://対応）
+// network取得。
+// 以前はここに questions_{sid}.js（JSONと同内容を window["_cardJSON_*"] へ代入するコピー）への
+// フォールバックがあった。fetch が使えない file:// で開くためのものだが、運用は GitHub Pages
+// 一本で、コピーは .json と同容量（合計約15MB）をリポジトリに二重で積み、更新のたびに
+// pre-commit フックで再生成する保守コストを生んでいた。2026-07-24 に .js ごと廃止。
 function _fetchSubjectDataNetwork(sid) {
   return fetch('questions_' + sid + '.json')
-    .then(r => { if (!r.ok) throw new Error('http'); return r.json(); })
-    .catch(() => new Promise(resolve => {
-      if (window['_cardJSON_' + sid]) return resolve(window['_cardJSON_' + sid]);
-      const sc = document.createElement('script');
-      sc.src = 'questions_' + sid + '.js';
-      sc.onload = () => resolve(window['_cardJSON_' + sid] || null);
-      sc.onerror = () => resolve(null);
-      document.head.appendChild(sc);
-    }));
+    .then(r => { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+    .catch(() => null);
 }
 // 科目データを1回だけ取得・parse: メモリ → IndexedDB → network。
 async function _getSubjectData(sid) {
@@ -1356,6 +1475,24 @@ function _srsqGetMany(uids, ver) {
 // 科目JSONを取得するだけ（描画しない）。キャッシュ層経由。
 function _fetchSubjectJson(sid) { return _getSubjectData(sid); }
 
+// ── 画像の実寸（image_dims.json） ─────────────────────────────────────────────
+// card_renderer.js が <img width height> を出すための材料。カードを描く前に必ず解決して
+// おくこと（属性が無いまま描くと遅延読込の画像でレイアウトが後からずれる＝章ジャンプが
+// 目標に収束しない旧バグが戻る）。約109KB・全科目で1枚なので初回に一度だけ取る。
+// 取得に失敗しても描画は続行する（属性が省かれるだけで従来動作）。
+let _imgDimsP = null;
+function _ensureImgDims() {
+  if (_imgDimsP) return _imgDimsP;
+  if (window.MEC_IMG_DIMS) return (_imgDimsP = Promise.resolve(window.MEC_IMG_DIMS));
+  _imgDimsP = fetch('image_dims.json')
+    .then(r => (r.ok ? r.json() : null))
+    .catch(() => null)
+    .then(d => { window.MEC_IMG_DIMS = d || {}; return window.MEC_IMG_DIMS; });
+  return _imgDimsP;
+}
+// 起動と同時に走らせる。科目JSON(1〜3MB)より遥かに小さいので先に着く。
+_ensureImgDims();
+
 function _srsHostShow() { const h = document.getElementById('srsReviewHost'); if (h) h.style.display = ''; }
 function _srsHostHide() { const h = document.getElementById('srsReviewHost'); if (h) h.style.display = 'none'; }
 function _srsHostClear() { const h = document.getElementById('srsReviewHost'); if (h) { h.innerHTML = ''; h.style.display = 'none'; } }
@@ -1368,6 +1505,7 @@ window._srsHostClear = _srsHostClear;
 async function _renderDueCardsForReview(dueUids) {
   const host = document.getElementById('srsReviewHost');
   if (!host) return;
+  await _ensureImgDims();   // 復習カードも実寸付きで描く（無いとホスト内でずれる）
   host.innerHTML = '';
   const bySid = new Map();
   dueUids.forEach(uid => {
@@ -1568,8 +1706,8 @@ function reviewWrongAnswers() {
   currentState = 'all';
   localStorage.setItem('mec_filter_v1', 'all');
   localStorage.setItem('mec_state_v1', 'all');
-  document.querySelectorAll('[data-filter]').forEach(b => b.classList.toggle('fc-on', b.dataset.filter === 'all'));
-  document.querySelectorAll('[data-state]').forEach(b => b.classList.toggle('fs-on', b.dataset.state === 'all'));
+  _syncFilterBtns('all');
+  _syncStateBtns('all');
   const banner = document.getElementById('reviewBanner');
   const txt = document.getElementById('reviewBannerTxt');
   if (banner) banner.classList.add('show');
@@ -1580,8 +1718,8 @@ function reviewWrongAnswers() {
   if (_srsHost) _srsHost.querySelectorAll('.qc[data-uid]').forEach(c => {
     c.style.display = _reviewUids.has(c.dataset.uid) ? '' : 'none';
   });
-  // 誤答した選択肢をカード上にマーク
-  const storedChoices = JSON.parse(localStorage.getItem('mec_choice_v1') || '{}');
+  // 誤答した選択肢をカード上にマーク（遅延書き込み中の分も見えるようメモリ側を読む）
+  const storedChoices = _loadChoices();
   examWrong.forEach(uid => {
     const card = document.querySelector(`.qc[data-uid="${uid}"]`);
     if (!card) return;
@@ -1695,7 +1833,11 @@ function _jumpScrollToEl(el) {
     _flashJumpTarget(el);
     // mec-jumping を外すと画面外カードが推定高さ(300px)へ戻り目標位置がずれる。深い問題ほど
     // ずれが大きく先頭(Q1)へ吹き飛ぶため、外した直後に数フレーム el をヘッダ直下へ再アンカー
-    // して固定する（着地後の画像遅延ロード等のドリフトも同時に補正）。
+    // して固定する。
+    // 以前はここに 220ms / 520ms の遅延再アンカーも積んでいた。画像が width/height 無しで
+    // 遅延ロードされ、デコードのたびに上のカードの高さが変わり続けていたため。実寸属性を
+    // 出すようにして（card_renderer.js + image_dims.json）その原因が消えたので、
+    // content-visibility の切替ぶんだけを補正すれば足りる。
     const reanchor = () => {
       const drift = el.getBoundingClientRect().top - hdrH;
       if (Math.abs(drift) > 2) window.scrollTo({ top: Math.max(0, (window.scrollY || 0) + drift), behavior: 'auto' });
@@ -1704,8 +1846,6 @@ function _jumpScrollToEl(el) {
     let rn = 0;
     const loop = () => { reanchor(); if (++rn < 12) requestAnimationFrame(loop); };
     requestAnimationFrame(loop);
-    setTimeout(reanchor, 220);
-    setTimeout(reanchor, 520);
   }
   requestAnimationFrame(settle);
 }
@@ -1964,8 +2104,10 @@ function _fetchSubjectCards(sid) {
 
   // キャッシュ層(_getSubjectData)経由で取得。json→.jsフォールバックとメモリ/IndexedDB
   // キャッシュはそちらが担う。ここは描画とロード状態管理のみ。
-  const p = _getSubjectData(sid)
-    .then(function(data) {
+  // 画像実寸は描画前に必ず揃える（_ensureImgDims は起動時に開始済み＝実質待ち時間ゼロ）
+  const p = Promise.all([_getSubjectData(sid), _ensureImgDims()])
+    .then(function(res) {
+      const data = res[0];
       if (!data) throw new Error('no data: ' + sid);
       _applyJson(data);
     })

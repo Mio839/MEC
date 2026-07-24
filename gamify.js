@@ -210,7 +210,9 @@
 .gm-mission-lbl{flex:1;font-size:12px;font-weight:700;color:#EAF0FA;}
 .gm-mission.done .gm-mission-lbl{color:#7CEFB2;}
 .gm-mission-bar{width:64px;height:6px;border-radius:4px;background:rgba(var(--glass-rgb),.1);overflow:hidden;flex-shrink:0;}
-.gm-mission-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#3DD68C,#7CEFB2);transition:width .4s;}
+/* ⚠️ display:block は必須。span のままだと inline 扱いで width/height が無視され、
+   親(.gm-mission-bar)がフレックスアイテムで枠だけ見えるため「常に空のゲージ」になる */
+.gm-mission-fill{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#3DD68C,#7CEFB2);transition:width .4s;}
 .gm-mission-num{font-size:10px;font-weight:800;color:rgba(255,255,255,.6);width:42px;text-align:right;flex-shrink:0;}
 .gm-mission.done .gm-mission-num{color:#3DD68C;}
 .gm-badges{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;-webkit-overflow-scrolling:touch;}
@@ -693,8 +695,21 @@
     }).join('');
   }
 
-  function renderPanel(container) {
+  // opts.only で描き分ける。ハブ（index.html）が「🎯 今日のミッション」だけを
+  // ヒーロー直下へ、残り（Lv・週間・実績）を下の折りたたみへ、と2箇所に分けて出すため。
+  //   undefined … 全部（study.html のモーダル等・従来どおり）
+  //   'daily'   … 今日のミッションの一覧だけ（.gm-panel の枠も付けない）
+  //   'rest'    … 今日のミッション以外の全部
+  function renderPanel(container, opts) {
     if (!container) return;
+    const only = opts && opts.only;
+
+    if (only === 'daily') {
+      container.innerHTML = '<div class="gm-missions">' +
+        _renderMissionList(MISSIONS_DAILY, 'd', _todayJST()) + '</div>';
+      return;
+    }
+
     const s = stats(true);
     const achList = achState(s);
     const unlockedCount = achList.filter(a => a.unlocked).length;
@@ -723,8 +738,9 @@
         '<div class="gm-flame t' + tier + '"><span class="gm-flame-emoji">🔥</span>' +
           '<div class="gm-flame-days"><b>' + s.streak + '</b>日連続</div></div>' +
       '</div>' +
-      '<div class="gm-sec-title">🎯 今日のミッション</div>' +
-      '<div class="gm-missions">' + missionsHtml + '</div>' +
+      (only === 'rest' ? '' :
+        '<div class="gm-sec-title">🎯 今日のミッション</div>' +
+        '<div class="gm-missions">' + missionsHtml + '</div>') +
       '<div class="gm-sec-title">📅 今週のミッション</div>' +
       '<div class="gm-missions">' + weeklyHtml + '</div>' +
       '<div class="gm-sec-title">🏆 実績 <span class="gm-cnt">' + unlockedCount + '/' + achList.length + '</span></div>' +
@@ -874,8 +890,16 @@
   }
 
   function _rerenderHubPanel() {
+    // ハブは「今日のミッション」だけを別ホスト(#gmDaily)へ先に出す。
+    // 片方しか無いページ（旧ハブ等）でも壊れないよう、それぞれ独立に判定する。
+    const daily = document.getElementById('gmDaily');
+    if (daily) {
+      renderPanel(daily, { only: 'daily' });
+      const cnt = document.getElementById('gmDailyCnt');
+      if (cnt) { const m = missionSummary(); cnt.textContent = m.done + '/' + m.total; }
+    }
     const host = document.getElementById('gamifyPanel');
-    if (host) { renderPanel(host); _maybeFlameEmbers(host); }
+    if (host) { renderPanel(host, daily ? { only: 'rest' } : undefined); _maybeFlameEmbers(host); }
   }
 
   // ── 初期化 ───────────────────────────────────────────────────────
@@ -924,5 +948,5 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _init);
   else _init();
 
-  window.MecGamify = { onLap, onAnswer, onFlag, onExamFinish, stats, renderPanel, openPanelModal, refreshAllStars };
+  window.MecGamify = { onLap, onAnswer, onFlag, onExamFinish, stats, missionSummary, renderPanel, openPanelModal, refreshAllStars };
 })();

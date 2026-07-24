@@ -38,18 +38,39 @@
       }
     }
   }
+  // 容量が尽きたときに何を捨てるか。
+  // 捨てる順は「再現できるもの・粒度が粗くても困らないもの」から。
+  //   ① attempts … 追記専用の生ログ。上限2000件で最も太い（1件≒40B＝最大80KB）。
+  //                 集計済みの myrate_v1 が別にあるので、古い明細を落としても
+  //                 弱点カルテの傾向は残る。まずここを半分にする。
+  //   ② activity … 日ごとの回数。30日より前は連続日数の計算にも30日グラフにも使わない。
+  //   ③ 中断データ … 再開できなくなるだけで学習記録そのものは失わない。
+  // done_v2 / flag_v2 / myrate_v1 / mec_srs_v1 は学習の本体なので絶対に捨てない。
+  // 旧実装は activity しか削っておらず、実際に太る attempts に触れていなかった。
   function _handleStorageQuota() {
     document.querySelectorAll('.mec-sync-badge').forEach(el => {
       el.textContent = '⚠️ ストレージ不足';
       el.dataset.status = 'error';
-      el.title = 'localStorageの空き容量が不足しています。古い学習記録を削除して容量を確保しました。';
+      el.title = 'localStorageの空き容量が不足しています。古い解答ログ・学習記録を削除して容量を確保しました。';
     });
+    try {
+      const att = JSON.parse(localStorage.getItem(K_ATT) || '[]');
+      if (Array.isArray(att) && att.length > 200) {
+        localStorage.setItem(K_ATT, JSON.stringify(att.slice(-Math.floor(att.length / 2))));
+      }
+    } catch {}
     try {
       const a = JSON.parse(localStorage.getItem(KA) || '{}');
       const keys = Object.keys(a).sort();
       if (keys.length > 30) {
         keys.slice(0, keys.length - 30).forEach(k => delete a[k]);
         localStorage.setItem(KA, JSON.stringify(a));
+      }
+    } catch {}
+    try {
+      const r = JSON.parse(localStorage.getItem(KE) || '[]');
+      if (Array.isArray(r) && r.length > 1) {
+        localStorage.setItem(KE, JSON.stringify(r.slice(0, 1)));
       }
     } catch {}
   }
@@ -120,6 +141,9 @@
     if (syncInProgress) return;
     const token = localStorage.getItem(K_TOKEN) || '';
     if (!token) return;
+    // payload を組む前に、ページ側の遅延書き込みを localStorage へ確定させる
+    // （でないと直前の解答ぶんが送信対象から漏れる）
+    try { window.mecFlushPending?.(); } catch {}
     let gistId = localStorage.getItem(K_GIST) || '';
     syncInProgress = true;
     _setSyncBadge('syncing');
@@ -155,10 +179,12 @@
       'Content-Type': 'application/json',
       Accept: 'application/vnd.github.v3+json'
     };
+    // インデントを付けない。attempts(最大2000件)・done(7000件超)・srs を毎回まるごと送るので、
+    // pretty-print は転送量を1.5倍にするだけで誰も読まない（Gistの中身を直接読む運用は無い）。
     const body = JSON.stringify({
       description: 'MEC 医師国試 学習進捗',
       public: false,
-      files: { 'mec_progress.json': { content: JSON.stringify(payload, null, 2) } }
+      files: { 'mec_progress.json': { content: JSON.stringify(payload) } }
     });
 
     try {
@@ -201,6 +227,10 @@
   });
 
   function _mergeRemote(remote) {
+    // ページ側が遅延書き込み（study.html の mec_srs_v1 / mec_choice_v1）を抱えていたら、
+    // マージ前に localStorage へ吐き切らせる。順序を守らないと、マージ結果が書かれた後に
+    // 古いメモリ内容が上書きされ、他端末ぶんの進捗が静かに消える。
+    try { window.mecFlushPending?.(); } catch {}
     // done: union, but tombstones (undo-to-zero) propagate deletions
     const ld = lsGet(KD), rd = remote[KD] || {};
     const localTombs = lsGet(KDT), remoteTombs = remote[KDT] || {};
@@ -527,18 +557,35 @@
     window.mecMarkStale?.();
     scheduleSync();
     if (lapBtnEl) {
-      const numEl = lapBtnEl.querySelector('.mec-lap-num');
-      if (numEl) numEl.textContent = prevCount > 0 ? prevCount : '';
-      lapBtnEl.classList.toggle('mec-lapped', prevCount > 0);
-      const card = lapBtnEl.closest('.qc, .qcard');
-      if (card) card.classList.toggle('mec-done', prevCount > 0);
+      const card = lapBtnEl.closest && lapBtnEl.closest('.qc, .qcard');
+      // 取り消しは × / △ から押された可能性がある。カウンタと緑の塗りは常に ○ 側の
+      // .mec-lap-btn が持つので、そちらを引き直す（押されたボタンを直接触ると
+      // 周回数が消えないまま残る）。判定は mecIncrLap と同じく data-grade で行う。
+      const g = (lapBtnEl.dataset && lapBtnEl.dataset.grade) || 'ok';
+      const lapBtn = g === 'ok' ? lapBtnEl : (card && card.querySelector('.mec-lap-btn'));
+      if (lapBtn && lapBtn.querySelector) {
+        const numEl = lapBtn.querySelector('.mec-lap-num');
+        if (numEl) numEl.textContent = prevCount > 0 ? prevCount : '';
+        lapBtn.classList.toggle('mec-lapped', prevCount > 0);
+      }
+      if (card) {
+        // 自己申告の選択表示も戻す（取り消した以上「今どう申告しているか」は無い）
+        card.querySelectorAll('.mec-grade [data-grade]')
+          .forEach(b => b.classList.remove('mec-grade-on'));
+        card.classList.toggle('mec-done', prevCount > 0);
+      }
     }
     _updateChapterProgress();
     if (typeof window.applyFilters === 'function') window.applyFilters();
   };
 
+  // btn は × / △ / ○ のいずれか（data-grade）。旧・章ページ(selfcheck_intro.html)は
+  // data-grade を持たない「済」1つなので、既定は 'ok' として従来どおり動く。
+  // 3段階のどれを押しても「その問題を1周した」ことに変わりはないので、done_v2 の加算・
+  // 学習日の記録・次カードへのスクロールは共通。違いはSRSへ渡す自己申告だけ。
   window.mecIncrLap = function (btn) {
     const uid = btn.dataset.uid;
+    const grade = btn.dataset.grade || 'ok';
     const done = lsGet(KD);
     const prevCount = done[uid] || 0;
     done[uid] = prevCount + 1;
@@ -548,13 +595,20 @@
     window.mecMarkStale?.();
     if (isFirstThisSession) logActivity();
     scheduleSync();
-    // ページ側がSRSを持つ場合は「済＝正解扱い」で復習キューにも反映（study.htmlが定義）
-    try { window.mecOnLapSRS?.(uid); } catch {}
+    // ページ側がSRSを持つ場合は自己申告つきで復習キューへ反映（study.htmlが定義）
+    try { window.mecOnLapSRS?.(uid, grade); } catch {}
 
     const lapCount = done[uid];
-    const numEl = btn.querySelector('.mec-lap-num');
+    // 周回数と緑の塗りは常に ○（.mec-lap-btn）が持つ。× や △ を押した場合は押した
+    // ボタンにカウンタが無いので、同じカード内の ○ を引き直して更新する。
+    // 判定は data-grade で行う（旧・章ページの「済」は data-grade を持たず既定が ok＝
+    // それ自体が ○ に相当するので、そのまま自分を使う）。
+    const lapBtn = grade === 'ok'
+      ? btn
+      : (btn.closest && (btn.closest('.mec-grade') || btn.closest('.qc, .qcard')))?.querySelector('.mec-lap-btn');
+    const numEl = lapBtn && lapBtn.querySelector && lapBtn.querySelector('.mec-lap-num');
     if (numEl) numEl.textContent = lapCount;
-    btn.classList.add('mec-lapped');
+    if (lapBtn && lapBtn.classList) lapBtn.classList.add('mec-lapped');
 
     const card = btn.closest('.qc, .qcard');
     if (card) card.classList.add('mec-done');
@@ -601,6 +655,7 @@
       delete tombs[uid];
       nowFlagged = true;
     }
+    btn.setAttribute('aria-pressed', String(nowFlagged));
     lsRaw(KFT, tombs);
     lsRaw(KF, flags);
     window.mecMarkStale?.();
@@ -943,7 +998,11 @@
       if (cb && doneLevel) { cb.checked = true; card.classList.add('mec-done'); }
 
       const flagBtn = card.querySelector('.mec-flag-btn');
-      if (flagBtn && flags[uid]) flagBtn.classList.add('mec-flagged');
+      if (flagBtn) {
+        const flagged = !!flags[uid];
+        flagBtn.classList.toggle('mec-flagged', flagged);
+        flagBtn.setAttribute('aria-pressed', String(flagged));
+      }
     });
     _updateChapterProgress();
   }
