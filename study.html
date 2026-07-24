@@ -61,7 +61,7 @@ if ('serviceWorker' in navigator) {
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
     <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
     <button class="hdr-toggle" onclick="document.getElementById('mecKbHelp').classList.add('open')" title="キーボードショートカット (?)">⌨️</button>
-    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0724a</span>
+    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0724b</span>
   </div>
   <div class="st-stats">
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
@@ -874,13 +874,38 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0723g";
+const MEC_BUILD = "b-0724b";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
   // シェルは network-first なのでリロードで最新の study.html が届き、この値も最新になる。
   // ⚠️ 各shipでこの MEC_BUILD と sw.js の SHELL_VERSION を一緒に上げること。
   { const _bv = document.getElementById('mecBuildVer'); if (_bv) _bv.textContent = MEC_BUILD; }
+
+  // file:// で開かれた場合はここで打ち切って理由を出す。
+  // ブラウザは file:// オリジンからの fetch() を CORS で全面拒否するため、questions_*.json も
+  // image_dims.json も1件も取れず、カードは0枚になる。2026-07-24 に file:// 用フォールバックの
+  // questions_*.js を廃止した(a2a4670)ので、この開き方はもう成立しない。
+  // ⚠️ 黙って失敗させないこと。特に復習(?mode=srs_review)は全科目のfetch完了を await するため、
+  // 全滅すると「ローダーが出たまま固まる」だけになり、原因が画面から一切読み取れなくなる。
+  if (location.protocol === 'file:') {
+    const _ld = document.getElementById('mecLoader');
+    if (_ld) {
+      const _url = 'https://mio839.github.io/MEC/study.html' + location.search;
+      _ld.innerHTML =
+        '<div style="max-width:min(560px,88vw);text-align:center;line-height:1.7;padding:0 16px;color:rgba(255,255,255,.92)">' +
+        '<div style="font-size:34px;margin-bottom:10px">🚫</div>' +
+        '<div style="font-size:16px;font-weight:800;margin-bottom:10px">ローカルファイルとして開かれています</div>' +
+        '<div style="font-size:13px;opacity:.85;margin-bottom:16px">' +
+        'ブラウザは <code>file://</code> からの問題データ読み込みを拒否するため、このままでは1問も表示できません。' +
+        'GitHub Pages から開き直してください。学習データ（進捗・SRS）はブラウザごとに保存されているため失われません。</div>' +
+        '<a href="' + _url + '" style="display:inline-block;padding:11px 20px;border-radius:10px;' +
+        'background:#4390EE;color:#fff;font-weight:800;font-size:14px;text-decoration:none">GitHub Pages で開く →</a>' +
+        '<div style="font-size:11px;opacity:.6;margin-top:14px;word-break:break-all">' + _url + '</div>' +
+        '</div>';
+    }
+    return;
+  }
 
   const sidParam = new URLSearchParams(location.search).get('sid');
   if (sidParam) {
@@ -1509,11 +1534,17 @@ window._srsHostClear = _srsHostClear;
 
 // due問題を科目別にまとめ、未ロード科目のみdueカードをホストへ描画する。
 // srsqキャッシュにある問題は科目JSONを開かずに即描画し、無いものだけ科目単位でfetchする。
+//
+// ⚠️ ここでホストを空にしてはいけない（不足分を「足す」関数であって、作り直す関数ではない）。
+// 唯一の呼び出し元 startSRSReview は _srsHostClear() → DOM上の due カードをホストへ移設 →
+// 本関数、の順で呼ぶ。冒頭で host.innerHTML='' すると移設したてのカードを巻き添えに消し、
+// 再fetchを避けるための移設が丸ごと無駄になる（消えた分は下の重複ガードをすり抜けて
+// キャッシュ/JSONから描き直され、描き直せなかった uid はそのまま出題から落ちる）。
+// 前セッションの残骸を捨てるのは呼び出し元の _srsHostClear() の仕事。
 async function _renderDueCardsForReview(dueUids) {
   const host = document.getElementById('srsReviewHost');
   if (!host) return;
   await _ensureImgDims();   // 復習カードも実寸付きで描く（無いとホスト内でずれる）
-  host.innerHTML = '';
   const bySid = new Map();
   dueUids.forEach(uid => {
     const sid = uid.split('_ch')[0];
