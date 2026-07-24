@@ -150,6 +150,25 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .hero-xp-n{margin-top:6px;font-size:11.5px;font-weight:700;color:var(--ts);
   font-variant-numeric:tabular-nums;}
 .hero-xp-n:empty{display:none;}
+
+/* ── レベルの進み（gamify パネルから移設） ── */
+.hero-lv{margin-top:var(--sp-4);max-width:34em;}
+.hero-lv[hidden]{display:none;}
+.hero-lv-top{display:flex;align-items:baseline;gap:var(--sp-2);min-width:0;}
+.hero-lv-t{flex-shrink:0;font-family:var(--font-display);font-size:13.5px;font-weight:800;
+  color:var(--tx);font-variant-numeric:tabular-nums;letter-spacing:.01em;}
+/* 称号は飾り。幅が足りないときは真っ先に詰める */
+.hero-lv-ti{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--or);}
+.hero-lv-n{margin-left:auto;flex-shrink:0;font-size:11px;font-weight:700;color:var(--ts);
+  font-variant-numeric:tabular-nums;}
+.hero-lv-n b{color:var(--tx);font-size:12px;}
+.hero-lv-bar{display:block;height:5px;margin-top:6px;border-radius:3px;overflow:hidden;
+  background:rgba(var(--glass-rgb),.12);}
+/* barGrow はタイルの進捗バーと共用（backwards fill で0から伸びる） */
+.hero-lv-bar span{display:block;height:100%;border-radius:3px;background:var(--or);
+  animation:barGrow .95s var(--ease-out) .35s backwards;}
+.hero.settled .hero-lv-bar span{animation:none;}
 .hero-say{margin-top:var(--sp-3);font-size:13px;line-height:1.75;color:var(--ts);max-width:34em;}
 
 /* ── ゲージ（全体進捗）。円弧は stroke-dashoffset だけを動かす ── */
@@ -616,6 +635,16 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
         <p class="hero-fig"><span class="hero-num" id="heroNum">0</span><span class="hero-unit" id="heroUnit">問</span></p>
         <p class="hero-xp"><span id="heroXp">+0</span><em>XP</em></p>
         <p class="hero-xp-n" id="heroXpNote"></p>
+        <!-- レベルの進み。gamify.js の #gamifyPanel から移設した（あちらでは出さない）。
+             数字は MecGamify.stats() ＝既存の同期データからの決定論算出 -->
+        <div class="hero-lv" id="heroLv" hidden>
+          <div class="hero-lv-top">
+            <span class="hero-lv-t">Lv.<b id="heroLvNum">0</b></span>
+            <span class="hero-lv-ti" id="heroLvTitle"></span>
+            <span class="hero-lv-n">次のレベルまで <b id="heroLvNeed">0</b> XP</span>
+          </div>
+          <span class="hero-lv-bar"><span id="heroLvFill"></span></span>
+        </div>
         <p class="hero-say" id="heroSay"></p>
       </div>
       <div class="gauge">
@@ -1059,6 +1088,18 @@ function renderHero() {
       const c = _centerOf(chip);
       if (c && _fxOk()) MecFX.glyphBurst(c.x, c.y, { glyphs: ['✨'], count: 4, spread: 60, w: c.r.width * .6 });
     });
+  }
+
+  // レベルの進み。gamify.js が既存の同期データから決定論で出した値をそのまま借りる
+  // （XP式をここで持つと二重管理になり、パネルとハブで数字が食い違う）
+  const lvBox = document.getElementById('heroLv');
+  const gm = window.MecGamify ? MecGamify.stats(true) : null;
+  if (lvBox && gm) {
+    lvBox.hidden = false;
+    document.getElementById('heroLvNum').textContent = gm.level;
+    document.getElementById('heroLvTitle').textContent = gm.title || '';
+    _tweenNum(document.getElementById('heroLvNeed'), Math.max(0, gm.lvNeedXp - gm.lvCurXp), 900);
+    document.getElementById('heroLvFill').style.width = Math.round(gm.lvProgress * 100) + '%';
   }
 
   document.getElementById('statDue').textContent    = _fmtN(due);

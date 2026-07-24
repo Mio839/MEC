@@ -700,9 +700,12 @@
   //   undefined … 全部（study.html のモーダル等・従来どおり）
   //   'daily'   … 今日のミッションの一覧だけ（.gm-panel の枠も付けない）
   //   'rest'    … 今日のミッション以外の全部
+  // opts.noXpLine … 「次のレベルまで N XP」の行を出さない。
+  //   ハブはこの行をヒーロー側（#heroLv）へ移したので、ここで出すと二重に見える。
   function renderPanel(container, opts) {
     if (!container) return;
     const only = opts && opts.only;
+    const noXpLine = !!(opts && opts.noXpLine);
 
     if (only === 'daily') {
       container.innerHTML = '<div class="gm-missions">' +
@@ -731,7 +734,8 @@
         '<div class="gm-ring" style="--p:' + s.lvProgress.toFixed(3) + '"><div class="gm-ring-in">' +
           '<div class="gm-lv-big">Lv.' + s.level + '</div><div class="gm-lv-title">' + s.title + '</div></div></div>' +
         '<div class="gm-xp-col">' +
-          '<div class="gm-xp-line"><span>次のレベルまで</span><b>' + (s.lvNeedXp - s.lvCurXp).toLocaleString() + ' XP</b></div>' +
+          (noXpLine ? '' :
+            '<div class="gm-xp-line"><span>次のレベルまで</span><b>' + (s.lvNeedXp - s.lvCurXp).toLocaleString() + ' XP</b></div>') +
           '<div class="gm-xp-bar"><div class="gm-xp-fill" style="width:' + Math.round(s.lvProgress * 100) + '%"></div></div>' +
           '<div class="gm-xp-total">累計 ' + s.xp.toLocaleString() + ' XP ｜ 済 ' + s.doneCount.toLocaleString() + '問 ｜ 試験 ' + s.exT.toLocaleString() + '問' + (s.exT ? '（正答' + s.accPct + '%）' : '') + '</div>' +
         '</div>' +
@@ -899,7 +903,12 @@
       if (cnt) { const m = missionSummary(); cnt.textContent = m.done + '/' + m.total; }
     }
     const host = document.getElementById('gamifyPanel');
-    if (host) { renderPanel(host, daily ? { only: 'rest' } : undefined); _maybeFlameEmbers(host); }
+    if (host) {
+      // 「次のレベルまで」をヒーローへ移したページ（＝#heroLv がある）では出さない
+      const moved = !!document.getElementById('heroLv');
+      renderPanel(host, (daily || moved) ? { only: daily ? 'rest' : undefined, noXpLine: moved } : undefined);
+      _maybeFlameEmbers(host);
+    }
   }
 
   // ── 初期化 ───────────────────────────────────────────────────────
