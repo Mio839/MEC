@@ -6,7 +6,7 @@ const CACHE = "mec-v102";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-07-24e";
+const SHELL_VERSION = "2026-07-25a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -57,6 +57,20 @@ self.addEventListener("activate", e => {
   );
 });
 
+// Cache API に保存してよいレスポンスか。
+// ⚠️ res.ok は 200〜299 で true なので 206 Partial Content も通してしまうが、Cache API は
+// 部分レスポンスの保存を仕様で禁じており put() が必ず reject する（"Partial response
+// (status code 206) is unsupported"）。効果音の <audio> は Range リクエストを投げるため
+// 206 が日常的に返り、catch を付けていないと未処理の promise 拒否がコンソールに出続けて
+// 本物のエラーを埋もれさせる。Range 付きリクエスト自体もキャッシュ対象から外す。
+function _cacheable(req, res) {
+  return res && res.ok && res.status !== 206 && !req.headers.has("range");
+}
+// put の失敗でレスポンス配送を巻き込まないよう握り潰す（容量超過などでも落とさない）。
+function _putSafe(cache, req, res) {
+  try { cache.put(req, res).catch(() => {}); } catch (e) {}
+}
+
 self.addEventListener("fetch", e => {
   // GET かつ同一オリジンのみ（Gist API 等の POST/PATCH は cache.put が例外を投げる）
   if (e.request.method !== "GET") return;
@@ -68,7 +82,7 @@ self.addEventListener("fetch", e => {
         c.match(e.request).then(cached => {
           if (cached) return cached;
           return fetch(e.request).then(res => {
-            if (res.ok) c.put(e.request, res.clone());
+            if (_cacheable(e.request, res)) _putSafe(c, e.request, res.clone());
             return res;
           });
         })
@@ -79,9 +93,9 @@ self.addEventListener("fetch", e => {
   e.respondWith(
     fetch(e.request)
       .then(res => {
-        if (res.ok) {
+        if (_cacheable(e.request, res)) {
           const clone = res.clone();
-          caches.open(CACHE).then(c => c.put(e.request, clone));
+          caches.open(CACHE).then(c => _putSafe(c, e.request, clone)).catch(() => {});
         }
         return res;
       })

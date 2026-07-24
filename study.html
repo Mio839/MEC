@@ -61,7 +61,7 @@ if ('serviceWorker' in navigator) {
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
     <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
     <button class="hdr-toggle" onclick="document.getElementById('mecKbHelp').classList.add('open')" title="キーボードショートカット (?)">⌨️</button>
-    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0724b</span>
+    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0725a</span>
   </div>
   <div class="st-stats">
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
@@ -874,7 +874,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0724b";
+const MEC_BUILD = "b-0725a";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
@@ -898,7 +898,8 @@ document.addEventListener('DOMContentLoaded', () => {
         '<div style="font-size:16px;font-weight:800;margin-bottom:10px">ローカルファイルとして開かれています</div>' +
         '<div style="font-size:13px;opacity:.85;margin-bottom:16px">' +
         'ブラウザは <code>file://</code> からの問題データ読み込みを拒否するため、このままでは1問も表示できません。' +
-        'GitHub Pages から開き直してください。学習データ（進捗・SRS）はブラウザごとに保存されているため失われません。</div>' +
+        'GitHub Pages から開き直してください。進捗・SRSはこの開き方でも消えませんが、' +
+        '保存領域は Pages 側と別です（同期設定を済ませていれば Gist 経由で両方に行き渡ります）。</div>' +
         '<a href="' + _url + '" style="display:inline-block;padding:11px 20px;border-radius:10px;' +
         'background:#4390EE;color:#fff;font-weight:800;font-size:14px;text-decoration:none">GitHub Pages で開く →</a>' +
         '<div style="font-size:11px;opacity:.6;margin-top:14px;word-break:break-all">' + _url + '</div>' +
