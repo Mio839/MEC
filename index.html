@@ -82,6 +82,15 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .hub-upd{flex-shrink:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
   font-size:10.5px;font-weight:700;letter-spacing:.04em;color:var(--ts);
   font-variant-numeric:tabular-nums;}
+/* 時刻の隣の「最新に更新」。通常は ♻️ だけの小さいボタン。armed（button.tap-arm・
+   vars.css 共通）になると赤く広がり「♻️再タップで実行」の文字が入るので幅は内容任せ。
+   ⚠️ textContent を _tapConfirm が書き換える＝子要素は持たせない */
+.hub-upd-btn{flex-shrink:0;height:24px;padding:0 7px;border-radius:var(--r-sm);
+  border:1px solid var(--hair);background:rgba(var(--glass-rgb),.05);color:var(--tx);
+  font-family:inherit;font-size:12px;font-weight:700;line-height:1;white-space:nowrap;cursor:pointer;
+  transition:background-color .15s var(--ease-out),border-color .15s var(--ease-out);}
+.hub-upd-btn:hover{background:rgba(var(--glass-rgb),.12);border-color:var(--hair-2);}
+.hub-upd-btn:disabled{opacity:.6;cursor:default;}
 /* 360px級では屋号・更新時刻・同期バッジ・道具2つが一行に収まらない。
    情報量の一番少ない「学習ハブ」を落として時刻のほうを残す（題はタブに出ている） */
 @media (max-width:430px){.hub-mark i,.hub-mark em{display:none;}}
@@ -604,6 +613,9 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
   <a class="hub-mark" href="study.html">🏥 MEC<i aria-hidden="true"></i><em>学習ハブ</em></a>
   <!-- 最終更新（GitHub の最新コミット時刻）。fetchLastUpdated() が入れる -->
   <span class="hub-upd" id="lastUpdatedBadge">…</span>
+  <!-- 最終更新時刻の隣に「最新に更新」。キャッシュを捨てて再読込する（学習データは消えない）。
+       ⚠️ _tapConfirm が textContent を書き換えるので子要素を持たせない（1回目で赤くなり再タップで実行） -->
+  <button class="hub-upd-btn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）" aria-label="最新に更新">♻️</button>
   <div class="hub-tools">
     <!-- 同期状態は常時見えていてほしい（stale/error を progress.js が data-status で塗る） -->
     <span class="mec-sync-badge">⚙️ 未設定</span>
@@ -728,8 +740,6 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
       <!-- 報告が1件も無いときは出さない（押しても空の一覧が出るだけなので） -->
       <button class="menu-row" type="button" id="menuErrRow" style="display:none" onclick="closeMenuModal();window.mecOpenErrReports()">
         <span class="mr-ic">⚠️</span><span class="mr-b">エラー報告 <b id="hubErrCount">0</b>件</span></button>
-      <!-- ⚠️ _tapConfirm が textContent を書き換えるので、この行だけは子要素を持たせない -->
-      <button class="menu-row" type="button" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">♻️ 最新に更新</button>
     </div>
     <div class="modal-row"><button class="modal-btn secondary" style="flex:1" onclick="closeMenuModal()">閉じる</button></div>
   </div>
