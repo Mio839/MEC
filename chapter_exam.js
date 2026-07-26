@@ -56,6 +56,10 @@
       'body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok{color:inherit;font-weight:normal;}',
       'body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2 .ok{color:inherit;font-weight:normal;}',
       'body.ch-exam-mode .qc.ch-exam-key-focus:not(.ch-exam-revealed){outline:3px solid #FFB830;outline-offset:2px;box-shadow:0 0 0 5px rgba(255,184,48,.15);}',
+      // 計算問題（桁入力）の確定ボタンと、選択肢データが欠落した問題の注記
+      '.ce-calc-submit{margin-top:8px;padding:7px 14px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;border-radius:7px;border:1.5px solid rgba(0,0,0,.12);background:rgba(0,0,0,.04);color:#5A6475;}',
+      '.ce-calc-submit[data-ready="1"]{background:#2D8C4E;border-color:#2D8C4E;color:#fff;}',
+      '.ce-nodata-note{font-size:11px;font-weight:700;padding:5px 9px;margin:5px 0;border-radius:6px;background:rgba(245,166,35,.12);color:#8A6100;border:1.5px solid rgba(245,166,35,.35);}',
       '.ch-exam-multi-info{font-size:11px;font-weight:700;padding:4px 8px;margin:4px 0;border-radius:6px;background:rgba(0,0,0,.04);color:#5A6475;border:1.5px solid rgba(0,0,0,.08);transition:background .2s,border-color .2s,color .2s;}',
       '.ch-exam-multi-info[data-ready="1"]{background:rgba(45,140,78,.1);color:#2D8C4E;border-color:rgba(45,140,78,.3);}',
       '@keyframes ceMultiShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}',
@@ -330,7 +334,7 @@
 
     var cards = Array.from(document.querySelectorAll('.qc[data-uid]')).filter(function (c) {
       return c.style.display !== 'none' && !c.classList.contains('filt-hidden') &&
-             getComputedStyle(c).display !== 'none';
+             getComputedStyle(c).display !== 'none' && ceIsAnswerable(c);
     });
 
     var queue = cards.slice().sort(function () { return Math.random() - .5; });
@@ -355,8 +359,9 @@
     _ceChoiceBackup.clear();
     queue.forEach(function (card) {
       ceShuffleChoices(card);
+      var isCalc = ceSetupCalcCard(card);   // 計算問題は桁入力UIと確定ボタンを起こす
       var req = ceRequiredCount(card);
-      if (req > 1 && !card.querySelector('.ch-exam-multi-info')) {
+      if (!isCalc && req > 1 && !card.querySelector('.ch-exam-multi-info')) {
         var info = document.createElement('div');
         info.className = 'ch-exam-multi-info';
         info.textContent = '0 / ' + req + ' 選択中';
@@ -405,6 +410,68 @@
     _ceChoiceBackup.clear();
   }
 
+  // ─── 選択肢が無い問題の扱い ────────────────────────────────
+  // 押す対象が無く採点も確定もできないカードは出題に混ぜられない。混ぜると分母には入るのに
+  // 解答できず、試験が完走しない（exam.answered が queue.length に届かない）。
+  // 計算問題は桁入力で解答できるので出題する。それ以外（図のa〜eや組合せの選択肢が
+  // データから欠落している問題・過去問側に24問ある）は queue から外し、理由をカードに出す。
+  function ceIsAnswerable(card) {
+    if (card.querySelector('.ch2')) return true;
+    if (window.MecCalc && window.MecCalc.isCalc(card)) return true;
+    ceMarkUnanswerable(card);
+    return false;
+  }
+
+  function ceMarkUnanswerable(card) {
+    if (card.querySelector('.ce-nodata-note')) return;
+    var note = document.createElement('div');
+    note.className = 'ce-nodata-note';
+    note.textContent = '⚠️ 選択肢データが欠落しているため出題対象外です';
+    var cs = card.querySelector('.cs');
+    if (cs && cs.parentNode) cs.parentNode.insertBefore(note, cs); else card.appendChild(note);
+  }
+
+  // ─── 計算問題（桁入力）────────────────────────────────────
+  // 入力エンジンは calc_input.js（window.MecCalc）。study.html と共有しているので、
+  // 桁数・小数点位置・採点の判定はこの2ホストで必ず一致する。
+  function ceSetupCalcCard(card) {
+    var M = window.MecCalc;
+    if (!M || !M.isCalc(card)) return false;
+    M.build(card);
+    if (!card.dataset.ceCalcInit) {
+      card.dataset.ceCalcInit = '1';
+      card.addEventListener('calc-submit', function () { ceSubmitCalc(card); });
+      card.addEventListener('calc-change', function () {
+        var b = card.querySelector('.ce-calc-submit');
+        if (b) b.dataset.ready = M.isComplete(card) ? '1' : '0';
+      });
+    }
+    if (!card.querySelector('.ce-calc-submit')) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'ce-calc-submit';
+      btn.textContent = '▶ 回答を確定する';
+      btn.dataset.ready = '0';
+      btn.onclick = function () { ceSubmitCalc(card); };
+      var wrap = card.querySelector('.calc-input');
+      if (wrap) wrap.appendChild(btn);
+    }
+    return true;
+  }
+
+  function ceSubmitCalc(card) {
+    if (!exam.active || card.classList.contains('ch-exam-revealed')) return;
+    var M = window.MecCalc;
+    if (!M || !M.isCalc(card)) return;
+    if (!M.isComplete(card)) { M.shake(card); return; }   // 桁が埋まるまで確定させない
+    var g = M.grade(card);
+    playSelect();
+    M.lock(card, g.correct);
+    var b = card.querySelector('.ce-calc-submit');
+    if (b) b.remove();
+    ceFinishAnswer(card, g.correct, M.anchor(card));
+  }
+
   function isChoiceOk(ch2) {
     return ch2.classList.contains('ok') || !!ch2.querySelector('.ok');
   }
@@ -438,6 +505,11 @@
       c.classList.remove('ch-exam-selected', 'ch-exam-instant-correct', 'ch-exam-instant-wrong');
     });
     document.querySelectorAll('.ch-exam-multi-info').forEach(function (el) { el.remove(); });
+    document.querySelectorAll('.ce-nodata-note,.ce-calc-submit').forEach(function (el) { el.remove(); });
+    // 計算問題の桁入力UIを畳む（通常表示では .cs は空のまま）
+    if (window.MecCalc) document.querySelectorAll('.qc .calc-input').forEach(function (el) {
+      window.MecCalc.destroy(el.closest('.qc'));
+    });
     document.querySelectorAll('.ce-particle,.ce-ring,.ce-fx-temp,.ce-tierup,.ce-fast-pop,.ce-trace-svg,.ce-zone-collapse').forEach(function (el) {
       el.remove();
     });
@@ -571,7 +643,8 @@
     }
   }
 
-  function ceFinishAnswer(card, isOk) {
+  // fxEl: 演出のアンカー要素。計算問題は選択肢が無いので桁の枠を渡す（省略時は従来どおり選択肢）
+  function ceFinishAnswer(card, isOk, fxEl) {
     if (card.classList.contains('ch-exam-revealed')) return;
     card.classList.add('ch-exam-revealed');
     exam.answered++;
@@ -581,10 +654,11 @@
       exam.streak++;
       showStreak(exam.streak);
       var _ceTier = ceTier(exam.streak);
-      card.querySelectorAll('.ch2.ch-exam-instant-correct').forEach(function (c) { ceTriggerChoiceCorrectPop(c); });
+      if (fxEl) ceTriggerChoiceCorrectPop(fxEl);
+      else card.querySelectorAll('.ch2.ch-exam-instant-correct').forEach(function (c) { ceTriggerChoiceCorrectPop(c); });
       ceSpawnFloatingCombo(card, exam.streak, _ceTier);
       // ショックウェーブ・ボーダートレース・速答ボーナス
-      var _ceOk = card.querySelector('.ch2.ch-exam-instant-correct');
+      var _ceOk = fxEl || card.querySelector('.ch2.ch-exam-instant-correct');
       ceCorrectShockwave(_ceOk);
       ceTraceCardBorder(card);
       if (ceIsFast(card)) setTimeout(function () { ceFastBonus(_ceOk); }, 90);
@@ -596,7 +670,8 @@
       if (_ceNext) { (function(nc){ setTimeout(function(){ ceApplyChoiceShimmer(nc); }, 140); })(_ceNext); }
       saveMyRate(card.dataset.uid, true);
     } else {
-      card.querySelectorAll('.ch2').forEach(function (c) {
+      // 計算問題は正解を MecCalc.lock が入力欄の下に出すので、肢の色付けは行わない
+      if (!fxEl) card.querySelectorAll('.ch2').forEach(function (c) {
         if (isChoiceOk(c)) c.classList.add('ch-exam-instant-correct');
       });
       exam.streak = 0;
@@ -641,9 +716,15 @@
     if (!exam.active) return;
     var tag = document.activeElement && document.activeElement.tagName;
     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
-    if (!(e.key >= '1' && e.key <= '5')) return;
     var card = ceGetTargetCard();
     if (!card) return;
+    // 入力型（計算問題）に数字キーは「選択肢n番」ではなく桁の入力として渡す
+    if (window.MecCalc && window.MecCalc.isCalc(card) && e.key >= '0' && e.key <= '9') {
+      e.preventDefault();
+      window.MecCalc.typeDigit(card, e.key);
+      return;
+    }
+    if (!(e.key >= '1' && e.key <= '5')) return;
     e.preventDefault();
     var choices = Array.from(card.querySelectorAll('.ch2'));
     var n = parseInt(e.key, 10) - 1;

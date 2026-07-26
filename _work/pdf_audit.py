@@ -61,10 +61,42 @@ ANCHOR = re.compile(r'(\d{1,3})\s*[.．]\s*[（(]\s*(\d{2,3}[A-Z]-\d+)\s*[）)]'
 BLEED = re.compile(r'\d{1,3}\s*[.．]\s*[（(]\s*\d{2,3}[A-Z]-\d+\s*[）)]')
 FNAME_CODE = re.compile(r'^([0-9]+[A-Z]-[0-9]+)')
 MIN_AREA, MIN_LONG = 5000, 100
+# 入力型（桁入力）の計算問題の正解。calc_input.js の CANON と同じ規約に揃えてある
+CALC_ANS_RE = re.compile(r'^計算答[：:]\s*([0-9]+(?:\.[0-9]+)?)$')
+CIRCLED = '①②③④⑤⑥⑦⑧⑨'
 
 
 def plain(html):
     return re.sub(r'<[^>]+>', '', html or '')
+
+
+def answer_slots(qt):
+    """問題文の解答テンプレート（"解答：①. ② ℓ/分/m2"）の桁数を返す。無ければ None。
+
+    丸数字が空白・ピリオドだけで連結された最長の並びを桁数とみなす。区切りが半角空白では
+    なく U+2009 THIN SPACE の紙面があるため、空白は \\s 全体を許容する。
+    """
+    t = plain(qt)
+    best = None
+    i = 0
+    while i < len(t):
+        if t[i] not in CIRCLED:
+            i += 1
+            continue
+        slots, j = 0, i
+        while j < len(t):
+            c = t[j]
+            if c in CIRCLED:
+                slots += 1
+            elif c.isspace() or c in '.．':
+                pass
+            else:
+                break
+            j += 1
+        if slots >= 2 and (best is None or slots > best):
+            best = slots
+        i = max(j, i + 1)
+    return best
 
 
 def required(q):
@@ -112,6 +144,22 @@ def audit(sid, check_images=True):
         issues.append((kind, f"{q['uid']} {q['episode']}", msg))
 
     # ── 採点データ ─────────────────────────────────────────────
+    # 選択肢が1つも無い問題は、これまで無検査でスキップしていた。原文がマークシートの
+    # 計算問題（入力型）なら ans_label の "計算答：<桁文字列>" で採点できるが、その形式から
+    # 外れていると試験モードで解答できない問題が黙って増える。ここで検出する。
+    for q in qs:
+        if q['choices'] or excluded(q):
+            continue
+        al = (q.get('ans_label') or '').strip()
+        if CALC_ANS_RE.match(al):
+            # 桁数が問題文の解答テンプレート（"解答：① ② ％"）と食い違えば入力欄が作れない
+            slots = answer_slots(q['qt'])
+            digits = len(CALC_ANS_RE.match(al).group(1).replace('.', ''))
+            if slots is not None and slots != digits:
+                add('採点', q, f'計算答の桁数={digits} だが解答欄は{slots}桁')
+        else:
+            add('採点', q, f'★選択肢が無く計算答も無い : 解答できない（ans_label={al!r}）')
+
     for q in qs:
         if not q['choices'] or excluded(q):
             continue

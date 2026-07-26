@@ -280,6 +280,7 @@ function closeLightbox(){var lb=document.getElementById('imgLightbox');if(lb)lb.
 document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.qimg').forEach(function(img){img.addEventListener('click',function(e){e.stopPropagation();openLightbox(this.src);});});});
 </script>
 <div id="imgLightbox" onclick="closeLightbox()"><img id="imgLightboxImg" src="" alt=""></div>
+<script src="../../calc_input.js"></script>
 <script src="../../chapter_exam.js"></script>
 </body>
 </html>

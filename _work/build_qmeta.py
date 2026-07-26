@@ -63,6 +63,8 @@ NUMERIC_CHOICE_RE = re.compile(
     r'^[約およそ]?[0-9０-９][0-9０-９.,．，/]*\s*'
     r'(mg|g|kg|mL|L|mEq|mmol|mmHg|kcal|単位|%|％|℃|倍|/分|/日|回|歳|日|週|時間|分|秒|mm|cm)?$'
 )
+# 入力型（桁入力）の計算問題の正解。calc_input.js の CANON と同じ規約
+CALC_ANS_RE = re.compile(r'^計算答[：:]\s*[0-9]+(?:\.[0-9]+)?$')
 EPISODE_RE = re.compile(r'(\d+)[A-Za-z]')
 
 
@@ -119,6 +121,10 @@ def classify(q):
     # 選択肢の過半かつ3つ以上が数値なら計算・数値選択問題とみなす
     if len(choices) >= 3 and numeric_choice_count(choices) >= max(3, len(choices) // 2):
         flags.append('calc')
+    # 入力型（桁入力）の計算問題。原文がマークシートで選択肢を持たないため上の判定では
+    # 拾えない。正解は ans_label の "計算答：<桁文字列>" が正本（calc_input.js と同じ規約）。
+    elif not choices and CALC_ANS_RE.match((q.get('ans_label') or '').strip()):
+        flags.append('calc')
     if CASE_AGE_RE.search(qt) or CASE_CTX_RE.search(qt):
         flags.append('case')
 
@@ -126,8 +132,9 @@ def classify(q):
     btexts = [(b.get('t') or '').strip() for b in badges]
     if '採点除外' in btexts or '採点除外' in (q.get('ans_sub') or ''):
         flags.append('excl')
-    # 正解肢ゼロ＝何を選んでも不正解。分析の母数から外せるよう印を付ける（CLAUDE.md の不変条件）
-    if n_ok == 0:
+    # 正解肢ゼロ＝何を選んでも不正解。分析の母数から外せるよう印を付ける（CLAUDE.md の不変条件）。
+    # ただし入力型（calc かつ選択肢なし）は桁入力で採点できるので母数に入れる。
+    if n_ok == 0 and not (not choices and 'calc' in flags):
         flags.append('ungraded')
 
     y = None

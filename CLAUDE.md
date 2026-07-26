@@ -24,6 +24,7 @@
 | `qmeta.json` | 設問メタ（全科目1ファイル・`_work/build_qmeta.py`が生成する**派生物**）。設問形式(診断/検査/治療/対応/知識)・否定形・複数選択・画像・症例・計算・採点除外を自動分類。stats.htmlの弱点カルテが使う。**questions_*.json は一切変更しない**（pdf_audit.pyの監査対象を汚さないため） |
 | `stats.html` | 学習統計ページ（30日チャート・SRS統計・AI相談Markdownエクスポート） |
 | `knowledge.html` | 検索知識ノート機能 |
+| `calc_input.js` | 計算問題の桁入力エンジン（`window.MecCalc`）。原文がマークシートの計算問題48問（科目33＋過去問15）は選択肢を持たないため試験モードで解答不能だった。正解は `.ac`（ans_label）の `計算答：<桁文字列>` が正本。**study.html と 国家試験過去問/*.html の両方が読む共有ファイル**（演出テーマのようなミラー乖離を作らないため）。CSSは自前で注入する |
 | `card_renderer.js` | JSON→カードHTML描画（`window._renderSubjectFromJson`、エスケープ処理あり） |
 | `fx_engine.js` | エフェクトのCanvas描画エンジン（`window.MecFX`：粒子・花火・グリフバースト等） |
 | `image_dims.json` | 問題画像の実寸（パス→[w,h]・約109KB・**派生物**。`_work/build_image_dims.py`が生成）。`card_renderer.js`が`<img width height>`を出す材料。これが無いと遅延読込の画像でレイアウトが後からずれ、章ジャンプが目標に収束しない。**画像を差し替え・追加したら必ず再生成** |
@@ -132,7 +133,29 @@
 - `N択` バッジは PDF の `↗N`（画像枚数と無関係の内部マーカー）を誤読していたことがある。**正解数の根拠は問題文の「Nつ選べ」のみ**。
 - 連問の図は右段にまとめて置かれ、図の直下に `A` `B` `C` のラベルが描かれる。**帰属はラベル文字の座標で決めること**（読み順=A,B,C とは限らず、実際に `B A` の順で並ぶ紙面がある）。ステムが参照する図は連問1問目、後続の設問が参照する図はその設問に付ける。
 
+### 選択肢を持たない問題（2026-07-26〜）
+
+選択肢が0個の問題は74問ある。2種類あり、扱いが違う。
+
+- **計算問題48問（科目33・過去問15）** — 原文がマークシートの桁入力。`ans_label` は
+  **`計算答：<桁文字列>` の正規形**でなければならない（例 `計算答：2.0` `計算答：0.40` `計算答：315`）。
+  桁数＝文字数、小数点位置＝文字列そのもの。**正解は数値ではなく桁文字列**で、`0.40` の
+  先頭ゼロ・末尾ゼロは意味を持つ（数値化して `0.4` にすると採点が壊れる）。
+  採点は完全一致・部分点なし。`calc_input.js` が入力欄を作り、`revealAnswer`（study_exam.js）／
+  `ceSubmitCalc`（chapter_exam.js）が採点する。
+  - 旧形式 `計算答：2,0`（カンマ区切り）は小数点位置が読めないので**戻してはいけない**。
+    形式の統一は `node _work/normalize_calc_answers.js`（冪等・`--dry-run` あり）。
+  - 同じ問題が questions_*.json と 国家試験過去問/*.html の両方にあるものが11問あり、
+    正規化スクリプトはこれを使って桁数と小数点位置を相互検証・相互補完する。
+  - ⚠️ 同じ正規表現が `calc_input.js`（CANON）・`build_qmeta.py`・`pdf_audit.py` の3箇所にある。
+    `node _work/test_calc_input.js` が乖離を検出する。
+- **選択肢データの欠落26問（科目2・過去問24）** — 図のa〜eや組合せの選択肢がデータに無い。
+  計算問題ではないので入力型では解決しない。試験モードでは中立で開封して先へ通す
+  （`_isExamUngraded`）、過去問側は出題から外して理由を表示する（`ceIsAnswerable`）。
+  **PDFから選択肢を復元するのが本来の対処で、これは未了**。
+
 検査は `python _work/pdf_audit.py {sid}` （PDFを正本に中身まで照合。`--no-image` で画像照合を省略）。
+選択肢0個の問題は以前は無検査でスキップしていたが、正解データが解釈可能かを検査するようにした。
 既存の `_work/audit_image_mismatch.py` はファイル名しか見ないため、ページのスクリーンショットが
 正しい名前で貼られているケースを見逃す。`pdf_audit.py` はこれを知覚ハッシュで検出する。
 
@@ -174,6 +197,7 @@ node _work/test_today_learning.js  ハブの「今日解いた問題」
 node _work/test_srs_grade.js       SRSの自己採点3段階          (10)
 node _work/test_subject_totals.js  科目別問題数の三者一致      (3)
 node _work/test_card_render.js     カード描画（画像実寸・採点ボタン）(7)
+node _work/test_calc_input.js      計算問題の桁入力・データ整合      (27)
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 ```
 
