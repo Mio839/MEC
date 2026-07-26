@@ -100,7 +100,8 @@ function collect() {
     const j = JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8'));
     for (const ch of (j.chapters || [])) for (const q of (ch.qs || [])) {
       if ((q.choices || []).length) continue;
-      out.push({ kind: 'json', file: f, uid: q.uid, ep: q.episode, al: q.ans_label || '', qt: q.qt || '' });
+      out.push({ kind: 'json', file: f, uid: q.uid, ep: q.episode, al: q.ans_label || '',
+                 qt: q.qt || '', rate: q.rate == null ? null : Number(q.rate) });
     }
   }
   const hf = [];
@@ -120,6 +121,8 @@ function collect() {
         ep: (c.match(/class="qe">([^<]*)</) || [])[1] || '',
         al: (c.match(/<div class="ac">([^<]*)<\/div>/) || [])[1] || '',
         qt: (c.match(/<div class="qt">([\s\S]*?)<\/div>/) || [])[1] || '',
+        // data-rate は PDF の正答率と突き合わせて「同じ問題を見ているか」を確かめる材料
+        rate: (m => m ? Number(m[1]) : null)(c.match(/data-rate="([0-9.]+)"/)),
       });
     }
   }

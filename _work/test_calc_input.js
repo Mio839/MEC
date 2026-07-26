@@ -158,10 +158,13 @@ const rows = NORM.collect();
 const calc = rows.filter(r => M.parse(r.al));
 const other = rows.filter(r => !M.parse(r.al));
 
-t('選択肢を持たない問題は 74件（計算48・選択肢欠落26）', () => {
-  assert.strictEqual(rows.length, 74, '実際は ' + rows.length + '件');
+// 選択肢欠落は 26件から始まり、PDFから復元した12件を引いて14件になった
+// （_work/extract_missing_choices.py → _work/apply_missing_choices.py）。
+// 残りは表・図が選択肢の問題で、スクリーンショットからの復元が必要。
+t('選択肢を持たない問題は 62件（計算48・選択肢欠落14）', () => {
+  assert.strictEqual(rows.length, 62, '実際は ' + rows.length + '件');
   assert.strictEqual(calc.length, 48, '計算問題が ' + calc.length + '件');
-  assert.strictEqual(other.length, 26, '非計算が ' + other.length + '件');
+  assert.strictEqual(other.length, 14, '非計算が ' + other.length + '件');
 });
 
 t('計算問題の ans_label は全件が正規形（旧カンマ形式の混入なし）', () => {
@@ -202,6 +205,49 @@ t('全問が1〜6桁に収まる', () => {
     const n = M.parse(r.al).digits.length;
     assert.ok(n >= 1 && n <= 6, r.uid + ' の桁数 ' + n);
   });
+});
+
+// 過去問HTMLの採点データを走査する。pdf_audit.py は questions_*.json しか見ないので、
+// PDFから復元した12問を含む過去問側はここで担保する。
+const kakScan = (() => {
+  const dirs = new Set(NORM.collect().map(r => r.file)
+    .filter(f => /kakuron\.html$/.test(f)).map(f => f.replace(/[^\\/]+$/, '')));
+  const order = [], noOk = [];
+  for (const d of dirs) {
+    for (const f of fs.readdirSync(path.join(ROOT, d)).filter(x => /kakuron\.html$/.test(x))) {
+      const h = fs.readFileSync(path.join(ROOT, d, f), 'utf8');
+      for (const card of h.split('<div class="qc"').slice(1)) {
+        const uid = (card.match(/data-uid="([^"]+)"/) || [])[1];
+        const cs = card.match(/<div class="cs">([\s\S]*?)<\/div>\s*<div class="ab">/);
+        if (!uid || !cs || !cs[1].trim()) continue;       // 選択肢なしは上のテストで管理
+        // 採点除外は正解が定まらないので ok が無いのが正しい（pdf_audit.py の excluded と同じ）
+        if (/採点除外/.test(card)) continue;
+        // 選択肢は <span> 等を含みうるので入れ子を許して切り出す（div の入れ子は無い）
+        const chs = [...cs[1].matchAll(/<div class="ch2([^"]*)">((?:(?!<\/?div)[\s\S])*)<\/div>/g)];
+        if (!chs.length) continue;
+        chs.forEach((m, i) => {
+          const first = m[2].replace(/<[^>]+>/g, '').trim().charAt(0);
+          if (i < 5 && first !== String.fromCharCode(0xFF41 + i)) order.push(`${uid} 肢${i}=${first}`);
+        });
+        // chapter_exam.js の isChoiceOk と同じ判定（ch2 自身か、その中の要素に ok）
+        if (!chs.some(m => /\bok\b/.test(m[1]) || /class="[^"]*\bok\b/.test(m[2]))) noOk.push(uid);
+      }
+    }
+  }
+  return { order, noOk };
+})();
+
+t('過去問HTMLの選択肢は ａ〜ｅ の順に並んでいる', () => {
+  assert.strictEqual(kakScan.order.length, 0, kakScan.order.slice(0, 8).join(' / '));
+});
+
+// 「選択肢はあるが正解肢が無い」＝試験モードで何を選んでも不正解になるカード。
+// 9件は今回の作業前から存在する別口の不備で、PDFを見て正解を入れる作業が必要（未了）。
+// 例: kakumon_116D_q69 は ans_label が空、kakumon_117F_q71 は計算問題に別問題の選択肢が付いている。
+// 新たに増えたらここが落ちる。直したらこの数を減らすこと。
+t('正解肢が無いカードは既知の9件だけ（増えていない）', () => {
+  assert.strictEqual(kakScan.noOk.length, 9,
+    '実際は ' + kakScan.noOk.length + '件: ' + kakScan.noOk.join(', '));
 });
 
 console.log('\n── 読み込み構成と規約の同期 ──');
