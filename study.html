@@ -31,6 +31,9 @@
 <!-- 章名（試験結果画面の「章別」表）用。MEC_CHAPTERS の prefix→title を引く。
      study_exam.js より前に置き、参照できるようにする -->
 <script src="chapters_meta.js"></script>
+<!-- 計算問題の桁入力（window.MecCalc）。過去問ビューアと共有するため独立ファイル。
+     study_exam.js が試験開始・採点から参照するので、それより前に置く -->
+<script src="calc_input.js"></script>
 <script src="study_exam.js"></script>
 <script src="gamify.js"></script>
 <link rel="stylesheet" href="vars.css">
@@ -82,6 +85,7 @@ if ('serviceWorker' in navigator) {
     <button class="chip" data-sid="kansen" onclick="toggleSubjectChip(this,'kansen')" aria-pressed="false">🦠&nbsp;感染症</button>
     <button class="chip" data-sid="peds" onclick="toggleSubjectChip(this,'peds')" aria-pressed="false">🧸&nbsp;小児科</button>
     <button class="chip" data-sid="obg" onclick="toggleSubjectChip(this,'obg')" aria-pressed="false">🤰&nbsp;産婦人科</button>
+    <button class="chip" data-sid="psy" onclick="toggleSubjectChip(this,'psy')" aria-pressed="false">💭&nbsp;精神科</button>
     <button class="chip" data-sid="custom" onclick="toggleSubjectChip(this,'custom')" aria-pressed="false">✏️&nbsp;自作問題</button>
     <button class="chip" data-sid="memo" onclick="toggleSubjectChip(this,'memo')" aria-pressed="false">📝&nbsp;暗記メモ</button>
   </div>
@@ -341,6 +345,10 @@ if ('serviceWorker' in navigator) {
 <div class="subj-hdr" style="background:#D36BAA"><span class="subj-hdr-icon">🤰</span><span class="subj-hdr-name">産婦人科</span><span class="subj-hdr-count">685問</span></div>
 <div class="subj-cards-loading" data-sid="obg">読み込み中…</div>
 </div>
+<div class="subj-section" data-sid="psy" data-visible="true">
+<div class="subj-hdr" style="background:#5E60CE"><span class="subj-hdr-icon">💭</span><span class="subj-hdr-name">精神科</span><span class="subj-hdr-count">73問</span></div>
+<div class="subj-cards-loading" data-sid="psy">読み込み中…</div>
+</div>
 <div class="subj-section" data-sid="jitsu1" data-visible="true">
 <div class="subj-hdr" style="background:#728FC0"><span class="subj-hdr-icon">🎯</span><span class="subj-hdr-name">実力試験Ⅰ</span><span class="subj-hdr-count">160問</span></div>
 <div class="subj-cards-loading" data-sid="jitsu1">読み込み中…</div>
@@ -360,7 +368,7 @@ if ('serviceWorker' in navigator) {
 </div>
 
 <script>
-const STUDY_SUBJECTS = [{"id": "endo", "name": "内分泌", "icon": "⚗️", "color": "#169E9F"}, {"id": "resp", "name": "呼吸器", "icon": "🌬️", "color": "#4390EE"}, {"id": "circ", "name": "循環器", "icon": "❤️", "color": "#E16E33"}, {"id": "dige", "name": "消化器", "icon": "🌿", "color": "#8A81EF"}, {"id": "neur", "name": "神経", "icon": "🧠", "color": "#619E37"}, {"id": "hbp", "name": "肝胆膵", "icon": "🧪", "color": "#C0820E"}, {"id": "jinzo_d", "name": "腎臓", "icon": "💧", "color": "#7494A1"}, {"id": "hema", "name": "血液", "icon": "🩸", "color": "#E56574"}, {"id": "imma", "name": "免アレ膠", "icon": "🛡️", "color": "#B973D7"}, {"id": "kansen", "name": "感染症", "icon": "🦠", "color": "#9B920A"}, {"id": "peds", "name": "小児科", "icon": "🧸", "color": "#10A276"}, {"id": "obg", "name": "産婦人科", "icon": "🤰", "color": "#D36BAA"}, {"id": "jitsu1", "name": "実力試験Ⅰ", "icon": "🎯", "color": "#728FC0"}, {"id": "custom", "name": "自作問題", "icon": "✏️", "color": "#CB9BC6"}, {"id": "memo", "name": "暗記メモ", "icon": "📝", "color": "#D0C7A6"}];
+const STUDY_SUBJECTS = [{"id": "endo", "name": "内分泌", "icon": "⚗️", "color": "#169E9F"}, {"id": "resp", "name": "呼吸器", "icon": "🌬️", "color": "#4390EE"}, {"id": "circ", "name": "循環器", "icon": "❤️", "color": "#E16E33"}, {"id": "dige", "name": "消化器", "icon": "🌿", "color": "#8A81EF"}, {"id": "neur", "name": "神経", "icon": "🧠", "color": "#619E37"}, {"id": "hbp", "name": "肝胆膵", "icon": "🧪", "color": "#C0820E"}, {"id": "jinzo_d", "name": "腎臓", "icon": "💧", "color": "#7494A1"}, {"id": "hema", "name": "血液", "icon": "🩸", "color": "#E56574"}, {"id": "imma", "name": "免アレ膠", "icon": "🛡️", "color": "#B973D7"}, {"id": "kansen", "name": "感染症", "icon": "🦠", "color": "#9B920A"}, {"id": "peds", "name": "小児科", "icon": "🧸", "color": "#10A276"}, {"id": "obg", "name": "産婦人科", "icon": "🤰", "color": "#D36BAA"}, {"id": "psy", "name": "精神科", "icon": "💭", "color": "#5E60CE"}, {"id": "jitsu1", "name": "実力試験Ⅰ", "icon": "🎯", "color": "#728FC0"}, {"id": "custom", "name": "自作問題", "icon": "✏️", "color": "#CB9BC6"}, {"id": "memo", "name": "暗記メモ", "icon": "📝", "color": "#D0C7A6"}];
 // Study time tracking
 let _studyStartTime = Date.now();
 let _studyTimeSaved = false;

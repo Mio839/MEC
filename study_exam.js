@@ -274,7 +274,7 @@ function _saveResumes(arr) {
   if (window.MECSync) window.MECSync.scheduleSync();
 }
 function _renderResumeList() {
-  const subjNameMap = { endo:'内分泌', resp:'呼吸器', circ:'循環器', dige:'消化器', neur:'神経', hbp:'肝胆膵', jinzo_d:'腎臓', hema:'血液', imma:'免アレ膠', kansen:'感染症', peds:'小児科', obg:'産婦人科' };
+  const subjNameMap = { endo:'内分泌', resp:'呼吸器', circ:'循環器', dige:'消化器', neur:'神経', hbp:'肝胆膵', jinzo_d:'腎臓', hema:'血液', imma:'免アレ膠', kansen:'感染症', peds:'小児科', obg:'産婦人科', psy:'精神科' };
   // 達成度は doneCount（開封済み・採点除外含む）基準。旧データは answeredCount にフォールバック。
   const _done = r => (r.doneCount != null ? r.doneCount : r.answeredCount);
   const resumes = _loadResumes().filter(r => r.total > _done(r));
@@ -524,11 +524,18 @@ function _saveExamResume() {
   if (seenCount >= examQueue.length) { _clearExamResume(); return; }
   const revealedUids = {};
   const pendingWrong = [];
+  const calcEntered = {};   // 計算問題の入力途中の桁（未確定のカードぶん）
   let pendingCorrect = 0;
   examQueue.forEach(card => {
     const uid = card.dataset.uid;
+    const calc = window.MecCalc && MecCalc.isCalc(card);
+    if (calc && !card.classList.contains('exam-revealed')) {
+      const v = MecCalc.value(card);      // 未入力の桁は '_'。1桁でも入っていれば残す
+      if (/[0-9]/.test(v)) calcEntered[uid] = v;
+    }
     if (card.classList.contains('exam-revealed')) {
       revealedUids[uid] = { correct: !examWrong.includes(uid) };
+      if (calc) revealedUids[uid].entered = MecCalc.value(card);
     } else {
       // Capture answers selected within the 400ms reveal timeout window
       const wrongChoice = card.querySelector('.ch2.exam-instant-wrong');
@@ -556,7 +563,8 @@ function _saveExamResume() {
     total: examQueue.length,
     count: _examCount,
     filterLabel: _examFilterLabel,
-    chPrefix: _examActiveChPrefix
+    chPrefix: _examActiveChPrefix,
+    calcEntered
   };
   const resumes = _loadResumes();
   const ri = resumes.findIndex(r => r.key === _examSessionKey);
@@ -674,8 +682,9 @@ function startExam(overrideUids = null) {
   examQueue.forEach(card => {
     card.style.display = '';
     _shuffleChoices(card);
+    const isCalc = _setupCalcCard(card);   // 計算問題は桁入力UIを起こす
     const req = _getRequiredCount(card);
-    if (req > 1 && !card.querySelector('.exam-multi-info')) {
+    if (!isCalc && req > 1 && !card.querySelector('.exam-multi-info')) {
       const info = document.createElement('div');
       info.className = 'exam-multi-info';
       info.textContent = '0 / ' + req + ' 選択中';
@@ -687,7 +696,7 @@ function startExam(overrideUids = null) {
     if (qb && !qb.querySelector('.exam-reveal-btn')) {
       const btn = document.createElement('button');
       btn.className = 'exam-reveal-btn';
-      btn.textContent = req > 1 ? '▶ 回答を確定する' : '▶ 解答を見る';
+      btn.textContent = (isCalc || req > 1) ? '▶ 回答を確定する' : '▶ 解答を見る';
       btn.onclick = () => revealAnswer(card);
       const ab = qb.querySelector('.ab');
       if (ab) ab.parentNode.insertBefore(btn, ab); else qb.appendChild(btn);
@@ -758,6 +767,9 @@ function revealAnswer(card) {
   const req = _getRequiredCount(card);
   const sid = card.dataset.uid.split('_ch')[0];
   if (!examBySubj[sid]) examBySubj[sid] = { correct: 0, total: 0 };
+
+  // 入力型（計算問題）は選択肢が無いので専用の採点へ回す
+  if (window.MecCalc && MecCalc.isCalc(card)) { _revealCalcAnswer(card, sid); return; }
 
   if (req > 1) {
     const selected = [...card.querySelectorAll('.ch2.exam-selected')];
@@ -2461,8 +2473,86 @@ function _getRequiredCount(card) {
 // （正解肢ありの採点除外11問は通常採点。判定は正解肢0個に限定して巻き込まない）
 function _isExamUngraded(card) {
   if (!card) return false;
+  // 入力型（計算問題）は選択肢が無くても桁入力で採点する
+  if (window.MecCalc && MecCalc.isCalc(card)) return false;
+  // 選択肢が1つも無い＝押す対象が無く前へ進めない。中立で開いて通す。
+  // 図のa〜eや組合せの選択肢がデータから欠落している問題がこれに当たる。
+  if (!card.querySelector('.ch2')) return true;
   if (card.querySelectorAll('.ch2.ok').length > 0) return false;
   return typeof _isScoreExcluded === 'function' ? _isScoreExcluded(card) : false;
+}
+
+// 入力型（計算問題）のカードを試験用に仕立てる。桁入力UIの生成と確定操作の配線。
+// 試験開始・中断復帰の双方から呼ぶ。
+function _setupCalcCard(card) {
+  if (!window.MecCalc || !MecCalc.isCalc(card)) return false;
+  MecCalc.build(card);
+  if (!card.dataset.calcInit) {
+    card.dataset.calcInit = '1';
+    // 桁の中で Enter → そのまま確定（_examKeyHandler は INPUT にフォーカスがあると
+    // 何もしないので、確定操作はここで拾う必要がある）
+    card.addEventListener('calc-submit', () => {
+      if (examMode && !card.classList.contains('exam-revealed')) revealAnswer(card);
+    });
+    card.addEventListener('calc-change', () => {
+      const btn = card.querySelector('.exam-reveal-btn');
+      if (btn) btn.dataset.ready = MecCalc.isComplete(card) ? '1' : '0';
+    });
+  }
+  return true;
+}
+
+// 入力型の採点。選択肢1つの経路（revealAnswer 後半）と同じ順序で集計・演出を行う。
+function _revealCalcAnswer(card, sid) {
+  const g = MecCalc.grade(card);
+  if (!g) return;
+  if (!MecCalc.isComplete(card)) { MecCalc.shake(card); return; }   // 桁が埋まるまで確定させない
+  const uid = card.dataset.uid;
+  const isCorrect = g.correct;
+  examAnswered++;
+  examBySubj[sid].total++;
+  _tallyChapter(uid, isCorrect);
+  _markExamDone(uid);
+  _recordMyRate(uid, isCorrect);
+  // 計算問題は「何と答えたか」が誤りの構造を示す（BSAで割り忘れれば 36 が出る等）ので
+  // 入力値をそのまま解答ログに残す。肢の概念が無いため mec_choice_v1 には書かない。
+  _logAttempt(card, isCorrect, g.entered);
+  if (!_isScoreExcluded(card)) _updateSRS(uid, isCorrect);
+  MecCalc.lock(card, isCorrect);
+  if (!isCorrect) _examSessionWrongChoices.set(uid, g.display);
+  const revBtn = card.querySelector('.exam-reveal-btn');
+  if (revBtn) delete revBtn.dataset.ready;
+  // 演出は選択肢要素を掴む前提なので、入力型では桁の枠をアンカーにする
+  const fxEl = MecCalc.anchor(card) || card;
+  if (isCorrect) {
+    examCorrect++;
+    examStreak++;
+    examBySubj[sid].correct++;
+    _playCorrectSound();
+    _showStreakEffect(examStreak);
+    { const _t = _examTier(examStreak); _triggerChoiceCorrectPop(fxEl); _spawnFloatingCombo(card, examStreak, _t); }
+    _correctShockwave(fxEl);
+    _traceCardBorder(card);
+    if (_isFastAnswer(card)) setTimeout(() => _triggerFastBonus(fxEl), 90);
+    card.classList.add('exam-revealed', 'exam-multi-correct');
+    if (revBtn) { revBtn.textContent = '▶ 解説を見る'; revBtn.onclick = () => _toggleCorrectAnswer(card, revBtn); }
+    _updateExamProg(true);
+    _saveExamResume();
+    requestAnimationFrame(_updateExamFocus);
+    setTimeout(() => _scrollToNextCard(card), 300);
+  } else {
+    examStreak = 0;
+    _resetComboMeter();
+    _clearDarkFx();
+    _zoneStop(true);
+    examWrong.push(uid);
+    card.classList.add('exam-revealed');
+    if (revBtn) { revBtn.textContent = '▼ 解答を隠す'; revBtn.onclick = () => _toggleWrongAnswer(card, revBtn); }
+    _updateExamProg();
+    _saveExamResume();
+    requestAnimationFrame(_updateExamFocus);
+    _maybeShowFinishBtn();
+  }
 }
 function _recountExcluded() {
   try { _examExcludedCount = examQueue.filter(c => _isExamUngraded(c)).length; }
@@ -2479,7 +2569,9 @@ function _revealExcludedNeutral(card) {
   if (!card.querySelector('.exam-excluded-note')) {
     const note = document.createElement('div');
     note.className = 'exam-excluded-note';
-    note.textContent = '⚠️ 採点除外 — 正解肢が無いため採点対象外です（正誤・正解率・再試験に含めません）';
+    note.textContent = card.querySelector('.ch2')
+      ? '⚠️ 採点除外 — 正解肢が無いため採点対象外です（正誤・正解率・再試験に含めません）'
+      : '⚠️ 採点除外 — 選択肢データが欠落しているため採点対象外です（正誤・正解率・再試験に含めません）';
     const qb = card.querySelector('.qb');
     const ab = qb && qb.querySelector('.ab');
     if (ab) ab.parentNode.insertBefore(note, ab); else if (qb) qb.appendChild(note); else card.appendChild(note);
@@ -2648,6 +2740,14 @@ function _examKeyHandler(e) {
   if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
   const card = _getExamTargetCard();
   if (!card) return;
+  // 入力型（計算問題）に数字キーは「選択肢n番」ではなく桁の入力として渡す。
+  // Enter / Space は下の既存分岐へ流し、確定と次カードへのスクロールを共通の挙動に保つ。
+  if (window.MecCalc && MecCalc.isCalc(card) && !card.classList.contains('exam-revealed')
+      && e.key >= '0' && e.key <= '9') {
+    e.preventDefault();
+    MecCalc.typeDigit(card, e.key);
+    return;
+  }
   if (e.key >= '1' && e.key <= '5') {
     e.preventDefault();
     const choices = [...card.querySelectorAll('.ch2')];
@@ -2742,10 +2842,21 @@ function resumeExam(savedAt) {
     if (revealedUids[uid]) {
       card.classList.add('exam-revealed');
       if (revealedUids[uid].correct) card.classList.add('exam-multi-correct');
+      // 採点済みの計算問題は入力欄を答え合わせの状態で見せる（採点はやり直さない）
+      if (window.MecCalc && MecCalc.isCalc(card)) {
+        MecCalc.build(card);
+        if (revealedUids[uid].entered) MecCalc.restore(card, revealedUids[uid].entered);
+        MecCalc.lock(card, !!revealedUids[uid].correct);
+      }
     } else {
       _shuffleChoices(card);
+      const isCalc = _setupCalcCard(card);
+      // 中断時に入力途中だった桁を戻す
+      if (isCalc && revealedUids[uid] === undefined && (saved.calcEntered || {})[uid]) {
+        MecCalc.restore(card, saved.calcEntered[uid]);
+      }
       const req = _getRequiredCount(card);
-      if (req > 1 && !card.querySelector('.exam-multi-info')) {
+      if (!isCalc && req > 1 && !card.querySelector('.exam-multi-info')) {
         const info = document.createElement('div');
         info.className = 'exam-multi-info';
         info.textContent = '0 / ' + req + ' 選択中';
@@ -2757,7 +2868,7 @@ function resumeExam(savedAt) {
       if (qb && !qb.querySelector('.exam-reveal-btn')) {
         const btn = document.createElement('button');
         btn.className = 'exam-reveal-btn';
-        btn.textContent = req > 1 ? '▶ 回答を確定する' : '▶ 解答を見る';
+        btn.textContent = (isCalc || req > 1) ? '▶ 回答を確定する' : '▶ 解答を見る';
         btn.onclick = () => revealAnswer(card);
         const ab = qb.querySelector('.ab');
         if (ab) ab.parentNode.insertBefore(btn, ab); else qb.appendChild(btn);
@@ -2886,6 +2997,9 @@ function exitExam() {
   document.querySelectorAll('.ch2.exam-instant-wrong').forEach(c => c.classList.remove('exam-instant-wrong'));
   document.querySelectorAll('.ch2[data-exam-init]').forEach(c => delete c.dataset.examInit);
   document.querySelectorAll('.exam-multi-info').forEach(el => el.remove());
+  // 計算問題の桁入力UIを畳む（通常モードでは .cs は空のまま＝×△○の自己採点に戻る）
+  if (window.MecCalc) document.querySelectorAll('.qc .calc-input')
+    .forEach(el => MecCalc.destroy(el.closest('.qc')));
   const modeBtn = document.getElementById('examModeBtn');
   if (modeBtn) { modeBtn.textContent = '🎓 試験'; modeBtn.classList.remove('exam-on'); modeBtn.onclick = openExamStart; }
   // ストリーク演出を即座にリセット（サマリーモーダルを隠さないよう）

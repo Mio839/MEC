@@ -761,6 +761,20 @@ const MEC_CHAPTERS = [
         "count": 28
       }
     ]
+  },
+  {
+    "id": "psy",
+    "name": "精神科",
+    "icon": "💭",
+    "color": "#5E60CE",
+    "chapters": [
+      {
+        "prefix": "psy_ch01",
+        "file": "精神科/ch01_seishinka_kihon.html",
+        "title": "第1章 精神科の基本",
+        "count": 73
+      }
+    ]
   }
 ];
 const MEC_CHAPTER_META = {

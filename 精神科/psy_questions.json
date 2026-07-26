@@ -1,0 +1,10 @@
+[
+  { "chapter": { "num": 1, "name": "精神科の基本" } },
+  { "chapter": { "num": 2, "name": "統合失調症" } },
+  { "chapter": { "num": 3, "name": "気分障害" } },
+  { "chapter": { "num": 4, "name": "神経症性障害" } },
+  { "chapter": { "num": 5, "name": "睡眠の生理と睡眠障害" } },
+  { "chapter": { "num": 6, "name": "薬物に伴う精神行動障害" } },
+  { "chapter": { "num": 7, "name": "発達障害と小児の精神障害" } },
+  { "chapter": { "num": 8, "name": "その他の精神疾患" } }
+]

@@ -1,12 +1,13 @@
-// v102: 画像2544枚を再エンコード（461MB→228MB）＋ questions_jitsu1/custom.json の📷バッジ修正。
-// 画像は CARDS に列挙していないが汎用fetchハンドラでキャッシュに載るため、CACHE を bump して
-// 旧キャッシュごと捨てないと端末に古い大きい画像が residual で残る。
-const CACHE = "mec-v102";
+// v104: 精神科(psy)を新科目として追加。questions_psy.json を CARDS に加えたので CACHE を bump。
+// v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
+// questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
+// CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
+const CACHE = "mec-v104";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-07-25a";
+const SHELL_VERSION = "2026-07-26a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -18,6 +19,7 @@ const SHELL = [
   "./progress.js",
   "./attempts.js",
   "./fx_engine.js",
+  "./calc_input.js",
   "./study_exam.js",
   "./fixed_uids.js",
   "./vars.css",
@@ -35,7 +37,7 @@ const CARDS = [
   "questions_endo.json","questions_resp.json","questions_circ.json","questions_dige.json",
   "questions_neur.json","questions_hbp.json","questions_jinzo_d.json","questions_hema.json",
   "questions_imma.json","questions_kansen.json","questions_jitsu1.json",
-  "questions_peds.json","questions_obg.json"
+  "questions_peds.json","questions_obg.json","questions_psy.json"
 ];
 
 self.addEventListener("install", e => {
