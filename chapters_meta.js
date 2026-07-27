@@ -773,6 +773,18 @@ const MEC_CHAPTERS = [
         "file": "精神科/ch01_seishinka_kihon.html",
         "title": "第1章 精神科の基本",
         "count": 73
+      },
+      {
+        "prefix": "psy_ch02",
+        "file": "精神科/ch02_tougoushitchoushou.html",
+        "title": "第2章 統合失調症",
+        "count": 25
+      },
+      {
+        "prefix": "psy_ch03",
+        "file": "精神科/ch03_kibunshougai.html",
+        "title": "第3章 気分障害",
+        "count": 41
       }
     ]
   }
