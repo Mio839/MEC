@@ -38,7 +38,7 @@
 | `_archive/` | 到達不能になった旧・章別HTMLの保管先。編集対象外、読み物としてのみ残す |
 | `vars.css` | 共通CSSカスタムプロパティ（全ページ共通色変数） |
 | `_work/` | ビルド・検証・マージ用スクリプト（`build.py`・`pdf_audit.py`・`build_qmeta.py`・`build_image_dims.py`・`compress_images.py`・`fix_missing_bi_badges.py`・各`test_*.js`等）。⚠️**PDFから新科目の章別HTMLを作るときは先に `_work/新科目HTML生成ガイド.md` を読む**（抽出フロー・産婦人科水準の解説品質基準・統合チェックリスト・着手プロンプト。参照実装は精神科psy=`build_psy_ch01.py`／`build_psy_json.py`） |
-| `精神科/` | マイナー講座・精神科（prefix `psy`）。章別HTML(`ch01_seishinka_kihon.html`・`ch02_tougoushitchoushou.html`・`ch03_kibunshougai.html`・`ch04_shinkeishousei.html`)＋`images/`＋`psy_questions.json`（章名メタ）。HTMLが`questions_psy.json`のソース＝章ごとの生成器`_work/build_psy_ch{NN}.py`→`_work/build_psy_json.py`で再生成。産婦人科と同構造。**ch01は`EXTRA`辞書で肢別解説を後付けする方式、ch02以降はQ()に`patho`/`deep`/`point`を直接渡す方式**（新章は最初から4ブロック書くため）。ch03のQ.34(105D-54)は国試の**採点除外問題**＝`bx`バッジ・正解肢0・`rate=None`で作る（`_isExamUngraded`が中立表示で通す）。第1章73問・第2章25問・第3章41問・第4章36問＝計175問完成・全8章は順次（2026-07-26〜） |
+| `精神科/` | マイナー講座・精神科（prefix `psy`）。章別HTML(`ch01_seishinka_kihon.html`〜`ch05_suiminshougai.html`)＋`images/`＋`psy_questions.json`（章名メタ）。HTMLが`questions_psy.json`のソース＝章ごとの生成器`_work/build_psy_ch{NN}.py`→`_work/build_psy_json.py`で再生成。産婦人科と同構造。**ch01は`EXTRA`辞書で肢別解説を後付けする方式、ch02以降はQ()に`patho`/`deep`/`point`を直接渡す方式**（新章は最初から4ブロック書くため）。ch03のQ.34(105D-54)は国試の**採点除外問題**＝`bx`バッジ・正解肢0・`rate=None`で作る（`_isExamUngraded`が中立表示で通す）。第1章73問・第2章25問・第3章41問・第4章36問・第5章18問＝計193問完成・全8章は順次（2026-07-26〜）。**Q番号はPDFの通し番号（NO.）を厳守**＝章ごとにQ.1へ振り直さない（下記「問題番号は科目内の通し番号」） |
 
 ## 問題数
 
@@ -84,7 +84,25 @@
 ## UID フォーマット
 
 - 各科目解説: `{prefix}_ch{nn}_q{n}` 例: `endo_ch01_q1`, `resp_ch02_q3`, `jinzo_d_ch03_q136`
-- 科目prefix（全14）: `endo` / `resp` / `circ` / `dige` / `neur` / `hbp` / `jinzo_d` / `hema` / `imma` / `kansen` / `peds` / `obg` / `jitsu1` / `custom`
+- 科目prefix（全15）: `endo` / `resp` / `circ` / `dige` / `neur` / `hbp` / `jinzo_d` / `hema` / `imma` / `kansen` / `peds` / `obg` / `psy` / `jitsu1` / `custom`
+
+### ⚠️ 問題番号は科目内の通し番号（章ごとにQ.1へ振り直さない）
+
+`{prefix}_ch{nn}_q{n}` の `{n}` と、カードに表示される `Q.{n}` は **科目内で通し**。
+章が変わっても続きから振る（産婦人科: ch01=Q.1〜26／ch02=<b>Q.27</b>〜85／ch03=Q.86〜145…）。
+これは講座PDFの `NO.` と一致し、`_work/build_{sid}_json.py` が `id="qN"` からuidを作るので
+**表示番号とuidの番号は常に同じ**になる。
+
+- 根拠: `jumpToQnum`（study.html）は `.qn` のテキストで探し、コメントにも
+  「Q番号は科目ごとの連番」とある。章ごとに振り直すと**同じ科目内にQ.1が複数できてジャンプが壊れる**。
+- 2026-07-28に精神科(psy)がこれに違反していた（ch01〜ch04が全部Q.1始まり）ので、
+  PDF巻末の解答一覧表と全193問を突き合わせて是正した。章頭のNO.は 1／74／99／140／176。
+- 生成器は各 `_work/build_psy_ch{NN}.py` の **`Q_START` 定数**が章頭のNO.を持ち、
+  カード番号は `Q_START + idx`、セクション見出しの「Q.a〜Q.b」も自動計算する。
+  新章を足すときは `Q_START` を前章の最終NO.+1 にする。
+- ⚠️ 振り直しを是正するとuidが変わる（psy ch02〜ch04がそうだった）。
+  **旧uidに紐づくlocalStorageの進捗（done_v2・SRS・myrate等）は引き継がれない**ので、
+  是正するなら早い段階で行う。
 
 ## UI 構造（study.html・各章共通）
 

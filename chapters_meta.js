@@ -791,6 +791,12 @@ const MEC_CHAPTERS = [
         "file": "精神科/ch04_shinkeishousei.html",
         "title": "第4章 神経症性障害",
         "count": 36
+      },
+      {
+        "prefix": "psy_ch05",
+        "file": "精神科/ch05_suiminshougai.html",
+        "title": "第5章 睡眠の生理と睡眠障害",
+        "count": 18
       }
     ]
   }

@@ -16,6 +16,9 @@ BASE = Path(r'C:\Users\coool\Desktop\MEC')
 SRC_HEAD = BASE / '精神科' / 'ch01_seishinka_kihon.html'
 OUT = BASE / '精神科' / 'ch02_tougoushitchoushou.html'
 
+# この章の先頭問題のPDF通し番号（NO.）。Q番号・カードidはこれを基点にする。
+Q_START = 74
+
 FW = {'a': 'ａ', 'b': 'ｂ', 'c': 'ｃ', 'd': 'ｄ', 'e': 'ｅ'}
 
 
@@ -535,13 +538,17 @@ def emit():
     parts.append(''.join(nav))
 
     parts.append('<div class="ct">')
-    sec_by_idx = {i: (anc, title, sub) for anc, title, sub, i in SECTIONS}
+    _bounds = sorted(i for _a, _t, _s, i in SECTIONS) + [len(QUESTIONS)]
+    _end = {b: _bounds[k + 1] - 1 for k, b in enumerate(_bounds[:-1])}
+    sec_by_idx = {i: (anc, title) for anc, title, _sub, i in SECTIONS}
     for idx, q in enumerate(QUESTIONS):
         if idx in sec_by_idx:
-            anc, title, sub = sec_by_idx[idx]
+            anc, title = sec_by_idx[idx]
+            _lo, _hi = Q_START + idx, Q_START + _end[idx]
+            sub = f'Q.{_lo}' if _lo == _hi else f'Q.{_lo}〜Q.{_hi}'
             parts.append(f'<div id="{anc}"><div class="sh"><div class="snum">§</div>'
                          f'<h2>{title}</h2><div class="sc">{sub}</div></div></div>')
-        parts.append(render_card(idx + 1, q))
+        parts.append(render_card(Q_START + idx, q))
     parts.append('</div>')
 
     parts.append("""
