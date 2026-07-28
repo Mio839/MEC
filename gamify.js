@@ -35,7 +35,7 @@
     { id: 'kansen',  name: '感染症',     icon: '🦠', color: '#14B8A6', total: 356 },
     { id: 'peds',    name: '小児科',     icon: '🧸', color: '#F472B6', total: 373 },
     { id: 'obg',     name: '産婦人科',   icon: '🤰', color: '#E11D48', total: 685 },
-    { id: 'psy',     name: '精神科',     icon: '💭', color: '#5E60CE', total: 139 },
+    { id: 'psy',     name: '精神科',     icon: '💭', color: '#5E60CE', total: 175 },
     { id: 'jitsu1',  name: '実力試験Ⅰ', icon: '🎯', color: '#6366F1', total: 160 },
   ];
 

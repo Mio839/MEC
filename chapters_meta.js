@@ -785,6 +785,12 @@ const MEC_CHAPTERS = [
         "file": "精神科/ch03_kibunshougai.html",
         "title": "第3章 気分障害",
         "count": 41
+      },
+      {
+        "prefix": "psy_ch04",
+        "file": "精神科/ch04_shinkeishousei.html",
+        "title": "第4章 神経症性障害",
+        "count": 36
       }
     ]
   }
