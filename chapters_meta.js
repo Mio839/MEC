@@ -809,6 +809,12 @@ const MEC_CHAPTERS = [
         "file": "精神科/ch07_hattatsushougai.html",
         "title": "第7章 発達障害と小児の精神障害",
         "count": 24
+      },
+      {
+        "prefix": "psy_ch08",
+        "file": "精神科/ch08_sonota.html",
+        "title": "第8章 その他の精神疾患",
+        "count": 14
       }
     ]
   }
