@@ -841,6 +841,12 @@ const MEC_CHAPTERS = [
         "file": "皮膚科/ch03_kouhan.html",
         "title": "第3章 紅斑",
         "count": 27
+      },
+      {
+        "prefix": "derm_ch04",
+        "file": "皮膚科/ch04_kakukashou.html",
+        "title": "第4章 角化症",
+        "count": 17
       }
     ]
   }
