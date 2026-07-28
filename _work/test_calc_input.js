@@ -158,13 +158,15 @@ const rows = NORM.collect();
 const calc = rows.filter(r => M.parse(r.al));
 const other = rows.filter(r => !M.parse(r.al));
 
-// 選択肢欠落は 26件から始まり、PDFから復元した12件を引いて14件になった
-// （_work/extract_missing_choices.py → _work/apply_missing_choices.py）。
-// 残りは表・図が選択肢の問題で、スクリーンショットからの復元が必要。
-t('選択肢を持たない問題は 62件（計算48・選択肢欠落14）', () => {
-  assert.strictEqual(rows.length, 62, '実際は ' + rows.length + '件');
+// 選択肢欠落は 26件から始まり、PDFから復元した12件（_work/extract_missing_choices.py →
+// _work/apply_missing_choices.py）と、残る14件（_work/restore_table_choices.py・
+// 表と図の選択肢はユーザーのスクリーンショットから書き起こし）で 0 になった。
+// 以後ここに増えたら、選択肢を持たない問題が新しく紛れ込んだということ。
+t('選択肢を持たない問題は計算問題48件だけ（選択肢欠落は0件）', () => {
   assert.strictEqual(calc.length, 48, '計算問題が ' + calc.length + '件');
-  assert.strictEqual(other.length, 14, '非計算が ' + other.length + '件');
+  assert.strictEqual(other.length, 0,
+    '選択肢欠落: ' + other.map(r => r.uid).join(', '));
+  assert.strictEqual(rows.length, 48, '実際は ' + rows.length + '件');
 });
 
 t('計算問題の ans_label は全件が正規形（旧カンマ形式の混入なし）', () => {
@@ -227,7 +229,8 @@ const kakScan = (() => {
         if (!chs.length) continue;
         chs.forEach((m, i) => {
           const first = m[2].replace(/<[^>]+>/g, '').trim().charAt(0);
-          if (i < 5 && first !== String.fromCharCode(0xFF41 + i)) order.push(`${uid} 肢${i}=${first}`);
+          // 6択（117F74 は表が6行ある）もあるので ａ〜ｆ まで見る
+          if (i < 6 && first !== String.fromCharCode(0xFF41 + i)) order.push(`${uid} 肢${i}=${first}`);
         });
         // chapter_exam.js の isChoiceOk と同じ判定（ch2 自身か、その中の要素に ok）
         if (!chs.some(m => /\bok\b/.test(m[1]) || /class="[^"]*\bok\b/.test(m[2]))) noOk.push(uid);
@@ -237,7 +240,7 @@ const kakScan = (() => {
   return { order, noOk };
 })();
 
-t('過去問HTMLの選択肢は ａ〜ｅ の順に並んでいる', () => {
+t('過去問HTMLの選択肢は ａ〜ｆ の順に並んでいる', () => {
   assert.strictEqual(kakScan.order.length, 0, kakScan.order.slice(0, 8).join(' / '));
 });
 
