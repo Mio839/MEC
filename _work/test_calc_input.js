@@ -162,11 +162,13 @@ const other = rows.filter(r => !M.parse(r.al));
 // _work/apply_missing_choices.py）と、残る14件（_work/restore_table_choices.py・
 // 表と図の選択肢はユーザーのスクリーンショットから書き起こし）で 0 になった。
 // 以後ここに増えたら、選択肢を持たない問題が新しく紛れ込んだということ。
-t('選択肢を持たない問題は計算問題48件だけ（選択肢欠落は0件）', () => {
-  assert.strictEqual(calc.length, 48, '計算問題が ' + calc.length + '件');
+// 48→50 になったのは、計算問題なのに別の設問の選択肢が付いていた kakumon_117F_q71 /
+// kakumon_118C_q73 から選択肢を外して入力型に戻したため（_work/restore_missing_ok_flags.py）。
+t('選択肢を持たない問題は計算問題50件だけ（選択肢欠落は0件）', () => {
+  assert.strictEqual(calc.length, 50, '計算問題が ' + calc.length + '件');
   assert.strictEqual(other.length, 0,
     '選択肢欠落: ' + other.map(r => r.uid).join(', '));
-  assert.strictEqual(rows.length, 48, '実際は ' + rows.length + '件');
+  assert.strictEqual(rows.length, 50, '実際は ' + rows.length + '件');
 });
 
 t('計算問題の ans_label は全件が正規形（旧カンマ形式の混入なし）', () => {
@@ -245,11 +247,11 @@ t('過去問HTMLの選択肢は ａ〜ｆ の順に並んでいる', () => {
 });
 
 // 「選択肢はあるが正解肢が無い」＝試験モードで何を選んでも不正解になるカード。
-// 9件は今回の作業前から存在する別口の不備で、PDFを見て正解を入れる作業が必要（未了）。
-// 例: kakumon_116D_q69 は ans_label が空、kakumon_117F_q71 は計算問題に別問題の選択肢が付いている。
-// 新たに増えたらここが落ちる。直したらこの数を減らすこと。
-t('正解肢が無いカードは既知の9件だけ（増えていない）', () => {
-  assert.strictEqual(kakScan.noOk.length, 9,
+// 2026-07-28 に9件すべて解消した（_work/restore_missing_ok_flags.py）。内訳は
+// 「正解ラベルごと空で ok を取り落としていた7件（全部が2つ選べ）」＋
+// 「計算問題に別の設問の選択肢が付いていた2件」。1件でも増えたらここが落ちる。
+t('正解肢が無いカードは0件', () => {
+  assert.strictEqual(kakScan.noOk.length, 0,
     '実際は ' + kakScan.noOk.length + '件: ' + kakScan.noOk.join(', '));
 });
 
