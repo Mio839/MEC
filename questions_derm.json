@@ -1,0 +1,1754 @@
+{
+  "sid": "derm",
+  "chapters": [
+    {
+      "title": "第1章 皮膚科の基本",
+      "qs": [
+        {
+          "uid": "derm_ch01_q1",
+          "qn": "Q.1",
+          "episode": "(120C-30)",
+          "rate": 79,
+          "rate_cls": "cm",
+          "rate_text": "79%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bc",
+              "t": "CBT"
+            }
+          ],
+          "qt": "<strong><span class=\"kw\">表皮内</span>に存在するのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　皮脂腺",
+              "ok": false
+            },
+            {
+              "t": "ｂ　肥満細胞",
+              "ok": false
+            },
+            {
+              "t": "ｃ　毛母細胞",
+              "ok": false
+            },
+            {
+              "t": "ｄ　線維芽細胞",
+              "ok": false
+            },
+            {
+              "t": "ｅ　Langerhans 細胞",
+              "ok": true
+            }
+          ],
+          "ans_label": "ｅ　Langerhans 細胞",
+          "ans_sub": "表皮を構成するのはケラチノサイト・メラノサイト・Langerhans細胞・Merkel細胞の4種。皮脂腺・肥満細胞・毛母細胞・線維芽細胞はいずれも真皮以深にある。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🧱 表皮に住む細胞は4種類だけ——皮膚の階層を先に固定する",
+              "c": "皮膚は外側から<span class=\"kw3\">表皮 → 真皮 → 皮下組織</span>の3層でできている。このうち<span class=\"kw3\">表皮は血管をもたない重層扁平上皮</span>で、下から<span class=\"kw\">基底層 → 有棘層 → 顆粒層 →（淡明層）→ 角層</span>と積み上がる。基底細胞が分裂し、上へ押し上げられながら分化し、最後に核を失って角層になる——この一連の流れを<span class=\"kw3\">角化（ケラチン化）</span>といい、基底層から角層に達するまで約14日、角層が剝がれ落ちるまでさらに約14日、合わせて<span class=\"kw3\">ターンオーバーは約4週間</span>とされる。<br/>表皮に存在する細胞は<span class=\"kw3\">わずか4種類</span>である。<span class=\"kw3\">①ケラチノサイト（角化細胞）</span>——表皮細胞の約95%を占める主役。<span class=\"kw3\">②メラノサイト</span>——基底層に散在し、チロシナーゼを使ってメラニンを作る（<span class=\"kw\">Q.3</span>）。<span class=\"kw3\">③Langerhans細胞</span>——有棘層にある樹状の抗原提示細胞（<span class=\"kw\">Q.24</span>）。<span class=\"kw3\">④Merkel細胞</span>——基底層にあり、知覚神経終末と接して触覚を担う機械受容器。<br/>これに対し<span class=\"kw4\">皮脂腺・汗腺・毛包・立毛筋といった付属器、線維芽細胞・肥満細胞・血管・神経はすべて真皮以深</span>にある。本問はこの住み分けを問うているだけで、「表皮内＝この4つ」と即答できるかで決まる。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　皮脂腺</td><td><span class=\"kw4\">真皮内</span>にある毛包脂腺系の付属器で、導管は<span class=\"kw\">毛包の上部（漏斗部）に開口</span>する。顔面・前胸部・背部正中といった脂漏部位に密で、尋常性痤瘡（<span class=\"kw\">Q.4</span>）の舞台になる。</td></tr><tr><td>ｂ　肥満細胞</td><td><span class=\"kw4\">真皮、とくに血管周囲・付属器周囲</span>に分布する。ヒスタミン・ヘパリンを含む顆粒をもち、これが真皮内に密に増えたものが色素性蕁麻疹（<span class=\"kw\">Q.7・Q.20・Q.25</span>）である。表皮内には存在しない。</td></tr><tr><td>ｃ　毛母細胞</td><td>毛包の最深部である<span class=\"kw4\">毛球部（真皮深層〜皮下組織）</span>にあり、毛乳頭からの栄養を受けて分裂し毛幹をつくる。表皮の基底細胞と同系統の細胞ではあるが、存在する場所は表皮内ではない。</td></tr><tr><td>ｄ　線維芽細胞</td><td><span class=\"kw4\">真皮の主役</span>となる細胞で、<span class=\"kw\">膠原線維（Ⅰ型・Ⅲ型コラーゲン）・弾性線維・基質（ヒアルロン酸等）</span>を産生する。創傷治癒では肉芽形成と瘢痕の担い手になる。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　Langerhans 細胞</span></td><td><span class=\"kw3\">表皮の有棘層に樹状突起を広げて存在する骨髄由来の抗原提示細胞</span>。外来抗原を捕捉して所属リンパ節へ移動しT細胞に提示する、皮膚免疫の最前線である。細胞質内に<span class=\"kw3\">Birbeck顆粒</span>をもつ（<span class=\"kw\">Q.10</span>）。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 表皮内の細胞 vs 真皮内の細胞——一覧で覚え切る",
+              "c": "<table class=\"tb\"><tr><th>層</th><th>細胞・構造</th><th>キーワード</th></tr><tr><td rowspan=\"4\"><span class=\"kw3\">表　皮</span></td><td><span class=\"kw3\">ケラチノサイト</span></td><td>ケラチン・トノフィラメント・ケラトヒアリン顆粒・デスモソーム</td></tr><tr><td><span class=\"kw3\">メラノサイト</span></td><td>基底層・<span class=\"kw\">チロシナーゼ</span>・メラノソーム・神経堤由来</td></tr><tr><td><span class=\"kw3\">Langerhans細胞</span></td><td>有棘層・<span class=\"kw\">Birbeck顆粒</span>・抗原提示・骨髄由来・S-100陽性</td></tr><tr><td><span class=\"kw3\">Merkel細胞</span></td><td>基底層・<span class=\"kw\">触覚（機械受容器）</span>・神経終末と接する</td></tr><tr><td rowspan=\"5\"><span class=\"kw\">真　皮</span></td><td>線維芽細胞</td><td>膠原線維・弾性線維・基質を産生</td></tr><tr><td>肥満細胞</td><td>ヒスタミン・血管周囲・<span class=\"kw\">色素性蕁麻疹</span></td></tr><tr><td>付属器（毛包・脂腺・汗腺）</td><td>表皮から陥入して真皮内に達する</td></tr><tr><td>血管・リンパ管・神経</td><td><span class=\"kw4\">表皮には血管が無い</span>＝栄養は真皮乳頭から拡散</td></tr><tr><td>グロムス細胞</td><td>動静脈吻合・体温調節・グロムス腫瘍（<span class=\"kw\">Q.24</span>）</td></tr></table>紛らわしい2つを固めておく。<span class=\"kw3\">Langerhans細胞＝免疫</span>、<span class=\"kw3\">Merkel細胞＝触覚</span>。どちらもカタカナの人名で表皮内、しかも「免疫担当細胞はどれか」という形で入れ替えて出題される（<span class=\"kw\">Q.3の肢a</span>がまさにこの引っかけ）。「<span class=\"kw3\">Lang＝ランゲルハンス＝免疫、Mer＝メルケル＝メカノ（機械）受容</span>」と語呂で紐づけるとよい。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 表皮内の細胞は<span class=\"kw3\">ケラチノサイト・メラノサイト・Langerhans細胞・Merkel細胞の4つだけ</span>。<br/>② <span class=\"kw3\">Langerhans細胞＝抗原提示（免疫）／Merkel細胞＝触覚</span>。この入れ替えが最頻出の引っかけ。<br/>③ Langerhans細胞は<span class=\"kw3\">有棘層・Birbeck顆粒・骨髄由来・S-100陽性</span>（<span class=\"kw\">Q.10・Q.24</span>）。<br/>④ <span class=\"kw3\">表皮には血管が無い</span>。栄養は真皮乳頭層の毛細血管から拡散で受け取る。<br/>⑤ 表皮のターンオーバーは<span class=\"kw3\">約4週間</span>。乾癬ではこれが数日に短縮して不全角化を生じる。<br/>⑥ 皮脂腺・汗腺・毛包は表皮が陥入してできた<span class=\"kw\">付属器</span>で、本体は真皮内にある。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q2",
+          "qn": "Q.2",
+          "episode": "(119B-1)",
+          "rate": 44,
+          "rate_cls": "cl",
+          "rate_text": "44%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bh",
+              "t": "必修"
+            }
+          ],
+          "qt": "<strong>疾患とその<span class=\"kw\">俗称</span>の組合せで正しいのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　鶏　眼  ―――――――――――― うおのめ",
+              "ok": true
+            },
+            {
+              "t": "ｂ　色素性母斑  ―――――――――― とびひ",
+              "ok": false
+            },
+            {
+              "t": "ｃ　水　痘  ―――――――――――― みずいぼ",
+              "ok": false
+            },
+            {
+              "t": "ｄ　麦粒腫  ―――――――――――― そばかす",
+              "ok": false
+            },
+            {
+              "t": "ｅ　風　疹  ―――――――――――― はしか",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　鶏　眼  ―――――――――――― うおのめ",
+          "ans_sub": "鶏眼＝うおのめ。とびひ＝伝染性膿痂疹、みずいぼ＝伝染性軟属腫、そばかす＝雀卵斑、はしか＝麻疹。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🗣️ 俗称は「患者の言葉」——必修で問われる理由",
+              "c": "一見すると雑学に見えるが、これは<span class=\"kw3\">必修問題</span>として出題されている。患者は「うおのめができた」「とびひみたいなんです」という言葉で受診するのであり、<span class=\"kw3\">俗称と医学用語を双方向に翻訳できることが問診の前提</span>になるからである。正答率44%と低いのは、知識の有無ではなく<span class=\"kw4\">日常語を軽視して覚えていない</span>ためで、ここは覚えるだけで確実に取れる。<br/>中心となる<span class=\"kw3\">鶏眼〈うおのめ〉</span>を機序から押さえておく。足底や足趾の<span class=\"kw3\">骨突出部に慢性の機械的圧迫・摩擦</span>が加わると、角層が防御的に肥厚する。このとき<span class=\"kw3\">圧が一点に集中すると角質が楔（くさび）状の芯をつくって真皮側へ食い込み</span>、芯の先端が真皮乳頭の神経終末を圧迫するため<span class=\"kw3\">歩行時に強い痛み</span>を生じる。これが鶏眼である。<br/>一方、圧が面として広く分散すると芯をつくらず均一に肥厚し、神経を刺すことがないので<span class=\"kw3\">無痛性</span>になる。これが<span class=\"kw3\">胼胝〈たこ〉</span>である。両者とも治療の本質は<span class=\"kw3\">角質の削除に加えて原因となる圧迫の除去</span>（靴の変更・免荷・足底板）で、原因を残したまま削るだけでは必ず再発する。<span class=\"kw4\">糖尿病患者では自己処置による傷が足病変・壊疽の入口</span>になるため、自分で削らせない。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　鶏　眼  ―――――――――――― うおのめ</span></td><td><span class=\"kw3\">正しい。鶏眼〈けいがん〉＝うおのめ</span>。足底など<span class=\"kw3\">持続的な圧迫を受ける部位に生じる限局性の角質増殖</span>で、中心に楔状の角質芯（eye）が真皮側へ向かって突き刺さるため<span class=\"kw3\">圧痛が強い</span>。芯をもたず広く肥厚するものは<span class=\"kw\">胼胝〈べんち〉＝たこ</span>。</td></tr><tr><td>ｂ　色素性母斑  ―――――――――― とびひ</td><td><span class=\"kw4\">「とびひ」は伝染性膿痂疹</span>（黄色ブドウ球菌・A群溶連菌）。掻きこわした手指を介して次々に飛び火するのでこの名がある。<span class=\"kw\">色素性母斑の俗称は「ほくろ」</span>。</td></tr><tr><td>ｃ　水　痘  ―――――――――――― みずいぼ</td><td><span class=\"kw4\">「みずいぼ」は伝染性軟属腫</span>（伝染性軟属腫ウイルス＝ポックスウイルス科）で、中心臍窩をもつ小丘疹。<span class=\"kw\">水痘の俗称は「みずぼうそう」</span>で、VZVによる全身性の水疱疹。</td></tr><tr><td>ｄ　麦粒腫  ―――――――――――― そばかす</td><td><span class=\"kw4\">「そばかす」は雀卵斑</span>（顔面の小色素斑・日光で濃くなる）。<span class=\"kw\">麦粒腫の俗称は「ものもらい／めばちこ」</span>で、眼瞼の急性化膿性炎症。</td></tr><tr><td>ｅ　風　疹  ―――――――――――― はしか</td><td><span class=\"kw4\">「はしか」は麻疹</span>（Koplik斑・二峰性発熱）。<span class=\"kw\">風疹の俗称は「三日はしか」</span>で、発熱・発疹・耳後部リンパ節腫脹が3日程度で軽快する。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 国試に出る俗称の対照表",
+              "c": "<table class=\"tb\"><tr><th>俗称</th><th>医学用語</th><th>要点</th></tr><tr><td><span class=\"kw3\">うおのめ</span></td><td><span class=\"kw3\">鶏眼</span></td><td>角質の芯が真皮へ食い込む→<span class=\"kw\">有痛性</span></td></tr><tr><td>たこ</td><td>胼胝</td><td>芯が無く面で肥厚→<span class=\"kw\">無痛性</span></td></tr><tr><td><span class=\"kw\">とびひ</span></td><td>伝染性膿痂疹</td><td>黄色ブドウ球菌／A群溶連菌・小児・夏</td></tr><tr><td><span class=\"kw\">みずいぼ</span></td><td>伝染性軟属腫</td><td>ポックスウイルス・中心臍窩</td></tr><tr><td>みずぼうそう</td><td>水痘</td><td>VZV・新旧混在する水疱</td></tr><tr><td><span class=\"kw\">はしか</span></td><td>麻疹</td><td>Koplik斑・二峰性発熱</td></tr><tr><td>三日はしか</td><td>風疹</td><td>耳後部リンパ節腫脹・先天性風疹症候群</td></tr><tr><td>りんご病</td><td>伝染性紅斑</td><td>ヒトパルボウイルスB19・両頰の紅斑</td></tr><tr><td><span class=\"kw\">そばかす</span></td><td>雀卵斑</td><td>幼少期発症・日光で増悪</td></tr><tr><td>ほくろ</td><td>色素性母斑</td><td>母斑細胞母斑</td></tr><tr><td>いぼ</td><td>疣贅</td><td>HPV。老人性いぼ＝脂漏性角化症</td></tr><tr><td>たむし・いんきん</td><td>体部白癬・股部白癬</td><td>白癬菌。KOH直接鏡検（<span class=\"kw\">Q.15</span>）</td></tr><tr><td>みずむし</td><td>足白癬</td><td>趾間型・小水疱型・角質増殖型</td></tr><tr><td>ものもらい</td><td>麦粒腫</td><td>眼瞼の急性化膿性炎症</td></tr><tr><td>じんましん</td><td>蕁麻疹</td><td>膨疹・24時間以内に消退</td></tr></table>見分けの語呂として、<span class=\"kw3\">「とびひ＝飛び火＝広がる細菌感染」「みずいぼ＝いぼ＝ウイルスの腫瘍性増殖」</span>と押さえると、b と c の入れ替えに引っかからない。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">鶏眼＝うおのめ＝有痛性（角質の芯あり）／胼胝＝たこ＝無痛性</span>。<br/>② <span class=\"kw3\">とびひ＝伝染性膿痂疹</span>（細菌）、<span class=\"kw3\">みずいぼ＝伝染性軟属腫</span>（ウイルス）。混同注意。<br/>③ <span class=\"kw3\">はしか＝麻疹／三日はしか＝風疹</span>。<br/>④ そばかす＝雀卵斑、ほくろ＝色素性母斑、ものもらい＝麦粒腫。<br/>⑤ 鶏眼・胼胝の治療は<span class=\"kw3\">角質削除＋圧迫の原因除去</span>。<span class=\"kw4\">糖尿病・末梢動脈疾患では自己処置をさせない</span>（足病変の起点になる）。<br/>⑥ 必修で問われる領域なので、<span class=\"kw\">正答率44%でも落とせない</span>。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q3",
+          "qn": "Q.3",
+          "episode": "(119F-14)",
+          "rate": 58,
+          "rate_cls": "cl",
+          "rate_text": "58%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bc",
+              "t": "CBT"
+            }
+          ],
+          "qt": "<strong>皮膚の<span class=\"kw\">構造や機能</span>で正しいのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　Merkel 細胞は免疫担当細胞である。",
+              "ok": false
+            },
+            {
+              "t": "ｂ　皮脂の主成分はコレステロールである。",
+              "ok": false
+            },
+            {
+              "t": "ｃ　チロシナーゼはメラニン生成に必須である。",
+              "ok": true
+            },
+            {
+              "t": "ｄ　アポクリン汗腺の導管は表皮に直接開口する。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　ヘミデスモソームは表皮細胞間の接着に関わる。",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｃ　チロシナーゼはメラニン生成に必須である。",
+          "ans_sub": "チロシナーゼはチロシン→DOPA→ドパキノンを触媒するメラニン合成の律速酵素。Merkel細胞は触覚、皮脂の主成分はトリグリセリド、アポクリンは毛包開口、ヘミデスモソームは基底膜への接着。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🎨 メラニン生成の全体像——チロシナーゼが律速",
+              "c": "<span class=\"kw3\">メラノサイト</span>は神経堤由来の細胞で、<span class=\"kw3\">表皮基底層に散在</span>し（基底細胞約10個に1個）、樹状突起を伸ばして<span class=\"kw3\">1個で約36個のケラチノサイトへメラニンを配る</span>（この単位を<span class=\"kw\">表皮メラニンユニット</span>という）。重要なのは<span class=\"kw3\">メラノサイトの数に人種差はほとんど無く、肌の色の差はメラノソームの大きさ・数・分解されやすさの差である</span>という点である。<br/>合成経路は<span class=\"kw3\">チロシン →（チロシナーゼ）→ DOPA →（チロシナーゼ）→ ドパキノン → …→ メラニン</span>で、<span class=\"kw3\">最初の2段階をどちらもチロシナーゼが触媒する律速段階</span>になっている。できたメラニンは<span class=\"kw\">メラノソーム</span>という細胞内小器官に詰められ、樹状突起の先端ごとケラチノサイトへ渡される。ケラチノサイト内でメラノソームは<span class=\"kw3\">核の上に帽子のように並び（メラニンキャップ）、紫外線から核DNAを守る</span>。これがメラニンの生理的な役割である。<br/>この経路のどこが壊れるかで疾患が決まる。<span class=\"kw3\">チロシナーゼ自体の欠損＝眼皮膚白皮症1型〈OCA1〉</span>（先天性・全身性・白毛・眼振・羞明、<span class=\"kw\">Q.5</span>）。<span class=\"kw3\">メラノサイトが後天的に消失＝尋常性白斑</span>（自己免疫性、<span class=\"kw\">Q.5</span>）。メラノサイトが真皮に迷入して残ったもの＝<span class=\"kw\">太田母斑・蒙古斑</span>。メラノサイトの悪性化＝<span class=\"kw\">悪性黒色腫</span>。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　Merkel 細胞は免疫担当細胞である。</td><td><span class=\"kw4\">Merkel細胞は表皮基底層にある機械受容器（触覚）</span>で、知覚神経終末とシナプス様の結合をつくる。<span class=\"kw\">免疫担当細胞はLangerhans細胞</span>（<span class=\"kw\">Q.1・Q.24</span>）。両者の入れ替えが定番の誤答肢。</td></tr><tr><td>ｂ　皮脂の主成分はコレステロールである。</td><td>皮脂の主成分は<span class=\"kw4\">トリグリセリド・ワックスエステル・スクアレン</span>で、コレステロールは少量。<span class=\"kw\">コレステロールが主役なのは角層細胞間脂質のほう</span>（セラミド＋コレステロール＋遊離脂肪酸、<span class=\"kw\">Q.6</span>）で、この2つの混同を狙った肢。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　チロシナーゼはメラニン生成に必須である。</span></td><td><span class=\"kw3\">正しい</span>。メラノサイト内のメラノソームで<span class=\"kw3\">チロシン→DOPA→ドパキノン</span>の律速2段階をチロシナーゼが担う。<span class=\"kw3\">この酵素の欠損・活性低下が眼皮膚白皮症〈OCA1〉</span>である。</td></tr><tr><td>ｄ　アポクリン汗腺の導管は表皮に直接開口する。</td><td><span class=\"kw4\">アポクリン汗腺は毛包（脂腺開口部より上方）に開口</span>する。<span class=\"kw\">表皮に直接開口するのはエクリン汗腺</span>（<span class=\"kw\">Q.11</span>）。</td></tr><tr><td>ｅ　ヘミデスモソームは表皮細胞間の接着に関わる。</td><td><span class=\"kw4\">ヘミデスモソームは表皮基底細胞と基底膜を留める接着装置</span>（BP180/BP230・ラミニン332・Ⅶ型コラーゲン）。<span class=\"kw\">細胞どうしを留めるのはデスモソーム</span>（<span class=\"kw\">Q.23</span>）。「ヘミ＝半分＝片側が細胞、片側が基底膜」と覚える。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 誤答肢4つを「正しい相手」に貼り直す",
+              "c": "<table class=\"tb\"><tr><th>誤答肢の語</th><th>本当の役割</th><th>入れ替えられた相手</th></tr><tr><td><span class=\"kw\">Merkel細胞</span></td><td>基底層・<span class=\"kw3\">触覚（機械受容）</span></td><td>免疫＝<span class=\"kw3\">Langerhans細胞</span></td></tr><tr><td><span class=\"kw\">皮脂</span></td><td>トリグリセリド・ワックスエステル・スクアレン</td><td>コレステロールが主役なのは<span class=\"kw3\">角層細胞間脂質</span></td></tr><tr><td><span class=\"kw\">アポクリン汗腺</span></td><td><span class=\"kw3\">毛包に開口</span>・腋窩/外陰/乳輪/外耳道・断頭分泌</td><td>表皮に直接開口＝<span class=\"kw3\">エクリン汗腺</span></td></tr><tr><td><span class=\"kw\">ヘミデスモソーム</span></td><td><span class=\"kw3\">基底細胞⇔基底膜</span>・水疱性類天疱瘡</td><td>細胞間接着＝<span class=\"kw3\">デスモソーム</span>・尋常性天疱瘡</td></tr></table>接着装置は<span class=\"kw3\">「どこが剝がれるか＝どの水疱症か」</span>で覚えるのが最も定着する。<span class=\"kw3\">デスモソーム（表皮細胞間）が抗体で壊される＝尋常性天疱瘡（表皮内水疱・Nikolsky現象陽性・棘融解）</span>、<span class=\"kw3\">ヘミデスモソーム／基底膜部が壊される＝水疱性類天疱瘡（表皮下水疱・緊満性水疱）</span>。「<span class=\"kw\">天疱瘡は上（表皮内）でびらん、類天疱瘡は下（表皮下）で緊満性水疱</span>」と対で押さえる。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">チロシナーゼ＝メラニン合成の律速酵素</span>。欠損＝眼皮膚白皮症。<br/>② <span class=\"kw3\">メラノサイトの数に人種差は無い</span>。色の差はメラノソームの量・大きさ・分解性。<br/>③ <span class=\"kw3\">Merkel＝触覚／Langerhans＝免疫</span>。<br/>④ <span class=\"kw3\">エクリンは表皮に直接開口／アポクリンは毛包に開口</span>（<span class=\"kw\">Q.11</span>）。<br/>⑤ <span class=\"kw3\">デスモソーム＝細胞間（尋常性天疱瘡）／ヘミデスモソーム＝基底膜（水疱性類天疱瘡）</span>（<span class=\"kw\">Q.23</span>）。<br/>⑥ 皮脂の主成分は<span class=\"kw\">トリグリセリド</span>。角層細胞間脂質の主成分は<span class=\"kw\">セラミド</span>（<span class=\"kw\">Q.6</span>）——別物として区別する。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q4",
+          "qn": "Q.4",
+          "episode": "(118D-21)",
+          "rate": 93,
+          "rate_cls": "ch",
+          "rate_text": "93%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "21歳の女性。<span class=\"kw\">顔面の皮疹</span>を主訴に来院した。<span class=\"kw\">8年前から顔面の皮疹が出現し軽快と増悪を繰り返している</span>。<span class=\"kw\">月経前に悪化する</span>ことがある。2か月前から<span class=\"kw\">精神的ストレスと食生活の偏り</span>があり皮疹が悪化してきた。<span class=\"kw4\">副腎皮質ステロイド外用薬は使用していない</span>。<span class=\"kw\">瘙痒はないが、軽度の痛みがある</span>。顔面の写真を示す。<br/><strong>診断はどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　結節性痒疹",
+              "ok": false
+            },
+            {
+              "t": "ｂ　尋常性痤瘡",
+              "ok": true
+            },
+            {
+              "t": "ｃ　尋常性狼瘡",
+              "ok": false
+            },
+            {
+              "t": "ｄ　酒皶様皮膚炎",
+              "ok": false
+            },
+            {
+              "t": "ｅ　脂漏性皮膚炎",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｂ　尋常性痤瘡",
+          "ans_sub": "思春期から続く顔面の面皰・炎症性丘疹・膿疱、月経前増悪、瘙痒なし・軽度疼痛、ステロイド外用歴なし。尋常性痤瘡。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🔴 痤瘡は「毛包の詰まり」から始まる4段階",
+              "c": "<span class=\"kw3\">尋常性痤瘡〈にきび〉</span>は<span class=\"kw3\">毛包脂腺系の慢性炎症性疾患</span>で、次の4段階が順に進むことで理解できる。<br/><span class=\"kw3\">①皮脂分泌の亢進</span>——思春期以降、<span class=\"kw3\">アンドロゲン</span>が脂腺を刺激して皮脂が増える。<span class=\"kw3\">月経前に悪化する</span>のは黄体期にプロゲステロン・アンドロゲンの影響で皮脂が増えるためで、本例の記載がこれにあたる。<br/><span class=\"kw3\">②毛漏斗部の異常角化</span>——毛包の出口が角化物で栓をされ、皮脂が排出できず溜まる。これが<span class=\"kw3\">面皰〈コメド〉</span>で、出口が閉じたものが<span class=\"kw\">白色面皰（閉鎖面皰）</span>、開いて内容が酸化して黒く見えるものが<span class=\"kw\">黒色面皰（開放面皰）</span>である。<span class=\"kw3\">面皰は痤瘡に特異的な原発疹</span>で、脂漏性皮膚炎・酒皶との最大の鑑別点になる。<br/><span class=\"kw3\">③Cutibacterium acnes（旧 Propionibacterium acnes）の増殖</span>——嫌気環境になった毛包内でこの常在菌が増え、リパーゼで皮脂を分解して遊離脂肪酸を生じる。<br/><span class=\"kw3\">④炎症</span>——自然免疫が活性化し、<span class=\"kw3\">炎症性丘疹→膿疱→硬結・囊腫</span>へ進む。深く炎症が及ぶと<span class=\"kw3\">瘢痕（陥凹性瘢痕・ケロイド）と炎症後色素沈着</span>を残す。<br/><span class=\"kw3\">瘙痒がなく軽度の疼痛</span>という記載も重要で、痤瘡は湿疹群（アトピー性皮膚炎・接触皮膚炎・脂漏性皮膚炎）と違って<span class=\"kw3\">痒みではなく痛みの疾患</span>である。ここが「顔の赤いぶつぶつ」を切り分ける最初の分岐になる。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　結節性痒疹</td><td><span class=\"kw4\">激しい瘙痒を伴う孤立性のドーム状結節</span>が四肢伸側に多発するもの。掻破を繰り返して硬く隆起する。本例は<span class=\"kw4\">瘙痒が無く</span>、部位も顔面で、皮疹の形も異なる。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　尋常性痤瘡</span></td><td><span class=\"kw3\">思春期以降に脂漏部位（顔面・前胸部・背部）へ、面皰・炎症性丘疹・膿疱が混在して出る</span>。<span class=\"kw3\">8年来の慢性反復性の経過、月経前増悪、ストレス・食生活での悪化、瘙痒が無く軽度の疼痛</span>——すべて痤瘡の典型像。写真でも前額・両頰に面皰と炎症性丘疹、膿疱、炎症後色素沈着が混在している。</td></tr><tr><td>ｃ　尋常性狼瘡</td><td><span class=\"kw4\">皮膚結核の一型</span>で、顔面に緩徐に拡大する褐色調の局面をつくり、硝子圧法で<span class=\"kw\">apple jelly nodule（黄褐色の狼瘡結節）</span>を認め、中心は瘢痕化する。現在の日本では極めてまれで、面皰・膿疱が主体になることはない。</td></tr><tr><td>ｄ　酒皶様皮膚炎</td><td><span class=\"kw4\">顔面への副腎皮質ステロイド外用の長期使用が必須の前提</span>で、中止すると一時的に増悪するリバウンドが特徴（<span class=\"kw\">Q.9</span>）。本例は<span class=\"kw4\">「ステロイド外用薬は使用していない」と明記</span>されており、この一文で除外される。</td></tr><tr><td>ｅ　脂漏性皮膚炎</td><td><span class=\"kw4\">脂漏部位に黄色調の鱗屑を伴う紅斑</span>をつくる（頭部・眉間・鼻唇溝・耳介後部）。<span class=\"kw\">Malassezia</span>の関与があり抗真菌薬が有効。<span class=\"kw4\">面皰をつくらない</span>点で痤瘡と区別する。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 顔面の丘疹・膿疱を4疾患で切り分ける",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>面皰</th><th>自覚症状</th><th>決め手</th></tr><tr><td><span class=\"kw3\">尋常性痤瘡</span></td><td><span class=\"kw3\">あり（必発）</span></td><td>軽度の疼痛・瘙痒なし</td><td>思春期発症・脂漏部位・月経前増悪</td></tr><tr><td><span class=\"kw\">酒皶／酒皶様皮膚炎</span></td><td><span class=\"kw4\">なし</span></td><td>ほてり・灼熱感</td><td>中高年・鼻頰部の持続性紅斑と毛細血管拡張／<span class=\"kw3\">ステロイド外用歴</span></td></tr><tr><td><span class=\"kw\">脂漏性皮膚炎</span></td><td><span class=\"kw4\">なし</span></td><td>軽い瘙痒</td><td><span class=\"kw\">黄色調の鱗屑</span>・眉間/鼻唇溝/頭部・Malassezia</td></tr><tr><td><span class=\"kw\">口囲皮膚炎</span></td><td>なし</td><td>灼熱感</td><td>口囲に小丘疹（口唇周囲の狭い部分は空ける）</td></tr></table><span class=\"kw3\">治療は「面皰を減らす薬」と「炎症を抑える薬」を病期で使い分ける</span>。<span class=\"kw3\">アダパレン（レチノイド様）と過酸化ベンゾイル〈BPO〉が面皰・維持療法の主軸</span>で、炎症が強い時期に<span class=\"kw\">外用抗菌薬（クリンダマイシン等）・内服抗菌薬（ドキシサイクリン等）</span>を<span class=\"kw4\">耐性菌を避けるため短期（3か月程度まで）で</span>併用する。重症例には<span class=\"kw\">イソトレチノイン内服</span>があるが<span class=\"kw4\">強い催奇形性</span>のため妊娠可能女性では厳格な避妊管理が必要（国内は適応外）。<br/><span class=\"kw4\">痤瘡に副腎皮質ステロイドを外用してはならない</span>——一時的に赤みは引くが皮脂分泌と細菌増殖を助長し、長期には<span class=\"kw3\">酒皶様皮膚炎（<span class=\"kw\">Q.9</span>）</span>を招く。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">面皰があれば痤瘡</span>。面皰は痤瘡の原発疹で、酒皶・脂漏性皮膚炎にはできない。<br/>② 病態は<span class=\"kw3\">皮脂分泌↑→毛漏斗部の角化異常→C. acnes増殖→炎症</span>の4段階。<br/>③ <span class=\"kw3\">月経前増悪＝黄体期のホルモン変化</span>。ストレス・食生活も増悪因子。<br/>④ <span class=\"kw3\">瘙痒がなく疼痛</span>という点で湿疹群と切り分ける。<br/>⑤ 治療の主軸は<span class=\"kw3\">アダパレン・過酸化ベンゾイル</span>。抗菌薬は炎症期に短期併用。<br/>⑥ <span class=\"kw4\">顔面へのステロイド外用は禁忌に近い</span>——酒皶様皮膚炎の原因になる（<span class=\"kw\">Q.9</span>）。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/118D-21_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch01_q5",
+          "qn": "Q.5",
+          "episode": "(117A-31)",
+          "rate": 83,
+          "rate_cls": "ch",
+          "rate_text": "83%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "26歳の女性。<span class=\"kw\">体幹の皮疹</span>を主訴に来院した。<span class=\"kw\">半年前から四肢体幹に皮疹が出現し、徐々に増数し、それぞれの皮疹も拡大している</span>。既往に<span class=\"kw\">幼少時発症のアトピー性皮膚炎</span>がある。<span class=\"kw4\">眼疾患やてんかんはない</span>。頸部、体幹および四肢に同一の皮疹が多発している。<span class=\"kw\">皮疹に鱗屑はない</span>。<span class=\"kw\">痛みや痒みはない</span>。腰部の写真を示す。<br/><strong>最も考えられるのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　癜　風",
+              "ok": false
+            },
+            {
+              "t": "ｂ　体部白癬",
+              "ok": false
+            },
+            {
+              "t": "ｃ　葉状白斑",
+              "ok": false
+            },
+            {
+              "t": "ｄ　尋常性白斑",
+              "ok": true
+            },
+            {
+              "t": "ｅ　眼皮膚白皮症",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｄ　尋常性白斑",
+          "ans_sub": "26歳・半年前からの後天性で進行性、境界明瞭な完全脱色素斑、鱗屑なし・無症状、アトピー性皮膚炎の既往、てんかんなし。尋常性白斑。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "⚪ 尋常性白斑——メラノサイトが「消える」自己免疫",
+              "c": "<span class=\"kw3\">尋常性白斑〈vitiligo〉</span>は<span class=\"kw3\">後天的に表皮のメラノサイトが破壊・消失し、境界明瞭な完全脱色素斑を生じる</span>疾患である。有病率は約1%と決してまれではなく、多くは10〜30歳代に発症する。主要な機序は<span class=\"kw3\">メラノサイトに対する自己免疫（CD8陽性T細胞による傷害）</span>と考えられており、これを裏づけるように<span class=\"kw3\">橋本病・Basedow病・1型糖尿病・悪性貧血・円形脱毛症・Addison病</span>などの自己免疫疾患を合併しやすい。<span class=\"kw\">初診時に甲状腺機能（TSH・FT4）と抗甲状腺抗体を確認する</span>のはこのためである。本例が<span class=\"kw\">アトピー性皮膚炎</span>を併存しているのも、免疫学的素因という点で矛盾しない。<br/>臨床の型は、<span class=\"kw3\">汎発型（全身に非対称〜対称性に多発し、進行性）</span>と<span class=\"kw3\">分節型（デルマトームに沿って片側性、小児発症が多く進行が止まりやすい）</span>に大別される。本例は<span class=\"kw3\">頸部・体幹・四肢に多発し増数・拡大している＝汎発型</span>である。また<span class=\"kw3\">Köbner現象（機械的刺激を受けた部位に新たな白斑ができる）</span>を示すことがあり、ベルトや下着で擦れる<span class=\"kw\">腰部</span>に好発するのはこのためで、写真の部位選択にも意味がある。<br/>鑑別の要点は<span class=\"kw3\">「鱗屑の有無」と「完全脱色素かどうか」</span>である。<span class=\"kw3\">鱗屑があれば癜風・体部白癬（＝真菌症）を疑ってKOH直接鏡検を行う</span>（<span class=\"kw\">Q.15</span>）。鱗屑が無く<span class=\"kw3\">Wood灯で白く強く光る（完全脱色素）</span>なら尋常性白斑で、ぼんやりとしか光らない不完全脱色素なら葉状白斑・炎症後色素脱失を考える。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　癜　風</td><td><span class=\"kw4\">Malassezia</span>による表在性真菌症で、体幹に淡褐色〜脱色素性の斑を生じる。ただし<span class=\"kw4\">表面に粃糠様の細かい鱗屑を伴い、擦ると鱗屑が目立つ</span>のが特徴で、<span class=\"kw\">KOH直接鏡検で「spaghetti and meatballs」像</span>を認める。本例は鱗屑が無い。</td></tr><tr><td>ｂ　体部白癬</td><td><span class=\"kw4\">環状に拡大し、辺縁が堤防状に隆起して鱗屑・小水疱を伴う</span>のが典型で、通常<span class=\"kw4\">瘙痒を伴う</span>。中心は治癒傾向を示す。本例は鱗屑も痒みも無く、脱色素斑である点が合わない。</td></tr><tr><td>ｃ　葉状白斑</td><td><span class=\"kw3\">結節性硬化症の最早期徴候</span>で、<span class=\"kw4\">出生時〜乳児期から存在</span>し、木の葉状（ash-leaf spot）の<span class=\"kw4\">不完全な脱色素斑</span>である。<span class=\"kw4\">てんかん・知的障害・顔面血管線維腫を伴う</span>。本例は26歳で半年前からの後天性発症、しかも眼疾患・てんかんが明確に否定されている。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　尋常性白斑</span></td><td><span class=\"kw3\">後天性・進行性に拡大する境界明瞭な完全脱色素斑</span>で、<span class=\"kw3\">鱗屑なし・自覚症状なし</span>。写真の腰部にも辺縁が地図状で境界明瞭な乳白色斑がみられる。<span class=\"kw3\">アトピー性皮膚炎など自己免疫・アトピー素因の合併</span>も矛盾しない。</td></tr><tr><td>ｅ　眼皮膚白皮症</td><td><span class=\"kw4\">先天性・全身性</span>のメラニン合成障害（チロシナーゼ欠損など、<span class=\"kw\">Q.3</span>）で、<span class=\"kw4\">皮膚も毛髪も全身が白く、眼振・羞明・視力低下を伴う</span>。「半年前から出現し増数・拡大」という後天性の経過と相容れない。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 白い斑を見たときの鑑別表",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>発症</th><th>鱗屑</th><th>脱色素</th><th>決め手</th></tr><tr><td><span class=\"kw3\">尋常性白斑</span></td><td>後天性・進行性</td><td><span class=\"kw3\">なし</span></td><td><span class=\"kw3\">完全</span></td><td>境界明瞭・無症状・自己免疫合併・Köbner現象</td></tr><tr><td>癜風</td><td>後天性・夏に増悪</td><td><span class=\"kw\">粃糠様にあり</span></td><td>不完全</td><td>Malassezia・<span class=\"kw\">KOHでspaghetti and meatballs</span></td></tr><tr><td>体部白癬</td><td>後天性</td><td><span class=\"kw\">辺縁に鱗屑</span></td><td>—（環状紅斑）</td><td>辺縁隆起・中心治癒・<span class=\"kw\">瘙痒あり</span>・KOHで菌糸</td></tr><tr><td>葉状白斑</td><td><span class=\"kw\">先天〜乳児期</span></td><td>なし</td><td>不完全</td><td><span class=\"kw3\">結節性硬化症</span>＝てんかん・知的障害・顔面血管線維腫・シャグリンパッチ</td></tr><tr><td>眼皮膚白皮症</td><td><span class=\"kw\">先天性・全身</span></td><td>なし</td><td>完全（全身）</td><td>白毛・<span class=\"kw\">眼振・羞明</span>・チロシナーゼ欠損</td></tr><tr><td>炎症後色素脱失</td><td>皮膚炎の後</td><td>なし</td><td>不完全</td><td>先行する炎症・境界不明瞭・自然回復</td></tr></table><span class=\"kw3\">治療</span>は、限局例には<span class=\"kw3\">ステロイド外用・タクロリムス外用（顔面に有用）・活性型ビタミンD3外用</span>、広範囲・進行例には<span class=\"kw3\">ナローバンドUVB療法やPUVA療法</span>（<span class=\"kw\">Q.19</span>）を用いる。安定した限局例には植皮などの外科的治療もある。<span class=\"kw4\">脱色素部は日焼けしやすく紫外線障害を受けやすい</span>ため<span class=\"kw\">遮光の指導が必須</span>で、整容面の負担が大きいことから心理的支援も治療の一部になる。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 尋常性白斑＝<span class=\"kw3\">後天性のメラノサイト消失による完全脱色素斑</span>。鱗屑なし・無症状。<br/>② 機序は<span class=\"kw3\">自己免疫</span>。<span class=\"kw3\">甲状腺疾患をはじめ自己免疫疾患の合併を必ずチェック</span>。<br/>③ <span class=\"kw3\">鱗屑があれば真菌症（癜風・白癬）を疑いKOH直接鏡検</span>。<br/>④ <span class=\"kw3\">葉状白斑は先天性・不完全脱色素・結節性硬化症</span>——てんかんの有無が分岐点。本問はこれを明示的に否定している。<br/>⑤ <span class=\"kw3\">Wood灯</span>で完全脱色素は白く強く光る。<br/>⑥ 治療＝ステロイド／タクロリムス外用・<span class=\"kw3\">ナローバンドUVB・PUVA</span>。遮光指導を忘れない。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/117A-31_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch01_q6",
+          "qn": "Q.6",
+          "episode": "(117C-10)",
+          "rate": 36,
+          "rate_cls": "cl",
+          "rate_text": "36%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            }
+          ],
+          "qt": "<strong><span class=\"kw\">角層細胞間脂質</span>を構成するのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　ケラチン",
+              "ok": false
+            },
+            {
+              "t": "ｂ　セラミド",
+              "ok": true
+            },
+            {
+              "t": "ｃ　アミロイド",
+              "ok": false
+            },
+            {
+              "t": "ｄ　デスモソーム",
+              "ok": false
+            },
+            {
+              "t": "ｅ　ヘミデスモソーム",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｂ　セラミド",
+          "ans_sub": "角層細胞間脂質＝セラミド（約50%）＋コレステロール＋遊離脂肪酸がラメラ構造をつくる。ケラチンはタンパク、デスモソーム／ヘミデスモソームは接着装置、アミロイドは病的沈着物。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🧱 レンガとモルタル——角層バリアの実体",
+              "c": "角層は<span class=\"kw3\">「レンガとモルタル（brick and mortar）」</span>にたとえられる。<span class=\"kw3\">レンガ＝角質細胞（死んだケラチノサイト。中はケラチン線維とフィラグリン由来の天然保湿因子で満たされる）</span>、<span class=\"kw3\">モルタル＝角層細胞間脂質</span>である。この<span class=\"kw3\">モルタルの主成分がセラミド（約50%）</span>で、ここに<span class=\"kw3\">コレステロール（約25%）と遊離脂肪酸（約15%）</span>が加わり、水層と脂質層が交互に重なった<span class=\"kw3\">ラメラ構造</span>をつくる。この層板構造こそが<span class=\"kw3\">経表皮水分喪失〈TEWL〉を防ぎ、アレルゲン・微生物の侵入を阻む皮膚バリアの本体</span>である。<br/>セラミドは<span class=\"kw3\">顆粒層のケラチノサイトがもつ層板顆粒〈ラメラ顆粒／Odland小体〉</span>から顆粒層と角層の境目に分泌されて作られる。つまり<span class=\"kw3\">「バリアを作っているのは顆粒層、バリアとして働いているのは角層」</span>という分業になっており、「保湿に最も重要なのはどの層か」を問う<span class=\"kw\">Q.13</span>の答えが角層になるのはこのためである。<br/>臨床との接点は明快で、<span class=\"kw3\">アトピー性皮膚炎ではセラミドが減少し、さらにフィラグリン遺伝子変異が加わるとバリアが二重に破綻</span>する。すると水分が逃げて乾燥し、外からアレルゲンが入りやすくなり、<span class=\"kw3\">経皮感作 →Ⅱ型炎症 →掻破 →さらなるバリア破壊</span>という悪循環が回る。だからアトピー性皮膚炎の治療で<span class=\"kw3\">保湿剤（ヘパリン類似物質・尿素・セラミド含有製剤）が抗炎症薬と並ぶ柱</span>になり、寛解維持にも用いられる。<br/>正答率36%と低いのは、<span class=\"kw4\">「脂質を問われているのにタンパク・構造の名前を選んでしまう」</span>ためで、まず<span class=\"kw3\">脂質はセラミドだけ</span>と気づけば一択になる。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　ケラチン</td><td><span class=\"kw4\">角化細胞の細胞内にある中間径フィラメント（線維状タンパク）</span>で、皮膚の物理的強度を担う。<span class=\"kw4\">脂質ではない</span>ため設問の答えにならない。ケラチン遺伝子の異常は単純型表皮水疱症・表皮融解性魚鱗癬などの原因になる。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　セラミド</span></td><td><span class=\"kw3\">角層細胞間脂質の約50%を占める主成分</span>のスフィンゴ脂質。<span class=\"kw3\">コレステロール・遊離脂肪酸とともにラメラ（層板）構造</span>をつくり、角質細胞の隙間を埋めて<span class=\"kw3\">水分の喪失と異物侵入を防ぐ</span>。<span class=\"kw3\">アトピー性皮膚炎ではセラミドが減少</span>してバリアが壊れている。</td></tr><tr><td>ｃ　アミロイド</td><td><span class=\"kw4\">βシート構造をとる異常タンパクの沈着物</span>で、正常な皮膚の構成成分ではない。皮膚では<span class=\"kw\">アミロイド苔癬・斑状アミロイドーシス</span>などで真皮乳頭に沈着し、Congo red染色で偏光顕微鏡下に黄緑色の複屈折を示す。</td></tr><tr><td>ｄ　デスモソーム</td><td><span class=\"kw4\">ケラチノサイトどうしを留める細胞間接着装置（タンパク複合体）</span>で、<span class=\"kw\">デスモグレイン・デスモコリン</span>から成る（<span class=\"kw\">Q.23</span>）。脂質ではなく、しかも角層では分解されて<span class=\"kw\">コルネオデスモソーム</span>として落屑に関与する。</td></tr><tr><td>ｅ　ヘミデスモソーム</td><td><span class=\"kw4\">表皮基底細胞と基底膜を留める接着装置</span>（<span class=\"kw\">Q.3・Q.23</span>）。角層とは位置がまったく違ううえ、これも脂質ではない。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 角層まわりの用語を「何でできているか」で仕分ける",
+              "c": "<table class=\"tb\"><tr><th>用語</th><th>正体</th><th>場所・役割</th></tr><tr><td><span class=\"kw3\">セラミド</span></td><td><span class=\"kw3\">脂質</span>（スフィンゴ脂質）</td><td><span class=\"kw3\">角層細胞間</span>・バリアの主役・アトピーで減少</td></tr><tr><td>コレステロール／遊離脂肪酸</td><td>脂質</td><td>角層細胞間・セラミドとラメラ構造をつくる</td></tr><tr><td><span class=\"kw\">ケラチン</span></td><td>タンパク（中間径フィラメント）</td><td>角化細胞<span class=\"kw\">内</span>・強度</td></tr><tr><td><span class=\"kw\">フィラグリン</span></td><td>タンパク</td><td>顆粒層で作られ、分解されて<span class=\"kw3\">天然保湿因子〈NMF〉</span>になる</td></tr><tr><td>ケラトヒアリン顆粒</td><td>プロフィラグリン等</td><td><span class=\"kw\">顆粒層</span>に出現・角化のマーカー</td></tr><tr><td>層板顆粒（Odland小体）</td><td>脂質を含む顆粒</td><td>顆粒層→<span class=\"kw3\">セラミドを分泌</span></td></tr><tr><td><span class=\"kw\">デスモソーム</span></td><td>タンパク複合体</td><td>細胞<span class=\"kw\">間</span>接着・尋常性天疱瘡</td></tr><tr><td><span class=\"kw\">ヘミデスモソーム</span></td><td>タンパク複合体</td><td>基底細胞⇔基底膜・水疱性類天疱瘡</td></tr></table><span class=\"kw3\">皮膚の「保湿三本柱」</span>も整理しておく。<span class=\"kw3\">①角層細胞間脂質（セラミド）</span>＝水を挟み込んで逃がさない。<span class=\"kw3\">②天然保湿因子〈NMF〉</span>＝角質細胞内のアミノ酸・尿素・PCAなどで水を抱え込む。<span class=\"kw3\">③皮脂膜</span>＝皮脂と汗が乳化した表面の膜で蒸発を抑える。このうち<span class=\"kw4\">最も寄与が大きいのは①と②で、皮脂膜の寄与は限定的</span>であることも押さえておくとよい。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">角層細胞間脂質＝セラミド＋コレステロール＋遊離脂肪酸</span>。主成分はセラミド（約50%）。<br/>② 構造は<span class=\"kw3\">「レンガ（角質細胞）とモルタル（細胞間脂質）」＋ラメラ構造</span>。<br/>③ セラミドは<span class=\"kw3\">顆粒層の層板顆粒から分泌</span>される。作るのは顆粒層、働くのは角層。<br/>④ <span class=\"kw3\">アトピー性皮膚炎＝セラミド減少＋フィラグリン変異</span>によるバリア破綻。保湿が治療の柱。<br/>⑤ <span class=\"kw4\">ケラチン・デスモソーム・ヘミデスモソームはタンパク</span>で脂質ではない——これが正答率36%の落とし穴。<br/>⑥ 皮脂の主成分（トリグリセリド等）と角層細胞間脂質は別物（<span class=\"kw\">Q.3</span>）。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q7",
+          "qn": "Q.7",
+          "episode": "(114A-41)",
+          "rate": 90,
+          "rate_cls": "ch",
+          "rate_text": "90%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "1歳の男児。<span class=\"kw\">体幹の紅斑と色素斑</span>を主訴に母親に連れられて来院した。<span class=\"kw\">生後4か月から入浴後に頸部と体幹に瘙痒を伴う紅斑と膨疹が出現する</span>ようになったため受診した。頸部と体幹に径2cm大までの色素斑と浸潤性紅斑の散在を認める。<span class=\"kw\">色素斑部を擦過すると数分後に膨疹を生じる</span>。皮膚生検で<span class=\"kw\">真皮内にトルイジンブルー染色で赤紫色顆粒を含有する細胞の稠密な浸潤</span>を認める。体幹の写真を示す。<br/><strong>考えられる診断はどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　Sweet 病",
+              "ok": false
+            },
+            {
+              "t": "ｂ　急性痒疹",
+              "ok": false
+            },
+            {
+              "t": "ｃ　Quincke 浮腫",
+              "ok": false
+            },
+            {
+              "t": "ｄ　色素性蕁麻疹",
+              "ok": true
+            },
+            {
+              "t": "ｅ　アトピー性皮膚炎",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｄ　色素性蕁麻疹",
+          "ans_sub": "色素斑を擦過すると数分後に膨疹＝Darier徴候陽性。トルイジンブルー異染性顆粒をもつ細胞＝肥満細胞の真皮内稠密浸潤。色素性蕁麻疹（皮膚肥満細胞症）。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🟤 色素性蕁麻疹——「擦ると腫れる茶色い斑」",
+              "c": "<span class=\"kw3\">色素性蕁麻疹〈urticaria pigmentosa〉</span>は<span class=\"kw3\">皮膚肥満細胞症のうち最も頻度の高い型</span>で、<span class=\"kw3\">真皮内に肥満細胞が異常に集積した状態</span>である。多くは<span class=\"kw3\">乳幼児期（生後6か月まで）に発症</span>し、体幹を中心に<span class=\"kw\">径数mm〜2cm程度の褐色斑・褐色調の局面</span>が多発する。名前に「蕁麻疹」とあるが、通常の蕁麻疹のように出没するのではなく、<span class=\"kw3\">普段は褐色の色素斑として持続し、刺激されたときだけ膨疹化する</span>のが本態である。<br/>機序はこうである。集積した肥満細胞に<span class=\"kw3\">機械的擦過・温熱（入浴）・摩擦</span>といった物理的刺激が加わると、<span class=\"kw3\">脱顆粒が起きてヒスタミンが放出</span>される。ヒスタミンがH1受容体を介して<span class=\"kw3\">血管透過性亢進と血管拡張</span>を起こし、数分のうちにその部位が<span class=\"kw3\">膨疹（＋周囲の発赤）</span>になる——これが<span class=\"kw3\">Darier徴候</span>で、色素性蕁麻疹・肥満細胞腫にほぼ特異的な所見である。本例が「<span class=\"kw3\">生後4か月から入浴後に</span>紅斑と膨疹が出る」というのも、入浴の温熱と摩擦が脱顆粒の引き金になっているためで、病歴そのものが機序を語っている。<br/>確定は<span class=\"kw3\">皮膚生検</span>で行う。<span class=\"kw3\">肥満細胞の顆粒はヘパリンなど酸性ムコ多糖に富むため、トルイジンブルーで青ではなく赤紫に染まる（異染性〈メタクロマジー〉）</span>。本問の「トルイジンブルー染色で赤紫色顆粒」という一文は、<span class=\"kw3\">「その細胞は肥満細胞である」と名指ししている</span>のと同じである。<span class=\"kw\">ギムザ染色でも異染性を示し、免疫染色ではc-kit〈CD117〉・トリプターゼが陽性</span>になる。<br/>小児発症例は<span class=\"kw3\">思春期までに自然消退することが多く予後良好</span>である。一方<span class=\"kw4\">成人発症例は全身性肥満細胞症（骨髄・肝脾・消化管の浸潤）を伴うことがある</span>ため、<span class=\"kw\">血清トリプターゼ値</span>などで全身検索を検討する。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　Sweet 病</td><td><span class=\"kw4\">発熱・有痛性の浮腫性紅斑・末梢血好中球増多</span>を三徴とする急性熱性好中球性皮膚症。病理では<span class=\"kw4\">真皮上層への好中球の稠密な浸潤</span>で、肥満細胞ではない。骨髄異形成症候群などの合併に注意する疾患。</td></tr><tr><td>ｂ　急性痒疹</td><td><span class=\"kw4\">虫刺されなどを契機に生じる、強い瘙痒を伴う漿液性丘疹</span>。個々の皮疹は独立した丘疹で、<span class=\"kw4\">擦過で膨疹を生じるという再現性のある反応は示さない</span>。</td></tr><tr><td>ｃ　Quincke 浮腫</td><td><span class=\"kw\">血管性浮腫</span>のこと。<span class=\"kw4\">真皮深層〜皮下の限局性浮腫</span>で、眼瞼・口唇に多く、<span class=\"kw4\">瘙痒に乏しく圧痕を残さず、数日で消退</span>する。色素斑を残さない。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　色素性蕁麻疹</span></td><td><span class=\"kw3\">小児の皮膚肥満細胞症の代表型</span>。<span class=\"kw3\">褐色の色素斑を擦過すると数分で膨疹化する＝Darier徴候陽性</span>（<span class=\"kw\">Q.25</span>）が決定的で、病理の<span class=\"kw3\">トルイジンブルーで赤紫色に異染性を示す顆粒をもつ細胞＝肥満細胞</span>の稠密浸潤が裏づける。<span class=\"kw3\">入浴（温熱・摩擦）で誘発される</span>のも典型。</td></tr><tr><td>ｅ　アトピー性皮膚炎</td><td><span class=\"kw4\">慢性反復性の湿疹病変</span>が年齢に応じた分布（乳児は顔・頭、幼児以降は四肢屈側）で出る。<span class=\"kw4\">色素斑を擦過して膨疹が出るという特異的反応はない</span>し、病理も肥満細胞浸潤ではなく海綿状態を伴う湿疹反応である。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 治療と「してはいけないこと」／Darier徴候の位置づけ",
+              "c": "<table class=\"tb\"><tr><th>項目</th><th>内容</th></tr><tr><td><span class=\"kw3\">診断</span></td><td><span class=\"kw3\">Darier徴候</span>＋生検（<span class=\"kw3\">トルイジンブルー異染性</span>・c-kit/トリプターゼ）</td></tr><tr><td><span class=\"kw3\">治療</span></td><td>対症的。<span class=\"kw3\">抗ヒスタミン薬</span>、症状が強ければクロモグリク酸内服。小児例は<span class=\"kw3\">経過観察で自然消退</span></td></tr><tr><td><span class=\"kw4\">避けるべき誘因</span></td><td><span class=\"kw4\">熱い風呂・激しい摩擦・急激な温度変化</span>／<span class=\"kw4\">アスピリン等NSAIDs・造影剤・コデインなどオピオイド・筋弛緩薬</span>（脱顆粒を誘発）</td></tr><tr><td><span class=\"kw4\">重症合併症</span></td><td>広範な脱顆粒による<span class=\"kw4\">フラッシング・低血圧・アナフィラキシー様症状</span></td></tr><tr><td>予後</td><td>小児発症は<span class=\"kw3\">思春期までに軽快</span>／成人発症は全身性肥満細胞症の検索を</td></tr></table>国試で並べて問われる<span class=\"kw3\">「〜徴候・〜現象」</span>は必ずセットで覚える（<span class=\"kw\">Q.25</span>で再出）。<span class=\"kw3\">Darier徴候＝擦過で膨疹（色素性蕁麻疹・肥満細胞腫）</span>、<span class=\"kw3\">Auspitz現象＝鱗屑を剝がすと点状出血（乾癬）</span>、<span class=\"kw3\">Köbner現象＝刺激部位に同じ皮疹（乾癬・扁平苔癬・尋常性白斑）</span>、<span class=\"kw3\">Nikolsky現象＝健常部の擦過で表皮が剝離（天疱瘡・SSSS・TEN）</span>。なお<span class=\"kw4\">Darier徴候とDarier病はまったく別物</span>で、Darier病は毛孔一致性の角化性丘疹を脂漏部位に生じる遺伝性角化症（<span class=\"kw\">Q.12</span>の肢c）である。混同しないこと。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">Darier徴候（擦過で膨疹）＝色素性蕁麻疹・肥満細胞腫</span>。ほぼ特異的。<br/>② 病理は<span class=\"kw3\">真皮内の肥満細胞浸潤</span>。<span class=\"kw3\">トルイジンブルーで赤紫（異染性）</span>、c-kit・トリプターゼ陽性。<br/>③ 誘因は<span class=\"kw3\">入浴（温熱）・摩擦・機械的刺激</span>。<span class=\"kw4\">NSAIDs・造影剤・オピオイドは脱顆粒を誘発</span>するので注意。<br/>④ 小児発症は<span class=\"kw3\">思春期までに自然消退</span>し予後良好。成人発症は全身性肥満細胞症を検索する。<br/>⑤ 肥満細胞は<span class=\"kw3\">真皮</span>にある（表皮内ではない、<span class=\"kw\">Q.1</span>）。浸潤細胞の組合せは<span class=\"kw\">Q.20</span>で再出。<br/>⑥ <span class=\"kw4\">Darier徴候とDarier病は別物</span>。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/114A-41_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch01_q8",
+          "qn": "Q.8",
+          "episode": "(113A-8)",
+          "rate": 39,
+          "rate_cls": "cl",
+          "rate_text": "39%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            }
+          ],
+          "qt": "<strong><span class=\"kw\">妊娠10週</span>の<span class=\"kw\">尋常性乾癬</span>患者に対する治療法で最も適切なのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　内服PUVA 療法",
+              "ok": false
+            },
+            {
+              "t": "ｂ　生物学的製剤注射",
+              "ok": false
+            },
+            {
+              "t": "ｃ　ビタミンA 誘導体内服",
+              "ok": false
+            },
+            {
+              "t": "ｄ　活性型ビタミンD3 外用",
+              "ok": false
+            },
+            {
+              "t": "ｅ　副腎皮質ステロイド外用",
+              "ok": true
+            }
+          ],
+          "ans_label": "ｅ　副腎皮質ステロイド外用",
+          "ans_sub": "妊娠初期の乾癬。内服PUVA・ビタミンA誘導体内服（催奇形性）・活性型ビタミンD3外用・生物学的製剤はいずれも妊婦では避けるか第一選択にならない。全身移行の少ない副腎皮質ステロイド外用が最も適切。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🤰 妊婦の皮膚科治療は「全身に回らないもの」から選ぶ",
+              "c": "妊娠中の薬物選択の原則は単純で、<span class=\"kw3\">①胎児へ届く量が少ないもの（外用＞内服・注射）、②ヒトでの安全性データが蓄積しているもの、③母体の疾患コントロールに必要な最小限</span>——この順で考える。<span class=\"kw3\">乾癬は生命を脅かす疾患ではない</span>ので、妊娠中はコントロールを緩めてでも胎児への安全を優先してよい、という価値判断が前提になる。<br/>尋常性乾癬の治療は通常、<span class=\"kw\">外用（ステロイド・活性型ビタミンD3・両者の配合剤）→ 光線療法（ナローバンドUVB・PUVA）→ 内服（シクロスポリン・エトレチナート・アプレミラスト）→ 生物学的製剤</span>とステップアップする。この階段を妊娠というフィルターに通すと、多くが落ちる。<span class=\"kw4\">エトレチナート（ビタミンA誘導体）は代表的な催奇形性薬</span>で、脂溶性のため体内に長期間残り、<span class=\"kw4\">女性は投与終了後2年間の避妊</span>が求められる。<span class=\"kw4\">メトトレキサートも催奇形性・流産のリスクがあり妊娠中は禁忌</span>である。<span class=\"kw4\">ソラレン内服＝内服PUVA</span>も妊娠中は避ける。<span class=\"kw4\">活性型ビタミンD3外用</span>は外用ではあるが高カルシウム血症の懸念から妊娠中の安全性が確立しておらず、積極的には選ばない。<br/>残るのが<span class=\"kw3\">副腎皮質ステロイド外用</span>である。外用ステロイドは<span class=\"kw3\">経皮吸収されて全身に回る量がごくわずか</span>で、妊娠中の使用について長い臨床経験と疫学データがあり、<span class=\"kw3\">通常量では先天異常のリスク上昇は示されていない</span>。（<span class=\"kw\">大量・長期の strong 以上の外用では低出生体重との関連が指摘される</span>ため、必要最小限にとどめる、という但し書きは付く。）したがって<span class=\"kw3\">妊婦の乾癬に対して最も適切なのはステロイド外用</span>となる。<br/>なお臨床的な補足として、<span class=\"kw\">乾癬は妊娠中にむしろ軽快することが多く（約半数）、産後に増悪しやすい</span>。この自然経過も、妊娠中は治療を強めない判断を後押しする。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　内服PUVA 療法</td><td><span class=\"kw4\">光感受性物質ソラレン〈psoralen〉の内服は妊娠中は避ける</span>。加えて内服PUVAは<span class=\"kw4\">悪心・肝への負担・長期の発癌リスク・眼保護の必要</span>があり、妊婦の第一選択にはならない。光線療法を選ぶなら<span class=\"kw\">ナローバンドUVB</span>のほうが妊娠中も安全性が高い。</td></tr><tr><td>ｂ　生物学的製剤注射</td><td>TNF-α阻害薬・IL-17／IL-23阻害薬などは<span class=\"kw4\">重症・難治例に用いる薬で、軽症〜中等症の第一選択ではない</span>。IgG製剤は<span class=\"kw4\">妊娠中期以降に経胎盤移行が増える</span>ため、妊娠中の使用は適応・時期を厳密に検討したうえでの選択肢であり、本問の「最も適切」にはあたらない。</td></tr><tr><td>ｃ　ビタミンA 誘導体内服</td><td><span class=\"kw4\">エトレチナートは強い催奇形性をもち妊婦には絶対禁忌</span>。脂溶性で体内に長く残るため、<span class=\"kw4\">女性では投与終了後2年間の避妊</span>が必要とされる。妊娠中に投与する選択肢ではない。</td></tr><tr><td>ｄ　活性型ビタミンD3 外用</td><td>非妊娠時には乾癬外用療法の柱の一つだが、<span class=\"kw4\">高カルシウム血症のリスクがあり、妊娠中の安全性が確立していない</span>ため妊婦には積極的に選ばない。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　副腎皮質ステロイド外用</span></td><td><span class=\"kw3\">外用薬は全身移行が少なく、妊娠中の乾癬治療で最も安全性の裏づけがある</span>。<span class=\"kw3\">必要最小限の強さ・量・期間で用いれば妊娠中も継続でき、第一選択となる</span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 妊娠中に使えるもの／使えないもの（皮膚科）",
+              "c": "<table class=\"tb\"><tr><th>区分</th><th>薬剤・治療</th><th>妊娠中の扱い</th></tr><tr><td rowspan=\"3\"><span class=\"kw3\">使える</span></td><td><span class=\"kw3\">副腎皮質ステロイド外用</span></td><td><span class=\"kw3\">第一選択</span>。必要最小限の強さ・量で</td></tr><tr><td>白色ワセリン等の保湿</td><td>制限なし</td></tr><tr><td><span class=\"kw\">ナローバンドUVB</span></td><td>ソラレンを使わないため妊娠中も比較的安全</td></tr><tr><td rowspan=\"4\"><span class=\"kw4\">避ける／禁忌</span></td><td><span class=\"kw4\">エトレチナート（ビタミンA誘導体）</span></td><td><span class=\"kw4\">催奇形性・禁忌。女性は中止後2年間避妊</span></td></tr><tr><td><span class=\"kw4\">メトトレキサート</span></td><td><span class=\"kw4\">催奇形性・流産・禁忌</span></td></tr><tr><td><span class=\"kw4\">内服PUVA（ソラレン）</span></td><td>避ける</td></tr><tr><td>活性型ビタミンD3外用・生物学的製剤</td><td>安全性未確立／重症例に限り慎重に検討</td></tr></table><span class=\"kw3\">尋常性乾癬そのもの</span>も押さえておく。<span class=\"kw3\">境界明瞭な紅斑に銀白色の厚い鱗屑</span>が付着する慢性炎症性角化症で、<span class=\"kw\">頭部・肘頭・膝蓋・仙骨部など刺激を受ける部位</span>に好発する。病理は<span class=\"kw3\">錯角化（不全角化）・顆粒層の消失・表皮突起の延長・Munro微小膿瘍</span>。所見としては<span class=\"kw3\">Auspitz現象（鱗屑を剝がすと点状出血）</span>と<span class=\"kw3\">Köbner現象</span>が有名で、<span class=\"kw\">爪の点状陥凹</span>や<span class=\"kw\">乾癬性関節炎（DIP関節・仙腸関節）</span>を合併しうる。本態はIL-23／Th17を軸としたT細胞性の炎症で、ターンオーバーが約4週間から数日へ短縮している。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 妊婦の乾癬の第一選択は<span class=\"kw3\">副腎皮質ステロイド外用</span>——全身移行が少ないから。<br/>② <span class=\"kw4\">エトレチナート・メトトレキサートは催奇形性で禁忌</span>。エトレチナートは<span class=\"kw3\">中止後2年間の避妊</span>。<br/>③ <span class=\"kw4\">内服PUVA（ソラレン）は妊娠中避ける</span>。光線療法なら<span class=\"kw3\">ナローバンドUVB</span>。<br/>④ 活性型ビタミンD3外用は<span class=\"kw4\">妊娠中の安全性が未確立</span>で第一選択にしない。<br/>⑤ 生物学的製剤は<span class=\"kw4\">重症・難治例の薬</span>で、妊娠中の軽症例に選ぶ薬ではない。<br/>⑥ <span class=\"kw\">乾癬は妊娠中に軽快しやすく産後に増悪</span>しやすい。正答率39%＝「効きそうな薬」を選んでしまう問題。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q9",
+          "qn": "Q.9",
+          "episode": "(113C-36)",
+          "rate": 93,
+          "rate_cls": "ch",
+          "rate_text": "93%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bc",
+              "t": "CBT"
+            },
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "47歳の女性。<span class=\"kw\">顔面の皮疹</span>を主訴に来院した。<span class=\"kw\">2か月前から自宅近くの診療所で顔面の皮疹に対し外用薬が処方され、使用しているうちに新たな皮疹が出現してきた</span>という。<span class=\"kw\">口周囲、頰部に丘疹、膿疱</span>を認める。顔面の写真を示す。<br/><strong>この皮疹の原因と考えられる<span class=\"kw\">外用薬</span>はどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　抗菌薬",
+              "ok": false
+            },
+            {
+              "t": "ｂ　抗真菌薬",
+              "ok": false
+            },
+            {
+              "t": "ｃ　過酸化ベンゾイル",
+              "ok": false
+            },
+            {
+              "t": "ｄ　活性型ビタミンD3",
+              "ok": false
+            },
+            {
+              "t": "ｅ　副腎皮質ステロイド",
+              "ok": true
+            }
+          ],
+          "ans_label": "ｅ　副腎皮質ステロイド",
+          "ans_sub": "顔面へのステロイド外用を2か月続けるうちに口囲・頰へ丘疹・膿疱が新生。酒皶様皮膚炎（ステロイド酒皶）で、原因は副腎皮質ステロイド外用薬。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💊 酒皶様皮膚炎——「効くから続ける」が病気を作る",
+              "c": "<span class=\"kw3\">酒皶様皮膚炎〈steroid rosacea／ステロイド酒皶〉</span>は、<span class=\"kw3\">顔面へ副腎皮質ステロイドを長期外用した結果として生じる医原性の皮膚疾患</span>である。典型例は本問そのままで、<span class=\"kw3\">何らかの顔面の皮疹にステロイドが処方され、数週〜数か月使ううちに口囲・鼻唇溝・頰に紅斑・丘疹・膿疱・毛細血管拡張が新生してくる</span>。<br/>成り立ちには<span class=\"kw3\">2つの機序</span>が絡む。<span class=\"kw3\">①皮膚の萎縮とバリア障害</span>——ステロイドは線維芽細胞のコラーゲン産生を抑え、<span class=\"kw3\">表皮も真皮も菲薄化させる</span>。結果として<span class=\"kw3\">毛細血管が透見・拡張し、皮膚は刺激に弱くなる</span>。<span class=\"kw3\">②局所免疫の抑制による微生物の増殖</span>——<span class=\"kw\">毛包虫〈Demodex〉やC. acnes</span>が増えやすい環境になり、毛包性の丘疹・膿疱が生じる。<br/>この病態でやっかいなのが<span class=\"kw3\">リバウンド</span>である。ステロイドは血管収縮作用で一時的に赤みを消すため、中止すると<span class=\"kw3\">数日で反跳性に紅斑・熱感・丘疹が強く出る</span>。患者はこれを「やめたら悪化した＝薬が必要だ」と解釈して再開してしまい、<span class=\"kw4\">「塗る→よくなる→やめる→悪化する→また塗る」という依存的な悪循環</span>が完成する。このため治療は<span class=\"kw3\">原因のステロイドを中止（強いものを使っていた場合は段階的に減量）し、リバウンドが起きることを事前に説明したうえで、抗菌薬（メトロニダゾール外用・ミノサイクリンやドキシサイクリンの内服）で乗り切る</span>という組み立てになる。<span class=\"kw3\">「必ず一時的に悪くなる。それを越えれば治る」と最初に伝えておくこと</span>が治療成功の最大の鍵で、説明なしに中止すると患者は自己判断で再開してしまう。<br/>予防が何より重要で、<span class=\"kw4\">顔面には原則として strong 以上のステロイドを長期外用しない</span>。顔面で長期の抗炎症が必要なときは<span class=\"kw3\">タクロリムス軟膏やデルゴシチニブ軟膏などの非ステロイド系外用薬</span>へ切り替える。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　抗菌薬</td><td>クリンダマイシン・ナジフロキサシンなどは<span class=\"kw4\">痤瘡や酒皶の炎症性皮疹を「治す」側の薬</span>。長期使用による耐性菌の問題はあるが、丘疹・膿疱を新たに作り出す薬ではない。</td></tr><tr><td>ｂ　抗真菌薬</td><td><span class=\"kw4\">脂漏性皮膚炎・顔面白癬の治療薬</span>。まれに接触皮膚炎を起こすがその場合は<span class=\"kw4\">瘙痒を伴う紅斑・鱗屑</span>であり、口囲・頰の丘疹膿疱という像にはならない。</td></tr><tr><td>ｃ　過酸化ベンゾイル</td><td><span class=\"kw4\">痤瘡治療の主軸</span>で、面皰にも炎症性皮疹にも効く。副作用は<span class=\"kw4\">刺激性接触皮膚炎（乾燥・鱗屑・ヒリヒリ感）と漂白作用</span>であって、膿疱の新生ではない。</td></tr><tr><td>ｄ　活性型ビタミンD3</td><td><span class=\"kw4\">乾癬の外用薬</span>。副作用は刺激感・高カルシウム血症で、<span class=\"kw4\">顔面に酒皶様の丘疹膿疱をつくる薬ではない</span>。そもそも顔面には刺激が強く通常使わない。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　副腎皮質ステロイド</span></td><td><span class=\"kw3\">顔面への長期外用が酒皶様皮膚炎〈ステロイド酒皶〉を起こす</span>。<span class=\"kw3\">「外用しているうちに新たな皮疹が出てきた」「口囲・頰の丘疹・膿疱」「2か月という期間」</span>——すべて典型的な経過で、原因薬はこれ以外にない。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 ステロイド外用薬の副作用と、顔面での使い方",
+              "c": "<table class=\"tb\"><tr><th>副作用</th><th>内容</th></tr><tr><td><span class=\"kw3\">酒皶様皮膚炎</span></td><td><span class=\"kw3\">顔面の長期外用</span>→口囲・頰の丘疹膿疱・毛細血管拡張。本問</td></tr><tr><td>皮膚萎縮・毛細血管拡張</td><td>真皮コラーゲンの減少。薄く光沢のある皮膚に</td></tr><tr><td>皮膚線条</td><td>腋窩・鼠径など間擦部。<span class=\"kw4\">不可逆</span></td></tr><tr><td>ステロイド痤瘡</td><td>単調な丘疹・膿疱が体幹にも</td></tr><tr><td>多毛・脱色素</td><td>局所の毛が濃くなる／色が抜ける</td></tr><tr><td><span class=\"kw4\">易感染性</span></td><td><span class=\"kw4\">白癬・カンジダ・ヘルペス・疥癬を悪化させる</span>（異型白癬＝tinea incognito）</td></tr><tr><td>全身性副作用</td><td>広範囲・長期・小児・ODT下で副腎抑制・成長障害</td></tr></table><span class=\"kw3\">部位による経皮吸収の差</span>を知っておくと使い分けが理解できる（<span class=\"kw\">Q.21</span>）。前腕内側を1としたとき、<span class=\"kw3\">陰囊は約40倍、顔面（頰）は約13倍</span>と高く、<span class=\"kw3\">掌蹠は約0.1〜0.8倍と低い</span>。つまり<span class=\"kw3\">顔面・陰部は「よく効くが副作用も出やすい」ので弱いランクを短期で</span>、<span class=\"kw3\">掌蹠は「効きにくい」ので強いランクを（必要ならODTで）</span>という合理的な使い分けになる。<span class=\"kw4\">「顔に strong を漫然と2か月」は、この原則から最も外れた処方</span>である。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">顔面へのステロイド長期外用→酒皶様皮膚炎</span>。口囲・頰の丘疹膿疱＋毛細血管拡張。<br/>② 機序は<span class=\"kw3\">皮膚萎縮・血管拡張＋局所免疫抑制によるDemodex等の増殖</span>。<br/>③ 治療は<span class=\"kw3\">原因ステロイドの中止（段階的減量）＋抗菌薬</span>。<span class=\"kw3\">リバウンドが必ず起きることを事前に説明する</span>。<br/>④ <span class=\"kw4\">顔面に strong 以上を長期外用しない</span>。代替は<span class=\"kw3\">タクロリムス軟膏</span>など。<br/>⑤ ステロイド外用の副作用＝皮膚萎縮・線条・多毛・ステロイド痤瘡・<span class=\"kw4\">易感染（tinea incognito）</span>。<br/>⑥ 痤瘡（<span class=\"kw\">Q.4</span>）は「ステロイド外用歴なし」、本問は「外用薬使用中」——<span class=\"kw3\">病歴の一文が診断を分ける</span>。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/113C-36_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch01_q10",
+          "qn": "Q.10",
+          "episode": "(113F-13)",
+          "rate": 87,
+          "rate_cls": "ch",
+          "rate_text": "87%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bc",
+              "t": "CBT"
+            }
+          ],
+          "qt": "<strong><span class=\"kw\">Langerhans 細胞</span>にみられるのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　Birbeck 顆粒",
+              "ok": true
+            },
+            {
+              "t": "ｂ　デスモソーム",
+              "ok": false
+            },
+            {
+              "t": "ｃ　メラノソーム",
+              "ok": false
+            },
+            {
+              "t": "ｄ　トノフィラメント",
+              "ok": false
+            },
+            {
+              "t": "ｅ　ケラトヒアリン顆粒",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　Birbeck 顆粒",
+          "ans_sub": "Birbeck顆粒＝Langerhans細胞に特異的なテニスラケット状の細胞内小器官。デスモソーム・トノフィラメント・ケラトヒアリン顆粒はケラチノサイト、メラノソームはメラノサイトのもの。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🎾 Birbeck顆粒——Langerhans細胞の名札",
+              "c": "<span class=\"kw3\">Langerhans細胞</span>は<span class=\"kw3\">骨髄由来で表皮の有棘層に分布する樹状の抗原提示細胞</span>であり、表皮細胞の約2〜8%を占める。皮膚に侵入した抗原（ハプテン・微生物）を樹状突起で捕らえて取り込み、<span class=\"kw3\">MHCクラスⅡに載せて所属リンパ節へ遊走し、ナイーブT細胞に提示して感作を成立させる</span>。これが<span class=\"kw3\">接触皮膚炎（Ⅳ型アレルギー）の感作相の主役</span>であり、パッチテスト（<span class=\"kw\">Q.18</span>）が成立する理屈でもある。<br/>この細胞を形態学的に名指しするのが<span class=\"kw3\">Birbeck顆粒</span>である。電子顕微鏡でのみ見える<span class=\"kw3\">棒状の柄の先に膨らみが付いた「テニスラケット状」の膜構造</span>で、抗原の取り込み（受容体Langerinを介したエンドサイトーシス）に関連する。<span class=\"kw3\">Birbeck顆粒があればLangerhans細胞</span>と言い切れるほど特異度が高い。免疫組織化学では<span class=\"kw3\">S-100蛋白・CD1a・Langerin〈CD207〉</span>が陽性になり、現在の実臨床ではこれらの免疫染色で同定することが多いが、国試では依然として<span class=\"kw3\">「Langerhans細胞＝Birbeck顆粒」</span>という組合せが問われる。<br/>臨床的な意義として重要なのが<span class=\"kw3\">Langerhans細胞組織球症〈LCH〉</span>である。Langerhans細胞に類似した細胞がクローン性に増殖する疾患で、<span class=\"kw\">小児の脂漏性皮膚炎に似た難治性の皮疹（頭部・間擦部）、打ち抜き像を呈する骨融解、尿崩症、肝脾腫・血球減少</span>などをきたす。診断は生検で<span class=\"kw3\">CD1a・Langerin陽性、電顕でBirbeck顆粒</span>を確認することによる。「乳児の治りにくい脂漏性湿疹＋骨病変・尿崩症」という組合せを見たらこれを想起する。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　Birbeck 顆粒</span></td><td><span class=\"kw3\">Langerhans細胞に特異的な細胞内小器官</span>で、<span class=\"kw3\">電子顕微鏡でテニスラケット状（棒状の柄＋膨大部）に見える</span>。抗原の取り込みに関わる膜構造で、<span class=\"kw3\">Langerhans細胞組織球症の診断根拠</span>にもなる。</td></tr><tr><td>ｂ　デスモソーム</td><td><span class=\"kw4\">ケラチノサイトどうしを留める接着装置</span>（<span class=\"kw\">Q.23</span>）。<span class=\"kw4\">Langerhans細胞はケラチノサイトとデスモソームで結合していない</span>ため、表皮内を自由に動いて所属リンパ節へ移動できる。</td></tr><tr><td>ｃ　メラノソーム</td><td><span class=\"kw4\">メラノサイトがもつ、メラニンを合成・貯蔵する小器官</span>（<span class=\"kw\">Q.3</span>）。ケラチノサイトへ受け渡されて核を守るメラニンキャップをつくる。</td></tr><tr><td>ｄ　トノフィラメント</td><td><span class=\"kw4\">ケラチノサイトの細胞内にあるケラチン線維の束</span>で、デスモソームに繋がって表皮の力学的強度を支える。</td></tr><tr><td>ｅ　ケラトヒアリン顆粒</td><td><span class=\"kw4\">顆粒層のケラチノサイトに出現する顆粒</span>で、主成分はプロフィラグリン。角化の指標であり、これが見えるのが顆粒層である。<span class=\"kw\">乾癬では顆粒層が消失</span>する。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 「この細胞にはこれがある」対応表",
+              "c": "<table class=\"tb\"><tr><th>細胞</th><th>特徴的な構造・マーカー</th><th>役割</th></tr><tr><td><span class=\"kw3\">Langerhans細胞</span></td><td><span class=\"kw3\">Birbeck顆粒</span>・S-100・<span class=\"kw\">CD1a</span>・Langerin</td><td>抗原提示（有棘層）</td></tr><tr><td><span class=\"kw\">メラノサイト</span></td><td><span class=\"kw\">メラノソーム</span>・チロシナーゼ・S-100・HMB-45・Melan-A</td><td>メラニン産生（基底層）</td></tr><tr><td><span class=\"kw\">ケラチノサイト</span></td><td><span class=\"kw\">トノフィラメント（ケラチン）</span>・デスモソーム・<span class=\"kw\">ケラトヒアリン顆粒</span>・層板顆粒</td><td>角化・バリア形成</td></tr><tr><td><span class=\"kw\">Merkel細胞</span></td><td>有芯顆粒・CK20・神経終末と接する</td><td>触覚</td></tr><tr><td><span class=\"kw\">肥満細胞</span></td><td><span class=\"kw3\">トルイジンブルー異染性顆粒</span>・c-kit〈CD117〉・トリプターゼ</td><td>ヒスタミン放出（真皮・<span class=\"kw\">Q.7</span>）</td></tr></table><span class=\"kw3\">S-100蛋白</span>は<span class=\"kw3\">神経堤由来の細胞と樹状細胞に広く陽性</span>で、<span class=\"kw\">メラノサイト（→悪性黒色腫）・Langerhans細胞・Schwann細胞（→神経鞘腫）・軟骨</span>などが染まる。「悪性黒色腫の免疫染色は？」と問われたら<span class=\"kw3\">S-100（感度が高い）＋HMB-45・Melan-A（特異度が高い）</span>と答える。S-100だけではLangerhans細胞系と区別できないため、<span class=\"kw3\">CD1a／Langerinが陽性ならLangerhans細胞系</span>という組み立てになる。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">Birbeck顆粒＝Langerhans細胞に特異的</span>。電顕で<span class=\"kw3\">テニスラケット状</span>。<br/>② Langerhans細胞は<span class=\"kw3\">有棘層・骨髄由来・抗原提示</span>。マーカーは<span class=\"kw3\">S-100・CD1a・Langerin</span>。<br/>③ <span class=\"kw3\">接触皮膚炎（Ⅳ型）の感作相の主役</span>——パッチテストの理論的根拠（<span class=\"kw\">Q.18</span>）。<br/>④ <span class=\"kw3\">Langerhans細胞組織球症</span>＝難治性の脂漏性皮膚炎様皮疹＋骨打ち抜き像＋尿崩症。<br/>⑤ 対比: <span class=\"kw3\">メラノソーム＝メラノサイト／ケラトヒアリン顆粒＝顆粒層／トノフィラメント＝ケラチノサイト</span>。<br/>⑥ 表皮内の細胞4種は<span class=\"kw\">Q.1・Q.24</span>で繰り返し問われる定番。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q11",
+          "qn": "Q.11",
+          "episode": "(110E-15)",
+          "rate": 26,
+          "rate_cls": "cl",
+          "rate_text": "26%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            }
+          ],
+          "qt": "<strong><span class=\"kw\">発汗</span>について正しいのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　エクリン汗管は毛囊に開口する。",
+              "ok": false
+            },
+            {
+              "t": "ｂ　アポクリン腺は掌蹠に分布する。",
+              "ok": false
+            },
+            {
+              "t": "ｃ　アポクリン腺は断頭分泌により発汗する。",
+              "ok": true
+            },
+            {
+              "t": "ｄ　エクリン腺発汗量は性ホルモンにより調節される。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　エクリン腺による発汗はアドレナリン作動性である。",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｃ　アポクリン腺は断頭分泌により発汗する。",
+          "ans_sub": "アポクリン腺は断頭（離出）分泌。エクリンは表皮に直接開口し、交感神経コリン作動性で体温調節を担う。掌蹠にはエクリンのみ。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💧 エクリンとアポクリン——2つの汗腺を機能から分ける",
+              "c": "ヒトの汗腺は<span class=\"kw3\">エクリン汗腺</span>と<span class=\"kw3\">アポクリン汗腺</span>の2種類で、<span class=\"kw3\">「どこにあるか・どこに開口するか・どう分泌するか・何が支配するか」</span>の4点で整理すると混乱しない。<br/><span class=\"kw3\">エクリン汗腺</span>は<span class=\"kw3\">全身に約200〜500万個分布し、とくに掌蹠・前額・腋窩に密</span>で、導管は<span class=\"kw3\">表皮を貫いて皮膚表面に直接開口</span>する。分泌様式は<span class=\"kw3\">漏出分泌（エクリン分泌）</span>——細胞は壊れずに分泌物だけを出す。中身は<span class=\"kw3\">主成分が水と電解質（NaCl）で、ほぼ無臭</span>である。支配は<span class=\"kw3\">交感神経</span>だが、<span class=\"kw3\">節後線維の伝達物質はアセチルコリン</span>という自律神経の例外にあたる。役割は<span class=\"kw3\">気化熱による体温調節</span>で、その中枢は<span class=\"kw\">視床下部の体温調節中枢</span>にある。（なお、緊張で掌に汗をかく<span class=\"kw\">精神性発汗</span>は掌蹠・腋窩・前額に限局して起こる。）<br/><span class=\"kw3\">アポクリン汗腺</span>は<span class=\"kw3\">腋窩・外陰部・肛囲・乳輪・外耳道に限局</span>し、<span class=\"kw3\">毛包（脂腺開口部より上方）に開口</span>する。分泌様式が本問の核心で、<span class=\"kw3\">離出分泌＝断頭分泌〈apocrine secretion〉</span>——<span class=\"kw3\">分泌細胞の頂部が細胞質の一部を伴ってちぎれ落ちる</span>。分泌物はタンパク・脂質・フェロモン様物質に富み、<span class=\"kw3\">出た直後は無臭だが、皮膚常在菌に分解されて特有の臭気（腋臭症）</span>になる。支配は交感神経（アドレナリン作動性）で、<span class=\"kw3\">性ホルモンの影響を受けて思春期に発達</span>する。<br/>正答率26%と極端に低いのは、<span class=\"kw4\">「アポクリン＝腋の汗＝たくさんかく汗」という漠然としたイメージで解いてしまい、分泌様式の定義（apo-＝離れる）を知識として持っていない</span>ためである。<span class=\"kw3\">apocrine（離出）／merocrine・eccrine（漏出）／holocrine（全分泌）</span>という外分泌の3様式は組織学の基本で、ここを押さえれば一択になる。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　エクリン汗管は毛囊に開口する。</td><td><span class=\"kw4\">エクリン汗腺の導管は表皮を貫いて皮膚表面（汗孔）に直接開口</span>する。<span class=\"kw\">毛包に開口するのはアポクリン汗腺と皮脂腺</span>（<span class=\"kw\">Q.3</span>）。</td></tr><tr><td>ｂ　アポクリン腺は掌蹠に分布する。</td><td><span class=\"kw4\">アポクリン腺は腋窩・外陰部・肛囲・乳輪・外耳道に限局</span>する。<span class=\"kw3\">掌蹠にあるのはエクリン腺のみ</span>で、しかも密度が最も高い。掌蹠多汗症がエクリンの問題であることからも確認できる。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　アポクリン腺は断頭分泌により発汗する。</span></td><td><span class=\"kw3\">apocrine＝離出分泌（断頭分泌）</span>で、<span class=\"kw3\">分泌細胞の頂部が細胞質の一部ごとちぎれて分泌される</span>。分泌物はタンパク・脂質に富み無臭だが、<span class=\"kw3\">皮膚常在菌に分解されて腋臭の原因</span>になる。</td></tr><tr><td>ｄ　エクリン腺発汗量は性ホルモンにより調節される。</td><td><span class=\"kw4\">エクリン発汗は交感神経（体温調節中枢＝視床下部）による神経性調節</span>。<span class=\"kw\">性ホルモンで発達・機能が左右されるのはアポクリン腺のほう</span>で、思春期に発達する。</td></tr><tr><td>ｅ　エクリン腺による発汗はアドレナリン作動性である。</td><td><span class=\"kw4\">交感神経支配だが、節後線維の伝達物質はアセチルコリン（コリン作動性）</span>という<span class=\"kw3\">自律神経系の有名な例外</span>。だから<span class=\"kw\">抗コリン薬で発汗が止まり、口渇・散瞳を伴う</span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 外分泌の3様式と、汗腺の対照表",
+              "c": "<table class=\"tb\"><tr><th>分泌様式</th><th>細胞の運命</th><th>代表</th></tr><tr><td><span class=\"kw3\">漏出分泌（エクリン／メロクリン）</span></td><td>細胞は壊れない</td><td><span class=\"kw3\">エクリン汗腺</span>・唾液腺・膵外分泌</td></tr><tr><td><span class=\"kw3\">離出分泌（アポクリン・断頭分泌）</span></td><td><span class=\"kw3\">頂部の細胞質ごとちぎれる</span></td><td><span class=\"kw3\">アポクリン汗腺</span>・乳腺（脂肪球）</td></tr><tr><td><span class=\"kw3\">全分泌（ホロクリン）</span></td><td><span class=\"kw3\">細胞まるごと崩壊して分泌物になる</span></td><td><span class=\"kw3\">皮脂腺</span></td></tr></table><table class=\"tb\"><tr><th>項目</th><th>エクリン汗腺</th><th>アポクリン汗腺</th></tr><tr><td>分布</td><td><span class=\"kw3\">全身（掌蹠に最も密）</span></td><td><span class=\"kw3\">腋窩・外陰・肛囲・乳輪・外耳道</span></td></tr><tr><td>開口部</td><td><span class=\"kw3\">表皮に直接（汗孔）</span></td><td><span class=\"kw3\">毛包</span></td></tr><tr><td>分泌様式</td><td>漏出分泌</td><td><span class=\"kw3\">離出（断頭）分泌</span></td></tr><tr><td>分泌物</td><td>水・電解質・無臭</td><td>タンパク・脂質→<span class=\"kw\">菌の分解で臭気</span></td></tr><tr><td>支配</td><td><span class=\"kw3\">交感神経・コリン作動性</span></td><td>交感神経・アドレナリン作動性</td></tr><tr><td>調節</td><td><span class=\"kw3\">体温調節（視床下部）</span>・精神性発汗</td><td><span class=\"kw3\">性ホルモン</span>・思春期に発達</td></tr></table>関連疾患も対で覚える。<span class=\"kw3\">掌蹠多汗症</span>はエクリンの機能亢進で、治療は<span class=\"kw\">塩化アルミニウム外用・イオントフォレーシス・抗コリン外用薬・A型ボツリヌス毒素局所注射・（重症例に）胸腔鏡下交感神経遮断術</span>。<span class=\"kw4\">交感神経遮断術では代償性発汗</span>が問題になる。<span class=\"kw3\">腋臭症</span>はアポクリンの問題で、剪除法などの外科的治療が行われる。<span class=\"kw3\">無汗症・低汗症</span>では<span class=\"kw\">うつ熱による熱中症</span>が危険で、エクリン汗腺の形成不全による<span class=\"kw\">外胚葉異形成症</span>や、<span class=\"kw\">Ross症候群・シェーグレン症候群・糖尿病性自律神経障害</span>などが原因になる。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">アポクリン＝離出（断頭）分泌・毛包開口・腋窩など限局・性ホルモン依存</span>。<br/>② <span class=\"kw3\">エクリン＝漏出分泌・表皮に直接開口・全身（掌蹠に最密）・体温調節</span>。<br/>③ <span class=\"kw3\">エクリン発汗は交感神経だがコリン作動性</span>——自律神経の代表的な例外。抗コリン薬で発汗が止まる。<br/>④ <span class=\"kw3\">掌蹠にアポクリン腺は無い</span>。掌蹠多汗症はエクリンの問題。<br/>⑤ 外分泌3様式＝<span class=\"kw3\">漏出（エクリン）・離出（アポクリン）・全分泌（皮脂腺）</span>。<br/>⑥ 正答率26%——用語の定義（apo-＝離れる）まで戻れば確実に取れる問題。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q12",
+          "qn": "Q.12",
+          "episode": "(110I-35)",
+          "rate": 70,
+          "rate_cls": "cm",
+          "rate_text": "70%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            }
+          ],
+          "qt": "<strong><span class=\"kw\">光線過敏</span>がみられるのはどれか。<span class=\"kw\">2つ選べ</span>。</strong>",
+          "choices": [
+            {
+              "t": "ａ　ぺラグラ",
+              "ok": true
+            },
+            {
+              "t": "ｂ　扁平苔癬",
+              "ok": false
+            },
+            {
+              "t": "ｃ　Darier 病",
+              "ok": false
+            },
+            {
+              "t": "ｄ　Gibert ばら色粃糠疹",
+              "ok": false
+            },
+            {
+              "t": "ｅ　全身性エリテマトーデス〈SLE〉",
+              "ok": true
+            }
+          ],
+          "ans_label": "ａ・ｅ",
+          "ans_sub": "ペラグラ（ナイアシン欠乏・3D・Casal壊死環）とSLE（分類基準の光線過敏・蝶形紅斑）が光線過敏を示す。扁平苔癬・Darier病・ばら色粃糠疹は光線過敏症ではない。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "☀️ 光線過敏症とは——「通常なら何ともない量の光」で反応する",
+              "c": "<span class=\"kw3\">光線過敏症</span>とは、<span class=\"kw3\">健常人なら反応しない程度の日光曝露で、露光部に異常な皮膚反応を生じる状態</span>をいう。ここが重要な定義で、<span class=\"kw4\">大量の紫外線を浴びて起こる日焼け〈日光皮膚炎〉は正常な反応であり、光線過敏症には含まれない</span>（<span class=\"kw\">Q.27</span>で問われる）。共通する臨床像は<span class=\"kw3\">顔面・頸部V領域・手背・前腕伸側といった露光部に左右対称の皮疹が出て、衣服や顎の下など遮光された部位が抜ける</span>ことである。「日光の当たる場所だけ、左右対称に」が最大の手がかりになる。<br/>原因は大きく3群に分けられる。<span class=\"kw3\">①代謝異常・栄養障害</span>——<span class=\"kw3\">ポルフィリン症（晩発性皮膚ポルフィリン症・骨髄性プロトポルフィリン症）</span>では蓄積したポルフィリンが光を吸収して活性酸素を生じ、<span class=\"kw3\">ペラグラ</span>ではナイアシン欠乏により紫外線障害の修復・防御が破綻する。<span class=\"kw\">Hartnup病</span>もトリプトファン吸収障害からペラグラ様症状を呈する。<span class=\"kw3\">②DNA修復異常</span>——<span class=\"kw3\">色素性乾皮症〈XP〉</span>はヌクレオチド除去修復の欠損で、<span class=\"kw3\">最少紅斑量〈MED〉が著明に低下</span>し（<span class=\"kw\">Q.18</span>）、早期から皮膚癌が多発する。<span class=\"kw3\">③自己免疫・薬剤・外因</span>——<span class=\"kw3\">SLE・皮膚筋炎・Sjögren症候群</span>では紫外線が自己抗原の露出を介して皮疹を誘発する。薬剤性では<span class=\"kw\">ニューキノロン系抗菌薬・テトラサイクリン系・チアジド系利尿薬・NSAIDs・ボリコナゾール</span>が代表で、植物由来のソラレンによる<span class=\"kw\">光接触皮膚炎</span>もある。<br/>検査は<span class=\"kw3\">光線テスト（MEDの測定）</span>と<span class=\"kw3\">光パッチテスト（薬剤・化学物質を貼付して紫外線を照射し、非照射部と比較する）</span>で、前者が光線過敏の有無、後者が原因物質の同定に対応する。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　ぺラグラ</span></td><td><span class=\"kw3\">ナイアシン〈ニコチン酸〉欠乏症</span>。<span class=\"kw3\">皮膚炎〈dermatitis〉・下痢〈diarrhea〉・認知症〈dementia〉の3D</span>が三徴で、皮膚炎は<span class=\"kw3\">露光部（顔・頸部・手背・前腕）に左右対称</span>に出る典型的な光線過敏。頸部を襟のように取り巻くものを<span class=\"kw3\">Casal壊死環〈Casal necklace〉</span>という。</td></tr><tr><td>ｂ　扁平苔癬</td><td><span class=\"kw4\">瘙痒を伴う紫紅色の多角形扁平隆起性丘疹</span>が手関節屈側・下腿などに出る。表面の白色レース状の線条＝<span class=\"kw\">Wickham線条</span>、口腔粘膜疹、<span class=\"kw\">Köbner現象</span>が特徴で、<span class=\"kw4\">光線過敏は本症の特徴ではない</span>。</td></tr><tr><td>ｃ　Darier 病</td><td><span class=\"kw4\">ATP2A2遺伝子異常による常染色体顕性（優性）遺伝の角化症</span>。<span class=\"kw\">脂漏部位に毛孔一致性の角化性丘疹</span>が集簇し、爪の楔状欠損・手掌小陥凹を伴う。日光や発汗で増悪しうるとはされるが、<span class=\"kw4\">「光線過敏症」として分類される疾患ではなく、本問で選ぶ肢ではない</span>。</td></tr><tr><td>ｄ　Gibert ばら色粃糠疹</td><td><span class=\"kw4\">先駆疹〈herald patch〉に続いて体幹に楕円形の紅斑が皮膚割線に沿って「クリスマスツリー状」に配列</span>する。数週〜数か月で自然軽快し、<span class=\"kw4\">むしろ紫外線療法が有効</span>とされる疾患で、光線過敏とは逆の関係にある。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　全身性エリテマトーデス〈SLE〉</span></td><td><span class=\"kw3\">光線過敏は分類基準にも挙げられる代表的所見</span>。紫外線でケラチノサイトがアポトーシスを起こし、<span class=\"kw3\">核内抗原（SS-A/Ro等）が細胞表面へ露出して自己抗体と反応</span>することで皮疹が誘発される。<span class=\"kw3\">蝶形紅斑・ディスコイド疹</span>も露光部に出る。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 光線過敏症の原因を3群で覚える／SLE・皮膚筋炎の皮疹",
+              "c": "<table class=\"tb\"><tr><th>群</th><th>疾患</th><th>キーワード</th></tr><tr><td rowspan=\"3\"><span class=\"kw3\">代謝・栄養</span></td><td><span class=\"kw3\">ペラグラ</span></td><td><span class=\"kw3\">ナイアシン欠乏・3D（皮膚炎・下痢・認知症）・Casal壊死環</span>。アルコール依存・イソニアジド・カルチノイドで生じる</td></tr><tr><td>晩発性皮膚ポルフィリン症</td><td>手背の水疱・びらん・多毛・<span class=\"kw\">HCV/飲酒</span>（<span class=\"kw\">Q.27</span>）</td></tr><tr><td>骨髄性プロトポルフィリン症</td><td>小児・日光曝露直後の<span class=\"kw\">灼熱痛</span>・皮疹が乏しいことも</td></tr><tr><td><span class=\"kw3\">DNA修復異常</span></td><td><span class=\"kw3\">色素性乾皮症〈XP〉</span></td><td>常染色体潜性・<span class=\"kw3\">MED低下</span>・小児期からの皮膚癌多発・神経症状</td></tr><tr><td rowspan=\"3\"><span class=\"kw3\">自己免疫・外因</span></td><td><span class=\"kw3\">SLE</span></td><td><span class=\"kw3\">光線過敏は分類基準</span>・蝶形紅斑・ディスコイド疹</td></tr><tr><td>皮膚筋炎</td><td><span class=\"kw\">ヘリオトロープ疹・Gottron徴候・V ネック徴候・ショール徴候</span></td></tr><tr><td>薬剤性</td><td><span class=\"kw\">ニューキノロン・テトラサイクリン・チアジド・NSAIDs</span></td></tr></table><span class=\"kw3\">紫外線の波長</span>も整理しておくと治療（<span class=\"kw\">Q.19</span>）と繋がる。<span class=\"kw3\">UVA（320〜400nm）は真皮まで届き、光老化・薬剤性光線過敏・PUVAに関与</span>。<span class=\"kw3\">UVB（280〜320nm）は表皮までで、日焼け（サンバーン）・DNA損傷（ピリミジン二量体）・ビタミンD合成・ナローバンドUVB療法</span>に関わる。<span class=\"kw\">UVC（&lt;280nm）はオゾン層で吸収され地表に届かない</span>。遮光指導では<span class=\"kw3\">SPFがUVB、PAがUVAに対する指標</span>であることを押さえる。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 光線過敏症＝<span class=\"kw3\">通常量の日光で露光部に左右対称の異常反応</span>。日焼けは含まない（<span class=\"kw\">Q.27</span>）。<br/>② <span class=\"kw3\">ペラグラ＝ナイアシン欠乏・3D・Casal壊死環</span>。アルコール依存・イソニアジドが誘因。<br/>③ <span class=\"kw3\">SLEの光線過敏は分類基準の項目</span>。皮膚筋炎・Sjögren症候群も光線過敏を示す。<br/>④ <span class=\"kw3\">色素性乾皮症＝DNA修復異常でMED低下</span>（<span class=\"kw\">Q.18</span>）。<br/>⑤ 薬剤性は<span class=\"kw3\">ニューキノロン・テトラサイクリン・チアジド・NSAIDs</span>。検査は<span class=\"kw3\">光パッチテスト</span>。<br/>⑥ <span class=\"kw4\">扁平苔癬・ばら色粃糠疹は光線過敏ではない</span>。ばら色粃糠疹はむしろ紫外線療法が有効。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q13",
+          "qn": "Q.13",
+          "episode": "(107B-12)",
+          "rate": 85,
+          "rate_cls": "ch",
+          "rate_text": "85%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bc",
+              "t": "CBT"
+            }
+          ],
+          "qt": "<strong>正常皮膚の<span class=\"kw\">保湿</span>に最も重要なのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　角質層",
+              "ok": true
+            },
+            {
+              "t": "ｂ　顆粒層",
+              "ok": false
+            },
+            {
+              "t": "ｃ　有棘層",
+              "ok": false
+            },
+            {
+              "t": "ｄ　基底層",
+              "ok": false
+            },
+            {
+              "t": "ｅ　乳頭層",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　角質層",
+          "ans_sub": "角質層＝天然保湿因子（NMF）と細胞間脂質（セラミド）が水を保持し経表皮水分喪失を防ぐ、保湿とバリアの本体。顆粒層はその材料を作る層。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💧 保湿を担うのは「死んだ細胞の層」である",
+              "c": "皮膚の保湿を支えているのは、表皮の最も外側にある<span class=\"kw3\">角質層（角層）</span>である。角層は<span class=\"kw3\">核を失った角質細胞が10〜20層に重なった、厚さわずか約0.02mm（20μm）の層</span>だが、ここが体の内と外を分ける最終防壁になっている。<br/>保湿の仕組みは<span class=\"kw3\">3つの要素</span>で成り立つ。<span class=\"kw3\">①天然保湿因子〈NMF〉</span>——角質細胞の<span class=\"kw3\">内側</span>にあり、<span class=\"kw3\">フィラグリンが分解されてできたアミノ酸・PCA・尿素・乳酸</span>などが吸湿性をもって水を抱え込む。<span class=\"kw3\">②角層細胞間脂質</span>——角質細胞の<span class=\"kw3\">すきま</span>を埋める<span class=\"kw3\">セラミド・コレステロール・遊離脂肪酸のラメラ構造</span>で、水を層のあいだに挟み込んで逃がさない（<span class=\"kw\">Q.6</span>）。<span class=\"kw3\">③皮脂膜</span>——皮脂と汗が表面で乳化した薄い膜で、蒸発をわずかに抑える。寄与の大きさは<span class=\"kw3\">②＞①＞③</span>で、皮脂膜の役割は限定的である。<br/>ここで混同しやすいのが<span class=\"kw3\">顆粒層との役割分担</span>である。顆粒層のケラチノサイトは<span class=\"kw3\">ケラトヒアリン顆粒（プロフィラグリン）</span>と<span class=\"kw3\">層板顆粒（セラミドの前駆物質）</span>を持ち、角層へ移行する際にこれらを分解・分泌して<span class=\"kw3\">NMFと細胞間脂質を「供給」</span>する。つまり<span class=\"kw3\">顆粒層は工場、角層は製品が実際に働いている現場</span>である。設問が問うているのは「保湿に最も重要な層」＝機能している場所なので、答えは角層になる。<br/>この理解は臨床に直結する。<span class=\"kw3\">経表皮水分喪失〈TEWL〉</span>は角層バリアの機能を定量する指標で、アトピー性皮膚炎では上昇している。<span class=\"kw3\">フィラグリン遺伝子変異があるとNMFが作れず</span>、セラミドの減少と相まってバリアが二重に破綻し、乾燥・経皮感作が進む。だから治療では<span class=\"kw3\">保湿剤（ヘパリン類似物質・尿素製剤・白色ワセリン）</span>を抗炎症薬と並ぶ柱として、寛解期にも継続する。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　角質層</span></td><td><span class=\"kw3\">保湿とバリアの本体</span>。<span class=\"kw3\">角質細胞内の天然保湿因子〈NMF〉と、細胞間を埋めるセラミド主体の細胞間脂質</span>が水を保持し、<span class=\"kw3\">経表皮水分喪失〈TEWL〉</span>を防ぐ（<span class=\"kw\">Q.6</span>）。</td></tr><tr><td>ｂ　顆粒層</td><td><span class=\"kw4\">保湿因子を「作る」層であって、保持している層ではない</span>。<span class=\"kw\">ケラトヒアリン顆粒（プロフィラグリン→フィラグリン→NMF）と層板顆粒（→セラミド）</span>を持ち、製品を角層へ送り出す工場にあたる。</td></tr><tr><td>ｃ　有棘層</td><td>表皮の中で最も厚い層で、<span class=\"kw4\">デスモソームとトノフィラメントによる力学的強度</span>と、Langerhans細胞による免疫を担う。水分保持の主役ではない。</td></tr><tr><td>ｄ　基底層</td><td><span class=\"kw4\">分裂・増殖を担う層</span>で、メラノサイト・Merkel細胞が散在する。ヘミデスモソームで基底膜に接着している。保湿とは役割が異なる。</td></tr><tr><td>ｅ　乳頭層</td><td><span class=\"kw4\">表皮ではなく真皮の最上層</span>。毛細血管係蹄と知覚神経終末に富み、表皮へ栄養を供給する。真皮の保水はヒアルロン酸などの基質が担うが、体表からの水分喪失を防いでいるのはあくまで角層である。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 表皮の5層と、それぞれの役割",
+              "c": "<table class=\"tb\"><tr><th>層</th><th>特徴的な構造</th><th>役割</th></tr><tr><td><span class=\"kw3\">角層</span></td><td><span class=\"kw3\">NMF・細胞間脂質（セラミド）</span>・核が無い</td><td><span class=\"kw3\">保湿・バリア（本問の答え）</span></td></tr><tr><td>淡明層</td><td>掌蹠にのみ存在</td><td>摩擦への抵抗</td></tr><tr><td><span class=\"kw\">顆粒層</span></td><td><span class=\"kw3\">ケラトヒアリン顆粒・層板顆粒</span></td><td><span class=\"kw3\">保湿因子とバリア脂質を作る</span>。<span class=\"kw4\">乾癬では消失</span></td></tr><tr><td>有棘層</td><td>デスモソーム・トノフィラメント・<span class=\"kw\">Langerhans細胞</span></td><td>強度・免疫</td></tr><tr><td>基底層</td><td>ヘミデスモソーム・<span class=\"kw\">メラノサイト・Merkel細胞</span></td><td>増殖・色素・触覚</td></tr></table><span class=\"kw3\">保湿剤の使い分け</span>も押さえておく。<span class=\"kw3\">エモリエント（油分で膜を作り蒸発を防ぐ）</span>＝白色ワセリン・プラスチベース。<span class=\"kw3\">モイスチャライザー（水を抱え込む）</span>＝ヘパリン類似物質・尿素製剤・ヒアルロン酸。<span class=\"kw4\">尿素製剤は角質溶解作用があるため、びらん面・亀裂には刺激が強く不適</span>で、角化の強い部位（足底の角化・魚鱗癬）に向く。塗布のタイミングは<span class=\"kw3\">入浴直後（角層が水分を含んでいるうち）</span>が最も効果的である。<span class=\"kw4\">熱い湯・長風呂・ゴシゴシ洗いは細胞間脂質を洗い流してバリアを壊す</span>ため、スキンケア指導では必ず併せて伝える。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 保湿の本体は<span class=\"kw3\">角質層</span>。<span class=\"kw3\">NMF＋細胞間脂質（セラミド）＋皮脂膜</span>の3要素。<br/>② <span class=\"kw3\">顆粒層は保湿因子を「作る」層</span>（ケラトヒアリン顆粒・層板顆粒）。角層は「働く」層。<br/>③ <span class=\"kw3\">NMFはフィラグリン由来</span>——フィラグリン変異＝アトピー性皮膚炎のバリア破綻。<br/>④ バリア機能の指標は<span class=\"kw3\">経表皮水分喪失〈TEWL〉</span>。<br/>⑤ 保湿剤は<span class=\"kw3\">入浴直後</span>に塗る。<span class=\"kw4\">尿素製剤はびらん・亀裂には刺激が強い</span>。<br/>⑥ 角層の厚さは約0.02mm、表皮全体で約0.2mm（<span class=\"kw\">Q.14</span>）。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q14",
+          "qn": "Q.14",
+          "episode": "(106B-28)",
+          "rate": 67,
+          "rate_cls": "cm",
+          "rate_text": "67%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            }
+          ],
+          "qt": "<strong>手掌と足底とを除いた平均的なヒト<span class=\"kw\">表皮の厚さ</span>はどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　0.0002mm",
+              "ok": false
+            },
+            {
+              "t": "ｂ　0.002mm",
+              "ok": false
+            },
+            {
+              "t": "ｃ　0.02mm",
+              "ok": false
+            },
+            {
+              "t": "ｄ　0.2mm",
+              "ok": true
+            },
+            {
+              "t": "ｅ　2.0mm",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｄ　0.2mm",
+          "ans_sub": "手掌・足底を除いた表皮の厚さは約0.2mm（200μm）。うち角層が約0.02mm。皮膚全層（表皮＋真皮）は1〜4mm。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "📏 皮膚の厚さを桁で覚える",
+              "c": "数値問題に見えるが、実質は<span class=\"kw3\">「皮膚の各層のオーダーを持っているか」</span>を問う問題である。暗記ではなく、<span class=\"kw3\">細胞の大きさを基準に桁を組み立てる</span>と迷わない。<br/>出発点は<span class=\"kw3\">細胞1個の直径がおよそ10〜30μm＝0.01〜0.03mm</span>という感覚である。表皮は<span class=\"kw3\">基底層・有棘層・顆粒層・角層が積み重なった重層扁平上皮</span>で、生きた表皮だけでも細胞が十数層あるから、<span class=\"kw3\">当然0.1mmのオーダーになる</span>。実際、<span class=\"kw3\">手掌・足底を除いた表皮は約0.2mm（200μm）</span>で、そのうち<span class=\"kw3\">角層が約0.02mm（20μm）＝表皮の10分の1程度</span>を占める。ここから、選択肢cの0.02mmは「角層だけ」、a・bは「細胞1個より薄い」、eの2mmは「皮膚全層に近い」と、すべて桁で切れる。<br/>周辺の数値も一度に押さえておく。<span class=\"kw3\">皮膚全層（表皮＋真皮）は部位により約1〜4mm</span>で、<span class=\"kw\">眼瞼が最も薄く（約0.6mm）、背部・足底が厚い</span>。真皮は表皮の<span class=\"kw3\">15〜40倍の厚さ</span>があり、皮膚の厚さのほとんどは真皮が占めている。<span class=\"kw3\">掌蹠では角層が特に厚く（数百μm〜）、淡明層という層が加わる</span>。これが本問がわざわざ「手掌と足底とを除いた」と断っている理由である。<br/><span class=\"kw3\">皮膚は人体最大の臓器</span>で、成人で<span class=\"kw3\">総面積は約1.6m<sup>2</sup>、重量は皮下組織を含めて体重の約16%</span>にもなる。この面積の感覚は<span class=\"kw3\">熱傷の面積評価（9の法則・5の法則・手掌法）</span>や外用薬の使用量の目安である<span class=\"kw3\">finger tip unit〈FTU〉（人差し指の先端から第1関節までに出した軟膏＝約0.5gで、成人の手掌2枚分の面積に塗れる）</span>にそのまま繋がる。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　0.0002mm</td><td>0.2μm。<span class=\"kw4\">細胞1個（直径10〜30μm程度）よりはるかに薄く</span>、細胞小器官や膜の厚さのオーダー。表皮の厚さとしてありえない。</td></tr><tr><td>ｂ　0.002mm</td><td>2μm。<span class=\"kw4\">細胞1個分にも満たない</span>。角質細胞1層の厚さ（約0.5〜1μm）が数枚ぶんという程度で、重層扁平上皮の厚さにならない。</td></tr><tr><td>ｃ　0.02mm</td><td>20μm。<span class=\"kw4\">これは角層だけの厚さに相当</span>する。表皮全体は角層に加えて顆粒層・有棘層・基底層を含むので一桁足りない。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　0.2mm</span></td><td><span class=\"kw3\">200μm。手掌・足底を除いた平均的な表皮の厚さ</span>。角層が約20μm、その下の生きた表皮（顆粒層〜基底層）が約100〜150μm程度で、合わせてこのオーダーになる。</td></tr><tr><td>ｅ　2.0mm</td><td>2mm。<span class=\"kw4\">これは表皮ではなく皮膚全層（表皮＋真皮）の厚さ</span>に近い。掌蹠では角層が著しく肥厚して表皮が1mm近くになることはあるが、本問は「手掌と足底を除いた」平均を問うている。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 皮膚まわりの数値まとめ",
+              "c": "<table class=\"tb\"><tr><th>項目</th><th>数値</th><th>備考</th></tr><tr><td><span class=\"kw3\">表皮の厚さ（掌蹠を除く）</span></td><td><span class=\"kw3\">約0.2mm</span></td><td>本問の答え</td></tr><tr><td>角層の厚さ</td><td>約0.02mm（10〜20層）</td><td>掌蹠では著明に厚い</td></tr><tr><td>皮膚全層（表皮＋真皮）</td><td><span class=\"kw\">約1〜4mm</span></td><td>眼瞼が最薄・背部/足底が最厚</td></tr><tr><td><span class=\"kw3\">表皮のターンオーバー</span></td><td><span class=\"kw3\">約4週間</span></td><td>基底層→角層が約14日＋角層内が約14日。<span class=\"kw4\">乾癬では数日に短縮</span></td></tr><tr><td>皮膚の総面積（成人）</td><td>約1.6m<sup>2</sup></td><td>人体最大の臓器</td></tr><tr><td>皮膚の重量</td><td>体重の約16%（皮下組織を含む）</td><td></td></tr><tr><td><span class=\"kw3\">1 FTU</span></td><td><span class=\"kw3\">約0.5g＝手掌2枚分</span></td><td>外用量指導の基本単位</td></tr><tr><td>皮膚のpH</td><td>弱酸性（約4.5〜6.0）</td><td>皮脂膜による「酸外套」で細菌の増殖を抑える</td></tr></table><span class=\"kw3\">部位による厚さの差は臨床判断に直結する</span>。眼瞼のように薄い部位は経皮吸収が高く（<span class=\"kw\">Q.21</span>）、ステロイド外用では<span class=\"kw4\">弱いランクを短期で</span>という原則になる。逆に掌蹠は角層が厚くて薬が入りにくいため、<span class=\"kw3\">強いランク・ODT（閉鎖密封療法）</span>が選ばれる。また皮膚生検の深さも部位で変え、<span class=\"kw\">パンチ生検は3〜4mm径で皮下脂肪織に達する深さ</span>まで取るのが原則である。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">表皮（掌蹠を除く）＝約0.2mm</span>、うち<span class=\"kw3\">角層は約0.02mm</span>。<br/>② 皮膚全層は<span class=\"kw3\">約1〜4mm</span>。厚さのほとんどは真皮が占める。<br/>③ <span class=\"kw3\">掌蹠は角層が厚く淡明層をもつ</span>——本問がこれを除外している理由。<br/>④ ターンオーバーは<span class=\"kw3\">約4週間</span>。乾癬では数日に短縮し不全角化を生じる。<br/>⑤ <span class=\"kw3\">1 FTU＝約0.5g＝手掌2枚分</span>の面積。外用量の指導で使う。<br/>⑥ 部位による厚さの差＝経皮吸収の差（<span class=\"kw\">Q.21</span>）＝ステロイドランクの使い分け。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q15",
+          "qn": "Q.15",
+          "episode": "(106B-33)",
+          "rate": 97,
+          "rate_cls": "ch",
+          "rate_text": "97%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bc",
+              "t": "CBT"
+            }
+          ],
+          "qt": "<strong><span class=\"kw\">水疱内容</span>の検索に有用なのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　硝子圧法",
+              "ok": false
+            },
+            {
+              "t": "ｂ　Tzanck 試験",
+              "ok": true
+            },
+            {
+              "t": "ｃ　ダーモスコピー試験",
+              "ok": false
+            },
+            {
+              "t": "ｄ　サーモグラフィー検査",
+              "ok": false
+            },
+            {
+              "t": "ｅ　苛性カリ〈KOH〉直接鏡検法",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｂ　Tzanck 試験",
+          "ans_sub": "Tzanck試験＝水疱底を擦過して塗抹・染色し、棘融解細胞（天疱瘡）やウイルス性多核巨細胞（ヘルペス）を見る。硝子圧法は紫斑の鑑別、KOHは真菌、ダーモスコピーは色素性病変。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🔬 Tzanck試験——ベッドサイドで水疱の中身を見る",
+              "c": "<span class=\"kw3\">Tzanck試験〈Tzanck smear〉</span>は、<span class=\"kw3\">新鮮な水疱の天井を切り取り、露出した水疱底を鋭匙やメスの背で軽く擦過して細胞をスライドガラスに塗抹し、Giemsa染色（またはWright染色）して鏡検する</span>だけの検査である。<span class=\"kw3\">数分で結果が出る簡便さ</span>が最大の利点で、生検やPCRの結果を待てない場面で治療方針の即断を助ける。<br/>見えるものは大きく2群に分かれる。<span class=\"kw3\">①棘融解細胞〈Tzanck細胞〉</span>——デスモソームの結合が壊れてバラバラになったケラチノサイトで、<span class=\"kw3\">丸く孤立し、核が大きく、細胞質が核周囲に狭く残る</span>のが特徴。<span class=\"kw3\">尋常性天疱瘡・落葉状天疱瘡</span>など<span class=\"kw3\">表皮内水疱をつくる疾患</span>で陽性になる。<span class=\"kw3\">②多核巨細胞・核内封入体</span>——<span class=\"kw3\">単純ヘルペスウイルス・水痘帯状疱疹ウイルス</span>の感染細胞が融合したもので、「風船のように膨らんだ核をもつ多核細胞」として見える。<span class=\"kw4\">HSVとVZVはTzanck試験では区別できない</span>ため、鑑別が必要なら<span class=\"kw\">蛍光抗体法・PCR</span>を追加する。<br/>重要なのは<span class=\"kw3\">「水疱＝表皮内か表皮下か」という診断の軸</span>である。<span class=\"kw3\">表皮内水疱（天疱瘡・ヘルペス・SSSS）は水疱が浅く弛緩性で破れやすく、びらんになりやすい</span>。一方<span class=\"kw3\">表皮下水疱（水疱性類天疱瘡・多形滲出性紅斑・Ⅳ型/後天性表皮水疱症）は水疱が深く緊満性で破れにくい</span>。Tzanck試験で棘融解細胞が出れば表皮内、出なければ表皮下を疑う——という形で、<span class=\"kw3\">簡便な検査が病理学的な水疱の高さを推定する</span>のが本検査の値打ちである。確定診断は生検（HE＋蛍光抗体直接法）と血清抗体（抗Dsg1/Dsg3抗体、抗BP180抗体）で行う。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　硝子圧法</td><td><span class=\"kw4\">透明な硝子板で皮疹を圧迫し、退色するかどうかを見る手技</span>（<span class=\"kw\">Q.16・Q.26</span>）。<span class=\"kw\">紅斑（退色する）と紫斑（退色しない）の鑑別</span>や、尋常性狼瘡・サルコイドーシスの<span class=\"kw\">apple jelly nodule</span>の観察に使う。水疱の内容物は見られない。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　Tzanck 試験</span></td><td><span class=\"kw3\">水疱の天井を除き、水疱底を擦過して得た細胞をスライドガラスに塗抹し、Giemsa染色などで鏡検する</span>簡便・迅速な検査。<span class=\"kw3\">天疱瘡では棘融解細胞〈Tzanck細胞〉</span>、<span class=\"kw3\">単純ヘルペス・水痘帯状疱疹では多核巨細胞や核内封入体</span>が見える。</td></tr><tr><td>ｃ　ダーモスコピー試験</td><td><span class=\"kw4\">偏光や浸液を用いて皮膚表面〜真皮浅層を拡大観察する非侵襲的な検査</span>。<span class=\"kw\">色素性病変（悪性黒色腫と色素性母斑の鑑別）・脂漏性角化症・疥癬のトンネル</span>などに有用だが、水疱内容の細胞は調べられない。</td></tr><tr><td>ｄ　サーモグラフィー検査</td><td><span class=\"kw4\">体表温の分布を画像化する検査</span>で、血流評価（血管障害・Raynaud現象など）に用いる。細胞学的検査ではない。</td></tr><tr><td>ｅ　苛性カリ〈KOH〉直接鏡検法</td><td><span class=\"kw4\">鱗屑・爪・毛を採取してKOHで角質を溶かし、真菌の菌糸・胞子を探す検査</span>。<span class=\"kw\">白癬・カンジダ・癜風</span>の診断に使う。水疱型の足白癬では水疱の「天井（膜）」を検体にするが、それは真菌を見る検査であって水疱内容の細胞診ではない。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 皮膚科の基本手技——何を見る検査か",
+              "c": "<table class=\"tb\"><tr><th>検査</th><th>検体・手技</th><th>わかること</th></tr><tr><td><span class=\"kw3\">Tzanck試験</span></td><td><span class=\"kw3\">水疱底の擦過細胞＋Giemsa染色</span></td><td><span class=\"kw3\">棘融解細胞（天疱瘡）／多核巨細胞（HSV・VZV）</span></td></tr><tr><td><span class=\"kw3\">KOH直接鏡検</span></td><td>鱗屑・爪・毛＋苛性カリ</td><td><span class=\"kw3\">白癬（菌糸）・カンジダ（仮性菌糸＋分芽胞子）・癜風（spaghetti and meatballs）</span></td></tr><tr><td><span class=\"kw3\">硝子圧法</span></td><td>硝子板で圧迫</td><td><span class=\"kw3\">紅斑（退色）と紫斑（退色せず）の鑑別</span>・apple jelly nodule</td></tr><tr><td>ダーモスコピー</td><td>拡大・偏光観察</td><td>色素性病変の良悪性・疥癬トンネル・毛の異常</td></tr><tr><td><span class=\"kw\">パッチテスト（貼布試験）</span></td><td>背部に48時間貼付、48/72時間後判定</td><td><span class=\"kw3\">Ⅳ型（遅延型）＝接触皮膚炎の原因</span>（<span class=\"kw\">Q.18</span>）</td></tr><tr><td>プリックテスト／皮内テスト</td><td>抗原を刺入／皮内注射・15〜20分後</td><td><span class=\"kw3\">Ⅰ型（即時型）</span></td></tr><tr><td>光線テスト／光パッチテスト</td><td>紫外線照射</td><td>MED（光線過敏の有無）／光接触皮膚炎の原因</td></tr><tr><td>蛍光抗体直接法</td><td>皮膚生検組織</td><td><span class=\"kw3\">天疱瘡＝表皮細胞間／類天疱瘡＝基底膜部</span>のIgG沈着</td></tr></table>手技の注意点も押さえる。Tzanck試験は<span class=\"kw3\">できるだけ新鮮な水疱を選ぶ</span>——古い水疱や膿疱では細胞が変性し、二次感染の細胞が混じって判定できない。<span class=\"kw4\">水疱の内容液そのものを吸って塗るのではなく、水疱底を擦って細胞を採る</span>のが要点で、内容液だけでは細胞成分が乏しく診断できない。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">水疱内容（水疱底の細胞）を見る＝Tzanck試験</span>。Giemsa染色で数分。<br/>② <span class=\"kw3\">棘融解細胞＝天疱瘡（表皮内水疱）／多核巨細胞＝HSV・VZV</span>。<span class=\"kw4\">HSVとVZVは区別できない</span>。<br/>③ <span class=\"kw3\">硝子圧法＝紫斑と紅斑の鑑別</span>（<span class=\"kw\">Q.16・Q.26</span>）。<br/>④ <span class=\"kw3\">KOH直接鏡検＝真菌</span>（鱗屑・爪・毛）。<br/>⑤ <span class=\"kw3\">パッチテスト＝Ⅳ型（接触皮膚炎）／プリック・皮内テスト＝Ⅰ型</span>（<span class=\"kw\">Q.18</span>）。<br/>⑥ 確定は生検＋<span class=\"kw3\">蛍光抗体直接法</span>（天疱瘡＝細胞間、類天疱瘡＝基底膜部）。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q16",
+          "qn": "Q.16",
+          "episode": "(106F-25)",
+          "rate": 98,
+          "rate_cls": "ch",
+          "rate_text": "98%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bh",
+              "t": "必修"
+            },
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "45歳の男性。皮疹を主訴に来院した。2週前に両側の下腿の皮膚病変に気付いたが、<span class=\"kw\">疼痛や瘙痒感はなかった</span>。1週前から皮膚病変が拡大してきたため受診した。両側の下腿から足背にかけて皮膚病変がみられる。<span class=\"kw\">病変は隆起しておらず、圧迫しても赤紫色が消退しない</span>。下腿から足背にかけての写真を示す。<br/><strong>この病変を特徴づける<span class=\"kw\">皮疹の種類</span>はどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　丘　疹",
+              "ok": false
+            },
+            {
+              "t": "ｂ　膨　疹",
+              "ok": false
+            },
+            {
+              "t": "ｃ　紫　斑",
+              "ok": true
+            },
+            {
+              "t": "ｄ　苔癬化",
+              "ok": false
+            },
+            {
+              "t": "ｅ　毛細血管拡張",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｃ　紫　斑",
+          "ans_sub": "隆起しない赤紫色の斑で、圧迫（硝子圧法）しても消退しない＝真皮内出血＝紫斑。膨疹・毛細血管拡張は圧迫で退色する。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🩸 紫斑の定義は「押しても消えない」",
+              "c": "皮疹の名前は<span class=\"kw3\">見た目の印象ではなく定義で決まる</span>。本問の記載<span class=\"kw3\">「隆起しておらず、圧迫しても赤紫色が消退しない」</span>は、そのまま<span class=\"kw3\">紫斑〈purpura〉</span>の定義文である。<br/>なぜ押しても消えないのかは機序から明らかである。<span class=\"kw3\">紅斑</span>は<span class=\"kw3\">血管が拡張して血流が増えた状態</span>——血液は血管の中にあるので、圧迫すれば血液が押しのけられて<span class=\"kw3\">退色する</span>。一方<span class=\"kw3\">紫斑</span>は<span class=\"kw3\">赤血球が血管の外（真皮内）へ漏れ出した状態</span>——押しても組織に染み込んだ赤血球は動かないので<span class=\"kw3\">退色しない</span>。この違いを<span class=\"kw3\">硝子板を当てて圧迫する＝硝子圧法</span>で判定するのが、皮膚科で最も基本的なベッドサイド手技である（本問の写真にも硝子圧子が写り込んでおり、器具そのものは<span class=\"kw\">Q.26</span>で問われている）。紫斑は時間とともに<span class=\"kw\">赤紫→青紫→緑→黄褐色</span>とヘモグロビンの分解に伴って色調が変化し、最終的に<span class=\"kw\">ヘモジデリン沈着による褐色の色素沈着</span>を残すことがある。<br/><span class=\"kw3\">紫斑を見たら次に考えるのは原因</span>である。大きく3つに分ける。<span class=\"kw3\">①血小板の異常</span>（ITP・薬剤性・血栓性微小血管症・白血病）——点状出血が主体で、<span class=\"kw3\">粘膜出血を伴いやすい</span>。<span class=\"kw3\">②凝固の異常</span>（血友病・DIC・ワルファリン・肝不全）——<span class=\"kw3\">斑状出血や深部出血（関節内・筋肉内）</span>が主体。<span class=\"kw3\">③血管の異常</span>（<span class=\"kw3\">IgA血管炎〈Schönlein-Henoch紫斑病〉</span>・<span class=\"kw\">単純性紫斑・老人性紫斑・ステロイド長期投与・壊血病</span>）——<span class=\"kw3\">血小板数も凝固も正常</span>なのが特徴。本例のように<span class=\"kw3\">両側下腿から足背という下垂部に左右対称</span>に出るのは<span class=\"kw3\">血管炎性紫斑（IgA血管炎など）</span>の典型的な分布で、静水圧が高い部位に免疫複合体が沈着しやすいためである（<span class=\"kw\">Q.26</span>）。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　丘　疹</td><td><span class=\"kw4\">直径1cm未満の限局性の隆起</span>。本例は「隆起しておらず」と明記されており、触知性紫斑であれば丘疹の要素を伴うが、本問は「隆起なし」＝斑の段階である。</td></tr><tr><td>ｂ　膨　疹</td><td><span class=\"kw4\">真皮上層の一過性浮腫による扁平隆起</span>で、蕁麻疹の原発疹。<span class=\"kw4\">数十分〜24時間以内に跡形なく消退し、圧迫すると退色する</span>。2週間持続する本例とは合わない。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　紫　斑</span></td><td><span class=\"kw3\">真皮内への出血による赤紫色の斑で、硝子圧法で圧迫しても退色しない</span>のが定義。<span class=\"kw3\">「隆起なし・圧迫で消退しない赤紫色」という記載がそのまま紫斑の定義</span>である。</td></tr><tr><td>ｄ　苔癬化</td><td><span class=\"kw4\">慢性の掻破・摩擦により皮膚が肥厚し、皮野・皮溝が粗大化した状態</span>。アトピー性皮膚炎の慢性期などにみられる続発疹で、2週間で生じるものではないうえ本例に瘙痒はない。</td></tr><tr><td>ｅ　毛細血管拡張</td><td><span class=\"kw4\">拡張した細い血管が透見される線状・網状の赤み</span>。<span class=\"kw4\">血管内に血液があるだけなので、圧迫すれば退色する</span>——本例と正反対の所見。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 原発疹・続発疹の定義を一気に固める",
+              "c": "<table class=\"tb\"><tr><th>皮疹</th><th>定義</th><th>圧迫すると</th></tr><tr><td><span class=\"kw\">紅斑</span></td><td>血管拡張による限局性の赤み（隆起なし）</td><td><span class=\"kw3\">退色する</span></td></tr><tr><td><span class=\"kw3\">紫斑</span></td><td><span class=\"kw3\">真皮内出血による赤紫色斑</span></td><td><span class=\"kw3\">退色しない</span></td></tr><tr><td>色素斑</td><td>メラニン等の色素沈着</td><td>退色しない（色調が茶〜黒）</td></tr><tr><td>白斑</td><td>色素の減少・消失</td><td>—</td></tr><tr><td><span class=\"kw\">膨疹</span></td><td><span class=\"kw3\">一過性の真皮浮腫（24時間以内に消退）</span></td><td>退色する</td></tr><tr><td>丘疹</td><td>直径1cm未満の隆起</td><td>—</td></tr><tr><td>結節・腫瘤</td><td>1cm以上／さらに大きい隆起</td><td>—</td></tr><tr><td>水疱・膿疱</td><td>漿液／膿を入れた隆起</td><td>—</td></tr><tr><td colspan=\"3\"><span class=\"kw\">続発疹</span>：鱗屑・痂皮・びらん（表皮まで）・潰瘍（真皮以深→<span class=\"kw4\">瘢痕を残す</span>）・亀裂・膿瘍・萎縮・<span class=\"kw\">苔癬化（慢性掻破による肥厚と皮野の粗大化）</span>・瘢痕</td></tr></table><span class=\"kw3\">びらんと潰瘍の区別</span>は頻出で、<span class=\"kw3\">びらん＝表皮までの欠損で瘢痕を残さない／潰瘍＝真皮以深に及び瘢痕を残す</span>。また<span class=\"kw3\">触知性紫斑〈palpable purpura〉</span>——触れて隆起を感じる紫斑——は<span class=\"kw3\">血管壁の炎症（白血球破砕性血管炎）を示唆</span>する重要なサインで、IgA血管炎・ANCA関連血管炎・クリオグロブリン血症を考える。本例は「隆起しておらず」なので現時点では触知性ではないが、<span class=\"kw3\">紫斑を見たら「隆起しているか」を必ず触って確かめる</span>のが臨床の作法である。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">紫斑＝真皮内出血＝硝子圧法で退色しない</span>。紅斑・膨疹・毛細血管拡張は退色する。<br/>② 紫斑の原因は<span class=\"kw3\">①血小板②凝固③血管</span>の3系統。血管性は<span class=\"kw3\">血小板数も凝固も正常</span>。<br/>③ <span class=\"kw3\">両側下腿の左右対称性紫斑＝IgA血管炎〈Schönlein-Henoch紫斑病〉</span>を第一に想起（<span class=\"kw\">Q.26</span>）。腹痛・関節痛・腎炎を伴う。<br/>④ <span class=\"kw3\">触知性紫斑＝血管炎</span>のサイン。必ず触って確かめる。<br/>⑤ <span class=\"kw3\">膨疹は24時間以内に消退</span>——蕁麻疹の定義。<br/>⑥ <span class=\"kw3\">びらん＝瘢痕を残さない／潰瘍＝瘢痕を残す</span>。必修頻出。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/106F-25_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch01_q17",
+          "qn": "Q.17",
+          "episode": "(104G-21)",
+          "rate": 61,
+          "rate_cls": "cm",
+          "rate_text": "61%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bc",
+              "t": "CBT"
+            }
+          ],
+          "qt": "<strong><span class=\"kw\">有機リン中毒</span>でみられるのはどれか。<span class=\"kw\">3つ選べ</span>。</strong>",
+          "choices": [
+            {
+              "t": "ａ　血　尿",
+              "ok": false
+            },
+            {
+              "t": "ｂ　口　渇",
+              "ok": false
+            },
+            {
+              "t": "ｃ　縮　瞳",
+              "ok": true
+            },
+            {
+              "t": "ｄ　発　汗",
+              "ok": true
+            },
+            {
+              "t": "ｅ　けいれん",
+              "ok": true
+            }
+          ],
+          "ans_label": "ｃ・ｄ・ｅ",
+          "ans_sub": "有機リンはコリンエステラーゼを阻害してアセチルコリンを蓄積させる。ムスカリン様（縮瞳・発汗・流涎・気道分泌↑・徐脈・下痢）、ニコチン様（線維束攣縮・筋力低下）、中枢（けいれん・意識障害）。口渇は逆で、血尿は無関係。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "☠️ 有機リン中毒——アセチルコリンが「片づけられない」",
+              "c": "有機リン系殺虫剤（パラチオン・マラチオンなど）やサリンなどの神経剤は、<span class=\"kw3\">アセチルコリンエステラーゼ〈AChE〉を不可逆的に阻害</span>する。AChEはシナプス間隙のアセチルコリン〈ACh〉を分解して情報伝達を終わらせる酵素なので、これが止まると<span class=\"kw3\">AChがシナプスに溜まりっぱなしになり、コリン作動性の受容体が持続的に刺激され続ける</span>。症状はすべてこの一文から導ける。<br/><span class=\"kw3\">①ムスカリン受容体（副交感神経の効果器・汗腺）</span>——<span class=\"kw3\">縮瞳・流涙・流涎・気道分泌亢進・気管支攣縮・発汗・徐脈・悪心嘔吐・下痢・尿失禁</span>。<span class=\"kw3\">SLUDGE（Salivation・Lacrimation・Urination・Defecation・GI upset・Emesis）</span>や<span class=\"kw3\">DUMBELS</span>の語呂で覚える。<span class=\"kw3\">「あらゆる分泌が増えて、瞳が縮む」</span>のが本態である。<span class=\"kw3\">②ニコチン受容体（神経筋接合部・自律神経節）</span>——<span class=\"kw3\">線維束攣縮・筋力低下・（過剰刺激後の）脱分極性遮断による麻痺</span>、神経節刺激による頻脈・高血圧。ムスカリン様の徐脈と拮抗するため<span class=\"kw4\">脈拍は徐脈にも頻脈にもなりうる</span>。<span class=\"kw3\">③中枢神経</span>——<span class=\"kw3\">不穏・意識障害・けいれん・昏睡・呼吸中枢の抑制</span>。<br/><span class=\"kw3\">診断</span>は病歴（農薬の使用・自殺企図・特有のにおい）と症候で疑い、<span class=\"kw3\">血清コリンエステラーゼ〈ChE〉活性の低下</span>で裏づける。<span class=\"kw3\">治療</span>は3本柱である。<span class=\"kw3\">①除染と気道確保</span>——<span class=\"kw4\">医療者自身の二次曝露を防ぐため個人防護具を着けて衣服を除去し、皮膚を洗浄</span>する。<span class=\"kw3\">②アトロピン</span>——ムスカリン様症状に拮抗する。<span class=\"kw3\">投与の目標は瞳孔ではなく「気道分泌の乾燥」</span>で、効果が得られるまで倍量ずつ増やしていく。<span class=\"kw4\">アトロピンはニコチン様症状（筋力低下・呼吸筋麻痺）には無効</span>である。<span class=\"kw3\">③プラリドキシムヨウ化物〈PAM〉</span>——<span class=\"kw3\">AChEに結合した有機リンを外して酵素を再賦活する</span>薬で、<span class=\"kw3\">時間が経つと「エージング（老化）」が起きて不可逆になるため、できるだけ早期に投与する</span>。けいれんにはベンゾジアゼピンを用いる。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　血　尿</td><td><span class=\"kw4\">有機リン中毒の典型症状ではない</span>。尿失禁（ムスカリン様作用による膀胱平滑筋の収縮）は起こりうるが、血尿は本症の症候として挙がらない。</td></tr><tr><td>ｂ　口　渇</td><td><span class=\"kw4\">逆である</span>。有機リン中毒では<span class=\"kw4\">アセチルコリン過剰により唾液分泌が亢進し、流涎（よだれ）が生じる</span>。<span class=\"kw\">口渇・口腔乾燥は抗コリン作用（アトロピン中毒）の症状</span>で、まさに正反対にあたる。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　縮　瞳</span></td><td><span class=\"kw3\">ムスカリン様作用の代表</span>。瞳孔括約筋が収縮して<span class=\"kw3\">著明な縮瞳（pinpoint pupil）</span>となる。<span class=\"kw3\">意識障害＋縮瞳＋流涎＋発汗を見たら有機リンかオピオイド</span>を考える。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　発　汗</span></td><td><span class=\"kw3\">ムスカリン様作用による多量の発汗</span>。エクリン汗腺は<span class=\"kw3\">交感神経支配だがコリン作動性</span>（<span class=\"kw\">Q.11</span>）なので、アセチルコリンの蓄積で発汗が亢進する。気道分泌亢進・流涙・流涎とともに<span class=\"kw3\">「体中が濡れる」</span>像になる。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　けいれん</span></td><td><span class=\"kw3\">中枢神経系でのアセチルコリン蓄積による症状</span>。不穏・頭痛・意識障害から<span class=\"kw3\">全身けいれん・昏睡・中枢性呼吸抑制</span>へ進む。死因は<span class=\"kw3\">気道分泌亢進・気管支攣縮・呼吸筋麻痺・中枢性呼吸抑制による呼吸不全</span>である。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 コリン作動性 vs 抗コリン——正反対の中毒像を対で覚える",
+              "c": "<table class=\"tb\"><tr><th>項目</th><th><span class=\"kw3\">有機リン（コリン作動性）</span></th><th><span class=\"kw\">抗コリン（アトロピン・抗ヒスタミン・三環系）</span></th></tr><tr><td>瞳孔</td><td><span class=\"kw3\">縮瞳</span></td><td><span class=\"kw\">散瞳</span></td></tr><tr><td>分泌</td><td><span class=\"kw3\">流涎・流涙・気道分泌↑・発汗↑</span></td><td><span class=\"kw\">口渇・皮膚乾燥・無汗</span></td></tr><tr><td>皮膚</td><td>湿潤・冷たい</td><td>乾燥・紅潮・高体温</td></tr><tr><td>消化管</td><td><span class=\"kw3\">下痢・腹痛・嘔吐</span></td><td>腸蠕動低下・便秘・尿閉</td></tr><tr><td>心拍</td><td>徐脈（ニコチン様で頻脈にもなる）</td><td>頻脈</td></tr><tr><td>中枢</td><td>けいれん・昏睡</td><td>せん妄・幻覚（\"mad as a hatter\"）</td></tr><tr><td>解毒</td><td><span class=\"kw3\">アトロピン＋PAM</span></td><td>（重症例に）フィゾスチグミン</td></tr></table>皮膚科の講座でこの問題が扱われるのは、<span class=\"kw3\">有機リンが皮膚から吸収される＝経皮吸収の実例</span>だからである（<span class=\"kw\">Q.21</span>）。農作業中の曝露では<span class=\"kw3\">皮膚と気道が主な侵入経路</span>になるため、<span class=\"kw3\">脱衣と皮膚洗浄という「除染」が治療の第一歩</span>になり、<span class=\"kw4\">これを怠ると搬送中も吸収が続き、救助者にも二次曝露が起こる</span>。また<span class=\"kw3\">発汗がエクリン汗腺のコリン作動性支配による</span>という点（<span class=\"kw\">Q.11</span>）が本問と直接つながっており、生理と中毒学が同じ知識で説明できる好例になっている。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 有機リン＝<span class=\"kw3\">AChE阻害→ACh蓄積</span>。症状はすべてここから導ける。<br/>② ムスカリン様＝<span class=\"kw3\">縮瞳・流涎・流涙・気道分泌↑・発汗・徐脈・下痢</span>（SLUDGE/DUMBELS）。<br/>③ ニコチン様＝<span class=\"kw3\">線維束攣縮・筋力低下</span>、中枢＝<span class=\"kw3\">けいれん・意識障害</span>。<br/>④ <span class=\"kw4\">口渇・散瞳・皮膚乾燥は抗コリン中毒の像で、有機リンとは正反対</span>。<br/>⑤ 治療＝<span class=\"kw3\">除染（防護具着用）＋アトロピン（目標は気道分泌の乾燥）＋PAM（早期に）</span>。<br/>⑥ 死因は<span class=\"kw3\">呼吸不全</span>。<span class=\"kw4\">アトロピンはニコチン様の呼吸筋麻痺には効かない</span>。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q18",
+          "qn": "Q.18",
+          "episode": "(102G-19)",
+          "rate": 63,
+          "rate_cls": "cm",
+          "rate_text": "63%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            }
+          ],
+          "qt": "<strong>組合せで正しいのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　皮内試験  ――――――――――― 接触皮膚炎",
+              "ok": false
+            },
+            {
+              "t": "ｂ　貼布試験  ――――――――――― サルコイドーシス",
+              "ok": false
+            },
+            {
+              "t": "ｃ　Tzanck 試験  ―――――――――― 乾　癬",
+              "ok": false
+            },
+            {
+              "t": "ｄ　最少紅斑量試験  ―――――――― 色素性乾皮症",
+              "ok": true
+            },
+            {
+              "t": "ｅ　リンパ球刺激試験  ――――――― アトピー性皮膚炎",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｄ　最少紅斑量試験  ―――――――― 色素性乾皮症",
+          "ans_sub": "最少紅斑量（MED）試験は光線過敏の有無を見る検査で、DNA修復異常の色素性乾皮症ではMEDが著明に低下する。接触皮膚炎はパッチテスト、薬疹はDLST、アトピーはIgE・TARC。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🧪 「疾患と検査」は アレルギーの型 で結び直す",
+              "c": "組合せ問題は丸暗記に見えるが、<span class=\"kw3\">「その検査は何型のアレルギー／どんな機序を見ているのか」</span>に還元すると一本の筋が通る。<br/><span class=\"kw3\">Ⅰ型（即時型・IgE）</span>を見る検査は<span class=\"kw3\">プリックテスト・皮内テスト・スクラッチテスト（15〜20分で膨疹）</span>と<span class=\"kw3\">血清特異的IgE</span>。対応疾患は<span class=\"kw\">蕁麻疹・アナフィラキシー・食物アレルギー</span>である。<br/><span class=\"kw3\">Ⅳ型（遅延型・T細胞）</span>を見る検査は<span class=\"kw3\">パッチテスト（貼布試験）</span>で、<span class=\"kw3\">背部に48時間貼付し、48時間・72時間（＋1週）後に判定</span>する。対応疾患は<span class=\"kw3\">接触皮膚炎</span>。Langerhans細胞が抗原を提示して感作が成立する（<span class=\"kw\">Q.10</span>）という機序が、そのまま検査の原理になっている。<br/><span class=\"kw3\">薬疹</span>では<span class=\"kw3\">薬剤リンパ球刺激試験〈DLST〉</span>（患者リンパ球に被疑薬を加えて増殖を見る）やパッチテスト・（慎重な）内服誘発試験を用いる。<br/>そして本問の正解にあたる<span class=\"kw3\">光線テスト</span>は、アレルギーではなく<span class=\"kw3\">紫外線への感受性そのもの</span>を測る検査である。<span class=\"kw3\">最少紅斑量〈MED〉＝照射24時間後に肉眼で紅斑を生じる最小の紫外線量</span>で、これが低いほど光に弱い。<br/><span class=\"kw3\">色素性乾皮症〈XP〉</span>は<span class=\"kw3\">常染色体潜性遺伝で、紫外線によって生じたピリミジン二量体を修復するヌクレオチド除去修復系が欠損</span>している疾患である。損傷が修復されないため<span class=\"kw3\">わずかな日光でも強い紅斑・水疱を生じ（MEDが著明に低下）</span>、<span class=\"kw3\">乳幼児期から露光部に雀卵斑様の色素斑が多発し、10歳前後から基底細胞癌・有棘細胞癌・悪性黒色腫が多発</span>する。A群など一部の病型では<span class=\"kw\">進行性の神経症状（難聴・小脳失調・知的障害）</span>を伴う。治療法は無く、<span class=\"kw3\">徹底した遮光（サンスクリーン・長袖・UVカットフィルム）と皮膚癌の早期発見のための定期診察</span>が生命予後を決める。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　皮内試験  ――――――――――― 接触皮膚炎</td><td><span class=\"kw4\">接触皮膚炎（Ⅳ型・遅延型）の原因検索はパッチテスト（貼布試験）</span>。<span class=\"kw\">皮内試験は抗原を皮内に注射して15〜20分で膨疹を見るⅠ型（即時型）の検査</span>で、ツベルクリン反応のようにⅣ型を見る用途もあるが、接触皮膚炎の原因検索には用いない。</td></tr><tr><td>ｂ　貼布試験  ――――――――――― サルコイドーシス</td><td>貼布試験＝パッチテストは正しくは接触皮膚炎に用いる。<span class=\"kw4\">サルコイドーシスの診断は生検（非乾酪性類上皮細胞肉芽腫）</span>で、補助的に<span class=\"kw\">血清ACE・可溶性IL-2受容体・血清/尿中カルシウム・胸部画像（両側肺門リンパ節腫脹）</span>を用いる。（歴史的なKveim反応は現在行われない。）</td></tr><tr><td>ｃ　Tzanck 試験  ―――――――――― 乾　癬</td><td><span class=\"kw4\">Tzanck試験は水疱性疾患の検査</span>（<span class=\"kw\">Q.15</span>）。<span class=\"kw\">乾癬の所見はAuspitz現象・Köbner現象で、確定は生検（錯角化・顆粒層消失・Munro微小膿瘍）</span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　最少紅斑量試験  ―――――――― 色素性乾皮症</span></td><td><span class=\"kw3\">最少紅斑量〈MED〉試験＝紫外線を段階的に照射し、24時間後に紅斑を生じる最小線量を測る光線テスト</span>。<span class=\"kw3\">色素性乾皮症〈XP〉はDNA修復（ヌクレオチド除去修復）の欠損によりMEDが著明に低下</span>するため、この組合せが正しい。</td></tr><tr><td>ｅ　リンパ球刺激試験  ――――――― アトピー性皮膚炎</td><td><span class=\"kw4\">薬剤リンパ球刺激試験〈DLST〉は薬疹の原因薬剤を推定する検査</span>。<span class=\"kw\">アトピー性皮膚炎の検査は血清IgE・特異的IgE・末梢血好酸球・TARC（重症度と相関）</span>で、DLSTは用いない。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 皮膚科の検査と疾患——正しい組合せ一覧",
+              "c": "<table class=\"tb\"><tr><th>検査</th><th>見ているもの</th><th>正しい相手</th></tr><tr><td><span class=\"kw3\">最少紅斑量〈MED〉試験</span></td><td><span class=\"kw3\">紫外線感受性</span></td><td><span class=\"kw3\">色素性乾皮症</span>・光線過敏症全般（本問の答え）</td></tr><tr><td><span class=\"kw3\">パッチテスト（貼布試験）</span></td><td><span class=\"kw3\">Ⅳ型</span></td><td><span class=\"kw3\">接触皮膚炎</span>・金属アレルギー</td></tr><tr><td>光パッチテスト</td><td>Ⅳ型＋光</td><td>光接触皮膚炎</td></tr><tr><td><span class=\"kw\">プリック／皮内テスト</span></td><td><span class=\"kw\">Ⅰ型</span></td><td>蕁麻疹・食物/薬物アレルギー</td></tr><tr><td><span class=\"kw\">DLST</span></td><td>薬剤に対するリンパ球反応</td><td><span class=\"kw3\">薬疹</span></td></tr><tr><td>Tzanck試験</td><td>水疱底の細胞</td><td>天疱瘡・ヘルペス（<span class=\"kw\">Q.15</span>）</td></tr><tr><td>KOH直接鏡検</td><td>真菌</td><td>白癬・カンジダ・癜風</td></tr><tr><td>硝子圧法</td><td>退色の有無</td><td>紫斑／尋常性狼瘡（<span class=\"kw\">Q.16・Q.26</span>）</td></tr><tr><td>ダーモスコピー</td><td>表面〜真皮浅層の拡大像</td><td>悪性黒色腫・色素性母斑・疥癬</td></tr><tr><td>蛍光抗体直接法</td><td>組織の免疫グロブリン沈着</td><td>天疱瘡（細胞間）・類天疱瘡（基底膜部）</td></tr><tr><td>血清ACE・sIL-2R</td><td>肉芽腫性炎症の活動性</td><td>サルコイドーシス</td></tr><tr><td>血清IgE・特異的IgE・<span class=\"kw\">TARC</span></td><td>Ⅱ型炎症の活動性</td><td>アトピー性皮膚炎</td></tr></table><span class=\"kw3\">パッチテストの判定</span>も押さえておく。<span class=\"kw3\">48時間貼付 → 剝離30分〜1時間後、さらに48時間後・72時間後に判定</span>し、<span class=\"kw3\">遅延型なので時間が経つほど反応が強くなるのが陽性（crescendo pattern）</span>、逆に<span class=\"kw4\">時間とともに弱まる場合は刺激反応（decrescendo pattern）</span>を疑う。<span class=\"kw4\">湿疹が活動性の時期や、ステロイド外用・内服中は偽陰性</span>になるため、皮疹が落ち着いてから実施する。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">最少紅斑量〈MED〉試験＝紫外線感受性の指標</span>。<span class=\"kw3\">色素性乾皮症で著明に低下</span>。<br/>② <span class=\"kw3\">接触皮膚炎＝パッチテスト（Ⅳ型・48時間貼付・48/72時間判定）</span>。皮内試験ではない。<br/>③ <span class=\"kw3\">薬疹＝DLST</span>／<span class=\"kw3\">アトピー性皮膚炎＝IgE・好酸球・TARC</span>。<br/>④ <span class=\"kw3\">色素性乾皮症＝ヌクレオチド除去修復の欠損</span>。露光部の色素斑と若年からの皮膚癌多発、神経症状。<br/>⑤ XPの治療は<span class=\"kw3\">徹底した遮光と定期的な皮膚診察</span>に尽きる。<br/>⑥ 光線過敏の背景疾患は<span class=\"kw\">Q.12・Q.27</span>と一体で整理する。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q19",
+          "qn": "Q.19",
+          "episode": "(97B-50)",
+          "rate": -1,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            }
+          ],
+          "qt": "<strong><span class=\"kw\">PUVA 療法</span>について正しいのはどれか。<span class=\"kw\">3つ選べ</span>。</strong>",
+          "choices": [
+            {
+              "t": "ａ　最小紅斑量以上の紫外線が用いられる。",
+              "ok": false
+            },
+            {
+              "t": "ｂ　長波長の紫外線が用いられる。",
+              "ok": true
+            },
+            {
+              "t": "ｃ　外用法と内服法とがある。",
+              "ok": true
+            },
+            {
+              "t": "ｄ　尋常性白斑の治療に用いられる。",
+              "ok": true
+            },
+            {
+              "t": "ｅ　眼を保護する必要はない。",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｂ・ｃ・ｄ",
+          "ans_sub": "PUVA＝ソラレン（P）＋UVA（長波長紫外線）。内服・外用・バスの3法があり、尋常性白斑・乾癬などに用いる。照射量はMED未満から漸増し、眼保護（白内障予防）が必須。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🔆 PUVA療法——ソラニン(P)とUVA(A)の組合せ",
+              "c": "<span class=\"kw3\">PUVA療法</span>は<span class=\"kw3\">光感受性物質ソラレン〈Psoralen〉を投与したうえでUVA（320〜400nm）を照射する光化学療法</span>である。名前がそのまま構成要素を表しており、<span class=\"kw3\">P＝ソラレン、UVA＝長波長紫外線</span>である。<br/>作用機序はこうである。ソラレンは<span class=\"kw3\">表皮細胞の核内でDNAの塩基（ピリミジン）に入り込み、UVAを浴びると架橋（クロスリンク）を形成する</span>。これにより<span class=\"kw3\">DNA合成と細胞増殖が抑制</span>され、同時に<span class=\"kw3\">活性化T細胞のアポトーシス誘導・免疫抑制</span>が起こる。この2つの作用が、<span class=\"kw3\">乾癬（表皮の過増殖＋T細胞性炎症）</span>によく効く理由である。<span class=\"kw3\">尋常性白斑</span>に対しては別の機序が働き、<span class=\"kw3\">毛包に残存するメラノサイトの増殖と遊走を促して色素を再生させる</span>。本問の肢dはこの適応を問うている。<br/>投与経路は3つある。<span class=\"kw3\">①内服PUVA</span>（照射2時間前に内服）、<span class=\"kw3\">②外用PUVA</span>（患部にソラレン液を塗布）、<span class=\"kw3\">③バスPUVA</span>（ソラレンを溶かした湯に入浴してから照射）。<span class=\"kw3\">局所病変では外用/バスPUVAを選ぶと、全身への曝露と眼への影響を避けられる</span>。<br/>照射量の設定が肢aのポイントで、<span class=\"kw3\">最小紅斑量〈MED〉あるいは最小光毒量〈MPD〉未満から開始し、反応を見ながら少しずつ増やす</span>のが鉄則である。いきなりMED以上を照射すれば日焼け様の紅斑・水疱・疼痛という急性光毒性が出る。また肢eの眼保護も必須で、<span class=\"kw4\">内服したソラレンは水晶体にも分布し、UVAと反応して白内障のリスクを上げる</span>。そのため<span class=\"kw3\">内服PUVAでは照射当日、照射後も一定時間はUVAカットのサングラスを着用</span>させる。長期的には<span class=\"kw4\">累積照射量に依存して皮膚癌（とくに有棘細胞癌）のリスクが上がる</span>ため、総照射回数・総線量を記録して管理する。この発癌リスクとソラレンの副作用を避けられることから、現在は<span class=\"kw3\">ナローバンドUVB（311nm前後）が第一選択になることが多い</span>——内服不要・眼保護不要・妊婦にも使いやすい、という利点がある（<span class=\"kw\">Q.8</span>）。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　最小紅斑量以上の紫外線が用いられる。</td><td><span class=\"kw4\">紅斑を生じない量から開始し、反応を見ながら漸増する</span>のが原則。最小紅斑量〈MED〉以上を最初から当てれば、日焼け様の紅斑・水疱という<span class=\"kw4\">急性障害を起こしてしまう</span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　長波長の紫外線が用いられる。</span></td><td><span class=\"kw3\">PUVAのAはUVA（320〜400nm＝長波長紫外線）</span>のA。UVAは<span class=\"kw3\">真皮まで到達する</span>ため、深部の炎症細胞にも届く。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　外用法と内服法とがある。</span></td><td><span class=\"kw3\">ソラレンの投与経路によって内服PUVA・外用PUVA・バスPUVA（浴槽で外用）</span>がある。<span class=\"kw3\">局所の病変には外用/バスPUVAが選ばれ、内服に伴う悪心・眼保護の負担を避けられる</span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　尋常性白斑の治療に用いられる。</span></td><td><span class=\"kw3\">尋常性白斑は代表的な適応</span>（<span class=\"kw\">Q.5</span>）。ほかに<span class=\"kw3\">尋常性乾癬・掌蹠膿疱症・菌状息肉症（皮膚T細胞リンパ腫）・アトピー性皮膚炎・円形脱毛症</span>など。</td></tr><tr><td>ｅ　眼を保護する必要はない。</td><td><span class=\"kw4\">必要である</span>。<span class=\"kw4\">ソラレンは水晶体に取り込まれ、UVAと反応して白内障のリスクを高める</span>ため、<span class=\"kw3\">内服PUVAでは照射日は照射後も含めてUVAカットのサングラスを着用</span>する。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 光線療法の比較と、PUVAの禁忌・注意",
+              "c": "<table class=\"tb\"><tr><th>項目</th><th><span class=\"kw3\">PUVA</span></th><th><span class=\"kw3\">ナローバンドUVB</span></th></tr><tr><td>波長</td><td><span class=\"kw3\">UVA 320〜400nm</span></td><td>311nm前後</td></tr><tr><td>光感受性物質</td><td><span class=\"kw3\">ソラレン（必要）</span></td><td><span class=\"kw3\">不要</span></td></tr><tr><td>到達深度</td><td>真皮まで</td><td>表皮〜真皮浅層</td></tr><tr><td>眼保護</td><td><span class=\"kw3\">内服法では必須（白内障）</span></td><td>照射中のゴーグルのみ</td></tr><tr><td>妊娠</td><td><span class=\"kw4\">内服PUVAは避ける</span></td><td>比較的安全（<span class=\"kw\">Q.8</span>）</td></tr><tr><td>適応</td><td colspan=\"2\"><span class=\"kw3\">尋常性乾癬・尋常性白斑・掌蹠膿疱症・菌状息肉症・アトピー性皮膚炎・円形脱毛症・痒疹</span></td></tr></table><span class=\"kw4\">禁忌・慎重投与</span>も押さえる。<span class=\"kw4\">光線過敏症（色素性乾皮症・ポルフィリン症・SLE）</span>は当然禁忌で、<span class=\"kw4\">皮膚癌の既往・多数の色素性母斑・免疫抑制薬（シクロスポリン）併用</span>は発癌リスクの点から慎重に判断する。<span class=\"kw4\">光線過敏を起こす薬剤（ニューキノロン・テトラサイクリン・チアジド・NSAIDs）</span>を服用中の患者では予期せぬ強い反応が出るため、必ず薬歴を確認する。<br/>急性の副作用は<span class=\"kw\">紅斑・水疱・瘙痒・（内服では）悪心</span>、慢性の副作用は<span class=\"kw3\">光老化（しみ・しわ）・PUVA黒子・白内障・皮膚癌</span>である。施行にあたっては<span class=\"kw3\">総照射回数と累積線量を記録し、定期的に全身の皮膚を診察して皮膚癌の早期発見に努める</span>ことが管理の要点になる。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">PUVA＝ソラレン＋UVA（長波長・320〜400nm）</span>。<span class=\"kw3\">内服・外用・バスの3法</span>がある。<br/>② 適応は<span class=\"kw3\">乾癬・尋常性白斑・掌蹠膿疱症・菌状息肉症</span>など。<br/>③ 照射量は<span class=\"kw3\">MED（MPD）未満から漸増</span>。<span class=\"kw4\">最初からMED以上は誤り</span>。<br/>④ <span class=\"kw3\">内服PUVAでは眼保護が必須</span>——ソラレンが水晶体に分布し<span class=\"kw4\">白内障</span>のリスク。<br/>⑤ 長期の<span class=\"kw4\">累積線量依存性に皮膚癌（有棘細胞癌）</span>が増える。記録して管理する。<br/>⑥ 現在は<span class=\"kw3\">ナローバンドUVBが第一選択</span>になることが多い（内服不要・妊娠中も使いやすい、<span class=\"kw\">Q.8</span>）。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q20",
+          "qn": "Q.20",
+          "episode": "(112D-7)",
+          "rate": 86,
+          "rate_cls": "ch",
+          "rate_text": "86%",
+          "badges": [],
+          "qt": "<strong>皮膚疾患と<span class=\"kw\">浸潤細胞</span>の組合せで正しいのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　Sweet 病  ――――――――――― マクロファージ",
+              "ok": false
+            },
+            {
+              "t": "ｂ　固定薬疹  ――――――――――― 形質細胞",
+              "ok": false
+            },
+            {
+              "t": "ｃ　尋常性狼瘡  ―――――――――― 好酸球",
+              "ok": false
+            },
+            {
+              "t": "ｄ　色素性蕁麻疹  ――――――――― 肥満細胞",
+              "ok": true
+            },
+            {
+              "t": "ｅ　移植片対宿主病〈GVHD〉  ―――― 好中球",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｄ　色素性蕁麻疹  ――――――――― 肥満細胞",
+          "ans_sub": "色素性蕁麻疹＝肥満細胞。Sweet病＝好中球、固定薬疹＝CD8陽性T細胞、尋常性狼瘡＝類上皮細胞肉芽腫（結核）、GVHD＝ドナー由来T細胞。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🔬 「どの細胞が集まっているか」で疾患群を分ける",
+              "c": "皮膚の炎症性疾患は<span class=\"kw3\">浸潤している細胞の種類で大きく性格が決まる</span>。これを整理しておくと、病理像から診断へ、あるいは診断から予想される病理へと双方向に行き来できるようになる。<br/><span class=\"kw3\">好中球が主役</span>なのは<span class=\"kw3\">Sweet病・壊疽性膿皮症・膿疱性乾癬・掌蹠膿疱症・Behçet病・血管炎（白血球破砕性血管炎）</span>など、いわゆる<span class=\"kw3\">好中球性皮膚症〈neutrophilic dermatosis〉</span>と呼ばれる一群である。共通して<span class=\"kw3\">発熱・炎症反応の上昇を伴い、ステロイド全身投与がよく効き、基礎疾患（血液疾患・炎症性腸疾患・関節リウマチ）を背景にもつことがある</span>。<br/><span class=\"kw3\">リンパ球（T細胞）が主役</span>なのは<span class=\"kw3\">扁平苔癬・固定薬疹・GVHD・多形滲出性紅斑・接触皮膚炎・菌状息肉症</span>など。このうち<span class=\"kw3\">扁平苔癬・固定薬疹・GVHD・多形滲出性紅斑</span>は<span class=\"kw3\">「表皮基底層が攻撃される」という共通の病理（界面皮膚炎〈interface dermatitis〉）</span>を示し、<span class=\"kw3\">基底層の空胞変性とケラチノサイトのアポトーシス</span>が見える。<br/><span class=\"kw3\">肥満細胞が主役</span>なのが本問の答えである<span class=\"kw3\">色素性蕁麻疹（皮膚肥満細胞症）</span>で、これは「炎症で集まってきた」のではなく<span class=\"kw3\">肥満細胞そのものが腫瘍性・過形成性に増えている</span>点で他と性格が異なる。<span class=\"kw3\">好酸球が主役</span>なのは<span class=\"kw3\">アトピー性皮膚炎・薬疹（とくにDIHS）・水疱性類天疱瘡・寄生虫症・好酸球性膿疱性毛包炎</span>。<span class=\"kw3\">類上皮細胞（肉芽腫）</span>なら<span class=\"kw3\">サルコイドーシス・皮膚結核（尋常性狼瘡）・Hansen病・環状肉芽腫・異物肉芽腫</span>を考える。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　Sweet 病  ――――――――――― マクロファージ</td><td><span class=\"kw4\">Sweet病（急性熱性好中球性皮膚症）の浸潤細胞は好中球</span>。<span class=\"kw\">発熱・有痛性の浮腫性紅斑・末梢血好中球増多</span>を三徴とし、病理では真皮上層に好中球が稠密に浸潤する。<span class=\"kw\">骨髄異形成症候群など血液疾患の合併</span>に注意。</td></tr><tr><td>ｂ　固定薬疹  ――――――――――― 形質細胞</td><td><span class=\"kw4\">固定薬疹の主役はCD8陽性の細胞傷害性T細胞</span>。表皮基底層に潜んで待機しているため、<span class=\"kw3\">原因薬を飲むたびに毎回同じ部位に円形の紅斑〜水疱が再燃し、色素沈着を残す</span>。真皮にはメラノファージが目立つ。</td></tr><tr><td>ｃ　尋常性狼瘡  ―――――――――― 好酸球</td><td><span class=\"kw4\">尋常性狼瘡は皮膚結核で、浸潤細胞は類上皮細胞・Langhans巨細胞（肉芽腫）</span>。好酸球ではない。硝子圧法で<span class=\"kw\">apple jelly nodule</span>を認める（<span class=\"kw\">Q.26</span>）。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　色素性蕁麻疹  ――――――――― 肥満細胞</span></td><td><span class=\"kw3\">正しい。真皮内に肥満細胞が稠密に浸潤する皮膚肥満細胞症</span>（<span class=\"kw\">Q.7</span>）。<span class=\"kw3\">トルイジンブルーで赤紫色（異染性）</span>に染まり、<span class=\"kw3\">擦過でDarier徴候</span>が陽性になる（<span class=\"kw\">Q.25</span>）。</td></tr><tr><td>ｅ　移植片対宿主病〈GVHD〉  ―――― 好中球</td><td><span class=\"kw4\">GVHDの主役はドナー由来のT細胞（リンパ球）</span>。病理では表皮基底層の空胞変性と、<span class=\"kw\">アポトーシスに陥ったケラチノサイトにリンパ球が接する satellite cell necrosis</span>が特徴。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 浸潤細胞×疾患 対応表",
+              "c": "<table class=\"tb\"><tr><th>浸潤細胞</th><th>代表疾患</th><th>手がかり</th></tr><tr><td><span class=\"kw3\">好中球</span></td><td><span class=\"kw3\">Sweet病</span>・壊疽性膿皮症・膿疱性乾癬・掌蹠膿疱症・血管炎</td><td>発熱・CRP↑・膿疱・ステロイドが著効</td></tr><tr><td><span class=\"kw3\">リンパ球（T細胞）</span></td><td><span class=\"kw3\">扁平苔癬・固定薬疹・GVHD</span>・多形滲出性紅斑・接触皮膚炎・菌状息肉症</td><td><span class=\"kw\">界面皮膚炎（基底層の空胞変性）</span>／菌状息肉症は<span class=\"kw\">Pautrier微小膿瘍</span></td></tr><tr><td><span class=\"kw3\">肥満細胞</span></td><td><span class=\"kw3\">色素性蕁麻疹・肥満細胞腫</span></td><td><span class=\"kw3\">トルイジンブルー異染性・Darier徴候</span></td></tr><tr><td><span class=\"kw\">好酸球</span></td><td>アトピー性皮膚炎・薬疹（DIHS）・水疱性類天疱瘡・寄生虫症</td><td>末梢血好酸球増多・IgE↑</td></tr><tr><td><span class=\"kw\">類上皮細胞（肉芽腫）</span></td><td>サルコイドーシス・皮膚結核・Hansen病・環状肉芽腫</td><td>非乾酪性／乾酪性の区別・<span class=\"kw\">apple jelly nodule</span></td></tr><tr><td>形質細胞</td><td>梅毒（第2期）・慢性膿皮症</td><td>形質細胞浸潤は梅毒を想起させる</td></tr></table><span class=\"kw3\">固定薬疹</span>は臨床像も併せて覚えておきたい。<span class=\"kw3\">原因薬を服用するたびに、毎回まったく同じ部位に</span>円形〜楕円形の<span class=\"kw3\">境界明瞭な暗紫紅色斑（時に中央が水疱化）</span>が出現し、軽快後に<span class=\"kw3\">色素沈着を残す</span>。好発部位は口唇・外陰部・手足で、原因薬は<span class=\"kw\">NSAIDs・抗菌薬（ニューキノロン・テトラサイクリン）・総合感冒薬・アセトアミノフェン</span>など。<span class=\"kw3\">「同じ場所に繰り返す」という病歴だけで診断がつく</span>のが特徴で、確認にはその部位でのパッチテストや内服誘発試験を行う。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">色素性蕁麻疹＝肥満細胞</span>。トルイジンブルー異染性・Darier徴候（<span class=\"kw\">Q.7・Q.25</span>）。<br/>② <span class=\"kw3\">Sweet病＝好中球</span>。発熱＋有痛性浮腫性紅斑＋好中球増多。血液疾患の合併に注意。<br/>③ <span class=\"kw3\">固定薬疹＝CD8陽性T細胞</span>。<span class=\"kw3\">同じ部位に繰り返し、色素沈着を残す</span>。<br/>④ <span class=\"kw3\">GVHD＝ドナー由来T細胞</span>。satellite cell necrosis。<br/>⑤ <span class=\"kw3\">尋常性狼瘡＝皮膚結核＝類上皮細胞肉芽腫</span>。apple jelly nodule。<br/>⑥ 好中球性皮膚症（Sweet病・壊疽性膿皮症・膿疱性乾癬）は<span class=\"kw\">まとめて一群</span>で覚える。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q21",
+          "qn": "Q.21",
+          "episode": "(111B-15)",
+          "rate": 96,
+          "rate_cls": "ch",
+          "rate_text": "96%",
+          "badges": [
+            {
+              "cls": "bc",
+              "t": "CBT"
+            }
+          ],
+          "qt": "<strong>外用剤の<span class=\"kw\">経皮吸収</span>について正しいのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　毛孔からは経皮吸収は起きない。",
+              "ok": false
+            },
+            {
+              "t": "ｂ　角層が厚いほど経皮吸収は高まる。",
+              "ok": false
+            },
+            {
+              "t": "ｃ　陰囊の経皮吸収は掌蹠に比べて低い。",
+              "ok": false
+            },
+            {
+              "t": "ｄ　分子量が小さい物質は経皮吸収が低い。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　閉鎖密封法〈ODT〉は経皮吸収を高める。",
+              "ok": true
+            }
+          ],
+          "ans_label": "ｅ　閉鎖密封法〈ODT〉は経皮吸収を高める。",
+          "ans_sub": "経皮吸収の律速は角層。角層が薄い部位（陰囊＞顔面＞体幹＞前腕＞掌蹠）ほど高く、分子量が小さいほど高い。ODT（閉鎖密封）は角層を水和させて吸収を高める。毛孔からの吸収もある。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🚪 経皮吸収の3つの経路と、律速になる角層",
+              "c": "外用薬が皮膚を通って作用点へ届く道は<span class=\"kw3\">3つ</span>ある。<span class=\"kw3\">①角層細胞間経路</span>——角質細胞のあいだの脂質（セラミド等）のすきまを通る経路で、<span class=\"kw3\">経皮吸収の主役</span>。<span class=\"kw3\">②角層細胞内経路</span>——角質細胞を突っ切る経路（寄与は小さい）。<span class=\"kw3\">③付属器経路（毛包・脂腺・汗腺）</span>——<span class=\"kw3\">角層を迂回できるショートカット</span>で、面積は小さいが<span class=\"kw3\">大きい分子・イオン性物質・投与直後の吸収に寄与</span>する。肢aが誤りなのはこの③があるからである。<br/>いずれにせよ<span class=\"kw3\">最大の抵抗は角層</span>で、<span class=\"kw3\">「角層が薄い／水和している／障害されている」ほど吸収は高まる</span>。ここから4つの原則がすべて導ける。<br/><span class=\"kw3\">原則1：部位で違う</span>。前腕内側を1としたときの吸収率はおおよそ<span class=\"kw3\">陰囊 約40／顔面（頰） 約13／前額 約6／腋窩 約3.6／背部 約1.7／前腕 1／足底 約0.14</span>である。<span class=\"kw3\">陰囊・眼瞼・顔面は高く、掌蹠は低い</span>。これが「顔には弱いランクを短期で、掌蹠には強いランクを」というステロイド外用の使い分けの根拠になる（<span class=\"kw\">Q.9</span>）。<br/><span class=\"kw3\">原則2：分子の性質で違う</span>。<span class=\"kw3\">分子量が小さいほど（目安は500以下）、適度に脂溶性であるほど吸収されやすい</span>。完全な水溶性でも完全な脂溶性でも通りにくく、<span class=\"kw\">脂質層と水層の両方を渡る必要がある</span>ためである。<br/><span class=\"kw3\">原則3：皮膚の状態で違う</span>。<span class=\"kw4\">びらん・潰瘍・湿疹などバリアが壊れた皮膚では吸収が著明に亢進</span>する。広範囲熱傷や重症のアトピー性皮膚炎で外用薬の全身性副作用が問題になるのはこのためで、<span class=\"kw4\">乳幼児は体表面積/体重比が大きく角層も薄いため、とくに注意が要る</span>。<br/><span class=\"kw3\">原則4：外的条件で変えられる</span>。<span class=\"kw3\">ODT（閉鎖密封療法）は角層を水和させて吸収を高める</span>——これが本問の答えである。基剤も影響し、<span class=\"kw\">軟膏（油脂性）＞クリーム＞ローション</span>の順で密封性が高く吸収されやすい。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　毛孔からは経皮吸収は起きない。</td><td><span class=\"kw4\">毛包脂腺経路（付属器経路）は重要な吸収経路</span>。面積としては皮膚表面の1%程度にすぎないが、角層のバリアを迂回できるため<span class=\"kw4\">とくに分子量の大きい物質やイオン性物質、投与直後の吸収に寄与</span>する。</td></tr><tr><td>ｂ　角層が厚いほど経皮吸収は高まる。</td><td><span class=\"kw4\">逆である</span>。<span class=\"kw3\">角層こそが経皮吸収の律速バリア</span>なので、<span class=\"kw3\">角層が厚い掌蹠では吸収が低く、薄い眼瞼・陰囊では高い</span>。</td></tr><tr><td>ｃ　陰囊の経皮吸収は掌蹠に比べて低い。</td><td><span class=\"kw4\">正反対</span>。<span class=\"kw3\">陰囊は全身で最も経皮吸収が高い部位</span>（前腕内側を1とすると約40倍）で、<span class=\"kw3\">掌蹠は最も低い（約0.1〜0.8倍）</span>。</td></tr><tr><td>ｄ　分子量が小さい物質は経皮吸収が低い。</td><td><span class=\"kw4\">逆である</span>。角層細胞間脂質のすきまを通るには小さいほど有利で、<span class=\"kw3\">おおむね分子量500以下、適度な脂溶性をもつ物質がよく吸収される</span>（500ダルトンルール）。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　閉鎖密封法〈ODT〉は経皮吸収を高める。</span></td><td><span class=\"kw3\">正しい</span>。外用後にラップやテープで覆うと<span class=\"kw3\">角層が水和して膨潤し、薬剤の拡散が進む</span>。<span class=\"kw3\">掌蹠の角化性病変・苔癬化した局面など、薬が入りにくい部位で用いる</span>。ただし<span class=\"kw4\">全身性副作用・毛包炎・皮膚萎縮のリスクも高まる</span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 外用療法の実務——基剤・ランク・使用量",
+              "c": "<table class=\"tb\"><tr><th>基剤</th><th>特徴</th><th>向く病変</th></tr><tr><td><span class=\"kw3\">軟膏（油脂性）</span></td><td>刺激が少なく<span class=\"kw3\">びらん面にも使える</span>・べたつく</td><td>乾燥・亀裂・びらん・広く汎用</td></tr><tr><td>クリーム（乳剤性）</td><td>伸びがよい・<span class=\"kw4\">びらん面にはしみる</span></td><td>湿潤の少ない病変</td></tr><tr><td>ローション／フォーム</td><td>被髪部に塗りやすい</td><td>頭部・広範囲</td></tr><tr><td>テープ剤</td><td><span class=\"kw3\">それ自体がODT</span>・効果が強い</td><td>肥厚した局面・限局病変</td></tr></table><span class=\"kw3\">ステロイド外用薬のランク</span>は5段階（<span class=\"kw\">strongest／very strong／strong／medium／weak</span>）で、<span class=\"kw3\">部位と重症度で選ぶ</span>。<span class=\"kw3\">顔面・頸部・陰部は medium 以下を短期で</span>、<span class=\"kw3\">体幹・四肢は strong〜very strong</span>、<span class=\"kw3\">掌蹠の角化病変は strongest やODT</span>という組み立てになる。<span class=\"kw4\">乳幼児はランクを1段階下げる</span>のが原則である。<br/>塗る量の指標が<span class=\"kw3\">finger tip unit〈FTU〉</span>で、<span class=\"kw3\">チューブから人差し指の先端〜第1関節に出した量（約0.5g）が成人の手掌2枚分の面積に相当</span>する。<span class=\"kw4\">「薄く伸ばす」という指示は塗布量不足を招き治療失敗の主因</span>になるため、<span class=\"kw3\">ティッシュが貼りつく程度にしっかり塗る</span>と具体的に伝える。ODTを行う場合は、<span class=\"kw4\">感染巣には行わない（細菌・真菌が増殖する）</span>ことと、<span class=\"kw4\">長期連用で皮膚萎縮・毛包炎・全身性副作用が出る</span>ことに注意する。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 経皮吸収の律速は<span class=\"kw3\">角層</span>。<span class=\"kw3\">薄い部位ほど吸収が高い</span>。<br/>② 部位差＝<span class=\"kw3\">陰囊（最高・約40倍）＞顔面＞体幹＞前腕＞掌蹠（最低）</span>。<br/>③ <span class=\"kw3\">分子量が小さい（〜500）ほど、適度に脂溶性であるほど吸収されやすい</span>。<br/>④ <span class=\"kw3\">ODTは角層を水和させて吸収を高める</span>。<span class=\"kw4\">感染巣には行わない</span>。<br/>⑤ <span class=\"kw3\">毛包経路（付属器経路）からの吸収もある</span>——肢aは誤り。<br/>⑥ <span class=\"kw4\">びらん・湿疹・乳幼児では吸収が亢進</span>し全身性副作用のリスクが上がる。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q22",
+          "qn": "Q.22",
+          "episode": "(109B-23)",
+          "rate": 98,
+          "rate_cls": "ch",
+          "rate_text": "98%",
+          "badges": [
+            {
+              "cls": "bc",
+              "t": "CBT"
+            },
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "<span class=\"kw\">皮膚検査の陽性所見</span>の写真を示す。<br/><strong>この検査はどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　針反応",
+              "ok": false
+            },
+            {
+              "t": "ｂ　硝子圧法",
+              "ok": false
+            },
+            {
+              "t": "ｃ　皮膚描記法",
+              "ok": true
+            },
+            {
+              "t": "ｄ　皮内テスト",
+              "ok": false
+            },
+            {
+              "t": "ｅ　光線テスト",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｃ　皮膚描記法",
+          "ans_sub": "擦過した線に一致して線状の膨疹が生じている＝皮膚描記法陽性（皮膚描記症・機械性蕁麻疹）。針反応はBehçet病、硝子圧法は紫斑の鑑別、皮内テストはⅠ型、光線テストはMED測定。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "✍️ 皮膚描記症——「引っかくと文字が書ける」皮膚",
+              "c": "<span class=\"kw3\">皮膚描記法〈dermographism test〉</span>は、<span class=\"kw3\">先の丸い器具（ペンの尻・舌圧子の角など）で皮膚を一定の圧で擦り、その線に沿って反応が出るかどうかを見る</span>きわめて簡便な検査である。正常でも軽い赤い線は出るが、<span class=\"kw3\">明瞭に隆起した膨疹（と周囲の発赤）が生じるとき「皮膚描記症〈dermographism〉陽性」</span>とする。写真ではまさに、擦過した軌跡が白く盛り上がって浮かび上がっている。<br/>機序は<span class=\"kw3\">Lewisの三重反応</span>で説明される。皮膚を機械的に刺激すると、<span class=\"kw3\">①局所の毛細血管拡張による発赤（red line）→②軸索反射による周囲の紅暈（flare）→③血管透過性亢進による膨疹（wheal）</span>という3段階の反応が数分のうちに順に現れる。この過程を駆動しているのが<span class=\"kw3\">肥満細胞から放出されるヒスタミン</span>で、肥満細胞が刺激に過敏な状態だと反応が誇張されて膨疹まで至る。<br/>臨床的な意味は文脈で変わる。<span class=\"kw3\">健常人でも数%〜5%程度に陽性</span>となり、それ自体は病気ではない。症状（瘙痒）を伴って日常生活に支障をきたす場合に<span class=\"kw3\">機械性蕁麻疹（人工蕁麻疹）</span>という<span class=\"kw3\">物理性蕁麻疹の一型</span>として扱い、<span class=\"kw3\">抗ヒスタミン薬</span>で治療する。また<span class=\"kw3\">アトピー性皮膚炎・慢性蕁麻疹・肥満細胞症</span>で陽性率が高い。なお<span class=\"kw3\">色素性蕁麻疹で色素斑を擦って膨疹が出る Darier徴候</span>（<span class=\"kw\">Q.7・Q.25</span>）は、<span class=\"kw3\">「病変部だけに限って起こる皮膚描記反応」</span>と理解すると両者がきれいに繋がる。<span class=\"kw4\">アトピー性皮膚炎では逆に、擦過部が白く抜ける「白色皮膚描記症」</span>がみられることもあり、これは血管収縮が優位になるためと考えられている。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　針反応</td><td><span class=\"kw4\">Behçet病</span>で行う検査。<span class=\"kw4\">無菌の注射針を皮内に刺し、24〜48時間後に発赤・小膿疱が生じれば陽性</span>。本例のような擦過に一致した線状の膨疹ではない。</td></tr><tr><td>ｂ　硝子圧法</td><td><span class=\"kw4\">硝子板で圧迫して退色の有無を見る手技</span>（<span class=\"kw\">Q.16・Q.26</span>）。紫斑と紅斑の鑑別に用いる。器具を当てるだけで、線状の膨疹は生じない。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　皮膚描記法</span></td><td><span class=\"kw3\">先の丸い器具で皮膚を機械的に擦過し、その線に一致して膨疹（と周囲の発赤）が生じるかを見る検査</span>。写真の前腕には<span class=\"kw3\">擦過した線の形そのままに白く隆起した膨疹</span>がみられ、<span class=\"kw3\">皮膚描記症（機械性蕁麻疹）が陽性</span>である。</td></tr><tr><td>ｄ　皮内テスト</td><td><span class=\"kw4\">抗原液を皮内に注射し、15〜20分後の膨疹径・発赤径で判定するⅠ型アレルギーの検査</span>。膨疹は<span class=\"kw4\">注射部位に円形に</span>できるのであって、線状にはならない。</td></tr><tr><td>ｅ　光線テスト</td><td><span class=\"kw4\">紫外線を段階的に照射して最少紅斑量〈MED〉を測る検査</span>（<span class=\"kw\">Q.18・Q.19</span>）。判定は24時間後の<span class=\"kw4\">四角い照射窓に一致した紅斑</span>で、膨疹ではない。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 蕁麻疹の分類と、紛らわしい「皮膚テスト」の判定時間",
+              "c": "<table class=\"tb\"><tr><th>分類</th><th>型</th><th>誘因</th></tr><tr><td rowspan=\"2\"><span class=\"kw3\">特発性</span></td><td>急性蕁麻疹</td><td>発症6週未満</td></tr><tr><td>慢性蕁麻疹</td><td><span class=\"kw3\">6週以上</span>・原因不明が多数</td></tr><tr><td rowspan=\"4\"><span class=\"kw3\">物理性（刺激誘発型）</span></td><td><span class=\"kw3\">機械性蕁麻疹（皮膚描記症）</span></td><td><span class=\"kw3\">擦過・圧迫</span>（本問）</td></tr><tr><td>寒冷蕁麻疹</td><td>寒冷曝露・氷嚢テスト</td></tr><tr><td>日光蕁麻疹</td><td>日光曝露（<span class=\"kw\">Q.12</span>の光線過敏症とは別）</td></tr><tr><td><span class=\"kw\">コリン性蕁麻疹</span></td><td><span class=\"kw3\">発汗刺激（入浴・運動・緊張）・1〜4mmの小型膨疹</span></td></tr><tr><td>その他</td><td>アレルギー性・食物依存性運動誘発アナフィラキシー・血管性浮腫</td><td>—</td></tr></table><table class=\"tb\"><tr><th>検査</th><th>判定のタイミング</th><th>陽性所見</th></tr><tr><td><span class=\"kw3\">皮膚描記法</span></td><td><span class=\"kw3\">数分</span></td><td><span class=\"kw3\">線状の膨疹＋発赤</span></td></tr><tr><td>プリック／皮内テスト</td><td>15〜20分</td><td>円形の膨疹（Ⅰ型）</td></tr><tr><td><span class=\"kw\">針反応</span></td><td><span class=\"kw3\">24〜48時間</span></td><td>発赤・小膿疱（<span class=\"kw3\">Behçet病</span>）</td></tr><tr><td>パッチテスト</td><td>48・72時間</td><td>紅斑・浸潤・小水疱（Ⅳ型・<span class=\"kw\">Q.18</span>）</td></tr><tr><td>ツベルクリン反応</td><td>48時間</td><td>発赤径で判定（Ⅳ型）</td></tr><tr><td>光線テスト</td><td>24時間</td><td>照射窓に一致した紅斑＝MED（<span class=\"kw\">Q.19</span>）</td></tr></table><span class=\"kw3\">「何分で読むか」で検査が分類できる</span>——<span class=\"kw3\">数分〜20分ならⅠ型・物理性、24〜72時間ならⅣ型</span>、というのがこの一群を取りこぼさないための最短の整理である。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">擦過した線に一致する膨疹＝皮膚描記法陽性（皮膚描記症）</span>。<br/>② 機序は<span class=\"kw3\">Lewisの三重反応（発赤→紅暈→膨疹）</span>で、<span class=\"kw3\">肥満細胞由来のヒスタミン</span>が駆動する。<br/>③ <span class=\"kw3\">健常人でも数%は陽性</span>。症状を伴えば<span class=\"kw3\">機械性蕁麻疹</span>として抗ヒスタミン薬で治療。<br/>④ <span class=\"kw3\">Darier徴候は「病変部限定の皮膚描記反応」</span>（<span class=\"kw\">Q.7・Q.25</span>）。<br/>⑤ <span class=\"kw3\">針反応＝Behçet病（24〜48時間）</span>。判定時間で検査を仕分ける。<br/>⑥ 物理性蕁麻疹＝機械性・寒冷・日光・コリン性。<span class=\"kw\">コリン性は発汗刺激で小型の膨疹が多発</span>。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/109B-23_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch01_q23",
+          "qn": "Q.23",
+          "episode": "(108G-8)",
+          "rate": 91,
+          "rate_cls": "ch",
+          "rate_text": "91%",
+          "badges": [
+            {
+              "cls": "bc",
+              "t": "CBT"
+            }
+          ],
+          "qt": "<strong><span class=\"kw\">表皮細胞間接着</span>に関与するのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　アミロイド",
+              "ok": false
+            },
+            {
+              "t": "ｂ　ケラチン",
+              "ok": false
+            },
+            {
+              "t": "ｃ　セラミド",
+              "ok": false
+            },
+            {
+              "t": "ｄ　デスモゾーム",
+              "ok": true
+            },
+            {
+              "t": "ｅ　ヘミデスモゾーム",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｄ　デスモゾーム",
+          "ans_sub": "表皮細胞間接着＝デスモソーム（デスモグレイン・デスモコリン）。ヘミデスモソームは基底細胞と基底膜の接着。ケラチンは細胞内、セラミドは角層細胞間の脂質、アミロイドは病的沈着物。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🔗 接着装置と水疱症は一対一で対応する",
+              "c": "表皮がバラバラにならないのは<span class=\"kw3\">接着装置</span>が働いているからで、<span class=\"kw3\">どの装置が壊れるかで、どの高さに水疱ができるかが決まる</span>。この対応関係を押さえると、水疱症は丸暗記から機序の理解へ変わる。<br/><span class=\"kw3\">デスモソーム</span>は<span class=\"kw3\">ケラチノサイトどうしを留める細胞間接着装置</span>で、細胞膜を貫く接着分子<span class=\"kw3\">デスモグレイン〈Dsg1・Dsg3〉とデスモコリン</span>が隣の細胞のそれと結合し、細胞内側ではデスモプラキンなどを介して<span class=\"kw3\">トノフィラメント（ケラチン線維）</span>に繋がる。いわば<span class=\"kw3\">「細胞と細胞をリベットで留め、そのリベットを細胞内の鉄骨に繋いでいる」</span>構造である。<br/>ここに自己抗体ができるのが<span class=\"kw3\">天疱瘡</span>である。<span class=\"kw3\">抗Dsg3抗体＝尋常性天疱瘡</span>で、Dsg3が主に<span class=\"kw3\">粘膜と表皮の深い層（基底層直上）</span>に分布するため、<span class=\"kw3\">口腔粘膜のびらんが初発症状になり、水疱は基底層直上にできる</span>。<span class=\"kw3\">抗Dsg1抗体＝落葉状天疱瘡</span>で、Dsg1は<span class=\"kw3\">表皮の浅い層（顆粒層付近）</span>に多いため、<span class=\"kw3\">粘膜疹はなく、浅い水疱がすぐ破れて落葉状の鱗屑・痂皮になる</span>。共通して<span class=\"kw3\">表皮内水疱・棘融解・Nikolsky現象陽性・Tzanck試験で棘融解細胞</span>（<span class=\"kw\">Q.15</span>）を示し、蛍光抗体直接法では<span class=\"kw3\">表皮細胞間にIgG沈着（網目状）</span>が見られる。<br/>一方<span class=\"kw3\">ヘミデスモソーム</span>は<span class=\"kw3\">基底細胞と基底膜をつなぐ「半分のデスモソーム」</span>で、<span class=\"kw3\">BP180〈XVII型コラーゲン〉・BP230・インテグリン</span>から成り、さらに下方でラミニン332・Ⅶ型コラーゲン（係留線維）へと連なって真皮に固定されている。<span class=\"kw3\">BP180/BP230に対する自己抗体＝水疱性類天疱瘡</span>で、<span class=\"kw3\">高齢者に緊満性の大型水疱と強い瘙痒</span>を生じ、<span class=\"kw3\">表皮下水疱・Nikolsky現象陰性・蛍光抗体直接法で基底膜部に線状のIgG/C3沈着</span>となる。<span class=\"kw3\">「上（細胞間）が壊れる天疱瘡は弛緩性でびらん、下（基底膜）が壊れる類天疱瘡は緊満性で破れにくい」</span>と対で覚えるのが最短である。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　アミロイド</td><td><span class=\"kw4\">βシート構造をとる異常タンパクの沈着物</span>で、生理的な接着装置ではない。皮膚では<span class=\"kw\">アミロイド苔癬・斑状皮膚アミロイドーシス</span>で真皮乳頭に沈着し、Congo red染色で確認する。</td></tr><tr><td>ｂ　ケラチン</td><td><span class=\"kw4\">角化細胞の細胞「内」にある中間径フィラメント</span>。トノフィラメントとして束になりデスモソームに繋がって力を伝えるが、<span class=\"kw4\">細胞どうしを直接留めている分子ではない</span>。</td></tr><tr><td>ｃ　セラミド</td><td><span class=\"kw4\">角層細胞「間」を埋める脂質</span>（<span class=\"kw\">Q.6</span>）。「細胞間」という語につられやすいが、<span class=\"kw4\">これはバリアとしての充填材であって接着装置（タンパク複合体）ではない</span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　デスモゾーム</span></td><td><span class=\"kw3\">ケラチノサイトどうしを機械的に連結する細胞間接着装置</span>。接着分子は<span class=\"kw3\">デスモグレイン〈Dsg〉とデスモコリン</span>で、細胞内でトノフィラメントに繋がる。<span class=\"kw3\">Dsgに対する自己抗体が生じるのが天疱瘡</span>である。</td></tr><tr><td>ｅ　ヘミデスモゾーム</td><td><span class=\"kw4\">表皮基底細胞と基底膜をつなぐ「半（hemi）」デスモソーム</span>。<span class=\"kw4\">細胞と細胞ではなく、細胞と基底膜の接着</span>を担う。<span class=\"kw3\">BP180・BP230に対する自己抗体が水疱性類天疱瘡</span>を起こす。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 接着装置・分子・疾患の対応表",
+              "c": "<table class=\"tb\"><tr><th>装置</th><th>場所</th><th>分子</th><th>壊れると</th></tr><tr><td><span class=\"kw3\">デスモソーム</span></td><td><span class=\"kw3\">表皮細胞どうし</span></td><td><span class=\"kw3\">デスモグレイン（Dsg1/Dsg3）</span>・デスモコリン</td><td><span class=\"kw3\">尋常性天疱瘡（抗Dsg3）／落葉状天疱瘡（抗Dsg1）</span></td></tr><tr><td><span class=\"kw3\">ヘミデスモソーム</span></td><td><span class=\"kw3\">基底細胞⇔基底膜</span></td><td><span class=\"kw3\">BP180（XVII型コラーゲン）・BP230</span>・インテグリンα6β4</td><td><span class=\"kw3\">水疱性類天疱瘡</span>・接合部型表皮水疱症</td></tr><tr><td>係留線維</td><td>基底膜⇔真皮</td><td><span class=\"kw\">Ⅶ型コラーゲン</span></td><td><span class=\"kw\">栄養障害型表皮水疱症・後天性表皮水疱症</span></td></tr><tr><td>ケラチン線維</td><td>基底細胞内</td><td>ケラチン5/14</td><td>単純型表皮水疱症</td></tr><tr><td>ギャップ結合</td><td>細胞間</td><td>コネキシン</td><td>難聴を伴う角化症など</td></tr></table><table class=\"tb\"><tr><th>項目</th><th><span class=\"kw3\">尋常性天疱瘡</span></th><th><span class=\"kw3\">水疱性類天疱瘡</span></th></tr><tr><td>水疱の高さ</td><td><span class=\"kw3\">表皮内（基底層直上）</span></td><td><span class=\"kw3\">表皮下</span></td></tr><tr><td>水疱の性状</td><td><span class=\"kw3\">弛緩性・すぐ破れてびらん</span></td><td><span class=\"kw3\">緊満性・破れにくい</span></td></tr><tr><td>粘膜疹</td><td><span class=\"kw3\">高頻度（初発が多い）</span></td><td><span class=\"kw3\">まれ</span></td></tr><tr><td>Nikolsky現象</td><td><span class=\"kw3\">陽性</span></td><td>陰性</td></tr><tr><td>好発年齢</td><td>中年</td><td><span class=\"kw3\">高齢者</span></td></tr><tr><td>抗原</td><td>Dsg3（±Dsg1）</td><td>BP180・BP230</td></tr><tr><td>蛍光抗体直接法</td><td>細胞間に網目状IgG</td><td>基底膜部に線状IgG・C3</td></tr><tr><td>末梢血好酸球</td><td>—</td><td><span class=\"kw\">増加することが多い</span></td></tr></table>なお<span class=\"kw3\">ブドウ球菌性熱傷様皮膚症候群〈SSSS〉</span>は<span class=\"kw3\">表皮剝脱毒素がDsg1を切断</span>することで落葉状天疱瘡と同じ高さに水疱をつくる。<span class=\"kw3\">「自己抗体で壊すのが天疱瘡、細菌の毒素で切るのがSSSS」</span>と対比すると、同じ分子が違う疾患を結んでいることが見えてくる。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">表皮細胞間接着＝デスモソーム（デスモグレイン・デスモコリン）</span>。<br/>② <span class=\"kw3\">ヘミデスモソーム＝基底細胞⇔基底膜（BP180・BP230）</span>。「ヘミ＝半分」で覚える。<br/>③ <span class=\"kw3\">抗Dsg3＝尋常性天疱瘡（粘膜疹・表皮内水疱・Nikolsky陽性）</span>、<span class=\"kw3\">抗BP180＝水疱性類天疱瘡（高齢者・緊満性・表皮下水疱）</span>。<br/>④ <span class=\"kw3\">SSSSの表皮剝脱毒素はDsg1を切断</span>する。<br/>⑤ <span class=\"kw4\">セラミドは「角層細胞間」の脂質で接着装置ではない</span>（<span class=\"kw\">Q.6</span>）——ここが本問の引っかけ。<br/>⑥ 蛍光抗体直接法＝<span class=\"kw3\">天疱瘡は細胞間に網目状、類天疱瘡は基底膜部に線状</span>。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q24",
+          "qn": "Q.24",
+          "episode": "(107E-15)",
+          "rate": 99,
+          "rate_cls": "ch",
+          "rate_text": "99%",
+          "badges": [
+            {
+              "cls": "bc",
+              "t": "CBT"
+            }
+          ],
+          "qt": "<strong><span class=\"kw\">表皮内</span>にある<span class=\"kw\">抗原提示細胞</span>はどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　肥満細胞",
+              "ok": false
+            },
+            {
+              "t": "ｂ　線維芽細胞",
+              "ok": false
+            },
+            {
+              "t": "ｃ　グロムス細胞",
+              "ok": false
+            },
+            {
+              "t": "ｄ　メラノサイト",
+              "ok": false
+            },
+            {
+              "t": "ｅ　Langerhans 細胞",
+              "ok": true
+            }
+          ],
+          "ans_label": "ｅ　Langerhans 細胞",
+          "ans_sub": "表皮内の抗原提示細胞＝Langerhans細胞（有棘層・骨髄由来・Birbeck顆粒）。メラノサイトは表皮内だが色素産生、肥満細胞・線維芽細胞・グロムス細胞は真皮。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🛡️ 皮膚は「最大の免疫臓器」——skin immune system",
+              "c": "皮膚は物理的な壁であるだけでなく、<span class=\"kw3\">それ自体が免疫のはたらく場（皮膚免疫系〈SIS〉）</span>である。その司令塔にあたるのが<span class=\"kw3\">Langerhans細胞</span>で、<span class=\"kw3\">表皮有棘層に分布し、樹状突起をケラチノサイトのあいだに張りめぐらせて「網」を作り、外から入ってくる抗原を待ち構えている</span>。<br/>働きは4段階で理解する。<span class=\"kw3\">①捕捉</span>——ハプテン・微生物などの抗原を樹状突起で捕らえて取り込む（<span class=\"kw\">Birbeck顆粒</span>がこの過程に関わる）。<span class=\"kw3\">②成熟と遊走</span>——抗原を取り込むと<span class=\"kw3\">ケラチノサイトとの接着（E-カドヘリン）を緩め、真皮のリンパ管を通って所属リンパ節へ移動</span>する。<span class=\"kw3\">③提示</span>——リンパ節傍皮質で、<span class=\"kw3\">MHCクラスⅡに載せた抗原をナイーブT細胞に提示し、感作を成立させる</span>。<span class=\"kw3\">④エフェクター相</span>——感作されたT細胞が記憶T細胞となり、再曝露時に皮膚へ戻って炎症を起こす。<br/>この一連の流れが<span class=\"kw3\">接触皮膚炎（Ⅳ型アレルギー）</span>そのものである。<span class=\"kw3\">初回曝露では症状が出ず（感作相に1〜2週間かかる）、再曝露で24〜48時間後に湿疹が出る（惹起相）</span>という遅延型の時間経過は、Langerhans細胞がリンパ節まで旅をする時間だと考えると腑に落ちる。<span class=\"kw3\">パッチテストを48時間貼付して48・72時間後に判定する</span>のもこの時間軸に合わせたもので（<span class=\"kw\">Q.18</span>）、検査手技が細胞の挙動をそのまま反映している。<br/>本問は<span class=\"kw3\">「表皮内」と「抗原提示」の2条件で絞る</span>問題である。<span class=\"kw3\">表皮内という条件で肥満細胞・線維芽細胞・グロムス細胞（すべて真皮）が落ち</span>、<span class=\"kw3\">抗原提示という条件でメラノサイト（色素産生）が落ちる</span>。正答率99%が示すとおり、表皮の4細胞を正しく覚えていれば取りこぼしようがない（<span class=\"kw\">Q.1</span>）。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　肥満細胞</td><td><span class=\"kw4\">真皮</span>の血管周囲・付属器周囲に分布し、ヒスタミン・ヘパリンを含む顆粒をもつ（<span class=\"kw\">Q.7・Q.20</span>）。IgEを介した即時型反応の実行役であって、抗原提示細胞ではない。</td></tr><tr><td>ｂ　線維芽細胞</td><td><span class=\"kw4\">真皮</span>で膠原線維・弾性線維・基質を産生する細胞。創傷治癒で肉芽と瘢痕をつくる。免疫の担い手ではない。</td></tr><tr><td>ｃ　グロムス細胞</td><td><span class=\"kw4\">真皮の動静脈吻合（グロムス装置）を構成する平滑筋由来の細胞</span>で、<span class=\"kw\">体温調節のための血流シャント</span>を担う。腫瘍化すると<span class=\"kw\">指趾末端に激痛を伴うグロムス腫瘍</span>をつくる。</td></tr><tr><td>ｄ　メラノサイト</td><td><span class=\"kw4\">表皮基底層</span>にある神経堤由来の細胞で、<span class=\"kw4\">メラニンを産生してケラチノサイトへ渡す</span>（<span class=\"kw\">Q.3</span>）。表皮内にはあるが、役割は色素産生であって抗原提示ではない。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　Langerhans 細胞</span></td><td><span class=\"kw3\">表皮有棘層に樹状突起を広げる骨髄由来の抗原提示細胞</span>。抗原を取り込み<span class=\"kw3\">MHCクラスⅡに載せて所属リンパ節へ遊走し、T細胞に提示する</span>。<span class=\"kw3\">Birbeck顆粒</span>をもち（<span class=\"kw\">Q.10</span>）、S-100・CD1a・Langerin陽性。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 皮膚免疫を担う細胞たち／接触皮膚炎の2相",
+              "c": "<table class=\"tb\"><tr><th>細胞</th><th>場所</th><th>免疫での役割</th></tr><tr><td><span class=\"kw3\">Langerhans細胞</span></td><td><span class=\"kw3\">表皮有棘層</span></td><td><span class=\"kw3\">抗原提示（Ⅳ型の感作）</span></td></tr><tr><td>ケラチノサイト</td><td>表皮</td><td><span class=\"kw\">サイトカイン産生（IL-1・TSLP等）・抗菌ペプチド</span>・自然免疫</td></tr><tr><td>組織常在記憶T細胞</td><td>表皮・真皮</td><td>再曝露時の迅速な反応（固定薬疹の局在も説明する）</td></tr><tr><td>真皮樹状細胞・マクロファージ</td><td>真皮</td><td>抗原提示・貪食</td></tr><tr><td>肥満細胞</td><td><span class=\"kw\">真皮</span></td><td>IgE架橋→脱顆粒（<span class=\"kw3\">Ⅰ型</span>）</td></tr></table><table class=\"tb\"><tr><th>相</th><th>内容</th><th>時間</th></tr><tr><td><span class=\"kw3\">感作相</span></td><td>ハプテンがタンパクと結合→<span class=\"kw3\">Langerhans細胞が取り込み→リンパ節でT細胞に提示</span>→記憶T細胞ができる</td><td><span class=\"kw3\">初回曝露から1〜2週間（無症状）</span></td></tr><tr><td><span class=\"kw3\">惹起相</span></td><td>再曝露→記憶T細胞が皮膚で反応→湿疹</td><td><span class=\"kw3\">曝露後24〜48時間（遅延型）</span></td></tr></table><span class=\"kw3\">接触皮膚炎</span>の実際も押さえておく。原因は<span class=\"kw\">ニッケル・クロム・コバルトなどの金属、ウルシ、ゴム（チウラム）、化粧品・毛染め（パラフェニレンジアミン）、外用薬そのもの</span>が代表的で、<span class=\"kw3\">皮疹が接触部位に一致して境界明瞭に出る</span>のが最大の手がかりである。<span class=\"kw4\">「治療のために塗っている外用薬自体が原因」という接触皮膚炎も少なくない</span>ため、<span class=\"kw3\">「塗ったら悪化する」という訴えを聞いたら必ず疑う</span>。なお<span class=\"kw3\">刺激性接触皮膚炎</span>は免疫を介さず（誰にでも起こる化学的・物理的刺激）、<span class=\"kw3\">感作を要さず初回曝露でも起こる</span>点でアレルギー性と区別される。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">表皮内の抗原提示細胞＝Langerhans細胞</span>（有棘層・骨髄由来・Birbeck顆粒）。<br/>② <span class=\"kw3\">メラノサイトも表皮内だが役割は色素産生</span>——2条件で絞るのが本問の型。<br/>③ <span class=\"kw3\">肥満細胞・線維芽細胞・グロムス細胞は真皮</span>（<span class=\"kw\">Q.1</span>）。<br/>④ <span class=\"kw3\">接触皮膚炎＝Ⅳ型</span>。感作相1〜2週間、惹起相24〜48時間。<br/>⑤ 原因検索は<span class=\"kw3\">パッチテスト</span>（<span class=\"kw\">Q.18</span>）。<span class=\"kw4\">外用薬自体が原因のこともある</span>。<br/>⑥ <span class=\"kw3\">刺激性接触皮膚炎は免疫を介さず、初回曝露でも起こる</span>。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch01_q25",
+          "qn": "Q.25",
+          "episode": "(105E-26)",
+          "rate": 86,
+          "rate_cls": "ch",
+          "rate_text": "86%",
+          "badges": [
+            {
+              "cls": "bc",
+              "t": "CBT"
+            },
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "<span class=\"kw\">色素斑を擦過した際、擦過部に線状の膨疹を生じ周囲に発赤がみられた</span>。このときの写真を示す。<br/><strong>陽性を示したのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　Auspitz 現象",
+              "ok": false
+            },
+            {
+              "t": "ｂ　Darier 徴候",
+              "ok": true
+            },
+            {
+              "t": "ｃ　Köbner 現象",
+              "ok": false
+            },
+            {
+              "t": "ｄ　Leser-Trélat 徴候",
+              "ok": false
+            },
+            {
+              "t": "ｅ　Nikolsky 現象",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｂ　Darier 徴候",
+          "ans_sub": "色素斑を擦過して数分で膨疹＋周囲の発赤＝Darier徴候陽性。真皮内肥満細胞の脱顆粒によるもので、色素性蕁麻疹・肥満細胞腫に特異的。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🧷 Darier徴候——「押した場所だけ蕁麻疹になる」",
+              "c": "<span class=\"kw3\">Darier徴候</span>とは、<span class=\"kw3\">褐色の色素斑を舌圧子などで擦過すると、数分のうちにその部位が膨疹となり、周囲に発赤（紅暈）が現れ、瘙痒を伴う</span>という現象である。写真では色素斑の並ぶ皮膚に、擦った線に一致して細長い膨疹が浮き上がっている。<br/>機序は明快で、<span class=\"kw3\">その色素斑の真皮内には肥満細胞が異常に集積している</span>。機械的刺激が加わると<span class=\"kw3\">肥満細胞が脱顆粒してヒスタミンを放出</span>し、<span class=\"kw3\">H1受容体を介して血管拡張（発赤）と血管透過性亢進（膨疹）</span>が起こる。つまり<span class=\"kw3\">「その色素斑の正体が肥満細胞の集まりであること」をベッドサイドで証明する試験</span>になっている。対応する疾患は<span class=\"kw3\">色素性蕁麻疹（多発する色素斑・<span class=\"kw\">Q.7</span>）</span>と<span class=\"kw3\">肥満細胞腫（孤立性の褐色結節。乳児に多い）</span>で、いずれも<span class=\"kw3\">皮膚肥満細胞症</span>に分類される。<br/>ここで<span class=\"kw3\">皮膚描記症（<span class=\"kw\">Q.22</span>）との関係</span>を整理すると理解が深まる。皮膚描記症は<span class=\"kw3\">見た目が正常な皮膚を擦って膨疹が出る</span>のに対し、Darier徴候は<span class=\"kw3\">病変（色素斑）の部分に限って擦過で膨疹が出る</span>。どちらも<span class=\"kw3\">肥満細胞のヒスタミン放出という同じ機序</span>だが、<span class=\"kw3\">「全身の皮膚が過敏なのか、その病変だけが特別なのか」</span>という点で意味が違う。だから写真で問われたときは、<span class=\"kw3\">「下に色素斑があるかどうか」</span>を見るのが分岐点になる。<br/><span class=\"kw4\">臨床上の注意</span>として、<span class=\"kw4\">広範囲の病変を強く擦ると大量のヒスタミンが一気に放出され、フラッシング・血圧低下・アナフィラキシー様症状を起こしうる</span>。診断的擦過は<span class=\"kw3\">限られた範囲で穏やかに</span>行うのが原則である。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　Auspitz 現象</td><td><span class=\"kw4\">尋常性乾癬</span>の所見。<span class=\"kw4\">銀白色の鱗屑を剝がすと点状の出血がみられる</span>もので、表皮突起が延長し真皮乳頭が薄い表皮直下まで上がっているために起こる。膨疹とは無関係。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　Darier 徴候</span></td><td><span class=\"kw3\">色素斑を擦過すると数分後にその部位が膨疹化し、周囲に発赤を伴う</span>現象。<span class=\"kw3\">真皮内に集積した肥満細胞が機械的刺激で脱顆粒し、ヒスタミンが放出される</span>ために起こる。<span class=\"kw3\">色素性蕁麻疹・肥満細胞腫にほぼ特異的</span>（<span class=\"kw\">Q.7・Q.20</span>）。</td></tr><tr><td>ｃ　Köbner 現象</td><td><span class=\"kw4\">機械的刺激を受けた部位に、その疾患と同じ皮疹が新たに生じる</span>現象。<span class=\"kw\">尋常性乾癬・扁平苔癬・尋常性白斑・扁平疣贅</span>でみられる。<span class=\"kw4\">出るのは「その病気の皮疹」であって膨疹ではない</span>し、数分では出ない。</td></tr><tr><td>ｄ　Leser-Trélat 徴候</td><td><span class=\"kw4\">脂漏性角化症が短期間に多発・急増する</span>現象で、<span class=\"kw3\">内臓悪性腫瘍（とくに消化器癌）に伴うデルマドローム</span>として知られる。擦過による反応ではない。</td></tr><tr><td>ｅ　Nikolsky 現象</td><td><span class=\"kw4\">一見正常にみえる皮膚を擦ると表皮が剝離する</span>現象。<span class=\"kw3\">天疱瘡・SSSS・中毒性表皮壊死症〈TEN〉</span>で陽性。擦過で生じるのは<span class=\"kw4\">びらん</span>であって膨疹ではない。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 皮膚科の「徴候・現象」を総ざらいする",
+              "c": "<table class=\"tb\"><tr><th>徴候・現象</th><th>誘発方法</th><th>陽性所見</th><th>疾患</th></tr><tr><td><span class=\"kw3\">Darier徴候</span></td><td><span class=\"kw3\">色素斑を擦過</span></td><td><span class=\"kw3\">数分で膨疹＋発赤</span></td><td><span class=\"kw3\">色素性蕁麻疹・肥満細胞腫</span></td></tr><tr><td><span class=\"kw3\">Auspitz現象</span></td><td>鱗屑を剝がす</td><td><span class=\"kw3\">点状出血</span></td><td><span class=\"kw3\">尋常性乾癬</span></td></tr><tr><td><span class=\"kw3\">Köbner現象</span></td><td>擦過・掻破などの刺激</td><td><span class=\"kw3\">同じ皮疹が新生（数日〜数週）</span></td><td><span class=\"kw3\">乾癬・扁平苔癬・尋常性白斑・扁平疣贅</span></td></tr><tr><td><span class=\"kw3\">Nikolsky現象</span></td><td>正常にみえる皮膚を擦る</td><td><span class=\"kw3\">表皮が剝離しびらんに</span></td><td><span class=\"kw3\">天疱瘡・SSSS・TEN</span></td></tr><tr><td><span class=\"kw\">Leser-Trélat徴候</span></td><td>—（経過の観察）</td><td>脂漏性角化症の急激な多発</td><td><span class=\"kw\">内臓悪性腫瘍（デルマドローム）</span></td></tr><tr><td><span class=\"kw\">針反応</span></td><td>無菌針を刺す</td><td>24〜48時間後に膿疱</td><td>Behçet病</td></tr><tr><td><span class=\"kw\">硝子圧法</span></td><td>硝子板で圧迫</td><td>退色しない＝紫斑／apple jelly nodule</td><td>紫斑・尋常性狼瘡・サルコイドーシス（<span class=\"kw\">Q.16・Q.26</span>）</td></tr><tr><td>Wickham線条</td><td>拡大観察</td><td>白色レース状の線条</td><td>扁平苔癬</td></tr></table>整理の軸は<span class=\"kw3\">「何をして」「どれくらいで」「何が出るか」</span>の3点である。<span class=\"kw3\">擦って数分で膨疹＝Darier（肥満細胞）</span>、<span class=\"kw3\">擦ってすぐ表皮が剝ける＝Nikolsky（接着の破綻）</span>、<span class=\"kw3\">刺激して数日〜数週で同じ皮疹＝Köbner</span>、<span class=\"kw3\">鱗屑を剝がして点状出血＝Auspitz</span>。<span class=\"kw4\">人名だけを暗記すると必ず取り違える</span>ので、必ず「所要時間」と「出るもの」をセットにして覚える。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">Darier徴候＝色素斑の擦過で数分後に膨疹＋発赤</span>。<span class=\"kw3\">色素性蕁麻疹・肥満細胞腫</span>に特異的。<br/>② 機序は<span class=\"kw3\">真皮内肥満細胞の脱顆粒によるヒスタミン放出</span>。<br/>③ <span class=\"kw3\">Auspitz＝乾癬（点状出血）／Köbner＝乾癬・扁平苔癬・白斑／Nikolsky＝天疱瘡・SSSS・TEN</span>。<br/>④ <span class=\"kw3\">Leser-Trélat徴候＝脂漏性角化症の急増＝内臓悪性腫瘍</span>。<br/>⑤ <span class=\"kw3\">皮膚描記症（<span class=\"kw\">Q.22</span>）は正常皮膚、Darier徴候は病変部限定</span>——同じ機序で意味が違う。<br/>⑥ <span class=\"kw4\">広範囲を強く擦るとアナフィラキシー様症状</span>を起こしうる。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/105E-26_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch01_q26",
+          "qn": "Q.26",
+          "episode": "(104D-3)",
+          "rate": 95,
+          "rate_cls": "ch",
+          "rate_text": "95%",
+          "badges": [
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "<span class=\"kw\">検査器具</span>の写真を示す。<br/><strong>この検査器具が診断に有用なのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　扁平苔癬",
+              "ok": false
+            },
+            {
+              "t": "ｂ　尋常性疣贅",
+              "ok": false
+            },
+            {
+              "t": "ｃ　膿疱性乾癬",
+              "ok": false
+            },
+            {
+              "t": "ｄ　尋常性天疱瘡",
+              "ok": false
+            },
+            {
+              "t": "ｅ　Schönlein-Henoch 紫斑病",
+              "ok": true
+            }
+          ],
+          "ans_label": "ｅ　Schönlein-Henoch 紫斑病",
+          "ans_sub": "写真は硝子圧子。硝子圧法は圧迫して退色するか（紅斑）しないか（紫斑）を見る手技で、紫斑を呈するSchönlein-Henoch紫斑病（IgA血管炎）の診断に有用。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🔍 硝子圧法とIgA血管炎",
+              "c": "写真に写っているのは<span class=\"kw3\">硝子圧子〈ガラススパーテル〉</span>という、ガラス製の細長い透明な板である。これを皮疹に押し当てて透かして見る手技が<span class=\"kw3\">硝子圧法〈diascopy〉</span>で、<span class=\"kw3\">「圧迫して退色するかどうか」</span>を判定する。透明なスライドガラスや透明なプラスチック定規でも代用できる、皮膚科で最も原始的かつ有用なベッドサイド検査の一つである。<br/>判定の意味は2通りある。<span class=\"kw3\">①退色するかどうか</span>——<span class=\"kw3\">退色すれば紅斑（血管拡張＝血液は血管内）、退色しなければ紫斑（真皮内出血）</span>（<span class=\"kw\">Q.16</span>）。色素斑も退色しないが、色調（茶〜黒）で区別できる。<span class=\"kw3\">②圧迫下に見える色</span>——血液の赤みを取り除くことで、その下にある病変の本来の色が見えるようになる。<span class=\"kw3\">尋常性狼瘡（皮膚結核）やサルコイドーシスでは、圧迫下に「黄褐色でゼリーのような結節」＝apple jelly nodule</span>が現れ、<span class=\"kw3\">類上皮細胞肉芽腫の存在を示唆</span>する。<br/>本問の答えである<span class=\"kw3\">Schönlein-Henoch紫斑病〈IgA血管炎・アナフィラクトイド紫斑〉</span>は、<span class=\"kw3\">IgA1を含む免疫複合体が細小血管壁に沈着して生じる白血球破砕性血管炎</span>で、<span class=\"kw3\">小児に好発し、しばしば先行する上気道感染がある</span>。四徴は<span class=\"kw3\">①触知性紫斑（下腿・殿部など下垂部に左右対称）、②関節痛（膝・足関節）、③腹痛（消化管出血・腸重積に注意）、④腎症（IgA腎症と同様の糸球体腎炎で血尿・蛋白尿）</span>。<span class=\"kw3\">血小板数も凝固検査も正常</span>であることがITPやDICなど血液学的な紫斑との決定的な違いで、<span class=\"kw3\">「紫斑があるのに血小板が正常」なら血管性紫斑を考える</span>という道筋になる（<span class=\"kw\">Q.16</span>）。第XIII因子活性の低下がみられることがあり、皮膚生検の蛍光抗体法では<span class=\"kw3\">血管壁へのIgA沈着</span>が確認できる。多くは自然軽快するが、<span class=\"kw4\">腎症は数か月遅れて出現することがあるため、皮疹が治っても半年程度は尿検査でフォローする</span>のが重要である。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　扁平苔癬</td><td><span class=\"kw4\">瘙痒を伴う紫紅色の多角形扁平丘疹</span>で、表面の<span class=\"kw\">Wickham線条</span>はダーモスコピーやオイルを付けて観察する。硝子圧法で診断する疾患ではない。</td></tr><tr><td>ｂ　尋常性疣贅</td><td><span class=\"kw4\">HPVによる角化性の丘疹</span>。削ると<span class=\"kw\">点状の黒色（血栓化した毛細血管）</span>が見え、ダーモスコピーが有用。硝子圧法は用いない。</td></tr><tr><td>ｃ　膿疱性乾癬</td><td><span class=\"kw4\">紅斑上に無菌性膿疱が多発し、発熱・全身症状を伴う</span>。診断は臨床像と生検（<span class=\"kw\">Kogoj海綿状膿疱</span>）による。</td></tr><tr><td>ｄ　尋常性天疱瘡</td><td><span class=\"kw4\">Nikolsky現象・Tzanck試験・生検・蛍光抗体法・抗Dsg3抗体</span>で診断する（<span class=\"kw\">Q.15・Q.23</span>）。硝子圧法は関係しない。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　Schönlein-Henoch 紫斑病</span></td><td><span class=\"kw3\">写真は硝子圧子（ガラス製のスパーテル）で、硝子圧法に用いる</span>。<span class=\"kw3\">本症（IgA血管炎）の紫斑は真皮内出血なので、圧迫しても退色しない</span>ことをこの器具で確認する（<span class=\"kw\">Q.16</span>）。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 硝子圧法で何がわかるか／紫斑の鑑別",
+              "c": "<table class=\"tb\"><tr><th>皮疹</th><th>硝子圧法の所見</th><th>意味</th></tr><tr><td>紅斑</td><td><span class=\"kw3\">退色する</span></td><td>血管拡張（血液は血管内）</td></tr><tr><td><span class=\"kw3\">紫斑</span></td><td><span class=\"kw3\">退色しない</span></td><td><span class=\"kw3\">真皮内出血</span></td></tr><tr><td>色素斑</td><td>退色しない</td><td>メラニン・ヘモジデリンの沈着</td></tr><tr><td>毛細血管拡張</td><td>退色する</td><td>拡張血管の透見</td></tr><tr><td><span class=\"kw3\">尋常性狼瘡・サルコイドーシス</span></td><td><span class=\"kw3\">apple jelly nodule</span>（黄褐色の結節）</td><td>類上皮細胞肉芽腫</td></tr></table><table class=\"tb\"><tr><th>紫斑の原因</th><th>血小板</th><th>凝固</th><th>特徴</th></tr><tr><td>ITP・薬剤性・白血病</td><td><span class=\"kw4\">減少</span></td><td>正常</td><td>点状出血・粘膜出血</td></tr><tr><td>血友病・DIC・ワルファリン・肝不全</td><td>正常/減少</td><td><span class=\"kw4\">異常</span></td><td>斑状出血・関節内/筋肉内出血</td></tr><tr><td><span class=\"kw3\">IgA血管炎</span></td><td><span class=\"kw3\">正常</span></td><td><span class=\"kw3\">正常</span></td><td><span class=\"kw3\">触知性紫斑・下腿に左右対称・関節痛・腹痛・腎症</span></td></tr><tr><td>老人性紫斑・ステロイド長期投与</td><td>正常</td><td>正常</td><td>前腕伸側・支持組織の脆弱化</td></tr><tr><td>単純性紫斑</td><td>正常</td><td>正常</td><td>若年女性の下肢・良性</td></tr><tr><td>壊血病（ビタミンC欠乏）</td><td>正常</td><td>正常</td><td>毛孔性の紫斑・らせん状の体毛・歯肉出血</td></tr></table><span class=\"kw3\">IgA血管炎の治療</span>は多くが対症療法（安静・鎮痛）で自然軽快する。<span class=\"kw3\">腹部症状が強い場合や腎症が重い場合にステロイドを用いる</span>。<span class=\"kw4\">小児では腸重積・消化管出血、成人発症例では腎予後不良</span>に注意が要る。皮膚科的には、<span class=\"kw3\">紫斑を見たら「触れて隆起があるか（触知性か）」を確認し、触知性なら血管炎として血算・凝固・尿検査・便潜血まで一気に評価する</span>——この流れを覚えておくと実戦で迷わない。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 写真の器具＝<span class=\"kw3\">硝子圧子</span>。<span class=\"kw3\">硝子圧法で紫斑（退色しない）と紅斑（退色する）を鑑別</span>する。<br/>② <span class=\"kw3\">Schönlein-Henoch紫斑病〈IgA血管炎〉＝触知性紫斑＋関節痛＋腹痛＋腎症</span>。<br/>③ <span class=\"kw3\">血小板数も凝固も正常</span>——これが血液疾患による紫斑との決定的な違い。<br/>④ <span class=\"kw4\">腎症は遅れて出るため、皮疹の軽快後も尿検査でフォロー</span>する。<br/>⑤ 硝子圧法は<span class=\"kw3\">apple jelly nodule（尋常性狼瘡・サルコイドーシス）</span>の観察にも使う。<br/>⑥ 紫斑の分類＝<span class=\"kw3\">血小板／凝固／血管</span>の3系統（<span class=\"kw\">Q.16</span>）。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/104D-3_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch01_q27",
+          "qn": "Q.27",
+          "episode": "(100B-12)",
+          "rate": 81,
+          "rate_cls": "ch",
+          "rate_text": "81%",
+          "badges": [],
+          "qt": "<strong><span class=\"kw\">光線過敏症</span>はどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　扁平苔癬",
+              "ok": false
+            },
+            {
+              "t": "ｂ　色素失調症",
+              "ok": false
+            },
+            {
+              "t": "ｃ　日光皮膚炎",
+              "ok": false
+            },
+            {
+              "t": "ｄ　日光角化症",
+              "ok": false
+            },
+            {
+              "t": "ｅ　晩発性皮膚ポルフィリン症",
+              "ok": true
+            }
+          ],
+          "ans_label": "ｅ　晩発性皮膚ポルフィリン症",
+          "ans_sub": "光線過敏症＝通常量の光で異常反応が出るもの。晩発性皮膚ポルフィリン症はウロポルフィリンの蓄積による代表的な光線過敏症。日光皮膚炎（日焼け）は正常反応、日光角化症は慢性の光線障害で過敏症ではない。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🌞 「光線過敏症」の定義に立ち返る",
+              "c": "本問は知識ではなく<span class=\"kw3\">定義</span>を問うている。<span class=\"kw3\">光線過敏症とは、健常人なら反応しない程度の日光曝露で露光部に異常な皮膚反応を生じる状態</span>である（<span class=\"kw\">Q.12</span>）。この定義から2つの肢が落ちる。<span class=\"kw4\">日光皮膚炎（日焼け）は、過剰な紫外線を浴びたときに誰にでも起こる正常な炎症反応</span>なので過敏症ではない。<span class=\"kw4\">日光角化症は、何十年もの紫外線曝露が蓄積して生じた前癌病変</span>であり、これも「過敏」ではなく慢性の光線障害である。<span class=\"kw3\">「正常反応」「慢性障害」「過敏反応」の3つを混同させる</span>のが本問の設計である。<br/>正解の<span class=\"kw3\">晩発性皮膚ポルフィリン症〈PCT〉</span>は、ポルフィリン症のなかで最も頻度が高い型である。ヘム合成経路の<span class=\"kw3\">ウロポルフィリノーゲン脱炭酸酵素〈UROD〉の活性低下</span>により<span class=\"kw3\">ウロポルフィリンが肝に蓄積して血中・尿中に増加</span>する。ポルフィリンは<span class=\"kw3\">400nm付近（Soret帯）の光を強く吸収して励起し、活性酸素を発生させて周囲の組織を傷害する</span>——これが光線過敏の実体である。<br/>臨床像は特徴的で、<span class=\"kw3\">手背・前腕・顔面といった露光部に、軽微な外傷でも水疱・びらんを生じ、治って瘢痕と稗粒腫〈ミリウム〉を残す</span>。さらに<span class=\"kw3\">顔面（とくに側頭部・頰）の多毛と色素沈着、皮膚の硬化</span>もみられる。<span class=\"kw3\">尿は蛍光を発し、Wood灯下でピンク〜赤橙色に光る</span>のが診断の助けになる。<br/>重要なのは<span class=\"kw3\">PCTが「肝臓の病気」と密接だ</span>という点である。<span class=\"kw3\">C型肝炎ウイルス感染・アルコール多飲・鉄過剰（ヘモクロマトーシス・HFE変異）・エストロゲン製剤・喫煙・HIV感染</span>が誘因となり、<span class=\"kw3\">これらが肝でのUROD活性をさらに抑える</span>。したがって治療は<span class=\"kw3\">誘因の除去（禁酒・原因薬の中止・HCVの治療）＋遮光</span>を柱に、<span class=\"kw3\">瀉血（鉄を減らす）や少量のヒドロキシクロロキン</span>を用いる。<span class=\"kw3\">「露光部の水疱と多毛を見たら、まず酒と肝炎を尋ねる」</span>のが実戦的な要点である。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　扁平苔癬</td><td><span class=\"kw4\">瘙痒を伴う紫紅色の多角形扁平丘疹</span>が手関節屈側・下腿・口腔粘膜に生じる。<span class=\"kw\">Wickham線条・Köbner現象</span>が特徴で、C型肝炎や薬剤（金製剤・降圧薬）との関連が知られるが、<span class=\"kw4\">光線過敏症ではない</span>（<span class=\"kw\">Q.12</span>）。</td></tr><tr><td>ｂ　色素失調症</td><td><span class=\"kw4\">Bloch-Sulzberger症候群</span>。<span class=\"kw4\">X連鎖顕性（優性）遺伝でIKBKG〈NEMO〉遺伝子異常、男児は胎生致死</span>となるため女児に発症する。皮疹は<span class=\"kw\">水疱期→疣贅期→色素沈着期→色素消退期</span>と<span class=\"kw\">Blaschko線に沿って</span>進行し、歯・眼・中枢神経の異常を伴う。日光とは無関係。</td></tr><tr><td>ｃ　日光皮膚炎</td><td><span class=\"kw4\">いわゆる日焼け〈サンバーン〉で、過剰な紫外線曝露に対する「正常な」炎症反応</span>。<span class=\"kw4\">誰にでも起こるので光線過敏症には含まれない</span>——光線過敏症の定義が<span class=\"kw3\">「通常なら反応しない量の光で異常な反応が出ること」</span>だからである。これが本問最大の引っかけ肢。</td></tr><tr><td>ｄ　日光角化症</td><td><span class=\"kw4\">長年の紫外線曝露が蓄積して生じる前癌病変（表皮内癌）</span>で、高齢者の顔面・手背に鱗屑を伴う紅色局面をつくる。<span class=\"kw4\">慢性の光線障害であって、急性の過敏反応ではない</span>。有棘細胞癌へ進展しうる。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　晩発性皮膚ポルフィリン症</span></td><td><span class=\"kw3\">ウロポルフィリノーゲン脱炭酸酵素の活性低下によりウロポルフィリンが蓄積</span>し、これが光を吸収して活性酸素を生じるため<span class=\"kw3\">露光部に水疱・びらん・瘢痕・多毛・色素沈着</span>を生じる。<span class=\"kw3\">代表的な代謝性の光線過敏症</span>である。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 ポルフィリン症の整理と、光線過敏症の全体像",
+              "c": "<table class=\"tb\"><tr><th>病型</th><th>欠損酵素</th><th>症状</th><th>ポイント</th></tr><tr><td><span class=\"kw3\">晩発性皮膚ポルフィリン症〈PCT〉</span></td><td><span class=\"kw3\">ウロポルフィリノーゲン脱炭酸酵素</span></td><td><span class=\"kw3\">露光部の水疱・びらん・瘢痕・多毛</span></td><td><span class=\"kw3\">最多。HCV・飲酒・鉄過剰・エストロゲン</span>。<span class=\"kw3\">治療＝瀉血</span></td></tr><tr><td>骨髄性プロトポルフィリン症</td><td>フェロキラターゼ</td><td><span class=\"kw3\">日光曝露直後の灼熱痛・浮腫</span>（皮疹が乏しいことも）</td><td>小児発症・胆石・肝障害</td></tr><tr><td><span class=\"kw\">急性間欠性ポルフィリン症</span></td><td>ポルホビリノゲン脱アミノ酵素</td><td><span class=\"kw4\">腹痛・精神症状・末梢神経障害（皮膚症状なし）</span></td><td>誘因＝バルビツール酸・飢餓・感染。<span class=\"kw3\">尿が放置で赤褐色</span></td></tr><tr><td>種々混合型</td><td>—</td><td>皮膚症状＋急性発作</td><td>—</td></tr></table><span class=\"kw3\">光線過敏症のまとめ</span>（<span class=\"kw\">Q.12</span>の再掲＋補足）：<span class=\"kw3\">代謝性</span>＝ポルフィリン症・<span class=\"kw\">ペラグラ</span>・Hartnup病。<span class=\"kw3\">DNA修復異常</span>＝<span class=\"kw\">色素性乾皮症</span>（<span class=\"kw\">Q.18</span>）・Cockayne症候群・Bloom症候群。<span class=\"kw3\">自己免疫</span>＝<span class=\"kw\">SLE・皮膚筋炎・Sjögren症候群</span>。<span class=\"kw3\">薬剤・化学物質</span>＝ニューキノロン・テトラサイクリン・チアジド・NSAIDs・ボリコナゾール、植物のソラレン（<span class=\"kw\">光線過敏型薬疹・光接触皮膚炎</span>）。<span class=\"kw3\">特発性</span>＝<span class=\"kw3\">多形日光疹（最も頻度が高い光線過敏症。日光曝露後の丘疹・小水疱）</span>・日光蕁麻疹（曝露後数分で膨疹）・慢性光線性皮膚炎。<br/>診断は<span class=\"kw3\">病歴（露光部の分布・季節性・薬歴）＋光線テスト（MED測定）＋光パッチテスト</span>、必要に応じて<span class=\"kw3\">尿中・血中・便中ポルフィリン、抗核抗体・抗SS-A抗体</span>を測る。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 光線過敏症＝<span class=\"kw3\">通常量の光で異常反応</span>。<span class=\"kw4\">日光皮膚炎（日焼け）は正常反応で含まない</span>——本問の最大の引っかけ。<br/>② <span class=\"kw4\">日光角化症は慢性の光線障害（前癌病変）</span>で過敏症ではない。<br/>③ <span class=\"kw3\">晩発性皮膚ポルフィリン症＝ウロポルフィリノーゲン脱炭酸酵素の低下</span>。露光部の<span class=\"kw3\">水疱・びらん・瘢痕・多毛</span>。<br/>④ 誘因は<span class=\"kw3\">C型肝炎・飲酒・鉄過剰・エストロゲン</span>。治療は<span class=\"kw3\">誘因除去＋遮光＋瀉血</span>。<br/>⑤ <span class=\"kw4\">急性間欠性ポルフィリン症には皮膚症状が無い</span>（腹痛・精神症状・神経障害）。<br/>⑥ <span class=\"kw3\">最も頻度が高い光線過敏症は多形日光疹</span>。原因検索は<span class=\"kw3\">光線テスト・光パッチテスト</span>。"
+            }
+          ],
+          "imgs": []
+        }
+      ]
+    }
+  ]
+}

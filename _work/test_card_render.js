@@ -25,7 +25,7 @@ const renderCard = ctx.window._renderCardFromJson;
 assert.ok(typeof renderCard === 'function', '_renderCardFromJson が公開されていない');
 
 const SIDS = ['endo', 'resp', 'circ', 'dige', 'neur', 'hbp', 'jinzo_d', 'hema', 'imma',
-              'kansen', 'peds', 'obg', 'jitsu1', 'custom', 'memo'];
+              'kansen', 'peds', 'obg', 'psy', 'derm', 'jitsu1', 'custom', 'memo'];
 
 let pass = 0, fail = 0;
 function t(name, fn) {

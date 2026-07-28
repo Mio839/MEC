@@ -1,3 +1,5 @@
+// v113: 皮膚科(derm)を新科目として追加（第1章「皮膚科の基本」27問・画像8問）。
+// questions_derm.json を CARDS に加え、皮膚科/images/ を追加したので CACHE を bump。
 // v112: 精神科 第8章「その他の精神疾患」14問を追加（questions_psy.json が 242→256問）。
 // これで精神科は全8章・NO.1-256 が完成。
 // v111: 精神科 第7章「発達障害と小児の精神障害」24問を追加（questions_psy.json が 218→242問）。
@@ -14,12 +16,12 @@
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v112";
+const CACHE = "mec-v113";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-07-28g";
+const SHELL_VERSION = "2026-07-28h";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -49,7 +51,8 @@ const CARDS = [
   "questions_endo.json","questions_resp.json","questions_circ.json","questions_dige.json",
   "questions_neur.json","questions_hbp.json","questions_jinzo_d.json","questions_hema.json",
   "questions_imma.json","questions_kansen.json","questions_jitsu1.json",
-  "questions_peds.json","questions_obg.json","questions_psy.json"
+  "questions_peds.json","questions_obg.json","questions_psy.json",
+  "questions_derm.json"
 ];
 
 self.addEventListener("install", e => {

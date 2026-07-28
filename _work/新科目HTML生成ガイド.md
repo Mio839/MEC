@@ -198,7 +198,14 @@ for ch in d['chapters']:
 5. **`chapters_meta.js`** … 科目エントリ（chapters配列に`prefix/file/title/count`）。※gamifyにあってchapters_metaに無いとテストが落ちる。
 6. **`progress.js`** の `SID_NAMES`、**`study_exam.js`** の `subjNameMap` … `sid:'科目名'`追加。
 7. **`qmeta.json`** … `python _work/build_qmeta.py` で再生成（全`questions_*.json`を自動発見）。
-8. （任意）**`rate_index.js`** … stats.html用。study.htmlの表示には不要（rateはJSONに埋め込み済み）。
+8. **`_work/pdf_audit.py`** の `SUBJECTS` … `sid: (PDFファイル名, 画像ディレクトリ名)` を追加。無いと `pdf_audit.py {sid}` が動かない。
+9. ⚠️ **`SIDS` をハードコードしている2本に sid を足す** … `_work/build_image_dims.py` と `_work/test_card_render.js`。
+   どちらも科目リストが手書きで、**足し忘れても例外を出さず黙ってその科目だけスキップする**。
+   結果、画像に `width/height` が付かず（章ジャンプがずれる旧バグが復活）、テストもその科目を検査しない。
+   2026-07-28に皮膚科を追加した際、**精神科(psy)も2枚とも取りこぼしたままだった**ことが判明した。
+   検証: `python _work/build_image_dims.py` の「参照画像 N 件」が新科目の枚数ぶん増えるか、
+   `node _work/test_card_render.js` の「画像問題 N 問 / 画像 M 枚を検証」が増えるかを見る。
+10. （任意）**`rate_index.js`** … stats.html用。study.htmlの表示には不要（rateはJSONに埋め込み済み）。
 
 ### テスト（コミット前に必ず）
 ```

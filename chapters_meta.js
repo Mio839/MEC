@@ -817,6 +817,20 @@ const MEC_CHAPTERS = [
         "count": 14
       }
     ]
+  },
+  {
+    "id": "derm",
+    "name": "皮膚科",
+    "icon": "🩹",
+    "color": "#B5654A",
+    "chapters": [
+      {
+        "prefix": "derm_ch01",
+        "file": "皮膚科/ch01_hifuka_kihon.html",
+        "title": "第1章 皮膚科の基本",
+        "count": 27
+      }
+    ]
   }
 ];
 const MEC_CHAPTER_META = {
