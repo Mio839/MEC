@@ -36,7 +36,7 @@
     { id: 'peds',    name: '小児科',     icon: '🧸', color: '#F472B6', total: 373 },
     { id: 'obg',     name: '産婦人科',   icon: '🤰', color: '#E11D48', total: 685 },
     { id: 'psy',     name: '精神科',     icon: '💭', color: '#5E60CE', total: 256 },
-    { id: 'derm',    name: '皮膚科',     icon: '🩹', color: '#B5654A', total: 27 },
+    { id: 'derm',    name: '皮膚科',     icon: '🩹', color: '#B5654A', total: 54 },
     { id: 'jitsu1',  name: '実力試験Ⅰ', icon: '🎯', color: '#6366F1', total: 160 },
   ];
 

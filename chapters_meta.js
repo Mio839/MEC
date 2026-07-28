@@ -829,6 +829,12 @@ const MEC_CHAPTERS = [
         "file": "皮膚科/ch01_hifuka_kihon.html",
         "title": "第1章 皮膚科の基本",
         "count": 27
+      },
+      {
+        "prefix": "derm_ch02",
+        "file": "皮膚科/ch02_hifuen_jinmashin.html",
+        "title": "第2章 皮膚炎と蕁麻疹",
+        "count": 27
       }
     ]
   }
