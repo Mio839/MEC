@@ -1,22 +1,22 @@
+// v110: 精神科 第6章「薬物に伴う精神行動障害」25問を追加（questions_psy.json が 193→218問）。
 // v109: 精神科 第5章「睡眠の生理と睡眠障害」18問を追加（questions_psy.json が 175→193問）。
 // あわせて psy のQ番号をPDF通し番号へ是正（章ごとにQ.1へ振り直していたのをやめた）。
 // ch02〜ch04 の uid が psy_chNN_q1.. から通し番号へ変わるため、旧uidの進捗は引き継がれない。
 // v108: 選択肢が欠落していた残り14問を復元（表・図の選択肢11問＋設問文ごと壊れていた3問）。
-// v107: 精神科 第4章「神経症性障害」36問を追加（questions_psy.json が 139→175問）。データ更新のため bump。
-// v107: 選択肢が欠落していた残り14問を復元（表・図の選択肢11問＋設問文ごと壊れていた3問）。
 // questions_circ/jinzo_d.json を更新したので bump。過去問HTMLはシェル側の更新。
+// v107: 精神科 第4章「神経症性障害」36問を追加（questions_psy.json が 139→175問）。データ更新のため bump。
 // v106: 精神科 第3章「気分障害」41問を追加（questions_psy.json が 98→139問）。データ更新のため bump。
 // v105: 精神科 第2章「統合失調症」25問を追加（questions_psy.json が 73→98問）。データ更新のため bump。
 // v104: 精神科(psy)を新科目として追加。questions_psy.json を CARDS に加えたので CACHE を bump。
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v109";
+const CACHE = "mec-v110";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-07-28d";
+const SHELL_VERSION = "2026-07-28e";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

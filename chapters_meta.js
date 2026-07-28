@@ -797,6 +797,12 @@ const MEC_CHAPTERS = [
         "file": "精神科/ch05_suiminshougai.html",
         "title": "第5章 睡眠の生理と睡眠障害",
         "count": 18
+      },
+      {
+        "prefix": "psy_ch06",
+        "file": "精神科/ch06_yakubutsu.html",
+        "title": "第6章 薬物に伴う精神行動障害",
+        "count": 25
       }
     ]
   }
