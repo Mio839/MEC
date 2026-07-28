@@ -1,3 +1,4 @@
+// v111: 精神科 第7章「発達障害と小児の精神障害」24問を追加（questions_psy.json が 218→242問）。
 // v110: 精神科 第6章「薬物に伴う精神行動障害」25問を追加（questions_psy.json が 193→218問）。
 // v109: 精神科 第5章「睡眠の生理と睡眠障害」18問を追加（questions_psy.json が 175→193問）。
 // あわせて psy のQ番号をPDF通し番号へ是正（章ごとにQ.1へ振り直していたのをやめた）。
@@ -11,12 +12,12 @@
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v110";
+const CACHE = "mec-v111";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-07-28e";
+const SHELL_VERSION = "2026-07-28f";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

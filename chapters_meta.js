@@ -803,6 +803,12 @@ const MEC_CHAPTERS = [
         "file": "精神科/ch06_yakubutsu.html",
         "title": "第6章 薬物に伴う精神行動障害",
         "count": 25
+      },
+      {
+        "prefix": "psy_ch07",
+        "file": "精神科/ch07_hattatsushougai.html",
+        "title": "第7章 発達障害と小児の精神障害",
+        "count": 24
       }
     ]
   }
