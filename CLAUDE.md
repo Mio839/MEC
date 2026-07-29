@@ -26,7 +26,7 @@
 | `knowledge.html` | 検索知識ノート機能 |
 | `calc_input.js` | 計算問題の桁入力エンジン（`window.MecCalc`）。原文がマークシートの計算問題48問（科目33＋過去問15）は選択肢を持たないため試験モードで解答不能だった。正解は `.ac`（ans_label）の `計算答：<桁文字列>` が正本。**study.html と 国家試験過去問/*.html の両方が読む共有ファイル**（演出テーマのようなミラー乖離を作らないため）。CSSは自前で注入する |
 | `card_renderer.js` | JSON→カードHTML描画（`window._renderSubjectFromJson`、エスケープ処理あり） |
-| `fx_engine.js` | エフェクトのCanvas描画エンジン（`window.MecFX`：粒子・花火・グリフバースト等） |
+| `fx_engine.js` | エフェクトのCanvas描画エンジン（`window.MecFX`：粒子・花火・グリフバースト等）。ハブのゲージ用に `gears`／`gearRain`／`steam`（真鍮の歯車・蒸気）を後から足した。**エミッタの追加は常に純増で行うこと**——study.html／chapter_exam.js の試験演出が同じエンジンを共用しているので、既存関数の引数や既定値を変えると7テーマ全部に波及する |
 | `image_dims.json` | 問題画像の実寸（パス→[w,h]・約109KB・**派生物**。`_work/build_image_dims.py`が生成）。`card_renderer.js`が`<img width height>`を出す材料。これが無いと遅延読込の画像でレイアウトが後からずれ、章ジャンプが目標に収束しない。**画像を差し替え・追加したら必ず再生成** |
 | `sw.js` | Service Worker（オフラインキャッシュ）。`CACHE`版数は**questions_*.json・画像を更新した時にbump**（bumpで全キャッシュ削除＝再DL）。SHELL/CARDSにパス列挙。相対パス必須 |
 | `chapters_meta.js` / `rate_index.js` | stats.html等が参照する章メタ・正答率インデックス（`_work/build.py`系で再生成） |
@@ -212,12 +212,28 @@ xp: { banked: number, ledger: { 'd:2026-07-29': { ans:40, exam:40, __all__:150 }
   （`.gauge-ovf`＝1周目に重ねて描く弧）に回り、200%超は2周目が満タンで止まる（**数字は素の値のまま**）。
   3桁は円からはみ出すので `.gauge-mid.wide` で一段字を落とす。
 - 演出の段は `_goalTier(pct)`（0 / 1〜4=途中 / 5=達成 / 6=1.5倍超）。`data-tier` を `.gauge` に載せ、
-  CSSが「発光 → 目盛りの回転が上がる → 盤面が脈打つ → 達成色」と層を積む。粒子は `_gaugeCelebrate(tier)`
-  が同じ段構造で撒く（tier5以上でだけ花火・紙吹雪が画面全体に出る＝1日の山をそこに置く）。
+  CSSが「発光 → 歯車列が速く回る → 盤面が脈打つ → 達成色」と層を積む。粒子は `_gaugeCelebrate(tier)`
+  が同じ段構造で撒く（tier5以上でだけ画面全体に出る＝1日の山をそこに置く）。
 - **祝砲は段が上がったときだけ鳴らす**（`_gaugeTierShown`）。Gist同期の完了で `renderHero()` は
-  何度も走るので、条件を外すと同期のたびに花火が上がる。
-- テスト: `node _work/test_daily_goal.js`（index.html から `_goalTier`/`_driveGauge` を切り出して実行する
-  ので、関数名や `let _gaugeTierShown` の宣言を変えるとテスト側も直す必要がある）。
+  何度も走るので、条件を外すと同期のたびに祝砲が上がる。
+- テスト: `node _work/test_daily_goal.js`（index.html から `_goalTier`/`_driveGauge`/`_gearPath`/`GEARS` を
+  切り出して実行するので、関数名や `let _gaugeTierShown` の宣言を変えるとテスト側も直す必要がある）。
+
+### スチームパンクの歯車（2026-07-29）
+
+ゲージの意匠は**真鍮・銅の歯車列**。色はテーマに振らず固定（`.gauge` の `--brass`/`--brass-hi`/`--copper`）。
+進捗の弧（`--or`／達成の `--gr`）とは別系統の色にして、「読み値」と「機械」を描き分けている。
+
+- 歯車の `d` は `_buildGears()` が起動時に**歯数から生成**する（`_gearPath` + `_holePath`、`fill-rule:evenodd` で軸穴）。
+  諸元は `GEARS` 定数：大24枚／小 a=12・b=16・c=10 枚。`gear-c` は段3から現れる。
+- ⚠️ **速さは `--gear-t` 1本だけを動かすこと**。小歯車の duration は `calc(var(--gear-t) * 歯数比)` で、
+  逆回り（`reverse`）。個別に `animation-duration` を上書きすると歯数比が崩れて噛み合いが嘘になる。
+- ⚠️ 小歯車の位置は「歯先が大歯車の歯の領域（root〜tip）へ食い込む」距離で決めてある。
+  座標を動かすと離れて浮くか、深く刺さって潰れる。`test_daily_goal.js` がこの寸法を守る。
+- 粒子も同じ意匠。花火・紙吹雪・絵文字は使わず、**真鍮の火花（`shard`）・回る歯車（`gears`/`gearRain`）・
+  蒸気（`steam`）**で作る。⚠️ 蒸気は `blend:false`（加算合成にすると湯気ではなく発光体になる）。
+- canvas と SVG で歯車の実装が**2本ある**（`fx_engine.js` の `gearPath` と index.html の `_gearPath`）。
+  テストは両方の輪郭を検査する（canvas側は rAF を掴んで1フレーム描かせて確認している）。
 
 ## 採点データの不変条件（試験モードが壊れる原因になる）
 
@@ -368,7 +384,7 @@ node _work/test_subject_totals.js  科目別問題数の三者一致      (3)
 node _work/test_card_render.js     カード描画（画像実寸・採点ボタン）(7)
 node _work/test_calc_input.js      計算問題の桁入力・データ整合      (29)
 node _work/test_missions.js        日次/週次ミッション          (30)
-node _work/test_daily_goal.js      ハブのゲージ（今日の目標）    (15)
+node _work/test_daily_goal.js      ハブのゲージ・歯車の意匠      (29)
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 ```
 

@@ -219,5 +219,193 @@ t('ゲージが読む値は index.html ではなく dailyGoal() が正本', () =
   assert.ok(lits.length >= 2, '代用値が定数になっていない');
 });
 
+// ── 歯車の意匠（スチームパンク） ───────────────────────────────────────────
+// 「噛み合って見える」は絵の話ではなく寸法の話なので、寸法として固定する。
+sec('ゲージの歯車列（index.html の _gearPath / GEARS）');
+
+// GEARS 定義と _gearPath を本文から切り出して実行する
+const GEAR_CTX = (() => {
+  const defs = (HTML.match(/^const GEARS = \[[\s\S]*?^\];$/m) || [])[0];
+  assert.ok(defs, 'GEARS の定義が index.html に無い');
+  const ctx = { console };
+  ctx.globalThis = ctx;
+  vm.createContext(ctx);
+  // const 宣言は vm のグローバルに生えないので、最後の式で明示的に取り出す
+  return vm.runInContext(extract('_gearPath') + '\n' + defs + '\n({_gearPath, GEARS})', ctx);
+})();
+const MAIN = GEAR_CTX.GEARS.find(g => g.id === 'gearMain');
+const SMALL = GEAR_CTX.GEARS.filter(g => g.id !== 'gearMain');
+// path の全座標を中心からの距離に直す
+function radiiOf(g) {
+  const d = GEAR_CTX._gearPath(g.cx, g.cy, g.root, g.tip, g.n);
+  const nums = d.match(/-?\d+(\.\d+)?/g).map(Number);
+  const out = [];
+  // "A r r 0 0 1 x y" の r,r,0,0,1 を飛ばしつつ、末尾の座標対だけを拾う
+  d.split(/(?=[MLA])/).forEach(seg => {
+    const v = (seg.match(/-?\d+(?:\.\d+)?/g) || []).map(Number);
+    if (!v.length) return;
+    const xy = v.slice(-2);
+    out.push(Math.hypot(xy[0] - g.cx, xy[1] - g.cy));
+  });
+  assert.ok(nums.length, 'path が空');
+  return out;
+}
+
+t('歯先は tip・歯底は root の半径にちょうど乗る', () => {
+  GEAR_CTX.GEARS.forEach(g => {
+    radiiOf(g).forEach(r => {
+      const onTip = Math.abs(r - g.tip) < .05, onRoot = Math.abs(r - g.root) < .05;
+      assert.ok(onTip || onRoot, g.id + ' に tip/root どちらでもない頂点がある: ' + r.toFixed(2));
+    });
+  });
+});
+
+t('歯数ぶんの歯が出る（頂点数が歯数に比例する）', () => {
+  GEAR_CTX.GEARS.forEach(g => {
+    const rs = radiiOf(g);
+    const tips = rs.filter(r => Math.abs(r - g.tip) < .05).length;
+    assert.strictEqual(tips, g.n * 2, g.id + ' の歯先の頂点が歯数×2になっていない');
+  });
+});
+
+t('小歯車は大歯車と必ず噛み合う（歯先が相手の歯の領域へ食い込む）', () => {
+  SMALL.forEach(g => {
+    const dist = Math.hypot(g.cx - MAIN.cx, g.cy - MAIN.cy);
+    const reach = dist - g.tip;               // 小歯車の歯先が中心へ届く距離
+    assert.ok(reach < MAIN.tip, g.id + ' が大歯車から離れている（隙間 ' + (reach - MAIN.tip).toFixed(2) + '）');
+    assert.ok(reach > MAIN.root, g.id + ' が大歯車へ深く刺さりすぎている（歯底より内側）');
+  });
+});
+
+t('どの歯車も viewBox(140x140) からはみ出さない', () => {
+  GEAR_CTX.GEARS.forEach(g => {
+    assert.ok(g.cx - g.tip >= -0.5 && g.cx + g.tip <= 140.5, g.id + ' が横にはみ出す');
+    assert.ok(g.cy - g.tip >= -0.5 && g.cy + g.tip <= 140.5, g.id + ' が縦にはみ出す');
+  });
+});
+
+t('軸穴は歯底より内側にある（穴が歯を食わない）', () => {
+  GEAR_CTX.GEARS.forEach(g => assert.ok(g.hole < g.root, g.id + ' の軸穴が歯底以上'));
+});
+
+t('CSSの回転速度は歯数比と一致する（噛み合いが嘘にならない）', () => {
+  // --gear-t（大歯車の周期）に対する係数。小歯車は歯数比のぶんだけ速く回る
+  const want = { 'gear-a': 12 / 24, 'gear-b': 16 / 24, 'gear-c': 10 / 24 };
+  Object.keys(want).forEach(cls => {
+    const m = HTML.match(new RegExp('\\.' + cls + '\\{animation:gearSpin calc\\(var\\(--gear-t[^)]*\\) \\* ([\\d.]+)\\)'));
+    assert.ok(m, '.' + cls + ' の animation 指定が読めない');
+    assert.ok(Math.abs(Number(m[1]) - want[cls]) < .002,
+      '.' + cls + ' の係数 ' + m[1] + ' が歯数比 ' + want[cls].toFixed(3) + ' と違う');
+  });
+  // 小歯車は必ず逆回り（同じ向きだと噛み合っていないのが一目で分かる）
+  ['gear-a', 'gear-b', 'gear-c'].forEach(cls => {
+    const line = HTML.match(new RegExp('\\.' + cls + '\\{animation:[^}]*\\}'))[0];
+    assert.ok(/reverse/.test(line), '.' + cls + ' が逆回りになっていない');
+  });
+});
+
+t('速さは --gear-t 1本で決まる（個別に duration を上書きしていない）', () => {
+  assert.ok(!/\.gear-(main|a|b|c)\{animation-duration/.test(HTML),
+    '歯車ごとに animation-duration を上書きすると歯数比が崩れる');
+  const tiers = HTML.match(/\.gauge\[data-tier="\d"\]\{--gear-t:[\d.]+s;\}/g) || [];
+  assert.ok(tiers.length >= 5, '段ごとの --gear-t が足りない');
+});
+
+// ── fx_engine.js のスチームパンク粒子 ─────────────────────────────────────
+sec('fx_engine.js の歯車・蒸気パーティクル');
+
+// Canvas2D を録画するスタブ。rAF のコールバックを掴んでおき、こちらから1フレーム
+// 進めることで drawParticle まで実際に走らせる（歯車の輪郭を絵として検査するため）。
+function loadFx() {
+  const rec = { path: [], fills: [], reset() { this.path = []; this.fills = []; } };
+  const c2d = new Proxy({
+    moveTo: (x, y) => rec.path.push(['m', x, y]),
+    lineTo: (x, y) => rec.path.push(['l', x, y]),
+    arc: (x, y, r) => rec.path.push(['a', x, y, r]),
+    beginPath: () => rec.path.push(['begin']),
+    closePath: () => rec.path.push(['close']),
+    fill: rule => rec.fills.push(rule || 'nonzero'),
+    createRadialGradient: () => ({ addColorStop() {} }),
+  }, { get: (o, k) => (k in o ? o[k] : () => undefined), set: () => true });
+  const canvas = { style: {}, width: 0, height: 0, id: '', getContext: () => c2d };
+  let frame = null;
+  const ctx = {
+    console, Math, Date, performance: { now: () => 0 },
+    requestAnimationFrame: fn => { frame = fn; return 1; },
+    cancelAnimationFrame: () => { frame = null; },
+    document: { createElement: () => canvas, body: { appendChild() {} }, addEventListener() {} },
+    innerWidth: 1200, innerHeight: 800, devicePixelRatio: 1, addEventListener() {},
+  };
+  ctx.window = ctx; ctx.globalThis = ctx;
+  vm.createContext(ctx);
+  vm.runInContext(fs.readFileSync(path.join(ROOT, 'fx_engine.js'), 'utf8'), ctx);
+  const fx = ctx.window.MecFX;
+  // 描画フレームを n 枚回す。1フレームの dt は engine 側で 50ms に頭打ちされるので、
+  // 粒子の delay（既定で最大 .18s）を消化するには数フレーム必要
+  fx._step = n => { for (let i = 1; i <= (n || 8); i++) if (frame) frame(i * 50); };
+  fx._rec = rec;
+  return fx;
+}
+const FX = loadFx();
+// 撒いた粒子を数えるには count() の差分を見る（pool は非公開）
+function spawned(fn) { const a = FX.count(); fn(); return FX.count() - a; }
+
+t('新しいエミッタが公開されている', () => {
+  ['gears', 'gearRain', 'steam'].forEach(k =>
+    assert.strictEqual(typeof FX[k], 'function', k + ' が公開されていない'));
+});
+
+t('既存のエミッタを1つも失っていない（study.html の試験演出を壊さない）', () => {
+  ['burst', 'confetti', 'glyphRain', 'petals', 'warp', 'bubbles', 'fireworks', 'lightning',
+   'rings', 'floaters', 'glyphBurst', 'attractor', 'glitchBars', 'dust', 'clear', 'count']
+    .forEach(k => assert.strictEqual(typeof FX[k], 'function', k + ' が消えている'));
+});
+
+t('gears は指定した数だけ歯車を撒く', () => {
+  FX.clear();
+  assert.strictEqual(spawned(() => FX.gears(100, 100, { count: 9 })), 9);
+});
+
+t('gearRain / steam も数どおり撒く', () => {
+  FX.clear();
+  assert.strictEqual(spawned(() => FX.gearRain({ count: 30 })), 30);
+  FX.clear();
+  assert.strictEqual(spawned(() => FX.steam(10, 10, { count: 12 })), 12);
+});
+
+t('蒸気は加算合成にしない（加算だと湯気ではなく発光体になる）', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'fx_engine.js'), 'utf8');
+  const body = src.slice(src.indexOf('function steam('), src.indexOf('function steam(') + 1200);
+  assert.ok(/blend:\s*false/.test(body), 'steam に blend:false が無い');
+});
+
+t('SVG側の歯車も軸穴を evenodd で抜く', () => {
+  assert.ok(/fill-rule['"]?,\s*['"]evenodd/.test(HTML), 'SVG 側の軸穴が抜けていない');
+});
+
+// 実際に1フレーム描かせて、canvas に落ちた歯車の輪郭そのものを検査する。
+// SVG(_gearPath) と canvas(gearPath) は別実装なので、片方だけ直す事故をここで拾う。
+t('canvas の歯車も歯先・歯底・軸穴が揃った輪郭になる', () => {
+  FX.clear();
+  FX._rec.reset();
+  // delay を持たない歯車を1つだけ撒く（複数だと輪郭が混ざる）
+  FX.gears(600, 400, { count: 1, min: 40, max: 40 });
+  FX._step(8);             // delay を消化してから描かせる
+  assert.ok(FX.count() > 0, '粒子が生き残っていない（描画中に例外が出て捨てられた可能性）');
+  const S = 40, R = S / 2;
+
+  const pts = FX._rec.path.filter(c => c[0] === 'm' || c[0] === 'l').map(c => Math.hypot(c[1], c[2]));
+  assert.ok(pts.length > 8, '歯車の輪郭が描かれていない（描画まで到達していない）');
+  const tips = pts.filter(r => Math.abs(r - R) < .3).length;
+  const roots = pts.filter(r => Math.abs(r - R * .70) < .3).length;
+  assert.ok(tips >= 12 && roots >= 6, '歯先/歯底の頂点が足りない tips=' + tips + ' roots=' + roots);
+  pts.forEach(r => assert.ok(r <= R + .3, '歯先が指定サイズをはみ出している: ' + r.toFixed(2)));
+
+  // 軸穴: 歯底より内側の半径で円弧が引かれ、evenodd で塗られる
+  const arcs = FX._rec.path.filter(c => c[0] === 'a').map(c => c[3]);
+  assert.ok(arcs.some(r => r > 0 && r < R * .70), '軸穴の円弧が無い');
+  assert.ok(FX._rec.fills.includes('evenodd'), 'evenodd で塗っていない＝軸穴が抜けない');
+});
+
 console.log('\n' + (fail ? 'FAILED' : 'all passed') + '  (' + pass + '/' + (pass + fail) + ')');
 process.exit(fail ? 1 : 0);

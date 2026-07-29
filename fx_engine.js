@@ -249,6 +249,13 @@
         ctx.fillRect(0, by, W, p.h);
         return;
       }
+      case 'steam': {
+        // 蒸気: グロー円スプライトを膨らませながら薄れさせる。加算合成にしないこと
+        // （加算だと光って見え、湯気ではなく発光体になる）
+        var sd = s * (1 + (p.grow == null ? 2 : p.grow) * t);
+        ctx.drawImage(glowSprite(p.color), x - sd / 2, y - sd / 2, sd, sd);
+        return;
+      }
       case 'glyph': {
         var fs = (s | 0) + 'px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif';
         if (curFont !== fs) { ctx.font = fs; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; curFont = fs; }
@@ -288,6 +295,7 @@
       case 'square': ctx.fillRect(-h, -h, s, s); break;
       case 'shard': ctx.fillRect(-s * .18, -h, s * .36, s); break;
       case 'star': starPath(s); ctx.fill(); break;
+      case 'gear': gearPath(s, p.teeth || 8); break;
       case 'plus':
         ctx.fillRect(-h, -s * .17, s, s * .34);
         ctx.fillRect(-s * .17, -h, s * .34, s);
@@ -305,6 +313,26 @@
         ctx.fillRect(-h, -h, s, s);
     }
     ctx.restore();
+  }
+
+  // 歯車。歯先を s の直径に合わせ、中心に軸穴を空ける（evenodd で穴にする）。
+  // 呼び出し側で translate/rotate 済みなので原点中心に描く。
+  function gearPath(s, n) {
+    var R = s / 2, root = R * .70, hole = R * .26;
+    var step = 6.2832 / n, w = step * .27;   // 歯の半幅（歯底側）
+    ctx.beginPath();
+    ctx.moveTo(Math.cos(-w) * root, Math.sin(-w) * root);
+    for (var i = 0; i < n; i++) {
+      var a = i * step;
+      ctx.lineTo(Math.cos(a - w * .58) * R, Math.sin(a - w * .58) * R);
+      ctx.lineTo(Math.cos(a + w * .58) * R, Math.sin(a + w * .58) * R);
+      ctx.lineTo(Math.cos(a + w) * root, Math.sin(a + w) * root);
+      ctx.arc(0, 0, root, a + w, a + step - w);   // 歯底は円弧＝鋳物らしい谷になる
+    }
+    ctx.closePath();
+    ctx.moveTo(hole, 0);
+    ctx.arc(0, 0, hole, 0, 6.2832, true);         // 逆回り＋evenodd で軸穴を抜く
+    ctx.fill('evenodd');
   }
 
   function starPath(s) {
@@ -613,6 +641,81 @@
     }
   }
 
+  // ── スチームパンク（ハブのゲージ演出用） ─────────────────────
+  // 真鍮・銅はテーマに振らない固定色。study.html の試験演出は使っていないので、
+  // ここを変えても EXAM_EFFECT_THEMES / CE_EFFECT_THEMES には影響しない。
+  var BRASS = ['#C9A227', '#E0C25E', '#B87333', '#8C6D1F'];
+
+  /** 歯車が弾け飛ぶ。o: {count, colors, spread, up, upBias, gravity, w, min, max, delay, stagger} */
+  function gears(x, y, o) {
+    o = o || {};
+    var colors = o.colors || BRASS;
+    var n = o.count || 10;
+    var spread = o.spread || 380;
+    for (var i = 0; i < n; i++) {
+      // up:true は上方向へ吹き上げる（軸から吹き出す絵）。既定は全方位
+      var ang = o.up ? rnd(-2.7, -.45) : rnd(0, 6.2832);
+      var spd = rnd(spread * .3, spread);
+      addP({
+        x: x + rnd(-(o.w || 20), o.w || 20), y: y,
+        vx: Math.cos(ang) * spd,
+        vy: Math.sin(ang) * spd - (o.upBias || 0),
+        gy: o.gravity != null ? o.gravity : 620, drag: .985,
+        size: rnd(o.min || 13, o.max || 30),
+        color: pick(colors), shape: 'gear',
+        teeth: 6 + (Math.random() * 5 | 0),
+        rot: rnd(0, 360), vr: rnd(-320, 320),
+        glow: false, blend: false,
+        ttl: rnd(1.1, 2.0), fadeOut: .28,
+        delay: (o.delay || 0) + rnd(0, o.stagger || .18)
+      });
+    }
+  }
+
+  /** 歯車の雨（紙吹雪のスチームパンク版）。o: {count, colors, big, delay} */
+  function gearRain(o) {
+    o = o || {};
+    var colors = o.colors || BRASS;
+    var n = o.count || 40;
+    for (var i = 0; i < n; i++) {
+      addP({
+        x: rnd(0, W), y: rnd(-70, -10),
+        vx: rnd(-50, 50), vy: rnd(180, 420),
+        gy: 150, drag: .995,
+        size: rnd(12, o.big ? 42 : 28),
+        color: pick(colors), shape: 'gear',
+        teeth: 6 + (Math.random() * 5 | 0),
+        rot: rnd(0, 360), vr: rnd(-260, 260),
+        sway: { f: rnd(1.5, 3), ph: rnd(0, 6.28), amp: rnd(20, 60) },
+        glow: false, blend: false,
+        ttl: 3.2, fadeOut: .12,
+        delay: (o.delay || 0) + rnd(0, .3)
+      });
+    }
+  }
+
+  /** 蒸気の噴出。o: {count, color, alpha, w, rise, min, max, grow, vx, delay, stagger} */
+  function steam(x, y, o) {
+    o = o || {};
+    var n = o.count || 14, rise = o.rise || 100;
+    for (var i = 0; i < n; i++) {
+      addP({
+        type: 'steam',
+        x: x + rnd(-(o.w || 26), o.w || 26), y: y + rnd(-8, 8),
+        vx: rnd(-40, 40) + (o.vx || 0), vy: -rnd(rise, rise * 2.2),
+        drag: .985,
+        size: rnd(o.min || 26, o.max || 62),
+        grow: o.grow != null ? o.grow : 2.4,
+        color: o.color || '#E8E2D4',
+        alpha: o.alpha != null ? o.alpha : .5,
+        sway: { f: rnd(1.4, 2.8), ph: rnd(0, 6.28), amp: rnd(20, 55) },
+        glow: false, blend: false,
+        ttl: rnd(1.0, 1.9), fadeOut: .55,
+        delay: (o.delay || 0) + rnd(0, o.stagger || .35)
+      });
+    }
+  }
+
   /** 引力点（ブラックホール）。生きている間パーティクルを吸い込む */
   function attractor(x, y, o) {
     o = o || {};
@@ -671,6 +774,9 @@
     rings: rings,
     floaters: floaters,
     glyphBurst: glyphBurst,
+    gears: gears,
+    gearRain: gearRain,
+    steam: steam,
     attractor: attractor,
     glitchBars: glitchBars,
     dust: dust,
