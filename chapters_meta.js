@@ -859,6 +859,12 @@ const MEC_CHAPTERS = [
         "file": "皮膚科/ch06_bohan_ryousei_shuyou.html",
         "title": "第6章 母斑と良性腫瘍",
         "count": 29
+      },
+      {
+        "prefix": "derm_ch07",
+        "file": "皮膚科/ch07_akusei_shuyou.html",
+        "title": "第7章 悪性腫瘍",
+        "count": 40
       }
     ]
   }
