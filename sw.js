@@ -1,3 +1,5 @@
+// v118: 皮膚科 第6章「母斑と良性腫瘍」29問を追加（questions_derm.json が 121→150問）。
+// 画像も18問26枚を追加したので CACHE を bump。
 // v117: 皮膚科 第5章「水疱・膿疱」23問を追加（questions_derm.json が 98→121問）。
 // 画像も20問33枚を追加したので CACHE を bump。
 // v116: 皮膚科 第4章「角化症」17問を追加（questions_derm.json が 81→98問）。
@@ -24,7 +26,7 @@
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v117";
+const CACHE = "mec-v118";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。

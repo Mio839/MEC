@@ -853,6 +853,12 @@ const MEC_CHAPTERS = [
         "file": "皮膚科/ch05_suihou_nouhou.html",
         "title": "第5章 水疱・膿疱",
         "count": 23
+      },
+      {
+        "prefix": "derm_ch06",
+        "file": "皮膚科/ch06_bohan_ryousei_shuyou.html",
+        "title": "第6章 母斑と良性腫瘍",
+        "count": 29
       }
     ]
   }

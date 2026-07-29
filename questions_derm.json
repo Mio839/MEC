@@ -7811,6 +7811,1862 @@
           ]
         }
       ]
+    },
+    {
+      "title": "第6章 母斑と良性腫瘍",
+      "qs": [
+        {
+          "uid": "derm_ch06_q122",
+          "qn": "Q.122",
+          "episode": "(120D-9)",
+          "rate": 89,
+          "rate_cls": "ch",
+          "rate_text": "89%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "<span class=\"kw\">神経線維腫症1型〈von Recklinghausen病〉</span>患者の皮膚の写真を示す。<br/><strong>写真にみられる皮膚所見はどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　ケロイド",
+              "ok": false
+            },
+            {
+              "t": "ｂ　葉状白斑",
+              "ok": false
+            },
+            {
+              "t": "ｃ　血管線維腫",
+              "ok": false
+            },
+            {
+              "t": "ｄ　神経線維腫",
+              "ok": true
+            },
+            {
+              "t": "ｅ　café au lait斑",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｄ　神経線維腫",
+          "ans_sub": "全身の皮膚に多発する軟らかいドーム状結節＝皮膚神経線維腫。café au lait斑（平坦・乳児期）との出現時期と形状の違いで解く。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🧬 神経線維腫症1型〈von Recklinghausen病〉——RAS経路のブレーキが壊れる母斑症",
+              "c": "<span class=\"kw3\">神経線維腫症1型〈NF1〉は、17q11.2 の NF1 遺伝子の変異によりその産物 neurofibromin（Ras に対するGTPase活性化蛋白＝RasGAP）が失われ、RAS-MAPK経路が恒常的に活性化する常染色体顕性〈優性〉遺伝疾患</span>である。<span class=\"kw3\">頻度は約1/3,000と母斑症では最多</span>で、<span class=\"kw3\">約半数は家族歴のない新生突然変異</span>のため、「家族歴がない」ことは否定材料にならない。<br/><span class=\"kw3\">皮膚所見は出現時期に順序がある</span>のが最大の特徴である。<span class=\"kw3\">①café au lait斑（出生時〜乳児期）→ ②腋窩・鼠径部の雀卵斑様色素斑〈freckling／Crowe徴候〉（学童期）→ ③皮膚神経線維腫（学童期後半〜思春期以降）</span>と進む。したがって<span class=\"kw4\">乳児期にはcafé au lait斑しかなく、神経線維腫がないからといって否定できない</span>（<span class=\"kw\">Q.126</span>）。<br/><span class=\"kw3\">診断基準は7項目中2項目以上</span>——<span class=\"kw3\">①直径5mm（思春期後は15mm）以上のcafé au lait斑が6個以上、②神経線維腫2個以上または叢状神経線維腫1個以上、③腋窩・鼠径部の雀卵斑様色素斑、④視神経膠腫〈optic glioma〉、⑤虹彩小結節〈Lisch結節〉2個以上、⑥特徴的骨病変（蝶形骨大翼の欠損、長管骨の皮質菲薄化・偽関節）、⑦第一度近親者にNF1</span>。<br/><span class=\"kw4\">合併症として、脊柱側彎（学童期〜思春期）、学習障害、てんかん、高血圧（腎動脈狭窄・褐色細胞腫）、悪性末梢神経鞘腫瘍〈MPNST〉への悪性化</span>があり、<span class=\"kw4\">既存の神経線維腫が急速に増大・硬化し疼痛を伴えばMPNSTを疑う</span>。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　ケロイド</td><td><span class=\"kw4\">ケロイド＝外傷・熱傷・手術創・痤瘡などの後に、瘢痕が元の創範囲を越えて赤く硬く隆起したもの</span>。前胸部・肩・上腕・耳垂など<span class=\"kw4\">緊張のかかる部位に好発</span>し、瘙痒・疼痛を伴う。写真のように<span class=\"kw4\">全身に多発する軟らかい常色の腫瘤ではない</span>。</td></tr><tr><td>ｂ　葉状白斑</td><td><span class=\"kw4\">葉状白斑〈white leaf-shaped macule／木の葉状白斑〉は結節性硬化症の皮膚所見</span>で、<span class=\"kw4\">出生時〜乳児期から体幹・四肢に数個みられる最初のサイン</span>である（<span class=\"kw\">Q.123</span>・<span class=\"kw\">Q.136</span>・<span class=\"kw\">Q.137</span>）。白斑であって隆起せず、von Recklinghausen病の所見ではない。</td></tr><tr><td>ｃ　血管線維腫</td><td><span class=\"kw4\">顔面血管線維腫も結節性硬化症の所見</span>で、<span class=\"kw4\">鼻唇溝から両頬にかけて左右対称に散在する赤色〜淡紅色の小丘疹</span>。<span class=\"kw4\">幼児期（3〜4歳ごろ）から出現</span>し思春期に目立つ（<span class=\"kw\">Q.137</span>・<span class=\"kw\">Q.138</span>）。部位も色調も本症例と異なる。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　神経線維腫</span></td><td><span class=\"kw3\">写真は上肢〜手背にかけて多発する、ドーム状に隆起した常色〜淡紅色の軟らかい小結節＝皮膚神経線維腫</span>である。<span class=\"kw3\">指で圧迫すると柔らかく陥凹する（button-hole sign／ボタン穴徴候）</span>のが特徴で、<span class=\"kw3\">思春期以降に数を増やし、生涯にわたって増え続ける</span>。<span class=\"kw3\">café au lait斑（乳児期から）→ 神経線維腫（学童期〜思春期以降）</span>という出現順序が国試で繰り返し問われる（<span class=\"kw\">Q.126</span>）。</td></tr><tr><td>ｅ　café au lait斑</td><td><span class=\"kw4\">café au lait斑は境界明瞭で平坦な淡褐色斑</span>であり、<span class=\"kw4\">出生時〜乳児期から存在してNF1の最初の手がかりになる</span>。ただし<span class=\"kw4\">「斑」であって隆起しない</span>ので、本写真の隆起性結節の名称としては誤り。なおこの患者にも café au lait 斑は併存しているはずで、<span class=\"kw\">問われているのは「隆起した腫瘤の名称」</span>である点に注意。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 母斑症〈神経皮膚症候群〉の一覧——皮膚から中枢神経・眼・腎・心を探す",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>皮膚</th><th>皮膚以外</th><th>遺伝</th></tr><tr><td><span class=\"kw3\">神経線維腫症1型</span></td><td><span class=\"kw3\">café au lait斑・神経線維腫・腋窩の雀卵斑様色素斑</span></td><td>Lisch結節、視神経膠腫、側彎、褐色細胞腫</td><td>AD（17番）</td></tr><tr><td>神経線維腫症2型</td><td>皮膚病変は乏しい</td><td><span class=\"kw4\">両側聴神経鞘腫〈前庭神経鞘腫〉・髄膜腫</span></td><td>AD（22番）</td></tr><tr><td><span class=\"kw3\">結節性硬化症</span></td><td><span class=\"kw3\">葉状白斑・顔面血管線維腫・シャグリンパッチ・爪囲線維腫</span></td><td>てんかん（West症候群）、知的障害、心横紋筋腫、腎血管筋脂肪腫、上衣下巨細胞性星細胞腫</td><td>AD（TSC1/TSC2）</td></tr><tr><td><span class=\"kw3\">Sturge-Weber症候群</span></td><td><span class=\"kw3\">三叉神経第1枝領域の単純性血管腫（ポートワイン母斑）</span></td><td>軟膜血管腫・脳回に沿う石灰化・てんかん・片麻痺・緑内障</td><td><span class=\"kw4\">遺伝しない（GNAQ体細胞モザイク）</span></td></tr><tr><td>von Hippel-Lindau病</td><td>皮膚病変なし</td><td>網膜・小脳血管芽腫、腎細胞癌、褐色細胞腫、膵囊胞</td><td>AD（3番）</td></tr><tr><td>色素失調症</td><td>水疱→疣贅→渦状色素沈着→脱色素</td><td>歯牙異常、網膜血管異常、けいれん</td><td><span class=\"kw4\">X連鎖顕性（男児は胎児死亡）</span></td></tr></table><span class=\"kw3\">「多発する軟らかい皮下腫瘤＋褐色斑」を見たらNF1</span>、<span class=\"kw3\">「白斑＋けいれん」なら結節性硬化症</span>、<span class=\"kw3\">「片側顔面の赤いあざ＋けいれん」ならSturge-Weber</span>——この3つの入口を押さえれば本章の症例問題はほぼ切り分けられる。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① NF1の皮膚所見の出現順＝<span class=\"kw3\">café au lait斑（乳児期）→ 雀卵斑様色素斑（学童期）→ 神経線維腫（思春期以降）</span>。<br/>② 神経線維腫＝<span class=\"kw3\">軟らかいドーム状結節、button-hole sign陽性</span>。<br/>③ <span class=\"kw3\">腋窩・鼠径部の雀卵斑様色素斑（Crowe徴候）はNF1にほぼ特異的</span>。<br/>④ <span class=\"kw4\">聴神経腫瘍はNF2、白斑・血管線維腫は結節性硬化症</span>——混同が最頻出の誤り。<br/>⑤ 悪性化＝<span class=\"kw4\">急速増大・硬化・疼痛でMPNSTを疑い、生検・画像評価へ</span>。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/120D-9_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch06_q123",
+          "qn": "Q.123",
+          "episode": "(119A-23)",
+          "rate": 94,
+          "rate_cls": "ch",
+          "rate_text": "94%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bc",
+              "t": "CBT"
+            },
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "9か月の女児。<span class=\"kw\">けいれん</span>を主訴に両親に連れられて来院した。<span class=\"kw\">生後5か月で腹部に皮疹があること</span>に母親が気付いていた。2週間前から<span class=\"kw\">両上肢を伸展挙上し、頭部を前屈する動作</span>が出現した。<span class=\"kw\">約5秒間隔で10回以上反復</span>し、次第に頻度が増加して毎日みられるようになった。同時期から<span class=\"kw\">あやし笑いが乏しくなり、ひとり座りが不安定</span>になった。身長70.5cm、体重8.2kg。体温36.3℃。脈拍108/分、整。血圧82/48mmHg。呼吸数32/分。SpO₂ 99％（room air）。心音と呼吸音とに異常を認めない。腹部は平坦、軟で、肝・脾を触知しない。<span class=\"kw\">体幹と大腿部に皮疹を3個</span>認める。頭部単純MRIのT2強調水平断像（A）と大腿部の皮疹の写真（B）とを示す。<br/><strong>最も考えられる疾患はどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　尋常性白斑",
+              "ok": false
+            },
+            {
+              "t": "ｂ　結節性硬化症",
+              "ok": true
+            },
+            {
+              "t": "ｃ　神経線維腫症1型",
+              "ok": false
+            },
+            {
+              "t": "ｄ　Sturge-Weber症候群",
+              "ok": false
+            },
+            {
+              "t": "ｅ　von Hippel-Lindau病",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｂ　結節性硬化症",
+          "ans_sub": "葉状白斑＋West症候群＋発達退行＝結節性硬化症。乳児期の白斑を見たら頭部画像とてんかんを探しに行く。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🧠 結節性硬化症——mTORの暴走が皮膚・脳・腎・心に過誤腫をつくる",
+              "c": "<span class=\"kw3\">結節性硬化症〈TSC〉は、TSC1（ハマルチン）またはTSC2（チュベリン）の変異によりmTOR経路が過剰活性化し、全身に過誤腫〈hamartoma〉を生じる常染色体顕性遺伝疾患</span>である。<span class=\"kw3\">頻度は約1/6,000、およそ2/3は新生突然変異</span>。<br/><span class=\"kw3\">皮膚所見は年齢依存に登場する</span>のが国試の要である。<span class=\"kw3\">①葉状白斑（出生時〜乳児期・最も早く最も高頻度。木の葉／灰の葉状でWood灯下に明瞭化）→ ②顔面血管線維腫（幼児期3〜4歳〜。鼻唇溝中心の左右対称な赤色小丘疹）→ ③シャグリンパッチ〈粒起革様皮〉（学童期・腰仙部の局面）→ ④爪囲線維腫〈Koenen腫瘍〉（思春期以降）</span>（<span class=\"kw\">Q.136</span>）。<br/><span class=\"kw3\">神経症状の中核はてんかんで、乳児期はWest症候群〈点頭てんかん〉として発症する</span>。<span class=\"kw3\">West症候群＝①シリーズ形成するスパスム（数秒間隔で反復）、②脳波でヒプスアリスミア、③精神運動発達の停止・退行</span>の三徴で、<span class=\"kw3\">治療はビガバトリン（TSCでは第一選択）とACTH療法</span>。本例の「あやし笑いが乏しくなり坐位が不安定になった」という<span class=\"kw4\">獲得済みの発達の後退</span>が③にあたる。<br/><span class=\"kw3\">脳病変は皮質結節・上衣下結節・上衣下巨細胞性星細胞腫〈SEGA〉</span>で、<span class=\"kw4\">SEGAはモンロー孔を閉塞して水頭症を起こしうるため定期MRIで追う</span>。<span class=\"kw3\">全身の過誤腫としては心横紋筋腫（胎児期〜乳児期に最大、自然退縮する）、腎血管筋脂肪腫（学童期以降に増大し出血のリスク）、肺リンパ脈管筋腫症〈LAM〉（成人女性）</span>があり、<span class=\"kw3\">いずれもmTOR阻害薬エベロリムスが治療選択肢</span>になる。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　尋常性白斑</td><td><span class=\"kw4\">尋常性白斑〈vitiligo〉は後天性のメラノサイト消失による完全脱色素斑</span>で、<span class=\"kw4\">境界明瞭・乳白色（真っ白）で、Wood灯で強く白く際立つ</span>。自己免疫機序で甲状腺疾患を合併しうるが、<span class=\"kw4\">乳児期発症で点頭てんかんを伴うことはない</span>。本例の白斑は生後5か月から存在する<span class=\"kw4\">先天性・木の葉状の不完全脱色素斑</span>で性質が異なる。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　結節性硬化症</span></td><td><span class=\"kw3\">①生後5か月からの葉状白斑（体幹・大腿に3個）、②9か月で発症したシリーズ形成性のスパスム（両上肢挙上＋頭部前屈を5秒間隔で反復）＝West症候群〈点頭てんかん〉、③精神運動発達の退行（あやし笑いの消失・坐位の不安定化）</span>——この3点セットは<span class=\"kw3\">結節性硬化症〈tuberous sclerosis complex: TSC〉</span>で典型的である。<span class=\"kw3\">MRIのT2強調像では、皮質結節〈tuber〉や上衣下結節、白質の放射状線状病変</span>が高信号として描出される。</td></tr><tr><td>ｃ　神経線維腫症1型</td><td><span class=\"kw4\">NF1の色素斑はcafé au lait斑＝褐色の色素“沈着”</span>であり、<span class=\"kw4\">白斑ではない</span>。また<span class=\"kw4\">West症候群の合併は結節性硬化症ほど特徴的でない</span>。「乳児期の色素斑＋けいれん」で白斑ならTSC、褐色斑ならNF1と切り分ける。</td></tr><tr><td>ｄ　Sturge-Weber症候群</td><td><span class=\"kw4\">難治性てんかんを来す点は共通するが、皮膚所見は三叉神経第1枝領域（前額〜上眼瞼）の片側性の単純性血管腫＝赤いあざ</span>である（<span class=\"kw\">Q.140</span>・<span class=\"kw\">Q.150</span>）。<span class=\"kw4\">白斑ではなく、出生時から顔面にある</span>点が決定的に違う。</td></tr><tr><td>ｅ　von Hippel-Lindau病</td><td><span class=\"kw4\">網膜・小脳の血管芽腫、腎細胞癌、褐色細胞腫を来す常染色体顕性遺伝疾患</span>で、<span class=\"kw4\">特徴的な皮膚所見を持たない</span>のが鑑別上の要点。発症は成人期が中心で、乳児のけいれんの原因にはならない。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 「乳児のけいれん＋皮膚所見」の鑑別",
+              "c": "<table class=\"tb\"><tr><th>皮膚所見</th><th>疾患</th><th>次の一手</th></tr><tr><td><span class=\"kw3\">葉状白斑（木の葉状・生下時から）</span></td><td><span class=\"kw3\">結節性硬化症</span></td><td><span class=\"kw3\">頭部MRI/CT、脳波、心エコー、腹部超音波</span></td></tr><tr><td>片側顔面の赤いあざ（V1領域）</td><td>Sturge-Weber症候群</td><td>造影MRI（軟膜血管腫）、眼圧測定</td></tr><tr><td>café au lait斑が多発</td><td>神経線維腫症1型</td><td>眼科（Lisch結節）、脊椎X線</td></tr><tr><td>線状に並ぶ水疱→疣贅→渦状色素沈着</td><td>色素失調症</td><td>眼底検査、女児のみ・母の流産歴（<span class=\"kw\">Q.130</span>）</td></tr></table><span class=\"kw3\">葉状白斑は色素が「薄い」だけの不完全脱色素斑</span>で、<span class=\"kw4\">尋常性白斑のように真っ白にはならない</span>。<span class=\"kw3\">乳児で見逃されやすいのでWood灯（長波長紫外線）を当てて数を数える</span>のが実際的である。本例のように<span class=\"kw3\">「皮疹に気付いていたが放置され、けいれんで初めて受診」</span>という流れは典型で、<span class=\"kw3\">白斑3個＋けいれんの時点でTSCを疑い、頭部画像・脳波・心エコー・腹部超音波を一度に組む</span>のが正しい対応である。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① TSCの皮膚所見の出現順＝<span class=\"kw3\">葉状白斑（乳児）→ 顔面血管線維腫（幼児）→ シャグリンパッチ（学童）→ 爪囲線維腫（思春期以降）</span>。<br/>② <span class=\"kw3\">West症候群＝スパスムのシリーズ形成＋ヒプスアリスミア＋発達退行</span>。<span class=\"kw3\">TSC合併例の第一選択はビガバトリン</span>。<br/>③ 全身の過誤腫＝<span class=\"kw3\">心横紋筋腫（乳児期・自然退縮）／腎血管筋脂肪腫／SEGA／LAM</span>。<span class=\"kw3\">エベロリムス（mTOR阻害薬）が有効</span>。<br/>④ <span class=\"kw4\">白斑＝TSC、褐色斑＝NF1、赤いあざ＝Sturge-Weber</span>。<br/>⑤ <span class=\"kw3\">約2/3が新生突然変異＝家族歴がなくても否定できない</span>。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/119A-23_1.jpeg",
+            "皮膚科/images/119A-23_2.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch06_q124",
+          "qn": "Q.124",
+          "episode": "(117A-39)",
+          "rate": 36,
+          "rate_cls": "cl",
+          "rate_text": "36%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "50歳の男性。<span class=\"kw\">右頬部の皮疹</span>を主訴に来院した。<span class=\"kw\">約10年前から徐々に隆起</span>してきた。<span class=\"kw\">自然に出血はしない</span>。瘙痒と疼痛はない。<span class=\"kw\">右鼻唇溝に直径5mmの隆起した黒褐色の結節</span>を認める。<span class=\"kw\">右頸部リンパ節の腫脹は認めない</span>。結節を切除した。術前の右鼻唇溝部の写真（A）と切除検体のH-E染色標本（B）とを示す。<br/><strong>診断はどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　Bowen病",
+              "ok": false
+            },
+            {
+              "t": "ｂ　悪性黒色腫",
+              "ok": false
+            },
+            {
+              "t": "ｃ　基底細胞癌",
+              "ok": false
+            },
+            {
+              "t": "ｄ　色素性母斑",
+              "ok": true
+            },
+            {
+              "t": "ｅ　脂漏性角化症",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｄ　色素性母斑",
+          "ans_sub": "10年かけて緩徐に隆起した径5mmの黒褐色結節。病理で真皮内に母斑細胞胞巣＋成熟現象＝色素性母斑。正答率36％の難問。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🔬 色素性母斑——母斑細胞がどこにいるかで3型に分かれる",
+              "c": "<span class=\"kw3\">色素性母斑〈母斑細胞母斑〉は、神経堤由来の母斑細胞〈nevus cell〉が胞巣状に増殖した良性腫瘍</span>である。<span class=\"kw3\">母斑細胞はメラノサイトに近縁だが、樹状突起を持たず胞巣を作る</span>点が異なる。<br/><span class=\"kw3\">母斑細胞の局在で3型に分類される</span>——<span class=\"kw3\">①境界母斑（表皮真皮境界部のみ。平坦な褐色斑・小児に多い）、②複合母斑（境界部＋真皮内。やや隆起）、③真皮内母斑（真皮内のみ。ドーム状に隆起し色調は薄く、成人の顔面に多い）</span>。<span class=\"kw3\">加齢とともに境界母斑→複合母斑→真皮内母斑へ移行し、「平坦な褐色斑が年余をかけて隆起し色が抜けていく」のは良性の自然経過</span>である。本例の「10年で徐々に隆起」はまさにこれにあたる。<br/><span class=\"kw3\">悪性黒色腫との鑑別の病理学的な鍵は成熟現象〈maturation〉</span>——<span class=\"kw3\">良性では深部ほど母斑細胞が小型・単調になり、核異型と深部の核分裂像を欠く</span>。対して<span class=\"kw4\">悪性黒色腫では細胞が深部でも大型のまま、著明な核異型、表皮内でのページェット様の上方進展、非対称性、深部の核分裂像</span>を示す。<br/><span class=\"kw3\">臨床ではダーモスコピーが第一のスクリーニング</span>で、<span class=\"kw3\">母斑は色素ネットワークが規則的、悪性黒色腫は不規則な線条・青白構造・偏在する色素塊</span>を示す。<span class=\"kw4\">掌蹠では、母斑が皮溝平行パターン、悪性黒色腫が皮丘平行パターン</span>という対比が国試頻出である。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　Bowen病</td><td><span class=\"kw4\">Bowen病は表皮内有棘細胞癌〈上皮内癌〉</span>で、<span class=\"kw4\">体幹・四肢に境界明瞭で不整形の落屑性紅色局面</span>として現れる。病理では<span class=\"kw4\">表皮全層の異型細胞（多核細胞・clumping cell）と基底膜は保たれる</span>のが特徴。黒褐色のドーム状結節にはならない。</td></tr><tr><td>ｂ　悪性黒色腫</td><td><span class=\"kw4\">最も除外したい鑑別</span>だが、悪性黒色腫は<span class=\"kw4\">ABCDE基準——非対称〈Asymmetry〉、辺縁不整〈Border〉、色調不均一〈Color〉、径6mm以上〈Diameter〉、経過中の変化〈Evolving〉</span>を満たすことが多い。本例は<span class=\"kw4\">10年かけてゆっくり隆起した、径5mmの均一な黒褐色結節で、潰瘍・出血なし、所属リンパ節腫脹なし</span>であり、病理でも<span class=\"kw4\">異型やページェット様胞巣内進展はみられない</span>。なお顔面の悪性黒色腫は悪性黒子型が多く、<span class=\"kw4\">高齢者の日光露光部に「不整な色むらのある斑」</span>として現れる。</td></tr><tr><td>ｃ　基底細胞癌</td><td><span class=\"kw4\">日本人では黒褐色調を呈することが多く、鼻周囲など顔面正中部に好発する</span>ため紛らわしい。しかし<span class=\"kw4\">典型像は「黒色調で光沢のある小結節が辺縁堤防状に隆起し、中央が陥凹・潰瘍化（rodent ulcer）」</span>で、病理は<span class=\"kw4\">表皮基底層と連続する好塩基性の腫瘍胞巣が柵状配列〈palisading〉と裂隙形成を示す</span>。本例の病理は真皮内に胞巣を作る母斑細胞であり合致しない。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　色素性母斑</span></td><td><span class=\"kw3\">病理（B）は真皮内に胞巣〈nest〉を形成するメラニン含有の母斑細胞（nevus cell）の増殖</span>を示し、<span class=\"kw3\">表皮直下から真皮にかけて胞巣が並ぶ複合型〜真皮内型の色素性母斑</span>である。<span class=\"kw3\">母斑細胞は深部にいくほど小型化する成熟現象〈maturation〉を示し、核異型・深部の分裂像を欠く</span>のが悪性黒色腫との決定的な差である。<span class=\"kw3\">10年かけてゆっくり隆起、径5mm、境界明瞭、潰瘍なし</span>という経過も良性を支持する。</td></tr><tr><td>ｅ　脂漏性角化症</td><td><span class=\"kw4\">高齢者の顔面・体幹に多発する褐色〜黒褐色の疣状局面</span>で、<span class=\"kw4\">表面は粗糙で「貼り付けたような〈stuck-on〉」外観</span>をとる。病理は<span class=\"kw4\">表皮の基底細胞様細胞の増殖と角質囊腫〈horn cyst〉</span>で（<span class=\"kw\">Q.147</span>）、真皮内の母斑細胞胞巣はみられない。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 顔面の黒い結節——4疾患の見分け方",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>臨床</th><th>病理の鍵</th></tr><tr><td><span class=\"kw3\">色素性母斑</span></td><td><span class=\"kw3\">緩徐に隆起、境界明瞭、均一な色調、潰瘍なし</span></td><td><span class=\"kw3\">真皮内の母斑細胞胞巣、成熟現象あり</span></td></tr><tr><td>基底細胞癌</td><td><span class=\"kw4\">高齢者の顔面正中（鼻・眼瞼）、黒色光沢、辺縁堤防状＋中央潰瘍</span></td><td>基底層と連続する好塩基性胞巣、柵状配列、裂隙</td></tr><tr><td>悪性黒色腫</td><td><span class=\"kw4\">ABCDE、急速な変化、出血・潰瘍、所属リンパ節腫脹</span></td><td>核異型、ページェット様進展、成熟現象なし</td></tr><tr><td>脂漏性角化症</td><td>貼り付けたような疣状局面、多発</td><td>角質囊腫〈horn cyst〉、基底細胞様細胞の増殖</td></tr></table><span class=\"kw3\">「10年」「徐々に」「5mm」「出血なし」「リンパ節腫脹なし」という良性を示す語がすべて揃っている</span>のに正答率36％にとどまったのは、<span class=\"kw4\">顔面の黒色結節を見た瞬間に悪性黒色腫・基底細胞癌へ引っ張られた</span>ためである。<span class=\"kw3\">病理写真で「胞巣」と「異型のなさ」を確認できれば確実に取れる</span>。なお<span class=\"kw4\">先天性色素性母斑のうち巨大なもの（20cm以上）は悪性黒色腫の発生母地</span>となり、<span class=\"kw4\">神経皮膚黒色症を合併しうる</span>点は別に押さえておく。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 色素性母斑＝<span class=\"kw3\">母斑細胞が胞巣を作る良性腫瘍。境界母斑→複合母斑→真皮内母斑</span>。<br/>② 良性の病理的根拠＝<span class=\"kw3\">成熟現象あり・核異型なし・深部の分裂像なし</span>。<br/>③ 悪性黒色腫の臨床＝<span class=\"kw4\">ABCDE基準＋急速な変化・出血・潰瘍・リンパ節腫脹</span>。<br/>④ ダーモスコピー：<span class=\"kw3\">掌蹠では母斑＝皮溝平行、悪性黒色腫＝皮丘平行</span>。<br/>⑤ <span class=\"kw4\">巨大先天性色素性母斑は悪性黒色腫のリスク＋神経皮膚黒色症</span>。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/117A-39_1.jpeg",
+            "皮膚科/images/117A-39_2.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch06_q125",
+          "qn": "Q.125",
+          "episode": "(113D-3)",
+          "rate": 85,
+          "rate_cls": "ch",
+          "rate_text": "85%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bc",
+              "t": "CBT"
+            }
+          ],
+          "qt": "<strong>真皮メラノサイトが増生しているのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　太田母斑",
+              "ok": true
+            },
+            {
+              "t": "ｂ　表皮母斑",
+              "ok": false
+            },
+            {
+              "t": "ｃ　扁平母斑",
+              "ok": false
+            },
+            {
+              "t": "ｄ　色素性蕁麻疹",
+              "ok": false
+            },
+            {
+              "t": "ｅ　café au lait斑",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　太田母斑",
+          "ans_sub": "真皮メラノサイト＝青あざ（太田母斑・蒙古斑・伊藤母斑・青色母斑）。表皮メラニン＝茶あざ（café au lait斑・扁平母斑）。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🔵 真皮メラノサイト系病変——なぜ「青く」見えるのか",
+              "c": "<span class=\"kw3\">メラノサイトは本来、胎生期に神経堤から表皮基底層へ移動する。その移動が途中で止まり真皮に残存したものが真皮メラノサイトで、ここにメラニンがあると光の散乱（Tyndall効果）により青〜灰青色に見える</span>。<span class=\"kw3\">真皮メラノサイト系＝蒙古斑・異所性蒙古斑・太田母斑・伊藤母斑・青色母斑</span>の5つをひとまとまりで覚える（<span class=\"kw\">Q.148</span>）。<br/><span class=\"kw3\">太田母斑</span>は<span class=\"kw3\">日本人を含むアジア人に多く、女性に多い（男女比 約1:4）</span>。<span class=\"kw3\">出生時〜乳児期に出現する早発型と、思春期に顕在化する遅発型</span>があり、<span class=\"kw3\">自然消退しない（むしろ思春期に濃くなる）</span>のが蒙古斑との決定的な差である。<span class=\"kw3\">約2/3で同側の眼球結膜・強膜にも青色の色素斑を伴う</span>。<span class=\"kw3\">GNAQ/GNA11 の体細胞変異によるモザイクで、遺伝性ではない</span>（<span class=\"kw\">Q.127</span>）。<br/><span class=\"kw3\">蒙古斑</span>は<span class=\"kw3\">日本人ではほぼ全例にみられる腰仙部の青色斑で、5〜6歳ごろまでに自然消退する</span>（<span class=\"kw\">Q.142</span>）。<span class=\"kw4\">腰仙部以外に出る異所性蒙古斑や色調の濃いものは残存しうるため、レーザー治療の対象になる</span>。<br/><span class=\"kw3\">伊藤母斑は肩〜上腕（鎖骨上神経・上外側上腕皮神経領域）の太田母斑の相同病変</span>、<span class=\"kw3\">青色母斑は真皮内に紡錘形の色素細胞が増殖する結節性の青黒色小腫瘤</span>で、<span class=\"kw4\">まれに悪性青色母斑となるため急速増大例は切除する</span>。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　太田母斑</span></td><td><span class=\"kw3\">太田母斑は、三叉神経第1・2枝領域（前額・眼瞼・頬・側頭）に片側性に生じる青褐色〜灰青色の色素斑で、真皮上層〜中層のメラノサイトが増生したもの</span>である。<span class=\"kw3\">真皮という深い層にメラニンがあると、Tyndall効果によって青みを帯びて見える</span>——これが「青あざ」の正体であり、<span class=\"kw3\">表皮性の褐色斑（café au lait斑・扁平母斑）との色調の違いを説明する</span>。</td></tr><tr><td>ｂ　表皮母斑</td><td><span class=\"kw4\">表皮母斑〈疣状母斑〉は表皮角化細胞の過形成</span>で、<span class=\"kw4\">Blaschko線に沿って線状・帯状に配列する疣状の褐色局面</span>を呈する。メラノサイトの疾患ではない。広範な表皮母斑に骨格・神経異常を伴うものを表皮母斑症候群という。</td></tr><tr><td>ｃ　扁平母斑</td><td><span class=\"kw4\">扁平母斑は表皮基底層のメラニン量が増加した平坦な淡褐色斑</span>で、<span class=\"kw4\">メラニンの局在は表皮であって真皮ではない</span>。思春期に出現する有毛性のものはBecker母斑と呼ばれる。<span class=\"kw4\">レーザー治療の反応は悪く再発しやすい</span>のが太田母斑との実務上の大きな差である。</td></tr><tr><td>ｄ　色素性蕁麻疹</td><td><span class=\"kw4\">色素性蕁麻疹は皮膚肥満細胞症で、真皮に増生するのはメラノサイトではなく肥満細胞</span>である。<span class=\"kw4\">褐色斑を擦ると膨疹化・発赤する Darier徴候が陽性</span>。小児例の多くは自然軽快する。</td></tr><tr><td>ｅ　café au lait斑</td><td><span class=\"kw4\">café au lait斑も表皮基底層のメラニン増加による均一な淡褐色斑</span>で、真皮メラノサイトの増生ではない。<span class=\"kw4\">6個以上あればNF1を疑う</span>（<span class=\"kw\">Q.122</span>）。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 色素斑は「メラニンがどの層にあるか」で整理する",
+              "c": "<table class=\"tb\"><tr><th>局在</th><th>色調</th><th>代表疾患</th><th>レーザー</th></tr><tr><td><span class=\"kw3\">真皮メラノサイトの増生</span></td><td><span class=\"kw3\">青〜灰青色</span></td><td><span class=\"kw3\">太田母斑・伊藤母斑・蒙古斑・青色母斑</span></td><td><span class=\"kw3\">Qスイッチレーザーが著効</span></td></tr><tr><td>表皮基底層のメラニン増加</td><td>淡〜濃褐色</td><td>café au lait斑・扁平母斑・老人性色素斑・肝斑</td><td><span class=\"kw4\">扁平母斑は再発しやすい</span></td></tr><tr><td>母斑細胞（胞巣）の増殖</td><td>褐色〜黒褐色、隆起</td><td>色素性母斑（<span class=\"kw\">Q.124</span>）</td><td>切除が基本</td></tr><tr><td>角化細胞の増殖</td><td>褐色の疣状局面</td><td>脂漏性角化症・表皮母斑</td><td>凍結・切除</td></tr><tr><td>肥満細胞の増生</td><td>褐色斑（Darier徴候陽性）</td><td>色素性蕁麻疹</td><td>抗ヒスタミン薬</td></tr></table><span class=\"kw3\">この表の第1行（青あざ）だけがレーザーの絶好の適応</span>で、<span class=\"kw3\">Qスイッチルビー／アレキサンドライトレーザーのパルスが真皮のメラニン顆粒を選択的に破壊し、マクロファージが貪食・排除する</span>。<span class=\"kw3\">太田母斑は数回の照射で高率に消退し、早期（乳幼児期）に始めるほど効果が高い</span>ため治療の第一選択である（<span class=\"kw\">Q.129</span>・<span class=\"kw\">Q.145</span>・<span class=\"kw\">Q.149</span>）。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">真皮メラノサイト＝太田母斑・伊藤母斑・蒙古斑・青色母斑（青あざ）</span>。Tyndall効果で青く見える。<br/>② <span class=\"kw3\">表皮メラニン増加＝café au lait斑・扁平母斑（茶あざ）</span>。<br/>③ 太田母斑＝<span class=\"kw3\">三叉神経V1・V2領域、片側性、眼球にも色素斑、自然消退しない、レーザーが著効</span>。<br/>④ 蒙古斑＝<span class=\"kw3\">腰仙部、日本人ほぼ全例、5〜6歳で自然消退</span>。<br/>⑤ <span class=\"kw4\">色素性蕁麻疹は肥満細胞（Darier徴候）、表皮母斑は角化細胞</span>——メラノサイトの疾患ではない。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch06_q126",
+          "qn": "Q.126",
+          "episode": "(111A-2)",
+          "rate": 36,
+          "rate_cls": "cl",
+          "rate_text": "36%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            }
+          ],
+          "qt": "<span class=\"kw\">神経線維腫症1型〈von Recklinghausen病〉</span>について<strong>正しいのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　聴神経腫瘍を合併する。",
+              "ok": false
+            },
+            {
+              "t": "ｂ　脊椎の変形は幼児期から発症する。",
+              "ok": false
+            },
+            {
+              "t": "ｃ　神経線維腫は学童期以降に出現する。",
+              "ok": true
+            },
+            {
+              "t": "ｄ　café au lait斑は生後6か月以降に出現する。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　café au lait斑の数と神経線維腫の数は相関する。",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｃ　神経線維腫は学童期以降に出現する。",
+          "ans_sub": "皮膚所見の出現順は café au lait斑（出生〜乳児期）→ 雀卵斑様色素斑（学童期）→ 神経線維腫（学童期後半〜思春期以降）。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "📆 NF1は「年齢で所見が入れ替わる」疾患",
+              "c": "<span class=\"kw3\">NF1の診断で最も実務的な知識は、所見が年齢とともに順番に登場する</span>ことである。<span class=\"kw3\">①café au lait斑：出生時〜生後数か月。ほぼ全例に出現し、境界明瞭で均一な淡褐色斑。思春期前で5mm以上、思春期後で15mm以上のものが6個以上あれば診断基準を1つ満たす</span>。<br/><span class=\"kw3\">②腋窩・鼠径部の雀卵斑様色素斑〈freckling／Crowe徴候〉：3歳ごろ〜学童期に出現</span>。<span class=\"kw3\">日光曝露のない間擦部に小褐色斑が集簇するのはNF1にほぼ特異的</span>で、café au lait斑が6個に満たない例の診断を助ける。<br/><span class=\"kw3\">③皮膚神経線維腫：学童期後半〜思春期以降</span>。<span class=\"kw3\">④Lisch結節（虹彩の過誤腫）：学童期以降に増え、成人ではほぼ全例に認める</span>ため、<span class=\"kw3\">診断確定に細隙灯顕微鏡検査が有用</span>である。<br/><span class=\"kw4\">叢状神経線維腫〈plexiform neurofibroma〉だけは例外で、出生時からびまん性の腫瘤・色素沈着・多毛として存在する</span>。<span class=\"kw4\">大きく増大して機能障害を来し、悪性末梢神経鞘腫瘍〈MPNST〉への悪性化リスクを持つのもこの型</span>で、<span class=\"kw4\">切除困難例にはMEK阻害薬セルメチニブが用いられる</span>。<br/>合併症の管理としては、<span class=\"kw3\">学童期の側彎・学習障害、小児期の視神経膠腫（視力・視野の定期評価）、全年齢での高血圧（腎血管性・褐色細胞腫）</span>を年齢ごとに追う。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　聴神経腫瘍を合併する。</td><td><span class=\"kw4\">両側性の聴神経腫瘍〈前庭神経鞘腫〉は神経線維腫症2型〈NF2〉の診断基準そのもの</span>である。<span class=\"kw4\">NF2は22番染色体のNF2遺伝子（merlin）の変異</span>で、<span class=\"kw4\">皮膚所見に乏しく、聴力低下・耳鳴・平衡障害で発症</span>する。NF1とNF2の取り違えは本問の最大のひっかけ。</td></tr><tr><td>ｂ　脊椎の変形は幼児期から発症する。</td><td><span class=\"kw4\">NF1では脊柱側彎が約10〜30％にみられるが、顕在化するのは学童期から思春期の成長期</span>である。<span class=\"kw4\">「幼児期から」は早すぎる</span>。短い彎曲で椎体の楔状変形を伴う<span class=\"kw4\">ジストロフィー型側彎</span>は進行が速く手術を要することがある。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　神経線維腫は学童期以降に出現する。</span></td><td><span class=\"kw3\">皮膚神経線維腫は学童期後半から思春期以降に出現し、以後生涯にわたって数と大きさを増す</span>。<span class=\"kw3\">妊娠・思春期といったホルモン環境の変化で増悪する</span>ことも知られる。<span class=\"kw3\">乳幼児期にはcafé au lait斑しかないのが普通</span>で、この時期に神経線維腫を探しても診断できない（<span class=\"kw\">Q.122</span>・<span class=\"kw\">Q.133</span>）。</td></tr><tr><td>ｄ　café au lait斑は生後6か月以降に出現する。</td><td><span class=\"kw4\">café au lait斑は出生時にすでに存在するか、生後数か月以内に出現する最初の徴候</span>である。<span class=\"kw4\">「生後6か月以降」ではなく、それより早い</span>。NF1が乳児期に疑われる唯一の手がかりであることが多い。</td></tr><tr><td>ｅ　café au lait斑の数と神経線維腫の数は相関する。</td><td><span class=\"kw4\">両者の数に相関はない</span>。café au lait斑が多くても神経線維腫が少ない例、逆の例のいずれもあり、<span class=\"kw4\">重症度の予測にも使えない</span>。同一家系内でも表現型の差（浸透率はほぼ100％だが表現度は多様）が大きいのがNF1の特徴である。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 NF1 vs NF2——名前が似ているだけで別物",
+              "c": "<table class=\"tb\"><tr><th></th><th>NF1（von Recklinghausen病）</th><th>NF2</th></tr><tr><td>遺伝子</td><td><span class=\"kw3\">17q11.2 NF1（neurofibromin）</span></td><td><span class=\"kw4\">22q12 NF2（merlin/schwannomin）</span></td></tr><tr><td>頻度</td><td>約1/3,000</td><td>約1/25,000</td></tr><tr><td>皮膚</td><td><span class=\"kw3\">café au lait斑・神経線維腫・雀卵斑様色素斑</span></td><td><span class=\"kw4\">乏しい（少数のcafé au lait斑・皮下神経鞘腫）</span></td></tr><tr><td>神経</td><td>視神経膠腫、叢状神経線維腫</td><td><span class=\"kw4\">両側聴神経鞘腫、髄膜腫、脊髄腫瘍</span></td></tr><tr><td>眼</td><td><span class=\"kw3\">Lisch結節（虹彩過誤腫）</span></td><td><span class=\"kw4\">若年性白内障</span></td></tr><tr><td>初発</td><td>小児期の皮膚所見</td><td><span class=\"kw4\">思春期〜若年成人の聴力低下・耳鳴</span></td></tr></table><span class=\"kw3\">「Lisch結節はNF1、白内障はNF2」「neurofibromin＝RasGAP、merlin＝細胞骨格」</span>と対で覚える。正答率36％と低いのは、<span class=\"kw4\">a（聴神経腫瘍）とd（café au lait斑の出現時期）がいずれも「ありそうに見える」ため</span>で、<span class=\"kw3\">年齢軸を持っているかどうかで差がつく問題</span>である。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① NF1の所見は<span class=\"kw3\">年齢順に登場</span>——<span class=\"kw3\">café au lait斑（出生〜乳児）→ 雀卵斑様色素斑（3歳〜学童）→ 神経線維腫（学童後半〜思春期）→ Lisch結節（学童期以降）</span>。<br/>② <span class=\"kw4\">両側聴神経腫瘍＝NF2</span>。NF1ではない。<br/>③ <span class=\"kw3\">脊柱側彎は成長期（学童〜思春期）に問題化</span>する。<br/>④ <span class=\"kw4\">café au lait斑の数は神経線維腫の数・重症度と相関しない</span>。<br/>⑤ <span class=\"kw3\">叢状神経線維腫は出生時から存在し、MPNSTへ悪性化しうる</span>。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch06_q127",
+          "qn": "Q.127",
+          "episode": "(111I-64)",
+          "rate": 87,
+          "rate_cls": "ch",
+          "rate_text": "87%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "20歳の男性。<span class=\"kw\">右顔面の青色の色素斑</span>を主訴に来院した。<span class=\"kw\">3年前から色素斑が出現し、次第に濃くなってきた</span>ため受診した。顔面の写真を示す。<br/><strong>この疾患について正しいのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　表皮顆粒層のメラニン沈着による。",
+              "ok": false
+            },
+            {
+              "t": "ｂ　レーザー治療が有効である。",
+              "ok": true
+            },
+            {
+              "t": "ｃ　日本人では少ない。",
+              "ok": false
+            },
+            {
+              "t": "ｄ　悪性化しやすい。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　遺伝性である。",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｂ　レーザー治療が有効である。",
+          "ans_sub": "片側顔面の青色斑＝太田母斑。真皮メラノサイトの増生で、Qスイッチレーザーが第一選択。非遺伝性・悪性化はまれ。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💠 太田母斑——「片側・三叉神経V1V2・青色・自然消退しない」",
+              "c": "<span class=\"kw3\">太田母斑〈nevus fuscocaeruleus ophthalmomaxillaris〉は、三叉神経第1枝（前額・上眼瞼）と第2枝（下眼瞼・頬・鼻翼・側頭）の支配領域に片側性（まれに両側性）に生じる青褐色〜灰青色の色素斑</span>である。<span class=\"kw3\">病理では真皮上層〜中層に樹枝状のメラノサイトが散在性に増生</span>し、<span class=\"kw3\">Tyndall効果で青みを帯びる</span>。<br/><span class=\"kw3\">出現時期は二峰性</span>で、<span class=\"kw3\">①早発型：出生時〜生後1年以内、②遅発型：思春期前後</span>。<span class=\"kw3\">いずれも自然消退せず、思春期・妊娠時に色調が濃くなる</span>ことがあり、本例の「3年前から出現し次第に濃くなった」は遅発型の典型的な経過である。<br/><span class=\"kw3\">約2/3で同側の眼球結膜・強膜に青色色素斑を伴い、硬口蓋・鼓膜など粘膜にも及ぶことがある</span>。<span class=\"kw4\">眼合併症として、まれに緑内障やぶどう膜悪性黒色腫の報告がある</span>ため、<span class=\"kw4\">眼球にも色素斑がある例は一度眼科へ紹介する</span>のが安全である。<br/><span class=\"kw3\">治療はQスイッチレーザー（ルビー694nm／アレキサンドライト755nm）</span>。<span class=\"kw3\">メラニンの吸収波長に合わせた極短パルスで標的だけを破壊する「選択的光熱融解理論」に基づく</span>。<span class=\"kw4\">合併症は照射後の色素沈着・色素脱失で、照射後の遮光が重要</span>。<span class=\"kw4\">乳児期に始めると少ない回数で消退する</span>ため、<span class=\"kw4\">「様子をみましょう」は誤り</span>となる（<span class=\"kw\">Q.149</span>）。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　表皮顆粒層のメラニン沈着による。</td><td><span class=\"kw4\">太田母斑の本態は真皮上層〜中層のメラノサイトの増生</span>である。<span class=\"kw4\">表皮（しかも顆粒層）ではない</span>。そもそもメラニンは表皮では基底層のケラチノサイトに受け渡されるのが基本で、「顆粒層のメラニン沈着」という病態自体が成立しない。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　レーザー治療が有効である。</span></td><td><span class=\"kw3\">Qスイッチルビーレーザー・Qスイッチアレキサンドライトレーザーが第一選択</span>で、<span class=\"kw3\">数回〜10回程度の照射で高率に色素斑が消退し、保険適用がある</span>。<span class=\"kw3\">短パルスの強い光が真皮のメラニン顆粒だけを選択的に破壊し（選択的光熱融解）、周囲組織を傷つけずマクロファージが排出する</span>。<span class=\"kw3\">早期に開始するほど効果が高く、瘢痕を残しにくい</span>。</td></tr><tr><td>ｃ　日本人では少ない。</td><td><span class=\"kw4\">太田母斑は日本人をはじめとするアジア人に多く、欧米白人には少ない</span>。<span class=\"kw4\">女性に多く（男女比およそ1:4）</span>、出生時〜乳児期に現れる早発型と、<span class=\"kw4\">本例のように思春期以降に顕在化・増悪する遅発型</span>とがある。</td></tr><tr><td>ｄ　悪性化しやすい。</td><td><span class=\"kw4\">太田母斑が悪性黒色腫へ移行することはきわめてまれ</span>で、<span class=\"kw4\">治療は整容目的</span>である。ただし<span class=\"kw4\">眼球（強膜・脈絡膜）に色素斑を伴う例ではまれにぶどう膜悪性黒色腫の報告があり、眼科の定期評価が勧められる</span>。悪性化を主眼に切除するような疾患ではない。</td></tr><tr><td>ｅ　遺伝性である。</td><td><span class=\"kw4\">太田母斑は通常散発性で、遺伝しない</span>。<span class=\"kw4\">GNAQ／GNA11 の体細胞変異によるモザイク（受精後に生じた変異が一部の細胞に限局）</span>と考えられている。同様に<span class=\"kw4\">Sturge-Weber症候群も GNAQ体細胞変異による非遺伝性疾患</span>で、「片側性・線状／領域性の病変＝体細胞モザイク＝遺伝しない」という理屈は共通である。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 顔面のあざ——色で分ける",
+              "c": "<table class=\"tb\"><tr><th>色</th><th>疾患</th><th>本態</th><th>治療</th></tr><tr><td><span class=\"kw3\">青〜灰青</span></td><td><span class=\"kw3\">太田母斑</span></td><td><span class=\"kw3\">真皮メラノサイト増生</span></td><td><span class=\"kw3\">Qスイッチルビー／アレキサンドライトレーザー</span></td></tr><tr><td>赤（淡紅〜暗赤）</td><td>単純性血管腫〈ポートワイン母斑〉</td><td>真皮の毛細血管拡張（GNAQ変異）</td><td><span class=\"kw3\">色素レーザー〈dye laser〉</span>（<span class=\"kw\">Q.144</span>）</td></tr><tr><td>鮮紅色・隆起</td><td>乳児血管腫〈イチゴ状血管腫〉</td><td>血管内皮の増殖（GLUT1陽性）</td><td><span class=\"kw3\">経過観察／プロプラノロール</span>（<span class=\"kw\">Q.134</span>）</td></tr><tr><td>褐色（平坦）</td><td>扁平母斑・café au lait斑</td><td>表皮基底層のメラニン増加</td><td><span class=\"kw4\">レーザーの反応は不良・再発しやすい</span></td></tr><tr><td>褐色（隆起）</td><td>色素性母斑</td><td>母斑細胞の胞巣</td><td>切除</td></tr></table><span class=\"kw3\">「青あざにはQスイッチ、赤あざには色素レーザー」</span>——この2語だけで顔面のあざの治療問題は解ける。<span class=\"kw4\">なお「レーザー」と名の付く選択肢がすべて正解になるわけではなく、乳児血管腫は自然消退するので第一選択はレーザーではない</span>点に注意する。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 太田母斑＝<span class=\"kw3\">三叉神経V1・V2領域の片側性青色斑、真皮メラノサイトの増生</span>。<br/>② <span class=\"kw3\">日本人・アジア人に多く、女性に多い。自然消退しない</span>。<br/>③ <span class=\"kw3\">治療はQスイッチルビー／アレキサンドライトレーザー（保険適用）</span>。<br/>④ <span class=\"kw4\">非遺伝性（GNAQ体細胞モザイク）、悪性化はまれ</span>。<br/>⑤ <span class=\"kw3\">約2/3で眼球結膜・強膜にも色素斑</span>——眼科評価を忘れない。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/111I-64_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch06_q128",
+          "qn": "Q.128",
+          "episode": "(104A-57)",
+          "rate": 79,
+          "rate_cls": "cm",
+          "rate_text": "79%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "1か月の乳児。<span class=\"kw\">項部の紅斑</span>を主訴に来院した。在胎39週3日、正常頭位分娩で出生した。身長52cm、体重3,900g。<span class=\"kw\">紅斑は出生時から認めていた</span>。活気があり哺乳も良好である。項部の写真を示す。<br/><strong>母親への説明として適切なのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　「苺状に隆起します」",
+              "ok": false
+            },
+            {
+              "t": "ｂ　「レーザー療法を行います」",
+              "ok": false
+            },
+            {
+              "t": "ｃ　「ほとんどが自然に消えます」",
+              "ok": true
+            },
+            {
+              "t": "ｄ　「新生児の10％にみられます」",
+              "ok": false
+            },
+            {
+              "t": "ｅ　「出血しやすいので注意しましょう」",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｃ　「ほとんどが自然に消えます」",
+          "ans_sub": "出生時からある項部正中の平坦な淡紅色斑＝正中部母斑（Unna母斑）。頻度が高く、多くは自然に目立たなくなる。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🍑 新生児の赤いあざ——「正中か片側か」で運命が決まる",
+              "c": "<span class=\"kw3\">新生児にみられる血管性の赤い斑は、①正中部母斑、②単純性血管腫〈ポートワイン母斑〉、③乳児血管腫〈イチゴ状血管腫〉の3つ</span>を区別できれば十分である。<br/><span class=\"kw3\">①正中部母斑〈salmon patch／nevus flammeus medialis〉は、胎生期の血管の遺残による真皮浅層の毛細血管拡張</span>で、<span class=\"kw3\">正中線上（前額・眉間・上眼瞼・鼻下・項部）に左右対称に生じる淡紅色の平坦な斑</span>。<span class=\"kw3\">泣くと濃くなる</span>のが特徴。<span class=\"kw3\">新生児の20〜40％にみられるありふれた所見で、前額・眼瞼のもの（サーモンパッチ）は1〜2歳までにほぼ消退する</span>。<span class=\"kw4\">項部のもの（Unna母斑）は約半数が成人まで残存するが、毛髪に覆われるため治療対象になることは少ない</span>。<br/><span class=\"kw3\">②単純性血管腫は片側性・領域性（三叉神経支配領域など）に生じ、平坦で自然消退しない</span>。<span class=\"kw3\">三叉神経第1枝領域にかかる場合はSturge-Weber症候群を疑って造影MRIと眼圧測定を行う</span>（<span class=\"kw\">Q.140</span>）。<span class=\"kw3\">治療は色素レーザー</span>。<br/><span class=\"kw3\">③乳児血管腫は生後2〜4週から出現し、生後1〜5か月で急速増大（増殖期）→ 1歳以降に退縮期に入り、5〜7歳までに消退する</span>。<span class=\"kw3\">GLUT1陽性</span>が組織学的マーカー。<span class=\"kw4\">気道・眼周囲・肝など機能障害を来す部位や潰瘍形成例ではプロプラノロール内服の適応</span>となる（<span class=\"kw\">Q.134</span>）。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　「苺状に隆起します」</td><td><span class=\"kw4\">苺状に隆起するのは乳児血管腫〈イチゴ状血管腫〉</span>で、<span class=\"kw4\">出生直後には目立たず、生後2〜4週から出現して数か月で急速に増大する</span>（<span class=\"kw\">Q.134</span>）。本例は<span class=\"kw4\">出生時から存在する平坦な淡紅色斑</span>で経過も形態も異なる。</td></tr><tr><td>ｂ　「レーザー療法を行います」</td><td><span class=\"kw4\">正中部母斑は自然消退が期待できるので、新生児期にレーザーを行う適応はない</span>。<span class=\"kw4\">色素レーザーの適応は、自然消退しない単純性血管腫（片側性・三叉神経領域のポートワイン母斑）</span>である（<span class=\"kw\">Q.144</span>）。両者の区別が本問の眼目。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　「ほとんどが自然に消えます」</span></td><td><span class=\"kw3\">項部正中の淡紅色斑＝正中部母斑（項部のものをUnna母斑、前額・眉間・上眼瞼のものをサーモンパッチと呼ぶ）</span>で、<span class=\"kw3\">大多数は1〜2歳ごろまでに自然に目立たなくなる</span>。<span class=\"kw3\">したがって説明は「経過観察でよい、ほとんどが自然に消える」</span>となる。<span class=\"kw\">なお項部のUnna母斑は一部が成人まで残存するが、毛髪に隠れて整容的な問題になりにくい</span>ため、選択肢の中では本肢が最も適切である。</td></tr><tr><td>ｄ　「新生児の10％にみられます」</td><td><span class=\"kw4\">正中部母斑はきわめてありふれた所見で、新生児の20〜40％程度（報告により差があるが、少なくとも10％よりはるかに高頻度）にみられる</span>。数値としての正確さを欠くため誤り。<span class=\"kw4\">「よくある所見です」と安心させる方向の説明が正しい</span>。</td></tr><tr><td>ｅ　「出血しやすいので注意しましょう」</td><td><span class=\"kw4\">正中部母斑は真皮浅層の毛細血管が拡張しているだけの平坦な紅斑で、出血しない</span>。<span class=\"kw4\">出血・潰瘍化が問題になるのは、急速増大期の乳児血管腫（特に口唇・肛門周囲などの摩擦部位）</span>である。不要な不安を与える説明は不適切。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 「出生時からあるか」「平坦か隆起か」「正中か片側か」の3問診",
+              "c": "<table class=\"tb\"><tr><th></th><th>正中部母斑</th><th>単純性血管腫</th><th>乳児血管腫</th></tr><tr><td>出現</td><td><span class=\"kw3\">出生時</span></td><td><span class=\"kw3\">出生時</span></td><td><span class=\"kw4\">生後2〜4週</span></td></tr><tr><td>分布</td><td><span class=\"kw3\">正中・対称</span></td><td><span class=\"kw4\">片側・領域性</span></td><td>どこでも・単発が多い</td></tr><tr><td>形態</td><td>平坦・淡紅</td><td>平坦・暗赤（成人で肥厚・結節化）</td><td><span class=\"kw4\">隆起・鮮紅（苺状）</span></td></tr><tr><td>経過</td><td><span class=\"kw3\">1〜2歳で消退（項部は残存も）</span></td><td><span class=\"kw4\">消退しない</span></td><td><span class=\"kw3\">増大後、5〜7歳までに自然消退</span></td></tr><tr><td>対応</td><td><span class=\"kw3\">経過観察・説明のみ</span></td><td><span class=\"kw3\">色素レーザー＋Sturge-Weberの検索</span></td><td><span class=\"kw3\">経過観察／プロプラノロール</span></td></tr></table><span class=\"kw3\">母親への説明を問う設問では、「不安を煽らず、正しい自然経過を伝える」肢が正解になる</span>。<span class=\"kw4\">本例で「レーザー」「出血」「悪性」といった語を含む肢はいずれも過剰</span>で、<span class=\"kw3\">頻度の数字（10％）が不正確な肢も落とす</span>。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 正中部母斑＝<span class=\"kw3\">出生時からある正中の平坦な淡紅色斑。泣くと濃くなる</span>。<span class=\"kw3\">前額・眼瞼＝サーモンパッチ、項部＝Unna母斑</span>。<br/>② <span class=\"kw3\">サーモンパッチは1〜2歳までに消退。項部は残存しうるが毛髪に隠れる</span>。<br/>③ <span class=\"kw4\">片側性・領域性で消退しない赤い斑＝単純性血管腫</span>→<span class=\"kw4\">V1領域ならSturge-Weber症候群を検索</span>。<br/>④ <span class=\"kw4\">生後2〜4週から隆起して増大＝乳児血管腫</span>（GLUT1陽性）。<br/>⑤ 説明問題は<span class=\"kw3\">「自然経過を正しく伝える」肢を選ぶ</span>。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/104A-57_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch06_q129",
+          "qn": "Q.129",
+          "episode": "(102A-8)",
+          "rate": 92,
+          "rate_cls": "ch",
+          "rate_text": "92%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            }
+          ],
+          "qt": "<strong>疾患と対応の組合せで正しいのはどれか。2つ選べ。</strong>",
+          "choices": [
+            {
+              "t": "ａ　Bowen病　――――　経過観察",
+              "ok": false
+            },
+            {
+              "t": "ｂ　太田母斑　――――　レーザー療法",
+              "ok": true
+            },
+            {
+              "t": "ｃ　尋常性白斑　――――　PUVA療法",
+              "ok": true
+            },
+            {
+              "t": "ｄ　リンパ管腫　――――　放射線治療",
+              "ok": false
+            },
+            {
+              "t": "ｅ　単純性血管腫　――――　副腎皮質ステロイド治療",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｂ・ｃ",
+          "ans_sub": "太田母斑＝Qスイッチレーザー、尋常性白斑＝光線療法（PUVA/NB-UVB）。癌に経過観察・血管奇形にステロイドは誤り。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🧰 皮膚科治療の「疾患→第一選択」対応表を作る",
+              "c": "<span class=\"kw3\">組合せ問題は、疾患の本態（腫瘍／奇形／自己免疫／感染）を思い出せば治療は自動的に決まる</span>。<br/><span class=\"kw3\">①悪性腫瘍・上皮内癌 → 切除</span>（Bowen病・有棘細胞癌・基底細胞癌・悪性黒色腫）。<span class=\"kw4\">「経過観察」「ステロイド外用」といった保存的選択肢は誤りになる</span>。<br/><span class=\"kw3\">②色素性病変 → 局在で決まる。真皮メラノサイト（太田母斑・異所性蒙古斑）はQスイッチレーザー、母斑細胞母斑は切除、表皮性の褐色斑はレーザーの反応不良</span>。<br/><span class=\"kw3\">③血管性病変 → 「奇形」か「腫瘍」かで分かれる。単純性血管腫（毛細血管奇形）は色素レーザー、リンパ管奇形は硬化療法（OK-432）、乳児血管腫（血管内皮の腫瘍性増殖）は経過観察またはプロプラノロール</span>。<br/><span class=\"kw3\">④自己免疫性の脱色素 → 尋常性白斑はステロイド／タクロリムス外用＋光線療法</span>。<span class=\"kw3\">光線療法はPUVA・ナローバンドUVB・エキシマライトの3つを「乾癬・白斑・アトピー性皮膚炎・菌状息肉症」に使う</span>と覚えておく。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　Bowen病　――――　経過観察</td><td><span class=\"kw4\">Bowen病は表皮内有棘細胞癌〈上皮内癌〉であり、放置すれば浸潤癌（有棘細胞癌）へ進展しうる</span>。<span class=\"kw4\">対応は経過観察ではなく外科的切除</span>（部位により凍結療法・イミキモド外用・光線力学療法）。「癌に経過観察」という組合せは基本的に誤り。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　太田母斑　――――　レーザー療法</span></td><td><span class=\"kw3\">太田母斑は真皮メラノサイトの増生で自然消退せず、Qスイッチルビー／アレキサンドライトレーザーが第一選択</span>である（<span class=\"kw\">Q.127</span>・<span class=\"kw\">Q.145</span>・<span class=\"kw\">Q.149</span>）。<span class=\"kw3\">保険適用があり、早期に開始するほど少ない回数で消退する</span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　尋常性白斑　――――　PUVA療法</span></td><td><span class=\"kw3\">尋常性白斑はメラノサイトが自己免疫機序で消失する後天性の脱色素斑で、治療の柱はステロイド／タクロリムス外用と光線療法</span>である。<span class=\"kw3\">PUVA療法（psoralen＋UVA）やナローバンドUVB、近年はエキシマライトが用いられ、残存メラノサイト（毛包バルジ）からの色素再生を促す</span>。<span class=\"kw\">現在はナローバンドUVBが主流だが、「白斑に光線療法」という組合せの正しさは変わらない</span>。</td></tr><tr><td>ｄ　リンパ管腫　――――　放射線治療</td><td><span class=\"kw4\">リンパ管腫〈リンパ管奇形〉は良性の脈管奇形</span>で、<span class=\"kw4\">小児に放射線を当てる適応はない</span>（二次発癌・成長障害のリスク）。<span class=\"kw4\">治療は硬化療法（OK-432＝ピシバニール局注）が第一選択</span>で、外科的切除やシロリムスも用いられる。</td></tr><tr><td>ｅ　単純性血管腫　――――　副腎皮質ステロイド治療</td><td><span class=\"kw4\">単純性血管腫〈ポートワイン母斑〉は毛細血管の「奇形」であって増殖性腫瘍ではないため、ステロイドは無効</span>。<span class=\"kw4\">治療は色素レーザー</span>（<span class=\"kw\">Q.144</span>）。<span class=\"kw4\">ステロイドが（かつて）用いられたのは増殖期の乳児血管腫</span>で、<span class=\"kw4\">現在の第一選択はプロプラノロール</span>である（<span class=\"kw\">Q.134</span>）。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 まぎらわしい治療の組合せ",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>第一選択</th><th>誤りやすい選択肢</th></tr><tr><td><span class=\"kw3\">太田母斑</span></td><td><span class=\"kw3\">Qスイッチルビー／アレキサンドライトレーザー</span></td><td><span class=\"kw4\">切除・植皮（瘢痕を残すので不適）</span></td></tr><tr><td><span class=\"kw3\">単純性血管腫</span></td><td><span class=\"kw3\">色素レーザー</span></td><td><span class=\"kw4\">ステロイド・放射線</span></td></tr><tr><td>乳児血管腫</td><td><span class=\"kw3\">経過観察／機能障害例はプロプラノロール</span></td><td><span class=\"kw4\">早期の外科的切除</span></td></tr><tr><td>リンパ管腫</td><td><span class=\"kw3\">硬化療法（OK-432）</span></td><td><span class=\"kw4\">放射線治療</span></td></tr><tr><td>尋常性白斑</td><td><span class=\"kw3\">ステロイド／タクロリムス外用＋NB-UVB・PUVA</span></td><td><span class=\"kw4\">レーザー（メラニンを壊す方向で逆効果）</span></td></tr><tr><td>Bowen病</td><td><span class=\"kw3\">切除</span></td><td><span class=\"kw4\">経過観察</span></td></tr></table><span class=\"kw3\">「あざ」に対するレーザーは、青あざ＝Qスイッチ（メラニン標的）、赤あざ＝色素レーザー（ヘモグロビン標的）</span>と<span class=\"kw3\">標的色素で使い分ける</span>のが原理である。<span class=\"kw4\">白斑にレーザーを当てるという選択肢が出たら即座に切る</span>。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">太田母斑＝Qスイッチレーザー／単純性血管腫＝色素レーザー</span>。<br/>② <span class=\"kw3\">尋常性白斑＝ステロイド・タクロリムス外用＋光線療法（PUVA／NB-UVB）</span>。<br/>③ <span class=\"kw4\">Bowen病は上皮内癌＝切除</span>。経過観察ではない。<br/>④ <span class=\"kw3\">リンパ管腫＝OK-432硬化療法</span>。放射線は使わない。<br/>⑤ <span class=\"kw4\">増殖期の乳児血管腫＝プロプラノロール</span>（かつてはステロイド）。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch06_q130",
+          "qn": "Q.130",
+          "episode": "(102A-36)",
+          "rate": 23,
+          "rate_cls": "cl",
+          "rate_text": "23%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "6か月の<span class=\"kw\">女児</span>。下肢の皮疹を主訴に来院した。在胎40週、2,800gで出生した。<span class=\"kw\">出生時には下肢に水疱を多数認めた</span>が、水疱は次第に軽減した。<span class=\"kw\">母親は流産歴が2回ある</span>。下肢の写真を示す。<br/><strong>考えられるのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　色素失調症",
+              "ok": true
+            },
+            {
+              "t": "ｂ　結節性硬化症",
+              "ok": false
+            },
+            {
+              "t": "ｃ　神経線維腫症",
+              "ok": false
+            },
+            {
+              "t": "ｄ　尋常性天疱瘡",
+              "ok": false
+            },
+            {
+              "t": "ｅ　毛細血管拡張性失調症",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　色素失調症",
+          "ans_sub": "女児＋出生時からの水疱＋Blaschko線に沿う渦巻き状色素沈着＋母の流産歴＝色素失調症。X連鎖顕性で男児は胎内死亡。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🌀 色素失調症——4期に姿を変え、Blaschko線に沿って走る",
+              "c": "<span class=\"kw3\">色素失調症〈incontinentia pigmenti／Bloch-Sulzberger症候群〉は、X染色体上の IKBKG〈NEMO〉遺伝子の変異によりNF-κB経路が働かなくなるX連鎖顕性〈優性〉遺伝疾患</span>である。<span class=\"kw3\">半接合体である男児は胎生期に致死となるため、生まれてくる患者はほぼ全例が女児で、母には男児の反復流産歴がある</span>。<span class=\"kw3\">女児ではLyon現象（X染色体のランダム不活化）により正常細胞と変異細胞がモザイクとなり、皮膚病変が胎生期の細胞移動の軌跡＝Blaschko線に沿って渦巻き状・線状に並ぶ</span>（<span class=\"kw\">Q.141</span>）。<br/><span class=\"kw3\">皮疹は4期を順に経過する</span>——<span class=\"kw3\">①第1期（水疱期・出生時〜生後数週）：四肢に線状に配列する紅斑と水疱。好酸球増多を伴う。②第2期（疣贅期・生後数週〜数か月）：疣贅状・苔癬状の角化性局面。③第3期（色素沈着期・数か月〜思春期）：渦巻き状・大理石様の褐色色素沈着（最も有名な所見）。④第4期（色素脱失・萎縮期・成人）：下腿を中心に無毛・無汗の淡い萎縮性瘢痕</span>。<span class=\"kw4\">「色素失調」の名は、病理で表皮基底層のメラニンが真皮へ落ち込みメラノファージに貪食される（pigmentary incontinence）ことに由来する</span>。<br/><span class=\"kw3\">皮膚以外の合併症が予後を決める</span>——<span class=\"kw3\">①歯牙異常（円錐歯・部分無歯症。約80％）、②眼病変（網膜血管の異常増殖→網膜剝離・失明。約1/3）、③中枢神経（けいれん・知的障害・片麻痺）、④脱毛・爪変形</span>。<span class=\"kw4\">乳児期に眼科で網膜検査を行い、必要なら光凝固で失明を防ぐ</span>のが最重要の初期対応である。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　色素失調症</span></td><td><span class=\"kw3\">①女児、②出生時からの水疱が経過とともに軽減、③写真ではBlaschko線に沿った渦巻き状・線状の色素沈着、④母の流産歴2回</span>——すべてが<span class=\"kw3\">色素失調症〈Bloch-Sulzberger症候群〉</span>を指す。<span class=\"kw3\">X連鎖顕性〈優性〉遺伝で男児は胎内死亡するため、患者は女児のみ、母には男児の流産歴が繰り返される</span>（<span class=\"kw\">Q.141</span>）。</td></tr><tr><td>ｂ　結節性硬化症</td><td><span class=\"kw4\">結節性硬化症の乳児期の皮膚所見は葉状白斑</span>であり、<span class=\"kw4\">水疱で発症することはない</span>（<span class=\"kw\">Q.123</span>）。また常染色体顕性遺伝で男女差はなく、母の流産歴とも結びつかない。</td></tr><tr><td>ｃ　神経線維腫症</td><td><span class=\"kw4\">NF1の乳児期の所見はcafé au lait斑</span>で、<span class=\"kw4\">水疱も渦巻き状の色素沈着も来さない</span>。常染色体顕性遺伝で男女差はない（<span class=\"kw\">Q.126</span>）。</td></tr><tr><td>ｄ　尋常性天疱瘡</td><td><span class=\"kw4\">尋常性天疱瘡は抗デスモグレイン3抗体による中年以降の自己免疫性水疱症</span>で、<span class=\"kw4\">口腔粘膜のびらんで初発し、Nikolsky現象陽性の弛緩性水疱</span>を来す。<span class=\"kw4\">新生児にみられるのは母体からのIgG移行による新生児天疱瘡で、数週で自然軽快し、色素沈着を線状に残すことはない</span>。</td></tr><tr><td>ｅ　毛細血管拡張性失調症</td><td><span class=\"kw4\">毛細血管拡張性失調症〈Louis-Bar症候群〉はATM遺伝子異常による常染色体潜性〈劣性〉遺伝疾患</span>で、<span class=\"kw4\">小脳失調（歩行開始後に顕在化）、眼球結膜の毛細血管拡張、免疫不全（IgA・IgG2低下）、悪性リンパ腫の高発、AFP高値</span>が特徴。水疱も渦巻き状色素沈着も来さない。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 Blaschko線に沿う疾患／新生児の水疱の鑑別",
+              "c": "<span class=\"kw3\">Blaschko線は胎生期の表皮細胞のクローン性増殖・移動の軌跡</span>で、<span class=\"kw3\">体幹ではV字・S字、四肢では線状に走る</span>。<span class=\"kw3\">これに沿う病変＝体細胞モザイクかX連鎖疾患のサイン</span>である（色素失調症、表皮母斑、線状苔癬、伊藤白斑〈色素失調症様色素減少症〉など）。<table class=\"tb\"><tr><th>新生児期の水疱</th><th>鍵</th></tr><tr><td><span class=\"kw3\">色素失調症</span></td><td><span class=\"kw3\">女児、線状配列、好酸球増多、のちに渦巻き状色素沈着</span></td></tr><tr><td>先天性表皮水疱症</td><td><span class=\"kw4\">摩擦部位に水疱・びらん、家族歴、口腔・爪も侵す</span></td></tr><tr><td>ブドウ球菌性熱傷様皮膚症候群〈SSSS〉</td><td><span class=\"kw4\">発熱、口囲の放射状亀裂、Nikolsky現象陽性、急性経過</span></td></tr><tr><td>新生児天疱瘡</td><td>母が天疱瘡、移行抗体が消える数週で自然軽快</td></tr><tr><td>先天梅毒（水疱性梅毒疹）</td><td>掌蹠の水疱、鼻閉・肝脾腫、母体梅毒血清反応</td></tr></table><span class=\"kw4\">正答率23％と本章で最も低い</span>のは、<span class=\"kw4\">「水疱で始まる」ことが色素失調症と結びつきにくい</span>ためである。<span class=\"kw3\">「女児＋母の流産歴」という2語を見た瞬間にX連鎖顕性→色素失調症と短絡できるようにしておく</span>のが実戦的である。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 色素失調症＝<span class=\"kw3\">IKBKG〈NEMO〉変異のX連鎖顕性遺伝。男児は胎内死亡＝女児のみ発症、母に流産歴</span>。<br/>② 皮疹は<span class=\"kw3\">水疱期→疣贅期→色素沈着期（渦巻き状）→萎縮期</span>と<span class=\"kw3\">Blaschko線に沿って</span>推移。<br/>③ 合併＝<span class=\"kw3\">円錐歯・部分無歯症、網膜血管異常（失明）、けいれん・知的障害</span>。<br/>④ <span class=\"kw3\">乳児期に眼科の網膜評価</span>を必ず行う。<br/>⑤ <span class=\"kw4\">Lyon現象でモザイク＝女児の症状は多様</span>（<span class=\"kw\">Q.141</span>）。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/102A-36_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch06_q131",
+          "qn": "Q.131",
+          "episode": "(102E-39)",
+          "rate": 54,
+          "rate_cls": "cl",
+          "rate_text": "54%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            }
+          ],
+          "qt": "<strong>メラニン性色素斑がみられるのはどれか。2つ選べ。</strong>",
+          "choices": [
+            {
+              "t": "ａ　太田母斑",
+              "ok": true
+            },
+            {
+              "t": "ｂ　類器管母斑",
+              "ok": false
+            },
+            {
+              "t": "ｃ　結節性硬化症",
+              "ok": false
+            },
+            {
+              "t": "ｄ　von Recklinghausen病",
+              "ok": true
+            },
+            {
+              "t": "ｅ　Kasabach-Merritt症候群",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ・ｄ",
+          "ans_sub": "メラニン性色素斑＝太田母斑（真皮メラノサイト）とNF1のcafé au lait斑（表皮メラニン）。結節性硬化症は白斑＝メラニン減少。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🎨 「色素斑」を問われたら、色ではなく色素の正体で答える",
+              "c": "<span class=\"kw3\">皮膚の色を作る色素は、①メラニン（褐色〜青）、②ヘモグロビン（赤〜紫）、③ヘモジデリン（黄褐色）、④カロテン・胆汁色素（黄）、⑤外来色素（刺青・薬剤）に大別される</span>。<span class=\"kw3\">「メラニン性色素斑」と限定されたら、メラノサイトかメラニンが増えている病変だけを選ぶ</span>。<br/><span class=\"kw3\">メラニンが増える病変</span>：<span class=\"kw3\">café au lait斑・扁平母斑・雀卵斑〈そばかす〉・老人性色素斑・肝斑（いずれも表皮）／太田母斑・伊藤母斑・蒙古斑・青色母斑（真皮）／色素性母斑（母斑細胞）</span>。<br/><span class=\"kw4\">メラニンが減る病変</span>：<span class=\"kw4\">結節性硬化症の葉状白斑、尋常性白斑、眼皮膚白皮症、脱色素性母斑、Vogt-小柳-原田病の晩期</span>。<br/><span class=\"kw4\">血管由来（メラニンではない）</span>：<span class=\"kw4\">単純性血管腫・乳児血管腫・Kasabach-Merritt症候群・遺伝性出血性毛細血管拡張症</span>。<br/><span class=\"kw3\">全身性疾患に伴う色素沈着</span>も対で押さえる——<span class=\"kw3\">Addison病（ACTH↑による全身・粘膜の色素沈着）、Peutz-Jeghers症候群（口唇・口腔粘膜の色素斑＋消化管過誤腫性ポリープ）、ヘモクロマトーシス（青銅色）、Albright症候群〈McCune-Albright〉（境界不整なcafé au lait斑＋多発性線維性骨異形成＋思春期早発症）</span>。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　太田母斑</span></td><td><span class=\"kw3\">真皮メラノサイトが増生し、その細胞内のメラニンによって青褐色の色素斑を呈する</span>（<span class=\"kw\">Q.125</span>）。<span class=\"kw3\">色調は青いがメラニン性色素斑である</span>という点が本問の要点で、<span class=\"kw3\">「青＝ヘモグロビンや血管」ではない</span>ことを確認したい。</td></tr><tr><td>ｂ　類器管母斑</td><td><span class=\"kw4\">類器官母斑〈器官様母斑・organoid nevus〉は脂腺・毛包・汗腺といった皮膚付属器が過形成した母斑</span>で、<span class=\"kw4\">代表が脂腺母斑（頭部の脱毛を伴う黄色調の局面）</span>である。<span class=\"kw4\">メラノサイトやメラニンの異常ではない</span>。思春期に隆起し、成人期に二次性腫瘍（毛芽腫・基底細胞癌など）を生じうる。</td></tr><tr><td>ｃ　結節性硬化症</td><td><span class=\"kw4\">結節性硬化症の色素異常は「白斑」＝メラニンの減少</span>であり、<span class=\"kw4\">色素斑（沈着）ではない</span>。その他の皮膚所見（顔面血管線維腫・シャグリンパッチ・爪囲線維腫）も色素性ではなく線維性の病変である（<span class=\"kw\">Q.138</span>）。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　von Recklinghausen病</span></td><td><span class=\"kw3\">café au lait斑（表皮基底層のメラニン増加による境界明瞭な淡褐色斑）と、腋窩・鼠径部の雀卵斑様色素斑</span>という<span class=\"kw3\">2種類のメラニン性色素斑</span>を来す（<span class=\"kw\">Q.122</span>）。<span class=\"kw3\">むしろ色素斑が診断基準の中核</span>である。</td></tr><tr><td>ｅ　Kasabach-Merritt症候群</td><td><span class=\"kw4\">Kasabach-Merritt現象は、カポジ型血管内皮腫や房状血管腫といった急速増大する血管腫の内部で血小板が消費され、血小板減少・消費性凝固障害（DIC様）を来す病態</span>である。<span class=\"kw4\">皮膚所見は硬く暗紫紅色に腫脹する血管性腫瘤であって、メラニン性色素斑ではない</span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 café au lait斑の鑑別——「数」と「辺縁」で読む",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>café au lait斑の特徴</th><th>随伴所見</th></tr><tr><td><span class=\"kw3\">神経線維腫症1型</span></td><td><span class=\"kw3\">6個以上、辺縁は滑らか（海岸線様〈coast of California〉）</span></td><td>雀卵斑様色素斑、神経線維腫、Lisch結節</td></tr><tr><td><span class=\"kw4\">McCune-Albright症候群</span></td><td><span class=\"kw4\">大型・少数、辺縁不整（coast of Maine）、正中で止まる</span></td><td><span class=\"kw4\">多発性線維性骨異形成＋思春期早発症</span></td></tr><tr><td>健常人</td><td>1〜2個なら珍しくない</td><td>なし（病的意義に乏しい）</td></tr><tr><td>結節性硬化症</td><td><span class=\"kw4\">白斑（＝逆方向）</span></td><td>けいれん、血管線維腫</td></tr></table><span class=\"kw3\">正答率54％にとどまったのは、「太田母斑は青いからメラニンではない」という誤解と、「結節性硬化症＝色素異常があるから○」という早合点</span>による。<span class=\"kw3\">結節性硬化症の色素異常は減少方向（白斑）</span>、<span class=\"kw3\">太田母斑の青はメラニンが深部にあるためのTyndall効果</span>——この2点を押さえれば確実に取れる。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">メラニン性色素斑＝太田母斑（真皮メラノサイト）／café au lait斑（表皮メラニン）</span>。<br/>② <span class=\"kw4\">結節性硬化症は白斑＝メラニンの減少</span>。色素斑ではない。<br/>③ <span class=\"kw4\">類器官母斑＝付属器の過形成（脂腺母斑）</span>。色素性ではない。<br/>④ <span class=\"kw4\">Kasabach-Merritt症候群＝血管腫＋血小板減少・消費性凝固障害</span>。<br/>⑤ café au lait斑：<span class=\"kw3\">NF1は辺縁平滑で多数、McCune-Albrightは辺縁不整で大型</span>。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch06_q132",
+          "qn": "Q.132",
+          "episode": "(102E-44)",
+          "rate": 97,
+          "rate_cls": "ch",
+          "rate_text": "97%",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "66歳の男性。皮疹を主訴に来院した。<span class=\"kw\">3か月前から体幹に軽度の瘙痒を伴う皮疹が多発</span>してきた。体幹の写真（A）と皮疹の拡大像（B）とを示す。<br/><strong>基礎疾患として最も考えられるのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　胃癌",
+              "ok": true
+            },
+            {
+              "t": "ｂ　肺気腫",
+              "ok": false
+            },
+            {
+              "t": "ｃ　肝硬変",
+              "ok": false
+            },
+            {
+              "t": "ｄ　慢性腎炎",
+              "ok": false
+            },
+            {
+              "t": "ｅ　サルコイドーシス",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　胃癌",
+          "ans_sub": "高齢者に短期間で多発した脂漏性角化症＝Leser-Trélat徴候。消化器癌（胃癌）を代表とする内臓悪性腫瘍を探す。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🩺 デルマドローム——皮膚は内臓を映す窓",
+              "c": "<span class=\"kw3\">脂漏性角化症〈老人性疣贅〉自体は、中高年の顔面・体幹に生じるきわめてありふれた良性の表皮腫瘍</span>である（<span class=\"kw\">Q.147</span>）。<span class=\"kw3\">問題になるのは「数か月で急激に多発し、瘙痒を伴う」という出現の仕方＝Leser-Trélat徴候</span>で、<span class=\"kw3\">腫瘍が産生する成長因子（TGF-α、EGFなど）が表皮の増殖を促すために起こる</span>と考えられている。<span class=\"kw3\">背景の悪性腫瘍は胃癌・大腸癌などの消化器腺癌が多く、悪性リンパ腫の報告もある</span>。<br/><span class=\"kw3\">同じ機序で黒色表皮腫〈acanthosis nigricans〉を合併することがある</span>——<span class=\"kw3\">腋窩・頸部・鼠径部の色素沈着を伴うビロード状の肥厚</span>で、<span class=\"kw4\">若年発症・肥満・糖尿病（インスリン抵抗性）に伴う良性型と、中高年に急速に出現し口唇・手掌にも及ぶ悪性型（胃癌が代表）</span>を区別する。<span class=\"kw3\">Leser-Trélat徴候と悪性型黒色表皮腫が併存すれば、胃癌の可能性はさらに高まる</span>。<br/><span class=\"kw4\">「急に増えた」「短期間で」という語がデルマドロームのスイッチ</span>で、<span class=\"kw4\">対応は皮膚の処置ではなく全身検索（上部消化管内視鏡・CTなど）</span>になる。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　胃癌</span></td><td><span class=\"kw3\">写真は体幹に多発する褐色〜黒褐色で表面が粗糙な「貼り付けたような」疣状局面＝脂漏性角化症</span>である。<span class=\"kw3\">脂漏性角化症が短期間（数か月）に瘙痒を伴って爆発的に増数するものをLeser-Trélat徴候といい、内臓悪性腫瘍（とくに胃癌をはじめとする消化器癌）のデルマドローム〈皮膚病変として現れる内臓疾患のサイン〉</span>として知られる。<span class=\"kw3\">高齢者で「急に増えたイボ」を見たら消化管内視鏡を含む悪性腫瘍検索へ進む</span>。</td></tr><tr><td>ｂ　肺気腫</td><td><span class=\"kw4\">肺気腫に特徴的な皮膚のデルマドロームはない</span>。喫煙関連疾患としては、皮膚では掌蹠膿疱症や<span class=\"kw4\">ばち指（肺癌・気管支拡張症など）</span>が想起されるが、脂漏性角化症の増数とは結びつかない。</td></tr><tr><td>ｃ　肝硬変</td><td><span class=\"kw4\">肝硬変の皮膚所見はクモ状血管腫・手掌紅斑・女性化乳房・黄疸・出血斑</span>であり、<span class=\"kw4\">これらはすべて血管拡張・ホルモン・ビリルビン由来で、角化性の疣状局面ではない</span>。</td></tr><tr><td>ｄ　慢性腎炎</td><td><span class=\"kw4\">慢性腎不全の皮膚所見は瘙痒（尿毒症性瘙痒）・色素沈着・後天性穿孔性皮膚症・石灰沈着</span>など。<span class=\"kw4\">瘙痒という点だけは共通するが、脂漏性角化症の多発は説明できない</span>。</td></tr><tr><td>ｅ　サルコイドーシス</td><td><span class=\"kw4\">サルコイドーシスの皮膚病変は結節性紅斑、皮下型サルコイド、瘢痕浸潤（古い外傷痕の隆起）、凍瘡状狼瘡</span>で、<span class=\"kw4\">肉芽腫性の紅色〜褐色局面</span>である。疣状の角化性局面が多発する像とは異なる。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 主なデルマドローム（内臓悪性腫瘍に伴う皮膚症状）",
+              "c": "<table class=\"tb\"><tr><th>皮膚所見</th><th>代表的な基礎疾患</th></tr><tr><td><span class=\"kw3\">Leser-Trélat徴候（脂漏性角化症の急増）</span></td><td><span class=\"kw3\">胃癌など消化器癌</span></td></tr><tr><td><span class=\"kw3\">悪性型黒色表皮腫</span></td><td><span class=\"kw3\">胃癌</span></td></tr><tr><td>皮膚筋炎（ヘリオトロープ疹・Gottron徴候）</td><td><span class=\"kw4\">悪性腫瘍全般（胃・肺・卵巣・乳）。成人発症例は必ず検索</span></td></tr><tr><td>Sweet病（有痛性の隆起性紅斑＋発熱＋好中球増多）</td><td><span class=\"kw4\">骨髄異形成症候群・白血病</span></td></tr><tr><td>壊疽性膿皮症</td><td>潰瘍性大腸炎・Crohn病、血液疾患</td></tr><tr><td>壊死性遊走性紅斑</td><td><span class=\"kw4\">グルカゴノーマ</span></td></tr><tr><td>後天性魚鱗癬</td><td>悪性リンパ腫（Hodgkin）</td></tr><tr><td>Bazex症候群（肢端角化症）</td><td>上気道・上部消化管の扁平上皮癌</td></tr><tr><td>環状紅斑・遊走性血栓性静脈炎〈Trousseau徴候〉</td><td>膵癌など</td></tr></table><span class=\"kw3\">正答率97％の易問だが、「脂漏性角化症の写真を見て良性だから経過観察」と答えを止めてしまうと落とす</span>。<span class=\"kw3\">問われているのは皮疹の診断ではなく“背景にある疾患”</span>である点に設問の読み方の要点がある。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">Leser-Trélat徴候＝脂漏性角化症が短期間に多発。胃癌など消化器癌を検索</span>。<br/>② <span class=\"kw3\">悪性型黒色表皮腫も胃癌のサイン</span>。良性型は肥満・インスリン抵抗性。<br/>③ <span class=\"kw3\">成人発症の皮膚筋炎は悪性腫瘍の検索が必須</span>。<br/>④ <span class=\"kw3\">Sweet病＝骨髄異形成症候群、壊疽性膿皮症＝炎症性腸疾患</span>。<br/>⑤ 「急に」「短期間で」多発した皮疹＝<span class=\"kw4\">全身検索のスイッチ</span>。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/102E-44_1.jpeg",
+            "皮膚科/images/102E-44_2.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch06_q133",
+          "qn": "Q.133",
+          "episode": "(98A-6)",
+          "rate": -1,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "63歳の女性。<span class=\"kw\">幼少時から体幹や四肢に色素斑が多発</span>していた。<span class=\"kw\">思春期ころから体幹と四肢とに軟らかい皮膚腫瘍が出現し、次第に数が増えて</span>きた。体幹の写真を示す。<br/><strong>この皮膚腫瘍はどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　脂肪腫",
+              "ok": false
+            },
+            {
+              "t": "ｂ　リンパ管腫",
+              "ok": false
+            },
+            {
+              "t": "ｃ　神経線維腫",
+              "ok": true
+            },
+            {
+              "t": "ｄ　肥満細胞腫",
+              "ok": false
+            },
+            {
+              "t": "ｅ　海綿状血管腫",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｃ　神経線維腫",
+          "ans_sub": "幼少時からの色素斑＋思春期以降に増える軟らかい皮膚腫瘍＝NF1の神経線維腫。button-hole signが決め手。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🫱 皮膚神経線維腫——「軟らかい」「押すと沈む」「増え続ける」",
+              "c": "<span class=\"kw3\">皮膚神経線維腫は、末梢神経のSchwann細胞・線維芽細胞・神経周膜細胞などが混在して増殖する良性腫瘍</span>である。<span class=\"kw3\">常色〜淡紅色でドーム状〜有茎性、触れると柔らかく、指で圧迫すると皮膚の欠損部に落ち込むように陥凹する（button-hole sign／ボタン穴徴候）</span>のが臨床的な決め手になる。<br/><span class=\"kw3\">出現は学童期後半〜思春期以降で、以後生涯にわたって数と大きさを増す。妊娠中に増悪することが知られる</span>。<span class=\"kw3\">数百〜数千個に及ぶこともあり、整容的・心理的負担が大きい</span>が、<span class=\"kw3\">個々の腫瘍は良性で、切除は整容・症状（疼痛・摩擦）目的に限られる</span>。<br/><span class=\"kw4\">警戒すべきは叢状神経線維腫〈plexiform neurofibroma〉</span>で、<span class=\"kw4\">出生時から存在するびまん性の腫瘤（色素沈着・多毛を伴い、触れると「ミミズの束」のような索状物を触れる）</span>。<span class=\"kw4\">これが急速に増大・硬化し、持続する疼痛や神経症状を伴えば悪性末梢神経鞘腫瘍〈MPNST〉への悪性化を疑い、FDG-PET／MRIと生検で評価する</span>。<br/><span class=\"kw3\">NF1では他に、視神経膠腫（小児期）、褐色細胞腫・腎動脈狭窄による高血圧、若年性骨髄単球性白血病、消化管間質腫瘍〈GIST〉のリスクも上昇する</span>ため、<span class=\"kw3\">生涯にわたる多科的フォローが必要</span>である。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　脂肪腫</td><td><span class=\"kw4\">脂肪腫は皮下の成熟脂肪組織の良性腫瘍</span>で、<span class=\"kw4\">境界明瞭で可動性のある柔らかい皮下腫瘤として単発することが多い</span>。<span class=\"kw4\">皮膚面から常色のドーム状結節として無数に隆起することはない</span>。多発する脂肪腫（多発性脂肪腫症）はあるが、幼少時からの色素斑とは結びつかない。</td></tr><tr><td>ｂ　リンパ管腫</td><td><span class=\"kw4\">リンパ管腫〈リンパ管奇形〉は乳幼児期に発症し、頸部・腋窩に好発する透明感のある囊胞性腫瘤</span>である。<span class=\"kw4\">思春期以降に体幹・四肢へ無数に増えるものではない</span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　神経線維腫</span></td><td><span class=\"kw3\">幼少時からの色素斑（café au lait斑）に続いて思春期から軟らかい皮膚腫瘍が多発し増数——これはNF1の皮膚所見の出現順そのもの</span>で、<span class=\"kw3\">写真の体幹一面に散在する常色〜淡紅色のドーム状〜有茎性の軟らかい結節が皮膚神経線維腫</span>である（<span class=\"kw\">Q.122</span>・<span class=\"kw\">Q.126</span>）。<span class=\"kw3\">指で押し込むと陥凹するbutton-hole signが特徴</span>。</td></tr><tr><td>ｄ　肥満細胞腫</td><td><span class=\"kw4\">皮膚肥満細胞症（色素性蕁麻疹・孤在性肥満細胞腫）は乳幼児期に発症する褐色の斑・結節</span>で、<span class=\"kw4\">擦過で膨疹化するDarier徴候が陽性</span>。<span class=\"kw4\">小児例の多くは思春期までに自然軽快する</span>ため、本例のように成人で増え続ける経過とは逆である。</td></tr><tr><td>ｅ　海綿状血管腫</td><td><span class=\"kw4\">海綿状血管腫（静脈奇形）は皮下の青紫色の柔らかい腫瘤</span>で、<span class=\"kw4\">圧迫すると縮小し、挙上で退色する（体位で大きさが変わる）</span>のが特徴。常色の小結節が全身に無数に散在する像とは異なる。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 多発する皮膚結節の鑑別",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>硬さ・色</th><th>決め手</th></tr><tr><td><span class=\"kw3\">神経線維腫</span></td><td><span class=\"kw3\">軟らかい・常色</span></td><td><span class=\"kw3\">button-hole sign、café au lait斑の併存</span></td></tr><tr><td>脂肪腫</td><td>柔らかい・皮下（皮膚色は正常）</td><td>可動性良好、単発が多い</td></tr><tr><td>粉瘤〈表皮囊腫〉</td><td>弾性硬・中央に開口部（黒点）</td><td>圧迫で角質様内容と悪臭、炎症で発赤・疼痛</td></tr><tr><td>皮膚線維腫</td><td><span class=\"kw4\">硬い・褐色</span></td><td><span class=\"kw4\">つまむと陥凹するdimple sign</span></td></tr><tr><td>肥満細胞腫（色素性蕁麻疹）</td><td>褐色斑〜結節</td><td><span class=\"kw4\">Darier徴候陽性</span></td></tr><tr><td>海綿状血管腫（静脈奇形）</td><td>青紫・柔らかい</td><td>圧迫・挙上で縮小、静脈石</td></tr></table><span class=\"kw3\">「押すと沈む」神経線維腫のbutton-hole signと、「つまむと凹む」皮膚線維腫のdimple sign</span>は<span class=\"kw3\">名前も所見も紛らわしいので対で覚える</span>。本問は<span class=\"kw3\">「幼少時の色素斑」と「思春期からの軟らかい腫瘍」という2つの時間情報だけでNF1と確定できる</span>設計になっている。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 皮膚神経線維腫＝<span class=\"kw3\">軟らかい常色のドーム状結節、button-hole sign陽性</span>。<br/>② <span class=\"kw3\">思春期以降に出現し、生涯増え続ける（妊娠で増悪）</span>。<br/>③ <span class=\"kw4\">叢状神経線維腫は出生時から。急速増大・疼痛でMPNSTを疑う</span>。<br/>④ <span class=\"kw3\">NF1の全身合併＝視神経膠腫・褐色細胞腫・腎血管性高血圧・側彎</span>。<br/>⑤ <span class=\"kw4\">皮膚線維腫のdimple signと混同しない</span>。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/98A-6_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch06_q134",
+          "qn": "Q.134",
+          "episode": "(90D-2)",
+          "rate": -1,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [
+            {
+              "cls": "bs",
+              "t": "★"
+            },
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "4か月の乳児。<span class=\"kw\">生後3週から左耳後部が赤色に隆起しはじめ、徐々に増大</span>してきた。現在の皮疹の写真を示す。<br/><strong>現時点での最も適切な対応はどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　経過観察",
+              "ok": true
+            },
+            {
+              "t": "ｂ　PUVA療法",
+              "ok": false
+            },
+            {
+              "t": "ｃ　凍結療法",
+              "ok": false
+            },
+            {
+              "t": "ｄ　放射線照射",
+              "ok": false
+            },
+            {
+              "t": "ｅ　外科的切除",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　経過観察",
+          "ans_sub": "生後2〜4週から増大する鮮紅色の隆起＝乳児血管腫。大半は自然消退するので基本は経過観察。機能障害例はプロプラノロール。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🍓 乳児血管腫〈イチゴ状血管腫〉——「増殖期→退縮期」の時間軸で対応が決まる",
+              "c": "<span class=\"kw3\">乳児血管腫は血管内皮細胞が腫瘍性に増殖する小児で最も頻度の高い良性腫瘍</span>で、<span class=\"kw3\">早産児・低出生体重児・女児に多い</span>。<span class=\"kw3\">胎盤由来と考えられるGLUT1が免疫組織学的に陽性</span>で、<span class=\"kw4\">GLUT1陰性の脈管奇形（単純性血管腫・静脈奇形など）と区別できる</span>。<br/><span class=\"kw3\">自然史が明快である</span>——<span class=\"kw3\">①出生時には無いか淡い前駆疹のみ → ②生後2〜4週から出現し、生後1〜5か月に急速増大（増殖期）→ ③1歳前後から退縮期に入り色調が中央から白色化 → ④5〜7歳までに大半が消退（10歳までに約90％）</span>。<span class=\"kw4\">ただし消退後に瘢痕・弛緩した皮膚・毛細血管拡張・線維脂肪組織が残ることがある</span>。<br/><span class=\"kw3\">治療介入の適応は「自然消退を待てない状況」</span>——<span class=\"kw3\">①気道（声門下血管腫→吸気性喘鳴）、②眼周囲（視性刺激遮断弱視・乱視）、③鼻唇部など整容的に重大な部位、④潰瘍形成・出血・疼痛、⑤多発性（5個以上）で肝血管腫を伴う例（高拍出性心不全・甲状腺機能低下）</span>。<span class=\"kw3\">これらでは第一選択がプロプラノロール内服（本邦では2016年にヘマンジオル®シロップとして保険適用）</span>で、<span class=\"kw4\">投与中は低血糖・徐脈・低血圧・気管支攣縮に注意し、哺乳不良時は休薬する</span>。<span class=\"kw3\">部分的な選択肢として色素レーザー（表在性・潰瘍例）</span>もある。<span class=\"kw\">本問は出題が古く選択肢にプロプラノロールが無いが、現在でも「無症候・非露出部の乳児血管腫は経過観察」という原則は変わらない</span>。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　経過観察</span></td><td><span class=\"kw3\">生後2〜4週から出現し急速に増大する鮮紅色の隆起性腫瘤＝乳児血管腫〈イチゴ状血管腫〉</span>である。<span class=\"kw3\">生後1〜5か月に増殖期を迎えたのち1歳前後から退縮期に入り、5〜7歳までに大半が自然消退する</span>。<span class=\"kw3\">耳後部という機能障害を来しにくい部位で、潰瘍・出血もないため、まずは経過観察と保護者への説明が最も適切</span>である。</td></tr><tr><td>ｂ　PUVA療法</td><td><span class=\"kw4\">PUVA療法は乾癬・尋常性白斑・菌状息肉症などに用いる光線療法</span>で、<span class=\"kw4\">血管腫には無効</span>。乳児にソラレンと長波長紫外線を用いる適応はない。</td></tr><tr><td>ｃ　凍結療法</td><td><span class=\"kw4\">液体窒素による凍結療法はウイルス性疣贅・脂漏性角化症・日光角化症などの表在性病変に用いる</span>。<span class=\"kw4\">乳児血管腫に行えば瘢痕・色素脱失を残し、自然消退で得られる整容的結果より悪くなる</span>。</td></tr><tr><td>ｄ　放射線照射</td><td><span class=\"kw4\">かつて血管腫に放射線が用いられた時代があったが、成長障害・二次発癌のリスクから現在は禁忌に近い</span>。<span class=\"kw4\">乳児に対する不可逆的侵襲であり、自然消退する疾患には論外</span>。</td></tr><tr><td>ｅ　外科的切除</td><td><span class=\"kw4\">増殖期の乳児血管腫を急いで切除すると出血量が多く、瘢痕も残る</span>。<span class=\"kw4\">切除が検討されるのは、消退後に残った線維脂肪組織や弛緩した皮膚を整容目的に修正する場合（学童期以降）</span>である。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 血管腫〈腫瘍〉と脈管奇形——ISSVA分類の考え方",
+              "c": "<table class=\"tb\"><tr><th></th><th>乳児血管腫（腫瘍）</th><th>脈管奇形（単純性血管腫など）</th></tr><tr><td>出現</td><td><span class=\"kw3\">生後2〜4週</span></td><td><span class=\"kw4\">出生時から存在</span></td></tr><tr><td>経過</td><td><span class=\"kw3\">増大 → 自然消退</span></td><td><span class=\"kw4\">身体の成長に比例、消退しない</span></td></tr><tr><td>GLUT1</td><td><span class=\"kw3\">陽性</span></td><td><span class=\"kw4\">陰性</span></td></tr><tr><td>治療</td><td><span class=\"kw3\">経過観察／プロプラノロール／色素レーザー</span></td><td><span class=\"kw3\">色素レーザー（毛細血管奇形）、硬化療法（静脈・リンパ管奇形）</span></td></tr></table><span class=\"kw4\">Kasabach-Merritt現象は乳児血管腫では起こらない</span>——<span class=\"kw4\">カポジ型血管内皮腫・房状血管腫という別の腫瘍で、腫瘤内に血小板が捕捉され消費性凝固障害を来す</span>（<span class=\"kw\">Q.131</span>）。<span class=\"kw3\">乳児血管腫の対応を問う問題では、「自然消退するので経過観察」を軸に、機能障害・潰瘍・整容上重大な部位のときだけ介入</span>と考えれば選択に迷わない。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 乳児血管腫＝<span class=\"kw3\">生後2〜4週に出現し増大、5〜7歳までに自然消退。GLUT1陽性</span>。<br/>② <span class=\"kw3\">基本は経過観察＋説明</span>。<span class=\"kw3\">気道・眼周囲・潰瘍・整容上重大な例はプロプラノロール内服</span>。<br/>③ <span class=\"kw4\">凍結療法・放射線・早期切除は瘢痕や二次障害を残すので不適</span>。<br/>④ <span class=\"kw4\">出生時から存在し消退しない赤いあざ＝単純性血管腫（脈管奇形）</span>。<br/>⑤ <span class=\"kw4\">Kasabach-Merritt現象はカポジ型血管内皮腫・房状血管腫</span>で起こる。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/90D-2_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch06_q135",
+          "qn": "Q.135",
+          "episode": "(115A-61)",
+          "rate": 67,
+          "rate_cls": "cm",
+          "rate_text": "67%",
+          "badges": [],
+          "qt": "10か月の男児。<span class=\"kw\">無熱性けいれん</span>を主訴に、父親に連れられて来院した。添い寝をしていたところ突然<span class=\"kw\">2分間の左上下肢の間代けいれん</span>がみられたため来院した。<span class=\"kw\">出生時から右顔面にポートワイン様母斑</span>を認めた。追視・固視2か月、定頸4か月、坐位保持7か月で発達の異常は指摘されていなかった。9か月時に1分間の左上下肢の間代けいれんがみられ、2週後に同様の発作があった。<span class=\"kw\">頭部造影MRIで、右大脳の軟膜血管腫</span>を認めた。<br/><strong>この疾患でみられないのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　片麻痺",
+              "ok": false
+            },
+            {
+              "t": "ｂ　精神遅滞",
+              "ok": false
+            },
+            {
+              "t": "ｃ　てんかん",
+              "ok": false
+            },
+            {
+              "t": "ｄ　網膜色素変性",
+              "ok": true
+            },
+            {
+              "t": "ｅ　脳回に沿った石灰化",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｄ　網膜色素変性",
+          "ans_sub": "出生時からのV1領域ポートワイン母斑＋軟膜血管腫＝Sturge-Weber症候群。眼合併症は緑内障であって網膜色素変性ではない。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🧠 Sturge-Weber症候群——「顔の赤あざ・脳・眼」の3点セット",
+              "c": "<span class=\"kw3\">Sturge-Weber症候群〈脳三叉神経血管腫症〉は、GNAQ遺伝子の体細胞モザイク変異により、顔面・脳軟膜・眼に毛細血管奇形が生じる非遺伝性の母斑症</span>である。<span class=\"kw3\">体細胞変異なので遺伝せず、家族歴もない</span>（<span class=\"kw\">Q.127</span>の太田母斑と同じGNAQ変異の系列）。<br/><span class=\"kw3\">3徴＝①三叉神経第1枝〈V1：前額・上眼瞼〉領域の顔面単純性血管腫〈ポートワイン母斑〉、②同側大脳の軟膜〈軟膜〉血管腫、③緑内障</span>。<span class=\"kw3\">重要なのは「V1領域にかかるかどうか」</span>で、<span class=\"kw3\">V2・V3のみの血管腫では中枢神経合併のリスクは低い</span>。<span class=\"kw3\">両側性の顔面血管腫では両側大脳が侵され予後不良</span>。<br/><span class=\"kw3\">神経症状は、軟膜血管腫による静脈灌流障害→皮質の慢性虚血→てんかん（75〜90％、多くは1歳まで）・片麻痺（対側）・知的障害・同名半盲</span>と<span class=\"kw3\">虚血の帰結として理解する</span>。<span class=\"kw3\">画像は、乳児期は造影MRIで軟膜の増強、年長ではCTで脳回に沿った線路様石灰化と患側大脳の萎縮</span>。<br/><span class=\"kw3\">眼は緑内障が約30〜70％</span>。<span class=\"kw3\">乳児期発症例は牛眼となるため、診断がついた時点で眼圧測定と定期の眼科フォローが必須</span>。<span class=\"kw3\">皮膚のポートワイン母斑には色素レーザーを行う</span>（<span class=\"kw\">Q.144</span>）。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　片麻痺</td><td><span class=\"kw4\">みられる</span>。<span class=\"kw4\">軟膜血管腫の下の皮質は慢性的な静脈うっ滞と虚血に陥り、反復するけいれん（とくにてんかん重積）を契機に病変と対側の片麻痺〈Todd麻痺から固定性麻痺へ〉を来す</span>。本例も左上下肢の間代けいれんを繰り返しており、リスクが高い。</td></tr><tr><td>ｂ　精神遅滞</td><td><span class=\"kw4\">みられる</span>。<span class=\"kw4\">Sturge-Weber症候群の約半数に知的障害を認め、てんかんの発症が早く難治であるほど発達予後が悪い</span>。本例は現時点で発達は正常だが、10か月で発作が反復しており今後の評価を要する。</td></tr><tr><td>ｃ　てんかん</td><td><span class=\"kw4\">みられる</span>。<span class=\"kw4\">Sturge-Weber症候群の75〜90％にてんかんを合併し、その多くは1歳までに発症する</span>。<span class=\"kw4\">薬剤抵抗性のことが多く、片側巨脳症例では半球離断術などのてんかん外科が検討される</span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　網膜色素変性</span></td><td><span class=\"kw3\">みられない＝これが正解</span>。<span class=\"kw3\">網膜色素変性は夜盲・輪状暗点・網膜の骨小体様色素沈着を来す遺伝性の視細胞変性疾患</span>で、<span class=\"kw3\">Sturge-Weber症候群とは無関係</span>である。<span class=\"kw3\">本症で問われる眼合併症は「緑内障」（同側に約30〜70％）</span>で、<span class=\"kw3\">上眼瞼にかかる血管腫があると隅角形成異常・上強膜静脈圧上昇により眼圧が上がり、牛眼〈buphthalmos〉となる</span>。<span class=\"kw\">Q.150</span>でも「眼圧亢進」が診断の手がかりとして出ている。</td></tr><tr><td>ｅ　脳回に沿った石灰化</td><td><span class=\"kw4\">みられる</span>。<span class=\"kw4\">軟膜血管腫直下の皮質に石灰沈着が生じ、単純CT・頭部単純X線で脳回に沿った「線路様〈tram-line／railroad track〉石灰化」</span>を示す。<span class=\"kw4\">乳児期には目立たず、年長になるほど明瞭になる</span>ため、早期診断には造影MRI（軟膜血管腫の増強）が有用である。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 「けいれん＋あざ」の母斑症をCT/MRI所見で分ける",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>皮膚</th><th>頭部画像</th><th>眼</th></tr><tr><td><span class=\"kw3\">Sturge-Weber症候群</span></td><td><span class=\"kw3\">V1領域の赤いあざ（出生時から）</span></td><td><span class=\"kw3\">脳回に沿う線路様石灰化、軟膜血管腫（造影MRI）、患側の萎縮</span></td><td><span class=\"kw3\">緑内障・牛眼</span></td></tr><tr><td>結節性硬化症</td><td>葉状白斑（乳児期）</td><td><span class=\"kw4\">上衣下結節・皮質結節（脳室周囲の石灰化）</span></td><td>網膜過誤腫</td></tr><tr><td>神経線維腫症1型</td><td>café au lait斑</td><td>視神経膠腫、UBOs（T2高信号）</td><td><span class=\"kw4\">Lisch結節</span></td></tr></table><span class=\"kw4\">石灰化の場所が最大の識別点</span>——<span class=\"kw3\">Sturge-Weberは「脳回に沿う（皮質）」、結節性硬化症は「脳室周囲（上衣下）」</span>（<span class=\"kw\">Q.139</span>と対比せよ）。<span class=\"kw4\">否定形（「みられないのはどれか」）の設問では、4つの正しい所見を並べて1つだけ別疾患の所見を混ぜる</span>のが定石で、本問では<span class=\"kw4\">「網膜色素変性」という遺伝性視細胞疾患が紛れ込んでいる</span>。<span class=\"kw3\">Sturge-Weberの眼＝緑内障、と覚えていれば即答できる</span>。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① Sturge-Weber症候群＝<span class=\"kw3\">V1領域のポートワイン母斑＋軟膜血管腫＋緑内障</span>。<span class=\"kw3\">GNAQ体細胞変異で非遺伝性</span>。<br/>② 神経＝<span class=\"kw3\">てんかん（1歳までに発症、難治）・対側片麻痺・知的障害</span>。<br/>③ 画像＝<span class=\"kw3\">脳回に沿った線路様石灰化（CT）、軟膜血管腫（造影MRI）</span>。<br/>④ 眼＝<span class=\"kw4\">緑内障・牛眼。網膜色素変性は無関係</span>。<br/>⑤ <span class=\"kw3\">V1にかからない血管腫は中枢神経合併のリスクが低い</span>。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch06_q136",
+          "qn": "Q.136",
+          "episode": "(114A-36)",
+          "rate": 38,
+          "rate_cls": "cl",
+          "rate_text": "38%",
+          "badges": [
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "4歳の男児。<span class=\"kw\">体幹の白斑</span>を主訴に父親に連れられて来院した。<span class=\"kw\">生後5か月で体幹に白斑があるのを父親が発見</span>した。その後、増数してきたため受診した。<span class=\"kw\">1歳時にけいれんの既往</span>がある。受診時、臀部と大腿部を中心に大小の白斑を認める。<span class=\"kw\">顔面では鼻部中心に丘疹が散在</span>している。大腿部の写真を示す。<br/><strong>この患児で思春期以降に出現する可能性が高いのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　脂腺母斑",
+              "ok": false
+            },
+            {
+              "t": "ｂ　神経線維腫",
+              "ok": false
+            },
+            {
+              "t": "ｃ　爪囲線維腫",
+              "ok": true
+            },
+            {
+              "t": "ｄ　聴神経腫瘍",
+              "ok": false
+            },
+            {
+              "t": "ｅ　単純性血管腫",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｃ　爪囲線維腫",
+          "ans_sub": "葉状白斑＋顔面血管線維腫＋けいれん＝結節性硬化症。皮膚所見の最後に来るのが思春期以降の爪囲線維腫（Koenen腫瘍）。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "📆 結節性硬化症の皮膚所見——出現時期の順に並べる",
+              "c": "<span class=\"kw3\">結節性硬化症の皮膚所見は、年齢に沿って4つが順番に登場する</span>。この順序を覚えているかどうかだけで解ける問題が繰り返し出題される。<br/><span class=\"kw3\">①葉状白斑〈white leaf-shaped macule〉：出生時〜乳児期</span>。<span class=\"kw3\">木の葉／灰の葉状の不完全脱色素斑で、体幹・四肢に3個以上あれば診断的</span>。<span class=\"kw3\">最も早く最も高頻度（約90％）で、Wood灯で明瞭化する</span>（<span class=\"kw\">Q.123</span>・<span class=\"kw\">Q.137</span>）。<br/><span class=\"kw3\">②顔面血管線維腫〈angiofibroma〉：幼児期（3〜4歳）〜</span>。<span class=\"kw3\">鼻唇溝から両頬に左右対称、蝶形に散在する赤色〜淡紅色の小丘疹</span>。本例の「鼻部中心の丘疹」がこれで、<span class=\"kw4\">痤瘡と誤られやすい（かつてPringle母斑性脂腺腫と呼ばれた）</span>。<span class=\"kw3\">近年はmTOR阻害薬シロリムスのゲル外用が保険適用</span>。<br/><span class=\"kw3\">③シャグリンパッチ〈粒起革様皮〉：学童期</span>。<span class=\"kw3\">腰仙部の常色でざらついた局面（結合組織母斑）</span>。<br/><span class=\"kw3\">④爪囲線維腫〈Koenen腫瘍〉：思春期以降</span>。<span class=\"kw3\">爪郭・爪下から生じる細長い腫瘤</span>。<br/><span class=\"kw4\">前頭部の線維性局面〈forehead plaque〉は出生時からみられ、早期診断の手がかりになる</span>。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　脂腺母斑</td><td><span class=\"kw4\">脂腺母斑は出生時から頭部に存在する黄色調で脱毛を伴う局面</span>で、<span class=\"kw4\">思春期に皮脂腺の発達によって隆起・疣状化する</span>。<span class=\"kw4\">「思春期に変化する」点は共通するが、結節性硬化症の所見ではなく、出生時から既に存在する</span>のが決定的な違い。</td></tr><tr><td>ｂ　神経線維腫</td><td><span class=\"kw4\">神経線維腫が思春期以降に出現するのは神経線維腫症1型</span>である（<span class=\"kw\">Q.126</span>）。<span class=\"kw4\">本例は葉状白斑・顔面血管線維腫・けいれんから結節性硬化症であり、NF1ではない</span>。「思春期以降に出現」という条件だけに引かれると誤る、本問最大のひっかけ。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　爪囲線維腫</span></td><td><span class=\"kw3\">爪囲線維腫〈Koenen腫瘍〉は結節性硬化症の皮膚所見のうち最も遅く、思春期以降に出現する</span>。<span class=\"kw3\">手指・足趾の爪郭・爪下から常色〜淡紅色の細長い腫瘤が突出し、爪甲に縦溝を作る</span>。<span class=\"kw3\">成人期には約半数にみられ、診断基準の大項目の一つ</span>である。</td></tr><tr><td>ｄ　聴神経腫瘍</td><td><span class=\"kw4\">両側聴神経腫瘍は神経線維腫症2型</span>で、<span class=\"kw4\">結節性硬化症とは無関係</span>。思春期〜若年成人に聴力低下・耳鳴で発症するため「思春期以降」という語につられやすいが疾患が違う。</td></tr><tr><td>ｅ　単純性血管腫</td><td><span class=\"kw4\">単純性血管腫は出生時から存在する毛細血管奇形</span>で、<span class=\"kw4\">思春期に新たに「出現」するものではない</span>（<span class=\"kw\">Q.144</span>）。結節性硬化症の所見でもない。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 結節性硬化症の全身合併症も「年齢順」に並ぶ",
+              "c": "<table class=\"tb\"><tr><th>時期</th><th>皮膚</th><th>皮膚以外</th></tr><tr><td>胎児期〜乳児期</td><td><span class=\"kw3\">葉状白斑</span></td><td><span class=\"kw3\">心横紋筋腫（自然退縮する）、West症候群</span></td></tr><tr><td>幼児期</td><td><span class=\"kw3\">顔面血管線維腫</span></td><td>てんかん、自閉スペクトラム症・知的障害</td></tr><tr><td>学童期</td><td>シャグリンパッチ</td><td><span class=\"kw4\">上衣下巨細胞性星細胞腫〈SEGA〉→水頭症</span>、腎血管筋脂肪腫</td></tr><tr><td>思春期以降</td><td><span class=\"kw3\">爪囲線維腫〈Koenen腫瘍〉</span></td><td><span class=\"kw4\">腎血管筋脂肪腫の増大・出血、成人女性ではLAM</span></td></tr></table><span class=\"kw3\">心横紋筋腫は胎児期〜乳児期に最大で自然退縮、腎血管筋脂肪腫は学童期以降に増大</span>という<span class=\"kw3\">「逆向きの時間軸」</span>が国試で問われる。<span class=\"kw3\">いずれもmTOR阻害薬エベロリムスが有効</span>で、<span class=\"kw3\">SEGA・腎血管筋脂肪腫・難治てんかんに保険適用</span>がある。<span class=\"kw4\">正答率38％と低い</span>のは、<span class=\"kw4\">「思春期以降に出現」でNF1の神経線維腫を反射的に選ぶ</span>ためで、<span class=\"kw3\">まず疾患を確定してから時間軸を当てる</span>という手順を守れば防げる。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 結節性硬化症の皮膚所見の順＝<span class=\"kw3\">葉状白斑（乳児）→ 顔面血管線維腫（幼児）→ シャグリンパッチ（学童）→ 爪囲線維腫〈Koenen腫瘍〉（思春期以降）</span>。<br/>② <span class=\"kw3\">爪囲線維腫は成人期の約半数にみられ、診断基準の大項目</span>。<br/>③ <span class=\"kw4\">思春期以降に出現する神経線維腫はNF1</span>——疾患を取り違えない。<br/>④ 顔面血管線維腫は<span class=\"kw3\">シロリムスゲル外用</span>が使える。<br/>⑤ <span class=\"kw3\">心横紋筋腫は乳児期に最大→退縮、腎血管筋脂肪腫は学童期以降に増大</span>。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/114A-36_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch06_q137",
+          "qn": "Q.137",
+          "episode": "(113F-52)",
+          "rate": 54,
+          "rate_cls": "cl",
+          "rate_text": "54%",
+          "badges": [
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "生後1か月の乳児。1か月健康診査のために両親に連れられて来院した。在胎38週、出生体重2,998gで出生した。Apgarスコアは8点（1分）、9点（5分）であった。出生後は完全母乳栄養であり、本日の体重は4,050gである。四肢を活発に動かし、固視を認める。<span class=\"kw\">体幹や四肢に2〜3cmの皮疹を7個</span>認める。体幹部の皮疹を示す。<span class=\"kw\">父親には、鼻の周囲に多数の血管線維腫</span>を認める。母親には皮疹を認めない。<br/><strong>両親への対応として適切なのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　「抗真菌薬を塗りましょう」",
+              "ok": false
+            },
+            {
+              "t": "ｂ　「心エコー検査を行いましょう」",
+              "ok": true
+            },
+            {
+              "t": "ｃ　「皮疹は自然に消失するでしょう」",
+              "ok": false
+            },
+            {
+              "t": "ｄ　「胸部エックス線写真を撮りましょう」",
+              "ok": false
+            },
+            {
+              "t": "ｅ　「皮疹が悪性化する可能性があります」",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｂ　「心エコー検査を行いましょう」",
+          "ans_sub": "乳児の葉状白斑7個＋父の顔面血管線維腫＝結節性硬化症。乳児期に真っ先に確認すべき合併症は心横紋筋腫＝心エコー。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💓 乳児期の結節性硬化症で「まず何を調べるか」",
+              "c": "<span class=\"kw3\">結節性硬化症は常染色体顕性遺伝で、本例のように親（父）の顔面血管線維腫が診断の決め手になる</span>ことがある。<span class=\"kw3\">乳児では所見が葉状白斑しかないことが多く、家族歴を含めた身体所見の積み上げが診断に直結する</span>。<br/><span class=\"kw3\">乳児期に評価すべき臓器は、①心（心横紋筋腫）、②脳（皮質結節・上衣下結節、てんかん）、③腎（血管筋脂肪腫・囊胞）、④眼（網膜過誤腫）</span>。<span class=\"kw3\">なかでも心横紋筋腫は胎児期〜新生児期に最大サイズとなり、胎児期に心腫瘤が指摘されて結節性硬化症が発見されることもある</span>。<span class=\"kw3\">大半は無症候で自然退縮するが、流出路狭窄・不整脈（WPW症候群・上室頻拍）・心不全を来す例がある</span>ため<span class=\"kw3\">心エコーと心電図で確認する</span>。<br/><span class=\"kw3\">脳では、乳児期に発症するWest症候群が発達予後を左右する</span>ため<span class=\"kw3\">脳波を定期的にとり、発作出現前でもてんかん性放電が出ればビガバトリンの早期導入を検討する</span>（<span class=\"kw\">Q.123</span>）。<span class=\"kw4\">TAND（TSC-associated neuropsychiatric disorders：自閉スペクトラム症・ADHD・学習障害・行動障害）</span>の評価も重要である。<br/><span class=\"kw3\">腎血管筋脂肪腫は学童期以降に増大し、4cmを超えると出血リスクが上がる</span>ため<span class=\"kw3\">定期的な腹部画像で追い、増大例にはエベロリムスや動脈塞栓術</span>を用いる。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　「抗真菌薬を塗りましょう」</td><td><span class=\"kw4\">癜風〈でんぷう〉や体部白癬など真菌症を想定した選択肢</span>だが、<span class=\"kw4\">癜風はMalassezia による思春期以降の疾患で、生後1か月の乳児に多発することはない</span>。本例は<span class=\"kw4\">木の葉状の脱色素斑＝葉状白斑</span>であり、真菌症ではない。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　「心エコー検査を行いましょう」</span></td><td><span class=\"kw3\">葉状白斑7個＋父の顔面血管線維腫（常染色体顕性遺伝）から結節性硬化症と診断できる</span>。<span class=\"kw3\">乳児期に最も重要な合併症が心横紋筋腫で、胎児期〜新生児期に最大となり、流出路狭窄や不整脈（WPW症候群・上室頻拍）を起こしうる</span>。<span class=\"kw3\">無症候でも心エコーで確認するのが標準的な初期評価</span>で、<span class=\"kw3\">多くは年齢とともに自然退縮する</span>。併せて頭部MRI・脳波・腹部超音波・眼科評価も行う。</td></tr><tr><td>ｃ　「皮疹は自然に消失するでしょう」</td><td><span class=\"kw4\">葉状白斑は自然消失しない</span>。<span class=\"kw4\">むしろ生涯持続し、加齢とともに数を増すことがある</span>。「消えます」と説明してしまうと、<span class=\"kw4\">結節性硬化症という診断そのものを見送ることになり、てんかん・心病変の評価機会を失う</span>のが最大の問題である。</td></tr><tr><td>ｄ　「胸部エックス線写真を撮りましょう」</td><td><span class=\"kw4\">結節性硬化症の肺病変（リンパ脈管筋腫症〈LAM〉）は成人女性の合併症</span>であり、<span class=\"kw4\">乳児で胸部X線を撮る意義は乏しい</span>。心病変を疑うなら<span class=\"kw4\">X線ではなく心エコーが直接的で被曝もない</span>。</td></tr><tr><td>ｅ　「皮疹が悪性化する可能性があります」</td><td><span class=\"kw4\">葉状白斑は悪性化しない</span>。<span class=\"kw4\">結節性硬化症の病変は過誤腫〈hamartoma〉であり、基本的に良性</span>である（腎血管筋脂肪腫も良性腫瘍で、問題になるのは増大と出血）。不安を与えるだけの不適切な説明。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 乳児健診で「皮疹を見たら次に何をするか」",
+              "c": "<table class=\"tb\"><tr><th>皮疹</th><th>疑う疾患</th><th>次の一手</th></tr><tr><td><span class=\"kw3\">木の葉状の白斑が複数</span></td><td><span class=\"kw3\">結節性硬化症</span></td><td><span class=\"kw3\">心エコー・脳波・頭部MRI・腹部超音波・眼科／家族の皮膚も診る</span></td></tr><tr><td>café au lait斑が6個以上</td><td>神経線維腫症1型</td><td>眼科（Lisch結節）、成長・血圧・側彎のフォロー</td></tr><tr><td><span class=\"kw4\">V1領域の赤いあざ</span></td><td><span class=\"kw4\">Sturge-Weber症候群</span></td><td><span class=\"kw4\">造影MRI・眼圧測定</span>（<span class=\"kw\">Q.140</span>）</td></tr><tr><td>正中の淡紅色斑・殿部の青色斑</td><td>正中部母斑・蒙古斑</td><td><span class=\"kw3\">生理的所見。経過観察と説明</span></td></tr></table><span class=\"kw3\">健診の設問は「皮疹そのものの治療」ではなく「背景疾患の検索」を問う</span>のが定型で、<span class=\"kw4\">外用薬や「自然に消えます」といった皮膚で完結する肢は（正中部母斑・蒙古斑のような生理的所見でない限り）誤りになる</span>。<span class=\"kw3\">本例では父の顔面血管線維腫という家族歴が明記されており、これを拾えれば迷いなくbを選べる</span>。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">乳児の葉状白斑＋家族の顔面血管線維腫＝結節性硬化症（常染色体顕性）</span>。<br/>② 乳児期の最重要合併症＝<span class=\"kw3\">心横紋筋腫→心エコー</span>。<span class=\"kw3\">自然退縮するが不整脈・流出路狭窄に注意</span>。<br/>③ <span class=\"kw3\">脳波でWest症候群を早期に捉える（ビガバトリン）</span>。<br/>④ <span class=\"kw4\">葉状白斑は自然消失も悪性化もしない</span>。<br/>⑤ <span class=\"kw4\">肺LAMは成人女性の合併症</span>——乳児に胸部X線は不要。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/113F-52_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch06_q138",
+          "qn": "Q.138",
+          "episode": "(110A-15)",
+          "rate": 81,
+          "rate_cls": "ch",
+          "rate_text": "81%",
+          "badges": [],
+          "qt": "<strong>結節性硬化症でみられるのはどれか。2つ選べ。</strong>",
+          "choices": [
+            {
+              "t": "ａ　てんかん",
+              "ok": true
+            },
+            {
+              "t": "ｂ　脊柱側彎",
+              "ok": false
+            },
+            {
+              "t": "ｃ　聴覚障害",
+              "ok": false
+            },
+            {
+              "t": "ｄ　血管線維腫",
+              "ok": true
+            },
+            {
+              "t": "ｅ　性腺機能低下",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ・ｄ",
+          "ans_sub": "結節性硬化症＝てんかん（80〜90％）＋顔面血管線維腫。側彎と聴覚障害はそれぞれNF1・NF2の所見。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "📋 結節性硬化症の診断基準（大項目・小項目）を所見の束として覚える",
+              "c": "<span class=\"kw3\">結節性硬化症の診断は、大項目2つ、または大項目1つ＋小項目2つで確定する</span>（遺伝学的にTSC1/TSC2の病的変異があれば単独で確定）。<br/><span class=\"kw3\">大項目（11）＝①葉状白斑（3個以上・5mm以上）、②顔面血管線維腫（3個以上）または前頭部の線維性局面、③爪囲線維腫（2個以上）、④シャグリンパッチ、⑤多発性網膜過誤腫、⑥皮質結節、⑦上衣下結節、⑧上衣下巨細胞性星細胞腫〈SEGA〉、⑨心横紋筋腫、⑩リンパ脈管筋腫症〈LAM〉、⑪腎血管筋脂肪腫（2個以上）</span>。<br/><span class=\"kw3\">小項目＝「紙吹雪様」白斑、3個以上の歯エナメル質の小窩、2個以上の口腔内線維腫、網膜無色素斑、多発性腎囊胞、腎以外の過誤腫</span>。<br/><span class=\"kw3\">大項目を眺めると、皮膚4つ・眼1つ・脳3つ・心1つ・肺1つ・腎1つ</span>という構成になっており、<span class=\"kw3\">「全身の過誤腫症」という本質がそのまま基準に現れている</span>。<span class=\"kw3\">TSC1（ハマルチン）／TSC2（チュベリン）の複合体はmTORC1を抑制するブレーキで、これが壊れると細胞増殖・肥大が止まらず各臓器に過誤腫ができる</span>——<span class=\"kw3\">だからmTOR阻害薬エベロリムス／シロリムスが皮膚から腎・脳まで横断的に効く</span>。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　てんかん</span></td><td><span class=\"kw3\">結節性硬化症の80〜90％にてんかんを合併し、最も頻度の高い神経症状</span>である。<span class=\"kw3\">乳児期はWest症候群〈点頭てんかん〉として発症し、以後も焦点性発作が持続することが多い</span>。<span class=\"kw3\">原因は皮質結節〈tuber〉で、難治例では焦点切除などのてんかん外科が検討される</span>。</td></tr><tr><td>ｂ　脊柱側彎</td><td><span class=\"kw4\">脊柱側彎は神経線維腫症1型の合併症</span>で、<span class=\"kw4\">学童期〜思春期の成長期に顕在化する</span>（<span class=\"kw\">Q.126</span>）。結節性硬化症の骨病変としては、<span class=\"kw4\">頭蓋骨・脊椎・骨盤の硬化性病変（骨島）</span>が画像上みられることはあるが、側彎は特徴ではない。</td></tr><tr><td>ｃ　聴覚障害</td><td><span class=\"kw4\">聴覚障害（両側聴神経腫瘍による）は神経線維腫症2型</span>である。結節性硬化症では聴覚は通常保たれる。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　血管線維腫</span></td><td><span class=\"kw3\">顔面血管線維腫は結節性硬化症の代表的皮膚所見</span>で、<span class=\"kw3\">幼児期（3〜4歳）から鼻唇溝を中心に左右対称の赤色小丘疹として出現し、思春期に目立つ</span>（<span class=\"kw\">Q.136</span>）。<span class=\"kw3\">痤瘡と誤診されやすいが、思春期前から存在し粉瘤・面皰を伴わない点で区別する</span>。</td></tr><tr><td>ｅ　性腺機能低下</td><td><span class=\"kw4\">結節性硬化症に性腺機能低下は伴わない</span>。性腺機能低下を来す症候群としては<span class=\"kw4\">Prader-Willi症候群、Kallmann症候群、Klinefelter症候群、Laurence-Moon-Biedl症候群</span>などが挙げられ、いずれも別の疾患群である。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 3つの母斑症の「合併症の担当臓器」を一枚で",
+              "c": "<table class=\"tb\"><tr><th></th><th>結節性硬化症</th><th>NF1</th><th>NF2</th></tr><tr><td>皮膚</td><td><span class=\"kw3\">白斑・血管線維腫・シャグリンパッチ・爪囲線維腫</span></td><td>café au lait斑・神経線維腫</td><td>乏しい</td></tr><tr><td>神経</td><td><span class=\"kw3\">てんかん・知的障害・SEGA</span></td><td>視神経膠腫・学習障害</td><td><span class=\"kw4\">両側聴神経鞘腫・髄膜腫</span></td></tr><tr><td>骨</td><td>骨硬化像</td><td><span class=\"kw4\">側彎・偽関節・蝶形骨欠損</span></td><td>—</td></tr><tr><td>その他</td><td><span class=\"kw3\">心横紋筋腫・腎血管筋脂肪腫・LAM</span></td><td>褐色細胞腫・腎動脈狭窄</td><td>—</td></tr><tr><td>治療</td><td><span class=\"kw3\">エベロリムス／シロリムス</span></td><td><span class=\"kw3\">セルメチニブ（叢状神経線維腫）</span></td><td>ベバシズマブ</td></tr></table><span class=\"kw3\">この表の縦一列を丸ごと言えれば、本章の母斑症の問題（<span class=\"kw\">Q.122</span>・<span class=\"kw\">Q.123</span>・<span class=\"kw\">Q.126</span>・<span class=\"kw\">Q.136</span>〜<span class=\"kw\">Q.139</span>・<span class=\"kw\">Q.143</span>・<span class=\"kw\">Q.146</span>）はすべて解ける</span>。<span class=\"kw4\">「側彎＝NF1」「聴覚障害＝NF2」という2つの誤答肢は本章で繰り返し登場する</span>ので、<span class=\"kw3\">誤答肢のほうも疾患名とセットで覚えてしまう</span>のが効率的である。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 結節性硬化症＝<span class=\"kw3\">てんかん（80〜90％）・知的障害・顔面血管線維腫・葉状白斑</span>。<br/>② 診断は<span class=\"kw3\">大項目2つ、または大項目1＋小項目2</span>。<br/>③ <span class=\"kw4\">脊柱側彎はNF1、聴覚障害はNF2</span>。<br/>④ <span class=\"kw3\">TSC1/TSC2→mTORC1抑制の破綻＝全身の過誤腫症</span>。エベロリムスが横断的に効く。<br/>⑤ <span class=\"kw4\">性腺機能低下はPrader-Willi・Kallmann症候群など別群</span>。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch06_q139",
+          "qn": "Q.139",
+          "episode": "(109I-55)",
+          "rate": 95,
+          "rate_cls": "ch",
+          "rate_text": "95%",
+          "badges": [],
+          "qt": "7か月の乳児。<span class=\"kw\">頻回のけいれん発作</span>を主訴に母親に連れられて来院した。母親の妊娠・分娩経過に異常なく、定頸は5か月であった。<span class=\"kw\">6か月ころより首を前に倒すようなけいれん様発作が1日に何度も出現</span>するようになった。身長67.0cm、体重8.0kg。体温36.5℃。脈拍116/分、整。血圧80/46mmHg。呼吸数24/分。SpO₂ 98％（room air）。心音と呼吸音とに異常を認めない。腹部は平坦、軟で、肝・脾を触知しない。<span class=\"kw\">体幹と殿部とに白斑を5個</span>認める。血液所見：赤血球400万、Hb 10.5g/dL、Ht 38％、白血球10,000、血小板25万。<span class=\"kw\">頭部単純CTで脳室周囲の石灰化像</span>を認める。<br/><strong>最も考えられるのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　結節性紅斑",
+              "ok": false
+            },
+            {
+              "t": "ｂ　結節性硬化症",
+              "ok": true
+            },
+            {
+              "t": "ｃ　Sturge-Weber病",
+              "ok": false
+            },
+            {
+              "t": "ｄ　von Hippel-Lindau病",
+              "ok": false
+            },
+            {
+              "t": "ｅ　Werdnig-Hoffmann病",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｂ　結節性硬化症",
+          "ans_sub": "葉状白斑＋West症候群＋脳室周囲（上衣下）の石灰化＝結節性硬化症。石灰化の場所でSturge-Weberと分ける。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🖼️ 頭部CTの石灰化——「どこにあるか」で母斑症を当てる",
+              "c": "<span class=\"kw3\">乳児のけいれん＋皮膚所見という設定では、頭部画像の石灰化のパターンが決定的な情報になる</span>。<br/><span class=\"kw3\">①脳室周囲（上衣下）の結節状石灰化＝結節性硬化症</span>。<span class=\"kw3\">上衣下結節は側脳室壁から内腔に突出する過誤腫で、「ろうそくの流れ落ち像〈candle guttering〉」と呼ばれる。加齢とともに石灰化して単純CTで明瞭になる</span>。<span class=\"kw4\">モンロー孔付近の結節が増大したものが上衣下巨細胞性星細胞腫〈SEGA〉で、閉塞性水頭症を来す</span>。<br/><span class=\"kw3\">②脳回に沿った線路様〈tram-line〉石灰化＝Sturge-Weber症候群</span>。軟膜血管腫直下の皮質に生じる（<span class=\"kw\">Q.135</span>）。<br/><span class=\"kw4\">③基底核・脳室周囲のびまん性石灰化＝先天性感染（TORCH）</span>。<span class=\"kw4\">サイトメガロウイルスは脳室周囲、トキソプラズマはびまん性（大脳全体に散在）</span>と対比され、いずれも小頭症・難聴・網脈絡膜炎を伴う。<br/><span class=\"kw3\">本例では白斑という皮膚所見が同時に与えられており、石灰化の場所と合わせて結節性硬化症で確定する</span>。<span class=\"kw3\">正答率95％の易問だが、「白斑を見たら結節性硬化症」という反射を作る問題としてきわめて有用</span>である。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　結節性紅斑</td><td><span class=\"kw4\">結節性紅斑は下腿伸側に生じる有痛性の皮下結節性紅斑</span>で、<span class=\"kw4\">サルコイドーシス・溶連菌感染・炎症性腸疾患・Behçet病などに伴う中隔性脂肪織炎</span>である。<span class=\"kw4\">白斑でもなく、乳児のけいれんとも無関係</span>。「結節性」という語の共通性だけのひっかけ。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　結節性硬化症</span></td><td><span class=\"kw3\">①葉状白斑5個、②首を前に倒す発作が1日に何度も＝West症候群〈点頭てんかん〉のスパスム、③頭部CTで脳室周囲（上衣下）の石灰化</span>——<span class=\"kw3\">結節性硬化症の3点セット</span>である。<span class=\"kw3\">上衣下結節は加齢とともに石灰化し、CTで側脳室壁に沿った高吸収の小結節として描出される</span>のが古典的所見。</td></tr><tr><td>ｃ　Sturge-Weber病</td><td><span class=\"kw4\">難治性てんかんを来す点は共通するが、皮膚所見は「白斑」ではなく片側顔面（V1領域）の赤いあざ</span>である（<span class=\"kw\">Q.135</span>・<span class=\"kw\">Q.150</span>）。<span class=\"kw4\">石灰化の場所も違い、Sturge-Weberは脳回に沿った皮質の石灰化、結節性硬化症は脳室周囲（上衣下）の石灰化</span>——ここが両者を分ける最大の画像所見である。</td></tr><tr><td>ｄ　von Hippel-Lindau病</td><td><span class=\"kw4\">網膜・小脳の血管芽腫、腎細胞癌、褐色細胞腫、膵囊胞を来す常染色体顕性遺伝疾患</span>。<span class=\"kw4\">特徴的な皮膚所見がなく、発症は成人期</span>で乳児のけいれんの原因にはならない。</td></tr><tr><td>ｅ　Werdnig-Hoffmann病</td><td><span class=\"kw4\">脊髄性筋萎縮症〈SMA〉I型で、SMN1遺伝子欠失による常染色体潜性遺伝疾患</span>。<span class=\"kw4\">乳児期からのフロッピーインファント、舌の線維束性収縮、腱反射消失、呼吸不全</span>が特徴で、<span class=\"kw4\">けいれんも白斑も来さない</span>（下位運動ニューロン疾患である）。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 乳児期のてんかん性脳症——West症候群を軸に",
+              "c": "<span class=\"kw3\">West症候群〈点頭てんかん〉は生後3〜11か月に好発し、①シリーズ形成するスパスム（首を前屈し両上肢を挙上、数秒間隔で反復）、②脳波でヒプスアリスミア、③精神運動発達の停止・退行</span>の三徴で診断する。<table class=\"tb\"><tr><th>基礎疾患</th><th>手がかり</th></tr><tr><td><span class=\"kw3\">結節性硬化症</span></td><td><span class=\"kw3\">葉状白斑、上衣下石灰化、家族歴</span></td></tr><tr><td>低酸素性虚血性脳症</td><td>周産期の仮死、脳性麻痺</td></tr><tr><td>脳形成異常（滑脳症など）</td><td>MRIでの皮質形成異常</td></tr><tr><td>先天代謝異常</td><td>アシドーシス、特異な尿臭、発達退行</td></tr><tr><td>症候性なし（潜因性）</td><td>予後は比較的良い</td></tr></table><span class=\"kw3\">治療はACTH療法が標準だが、結節性硬化症に伴う例ではビガバトリンが第一選択</span>となる（GABAトランスアミナーゼ阻害薬。<span class=\"kw4\">不可逆的な視野狭窄の副作用があり定期的な視野評価が要る</span>）。<span class=\"kw3\">乳児期に「首を前に倒す」「両手を挙げる」動作が数秒間隔で繰り返されるという記述はスパスムの定型表現</span>で、<span class=\"kw3\">モロー反射や胃食道逆流（Sandifer症候群）との鑑別に脳波が必須</span>である。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">脳室周囲（上衣下）の石灰化＝結節性硬化症</span>／<span class=\"kw3\">脳回に沿う石灰化＝Sturge-Weber症候群</span>。<br/>② <span class=\"kw3\">West症候群＝スパスムのシリーズ形成＋ヒプスアリスミア＋発達停止</span>。<br/>③ <span class=\"kw3\">TSC合併のWest症候群にはビガバトリン（視野狭窄に注意）</span>。<br/>④ <span class=\"kw4\">Werdnig-Hoffmann病＝SMA I型（フロッピーインファント）</span>。けいれんは来さない。<br/>⑤ <span class=\"kw4\">先天性CMV感染も脳室周囲石灰化</span>——皮膚所見と難聴・小頭症で区別する。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch06_q140",
+          "qn": "Q.140",
+          "episode": "(108B-26)",
+          "rate": 91,
+          "rate_cls": "ch",
+          "rate_text": "91%",
+          "badges": [],
+          "qt": "<strong>4か月児健康診査で精査が必要なのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　殿部にある青い皮疹",
+              "ok": false
+            },
+            {
+              "t": "ｂ　眉間の正中にある赤い皮疹",
+              "ok": false
+            },
+            {
+              "t": "ｃ　後頭結節の尾側にある赤い皮疹",
+              "ok": false
+            },
+            {
+              "t": "ｄ　顔の片側で頬から額に続く赤い皮疹",
+              "ok": true
+            },
+            {
+              "t": "ｅ　胸部にある隆起を伴う直径1cmの赤い皮疹",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｄ　顔の片側で頬から額に続く赤い皮疹",
+          "ans_sub": "乳児健診の赤いあざは「正中か片側か」で切る。片側性でV1領域にかかる血管腫だけがSturge-Weber症候群の精査対象。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "👶 乳児健診で出会う「あざ」——生理的か病的かの線引き",
+              "c": "<span class=\"kw3\">乳児健診の設問は、「ありふれた生理的所見」と「症候群の入口になる所見」を選り分けられるかを問う</span>。本問の5肢はその典型的な並びになっている。<br/><span class=\"kw3\">【経過観察でよいもの】</span><span class=\"kw3\">①蒙古斑（殿部・仙骨部の青色斑。日本人ほぼ全例、5〜6歳で消退）、②正中部母斑（前額・眉間・上眼瞼＝サーモンパッチ、項部＝Unna母斑。正中に左右対称、1〜2歳で消退）、③乳児血管腫（生後2〜4週から出現し増大するが自然消退）</span>。<br/><span class=\"kw3\">【精査が必要なもの】</span><span class=\"kw3\">①片側性でV1領域にかかる単純性血管腫（→Sturge-Weber症候群：造影MRI・眼圧・脳波）、②葉状白斑が複数（→結節性硬化症：心エコー・頭部MRI・脳波）、③café au lait斑が6個以上（→NF1）、④正中線上の腰仙部の皮膚陥凹・多毛・皮膚洞（→潜在性二分脊椎：脊髄超音波・MRI）、⑤5個以上の多発性乳児血管腫（→肝血管腫・高拍出性心不全の検索）</span>。<br/><span class=\"kw4\">「片側性・領域性」「多発」「正中線上の皮膚異常」が健診で拾うべき3つのキーワード</span>である。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　殿部にある青い皮疹</td><td><span class=\"kw4\">蒙古斑</span>である。<span class=\"kw4\">日本人ではほぼ全例にみられる生理的所見で、5〜6歳ごろまでに自然消退する</span>（<span class=\"kw\">Q.142</span>）。<span class=\"kw4\">精査は不要</span>。なお<span class=\"kw4\">乳幼児の殿部の青あざを虐待による皮下出血と誤らない</span>ことも実地では重要である。</td></tr><tr><td>ｂ　眉間の正中にある赤い皮疹</td><td><span class=\"kw4\">正中部母斑（サーモンパッチ）</span>。<span class=\"kw4\">正中線上に左右対称に生じ、1〜2歳までに自然消退する</span>（<span class=\"kw\">Q.128</span>）。<span class=\"kw4\">頻度が高く、精査を要さない</span>。</td></tr><tr><td>ｃ　後頭結節の尾側にある赤い皮疹</td><td><span class=\"kw4\">項部の正中部母斑（Unna母斑）</span>。<span class=\"kw4\">正中にあり、毛髪に覆われるため治療対象になりにくい</span>。<span class=\"kw4\">精査は不要</span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　顔の片側で頬から額に続く赤い皮疹</span></td><td><span class=\"kw3\">「片側性」で「額（三叉神経第1枝領域）にかかる」赤い斑＝単純性血管腫〈ポートワイン母斑〉</span>である。<span class=\"kw3\">V1領域にかかる場合はSturge-Weber症候群を疑い、造影MRI（軟膜血管腫）と眼圧測定（緑内障）を行う</span>（<span class=\"kw\">Q.135</span>・<span class=\"kw\">Q.150</span>）。<span class=\"kw3\">てんかん・緑内障の早期発見が予後を左右するため、これだけが「精査が必要」</span>。</td></tr><tr><td>ｅ　胸部にある隆起を伴う直径1cmの赤い皮疹</td><td><span class=\"kw4\">乳児血管腫〈イチゴ状血管腫〉</span>。<span class=\"kw4\">生後2〜4週から出現し増大するが、5〜7歳までに自然消退する</span>（<span class=\"kw\">Q.134</span>）。<span class=\"kw4\">胸部という機能障害を来さない部位で径1cmなら経過観察でよい</span>。<span class=\"kw4\">気道・眼周囲・潰瘍例や多発例（肝血管腫の検索）は例外的に精査・治療</span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 赤いあざの三択を確実に切り分ける",
+              "c": "<table class=\"tb\"><tr><th></th><th>正中部母斑</th><th>単純性血管腫</th><th>乳児血管腫</th></tr><tr><td>部位</td><td><span class=\"kw3\">正中・左右対称</span></td><td><span class=\"kw4\">片側・神経支配領域に一致</span></td><td>どこでも</td></tr><tr><td>隆起</td><td>なし</td><td>なし（乳児期）</td><td><span class=\"kw4\">あり（苺状）</span></td></tr><tr><td>出現</td><td>出生時</td><td>出生時</td><td><span class=\"kw4\">生後2〜4週</span></td></tr><tr><td>消退</td><td><span class=\"kw3\">する</span></td><td><span class=\"kw4\">しない（成人で肥厚・結節化）</span></td><td><span class=\"kw3\">する（5〜7歳）</span></td></tr><tr><td>精査</td><td>不要</td><td><span class=\"kw3\">V1にかかれば造影MRI・眼圧</span></td><td>原則不要（多発・気道・眼周囲は例外）</td></tr></table><span class=\"kw3\">正答率91％の易問だが、「隆起している＝腫瘍だから精査」と考えてeを選ぶ誤りが典型的</span>である。<span class=\"kw3\">隆起の有無ではなく、「その皮膚所見の背後に中枢神経・眼の病変が隠れているか」で判断する</span>のが正しい思考順序。<span class=\"kw4\">Sturge-Weber症候群は乳児期にてんかんを発症し、発作の反復が発達予後を悪くする</span>ため、<span class=\"kw4\">4か月健診での拾い上げに大きな意味がある</span>。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">片側性・V1領域の赤い斑＝単純性血管腫→Sturge-Weber症候群を精査</span>（造影MRI・眼圧・脳波）。<br/>② <span class=\"kw3\">正中の赤い斑（サーモンパッチ・Unna母斑）と殿部の蒙古斑は生理的</span>。<br/>③ <span class=\"kw3\">乳児血管腫は自然消退＝原則経過観察</span>。<span class=\"kw4\">気道・眼周囲・潰瘍・多発例は例外</span>。<br/>④ 健診で拾うキーワード＝<span class=\"kw3\">「片側性・領域性」「多発」「正中線上の皮膚異常」</span>。<br/>⑤ <span class=\"kw4\">腰仙部正中の陥凹・多毛・皮膚洞は潜在性二分脊椎を疑う</span>。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch06_q141",
+          "qn": "Q.141",
+          "episode": "(108E-26)",
+          "rate": 61,
+          "rate_cls": "cm",
+          "rate_text": "61%",
+          "badges": [],
+          "qt": "<span class=\"kw\">Mendel遺伝様式に従う母斑症</span>で、<span class=\"kw\">男児は胎児期に死亡するが、女児ではLyon現象のため、健常部と病変部が混在するmosaicを呈する</span>遺伝形式は<strong>どれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　常染色体優性遺伝",
+              "ok": false
+            },
+            {
+              "t": "ｂ　常染色体劣性遺伝",
+              "ok": false
+            },
+            {
+              "t": "ｃ　X連鎖優性遺伝",
+              "ok": true
+            },
+            {
+              "t": "ｄ　X連鎖劣性遺伝",
+              "ok": false
+            },
+            {
+              "t": "ｅ　Y連鎖遺伝",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｃ　X連鎖優性遺伝",
+          "ans_sub": "男児胎内死亡＋女児がLyon現象でモザイク＝X連鎖顕性遺伝。母斑症では色素失調症がこれにあたる。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🧬 X連鎖顕性遺伝と「男児致死」——なぜ女児だけが生まれるのか",
+              "c": "<span class=\"kw3\">X連鎖顕性〈優性〉遺伝疾患では、X染色体上の変異アレルが1本あるだけで発症する</span>。<span class=\"kw3\">男性はX染色体を1本しか持たない半接合体なので、変異アレルの影響を緩和する正常アレルがなく、致死的な機能欠損（色素失調症ではNF-κB経路が完全に働かない）となって胎生期に死亡する</span>。<span class=\"kw3\">結果として、患者は女児のみ・罹患女性の妊娠では男児の流産が反復する</span>という独特の家系像を示す（<span class=\"kw\">Q.130</span>）。<br/><span class=\"kw3\">女児が生存できるのはLyon現象のおかげ</span>である。<span class=\"kw3\">胎生初期に各細胞で父方・母方いずれかのX染色体がランダムに不活化（Barr小体化）され、正常アレルを使う細胞と変異アレルを使う細胞のモザイクになる</span>。<span class=\"kw3\">正常細胞が生存を支える一方、変異細胞の分布がBlaschko線（胎生期の細胞移動の軌跡）に沿った線状・渦巻き状の皮疹として可視化される</span>。<span class=\"kw4\">同じ理由で、女児でも症状の重さは細胞の混ざり具合によって大きく異なる</span>。<br/><span class=\"kw3\">X連鎖顕性の代表疾患＝色素失調症、Rett症候群（男児致死・女児のみ）、低リン血症性くる病〈X連鎖性〉、Alport症候群（男性が重症）</span>。<span class=\"kw4\">なお「三毛猫がほぼ全てメス」もLyon現象の帰結として同じ原理で説明される</span>。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　常染色体優性遺伝</td><td><span class=\"kw4\">常染色体上の遺伝子は男女とも2本あり、Lyon現象（X染色体の不活化）は起こらない</span>。<span class=\"kw4\">男女が等しく罹患し、男児だけが胎内死亡することもない</span>。結節性硬化症・NF1・NF2・von Hippel-Lindau病がこの様式で、<span class=\"kw4\">母斑症の多くはこちらに属する</span>。</td></tr><tr><td>ｂ　常染色体劣性遺伝</td><td><span class=\"kw4\">両親が保因者で、同胞の1/4が発症する。男女差はない</span>。毛細血管拡張性失調症〈Louis-Bar症候群〉や色素性乾皮症がこの様式。Lyon現象とも男児致死とも無関係。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　X連鎖優性遺伝</span></td><td><span class=\"kw3\">X連鎖顕性〈優性〉遺伝では、X染色体を1本しか持たない男児（半接合体）は正常アレルで代償できず重症となり胎生期に死亡する</span>。<span class=\"kw3\">女児はX染色体を2本持ち、Lyon現象（胎生初期に片方のXがランダムに不活化）により正常細胞と変異細胞のモザイクとなるため生存でき、病変がBlaschko線に沿って線状・渦巻き状に分布する</span>。<span class=\"kw3\">これに合致する母斑症が色素失調症〈Bloch-Sulzberger症候群〉</span>である（<span class=\"kw\">Q.130</span>）。</td></tr><tr><td>ｄ　X連鎖劣性遺伝</td><td><span class=\"kw4\">X連鎖潜性〈劣性〉遺伝は逆に「男性が発症し、女性は保因者」となる</span>のが基本形。血友病A・B、Duchenne型筋ジストロフィー、赤緑色覚異常、<span class=\"kw4\">Fabry病（皮膚では被角血管腫）</span>が代表。<span class=\"kw4\">男児が胎内死亡するのではなく、男児こそが発症する</span>ので逆である。</td></tr><tr><td>ｅ　Y連鎖遺伝</td><td><span class=\"kw4\">Y染色体上の遺伝子は父から息子へのみ伝わり、女性はまったく罹患しない</span>。<span class=\"kw4\">ヒトの疾患としてはほぼ知られていない（精子形成に関わる領域など）</span>。女児が発症する本設定と真っ向から矛盾する。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 母斑症の遺伝形式を一覧で",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>遺伝形式</th><th>責任遺伝子</th></tr><tr><td>神経線維腫症1型</td><td><span class=\"kw3\">常染色体顕性</span>（約半数が新生突然変異）</td><td>NF1（17q）</td></tr><tr><td>神経線維腫症2型</td><td>常染色体顕性</td><td>NF2（22q）</td></tr><tr><td>結節性硬化症</td><td><span class=\"kw3\">常染色体顕性</span>（約2/3が新生突然変異）</td><td>TSC1／TSC2</td></tr><tr><td>von Hippel-Lindau病</td><td>常染色体顕性</td><td>VHL（3p）</td></tr><tr><td><span class=\"kw3\">色素失調症</span></td><td><span class=\"kw3\">X連鎖顕性（男児致死）</span></td><td><span class=\"kw3\">IKBKG〈NEMO〉</span></td></tr><tr><td><span class=\"kw4\">Sturge-Weber症候群</span></td><td><span class=\"kw4\">遺伝しない（体細胞モザイク）</span></td><td><span class=\"kw4\">GNAQ</span></td></tr><tr><td>毛細血管拡張性失調症</td><td>常染色体潜性</td><td>ATM（11q）</td></tr></table><span class=\"kw3\">母斑症の遺伝形式は「常染色体顕性が原則、例外は色素失調症（X連鎖顕性）とSturge-Weber症候群（非遺伝性）」</span>とまとめておくと取りこぼしがない。<span class=\"kw3\">正答率61％と伸びなかったのは、設問文が長く「Lyon現象」という語に馴染みがないため</span>だが、<span class=\"kw3\">「男児が死ぬ＝X連鎖顕性」という一行だけで即答できる</span>。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">X連鎖顕性＝男児（半接合体）は重症・胎内死亡、女児のみが生存</span>。母に反復流産歴。<br/>② <span class=\"kw3\">Lyon現象＝X染色体のランダム不活化→女児はモザイク→Blaschko線に沿う皮疹</span>。<br/>③ 母斑症でこれに当たるのは<span class=\"kw3\">色素失調症〈Bloch-Sulzberger症候群〉</span>。<br/>④ <span class=\"kw4\">X連鎖潜性は逆＝男性が発症（血友病・Duchenne・Fabry病）</span>。<br/>⑤ <span class=\"kw3\">母斑症の大半は常染色体顕性。Sturge-Weberだけは体細胞モザイクで遺伝しない</span>。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch06_q142",
+          "qn": "Q.142",
+          "episode": "(105G-26)",
+          "rate": 92,
+          "rate_cls": "ch",
+          "rate_text": "92%",
+          "badges": [
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "<span class=\"kw\">新生児期から乳児期にみられる皮膚所見（①〜⑤）</span>を示す。<br/><strong>日本人で最も頻度が高いのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　①",
+              "ok": false
+            },
+            {
+              "t": "ｂ　②",
+              "ok": false
+            },
+            {
+              "t": "ｃ　③",
+              "ok": false
+            },
+            {
+              "t": "ｄ　④",
+              "ok": true
+            },
+            {
+              "t": "ｅ　⑤",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｄ　④",
+          "ans_sub": "写真が選択肢の問題。①サーモンパッチ ②太田母斑 ③単純性血管腫 ④蒙古斑 ⑤乳児血管腫。日本人でほぼ全例＝蒙古斑。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🔍 新生児〜乳児期の代表的な皮膚所見を写真で覚える",
+              "c": "<span class=\"kw3\">本問は写真そのものが選択肢になっており、「あざの見た目 → 疾患名 → 頻度・経過」を一気通貫で問う</span>。5枚を診断できるかがすべてである。<br/><span class=\"kw3\">①正中部母斑（サーモンパッチ）：前額正中・眉間・上眼瞼の境界不明瞭な淡紅色斑。左右対称で正中にまたがる。泣くと濃くなる。新生児の20〜40％、1〜2歳で消退</span>。<br/><span class=\"kw3\">②太田母斑：三叉神経V1・V2領域の片側性の青褐色斑。真皮メラノサイトの増生。自然消退せず、Qスイッチレーザーが適応</span>。<br/><span class=\"kw3\">③単純性血管腫：片側性・領域性の境界明瞭な紅色斑。平坦。真皮の毛細血管奇形（GNAQ変異）。自然消退せず色素レーザーが適応。V1領域ならSturge-Weber症候群を検索</span>。<br/><span class=\"kw3\">④蒙古斑：腰仙部〜殿部の境界不明瞭な青色斑。真皮メラノサイトの遺残。日本人ほぼ全例。5〜6歳で自然消退</span>。<span class=\"kw4\">部位が腰仙部以外の異所性蒙古斑や、色調が濃く広範なものは残存しやすくレーザーの対象になる</span>。<br/><span class=\"kw3\">⑤乳児血管腫：生後2〜4週から出現し隆起して増大する鮮紅色腫瘤。GLUT1陽性。5〜7歳までに自然消退</span>。<br/><span class=\"kw4\">頻度の序列は 蒙古斑（ほぼ全例）＞ 正中部母斑（20〜40％）＞ 乳児血管腫（1〜3％）＞ 単純性血管腫（0.3％）＞ 太田母斑（0.1〜0.2％）</span>。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　①</td><td><span class=\"kw4\">①は前額正中から眉間にかけての淡紅色斑＝正中部母斑（サーモンパッチ）</span>である。<span class=\"kw4\">新生児の20〜40％程度にみられるありふれた所見で頻度は高いが、ほぼ全例にみられる蒙古斑には及ばない</span>（<span class=\"kw\">Q.128</span>）。</td></tr><tr><td>ｂ　②</td><td><span class=\"kw4\">②は左頬から側頭部にかけての片側性の青褐色斑＝太田母斑</span>。<span class=\"kw4\">日本人に多い疾患ではあるが頻度は約0.1〜0.2％程度</span>で、「最も頻度が高い」には遠い（<span class=\"kw\">Q.127</span>）。</td></tr><tr><td>ｃ　③</td><td><span class=\"kw4\">③は右前額から上眼瞼にかけての境界明瞭な紅色斑＝単純性血管腫〈ポートワイン母斑〉</span>。<span class=\"kw4\">頻度は新生児の約0.3％で、V1領域にかかるためSturge-Weber症候群の検索を要する所見</span>である（<span class=\"kw\">Q.140</span>）。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　④</span></td><td><span class=\"kw3\">④は殿部〜仙骨部の境界不明瞭な青色斑＝蒙古斑</span>である。<span class=\"kw3\">日本人（モンゴロイド）ではほぼ全例（90〜100％）にみられる生理的な所見で、選択肢中で圧倒的に頻度が高い</span>。<span class=\"kw3\">真皮メラノサイトの遺残によるもので、5〜6歳ごろまでに自然消退する</span>。</td></tr><tr><td>ｅ　⑤</td><td><span class=\"kw4\">⑤は腹部の隆起を伴う鮮紅色の腫瘤＝乳児血管腫〈イチゴ状血管腫〉</span>。<span class=\"kw4\">乳児の約1〜3％（早産児ではより高率）にみられる小児期で最多の良性腫瘍</span>だが、ほぼ全例にみられる蒙古斑にはやはり及ばない（<span class=\"kw\">Q.134</span>）。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 5つのあざを「色・部位・経過」の3軸で",
+              "c": "<table class=\"tb\"><tr><th></th><th>色</th><th>部位</th><th>経過</th><th>頻度（日本人）</th></tr><tr><td>①正中部母斑</td><td>淡紅（平坦）</td><td><span class=\"kw3\">正中・対称</span></td><td><span class=\"kw3\">1〜2歳で消退</span></td><td>20〜40％</td></tr><tr><td>②太田母斑</td><td><span class=\"kw3\">青褐色</span></td><td>片側顔面（V1・V2）</td><td><span class=\"kw4\">消退しない</span></td><td>0.1〜0.2％</td></tr><tr><td>③単純性血管腫</td><td>紅〜暗赤（平坦）</td><td><span class=\"kw4\">片側・領域性</span></td><td><span class=\"kw4\">消退しない</span></td><td>約0.3％</td></tr><tr><td><span class=\"kw3\">④蒙古斑</span></td><td><span class=\"kw3\">青色</span></td><td><span class=\"kw3\">腰仙部・殿部</span></td><td><span class=\"kw3\">5〜6歳で消退</span></td><td><span class=\"kw3\">ほぼ全例</span></td></tr><tr><td>⑤乳児血管腫</td><td>鮮紅（隆起）</td><td>どこでも</td><td><span class=\"kw3\">増大後5〜7歳で消退</span></td><td>1〜3％</td></tr></table><span class=\"kw3\">「消退する組（①④⑤）」と「消退しない組（②③）」で分けると治療方針の判断が速くなる</span>。<span class=\"kw3\">消退しない②③がレーザーの適応</span>で、<span class=\"kw3\">②は青＝メラニン標的のQスイッチ、③は赤＝ヘモグロビン標的の色素レーザー</span>と標的色素で機種が決まる（<span class=\"kw\">Q.129</span>）。<span class=\"kw4\">蒙古斑は「病気」ではなくモンゴロイドの生理的所見</span>であり、<span class=\"kw4\">殿部の青あざを虐待の皮下出血と取り違えないこと</span>も小児科・救急では重要な知識である。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① <span class=\"kw3\">日本人でほぼ全例＝蒙古斑（腰仙部の青色斑、5〜6歳で消退）</span>。<br/>② 頻度の順＝<span class=\"kw3\">蒙古斑 ＞ 正中部母斑 ＞ 乳児血管腫 ＞ 単純性血管腫 ＞ 太田母斑</span>。<br/>③ <span class=\"kw3\">消退する＝正中部母斑・蒙古斑・乳児血管腫／消退しない＝太田母斑・単純性血管腫</span>。<br/>④ <span class=\"kw3\">青あざ＝Qスイッチレーザー、赤あざ＝色素レーザー</span>。<br/>⑤ <span class=\"kw4\">異所性蒙古斑・濃い蒙古斑は残存しうる＝治療対象</span>。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/105G-26_1.jpeg",
+            "皮膚科/images/105G-26_2.jpeg",
+            "皮膚科/images/105G-26_3.jpeg",
+            "皮膚科/images/105G-26_4.jpeg",
+            "皮膚科/images/105G-26_5.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch06_q143",
+          "qn": "Q.143",
+          "episode": "(102A-9)",
+          "rate": 79,
+          "rate_cls": "cm",
+          "rate_text": "79%",
+          "badges": [],
+          "qt": "<strong>結節性硬化症でみられるのはどれか。2つ選べ。</strong>",
+          "choices": [
+            {
+              "t": "ａ　白　斑",
+              "ok": true
+            },
+            {
+              "t": "ｂ　神経鞘腫",
+              "ok": false
+            },
+            {
+              "t": "ｃ　聴神経腫瘍",
+              "ok": false
+            },
+            {
+              "t": "ｄ　血管線維腫",
+              "ok": true
+            },
+            {
+              "t": "ｅ　café au lait斑",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ・ｄ",
+          "ans_sub": "結節性硬化症＝白斑（メラニン減少）と血管線維腫。café au lait斑（NF1）・聴神経腫瘍（NF2）と取り違えない。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🔁 結節性硬化症とNF1——「白か茶か」で最初に分ける",
+              "c": "<span class=\"kw3\">母斑症の問題は、まず色素斑の方向（減るのか増えるのか）で二分する</span>のが最短である。<span class=\"kw3\">結節性硬化症＝白斑（メラニンの減少）、神経線維腫症1型＝café au lait斑（メラニンの増加）</span>。<br/><span class=\"kw3\">次に「隆起する病変の正体」で確認する</span>。<span class=\"kw3\">結節性硬化症の隆起病変は線維性の過誤腫——顔面血管線維腫（鼻唇溝・左右対称・幼児期〜）、シャグリンパッチ（腰仙部の結合組織母斑・学童期）、爪囲線維腫〈Koenen腫瘍〉（思春期以降）、前頭部の線維性局面（出生時）</span>。<span class=\"kw3\">NF1の隆起病変は神経由来——皮膚神経線維腫（軟らかい・button-hole sign・思春期以降）と叢状神経線維腫（出生時から・悪性化しうる）</span>。<br/><span class=\"kw4\">名前が紛らわしい3つを区別する</span>：<span class=\"kw4\">①血管線維腫〈angiofibroma〉＝結節性硬化症の顔面の赤い小丘疹（線維＋血管の過誤腫）、②血管腫〈hemangioma〉＝血管内皮の腫瘍（乳児血管腫）、③単純性血管腫＝毛細血管の奇形（ポートワイン母斑）</span>。<span class=\"kw4\">「結節性硬化症で幼児期から顔面に血管腫が出る」という記述は血管線維腫との言い換えに見えて誤りになる</span>（<span class=\"kw\">Q.146</span>）。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　白　斑</span></td><td><span class=\"kw3\">葉状白斑〈木の葉状白斑〉は結節性硬化症で最も早く（出生時〜乳児期）最も高頻度（約90％）にみられる皮膚所見</span>である。<span class=\"kw3\">体幹・四肢に3個以上あれば診断基準の大項目を満たす</span>。<span class=\"kw3\">不完全脱色素斑なので尋常性白斑ほど白くならず、Wood灯を当てると明瞭になる</span>（<span class=\"kw\">Q.123</span>・<span class=\"kw\">Q.137</span>）。</td></tr><tr><td>ｂ　神経鞘腫</td><td><span class=\"kw4\">神経鞘腫〈シュワノーマ〉が多発するのは神経線維腫症2型</span>で、<span class=\"kw4\">結節性硬化症の所見ではない</span>。<span class=\"kw4\">結節性硬化症の腫瘍性病変は「過誤腫」（血管線維腫・シャグリンパッチ・心横紋筋腫・腎血管筋脂肪腫・上衣下結節）</span>であり、神経鞘由来ではない。</td></tr><tr><td>ｃ　聴神経腫瘍</td><td><span class=\"kw4\">両側聴神経腫瘍＝神経線維腫症2型の診断基準</span>。本章で繰り返し登場する誤答肢である（<span class=\"kw\">Q.126</span>・<span class=\"kw\">Q.136</span>・<span class=\"kw\">Q.138</span>）。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　血管線維腫</span></td><td><span class=\"kw3\">顔面血管線維腫は結節性硬化症の代表的皮膚所見</span>で、<span class=\"kw3\">幼児期（3〜4歳）から鼻唇溝を中心に左右対称に分布する赤色〜淡紅色の小丘疹</span>として出現する。<span class=\"kw3\">3個以上で診断基準の大項目</span>。<span class=\"kw3\">シロリムスゲルの外用が保険適用</span>となっている。</td></tr><tr><td>ｅ　café au lait斑</td><td><span class=\"kw4\">café au lait斑は神経線維腫症1型の所見</span>である（<span class=\"kw\">Q.122</span>）。<span class=\"kw4\">結節性硬化症の色素異常は「白斑」＝メラニンの減少で、逆方向</span>（<span class=\"kw\">Q.131</span>）。色素の増減を取り違えると落とす。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 結節性硬化症の所見をすべて挙げる",
+              "c": "<table class=\"tb\"><tr><th>臓器</th><th>所見</th><th>時期・注意点</th></tr><tr><td rowspan=\"4\">皮膚</td><td><span class=\"kw3\">葉状白斑</span></td><td>出生〜乳児期・約90％・Wood灯</td></tr><tr><td><span class=\"kw3\">顔面血管線維腫</span></td><td>幼児期〜・シロリムスゲル</td></tr><tr><td>シャグリンパッチ</td><td>学童期・腰仙部</td></tr><tr><td><span class=\"kw3\">爪囲線維腫〈Koenen腫瘍〉</span></td><td>思春期以降</td></tr><tr><td>脳</td><td>皮質結節・上衣下結節・SEGA</td><td><span class=\"kw4\">てんかん80〜90％（West症候群）・知的障害・TAND</span></td></tr><tr><td>心</td><td><span class=\"kw3\">心横紋筋腫</span></td><td>胎児〜乳児期に最大、自然退縮、不整脈</td></tr><tr><td>腎</td><td><span class=\"kw3\">血管筋脂肪腫</span>・多発囊胞</td><td><span class=\"kw4\">学童期以降に増大、4cm超で出血リスク</span></td></tr><tr><td>肺</td><td>リンパ脈管筋腫症〈LAM〉</td><td><span class=\"kw4\">成人女性・気胸・呼吸不全</span></td></tr><tr><td>眼</td><td>網膜過誤腫</td><td>通常は視力に影響しない</td></tr><tr><td>歯・口腔</td><td>エナメル質の小窩・口腔内線維腫</td><td>小項目</td></tr></table><span class=\"kw3\">治療の柱はmTOR阻害薬（エベロリムス内服／シロリムスゲル外用）</span>で、<span class=\"kw3\">SEGA・腎血管筋脂肪腫・難治てんかん・顔面血管線維腫に横断的に効く</span>のがこの疾患の面白いところである。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 結節性硬化症＝<span class=\"kw3\">葉状白斑＋顔面血管線維腫＋てんかん＋知的障害</span>。<br/>② <span class=\"kw4\">café au lait斑＝NF1、聴神経腫瘍・神経鞘腫＝NF2</span>。<br/>③ <span class=\"kw4\">「血管線維腫」と「血管腫」は別物</span>——用語のすり替えに注意。<br/>④ 全身＝<span class=\"kw3\">心横紋筋腫（乳児期）・腎血管筋脂肪腫（学童期以降）・LAM（成人女性）</span>。<br/>⑤ <span class=\"kw3\">mTOR阻害薬が皮膚から脳・腎まで効く</span>。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch06_q144",
+          "qn": "Q.144",
+          "episode": "(102G-59)",
+          "rate": 92,
+          "rate_cls": "ch",
+          "rate_text": "92%",
+          "badges": [
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "18歳の女子。<span class=\"kw\">出生時から顔面に紅色皮疹</span>があり、治療を希望して来院した。顔面の写真を示す。<br/><strong>治療の際、注意すべきことはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　発　癌",
+              "ok": false
+            },
+            {
+              "t": "ｂ　不　妊",
+              "ok": false
+            },
+            {
+              "t": "ｃ　眼障害",
+              "ok": true
+            },
+            {
+              "t": "ｄ　骨髄抑制",
+              "ok": false
+            },
+            {
+              "t": "ｅ　聴力障害",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｃ　眼障害",
+          "ans_sub": "出生時からの片側顔面の紅色斑＝単純性血管腫。治療は色素レーザーで、眼の保護と（Sturge-Weber合併例の）緑内障評価が要点。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🔦 色素レーザー〈dye laser〉——赤あざの治療原理と注意点",
+              "c": "<span class=\"kw3\">単純性血管腫〈ポートワイン母斑・毛細血管奇形〉は真皮の毛細血管が拡張したまま残る血管奇形で、自然消退しない</span>。<span class=\"kw3\">加齢とともにむしろ色調が濃くなり、成人では肥厚・結節化（とくに口唇・頬）して整容的・機能的問題となる</span>ため、<span class=\"kw3\">乳児期からの早期治療が推奨される</span>。<br/><span class=\"kw3\">治療の第一選択は色素レーザー（595nm前後のパルス色素レーザー）</span>。<span class=\"kw3\">選択的光熱融解理論に基づき、ヘモグロビンの吸収帯に一致した波長のパルスで拡張した血管だけを凝固し、周囲の表皮・真皮を温存する</span>。<span class=\"kw3\">照射直後は紫斑〈purpura〉が生じ、1〜2週で消退する。複数回の照射を要し、完全消失は必ずしも得られない</span>。<br/><span class=\"kw3\">注意点</span>：<span class=\"kw3\">①眼の保護（患者にはアイシールド、術者には保護眼鏡）。②照射後の遮光（炎症後色素沈着の予防）。③水疱・瘢痕・色素脱失のリスク（出力設定と冷却）。④V1領域にかかる例ではSturge-Weber症候群の検索（造影MRI・眼圧・脳波）</span>。<br/><span class=\"kw4\">レーザーの種類と適応を混同しないこと</span>——<span class=\"kw4\">赤（ヘモグロビン標的）＝色素レーザー、青・茶（メラニン標的）＝Qスイッチルビー／アレキサンドライト、皮膚のリサーフェシング（水分標的）＝炭酸ガス／Er:YAG</span>。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　発　癌</td><td><span class=\"kw4\">色素レーザーによる発癌のリスクは報告されていない</span>。<span class=\"kw4\">レーザーは非電離放射線であり、紫外線療法（PUVA）のような累積照射での皮膚癌リスクとは機序が異なる</span>。PUVAでの発癌懸念と混同しないこと。</td></tr><tr><td>ｂ　不　妊</td><td><span class=\"kw4\">局所へのレーザー照射が性腺に影響することはない</span>。不妊が問題になるのは全身化学療法（アルキル化薬）や骨盤への放射線治療であり、皮膚科の局所治療では考慮しない。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　眼障害</span></td><td><span class=\"kw3\">顔面（とくに眼囲）の色素レーザー照射では、強い光が角膜・虹彩・網膜を損傷しうるため、患者にはアイシールド、術者・介助者には保護眼鏡を装着する</span>のが必須である。<span class=\"kw3\">さらに本例は片側顔面の広範な単純性血管腫で、V1領域にかかればSturge-Weber症候群の合併＝緑内障のリスクがある</span>ため、<span class=\"kw3\">治療前後を通じて眼圧測定・眼科フォローが必要</span>という意味でも「眼障害」への注意が正解になる（<span class=\"kw\">Q.135</span>）。</td></tr><tr><td>ｄ　骨髄抑制</td><td><span class=\"kw4\">骨髄抑制は全身化学療法や広範囲の放射線照射で起こる</span>。<span class=\"kw4\">局所のレーザー照射で骨髄が抑制されることはない</span>。</td></tr><tr><td>ｅ　聴力障害</td><td><span class=\"kw4\">聴力障害はアミノグリコシド系抗菌薬・シスプラチン・ループ利尿薬などの薬剤性、あるいは神経線維腫症2型で問題になる</span>。顔面へのレーザー治療とは無関係。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 皮膚科で用いるレーザー・光線治療の整理",
+              "c": "<table class=\"tb\"><tr><th>機種</th><th>標的</th><th>適応</th><th>注意</th></tr><tr><td><span class=\"kw3\">パルス色素レーザー</span></td><td><span class=\"kw3\">オキシヘモグロビン</span></td><td><span class=\"kw3\">単純性血管腫、乳児血管腫、毛細血管拡張</span></td><td><span class=\"kw3\">眼保護・照射後の紫斑</span></td></tr><tr><td><span class=\"kw3\">Qスイッチルビー／アレキサンドライト</span></td><td><span class=\"kw3\">メラニン</span></td><td><span class=\"kw3\">太田母斑、異所性蒙古斑、刺青</span></td><td>炎症後色素沈着・遮光</td></tr><tr><td>炭酸ガス〈CO₂〉レーザー</td><td>水分</td><td>疣贅・母斑細胞母斑の蒸散</td><td>瘢痕形成</td></tr><tr><td>PUVA／ナローバンドUVB</td><td>—（免疫調節）</td><td>乾癬、尋常性白斑、菌状息肉症、アトピー性皮膚炎</td><td><span class=\"kw4\">累積照射量と皮膚癌リスク、PUVAは眼保護（白内障予防）</span></td></tr><tr><td>光線力学療法〈PDT〉</td><td>ポルフィリン</td><td>日光角化症・Bowen病</td><td>光線過敏</td></tr></table><span class=\"kw3\">「眼障害」は色素レーザーとPUVA双方で共通の注意点</span>である（PUVAではソラレン内服後に紫外線から水晶体を守るため<span class=\"kw3\">照射後も一定時間サングラスを装用</span>する）。<span class=\"kw3\">本問は「レーザーによる眼の直接損傷」と「Sturge-Weber症候群に伴う緑内障」の二重の意味で眼に注意が向くよう作られている</span>。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 単純性血管腫＝<span class=\"kw3\">出生時からあり自然消退しない毛細血管奇形。治療は色素レーザー</span>。<br/>② レーザー治療の共通注意＝<span class=\"kw3\">眼の保護（アイシールド・保護眼鏡）と照射後の遮光</span>。<br/>③ <span class=\"kw3\">V1領域にかかる例はSturge-Weber症候群＝緑内障の評価</span>。<br/>④ <span class=\"kw3\">赤＝色素レーザー、青茶＝Qスイッチ</span>と標的色素で機種が決まる。<br/>⑤ <span class=\"kw4\">発癌・骨髄抑制・不妊は局所レーザーでは問題にならない</span>。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/102G-59_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch06_q145",
+          "qn": "Q.145",
+          "episode": "(101H-49)",
+          "rate": 94,
+          "rate_cls": "ch",
+          "rate_text": "94%",
+          "badges": [
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "48歳の女性。<span class=\"kw\">顔面の色素斑</span>を主訴に来院した。<span class=\"kw\">幼少期から右頬部に色素斑</span>があり、<span class=\"kw\">思春期から色調が濃くなって</span>きた。色素斑の写真を示す。<br/><strong>処置として適切なのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　レーザー照射",
+              "ok": true
+            },
+            {
+              "t": "ｂ　外科的切除",
+              "ok": false
+            },
+            {
+              "t": "ｃ　赤外線照射",
+              "ok": false
+            },
+            {
+              "t": "ｄ　PUVA療法",
+              "ok": false
+            },
+            {
+              "t": "ｅ　遮　光",
+              "ok": false
+            }
+          ],
+          "ans_label": "ａ　レーザー照射",
+          "ans_sub": "幼少期からあり思春期に濃くなった片側顔面の青灰色斑＝太田母斑。処置はQスイッチレーザー照射。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "💠 太田母斑の治療——「いつからでも効くが、早いほどよい」",
+              "c": "<span class=\"kw3\">太田母斑は自然消退せず、思春期・妊娠時に色調が濃くなる</span>（本例の「思春期から濃くなった」という記述がまさにこれ）。<span class=\"kw3\">したがって「様子をみる」「遮光する」といった保存的対応は治療にならない</span>。<br/><span class=\"kw3\">Qスイッチレーザーの原理</span>は<span class=\"kw3\">選択的光熱融解〈selective photothermolysis〉</span>である。<span class=\"kw3\">メラニンの吸収がよい波長（ルビー694nm／アレキサンドライト755nm）を、メラニン顆粒の熱緩和時間より短いナノ秒のパルスで照射すると、熱が周囲に逃げる前に標的だけが破壊される</span>。<span class=\"kw3\">砕かれたメラニンはマクロファージに貪食されてリンパ系へ排出され、数か月かけて色調が薄くなる</span>。<span class=\"kw3\">3〜6か月間隔で複数回（多くは3〜5回）行う</span>。<br/><span class=\"kw4\">合併症は照射後の炎症後色素沈着（数か月で軽快）、色素脱失、まれに瘢痕</span>。<span class=\"kw4\">照射後の遮光と保湿が重要で、「遮光」は治療ではなく治療後のケアとして登場する</span>。<br/><span class=\"kw3\">開始時期は早いほど少ない回数で消退する</span>ため、<span class=\"kw3\">乳幼児期の診断例では全身麻酔下に治療することもある</span>（<span class=\"kw\">Q.149</span>）。<span class=\"kw4\">一方で成人例でも十分に有効</span>で、本例のように48歳でも適応となる。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　レーザー照射</span></td><td><span class=\"kw3\">写真は右頬から眼囲にかけての片側性の青灰色斑＝太田母斑</span>で、<span class=\"kw3\">真皮メラノサイトの増生が本態</span>である。<span class=\"kw3\">Qスイッチルビー／アレキサンドライトレーザーが第一選択で保険適用があり、数回の照射で高率に消退する</span>（<span class=\"kw\">Q.127</span>・<span class=\"kw\">Q.129</span>）。<span class=\"kw3\">成人例でも有効</span>である。</td></tr><tr><td>ｂ　外科的切除</td><td><span class=\"kw4\">顔面の広範な色素斑を切除すれば、色素斑よりも目立つ瘢痕を残す</span>。<span class=\"kw4\">レーザーで瘢痕を作らずに治療できる病変を切除する適応はない</span>。悪性化のリスクもきわめて低い。</td></tr><tr><td>ｃ　赤外線照射</td><td><span class=\"kw4\">赤外線は温熱効果を目的とした物理療法</span>で、<span class=\"kw4\">メラニンを選択的に破壊する作用はない</span>。色素斑の治療法として成立しない。</td></tr><tr><td>ｄ　PUVA療法</td><td><span class=\"kw4\">PUVAはむしろメラノサイトを活性化して色素を「増やす」方向の治療</span>で、<span class=\"kw4\">尋常性白斑や乾癬に用いる</span>。<span class=\"kw4\">色素斑に照射すれば悪化させる</span>ため、明確な誤り。</td></tr><tr><td>ｅ　遮　光</td><td><span class=\"kw4\">遮光が治療の柱になるのは、紫外線で増悪する表皮性の色素斑（肝斑・雀卵斑・炎症後色素沈着）や光線過敏性疾患</span>である。<span class=\"kw4\">太田母斑は真皮の病変で紫外線とは直接関係せず、遮光では消退しない</span>。ただしレーザー照射後の色素沈着予防としての遮光は必要。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 顔面の色素斑——治療の選択が分かれる",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>本態</th><th>第一選択</th></tr><tr><td><span class=\"kw3\">太田母斑</span></td><td><span class=\"kw3\">真皮メラノサイト</span></td><td><span class=\"kw3\">Qスイッチレーザー</span></td></tr><tr><td>老人性色素斑</td><td>表皮のメラニン増加＋表皮突起の延長</td><td>Qスイッチレーザー／トレチノイン・ハイドロキノン</td></tr><tr><td><span class=\"kw4\">肝斑</span></td><td>女性ホルモン・紫外線・摩擦</td><td><span class=\"kw4\">遮光＋トラネキサム酸内服・ハイドロキノン。通常のレーザーは増悪させる</span></td></tr><tr><td>雀卵斑〈そばかす〉</td><td>遺伝＋紫外線</td><td>遮光・レーザー</td></tr><tr><td>炎症後色素沈着</td><td>炎症によるメラニン増加・真皮への滴落</td><td><span class=\"kw3\">遮光と時間（自然軽快）</span></td></tr><tr><td>扁平母斑</td><td>表皮基底層のメラニン増加</td><td><span class=\"kw4\">レーザーの反応不良・再発しやすい</span></td></tr></table><span class=\"kw4\">「レーザーが常に正解」ではない</span>点が重要で、<span class=\"kw4\">肝斑は摩擦・熱刺激で悪化するためQスイッチの通常照射は禁忌に近く、遮光とトラネキサム酸が基本</span>である。<span class=\"kw3\">本問のように「幼少期から片側にあり、青みを帯びる」なら迷わず太田母斑＝レーザー</span>と決められる。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 太田母斑＝<span class=\"kw3\">片側顔面の青灰色斑、真皮メラノサイト、自然消退しない</span>。<br/>② 治療＝<span class=\"kw3\">Qスイッチルビー／アレキサンドライトレーザー（保険適用）</span>。<span class=\"kw3\">成人でも有効、早期ほど少ない回数</span>。<br/>③ <span class=\"kw4\">切除は瘢痕を残すので不適／PUVAは色素を増やす方向で逆効果</span>。<br/>④ <span class=\"kw3\">遮光は治療ではなく照射後のケア</span>。<br/>⑤ <span class=\"kw4\">肝斑は例外——遮光＋トラネキサム酸。通常のレーザーは増悪させる</span>。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/101H-49_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch06_q146",
+          "qn": "Q.146",
+          "episode": "(99G-47)",
+          "rate": -1,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "6か月の乳児。<span class=\"kw\">数回続けて起こる頭部前屈発作</span>を主訴に来院した。在胎41週、出生体重3,320g、正常分娩で出生した。<span class=\"kw\">生後1週ころから、肩と背部とに2〜3cmの木の葉のような形の白斑が数個</span>あることに気付かれている。頭部単純CTを示す。<br/><strong>この疾患で正しいのはどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　男児のみに発症する。",
+              "ok": false
+            },
+            {
+              "t": "ｂ　精神発達遅滞がみられる。",
+              "ok": true
+            },
+            {
+              "t": "ｃ　口腔内に色素沈着がみられる。",
+              "ok": false
+            },
+            {
+              "t": "ｄ　幼児期から顔面に血管腫が出現する。",
+              "ok": false
+            },
+            {
+              "t": "ｅ　皮下結節が出現する。",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｂ　精神発達遅滞がみられる。",
+          "ans_sub": "木の葉状白斑＋点頭発作＝結節性硬化症。約半数に知的障害。「顔面の血管線維腫」を「血管腫」とすり替えた肢に注意。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🧩 結節性硬化症の神経精神症状〈TAND〉——「てんかん」だけでは終わらない",
+              "c": "<span class=\"kw3\">結節性硬化症の予後を最も左右するのは中枢神経病変</span>である。<span class=\"kw3\">大脳皮質にできる皮質結節〈tuber〉がてんかん原性焦点となり、80〜90％にてんかんを合併する</span>。<span class=\"kw3\">乳児期はWest症候群として発症することが多く、発症が早いほど、また発作が難治であるほど知的予後が悪い</span>。<br/><span class=\"kw3\">知的障害は約半数にみられるが、知能が正常な患者も半数近くいる</span>のがこの疾患の幅の広さである。<span class=\"kw3\">近年は TAND〈TSC-associated neuropsychiatric disorders〉として、自閉スペクトラム症（約40〜50％）、ADHD、学習障害、不安・抑うつ、行動障害を一括して定期評価する</span>ことが推奨されている。<br/><span class=\"kw3\">治療は、①てんかんのコントロール（TSCではビガバトリンが第一選択、難治例はてんかん外科）、②SEGAに対するエベロリムス（または手術）、③発達支援・教育的介入</span>を並行して行う。<span class=\"kw4\">乳児期に脳波でてんかん性放電を捉え、発作出現前から治療を始めると発達予後が改善する</span>可能性が示されており、<span class=\"kw4\">「白斑を見つけたら脳波を撮る」ことの意義はここにある</span>（<span class=\"kw\">Q.137</span>）。<br/><span class=\"kw3\">本問の頭部単純CTでは、側脳室壁に沿った上衣下結節の石灰化が描出されている</span>（<span class=\"kw\">Q.139</span>と同じ所見）。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　男児のみに発症する。</td><td><span class=\"kw4\">結節性硬化症は常染色体顕性〈優性〉遺伝で、男女差はない</span>。<span class=\"kw4\">「男児のみ」となるのはX連鎖潜性遺伝（血友病・Duchenne型筋ジストロフィー）</span>、<span class=\"kw4\">「女児のみ」となるのはX連鎖顕性の男児致死型（色素失調症・Rett症候群）</span>である（<span class=\"kw\">Q.141</span>）。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　精神発達遅滞がみられる。</span></td><td><span class=\"kw3\">結節性硬化症では知的障害が約半数にみられ、てんかんの発症が早く難治であるほど頻度が高い</span>。<span class=\"kw3\">本例のように乳児期にWest症候群〈点頭てんかん〉で発症する例では発達予後が悪い</span>。<span class=\"kw3\">近年はTAND（自閉スペクトラム症・ADHD・学習障害・行動障害を含む神経精神症状群）として包括的に評価・支援する</span>のが標準である。</td></tr><tr><td>ｃ　口腔内に色素沈着がみられる。</td><td><span class=\"kw4\">口唇・口腔粘膜の色素斑はPeutz-Jeghers症候群</span>の所見で、<span class=\"kw4\">消化管の過誤腫性ポリポーシスを伴う常染色体顕性遺伝疾患</span>である。<span class=\"kw4\">全身の粘膜色素沈着はAddison病</span>でもみられる。<span class=\"kw4\">結節性硬化症の口腔所見はエナメル質の小窩と口腔内線維腫（いずれも小項目）</span>で、色素沈着ではない。</td></tr><tr><td>ｄ　幼児期から顔面に血管腫が出現する。</td><td><span class=\"kw4\">顔面に出現するのは「血管腫」ではなく「血管線維腫〈angiofibroma〉」</span>である。<span class=\"kw4\">血管線維腫は線維成分と血管からなる過誤腫で、幼児期（3〜4歳）から鼻唇溝を中心に左右対称に生じる赤色小丘疹</span>。<span class=\"kw4\">血管腫（乳児血管腫）や単純性血管腫とは別の病変であり、この用語のすり替えが本肢の誤り</span>（<span class=\"kw\">Q.143</span>）。</td></tr><tr><td>ｅ　皮下結節が出現する。</td><td><span class=\"kw4\">多発する皮下結節といえばNF1の神経線維腫</span>で（<span class=\"kw\">Q.133</span>）、<span class=\"kw4\">リウマチ熱・関節リウマチの皮下結節も別概念</span>。<span class=\"kw4\">結節性硬化症の皮膚病変は白斑・血管線維腫・シャグリンパッチ・爪囲線維腫</span>であり、皮下結節は特徴ではない。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 「〜のみに発症する」「〜がみられる」型の選択肢を切る技術",
+              "c": "<span class=\"kw3\">知識問題では、誤答肢が3つのパターンで作られている</span>。<table class=\"tb\"><tr><th>型</th><th>本問での例</th><th>切り方</th></tr><tr><td><span class=\"kw3\">別疾患の所見を持ってくる</span></td><td>c 口腔内色素沈着（Peutz-Jeghers）／e 皮下結節（NF1）</td><td><span class=\"kw3\">その所見の“持ち主”を即答できるようにする</span></td></tr><tr><td><span class=\"kw4\">遺伝形式をすり替える</span></td><td>a 男児のみに発症（X連鎖潜性の形）</td><td><span class=\"kw4\">母斑症は常染色体顕性が原則</span></td></tr><tr><td><span class=\"kw4\">用語を1文字だけすり替える</span></td><td>d 血管腫 ← 正しくは血管線維腫</td><td><span class=\"kw4\">似た用語を対で覚える</span></td></tr></table><span class=\"kw3\">とくに3つめ（用語のすり替え）は見落としやすい</span>。<span class=\"kw3\">皮膚科では「血管腫／血管線維腫／血管肉腫」「線維腫／線維肉腫／皮膚線維腫」「母斑細胞母斑／脂腺母斑／表皮母斑」</span>のように<span class=\"kw3\">語幹が同じで意味の違う語が多い</span>ので、<span class=\"kw3\">選択肢は必ず最後まで読み、名詞そのものを検算する</span>癖をつけたい。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 結節性硬化症＝<span class=\"kw3\">常染色体顕性遺伝。男女差なし</span>。<br/>② <span class=\"kw3\">知的障害は約半数。てんかんが早期・難治なほど予後不良</span>。TANDとして包括評価。<br/>③ <span class=\"kw4\">顔面に出るのは「血管線維腫」であって「血管腫」ではない</span>。<br/>④ <span class=\"kw4\">口腔内色素沈着＝Peutz-Jeghers症候群／皮下結節＝NF1</span>。<br/>⑤ 頭部CTの<span class=\"kw3\">上衣下（脳室周囲）石灰化</span>が本症の古典的所見。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/99G-47_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch06_q147",
+          "qn": "Q.147",
+          "episode": "(98D-6)",
+          "rate": -1,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "56歳の男性。<span class=\"kw\">1年前から前頸部に黒褐色の皮疹</span>が生じ、<span class=\"kw\">次第に隆起し増大</span>してきたため来院した。<span class=\"kw\">痒みはなく、出血や潰瘍を認めない</span>。前頸部の写真（A）と皮膚生検H-E染色標本（B）とを示す。<br/><strong>診断はどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　色素性母斑",
+              "ok": false
+            },
+            {
+              "t": "ｂ　脂漏性角化症",
+              "ok": true
+            },
+            {
+              "t": "ｃ　Bowen病",
+              "ok": false
+            },
+            {
+              "t": "ｄ　基底細胞癌",
+              "ok": false
+            },
+            {
+              "t": "ｅ　悪性黒色腫",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｂ　脂漏性角化症",
+          "ans_sub": "「貼り付けたような」黒褐色疣状局面＋病理で角質囊腫＝脂漏性角化症。多発が急に起これば Leser-Trélat徴候（Q.132）。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🪨 脂漏性角化症〈老人性疣贅〉——最もありふれた皮膚良性腫瘍",
+              "c": "<span class=\"kw3\">脂漏性角化症は表皮の角化細胞が良性に増殖した腫瘍</span>で、<span class=\"kw3\">30歳代以降に出現し、加齢とともに増加する。日光曝露部（顔面・頭部・頸部）と体幹に好発</span>する。<span class=\"kw3\">FGFR3・PIK3CA の体細胞変異が高頻度に見つかるが、悪性化はしない</span>。<br/><span class=\"kw3\">臨床像は「境界明瞭・表面粗糙・貼り付けたような〈stuck-on〉隆起」</span>で、<span class=\"kw3\">色調は淡褐色から黒色まで幅広い。表面に角栓（毛孔に一致する黒点）を認めるのが特徴</span>である。<span class=\"kw3\">ダーモスコピーでは面皰様開大〈comedo-like openings〉と稗粒腫様囊腫〈milia-like cysts〉、脳回様構造</span>が見え、<span class=\"kw3\">悪性黒色腫との鑑別に決定的</span>。<br/><span class=\"kw3\">病理は、①表皮の肥厚（棘細胞症）、②基底細胞様細胞（basaloid cell）の増殖、③角質囊腫〈horn cyst〉と偽角質囊腫（表皮陥入の断面）、④病変が表皮内に完結し真皮に浸潤しない</span>。<span class=\"kw4\">「角質囊腫」がキーワードで、これを見たら脂漏性角化症</span>。<br/><span class=\"kw3\">治療は不要（良性）だが、整容目的や刺激で炎症を繰り返す場合に液体窒素凍結療法・炭酸ガスレーザー・切除</span>を行う。<span class=\"kw4\">短期間に多発した場合は Leser-Trélat徴候として内臓悪性腫瘍（胃癌など）を検索する</span>（<span class=\"kw\">Q.132</span>）。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　色素性母斑</td><td><span class=\"kw4\">色素性母斑は真皮内に母斑細胞が胞巣を作る良性腫瘍</span>で（<span class=\"kw\">Q.124</span>）、<span class=\"kw4\">臨床的には表面平滑なドーム状結節、病理では真皮内の母斑細胞胞巣</span>を示す。<span class=\"kw4\">本例の病理は表皮内に完結する角化細胞の増殖と角質囊腫であり、真皮の母斑細胞胞巣はみられない</span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　脂漏性角化症</span></td><td><span class=\"kw3\">臨床（A）は表面が粗糙で「貼り付けたような〈stuck-on〉」外観の黒褐色の疣状局面、病理（B）は表皮の基底細胞様細胞の増殖（棘細胞症）と角質囊腫〈horn cyst〉・偽角質囊腫</span>——<span class=\"kw3\">脂漏性角化症〈老人性疣贅〉の典型像</span>である。<span class=\"kw3\">中高年の顔面・体幹・頸部にありふれた良性の表皮腫瘍</span>で、<span class=\"kw3\">単発で緩徐に増大するなら経過観察でよく、整容目的なら凍結療法や切除</span>を行う。</td></tr><tr><td>ｃ　Bowen病</td><td><span class=\"kw4\">Bowen病は表皮内有棘細胞癌</span>で、<span class=\"kw4\">臨床は境界明瞭で不整形の落屑性紅色局面（隆起は乏しい）</span>、<span class=\"kw4\">病理は表皮全層の細胞異型・極性の乱れ・多核細胞・個細胞角化（clumping cell）で、基底膜は保たれる</span>。角質囊腫は特徴ではない。</td></tr><tr><td>ｄ　基底細胞癌</td><td><span class=\"kw4\">高齢者の顔面正中（鼻・眼瞼周囲）に好発する黒色光沢のある結節で、辺縁が堤防状に隆起し中央が潰瘍化する</span>のが典型。<span class=\"kw4\">病理は表皮基底層と連続する好塩基性の腫瘍胞巣が辺縁で柵状配列を示し、間質との間に裂隙を生じる</span>。本例には潰瘍がなく、病理も合致しない。</td></tr><tr><td>ｅ　悪性黒色腫</td><td><span class=\"kw4\">ABCDE基準（非対称・辺縁不整・色調不均一・6mm以上・変化）に加え、出血・潰瘍・所属リンパ節腫脹を伴いうる</span>。<span class=\"kw4\">病理では異型メラノサイトのページェット様上方進展・成熟現象の欠如</span>を示す。本例は<span class=\"kw4\">1年かけて緩徐に隆起し、出血・潰瘍がなく、病理も角化細胞の良性増殖</span>であり否定できる。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 表皮由来の良性腫瘍・前癌病変・悪性腫瘍を病理で並べる",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>病理の鍵</th><th>性質</th></tr><tr><td><span class=\"kw3\">脂漏性角化症</span></td><td><span class=\"kw3\">基底細胞様細胞の増殖＋角質囊腫</span></td><td><span class=\"kw3\">良性</span></td></tr><tr><td>日光角化症</td><td><span class=\"kw4\">表皮下層の異型（毛包・汗管は保たれる）、錯角化と正角化の交代</span></td><td><span class=\"kw4\">前癌（表皮内癌）</span></td></tr><tr><td>Bowen病</td><td><span class=\"kw4\">表皮全層の異型・多核細胞・個細胞角化</span></td><td><span class=\"kw4\">上皮内癌</span></td></tr><tr><td>有棘細胞癌</td><td>真皮への浸潤、癌真珠</td><td>悪性</td></tr><tr><td>基底細胞癌</td><td>基底層と連続する胞巣、柵状配列、裂隙</td><td>悪性（転移はまれ）</td></tr><tr><td>ケラトアカントーマ</td><td><span class=\"kw4\">中央に角栓を有する火口状。数週で急速増大し自然消退しうる</span></td><td>良性（SCCとの鑑別困難）</td></tr></table><span class=\"kw3\">臨床経過の「速さ」が鑑別に効く</span>——<span class=\"kw3\">数週で急速＝ケラトアカントーマ、年単位で緩徐＝脂漏性角化症・色素性母斑、数か月で潰瘍・出血を伴い増大＝悪性</span>。本例の<span class=\"kw3\">「1年で緩徐に隆起、出血・潰瘍なし」</span>は良性の経過そのものである。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 脂漏性角化症＝<span class=\"kw3\">中高年の「貼り付けたような」褐色疣状局面。良性</span>。<br/>② 病理＝<span class=\"kw3\">基底細胞様細胞の増殖＋角質囊腫〈horn cyst〉</span>。<br/>③ ダーモスコピー＝<span class=\"kw3\">面皰様開大・稗粒腫様囊腫・脳回様構造</span>。<br/>④ <span class=\"kw4\">急に多発＝Leser-Trélat徴候→胃癌など内臓悪性腫瘍を検索</span>。<br/>⑤ <span class=\"kw4\">Bowen病は表皮全層の異型（上皮内癌）</span>——角質囊腫は出ない。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/98D-6_1.jpeg",
+            "皮膚科/images/98D-6_2.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch06_q148",
+          "qn": "Q.148",
+          "episode": "(98H-8)",
+          "rate": -1,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [],
+          "qt": "<strong>真皮メラノサイトから生じるのはどれか。2つ選べ。</strong>",
+          "choices": [
+            {
+              "t": "ａ　太田母斑",
+              "ok": true
+            },
+            {
+              "t": "ｂ　器官母斑",
+              "ok": false
+            },
+            {
+              "t": "ｃ　café au lait斑",
+              "ok": false
+            },
+            {
+              "t": "ｄ　色素性母斑",
+              "ok": false
+            },
+            {
+              "t": "ｅ　蒙古斑",
+              "ok": true
+            }
+          ],
+          "ans_label": "ａ・ｅ",
+          "ans_sub": "真皮メラノサイト系＝太田母斑・伊藤母斑・蒙古斑・青色母斑。色素性母斑は「母斑細胞」で別物。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🧭 メラノサイト系病変の系統樹",
+              "c": "<span class=\"kw3\">メラノサイトは胎生期に神経堤〈neural crest〉から発生し、真皮を経て表皮基底層と毛包へ移動する</span>。<span class=\"kw3\">この移動と分化のどこで異常が起きたかで病変が分かれる</span>。<br/><span class=\"kw3\">①真皮に残存・増生した真皮メラノサイト</span>——<span class=\"kw3\">蒙古斑（腰仙部・自然消退）、異所性蒙古斑（残存しうる）、太田母斑（顔面V1V2・消退しない）、伊藤母斑（肩〜上腕）、青色母斑（結節性・紡錘形細胞）</span>。<span class=\"kw3\">いずれも深部のメラニンによるTyndall効果で青く見え、Qスイッチレーザーが有効</span>。<br/><span class=\"kw3\">②表皮メラノサイトの機能亢進（数はほぼ正常〜軽度増加）</span>——<span class=\"kw3\">café au lait斑、扁平母斑、雀卵斑、肝斑、老人性色素斑</span>。<span class=\"kw3\">褐色で平坦</span>。<br/><span class=\"kw3\">③母斑細胞の胞巣形成</span>——<span class=\"kw3\">色素性母斑（境界母斑・複合母斑・真皮内母斑）</span>。<span class=\"kw4\">母斑細胞は樹状突起を失い胞巣を作る点でメラノサイトと区別され、「真皮メラノサイトの増生」とは呼ばない</span>。<br/><span class=\"kw3\">④メラノサイトの消失</span>——<span class=\"kw3\">尋常性白斑（自己免疫性）、脱色素性母斑、眼皮膚白皮症（メラニン合成障害でメラノサイトは存在する）</span>。<br/><span class=\"kw3\">⑤悪性化</span>——<span class=\"kw3\">悪性黒色腫（表在拡大型・結節型・悪性黒子型・末端黒子型）</span>。<span class=\"kw4\">日本人では末端黒子型（掌蹠・爪）が最多</span>。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　太田母斑</span></td><td><span class=\"kw3\">三叉神経第1・2枝領域に片側性に生じる青褐色斑で、真皮上層〜中層のメラノサイトが増生したもの</span>（<span class=\"kw\">Q.125</span>・<span class=\"kw\">Q.127</span>）。<span class=\"kw3\">自然消退せず、Qスイッチレーザーが第一選択</span>。</td></tr><tr><td>ｂ　器官母斑</td><td><span class=\"kw4\">器官母斑〈類器官母斑・organoid nevus〉は皮膚付属器（脂腺・毛包・汗腺）が過形成した母斑</span>で、<span class=\"kw4\">代表は脂腺母斑（頭部の脱毛を伴う黄色調局面）</span>。<span class=\"kw4\">メラノサイト由来ではない</span>（<span class=\"kw\">Q.131</span>）。</td></tr><tr><td>ｃ　café au lait斑</td><td><span class=\"kw4\">表皮基底層のメラニン量が増加した平坦な淡褐色斑</span>で、<span class=\"kw4\">メラノサイトの局在は表皮</span>。<span class=\"kw4\">6個以上でNF1を疑う</span>（<span class=\"kw\">Q.122</span>）。</td></tr><tr><td>ｄ　色素性母斑</td><td><span class=\"kw4\">母斑細胞〈nevus cell〉が胞巣を形成する腫瘍</span>で、<span class=\"kw4\">母斑細胞はメラノサイトに近縁だが樹状突起を持たず胞巣を作る点で区別される</span>（<span class=\"kw\">Q.124</span>）。<span class=\"kw4\">「真皮内母斑」という型はあるが、増えているのは母斑細胞であって真皮メラノサイトではない</span>——本問で最も紛らわしい肢。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　蒙古斑</span></td><td><span class=\"kw3\">腰仙部〜殿部の境界不明瞭な青色斑で、胎生期に表皮へ移動しきれず真皮に残ったメラノサイトによる</span>（<span class=\"kw\">Q.142</span>）。<span class=\"kw3\">日本人ではほぼ全例にみられ、5〜6歳ごろまでに自然消退する</span>。<span class=\"kw3\">太田母斑と同じ真皮メラノサイト系の病変</span>である。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 「真皮メラノサイト」と「母斑細胞」を分けて答える",
+              "c": "<table class=\"tb\"><tr><th></th><th>真皮メラノサイト系</th><th>母斑細胞母斑</th></tr><tr><td>細胞</td><td><span class=\"kw3\">樹状突起をもつメラノサイト</span></td><td><span class=\"kw4\">樹状突起を失った母斑細胞</span></td></tr><tr><td>配列</td><td><span class=\"kw3\">真皮内に散在（膠原線維の間に平行に）</span></td><td><span class=\"kw4\">胞巣〈nest〉を形成</span></td></tr><tr><td>色</td><td><span class=\"kw3\">青〜灰青</span></td><td>褐色〜黒褐色</td></tr><tr><td>隆起</td><td>平坦（青色母斑は結節）</td><td>しばしば隆起</td></tr><tr><td>代表</td><td><span class=\"kw3\">蒙古斑・太田母斑・伊藤母斑・青色母斑</span></td><td>境界母斑・複合母斑・真皮内母斑</td></tr><tr><td>治療</td><td><span class=\"kw3\">Qスイッチレーザー</span></td><td>切除</td></tr></table><span class=\"kw3\">「真皮メラノサイト＝青あざ4兄弟（蒙古斑・異所性蒙古斑／太田母斑／伊藤母斑／青色母斑）」</span>と<span class=\"kw3\">まとめて覚えておけば、<span class=\"kw\">Q.125</span>・本問のような形式は即答できる</span>。<span class=\"kw4\">「色素性母斑（真皮内母斑）も真皮にあるのだから正解では」と迷わせるのがこの設問の狙い</span>で、<span class=\"kw3\">増えている細胞の名前（メラノサイトか母斑細胞か）で判定する</span>のが正しい。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 真皮メラノサイト系＝<span class=\"kw3\">蒙古斑・異所性蒙古斑・太田母斑・伊藤母斑・青色母斑</span>。<br/>② <span class=\"kw3\">蒙古斑は5〜6歳で自然消退、太田母斑は消退しない</span>。<br/>③ <span class=\"kw4\">色素性母斑は「母斑細胞」が胞巣を作る＝真皮メラノサイトではない</span>。<br/>④ <span class=\"kw4\">café au lait斑は表皮のメラニン増加、器官母斑は付属器の過形成</span>。<br/>⑤ <span class=\"kw3\">青あざはQスイッチレーザーが効く</span>（Tyndall効果で青く見える）。"
+            }
+          ],
+          "imgs": []
+        },
+        {
+          "uid": "derm_ch06_q149",
+          "qn": "Q.149",
+          "episode": "(98I-26)",
+          "rate": -1,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "12歳の男児。<span class=\"kw\">顔面の色素沈着の治療を希望</span>して来院した。<span class=\"kw\">出生時、右顔面に青色の色素斑</span>がみられたが放置していた。最近になり本人が治療を希望している。顔面の写真を示す。<br/><strong>最も適切な対応はどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　経過観察",
+              "ok": false
+            },
+            {
+              "t": "ｂ　PUVA療法",
+              "ok": false
+            },
+            {
+              "t": "ｃ　広範囲切除と植皮術",
+              "ok": false
+            },
+            {
+              "t": "ｄ　レーザー療法",
+              "ok": true
+            },
+            {
+              "t": "ｅ　副腎皮質ステロイド外用",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｄ　レーザー療法",
+          "ans_sub": "出生時からの片側顔面の青色斑＝太田母斑。自然消退しないので、希望があればQスイッチレーザーを行う。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "👦 小児の太田母斑——「いつ治療を始めるか」",
+              "c": "<span class=\"kw3\">太田母斑には出生時〜乳児期に現れる早発型と、思春期前後に顕在化する遅発型がある</span>。<span class=\"kw3\">本例は出生時から存在する早発型で、放置されたまま12歳で本人の希望により受診した</span>という設定である。<br/><span class=\"kw3\">治療開始時期については、早期（乳幼児期）に始めるほど少ない照射回数で消退しやすい</span>ことが知られる。<span class=\"kw3\">皮膚が薄くメラニン顆粒が浅い位置にあること、色素斑が濃くなる前であることが理由</span>とされる。<span class=\"kw4\">乳幼児では体動のため全身麻酔・鎮静下での照射となることがあり、整容的な必要性と麻酔のリスクを保護者と相談して決める</span>。<br/><span class=\"kw3\">学童期以降・成人でも治療効果は十分にあり、「手遅れ」ということはない</span>（<span class=\"kw\">Q.145</span>の48歳例）。<span class=\"kw3\">思春期は整容的な悩みが本人の心理社会的な問題に直結する時期でもあり、本人の希望を尊重して治療に進むのが適切</span>である。<br/><span class=\"kw3\">照射後は炎症後色素沈着が数か月続くことがあるため遮光を指導し、3〜6か月あけて次回を照射する</span>。<span class=\"kw4\">眼球にも色素斑がある場合は緑内障・ぶどう膜悪性黒色腫のスクリーニングとして眼科受診を勧める</span>。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　経過観察</td><td><span class=\"kw4\">太田母斑は自然消退しない</span>。<span class=\"kw4\">むしろ思春期に色調が濃くなる</span>ため、<span class=\"kw4\">本人が治療を希望している12歳例で経過観察は不適切</span>である（<span class=\"kw\">Q.127</span>）。<span class=\"kw4\">自然消退を待つのは乳児血管腫や正中部母斑</span>。</td></tr><tr><td>ｂ　PUVA療法</td><td><span class=\"kw4\">PUVAはソラレンと長波長紫外線でメラノサイトを活性化させる治療</span>で、<span class=\"kw4\">色素斑には逆効果</span>。適応は尋常性白斑・乾癬・菌状息肉症である（<span class=\"kw\">Q.129</span>）。</td></tr><tr><td>ｃ　広範囲切除と植皮術</td><td><span class=\"kw4\">顔面の広範な色素斑を切除・植皮すれば、色調の差と瘢痕・拘縮という新たな整容的問題を生む</span>。<span class=\"kw4\">レーザーで瘢痕なく治療できる病変に対して侵襲が大きすぎる</span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　レーザー療法</span></td><td><span class=\"kw3\">太田母斑の第一選択はQスイッチルビー／アレキサンドライトレーザー</span>である。<span class=\"kw3\">真皮のメラニン顆粒を選択的に破壊し、3〜6か月間隔で数回照射することで高率に消退する。保険適用がある</span>。<span class=\"kw3\">早く始めるほど少ない回数で効果が得られるため、小児例でも積極的に行う（幼児では全身麻酔下に実施することもある）</span>（<span class=\"kw\">Q.145</span>）。</td></tr><tr><td>ｅ　副腎皮質ステロイド外用</td><td><span class=\"kw4\">ステロイド外用は炎症性疾患（湿疹・乾癬・自己免疫性水疱症など）に用いるもので、メラノサイトの増生には無効</span>。<span class=\"kw4\">長期外用は皮膚萎縮・毛細血管拡張・ステロイド痤瘡を招く</span>だけである。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 「経過観察でよいあざ」と「治療するあざ」",
+              "c": "<table class=\"tb\"><tr><th>あざ</th><th>自然経過</th><th>対応</th></tr><tr><td>正中部母斑（サーモンパッチ・Unna母斑）</td><td><span class=\"kw3\">1〜2歳で消退</span></td><td><span class=\"kw3\">経過観察</span>（<span class=\"kw\">Q.128</span>）</td></tr><tr><td>蒙古斑</td><td><span class=\"kw3\">5〜6歳で消退</span></td><td><span class=\"kw3\">経過観察</span>（異所性・濃色例はレーザー）</td></tr><tr><td>乳児血管腫</td><td><span class=\"kw3\">増大後5〜7歳で消退</span></td><td><span class=\"kw3\">経過観察／機能障害例はプロプラノロール</span>（<span class=\"kw\">Q.134</span>）</td></tr><tr><td><span class=\"kw3\">太田母斑</span></td><td><span class=\"kw4\">消退しない・思春期に濃くなる</span></td><td><span class=\"kw3\">Qスイッチレーザー</span></td></tr><tr><td><span class=\"kw3\">単純性血管腫</span></td><td><span class=\"kw4\">消退しない・成人で肥厚</span></td><td><span class=\"kw3\">色素レーザー＋Sturge-Weberの検索</span>（<span class=\"kw\">Q.144</span>）</td></tr></table><span class=\"kw3\">「経過観察」が正解になるのは自然消退する病変だけ</span>である。<span class=\"kw4\">本章では <span class=\"kw\">Q.134</span>（乳児血管腫）で経過観察が正解、本問と <span class=\"kw\">Q.145</span>（太田母斑）ではレーザーが正解</span>——<span class=\"kw3\">同じ「あざ」でも自然史が違えば答えが逆になる</span>ことを対比して押さえておきたい。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① 太田母斑＝<span class=\"kw3\">自然消退しない。治療はQスイッチレーザー（保険適用）</span>。<br/>② <span class=\"kw3\">早期に始めるほど少ない回数で消退</span>。小児でも成人でも有効。<br/>③ <span class=\"kw4\">切除・植皮は瘢痕を残すので不適／PUVA・ステロイド外用は無効</span>。<br/>④ <span class=\"kw3\">経過観察が正解になるのは自然消退する病変（正中部母斑・蒙古斑・乳児血管腫）</span>。<br/>⑤ 照射後は<span class=\"kw3\">遮光</span>（炎症後色素沈着の予防）。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/98I-26_1.jpeg"
+          ]
+        },
+        {
+          "uid": "derm_ch06_q150",
+          "qn": "Q.150",
+          "episode": "(97D-7)",
+          "rate": -1,
+          "rate_cls": "",
+          "rate_text": "",
+          "badges": [
+            {
+              "cls": "bi",
+              "t": "📷"
+            }
+          ],
+          "qt": "20歳の男性。<span class=\"kw\">出生時から存在する顔面の皮疹</span>を主訴に来院した。<span class=\"kw\">幼児期からけいれん発作</span>がある。<span class=\"kw\">最近、左眼の眼圧亢進</span>も指摘されている。顔面の写真を示す。<br/><strong>診断はどれか。</strong>",
+          "choices": [
+            {
+              "t": "ａ　Peutz-Jeghers症候群",
+              "ok": false
+            },
+            {
+              "t": "ｂ　神経線維腫症1型〈von Recklinghausen病〉",
+              "ok": false
+            },
+            {
+              "t": "ｃ　Sturge-Weber症候群",
+              "ok": true
+            },
+            {
+              "t": "ｄ　von Hippel-Lindau病",
+              "ok": false
+            },
+            {
+              "t": "ｅ　Vogt-小柳-原田病",
+              "ok": false
+            }
+          ],
+          "ans_label": "ｃ　Sturge-Weber症候群",
+          "ans_sub": "出生時からの片側顔面の紅色斑＋けいれん＋緑内障＝Sturge-Weber症候群の3徴。",
+          "eg": [
+            {
+              "cls": "ep",
+              "h": "🩸 Sturge-Weber症候群——成人期に問われるのは「緑内障」",
+              "c": "<span class=\"kw3\">Sturge-Weber症候群〈脳三叉神経血管腫症〉は、GNAQの体細胞モザイク変異により顔面・軟膜・眼に毛細血管奇形が生じる非遺伝性疾患</span>である（<span class=\"kw\">Q.135</span>）。<span class=\"kw3\">3徴＝①三叉神経第1枝〈V1〉領域の単純性血管腫、②同側の軟膜血管腫、③緑内障</span>。<br/><span class=\"kw3\">緑内障は約30〜70％に合併し、二峰性に発症する</span>——<span class=\"kw3\">①乳児期発症：隅角形成異常による先天緑内障の形をとり、眼球が拡大して牛眼〈buphthalmos〉となる。②学童期〜成人発症：上強膜静脈の圧上昇により房水の流出抵抗が増し、開放隅角緑内障の形をとる</span>。<span class=\"kw3\">本例の20歳での眼圧亢進は後者にあたる</span>。<span class=\"kw4\">緑内障は無症候のまま視野を失うため、診断がついた時点から生涯にわたる定期的な眼圧測定が必要</span>である。<br/><span class=\"kw3\">神経症状は軟膜血管腫による静脈うっ滞→皮質の慢性虚血で説明される</span>。<span class=\"kw3\">てんかんは75〜90％、多くは1歳までに発症し、反復するほど対側の片麻痺・知的障害が進行する</span>。<span class=\"kw3\">薬剤抵抗性の例では早期のてんかん外科（focal resection・半球離断）が発達予後を改善しうる</span>。<br/><span class=\"kw3\">皮膚の単純性血管腫は色素レーザーで治療する</span>（<span class=\"kw\">Q.144</span>）。<span class=\"kw4\">成人では血管腫が肥厚・結節化し、口唇・歯肉の肥大を伴うことがある</span>。"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　Peutz-Jeghers症候群</td><td><span class=\"kw4\">口唇・口腔粘膜・指趾末端の色素斑と消化管の過誤腫性ポリポーシスを来す常染色体顕性遺伝疾患（STK11変異）</span>。<span class=\"kw4\">色素斑は褐色〜黒褐色の小斑で、顔面の広範な紅色斑ではない</span>。けいれん・眼圧亢進とも結びつかない。</td></tr><tr><td>ｂ　神経線維腫症1型〈von Recklinghausen病〉</td><td><span class=\"kw4\">皮膚所見はcafé au lait斑と神経線維腫</span>で（<span class=\"kw\">Q.122</span>）、<span class=\"kw4\">顔面片側の紅色斑ではない</span>。<span class=\"kw4\">眼所見はLisch結節（虹彩過誤腫）で、緑内障は特徴ではない</span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　Sturge-Weber症候群</span></td><td><span class=\"kw3\">①出生時から存在する片側顔面の紅色皮疹（三叉神経第1枝領域の単純性血管腫）、②幼児期からのけいれん、③同側の眼圧亢進（緑内障）</span>——<span class=\"kw3\">Sturge-Weber症候群の3徴がそのまま揃っている</span>。<span class=\"kw3\">確認には造影MRIで軟膜血管腫、CTで脳回に沿った線路様石灰化、眼科で眼圧・隅角評価</span>を行う（<span class=\"kw\">Q.135</span>・<span class=\"kw\">Q.140</span>）。</td></tr><tr><td>ｄ　von Hippel-Lindau病</td><td><span class=\"kw4\">網膜・小脳の血管芽腫、腎細胞癌、褐色細胞腫、膵囊胞を来す常染色体顕性遺伝疾患</span>。<span class=\"kw4\">皮膚所見を欠く</span>のが鑑別点で、<span class=\"kw4\">眼病変は網膜血管芽腫（緑内障ではない）</span>。</td></tr><tr><td>ｅ　Vogt-小柳-原田病</td><td><span class=\"kw4\">メラノサイトに対する自己免疫により、両眼のぶどう膜炎（漿液性網膜剝離）・髄膜刺激症状・難聴・耳鳴に続いて晩期に白毛・脱毛・白斑を来す</span>。<span class=\"kw4\">後天性で、出生時からの顔面紅色斑ではない</span>。皮膚所見は「白斑」であって血管腫ではない。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "📌 「顔面のあざ＋全身症状」で診断が決まる症候群",
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>皮膚</th><th>決め手になる合併症</th></tr><tr><td><span class=\"kw3\">Sturge-Weber症候群</span></td><td><span class=\"kw3\">V1領域の単純性血管腫（出生時から・片側）</span></td><td><span class=\"kw3\">てんかん・片麻痺・緑内障・脳回に沿う石灰化</span></td></tr><tr><td>Klippel-Trénaunay症候群</td><td><span class=\"kw4\">四肢の単純性血管腫</span></td><td><span class=\"kw4\">静脈瘤＋患肢の片側肥大（骨・軟部の過成長）</span></td></tr><tr><td>結節性硬化症</td><td>葉状白斑・顔面血管線維腫</td><td>てんかん・知的障害・心横紋筋腫・腎血管筋脂肪腫</td></tr><tr><td>神経線維腫症1型</td><td>café au lait斑・神経線維腫</td><td>Lisch結節・視神経膠腫・側彎・褐色細胞腫</td></tr><tr><td>色素失調症</td><td>Blaschko線に沿う水疱→色素沈着</td><td>円錐歯・網膜血管異常・けいれん（女児のみ）</td></tr></table><span class=\"kw3\">本章の症例問題は、「①皮疹の色と分布 → ②疾患名 → ③探しに行く臓器」の3段で解ける</span>ように作られている。<span class=\"kw3\">赤・片側・V1 → Sturge-Weber → 脳（MRI・脳波）と眼（眼圧）</span>、<span class=\"kw3\">白・多発 → 結節性硬化症 → 脳・心・腎</span>、<span class=\"kw3\">褐色・多発 → NF1 → 眼（Lisch結節）・骨・血圧</span>——この3本の道筋を反射にしておけば本章は完成である。"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "① Sturge-Weber症候群の3徴＝<span class=\"kw3\">V1領域の単純性血管腫＋軟膜血管腫＋緑内障</span>。<br/>② 緑内障は<span class=\"kw3\">乳児期（牛眼）と学童期以降（開放隅角）の二峰性</span>。<span class=\"kw3\">生涯の眼圧フォローが必要</span>。<br/>③ 神経＝<span class=\"kw3\">てんかん（1歳までに発症）・対側片麻痺・知的障害</span>。<br/>④ 画像＝<span class=\"kw3\">造影MRIで軟膜血管腫、CTで脳回に沿う線路様石灰化</span>。<br/>⑤ <span class=\"kw4\">四肢の血管腫＋患肢肥大ならKlippel-Trénaunay症候群</span>。"
+            }
+          ],
+          "imgs": [
+            "皮膚科/images/97D-7_1.jpeg"
+          ]
+        }
+      ]
     }
   ]
 }
