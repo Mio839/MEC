@@ -865,6 +865,12 @@ const MEC_CHAPTERS = [
         "file": "皮膚科/ch07_akusei_shuyou.html",
         "title": "第7章 悪性腫瘍",
         "count": 40
+      },
+      {
+        "prefix": "derm_ch08",
+        "file": "皮膚科/ch08_kansenshou.html",
+        "title": "第8章 感染症",
+        "count": 32
       }
     ]
   }
