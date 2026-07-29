@@ -283,6 +283,9 @@ button.sec-h:hover{color:var(--or);}
    border-color はここに書かない（ID セレクタが .mfx に競り勝って弱い枠に戻ってしまう） */
 #gmDaily .gm-mission.done{background:var(--grl);}
 #gmDaily .gm-mission.done .gm-mission-fill{background:var(--gr);}
+/* 必須／ボーナスの仕切りと、末尾の獲得ボーナスXP行もテーマの文字色に寄せる */
+#gmDaily .gm-sub-title,#gmDaily .gm-mission-foot{color:var(--ts);}
+#gmDaily .gm-mission-foot b{color:var(--or);}
 
 /* ── Tiles（非対称ベント: 縦長1＋小2＋横長1）──
    面を等分すると4枚とも同じ重さになり、どれから触ればいいか分からなくなる。
@@ -1480,13 +1483,16 @@ function _sparkleMissions() {
 // ので、この色だけはテーマで振らない）。粒子は CSS 変数を読めないのでここに定数を置く。
 const MISSION_GREEN = '#3DD68C';
 
-// 全達成なら見出しの件数を緑にして脈打たせる。件数の数字自体は gamify.js が入れる実データ
+// 全達成なら見出しの件数を緑にして脈打たせる。件数の数字自体は gamify.js が入れる実データ。
+// 判定は data-tier="core" の行だけ＝gamify.js の MISSION COMPLETE セレモニーと同じ条件。
+// ボーナス行（SRSの在庫や「全問正解」など運に左右されるもの）まで含めると、旧仕様と同じく
+// ほぼ緑にならない見出しになる。
 function _markAllDone() {
   const host = document.getElementById('gmDaily');
   const cnt = document.getElementById('gmDailyCnt');
   if (!host || !cnt) return;
-  const rows = [...host.querySelectorAll('.gm-mission')];
-  cnt.classList.toggle('all', rows.length > 0 && rows.every(r => r.classList.contains('done')));
+  const core = [...host.querySelectorAll('.gm-mission[data-tier="core"]')];
+  cnt.classList.toggle('all', core.length > 0 && core.every(r => r.classList.contains('done')));
 }
 
 // #gamifyPanel は gamify.js が innerHTML で作り直すので、描き直された瞬間に

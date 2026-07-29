@@ -2416,13 +2416,17 @@ function _updateMyRateBadge(uid, data) {
 }
 
 function _recordMyRate(uid, isCorrect) {
+  // 「奪回」ミッション（過去に落とした問題を正解し直す）の判定は **加算前** の値で行う。
+  // 加算後だと今回の不正解自体が wasWrong を立ててしまう。
+  const _prev = _myrate[uid];
+  const _wasWrong = !!(_prev && (_prev.total || 0) > (_prev.correct || 0));
   if (!_myrate[uid]) _myrate[uid] = { correct: 0, total: 0 };
   _myrate[uid].total++;
   if (isCorrect) _myrate[uid].correct++;
   localStorage.setItem('myrate_v1', JSON.stringify(_myrate));
   if (window.MECSync) window.MECSync.scheduleSync();
   _updateMyRateBadge(uid, _myrate[uid]);
-  try { window.MecGamify?.onAnswer?.(uid, isCorrect); } catch {}
+  try { window.MecGamify?.onAnswer?.(uid, isCorrect, { srs: _srsReviewMode, wasWrong: _wasWrong }); } catch {}
 }
 
 // 解答イベントを mec_attempts_v1 へ1行追記する（弱点分析の素材）。
@@ -3177,6 +3181,9 @@ function showExamSummary() {
     }
     setTimeout(_srsCompleteCelebration, 700);
   }
+  // 週次「章別試験80%以上を3章」ミッション用。下のブロックが _examActiveChPrefix を null に
+  // 戻すので、gamify へ渡すぶんを先に控えておく。
+  const _gmChPrefix = _examActiveChPrefix;
   // Save per-chapter exam history when a single chapter was tested
   if (_examActiveChPrefix && examAnswered > 0) {
     try {
@@ -3194,7 +3201,7 @@ function showExamSummary() {
     } catch(e) {}
     _examActiveChPrefix = null;
   }
-  try { window.MecGamify?.onExamFinish?.(examAnswered, examCorrect); } catch {}
+  try { window.MecGamify?.onExamFinish?.(examAnswered, examCorrect, { chPrefix: _gmChPrefix }); } catch {}
 }
 
 function closeExamSummary() {

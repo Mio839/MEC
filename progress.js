@@ -16,7 +16,7 @@
   const K_GAMIFY = 'mec_gamify_v1'; // ゲーミフィケーション（bestStreak等の数値のみ・field-wise maxでマージ）
   const K_ATT = 'mec_attempts_v1';  // 解答イベントログ（attempts.js が追記・追記専用でunionマージ）
   const ATT_CAP = 2000;             // attempts.js の CAP と一致させること
-  const K_MISSIONS = 'mec_missions_v1'; // 日次/週次ミッション進捗（端末別G-counter・同一(期間,端末,カウンタ)はmax）
+  const K_MISSIONS = 'mec_missions_v1'; // 日次/週次ミッション進捗（端末別G-counter・同一(期間,端末,カウンタ)はmax）＋達成ボーナスXP台帳
 
   let syncTimer = null;
   let syncInProgress = false;
@@ -327,7 +327,7 @@
     // 同一(期間,端末,カウンタ)は max（端末内は単調増加）＝表示時に端末横断 sum で合算される。
     // 別端末の分担ぶんが取りこぼされず「達成状況」が正しく共有される。
     const rmi = remote[K_MISSIONS];
-    if (rmi && (rmi.d || rmi.w)) {
+    if (rmi && (rmi.d || rmi.w || rmi.xp)) {
       const lmi = lsGet(K_MISSIONS);
       const mmi = { d: (lmi && lmi.d) || {}, w: (lmi && lmi.w) || {} };
       ['d', 'w'].forEach(pk => {
@@ -347,6 +347,32 @@
       // 古い期間を掃除（日次14件・週次10件）
       const keep = (obj, n) => { const ks = Object.keys(obj).sort(); while (ks.length > n) delete obj[ks.shift()]; };
       keep(mmi.d, 14); keep(mmi.w, 10);
+      // ミッション達成ボーナスXPの台帳 { banked, ledger:{ 'd:'|'w:'+期間キー : {missionId:xp} } }。
+      // 同じ (期間キー, missionId) には全端末が同じ値を書くので union（値は max）で二重加算しない。
+      // ⚠️ 保持日数 150 は gamify.js の MISSION_XP_KEEP_DAYS と同じ値であること。台帳から
+      // 落ちた期間は gamify 側で banked へ繰り入れられるため、ここで古いキーを落とさないと
+      // 同期が繰り入れ済みのキーを復活させて二重に加算されてしまう。
+      const lxp = (lmi && lmi.xp) || {};
+      mmi.xp = { banked: lxp.banked || 0, ledger: lxp.ledger || {} };
+      const rxp = rmi.xp;
+      if (rxp && typeof rxp === 'object') {
+        mmi.xp.banked = Math.max(mmi.xp.banked, rxp.banked || 0);
+        const rled = rxp.ledger || {};
+        Object.keys(rled).forEach(k => {
+          const grp = mmi.xp.ledger[k] = mmi.xp.ledger[k] || {};
+          const rg = rled[k] || {};
+          Object.keys(rg).forEach(id => { grp[id] = Math.max(grp[id] || 0, rg[id] || 0); });
+        });
+      }
+      // 台帳から落ちる期間は banked へ繰り入れてから消す（gamify.js の _pruneMissions と同じ手順）。
+      // 全端末が同じ日付基準で同じ繰り入れをするので、banked を max マージしても総額が合う。
+      const xpCut = new Date(Date.now() + 9 * 3600000 - 150 * 86400000).toISOString().slice(0, 10);
+      Object.keys(mmi.xp.ledger).forEach(k => {
+        if (k.slice(2) >= xpCut) return;
+        const g = mmi.xp.ledger[k] || {};
+        for (const id in g) mmi.xp.banked += g[id] || 0;
+        delete mmi.xp.ledger[k];
+      });
       lsRaw(K_MISSIONS, mmi);
     }
     // attempts: 解答イベントログ（attempts.js の mec_attempts_v1）。1件=パイプ区切り1文字列で

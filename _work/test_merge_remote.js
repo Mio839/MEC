@@ -100,7 +100,7 @@ const KD = 'done_v2', KF = 'flag_v2', KA = 'activity_v1', KR = 'myrate_v1',
       KRK = 'mec_exam_resume_key_tombs_v1',
       KER = 'error_reports_v1', K_ERR_CLEARED = 'mec_err_cleared_at',
       KCH = 'mec_ch_exam_v1', KFT = 'flag_tombstones_v1', KC = 'mec_choice_v1',
-      KAT = 'mec_attempts_v1';
+      KAT = 'mec_attempts_v1', KMI = 'mec_missions_v1';
 
 // attempts のレコード文字列を組み立てる: uid|t|c|o|s|m|sess|n
 function att(uid, t, sess, n, opt) {
@@ -407,6 +407,64 @@ test('ch-exam: prefix present only in remote is added', () => {
   const env = makeEnv(seed({ [KCH]: {} }));
   env.mergeRemote({ [KCH]: { circ: { lastDate: '2026-01-01', sessions: 1, bestScore: 50 } } });
   assert.ok(env.getObj(KCH).circ);
+});
+
+// ─────────────────────────────────────────────────────────────────────────
+console.log('mec_missions_v1 (日次/週次ミッション)');
+
+// 期間キーはヘルパで作る（150日カットオフを跨がないよう「今日」基準で組む）
+function dayKey(back) {
+  return new Date(Date.now() + 9 * 3600000 - (back || 0) * 86400000).toISOString().slice(0, 10);
+}
+
+test('missions: 端末別カウンタは (期間,端末,カウンタ) ごとに max', () => {
+  const k = dayKey(0);
+  const env = makeEnv(seed({ [KMI]: { d: { [k]: { A: { ans: 10, cor: 5 } } }, w: {} } }));
+  env.mergeRemote({ [KMI]: { d: { [k]: { A: { ans: 4, cor: 9 } } }, w: {} } });
+  assert.deepStrictEqual(env.getObj(KMI).d[k].A, { ans: 10, cor: 9 });
+});
+
+test('missions: 別端末のカウンタは足し算ではなく併存する（表示側でsumするため）', () => {
+  const k = dayKey(0);
+  const env = makeEnv(seed({ [KMI]: { d: { [k]: { A: { ans: 10 } } }, w: {} } }));
+  env.mergeRemote({ [KMI]: { d: { [k]: { B: { ans: 7 } } }, w: {} } });
+  const b = env.getObj(KMI).d[k];
+  assert.strictEqual(b.A.ans, 10);
+  assert.strictEqual(b.B.ans, 7);
+});
+
+test('xp台帳: 同じ(期間,ミッション)を両端末が取っても二重加算にならない', () => {
+  const k = 'd:' + dayKey(0);
+  const led = { [k]: { ans: 40, exam: 40 } };
+  const env = makeEnv(seed({ [KMI]: { d: {}, w: {}, xp: { banked: 0, ledger: led } } }));
+  env.mergeRemote({ [KMI]: { d: {}, w: {}, xp: { banked: 0, ledger: { [k]: { ans: 40, cor: 60 } } } } });
+  const xp = env.getObj(KMI).xp;
+  assert.deepStrictEqual(xp.ledger[k], { ans: 40, exam: 40, cor: 60 });
+  assert.strictEqual(xp.banked, 0);
+});
+
+test('xp台帳: banked は max（両端末が同じ繰り入れをするため）', () => {
+  const env = makeEnv(seed({ [KMI]: { d: {}, w: {}, xp: { banked: 300, ledger: {} } } }));
+  env.mergeRemote({ [KMI]: { d: {}, w: {}, xp: { banked: 500, ledger: {} } } });
+  assert.strictEqual(env.getObj(KMI).xp.banked, 500);
+});
+
+test('xp台帳: 保持期間(150日)を過ぎたキーは banked へ繰り入れてから消す（XPが消えない）', () => {
+  const old = 'd:' + dayKey(400);
+  const env = makeEnv(seed({ [KMI]: { d: {}, w: {}, xp: { banked: 0, ledger: { [old]: { ans: 40, cor: 60 } } } } }));
+  env.mergeRemote({ [KMI]: { d: {}, w: {}, xp: { banked: 0, ledger: {} } } });
+  const xp = env.getObj(KMI).xp;
+  assert.strictEqual(xp.ledger[old], undefined, '古いキーは落ちる');
+  assert.strictEqual(xp.banked, 100, '落ちたぶんは banked に残る');
+});
+
+test('xp台帳: リモートに xp が無くてもローカルの台帳は消えない', () => {
+  const k = 'd:' + dayKey(0);
+  const env = makeEnv(seed({ [KMI]: { d: {}, w: {}, xp: { banked: 20, ledger: { [k]: { ans: 40 } } } } }));
+  env.mergeRemote({ [KMI]: { d: { [dayKey(0)]: { A: { ans: 1 } } }, w: {} } });
+  const xp = env.getObj(KMI).xp;
+  assert.strictEqual(xp.banked, 20);
+  assert.deepStrictEqual(xp.ledger[k], { ans: 40 });
 });
 
 // ─────────────────────────────────────────────────────────────────────────

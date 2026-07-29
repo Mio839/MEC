@@ -17,9 +17,12 @@
   const K_SYNC = 'mec_gamify_v1';        // 同期対象 {bestStreak}
   const K_LOCAL = 'mec_gamify_local_v1'; // 端末ローカル {lastLevel,seenAch,chDone,subjDone,sound,devId,mDone}
   const K_MISSIONS = 'mec_missions_v1';  // 同期対象。日次/週次ミッションの進捗を端末別カウンタで保持
-  //   構造: { d:{ [YYYY-MM-DD]:{ [devId]:{ans,cor,exam,lap,flag} } }, w:{ [週(月曜日付)]:{ [devId]:{...} } } }
+  //   構造: { d:{ [YYYY-MM-DD]:{ [devId]:{ans,cor,exam,srs,redo,unflag,chexam80,acc80,perfect} } },
+  //           w:{ [週(月曜日付)]:{ [devId]:{...} } },
+  //           xp:{ banked:number, ledger:{ [期間キー]:{ [missionId]:xp } } } }
   //   マージ: 同一(期間,端末,カウンタ)は max（端末内は単調増加）／表示・達成判定は端末横断で sum。
   //   → iPad と iPhone で分担しても合算されるので「達成状況」が正しく共有される。
+  //   xp はミッション達成ボーナスの台帳（下の MISSION_XP_KEEP_DAYS 参照）。
 
   // 科目メタ（total は CLAUDE.md の実測値。科目全問制覇の判定にのみ使用）
   const SUBJECTS = [
@@ -54,14 +57,14 @@
   L.seenAch = L.seenAch || [];   // 解除演出を見せた実績id
   L.chDone = L.chDone || [];     // 章制覇演出を見せた章prefix
   L.subjDone = L.subjDone || []; // 科目制覇演出を見せたsid
-  L.mDone = L.mDone || {};       // ミッション達成トースト既視管理 { [期間キー]:[missionId] }（ローカル）
+  L.mDone = L.mDone || {};       // ミッション達成トースト既視管理 { ['d:'|'w:'+期間キー]:[missionId] }（ローカル）
   if (!L.devId) L.devId = 'd' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
   delete L.missions;             // 旧・端末ローカルのみのミッション進捗は廃止（同期版へ移行）
   if (!L.sound) L.sound = 'on';
   function saveL() { _s(K_LOCAL, L); }
 
   // ── XP・レベル・統計 ─────────────────────────────────────────────
-  // XP = 済周回×10 + 試験解答×4 + 試験正解×6（すべて同期済みデータから再計算）
+  // XP = 済周回×10 + 試験解答×4 + 試験正解×6 + ミッション達成ボーナス（すべて同期済みデータから再計算）
   function _cumXp(level) { const n = level - 1; return 30 * n * n + 70 * n; } // Lv.level 到達に必要な累計XP
   function _levelFromXp(xp) { let n = 1; while (n < 999 && _cumXp(n + 1) <= xp) n++; return n; }
   function _titleFor(level) { for (const [min, t] of TITLES) { if (level >= min) return t; } return TITLES[TITLES.length - 1][1]; }
@@ -85,7 +88,9 @@
     let srsLong = 0;
     const srs = _g('mec_srs_v1', {});
     for (const uid in srs) { const e = srs[uid]; if (e && (e.reps || 0) > 0 && (e.interval || 0) >= 30) srsLong++; }
-    const xp = laps * 10 + exT * 4 + exC * 6;
+    // ミッションXPは同期台帳（mec_missions_v1.xp）から読むので、他の項と同様に端末間で一致する
+    const mXp = missionXp();
+    const xp = laps * 10 + exT * 4 + exC * 6 + mXp;
     const level = _levelFromXp(xp);
     const cur = _cumXp(level), next = _cumXp(level + 1);
     const streak = (window.MECSync && MECSync.calcStreak) ? MECSync.calcStreak() : 0;
@@ -94,7 +99,7 @@
       xp, level, title: _titleFor(level),
       lvProgress: Math.max(0, Math.min(1, (xp - cur) / Math.max(1, next - cur))),
       lvCurXp: xp - cur, lvNeedXp: next - cur,
-      laps, doneCount, exT, exC, bySubj, srsLong, streak,
+      laps, doneCount, exT, exC, bySubj, srsLong, streak, missionXp: mXp,
       accPct: exT > 0 ? Math.round(exC / exT * 100) : 0,
       bestStreak: sync.bestStreak || 0,
     };
@@ -211,12 +216,18 @@
 .gm-mission-ic{font-size:16px;flex-shrink:0;}
 .gm-mission-lbl{flex:1;font-size:12px;font-weight:700;color:#EAF0FA;}
 .gm-mission.done .gm-mission-lbl{color:#7CEFB2;}
-.gm-mission-bar{width:64px;height:6px;border-radius:4px;background:rgba(var(--glass-rgb),.1);overflow:hidden;flex-shrink:0;}
+.gm-mission-bar{position:relative;width:64px;height:6px;border-radius:4px;background:rgba(var(--glass-rgb),.1);overflow:hidden;flex-shrink:0;}
 /* ⚠️ display:block は必須。span のままだと inline 扱いで width/height が無視され、
    親(.gm-mission-bar)がフレックスアイテムで枠だけ見えるため「常に空のゲージ」になる */
 .gm-mission-fill{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,#3DD68C,#7CEFB2);transition:width .4s;}
+/* 週次のペース目盛り＝「今そこまで進んでいるべき位置」。親が overflow:hidden なので内側に収める */
+.gm-pace{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;background:rgba(255,255,255,.55);}
 .gm-mission-num{font-size:10px;font-weight:800;color:rgba(255,255,255,.6);width:42px;text-align:right;flex-shrink:0;}
 .gm-mission.done .gm-mission-num{color:#3DD68C;}
+.gm-mission.behind .gm-mission-num{color:#FFB454;}
+.gm-sub-title{font-size:10px;font-weight:800;color:rgba(255,255,255,.42);letter-spacing:.5px;margin:8px 0 5px;}
+.gm-mission-foot{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);margin-top:6px;text-align:right;}
+.gm-mission-foot b{color:#FFD166;}
 .gm-badges{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;-webkit-overflow-scrolling:touch;}
 .gm-badge{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:58px;padding:8px 4px 6px;border-radius:12px;background:rgba(var(--glass-rgb),.05);border:1px solid rgba(255,255,255,.1);cursor:pointer;flex-shrink:0;transition:transform .15s;font-family:inherit;color:inherit;}
 .gm-badge:active{transform:scale(.94);}
@@ -377,21 +388,42 @@
   }
 
   // ── ミッション（日次・週次／端末別カウンタで同期） ───────────────
-  // 各ミッションは counter（ans/cor/exam/lap/flag）の端末横断合計が target 以上で達成。
+  // 各ミッションは counter（ans/cor/exam/srs/redo/unflag/chexam80/acc80/perfect）の
+  // 端末横断合計が target 以上で達成。
+  //
+  // tier（2026-07-29〜）:
+  //   'core'  … 手を動かせば必ず届くもの。MISSION COMPLETE セレモニーは **これだけ** で判定する。
+  //   'bonus' … 在庫や運に左右されるもの（SRSの期限到来数・その日に全問正解できるか等）。
+  //   ⚠️ 旧仕様はセレモニーが全ミッション達成を条件にしており、その中に「試験で全問正解」が
+  //      入っていたため日次のセレモニーが事実上発火しなかった。新しいミッションを足すときは
+  //      「毎日必ず達成できるか」を基準に tier を決めること。到達不能なものを core に置かない。
+  //
+  // xp は達成時に一度だけ入るボーナスXP（_awardMissionXp・重複防止は同期台帳 s.xp.ledger）。
   const MISSIONS_DAILY = [
-    { id: 'ans',     icon: '📝', label: '40問 解答する',              target: 40, counter: 'ans' },
-    { id: 'cor',     icon: '✅', label: '試験モードで20問 正解',      target: 20, counter: 'cor' },
-    { id: 'exam',    icon: '🎓', label: '試験セッション完了(10問+)',  target: 1,  counter: 'exam' },
-    { id: 'acc',     icon: '🎯', label: '試験で正答率80%以上を1回',   target: 1,  counter: 'acc80' },
-    { id: 'perfect', icon: '💯', label: '試験で全問正解を1回',        target: 1,  counter: 'perfect' },
+    { id: 'ans',     tier: 'core',  xp: 40, icon: '📝', label: '40問 解答する',           target: 40, counter: 'ans' },
+    { id: 'exam',    tier: 'core',  xp: 40, icon: '🎓', label: '試験セッション1本(10問+)', target: 1,  counter: 'exam' },
+    { id: 'cor',     tier: 'core',  xp: 60, icon: '✅', label: '試験で20問 正解',          target: 20, counter: 'cor' },
+    { id: 'srs',     tier: 'bonus', xp: 60, icon: '🔁', label: 'SRS復習を20問 こなす',     target: 20, counter: 'srs' },
+    { id: 'redo',    tier: 'bonus', xp: 70, icon: '♻️', label: '落とした問題を10問 奪回',  target: 10, counter: 'redo' },
+    { id: 'unflag',  tier: 'bonus', xp: 50, icon: '🚩', label: '🚩を5個 克服する',         target: 5,  counter: 'unflag' },
+    { id: 'acc',     tier: 'bonus', xp: 50, icon: '🎯', label: '正答率80%以上を1回',       target: 1,  counter: 'acc80' },
+    { id: 'perfect', tier: 'bonus', xp: 80, icon: '💯', label: '試験で全問正解を1回',      target: 1,  counter: 'perfect' },
   ];
   const MISSIONS_WEEKLY = [
-    { id: 'w_ans',     icon: '📅', label: '今週 250問 解答する',    target: 250, counter: 'ans' },
-    { id: 'w_cor',     icon: '✅', label: '今週 試験で120問 正解',  target: 120, counter: 'cor' },
-    { id: 'w_exam',    icon: '🎓', label: '今週 試験セッション7回', target: 7,   counter: 'exam' },
-    { id: 'w_perfect', icon: '💯', label: '今週 全問正解を3回',     target: 3,   counter: 'perfect' },
-    { id: 'w_chapter', icon: '🏆', label: '今週 章を3つ制覇',       target: 3,   counter: 'chclear' },
+    { id: 'w_ans',     tier: 'core',  xp: 150, icon: '📅', label: '今週 250問 解答する',         target: 250, counter: 'ans' },
+    { id: 'w_cor',     tier: 'core',  xp: 200, icon: '✅', label: '今週 試験で120問 正解',       target: 120, counter: 'cor' },
+    { id: 'w_exam',    tier: 'core',  xp: 150, icon: '🎓', label: '今週 試験セッション7回',      target: 7,   counter: 'exam' },
+    { id: 'w_srs',     tier: 'bonus', xp: 200, icon: '🔁', label: '今週 SRS復習を150問',         target: 150, counter: 'srs' },
+    { id: 'w_chexam',  tier: 'bonus', xp: 250, icon: '🏆', label: '今週 章別試験80%以上を3章',   target: 3,   counter: 'chexam80' },
+    { id: 'w_perfect', tier: 'bonus', xp: 200, icon: '💯', label: '今週 全問正解を3回',          target: 3,   counter: 'perfect' },
   ];
+  // 「その期間の core を全部」達成したときのボーナスXP
+  const MISSION_ALL_XP = { d: 150, w: 600 };
+  // ボーナスXP台帳に期間キーを残す日数。⚠️ progress.js の _mergeRemote にも同じ値がある
+  // （両側が同じ日付基準で古いキーを落とすことで、banked へ繰り入れ済みのキーを
+  //   同期が復活させて二重加算するのを防いでいる）。片方だけ変えないこと。
+  const MISSION_XP_KEEP_DAYS = 150;
+
   // 週キー = その週の月曜(JST)の日付。日次・週次とも古い期間はプルーニングして肥大化を防ぐ。
   function _weekKeyJST() {
     const d = new Date(Date.now() + 9 * 3600000);
@@ -399,15 +431,36 @@
     d.setUTCDate(d.getUTCDate() - dow);
     return d.toISOString().slice(0, 10);
   }
+  // 週の経過割合（月曜0時=0 / 日曜24時=1）と残り日数。週次ミッションのペース表示に使う。
+  function _weekPace() {
+    const d = new Date(Date.now() + 9 * 3600000);
+    const dow = (d.getUTCDay() + 6) % 7;
+    const ms = dow * 86400000 + d.getUTCHours() * 3600000 + d.getUTCMinutes() * 60000;
+    return { p: Math.max(0, Math.min(1, ms / (7 * 86400000))), daysLeft: 7 - dow };
+  }
   function _missionStore() {
     let s; try { s = JSON.parse(localStorage.getItem(K_MISSIONS) || '{}'); } catch { s = {}; }
     if (!s.d || typeof s.d !== 'object') s.d = {};
     if (!s.w || typeof s.w !== 'object') s.w = {};
+    if (!s.xp || typeof s.xp !== 'object') s.xp = {};
+    if (typeof s.xp.banked !== 'number') s.xp.banked = 0;
+    if (!s.xp.ledger || typeof s.xp.ledger !== 'object') s.xp.ledger = {};
     return s;
   }
   function _pruneMissions(s) {
     const keep = (obj, n) => { const ks = Object.keys(obj).sort(); while (ks.length > n) delete obj[ks.shift()]; };
     keep(s.d, 14); keep(s.w, 10);
+    // 台帳から落ちる期間ぶんは banked へ繰り入れる（レベルが下がらないように総額は保存する）。
+    // 判定は「今日から MISSION_XP_KEEP_DAYS 日前」の日付との単純比較。日次キーも週次キーも
+    // 'd:YYYY-MM-DD' / 'w:YYYY-MM-DD' なので同じ規則で切れる。
+    const cut = new Date(Date.now() + 9 * 3600000 - MISSION_XP_KEEP_DAYS * 86400000)
+      .toISOString().slice(0, 10);
+    Object.keys(s.xp.ledger).forEach(k => {
+      if (k.slice(2) >= cut) return;
+      const g = s.xp.ledger[k] || {};
+      for (const id in g) s.xp.banked += g[id] || 0;
+      delete s.xp.ledger[k];
+    });
   }
   // 端末横断の合計（period: 'd' | 'w'、key: 日付 or 週キー）
   function _missionSum(period, counter, key) {
@@ -431,40 +484,82 @@
     if (window.MECSync) MECSync.scheduleSync();
     _updateHeaderChips();
   }
+  // ボーナスXPを台帳へ1回だけ記帳する。同じ (期間キー, missionId) には**どの端末も同じ値**を
+  // 書くので、同期のunionマージで合流しても二重に増えない（数を数えず「何を取ったか」を持つ）。
+  function _awardMissionXp(ledgerKey, missionId, xp) {
+    if (!xp) return;
+    const s = _missionStore();
+    const g = (s.xp.ledger[ledgerKey] = s.xp.ledger[ledgerKey] || {});
+    if (g[missionId]) return; // 記帳済み（自端末で取った／他端末が取ったものを同期で受け取った）
+    g[missionId] = xp;
+    _pruneMissions(s);
+    _s(K_MISSIONS, s);
+    _statsCache = null; // XPが増えたのでレベル表示を作り直させる
+  }
+  // ミッションで獲得した累計ボーナスXP（stats() の xp に足す）
+  function missionXp() {
+    const x = _missionStore().xp;
+    let n = x.banked || 0;
+    for (const k in x.ledger) { const g = x.ledger[k]; for (const id in g) n += g[id] || 0; }
+    return n;
+  }
+  // 期間内で獲得済み／獲得可能なボーナスXP（パネルのフッター行用）
+  function _missionXpFor(defs, period, key) {
+    const g = (_missionStore().xp.ledger[period + ':' + key]) || {};
+    let got = g.__all__ || 0, max = MISSION_ALL_XP[period] || 0;
+    defs.forEach(d => { max += d.xp || 0; if (g[d.id]) got += g[d.id]; });
+    return { got, max };
+  }
+
   // 合計が target を超えた瞬間だけ達成トースト（端末ローカルで既視管理し重複発火を防ぐ）
   function _checkMissionCompletions() {
     const dk = _todayJST(), wk = _weekKeyJST();
+    // 期間キーは 'd:'/'w:' で名前空間を分ける。⚠️ 月曜は日次キーと週次キー（＝その週の月曜）が
+    // 同じ日付文字列になるため、素の日付で引くと両者が同じ既視リストを共有し、
+    // '__all__' が衝突して片方のセレモニーが出なくなる。
     const run = (defs, period, key, allLabel) => {
-      const seen = (L.mDone[key] = L.mDone[key] || []);
+      const lk = period + ':' + key;
+      const seen = (L.mDone[lk] = L.mDone[lk] || []);
       defs.forEach(def => {
-        if (_missionSum(period, def.counter, key) >= def.target && !seen.includes(def.id)) {
+        if (_missionSum(period, def.counter, key) < def.target) return;
+        _awardMissionXp(lk, def.id, def.xp);
+        if (!seen.includes(def.id)) {
           seen.push(def.id);
-          toast(def.icon, 'ミッション達成！', def.label);
+          toast(def.icon, 'ミッション達成！', def.label + '（+' + def.xp + ' XP）');
           try { SND.mission(); } catch {}
         }
       });
-      if (defs.every(def => _missionSum(period, def.counter, key) >= def.target) && !seen.includes('__all__')) {
-        seen.push('__all__');
-        ceremony(
-          '<div class="gm-cer-ic">🎯</div><div class="gm-cer-big">MISSION COMPLETE</div>' +
-          '<div class="gm-cer-sub">' + allLabel + '</div>' +
-          '<div class="gm-cer-note">この調子で🔥</div>',
-          { fx: () => _fxConfetti(true), snd: SND.clear, dur: 2400 }
-        );
+      // セレモニーは core のみで判定する（bonus は在庫・運に左右され毎回は達成できないため）
+      const core = defs.filter(d => d.tier === 'core');
+      if (core.every(def => _missionSum(period, def.counter, key) >= def.target)) {
+        _awardMissionXp(lk, '__all__', MISSION_ALL_XP[period]);
+        if (!seen.includes('__all__')) {
+          seen.push('__all__');
+          ceremony(
+            '<div class="gm-cer-ic">🎯</div><div class="gm-cer-big">MISSION COMPLETE</div>' +
+            '<div class="gm-cer-sub">' + allLabel + '</div>' +
+            '<div class="gm-cer-note">+' + MISSION_ALL_XP[period] + ' XP ／ この調子で🔥</div>',
+            { fx: () => _fxConfetti(true), snd: SND.clear, dur: 2400 }
+          );
+        }
       }
     };
-    run(MISSIONS_DAILY, 'd', dk, '本日のミッション 全達成！');
-    run(MISSIONS_WEEKLY, 'w', wk, '今週のミッション 全達成！');
+    run(MISSIONS_DAILY, 'd', dk, '本日の必須ミッション 全達成！');
+    run(MISSIONS_WEEKLY, 'w', wk, '今週の必須ミッション 全達成！');
     // L.mDone の古い期間キーを掃除
-    const alive = new Set([dk, wk]);
+    const alive = new Set(['d:' + dk, 'w:' + wk]);
     Object.keys(L.mDone).forEach(k => { if (!alive.has(k)) delete L.mDone[k]; });
     saveL();
   }
-  // ヘッダー🎯チップ用（日次の達成数）
+  // ヘッダー🎯チップ用（日次の達成数。緑になるのは core が揃ったとき）
   function missionSummary() {
     const dk = _todayJST();
-    const done = MISSIONS_DAILY.filter(def => _missionSum('d', def.counter, dk) >= def.target).length;
-    return { done, total: MISSIONS_DAILY.length };
+    const hit = def => _missionSum('d', def.counter, dk) >= def.target;
+    const core = MISSIONS_DAILY.filter(d => d.tier === 'core');
+    return {
+      done: MISSIONS_DAILY.filter(hit).length, total: MISSIONS_DAILY.length,
+      coreDone: core.filter(hit).length, coreTotal: core.length,
+    };
   }
 
   // ── 章・科目の制覇検知＋星 ───────────────────────────────────────
@@ -532,7 +627,10 @@
     const done = _g('done_v2', {});
     if (!entry.uids.length || !entry.uids.every(u => done[u])) return;
     L.chDone.push(chKey); saveL();
-    _bumpMission('chclear'); // 週次「章を3つ制覇」ミッション（この端末が初めて制覇検知した章のみ算入）
+    // ⚠️ ここに週次ミッションの加算を置いてはいけない。L.chDone は端末ローカルで、
+    //    一度制覇した章は二度と加算されない＝全章を済にした時点でそのミッションが
+    //    永久未達になる（旧 'chclear' がこれで死んでいた）。週次は何周でも成立する
+    //    「章別試験で80%以上」（chexam80・onExamFinish）で数える。
     // 章仕切り線を光が一本走る（章を「閉じた」ことを在席する場所で示す）
     if (entry.divEl && !_reducedMotion()) {
       const dv = entry.divEl;
@@ -623,7 +721,7 @@
     mi.type = 'button';
     mi.className = 'st-stat gm-mission-chip';
     mi.id = 'gmMissionChip';
-    mi.title = '今日のミッション';
+    mi.title = '今日のミッション（必須が揃うと緑）';
     mi.textContent = '🎯 –';
     mi.addEventListener('click', openPanelModal);
     row.appendChild(lv);
@@ -642,8 +740,9 @@
     const mc = document.getElementById('gmMissionChip');
     if (mc) {
       const ms = missionSummary();
+      // 数字は8個ぶんの達成数、緑になるのは必須3つが揃ったとき（＝セレモニーの条件と一致させる）
       mc.textContent = '🎯 ' + ms.done + '/' + ms.total;
-      mc.classList.toggle('all', ms.done >= ms.total);
+      mc.classList.toggle('all', ms.coreDone >= ms.coreTotal);
     }
     // 既存の🔥連続日数チップにティア色を付ける
     const streakEl = document.querySelector('.st-streak');
@@ -684,17 +783,41 @@
   }
 
   // ── パネル描画（ハブ埋め込み＋studyモーダルで共用） ───────────────
-  function _renderMissionList(defs, period, key) {
+  // pace（0〜1）を渡すと、バーの上に「今そこまで進んでいるべき位置」の目盛りを1本引き、
+  // 遅れている行の数字をアンバーにする。週次だけで使う（日次は1日の中の進み具合に意味が薄い）。
+  function _renderMissionList(defs, period, key, pace) {
     return defs.map(d => {
       const raw = _missionSum(period, d.counter, key);
       const cur = Math.min(raw, d.target);
       const done = raw >= d.target;
-      return '<div class="gm-mission' + (done ? ' done' : '') + '">' +
+      const ratio = cur / d.target;
+      const behind = !done && pace != null && ratio < pace;
+      // data-tier は index.html（ハブ）が「必須だけ揃ったか」を判定するのに使う
+      return '<div class="gm-mission' + (done ? ' done' : '') + (behind ? ' behind' : '') +
+        '" data-tier="' + d.tier + '">' +
         '<span class="gm-mission-ic">' + (done ? '✅' : d.icon) + '</span>' +
         '<span class="gm-mission-lbl">' + d.label + '</span>' +
-        '<span class="gm-mission-bar"><span class="gm-mission-fill" style="width:' + Math.round(cur / d.target * 100) + '%"></span></span>' +
+        '<span class="gm-mission-bar"><span class="gm-mission-fill" style="width:' + Math.round(ratio * 100) + '%"></span>' +
+          (pace != null && !done ? '<i class="gm-pace" style="left:' + (pace * 100).toFixed(1) + '%"></i>' : '') +
+        '</span>' +
         '<span class="gm-mission-num">' + cur + '/' + d.target + '</span></div>';
     }).join('');
+  }
+
+  // 必須（core）とボーナスを見出し付きで分けて出し、末尾に獲得ボーナスXPの行を足す。
+  // 「必須だけ達成すればセレモニーが出る」ことを画面上でも分かるようにするための構造。
+  function _renderMissionSection(defs, period, key, pace) {
+    const hit = d => _missionSum(period, d.counter, key) >= d.target;
+    const core = defs.filter(d => d.tier === 'core');
+    const bonus = defs.filter(d => d.tier !== 'core');
+    const xp = _missionXpFor(defs, period, key);
+    return '<div class="gm-missions">' + _renderMissionList(core, period, key, pace) + '</div>' +
+      (bonus.length
+        ? '<div class="gm-sub-title">✨ ボーナス <span class="gm-cnt">' + bonus.filter(hit).length + '/' + bonus.length + '</span></div>' +
+          '<div class="gm-missions">' + _renderMissionList(bonus, period, key, pace) + '</div>'
+        : '') +
+      '<div class="gm-mission-foot">必須 ' + core.filter(hit).length + '/' + core.length +
+        ' 達成でコンプリート ｜ ボーナスXP <b>' + xp.got + '</b> / ' + xp.max + '</div>';
   }
 
   // opts.only で描き分ける。ハブ（index.html）が「🎯 今日のミッション」だけを
@@ -710,8 +833,7 @@
     const noXpLine = !!(opts && opts.noXpLine);
 
     if (only === 'daily') {
-      container.innerHTML = '<div class="gm-missions">' +
-        _renderMissionList(MISSIONS_DAILY, 'd', _todayJST()) + '</div>';
+      container.innerHTML = _renderMissionSection(MISSIONS_DAILY, 'd', _todayJST(), null);
       return;
     }
 
@@ -720,8 +842,9 @@
     const unlockedCount = achList.filter(a => a.unlocked).length;
     const tier = _flameTier(s.streak);
 
-    const missionsHtml = _renderMissionList(MISSIONS_DAILY, 'd', _todayJST());
-    const weeklyHtml = _renderMissionList(MISSIONS_WEEKLY, 'w', _weekKeyJST());
+    const pace = _weekPace();
+    const missionsHtml = _renderMissionSection(MISSIONS_DAILY, 'd', _todayJST(), null);
+    const weeklyHtml = _renderMissionSection(MISSIONS_WEEKLY, 'w', _weekKeyJST(), pace.p);
 
     const badgesHtml = achList.map(a =>
       '<button type="button" class="gm-badge ' + (a.unlocked ? 'unlocked' : 'locked') + '" data-ach="' + a.id + '">' +
@@ -745,10 +868,9 @@
           '<div class="gm-flame-days"><b>' + s.streak + '</b>日連続</div></div>' +
       '</div>' +
       (only === 'rest' ? '' :
-        '<div class="gm-sec-title">🎯 今日のミッション</div>' +
-        '<div class="gm-missions">' + missionsHtml + '</div>') +
-      '<div class="gm-sec-title">📅 今週のミッション</div>' +
-      '<div class="gm-missions">' + weeklyHtml + '</div>' +
+        '<div class="gm-sec-title">🎯 今日のミッション</div>' + missionsHtml) +
+      '<div class="gm-sec-title">📅 今週のミッション <span class="gm-cnt">残り' + pace.daysLeft + '日</span></div>' +
+      weeklyHtml +
       '<div class="gm-sec-title">🏆 実績 <span class="gm-cnt">' + unlockedCount + '/' + achList.length + '</span></div>' +
       '<div class="gm-badges">' + badgesHtml + '</div>' +
       '<div class="gm-badge-desc" id="gmBadgeDesc"></div>' +
@@ -846,8 +968,14 @@
     _afterEvent(uid);
   }
 
-  function onAnswer(uid, isCorrect) {
-    _bumpMission(isCorrect ? ['ans', 'cor'] : 'ans');
+  // opts.srs      … SRS復習セッション中の解答（正誤を問わず「消化数」に算入）
+  // opts.wasWrong … この解答より前に一度でも落としている問題（正解したら「奪回」に算入）
+  function onAnswer(uid, isCorrect, opts) {
+    const o = opts || {};
+    const bumps = isCorrect ? ['ans', 'cor'] : ['ans'];
+    if (o.srs) bumps.push('srs');
+    if (isCorrect && o.wasWrong) bumps.push('redo');
+    _bumpMission(bumps);
     _trackStreak(isCorrect);
     _afterEvent(uid);
     // XP = 試験解答×4 ＋ 試験正解×6 → 正解 +10 / 不正解 +4（stats() の配点と一致させること）
@@ -856,14 +984,35 @@
 
   function onFlag(uid, btn, nowFlagged) {
     _microFlagFx(btn, nowFlagged);
+    // 🚩を外した＝克服。付け外しの往復で水増しできないよう、同じ問題はその日1回だけ算入する
+    // （判定は端末ローカル。カウンタ自体は同期されるので合算は正しく共有される）。
+    if (!nowFlagged) {
+      const dk = _todayJST();
+      if (!L.dUnflag || L.dUnflag.k !== dk) L.dUnflag = { k: dk, u: [] };
+      if (L.dUnflag.u.indexOf(uid) < 0) {
+        L.dUnflag.u.push(uid); saveL();
+        _bumpMission('unflag');
+      }
+    }
   }
 
-  function onExamFinish(answered, correct) {
+  // opts.chPrefix … 単一章だけを出題した章別試験のときの章prefix（週次「章別試験80%」用）
+  function onExamFinish(answered, correct, opts) {
+    const o = opts || {};
     if (answered >= 10) {
       const bumps = ['exam'];
       if (correct / answered >= 0.8) bumps.push('acc80');   // 高正答率セッション（80%以上）
       if (correct >= answered) bumps.push('perfect');       // 全問正解セッション
       _bumpMission(bumps);
+      // 章別試験で80%以上。同じ章は週1回だけ算入（同じ章を回して稼げないように）。
+      if (o.chPrefix && correct / answered >= 0.8) {
+        const wk = _weekKeyJST();
+        if (!L.wChEx || L.wChEx.k !== wk) L.wChEx = { k: wk, c: [] };
+        if (L.wChEx.c.indexOf(o.chPrefix) < 0) {
+          L.wChEx.c.push(o.chPrefix); saveL();
+          _bumpMission('chexam80');
+        }
+      }
     }
     _afterEvent(null);
   }
@@ -959,5 +1108,9 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _init);
   else _init();
 
-  window.MecGamify = { onLap, onAnswer, onFlag, onExamFinish, stats, missionSummary, renderPanel, openPanelModal, refreshAllStars };
+  window.MecGamify = {
+    onLap, onAnswer, onFlag, onExamFinish, stats, missionSummary, missionXp,
+    renderPanel, openPanelModal, refreshAllStars,
+    _defs: { daily: MISSIONS_DAILY, weekly: MISSIONS_WEEKLY, allXp: MISSION_ALL_XP }, // テスト用
+  };
 })();

@@ -145,6 +145,59 @@
 - 間隔上限90日・ef上限2.5は意図的（本番まで1年スパンで間隔を暴走させないため）。
 - テスト: `node _work/test_srs_grade.js`
 
+## デイリー／ウィークリーミッション（2026-07-29 拡張）
+
+定義は `gamify.js` の `MISSIONS_DAILY`（8個）・`MISSIONS_WEEKLY`（6個）。進捗は同期キー
+`mec_missions_v1` の**端末別カウンタ**（表示・判定は端末横断で sum）。テスト: `node _work/test_missions.js`。
+
+### tier（core / bonus）— 新しいミッションを足すときの基準
+
+`MISSION COMPLETE` セレモニーは **`tier:'core'` だけ**で判定する。core は「手を動かせば必ず届く」
+ものに限ること（現在: 解答40問・試験セッション1本・試験で20問正解／週次は250問・120正解・7セッション）。
+
+- ⚠️ 旧仕様はセレモニーが**全ミッション達成**を条件にしていて、そこに「試験で全問正解」という
+  運任せの条件が混ざっていたため、日次のセレモニーが事実上一度も発火しなかった。
+  在庫や運に左右されるもの（`perfect`・`acc80`・`srs`）は必ず `bonus` に置く。
+- ハブ（index.html）の見出し件数が緑になる条件も core のみ。行の `data-tier` 属性で判定している。
+
+### カウンタと加算口
+
+| counter | 意味 | 加算する場所 |
+|---|---|---|
+| `ans` / `cor` | 解答数／試験モードの正解数 | `onAnswer`（通常モードの「済」も `onLap` から `ans` に算入） |
+| `srs` | SRS復習セッションでの解答（正誤問わず消化数） | `onAnswer(..., {srs:true})`。`_recordMyRate` が `_srsReviewMode` を渡す |
+| `redo` | 過去に落とした問題を正解し直した | `onAnswer(..., {wasWrong})`。**`myrate_v1` 加算前**の値で判定すること |
+| `unflag` | 🚩を外した＝克服 | `onFlag`。同じuidはその日1回だけ（付け外しの往復で水増しできない） |
+| `exam`/`acc80`/`perfect` | セッション完了／80%以上／全問正解 | `onExamFinish`（10問以上のセッションのみ） |
+| `chexam80` | 章別試験で80%以上 | `onExamFinish(..., {chPrefix})`。同じ章は週1回だけ |
+
+- ⚠️ **章の「制覇」を週次ミッションの材料にしてはいけない**。旧 `chclear` は端末ローカルの
+  `L.chDone` を見ていたため、全章を済にした時点で**永久未達**になり週次コンプリートが不可能だった。
+  周回しても成立する指標（章別試験のスコア等）を使うこと。
+- 期間キーは `'d:'+日付` / `'w:'+週キー` と名前空間を分ける。**月曜は日次キーと週次キー（その週の月曜）が
+  同じ日付文字列になる**ので、素の日付で引くと `__all__` が衝突して片方のセレモニーが消える。
+
+### 達成ボーナスXP
+
+達成すると `mec_missions_v1.xp` に記帳され、`stats()` の XP に加算される（レベルに効く）。
+
+```
+xp: { banked: number, ledger: { 'd:2026-07-29': { ans:40, exam:40, __all__:150 } } }
+```
+
+- 「いくつ取ったか」ではなく**「何を取ったか」**を持つ。同じ `(期間キー, missionId)` にはどの端末も
+  同じ値を書くので、同期の union マージで合流しても**二重加算にならない**。
+- 台帳から落ちた古い期間は `banked` へ繰り入れる（総額が保存され、レベルが下がらない）。
+  ⚠️ 保持日数 `MISSION_XP_KEEP_DAYS = 150` は **`gamify.js` と `progress.js` の両方**にある。
+  両側が同じ日付基準で同じ繰り入れをすることで、同期が繰り入れ済みのキーを復活させて
+  二重加算するのを防いでいる。**片方だけ変えないこと**。
+
+### 週次のペース表示
+
+週次の行だけバーに「今そこまで進んでいるべき位置」の目盛り（`.gm-pace`）を引き、遅れている行の
+数字をアンバーにする（`.behind`）。見出しに残り日数を出す。カウンタ型のミッションは理屈の上では
+最終日でも巻き返せるので、**達成不能としてグレーアウトはしない**（遅れの提示までに留める）。
+
 ## 採点データの不変条件（試験モードが壊れる原因になる）
 
 試験モードの必要選択数は **`.ch2.ok` の個数**（`_getRequiredCount()`・study_exam.js）で決まる。
@@ -285,7 +338,7 @@ stats.html「🩺 弱点カルテ」     ← 科目×設問形式ヒートマッ
 ```
 node _work/test_attempts.js        解答イベントログ            (9)
 node _work/test_karte.js           弱点カルテの集計            (14)
-node _work/test_merge_remote.js    Gist同期のマージ戦略        (57)
+node _work/test_merge_remote.js    Gist同期のマージ戦略        (63)
 node _work/test_streak.js          連続日数と activity_v1      (9)
 node _work/test_copy.js            クリップボード/2段階タップ  (17)
 node _work/test_today_learning.js  ハブの「今日解いた問題」
@@ -293,6 +346,7 @@ node _work/test_srs_grade.js       SRSの自己採点3段階          (10)
 node _work/test_subject_totals.js  科目別問題数の三者一致      (3)
 node _work/test_card_render.js     カード描画（画像実寸・採点ボタン）(7)
 node _work/test_calc_input.js      計算問題の桁入力・データ整合      (29)
+node _work/test_missions.js        日次/週次ミッション          (30)
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 ```
 
