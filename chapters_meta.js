@@ -847,6 +847,12 @@ const MEC_CHAPTERS = [
         "file": "皮膚科/ch04_kakukashou.html",
         "title": "第4章 角化症",
         "count": 17
+      },
+      {
+        "prefix": "derm_ch05",
+        "file": "皮膚科/ch05_suihou_nouhou.html",
+        "title": "第5章 水疱・膿疱",
+        "count": 23
       }
     ]
   }
