@@ -562,6 +562,17 @@
     };
   }
 
+  // 「今日やるべき問題数のうち何問済んだか」の唯一の正本。ハブ(index.html)のゲージが読む。
+  // 目標も進捗も日次ミッション ans（40問 解答する）から借りる＝ゲージのすぐ下に並ぶ
+  // ミッション行と必ず同じ数字になる。ここで独自の目標値を持つと二重管理になる。
+  // ⚠️ pct は 100 で頭打ちにしない（目標を超えた日はそのまま 130% 等を返す）。
+  function dailyGoal() {
+    const def = MISSIONS_DAILY.find(d => d.counter === 'ans');
+    const target = (def && def.target) || 0;
+    const count = _missionSum('d', 'ans', _todayJST());
+    return { count, target, pct: target ? Math.round(count / target * 100) : 0 };
+  }
+
   // ── 章・科目の制覇検知＋星 ───────────────────────────────────────
   // 章uid一覧は study.html の _chapterMap（グローバル束縛）を参照。ハブでは存在しない→スキップ。
   let _chIndex = null, _chIndexLen = -1;
@@ -1109,7 +1120,7 @@
   else _init();
 
   window.MecGamify = {
-    onLap, onAnswer, onFlag, onExamFinish, stats, missionSummary, missionXp,
+    onLap, onAnswer, onFlag, onExamFinish, stats, missionSummary, missionXp, dailyGoal,
     renderPanel, openPanelModal, refreshAllStars,
     _defs: { daily: MISSIONS_DAILY, weekly: MISSIONS_WEEKLY, allXp: MISSION_ALL_XP }, // テスト用
   };

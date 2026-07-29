@@ -198,6 +198,27 @@ xp: { banked: number, ledger: { 'd:2026-07-29': { ans:40, exam:40, __all__:150 }
 数字をアンバーにする（`.behind`）。見出しに残り日数を出す。カウンタ型のミッションは理屈の上では
 最終日でも巻き返せるので、**達成不能としてグレーアウトはしない**（遅れの提示までに留める）。
 
+## ハブの円弧ゲージ＝「今日の目標」（2026-07-29〜）
+
+`index.html` のヒーロー右の円弧ゲージは **「一日にやるべき問題数のうち何％まで来たか」**。
+以前は生涯の全体進捗（済 / 全7472問）だったが、毎日ほとんど動かない数字だったので主役を降ろし、
+**旧・全体進捗はゲージ下の小さな一行（`.gauge-all`）に残した**。
+
+- **分子も分母も `MecGamify.dailyGoal()` が正本**（gamify.js）。日次ミッション `ans`（40問 解答する）の
+  target と端末横断カウンタをそのまま借りる＝**ゲージのすぐ下に並ぶミッション行と必ず同じ数字**になる。
+  index.html 側に目標値を持たせないこと（`DAILY_GOAL_FALLBACK` は gamify.js が読めない時の代用の1箇所だけ）。
+  目標を変えたいときは `MISSIONS_DAILY` の `ans` の `target` を直す。
+- ⚠️ **達成率を 100% で頭打ちにしないこと**。超えた日は `130%` と出す。弧だけが2周目
+  （`.gauge-ovf`＝1周目に重ねて描く弧）に回り、200%超は2周目が満タンで止まる（**数字は素の値のまま**）。
+  3桁は円からはみ出すので `.gauge-mid.wide` で一段字を落とす。
+- 演出の段は `_goalTier(pct)`（0 / 1〜4=途中 / 5=達成 / 6=1.5倍超）。`data-tier` を `.gauge` に載せ、
+  CSSが「発光 → 目盛りの回転が上がる → 盤面が脈打つ → 達成色」と層を積む。粒子は `_gaugeCelebrate(tier)`
+  が同じ段構造で撒く（tier5以上でだけ花火・紙吹雪が画面全体に出る＝1日の山をそこに置く）。
+- **祝砲は段が上がったときだけ鳴らす**（`_gaugeTierShown`）。Gist同期の完了で `renderHero()` は
+  何度も走るので、条件を外すと同期のたびに花火が上がる。
+- テスト: `node _work/test_daily_goal.js`（index.html から `_goalTier`/`_driveGauge` を切り出して実行する
+  ので、関数名や `let _gaugeTierShown` の宣言を変えるとテスト側も直す必要がある）。
+
 ## 採点データの不変条件（試験モードが壊れる原因になる）
 
 試験モードの必要選択数は **`.ch2.ok` の個数**（`_getRequiredCount()`・study_exam.js）で決まる。
@@ -347,6 +368,7 @@ node _work/test_subject_totals.js  科目別問題数の三者一致      (3)
 node _work/test_card_render.js     カード描画（画像実寸・採点ボタン）(7)
 node _work/test_calc_input.js      計算問題の桁入力・データ整合      (29)
 node _work/test_missions.js        日次/週次ミッション          (30)
+node _work/test_daily_goal.js      ハブのゲージ（今日の目標）    (15)
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 ```
 
