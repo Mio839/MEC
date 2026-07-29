@@ -871,6 +871,12 @@ const MEC_CHAPTERS = [
         "file": "皮膚科/ch08_kansenshou.html",
         "title": "第8章 感染症",
         "count": 32
+      },
+      {
+        "prefix": "derm_ch09",
+        "file": "皮膚科/ch09_sonota.html",
+        "title": "第9章 その他の皮膚疾患",
+        "count": 27
       }
     ]
   }
