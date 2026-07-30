@@ -274,7 +274,7 @@ function _saveResumes(arr) {
   if (window.MECSync) window.MECSync.scheduleSync();
 }
 function _renderResumeList() {
-  const subjNameMap = { endo:'内分泌', resp:'呼吸器', circ:'循環器', dige:'消化器', neur:'神経', hbp:'肝胆膵', jinzo_d:'腎臓', hema:'血液', imma:'免アレ膠', kansen:'感染症', peds:'小児科', obg:'産婦人科', psy:'精神科', derm:'皮膚科' };
+  const subjNameMap = { endo:'内分泌', resp:'呼吸器', circ:'循環器', dige:'消化器', neur:'神経', hbp:'肝胆膵', jinzo_d:'腎臓', hema:'血液', imma:'免アレ膠', kansen:'感染症', peds:'小児科', obg:'産婦人科', psy:'精神科', derm:'皮膚科', oph:'眼科' };
   // 達成度は doneCount（開封済み・採点除外含む）基準。旧データは answeredCount にフォールバック。
   const _done = r => (r.doneCount != null ? r.doneCount : r.answeredCount);
   const resumes = _loadResumes().filter(r => r.total > _done(r));

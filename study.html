@@ -87,6 +87,7 @@ if ('serviceWorker' in navigator) {
     <button class="chip" data-sid="obg" onclick="toggleSubjectChip(this,'obg')" aria-pressed="false">🤰&nbsp;産婦人科</button>
     <button class="chip" data-sid="psy" onclick="toggleSubjectChip(this,'psy')" aria-pressed="false">💭&nbsp;精神科</button>
     <button class="chip" data-sid="derm" onclick="toggleSubjectChip(this,'derm')" aria-pressed="false">🩹&nbsp;皮膚科</button>
+    <button class="chip" data-sid="oph" onclick="toggleSubjectChip(this,'oph')" aria-pressed="false">👁️&nbsp;眼科</button>
     <button class="chip" data-sid="custom" onclick="toggleSubjectChip(this,'custom')" aria-pressed="false">✏️&nbsp;自作問題</button>
     <button class="chip" data-sid="memo" onclick="toggleSubjectChip(this,'memo')" aria-pressed="false">📝&nbsp;暗記メモ</button>
   </div>
@@ -354,6 +355,10 @@ if ('serviceWorker' in navigator) {
 <div class="subj-hdr" style="background:#B5654A"><span class="subj-hdr-icon">🩹</span><span class="subj-hdr-name">皮膚科</span><span class="subj-hdr-count">249問</span></div>
 <div class="subj-cards-loading" data-sid="derm">読み込み中…</div>
 </div>
+<div class="subj-section" data-sid="oph" data-visible="true">
+<div class="subj-hdr" style="background:#0E7490"><span class="subj-hdr-icon">👁️</span><span class="subj-hdr-name">眼科</span><span class="subj-hdr-count">76問</span></div>
+<div class="subj-cards-loading" data-sid="oph">読み込み中…</div>
+</div>
 <div class="subj-section" data-sid="jitsu1" data-visible="true">
 <div class="subj-hdr" style="background:#728FC0"><span class="subj-hdr-icon">🎯</span><span class="subj-hdr-name">実力試験Ⅰ</span><span class="subj-hdr-count">160問</span></div>
 <div class="subj-cards-loading" data-sid="jitsu1">読み込み中…</div>
@@ -373,7 +378,7 @@ if ('serviceWorker' in navigator) {
 </div>
 
 <script>
-const STUDY_SUBJECTS = [{"id": "endo", "name": "内分泌", "icon": "⚗️", "color": "#169E9F"}, {"id": "resp", "name": "呼吸器", "icon": "🌬️", "color": "#4390EE"}, {"id": "circ", "name": "循環器", "icon": "❤️", "color": "#E16E33"}, {"id": "dige", "name": "消化器", "icon": "🌿", "color": "#8A81EF"}, {"id": "neur", "name": "神経", "icon": "🧠", "color": "#619E37"}, {"id": "hbp", "name": "肝胆膵", "icon": "🧪", "color": "#C0820E"}, {"id": "jinzo_d", "name": "腎臓", "icon": "💧", "color": "#7494A1"}, {"id": "hema", "name": "血液", "icon": "🩸", "color": "#E56574"}, {"id": "imma", "name": "免アレ膠", "icon": "🛡️", "color": "#B973D7"}, {"id": "kansen", "name": "感染症", "icon": "🦠", "color": "#9B920A"}, {"id": "peds", "name": "小児科", "icon": "🧸", "color": "#10A276"}, {"id": "obg", "name": "産婦人科", "icon": "🤰", "color": "#D36BAA"}, {"id": "psy", "name": "精神科", "icon": "💭", "color": "#5E60CE"}, {"id": "derm", "name": "皮膚科", "icon": "🩹", "color": "#B5654A"}, {"id": "jitsu1", "name": "実力試験Ⅰ", "icon": "🎯", "color": "#728FC0"}, {"id": "custom", "name": "自作問題", "icon": "✏️", "color": "#CB9BC6"}, {"id": "memo", "name": "暗記メモ", "icon": "📝", "color": "#D0C7A6"}];
+const STUDY_SUBJECTS = [{"id": "endo", "name": "内分泌", "icon": "⚗️", "color": "#169E9F"}, {"id": "resp", "name": "呼吸器", "icon": "🌬️", "color": "#4390EE"}, {"id": "circ", "name": "循環器", "icon": "❤️", "color": "#E16E33"}, {"id": "dige", "name": "消化器", "icon": "🌿", "color": "#8A81EF"}, {"id": "neur", "name": "神経", "icon": "🧠", "color": "#619E37"}, {"id": "hbp", "name": "肝胆膵", "icon": "🧪", "color": "#C0820E"}, {"id": "jinzo_d", "name": "腎臓", "icon": "💧", "color": "#7494A1"}, {"id": "hema", "name": "血液", "icon": "🩸", "color": "#E56574"}, {"id": "imma", "name": "免アレ膠", "icon": "🛡️", "color": "#B973D7"}, {"id": "kansen", "name": "感染症", "icon": "🦠", "color": "#9B920A"}, {"id": "peds", "name": "小児科", "icon": "🧸", "color": "#10A276"}, {"id": "obg", "name": "産婦人科", "icon": "🤰", "color": "#D36BAA"}, {"id": "psy", "name": "精神科", "icon": "💭", "color": "#5E60CE"}, {"id": "derm", "name": "皮膚科", "icon": "🩹", "color": "#B5654A"}, {"id": "oph", "name": "眼科", "icon": "👁️", "color": "#0E7490"}, {"id": "jitsu1", "name": "実力試験Ⅰ", "icon": "🎯", "color": "#728FC0"}, {"id": "custom", "name": "自作問題", "icon": "✏️", "color": "#CB9BC6"}, {"id": "memo", "name": "暗記メモ", "icon": "📝", "color": "#D0C7A6"}];
 // Study time tracking
 let _studyStartTime = Date.now();
 let _studyTimeSaved = false;

@@ -1,0 +1,10 @@
+[
+  { "chapter": { "num": 1, "name": "眼科の基本" } },
+  { "chapter": { "num": 2, "name": "結膜・角膜疾患" } },
+  { "chapter": { "num": 3, "name": "水晶体疾患" } },
+  { "chapter": { "num": 4, "name": "緑内障" } },
+  { "chapter": { "num": 5, "name": "網膜疾患" } },
+  { "chapter": { "num": 6, "name": "黄斑部疾患" } },
+  { "chapter": { "num": 7, "name": "ぶどう膜疾患" } },
+  { "chapter": { "num": 8, "name": "その他の眼科疾患" } }
+]

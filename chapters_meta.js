@@ -879,6 +879,26 @@ const MEC_CHAPTERS = [
         "count": 27
       }
     ]
+  },
+  {
+    "id": "oph",
+    "name": "眼科",
+    "icon": "👁️",
+    "color": "#0E7490",
+    "chapters": [
+      {
+        "prefix": "oph_ch01",
+        "file": "眼科/ch01_ganka_kihon.html",
+        "title": "第1章 眼科の基本",
+        "count": 50
+      },
+      {
+        "prefix": "oph_ch02",
+        "file": "眼科/ch02_ketsumaku_kakumaku.html",
+        "title": "第2章 結膜・角膜疾患",
+        "count": 26
+      }
+    ]
   }
 ];
 const MEC_CHAPTER_META = {

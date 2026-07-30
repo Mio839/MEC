@@ -1,0 +1,43 @@
+{
+  "scanned": "2026-07-23",
+  "design_md": null,
+  "framework": "vanilla HTML (no package.json, no build step; GitHub Pages static)",
+  "font_stack": {
+    "body": "-apple-system, 'Noto Sans JP', 'Helvetica Neue', sans-serif",
+    "mono": "'Courier New', monospace",
+    "serif": "'Hiragino Mincho ProN', 'Yu Mincho', serif",
+    "webfonts": "none (system stack only — deliberate, zero network cost on iPad)",
+    "source": "study.css:4, study.css:214, study.css:221, knowledge.html:12"
+  },
+  "palette": {
+    "space": "hex + rgb() triplets (NOT OKLCH)",
+    "token_file": "vars.css",
+    "base": "dark navy — --bg-root #0A1730, gradient --bg-g0/g1/g2",
+    "accents": "--gr #3DD68C, --yl #FFB830, --rd #FF6B6B, --pu #A78BFA, --or #FF9A3C, --blu #60A5FA",
+    "explanation_blocks": "--eb-ep/ee/ept/em/ec/ei (6 semantic colours for card explanation blocks)",
+    "theme_variants": "html.pal-* (12 palettes) + html.cs-* (4 card schemes) — preview-only, driven by _palette_preview.js"
+  },
+  "spacing": {
+    "scale": "none — ad-hoc px values throughout, no --space-* tokens"
+  },
+  "motion": {
+    "stance": "motion-on, hand-rolled",
+    "libraries": "none installed",
+    "engines": "fx_engine.js (Canvas particles, window.MecFX), study_exam.js EXAM_EFFECT_THEMES (7 exam themes), chapter_exam.js CE_EFFECT_THEMES (mirror)",
+    "reduced_motion": "supported — vars.css:310 global guard + JS-side guards in study.html"
+  },
+  "existing_discipline": {
+    "z_index": "named scale --z-hdr/-modal/-mfx/-toast/-ov/-lightbox/-gm-*/-fx/-loader (vars.css:297)",
+    "focus_ring": "global :focus-visible 2px #7BB3FF, no animation (vars.css:307)",
+    "ios_quirks": "content-visibility disabled via .ios-no-cv; confirm() replaced by _tapConfirm 2-stage tap; html bg colour set to defeat iOS white-wash"
+  },
+  "pages": [
+    "index.html (hub, 1051 L)",
+    "study.html + study.css (main tool, 1986 + 761 L)",
+    "stats.html (1864 L)",
+    "knowledge.html (356 L)",
+    "mindmap_integrated.html (598 L)"
+  ],
+  "preserve": ["font stack", "vars.css token names", "z-index scale", "focus-ring rule", "iOS workarounds", "hex colour space"],
+  "notes": "study.html hard-depends on study.css — any change to one must ship with the other. Colour space is hex, not OKLCH; converting wholesale would touch every file and is out of scope unless explicitly requested."
+}

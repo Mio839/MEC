@@ -1,3 +1,12 @@
+// v124: 眼科 第2章「結膜・角膜疾患」26問を追加（questions_oph.json が 50→76問）。
+// 画像も15問16枚を追加したので CACHE を bump。本章はアデノウイルス関連が9問を占める。
+// v123: 眼科(oph)を新科目として追加（第1章「眼科の基本」NO.1-50・画像11問13枚）。
+// questions_oph.json を CARDS に加え、眼科/images/ を追加したので CACHE を bump。
+// 眼科は全8章213問の予定で、章頭NO.は 1／51／77／97／116／162／179／192。
+// v122: エラー報告2件を修正。circ_ch03_q134(119F-70) に欠けていた心電図モニター波形を
+// PDFから書き出して割り当て（循環器/images/119F-70_1.jpeg を新規追加）、peds_ch03_q127(115C-41)
+// の「男児（％）／女児（％）」2列の表の選択肢から女児列が落ちていたのを復元。
+// questions_circ/peds.json と画像を更新したので CACHE を bump。
 // v121: 皮膚科 第9章「その他の皮膚疾患」27問を追加（questions_derm.json が 222→249問）。
 // これで皮膚科は全9章・NO.1-249 が完成。画像も6問6枚を追加したので CACHE を bump。
 // v120: 皮膚科 第8章「感染症」32問を追加（questions_derm.json が 190→222問）。
@@ -32,7 +41,7 @@
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v121";
+const CACHE = "mec-v124";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
@@ -68,7 +77,7 @@ const CARDS = [
   "questions_neur.json","questions_hbp.json","questions_jinzo_d.json","questions_hema.json",
   "questions_imma.json","questions_kansen.json","questions_jitsu1.json",
   "questions_peds.json","questions_obg.json","questions_psy.json",
-  "questions_derm.json"
+  "questions_derm.json","questions_oph.json"
 ];
 
 self.addEventListener("install", e => {

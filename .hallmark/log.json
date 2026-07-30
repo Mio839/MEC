@@ -1,0 +1,31 @@
+[
+  {
+    "date": "2026-07-24",
+    "scope": "page",
+    "target": "index.html",
+    "verb": "redesign",
+    "genre": "atmospheric",
+    "macrostructure": "Workbench",
+    "theme": "project-locked (vars.css / 6 テーマ)",
+    "theme_axes": "dark / geometric-sans / warm-accent",
+    "nav": "N9 edge-aligned + scan line",
+    "footer": "Ft2 inline single line",
+    "enrichment": "none (typography + SVG gauge)",
+    "motion": "reveal-stagger · ring-draw + count-up · header-scan · spark-rise · tile-edge-wipe",
+    "brief": "MEC 学習ハブ — Stat-Led が平坦だったので計器盤へ。ゲージ・計器行・30日波形・非対称ベント"
+  },
+  {
+    "date": "2026-07-24",
+    "scope": "page",
+    "target": "index.html",
+    "verb": "redesign",
+    "genre": "atmospheric",
+    "macrostructure": "Stat-Led",
+    "theme": "project-locked (vars.css / 6 テーマ)",
+    "theme_axes": "dark / geometric-sans / warm-accent",
+    "nav": "N9 edge-aligned",
+    "footer": "Ft2 inline single line",
+    "enrichment": "none",
+    "brief": "MEC 学習ハブ — 静かな高級感でレイアウトから再構成。ヒーロー＝今日の復習件数、道具は ☰ へ集約"
+  }
+]
