@@ -15,9 +15,9 @@
   'use strict';
 
   const K_SYNC = 'mec_gamify_v1';        // 同期対象 {bestStreak}
-  const K_LOCAL = 'mec_gamify_local_v1'; // 端末ローカル {lastLevel,seenAch,chDone,subjDone,sound,devId,mDone}
+  const K_LOCAL = 'mec_gamify_local_v1'; // 端末ローカル {lastLevel,seenAch,chDone,subjDone,sound,devId,mDone,dDay,dSubj,wChEx}
   const K_MISSIONS = 'mec_missions_v1';  // 同期対象。日次/週次ミッションの進捗を端末別カウンタで保持
-  //   構造: { d:{ [YYYY-MM-DD]:{ [devId]:{ans,cor,exam,srs,redo,unflag,chexam80,acc80,perfect} } },
+  //   構造: { d:{ [YYYY-MM-DD]:{ [devId]:{ans,cor,exam,srs,redo,subj,day,hard,chexam80,acc80,perfect} } },
   //           w:{ [週(月曜日付)]:{ [devId]:{...} } },
   //           xp:{ banked:number, ledger:{ [期間キー]:{ [missionId]:xp } } } }
   //   マージ: 同一(期間,端末,カウンタ)は max（端末内は単調増加）／表示・達成判定は端末横断で sum。
@@ -60,6 +60,7 @@
   L.mDone = L.mDone || {};       // ミッション達成トースト既視管理 { ['d:'|'w:'+期間キー]:[missionId] }（ローカル）
   if (!L.devId) L.devId = 'd' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
   delete L.missions;             // 旧・端末ローカルのみのミッション進捗は廃止（同期版へ移行）
+  delete L.dUnflag;              // 旧・🚩克服ミッションの日別帳簿（counter 'unflag' 廃止に伴い不要）
   if (!L.sound) L.sound = 'on';
   function saveL() { _s(K_LOCAL, L); }
 
@@ -388,7 +389,7 @@
   }
 
   // ── ミッション（日次・週次／端末別カウンタで同期） ───────────────
-  // 各ミッションは counter（ans/cor/exam/srs/redo/unflag/chexam80/acc80/perfect）の
+  // 各ミッションは counter（ans/cor/exam/srs/redo/subj/day/hard/chexam80/acc80/perfect）の
   // 端末横断合計が target 以上で達成。
   //
   // tier（2026-07-29〜）:
@@ -398,6 +399,14 @@
   //      入っていたため日次のセレモニーが事実上発火しなかった。新しいミッションを足すときは
   //      「毎日必ず達成できるか」を基準に tier を決めること。到達不能なものを core に置かない。
   //
+  // 2026-07-30: 日次「🚩を5個 克服する」(counter 'unflag') を廃止し 'subj' へ差し替えた。
+  //   ① 在庫依存 … 旗が5個溜まっていない日は物理的に達成不能（chclear と同型の欠陥）。
+  //   ② 動機が逆向き … 報酬が「旗を外すこと」に付くので弱点リストを畳む動機になる。旗は
+  //      本来「後で戻る印」で、消すことは上達の証明ではない。
+  //   ③ 検証を伴わない … 解除はワンタップで想起テストを経ていない（cor/redo と違い証拠が無い）。
+  //   'subj' は 'bonus' に置く。到達不能ではないが、単一科目選択UI＋章を順に進める運用では
+  //   「その日1科目だけ」が普通に起こるため、core にすると日次セレモニーの敷居が上がりすぎる。
+  //
   // xp は達成時に一度だけ入るボーナスXP（_awardMissionXp・重複防止は同期台帳 s.xp.ledger）。
   const MISSIONS_DAILY = [
     { id: 'ans',     tier: 'core',  xp: 40, icon: '📝', label: '40問 解答する',           target: 40, counter: 'ans' },
@@ -405,7 +414,7 @@
     { id: 'cor',     tier: 'core',  xp: 60, icon: '✅', label: '試験で20問 正解',          target: 20, counter: 'cor' },
     { id: 'srs',     tier: 'bonus', xp: 60, icon: '🔁', label: 'SRS復習を20問 こなす',     target: 20, counter: 'srs' },
     { id: 'redo',    tier: 'bonus', xp: 70, icon: '♻️', label: '落とした問題を10問 奪回',  target: 10, counter: 'redo' },
-    { id: 'unflag',  tier: 'bonus', xp: 50, icon: '🚩', label: '🚩を5個 克服する',         target: 5,  counter: 'unflag' },
+    { id: 'subj',    tier: 'bonus', xp: 50, icon: '🧭', label: '科目を2つ以上またぐ',       target: 2,  counter: 'subj' },
     { id: 'acc',     tier: 'bonus', xp: 50, icon: '🎯', label: '正答率80%以上を1回',       target: 1,  counter: 'acc80' },
     { id: 'perfect', tier: 'bonus', xp: 80, icon: '💯', label: '試験で全問正解を1回',      target: 1,  counter: 'perfect' },
   ];
@@ -416,6 +425,12 @@
     { id: 'w_srs',     tier: 'bonus', xp: 200, icon: '🔁', label: '今週 SRS復習を150問',         target: 150, counter: 'srs' },
     { id: 'w_chexam',  tier: 'bonus', xp: 250, icon: '🏆', label: '今週 章別試験80%以上を3章',   target: 3,   counter: 'chexam80' },
     { id: 'w_perfect', tier: 'bonus', xp: 200, icon: '💯', label: '今週 全問正解を3回',          target: 3,   counter: 'perfect' },
+    // ⚠️ w_day は 'bonus' 固定。日数は**最終日に巻き返せない唯一のカウンタ**で、2日空けた時点で
+    //    その週は到達不能になる。週次のペース表示は「カウンタ型は理屈の上では最終日でも巻き返せる」
+    //    前提で遅れをグレーアウトしない設計なので、これを core に置くと週次セレモニーが
+    //    週の前半で死ぬ週が出る。core に上げたいなら target を 4〜5 に落とすこと。
+    { id: 'w_day',     tier: 'bonus', xp: 200, icon: '📆', label: '今週 6日 学習する',           target: 6,   counter: 'day' },
+    { id: 'w_hard',    tier: 'bonus', xp: 250, icon: '🔥', label: '今週 難問(60%未満)を100問',   target: 100, counter: 'hard' },
   ];
   // 「その期間の core を全部」達成したときのボーナスXP
   const MISSION_ALL_XP = { d: 150, w: 600 };
@@ -972,8 +987,49 @@
     }
   }
 
+  // 難問の閾値。study.html のフィルタ「難問(<60%)」と同じ数字にすること（表示と数え方を揃える）。
+  const HARD_RATE = 60;
+  // その問題が難問かはカードの data-rate（questions_*.json の rate）が正本。
+  // ⚠️ 正答率データが無い問題（data-rate 属性そのものが無い＝norate）は難問として数えない。
+  //    「難問だから正答率が無い」わけではなく、単に出典に数字が載っていないだけなので。
+  function _isHardQ(uid) {
+    try {
+      const card = document.querySelector('.qc[data-uid="' + uid + '"]');
+      const r = card && card.dataset ? card.dataset.rate : null;
+      if (r == null || r === '') return false;
+      const n = parseFloat(r);
+      return isFinite(n) && n < HARD_RATE;
+    } catch { return false; }
+  }
+
+  // 「その日はじめて」だけ数えるカウンタ（day=学習した日／subj=触った科目）のうち、今回の解答で
+  // 立つものを返す（呼び出し側が同じ _bumpMission にまとめて渡す＝1解答につき書き込み・達成判定・
+  // 同期予約は1回だけ）。判定は端末ローカルの帳簿（L）で、カウンタ本体は同期されるので
+  // 合算は端末横断で正しくなる。
+  // ⚠️ _bumpMission は日次バケットと週次バケットの両方へ足すので、週次側の意味は
+  //      day  … その週に学習した日数（＝w_day が読む正しい値）
+  //      subj … 「日ごとの異なる科目数」の週合計（同じ科目を5日やれば5）＝**科目数ではない**。
+  //    週次に科目の広さを問うミッションを作るなら、週キーで別の帳簿を持つこと（w_chexam と同じ方式）。
+  function _dailyFirstBumps(uid) {
+    const dk = _todayJST();
+    const bumps = [];
+    if (L.dDay !== dk) { L.dDay = dk; bumps.push('day'); }
+    // 科目は SUBJECTS に載っているものだけ数える（custom/memo は非コア科目として意図的に除外＝
+    // 自作28問と暗記メモ121問を1問ずつ触って「2科目」にする抜け穴を作らない）。
+    const i = uid ? uid.indexOf('_ch') : -1;
+    const sid = i > 0 ? uid.slice(0, i) : '';
+    if (sid && SUBJECTS.some(s => s.id === sid)) {
+      if (!L.dSubj || L.dSubj.k !== dk) L.dSubj = { k: dk, s: [] };
+      if (L.dSubj.s.indexOf(sid) < 0) { L.dSubj.s.push(sid); bumps.push('subj'); }
+    }
+    if (bumps.length) saveL();
+    return bumps;
+  }
+
   function onLap(uid, btn) {
-    _bumpMission('ans'); // 「済」も解答数ミッションに算入
+    const bumps = ['ans']; // 「済」も解答数ミッションに算入
+    if (_isHardQ(uid)) bumps.push('hard');
+    _bumpMission(bumps.concat(_dailyFirstBumps(uid)));
     _microLapFx(btn);
     _lapMilestoneFx(uid, btn);
     _afterEvent(uid);
@@ -986,7 +1042,9 @@
     const bumps = isCorrect ? ['ans', 'cor'] : ['ans'];
     if (o.srs) bumps.push('srs');
     if (isCorrect && o.wasWrong) bumps.push('redo');
-    _bumpMission(bumps);
+    // 難問は正誤を問わず「触った数」で数える（正解だけだと難問を避けるほど有利になる）
+    if (_isHardQ(uid)) bumps.push('hard');
+    _bumpMission(bumps.concat(_dailyFirstBumps(uid)));
     _trackStreak(isCorrect);
     _afterEvent(uid);
     // XP = 試験解答×4 ＋ 試験正解×6 → 正解 +10 / 不正解 +4（stats() の配点と一致させること）
@@ -995,16 +1053,9 @@
 
   function onFlag(uid, btn, nowFlagged) {
     _microFlagFx(btn, nowFlagged);
-    // 🚩を外した＝克服。付け外しの往復で水増しできないよう、同じ問題はその日1回だけ算入する
-    // （判定は端末ローカル。カウンタ自体は同期されるので合算は正しく共有される）。
-    if (!nowFlagged) {
-      const dk = _todayJST();
-      if (!L.dUnflag || L.dUnflag.k !== dk) L.dUnflag = { k: dk, u: [] };
-      if (L.dUnflag.u.indexOf(uid) < 0) {
-        L.dUnflag.u.push(uid); saveL();
-        _bumpMission('unflag');
-      }
-    }
+    // ⚠️ ここに「🚩を外した数」のミッション加算を戻さないこと（2026-07-30に廃止した counter 'unflag'）。
+    //    旗が溜まっていない日は達成不能な在庫依存の指標で、しかも報酬が「弱点リストを畳むこと」に
+    //    付いてしまう。旗の扱いは演出だけに留め、達成の記録は解答（ans/cor/hard/redo）で数える。
   }
 
   // opts.chPrefix … 単一章だけを出題した章別試験のときの章prefix（週次「章別試験80%」用）

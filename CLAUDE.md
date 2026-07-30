@@ -145,9 +145,9 @@
 - 間隔上限90日・ef上限2.5は意図的（本番まで1年スパンで間隔を暴走させないため）。
 - テスト: `node _work/test_srs_grade.js`
 
-## デイリー／ウィークリーミッション（2026-07-29 拡張）
+## デイリー／ウィークリーミッション（2026-07-30 拡張）
 
-定義は `gamify.js` の `MISSIONS_DAILY`（8個）・`MISSIONS_WEEKLY`（6個）。進捗は同期キー
+定義は `gamify.js` の `MISSIONS_DAILY`（8個）・`MISSIONS_WEEKLY`（8個）。進捗は同期キー
 `mec_missions_v1` の**端末別カウンタ**（表示・判定は端末横断で sum）。テスト: `node _work/test_missions.js`。
 
 ### tier（core / bonus）— 新しいミッションを足すときの基準
@@ -167,9 +167,25 @@
 | `ans` / `cor` | 解答数／試験モードの正解数 | `onAnswer`（通常モードの「済」も `onLap` から `ans` に算入） |
 | `srs` | SRS復習セッションでの解答（正誤問わず消化数） | `onAnswer(..., {srs:true})`。`_recordMyRate` が `_srsReviewMode` を渡す |
 | `redo` | 過去に落とした問題を正解し直した | `onAnswer(..., {wasWrong})`。**`myrate_v1` 加算前**の値で判定すること |
-| `unflag` | 🚩を外した＝克服 | `onFlag`。同じuidはその日1回だけ（付け外しの往復で水増しできない） |
+| `hard` | 難問（正答率60%未満）に触った数 | `onAnswer`／`onLap` から `_isHardQ(uid)`。正誤は問わない（正解だけだと難問を避けるほど有利になる） |
+| `subj` | その日に触った科目数 | `_dailyFirstBumps`（`onAnswer`／`onLap` が同じ `_bumpMission` に合流させる）。同じ科目はその日1回だけ。**日次専用**（下記） |
+| `day` | 学習した日 | `_dailyFirstBumps`（`onAnswer`／`onLap` が同じ `_bumpMission` に合流させる）。その日1回だけ＝週次バケットが「今週の学習日数」になる |
 | `exam`/`acc80`/`perfect` | セッション完了／80%以上／全問正解 | `onExamFinish`（10問以上のセッションのみ） |
 | `chexam80` | 章別試験で80%以上 | `onExamFinish(..., {chPrefix})`。同じ章は週1回だけ |
+
+- `hard` の判定はカードの `data-rate` が正本（`study.html` のフィルタ「難問(<60%)」と同じ閾値
+  `HARD_RATE = 60`）。**`data-rate` が無い問題（正答率なし）は難問に数えない**——出典に数字が
+  載っていないだけで、難しいという意味ではないため。
+- ⚠️ **`subj` を週次ミッションに使ってはいけない**。`_bumpMission` は日次と週次の両方へ足すので、
+  週次側の `subj` は「日ごとの異なる科目数」の週合計＝同じ科目を5日やれば5になる（科目数ではない）。
+  科目の広さを週で問うなら週キーの帳簿を別に持つこと（`chexam80` と同じ方式）。
+- ⚠️ **`day` を core に置いてはいけない**。日数は**最終日に巻き返せない唯一のカウンタ**で、2日空けた
+  時点でその週は到達不能になる。週次のペース表示は「カウンタ型は理屈の上では最終日でも巻き返せる」
+  前提で遅れをグレーアウトしない設計なので、core にすると週の前半でセレモニーが死ぬ週が出る。
+- 🚩の克服数（旧 `unflag`）は**2026-07-30に廃止**。① 旗が5個溜まっていない日は達成不能な在庫依存、
+  ② 報酬が「旗を外すこと」に付くので弱点リストを畳む動機になる（旗は「後で戻る印」で、消すことは
+  上達の証明ではない）、③ 解除はワンタップで想起テストを経ていない＝`cor`／`redo` と違い証拠が無い。
+  `onFlag` は演出だけを担い、ミッションカウンタを触らない。代わりに日次へ `subj`（科目を2つまたぐ）を置いた。
 
 - ⚠️ **章の「制覇」を週次ミッションの材料にしてはいけない**。旧 `chclear` は端末ローカルの
   `L.chDone` を見ていたため、全章を済にした時点で**永久未達**になり週次コンプリートが不可能だった。
@@ -383,7 +399,7 @@ node _work/test_srs_grade.js       SRSの自己採点3段階          (10)
 node _work/test_subject_totals.js  科目別問題数の三者一致      (3)
 node _work/test_card_render.js     カード描画（画像実寸・採点ボタン）(7)
 node _work/test_calc_input.js      計算問題の桁入力・データ整合      (29)
-node _work/test_missions.js        日次/週次ミッション          (30)
+node _work/test_missions.js        日次/週次ミッション          (36)
 node _work/test_daily_goal.js      ハブのゲージ・歯車の意匠      (29)
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 ```

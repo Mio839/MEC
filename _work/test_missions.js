@@ -35,8 +35,12 @@ function makeEl() {
   return el;
 }
 
-function makeCtx() {
+// cards: { [uid]: rate|null } … 難問判定(_isHardQ)が読む .qc[data-uid] の data-rate を差し込む。
+//   値 null は「カードはあるが正答率データが無い（norate）」を表す。
+//   ⚠️ .qc 以外のセレクタは従来どおり null を返すこと（演出系を no-op に保つため）。
+function makeCtx(cards) {
   const store = {};
+  const CARDS = cards || {};
   const ctx = {
     localStorage: {
       getItem: k => (Object.prototype.hasOwnProperty.call(store, k) ? store[k] : null),
@@ -47,7 +51,13 @@ function makeCtx() {
       readyState: 'complete',
       head: makeEl(), body: makeEl(),
       getElementById: () => null,
-      querySelector: () => null,
+      querySelector: (sel) => {
+        const m = /^\.qc\[data-uid="(.+)"\]$/.exec(String(sel || ''));
+        if (!m || !Object.prototype.hasOwnProperty.call(CARDS, m[1])) return null;
+        const el = makeEl();
+        if (CARDS[m[1]] != null) el.dataset.rate = String(CARDS[m[1]]);
+        return el;
+      },
       querySelectorAll: () => [],
       createElement: makeEl,
       addEventListener() {},
@@ -83,10 +93,10 @@ function t(name, fn) {
 // ── 定義そのものの不変条件 ────────────────────────────────────────────────
 console.log('ミッション定義');
 
-t('日次は8個・週次は6個', () => {
+t('日次は8個・週次は8個', () => {
   const d = G()._defs;
   assert.strictEqual(d.daily.length, 8);
-  assert.strictEqual(d.weekly.length, 6);
+  assert.strictEqual(d.weekly.length, 8);
 });
 
 t('全ミッションが tier / xp / counter / target を持つ', () => {
@@ -107,9 +117,25 @@ t('idは日次・週次を通して一意（XP台帳のキーに使うため）'
 });
 
 t('counter は実際に加算される名前だけ（typo検出）', () => {
-  const known = new Set(['ans', 'cor', 'exam', 'srs', 'redo', 'unflag', 'chexam80', 'acc80', 'perfect']);
+  // 'unflag' は 2026-07-30 に廃止（在庫依存＋弱点リストを畳む動機になるため）。復活させないこと。
+  const known = new Set(['ans', 'cor', 'exam', 'srs', 'redo', 'subj', 'day', 'hard', 'chexam80', 'acc80', 'perfect']);
   const d = G()._defs;
   [].concat(d.daily, d.weekly).forEach(m => assert.ok(known.has(m.counter), '未知のcounter: ' + m.counter));
+});
+
+t("週次に 'subj' を使うミッションは作らない", () => {
+  // 週次バケットの subj は「日ごとの異なる科目数」の週合計＝同じ科目を5日やれば5になる。
+  // 科目の広さを週で問いたいなら週キーの帳簿を別に持つこと（chexam80 と同じ方式）。
+  const d = G()._defs;
+  d.weekly.forEach(m => assert.notStrictEqual(m.counter, 'subj', m.id + ': 週次で subj は科目数にならない'));
+});
+
+t("日数カウンタ 'day' は core に置かない", () => {
+  // day は最終日に巻き返せない唯一のカウンタ。core に置くと週の前半でセレモニーが死ぬ週が出る。
+  const d = G()._defs;
+  [].concat(d.daily, d.weekly).forEach(m => {
+    if (m.counter === 'day') assert.strictEqual(m.tier, 'bonus', m.id + ' は巻き返せないので bonus であること');
+  });
 });
 
 t('core は日次・週次とも3つ（セレモニーの条件）', () => {
@@ -181,26 +207,63 @@ t('通常モードの「済」も ans に算入される', () => {
 // ── 水増し防止 ────────────────────────────────────────────────────────────
 console.log('水増し防止');
 
-t('🚩の付け外しを繰り返しても同じ問題はその日1回だけ', () => {
+t('🚩の付け外しではミッションカウンタが一切動かない（unflag廃止）', () => {
   const ctx = makeCtx();
   const g = ctx.window.MecGamify;
-  g.onFlag('a_ch01_q1', null, false);
-  g.onFlag('a_ch01_q1', null, true);
-  g.onFlag('a_ch01_q1', null, false);
-  assert.strictEqual(sum(ctx, 'd', 'unflag'), 1);
+  g.onFlag('endo_ch01_q1', null, false);
+  g.onFlag('endo_ch01_q1', null, true);
+  g.onFlag('endo_ch01_q1', null, false);
+  assert.strictEqual(ctx._store['mec_missions_v1'], undefined, '旗の操作では mec_missions_v1 を書かない');
 });
 
-t('🚩は問題ごとに数える', () => {
+t('subj は同じ科目を何問解いても1、別科目に移ると2', () => {
   const ctx = makeCtx();
-  ctx.window.MecGamify.onFlag('a_ch01_q1', null, false);
-  ctx.window.MecGamify.onFlag('a_ch01_q2', null, false);
-  assert.strictEqual(sum(ctx, 'd', 'unflag'), 2);
+  const g = ctx.window.MecGamify;
+  g.onAnswer('endo_ch01_q1', true);
+  g.onAnswer('endo_ch02_q9', false);
+  assert.strictEqual(sum(ctx, 'd', 'subj'), 1);
+  g.onAnswer('jinzo_d_ch03_q136', true); // prefix に _ が入る科目も1科目として数える
+  assert.strictEqual(sum(ctx, 'd', 'subj'), 2);
 });
 
-t('🚩を立てる操作では増えない', () => {
+t('SUBJECTS外（custom/memo）は subj に数えない', () => {
   const ctx = makeCtx();
-  ctx.window.MecGamify.onFlag('a_ch01_q1', null, true);
-  assert.strictEqual(sum(ctx, 'd', 'unflag'), 0);
+  const g = ctx.window.MecGamify;
+  g.onAnswer('custom_ch01_q1', true);
+  g.onAnswer('memo_ch01_q1', true);
+  assert.strictEqual(sum(ctx, 'd', 'subj'), 0);
+});
+
+t('day はその日何問解いても1（週次バケットが学習日数になる）', () => {
+  const ctx = makeCtx();
+  const g = ctx.window.MecGamify;
+  g.onAnswer('endo_ch01_q1', true);
+  g.onLap('resp_ch01_q1', null);
+  g.onAnswer('resp_ch01_q2', false);
+  assert.strictEqual(sum(ctx, 'd', 'day'), 1);
+  assert.strictEqual(sum(ctx, 'w', 'day'), 1);
+});
+
+t('hard は data-rate が60未満のカードだけ数える', () => {
+  const ctx = makeCtx({ 'endo_ch01_q1': 45, 'endo_ch01_q2': 75, 'endo_ch01_q3': 59.9 });
+  const g = ctx.window.MecGamify;
+  g.onAnswer('endo_ch01_q1', false); // 難問・不正解でも「触った数」で算入
+  g.onAnswer('endo_ch01_q2', true);  // 標準
+  g.onAnswer('endo_ch01_q3', true);  // 難問
+  assert.strictEqual(sum(ctx, 'd', 'hard'), 2);
+});
+
+t('正答率データが無い問題（data-rateなし）は難問に数えない', () => {
+  const ctx = makeCtx({ 'endo_ch01_q1': null });
+  ctx.window.MecGamify.onAnswer('endo_ch01_q1', true);
+  assert.strictEqual(sum(ctx, 'd', 'hard'), 0);
+});
+
+t('通常モードの「済」でも難問は数える（ans と同じ扱い）', () => {
+  const ctx = makeCtx({ 'endo_ch01_q1': 40 });
+  ctx.window.MecGamify.onLap('endo_ch01_q1', null);
+  assert.strictEqual(sum(ctx, 'd', 'hard'), 1);
+  assert.strictEqual(sum(ctx, 'd', 'ans'), 1);
 });
 
 t('章別試験80%以上は同じ章を回しても週1回だけ', () => {
