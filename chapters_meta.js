@@ -897,6 +897,12 @@ const MEC_CHAPTERS = [
         "file": "眼科/ch02_ketsumaku_kakumaku.html",
         "title": "第2章 結膜・角膜疾患",
         "count": 26
+      },
+      {
+        "prefix": "oph_ch03",
+        "file": "眼科/ch03_suishotai.html",
+        "title": "第3章 水晶体疾患",
+        "count": 20
       }
     ]
   }
