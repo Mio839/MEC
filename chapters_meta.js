@@ -909,6 +909,12 @@ const MEC_CHAPTERS = [
         "file": "眼科/ch04_ryokunaisho.html",
         "title": "第4章 緑内障",
         "count": 19
+      },
+      {
+        "prefix": "oph_ch05",
+        "file": "眼科/ch05_momaku_shikkan.html",
+        "title": "第5章 網膜疾患",
+        "count": 46
       }
     ]
   }
