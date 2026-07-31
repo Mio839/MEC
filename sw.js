@@ -1,3 +1,6 @@
+// v126: 眼科 第4章「緑内障」19問を追加（questions_oph.json が 96→115問）。
+// 画像も9問16枚を追加したので CACHE を bump。本章は急性閉塞隅角緑内障発作（6問）と
+// 開放隅角緑内障の視野障害・点眼薬選択が軸。NO.103 は視野図5枚が①〜⑤の選択肢そのもの。
 // v125: 眼科 第3章「水晶体疾患」20問を追加（questions_oph.json が 76→96問）。
 // 画像も12問12枚を追加したので CACHE を bump。本章は白内障手術（術式・術前検査・術後合併症）が軸。
 // v124: 眼科 第2章「結膜・角膜疾患」26問を追加（questions_oph.json が 50→76問）。
@@ -43,7 +46,7 @@
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v125";
+const CACHE = "mec-v126";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。

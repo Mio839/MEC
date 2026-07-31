@@ -903,6 +903,12 @@ const MEC_CHAPTERS = [
         "file": "眼科/ch03_suishotai.html",
         "title": "第3章 水晶体疾患",
         "count": 20
+      },
+      {
+        "prefix": "oph_ch04",
+        "file": "眼科/ch04_ryokunaisho.html",
+        "title": "第4章 緑内障",
+        "count": 19
       }
     ]
   }
