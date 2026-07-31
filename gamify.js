@@ -40,7 +40,7 @@
     { id: 'obg',     name: '産婦人科',   icon: '🤰', color: '#E11D48', total: 685 },
     { id: 'psy',     name: '精神科',     icon: '💭', color: '#5E60CE', total: 256 },
     { id: 'derm',    name: '皮膚科',     icon: '🩹', color: '#B5654A', total: 249 },
-    { id: 'oph',     name: '眼科',       icon: '👁️', color: '#0E7490', total: 161 },
+    { id: 'oph',     name: '眼科',       icon: '👁️', color: '#0E7490', total: 178 },
     { id: 'jitsu1',  name: '実力試験Ⅰ', icon: '🎯', color: '#6366F1', total: 160 },
   ];
 

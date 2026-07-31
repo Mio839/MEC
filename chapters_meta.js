@@ -915,6 +915,12 @@ const MEC_CHAPTERS = [
         "file": "眼科/ch05_momaku_shikkan.html",
         "title": "第5章 網膜疾患",
         "count": 46
+      },
+      {
+        "prefix": "oph_ch06",
+        "file": "眼科/ch06_ohan_shikkan.html",
+        "title": "第6章 黄斑部疾患",
+        "count": 17
       }
     ]
   }
