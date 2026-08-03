@@ -927,6 +927,12 @@ const MEC_CHAPTERS = [
         "file": "眼科/ch07_budoumaku_shikkan.html",
         "title": "第7章 ぶどう膜疾患",
         "count": 13
+      },
+      {
+        "prefix": "oph_ch08",
+        "file": "眼科/ch08_sonota.html",
+        "title": "第8章 その他の眼科疾患",
+        "count": 22
       }
     ]
   }
