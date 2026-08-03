@@ -791,7 +791,10 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
 
     <div class="hero-cta">
       <a class="cta-main" id="heroPrimary" href="study.html">📚 全科目から選ぶ</a>
-      <a class="cta-sub" id="heroSecondary" href="stats.html">📊 統計を見る →</a>
+      <!-- 副ボタンは「復習」の席。due が0の日も席を空けずに無効表示で残す。
+           文言・遷移先は renderHero() が入れる（⚠️ 統計への導線はここに置かない。
+           ヘッダーの📊アイコンと☰メニューの2か所が正規の入口） -->
+      <a class="cta-sub" id="heroSecondary" href="study.html?mode=srs_review">🔔 復習をはじめる</a>
       <!-- 今日の誤答の再履修。誤答0の日も並びを動かさないよう常に置き、押せないことを色で示す。
            件数・遷移先は renderHero() が入れる（0問のときは href を外す） -->
       <a class="cta-sub cta-redo is-off" id="heroTertiary" aria-disabled="true">🔁 今日の誤答なし</a>
@@ -1188,17 +1191,29 @@ function renderHero() {
 
   if (due > 0) {
     say.textContent = '復習の期限が来た問題が ' + _fmtN(due) + ' 問あります。科目をまたいで出題されます。';
-    p1.href = 'study.html?mode=srs_review'; p1.textContent = '🔔 復習をはじめる';
-    p2.href = 'study.html';                 p2.textContent = '📚 全科目から選ぶ →';
   } else if (td.solved > 0) {
     say.textContent = '復習の期限が来た問題はありません。全 ' + _fmtN(totalQ) + ' 問から次を選べます。';
-    p1.href = 'study.html'; p1.textContent = '📚 全科目から選ぶ';
-    p2.href = 'stats.html'; p2.textContent = '📊 統計を見る →';
   } else {
     say.textContent = 'まだ今日の記録がありません。1問でも解くとここに積み上がります。';
-    p1.href = 'study.html'; p1.textContent = '📚 全科目から選ぶ';
-    p2.href = 'stats.html'; p2.textContent = '📊 統計を見る →';
   }
+
+  // ボタンは3つとも席が固定: 主＝いま一番やるべきこと／副＝復習／3つ目＝今日の誤答。
+  // ⚠️ 統計への導線をここに置かないこと。以前は due が0の日だけ副が「📊 統計を見る」に
+  //    化けており、その日は復習ボタンがハブから消えていた（席が入れ替わると
+  //    「昨日あったボタンが無い」になる）。統計はヘッダーの📊アイコンと☰メニューが入口。
+  const dueOn = due > 0;
+  // 主: 期限が来た復習があればそれが最優先、無ければ科目を選ぶ導線
+  if (dueOn) { p1.href = 'study.html?mode=srs_review'; p1.textContent = '🔔 復習をはじめる'; }
+  else       { p1.href = 'study.html';                 p1.textContent = '📚 全科目から選ぶ'; }
+  // 副: 主が復習を持っていったら科目選び、そうでなければ復習（0件の日は押せない表示）
+  if (dueOn) {
+    p2.href = 'study.html'; p2.textContent = '📚 全科目から選ぶ →';
+  } else {
+    p2.textContent = '🔔 今日の復習はなし';
+    p2.removeAttribute('href');   // due 0 で起動すると通知だけ出して通常閲覧に戻るため、押させない
+  }
+  p2.classList.toggle('is-off', !dueOn);
+  p2.setAttribute('aria-disabled', dueOn ? 'false' : 'true');
 
   // 3つ目のボタン: 今日の誤答の再履修。
   // ⚠️ 件数の正本は MecAttempts.todayWrongUids()（attempts.js）＝study.html の
