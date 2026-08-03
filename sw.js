@@ -1,3 +1,8 @@
+// v129: 眼科 第7章「ぶどう膜疾患」13問を追加（questions_oph.json が 178→191問）。
+// 画像も10問19枚を追加したので CACHE を bump。軸はBehçet病4問・Vogt-小柳-原田病6問・
+// サルコイドーシス2問＝三大ぶどう膜炎で12問。所見と病名の1対1対応が全問の分かれ目。
+// v128: 眼科 第6章「黄斑部疾患」17問を追加（questions_oph.json が 161→178問）。
+// 画像も12問23枚を追加したので CACHE を bump。軸は加齢黄斑変性10問・中心性漿液性脈絡網膜症4問。
 // v127: 眼科 第5章「網膜疾患」46問を追加（questions_oph.json が 115→161問）。眼科で最大の章。
 // 画像も23問40枚を追加したので CACHE を bump。軸は糖尿病網膜症11問・網膜血管閉塞9問・
 // 裂孔原性網膜剝離10問・網膜色素変性8問で、血管新生緑内障5問がそれらを横につなぐ。
@@ -49,12 +54,12 @@
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v128";
+const CACHE = "mec-v129";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-07-31a";
+const SHELL_VERSION = "2026-07-31b";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
