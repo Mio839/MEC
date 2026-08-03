@@ -207,7 +207,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .gauge-ovf{stroke:var(--ord);stroke-width:10;stroke-linecap:round;
   stroke-dasharray:339.29;stroke-dashoffset:339.29;
   transition:stroke-dashoffset 1.1s var(--ease-out) 1.3s;}
-.gauge-mid{position:absolute;inset:0;display:grid;place-items:center;
+/* 数字と % は「1行」で大歯車の中心に置く。
+   ⚠️ place-items:center だけだと <span> と <em> が別々の行の grid item になり、
+      伸びた2行にそれぞれ中央寄せされる＝数字が上半分・% が下半分へ離れる。
+      grid-auto-flow:column で1行に並べ、その行ごと align-content で中央へ置く。 */
+.gauge-mid{position:absolute;inset:0;display:grid;grid-auto-flow:column;
+  align-content:center;justify-content:center;align-items:baseline;
   font-family:var(--font-display);font-size:clamp(22px,6.4vw,30px);font-weight:800;
   letter-spacing:-.03em;color:var(--tx);font-variant-numeric:tabular-nums;line-height:1;
   transition:color var(--dur-long) var(--ease-out);}
