@@ -18,9 +18,9 @@
 | `study.html` | 統合学習ツール（コア11科目4802問＋実力試験・自作・フィルター）。試験モードUI等のマークアップ＋インラインJS |
 | `study_exam.js` | study.htmlの試験モードロジック（state・効果音・演出エフェクト・SRS採点連携）。classic scriptでインライン<script>より前に読込み、共有グローバルスコープで相互参照 |
 | `study.css` | study.html専用のCSS（旧インライン<style>を2026-07-05に外出し）。⚠️ study.htmlはこれに依存＝両方一緒にcommit/push必須 |
-| `index.html` | ハブダッシュボード（全科目の進捗表示・ナビ・同期設定） |
+| `index.html` | ハブダッシュボード（全科目の進捗表示・ナビ・同期設定）。ヒーローのボタンは3つ＝主（復習/全科目）・副（全科目/統計）・「🔁 今日の誤答を再履修」（0問の日も位置を動かさず `.is-off` で無効表示） |
 | `progress.js` | 共有モジュール：localStorage + GitHub Gist 同期。localStorageキーは`K*`定数が正本 |
-| `attempts.js` | 解答イベントログ（`mec_attempts_v1`・`window.MecAttempts`）。1解答=パイプ区切り1行の文字列で上限2000件のリングバッファ。集計値の`myrate_v1`と違い時刻・出題順・所要秒・選んだ肢を残す＝弱点分析の素材。study.html／stats.htmlが読込み |
+| `attempts.js` | 解答イベントログ（`mec_attempts_v1`・`window.MecAttempts`）。1解答=パイプ区切り1行の文字列で上限2000件のリングバッファ。集計値の`myrate_v1`と違い時刻・出題順・所要秒・選んだ肢を残す＝弱点分析の素材。study.html／stats.html／**index.html**が読込み。`todayWrongUids()`は「今日の誤答を再履修」の対象UIDの正本（ハブの件数表示と出題側が同じ関数を使う） |
 | `qmeta.json` | 設問メタ（全科目1ファイル・`_work/build_qmeta.py`が生成する**派生物**）。設問形式(診断/検査/治療/対応/知識)・否定形・複数選択・画像・症例・計算・採点除外を自動分類。stats.htmlの弱点カルテが使う。**questions_*.json は一切変更しない**（pdf_audit.pyの監査対象を汚さないため） |
 | `stats.html` | 学習統計ページ（30日チャート・SRS統計・AI相談Markdownエクスポート） |
 | `knowledge.html` | 検索知識ノート機能 |
@@ -224,6 +224,39 @@ xp: { banked: number, ledger: { 'd:2026-07-29': { ans:40, exam:40, __all__:150 }
 数字をアンバーにする（`.behind`）。見出しに残り日数を出す。カウンタ型のミッションは理屈の上では
 最終日でも巻き返せるので、**達成不能としてグレーアウトはしない**（遅れの提示までに留める）。
 
+## 今日の誤答を再履修（2026-08-04〜）
+
+ハブの3つ目のボタン（`#heroTertiary`）→ `study.html?mode=today_wrong`。
+その日落とした問題だけを科目をまたいで出し直す試験セッション。
+
+- **対象UIDの正本は `MecAttempts.todayWrongUids()`（attempts.js）**。ハブの件数表示と
+  出題側（`startTodayWrongReview`）が同じ関数を呼ぶ＝数え方を2か所に書かない。
+  そのために `index.html` も `attempts.js` を読み込む。
+- **「今日間違えた問題すべて」が対象**＝あとで正解し直してもリストから消えない。
+  同じ問題を何度落としても1件。並びは最初に落とした順（時系列）。上限50問。
+- ⚠️ **母数は `mec_attempts_v1` に残るものだけ＝試験モード・SRS復習・章別試験**。
+  通常モードの「済」（×△○）は正誤を残さないので、通常モードだけで解いた日は0問になる。
+  これは不具合ではない（[採点データの不変条件]と同じく `_recordMyRate` の仕様）。
+- ⚠️ ハブの件数 ≧ 実際の出題数。出題側は更に科目の実在チェックと `_isScoreExcluded` で絞る。
+
+### `_srsReviewMode` と `_todayWrongMode` を混ぜないこと
+
+配管（専用ホストへ必要な問題だけ起こす・中断データを持たない・フィルターを隠す）は
+SRS復習と共通で、判定は **`_isHostSession()`**（study_exam.js）に集約してある。
+新しい配管の分岐を足すときは個別フラグではなくこれを使う。
+
+一方、次の4つは **SRS復習だけの意味**なので `_srsReviewMode` のまま残す:
+
+| 箇所 | 混ぜると起きること |
+|---|---|
+| `onAnswer(..., {srs})` | 週次ミッションの `srs`（SRS復習の消化数）が水増しされる |
+| attempts の `m` | `s`（SRS復習）と `e`（試験）の区別が消え、弱点カルテの母数が濁る |
+| 完走演出の「続けて次の50問」 | due が無いのに次を勧める（再履修は有限の集合で繰り越しが無い） |
+| 結果画面のタイトル | どちらのセッションを終えたのか読めなくなる |
+
+`retryWrongExam`（誤答再試験）は `_lastSessionWasSrs` / `_lastSessionWasTodayWrong` を
+見てどちらのモードへ戻すかを決める。**両方立てないこと**。
+
 ## ハブの円弧ゲージ＝「今日の目標」（2026-07-29〜）
 
 `index.html` のヒーロー右の円弧ゲージは **「一日にやるべき問題数のうち何％まで来たか」**。
@@ -399,7 +432,7 @@ stats.html「🩺 弱点カルテ」     ← 科目×設問形式ヒートマッ
 いずれも実ソースを読み込む（ロジックの二重管理をしない）。コミット前に全部通すこと。
 
 ```
-node _work/test_attempts.js        解答イベントログ            (9)
+node _work/test_attempts.js        解答イベントログ・今日の誤答 (16)
 node _work/test_karte.js           弱点カルテの集計            (14)
 node _work/test_merge_remote.js    Gist同期のマージ戦略        (63)
 node _work/test_streak.js          連続日数と activity_v1      (9)

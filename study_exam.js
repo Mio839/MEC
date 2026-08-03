@@ -72,9 +72,19 @@ let _examSessionKey = '';
 let _attemptSessionId = '';
 let _examFilterLabel = '';
 let _srsReviewMode = false;
+// 「今日の誤答を再履修」セッション（study.html?mode=today_wrong）。
+// ⚠️ _srsReviewMode とは別物にしてある。SRS復習だけが持つ意味
+//    （ミッションの srs カウンタ・attempts の m=s・完走演出の「続けて次の50問」）に
+//    再履修が混ざると、SRSの消化数が水増しされ、due が無いのに続きを勧めることになる。
+let _todayWrongMode = false;
+// SRS復習と今日の誤答の再履修は、どちらも「専用ホストに必要な問題だけを起こして出す」
+// 同じ配管に乗る（中断データを持たない・科目フィルターを出さない・ホストを表示する）。
+// 配管側の判定は必ずこれを使い、モード固有の分岐だけ個別フラグで書くこと。
+function _isHostSession() { return _srsReviewMode || _todayWrongMode; }
 // 直前に終えたセッションが復習だったか。誤答再試験で復習モードへ戻すために使う
 // （exitExam が _srsReviewMode を false に戻すので、その前に控えておく必要がある）。
 let _lastSessionWasSrs = false;
+let _lastSessionWasTodayWrong = false;
 const _examChoiceBackup = new Map();
 let _examAudioCtx = null;
 let _correctSound = localStorage.getItem('mec_correct_sound_v1') || 'ping';
@@ -513,7 +523,7 @@ function startFreshExam() {
 }
 
 function _saveExamResume() {
-  if (_srsReviewMode) return;
+  if (_isHostSession()) return;
   if (!examQueue.length) return;
   // 開封済み（=対応済み）カード数。採点除外の中立開封も含むので、全問こなせば必ず total に達する。
   // examAnswered は採点除外を除くため、これで判定しないと除外問題がある章で 100% にならなかった。
@@ -607,8 +617,9 @@ function retryWrongExam() {
   _closeSummaryOverlayOnly();
   // 復習セッションの誤答再試験は復習モードのまま続ける。
   // ここで戻さないと通常試験として開始され、科目フィルターと科目セクションが復活する。
-  if (_lastSessionWasSrs) {
-    _srsReviewMode = true;
+  if (_lastSessionWasSrs || _lastSessionWasTodayWrong) {
+    _srsReviewMode = _lastSessionWasSrs;
+    _todayWrongMode = _lastSessionWasTodayWrong;
     document.body.classList.add('srs-review');
     window._srsHostShow?.();
   }
@@ -663,8 +674,9 @@ function startExam(overrideUids = null) {
   if (!examQueue.length) { (window._mecNotify || function(m){})('表示中の問題がありません。科目・フィルターを確認してください。'); return; }
   const _subj = [...new Set(examQueue.map(c => c.dataset.uid.split('_ch')[0]))].sort().join(',');
   _examSessionKey = _subj + ':' + examQueue.length;
-  // SRS復習は中断データを持たないので消さない（同じキーの通常試験の中断データを巻き込まないため）
-  if (!_srsReviewMode) _clearExamResume();
+  // ホスト出題（SRS復習・今日の誤答）は中断データを持たないので消さない
+  // （同じキーの通常試験の中断データを巻き込まないため）
+  if (!_isHostSession()) _clearExamResume();
   examMode = true; examAnswered = 0; examCorrect = 0; examStreak = 0; examBySubj = {}; examByChapter = {}; examWrong = []; _examSessionWrongChoices.clear(); examStartTime = Date.now(); _examPausedMs = 0; _examPauseStart = null;
   _attemptSessionId = window.MecAttempts ? MecAttempts.newSession() : '';
   _examCardSeenAt.clear(); _zoneStop(false); _setAwaken(false);
@@ -674,7 +686,7 @@ function startExam(overrideUids = null) {
   if (location.search.indexOf('debug=1') !== -1) alert('[study.html] effectSet: ' + examEffectSet);
   document.removeEventListener('visibilitychange', _examVisibilityHandler);
   document.addEventListener('visibilitychange', _examVisibilityHandler);
-  if (!_srsReviewMode) localStorage.setItem('mec_exam_active_key', _examSessionKey);
+  if (!_isHostSession()) localStorage.setItem('mec_exam_active_key', _examSessionKey);
   _examChoiceBackup.clear();
   document.body.classList.add('exam-mode');
   const _eqSet = new Set(examQueue);
@@ -1431,6 +1443,7 @@ function _examCountdown() {
     const names = ids.map(id => (STUDY_SUBJECTS.find(x => x.id === id) || {}).name || id);
     subjLabel = names.length > 1 ? (names[0] + ' 他' + (names.length - 1)) : (names[0] || '—');
     if (_srsReviewMode) subjLabel = 'SRS REVIEW';
+    if (_todayWrongMode) subjLabel = "TODAY'S MISSES";
   } catch (e) {}
 
   const katakana = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロABCDEF0123456789';
@@ -2705,7 +2718,7 @@ function _updateExamProg(isCorrect = false) {
   const txt = document.getElementById('examProgTxt');
   if (fill) fill.style.width = total > 0 ? (examAnswered / total * 100) + '%' : '0%';
   if (txt) {
-    if (_srsReviewMode) {
+    if (_isHostSession()) {
       const remaining = total - examAnswered;
       const streakPart = examStreak >= 2 ? `  🔥×${examStreak}` : '';
       txt.textContent = '残り ' + remaining + ' 問' + streakPart;
@@ -2965,7 +2978,7 @@ function resumeExam(savedAt) {
 
 function exitExam() {
   if (!examMode) return;
-  if (!_srsReviewMode) {
+  if (!_isHostSession()) {
     if (examAnswered >= examQueue.length) _clearExamResume();
     else _saveExamResume();
   }
@@ -2975,6 +2988,7 @@ function exitExam() {
   // srs-review クラスはここでは外さない。結果画面〜誤答再試験の間も復習の最小表示を保つため、
   // 解除は通常閲覧へ戻る _srsRestoreAfterReview() に集約している。
   _lastSessionWasSrs = _srsReviewMode;
+  _lastSessionWasTodayWrong = _todayWrongMode;
   document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink');
   clearInterval(examTimerInt);
   document.removeEventListener('keydown', _examKeyHandler);
@@ -3033,6 +3047,7 @@ function exitExam() {
   // サマリーを先に表示してから後処理（後処理でエラーが出てもモーダルが開く）
   try { showExamSummary(); } catch(e) { console.error('showExamSummary error:', e); document.getElementById('examOverlay')?.classList.add('open'); }
   _srsReviewMode = false;
+  _todayWrongMode = false;
   try { applyFilters(); } catch(e) {}
   try { _refreshExamLapUI(); } catch(e) {}
   try { if (window.MECSync) window.MECSync.pushToGist(); } catch(e) {}
@@ -3062,7 +3077,10 @@ function showExamSummary() {
   // 前回セッションの残骸（ランクスタンプ・復習完了バナー）を消してから描き直す
   document.querySelectorAll('#examOverlay .exam-rank-stamp, #examOverlay .exam-srs-done, #examOverlay .exam-srs-continue').forEach(el => el.remove());
   const titleEl = document.querySelector('#examOverlay h2');
-  if (titleEl) titleEl.innerHTML = _srsReviewMode ? '🔔 <span class="grad-txt">復習セッション結果</span>' : '📊 <span class="grad-txt">セッション結果</span>';
+  if (titleEl) titleEl.innerHTML =
+    _srsReviewMode  ? '🔔 <span class="grad-txt">復習セッション結果</span>' :
+    _todayWrongMode ? '🔁 <span class="grad-txt">今日の誤答 再履修の結果</span>' :
+                      '📊 <span class="grad-txt">セッション結果</span>';
   const elapsed = examStartTime ? Math.floor((_examActiveMs()) / 1000) : 0;
   const pct = examAnswered > 0 ? Math.round(examCorrect / examAnswered * 100) : 0;
   // スコアの色は章カードと同じ基準（80↑緑/60-79黄/60未満赤）。数字は0→pctへカウントアップし、
@@ -3178,6 +3196,17 @@ function showExamSummary() {
         cont.onclick = () => { _closeSummaryOverlayOnly(); setTimeout(() => window.startSRSReview?.(), 120); };
         btn.parentNode.insertBefore(cont, btn);
       }
+    }
+    setTimeout(_srsCompleteCelebration, 700);
+  }
+  // 今日の誤答の再履修を完走したとき。SRS復習と違い「続けて次の50問」は出さない
+  // （対象は今日の誤答という有限の集合で、繰り越す due が存在しないため）。
+  if (_todayWrongMode && examAnswered > 0 && examAnswered >= examQueue.length) {
+    const note = document.getElementById('sumFlagNote');
+    if (note) {
+      note.insertAdjacentHTML('beforebegin',
+        '<div class="exam-srs-done">🔁 今日の取りこぼし、やり直し完了！' +
+        '<span>' + examAnswered + '問中 ' + examCorrect + '問を正解しました</span></div>');
     }
     setTimeout(_srsCompleteCelebration, 700);
   }

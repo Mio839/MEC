@@ -49,6 +49,11 @@
     return '';
   }
 
+  // JSTの日付（YYYY-MM-DD）。study.html の _today() / index.html の _jstDay() と同じ式。
+  function jstDay(ms) {
+    return new Date(ms + 9 * 3600000).toISOString().slice(0, 10);
+  }
+
   function read() {
     try {
       const v = JSON.parse(localStorage.getItem(K_ATT) || '[]');
@@ -102,6 +107,7 @@
     CAP,
     FIELDS: ATT_FIELDS,
     normChoice,
+    jstDay,
 
     // セッションIDを新規発行（起動ごと・再開ごとに1つ）
     newSession() {
@@ -141,6 +147,28 @@
     recent(n) {
       const a = this.all();
       return n ? a.slice(-n) : a;
+    },
+
+    // 今日（JST）落とした問題のUID。最初に落とした順・同じ問題は1件にまとめる。
+    // 「今日の誤答を再履修」（ハブの3つ目のボタン → study.html?mode=today_wrong）の正本。
+    //
+    // ⚠️ あとで正解し直したかは見ない＝「今日間違えた問題すべて」を返す。
+    //    再履修で正解してもリストからは消えない（その日の取りこぼしの記録として残す）。
+    // ⚠️ 母数はこのログに残るものだけ＝試験モード・SRS復習・章別試験。通常モードの「済」は
+    //    正誤を持たない（done_v2 は uid→周回数だけ）ので構造的に対象外。
+    // ⚠️ 返すのは生のUIDで、科目の実在チェックも採点除外の判定もしない。
+    //    出題側（study.html の startTodayWrongReview）が STUDY_SUBJECTS と
+    //    _isScoreExcluded で絞るため、件数がハブの表示より少なくなることがある。
+    todayWrongUids() {
+      const day = jstDay(Date.now());
+      const seen = new Set(), out = [];
+      this.all().forEach(a => {
+        if (a.ok || seen.has(a.uid)) return;
+        if (jstDay(a.ms) !== day) return;
+        seen.add(a.uid);
+        out.push(a.uid);
+      });
+      return out;
     },
 
     clear() {

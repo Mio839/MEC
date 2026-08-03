@@ -7,6 +7,9 @@
 <script src="chapters_meta.js"></script>
 <script src="knowledge_notes.js"></script>
 <script src="progress.js?v=3"></script>
+<!-- 「今日の誤答を再履修」の件数を出すため。件数の正本を study.html と共有する
+     （MecAttempts.todayWrongUids() ＝ 出題側が使うのと同じ関数）。 -->
+<script src="attempts.js"></script>
 <script src="fx_engine.js"></script>
 <script src="gamify.js"></script>
 <link rel="stylesheet" href="vars.css">
@@ -277,6 +280,11 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   transition:background-color var(--dur-short) var(--ease-out),border-color var(--dur-short) var(--ease-out),transform var(--dur-micro) var(--ease-out);}
 .cta-sub:hover{background:rgba(var(--glass-rgb),.12);border-color:var(--hair-3);transform:translateY(-1px);}
 .cta-sub:active{transform:translateY(1px);}
+/* 今日の誤答の再履修。1問でもあれば「やり直すもの」として警戒色の細線で他と描き分ける */
+.cta-redo{border-color:rgba(255,107,107,.42);color:var(--tx);}
+.cta-redo:hover{border-color:rgba(255,107,107,.75);background:rgba(255,107,107,.10);}
+/* 0問の日。位置は動かさず、押せないことだけを示す（hoverの浮きも殺す） */
+.cta-sub.is-off{opacity:.4;pointer-events:none;border-color:var(--hair-2);}
 
 /* ── セクション見出し（計器のラベル。左のアクセント刻み＋消えていく罫） ── */
 .sec-h{display:flex;align-items:center;gap:10px;width:100%;
@@ -784,6 +792,9 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
     <div class="hero-cta">
       <a class="cta-main" id="heroPrimary" href="study.html">📚 全科目から選ぶ</a>
       <a class="cta-sub" id="heroSecondary" href="stats.html">📊 統計を見る →</a>
+      <!-- 今日の誤答の再履修。誤答0の日も並びを動かさないよう常に置き、押せないことを色で示す。
+           件数・遷移先は renderHero() が入れる（0問のときは href を外す） -->
+      <a class="cta-sub cta-redo is-off" id="heroTertiary" aria-disabled="true">🔁 今日の誤答なし</a>
     </div>
 
     <!-- 計器ベイ: 読み値のブロックより一段沈めた面に、細かい数字だけをまとめる -->
@@ -1162,6 +1173,7 @@ function renderHero() {
   const say   = document.getElementById('heroSay');
   const p1    = document.getElementById('heroPrimary');
   const p2    = document.getElementById('heroSecondary');
+  const p3    = document.getElementById('heroTertiary');
 
   // 大きな読み値は常に「今日どれだけやったか」。何をすべきかは主ボタンと計器行が担う。
   label.textContent = '今日解いた問題';
@@ -1186,6 +1198,22 @@ function renderHero() {
     say.textContent = 'まだ今日の記録がありません。1問でも解くとここに積み上がります。';
     p1.href = 'study.html'; p1.textContent = '📚 全科目から選ぶ';
     p2.href = 'stats.html'; p2.textContent = '📊 統計を見る →';
+  }
+
+  // 3つ目のボタン: 今日の誤答の再履修。
+  // ⚠️ 件数の正本は MecAttempts.todayWrongUids()（attempts.js）＝study.html の
+  //    startTodayWrongReview が出題に使うのと同じ関数。ここで数え方を書かないこと。
+  // ⚠️ 母数は試験モード・SRS復習・章別試験の解答だけ（通常モードの「済」は正誤を残さない）。
+  //    「今日たくさん解いたのに0問」は不具合ではなく、通常モードで解いた日はこうなる。
+  // ⚠️ 出題側は科目の実在チェックと採点除外で更に絞るので、実際の出題数はこれ以下になり得る。
+  if (p3) {
+    const wrongN = window.MecAttempts ? MecAttempts.todayWrongUids().length : 0;
+    const on = wrongN > 0;
+    p3.textContent = on ? ('🔁 今日の誤答 ' + _fmtN(wrongN) + '問を再履修') : '🔁 今日の誤答なし';
+    p3.classList.toggle('is-off', !on);
+    p3.setAttribute('aria-disabled', on ? 'false' : 'true');
+    if (on) p3.href = 'study.html?mode=today_wrong';
+    else    p3.removeAttribute('href');
   }
 
   // 大きな読み値: カウントアップ → 着地で桁が順に立ち上がり、下から粒子が散る

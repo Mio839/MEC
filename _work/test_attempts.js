@@ -1,4 +1,4 @@
-/**
+﻿/**
  * attempts.js（解答イベントログ）の検証。実ソースを vm で読み込む。
  * Run: node _work/test_attempts.js
  */
@@ -92,6 +92,81 @@ test('all() returns oldest-first so flip detection reads in order', () => {
   const { A, store } = env();
   store['mec_attempts_v1'] = JSON.stringify(['q2|200|a|0|3|e|s|2', 'q1|100|a|1|3|e|s|1']);
   assert.strictEqual(A.all().map(a => a.uid).join(','), 'q1,q2');
+});
+
+// ── todayWrongUids（ハブの「今日の誤答を再履修」の正本） ──────────────────────
+// 行を直接組み立てる（log() は必ず「今」の時刻を打つので、昨日ぶんを作れないため）。
+const MIN = 60000;
+function line(uid, ms, ok) {
+  return [uid, Math.floor(ms / MIN), 'a', ok ? 1 : 0, 3, 'e', 's', 1].join('|');
+}
+// JSTのその日の正午。日境界のテストが実行時刻に左右されないようにする
+function jstNoon(dayOffset) {
+  const d = new Date(Date.now() + 9 * 3600000);
+  d.setUTCHours(0, 0, 0, 0);
+  return d.getTime() - 9 * 3600000 + (12 + 24 * (dayOffset || 0)) * 3600000;
+}
+
+test('todayWrongUids: 今日の誤答だけを拾う（正解は入らない）', () => {
+  const { A, store } = env();
+  store['mec_attempts_v1'] = JSON.stringify([
+    line('endo_ch01_q1', jstNoon(), false),
+    line('endo_ch01_q2', jstNoon(), true),
+    line('endo_ch01_q3', jstNoon(), false),
+  ]);
+  assert.strictEqual(A.todayWrongUids().join(","), ['endo_ch01_q1', 'endo_ch01_q3'].join(","));
+});
+
+test('todayWrongUids: 昨日の誤答は入らない（日はJSTで切る）', () => {
+  const { A, store } = env();
+  store['mec_attempts_v1'] = JSON.stringify([
+    line('endo_ch01_q9', jstNoon(-1), false),
+    line('endo_ch01_q1', jstNoon(), false),
+  ]);
+  assert.strictEqual(A.todayWrongUids().join(","), ['endo_ch01_q1'].join(","));
+});
+
+test('todayWrongUids: あとで正解し直しても残る（今日間違えた問題すべてが対象）', () => {
+  const { A, store } = env();
+  store['mec_attempts_v1'] = JSON.stringify([
+    line('endo_ch01_q1', jstNoon(), false),
+    line('endo_ch01_q1', jstNoon() + 30 * MIN, true),   // 再履修で正解し直した
+  ]);
+  assert.strictEqual(A.todayWrongUids().join(","), ['endo_ch01_q1'].join(","));
+});
+
+test('todayWrongUids: 同じ問題を何度落としても1件（出題が重複しない）', () => {
+  const { A, store } = env();
+  store['mec_attempts_v1'] = JSON.stringify([
+    line('endo_ch01_q1', jstNoon(), false),
+    line('endo_ch01_q1', jstNoon() + 10 * MIN, false),
+  ]);
+  assert.strictEqual(A.todayWrongUids().join(","), ['endo_ch01_q1'].join(","));
+});
+
+test('todayWrongUids: 並びは最初に落とした順（時系列で取りこぼしに戻る）', () => {
+  const { A, store } = env();
+  store['mec_attempts_v1'] = JSON.stringify([
+    line('b', jstNoon() + 20 * MIN, false),
+    line('a', jstNoon() + 5 * MIN, false),
+    line('c', jstNoon() + 40 * MIN, false),
+  ]);
+  assert.strictEqual(A.todayWrongUids().join(","), ['a', 'b', 'c'].join(","));
+});
+
+test('todayWrongUids: 誤答が無ければ空（ボタンは押せない状態になる）', () => {
+  const { A, store } = env();
+  store['mec_attempts_v1'] = JSON.stringify([line('endo_ch01_q2', jstNoon(), true)]);
+  assert.strictEqual(A.todayWrongUids().join(","), [].join(","));
+  assert.strictEqual(env().A.todayWrongUids().join(","), [].join(","));   // ログ自体が無い場合
+});
+
+test('jstDay は study.html の _today() と同じ式（日境界がページ間でずれない）', () => {
+  const { A } = env();
+  const same = ms => new Date(ms + 9 * 3600000).toISOString().slice(0, 10);
+  [Date.now(), jstNoon(), jstNoon(-3), Date.UTC(2026, 7, 4, 14, 59)].forEach(ms => {
+    assert.strictEqual(A.jstDay(ms), same(ms));
+  });
 });
 
 console.log('\n' + (fails.length ? fails.length + ' FAILED' : 'all passed') +
