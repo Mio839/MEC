@@ -1008,6 +1008,49 @@
   function ceReduced() {
     return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   }
+  // ══ 演出の可視帯（study_exam.js の _fxBand をミラー・2026-08-04）══
+  // 発火座標は「画面の 0.40〜0.44」ではなくこの帯の中心を正本にする。旧実装は
+  // window.innerHeight だけを見ていたため、sticky ナビ(.sn/.sn2)が重なる iPad では
+  // 中心が可視域より上に来てトースト・特大×n・粒子が上端で切れていた。
+  // visualViewport があればそれを可視域の正本にする（ツールバー出入り・分割表示・ピンチに追従）。
+  var CE_BAND_PAD = 16;
+  function ceHeaderBottom() {
+    var b = 0;
+    ['.sn', '.sn2'].forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (!el) return;
+      var st = getComputedStyle(el);
+      if (st.position !== 'sticky' && st.position !== 'fixed') return;
+      var r = el.getBoundingClientRect();
+      if (r.top <= CE_BAND_PAD && r.bottom > b) b = r.bottom;
+    });
+    return b;
+  }
+  function ceBand() {
+    var vv = window.visualViewport;
+    var vLeft = vv ? vv.offsetLeft : 0;
+    var vTop  = vv ? vv.offsetTop  : 0;
+    var vW    = vv ? vv.width  : window.innerWidth;
+    var vH    = vv ? vv.height : window.innerHeight;
+    var top = Math.max(vTop + CE_BAND_PAD, ceHeaderBottom() + CE_BAND_PAD);
+    var bottom = vTop + vH - CE_BAND_PAD;
+    if (bottom - top < 140) { top = vTop + CE_BAND_PAD; bottom = vTop + vH - CE_BAND_PAD; }
+    return {
+      left: vLeft, width: vW, right: vLeft + vW,
+      top: top, bottom: bottom, height: Math.max(1, bottom - top),
+      vTop: vTop, vBottom: vTop + vH, vHeight: vH,
+      cx: Math.round(vLeft + vW / 2),
+      cy: Math.round((top + bottom) / 2)
+    };
+  }
+  // 演出レイヤーだけを揺らす。body を transform すると body が position:fixed の包含ブロックに
+  // なり、揺れている間だけ演出がページ先頭基準になって画面外へ飛ぶ。
+  function ceShakeFxLayers(frames, timing) {
+    var c = document.getElementById('mecFxCanvas');
+    if (c) c.animate(frames, timing);
+    var ov = document.getElementById('ceExamShakeOverlay');
+    if (ov) ov.animate(frames, timing);
+  }
   function ceMarkSeen(card) {
     if (!card || !exam.active) return;
     var uid = card.dataset && card.dataset.uid;
@@ -1022,8 +1065,9 @@
     if (ceReduced()) return;
     var theme = ceTheme();
     var r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
-    var cx = r && r.width ? r.left + r.width / 2 : window.innerWidth / 2;
-    var cy = r && r.width ? r.top : window.innerHeight * 0.4;
+    var _b0 = ceBand();
+    var cx = r && r.width ? r.left + r.width / 2 : _b0.cx;
+    var cy = r && r.width ? Math.max(_b0.top, Math.min(_b0.bottom, r.top)) : _b0.cy;
     var lab = document.createElement('div');
     lab.className = 'ce-fast-pop';
     lab.textContent = theme.fastLabel || '⚡ 速答！';
@@ -1055,6 +1099,7 @@
     if (!card || ceReduced()) return;
     var r = card.getBoundingClientRect();
     if (!r.width || !r.height) return;
+    { var _tb = ceBand(); if (r.bottom < _tb.top + 4 || r.top > _tb.vBottom) return; } // カードが可視域外
     var theme = ceTheme();
     var col = (theme.comboColors && theme.comboColors[3]) || '#FFD700';
     var NS = 'http://www.w3.org/2000/svg';
@@ -1086,6 +1131,7 @@
     el.querySelector('.tu-main').textContent = (theme.tierUpLabel && theme.tierUpLabel(tier)) || ('TIER ' + tier);
     el.style.setProperty('--tu-col', (theme.fullscreenCols && theme.fullscreenCols[Math.min(tier,6)]) || '#FFD700');
     el.style.setProperty('--tu-glow', (theme.fullscreenGlow && theme.fullscreenGlow[Math.min(tier,6)]) || '255,215,0');
+    el.style.top = ceBand().cy + 'px';   // CSSの top:38% は画面基準＝ナビの高い端末で上に寄る
     document.body.appendChild(el);
     el.animate([
       {opacity:0, transform:'translate(-50%,-50%) scale(3.2) rotate(-16deg)'},
@@ -1097,7 +1143,9 @@
     ], {duration:1250, easing:'cubic-bezier(.2,1.3,.35,1)', fill:'forwards'}).onfinish = function(){ el.remove(); };
     if (window.MecFX) {
       try {
-        window.MecFX.burst(window.innerWidth / 2, 6, {
+        // 祝砲は画面最上端でなく可視帯の上端から（最上端だと上半分が画面外で切れる）
+        var _mb = ceBand();
+        window.MecFX.burst(_mb.cx, _mb.top, {
           count: 40 + tier * 14,
           colors: (theme.burstPalettes && theme.burstPalettes[Math.min(tier,6)]) || ['#FFD700'],
           shapes: theme.shapes(tier), tier: tier,
@@ -1126,7 +1174,7 @@
     if (_ceZoneTimer) { clearInterval(_ceZoneTimer); _ceZoneTimer = null; }
     document.body.classList.remove('ce-awaken');
     if (!was || !collapse || ceReduced()) return;
-    var cx = window.innerWidth / 2, cy = Math.round(window.innerHeight * 0.44);
+    var _zb = ceBand(), cx = _zb.cx, cy = _zb.cy;
     if (window.MecFX) {
       try {
         window.MecFX.attractor(cx, cy, {ttl:.9, strength:260000});
@@ -1155,6 +1203,7 @@
     }
     if (el.getAnimations) el.getAnimations().forEach(function (a) { a.cancel(); });
     el.textContent = theme.signature(n);
+    el.style.top = (ceBand().top + 44) + 'px';   // トーストの直下（CSSの top:112px は画面基準）
     el.style.color = (theme.comboColors && theme.comboColors[Math.min(tier,6)]) || '#FFD700';
     el.animate([
       {opacity:0, transform:'translateX(-50%) translateY(-6px)'},
@@ -1165,7 +1214,7 @@
   }
   function ceLightStreakFx(tier) {
     if (!window.MecFX) return;
-    var cx = window.innerWidth / 2, cy = Math.round(window.innerHeight * 0.44);
+    var _b = ceBand(), cx = _b.cx, cy = _b.cy;
     var counts = [0, 14, 22, 30, 40, 52, 64];
     spawnBurst(cx, cy, tier, counts[Math.min(tier,6)] || 14);
     try {
@@ -1294,6 +1343,8 @@
     if (!toast) return;
     toast.className = '';
     void toast.offsetWidth;
+    // 縦位置は固定値(旧 top:68px)ではなく可視帯の上端＝ナビ下端に置く（iPadで上端に切れるため）
+    toast.style.top = ceBand().top + 'px';
     toast.textContent = labels[tier];
     toast.style.setProperty('--sd', (promoted ? durs[tier] : durs[tier] * 0.52) + 's');
     toast.className = 't' + tier + ' show';
@@ -1424,10 +1475,11 @@
   function spawnParticles(tier) {
     var toast = document.getElementById('chExamStreakToast');
     if (!toast) return;
-    // パーティクル原点はトースト(画面最上部)でなく画面中央寄りに（上端だと粒子が画面外へ抜けて
-    // 半分しか見えない。study_exam.js と同方針・2026-07-08）。
-    var cx = window.innerWidth / 2;
-    var cy = Math.round(window.innerHeight * 0.44);
+    // パーティクル原点はトースト(画面最上部)でなく可視帯の中心に（上端だと粒子が画面外へ抜けて
+    // 半分しか見えない。study_exam.js と同方針・2026-07-08／帯へ移したのは 2026-08-04）。
+    var _pb = ceBand();
+    var cx = _pb.cx;
+    var cy = _pb.cy;
     var theme = ceTheme();
 
     spawnRings(cx, cy, tier);
@@ -1564,8 +1616,9 @@
   function ceEcgSweep(tier) {
     var theme = ceTheme();
     var col = theme.fullscreenCols[Math.min(tier,6)] || '#00E676';
+    var _eb = ceBand();
     var w = window.innerWidth;
-    var y = window.innerHeight * (0.4 + Math.random() * 0.2);
+    var y = _eb.top + _eb.height * (0.4 + Math.random() * 0.2);
     var amp = tier >= 6 ? 90 : tier >= 5 ? 65 : 40;
     var segW = w / 10;
     var d = 'M0,' + y.toFixed(0);
@@ -1603,7 +1656,7 @@
     dim.className = 'ce-fx-temp';
     dim.style.cssText = 'position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:9400;';
     document.body.appendChild(dim);
-    var y = window.innerHeight / 2;
+    var y = ceBand().cy;
     var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
     svg.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9401;overflow:visible;';
     var line = document.createElementNS('http://www.w3.org/2000/svg','line');
@@ -1622,7 +1675,8 @@
         flash.style.opacity = '0';
         flash.animate([{opacity:0},{opacity:.9},{opacity:.08},{opacity:.85},{opacity:0}], {duration:260, easing:'linear'});
       }
-      document.body.animate([
+      // body ではなく演出レイヤーを揺らす（body の transform は fixed 要素の基準をページ先頭にずらす）
+      ceShakeFxLayers([
         {transform:'translate(0,0)'},{transform:'translate(6px,-4px)'},{transform:'translate(-8px,5px)'},{transform:'translate(0,0)'}
       ], {duration:180, easing:'ease-out'});
     }, 540);
@@ -1636,7 +1690,7 @@
     el.animate([{opacity:0},{opacity:1},{opacity:1},{opacity:0}], {duration: tier >= 6 ? 950 : 700, easing:'ease-in-out'}).onfinish = function(){ el.remove(); };
     // 画面中央の引力点が漂うパーティクルを実際に吸い込み、消滅時に外へ弾ける
     if (window.MecFX) {
-      var bx = window.innerWidth / 2, by = window.innerHeight / 2;
+      var _hb = ceBand(), bx = _hb.cx, by = _hb.cy;
       window.MecFX.attractor(bx, by, {ttl: .75, strength: 130000});
       setTimeout(function(){
         if (!window.MecFX) return;
@@ -1686,15 +1740,18 @@
         setTimeout(function() {
           var el = document.createElement('div');
           el.className = 'ce-fx-temp';
-          var x = window.innerWidth * (0.25 + idx * 0.25);
+          var b = ceBand();
+          var x = b.left + b.width * (0.25 + idx * 0.25);
+          // 画面上端(-80px)から落として可視帯の中心で受け止める
+          var drop = Math.round(b.cy + 48);
           el.textContent = glyphs[idx % glyphs.length];
           el.style.cssText = 'position:fixed;left:'+x.toFixed(0)+'px;top:-80px;font-size:64px;pointer-events:none;z-index:9066;filter:drop-shadow(0 6px 14px rgba(0,0,0,.5));';
           document.body.appendChild(el);
           el.animate([
             {transform:'translateY(0) rotate(-8deg) scale(.6)', opacity:0},
-            {transform:'translateY('+(window.innerHeight*0.42).toFixed(0)+'px) rotate(4deg) scale(1.15)', opacity:1, offset:.55},
-            {transform:'translateY('+(window.innerHeight*0.38).toFixed(0)+'px) rotate(-2deg) scale(1)', offset:.7},
-            {transform:'translateY('+(window.innerHeight*0.4).toFixed(0)+'px) rotate(0deg) scale(1)', opacity:1, offset:.85},
+            {transform:'translateY('+(drop+20)+'px) rotate(4deg) scale(1.15)', opacity:1, offset:.55},
+            {transform:'translateY('+(drop-20)+'px) rotate(-2deg) scale(1)', offset:.7},
+            {transform:'translateY('+drop+'px) rotate(0deg) scale(1)', opacity:1, offset:.85},
             {opacity:0}
           ], {duration:1400, easing:'cubic-bezier(.22,.9,.3,1.3)'}).onfinish = function(){ el.remove(); };
         }, idx * 140);
@@ -1784,7 +1841,8 @@
       frames.push({transform:'translate('+((Math.random()-.5)*amp*2).toFixed(1)+'px,'+((Math.random()-.5)*amp).toFixed(1)+'px)'});
     }
     frames.push({transform:'translate(0,0)'});
-    document.body.animate(frames, {duration: tier >= 6 ? 480 : 330, easing:'steps('+pulses+')'});
+    // ⚠️ body を transform してはいけない（fixed 要素の基準がページ先頭にずれて演出が画面外へ飛ぶ）
+    ceShakeFxLayers(frames, {duration: tier >= 6 ? 480 : 330, easing:'steps('+pulses+')'});
   }
 
   function ceTimeStop(tier) {
@@ -1810,6 +1868,15 @@
     var g = glowR[Math.min(tier,6)];
     var spread = 60 + tier * 35;
     el.textContent = '\xd7' + n;
+    // 全画面レイヤーを可視帯へ合わせる（inset:0 のままだとナビぶん中心が上にずれ、文字も帯からはみ出す）
+    var _fb = ceBand();
+    el.style.left = _fb.left + 'px';
+    el.style.top = _fb.top + 'px';
+    el.style.right = 'auto';
+    el.style.bottom = 'auto';
+    el.style.width = _fb.width + 'px';
+    el.style.height = _fb.height + 'px';
+    el.style.fontSize = Math.round(Math.min(_fb.width, _fb.height) * 0.42) + 'px';
     el.style.color = col;
     el.style.textShadow = '0 0 '+spread+'px rgba('+g+',.65), 0 0 '+(spread*2)+'px rgba('+g+',.35)';
     var dur = tier >= 6 ? 980 : tier >= 5 ? 820 : tier >= 4 ? 680 : 560;
@@ -1854,8 +1921,9 @@
   // 選択肢付近以外の祝祭エフェクト。互いに離れたランダム複数箇所へ0.05秒ずつ遅延して連続発火
   // （最小距離リジェクションで重複回避・study_exam.js と同方針）。
   function ceScatterPositions(n, minDist) {
-    var W = window.innerWidth, H = window.innerHeight;
-    var x0 = W * 0.08, x1 = W * 0.92, y0 = H * 0.10, y1 = H * 0.72;
+    var b = ceBand();
+    var x0 = b.left + b.width * 0.08, x1 = b.left + b.width * 0.92;
+    var y0 = b.top + b.height * 0.06, y1 = b.top + b.height * 0.86;
     var pts = [], guard = 0;
     while (pts.length < n && guard < n * 40) {
       guard++;
@@ -1877,7 +1945,8 @@
     var isInk = exam.effectSet === 'ink';
     var glyphs = theme.correctEmoji;
     var n = 4 + Math.min(t, 3);
-    var minDist = Math.min(window.innerWidth, window.innerHeight) * 0.264; // 0.22 ×1.2（重複回避を強化）
+    var _sb = ceBand();
+    var minDist = Math.min(_sb.width, _sb.height) * 0.264; // 0.22 ×1.2（重複回避を強化）
     var pts = ceScatterPositions(n, minDist);
     pts.forEach(function (p, i) {
       setTimeout(function () {
@@ -1895,9 +1964,8 @@
     var cols = theme.comboColors;
     var sz = 16 + Math.min(tier,6) * 4;
     el.textContent = theme.comboLabel(n);
-    // カード相対だと見切れ・高さバラつきが出るため画面中央(やや上)基準に統一（study_exam.jsと同方針）。
-    var cx = window.innerWidth / 2;
-    var cy = Math.round(window.innerHeight * 0.40);
+    // カード相対だと見切れ・高さバラつきが出るため可視帯の中心に統一（study_exam.jsと同方針）。
+    var _cb = ceBand(), cx = _cb.cx, cy = _cb.cy;
     el.style.cssText = 'position:fixed;left:'+cx+'px;top:'+cy+'px;font-weight:900;font-size:'+sz+'px;color:'+cols[Math.min(tier,6)]+';pointer-events:none;z-index:9200;text-shadow:0 2px 12px rgba(0,0,0,.7);transform:translateX(-50%);white-space:nowrap;';
     document.body.appendChild(el);
     el.animate([

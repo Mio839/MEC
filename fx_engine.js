@@ -30,6 +30,9 @@
     ctx = canvas.getContext('2d');
     resize();
     window.addEventListener('resize', resize);
+    // iPad/iOS はツールバーの出入り・分割表示・ソフトキーボードで可視域だけが変わり
+    // window の resize が来ないことがある。canvas の実寸が古いままだと粒子が縦にずれる。
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', resize);
     document.addEventListener('visibilitychange', function () { if (document.hidden) clearAll(); });
   }
 

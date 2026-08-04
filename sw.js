@@ -1,3 +1,10 @@
+// v132: 循環器 第7章「心筋」28問(Q.442-469)の解説を眼科水準(ep/ee/em/ept)へ書き直し。
+// あわせて Q.447 に欠けていた連問3/3の共通ステムを補い、Q.446 の設問文をPDF原文へ戻し、
+// PDFの ↗N(IRT型)を誤読していた bm(N択)バッジ93問を削除した（表示専用・採点に影響なし）。
+// questions_circ.json / qmeta.json が変わるので CACHE を bump（下の演出修正と同じバンプ）。
+// v132: 試験モードの演出の発火位置を「可視帯(_fxBand)」基準に変更（iPad実機の見切れ対策）。
+// study_exam.js / chapter_exam.js / fx_engine.js を更新したので CACHE を bump
+// （SHELL に入っているスクリプトなので bump しないと端末が旧版を掴んだまま）。
 // v130: 眼科 第8章「その他の眼科疾患」22問を追加（questions_oph.json が 191→213問）。
 // **これで眼科は全8章213問が完成**。画像も8問9枚を追加したので CACHE を bump。
 // 章名は「その他」だが実体は眼外傷の章で、眼窩吹き抜け骨折だけで11問（半数）。
@@ -58,7 +65,7 @@
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v130";
+const CACHE = "mec-v132";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。

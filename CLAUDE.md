@@ -463,6 +463,7 @@ node _work/test_card_render.js     カード描画（画像実寸・採点ボタ
 node _work/test_calc_input.js      計算問題の桁入力・データ整合      (29)
 node _work/test_missions.js        日次/週次ミッション          (36)
 node _work/test_daily_goal.js      ハブのゲージ・歯車の意匠      (29)
+node _work/test_fx_band.js         試験演出の可視帯(発火位置)    (15)
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 ```
 
@@ -472,6 +473,26 @@ node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 ## 試験モードの演出エフェクト仕様
 
 試験モード（🎓）で選択肢を選んだ瞬間に発火する視覚エフェクトの仕様。実装は `study_exam.js`（統合study.html用）と `chapter_exam.js`（章別過去問用・同一配色をミラー）。CSSアニメの一部は `study.css`。パーティクル描画は `fx_engine.js`（`window.MecFX`）。
+
+### ⚠️ 発火位置は「可視帯」が正本（2026-08-04〜）
+
+演出の焦点は **`_fxBand()`（study_exam.js）/ `ceBand()`（chapter_exam.js）** が返す帯の中心。
+`window.innerHeight * 0.4` のような**画面基準の座標を新しく書かないこと**。
+
+- 帯 = **sticky ヘッダーの下端（`.st-hdr` / 過去問は `.sn`・`.sn2`）〜 可視域の下端**（上下16pxのパディング）。
+  可視域は `visualViewport` があればそれが正本（Safariのツールバー出入り・分割表示・ピンチ・
+  ソフトキーボードに追従する）。無ければ `innerWidth/innerHeight`。
+- 直した不具合: iPadはヘッダーが約180pxあり、トーストの `top:68px` は**ヘッダーの裏**、
+  粒子・特大×nの焦点 `0.44×画面高` も上に寄って、上向きの粒子と数字が上端で切れていた。
+  トースト・シグネチャ・TIER UP・全画面×n は**発火時にインラインで**帯の座標を入れる
+  （CSSの `top:68px` / `top:112px` / `top:38%` / `inset:0` はフォールバック）。
+- ⚠️ **`document.body` を transform してはいけない**。transform された要素は `position:fixed` の
+  包含ブロックになるため、揺れている間だけ全演出がページ先頭基準になって画面外へ飛ぶ。
+  画面を揺らす演出は `_shakeFxLayers()` / `ceShakeFxLayers()`（canvas＋ヴィネットだけを揺らす）を使う。
+- ⚠️ 試験終了時に `opacity:0!important` を張る要素（`examStreakToast`・`streakFullscreen`・
+  `examStreakBorder`）は、**次の発火で `removeProperty('opacity')` すること**。
+  `!important` は WAAPI アニメより強いので、外さないと同じページの2回目以降の試験で一度も出ない。
+- テスト: `node _work/test_fx_band.js`（帯の幾何・両ファイルのミラー整合・上の回帰ガード）
 
 ### 演出セット（テーマ）
 - 全7セット: `classic` / `neon` / `ink` / `ecg` / `space` / `retro` / `luxury`（`EXAM_EFFECT_SETS`）。定義本体は `EXAM_EFFECT_THEMES`（study_exam.js）。

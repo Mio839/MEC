@@ -926,6 +926,7 @@ function _triggerFullscreenCombo(n, tier) {
   const el = document.getElementById('streakFullscreen');
   if (!el) return;
   el.getAnimations?.().forEach(a => a.cancel());
+  el.style.removeProperty('opacity');   // 前回の試験終了時に張られた opacity:0!important を外す（下記⚠️）
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const cols = theme.fullscreenCols;
   const glowR = theme.fullscreenGlow;
@@ -933,6 +934,16 @@ function _triggerFullscreenCombo(n, tier) {
   const g = glowR[Math.min(tier,6)];
   const spread = 60 + tier * 35;
   el.textContent = '×' + n;
+  // 全画面レイヤーを可視帯へ合わせる（CSSの inset:0 は画面全体＝ヘッダーぶん中心が上にずれる）。
+  // 文字も帯に収まる大きさへ抑える（42vmin のままだと帯からはみ出して上下が切れる）。
+  const b = _fxBand();
+  el.style.left = b.left + 'px';
+  el.style.top = b.top + 'px';
+  el.style.right = 'auto';
+  el.style.bottom = 'auto';
+  el.style.width = b.width + 'px';
+  el.style.height = b.height + 'px';
+  el.style.fontSize = Math.round(Math.min(b.width, b.height) * 0.42) + 'px';
   el.style.color = col;
   el.style.textShadow = `0 0 ${spread}px rgba(${g},.65), 0 0 ${spread*2}px rgba(${g},.35), 0 0 ${spread*3}px rgba(${g},.15)`;
   const dur = tier >= 6 ? 980 : tier >= 5 ? 820 : tier >= 4 ? 680 : 560;
@@ -1241,10 +1252,38 @@ function _examFxHeaderBottom() {
   const h = document.querySelector('.st-hdr');
   return h ? h.getBoundingClientRect().bottom : 0;
 }
+
+// ══ 演出の可視帯（2026-08-04）══
+// 演出の発火座標は「画面の 0.40〜0.44」ではなく、この帯の中心を正本にする。
+// 旧実装は window.innerHeight だけを見ていたため、sticky ヘッダーが高い iPad では
+// 中心が実際に見えている領域より上に来て、トースト・特大×n・粒子が上端で切れていた。
+//   top    … ヘッダー下端（＝ここより上は隠れる）
+//   bottom … 可視域の下端
+// visualViewport があればそれを可視域の正本にする（Safariのツールバー出入り・分割表示・
+// ピンチ・ソフトキーボードに追従する）。fixed 要素も MecFX の canvas も同じ
+// レイアウトビューポート座標系なので、この帯の値をそのまま両方に使える。
+const FX_BAND_PAD = 16;
+function _fxBand() {
+  const vv = window.visualViewport;
+  const vLeft = vv ? vv.offsetLeft : 0;
+  const vTop  = vv ? vv.offsetTop  : 0;
+  const vW    = vv ? vv.width  : window.innerWidth;
+  const vH    = vv ? vv.height : window.innerHeight;
+  let top    = Math.max(vTop + FX_BAND_PAD, _examFxHeaderBottom() + FX_BAND_PAD);
+  let bottom = vTop + vH - FX_BAND_PAD;
+  // ヘッダーが可視域を食い尽くす（横向きの iPhone 等）ときは帯が潰れるので可視域全体へ戻す。
+  if (bottom - top < 140) { top = vTop + FX_BAND_PAD; bottom = vTop + vH - FX_BAND_PAD; }
+  return {
+    left: vLeft, width: vW, right: vLeft + vW,
+    top: top, bottom: bottom, height: Math.max(1, bottom - top),
+    vTop: vTop, vBottom: vTop + vH, vHeight: vH,   // ヘッダーを差し引く前の素の可視域
+    cx: Math.round(vLeft + vW / 2),
+    cy: Math.round((top + bottom) / 2)
+  };
+}
 function _examClampFxXY(cx, cy) {
-  const top = _examFxHeaderBottom() + 18;
-  const bottom = window.innerHeight - 18;
-  return [cx, Math.max(top, Math.min(bottom, cy))];
+  const b = _fxBand();
+  return [Math.max(b.left + 8, Math.min(b.right - 8, cx)), Math.max(b.top, Math.min(b.bottom, cy))];
 }
 
 // A1: 速答ボーナス。ラベル＋⚡グリフを選んだ肢の位置から出す
@@ -1252,8 +1291,9 @@ function _triggerFastBonus(el) {
   if (_fxOff()) return;
   const theme = _examTheme();
   const r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
-  const cx0 = r && r.width ? r.left + r.width / 2 : window.innerWidth / 2;
-  const cy0 = r && r.width ? r.top : window.innerHeight * 0.4;
+  const _b0 = _fxBand();
+  const cx0 = r && r.width ? r.left + r.width / 2 : _b0.cx;
+  const cy0 = r && r.width ? r.top : _b0.cy;
   const [cx, cy] = _examClampFxXY(cx0, cy0);
   const lab = document.createElement('div');
   lab.className = 'exam-fast-pop';
@@ -1298,7 +1338,7 @@ function _traceCardBorder(card) {
   if (!card || _fxOff()) return;
   const r = card.getBoundingClientRect();
   if (!r.width || !r.height) return;
-  if (r.bottom < _examFxHeaderBottom() + 20 || r.top > window.innerHeight) return; // カードが可視域外＝枠が上端等でズレる
+  { const b = _fxBand(); if (r.bottom < b.top + 4 || r.top > b.vBottom) return; } // カードが可視域外＝枠が上端等でズレる
   const theme = _examTheme();
   const col = (theme.fx && theme.fx.hex) || (theme.comboColors && theme.comboColors[3]) || '#FFD700';
   const NS = 'http://www.w3.org/2000/svg';
@@ -1336,6 +1376,7 @@ function _triggerTierUpStamp(tier, n) {
     '<span class="tu-main">' + ((theme.tierUpLabel && theme.tierUpLabel(tier)) || ('TIER ' + tier)) + '</span>';
   el.style.setProperty('--tu-col', col);
   el.style.setProperty('--tu-glow', glow);
+  el.style.top = _fxBand().cy + 'px';   // CSSの top:38% は画面基準＝ヘッダーの高い端末で上に寄る
   document.body.appendChild(el);
   el.animate([
     { opacity: 0, transform: 'translate(-50%,-50%) scale(3.2) rotate(-16deg)' },
@@ -1348,7 +1389,10 @@ function _triggerTierUpStamp(tier, n) {
   // メーター位置からの祝砲（B6と連動）
   if (window.MecFX) {
     try {
-      window.MecFX.burst(window.innerWidth / 2, 6, {
+      // 祝砲はコンボメーター(画面最上端)ではなく可視帯の上端から上げる。
+      // 画面最上端だと上半分が画面外へ抜けて切れる（iPad実機・2026-08-04）。
+      const _mb = _fxBand();
+      window.MecFX.burst(_mb.cx, _mb.top, {
         count: 40 + tier * 14,
         colors: (theme.burstPalettes && theme.burstPalettes[Math.min(tier, 6)]) || ['#FFD700'],
         shapes: theme.shapes(tier), tier: tier, glow: examEffectSet !== 'ink', additive: examEffectSet !== 'ink'
@@ -1383,7 +1427,7 @@ function _zoneStop(collapse) {
   if (_zoneTimer) { clearInterval(_zoneTimer); _zoneTimer = null; }
   document.body.classList.remove('exam-zone', 'exam-awaken');
   if (!wasActive || !collapse || _fxOff()) return;
-  const cx = window.innerWidth / 2, cy = Math.round(window.innerHeight * 0.44);
+  const { cx, cy } = _fxBand();
   if (window.MecFX) {
     try {
       window.MecFX.attractor(cx, cy, { ttl: .9, strength: 260000 });
@@ -1610,6 +1654,12 @@ function _showStreakEffect(n) {
   const toast = document.getElementById('examStreakToast');
   if (!toast) return;
   toast.getAnimations?.().forEach(a => a.cancel());
+  // ⚠️ 試験終了時(_exitExamMode)に opacity:0!important を張るが、!important は WAAPI アニメより
+  // 強いため、外さないと同じページで2回目以降の試験ではトーストが一度も出ない。
+  toast.style.removeProperty('opacity');
+  // 縦位置は固定値(旧 top:68px)ではなく可視帯の上端＝ヘッダー下端に置く。
+  // iPadはヘッダーが高く、68px だとヘッダーに重なって上端で切れていた（実機報告・2026-08-04）。
+  toast.style.top = _fxBand().top + 'px';
   toast.className = 't' + tier + (promoted ? '' : ' quiet');
   toast.textContent = labels[tier];
   _showStreakSignature(n, tier, promoted);
@@ -1665,8 +1715,7 @@ function _showStreakEffect(n) {
 // B4: 昇格しなかったフレーム用の軽量エフェクト
 function _spawnLightStreakFx(tier) {
   if (!window.MecFX) return;
-  const cx = window.innerWidth / 2;
-  const cy = Math.round(window.innerHeight * 0.44);
+  const { cx, cy } = _fxBand();
   const counts = [0, 14, 22, 30, 40, 52, 64];
   _spawnBurst(cx, cy, tier, counts[Math.min(tier, 6)] || 14);
   const theme = _examTheme();
@@ -1688,6 +1737,7 @@ function _showStreakSignature(n, tier, promoted) {
   }
   el.getAnimations?.().forEach(a => a.cancel());
   el.textContent = theme.signature(n);
+  el.style.top = (_fxBand().top + 44) + 'px';   // トーストの直下（CSSの top:112px は画面基準）
   el.style.color = (theme.comboColors && theme.comboColors[Math.min(tier, 6)]) || '#FFD700';
   el.animate([
     { opacity: 0, transform: 'translateX(-50%) translateY(-6px)' },
@@ -1695,6 +1745,15 @@ function _showStreakSignature(n, tier, promoted) {
     { opacity: 1, offset: promoted ? .72 : .5 },
     { opacity: 0, transform: 'translateX(-50%) translateY(-8px)' }
   ], { duration: promoted ? 2200 : 1200, easing: 'ease-out', fill: 'forwards' });
+}
+
+// 演出レイヤーだけを揺らす。body を transform すると body が position:fixed の包含ブロックになり、
+// 揺れている間だけ全ての演出（トースト・特大×n・粒子canvas）がページ先頭基準になって画面外へ飛ぶ。
+function _shakeFxLayers(frames, timing) {
+  const fxCanvas = document.getElementById('mecFxCanvas');
+  if (fxCanvas) fxCanvas.animate(frames, timing);
+  const ov = document.getElementById('examShakeOverlay');
+  if (ov) ov.animate(frames, timing);
 }
 
 // 演出用の固定オーバーレイ（周縁ヴィネット）。body を揺らさないための受け皿。
@@ -1739,6 +1798,7 @@ function _triggerBorderGlow(tier) {
   const el = document.getElementById('examStreakBorder');
   if (!el) return;
   el.getAnimations?.().forEach(a => a.cancel());
+  el.style.removeProperty('opacity');   // 前回の試験終了時の opacity:0!important を外す
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const colors = theme.borderColors;
   const sizes  = {4:'6px',5:'9px',6:'13px'};
@@ -1797,11 +1857,11 @@ function _spawnStreakParticles(tier) {
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const toast = document.getElementById('examStreakToast');
   if (!toast) return;
-  // パーティクルの発生原点はトースト位置(top:68px≒画面最上部)ではなく画面中央寄りにする。
+  // パーティクルの発生原点はトースト位置(画面最上部)ではなく可視帯の中心にする。
   // 上端だと上向きに飛ぶ粒子・バーストが画面外に抜けて半分しか見えないため（iPad実機・2026-07-08）。
-  // 縦は全画面コンボ数字(#streakFullscreen=中央)と重なる 0.44 付近に置き、四方に広がっても収まるようにする。
-  const cx = window.innerWidth / 2;
-  const cy = Math.round(window.innerHeight * 0.44);
+  // 「画面の 0.44」だとヘッダーの高い iPad でまだ上に寄って切れていたので、
+  // ヘッダー下端〜画面下端の中心（_fxBand）へ移した（iPad実機・2026-08-04）。
+  const { cx, cy } = _fxBand();
 
   _spawnShockwaveRings(cx, cy, tier);
   _spawnLightning(cx, cy, tier);
@@ -1929,8 +1989,9 @@ function _inkBrushSwipe(tier) {
 function _ecgSweep(tier) {
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const col = theme.fullscreenCols[Math.min(tier,6)] || '#00E676';
+  const _b = _fxBand();
   const w = window.innerWidth;
-  const y = window.innerHeight * (0.4 + Math.random() * 0.2);
+  const y = _b.top + _b.height * (0.4 + Math.random() * 0.2);
   const amp = tier >= 6 ? 90 : tier >= 5 ? 65 : 40;
   const segW = w / 10;
   let d = `M0,${y.toFixed(0)}`;
@@ -1968,7 +2029,7 @@ function _ecgDefib(tier) {
   dim.className = 'exam-fx-temp';
   dim.style.cssText = 'position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:9400;';
   document.body.appendChild(dim);
-  const y = window.innerHeight / 2;
+  const y = _fxBand().cy;
   const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
   svg.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9401;overflow:visible;';
   const line = document.createElementNS('http://www.w3.org/2000/svg','line');
@@ -1988,7 +2049,8 @@ function _ecgDefib(tier) {
       flash.style.opacity = '0';
       flash.animate([{opacity:0},{opacity:.9},{opacity:.08},{opacity:.85},{opacity:0}], {duration:260, easing:'linear'});
     }
-    document.body.animate([
+    // body ではなく演出レイヤーを揺らす（body の transform は fixed 要素の基準をページ先頭にずらす）
+    _shakeFxLayers([
       {transform:'translate(0,0)'},{transform:'translate(6px,-4px)'},{transform:'translate(-8px,5px)'},{transform:'translate(0,0)'}
     ], {duration:180, easing:'ease-out'});
   }, 540);
@@ -2003,7 +2065,7 @@ function _spawnBlackHoleVignette(tier) {
   // 画面中央の引力点が漂うパーティクルを実際に吸い込み、消滅時に外へ弾ける
   if (window.MecFX) {
     const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-    const bx = window.innerWidth / 2, by = window.innerHeight / 2;
+    const { cx: bx, cy: by } = _fxBand();
     window.MecFX.attractor(bx, by, {ttl: .75, strength: 130000});
     setTimeout(() => {
       if (!window.MecFX) return;
@@ -2054,15 +2116,18 @@ function _spawnMedalDrop(tier) {
     setTimeout(() => {
       const el = document.createElement('div');
       el.className = 'exam-fx-temp';
-      const x = window.innerWidth * (0.25 + i * 0.25);
+      const b = _fxBand();
+      const x = b.left + b.width * (0.25 + i * 0.25);
+      // 画面上端(-80px)から落として可視帯の中心で受け止める（0.4×画面高だとヘッダーの高い端末で上に止まる）
+      const drop = Math.round(b.cy + 48);
       el.textContent = glyphs[i % glyphs.length];
       el.style.cssText = `position:fixed;left:${x.toFixed(0)}px;top:-80px;font-size:64px;pointer-events:none;z-index:9066;filter:drop-shadow(0 6px 14px rgba(0,0,0,.5));`;
       document.body.appendChild(el);
       el.animate([
         {transform:'translateY(0) rotate(-8deg) scale(.6)', opacity:0},
-        {transform:`translateY(${(window.innerHeight*0.42).toFixed(0)}px) rotate(4deg) scale(1.15)`, opacity:1, offset:.55},
-        {transform:`translateY(${(window.innerHeight*0.38).toFixed(0)}px) rotate(-2deg) scale(1)`, offset:.7},
-        {transform:`translateY(${(window.innerHeight*0.4).toFixed(0)}px) rotate(0deg) scale(1)`, opacity:1, offset:.85},
+        {transform:`translateY(${drop + 20}px) rotate(4deg) scale(1.15)`, opacity:1, offset:.55},
+        {transform:`translateY(${drop - 20}px) rotate(-2deg) scale(1)`, offset:.7},
+        {transform:`translateY(${drop}px) rotate(0deg) scale(1)`, opacity:1, offset:.85},
         {opacity:0}
       ], {duration:1400, easing:'cubic-bezier(.22,.9,.3,1.3)'}).onfinish = () => el.remove();
     }, i * 140);
@@ -2157,7 +2222,6 @@ function _triggerGlitch(tier) {
       long: heavy
     });
   }
-  document.body.getAnimations?.().forEach(a => a.cancel());
   const amp = tier >= 6 ? 7 : 4;
   const pulses = tier >= 6 ? 7 : 5;
   const frames = [{transform:'translate(0,0)'}];
@@ -2165,7 +2229,10 @@ function _triggerGlitch(tier) {
     frames.push({transform:`translate(${((Math.random()-.5)*amp*2).toFixed(1)}px,${((Math.random()-.5)*amp).toFixed(1)}px)`});
   }
   frames.push({transform:'translate(0,0)'});
-  document.body.animate(frames, {duration: tier >= 6 ? 480 : 330, easing:`steps(${pulses})`});
+  // ⚠️ body を transform してはいけない。transform された要素は position:fixed の包含ブロックに
+  // なるため、揺れている間だけ全ての演出レイヤー（トースト・×n・canvas）がページ先頭を基準に
+  // 描かれ、画面上部へ飛んで見切れる。_triggerScreenShake と同じく演出レイヤーだけを揺らす。
+  _shakeFxLayers(frames, {duration: tier >= 6 ? 480 : 330, easing:`steps(${pulses})`});
 }
 
 function _spawnChoiceRipple(el) {
@@ -2219,9 +2286,9 @@ function _triggerChoiceCorrectPop(el) {
 // 0.05秒ずつ遅延して連続発火する（肢のポップは別途肢の上で光る＝そちらは文脈表示として維持）。
 // 位置は最小距離リジェクションで重複を避ける。上寄り中央帯に置き、答えた肢や下のカードに被りにくくする。
 function _scatterPositions(n, minDist) {
-  const W = window.innerWidth, H = window.innerHeight;
-  const x0 = W * 0.08, x1 = W * 0.92;
-  const y0 = H * 0.10, y1 = H * 0.72;
+  const b = _fxBand();
+  const x0 = b.left + b.width * 0.08, x1 = b.left + b.width * 0.92;
+  const y0 = b.top + b.height * 0.06, y1 = b.top + b.height * 0.86;
   const pts = [];
   let guard = 0;
   while (pts.length < n && guard < n * 40) {
@@ -2242,7 +2309,8 @@ function _spawnScatteredCelebration(theme) {
   const isInk = examEffectSet === 'ink';
   const glyphs = theme.correctEmoji; // classic は無し
   const n = 4 + Math.min(t, 3);       // 4〜7 箇所
-  const minDist = Math.min(window.innerWidth, window.innerHeight) * 0.264; // 0.22 ×1.2（重複回避を強化）
+  const _sb = _fxBand();
+  const minDist = Math.min(_sb.width, _sb.height) * 0.264; // 0.22 ×1.2（重複回避を強化）
   const pts = _scatterPositions(n, minDist);
   pts.forEach((p, i) => {
     setTimeout(() => {
@@ -2261,9 +2329,9 @@ function _spawnFloatingCombo(card, n, tier) {
   const sz = 16 + Math.min(tier,6) * 4;
   el.textContent = theme.comboLabel(n);
   // 位置はカード相対だとカードのスクロール位置で上端に寄って見切れ、演出ごとに高さがバラつく。
-  // 粒子・全画面コンボ数字と同じ画面中央(やや上)の焦点に統一して、正解/連続正解の演出をまとめる。
-  const cx = window.innerWidth / 2;
-  const cy = Math.round(window.innerHeight * 0.40);
+  // 粒子・全画面コンボ数字と同じ可視帯の中心(_fxBand)に統一して、正解/連続正解の演出をまとめる。
+  // ⚠️ 上へ70px飛ぶアニメがあるので、焦点は帯の中心より下げない。
+  const { cx, cy } = _fxBand();
   el.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;font-weight:900;font-size:${sz}px;color:${cols[Math.min(tier,6)]};pointer-events:none;z-index:9200;text-shadow:0 2px 12px rgba(0,0,0,.7);transform:translateX(-50%);white-space:nowrap;`;
   document.body.appendChild(el);
   el.animate([
@@ -3172,7 +3240,7 @@ function showExamSummary() {
       } else if (pct >= 60) {
         window.MecFX.confetti({ count: 50, colors: ['#60A5FA', '#FFB830', '#3DD68C'] });
       } else {
-        window.MecFX.rings(window.innerWidth / 2, window.innerHeight * 0.35, { count: 1, color: 'rgba(96,165,250,.7)', thickness: 3, maxR: 140, additive: true });
+        { const _rb = _fxBand(); window.MecFX.rings(_rb.cx, _rb.cy, { count: 1, color: 'rgba(96,165,250,.7)', thickness: 3, maxR: 140, additive: true }); }
       }
     } catch (e) {}
   }
