@@ -43,3 +43,8 @@ _work/tmp_q*.png
 
 # 新科目のPDF抽出の作業ディレクトリ（ページ画像・解答表のdump。派生物なので追跡しない）
 _work/_oph_tmp/
+_work/_circ_tmp/
+
+# 作り直し前の questions_*.json のスナップショット（roundtrip_*.py の比較基準）。
+# 中身は追跡済みの questions_*.json と同じなのでリポジトリに二重に置かない。
+_work/_baseline_*.json
