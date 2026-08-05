@@ -1,3 +1,5 @@
+// v141: 循環器ch02「心不全」後半25問(Q.103-127)の解説を眼科水準へ書き直し。
+// これで ch02 全50問が完成。questions_circ.json を更新したので CACHE を bump。
 // v140: 循環器ch02「心不全」前半25問(Q.78-102)の解説を眼科水準(ep/ee/em/ept)へ書き直し。
 // あわせて ans_sub が設問と噛み合っていなかった11問を書き直した。うち Q.108(110G-68) と
 // Q.114(107C-21) は「適切でないのはどれか」なのに ans_sub がその選択肢を推奨しており、
@@ -76,7 +78,7 @@
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v140";
+const CACHE = "mec-v141";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
