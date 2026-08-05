@@ -15,7 +15,7 @@
   const K_TOKEN = 'mec_gist_token', K_GIST = 'mec_gist_id', K_LAST_SYNC = 'mec_last_sync_v1';
   const K_GAMIFY = 'mec_gamify_v1'; // ゲーミフィケーション（bestStreak等の数値のみ・field-wise maxでマージ）
   const K_ATT = 'mec_attempts_v1';  // 解答イベントログ（attempts.js が追記・追記専用でunionマージ）
-  const ATT_CAP = 2000;             // attempts.js の CAP と一致させること
+  const ATT_CAP = 5000;             // attempts.js の CAP と一致させること（2026-08-06に2000から引き上げ）
   const K_MISSIONS = 'mec_missions_v1'; // 日次/週次ミッション進捗（端末別G-counter・同一(期間,端末,カウンタ)はmax）＋達成ボーナスXP台帳
 
   let syncTimer = null;
@@ -40,7 +40,7 @@
   }
   // 容量が尽きたときに何を捨てるか。
   // 捨てる順は「再現できるもの・粒度が粗くても困らないもの」から。
-  //   ① attempts … 追記専用の生ログ。上限2000件で最も太い（1件≒40B＝最大80KB）。
+  //   ① attempts … 追記専用の生ログ。上限5000件で最も太い（1件≒43B＝最大215KB）。
   //                 集計済みの myrate_v1 が別にあるので、古い明細を落としても
   //                 弱点カルテの傾向は残る。まずここを半分にする。
   //   ② activity … 日ごとの回数。30日より前は連続日数の計算にも30日グラフにも使わない。
@@ -179,7 +179,7 @@
       'Content-Type': 'application/json',
       Accept: 'application/vnd.github.v3+json'
     };
-    // インデントを付けない。attempts(最大2000件)・done(7000件超)・srs を毎回まるごと送るので、
+    // インデントを付けない。attempts(最大5000件)・done(7000件超)・srs を毎回まるごと送るので、
     // pretty-print は転送量を1.5倍にするだけで誰も読まない（Gistの中身を直接読む運用は無い）。
     const body = JSON.stringify({
       description: 'MEC 医師国試 学習進捗',

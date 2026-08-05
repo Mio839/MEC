@@ -627,16 +627,27 @@ test('attempts: merged records are sorted by time ascending', () => {
   assert.deepStrictEqual(times, [100, 200, 300]);
 });
 
-test('attempts: total is capped at 2000, oldest dropped', () => {
+// 上限はソースから読む（値を直書きすると引き上げのたびにテストが嘘になる）。
+// ⚠️ 同期側(progress.js の ATT_CAP)と追記側(attempts.js の CAP)は必ず同じ値であること。
+const ATT_CAP = Number(/const ATT_CAP\s*=\s*(\d+)/.exec(RAW)[1]);
+
+test('attempts: 同期側と追記側の上限が一致している（片方だけ変えると同期のたびに削られる）', () => {
+  const attSrc = fs.readFileSync(path.join(__dirname, '..', 'attempts.js'), 'utf8');
+  const cap = Number(/const CAP\s*=\s*(\d+)/.exec(attSrc)[1]);
+  assert.strictEqual(cap, ATT_CAP);
+});
+
+test('attempts: total is capped at ATT_CAP, oldest dropped', () => {
+  const nLocal = ATT_CAP - 500, nRemote = 1000;   // 合わせて上限+500件になるように積む
   const local = [];
-  for (let i = 0; i < 1500; i++) local.push(att('q' + i, i, 'aaa', i));
+  for (let i = 0; i < nLocal; i++) local.push(att('q' + i, i, 'aaa', i));
   const remote = [];
-  for (let i = 0; i < 1000; i++) remote.push(att('r' + i, 10000 + i, 'bbb', i));
+  for (let i = 0; i < nRemote; i++) remote.push(att('r' + i, 10000 + i, 'bbb', i));
   const env = makeEnv({ [KAT]: JSON.stringify(local) });
   env.mergeRemote({ [KAT]: remote });
   const a = env.getArr(KAT);
-  assert.strictEqual(a.length, 2000);
-  assert.strictEqual(a[a.length - 1].split('|')[0], 'r999', 'newest must survive');
+  assert.strictEqual(a.length, ATT_CAP);
+  assert.strictEqual(a[a.length - 1].split('|')[0], 'r' + (nRemote - 1), 'newest must survive');
   assert.strictEqual(a[0].split('|')[0], 'q500', 'oldest 500 must be dropped');
 });
 

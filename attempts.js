@@ -22,7 +22,7 @@
 //   n    : そのセッションで何問目か（1始まり）
 //
 // オブジェクトのままJSONに載せるとGist同期のpayloadが pretty-print で桁違いに膨らむ
-// （payloadは JSON.stringify(payload, null, 2)）。文字列1行なら2000件でも約130KBに収まる。
+// （payloadは JSON.stringify(payload, null, 2)）。文字列1行なら5000件でも約215KBに収まる。
 //
 // ■ 同期
 // 追記専用なので sess+n をキーにした union でマージできる（衝突しない）。
@@ -32,7 +32,12 @@
   'use strict';
 
   const K_ATT = 'mec_attempts_v1';
-  const CAP = 2000;              // 上限件数。1日50問なら約40日分・実測120KB前後
+  // 上限件数。1行≒43B なので 5000件で約215KB（localStorage・Gist payload とも余裕がある）。
+  // ⚠️ 2026-08-06に 2000 → 5000 へ引き上げた。実データで1日1434解答の日があり、2000件では
+  //    バッファが約1.4日分しか持たない＝今日たくさん解くと「昨日の誤答」がその日のうちに
+  //    古い方から消えていく（実際に満杯2000/2000で 08-04と08-05 の2日分しか残っていなかった）。
+  //    ⚠️ progress.js の ATT_CAP と必ず一致させること（同期マージ側も同じ長さで切り詰める）。
+  const CAP = 5000;
   const MAX_SEC = 600;           // これを超える所要秒は「離席」とみなし記録しない
   const ATT_FIELDS = ['uid', 't', 'c', 'o', 's', 'm', 'sess', 'n'];
 

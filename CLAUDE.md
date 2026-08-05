@@ -20,7 +20,7 @@
 | `study.css` | study.html専用のCSS（旧インライン<style>を2026-07-05に外出し）。⚠️ study.htmlはこれに依存＝両方一緒にcommit/push必須 |
 | `index.html` | ハブダッシュボード（全科目の進捗表示・ナビ・同期設定）。ヒーローのボタンは**席が固定の3つ**＝主（やるべきこと）・副（復習）・「🔁 今日の誤答を再履修」。0件の日も席を空けず `.is-off` で無効表示にする。⚠️ **統計への導線をここに置かないこと**（下記「ヒーローのボタン」） |
 | `progress.js` | 共有モジュール：localStorage + GitHub Gist 同期。localStorageキーは`K*`定数が正本 |
-| `attempts.js` | 解答イベントログ（`mec_attempts_v1`・`window.MecAttempts`）。1解答=パイプ区切り1行の文字列で上限2000件のリングバッファ。集計値の`myrate_v1`と違い時刻・出題順・所要秒・選んだ肢を残す＝弱点分析の素材。study.html／stats.html／**index.html**が読込み。`todayWrongUids()`は「今日の誤答を再履修」の対象UIDの正本（ハブの件数表示と出題側が同じ関数を使う） |
+| `attempts.js` | 解答イベントログ（`mec_attempts_v1`・`window.MecAttempts`）。1解答=パイプ区切り1行の文字列で上限5000件のリングバッファ（2026-08-06に2000から引き上げ。1日1400解答の日があり2000件では約1.4日分しか持たず「昨日の誤答」がその日のうちに消えた。⚠️`attempts.js`の`CAP`と`progress.js`の`ATT_CAP`は一致必須）。集計値の`myrate_v1`と違い時刻・出題順・所要秒・選んだ肢を残す＝弱点分析の素材。study.html／stats.html／**index.html**が読込み。`todayWrongUids()`は「今日の誤答を再履修」の対象UIDの正本（ハブの件数表示と出題側が同じ関数を使う） |
 | `qmeta.json` | 設問メタ（全科目1ファイル・`_work/build_qmeta.py`が生成する**派生物**）。設問形式(診断/検査/治療/対応/知識)・否定形・複数選択・画像・症例・計算・採点除外を自動分類。stats.htmlの弱点カルテが使う。**questions_*.json は一切変更しない**（pdf_audit.pyの監査対象を汚さないため） |
 | `stats.html` | 学習統計ページ（30日チャート・SRS統計・AI相談Markdownエクスポート） |
 | `knowledge.html` | 検索知識ノート機能 |
@@ -94,7 +94,7 @@
 - `myrate_v1` — UID → `{correct,total}`（試験モードの自己正答率。マージは各フィールドmax）
 - `studytime_v1` — YYYY-MM-DD → 学習分数
 - `mec_srs_v1` — SRS復習スケジュール ／ `mec_exam_resumes_v1` — 試験中断の再開データ ／ `mec_ch_exam_v1` — 章別試験履歴
-- `mec_attempts_v1` — 解答イベントログ（attempts.js）。`"uid|t|c|o|s|m|sess|n"` の文字列配列・上限2000件。追記専用なので同期は`sess+n`をキーにしたunion＋時刻昇順ソート＋上限切り詰め
+- `mec_attempts_v1` — 解答イベントログ（attempts.js）。`"uid|t|c|o|s|m|sess|n"` の文字列配列・上限5000件。追記専用なので同期は`sess+n`をキーにしたunion＋時刻昇順ソート＋上限切り詰め
 - `error_reports_v1` — 問題エラー報告 ／ `mec_err_cleared_at` — 一括消去のタイムスタンプ
 - `mec_gist_token` — GitHub PAT（gistスコープ）／ `mec_gist_id` — Gist ID ／ `mec_last_sync_v1` — 最終同期時刻
 - UIローカル設定（非同期）: `mec_subjects_v1`（選択科目）/`mec_filter_v1`/`mec_state_v1`/`mec_combo_sound_v1` 等
