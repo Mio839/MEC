@@ -1237,16 +1237,22 @@ function renderHero() {
   // ── TEMP（昨日の誤答）: 4つ目の仮設ボタン。件数の正本は今日ぶんと同じ考え方で
   //    MecAttempts.yesterdayWrongUids()（attempts.js）。消すときは attempts.js の
   //    yesterdayWrongUids に書いた手順どおり4か所まとめて。
+  // ⚠️ 存在確認を関数まで下ろすこと。attempts.js は sw.js の SHELL キャッシュに載っているので、
+  //    デプロイ直後は「新しい index.html ＋ 古い attempts.js」の組み合わせが起こり得る。
+  //    素で呼ぶと TypeError でここから下（大きな読み値・XP・ゲージ）が丸ごと描画されず、
+  //    ボタンはマークアップ既定の「🔁 昨日の誤答なし」のまま固まる（実際にこれが出た）。
+  //    仮設の機能がハブ本体を壊さないよう try でも囲む。
   const p4 = document.getElementById('heroYesterday');
-  if (p4) {
-    const yWrongN = window.MecAttempts ? MecAttempts.yesterdayWrongUids().length : 0;
+  if (p4) try {
+    const yWrongN = (window.MecAttempts && MecAttempts.yesterdayWrongUids)
+      ? MecAttempts.yesterdayWrongUids().length : 0;
     const yOn = yWrongN > 0;
     p4.textContent = yOn ? ('🔁 昨日の誤答 ' + _fmtN(yWrongN) + '問を再履修') : '🔁 昨日の誤答なし';
     p4.classList.toggle('is-off', !yOn);
     p4.setAttribute('aria-disabled', yOn ? 'false' : 'true');
     if (yOn) p4.href = 'study.html?mode=yesterday_wrong';
     else     p4.removeAttribute('href');
-  }
+  } catch (e) { console.error('MEC heroYesterday error:', e); }
   // ────────────────────────────────────────────────────────────────────────
 
   // 大きな読み値: カウントアップ → 着地で桁が順に立ち上がり、下から粒子が散る
