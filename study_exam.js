@@ -1487,7 +1487,8 @@ function _examCountdown() {
     const names = ids.map(id => (STUDY_SUBJECTS.find(x => x.id === id) || {}).name || id);
     subjLabel = names.length > 1 ? (names[0] + ' 他' + (names.length - 1)) : (names[0] || '—');
     if (_srsReviewMode) subjLabel = 'SRS REVIEW';
-    if (_todayWrongMode) subjLabel = "TODAY'S MISSES";
+    // TEMP（昨日の誤答）: _wrongDayJa() は study.html 側が持つ（'今日' / '昨日'）
+    if (_todayWrongMode) subjLabel = (window._wrongDayJa?.() === '昨日') ? "YESTERDAY'S MISSES" : "TODAY'S MISSES";
   } catch (e) {}
 
   const katakana = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロABCDEF0123456789';
@@ -3147,7 +3148,7 @@ function showExamSummary() {
   const titleEl = document.querySelector('#examOverlay h2');
   if (titleEl) titleEl.innerHTML =
     _srsReviewMode  ? '🔔 <span class="grad-txt">復習セッション結果</span>' :
-    _todayWrongMode ? '🔁 <span class="grad-txt">今日の誤答 再履修の結果</span>' :
+    _todayWrongMode ? '🔁 <span class="grad-txt">' + (window._wrongDayJa?.() || '今日') + 'の誤答 再履修の結果</span>' :
                       '📊 <span class="grad-txt">セッション結果</span>';
   const elapsed = examStartTime ? Math.floor((_examActiveMs()) / 1000) : 0;
   const pct = examAnswered > 0 ? Math.round(examCorrect / examAnswered * 100) : 0;
@@ -3267,14 +3268,30 @@ function showExamSummary() {
     }
     setTimeout(_srsCompleteCelebration, 700);
   }
-  // 今日の誤答の再履修を完走したとき。SRS復習と違い「続けて次の50問」は出さない
-  // （対象は今日の誤答という有限の集合で、繰り越す due が存在しないため）。
+  // 今日の誤答の再履修を完走したとき。誤答が上限（50問）を超えた日は続きの区間があるので
+  // SRS復習と同じ形の「続けて次の50問」を出す。
+  // ⚠️ 残りの数え方だけが SRS と違う。今日の誤答は解き直しても集合から消えない（今日落とした
+  //    問題すべてが対象）ので、集合の大きさではなく未出題の位置で数える（study.html の
+  //    _todayWrongDone）。SRS の _srsDueRemaining をここで使うと常に0になる。
   if (_todayWrongMode && examAnswered > 0 && examAnswered >= examQueue.length) {
+    const _rest = window._todayWrongRemaining ? window._todayWrongRemaining() : 0;
     const note = document.getElementById('sumFlagNote');
     if (note) {
       note.insertAdjacentHTML('beforebegin',
-        '<div class="exam-srs-done">🔁 今日の取りこぼし、やり直し完了！' +
-        '<span>' + examAnswered + '問中 ' + examCorrect + '問を正解しました</span></div>');
+        '<div class="exam-srs-done">🔁 ' + (window._wrongDayJa?.() || '今日') + 'の取りこぼし、やり直し完了！' +
+        '<span>' + examAnswered + '問中 ' + examCorrect + '問を正解しました' +
+        (_rest > 0 ? ' ／ 未出題 残り ' + _rest + '問' : '') + '</span></div>');
+    }
+    if (_rest > 0) {
+      const btn = document.getElementById('sumReviewBtn');
+      if (btn && btn.parentNode) {
+        const _lim = (typeof TODAY_WRONG_LIMIT !== 'undefined' ? TODAY_WRONG_LIMIT : 50);
+        const cont = document.createElement('button');
+        cont.className = 'exam-review-btn exam-srs-continue';
+        cont.textContent = '🔁 続けて次の' + Math.min(_rest, _lim) + '問';
+        cont.onclick = () => { _closeSummaryOverlayOnly(); setTimeout(() => window.startTodayWrongReview?.({ continue: true }), 120); };
+        btn.parentNode.insertBefore(cont, btn);
+      }
     }
     setTimeout(_srsCompleteCelebration, 700);
   }

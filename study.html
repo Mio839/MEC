@@ -892,7 +892,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0804a";
+const MEC_BUILD = "b-0806a";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
@@ -973,7 +973,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // ホスト出題での起動（必要な問題だけを専用ホストへ描き、全科目の初期化を後回しにする）
   const _launchMode = new URLSearchParams(location.search).get('mode');
   const _srsLaunch = _launchMode === 'srs_review';
-  const _todayWrongLaunch = _launchMode === 'today_wrong';
+  // TEMP（昨日の誤答）: mode=yesterday_wrong も同じ配管に乗せ、対象の日だけ差し替える
+  const _yesterdayWrongLaunch = _launchMode === 'yesterday_wrong';
+  const _todayWrongLaunch = _launchMode === 'today_wrong' || _yesterdayWrongLaunch;
 
   // 通常の全科目初期化（fetch→描画→キャッシュ→initCards→章メタ→自動復元）。
   // 復習起動時はこれを走らせず _runDeferredInit（復習を抜けたとき）で実行する。
@@ -1049,7 +1051,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 今日の誤答の再履修も同じ配管（対象uidを先に決めてからホストへ描く）に乗る。
     // 採点結果をSRSへ返すので _loadSRS() は復習と同じく先に済ませておく。
     _loadSRS();
-    Promise.resolve(startTodayWrongReview()).catch(e => console.error('today-wrong start error:', e)).finally(_removeLoader);
+    Promise.resolve(startTodayWrongReview({ dayOffset: _yesterdayWrongLaunch ? 1 : 0 }))
+      .catch(e => console.error('today-wrong start error:', e)).finally(_removeLoader);
   } else {
     _runFullInit();
   }
@@ -1733,7 +1736,10 @@ async function startSRSReview() {
   }
   const _hadLoaded = _loadedSids.size > 0;
   [..._loadedSids].forEach(sid => _unloadSubjectCards(sid));
-  _srsUnloadedForReview = _hadLoaded;
+  // ⚠️ 代入で上書きしないこと。「続けて次の50問」は解放済みの状態から入るので
+  //    _hadLoaded=false になり、上書きするとフラグが落ちて復帰時に科目が読み直されない
+  //    （通常閲覧へ戻ったのにカードが1枚も無い画面になる）。立った旗は降ろさない。
+  _srsUnloadedForReview = _srsUnloadedForReview || _hadLoaded;
   await _renderDueCardsForReview(dueUids);
 
   const availableUids = dueUids.filter(uid => {
@@ -1769,16 +1775,50 @@ async function startSRSReview() {
 //    （立てるとミッションの srs カウンタと attempts の m=s が水増しされる）。
 const TODAY_WRONG_LIMIT = 50;
 
-async function startTodayWrongReview() {
-  const allWrong = (window.MecAttempts ? MecAttempts.todayWrongUids() : [])
-    .filter(uid => STUDY_SUBJECTS.find(s => s.id === uid.split('_ch')[0]));
+// このページで出題し終えた件数＝次の区間の先頭位置。
+// ⚠️ SRS復習は「解けば due から外れる」ので毎回先頭50問を取り直せば次へ進むが、今日の誤答は
+//    正解し直しても集合から消えない（todayWrongUids は今日落とした問題すべてを返す）。
+//    位置を覚えないと「続けて次の50問」が同じ50問を出し直すことになる。
+let _todayWrongDone = 0;
+
+// TEMP（昨日の誤答）: 0=今日 / 1=昨日。起動時に一度だけ決まる。画面の文言もこれで振り分ける。
+// 消すときは attempts.js の yesterdayWrongUids に書いた手順どおり4か所まとめて。
+let _wrongDayOffset = 0;
+window._wrongDayJa = () => (_wrongDayOffset === 1 ? '昨日' : '今日');
+
+// 出題対象のUID（順序込み）。正本は MecAttempts.todayWrongUids() / yesterdayWrongUids()。
+// 並びは「最初に落とした順」＝時系列で、後から落ちた問題は末尾に足されるだけなので、
+// セッションをまたいでも _todayWrongDone の位置は同じ問題を指し続ける。
+function _todayWrongTargets() {
+  const A = window.MecAttempts;
+  const src = !A ? [] : (_wrongDayOffset === 1 ? A.yesterdayWrongUids() : A.todayWrongUids());
+  return src.filter(uid => STUDY_SUBJECTS.find(s => s.id === uid.split('_ch')[0]));
+}
+
+// まだ出題していない残り件数（結果画面に「続けて次の50問」を出すかの判定）。
+window._todayWrongRemaining = function () {
+  try { return Math.max(0, _todayWrongTargets().length - _todayWrongDone); }
+  catch (e) { return 0; }
+};
+
+// opts.continue = 結果画面の「続けて次の50問」から。前回の続き（_todayWrongDone）から出す。
+// 引数なし（ハブからの起動）は常に先頭から。
+async function startTodayWrongReview(opts = {}) {
+  const isCont = !!opts.continue;
+  if (!isCont) {
+    _todayWrongDone = 0;
+    if (opts.dayOffset != null) _wrongDayOffset = opts.dayOffset;  // TEMP（昨日の誤答）
+  }
+  const _ja = window._wrongDayJa();
+  const allWrong = _todayWrongTargets();
   const _wrongTotal = allWrong.length;
   // 上限で切る理由はSRS復習と同じ（DOMへ起こす量が端末の限界を決める）。
-  // 並びは「最初に落とした順」＝時系列。取りこぼした順に戻る方が学習の筋が通る。
-  const wrongUids = allWrong.slice(0, TODAY_WRONG_LIMIT);
+  const _start = Math.min(_todayWrongDone, _wrongTotal);
+  const wrongUids = allWrong.slice(_start, _start + TODAY_WRONG_LIMIT);
 
   if (!wrongUids.length) {
-    _mecNotify('今日はまだ誤答がありません。');
+    _mecNotify(isCont ? (_ja + 'の誤答はすべて出題しました。')
+                      : (_wrongDayOffset === 1 ? '昨日の誤答はありません。' : '今日はまだ誤答がありません。'));
     _runDeferredInit();
     return;
   }
@@ -1796,14 +1836,19 @@ async function startTodayWrongReview() {
   }
   const _hadLoaded = _loadedSids.size > 0;
   [..._loadedSids].forEach(sid => _unloadSubjectCards(sid));
-  _srsUnloadedForReview = _hadLoaded;
+  _srsUnloadedForReview = _srsUnloadedForReview || _hadLoaded;  // ⚠️ 上書き禁止（startSRSReview 同様）
   await _renderDueCardsForReview(wrongUids);
 
   const availableUids = wrongUids.filter(uid => {
     const card = document.querySelector(`.qc[data-uid="${uid}"]`);
     return !!card && !_isScoreExcluded(card);
   });
+  // 出題できた／できなかったに関わらず位置は区間ぶん進める。出せなかったUID
+  // （科目が消えた・採点除外）で足踏みすると次の区間へ永久に進めなくなる。
+  _todayWrongDone = _start + wrongUids.length;
   if (!availableUids.length) {
+    // この区間が丸ごと出題不能でも、後ろにまだ残っていれば次の区間を試す。
+    if (_todayWrongDone < _wrongTotal) return startTodayWrongReview({ continue: true });
     _srsHostClear();
     _mecNotify('問題が見つかりませんでした。ページを再読み込みしてください。');
     document.body.classList.remove('srs-review');
@@ -1814,11 +1859,11 @@ async function startTodayWrongReview() {
 
   _srsHostShow();
   _todayWrongMode = true;
-  _examFilterLabel = '今日の誤答';
+  _examFilterLabel = _ja + 'の誤答';
   document.body.classList.add('srs-review');
   startExam(availableUids);
   if (_wrongTotal > wrongUids.length) {
-    _mecNotify('今日の誤答 ' + availableUids.length + '問を出題します（' + _wrongTotal + '問中）');
+    _mecNotify(_ja + 'の誤答 ' + (_start + 1) + '〜' + _todayWrongDone + '問目を出題します（全 ' + _wrongTotal + '問）');
   }
 }
 window.startTodayWrongReview = startTodayWrongReview;

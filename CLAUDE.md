@@ -252,11 +252,34 @@ xp: { banked: number, ledger: { 'd:2026-07-29': { ans:40, exam:40, __all__:150 }
   出題側（`startTodayWrongReview`）が同じ関数を呼ぶ＝数え方を2か所に書かない。
   そのために `index.html` も `attempts.js` を読み込む。
 - **「今日間違えた問題すべて」が対象**＝あとで正解し直してもリストから消えない。
-  同じ問題を何度落としても1件。並びは最初に落とした順（時系列）。上限50問。
+  同じ問題を何度落としても1件。並びは最初に落とした順（時系列）。
+- **1セッション50問（`TODAY_WRONG_LIMIT`）で区切り、続きは結果画面の「🔁 続けて次の50問」**
+  （2026-08-05〜）。⚠️ **どこまで出したかは `_todayWrongDone`（study.html）が持つ**。
+  SRS復習は解けば due から外れるので毎回「先頭50問」を取り直せば次へ進むが、今日の誤答は
+  **解き直しても集合から消えない**ので、位置を覚えないと同じ50問が出続ける（51問目以降へ
+  永久に到達できなかった旧不具合）。残り件数も集合の大きさではなく `_todayWrongRemaining()`
+  ＝未出題の位置で数える（`_srsDueRemaining` を流用すると常に0になる）。
+  位置はページ内だけの記憶で、ハブから入り直すと常に1問目から。
+- ⚠️ **`_srsUnloadedForReview` は代入で上書きしないこと**（`||` で足す）。「続けて次の50問」は
+  科目カードを解放済みの状態から入るので `_loadedSids.size === 0` になり、上書きすると旗が
+  落ちて通常閲覧へ戻ったときにカードが1枚も無い画面になる。
 - ⚠️ **母数は `mec_attempts_v1` に残るものだけ＝試験モード・SRS復習・章別試験**。
   通常モードの「済」（×△○）は正誤を残さないので、通常モードだけで解いた日は0問になる。
   これは不具合ではない（[採点データの不変条件]と同じく `_recordMyRate` の仕様）。
 - ⚠️ ハブの件数 ≧ 実際の出題数。出題側は更に科目の実在チェックと `_isScoreExcluded` で絞る。
+
+### 🚧 TEMP: 「昨日の誤答を再履修」（2026-08-06〜・一時的）
+
+ユーザーの依頼で入れた**仮設の4つ目のボタン**（`#heroYesterday` → `study.html?mode=yesterday_wrong`）。
+**あとで消す前提**なので、席は固定3つという原則の外にある例外として扱うこと。恒久機能として
+育てない。出題の配管は今日ぶんと完全に同じで、対象の日（`_wrongDayOffset` 0/1）と文言だけが違う。
+
+消すときは以下をまとめて（`attempts.js` の `yesterdayWrongUids` のコメントが正本）:
+① `attempts.js` の `yesterdayWrongUids`（`_wrongUidsForDay` は `todayWrongUids` が使うので残す）
+② `index.html` の `#heroYesterday`（マークアップ＋`renderHero` 内の同名ブロック）
+③ `study.html` の `mode=yesterday_wrong` 分岐・`_wrongDayOffset`・`_wrongDayJa`
+④ `study_exam.js` の `_wrongDayJa()` 参照3か所（見出し・結果タイトル・完了バナー）
+⑤ `_work/test_attempts.js` の `yesterdayWrongUids` 2件
 
 ### `_srsReviewMode` と `_todayWrongMode` を混ぜないこと
 
@@ -270,7 +293,7 @@ SRS復習と共通で、判定は **`_isHostSession()`**（study_exam.js）に�
 |---|---|
 | `onAnswer(..., {srs})` | 週次ミッションの `srs`（SRS復習の消化数）が水増しされる |
 | attempts の `m` | `s`（SRS復習）と `e`（試験）の区別が消え、弱点カルテの母数が濁る |
-| 完走演出の「続けて次の50問」 | due が無いのに次を勧める（再履修は有限の集合で繰り越しが無い） |
+| 完走演出の「続けて次の50問」 | 両モードとも続きのボタンを出すが**残りの数え方が違う**（SRS=`_srsDueRemaining()`／再履修=`_todayWrongRemaining()`）。混ぜると再履修側が常に「残り0」で続きへ進めない |
 | 結果画面のタイトル | どちらのセッションを終えたのか読めなくなる |
 
 `retryWrongExam`（誤答再試験）は `_lastSessionWasSrs` / `_lastSessionWasTodayWrong` を

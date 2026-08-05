@@ -798,6 +798,9 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
       <!-- 今日の誤答の再履修。誤答0の日も並びを動かさないよう常に置き、押せないことを色で示す。
            件数・遷移先は renderHero() が入れる（0問のときは href を外す） -->
       <a class="cta-sub cta-redo is-off" id="heroTertiary" aria-disabled="true">🔁 今日の誤答なし</a>
+      <!-- TEMP（昨日の誤答）: 一時的な4つ目。席は固定の3つという原則の外にある“仮設”なので、
+           不要になったらこの行と renderHero 内の同名ブロックを消せば元の3席に戻る -->
+      <a class="cta-sub cta-redo is-off" id="heroYesterday" aria-disabled="true">🔁 昨日の誤答なし</a>
     </div>
 
     <!-- 計器ベイ: 読み値のブロックより一段沈めた面に、細かい数字だけをまとめる -->
@@ -1230,6 +1233,21 @@ function renderHero() {
     if (on) p3.href = 'study.html?mode=today_wrong';
     else    p3.removeAttribute('href');
   }
+
+  // ── TEMP（昨日の誤答）: 4つ目の仮設ボタン。件数の正本は今日ぶんと同じ考え方で
+  //    MecAttempts.yesterdayWrongUids()（attempts.js）。消すときは attempts.js の
+  //    yesterdayWrongUids に書いた手順どおり4か所まとめて。
+  const p4 = document.getElementById('heroYesterday');
+  if (p4) {
+    const yWrongN = window.MecAttempts ? MecAttempts.yesterdayWrongUids().length : 0;
+    const yOn = yWrongN > 0;
+    p4.textContent = yOn ? ('🔁 昨日の誤答 ' + _fmtN(yWrongN) + '問を再履修') : '🔁 昨日の誤答なし';
+    p4.classList.toggle('is-off', !yOn);
+    p4.setAttribute('aria-disabled', yOn ? 'false' : 'true');
+    if (yOn) p4.href = 'study.html?mode=yesterday_wrong';
+    else     p4.removeAttribute('href');
+  }
+  // ────────────────────────────────────────────────────────────────────────
 
   // 大きな読み値: カウントアップ → 着地で桁が順に立ち上がり、下から粒子が散る
   const numEl = document.getElementById('heroNum');

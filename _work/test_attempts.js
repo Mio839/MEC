@@ -161,6 +161,28 @@ test('todayWrongUids: 誤答が無ければ空（ボタンは押せない状態�
   assert.strictEqual(env().A.todayWrongUids().join(","), [].join(","));   // ログ自体が無い場合
 });
 
+// ── TEMP（昨日の誤答）: 機能を消すときはこの2件も一緒に消す ────────────────────
+test('yesterdayWrongUids: 昨日の誤答だけを拾う（今日ぶんは入らない）', () => {
+  const { A, store } = env();
+  store['mec_attempts_v1'] = JSON.stringify([
+    line('endo_ch01_q9', jstNoon(-1), false),
+    line('endo_ch01_q8', jstNoon(-1), true),    // 昨日の正解は対象外
+    line('endo_ch01_q1', jstNoon(), false),     // 今日の誤答は対象外
+  ]);
+  assert.strictEqual(A.yesterdayWrongUids().join(","), ['endo_ch01_q9'].join(","));
+  assert.strictEqual(A.todayWrongUids().join(","), ['endo_ch01_q1'].join(","));  // 今日ぶんは不変
+});
+
+test('yesterdayWrongUids: 一昨日は入らない（対象は昨日1日だけ）', () => {
+  const { A, store } = env();
+  store['mec_attempts_v1'] = JSON.stringify([
+    line('endo_ch01_q7', jstNoon(-2), false),
+    line('endo_ch01_q9', jstNoon(-1), false),
+  ]);
+  assert.strictEqual(A.yesterdayWrongUids().join(","), ['endo_ch01_q9'].join(","));
+});
+// ─────────────────────────────────────────────────────────────────────────────
+
 test('jstDay は study.html の _today() と同じ式（日境界がページ間でずれない）', () => {
   const { A } = env();
   const same = ms => new Date(ms + 9 * 3600000).toISOString().slice(0, 10);

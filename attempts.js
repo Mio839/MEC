@@ -160,7 +160,24 @@
     //    出題側（study.html の startTodayWrongReview）が STUDY_SUBJECTS と
     //    _isScoreExcluded で絞るため、件数がハブの表示より少なくなることがある。
     todayWrongUids() {
-      const day = jstDay(Date.now());
+      return this._wrongUidsForDay(0);
+    },
+
+    // ── TEMP（昨日の誤答を再履修）─────────────────────────────────────────────
+    // 一時的な機能。消すときは以下をまとめて消す（_wrongUidsForDay は
+    // todayWrongUids が使うので残すこと）:
+    //   ① この yesterdayWrongUids
+    //   ② index.html の #heroYesterday（マークアップ + renderHero 内のブロック）
+    //   ③ study.html の mode=yesterday_wrong / _wrongDayOffset / _wrongDayJa
+    //   ④ study_exam.js の _wrongDayJa() 参照3か所（見出し・結果タイトル・完了バナー）
+    yesterdayWrongUids() {
+      return this._wrongUidsForDay(1);
+    },
+    // ─────────────────────────────────────────────────────────────────────────
+
+    // daysAgo 日前（JST）に落とした問題のUID。0=今日。拾う規則は上の通り。
+    _wrongUidsForDay(daysAgo) {
+      const day = jstDay(Date.now() - (daysAgo || 0) * 86400000);
       const seen = new Set(), out = [];
       this.all().forEach(a => {
         if (a.ok || seen.has(a.uid)) return;
