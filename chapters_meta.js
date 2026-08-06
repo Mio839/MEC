@@ -935,6 +935,20 @@ const MEC_CHAPTERS = [
         "count": 22
       }
     ]
+  },
+  {
+    "id": "ent",
+    "name": "耳鼻咽喉科",
+    "icon": "👂",
+    "color": "#0F766E",
+    "chapters": [
+      {
+        "prefix": "ent_ch01",
+        "file": "耳鼻咽喉科/ch01_mimi_kihon.html",
+        "title": "第1章 耳①：耳の基本",
+        "count": 20
+      }
+    ]
   }
 ];
 const MEC_CHAPTER_META = {

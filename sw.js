@@ -1,3 +1,6 @@
+// v146: 耳鼻咽喉科(ent)を新科目として追加（第1章「耳①：耳の基本」NO.1-20・画像8問14枚）。
+// questions_ent.json を CARDS に加え、耳鼻咽喉科/images/ を追加したので CACHE を bump。
+// 全8章214問の予定（耳20/30/48・鼻口唾3/36/14・咽喉頭20/43）。
 // v141: 循環器ch02「心不全」後半25問(Q.103-127)の解説を眼科水準へ書き直し。
 // これで ch02 全50問が完成。questions_circ.json を更新したので CACHE を bump。
 // v140: 循環器ch02「心不全」前半25問(Q.78-102)の解説を眼科水準(ep/ee/em/ept)へ書き直し。
@@ -78,12 +81,12 @@
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v145";
+const CACHE = "mec-v146";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-06c";
+const SHELL_VERSION = "2026-08-06d";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -114,7 +117,7 @@ const CARDS = [
   "questions_neur.json","questions_hbp.json","questions_jinzo_d.json","questions_hema.json",
   "questions_imma.json","questions_kansen.json","questions_jitsu1.json",
   "questions_peds.json","questions_obg.json","questions_psy.json",
-  "questions_derm.json","questions_oph.json"
+  "questions_derm.json","questions_oph.json","questions_ent.json"
 ];
 
 self.addEventListener("install", e => {
