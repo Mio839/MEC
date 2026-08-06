@@ -959,6 +959,18 @@ const MEC_CHAPTERS = [
         "file": "耳鼻咽喉科/ch03_mimi_naiji.html",
         "title": "第3章 耳③：耳の疾患（内耳・後迷路性・その他）",
         "count": 48
+      },
+      {
+        "prefix": "ent_ch04",
+        "file": "耳鼻咽喉科/ch04_hana_kihon.html",
+        "title": "第4章 鼻・口・唾液腺①：鼻・口・唾液腺の基本",
+        "count": 3
+      },
+      {
+        "prefix": "ent_ch05",
+        "file": "耳鼻咽喉科/ch05_hana_shikkan.html",
+        "title": "第5章 鼻・口・唾液腺②：鼻の疾患",
+        "count": 36
       }
     ]
   }
