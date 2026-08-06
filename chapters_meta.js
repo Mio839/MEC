@@ -977,6 +977,12 @@ const MEC_CHAPTERS = [
         "file": "耳鼻咽喉科/ch06_kuchi_daeki.html",
         "title": "第6章 鼻・口・唾液腺③：口・唾液腺の疾患",
         "count": 14
+      },
+      {
+        "prefix": "ent_ch07",
+        "file": "耳鼻咽喉科/ch07_inkoto_kihon.html",
+        "title": "第7章 咽喉頭①：咽喉頭の基本",
+        "count": 20
       }
     ]
   }

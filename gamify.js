@@ -41,7 +41,7 @@
     { id: 'psy',     name: '精神科',     icon: '💭', color: '#5E60CE', total: 256 },
     { id: 'derm',    name: '皮膚科',     icon: '🩹', color: '#B5654A', total: 249 },
     { id: 'oph',     name: '眼科',       icon: '👁️', color: '#0E7490', total: 213 },
-    { id: 'ent',     name: '耳鼻咽喉科', icon: '👂', color: '#0F766E', total: 151 },
+    { id: 'ent',     name: '耳鼻咽喉科', icon: '👂', color: '#0F766E', total: 171 },
     { id: 'jitsu1',  name: '実力試験Ⅰ', icon: '🎯', color: '#6366F1', total: 160 },
   ];
 
