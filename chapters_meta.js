@@ -947,6 +947,12 @@ const MEC_CHAPTERS = [
         "file": "耳鼻咽喉科/ch01_mimi_kihon.html",
         "title": "第1章 耳①：耳の基本",
         "count": 20
+      },
+      {
+        "prefix": "ent_ch02",
+        "file": "耳鼻咽喉科/ch02_mimi_chuji.html",
+        "title": "第2章 耳②：耳の疾患（中耳）",
+        "count": 30
       }
     ]
   }

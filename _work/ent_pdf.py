@@ -60,7 +60,13 @@ def cmd_anstable(_args):
     """巻末の解答一覧表を x 座標で列に切る。
 
     ⚠️ 章区切り行（「　2　〔 問題 〕耳②：耳の疾患（中耳）」）が NO列・解答列に食い込むため、
-       各行は「次の設問アンカー」か「章区切り行」の手前で閉じる。
+       章区切り行の単語は行への割り当てから外す。
+    ⚠️ 折り返し行は**アンカー（NO列の数字）より上に来ることがある**ので、
+       「アンカーの y から次のアンカーの手前まで」で切ってはいけない。
+       NO.48 は 国試番号が `102A-42・` / `99A-11の` / `プール問題` の3行に割れ、
+       1行目がアンカーより 9px 上にあるため、範囲で切ると `102A-42・` を丸ごと落としていた
+       （疾患名の折り返しも同様に1つ前の行へ吸われていた）。
+       **各単語を「y が最も近いアンカー」へ配る**のが実測の版面に合う。
     """
     d = fitz.open(PDF)
     rows, chapters = [], []
@@ -69,25 +75,27 @@ def cmd_anstable(_args):
         lines = {}
         for w in words:
             lines.setdefault(round(w[1] / 3), []).append(w)
-        ch_ys = []
+        ch_keys = set()
         for key in sorted(lines):
             txt = ''.join(x[4] for x in sorted(lines[key], key=lambda z: z[0]))
             m = re.match(r'^(\d+)〔問題〕(.+)$', txt.replace(' ', '').replace('　', ''))
             if m:
-                ch_ys.append((lines[key][0][1], int(m.group(1)), m.group(2)))
+                ch_keys.add(key)
                 chapters.append((pno, lines[key][0][1], int(m.group(1)), m.group(2)))
 
         anchors = sorted((w[1], w[0], w[4]) for w in words
                          if w[0] < 62 and re.match(r'^\d+$', w[4]))
+        # 表本体の単語だけを残す（ヘッダ「NO. 解答 国試番号…」は y=98、柱・ノンブルはさらに上）
+        body = [w for w in words
+                if w[1] > 102 and round(w[1] / 3) not in ch_keys]
+        buckets = {i: [] for i in range(len(anchors))}
+        for w in body:
+            i = min(range(len(anchors)), key=lambda k: abs(w[1] - anchors[k][0]))
+            buckets[i].append(w)
+
         for i, (y, _x, _no) in enumerate(anchors):
-            y_end = anchors[i + 1][0] - 1 if i + 1 < len(anchors) else 10 ** 6
-            for cy, _n, _nm in ch_ys:
-                if y < cy - 2 < y_end:
-                    y_end = min(y_end, cy - 2)
             cells = {n: [] for n, _ in COLS}
-            for w in words:
-                if not (y - 4 <= w[1] < y_end):
-                    continue
+            for w in buckets[i]:
                 name = COLS[0][0]
                 for nm, x0 in COLS:
                     if w[0] >= x0 - 3:

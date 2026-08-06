@@ -204,7 +204,10 @@ def audit(sid, check_images=True):
             if not os.path.exists(os.path.join(BASE, s)):
                 add('画像', q, f'ファイルが無い: {s}')
             m = FNAME_CODE.match(os.path.basename(s))
-            if m and m.group(1) != eid:
+            # 「102A-42・99A-11のプール問題」のように episode が複数の国試番号を持つ問題がある。
+            # ファイル名は代表の1つを名乗るので「・区切りのどれかに一致」で許す
+            # （前方一致にすると 112D-3 が 112D-63 を通してしまうので使わない）。
+            if m and m.group(1) not in eid.split('・'):
                 add('画像', q, f'ファイル名の問題コード {m.group(1)} ≠ {eid}')
     if os.path.isdir(img_dir):
         for f in sorted(os.listdir(img_dir)):
