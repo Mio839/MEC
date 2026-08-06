@@ -971,6 +971,12 @@ const MEC_CHAPTERS = [
         "file": "耳鼻咽喉科/ch05_hana_shikkan.html",
         "title": "第5章 鼻・口・唾液腺②：鼻の疾患",
         "count": 36
+      },
+      {
+        "prefix": "ent_ch06",
+        "file": "耳鼻咽喉科/ch06_kuchi_daeki.html",
+        "title": "第6章 鼻・口・唾液腺③：口・唾液腺の疾患",
+        "count": 14
       }
     ]
   }
