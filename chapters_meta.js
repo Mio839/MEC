@@ -953,6 +953,12 @@ const MEC_CHAPTERS = [
         "file": "耳鼻咽喉科/ch02_mimi_chuji.html",
         "title": "第2章 耳②：耳の疾患（中耳）",
         "count": 30
+      },
+      {
+        "prefix": "ent_ch03",
+        "file": "耳鼻咽喉科/ch03_mimi_naiji.html",
+        "title": "第3章 耳③：耳の疾患（内耳・後迷路性・その他）",
+        "count": 48
       }
     ]
   }
