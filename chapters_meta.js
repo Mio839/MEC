@@ -983,6 +983,12 @@ const MEC_CHAPTERS = [
         "file": "耳鼻咽喉科/ch07_inkoto_kihon.html",
         "title": "第7章 咽喉頭①：咽喉頭の基本",
         "count": 20
+      },
+      {
+        "prefix": "ent_ch08",
+        "file": "耳鼻咽喉科/ch08_inkoto_shikkan.html",
+        "title": "第8章 咽喉頭②：咽喉頭の疾患",
+        "count": 43
       }
     ]
   }
