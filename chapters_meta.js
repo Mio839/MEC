@@ -1021,6 +1021,12 @@ const MEC_CHAPTERS = [
         "file": "泌尿器科/ch04_zenritsusen.html",
         "title": "第4章 前立腺",
         "count": 53
+      },
+      {
+        "prefix": "uro_ch05",
+        "file": "泌尿器科/ch05_seiso_gaiseiki.html",
+        "title": "第5章 精巣・外性器",
+        "count": 28
       }
     ]
   }
