@@ -1,3 +1,6 @@
+// v154: 泌尿器科(uro) 第2章「腎」NO.45-69（25問・画像18問22枚）を追加。
+// questions_uro.json と 泌尿器科/images/ を更新したので CACHE を bump。
+// 実質2疾患の章（腎細胞癌13問・多発性囊胞腎11問＋馬蹄鉄腎1問）。
 // v153: 泌尿器科(uro)を新科目として追加（第1章「泌尿器の基本」NO.1-44・画像4問6枚）。
 // questions_uro.json を CARDS に加え、泌尿器科/images/ を追加したので CACHE を bump。
 // 全6章242問の予定（基本44／腎25／尿管膀胱尿道64／前立腺53／精巣外性器28／感染症28）。
@@ -84,7 +87,7 @@
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v153";
+const CACHE = "mec-v154";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。

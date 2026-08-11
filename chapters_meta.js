@@ -1003,6 +1003,12 @@ const MEC_CHAPTERS = [
         "file": "泌尿器科/ch01_hinyokika_kihon.html",
         "title": "第1章 泌尿器の基本",
         "count": 44
+      },
+      {
+        "prefix": "uro_ch02",
+        "file": "泌尿器科/ch02_jin.html",
+        "title": "第2章 腎",
+        "count": 25
       }
     ]
   }
