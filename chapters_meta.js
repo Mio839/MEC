@@ -1027,6 +1027,12 @@ const MEC_CHAPTERS = [
         "file": "泌尿器科/ch05_seiso_gaiseiki.html",
         "title": "第5章 精巣・外性器",
         "count": 28
+      },
+      {
+        "prefix": "uro_ch06",
+        "file": "泌尿器科/ch06_hinyokika_kansensho.html",
+        "title": "第6章 泌尿器科感染症",
+        "count": 28
       }
     ]
   }
