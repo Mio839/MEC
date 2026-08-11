@@ -1,3 +1,6 @@
+// v153: 泌尿器科(uro)を新科目として追加（第1章「泌尿器の基本」NO.1-44・画像4問6枚）。
+// questions_uro.json を CARDS に加え、泌尿器科/images/ を追加したので CACHE を bump。
+// 全6章242問の予定（基本44／腎25／尿管膀胱尿道64／前立腺53／精巣外性器28／感染症28）。
 // v146: 耳鼻咽喉科(ent)を新科目として追加（第1章「耳①：耳の基本」NO.1-20・画像8問14枚）。
 // questions_ent.json を CARDS に加え、耳鼻咽喉科/images/ を追加したので CACHE を bump。
 // 全8章214問の予定（耳20/30/48・鼻口唾3/36/14・咽喉頭20/43）。
@@ -81,7 +84,7 @@
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v152";
+const CACHE = "mec-v153";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
@@ -117,7 +120,7 @@ const CARDS = [
   "questions_neur.json","questions_hbp.json","questions_jinzo_d.json","questions_hema.json",
   "questions_imma.json","questions_kansen.json","questions_jitsu1.json",
   "questions_peds.json","questions_obg.json","questions_psy.json",
-  "questions_derm.json","questions_oph.json","questions_ent.json"
+  "questions_derm.json","questions_oph.json","questions_ent.json","questions_uro.json"
 ];
 
 self.addEventListener("install", e => {

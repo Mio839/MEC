@@ -991,6 +991,20 @@ const MEC_CHAPTERS = [
         "count": 43
       }
     ]
+  },
+  {
+    "id": "uro",
+    "name": "泌尿器科",
+    "icon": "💦",
+    "color": "#0891B2",
+    "chapters": [
+      {
+        "prefix": "uro_ch01",
+        "file": "泌尿器科/ch01_hinyokika_kihon.html",
+        "title": "第1章 泌尿器の基本",
+        "count": 44
+      }
+    ]
   }
 ];
 const MEC_CHAPTER_META = {
