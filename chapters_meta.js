@@ -1009,6 +1009,12 @@ const MEC_CHAPTERS = [
         "file": "泌尿器科/ch02_jin.html",
         "title": "第2章 腎",
         "count": 25
+      },
+      {
+        "prefix": "uro_ch03",
+        "file": "泌尿器科/ch03_nyokan_boko_nyodo.html",
+        "title": "第3章 尿管・膀胱・尿道",
+        "count": 64
       }
     ]
   }
