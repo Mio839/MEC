@@ -1065,6 +1065,12 @@ const MEC_CHAPTERS = [
         "file": "整形外科/ch04_kossetsu.html",
         "title": "第4章 骨　折",
         "count": 33
+      },
+      {
+        "prefix": "ortho_ch05",
+        "file": "整形外科/ch05_sonota.html",
+        "title": "第5章 その他の疾患",
+        "count": 27
       }
     ]
   }
