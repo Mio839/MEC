@@ -90,6 +90,7 @@ if ('serviceWorker' in navigator) {
     <button class="chip" data-sid="oph" onclick="toggleSubjectChip(this,'oph')" aria-pressed="false">👁️&nbsp;眼科</button>
     <button class="chip" data-sid="ent" onclick="toggleSubjectChip(this,'ent')" aria-pressed="false">👂&nbsp;耳鼻咽喉科</button>
     <button class="chip" data-sid="uro" onclick="toggleSubjectChip(this,'uro')" aria-pressed="false">💦&nbsp;泌尿器科</button>
+    <button class="chip" data-sid="ortho" onclick="toggleSubjectChip(this,'ortho')" aria-pressed="false">🦴&nbsp;整形外科</button>
     <button class="chip" data-sid="custom" onclick="toggleSubjectChip(this,'custom')" aria-pressed="false">✏️&nbsp;自作問題</button>
     <button class="chip" data-sid="memo" onclick="toggleSubjectChip(this,'memo')" aria-pressed="false">📝&nbsp;暗記メモ</button>
   </div>
@@ -369,6 +370,10 @@ if ('serviceWorker' in navigator) {
 <div class="subj-hdr" style="background:#0891B2"><span class="subj-hdr-icon">💦</span><span class="subj-hdr-name">泌尿器科</span><span class="subj-hdr-count">242問</span></div>
 <div class="subj-cards-loading" data-sid="uro">読み込み中…</div>
 </div>
+<div class="subj-section" data-sid="ortho" data-visible="true">
+<div class="subj-hdr" style="background:#A16207"><span class="subj-hdr-icon">🦴</span><span class="subj-hdr-name">整形外科</span><span class="subj-hdr-count">30問</span></div>
+<div class="subj-cards-loading" data-sid="ortho">読み込み中…</div>
+</div>
 <div class="subj-section" data-sid="jitsu1" data-visible="true">
 <div class="subj-hdr" style="background:#728FC0"><span class="subj-hdr-icon">🎯</span><span class="subj-hdr-name">実力試験Ⅰ</span><span class="subj-hdr-count">160問</span></div>
 <div class="subj-cards-loading" data-sid="jitsu1">読み込み中…</div>
@@ -388,7 +393,7 @@ if ('serviceWorker' in navigator) {
 </div>
 
 <script>
-const STUDY_SUBJECTS = [{"id": "endo", "name": "内分泌", "icon": "⚗️", "color": "#169E9F"}, {"id": "resp", "name": "呼吸器", "icon": "🌬️", "color": "#4390EE"}, {"id": "circ", "name": "循環器", "icon": "❤️", "color": "#E16E33"}, {"id": "dige", "name": "消化器", "icon": "🌿", "color": "#8A81EF"}, {"id": "neur", "name": "神経", "icon": "🧠", "color": "#619E37"}, {"id": "hbp", "name": "肝胆膵", "icon": "🧪", "color": "#C0820E"}, {"id": "jinzo_d", "name": "腎臓", "icon": "💧", "color": "#7494A1"}, {"id": "hema", "name": "血液", "icon": "🩸", "color": "#E56574"}, {"id": "imma", "name": "免アレ膠", "icon": "🛡️", "color": "#B973D7"}, {"id": "kansen", "name": "感染症", "icon": "🦠", "color": "#9B920A"}, {"id": "peds", "name": "小児科", "icon": "🧸", "color": "#10A276"}, {"id": "obg", "name": "産婦人科", "icon": "🤰", "color": "#D36BAA"}, {"id": "psy", "name": "精神科", "icon": "💭", "color": "#5E60CE"}, {"id": "derm", "name": "皮膚科", "icon": "🩹", "color": "#B5654A"}, {"id": "oph", "name": "眼科", "icon": "👁️", "color": "#0E7490"}, {"id": "ent", "name": "耳鼻咽喉科", "icon": "👂", "color": "#0F766E"}, {"id": "uro", "name": "泌尿器科", "icon": "💦", "color": "#0891B2"}, {"id": "jitsu1", "name": "実力試験Ⅰ", "icon": "🎯", "color": "#728FC0"}, {"id": "custom", "name": "自作問題", "icon": "✏️", "color": "#CB9BC6"}, {"id": "memo", "name": "暗記メモ", "icon": "📝", "color": "#D0C7A6"}];
+const STUDY_SUBJECTS = [{"id": "endo", "name": "内分泌", "icon": "⚗️", "color": "#169E9F"}, {"id": "resp", "name": "呼吸器", "icon": "🌬️", "color": "#4390EE"}, {"id": "circ", "name": "循環器", "icon": "❤️", "color": "#E16E33"}, {"id": "dige", "name": "消化器", "icon": "🌿", "color": "#8A81EF"}, {"id": "neur", "name": "神経", "icon": "🧠", "color": "#619E37"}, {"id": "hbp", "name": "肝胆膵", "icon": "🧪", "color": "#C0820E"}, {"id": "jinzo_d", "name": "腎臓", "icon": "💧", "color": "#7494A1"}, {"id": "hema", "name": "血液", "icon": "🩸", "color": "#E56574"}, {"id": "imma", "name": "免アレ膠", "icon": "🛡️", "color": "#B973D7"}, {"id": "kansen", "name": "感染症", "icon": "🦠", "color": "#9B920A"}, {"id": "peds", "name": "小児科", "icon": "🧸", "color": "#10A276"}, {"id": "obg", "name": "産婦人科", "icon": "🤰", "color": "#D36BAA"}, {"id": "psy", "name": "精神科", "icon": "💭", "color": "#5E60CE"}, {"id": "derm", "name": "皮膚科", "icon": "🩹", "color": "#B5654A"}, {"id": "oph", "name": "眼科", "icon": "👁️", "color": "#0E7490"}, {"id": "ent", "name": "耳鼻咽喉科", "icon": "👂", "color": "#0F766E"}, {"id": "uro", "name": "泌尿器科", "icon": "💦", "color": "#0891B2"}, {"id": "ortho", "name": "整形外科", "icon": "🦴", "color": "#A16207"}, {"id": "jitsu1", "name": "実力試験Ⅰ", "icon": "🎯", "color": "#728FC0"}, {"id": "custom", "name": "自作問題", "icon": "✏️", "color": "#CB9BC6"}, {"id": "memo", "name": "暗記メモ", "icon": "📝", "color": "#D0C7A6"}];
 // Study time tracking
 let _studyStartTime = Date.now();
 let _studyTimeSaved = false;

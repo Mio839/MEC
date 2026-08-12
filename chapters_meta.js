@@ -1035,6 +1035,20 @@ const MEC_CHAPTERS = [
         "count": 28
       }
     ]
+  },
+  {
+    "id": "ortho",
+    "name": "整形外科",
+    "icon": "🦴",
+    "color": "#A16207",
+    "chapters": [
+      {
+        "prefix": "ortho_ch01",
+        "file": "整形外科/ch01_seikeigeka_kihon.html",
+        "title": "第1章 整形外科の基本",
+        "count": 30
+      }
+    ]
   }
 ];
 const MEC_CHAPTER_META = {

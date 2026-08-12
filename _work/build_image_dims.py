@@ -29,7 +29,7 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'image_dims.json')
 SIDS = ['endo', 'resp', 'circ', 'dige', 'neur', 'hbp', 'jinzo_d', 'hema', 'imma',
-        'kansen', 'peds', 'obg', 'psy', 'derm', 'oph', 'ent', 'uro', 'jitsu1', 'custom', 'memo']
+        'kansen', 'peds', 'obg', 'psy', 'derm', 'oph', 'ent', 'uro', 'ortho', 'jitsu1', 'custom', 'memo']
 
 
 def main():
