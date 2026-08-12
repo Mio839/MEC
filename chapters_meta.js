@@ -1071,6 +1071,12 @@ const MEC_CHAPTERS = [
         "file": "整形外科/ch05_sonota.html",
         "title": "第5章 その他の疾患",
         "count": 27
+      },
+      {
+        "prefix": "ortho_ch06",
+        "file": "整形外科/ch06_locomo.html",
+        "title": "第6章 ロコモティブシンドロームとサルコペニア・フレイル",
+        "count": 8
       }
     ]
   }
