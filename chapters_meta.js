@@ -1047,6 +1047,12 @@ const MEC_CHAPTERS = [
         "file": "整形外科/ch01_seikeigeka_kihon.html",
         "title": "第1章 整形外科の基本",
         "count": 30
+      },
+      {
+        "prefix": "ortho_ch02",
+        "file": "整形外科/ch02_shinkei_no_shogai.html",
+        "title": "第2章 神経の障害",
+        "count": 43
       }
     ]
   }

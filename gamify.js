@@ -43,7 +43,7 @@
     { id: 'oph',     name: '眼科',       icon: '👁️', color: '#0E7490', total: 213 },
     { id: 'ent',     name: '耳鼻咽喉科', icon: '👂', color: '#0F766E', total: 214 },
     { id: 'uro',     name: '泌尿器科',   icon: '💦', color: '#0891B2', total: 242 },
-    { id: 'ortho',   name: '整形外科',   icon: '🦴', color: '#A16207', total: 30 },
+    { id: 'ortho',   name: '整形外科',   icon: '🦴', color: '#A16207', total: 73 },
     { id: 'jitsu1',  name: '実力試験Ⅰ', icon: '🎯', color: '#6366F1', total: 160 },
   ];
 
