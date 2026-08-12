@@ -1059,6 +1059,12 @@ const MEC_CHAPTERS = [
         "file": "整形外科/ch03_kansetsu_shikkan.html",
         "title": "第3章 関節疾患",
         "count": 33
+      },
+      {
+        "prefix": "ortho_ch04",
+        "file": "整形外科/ch04_kossetsu.html",
+        "title": "第4章 骨　折",
+        "count": 33
       }
     ]
   }

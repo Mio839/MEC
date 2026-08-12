@@ -67,7 +67,9 @@ def main():
             if r is None:
                 errs.append('%s: 解答一覧表に NO.%d が無い' % (uid, no))
             else:
-                if r['kid'].replace('※採点除外', '') != q['episode'].strip('()'):
+                # 解答表の国試番号には注記が付くことがある
+                # （`※採点除外` のほか、ortho NO.124 は `※不正解者のみ採点除外`）。
+                if re.sub(r'※.*$', '', r['kid']) != q['episode'].strip('()'):
                     errs.append('%s: 国試番号ずれ HTML=%s PDF=%s'
                                 % (uid, q['episode'], r['kid']))
                 pdf_ans = sorted(r['ans'].strip().split(',')) if r['ans'].strip() != 'なし' else []
