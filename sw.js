@@ -1,3 +1,7 @@
+// v161: 整形外科(ortho) 第3章「関節疾患」NO.74-106（33問・画像19問29枚）を追加。
+// questions_ortho.json と 整形外科/images/ を更新したので CACHE を bump。
+// 変形性関節症9問・膝の靱帯/半月板6問・小児の股関節5問・肘内障3問・腱板断裂3問が骨格。
+// 「小児が膝の痛みを訴えたら股関節を診る」がNO.86/90/99で3回反復する。
 // v160: 整形外科(ortho) 第2章「神経の障害」NO.31-73（43問・画像10問17枚＝ortho最大の章）を追加。
 // questions_ortho.json と 整形外科/images/ を更新したので CACHE を bump。
 // 頸髄損傷10問・手根管症候群6問・腰椎椎間板ヘルニア5問が骨格。C6（手関節背屈＝万能カフ）と
@@ -101,7 +105,7 @@
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v160";
+const CACHE = "mec-v161";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
