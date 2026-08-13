@@ -108,33 +108,100 @@
     syncTimer = setTimeout(pushToGist, 30000);
   }
 
-  async function syncFromGist() {
-    const token = localStorage.getItem(K_TOKEN) || '';
-    const gistId = localStorage.getItem(K_GIST) || '';
-    if (!token || !gistId) return { status: 'no-config' };
+  // ⚠️ Gist API は 1ファイルの content を 900KiB で切り詰め、file.truncated を立てる。
+  //    2026-08-13に 963,716B のファイルが 921,600B ちょうどで切られ、それを素で JSON.parse した
+  //    ために「Unterminated string in JSON at position 920360」で同期が落ち続けていた。
+  //    全キーを1ファイルに詰める設計だと、データが育ったその日から同期が壊れる。対策は2つ要る:
+  //      ① 読む側 — truncated なら raw_url から全文を取り直す（_readGistFile）
+  //      ② 書く側 — 大きいキーを別ファイルへ分け、1ファイルが上限に届かないようにする（GIST_SHARDS）
+  const GIST_FILE = 'mec_progress.json';
+  // キー → 収容ファイル名。ここに無いキーはすべて GIST_FILE へ入る。
+  // 全問を解き切っても各ファイルが 900KiB を大きく下回るように割ってある
+  // （2026-08-13実測: srs 449KB／rate系 217KB／attempts 147KB（5000件で頭打ち）／残り 151KB）。
+  const GIST_SHARDS = {
+    [K_SRS]: 'mec_srs.json',
+    [K_ATT]: 'mec_attempts.json',
+    [KR]: 'mec_rate.json',
+    'mec_choice_v1': 'mec_rate.json'
+  };
+  const GIST_FILE_WARN = 800 * 1024; // これを超えたら GIST_SHARDS の割り直しが要る
 
+  function _byteLen(s) {
+    return typeof TextEncoder !== 'undefined' ? new TextEncoder().encode(s).length : s.length;
+  }
+
+  // 1ファイルぶんの JSON を得る。切り詰められていたら raw_url から取り直す。
+  // ⚠️ raw_url に Authorization を付けてはいけない。gist.githubusercontent.com はプリフライトを
+  //    通さないので "Failed to fetch" になる。secret gist の raw_url はリビジョンのsha入りで
+  //    推測できないため、ヘッダ無しで取得して差し支えない（実測で 200 / 全文が返る）。
+  async function _readGistFile(file) {
+    if (!file.truncated && typeof file.content === 'string') {
+      try { return JSON.parse(file.content); } catch { /* 切り詰め以外の破損 → raw で取り直す */ }
+    }
+    if (!file.raw_url) throw new SyntaxError('raw_url が無く内容を復元できません');
+    const res = await fetch(file.raw_url);
+    if (!res.ok) throw new Error(`raw HTTP ${res.status}`);
+    return JSON.parse(await res.text());
+  }
+
+  // リモートの全ファイルを1つの payload に戻す（_mergeRemote はこの形しか知らない）。
+  // kind は push 側が「諦めて次回に回す(network/http)」と「上書きして直す(parse)」を分けるために返す。
+  async function _fetchRemotePayload(token, gistId) {
+    let data;
     try {
       const res = await fetch(`https://api.github.com/gists/${gistId}`, {
         headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github.v3+json' }
       });
       if (!res.ok) {
         const detail = res.status === 401 ? 'トークン無効／期限切れ' : res.status === 404 ? 'Gist未検出' : `HTTP ${res.status}`;
-        _setSyncBadge('error', detail);
-        return { status: 'error', code: res.status, detail };
+        return { status: 'error', kind: 'http', code: res.status, detail };
       }
-      const data = await res.json();
-      const raw = data.files?.['mec_progress.json']?.content;
-      if (!raw) return { status: 'empty' };
-      _mergeRemote(JSON.parse(raw));
-      localStorage.setItem(K_LAST_SYNC, new Date().toISOString());
-      _setSyncBadge('synced');
-      syncPendingRetry = false;
-      return { status: 'ok' };
-    } catch (e) {
-      _setSyncBadge('error', 'ネットワークエラー');
-      syncPendingRetry = true;
-      return { status: 'error', message: e.message };
+      data = await res.json();
+    } catch {
+      return { status: 'error', kind: 'network', detail: 'ネットワークエラー' };
     }
+    const files = data.files || {};
+    // 分割ファイルを先に、GIST_FILE を後に読む。分割前のバージョンの端末は全キーを GIST_FILE へ
+    // 書くので、混在したときはそちらを勝たせる（分割ファイル側には古い値しか残っていない）。
+    const names = [...new Set(Object.values(GIST_SHARDS)), GIST_FILE].filter(n => files[n]);
+    if (!names.length) return { status: 'empty' };
+    const payload = {};
+    for (const name of names) {
+      let part;
+      try {
+        part = await _readGistFile(files[name]);
+      } catch (e) {
+        const kind = e instanceof SyntaxError ? 'parse' : 'network';
+        return { status: 'error', kind, detail: kind === 'parse' ? `${name} が壊れています` : 'ネットワークエラー' };
+      }
+      if (part && typeof part === 'object') Object.assign(payload, part);
+    }
+    return { status: 'ok', payload };
+  }
+
+  async function syncFromGist() {
+    const token = localStorage.getItem(K_TOKEN) || '';
+    const gistId = localStorage.getItem(K_GIST) || '';
+    if (!token || !gistId) return { status: 'no-config' };
+
+    const r = await _fetchRemotePayload(token, gistId);
+    if (r.status === 'empty') return { status: 'empty' };
+    if (r.status === 'error') {
+      _setSyncBadge('error', r.detail);
+      if (r.kind === 'network') syncPendingRetry = true;
+      return { status: 'error', code: r.code, detail: r.detail, message: r.detail };
+    }
+    try {
+      _mergeRemote(r.payload);
+    } catch (e) {
+      const detail = 'マージ失敗: ' + e.message;
+      _setSyncBadge('error', detail);
+      return { status: 'error', detail, message: detail };
+    }
+    localStorage.setItem(K_LAST_SYNC, new Date().toISOString());
+    _setSyncBadge('synced');
+    syncPendingRetry = false;
+    return { status: 'ok' };
   }
 
   async function pushToGist() {
@@ -151,16 +218,24 @@
     // read-modify-write: リモートを取り込んでからpushしないと、他デバイスが
     // 先にpushした進捗をローカル状態で丸ごと上書きして喪失させる
     if (gistId) {
-      try {
-        const pre = await fetch(`https://api.github.com/gists/${gistId}`, {
-          headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github.v3+json' }
-        });
-        if (pre.ok) {
-          const raw = (await pre.json()).files?.['mec_progress.json']?.content;
-          if (raw) _mergeRemote(JSON.parse(raw));
+      const pre = await _fetchRemotePayload(token, gistId);
+      if (pre.status === 'ok') {
+        try { _mergeRemote(pre.payload); } catch (e) {
+          _setSyncBadge('error', 'マージ失敗: ' + e.message);
+          syncInProgress = false;
+          return { status: 'error', detail: 'マージ失敗: ' + e.message };
         }
-        // 401/404 等はこの後のpush本体が同じエラーを踏んでバッジ表示するため続行
-      } catch { /* ネットワーク断: push本体のcatchで処理される */ }
+      } else if (pre.status === 'error' && pre.kind !== 'parse') {
+        // ⚠️ リモートを読めないまま押し切らないこと。ここは以前 catch{} で握り潰して push を
+        //    続行しており、他端末が先に書いた進捗をローカル状態で上書きして消す穴だった
+        //    （content の切り詰めで JSON.parse が落ちていた間、まさにこの経路を通っていた）。
+        //    kind==='parse' はリモートが壊れていてマージのしようがない＝上書きで直す方が早い。
+        _setSyncBadge('error', pre.detail);
+        syncPendingRetry = pre.kind === 'network';
+        syncInProgress = false;
+        return { status: 'error', code: pre.code, detail: pre.detail, message: pre.detail };
+      }
+      // 'empty'（ファイルがまだ無い）はそのまま push して作る
     }
 
     const payload = {};
@@ -179,12 +254,28 @@
       'Content-Type': 'application/json',
       Accept: 'application/vnd.github.v3+json'
     };
+    // キーを GIST_SHARDS に従って複数ファイルへ振り分ける。1ファイルが 900KiB を超えると
+    // API の応答が切り詰められて読めなくなるため（上の GIST_SHARDS のコメント参照）。
+    const parts = {};
+    Object.keys(payload).forEach(k => {
+      const name = GIST_SHARDS[k] || GIST_FILE;
+      (parts[name] || (parts[name] = {}))[k] = payload[k];
+    });
     // インデントを付けない。attempts(最大5000件)・done(7000件超)・srs を毎回まるごと送るので、
     // pretty-print は転送量を1.5倍にするだけで誰も読まない（Gistの中身を直接読む運用は無い）。
+    const files = {};
+    Object.entries(parts).forEach(([name, obj]) => {
+      const content = JSON.stringify(obj);
+      const kb = Math.round(_byteLen(content) / 1024);
+      if (_byteLen(content) > GIST_FILE_WARN) {
+        console.warn(`[MECSync] ${name} が ${kb}KB。900KiB でAPIに切り詰められるので GIST_SHARDS の割り直しが要る`);
+      }
+      files[name] = { content };
+    });
     const body = JSON.stringify({
       description: 'MEC 医師国試 学習進捗',
       public: false,
-      files: { 'mec_progress.json': { content: JSON.stringify(payload) } }
+      files
     });
 
     try {
