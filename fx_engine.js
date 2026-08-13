@@ -115,6 +115,23 @@
   function pick(arr) { return arr[(Math.random() * arr.length) | 0]; }
   function easeOutCubic(t) { var u = 1 - t; return 1 - u * u * u; }
 
+  // 位置を自前で持つ（速度で動かさない）型。ここに載せた型は step() の物理を通らない。
+  // 型を足したら必ずここに登録すること——登録し忘れると重力で画面外へ落ちて消える。
+  var STATIC_TYPES = { bar: 1, bolt: 1, ring: 1, stamp: 1, wave: 1, ribbon: 1 };
+
+  // 2次ベジェ（ribbon の軌道）
+  function bez(a, b, c, u) { var v = 1 - u; return v * v * a + 2 * v * u * b + u * u * c; }
+
+  // 波形の高さ。spike を与えると spikeAt 付近に QRS 様の鋭い山が立つ
+  function waveY(p, u) {
+    var v = Math.sin(u * (p.freq || 6) * 6.2832);
+    if (p.spike) {
+      var d = (u - (p.spikeAt == null ? .5 : p.spikeAt)) * 34;
+      v += p.spike * Math.exp(-d * d) * (d < 0 ? -.35 : 1);
+    }
+    return p.y - v * p.amp;
+  }
+
   // ── メインループ ────────────────────────────────────────────
   function tick(now) {
     if (!running) return;
@@ -145,7 +162,14 @@
       if (p.delay > 0) { p.delay -= dt; continue; }
       p.age += dt;
       var dead = p.age >= p.ttl;
-      if (!dead && p.type !== 'bar' && p.type !== 'bolt' && p.type !== 'ring') {
+      if (!dead && p.type === 'orbit') {
+        // 極座標で回す。引力点・重力は通さない（軌道が崩れると「回っている」に見えない）
+        p.a += p.va * dt;
+        if (p.dr) p.r = Math.max(0, p.r + p.dr * dt);
+        p.x = p.cx + Math.cos(p.a) * p.r;
+        p.y = p.cy + Math.sin(p.a) * p.r * (p.squash == null ? 1 : p.squash);
+        if (p.vr) p.rot = (p.rot || 0) + p.vr * dt;
+      } else if (!dead && !STATIC_TYPES[p.type]) {
         for (var a = 0; a < attractors.length; a++) {
           var at = attractors[a];
           var dx = at.x - p.x, dy = at.y - p.y;
@@ -257,6 +281,78 @@
         // （加算だと光って見え、湯気ではなく発光体になる）
         var sd = s * (1 + (p.grow == null ? 2 : p.grow) * t);
         ctx.drawImage(glowSprite(p.color), x - sd / 2, y - sd / 2, sd, sd);
+        return;
+      }
+      case 'ribbon': {
+        // 2点間を走る光の線。頭が進み、尾が一定長で追いかける
+        var rh = easeOutCubic(Math.min(t / (p.grow || .55), 1));
+        var rt = Math.max(0, rh - (p.tail == null ? .34 : p.tail));
+        ctx.strokeStyle = p.color;
+        ctx.lineWidth = s;
+        ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+        ctx.beginPath();
+        for (var q = 0; q <= 16; q++) {
+          var u = rt + (rh - rt) * (q / 16);
+          var bx = bez(p.x0, p.bx, p.x1, u), by = bez(p.y0, p.by, p.y1, u);
+          if (q === 0) ctx.moveTo(bx, by); else ctx.lineTo(bx, by);
+        }
+        ctx.stroke();
+        if (p.glow) {
+          var hx = bez(p.x0, p.bx, p.x1, rh), hy = bez(p.y0, p.by, p.y1, rh);
+          var hd = s * 5;
+          ctx.drawImage(glowSprite(p.color), hx - hd / 2, hy - hd / 2, hd, hd);
+        }
+        return;
+      }
+      case 'wave': {
+        // 走査線のように左から波形が伸びる。尾は一定の長さで切る
+        var wp = Math.min(t / (p.grow || .8), 1);
+        var span = p.x1 - p.x0;
+        var wh = p.x0 + span * wp;
+        var wt = Math.max(p.x0, wh - (p.tail || 240));
+        var segs = Math.max(2, Math.round((wh - wt) / 7));
+        ctx.strokeStyle = p.color;
+        ctx.lineWidth = s;
+        ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+        ctx.beginPath();
+        for (var q2 = 0; q2 <= segs; q2++) {
+          var wx = wt + (wh - wt) * (q2 / segs);
+          var wy = waveY(p, (wx - p.x0) / (span || 1));
+          if (q2 === 0) ctx.moveTo(wx, wy); else ctx.lineTo(wx, wy);
+        }
+        ctx.stroke();
+        if (p.glow) {
+          var gy2 = waveY(p, (wh - p.x0) / (span || 1)), gd = s * 6;
+          ctx.drawImage(glowSprite(p.color), wh - gd / 2, gy2 - gd / 2, gd, gd);
+        }
+        return;
+      }
+      case 'stamp': {
+        // 大きく浮いた輪が落ちてきて紙面に「押される」。落ちきってから薄れる
+        var sp3 = Math.min(t / (p.grow || .22), 1);
+        var sc = 1 + (p.from == null ? 1.8 : p.from) * (1 - easeOutCubic(sp3));
+        var r2 = s / 2 * sc;
+        ctx.save();
+        ctx.translate(x, y);
+        if (p.rot) ctx.rotate(p.rot * .01745);
+        ctx.strokeStyle = p.color;
+        ctx.lineWidth = Math.max(1, (p.thick || 5) * sc);
+        ctx.beginPath(); ctx.arc(0, 0, r2, 0, 6.2832); ctx.stroke();
+        if (p.inner !== false) {
+          ctx.lineWidth = Math.max(.8, (p.thick || 5) * .38 * sc);
+          ctx.beginPath(); ctx.arc(0, 0, r2 * .78, 0, 6.2832); ctx.stroke();
+        }
+        if (p.ticks) {   // 外周の刻み＝真鍮の刻印らしさ
+          ctx.lineWidth = Math.max(1, (p.thick || 5) * .5 * sc);
+          for (var q3 = 0; q3 < p.ticks; q3++) {
+            var a3 = q3 / p.ticks * 6.2832;
+            ctx.beginPath();
+            ctx.moveTo(Math.cos(a3) * r2 * .84, Math.sin(a3) * r2 * .84);
+            ctx.lineTo(Math.cos(a3) * r2, Math.sin(a3) * r2);
+            ctx.stroke();
+          }
+        }
+        ctx.restore();
         return;
       }
       case 'glyph': {
@@ -765,6 +861,182 @@
     }
   }
 
+  // ── 2026-08-14 追加分 ───────────────────────────────────────
+  // いずれも純増。既存エミッタの引数・既定値は変えていない（7テーマへ波及するため）。
+
+  /**
+   * 帯が割れて破片が落ちる。コンボメーターの崩落など「失われた」ことを描く。
+   * o: {w, h, count, colors, gravity, spread, up, delay, ttl}
+   */
+  function shatter(x, y, o) {
+    o = o || {};
+    var colors = o.colors || ['#FFFFFF', '#FFD166', '#FF7043'];
+    var n = o.count || 22;
+    var w = o.w || 220, h = o.h || 8;
+    var spread = o.spread || 260;
+    for (var i = 0; i < n; i++) {
+      // 帯の左右どちらに居たかで飛ぶ向きを分ける＝中心から裂けたように見える
+      var fx = rnd(-w / 2, w / 2);
+      var dir = fx < 0 ? -1 : 1;
+      addP({
+        x: x + fx, y: y + rnd(-h / 2, h / 2),
+        vx: dir * rnd(spread * .08, spread) * (Math.abs(fx) / (w / 2) * .8 + .2),
+        vy: -rnd(o.up == null ? 90 : o.up, (o.up == null ? 90 : o.up) + 190),
+        gy: o.gravity != null ? o.gravity : 1500,
+        drag: .995,
+        size: rnd(5, 15),
+        color: pick(colors),
+        shape: Math.random() < .55 ? 'shard' : 'square',
+        rot: rnd(0, 360), vr: rnd(-700, 700),
+        glow: false, blend: false,
+        ttl: o.ttl || rnd(.5, .95),
+        fadeOut: .4,
+        delay: (o.delay || 0) + rnd(0, .06)
+      });
+    }
+  }
+
+  /**
+   * 2点間を走る光のリボン。視線を誘導したいときに使う（正解肢 → 解説など）。
+   * o: {color, width, tail, ttl, grow, bow, glow, additive, delay}
+   * bow は中間点を軌道の法線方向へどれだけ膨らませるか（px・既定は距離の18%）。
+   */
+  function ribbon(x0, y0, x1, y1, o) {
+    o = o || {};
+    var dx = x1 - x0, dy = y1 - y0;
+    var len = Math.sqrt(dx * dx + dy * dy) || 1;
+    var bow = o.bow == null ? len * .18 : o.bow;
+    addP({
+      type: 'ribbon',
+      x: x0, y: y0,
+      x0: x0, y0: y0, x1: x1, y1: y1,
+      bx: (x0 + x1) / 2 - dy / len * bow,
+      by: (y0 + y1) / 2 + dx / len * bow,
+      size: o.width || 3,
+      tail: o.tail == null ? .34 : o.tail,
+      grow: o.grow || .55,
+      color: o.color || '#FFD54F',
+      glow: o.glow !== false,
+      blend: o.additive !== false,
+      ttl: o.ttl || .8,
+      fadeOut: .3,
+      delay: o.delay || 0
+    });
+  }
+
+  /**
+   * 刻印。輪が上から降ってきて「押され」、着地の瞬間に埃と衝撃波が出る。
+   * o: {color, size, thick, ticks, rot, inner, dust, ttl, delay}
+   */
+  function stamp(x, y, o) {
+    o = o || {};
+    var col = o.color || '#E0C25E';
+    var size = o.size || 120;
+    var grow = .22;
+    addP({
+      type: 'stamp',
+      x: x, y: y,
+      size: size,
+      thick: o.thick || 5,
+      ticks: o.ticks || 0,
+      inner: o.inner,
+      from: o.from,
+      grow: grow,
+      rot: o.rot || 0,
+      color: col,
+      blend: false,
+      ttl: o.ttl || .9,
+      fadeOut: .45,
+      delay: o.delay || 0
+    });
+    // 着地の瞬間＝輪が縮みきったところに合わせる
+    var land = (o.delay || 0) + grow * .82;
+    addP({
+      type: 'ring', x: x, y: y,
+      maxR: size * .95, thick: 2.5, color: col,
+      blend: true, ttl: .42, delay: land
+    });
+    if (o.dust !== false) {
+      for (var i = 0; i < 16; i++) {
+        var ang = rnd(0, 6.2832);
+        var spd = rnd(90, 320);
+        addP({
+          x: x + Math.cos(ang) * size * .4, y: y + Math.sin(ang) * size * .4,
+          vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd - 60,
+          gy: 700, drag: .93,
+          size: rnd(2.5, 6), color: col, shape: 'circle',
+          glow: true, blend: true,
+          ttl: rnd(.35, .7), fadeOut: .5,
+          delay: land
+        });
+      }
+    }
+  }
+
+  /**
+   * 中心の周りを回る粒子。速度ではなく極座標で持つので軌道が崩れない。
+   * o: {count, r, dr, va, colors, shapes, size, squash, ttl, glow, additive, teeth, delay}
+   */
+  function orbit(x, y, o) {
+    o = o || {};
+    var colors = o.colors || ['#FFD700', '#FFFFFF'];
+    var shapes = o.shapes || ['circle'];
+    var n = o.count || 12;
+    var r = o.r || 90;
+    var va = o.va == null ? 2.4 : o.va;
+    for (var i = 0; i < n; i++) {
+      var shape = pick(shapes);
+      addP({
+        type: 'orbit',
+        cx: x, cy: y,
+        r: r + rnd(-(o.spread || 14), o.spread || 14),
+        a: (i / n) * 6.2832 + rnd(-.12, .12),
+        va: va * (o.jitter === false ? 1 : rnd(.85, 1.15)),
+        dr: o.dr || 0,
+        squash: o.squash,
+        x: x, y: y,
+        size: o.size || rnd(3, 7),
+        color: pick(colors),
+        shape: shape,
+        teeth: o.teeth || (6 + (Math.random() * 5 | 0)),
+        rot: rnd(0, 360), vr: rnd(-200, 200),
+        glow: o.glow !== false && shape === 'circle',
+        blend: o.additive !== false,
+        twinkle: Math.random() < .35 ? { f: rnd(10, 22), ph: rnd(0, 6.28) } : null,
+        ttl: o.ttl || 1.4,
+        fadeOut: .35,
+        delay: (o.delay || 0) + rnd(0, o.stagger || 0)
+      });
+    }
+  }
+
+  /**
+   * 走査線のように走る波形。心電図・同期の進行など「動いている」ことを描く。
+   * o: {y, x0, x1, amp, freq, spike, spikeAt, color, width, tail, ttl, grow, glow, additive, delay}
+   */
+  function wave(o) {
+    o = o || {};
+    addP({
+      type: 'wave',
+      x: 0, y: o.y == null ? H * .5 : o.y,
+      x0: o.x0 == null ? -20 : o.x0,
+      x1: o.x1 == null ? W + 20 : o.x1,
+      amp: o.amp == null ? 26 : o.amp,
+      freq: o.freq == null ? 6 : o.freq,
+      spike: o.spike || 0,
+      spikeAt: o.spikeAt,
+      tail: o.tail || 240,
+      size: o.width || 2.5,
+      grow: o.grow || .8,
+      color: o.color || '#4DD0E1',
+      glow: o.glow !== false,
+      blend: o.additive !== false,
+      ttl: o.ttl || 1.0,
+      fadeOut: .25,
+      delay: o.delay || 0
+    });
+  }
+
   window.MecFX = {
     burst: burst,
     confetti: confetti,
@@ -783,6 +1055,11 @@
     attractor: attractor,
     glitchBars: glitchBars,
     dust: dust,
+    shatter: shatter,
+    ribbon: ribbon,
+    stamp: stamp,
+    orbit: orbit,
+    wave: wave,
     clear: clearAll,
     count: function () { return pool.length; }
   };

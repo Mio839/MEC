@@ -145,6 +145,21 @@
       '.ce-hist-badge.bad{background:rgba(255,107,107,.15);color:#FF6B6B;border-color:rgba(255,107,107,.3);}',
       /* 追加演出（2026-07-20・study側 study.css と同仕様のミラー） */
       '.ce-fast-pop{position:fixed;z-index:9220;pointer-events:none;font-size:18px;font-weight:900;letter-spacing:.06em;white-space:nowrap;text-shadow:0 2px 10px rgba(0,0,0,.7);transform:translate(-50%,0);}',
+      /* A1/C2（2026-08-14・study.css のミラー） */
+      '.ce-hard-pop{position:fixed;z-index:9230;pointer-events:none;text-align:center;display:flex;flex-direction:column;align-items:center;gap:1px;white-space:nowrap;}',
+      '.ce-hard-pop .hc-lbl{font-size:23px;font-weight:900;letter-spacing:.04em;color:var(--hc-col,#FF5722);text-shadow:0 0 18px color-mix(in srgb,var(--hc-col,#FF5722) 70%,transparent),0 2px 10px rgba(0,0,0,.75);}',
+      '.ce-hard-pop .hc-rate{font-size:11px;font-weight:800;letter-spacing:.08em;font-variant-numeric:tabular-nums;color:rgba(255,255,255,.82);text-shadow:0 1px 6px rgba(0,0,0,.85);}',
+      '.ce-recover-pop{position:fixed;z-index:9225;pointer-events:none;white-space:nowrap;font-size:19px;font-weight:900;letter-spacing:.05em;color:var(--rc-col,#3DD68C);text-shadow:0 0 16px color-mix(in srgb,var(--rc-col,#3DD68C) 65%,transparent),0 2px 10px rgba(0,0,0,.7);}',
+      /* A2/A3/A5（2026-08-14・study.css のミラー） */
+      '.ce-mark-pop{position:fixed;z-index:9222;pointer-events:none;white-space:nowrap;font-size:12.5px;font-weight:800;letter-spacing:.04em;color:var(--mk-col,#3DD68C);padding:2px 8px;border-radius:20px;background:color-mix(in srgb,var(--mk-col,#3DD68C) 16%,rgba(0,0,0,.55));border:1px solid color-mix(in srgb,var(--mk-col,#3DD68C) 42%,transparent);text-shadow:0 1px 6px rgba(0,0,0,.75);}',
+      '.ce-mark-pop.rev{font-size:15px;font-weight:900;padding:3px 11px;box-shadow:0 0 16px color-mix(in srgb,var(--mk-col,#FFD700) 42%,transparent);}',
+      '.ce-mark-pop.warn{font-size:12px;}',
+      '.qc.ce-scar{position:relative;}',
+      ".qc.ce-scar::before{content:'';position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:0 3px 3px 0;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(255,107,107,.75) 18%,rgba(255,107,107,.75) 82%,transparent);}",
+      '.ce-fast-pop.fast-g1{font-size:14px;opacity:.78;}',
+      '.ce-fast-pop.fast-g3{font-size:22px;letter-spacing:.08em;}',
+      '.qc.ce-sink .ch2{transition:transform .28s cubic-bezier(.2,.8,.3,1),opacity .28s ease,filter .28s ease;}',
+      '.qc.ce-sink .ch2:not(.ch-exam-selected):not(.ch-exam-instant-correct):not(.ok){transform:scale(.985) translateY(2px);opacity:.5;filter:saturate(.55);}',
       '.ce-trace-svg{position:fixed;z-index:8500;pointer-events:none;overflow:visible;}',
       '.ce-tierup{position:fixed;left:50%;top:38%;z-index:9350;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;}',
       '.ce-tierup .tu-lbl{font-size:13px;font-weight:900;letter-spacing:.42em;text-indent:.42em;color:rgba(255,255,255,.92);text-shadow:0 2px 8px rgba(0,0,0,.8);}',
@@ -192,7 +207,7 @@
       '.cd-stream{position:absolute;inset:0;overflow:hidden;opacity:.28;}',
       '.cd-col{position:absolute;top:-40%;left:var(--x,0);white-space:pre;line-height:1.25;font-family:Menlo,Consolas,monospace;font-size:13px;color:var(--cd-col,#00E5FF);animation:cdFall 2.6s linear var(--d,0s) both;}',
       '@keyframes cdFall{from{transform:translateY(-30%)}to{transform:translateY(130%)}}',
-      '@media (prefers-reduced-motion: reduce){.ce-fast-pop,.ce-trace-svg,.ce-tierup,.ce-zone-collapse,#chExamCountdown,#chExamStreakSig{display:none!important;}}'
+      '@media (prefers-reduced-motion: reduce){.ce-fast-pop,.ce-trace-svg,.ce-tierup,.ce-zone-collapse,.ce-hard-pop,.ce-recover-pop,.ce-mark-pop,#chExamCountdown,#chExamStreakSig{display:none!important;}.qc.ce-sink .ch2{transition:none;transform:none;opacity:1;filter:none;}}'
     ].join('');
     document.head.appendChild(s);
   }
@@ -344,6 +359,7 @@
     exam.answered = 0;
     exam.correct = 0;
     exam.streak = 0;
+    _ceRecoverPending = false;   // C2: 立て直しはセッションをまたがない
     exam.active = true;
     exam.startTime = Date.now();
     exam.effectSet = CE_EFFECT_POOL[Math.floor(Math.random() * CE_EFFECT_POOL.length)];
@@ -510,9 +526,11 @@
     if (window.MecCalc) document.querySelectorAll('.qc .calc-input').forEach(function (el) {
       window.MecCalc.destroy(el.closest('.qc'));
     });
-    document.querySelectorAll('.ce-particle,.ce-ring,.ce-fx-temp,.ce-tierup,.ce-fast-pop,.ce-trace-svg,.ce-zone-collapse').forEach(function (el) {
+    document.querySelectorAll('.ce-particle,.ce-ring,.ce-fx-temp,.ce-tierup,.ce-fast-pop,.ce-trace-svg,.ce-zone-collapse,.ce-hard-pop,.ce-recover-pop,.ce-mark-pop').forEach(function (el) {
       el.remove();
     });
+    // C5: 誤答の傷はセッション中だけの印。通常閲覧に持ち越さない
+    document.querySelectorAll('.qc.ce-scar').forEach(function (el) { el.classList.remove('ce-scar'); });
     if (window.MecFX) window.MecFX.clear();
     document.removeEventListener('keydown', ceKeyHandler);
     window.removeEventListener('scroll', ceOnScroll);
@@ -661,7 +679,7 @@
       var _ceOk = fxEl || card.querySelector('.ch2.ch-exam-instant-correct');
       ceCorrectShockwave(_ceOk);
       ceTraceCardBorder(card);
-      if (ceIsFast(card)) setTimeout(function () { ceFastBonus(_ceOk); }, 90);
+      ceAfterCorrectFx(card, _ceOk);
       var _ceIdx = exam.queue.indexOf(card);
       var _ceNext = null;
       for (var _ci = _ceIdx + 1; _ci < exam.queue.length; _ci++) {
@@ -674,9 +692,12 @@
       if (!fxEl) card.querySelectorAll('.ch2').forEach(function (c) {
         if (isChoiceOk(c)) c.classList.add('ch-exam-instant-correct');
       });
+      var _ceBroke = exam.streak;   // C1: 0 にする前に控える
       exam.streak = 0;
       ceResetComboMeter();
       ceZoneStop(true);   // ゾーン崩壊
+      // ⚠️ 誤答の演出は「選んだ肢」を掴む。正解肢（instant-correct）を渡すと位置が別物になる
+      ceAfterWrongFx(card, fxEl || card.querySelector('.ch2.ch-exam-selected'), _ceBroke);
       saveMyRate(card.dataset.uid, false);
     }
 
@@ -745,8 +766,13 @@
   }
 
   // ─── 演出セット（study.html の EXAM_EFFECT_THEMES と同一配色） ──
+  /* B1(2026-08-14・study_exam.js のミラー): 天井を tier7（30連続〜）へ。
+     _tIdx と同じ役割。配列は length に、マップは 7 に丸める。 */
+  function ceTIdx(tier, o) {
+    return Array.isArray(o) ? Math.min(tier, o.length - 1) : Math.min(tier, 7);
+  }
   function ceTier(n) {
-    return n >= 20 ? 6 : n >= 15 ? 5 : n >= 10 ? 4 : n >= 7 ? 3 : n >= 4 ? 2 : 1;
+    return n >= 30 ? 7 : n >= 20 ? 6 : n >= 15 ? 5 : n >= 10 ? 4 : n >= 7 ? 3 : n >= 4 ? 2 : 1;
   }
 
   var CE_EFFECT_THEMES = {
@@ -756,29 +782,37 @@
         3: ['#FF5820','#FF9800','#FFFFFF','#FFD700','#FF6030'],
         4: ['#FFD700','#FFA040','#FFFFFF','#FFB830','#FFF176','#FF9800'],
         5: ['#FFE040','#FFD700','#FF9800','#FFFFFF','#FFF176','#FFB300','#FF5722','#4FC3F7'],
-        6: ['#EE88FF','#CC44FF','#FFD700','#FF5722','#4FC3F7','#FFFFFF','#FFE040','#81C784','#F06292']
+        6: ['#EE88FF','#CC44FF','#FFD700','#FF5722','#4FC3F7','#FFFFFF','#FFE040','#81C784','#F06292'],
+        7: ['#FF3D7F','#CC44FF','#FFD700','#FF5722','#4FC3F7','#FFFFFF','#FFE040','#00E5FF','#F06292','#81C784']
       },
       shapes: function (tier) { return tier >= 3 ? ['circle','square','star','star','square','circle'] : ['circle','square']; },
-      ringColor: function (tier) { return tier >= 6 ? 'rgba(210,80,255,.85)' : tier >= 4 ? 'rgba(255,210,0,.85)' : tier >= 3 ? 'rgba(255,88,32,.85)' : 'rgba(255,160,64,.75)'; },
-      fullscreenCols: ['','','#FFA040','#FF5820','#FFD700','#FFE840','#CC44FF'],
-      fullscreenGlow: ['','','255,160,64','255,88,32','255,200,0','255,220,0','200,60,255'],
-      flashColors: ['','','rgba(255,160,64,.30)','rgba(255,80,40,.42)','rgba(255,200,0,.62)','rgba(255,220,0,.78)','rgba(160,0,255,.68)'],
-      borderColors: {4:'#FF9800',5:'#FFD700',6:'#CC44FF'},
-      bgRgbs: ['','61,214,140','255,160,64','255,88,32','255,210,0','255,232,0','210,80,255'],
-      meterGrads: ['','linear-gradient(90deg,#3DD68C,#5EF0A8)','linear-gradient(90deg,#FFA040,#FFD060)','linear-gradient(90deg,#FF5820,#FF9040)','linear-gradient(90deg,#FFD700,#FFF060)','linear-gradient(90deg,#FFE040,#FFD700,#FF9800)','linear-gradient(90deg,#CC44FF,#EE88FF,#FF5722,#FFD700)'],
-      labels: function (n) { return ['','🎯 '+n+'連続！','🔥 '+n+'連続！！','⚡️ '+n+'連続！！！','💥 '+n+'連続！！！！','🏆 '+n+'連続！！！！！','👑 '+n+'連続！！！！！！']; },
+      ringColor: function (tier) { return tier >= 7 ? 'rgba(255,61,127,.92)' : tier >= 6 ? 'rgba(210,80,255,.85)' : tier >= 4 ? 'rgba(255,210,0,.85)' : tier >= 3 ? 'rgba(255,88,32,.85)' : 'rgba(255,160,64,.75)'; },
+      fullscreenCols: ['','','#FFA040','#FF5820','#FFD700','#FFE840','#CC44FF','#FF3D7F'],
+      fullscreenGlow: ['','','255,160,64','255,88,32','255,200,0','255,220,0','200,60,255','255,61,127'],
+      flashColors: ['','','rgba(255,160,64,.30)','rgba(255,80,40,.42)','rgba(255,200,0,.62)','rgba(255,220,0,.78)','rgba(160,0,255,.68)','rgba(255,61,127,.82)'],
+      borderColors: {4:'#FF9800',5:'#FFD700',6:'#CC44FF',7:'#FF3D7F'},
+      bgRgbs: ['','61,214,140','255,160,64','255,88,32','255,210,0','255,232,0','210,80,255','255,61,127'],
+      meterGrads: ['','linear-gradient(90deg,#3DD68C,#5EF0A8)','linear-gradient(90deg,#FFA040,#FFD060)','linear-gradient(90deg,#FF5820,#FF9040)','linear-gradient(90deg,#FFD700,#FFF060)','linear-gradient(90deg,#FFE040,#FFD700,#FF9800)','linear-gradient(90deg,#CC44FF,#EE88FF,#FF5722,#FFD700)','linear-gradient(90deg,#FF3D7F,#CC44FF,#FFD700,#FF5722,#4FC3F7)'],
+      labels: function (n) { return ['','🎯 '+n+'連続！','🔥 '+n+'連続！！','⚡️ '+n+'連続！！！','💥 '+n+'連続！！！！','🏆 '+n+'連続！！！！！','👑 '+n+'連続！！！！！！','🌋 '+n+'連続・鬼神']; },
       popOverlay: 'linear-gradient(135deg,rgba(255,215,0,.22),rgba(61,214,140,.10))',
       comboLabel: function (n) { return n >= 2 ? '×'+n+' COMBO!' : '+1'; },
-      comboColors: ['','#3DD68C','#FFA040','#FF5820','#FFD700','#FFE840','#EE88FF'],
+      comboColors: ['','#3DD68C','#FFA040','#FF5820','#FFD700','#FFE840','#EE88FF','#FF3D7F'],
       useConfetti: true, rainType: 'confetti',
       useFireworks: true,
       useLightning: true,
-      lightningCols: {3:'rgba(255,120,32,.95)',4:'rgba(255,210,0,1)',5:'rgba(255,235,0,1)',6:'rgba(200,80,255,1)'},
+      lightningCols: {3:'rgba(255,120,32,.95)',4:'rgba(255,210,0,1)',5:'rgba(255,235,0,1)',6:'rgba(200,80,255,1)',7:'rgba(255,61,127,1)'},
       useGlitch: true,
       useMedalDrop: true,
-      floaterGlyphs: { 5:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉'], 6:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉','🎊','🥳','🌈','💎','👑','🎆'] },
+      floaterGlyphs: { 5:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉'], 6:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉','🎊','🥳','🌈','💎','👑','🎆'], 7:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉','🎊','🥳','🌈','💎','👑','🎆','🌋','☄️'] },
       fastLabel: '⚡ 速答！',
-      tierUpLabel: (t) => '🔥 TIER ' + Math.max(1, Math.min(t, 6)) + ' 突入',
+      hardLabel: '💪 難問突破！',
+      hardColors: ['#FF5722','#FFD700','#FFFFFF','#FF8A50','#FFB300'],
+      recoverLabel: '🔄 立て直し！',
+      recoverColors: ['#3DD68C','#5EF0A8','#FFFFFF','#A5F3C4'],
+      freshLabel: '🌱 初見突破',
+      revengeLabel: '⚔️ リベンジ達成',
+      fastLabels: ['⚡ 一閃！','⚡ 速答！','⚡ ナイス'],
+      tierUpLabel: (t) => '🔥 TIER ' + Math.max(1, Math.min(t, 7)) + ' 突入',
       signature: (n) => '🔥 ' + n + ' 連鎖',
       zoneGlyphs: ['🔥','✨','💥'],
       zoneColors: ['#FFA040','#FFD700','#FF5820']
@@ -789,31 +823,39 @@
         3: ['#FF2BD6','#00E5FF','#FFFFFF','#7A5CFF','#39FF88'],
         4: ['#00E5FF','#FF2BD6','#FFFFFF','#7A5CFF','#39FF88','#00FFC8'],
         5: ['#00E5FF','#FF2BD6','#7A5CFF','#FFFFFF','#39FF88','#00FFC8','#FFE600','#FF2BD6'],
-        6: ['#FF2BD6','#00E5FF','#7A5CFF','#39FF88','#FFFFFF','#00FFC8','#FFE600','#FF6EC7']
+        6: ['#FF2BD6','#00E5FF','#7A5CFF','#39FF88','#FFFFFF','#00FFC8','#FFE600','#FF6EC7'],
+        7: ['#FF3131','#FF2BD6','#00E5FF','#7A5CFF','#39FF88','#FFFFFF','#00FFC8','#FFE600','#FF6EC7']
       },
       shapes: function () { return ['square','shard']; },
-      ringColor: function (tier) { return tier >= 6 ? 'rgba(255,43,214,.9)' : tier >= 4 ? 'rgba(0,229,255,.9)' : 'rgba(122,92,255,.8)'; },
-      fullscreenCols: ['','','#00E5FF','#FF2BD6','#7A5CFF','#39FF88','#FFE600'],
-      fullscreenGlow: ['','','0,229,255','255,43,214','122,92,255','57,255,136','255,230,0'],
-      flashColors: ['','','rgba(0,229,255,.30)','rgba(255,43,214,.42)','rgba(122,92,255,.62)','rgba(57,255,136,.70)','rgba(255,230,0,.72)'],
-      borderColors: {4:'#00E5FF',5:'#FF2BD6',6:'#7A5CFF'},
-      bgRgbs: ['','0,229,255','255,43,214','122,92,255','57,255,136','0,255,200','255,230,0'],
-      meterGrads: ['','linear-gradient(90deg,#00E5FF,#39FF88)','linear-gradient(90deg,#7A5CFF,#00E5FF)','linear-gradient(90deg,#FF2BD6,#7A5CFF)','linear-gradient(90deg,#39FF88,#00FFC8)','linear-gradient(90deg,#00E5FF,#FF2BD6,#7A5CFF)','linear-gradient(90deg,#FF2BD6,#00E5FF,#39FF88,#FFE600)'],
-      labels: function (n) { return ['','⚡️ x'+n+' STREAK','💠 x'+n+' STREAK!!','🔷 x'+n+' OVERDRIVE','🤖 x'+n+' OVERDRIVE!!','👾 x'+n+' MAXIMUM','🛸 x'+n+' LIMIT BREAK']; },
+      ringColor: function (tier) { return tier >= 7 ? 'rgba(255,49,49,.92)' : tier >= 6 ? 'rgba(255,43,214,.9)' : tier >= 4 ? 'rgba(0,229,255,.9)' : 'rgba(122,92,255,.8)'; },
+      fullscreenCols: ['','','#00E5FF','#FF2BD6','#7A5CFF','#39FF88','#FFE600','#FF3131'],
+      fullscreenGlow: ['','','0,229,255','255,43,214','122,92,255','57,255,136','255,230,0','255,49,49'],
+      flashColors: ['','','rgba(0,229,255,.30)','rgba(255,43,214,.42)','rgba(122,92,255,.62)','rgba(57,255,136,.70)','rgba(255,230,0,.72)','rgba(255,49,49,.78)'],
+      borderColors: {4:'#00E5FF',5:'#FF2BD6',6:'#7A5CFF',7:'#FF3131'},
+      bgRgbs: ['','0,229,255','255,43,214','122,92,255','57,255,136','0,255,200','255,230,0','255,49,49'],
+      meterGrads: ['','linear-gradient(90deg,#00E5FF,#39FF88)','linear-gradient(90deg,#7A5CFF,#00E5FF)','linear-gradient(90deg,#FF2BD6,#7A5CFF)','linear-gradient(90deg,#39FF88,#00FFC8)','linear-gradient(90deg,#00E5FF,#FF2BD6,#7A5CFF)','linear-gradient(90deg,#FF2BD6,#00E5FF,#39FF88,#FFE600)','linear-gradient(90deg,#FF3131,#FF2BD6,#00E5FF,#39FF88,#FFE600)'],
+      labels: function (n) { return ['','⚡️ x'+n+' STREAK','💠 x'+n+' STREAK!!','🔷 x'+n+' OVERDRIVE','🤖 x'+n+' OVERDRIVE!!','👾 x'+n+' MAXIMUM','🛸 x'+n+' LIMIT BREAK','🌐 x'+n+' SINGULARITY']; },
       popOverlay: 'linear-gradient(135deg,rgba(0,229,255,.28),rgba(255,43,214,.14))',
       comboLabel: function (n) { return n >= 2 ? '⚡️[ x'+n+' ]' : '+1'; },
-      comboColors: ['','#00E5FF','#7A5CFF','#FF2BD6','#39FF88','#00FFC8','#FFE600'],
+      comboColors: ['','#00E5FF','#7A5CFF','#FF2BD6','#39FF88','#00FFC8','#FFE600','#FF3131'],
       correctEmoji: ['⚡️','💠','🔷'],
       floaterScale: 1.5,
       useConfetti: false, rainType: 'digital',
       useFireworks: false, useCircuitPulse: true,
       useLightning: true,
-      lightningCols: {3:'rgba(0,229,255,.95)',4:'rgba(255,43,214,1)',5:'rgba(122,92,255,1)',6:'rgba(57,255,136,1)'},
+      lightningCols: {3:'rgba(0,229,255,.95)',4:'rgba(255,43,214,1)',5:'rgba(122,92,255,1)',6:'rgba(57,255,136,1)',7:'rgba(255,49,49,1)'},
       useGlitch: true,
       useHeavyGlitch: true,
-      floaterGlyphs: { 5:['⚡️','💠','🔷','👾','🤖'], 6:['⚡️','💠','🔷','👾','🛸','🤖','🔋','📡'] },
+      floaterGlyphs: { 5:['⚡️','💠','🔷','👾','🤖'], 6:['⚡️','💠','🔷','👾','🛸','🤖','🔋','📡'], 7:['⚡️','💠','🔷','👾','🛸','🤖','🔋','📡','🌐','🧬'] },
       fastLabel: '⚡ FAST!',
-      tierUpLabel: (t) => '▲ LEVEL ' + Math.max(1, Math.min(t, 6)) + ' UNLOCKED',
+      hardLabel: '💠 HARD CLEAR',
+      hardColors: ['#FF2BD6','#00E5FF','#FFFFFF','#7A5CFF','#FFE600'],
+      recoverLabel: '🔄 REBOOT',
+      recoverColors: ['#39FF88','#00FFC8','#FFFFFF','#00E5FF'],
+      freshLabel: '🆕 FIRST TRY',
+      revengeLabel: '⚔️ REVENGE',
+      fastLabels: ['⚡ INSTANT!','⚡ FAST!','⚡ GOOD'],
+      tierUpLabel: (t) => '▲ LEVEL ' + Math.max(1, Math.min(t, 7)) + ' UNLOCKED',
       signature: (n) => 'SYNC ' + Math.min(99, 40 + n * 3) + '%',
       zoneGlyphs: ['⚡️','💠','🔷'],
       zoneColors: ['#00E5FF','#FF2BD6','#7A5CFF']
@@ -824,29 +866,37 @@
         3: ['#C93A3A','#8B1E1E','#1a1a1a','#C9A24B','#F5EFE0'],
         4: ['#C93A3A','#1a1a1a','#C9A24B','#F5EFE0','#8B1E1E','#E8C468'],
         5: ['#C93A3A','#8B1E1E','#1a1a1a','#C9A24B','#F5EFE0','#E8C468','#4A4A4A','#FFD9D9'],
-        6: ['#C93A3A','#8B1E1E','#1a1a1a','#C9A24B','#F5EFE0','#E8C468','#FFD9D9','#2b2b2b']
+        6: ['#C93A3A','#8B1E1E','#1a1a1a','#C9A24B','#F5EFE0','#E8C468','#FFD9D9','#2b2b2b'],
+        7: ['#D4AF37','#C93A3A','#8B1E1E','#1a1a1a','#C9A24B','#F5EFE0','#E8C468','#FFD9D9']
       },
       shapes: function () { return ['blob']; },
-      ringColor: function (tier) { return tier >= 5 ? 'rgba(26,26,26,.75)' : 'rgba(201,58,58,.75)'; },
-      fullscreenCols: ['','','#C93A3A','#8B1E1E','#C9A24B','#E8C468','#1a1a1a'],
-      fullscreenGlow: ['','','201,58,58','139,30,30','201,162,75','232,196,104','26,26,26'],
-      flashColors: ['','','rgba(201,58,58,.24)','rgba(139,30,30,.34)','rgba(201,162,75,.40)','rgba(26,26,26,.50)','rgba(201,58,58,.55)'],
-      borderColors: {4:'#C93A3A',5:'#1a1a1a',6:'#C9A24B'},
-      bgRgbs: ['','245,239,224','201,58,58','139,30,30','201,162,75','232,196,104','26,26,26'],
-      meterGrads: ['','linear-gradient(90deg,#C9A24B,#E8C468)','linear-gradient(90deg,#C93A3A,#E8925C)','linear-gradient(90deg,#8B1E1E,#C93A3A)','linear-gradient(90deg,#C9A24B,#C93A3A)','linear-gradient(90deg,#1a1a1a,#C93A3A,#C9A24B)','linear-gradient(90deg,#8B1E1E,#1a1a1a,#C9A24B)'],
-      labels: function (n) { return ['','🖌️ '+n+'連続','💮 '+n+'連続','🏮 '+n+'連続','⛩️ '+n+'連続・見事','🀄 '+n+'連続・天晴','🐉 '+n+'連続・極']; },
+      ringColor: function (tier) { return tier >= 7 ? 'rgba(212,175,55,.85)' : tier >= 5 ? 'rgba(26,26,26,.75)' : 'rgba(201,58,58,.75)'; },
+      fullscreenCols: ['','','#C93A3A','#8B1E1E','#C9A24B','#E8C468','#1a1a1a','#D4AF37'],
+      fullscreenGlow: ['','','201,58,58','139,30,30','201,162,75','232,196,104','26,26,26','212,175,55'],
+      flashColors: ['','','rgba(201,58,58,.24)','rgba(139,30,30,.34)','rgba(201,162,75,.40)','rgba(26,26,26,.50)','rgba(201,58,58,.55)','rgba(212,175,55,.60)'],
+      borderColors: {4:'#C93A3A',5:'#1a1a1a',6:'#C9A24B',7:'#D4AF37'},
+      bgRgbs: ['','245,239,224','201,58,58','139,30,30','201,162,75','232,196,104','26,26,26','212,175,55'],
+      meterGrads: ['','linear-gradient(90deg,#C9A24B,#E8C468)','linear-gradient(90deg,#C93A3A,#E8925C)','linear-gradient(90deg,#8B1E1E,#C93A3A)','linear-gradient(90deg,#C9A24B,#C93A3A)','linear-gradient(90deg,#1a1a1a,#C93A3A,#C9A24B)','linear-gradient(90deg,#8B1E1E,#1a1a1a,#C9A24B)','linear-gradient(90deg,#D4AF37,#8B1E1E,#1a1a1a,#C93A3A)'],
+      labels: function (n) { return ['','🖌️ '+n+'連続','💮 '+n+'連続','🏮 '+n+'連続','⛩️ '+n+'連続・見事','🀄 '+n+'連続・天晴','🐉 '+n+'連続・極','🔱 '+n+'連続・神域']; },
       popOverlay: 'linear-gradient(135deg,rgba(201,58,58,.22),rgba(20,20,20,.12))',
       comboLabel: function (n) { return n >= 2 ? '💮×'+n+' 連続' : '+1'; },
-      comboColors: ['','#C93A3A','#8B1E1E','#1a1a1a','#C9A24B','#E8C468','#8B1E1E'],
+      comboColors: ['','#C93A3A','#8B1E1E','#1a1a1a','#C9A24B','#E8C468','#8B1E1E','#D4AF37'],
       correctEmoji: ['💮','🖌️','🏮'],
       floaterScale: 1.5,
       useConfetti: false, rainType: 'petals',
       useFireworks: false, useBrushCircle: true,
       useLightning: false,
       useGlitch: false, useBrushSwipe: true,
-      floaterGlyphs: { 5:['💮','🏮','🎐','🧧','⛩️'], 6:['💮','🏮','⛩️','🀄','🎐','🧧','🎏','🐉'] },
+      floaterGlyphs: { 5:['💮','🏮','🎐','🧧','⛩️'], 6:['💮','🏮','⛩️','🀄','🎐','🧧','🎏','🐉'], 7:['💮','🏮','⛩️','🀄','🎐','🧧','🎏','🐉','🔱','🎴'] },
       fastLabel: '⚡ 早業！',
-      tierUpLabel: (t) => '『 ' + (['','初伝','中伝','奥伝','皆伝','免許','極意'][Math.max(1, Math.min(t, 6))] || '') + ' 』',
+      hardLabel: '🖌️ 難所を制す',
+      hardColors: ['#C93A3A','#1a1a1a','#C9A24B','#F5EFE0','#8B1E1E'],
+      recoverLabel: '🔄 持ち直し',
+      recoverColors: ['#C9A24B','#E8C468','#F5EFE0','#C93A3A'],
+      freshLabel: '🌱 初手にて',
+      revengeLabel: '⚔️ 雪辱',
+      fastLabels: ['⚡ 電光石火','⚡ 早業！','⚡ 上々'],
+      tierUpLabel: (t) => '『 ' + (['','初伝','中伝','奥伝','皆伝','免許','極意','神域'][Math.max(1, Math.min(t, 7))] || '') + ' 』',
       signature: (n) => '連 ' + n + ' 手',
       zoneGlyphs: ['💮','🏮','🎐'],
       zoneColors: ['#C93A3A','#C9A24B','#F5EFE0']
@@ -857,20 +907,21 @@
         3: ['#00E676','#FFEA00','#FFFFFF','#69F0AE','#00BFA5'],
         4: ['#FFEA00','#FF9100','#00E676','#FFFFFF','#69F0AE','#FF5252'],
         5: ['#FF9100','#FF1744','#FFEA00','#FFFFFF','#00E676','#FF5252','#00E5FF'],
-        6: ['#FF1744','#00E5FF','#FFEA00','#FFFFFF','#FF9100','#00E676','#D500F9','#FF5252']
+        6: ['#FF1744','#00E5FF','#FFEA00','#FFFFFF','#FF9100','#00E676','#D500F9','#FF5252'],
+        7: ['#D500F9','#FF1744','#00E5FF','#FFEA00','#FFFFFF','#FF9100','#00E676','#FF5252']
       },
       shapes: function () { return ['circle','plus']; },
-      ringColor: function (tier) { return tier >= 6 ? 'rgba(0,229,255,.9)' : tier >= 4 ? 'rgba(255,23,68,.85)' : 'rgba(0,230,118,.8)'; },
-      fullscreenCols: ['','','#00E676','#FFEA00','#FF9100','#FF1744','#00E5FF'],
-      fullscreenGlow: ['','','0,230,118','255,234,0','255,145,0','255,23,68','0,229,255'],
-      flashColors: ['','','rgba(0,230,118,.28)','rgba(255,234,0,.34)','rgba(255,145,0,.5)','rgba(255,23,68,.65)','rgba(0,229,255,.75)'],
-      borderColors: {4:'#FF9100',5:'#FF1744',6:'#00E5FF'},
-      bgRgbs: ['','0,230,118','255,234,0','255,145,0','255,23,68','0,229,255','213,0,249'],
-      meterGrads: ['','linear-gradient(90deg,#00E676,#69F0AE)','linear-gradient(90deg,#FFEA00,#FFF176)','linear-gradient(90deg,#FF9100,#FFC246)','linear-gradient(90deg,#FF1744,#FF6E7F)','linear-gradient(90deg,#00E5FF,#00E676,#FF1744)','linear-gradient(90deg,#D500F9,#00E5FF,#FF1744,#FFEA00)'],
-      labels: function (n) { return ['','💓 '+n+'連続・正常波形','📈 '+n+'連続・好調','⚡ '+n+'連続・覚醒','🩺 '+n+'連続・絶好調','🫀 '+n+'連続・フル稼働','🏥 '+n+'連続・完全治癒レベル']; },
+      ringColor: function (tier) { return tier >= 7 ? 'rgba(213,0,249,.92)' : tier >= 6 ? 'rgba(0,229,255,.9)' : tier >= 4 ? 'rgba(255,23,68,.85)' : 'rgba(0,230,118,.8)'; },
+      fullscreenCols: ['','','#00E676','#FFEA00','#FF9100','#FF1744','#00E5FF','#D500F9'],
+      fullscreenGlow: ['','','0,230,118','255,234,0','255,145,0','255,23,68','0,229,255','213,0,249'],
+      flashColors: ['','','rgba(0,230,118,.28)','rgba(255,234,0,.34)','rgba(255,145,0,.5)','rgba(255,23,68,.65)','rgba(0,229,255,.75)','rgba(213,0,249,.80)'],
+      borderColors: {4:'#FF9100',5:'#FF1744',6:'#00E5FF',7:'#D500F9'},
+      bgRgbs: ['','0,230,118','255,234,0','255,145,0','255,23,68','0,229,255','213,0,249','213,0,249'],
+      meterGrads: ['','linear-gradient(90deg,#00E676,#69F0AE)','linear-gradient(90deg,#FFEA00,#FFF176)','linear-gradient(90deg,#FF9100,#FFC246)','linear-gradient(90deg,#FF1744,#FF6E7F)','linear-gradient(90deg,#00E5FF,#00E676,#FF1744)','linear-gradient(90deg,#D500F9,#00E5FF,#FF1744,#FFEA00)','linear-gradient(90deg,#D500F9,#FF1744,#00E5FF,#FFEA00,#00E676)'],
+      labels: function (n) { return ['','💓 '+n+'連続・正常波形','📈 '+n+'連続・好調','⚡ '+n+'連続・覚醒','🩺 '+n+'連続・絶好調','🫀 '+n+'連続・フル稼働','🏥 '+n+'連続・完全治癒レベル','🧬 '+n+'連続・限界突破']; },
       popOverlay: 'linear-gradient(135deg,rgba(0,230,118,.22),rgba(0,191,165,.12))',
       comboLabel: function (n) { return n >= 2 ? '💓×'+n+' 安定波形' : '+1'; },
-      comboColors: ['','#00E676','#FFEA00','#FF9100','#FF1744','#00E5FF','#D500F9'],
+      comboColors: ['','#00E676','#FFEA00','#FF9100','#FF1744','#00E5FF','#D500F9','#D500F9'],
       correctEmoji: ['➕','💊','🩺'],
       floaterScale: 1.3,
       useConfetti: false, rainType: 'digital',
@@ -879,9 +930,17 @@
       useLightning: false,
       useGlitch: true,
       pulseBeat: true, useDefib: true,
-      floaterGlyphs: { 5:['💊','🩺','❤️','➕','💉'], 6:['💊','🩺','❤️','➕','💉','🫀','⚕️','🏥'] },
+      floaterGlyphs: { 5:['💊','🩺','❤️','➕','💉'], 6:['💊','🩺','❤️','➕','💉','🫀','⚕️','🏥'], 7:['💊','🩺','❤️','➕','💉','🫀','⚕️','🏥','🧬','🔬'] },
       fastLabel: '⚡ 即断！',
-      tierUpLabel: (t) => '♥ STAGE ' + Math.max(1, Math.min(t, 6)),
+      hardLabel: '🩺 重症例クリア',
+      hardColors: ['#FF1744','#FFEA00','#FFFFFF','#FF9100','#00E676'],
+      recoverLabel: '🔄 リズム回復',
+      recoverColors: ['#00E676','#69F0AE','#FFFFFF','#00BFA5'],
+      freshLabel: '🌱 初回で正診',
+      revengeLabel: '⚔️ 再挑戦成功',
+      fastLabels: ['⚡ 即断即決！','⚡ 即断！','⚡ good'],
+      useFlatline: true,
+      tierUpLabel: (t) => '♥ STAGE ' + Math.max(1, Math.min(t, 7)),
       signature: (n) => '♥ ' + Math.min(180, 60 + n * 6) + ' bpm',
       zoneGlyphs: ['➕','💓','🩺'],
       zoneColors: ['#00E676','#FF1744','#FFEA00']
@@ -892,20 +951,21 @@
         3: ['#7C4DFF','#448AFF','#FFD54F','#FFFFFF','#B388FF'],
         4: ['#448AFF','#7C4DFF','#FFD54F','#FFFFFF','#B388FF','#40C4FF'],
         5: ['#7C4DFF','#40C4FF','#FFD54F','#FFFFFF','#B388FF','#FF80AB','#448AFF'],
-        6: ['#FFD54F','#7C4DFF','#40C4FF','#FF80AB','#FFFFFF','#B388FF','#448AFF','#E040FB']
+        6: ['#FFD54F','#7C4DFF','#40C4FF','#FF80AB','#FFFFFF','#B388FF','#448AFF','#E040FB'],
+        7: ['#64FFDA','#FFD54F','#7C4DFF','#40C4FF','#FF80AB','#FFFFFF','#B388FF','#448AFF','#E040FB']
       },
       shapes: function () { return ['star','circle']; },
-      ringColor: function (tier) { return tier >= 6 ? 'rgba(255,213,79,.9)' : tier >= 4 ? 'rgba(124,77,255,.85)' : 'rgba(68,138,255,.75)'; },
-      fullscreenCols: ['','','#448AFF','#7C4DFF','#40C4FF','#FFD54F','#E040FB'],
-      fullscreenGlow: ['','','68,138,255','124,77,255','64,196,255','255,213,79','224,64,251'],
-      flashColors: ['','','rgba(68,138,255,.28)','rgba(124,77,255,.36)','rgba(64,196,255,.5)','rgba(255,213,79,.6)','rgba(224,64,251,.7)'],
-      borderColors: {4:'#40C4FF',5:'#FFD54F',6:'#E040FB'},
-      bgRgbs: ['','68,138,255','124,77,255','64,196,255','255,213,79','224,64,251','179,136,255'],
-      meterGrads: ['','linear-gradient(90deg,#448AFF,#82B1FF)','linear-gradient(90deg,#7C4DFF,#B388FF)','linear-gradient(90deg,#40C4FF,#80D8FF)','linear-gradient(90deg,#FFD54F,#FFECB3)','linear-gradient(90deg,#E040FB,#7C4DFF,#40C4FF)','linear-gradient(90deg,#FFD54F,#E040FB,#7C4DFF,#40C4FF)'],
-      labels: function (n) { return ['','⭐ '+n+'連続','🌟 '+n+'連続','☄️ '+n+'連続・加速中','🚀 '+n+'連続・光速','🪐 '+n+'連続・銀河制覇','🌌 '+n+'連続・宇宙の覇者']; },
+      ringColor: function (tier) { return tier >= 7 ? 'rgba(100,255,218,.92)' : tier >= 6 ? 'rgba(255,213,79,.9)' : tier >= 4 ? 'rgba(124,77,255,.85)' : 'rgba(68,138,255,.75)'; },
+      fullscreenCols: ['','','#448AFF','#7C4DFF','#40C4FF','#FFD54F','#E040FB','#64FFDA'],
+      fullscreenGlow: ['','','68,138,255','124,77,255','64,196,255','255,213,79','224,64,251','100,255,218'],
+      flashColors: ['','','rgba(68,138,255,.28)','rgba(124,77,255,.36)','rgba(64,196,255,.5)','rgba(255,213,79,.6)','rgba(224,64,251,.7)','rgba(100,255,218,.75)'],
+      borderColors: {4:'#40C4FF',5:'#FFD54F',6:'#E040FB',7:'#64FFDA'},
+      bgRgbs: ['','68,138,255','124,77,255','64,196,255','255,213,79','224,64,251','179,136,255','100,255,218'],
+      meterGrads: ['','linear-gradient(90deg,#448AFF,#82B1FF)','linear-gradient(90deg,#7C4DFF,#B388FF)','linear-gradient(90deg,#40C4FF,#80D8FF)','linear-gradient(90deg,#FFD54F,#FFECB3)','linear-gradient(90deg,#E040FB,#7C4DFF,#40C4FF)','linear-gradient(90deg,#FFD54F,#E040FB,#7C4DFF,#40C4FF)','linear-gradient(90deg,#64FFDA,#E040FB,#FFD54F,#7C4DFF,#40C4FF)'],
+      labels: function (n) { return ['','⭐ '+n+'連続','🌟 '+n+'連続','☄️ '+n+'連続・加速中','🚀 '+n+'連続・光速','🪐 '+n+'連続・銀河制覇','🌌 '+n+'連続・宇宙の覇者','🌠 '+n+'連続・特異点']; },
       popOverlay: 'linear-gradient(135deg,rgba(124,77,255,.24),rgba(64,196,255,.12))',
       comboLabel: function (n) { return n >= 2 ? '🌠×'+n+' WARP' : '+1'; },
-      comboColors: ['','#448AFF','#7C4DFF','#40C4FF','#FFD54F','#E040FB','#B388FF'],
+      comboColors: ['','#448AFF','#7C4DFF','#40C4FF','#FFD54F','#E040FB','#B388FF','#64FFDA'],
       correctEmoji: ['⭐','✨','🌟'],
       useConfetti: false, rainType: 'warp',
       rainCols: ['#7C4DFF','#448AFF','#40C4FF','#FFD54F','#FFFFFF','#E040FB','#B388FF'],
@@ -913,9 +973,16 @@
       useLightning: false,
       useGlitch: true,
       useBlackHole: true,
-      floaterGlyphs: { 5:['🌟','⭐','☄️','🪐','🚀'], 6:['🌟','⭐','☄️','🪐','🚀','🌌','👽','🛰️'] },
+      floaterGlyphs: { 5:['🌟','⭐','☄️','🪐','🚀'], 6:['🌟','⭐','☄️','🪐','🚀','🌌','👽','🛰️'], 7:['🌟','⭐','☄️','🪐','🚀','🌌','👽','🛰️','🌠','🔭'] },
       fastLabel: '⚡ 光速回答！',
-      tierUpLabel: (t) => '🚀 PHASE ' + Math.max(1, Math.min(t, 6)),
+      hardLabel: '☄️ 難関突破',
+      hardColors: ['#E040FB','#FFD54F','#FFFFFF','#7C4DFF','#40C4FF'],
+      recoverLabel: '🔄 軌道修正',
+      recoverColors: ['#40C4FF','#B388FF','#FFFFFF','#448AFF'],
+      freshLabel: '🌱 初回で到達',
+      revengeLabel: '⚔️ 再突入成功',
+      fastLabels: ['⚡ 超光速！','⚡ 光速回答！','⚡ good'],
+      tierUpLabel: (t) => '🚀 PHASE ' + Math.max(1, Math.min(t, 7)),
       signature: (n) => 'WARP ' + (n * 0.4).toFixed(1) + 'c',
       zoneGlyphs: ['⭐','✨','☄️'],
       zoneColors: ['#7C4DFF','#40C4FF','#FFD54F']
@@ -926,20 +993,21 @@
         3: ['#FF1053','#00A8E8','#00E676','#FFD400','#FFFFFF'],
         4: ['#00A8E8','#FF1053','#FFD400','#00E676','#FFFFFF','#FF7A00'],
         5: ['#FFD400','#FF1053','#00A8E8','#00E676','#FFFFFF','#FF7A00','#B026FF'],
-        6: ['#FF1053','#00A8E8','#FFD400','#00E676','#FF7A00','#B026FF','#FFFFFF']
+        6: ['#FF1053','#00A8E8','#FFD400','#00E676','#FF7A00','#B026FF','#FFFFFF'],
+        7: ['#39FF14','#FF1053','#00A8E8','#FFD400','#00E676','#FF7A00','#B026FF','#FFFFFF']
       },
       shapes: function () { return ['square','circle']; },
-      ringColor: function (tier) { return tier >= 6 ? 'rgba(176,38,255,.9)' : tier >= 4 ? 'rgba(255,16,83,.85)' : 'rgba(0,168,232,.75)'; },
-      fullscreenCols: ['','','#00A8E8','#FF1053','#FFD400','#FF7A00','#B026FF'],
-      fullscreenGlow: ['','','0,168,232','255,16,83','255,212,0','255,122,0','176,38,255'],
-      flashColors: ['','','rgba(0,168,232,.28)','rgba(255,16,83,.36)','rgba(255,212,0,.5)','rgba(255,122,0,.62)','rgba(176,38,255,.72)'],
-      borderColors: {4:'#FFD400',5:'#FF7A00',6:'#B026FF'},
-      bgRgbs: ['','0,168,232','255,16,83','255,212,0','255,122,0','176,38,255','0,230,118'],
-      meterGrads: ['','linear-gradient(90deg,#00A8E8,#4FD8FF)','linear-gradient(90deg,#FF1053,#FF6B8F)','linear-gradient(90deg,#FFD400,#FFF07A)','linear-gradient(90deg,#FF7A00,#FFB74D)','linear-gradient(90deg,#B026FF,#FF1053,#00A8E8)','linear-gradient(90deg,#FF1053,#FFD400,#00A8E8,#B026FF)'],
-      labels: function (n) { return ['','⭐ '+n+' HIT','👾 '+n+' COMBO','🕹️ '+n+' COMBO!!','💰 '+n+' HIGH SCORE','🏆 '+n+' PERFECT!','👑 '+n+' 1UP!! GAME MASTER']; },
+      ringColor: function (tier) { return tier >= 7 ? 'rgba(57,255,20,.92)' : tier >= 6 ? 'rgba(176,38,255,.9)' : tier >= 4 ? 'rgba(255,16,83,.85)' : 'rgba(0,168,232,.75)'; },
+      fullscreenCols: ['','','#00A8E8','#FF1053','#FFD400','#FF7A00','#B026FF','#39FF14'],
+      fullscreenGlow: ['','','0,168,232','255,16,83','255,212,0','255,122,0','176,38,255','57,255,20'],
+      flashColors: ['','','rgba(0,168,232,.28)','rgba(255,16,83,.36)','rgba(255,212,0,.5)','rgba(255,122,0,.62)','rgba(176,38,255,.72)','rgba(57,255,20,.75)'],
+      borderColors: {4:'#FFD400',5:'#FF7A00',6:'#B026FF',7:'#39FF14'},
+      bgRgbs: ['','0,168,232','255,16,83','255,212,0','255,122,0','176,38,255','0,230,118','57,255,20'],
+      meterGrads: ['','linear-gradient(90deg,#00A8E8,#4FD8FF)','linear-gradient(90deg,#FF1053,#FF6B8F)','linear-gradient(90deg,#FFD400,#FFF07A)','linear-gradient(90deg,#FF7A00,#FFB74D)','linear-gradient(90deg,#B026FF,#FF1053,#00A8E8)','linear-gradient(90deg,#FF1053,#FFD400,#00A8E8,#B026FF)','linear-gradient(90deg,#39FF14,#B026FF,#FF1053,#FFD400,#00A8E8)'],
+      labels: function (n) { return ['','⭐ '+n+' HIT','👾 '+n+' COMBO','🕹️ '+n+' COMBO!!','💰 '+n+' HIGH SCORE','🏆 '+n+' PERFECT!','👑 '+n+' 1UP!! GAME MASTER','🌟 '+n+' LEGEND!!']; },
       popOverlay: 'linear-gradient(135deg,rgba(0,168,232,.24),rgba(255,16,83,.12))',
       comboLabel: function (n) { return n >= 2 ? '👾 x'+n+' HIT!' : '+1'; },
-      comboColors: ['','#00A8E8','#FF1053','#FFD400','#FF7A00','#B026FF','#00E676'],
+      comboColors: ['','#00A8E8','#FF1053','#FFD400','#FF7A00','#B026FF','#00E676','#39FF14'],
       correctEmoji: ['⭐','💎','🔺'],
       floaterScale: 1.2,
       useConfetti: false, rainType: 'digital',
@@ -948,9 +1016,16 @@
       useLightning: false,
       useGlitch: true,
       useCRT: true, chunkyShake: true,
-      floaterGlyphs: { 5:['🕹️','👾','🎮','⭐','💎'], 6:['🕹️','👾','🎮','⭐','💎','🍄','🏆','💰'] },
+      floaterGlyphs: { 5:['🕹️','👾','🎮','⭐','💎'], 6:['🕹️','👾','🎮','⭐','💎','🍄','🏆','💰'], 7:['🕹️','👾','🎮','⭐','💎','🍄','🏆','💰','🌟','🔫'] },
       fastLabel: '⚡ QUICK!',
-      tierUpLabel: (t) => '★ STAGE ' + Math.max(1, Math.min(t, 6)) + ' CLEAR',
+      hardLabel: '👾 BOSS DOWN',
+      hardColors: ['#FF1053','#FFD400','#FFFFFF','#B026FF','#FF7A00'],
+      recoverLabel: '🔄 CONTINUE!',
+      recoverColors: ['#00E676','#00A8E8','#FFFFFF','#FFD400'],
+      freshLabel: '🆕 NO MISS',
+      revengeLabel: '⚔️ REMATCH WIN',
+      fastLabels: ['⚡ PERFECT!','⚡ QUICK!','⚡ NICE'],
+      tierUpLabel: (t) => '★ STAGE ' + Math.max(1, Math.min(t, 7)) + ' CLEAR',
       signature: (n) => 'SCORE ' + (n * 1000).toLocaleString('en-US'),
       zoneGlyphs: ['★','◆','▲'],
       zoneColors: ['#FF1053','#00A8E8','#FFD400']
@@ -961,20 +1036,21 @@
         3: ['#FFD700','#1a1a1a','#F7E7CE','#FFFFFF','#C9A227'],
         4: ['#FFD700','#F7E7CE','#1a1a1a','#FFFFFF','#C9A227','#FFF3C4'],
         5: ['#FFD700','#F7E7CE','#C9A227','#FFFFFF','#1a1a1a','#FFF3C4','#E5C158'],
-        6: ['#FFD700','#FFF3C4','#F7E7CE','#C9A227','#1a1a1a','#FFFFFF','#E5C158']
+        6: ['#FFD700','#FFF3C4','#F7E7CE','#C9A227','#1a1a1a','#FFFFFF','#E5C158'],
+        7: ['#E5E4E2','#FFD700','#FFF3C4','#F7E7CE','#C9A227','#1a1a1a','#FFFFFF','#E5C158']
       },
       shapes: function () { return ['circle','gem']; },
-      ringColor: function (tier) { return tier >= 6 ? 'rgba(255,215,0,.95)' : tier >= 4 ? 'rgba(201,162,39,.85)' : 'rgba(255,215,0,.7)'; },
-      fullscreenCols: ['','','#FFD700','#C9A227','#F7E7CE','#FFF3C4','#FFD700'],
-      fullscreenGlow: ['','','255,215,0','201,162,39','247,231,206','255,243,196','255,215,0'],
-      flashColors: ['','','rgba(255,215,0,.24)','rgba(201,162,39,.3)','rgba(247,231,206,.4)','rgba(255,243,196,.55)','rgba(255,215,0,.7)'],
-      borderColors: {4:'#C9A227',5:'#FFD700',6:'#FFF3C4'},
-      bgRgbs: ['','255,215,0','201,162,39','247,231,206','255,243,196','255,215,0','26,26,26'],
-      meterGrads: ['','linear-gradient(90deg,#FFD700,#FFF3C4)','linear-gradient(90deg,#C9A227,#E5C158)','linear-gradient(90deg,#F7E7CE,#FFF3C4)','linear-gradient(90deg,#FFD700,#C9A227)','linear-gradient(90deg,#1a1a1a,#FFD700,#F7E7CE)','linear-gradient(90deg,#FFD700,#1a1a1a,#FFF3C4,#C9A227)'],
-      labels: function (n) { return ['','✨ '+n+'連続','💎 '+n+'連続','🥂 '+n+'連続・上質','👑 '+n+'連続・至高','🏆 '+n+'連続・栄光','💰 '+n+'連続・完全制覇']; },
+      ringColor: function (tier) { return tier >= 7 ? 'rgba(229,228,226,.95)' : tier >= 6 ? 'rgba(255,215,0,.95)' : tier >= 4 ? 'rgba(201,162,39,.85)' : 'rgba(255,215,0,.7)'; },
+      fullscreenCols: ['','','#FFD700','#C9A227','#F7E7CE','#FFF3C4','#FFD700','#E5E4E2'],
+      fullscreenGlow: ['','','255,215,0','201,162,39','247,231,206','255,243,196','255,215,0','229,228,226'],
+      flashColors: ['','','rgba(255,215,0,.24)','rgba(201,162,39,.3)','rgba(247,231,206,.4)','rgba(255,243,196,.55)','rgba(255,215,0,.7)','rgba(229,228,226,.72)'],
+      borderColors: {4:'#C9A227',5:'#FFD700',6:'#FFF3C4',7:'#E5E4E2'},
+      bgRgbs: ['','255,215,0','201,162,39','247,231,206','255,243,196','255,215,0','26,26,26','229,228,226'],
+      meterGrads: ['','linear-gradient(90deg,#FFD700,#FFF3C4)','linear-gradient(90deg,#C9A227,#E5C158)','linear-gradient(90deg,#F7E7CE,#FFF3C4)','linear-gradient(90deg,#FFD700,#C9A227)','linear-gradient(90deg,#1a1a1a,#FFD700,#F7E7CE)','linear-gradient(90deg,#FFD700,#1a1a1a,#FFF3C4,#C9A227)','linear-gradient(90deg,#E5E4E2,#FFD700,#1a1a1a,#FFF3C4,#C9A227)'],
+      labels: function (n) { return ['','✨ '+n+'連続','💎 '+n+'連続','🥂 '+n+'連続・上質','👑 '+n+'連続・至高','🏆 '+n+'連続・栄光','💰 '+n+'連続・完全制覇','🌟 '+n+'連続・伝説']; },
       popOverlay: 'linear-gradient(135deg,rgba(255,215,0,.26),rgba(26,26,26,.14))',
       comboLabel: function (n) { return n >= 2 ? '💎×'+n+' JACKPOT' : '+1'; },
-      comboColors: ['','#FFD700','#C9A227','#F7E7CE','#FFF3C4','#FFD700','#1a1a1a'],
+      comboColors: ['','#FFD700','#C9A227','#F7E7CE','#FFF3C4','#FFD700','#1a1a1a','#E5E4E2'],
       correctEmoji: ['💎','✨','👑'],
       floaterScale: 1.2,
       useConfetti: false, rainType: 'bubbles',
@@ -985,9 +1061,16 @@
       useGlitch: false, useBrushSwipe: true,
       brushColorRgb: '255,215,0',
       useSpotlight: true,
-      floaterGlyphs: { 5:['💎','👑','🏆','💰','✨'], 6:['💎','👑','🏆','💰','✨','🥂','🎩','💍'] },
+      floaterGlyphs: { 5:['💎','👑','🏆','💰','✨'], 6:['💎','👑','🏆','💰','✨','🥂','🎩','💍'], 7:['💎','👑','🏆','💰','✨','🥂','🎩','💍','🌟','🕯️'] },
       fastLabel: '⚡ 即決！',
-      tierUpLabel: (t) => '✦ RANK ' + (['','Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ'][Math.max(1, Math.min(t, 6))] || ''),
+      hardLabel: '💎 高難度クリア',
+      hardColors: ['#FFD700','#C9A227','#FFF3C4','#FFFFFF','#E5C158'],
+      recoverLabel: '🔄 巻き返し',
+      recoverColors: ['#F7E7CE','#FFD700','#FFFFFF','#C9A227'],
+      freshLabel: '🌱 一発正解',
+      revengeLabel: '⚔️ 雪辱達成',
+      fastLabels: ['⚡ 即断即決！','⚡ 即決！','⚡ good'],
+      tierUpLabel: (t) => '✦ RANK ' + (['','Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ','Ⅶ'][Math.max(1, Math.min(t, 7))] || ''),
       signature: (n) => '× ' + n + ' BONUS',
       zoneGlyphs: ['💎','✨','👑'],
       zoneColors: ['#FFD700','#F7E7CE','#FFF3C4']
@@ -1057,20 +1140,32 @@
     if (uid && !_ceSeenAt[uid]) _ceSeenAt[uid] = Date.now();
   }
   function ceIsFast(card) {
-    var uid = card && card.dataset && card.dataset.uid;
-    if (!uid || !_ceSeenAt[uid]) return false;
-    return (Date.now() - _ceSeenAt[uid]) <= CE_FAST_MS;
+    return ceFastGrade(card) > 0;
   }
-  function ceFastBonus(el) {
+  /* A3(2026-08-14・study_exam.js のミラー): 速答を3段に割る。
+     3=一閃 / 2=速答 / 1=まずまず / 0=速答ではない。theme.fastLabels は強い順 [3,2,1]。 */
+  var CE_FAST_TIER_MS = [2000, 4000, 7000];
+  function ceFastGrade(card) {
+    var uid = card && card.dataset && card.dataset.uid;
+    if (!uid || !_ceSeenAt[uid]) return 0;
+    var dt = Date.now() - _ceSeenAt[uid];
+    if (dt <= CE_FAST_TIER_MS[0]) return 3;
+    if (dt <= CE_FAST_TIER_MS[1]) return 2;
+    if (dt <= CE_FAST_TIER_MS[2]) return 1;
+    return 0;
+  }
+  function ceFastBonus(el, grade) {
     if (ceReduced()) return;
     var theme = ceTheme();
+    var g = grade || 2;
     var r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
     var _b0 = ceBand();
     var cx = r && r.width ? r.left + r.width / 2 : _b0.cx;
     var cy = r && r.width ? Math.max(_b0.top, Math.min(_b0.bottom, r.top)) : _b0.cy;
     var lab = document.createElement('div');
-    lab.className = 'ce-fast-pop';
-    lab.textContent = theme.fastLabel || '⚡ 速答！';
+    lab.className = 'ce-fast-pop fast-g' + g;
+    var labels = theme.fastLabels;
+    lab.textContent = (labels && labels[3 - g]) || theme.fastLabel || '⚡ 速答！';
     lab.style.left = cx + 'px'; lab.style.top = cy + 'px';
     lab.style.color = (theme.comboColors && theme.comboColors[3]) || '#FFD700';
     document.body.appendChild(lab);
@@ -1082,12 +1177,286 @@
     ], {duration:900, easing:'cubic-bezier(.22,.68,0,1.2)', fill:'forwards'}).onfinish = function(){ lab.remove(); };
     if (window.MecFX) { try { window.MecFX.glyphBurst(cx, cy, {glyphs:['⚡'], count:4, w:50, spread:130}); } catch(e){} }
   }
+  /* ══ A1 難問クリア / C2 立て直し（2026-08-14・study_exam.js のミラー）══
+     閾値・ラベル・色は study 側と揃えること（テーマのキーは
+     check_effect_themes_sync.js が両ファイルの一致を検査する）。 */
+  var CE_HARD_RATE = 60;
+  var _ceRecoverPending = false;
+
+  function ceCardRate(card) {
+    var r = card && card.dataset ? card.dataset.rate : null;
+    if (r == null || r === '') return null;   // 正答率なし＝難問ではない
+    var n = parseFloat(r);
+    return isFinite(n) ? n : null;
+  }
+  function ceIsHard(card) {
+    var n = ceCardRate(card);
+    return n != null && n < CE_HARD_RATE;
+  }
+  // 演出の焦点を可視帯に収める（ceFastBonus と同じクランプをまとめたもの）
+  function ceFxXY(el) {
+    var b = ceBand();
+    var r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
+    var cx = r && r.width ? r.left + r.width / 2 : b.cx;
+    var cy = r && r.width ? r.top + r.height / 2 : b.cy;
+    return [Math.max(b.left + 8, Math.min(b.right - 8, cx)),
+            Math.max(b.top, Math.min(b.bottom, cy))];
+  }
+  function ceTone(freqs, vol, dur, type) {
+    if (exam.sound === 'off') return;
+    try {
+      var ctx = getCtx(), now = ctx.currentTime;
+      var master = ctx.createGain();
+      master.gain.setValueAtTime(0.0001, now);
+      master.gain.exponentialRampToValueAtTime(vol, now + 0.02);
+      master.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+      master.connect(ctx.destination);
+      freqs.forEach(function (f, i) {
+        var osc = ctx.createOscillator(), g = ctx.createGain();
+        var st = now + i * 0.06;
+        osc.type = type || 'sine';
+        osc.frequency.setValueAtTime(f, st);
+        g.gain.setValueAtTime(.6, st);
+        osc.connect(g); g.connect(master);
+        osc.start(st); osc.stop(now + dur + .03);
+      });
+    } catch (e) {}
+  }
+  function ceHardClear(el, card) {
+    var theme = ceTheme();
+    var rate = ceCardRate(card);
+    ceTone([98, 146.83, 196], .16, .72);
+    if (ceReduced()) return;
+    var xy = ceFxXY(el), cx = xy[0], cy = xy[1];
+    var cols = theme.hardColors || ['#FF5722', '#FFD700', '#FFFFFF'];
+    var lab = document.createElement('div');
+    lab.className = 'ce-hard-pop';
+    lab.innerHTML = '<span class="hc-lbl"></span><span class="hc-rate"></span>';
+    lab.firstChild.textContent = theme.hardLabel || '💪 難問突破！';
+    lab.lastChild.textContent = rate != null ? '正答率 ' + rate + '%' : '';
+    lab.style.setProperty('--hc-col', cols[0]);
+    lab.style.left = cx + 'px'; lab.style.top = cy + 'px';
+    document.body.appendChild(lab);
+    lab.animate([
+      {opacity:0, transform:'translate(-50%,-50%) scale(.5) rotate(-10deg)'},
+      {opacity:1, transform:'translate(-50%,-50%) scale(1.12) rotate(-4deg)', offset:.2},
+      {opacity:1, transform:'translate(-50%,-50%) scale(1) rotate(-4deg)', offset:.34},
+      {opacity:1, transform:'translate(-50%,-62%) scale(1) rotate(-4deg)', offset:.72},
+      {opacity:0, transform:'translate(-50%,-86%) scale(.96) rotate(-4deg)'}
+    ], {duration:1320, easing:'cubic-bezier(.2,1.25,.35,1)', fill:'forwards'}).onfinish = function(){ lab.remove(); };
+    if (window.MecFX) {
+      try {
+        window.MecFX.stamp(cx, cy, {color: cols[0], size: 148, thick: 4, ticks: 12, rot: -8, ttl: 1.0});
+        window.MecFX.burst(cx, cy, {
+          count: 46, colors: cols, shapes: theme.shapes(4), tier: 4,
+          glow: exam.effectSet !== 'ink', additive: exam.effectSet !== 'ink'
+        });
+      } catch (e) {}
+    }
+  }
+  function ceRecover(el) {
+    var theme = ceTheme();
+    ceTone([329.63, 440, 659.25], .11, .6);
+    if (ceReduced()) return;
+    if (theme.useFlatline) ceBeatBack();   // C4: 平坦になった波形に拍が戻る
+    var xy = ceFxXY(el), cx = xy[0], cy = xy[1];
+    var cols = theme.recoverColors || ['#3DD68C', '#5EF0A8', '#FFFFFF'];
+    var lab = document.createElement('div');
+    lab.className = 'ce-recover-pop';
+    lab.textContent = theme.recoverLabel || '🔄 立て直し！';
+    lab.style.setProperty('--rc-col', cols[0]);
+    lab.style.left = cx + 'px'; lab.style.top = cy + 'px';
+    document.body.appendChild(lab);
+    lab.animate([
+      {opacity:0, transform:'translate(-50%,-50%) scale(.7)'},
+      {opacity:1, transform:'translate(-50%,-64%) scale(1.06)', offset:.26},
+      {opacity:1, transform:'translate(-50%,-72%) scale(1)', offset:.62},
+      {opacity:0, transform:'translate(-50%,-104%) scale(.97)'}
+    ], {duration:1100, easing:'cubic-bezier(.22,.9,.24,1)', fill:'forwards'}).onfinish = function(){ lab.remove(); };
+    if (window.MecFX) {
+      try {
+        window.MecFX.orbit(cx, cy, {
+          count: 14, r: 74, dr: -34, va: 3.1, colors: cols, size: 4.5, ttl: 1.15,
+          glow: exam.effectSet !== 'ink', additive: exam.effectSet !== 'ink'
+        });
+        window.MecFX.rings(cx, cy, {
+          count: 1, color: cols[0], thickness: 2, maxR: 130, additive: exam.effectSet !== 'ink'
+        });
+      } catch (e) {}
+    }
+  }
+  /* A2 初見突破 / リベンジ達成（study_exam.js のミラー）。
+     ⚠️ ceFinishAnswer は saveMyRate より先に ceAfterCorrectFx を呼ぶので、
+        ここでは myrate_v1 を素直に読めば「加算前」の値になる。順序を入れ替えないこと。 */
+  var CE_EASY_RATE = 80;
+  function cePrior(uid) {
+    try {
+      var r = JSON.parse(localStorage.getItem('myrate_v1') || '{}');
+      var e = r[uid];
+      return { fresh: !(e && (e.total || 0) > 0),
+               wasWrong: !!(e && (e.total || 0) > (e.correct || 0)) };
+    } catch (err) { return { fresh: false, wasWrong: false }; }
+  }
+  function ceAnswerMark(el, kind) {
+    if (ceReduced()) return;
+    var theme = ceTheme();
+    var isRev = kind === 'revenge';
+    var text = isRev ? (theme.revengeLabel || '⚔️ リベンジ達成') : (theme.freshLabel || '🌱 初見突破');
+    var col = isRev ? ((theme.comboColors && theme.comboColors[4]) || '#FFD700')
+                    : ((theme.recoverColors && theme.recoverColors[0]) || '#3DD68C');
+    var b = ceBand();
+    var r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
+    var cx = r && r.width ? r.right - Math.min(66, r.width * .24) : b.cx;
+    var cy = r && r.width ? r.bottom - 2 : b.cy;
+    cx = Math.max(b.left + 8, Math.min(b.right - 8, cx));
+    cy = Math.max(b.top, Math.min(b.bottom, cy));
+    var lab = document.createElement('div');
+    lab.className = 'ce-mark-pop' + (isRev ? ' rev' : '');
+    lab.textContent = text;
+    lab.style.setProperty('--mk-col', col);
+    lab.style.left = cx + 'px'; lab.style.top = cy + 'px';
+    document.body.appendChild(lab);
+    lab.animate([
+      {opacity:0, transform:'translate(-50%,-50%) scale(.72)'},
+      {opacity:1, transform:'translate(-50%,-118%) scale(1)', offset:.3},
+      {opacity:1, transform:'translate(-50%,-134%) scale(1)', offset:.7},
+      {opacity:0, transform:'translate(-50%,-176%) scale(.96)'}
+    ], {duration: isRev ? 1150 : 900, easing:'cubic-bezier(.22,.9,.24,1)', fill:'forwards'})
+      .onfinish = function(){ lab.remove(); };
+    if (isRev && window.MecFX) {
+      try { window.MecFX.glyphBurst(cx, cy, {glyphs:['⚔️','✨'], count:5, w:40, spread:120}); } catch(e){}
+    }
+  }
+  // A4: 正解した肢から解答ブロック(.ab)へ光の線を引く（視線誘導を兼ねる）
+  function ceTraceToAnswer(card, el) {
+    if (ceReduced() || !window.MecFX || !card) return;
+    var ab = card.querySelector('.ab');
+    if (!ab || !el || !el.getBoundingClientRect) return;
+    var a = el.getBoundingClientRect(), t = ab.getBoundingClientRect();
+    if (!a.width || !t.width) return;
+    var b = ceBand();
+    if (a.bottom < b.top || a.top > b.vBottom || t.bottom < b.top || t.top > b.vBottom) return;
+    try {
+      window.MecFX.ribbon(a.left + a.width * .5, a.bottom - 4,
+        t.left + Math.min(48, t.width * .2), t.top + 6,
+        {color: (ceTheme().comboColors || [])[4] || '#FFD700', width: 2.6, ttl: .85, grow: .5, bow: 30});
+    } catch (e) {}
+  }
+  // A5: 選ばなかった肢が一段沈む。1.1秒で必ず戻す
+  function ceSinkOthers(card) {
+    if (!card || ceReduced()) return;
+    card.classList.add('ce-sink');
+    setTimeout(function () { card.classList.remove('ce-sink'); }, 1100);
+  }
+
+  // 正解／誤答の追加演出の合流点。新しい演出はここへ足す（study_exam.js の
+  // _afterCorrectFx / _afterWrongFx と対）。
+  // ⚠️ 「この正解が何だったか」を示すラベルは必ず1つに絞る（難問＞リベンジ＞初見）。
+  function ceAfterCorrectFx(card, el) {
+    var fast = ceFastGrade(card);
+    if (fast > 0) setTimeout(function () { ceFastBonus(el, fast); }, 90);
+
+    ceSinkOthers(card);
+    setTimeout(function () { ceTraceToAnswer(card, el); }, 260);
+
+    var rate = ceCardRate(card);
+    var prior = cePrior(card.dataset && card.dataset.uid);
+    if (ceIsHard(card)) {
+      setTimeout(function () { ceHardClear(el, card); }, 150);
+    } else if (prior.wasWrong) {
+      setTimeout(function () { ceAnswerMark(el, 'revenge'); }, 150);
+    } else if (prior.fresh && !(rate != null && rate >= CE_EASY_RATE)) {
+      setTimeout(function () { ceAnswerMark(el, 'fresh'); }, 150);
+    }
+
+    if (_ceRecoverPending) {
+      _ceRecoverPending = false;
+      setTimeout(function () { ceRecover(el); }, 220);
+    }
+  }
+  /* C1 コンボメーター崩落 / C3 同じ肢の繰り返し / C4 フラットライン / C5 傷
+     （2026-08-14・study_exam.js のミラー） */
+  function ceShatterMeter(brokeStreak) {
+    if (brokeStreak < 4 || ceReduced() || !window.MecFX) return;
+    var meter = document.getElementById('chExamComboMeter');
+    var fill = document.getElementById('chExamComboMeterFill');
+    if (!meter) return;
+    var src = (fill && fill.getBoundingClientRect().width) ? fill : meter;
+    var r = src.getBoundingClientRect();
+    if (!r.width) return;
+    var tier = ceTier(brokeStreak);
+    var cc = ceTheme().comboColors || [];
+    var cols = [cc[ceTIdx(tier, cc)] || '#FFD700', '#FFFFFF', 'rgba(255,255,255,.55)'];
+    try {
+      window.MecFX.shatter(r.left + r.width / 2, r.top + r.height / 2, {
+        count: Math.min(48, 12 + tier * 6), w: r.width, h: Math.max(4, r.height),
+        colors: cols, spread: 120 + tier * 40, up: 60 + tier * 16
+      });
+    } catch (e) {}
+  }
+  // 過去問ビューアは mec_choice_v1 を書かないので、肢ごとの誤答回数はこの場で読むだけ
+  function ceIsRepeatWrong(uid, sel) {
+    try {
+      var ch = ((sel && sel.textContent || '').trim().charAt(0)) || '';
+      if (!ch || ch === '?') return false;
+      var d = JSON.parse(localStorage.getItem('mec_choice_v1') || '{}')[uid];
+      return !!(d && (d[ch] || 0) >= 2);
+    } catch (e) { return false; }
+  }
+  function ceRepeatWrong(el) {
+    if (ceReduced()) return;
+    var b = ceBand();
+    var r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
+    var cx = r && r.width ? r.right - Math.min(70, r.width * .26) : b.cx;
+    var cy = r && r.width ? r.bottom - 2 : b.cy;
+    cx = Math.max(b.left + 8, Math.min(b.right - 8, cx));
+    cy = Math.max(b.top, Math.min(b.bottom, cy));
+    var lab = document.createElement('div');
+    lab.className = 'ce-mark-pop warn';
+    lab.textContent = '⚠️ 前にも同じ肢';
+    lab.style.setProperty('--mk-col', '#FFB830');
+    lab.style.left = cx + 'px'; lab.style.top = cy + 'px';
+    document.body.appendChild(lab);
+    lab.animate([
+      {opacity:0, transform:'translate(-50%,-50%) scale(.72)'},
+      {opacity:1, transform:'translate(-50%,-118%) scale(1)', offset:.3},
+      {opacity:1, transform:'translate(-50%,-134%) scale(1)', offset:.72},
+      {opacity:0, transform:'translate(-50%,-170%) scale(.96)'}
+    ], {duration:1250, easing:'cubic-bezier(.22,.9,.24,1)', fill:'forwards'})
+      .onfinish = function(){ lab.remove(); };
+  }
+  function ceFlatline() {
+    if (ceReduced() || !window.MecFX) return;
+    var b = ceBand();
+    try {
+      window.MecFX.wave({y: b.cy, x0: b.left, x1: b.right, amp: 0, freq: 0,
+        width: 2.6, color: '#FF1744', tail: 340, ttl: 1.15, grow: .78, additive: true});
+    } catch (e) {}
+  }
+  function ceBeatBack() {
+    if (ceReduced() || !window.MecFX) return;
+    var b = ceBand();
+    try {
+      window.MecFX.wave({y: b.cy, x0: b.left, x1: b.right, amp: 30, freq: 1.6,
+        spike: 2.6, spikeAt: .55, width: 2.8, color: '#00E676',
+        tail: 300, ttl: 1.05, grow: .7, additive: true});
+    } catch (e) {}
+  }
+  function ceAfterWrongFx(card, el, brokeStreak) {
+    _ceRecoverPending = true;
+    if (card) card.classList.add('ce-scar');
+    ceShatterMeter(brokeStreak || 0);
+    if (ceTheme().useFlatline) ceFlatline();
+    var uid = card && card.dataset && card.dataset.uid;
+    if (uid && ceIsRepeatWrong(uid, el)) setTimeout(function () { ceRepeatWrong(el); }, 260);
+  }
+
   function ceCorrectShockwave(el) {
     if (!window.MecFX || !el || !el.getBoundingClientRect) return;
     var r = el.getBoundingClientRect();
     if (!r.width) return;
     var theme = ceTheme();
-    var t = Math.max(1, Math.min(ceTier(exam.streak) || 1, 6));
+    var t = Math.max(1, Math.min(ceTier(exam.streak) || 1, 7));
     try {
       window.MecFX.rings(r.left + r.width / 2, r.top + r.height / 2, {
         count: t >= 4 ? 3 : 2, color: theme.ringColor(t), thickness: t >= 4 ? 3 : 2,
@@ -1129,8 +1498,8 @@
     el.className = 'ce-tierup';
     el.innerHTML = '<span class="tu-lbl">TIER UP</span><span class="tu-main"></span>';
     el.querySelector('.tu-main').textContent = (theme.tierUpLabel && theme.tierUpLabel(tier)) || ('TIER ' + tier);
-    el.style.setProperty('--tu-col', (theme.fullscreenCols && theme.fullscreenCols[Math.min(tier,6)]) || '#FFD700');
-    el.style.setProperty('--tu-glow', (theme.fullscreenGlow && theme.fullscreenGlow[Math.min(tier,6)]) || '255,215,0');
+    el.style.setProperty('--tu-col', (theme.fullscreenCols && theme.fullscreenCols[ceTIdx(tier, theme.fullscreenCols)]) || '#FFD700');
+    el.style.setProperty('--tu-glow', (theme.fullscreenGlow && theme.fullscreenGlow[ceTIdx(tier, theme.fullscreenGlow)]) || '255,215,0');
     el.style.top = ceBand().cy + 'px';   // CSSの top:38% は画面基準＝ナビの高い端末で上に寄る
     document.body.appendChild(el);
     el.animate([
@@ -1147,7 +1516,7 @@
         var _mb = ceBand();
         window.MecFX.burst(_mb.cx, _mb.top, {
           count: 40 + tier * 14,
-          colors: (theme.burstPalettes && theme.burstPalettes[Math.min(tier,6)]) || ['#FFD700'],
+          colors: (theme.burstPalettes && theme.burstPalettes[ceTIdx(tier, theme.burstPalettes)]) || ['#FFD700'],
           shapes: theme.shapes(tier), tier: tier,
           glow: exam.effectSet !== 'ink', additive: exam.effectSet !== 'ink'
         });
@@ -1204,7 +1573,7 @@
     if (el.getAnimations) el.getAnimations().forEach(function (a) { a.cancel(); });
     el.textContent = theme.signature(n);
     el.style.top = (ceBand().top + 44) + 'px';   // トーストの直下（CSSの top:112px は画面基準）
-    el.style.color = (theme.comboColors && theme.comboColors[Math.min(tier,6)]) || '#FFD700';
+    el.style.color = (theme.comboColors && theme.comboColors[ceTIdx(tier, theme.comboColors)]) || '#FFD700';
     el.animate([
       {opacity:0, transform:'translateX(-50%) translateY(-6px)'},
       {opacity:1, transform:'translateX(-50%) translateY(0)', offset:.18},
@@ -1215,8 +1584,8 @@
   function ceLightStreakFx(tier) {
     if (!window.MecFX) return;
     var _b = ceBand(), cx = _b.cx, cy = _b.cy;
-    var counts = [0, 14, 22, 30, 40, 52, 64];
-    spawnBurst(cx, cy, tier, counts[Math.min(tier,6)] || 14);
+    var counts = [0, 14, 22, 30, 40, 52, 64, 80];
+    spawnBurst(cx, cy, tier, counts[ceTIdx(tier, counts)] || 14);
     try {
       window.MecFX.rings(cx, cy, {count:1, color: ceTheme().ringColor(tier), thickness:2, maxR:130 + tier*22, additive: exam.effectSet !== 'ink'});
     } catch (e) {}
@@ -1355,7 +1724,7 @@
       flash.style.background = fc[tier];
       flash.style.opacity = '0';
       if (tier >= 4) {
-        var pulses = tier >= 6 ? 6 : tier >= 5 ? 4 : 3;
+        var pulses = tier >= 7 ? 8 : tier >= 6 ? 6 : tier >= 5 ? 4 : 3;
         var kf = [];
         for (var p = 0; p < pulses; p++) kf.push({opacity: p % 2 === 0 ? 0.95 : 0.06});
         kf.push({opacity: 0});
@@ -1392,7 +1761,7 @@
   }
 
   function triggerShake(tier) {
-    var si = tier >= 6 ? 13 : tier >= 5 ? 8 : tier >= 4 ? 5 : 3;
+    var si = tier >= 7 ? 17 : tier >= 6 ? 13 : tier >= 5 ? 8 : tier >= 4 ? 5 : 3;
     var dur = tier >= 5 ? 480 : tier >= 4 ? 340 : 210;
     var easing = ceTheme().chunkyShake ? 'steps(' + (tier >= 5 ? 8 : 5) + ')' : 'ease-in-out';
     var kf = [
@@ -1409,7 +1778,7 @@
     var fxCanvas = document.getElementById('mecFxCanvas');
     if (fxCanvas) fxCanvas.animate(kf, {duration: dur, easing: easing});
     var ov = ceEnsureShakeOverlay();
-    var vig = tier >= 6 ? .5 : tier >= 5 ? .42 : .3;
+    var vig = tier >= 7 ? .58 : tier >= 6 ? .5 : tier >= 5 ? .42 : .3;
     ov.style.boxShadow = 'inset 0 0 ' + (tier >= 5 ? 160 : 110) + 'px ' + (tier >= 5 ? 30 : 18) + 'px rgba(0,0,0,' + vig + ')';
     ov.animate([{opacity:0},{opacity:1,offset:.15},{opacity:1,offset:.7},{opacity:0}], {duration: dur, easing:'ease-out'});
     ov.animate(kf, {duration: dur, easing: easing});
@@ -1420,7 +1789,7 @@
     if (!el) return;
     var theme = ceTheme();
     var colors = theme.borderColors;
-    var sizes  = {4:'6px',5:'9px',6:'13px'};
+    var sizes  = {4:'6px',5:'9px',6:'13px',7:'17px'};
     var t = Math.min(tier, 6);
     el.style.boxShadow = 'inset 0 0 0 '+sizes[t]+' '+colors[t];
     var dur = tier >= 5 ? 1300 : 750;
@@ -1439,18 +1808,18 @@
     var glyphs = theme.floaterGlyphs;
     var scale = theme.floaterScale || 1;
     window.MecFX.floaters({
-      glyphs: glyphs[Math.min(tier,6)] || glyphs[5],
-      count: Math.round((tier >= 6 ? 26 : 14) * scale),
+      glyphs: glyphs[ceTIdx(tier, glyphs)] || glyphs[5],
+      count: Math.round((tier >= 7 ? 36 : tier >= 6 ? 26 : 14) * scale),
       scale: scale
     });
   }
 
   function spawnRings(cx, cy, tier) {
     if (!window.MecFX) return;
-    var ringCounts = [0,0,1,2,3,4,6];
-    var maxScale = tier >= 6 ? 38 : tier >= 5 ? 30 : tier >= 4 ? 22 : tier >= 3 ? 14 : 9;
+    var ringCounts = [0,0,1,2,3,4,6,8];
+    var maxScale = tier >= 7 ? 48 : tier >= 6 ? 38 : tier >= 5 ? 30 : tier >= 4 ? 22 : tier >= 3 ? 14 : 9;
     window.MecFX.rings(cx, cy, {
-      count: ringCounts[Math.min(tier,6)],
+      count: ringCounts[ceTIdx(tier, ringCounts)],
       color: ceTheme().ringColor(tier),
       thickness: tier >= 5 ? 4 : tier >= 3 ? 3 : 2,
       maxR: maxScale * 20,
@@ -1464,7 +1833,7 @@
     var palettes = theme.burstPalettes;
     window.MecFX.burst(cx, cy, {
       count: Math.round(count * (theme.floaterScale || 1)),
-      colors: palettes[Math.min(tier,6)] || palettes[4],
+      colors: palettes[ceTIdx(tier, palettes)] || palettes[4],
       shapes: theme.shapes(tier),
       tier: tier,
       glow: exam.effectSet !== 'ink',
@@ -1485,8 +1854,8 @@
     spawnRings(cx, cy, tier);
     spawnLightning(cx, cy, tier);
 
-    var burstCounts = [0, 0, 50, 140, 340, 580, 900];
-    spawnBurst(cx, cy, tier, burstCounts[Math.min(tier,6)] || 50);
+    var burstCounts = [0, 0, 50, 140, 340, 580, 900, 1300];
+    spawnBurst(cx, cy, tier, burstCounts[ceTIdx(tier, burstCounts)] || 50);
 
     // 中tier(2-3)は最頻出。時間差の二段バースト＋追撃リングで密度を出す（study と同方針）。
     if (tier === 2 || tier === 3) {
@@ -1518,7 +1887,7 @@
       else if (exam.effectSet === 'space') window.MecFX.dust({count: tier >= 6 ? 80 : 50, colors:['#FFFFFF','#FFD54F','#B388FF','#40C4FF']});
     }
 
-    var rainWaves = [0, 0, 0, 1, 3, 6, 10][Math.min(tier,6)];
+    var rainWaves = [0, 0, 0, 1, 3, 6, 10, 15][Math.min(tier, 7)];
     for (var w = 0; w < rainWaves; w++) {
       (function(wave){ setTimeout(function(){ spawnRain(tier); }, 55 + wave * 120); })(w);
     }
@@ -1615,7 +1984,7 @@
 
   function ceEcgSweep(tier) {
     var theme = ceTheme();
-    var col = theme.fullscreenCols[Math.min(tier,6)] || '#00E676';
+    var col = theme.fullscreenCols[ceTIdx(tier, theme.fullscreenCols)] || '#00E676';
     var _eb = ceBand();
     var w = window.innerWidth;
     var y = _eb.top + _eb.height * (0.4 + Math.random() * 0.2);
@@ -1718,7 +2087,7 @@
 
   function ceSpawnSpotlightRays(tier) {
     var theme = ceTheme();
-    var col = theme.fullscreenCols[Math.min(tier,6)] || '#FFD700';
+    var col = theme.fullscreenCols[ceTIdx(tier, theme.fullscreenCols)] || '#FFD700';
     var el = document.createElement('div');
     el.className = 'ce-fx-temp';
     el.style.cssText = 'position:fixed;inset:-50%;pointer-events:none;z-index:9042;background:conic-gradient(from 0deg, transparent 0deg, '+col+'40 8deg, transparent 16deg, transparent 60deg, '+col+'40 68deg, transparent 76deg, transparent 120deg, '+col+'40 128deg, transparent 136deg, transparent 180deg, '+col+'40 188deg, transparent 196deg, transparent 240deg, '+col+'40 248deg, transparent 256deg, transparent 300deg, '+col+'40 308deg, transparent 316deg);';
@@ -1805,8 +2174,8 @@
     if (!window.MecFX) return;
     var cols = ceTheme().lightningCols;
     window.MecFX.lightning(cx, cy, {
-      bolts: tier >= 6 ? 14 : tier >= 5 ? 9 : tier >= 4 ? 5 : 3,
-      color: cols[Math.min(tier,6)],
+      bolts: tier >= 7 ? 18 : tier >= 6 ? 14 : tier >= 5 ? 9 : tier >= 4 ? 5 : 3,
+      color: cols[ceTIdx(tier, cols)],
       tier: tier
     });
   }
@@ -1816,8 +2185,8 @@
     if (!window.MecFX) return;
     var palettes = ceTheme().burstPalettes;
     window.MecFX.fireworks({
-      count: tier >= 6 ? 8 : tier >= 5 ? 5 : 3,
-      colors: palettes[Math.min(tier,6)] || palettes[4],
+      count: tier >= 7 ? 11 : tier >= 6 ? 8 : tier >= 5 ? 5 : 3,
+      colors: palettes[ceTIdx(tier, palettes)] || palettes[4],
       tier: tier
     });
   }
@@ -1834,9 +2203,9 @@
         long: heavy
       });
     }
-    var amp = tier >= 6 ? 7 : 4;
+    var amp = tier >= 7 ? 9 : tier >= 6 ? 7 : 4;
     var frames = [{transform:'translate(0,0)'}];
-    var pulses = tier >= 6 ? 7 : 5;
+    var pulses = tier >= 7 ? 9 : tier >= 6 ? 7 : 5;
     for (var p = 0; p < pulses; p++) {
       frames.push({transform:'translate('+((Math.random()-.5)*amp*2).toFixed(1)+'px,'+((Math.random()-.5)*amp).toFixed(1)+'px)'});
     }
@@ -1849,7 +2218,7 @@
     var ov = document.getElementById('chTimestopOv');
     if (!ov) return;
     ov.style.display = '';
-    var holdMs = tier >= 6 ? 400 : tier >= 5 ? 300 : 220;
+    var holdMs = tier >= 7 ? 520 : tier >= 6 ? 400 : tier >= 5 ? 300 : 220;
     var anim = ov.animate([{opacity:1},{opacity:1},{opacity:0}],
       {duration:holdMs+150, easing:'ease-in', composite:'replace', iterationComposite:'replace'});
     // 演出後は display:none に戻す（backdrop-filter の暗転が残らないように）
@@ -1864,8 +2233,8 @@
     var theme = ceTheme();
     var cols = theme.fullscreenCols;
     var glowR = theme.fullscreenGlow;
-    var col = cols[Math.min(tier,6)];
-    var g = glowR[Math.min(tier,6)];
+    var col = cols[ceTIdx(tier, cols)];
+    var g = glowR[ceTIdx(tier, glowR)];
     var spread = 60 + tier * 35;
     el.textContent = '\xd7' + n;
     // 全画面レイヤーを可視帯へ合わせる（inset:0 のままだとナビぶん中心が上にずれ、文字も帯からはみ出す）
@@ -1879,7 +2248,7 @@
     el.style.fontSize = Math.round(Math.min(_fb.width, _fb.height) * 0.42) + 'px';
     el.style.color = col;
     el.style.textShadow = '0 0 '+spread+'px rgba('+g+',.65), 0 0 '+(spread*2)+'px rgba('+g+',.35)';
-    var dur = tier >= 6 ? 980 : tier >= 5 ? 820 : tier >= 4 ? 680 : 560;
+    var dur = tier >= 7 ? 1120 : tier >= 6 ? 980 : tier >= 5 ? 820 : tier >= 4 ? 680 : 560;
     el.animate([
       {opacity:0,  transform:'scale(.28) rotate(-10deg)'},
       {opacity:.9, transform:'scale(1.14) rotate(1.8deg)',  offset:.17},
@@ -1939,7 +2308,7 @@
 
   function ceSpawnScatteredCelebration() {
     if (!window.MecFX) return;
-    var t = Math.max(2, Math.min(ceTier(exam.streak) || 2, 6));
+    var t = Math.max(2, Math.min(ceTier(exam.streak) || 2, 7));
     var theme = ceTheme();
     var pal = theme.burstPalettes[t] || theme.burstPalettes[2];
     var isInk = exam.effectSet === 'ink';
@@ -1962,11 +2331,11 @@
     var theme = ceTheme();
     var el = document.createElement('div');
     var cols = theme.comboColors;
-    var sz = 16 + Math.min(tier,6) * 4;
+    var sz = 16 + Math.min(tier,7) * 4;
     el.textContent = theme.comboLabel(n);
     // カード相対だと見切れ・高さバラつきが出るため可視帯の中心に統一（study_exam.jsと同方針）。
     var _cb = ceBand(), cx = _cb.cx, cy = _cb.cy;
-    el.style.cssText = 'position:fixed;left:'+cx+'px;top:'+cy+'px;font-weight:900;font-size:'+sz+'px;color:'+cols[Math.min(tier,6)]+';pointer-events:none;z-index:9200;text-shadow:0 2px 12px rgba(0,0,0,.7);transform:translateX(-50%);white-space:nowrap;';
+    el.style.cssText = 'position:fixed;left:'+cx+'px;top:'+cy+'px;font-weight:900;font-size:'+sz+'px;color:'+cols[ceTIdx(tier, cols)]+';pointer-events:none;z-index:9200;text-shadow:0 2px 12px rgba(0,0,0,.7);transform:translateX(-50%);white-space:nowrap;';
     document.body.appendChild(el);
     el.animate([
       {opacity:1,transform:'translateX(-50%) translateY(0) scale(1)'},
@@ -1976,7 +2345,7 @@
 
   function ceTriggerBgBreath(tier) {
     var rgbs = ceTheme().bgRgbs;
-    var rgb = rgbs[Math.min(tier,6)];
+    var rgb = rgbs[ceTIdx(tier, rgbs)];
     var dur = tier >= 4 ? 1400 : tier >= 2 ? 1100 : 800;
     var str = tier >= 5 ? .12 : tier >= 3 ? .08 : .05;
     var el = document.createElement('div');
@@ -2011,11 +2380,11 @@
     if (n < 2) { meter.style.opacity='0'; fill.style.width='0%'; if (lbl) lbl.style.opacity='0'; return; }
     meter.style.opacity = '1';
     var tier = ceTier(n);
-    var starts=[0,2,4,7,10,15,20], ends=[0,4,7,10,15,20,25];
-    var pct = tier>=6 ? 100 : ((n-starts[tier])/(ends[tier]-starts[tier])*100);
+    var starts=[0,2,4,7,10,15,20,30], ends=[0,4,7,10,15,20,30,40];
+    var pct = tier>=7 ? 100 : ((n-starts[tier])/(ends[tier]-starts[tier])*100);
     var theme = ceTheme();
     var grads = theme.meterGrads;
-    fill.style.background = grads[Math.min(tier,6)];
+    fill.style.background = grads[ceTIdx(tier, grads)];
     fill.style.width = pct.toFixed(1) + '%';
     // 次のティアまで残り何問か
     if (!lbl) {
@@ -2023,12 +2392,13 @@
       lbl.id = 'chExamComboMeterLbl';
       document.body.appendChild(lbl);
     }
-    lbl.textContent = tier >= 6 ? '⚡ MAX' : ('あと ' + (ends[tier] - n) + ' で TIER ' + (tier + 1));
-    lbl.style.color = (theme.comboColors && theme.comboColors[Math.min(tier,6)]) || '#FFD700';
+    lbl.textContent = tier >= 7 ? '⚡ MAX' : ('あと ' + (ends[tier] - n) + ' で TIER ' + (tier + 1));
+    lbl.style.color = (theme.comboColors && theme.comboColors[ceTIdx(tier, theme.comboColors)]) || '#FFD700';
     lbl.style.opacity = '1';
     if (lbl.getAnimations) lbl.getAnimations().forEach(function (a) { a.cancel(); });
     lbl.animate([{opacity:1},{opacity:1,offset:.7},{opacity:0}], {duration:2400, easing:'ease-out', fill:'forwards'});
-    var prev = (n-1)>=20?6:(n-1)>=15?5:(n-1)>=10?4:(n-1)>=7?3:(n-1)>=4?2:(n-1)>=2?1:0;
+    // ⚠️ ここに段の梯子を書き写さないこと（tier7 を足したとき片方だけ古くなる）。ceTier が正本
+    var prev = (n - 1) < 2 ? 0 : ceTier(n - 1);
     if (tier > prev) meter.animate([{height:'3px'},{height:'7px'},{height:'3px'}],{duration:400,easing:'ease-out'});
   }
 

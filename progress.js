@@ -186,8 +186,13 @@
     const gistId = localStorage.getItem(K_GIST) || '';
     if (!token || !gistId) return { status: 'no-config' };
 
+    // 取得だけの同期でも「同期中」を出す（push と違い無表示のままだった）。
+    // ⚠️ どの経路を通っても必ず 'syncing' から抜けること——抜け損なうとバッジが
+    // 「🔄 同期中...」で固まり、ハブの歯車演出も回りっぱなしになる。
+    const _prevStatus = document.querySelector('.mec-sync-badge')?.dataset.status || 'no-config';
+    _setSyncBadge('syncing');
     const r = await _fetchRemotePayload(token, gistId);
-    if (r.status === 'empty') return { status: 'empty' };
+    if (r.status === 'empty') { _setSyncBadge(_prevStatus); return { status: 'empty' }; }
     if (r.status === 'error') {
       _setSyncBadge('error', r.detail);
       if (r.kind === 'network') syncPendingRetry = true;
@@ -590,6 +595,14 @@
       el.dataset.detail = detail || '';
       el.dataset.timeAgo = timeAgo;
     });
+    // 状態の変わり目を購読できるようにする（D2: ハブの歯車演出が拾う）。
+    // ⚠️ 演出そのものをここに書かないこと——progress.js は study.html・stats.html も
+    // 読み込む共有モジュールで、ハブ専用の見た目を持たせると他ページに漏れる。
+    try {
+      window.dispatchEvent(new CustomEvent('mec:syncstatus', {
+        detail: { status: resolvedStatus, raw: status, message: detail || '' }
+      }));
+    } catch (e) {}
   }
 
   function _showSyncInfoPopup(timeAgo, status) {

@@ -1,3 +1,10 @@
+// 2026-08-14a: 演出を広げた。正解の描き分け（難問クリア・初見突破・リベンジ・速答3段）、
+// 誤答側（コンボメーター崩落・同じ肢の繰り返し・心電図テーマのフラットライン・傷マーカー）、
+// 誤答の次を正解した「立て直し」、連続正解の天井を tier7（30連続〜）へ。
+// ハブは起動シーケンス／Gist同期の歯車／レベルバー／30日波形の記録更新／炎の段階化／達成の刻印。
+// SRS完走後に「次に戻ってくる日」の分布、結果表のバー、stats のカルテ登場、knowledge の絞り込み。
+// fx_engine.js に shatter/ribbon/stamp/orbit/wave を純増（既存エミッタは無改変）。
+// シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-13c: ハブの「今日の目標」ゲージを拡大（viewBox 140→168・盤面 152→208px・
 // 歯車4枚）し、演出を常時化した（火花と蒸気が1.7秒ごと・22秒ごとに祝砲）。
 // 見出し行に日付も出す。シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
@@ -135,7 +142,7 @@ const CACHE = "mec-v166";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-13c";
+const SHELL_VERSION = "2026-08-14a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

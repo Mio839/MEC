@@ -620,6 +620,50 @@ html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-bloc
 .exam-fast-pop{position:fixed;z-index:9220;pointer-events:none;font-size:18px;font-weight:900;
   letter-spacing:.06em;white-space:nowrap;text-shadow:0 2px 10px rgba(0,0,0,.7);transform:translate(-50%,0);}
 
+/* A1(2026-08-14): 難問クリア。易問と同じ祝い方をしないための専用ラベル */
+.exam-hard-pop{position:fixed;z-index:9230;pointer-events:none;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:1px;white-space:nowrap;}
+.exam-hard-pop .hc-lbl{font-size:23px;font-weight:900;letter-spacing:.04em;
+  color:var(--hc-col,#FF5722);
+  text-shadow:0 0 18px color-mix(in srgb,var(--hc-col,#FF5722) 70%,transparent),0 2px 10px rgba(0,0,0,.75);}
+.exam-hard-pop .hc-rate{font-size:11px;font-weight:800;letter-spacing:.08em;
+  font-variant-numeric:tabular-nums;color:rgba(255,255,255,.82);text-shadow:0 1px 6px rgba(0,0,0,.85);}
+
+/* A2(2026-08-14): 初見突破 / リベンジ達成。肢の右下から小さく立ち上がる */
+.exam-mark-pop{position:fixed;z-index:9222;pointer-events:none;white-space:nowrap;
+  font-size:12.5px;font-weight:800;letter-spacing:.04em;color:var(--mk-col,#3DD68C);
+  padding:2px 8px;border-radius:20px;
+  background:color-mix(in srgb,var(--mk-col,#3DD68C) 16%,rgba(0,0,0,.55));
+  border:1px solid color-mix(in srgb,var(--mk-col,#3DD68C) 42%,transparent);
+  text-shadow:0 1px 6px rgba(0,0,0,.75);}
+.exam-mark-pop.rev{font-size:15px;font-weight:900;padding:3px 11px;
+  box-shadow:0 0 16px color-mix(in srgb,var(--mk-col,#FFD700) 42%,transparent);}
+/* C3(2026-08-14): 同じ肢を繰り返し選んだときの注意（責めずに事実だけ出す） */
+.exam-mark-pop.warn{font-size:12px;}
+
+/* C5(2026-08-14): 落とした問題に残る傷。セッション中だけの印で cleanup が外す */
+.qc.exam-scar{position:relative;}
+.qc.exam-scar::before{content:'';position:absolute;left:0;top:10px;bottom:10px;width:3px;
+  border-radius:0 3px 3px 0;pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(255,107,107,.75) 18%,rgba(255,107,107,.75) 82%,transparent);}
+
+/* A3(2026-08-14): 速答の3段。1段目（まずまず）は控えめ、3段目（一閃）は強く */
+.exam-fast-pop.fast-g1{font-size:14px;opacity:.78;}
+.exam-fast-pop.fast-g3{font-size:22px;letter-spacing:.08em;}
+
+/* C2(2026-08-14): 立て直し。誤答の次を正解した1回だけ出る */
+.exam-recover-pop{position:fixed;z-index:9225;pointer-events:none;white-space:nowrap;
+  font-size:19px;font-weight:900;letter-spacing:.05em;color:var(--rc-col,#3DD68C);
+  text-shadow:0 0 16px color-mix(in srgb,var(--rc-col,#3DD68C) 65%,transparent),0 2px 10px rgba(0,0,0,.7);}
+
+/* A5(2026-08-14): 正解の瞬間だけ、選ばなかった肢が一段沈む。
+   ⚠️ transition:all は使わない（この規模のカードでは再レイアウトを誘発する）。
+   ⚠️ 一時的な強調なので JS 側が 1.1秒で必ずクラスを外す。付けっぱなしにすると
+      解説を読む段階で肢が読めなくなる。 */
+.qc.exam-sink .ch2{transition:transform .28s cubic-bezier(.2,.8,.3,1),opacity .28s ease,filter .28s ease;}
+.qc.exam-sink .ch2:not(.exam-selected):not(.exam-instant-correct):not(.ok){
+  transform:scale(.985) translateY(2px);opacity:.5;filter:saturate(.55);}
+
 /* A3: カード外周を一周するボーダートレース */
 .exam-trace-svg{position:fixed;z-index:8500;pointer-events:none;overflow:visible;}
 
@@ -740,6 +784,42 @@ body.exam-awaken #examComboMeter{height:5px;}
   padding:10px 12px;margin-bottom:12px;font-size:14px;font-weight:800;color:var(--or);text-align:center;}
 .exam-srs-done span{display:block;font-size:11px;font-weight:700;color:var(--ts);margin-top:2px;}
 
+/* E2(2026-08-14): 結果画面の科目別・章別の表に細いバーを敷く。
+   数字の列だけだと「どこが弱いか」を読むのに全行を見比べる必要があった。
+   ⚠️ バーは％セルの中に絶対配置する。列を増やすと狭い端末で表が折り返す。 */
+.sum-pct{position:relative;font-weight:700;}
+.sum-pct b{position:relative;z-index:1;font-weight:700;}
+.sum-pct .sum-bar{position:absolute;left:0;bottom:2px;width:var(--w,0);height:3px;border-radius:2px;
+  background:var(--c,#7CEFB2);opacity:.45;
+  transform:scaleX(0);transform-origin:left center;
+  animation:sumBar .55s cubic-bezier(.16,1,.3,1) calc(var(--i,0) * 60ms + 220ms) forwards;}
+@keyframes sumBar{to{transform:scaleX(1);}}
+@media (prefers-reduced-motion: reduce){
+  .sum-pct .sum-bar{transform:none;animation:none;}
+}
+
+/* E1(2026-08-14): 「次に戻ってくる日」。SRSの間隔が伸びたことを完走直後に見せる */
+.exam-srs-plan{margin:-4px 0 12px;padding:10px 12px;border-radius:var(--r-md);
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.10);}
+.exam-srs-plan .sp-h{font-size:11.5px;font-weight:800;letter-spacing:.04em;color:var(--ts);margin-bottom:7px;}
+.exam-srs-plan .sp-row{display:grid;grid-template-columns:5.6em 1fr 3.2em;align-items:center;gap:8px;
+  margin-top:5px;opacity:0;transform:translateX(-8px);
+  animation:srsPlanIn .42s cubic-bezier(.16,1,.3,1) calc(var(--i,0) * 90ms + 180ms) forwards;}
+.exam-srs-plan .sp-lbl{font-size:11.5px;font-weight:700;color:var(--ts);white-space:nowrap;}
+.exam-srs-plan .sp-bar{height:8px;border-radius:5px;background:rgba(255,255,255,.07);overflow:hidden;}
+.exam-srs-plan .sp-bar i{display:block;height:100%;width:var(--w,0);border-radius:5px;
+  background:linear-gradient(90deg,#FF9A3C,#FFD166);
+  transform:scaleX(0);transform-origin:left center;
+  animation:srsPlanBar .6s cubic-bezier(.16,1,.3,1) calc(var(--i,0) * 90ms + 300ms) forwards;}
+.exam-srs-plan .sp-n{font-size:11.5px;font-weight:800;text-align:right;color:var(--tx);
+  font-variant-numeric:tabular-nums;}
+@keyframes srsPlanIn{to{opacity:1;transform:none;}}
+@keyframes srsPlanBar{to{transform:scaleX(1);}}
+@media (prefers-reduced-motion: reduce){
+  .exam-srs-plan .sp-row{opacity:1;transform:none;animation:none;}
+  .exam-srs-plan .sp-bar i{transform:none;animation:none;}
+}
+
 /* C13: 章制覇時に章仕切り線を光が走る（gamify.js が .gm-ch-sweep を付与） */
 .ch-divider.gm-ch-sweep{position:relative;overflow:hidden;}
 .ch-divider.gm-ch-sweep::after{content:'';position:absolute;inset:0;pointer-events:none;
@@ -750,7 +830,9 @@ body.exam-awaken #examComboMeter{height:5px;}
 /* 動きを減らす設定では新演出のレイヤーごと出さない（JS側 _fxOff とあわせて二重に抑止） */
 @media (prefers-reduced-motion: reduce){
   .exam-fast-pop,.exam-trace-svg,.exam-tierup,.exam-zone-collapse,
+  .exam-hard-pop,.exam-recover-pop,.exam-mark-pop,
   #examCountdown,#examStreakSig,.exam-rank-stamp{display:none!important;}
+  .qc.exam-sink .ch2{transition:none;transform:none;opacity:1;filter:none;}
   .ch-divider.gm-ch-sweep::after{display:none!important;}
 }
 

@@ -285,6 +285,14 @@
 /* ── 章仕切りの星 ── */
 .gm-ch-stars{float:right;margin-right:8px;font-size:11px;font-weight:800;color:#FFD166;text-shadow:0 0 6px rgba(255,209,102,.5);letter-spacing:1px;}
 .gm-ch-stars .off{color:rgba(255,255,255,.18);text-shadow:none;}
+/* E5(2026-08-14): 星が増えた瞬間だけ光る。章の評価が上がったことは今まで無言だった */
+.gm-ch-stars.gm-star-gain{animation:gmStarGain .9s cubic-bezier(.2,1.2,.3,1);}
+@keyframes gmStarGain{
+  0%{transform:scale(1);text-shadow:0 0 6px rgba(255,209,102,.5);}
+  35%{transform:scale(1.45);text-shadow:0 0 20px rgba(255,209,102,1),0 0 40px rgba(255,209,102,.6);}
+  60%{transform:scale(.96);}
+  100%{transform:scale(1);text-shadow:0 0 6px rgba(255,209,102,.5);}
+}
 /* ── 済ボタンのマイクロ演出 ── */
 @keyframes gmPop{0%{transform:scale(1)}40%{transform:scale(1.35) rotate(-4deg)}70%{transform:scale(.92)}100%{transform:scale(1)}}
 .gm-pop{animation:gmPop .45s cubic-bezier(.2,1.2,.3,1);}
@@ -621,19 +629,44 @@
     return pct >= 90 ? 3 : pct >= 70 ? 2 : 1;
   }
 
-  function _renderChapterStars(entry) {
+  /* E5(2026-08-14): 星が「増えた瞬間」を演出する。
+     ⚠️ animate は解答をきっかけに呼ぶ経路（_checkChapterClear）でだけ true にすること。
+        refreshAllStars は全章を一度に描き直すので、ここで祝うと読み込みのたびに
+        画面じゅうの章が一斉に光る。 */
+  function _renderChapterStars(entry, animate) {
     if (!entry || !entry.divEl || !entry.divEl.isConnected) return;
     const n = _chapterStars(entry);
     let el = entry.divEl.querySelector('.gm-ch-stars');
     if (!n) { if (el) el.remove(); return; }
+    let prev = null;
     if (!el) {
       el = document.createElement('span');
       el.className = 'gm-ch-stars';
       const prog = entry.divEl.querySelector('.ch-div-prog');
       if (prog) entry.divEl.insertBefore(el, prog); else entry.divEl.appendChild(el);
+    } else if (el.dataset.n !== undefined) {
+      prev = Number(el.dataset.n);
     }
+    el.dataset.n = String(n);
     el.innerHTML = '★'.repeat(n) + '<span class="off">' + '★'.repeat(3 - n) + '</span>';
     el.title = '試験モードの章正答率評価（★3=90%↑ ★2=70%↑）';
+    if (animate && prev !== null && n > prev) _starGainFx(el, n);
+  }
+
+  function _starGainFx(el, n) {
+    if (_reducedMotion()) return;
+    el.classList.remove('gm-star-gain'); void el.offsetWidth; el.classList.add('gm-star-gain');
+    setTimeout(() => el.classList.remove('gm-star-gain'), 1000);
+    if (!window.MecFX) return;
+    try {
+      const r = el.getBoundingClientRect();
+      if (!r.width || r.bottom < 0 || r.top > innerHeight) return;
+      MecFX.glyphBurst(r.left + r.width / 2, r.top + r.height / 2,
+        { glyphs: ['★', '✨'], count: 3 + n, spread: 90, w: r.width });
+      MecFX.burst(r.left + r.width / 2, r.top + r.height / 2, {
+        tier: 3, count: 14 + n * 4, colors: ['#FFD166', '#FFF3C4', '#FFFFFF'], shapes: ['star', 'circle']
+      });
+    } catch (e) {}
   }
 
   function refreshAllStars() {
@@ -651,7 +684,7 @@
   function _checkChapterClear(uid) {
     const entry = _chapterFor(uid);
     if (!entry) return;
-    _renderChapterStars(entry);
+    _renderChapterStars(entry, true);   // E5: 解答きっかけなので星が増えたら祝う
     const i = uid.indexOf('_q');
     const chKey = i > 0 ? uid.slice(0, i) : '';
     if (!chKey || L.chDone.includes(chKey)) return;

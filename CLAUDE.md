@@ -26,7 +26,7 @@
 | `knowledge.html` | 検索知識ノート機能 |
 | `calc_input.js` | 計算問題の桁入力エンジン（`window.MecCalc`）。原文がマークシートの計算問題48問（科目33＋過去問15）は選択肢を持たないため試験モードで解答不能だった。正解は `.ac`（ans_label）の `計算答：<桁文字列>` が正本。**study.html と 国家試験過去問/*.html の両方が読む共有ファイル**（演出テーマのようなミラー乖離を作らないため）。CSSは自前で注入する |
 | `card_renderer.js` | JSON→カードHTML描画（`window._renderSubjectFromJson`、エスケープ処理あり） |
-| `fx_engine.js` | エフェクトのCanvas描画エンジン（`window.MecFX`：粒子・花火・グリフバースト等）。ハブのゲージ用に `gears`／`gearRain`／`steam`（真鍮の歯車・蒸気）を後から足した。**エミッタの追加は常に純増で行うこと**——study.html／chapter_exam.js の試験演出が同じエンジンを共用しているので、既存関数の引数や既定値を変えると7テーマ全部に波及する |
+| `fx_engine.js` | エフェクトのCanvas描画エンジン（`window.MecFX`：粒子・花火・グリフバースト等）。ハブのゲージ用に `gears`／`gearRain`／`steam`（真鍮の歯車・蒸気）を、2026-08-14に `shatter`（破片）／`ribbon`（2点間を走る光）／`stamp`（刻印）／`orbit`（極座標で回る粒）／`wave`（走査する波形）を足した。**エミッタの追加は常に純増で行うこと**——study.html／chapter_exam.js の試験演出が同じエンジンを共用しているので、既存関数の引数や既定値を変えると7テーマ全部に波及する。⚠️ **位置を自前で持つ型（ribbon/wave/stamp/bar/bolt/ring）は `STATIC_TYPES` に登録すること**——登録し忘れると step() の物理を通り、重力で画面外へ落ちて1フレームで消える |
 | `image_dims.json` | 問題画像の実寸（パス→[w,h]・約109KB・**派生物**。`_work/build_image_dims.py`が生成）。`card_renderer.js`が`<img width height>`を出す材料。これが無いと遅延読込の画像でレイアウトが後からずれ、章ジャンプが目標に収束しない。**画像を差し替え・追加したら必ず再生成** |
 | `sw.js` | Service Worker（オフラインキャッシュ）。`CACHE`版数は**questions_*.json・画像を更新した時にbump**（bumpで全キャッシュ削除＝再DL）。SHELL/CARDSにパス列挙。相対パス必須 |
 | `chapters_meta.js` / `rate_index.js` | stats.html等が参照する章メタ・正答率インデックス（`_work/build.py`系で再生成） |
@@ -647,6 +647,7 @@ node _work/test_calc_input.js      計算問題の桁入力・データ整合   
 node _work/test_missions.js        日次/週次ミッション          (36)
 node _work/test_daily_goal.js      ハブのゲージ・歯車の意匠      (29)
 node _work/test_fx_band.js         試験演出の可視帯(発火位置)    (15)
+node _work/test_fx_additions.js    新エミッタ・tier7・難問/速答  (25)
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 ```
 
@@ -683,6 +684,31 @@ node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 - セットは正解／連続正解エフェクトの見た目（配色パレット・絵文字・ラベル・雷/紙吹雪/花火などのON/OFF）を丸ごと切り替える。各テーマは `burstPalettes` `labels(n)` `comboLabel(n)` `comboColors` `fullscreenCols/Glow` `flashColors` `borderColors` `meterGrads` `floaterGlyphs` `correctEmoji` `use*`（useConfetti/useFireworks/useLightning/useGlitch 等のフラグ）を持つ。
 - ⚠️ `body.exam-effect-*` クラスのCSS定義は `neon`/`ink` のみ（`study.css`）。他セット（ecg/space/retro/luxury）はJS（`EXAM_EFFECT_THEMES` + `MecFX`）だけで描画される。classicは `body` クラス無し。
 
+### 正解／誤答の追加演出は「合流点」を通す（2026-08-14〜）
+
+正解の経路は**2つ**ある（`revealAnswer`＝選択肢／`_revealCalcAnswer`＝計算問題の桁入力）。
+新しい演出は必ず **`_afterCorrectFx(card, fxEl)` / `_afterWrongFx(card, fxEl, brokeStreak)`**
+（study_exam.js）と **`ceAfterCorrectFx` / `ceAfterWrongFx`**（chapter_exam.js）へ足すこと。
+片方の経路に直接書くと**計算問題50問だけ演出が抜ける**。`test_fx_additions.js` が呼び出し数を検査する。
+
+現在この合流点が持つもの:
+
+| 記号 | 演出 | 発火条件 |
+|---|---|---|
+| A1 | 難問クリア（刻印＋低音のドン） | `data-rate < 60`。⚠️ 正答率なしは難問に数えない |
+| A2 | 初見突破 ／ リベンジ達成 | myrate_v1 の**加算前**の値（`_lastAnswerPrior`）。初見は易問(≥80%)では出さない |
+| A3 | 速答3段（一閃/速答/まずまず） | `FAST_TIER_MS = [2000,4000,7000]`。`theme.fastLabels` は**強い順** |
+| A4 | 正解肢 → 解答ブロック(.ab) へのリボン | 常時（視線誘導を兼ねる） |
+| A5 | 選ばなかった肢が沈む | 常時。**1.1秒で必ずクラスを外す**（解説が読めなくなる） |
+| C1 | コンボメーター崩落 | 途切れた連続数が4以上。⚠️ `examStreak` を**0にする前**に控える |
+| C2 | 立て直し（RECOVER） | 誤答の次の1問を正解。`_examRecoverPending` は examStreak と**別に持つ** |
+| C3 | 「前にも同じ肢」 | `mec_choice_v1` の肢別誤答回数が2以上。母集団の選択率は手元に無いので**自分の履歴**で出す |
+| C4 | フラットライン → 再拍動 | `theme.useFlatline`（**ecg テーマのみ**） |
+| C5 | 誤答カードの傷 | 常時。**cleanup で必ず外す**（通常閲覧へ持ち越さない） |
+
+⚠️ **「この正解が何だったか」を示すラベルは必ず1つに絞る**（難問 ＞ リベンジ ＞ 初見）。
+3つ同時に出すと画面が文字だらけになり、どれも読まれなくなる。
+
 ### 正解時（単発・連続数に関係なく毎回）
 `_triggerChoiceCorrectPop()`:
 - 選んだ選択肢を pop（scale+brightness、420ms）＋カードを bounce（480ms）＋ `popOverlay` 色オーバーレイをカードに重ねてフェード。
@@ -699,7 +725,13 @@ node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 | 3 | 7〜9 |
 | 4 | 10〜14 |
 | 5 | 15〜19 |
-| 6 | 20〜 |
+| 6 | 20〜29 |
+| 7 | 30〜（2026-08-14に追加） |
+
+⚠️ **tier で配列・マップを引くときは `_tIdx(tier, o)` / `ceTIdx(tier, o)` を使うこと**。
+テーマ側の配列は index 7 まで拡張済みだが、演出関数の中には index 6 までのローカル配列
+（粒子数の段など）が混ざる。`_tIdx` は配列なら `length-1`、マップなら 7 で丸めるので、
+どちらを渡しても範囲外にならない。`Math.min(tier, 6)` を新しく書かないこと。
 
 `_showStreakEffect(n)` は **n≥2 でのみ発火**し、tierに応じて段階的に増える:
 - **全tier(≥2)**: 上部トースト（`t1`〜`t6`、`labels[tier]` 例 classic=`🔥 n連続！！`）＋ 背景ブレス（`_triggerBgBreath`）＋ コンボ音（`_playComboNote`・設定キー `mec_combo_sound_v1`）＋ 上端コンボメーター（`_updateComboMeter`）

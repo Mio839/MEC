@@ -142,6 +142,7 @@ function makeGauge() {
   const mk = () => ({ style: {}, dataset: {} });
   const els = { gaugeBox: mk(), gaugeVal: mk(), gaugeOvf: mk(), gaugeDot: mk() };
   const fired = [];
+  const stamps = [];                       // D6: 目標達成の刻印を押した回数
   const ctx = {
     console, GAUGE_C, setTimeout: (fn) => { fn(); return 0; },
     setInterval: () => 0, clearInterval: () => {},
@@ -149,6 +150,7 @@ function makeGauge() {
     // reduced-motion 扱いにして即 return させる（タイマーを回さない）
     _reducedMotion: () => true,
     _gaugeCelebrate: tier => fired.push(tier),
+    _stampGoalSeal: () => stamps.push(1),
     document: { getElementById: id => els[id] || null },
   };
   ctx.globalThis = ctx;
@@ -163,7 +165,7 @@ function makeGauge() {
     base: () => pctOf(els.gaugeVal), over: () => pctOf(els.gaugeOvf),
     tier: () => Number(els.gaugeBox.dataset.tier),
     dotDeg: () => Number(String(els.gaugeDot.style.transform).replace(/[^\d.-]/g, '')),
-    fired,
+    fired, stamps,
   };
 }
 
@@ -212,6 +214,24 @@ t('段が上がったときだけ祝砲が鳴る（同期の再描画で毎回�
   assert.deepStrictEqual(g.fired, [1, 4]);
   g.drive(30);                                 // 下がる方向では鳴らない
   assert.deepStrictEqual(g.fired, [1, 4]);
+});
+
+// D6(2026-08-14): 目標達成の刻印は「その日はじめて 100% に届いた1回」だけ。
+// 同期の再描画や、達成後にさらに伸びた（150%超＝段6）ときに押し直さないこと。
+t('達成の刻印は 100% に届いた一度だけ押す', () => {
+  const g = makeGauge();
+  g.drive(40); g.drive(99);
+  assert.strictEqual(g.stamps.length, 0, '100%未満で押している');
+  g.drive(100);
+  assert.strictEqual(g.stamps.length, 1, '100%到達で押していない');
+  g.drive(120); g.drive(160); g.drive(210);   // 以降どれだけ伸びても押し直さない
+  assert.strictEqual(g.stamps.length, 1, '達成後に押し直している');
+});
+
+t('0% から一気に達成した日も刻印は1回だけ', () => {
+  const g = makeGauge();
+  g.drive(180);
+  assert.strictEqual(g.stamps.length, 1);
 });
 
 t('0% では祝砲を撒かない', () => {

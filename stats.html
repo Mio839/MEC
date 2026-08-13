@@ -428,6 +428,20 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .hm td.w5{background:var(--ramp-w5);color:var(--ramp-w-ink);}
 .hm td.w6{background:var(--ramp-w6);color:var(--ramp-w-ink);}
 .hm td.w7{background:var(--ramp-w7);color:var(--ramp-w-ink);}
+/* E3(2026-08-14): カルテの登場。左上から対角に立ち上げ、最後に最弱セルだけ脈打つ。
+   ⚠️ 塗りそのものは触らない（弱さランプの意味を壊さない）。動かすのは opacity と scale だけ。 */
+.hm.hm-in td{opacity:0;transform:scale(.9);
+  animation:hmIn .34s cubic-bezier(.16,1,.3,1) calc(var(--i,0) * 45ms + 80ms) forwards;}
+@keyframes hmIn{to{opacity:1;transform:none;}}
+.hm td.hm-worst{animation:hmWorst 1.9s ease-in-out 3;}
+@keyframes hmWorst{
+  0%,100%{box-shadow:0 0 0 0 rgba(255,184,48,0);}
+  50%{box-shadow:0 0 0 2px rgba(255,184,48,.85),0 0 14px rgba(255,184,48,.45);}
+}
+@media (prefers-reduced-motion: reduce){
+  .hm.hm-in td{opacity:1;transform:none;animation:none;}
+  .hm td.hm-worst{animation:none;}
+}
 .hm-sub{display:block;font-size:10px;font-weight:400;color:var(--tx);opacity:.66;line-height:1.2;}
 /* 明るい3段は白文字が読めないので、副文字も暗インクへ反転させる */
 .hm td.w5 .hm-sub,.hm td.w6 .hm-sub,.hm td.w7 .hm-sub{color:var(--ramp-w-ink);opacity:.72;}
@@ -1305,25 +1319,42 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     if (!sec || !table || !k.rows.length) return;
     sec.style.display = '';
 
-    const cell = (d) => {
-      if (!d || !d.total) return '<td class="hm-nd">—</td>';
+    /* E3(2026-08-14): セルを左上から対角に立ち上げ、最後に最弱セルだけを脈打たせる。
+       ⚠️ --i は「行+列」＝対角線の順番。行ごと・列ごとに揃えるより、面が一枚の布のように
+          めくれて見えるので、どこが明るい（＝弱い）かが目に残る。
+       ⚠️ 最弱セルの判定は本体（科目×形式）だけで行う。「計」の列と「全科目」の行は
+          個別の弱点ではなく合計なので、そこを名指ししても打ち手にならない。 */
+    let worst = { pct: 101, key: '' };
+    const cell = (d, idx, key) => {
+      const st = ` style="--i:${idx || 0}"`;
+      if (!d || !d.total) return `<td class="hm-nd"${st}>—</td>`;
       if (d.total < HM_MIN_N) {
-        return `<td class="hm-nd">—<span class="hm-sub">${d.total}回</span></td>`;
+        return `<td class="hm-nd"${st}>—<span class="hm-sub">${d.total}回</span></td>`;
       }
       const pct = Math.round(d.correct / d.total * 100);
-      return `<td class="${HM_RAMP[rampIndex(pct)]}">${pct}%<span class="hm-sub">${d.total}回</span></td>`;
+      if (key && pct < worst.pct) worst = { pct, key };
+      const kAttr = key ? ` data-hk="${key}"` : '';
+      return `<td class="${HM_RAMP[rampIndex(pct)]}"${st}${kAttr}>${pct}%<span class="hm-sub">${d.total}回</span></td>`;
     };
 
     const head = '<tr><th class="hm-rh">科目</th>' +
       QTYPES.map(t => `<th>${t.label}</th>`).join('') + '<th>計</th></tr>';
-    const body = k.rows.map(s =>
+    const body = k.rows.map((s, ri) =>
       `<tr><th class="hm-rh">${s.icon} ${s.name}</th>` +
-      QTYPES.map(t => cell(k.cells[s.id] && k.cells[s.id][t.k])).join('') +
-      cell(k.rowTot[s.id]) + '</tr>'
+      QTYPES.map((t, ci) => cell(k.cells[s.id] && k.cells[s.id][t.k], ri + ci, ri + '_' + ci)).join('') +
+      cell(k.rowTot[s.id], ri + QTYPES.length) + '</tr>'
     ).join('');
+    const fr = k.rows.length;
     const foot = '<tr><th class="hm-rh">全科目</th>' +
-      QTYPES.map(t => cell(k.colTot[t.k])).join('') + cell(k.all) + '</tr>';
+      QTYPES.map((t, ci) => cell(k.colTot[t.k], fr + ci)).join('') +
+      cell(k.all, fr + QTYPES.length) + '</tr>';
     table.innerHTML = head + body + foot;
+    // 立ち上がりが終わってから最弱セルを一度だけ指す（アニメ中に光らせても埋もれる）
+    if (worst.key && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      table.classList.add('hm-in');
+      const wc = table.querySelector(`td[data-hk="${worst.key}"]`);
+      if (wc) setTimeout(() => wc.classList.add('hm-worst'), 900);
+    }
 
     // ⚠️ 旧実装はここが章別ヒートマップと同じ id="hmLegend" を掴んでいたため、
     //    カルテの凡例が章別ヒートマップの凡例欄を上書きし、カルテ側は空のままだった

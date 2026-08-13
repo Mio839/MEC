@@ -679,7 +679,7 @@ function startExam(overrideUids = null) {
   if (!_isHostSession()) _clearExamResume();
   examMode = true; examAnswered = 0; examCorrect = 0; examStreak = 0; examBySubj = {}; examByChapter = {}; examWrong = []; _examSessionWrongChoices.clear(); examStartTime = Date.now(); _examPausedMs = 0; _examPauseStart = null;
   _attemptSessionId = window.MecAttempts ? MecAttempts.newSession() : '';
-  _examCardSeenAt.clear(); _zoneStop(false); _setAwaken(false);
+  _examCardSeenAt.clear(); _zoneStop(false); _setAwaken(false); _examRecoverPending = false;
   examEffectSet = EXAM_EFFECT_POOL[Math.floor(Math.random() * EXAM_EFFECT_POOL.length)];
   document.body.classList.remove('exam-effect-neon', 'exam-effect-ink');
   if (examEffectSet !== 'classic') document.body.classList.add('exam-effect-' + examEffectSet);
@@ -853,7 +853,7 @@ function revealAnswer(card) {
     // A2/A3/A1: ショックウェーブ・ボーダートレース・速答ボーナス
     _correctShockwave(sel);
     _traceCardBorder(card);
-    if (_isFastAnswer(card)) setTimeout(() => _triggerFastBonus(sel), 90);
+    _afterCorrectFx(card, sel);
     card.classList.add('exam-revealed', 'exam-multi-correct');
     if (revBtn) { revBtn.textContent = '▶ 解説を見る'; revBtn.onclick = () => _toggleCorrectAnswer(card, revBtn); }
     _updateExamProg(true);
@@ -861,10 +861,12 @@ function revealAnswer(card) {
     requestAnimationFrame(_updateExamFocus);
     setTimeout(() => _scrollToNextCard(card), 300);
   } else {
+    const _broke = examStreak;   // C1: 崩落の規模は「途切れた時点の連続数」で決まる（0 にする前に控える）
     examStreak = 0;
     _resetComboMeter();
     _clearDarkFx();
     _zoneStop(true);   // B5: ゾーン崩壊
+    _afterWrongFx(card, sel, _broke);
     examWrong.push(card.dataset.uid);
     card.classList.add('exam-revealed');
     if (revBtn) { revBtn.textContent = '▼ 解答を隠す'; revBtn.onclick = () => _toggleWrongAnswer(card, revBtn); }
@@ -908,7 +910,7 @@ function _triggerTimeStop(tier) {
   ov.style.removeProperty('opacity');
   ov.style.backdropFilter = '';
   ov.style['-webkit-backdrop-filter'] = '';
-  const holdMs = tier >= 6 ? 400 : tier >= 5 ? 300 : 220;
+  const holdMs = tier >= 7 ? 520 : tier >= 6 ? 400 : tier >= 5 ? 300 : 220;
   const anim = ov.animate(
     [{opacity:1},{opacity:1},{opacity:0}],
     {duration: holdMs + 150, easing:'ease-in',
@@ -930,8 +932,8 @@ function _triggerFullscreenCombo(n, tier) {
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const cols = theme.fullscreenCols;
   const glowR = theme.fullscreenGlow;
-  const col = cols[Math.min(tier,6)];
-  const g = glowR[Math.min(tier,6)];
+  const col = cols[_tIdx(tier, cols)];
+  const g = glowR[_tIdx(tier, glowR)];
   const spread = 60 + tier * 35;
   el.textContent = '×' + n;
   // 全画面レイヤーを可視帯へ合わせる（CSSの inset:0 は画面全体＝ヘッダーぶん中心が上にずれる）。
@@ -946,7 +948,7 @@ function _triggerFullscreenCombo(n, tier) {
   el.style.fontSize = Math.round(Math.min(b.width, b.height) * 0.42) + 'px';
   el.style.color = col;
   el.style.textShadow = `0 0 ${spread}px rgba(${g},.65), 0 0 ${spread*2}px rgba(${g},.35), 0 0 ${spread*3}px rgba(${g},.15)`;
-  const dur = tier >= 6 ? 980 : tier >= 5 ? 820 : tier >= 4 ? 680 : 560;
+  const dur = tier >= 7 ? 1120 : tier >= 6 ? 980 : tier >= 5 ? 820 : tier >= 4 ? 680 : 560;
   el.animate([
     {opacity:0,  transform:'scale(.28) rotate(-10deg)'},
     {opacity:.9, transform:'scale(1.14) rotate(1.8deg)',  offset:.17},
@@ -957,8 +959,21 @@ function _triggerFullscreenCombo(n, tier) {
   ], {duration: dur, easing:'cubic-bezier(.22,.68,0,1.25)'});
 }
 
+/* B1(2026-08-14): 天井を tier6（20連続〜）から tier7（30連続〜）へ。
+   上限が見えていると「そこまで行けば終わり」になって伸ばす動機が止まるため、
+   最上段の手前にもう一段置く。tier7 は各テーマが専用の配色・ラベルを持つ。 */
 function _examTier(n) {
-  return n >= 20 ? 6 : n >= 15 ? 5 : n >= 10 ? 4 : n >= 7 ? 3 : n >= 4 ? 2 : 1;
+  return n >= 30 ? 7 : n >= 20 ? 6 : n >= 15 ? 5 : n >= 10 ? 4 : n >= 7 ? 3 : n >= 4 ? 2 : 1;
+}
+
+/* tier で配列・マップを引くときのクランプ。
+   テーマ側の配列は index 7 まで用意してあるが、演出関数の中には index 6 までしか
+   持たないローカル配列（粒子数の段など）が混ざる。長さに合わせて丸めることで、
+   ローカル配列は tier6 の値を流用し、テーマ配列は tier7 専用の値を引く。
+   マップ（burstPalettes・floaterGlyphs・borderColors・lightningCols）は length を
+   持たないので 7 で丸める（キー7はテーマ側に追加済み・欠けても呼び出し側に || がある）。 */
+function _tIdx(tier, o) {
+  return Array.isArray(o) ? Math.min(tier, o.length - 1) : Math.min(tier, 7);
 }
 
 // 試験モード演出テーマ。examEffectSet で選ばれ、正解／連続正解エフェクトの見た目を丸ごと切り替える。
@@ -969,29 +984,37 @@ const EXAM_EFFECT_THEMES = {
       3: ['#FF5820','#FF9800','#FFFFFF','#FFD700','#FF6030'],
       4: ['#FFD700','#FFA040','#FFFFFF','#FFB830','#FFF176','#FF9800'],
       5: ['#FFE040','#FFD700','#FF9800','#FFFFFF','#FFF176','#FFB300','#FF5722','#4FC3F7'],
-      6: ['#EE88FF','#CC44FF','#FFD700','#FF5722','#4FC3F7','#FFFFFF','#FFE040','#81C784','#F06292']
+      6: ['#EE88FF','#CC44FF','#FFD700','#FF5722','#4FC3F7','#FFFFFF','#FFE040','#81C784','#F06292'],
+      7: ['#FF3D7F','#CC44FF','#FFD700','#FF5722','#4FC3F7','#FFFFFF','#FFE040','#00E5FF','#F06292','#81C784']
     },
     shapes: (tier) => tier >= 3 ? ['circle','square','star','star','square','circle'] : ['circle','square'],
-    ringColor: (tier) => tier >= 6 ? 'rgba(210,80,255,.85)' : tier >= 4 ? 'rgba(255,210,0,.85)' : tier >= 3 ? 'rgba(255,88,32,.85)' : 'rgba(255,160,64,.75)',
-    fullscreenCols:  ['','','#FFA040','#FF5820','#FFD700','#FFE840','#CC44FF'],
-    fullscreenGlow:  ['','','255,160,64','255,88,32','255,200,0','255,220,0','200,60,255'],
-    flashColors: ['','','rgba(255,160,64,.30)','rgba(255,80,40,.42)','rgba(255,200,0,.62)','rgba(255,220,0,.78)','rgba(160,0,255,.68)'],
-    borderColors: {4:'#FF9800',5:'#FFD700',6:'#CC44FF'},
-    bgRgbs: ['','61,214,140','255,160,64','255,88,32','255,210,0','255,232,0','210,80,255'],
-    meterGrads: ['','linear-gradient(90deg,#3DD68C,#5EF0A8)','linear-gradient(90deg,#FFA040,#FFD060)','linear-gradient(90deg,#FF5820,#FF9040)','linear-gradient(90deg,#FFD700,#FFF060)','linear-gradient(90deg,#FFE040,#FFD700,#FF9800)','linear-gradient(90deg,#CC44FF,#EE88FF,#FF5722,#FFD700)'],
-    labels: (n) => ['','🎯 '+n+'連続！','🔥 '+n+'連続！！','⚡️ '+n+'連続！！！','💥 '+n+'連続！！！！','🏆 '+n+'連続！！！！！','👑 '+n+'連続！！！！！！'],
+    ringColor: (tier) => tier >= 7 ? 'rgba(255,61,127,.92)' : tier >= 6 ? 'rgba(210,80,255,.85)' : tier >= 4 ? 'rgba(255,210,0,.85)' : tier >= 3 ? 'rgba(255,88,32,.85)' : 'rgba(255,160,64,.75)',
+    fullscreenCols:  ['','','#FFA040','#FF5820','#FFD700','#FFE840','#CC44FF','#FF3D7F'],
+    fullscreenGlow:  ['','','255,160,64','255,88,32','255,200,0','255,220,0','200,60,255','255,61,127'],
+    flashColors: ['','','rgba(255,160,64,.30)','rgba(255,80,40,.42)','rgba(255,200,0,.62)','rgba(255,220,0,.78)','rgba(160,0,255,.68)','rgba(255,61,127,.82)'],
+    borderColors: {4:'#FF9800',5:'#FFD700',6:'#CC44FF',7:'#FF3D7F'},
+    bgRgbs: ['','61,214,140','255,160,64','255,88,32','255,210,0','255,232,0','210,80,255','255,61,127'],
+    meterGrads: ['','linear-gradient(90deg,#3DD68C,#5EF0A8)','linear-gradient(90deg,#FFA040,#FFD060)','linear-gradient(90deg,#FF5820,#FF9040)','linear-gradient(90deg,#FFD700,#FFF060)','linear-gradient(90deg,#FFE040,#FFD700,#FF9800)','linear-gradient(90deg,#CC44FF,#EE88FF,#FF5722,#FFD700)','linear-gradient(90deg,#FF3D7F,#CC44FF,#FFD700,#FF5722,#4FC3F7)'],
+    labels: (n) => ['','🎯 '+n+'連続！','🔥 '+n+'連続！！','⚡️ '+n+'連続！！！','💥 '+n+'連続！！！！','🏆 '+n+'連続！！！！！','👑 '+n+'連続！！！！！！','🌋 '+n+'連続・鬼神'],
     popOverlay: 'linear-gradient(135deg,rgba(255,215,0,.22),rgba(61,214,140,.10))',
     comboLabel: (n) => n >= 2 ? '×'+n+' COMBO!' : '+1',
-    comboColors: ['','#3DD68C','#FFA040','#FF5820','#FFD700','#FFE840','#EE88FF'],
+    comboColors: ['','#3DD68C','#FFA040','#FF5820','#FFD700','#FFE840','#EE88FF','#FF3D7F'],
     useConfetti: true, rainType: 'confetti',
     useFireworks: true,
     useLightning: true,
-    lightningCols: {3:'rgba(255,120,32,.95)',4:'rgba(255,210,0,1)',5:'rgba(255,235,0,1)',6:'rgba(200,80,255,1)'},
+    lightningCols: {3:'rgba(255,120,32,.95)',4:'rgba(255,210,0,1)',5:'rgba(255,235,0,1)',6:'rgba(200,80,255,1)',7:'rgba(255,61,127,1)'},
     useGlitch: true,
     useMedalDrop: true,
-    floaterGlyphs: { 5:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉'], 6:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉','🎊','🥳','🌈','💎','👑','🎆'] },
+    floaterGlyphs: { 5:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉'], 6:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉','🎊','🥳','🌈','💎','👑','🎆'], 7:['🔥','⚡️','💥','🏆','✨','🌟','💫','🎉','🎊','🥳','🌈','💎','👑','🎆','🌋','☄️'] },
     fastLabel: '⚡ 速答！',
-    tierUpLabel: (t) => '🔥 TIER ' + Math.max(1, Math.min(t, 6)) + ' 突入',
+    hardLabel: '💪 難問突破！',
+    hardColors: ['#FF5722','#FFD700','#FFFFFF','#FF8A50','#FFB300'],
+    recoverLabel: '🔄 立て直し！',
+    recoverColors: ['#3DD68C','#5EF0A8','#FFFFFF','#A5F3C4'],
+    freshLabel: '🌱 初見突破',
+    revengeLabel: '⚔️ リベンジ達成',
+    fastLabels: ['⚡ 一閃！','⚡ 速答！','⚡ ナイス'],
+    tierUpLabel: (t) => '🔥 TIER ' + Math.max(1, Math.min(t, 7)) + ' 突入',
     signature: (n) => '🔥 ' + n + ' 連鎖',
     zoneGlyphs: ['🔥','✨','💥'],
     zoneColors: ['#FFA040','#FFD700','#FF5820']
@@ -1002,32 +1025,40 @@ const EXAM_EFFECT_THEMES = {
       3: ['#FF2BD6','#00E5FF','#FFFFFF','#7A5CFF','#39FF88'],
       4: ['#00E5FF','#FF2BD6','#FFFFFF','#7A5CFF','#39FF88','#00FFC8'],
       5: ['#00E5FF','#FF2BD6','#7A5CFF','#FFFFFF','#39FF88','#00FFC8','#FFE600','#FF2BD6'],
-      6: ['#FF2BD6','#00E5FF','#7A5CFF','#39FF88','#FFFFFF','#00FFC8','#FFE600','#FF6EC7']
+      6: ['#FF2BD6','#00E5FF','#7A5CFF','#39FF88','#FFFFFF','#00FFC8','#FFE600','#FF6EC7'],
+      7: ['#FF3131','#FF2BD6','#00E5FF','#7A5CFF','#39FF88','#FFFFFF','#00FFC8','#FFE600','#FF6EC7']
     },
     shapes: () => ['square','shard'],
-    ringColor: (tier) => tier >= 6 ? 'rgba(255,43,214,.9)' : tier >= 4 ? 'rgba(0,229,255,.9)' : 'rgba(122,92,255,.8)',
-    fullscreenCols:  ['','','#00E5FF','#FF2BD6','#7A5CFF','#39FF88','#FFE600'],
-    fullscreenGlow:  ['','','0,229,255','255,43,214','122,92,255','57,255,136','255,230,0'],
-    flashColors: ['','','rgba(0,229,255,.30)','rgba(255,43,214,.42)','rgba(122,92,255,.62)','rgba(57,255,136,.70)','rgba(255,230,0,.72)'],
-    borderColors: {4:'#00E5FF',5:'#FF2BD6',6:'#7A5CFF'},
-    bgRgbs: ['','0,229,255','255,43,214','122,92,255','57,255,136','0,255,200','255,230,0'],
-    meterGrads: ['','linear-gradient(90deg,#00E5FF,#39FF88)','linear-gradient(90deg,#7A5CFF,#00E5FF)','linear-gradient(90deg,#FF2BD6,#7A5CFF)','linear-gradient(90deg,#39FF88,#00FFC8)','linear-gradient(90deg,#00E5FF,#FF2BD6,#7A5CFF)','linear-gradient(90deg,#FF2BD6,#00E5FF,#39FF88,#FFE600)'],
-    labels: (n) => ['','⚡️ x'+n+' STREAK','💠 x'+n+' STREAK!!','🔷 x'+n+' OVERDRIVE','🤖 x'+n+' OVERDRIVE!!','👾 x'+n+' MAXIMUM','🛸 x'+n+' LIMIT BREAK'],
+    ringColor: (tier) => tier >= 7 ? 'rgba(255,49,49,.92)' : tier >= 6 ? 'rgba(255,43,214,.9)' : tier >= 4 ? 'rgba(0,229,255,.9)' : 'rgba(122,92,255,.8)',
+    fullscreenCols:  ['','','#00E5FF','#FF2BD6','#7A5CFF','#39FF88','#FFE600','#FF3131'],
+    fullscreenGlow:  ['','','0,229,255','255,43,214','122,92,255','57,255,136','255,230,0','255,49,49'],
+    flashColors: ['','','rgba(0,229,255,.30)','rgba(255,43,214,.42)','rgba(122,92,255,.62)','rgba(57,255,136,.70)','rgba(255,230,0,.72)','rgba(255,49,49,.78)'],
+    borderColors: {4:'#00E5FF',5:'#FF2BD6',6:'#7A5CFF',7:'#FF3131'},
+    bgRgbs: ['','0,229,255','255,43,214','122,92,255','57,255,136','0,255,200','255,230,0','255,49,49'],
+    meterGrads: ['','linear-gradient(90deg,#00E5FF,#39FF88)','linear-gradient(90deg,#7A5CFF,#00E5FF)','linear-gradient(90deg,#FF2BD6,#7A5CFF)','linear-gradient(90deg,#39FF88,#00FFC8)','linear-gradient(90deg,#00E5FF,#FF2BD6,#7A5CFF)','linear-gradient(90deg,#FF2BD6,#00E5FF,#39FF88,#FFE600)','linear-gradient(90deg,#FF3131,#FF2BD6,#00E5FF,#39FF88,#FFE600)'],
+    labels: (n) => ['','⚡️ x'+n+' STREAK','💠 x'+n+' STREAK!!','🔷 x'+n+' OVERDRIVE','🤖 x'+n+' OVERDRIVE!!','👾 x'+n+' MAXIMUM','🛸 x'+n+' LIMIT BREAK','🌐 x'+n+' SINGULARITY'],
     popOverlay: 'linear-gradient(135deg,rgba(0,229,255,.28),rgba(255,43,214,.14))',
     comboLabel: (n) => n >= 2 ? '⚡️[ x'+n+' ]' : '+1',
-    comboColors: ['','#00E5FF','#7A5CFF','#FF2BD6','#39FF88','#00FFC8','#FFE600'],
+    comboColors: ['','#00E5FF','#7A5CFF','#FF2BD6','#39FF88','#00FFC8','#FFE600','#FF3131'],
     correctEmoji: ['⚡️','💠','🔷'],
     floaterScale: 1.5,
     fx: { rgb: '0,229,255', hex: '#00E5FF', particles: ['#00E5FF','#7A5CFF','#FF2BD6','#39FF88','#FFFFFF'], sparkle: ['#FFE600','#39FF88','#00FFC8'], glyph: '⚡️' },
     useConfetti: false, rainType: 'digital',
     useFireworks: false, useCircuitPulse: true,
     useLightning: true,
-    lightningCols: {3:'rgba(0,229,255,.95)',4:'rgba(255,43,214,1)',5:'rgba(122,92,255,1)',6:'rgba(57,255,136,1)'},
+    lightningCols: {3:'rgba(0,229,255,.95)',4:'rgba(255,43,214,1)',5:'rgba(122,92,255,1)',6:'rgba(57,255,136,1)',7:'rgba(255,49,49,1)'},
     useGlitch: true,
     useHeavyGlitch: true,
-    floaterGlyphs: { 5:['⚡️','💠','🔷','👾','🤖'], 6:['⚡️','💠','🔷','👾','🛸','🤖','🔋','📡'] },
+    floaterGlyphs: { 5:['⚡️','💠','🔷','👾','🤖'], 6:['⚡️','💠','🔷','👾','🛸','🤖','🔋','📡'], 7:['⚡️','💠','🔷','👾','🛸','🤖','🔋','📡','🌐','🧬'] },
     fastLabel: '⚡ FAST!',
-    tierUpLabel: (t) => '▲ LEVEL ' + Math.max(1, Math.min(t, 6)) + ' UNLOCKED',
+    hardLabel: '💠 HARD CLEAR',
+    hardColors: ['#FF2BD6','#00E5FF','#FFFFFF','#7A5CFF','#FFE600'],
+    recoverLabel: '🔄 REBOOT',
+    recoverColors: ['#39FF88','#00FFC8','#FFFFFF','#00E5FF'],
+    freshLabel: '🆕 FIRST TRY',
+    revengeLabel: '⚔️ REVENGE',
+    fastLabels: ['⚡ INSTANT!','⚡ FAST!','⚡ GOOD'],
+    tierUpLabel: (t) => '▲ LEVEL ' + Math.max(1, Math.min(t, 7)) + ' UNLOCKED',
     signature: (n) => 'SYNC ' + Math.min(99, 40 + n * 3) + '%',
     zoneGlyphs: ['⚡️','💠','🔷'],
     zoneColors: ['#00E5FF','#FF2BD6','#7A5CFF']
@@ -1038,20 +1069,21 @@ const EXAM_EFFECT_THEMES = {
       3: ['#C93A3A','#8B1E1E','#1a1a1a','#C9A24B','#F5EFE0'],
       4: ['#C93A3A','#1a1a1a','#C9A24B','#F5EFE0','#8B1E1E','#E8C468'],
       5: ['#C93A3A','#8B1E1E','#1a1a1a','#C9A24B','#F5EFE0','#E8C468','#4A4A4A','#FFD9D9'],
-      6: ['#C93A3A','#8B1E1E','#1a1a1a','#C9A24B','#F5EFE0','#E8C468','#FFD9D9','#2b2b2b']
+      6: ['#C93A3A','#8B1E1E','#1a1a1a','#C9A24B','#F5EFE0','#E8C468','#FFD9D9','#2b2b2b'],
+      7: ['#D4AF37','#C93A3A','#8B1E1E','#1a1a1a','#C9A24B','#F5EFE0','#E8C468','#FFD9D9']
     },
     shapes: () => ['blob'],
-    ringColor: (tier) => tier >= 5 ? 'rgba(26,26,26,.75)' : 'rgba(201,58,58,.75)',
-    fullscreenCols:  ['','','#C93A3A','#8B1E1E','#C9A24B','#E8C468','#1a1a1a'],
-    fullscreenGlow:  ['','','201,58,58','139,30,30','201,162,75','232,196,104','26,26,26'],
-    flashColors: ['','','rgba(201,58,58,.24)','rgba(139,30,30,.34)','rgba(201,162,75,.40)','rgba(26,26,26,.50)','rgba(201,58,58,.55)'],
-    borderColors: {4:'#C93A3A',5:'#1a1a1a',6:'#C9A24B'},
-    bgRgbs: ['','245,239,224','201,58,58','139,30,30','201,162,75','232,196,104','26,26,26'],
-    meterGrads: ['','linear-gradient(90deg,#C9A24B,#E8C468)','linear-gradient(90deg,#C93A3A,#E8925C)','linear-gradient(90deg,#8B1E1E,#C93A3A)','linear-gradient(90deg,#C9A24B,#C93A3A)','linear-gradient(90deg,#1a1a1a,#C93A3A,#C9A24B)','linear-gradient(90deg,#8B1E1E,#1a1a1a,#C9A24B)'],
-    labels: (n) => ['','🖌️ '+n+'連続','💮 '+n+'連続','🏮 '+n+'連続','⛩️ '+n+'連続・見事','🀄 '+n+'連続・天晴','🐉 '+n+'連続・極'],
+    ringColor: (tier) => tier >= 7 ? 'rgba(212,175,55,.85)' : tier >= 5 ? 'rgba(26,26,26,.75)' : 'rgba(201,58,58,.75)',
+    fullscreenCols:  ['','','#C93A3A','#8B1E1E','#C9A24B','#E8C468','#1a1a1a','#D4AF37'],
+    fullscreenGlow:  ['','','201,58,58','139,30,30','201,162,75','232,196,104','26,26,26','212,175,55'],
+    flashColors: ['','','rgba(201,58,58,.24)','rgba(139,30,30,.34)','rgba(201,162,75,.40)','rgba(26,26,26,.50)','rgba(201,58,58,.55)','rgba(212,175,55,.60)'],
+    borderColors: {4:'#C93A3A',5:'#1a1a1a',6:'#C9A24B',7:'#D4AF37'},
+    bgRgbs: ['','245,239,224','201,58,58','139,30,30','201,162,75','232,196,104','26,26,26','212,175,55'],
+    meterGrads: ['','linear-gradient(90deg,#C9A24B,#E8C468)','linear-gradient(90deg,#C93A3A,#E8925C)','linear-gradient(90deg,#8B1E1E,#C93A3A)','linear-gradient(90deg,#C9A24B,#C93A3A)','linear-gradient(90deg,#1a1a1a,#C93A3A,#C9A24B)','linear-gradient(90deg,#8B1E1E,#1a1a1a,#C9A24B)','linear-gradient(90deg,#D4AF37,#8B1E1E,#1a1a1a,#C93A3A)'],
+    labels: (n) => ['','🖌️ '+n+'連続','💮 '+n+'連続','🏮 '+n+'連続','⛩️ '+n+'連続・見事','🀄 '+n+'連続・天晴','🐉 '+n+'連続・極','🔱 '+n+'連続・神域'],
     popOverlay: 'linear-gradient(135deg,rgba(201,58,58,.22),rgba(20,20,20,.12))',
     comboLabel: (n) => n >= 2 ? '💮×'+n+' 連続' : '+1',
-    comboColors: ['','#C93A3A','#8B1E1E','#1a1a1a','#C9A24B','#E8C468','#8B1E1E'],
+    comboColors: ['','#C93A3A','#8B1E1E','#1a1a1a','#C9A24B','#E8C468','#8B1E1E','#D4AF37'],
     correctEmoji: ['💮','🖌️','🏮'],
     floaterScale: 1.5,
     fx: { rgb: '201,58,58', hex: '#C93A3A', particles: ['#C93A3A','#8B1E1E','#1a1a1a','#C9A24B','#F5EFE0'], sparkle: ['#C9A24B','#E8C468','#8B1E1E'], glyph: '○' },
@@ -1059,9 +1091,16 @@ const EXAM_EFFECT_THEMES = {
     useFireworks: false, useBrushCircle: true,
     useLightning: false,
     useGlitch: false, useBrushSwipe: true,
-    floaterGlyphs: { 5:['💮','🏮','🎐','🧧','⛩️'], 6:['💮','🏮','⛩️','🀄','🎐','🧧','🎏','🐉'] },
+    floaterGlyphs: { 5:['💮','🏮','🎐','🧧','⛩️'], 6:['💮','🏮','⛩️','🀄','🎐','🧧','🎏','🐉'], 7:['💮','🏮','⛩️','🀄','🎐','🧧','🎏','🐉','🔱','🎴'] },
     fastLabel: '⚡ 早業！',
-    tierUpLabel: (t) => '『 ' + (['','初伝','中伝','奥伝','皆伝','免許','極意'][Math.max(1, Math.min(t, 6))] || '') + ' 』',
+    hardLabel: '🖌️ 難所を制す',
+    hardColors: ['#C93A3A','#1a1a1a','#C9A24B','#F5EFE0','#8B1E1E'],
+    recoverLabel: '🔄 持ち直し',
+    recoverColors: ['#C9A24B','#E8C468','#F5EFE0','#C93A3A'],
+    freshLabel: '🌱 初手にて',
+    revengeLabel: '⚔️ 雪辱',
+    fastLabels: ['⚡ 電光石火','⚡ 早業！','⚡ 上々'],
+    tierUpLabel: (t) => '『 ' + (['','初伝','中伝','奥伝','皆伝','免許','極意','神域'][Math.max(1, Math.min(t, 7))] || '') + ' 』',
     signature: (n) => '連 ' + n + ' 手',
     zoneGlyphs: ['💮','🏮','🎐'],
     zoneColors: ['#C93A3A','#C9A24B','#F5EFE0']
@@ -1072,20 +1111,21 @@ const EXAM_EFFECT_THEMES = {
       3: ['#00E676','#FFEA00','#FFFFFF','#69F0AE','#00BFA5'],
       4: ['#FFEA00','#FF9100','#00E676','#FFFFFF','#69F0AE','#FF5252'],
       5: ['#FF9100','#FF1744','#FFEA00','#FFFFFF','#00E676','#FF5252','#00E5FF'],
-      6: ['#FF1744','#00E5FF','#FFEA00','#FFFFFF','#FF9100','#00E676','#D500F9','#FF5252']
+      6: ['#FF1744','#00E5FF','#FFEA00','#FFFFFF','#FF9100','#00E676','#D500F9','#FF5252'],
+      7: ['#D500F9','#FF1744','#00E5FF','#FFEA00','#FFFFFF','#FF9100','#00E676','#FF5252']
     },
     shapes: () => ['circle','plus'],
-    ringColor: (tier) => tier >= 6 ? 'rgba(0,229,255,.9)' : tier >= 4 ? 'rgba(255,23,68,.85)' : 'rgba(0,230,118,.8)',
-    fullscreenCols:  ['','','#00E676','#FFEA00','#FF9100','#FF1744','#00E5FF'],
-    fullscreenGlow:  ['','','0,230,118','255,234,0','255,145,0','255,23,68','0,229,255'],
-    flashColors: ['','','rgba(0,230,118,.28)','rgba(255,234,0,.34)','rgba(255,145,0,.5)','rgba(255,23,68,.65)','rgba(0,229,255,.75)'],
-    borderColors: {4:'#FF9100',5:'#FF1744',6:'#00E5FF'},
-    bgRgbs: ['','0,230,118','255,234,0','255,145,0','255,23,68','0,229,255','213,0,249'],
-    meterGrads: ['','linear-gradient(90deg,#00E676,#69F0AE)','linear-gradient(90deg,#FFEA00,#FFF176)','linear-gradient(90deg,#FF9100,#FFC246)','linear-gradient(90deg,#FF1744,#FF6E7F)','linear-gradient(90deg,#00E5FF,#00E676,#FF1744)','linear-gradient(90deg,#D500F9,#00E5FF,#FF1744,#FFEA00)'],
-    labels: (n) => ['','💓 '+n+'連続・正常波形','📈 '+n+'連続・好調','⚡ '+n+'連続・覚醒','🩺 '+n+'連続・絶好調','🫀 '+n+'連続・フル稼働','🏥 '+n+'連続・完全治癒レベル'],
+    ringColor: (tier) => tier >= 7 ? 'rgba(213,0,249,.92)' : tier >= 6 ? 'rgba(0,229,255,.9)' : tier >= 4 ? 'rgba(255,23,68,.85)' : 'rgba(0,230,118,.8)',
+    fullscreenCols:  ['','','#00E676','#FFEA00','#FF9100','#FF1744','#00E5FF','#D500F9'],
+    fullscreenGlow:  ['','','0,230,118','255,234,0','255,145,0','255,23,68','0,229,255','213,0,249'],
+    flashColors: ['','','rgba(0,230,118,.28)','rgba(255,234,0,.34)','rgba(255,145,0,.5)','rgba(255,23,68,.65)','rgba(0,229,255,.75)','rgba(213,0,249,.80)'],
+    borderColors: {4:'#FF9100',5:'#FF1744',6:'#00E5FF',7:'#D500F9'},
+    bgRgbs: ['','0,230,118','255,234,0','255,145,0','255,23,68','0,229,255','213,0,249','213,0,249'],
+    meterGrads: ['','linear-gradient(90deg,#00E676,#69F0AE)','linear-gradient(90deg,#FFEA00,#FFF176)','linear-gradient(90deg,#FF9100,#FFC246)','linear-gradient(90deg,#FF1744,#FF6E7F)','linear-gradient(90deg,#00E5FF,#00E676,#FF1744)','linear-gradient(90deg,#D500F9,#00E5FF,#FF1744,#FFEA00)','linear-gradient(90deg,#D500F9,#FF1744,#00E5FF,#FFEA00,#00E676)'],
+    labels: (n) => ['','💓 '+n+'連続・正常波形','📈 '+n+'連続・好調','⚡ '+n+'連続・覚醒','🩺 '+n+'連続・絶好調','🫀 '+n+'連続・フル稼働','🏥 '+n+'連続・完全治癒レベル','🧬 '+n+'連続・限界突破'],
     popOverlay: 'linear-gradient(135deg,rgba(0,230,118,.22),rgba(0,191,165,.12))',
     comboLabel: (n) => n >= 2 ? '💓×'+n+' 安定波形' : '+1',
-    comboColors: ['','#00E676','#FFEA00','#FF9100','#FF1744','#00E5FF','#D500F9'],
+    comboColors: ['','#00E676','#FFEA00','#FF9100','#FF1744','#00E5FF','#D500F9','#D500F9'],
     correctEmoji: ['➕','💊','🩺'],
     floaterScale: 1.3,
     fx: { rgb: '0,230,118', hex: '#00E676', particles: ['#00E676','#69F0AE','#FFFFFF','#00BFA5','#FFEA00'], sparkle: ['#FF1744','#FFFFFF','#00E5FF'], glyph: '➕' },
@@ -1095,9 +1135,17 @@ const EXAM_EFFECT_THEMES = {
     useLightning: false,
     useGlitch: true,
     pulseBeat: true, useDefib: true,
-    floaterGlyphs: { 5:['💊','🩺','❤️','➕','💉'], 6:['💊','🩺','❤️','➕','💉','🫀','⚕️','🏥'] },
+    floaterGlyphs: { 5:['💊','🩺','❤️','➕','💉'], 6:['💊','🩺','❤️','➕','💉','🫀','⚕️','🏥'], 7:['💊','🩺','❤️','➕','💉','🫀','⚕️','🏥','🧬','🔬'] },
     fastLabel: '⚡ 即断！',
-    tierUpLabel: (t) => '♥ STAGE ' + Math.max(1, Math.min(t, 6)),
+    hardLabel: '🩺 重症例クリア',
+    hardColors: ['#FF1744','#FFEA00','#FFFFFF','#FF9100','#00E676'],
+    recoverLabel: '🔄 リズム回復',
+    recoverColors: ['#00E676','#69F0AE','#FFFFFF','#00BFA5'],
+    freshLabel: '🌱 初回で正診',
+    revengeLabel: '⚔️ 再挑戦成功',
+    fastLabels: ['⚡ 即断即決！','⚡ 即断！','⚡ good'],
+    useFlatline: true,
+    tierUpLabel: (t) => '♥ STAGE ' + Math.max(1, Math.min(t, 7)),
     signature: (n) => '♥ ' + Math.min(180, 60 + n * 6) + ' bpm',
     zoneGlyphs: ['➕','💓','🩺'],
     zoneColors: ['#00E676','#FF1744','#FFEA00']
@@ -1108,20 +1156,21 @@ const EXAM_EFFECT_THEMES = {
       3: ['#7C4DFF','#448AFF','#FFD54F','#FFFFFF','#B388FF'],
       4: ['#448AFF','#7C4DFF','#FFD54F','#FFFFFF','#B388FF','#40C4FF'],
       5: ['#7C4DFF','#40C4FF','#FFD54F','#FFFFFF','#B388FF','#FF80AB','#448AFF'],
-      6: ['#FFD54F','#7C4DFF','#40C4FF','#FF80AB','#FFFFFF','#B388FF','#448AFF','#E040FB']
+      6: ['#FFD54F','#7C4DFF','#40C4FF','#FF80AB','#FFFFFF','#B388FF','#448AFF','#E040FB'],
+      7: ['#64FFDA','#FFD54F','#7C4DFF','#40C4FF','#FF80AB','#FFFFFF','#B388FF','#448AFF','#E040FB']
     },
     shapes: () => ['star','circle'],
-    ringColor: (tier) => tier >= 6 ? 'rgba(255,213,79,.9)' : tier >= 4 ? 'rgba(124,77,255,.85)' : 'rgba(68,138,255,.75)',
-    fullscreenCols:  ['','','#448AFF','#7C4DFF','#40C4FF','#FFD54F','#E040FB'],
-    fullscreenGlow:  ['','','68,138,255','124,77,255','64,196,255','255,213,79','224,64,251'],
-    flashColors: ['','','rgba(68,138,255,.28)','rgba(124,77,255,.36)','rgba(64,196,255,.5)','rgba(255,213,79,.6)','rgba(224,64,251,.7)'],
-    borderColors: {4:'#40C4FF',5:'#FFD54F',6:'#E040FB'},
-    bgRgbs: ['','68,138,255','124,77,255','64,196,255','255,213,79','224,64,251','179,136,255'],
-    meterGrads: ['','linear-gradient(90deg,#448AFF,#82B1FF)','linear-gradient(90deg,#7C4DFF,#B388FF)','linear-gradient(90deg,#40C4FF,#80D8FF)','linear-gradient(90deg,#FFD54F,#FFECB3)','linear-gradient(90deg,#E040FB,#7C4DFF,#40C4FF)','linear-gradient(90deg,#FFD54F,#E040FB,#7C4DFF,#40C4FF)'],
-    labels: (n) => ['','⭐ '+n+'連続','🌟 '+n+'連続','☄️ '+n+'連続・加速中','🚀 '+n+'連続・光速','🪐 '+n+'連続・銀河制覇','🌌 '+n+'連続・宇宙の覇者'],
+    ringColor: (tier) => tier >= 7 ? 'rgba(100,255,218,.92)' : tier >= 6 ? 'rgba(255,213,79,.9)' : tier >= 4 ? 'rgba(124,77,255,.85)' : 'rgba(68,138,255,.75)',
+    fullscreenCols:  ['','','#448AFF','#7C4DFF','#40C4FF','#FFD54F','#E040FB','#64FFDA'],
+    fullscreenGlow:  ['','','68,138,255','124,77,255','64,196,255','255,213,79','224,64,251','100,255,218'],
+    flashColors: ['','','rgba(68,138,255,.28)','rgba(124,77,255,.36)','rgba(64,196,255,.5)','rgba(255,213,79,.6)','rgba(224,64,251,.7)','rgba(100,255,218,.75)'],
+    borderColors: {4:'#40C4FF',5:'#FFD54F',6:'#E040FB',7:'#64FFDA'},
+    bgRgbs: ['','68,138,255','124,77,255','64,196,255','255,213,79','224,64,251','179,136,255','100,255,218'],
+    meterGrads: ['','linear-gradient(90deg,#448AFF,#82B1FF)','linear-gradient(90deg,#7C4DFF,#B388FF)','linear-gradient(90deg,#40C4FF,#80D8FF)','linear-gradient(90deg,#FFD54F,#FFECB3)','linear-gradient(90deg,#E040FB,#7C4DFF,#40C4FF)','linear-gradient(90deg,#FFD54F,#E040FB,#7C4DFF,#40C4FF)','linear-gradient(90deg,#64FFDA,#E040FB,#FFD54F,#7C4DFF,#40C4FF)'],
+    labels: (n) => ['','⭐ '+n+'連続','🌟 '+n+'連続','☄️ '+n+'連続・加速中','🚀 '+n+'連続・光速','🪐 '+n+'連続・銀河制覇','🌌 '+n+'連続・宇宙の覇者','🌠 '+n+'連続・特異点'],
     popOverlay: 'linear-gradient(135deg,rgba(124,77,255,.24),rgba(64,196,255,.12))',
     comboLabel: (n) => n >= 2 ? '🌠×'+n+' WARP' : '+1',
-    comboColors: ['','#448AFF','#7C4DFF','#40C4FF','#FFD54F','#E040FB','#B388FF'],
+    comboColors: ['','#448AFF','#7C4DFF','#40C4FF','#FFD54F','#E040FB','#B388FF','#64FFDA'],
     correctEmoji: ['⭐','✨','🌟'],
     fx: { rgb: '124,77,255', hex: '#7C4DFF', particles: ['#7C4DFF','#448AFF','#40C4FF','#FFFFFF','#FFD54F'], sparkle: ['#FFD54F','#FFFFFF','#E040FB'], glyph: '✦' },
     useConfetti: false, rainType: 'warp',
@@ -1130,9 +1179,16 @@ const EXAM_EFFECT_THEMES = {
     useLightning: false,
     useGlitch: true,
     useBlackHole: true,
-    floaterGlyphs: { 5:['🌟','⭐','☄️','🪐','🚀'], 6:['🌟','⭐','☄️','🪐','🚀','🌌','👽','🛰️'] },
+    floaterGlyphs: { 5:['🌟','⭐','☄️','🪐','🚀'], 6:['🌟','⭐','☄️','🪐','🚀','🌌','👽','🛰️'], 7:['🌟','⭐','☄️','🪐','🚀','🌌','👽','🛰️','🌠','🔭'] },
     fastLabel: '⚡ 光速回答！',
-    tierUpLabel: (t) => '🚀 PHASE ' + Math.max(1, Math.min(t, 6)),
+    hardLabel: '☄️ 難関突破',
+    hardColors: ['#E040FB','#FFD54F','#FFFFFF','#7C4DFF','#40C4FF'],
+    recoverLabel: '🔄 軌道修正',
+    recoverColors: ['#40C4FF','#B388FF','#FFFFFF','#448AFF'],
+    freshLabel: '🌱 初回で到達',
+    revengeLabel: '⚔️ 再突入成功',
+    fastLabels: ['⚡ 超光速！','⚡ 光速回答！','⚡ good'],
+    tierUpLabel: (t) => '🚀 PHASE ' + Math.max(1, Math.min(t, 7)),
     signature: (n) => 'WARP ' + (n * 0.4).toFixed(1) + 'c',
     zoneGlyphs: ['⭐','✨','☄️'],
     zoneColors: ['#7C4DFF','#40C4FF','#FFD54F']
@@ -1143,20 +1199,21 @@ const EXAM_EFFECT_THEMES = {
       3: ['#FF1053','#00A8E8','#00E676','#FFD400','#FFFFFF'],
       4: ['#00A8E8','#FF1053','#FFD400','#00E676','#FFFFFF','#FF7A00'],
       5: ['#FFD400','#FF1053','#00A8E8','#00E676','#FFFFFF','#FF7A00','#B026FF'],
-      6: ['#FF1053','#00A8E8','#FFD400','#00E676','#FF7A00','#B026FF','#FFFFFF']
+      6: ['#FF1053','#00A8E8','#FFD400','#00E676','#FF7A00','#B026FF','#FFFFFF'],
+      7: ['#39FF14','#FF1053','#00A8E8','#FFD400','#00E676','#FF7A00','#B026FF','#FFFFFF']
     },
     shapes: () => ['square','circle'],
-    ringColor: (tier) => tier >= 6 ? 'rgba(176,38,255,.9)' : tier >= 4 ? 'rgba(255,16,83,.85)' : 'rgba(0,168,232,.75)',
-    fullscreenCols:  ['','','#00A8E8','#FF1053','#FFD400','#FF7A00','#B026FF'],
-    fullscreenGlow:  ['','','0,168,232','255,16,83','255,212,0','255,122,0','176,38,255'],
-    flashColors: ['','','rgba(0,168,232,.28)','rgba(255,16,83,.36)','rgba(255,212,0,.5)','rgba(255,122,0,.62)','rgba(176,38,255,.72)'],
-    borderColors: {4:'#FFD400',5:'#FF7A00',6:'#B026FF'},
-    bgRgbs: ['','0,168,232','255,16,83','255,212,0','255,122,0','176,38,255','0,230,118'],
-    meterGrads: ['','linear-gradient(90deg,#00A8E8,#4FD8FF)','linear-gradient(90deg,#FF1053,#FF6B8F)','linear-gradient(90deg,#FFD400,#FFF07A)','linear-gradient(90deg,#FF7A00,#FFB74D)','linear-gradient(90deg,#B026FF,#FF1053,#00A8E8)','linear-gradient(90deg,#FF1053,#FFD400,#00A8E8,#B026FF)'],
-    labels: (n) => ['','⭐ '+n+' HIT','👾 '+n+' COMBO','🕹️ '+n+' COMBO!!','💰 '+n+' HIGH SCORE','🏆 '+n+' PERFECT!','👑 '+n+' 1UP!! GAME MASTER'],
+    ringColor: (tier) => tier >= 7 ? 'rgba(57,255,20,.92)' : tier >= 6 ? 'rgba(176,38,255,.9)' : tier >= 4 ? 'rgba(255,16,83,.85)' : 'rgba(0,168,232,.75)',
+    fullscreenCols:  ['','','#00A8E8','#FF1053','#FFD400','#FF7A00','#B026FF','#39FF14'],
+    fullscreenGlow:  ['','','0,168,232','255,16,83','255,212,0','255,122,0','176,38,255','57,255,20'],
+    flashColors: ['','','rgba(0,168,232,.28)','rgba(255,16,83,.36)','rgba(255,212,0,.5)','rgba(255,122,0,.62)','rgba(176,38,255,.72)','rgba(57,255,20,.75)'],
+    borderColors: {4:'#FFD400',5:'#FF7A00',6:'#B026FF',7:'#39FF14'},
+    bgRgbs: ['','0,168,232','255,16,83','255,212,0','255,122,0','176,38,255','0,230,118','57,255,20'],
+    meterGrads: ['','linear-gradient(90deg,#00A8E8,#4FD8FF)','linear-gradient(90deg,#FF1053,#FF6B8F)','linear-gradient(90deg,#FFD400,#FFF07A)','linear-gradient(90deg,#FF7A00,#FFB74D)','linear-gradient(90deg,#B026FF,#FF1053,#00A8E8)','linear-gradient(90deg,#FF1053,#FFD400,#00A8E8,#B026FF)','linear-gradient(90deg,#39FF14,#B026FF,#FF1053,#FFD400,#00A8E8)'],
+    labels: (n) => ['','⭐ '+n+' HIT','👾 '+n+' COMBO','🕹️ '+n+' COMBO!!','💰 '+n+' HIGH SCORE','🏆 '+n+' PERFECT!','👑 '+n+' 1UP!! GAME MASTER','🌟 '+n+' LEGEND!!'],
     popOverlay: 'linear-gradient(135deg,rgba(0,168,232,.24),rgba(255,16,83,.12))',
     comboLabel: (n) => n >= 2 ? '👾 x'+n+' HIT!' : '+1',
-    comboColors: ['','#00A8E8','#FF1053','#FFD400','#FF7A00','#B026FF','#00E676'],
+    comboColors: ['','#00A8E8','#FF1053','#FFD400','#FF7A00','#B026FF','#00E676','#39FF14'],
     correctEmoji: ['⭐','💎','🔺'],
     floaterScale: 1.2,
     fx: { rgb: '255,16,83', hex: '#FF1053', particles: ['#FF1053','#00A8E8','#FFD400','#00E676','#FFFFFF'], sparkle: ['#FFD400','#FFFFFF','#B026FF'], glyph: '★' },
@@ -1166,9 +1223,16 @@ const EXAM_EFFECT_THEMES = {
     useLightning: false,
     useGlitch: true,
     useCRT: true, chunkyShake: true,
-    floaterGlyphs: { 5:['🕹️','👾','🎮','⭐','💎'], 6:['🕹️','👾','🎮','⭐','💎','🍄','🏆','💰'] },
+    floaterGlyphs: { 5:['🕹️','👾','🎮','⭐','💎'], 6:['🕹️','👾','🎮','⭐','💎','🍄','🏆','💰'], 7:['🕹️','👾','🎮','⭐','💎','🍄','🏆','💰','🌟','🔫'] },
     fastLabel: '⚡ QUICK!',
-    tierUpLabel: (t) => '★ STAGE ' + Math.max(1, Math.min(t, 6)) + ' CLEAR',
+    hardLabel: '👾 BOSS DOWN',
+    hardColors: ['#FF1053','#FFD400','#FFFFFF','#B026FF','#FF7A00'],
+    recoverLabel: '🔄 CONTINUE!',
+    recoverColors: ['#00E676','#00A8E8','#FFFFFF','#FFD400'],
+    freshLabel: '🆕 NO MISS',
+    revengeLabel: '⚔️ REMATCH WIN',
+    fastLabels: ['⚡ PERFECT!','⚡ QUICK!','⚡ NICE'],
+    tierUpLabel: (t) => '★ STAGE ' + Math.max(1, Math.min(t, 7)) + ' CLEAR',
     signature: (n) => 'SCORE ' + (n * 1000).toLocaleString('en-US'),
     zoneGlyphs: ['★','◆','▲'],
     zoneColors: ['#FF1053','#00A8E8','#FFD400']
@@ -1179,20 +1243,21 @@ const EXAM_EFFECT_THEMES = {
       3: ['#FFD700','#1a1a1a','#F7E7CE','#FFFFFF','#C9A227'],
       4: ['#FFD700','#F7E7CE','#1a1a1a','#FFFFFF','#C9A227','#FFF3C4'],
       5: ['#FFD700','#F7E7CE','#C9A227','#FFFFFF','#1a1a1a','#FFF3C4','#E5C158'],
-      6: ['#FFD700','#FFF3C4','#F7E7CE','#C9A227','#1a1a1a','#FFFFFF','#E5C158']
+      6: ['#FFD700','#FFF3C4','#F7E7CE','#C9A227','#1a1a1a','#FFFFFF','#E5C158'],
+      7: ['#E5E4E2','#FFD700','#FFF3C4','#F7E7CE','#C9A227','#1a1a1a','#FFFFFF','#E5C158']
     },
     shapes: () => ['circle','gem'],
-    ringColor: (tier) => tier >= 6 ? 'rgba(255,215,0,.95)' : tier >= 4 ? 'rgba(201,162,39,.85)' : 'rgba(255,215,0,.7)',
-    fullscreenCols:  ['','','#FFD700','#C9A227','#F7E7CE','#FFF3C4','#FFD700'],
-    fullscreenGlow:  ['','','255,215,0','201,162,39','247,231,206','255,243,196','255,215,0'],
-    flashColors: ['','','rgba(255,215,0,.24)','rgba(201,162,39,.3)','rgba(247,231,206,.4)','rgba(255,243,196,.55)','rgba(255,215,0,.7)'],
-    borderColors: {4:'#C9A227',5:'#FFD700',6:'#FFF3C4'},
-    bgRgbs: ['','255,215,0','201,162,39','247,231,206','255,243,196','255,215,0','26,26,26'],
-    meterGrads: ['','linear-gradient(90deg,#FFD700,#FFF3C4)','linear-gradient(90deg,#C9A227,#E5C158)','linear-gradient(90deg,#F7E7CE,#FFF3C4)','linear-gradient(90deg,#FFD700,#C9A227)','linear-gradient(90deg,#1a1a1a,#FFD700,#F7E7CE)','linear-gradient(90deg,#FFD700,#1a1a1a,#FFF3C4,#C9A227)'],
-    labels: (n) => ['','✨ '+n+'連続','💎 '+n+'連続','🥂 '+n+'連続・上質','👑 '+n+'連続・至高','🏆 '+n+'連続・栄光','💰 '+n+'連続・完全制覇'],
+    ringColor: (tier) => tier >= 7 ? 'rgba(229,228,226,.95)' : tier >= 6 ? 'rgba(255,215,0,.95)' : tier >= 4 ? 'rgba(201,162,39,.85)' : 'rgba(255,215,0,.7)',
+    fullscreenCols:  ['','','#FFD700','#C9A227','#F7E7CE','#FFF3C4','#FFD700','#E5E4E2'],
+    fullscreenGlow:  ['','','255,215,0','201,162,39','247,231,206','255,243,196','255,215,0','229,228,226'],
+    flashColors: ['','','rgba(255,215,0,.24)','rgba(201,162,39,.3)','rgba(247,231,206,.4)','rgba(255,243,196,.55)','rgba(255,215,0,.7)','rgba(229,228,226,.72)'],
+    borderColors: {4:'#C9A227',5:'#FFD700',6:'#FFF3C4',7:'#E5E4E2'},
+    bgRgbs: ['','255,215,0','201,162,39','247,231,206','255,243,196','255,215,0','26,26,26','229,228,226'],
+    meterGrads: ['','linear-gradient(90deg,#FFD700,#FFF3C4)','linear-gradient(90deg,#C9A227,#E5C158)','linear-gradient(90deg,#F7E7CE,#FFF3C4)','linear-gradient(90deg,#FFD700,#C9A227)','linear-gradient(90deg,#1a1a1a,#FFD700,#F7E7CE)','linear-gradient(90deg,#FFD700,#1a1a1a,#FFF3C4,#C9A227)','linear-gradient(90deg,#E5E4E2,#FFD700,#1a1a1a,#FFF3C4,#C9A227)'],
+    labels: (n) => ['','✨ '+n+'連続','💎 '+n+'連続','🥂 '+n+'連続・上質','👑 '+n+'連続・至高','🏆 '+n+'連続・栄光','💰 '+n+'連続・完全制覇','🌟 '+n+'連続・伝説'],
     popOverlay: 'linear-gradient(135deg,rgba(255,215,0,.26),rgba(26,26,26,.14))',
     comboLabel: (n) => n >= 2 ? '💎×'+n+' JACKPOT' : '+1',
-    comboColors: ['','#FFD700','#C9A227','#F7E7CE','#FFF3C4','#FFD700','#1a1a1a'],
+    comboColors: ['','#FFD700','#C9A227','#F7E7CE','#FFF3C4','#FFD700','#1a1a1a','#E5E4E2'],
     correctEmoji: ['💎','✨','👑'],
     floaterScale: 1.2,
     fx: { rgb: '255,215,0', hex: '#FFD700', particles: ['#FFD700','#F7E7CE','#FFF3C4','#C9A227','#FFFFFF'], sparkle: ['#FFFFFF','#FFD700'], glyph: '♦' },
@@ -1204,9 +1269,16 @@ const EXAM_EFFECT_THEMES = {
     useGlitch: false, useBrushSwipe: true,
     brushColorRgb: '255,215,0',
     useSpotlight: true,
-    floaterGlyphs: { 5:['💎','👑','🏆','💰','✨'], 6:['💎','👑','🏆','💰','✨','🥂','🎩','💍'] },
+    floaterGlyphs: { 5:['💎','👑','🏆','💰','✨'], 6:['💎','👑','🏆','💰','✨','🥂','🎩','💍'], 7:['💎','👑','🏆','💰','✨','🥂','🎩','💍','🌟','🕯️'] },
     fastLabel: '⚡ 即決！',
-    tierUpLabel: (t) => '✦ RANK ' + (['','Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ'][Math.max(1, Math.min(t, 6))] || ''),
+    hardLabel: '💎 高難度クリア',
+    hardColors: ['#FFD700','#C9A227','#FFF3C4','#FFFFFF','#E5C158'],
+    recoverLabel: '🔄 巻き返し',
+    recoverColors: ['#F7E7CE','#FFD700','#FFFFFF','#C9A227'],
+    freshLabel: '🌱 一発正解',
+    revengeLabel: '⚔️ 雪辱達成',
+    fastLabels: ['⚡ 即断即決！','⚡ 即決！','⚡ good'],
+    tierUpLabel: (t) => '✦ RANK ' + (['','Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ','Ⅶ'][Math.max(1, Math.min(t, 7))] || ''),
     signature: (n) => '× ' + n + ' BONUS',
     zoneGlyphs: ['💎','✨','👑'],
     zoneColors: ['#FFD700','#F7E7CE','#FFF3C4']
@@ -1238,10 +1310,25 @@ function _markCardSeen(card) {
 }
 
 function _isFastAnswer(card) {
+  return _fastGrade(card) > 0;
+}
+
+/* A3(2026-08-14): 速答を3段に割る。
+   以前は「3秒以内かどうか」の二値で、迷わず即答したのか少し考えたのかが同じ扱いだった。
+   上に一段足す形にしてあるので、従来「速答」だった帯（〜3秒）はほぼそのまま残る。
+   返り値 3=一閃 / 2=速答 / 1=まずまず / 0=速答ではない。
+   ⚠️ theme.fastLabels の並びは [3段目, 2段目, 1段目]（強い順）。 */
+const FAST_TIER_MS = [2000, 4000, 7000];   // [一閃, 速答, まずまず] の上限
+function _fastGrade(card) {
   const uid = card && card.dataset && card.dataset.uid;
-  if (!uid) return false;
+  if (!uid) return 0;
   const t0 = _examCardSeenAt.get(uid);
-  return !!t0 && (Date.now() - t0) <= FAST_ANSWER_MS;
+  if (!t0) return 0;
+  const dt = Date.now() - t0;
+  if (dt <= FAST_TIER_MS[0]) return 3;
+  if (dt <= FAST_TIER_MS[1]) return 2;
+  if (dt <= FAST_TIER_MS[2]) return 1;
+  return 0;
 }
 
 // 演出の発火座標を可視領域内に収める。直前の正解カードから次カードへのスムーススクロールが
@@ -1287,17 +1374,21 @@ function _examClampFxXY(cx, cy) {
 }
 
 // A1: 速答ボーナス。ラベル＋⚡グリフを選んだ肢の位置から出す
-function _triggerFastBonus(el) {
+// grade は _fastGrade の3段（省略時は従来どおりの「速答」= 2段目）
+function _triggerFastBonus(el, grade) {
   if (_fxOff()) return;
   const theme = _examTheme();
+  const g = grade || 2;
   const r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
   const _b0 = _fxBand();
   const cx0 = r && r.width ? r.left + r.width / 2 : _b0.cx;
   const cy0 = r && r.width ? r.top : _b0.cy;
   const [cx, cy] = _examClampFxXY(cx0, cy0);
   const lab = document.createElement('div');
-  lab.className = 'exam-fast-pop';
-  lab.textContent = theme.fastLabel || '⚡ 速答！';
+  lab.className = 'exam-fast-pop fast-g' + g;
+  // fastLabels は強い順 [一閃, 速答, まずまず]。旧 fastLabel は2段目の文言として残す
+  const labels = theme.fastLabels;
+  lab.textContent = (labels && labels[3 - g]) || theme.fastLabel || '⚡ 速答！';
   lab.style.left = cx + 'px';
   lab.style.top = cy + 'px';
   lab.style.color = (theme.comboColors && theme.comboColors[3]) || '#FFD700';
@@ -1319,7 +1410,7 @@ function _correctShockwave(el) {
   const r = el.getBoundingClientRect();
   if (!r.width) return;
   const theme = _examTheme();
-  const t = Math.max(1, Math.min(_examTier(examStreak) || 1, 6));
+  const t = Math.max(1, Math.min(_examTier(examStreak) || 1, 7));
   const [sx, sy] = _examClampFxXY(r.left + r.width / 2, r.top + r.height / 2);
   try {
     window.MecFX.rings(sx, sy, {
@@ -1364,14 +1455,369 @@ function _traceCardBorder(card) {
   ], { duration: 640, easing: 'cubic-bezier(.3,.7,.4,1)', fill: 'forwards' }).onfinish = () => svg.remove();
 }
 
+/* ══════════ A1: 難問クリア（2026-08-14）══════════
+   正答率60%未満の問題を正解したときだけ出す専用演出。易問と同じ祝い方をすると
+   「何を突破したのか」という情報を捨てることになる。閾値 60 は study.html の
+   フィルタ「難問(<60%)」・gamify.js の hard カウンタと同じ（3か所で揃えること）。
+   ⚠️ data-rate が無い問題（正答率なし）は難問に数えない——出典に数字が載っていない
+   だけで、難しいという意味ではないため。 */
+const EXAM_HARD_RATE = 60;
+
+function _cardRate(card) {
+  const r = card && card.dataset ? card.dataset.rate : null;
+  if (r == null || r === '') return null;
+  const n = parseFloat(r);
+  return isFinite(n) ? n : null;
+}
+function _isHardCard(card) {
+  const n = _cardRate(card);
+  return n != null && n < EXAM_HARD_RATE;
+}
+
+// 低い「ドン」。難問だけ音域を落とす＝画面を見ていなくても難問だと分かる
+function _playHardTone() {
+  if (_correctSound === 'off') return;
+  try {
+    const ctx = _getExamAudioCtx();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const master = ctx.createGain();
+    master.gain.setValueAtTime(0.0001, now);
+    master.gain.exponentialRampToValueAtTime(0.16, now + 0.02);
+    master.gain.exponentialRampToValueAtTime(0.0001, now + 0.72);
+    master.connect(ctx.destination);
+    [98, 146.83, 196].forEach((f, i) => {
+      const osc = ctx.createOscillator(), g = ctx.createGain();
+      const st = now + i * 0.05;
+      osc.type = i === 2 ? 'triangle' : 'sine';
+      osc.frequency.setValueAtTime(f, st);
+      g.gain.setValueAtTime(i === 2 ? 0.5 : 1, st);
+      osc.connect(g); g.connect(master);
+      osc.start(st); osc.stop(now + 0.75);
+    });
+  } catch (e) {}
+}
+
+function _triggerHardClear(el, card) {
+  const theme = _examTheme();
+  const rate = _cardRate(card);
+  _playHardTone();
+  if (_fxOff()) return;
+  const r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
+  const b = _fxBand();
+  const [cx, cy] = _examClampFxXY(
+    r && r.width ? r.left + r.width / 2 : b.cx,
+    r && r.width ? r.top + r.height / 2 : b.cy);
+  const cols = theme.hardColors || ['#FF5722', '#FFD700', '#FFFFFF'];
+  const col = cols[0];
+
+  const lab = document.createElement('div');
+  lab.className = 'exam-hard-pop';
+  lab.innerHTML = '<span class="hc-lbl"></span><span class="hc-rate"></span>';
+  lab.firstChild.textContent = theme.hardLabel || '💪 難問突破！';
+  lab.lastChild.textContent = rate != null ? '正答率 ' + rate + '%' : '';
+  lab.style.setProperty('--hc-col', col);
+  lab.style.left = cx + 'px';
+  lab.style.top = cy + 'px';
+  document.body.appendChild(lab);
+  lab.animate([
+    { opacity: 0, transform: 'translate(-50%,-50%) scale(.5) rotate(-10deg)' },
+    { opacity: 1, transform: 'translate(-50%,-50%) scale(1.12) rotate(-4deg)', offset: .2 },
+    { opacity: 1, transform: 'translate(-50%,-50%) scale(1) rotate(-4deg)', offset: .34 },
+    { opacity: 1, transform: 'translate(-50%,-62%) scale(1) rotate(-4deg)', offset: .72 },
+    { opacity: 0, transform: 'translate(-50%,-86%) scale(.96) rotate(-4deg)' }
+  ], { duration: 1320, easing: 'cubic-bezier(.2,1.25,.35,1)', fill: 'forwards' }).onfinish = () => lab.remove();
+
+  if (window.MecFX) {
+    try {
+      window.MecFX.stamp(cx, cy, { color: col, size: 148, thick: 4, ticks: 12, rot: -8, ttl: 1.0 });
+      window.MecFX.burst(cx, cy, {
+        count: 46, colors: cols, shapes: theme.shapes(4), tier: 4,
+        glow: examEffectSet !== 'ink', additive: examEffectSet !== 'ink'
+      });
+    } catch (e) {}
+  }
+}
+
+/* ══════════ C2: 立て直し（2026-08-14）══════════
+   誤答の次の1問を正解したときだけ出す。連続正解が0に戻った直後は演出が何も無く、
+   そこが一番心が折れる場所だった。誤答を罰するのではなく復帰を強化する方が、
+   学習ツールとして促したい行動（間違えても次を解く）と一致する。
+   ⚠️ examStreak とは別に持つこと。ストリークは正解のたびに伸びるが、立て直しは
+   「直前が誤答だった1回」だけの一過性の状態。 */
+let _examRecoverPending = false;
+// A2: 直前の解答について、myrate_v1 の加算前の状態（_recordMyRate が書く）
+let _lastAnswerPrior = { uid: '', fresh: false, wasWrong: false };
+
+function _playRecoverTone() {
+  if (_correctSound === 'off') return;
+  try {
+    const ctx = _getExamAudioCtx();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const master = ctx.createGain();
+    master.gain.setValueAtTime(0.0001, now);
+    master.gain.exponentialRampToValueAtTime(0.11, now + 0.02);
+    master.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+    master.connect(ctx.destination);
+    // 低→高。落ちたところから戻る形にする
+    [329.63, 440, 659.25].forEach((f, i) => {
+      const osc = ctx.createOscillator(), g = ctx.createGain();
+      const st = now + i * 0.07;
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(f, st);
+      g.gain.setValueAtTime(.6, st);
+      osc.connect(g); g.connect(master);
+      osc.start(st); osc.stop(now + 0.62);
+    });
+  } catch (e) {}
+}
+
+function _triggerRecover(el) {
+  const theme = _examTheme();
+  _playRecoverTone();
+  if (_fxOff()) return;
+  if (theme.useFlatline) _ecgBeatBack();   // C4: 平坦になった波形に拍が戻る
+  const r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
+  const b = _fxBand();
+  const [cx, cy] = _examClampFxXY(
+    r && r.width ? r.left + r.width / 2 : b.cx,
+    r && r.width ? r.top + r.height / 2 : b.cy);
+  const cols = theme.recoverColors || ['#3DD68C', '#5EF0A8', '#FFFFFF'];
+
+  const lab = document.createElement('div');
+  lab.className = 'exam-recover-pop';
+  lab.textContent = theme.recoverLabel || '🔄 立て直し！';
+  lab.style.setProperty('--rc-col', cols[0]);
+  lab.style.left = cx + 'px';
+  lab.style.top = cy + 'px';
+  document.body.appendChild(lab);
+  lab.animate([
+    { opacity: 0, transform: 'translate(-50%,-50%) scale(.7)' },
+    { opacity: 1, transform: 'translate(-50%,-64%) scale(1.06)', offset: .26 },
+    { opacity: 1, transform: 'translate(-50%,-72%) scale(1)', offset: .62 },
+    { opacity: 0, transform: 'translate(-50%,-104%) scale(.97)' }
+  ], { duration: 1100, easing: 'cubic-bezier(.22,.9,.24,1)', fill: 'forwards' }).onfinish = () => lab.remove();
+
+  if (window.MecFX) {
+    try {
+      // 粒が輪を巻き直す＝崩れたものが組み上がる絵。バーストのように散らさない
+      window.MecFX.orbit(cx, cy, {
+        count: 14, r: 74, dr: -34, va: 3.1, colors: cols,
+        size: 4.5, ttl: 1.15,
+        glow: examEffectSet !== 'ink', additive: examEffectSet !== 'ink'
+      });
+      window.MecFX.rings(cx, cy, {
+        count: 1, color: cols[0], thickness: 2, maxR: 130,
+        additive: examEffectSet !== 'ink'
+      });
+    } catch (e) {}
+  }
+}
+
+/* ══════════ A2: 初見突破 / リベンジ達成（2026-08-14）══════════
+   「一発で当てた」と「前に落とした問題を取り返した」は価値が違うのに、今まで
+   どちらも同じ祝い方だった。判定材料は myrate_v1 の **加算前** の値（_recordMyRate が控える）。
+   ⚠️ 初見は易問（正答率80%以上）では出さない。初回の通し学習では毎問出て意味が薄れるため。 */
+const EXAM_EASY_RATE = 80;
+
+function _triggerAnswerMark(el, kind) {
+  if (_fxOff()) return;
+  const theme = _examTheme();
+  const isRev = kind === 'revenge';
+  const text = isRev ? (theme.revengeLabel || '⚔️ リベンジ達成')
+                     : (theme.freshLabel || '🌱 初見突破');
+  const col = isRev ? ((theme.comboColors && theme.comboColors[4]) || '#FFD700')
+                    : ((theme.recoverColors && theme.recoverColors[0]) || '#3DD68C');
+  const r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
+  const b = _fxBand();
+  const [cx, cy] = _examClampFxXY(
+    r && r.width ? r.right - Math.min(66, r.width * .24) : b.cx,
+    r && r.width ? r.bottom - 2 : b.cy);
+  const lab = document.createElement('div');
+  lab.className = 'exam-mark-pop' + (isRev ? ' rev' : '');
+  lab.textContent = text;
+  lab.style.setProperty('--mk-col', col);
+  lab.style.left = cx + 'px';
+  lab.style.top = cy + 'px';
+  document.body.appendChild(lab);
+  lab.animate([
+    { opacity: 0, transform: 'translate(-50%,-50%) scale(.72)' },
+    { opacity: 1, transform: 'translate(-50%,-118%) scale(1)', offset: .3 },
+    { opacity: 1, transform: 'translate(-50%,-134%) scale(1)', offset: .7 },
+    { opacity: 0, transform: 'translate(-50%,-176%) scale(.96)' }
+  ], { duration: isRev ? 1150 : 900, easing: 'cubic-bezier(.22,.9,.24,1)', fill: 'forwards' })
+    .onfinish = () => lab.remove();
+  if (isRev && window.MecFX) {
+    try { window.MecFX.glyphBurst(cx, cy, { glyphs: ['⚔️', '✨'], count: 5, w: 40, spread: 120 }); } catch (e) {}
+  }
+}
+
+/* A4(2026-08-14): 正解した肢から解答ブロック(.ab)へ光の線を引く。
+   演出であると同時に視線誘導で、「なぜ正解か」を読む場所へ目を運ぶ。 */
+function _traceToAnswer(card, fxEl) {
+  if (_fxOff() || !window.MecFX || !card) return;
+  const ab = card.querySelector('.ab');
+  if (!ab || !fxEl || !fxEl.getBoundingClientRect) return;
+  const a = fxEl.getBoundingClientRect(), t = ab.getBoundingClientRect();
+  if (!a.width || !t.width) return;
+  const b = _fxBand();
+  // どちらかが可視域の外なら引かない（画面外へ伸びる線になる）
+  if (a.bottom < b.top || a.top > b.vBottom || t.bottom < b.top || t.top > b.vBottom) return;
+  try {
+    window.MecFX.ribbon(
+      a.left + a.width * .5, a.bottom - 4,
+      t.left + Math.min(48, t.width * .2), t.top + 6,
+      { color: (_examTheme().comboColors || [])[4] || '#FFD700', width: 2.6, ttl: .85, grow: .5, bow: 30 }
+    );
+  } catch (e) {}
+}
+
+/* A5(2026-08-14): 選ばなかった肢が一段沈み、正解肢だけが手前に残る。
+   一時的な強調なので、解説を読む段階では必ず元へ戻す。 */
+function _sinkOtherChoices(card) {
+  if (!card || _fxOff()) return;
+  card.classList.add('exam-sink');
+  setTimeout(() => card.classList.remove('exam-sink'), 1100);
+}
+
+/* ══ 正解／誤答の追加演出の合流点（2026-08-14）══
+   revealAnswer（選択肢）と _revealCalcAnswer（計算問題の桁入力）の2経路があるので、
+   新しい演出は必ずこの2関数へ足すこと。片方だけに書くと計算問題50問で演出が抜ける。
+   ⚠️ 「この正解が何だったか」を示すラベル（難問／リベンジ／初見）は必ず1つに絞ること。
+      3つ同時に出すと画面が文字だらけになり、どれも読まれなくなる。 */
+function _afterCorrectFx(card, fxEl) {
+  const fast = _fastGrade(card);
+  if (fast > 0) setTimeout(() => _triggerFastBonus(fxEl, fast), 90);
+
+  _sinkOtherChoices(card);
+  setTimeout(() => _traceToAnswer(card, fxEl), 260);
+
+  const uid = card && card.dataset && card.dataset.uid;
+  const prior = (_lastAnswerPrior.uid && _lastAnswerPrior.uid === uid) ? _lastAnswerPrior : null;
+  const rate = _cardRate(card);
+  if (_isHardCard(card)) {
+    setTimeout(() => _triggerHardClear(fxEl, card), 150);
+  } else if (prior && prior.wasWrong) {
+    setTimeout(() => _triggerAnswerMark(fxEl, 'revenge'), 150);
+  } else if (prior && prior.fresh && !(rate != null && rate >= EXAM_EASY_RATE)) {
+    setTimeout(() => _triggerAnswerMark(fxEl, 'fresh'), 150);
+  }
+
+  if (_examRecoverPending) {
+    _examRecoverPending = false;
+    setTimeout(() => _triggerRecover(fxEl), 220);
+  }
+}
+
+/* ══════════ C1: コンボメーターの崩落（2026-08-14）══════════
+   連続が途切れた瞬間、上端のメーターが割れて破片が落ちる。
+   ⚠️ 途切れた時点の連続数で規模を決めるので、examStreak を 0 にする **前** の値を渡すこと。
+   3連続以下（tier1）では出さない——失うものが小さいうちから崩落させると、
+   ただ誤答を責める演出になる。 */
+function _shatterComboMeter(brokeStreak) {
+  if (brokeStreak < 4 || _fxOff() || !window.MecFX) return;
+  const meter = document.getElementById('examComboMeter');
+  const fill = document.getElementById('examComboMeterFill');
+  if (!meter) return;
+  const src = (fill && fill.getBoundingClientRect().width) ? fill : meter;
+  const r = src.getBoundingClientRect();
+  if (!r.width) return;
+  const tier = _examTier(brokeStreak);
+  const theme = _examTheme();
+  const cc = theme.comboColors || [];
+  const cols = [cc[_tIdx(tier, cc)] || '#FFD700', '#FFFFFF', 'rgba(255,255,255,.55)'];
+  try {
+    window.MecFX.shatter(r.left + r.width / 2, r.top + r.height / 2, {
+      count: Math.min(48, 12 + tier * 6),
+      w: r.width, h: Math.max(4, r.height),
+      colors: cols, spread: 120 + tier * 40, up: 60 + tier * 16
+    });
+  } catch (e) {}
+}
+
+/* ══════════ C3: 同じ肢を繰り返し選んでいる（2026-08-14）══════════
+   母集団の選択率は手元に無いので、「みんなが引っかかる肢」ではなく
+   **自分が前にも同じ肢を選んだか** を出す。mec_choice_v1 が肢ごとの誤答回数を持っている。
+   ⚠️ _recordWrongChoice は既に加算済みで呼ばれるので、2回以上＝過去にも選んだ、と読む。 */
+function _isRepeatWrongChoice(uid, sel) {
+  try {
+    const ch = ((sel && sel.textContent || '').trim().charAt(0)) || '';
+    if (!ch || ch === '?' || typeof _loadChoices !== 'function') return false;
+    const d = _loadChoices()[uid];
+    return !!(d && (d[ch] || 0) >= 2);
+  } catch (e) { return false; }
+}
+
+function _triggerRepeatWrong(el) {
+  if (_fxOff()) return;
+  const r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
+  const b = _fxBand();
+  const [cx, cy] = _examClampFxXY(
+    r && r.width ? r.right - Math.min(70, r.width * .26) : b.cx,
+    r && r.width ? r.bottom - 2 : b.cy);
+  const lab = document.createElement('div');
+  lab.className = 'exam-mark-pop warn';
+  lab.textContent = '⚠️ 前にも同じ肢';
+  lab.style.setProperty('--mk-col', '#FFB830');
+  lab.style.left = cx + 'px';
+  lab.style.top = cy + 'px';
+  document.body.appendChild(lab);
+  lab.animate([
+    { opacity: 0, transform: 'translate(-50%,-50%) scale(.72)' },
+    { opacity: 1, transform: 'translate(-50%,-118%) scale(1)', offset: .3 },
+    { opacity: 1, transform: 'translate(-50%,-134%) scale(1)', offset: .72 },
+    { opacity: 0, transform: 'translate(-50%,-170%) scale(.96)' }
+  ], { duration: 1250, easing: 'cubic-bezier(.22,.9,.24,1)', fill: 'forwards' }).onfinish = () => lab.remove();
+}
+
+/* C4(2026-08-14): 心電図テーマだけ、誤答で波形が平坦になる。
+   次の正解（立て直し）で拍が戻るので、テーマ単位の小さな物語になる。 */
+function _ecgFlatline() {
+  if (_fxOff() || !window.MecFX) return;
+  const b = _fxBand();
+  try {
+    window.MecFX.wave({
+      y: b.cy, x0: b.left, x1: b.right, amp: 0, freq: 0,
+      width: 2.6, color: '#FF1744', tail: 340, ttl: 1.15, grow: .78, additive: true
+    });
+  } catch (e) {}
+}
+function _ecgBeatBack() {
+  if (_fxOff() || !window.MecFX) return;
+  const b = _fxBand();
+  try {
+    window.MecFX.wave({
+      y: b.cy, x0: b.left, x1: b.right, amp: 30, freq: 1.6, spike: 2.6, spikeAt: .55,
+      width: 2.8, color: '#00E676', tail: 300, ttl: 1.05, grow: .7, additive: true
+    });
+  } catch (e) {}
+}
+
+/* C5(2026-08-14): 落とした問題のカードに傷を残す。
+   「今日の誤答を再履修」の対象であることの予告になり、演出とハブの機能が意味でつながる。
+   セッション中だけの印なので、試験の後始末（cleanup）で必ず外す。 */
+function _markCardScar(card) {
+  if (card) card.classList.add('exam-scar');
+}
+
+function _afterWrongFx(card, fxEl, brokeStreak) {
+  _examRecoverPending = true;   // 次の1問を正解したら「立て直し」を出す
+  _markCardScar(card);
+  _shatterComboMeter(brokeStreak || 0);
+  if (_examTheme().useFlatline) _ecgFlatline();
+  const uid = card && card.dataset && card.dataset.uid;
+  if (uid && _isRepeatWrongChoice(uid, fxEl)) setTimeout(() => _triggerRepeatWrong(fxEl), 260);
+}
+
 // B4: ティア昇格スタンプ。昇格した瞬間だけ「TIER UP」を叩き込む
 function _triggerTierUpStamp(tier, n) {
   if (_fxOff()) return;
   const theme = _examTheme();
   const el = document.createElement('div');
   el.className = 'exam-tierup';
-  const col = (theme.fullscreenCols && theme.fullscreenCols[Math.min(tier, 6)]) || '#FFD700';
-  const glow = (theme.fullscreenGlow && theme.fullscreenGlow[Math.min(tier, 6)]) || '255,215,0';
+  const col = (theme.fullscreenCols && theme.fullscreenCols[_tIdx(tier, theme.fullscreenCols)]) || '#FFD700';
+  const glow = (theme.fullscreenGlow && theme.fullscreenGlow[_tIdx(tier, theme.fullscreenGlow)]) || '255,215,0';
   el.innerHTML = '<span class="tu-lbl">TIER UP</span>' +
     '<span class="tu-main">' + ((theme.tierUpLabel && theme.tierUpLabel(tier)) || ('TIER ' + tier)) + '</span>';
   el.style.setProperty('--tu-col', col);
@@ -1394,7 +1840,7 @@ function _triggerTierUpStamp(tier, n) {
       const _mb = _fxBand();
       window.MecFX.burst(_mb.cx, _mb.top, {
         count: 40 + tier * 14,
-        colors: (theme.burstPalettes && theme.burstPalettes[Math.min(tier, 6)]) || ['#FFD700'],
+        colors: (theme.burstPalettes && theme.burstPalettes[_tIdx(tier, theme.burstPalettes)]) || ['#FFD700'],
         shapes: theme.shapes(tier), tier: tier, glow: examEffectSet !== 'ink', additive: examEffectSet !== 'ink'
       });
     } catch (e) {}
@@ -1633,6 +2079,75 @@ function _srsCompleteCelebration() {
   } catch (e) {}
 }
 
+/* ══════════ E1: 次に戻ってくる日（2026-08-14）══════════
+   SRS復習は「解いて終わり」に見えるのが弱点で、○/△/× の自己申告が何を動かしたのかが
+   画面に出ていなかった。完走直後に間隔の分布を見せると、仕組みそのものが体感で分かる。
+   間隔の正本は study.html の _updateSRS が書いた mec_srs_v1 の interval（日）。
+   ここでは読むだけで、日付の計算をやり直さない（二重管理になるため）。 */
+const SRS_PLAN_BUCKETS = [
+  { max: 1, label: '明日' },
+  { max: 3, label: '2〜3日後' },
+  { max: 7, label: '今週中' },
+  { max: 14, label: '2週間後' },
+  { max: 30, label: '1か月後' },
+  { max: Infinity, label: '1か月より先' }
+];
+
+function _srsNextPlanData() {
+  const src = (typeof _srsData !== 'undefined' && _srsData) || window._srsData;
+  if (!src) return null;
+  const rows = SRS_PLAN_BUCKETS.map(b => ({ label: b.label, max: b.max, n: 0 }));
+  let total = 0;
+  examQueue.forEach(card => {
+    const e = src[card.dataset && card.dataset.uid];
+    const d = e && e.interval;
+    if (!d) return;
+    const row = rows.find(r => d <= r.max);
+    if (row) { row.n++; total++; }
+  });
+  return total ? { rows: rows.filter(r => r.n > 0), total } : null;
+}
+
+function _srsRenderNextPlan(anchorEl) {
+  const data = _srsNextPlanData();
+  if (!data || !anchorEl || !anchorEl.parentNode) return;
+  const max = Math.max(...data.rows.map(r => r.n));
+  const host = document.createElement('div');
+  host.className = 'exam-srs-plan';
+  host.id = 'examSrsPlan';
+  host.innerHTML = '<div class="sp-h"></div>' + data.rows.map((r, i) =>
+    '<div class="sp-row" style="--i:' + i + '">' +
+      '<span class="sp-lbl"></span>' +
+      '<span class="sp-bar"><i style="--w:' + Math.max(6, Math.round(r.n / max * 100)) + '%"></i></span>' +
+      '<span class="sp-n"></span>' +
+    '</div>').join('');
+  host.firstChild.textContent = '📅 次に戻ってくる日';
+  host.querySelectorAll('.sp-row').forEach((row, i) => {
+    row.querySelector('.sp-lbl').textContent = data.rows[i].label;
+    row.querySelector('.sp-n').textContent = data.rows[i].n + '問';
+  });
+  anchorEl.insertAdjacentElement('afterend', host);
+
+  // 見出しから各行へ光が走る＝問題が未来へ配られていく絵。
+  // reduced-motion では行のフェードイン（CSS側で無効化）だけにする。
+  if (_fxOff() || !window.MecFX) return;
+  setTimeout(() => {
+    const h = host.querySelector('.sp-h');
+    if (!h) return;
+    const hr = h.getBoundingClientRect();
+    if (!hr.width || hr.bottom < 0 || hr.top > innerHeight) return;
+    host.querySelectorAll('.sp-row .sp-bar').forEach((bar, i) => {
+      const br = bar.getBoundingClientRect();
+      if (!br.width) return;
+      try {
+        window.MecFX.ribbon(hr.left + 14, hr.bottom - 2, br.left + br.width * .5, br.top + br.height / 2, {
+          color: '#FFB830', width: 2.4, ttl: .9, grow: .5, bow: 26, delay: i * .1
+        });
+      } catch (e) {}
+    });
+  }, 420);
+}
+
 function _showStreakEffect(n) {
   if (n < 2) return;
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
@@ -1683,7 +2198,7 @@ function _showStreakEffect(n) {
     flash.style.background = fc[tier];
     flash.style.opacity = '0';
     if (tier >= 4) {
-      const pulses = tier >= 6 ? 6 : tier >= 5 ? 4 : 3;
+      const pulses = tier >= 7 ? 8 : tier >= 6 ? 6 : tier >= 5 ? 4 : 3;
       const kf = [];
       for (let p = 0; p < pulses; p++) kf.push({opacity: p % 2 === 0 ? 0.95 : 0.06});
       kf.push({opacity: 0});
@@ -1717,8 +2232,8 @@ function _showStreakEffect(n) {
 function _spawnLightStreakFx(tier) {
   if (!window.MecFX) return;
   const { cx, cy } = _fxBand();
-  const counts = [0, 14, 22, 30, 40, 52, 64];
-  _spawnBurst(cx, cy, tier, counts[Math.min(tier, 6)] || 14);
+  const counts = [0, 14, 22, 30, 40, 52, 64, 80];
+  _spawnBurst(cx, cy, tier, counts[_tIdx(tier, counts)] || 14);
   const theme = _examTheme();
   try {
     window.MecFX.rings(cx, cy, { count: 1, color: theme.ringColor(tier), thickness: 2, maxR: 130 + tier * 22, additive: examEffectSet !== 'ink' });
@@ -1739,7 +2254,7 @@ function _showStreakSignature(n, tier, promoted) {
   el.getAnimations?.().forEach(a => a.cancel());
   el.textContent = theme.signature(n);
   el.style.top = (_fxBand().top + 44) + 'px';   // トーストの直下（CSSの top:112px は画面基準）
-  el.style.color = (theme.comboColors && theme.comboColors[Math.min(tier, 6)]) || '#FFD700';
+  el.style.color = (theme.comboColors && theme.comboColors[_tIdx(tier, theme.comboColors)]) || '#FFD700';
   el.animate([
     { opacity: 0, transform: 'translateX(-50%) translateY(-6px)' },
     { opacity: 1, transform: 'translateX(-50%) translateY(0)', offset: .18 },
@@ -1771,7 +2286,7 @@ function _ensureShakeOverlay() {
 
 function _triggerScreenShake(tier) {
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const si = tier >= 6 ? 13 : tier >= 5 ? 8 : tier >= 4 ? 5 : 3;
+  const si = tier >= 7 ? 17 : tier >= 6 ? 13 : tier >= 5 ? 8 : tier >= 4 ? 5 : 3;
   const dur = tier >= 5 ? 480 : tier >= 4 ? 340 : 210;
   const easing = theme.chunkyShake ? `steps(${tier >= 5 ? 8 : 5})` : 'ease-in-out';
   const kf = [
@@ -1789,7 +2304,7 @@ function _triggerScreenShake(tier) {
   const fxCanvas = document.getElementById('mecFxCanvas');
   if (fxCanvas) fxCanvas.animate(kf, {duration: dur, easing});
   const ov = _ensureShakeOverlay();
-  const vig = tier >= 6 ? .5 : tier >= 5 ? .42 : .3;
+  const vig = tier >= 7 ? .58 : tier >= 6 ? .5 : tier >= 5 ? .42 : .3;
   ov.style.boxShadow = `inset 0 0 ${tier >= 5 ? 160 : 110}px ${tier >= 5 ? 30 : 18}px rgba(0,0,0,${vig})`;
   ov.animate([{opacity:0},{opacity:1,offset:.15},{opacity:1,offset:.7},{opacity:0}], {duration: dur, easing:'ease-out'});
   ov.animate(kf, {duration: dur, easing});
@@ -1802,9 +2317,9 @@ function _triggerBorderGlow(tier) {
   el.style.removeProperty('opacity');   // 前回の試験終了時の opacity:0!important を外す
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const colors = theme.borderColors;
-  const sizes  = {4:'6px',5:'9px',6:'13px'};
-  const color = colors[Math.min(tier,6)];
-  const sz = sizes[Math.min(tier,6)];
+  const sizes  = {4:'6px',5:'9px',6:'13px',7:'17px'};
+  const color = colors[_tIdx(tier, colors)];
+  const sz = sizes[_tIdx(tier, sizes)];
   el.style.boxShadow = `inset 0 0 0 ${sz} ${color}`;
   const dur = tier >= 5 ? 1300 : 750;
   if (theme.pulseBeat) {
@@ -1820,8 +2335,8 @@ function _spawnEmojiFloaters(tier) {
   const sets = theme.floaterGlyphs;
   const scale = theme.floaterScale || 1;
   window.MecFX.floaters({
-    glyphs: sets[Math.min(tier,6)] || sets[5],
-    count: Math.round((tier >= 6 ? 26 : 14) * scale),
+    glyphs: sets[_tIdx(tier, sets)] || sets[5],
+    count: Math.round((tier >= 7 ? 36 : tier >= 6 ? 26 : 14) * scale),
     scale: scale
   });
 }
@@ -1829,10 +2344,10 @@ function _spawnEmojiFloaters(tier) {
 function _spawnShockwaveRings(cx, cy, tier) {
   if (!window.MecFX) return;
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const ringCounts = [0,0,1,2,3,4,6];
-  const maxScale = tier >= 6 ? 38 : tier >= 5 ? 30 : tier >= 4 ? 22 : tier >= 3 ? 14 : 9;
+  const ringCounts = [0,0,1,2,3,4,6,8];
+  const maxScale = tier >= 7 ? 48 : tier >= 6 ? 38 : tier >= 5 ? 30 : tier >= 4 ? 22 : tier >= 3 ? 14 : 9;
   window.MecFX.rings(cx, cy, {
-    count: ringCounts[Math.min(tier,6)],
+    count: ringCounts[_tIdx(tier, ringCounts)],
     color: theme.ringColor(tier),
     thickness: tier >= 5 ? 4 : tier >= 3 ? 3 : 2,
     maxR: maxScale * 20,
@@ -1846,7 +2361,7 @@ function _spawnBurst(cx, cy, tier, count) {
   const palettes = theme.burstPalettes;
   window.MecFX.burst(cx, cy, {
     count: Math.round(count * (theme.floaterScale || 1)),
-    colors: palettes[Math.min(tier,6)] || palettes[4],
+    colors: palettes[_tIdx(tier, palettes)] || palettes[4],
     shapes: theme.shapes(tier),
     tier: tier,
     glow: examEffectSet !== 'ink',
@@ -1867,8 +2382,8 @@ function _spawnStreakParticles(tier) {
   _spawnShockwaveRings(cx, cy, tier);
   _spawnLightning(cx, cy, tier);
 
-  const burstCounts = [0, 0, 50, 140, 340, 580, 900];
-  _spawnBurst(cx, cy, tier, burstCounts[Math.min(tier,6)] || 50);
+  const burstCounts = [0, 0, 50, 140, 340, 580, 900, 1300];
+  _spawnBurst(cx, cy, tier, burstCounts[_tIdx(tier, burstCounts)] || 50);
 
   // 中tier(2-3)は最頻出。単発だと弱いので時間差の二段バースト＋追撃リングで密度を出す
   // （高tier ≥4 は下で既に多段化されているのでそのまま）。
@@ -1901,7 +2416,7 @@ function _spawnStreakParticles(tier) {
     else if (examEffectSet === 'space') window.MecFX.dust({count: tier >= 6 ? 80 : 50, colors:['#FFFFFF','#FFD54F','#B388FF','#40C4FF']});
   }
 
-  const rainWaves = [0, 0, 0, 1, 3, 6, 10][Math.min(tier,6)];
+  const rainWaves = [0, 0, 0, 1, 3, 6, 10, 15][Math.min(tier, 7)];
   for (let w = 0; w < rainWaves; w++) {
     setTimeout(() => _spawnRain(tier), 55 + w * 120);
   }
@@ -1989,7 +2504,7 @@ function _inkBrushSwipe(tier) {
 
 function _ecgSweep(tier) {
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const col = theme.fullscreenCols[Math.min(tier,6)] || '#00E676';
+  const col = theme.fullscreenCols[_tIdx(tier, theme.fullscreenCols)] || '#00E676';
   const _b = _fxBand();
   const w = window.innerWidth;
   const y = _b.top + _b.height * (0.4 + Math.random() * 0.2);
@@ -2096,7 +2611,7 @@ function _spawnBubbleRise(tier) {
 
 function _spawnSpotlightRays(tier) {
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const col = theme.fullscreenCols[Math.min(tier,6)] || '#FFD700';
+  const col = theme.fullscreenCols[_tIdx(tier, theme.fullscreenCols)] || '#FFD700';
   const el = document.createElement('div');
   el.className = 'exam-fx-temp';
   el.style.cssText = `position:fixed;inset:-50%;pointer-events:none;z-index:9042;background:conic-gradient(from 0deg, transparent 0deg, ${col}40 8deg, transparent 16deg, transparent 60deg, ${col}40 68deg, transparent 76deg, transparent 120deg, ${col}40 128deg, transparent 136deg, transparent 180deg, ${col}40 188deg, transparent 196deg, transparent 240deg, ${col}40 248deg, transparent 256deg, transparent 300deg, ${col}40 308deg, transparent 316deg);`;
@@ -2192,8 +2707,8 @@ function _spawnLightning(cx, cy, tier) {
   if (theme.useLightning === false) return;
   if (!window.MecFX) return;
   window.MecFX.lightning(cx, cy, {
-    bolts: tier >= 6 ? 14 : tier >= 5 ? 9 : tier >= 4 ? 5 : 3,
-    color: theme.lightningCols[Math.min(tier,6)],
+    bolts: tier >= 7 ? 18 : tier >= 6 ? 14 : tier >= 5 ? 9 : tier >= 4 ? 5 : 3,
+    color: theme.lightningCols[_tIdx(tier, theme.lightningCols)],
     tier: tier
   });
 }
@@ -2204,8 +2719,8 @@ function _spawnFirework(tier) {
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const palettes = theme.burstPalettes;
   window.MecFX.fireworks({
-    count: tier >= 6 ? 8 : tier >= 5 ? 5 : 3,
-    colors: palettes[Math.min(tier,6)] || palettes[4],
+    count: tier >= 7 ? 11 : tier >= 6 ? 8 : tier >= 5 ? 5 : 3,
+    colors: palettes[_tIdx(tier, palettes)] || palettes[4],
     tier: tier
   });
 }
@@ -2223,8 +2738,8 @@ function _triggerGlitch(tier) {
       long: heavy
     });
   }
-  const amp = tier >= 6 ? 7 : 4;
-  const pulses = tier >= 6 ? 7 : 5;
+  const amp = tier >= 7 ? 9 : tier >= 6 ? 7 : 4;
+  const pulses = tier >= 7 ? 9 : tier >= 6 ? 7 : 5;
   const frames = [{transform:'translate(0,0)'}];
   for (let p = 0; p < pulses; p++) {
     frames.push({transform:`translate(${((Math.random()-.5)*amp*2).toFixed(1)}px,${((Math.random()-.5)*amp).toFixed(1)}px)`});
@@ -2305,7 +2820,7 @@ function _scatterPositions(n, minDist) {
 
 function _spawnScatteredCelebration(theme) {
   if (!window.MecFX) return;
-  const t = Math.max(2, Math.min(_examTier(examStreak) || 2, 6));
+  const t = Math.max(2, Math.min(_examTier(examStreak) || 2, 7));
   const pal = theme.burstPalettes[t] || theme.burstPalettes[2];
   const isInk = examEffectSet === 'ink';
   const glyphs = theme.correctEmoji; // classic は無し
@@ -2327,13 +2842,13 @@ function _spawnFloatingCombo(card, n, tier) {
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const el = document.createElement('div');
   const cols = theme.comboColors;
-  const sz = 16 + Math.min(tier,6) * 4;
+  const sz = 16 + Math.min(tier,7) * 4;
   el.textContent = theme.comboLabel(n);
   // 位置はカード相対だとカードのスクロール位置で上端に寄って見切れ、演出ごとに高さがバラつく。
   // 粒子・全画面コンボ数字と同じ可視帯の中心(_fxBand)に統一して、正解/連続正解の演出をまとめる。
   // ⚠️ 上へ70px飛ぶアニメがあるので、焦点は帯の中心より下げない。
   const { cx, cy } = _fxBand();
-  el.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;font-weight:900;font-size:${sz}px;color:${cols[Math.min(tier,6)]};pointer-events:none;z-index:9200;text-shadow:0 2px 12px rgba(0,0,0,.7);transform:translateX(-50%);white-space:nowrap;`;
+  el.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;font-weight:900;font-size:${sz}px;color:${cols[_tIdx(tier, cols)]};pointer-events:none;z-index:9200;text-shadow:0 2px 12px rgba(0,0,0,.7);transform:translateX(-50%);white-space:nowrap;`;
   document.body.appendChild(el);
   el.animate([
     {opacity:1,transform:'translateX(-50%) translateY(0) scale(1)'},
@@ -2344,7 +2859,7 @@ function _spawnFloatingCombo(card, n, tier) {
 function _triggerBgBreath(tier) {
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const rgbs = theme.bgRgbs;
-  const rgb = rgbs[Math.min(tier,6)];
+  const rgb = rgbs[_tIdx(tier, rgbs)];
   const dur = tier >= 4 ? 1400 : tier >= 2 ? 1100 : 800;
   const str = tier >= 5 ? .12 : tier >= 3 ? .08 : .05;
   const el = document.createElement('div');
@@ -2414,16 +2929,16 @@ function _updateComboMeter(n) {
   meter.style.opacity = '1';
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const tier = _examTier(n);
-  const starts=[0,2,4,7,10,15,20], ends=[0,4,7,10,15,20,25];
-  const pct = tier>=6 ? 100 : ((n-starts[tier])/(ends[tier]-starts[tier])*100);
+  const starts=[0,2,4,7,10,15,20,30], ends=[0,4,7,10,15,20,30,40];
+  const pct = tier>=7 ? 100 : ((n-starts[tier])/(ends[tier]-starts[tier])*100);
   const grads = theme.meterGrads;
-  fill.style.background = grads[Math.min(tier,6)];
+  fill.style.background = grads[_tIdx(tier, grads)];
   fill.style.width = pct.toFixed(1) + '%';
   // B6: 次のティアまで残り何問かを表示（今まで3pxバーだけで誰も気づけなかった）
   if (lbl) {
-    const remain = tier >= 6 ? 0 : ends[tier] - n;
-    lbl.textContent = tier >= 6 ? '⚡ MAX' : ('あと ' + remain + ' で TIER ' + (tier + 1));
-    lbl.style.color = (theme.comboColors && theme.comboColors[Math.min(tier,6)]) || '#FFD700';
+    const remain = tier >= 7 ? 0 : ends[tier] - n;
+    lbl.textContent = tier >= 7 ? '⚡ MAX' : ('あと ' + remain + ' で TIER ' + (tier + 1));
+    lbl.style.color = (theme.comboColors && theme.comboColors[_tIdx(tier, theme.comboColors)]) || '#FFD700';
     lbl.style.opacity = '1';
     lbl.getAnimations?.().forEach(a => a.cancel());
     lbl.animate([{opacity:1},{opacity:1,offset:.7},{opacity:0}], {duration:2400, easing:'ease-out', fill:'forwards'});
@@ -2502,6 +3017,9 @@ function _recordMyRate(uid, isCorrect) {
   // 加算後だと今回の不正解自体が wasWrong を立ててしまう。
   const _prev = _myrate[uid];
   const _wasWrong = !!(_prev && (_prev.total || 0) > (_prev.correct || 0));
+  // A2: 「初見か」「かつて落とした問題か」も同じ加算前の値から取り、演出側へ持ち越す。
+  // _afterCorrectFx はこの関数より後に走るので、ここで控えないと判定できない。
+  _lastAnswerPrior = { uid: uid, fresh: !(_prev && (_prev.total || 0) > 0), wasWrong: _wasWrong };
   if (!_myrate[uid]) _myrate[uid] = { correct: 0, total: 0 };
   _myrate[uid].total++;
   if (isCorrect) _myrate[uid].correct++;
@@ -2619,7 +3137,7 @@ function _revealCalcAnswer(card, sid) {
     { const _t = _examTier(examStreak); _triggerChoiceCorrectPop(fxEl); _spawnFloatingCombo(card, examStreak, _t); }
     _correctShockwave(fxEl);
     _traceCardBorder(card);
-    if (_isFastAnswer(card)) setTimeout(() => _triggerFastBonus(fxEl), 90);
+    _afterCorrectFx(card, fxEl);
     card.classList.add('exam-revealed', 'exam-multi-correct');
     if (revBtn) { revBtn.textContent = '▶ 解説を見る'; revBtn.onclick = () => _toggleCorrectAnswer(card, revBtn); }
     _updateExamProg(true);
@@ -2627,10 +3145,12 @@ function _revealCalcAnswer(card, sid) {
     requestAnimationFrame(_updateExamFocus);
     setTimeout(() => _scrollToNextCard(card), 300);
   } else {
+    const _broke = examStreak;   // C1: 0 にする前に控える
     examStreak = 0;
     _resetComboMeter();
     _clearDarkFx();
     _zoneStop(true);
+    _afterWrongFx(card, fxEl, _broke);
     examWrong.push(uid);
     card.classList.add('exam-revealed');
     if (revBtn) { revBtn.textContent = '▼ 解答を隠す'; revBtn.onclick = () => _toggleWrongAnswer(card, revBtn); }
@@ -3102,7 +3622,9 @@ function exitExam() {
     }
   });
   document.body.getAnimations?.().forEach(a => a.cancel());
-  document.querySelectorAll('.streak-particle,.streak-ring,.exam-bg-breath,.exam-fx-temp,.mec-cfx,.exam-tierup,.exam-fast-pop,.exam-trace-svg,.exam-zone-collapse').forEach(el => el.remove());
+  document.querySelectorAll('.streak-particle,.streak-ring,.exam-bg-breath,.exam-fx-temp,.mec-cfx,.exam-tierup,.exam-fast-pop,.exam-trace-svg,.exam-zone-collapse,.exam-hard-pop,.exam-recover-pop,.exam-mark-pop').forEach(el => el.remove());
+  // C5: 誤答の傷はセッション中だけの印。通常閲覧に持ち越さない
+  document.querySelectorAll('.qc.exam-scar').forEach(el => el.classList.remove('exam-scar'));
   { const _cd = document.getElementById('examCountdown'); if (_cd) { _cd.style.display = 'none'; _cd.innerHTML = ''; } }
   { const _sig = document.getElementById('examStreakSig'); if (_sig) { _sig.getAnimations?.().forEach(a => a.cancel()); _sig.style.opacity = '0'; } }
   { const _lbl = document.getElementById('examComboMeterLbl'); if (_lbl) { _lbl.getAnimations?.().forEach(a => a.cancel()); _lbl.style.opacity = '0'; } }
@@ -3176,11 +3698,14 @@ function showExamSummary() {
   document.getElementById('sumTime').textContent = Math.floor(elapsed/60) + '分' + (elapsed%60) + '秒';
   const subjEl = document.getElementById('sumSubjTable');
   if (subjEl) {
-    subjEl.innerHTML = Object.entries(examBySubj).map(([sid, s]) => {
+    // E2(2026-08-14): 数字だけの表に細いバーを重ねて、内訳が一目で読めるようにする。
+    // バーは％セルの中に敷き、上から順に伸ばす（--i が遅延）。
+    subjEl.innerHTML = Object.entries(examBySubj).map(([sid, s], i) => {
       const subj = STUDY_SUBJECTS.find(x => x.id === sid);
       const p = Math.round(s.correct / s.total * 100);
       const pc = p >= 80 ? '#7CEFB2' : p >= 60 ? '#FFD37A' : '#FF9B9B';
-      return `<tr><td>${subj ? subj.icon + ' ' + subj.name : sid}</td><td style="font-weight:700">${s.correct}/${s.total}</td><td style="font-weight:700;color:${pc}">${p}%</td></tr>`;
+      return `<tr><td>${subj ? subj.icon + ' ' + subj.name : sid}</td><td style="font-weight:700">${s.correct}/${s.total}</td>` +
+             `<td class="sum-pct" style="color:${pc}"><i class="sum-bar" style="--w:${p}%;--i:${i};--c:${pc}"></i><b>${p}%</b></td></tr>`;
     }).join('');
   }
   // 章別。どの章をやったかを科目別表の下に出す。sid→章番号順に並べる。
@@ -3192,14 +3717,15 @@ function showExamSummary() {
     if (chapWrap) chapWrap.style.display = rows.length ? '' : 'none';
     // 単一科目のセッションなら各行に科目名を繰り返さない（章番号だけで足りる）
     const multiSubj = new Set(rows.map(r => r.sid)).size > 1;
-    chapEl.innerHTML = rows.map(s => {
+    chapEl.innerHTML = rows.map((s, i) => {
       const subj = STUDY_SUBJECTS.find(x => x.id === s.sid);
       const p = Math.round(s.correct / s.total * 100);
       const pc = p >= 80 ? '#7CEFB2' : p >= 60 ? '#FFD37A' : '#FF9B9B';
       const prefix = multiSubj && subj ? subj.icon + ' ' + subj.name + ' ' : '';
       const nm = _chapterName(s.sid, s.ch);   // MEC_CHAPTERS 由来の自データ（科目名と同じく生で入れる）
       const chLabel = '第' + s.ch + '章' + (nm ? ' ' + nm : '');
-      return `<tr><td>${prefix}${chLabel}</td><td style="font-weight:700">${s.correct}/${s.total}</td><td style="font-weight:700;color:${pc}">${p}%</td></tr>`;
+      return `<tr><td>${prefix}${chLabel}</td><td style="font-weight:700">${s.correct}/${s.total}</td>` +
+             `<td class="sum-pct" style="color:${pc}"><i class="sum-bar" style="--w:${p}%;--i:${i};--c:${pc}"></i><b>${p}%</b></td></tr>`;
     }).join('');
   }
   const noteEl = document.getElementById('sumFlagNote');
@@ -3255,6 +3781,8 @@ function showExamSummary() {
         '<div class="exam-srs-done">🔔 今日の復習、完了！' +
         '<span>' + examAnswered + '問すべて消化しました' +
         (_rest > 0 ? ' ／ 残り ' + _rest + '問' : '') + '</span></div>');
+      // E1: 完了バナーの直後に「次に戻ってくる日」の分布を出す
+      _srsRenderNextPlan(note.previousElementSibling);
     }
     if (_rest > 0) {
       const btn = document.getElementById('sumReviewBtn');
