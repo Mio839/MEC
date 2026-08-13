@@ -145,6 +145,11 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .hero-label .lb{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .hero-live{width:7px;height:7px;flex-shrink:0;border-radius:50%;
   background:var(--or);box-shadow:0 0 0 4px var(--orl);}
+/* 日付。見出しと同じ行の右端に小さく置く（読み値の主役は数字なので字は落とす） */
+.hero-date{margin-left:auto;flex-shrink:0;padding:2px 8px;border-radius:999px;
+  border:1px solid var(--hair-2);background:rgba(var(--glass-rgb),.06);
+  font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ts);
+  font-variant-numeric:tabular-nums;white-space:nowrap;}
 .hero-fig{display:flex;align-items:baseline;gap:.14em;min-width:0;margin-top:var(--sp-3);
   font-family:var(--font-display);}
 .hero-num{font-size:clamp(3.4rem,17vw,5.6rem);font-weight:800;line-height:.86;
@@ -184,7 +189,9 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .hero-say{margin-top:var(--sp-3);font-size:13px;line-height:1.75;color:var(--ts);max-width:34em;}
 
 /* ── ゲージ（全体進捗）。円弧は stroke-dashoffset だけを動かす ── */
-.gauge{width:clamp(112px,30vw,152px);flex-shrink:0;text-align:center;}
+/* 盤面そのものを大きく取る。viewBox は 168 で、進捗の弧(r=54)より外側の
+   歯車列にゆとりを持たせてある＝機構が主役に見える寸法 */
+.gauge{width:clamp(148px,40vw,208px);flex-shrink:0;text-align:center;}
 .gauge-ring{position:relative;}
 .gauge-ring svg{display:block;width:100%;height:auto;transform:rotate(-90deg);}
 .gauge-ring circle{fill:none;}
@@ -192,11 +199,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
    真鍮・銅はテーマに振らない固定色。ゲージだけ質感を持たせたいので、
    進捗の弧（--or / --gr）とは別系統の色にしてある。 */
 .gauge{--brass:#C9A227;--brass-hi:#E0C25E;--copper:#B87333;}
-.gear{stroke:none;fill:var(--brass);opacity:.30;
+.gear{stroke:none;fill:var(--brass);opacity:.46;
   transition:opacity var(--dur-long) var(--ease-out),fill var(--dur-long) var(--ease-out);}
-.gear-a,.gear-c{fill:var(--copper);opacity:.34;}
-.gear-b{fill:var(--brass-hi);opacity:.26;}
-.gear-c{opacity:0;}                    /* 段3から現れる小歯車 */
+.gear-a,.gear-c{fill:var(--copper);opacity:.50;}
+.gear-b{fill:var(--brass-hi);opacity:.42;}
+.gear-c{opacity:.30;}                  /* 段3で濃くなる小歯車（0からは出さない＝機構は常に見える） */
+.gear-d{fill:var(--brass-hi);opacity:.26;}  /* 段4で噛み合う4枚目 */
 .gauge-trk{stroke:rgba(var(--glass-rgb),.14);stroke-width:10;}
 /* 円周 = 2π×54 = 339.29。offset は renderHero() が実測値から入れる。
    ⚠️ この値・CSS の dasharray・JS の GAUGE_C の3つは必ず揃えること */
@@ -216,11 +224,11 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
       grid-auto-flow:column で1行に並べ、その行ごと align-content で中央へ置く。 */
 .gauge-mid{position:absolute;inset:0;display:grid;grid-auto-flow:column;
   align-content:center;justify-content:center;align-items:baseline;
-  font-family:var(--font-display);font-size:clamp(22px,6.4vw,30px);font-weight:800;
+  font-family:var(--font-display);font-size:clamp(28px,7.8vw,38px);font-weight:800;
   letter-spacing:-.03em;color:var(--tx);font-variant-numeric:tabular-nums;line-height:1;
   transition:color var(--dur-long) var(--ease-out);}
 /* 3桁（100%以上）は素の字送りだと円からはみ出すので一段落とす */
-.gauge-mid.wide{font-size:clamp(17px,4.9vw,24px);}
+.gauge-mid.wide{font-size:clamp(21px,6vw,30px);}
 .gauge-mid em{font-style:normal;font-size:.5em;color:var(--ts);margin-left:1px;}
 .gauge-cap{margin-top:var(--sp-2);font-size:10.5px;font-weight:700;letter-spacing:.14em;
   color:var(--ts);white-space:nowrap;}
@@ -230,10 +238,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 /* 旧「全体進捗」。主役を今日の目標へ譲ったので、脚の細い一行として残す */
 .gauge-all{margin-top:2px;font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--ts);
   font-variant-numeric:tabular-nums;white-space:nowrap;opacity:.72;}
-/* 狭い画面ではゲージを数字の下へ落とす。横に並べたままだと巨大な数字の幅が足りない */
-@media (max-width:440px){
+/* 狭い画面ではゲージを数字の下へ落とす。横に並べたままだと巨大な数字の幅が足りない。
+   ⚠️ 閾値は 440px → 560px（2026-08-13）。盤面を 152px→208px に広げたぶん、
+      横並びのまま残ると左の巨大な数字（最大 17vw × 4桁）が折り返す */
+@media (max-width:560px){
   .hero-body{grid-template-columns:minmax(0,1fr);gap:var(--sp-4);}
-  .gauge{width:124px;justify-self:end;}
+  .gauge{width:min(172px,58vw);justify-self:end;}
 }
 
 .hero-cta{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-5);}
@@ -421,14 +431,15 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
       「隠れている状態」が素の指定なので both が正しい）。 */
 
 /* ── 歯車列が極めてゆっくり回る＝機械が動いている ──
-   噛み合いは歯数比で決まる: 大24枚に対し 12枚は2倍速・16枚は1.5倍速・10枚は2.4倍速、
-   いずれも大歯車と逆回り（reverse）。速さを1つの変数 --gear-t から導くことで、
-   段が上がっても比が崩れない＝噛み合って見え続ける。 */
+   噛み合いは歯数比で決まる: 大24枚に対し 12枚は2倍速・16枚は1.5倍速・10枚は2.4倍速・
+   14枚は約1.7倍速、いずれも大歯車と逆回り（reverse）。速さを1つの変数 --gear-t から
+   導くことで、段が上がっても比が崩れない＝噛み合って見え続ける。 */
 .gear{transform-box:fill-box;transform-origin:center;}
 .gear-main{animation:gearSpin var(--gear-t,26s) linear infinite;}
 .gear-a{animation:gearSpin calc(var(--gear-t,26s) * .5)  linear infinite reverse;}
 .gear-b{animation:gearSpin calc(var(--gear-t,26s) * .667) linear infinite reverse;}
 .gear-c{animation:gearSpin calc(var(--gear-t,26s) * .417) linear infinite reverse;}
+.gear-d{animation:gearSpin calc(var(--gear-t,26s) * .583) linear infinite reverse;}
 @keyframes gearSpin{to{transform:rotate(360deg);}}
 
 /* ── 在線灯。点そのものではなく外側の輪が広がって消える ── */
@@ -576,28 +587,34 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
 /* 層2: 歯車列の回転が上がる＝機械に蒸気が回り始める。
    ⚠️ 個々の歯車の duration ではなく --gear-t だけを動かすこと。
       1つだけ変えると歯数比が崩れて噛み合いが嘘になる。 */
-.gauge{--gear-t:26s;}
-.gauge[data-tier="2"]{--gear-t:20s;}
-.gauge[data-tier="3"]{--gear-t:14s;}
-.gauge[data-tier="4"]{--gear-t:9s;}
-.gauge[data-tier="5"]{--gear-t:5.5s;}
-.gauge[data-tier="6"]{--gear-t:3s;}
-/* 段が上がるほど歯車が濃く出る＝機構が浮かび上がる。段3で3枚目が噛み合う */
-.gauge[data-tier="2"] .gear{opacity:.40;}
-.gauge[data-tier="3"] .gear,.gauge[data-tier="4"] .gear{opacity:.52;}
-.gauge[data-tier="3"] .gear-c,.gauge[data-tier="4"] .gear-c{opacity:.46;}
+.gauge{--gear-t:18s;}
+.gauge[data-tier="2"]{--gear-t:13s;}
+.gauge[data-tier="3"]{--gear-t:9s;}
+.gauge[data-tier="4"]{--gear-t:6s;}
+.gauge[data-tier="5"]{--gear-t:3.6s;}
+.gauge[data-tier="6"]{--gear-t:2s;}
+/* 段が上がるほど歯車が濃く出る＝機構が浮かび上がる。段3で3枚目・段4で4枚目が噛み合う */
+.gauge[data-tier="2"] .gear{opacity:.58;}
+.gauge[data-tier="3"] .gear,.gauge[data-tier="4"] .gear{opacity:.68;}
+.gauge[data-tier="3"] .gear-c,.gauge[data-tier="4"] .gear-c{opacity:.62;}
+.gauge[data-tier="4"] .gear-d{opacity:.60;}
 /* 達成: 真鍮が磨かれた色に変わり、輪郭が灯る（緑ではなく金で祝う） */
-.gauge[data-tier="5"] .gear,.gauge[data-tier="6"] .gear{opacity:.82;fill:var(--brass-hi);
-  filter:drop-shadow(0 0 5px rgba(224,194,94,.65));}
+.gauge[data-tier="5"] .gear,.gauge[data-tier="6"] .gear{opacity:.92;fill:var(--brass-hi);
+  filter:drop-shadow(0 0 7px rgba(224,194,94,.75));}
 .gauge[data-tier="5"] .gear-a,.gauge[data-tier="6"] .gear-a,
 .gauge[data-tier="5"] .gear-c,.gauge[data-tier="6"] .gear-c{fill:var(--copper);}
-.gauge[data-tier="6"] .gear{filter:drop-shadow(0 0 9px rgba(224,194,94,.85));}
+.gauge[data-tier="6"] .gear{filter:drop-shadow(0 0 13px rgba(224,194,94,.95));}
 
-/* 層3: 盤面そのものが脈打つ。tier が上がるほど速く深く */
-.gauge[data-tier="4"] .gauge-ring{animation:gaugeBeat 2.6s var(--ease-in-out) infinite;}
-.gauge[data-tier="5"] .gauge-ring{animation:gaugeBeat 1.9s var(--ease-in-out) infinite;}
-.gauge[data-tier="6"] .gauge-ring{animation:gaugeBeat 1.15s var(--ease-in-out) infinite;}
-@keyframes gaugeBeat{0%,100%{transform:scale(1);}50%{transform:scale(1.04);}}
+/* 層3: 盤面そのものが脈打つ。tier が上がるほど速く深く（0%の日も静かに息をしている）。
+   ⚠️ 素の .gauge-ring で書くこと。.gauge .gauge-ring と詳細度を上げると
+      prefers-reduced-motion の animation:none（.gauge-ring）に勝ってしまう */
+.gauge-ring{animation:gaugeBeat 3.4s var(--ease-in-out) infinite;}
+.gauge[data-tier="2"] .gauge-ring{animation:gaugeBeat 3s var(--ease-in-out) infinite;}
+.gauge[data-tier="3"] .gauge-ring{animation:gaugeBeat 2.6s var(--ease-in-out) infinite;}
+.gauge[data-tier="4"] .gauge-ring{animation:gaugeBeat 2.1s var(--ease-in-out) infinite;}
+.gauge[data-tier="5"] .gauge-ring{animation:gaugeBeat 1.6s var(--ease-in-out) infinite;}
+.gauge[data-tier="6"] .gauge-ring{animation:gaugeBeat 1s var(--ease-in-out) infinite;}
+@keyframes gaugeBeat{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
 
 /* 層4: 達成。中央の数字とキャプションが達成色になって明滅する */
 .gauge[data-tier="5"] .gauge-mid,.gauge[data-tier="6"] .gauge-mid{color:var(--gr);
@@ -630,6 +647,8 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
   .mfx .gm-mission.done::before,.mfx .gm-mission.done::after,
   .mfx .gm-mission.done .gm-mission-ic,.mfx .gm-mission.done .gm-mission-lbl,
   .mfx .gm-mission.done .gm-mission-fill::after{animation:none;}
+  /* 段ごとの脈動は詳細度が1段高いので、同じ詳細度で後から打ち消す */
+  .gauge[data-tier] .gauge-ring,.gauge[data-tier] .gauge-mid{animation:none;}
   .hero-live::after,.cta-main::after,.spark i.today::after,
   .mfx .gm-mission.done::before,.mfx .gm-mission.done::after,
   .mfx .gm-mission.done .gm-mission-ic::after,
@@ -738,7 +757,9 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
 
     <div class="hero-body">
       <div>
-        <p class="hero-label"><span class="hero-live" aria-hidden="true"></span><span class="lb" id="heroLabelTx">読み込み中…</span></p>
+        <!-- 日付は「今日解いた問題」と同じ行に置く。日をまたいで開きっぱなしにしていると
+             数字が0に戻る日があるので、どの日の集計かをここで名指しする -->
+        <p class="hero-label"><span class="hero-live" aria-hidden="true"></span><span class="lb" id="heroLabelTx">読み込み中…</span><span class="hero-date" id="heroDate"></span></p>
         <p class="hero-fig"><span class="hero-num" id="heroNum">0</span><span class="hero-unit" id="heroUnit">問</span></p>
         <p class="hero-xp"><span id="heroXp">+0</span><em>XP</em></p>
         <p class="hero-xp-n" id="heroXpNote"></p>
@@ -760,24 +781,27 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
            達成率は 100% で頭打ちにしない（超えた日はそのまま 130% 等を出す）。 -->
       <div class="gauge" id="gaugeBox" data-tier="0">
         <div class="gauge-ring">
-          <svg viewBox="0 0 140 140" aria-hidden="true">
+          <!-- viewBox は 168。弧(r=54)は据え置きのまま外側に余白を作り、そこへ歯車列を
+               大きく載せている（GAUGE_C = 2π×54 は変えない＝弧の計算はそのまま） -->
+          <svg viewBox="0 0 168 168" aria-hidden="true">
             <!-- スチームパンクの歯車列。d は _buildGears() が起動時に入れる（歯数から生成）。
-                 大歯車24枚に小歯車12/16/10枚が噛み合い、歯数比のぶんだけ速く逆回りする。
-                 gear-c は段3以上でだけ現れる＝進み具合が機構の複雑さで読める -->
+                 大歯車24枚に小歯車12/16/10/14枚が噛み合い、歯数比のぶんだけ速く逆回りする。
+                 gear-c は段3・gear-d は段4で濃くなる＝進み具合が機構の複雑さで読める -->
             <path class="gear gear-main" id="gearMain"></path>
             <path class="gear gear-a"    id="gearA"></path>
             <path class="gear gear-b"    id="gearB"></path>
             <path class="gear gear-c"    id="gearC"></path>
-            <circle class="gauge-trk"  cx="70" cy="70" r="54"></circle>
-            <circle class="gauge-val" id="gaugeVal" cx="70" cy="70" r="54"></circle>
+            <path class="gear gear-d"    id="gearD"></path>
+            <circle class="gauge-trk"  cx="84" cy="84" r="54"></circle>
+            <circle class="gauge-val" id="gaugeVal" cx="84" cy="84" r="54"></circle>
             <!-- 100%を超えたぶんだけを1周目の上に重ねて描く2周目の弧。
                  100%までは長さ0＝見えない。200%超は満タンで頭打ち（数字は正しく出る） -->
-            <circle class="gauge-ovf" id="gaugeOvf" cx="70" cy="70" r="54"></circle>
+            <circle class="gauge-ovf" id="gaugeOvf" cx="84" cy="84" r="54"></circle>
             <!-- 円弧の先端に付く光点。SVG の既定 transform-box は view-box なので
-                 transform-origin にユーザー単位の中心(70,70)をそのまま書ける -->
-            <g class="gauge-dot" id="gaugeDot" style="transform-origin:70px 70px">
-              <circle class="halo" cx="70" cy="16" r="9"></circle>
-              <circle cx="70" cy="16" r="4.5"></circle>
+                 transform-origin にユーザー単位の中心(84,84)をそのまま書ける -->
+            <g class="gauge-dot" id="gaugeDot" style="transform-origin:84px 84px">
+              <circle class="halo" cx="84" cy="30" r="10"></circle>
+              <circle cx="84" cy="30" r="5"></circle>
             </g>
           </svg>
           <span class="gauge-mid" id="gaugeMid"><span id="statPct">0</span><em>%</em></span>
@@ -1103,6 +1127,16 @@ function calcDoneInScope() {
 
 function _fmtN(n) { return (n || 0).toLocaleString('ja-JP'); }
 
+// ヒーローに出す今日の日付（「2026年8月13日(木)」）。
+// ⚠️ 端末のタイムゾーンではなく JST で切ること。activity_v1・ミッション・attempts の
+//    日境界が全部 UTC+9 なので、ここだけ端末ローカルにすると深夜に日付と数字がずれる。
+const _WD_JA = ['日', '月', '火', '水', '木', '金', '土'];
+function _todayLabelJa() {
+  const d = new Date(Date.now() + 9 * 3600000);   // 以降 getUTC* で読む＝JSTの暦日になる
+  return d.getUTCFullYear() + '年' + (d.getUTCMonth() + 1) + '月' + d.getUTCDate() + '日'
+    + '(' + _WD_JA[d.getUTCDay()] + ')';
+}
+
 // done_v2 のキーを prefix で数える。ハブの進捗表示はすべてこれが根拠
 function _doneCountBy(prefix) {
   const done = JSON.parse(localStorage.getItem('done_v2') || '{}');
@@ -1183,6 +1217,10 @@ function renderHero() {
 
   // 大きな読み値は常に「今日どれだけやったか」。何をすべきかは主ボタンと計器行が担う。
   label.textContent = '今日解いた問題';
+  // 同じ行に日付。⚠️ 端末のローカル日付ではなく JST で切ること
+  //    （activity_v1・ミッション・attempts と同じ日境界＝数字と日付が食い違わない）
+  const dateEl = document.getElementById('heroDate');
+  if (dateEl) dateEl.textContent = _todayLabelJa();
   document.getElementById('heroUnit').textContent = '問';
   document.getElementById('heroXp').textContent = '+' + _fmtN(td.xp);
 
@@ -1536,14 +1574,16 @@ function _gearPath(cx, cy, root, tip, n) {
   return d + 'Z';
 }
 // 歯車の諸元。⚠️ 歯数と CSS の --gear-t の係数は対（比が噛み合いを作る）。
-//   大24枚 : a=12枚(×2) / b=16枚(×1.5) / c=10枚(×2.4)
-// 小歯車は中心から 76.4（＝角に置いた 45度 の位置）にあり、歯先が大歯車の歯先(69)へ
-// 食い込む距離になっている。ここを動かすと噛み合いが離れて浮いて見える。
+//   大24枚 : a=12枚(×2) / b=16枚(×1.5) / c=10枚(×2.4) / d=14枚(×1.71)
+// 小歯車は中心から約 94.8（＝四隅に置いた 45度 の位置）にあり、歯先が大歯車の歯の領域
+// （root 74〜tip 82）へ食い込む距離になっている。ここを動かすと噛み合いが離れて浮く。
+// ⚠️ 座標は viewBox 168×168・中心(84,84)。viewBox を変えるならここも全部変える。
 const GEARS = [
-  { id: 'gearMain', cx: 70,  cy: 70,  root: 62,  tip: 69,   n: 24, hole: 55 },
-  { id: 'gearA',    cx: 16,  cy: 16,  root: 7.5, tip: 12,   n: 12, hole: 3.4 },
-  { id: 'gearB',    cx: 124, cy: 124, root: 9.5, tip: 14,   n: 16, hole: 4.2 },
-  { id: 'gearC',    cx: 124, cy: 16,  root: 6.5, tip: 10.5, n: 10, hole: 3 },
+  { id: 'gearMain', cx: 84,  cy: 84,  root: 74,   tip: 82, n: 24, hole: 66 },
+  { id: 'gearA',    cx: 17,  cy: 17,  root: 10.6, tip: 17, n: 12, hole: 4.8 },
+  { id: 'gearB',    cx: 151, cy: 151, root: 11.5, tip: 17, n: 16, hole: 5.1 },
+  { id: 'gearC',    cx: 148, cy: 20,  root: 8,    tip: 13, n: 10, hole: 3.7 },
+  { id: 'gearD',    cx: 18,  cy: 150, root: 10,   tip: 15, n: 14, hole: 4.4 },
 ];
 // 中心の穴。歯車本体と逆回りの円を同じ path に足し、fill-rule:evenodd で抜く
 function _holePath(cx, cy, r) {
@@ -1575,6 +1615,8 @@ function _goalTier(pct) {
 // ゲージ: 達成率を弧と data-tier に反映し、段が上がったときだけ祝砲を撒く。
 // 100%を超えたぶんは2周目の弧（.gauge-ovf）を1周目に重ねて描く。
 // ⚠️ 数字（#statPct）は頭打ちにしていないので、弧が満タンでも 210% は 210% と読める。
+// ⚠️ 「段が上がったときだけ」は祝砲（全画面を使う大きい方）の話。常時の演出は
+//    _startGaugeAmbient() が別に回している＝同期の再描画で大砲が連発することはない。
 let _gaugeTierShown = -1;
 function _driveGauge(pct) {
   const box = document.getElementById('gaugeBox');
@@ -1592,6 +1634,9 @@ function _driveGauge(pct) {
   if (dot) dot.style.transform = 'rotate(' + ((over > 0 ? over : base) * 3.6) + 'deg)';
   if (box) box.dataset.tier = String(tier);
 
+  // 常時の演出（火花・蒸気・定期的な祝砲）はここから起動する。段が変われば強さも変わる
+  _startGaugeAmbient(tier);
+
   // 同期の再描画で毎回撒くと煩いので、段が上がったときだけ鳴らす
   if (tier <= _gaugeTierShown) return;
   _gaugeTierShown = tier;
@@ -1600,51 +1645,115 @@ function _driveGauge(pct) {
   setTimeout(() => _gaugeCelebrate(tier), over > 0 ? 2400 : 1350);
 }
 
+// ── 盤面の常時演出 ───────────────────────────────────────────────
+// 「達成した瞬間だけ派手」ではなく、開いている間ずっと機械が動いて見えるようにする。
+//   ・常時（1.7秒ごと）: 歯車の噛み合いから火花が散り、軸から蒸気が漏れる
+//   ・22秒ごと: いまの段の祝砲をもう一度撒く＝しばらく眺めていても山が来る
+// ⚠️ 撒く条件は _fxOk()（reduced-motion / 非表示タブを弾く）＋ ゲージが画面内にいること。
+//    スクロールで見えない位置にあるときに撒いても canvas を無駄に回すだけ。
+let _gaugeFxTimer = 0, _gaugeFxBoom = 0, _gaugeFxTier = -1;
+function _startGaugeAmbient(tier) {
+  if (tier === _gaugeFxTier) return;          // 段が変わらない限り作り直さない
+  _gaugeFxTier = tier;
+  clearInterval(_gaugeFxTimer); clearInterval(_gaugeFxBoom);
+  if (_reducedMotion()) return;
+
+  // 歯車の中心。ゲージが画面外／未描画なら null（撒かない）
+  const spot = () => {
+    const box = document.getElementById('gaugeBox');
+    if (!box || !_fxOk()) return null;
+    const r = box.getBoundingClientRect();
+    if (r.bottom < 40 || r.top > innerHeight - 40) return null;
+    const ring = box.querySelector('.gauge-ring') || box;
+    const q = ring.getBoundingClientRect();
+    return { x: q.left + q.width / 2, y: q.top + q.height / 2, r: q.width / 2 };
+  };
+
+  _gaugeFxTimer = setInterval(() => {
+    const c = spot();
+    if (!c) return;
+    const hot = Math.max(1, tier);            // 0% の日も機械は動いている（最小の火花は出す）
+    // 歯車が噛み合う四隅から火花。段が上がるほど散る数と勢いが増える
+    const ang = Math.random() * Math.PI * 2;
+    MecFX.burst(c.x + Math.cos(ang) * c.r * .82, c.y + Math.sin(ang) * c.r * .82, {
+      tier: Math.min(4, hot), count: 3 + hot * 2, colors: BRASS,
+      shapes: hot >= 3 ? ['circle', 'shard'] : ['circle'], speed: 130 + hot * 40
+    });
+    // 軸から漏れる蒸気。薄く・少なく（読み値の邪魔をしない濃さに留める）
+    MecFX.steam(c.x, c.y + c.r * .5, {
+      count: 1 + (hot >= 4 ? 2 : 1), w: c.r * .5, rise: 60 + hot * 12,
+      min: 18, max: 40, alpha: .18 + hot * .02
+    });
+    // 半分まで来たら歯車そのものが弾ける粒も混ぜる
+    if (hot >= 3) MecFX.gears(c.x, c.y, {
+      count: hot >= 5 ? 4 : 2, spread: 150 + hot * 30, up: true, w: c.r * .6, min: 10, max: 20
+    });
+  }, 1700);
+
+  // 定期の祝砲。段0（まだ1問も解いていない日）は鳴らさない＝「やった」ことの合図を守る
+  if (tier <= 0) return;
+  _gaugeFxBoom = setInterval(() => { if (spot()) _gaugeCelebrate(tier); }, 22000);
+}
+
 // 真鍮・銅の火花。歯車と同じ色系統（テーマには振らない）
 const BRASS = ['#C9A227', '#E0C25E', '#B87333', '#8C6D1F'];
 
 // 段に応じた祝砲。層を1つずつ積み上げる構造にして、tier が上がるほど派手にする。
 // 意匠はスチームパンク＝真鍮の火花・回る歯車・蒸気で作る（花火や紙吹雪は使わない）。
+// 2026-08-13: 全体に量を上げ、画面全体を使う層の閾値を段5→段3へ下げた
+// （「達成した日だけ派手」ではなく「開けば毎回派手」にする方針）。
 function _gaugeCelebrate(tier) {
   const dot = document.getElementById('gaugeDot');
   if (!_fxOk() || !dot) return;
   const c = _centerOf(dot);
   if (!c) return;
   const hit = tier >= 5;
+  // 盤面の中心。輪と蒸気はここを軸にする（光点は円周上を回るので軸には使えない）
+  const ringEl = document.querySelector('#gaugeBox .gauge-ring');
+  const g = (ringEl && _centerOf(ringEl)) || c;
 
   // 層1（全段）: 真鍮の衝撃波と、削り粉のような火花。段とともに輪も火花も増える
-  MecFX.rings(c.x, c.y, {
-    count: Math.min(4, tier), maxR: 60 + tier * 26, thickness: 2,
+  MecFX.rings(g.x, g.y, {
+    count: Math.min(6, tier + 2), maxR: 110 + tier * 42, thickness: 3,
     color: hit ? '#E0C25E' : '#C9A227', additive: true
   });
   MecFX.burst(c.x, c.y, {
-    tier: Math.min(6, tier + 1), count: 8 + tier * 7,
+    tier: Math.min(6, tier + 2), count: 22 + tier * 14,
     colors: hit ? BRASS.concat(['#FFF3C4']) : BRASS,
     // shard ＝ 細長い金属片。円だけだと火の粉に寄りすぎて金属に見えない
-    shapes: tier >= 3 ? ['circle', 'shard'] : ['circle'],
-    speed: 260 + tier * 90
+    shapes: tier >= 2 ? ['circle', 'shard'] : ['circle'],
+    speed: 380 + tier * 110
   });
+  // 層2（全段）: 軸から歯車が弾け、隙間から蒸気がひと吹き漏れる
+  MecFX.gears(g.x, g.y, { count: 6 + tier * 3, spread: 300 + tier * 60, up: true, w: 48 });
+  MecFX.steam(g.x, g.y + 22, { count: 8 + tier * 3, w: 40, rise: 110, alpha: .44 });
   if (tier < 3) return;
 
-  // 層2（半分から）: 軸から歯車が弾け、隙間から蒸気がひと吹き漏れる
-  MecFX.gears(c.x, c.y, { count: tier >= 4 ? 9 : 5, spread: 240 + tier * 40, up: true, w: 38 });
-  MecFX.steam(c.x, c.y + 18, { count: 5 + tier * 2, w: 30, rise: 90, alpha: .42 });
-  if (!hit) return;
-
-  // 層3（達成）: ここだけ画面全体を使う。床から蒸気が立ち上り、歯車が降ってくる
+  // 層3（半分から）: ここから画面全体を使う。床から蒸気が立ち上り、歯車が降ってくる
   MecFX.steam(innerWidth / 2, innerHeight + 30, {
-    count: tier >= 6 ? 30 : 20, w: innerWidth / 2,
+    count: 14 + tier * 4, w: innerWidth / 2,
     rise: 240, min: 60, max: 130, grow: 3.2, alpha: .34, stagger: .7
   });
-  MecFX.gearRain({ count: tier >= 6 ? 46 : 28, big: tier >= 6 });
-  if (tier < 6) return;
+  MecFX.gearRain({ count: 16 + tier * 6, big: tier >= 5 });
+  if (tier < 4) return;
 
-  // 層4（大幅超過）: 目標を1.5倍やった日だけ、両脇の安全弁が抜ける
+  // 層4（もう少しで達成〜）: 両脇の安全弁が抜け、盤面がもう一度打ち上がる
   [0, innerWidth].forEach(x => MecFX.steam(x, innerHeight * .55, {
-    count: 14, w: 10, rise: 60, min: 40, max: 90, grow: 3.4, alpha: .40,
+    count: 10 + tier * 2, w: 10, rise: 60, min: 40, max: 90, grow: 3.4, alpha: .40,
     vx: x ? -260 : 260, stagger: .3
   }));
-  MecFX.gears(c.x, c.y, { count: 12, spread: 620, gravity: 520, min: 18, max: 46, stagger: .3 });
+  MecFX.gears(g.x, g.y, {
+    count: 8 + tier * 2, spread: 620, gravity: 520, min: 18, max: 46, stagger: .3
+  });
+  if (!hit) return;
+
+  // 層5（達成）: 金の粉が舞い、少し遅れて第2波が来る＝1日の山をここに置く
+  MecFX.dust({ count: 26, colors: ['#E0C25E', '#C9A227', '#FFF3C4'] });
+  setTimeout(() => {
+    if (!_fxOk()) return;
+    MecFX.rings(g.x, g.y, { count: 4, maxR: 260, thickness: 3, color: '#FFF3C4', additive: true });
+    MecFX.gearRain({ count: tier >= 6 ? 46 : 30, big: true });
+  }, 620);
 }
 
 // 連続日数の熾火。3日以上つながっているときだけ、画面内で時々1粒

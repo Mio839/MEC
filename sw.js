@@ -1,3 +1,6 @@
+// 2026-08-13c: ハブの「今日の目標」ゲージを拡大（viewBox 140→168・盤面 152→208px・
+// 歯車4枚）し、演出を常時化した（火花と蒸気が1.7秒ごと・22秒ごとに祝砲）。
+// 見出し行に日付も出す。シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // v166: 麻酔科(anes) 第2章「緩和医療」NO.36-52（17問・画像1問1枚）を追加し全2章52問が完成。
 // questions_anes.json を更新し 麻酔科/images/112F-50_1.jpeg を追加したので CACHE を bump。
 // これでマイナー講座7科目（psy/derm/oph/ent/uro/ortho/anes）が全て揃った。
@@ -132,7 +135,7 @@ const CACHE = "mec-v166";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-13b";
+const SHELL_VERSION = "2026-08-13c";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

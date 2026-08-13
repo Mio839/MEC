@@ -133,6 +133,9 @@ assert.ok(GAUGE_C > 0, 'GAUGE_C を読み取れない');
 // 「もう鳴らした段」を覚えている関数外の変数。宣言ごと本文から借りる
 const TIER_STATE = (HTML.match(/^let _gaugeTierShown = .+;$/m) || [])[0];
 assert.ok(TIER_STATE, '_gaugeTierShown の宣言が index.html に無い');
+// 常時演出（火花・蒸気・定期の祝砲）のタイマー。_driveGauge から呼ばれるので器に要る
+const AMBIENT_STATE = (HTML.match(/^let _gaugeFxTimer = .+;$/m) || [])[0];
+assert.ok(AMBIENT_STATE, '_gaugeFxTimer の宣言が index.html に無い');
 
 // 弧・光点・段だけを見る器。祝砲（_gaugeCelebrate）は撒かれた段を記録するだけにする
 function makeGauge() {
@@ -141,12 +144,17 @@ function makeGauge() {
   const fired = [];
   const ctx = {
     console, GAUGE_C, setTimeout: (fn) => { fn(); return 0; },
+    setInterval: () => 0, clearInterval: () => {},
+    // 常時演出は「撒くか撒かないか」ではなく弧・段・祝砲を見るテストなので、
+    // reduced-motion 扱いにして即 return させる（タイマーを回さない）
+    _reducedMotion: () => true,
     _gaugeCelebrate: tier => fired.push(tier),
     document: { getElementById: id => els[id] || null },
   };
   ctx.globalThis = ctx;
   vm.createContext(ctx);
-  vm.runInContext(TIER_STATE + '\n' + extract('_goalTier') + '\n' + extract('_driveGauge'), ctx);
+  vm.runInContext([TIER_STATE, AMBIENT_STATE, extract('_goalTier'),
+                   extract('_startGaugeAmbient'), extract('_driveGauge')].join('\n'), ctx);
   // 弧の残り長さ → 描かれた割合（%）
   const pctOf = el => Math.round((1 - Number(el.style.strokeDashoffset) / GAUGE_C) * 1000) / 10;
   return {
@@ -277,10 +285,35 @@ t('小歯車は大歯車と必ず噛み合う（歯先が相手の歯の領域�
   });
 });
 
-t('どの歯車も viewBox(140x140) からはみ出さない', () => {
+t('どの歯車も viewBox からはみ出さない（箱の寸法はマークアップから読む）', () => {
+  // 歯車の座標は viewBox のユーザー単位。箱を広げたら座標も全部直す必要があるので、
+  // 数字を直書きせずマークアップ側の viewBox を正本にする
+  const vb = (HTML.match(/<svg viewBox="0 0 (\d+) (\d+)"/) || []).slice(1).map(Number);
+  assert.ok(vb.length === 2 && vb[0] === vb[1], 'ゲージの viewBox を読み取れない');
+  const S = vb[0] + 0.5;
   GEAR_CTX.GEARS.forEach(g => {
-    assert.ok(g.cx - g.tip >= -0.5 && g.cx + g.tip <= 140.5, g.id + ' が横にはみ出す');
-    assert.ok(g.cy - g.tip >= -0.5 && g.cy + g.tip <= 140.5, g.id + ' が縦にはみ出す');
+    assert.ok(g.cx - g.tip >= -0.5 && g.cx + g.tip <= S, g.id + ' が横にはみ出す');
+    assert.ok(g.cy - g.tip >= -0.5 && g.cy + g.tip <= S, g.id + ' が縦にはみ出す');
+  });
+  // 弧の中心も同じ箱の中心にいること（片方だけ動かすと弧と歯車の軸がずれる）
+  const mid = vb[0] / 2;
+  const main = GEAR_CTX.GEARS.find(g => g.id === 'gearMain');
+  assert.ok(main.cx === mid && main.cy === mid, '大歯車の軸が盤面の中心にない');
+  assert.ok(new RegExp('class="gauge-val" id="gaugeVal" cx="' + mid + '" cy="' + mid + '"').test(HTML),
+    '進捗の弧の中心が盤面の中心にない');
+});
+
+t('大歯車の歯は進捗の弧より外側にある（歯車が読み値を隠さない）', () => {
+  const main = GEAR_CTX.GEARS.find(g => g.id === 'gearMain');
+  const r = Number((HTML.match(/class="gauge-val"[^>]*r="([\d.]+)"/) || [])[1]);
+  const sw = Number((HTML.match(/\.gauge-val\{stroke:var\(--or\);stroke-width:([\d.]+)/) || [])[1]);
+  assert.ok(r > 0 && sw > 0, '弧の半径・太さを読み取れない');
+  assert.ok(main.hole >= r + sw / 2, '大歯車の内縁が弧に食い込んでいる');
+});
+
+t('GEARS の歯車がマークアップに全部いる（足したのに <path> が無い事故を防ぐ）', () => {
+  GEAR_CTX.GEARS.forEach(g => {
+    assert.ok(new RegExp('id="' + g.id + '"').test(HTML), g.id + ' の <path> がマークアップに無い');
   });
 });
 
@@ -290,7 +323,7 @@ t('軸穴は歯底より内側にある（穴が歯を食わない）', () => {
 
 t('CSSの回転速度は歯数比と一致する（噛み合いが嘘にならない）', () => {
   // --gear-t（大歯車の周期）に対する係数。小歯車は歯数比のぶんだけ速く回る
-  const want = { 'gear-a': 12 / 24, 'gear-b': 16 / 24, 'gear-c': 10 / 24 };
+  const want = { 'gear-a': 12 / 24, 'gear-b': 16 / 24, 'gear-c': 10 / 24, 'gear-d': 14 / 24 };
   Object.keys(want).forEach(cls => {
     const m = HTML.match(new RegExp('\\.' + cls + '\\{animation:gearSpin calc\\(var\\(--gear-t[^)]*\\) \\* ([\\d.]+)\\)'));
     assert.ok(m, '.' + cls + ' の animation 指定が読めない');
@@ -298,17 +331,43 @@ t('CSSの回転速度は歯数比と一致する（噛み合いが嘘になら�
       '.' + cls + ' の係数 ' + m[1] + ' が歯数比 ' + want[cls].toFixed(3) + ' と違う');
   });
   // 小歯車は必ず逆回り（同じ向きだと噛み合っていないのが一目で分かる）
-  ['gear-a', 'gear-b', 'gear-c'].forEach(cls => {
+  ['gear-a', 'gear-b', 'gear-c', 'gear-d'].forEach(cls => {
     const line = HTML.match(new RegExp('\\.' + cls + '\\{animation:[^}]*\\}'))[0];
     assert.ok(/reverse/.test(line), '.' + cls + ' が逆回りになっていない');
   });
 });
 
 t('速さは --gear-t 1本で決まる（個別に duration を上書きしていない）', () => {
-  assert.ok(!/\.gear-(main|a|b|c)\{animation-duration/.test(HTML),
+  assert.ok(!/\.gear-(main|a|b|c|d)\{animation-duration/.test(HTML),
     '歯車ごとに animation-duration を上書きすると歯数比が崩れる');
   const tiers = HTML.match(/\.gauge\[data-tier="\d"\]\{--gear-t:[\d.]+s;\}/g) || [];
   assert.ok(tiers.length >= 5, '段ごとの --gear-t が足りない');
+});
+
+// ── 常時演出（開いている間ずっと機械が動いて見える） ──────────────────────
+sec('ゲージの常時演出（_startGaugeAmbient）');
+
+const AMBIENT_SRC = extract('_startGaugeAmbient');
+
+t('段が変わらない限りタイマーを作り直さない（同期の再描画で多重起動しない）', () => {
+  assert.ok(/if \(tier === _gaugeFxTier\) return;/.test(AMBIENT_SRC),
+    '同じ段で呼ばれたときに早期 return していない＝再描画のたびにタイマーが増える');
+  assert.ok(/clearInterval\(_gaugeFxTimer\)/.test(AMBIENT_SRC) &&
+            /clearInterval\(_gaugeFxBoom\)/.test(AMBIENT_SRC),
+    '張り替え前に前のタイマーを止めていない');
+});
+
+t('reduced-motion・非表示タブ・画面外では撒かない', () => {
+  assert.ok(/if \(_reducedMotion\(\)\) return;/.test(AMBIENT_SRC), 'reduced-motion を見ていない');
+  assert.ok(/_fxOk\(\)/.test(AMBIENT_SRC), '_fxOk()（非表示タブ・MecFX の有無）を見ていない');
+  assert.ok(/getBoundingClientRect\(\)/.test(AMBIENT_SRC), 'ゲージが画面内にいるかを見ていない');
+});
+
+t('0%の日は定期の祝砲を鳴らさない（火花だけは出る）', () => {
+  const i = AMBIENT_SRC.indexOf('_gaugeFxBoom = setInterval');
+  assert.ok(i > 0, '定期の祝砲が無い');
+  assert.ok(/if \(tier <= 0\) return;/.test(AMBIENT_SRC.slice(0, i)),
+    '段0でも祝砲が鳴る（「やった」ことの合図でなくなる）');
 });
 
 // ── fx_engine.js のスチームパンク粒子 ─────────────────────────────────────

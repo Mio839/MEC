@@ -380,6 +380,15 @@ xp: { banked: number, ledger: { 'd:2026-07-29': { ans:40, exam:40, __all__:150 }
 - ⚠️ 0件のとき href を外すのは飾りではない。`?mode=srs_review` / `?mode=today_wrong` は
   対象0で起動するとトーストを出して通常閲覧へ戻るだけなので、押させても無駄足になる。
 
+### 見出し行の日付（2026-08-13〜）
+
+「今日解いた問題」と同じ行の右端に `#heroDate`（例 `2026年8月13日(木)`）。文字列は
+`_todayLabelJa()`（index.html）が作る。
+
+- ⚠️ **端末のローカル日付ではなく JST で切ること**（`Date.now() + 9h` を作って `getUTC*` で読む）。
+  `activity_v1`・ミッション・`mec_attempts_v1` の日境界が全部 UTC+9 なので、ここだけ端末ローカルに
+  すると深夜0〜9時に**日付と数字が別の日を指す**。
+
 ## 今日の誤答を再履修（2026-08-04〜）
 
 ハブの3つ目のボタン（`#heroTertiary`）→ `study.html?mode=today_wrong`。
@@ -451,11 +460,21 @@ SRS復習と共通で、判定は **`_isHostSession()`**（study_exam.js）に�
   3桁は円からはみ出すので `.gauge-mid.wide` で一段字を落とす。
 - 演出の段は `_goalTier(pct)`（0 / 1〜4=途中 / 5=達成 / 6=1.5倍超）。`data-tier` を `.gauge` に載せ、
   CSSが「発光 → 歯車列が速く回る → 盤面が脈打つ → 達成色」と層を積む。粒子は `_gaugeCelebrate(tier)`
-  が同じ段構造で撒く（tier5以上でだけ画面全体に出る＝1日の山をそこに置く）。
-- **祝砲は段が上がったときだけ鳴らす**（`_gaugeTierShown`）。Gist同期の完了で `renderHero()` は
-  何度も走るので、条件を外すと同期のたびに祝砲が上がる。
-- テスト: `node _work/test_daily_goal.js`（index.html から `_goalTier`/`_driveGauge`/`_gearPath`/`GEARS` を
-  切り出して実行するので、関数名や `let _gaugeTierShown` の宣言を変えるとテスト側も直す必要がある）。
+  が同じ段構造で撒く（**2026-08-13に画面全体を使う層の閾値を段5→段3へ下げ、全体の量も上げた**）。
+- **盤面は viewBox 168×168・中心(84,84)**（2026-08-13に 140×140 から拡大）。弧の半径は 54 のまま
+  ＝`GAUGE_C = 2π×54` は据え置きで、**外側に空いた余白へ歯車列を大きく載せている**。
+  CSS幅は `clamp(148px,40vw,208px)`。⚠️ viewBox を変えるなら `GEARS` の座標・`<circle>` の cx/cy・
+  光点の座標・`transform-origin` を全部揃えること（テストが viewBox をマークアップから読んで検査する）。
+- **祝砲（`_gaugeCelebrate`）は段が上がったときだけ鳴らす**（`_gaugeTierShown`）。Gist同期の完了で
+  `renderHero()` は何度も走るので、条件を外すと同期のたびに祝砲が上がる。
+- **常時の演出は `_startGaugeAmbient(tier)` が別に持つ**（2026-08-13〜）。1.7秒ごとに歯車の噛み合いから
+  火花・軸から蒸気（段3以上は歯車の粒も）、**22秒ごとにその段の祝砲をもう一度**撒く＝眺めている間ずっと
+  機械が動いて見える。⚠️ **段が変わらない限りタイマーを張り替えないこと**（`_gaugeFxTier` の早期return）。
+  再描画のたびに `setInterval` が増えると多重に撒かれる。撒く条件は `_fxOk()`（reduced-motion・
+  非表示タブ）＋**ゲージが画面内にいること**。段0（まだ1問も解いていない日）は火花だけで祝砲は鳴らさない。
+- テスト: `node _work/test_daily_goal.js`（index.html から `_goalTier`/`_driveGauge`/`_startGaugeAmbient`/
+  `_gearPath`/`GEARS` を切り出して実行するので、関数名や `let _gaugeTierShown` / `let _gaugeFxTimer` の
+  宣言を変えるとテスト側も直す必要がある）。
 
 ### スチームパンクの歯車（2026-07-29）
 
@@ -463,7 +482,11 @@ SRS復習と共通で、判定は **`_isHostSession()`**（study_exam.js）に�
 進捗の弧（`--or`／達成の `--gr`）とは別系統の色にして、「読み値」と「機械」を描き分けている。
 
 - 歯車の `d` は `_buildGears()` が起動時に**歯数から生成**する（`_gearPath` + `_holePath`、`fill-rule:evenodd` で軸穴）。
-  諸元は `GEARS` 定数：大24枚／小 a=12・b=16・c=10 枚。`gear-c` は段3から現れる。
+  諸元は `GEARS` 定数：大24枚／小 a=12・b=16・c=10・**d=14** 枚（四隅に1枚ずつ）。
+  `gear-c` は段3・`gear-d` は段4で濃くなる。**歯車を足したら CSS に `.gear-d{animation:gearSpin
+  calc(var(--gear-t) * 歯数比) ... reverse}` を対で書く**（テストが歯数比と逆回りを検査する）。
+- ⚠️ **大歯車の軸穴（`hole`）は弧の外側に置くこと**（現在 hole 66 ＞ 弧 r54＋線幅の半分5）。
+  内側へ食い込ませると読み値（％）に歯車の面が重なる。テストがこの関係を守る。
 - ⚠️ **速さは `--gear-t` 1本だけを動かすこと**。小歯車の duration は `calc(var(--gear-t) * 歯数比)` で、
   逆回り（`reverse`）。個別に `animation-duration` を上書きすると歯数比が崩れて噛み合いが嘘になる。
 - ⚠️ 小歯車の位置は「歯先が大歯車の歯の領域（root〜tip）へ食い込む」距離で決めてある。
