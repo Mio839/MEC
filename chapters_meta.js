@@ -1091,6 +1091,12 @@ const MEC_CHAPTERS = [
         "file": "麻酔科/ch01_shujutsuki.html",
         "title": "第1章 周術期の麻酔",
         "count": 35
+      },
+      {
+        "prefix": "anes_ch02",
+        "file": "麻酔科/ch02_kanwa.html",
+        "title": "第2章 緩和医療",
+        "count": 17
       }
     ]
   }

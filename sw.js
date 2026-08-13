@@ -1,3 +1,10 @@
+// v166: 麻酔科(anes) 第2章「緩和医療」NO.36-52（17問・画像1問1枚）を追加し全2章52問が完成。
+// questions_anes.json を更新し 麻酔科/images/112F-50_1.jpeg を追加したので CACHE を bump。
+// これでマイナー講座7科目（psy/derm/oph/ent/uro/ortho/anes）が全て揃った。
+// 本章はWHO方式が答えそのもの——by mouth（飲めるなら口から）と by the clock（時刻を決めて）の
+// 2原則で半分が解ける。オピオイドは積み上げず置き換える（強オピオイドに弱オピオイドを足さない
+// ＝NO.43・正答率19%で本科目最低）。副作用は便秘だけ耐性がつかない＝開始と同時に緩下薬。
+// NO.45（117F-42）は採点除外＝本科目で唯一（bxバッジ・正解肢0・rate なし）。
 // v165: 麻酔科(anes)を新科目として追加（第1章「周術期の麻酔」NO.1-35・画像8問17枚）。
 // questions_anes.json を CARDS に加え、麻酔科/images/ を追加したので CACHE を bump。
 // マイナー講座7科目め。全2章52問の小さな科目で、第2章「緩和医療」17問は未実装。
@@ -120,7 +127,7 @@
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v165";
+const CACHE = "mec-v166";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。

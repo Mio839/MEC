@@ -44,7 +44,7 @@
     { id: 'ent',     name: '耳鼻咽喉科', icon: '👂', color: '#0F766E', total: 214 },
     { id: 'uro',     name: '泌尿器科',   icon: '💦', color: '#0891B2', total: 242 },
     { id: 'ortho',   name: '整形外科',   icon: '🦴', color: '#A16207', total: 174 },
-    { id: 'anes',    name: '麻酔科',     icon: '💉', color: '#7C3AED', total: 35 },
+    { id: 'anes',    name: '麻酔科',     icon: '💉', color: '#7C3AED', total: 52 },
     { id: 'jitsu1',  name: '実力試験Ⅰ', icon: '🎯', color: '#6366F1', total: 160 },
   ];
 
