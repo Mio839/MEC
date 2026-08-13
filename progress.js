@@ -108,23 +108,25 @@
     syncTimer = setTimeout(pushToGist, 30000);
   }
 
-  // ⚠️ Gist API は 1ファイルの content を 900KiB で切り詰め、file.truncated を立てる。
-  //    2026-08-13に 963,716B のファイルが 921,600B ちょうどで切られ、それを素で JSON.parse した
-  //    ために「Unterminated string in JSON at position 920360」で同期が落ち続けていた。
-  //    全キーを1ファイルに詰める設計だと、データが育ったその日から同期が壊れる。対策は2つ要る:
-  //      ① 読む側 — truncated なら raw_url から全文を取り直す（_readGistFile）
-  //      ② 書く側 — 大きいキーを別ファイルへ分け、1ファイルが上限に届かないようにする（GIST_SHARDS）
+  // ⚠️ Gist API の応答は content を 900KiB(921,600B) で切り詰め、file.truncated を立てる。
+  //    2026-08-13に進捗が 963,716B まで育ち、それを素で JSON.parse したために
+  //    「Unterminated string in JSON at position 920360」で同期が落ち続けていた。
+  //    ⚠️ この 900KiB は**ファイル単位ではなく応答全体の合計**（実測: 4ファイルに分けても
+  //       合計 content が 920,360文字＝921,600B ちょうどで最後のファイルが切られた）。
+  //       つまり**分割しても切り詰めは避けられない**。効くのは raw_url からの取り直しの方で、
+  //       そちらが本体の対策（_readGistFile）。
   const GIST_FILE = 'mec_progress.json';
-  // キー → 収容ファイル名。ここに無いキーはすべて GIST_FILE へ入る。
-  // 全問を解き切っても各ファイルが 900KiB を大きく下回るように割ってある
-  // （2026-08-13実測: srs 449KB／rate系 217KB／attempts 147KB（5000件で頭打ち）／残り 151KB）。
+  // キー → 収容ファイル名。ここに無いキーはすべて GIST_FILE へ入る。分割の目的は上記のとおり
+  // 切り詰め回避ではなく、① 1ファイルが肥大して書き込み側の上限に当たるのを防ぐこと
+  // ② 切り詰められた時に取り直す raw の量を、そのファイルぶんだけで済ませること の2つ。
+  // （2026-08-13実測: srs 449KB／rate系 217KB／attempts 147KB（5000件で頭打ち）／残り 151KB）
   const GIST_SHARDS = {
     [K_SRS]: 'mec_srs.json',
     [K_ATT]: 'mec_attempts.json',
     [KR]: 'mec_rate.json',
     'mec_choice_v1': 'mec_rate.json'
   };
-  const GIST_FILE_WARN = 800 * 1024; // これを超えたら GIST_SHARDS の割り直しが要る
+  const GIST_FILE_WARN = 800 * 1024; // 1ファイルがこれを超えたら GIST_SHARDS の割り直しを検討する
 
   function _byteLen(s) {
     return typeof TextEncoder !== 'undefined' ? new TextEncoder().encode(s).length : s.length;
@@ -254,8 +256,8 @@
       'Content-Type': 'application/json',
       Accept: 'application/vnd.github.v3+json'
     };
-    // キーを GIST_SHARDS に従って複数ファイルへ振り分ける。1ファイルが 900KiB を超えると
-    // API の応答が切り詰められて読めなくなるため（上の GIST_SHARDS のコメント参照）。
+    // キーを GIST_SHARDS に従って複数ファイルへ振り分ける（狙いは上の GIST_SHARDS のコメント参照。
+    // 切り詰めそのものは応答全体の合計で決まるので、分割では避けられない）。
     const parts = {};
     Object.keys(payload).forEach(k => {
       const name = GIST_SHARDS[k] || GIST_FILE;
@@ -266,9 +268,8 @@
     const files = {};
     Object.entries(parts).forEach(([name, obj]) => {
       const content = JSON.stringify(obj);
-      const kb = Math.round(_byteLen(content) / 1024);
       if (_byteLen(content) > GIST_FILE_WARN) {
-        console.warn(`[MECSync] ${name} が ${kb}KB。900KiB でAPIに切り詰められるので GIST_SHARDS の割り直しが要る`);
+        console.warn(`[MECSync] ${name} が ${Math.round(_byteLen(content) / 1024)}KB。1ファイルとして大きすぎるので GIST_SHARDS の割り直しを検討する`);
       }
       files[name] = { content };
     });

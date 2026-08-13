@@ -722,9 +722,38 @@ study.html の科目チップは**1科目だけ選べる**。「全科目」ボ�
 
 ## 複数デバイス同期
 
-GitHub Gist API で `mec_progress.json` に進捗を保存。
-`index.html` の「同期設定」から PAT と Gist ID を登録。
+GitHub Gist API で進捗を保存。`index.html` の「同期設定」から PAT と Gist ID を登録。
 マージ戦略：done はunion（周回数は大きい方）。
+
+### ⚠️ 1つの Gist ファイルに全部を詰めない（2026-08-13〜）
+
+**Gist API の応答は `content` を 900KiB(921,600B) で切り詰め、`file.truncated` を立てる**。
+2026-08-13に進捗が 963,716B まで育ち、`Unterminated string in JSON at position 920360` で
+同期が止まった。
+
+⚠️ **この 900KiB はファイル単位ではなく応答全体の合計**。実測で4ファイルに分けても
+合計 content が 921,600B ちょうどで頭打ちになり、最後のファイル（`mec_srs.json`）が切られた。
+**つまりファイル分割では切り詰めを避けられない**。本体の対策は raw からの取り直しの方:
+
+- **読む側（本体の対策）** — `truncated`（および content が壊れているとき）は `raw_url` から
+  全文を取り直す（`_readGistFile`）。**truncated なファイルは複数同時に出るので全部拾う**。
+  ⚠️ **`raw_url` に `Authorization` を付けてはいけない**。`gist.githubusercontent.com` は
+  プリフライトを通さないので `Failed to fetch` になる。secret gist の raw_url はリビジョンの
+  sha入りで推測できないためヘッダ無しで取ってよい（実測で 200・全文が返る）。
+- **書く側（`GIST_SHARDS`）** — 大きいキーを別ファイルへ分ける。現在は
+  `mec_srs.json`（srs）／`mec_attempts.json`（attempts）／`mec_rate.json`（myrate＋choice）／
+  残り全部が `mec_progress.json`。狙いは切り詰め回避ではなく、**1ファイルの肥大で書き込み側の
+  上限に当たるのを防ぐこと**と、**取り直す raw の量をそのファイルぶんに抑えること**。
+  読む側は**全ファイルを浅くマージして1つの payload に戻す**ので `_mergeRemote` は分割を知らない。
+  旧形式（全キーが `mec_progress.json`）もそのまま読める。混在時は `mec_progress.json` が勝つ。
+
+⚠️ **`pushToGist` の read-modify-write の事前取得が失敗したら push を中止すること**。
+以前ここは `catch {}` で握り潰して push を続行しており、**リモートを読めないまま
+ローカル状態で上書きして他端末の進捗を消す経路**だった（切り詰めで parse が落ちていた間、
+まさにここを通っていた）。例外は「リモートが本当に壊れている(`kind==='parse'`)」ときだけで、
+これはマージのしようがないので上書きで修復する。
+
+テスト: `node _work/test_gist_sync.js`（14件・実ソースを vm で読み込み fetch だけスタブ）
 
 ## 大量ファイル変更時の注意
 

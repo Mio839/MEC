@@ -198,6 +198,27 @@ function test(name, fn) {
     assert.strictEqual(JSON.parse(env.store['mec_attempts_v1']).length, 1);
   });
 
+  await test('複数ファイルが同時に truncated でも全部 raw_url で取り直す（900KiBは応答全体の合計）', async () => {
+    // 実測: 4ファイルに分けても合計 content が 921,600B で頭打ちになり、後ろのファイルが切られる。
+    // 分割は切り詰めを避けないので、truncated なファイルは何個あっても拾えないといけない。
+    const srs = JSON.stringify({ mec_srs_v1: { a: { reps: 5, interval: 90 } } });
+    const rate = JSON.stringify({ myrate_v1: { a: { correct: 7, total: 8 } } });
+    const env = makeEnv({}, [
+      ['/raw/srs', () => res(srs)],
+      ['/raw/rate', () => res(rate)],
+      [API, () => gistRes({
+        'mec_srs.json': { content: srs.slice(0, 10), truncated: true, raw_url: 'https://gist.githubusercontent.com/raw/srs' },
+        'mec_rate.json': { content: rate.slice(0, 10), truncated: true, raw_url: 'https://gist.githubusercontent.com/raw/rate' },
+        'mec_progress.json': { content: JSON.stringify({ done_v2: { a: 1 } }) },
+      })],
+    ]);
+    const r = await env.sync.syncFromGist();
+    assert.strictEqual(r.status, 'ok', 'status: ' + JSON.stringify(r));
+    assert.strictEqual(env.getObj('mec_srs_v1').a.interval, 90);
+    assert.strictEqual(env.getObj('myrate_v1').a.total, 8);
+    assert.strictEqual(env.calls.filter(c => c.url.includes('/raw/')).length, 2, 'raw の取り直しが2回でない');
+  });
+
   await test('旧形式（全キーが mec_progress.json）をそのまま読める', async () => {
     const env = makeEnv({}, [[API, () => gistRes({
       'mec_progress.json': { content: JSON.stringify(payloadOf({ myrate_v1: { q: { correct: 4, total: 5 } } })) },
@@ -232,7 +253,7 @@ function test(name, fn) {
     assert(JSON.parse(files['mec_srs.json'].content).mec_srs_v1, 'srs が分割先にいない');
   });
 
-  await test('大きいキーは mec_progress.json に残さない（1ファイルが上限に届かないため）', async () => {
+  await test('大きいキーは mec_progress.json に残さず必ず分割先へ入る', async () => {
     const env = makeEnv({}, [[API, (u, o) => (o.method === 'PATCH' ? res({}) : gistRes({
       'mec_progress.json': { content: '{}' },
     }))]]);
