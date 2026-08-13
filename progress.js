@@ -812,7 +812,7 @@
   const SID_NAMES = {
     endo:'内分泌', resp:'呼吸器', circ:'循環器', dige:'消化器', neur:'神経',
     hbp:'肝胆膵', jinzo_d:'腎臓', hema:'血液', imma:'免アレ膠', kansen:'感染症',
-    peds:'小児科', obg:'産婦人科', psy:'精神科', derm:'皮膚科', oph:'眼科', ent:'耳鼻咽喉科', uro:'泌尿器科', ortho:'整形外科', jitsu1:'実力試験', custom:'自作', memo:'暗記メモ'
+    peds:'小児科', obg:'産婦人科', psy:'精神科', derm:'皮膚科', oph:'眼科', ent:'耳鼻咽喉科', uro:'泌尿器科', ortho:'整形外科', anes:'麻酔科', jitsu1:'実力試験', custom:'自作', memo:'暗記メモ'
   };
   window.mecErrTypeLabels = ERR_TYPE_LABELS;
   window.mecSidNames = SID_NAMES;

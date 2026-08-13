@@ -1,3 +1,9 @@
+// v165: 麻酔科(anes)を新科目として追加（第1章「周術期の麻酔」NO.1-35・画像8問17枚）。
+// questions_anes.json を CARDS に加え、麻酔科/images/ を追加したので CACHE を bump。
+// マイナー講座7科目め。全2章52問の小さな科目で、第2章「緩和医療」17問は未実装。
+// 気道確保・気管挿管10問／ERASの周術期管理6問／区域麻酔6問が骨格。
+// 術中のバイタルは「向き」で答えが正反対（上がったら鎮痛不足＝NO.33／
+// 侵襲が無いのに下がったら麻酔が深い＝NO.15）。
 // v164: 整形外科(ortho) 第6章「ロコモとサルコペニア・フレイル」NO.167-174（8問・画像0枚）を追加。
 // これで ortho 全6章174問が完成し、マイナー講座6科目（psy/derm/oph/ent/uro/ortho）が全て揃った。
 // questions_ortho.json を更新したので CACHE を bump（本章は画像が無いので images/ の追加は無し）。
@@ -114,7 +120,7 @@
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v164";
+const CACHE = "mec-v165";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
@@ -150,7 +156,7 @@ const CARDS = [
   "questions_neur.json","questions_hbp.json","questions_jinzo_d.json","questions_hema.json",
   "questions_imma.json","questions_kansen.json","questions_jitsu1.json",
   "questions_peds.json","questions_obg.json","questions_psy.json",
-  "questions_derm.json","questions_oph.json","questions_ent.json","questions_uro.json","questions_ortho.json"
+  "questions_derm.json","questions_oph.json","questions_ent.json","questions_uro.json","questions_ortho.json","questions_anes.json"
 ];
 
 self.addEventListener("install", e => {

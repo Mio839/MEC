@@ -51,6 +51,7 @@ SUBJECTS = {
     'ent':     ('MECマイナー講座・耳鼻咽喉科_問題（表紙2026）.pdf', '耳鼻咽喉科'),
     'uro':     ('MECマイナー講座・泌尿器科_問題（表紙2026）.pdf', '泌尿器科'),
     'ortho':   ('MECマイナー講座・整形外科_問題（表紙2026）.pdf', '整形外科'),
+    'anes':    ('MECマイナー講座・麻酔科_問題（表紙2026）.pdf', '麻酔科'),
 }
 
 # PDFがベクター描画のため、こちらでレンダリング／手作りした画像。rasterと一致しなくて当然。
@@ -206,10 +207,11 @@ def audit(sid, check_images=True):
             if not os.path.exists(os.path.join(BASE, s)):
                 add('画像', q, f'ファイルが無い: {s}')
             m = FNAME_CODE.match(os.path.basename(s))
-            # 「102A-42・99A-11のプール問題」のように episode が複数の国試番号を持つ問題がある。
-            # ファイル名は代表の1つを名乗るので「・区切りのどれかに一致」で許す
+            # 「102A-42・99A-11のプール問題」「120E-30／114B-40類」のように
+            # episode が複数の国試番号を持つ問題がある。ファイル名は代表の1つを名乗るので
+            # 「・ または ／ 区切りのどれかに一致」で許す
             # （前方一致にすると 112D-3 が 112D-63 を通してしまうので使わない）。
-            if m and m.group(1) not in eid.split('・'):
+            if m and m.group(1) not in re.split(r'[・／/]', eid):
                 add('画像', q, f'ファイル名の問題コード {m.group(1)} ≠ {eid}')
     if os.path.isdir(img_dir):
         for f in sorted(os.listdir(img_dir)):

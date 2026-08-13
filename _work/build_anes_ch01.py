@@ -1,0 +1,3400 @@
+# -*- coding: utf-8 -*-
+"""
+麻酔科 第1章「周術期の麻酔」(NO.1-35) の章別HTML(麻酔科/ch01_shujutsuki.html)を生成する。
+_work/新科目HTML生成ガイド.md の品質基準に従い、build_ortho_ch06.py と同方式。
+
+問題文・選択肢はPDF(MECマイナー講座・麻酔科 麻Q-2〜20／PDF p.5-23)を書き起こし、
+正解/正答率/種別は巻末解答一覧表(PDF p.33-34) を x 座標で列に切って読んだもの。
+解説はPDFに無いため国試標準知識に基づき執筆（医学的正確性は要ユーザー確認）。
+
+全35問（画像8問17枚）。PDFのセクションは
+  ★問題=NO.1-30 / 無印問題=NO.31-35（SECTIONS の idx は 0/30）。
+  ⚠️ ★問題のセクションにありながら★バッジが付かない問題が2つある（NO.11・NO.13）。
+     連問の中に混ざった「救急の問題」で、解答一覧表の種別欄が空。バッジは表に従う。
+
+■ 章の内訳（テーマ列から集計）
+  気道確保・気管挿管 10問（17 Mallampati／18 体位／19 喉頭鏡／20・21 食道挿管／
+                          22・31 片肺挿管／23 ETCO2／24 気道内圧／7・8 導入）
+  周術期管理〈ERAS〉  6問（3 絶飲食／4 内服／5・6 消化管手術／32 飲水／2 術前リスク）
+  区域麻酔            6問（25 穿刺層／26 脊髄／27 デルマトーム／28 合併症／
+                          29 硬膜外投与薬／35 肋間神経麻痺）
+  麻酔薬と拮抗薬      5問（9 静脈麻酔薬／10 亜酸化窒素／14 拮抗薬／15・33 バイタル変動）
+  外傷・救急（連問）  3問（11 輸液組成／12 麻酔法／13 脂肪塞栓症）
+  モニタリング        2問（1 パルスオキシメトリ／16 悪性高熱症）
+  局所麻酔            2問（30 手技／34 浸潤麻酔）
+
+■ 章を貫く4本の筋
+  ① 麻酔は「4要素を薬で分担する」仕事——足りない／効きすぎのサインはバイタルに出る。
+     血圧と心拍数が**上がった**ら鎮痛が足りない＝オピオイドを足す（NO.33）、
+     **下がった**ら吸入麻酔薬が効きすぎ＝濃度を下げる（NO.15）。
+     同じ「バイタルが動いた」でも**向きで答えが正反対**になる。
+  ② 気道は「入れる前（評価と体位）→入れる（確認）→入ってから（圧とCO2）」の3段。
+     Mallampati（17）→ sniffing position（18）→ 喉頭鏡（19）→
+     **食道挿管の否定は ETCO2**（20・21・23）→ 片肺挿管（22・31）→ 気道内圧（24）。
+  ③ 周術期管理は ERAS——**絶食は短く、離床は早く**。
+     清澄水は2時間前まで（3・32）、前日の夕食は摂ってよく翌日から食事（4）、
+     「術後3日ベッド上安静」「術後1週間絶食」「術中大量輸液」は例外なく誤り（5・6・32）。
+  ④ 区域麻酔は「針をどの層で止めるか」で決まる。
+     層（25）→ 脊髄は貫かない（26）→ 高さ＝デルマトーム（27）→
+     交感神経遮断による血圧低下（28）→ 高すぎれば肋間神経麻痺（35）。
+     硬膜外に入れてよいのは**局所麻酔薬とオピオイドだけ**（29）。
+
+⚠️ **NO.17（106E-22）は模式図 a〜e が選択肢そのもの**で、本文に選択肢の文字が1つも無い。
+   1枚の画像に5つの図が入っている（上段 a b c ／下段 d e）ので、
+   図を読んで各肢の文章を書き起こした。**正解 c＝軟口蓋がまったく見えない＝Mallampati Class Ⅳ**。
+⚠️ **NO.18（108B-28）は写真①〜⑤、NO.19（117E-6）は写真A〜E が選択肢そのもの**。
+   NO.18 の紙面は**左列①②③（上→下）＋右列④⑤**で `get_images()` の抽出順と一致。
+   NO.19 は**抽出順が A,B,C,E,D** でラベルと食い違うので `ch01_map.txt` で D と E を入れ替えた。
+⚠️ **NO.11（108B-56）の選択肢は表**（Na⁺/K⁺/Cl⁻/Lactate⁻/糖質 の5列×a〜e）。
+   ガイド§1に従い300dpiのページ画像を目視で読み、**列見出しを各肢に埋め込む方式**で書き起こした。
+⚠️ **連問は NO.11・12・13（108B-56/57/58）の3問組**。症例文は3枚すべてに載せること
+   （生成器では `_STEM_11` を3問の qt に連結している）。
+   共通ステムに図は無く、NO.13 だけが自前の胸部エックス線写真を持つ。
+⚠️ **NO.1（110H-15）の傍らにある「参考画像」（バイタル画面・パルスオキシメーター／© Dr. Watari）は
+   設問の図ではない**。しかも正解 e を示してしまうので imgs に入れない（bi バッジも付かない）。
+⚠️ **35問すべてに正答率があり、採点除外（解答＝なし）の問題も無い**（採点除外は第2章 NO.45 の1問）。
+
+⚠️ 本章の最難は **NO.35（104E-54・正答率14%＝本科目で最低）**＝脊髄くも膜下麻酔後の
+   「息ができない」は**肋間神経麻痺**（横隔神経はC3〜C5なので腰椎から入れた脊麻では麻痺しない）。
+   次いで **NO.7・NO.8（ともに49%）**＝急速導入で最初に投与するのは薬ではなく**純酸素**／
+   輪状軟骨圧迫の目的は**誤嚥の防止**、**NO.33（52%）**＝血圧・脈拍が上がったら鎮痛不足。
+"""
+from pathlib import Path
+
+BASE = Path(r'C:\Users\coool\Desktop\MEC')
+SRC_HEAD = BASE / '精神科' / 'ch01_seishinka_kihon.html'
+OUT = BASE / '麻酔科' / 'ch01_shujutsuki.html'
+
+# この章の先頭問題のPDF通し番号（NO.）。Q番号・カードidはこれを基点にする。
+Q_START = 1
+
+# 5択決め打ちにしない（ガイド§4）。
+FW = {'a': 'ａ', 'b': 'ｂ', 'c': 'ｃ', 'd': 'ｄ', 'e': 'ｅ',
+      'f': 'ｆ', 'g': 'ｇ', 'h': 'ｈ'}
+
+
+def rcls(r):
+    return 'ch' if r >= 80 else ('cm' if r >= 60 else 'cl')
+
+
+def Q(id, rate, badges, qt, choices, ans_sub, patho=None, deep=None, point=None,
+      imgs=None, ans_label=None):
+    imgs = imgs or []
+    # 📷バッジ(bi)と imgs は必ず対（ガイド§4）。手書きの取りこぼしを防ぐため自動で付ける。
+    badges = list(badges)
+    if imgs and not any(c == 'bi' for c, _ in badges):
+        badges.append(('bi', '📷'))
+    return dict(id=id, rate=rate, badges=badges, qt=qt, choices=choices, ans_sub=ans_sub,
+                patho=patho, deep=deep, point=point, imgs=imgs, ans_label=ans_label)
+
+
+IMG = '麻酔科/images/'
+
+
+# ------------------------------------------------------------------
+# 章を通して何度も参照する表は定数にして使い回す。
+# ------------------------------------------------------------------
+
+# ① 麻酔の4要素——「何を止めているか」で薬が決まる
+ELEMENTS_TABLE = (
+    '<table class="tb"><tr><th>要素</th><th>止めているもの</th>'
+    '<th>代表薬</th><th>足りないと</th></tr>'
+    '<tr><td><span class="kw3">鎮静〈催眠〉</span></td>'
+    '<td><span class="kw3">意識</span>（大脳の抑制）</td>'
+    '<td><span class="kw3">プロポフォール・チオペンタール・ミダゾラム</span>／'
+    '吸入＝<span class="kw3">セボフルラン・デスフルラン</span></td>'
+    '<td>術中覚醒（意識が戻る）</td></tr>'
+    '<tr><td><span class="kw3">鎮痛</span></td>'
+    '<td><span class="kw3">痛みの伝達</span></td>'
+    '<td><span class="kw3">レミフェンタニル・フェンタニル・モルヒネ</span>'
+    '（＋亜酸化窒素）</td>'
+    '<td><span class="kw4">血圧上昇・頻脈・発汗・流涙</span>'
+    '——交感神経が立ち上がる</td></tr>'
+    '<tr><td><span class="kw3">筋弛緩</span></td>'
+    '<td><span class="kw3">神経筋接合部</span></td>'
+    '<td><span class="kw3">ロクロニウム・ベクロニウム</span>（非脱分極性）／'
+    '<span class="kw">スキサメトニウム</span>（脱分極性）</td>'
+    '<td>体動・術野が展開できない・挿管困難</td></tr>'
+    '<tr><td><span class="kw3">有害反射の抑制</span></td>'
+    '<td><span class="kw3">自律神経反射</span>'
+    '（迷走神経反射・気道反射）</td>'
+    '<td>アトロピン、十分な麻酔深度、局所麻酔薬</td>'
+    '<td>徐脈・喉頭痙攣・気管支痙攣</td></tr>'
+    '<tr><td colspan="4"><span class="kw3">※ 3要素という場合は'
+    '「鎮痛・鎮静・筋弛緩」</span>。'
+    '<span class="kw3">1剤で全部を担う薬は無く、'
+    '足りない要素をその都度足すのが全身麻酔の実務</span>——'
+    '<span class="kw3">「バイタルがどちらへ動いたか」で'
+    '足りない要素を逆算する</span>のが国試の問い方</td></tr></table>')
+
+# ② バイタルが動いたとき——向きで答えが正反対になる
+VITAL_TABLE = (
+    '<table class="tb"><tr><th>術中の変化</th><th>まず考えること</th>'
+    '<th>対応</th></tr>'
+    '<tr><td><span class="kw4">血圧↑・心拍数↑</span><br>'
+    '（皮膚切開・展開などの侵襲を契機に）</td>'
+    '<td><span class="kw4">鎮痛が足りない</span>'
+    '——侵襲の信号が交感神経を立ち上げている</td>'
+    '<td><span class="kw3">オピオイド（フェンタニル・レミフェンタニル）を追加</span>。'
+    '降圧薬でバイタルだけ叩くのは<u>原因を隠す</u>だけ</td></tr>'
+    '<tr><td><span class="kw4">血圧↓・心拍数↓</span><br>'
+    '（まだ切開していない・出血もない）</td>'
+    '<td><span class="kw4">麻酔が効きすぎ</span>'
+    '——吸入麻酔薬・プロポフォールの血管拡張と心抑制</td>'
+    '<td><span class="kw3">吸入麻酔薬の濃度を下げる</span>'
+    '（＋輸液・昇圧薬）</td></tr>'
+    '<tr><td>血圧↓・心拍数↑</td>'
+    '<td><span class="kw4">出血・脱水・アナフィラキシー・'
+    '緊張性気胸・肺塞栓</span></td>'
+    '<td>原因検索と輸液・輸血。'
+    '<span class="kw">アナフィラキシーなら皮膚所見と気道内圧上昇を伴う</span></td></tr>'
+    '<tr><td><span class="kw4">体温↑・ETCO<sub>2</sub>↑・頻脈</span></td>'
+    '<td><span class="kw4">悪性高熱症</span></td>'
+    '<td><span class="kw3">誘因薬（揮発性吸入麻酔薬・スキサメトニウム）中止＋'
+    'ダントロレン</span></td></tr>'
+    '<tr><td colspan="3"><span class="kw3">術中のバイタル変動は'
+    '「薬が足りない／効きすぎ／別の事件が起きた」の3つに割れる</span>。'
+    '<span class="kw3">切開などの<u>侵襲があった直後</u>なら鎮痛不足、'
+    '<u>侵襲が無いのに</u>下がったなら麻酔が深すぎ</span>と読む</td></tr></table>')
+
+# ③ 術前絶飲食の基準（ASA／日本麻酔科学会）
+FASTING_TABLE = (
+    '<table class="tb"><tr><th>摂取したもの</th>'
+    '<th>麻酔導入までに空ける時間</th><th>理由</th></tr>'
+    '<tr><td><span class="kw3">清澄水</span>'
+    '（水・お茶・ブラックコーヒー・果肉を含まない果汁・経口補水液）</td>'
+    '<td><span class="kw3">2時間</span>'
+    '——<u>年齢を問わず</u>（小児も成人も同じ）</td>'
+    '<td>胃からの排出が速く、2時間で胃内容はほぼ空になる</td></tr>'
+    '<tr><td>母乳</td><td><span class="kw3">4時間</span></td>'
+    '<td>人工乳より消化が速い</td></tr>'
+    '<tr><td>人工乳・牛乳</td><td><span class="kw3">6時間</span></td>'
+    '<td>脂肪と蛋白で胃内停滞が長い（牛乳は「飲み物」ではなく固形物扱い）</td></tr>'
+    '<tr><td>軽食（トーストと清澄水程度）</td>'
+    '<td><span class="kw3">6時間</span></td><td></td></tr>'
+    '<tr><td>揚げ物・脂質の多い食事・肉</td>'
+    '<td><span class="kw3">8時間</span></td>'
+    '<td>脂肪が胃排出をさらに遅らせる</td></tr>'
+    '<tr><td colspan="3"><span class="kw3">目的はただ1つ、'
+    '<u>導入時の胃内容の逆流と誤嚥（Mendelson症候群）を防ぐこと</u></span>。'
+    '<span class="kw4">「前日から絶飲食」「術前48時間絶食」は古い管理で、'
+    '脱水・低血糖・インスリン抵抗性を招くだけの有害な指示</span>——'
+    '<span class="kw3">ERASでは逆に、術直前まで清澄水（炭水化物飲料）を勧める</span>。'
+    '<span class="kw4">ただし緊急手術・イレウス・胃内容停滞のある患者は'
+    '「絶飲食していてもフルストマック」として迅速導入で扱う</span></td></tr></table>')
+
+# ④ ERAS——絶食は短く、離床は早く
+ERAS_TABLE = (
+    '<table class="tb"><tr><th>時期</th>'
+    '<th><span class="kw3">正しい（ERAS）</span></th>'
+    '<th><span class="kw4">誤り（旧来のイメージ）</span></th></tr>'
+    '<tr><td>術前</td>'
+    '<td><span class="kw3">清澄水は2時間前まで／前日の夕食は摂ってよい／'
+    '4週間以上前からの禁煙／常用薬は原則継続</span></td>'
+    '<td><span class="kw4">前日からの絶飲食・48時間の絶食・機械的腸管前処置の routine 施行</span></td></tr>'
+    '<tr><td>術中</td>'
+    '<td><span class="kw3">積極的加温（体温を36℃以上に保つ）／'
+    '硬膜外麻酔などの区域麻酔を併用した多角的鎮痛／輸液は必要最小限</span></td>'
+    '<td><span class="kw4">「体温は室温で管理」＝低体温'
+    '（創感染・出血・シバリング・覚醒遅延が増える）／大量輸液</span></td></tr>'
+    '<tr><td>術後</td>'
+    '<td><span class="kw3">当日〜翌日からの離床／早期の経口摂取／'
+    'オピオイドに頼らない鎮痛／ドレーン・カテーテルの早期抜去</span></td>'
+    '<td><span class="kw4">術後3日間ベッド上安静・術後1週間絶食</span>'
+    '——<u>肺炎・深部静脈血栓症・筋力低下・腸管麻痺を作るだけ</u></td></tr>'
+    '<tr><td colspan="3"><span class="kw3">ERASの肢は'
+    '「短く・早く・動かす」方向に揃っている</span>。'
+    '<span class="kw3">選択肢に「◯日間の安静」「◯週間の絶食」と'
+    '<u>長い期間</u>が書いてあったら、それが誤りの肢</span>——'
+    'この一手で NO.5・6・32 の3問が同時に解ける</td></tr></table>')
+
+# ⑤ 挿管困難の予測——Mallampati分類と12の危険因子
+MALLAMPATI_TABLE = (
+    '<table class="tb"><tr><th>Class</th><th>坐位で最大開口・挺舌したときに見えるもの</th>'
+    '<th>挿管</th></tr>'
+    '<tr><td><span class="kw3">Class Ⅰ</span></td>'
+    '<td><span class="kw3">口蓋弓・軟口蓋・口蓋垂の3つが見える</span></td>'
+    '<td>容易</td></tr>'
+    '<tr><td><span class="kw3">Class Ⅱ</span></td>'
+    '<td><span class="kw3">口蓋弓と軟口蓋は見えるが、'
+    '口蓋垂は舌根に隠れて一部しか見えない</span></td>'
+    '<td>容易</td></tr>'
+    '<tr><td><span class="kw4">Class Ⅲ</span></td>'
+    '<td><span class="kw4">軟口蓋だけが見える</span></td>'
+    '<td><span class="kw4">困難が増える</span></td></tr>'
+    '<tr><td><span class="kw4">Class Ⅳ</span></td>'
+    '<td><span class="kw4">軟口蓋も見えない（硬口蓋しか見えない）</span></td>'
+    '<td><span class="kw4">最も困難</span></td></tr>'
+    '<tr><td colspan="3"><span class="kw3">「Class Ⅲ以上」で'
+    '喉頭展開が困難な症例の頻度が高くなる</span>。'
+    '<span class="kw3">見える構造が<u>減っていくほど番号が大きい</u></span>'
+    '——図を見たら「灰色に塗られた軟口蓋が見えるか」を先に探し、'
+    '<span class="kw3">軟口蓋が消えていたら Class Ⅳ</span>と決める</td></tr></table>')
+
+AIRWAY_RISK_TABLE = (
+    '<table class="tb"><tr><th colspan="2">'
+    'マスク換気と気管挿管の困難が同時に起こることを予測する12の術前因子</th></tr>'
+    '<tr><td><span class="kw3">口の中を覗いて分かる</span></td>'
+    '<td><span class="kw3">Mallampati分類Ⅲ or Ⅳ</span>・'
+    '<span class="kw">歯牙の存在</span></td></tr>'
+    '<tr><td><span class="kw3">顔と首を見て分かる</span></td>'
+    '<td><span class="kw3">短い甲状頤間距離</span>・'
+    '<span class="kw">太い首</span>・<span class="kw">顎ひげの存在</span>・'
+    '<span class="kw3">頸部放射線照射後や頸部腫瘤</span>・'
+    '<span class="kw3">頸椎の不安定性や可動制限</span>・'
+    '<span class="kw">下顎の前方移動制限</span></td></tr>'
+    '<tr><td><span class="kw3">問診・背景</span></td>'
+    '<td><span class="kw">46歳以上</span>・<span class="kw">男性</span>・'
+    '<span class="kw3">BMI 30kg/m<sup>2</sup>以上</span>・'
+    '<span class="kw3">睡眠時無呼吸の診断</span></td></tr>'
+    '<tr><td colspan="2"><span class="kw3">共通しているのは'
+    '「口が開かない・首が反らない・組織が厚い」の3つ</span>'
+    '——<span class="kw3">喉頭鏡は<u>口から声門までを一直線に見通す</u>道具なので、'
+    'この直線を作れない条件が全部リスクになる</span></td></tr></table>')
+
+# ⑥ 気管挿管の確認——「入っている」の証明と「入っていない」の証明
+CONFIRM_TABLE = (
+    '<table class="tb"><tr><th></th><th>所見</th><th>意味</th></tr>'
+    '<tr><td rowspan="4"><span class="kw3">気管に入っている<br>証拠</span></td>'
+    '<td><span class="kw3">呼気に CO<sub>2</sub> が検出され、'
+    '波形が連続して6回以上出る</span></td>'
+    '<td><span class="kw3">最も確実（gold standard）</span>。'
+    '肺から出た息であることを直接示す</td></tr>'
+    '<tr><td><span class="kw3">両側の肺野で同等の呼吸音</span></td>'
+    '<td>気管分岐部より手前にある（＝片肺挿管でもない）</td></tr>'
+    '<tr><td><span class="kw3">胸郭の動きが左右対称</span></td>'
+    '<td>同上</td></tr>'
+    '<tr><td><span class="kw3">チューブ内壁が呼気で曇る</span></td>'
+    '<td>補助的所見（食道挿管でも曇ることがあり単独では不十分）</td></tr>'
+    '<tr><td rowspan="3"><span class="kw4">食道に入っている<br>証拠</span></td>'
+    '<td><span class="kw4">心窩部で送気音が聴取される（ゴボゴボ音）</span></td>'
+    '<td><span class="kw4">空気が胃へ入っている</span></td></tr>'
+    '<tr><td><span class="kw4">CO<sub>2</sub> が検出されない</span></td>'
+    '<td><span class="kw4">肺を通っていない</span></td></tr>'
+    '<tr><td><span class="kw4">心窩部（上腹部）が膨隆してくる</span></td>'
+    '<td><span class="kw4">胃が膨らんでいる＝誤嚥のリスクも増える</span></td></tr>'
+    '<tr><td colspan="3"><span class="kw3">食道挿管と判断したら、'
+    '迷わず<u>ただちに抜去して換気をやり直す</u></span>。'
+    '<span class="kw4">「もう少し進める」「カフに空気を足す」'
+    '「送気を続ける」「吸引する」は、'
+    'すべて低酸素の時間を延ばすだけの誤答</span></td></tr></table>')
+
+# ⑦ 挿管後の異常——気道内圧とETCO2の読み方
+POSTINT_TABLE = (
+    '<table class="tb"><tr><th>異常</th><th>特徴</th><th>対応</th></tr>'
+    '<tr><td><span class="kw3">片肺挿管</span>'
+    '（チューブが深すぎ、たいてい<u>右</u>主気管支へ）</td>'
+    '<td><span class="kw4">左の呼吸音が減弱・胸郭の動きに左右差・'
+    'SpO<sub>2</sub>低下</span>。'
+    '<span class="kw3">ETCO<sub>2</sub>波形は出ている</span>'
+    '（＝食道挿管ではない）</td>'
+    '<td><span class="kw3">気管チューブを引いて位置を調整する</span></td></tr>'
+    '<tr><td><span class="kw3">気管支の分泌物貯留・喀痰</span></td>'
+    '<td><span class="kw4">coarse crackles・気道内圧の上昇</span></td>'
+    '<td><span class="kw3">気管内吸引</span></td></tr>'
+    '<tr><td><span class="kw3">気管支痙攣</span></td>'
+    '<td><span class="kw4">wheezes・気道内圧上昇・呼気延長</span></td>'
+    '<td>気管支拡張薬、麻酔深度を上げる</td></tr>'
+    '<tr><td><span class="kw4">回路の接続はずれ・抜管</span></td>'
+    '<td><span class="kw4">ETCO<sub>2</sub>波形が突然ゼロになる＋'
+    '気道内圧も上がらない</span></td>'
+    '<td>接続を確認して用手換気</td></tr>'
+    '<tr><td><span class="kw4">心停止・肺塞栓</span></td>'
+    '<td><span class="kw4">ETCO<sub>2</sub>が急激に低下（ゼロではなく低値）＋'
+    '循環の破綻</span></td><td>蘇生</td></tr>'
+    '<tr><td colspan="3"><span class="kw3">ETCO<sub>2</sub>は'
+    '「肺を通った息が戻ってくるか」の指標</span>——'
+    '<span class="kw3">ゼロになるのは<u>息が通っていない</u>（回路はずれ・食道挿管・'
+    '完全閉塞）か<u>血が流れていない</u>（心停止）かの二択</span>。'
+    '<span class="kw3">気道内圧が同時に上がらなければ「息が漏れている」'
+    '＝回路の問題</span></td></tr></table>')
+
+# ⑧ 区域麻酔——針をどの層で止めるか
+SPINAL_TABLE = (
+    '<table class="tb"><tr><th>順</th><th>層</th><th></th></tr>'
+    '<tr><td>1</td><td>皮膚・皮下組織</td><td></td></tr>'
+    '<tr><td>2</td><td><span class="kw3">棘上靱帯</span></td>'
+    '<td>棘突起の先端をつなぐ靱帯</td></tr>'
+    '<tr><td>3</td><td><span class="kw3">棘間靱帯</span></td>'
+    '<td>棘突起と棘突起の間</td></tr>'
+    '<tr><td>4</td><td><span class="kw3">黄色靱帯</span></td>'
+    '<td><span class="kw3">硬く、抜けるときにクリック感がある</span>'
+    '——この直後が硬膜外腔（<u>硬膜外麻酔はここで止める</u>）</td></tr>'
+    '<tr><td>5</td><td>硬膜外腔</td>'
+    '<td><span class="kw3">抵抗消失法〈loss of resistance〉で同定</span></td></tr>'
+    '<tr><td>6</td><td><span class="kw3">硬膜</span>→ くも膜</td>'
+    '<td><span class="kw3">貫くと髄液が返る＝くも膜下腔'
+    '（<u>脊髄くも膜下麻酔はここまで</u>）</span></td></tr>'
+    '<tr><td colspan="3"><span class="kw4">前縦靱帯・後縦靱帯は椎体の前面・後面'
+    '（＝椎管の腹側）にあり、背中から入れる針は一生触れない</span>'
+    '——選択肢にこの2つが出てきたら、その肢は落ちる。'
+    '<span class="kw3">穿刺部位は L3/4 または L4/5</span>'
+    '（<span class="kw3">脊髄は L1〜L2 で終わる〈脊髄円錐〉</span>ので、'
+    'それより下なら馬尾が針を避けて脊髄を傷つけない）。'
+    '<span class="kw3">Jacoby線（左右の腸骨稜を結ぶ線）＝L4 棘突起</span>が目印</td></tr></table>')
+
+DERMATOME_TABLE = (
+    '<table class="tb"><tr><th>高さ</th><th>体表の目印</th>'
+    '<th>そこまで麻酔が上がると</th></tr>'
+    '<tr><td><span class="kw3">C3〜C5</span></td>'
+    '<td>鎖骨上・肩</td>'
+    '<td><span class="kw4">横隔神経（C3・4・5）＝自発呼吸が止まる</span></td></tr>'
+    '<tr><td><span class="kw3">T4</span></td><td>乳頭</td>'
+    '<td><span class="kw4">心臓交感神経（T1〜T4）が遮断され徐脈</span>。'
+    '帝王切開はこの高さを狙う</td></tr>'
+    '<tr><td><span class="kw3">T6</span></td><td>剣状突起</td>'
+    '<td>上腹部手術の上限</td></tr>'
+    '<tr><td><span class="kw3">T10</span></td><td>臍</td>'
+    '<td>下肢・鼠径部・経尿道手術の目安</td></tr>'
+    '<tr><td><span class="kw3">L1</span></td>'
+    '<td><span class="kw3">鼠径部（鼠径靱帯）</span></td>'
+    '<td><span class="kw3">これ以下の全感覚が消える＝第1腰髄レベル</span></td></tr>'
+    '<tr><td><span class="kw3">S2〜S4</span></td><td>会陰・肛門</td>'
+    '<td>膀胱直腸障害（サドル麻酔の領域）</td></tr>'
+    '<tr><td colspan="3"><span class="kw3">覚える目印は'
+    '「乳頭T4・剣状突起T6・臍T10・鼠径部L1」の4つで足りる</span>——'
+    '<span class="kw3">頸部はC（C3〜5＝横隔膜）、'
+    '上肢はC5〜T1、下肢はL2以下</span>と押さえる</td></tr></table>')
+
+SPINAL_COMP_TABLE = (
+    '<table class="tb"><tr><th>合併症</th><th>機序</th><th>頻度・対応</th></tr>'
+    '<tr><td><span class="kw3">血圧低下</span></td>'
+    '<td><span class="kw3">交感神経（T1〜L2）が最初に遮断される'
+    '→ 末梢血管拡張＋静脈還流の減少</span>。'
+    '<span class="kw">妊婦では増大子宮の下大静脈圧迫（仰臥位低血圧症候群）が上乗せ</span></td>'
+    '<td><span class="kw3">最も高頻度（帝王切開では過半数）</span>。'
+    '輸液の負荷、<span class="kw3">子宮左方転位</span>、'
+    'フェニレフリン・エフェドリンの投与</td></tr>'
+    '<tr><td>徐脈</td>'
+    '<td>T1〜T4の心臓交感神経枝まで遮断されると迷走神経が優位になる</td>'
+    '<td>アトロピン</td></tr>'
+    '<tr><td>悪心・嘔吐</td><td>血圧低下による脳虚血、迷走神経優位</td>'
+    '<td>血圧を戻せば改善することが多い</td></tr>'
+    '<tr><td><span class="kw4">高位脊髄くも膜下麻酔<br>〈全脊髄くも膜下麻酔〉</span></td>'
+    '<td><span class="kw4">麻酔レベルが胸髄上部〜頸髄まで及ぶ'
+    '→ 肋間神経麻痺 → さらに上がれば横隔神経麻痺</span></td>'
+    '<td><span class="kw4">呼吸困難・呼吸停止・高度の徐脈と血圧低下</span>。'
+    '気道確保と人工呼吸、昇圧</td></tr>'
+    '<tr><td>硬膜穿刺後頭痛</td>'
+    '<td>髄液漏出による低髄液圧</td>'
+    '<td>臥床・輸液・カフェイン、難治なら硬膜外自家血パッチ</td></tr>'
+    '<tr><td colspan="3"><span class="kw4">「誤嚥」「嗄声」は'
+    '<u>全身麻酔＋気管挿管</u>の合併症</span>で、'
+    '意識のある区域麻酔では起こりにくい——'
+    '<span class="kw3">合併症を問われたら'
+    '「その麻酔法で何を遮断したか」から逆算する</span></td></tr></table>')
+
+EPIDURAL_DRUG_TABLE = (
+    '<table class="tb"><tr><th></th><th>薬</th><th>理由</th></tr>'
+    '<tr><td><span class="kw3">硬膜外腔に<br>入れてよい</span></td>'
+    '<td><span class="kw3">局所麻酔薬</span>'
+    '（ロピバカイン・レボブピバカイン・リドカイン）<br>'
+    '<span class="kw3">オピオイド</span>'
+    '（<span class="kw3">モルヒネ</span>・フェンタニル）</td>'
+    '<td><span class="kw3">脊髄後角にオピオイド受容体があり、'
+    '硬膜を越えて直接そこへ届く</span>。'
+    '<span class="kw3">モルヒネは水溶性で髄液中に長くとどまり'
+    '1回で長時間効く</span>（その代わり'
+    '<span class="kw4">遅発性呼吸抑制</span>に注意）</td></tr>'
+    '<tr><td><span class="kw4">入れてはいけない</span></td>'
+    '<td><span class="kw4">アセトアミノフェン・NSAIDs・'
+    '副腎皮質ステロイド（鎮痛目的の定型的投与ではない）・'
+    'ケタミン（保存剤入り製剤）</span></td>'
+    '<td><span class="kw4">神経毒性・保存剤による化学的くも膜炎のおそれ</span>。'
+    'これらは<u>全身投与（経口・静注）で使う薬</u></td></tr>'
+    '<tr><td colspan="3"><span class="kw3">硬膜外鎮痛の中身は'
+    '「局所麻酔薬＋オピオイド」の2剤に決まっている</span>——'
+    'この一言で肢が1つに絞れる。'
+    '<span class="kw3">抗凝固薬・抗血小板薬の使用中や血小板減少は'
+    '硬膜外血腫のリスクなので穿刺を避ける</span>'
+    '（<span class="kw">血小板10万/μL以上が望ましい</span>）</td></tr></table>')
+
+# ⑨ 麻酔薬の各論
+IVAGENT_TABLE = (
+    '<table class="tb"><tr><th>薬</th><th>分類</th><th>役割・特徴</th></tr>'
+    '<tr><td><span class="kw3">チオペンタール</span></td>'
+    '<td><span class="kw3">静脈麻酔薬（バルビツール酸）</span></td>'
+    '<td><span class="kw3">意識を落とす（鎮静・催眠）</span>。'
+    '導入が速い。<span class="kw4">鎮痛作用は無い</span></td></tr>'
+    '<tr><td><span class="kw3">プロポフォール</span></td>'
+    '<td><span class="kw3">静脈麻酔薬</span></td>'
+    '<td>現在の導入・維持の主役。制吐作用あり。'
+    '<span class="kw4">投与時の血管痛・血圧低下</span></td></tr>'
+    '<tr><td>ミダゾラム</td><td>ベンゾジアゼピン</td>'
+    '<td>鎮静・健忘。拮抗薬は<span class="kw">フルマゼニル</span></td></tr>'
+    '<tr><td>ケタミン</td><td>静脈麻酔薬（解離性麻酔）</td>'
+    '<td><span class="kw">鎮痛作用をもち血圧が下がりにくい</span>。'
+    '悪夢・唾液分泌増加</td></tr>'
+    '<tr><td><span class="kw4">アトロピン</span></td>'
+    '<td><span class="kw4">抗コリン薬</span></td>'
+    '<td><span class="kw4">徐脈の予防・唾液分泌の抑制。意識には効かない</span></td></tr>'
+    '<tr><td><span class="kw4">リドカイン</span></td>'
+    '<td><span class="kw4">局所麻酔薬・抗不整脈薬</span></td>'
+    '<td><span class="kw4">局所の痛みを取る。静注しても意識は落ちない</span></td></tr>'
+    '<tr><td><span class="kw4">ベクロニウム</span></td>'
+    '<td><span class="kw4">非脱分極性筋弛緩薬</span></td>'
+    '<td><span class="kw4">筋を弛緩させるだけ</span>——'
+    '<u>意識がないと錯覚させるが、鎮静をかけなければ「動けないまま意識がある」</u></td></tr>'
+    '<tr><td><span class="kw4">ネオスチグミン</span></td>'
+    '<td><span class="kw4">コリンエステラーゼ阻害薬</span></td>'
+    '<td><span class="kw4">非脱分極性筋弛緩薬の拮抗</span></td></tr></table>')
+
+ANTAGONIST_TABLE = (
+    '<table class="tb"><tr><th>薬</th><th>作用</th>'
+    '<th><span class="kw3">拮抗薬</span></th></tr>'
+    '<tr><td><span class="kw3">フェンタニル・モルヒネ<br>（オピオイド）</span></td>'
+    '<td>鎮痛。<span class="kw4">呼吸抑制（呼吸回数の減少）・縮瞳</span></td>'
+    '<td><span class="kw3">ナロキソン</span>'
+    '（オピオイド受容体拮抗薬）</td></tr>'
+    '<tr><td><span class="kw3">ロクロニウム・ベクロニウム<br>（非脱分極性筋弛緩薬）</span></td>'
+    '<td>筋弛緩。<span class="kw4">残存すると換気量が出ない</span></td>'
+    '<td><span class="kw3">スガマデクス</span>'
+    '（ロクロニウム・ベクロニウムを包接する）／'
+    '<span class="kw">ネオスチグミン</span></td></tr>'
+    '<tr><td>ミダゾラム（ベンゾジアゼピン）</td><td>鎮静</td>'
+    '<td><span class="kw3">フルマゼニル</span></td></tr>'
+    '<tr><td>ヘパリン</td><td>抗凝固</td>'
+    '<td><span class="kw3">プロタミン</span></td></tr>'
+    '<tr><td><span class="kw4">スキサメトニウム<br>（脱分極性筋弛緩薬）</span></td>'
+    '<td>速効性の筋弛緩</td>'
+    '<td><span class="kw4">拮抗薬は無い</span>'
+    '（ネオスチグミンはむしろ遷延させる）。'
+    '<span class="kw4">悪性高熱症・高カリウム血症の誘因</span></td></tr>'
+    '<tr><td><span class="kw4">チオペンタール・プロポフォール</span></td>'
+    '<td>鎮静</td>'
+    '<td><span class="kw4">拮抗薬は無い（代謝を待つ）</span></td></tr>'
+    '<tr><td colspan="3"><span class="kw3">抜管後に呼吸が浅い・止まりそうなときは'
+    '「オピオイドが残っている（回数が減る）」か'
+    '「筋弛緩薬が残っている（1回換気量が出ない）」かの二択</span>——'
+    '<span class="kw3">それぞれ ナロキソン と スガマデクス で戻る</span></td></tr></table>')
+
+MH_TABLE = (
+    '<table class="tb"><tr><th></th><th>悪性高熱症</th>'
+    '<th>悪性症候群</th></tr>'
+    '<tr><td><span class="kw3">誘因</span></td>'
+    '<td><span class="kw3">揮発性吸入麻酔薬（セボフルラン等）・'
+    'スキサメトニウム</span></td>'
+    '<td><span class="kw4">抗精神病薬の開始・増量、'
+    '抗パーキンソン病薬の中断</span></td></tr>'
+    '<tr><td>機序</td>'
+    '<td><span class="kw3">骨格筋のリアノジン受容体〈RYR1〉の異常で'
+    '筋小胞体からCa<sup>2+</sup>が持続放出</span>→ 筋の持続収縮と代謝亢進</td>'
+    '<td>中枢のドパミンD<sub>2</sub>遮断</td></tr>'
+    '<tr><td><span class="kw3">症状の順番</span></td>'
+    '<td><span class="kw3">① 原因不明の頻脈と ETCO<sub>2</sub>上昇 → '
+    '② 筋強直（<u>咬筋強直で開口障害＝挿管に難渋する</u>）→ '
+    '③ ミオグロビン尿（<u>赤褐色尿</u>）→ '
+    '④ 体温の急上昇（15分で0.5℃以上）→ '
+    '⑤ 代謝性アシドーシス・高K血症・CK上昇</span>。'
+    '<span class="kw4">体温上昇は<u>遅れて</u>出るので、'
+    '「まだ熱が出ていないから違う」と考えると外す</span></td>'
+    '<td>発熱・筋強直・意識障害・自律神経症状が<u>数日かけて</u>進む</td></tr>'
+    '<tr><td>遺伝</td>'
+    '<td><span class="kw3">常染色体顕性〈優性〉遺伝。家族歴が重要</span></td>'
+    '<td>なし</td></tr>'
+    '<tr><td><span class="kw3">治療</span></td>'
+    '<td><span class="kw3">誘因薬の中止・100%酸素で過換気・'
+    '<u>ダントロレン</u>・冷却・アシドーシスと高K血症の補正</span></td>'
+    '<td>原因薬の中止・<span class="kw">ダントロレン</span>・'
+    'ブロモクリプチン</td></tr></table>')
+
+LOCAL_TABLE = (
+    '<table class="tb"><tr><th></th><th>中身</th></tr>'
+    '<tr><td><span class="kw3">浸潤麻酔</span></td>'
+    '<td><span class="kw3">切開する部位の皮内・皮下へ局所麻酔薬を直接注射して'
+    '組織に浸潤させる</span>——皮膚の小切開・縫合はこれ</td></tr>'
+    '<tr><td>表面麻酔／伝達（神経ブロック）／脊髄くも膜下・硬膜外</td>'
+    '<td>粘膜に塗る／神経幹の近くに置く／脊柱管内に入れる</td></tr>'
+    '<tr><td><span class="kw3">手技の要点</span></td>'
+    '<td><span class="kw3">① 細い針（25〜27G）を使う</span>／'
+    '<span class="kw3">② 消毒はドレープの穴より<u>広く</u></span>／'
+    '<span class="kw3">③ ポビドンヨードは乾燥して初めて効く'
+    '（2分以上待つ）</span>／'
+    '<span class="kw3">④ 吸引して<u>血液の逆流がないこと</u>を確認してから注入</span>／'
+    '<span class="kw3">⑤ 効いたかを痛覚で確認してから切開する</span></td></tr>'
+    '<tr><td><span class="kw3">アドレナリン添加</span></td>'
+    '<td><span class="kw3">血管収縮 → 吸収が遅れて'
+    '<u>作用時間が延び、出血が減り、中毒も起きにくい</u></span>。'
+    '<span class="kw4">指趾・陰茎など終動脈の領域では壊死のおそれ</span></td></tr>'
+    '<tr><td><span class="kw4">感染部位</span></td>'
+    '<td><span class="kw4">組織が酸性に傾き、'
+    '局所麻酔薬（弱塩基）の非イオン型が減って神経膜を通れない'
+    '→ <u>効きが悪くなる</u></span>（増強しない）。'
+    '加えて<span class="kw4">感染を健常組織へ広げるおそれ</span></td></tr>'
+    '<tr><td><span class="kw4">局所麻酔薬中毒</span></td>'
+    '<td><span class="kw4">血管内への誤注入・過量が原因</span>。'
+    '<span class="kw3">舌のしびれ・耳鳴・多弁 → 痙攣 → 意識消失 → '
+    '心停止</span>の順。'
+    '<span class="kw3">リドカインには極量がある（アドレナリン非添加で約5mg/kg）</span>。'
+    '治療は気道確保と<span class="kw">脂肪乳剤の静注</span></td></tr></table>')
+
+
+# ------------------------------------------------------------------
+# NO.11〜13 は連問（108B-56/57/58）。⚠️ 症例文は3枚すべてに載せること。
+# ------------------------------------------------------------------
+_STEM_11 = (
+    '<span class="kw">次の文を読み、11 〜13 の問いに答えよ。</span><br>'
+    '60 歳の男性。オートバイで転倒したため搬入された。<br>'
+    '現病歴：2 時間前、オートバイで走行中に転倒し大腿部を挟まれた。<br>'
+    '既往歴：特記すべきことはない。<br>'
+    '現　症：意識レベルはJCSⅠ-3。身長160cm、体重60kg。体温35.5℃。脈拍120/ 分、整。'
+    '血圧80/50mmHg。呼吸数24/ 分。SpO<sub>2</sub> 98％（リザーバー付マスク10ℓ/ 分酸素投与下）。'
+    '表情は苦悶様で左大腿部の痛みを訴えている。顔面は蒼白で、皮膚は冷たく湿潤している。'
+    '心音と呼吸音とに異常を認めない。左大腿部に挫滅創と活動性外出血とを認め、骨が露出している。'
+    '濃い尿を少量認める。<br>'
+    '検査所見：尿所見：比重1.030、蛋白（－）、糖（－）。'
+    '血液所見：赤血球250 万、Hb 7.0g/dl、Ht 21％、白血球13,000、血小板4.5 万、'
+    'PT 20 秒（基準10 〜14）、APTT 50 秒（基準対照32.2）。'
+    '血液生化学所見：総蛋白5.0g/dl、アルブミン3.0g/dl、尿素窒素20mg/dl、'
+    'クレアチニン0.9mg/dl、血糖120mg/dl、Na 145mEq/l、K 5.0mEq/l、Cl 109mEq/l。'
+    '下肢エックス線写真で左大腿骨骨折と左脛骨骨折とを認める。'
+    '胸部エックス線写真と全身CT とで下肢を除いて異常を認めない。<br>'
+    '左大腿骨開放骨折に対し、赤血球濃厚液、新鮮凍結血漿および濃厚血小板を準備し、'
+    '止血、デブリドマンおよび骨整復固定術が予定された。急速輸液を行った。<br>')
+
+
+
+QUESTIONS = [
+
+# ============================================================ NO.1
+Q('110H-15', 91, [('bs', '★'), ('bh', '必修')],
+  '<strong>パルスオキシメトリについて正しいのはどれか。</strong>',
+  [('a', '使用前に装置の滅菌が必要である。', False,
+    '指や耳たぶを<span class="kw3">プローブで挟むだけの非侵襲的モニター</span>で、'
+    '皮膚を破らないので<span class="kw4">滅菌は不要</span>（清拭・消毒で足りる）。'),
+   ('b', '静脈血の酸素飽和度を計測できる。', False,
+    '<span class="kw4">測っているのは拍動する成分＝動脈血だけ</span>。'
+    '拍動しない静脈血・組織・皮膚の吸光は差し引かれる仕組みなので、'
+    '静脈血の飽和度〈SvO<sub>2</sub>〉は測れない（それには中心静脈カテーテルが要る）。'),
+   ('c', '一酸化炭素中毒の診断に有用である。', False,
+    '<span class="kw4">CO中毒ではむしろ役に立たない</span>——'
+    '<span class="kw4">COHb は酸素化Hbとよく似た吸光特性をもつため、'
+    'SpO<sub>2</sub>は高値のまま正常に見える</span>。'
+    '<span class="kw3">診断は動脈血ガス分析でCOHb濃度を直接測る</span>。'),
+   ('d', '過換気症候群の患者で測定値が低下する。', False,
+    '過換気で下がるのは<span class="kw4">PaCO<sub>2</sub></span>であって'
+    '酸素化ではない。<span class="kw3">SpO<sub>2</sub>はむしろ正常〜高値</span>。'
+    'しびれやテタニーは呼吸性アルカローシスによるもの。'),
+   ('e', '麻酔中の持続的モニターとして使用される。', True,
+    '<span class="kw3">◯ 心電図・血圧・SpO<sub>2</sub>・ETCO<sub>2</sub>・体温は'
+    '全身麻酔中の標準的モニター</span>。'
+    '非侵襲・連続・即時に低酸素を検知できるため、'
+    '<span class="kw3">手術室だけでなく病棟・救急・在宅にも普及した</span>。')],
+  'パルスオキシメーターは非侵襲・連続の標準モニター。CO中毒では高値のまま当てにならない。',
+  patho=('🩺 パルスオキシメトリ——「拍動する成分だけ」を見る仕組み',
+         '<span class="kw3">酸素化ヘモグロビン〈O<sub>2</sub>Hb〉と脱酸素化ヘモグロビン〈HHb〉で'
+         '赤色光（660nm）と赤外光（940nm）の吸光度が違う</span>ことを利用する。'
+         '2つの波長の吸光比から飽和度を求めるが、'
+         '<span class="kw3">指を透過する光には皮膚・組織・静脈血の吸光も混ざる</span>。'
+         'そこで<span class="kw3">「心拍に同期して変動する成分〈拍動成分〉」だけを取り出す</span>'
+         'ことで、動脈血の飽和度＝SpO<sub>2</sub> を非侵襲・連続に表示できる。<br>'
+         '<span class="kw4">この原理から限界も決まる</span>——'
+         '<span class="kw4">拍動が拾えない状況（末梢循環不全・ショック・低体温・'
+         '強い血管収縮薬・体動・マニキュア）では表示できないか誤る</span>し、'
+         '<span class="kw4">2波長しか使わないので「Hbの種類」を区別できない</span>。'
+         '<span class="kw3">COHb（一酸化炭素中毒）とメトHb は'
+         'この2波長では見分けられず、SpO<sub>2</sub>が高値のまま出る</span>のが最大の落とし穴。'
+         '<span class="kw3">酸素解離曲線の形から、SpO<sub>2</sub> 90%＝PaO<sub>2</sub> 60Torr</span>'
+         'が呼吸不全の境目として対応する。'),
+  deep=('📌 SpO<sub>2</sub>が当てにならない4つの場面',
+        '<table class="tb"><tr><th>場面</th><th>SpO<sub>2</sub>の出方</th>'
+        '<th>正しい評価法</th></tr>'
+        '<tr><td><span class="kw4">一酸化炭素中毒</span></td>'
+        '<td><span class="kw4">高値（正常に見える）</span>'
+        '——COHbをO<sub>2</sub>Hbと誤認する</td>'
+        '<td><span class="kw3">動脈血ガス分析でCOHb濃度</span>'
+        '（CO-オキシメトリ）。治療は高濃度酸素・高気圧酸素</td></tr>'
+        '<tr><td><span class="kw4">メトヘモグロビン血症</span></td>'
+        '<td><span class="kw4">Hbの状態によらず85%前後に張りつく</span></td>'
+        '<td>MetHb濃度測定。チョコレート色の血液。'
+        '治療はメチレンブルー</td></tr>'
+        '<tr><td><span class="kw4">末梢循環不全・ショック・低体温</span></td>'
+        '<td><span class="kw4">表示されない・低値に振れる</span></td>'
+        '<td>耳たぶ・前額部のプローブ、動脈血ガス</td></tr>'
+        '<tr><td>色素・マニキュア・体動</td>'
+        '<td>低値・不安定</td><td>装着部位を変える</td></tr></table>'
+        '<span class="kw3">「SpO<sub>2</sub>が良いのに患者が悪い」ときは、'
+        'まずこの表を思い出す</span>——'
+        '<span class="kw3">火災現場・練炭・閉め切った室内の暖房という'
+        '状況の一言があれば、SpO<sub>2</sub>の数字を捨てて血ガスへ進む</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">SpO<sub>2</sub>が測っているのは動脈血の酸素飽和度</span>——'
+         '拍動成分だけを取り出すので静脈血は測れない。<br>'
+         '② <span class="kw4">一酸化炭素中毒では高値のまま＝診断に使えない</span>。'
+         '<span class="kw">COHbは動脈血ガス分析で測る</span>。<br>'
+         '③ <span class="kw">SpO<sub>2</sub> 90% ≒ PaO<sub>2</sub> 60Torr</span>'
+         '（＝呼吸不全の定義）。<br>'
+         '④ 全身麻酔中の標準モニターは'
+         '<span class="kw">心電図・血圧・SpO<sub>2</sub>・ETCO<sub>2</sub>・体温</span>'
+         'の5つ。<br>'
+         '⑤ <span class="kw4">非侵襲＝滅菌は不要</span>。'
+         '<span class="kw">酸素化は見えるが換気（PaCO<sub>2</sub>）は見えない</span>'
+         'ので、ETCO<sub>2</sub>と組で使う。')),
+
+# ============================================================ NO.2
+Q('118B-21', 88, [('bs', '★'), ('bh', '必修')],
+  '<strong>術前診察時の患者情報と周術期のリスクとの組合せで誤っているのはどれか。</strong>',
+  [('a', '喫　煙 ―――― 術後無気肺', False,
+    '<span class="kw3">正しい組合せ</span>。喫煙は気道分泌を増やし線毛運動を落とすので'
+    '<span class="kw3">術後の喀痰貯留・無気肺・肺炎</span>が増える。'
+    '<span class="kw3">4週間以上前からの禁煙</span>で合併症が減る。'),
+   ('b', '開口障害 ――― 気道確保困難', False,
+    '<span class="kw3">正しい組合せ</span>。喉頭鏡は口から声門までを'
+    '一直線に見通す道具なので、<span class="kw3">口が開かなければ'
+    'ブレードが入らず喉頭展開ができない</span>。'
+    '術前気道評価12項目の中核。'),
+   ('c', '大量飲酒 ――― 肺塞栓症', True,
+    '<span class="kw3">◯ これが誤り</span>。'
+    '<span class="kw4">大量飲酒で問題になるのは'
+    '肝機能障害（凝固因子低下・薬物代謝の変化）・'
+    '離脱症候群（振戦せん妄）・耐性による麻酔薬必要量の増加・栄養障害</span>で、'
+    '<span class="kw4">肺塞栓症とは結びつかない</span>。'
+    '<span class="kw3">肺塞栓（静脈血栓塞栓症）のリスクは'
+    '長時間手術・下肢の手術・悪性腫瘍・肥満・臥床・経口避妊薬・'
+    '血栓性素因</span>。'),
+   ('d', '抗凝固薬服用中 ―― 止血困難', False,
+    '<span class="kw3">正しい組合せ</span>。術中出血に加え、'
+    '<span class="kw4">硬膜外麻酔・脊髄くも膜下麻酔では硬膜外血腫</span>が問題になるため'
+    '休薬期間の調整が要る。'),
+   ('e', 'バナナ摂取後の蕁麻疹 ―― ラテックスアレルギー', False,
+    '<span class="kw3">正しい組合せ</span>。'
+    '<span class="kw3">ラテックス－フルーツ症候群</span>——'
+    '天然ゴムラテックスの蛋白と'
+    '<span class="kw3">バナナ・アボカド・キウイ・クリ</span>の蛋白が交差反応する。'
+    '手術用手袋・駆血帯・カテーテルにラテックスが使われるので、'
+    '<span class="kw3">術中アナフィラキシーの原因になる</span>。')],
+  '大量飲酒のリスクは肝障害・離脱・麻酔薬必要量の増加。肺塞栓症は結びつかない。',
+  patho=('🩺 術前診察は「この患者で何が起こりうるか」を先回りする作業',
+         '術前評価の目的は<span class="kw3">①手術と麻酔に耐えられるか（リスクの層別化）、'
+         '②起こりうる合併症を予測して手を打つこと</span>の2つ。'
+         '国試ではこれを<span class="kw3">「背景 → 起こる合併症」の組合せ</span>で問う。<br>'
+         '<table class="tb"><tr><th>背景</th><th>周術期に起こること</th>'
+         '<th>先手</th></tr>'
+         '<tr><td><span class="kw3">喫煙</span></td>'
+         '<td><span class="kw3">気道分泌増加・線毛障害 → 無気肺・肺炎</span>、'
+         'COHbによる酸素運搬能低下、創傷治癒遅延</td>'
+         '<td><span class="kw3">4週間以上前からの禁煙</span></td></tr>'
+         '<tr><td><span class="kw3">開口障害・頸椎可動制限・肥満・'
+         '睡眠時無呼吸</span></td>'
+         '<td><span class="kw3">マスク換気困難・挿管困難</span></td>'
+         '<td>ビデオ喉頭鏡・意識下挿管の準備、'
+         '<span class="kw">困難気道アルゴリズム</span></td></tr>'
+         '<tr><td><span class="kw4">大量飲酒</span></td>'
+         '<td><span class="kw4">肝障害と凝固異常・アルコール離脱'
+         '（術後2〜3日目の振戦せん妄）・麻酔薬必要量の増加・'
+         '低栄養（Wernicke脳症）</span></td>'
+         '<td>肝機能と凝固の確認、ビタミンB<sub>1</sub></td></tr>'
+         '<tr><td>抗凝固薬・抗血小板薬</td>'
+         '<td>術中出血、<span class="kw4">硬膜外血腫</span></td>'
+         '<td>休薬とヘパリン置換の計画</td></tr>'
+         '<tr><td><span class="kw3">ラテックス／薬物アレルギー</span></td>'
+         '<td><span class="kw3">術中アナフィラキシー</span></td>'
+         '<td>ラテックスフリーの器材、手術は<u>1例目</u>に入れる</td></tr></table>'),
+  deep=('📌 ラテックス－フルーツ症候群——「果物で蕁麻疹」は麻酔科の警報',
+        '<span class="kw3">天然ゴムラテックスの主要アレルゲン（Hev b 6 など）は'
+        '植物の防御蛋白〈キチナーゼ〉で、同族の蛋白が果物にも含まれる</span>。'
+        'このため<span class="kw3">ラテックス過敏の患者の30〜50%が果物にも反応する</span>。<br>'
+        '<span class="kw3">交差する代表：バナナ・アボカド・キウイ・クリ</span>'
+        '（＋パパイヤ・マンゴー・トマト・ジャガイモ）。'
+        '<span class="kw3">語呂は「バ・ア・キ・ク」</span>。<br>'
+        '<span class="kw4">リスクが高い集団は、ラテックスに繰り返し曝露する人</span>——'
+        '<span class="kw4">医療従事者、二分脊椎など複数回手術を受けた小児、'
+        'ゴム製品を扱う職業</span>。'
+        '<span class="kw3">術中アナフィラキシーは'
+        '「原因不明の血圧低下＋気道内圧上昇＋皮膚の紅潮」で気づく</span>のが定型で、'
+        '<span class="kw3">最も多い原因は筋弛緩薬、次いで抗菌薬、そしてラテックス</span>。'
+        '対応は<span class="kw3">原因の除去とアドレナリン筋注（0.3〜0.5mg）</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">禁煙は術前4週間以上</span>が目標'
+         '（直前の禁煙でもCOHbは下がり酸素運搬能は改善する）。<br>'
+         '② <span class="kw">「バナナ・アボカド・キウイ・クリで蕁麻疹」＝'
+         'ラテックスアレルギーを疑う</span>。<br>'
+         '③ <span class="kw4">大量飲酒＝肝障害・離脱・麻酔薬必要量の増加</span>。'
+         '肺塞栓症のリスク因子は<span class="kw">長時間手術・悪性腫瘍・肥満・'
+         '臥床・下肢の手術</span>。<br>'
+         '④ 抗凝固薬服用中は<span class="kw4">硬膜外血腫</span>のため'
+         '区域麻酔の可否を必ず検討する。<br>'
+         '⑤ 術中アナフィラキシーの3徴＝'
+         '<span class="kw">血圧低下・気道内圧上昇・皮膚症状</span>、'
+         '第一選択は<span class="kw">アドレナリン</span>。')),
+
+# ============================================================ NO.3
+Q('117F-19', 94, [('bs', '★')],
+  '<strong>待期的に行う全身麻酔下の手術で、術前に確保すべき清澄水の絶飲時間はどれか。</strong>',
+  [('a', '15 分', False,
+    '短すぎる。胃内容が残ったまま導入すれば逆流・誤嚥のリスクが残る。'),
+   ('b', '2 時間', True,
+    '<span class="kw3">◯ 清澄水は年齢を問わず麻酔導入の2時間前まで安全</span>。'
+    '清澄水は胃から速やかに排出され、2時間で胃内容はほぼ空になる。'),
+   ('c', '6 時間', False,
+    '<span class="kw4">これは軽食・人工乳・牛乳の基準</span>。'
+    '清澄水に6時間を課すと、脱水・低血糖・患者の不快を生むだけで利益がない。'),
+   ('d', '12 時間', False,
+    '<span class="kw4">根拠のない過剰な絶飲</span>。'
+    '「前日の夜から何も飲ませない」という旧来の管理がこれで、'
+    '<span class="kw4">ERASでは明確に否定されている</span>。'),
+   ('e', '24 時間', False,
+    '<span class="kw4">論外</span>。高度の脱水を招き、導入時の血圧低下をかえって招く。')],
+  '清澄水は年齢を問わず2時間前まで。長い絶飲は利益がなく有害。',
+  patho=('🩺 術前絶飲食——「誤嚥を防ぐ」ためだけの、最小限の時間',
+         '絶飲食の唯一の目的は<span class="kw3">麻酔導入時の胃内容の逆流と誤嚥</span>を'
+         '防ぐこと。全身麻酔では<span class="kw3">意識消失によって'
+         '喉頭反射（咳・嚥下）が失われ、筋弛緩薬で下部食道括約筋も緩む</span>ため、'
+         '胃内容が咽頭へ逆流すると<span class="kw4">そのまま気管へ落ちる</span>。'
+         '酸性の胃液を吸い込むと<span class="kw4">化学性肺臓炎'
+         '〈Mendelson症候群〉</span>を起こす。<br>'
+         'だが<span class="kw3">「長く絶食すればするほど安全」ではない</span>——'
+         '<span class="kw4">脱水・低血糖・インスリン抵抗性の亢進・口渇と空腹の苦痛</span>'
+         'が生じ、導入時の血圧低下も増える。'
+         'そこで<span class="kw3">胃排出の速度に応じて必要最小限の時間だけ空ける</span>'
+         'のが現在の基準。' + FASTING_TABLE),
+  deep=('📌 「絶飲食していてもフルストマック」として扱う患者',
+        '<span class="kw3">基準時間を守っても胃が空でない患者がいる</span>。'
+        'この場合は<span class="kw3">迅速導入〈rapid sequence induction〉</span>で'
+        '扱う（NO.8 参照）。'
+        '<table class="tb"><tr><th>状況</th><th>理由</th></tr>'
+        '<tr><td><span class="kw4">緊急手術・外傷</span></td>'
+        '<td><span class="kw4">痛みとストレスで胃排出が止まる</span>'
+        '——受傷直前の食事がそのまま残る</td></tr>'
+        '<tr><td><span class="kw4">イレウス・消化管閉塞</span></td>'
+        '<td>内容が流れず胃に溜まる</td></tr>'
+        '<tr><td><span class="kw4">妊婦（特に妊娠後期）</span></td>'
+        '<td>プロゲステロンによる下部食道括約筋の弛緩＋'
+        '増大子宮による腹圧上昇と胃の圧排</td></tr>'
+        '<tr><td>糖尿病（自律神経障害）・胃食道逆流症・肥満</td>'
+        '<td>胃排出遅延、腹圧上昇</td></tr>'
+        '<tr><td>頭蓋内圧亢進・強い疼痛・オピオイド投与中</td>'
+        '<td>胃排出遅延</td></tr></table>'
+        '<span class="kw3">ERASではむしろ「術直前まで炭水化物を含む清澄水を飲ませる」</span>'
+        '——<span class="kw3">術前の炭水化物負荷はインスリン抵抗性を減らし、'
+        '口渇・空腹・不安を軽くし、術後の回復を早める</span>。'
+        '<span class="kw4">「絶飲食は長いほど丁寧」という直感が、そのまま誤答肢になる</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">清澄水＝2時間／母乳＝4時間／人工乳・牛乳＝6時間／'
+         '軽食＝6時間／脂肪の多い食事・肉＝8時間</span>。<br>'
+         '② <span class="kw">清澄水の2時間は年齢を問わない</span>'
+         '（小児も同じ）。清澄水＝水・お茶・ブラックコーヒー・'
+         '果肉を含まない果汁・経口補水液。<br>'
+         '③ <span class="kw4">牛乳は「飲み物」ではなく固形物扱い（6時間）</span>。<br>'
+         '④ 目的は<span class="kw">誤嚥（Mendelson症候群）の予防</span>'
+         'ただ1つ。<br>'
+         '⑤ <span class="kw4">緊急手術・イレウス・妊婦は'
+         '絶飲食していてもフルストマック</span>として迅速導入で扱う。')),
+
+# ============================================================ NO.4
+Q('117F-66', 80, [('bs', '★')],
+  '56 歳の男性。右季肋部痛を主訴に来院した。<br>'
+  '現病歴：以前から右背部痛を自覚していたが、1 か月前から痛みの頻度が増加し、'
+  '就寝初期の右季肋部痛も伴うようになったため自宅近くの医院を受診した。'
+  '腹部超音波検査で胆囊結石を認め、手術目的に紹介受診した。<br>'
+  '既往歴：1 年前から高血圧症と2 型糖尿病で降圧薬と経口糖尿病薬を内服している。<br>'
+  '生活歴：喫煙は20 本/ 日を35 年間。飲酒は焼酎1 合/ 日を10 年間。<br>'
+  '家族歴：母が2 型糖尿病で治療中である。<br>'
+  '現　症：意識は清明。身長171cm、体重70kg。体温36.1℃。脈拍72/ 分、整。'
+  '血圧148/96mmHg。SpO<sub>2</sub> 98％（room air）。眼瞼結膜と眼球結膜とに異常を認めない。'
+  '心音と呼吸音とに異常を認めない。腹部は平坦で、右季肋部に圧痛を認める。<br>'
+  '検査所見：尿所見：蛋白（－）、糖（－）、ケトン体（－）、潜血（－）。'
+  '血液所見：赤血球580 万、Hb 15.9g/dL、Ht 51％、白血球8,400、血小板27 万、'
+  'PT-INR 0.95（基準0.9 〜1.1）。血液生化学所見：総蛋白7.6g/dL、アルブミン5.0g/dL、'
+  '総ビリルビン0.8mg/dL、AST 13U/L、ALT 18U/L、クレアチニン0.8mg/dL、'
+  '血糖95mg/dL、HbA1c 6.8％（基準4.6 〜6.2）。CRP 0.1mg/dL。心電図で異常を認めない。'
+  '胸部エックス線写真で心胸郭比46％。腹部超音波検査、腹部単純CT 及び'
+  '磁気共鳴胆管膵管撮影〈MRCP〉で胆囊内に径5 〜8mm の結石を数個認めたが、'
+  '他の異常所見を認めない。<br>'
+  '胆囊結石症と診断し、待期的に腹腔鏡下胆囊摘出術を予定することとした。<br>'
+  '<strong>周術期管理について誤っているのはどれか。</strong>',
+  [('a', '前日、夕食を摂取する。', False,
+    '<span class="kw3">正しい</span>。翌日の手術なら'
+    '<span class="kw3">前日の夕食は普通に摂ってよい</span>'
+    '（固形物は6〜8時間空ければ足りる）。'
+    '「前日から絶食」は不要な脱水と低血糖を招くだけ。'),
+   ('b', '当日術前、降圧薬を内服する。', False,
+    '<span class="kw3">正しい</span>。'
+    '<span class="kw3">降圧薬は原則として手術当日朝まで継続する</span>'
+    '（少量の水で内服してよい）。'
+    '<span class="kw4">突然の中断は反跳性高血圧・虚血性心疾患の誘発を招く</span>。'
+    'ただし<span class="kw">ACE阻害薬・ARBは導入時の重篤な低血圧を避けるため'
+    '当日朝は休薬することが多い</span>。'),
+   ('c', '当日術前、経口糖尿病薬を内服する。', True,
+    '<span class="kw3">◯ これが誤り</span>。'
+    '<span class="kw4">手術当日は絶食なので、経口血糖降下薬を飲めば'
+    '低血糖を起こす</span>。'
+    '<span class="kw3">経口糖尿病薬は手術当日朝は休薬する</span>'
+    '（<span class="kw3">ビグアナイドは乳酸アシドーシスのおそれから'
+    '48時間前後の休薬、SGLT2阻害薬は正常血糖ケトアシドーシスのため3日前後の休薬</span>）。'
+    '術中はインスリンと血糖測定で管理する。'),
+   ('d', '翌日、食事を開始する。', False,
+    '<span class="kw3">正しい</span>。腹腔鏡下胆囊摘出術は侵襲が小さく、'
+    '<span class="kw3">術翌日（施設によっては当日夕）から飲水・食事を開始する</span>のが標準。'
+    '早期の経口摂取は腸管麻痺と感染を減らす。'),
+   ('e', '翌日、経口鎮痛薬を内服する。', False,
+    '<span class="kw3">正しい</span>。'
+    '<span class="kw3">経口摂取が可能なら鎮痛薬も経口へ切り替える</span>'
+    '（アセトアミノフェン・NSAIDs）。'
+    'オピオイドに頼らない多角的鎮痛はERASの柱。')],
+  '手術当日朝、降圧薬は継続・経口糖尿病薬は休薬。絶食下で飲めば低血糖になる。',
+  patho=('🩺 常用薬は「続けるもの」と「止めるもの」に分かれる',
+         '術前の内服管理の原則は<span class="kw3">'
+         '「止めると悪いことが起きる薬は続け、'
+         '絶食下で飲むと悪いことが起きる薬は止める」</span>。'
+         '<table class="tb"><tr><th></th><th>薬</th><th>理由</th></tr>'
+         '<tr><td rowspan="3"><span class="kw3">当日朝まで<br>続ける</span></td>'
+         '<td><span class="kw3">降圧薬（Ca拮抗薬・β遮断薬）</span></td>'
+         '<td><span class="kw4">中断による反跳性高血圧・頻脈・心筋虚血</span>。'
+         '<span class="kw3">β遮断薬の中断は特に危険</span></td></tr>'
+         '<tr><td><span class="kw3">抗てんかん薬・抗パーキンソン病薬・'
+         '気管支拡張薬・ステロイド</span></td>'
+         '<td>中断で発作・症状悪化・副腎不全</td></tr>'
+         '<tr><td>抗不整脈薬・甲状腺ホルモン</td><td>同上</td></tr>'
+         '<tr><td rowspan="3"><span class="kw4">術前に<br>止める</span></td>'
+         '<td><span class="kw4">経口血糖降下薬（当日朝）</span></td>'
+         '<td><span class="kw4">絶食下の低血糖</span>。'
+         'ビグアナイドは乳酸アシドーシス、'
+         'SGLT2阻害薬は正常血糖ケトアシドーシスのため数日前から</td></tr>'
+         '<tr><td><span class="kw4">抗凝固薬・抗血小板薬</span></td>'
+         '<td><span class="kw4">出血・硬膜外血腫</span>'
+         '（ワルファリンはヘパリンへ置換）</td></tr>'
+         '<tr><td><span class="kw">ACE阻害薬・ARB（当日朝）</span></td>'
+         '<td><span class="kw4">導入時の遷延性低血圧</span></td></tr></table>'
+         '<span class="kw3">この症例は HbA1c 6.8%・血糖95mg/dL と'
+         '血糖コントロールは良好</span>なので、'
+         '当日はインスリンも要らず、'
+         '<span class="kw3">「飲ませない」だけで足りる</span>。'),
+  deep=('📌 腹腔鏡下胆囊摘出術の周術期——ERASの縮図',
+        '<span class="kw3">腹腔鏡下胆囊摘出術（待期的）は'
+        '「短い絶食・早い離床・早い経口摂取」の見本</span>で、'
+        '国試ではこの流れをそのまま問う。'
+        '<table class="tb"><tr><th>時期</th><th>標準的な管理</th></tr>'
+        '<tr><td>前日</td><td><span class="kw3">夕食は通常どおり</span>。'
+        '就寝前まで清澄水可</td></tr>'
+        '<tr><td>当日朝</td>'
+        '<td><span class="kw3">清澄水は2時間前まで／'
+        '降圧薬は少量の水で内服／経口糖尿病薬は休薬</span></td></tr>'
+        '<tr><td>術中</td><td>気腹（CO<sub>2</sub>）による'
+        '<span class="kw">ETCO<sub>2</sub>上昇・気道内圧上昇・'
+        '横隔膜挙上</span>に注意。加温</td></tr>'
+        '<tr><td>術後当日</td><td>数時間後から飲水・歩行</td></tr>'
+        '<tr><td><span class="kw3">術翌日</span></td>'
+        '<td><span class="kw3">食事開始・経口鎮痛薬へ切り替え・退院も可能</span></td></tr></table>'
+        '<span class="kw4">気腹に特有の合併症</span>として'
+        '<span class="kw4">高CO<sub>2</sub>血症、皮下気腫、'
+        '横隔膜刺激による術後の右肩痛</span>を押さえる。'
+        '<span class="kw3">この症例で喫煙20本×35年があるのも見逃さない</span>——'
+        '<span class="kw3">術後無気肺のリスクで、本来は4週間以上前からの禁煙が望ましい</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">降圧薬は当日朝まで続ける</span>'
+         '（β遮断薬の中断は特に危険）。'
+         '<span class="kw">ACE阻害薬・ARBだけは当日朝休薬</span>が一般的。<br>'
+         '② <span class="kw4">経口血糖降下薬は当日朝休薬</span>——'
+         '絶食下で飲めば低血糖。<br>'
+         '③ <span class="kw">ビグアナイドは乳酸アシドーシス、'
+         'SGLT2阻害薬は正常血糖ケトアシドーシス</span>のため数日前から休薬。<br>'
+         '④ <span class="kw">前日の夕食は摂ってよく、腹腔鏡手術なら翌日から食事</span>。<br>'
+         '⑤ 気腹の合併症＝<span class="kw">高CO<sub>2</sub>血症・皮下気腫・'
+         '術後の右肩痛</span>。')),
+
+# ============================================================ NO.5
+Q('116A-38', 62, [('bs', '★')],
+  '62 歳の男性。下行結腸癌と診断され、開腹による左半結腸切除を予定している。'
+  '28 歳時に虫垂炎による腹膜炎で1 か月の入院歴がある。'
+  '身長175cm、体重60kg。体温36.2℃。脈拍76/ 分、整。血圧120/70mmHg。呼吸数14/ 分。'
+  '眼瞼結膜と眼球結膜に異常を認めない。心音と呼吸音に異常を認めない。'
+  '腹部は平坦、軟で、肝・脾を触知しない。右下腹部と腹部正中に手術痕を認める。'
+  '血液所見：赤血球410 万、Hb 13.8g/dL、Ht 42％、白血球5,200、血小板16 万。'
+  'PT-INR 1.0（基準0.9 〜1.1）、APTT 29.0 秒（基準対象32.2）。'
+  '血液生化学所見：総蛋白7.4g/dL、アルブミン4.0g/dL、総ビリルビン0.8mg/dL、'
+  'AST 18U/L、ALT 20U/L、クレアチニン0.8mg/dL、'
+  'Na 140mEq/L、K 3.8mEq/L、Cl 100mEq/L、CEA 5.2ng/mL（基準5 以下）。<br>'
+  '<strong>この患者の周術期管理で適切なのはどれか。</strong>',
+  [('a', '手術の2 時間前まで固形物摂取を許可する。', False,
+    '<span class="kw4">2時間は清澄水の基準</span>。'
+    '<span class="kw4">固形物は6時間（脂肪の多い食事・肉は8時間）</span>空ける。'),
+   ('b', 'ベッド上安静が術後3 日間必要である。', False,
+    '<span class="kw4">誤り</span>。'
+    '<span class="kw3">術後は当日〜翌日から離床する</span>のが標準。'
+    '<span class="kw4">長期臥床は深部静脈血栓症・肺炎・腸管麻痺・筋力低下を招く</span>。'),
+   ('c', '流動食は術後1 週間から開始とする。', False,
+    '<span class="kw4">誤り</span>。'
+    '<span class="kw3">結腸切除でも術後1〜2日目から経口摂取を始める</span>。'
+    '早期経口摂取は腸管蠕動の回復を促し、'
+    '<span class="kw3">縫合不全を増やさない</span>ことが示されている。'),
+   ('d', '手術中患者の体温を室温で管理する。', False,
+    '<span class="kw4">誤り</span>。'
+    '<span class="kw4">麻酔中は体温調節が破綻し、放置すれば必ず低体温になる</span>'
+    '（麻酔薬による血管拡張で中枢の熱が末梢へ再分布する）。'
+    '<span class="kw3">温風式加温装置・輸液加温で36℃以上に保つ</span>。'
+    '低体温は<span class="kw4">創感染・出血量・心事故・シバリング・覚醒遅延</span>を増やす。'),
+   ('e', '持続硬膜外麻酔による鎮痛を行う。', True,
+    '<span class="kw3">◯ 開腹手術では硬膜外カテーテルを留置し、'
+    '術中から術後まで持続的に鎮痛する</span>のが標準。'
+    '<span class="kw3">全身のオピオイド量を減らせるので'
+    '腸管麻痺・悪心・呼吸抑制が減り、深呼吸と早期離床ができる</span>。'
+    '本例は<span class="kw3">PT-INR 1.0・APTT正常・血小板16万</span>で'
+    '凝固に問題がなく、硬膜外穿刺の禁忌もない。')],
+  '開腹結腸切除の鎮痛は持続硬膜外麻酔。安静・絶食・室温管理はすべて誤り。',
+  patho=('🩺 ERAS〈術後回復力強化プログラム〉——「短く・早く・動かす」',
+         'ERAS〈Enhanced Recovery After Surgery〉は'
+         '<span class="kw3">大腸手術で確立した周術期管理のパッケージ</span>で、'
+         '<span class="kw3">絶食を短くし、体温と輸液を適正に保ち、'
+         '硬膜外鎮痛でオピオイドを減らし、当日から動かす</span>ことで'
+         '在院日数と合併症を減らす。' + ERAS_TABLE +
+         '<span class="kw3">この問題は5肢のうち4肢が「長く・遅く・動かさない」'
+         '方向に振ってある</span>——'
+         '<span class="kw3">向きだけを見れば残る1つが答えになる</span>。'),
+  deep=('📌 なぜ「硬膜外」が開腹手術の鎮痛の主役なのか',
+        '<table class="tb"><tr><th></th><th>硬膜外鎮痛</th>'
+        '<th>全身オピオイドのみ</th></tr>'
+        '<tr><td>効き方</td>'
+        '<td><span class="kw3">切開部の高さの脊髄分節をピンポイントで遮断</span></td>'
+        '<td>全身に回る</td></tr>'
+        '<tr><td>呼吸</td>'
+        '<td><span class="kw3">痛みが取れて深呼吸・咳ができる → 無気肺が減る</span></td>'
+        '<td><span class="kw4">呼吸抑制</span></td></tr>'
+        '<tr><td>腸管</td>'
+        '<td><span class="kw3">交感神経遮断でむしろ蠕動が戻りやすい</span></td>'
+        '<td><span class="kw4">腸管麻痺・便秘</span></td></tr>'
+        '<tr><td>離床</td><td><span class="kw3">早い</span></td>'
+        '<td>眠気・悪心で遅れる</td></tr>'
+        '<tr><td><span class="kw4">できない場合</span></td>'
+        '<td colspan="2"><span class="kw4">抗凝固薬・抗血小板薬の使用中、'
+        '血小板減少（10万/μL未満は慎重、'
+        '硬膜外は8万未満・脊麻は5万未満で推奨されない）、'
+        '穿刺部の感染、頭蓋内圧亢進、患者の拒否</span></td></tr></table>'
+        '<span class="kw3">硬膜外の可否を問う問題では、'
+        '症例文の PT-INR・APTT・血小板を必ず確認する癖をつける</span>——'
+        '<span class="kw3">この症例で凝固検査がわざわざ並べてあるのは、'
+        '「硬膜外を入れてよい」と読ませるため</span>。'),
+  point=('🎯 国試ポイント',
+         '① ERASの肢は<span class="kw">「短い絶食・早期経口摂取・早期離床・'
+         '積極的加温・硬膜外鎮痛」</span>で揃う。<br>'
+         '② <span class="kw4">「術後◯日間安静」「術後◯週間絶食」「術中大量輸液」'
+         '「体温は室温で管理」は例外なく誤り</span>。<br>'
+         '③ <span class="kw">術中低体温は創感染・出血・心事故・'
+         'シバリング・覚醒遅延を増やす</span>ので36℃以上に保つ。<br>'
+         '④ 開腹手術の鎮痛は<span class="kw">持続硬膜外麻酔</span>'
+         '——オピオイドを減らして腸管麻痺と呼吸抑制を避ける。<br>'
+         '⑤ 硬膜外の禁忌＝<span class="kw4">抗凝固・血小板減少・'
+         '穿刺部感染・頭蓋内圧亢進</span>。')),
+
+# ============================================================ NO.6
+Q('119D-3', 99, [('bs', '★')],
+  '<strong>下行結腸癌に対する腹腔鏡下手術の周術期管理で誤っているのはどれか。</strong>',
+  [('a', '手術前4 週間以上の禁煙', False,
+    '<span class="kw3">正しい</span>。'
+    '<span class="kw3">4週間以上の禁煙で術後呼吸器合併症と創感染が減る</span>。'),
+   ('b', '術前日の非吸収性抗菌薬の内服', False,
+    '<span class="kw3">正しい</span>。'
+    '<span class="kw3">大腸手術では機械的腸管前処置に経口非吸収性抗菌薬'
+    '（カナマイシン・メトロニダゾール等）を併用すると手術部位感染が減る</span>。'),
+   ('c', '術後72 時間以上のベッド上安静', True,
+    '<span class="kw3">◯ これが誤り</span>。'
+    '<span class="kw3">腹腔鏡手術ではむしろ当日〜翌日に離床する</span>。'
+    '<span class="kw4">72時間の臥床は深部静脈血栓症・肺炎・'
+    '腸管麻痺・筋力低下を作るだけ</span>。'),
+   ('d', '手術室搬入2 時間前の浣腸排便処置', False,
+    '<span class="kw3">正しい（許容される管理）</span>。'
+    '直腸内の便を出しておくことは術野の清潔と操作性のために行われる。'
+    '浣腸は絶飲食の制限とは別の処置。'),
+   ('e', '手術室搬入3 時間前までの経口補水液摂取', False,
+    '<span class="kw3">正しい</span>。'
+    '<span class="kw3">経口補水液は清澄水で、2時間前まで許される</span>'
+    '——3時間前ならその基準内に十分収まる。')],
+  '腹腔鏡手術こそ早期離床。「72時間ベッド上安静」は方向が逆。',
+  patho=('🩺 「長い期間」が書いてある肢を探す——ERASの1手',
+         '前問（NO.5）と同じ論点を、腹腔鏡手術で問い直したもの。'
+         '<span class="kw3">正答率99%が示すとおり、'
+         'ERASの向きさえ知っていれば読むだけで解ける</span>。' + ERAS_TABLE +
+         '<span class="kw3">腹腔鏡手術は開腹より創が小さく痛みが軽いぶん、'
+         '離床はさらに早い</span>。'
+         '<span class="kw4">「腹腔鏡＝低侵襲」と言いながら'
+         '「術後72時間安静」と書く肢は、それ自体が矛盾している</span>。'),
+  deep=('📌 大腸手術の術前腸管前処置——「する／しない」の現在地',
+        '<table class="tb"><tr><th></th><th>中身</th><th>評価</th></tr>'
+        '<tr><td>機械的腸管前処置<br>〈MBP〉</td>'
+        '<td>下剤・洗腸液（ポリエチレングリコール等）で'
+        '腸管内容を洗い流す</td>'
+        '<td><span class="kw4">単独では手術部位感染を減らさない</span>'
+        '（脱水・電解質異常の害もある）</td></tr>'
+        '<tr><td><span class="kw3">経口抗菌薬<br>〈非吸収性〉</span></td>'
+        '<td><span class="kw3">カナマイシン・エリスロマイシン・'
+        'メトロニダゾールなど、腸管から吸収されず'
+        '<u>腸内の細菌数だけを減らす</u>薬</span></td>'
+        '<td><span class="kw3">MBPと併用すると手術部位感染が有意に減る</span></td></tr>'
+        '<tr><td>静注抗菌薬</td>'
+        '<td><span class="kw3">執刀前60分以内に投与し、'
+        '長時間手術では追加投与</span></td>'
+        '<td>標準（必須）</td></tr></table>'
+        '<span class="kw3">大腸は消化管の中で最も細菌数が多い（10<sup>11</sup>/g）</span>ため、'
+        '<span class="kw3">「腸の中を洗う」だけでなく'
+        '「腸の中の菌を減らす」処置が加わる</span>のが他臓器との違い。'
+        '<span class="kw4">これを「腸管前処置はもう不要」と単純化して覚えると、'
+        'この肢を誤りにしてしまう</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw4">「術後◯時間／◯日間のベッド上安静」は誤り</span>——'
+         '開腹でも腹腔鏡でも早期離床。<br>'
+         '② <span class="kw">禁煙は4週間以上前から</span>。<br>'
+         '③ <span class="kw">大腸手術では機械的腸管前処置＋'
+         '経口非吸収性抗菌薬で手術部位感染が減る</span>。<br>'
+         '④ <span class="kw">予防的静注抗菌薬は執刀前60分以内</span>、'
+         '長時間なら術中追加。<br>'
+         '⑤ <span class="kw">経口補水液は清澄水＝2時間前まで可</span>。')),
+
+# ============================================================ NO.7
+Q('110H-19', 49, [('bs', '★'), ('bh', '必修')],
+  '<strong>成人に対する全身麻酔の急速導入で最初に投与するのはどれか。</strong>',
+  [('a', '純酸素', True,
+    '<span class="kw3">◯ まず純酸素をマスクで吸わせる〈前酸素化・脱窒素〉</span>。'
+    '<span class="kw3">機能的残気量の窒素を酸素に置き換えて'
+    '「無呼吸でも耐えられる時間」を稼ぐ</span>のが目的で、'
+    '<span class="kw3">薬を入れるのはその後</span>。'),
+   ('b', '筋弛緩薬', False,
+    '<span class="kw4">意識がある患者に筋弛緩薬を先に入れれば、'
+    '動けないまま意識があるという最悪の事態になる</span>。'
+    '<span class="kw3">必ず鎮静薬で入眠を確認してから</span>。'),
+   ('c', '吸入麻酔薬', False,
+    '吸入麻酔薬で徐々に眠らせるのは'
+    '<span class="kw">緩徐導入</span>（小児で使う）。'
+    '急速導入では静脈麻酔薬を用いる。'),
+   ('d', '静脈麻酔薬', False,
+    '<span class="kw3">順番としては2番目</span>。'
+    'プロポフォールなどで入眠させ、'
+    'マスク換気ができることを確認してから筋弛緩薬へ進む。'),
+   ('e', '副交感神経刺激薬', False,
+    '<span class="kw4">徐脈・気道分泌増加・気管支収縮を起こすので導入には使わない</span>。'
+    '使うとすれば<u>抗</u>コリン薬（アトロピン）の方。')],
+  '急速導入の一手目は薬ではなく純酸素。前酸素化で無呼吸許容時間を稼ぐ。',
+  patho=('🩺 全身麻酔の導入——順番そのものが安全装置',
+         '<table class="tb"><tr><th>順</th><th>すること</th><th>なぜ</th></tr>'
+         '<tr><td><span class="kw3">①</span></td>'
+         '<td><span class="kw3">前酸素化〈脱窒素〉'
+         '：純酸素100%を密着マスクで3〜5分（または深呼吸8回）</span></td>'
+         '<td><span class="kw3">機能的残気量〈FRC・約2.5L〉の窒素を酸素に置き換える</span>。'
+         '室内空気ならFRC中の酸素は約0.5Lだが、'
+         '<span class="kw3">純酸素なら約2.5Lの酸素が肺に貯まり、'
+         '無呼吸でSpO<sub>2</sub>が下がり始めるまでの時間が'
+         '1〜2分から5〜8分へ延びる</span></td></tr>'
+         '<tr><td>②</td><td>静脈麻酔薬（プロポフォール等）で入眠</td>'
+         '<td>意識を落とす</td></tr>'
+         '<tr><td>③</td>'
+         '<td><span class="kw3">マスク換気が可能なことを確認</span></td>'
+         '<td><span class="kw3">ここで換気できなければ筋弛緩薬を入れずに'
+         '覚醒させられる</span>——最後の引き返し地点</td></tr>'
+         '<tr><td>④</td><td>筋弛緩薬</td>'
+         '<td>声門を開き、挿管と陽圧換気を可能にする</td></tr>'
+         '<tr><td>⑤</td><td>喉頭展開・気管挿管 → 位置確認</td><td></td></tr></table>'
+         '<span class="kw3">この順番は「意識を落とす前に酸素を貯め、'
+         '換気できると確かめてから動きを止める」という'
+         '2重の安全確認になっている</span>。'
+         '<span class="kw4">正答率49%は「導入＝眠らせる薬」という'
+         '思い込みで d を選んだ人が多いことを示す</span>。'),
+  deep=('📌 急速導入・緩徐導入・迅速導入——3つの「導入」を並べる',
+        '<table class="tb"><tr><th></th><th>急速導入<br>〈rapid induction〉</th>'
+        '<th>緩徐導入<br>〈slow induction〉</th>'
+        '<th><span class="kw3">迅速導入<br>〈RSI〉</span></th></tr>'
+        '<tr><td>対象</td><td><span class="kw3">成人の待期手術の標準</span></td>'
+        '<td><span class="kw">小児（静脈路が取れない）</span></td>'
+        '<td><span class="kw4">フルストマック'
+        '（緊急・イレウス・妊婦）</span></td></tr>'
+        '<tr><td>薬</td><td>静脈麻酔薬 → 筋弛緩薬</td>'
+        '<td>マスクで吸入麻酔薬を嗅がせて入眠 →'
+        'その後に静脈路確保</td>'
+        '<td>静脈麻酔薬と<span class="kw3">速効性筋弛緩薬</span>'
+        '（スキサメトニウム／ロクロニウム大量）を<u>続けて</u>投与</td></tr>'
+        '<tr><td><span class="kw3">マスク換気</span></td>'
+        '<td><span class="kw3">する（確認してから筋弛緩）</span></td>'
+        '<td>する</td>'
+        '<td><span class="kw4">しない（陽圧換気で胃が膨らむと'
+        '逆流するため）</span></td></tr>'
+        '<tr><td>特徴</td><td></td><td>啼泣・体動がある</td>'
+        '<td><span class="kw3">輪状軟骨圧迫を併用し、'
+        '入眠から挿管までを最短で行う</span></td></tr></table>'
+        '<span class="kw3">どの導入法でも「まず前酸素化」は共通</span>——'
+        '<span class="kw3">むしろ迅速導入ではマスク換気をしない分、'
+        '前酸素化が生命線になる</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">急速導入の一手目は前酸素化（100%酸素）</span>——'
+         '薬ではない。<br>'
+         '② 順番は<span class="kw">前酸素化 → 静脈麻酔薬 → '
+         'マスク換気の確認 → 筋弛緩薬 → 挿管</span>。<br>'
+         '③ <span class="kw4">筋弛緩薬を鎮静薬より先に入れてはいけない</span>。<br>'
+         '④ <span class="kw">前酸素化はFRCの窒素を酸素に置換して'
+         '無呼吸許容時間を延ばす</span>（1〜2分 → 5〜8分）。<br>'
+         '⑤ <span class="kw">緩徐導入＝小児／迅速導入＝フルストマック</span>。')),
+
+# ============================================================ NO.8
+Q('112C-30', 49, [('bs', '★')],
+  '78 歳の女性。夕食後に腹痛が出現し、次第に増強したため救急車で搬入された。'
+  '43 歳時に卵巣囊腫摘出術を受けている。体温38.0℃。心拍数120/ 分、整。'
+  '血圧116/66mmHg。SpO<sub>2</sub> 98％（鼻カニューラ1L/ 分酸素投与下）。'
+  '腹部は膨隆し、下腹部に圧痛と筋性防御とを認めた。'
+  '腹部造影CT で絞扼性イレウス及び汎発性腹膜炎と診断され、緊急手術を行うことになった。'
+  '手術室入室時、体温38.0℃。心拍数124/ 分、整。血圧90/54mmHg。'
+  'SpO<sub>2</sub> 100％（マスク6L/ 分酸素投与下）。'
+  '<u>麻酔導入は、酸素マスクによって十分な酸素化を行いつつ、静脈麻酔薬と筋弛緩薬とを投与後、'
+  '陽圧換気を行わずに輪状軟骨圧迫を併用し迅速に気管挿管を行う迅速導入とした。</u><br>'
+  '<strong>下線に示すような麻酔導入を行う目的はどれか。</strong>',
+  [('a', '誤嚥の防止', True,
+    '<span class="kw3">◯ 迅速導入〈RSI〉の目的はただ1つ、'
+    '胃内容の逆流と誤嚥を防ぐこと</span>。'
+    '<span class="kw3">絞扼性イレウス＝胃内容が停滞したフルストマック</span>で、'
+    '<span class="kw3">陽圧換気をしない（胃を膨らませない）</span>ことと'
+    '<span class="kw3">輪状軟骨圧迫で食道を後方の椎体に押しつけて閉じる</span>ことの'
+    '2つで逆流を抑え、入眠から挿管までの時間を最短にする。'),
+   ('b', '気胸の予防', False,
+    '気胸は陽圧換気や中心静脈穿刺の合併症で、'
+    '<span class="kw4">導入法の選択で予防するものではない</span>。'),
+   ('c', '舌根沈下の予防', False,
+    '舌根沈下は<span class="kw3">下顎挙上・エアウェイ・気管挿管</span>で対応するもので、'
+    '<span class="kw4">迅速導入の目的ではない</span>。'
+    'むしろ迅速導入では入眠から挿管までの短時間、気道は保護されていない。'),
+   ('d', '声帯損傷の回避', False,
+    '声帯損傷を避けるのは<span class="kw3">十分な筋弛緩と適切なチューブ径・'
+    '愛護的な操作</span>。<span class="kw4">迅速導入はむしろ急いで挿管する分、'
+    '手技的な損傷のリスクは下がらない</span>。'),
+   ('e', '食道への誤挿管の回避', False,
+    '<span class="kw4">輪状軟骨圧迫は食道を「押しつぶす」操作で、'
+    '誤挿管を防ぐ操作ではない</span>。'
+    '<span class="kw3">誤挿管を防ぐ（見つける）のは喉頭展開下の目視と'
+    'ETCO<sub>2</sub>波形</span>。'
+    'むしろ強すぎる輪状軟骨圧迫は<span class="kw4">視野を悪くして挿管を難しくする</span>。')],
+  '迅速導入＝フルストマックの誤嚥防止。陽圧換気をせず輪状軟骨圧迫で食道を閉じる。',
+  patho=('🩺 迅速導入〈rapid sequence induction; RSI〉',
+         '<span class="kw3">「胃の中身が残っている患者を、'
+         '意識が無くなってから気管を守るまでの数十秒で通過させる」</span>ための手順。'
+         '<table class="tb"><tr><th>手順</th><th>ふつうの導入との違い</th>'
+         '<th>理由</th></tr>'
+         '<tr><td><span class="kw3">十分な前酸素化</span></td>'
+         '<td>より念入りに（100%酸素で3〜5分）</td>'
+         '<td><span class="kw3">この後マスク換気をしないので、'
+         '無呼吸に耐える酸素を貯めておく必要がある</span></td></tr>'
+         '<tr><td><span class="kw3">静脈麻酔薬＋速効性筋弛緩薬を続けて投与</span></td>'
+         '<td>入眠確認を待たずに筋弛緩薬</td>'
+         '<td><span class="kw3">入眠から挿管までの時間を最短にする</span>'
+         '（スキサメトニウム、またはロクロニウム大量）</td></tr>'
+         '<tr><td><span class="kw4">陽圧換気を行わない</span></td>'
+         '<td><span class="kw4">マスク換気をしない</span></td>'
+         '<td><span class="kw4">陽圧をかけると空気が胃に入り、'
+         '胃が膨れてかえって逆流する</span></td></tr>'
+         '<tr><td><span class="kw3">輪状軟骨圧迫〈Sellick法〉</span></td>'
+         '<td>助手が輪状軟骨を後方へ押す</td>'
+         '<td><span class="kw3">輪状軟骨は気管で唯一の完全な輪なので、'
+         '押しても気道は潰れず、'
+         '<u>後方にある食道だけが椎体との間で閉じる</u></span></td></tr>'
+         '<tr><td>頭高位</td><td>上半身を挙上</td>'
+         '<td>重力で逆流を減らす</td></tr></table>'
+         '<span class="kw3">この症例は「絞扼性イレウス＋汎発性腹膜炎の緊急手術」</span>'
+         '——<span class="kw3">腸管内容が停滞し、'
+         '痛みとショックで胃排出も止まっている典型的なフルストマック</span>。'),
+  deep=('📌 輪状軟骨だけが「完全な輪」——だから押せる',
+        '<span class="kw3">気管軟骨はC字型（後壁は膜性壁）だが、'
+        '輪状軟骨だけが前後をぐるりと囲む完全な輪</span>である。'
+        'このため<span class="kw3">前から押しても気道の内腔は保たれ、'
+        '硬い輪が後方の食道を頸椎椎体との間に挟んで閉じる</span>。'
+        '<span class="kw3">輪状甲状靱帯穿刺（緊急気道確保）も、'
+        '甲状軟骨と輪状軟骨の間という'
+        '「触って分かる硬い目印」を使う</span>のと同じ理屈。<br>'
+        '<table class="tb"><tr><th>用語</th><th>中身</th></tr>'
+        '<tr><td><span class="kw3">輪状軟骨圧迫〈Sellick法〉</span></td>'
+        '<td><span class="kw3">誤嚥を防ぐために食道を閉じる</span></td></tr>'
+        '<tr><td>BURP法</td>'
+        '<td><span class="kw">甲状軟骨を Back・Up・Right・Pressure（後・上・右）へ動かし'
+        '<u>喉頭の視野を良くする</u></span>——目的が違う</td></tr>'
+        '<tr><td><span class="kw4">Mendelson症候群</span></td>'
+        '<td><span class="kw4">酸性胃液の誤嚥による化学性肺臓炎</span>。'
+        '産科麻酔から報告された</td></tr></table>'
+        '<span class="kw4">誤答肢 e（食道への誤挿管の回避）が最大の受け皿</span>——'
+        '<span class="kw3">「輪状軟骨＝食道」という単語の連想で選ぶと外す。'
+        '押すのは<u>逆流を止める</u>ためであって、'
+        '<u>チューブの行き先を変える</u>ためではない</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">迅速導入〈RSI〉の目的は誤嚥の防止</span>ただ1つ。<br>'
+         '② 要素は<span class="kw">十分な前酸素化・速効性筋弛緩薬・'
+         '陽圧換気をしない・輪状軟骨圧迫</span>。<br>'
+         '③ <span class="kw">輪状軟骨は気管で唯一の完全な輪</span>だから、'
+         '押しても気道は潰れず食道だけが閉じる。<br>'
+         '④ 適応＝<span class="kw4">緊急手術・イレウス・妊婦・'
+         '胃食道逆流症・外傷</span>（＝フルストマック）。<br>'
+         '⑤ <span class="kw4">Mendelson症候群＝酸性胃液の誤嚥による化学性肺臓炎</span>。')),
+
+# ============================================================ NO.9
+Q('107G-29', 89, [('bs', '★')],
+  '<strong>全身麻酔で意識レベルを下げるために使用するのはどれか。</strong>',
+  [('a', 'アトロピン', False,
+    '<span class="kw4">抗コリン薬</span>。'
+    '徐脈の予防・気道分泌の抑制に使う。<span class="kw4">意識には効かない</span>。'),
+   ('b', 'リドカイン', False,
+    '<span class="kw4">局所麻酔薬・抗不整脈薬</span>。'
+    '局所の神経伝導を止めるが、<span class="kw4">静注しても意識は落ちない</span>'
+    '（大量では中毒として痙攣・意識障害を起こすが、それは麻酔ではない）。'),
+   ('c', 'ベクロニウム', False,
+    '<span class="kw4">非脱分極性筋弛緩薬</span>。'
+    '<span class="kw4">筋を弛緩させるだけで、鎮静・鎮痛作用は無い</span>——'
+    '鎮静をかけずに投与すれば「動けないのに意識がある」状態になる。'),
+   ('d', 'チオペンタール', True,
+    '<span class="kw3">◯ バルビツール酸系の静脈麻酔薬</span>で、'
+    '<span class="kw3">GABA<sub>A</sub>受容体を介して大脳を抑制し'
+    '意識を落とす（鎮静・催眠）</span>。'
+    '<span class="kw4">鎮痛作用は無い</span>ので、'
+    '痛みにはオピオイドを別に足す。'),
+   ('e', 'ネオスチグミン', False,
+    '<span class="kw4">コリンエステラーゼ阻害薬</span>。'
+    '<span class="kw3">非脱分極性筋弛緩薬の拮抗</span>（覚醒時に使う）で、'
+    '意識を下げる薬ではない。')],
+  '意識を落とすのは静脈麻酔薬。チオペンタール＝鎮静のみで鎮痛作用は無い。',
+  patho=('🩺 麻酔の4要素——「どの要素の薬か」で肢が仕分けられる',
+         '全身麻酔は1剤で完結せず、'
+         '<span class="kw3">鎮静・鎮痛・筋弛緩・有害反射の抑制を'
+         '別々の薬で分担する〈バランス麻酔〉</span>。'
+         '設問が「意識レベルを下げる」＝<span class="kw3">鎮静</span>を'
+         '名指ししているので、鎮静薬を選べばよい。' + ELEMENTS_TABLE),
+  deep=('📌 麻酔で使う薬を「役割」で1枚に並べる', IVAGENT_TABLE +
+        '<span class="kw3">この5肢は「鎮静・局所麻酔・筋弛緩・抗コリン・'
+        '筋弛緩拮抗」と役割がきれいに分かれている</span>——'
+        '<span class="kw3">薬名を見たら分類を言えるようにしておけば、'
+        '設問文が指す要素と照合するだけで解ける</span>。<br>'
+        '<span class="kw4">最も危険な誤解は「筋弛緩薬＝眠っている」</span>。'
+        '<span class="kw4">筋弛緩薬は意識にも痛みにもまったく作用しない</span>ので、'
+        '<span class="kw4">鎮静が浅いまま筋弛緩薬を使うと'
+        '「動けず声も出せないまま手術の痛みを感じる」術中覚醒</span>になる。'
+        '<span class="kw3">術中覚醒の予防に BIS モニターなどで'
+        '麻酔深度を監視する</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">麻酔の4要素＝鎮静・鎮痛・筋弛緩・有害反射の抑制</span>'
+         '（3要素なら鎮静・鎮痛・筋弛緩）。<br>'
+         '② <span class="kw">意識を落とす＝静脈麻酔薬'
+         '（チオペンタール・プロポフォール）／吸入麻酔薬</span>。<br>'
+         '③ <span class="kw4">チオペンタール・プロポフォールに鎮痛作用は無い</span>'
+         '（<span class="kw">ケタミンだけは鎮痛作用をもつ</span>）。<br>'
+         '④ <span class="kw4">筋弛緩薬は意識にも痛みにも効かない</span>——'
+         '鎮静が浅いと術中覚醒。<br>'
+         '⑤ <span class="kw">アトロピン＝抗コリン、'
+         'ネオスチグミン＝筋弛緩の拮抗</span>と役割で覚える。')),
+
+# ============================================================ NO.10
+Q('104G-42', 43, [('bs', '★')],
+  '42 歳の男性。全身麻酔下で緊急脳動脈瘤クリッピング術を行う。'
+  '術前の胸部エックス線写真を示す。<br>'
+  '<strong>使用すべきでない麻酔薬はどれか。</strong>',
+  [('a', '亜酸化窒素', True,
+    '<span class="kw3">◯ 亜酸化窒素〈笑気〉は窒素より血液への溶解度が'
+    '34倍も高いため、閉鎖腔へ急速に拡散して入り込み、'
+    '出ていく窒素より速く溜まって<u>閉鎖腔を膨らませる</u></span>。'
+    '<span class="kw4">胸部エックス線写真の巨大ブラ（肺野の透過性亢進）が'
+    'これで破裂すれば緊張性気胸になる</span>。'
+    '<span class="kw3">同じ理由で気胸・イレウス・中耳手術・'
+    '眼内ガス注入後にも禁忌</span>。'),
+   ('b', 'セボフルラン', False,
+    '揮発性吸入麻酔薬。閉鎖腔を膨張させる性質は無く、'
+    'ブラがあっても使用できる。'),
+   ('c', 'イソフルラン', False,
+    '同じく揮発性吸入麻酔薬で問題ない。'),
+   ('d', 'チオペンタール', False,
+    '静脈麻酔薬。<span class="kw3">脳代謝と脳血流を下げて頭蓋内圧を下げる</span>ので、'
+    'むしろ脳外科手術では都合がよい。'),
+   ('e', 'プロポフォール', False,
+    '静脈麻酔薬。<span class="kw3">同じく脳血流・頭蓋内圧を下げる</span>ため'
+    '脳動脈瘤手術に適する。')],
+  '巨大ブラに亜酸化窒素は禁忌。閉鎖腔へ拡散して膨らませ、破裂させる。',
+  patho=('🩺 亜酸化窒素〈笑気〉——「閉じた空間を膨らませる」ただ1つの麻酔薬',
+         '<span class="kw3">亜酸化窒素 N<sub>2</sub>O の血液／ガス分配係数は0.47で、'
+         '窒素 N<sub>2</sub> の0.014 の約34倍</span>。'
+         'つまり<span class="kw3">血液に溶けて運ばれる量が桁違いに多い</span>。'
+         '体内に<span class="kw3">気体で満たされた閉鎖腔</span>があると、'
+         '<span class="kw3">血液から N<sub>2</sub>O が'
+         '「入っていく速さ」が、腔内の N<sub>2</sub> が'
+         '「出ていく速さ」を大きく上回る</span>ため、'
+         '<span class="kw3">腔の体積が増える（あるいは'
+         '壁が固ければ内圧が上がる）</span>。<br>'
+         '<table class="tb"><tr><th>閉鎖腔</th><th>起きること</th></tr>'
+         '<tr><td><span class="kw4">気胸・巨大ブラ</span></td>'
+         '<td><span class="kw4">拡大・破裂 → 緊張性気胸</span></td></tr>'
+         '<tr><td><span class="kw4">イレウス（腸管ガス）</span></td>'
+         '<td><span class="kw4">腸管の膨張 → 術野の悪化、'
+         '閉腹困難、穿孔</span></td></tr>'
+         '<tr><td><span class="kw4">中耳（鼓室形成術）</span></td>'
+         '<td><span class="kw4">中耳圧上昇 → 移植した鼓膜がずれる</span></td></tr>'
+         '<tr><td><span class="kw4">眼内ガス注入後（網膜剝離手術後）</span></td>'
+         '<td><span class="kw4">眼圧上昇 → 網膜中心動脈閉塞・失明</span></td></tr>'
+         '<tr><td><span class="kw4">気管チューブのカフ</span></td>'
+         '<td><span class="kw4">カフ圧上昇 → 気管粘膜の虚血</span></td></tr>'
+         '<tr><td><span class="kw4">空気塞栓・頭蓋内気脳症</span></td>'
+         '<td><span class="kw4">増悪</span></td></tr></table>'
+         '<span class="kw3">胸部エックス線写真で片側〜両側の肺野が'
+         '極端に黒く（透過性亢進）、血管影が乏しい部分があれば巨大ブラ</span>。'),
+  deep=('📌 脳外科の麻酔——「頭蓋内圧を上げない薬」を選ぶ',
+        '<table class="tb"><tr><th>薬</th><th>脳血流・頭蓋内圧</th>'
+        '<th>脳外科での位置づけ</th></tr>'
+        '<tr><td><span class="kw3">プロポフォール・'
+        'チオペンタール（静脈麻酔薬）</span></td>'
+        '<td><span class="kw3">脳代謝率を下げ、'
+        'それに伴って脳血流も頭蓋内圧も下がる</span></td>'
+        '<td><span class="kw3">脳外科の第一選択</span></td></tr>'
+        '<tr><td>セボフルラン・イソフルラン（1MAC以下）</td>'
+        '<td>用量依存性に脳血管を拡張するが、'
+        '低濃度なら実用上問題ない</td><td>併用可</td></tr>'
+        '<tr><td><span class="kw4">亜酸化窒素</span></td>'
+        '<td><span class="kw4">脳血流を増やし頭蓋内圧を上げる</span>'
+        '＋<span class="kw4">気脳症を増悪させる</span></td>'
+        '<td><span class="kw4">脳外科でも避けられる</span></td></tr>'
+        '<tr><td><span class="kw4">ケタミン</span></td>'
+        '<td><span class="kw4">脳血流・頭蓋内圧を上げる</span></td>'
+        '<td>頭蓋内圧亢進では避ける</td></tr></table>'
+        '<span class="kw3">この症例は「巨大ブラ」と「脳動脈瘤」の'
+        '<u>両方の理由</u>で亜酸化窒素が不適</span>——'
+        '<span class="kw3">写真を読めなくても'
+        '「脳外科＋亜酸化窒素」の相性の悪さから同じ答えに着地できる</span>。'
+        '<span class="kw3">頭蓋内圧を下げる基本手技は'
+        '頭部挙上・過換気（PaCO<sub>2</sub>を下げる）・高浸透圧利尿薬</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw4">亜酸化窒素は閉鎖腔を膨張させる</span>——'
+         '<span class="kw">気胸・ブラ・イレウス・中耳手術・眼内ガス・'
+         '空気塞栓では使わない</span>。<br>'
+         '② 理由は<span class="kw">血液／ガス分配係数が窒素の約34倍</span>'
+         '（入る速さ ＞ 出る速さ）。<br>'
+         '③ <span class="kw">亜酸化窒素は鎮痛作用をもつが'
+         '単独では麻酔深度が足りない</span>（MAC 105%）。'
+         '拡散性低酸素症にも注意。<br>'
+         '④ <span class="kw">脳外科ではプロポフォール・チオペンタールが'
+         '脳血流と頭蓋内圧を下げるので有利</span>。<br>'
+         '⑤ <span class="kw">胸部エックス線で肺野の透過性亢進＋血管影の消失'
+         '＝ブラ・気腫性囊胞</span>。'),
+  imgs=[IMG + '104G-42_1.jpeg']),
+
+# ============================================================ NO.11
+Q('108B-56', 97, [],
+  _STEM_11 + '<strong>輸液の組成として適切なのはどれか。</strong>'
+  '<br><span class="kw">（数値は Na<sup>＋</sup>／K<sup>＋</sup>／Cl<sup>－</sup>／'
+  'Lactate<sup>－</sup>（いずれもmEq/l）／糖質（％）の順）</span>',
+  [('a', 'Na 130／K 4／Cl 109／Lactate 28／糖質 0', True,
+    '<span class="kw3">◯ 乳酸リンゲル液（細胞外液補充液）</span>。'
+    '<span class="kw3">Na 130mEq/l と細胞外液の組成に近く、'
+    '投与した量が血管内・間質にとどまる</span>ので、'
+    '<span class="kw3">出血性ショックで失われた細胞外液を'
+    '最も効率よく補える</span>。'
+    'Lactate は肝で代謝されて HCO<sub>3</sub><sup>－</sup> となり'
+    '代謝性アシドーシスを補正する。'),
+   ('b', 'Na 84／K 20／Cl 66／Lactate 20／糖質 1.5', False,
+    '<span class="kw4">維持液（3号液）</span>。'
+    '<span class="kw4">Na が細胞外液の約半分しかなく、K を20mEq/l 含む</span>。'
+    '1日の水・電解質を補う「持続点滴」用で、'
+    '<span class="kw4">急速輸液には向かない</span>——'
+    '本例は<span class="kw4">K 5.0mEq/l と既に高値で、'
+    '挫滅創・輸血予定もありK負荷は危険</span>。'),
+   ('c', 'Na 40／K 35／Cl 40／Lactate 20／糖質 10', False,
+    '<span class="kw4">Kが35mEq/lと極めて高く、糖10%の高張液</span>。'
+    '<span class="kw4">急速投与すれば致死的高カリウム血症</span>を招く。'),
+   ('d', 'Na 35／K 25／Cl 35／Lactate 20／糖質 4.3', False,
+    '<span class="kw4">4号液（術後回復液）相当で Na が極端に低い</span>。'
+    '<span class="kw4">血管内に残らず自由水として全身に分布し、'
+    '循環血液量はほとんど増えない</span>。'),
+   ('e', 'Na 0／K 0／Cl 0／Lactate 0／糖質 5', False,
+    '<span class="kw4">5%ブドウ糖液</span>。'
+    '<span class="kw4">糖は代謝されて実質「水」になり、'
+    '大部分が細胞内へ移動して血管内にはほとんど残らない</span>。'
+    'ショックの初期輸液としては最も不適で、低ナトリウム血症も招く。')],
+  '出血性ショックの初期輸液は細胞外液補充液（乳酸リンゲル液）。',
+  patho=('🩺 「どこに残る輸液か」で選ぶ',
+         '輸液の効き方は<span class="kw3">Na<sup>＋</sup>濃度で決まる</span>——'
+         '<span class="kw3">Na は細胞膜を自由に通れないので'
+         '細胞外にとどまり、水を細胞外に引きつける</span>。'
+         '<table class="tb"><tr><th>輸液</th><th>Na<sup>＋</sup></th>'
+         '<th>分布</th><th>用途</th></tr>'
+         '<tr><td><span class="kw3">細胞外液補充液<br>'
+         '（生理食塩液・乳酸/酢酸リンゲル液）</span></td>'
+         '<td><span class="kw3">130〜154mEq/l</span></td>'
+         '<td><span class="kw3">全量が細胞外（血管内1／間質3）</span></td>'
+         '<td><span class="kw3">出血・脱水・ショックの初期輸液</span></td></tr>'
+         '<tr><td>1号液（開始液）</td><td>約90mEq/l</td>'
+         '<td>細胞外寄り</td>'
+         '<td><span class="kw">K を含まないので'
+         '病態不明・腎機能不明のときの開始液</span></td></tr>'
+         '<tr><td>3号液（維持液）</td><td>約35〜50mEq/l</td>'
+         '<td>細胞内外へ分布</td>'
+         '<td>1日の水・電解質・K の維持</td></tr>'
+         '<tr><td><span class="kw4">5%ブドウ糖液</span></td>'
+         '<td><span class="kw4">0</span></td>'
+         '<td><span class="kw4">全身の体液に分布（血管内には1/12程度）</span></td>'
+         '<td>自由水の補給のみ</td></tr></table>'
+         '<span class="kw3">この症例は Hb 7.0・Ht 21%・血圧80/50・脈拍120・'
+         '四肢冷汗＝出血性ショック（class Ⅲ〜Ⅳ）</span>。'
+         '<span class="kw3">まず細胞外液を急速投与し、'
+         '反応が乏しければ輸血へ進む</span>のが外傷初期診療の定型。'),
+  deep=('📌 選択肢の数字だけで仕分ける読み方',
+        '<span class="kw3">この5肢は Na<sup>＋</sup>を見るだけで並ぶ</span>——'
+        '<span class="kw3">130 → 84 → 40 → 35 → 0</span>。'
+        '<span class="kw3">出血で失われるのは「血液」＝細胞外液なので、'
+        'Na が最も細胞外液に近い a を選ぶ</span>。<br>'
+        '<span class="kw3">第2のチェックは K</span>——'
+        '<span class="kw4">b（20）・c（35）・d（25）はいずれも K を含み、'
+        '急速大量投与に使えば高カリウム血症になる</span>。'
+        '<span class="kw4">本例は K 5.0mEq/l と既に上限で、'
+        '挫滅した筋（クラッシュ症候群）からの K 放出と'
+        '保存血の K も加わる</span>のでなおさら。<br>'
+        '<span class="kw3">第3のチェックは糖</span>——'
+        '<span class="kw4">急性期に糖を負荷すると高血糖になり、'
+        '浸透圧利尿でかえって脱水を悪化させる</span>。<br>'
+        '<span class="kw3">なお本例は PT 20秒・APTT 50秒・血小板4.5万と'
+        '外傷性凝固障害を来しており、'
+        '晶質液だけで押すのではなく早期に'
+        '赤血球濃厚液・新鮮凍結血漿・濃厚血小板をバランスよく'
+        '投与する〈大量輸血プロトコル〉</span>のが現在の標準。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">出血性ショックの初期輸液は細胞外液補充液'
+         '（乳酸/酢酸リンゲル液・生理食塩液）</span>。<br>'
+         '② <span class="kw">輸液がどこに残るかは Na<sup>＋</sup>濃度で決まる</span>'
+         '——Na が低いほど血管内に残らない。<br>'
+         '③ <span class="kw4">5%ブドウ糖液は実質「水」＝'
+         'ショックの初期輸液にならない</span>。<br>'
+         '④ <span class="kw4">維持液（K を含む輸液）を急速大量投与しない</span>'
+         '——高カリウム血症。<br>'
+         '⑤ 乳酸リンゲル液の Lactate は<span class="kw">肝で'
+         'HCO<sub>3</sub><sup>－</sup>に代謝されアシドーシスを補正</span>する'
+         '（乳酸アシドーシスを起こす訳ではない）。')),
+
+# ============================================================ NO.12
+Q('108B-57／105E-67類', 62, [('bs', '★')],
+  _STEM_11 + '<strong>最も適切な麻酔法はどれか。</strong>',
+  [('a', '伝達麻酔', False,
+    '末梢神経ブロック。<span class="kw4">広範囲のデブリドマンと'
+    '骨整復固定術を1本のブロックで賄うことはできず、'
+    '循環の破綻に対応できない</span>。'),
+   ('b', '全身麻酔', True,
+    '<span class="kw3">◯ 出血性ショックの緊急手術は全身麻酔</span>。'
+    '<span class="kw3">気道を確保して陽圧換気ができ、'
+    '循環作動薬・輸血で全身管理を行いながら'
+    '手術時間や術式の変更にも対応できる</span>のは全身麻酔だけ。'),
+   ('c', '硬膜外麻酔', False,
+    '<span class="kw4">禁忌</span>。'
+    '<span class="kw4">① 血小板4.5万・PT 20秒・APTT 50秒＝凝固障害があり'
+    '硬膜外血腫のリスクが高い、'
+    '② 交感神経遮断による血管拡張でショックが悪化する</span>。'),
+   ('d', '脊髄くも膜下麻酔', False,
+    '<span class="kw4">同じ理由で禁忌</span>。'
+    '<span class="kw4">交感神経遮断で血圧がさらに下がり、'
+    '出血性ショックでは致命的</span>。'
+    '血小板5.0万未満では脊髄くも膜下穿刺も推奨されない。'),
+   ('e', '全身麻酔と硬膜外麻酔の併用', False,
+    '<span class="kw4">硬膜外を加える時点で c・d と同じ禁忌</span>。'
+    '待期的な開腹手術では標準だが、'
+    '<span class="kw4">凝固障害を伴うショック症例では選べない</span>。')],
+  'ショック＋凝固障害の緊急手術は全身麻酔一択。区域麻酔は血腫と血圧低下で禁忌。',
+  patho=('🩺 麻酔法の選択——「循環を保てるか」と「針を刺してよいか」',
+         '<table class="tb"><tr><th></th><th>全身麻酔</th>'
+         '<th>脊髄くも膜下／硬膜外麻酔</th></tr>'
+         '<tr><td><span class="kw3">循環</span></td>'
+         '<td><span class="kw3">昇圧薬・輸液・輸血で能動的に支えられる</span></td>'
+         '<td><span class="kw4">交感神経が遮断され血管が拡張する'
+         '＝血圧が必ず下がる</span></td></tr>'
+         '<tr><td><span class="kw3">気道</span></td>'
+         '<td><span class="kw3">気管挿管で確保され、'
+         '誤嚥も防げる</span></td>'
+         '<td><span class="kw4">確保されない</span></td></tr>'
+         '<tr><td>手術範囲・時間</td>'
+         '<td><span class="kw3">制限がない</span></td>'
+         '<td>効果範囲と持続時間に制限</td></tr>'
+         '<tr><td><span class="kw4">凝固障害があるとき</span></td>'
+         '<td>問題ない</td>'
+         '<td><span class="kw4">硬膜外血腫 → 対麻痺。'
+         '血小板10万/μL以上が望ましく、'
+         '硬膜外は8万未満・脊麻は5万未満で推奨されない</span></td></tr></table>'
+         '<span class="kw3">この症例は「血圧80/50・脈拍120・冷汗＝ショック」と'
+         '「血小板4.5万・PT延長・APTT延長＝凝固障害」の2つが'
+         'そろって区域麻酔を否定している</span>。'),
+  deep=('📌 出血性ショック患者の全身麻酔——導入で殺さないために',
+        '<span class="kw3">循環血液量が減っている患者では、'
+        '通常量の麻酔薬でも心停止に至る血圧低下を起こす</span>。'
+        '<table class="tb"><tr><th>工夫</th><th>理由</th></tr>'
+        '<tr><td><span class="kw3">導入前に輸液・輸血で'
+        'できる限り循環を立て直す</span></td>'
+        '<td>導入時の低血圧の余地を減らす</td></tr>'
+        '<tr><td><span class="kw3">麻酔薬を減量する／'
+        '循環抑制の少ない薬を選ぶ（ケタミン・エトミデート）</span></td>'
+        '<td><span class="kw4">プロポフォール・チオペンタールは'
+        '血管拡張と心抑制が強い</span></td></tr>'
+        '<tr><td><span class="kw3">迅速導入で行う</span></td>'
+        '<td><span class="kw4">外傷＝フルストマック</span>'
+        '（受傷直前の食事が残る）</td></tr>'
+        '<tr><td><span class="kw3">動脈ライン・太い静脈路・'
+        '加温輸液装置を準備</span></td>'
+        '<td>連続血圧監視と大量輸血、低体温の予防</td></tr></table>'
+        '<span class="kw3">外傷死の3徴〈lethal triad〉＝'
+        '低体温・アシドーシス・凝固障害</span>——'
+        '<span class="kw3">この症例は体温35.5℃・凝固延長ですでに2つが揃っている</span>。'
+        '<span class="kw3">だから手術は「根治」ではなく'
+        '<u>止血とデブリドマンだけを短時間で行う</u>'
+        'damage control surgery の発想</span>になる。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">出血性ショックの緊急手術は全身麻酔</span>。<br>'
+         '② <span class="kw4">脊髄くも膜下・硬膜外麻酔は'
+         '交感神経遮断で血圧が下がる</span>ので'
+         'ショックでは禁忌。<br>'
+         '③ <span class="kw4">凝固障害・抗凝固薬使用中は硬膜外血腫のため'
+         '区域麻酔を避ける</span>'
+         '（<span class="kw">血小板10万/μL以上が望ましい</span>）。<br>'
+         '④ 外傷は<span class="kw4">フルストマック扱い</span>で'
+         '迅速導入。<br>'
+         '⑤ <span class="kw">外傷死の3徴＝低体温・アシドーシス・凝固障害</span>、'
+         '対応は<span class="kw">damage control surgery</span>。'),
+  ans_label='ｂ　全身麻酔'),
+
+# ============================================================ NO.13
+Q('108B-58', 68, [],
+  _STEM_11 +
+  '<strong>術後2 日目、呼吸困難を訴えた。</strong>意識レベルはJCSⅡ-10。体温38.0℃。'
+  '脈拍120/ 分、整。血圧120/80mmHg。呼吸数30/ 分。SpO<sub>2</sub> 85％（room air）。'
+  '眼瞼結膜と体幹皮膚に点状出血を認める。両側の胸部でcoarse crackles と wheezes とを聴取する。'
+  '心エコー検査で壁運動異常はなく、下大静脈の拡張もない。胸部エックス線写真を示す。<br>'
+  '<strong>病態として考えられるのはどれか。</strong>',
+  [('a', '気　胸', False,
+    '<span class="kw4">気胸なら呼吸音は患側で減弱し、'
+    '胸部エックス線で肺の虚脱と胸膜線が見える</span>。'
+    '両側性の crackles とは合わない。'),
+   ('b', '心不全', False,
+    '<span class="kw4">心エコーで壁運動異常がなく、'
+    '下大静脈の拡張もない＝心不全を否定する所見</span>が'
+    'わざわざ書かれている。'),
+   ('c', '気管支喘息', False,
+    'wheezes はあるが、<span class="kw4">発熱・点状出血・意識障害・'
+    'crackles は喘息では説明できない</span>。既往歴も特記なし。'),
+   ('d', '脂肪塞栓症', True,
+    '<span class="kw3">◯ 長管骨骨折の24〜72時間後に</span>'
+    '<span class="kw3">① 呼吸障害（低酸素・両側性の浸潤影）、'
+    '② 意識障害、③ 点状出血</span>の3徴で発症する。'
+    '本例は<span class="kw3">左大腿骨・脛骨骨折の術後2日目、'
+    'SpO<sub>2</sub> 85%、JCSⅡ-10、眼瞼結膜と体幹の点状出血</span>と'
+    '3つが揃っている。'),
+   ('e', '肺血栓塞栓症', False,
+    '<span class="kw4">肺血栓塞栓症では点状出血は出ず、'
+    '胸部エックス線はしばしば正常、'
+    '右心負荷（下大静脈拡張・右室拡大）を伴う</span>。'
+    '<span class="kw3">「点状出血」と「両側びまん性の浸潤影」が'
+    '脂肪塞栓症へ振り分ける</span>。')],
+  '長管骨骨折後24〜72時間の呼吸障害・意識障害・点状出血＝脂肪塞栓症。',
+  patho=('🩺 脂肪塞栓症候群〈fat embolism syndrome〉',
+         '<span class="kw3">長管骨・骨盤の骨折や骨髄内操作（髄内釘）で、'
+         '骨髄の脂肪滴が破れた静脈洞から血中へ入る</span>。'
+         '<span class="kw3">機械的な塞栓に加え、'
+         '脂肪滴がリパーゼで遊離脂肪酸に分解されて'
+         '血管内皮を傷害する（化学的機序）</span>ため、'
+         '<span class="kw3">受傷直後ではなく24〜72時間後に発症する'
+         '——この時間差が診断の鍵</span>。'
+         '<table class="tb"><tr><th>3徴（Gurdの主徴）</th><th>中身</th></tr>'
+         '<tr><td><span class="kw3">① 呼吸障害</span></td>'
+         '<td><span class="kw3">頻呼吸・低酸素血症、'
+         '胸部エックス線で<u>両側びまん性のすりガラス〜浸潤影'
+         '（snow storm appearance）</u></span>。ARDSに進む</td></tr>'
+         '<tr><td><span class="kw3">② 中枢神経症状</span></td>'
+         '<td><span class="kw3">不穏・傾眠・意識障害・痙攣</span>'
+         '（低酸素だけでは説明できない程度）</td></tr>'
+         '<tr><td><span class="kw3">③ 点状出血</span></td>'
+         '<td><span class="kw3">前胸部・腋窩・頸部・結膜・口腔粘膜</span>。'
+         '<span class="kw3">出現率は低いが最も特異的</span></td></tr>'
+         '<tr><td>検査</td>'
+         '<td>血小板減少、Hb低下、低酸素血症、'
+         '尿・喀痰中の脂肪滴</td></tr>'
+         '<tr><td><span class="kw3">治療</span></td>'
+         '<td><span class="kw3">特異的治療は無く、酸素投与と'
+         '呼吸循環の支持（重症ではPEEPを用いた人工呼吸）</span>。'
+         '<span class="kw3">予防は骨折の早期固定</span></td></tr></table>'),
+  deep=('📌 術後の呼吸困難——「いつ起きたか」で鑑別が絞れる',
+        '<table class="tb"><tr><th>時期</th><th>疑うもの</th>'
+        '<th>決め手</th></tr>'
+        '<tr><td>術直後（数時間以内）</td>'
+        '<td>上気道閉塞・筋弛緩薬やオピオイドの残存・'
+        '無気肺・気胸</td>'
+        '<td>呼吸パターン（回数が減る＝オピオイド／'
+        '換気量が出ない＝筋弛緩薬）</td></tr>'
+        '<tr><td><span class="kw3">24〜72時間</span></td>'
+        '<td><span class="kw3">脂肪塞栓症候群（長管骨骨折）</span>・'
+        '無気肺・輸血関連（TRALI）</td>'
+        '<td><span class="kw3">点状出血・意識障害・'
+        '両側びまん性陰影</span></td></tr>'
+        '<tr><td>術後3〜7日</td>'
+        '<td><span class="kw4">肺血栓塞栓症</span>・肺炎</td>'
+        '<td><span class="kw4">初回歩行時の突然発症・'
+        '胸痛・右心負荷・D-dimer高値・造影CT</span></td></tr>'
+        '<tr><td>術後5日以降</td><td>縫合不全・膿瘍からの敗血症</td>'
+        '<td>発熱・CRP再上昇</td></tr></table>'
+        '<span class="kw3">脂肪塞栓症と肺血栓塞栓症の分岐点は3つ</span>——'
+        '<span class="kw3">① 点状出血の有無（脂肪塞栓のみ）、'
+        '② 胸部エックス線（脂肪塞栓＝両側びまん性陰影／'
+        '肺血栓塞栓＝しばしば正常）、'
+        '③ 右心負荷所見（肺血栓塞栓のみ）</span>。'
+        '<span class="kw3">本例は心エコーで壁運動異常も下大静脈拡張も無いと'
+        '明記され、e を消すために置かれている</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">脂肪塞栓症候群＝長管骨・骨盤骨折の24〜72時間後</span>。<br>'
+         '② 3徴＝<span class="kw">呼吸障害・中枢神経症状・点状出血</span>'
+         '（点状出血が最も特異的）。<br>'
+         '③ 胸部エックス線は<span class="kw">両側びまん性の浸潤影</span>、'
+         '<span class="kw4">肺血栓塞栓症はしばしば正常</span>。<br>'
+         '④ <span class="kw">治療は支持療法（酸素・人工呼吸）、'
+         '予防は骨折の早期固定</span>。<br>'
+         '⑤ 術後呼吸困難は<span class="kw">「いつ起きたか」で鑑別</span>——'
+         '<span class="kw">直後＝薬剤残存／2日目＝脂肪塞栓／'
+         '1週間前後＝肺血栓塞栓</span>。'),
+  imgs=[IMG + '108B-58_1.jpeg']),
+
+# ============================================================ NO.14
+Q('108G-18／103E-8類', 84, [('bs', '★')],
+  '<strong>抜管後の術後呼吸抑制の原因薬物と拮抗薬の組合せで適切なのはどれか。</strong>',
+  [('a', 'ジアゼパム ―――― アトロピン', False,
+    '<span class="kw4">ジアゼパム（ベンゾジアゼピン）の拮抗薬は'
+    'フルマゼニル</span>。'
+    'アトロピンは抗コリン薬で無関係。'),
+   ('b', 'フェンタニル ――― ナロキソン', True,
+    '<span class="kw3">◯ 正しい組合せ</span>。'
+    '<span class="kw3">フェンタニル（オピオイド）の呼吸抑制は'
+    'ナロキソン（オピオイド受容体拮抗薬）で拮抗できる</span>。'
+    '<span class="kw3">オピオイドによる呼吸抑制は'
+    '「呼吸回数が減る」のが特徴（縮瞳を伴う）</span>。'),
+   ('c', 'ベクロニウム ――― ロクロニウム', False,
+    '<span class="kw4">どちらも非脱分極性筋弛緩薬</span>——'
+    '<span class="kw4">拮抗どころか作用が重なる</span>。'
+    'ベクロニウムの拮抗はスガマデクス（またはネオスチグミン）。'),
+   ('d', 'チオペンタール ―― スガマデクス', False,
+    '<span class="kw4">スガマデクスはロクロニウム・ベクロニウムを'
+    '分子ごと包み込む薬</span>で、'
+    '<span class="kw4">静脈麻酔薬には無効</span>。'
+    'チオペンタールに拮抗薬は無い。'),
+   ('e', 'スキサメトニウム ―― ダントロレン', False,
+    '<span class="kw4">ダントロレンは悪性高熱症の治療薬</span>。'
+    'スキサメトニウム（脱分極性筋弛緩薬）の作用を'
+    '拮抗する薬は無い（<span class="kw4">ネオスチグミンはむしろ遷延させる</span>）。')],
+  '抜管後の呼吸抑制はオピオイド残存（回数↓）か筋弛緩残存（換気量↓）。前者はナロキソン。',
+  patho=('🩺 抜管後に呼吸が戻らない——原因は2つに絞れる',
+         '<table class="tb"><tr><th></th><th>オピオイドの残存</th>'
+         '<th>筋弛緩薬の残存</th></tr>'
+         '<tr><td><span class="kw3">呼吸の形</span></td>'
+         '<td><span class="kw3">呼吸回数が減る（深くゆっくり、'
+         '無呼吸に至る）</span></td>'
+         '<td><span class="kw3">回数は保たれるが'
+         '1回換気量が出ない（浅く速い）</span></td></tr>'
+         '<tr><td>ほかの所見</td>'
+         '<td><span class="kw3">縮瞳・傾眠</span></td>'
+         '<td><span class="kw3">握力低下・頭部挙上5秒ができない・'
+         '複視・上気道閉塞</span>。意識は清明</td></tr>'
+         '<tr><td><span class="kw3">拮抗薬</span></td>'
+         '<td><span class="kw3">ナロキソン</span>'
+         '（<span class="kw4">半減期が短く、'
+         '効果が切れて再び呼吸抑制になる〈re-narcotization〉</span>）</td>'
+         '<td><span class="kw3">スガマデクス</span>'
+         '（ロクロニウム・ベクロニウム）／ネオスチグミン</td></tr></table>'
+         + ANTAGONIST_TABLE),
+  deep=('📌 スガマデクス——「受容体で競争しない」拮抗薬',
+        '<span class="kw3">ネオスチグミンはコリンエステラーゼを阻害して'
+        'アセチルコリンを増やし、受容体を筋弛緩薬と<u>取り合わせる</u></span>'
+        '間接的な拮抗。'
+        'このため<span class="kw4">深い筋弛緩は戻せず、'
+        '増えたアセチルコリンがムスカリン受容体にも働いて'
+        '徐脈・気道分泌増加・腸管蠕動亢進を起こす</span>'
+        '（そこで<span class="kw">アトロピンを併用する</span>）。<br>'
+        '<span class="kw3">スガマデクスはロクロニウム／ベクロニウムの分子を'
+        'ドーナツ状の構造で丸ごと包み込み（包接）、'
+        '血中から neutralize する</span>——'
+        '<span class="kw3">受容体で競争しないので'
+        '深い筋弛緩でも数分で完全に戻せ、'
+        'ムスカリン様の副作用も出ない</span>。'
+        '<span class="kw4">ただしベンジルイソキノリン系（アトラクリウム等）や'
+        'スキサメトニウムには無効</span>。<br>'
+        '<span class="kw3">「どの薬に効くか」は拮抗の<u>仕組み</u>から決まる</span>'
+        '——<span class="kw3">受容体拮抗（ナロキソン・フルマゼニル）は'
+        'その受容体に働く薬すべてに効き、'
+        '包接（スガマデクス）は包める分子にしか効かない</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">オピオイド ⇔ ナロキソン</span>／'
+         '<span class="kw">ベンゾジアゼピン ⇔ フルマゼニル</span>／'
+         '<span class="kw">ロクロニウム・ベクロニウム ⇔ スガマデクス</span>／'
+         '<span class="kw">非脱分極性筋弛緩薬 ⇔ ネオスチグミン</span>。<br>'
+         '② <span class="kw4">スキサメトニウム・プロポフォール・'
+         'チオペンタールに拮抗薬は無い</span>。<br>'
+         '③ 呼吸抑制の形＝<span class="kw">オピオイドは回数↓＋縮瞳、'
+         '筋弛緩残存は1回換気量↓</span>。<br>'
+         '④ <span class="kw4">ナロキソンは半減期が短く、'
+         '効果消失後に再び呼吸抑制になりうる</span>ので観察を続ける。<br>'
+         '⑤ <span class="kw">ネオスチグミン使用時はアトロピンを併用</span>'
+         '（徐脈・気道分泌の予防）。'),
+  ans_label='ｂ　フェンタニル ―― ナロキソン'),
+
+# ============================================================ NO.15
+Q('109E-54', 64, [('bs', '★')],
+  '70 歳の男性。開腹手術のため全身麻酔中である。プロポフォールで導入後、'
+  'セボフルラン、レミフェンタニル及びロクロニウムで維持している。酢酸リンゲル液を輸液中である。'
+  '<span class="kw">手術開始前、皮膚の消毒中に血圧と心拍数とが低下してきた。</span>'
+  '膀胱温36.0℃。SpO<sub>2</sub> 99％。呼気終末二酸化炭素濃度〈ETCO<sub>2</sub>〉37mmHg'
+  '（基準35 〜45）。気道内圧10cmH<sub>2</sub>O。皮膚に発赤を認めない。'
+  '心音と呼吸音とに異常を認めない。<br>'
+  '<strong>皮膚切開までの対応として適切なのはどれか。</strong>',
+  [('a', 'アドレナリン投与', False,
+    '<span class="kw4">アナフィラキシーの薬</span>。'
+    '<span class="kw4">本例は皮膚の発赤が無く、気道内圧も10cmH<sub>2</sub>Oと正常、'
+    'ETCO<sub>2</sub>も保たれておりアナフィラキシーを否定する所見が並んでいる</span>。'),
+   ('b', 'ニトログリセリン投与', False,
+    '<span class="kw4">血管拡張薬——すでに低い血圧をさらに下げる</span>。'
+    '方向が逆。'),
+   ('c', 'オピオイドの拮抗薬投与', False,
+    '<span class="kw4">レミフェンタニルを拮抗すれば'
+    'これから始まる皮膚切開の痛みに無防備になる</span>。'
+    'そもそも<span class="kw4">オピオイドの主作用は呼吸抑制と徐脈で、'
+    '血圧低下の主因ではない</span>。'),
+   ('d', 'ロクロニウムの拮抗薬投与', False,
+    '<span class="kw4">筋弛緩薬は血圧を下げない</span>し、'
+    '<span class="kw4">手術開始前に拮抗すれば体動を招く</span>。'),
+   ('e', 'セボフルランの吸入濃度減量', True,
+    '<span class="kw3">◯ まだ皮膚切開もしていない（＝侵襲がゼロ）のに'
+    '血圧も心拍数も下がっている＝麻酔が深すぎる</span>。'
+    '<span class="kw3">揮発性吸入麻酔薬は用量依存性に'
+    '血管を拡張し心収縮力を抑える</span>ので、'
+    '<span class="kw3">濃度を下げるのが最も理にかなった一手</span>。'
+    '出血・アナフィラキシー・気胸を否定する所見が並んでいるのもこの根拠。')],
+  '侵襲が無いのに血圧・心拍が下がる＝麻酔が深すぎる。吸入麻酔薬の濃度を下げる。',
+  patho=('🩺 「どちらへ動いたか」で足りない要素を逆算する', VITAL_TABLE +
+         '<span class="kw3">本例は「手術開始前・皮膚の消毒中」＝'
+         '侵襲がまだ加わっていない場面</span>。'
+         '<span class="kw3">この状況で血圧と心拍数が<u>そろって</u>下がるのは、'
+         '麻酔薬による交感神経抑制（＝麻酔が深い）が最も自然</span>。'
+         '<span class="kw3">出血なら心拍数は上がるし、'
+         'アナフィラキシーなら皮膚所見と気道内圧上昇を伴う</span>。'),
+  deep=('📌 術中の血圧低下——症例文が消してくれる鑑別',
+        '<table class="tb"><tr><th>鑑別</th>'
+        '<th>本例で否定される根拠</th></tr>'
+        '<tr><td><span class="kw4">アナフィラキシー</span></td>'
+        '<td><span class="kw3">「皮膚に発赤を認めない」'
+        '「気道内圧10cmH<sub>2</sub>O（正常）」</span>'
+        '——アナフィラキシーなら紅潮・膨疹と気管支痙攣による'
+        '気道内圧上昇が出る</td></tr>'
+        '<tr><td><span class="kw4">出血・循環血液量減少</span></td>'
+        '<td><span class="kw3">手術開始前で出血源がない。'
+        'しかも<u>心拍数まで下がっている</u></span>'
+        '——脱水・出血なら代償性に頻脈になる</td></tr>'
+        '<tr><td><span class="kw4">緊張性気胸・肺塞栓</span></td>'
+        '<td><span class="kw3">「呼吸音に異常なし」'
+        '「SpO<sub>2</sub> 99%」「ETCO<sub>2</sub> 37mmHg（正常）」</span>'
+        '——肺塞栓ならETCO<sub>2</sub>が下がる</td></tr>'
+        '<tr><td><span class="kw4">悪性高熱症</span></td>'
+        '<td><span class="kw3">「膀胱温36.0℃」「ETCO<sub>2</sub>正常」</span>'
+        '——悪性高熱症では両方が上がる</td></tr>'
+        '<tr><td>迷走神経反射</td>'
+        '<td>腹膜牽引・眼球圧迫などの刺激がまだ無い</td></tr></table>'
+        '<span class="kw3">この設問は「異常なし」の羅列が'
+        'そのまま鑑別を1つずつ消す設計になっている</span>——'
+        '<span class="kw3">症例文で「わざわざ正常と書いてある項目」は'
+        '出題者が消したい鑑別の名札</span>だと読む。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">侵襲が無いのに血圧↓心拍数↓ ＝ 麻酔が深すぎる</span>'
+         '→ <span class="kw">吸入麻酔薬の濃度を下げる</span>。<br>'
+         '② <span class="kw">侵襲を契機に血圧↑心拍数↑ ＝ 鎮痛が足りない</span>'
+         '→ <span class="kw">オピオイドを追加</span>（NO.33）。<br>'
+         '③ <span class="kw">アナフィラキシーの3徴＝血圧低下・'
+         '気道内圧上昇・皮膚症状</span>——皮膚所見が無ければ考えにくい。<br>'
+         '④ <span class="kw">ETCO<sub>2</sub>低下＝肺血流の低下'
+         '（肺塞栓・心拍出量低下）</span>のサイン。<br>'
+         '⑤ 揮発性吸入麻酔薬は<span class="kw">用量依存性に'
+         '血管拡張と心抑制</span>を起こす。')),
+
+# ============================================================ NO.16
+Q('113F-56', 80, [('bs', '★')],
+  '1 歳の男児。停留精巣の手術のため手術室に入室した。'
+  '麻酔はマスクで酸素と揮発性吸入麻酔薬を投与し、ゆっくりと入眠させる緩徐導入で行った。'
+  '静脈路を確保し、気管挿管のため筋弛緩薬を静注したところ、'
+  '突然心拍数が120/ 分から160/ 分に増加した。'
+  '<span class="kw">気管挿管時に開口障害があり、気管チューブの挿入に難渋した。</span>'
+  '人工呼吸開始後に尿道カテーテルを挿入したところ、'
+  '<span class="kw">赤褐色の尿</span>が排出された。'
+  'その後<span class="kw">体温は急上昇し37.0℃から40.0℃</span>になった。'
+  '動脈血ガス分析で代謝性アシドーシスを認めた。<br>'
+  '<strong>最も考えられるのはどれか。</strong>',
+  [('a', '敗血症', False,
+    '<span class="kw4">待期的な停留精巣手術で、入室時は無熱・無症状</span>。'
+    '数分で40℃まで上がる経過は敗血症では説明できない。'),
+   ('b', '尿路出血', False,
+    '赤褐色尿は<span class="kw3">ミオグロビン尿</span>によるもので、'
+    '<span class="kw4">尿路出血なら頻脈・高体温・代謝性アシドーシスは説明できない</span>。'),
+   ('c', '腎盂腎炎', False,
+    '同上。<span class="kw4">術中に突然発症するものではない</span>。'),
+   ('d', '悪性高熱症', True,
+    '<span class="kw3">◯ 揮発性吸入麻酔薬＋筋弛緩薬という誘因のもとで、'
+    '① 原因不明の頻脈 → ② 咬筋強直による開口障害（挿管に難渋）→ '
+    '③ ミオグロビン尿（赤褐色尿）→ ④ 体温の急上昇 → '
+    '⑤ 代謝性アシドーシス と教科書どおりに進んでいる</span>。'
+    '<span class="kw3">治療はただちに誘因薬を中止し、'
+    '100%酸素での過換気とダントロレンの静注、冷却</span>。'),
+   ('e', '悪性症候群', False,
+    '<span class="kw4">悪性症候群は抗精神病薬の開始・増量や'
+    '抗パーキンソン病薬の中断で数日かけて起こる</span>。'
+    '1歳児の手術室では該当しない。')],
+  '吸入麻酔薬＋筋弛緩薬 → 頻脈・咬筋強直・赤褐色尿・体温急上昇＝悪性高熱症。',
+  patho=('🩺 悪性高熱症——「熱が出る前」に気づけるかが勝負', MH_TABLE),
+  deep=('📌 症例文の4つの単語が、そのまま診断名を綴っている',
+        '<table class="tb"><tr><th>症例文の記述</th><th>意味</th></tr>'
+        '<tr><td><span class="kw3">「揮発性吸入麻酔薬」＋'
+        '「筋弛緩薬を静注したところ」</span></td>'
+        '<td><span class="kw3">2大誘因がそろって投与されている</span></td></tr>'
+        '<tr><td><span class="kw3">「突然心拍数が120→160/分に増加」</span></td>'
+        '<td><span class="kw3">最初に出る徴候。'
+        '筋の代謝亢進でCO<sub>2</sub>産生が増え、'
+        'ETCO<sub>2</sub>も上がる</span></td></tr>'
+        '<tr><td><span class="kw3">「開口障害があり挿管に難渋」</span></td>'
+        '<td><span class="kw3">咬筋強直〈masseter spasm〉'
+        '——筋弛緩薬を入れたのに口が開かないのは異常</span></td></tr>'
+        '<tr><td><span class="kw3">「赤褐色の尿」</span></td>'
+        '<td><span class="kw3">横紋筋融解によるミオグロビン尿'
+        '（→ 急性腎障害）</span></td></tr>'
+        '<tr><td><span class="kw3">「37.0→40.0℃」「代謝性アシドーシス」</span></td>'
+        '<td><span class="kw3">持続的な筋収縮による'
+        '産熱と嫌気性代謝</span></td></tr></table>'
+        '<span class="kw4">実臨床で最も危険なのは、'
+        '体温上昇が最後に来ること</span>——'
+        '<span class="kw3">「原因不明の頻脈＋ETCO<sub>2</sub>の上昇」の段階で'
+        '疑えるかどうかが救命を分ける</span>。'
+        '<span class="kw3">ダントロレンは筋小胞体からのCa<sup>2+</sup>放出を'
+        '直接抑える唯一の薬</span>で、'
+        '<span class="kw3">悪性高熱症を扱う施設には常備が義務づけられている</span>。'
+        '<span class="kw3">既往・家族歴があれば'
+        '揮発性吸入麻酔薬とスキサメトニウムを避け、'
+        'プロポフォールと非脱分極性筋弛緩薬で麻酔する</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">悪性高熱症の誘因＝揮発性吸入麻酔薬・'
+         'スキサメトニウム</span>。<span class="kw">常染色体顕性遺伝'
+         '（RYR1）で家族歴が重要</span>。<br>'
+         '② 順番は<span class="kw">頻脈とETCO<sub>2</sub>上昇 → 筋強直'
+         '（咬筋強直）→ ミオグロビン尿 → 体温上昇</span>'
+         '——<span class="kw4">発熱は最後</span>。<br>'
+         '③ 治療＝<span class="kw">誘因薬の中止・100%酸素での過換気・'
+         'ダントロレン・冷却・高K血症とアシドーシスの補正</span>。<br>'
+         '④ <span class="kw4">悪性症候群は抗精神病薬による</span>'
+         '別疾患（治療薬にダントロレンを使う点だけが共通）。<br>'
+         '⑤ 赤褐色尿＝<span class="kw">ミオグロビン尿 → 急性腎障害の予防に'
+         '十分な輸液</span>。')),
+
+# ============================================================ NO.17
+Q('106E-22', 83, [('bs', '★')],
+  '全身麻酔の術前診察で、口を大きく開けて挺舌するよう促したときの模式図（a〜e）を示す。<br>'
+  '<strong>挿管困難が最も予想されるのはどれか。</strong>'
+  '<br><span class="kw">（図の濃い灰色が軟口蓋、淡い灰色が口蓋弓、'
+  '中央に垂れ下がる白い突起が口蓋垂）</span>',
+  [('a', '軟口蓋は広く見えるが、口蓋垂は舌根に接して一部しか見えない図', False,
+    '<span class="kw3">軟口蓋と口蓋弓は見えており Class Ⅱ 相当</span>。'
+    '挿管困難の予測としては良好な部類。'),
+   ('b', 'aとほぼ同じで、軟口蓋は見えるが口蓋垂の先端が隠れている図', False,
+    '<span class="kw3">同じく Class Ⅱ 相当</span>。'
+    '軟口蓋が見えている時点で最も困難な群には入らない。'),
+   ('c', '灰色に塗られた部分がまったくなく、硬口蓋の襞しか見えない図', True,
+    '<span class="kw3">◯ 軟口蓋も口蓋垂も口蓋弓もまったく見えない'
+    '＝Mallampati Class Ⅳ</span>。'
+    '<span class="kw3">舌が咽頭を完全に塞いでおり、'
+    '喉頭鏡で声門を直視できる可能性が最も低い</span>。'),
+   ('d', '軟口蓋が広く見え、中央の口蓋垂が根元から先端まではっきり見える図', False,
+    '<span class="kw3">口蓋弓・軟口蓋・口蓋垂の3つが揃って見える'
+    '＝Class Ⅰ</span>。最も挿管しやすい。'),
+   ('e', '口蓋弓が両側に大きく張り出し、その内側に軟口蓋と口蓋垂が見える図', False,
+    '<span class="kw3">軟口蓋も口蓋垂も視認できる（Class Ⅰ〜Ⅱ相当）</span>。'
+    '扁桃や口蓋弓が大きく見える像だが、Class Ⅳ には当たらない。')],
+  '軟口蓋がまったく見えない＝Mallampati Class Ⅳ が最も挿管困難。',
+  patho=('🩺 Mallampati分類——「見える構造が減るほど番号が大きい」', MALLAMPATI_TABLE +
+         '<span class="kw3">評価は<u>坐位で、声を出さずに最大開口し、'
+         '舌を突出させた状態</u>で行う</span>'
+         '（「アー」と発声させると軟口蓋が挙上して見え方が変わってしまう）。'),
+  deep=('📌 挿管困難の予測は Mallampati だけではない', AIRWAY_RISK_TABLE +
+        '<span class="kw3">Mallampati は「口の中から見た評価」で、'
+        'これに「顎の形」と「首の動き」を足すのが実務</span>。'
+        '<table class="tb"><tr><th>指標</th><th>測り方</th><th>困難を示す値</th></tr>'
+        '<tr><td><span class="kw3">甲状頤間距離<br>'
+        '〈thyromental distance〉</span></td>'
+        '<td>頭部を最大後屈させ、'
+        '<span class="kw3">オトガイの先端から甲状軟骨切痕まで</span></td>'
+        '<td><span class="kw4">6cm（指3本）未満</span>'
+        '——下顎が小さく、舌を収める空間が足りない</td></tr>'
+        '<tr><td>開口距離</td><td>上下切歯間</td>'
+        '<td><span class="kw4">3cm（指2〜3本）未満</span></td></tr>'
+        '<tr><td>頸部後屈</td><td>環椎後頭関節の伸展</td>'
+        '<td><span class="kw4">35°未満（関節リウマチ・強直性脊椎炎・'
+        '頸椎固定後）</span></td></tr>'
+        '<tr><td>上唇咬みテスト</td>'
+        '<td>下顎の前方移動（下の歯で上唇を咬めるか）</td>'
+        '<td><span class="kw4">上唇に届かない</span></td></tr></table>'
+        '<span class="kw3">すべては「口・咽頭・喉頭の3軸を一直線に揃えられるか」'
+        'を別の角度から測っているだけ</span>——'
+        '<span class="kw3">だから対策も共通で、'
+        'sniffing position（NO.18）でその直線を作る</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">Mallampati Ⅰ＝口蓋弓・軟口蓋・口蓋垂の3つ／'
+         'Ⅱ＝口蓋垂は一部／Ⅲ＝軟口蓋だけ／Ⅳ＝軟口蓋も見えない</span>。<br>'
+         '② <span class="kw">Class Ⅲ以上で喉頭展開困難が増える</span>。<br>'
+         '③ 評価は<span class="kw">坐位・最大開口・挺舌・発声させない</span>。<br>'
+         '④ ほかの予測因子＝<span class="kw">甲状頤間距離6cm未満・'
+         '開口3cm未満・頸部後屈の制限・肥満・睡眠時無呼吸・'
+         '短く太い首</span>。<br>'
+         '⑤ 予測できたら<span class="kw">ビデオ喉頭鏡・声門上器具・'
+         '意識下挿管の準備</span>（＝困難気道アルゴリズム）。'),
+  imgs=[IMG + '106E-22_1.jpeg']),
+
+# ============================================================ NO.18
+Q('108B-28', 83, [('bs', '★')],
+  '成人男性の仰臥位の写真（①〜⑤）を示す。<br>'
+  '<strong>全身麻酔導入時に、喉頭鏡を用いて直視下に声帯を確認し、'
+  '経口気管挿管を行うのに最も適した体位はどれか。</strong>',
+  [('a', '①', False,
+    '<span class="kw4">枕がなく頭部が台に直接載っている（頸部が屈曲も伸展もしていない）</span>。'
+    '口腔軸・咽頭軸・喉頭軸が揃わず、声門は見えにくい。'),
+   ('b', '②', False,
+    '<span class="kw4">枕がないまま頭部だけを後屈させている</span>。'
+    '<span class="kw4">頸部が屈曲していないので咽頭軸と喉頭軸が揃わない</span>。'),
+   ('c', '③', False,
+    '<span class="kw4">枕はあるが頭部が後屈しておらず、'
+    'むしろ顎が胸に近づいている</span>。'
+    '口腔軸が下を向き、喉頭鏡のブレードが入らない。'),
+   ('d', '④', True,
+    '<span class="kw3">◯ 後頭部の下に枕を入れて頸部を屈曲させ、'
+    'さらに環椎後頭関節で頭部を伸展（後屈）させた'
+    '「匂いを嗅ぐ体位」〈sniffing position〉</span>。'
+    '<span class="kw3">口腔軸・咽頭軸・喉頭軸の3軸が一直線に近づき、'
+    '喉頭鏡で声門を直視できる</span>。'),
+   ('e', '⑤', False,
+    '<span class="kw4">枕はあるが頭部の後屈が不十分</span>。'
+    '3軸が揃いきらない。')],
+  '挿管の体位は sniffing position＝頸部屈曲＋頭部後屈（枕＋後屈）。',
+  patho=('🩺 sniffing position——「3軸を一直線にする」ための2つの動き',
+         '喉頭鏡は<span class="kw3">口から声門までを'
+         '<u>直線的に見通す</u>道具</span>であって、'
+         '曲がった先を覗ける道具ではない。'
+         'ところが仰臥位のままでは'
+         '<span class="kw3">口腔軸〈OA〉・咽頭軸〈PA〉・喉頭軸〈LA〉の'
+         '3つがそれぞれ違う方向を向いている</span>。'
+         '<table class="tb"><tr><th>動き</th><th>揃う軸</th><th>やり方</th></tr>'
+         '<tr><td><span class="kw3">① 頸部（下位頸椎）を屈曲</span></td>'
+         '<td><span class="kw3">咽頭軸と喉頭軸が揃う</span></td>'
+         '<td><span class="kw3">後頭部の下に枕（7〜10cm）を入れる</span></td></tr>'
+         '<tr><td><span class="kw3">② 頭部（環椎後頭関節）を伸展</span></td>'
+         '<td><span class="kw3">口腔軸がそこへ重なる</span></td>'
+         '<td><span class="kw3">顎を上げる（頭部後屈）</span></td></tr></table>'
+         '<span class="kw3">この2つを同時に行った姿が'
+         '「朝、外の匂いを嗅ぐときの首の形」に似ているので'
+         'sniffing position（匂いを嗅ぐ体位）と呼ばれる</span>。'
+         '<span class="kw4">枕だけ（③・⑤）でも、後屈だけ（②）でも足りない</span>——'
+         '<span class="kw3">2つそろって初めて3軸が並ぶ</span>。'),
+  deep=('📌 体位の応用と例外',
+        '<table class="tb"><tr><th>状況</th><th>体位</th><th>理由</th></tr>'
+        '<tr><td><span class="kw3">肥満</span></td>'
+        '<td><span class="kw3">ramp position'
+        '（肩から頭部までを大きく持ち上げ、'
+        '外耳孔と胸骨切痕を水平に揃える）</span></td>'
+        '<td>厚い胸郭と頸部でも3軸を揃えるため。'
+        '機能的残気量も増え無呼吸に耐えやすい</td></tr>'
+        '<tr><td><span class="kw4">頸椎損傷の疑い</span></td>'
+        '<td><span class="kw4">頸椎を動かさない（用手的頸椎保持）</span></td>'
+        '<td><span class="kw4">後屈で脊髄損傷を悪化させる</span>。'
+        'ビデオ喉頭鏡を使う</td></tr>'
+        '<tr><td><span class="kw3">乳児・新生児</span></td>'
+        '<td><span class="kw3">枕は不要（むしろ肩枕）</span></td>'
+        '<td><span class="kw3">後頭部が大きく、'
+        '仰臥位で自然に頸部が屈曲している</span>ので、'
+        '枕を足すと屈曲しすぎる</td></tr>'
+        '<tr><td>関節リウマチ・強直性脊椎炎</td>'
+        '<td>無理に後屈しない</td>'
+        '<td><span class="kw4">環軸椎亜脱臼のおそれ</span>。'
+        '意識下挿管やビデオ喉頭鏡</td></tr></table>'
+        '<span class="kw3">「頸部を屈曲＋頭部を後屈」というsniffing positionは'
+        '成人の標準であって、年齢と病態で変わる</span>'
+        '——<span class="kw3">乳児で枕を入れないのは、'
+        '大きな後頭部がすでに枕の役をしているから</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">気管挿管の体位＝sniffing position'
+         '（頸部屈曲＋頭部後屈）</span>——'
+         '<span class="kw">後頭部に枕を入れて顎を上げる</span>。<br>'
+         '② 目的は<span class="kw">口腔軸・咽頭軸・喉頭軸の3軸を'
+         '一直線に揃えること</span>。<br>'
+         '③ <span class="kw4">頸椎損傷の疑いでは後屈させない</span>。<br>'
+         '④ <span class="kw">乳児は後頭部が大きいので枕は不要</span>'
+         '（必要なら肩枕）。<br>'
+         '⑤ <span class="kw">肥満では ramp position</span>'
+         '（外耳孔と胸骨切痕を水平に）。'),
+  imgs=[IMG + '108B-28_%d.jpeg' % i for i in range(1, 6)]),
+
+# ============================================================ NO.19
+Q('117E-6', 99, [('bs', '★'), ('bh', '必修')],
+  '写真（A〜E）を示す。<br>'
+  '<strong>気管挿管に用いる器具はどれか。</strong>',
+  [('a', 'A', False,
+    '<span class="kw4">柄を握ると先端の2枚の刃が開く鉗子状の器具＝鼻鏡</span>。'
+    '鼻腔を広げて観察するもので気道確保には使わない。'),
+   ('b', 'B', False,
+    '<span class="kw4">2枚のくちばし状のブレードとネジをもつ腟鏡'
+    '（クスコ式）</span>。'),
+   ('c', 'C', False,
+    '<span class="kw4">円錐状の筒がラチェットとネジで開く開創器'
+    '（腟鏡・肛門鏡の類）</span>。'),
+   ('d', 'D', False,
+    '<span class="kw4">長さ5cmほどの円錐形（ラッパ状）の筒＝耳鏡</span>。'
+    '外耳道に入れて鼓膜を観察する。'),
+   ('e', 'E', True,
+    '<span class="kw3">◯ 円筒形のハンドルに湾曲したブレードが付いた'
+    '<u>喉頭鏡</u></span>。'
+    '<span class="kw3">ブレードの湾曲と光源で舌を左へよけて持ち上げ、'
+    '声門を直視しながら気管チューブを通す</span>——'
+    '<span class="kw3">気管挿管の中心的な器具</span>。')],
+  '喉頭鏡＝ハンドル＋湾曲したブレード。他は鼻鏡・腟鏡・耳鏡で気道と無関係。',
+  patho=('🩺 喉頭鏡——「舌を持ち上げて声門を直視する」道具',
+         '<table class="tb"><tr><th>部分</th><th>役割</th></tr>'
+         '<tr><td><span class="kw3">ハンドル</span></td>'
+         '<td>電池と光源。<span class="kw3">上方（頭側）へ持ち上げる方向に力を加える'
+         '——<u>てこのように手前へ倒してはいけない</u>'
+         '（上顎切歯を折る）</span></td></tr>'
+         '<tr><td><span class="kw3">ブレード（湾曲型・Macintosh）</span></td>'
+         '<td><span class="kw3">先端を喉頭蓋谷（喉頭蓋の手前のくぼみ）に入れ、'
+         '舌骨喉頭蓋靱帯を伸展させて喉頭蓋を間接的に持ち上げる</span></td></tr>'
+         '<tr><td>ブレード（直型・Miller）</td>'
+         '<td><span class="kw">喉頭蓋を直接すくい上げる。'
+         '喉頭蓋が長く柔らかい乳児で使う</span></td></tr></table>'
+         '<span class="kw3">操作は「右口角から挿入して舌を左へ排除 → '
+         '正中で喉頭蓋を確認 → 上前方へ持ち上げて声門を直視 → '
+         '右手でチューブを通す」</span>。'
+         '<span class="kw3">見えにくいときは BURP法'
+         '（甲状軟骨を後・上・右へ押す）</span>を助手に依頼する。'),
+  deep=('📌 気道確保の道具を一列に並べる',
+        '<table class="tb"><tr><th>器具</th><th>どこまで守るか</th>'
+        '<th>使いどころ</th></tr>'
+        '<tr><td>経鼻／経口エアウェイ</td>'
+        '<td><span class="kw4">舌根沈下を防ぐだけ（誤嚥は防げない）</span></td>'
+        '<td>マスク換気の補助</td></tr>'
+        '<tr><td><span class="kw3">声門上器具'
+        '（ラリンゲアルマスク）</span></td>'
+        '<td><span class="kw4">声門の上に蓋をする。'
+        '誤嚥は完全には防げず、高い気道内圧もかけられない</span></td>'
+        '<td><span class="kw3">短時間の待期手術、'
+        '挿管困難時のレスキュー</span></td></tr>'
+        '<tr><td><span class="kw3">気管チューブ（喉頭鏡で挿入）</span></td>'
+        '<td><span class="kw3">カフで気管を密閉＝'
+        '確実な気道確保と誤嚥の防止、高い気道内圧もかけられる</span></td>'
+        '<td><span class="kw3">全身麻酔の標準</span></td></tr>'
+        '<tr><td>ビデオ喉頭鏡</td>'
+        '<td>同上</td>'
+        '<td><span class="kw3">挿管困難が予測される症例、'
+        '頸椎を動かせない症例</span></td></tr>'
+        '<tr><td><span class="kw4">輪状甲状靱帯穿刺・切開</span></td>'
+        '<td>気管へ直接</td>'
+        '<td><span class="kw4">換気も挿管もできない'
+        '〈cannot intubate, cannot oxygenate〉ときの最終手段</span></td></tr></table>'
+        '<span class="kw3">「守れる範囲」が広がるほど侵襲も大きくなる</span>——'
+        '<span class="kw3">誤嚥のリスクがある患者・長時間手術・'
+        '腹腔鏡のように高い気道内圧が要る手術では'
+        '気管チューブを選ぶ</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">喉頭鏡＝ハンドル＋湾曲したブレード</span>。'
+         '<span class="kw">Macintosh（湾曲）は喉頭蓋谷、'
+         'Miller（直型）は喉頭蓋を直接</span>。<br>'
+         '② <span class="kw4">てこのように手前へ倒さない</span>'
+         '（上顎切歯の損傷）——上前方へ持ち上げる。<br>'
+         '③ 声門が見えないときは<span class="kw">BURP法</span>。<br>'
+         '④ <span class="kw">ラリンゲアルマスクは誤嚥を防げない</span>——'
+         'フルストマックには使わない。<br>'
+         '⑤ <span class="kw4">換気も挿管もできない状況の最終手段は'
+         '輪状甲状靱帯穿刺・切開</span>。'),
+  imgs=[IMG + '117E-6_%d.jpeg' % i for i in range(1, 6)]),
+
+# ============================================================ NO.20
+Q('115B-46', 96, [('bs', '★'), ('bh', '必修')],
+  '43 歳の男性。熱傷のため救急車で搬入された。<br>'
+  '現病歴：揚げ物の調理中に着衣に着火し、職場の同僚が救急要請した。<br>'
+  '既往歴：高血圧症と脂質異常症について食事療法中。<br>'
+  '現　症：意識レベルはJCSⅡ-10。身長170cm、体重70kg。体温37.1℃。心拍数90/ 分、整。'
+  '血圧90/60mmHg。呼吸数36/ 分。SpO<sub>2</sub> 93％（リザーバー付マスク10L/ 分酸素投与下）。'
+  '頭髪の前面と眉毛が焦げている。顔面、両上肢および胸腹部に、'
+  '38％TBSA〈total body surface area〉のⅡ〜Ⅲ度熱傷を認める。'
+  '口腔と咽頭の粘膜には煤が付着していた。嗄声が認められる。<br>'
+  '検査所見：血液所見：赤血球550 万、Hb 17.0g/dL、Ht 49％、白血球7,200、血小板30 万。<br>'
+  '気道熱傷と診断し、気管挿管を行った。<br>'
+  '<strong>換気を行った際、気管内に正しく挿管が行われていないと判断されるものはどれか。</strong>',
+  [('a', '呼気にCO<sub>2</sub> が検出される。', False,
+    '<span class="kw3">気管に入っている最も確実な証拠</span>。'
+    '肺を通った息であることを直接示す。'),
+   ('b', '胸郭の動きが左右対称である。', False,
+    '<span class="kw3">正しく気管内にあり、片肺挿管でもないことを示す所見</span>。'),
+   ('c', '心窩部で送気音が聴取される。', True,
+    '<span class="kw3">◯ これが「入っていない」証拠</span>。'
+    '<span class="kw3">送気した空気が食道から胃へ入っているため、'
+    '心窩部でゴボゴボという音が聴こえる</span>。'
+    '<span class="kw3">ただちにチューブを抜去して換気をやり直す</span>。'),
+   ('d', '両側肺野で同等の呼吸音が聴取される。', False,
+    '<span class="kw3">気管内にあり、深すぎもしないことを示す</span>。'),
+   ('e', '気管チューブ内壁に呼気時の曇りがみられる。', False,
+    '<span class="kw3">気管内にあることを示唆する補助的所見</span>'
+    '（ただし食道挿管でも曇ることがあり単独では不十分）。')],
+  '心窩部の送気音＝食道挿管。ただちに抜去してやり直す。',
+  patho=('🩺 気管挿管の位置確認——「入っている証拠」と「入っていない証拠」', CONFIRM_TABLE),
+  deep=('📌 気道熱傷——「挿管するかどうか」を早く決める',
+        '<span class="kw3">気道熱傷では気道粘膜の浮腫が'
+        '数時間かけて進行し、'
+        '<u>時間が経つほど挿管が難しくなる</u></span>。'
+        'このため<span class="kw3">「疑ったら早期に気管挿管」</span>が原則。'
+        '<table class="tb"><tr><th>気道熱傷を疑う所見</th><th>意味</th></tr>'
+        '<tr><td><span class="kw3">顔面・頸部の熱傷、'
+        '鼻毛・眉毛・頭髪前面の焦げ</span></td>'
+        '<td>顔の高さで熱と煙に曝された</td></tr>'
+        '<tr><td><span class="kw3">口腔・咽頭の煤〈すす〉の付着</span></td>'
+        '<td><span class="kw3">煙を吸入した直接の証拠</span></td></tr>'
+        '<tr><td><span class="kw3">嗄声・喘鳴・咳嗽</span></td>'
+        '<td><span class="kw3">すでに声門周囲が腫れ始めている'
+        '＝待てない</span></td></tr>'
+        '<tr><td>閉鎖空間での受傷・意識障害</td>'
+        '<td>一酸化炭素中毒・シアン中毒の合併</td></tr></table>'
+        '<span class="kw4">この症例で SpO<sub>2</sub> 93%（リザーバーマスク10L下）と'
+        '意識障害があるのは一酸化炭素中毒の合併を示唆する</span>——'
+        '<span class="kw4">SpO<sub>2</sub>はCOHbを酸素化Hbと誤認するので'
+        '高値に出る（NO.1）</span>。'
+        '<span class="kw3">熱傷の輸液は Baxter〈Parkland〉式で、'
+        '乳酸リンゲル液 4mL×体重(kg)×%TBSA を受傷後24時間で、'
+        'うち半量を最初の8時間で投与する</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">食道挿管の証拠＝心窩部の送気音・'
+         'CO<sub>2</sub>が検出されない・心窩部の膨隆</span>。'
+         '<span class="kw">ただちに抜去</span>。<br>'
+         '② <span class="kw">気管内の最も確実な確認は'
+         'ETCO<sub>2</sub>波形が連続して出ること</span>。<br>'
+         '③ <span class="kw">気道熱傷を疑う所見＝顔面熱傷・'
+         '鼻毛や眉毛の焦げ・口腔咽頭の煤・嗄声・喘鳴</span>'
+         '→ <span class="kw">浮腫が進む前に早期挿管</span>。<br>'
+         '④ <span class="kw4">火災現場ではSpO<sub>2</sub>が当てにならない</span>'
+         '（一酸化炭素中毒）。<br>'
+         '⑤ 熱傷輸液＝<span class="kw">乳酸リンゲル液 '
+         '4mL×体重×%TBSA／24時間（半量を最初の8時間）</span>。')),
+
+# ============================================================ NO.21
+Q('113E-23', 94, [('bs', '★'), ('bh', '必修')],
+  '急性呼吸不全をきたした成人患者に対して、バッグバルブマスク換気の後に気管挿管を行った。'
+  '用手的に送気を行い、聴診による気管チューブの位置確認を行ったところ、'
+  '<span class="kw">心窩部が膨隆してきた</span>。'
+  '装着していたCO<sub>2</sub> 検出器では<span class="kw">CO<sub>2</sub> が検出されなかった</span>。<br>'
+  '<strong>適切な対応はどれか。</strong>',
+  [('a', '直ちに気管チューブを抜去する。', True,
+    '<span class="kw3">◯ 心窩部の膨隆＋CO<sub>2</sub>が検出されない＝食道挿管</span>。'
+    '<span class="kw3">ただちに抜去し、バッグバルブマスクで換気して'
+    '酸素化を回復させてから挿管をやり直す</span>。'
+    '<span class="kw3">「抜く」ことをためらわないのが最も安全</span>。'),
+   ('b', 'バルーンカフへ空気を追加注入する。', False,
+    '<span class="kw4">食道の中でカフを膨らませても意味がない</span>。'
+    '胃内容の逆流を助長するだけで、低酸素の時間が延びる。'),
+   ('c', '気管チューブへの送気を2 分間継続する。', False,
+    '<span class="kw4">最も危険</span>。'
+    '<span class="kw4">胃をさらに膨らませて逆流・誤嚥を招き、'
+    'その間ずっと肺換気はゼロ</span>。'),
+   ('d', '気管チューブを更に3cm 挿入して送気する。', False,
+    '<span class="kw4">食道に入っているものを深く進めても食道の奥へ行くだけ</span>。'),
+   ('e', '気管チューブ内にカテーテルを挿入して吸引する。', False,
+    '<span class="kw4">吸引しても位置は変わらない</span>。'
+    '換気ができない時間が延びるだけ。')],
+  '心窩部膨隆＋CO2 検出なし＝食道挿管。迷わずただちに抜去。',
+  patho=('🩺 食道挿管——「気づけるか」より「抜けるか」', CONFIRM_TABLE +
+         '<span class="kw3">食道挿管そのものは誰にでも起こりうる出来事で、'
+         '事故になるのは<u>気づかないまま換気を続けたとき</u>だけ</span>。'
+         '<span class="kw3">だから CO<sub>2</sub>検出器（カプノメータ）の装着が'
+         '義務化され、「波形が出なければ食道」と機械的に判断できるようにしてある</span>。'),
+  deep=('📌 CO<sub>2</sub>が出ない ＝ 食道挿管、とは限らない',
+        '<span class="kw3">ETCO<sub>2</sub>は「肺胞まで空気が届き、'
+        'そこに血液が流れている」ことの証明</span>なので、'
+        '<span class="kw3">どちらかが欠けるとゼロになる</span>。'
+        '<table class="tb"><tr><th>CO<sub>2</sub>が出ない状況</th>'
+        '<th>見分け方</th></tr>'
+        '<tr><td><span class="kw4">食道挿管</span></td>'
+        '<td><span class="kw3">心窩部の送気音と膨隆、'
+        '胸郭が上がらない、SpO<sub>2</sub>低下</span></td></tr>'
+        '<tr><td><span class="kw4">心停止（肺血流ゼロ）</span></td>'
+        '<td><span class="kw3">脈が触れない</span>。'
+        '<span class="kw3">逆に心肺蘇生中のETCO<sub>2</sub>は'
+        '胸骨圧迫の質と自己心拍再開の指標になる</span></td></tr>'
+        '<tr><td><span class="kw4">回路の接続はずれ・計画外抜管</span></td>'
+        '<td><span class="kw3">気道内圧も同時に上がらない</span>（NO.23）</td></tr>'
+        '<tr><td>チューブの完全閉塞</td>'
+        '<td><span class="kw4">気道内圧は逆に跳ね上がる</span></td></tr></table>'
+        '<span class="kw3">この鑑別は「気道内圧が上がるか」で二分できる</span>——'
+        '<span class="kw3">圧が上がらない＝空気が漏れている（回路・食道）、'
+        '圧が上がる＝詰まっている</span>。'
+        '<span class="kw3">なお少量の CO<sub>2</sub> は炭酸飲料を飲んだ後の胃からも'
+        '検出されうるが、数呼吸で消える'
+        '——だから「6回以上連続して波形が出ること」を確認する</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">食道挿管と判断したら「ただちに抜去」</span>——'
+         '<span class="kw4">深く入れる・カフを足す・送気を続ける・吸引するは'
+         'すべて誤り</span>。<br>'
+         '② 食道挿管の所見＝<span class="kw">心窩部の送気音と膨隆、'
+         'CO<sub>2</sub>が検出されない、胸郭が上がらない</span>。<br>'
+         '③ <span class="kw">ETCO<sub>2</sub>波形が6回以上連続して出れば'
+         '気管内</span>。<br>'
+         '④ <span class="kw">心停止でもETCO<sub>2</sub>はゼロに近づく</span>'
+         '——脈の確認を忘れない。<br>'
+         '⑤ 抜去後は<span class="kw">バッグバルブマスクで酸素化を回復させてから'
+         '挿管をやり直す</span>。')),
+
+# ============================================================ NO.22
+Q('120E-30／114B-40類', 92, [('bs', '★'), ('bh', '必修')],
+  '4 歳の女児。急性脳症による意識障害のため小児集中治療室〈PICU〉で人工呼吸管理中である。'
+  '今朝、SpO<sub>2</sub> が突然低下したため、研修医に報告があった。'
+  '体温37.0℃。心拍数130/ 分、整。血圧92/50mmHg。呼吸数30/ 分'
+  '（呼吸器設定：換気回数30/ 分、FⅠO<sub>2</sub> 0.4）。SpO<sub>2</sub> 81％。'
+  '<span class="kw">胸郭の動きは左右差がある。</span>心音に異常を認めない。'
+  '<span class="kw">呼吸音は左側で著明に減弱している。</span>'
+  '腹部は平坦、軟で、腸雑音を聴取する。経鼻胃管は昨日と同じ固定位置で、胃液が吸引できる。'
+  '<span class="kw">気管チューブの固定テープにゆるみがあり、固定位置が2cm 深くなっている。</span>'
+  '気管チューブから喀痰吸引を行い、チューブの閉塞はみられなかった。'
+  '胸部エックス線写真を示す。<br>'
+  '<strong>適切な対応はどれか。</strong>',
+  [('a', '胃管を抜去する。', False,
+    '<span class="kw4">胃管は昨日と同じ位置で胃液も引ける＝異常なし</span>。'
+    '抜いても低酸素は改善しない。'),
+   ('b', 'ショック体位にする。', False,
+    '<span class="kw4">血圧92/50mmHgでショックではない</span>。'
+    '問題は循環ではなく換気。'),
+   ('c', 'アドレナリンを静注する。', False,
+    '<span class="kw4">アナフィラキシーや心停止の薬</span>で、'
+    '皮膚症状も循環虚脱も無い本例には適応がない。'),
+   ('d', '気管チューブの位置を調整する。', True,
+    '<span class="kw3">◯ 固定が2cm深くなり、右主気管支へ入った片肺挿管</span>。'
+    '<span class="kw3">左の呼吸音減弱・胸郭の動きの左右差・'
+    'SpO<sub>2</sub>低下がそろい、'
+    '胸部エックス線でも左肺の含気低下（無気肺）が見える</span>。'
+    '<span class="kw3">チューブを適切な深さまで引き戻して固定し直せばよい</span>。'),
+   ('e', '胸腔ドレーンを左側に挿入する。', False,
+    '<span class="kw4">気胸なら患側の呼吸音は減弱するが、'
+    '打診で鼓音、胸部エックス線で肺の虚脱と胸膜線が見える</span>。'
+    '<span class="kw4">本例は「チューブが2cm深くなった」という'
+    '明快な原因が書かれており、'
+    '不要な侵襲的処置を選ぶのは危険</span>。')],
+  '固定が深くなり左呼吸音減弱＝片肺挿管。チューブを引いて位置を直す。',
+  patho=('🩺 片肺挿管——なぜ「右」に入るのか',
+         '<span class="kw3">右主気管支は左より太く・短く・気管の延長線に近い'
+         '（分岐角が浅い）</span>ため、'
+         '<span class="kw3">深く入れたチューブも、誤嚥した異物も、'
+         '吸引カテーテルも「まっすぐ右へ落ちる」</span>。'
+         'その結果<span class="kw3">左肺が換気されず'
+         '（＝左の呼吸音減弱・左の無気肺）、'
+         'シャントによって SpO<sub>2</sub> が下がる</span>。'
+         '<table class="tb"><tr><th>所見</th><th>片肺挿管</th>'
+         '<th><span class="kw4">気胸</span></th></tr>'
+         '<tr><td>呼吸音</td><td><span class="kw3">左（対側）で減弱</span></td>'
+         '<td><span class="kw4">患側で減弱</span></td></tr>'
+         '<tr><td>打診</td><td>変化に乏しい</td>'
+         '<td><span class="kw4">鼓音</span></td></tr>'
+         '<tr><td>胸部エックス線</td>'
+         '<td><span class="kw3">対側肺の含気低下・無気肺、'
+         'チューブ先端が主気管支内</span></td>'
+         '<td><span class="kw4">肺の虚脱・胸膜線、'
+         '緊張性なら縦隔の対側偏位</span></td></tr>'
+         '<tr><td>ETCO<sub>2</sub></td>'
+         '<td><span class="kw3">波形は出ている</span>'
+         '（＝食道挿管ではない）</td><td>低下</td></tr>'
+         '<tr><td><span class="kw3">対応</span></td>'
+         '<td><span class="kw3">チューブを引いて位置調整</span></td>'
+         '<td><span class="kw4">胸腔ドレナージ（緊張性なら'
+         'まず穿刺脱気）</span></td></tr></table>'
+         '<span class="kw3">適切な深さの目安は、'
+         '成人男性で門歯位置 22〜24cm、成人女性で 20〜22cm、'
+         '小児では「年齢/2＋12cm」</span>。'),
+  deep=('📌 人工呼吸中に SpO<sub>2</sub> が突然下がったら——DOPE',
+        '<table class="tb"><tr><th></th><th>原因</th><th>確認と対応</th></tr>'
+        '<tr><td><span class="kw3">D</span></td>'
+        '<td><span class="kw3">Displacement</span>'
+        '（チューブの位置異常＝<span class="kw3">片肺挿管・計画外抜管</span>）</td>'
+        '<td><span class="kw3">固定位置の目盛り・左右の呼吸音・'
+        '胸郭の動き</span></td></tr>'
+        '<tr><td><span class="kw3">O</span></td>'
+        '<td><span class="kw3">Obstruction</span>'
+        '（喀痰・血餅による閉塞、チューブの屈曲）</td>'
+        '<td><span class="kw3">吸引カテーテルが通るか、気道内圧の上昇</span></td></tr>'
+        '<tr><td><span class="kw3">P</span></td>'
+        '<td><span class="kw3">Pneumothorax</span>（気胸）</td>'
+        '<td>呼吸音・打診・エックス線、緊張性なら循環虚脱</td></tr>'
+        '<tr><td><span class="kw3">E</span></td>'
+        '<td><span class="kw3">Equipment</span>'
+        '（回路のはずれ・機器の故障・酸素供給の途絶）</td>'
+        '<td>回路を追う、用手換気に切り替える</td></tr></table>'
+        '<span class="kw3">この症例文は DOPE を順に潰す形で書かれている</span>——'
+        '<span class="kw3">「喀痰吸引を行いチューブの閉塞はみられなかった」で O を消し、'
+        '「固定位置が2cm深くなっている」で D を名指ししている</span>。'
+        '<span class="kw3">小児は気管が短いので、'
+        'わずか2cmのずれでも片肺挿管になる</span>のがこの症例の要点。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">チューブが深すぎると右主気管支へ入る</span>'
+         '（右は太く短く分岐角が浅い）→'
+         '<span class="kw">左の呼吸音減弱・胸郭の左右差</span>。<br>'
+         '② 対応は<span class="kw">チューブを引いて位置を調整</span>。<br>'
+         '③ 人工呼吸中の急変は<span class="kw">DOPE'
+         '（Displacement・Obstruction・Pneumothorax・Equipment）</span>で探す。<br>'
+         '④ <span class="kw">深さの目安＝成人男性22〜24cm・女性20〜22cm、'
+         '小児は年齢/2＋12cm</span>。<br>'
+         '⑤ <span class="kw4">気胸との違いは「減弱するのが患側か対側か」と'
+         '打診・エックス線</span>。'),
+  imgs=[IMG + '120E-30_1.jpeg']),
+
+# ============================================================ NO.23
+Q('118F-48', 98, [('bs', '★')],
+  '70 歳の男性。大腸癌に対し全身麻酔・人工呼吸管理下で結腸切除術を施行中である。'
+  '既往歴に特記すべきことはない。生体機能を監視するモニター画面を示す。'
+  '上段から心電図、血圧、SpO<sub>2</sub>、呼気終末二酸化炭素濃度〈ETCO<sub>2</sub>〉、'
+  '体温が表示されている。<span class="kw">モニター画面がA から突然B となった。</span><br>'
+  '<strong>このとき発生した事象で最も考えられるのはどれか。</strong>',
+  [('a', '心停止', False,
+    '<span class="kw4">心停止なら心電図と血圧波形も同時に消える</span>。'
+    'ETCO<sub>2</sub>だけが消える所見とは合わない。'),
+   ('b', 'ショック', False,
+    '<span class="kw4">ショックでは血圧が下がる</span>。'
+    'ETCO<sub>2</sub>は低下するがゼロにはならない。'),
+   ('c', '自発呼吸の発現', False,
+    '<span class="kw4">自発呼吸が出ればETCO<sub>2</sub>波形はむしろ'
+    '不規則に出続ける</span>（消えない）。'),
+   ('d', '心電図のリードのはずれ', False,
+    '<span class="kw4">それなら消えるのは心電図波形</span>。'
+    'ETCO<sub>2</sub>とは無関係。'),
+   ('e', '人工呼吸回路の接続はずれ', True,
+    '<span class="kw3">◯ 心電図・血圧・SpO<sub>2</sub>・体温は保たれたまま、'
+    'ETCO<sub>2</sub>波形だけが突然ゼロになっている</span>。'
+    '<span class="kw3">「循環はあるのに、呼気が返ってこない」＝'
+    '換気の経路が断たれた</span>ということで、'
+    '<span class="kw3">回路の接続はずれ（または計画外抜管・食道挿管）</span>が'
+    '最も考えられる。')],
+  '循環は保たれたままETCO2 だけが突然ゼロ＝換気の経路が断たれた＝回路のはずれ。',
+  patho=('🩺 ETCO<sub>2</sub>が語ること——「息」と「血流」の掛け算', POSTINT_TABLE),
+  deep=('📌 カプノグラム——波形の「形」で異常が読める',
+        '<table class="tb"><tr><th>波形</th><th>意味</th></tr>'
+        '<tr><td><span class="kw3">正常な台形（プラトーがある）</span></td>'
+        '<td>呼気の初め（死腔）→ 肺胞ガス → プラトー（＝ETCO<sub>2</sub>）'
+        '→ 吸気で急降下</td></tr>'
+        '<tr><td><span class="kw4">波形が突然ゼロになる</span></td>'
+        '<td><span class="kw4">回路の接続はずれ・計画外抜管・'
+        '食道挿管・完全閉塞・心停止</span></td></tr>'
+        '<tr><td><span class="kw4">数値が急激に低下（ゼロではない）</span></td>'
+        '<td><span class="kw4">肺血流の低下＝肺塞栓・出血・'
+        '心拍出量低下</span></td></tr>'
+        '<tr><td><span class="kw4">数値が上昇</span></td>'
+        '<td><span class="kw4">低換気、発熱、悪性高熱症、'
+        '腹腔鏡のCO<sub>2</sub>気腹、ソーダライムの消耗</span></td></tr>'
+        '<tr><td><span class="kw4">立ち上がりが鈍く'
+        '右肩上がり（shark fin）</span></td>'
+        '<td><span class="kw4">呼気の閉塞＝気管支喘息・COPD・'
+        'チューブの部分閉塞</span></td></tr>'
+        '<tr><td>プラトーに切れ込み（curare cleft）</td>'
+        '<td>筋弛緩からの回復（自発呼吸の出現）</td></tr></table>'
+        '<span class="kw3">ETCO<sub>2</sub>は麻酔中の「事故を最初に知らせる」モニター</span>'
+        '——<span class="kw3">SpO<sub>2</sub>が下がるのは肺に貯めた酸素を'
+        '使い切ってからで、数分遅れる</span>。'
+        '<span class="kw3">だからこの症例でも SpO<sub>2</sub> より先に'
+        'ETCO<sub>2</sub> が答えを教えている</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">ETCO<sub>2</sub>がゼロ＝「息が通っていない」'
+         '（回路はずれ・抜管・食道挿管・完全閉塞）か'
+         '「血が流れていない」（心停止）</span>。<br>'
+         '② <span class="kw">循環系のモニターが正常なままETCO<sub>2</sub>だけ'
+         '消えたら換気側の問題</span>。<br>'
+         '③ <span class="kw">ETCO<sub>2</sub>の急激な低下（ゼロでない）は'
+         '肺血流の低下＝肺塞栓</span>。<br>'
+         '④ <span class="kw">上昇は低換気・悪性高熱症・気腹</span>。<br>'
+         '⑤ <span class="kw">ETCO<sub>2</sub>はSpO<sub>2</sub>より早く異常を知らせる</span>。'),
+  imgs=[IMG + '118F-48_%d.jpeg' % i for i in (1, 2)]),
+
+# ============================================================ NO.24
+Q('110H-27', 73, [('bs', '★'), ('bh', '必修')],
+  '70 歳の男性。開胸手術中である。全身麻酔下に従量式の人工呼吸管理をしている。'
+  '<span class="kw">喫煙歴は30 本/ 日を30 年間。</span>身長160cm、体重60kg。体温36.5℃。'
+  '換気回数10/ 分、心拍数80/ 分、整。血圧120/80mmHg。'
+  '吸入酸素濃度50％でのSpO<sub>2</sub> が94％に低下してきた。尿量50mL/ 時。'
+  '<span class="kw">吸気性および呼気性のcoarse crackles を聴取する。</span>'
+  '手術開始時および現在の気道内圧曲線を示す。<br>'
+  '<strong>まず行うべき処置はどれか。</strong>',
+  [('a', '気管内吸引', True,
+    '<span class="kw3">◯ 30本×30年の喫煙歴、coarse crackles、'
+    '従量式換気での気道内圧上昇——気道分泌物の貯留を示す所見が揃っている</span>。'
+    '<span class="kw3">吸引は非侵襲・即座に実施でき、診断も兼ねる</span>ので'
+    '「まず行う処置」にふさわしい。'),
+   ('b', '胸部エックス線撮影', False,
+    '<span class="kw4">開胸手術中に撮影しても時間を失うだけ</span>。'
+    '<span class="kw3">その場でできる処置を先に行う</span>。'),
+   ('c', '利尿薬の静脈内投与', False,
+    '<span class="kw4">尿量50mL/時（≒0.8mL/kg/時）と保たれ、'
+    '血圧も正常で心不全を示す所見がない</span>。'),
+   ('d', '気管支拡張薬の吸入', False,
+    '<span class="kw4">気管支痙攣なら wheezes（連続性ラ音）が聴かれる</span>。'
+    '本例は<span class="kw4">coarse crackles（断続性ラ音＝水泡音）で、'
+    '分泌物を示す</span>。'),
+   ('e', '換気法を従量式から従圧式に変更', False,
+    '<span class="kw4">換気モードを変えても原因（分泌物）は取れない</span>。'
+    '従圧式にすれば圧は上がらなくなるが、'
+    '<span class="kw4">今度は換気量が減って低酸素が悪化する</span>。')],
+  '喫煙歴＋coarse crackles＋気道内圧上昇＝分泌物貯留。まず気管内吸引。',
+  patho=('🩺 従量式換気で気道内圧が上がる＝「入りにくくなった」',
+         '<span class="kw3">従量式〈volume control〉では'
+         '1回換気量が固定されているので、'
+         '<u>肺が入りにくくなるとその分だけ圧が上がる</u></span>。'
+         '（従圧式なら逆に、圧が固定で換気量が減る。）'
+         '<table class="tb"><tr><th>原因</th><th>ラ音</th>'
+         '<th>気道内圧曲線</th><th>対応</th></tr>'
+         '<tr><td><span class="kw3">分泌物の貯留</span></td>'
+         '<td><span class="kw3">coarse crackles'
+         '（断続性・水泡音）</span></td>'
+         '<td><span class="kw3">最高気道内圧が上昇</span></td>'
+         '<td><span class="kw3">気管内吸引</span></td></tr>'
+         '<tr><td>気管支痙攣</td>'
+         '<td><span class="kw4">wheezes（連続性・笛音）</span></td>'
+         '<td>最高気道内圧上昇＋呼気延長</td>'
+         '<td>気管支拡張薬、麻酔深度を上げる</td></tr>'
+         '<tr><td>チューブの屈曲・閉塞</td><td>—</td>'
+         '<td>著明な上昇</td><td>吸引カテーテルの通過を確認、入れ替え</td></tr>'
+         '<tr><td>片肺挿管</td><td>片側で減弱</td>'
+         '<td>上昇（片肺に全量が入る）</td><td>位置調整</td></tr>'
+         '<tr><td><span class="kw4">気胸・無気肺・肺水腫</span></td>'
+         '<td>減弱／crackles</td>'
+         '<td><span class="kw4">プラトー圧が上昇'
+         '（＝コンプライアンス低下）</span></td>'
+         '<td>ドレナージ、リクルートメント、利尿</td></tr></table>'
+         '<span class="kw3">気道抵抗の上昇（分泌物・痙攣・閉塞）では'
+         '最高気道内圧だけが上がり、'
+         'コンプライアンス低下（気胸・肺水腫）では'
+         'プラトー圧も上がる</span>のが理屈上の区別。'),
+  deep=('📌 「まず行うべき処置」を選ぶときの物差し',
+        '<span class="kw3">国試の「まず」は"最も重要"ではなく'
+        '"最初に手が届き、外れても害が小さく、'
+        'それで診断も進むもの"</span>を指すことが多い。'
+        '<table class="tb"><tr><th>肢</th><th>侵襲</th><th>時間</th>'
+        '<th>外れたときの害</th></tr>'
+        '<tr><td><span class="kw3">気管内吸引</span></td>'
+        '<td><span class="kw3">ほぼ無い</span></td>'
+        '<td><span class="kw3">数十秒</span></td>'
+        '<td><span class="kw3">ほぼ無い（一過性の低酸素のみ）</span></td></tr>'
+        '<tr><td>気管支拡張薬</td><td>小</td><td>数分</td>'
+        '<td>頻脈・不整脈</td></tr>'
+        '<tr><td>利尿薬</td><td>小</td><td>数十分</td>'
+        '<td><span class="kw4">循環血液量減少・電解質異常</span></td></tr>'
+        '<tr><td>胸部エックス線</td><td>—</td>'
+        '<td><span class="kw4">開胸中は時間がかかる</span></td>'
+        '<td>処置が遅れる</td></tr>'
+        '<tr><td>換気モードの変更</td><td>—</td><td>即時</td>'
+        '<td><span class="kw4">原因を隠したまま換気量が減る</span></td></tr></table>'
+        '<span class="kw3">加えて症例文の「喫煙30本×30年」は'
+        '"気道分泌が多い患者だ"という出題者の合図</span>'
+        '——<span class="kw3">背景・聴診所見・モニターの3つが'
+        '同じ方向を指していれば、それが答え</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">従量式で気道内圧が上がる＝'
+         '気道抵抗の上昇かコンプライアンスの低下</span>。<br>'
+         '② <span class="kw">coarse crackles＝分泌物 → 気管内吸引</span>／'
+         '<span class="kw">wheezes＝気管支痙攣 → 気管支拡張薬</span>。<br>'
+         '③ <span class="kw4">換気モードを変えても原因は解決しない</span>。<br>'
+         '④ <span class="kw">喫煙歴は術後の喀痰貯留・無気肺・肺炎のリスク</span>'
+         '（4週間以上の禁煙で減る）。<br>'
+         '⑤ 「まず行う処置」＝<span class="kw">その場でできて侵襲が小さく、'
+         '診断も兼ねるもの</span>。'),
+  imgs=[IMG + '110H-27_1.jpeg']),
+
+# ============================================================ NO.25
+Q('111C-9', 76, [('bs', '★'), ('bc', 'CBT'), ('bh', '必修')],
+  '<strong>腰椎穿刺において穿刺針がくも膜下腔に達するまでに'
+  '通過する組織の順で正しいのはどれか。</strong>',
+  [('a', '後縦靱帯 → 棘上靱帯 → 黄色靱帯 → 硬　膜', False,
+    '<span class="kw4">後縦靱帯は椎体の後面（＝椎管の腹側）にあり、'
+    '背中から入れた針は到達しない</span>。しかも順序が逆。'),
+   ('b', '棘上靱帯 → 棘間靱帯 → 黄色靱帯 → 硬　膜', True,
+    '<span class="kw3">◯ 皮膚・皮下組織のあと、'
+    '棘上靱帯 → 棘間靱帯 → 黄色靱帯 → 硬膜外腔 → 硬膜 → くも膜</span>と'
+    '<span class="kw3">背側から腹側へ順に浅い層から深い層を通る</span>。'),
+   ('c', '棘上靱帯 → 棘間靱帯 → 前縦靱帯 → 硬　膜', False,
+    '<span class="kw4">前縦靱帯は椎体の前面</span>——'
+    '硬膜より深く、しかも脊柱管の外側にある。'),
+   ('d', '後縦靱帯 → 棘間靱帯 → 前縦靱帯 → 硬　膜', False,
+    '<span class="kw4">後縦靱帯・前縦靱帯とも背側からの穿刺経路にない</span>。'),
+   ('e', '前縦靱帯 → 棘上靱帯 → 黄色靱帯 → 硬　膜', False,
+    '<span class="kw4">最初に前縦靱帯を通ることはあり得ない</span>'
+    '（体の反対側にある）。')],
+  '棘上靱帯 → 棘間靱帯 → 黄色靱帯 → 硬膜。前縦・後縦靱帯は椎体側で通らない。',
+  patho=('🩺 背中から針を進めると、どの層を順に通るか', SPINAL_TABLE),
+  deep=('📌 硬膜外麻酔と脊髄くも膜下麻酔——止める層が1枚違うだけ',
+        '<table class="tb"><tr><th></th>'
+        '<th><span class="kw3">脊髄くも膜下麻酔〈脊椎麻酔〉</span></th>'
+        '<th><span class="kw3">硬膜外麻酔</span></th></tr>'
+        '<tr><td><span class="kw3">針を止める層</span></td>'
+        '<td><span class="kw3">硬膜・くも膜を貫いた'
+        '<u>くも膜下腔</u>（髄液が返る）</span></td>'
+        '<td><span class="kw3">黄色靱帯を抜けた直後の'
+        '<u>硬膜外腔</u>（抵抗消失法）</span></td></tr>'
+        '<tr><td>穿刺部位</td>'
+        '<td><span class="kw3">L3/4・L4/5（脊髄円錐より下）</span></td>'
+        '<td>手術部位の高さに合わせて頸〜腰部どこでも</td></tr>'
+        '<tr><td>薬液量</td><td><span class="kw3">少量（2〜3mL）</span></td>'
+        '<td>多量（10〜20mL）</td></tr>'
+        '<tr><td>効果</td>'
+        '<td><span class="kw3">速く確実、運動麻痺も強い</span></td>'
+        '<td>やや遅く分節的、濃度で運動と感覚を分けられる</td></tr>'
+        '<tr><td>持続</td><td>単回が基本</td>'
+        '<td><span class="kw3">カテーテルを留置して術後まで持続</span></td></tr>'
+        '<tr><td>合併症</td>'
+        '<td><span class="kw4">血圧低下・硬膜穿刺後頭痛</span></td>'
+        '<td><span class="kw4">硬膜外血腫・硬膜外膿瘍・'
+        '局所麻酔薬中毒（量が多い）</span></td></tr></table>'
+        '<span class="kw3">実務上の目印は3つ</span>——'
+        '<span class="kw3">① Jacoby線（左右の腸骨稜を結ぶ線）＝L4棘突起、'
+        '② 黄色靱帯を抜けるときのクリック感、'
+        '③ 髄液の流出</span>。'
+        '<span class="kw3">硬膜外麻酔で誤って硬膜を貫くと'
+        '（意図しない硬膜穿刺）、'
+        '硬膜外用の大量の薬液がくも膜下に入って'
+        '全脊髄くも膜下麻酔になる</span>ので、'
+        '<span class="kw3">必ずテストドーズで確認する</span>。'),
+  point=('🎯 国試ポイント',
+         '① 通過順＝<span class="kw">皮膚・皮下 → 棘上靱帯 → 棘間靱帯 → '
+         '黄色靱帯 → 硬膜外腔 → 硬膜 → くも膜</span>。<br>'
+         '② <span class="kw4">前縦靱帯・後縦靱帯は椎体側にあり通らない</span>。<br>'
+         '③ <span class="kw">硬膜外麻酔は黄色靱帯を抜けた直後（抵抗消失法）、'
+         '脊髄くも膜下麻酔は硬膜を貫いて髄液を確認</span>。<br>'
+         '④ 穿刺部位は<span class="kw">L3/4・L4/5</span>'
+         '（<span class="kw">脊髄はL1〜L2で終わる</span>）。<br>'
+         '⑤ <span class="kw">Jacoby線＝L4棘突起</span>が体表の目印。')),
+
+# ============================================================ NO.26
+Q('120B-20', 96, [('bs', '★'), ('bc', 'CBT'), ('bh', '必修')],
+  '<strong>腰椎穿刺において、穿刺針で貫くことを避けるべきなのはどれか。</strong>',
+  [('a', '硬　膜', False,
+    '<span class="kw3">脊髄くも膜下麻酔・髄液検査ではむしろ貫く層</span>'
+    '（硬膜外麻酔では貫かないが、「避けるべき」ものの筆頭ではない）。'),
+   ('b', '脊　髄', True,
+    '<span class="kw3">◯ 貫けば不可逆の脊髄損傷になる</span>。'
+    '<span class="kw3">これを避けるために'
+    '<u>脊髄円錐（L1〜L2）より下の L3/4・L4/5 で穿刺する</u></span>。'
+    '<span class="kw3">その高さには馬尾しかなく、'
+    '神経根は髄液の中を浮遊しているので針が来ると逃げる</span>。'),
+   ('c', 'くも膜', False,
+    '<span class="kw3">硬膜と一緒に貫いてくも膜下腔へ達する</span>。'),
+   ('d', '棘間靱帯', False,
+    '<span class="kw3">通過する層の1つ</span>。'),
+   ('e', '皮下組織', False,
+    '<span class="kw3">当然通過する</span>。')],
+  '避けるべきは脊髄。だから脊髄円錐より下（L3/4・L4/5）で穿刺する。',
+  patho=('🩺 なぜ腰椎穿刺は「腰」なのか——脊髄と脊柱の伸び方の差',
+         '<span class="kw3">胎生期には脊髄と脊柱の長さは同じだが、'
+         '出生後は脊柱の方が速く伸びる</span>。'
+         'その結果<span class="kw3">脊髄の下端（脊髄円錐）は上方へ'
+         '「引き上げられたように」相対的に移動し、'
+         '成人では L1〜L2 の高さで終わる</span>'
+         '（新生児では L3 と低い）。'
+         '<span class="kw3">それより下の脊柱管には'
+         '髄液に浮かぶ神経根の束＝馬尾しかない</span>。'
+         '<table class="tb"><tr><th>高さ</th><th>中身</th>'
+         '<th>穿刺したら</th></tr>'
+         '<tr><td><span class="kw4">L1〜L2 より上</span></td>'
+         '<td><span class="kw4">脊髄そのもの</span></td>'
+         '<td><span class="kw4">脊髄損傷（不可逆）</span></td></tr>'
+         '<tr><td><span class="kw3">L3/4・L4/5</span></td>'
+         '<td><span class="kw3">馬尾と髄液</span></td>'
+         '<td><span class="kw3">神経根は髄液中で逃げるので'
+         '損傷しにくい。ここが穿刺部位</span></td></tr></table>'
+         '<span class="kw3">体表の目印は Jacoby線（左右の腸骨稜を結ぶ線）で L4 棘突起</span>。'
+         '<span class="kw3">体位は側臥位で膝を抱えて背中を丸める（エビのように）</span>'
+         '——<span class="kw3">棘突起の間隙が広がり、黄色靱帯まで針が届きやすくなる</span>。'),
+  deep=('📌 腰椎穿刺の禁忌と合併症',
+        '<table class="tb"><tr><th></th><th>中身</th><th>理由</th></tr>'
+        '<tr><td><span class="kw4">禁忌</span></td>'
+        '<td><span class="kw4">頭蓋内圧亢進（占拠性病変・うっ血乳頭）</span></td>'
+        '<td><span class="kw4">髄液を抜くと圧較差が生じ'
+        '<u>脳ヘルニア</u>を起こす。'
+        '疑えば先に頭部CT</span></td></tr>'
+        '<tr><td></td><td><span class="kw4">穿刺部の皮膚感染</span></td>'
+        '<td><span class="kw4">髄膜炎・硬膜外膿瘍を作る</span></td></tr>'
+        '<tr><td></td>'
+        '<td><span class="kw4">出血傾向・抗凝固薬使用中</span></td>'
+        '<td><span class="kw4">硬膜外血腫による対麻痺</span></td></tr>'
+        '<tr><td rowspan="3"><span class="kw3">合併症</span></td>'
+        '<td><span class="kw3">硬膜穿刺後頭痛</span></td>'
+        '<td><span class="kw3">髄液漏出による低髄液圧。'
+        '<u>起立で悪化し臥位で軽快する</u>のが特徴。'
+        '細い針・ペンシルポイント針で減る</span></td></tr>'
+        '<tr><td>一過性の神経根刺激症状</td><td>下肢の放散痛</td></tr>'
+        '<tr><td>髄液の血液混入</td>'
+        '<td><span class="kw">くも膜下出血との鑑別は'
+        '3本法（採取するほど薄くなれば穿刺による混入）と'
+        'キサントクロミー</span></td></tr></table>'
+        '<span class="kw3">脊髄くも膜下麻酔と髄液検査の腰椎穿刺は'
+        '手技も禁忌もほぼ同じ</span>——'
+        '<span class="kw3">違うのは「入れる」か「抜く」かだけ</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">成人の脊髄はL1〜L2で終わる（脊髄円錐）</span>'
+         '——だから<span class="kw">腰椎穿刺はL3/4・L4/5</span>。<br>'
+         '② <span class="kw">Jacoby線＝L4棘突起</span>、'
+         '体位は<span class="kw">側臥位で背中を丸める</span>。<br>'
+         '③ <span class="kw4">最大の禁忌は頭蓋内圧亢進（脳ヘルニア）</span>'
+         '——疑えば先に頭部CT。<br>'
+         '④ <span class="kw">硬膜穿刺後頭痛は起立で悪化・臥位で軽快</span>、'
+         '難治なら<span class="kw">硬膜外自家血パッチ</span>。<br>'
+         '⑤ <span class="kw">新生児の脊髄円錐はL3</span>と低い（より下で穿刺）。')),
+
+# ============================================================ NO.27
+Q('119E-20', 87, [('bs', '★'), ('bc', 'CBT'), ('bh', '必修')],
+  '<strong>鼠径部レベル以下の全感覚消失の脊髄損傷レベルはどれか。</strong>',
+  [('a', '第4 頸髄', False,
+    '<span class="kw4">C4 では横隔神経（C3〜C5）が侵され自発呼吸が困難になり、'
+    '四肢麻痺（頸髄損傷）となる</span>。感覚消失は鎖骨より下すべてに及ぶ。'),
+   ('b', '第5 胸髄', False,
+    '<span class="kw4">T5 なら乳頭（T4）のすぐ下より下方の感覚が消える</span>。'
+    '鼠径部よりずっと高い。'),
+   ('c', '第10 胸髄', False,
+    '<span class="kw4">T10 の目印は臍</span>。'
+    '臍より下の感覚が消えることになり、鼠径部より高い。'),
+   ('d', '第1 腰髄', True,
+    '<span class="kw3">◯ L1 のデルマトームが鼠径部（鼠径靱帯の高さ）</span>。'
+    '<span class="kw3">L1 レベルの損傷なら、それ以下の全感覚が消失する</span>。'),
+   ('e', '脊髄円錐部', False,
+    '<span class="kw4">脊髄円錐（L1〜L2椎体の高さにある脊髄下端、'
+    '髄節でいうS3〜尾髄）の障害では'
+    '会陰部のサドル型感覚障害・膀胱直腸障害が主体</span>で、'
+    '下肢の感覚は比較的保たれる。')],
+  '鼠径部のデルマトームは L1。それ以下の全感覚消失＝第1腰髄レベル。',
+  patho=('🩺 デルマトームの目印は4つ覚えれば足りる', DERMATOME_TABLE),
+  deep=('📌 「脊髄損傷レベル」と「脊椎の高さ」は別物',
+        '<span class="kw3">脊髄は L1〜L2 で終わるのに、'
+        '髄節は仙髄・尾髄まである</span>——'
+        'つまり<span class="kw3">下位ほど「髄節の番号」と'
+        '「その髄節が実際にある椎骨の高さ」がずれる</span>。'
+        '<table class="tb"><tr><th>用語</th><th>意味</th></tr>'
+        '<tr><td><span class="kw3">髄節レベル</span></td>'
+        '<td><span class="kw3">機能（デルマトーム・筋節）で決まる</span>。'
+        '国試で「損傷レベル」といえばこちら</td></tr>'
+        '<tr><td>椎体レベル</td>'
+        '<td>骨折した椎骨の番号。'
+        '<span class="kw">下位胸椎では髄節の方が2〜3個上</span></td></tr>'
+        '<tr><td><span class="kw3">脊髄円錐症候群</span></td>'
+        '<td><span class="kw3">L1〜L2椎体の高さの障害。'
+        '<u>左右対称のサドル型感覚障害・早期からの膀胱直腸障害</u>、'
+        '下肢筋力は比較的保たれる</span></td></tr>'
+        '<tr><td><span class="kw3">馬尾症候群</span></td>'
+        '<td><span class="kw3">それより下の障害。'
+        '<u>左右非対称・下肢の激痛と弛緩性麻痺</u>、'
+        '膀胱直腸障害は遅れて出る</span></td></tr></table>'
+        '<span class="kw3">感覚の目印を4つ（乳頭T4・剣状突起T6・臍T10・鼠径部L1）</span>、'
+        '<span class="kw3">運動の目印を「C5肘屈曲・C7肘伸展・'
+        'L4膝伸展・S1足底屈」</span>で押さえておけば、'
+        '<span class="kw3">整形外科・神経内科・救急の脊髄損傷問題は'
+        '同じ表で解ける</span>。'),
+  point=('🎯 国試ポイント',
+         '① デルマトームの目印＝<span class="kw">乳頭T4・剣状突起T6・臍T10・'
+         '鼠径部L1</span>（＋<span class="kw">肩C4・母指C6・小指C8・'
+         '膝L4・会陰S2〜4</span>）。<br>'
+         '② <span class="kw4">C3〜C5は横隔神経＝呼吸</span>'
+         '（"C3,4,5 keep the diaphragm alive"）。<br>'
+         '③ <span class="kw">脊髄円錐症候群＝対称性サドル型感覚障害＋'
+         '早期の膀胱直腸障害</span>／'
+         '<span class="kw">馬尾症候群＝非対称・激痛・弛緩性麻痺</span>。<br>'
+         '④ <span class="kw">脊髄は成人でL1〜L2で終わる</span>。<br>'
+         '⑤ 脊髄くも膜下麻酔の高さも同じ表で読む'
+         '（帝王切開はT4を狙う）。')),
+
+# ============================================================ NO.28
+Q('110B-15', 96, [('bs', '★')],
+  '<strong>帝王切開のための脊髄くも膜下麻酔時に最も高頻度に起こるのはどれか。</strong>',
+  [('a', '誤　嚥', False,
+    '<span class="kw4">誤嚥は全身麻酔（意識消失＋気道反射の消失）の合併症</span>。'
+    '意識のある脊髄くも膜下麻酔では起こりにくい'
+    '（妊婦がフルストマックであることは事実だが、'
+    'だからこそ全身麻酔を避けて区域麻酔を選ぶ）。'),
+   ('b', '嗄　声', False,
+    '<span class="kw4">気管挿管による声帯の刺激・反回神経麻痺で起こる</span>。'
+    '挿管しない脊麻とは無関係。'),
+   ('c', '発　熱', False,
+    '一般的な合併症ではない（硬膜外鎮痛中の分娩では体温上昇が知られるが、'
+    '「最も高頻度」ではない）。'),
+   ('d', '乏　尿', False,
+    '<span class="kw4">尿閉は起こりうるが「最も高頻度」ではない</span>。'
+    '帝王切開では膀胱留置カテーテルを入れる。'),
+   ('e', '血圧低下', True,
+    '<span class="kw3">◯ 交感神経（T1〜L2）が最初に遮断されて'
+    '末梢血管が拡張し、静脈還流が減る</span>。'
+    '<span class="kw3">帝王切開では T4 という高い麻酔レベルが必要なうえ、'
+    '増大した子宮が仰臥位で下大静脈を圧迫する'
+    '（仰臥位低血圧症候群）</span>ので、'
+    '<span class="kw3">血圧低下は過半数に起こる最も頻度の高い合併症</span>。')],
+  '脊麻の最頻合併症は血圧低下。帝王切開ではT4の高位＋子宮の下大静脈圧迫で必発に近い。',
+  patho=('🩺 脊髄くも膜下麻酔の合併症——遮断される順番から予測する',
+         '<span class="kw3">神経線維は細いものほど局所麻酔薬に弱い</span>ので、'
+         '<span class="kw3">交感神経（B線維・最も細い）→ 温痛覚 → '
+         '触覚 → 運動（Aα線維・最も太い）の順に遮断される</span>。'
+         '<span class="kw3">その結果、麻酔が効き始めた最初の段階で'
+         'すでに交感神経は落ちている</span>——'
+         'これが血圧低下が必発に近い理由。'
+         '<span class="kw3">交感神経の遮断レベルは'
+         '感覚の遮断レベルより2〜4分節高い</span>のも同じ理屈。'
+         + SPINAL_COMP_TABLE),
+  deep=('📌 帝王切開の麻酔——妊婦の生理が全部リスクになる',
+        '<table class="tb"><tr><th>妊婦の変化</th><th>麻酔への影響</th>'
+        '<th>対策</th></tr>'
+        '<tr><td><span class="kw3">増大子宮による下大静脈の圧迫</span></td>'
+        '<td><span class="kw4">仰臥位低血圧症候群'
+        '——仰臥位で静脈還流が激減し血圧低下・胎児徐脈</span></td>'
+        '<td><span class="kw3">子宮左方転位（右腰部に楔を入れて左へ傾ける）</span></td></tr>'
+        '<tr><td>硬膜外静脈叢の怒張・くも膜下腔の容積減少</td>'
+        '<td><span class="kw3">同じ薬液量でも麻酔が高く広がる'
+        '＝薬液量を減らす</span></td><td>投与量の調整</td></tr>'
+        '<tr><td><span class="kw4">下部食道括約筋の弛緩＋腹圧上昇</span></td>'
+        '<td><span class="kw4">フルストマック＝誤嚥のリスクが高い</span></td>'
+        '<td><span class="kw3">区域麻酔を第一選択にする。'
+        '全身麻酔なら迅速導入</span></td></tr>'
+        '<tr><td>機能的残気量の減少＋酸素消費の増加</td>'
+        '<td><span class="kw4">無呼吸で急速に低酸素になる</span></td>'
+        '<td>十分な前酸素化</td></tr>'
+        '<tr><td>気道粘膜の浮腫・乳房の増大</td>'
+        '<td><span class="kw4">挿管困難が多い</span></td>'
+        '<td>細めのチューブ、ビデオ喉頭鏡</td></tr></table>'
+        '<span class="kw3">帝王切開で脊髄くも膜下麻酔が第一選択なのは'
+        '「母体の気道に触れずに済むから」</span>'
+        '——<span class="kw3">その代償として血圧低下が必発に近く、'
+        '輸液・子宮左方転位・フェニレフリンで先回りする</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">脊髄くも膜下麻酔の最も高頻度の合併症は血圧低下</span>'
+         '（交感神経遮断）。<br>'
+         '② 遮断の順＝<span class="kw">交感神経 → 温痛覚 → 触覚 → 運動</span>'
+         '（細い線維から）。<span class="kw">交感神経の遮断は感覚より2〜4分節高い</span>。<br>'
+         '③ <span class="kw">帝王切開の麻酔レベルはT4</span>、'
+         '対策は<span class="kw">輸液・子宮左方転位・フェニレフリン</span>。<br>'
+         '④ <span class="kw4">仰臥位低血圧症候群＝増大子宮による下大静脈圧迫</span>。<br>'
+         '⑤ <span class="kw4">誤嚥・嗄声は全身麻酔＋気管挿管の合併症</span>。')),
+
+# ============================================================ NO.29
+Q('109G-26', 62, [('bs', '★')],
+  '<strong>術後鎮痛のため硬膜外腔に投与できるのはどれか。</strong>',
+  [('a', 'ケタミン', False,
+    '<span class="kw4">静脈麻酔薬（解離性麻酔薬）で、'
+    '製剤に含まれる保存剤の神経毒性が問題になるため'
+    '硬膜外腔への定型的な投与は行わない</span>。'),
+   ('b', 'モルヒネ', True,
+    '<span class="kw3">◯ オピオイドは脊髄後角のオピオイド受容体に直接作用する</span>。'
+    '<span class="kw3">モルヒネは水溶性で髄液中に長くとどまるため、'
+    '1回の投与で長時間の鎮痛が得られる</span>。'
+    '実際の術後鎮痛では<span class="kw3">局所麻酔薬（ロピバカイン等）と'
+    'オピオイド（フェンタニル・モルヒネ）を混合して持続投与</span>する。'),
+   ('c', 'アセトアミノフェン', False,
+    '<span class="kw4">経口・静注で全身投与する薬</span>。'
+    '硬膜外腔に入れる薬ではない。'),
+   ('d', '副腎皮質ステロイド', False,
+    '<span class="kw4">神経根ブロックなど特定の疼痛治療で用いられることはあるが、'
+    '術後鎮痛の目的で硬膜外腔へ投与する薬ではない</span>。'),
+   ('e', '非ステロイド性抗炎症薬〈NSAIDs〉', False,
+    '<span class="kw4">全身投与する薬</span>。'
+    '硬膜外腔への投与は神経毒性のおそれがあり行わない。')],
+  '硬膜外に入れてよいのは局所麻酔薬とオピオイド（モルヒネ）だけ。',
+  patho=('🩺 硬膜外腔に入れてよい薬は2種類しかない', EPIDURAL_DRUG_TABLE),
+  deep=('📌 脊髄後角に届くから効く——オピオイドの「脊髄作用」',
+        '<span class="kw3">オピオイド受容体（μ）は脳幹だけでなく'
+        '<u>脊髄後角の膠様質</u>にも高密度に存在する</span>。'
+        '硬膜外・くも膜下に投与されたオピオイドは'
+        '<span class="kw3">全身に回るより先にここへ届き、'
+        '一次求心線維からの伝達を直接抑える</span>——'
+        'このため<span class="kw3">全身投与よりはるかに少量で'
+        '強い鎮痛が得られる</span>。'
+        '<table class="tb"><tr><th></th><th>モルヒネ（水溶性）</th>'
+        '<th>フェンタニル（脂溶性）</th></tr>'
+        '<tr><td>髄液中の動態</td>'
+        '<td><span class="kw3">脂肪に溶けず髄液中を'
+        '<u>上方へ広がりながら長くとどまる</u></span></td>'
+        '<td>速やかに脊髄と血中へ移行する</td></tr>'
+        '<tr><td>作用</td>'
+        '<td><span class="kw3">発現は遅いが持続が長い（12〜24時間）</span></td>'
+        '<td>発現が速く持続は短い</td></tr>'
+        '<tr><td><span class="kw4">注意</span></td>'
+        '<td><span class="kw4">投与6〜12時間後の遅発性呼吸抑制</span>'
+        '——髄液に乗って延髄の呼吸中枢まで上がるため。'
+        '<span class="kw3">投与後24時間の呼吸監視が要る</span></td>'
+        '<td>早期の呼吸抑制</td></tr>'
+        '<tr><td>共通の副作用</td>'
+        '<td colspan="2"><span class="kw">悪心・嘔吐、'
+        '<u>掻痒感</u>、尿閉</span>（掻痒はヒスタミン遊離ではなく'
+        '中枢性で、抗ヒスタミン薬は効きにくい）</td></tr></table>'
+        '<span class="kw3">正答率62%と割れているのは、'
+        '「モルヒネ＝麻薬＝静注か経口」という思い込みで'
+        'c や e（普段よく使う鎮痛薬）へ流れるため</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">硬膜外に投与するのは局所麻酔薬＋オピオイド</span>の2種類。<br>'
+         '② <span class="kw">オピオイドは脊髄後角の受容体に直接作用する</span>'
+         'ので少量で効く。<br>'
+         '③ <span class="kw4">硬膜外モルヒネは投与6〜12時間後の'
+         '遅発性呼吸抑制</span>に注意（水溶性で髄液中を上行）。<br>'
+         '④ 副作用＝<span class="kw">悪心・嘔吐・掻痒感・尿閉</span>。<br>'
+         '⑤ <span class="kw4">NSAIDs・アセトアミノフェン・'
+         'ステロイドは全身投与する薬</span>——硬膜外には入れない。')),
+
+# ============================================================ NO.30
+Q('114E-2', 98, [('bs', '★'), ('bc', 'CBT'), ('bh', '必修')],
+  '<strong>局所麻酔下で患者に外科的処置を行う際の正しい方法はどれか。</strong>',
+  [('a', '麻酔薬の注射には18G 針を使用する。', False,
+    '<span class="kw4">18Gは太すぎる（輸血用の太さ）</span>。'
+    '<span class="kw3">局所麻酔の注射には25〜27Gの細い針を使い、'
+    '刺入時の痛みを減らす</span>。'),
+   ('b', '滅菌シーツの穴より狭い範囲で消毒する。', False,
+    '<span class="kw4">逆</span>。'
+    '<span class="kw3">消毒範囲はドレープの穴より広く取る</span>'
+    '——術野がずれたり穴の縁がめくれても清潔域が保たれるようにする。'),
+   ('c', 'ポビドンヨードを塗布後、直ちに処置を行う。', False,
+    '<span class="kw4">ポビドンヨードは乾燥する過程で遊離ヨウ素が放出されて'
+    '殺菌効果を発揮する</span>ので、'
+    '<span class="kw3">塗布後2分以上おいて乾かしてから処置する</span>。'),
+   ('d', '麻酔薬の注射後、疼痛の有無を確認してから処置を行う。', True,
+    '<span class="kw3">◯ 局所麻酔が効いているかを'
+    '<u>切開する前に</u>確認するのは基本中の基本</span>。'
+    '<span class="kw3">先の細い鑷子などで刺激し、'
+    '「触られている感じはあるが痛くない」ことを確かめてから切開する</span>。'),
+   ('e', '注射針を刺入し血液逆流があることを確認してから麻酔薬を注入する。', False,
+    '<span class="kw4">逆</span>。'
+    '<span class="kw3">吸引して<u>血液の逆流がないこと</u>を確認してから注入する</span>'
+    '——<span class="kw4">血管内に直接注入すれば局所麻酔薬中毒（痙攣・心停止）を起こす</span>。')],
+  '局所麻酔は「効いたことを確認してから切る」。血液逆流が無いことを確認して注入する。',
+  patho=('🩺 局所麻酔（浸潤麻酔）の手技——5つの約束', LOCAL_TABLE),
+  deep=('📌 なぜ「血液逆流がないこと」なのか——局所麻酔薬中毒',
+        '<span class="kw3">局所麻酔薬は神経のNa<sup>＋</sup>チャネルを'
+        'ブロックする薬なので、'
+        '血中濃度が上がれば<u>全身の興奮性組織</u>——'
+        '中枢神経と心筋——のNa<sup>＋</sup>チャネルも止めてしまう</span>。'
+        '<table class="tb"><tr><th>段階</th><th>症状</th></tr>'
+        '<tr><td><span class="kw3">初期（中枢神経の興奮）</span></td>'
+        '<td><span class="kw3">舌・口唇のしびれ、金属味、耳鳴、'
+        'multi talkative（多弁）、めまい、視覚異常</span></td></tr>'
+        '<tr><td>進行</td>'
+        '<td><span class="kw4">筋攣縮 → 全身痙攣</span></td></tr>'
+        '<tr><td>さらに進行（中枢神経の抑制）</td>'
+        '<td><span class="kw4">意識消失・呼吸停止</span></td></tr>'
+        '<tr><td><span class="kw4">最終（心血管系）</span></td>'
+        '<td><span class="kw4">徐脈・伝導障害・心室性不整脈・心停止</span>。'
+        '<span class="kw4">ブピバカインは心毒性が強く蘇生が困難</span></td></tr>'
+        '<tr><td><span class="kw3">治療</span></td>'
+        '<td><span class="kw3">投与中止・気道確保と酸素・痙攣にはベンゾジアゼピン・'
+        '<u>脂肪乳剤〈lipid rescue〉の静注</u></span></td></tr></table>'
+        '<span class="kw3">予防は3つ</span>——'
+        '<span class="kw3">① 極量を守る（リドカインはアドレナリン非添加で約5mg/kg、'
+        '添加で約7mg/kg）、'
+        '② 吸引して血管内でないことを確認、'
+        '③ 少量ずつ分割して注入し、患者と会話しながら初期症状を拾う</span>。'
+        '<span class="kw3">アドレナリンの添加は吸収を遅らせるので'
+        '中毒の予防にもなる</span>（ただし指趾・陰茎など終動脈領域は避ける）。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">局所麻酔薬は吸引して血液の逆流がないことを'
+         '確認してから注入</span>（<span class="kw4">「逆流を確認してから」は誤り</span>）。<br>'
+         '② <span class="kw">効果（無痛）を確認してから切開する</span>。<br>'
+         '③ <span class="kw">消毒範囲はドレープの穴より広く</span>、'
+         '<span class="kw">ポビドンヨードは乾燥を待つ（2分以上）</span>。<br>'
+         '④ 局所麻酔薬中毒＝<span class="kw">舌のしびれ・耳鳴・多弁 → 痙攣 → '
+         '心停止</span>、治療は<span class="kw">脂肪乳剤</span>。<br>'
+         '⑤ <span class="kw4">終動脈領域（指趾・陰茎）にアドレナリン添加は使わない</span>。')),
+
+# ============================================================ NO.31
+Q('114B-40', 98, [('bh', '必修')],
+  '75 歳の男性。S 状結腸癌のため全身麻酔で腹腔鏡下S 状結腸切除術を行うため手術台に移動した。'
+  '身長164cm、体重58kg。静脈路を確保後、酸素マスクで酸素化し、'
+  '急速導入で麻酔導入を行い気管挿管した。麻酔回路に接続し、酸素流量5L/ 分で呼吸バッグで手動換気した。'
+  '<span class="kw">上腹部聴診では空気の流入音はなく、右肺の呼吸音は聴取できたが、'
+  '左肺の呼吸音は確認できず、左胸郭の上がりは不良だった。胸部打診では左右差がなかった。'
+  '気管チューブの目盛りは門歯の位置で28cm。カプノグラフの波形は出現しており、'
+  'SpO<sub>2</sub> は89％を示していた。</span><br>'
+  '<strong>低酸素血症の原因として最も可能性が高いのはどれか。</strong>',
+  [('a', '気　胸', False,
+    '<span class="kw4">気胸なら胸部打診で患側が鼓音になる</span>が、'
+    '本例は「打診では左右差がなかった」と明記されている。'),
+   ('b', '片肺挿管', True,
+    '<span class="kw3">◯ 身長164cmの男性で門歯位置28cmは明らかに深い'
+    '（適切な深さは22〜24cm）</span>。'
+    '<span class="kw3">深すぎるチューブは右主気管支へ入り、'
+    '左肺が換気されない → 左の呼吸音消失・左胸郭の上がり不良・'
+    'シャントによるSpO<sub>2</sub>低下</span>。'
+    '<span class="kw3">カプノグラフの波形が出ている＝気管内にはある</span>ことも合致する。'),
+   ('c', '食道挿管', False,
+    '<span class="kw4">食道挿管なら上腹部で送気音が聴こえ、'
+    'カプノグラフの波形は出ない</span>。'
+    '症例文はこの2点をわざわざ否定している。'),
+   ('d', '気管支けいれん', False,
+    '<span class="kw4">気管支痙攣は両側性で wheezes を聴取し、'
+    '気道内圧が上昇する</span>。片側だけの呼吸音消失にはならない。'),
+   ('e', '気管チューブ閉塞', False,
+    '<span class="kw4">閉塞なら両肺とも換気されず、'
+    '気道内圧が著明に上昇してカプノグラフの波形も出ない</span>。')],
+  '門歯28cmは深すぎ。左呼吸音消失＋波形あり＝右主気管支への片肺挿管。',
+  patho=('🩺 数字で切る——「門歯位置28cm」がすべてを言っている',
+         '<span class="kw3">気管チューブの適切な深さは'
+         '成人男性で門歯位置22〜24cm、成人女性で20〜22cm</span>'
+         '（小児は「年齢/2＋12cm」）。'
+         '<span class="kw3">身長164cmの男性で28cmは4〜6cm深い</span>——'
+         '<span class="kw3">気管の長さは成人でおよそ12cmしかないので、'
+         '4cmのずれは分岐部を越えるのに十分</span>。'
+         + POSTINT_TABLE),
+  deep=('📌 症例文が鑑別を1つずつ潰している',
+        '<table class="tb"><tr><th>症例文の記述</th><th>消える鑑別</th></tr>'
+        '<tr><td><span class="kw3">「上腹部聴診では空気の流入音はなく」</span></td>'
+        '<td><span class="kw3">食道挿管</span></td></tr>'
+        '<tr><td><span class="kw3">「カプノグラフの波形は出現しており」</span></td>'
+        '<td><span class="kw3">食道挿管・チューブ閉塞・回路のはずれ・心停止</span></td></tr>'
+        '<tr><td><span class="kw3">「胸部打診では左右差がなかった」</span></td>'
+        '<td><span class="kw3">気胸（鼓音にならない）</span></td></tr>'
+        '<tr><td><span class="kw3">「右肺の呼吸音は聴取できたが左肺は確認できず」</span></td>'
+        '<td><span class="kw3">気管支痙攣・チューブ閉塞（どちらも両側性）</span></td></tr>'
+        '<tr><td><span class="kw3">「門歯の位置で28cm」</span></td>'
+        '<td><span class="kw3">残った片肺挿管を名指しする決め手</span></td></tr></table>'
+        '<span class="kw3">NO.22（120E-30）と本問は'
+        '「同じ片肺挿管を、対応を問うか原因を問うかで出し分けた同型の設問」</span>'
+        '——<span class="kw3">MECはこのように同じ症例テンプレートを'
+        '年度違いで繰り返し出すので、両方を並べて覚えるのが効率的</span>。'
+        '<span class="kw3">なお左肺が換気されないと'
+        '「換気されない肺にも血流は流れ続ける」ため'
+        '肺内シャントとなり、酸素を上げてもSpO<sub>2</sub>が上がりにくい</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">気管チューブの深さ＝成人男性22〜24cm・'
+         '女性20〜22cm・小児は年齢/2＋12cm</span>。<br>'
+         '② <span class="kw">片肺挿管は右主気管支へ</span>'
+         '（太く短く分岐角が浅い）→ <span class="kw">左の呼吸音消失</span>。<br>'
+         '③ <span class="kw">カプノグラフの波形が出ていれば気管内にある</span>'
+         '——食道挿管・閉塞・回路はずれが消える。<br>'
+         '④ <span class="kw4">気胸なら打診で鼓音</span>、'
+         '<span class="kw4">気管支痙攣・閉塞は両側性</span>。<br>'
+         '⑤ 換気されない肺への血流＝<span class="kw">肺内シャントなので'
+         '酸素投与では改善しにくい</span>。')),
+
+# ============================================================ NO.32
+Q('114C-41', 91, [],
+  '59 歳の女性。健康診断で便潜血反応陽性を指摘され来院した。'
+  '下部消化管内視鏡検査が施行され、上行結腸癌と診断された。'
+  'CT 等の画像検査で明らかな転移はなく、右半結腸切除を行うこととなった。'
+  '身長156cm、体重48kg。体温36.2℃。脈拍72/ 分、整。血圧108/60mmHg。呼吸数12/ 分。'
+  '眼瞼結膜と眼球結膜とに異常を認めない。心音と呼吸音とに異常を認めない。'
+  '腹部は平坦、軟で、肝・脾を触知しない。'
+  '血液所見：赤血球398 万、Hb 12.5g/dL、Ht 39％、白血球4,900、血小板14 万。'
+  '血液生化学所見：総蛋白6.6g/dL、アルブミン3.8g/dL、クレアチニン1.0mg/dL、'
+  'Na 141mEq/L、K 4.0mEq/L、Cl 101mEq/L。<br>'
+  '<strong>周術期管理で正しいのはどれか。</strong>',
+  [('a', '術前48 時間の絶食', False,
+    '<span class="kw4">固形物は6〜8時間空ければ足りる</span>。'
+    '48時間の絶食は<span class="kw4">脱水・低血糖・'
+    'インスリン抵抗性の亢進・筋蛋白の異化</span>を招くだけ。'),
+   ('b', '術前3 時間までの飲水', True,
+    '<span class="kw3">◯ 清澄水は麻酔導入の2時間前まで許される</span>ので、'
+    '<span class="kw3">3時間前までの飲水はその基準内に十分収まる</span>。'
+    'ERASではむしろ積極的に勧められる。'),
+   ('c', '術中大量輸液', False,
+    '<span class="kw4">過剰輸液は腸管浮腫を招いて'
+    '腸管蠕動の回復を遅らせ、縫合不全・創感染・肺水腫を増やす</span>。'
+    '<span class="kw3">必要最小限の輸液（goal-directed therapy）が現在の標準</span>。'),
+   ('d', '術後3 日間のベッド上安静', False,
+    '<span class="kw4">深部静脈血栓症・肺炎・筋力低下・腸管麻痺を作るだけ</span>。'
+    '<span class="kw3">当日〜翌日から離床する</span>。'),
+   ('e', '術後1 週間の絶食', False,
+    '<span class="kw4">結腸切除でも術後1〜2日目から経口摂取を始める</span>。'
+    '早期経口摂取は縫合不全を増やさず、腸管機能の回復を早める。')],
+  '清澄水は2時間前まで＝3時間前の飲水は可。長い絶食・安静・大量輸液はすべて誤り。',
+  patho=('🩺 ERASを「時間の長さ」だけで解く', ERAS_TABLE + FASTING_TABLE),
+  deep=('📌 なぜ「大量輸液」が悪いのか——腸管浮腫という代償',
+        '<span class="kw3">かつては「third space（サードスペース）に'
+        '大量の水分が失われる」と考えられ、'
+        '大腸手術で1日10L規模の輸液が行われていた</span>。'
+        'しかし<span class="kw3">この third space という概念自体が'
+        '現在は否定され、過剰輸液の害だけが残った</span>。'
+        '<table class="tb"><tr><th>過剰輸液で起きること</th><th>結果</th></tr>'
+        '<tr><td><span class="kw4">腸管壁の浮腫</span></td>'
+        '<td><span class="kw4">腸管蠕動の回復遅延（術後イレウス）、'
+        '吻合部の浮腫 → 縫合不全</span></td></tr>'
+        '<tr><td><span class="kw4">皮下・創部の浮腫</span></td>'
+        '<td><span class="kw4">創感染・創離開</span></td></tr>'
+        '<tr><td><span class="kw4">肺の間質浮腫</span></td>'
+        '<td><span class="kw4">酸素化の悪化・肺水腫</span></td></tr>'
+        '<tr><td>体重増加</td>'
+        '<td>術後の体重増加が大きいほど合併症が多い</td></tr></table>'
+        '<span class="kw3">現在は「輸液も薬と同じで、'
+        '足りなくても多すぎても害になる」</span>という理解に立ち、'
+        '<span class="kw3">1回拍出量変化などの指標を見ながら'
+        '必要量だけを投与する〈goal-directed fluid therapy〉</span>。'
+        '<span class="kw3">つまりERASの5肢は'
+        '「絶食も、安静も、輸液も、<u>やりすぎが害</u>」という'
+        '同じ思想で貫かれている</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">清澄水は2時間前まで</span>——'
+         '「3時間前までの飲水」は当然可。<br>'
+         '② <span class="kw4">術前48時間絶食・術後1週間絶食・'
+         '術後3日安静・術中大量輸液はすべて誤り</span>。<br>'
+         '③ <span class="kw">過剰輸液は腸管浮腫 → 術後イレウス・'
+         '縫合不全・創感染</span>を招く。<br>'
+         '④ <span class="kw">術後の経口摂取は1〜2日目から、'
+         '離床は当日〜翌日から</span>。<br>'
+         '⑤ ERASの発想＝<span class="kw">絶食・安静・輸液のいずれも'
+         '「やりすぎ」が害</span>。')),
+
+# ============================================================ NO.33
+Q('107E-54', 52, [],
+  '50 歳の男性。胃癌に対する開腹手術のためプロポフォール、セボフルラン及び'
+  'ロクロニウムで全身麻酔中である。'
+  '<span class="kw">皮膚切開を契機として、血圧が上がり脈拍数が増加した。</span>'
+  '膀胱温36.5℃。SpO<sub>2</sub> 99％。<br>'
+  '<strong>追加すべきなのはどれか。</strong>',
+  [('a', 'フェンタニル', True,
+    '<span class="kw3">◯ 使用薬はプロポフォール（鎮静）＋セボフルラン（鎮静）＋'
+    'ロクロニウム（筋弛緩）で、<u>鎮痛薬が1つも入っていない</u></span>。'
+    '<span class="kw3">皮膚切開という侵襲を契機に血圧と脈拍が上がったのは'
+    '鎮痛が足りないサイン</span>なので、'
+    '<span class="kw3">オピオイド（フェンタニル）を追加する</span>のが正解。'),
+   ('b', 'ダントロレン', False,
+    '<span class="kw4">悪性高熱症の治療薬</span>。'
+    '<span class="kw4">膀胱温36.5℃と正常で、'
+    'ETCO<sub>2</sub>上昇・筋強直の記載もない</span>。'),
+   ('c', 'ニトログリセリン', False,
+    '<span class="kw4">血管拡張薬で血圧だけを下げる対症療法</span>。'
+    '<span class="kw4">痛みという原因を放置したまま数字を隠すことになり、'
+    '術中覚醒のリスクも残る</span>。'),
+   ('d', 'スキサメトニウム', False,
+    '<span class="kw4">筋弛緩薬。すでにロクロニウムが入っており、'
+    '筋弛緩を足しても血圧・脈拍は変わらない</span>。'),
+   ('e', 'プロプラノロール', False,
+    '<span class="kw4">β遮断薬で脈拍を下げる対症療法</span>。'
+    'c と同じく原因を隠すだけで、'
+    '<span class="kw4">心抑制のリスクも加わる</span>。')],
+  '侵襲を契機に血圧・脈拍が上昇＝鎮痛不足。オピオイドを追加する。',
+  patho=('🩺 バイタルは「足りない麻酔要素」を教えてくれる', VITAL_TABLE +
+         '<span class="kw3">この症例は使用薬の並びそのものがヒント</span>——'
+         '<span class="kw3">プロポフォール（鎮静）・セボフルラン（鎮静）・'
+         'ロクロニウム（筋弛緩）とあって、'
+         '<u>鎮痛の列が空欄</u></span>。'
+         '<span class="kw3">麻酔の4要素のうち欠けているものが'
+         '症状として現れた、という構造の設問</span>。'),
+  deep=('📌 NO.15 と本問——同じ「バイタルの変動」で答えが正反対',
+        '<table class="tb"><tr><th></th>'
+        '<th>NO.15（109E-54）</th><th>本問（107E-54）</th></tr>'
+        '<tr><td>場面</td>'
+        '<td><span class="kw3">手術開始<u>前</u>・皮膚の消毒中'
+        '（侵襲なし）</span></td>'
+        '<td><span class="kw3">皮膚切開を契機（侵襲あり）</span></td></tr>'
+        '<tr><td>変化</td>'
+        '<td><span class="kw3">血圧↓・心拍数↓</span></td>'
+        '<td><span class="kw3">血圧↑・脈拍数↑</span></td></tr>'
+        '<tr><td>解釈</td>'
+        '<td><span class="kw3">麻酔が効きすぎている</span></td>'
+        '<td><span class="kw3">鎮痛が足りていない</span></td></tr>'
+        '<tr><td><span class="kw3">対応</span></td>'
+        '<td><span class="kw3">セボフルランの吸入濃度を下げる</span></td>'
+        '<td><span class="kw3">フェンタニルを追加する</span></td></tr></table>'
+        '<span class="kw3">この2問は国試番号まで似ている（109E-54 と 107E-54）が、'
+        '問われているのは「向き」を読む力ただ1つ</span>。'
+        '<span class="kw4">正答率52%と割れているのは、'
+        '「血圧が高い → 降圧薬」「脈が速い → β遮断薬」という'
+        '内科的な条件反射で c・e を選んでしまうため</span>——'
+        '<span class="kw3">麻酔では"数字を治す"のではなく'
+        '"数字を動かしている原因（＝足りない要素）を補う"</span>。'
+        '<span class="kw4">鎮痛不足を放置したまま筋弛緩薬だけが効いていると、'
+        '術中覚醒（動けないまま痛みを感じる）につながる</span>のも'
+        'この問題の裏の論点。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">侵襲を契機に血圧↑脈拍↑ ＝ 鎮痛不足 → '
+         'オピオイド（フェンタニル）を追加</span>。<br>'
+         '② <span class="kw">侵襲がないのに血圧↓心拍↓ ＝ 麻酔が深い → '
+         '吸入麻酔薬を減量</span>（NO.15）。<br>'
+         '③ <span class="kw4">降圧薬・β遮断薬で数字だけを下げるのは'
+         '原因を隠す対症療法</span>。<br>'
+         '④ 使用薬の並びを見て<span class="kw">「4要素のうちどれが欠けているか」</span>'
+         'を探す。<br>'
+         '⑤ <span class="kw4">鎮痛・鎮静が浅いまま筋弛緩薬だけ効いている状態＝'
+         '術中覚醒</span>のリスク。')),
+
+# ============================================================ NO.34
+Q('106E-25', 81, [],
+  '<strong>皮膚の小切開時の局所麻酔について誤っているのはどれか。</strong>',
+  [('a', '浸潤麻酔である。', False,
+    '<span class="kw3">正しい</span>。'
+    '<span class="kw3">切開部の皮内・皮下へ局所麻酔薬を直接注射して'
+    '組織に浸潤させる＝浸潤麻酔</span>。'),
+   ('b', 'リドカインには極量が定められている。', False,
+    '<span class="kw3">正しい</span>。'
+    '<span class="kw3">アドレナリン非添加で約5mg/kg、'
+    '添加で約7mg/kg</span>が目安。'
+    '超えると局所麻酔薬中毒を起こす。'),
+   ('c', '感染部位では麻酔薬の効果が増強する。', True,
+    '<span class="kw3">◯ これが誤り</span>。'
+    '<span class="kw4">炎症・感染部位は組織が酸性に傾いているため、'
+    '弱塩基である局所麻酔薬の<u>非イオン型</u>が減り、'
+    '神経膜を通過できなくなって効きが悪くなる</span>。'
+    '加えて<span class="kw4">血流増加による吸収の亢進</span>と'
+    '<span class="kw4">感染を健常組織へ広げるおそれ</span>もある。'),
+   ('d', '血液の逆流が見られたら麻酔薬の注入を中止する。', False,
+    '<span class="kw3">正しい</span>。'
+    '<span class="kw4">血管内注入は局所麻酔薬中毒（痙攣・心停止）に直結する</span>ので、'
+    '針を引き戻して位置を変える。'),
+   ('e', 'アドレナリンの添加によって麻酔薬の作用時間が延長する。', False,
+    '<span class="kw3">正しい</span>。'
+    '<span class="kw3">血管収縮によって局所麻酔薬の吸収が遅れ、'
+    '作用時間が延び、出血が減り、中毒も起きにくくなる</span>。'
+    '<span class="kw4">ただし指趾・陰茎など終動脈領域では壊死のおそれ</span>。')],
+  '感染部位は酸性で局所麻酔薬が効きにくい。「効果が増強する」は誤り。',
+  patho=('🩺 局所麻酔薬が効く仕組み——「非イオン型で入り、イオン型で効く」',
+         '局所麻酔薬は<span class="kw3">弱塩基</span>で、'
+         '溶液中では<span class="kw3">脂溶性の非イオン型（B）と'
+         '水溶性のイオン型（BH<sup>＋</sup>）が pH に応じて平衡</span>にある。'
+         '<table class="tb"><tr><th>段階</th><th>必要な形</th></tr>'
+         '<tr><td><span class="kw3">① 神経細胞膜を通過する</span></td>'
+         '<td><span class="kw3">脂溶性の<u>非イオン型</u></span></td></tr>'
+         '<tr><td><span class="kw3">② 細胞内側からNa<sup>＋</sup>チャネルに結合する</span></td>'
+         '<td><span class="kw3">水溶性の<u>イオン型</u></span></td></tr></table>'
+         '<span class="kw3">つまり「膜を通るには非イオン型が要る」</span>——'
+         'ここが感染部位で効かない理由になる。'
+         '<table class="tb"><tr><th>組織のpH</th><th>非イオン型の割合</th>'
+         '<th>効き</th></tr>'
+         '<tr><td>正常（pH 7.4）</td><td>十分にある</td>'
+         '<td><span class="kw3">効く</span></td></tr>'
+         '<tr><td><span class="kw4">炎症・感染（酸性に傾く）</span></td>'
+         '<td><span class="kw4">イオン型に偏り、非イオン型が減る</span></td>'
+         '<td><span class="kw4">膜を通れず効きが悪い</span></td></tr></table>'
+         '<span class="kw3">この理屈は「膿瘍を切開排膿するときに'
+         '局所麻酔が効きにくい」という日常の経験と一致する</span>。'
+         + LOCAL_TABLE),
+  deep=('📌 局所麻酔薬の性質を「3つの物性」で整理する',
+        '<table class="tb"><tr><th>物性</th><th>決めるもの</th><th>例</th></tr>'
+        '<tr><td><span class="kw3">pKa</span></td>'
+        '<td><span class="kw3">効果発現の速さ</span>'
+        '（pKaが低いほど非イオン型が多く、速く効く）</td>'
+        '<td><span class="kw3">リドカイン（pKa 7.9）は速い</span>／'
+        'ブピバカインは遅い</td></tr>'
+        '<tr><td><span class="kw3">脂溶性</span></td>'
+        '<td><span class="kw3">効力の強さ</span></td>'
+        '<td>ブピバカイン・ロピバカインは強い</td></tr>'
+        '<tr><td><span class="kw3">蛋白結合率</span></td>'
+        '<td><span class="kw3">作用時間の長さ</span></td>'
+        '<td>ブピバカインは長時間</td></tr></table>'
+        '<table class="tb"><tr><th>系統</th><th>薬</th><th>代謝</th>'
+        '<th>アレルギー</th></tr>'
+        '<tr><td><span class="kw3">アミド型</span></td>'
+        '<td><span class="kw3">リドカイン・ブピバカイン・ロピバカイン・'
+        'レボブピバカイン・メピバカイン</span></td>'
+        '<td><span class="kw3">肝で代謝</span></td>'
+        '<td>まれ</td></tr>'
+        '<tr><td>エステル型</td>'
+        '<td>プロカイン・テトラカイン・コカイン</td>'
+        '<td>血漿コリンエステラーゼ</td>'
+        '<td><span class="kw4">代謝産物のPABAによる'
+        'アレルギーが多い</span></td></tr></table>'
+        '<span class="kw3">区別は「名前に i が2つあればアミド型」'
+        '（l<u>i</u>doca<u>i</u>ne, bup<u>i</u>vaca<u>i</u>ne）</span>という'
+        '古典的な覚え方が使える。'
+        '<span class="kw4">ブピバカインは心毒性が強く、'
+        '誤って血管内に入ると蘇生が難しい</span>ので'
+        '<span class="kw3">より安全なロピバカイン・レボブピバカインが'
+        '硬膜外鎮痛の主流になった</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw4">感染・炎症部位では局所麻酔薬が効きにくい</span>'
+         '（酸性で非イオン型が減る）——「効果が増強」は誤り。<br>'
+         '② <span class="kw">アドレナリン添加＝作用時間延長・出血減少・中毒予防</span>、'
+         '<span class="kw4">終動脈領域（指趾・陰茎）には使わない</span>。<br>'
+         '③ <span class="kw">リドカインの極量は約5mg/kg'
+         '（アドレナリン添加で約7mg/kg）</span>。<br>'
+         '④ <span class="kw">血液の逆流があれば注入を中止</span>'
+         '（局所麻酔薬中毒の予防）。<br>'
+         '⑤ <span class="kw">アミド型は肝代謝、エステル型はアレルギーが多い</span>。')),
+
+# ============================================================ NO.35
+Q('104E-54', 14, [],
+  '44 歳の女性。月経過多を主訴に来院した。身長156cm、体重48kg。'
+  '手拳大の子宮筋腫と診断され、開腹による単純子宮摘出術を受けることになった。'
+  '<span class="kw">脊髄くも膜下麻酔〈脊椎麻酔〉施行後20 分に患者が'
+  '「息ができない」と訴えた。</span><br>'
+  '<strong>原因として考えられるのはどれか。</strong>',
+  [('a', '低血圧', False,
+    '<span class="kw4">血圧低下は脊麻の最頻合併症だが、'
+    '症状は悪心・冷汗・意識レベルの低下であって'
+    '「息ができない」という訴えにはならない</span>。'),
+   ('b', '低酸素血症', False,
+    '<span class="kw4">「原因」を問われている</span>のに対し、'
+    '低酸素血症は結果として起こりうる状態。'
+    '<span class="kw4">肋間筋が麻痺しても横隔膜が動いていれば'
+    '酸素化はしばらく保たれる</span>。'),
+   ('c', '肋間神経麻痺', True,
+    '<span class="kw3">◯ 麻酔レベルが胸髄まで上がると'
+    '肋間神経（T1〜T12）が遮断され、'
+    '胸郭を広げる肋間筋と腹筋が麻痺する</span>。'
+    '<span class="kw3">横隔膜（C3〜C5）は無事なので換気そのものは保たれるが、'
+    '患者は「胸が動かない・深く吸えない・咳ができない」という感覚を'
+    '<u>呼吸困難</u>として訴える</span>。'
+    '<span class="kw3">対応は酸素投与と声かけによる安心の提供、'
+    'そしてこれ以上レベルが上がらないかの厳重な監視</span>。'),
+   ('d', '横隔神経麻痺', False,
+    '<span class="kw4">横隔神経はC3〜C5から出る</span>。'
+    '<span class="kw4">腰部から入れた脊麻がここまで上がることは通常なく'
+    '（全脊髄くも膜下麻酔という重篤な合併症でのみ起こる）、'
+    'その場合は自発呼吸が停止して意識も消失する</span>。'
+    '「息ができないと<u>訴えた</u>」＝話せている時点で否定的。'),
+   ('e', '局所麻酔薬中毒', False,
+    '<span class="kw4">脊髄くも膜下麻酔の薬液量は2〜3mLと極めて少なく、'
+    '中毒はまず起こらない</span>（中毒が問題になるのは'
+    '薬液量の多い硬膜外麻酔や神経ブロック）。'
+    '中毒の初発症状は<span class="kw4">舌のしびれ・耳鳴・多弁</span>で、'
+    '呼吸困難ではない。')],
+  '脊麻後の「息ができない」は肋間神経麻痺。横隔神経（C3〜C5）は届かないので無事。',
+  patho=('🩺 呼吸筋の神経支配——「どこまで上がったか」で症状が決まる',
+         '<table class="tb"><tr><th>筋</th><th>神経</th><th>髄節</th>'
+         '<th>麻痺すると</th></tr>'
+         '<tr><td><span class="kw3">横隔膜</span></td>'
+         '<td><span class="kw3">横隔神経</span></td>'
+         '<td><span class="kw3">C3〜C5</span></td>'
+         '<td><span class="kw4">自発呼吸が止まる（換気が破綻する）</span></td></tr>'
+         '<tr><td><span class="kw3">肋間筋</span></td>'
+         '<td><span class="kw3">肋間神経</span></td>'
+         '<td><span class="kw3">T1〜T12</span></td>'
+         '<td><span class="kw3">胸郭が広がらない。'
+         '<u>安静時の換気は横隔膜だけでまかなえるので'
+         'SpO<sub>2</sub>は保たれるが、'
+         '「息が入らない」という自覚と、咳ができない・'
+         '深呼吸ができないという機能低下が生じる</u></span></td></tr>'
+         '<tr><td>腹筋</td><td>肋間神経・腰神経</td><td>T7〜L1</td>'
+         '<td>努力呼気と咳嗽ができない</td></tr></table>'
+         '<span class="kw3">脊髄くも膜下麻酔は「下から上へ」効いてくる</span>ので、'
+         '<span class="kw3">レベルが上がるにつれて'
+         '① 下肢の運動麻痺 → ② 腹筋の麻痺 → '
+         '③ 肋間筋の麻痺（＝呼吸困難感）→ '
+         '④ 心臓交感神経の遮断（T1〜T4・徐脈）→ '
+         '⑤ 横隔神経の麻痺（呼吸停止＝全脊髄くも膜下麻酔）</span>と進む。'
+         '<span class="kw3">「息ができない」という訴えは'
+         '③ の段階で、④⑤へ進ませないための警告</span>。'),
+  deep=('📌 なぜ正答率14%まで下がるのか——3つの落とし穴',
+        '<span class="kw3">本問は麻酔科分野で最も正答率が低い（14%）</span>。'
+        '<table class="tb"><tr><th>落とし穴</th><th>中身</th></tr>'
+        '<tr><td><span class="kw4">① 「呼吸困難＝横隔膜」と直結してしまう</span></td>'
+        '<td><span class="kw3">横隔神経はC3〜C5</span>——'
+        '<span class="kw3">腰から入れた薬がそこまで上がれば'
+        '<u>話すこともできない</u></span>。'
+        '<span class="kw3">「訴えた」という一語がdを消している</span></td></tr>'
+        '<tr><td><span class="kw4">② 「最も高頻度の合併症は血圧低下」を'
+        '思い出して a を選ぶ</span></td>'
+        '<td><span class="kw3">頻度を問う設問（NO.28）と'
+        '症状の原因を問う本問を混同している</span></td></tr>'
+        '<tr><td><span class="kw4">③ 「息ができない＝低酸素」と考えて b を選ぶ</span></td>'
+        '<td><span class="kw3">肋間筋が麻痺しても横隔膜が動いていれば'
+        'SpO<sub>2</sub>は下がらない</span>——'
+        '<span class="kw3">呼吸困難<u>感</u>と低酸素血症は別物</span></td></tr></table>'
+        '<span class="kw3">脊麻中に「息ができない」と言われたときの実際の対応</span>は、'
+        '<span class="kw3">① 会話ができるか（できれば横隔膜は動いている）、'
+        '② 握力・上肢の感覚（C6〜T1まで上がっていないか）、'
+        '③ SpO<sub>2</sub>と血圧・脈拍、を素早く確認したうえで、'
+        '酸素を投与し、「胸の筋肉の感覚が鈍っているだけで'
+        '呼吸はできています」と説明して落ち着かせる</span>こと。'
+        '<span class="kw3">同時に、これ以上レベルが上がらないよう'
+        '頭低位にしない・体位を安易に変えない</span>。'),
+  point=('🎯 国試ポイント',
+         '① <span class="kw">脊麻後の「息ができない」＝肋間神経麻痺'
+         '（T1〜T12）</span>。'
+         '<span class="kw">横隔膜はC3〜C5なので無事＝換気は保たれる</span>。<br>'
+         '② <span class="kw4">横隔神経麻痺（全脊髄くも膜下麻酔）まで至れば'
+         '呼吸停止・意識消失</span>——訴えることすらできない。<br>'
+         '③ <span class="kw">呼吸困難「感」と低酸素血症は別物</span>。<br>'
+         '④ 対応＝<span class="kw">酸素投与・声かけ・'
+         'レベルの監視（会話・握力・上肢感覚）</span>、'
+         '呼吸停止に至れば<span class="kw">気道確保と人工呼吸</span>。<br>'
+         '⑤ <span class="kw">"C3,4,5 keep the diaphragm alive"</span>を'
+         '呼吸筋の神経支配の合言葉にする。')),
+
+]
+
+
+SECTIONS = [
+    ('s1', '★問題', '', 0),
+    ('s2', '無印問題', '', 30),
+]
+
+
+def _ans_label(q):
+    if q['ans_label']:
+        return q['ans_label']
+    oks = [(l, t) for (l, t, ok, w) in q['choices'] if ok]
+    if len(oks) == 1:
+        return f'{FW[oks[0][0]]}　{oks[0][1]}'
+    return '・'.join(FW[l] for l, _ in oks)
+
+
+def _choice_table(q):
+    rows = ['<table class="tb"><tr><th>選択肢</th><th>解説</th></tr>']
+    for letter, text, ok, why in q['choices']:
+        cell = f'{FW[letter]}　{text}'
+        if ok:
+            rows.append(f'<tr><td><span class="kw3">◯ {cell}</span></td><td>{why}</td></tr>')
+        else:
+            rows.append(f'<tr><td>{cell}</td><td>{why}</td></tr>')
+    rows.append('</table>')
+    return ''.join(rows)
+
+
+def render_card(n, q):
+    qh = [f'<div class="qh"><span class="qn">Q.{n}</span><span class="qe">({q["id"]})</span>']
+    for cls, t in q['badges']:
+        qh.append(f'<span class="bg {cls}">{t}</span>')
+    if q['rate'] is not None:
+        qh.append(f'<span class="cr {rcls(q["rate"])}">{q["rate"]}%</span>')
+    qh.append('</div>')
+
+    body = [f'<div class="qb"><div class="qt">{q["qt"]}</div>']
+    if q['imgs']:
+        body.append('<div class="qimg-row">' +
+                    ''.join(f'<img src="{s}" alt="">' for s in q['imgs']) + '</div>')
+    body.append('<div class="cs">')
+    for letter, text, ok, _w in q['choices']:
+        cl = 'ch2 ok' if ok else 'ch2'
+        body.append(f'<div class="{cl}">{FW[letter]}　{text}</div>')
+    body.append('</div>')
+
+    body.append(f'<div class="ab"><span class="ai">✅</span><div>'
+                f'<div class="ac">{_ans_label(q)}</div><div class="as">{q["ans_sub"]}</div></div></div>')
+
+    body.append('<div class="eg">')
+    if q['patho']:
+        body.append(f'<div class="eb ep"><h4>{q["patho"][0]}</h4>{q["patho"][1]}</div>')
+    body.append(f'<div class="eb ee"><h4>□ 選択肢の検討</h4>{_choice_table(q)}</div>')
+    if q['deep']:
+        body.append(f'<div class="eb em"><h4>{q["deep"][0]}</h4>{q["deep"][1]}</div>')
+    if q['point']:
+        body.append(f'<div class="eb ept"><h4>{q["point"][0]}</h4>{q["point"][1]}</div>')
+    body.append('</div></div>')
+
+    return f'<div class="qc" id="q{n}">' + ''.join(qh) + ''.join(body) + '</div>'
+
+
+def emit():
+    src = SRC_HEAD.read_text(encoding='utf-8')
+    head = src[:src.index('<body>')]
+    head = head.replace('MEC精神科 第1章 精神科の基本 解答解説',
+                        'MEC麻酔科 第1章 周術期の麻酔 解答解説')
+    head = (head.replace('--or:#C2185B', '--or:#7C3AED')
+                .replace('--orl:#FCE4EC', '--orl:#EDE9FE')
+                .replace('--ord:#880E4F', '--ord:#4C1D95'))
+
+    n_star = sum(1 for q in QUESTIONS if any(c == 'bs' for c, _ in q['badges']))
+    n_img = sum(1 for q in QUESTIONS if q['imgs'])
+    parts = [head, '\n<body>\n<div id="pb"></div>']
+    parts.append(
+        '<div class="ph"><div class="hb">MECマイナー講座 \'26 | 麻酔科</div>'
+        '<h1>第<span>1</span>章｜周術期の麻酔</h1>'
+        f'<div class="hs">解答・解説集 全{len(QUESTIONS)}問収録</div>'
+        f'<div class="hst"><div class="sp"><strong>{len(QUESTIONS)}</strong>問</div>'
+        f'<div class="sp"><strong>★問題</strong> {n_star}問</div>'
+        f'<div class="sp"><strong>📷画像</strong> {n_img}問</div></div></div>')
+
+    nav = ['<div class="sn">']
+    for anc, title, _sub, _i in SECTIONS:
+        nav.append(f'<button class="nb" onclick="goto(\'{anc}\')">{title}</button>')
+    nav.append('</div>')
+    parts.append(''.join(nav))
+
+    parts.append('<div class="ct">')
+    _bounds = sorted(i for _a, _t, _s, i in SECTIONS) + [len(QUESTIONS)]
+    _end = {b: _bounds[k + 1] - 1 for k, b in enumerate(_bounds[:-1])}
+    sec_by_idx = {i: (anc, title) for anc, title, _sub, i in SECTIONS}
+    for idx, q in enumerate(QUESTIONS):
+        if idx in sec_by_idx:
+            anc, title = sec_by_idx[idx]
+            _lo, _hi = Q_START + idx, Q_START + _end[idx]
+            sub = f'Q.{_lo}' if _lo == _hi else f'Q.{_lo}〜Q.{_hi}'
+            parts.append(f'<div id="{anc}"><div class="sh"><div class="snum">§</div>'
+                         f'<h2>{title}</h2><div class="sc">{sub}</div></div></div>')
+        parts.append(render_card(Q_START + idx, q))
+    parts.append('</div>')
+
+    parts.append("""
+<script>
+var pb=document.getElementById('pb');
+window.addEventListener('scroll',function(){var h=document.documentElement;var sc=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;pb.style.width=sc+'%';});
+function goto(id){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+</script>
+</body>
+</html>""")
+    OUT.write_text(''.join(parts), encoding='utf-8')
+    print(f'-> {OUT.name}  {len(QUESTIONS)}q (star {n_star}, img {n_img})  {OUT.stat().st_size//1024}KB')
+
+
+if __name__ == '__main__':
+    emit()

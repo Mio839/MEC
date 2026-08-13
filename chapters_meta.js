@@ -1079,6 +1079,20 @@ const MEC_CHAPTERS = [
         "count": 8
       }
     ]
+  },
+  {
+    "id": "anes",
+    "name": "麻酔科",
+    "icon": "💉",
+    "color": "#7C3AED",
+    "chapters": [
+      {
+        "prefix": "anes_ch01",
+        "file": "麻酔科/ch01_shujutsuki.html",
+        "title": "第1章 周術期の麻酔",
+        "count": 35
+      }
+    ]
   }
 ];
 const MEC_CHAPTER_META = {
