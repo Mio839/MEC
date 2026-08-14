@@ -382,7 +382,7 @@ xp: { banked: number, ledger: { 'd:2026-07-29': { ans:40, exam:40, __all__:150 }
 
 ### ボタンと計器ベイの演出（2026-08-14〜・E1〜E10）
 
-テスト: `node _work/test_hero_cta.js`（32件）。
+テスト: `node _work/test_hero_cta.js`（43件）。
 
 - **粒子の色は「席」ではなく「中身」で決める**。`renderHero` が各ボタンへ `data-fx`
   （`srs`＝青 / `browse`＝緑 / `redo`＝赤）を入れ、`_ctaColors()` がそれを引く。
@@ -408,6 +408,35 @@ xp: { banked: number, ledger: { 'd:2026-07-29': { ans:40, exam:40, __all__:150 }
 - 「今日解いた問題」の数字は `data-goal`（1＝100%以上 / 2＝150%以上）で金になる。
   段の出どころは `MecGamify.dailyGoal()` の pct ＝**ゲージと同じ正本**で、
   ゲージ（機械の動き）と読み値の色で同じ事実を2通りに出している。
+
+#### 常時の演出（F1〜F5・2026-08-14）
+
+E1〜E10 は「押した時」しか動かず、開いた瞬間の見た目はほぼ静止画だったので足した。
+
+- ⚠️ **1要素で使える層は3つしかない**（本体の `animation` / `::before` / `::after`）。
+  分担は固定で、**同じ層に2つ置くと後勝ちで片方が黙って死ぬ**:
+
+  | 層 | 用途 |
+  |---|---|
+  | 本体 | E3 の入場（`--i` スタッガー・`.hero.settled` で止まる） |
+  | `::before` | F2 呼吸するリング（誤答は `data-load` で速くなる） |
+  | `::after` | F1 光沢。**ただし `is-off` の席では E5 の ✓ が使う** |
+
+- ⚠️ **光沢は `.cta-sub:not(.is-off)::after` に限定すること**。無条件に当てると
+  片付いた席の ✓ が `position:absolute` を食らって字が飛ぶ。
+- ⚠️ **ボタン用の CSS 変数は `--cta-` 接頭辞を必須にする**。最初 `--cta-cb` を `--cb` と
+  書いたところ、`vars.css` の共通トークン（カード背景色 `rgba(...)`）を**継承で拾い**、
+  `animation:ctaBreath var(--cb,3.4s) …` が色を duration に食って**主・副ボタンの呼吸が
+  黙って死んだ**（誤答ボタンだけは自前で `--cb` を上書きしていたので動き、
+  「1つだけ動く」という気づきにくい壊れ方になった）。**`var()` を含むショートハンドは、
+  置換結果が不正だとプロパティごと `unset` になる**。`test_hero_cta.js` が
+  `vars.css` のトークン名と突き合わせて再発を止める。
+- **文言を入れる口は `_setCtaLabel()` の1つだけ**（先頭の絵文字を `.cta-ic` に包んで跳ねさせる）。
+  `textContent` へ直接入れると**その席だけ絵文字が動かなくなる**。テストが全席を検査する。
+- **F4 の常時粒子（`_startCtaAmbient`）は段が変わらない限りタイマーを張り替えない**。
+  `renderHero` は同期完了で何度も走るので、毎回 `setInterval` すると多重に撒かれる
+  （ゲージの `_startGaugeAmbient` と同じ約束）。
+- **片付いた席（`is-off`）は光沢も呼吸も絵文字も止める**。動くと「まだ何かある」に読める。
 
 ### 見出し行の日付（2026-08-13〜）
 
@@ -675,7 +704,7 @@ node _work/test_card_render.js     カード描画（画像実寸・採点ボタ
 node _work/test_calc_input.js      計算問題の桁入力・データ整合      (29)
 node _work/test_missions.js        日次/週次ミッション          (36)
 node _work/test_daily_goal.js      ハブのゲージ・歯車の意匠      (36)
-node _work/test_hero_cta.js        ハブのボタン・計器ベイの演出  (32)
+node _work/test_hero_cta.js        ハブのボタン・計器ベイの演出  (43)
 node _work/test_fx_band.js         試験演出の可視帯(発火位置)    (15)
 node _work/test_fx_additions.js    新エミッタ・tier7・難問/速答  (25)
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合

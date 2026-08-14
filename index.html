@@ -539,15 +539,63 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
 @keyframes ctaIn{from{opacity:0;transform:translateY(10px) scale(.97);}}
 .hero.settled .hero-cta a{animation:none;}
 
-/* E4: 在庫の重さ。誤答が溜まっている日ほど縁が強く速く脈打つ＝件数を色でも読ませる。
-   ⚠️ 本体ではなく ::before に載せる（本体は E3 の入場が使っている） */
-.cta-redo[data-load]::before{content:'';position:absolute;inset:0;border-radius:inherit;
-  pointer-events:none;border:1px solid rgba(255,107,107,.95);opacity:0;
-  animation:redoPulse var(--rp,3.2s) var(--ease-in-out) 1.5s infinite;}
-.cta-redo[data-load="2"]{--rp:2.4s;}
-.cta-redo[data-load="3"]{--rp:1.7s;}
-@keyframes redoPulse{0%,100%{opacity:0;}50%{opacity:.85;}}
-.cta-redo[data-load="3"]{box-shadow:0 0 0 0 rgba(255,107,107,.35);}
+/* ══════════ F: ボタンを止まっていても生かす（2026-08-14）══════════
+   E1〜E10 は「押した時」の演出しか無く、指を触れていない間に動くのは主ボタンの光沢だけ
+   だった＝ハブを開いた瞬間の見た目はほぼ静止画。1日に何度も開く場所なので、盤面（ゲージの
+   歯車）と同じくらい目に入る密度まで上げる。
+   ⚠️ 1要素で使える層は「本体の animation・::before・::after」の3つしかない。分担は固定:
+        本体   … E3 の入場（.hero.settled で止まる）
+        ::before … F2 呼吸するリング（誤答は件数の段で速くなる＝旧 E4 をここへ統合）
+        ::after  … F1 光沢。ただし is-off の席では E5 の ✓ が ::after を使うので、
+                   光沢は :not(.is-off) に限定して衝突を避ける。
+   ⚠️ 片付いた席（is-off）は一切動かさない。動くと「まだ何かある」に読める。 */
+
+/* F2: 呼吸するリング。色は data-fx＝ボタンの中身（🔔復習=青/📚全科目=緑/🔁誤答=赤）。
+   誤答だけは在庫の段（data-load）で速くなる＝件数を速さでも読ませる（旧 E4 を統合） */
+.cta-sub[data-fx="srs"]{--cta-glow:96,165,250;}
+.cta-sub[data-fx="browse"]{--cta-glow:61,214,140;}
+.cta-sub[data-fx="redo"]{--cta-glow:255,107,107;}
+.cta-main::before,.cta-sub:not(.is-off)::before{content:'';position:absolute;inset:0;
+  border-radius:inherit;pointer-events:none;
+  border:1px solid rgba(var(--cta-glow,255,255,255),.95);opacity:0;
+  animation:ctaBreath var(--cta-cb,3.4s) var(--ease-in-out) 1.2s infinite;}
+/* 主ボタンは地がアクセント色なので、性格色の細線を内側に出すと浮く。白で呼吸させる */
+.cta-main::before{border-color:rgba(255,255,255,.7);}
+/* ⚠️ 変数名は必ず --cta- 接頭辞を付けること。最初 --cb と書いたら vars.css の
+   共通トークン（カード背景色 rgba(...)）を継承で拾い、animation ショートハンドが
+   「色」を duration に食って丸ごと無効化＝主ボタンと副ボタンの呼吸が黙って死んだ。
+   var() を含むショートハンドは、置換結果が不正だとプロパティごと unset になる。 */
+.cta-redo[data-load="1"]{--cta-cb:3s;}
+.cta-redo[data-load="2"]{--cta-cb:2.2s;}
+.cta-redo[data-load="3"]{--cta-cb:1.5s;}
+@keyframes ctaBreath{0%,100%{opacity:0;}50%{opacity:.8;}}
+
+/* F1: 光沢。主は既存の sheen（5s）、副はそれより弱く・遅れて走らせる＝主従が保たれる。
+   ⚠️ :not(.is-off) が要る。is-off の ::after は E5 の ✓ で、position を奪うと字が飛ぶ */
+.cta-sub:not(.is-off)::after{content:'';position:absolute;top:0;bottom:0;left:0;width:34%;
+  pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.22),transparent);
+  animation:sheen 4.6s var(--ease-in-out) 2.4s infinite;}
+/* 主ボタンの光沢を「はっきり」側へ。5s→3.4s で、走る割合も上げる */
+.cta-main::after{animation-duration:3.4s;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.52),transparent);}
+
+/* F3: 先頭の絵文字だけを跳ねさせる。renderHero が _setCtaLabel で <span> に包む。
+   ⚠️ 文言そのものは動かさない（読んでいる最中に字が動くと読みづらい） */
+.cta-ic{display:inline-block;transform-origin:50% 100%;
+  animation:ctaHop 4s var(--ease-in-out) var(--hop,0s) infinite;}
+@keyframes ctaHop{
+  0%,72%,100%{transform:translateY(0) scale(1) rotate(0);}
+  78%{transform:translateY(-5px) scale(1.16) rotate(-7deg);}
+  84%{transform:translateY(0) scale(.94) rotate(3deg);}
+  90%{transform:translateY(-2px) scale(1.04) rotate(0);}}
+.cta-sub.is-off .cta-ic{animation:none;}
+
+/* F5: ホバーで面を光がなめる（PC 向け。タッチ機では効かないので常時側で担保してある） */
+@media (hover:hover){
+  .cta-main:hover::after,.cta-sub:not(.is-off):hover::after{animation-duration:1.1s;}
+  .cta-main:hover::before,.cta-sub:not(.is-off):hover::before{animation-duration:1s;}
+}
 
 /* E5: 0件のボタンは「片付いた」印。薄いだけだと壊れているように見える */
 .cta-sub.is-off.is-clear{opacity:.62;border-color:rgba(61,214,140,.34);}
@@ -792,10 +840,16 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
   /* 2026-08-14 追加分（E: ボタン＋計器ベイ）。
      ⚠️ 常時走る層（リップル・脈・走査線）は display:none で消し、
         入場・着地は animation:none で「最終状態のまま出す」に落とす＝数字は必ず読める */
-  .cta-rip,.cta-redo[data-load]::before,.hero-inst::after{display:none;}
+  .cta-rip,.hero-inst::after{display:none;}
   .cta-main:active,.cta-sub:not(.is-off):active,
   .hero-cta a,.strip-c,.strip dd.tick,
   #statDue[data-load="3"],.hero-num[data-goal="2"]{animation:none;}
+  /* 2026-08-14 追加分（F: 止まっていても動くボタン）。
+     ⚠️ 常時走る層なので display:none で消す。文字（.cta-ic の絵文字）だけは
+        消すと文言が変わってしまうので、動きだけ止める */
+  .cta-main::before,.cta-sub:not(.is-off)::before,
+  .cta-sub:not(.is-off)::after{display:none;}
+  .cta-ic{animation:none;}
 }
 
 /* ── メニュー（旧ヘッダーのボタン群＋旧フッターのテーマ/効果音をここへ集約） ── */
@@ -1401,16 +1455,18 @@ function renderHero() {
   //    「昨日あったボタンが無い」になる）。統計はヘッダーの📊アイコンと☰メニューが入口。
   const dueOn = due > 0;
   // 主: 期限が来た復習があればそれが最優先、無ければ科目を選ぶ導線
-  if (dueOn) { p1.href = 'study.html?mode=srs_review'; p1.textContent = '🔔 復習をはじめる'; }
-  else       { p1.href = 'study.html';                 p1.textContent = '📚 全科目から選ぶ'; }
+  // ⚠️ 文言は _setCtaLabel を通すこと（先頭の絵文字を跳ねる span に包む口がここ1つ）。
+  //    textContent へ直接入れると、その席だけ絵文字が動かなくなる。
+  if (dueOn) { p1.href = 'study.html?mode=srs_review'; _setCtaLabel(p1, '🔔 復習をはじめる'); }
+  else       { p1.href = 'study.html';                 _setCtaLabel(p1, '📚 全科目から選ぶ'); }
   // E: 演出の色は「席」ではなく「中身」で決める。主ボタンは日によって復習と科目選びが
   //    入れ替わるので、席で色を固定すると同じ緑が復習を指す日ができて意味が濁る。
   p1.dataset.fx = dueOn ? 'srs' : 'browse';
   // 副: 主が復習を持っていったら科目選び、そうでなければ復習（0件の日は押せない表示）
   if (dueOn) {
-    p2.href = 'study.html'; p2.textContent = '📚 全科目から選ぶ →';
+    p2.href = 'study.html'; _setCtaLabel(p2, '📚 全科目から選ぶ →');
   } else {
-    p2.textContent = '🔔 今日の復習はなし';
+    _setCtaLabel(p2, '🔔 今日の復習はなし');
     p2.removeAttribute('href');   // due 0 で起動すると通知だけ出して通常閲覧に戻るため、押させない
   }
   p2.dataset.fx = dueOn ? 'browse' : 'srs';
@@ -1428,7 +1484,7 @@ function renderHero() {
   if (p3) {
     const wrongN = window.MecAttempts ? MecAttempts.todayWrongUids().length : 0;
     const on = wrongN > 0;
-    p3.textContent = on ? ('🔁 今日の誤答 ' + _fmtN(wrongN) + '問を再履修') : '🔁 今日の誤答なし';
+    _setCtaLabel(p3, on ? ('🔁 今日の誤答 ' + _fmtN(wrongN) + '問を再履修') : '🔁 今日の誤答なし');
     p3.classList.toggle('is-off', !on);
     p3.classList.toggle('is-clear', !on);
     p3.setAttribute('aria-disabled', on ? 'false' : 'true');
@@ -1451,7 +1507,7 @@ function renderHero() {
     const yWrongN = (window.MecAttempts && MecAttempts.yesterdayWrongUids)
       ? MecAttempts.yesterdayWrongUids().length : 0;
     const yOn = yWrongN > 0;
-    p4.textContent = yOn ? ('🔁 昨日の誤答 ' + _fmtN(yWrongN) + '問を再履修') : '🔁 昨日の誤答なし';
+    _setCtaLabel(p4, yOn ? ('🔁 昨日の誤答 ' + _fmtN(yWrongN) + '問を再履修') : '🔁 昨日の誤答なし');
     p4.classList.toggle('is-off', !yOn);
     p4.classList.toggle('is-clear', !yOn);
     p4.setAttribute('aria-disabled', yOn ? 'false' : 'true');
@@ -1460,6 +1516,9 @@ function renderHero() {
     if (yOn) p4.href = 'study.html?mode=yesterday_wrong';
     else     p4.removeAttribute('href');
   } catch (e) { console.error('MEC heroYesterday error:', e); }
+  // F4: 主ボタンから立ち上る粒子。撒く色が変わる時（＝主ボタンの中身が入れ替わる時）だけ
+  //     タイマーを張り替える（同期の再描画で多重起動しない）
+  _startCtaAmbient(p1.dataset.fx || '');
   // ────────────────────────────────────────────────────────────────────────
 
   // 大きな読み値: カウントアップ → 着地で桁が順に立ち上がり、下から粒子が散る
@@ -1813,6 +1872,50 @@ function _setRedoLoad(el, n) {
   if (!el) return;
   const t = n >= 30 ? 3 : n >= 10 ? 2 : n >= 1 ? 1 : 0;
   if (t) el.dataset.load = String(t); else el.removeAttribute('data-load');
+}
+
+/* F3: ボタンの文言を入れる唯一の口。先頭の絵文字だけを <span class="cta-ic"> に包んで
+   跳ねさせる（文言そのものは動かさない＝読んでいる最中に字が動くと読みづらい）。
+   ⚠️ innerHTML では組み立てないこと。件数は数値由来で安全だが、文言を組む口は
+      1つしかないので、ここを DOM ノードで作っておけば将来どんな文字が来ても壊れない。
+   ⚠️ textContent='' はリップルの残骸ごと消すが、renderHero は頻繁には走らないので無害。 */
+function _setCtaLabel(el, text) {
+  if (!el) return;
+  const i = text.indexOf(' ');
+  if (i <= 0) { el.textContent = text; return; }
+  el.textContent = '';
+  const ic = document.createElement('span');
+  ic.className = 'cta-ic';
+  ic.textContent = text.slice(0, i);
+  // 4つが揃って跳ねると「点滅」に見えるので、席ごとにずらす
+  ic.style.setProperty('--hop', ((parseInt(el.style.getPropertyValue('--i'), 10) || 0) * 0.55) + 's');
+  el.appendChild(ic);
+  el.appendChild(document.createTextNode(text.slice(i)));
+}
+
+/* F4: 主ボタンから常に少し粒子が立ち上る。ゲージの常時演出と同じ作りで、
+   撒く中身が変わらない限りタイマーを張り替えない。
+   ⚠️ ここを毎回 setInterval で張り直すと、同期完了の再描画（renderHero は何度も走る）の
+      たびにタイマーが増えて多重に撒かれる。ゲージで一度踏んだ罠。 */
+let _ctaFxTimer = 0, _ctaFxKey = '';
+function _startCtaAmbient(key) {
+  if (key === _ctaFxKey && _ctaFxTimer) return;
+  _ctaFxKey = key;
+  clearInterval(_ctaFxTimer);
+  _ctaFxTimer = 0;
+  if (_reducedMotion()) return;
+  _ctaFxTimer = setInterval(() => {
+    // 画面最上部を見ているときだけ。スクロールで見えない位置に撒いても意味が無い
+    if (!_fxOk() || scrollY > 320) return;
+    const btn = document.getElementById('heroPrimary');
+    const c = _centerOf(btn);
+    if (!c) return;
+    const col = _ctaColors(btn);
+    MecFX.burst(c.x + (Math.random() - .5) * c.r.width * .66, c.r.bottom - 4, {
+      tier: 1, count: 3, colors: col, shapes: ['circle'],
+      speed: 90, gravity: -150, upBias: 70, glow: true, additive: true
+    });
+  }, 1900);
 }
 
 // ボタンの性格別の色。data-fx は renderHero が「席」ではなく「中身」で入れる。

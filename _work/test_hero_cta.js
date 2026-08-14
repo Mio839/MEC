@@ -84,6 +84,7 @@ function makeCtx(opts) {
       hidden: !!opts.hidden,
       addEventListener: (type, fn) => { (handlers[type] = handlers[type] || []).push(fn); },
       createElement: () => mkEl(),
+      createTextNode: txt => mkEl({ text: txt }),
       getElementById: id => (opts.els && opts.els[id]) || null,
     },
     location: { set href(v) { nav.push(v); }, get href() { return nav[nav.length - 1] || ''; } },
@@ -370,11 +371,132 @@ t('計器行の3セルに入場の順番（--i）が入っている', () => {
 
 t('新しい常時演出が reduced-motion で止まる', () => {
   const rm = HTML.slice(HTML.indexOf('@media (prefers-reduced-motion:reduce)'));
-  ['.cta-rip', '.cta-redo[data-load]::before', '.hero-inst::after'].forEach(sel => {
+  ['.cta-rip', '.hero-inst::after',
+   '.cta-main::before', '.cta-sub:not(.is-off)::before', '.cta-sub:not(.is-off)::after',
+   '.cta-ic'].forEach(sel => {
     assert.ok(rm.indexOf(sel) > 0, sel + ' が reduced-motion で止められていない');
   });
   assert.ok(rm.indexOf('.hero-num[data-goal="2"]') > 0,
     '目標超過の脈が reduced-motion で止められていない');
+});
+
+/* ══════════ F: 止まっていても動くボタン ══════════ */
+sec('F 止まっていても動くボタン（常時の演出）');
+
+t('1要素の3層（本体・::before・::after）の分担が崩れていない', () => {
+  // ⚠️ 同じ層に2つ置くと後勝ちで片方が黙って死ぬ。分担:
+  //    本体=入場 / ::before=呼吸するリング / ::after=光沢（is-off では ✓）
+  assert.ok(/\.hero-cta a\{animation:ctaIn /.test(HTML), '本体が入場に使われていない');
+  assert.ok(/\.cta-main::before,\.cta-sub:not\(\.is-off\)::before\{content:''/.test(HTML),
+    '::before が呼吸するリングに使われていない');
+  assert.ok(/\.cta-sub:not\(\.is-off\)::after\{content:''/.test(HTML),
+    '::after が光沢に使われていない');
+});
+
+t('光沢は :not(.is-off) に限定してある（is-off の ::after は ✓ が使う）', () => {
+  // 限定を外すと、片付いた席の ✓ が絶対配置を食らって字が飛ぶ
+  assert.ok(/\.cta-sub\.is-off\.is-clear::after\{content:'✓'/.test(HTML),
+    'is-off の ✓ が ::after で出ていない');
+  assert.ok(!/^\.cta-sub::after\{content:''/m.test(HTML),
+    '光沢が .cta-sub::after に無条件で当たっている（✓ を壊す）');
+});
+
+t('呼吸するリングの色が data-fx（中身）で決まる', () => {
+  ['srs', 'browse', 'redo'].forEach(k => {
+    assert.ok(new RegExp('\\.cta-sub\\[data-fx="' + k + '"\\]\\{--cta-glow:').test(HTML),
+      'data-fx=' + k + ' の --cta-glow が無い');
+  });
+});
+
+t('誤答ボタンは在庫の段で呼吸が速くなる（1→2→3 で単調に短く）', () => {
+  const ms = [1, 2, 3].map(n => {
+    const m = HTML.match(new RegExp('\\.cta-redo\\[data-load="' + n + '"\\]\\{--cta-cb:([\\d.]+)s;\\}'));
+    assert.ok(m, 'data-load=' + n + ' の --cta-cb が無い');
+    return parseFloat(m[1]);
+  });
+  assert.ok(ms[0] > ms[1] && ms[1] > ms[2],
+    '件数が増えても速くなっていない: ' + ms.join(' / '));
+});
+
+t('ボタン用のCSS変数が vars.css の共通トークンと衝突していない', () => {
+  // ⚠️ 最初 --cb（vars.css のカード背景色）と衝突させ、継承で色を拾った animation
+  //    ショートハンドが丸ごと無効化されて主・副ボタンの呼吸が黙って死んだ。
+  //    var() を含むショートハンドは、置換結果が不正だとプロパティごと unset になる。
+  const VARS = fs.readFileSync(path.join(ROOT, 'vars.css'), 'utf8');
+  const globals = new Set((VARS.match(/--[\w-]+(?=\s*:)/g) || []));
+  // F/E ブロックが定義しているボタン用の変数
+  const mine = new Set((HTML.match(/\{--cta-[\w-]+:/g) || []).map(s => s.slice(1, -1)));
+  assert.ok(mine.size >= 2, 'ボタン用の変数が拾えていない（命名を変えたらこのテストも直すこと）');
+  mine.forEach(v => {
+    assert.ok(!globals.has(v), v + ' が vars.css の共通トークンと同名（継承で別物を拾う）');
+    assert.ok(v.indexOf('--cta-') === 0, v + ' に --cta- 接頭辞が無い');
+  });
+});
+
+t('片付いた席（is-off）は光沢も呼吸も絵文字も動かさない', () => {
+  // 動くと「まだ何かある」に読める
+  assert.ok(/\.cta-sub\.is-off \.cta-ic\{animation:none;\}/.test(HTML),
+    'is-off の絵文字が跳ね続ける');
+  assert.ok(/\.cta-sub:not\(\.is-off\)::before/.test(HTML) &&
+            /\.cta-sub:not\(\.is-off\)::after/.test(HTML),
+    'is-off にも常時の層が当たっている');
+});
+
+t('_setCtaLabel は先頭の絵文字だけを span に包む（文言は動かさない）', () => {
+  const h = makeCtx({});
+  vm.runInContext(extract('_setCtaLabel') + '\nwindow.__lbl = _setCtaLabel;', h.ctx);
+  const el = mkEl({ id: 'heroTertiary' });
+  el.style.getPropertyValue = () => '2';
+  h.ctx.window.__lbl(el, '🔁 今日の誤答 12問を再履修');
+  assert.strictEqual(el.children.length, 2, '絵文字の span と本文の2ノードになっていない');
+  assert.strictEqual(el.children[0].className, 'cta-ic');
+  assert.strictEqual(el.children[0]._text, '🔁', '絵文字だけを包んでいない');
+  assert.strictEqual(el.children[1]._text, ' 今日の誤答 12問を再履修', '本文が欠けている');
+});
+
+t('_setCtaLabel は空白の無い文言でも壊れない', () => {
+  const h = makeCtx({});
+  vm.runInContext(extract('_setCtaLabel') + '\nwindow.__lbl = _setCtaLabel;', h.ctx);
+  const el = mkEl({});
+  h.ctx.window.__lbl(el, '復習');
+  assert.strictEqual(el.textContent, '復習');
+  assert.strictEqual(el.children.length, 0);
+});
+
+t('絵文字の跳ねは席ごとにずれる（4つ揃うと点滅に見える）', () => {
+  const h = makeCtx({});
+  vm.runInContext(extract('_setCtaLabel') + '\nwindow.__lbl = _setCtaLabel;', h.ctx);
+  const hop = i => {
+    const el = mkEl({});
+    el.style.getPropertyValue = () => String(i);
+    h.ctx.window.__lbl(el, '🔔 x');
+    return el.children[0].style['--hop'];
+  };
+  assert.notStrictEqual(hop(0), hop(1), '席が違っても跳ねる時刻が同じ');
+  assert.notStrictEqual(hop(1), hop(2));
+});
+
+t('renderHero の文言は全部 _setCtaLabel を通っている', () => {
+  // ⚠️ textContent へ直接入れた席だけ絵文字が動かなくなる（黙って1つだけ死ぬ型のバグ）
+  const hero = HTML.slice(HTML.indexOf('function renderHero('),
+                          HTML.indexOf('// ── タイル（ヒーローに従属する行き先）'));
+  ['p1', 'p2', 'p3', 'p4'].forEach(v => {
+    assert.ok(!new RegExp('\\b' + v + '\\.textContent\\s*=').test(hero),
+      v + ' が textContent へ直接代入している（_setCtaLabel を通すこと）');
+  });
+  assert.ok((hero.match(/_setCtaLabel\(/g) || []).length >= 6,
+    '_setCtaLabel の呼び出しが足りない（席ごとに due の有無で2通りある）');
+});
+
+t('主ボタンの常時粒子は段が変わらない限りタイマーを張り替えない', () => {
+  // ⚠️ renderHero は同期完了で何度も走る。毎回 setInterval すると多重に撒かれる
+  const src = extract('_startCtaAmbient');
+  assert.ok(/if \(key === _ctaFxKey && _ctaFxTimer\) return;/.test(src),
+    '同じ段で早期 return していない（タイマーが増える）');
+  assert.ok(/clearInterval\(_ctaFxTimer\)/.test(src), '張り替え時に古いタイマーを止めていない');
+  assert.ok(/_reducedMotion\(\)/.test(src), 'reduced-motion で撒くのを止めていない');
+  assert.ok(/_fxOk\(\)/.test(src) && /scrollY/.test(src),
+    '非表示タブ・画面外で撒くのを止めていない');
 });
 
 t('_tweenNum に非表示タブ用の落とし所がある', () => {
