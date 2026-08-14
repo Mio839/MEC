@@ -380,6 +380,35 @@ xp: { banked: number, ledger: { 'd:2026-07-29': { ans:40, exam:40, __all__:150 }
 - ⚠️ 0件のとき href を外すのは飾りではない。`?mode=srs_review` / `?mode=today_wrong` は
   対象0で起動するとトーストを出して通常閲覧へ戻るだけなので、押させても無駄足になる。
 
+### ボタンと計器ベイの演出（2026-08-14〜・E1〜E10）
+
+テスト: `node _work/test_hero_cta.js`（32件）。
+
+- **粒子の色は「席」ではなく「中身」で決める**。`renderHero` が各ボタンへ `data-fx`
+  （`srs`＝青 / `browse`＝緑 / `redo`＝赤）を入れ、`_ctaColors()` がそれを引く。
+  主ボタンは due の有無で復習と科目選びが入れ替わるので、**席で色を固定すると
+  「同じ緑が復習を指す日」ができて意味が濁る**。
+- **誤答ボタンの `data-load`（1/2/3＝1・10・30件〜）は縁の脈の速さ**、`#statDue` の
+  `data-load`（15/50/120問〜）は**復習待ちの滞留の色**。どちらも0で属性ごと外すこと
+  （脈が残ると「片付いた」の✓と矛盾する）。
+- ⚠️ **`.cta-sub` に付けた `overflow:hidden` は `min-width:min-content` とセット**。
+  フレックス項目の `min-width:auto` は `overflow` が `visible` の時しか min-content に
+  解決されない＝`hidden` を付けた瞬間に最小幅が0になり、**4つのボタンが折り返さず
+  横一列に潰れて文言が全部切れた**（実際に起きた）。
+- ⚠️ **入場と常時の脈を同じ要素の `animation` に書かないこと**（後勝ちで片方が死ぬ）。
+  入場＝要素本体（`.hero-cta a` / `.strip-c` の `--i` スタッガー）、
+  常時＝`::before`（`.cta-redo[data-load]::before`）で分担している。
+- ⚠️ **E10（遷移前のひと呼吸）は `<a>` のクリックを横取りする**。素通しすべきものを
+  殺さないこと＝修飾キー・中クリック・`target`・`href` なし・`is-off`・
+  他で `preventDefault` 済み。**演出が例外を投げても必ず遷移させる**（`try` の外で
+  `setTimeout(go, …)` を2本＝余韻用と保険用）。reduced-motion では横取り自体をしない。
+- ⚠️ **`_tweenNum` には rAF が止まった時の落とし所が要る**（`setTimeout(finish, dur+400)`）。
+  非表示タブでは rAF が動かないので、保険が無いと**裏で開いたハブの数字が開始値
+  （多くは0）のまま凍る**。大きな読み値・XP・計器行の3つが全部これに乗っている。
+- 「今日解いた問題」の数字は `data-goal`（1＝100%以上 / 2＝150%以上）で金になる。
+  段の出どころは `MecGamify.dailyGoal()` の pct ＝**ゲージと同じ正本**で、
+  ゲージ（機械の動き）と読み値の色で同じ事実を2通りに出している。
+
 ### 見出し行の日付（2026-08-13〜）
 
 「今日解いた問題」と同じ行の右端に `#heroDate`（例 `2026年8月13日(木)`）。文字列は
@@ -645,7 +674,8 @@ node _work/test_subject_totals.js  科目別問題数の三者一致      (3)
 node _work/test_card_render.js     カード描画（画像実寸・採点ボタン）(7)
 node _work/test_calc_input.js      計算問題の桁入力・データ整合      (29)
 node _work/test_missions.js        日次/週次ミッション          (36)
-node _work/test_daily_goal.js      ハブのゲージ・歯車の意匠      (29)
+node _work/test_daily_goal.js      ハブのゲージ・歯車の意匠      (36)
+node _work/test_hero_cta.js        ハブのボタン・計器ベイの演出  (32)
 node _work/test_fx_band.js         試験演出の可視帯(発火位置)    (15)
 node _work/test_fx_additions.js    新エミッタ・tier7・難問/速答  (25)
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合

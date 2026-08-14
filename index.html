@@ -503,6 +503,89 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
   animation:emberBeat 2.6s var(--ease-in-out) infinite;}
 @keyframes emberBeat{0%,100%{text-shadow:0 0 10px rgba(255,122,47,.45);}50%{text-shadow:0 0 18px rgba(255,122,47,.8);}}
 
+/* ══════════ E: ヒーローのボタンと計器ベイ（2026-08-14）══════════
+   ボタンは今まで hover の浮きと pointerdown の小バーストしか無く、計器行（復習待ち・
+   連続・済 累計）に至っては textContent 直代入で入場も着地も無かった。大きな読み値だけ
+   カウントアップしていて、その下の数字が瞬時に出るのはちぐはぐなので揃える。
+   ⚠️ 「入場」と「常時の脈」を同じ要素の animation で書かないこと（後勝ちで片方が死ぬ）。
+      入場＝要素本体 / 常時＝::before という分担で衝突を避けている。 */
+
+/* E1: 押し込んで弾む。translateY 1px だけだと iPad で「触った」感が出ない。
+   ⚠️ transform-origin は下端。上端を軸にすると押した指の下で持ち上がって見える */
+.cta-main,.cta-sub{transform-origin:50% 100%;}
+.cta-sub{position:relative;overflow:hidden;}
+/* ⚠️ overflow:hidden を付けると、フレックス項目の min-width:auto が min-content ではなく
+   0 に解決される（自動最小サイズの規則）。付けた瞬間4つのボタンが折り返さずに横一列で
+   潰れ、文言が全部切れた。リップルのはみ出しを隠すために overflow は要るので、
+   最小幅を明示して以前の折り返し（flex-wrap:wrap）を取り戻す。 */
+.cta-main,.cta-sub{min-width:min-content;}
+.cta-main:active,.cta-sub:not(.is-off):active{animation:ctaPress .3s var(--ease-out);}
+@keyframes ctaPress{
+  0%{transform:scale(1,1) translateY(0);}
+  28%{transform:scale(1.05,.9) translateY(2px);}
+  62%{transform:scale(.985,1.035) translateY(-2px);}
+  100%{transform:scale(1,1) translateY(0);}}
+
+/* E2: リップル。押した位置から広がる（--rx/--ry は _initCtaRipple が入れる）。
+   色は currentColor＝主ボタン(暗インク)と副ボタン(明インク)で自動的に反転する */
+.cta-rip{position:absolute;left:var(--rx,50%);top:var(--ry,50%);width:10px;height:10px;
+  margin:-5px 0 0 -5px;border-radius:50%;pointer-events:none;background:currentColor;
+  opacity:.30;animation:ctaRip .52s var(--ease-out) forwards;}
+@keyframes ctaRip{to{transform:scale(26);opacity:0;}}
+
+/* E3: 入場は左から順に。4つ同時に出ると「並んだ」だけで席の優先順位が読めない */
+.hero-cta a{animation:ctaIn .42s var(--ease-out) backwards;
+  animation-delay:calc(.34s + var(--i,0) * 70ms);}
+@keyframes ctaIn{from{opacity:0;transform:translateY(10px) scale(.97);}}
+.hero.settled .hero-cta a{animation:none;}
+
+/* E4: 在庫の重さ。誤答が溜まっている日ほど縁が強く速く脈打つ＝件数を色でも読ませる。
+   ⚠️ 本体ではなく ::before に載せる（本体は E3 の入場が使っている） */
+.cta-redo[data-load]::before{content:'';position:absolute;inset:0;border-radius:inherit;
+  pointer-events:none;border:1px solid rgba(255,107,107,.95);opacity:0;
+  animation:redoPulse var(--rp,3.2s) var(--ease-in-out) 1.5s infinite;}
+.cta-redo[data-load="2"]{--rp:2.4s;}
+.cta-redo[data-load="3"]{--rp:1.7s;}
+@keyframes redoPulse{0%,100%{opacity:0;}50%{opacity:.85;}}
+.cta-redo[data-load="3"]{box-shadow:0 0 0 0 rgba(255,107,107,.35);}
+
+/* E5: 0件のボタンは「片付いた」印。薄いだけだと壊れているように見える */
+.cta-sub.is-off.is-clear{opacity:.62;border-color:rgba(61,214,140,.34);}
+.cta-sub.is-off.is-clear::after{content:'✓';margin-left:7px;color:var(--gr);font-weight:900;}
+
+/* E6: 計器行。3つの読み値が順に立ち上がり、数字が着地でひと突きする */
+.strip-c{animation:instIn .5s var(--ease-out) backwards;
+  animation-delay:calc(.52s + var(--i,0) * 95ms);}
+@keyframes instIn{from{opacity:0;transform:translateY(9px);}}
+.hero.settled .strip-c{animation:none;}
+.strip dd{transform-origin:0 60%;}
+.strip dd.tick{animation:instTick .44s var(--ease-out);}
+@keyframes instTick{0%{transform:scale(1);}32%{transform:scale(1.17);}100%{transform:scale(1);}}
+
+/* E7: 復習待ちの滞留。溜まるほど数字が警戒側へ寄る（連続日数の炎と同じ読み方） */
+#statDue[data-load="1"]{color:#FFD166;}
+#statDue[data-load="2"]{color:#FFB347;text-shadow:0 0 9px rgba(255,179,71,.45);}
+#statDue[data-load="3"]{color:#FF6B6B;text-shadow:0 0 11px rgba(255,107,107,.5);
+  animation:dueBeat 2.2s var(--ease-in-out) infinite;}
+@keyframes dueBeat{0%,100%{text-shadow:0 0 9px rgba(255,107,107,.4);}
+  50%{text-shadow:0 0 17px rgba(255,107,107,.85);}}
+
+/* E8: 計器ベイの走査線。盤面の下段にも一度だけ電気を通す（上段は D1 の bootScan） */
+.hero-inst{position:relative;overflow:hidden;}
+.hero-inst::after{content:'';position:absolute;top:0;bottom:0;left:0;width:34%;pointer-events:none;
+  z-index:1;background:linear-gradient(100deg,transparent,rgba(224,194,94,.13),transparent);
+  animation:instSweep 1.45s var(--ease-in-out) .6s backwards;}
+@keyframes instSweep{from{transform:translateX(-140%);}to{transform:translateX(340%);}}
+.hero.settled .hero-inst::after{display:none;}
+
+/* E9: 今日の目標に届いた日は、大きな読み値そのものが金になる。
+   段は _goalTier と同じ考え方（5=達成 / 6=1.5倍超）だが、ここは2段で足りる */
+.hero-num[data-goal="1"]{color:#FFD166;text-shadow:0 0 20px rgba(255,209,102,.35);}
+.hero-num[data-goal="2"]{color:#FFD700;text-shadow:0 0 26px rgba(255,215,0,.5);
+  animation:goalGlow 2.8s var(--ease-in-out) infinite;}
+@keyframes goalGlow{0%,100%{text-shadow:0 0 20px rgba(255,215,0,.38);}
+  50%{text-shadow:0 0 34px rgba(255,215,0,.8);}}
+
 /* D1(2026-08-14): 起動シーケンス。盤面に電源が入る0.9秒だけ走査光がなめる。
    ⚠️ 一度きり（_bootSequence が .booting を1回だけ載せて外す） */
 .hero.booting{position:relative;}
@@ -706,6 +789,13 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
   .hero.booting .hero-cnr,.hero-lv-bar span.near,
   .hero.settled .hero-lv-bar span.near,
   #statStreak[data-ember="4"]{animation:none;}
+  /* 2026-08-14 追加分（E: ボタン＋計器ベイ）。
+     ⚠️ 常時走る層（リップル・脈・走査線）は display:none で消し、
+        入場・着地は animation:none で「最終状態のまま出す」に落とす＝数字は必ず読める */
+  .cta-rip,.cta-redo[data-load]::before,.hero-inst::after{display:none;}
+  .cta-main:active,.cta-sub:not(.is-off):active,
+  .hero-cta a,.strip-c,.strip dd.tick,
+  #statDue[data-load="3"],.hero-num[data-goal="2"]{animation:none;}
 }
 
 /* ── メニュー（旧ヘッダーのボタン群＋旧フッターのテーマ/効果音をここへ集約） ── */
@@ -864,25 +954,25 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
     </div>
 
     <div class="hero-cta">
-      <a class="cta-main" id="heroPrimary" href="study.html">📚 全科目から選ぶ</a>
+      <a class="cta-main" id="heroPrimary" style="--i:0" href="study.html">📚 全科目から選ぶ</a>
       <!-- 副ボタンは「復習」の席。due が0の日も席を空けずに無効表示で残す。
            文言・遷移先は renderHero() が入れる（⚠️ 統計への導線はここに置かない。
            ヘッダーの📊アイコンと☰メニューの2か所が正規の入口） -->
-      <a class="cta-sub" id="heroSecondary" href="study.html?mode=srs_review">🔔 復習をはじめる</a>
+      <a class="cta-sub" id="heroSecondary" style="--i:1" href="study.html?mode=srs_review">🔔 復習をはじめる</a>
       <!-- 今日の誤答の再履修。誤答0の日も並びを動かさないよう常に置き、押せないことを色で示す。
            件数・遷移先は renderHero() が入れる（0問のときは href を外す） -->
-      <a class="cta-sub cta-redo is-off" id="heroTertiary" aria-disabled="true">🔁 今日の誤答なし</a>
+      <a class="cta-sub cta-redo is-off" id="heroTertiary" style="--i:2" aria-disabled="true">🔁 今日の誤答なし</a>
       <!-- TEMP（昨日の誤答）: 一時的な4つ目。席は固定の3つという原則の外にある“仮設”なので、
            不要になったらこの行と renderHero 内の同名ブロックを消せば元の3席に戻る -->
-      <a class="cta-sub cta-redo is-off" id="heroYesterday" aria-disabled="true">🔁 昨日の誤答なし</a>
+      <a class="cta-sub cta-redo is-off" id="heroYesterday" style="--i:3" aria-disabled="true">🔁 昨日の誤答なし</a>
     </div>
 
     <!-- 計器ベイ: 読み値のブロックより一段沈めた面に、細かい数字だけをまとめる -->
     <div class="hero-inst">
       <dl class="strip">
-        <div class="strip-c"><dt>復習待ち</dt><dd><b id="statDue">0</b><span>問</span></dd></div>
-        <div class="strip-c"><dt>連続</dt><dd><b id="statStreak">0</b><span>日</span></dd></div>
-        <div class="strip-c"><dt>済 累計</dt><dd><b id="statDone">0</b><span>問</span></dd></div>
+        <div class="strip-c" style="--i:0"><dt>復習待ち</dt><dd><b id="statDue">0</b><span>問</span></dd></div>
+        <div class="strip-c" style="--i:1"><dt>連続</dt><dd><b id="statStreak">0</b><span>日</span></dd></div>
+        <div class="strip-c" style="--i:2"><dt>済 累計</dt><dd><b id="statDone">0</b><span>問</span></dd></div>
       </dl>
 
       <div class="spark-row">
@@ -1313,6 +1403,9 @@ function renderHero() {
   // 主: 期限が来た復習があればそれが最優先、無ければ科目を選ぶ導線
   if (dueOn) { p1.href = 'study.html?mode=srs_review'; p1.textContent = '🔔 復習をはじめる'; }
   else       { p1.href = 'study.html';                 p1.textContent = '📚 全科目から選ぶ'; }
+  // E: 演出の色は「席」ではなく「中身」で決める。主ボタンは日によって復習と科目選びが
+  //    入れ替わるので、席で色を固定すると同じ緑が復習を指す日ができて意味が濁る。
+  p1.dataset.fx = dueOn ? 'srs' : 'browse';
   // 副: 主が復習を持っていったら科目選び、そうでなければ復習（0件の日は押せない表示）
   if (dueOn) {
     p2.href = 'study.html'; p2.textContent = '📚 全科目から選ぶ →';
@@ -1320,7 +1413,10 @@ function renderHero() {
     p2.textContent = '🔔 今日の復習はなし';
     p2.removeAttribute('href');   // due 0 で起動すると通知だけ出して通常閲覧に戻るため、押させない
   }
+  p2.dataset.fx = dueOn ? 'browse' : 'srs';
   p2.classList.toggle('is-off', !dueOn);
+  // 「今日の復習はなし」は在庫切れではなく片付いた状態＝✓ を出す（E5）
+  p2.classList.toggle('is-clear', !dueOn);
   p2.setAttribute('aria-disabled', dueOn ? 'false' : 'true');
 
   // 3つ目のボタン: 今日の誤答の再履修。
@@ -1334,7 +1430,10 @@ function renderHero() {
     const on = wrongN > 0;
     p3.textContent = on ? ('🔁 今日の誤答 ' + _fmtN(wrongN) + '問を再履修') : '🔁 今日の誤答なし';
     p3.classList.toggle('is-off', !on);
+    p3.classList.toggle('is-clear', !on);
     p3.setAttribute('aria-disabled', on ? 'false' : 'true');
+    p3.dataset.fx = 'redo';
+    _setRedoLoad(p3, wrongN);
     if (on) p3.href = 'study.html?mode=today_wrong';
     else    p3.removeAttribute('href');
   }
@@ -1354,7 +1453,10 @@ function renderHero() {
     const yOn = yWrongN > 0;
     p4.textContent = yOn ? ('🔁 昨日の誤答 ' + _fmtN(yWrongN) + '問を再履修') : '🔁 昨日の誤答なし';
     p4.classList.toggle('is-off', !yOn);
+    p4.classList.toggle('is-clear', !yOn);
     p4.setAttribute('aria-disabled', yOn ? 'false' : 'true');
+    p4.dataset.fx = 'redo';
+    _setRedoLoad(p4, yWrongN);
     if (yOn) p4.href = 'study.html?mode=yesterday_wrong';
     else     p4.removeAttribute('href');
   } catch (e) { console.error('MEC heroYesterday error:', e); }
@@ -1391,9 +1493,16 @@ function renderHero() {
     _driveLevelBar(gm.lvProgress);
   }
 
-  document.getElementById('statDue').textContent    = _fmtN(due);
-  document.getElementById('statDone').textContent   = _fmtN(doneCount);
-  document.getElementById('statStreak').textContent = streak;
+  // E6: 計器行も大きな読み値と同じくカウントアップさせる。
+  // ⚠️ 連続日数だけ _fmtN を通さない（12日を「12」と出す桁区切りは要らないが、
+  //    _tweenNum は内部で _fmtN するので3桁を超える連続日数は区切られる。実用上問題ない）
+  _tickStat('statDue',    due);
+  _tickStat('statDone',   doneCount);
+  _tickStat('statStreak', streak);
+  // E7: 復習待ちの滞留を色でも読ませる（数字だけだと 34 と 340 の重みの差が伝わらない）
+  { const d = document.getElementById('statDue');
+    if (d) { const t = due >= 120 ? 3 : due >= 50 ? 2 : due >= 15 ? 1 : 0;
+             if (t) d.dataset.load = String(t); else d.removeAttribute('data-load'); } }
   _startStreakEmbers(streak);
 
   // ゲージ＝今日やるべき問題数のうち何％まで来たか。
@@ -1412,6 +1521,16 @@ function renderHero() {
   document.getElementById('gaugeCap').textContent   = goal.pct >= 100 ? '🎉 目標達成' : '今日の目標';
   document.getElementById('statAllPct').textContent = pct;   // 旧「全体進捗」は脚の一行へ
   _driveGauge(goal.pct);
+
+  // E9: 目標に届いた日は大きな読み値そのものを金にする。
+  // ⚠️ 段は goal.pct から引く（_goalTier ではなく2段）。ゲージ（0〜6段）は「機械の動き」、
+  //    こちらは「読み値の色」で、同じ事実を別の言い方で2回出している＝どちらか一方でも伝わる。
+  // ⚠️ 代入は _tweenNum の着地（約900ms後）より前に済むので、_landHeroNumber は
+  //    この属性を見て粒子の色を決められる。
+  if (numEl) {
+    const g = goal.pct >= 150 ? 2 : goal.pct >= 100 ? 1 : 0;
+    if (g) numEl.dataset.goal = String(g); else numEl.removeAttribute('data-goal');
+  }
 
   // 2回目以降（同期完了の再描画）は入場アニメを止めてから描き直す。
   // ⚠️ 波形は innerHTML で作り直すので、.settled を付けるのは _renderSpark() より前でないと
@@ -1601,12 +1720,26 @@ function _tweenNum(el, to, dur, done) {
   if (_reducedMotion()) { el.textContent = _fmtN(to); if (done) done(); return; }
   const from = Number(String(el.textContent).replace(/[^\d-]/g, '')) || 0;
   const t0 = performance.now();
+  let fin = false;
+  const finish = () => {
+    if (fin) return;
+    fin = true;
+    el.textContent = _fmtN(to);
+    if (done) done();
+  };
+  // ⚠️ 非表示タブでは requestAnimationFrame が止まるので、rAF だけに任せると数字が
+  //    開始値（多くは 0）のまま凍る。ハブが裏で読み込まれる（別タブで開く・起動時の
+  //    タブ復元・拡張のバックグラウンドタブ）とそのまま 0 が残るので、必ず落とし所を置く。
+  //    表になれば rAF が再開してこの前に走り切るため、通常は保険が発火する前に終わる。
+  const guard = setTimeout(finish, dur + 400);
   (function step(t) {
+    if (fin) return;
     const k = Math.min(1, (t - t0) / dur);
     const e = 1 - Math.pow(1 - k, 3);
     el.textContent = _fmtN(Math.round(from + (to - from) * e));
-    if (k < 1) requestAnimationFrame(step);
-    else if (done) done();
+    if (k < 1) { requestAnimationFrame(step); return; }
+    clearTimeout(guard);
+    finish();
   })(t0);
 }
 
@@ -1633,11 +1766,118 @@ function _landHeroNumber(el) {
     ? '<span class="dg" style="--i:' + (d++) + '">' + ch + '</span>'
     : '<span class="dg-s">' + ch + '</span>').join('');
   const c = _centerOf(el);
-  if (c && _fxOk()) {
-    setTimeout(() => MecFX.glyphBurst(c.x, c.r.bottom - 6, {
-      glyphs: ['✦', '✧'], count: 4, spread: 60, w: c.r.width * .8
-    }), d * 55 + 120);
-  }
+  if (!c || !_fxOk()) return;
+  // E9: 目標に届いた日は着地も金にする。数字の色（CSS）と粒子（canvas）で
+  //     同じ段を二重に出す＝片方が reduced-motion で消えても事実は残る
+  const g = parseInt(el.dataset.goal || '0', 10) || 0;
+  setTimeout(() => {
+    if (!g) {
+      MecFX.glyphBurst(c.x, c.r.bottom - 6, { glyphs: ['✦', '✧'], count: 4, spread: 60, w: c.r.width * .8 });
+      return;
+    }
+    MecFX.glyphBurst(c.x, c.r.bottom - 6, {
+      glyphs: g >= 2 ? ['✦', '✧', '★'] : ['✦', '✧'], count: g >= 2 ? 7 : 5, spread: 74, w: c.r.width * .8
+    });
+    MecFX.burst(c.x, c.r.bottom - 6, {
+      tier: g >= 2 ? 4 : 3, count: g >= 2 ? 34 : 20,
+      colors: ['#FFD700', '#FFD166', '#FFF3C4', '#FFFFFF'],
+      shapes: ['circle', 'star'], glow: true, additive: true, upBias: 90
+    });
+    if (g >= 2) MecFX.rings(c.x, c.y, { count: 1, color: 'rgba(255,215,0,.7)', thickness: 2, maxR: 150, additive: true });
+  }, d * 55 + 120);
+}
+
+/* ══════════ E: 計器行とボタンの補助（2026-08-14）══════════ */
+
+// 計器行の1セル。カウントアップし、着地でひと突きする。
+// ⚠️ 値が変わっていない再描画（同期完了は renderHero を何度も呼ぶ）では突かない。
+//    毎回突くと、何もしていないのに数字が跳ねて「増えた」と誤読される。
+function _tickStat(id, to) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const from = Number(String(el.textContent).replace(/[^\d-]/g, '')) || 0;
+  const changed = from !== (to | 0);
+  _tweenNum(el, to | 0, 850, () => {
+    if (!changed || _reducedMotion()) return;
+    const dd = el.closest('dd');
+    if (!dd) return;
+    dd.classList.remove('tick');
+    void dd.offsetWidth;            // アニメを再生させるための強制リフロー
+    dd.classList.add('tick');
+  });
+}
+
+// 誤答ボタンの「在庫の重さ」。件数の段を data-load で渡し、脈の速さ（--rp）はCSSが持つ。
+// 0件のときは属性ごと外す（脈が残ると「片付いた」と矛盾する）。
+function _setRedoLoad(el, n) {
+  if (!el) return;
+  const t = n >= 30 ? 3 : n >= 10 ? 2 : n >= 1 ? 1 : 0;
+  if (t) el.dataset.load = String(t); else el.removeAttribute('data-load');
+}
+
+// ボタンの性格別の色。data-fx は renderHero が「席」ではなく「中身」で入れる。
+const CTA_FX_COLORS = {
+  srs:    ['#60A5FA', '#A5D8FF', '#FFFFFF'],   // 🔔 復習＝青
+  browse: ['#3DD68C', '#A7F3D0', '#FFFFFF'],   // 📚 全科目＝緑
+  redo:   ['#FF6B6B', '#FFB4A2', '#FFFFFF']    // 🔁 誤答の再履修＝赤（cta-redo の細線と同系）
+};
+function _ctaColors(el) {
+  const k = el && el.dataset ? el.dataset.fx : '';
+  return CTA_FX_COLORS[k] || [_accent(), '#FFFFFF'];
+}
+
+// E2: 押した位置からリップル。pointerdown で挿し、アニメ終了で自分を消す。
+// ⚠️ is-off のボタンには出さない（pointer-events:none なのでそもそも届かないが、
+//    将来 is-off の実装を変えたときに「押せないのに反応する」を作らないため明示する）。
+function _initCtaRipple() {
+  if (_reducedMotion()) return;
+  document.addEventListener('pointerdown', e => {
+    const btn = e.target.closest('.cta-main, .cta-sub');
+    if (!btn || btn.classList.contains('is-off')) return;
+    const r = btn.getBoundingClientRect();
+    const rip = document.createElement('span');
+    rip.className = 'cta-rip';
+    rip.style.setProperty('--rx', (e.clientX - r.left) + 'px');
+    rip.style.setProperty('--ry', (e.clientY - r.top) + 'px');
+    btn.appendChild(rip);
+    rip.addEventListener('animationend', () => rip.remove(), { once: true });
+    setTimeout(() => rip.remove(), 900);   // animationend が来ない環境の保険
+  }, { passive: true });
+}
+
+/* E10: 遷移の余韻。押した瞬間に粒子を撒いても、その場で遷移すると1フレームも見えない。
+   ⚠️ 遷移を横取りするので、通常のリンクとして扱うべきものは必ず素通しすること:
+      修飾キー（新しいタブで開く）・中クリック・target 指定・別オリジン・href なし。
+   ⚠️ 保険のタイマーを必ず置く（例外で遷移が落ちると押しても何も起きないボタンになる）。 */
+const CTA_EXIT_MS = 210;
+function _initCtaExit() {
+  if (_reducedMotion()) return;
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('.cta-main, .cta-sub');
+    if (!btn || btn.classList.contains('is-off')) return;
+    const href = btn.getAttribute('href');
+    if (!href || btn.target || e.defaultPrevented) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    let gone = false;
+    const go = () => { if (gone) return; gone = true; location.href = href; };
+    try {
+      if (_fxOk()) {
+        const c = _centerOf(btn);
+        if (c) {
+          const col = _ctaColors(btn);
+          MecFX.burst(c.x, c.y, {
+            tier: 3, count: 30, colors: col, shapes: ['circle', 'star'],
+            speed: 340, gravity: 380, glow: true, additive: true
+          });
+          MecFX.rings(c.x, c.y, { count: 2, color: col[0], thickness: 2, maxR: 170, stagger: .07, additive: true });
+        }
+      }
+      btn.animate([{ opacity: 1 }, { opacity: .55 }], { duration: CTA_EXIT_MS, fill: 'forwards' });
+    } catch (err) { /* 演出が落ちても遷移は必ず起こす */ }
+    setTimeout(go, CTA_EXIT_MS);
+    setTimeout(go, 900);            // 保険
+  });
 }
 
 // ── ゲージの歯車列 ───────────────────────────────────────────
@@ -1927,9 +2167,17 @@ function _initTapBurst() {
   if (_reducedMotion()) return;
   document.addEventListener('pointerdown', e => {
     if (!_fxOk()) return;
-    if (!e.target.closest('.tile, .cta-main, .cta-sub, .hub-icon, .menu-row, .chapter-row, .mindmap-btn')) return;
+    const hit = e.target.closest('.tile, .cta-main, .cta-sub, .hub-icon, .menu-row, .chapter-row, .mindmap-btn');
+    if (!hit) return;
+    // ヒーローのボタンだけは性格別の色で撒く（🔔復習=青 / 📚全科目=緑 / 🔁誤答=赤）。
+    // 席ではなく中身で決まるので、主ボタンの色は日によって入れ替わる（_ctaColors）。
+    const cta = hit.classList.contains('cta-main') || hit.classList.contains('cta-sub');
+    if (cta && hit.classList.contains('is-off')) return;
     MecFX.burst(e.clientX, e.clientY, {
-      tier: 2, count: 10, colors: [_accent(), '#FFFFFF'], shapes: ['circle'], speed: 260, gravity: 520
+      tier: cta ? 3 : 2, count: cta ? 18 : 10,
+      colors: cta ? _ctaColors(hit) : [_accent(), '#FFFFFF'],
+      shapes: cta ? ['circle', 'star'] : ['circle'],
+      speed: cta ? 300 : 260, gravity: 520, glow: cta, additive: cta
     });
   }, { passive: true });
 }
@@ -2690,6 +2938,8 @@ document.addEventListener('DOMContentLoaded', () => {
   _initScrollReveal();
   _initScrollProgress();
   _initTapBurst();
+  _initCtaRipple();   // E2: ヒーローのボタンのリップル
+  _initCtaExit();     // E10: 遷移直前のひと呼吸（⚠️ 内部で必ず遷移させる保険つき）
   _initSyncFx();
   _bootSequence();
   _startHeroDust();
