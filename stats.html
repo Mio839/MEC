@@ -115,22 +115,23 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .sec--lead .sec-title{font-size:14px;}
 .sec--aside .sec-title{color:var(--ts);margin-bottom:12px;}
 
-/* Activity chart */
-.act-wrap{display:flex;flex-direction:column;gap:3px;}
-.act-bars{display:flex;align-items:flex-end;gap:2px;height:72px;}
-.act-bar{flex:1;border-radius:2px 2px 0 0;min-height:2px;background:var(--c-act);position:relative;cursor:default;}
-.act-bar.today{background:var(--yl);}
-.act-bar.zero{background:rgba(var(--glass-rgb),.08);min-height:3px;}
-/* 棒グラフのツールチップ。周囲に overflow を切る親が無いのでここは吹き出しでよい
-   （13pxのセルが並ぶカレンダー/章別ヒートマップは吹き出しが潰れるので読み取り行方式にした） */
-.act-bar:hover::after,.act-bar.tap-show::after,
-.time-bar:hover::after,.time-bar.tap-show::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:var(--nv);color:#fff;font-size:11px;padding:3px 7px;border-radius:5px;white-space:nowrap;pointer-events:none;z-index:var(--z-tip);box-shadow:0 2px 10px rgba(0,0,0,.5);}
-.act-dates{display:flex;gap:2px;}
-/* 30個すべてに日付を出すと 8px でも入らず overflow:hidden で切れていた。
-   JS側で5日ごと＋今日だけに間引き、そのぶん文字を読める大きさに戻す */
-.act-date{flex:1;font-size:10px;text-align:center;color:var(--ts);overflow:hidden;white-space:nowrap;}
-.act-date.today{color:var(--or);font-weight:800;}
-.act-total{font-size:11px;color:var(--ts);text-align:right;margin-top:6px;}
+/* ── 4層の見出し（2026-08-18・Phase 3）────────────────────────────
+   旧実装は14セクションが平坦に並び、「あの表はどこだっけ」が起きていた。
+   セクションを減らしたうえで、残ったものを「今の状態 / 積み上げ / どこが弱いか / 道具」
+   の4層に束ねる。層の見出しは箱を持たない＝セクションと同じ重みで読ませない。 */
+.layer-hd{display:flex;align-items:center;gap:8px;margin:26px 2px 10px;
+  font-family:var(--font-display);letter-spacing:var(--font-display-ls);
+  font-size:11px;font-weight:800;color:var(--ts);text-transform:none;}
+.layer-hd:first-child{margin-top:2px;}
+.layer-hd .layer-n{display:inline-flex;align-items:center;justify-content:center;
+  width:17px;height:17px;border-radius:50%;flex-shrink:0;
+  background:rgba(255,255,255,.09);color:var(--tx);font-size:10px;font-weight:900;}
+.layer-hd::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.09);}
+
+/* 空の状態。旧実装は該当データが無いとセクションごと display:none にしていたので、
+   日によってページの形が変わっていた。常設して中身だけ差し替える */
+.sec-empty{font-size:13px;color:var(--ts);text-align:center;padding:18px 0;line-height:1.7;}
+
 
 /* Subject table
    5列あり、320/375px では列が潰れきってページごと横スクロールしていた。
@@ -173,10 +174,6 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .legend-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ts);}
 .legend-dot{width:10px;height:10px;border-radius:2px;}
 
-/* Study time chart（吹き出しの定義は .act-bar とまとめてある） */
-.time-bar{flex:1;border-radius:2px 2px 0 0;min-height:2px;background:var(--c-time);position:relative;cursor:default;}
-.time-bar.today{background:var(--c-time-today);}
-.time-bar.zero{background:rgba(var(--glass-rgb),.08);min-height:3px;}
 
 /* Accuracy badge */
 .acc-badge{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:var(--r-md);white-space:nowrap;}
@@ -194,30 +191,95 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .rh-latest{font-size:12px;font-weight:800;width:40px;text-align:right;flex-shrink:0;}
 .rh-no-data{font-size:12px;color:var(--ts);text-align:center;padding:20px 0;}
 
-/* Choice analysis chart (K) */
-.choice-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:8px;}
-.choice-col{text-align:center;}
-.choice-bar-wrap{height:60px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:4px;}
-/* 高さは描画時に一度決まり以後変わらないので transition は効いていなかった。
-   レイアウトプロパティのアニメでもあるので外す */
-.choice-bar{width:100%;max-width:36px;border-radius:4px 4px 0 0;min-height:3px;}
-.choice-lbl{font-size:13px;font-weight:800;color:var(--tx);}
-.choice-val{font-size:10px;color:var(--ts);margin-top:2px;}
-.choice-note{font-size:11px;color:var(--ts);margin-top:12px;text-align:center;line-height:1.6;}
-.choice-empty{font-size:13px;color:var(--ts);text-align:center;padding:16px 0;}
+/* ── 弱点リスト（統合）─────────────────────────────────────────
+   旧実装は「弱いもの」のリストが4本（📐本番との差 / 💡取りこぼし / 🎯苦手ランキング /
+   🔍誤答選択肢パターン）に割れており、同じ uid が複数の表に重複して載っていた。
+   4本を1本に畳み、どの理由で挙がったかは行のタグで示す。
+   ⚠️ 📐本番との差は「引き算の左右で分母が違う」ため廃止した（§4-2）。
+      同じ uid での比較＝分母が揃った形だけを 🔻本番差 タグとして残してある。 */
+.wk-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.wk-fbtn{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;cursor:pointer;font-family:inherit;
+  background:transparent;border:1px solid rgba(255,255,255,.16);color:var(--ts);}
+.wk-fbtn.on{background:rgba(96,165,250,.18);border-color:var(--blu-bd);color:var(--blu);}
+.wk-fbtn:disabled{opacity:.4;cursor:default;}
 
-/* Weak ranking */
-.weak-empty{font-size:13px;color:var(--ts);text-align:center;padding:16px 0;}
+.wk-item{border-bottom:1px solid var(--gb);}
+.wk-item:last-child{border-bottom:none;}
+.wk-head{display:flex;align-items:stretch;gap:0;margin:0 -16px;}
 /* hover で margin/padding を動かすと行が飛び跳ねるので、幅は常時広げておき
    hover では背景色だけを変える（レイアウトを触らない） */
-.weak-row{display:flex;align-items:center;gap:8px;margin:0 -16px;padding:7px 16px;border-bottom:1px solid var(--gb);text-decoration:none;color:var(--tx);border-radius:var(--r-sm);}
-.weak-row:last-child{border-bottom:none;}
-.weak-row:hover{background:rgba(var(--glass-rgb),.05);}
-.weak-rank{font-size:11px;font-weight:700;color:var(--ts);width:20px;flex-shrink:0;text-align:right;}
-.weak-subj-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:var(--r-md);color:var(--subj-ink);white-space:nowrap;flex-shrink:0;}
-.weak-info{flex:1;min-width:0;}
-.weak-ch{font-size:12px;color:var(--ts);}
-.weak-acc{font-size:13px;font-weight:700;flex-shrink:0;}
+.wk-row{flex:1;min-width:0;display:flex;align-items:center;gap:8px;padding:8px 4px 8px 16px;
+  text-decoration:none;color:var(--tx);border-radius:var(--r-sm);}
+.wk-row:hover{background:rgba(var(--glass-rgb),.05);}
+.wk-rank{font-size:11px;font-weight:700;color:var(--ts);width:20px;flex-shrink:0;text-align:right;font-variant-numeric:tabular-nums;}
+.wk-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:var(--r-md);color:var(--subj-ink);white-space:nowrap;flex-shrink:0;}
+.wk-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+.wk-ch{font-size:12px;color:var(--ts);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.wk-tags{display:flex;gap:4px;flex-wrap:wrap;}
+/* タグは3種だけ。色ではなく字で読ませる（塗りだけに意味を負わせない） */
+.wk-tag{font-size:9px;font-weight:700;font-style:normal;padding:1px 5px;border-radius:var(--r-sm);
+  white-space:nowrap;border:1px solid transparent;}
+.wk-tag.t-miss{background:var(--rdl);color:var(--rd);border-color:var(--rd-bd);}
+.wk-tag.t-gap{background:var(--orl);color:var(--or);border-color:var(--or-bd);}
+.wk-tag.t-rep{background:rgba(255,255,255,.07);color:var(--ts);border-color:rgba(255,255,255,.14);}
+.wk-acc{font-size:13px;font-weight:700;flex-shrink:0;}
+.wk-more{flex-shrink:0;width:34px;border:none;background:none;color:var(--ts);font-size:11px;cursor:pointer;
+  font-family:inherit;border-radius:var(--r-sm);}
+.wk-more:hover{background:rgba(var(--glass-rgb),.06);color:var(--tx);}
+.wk-more .wk-caret{display:inline-block;transition:transform .18s var(--ease-out);}
+.wk-more[aria-expanded="true"] .wk-caret{transform:rotate(180deg);}
+
+/* 行の内訳。旧「🔍誤答選択肢パターン」の中身はここへ落とした＝
+   全体の分布より「この問題でどの肢に流れたか」の方が打ち手に直結する */
+.wk-detail{padding:2px 0 12px 44px;font-size:11px;color:var(--ts);line-height:1.75;}
+.wk-detail[hidden]{display:none;}
+.wk-cmp{display:flex;align-items:center;gap:7px;margin-bottom:6px;}
+.wk-cmp-lbl{width:52px;flex-shrink:0;}
+.wk-cmp-track{flex:1;max-width:190px;height:7px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden;}
+.wk-cmp-fill{height:100%;border-radius:4px;transform-origin:left center;}
+.wk-cmp-fill.nat{background:var(--gr);}
+.wk-cmp-fill.you{background:var(--rd);}
+.wk-cmp-v{width:38px;flex-shrink:0;text-align:right;font-weight:700;color:var(--tx);font-variant-numeric:tabular-nums;}
+.wk-picks{margin-top:4px;}
+.wk-pick{display:inline-block;margin-right:8px;font-weight:700;color:var(--tx);}
+.wk-pick .n{font-weight:400;color:var(--ts);}
+.wk-foot{font-size:11px;color:var(--ts);margin-top:12px;padding-top:10px;
+  border-top:1px solid rgba(255,255,255,.07);line-height:1.7;}
+
+/* ── 章別ヒートマップ 2段（科目 → 章）───────────────────────────
+   旧実装は 180章を一度に出していた。1段目を科目タイルにすると、
+   一望する対象が科目数まで減り、2段目には章名を書く余地が生まれる */
+.hm-subj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:7px;}
+.hm-subj{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:8px 9px;cursor:pointer;
+  font-family:inherit;text-align:left;border-radius:var(--r-md);
+  background:rgba(var(--glass-rgb),.05);border:1px solid rgba(255,255,255,.10);}
+.hm-subj:hover{background:rgba(var(--glass-rgb),.10);}
+.hm-subj-top{display:flex;align-items:center;gap:5px;width:100%;min-width:0;}
+.hm-subj-ic{font-size:14px;flex-shrink:0;}
+.hm-subj-nm{font-size:11px;font-weight:700;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hm-subj-row{display:flex;align-items:center;gap:6px;width:100%;}
+.hm-subj-v{font-size:10px;color:var(--ts);font-variant-numeric:tabular-nums;}
+.hm-subj-v b{color:var(--tx);font-size:11px;}
+
+.hm-back{display:flex;align-items:center;gap:9px;margin-bottom:11px;flex-wrap:wrap;}
+.hm-back-btn{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;cursor:pointer;font-family:inherit;
+  background:transparent;border:1px solid rgba(255,255,255,.18);color:var(--ts);}
+.hm-back-btn:hover{background:rgba(255,255,255,.09);color:var(--tx);}
+.hm-back-nm{font-size:12px;font-weight:800;color:var(--tx);}
+.hm-back-go{margin-left:auto;font-size:11px;color:var(--blu);text-decoration:none;white-space:nowrap;}
+.hm-back-go:hover{text-decoration:underline;}
+.hm-ch-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.hm-ch-row:last-child{border-bottom:none;}
+.hm-ch-n{width:44px;flex-shrink:0;font-size:11px;font-weight:700;color:var(--ts);white-space:nowrap;}
+.hm-ch-t{flex:1;min-width:0;font-size:11px;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+/* 升目そのものは .hm-cell を使い回す＝ランプの対応表を2箇所に持たない */
+.hm-ch-row .hm-cell,.hm-subj .hm-cell{flex-shrink:0;cursor:inherit;}
+.hm-ch-v{width:96px;flex-shrink:0;text-align:right;font-size:11px;font-weight:700;color:var(--tx);font-variant-numeric:tabular-nums;}
+.hm-ch-v small{font-weight:400;color:var(--ts);}
+
+/* ── カレンダーの数字（旧「📅30日間の学習記録」「⏱30日間の学習時間」を畳んだ先）── */
+.cal-figs{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:10px;font-size:11px;color:var(--ts);}
+.cal-figs b{color:var(--tx);font-weight:800;font-variant-numeric:tabular-nums;font-size:13px;}
 
 /* AI export */
 .ai-desc{font-size:12px;color:var(--ts);margin-bottom:12px;line-height:1.6;}
@@ -332,7 +394,6 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .cal-lg{width:11px;height:11px;border-radius:3px;display:inline-block;background:var(--ramp-none);}
 .cal-lg.l1{background:var(--ramp-c2);}.cal-lg.l2{background:var(--ramp-c3);}
 .cal-lg.l3{background:var(--ramp-c4);}.cal-lg.l4{background:var(--ramp-c5);}
-.cal-total{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums;}
 /* 13px のセルに吹き出しを出すと、親の overflow-x:auto に上端を切られるうえ
    指では狙えない。タップした値をこの1行に書き出す方式に変えた（iPadに hover は無い） */
 .grid-readout{margin-top:8px;font-size:11px;color:var(--ts);min-height:17px;line-height:17px;
@@ -386,29 +447,6 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .hm-legend{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:10px;color:var(--ts);flex-wrap:wrap;}
 .hm-legend i{width:11px;height:11px;border-radius:3px;display:inline-block;}
 
-/* ── A4: 本番との差 ── */
-.gap-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);}
-.gap-row:last-child{border-bottom:none;}
-.gap-name{width:74px;flex-shrink:0;font-size:12px;font-weight:700;color:var(--tx);white-space:nowrap;overflow:hidden;}
-.gap-track{flex:1;height:8px;background:rgba(255,255,255,.08);border-radius:4px;position:relative;overflow:hidden;}
-.gap-fill{position:absolute;top:0;bottom:0;border-radius:4px;}
-.gap-fill.minus{background:var(--rd);right:50%;}
-.gap-fill.plus{background:var(--gr);left:50%;}
-.gap-mid{position:absolute;left:50%;top:-2px;bottom:-2px;width:1.5px;background:rgba(255,255,255,.4);}
-.gap-val{width:52px;text-align:right;font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;flex-shrink:0;}
-.gap-empty{font-size:13px;color:var(--ts);text-align:center;padding:16px 0;}
-
-/* Miss (取りこぼし) list */
-.miss-row{display:flex;align-items:center;gap:8px;margin:0 -16px;padding:7px 16px;border-bottom:1px solid rgba(255,255,255,.05);text-decoration:none;color:var(--tx);border-radius:var(--r-sm);}
-.miss-row:last-child{border-bottom:none;}
-.miss-row:hover{background:rgba(var(--glass-rgb),.05);}
-.miss-rank{font-size:11px;font-weight:700;color:var(--ts);width:20px;flex-shrink:0;text-align:right;}
-.miss-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:var(--r-md);color:var(--subj-ink);white-space:nowrap;flex-shrink:0;}
-.miss-info{flex:1;min-width:0;font-size:12px;color:var(--ts);}
-.miss-gap{flex-shrink:0;font-size:12px;font-weight:700;text-align:right;}
-.miss-gap .nat{color:var(--gr);}
-.miss-gap .you{color:var(--rd);}
-.miss-empty{font-size:13px;color:var(--ts);text-align:center;padding:16px 0;}
 
 /* ── 弱点カルテ: 科目×設問形式ヒートマップ ─────────────────────────────
    セルの塗りは「弱さ」の逐次ランプ（アンバー単一色相・L単調）。強い＝面に沈み、
@@ -484,7 +522,38 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .subj-row:focus-visible,.ch-row:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-2px;}
 .hm-cell:focus-visible,.cal-cell:focus-visible{outline:2px solid var(--focus-ring);outline-offset:1px;}
 
-/* ページを閉じる1行。14セクションのあと何も無く終わっていた */
+/* ── セクションの入場（2026-08-18・Phase 3）─────────────────────────
+   ⚠️ 旧実装にも armReveal() があり、14セクション全部を IntersectionObserver で
+      動かしていて「ページが落ち着かない」ため撤去された経緯がある。
+      戻すにあたって守っている条件は3つ:
+        ① セクションを減らしてから載せる（減らす → 動かす の順序）
+        ② 層の見出しとセクションの箱だけ。中身（セル・棒・数字）は既存の演出に任せる
+        ③ ブラウザのセッション内で1回だけ（再読込のたびに全部動くと重い）
+   ⚠️ 隠すのは .rv-on が付いている間だけ。CSS 側だけで .rvs{opacity:0} にすると、
+      JS が落ちた日にページが丸ごと真っ白になる。付けるのは armReveal() の中。
+   ⚠️ transform は使うが body には掛けない（fixed の包含ブロックになるため）。 */
+.rv-on .rvs{opacity:0;transform:translateY(10px);}
+.rv-on .rvs.in{animation:rvsIn .42s var(--ease-out) forwards;}
+@keyframes rvsIn{to{opacity:1;transform:none;}}
+
+/* 「今日」のセルだけ呼吸する。カレンダーは12週＝84セルあり、今日の位置は
+   毎日ずれるので静止していると見つけられない。
+   ⚠️ .cal-cell は本体の animation を他で使っていないのでここに置いてよい
+      （1要素で使える層は本体 / ::before / ::after の3つだけ・後勝ちで死ぬ） */
+.cal-cell.is-today{animation:calToday 3.2s ease-in-out infinite;}
+@keyframes calToday{
+  0%,100%{box-shadow:0 0 0 0 rgba(255,209,102,0);}
+  50%{box-shadow:0 0 0 2px rgba(255,209,102,.55),0 0 10px rgba(255,209,102,.35);}
+}
+@media (prefers-reduced-motion: reduce){
+  /* 動きを消すだけにしない。今日のセルは outline（.cal-cell.is-today に常時ある）が
+     残るので位置は依然わかる＝事実は静的な印で二重化されている */
+  .rv-on .rvs,.rv-on .rvs.in{opacity:1;transform:none;animation:none;}
+  .cal-cell.is-today{animation:none;}
+  .wk-more .wk-caret{transition:none;}
+}
+
+/* ページを閉じる1行 */
 .foot{max-width:700px;margin:0 auto;padding:18px 12px 40px;display:flex;flex-wrap:wrap;
   align-items:baseline;gap:6px 14px;font-size:11px;color:var(--ts);
   border-top:1px solid rgba(255,255,255,.08);}
@@ -511,9 +580,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
 <main class="ct">
 
+  <!-- ══════════ 1. 今の状態 ══════════ -->
+  <p class="layer-hd rvs"><span class="layer-n">1</span>今の状態</p>
+
   <!-- A1/B1: 国試カウントダウンと必要ペース。統計が「過去」しか映していなかったので、
        「間に合うのか」に答える主役セクションとして最上部に置く -->
-  <section class="sec sec--lead hero-sec">
+  <section class="sec sec--lead hero-sec rvs">
     <div class="hero-top">
       <div class="hero-ring" id="heroRing"><div class="hero-ring-in">
         <span class="hero-pct" id="heroPct">—</span><span class="hero-pct-lbl">達成</span>
@@ -539,28 +611,20 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   </section>
 
   <!-- A2: 今後の復習予測。mec_srs_v1 は今まで統計側で完全に未使用だった -->
-  <section class="sec" id="srsForecastSec">
+  <section class="sec rvs" id="srsForecastSec">
     <h2 class="sec-title">🔔 復習の見通し <span class="sec-note">（SRSの予定日から集計）</span></h2>
     <div class="fc-summary" id="fcSummary"></div>
     <div class="fc-bars" id="fcBars"></div>
     <div class="fc-note" id="fcNote"></div>
   </section>
 
-  <section class="sec" id="aiExportSec">
-    <h2 class="sec-title">🤖 AI相談用データ</h2>
-    <p class="ai-desc">学習データを要約してコピーします。ClaudeなどのAIに貼り付けると、弱点分析や今後の学習計画を相談できます。</p>
-    <button id="aiExportBtn" class="ai-export-btn">📋 AI相談用にコピー</button>
-    <div class="ai-opts">
-      <label class="ai-opt"><input type="checkbox" id="aiOptRaw"> 苦手問題の生リストも含める（長め）</label>
-    </div>
-    <div id="aiExportMsg" class="ai-export-msg"></div>
-    <p class="ai-desc ai-desc2">弱点に合わせて一問一答を出題させるプロンプトも作れます。貼り付けるとAIが1問ずつ出題し、答えるまで正解を伏せます。</p>
-    <button id="aiDrillBtn" class="ai-export-btn ai-drill-btn">🎯 一問一答プロンプトをコピー</button>
-    <div id="aiDrillMsg" class="ai-export-msg"></div>
-  </section>
+  <!-- ══════════ 2. 積み上げ ══════════ -->
+  <p class="layer-hd rvs"><span class="layer-n">2</span>積み上げ</p>
 
-  <!-- B2: 学習カレンダー。30日の棒グラフより一覧性が高く、連続の途切れも直感的に分かる -->
-  <section class="sec">
+  <!-- B2: 学習カレンダー。旧「📅30日間の学習記録」「⏱30日間の学習時間」は
+       期間も内容もここに包含されるので、セルの内訳（#calReadout）と
+       下の数字（.cal-figs）へ畳んだ。時間の記録を3本並べない。 -->
+  <section class="sec rvs">
     <h2 class="sec-title">🗓 学習カレンダー <span class="sec-note">（直近12週間・セルをタップで内訳）</span></h2>
     <div class="cal-wrap">
       <div class="cal-dow" id="calDow"></div>
@@ -571,12 +635,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
       <span>少</span>
       <i class="cal-lg l0"></i><i class="cal-lg l1"></i><i class="cal-lg l2"></i><i class="cal-lg l3"></i><i class="cal-lg l4"></i>
       <span>多</span>
-      <span class="cal-total" id="calTotal"></span>
     </div>
+    <div class="cal-figs" id="calFigs"></div>
     <div class="dow-wrap" id="dowWrap"></div>
   </section>
 
-  <section class="sec">
+  <section class="sec rvs">
     <h2 class="sec-title">📚 科目別進捗</h2>
     <div class="subj-scroll">
       <table class="subj-table">
@@ -594,88 +658,83 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     </div>
   </section>
 
-  <!-- A3: 章別ヒートマップ。111章を一望して弱点を地図として掴む -->
-  <section class="sec">
-    <h2 class="sec-title">🗺 章別ヒートマップ <span class="sec-note">（章をタップで内訳／科目名から該当科目へ）</span></h2>
-    <div class="hm-mode">
-      <button class="hm-mode-btn on" data-hm="acc">正答率で見る</button>
-      <button class="hm-mode-btn" data-hm="prog">進捗で見る</button>
-    </div>
-    <div id="heatmap"></div>
-    <div class="grid-readout" id="hmReadout"></div>
-    <div class="hm-legend" id="hmLegend"></div>
-  </section>
-
-  <!-- 弱点カルテ: 科目×設問形式のヒートマップ（qmeta.json × myrate_v1）。
-       章別集計では見えない「治療選択だけ落ちる」型の弱点を出すのが目的 -->
-  <section class="sec" id="chartSec" style="display:none">
-    <h2 class="sec-title">🩺 弱点カルテ <span class="sec-note">（科目 × 設問形式の試験正答率）</span></h2>
-    <div class="hm-scroll">
-      <table class="hm" id="hmTable"></table>
-    </div>
-    <div class="hm-foot">
-      <div class="karte-legend" id="hmKarteLegend"></div>
-      <div class="hm-note" id="hmNote"></div>
-    </div>
-    <div class="band-wrap" id="bandWrap">
-      <h3 class="band-title">本番正答率帯ごとの自分の正答率 <span class="sec-note">（易しい帯で崩れる＝読み落とし型／難しい帯だけ落ちる＝知識型）</span></h3>
-      <div class="band-rows" id="bandRows"></div>
-    </div>
-  </section>
-
-  <!-- A4: 本番正答率と自分の正答率のギャップ -->
-  <section class="sec" id="gapSec" style="display:none">
-    <h2 class="sec-title">📐 本番との差 <span class="sec-note">（本番正答率 − 自分の試験正答率。マイナスが大きいほど要対策）</span></h2>
-    <div id="gapList"></div>
-  </section>
-
-  <section class="sec" id="missSec" style="display:none">
-    <h2 class="sec-title">💡 取りこぼし問題 <span class="sec-note">（本番正答率80%以上なのに試験モードで落とした・最優先復習）</span></h2>
-    <div id="missList"></div>
-  </section>
-
-  <section class="sec">
-    <h2 class="sec-title">🎯 苦手問題ランキング <span class="sec-note">（試験モード 3回以上・正解率50%未満）</span></h2>
-    <div id="weakList"></div>
-  </section>
-
   <!-- ── ここから下は参考段（.sec--aside）──────────────────────────────
-       箱を外し、罫線と余白だけで区切る。上の段（行動を決めるための指標）と
-       同じ視覚的重みで並べないための階層分け。
-       30日の2グラフは上の「学習カレンダー」（12週間）に内容が包含されるので、
-       日単位で細かく追いたいとき用の参照としてこちらへ落としてある。 -->
-  <section class="sec sec--aside is-first">
-    <h2 class="sec-title">📅 30日間の学習記録</h2>
-    <div class="act-wrap">
-      <div class="act-bars" id="actBars"></div>
-      <div class="act-dates" id="actDates"></div>
-      <div class="act-total" id="actTotal"></div>
-    </div>
-  </section>
-
-  <section class="sec sec--aside">
-    <h2 class="sec-title">⏱ 30日間の学習時間</h2>
-    <div class="act-wrap">
-      <div class="act-bars" id="timeBars"></div>
-      <div class="act-dates" id="timeDates"></div>
-      <div class="act-total" id="timeTotal"></div>
-    </div>
-  </section>
-
-  <section class="sec sec--aside">
+       箱を外し、罫線と余白だけで区切る。同じ「積み上げ」の層だが、
+       行動を決めるための指標ではなく眺めるためのものなので重みを下げる。 -->
+  <section class="sec sec--aside is-first rvs">
     <h2 class="sec-title">✅ 済みレベル分布</h2>
     <div class="level-bars" id="levelBars"></div>
     <div class="level-legend" id="levelLegend"></div>
   </section>
 
-  <section class="sec sec--aside">
+  <section class="sec sec--aside rvs">
     <h2 class="sec-title">📈 科目別正答率の推移 <span class="sec-note">（stats.html を開くたびに記録）</span></h2>
     <div id="rateHistoryWrap"></div>
   </section>
 
-  <section class="sec sec--aside" id="choiceSec">
-    <h2 class="sec-title">🔍 誤答選択肢パターン <span class="sec-note">（試験モードでどの選択肢を選びがちか）</span></h2>
-    <div id="choiceWrap"></div>
+  <!-- ══════════ 3. どこが弱いか ══════════ -->
+  <p class="layer-hd rvs"><span class="layer-n">3</span>どこが弱いか</p>
+
+  <!-- 弱点リスト（統合）。旧実装は 📐本番との差 / 💡取りこぼし / 🎯苦手問題ランキング /
+       🔍誤答選択肢パターン の4本に割れており、同じ問題が複数の表へ重複して載っていた。
+       ⚠️ 📐本番との差は廃止した（引き算の左右で分母が違い、原理的に読めない値だった）。
+          同じ uid で比べる形＝分母が揃った比較だけを 🔻本番差 のタグとして残してある。 -->
+  <section class="sec rvs" id="weakSec">
+    <h2 class="sec-title">🎯 弱点リスト <span class="sec-note">（試験モードの記録から・行の ▾ で内訳）</span></h2>
+    <div class="wk-filter" id="wkFilter"></div>
+    <div id="wkList"></div>
+    <div class="wk-foot" id="wkFoot"></div>
+  </section>
+
+  <!-- 弱点カルテ: 科目×設問形式のヒートマップ（qmeta.json × myrate_v1）。
+       章別集計では見えない「治療選択だけ落ちる」型の弱点を出すのが目的。
+       ⚠️ 旧実装は display:none から出入りしていて、日によってページの形が変わっていた。
+          常設して、データが無いときは中身を空の状態に差し替える。 -->
+  <section class="sec rvs" id="chartSec">
+    <h2 class="sec-title">🩺 弱点カルテ <span class="sec-note">（科目 × 設問形式の試験正答率）</span></h2>
+    <div id="karteEmpty" class="sec-empty">まだ試験モードのデータがありません。<br>試験モードで解くと、科目 × 設問形式（診断／検査／治療／対応／知識）の正答率が出ます。</div>
+    <div id="karteBody" hidden>
+      <div class="hm-scroll">
+        <table class="hm" id="hmTable"></table>
+      </div>
+      <div class="hm-foot">
+        <div class="karte-legend" id="hmKarteLegend"></div>
+        <div class="hm-note" id="hmNote"></div>
+      </div>
+      <div class="band-wrap" id="bandWrap">
+        <h3 class="band-title">本番正答率帯ごとの自分の正答率 <span class="sec-note">（易しい帯で崩れる＝読み落とし型／難しい帯だけ落ちる＝知識型）</span></h3>
+        <div class="band-rows" id="bandRows"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- A3: 章別ヒートマップ。旧実装は 180章を一度に並べていた。
+       科目タイル → 章、の2段にして、2段目には章名を書く余地を作った。 -->
+  <section class="sec rvs">
+    <h2 class="sec-title">🗺 章別ヒートマップ <span class="sec-note">（科目をタップすると章の内訳へ）</span></h2>
+    <div class="hm-mode">
+      <button class="hm-mode-btn on" data-hm="acc">正答率で見る</button>
+      <button class="hm-mode-btn" data-hm="prog">進捗で見る</button>
+    </div>
+    <div id="heatmap"></div>
+    <div class="hm-legend" id="hmLegend"></div>
+  </section>
+
+  <!-- ══════════ 4. 道具 ══════════ -->
+  <p class="layer-hd rvs"><span class="layer-n">4</span>道具</p>
+
+  <!-- 旧実装ではページの上から2番目にあった。道具であって情報ではないので末尾へ移した -->
+  <section class="sec rvs" id="aiExportSec">
+    <h2 class="sec-title">🤖 AI相談用データ</h2>
+    <p class="ai-desc">学習データを要約してコピーします。ClaudeなどのAIに貼り付けると、弱点分析や今後の学習計画を相談できます。</p>
+    <button id="aiExportBtn" class="ai-export-btn">📋 AI相談用にコピー</button>
+    <div class="ai-opts">
+      <label class="ai-opt"><input type="checkbox" id="aiOptRaw"> 苦手問題の生リストも含める（長め）</label>
+    </div>
+    <div id="aiExportMsg" class="ai-export-msg"></div>
+    <p class="ai-desc ai-desc2">弱点に合わせて一問一答を出題させるプロンプトも作れます。貼り付けるとAIが1問ずつ出題し、答えるまで正解を伏せます。</p>
+    <button id="aiDrillBtn" class="ai-export-btn ai-drill-btn">🎯 一問一答プロンプトをコピー</button>
+    <div id="aiDrillMsg" class="ai-export-msg"></div>
   </section>
 
 </main>
@@ -702,14 +761,6 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     return v || fallback || '#888';
   }
 
-  // 30日ぶんの日付を全部並べると、どのサイズでも文字が潰れて overflow:hidden に
-  // 切られていた。5日ごと＋今日だけに間引き、そのぶん読める大きさで出す
-  function actLabel(date, i, isToday) {
-    if (!isToday && i % 5 !== 0) return '';
-    const p = date.split('-');
-    return (+p[1]) + '/' + (+p[2]);
-  }
-
   const done   = lsGet('done_v2');
   const flags  = lsGet('flag_v2');
   const activity = lsGet('activity_v1');
@@ -722,78 +773,33 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   document.getElementById('sumStreak').textContent = window.MECSync ? window.MECSync.calcStreak() : 0;
   document.getElementById('sumFlag').textContent   = flagCount + '問';
 
-  // ── Activity chart (30 days) ──────────────────────────────
+  // ── 30日の解答数・学習時間 ────────────────────────────────
+  // ⚠️ 旧実装はここで棒グラフを2本描いていた（📅30日間の学習記録 / ⏱30日間の学習時間）。
+  //    どちらも「🗓 学習カレンダー(12週)」に期間ごと包含される同じ話なので、
+  //    2セクションは畳んでカレンダーの数字（.cal-figs）と読み取り行へ吸収した。
+  //    集計値そのものは AI相談用Markdown が参照するので計算だけ残す。
   const days = [];
   for (let i = 29; i >= 0; i--) {
     const d = new Date(Date.now() + 9 * 3600000); d.setUTCDate(d.getUTCDate() - i);
-    const ds = d.toISOString().slice(0, 10);
-    days.push({ date: ds, count: activity[ds] || 0 });
+    days.push(activity[d.toISOString().slice(0, 10)] || 0);
   }
-  const maxCount = Math.max(...days.map(d => d.count), 1);
-  const total30  = days.reduce((s, d) => s + d.count, 0);
+  const total30 = days.reduce((s, n) => s + n, 0);
 
-  const barsEl  = document.getElementById('actBars');
-  const datesEl = document.getElementById('actDates');
-  days.forEach(({ date, count }, i) => {
-    const isToday = date === today;
-    const pct = Math.round((count / maxCount) * 100);
-    const bar = document.createElement('div');
-    bar.className = 'act-bar' + (isToday ? ' today' : '') + (count === 0 ? ' zero' : '');
-    bar.style.height = (count === 0 ? '3px' : Math.max(pct, 4) + '%');
-    bar.dataset.tip  = date.slice(5) + ' ' + count + '問';
-    barsEl.appendChild(bar);
-
-    const lbl = document.createElement('div');
-    lbl.className = 'act-date' + (isToday ? ' today' : '');
-    lbl.textContent = actLabel(date, i, isToday);
-    datesEl.appendChild(lbl);
-  });
-  document.getElementById('actTotal').textContent = '30日合計: ' + total30 + '問';
-
-  // ── Study time chart (30 days) ────────────────────────────
   const studytime = lsGet('studytime_v1');
   const todayTime = studytime[today] || 0;
   document.getElementById('sumTime').textContent = todayTime + '分';
 
-  const timeDays = [];
+  let total30Mins = 0;
   for (let i = 29; i >= 0; i--) {
     const d = new Date(Date.now() + 9 * 3600000); d.setUTCDate(d.getUTCDate() - i);
-    const ds = d.toISOString().slice(0, 10);
-    timeDays.push({ date: ds, mins: studytime[ds] || 0 });
+    total30Mins += studytime[d.toISOString().slice(0, 10)] || 0;
   }
-  const maxMins = Math.max(...timeDays.map(d => d.mins), 1);
-  const total30Mins = timeDays.reduce((s, d) => s + d.mins, 0);
 
-  const timeBarsEl  = document.getElementById('timeBars');
-  const timeDatesEl = document.getElementById('timeDates');
-  timeDays.forEach(({ date, mins }, i) => {
-    const isToday = date === today;
-    const pct = Math.round((mins / maxMins) * 100);
-    const bar = document.createElement('div');
-    bar.className = 'time-bar' + (isToday ? ' today' : '') + (mins === 0 ? ' zero' : '');
-    bar.style.height = (mins === 0 ? '3px' : Math.max(pct, 4) + '%');
-    bar.dataset.tip  = date.slice(5) + ' ' + mins + '分';
-    timeBarsEl.appendChild(bar);
-
-    const lbl = document.createElement('div');
-    lbl.className = 'act-date' + (isToday ? ' today' : '');
-    lbl.textContent = actLabel(date, i, isToday);
-    timeDatesEl.appendChild(lbl);
-  });
-  const hrs = Math.floor(total30Mins / 60);
-  const mins30 = total30Mins % 60;
-  document.getElementById('timeTotal').textContent = '30日合計: ' + (hrs > 0 ? hrs + '時間' + mins30 + '分' : total30Mins + '分');
-
-  // タップ操作では:hoverが効かないため、タップでツールチップを表示する（iPad/スマホ向け）
-  [barsEl, timeBarsEl].forEach(container => {
-    container.addEventListener('click', e => {
-      const bar = e.target.closest('.act-bar, .time-bar');
-      container.querySelectorAll('.tap-show').forEach(b => { if (b !== bar) b.classList.remove('tap-show'); });
-      if (!bar) return;
-      bar.classList.toggle('tap-show');
-      if (bar.classList.contains('tap-show')) setTimeout(() => bar.classList.remove('tap-show'), 2000);
-    });
-  });
+  // 分を「N時間M分」へ。カレンダーの数字と AI相談Markdown が共有する
+  function fmtMins(m) {
+    const h = Math.floor(m / 60), mm = m % 60;
+    return h > 0 ? h + '時間' + mm + '分' : m + '分';
+  }
 
   // ── Subject stats ─────────────────────────────────────────
   const myrate = lsGet('myrate_v1');
@@ -910,48 +916,6 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
       if (!row) return;
       e.preventDefault(); goCh(row);
     });
-  }
-
-  // ── Weak ranking ───────────────────────────────────────────
-  const weakEl = document.getElementById('weakList');
-  if (weakEl) {
-    const chapterMap = {};
-    if (typeof MEC_CHAPTERS !== 'undefined') {
-      MEC_CHAPTERS.forEach(subj => {
-        subj.chapters.forEach((ch, i) => {
-          chapterMap[ch.prefix] = { subjName: subj.name, subjId: subj.id, subjIcon: subj.icon, subjColor: subj.color, chNum: i + 1 };
-        });
-      });
-    }
-
-    const weakItems = Object.entries(myrate)
-      .filter(([, v]) => v.total >= 3 && (v.correct / v.total) < 0.5)
-      .sort((a, b) => (a[1].correct / a[1].total) - (b[1].correct / b[1].total))
-      .slice(0, 20);
-
-    if (!weakItems.length) {
-      weakEl.innerHTML = '<div class="weak-empty">まだ試験モードのデータがありません。<br>試験モードで問題を解くと苦手問題が記録されます。</div>';
-    } else {
-      weakItems.forEach(([uid, v], idx) => {
-        const m = uid.match(/^(.+)_q(\d+)$/);
-        const prefix = m ? m[1] : null;
-        const qNum = m ? m[2] : '?';
-        const info = prefix ? chapterMap[prefix] : null;
-        const pct = Math.round(v.correct / v.total * 100);
-        const accCls = pct < 30 ? 'bad' : 'poor';
-        const link = info ? `study.html?sid=${info.subjId}&filter=weak` : 'study.html?filter=weak';
-
-        const row = document.createElement('a');
-        row.className = 'weak-row';
-        row.href = link;
-        row.innerHTML = `
-          <span class="weak-rank">${idx + 1}</span>
-          <span class="weak-subj-badge" style="background:${info ? info.subjColor : 'var(--badge-none)'}">${info ? info.subjIcon + ' ' + info.subjName : uid.split('_')[0]}</span>
-          <span class="weak-info"><span class="weak-ch">${info ? '第' + info.chNum + '章' : prefix || ''} Q.${qNum}</span></span>
-          <span class="weak-acc acc-badge ${accCls}">${pct}% <span class="acc-sub">(${v.correct}/${v.total})</span></span>`;
-        weakEl.appendChild(row);
-      });
-    }
   }
 
   // ── Level distribution ────────────────────────────────────
@@ -1099,48 +1063,28 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     });
   }
 
-  // ── K: 誤答選択肢パターン分析 ─────────────────────────────────
+  // ── K: 誤答選択肢の全体傾向 ─────────────────────────────────
+  // ⚠️ 旧実装はここで a〜e の分布を1セクション（🔍誤答選択肢パターン）使って棒グラフに
+  //    していた。全体分布は「どこを直すか」に繋がらないので、問題ごとの内訳を
+  //    弱点リストの行（▾）へ移し、全体の傾向は下の1行だけに残した。
+  //    AI相談用Markdownの「誤答選択肢の傾向」はそのまま出す。
   const choiceData = lsGet('mec_choice_v1');
-  const choiceWrap = document.getElementById('choiceWrap');
-  const agg = {};
-  let totalWrong = 0;
-  Object.values(choiceData).forEach(entry => {
-    Object.entries(entry).forEach(([ch, cnt]) => {
-      if (ch === '_last') return;
-      agg[ch] = (agg[ch] || 0) + cnt;
-      totalWrong += cnt;
+  let _wkChoiceNote = '';
+  {
+    const agg = {};
+    let totalWrong = 0;
+    Object.values(choiceData).forEach(entry => {
+      Object.entries(entry).forEach(([ch, cnt]) => {
+        if (ch === '_last') return;
+        agg[ch] = (agg[ch] || 0) + cnt;
+        totalWrong += cnt;
+      });
     });
-  });
-
-  if (!totalWrong) {
-    choiceWrap.innerHTML = '<div class="choice-empty">試験モードで誤答すると選択肢パターンが記録されます。</div>';
-  } else {
-    const CHOICE_LABELS = ['ａ', 'ｂ', 'ｃ', 'ｄ', 'ｅ'];
-    const maxCnt = Math.max(...CHOICE_LABELS.map(c => agg[c] || 0), 1);
-    const sorted = CHOICE_LABELS.map(c => ({ ch: c, cnt: agg[c] || 0 })).sort((a, b) => b.cnt - a.cnt);
-    const most = sorted[0];
-
-    const grid = document.createElement('div');
-    grid.className = 'choice-grid';
-    CHOICE_LABELS.forEach(ch => {
-      const cnt = agg[ch] || 0;
-      const pct = Math.round((cnt / maxCnt) * 100);
-      const col = document.createElement('div');
-      col.className = 'choice-col';
-      const barColor = cnt === maxCnt && cnt > 0 ? 'var(--rd)' : 'var(--bar-idle)';
-      col.innerHTML = `
-        <div class="choice-bar-wrap"><div class="choice-bar" style="height:${Math.max(pct, 3)}%;background:${barColor}"></div></div>
-        <div class="choice-lbl">${ch}</div>
-        <div class="choice-val">${cnt}回</div>`;
-      grid.appendChild(col);
-    });
-    choiceWrap.appendChild(grid);
-
-    const note = document.createElement('div');
-    note.className = 'choice-note';
-    const mostPct = Math.round((most.cnt / totalWrong) * 100);
-    note.textContent = `計${totalWrong}回の誤答中、最多は「${most.ch}」（${most.cnt}回・${mostPct}%）。正解の隣や末尾を選びがちな場合は読み飛ばしに注意。`;
-    choiceWrap.appendChild(note);
+    if (totalWrong) {
+      const sorted = Object.entries(agg).sort((a, b) => b[1] - a[1]);
+      const [mc, mn] = sorted[0];
+      _wkChoiceNote = `全体では計${totalWrong}回の誤答のうち最多は「${mc}」（${mn}回・${Math.round(mn / totalWrong * 100)}%）。`;
+    }
   }
 
   // ── AI相談用エクスポート＋取りこぼし分析 ────────────────────────────
@@ -1202,24 +1146,168 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
       .map(([uid, v]) => ({ uid, you: Math.round(v.correct / v.total * 100), correct: v.correct, total: v.total, nat: RATE[uid], ...uidInfo(uid) }));
   }
 
-  // 取りこぼしセクション描画
-  const miss = missItems();
-  const missSec = document.getElementById('missSec');
-  const missListEl = document.getElementById('missList');
-  if (miss.length && missListEl) {
-    missSec.style.display = '';
-    miss.slice(0, 20).forEach((it, i) => {
+  // ══════════ 弱点リスト（統合・2026-08-18 Phase 3）══════════
+  // 旧実装は「弱いもの」のリストが4本に割れていた:
+  //   📐本番との差 / 💡取りこぼし問題 / 🎯苦手問題ランキング / 🔍誤答選択肢パターン。
+  // どれも uid 単位で、同じ問題が複数の表へ重複して載り、4本を見比べないと
+  // 「次に何をやるか」が決まらなかった。1本に畳んで、挙がった理由をタグで示す。
+  //
+  // ⚠️ 📐本番との差（科目単位）は廃止した。あれは
+  //      左 = 自分が試験モードで解いた問題の正答率
+  //      右 = その科目の全問の本番正答率の平均
+  //    と引き算の左右で分母が違い、難問だけ解けばマイナス・易問だけ解けばプラスへ
+  //    振れる＝数字が何を意味するのか原理的に読めなかった。
+  //    ここで残しているのは「同じ uid どうし」＝分母が揃った比較だけ（🔻本番差）。
+  //    科目単位のあの形を作り直さないこと。
+  const WK_TAGS = {
+    miss: { label: '💡取りこぼし', cls: 't-miss' },   // 本番80%以上なのに自分は50%未満
+    gap:  { label: '🔻本番差',     cls: 't-gap'  },   // 同じ問題で本番を大きく下回る
+    rep:  { label: '🔁反復ミス',   cls: 't-rep'  },   // 3回以上受けて50%未満
+  };
+  const WK_GAP_PT = 40;   // 本番正答率をこれ以上下回ったら「本番差」
+  const WK_LIMIT  = 24;
+
+  function weakUnified() {
+    const out = [];
+    Object.entries(myrate).forEach(([uid, v]) => {
+      const total = v.total || 0;
+      if (!total) return;
+      const correct = v.correct || 0;
+      const you = Math.round(correct / total * 100);
+      const nat = RATE[uid];
+      const gap = (nat === undefined) ? null : nat - you;
+      const tags = [];
+      if (nat !== undefined && nat >= 80 && you < 50) tags.push('miss');
+      if (gap !== null && gap >= WK_GAP_PT) tags.push('gap');
+      if (total >= 3 && you < 50) tags.push('rep');
+      if (!tags.length) return;
+      out.push({ uid, you, nat, gap, tags, correct, total, ...uidInfo(uid) });
+    });
+    // 並びは ①タグ数（複数の理由で挙がったものほど上）②本番との差 ③自分の正答率 ④受験回数。
+    // 本番正答率が無い問題は差を比べられないので、差を持つ問題の後ろへ回す
+    return out.sort((a, b) =>
+      (b.tags.length - a.tags.length) ||
+      ((b.gap === null ? -1 : b.gap) - (a.gap === null ? -1 : a.gap)) ||
+      (a.you - b.you) || (b.total - a.total));
+  }
+
+  // その問題で実際に選んだ誤答の肢。旧「🔍誤答選択肢パターン」は全体の a〜e 分布を
+  // 1セクション使って出していたが、打ち手に直結するのは「この問題でどこへ流れたか」
+  // なので行の内訳へ落とした（全体の傾向は下の1行と AI相談Markdown に残してある）
+  function wkPicks(uid) {
+    const e = choiceData[uid];
+    if (!e) return [];
+    return Object.entries(e)
+      .filter(([c, n]) => c !== '_last' && n > 0)
+      .map(([c, n]) => ({ c, n }))
+      .sort((a, b) => b.n - a.n);
+  }
+
+  function renderWeakList() {
+    const listEl = document.getElementById('wkList');
+    const filEl  = document.getElementById('wkFilter');
+    const footEl = document.getElementById('wkFoot');
+    if (!listEl) return;
+
+    const all = weakUnified();
+    if (!all.length) {
+      if (filEl) filEl.innerHTML = '';
+      listEl.innerHTML = '<div class="sec-empty">まだ弱点として挙がる問題がありません。<br>' +
+        '試験モードで解くと、取りこぼし・本番との差・繰り返しのミスをここに集約します。</div>';
+      if (footEl) footEl.textContent = '';
+      return;
+    }
+
+    const counts = { all: all.length, miss: 0, gap: 0, rep: 0 };
+    all.forEach(it => it.tags.forEach(t => { counts[t]++; }));
+
+    if (filEl) {
+      filEl.innerHTML =
+        '<button type="button" class="wk-fbtn on" data-wk="all">すべて ' + counts.all + '</button>' +
+        Object.keys(WK_TAGS).map(k =>
+          '<button type="button" class="wk-fbtn" data-wk="' + k + '"' + (counts[k] ? '' : ' disabled') + '>' +
+          WK_TAGS[k].label + ' ' + counts[k] + '</button>').join('');
+    }
+
+    const rowHtml = (it, idx) => {
       const label = it.info ? it.info.subjIcon + ' ' + it.info.subjName : (it.prefix || it.uid).split('_')[0];
-      const color = it.info ? it.info.subjColor : '#888';
-      const ch = it.info ? '第' + it.info.chNum + '章 ' : '';
-      const row = document.createElement('a');
-      row.className = 'miss-row';
-      row.href = it.info ? `study.html?sid=${it.info.subjId}` : 'study.html';
-      row.innerHTML = `<span class="miss-rank">${i + 1}</span>
-        <span class="miss-badge" style="background:${color}">${label}</span>
-        <span class="miss-info">${ch}Q.${it.qNum}</span>
-        <span class="miss-gap"><span class="nat">本番${it.nat}%</span> / <span class="you">自分${it.you}%</span></span>`;
-      missListEl.appendChild(row);
+      const color = it.info ? it.info.subjColor : 'var(--badge-none)';
+      const ch    = it.info ? '第' + it.info.chNum + '章 ' : (it.prefix ? it.prefix + ' ' : '');
+      const href  = it.info ? 'study.html?sid=' + it.info.subjId + '&filter=weak' : 'study.html?filter=weak';
+      const accCls = it.you < 30 ? 'bad' : 'poor';
+      const tags = it.tags.map(t => '<i class="wk-tag ' + WK_TAGS[t].cls + '">' + WK_TAGS[t].label + '</i>').join('');
+
+      // 内訳: 同じ問題どうしの本番 vs 自分（分母が揃っている比較）＋流れた肢
+      const cmp = [];
+      if (it.nat !== undefined) {
+        cmp.push('<div class="wk-cmp"><span class="wk-cmp-lbl">本番</span>' +
+          '<span class="wk-cmp-track"><span class="wk-cmp-fill nat" style="width:' + it.nat + '%"></span></span>' +
+          '<span class="wk-cmp-v">' + it.nat + '%</span></div>');
+      }
+      cmp.push('<div class="wk-cmp"><span class="wk-cmp-lbl">自分</span>' +
+        '<span class="wk-cmp-track"><span class="wk-cmp-fill you" style="width:' + it.you + '%"></span></span>' +
+        '<span class="wk-cmp-v">' + it.you + '%</span></div>');
+      cmp.push(it.nat !== undefined
+        ? '同じ問題で本番より' + Math.abs(it.gap) + 'pt' + (it.gap >= 0 ? '低い' : '高い') +
+          '。試験モードで' + it.total + '回中' + it.correct + '回正解。'
+        : 'この問題には本番正答率のデータがありません。試験モードで' + it.total + '回中' + it.correct + '回正解。');
+      const p = wkPicks(it.uid);
+      if (p.length) {
+        cmp.push('<div class="wk-picks">選んだ誤答の肢: ' +
+          p.map(x => '<span class="wk-pick">' + x.c + '<span class="n"> ' + x.n + '回</span></span>').join('') +
+          '</div>');
+      }
+
+      return '<div class="wk-item">' +
+        '<div class="wk-head">' +
+          '<a class="wk-row" href="' + href + '">' +
+            '<span class="wk-rank">' + (idx + 1) + '</span>' +
+            '<span class="wk-badge" style="background:' + color + '">' + label + '</span>' +
+            '<span class="wk-main"><span class="wk-ch">' + ch + 'Q.' + it.qNum + '</span>' +
+            '<span class="wk-tags">' + tags + '</span></span>' +
+            '<span class="wk-acc acc-badge ' + accCls + '">' + it.you + '% ' +
+            '<span class="acc-sub">(' + it.correct + '/' + it.total + ')</span></span>' +
+          '</a>' +
+          '<button type="button" class="wk-more" aria-expanded="false" aria-label="内訳を開く">' +
+            '<span class="wk-caret">▾</span></button>' +
+        '</div>' +
+        '<div class="wk-detail" hidden>' + cmp.join('') + '</div>' +
+      '</div>';
+    };
+
+    let cur = 'all';
+    const draw = () => {
+      const rows = (cur === 'all' ? all : all.filter(it => it.tags.indexOf(cur) >= 0));
+      listEl.innerHTML = rows.slice(0, WK_LIMIT).map(rowHtml).join('') ||
+        '<div class="sec-empty">この条件に当てはまる問題はありません。</div>';
+      stagger([...listEl.querySelectorAll('.wk-item')], 26, 'translateY(6px)');
+      if (footEl) {
+        const more = rows.length > WK_LIMIT ? `（上位${WK_LIMIT}件を表示・全${rows.length}件）` : `（全${rows.length}件）`;
+        footEl.textContent = '行をタップすると科目の🎯苦手フィルターへ移動します。▾ で本番正答率との比較と、その問題で流れた肢が開きます。' + more +
+          (_wkChoiceNote ? ' ' + _wkChoiceNote : '');
+      }
+    };
+    draw();
+
+    if (filEl) {
+      filEl.addEventListener('click', e => {
+        const b = e.target.closest('.wk-fbtn');
+        if (!b || b.disabled) return;
+        cur = b.dataset.wk;
+        filEl.querySelectorAll('.wk-fbtn').forEach(x => x.classList.toggle('on', x === b));
+        draw();
+      });
+    }
+    // 行は作り直されるのでホストへ委譲する（renderWeakList の中で張ると積み上がる）
+    listEl.addEventListener('click', e => {
+      const btn = e.target.closest('.wk-more');
+      if (!btn) return;
+      const item = btn.closest('.wk-item');
+      const det = item && item.querySelector('.wk-detail');
+      if (!det) return;
+      const open = det.hidden;
+      det.hidden = !open;
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
   }
 
@@ -1314,10 +1402,14 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   }
 
   function renderKarte(k) {
-    const sec = document.getElementById('chartSec');
     const table = document.getElementById('hmTable');
-    if (!sec || !table || !k.rows.length) return;
-    sec.style.display = '';
+    if (!table || !k.rows.length) return;   // HTML 側の空の状態のまま残す
+    // ⚠️ 旧実装はセクションごと display:none から出入りしていたので、
+    //    データの有無で日ごとにページの形が変わっていた。中身だけ差し替える
+    const _kEmpty = document.getElementById('karteEmpty');
+    const _kBody  = document.getElementById('karteBody');
+    if (_kEmpty) _kEmpty.hidden = true;
+    if (_kBody)  _kBody.hidden = false;
 
     /* E3(2026-08-14): セルを左上から対角に立ち上げ、最後に最弱セルだけを脈打たせる。
        ⚠️ --i は「行+列」＝対角線の順番。行ごと・列ごとに揃えるより、面が一枚の布のように
@@ -1428,14 +1520,24 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
   // 章タイトルは科目により「MEC循環器 第2章 心不全 解答解説」「第1章 産婦人科総論」等と
   // 表記がまちまちで、そのまま並べると科目名と章番号が二重に出る。中身だけ取り出す。
+  // chapters_meta.js の title は「MEC{講座名} 第N章 {章名} 解答解説」という形。
+  // ⚠️ 講座名は科目名と一致しない（内分泌 → 「MEC内分泌代謝」）ので、科目名を頭から
+  //    削るだけでは「代謝」が残る。章番号と「解答解説」で挟んで中身を取るのが確実で、
+  //    その形に当てはまらない title のためだけに旧来の削り方を残してある。
   function cleanChTitle(title, subjName) {
-    let t = String(title || '');
-    t = t.replace(/^MEC\s*/, '');
+    // 末尾の「解答解説」は先に落とす。ここを1つの正規表現に混ぜると、章名が無い
+    // title（例「MEC呼吸器 第1章 解答解説」）で「解答解説」自体が章名として残る
+    const t0 = String(title || '').replace(/\s*解答\s*解説\s*$/, '');
+    const m = t0.match(/第\s*[0-9０-９]+\s*章\s*([\s\S]*)$/);
+    if (m) return m[1].trim();
+    // 「第N章」を持たない title のための旧来の削り方
+    let t = t0.replace(/^MEC\s*/, '');
     if (subjName) t = t.replace(new RegExp('^' + subjName + '\\s*'), '');
     t = t.replace(/第\s*[0-9０-９]+\s*章\s*/g, '');
-    t = t.replace(/\s*解答\s*解説\s*$/, '');
     return t.trim();
   }
+
+
 
   // 章ごとの試験正答率。ドリルの出題範囲は章名まで指定できた方が具体的になる
   function weakChapters(minTotal, maxPct, limit) {
@@ -1567,7 +1669,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     const totalAll = (typeof MEC_CHAPTERS !== 'undefined') ? MEC_CHAPTERS.reduce((s, subj) => s + subj.chapters.reduce((ss, ch) => ss + ch.count, 0), 0) : 0;
     const donePct = totalAll ? Math.round(doneCount / totalAll * 100) : 0;
     const streak = window.MECSync ? window.MECSync.calcStreak() : 0;
-    const hrs = Math.floor(total30Mins / 60), mm = total30Mins % 60;
+
     const L = [];
     L.push(`# MEC 医師国試 学習データ (${today})`);
     L.push('');
@@ -1577,7 +1679,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     L.push(`- 済み: ${doneCount} / ${totalAll} 問 (${donePct}%)`);
     L.push(`- 連続学習: ${streak} 日`);
     L.push(`- 赤旗（苦手マーク）: ${flagCount} 問`);
-    L.push(`- 直近30日: ${total30} 問 / ${hrs > 0 ? hrs + '時間' + mm + '分' : total30Mins + '分'}`);
+    L.push(`- 直近30日: ${total30} 問 / ${fmtMins(total30Mins)}`);
     L.push('');
     L.push('## 科目別成績');
     L.push('| 科目 | 済み率 | 試験正答率 | 本番正答率(平均) | 赤旗 |');
@@ -1703,13 +1805,19 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     const dec = opt.dec || 0, suf = opt.suf || '', dur = opt.dur || 900;
     const fmt = v => (dec ? v.toFixed(dec) : Math.round(v).toLocaleString('ja-JP')) + suf;
     if (_rm) { el.textContent = fmt(to); return; }
+    let settled = false;
+    const finish = () => { if (settled) return; settled = true; el.textContent = fmt(to); };
     const t0 = performance.now();
     const step = now => {
+      if (settled) return;
       const k = Math.min(1, (now - t0) / dur);
       el.textContent = fmt(to * (1 - Math.pow(1 - k, 3)));
-      if (k < 1) requestAnimationFrame(step);
+      if (k < 1) requestAnimationFrame(step); else finish();
     };
     requestAnimationFrame(step);
+    // ⚠️ 非表示タブでは rAF が動かない。保険が無いと、裏で開いた統計の数字が
+    //    開始値（0）のまま凍る（ハブで実際に起きた。index.html の _tweenNum と同じ作り）
+    setTimeout(finish, dur + 400);
   }
 
   // WAAPI の easing は CSS の var() を解決しないので、トークンの実値を一度引いておく
@@ -1813,14 +1921,24 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
       if (pctEl) pctEl.textContent = Math.round(donePct) + '%';
     } else {
       const t0 = performance.now(), dur = 1100;
+      let ringDone = false;
+      const ringFinish = () => {
+        if (ringDone) return;
+        ringDone = true;
+        if (ring) ring.style.setProperty('--p', donePct.toFixed(1));
+        if (pctEl) pctEl.textContent = Math.round(donePct) + '%';
+      };
       const tick = now => {
+        if (ringDone) return;
         const k = Math.min(1, (now - t0) / dur);
         const v = donePct * (1 - Math.pow(1 - k, 3));
         if (ring) ring.style.setProperty('--p', v.toFixed(1));
         if (pctEl) pctEl.textContent = Math.round(v) + '%';
-        if (k < 1) requestAnimationFrame(tick);
+        if (k < 1) requestAnimationFrame(tick); else ringFinish();
       };
       requestAnimationFrame(tick);
+      // 非表示タブでは rAF が動かない。countUp と同じ落とし所を置く
+      setTimeout(ringFinish, dur + 400);
     }
 
     countUp(document.getElementById('heroDays'), left, { dur: 1000 });
@@ -1943,6 +2061,9 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   }
 
   // ── B2/B3: 学習カレンダーと曜日別 ──────────────────────────────
+  // 旧実装は「時間の記録」が3本（🗓カレンダー12週 / 📅30日の学習記録 / ⏱30日の学習時間）
+  // あり、ほぼ同じ期間の同じ話を3通りに描いていた。カレンダーを主にして、
+  // 30日の2本はセルの内訳（読み取り行）と下の数字（.cal-figs）へ畳んである。
   function renderCalendar() {
     const WEEKS = 12, DOW = ['日', '月', '火', '水', '木', '金', '土'];
     const end = jstNow();
@@ -1956,7 +2077,8 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     const vals = [];
     for (let w = 0; w < WEEKS; w++) for (let d = 0; d < 7; d++) {
       const cur = new Date(start); cur.setUTCDate(cur.getUTCDate() + w * 7 + d);
-      vals.push({ ds: dstr(cur), n: activity[dstr(cur)] || 0, future: dstr(cur) > today });
+      const ds = dstr(cur);
+      vals.push({ ds, n: activity[ds] || 0, min: studytime[ds] || 0, future: ds > today });
     }
     const nz = vals.filter(v => v.n > 0).map(v => v.n).sort((a, b) => a - b);
     const q = p => nz.length ? nz[Math.min(nz.length - 1, Math.floor(nz.length * p))] : 1;
@@ -1965,12 +2087,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
     const grid = document.getElementById('calGrid');
     if (grid) {
-      const DOWJ = ['日', '月', '火', '水', '木', '金', '土'];
       grid.innerHTML = vals.map(v => {
         const d = new Date(Date.parse(v.ds + 'T00:00:00Z'));
-        const tip = v.future
-          ? `${d.getUTCMonth() + 1}/${d.getUTCDate()}(${DOWJ[d.getUTCDay()]}) — これから`
-          : `${d.getUTCMonth() + 1}/${d.getUTCDate()}(${DOWJ[d.getUTCDay()]}) ${v.n}問`;
+        const head = `${d.getUTCMonth() + 1}/${d.getUTCDate()}(${DOW[d.getUTCDay()]})`;
+        // 旧「⏱30日間の学習時間」の中身はここへ吸収した＝日ごとの分数はセルの内訳で読む
+        const tip = v.future ? `${head} — これから`
+          : `${head} ${v.n}問` + (v.min ? ` / ${v.min}分` : '');
         return '<div class="cal-cell l' + (v.future ? 0 : lv(v.n)) +
           (v.ds === today ? ' is-today' : '') + '" tabindex="0" role="button" data-tip="' + tip + '"></div>';
       }).join('');
@@ -1978,10 +2100,23 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     }
     const tot = vals.filter(v => !v.future).reduce((s, v) => s + v.n, 0);
     const activeDays = vals.filter(v => v.n > 0).length;
-    const totEl = document.getElementById('calTotal');
-    if (totEl) totEl.textContent = `12週間 ${tot.toLocaleString('ja-JP')}問 / 学習日 ${activeDays}日`;
     wireGridReadout(grid, '.cal-cell', document.getElementById('calReadout'),
-      'セルをタップすると、その日の問題数が出ます。');
+      'セルをタップすると、その日の問題数と学習時間が出ます。');
+
+    // 旧「📅30日間の学習記録」「⏱30日間の学習時間」の合計はここへ畳んだ
+    const figs = document.getElementById('calFigs');
+    if (figs) {
+      figs.innerHTML =
+        '<span>直近30日 <b id="calFig30">0</b>問</span>' +
+        '<span>学習時間 <b id="calFigT">—</b></span>' +
+        '<span>12週間 <b id="calFig12">0</b>問</span>' +
+        '<span>学習日 <b id="calFigD">0</b>日</span>';
+      countUp(document.getElementById('calFig30'), total30, { dur: 800 });
+      countUp(document.getElementById('calFig12'), tot, { dur: 900 });
+      countUp(document.getElementById('calFigD'), activeDays, { dur: 800 });
+      const tEl = document.getElementById('calFigT');
+      if (tEl) tEl.textContent = fmtMins(total30Mins);
+    }
 
     // 曜日別（平均問数）。行動パターンを掴むためのもの
     const sums = [0, 0, 0, 0, 0, 0, 0], cnts = [0, 0, 0, 0, 0, 0, 0];
@@ -2005,42 +2140,99 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     }
   }
 
-  // ── A3: 章別ヒートマップ ────────────────────────────────────────
+  // ── A3: 章別ヒートマップ（科目 → 章 の2段・2026-08-18）──────────────
+  // 旧実装は 180章を一度に並べていた。1段目を科目タイルにすると一望する対象が
+  // 科目数まで減り、2段目には章名と数字を書く余地が生まれる。
+  // ⚠️ 旧実装には読み取り行（#hmReadout）があった。15pxの升目は指で狙えず、
+  //    どの章なのかを1つずつタップして下の行で読むしかなかったための代替だったが、
+  //    2段目が章名と正答率をそのまま印字するようになったので役目が終わり、外した。
+
+  // 章prefix ごとの集計を一度だけ作る。章ごとに myrate / done を全件走査すると
+  // 180章 × 全解答の二乗になり、モード切替のたびに走っていた
+  const _mrByCh = {}, _doneByCh = {};
+  Object.entries(myrate).forEach(([uid, v]) => {
+    const m = uid.match(/^(.+)_q\d+$/);
+    if (!m) return;
+    const a = _mrByCh[m[1]] = _mrByCh[m[1]] || { correct: 0, total: 0 };
+    a.correct += v.correct || 0; a.total += v.total || 0;
+  });
+  Object.keys(done).forEach(uid => {
+    const m = uid.match(/^(.+)_q\d+$/);
+    if (!m) return;
+    _doneByCh[m[1]] = (_doneByCh[m[1]] || 0) + 1;
+  });
+
+  // 章1つ以上をまとめた1マスぶんの集計。段(0〜5)の意味は科目タイルでも章行でも共通で、
+  // 0 だけがランプの外（データ無し）
+  function hmStat(chapters, mode) {
+    if (mode === 'prog') {
+      let d = 0, c = 0;
+      chapters.forEach(ch => { d += _doneByCh[ch.prefix] || 0; c += ch.count || 0; });
+      const pct = c ? d / c * 100 : 0;
+      return {
+        s: pct >= 100 ? 5 : pct >= 75 ? 4 : pct >= 50 ? 3 : pct >= 25 ? 2 : pct > 0 ? 1 : 0,
+        has: c > 0, pct, txt: Math.round(pct) + '%', sub: d + '/' + c,
+      };
+    }
+    let t = 0, c = 0;
+    chapters.forEach(ch => {
+      const a = _mrByCh[ch.prefix];
+      if (!a) return;
+      t += a.total; c += a.correct;
+    });
+    if (t < 1) return { s: 0, has: false, pct: 0, txt: '未受験', sub: '' };
+    const pct = c / t * 100;
+    return {
+      s: pct >= 80 ? 5 : pct >= 70 ? 4 : pct >= 60 ? 3 : pct >= 50 ? 2 : 1,
+      has: true, pct, txt: Math.round(pct) + '%', sub: c + '/' + t,
+    };
+  }
+  // 0 はデータ無し＝ランプの外。1〜5 は正答率なら弱さランプ(a*)、進捗なら網羅ランプ(p*)
+  function hmCls(mode, s) { return s === 0 ? 'n0' : (mode === 'prog' ? 'p' : 'a') + s; }
+
+  let _hmSubj = null;     // null = 科目一覧 / 科目id = その科目の章
+  let _hmMode = 'acc';
+
   function renderHeatmap(mode) {
+    _hmMode = mode || 'acc';
     const host = document.getElementById('heatmap');
     if (!host || typeof MEC_CHAPTERS === 'undefined') return;
-    host.innerHTML = MEC_CHAPTERS.map(subj => {
-      const cells = subj.chapters.map((ch, ci) => {
-        const p = ch.prefix + '_';
-        let s, tip;
-        if (mode === 'prog') {
-          const d = Object.keys(done).filter(k => k.startsWith(p)).length;
-          const pct = ch.count ? d / ch.count * 100 : 0;
-          s = pct >= 100 ? 5 : pct >= 75 ? 4 : pct >= 50 ? 3 : pct >= 25 ? 2 : pct > 0 ? 1 : 0;
-          tip = `第${ci + 1}章 進捗${Math.round(pct)}% (${d}/${ch.count})`;
-        } else {
-          const mr = Object.entries(myrate).filter(([uid]) => uid.startsWith(p));
-          const t = mr.reduce((a, [, v]) => a + (v.total || 0), 0);
-          const c = mr.reduce((a, [, v]) => a + (v.correct || 0), 0);
-          if (t < 1) { s = 0; tip = `第${ci + 1}章 未受験`; }
-          else {
-            const pct = c / t * 100;
-            s = pct >= 80 ? 5 : pct >= 70 ? 4 : pct >= 60 ? 3 : pct >= 50 ? 2 : 1;
-            tip = `第${ci + 1}章 正答率${Math.round(pct)}% (${c}/${t})`;
-          }
-        }
-        // 0 はデータ無し＝ランプの外。1〜5 は正答率なら弱さランプ(a*)、進捗なら網羅ランプ(p*)
-        const cls = s === 0 ? 'n0' : (mode === 'prog' ? 'p' : 'a') + s;
-        return `<div class="hm-cell ${cls}" tabindex="0" role="button" data-tip="${subj.name} ${tip}"></div>`;
+    const subj = _hmSubj && MEC_CHAPTERS.find(s => s.id === _hmSubj);
+
+    if (!subj) {
+      _hmSubj = null;
+      host.innerHTML = '<div class="hm-subj-grid">' + MEC_CHAPTERS.map(s => {
+        const st = hmStat(s.chapters, _hmMode);
+        return '<button type="button" class="hm-subj" data-sid="' + s.id + '">' +
+          '<span class="hm-subj-top"><span class="hm-subj-ic">' + s.icon + '</span>' +
+          '<span class="hm-subj-nm">' + s.name + '</span></span>' +
+          '<span class="hm-subj-row"><span class="hm-cell ' + hmCls(_hmMode, st.s) + '"></span>' +
+          '<span class="hm-subj-v"><b>' + st.txt + '</b>' + (st.sub ? ' ' + st.sub : '') + '</span></span>' +
+          '</button>';
+      }).join('') + '</div>';
+      stagger([...host.querySelectorAll('.hm-subj')], 18, 'translateY(6px)');
+    } else {
+      const rows = subj.chapters.map((ch, ci) => {
+        const st = hmStat([ch], _hmMode);
+        const title = cleanChTitle(ch.title, subj.name) || ('第' + (ci + 1) + '章');
+        return '<div class="hm-ch-row">' +
+          '<span class="hm-ch-n">第' + (ci + 1) + '章</span>' +
+          '<span class="hm-ch-t">' + title + '</span>' +
+          '<span class="hm-cell ' + hmCls(_hmMode, st.s) + '"></span>' +
+          '<span class="hm-ch-v">' + st.txt + (st.sub ? ' <small>' + st.sub + '</small>' : '') + '</span>' +
+          '</div>';
       }).join('');
-      return `<div class="hm-row"><a class="hm-name" href="study.html?sid=${subj.id}" title="${subj.name}を開く">` +
-        `<span>${subj.icon}</span>${subj.name}</a><div class="hm-cells">${cells}</div></div>`;
-    }).join('');
-    stagger([...host.querySelectorAll('.hm-cell')], 3);
+      host.innerHTML = '<div class="hm-back">' +
+        '<button type="button" class="hm-back-btn" data-hmback="1">← 科目一覧</button>' +
+        '<span class="hm-back-nm">' + subj.icon + ' ' + subj.name + '</span>' +
+        '<a class="hm-back-go" href="study.html?sid=' + subj.id + '">この科目を開く →</a>' +
+        '</div>' + rows;
+      stagger([...host.querySelectorAll('.hm-ch-row')], 22, 'translateY(6px)');
+    }
 
     const lg = document.getElementById('hmLegend');
     if (lg) {
-      lg.innerHTML = mode === 'prog'
+      lg.innerHTML = _hmMode === 'prog'
         ? '<span>未着手</span><i class="hm-cell n0"></i><span>少</span>' +
           '<i class="hm-cell p1"></i><i class="hm-cell p2"></i><i class="hm-cell p3"></i>' +
           '<i class="hm-cell p4"></i><i class="hm-cell p5"></i><span>多</span>'
@@ -2050,57 +2242,76 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
           '<i class="hm-cell n0"></i><span>未受験</span>';
     }
   }
-  // wireGridReadout が返す解除関数。モード切替でセルを作り直すと選択が消えるので、
-  // 読み取り行に前モードの文言（例: 進捗モードなのに「正答率70%」）が残らないよう一緒に戻す
-  let _hmClearReadout = null;
+
   document.querySelectorAll('.hm-mode-btn').forEach(b => {
     b.addEventListener('click', () => {
       document.querySelectorAll('.hm-mode-btn').forEach(x => x.classList.toggle('on', x === b));
       renderHeatmap(b.dataset.hm);
-      if (_hmClearReadout) _hmClearReadout();
     });
   });
-
-  // ── A4: 本番正答率と自分の差（みんな解けるのに落とす科目を出す） ──
-  function renderGap() {
-    if (typeof MEC_CHAPTERS === 'undefined') return;
-    const rows = [];
-    MEC_CHAPTERS.forEach(subj => {
-      const pres = subj.chapters.map(c => c.prefix + '_');
-      const isIn = uid => pres.some(p => uid.startsWith(p));
-      const mr = Object.entries(myrate).filter(([uid]) => isIn(uid));
-      const t = mr.reduce((s, [, v]) => s + (v.total || 0), 0);
-      const c = mr.reduce((s, [, v]) => s + (v.correct || 0), 0);
-      if (t < 5) return;
-      const nat = Object.keys(RATE).filter(isIn).map(u => RATE[u]);
-      if (!nat.length) return;
-      const natAvg = nat.reduce((a, b) => a + b, 0) / nat.length;
-      rows.push({ name: subj.name, icon: subj.icon, mine: c / t * 100, nat: natAvg, diff: c / t * 100 - natAvg });
+  // 段の移動はホストへ委譲する（中身は作り直されるので個別に張ると消える）
+  {
+    const _hmHost = document.getElementById('heatmap');
+    if (_hmHost) _hmHost.addEventListener('click', e => {
+      if (e.target.closest('[data-hmback]')) { _hmSubj = null; renderHeatmap(_hmMode); return; }
+      const t = e.target.closest('.hm-subj');
+      if (!t) return;
+      _hmSubj = t.dataset.sid;
+      renderHeatmap(_hmMode);
     });
-    if (!rows.length) return;
-    rows.sort((a, b) => a.diff - b.diff);
-    document.getElementById('gapSec').style.display = '';
-    const maxAbs = Math.max(...rows.map(r => Math.abs(r.diff)), 10);
-    document.getElementById('gapList').innerHTML = rows.map(r => {
-      const w = Math.min(50, Math.abs(r.diff) / maxAbs * 50);
-      const cls = r.diff < 0 ? 'minus' : 'plus';
-      const col = r.diff < 0 ? 't-rd' : 't-gr';
-      return `<div class="gap-row"><span class="gap-name">${r.icon} ${r.name}</span>` +
-        `<span class="gap-track"><span class="gap-fill ${cls}" style="width:${w}%"></span><span class="gap-mid"></span></span>` +
-        `<span class="gap-val ${col}">${r.diff >= 0 ? '+' : ''}${r.diff.toFixed(1)}pt</span></div>`;
-    }).join('');
+  }
+
+  // ── セクションの入場（Phase 3）────────────────────────────────
+  // ⚠️ 旧実装にも armReveal() があり、14セクション全部を IntersectionObserver で
+  //    動かしていて「ページが落ち着かない」ため撤去された経緯がある。戻すにあたり:
+  //      ① セクションを減らしてから載せる（減らす → 動かす の順序）
+  //      ② 層の見出しとセクションの箱だけ。中身は既存の演出（カウントアップ・
+  //         セルの stagger・棒の伸長）に任せ、系統を増やさない
+  //      ③ ブラウザのセッション内で1回だけ。2回目以降は素の表示
+  //    ⚠️ 隠すクラス（.rv-on）は JS が付けてから初めて効く。CSS 側だけで
+  //       opacity:0 にすると、JS が落ちた時にページが真っ白になる
+  const K_REVEALED = 'mec_stats_revealed_v1';
+  function armReveal() {
+    const nodes = [...document.querySelectorAll('.ct .rvs')];
+    if (!nodes.length || _rm || !('IntersectionObserver' in window)) return;
+    let seen = false;
+    try { seen = sessionStorage.getItem(K_REVEALED) === '1'; } catch (e) {}
+    if (seen) return;
+    // 裏で開かれた読み込みでは最初から演出しない（見ていない間に流れて終わるだけ）。
+    // セッションの印もここでは付けない＝表で開き直したときに一度は動く
+    if (document.hidden) return;
+    try { sessionStorage.setItem(K_REVEALED, '1'); } catch (e) {}
+
+    document.documentElement.classList.add('rv-on');
+    // ⚠️ 隠すのをやめる口はこの1つだけにすること。
+    //    .in を足して回る方式では駄目だった——CSSアニメーションは非表示タブでは
+    //    進まないので animation-fill-mode:forwards が適用されず、.in を付けても
+    //    opacity:0 のまま残る（rAF が止まるのと同じ失敗の仕方。実際に踏んだ）。
+    //    rv-on を外せば隠すルールごと消えるので、何があっても不可視で残らない。
+    const unhide = () => document.documentElement.classList.remove('rv-on');
+    const io = new IntersectionObserver(es => {
+      es.forEach(e => {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        e.target.style.animationDelay = Math.min(6, nodes.indexOf(e.target)) * 45 + 'ms';
+        e.target.classList.add('in');
+      });
+    }, { rootMargin: '0px 0px -6% 0px' });
+    nodes.forEach(n => io.observe(n));
+
+    // 途中でタブが裏へ回ったら、その時点で隠すのをやめる（戻ってきたとき白紙にしない）
+    document.addEventListener('visibilitychange', () => { if (document.hidden) unhide(); });
+    // 最後の保険。IntersectionObserver が何らかの理由で発火しなくても不可視で残らない
+    setTimeout(unhide, 8000);
   }
 
   try { renderHero(); } catch (e) { console.error('hero', e); }
   try { renderForecast(); } catch (e) { console.error('forecast', e); }
   try { renderCalendar(); } catch (e) { console.error('calendar', e); }
   try { renderHeatmap('acc'); } catch (e) { console.error('heatmap', e); }
-  try { renderGap(); } catch (e) { console.error('gap', e); }
+  try { renderWeakList(); } catch (e) { console.error('weak', e); }
+  try { armReveal(); } catch (e) { console.error('reveal', e); }
 
-  // 章別ヒートマップはモード切替のたびに中身を作り直すので、読み取り行の配線は
-  // ホスト側へ一度だけ張る（renderHeatmap の中で呼ぶとリスナーが積み上がる）
-  _hmClearReadout = wireGridReadout(document.getElementById('heatmap'), '.hm-cell',
-    document.getElementById('hmReadout'), '章をタップすると、その章の内訳が出ます。');
 
   // フッターの最終更新。同期していれば同期時刻、していなければ今日の日付を出す
   const footEl = document.getElementById('footUpdated');
