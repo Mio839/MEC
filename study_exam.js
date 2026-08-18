@@ -330,6 +330,7 @@ function openSelfcheck(){document.getElementById('scOv').classList.add('open');}
 function closeSelfcheck(){document.getElementById('scOv').classList.remove('open');}
 let _chipRetryInt = null;
 function openExamStart() {
+  _lastPredictTotal = -1;   // 開いた最初の描画では脈打たせない
   _renderResumeList();
   _populateChapterChips(true);
   document.getElementById('examStartOv').classList.add('open');
@@ -408,6 +409,7 @@ function _populateChapterChips(animate = false) {
     grid.innerHTML = '<div class="exam-ch-empty">⏳ 問題を読み込み中です…（完了すると章が表示されます）</div>';
     const cb = document.getElementById('examChClearBtn');
     if (cb) cb.style.display = 'none';
+    _renderExamPredict();   // ⚠️ ここでも呼ぶこと。0問の案内が要るのはまさにこの分岐
     return;
   }
 
@@ -472,6 +474,36 @@ function _populateChapterChips(animate = false) {
 
   const clearBtn = document.getElementById('examChClearBtn');
   if (clearBtn) clearBtn.style.display = _examChPrefix ? '' : 'none';
+  _renderExamPredict();
+}
+
+/* B4: 「この条件で何問出るのか」を開始を押す前に見せる。演出であると同時に情報で、
+   章チップを触るたびに更新される。
+   ⚠️ 数え方は _examCandidateCards / _examProgLayout を使い回すこと。startExam と別の式を
+      書くと、予告と実際の出題数がずれる（信用を失う種類の不具合になる）。 */
+let _lastPredictTotal = -1;
+function _renderExamPredict() {
+  const el = document.getElementById('examPredict');
+  if (!el) return;
+  const cards = _examCandidateCards(_examChPrefix);
+  const L = _examProgLayout(cards);
+  if (!L.total) {
+    el.className = 'exam-predict empty';
+    el.innerHTML = '出題できる問題がありません<span class="pd-sub">科目・フィルターを確認してください</span>';
+    _lastPredictTotal = 0;
+    return;
+  }
+  el.className = 'exam-predict';
+  el.innerHTML = 'この条件で <b class="pd-n">' + L.total + '</b> 問'
+    + (L.hardTotal ? '<span class="pd-hard">うち難問 <b>' + L.hardTotal + '</b> 問</span>' : '')
+    + (L.excluded ? '<span class="pd-ex">採点除外 ' + L.excluded + ' 問</span>' : '');
+  // 数が変わった時だけ小さく脈打たせる（開くたびに動くと落ち着かない）
+  if (_lastPredictTotal !== -1 && _lastPredictTotal !== L.total && !_fxOff()) {
+    const n = el.querySelector('.pd-n');
+    if (n) n.animate([{ transform: 'scale(1.35)' }, { transform: 'none' }],
+      { duration: 320, easing: 'cubic-bezier(.34,1.56,.64,1)' });
+  }
+  _lastPredictTotal = L.total;
 }
 
 function _selectExamChapter(prefix) {
@@ -611,9 +643,15 @@ function _closeSummaryOverlayOnly() {
   document.getElementById('examOverlay')?.classList.remove('open');
 }
 
+/* B8: 誤答再試験は「落とした問題を相手に見立てた」入り方にする（C2 RECOVER と同じ世界観）。
+   startExam が消費する。普通の再出題と区別が付かないと、やり直しが作業に見える。 */
+let _rematchPending = 0;
+let _examIsRematch = false;
+
 function retryWrongExam() {
   const uids = [...examWrong];
   if (!uids.length) return;
+  _rematchPending = uids.length;
   _closeSummaryOverlayOnly();
   // 復習セッションの誤答再試験は復習モードのまま続ける。
   // ここで戻さないと通常試験として開始され、科目フィルターと科目セクションが復活する。
@@ -624,6 +662,19 @@ function retryWrongExam() {
     window._srsHostShow?.();
   }
   startExam(uids);
+}
+
+/* いま出題される候補カード（科目・フィルター＋章の絞り込み）。
+   ⚠️ startExam と開始モーダルの予告（B4）が必ずこの1本を使うこと。数え方が2箇所に分かれると
+      「開始を押したら予告と違う問題数だった」が起きる。 */
+function _examCandidateCards(chFilter) {
+  return [...document.querySelectorAll('.qc[data-uid]')].filter(c => {
+    if (c.style.display === 'none') return false;
+    const sec = c.closest('.subj-section');
+    if (sec && sec.dataset.visible !== 'true') return false;
+    if (chFilter && !c.dataset.uid.startsWith(chFilter + '_q')) return false;
+    return true;
+  });
 }
 
 function _buildExamQueue(cards) {
@@ -660,13 +711,7 @@ function startExam(overrideUids = null) {
   }
   const allVisible = overrideUids
     ? overrideUids.map(uid => document.querySelector(`.qc[data-uid="${uid}"]`)).filter(Boolean)
-    : [...document.querySelectorAll('.qc[data-uid]')].filter(c => {
-        if (c.style.display === 'none') return false;
-        const sec = c.closest('.subj-section');
-        if (sec && sec.dataset.visible !== 'true') return false;
-        if (chFilter && !c.dataset.uid.startsWith(chFilter + '_q')) return false;
-        return true;
-      });
+    : _examCandidateCards(chFilter);
   const shuffled = _buildExamQueue(allVisible);
   examQueue = shuffled;
   _recountExcluded();
@@ -680,6 +725,9 @@ function startExam(overrideUids = null) {
   examMode = true; examAnswered = 0; examCorrect = 0; examStreak = 0; examBySubj = {}; examByChapter = {}; examWrong = []; _examSessionWrongChoices.clear(); examStartTime = Date.now(); _examPausedMs = 0; _examPauseStart = null;
   _attemptSessionId = window.MecAttempts ? MecAttempts.newSession() : '';
   _examCardSeenAt.clear(); _zoneStop(false); _setAwaken(false); _examRecoverPending = false;
+  _examIsRematch = _rematchPending > 0; _rematchPending = 0;   // B8
+  _clearRecapChips(); _examSessionResults.clear();             // B5: 前回の成績表示を畳む
+  _renderExamProgMarks();                                      // B2: 目盛りと難問印を敷く
   examEffectSet = EXAM_EFFECT_POOL[Math.floor(Math.random() * EXAM_EFFECT_POOL.length)];
   document.body.classList.remove('exam-effect-neon', 'exam-effect-ink');
   if (examEffectSet !== 'classic') document.body.classList.add('exam-effect-' + examEffectSet);
@@ -691,9 +739,10 @@ function startExam(overrideUids = null) {
   document.body.classList.add('exam-mode');
   const _eqSet = new Set(examQueue);
   document.querySelectorAll('.qc[data-uid]').forEach(c => { if (!_eqSet.has(c)) c.style.display = 'none'; });
-  examQueue.forEach(card => {
+  let _firstFlips = null;   // B6: 1問目だけ並べ替えの移動量を控える
+  examQueue.forEach((card, qi) => {
     card.style.display = '';
-    _shuffleChoices(card);
+    { const f = _shuffleChoices(card, qi === 0); if (qi === 0) _firstFlips = f; }
     const isCalc = _setupCalcCard(card);   // 計算問題は桁入力UIを起こす
     const req = _getRequiredCount(card);
     if (!isCalc && req > 1 && !card.querySelector('.exam-multi-info')) {
@@ -769,7 +818,13 @@ function startExam(overrideUids = null) {
   if (modeBtn) { modeBtn.textContent = '📖 終了'; modeBtn.classList.add('exam-on'); modeBtn.onclick = exitExam; }
   window.scrollTo({ top: 0 });
   _saveExamResume();
-  _examCountdown();   // C9: 3・2・1・START（非ブロッキング＝裏で試験は既に開始済み）
+  const _cdEnd = _examCountdown();   // C9: 3・2・1・START（非ブロッキング＝裏で試験は既に開始済み）
+  // B6/B7: 幕が明けてから1問目を立ち上げる。カウントダウン中に走らせると誰も見ていない。
+  setTimeout(() => {
+    if (!examMode) return;
+    _firstCardEntrance(examQueue[0]);
+    setTimeout(() => { if (examMode) _revealShuffleFx(_firstFlips); }, 180);
+  }, _cdEnd + 60);
 }
 
 function revealAnswer(card) {
@@ -794,6 +849,7 @@ function revealAnswer(card) {
     examAnswered++;
     examBySubj[sid].total++;
     _tallyChapter(card.dataset.uid, isCorrect);
+    _tallyQuestion(card, isCorrect);          // B3/B5: 難問の成績とセッションの正誤
     _markExamDone(card.dataset.uid);
     _recordMyRate(card.dataset.uid, isCorrect);
     _logAttempt(card, isCorrect, _selectedChoiceStr(selected));
@@ -835,6 +891,7 @@ function revealAnswer(card) {
   examAnswered++;
   examBySubj[sid].total++;
   _tallyChapter(card.dataset.uid, isCorrect);
+  _tallyQuestion(card, isCorrect);            // B3/B5: 難問の成績とセッションの正誤
   _markExamDone(card.dataset.uid);
   _recordMyRate(card.dataset.uid, isCorrect);
   _logAttempt(card, isCorrect, _selectedChoiceStr([sel]));
@@ -1474,6 +1531,147 @@ function _isHardCard(card) {
   return n != null && n < EXAM_HARD_RATE;
 }
 
+/* ══════════ B2: 進捗バーの「距離感」（2026-08-18）══════════
+   バーの幅が伸びて数字が跳ねるだけだったので、残りの見通しを足す。50問セッションでは
+   連続正解が切れている間（＝実力的に一番苦しい時間帯）に演出がゼロになっていた。
+
+   ⚠️ 節目は「祝わない」。跨いだ瞬間に光が走るだけで、音も粒子も出さないこと。
+      連続正解（tier）と別軸で祝う演出を足すと tier 演出とぶつかって画面が騒がしくなる。
+      `node _work/test_exam_prog.js` がこの約束（節目でFX/音のAPIを呼ばないこと）を検査する。
+   ⚠️ 難問は _isHardCard（data-rate < EXAM_HARD_RATE=60）が正本。data-rate が無い問題は
+      難問に数えない。B2(道中の印)・B3(結果)・B4(開始前の予告)がこの1本を共有する。 */
+const PROG_SPRINT_LEFT = 5;   // 残りこの数からラストスパート（盤面の色温度を上げる）
+const PROG_TICK_MIN    = 8;   // 総数がこれ未満なら目盛りを打たない（近すぎて意味が無い）
+const PROG_LAST_N      = 10;  // 「残り10問」の目盛り
+
+/* 出題キューから目盛り・難問印の位置を作る。at は 0..1（バー左端からの割合）。
+   ⚠️ 採点除外はバーの分母から外れる＝進まない区間なので、印も置かない
+      （置くと以降の位置が全部ずれて「あと何問」が嘘になる）。
+   opts で判定を差し替えられるのはテスト用（実DOM無しで幾何だけを検査する）。 */
+function _examProgLayout(cards, opts) {
+  const o = opts || {};
+  const isExcluded = o.isExcluded || (c => _isExamUngraded(c));
+  const isHard = o.isHard || (c => _isHardCard(c));
+  const graded = (cards || []).filter(c => !isExcluded(c));
+  const total = graded.length;
+  const marks = [];
+  graded.forEach((c, i) => { if (isHard(c)) marks.push({ n: i + 1, at: (i + 0.5) / total }); });
+  const ticks = [];
+  if (total >= PROG_TICK_MIN) {
+    const half = Math.round(total / 2);
+    ticks.push({ kind: 'half', n: half, at: half / total });
+    const last = total - PROG_LAST_N;
+    if (last > half) ticks.push({ kind: 'last', n: last, at: last / total });
+  }
+  return {
+    total, ticks, marks,
+    hardTotal: marks.length,
+    excluded: (cards || []).length - total,
+    sprintFrom: total > PROG_SPRINT_LEFT ? total - PROG_SPRINT_LEFT : null,
+  };
+}
+
+let _examProgL = null;                 // 現セッションのレイアウト（startExam が作る）
+const _examProgCrossed = new Set();    // 既に跨いだ目盛りの kind
+// B3: 難問の成績。分母は出題時に確定、分子は解答のたびに増える
+let _examHardStat = { total: 0, answered: 0, correct: 0 };
+/* B5: 直前セッションの uid→正誤。結果画面を閉じた後、解いた問題が「成績付きで並び直す」
+   ために持つ。ページ内の記憶だけで、localStorage キーは増やさない。
+   ⚠️ C5 の `exam-scar`（誤答の傷）とは別物。あちらはセッション中だけの印で通常閲覧へ
+      持ち越さないが、こちらは持ち越すことが目的。混ぜないこと。 */
+const _examSessionResults = new Map();
+
+function _clearRecapChips() {
+  document.querySelectorAll('.qc[data-recap]').forEach(c => {
+    c.classList.remove('qc-recap-in');
+    delete c.dataset.recap;
+  });
+}
+function _applyRecapChips() {
+  if (!_examSessionResults.size) return 0;
+  let found = 0;
+  _examSessionResults.forEach((ok, uid) => {
+    const card = document.querySelector('.qc[data-uid="' + CSS.escape(uid) + '"]');
+    if (!card) return;
+    card.dataset.recap = ok ? 'ok' : 'ng';
+    // 入場は最初の12枚だけ（画面外のカードまで一斉に動かす意味が無い）
+    if (found < 12 && !_fxOff()) {
+      card.style.setProperty('--recap-i', String(found));
+      card.classList.remove('qc-recap-in'); void card.offsetWidth;
+      card.classList.add('qc-recap-in');
+    }
+    found++;
+  });
+  return found;
+}
+/* 復元（_srsRestoreAfterReview / 科目の読み直し）が非同期なので、カードが戻るまで数回試す。
+   1回きりだと復習セッション明けに何も付かない。 */
+function _applyRecapChipsSoon() {
+  [300, 900, 1800].forEach(ms => setTimeout(() => { if (!examMode) _applyRecapChips(); }, ms));
+}
+
+/* 3つの採点経路（複数選択・単一選択・計算問題）から必ず呼ぶ。
+   ⚠️ _tallyChapter の隣に置くこと。examAnswered++ と同じ場所が唯一の真実点で、
+      _afterCorrectFx は複数選択の経路を通らないのでここには使えない。 */
+function _tallyQuestion(card, isCorrect) {
+  const uid = card && card.dataset ? card.dataset.uid : '';
+  if (uid) _examSessionResults.set(uid, !!isCorrect);
+  if (_isHardCard(card)) { _examHardStat.answered++; if (isCorrect) _examHardStat.correct++; }
+}
+
+// 目盛りと難問印をバーへ敷く（セッション開始時に一度だけ）
+function _renderExamProgMarks() {
+  _examProgCrossed.clear();
+  _examProgL = _examProgLayout(examQueue);
+  _examHardStat = { total: _examProgL.hardTotal, answered: 0, correct: 0 };
+  const track = document.querySelector('.exam-prog-track');
+  if (!track) return;
+  track.querySelectorAll('.ep-tick,.ep-hard').forEach(el => el.remove());
+  track.classList.remove('ep-sprint', 'ep-sweep');
+  if (!_examProgL.total) return;
+  const frag = document.createDocumentFragment();
+  _examProgL.ticks.forEach(t => {
+    const i = document.createElement('i');
+    i.className = 'ep-tick ep-' + t.kind;
+    i.style.left = (t.at * 100).toFixed(3) + '%';
+    i.title = t.kind === 'half' ? '折り返し（' + t.n + '問）' : '残り' + PROG_LAST_N + '問';
+    frag.appendChild(i);
+  });
+  _examProgL.marks.forEach(m => {
+    const i = document.createElement('i');
+    i.className = 'ep-hard';
+    i.style.left = (m.at * 100).toFixed(3) + '%';
+    i.dataset.n = String(m.n);
+    i.title = m.n + '問目：難問（本番正答率' + EXAM_HARD_RATE + '%未満）';
+    frag.appendChild(i);
+  });
+  track.appendChild(frag);
+}
+
+// 進行に合わせて目盛り・難問印・ラストスパートを更新する（祝わない＝音も粒子も出さない）
+function _syncExamProgMarks() {
+  const L = _examProgL;
+  const track = document.querySelector('.exam-prog-track');
+  if (!L || !L.total || !track) return;
+  L.ticks.forEach(t => {
+    if (examAnswered < t.n || _examProgCrossed.has(t.kind)) return;
+    _examProgCrossed.add(t.kind);
+    if (_fxOff()) return;
+    const el = track.querySelector('.ep-' + t.kind);
+    if (el) { el.classList.remove('lit'); void el.offsetWidth; el.classList.add('lit'); }
+    track.classList.remove('ep-sweep'); void track.offsetWidth; track.classList.add('ep-sweep');
+    setTimeout(() => track.classList.remove('ep-sweep'), 800);
+  });
+  track.querySelectorAll('.ep-hard').forEach(el => {
+    el.classList.toggle('done', (parseInt(el.dataset.n, 10) || 0) <= examAnswered);
+  });
+  if (L.sprintFrom != null) {
+    const on = examAnswered >= L.sprintFrom && examAnswered < L.total;
+    track.classList.toggle('ep-sprint', on);
+    document.body.classList.toggle('exam-sprint', on && !_fxOff());
+  }
+}
+
 /* ⚠️ 難問突破の低い「ドン」は 2026-08-18 に廃止した（ユーザー判断・不快）。
    正解音（mec_correct_sound_v1）に重なって鳴り、しかも設定から切れなかった。
    演出（刻印＋粒子）だけを残す。音を戻さないこと。chapter_exam.js の
@@ -1879,6 +2077,19 @@ function _setAwaken(on) {
 // 7テーマ×2様式の組み合わせになる。試験自体は裏で既に開始済み＝非ブロッキング。
 const EXAM_BOOT_STYLES = ['mecha', 'cyber'];
 
+// B8: リマッチのブートログ。相手は「前回落とした問題」だと明示する
+function _examRematchLines(style, qn) {
+  if (style === 'mecha') {
+    return [
+      'MEC-OS  REMATCH PROTOCOL',
+      'TARGET .................. 前回の誤答 ' + qn + ' 問',
+      'LOADING OPPONENT DATA ... OK',
+      'この ' + qn + ' 問を取り返す'
+    ];
+  }
+  return ['再戦 / REMATCH', '対象：前回落とした ' + qn + ' 問', 'この ' + qn + ' 問を取り返す'];
+}
+
 function _examBootLines(style, qn, subjLabel) {
   if (style === 'mecha') {
     return [
@@ -1892,8 +2103,9 @@ function _examBootLines(style, qn, subjLabel) {
   return ['接続確立 / LINK ESTABLISHED', '電脳ダイブ ... STAND BY', 'BANK ' + qn + ' Q  //  ' + subjLabel];
 }
 
+// 戻り値 = カウントダウンが明けるまでのms（B6/B7 がこれに合わせて1問目を立ち上げる）
 function _examCountdown() {
-  if (_fxOff()) return;
+  if (_fxOff()) return 0;
   const theme = _examTheme();
   const style = EXAM_BOOT_STYLES[(Math.random() * EXAM_BOOT_STYLES.length) | 0];
   let host = document.getElementById('examCountdown');
@@ -1902,8 +2114,11 @@ function _examCountdown() {
     host.id = 'examCountdown';
     document.body.appendChild(host);
   }
-  const col = (theme.fullscreenCols && theme.fullscreenCols[3]) || '#FFD700';
-  const glow = (theme.fullscreenGlow && theme.fullscreenGlow[3]) || '255,215,0';
+  // B8: リマッチだけはテーマ配色を外れて赤へ寄せる（「取り返しに来た」と読ませる）
+  const col = _examIsRematch ? '#FF8A80'
+            : ((theme.fullscreenCols && theme.fullscreenCols[3]) || '#FFD700');
+  const glow = _examIsRematch ? '255,138,128'
+            : ((theme.fullscreenGlow && theme.fullscreenGlow[3]) || '255,215,0');
 
   // 出題内容をブートログに出す（何が始まるのかが分かる実用も兼ねる）
   const qn = (typeof examQueue !== 'undefined' && examQueue) ? examQueue.length : 0;
@@ -1915,6 +2130,7 @@ function _examCountdown() {
     if (_srsReviewMode) subjLabel = 'SRS REVIEW';
     // TEMP（昨日の誤答）: _wrongDayJa() は study.html 側が持つ（'今日' / '昨日'）
     if (_todayWrongMode) subjLabel = (window._wrongDayJa?.() === '昨日') ? "YESTERDAY'S MISSES" : "TODAY'S MISSES";
+    if (_examIsRematch) subjLabel = 'REMATCH ×' + qn;
   } catch (e) {}
 
   const katakana = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロABCDEF0123456789';
@@ -1927,7 +2143,7 @@ function _examCountdown() {
     }
   }
 
-  host.className = 'cd-' + style;
+  host.className = 'cd-' + style + (_examIsRematch ? ' cd-rematch' : '');
   host.style.setProperty('--cd-col', col);
   host.style.setProperty('--cd-glow', glow);
   host.style.display = 'flex';
@@ -1948,7 +2164,7 @@ function _examCountdown() {
   const logEl = host.querySelector('.cd-log');
   const numEl = host.querySelector('.cd-num');
   const subEl = host.querySelector('.cd-sub');
-  const lines = _examBootLines(style, qn, subjLabel);
+  const lines = _examIsRematch ? _examRematchLines(style, qn) : _examBootLines(style, qn, subjLabel);
 
   const timers = [];
   const kill = () => { timers.forEach(clearTimeout); host.style.display = 'none'; host.innerHTML = ''; host.className = ''; };
@@ -2017,6 +2233,7 @@ function _examCountdown() {
     }
   });
   at(t0 + 3 * 420 + 780, kill);
+  return t0 + 3 * 420 + 780;
 }
 
 // C10: 結果画面のランクスタンプ（S/A/B/C・100%はPERFECT）
@@ -3096,6 +3313,7 @@ function _revealCalcAnswer(card, sid) {
   examAnswered++;
   examBySubj[sid].total++;
   _tallyChapter(uid, isCorrect);
+  _tallyQuestion(card, isCorrect);            // B3/B5: 難問の成績とセッションの正誤
   _markExamDone(uid);
   _recordMyRate(uid, isCorrect);
   // 計算問題は「何と答えたか」が誤りの構造を示す（BSAで割り忘れれば 36 が出る等）ので
@@ -3244,13 +3462,16 @@ function _removeCardFromExam(card) {
   }
 }
 
-function _shuffleChoices(card) {
-  if (card.querySelector('.qimg-row')) return;
-  if (card.querySelector('.qt u')) return;
+/* wantFlip=true のときだけ並べ替え前後の位置を測り、[{el,dy}] を返す（B6の種）。
+   ⚠️ 測定は強制レイアウトを起こすので、必ず1問目の1枚だけに限ること。
+      出題キュー全部で測ると最大600回のリフローになる。 */
+function _shuffleChoices(card, wantFlip) {
+  if (card.querySelector('.qimg-row')) return null;
+  if (card.querySelector('.qt u')) return null;   // 下線部の参照型はシャッフルしない
   const cs = card.querySelector('.cs');
-  if (!cs) return;
+  if (!cs) return null;
   const choices = [...cs.querySelectorAll('.ch2')];
-  if (choices.length < 2) return;
+  if (choices.length < 2) return null;
   // 選択肢が「番号・記号の参照」だけの問題はシャッフルしない。
   // 例: Q26「下線部①〜⑤のどれか」/ 表の行 a〜e を選ぶ問題では、問題文が
   // ①②③… や a b c… の順序に依存しており、並べ替えると正誤対応が崩れて意味不明になる。
@@ -3260,8 +3481,9 @@ function _shuffleChoices(card) {
     const body = ch.textContent.trim().replace(/^[ａ-ｅa-e][　\s]*/i, '').trim();
     return body === '' || /^[①-⑳⓪❶-❿Ⅰ-Ⅻⅰ-ⅹ]$/.test(body) || /^[（(]?[0-9]{1,2}[）)]?$/.test(body) || /^[ア-オア-ンa-eA-E]$/.test(body);
   };
-  if (choices.every(_isRefChoice)) return;
+  if (choices.every(_isRefChoice)) return null;
   _examChoiceBackup.set(card.dataset.uid, choices.map(c => c.cloneNode(true)));
+  const before = wantFlip ? choices.map(c => c.offsetTop) : null;
   const shuffled = choices.slice().sort(() => Math.random() - 0.5);
   shuffled.forEach((ch, i) => {
     cs.appendChild(ch);
@@ -3269,6 +3491,34 @@ function _shuffleChoices(card) {
     if (tn && tn.nodeType === Node.TEXT_NODE)
       tn.textContent = tn.textContent.replace(/^[ａ-ｅa-e][　\s]*/i, (i + 1) + '　');
   });
+  if (!before) return null;
+  return shuffled.map(ch => ({ el: ch, dy: before[choices.indexOf(ch)] - ch.offsetTop }));
+}
+
+/* B6: 「選択肢はシャッフルされます」をモーダルの文字ではなく動きで見せる。
+   1問目だけ、元の位置から今の位置へ滑り込ませる（真の FLIP）。
+   ⚠️ 参照型・下線部の問題はそもそもシャッフルされないので flips が null になり、
+      この演出も出ない（並んでいないのに並び替わって見えるのを防ぐ）。 */
+function _revealShuffleFx(flips) {
+  if (!flips || !flips.length || _fxOff()) return;
+  if (flips.every(f => !f.dy)) return;   // たまたま元の並びのままなら見せない
+  flips.forEach((f, i) => {
+    if (!f.el.isConnected) return;
+    f.el.animate([
+      { transform: 'translateY(' + f.dy + 'px)', opacity: .35 },
+      { transform: 'translateY(' + (f.dy * .12) + 'px)', opacity: 1, offset: .72 },
+      { transform: 'none', opacity: 1 }
+    ], { duration: 620, delay: i * 55, easing: 'cubic-bezier(.2,.9,.25,1)' });
+  });
+}
+
+/* B7: 1問目の入場。カウントダウンが明けた直後の1枚だけ、登場を作る。
+   2問目以降と同じ出方だと「幕が上がった」感覚が生まれない。 */
+function _firstCardEntrance(card) {
+  if (!card || !card.isConnected || _fxOff()) return;
+  card.classList.remove('exam-first-in'); void card.offsetWidth;
+  card.classList.add('exam-first-in');
+  setTimeout(() => card.classList.remove('exam-first-in'), 1200);
 }
 
 function _restoreChoices() {
@@ -3286,6 +3536,7 @@ function _updateExamProg(isCorrect = false) {
   const fill = document.getElementById('examProgFill');
   const txt = document.getElementById('examProgTxt');
   if (fill) fill.style.width = total > 0 ? (examAnswered / total * 100) + '%' : '0%';
+  _syncExamProgMarks();   // B2: 目盛り・難問印・ラストスパート（祝わない）
   if (txt) {
     if (_isHostSession()) {
       const remaining = total - examAnswered;
@@ -3421,6 +3672,14 @@ function resumeExam(savedAt) {
   document.querySelectorAll('.qc[data-uid]').forEach(c => { if (!_eqSet.has(c)) c.style.display = 'none'; });
 
   const revealedUids = saved.revealedUids || {};
+
+  // B2/B3/B5: 目盛りと難問印を敷き直し、解答済みぶんの成績を中断データから戻す
+  _clearRecapChips(); _examSessionResults.clear();
+  _renderExamProgMarks();
+  examQueue.forEach(c => {
+    const r = revealedUids[c.dataset.uid];
+    if (r) _tallyQuestion(c, !!r.correct);
+  });
 
   examQueue.forEach(card => {
     card.style.display = '';
@@ -3558,7 +3817,7 @@ function exitExam() {
   // 解除は通常閲覧へ戻る _srsRestoreAfterReview() に集約している。
   _lastSessionWasSrs = _srsReviewMode;
   _lastSessionWasTodayWrong = _todayWrongMode;
-  document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink');
+  document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink', 'exam-sprint');
   clearInterval(examTimerInt);
   document.removeEventListener('keydown', _examKeyHandler);
   document.removeEventListener('visibilitychange', _examVisibilityHandler);
@@ -3708,6 +3967,24 @@ function showExamSummary() {
              `<td class="sum-pct" style="color:${pc}"><i class="sum-bar" style="--w:${p}%;--i:${i};--c:${pc}"></i><b>${p}%</b></td></tr>`;
     }).join('');
   }
+  /* B3: 難問（本番正答率60%未満）の成績。B4の予告 → B2の道中の印 → ここ、と
+     同じ data-rate 1本が経路を貫く＝「難しいところに挑んだ」が3回別の形で返る。
+     A1（難問クリアの刻印）とも世界観が揃う。 */
+  const hardEl = document.getElementById('sumHardNote');
+  if (hardEl) {
+    const h = _examHardStat;
+    if (h && h.answered > 0) {
+      const hp = Math.round(h.correct / h.answered * 100);
+      const hc = hp >= 80 ? '#7CEFB2' : hp >= 50 ? '#FFD37A' : '#FF9B9B';
+      hardEl.style.display = '';
+      hardEl.innerHTML = '<span class="hn-ic">🔥</span>難問 <b>' + h.answered + '</b> 問中 '
+        + '<b style="color:' + hc + '">' + h.correct + '</b> 問正解'
+        + '<span class="hn-sub">本番正答率' + EXAM_HARD_RATE + '%未満</span>';
+    } else {
+      hardEl.style.display = 'none';
+      hardEl.innerHTML = '';
+    }
+  }
   const noteEl = document.getElementById('sumFlagNote');
   if (noteEl) noteEl.textContent = examWrong.length > 0 ? `🚩 ${examWrong.length}問を赤旗に自動登録しました` : '';
   const reviewBtn = document.getElementById('sumReviewBtn');
@@ -3827,7 +4104,17 @@ function showExamSummary() {
 }
 
 function closeExamSummary() {
-  document.getElementById('examOverlay').classList.remove('open');
+  /* B5: 「閉じる」に余韻を付ける。即座に消えると、直前まで見ていた数字が
+     どこへ行ったのか分からないまま元の一覧に放り出される。 */
+  const ov = document.getElementById('examOverlay');
+  if (ov && !_fxOff()) {
+    ov.classList.add('closing');
+    setTimeout(() => ov.classList.remove('open', 'closing'), 320);
+  } else if (ov) {
+    ov.classList.remove('open');
+  }
+  // B5: 戻った先で、今解いた問題が成績付きで並び直す（誤答が赤く残る）
+  _applyRecapChipsSoon();
   // 復習モードで起動していた場合、通常閲覧に戻る時点で全科目ロードを開始する
   // （通常フローでは初期化済みのため no-op）。
   window._runDeferredInit?.();

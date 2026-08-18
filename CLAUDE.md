@@ -754,6 +754,7 @@ node _work/test_card_render.js     カード描画（画像実寸・採点ボタ
 node _work/test_calc_input.js      計算問題の桁入力・データ整合      (29)
 node _work/test_missions.js        日次/週次ミッション          (36)
 node _work/test_gamify_ceremony.js セレモニー/トーストのキュー   (15)
+node _work/test_exam_prog.js       試験の進捗バー・難問の可視化  (29)
 node _work/test_daily_goal.js      ハブのゲージ・歯車の意匠      (36)
 node _work/test_hero_cta.js        ハブのボタン・計器ベイの演出  (43)
 node _work/test_fx_band.js         試験演出の可視帯(発火位置)    (15)
@@ -763,6 +764,68 @@ node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 
 `test_subject_totals.js` は questions_*.json / `gamify.js`の`SUBJECTS` / `chapters_meta.js`
 の3か所に散らばった問題数が一致しているかを見る。問題を増減したら必ずここが落ちる。
+
+## 試験経路の演出（2026-08-18・B1〜B8）
+
+設計の正本は `_work/演出強化_設計.md`。**study 側だけに入れてあり、`chapter_exam.js`
+（年度別の過去問ビューア）とは意図的に乖離させている**——ユーザーが通らない経路なので
+優先しないという判断。⚠️ `_work/check_effect_themes_sync.js` は study 側だけの `fx` キーを
+除外するのでこの乖離を検出しない。「なぜ過去問だけ演出が古いのか」を後から思い出せるよう、
+乖離は意図的なものだとここに残す。
+
+テスト: `node _work/test_exam_prog.js`（29件）。
+
+| 記号 | 演出 | 実装 |
+|---|---|---|
+| B1 | 科目の読み込み（チップの脈・カードの波状着地・完了の走査） | `_subjLoadStart` / `_subjLoadDone`（study.html） |
+| B2 | 進捗バーの目盛り・難問印・ラストスパート | `_examProgLayout` / `_renderExamProgMarks` / `_syncExamProgMarks` |
+| B3 | 結果画面の「難問 N問中 M問正解」 | `_examHardStat` ／ `#sumHardNote` |
+| B4 | 開始モーダルの「この条件で N問（うち難問 M問）」 | `_renderExamPredict` ／ `#examPredict` |
+| B5 | 閉じる時の幕＋戻った先に成績が残る | `closeExamSummary` / `_applyRecapChips` |
+| B6 | 1問目だけ選択肢のシャッフルを見せる | `_shuffleChoices(card, wantFlip)` → `_revealShuffleFx` |
+| B7 | 1問目のカード入場 | `_firstCardEntrance`（`_examCountdown` の戻り値に合わせる） |
+| B8 | 誤答再試験＝リマッチ | `_rematchPending` / `_examIsRematch` / `_examRematchLines` |
+
+### ⚠️ 進捗バーの節目は「祝わない」
+
+跨いだ瞬間に光が走るだけで、**音も粒子も出さない**。連続正解（tier）と別軸で祝う演出を足すと
+tier 演出とぶつかり画面が騒がしくなる。`test_exam_prog.js` が `_syncExamProgMarks` の中に
+音・`MecFX`・ストリーク演出の呼び出しが無いことを検査する。ラストスパート（残り5問からの
+色温度）は連続正解と独立した軸なので tier と競合しない。
+
+- **難問の判定は `_isHardCard`（`data-rate < EXAM_HARD_RATE = 60`）1本**。B4の予告 → B2の道中の印
+  → B3の結果、が同じ関数を共有する。⚠️ `data-rate` が無い問題は難問に数えない。
+  閾値は study.html のフィルタ「難問(<60%)」・`gamify.js` の `HARD_RATE` と**3か所で一致**させる。
+- ⚠️ **採点除外にはバーの印を置かない**。バーが進まない区間なので、置くと以降の位置が全部ずれる。
+- ⚠️ **出題数を数える式を2つ書かないこと**。`_examCandidateCards()` が正本で、`startExam` と
+  B4の予告が共有する。別々に書くと「開始を押したら予告と違う問題数だった」が起きる。
+- ⚠️ **バーの印は「進んだ側（アンバーの塗り）」と「まだの側（暗いトラック）」の両方に載る**。
+  片方だけ見て色を決めるともう片方で消える。芯と縁で明暗を対にすること（通過した難問は芯が白、
+  未通過は芯が暗くアンバーの縁）。
+- ⚠️ **`fill` を付けない `animation` は終わると基準値へ戻る**。`.ep-sweep::after` は静止位置
+  （`transform:translateX(100%)`）を明示しないと、走り終えた光の帯がバーの真ん中に居座る
+  （実機で確認して直した）。
+
+### ⚠️ 集計は `_tallyQuestion`（`_afterCorrectFx` ではない）
+
+難問の成績とセッションの正誤は **`_tallyChapter` の隣で `_tallyQuestion(card, isCorrect)`**
+が拾う。採点経路は **3つ**（複数選択・単一選択・計算問題）あり、`examAnswered++` と同じ場所が
+唯一の真実点。⚠️ **`_afterCorrectFx` / `_afterWrongFx` は複数選択の経路を通っていない**ので、
+そこに集計を載せると「2つ選べ」の問題が丸ごと数え落とされる。
+`test_exam_prog.js` が呼び出し数（3箇所）を検査する。
+
+### ⚠️ B5 の成績表示は C5 の傷と別物
+
+`.qc[data-recap]`（結果画面を閉じた後もカードに残る成績）は **`::after`** で描く。
+`::before` は C5 の `.exam-scar`（セッション中だけの傷）が使っている。
+`.qc` の `box-shadow` を上書きしないこと——影と内側ハイライトを持っており、上書きすると
+カードが平らになるうえ `.qc:hover` でも消える。
+
+### ⚠️ 完了の合図を requestAnimationFrame だけに預けない
+
+B1 の完了（`_subjLoadDone`）は `_finish` の rAF にぶら下がるが、**非表示タブでは rAF が
+1フレームも来ない**（実測。ハブの `_tweenNum` が数字を0で凍らせたのと同じ原因）。
+`_subjLoadStart` が `SUBJ_LOAD_MAX_MS` の `setTimeout` を落とし所として必ず張る。
 
 ## 試験モードの演出エフェクト仕様
 

@@ -151,6 +151,7 @@ if ('serviceWorker' in navigator) {
       <div class="exam-subj-tabs" id="examSubjTabs"></div>
       <div class="exam-ch-grid" id="examChChips"></div>
     </div>
+    <div class="exam-predict" id="examPredict"></div>
     <div class="exam-start-foot">
       <button class="exam-go-btn" onclick="startExam()">🚀 開始</button>
       <button class="exam-cancel-btn" onclick="closeExamStart()">キャンセル</button>
@@ -230,6 +231,7 @@ if ('serviceWorker' in navigator) {
       <div class="exam-detail-item di-n"><div class="lbl">回答</div><div class="val" id="sumAnswered">0</div></div>
       <div class="exam-detail-item di-t"><div class="lbl">時間</div><div class="val" id="sumTime" style="font-size:13px">0分</div></div>
     </div>
+    <div class="exam-hard-note" id="sumHardNote" style="display:none"></div>
     <div class="exam-subj-wrap">
       <h3>科目別</h3>
       <table class="exam-subj-table" id="sumSubjTable"></table>
@@ -540,11 +542,68 @@ function toggleSubjectChip(btn, id) {
     selectedSubjects.forEach(sid => _ensureSubjInit(sid));
     applyFilters();
     // 解放で章見出し(divEl)が消える・ロードで増えるため、章マップとジャンプ候補を必ず再構築
-    requestAnimationFrame(() => { _buildChapterMap(); _buildChapterJumpOptions(); _updateChapterProgressBadges(); });
+    requestAnimationFrame(() => {
+      _buildChapterMap(); _buildChapterJumpOptions(); _updateChapterProgressBadges();
+      // ⚠️ B1の演出の終わりは必ずここ。fetch の解決だけで終わらせると、まだカードが
+      //    並んでいない画面に「完了」の合図が出る。
+      _subjLoadDone(btn, id);
+    });
   };
   const need = [...selectedSubjects].filter(s => !_loadedSids.has(s));
-  if (need.length) Promise.all(need.map(s => _fetchSubjectCards(s))).then(_finish);
+  if (need.length) {
+    _subjLoadStart(btn, id);
+    Promise.all(need.map(s => _fetchSubjectCards(s)))
+      .then(_finish)
+      .catch(() => _subjLoadDone(btn, id, true));
+  }
   else _finish();
+}
+
+/* ══════════ B1: 科目の読み込みを無演出にしない（2026-08-18）══════════
+   最大594問（神経）の JSON を取る間、手応えはチップの色替えだけで、カードは一斉に
+   出現していた。この経路は毎回必ず通り、毎回いちばん長く待つ場所。
+   ⚠️ 演出の終わり（_subjLoadDone）は _finish の requestAnimationFrame の中で呼ぶこと。 */
+const SUBJ_LOAD_MAX_MS = 12000;   // 保険が働くまで（神経594問でも通常は2〜3秒）
+function _subjLoadStart(btn, sid) {
+  if (!btn) return;
+  const subj = STUDY_SUBJECTS.find(s => s.id === sid);
+  btn.dataset.load = '1';
+  btn.style.setProperty('--chip-load', (subj && subj.color) || 'var(--yl)');
+  /* ⚠️ 落とし所を必ず持つこと。完了の合図は _finish の requestAnimationFrame に
+     ぶら下がっているが、非表示タブでは rAF が止まる（実測: 拡張のタブは document.hidden=true
+     で rAF が1フレームも来ない）。保険が無いと、裏で科目を切り替えたチップの脈が
+     戻ってきても止まらないままになる。ハブの _tweenNum と同じ理由・同じ形。 */
+  clearTimeout(btn._loadFallback);
+  btn._loadFallback = setTimeout(() => _subjLoadDone(btn, sid, true), SUBJ_LOAD_MAX_MS);
+}
+function _subjLoadDone(btn, sid, failed) {
+  if (!btn || !btn.dataset.load) return;   // 読み込みを伴わない切替では何もしない
+  clearTimeout(btn._loadFallback);
+  btn._loadFallback = null;
+  delete btn.dataset.load;
+  btn.style.removeProperty('--chip-load');
+  if (failed) return;
+  const reduced = typeof _mecReducedMotion === 'function' && _mecReducedMotion();
+  if (reduced) return;
+  const sec = document.querySelector('.subj-section[data-sid="' + sid + '"]');
+  if (!sec) return;
+  // カードを上から波状に着地させる（画面に入る先頭ぶんだけ。全部動かす意味は無い）
+  const cards = [...sec.querySelectorAll('.qc[data-uid]')]
+    .filter(c => c.style.display !== 'none').slice(0, 14);
+  cards.forEach((c, i) => { c.style.setProperty('--land-i', String(i)); c.classList.add('subj-land'); });
+  setTimeout(() => cards.forEach(c => {
+    c.classList.remove('subj-land'); c.style.removeProperty('--land-i');
+  }), 1500);
+  // 完了の合図＝科目色の走査を一度だけ。位置は可視帯（_fxBand）の中に収める
+  const subj = STUDY_SUBJECTS.find(s => s.id === sid);
+  if (!window.MecFX || !subj) return;
+  try {
+    const b = (typeof _fxBand === 'function') ? _fxBand()
+            : { top: 60, bottom: innerHeight - 40, left: 0, right: innerWidth };
+    const r = sec.getBoundingClientRect();
+    const y = Math.max(b.top, Math.min(b.bottom, r.top + 44));
+    MecFX.wave({ y, x0: b.left, x1: b.right, color: subj.color, amp: 12, freq: 3, width: 2, ttl: .9, glow: true });
+  } catch (e) {}
 }
 
 // 選択中の見た目(.fc-on/.fs-on)と aria-pressed は必ず一緒に動かす。

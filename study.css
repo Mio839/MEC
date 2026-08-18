@@ -30,6 +30,17 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 /* ── Filter chips ── */
 .chip-row{display:flex;gap:4px;overflow-x:auto;padding-bottom:5px;scrollbar-width:none;margin-bottom:6px;}
 .chip-row::-webkit-scrollbar{display:none;}
+/* B1(2026-08-18): 読み込み中のチップ。縁が科目色で脈打つ（ハブの .cta-redo[data-load] と同型）。
+   ⚠️ 変数名は --chip- 接頭辞を必須にすること。--cb のような短い名前は vars.css の共通トークンを
+      継承で拾い、animation ショートハンドが色を duration に食ってプロパティごと unset になる
+      （2026-08-14にハブで実際に起きた）。 */
+.chip{position:relative;}
+.chip[data-load]::after{content:'';position:absolute;inset:-3px;border-radius:22px;pointer-events:none;
+  border:1.5px solid var(--chip-load,var(--yl));opacity:.25;animation:chipLoadPulse 1.05s ease-in-out infinite;}
+@keyframes chipLoadPulse{0%,100%{opacity:.18;transform:scale(1);}50%{opacity:.85;transform:scale(1.06);}}
+/* カードの着地（上から順に）。--land-i が段差、14枚までしか付けない */
+.qc.subj-land{animation:subjLand .52s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--land-i,0) * 34ms);}
+@keyframes subjLand{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
 .chip{padding:3px 10px;border-radius:20px;border:1.5px solid rgba(255,255,255,.18);background:rgba(var(--glass-rgb),.04);color:rgba(255,255,255,.52);font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s,color .15s;flex-shrink:0;}
 .chip.on{color:#fff;background:rgba(var(--glass-rgb),.12);border-color:rgba(255,255,255,.38);}
 
@@ -239,8 +250,62 @@ body.exam-mode .qc.exam-revealed.exam-ans-hidden .eg{display:none!important;}
 /* Progress bar */
 .exam-prog{display:none;align-items:center;gap:8px;padding:4px 14px;background:rgba(0,0,0,.5);color:#fff;font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;}
 body.exam-mode .exam-prog{display:flex;}
-.exam-prog-track{flex:1;height:5px;background:rgba(var(--glass-rgb),.15);border-radius:3px;overflow:hidden;}
-.exam-prog-fill{height:100%;background:var(--yl);border-radius:3px;transition:width .3s;}
+.exam-prog-track{position:relative;flex:1;height:7px;background:rgba(var(--glass-rgb),.15);border-radius:4px;overflow:hidden;}
+.exam-prog-fill{height:100%;background:var(--yl);border-radius:4px;transition:width .3s;}
+/* B2(2026-08-18): 節目は「祝わない」。跨いだ瞬間に光が走るだけで音も粒子も出さない
+   （連続正解 tier と別軸で祝うと画面がぶつかる）。印は距離感のためだけにある。 */
+/* ⚠️ 印は「進んだ側（アンバーの塗り）」と「まだの側（暗いトラック）」の両方の上に載る。
+   片方だけを見て色を決めると、もう片方で消える。芯と縁で明暗を必ず対にすること。 */
+.exam-prog-track .ep-tick{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;
+  background:rgba(255,255,255,.85);box-shadow:0 0 0 1px rgba(0,0,0,.5);pointer-events:none;}
+.exam-prog-track .ep-last{background:#fff;}
+.exam-prog-track .ep-tick.lit{animation:epTickLit .9s ease-out;}
+@keyframes epTickLit{0%{box-shadow:0 0 0 0 rgba(255,255,255,.9);background:#fff;}
+  100%{box-shadow:0 0 0 7px rgba(255,255,255,0);}}
+/* 難問の位置＝残りに何が待っているか。通過すると芯が埋まる */
+.exam-prog-track .ep-hard{position:absolute;top:50%;width:5px;height:5px;margin:-2.5px 0 0 -2.5px;
+  border-radius:50%;border:1.5px solid var(--or);background:rgba(0,0,0,.6);pointer-events:none;}
+/* 通過した難問は芯が白く埋まる（アンバーで埋めると塗りと同化して見えない） */
+.exam-prog-track .ep-hard.done{background:#fff;border-color:rgba(0,0,0,.5);}
+/* 目盛りを跨いだ合図。バーの上を光が一度だけ走る */
+/* ⚠️ 静止位置（transform）を必ず書くこと。fill を付けない animation は終わると基準値へ戻るので、
+   基準が translateX(0) だとバーの真ん中に明るい帯が居座る（実機で確認した）。 */
+.exam-prog-track.ep-sweep::after{content:'';position:absolute;inset:0;pointer-events:none;
+  transform:translateX(100%);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);
+  animation:epSweep .75s cubic-bezier(.4,0,.2,1);}
+@keyframes epSweep{from{transform:translateX(-100%);}to{transform:translateX(100%);}}
+/* ラストスパート: 残り5問から色温度を上げる。連続正解と独立した軸なので tier と競合しない */
+.exam-prog-track.ep-sprint .exam-prog-fill{background:linear-gradient(90deg,var(--yl),var(--or));}
+body.exam-sprint .exam-prog{background:rgba(60,22,0,.62);animation:epSprint 2.6s ease-in-out infinite;}
+@keyframes epSprint{0%,100%{box-shadow:inset 0 0 0 0 rgba(255,154,60,0);}
+  50%{box-shadow:inset 0 -2px 14px -4px rgba(255,154,60,.55);}}
+/* B3(2026-08-18): 難問の成績。B4の予告 → B2の道中の印 → ここ、と data-rate 1本が経路を貫く */
+.exam-hard-note{font-size:12px;font-weight:700;color:var(--ts);margin:-4px 0 12px;
+  padding:6px 10px;border-radius:var(--r-md);background:rgba(255,154,60,.08);
+  border:1px solid rgba(255,154,60,.28);display:flex;align-items:baseline;justify-content:center;
+  gap:6px;flex-wrap:wrap;}
+.exam-hard-note b{font-size:15px;color:var(--tx);font-variant-numeric:tabular-nums;}
+.exam-hard-note .hn-ic{font-size:13px;}
+.exam-hard-note .hn-sub{font-size:10px;color:rgba(255,255,255,.42);}
+/* B5: 結果画面を閉じる＝幕が下りる。即座に消えると数字の行方が分からないまま放り出される */
+.exam-overlay.closing{animation:examOvOut .3s ease-in forwards;}
+.exam-overlay.closing .exam-modal{animation:examBoxOut .3s cubic-bezier(.4,0,1,1) forwards;}
+@keyframes examOvOut{to{opacity:0;}}
+@keyframes examBoxOut{to{opacity:0;transform:translateY(22px) scale(.97);}}
+/* B5: 戻った先で、今解いた問題が成績付きで並び直す（誤答が赤く残る）。
+   ⚠️ C5 の .exam-scar（セッション中だけの傷）とは別物。あちらは持ち越さない、こちらは持ち越す。
+   ⚠️ .qc の box-shadow を上書きしないこと（影と内側ハイライトを持っており、平らになる。
+      .qc:hover も box-shadow を書くので hover で消える）。帯は ::after で描く——
+      ::before は C5 の .exam-scar が使っているので空けておく。 */
+.qc[data-recap]{position:relative;}
+.qc[data-recap]::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  border-radius:0 3px 3px 0;pointer-events:none;background:var(--recap-c,var(--gr));opacity:.85;}
+.qc[data-recap="ok"]{--recap-c:var(--gr);}
+.qc[data-recap="ng"]{--recap-c:var(--rd);}
+.qc.qc-recap-in::after{animation:qcRecapIn .5s cubic-bezier(.16,1,.3,1) both;
+  animation-delay:calc(var(--recap-i,0) * 42ms);}
+@keyframes qcRecapIn{from{opacity:0;transform:scaleY(.2);}to{opacity:.85;transform:none;}}
 /* Selfcheck modal */
 .sc-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:var(--z-modal);align-items:center;justify-content:center;backdrop-filter:blur(4px);}
 .sc-ov.open{display:flex;}
@@ -263,6 +328,17 @@ body.exam-mode .exam-prog{display:flex;}
 /* タイトルは単色アクセント（グラデ文字＝background-clip:textはAI生成UIの典型テルのため廃止・2026-07-20） */
 .grad-txt{color:var(--yl);}
 .exam-start-box p{font-size:12px;color:var(--ts);margin-bottom:14px;}
+/* B4(2026-08-18): 開始前の予告。演出であると同時に情報（開始を押すまで問題数が分からなかった） */
+.exam-predict{font-size:12px;font-weight:700;color:var(--ts);text-align:center;margin-bottom:10px;
+  padding:7px 10px;border-radius:var(--r-md);background:rgba(var(--glass-rgb),.05);
+  border:1px solid rgba(255,255,255,.10);display:flex;flex-wrap:wrap;gap:4px 12px;
+  align-items:baseline;justify-content:center;}
+.exam-predict b{color:var(--yl);font-size:16px;font-variant-numeric:tabular-nums;}
+.exam-predict .pd-hard{color:var(--or);}
+.exam-predict .pd-hard b{color:var(--or);font-size:13px;}
+.exam-predict .pd-ex{color:rgba(255,255,255,.4);font-size:11px;}
+.exam-predict.empty{color:var(--rd);flex-direction:column;gap:2px;}
+.exam-predict .pd-sub{font-size:10px;color:var(--ts);font-weight:700;}
 /* Chapter filter in exam modal */
 .exam-ch-section{margin-bottom:14px;text-align:left;}
 .exam-ch-label{font-size:11px;font-weight:700;color:var(--ts);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;}
@@ -646,6 +722,17 @@ html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-bloc
 .qc.exam-scar::before{content:'';position:absolute;left:0;top:10px;bottom:10px;width:3px;
   border-radius:0 3px 3px 0;pointer-events:none;
   background:linear-gradient(180deg,transparent,rgba(255,107,107,.75) 18%,rgba(255,107,107,.75) 82%,transparent);}
+
+/* B7(2026-08-18): 1問目だけの入場。カウントダウンが明けた直後の1枚に「幕が上がった」を作る */
+.qc.exam-first-in{animation:examFirstIn .9s cubic-bezier(.16,1,.3,1) both;}
+@keyframes examFirstIn{
+  0%{opacity:0;transform:translateY(20px) scale(.985);filter:blur(3px);}
+  55%{opacity:1;filter:blur(0);}
+  100%{opacity:1;transform:none;filter:blur(0);}}
+/* B8(2026-08-18): 誤答再試験＝リマッチ。同じカウントダウンでも「取り返しに来た」と読める色にする。
+   ⚠️ --cd-col / --cd-glow は _examCountdown がインライン style で入れるのでここでは上書きできない
+      （インラインの方が強い）。色は JS 側で選び、ここは字の色だけを担当する。 */
+#examCountdown.cd-rematch .cd-line{color:rgba(255,180,170,.92);}
 
 /* A3(2026-08-14): 速答の3段。1段目（まずまず）は控えめ、3段目（一閃）は強く */
 .exam-fast-pop.fast-g1{font-size:14px;opacity:.78;}
