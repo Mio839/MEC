@@ -48,6 +48,7 @@ _work/_circ_tmp/
 _work/_uro_tmp/
 _work/_ortho_tmp/
 _work/_anes_tmp/
+_work/_rad_tmp/
 
 # 作り直し前の questions_*.json のスナップショット（roundtrip_*.py の比較基準）。
 # 中身は追跡済みの questions_*.json と同じなのでリポジトリに二重に置かない。

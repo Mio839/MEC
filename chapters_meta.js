@@ -1099,6 +1099,38 @@ const MEC_CHAPTERS = [
         "count": 17
       }
     ]
+  },
+  {
+    "id": "rad",
+    "name": "放射線科",
+    "icon": "☢️",
+    "color": "#475569",
+    "chapters": [
+      {
+        "prefix": "rad_ch01",
+        "file": "放射線科/ch01_josho.html",
+        "title": "第1章 序　章",
+        "count": 1
+      },
+      {
+        "prefix": "rad_ch02",
+        "file": "放射線科/ch02_hoshasen_shindangaku.html",
+        "title": "第2章 放射線診断学",
+        "count": 33
+      },
+      {
+        "prefix": "rad_ch03",
+        "file": "放射線科/ch03_hoshasen_chiryogaku.html",
+        "title": "第3章 放射線治療学",
+        "count": 10
+      },
+      {
+        "prefix": "rad_ch04",
+        "file": "放射線科/ch04_iryoanzen_bogo.html",
+        "title": "第4章 医療安全・放射線防護",
+        "count": 16
+      }
+    ]
   }
 ];
 const MEC_CHAPTER_META = {
