@@ -1225,7 +1225,7 @@
   function ceHardClear(el, card) {
     var theme = ceTheme();
     var rate = ceCardRate(card);
-    ceTone([98, 146.83, 196], .16, .72);
+    // 難問突破の低い「ドン」は 2026-08-18 に廃止（study_exam.js の _triggerHardClear と同じ）
     if (ceReduced()) return;
     var xy = ceFxXY(el), cx = xy[0], cy = xy[1];
     var cols = theme.hardColors || ['#FF5722', '#FFD700', '#FFFFFF'];

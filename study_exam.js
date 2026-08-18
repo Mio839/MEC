@@ -1474,34 +1474,14 @@ function _isHardCard(card) {
   return n != null && n < EXAM_HARD_RATE;
 }
 
-// 低い「ドン」。難問だけ音域を落とす＝画面を見ていなくても難問だと分かる
-function _playHardTone() {
-  if (_correctSound === 'off') return;
-  try {
-    const ctx = _getExamAudioCtx();
-    if (!ctx) return;
-    const now = ctx.currentTime;
-    const master = ctx.createGain();
-    master.gain.setValueAtTime(0.0001, now);
-    master.gain.exponentialRampToValueAtTime(0.16, now + 0.02);
-    master.gain.exponentialRampToValueAtTime(0.0001, now + 0.72);
-    master.connect(ctx.destination);
-    [98, 146.83, 196].forEach((f, i) => {
-      const osc = ctx.createOscillator(), g = ctx.createGain();
-      const st = now + i * 0.05;
-      osc.type = i === 2 ? 'triangle' : 'sine';
-      osc.frequency.setValueAtTime(f, st);
-      g.gain.setValueAtTime(i === 2 ? 0.5 : 1, st);
-      osc.connect(g); g.connect(master);
-      osc.start(st); osc.stop(now + 0.75);
-    });
-  } catch (e) {}
-}
+/* ⚠️ 難問突破の低い「ドン」は 2026-08-18 に廃止した（ユーザー判断・不快）。
+   正解音（mec_correct_sound_v1）に重なって鳴り、しかも設定から切れなかった。
+   演出（刻印＋粒子）だけを残す。音を戻さないこと。chapter_exam.js の
+   ceHardClear からも同じ理由で ceTone を外してある（ミラー）。 */
 
 function _triggerHardClear(el, card) {
   const theme = _examTheme();
   const rate = _cardRate(card);
-  _playHardTone();
   if (_fxOff()) return;
   const r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
   const b = _fxBand();

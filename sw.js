@@ -1,3 +1,7 @@
+// 2026-08-18a: 難問突破（正答率60%未満）の低い「ドン」を廃止した。正解音に重なって鳴るのに
+// 音の設定から切れず、耳障りだった。演出（刻印＋粒子）はそのまま残す。study_exam.js の
+// _playHardTone と chapter_exam.js の ceHardClear の ceTone を両方外した（ミラー）。
+// シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-14c: ハブのボタンを止まっていても生かした（F1〜F5）。副ボタンにも光沢を走らせ、
 // 縁が data-fx の色（🔔復習=青/📚全科目=緑/🔁誤答=赤）で呼吸し、先頭の絵文字が席ごとに
 // ずれて跳ね、主ボタンからは粒子が常に立ち上る。片付いた席（is-off）だけは一切動かさない。
@@ -154,7 +158,7 @@ const CACHE = "mec-v166";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-14c";
+const SHELL_VERSION = "2026-08-18a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
