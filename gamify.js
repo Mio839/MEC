@@ -309,15 +309,53 @@
     document.head.appendChild(st);
   }
 
+  /* ── 演出の保留（試験中は溜めて結果画面で再生する） ────────────────────
+     ⚠️ 試験モード中はトーストもセレモニーも「出さずに溜める」。理由は2つ:
+       ① 全画面セレモニー(2.4秒)は tier 演出の真上に被る。_microLapFx / _lapMilestoneFx は
+          先頭で examMode を見て黙るのに、一番大きいこれだけが素通しだった。
+       ② トーストは top:14px 固定＝iPad では約180pxある試験ヘッダ(.st-hdr)の裏に出る。
+          出しても読めないので、出さずに取っておく方が情報が残る。
+     溜めたものは結果画面で順に再生する。再生の開始は examMode 解除の直後ではなく
+     _quiet() が置く静粛時間の後——showExamSummary はランクスタンプ(950ms)と祝賀花火(980ms)を
+     自前で走らせるので、その上に重ねると両方読めなくなる。静粛時間は onExamFinish が置く
+     （結果画面の末尾で必ず1回呼ばれる＝セッションの終わりを知る唯一の確実な合図）。 */
+  const CER_SETTLE_MS = 2000;   // 結果画面の祝賀演出が終わるまでの待ち
+  const CER_GAP_MS = 280;       // セレモニーを続けて出すときの間（詰めると1つの演出に見える）
+  let _quietUntil = 0;
+  let _holdTimer = null;
+
+  function _fxHeld() {
+    if (typeof examMode !== 'undefined' && examMode) return true;
+    return Date.now() < _quietUntil;
+  }
+  function _quiet(ms) { _quietUntil = Math.max(_quietUntil, Date.now() + ms); }
+  // 溜まっている間だけ解除を待つタイマーを1本持つ（解除されたら自分で止まる）
+  function _armHold() {
+    if (_holdTimer) return;
+    _holdTimer = setInterval(() => {
+      if (_fxHeld()) return;
+      clearInterval(_holdTimer); _holdTimer = null;
+      _drainToast(); _drainCer();
+    }, 400);
+  }
+  // 保留を解いて今すぐ再生する（テスト・手動用）
+  function flushCeremonies() {
+    _quietUntil = 0;
+    if (_holdTimer) { clearInterval(_holdTimer); _holdTimer = null; }
+    _drainToast(); _drainCer();
+  }
+
   // ── トースト（キュー式） ─────────────────────────────────────────
   const _toastQ = [];
   let _toastBusy = false;
-  function toast(icon, title, sub) {
-    _toastQ.push({ icon, title, sub });
+  // snd … 表示の瞬間に鳴らす音（保留されたトーストは再生時に鳴る＝音と絵がずれない）
+  function toast(icon, title, sub, snd) {
+    _toastQ.push({ icon, title, sub, snd });
     _drainToast();
   }
   function _drainToast() {
     if (_toastBusy || !_toastQ.length) return;
+    if (_fxHeld()) { _armHold(); return; }
     _toastBusy = true;
     let el = document.getElementById('gmToast');
     if (!el) {
@@ -326,20 +364,35 @@
       el.innerHTML = '<span class="ti"></span><span><div class="tt"></div><div class="ts"></div></span>';
       document.body.appendChild(el);
     }
-    const { icon, title, sub } = _toastQ.shift();
+    const { icon, title, sub, snd } = _toastQ.shift();
     el.querySelector('.ti').textContent = icon;
     el.querySelector('.tt').textContent = title;
     el.querySelector('.ts').textContent = sub || '';
     requestAnimationFrame(() => el.classList.add('show'));
+    try { snd && snd(); } catch {}
     setTimeout(() => {
       el.classList.remove('show');
       setTimeout(() => { _toastBusy = false; _drainToast(); }, 420);
     }, 3000);
   }
 
-  // ── セレモニー（全画面・自動フェード） ────────────────────────────
+  /* ── セレモニー（全画面・自動フェード・キュー式） ──────────────────────
+     ⚠️ 以前は overlay の innerHTML を上書きするだけでキューが無く、近接して2つ発火すると
+        先の1つが誰にも見られないまま消えていた。しかもそれが起きる条件が「40問目の解答」
+        そのもので、_bumpMission → MISSION COMPLETE の直後に同じ同期呼び出しの中で
+        _afterEvent → LEVEL UP が走り、MISSION COMPLETE は常に上書きされて消えていた。
+        toast() と同じくキューに積み、1つが消えてから次を出す。 */
+  const _cerQ = [];
+  let _cerBusy = false;
   function ceremony(html, opts) {
-    opts = opts || {};
+    _cerQ.push({ html, opts: opts || {} });
+    _drainCer();
+  }
+  function _drainCer() {
+    if (_cerBusy || !_cerQ.length) return;
+    if (_fxHeld()) { _armHold(); return; }
+    _cerBusy = true;
+    const { html, opts } = _cerQ.shift();
     let ov = document.getElementById('gmCerOv');
     if (!ov) { ov = document.createElement('div'); ov.id = 'gmCerOv'; document.body.appendChild(ov); }
     ov.innerHTML = '<div class="gm-cer">' + html + '</div>';
@@ -348,7 +401,11 @@
     setTimeout(() => {
       const c = ov.querySelector('.gm-cer');
       if (c) c.classList.add('out');
-      setTimeout(() => ov.classList.remove('show'), 420);
+      setTimeout(() => {
+        ov.classList.remove('show');
+        _cerBusy = false;
+        if (_cerQ.length) setTimeout(_drainCer, CER_GAP_MS);
+      }, 420);
     }, dur);
     try { opts.fx && opts.fx(); } catch {}
     try { opts.snd && opts.snd(); } catch {}
@@ -396,8 +453,8 @@
     if (fresh.length) {
       saveL();
       if (celebrate) {
-        fresh.forEach(a => toast(a.icon, '実績解除「' + a.name + '」', a.desc));
-        try { SND.ach(); } catch {}
+        // 音はトーストに持たせる（保留されても表示の瞬間に鳴る）。連続解除でも鳴るのは先頭だけ
+        fresh.forEach((a, i) => toast(a.icon, '実績解除「' + a.name + '」', a.desc, i ? null : SND.ach));
       }
     }
   }
@@ -554,8 +611,7 @@
         _awardMissionXp(lk, def.id, def.xp);
         if (!seen.includes(def.id)) {
           seen.push(def.id);
-          toast(def.icon, 'ミッション達成！', def.label + '（+' + def.xp + ' XP）');
-          try { SND.mission(); } catch {}
+          toast(def.icon, 'ミッション達成！', def.label + '（+' + def.xp + ' XP）', SND.mission);
         }
       });
       // セレモニーは core のみで判定する（bonus は在庫・運に左右され毎回は達成できないため）
@@ -655,6 +711,7 @@
   }
 
   function _starGainFx(el, n) {
+    if (typeof examMode !== 'undefined' && examMode) return; // 試験中は tier 演出に任せる
     if (_reducedMotion()) return;
     el.classList.remove('gm-star-gain'); void el.offsetWidth; el.classList.add('gm-star-gain');
     setTimeout(() => el.classList.remove('gm-star-gain'), 1000);
@@ -697,7 +754,9 @@
     //    永久未達になる（旧 'chclear' がこれで死んでいた）。週次は何周でも成立する
     //    「章別試験で80%以上」（chexam80・onExamFinish）で数える。
     // 章仕切り線を光が一本走る（章を「閉じた」ことを在席する場所で示す）
-    if (entry.divEl && !_reducedMotion()) {
+    // ⚠️ 試験中は出さない。セレモニーは結果画面へ回るがこれは在席の演出で回せないため、
+    //    tier 演出とぶつけるくらいなら黙る（_microLapFx / _lapMilestoneFx と同じ扱い）。
+    if (entry.divEl && !_reducedMotion() && !(typeof examMode !== 'undefined' && examMode)) {
       const dv = entry.divEl;
       dv.classList.remove('gm-ch-sweep'); void dv.offsetWidth; dv.classList.add('gm-ch-sweep');
       setTimeout(() => dv.classList.remove('gm-ch-sweep'), 1100);
@@ -980,6 +1039,9 @@
   }
 
   // ── イベントAPI（progress.js / study_exam.js から呼ばれる） ────────
+  // ⚠️ ここに `if (examMode) return;` を足さないこと。記帳（L.lastLevel / L.chDone / L.subjDone）
+  //    まで止まると「試験中に上がったレベルが二度と祝われない」＝取りこぼす。試験中の抑止は
+  //    演出側（ceremony/toast の保留・_starGainFx・章仕切りの光）だけで行う。
   function _afterEvent(uid) {
     _statsCache = null;
     _updateHeaderChips();
@@ -1100,6 +1162,9 @@
   // opts.chPrefix … 単一章だけを出題した章別試験のときの章prefix（週次「章別試験80%」用）
   function onExamFinish(answered, correct, opts) {
     const o = opts || {};
+    // 結果画面の末尾で必ず1回呼ばれる＝ここがセッションの終わり。試験中に溜めたぶんも、
+    // この呼び出し自身が生む達成（exam/acc80/perfect）も、結果画面の祝賀演出が終わってから出す。
+    _quiet(CER_SETTLE_MS);
     if (answered >= 10) {
       const bumps = ['exam'];
       if (correct / answered >= 0.8) bumps.push('acc80');   // 高正答率セッション（80%以上）
@@ -1211,7 +1276,12 @@
 
   window.MecGamify = {
     onLap, onAnswer, onFlag, onExamFinish, stats, missionSummary, missionXp, dailyGoal,
-    renderPanel, openPanelModal, refreshAllStars,
-    _defs: { daily: MISSIONS_DAILY, weekly: MISSIONS_WEEKLY, allXp: MISSION_ALL_XP }, // テスト用
+    renderPanel, openPanelModal, refreshAllStars, flushCeremonies,
+    // テスト用（_work/test_missions.js / test_gamify_ceremony.js）
+    _defs: {
+      daily: MISSIONS_DAILY, weekly: MISSIONS_WEEKLY, allXp: MISSION_ALL_XP,
+      ceremony, toast, cerPending: () => _cerQ.length, toastPending: () => _toastQ.length,
+      settleMs: CER_SETTLE_MS, gapMs: CER_GAP_MS,
+    },
   };
 })();

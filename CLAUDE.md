@@ -304,6 +304,45 @@ ch01を貫く筋は4本。①**麻酔は「4要素（鎮静・鎮痛・筋弛緩
 - 間隔上限90日・ef上限2.5は意図的（本番まで1年スパンで間隔を暴走させないため）。
 - テスト: `node _work/test_srs_grade.js`
 
+## セレモニーとトーストは1本の列（2026-08-18〜）
+
+`gamify.js` の全画面セレモニー（LEVEL UP / MISSION COMPLETE / 章制覇 / 科目制覇）と
+実績トーストは、**どちらもキューに積んで1つずつ再生する**。
+テスト: `node _work/test_gamify_ceremony.js`（15件・仮想時計で実ソースを回す）。
+
+- ⚠️ **`ceremony()` に上書き実装を戻さないこと**。旧実装は overlay の `innerHTML` を
+  書き換えるだけでキューが無く、近接して2つ発火すると先の1つが誰にも見られないまま消えた。
+  しかもそれが起きる条件が **「40問目の解答」そのもの**で、`onAnswer` の中の
+  `_bumpMission → MISSION COMPLETE` の直後、**同じ同期呼び出しの中で**
+  `_afterEvent → _checkLevelUp → LEVEL UP` が走り、MISSION COMPLETE は常に消えていた。
+- **`opts.fx` / `opts.snd` は積んだ瞬間ではなく、そのセレモニーが実際に出る瞬間に鳴らす**
+  （旧実装は積んだ瞬間に鳴っていたので、消えた方の音だけが残っていた）。
+- **`toast()` の第4引数 `snd`** も同じ理由で足した。`SND.ach()` / `SND.mission()` を
+  `toast()` の外で鳴らすと、保留されたトーストの音だけが試験中に鳴る。
+
+### 試験中は溜めて、結果画面で再生する
+
+`_fxHeld()` が真の間はセレモニーもトーストも**出さずに溜める**。理由は2つ:
+
+1. 全画面セレモニー(2.4秒)は tier 演出の真上に被る。`_microLapFx` / `_lapMilestoneFx` は
+   先頭で `examMode` を見て黙るのに、**一番大きいこれだけが素通し**だった。
+2. `#gmToast` は `top:14px` 固定＝**iPad では約180pxある試験ヘッダ(`.st-hdr`)の裏**に出る。
+   出しても読めないので、出さずに取っておく方が情報が残る。
+
+- ⚠️ **再生の開始は `examMode` 解除の直後ではない**。`showExamSummary` は
+  ランクスタンプ(950ms)と祝賀花火(980ms)を自前で走らせるので、そこへ被せると両方読めなくなる。
+  **`onExamFinish` が `_quiet(CER_SETTLE_MS=2000)` を置き、その後から再生する**
+  （`onExamFinish` は結果画面の末尾で必ず1回呼ばれる＝セッションの終わりを知る唯一の確実な合図。
+  この呼び出し自身が生む達成 exam/acc80/perfect も同じ静粛時間に乗る）。
+  **この配管のおかげで `study_exam.js` 側の変更はゼロ**。
+- ⚠️ **`_afterEvent` に `if (examMode) return;` を足さないこと**。記帳
+  （`L.lastLevel` / `L.chDone` / `L.subjDone`）まで止まると
+  **試験中に上がったレベルが二度と祝われない**＝取りこぼす。抑止は演出側だけで行う
+  （ceremony/toast の保留・`_starGainFx`・章仕切りの光）。
+- 保留タイマー `_armHold()` は**溜まっている間だけ1本**張り、解除を検知したら自分で止まる。
+- レベルアップが「上がったその場」ではなく結果画面で出るのは**承諾済みの仕様変更**
+  （集中を切らないことを優先）。
+
 ## デイリー／ウィークリーミッション（2026-07-30 拡張）
 
 定義は `gamify.js` の `MISSIONS_DAILY`（8個）・`MISSIONS_WEEKLY`（8個）。進捗は同期キー
@@ -714,6 +753,7 @@ node _work/test_subject_totals.js  科目別問題数の三者一致      (3)
 node _work/test_card_render.js     カード描画（画像実寸・採点ボタン）(7)
 node _work/test_calc_input.js      計算問題の桁入力・データ整合      (29)
 node _work/test_missions.js        日次/週次ミッション          (36)
+node _work/test_gamify_ceremony.js セレモニー/トーストのキュー   (15)
 node _work/test_daily_goal.js      ハブのゲージ・歯車の意匠      (36)
 node _work/test_hero_cta.js        ハブのボタン・計器ベイの演出  (43)
 node _work/test_fx_band.js         試験演出の可視帯(発火位置)    (15)
