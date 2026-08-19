@@ -12,6 +12,14 @@
  *     約180pxある試験ヘッダの裏＝出しても読めない。
  *     → 試験中は両方とも溜め、結果画面（onExamFinish が置く静粛時間の後）で順に再生する。
  *
+ * 背景（2026-08-20 の Phase 6・授与トレイ）:
+ *   - セレモニーとトーストは _cerQ / _toastQ の2列で「並行に」流れていたため、全画面
+ *     セレモニーの真上にトーストが重なって両方読めず、しかも「あと何件来るか」を数えられ
+ *     なかった。→ _annQ 1本に併合し、位置表示（3 / 4）と授与トレイ（#gmTrayMount）を足した。
+ *   - トレイは「これから来る件数」を先に見せる目次で、行はセレモニーの再生に合わせて点灯する。
+ *     スキップ（タップで次へ／まとめて受け取る）で打ち切っても、行はトレイに残る＝情報が
+ *     失われないことがスキップを許せる前提になっている。
+ *
  * ⚠️ このテストは setTimeout / setInterval / Date.now を差し替えた仮想時計で回す。
  *    gamify.js 側でこれらの名前を使わなくなったらここも直すこと。
  */
@@ -67,6 +75,7 @@ function makeEl(id) {
     insertBefore(c) { this.children.push(c); return c; },
     removeChild() {}, remove() {}, addEventListener() {}, setAttribute() {},
     animate: () => ({}), getBoundingClientRect: () => ({ top: 0, left: 0, width: 0, height: 0 }),
+    getClientRects: () => [],   // 既定は「画面に見えていない」＝トレイを描かない
     querySelector(sel) {
       // .gm-cer は out クラスを付けられるだけなので使い捨てで足りる
       if (sel === '.gm-cer') return this._cer || (this._cer = makeEl());
@@ -79,9 +88,14 @@ function makeEl(id) {
   return el;
 }
 
-function makeCtx(clock) {
+function makeCtx(clock, opt) {
   const store = {};
   const els = { gmCerOv: makeEl('gmCerOv'), gmToast: makeEl('gmToast') };
+  // トレイは「マウント要素があり、かつ画面に見えている」ときだけ描かれる（結果画面だけ）
+  if (opt && opt.tray) {
+    els.gmTrayMount = makeEl('gmTrayMount');
+    els.gmTrayMount.getClientRects = () => [{}];
+  }
   const ctx = {
     localStorage: {
       getItem: k => (Object.prototype.hasOwnProperty.call(store, k) ? store[k] : null),
@@ -152,7 +166,9 @@ t('3つ積んでも順序どおりに全部出る（1つも失われない）', 
   const seen = [];
   for (let i = 0; i < 60; i++) {
     const s = ctx._onScreen();
-    if (s && (!seen.length || !s.includes(seen[seen.length - 1]))) seen.push(s.replace(/\D/g, '') || s.match(/>([A-C])</)[1]);
+    // ⚠️ 位置表示（gm-ann-pos の "2 / 3"）が入るので、数字ではなくラベルで拾うこと
+    const lb = s && (s.match(/<i>([A-C])<\/i>/) || [])[1];
+    if (lb && seen[seen.length - 1] !== lb) seen.push(lb);
     clock.tick(200);
   }
   assert.deepStrictEqual(seen, ['A', 'B', 'C']);
@@ -264,21 +280,35 @@ t('onExamFinish の直後は静粛時間ぶん待ってから再生が始まる'
   assert.match(ctx._onScreen(), /A/);
 });
 
-t('onExamFinish 自身が生むセレモニーも同じ静粛時間の後に出る', () => {
+t('静粛時間の中で積まれたセレモニーも、時計が進むまで出ない', () => {
   const clock = makeClock(), ctx = makeCtx(clock);
   const G = ctx.window.MecGamify, D = G._defs;
-  // 静粛時間の中でセレモニーが積まれても、時計が進むまで出ないこと
-  G.onExamFinish(20, 18, {});
+  // answered<10 なのでミッション加算は走らない＝静粛時間だけが効く条件にする
+  G.onExamFinish(5, 5, {});
   D.ceremony('<i>MISSION</i>');
   assert.strictEqual(ctx._onScreen(), null);
   clock.tick(D.settleMs + 600);
   assert.match(ctx._onScreen(), /MISSION/);
 });
 
+t('onExamFinish 自身が生む達成も、静粛時間の後に1件も落とさず出る', () => {
+  const clock = makeClock(), ctx = makeCtx(clock);
+  const G = ctx.window.MecGamify, D = G._defs;
+  G.onExamFinish(20, 18, {});     // exam / acc80 が達成される
+  D.ceremony('<i>MISSION</i>');
+  const total = D.annState().total;
+  assert.ok(total >= 2, 'onExamFinish 自身の達成も同じ列に積まれること（実測 ' + total + '件）');
+  assert.strictEqual(ctx._onScreen(), null);
+  clock.tick(60000);
+  const st = D.annState();
+  assert.strictEqual(st.pending, 0, '全部再生し終えること');
+  assert.strictEqual(st.done.length, total, '1件も落とさないこと');
+});
+
 t('flushCeremonies() は静粛時間を打ち切って今すぐ出す', () => {
   const clock = makeClock(), ctx = makeCtx(clock);
   const G = ctx.window.MecGamify;
-  G.onExamFinish(20, 18, {});
+  G.onExamFinish(5, 5, {});      // 列を A だけにする（ミッション加算を走らせない）
   G._defs.ceremony('<i>A</i>');
   assert.strictEqual(ctx._onScreen(), null);
   G.flushCeremonies();
@@ -324,6 +354,164 @@ t('解除後に保留タイマーが止まる（再生し終えたら回り続�
   // もう一度積んだときに、止まったタイマーとは無関係にすぐ出ること
   D.ceremony('<i>B</i>');
   assert.match(ctx._onScreen(), /B/);
+});
+
+group('併合キュー（セレモニーとトーストを1本の列にする）');
+
+t('ceremony と toast は push 順に直列で出る（重ならない）', () => {
+  const clock = makeClock(), ctx = makeCtx(clock);
+  armToastCapture(ctx);
+  const D = ctx.window.MecGamify._defs;
+  D.ceremony('<i>A</i>');
+  D.toast('🎖', 'T1', 'x');
+  // 1件目のセレモニーが出ている間、トーストは画面に出ていないこと
+  assert.match(ctx._onScreen(), /A/);
+  assert.strictEqual(ctx._toastOnScreen(), null,
+    '⚠️ 全画面セレモニーの真上にトーストを重ねないこと（2列に戻すとここが落ちる）');
+  clock.tick(LIFE() + 300);
+  assert.strictEqual(ctx._onScreen(), null);
+  assert.strictEqual(ctx._toastOnScreen(), 'T1');
+});
+
+t('annState が総数と位置を返す（あと何件かの正本）', () => {
+  const clock = makeClock(), ctx = makeCtx(clock);
+  armToastCapture(ctx);
+  ctx.examMode = true;
+  const D = ctx.window.MecGamify._defs;
+  D.ceremony('<i>A</i>');
+  D.toast('🎖', 'T1', 'x');
+  D.ceremony('<i>B</i>');
+  let st = D.annState();
+  assert.strictEqual(st.total, 3);
+  assert.strictEqual(st.pos, 0, '再生前は0件目');
+  // ⚠️ vm コンテキスト内で作られた配列は prototype が別なので deepStrictEqual は使えない
+  assert.strictEqual(st.kinds.join(','), 'cer,toast,cer', 'push 順が保たれること');
+  ctx.examMode = false;
+  clock.tick(600);
+  st = D.annState();
+  assert.strictEqual(st.pos, 1);
+  assert.strictEqual(st.total, 3, '再生が進んでも総数は減らない');
+});
+
+t('位置表示は本編にも載る（総数1件のときは出さない）', () => {
+  const clock = makeClock(), ctx = makeCtx(clock);
+  const D = ctx.window.MecGamify._defs;
+  D.ceremony('<i>ONLY</i>');
+  assert.ok(!/gm-ann-pos/.test(ctx._onScreen()), '1件だけのときに 1 / 1 を出さないこと');
+  clock.tick(LIFE() * 2);
+  const ctx2 = makeCtx(makeClock());
+  ctx2.examMode = true;
+  ctx2.window.MecGamify._defs.ceremony('<i>A</i>');
+  ctx2.window.MecGamify._defs.ceremony('<i>B</i>');
+  ctx2.examMode = false;
+  ctx2.window.MecGamify.flushCeremonies();
+  assert.match(ctx2._onScreen(), /gm-ann-pos/);
+  assert.match(ctx2._onScreen(), /1 \/ 2/);
+});
+
+group('スキップ（飛ばしても情報が残ること）');
+
+t('skipOne は今の1件を切り上げて次へ進む', () => {
+  const clock = makeClock(), ctx = makeCtx(clock);
+  const D = ctx.window.MecGamify._defs;
+  D.ceremony('<i>A</i>', { label: 'A' });
+  D.ceremony('<i>B</i>', { label: 'B' });
+  assert.match(ctx._onScreen(), /A/);
+  D.skipOne();
+  assert.strictEqual(ctx._onScreen(), null, '即座に消えること');
+  clock.tick(200);
+  assert.match(ctx._onScreen(), /B/);
+  assert.strictEqual(D.annState().done[0], 'A', '飛ばした1件もトレイの再生済みに残ること');
+});
+
+t('skipAll は残り全部を打ち切り、1件も捨てずにトレイへ載せる', () => {
+  const clock = makeClock(), ctx = makeCtx(clock);
+  const D = ctx.window.MecGamify._defs;
+  ['A', 'B', 'C', 'D'].forEach(x => D.ceremony('<i>' + x + '</i>', { label: x }));
+  D.skipAll();
+  assert.strictEqual(ctx._onScreen(), null);
+  clock.tick(1000);
+  const st = D.annState();
+  assert.strictEqual(st.pending, 0);
+  assert.strictEqual(st.done.join(','), 'A,B,C,D',
+    '⚠️ 飛ばしても内容が残ることがスキップを許せる前提。ここが落ちたら情報が失われている');
+});
+
+t('skipAll は音も fx も鳴らさない（一気に鳴ると事故に聞こえる）', () => {
+  const clock = makeClock(), ctx = makeCtx(clock);
+  const D = ctx.window.MecGamify._defs;
+  let rang = 0, fx = 0;
+  D.ceremony('<i>A</i>', { label: 'A' });
+  D.ceremony('<i>B</i>', { label: 'B', snd: () => rang++, fx: () => fx++ });
+  D.ceremony('<i>C</i>', { label: 'C', snd: () => rang++, fx: () => fx++ });
+  D.skipAll();
+  clock.tick(2000);
+  assert.strictEqual(rang, 0);
+  assert.strictEqual(fx, 0);
+});
+
+group('授与トレイ（#gmTrayMount）');
+
+t('マウント要素が無いページには何も描かない（結果画面だけ）', () => {
+  const clock = makeClock(), ctx = makeCtx(clock);
+  assert.strictEqual(ctx.document.getElementById('gmTrayMount'), null);
+  ctx.window.MecGamify._defs.ceremony('<i>A</i>', { label: 'A' });   // 例外を投げないこと
+  assert.match(ctx._onScreen(), /A/);
+});
+
+t('マウントがあると全件の一覧を先に描く（総数が最初から読める）', () => {
+  const clock = makeClock(), ctx = makeCtx(clock, { tray: true });
+  armToastCapture(ctx);
+  ctx.examMode = true;
+  const D = ctx.window.MecGamify._defs;
+  D.ceremony('<i>A</i>', { icon: '🎉', label: 'LEVEL UP' });
+  D.toast('🎖', '実績解除「難問ハンター」', 'x');
+  D.ceremony('<i>B</i>', { icon: '🏆', label: '第3章 制覇' });
+  const html = ctx._els.gmTrayMount.innerHTML;
+  assert.strictEqual((html.match(/gm-tray-row/g) || []).length, 3,
+    '再生前から3行すべてが並ぶこと（＝あと何件来るかが読める）');
+  assert.match(html, /LEVEL UP/);
+  assert.match(html, /難問ハンター/);
+  assert.match(html, /第3章 制覇/);
+  assert.match(html, /まとめて受け取る/);
+});
+
+t('トレイの行はラベルをエスケープする（章名がそのまま入る経路）', () => {
+  const clock = makeClock(), ctx = makeCtx(clock, { tray: true });
+  ctx.examMode = true;
+  ctx.window.MecGamify._defs.ceremony('<i>A</i>', { label: '<img onerror=x>章' });
+  const html = ctx._els.gmTrayMount.innerHTML;
+  assert.ok(!/<img/.test(html), 'ラベルを生HTMLとして流し込まないこと');
+  assert.match(html, /&lt;img/);
+});
+
+t('ラベル省略時は gm-cer-big から拾う（既存の呼び出しでも行が空にならない）', () => {
+  const clock = makeClock(), ctx = makeCtx(clock, { tray: true });
+  ctx.examMode = true;
+  ctx.window.MecGamify._defs.ceremony('<div class="gm-cer-big">章 制覇！</div>');
+  assert.match(ctx._els.gmTrayMount.innerHTML, /章 制覇！/);
+});
+
+t('獲得0件のセッションでは前回の一覧を残さない', () => {
+  const clock = makeClock(), ctx = makeCtx(clock, { tray: true });
+  const G = ctx.window.MecGamify, D = G._defs;
+  D.ceremony('<i>A</i>', { label: 'A' });
+  clock.tick(LIFE() * 2);
+  assert.match(ctx._els.gmTrayMount.innerHTML, /gm-tray-row/, '1回目は出ること');
+  // 2回目のセッションで何も獲得しなかった場合（積むものが無い＝_annPush が走らない）
+  G.onExamFinish(5, 5, {});
+  assert.strictEqual(ctx._els.gmTrayMount.innerHTML, '',
+    '⚠️ 前回の「今回の獲得」が新しい結果画面に残らないこと');
+});
+
+t('新しい一群を積むと前回の行は畳まれる', () => {
+  const clock = makeClock(), ctx = makeCtx(clock, { tray: true });
+  const D = ctx.window.MecGamify._defs;
+  D.ceremony('<i>A</i>', { label: 'A' });
+  clock.tick(LIFE() * 2);
+  D.ceremony('<i>B</i>', { label: 'B' });
+  assert.strictEqual(D.annState().total, 1, '前回のぶんを数に混ぜないこと');
+  assert.strictEqual((ctx._els.gmTrayMount.innerHTML.match(/gm-tray-row/g) || []).length, 1);
 });
 
 console.log('\n' + (fail ? 'FAILED  ' : 'all passed  ') + '(' + pass + '/' + (pass + fail) + ')');

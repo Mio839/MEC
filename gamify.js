@@ -267,13 +267,13 @@
 .gm-close-btn{width:100%;margin-top:12px;padding:9px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:rgba(var(--glass-rgb),.06);color:rgba(255,255,255,.8);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
 /* ── トースト ── */
 #gmToast{position:fixed;top:14px;left:50%;z-index:var(--z-gm-toast,9600);transform:translate(-50%,-130%);transition:transform .35s cubic-bezier(.2,.9,.3,1.2);display:flex;align-items:center;gap:10px;background:linear-gradient(160deg,rgba(var(--gmtoast-a),.97),rgba(var(--gmtoast-b),.97));border:1px solid rgba(255,209,102,.5);border-radius:14px;padding:10px 18px;box-shadow:0 8px 32px rgba(0,0,0,.5);pointer-events:none;max-width:min(92vw,420px);}
-#gmToast.show{transform:translate(-50%,0);}
+#gmToast.show{transform:translate(-50%,0);pointer-events:auto;cursor:pointer;}
 #gmToast .ti{font-size:26px;line-height:1;}
 #gmToast .tt{font-size:13px;font-weight:800;color:#FFD166;line-height:1.3;}
 #gmToast .ts{font-size:11px;font-weight:700;color:rgba(255,255,255,.75);line-height:1.35;}
 /* ── セレモニー（レベルアップ・章/科目制覇・ミッション） ── */
-#gmCerOv{position:fixed;inset:0;z-index:var(--z-gm-cer,9550);display:none;align-items:center;justify-content:center;background:rgba(var(--ov-rgb),.55);pointer-events:none;}
-#gmCerOv.show{display:flex;}
+#gmCerOv{position:fixed;top:0;left:0;right:0;height:100vh;height:100dvh;z-index:var(--z-gm-cer,9550);display:none;align-items:center;justify-content:center;background:rgba(var(--ov-rgb),.55);pointer-events:none;}
+#gmCerOv.show{display:flex;pointer-events:auto;cursor:pointer;}
 .gm-cer{text-align:center;animation:gmCerIn .55s cubic-bezier(.2,1.4,.3,1) both;}
 @keyframes gmCerIn{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
 .gm-cer.out{animation:gmCerOut .4s ease both;}
@@ -284,6 +284,32 @@
 .gm-cer-sub{font-size:15px;font-weight:800;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.7);margin-top:6px;}
 .gm-cer-note{font-size:12px;font-weight:700;color:rgba(255,255,255,.8);text-shadow:0 2px 8px rgba(0,0,0,.7);margin-top:4px;}
 .gm-cer-stars{font-size:22px;letter-spacing:4px;color:#FFD166;text-shadow:0 0 16px rgba(255,209,102,.8);margin-top:4px;}
+/* ── 位置表示（あと何件来るか）── 併合キューが正本。総数<2 のときは出ない */
+.gm-ann-pos{display:flex;align-items:center;justify-content:center;gap:5px;}
+/* ⚠️ セレモニーの位置表示は画面下部へ固定する。.gm-cer の直下（＝画面中央付近）に置くと
+   授与トレイの見出しに重なる（2026-08-20に実機で確認して移した）。 */
+#gmCerOv > .gm-ann-pos{position:absolute;left:0;right:0;bottom:26px;bottom:max(26px,calc(env(safe-area-inset-bottom) + 14px));}
+.gm-ann-pos i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.26);}
+.gm-ann-pos i.on{background:#FFD166;box-shadow:0 0 8px rgba(255,209,102,.85);}
+.gm-ann-pos span{font-size:11px;font-weight:800;color:rgba(255,255,255,.72);letter-spacing:1px;margin-left:3px;text-shadow:0 2px 8px rgba(0,0,0,.7);}
+#gmToast .tp{display:flex;align-items:center;}
+#gmToast .tp .gm-ann-pos{margin:0 0 0 2px;}
+#gmToast .tp span{font-size:10px;margin-left:0;}
+/* ── 授与トレイ（結果画面の #gmTrayMount にだけ描かれる）── */
+.gm-tray{margin:12px 0 2px;border:1px solid rgba(255,209,102,.28);border-radius:12px;background:linear-gradient(160deg,rgba(255,209,102,.10),rgba(255,255,255,.03));padding:9px 10px;text-align:left;}
+.gm-tray-hd{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;}
+.gm-tray-ttl{font-size:12px;font-weight:900;color:#FFD166;letter-spacing:.5px;}
+.gm-tray-cnt{font-size:11px;font-weight:800;color:rgba(255,255,255,.62);}
+.gm-tray-skip{margin-left:auto;padding:4px 10px;border-radius:8px;border:1px solid rgba(255,209,102,.45);background:rgba(255,209,102,.10);color:#FFD166;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;}
+.gm-tray-row{display:flex;align-items:center;gap:8px;padding:4px 2px;opacity:.34;transition:opacity .35s ease;}
+.gm-tray-row .mk{font-size:10px;width:15px;text-align:center;flex:none;}
+.gm-tray-row .ic{font-size:17px;line-height:1;flex:none;filter:grayscale(1);transition:filter .35s ease;}
+.gm-tray-row .tx{font-size:12px;font-weight:800;color:rgba(255,255,255,.9);line-height:1.35;}
+.gm-tray-row.is-done,.gm-tray-row.is-play{opacity:1;}
+.gm-tray-row.is-done .ic,.gm-tray-row.is-play .ic{filter:none;}
+.gm-tray-row.is-play{animation:gmTrayPulse 1.1s ease-in-out infinite;}
+@keyframes gmTrayPulse{0%,100%{opacity:1}50%{opacity:.6}}
+@media (prefers-reduced-motion: reduce){.gm-tray-row.is-play{animation:none;}}
 /* ── 章仕切りの星 ── */
 .gm-ch-stars{float:right;margin-right:8px;font-size:11px;font-weight:800;color:#FFD166;text-shadow:0 0 6px rgba(255,209,102,.5);letter-spacing:1px;}
 .gm-ch-stars .off{color:rgba(255,255,255,.18);text-shadow:none;}
@@ -310,7 +336,7 @@
     document.head.appendChild(st);
   }
 
-  /* ── 演出の保留（試験中は溜めて結果画面で再生する） ────────────────────
+  /* ── 授与トレイと再生キュー（2026-08-20・Phase 6） ─────────────────────
      ⚠️ 試験モード中はトーストもセレモニーも「出さずに溜める」。理由は2つ:
        ① 全画面セレモニー(2.4秒)は tier 演出の真上に被る。_microLapFx / _lapMilestoneFx は
           先頭で examMode を見て黙るのに、一番大きいこれだけが素通しだった。
@@ -319,9 +345,24 @@
      溜めたものは結果画面で順に再生する。再生の開始は examMode 解除の直後ではなく
      _quiet() が置く静粛時間の後——showExamSummary はランクスタンプ(950ms)と祝賀花火(980ms)を
      自前で走らせるので、その上に重ねると両方読めなくなる。静粛時間は onExamFinish が置く
-     （結果画面の末尾で必ず1回呼ばれる＝セッションの終わりを知る唯一の確実な合図）。 */
+     （結果画面の末尾で必ず1回呼ばれる＝セッションの終わりを知る唯一の確実な合図）。
+
+     ⚠️⚠️ セレモニーとトーストは **1本の列（_annQ）** で持つこと。以前は _cerQ と _toastQ が
+        並行に流れており、そのせいで (a) 全画面セレモニーの真上にトーストが出て両方読めない
+        (b)「あと何件」を数えられない、の2つが同時に起きていた。位置表示（3 / 4）が意味を
+        持つ前提条件がこの併合なので、見た目や速さのために2列へ戻さないこと。
+
+     授与トレイ（#gmTrayMount）は「これから何件来るか」を先に見せる目次で、セレモニーはその本編。
+     ⚠️ 総数は **結果画面が開いた時点で確定している**（_bumpMission → _afterEvent はすべて同期
+        呼び出しなので、onExamFinish が返った時点でキューは完成している）。だから onExamFinish の
+        末尾で1度描けば、あとから行が増えて表がガタつくことがない。 */
   const CER_SETTLE_MS = 2000;   // 結果画面の祝賀演出が終わるまでの待ち
   const CER_GAP_MS = 280;       // セレモニーを続けて出すときの間（詰めると1つの演出に見える）
+  const ANN_FADE_MS = 420;      // 退場アニメ
+  const ANN_TOAST_MS = 3000;    // トーストの表示時間
+  const ANN_TAP_GUARD_MS = 350; // 出た直後のタップは無視する（入場中の指は結果画面へ向いた指）
+  const ANN_SKIP_STEP_MS = 60;  // 「まとめて受け取る」で行を点灯させる間隔
+  const ANN_DOTS_MAX = 8;       // これを超えたら丸を出さず数字だけにする
   let _quietUntil = 0;
   let _holdTimer = null;
 
@@ -336,80 +377,212 @@
     _holdTimer = setInterval(() => {
       if (_fxHeld()) return;
       clearInterval(_holdTimer); _holdTimer = null;
-      _drainToast(); _drainCer();
+      _drain();
     }, 400);
   }
   // 保留を解いて今すぐ再生する（テスト・手動用）
   function flushCeremonies() {
     _quietUntil = 0;
     if (_holdTimer) { clearInterval(_holdTimer); _holdTimer = null; }
-    _drainToast(); _drainCer();
+    _drain();
   }
 
-  // ── トースト（キュー式） ─────────────────────────────────────────
-  const _toastQ = [];
-  let _toastBusy = false;
-  // snd … 表示の瞬間に鳴らす音（保留されたトーストは再生時に鳴る＝音と絵がずれない）
-  function toast(icon, title, sub, snd) {
-    _toastQ.push({ icon, title, sub, snd });
-    _drainToast();
+  // ── 併合キュー ───────────────────────────────────────────────────
+  const _annQ = [];      // 未再生（先頭が次に出る）
+  const _annDone = [];   // 再生済み（トレイの点灯に使う）
+  let _annCur = null;    // 再生中
+  let _annTimers = [];   // 再生中アイテムのタイマー（スキップで畳む）
+  let _annShownAt = 0;
+
+  function _annTotal() { return _annDone.length + (_annCur ? 1 : 0) + _annQ.length; }
+  function _annPos() { return _annDone.length + (_annCur ? 1 : 0); }
+
+  function _annPush(item) {
+    // 前の一群を出し切った後の新しい発火＝新しい一群。トレイを畳んでから積む。
+    if (!_annCur && !_annQ.length && _annDone.length) _annDone.length = 0;
+    _annQ.push(item);
+    _renderTray();
+    _drain();
   }
-  function _drainToast() {
-    if (_toastBusy || !_toastQ.length) return;
+
+  // opts.icon / opts.label … 授与トレイの行に出す見出し（省略時は gm-cer-big から拾う）
+  function ceremony(html, opts) {
+    const o = opts || {};
+    _annPush({ kind: 'cer', html: html, opts: o, icon: o.icon || '🎉', label: o.label || '' });
+  }
+  // snd … 表示の瞬間に鳴らす音（保留されたトーストは再生時に鳴る＝音と絵がずれない）
+  // label … トレイの行に出す文字（'ミッション達成！' のような汎用タイトルの代わりを渡す）
+  function toast(icon, title, sub, snd, label) {
+    _annPush({ kind: 'toast', icon: icon, title: title, sub: sub, snd: snd, label: label || title });
+  }
+
+  function _drain() {
+    if (_annCur || !_annQ.length) return;
     if (_fxHeld()) { _armHold(); return; }
-    _toastBusy = true;
+    // reduced-motion: トレイが見えているならそこへ全部載せて終わる（演出を出さずに情報だけ残す）。
+    // ⚠️ トレイが無い画面では従来どおり再生する——出さずに捨てると情報が丸ごと失われる。
+    if (_reducedMotion() && _trayVisible()) { _annSkipAll(); return; }
+    const item = _annQ.shift();
+    _annCur = item;
+    _annShownAt = Date.now();
+    _annTimers = [];
+    _renderTray();
+    if (item.kind === 'cer') _playCer(item); else _playToast(item);
+  }
+
+  function _playCer(item) {
+    const opts = item.opts || {};
+    let ov = document.getElementById('gmCerOv');
+    if (!ov) { ov = document.createElement('div'); ov.id = 'gmCerOv'; document.body.appendChild(ov); }
+    ov.innerHTML = '<div class="gm-cer">' + item.html + '</div>' + _annPosHtml(false);
+    ov.classList.add('show');
+    _annBindTap(ov);
+    const dur = opts.dur || 2300;
+    _annTimers.push(setTimeout(() => {
+      const c = ov.querySelector('.gm-cer');
+      if (c) c.classList.add('out');
+      _annTimers.push(setTimeout(() => { ov.classList.remove('show'); _annFinish(CER_GAP_MS); }, ANN_FADE_MS));
+    }, dur));
+    try { opts.fx && opts.fx(); } catch {}
+    try { opts.snd && opts.snd(); } catch {}
+  }
+
+  function _playToast(item) {
     let el = document.getElementById('gmToast');
     if (!el) {
       el = document.createElement('div');
       el.id = 'gmToast';
-      el.innerHTML = '<span class="ti"></span><span><div class="tt"></div><div class="ts"></div></span>';
+      el.innerHTML = '<span class="ti"></span><span><div class="tt"></div><div class="ts"></div></span><span class="tp"></span>';
       document.body.appendChild(el);
     }
-    const { icon, title, sub, snd } = _toastQ.shift();
-    el.querySelector('.ti').textContent = icon;
-    el.querySelector('.tt').textContent = title;
-    el.querySelector('.ts').textContent = sub || '';
+    el.querySelector('.ti').textContent = item.icon;
+    el.querySelector('.tt').textContent = item.title;
+    el.querySelector('.ts').textContent = item.sub || '';
+    const tp = el.querySelector('.tp');
+    if (tp) tp.innerHTML = _annPosHtml(true);
+    // ⚠️ 非表示タブでは rAF が1フレームも来ない（ハブの _tweenNum・統計の countUp と同じ穴）。
+    //    保険を置かないとトーストが一度も出ないまま寿命だけ尽きる。
     requestAnimationFrame(() => el.classList.add('show'));
-    try { snd && snd(); } catch {}
-    setTimeout(() => {
+    _annTimers.push(setTimeout(() => el.classList.add('show'), 60));
+    _annBindTap(el);
+    try { item.snd && item.snd(); } catch {}
+    _annTimers.push(setTimeout(() => {
       el.classList.remove('show');
-      setTimeout(() => { _toastBusy = false; _drainToast(); }, 420);
-    }, 3000);
+      _annTimers.push(setTimeout(() => _annFinish(0), ANN_FADE_MS));
+    }, ANN_TOAST_MS));
   }
 
-  /* ── セレモニー（全画面・自動フェード・キュー式） ──────────────────────
-     ⚠️ 以前は overlay の innerHTML を上書きするだけでキューが無く、近接して2つ発火すると
-        先の1つが誰にも見られないまま消えていた。しかもそれが起きる条件が「40問目の解答」
-        そのもので、_bumpMission → MISSION COMPLETE の直後に同じ同期呼び出しの中で
-        _afterEvent → LEVEL UP が走り、MISSION COMPLETE は常に上書きされて消えていた。
-        toast() と同じくキューに積み、1つが消えてから次を出す。 */
-  const _cerQ = [];
-  let _cerBusy = false;
-  function ceremony(html, opts) {
-    _cerQ.push({ html, opts: opts || {} });
-    _drainCer();
+  function _annFinish(gap) {
+    if (!_annCur) return;
+    _annTimers.forEach(id => clearTimeout(id)); _annTimers = [];
+    _annDone.push(_annCur);
+    _annCur = null;
+    _renderTray();
+    if (!_annQ.length) return;
+    if (gap > 0) setTimeout(_drain, gap); else _drain();
   }
-  function _drainCer() {
-    if (_cerBusy || !_cerQ.length) return;
-    if (_fxHeld()) { _armHold(); return; }
-    _cerBusy = true;
-    const { html, opts } = _cerQ.shift();
-    let ov = document.getElementById('gmCerOv');
-    if (!ov) { ov = document.createElement('div'); ov.id = 'gmCerOv'; document.body.appendChild(ov); }
-    ov.innerHTML = '<div class="gm-cer">' + html + '</div>';
-    ov.classList.add('show');
-    const dur = opts.dur || 2300;
-    setTimeout(() => {
-      const c = ov.querySelector('.gm-cer');
-      if (c) c.classList.add('out');
-      setTimeout(() => {
-        ov.classList.remove('show');
-        _cerBusy = false;
-        if (_cerQ.length) setTimeout(_drainCer, CER_GAP_MS);
-      }, 420);
-    }, dur);
-    try { opts.fx && opts.fx(); } catch {}
-    try { opts.snd && opts.snd(); } catch {}
+
+  function _annHideAll() {
+    const ov = document.getElementById('gmCerOv'); if (ov) ov.classList.remove('show');
+    const tt = document.getElementById('gmToast'); if (tt) tt.classList.remove('show');
+  }
+
+  // 今出ている1件を切り上げて次へ（タップ）
+  function _annNext() {
+    if (!_annCur) return;
+    _annTimers.forEach(id => clearTimeout(id)); _annTimers = [];
+    _annHideAll();
+    _annFinish(120);
+  }
+
+  // 残り全部を打ち切ってトレイへ載せる。⚠️ 音も fx も鳴らさない（一気に鳴ると事故に聞こえる）
+  function _annSkipAll() {
+    _annTimers.forEach(id => clearTimeout(id)); _annTimers = [];
+    _annHideAll();
+    if (_annCur) { _annDone.push(_annCur); _annCur = null; }
+    const rest = _annQ.splice(0, _annQ.length);
+    _renderTray();
+    // 一段ずつ点灯させる（一気に全部だと「消えた」に見える）
+    rest.forEach((it, i) => setTimeout(() => { _annDone.push(it); _renderTray(); }, (i + 1) * ANN_SKIP_STEP_MS));
+  }
+
+  // ⚠️ リスナーは要素ごとに1本だけ張る（アイテムごとに張ると再生数ぶん積み上がる）
+  function _annBindTap(el) {
+    if (!el || el._gmTap) return;
+    el._gmTap = 1;
+    el.addEventListener('click', () => {
+      if (Date.now() - _annShownAt < ANN_TAP_GUARD_MS) return;  // 入場中の指は結果画面のもの
+      _annNext();
+    });
+  }
+
+  function _annPosHtml(compact) {
+    const total = _annTotal(), pos = _annPos();
+    if (total < 2) return '';
+    let dots = '';
+    if (!compact && total <= ANN_DOTS_MAX) {
+      for (let i = 1; i <= total; i++) dots += '<i class="' + (i <= pos ? 'on' : '') + '"></i>';
+    }
+    return '<div class="gm-ann-pos">' + dots + '<span>' + pos + ' / ' + total + '</span></div>';
+  }
+
+  // ── 授与トレイ ───────────────────────────────────────────────────
+  // ⚠️ マウント要素（#gmTrayMount）は study.html の結果画面の中にしか無い。無いページでは
+  //    何も描かず従来どおり流れる＝「結果画面だけ」がコード分岐ではなく構造で決まる。
+  function _esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+  function _annLabel(it) {
+    if (it.label) return it.label;
+    const m = /gm-cer-big[^>]*>([^<]*)</.exec(it.html || '');
+    return (m && m[1].trim()) || '獲得';
+  }
+  function _trayVisible() {
+    const m = document.getElementById('gmTrayMount');
+    if (!m) return false;
+    // 結果画面が閉じている間は描かない（見えない場所に古い一覧を残さない）
+    try { return !!(m.getClientRects && m.getClientRects().length); } catch (e) { return false; }
+  }
+  function _renderTray() {
+    const m = document.getElementById('gmTrayMount');
+    if (!m || !_trayVisible()) return;
+    const rows = _annDone.map(it => ({ it: it, st: 'done' }))
+      .concat(_annCur ? [{ it: _annCur, st: 'play' }] : [])
+      .concat(_annQ.map(it => ({ it: it, st: 'wait' })));
+    if (!rows.length) { m.innerHTML = ''; m._gmKey = ''; return; }
+    const key = rows.map(r => _annLabel(r.it)).join('|');
+    const left = _annQ.length + (_annCur ? 1 : 0);
+    if (m._gmKey !== key) {
+      m._gmKey = key;
+      m.innerHTML =
+        '<div class="gm-tray">' +
+          '<div class="gm-tray-hd">' +
+            '<span class="gm-tray-ttl">🎖 今回の獲得</span>' +
+            '<span class="gm-tray-cnt">' + rows.length + '件</span>' +
+            '<button type="button" class="gm-tray-skip">まとめて受け取る</button>' +
+          '</div>' +
+          rows.map(r =>
+            '<div class="gm-tray-row"><span class="mk">⬜</span>' +
+            '<span class="ic">' + _esc(r.it.icon || '🎖') + '</span>' +
+            '<span class="tx">' + _esc(_annLabel(r.it)) + '</span></div>').join('') +
+        '</div>';
+      const btn = m.querySelector('.gm-tray-skip');
+      if (btn) btn.addEventListener('click', function () { _annSkipAll(); });
+    }
+    const els = m.querySelectorAll('.gm-tray-row');
+    rows.forEach((r, i) => {
+      const el = els[i]; if (!el) return;
+      el.classList.remove('is-done', 'is-play');
+      if (r.st !== 'wait') el.classList.add(r.st === 'done' ? 'is-done' : 'is-play');
+      const mk = el.querySelector('.mk');
+      if (mk) mk.textContent = r.st === 'done' ? '✅' : r.st === 'play' ? '🔆' : '⬜';
+    });
+    const cnt = m.querySelector('.gm-tray-cnt');
+    if (cnt) cnt.textContent = rows.length + '件' + (left ? '（残り ' + left + '）' : '');
+    const btn2 = m.querySelector('.gm-tray-skip');
+    if (btn2) btn2.style.display = left ? '' : 'none';
   }
 
   function _fxConfetti(big) {
@@ -432,7 +605,8 @@
           '<div class="gm-cer-ic">🎉</div><div class="gm-cer-big">LEVEL UP!</div>' +
           '<div class="gm-cer-sub">Lv.' + from + ' → Lv.' + s.level + '</div>' +
           '<div class="gm-cer-note">' + s.title + '</div>',
-          { fx: () => _fxConfetti(true), snd: SND.levelup, dur: 2400 }
+          { fx: () => _fxConfetti(true), snd: SND.levelup, dur: 2400,
+            icon: '🎉', label: 'LEVEL UP　Lv.' + from + ' → Lv.' + s.level }
         );
       } else {
         toast('⬆️', 'Lv.' + s.level + ' にレベルアップ', '同期された学習が反映されました');
@@ -612,7 +786,7 @@
         _awardMissionXp(lk, def.id, def.xp);
         if (!seen.includes(def.id)) {
           seen.push(def.id);
-          toast(def.icon, 'ミッション達成！', def.label + '（+' + def.xp + ' XP）', SND.mission);
+          toast(def.icon, 'ミッション達成！', def.label + '（+' + def.xp + ' XP）', SND.mission, def.label);
         }
       });
       // セレモニーは core のみで判定する（bonus は在庫・運に左右され毎回は達成できないため）
@@ -625,7 +799,8 @@
             '<div class="gm-cer-ic">🎯</div><div class="gm-cer-big">MISSION COMPLETE</div>' +
             '<div class="gm-cer-sub">' + allLabel + '</div>' +
             '<div class="gm-cer-note">+' + MISSION_ALL_XP[period] + ' XP ／ この調子で🔥</div>',
-            { fx: () => _fxConfetti(true), snd: SND.clear, dur: 2400 }
+            { fx: () => _fxConfetti(true), snd: SND.clear, dur: 2400,
+              icon: '🎯', label: allLabel }
           );
         }
       }
@@ -769,7 +944,8 @@
       '<div class="gm-cer-sub">' + title.replace(/[<>&]/g, '') + '</div>' +
       (n ? '<div class="gm-cer-stars">' + '★'.repeat(n) + '<span style="opacity:.25">' + '★'.repeat(3 - n) + '</span></div>' : '') +
       '<div class="gm-cer-note">全' + entry.uids.length + '問クリア</div>',
-      { fx: () => _fxConfetti(false), snd: SND.clear, dur: 2300 }
+      { fx: () => _fxConfetti(false), snd: SND.clear, dur: 2300,
+        icon: '🏆', label: title.replace(/[<>&]/g, '') + ' 制覇' + (n ? '　' + '★'.repeat(n) : '') }
     );
   }
 
@@ -786,7 +962,8 @@
       '<div class="gm-cer-ic">' + sub.icon + '</div><div class="gm-cer-big">' + sub.name + ' 全問制覇！！</div>' +
       '<div class="gm-cer-sub">' + sub.total + '問 完全走破</div>' +
       '<div class="gm-cer-note">「' + sub.name + 'マスター」の称号を獲得</div>',
-      { fx: () => _fxConfetti(true), snd: SND.subject, dur: 3000 }
+      { fx: () => _fxConfetti(true), snd: SND.subject, dur: 3000,
+        icon: sub.icon, label: sub.name + ' 全問制覇' }
     );
   }
 
@@ -1182,6 +1359,12 @@
       }
     }
     _afterEvent(null);
+    // 今回の獲得が1件も無いセッションでは、前回の一覧が結果画面に残ってしまう
+    // （_annDone を畳むのは次の _annPush なので、積むものが無いと畳まれない）。
+    if (!_annCur && !_annQ.length) _annDone.length = 0;
+    // ⚠️ ここが授与トレイを描く唯一のアンカー。_bumpMission も _afterEvent も同期呼び出しなので、
+    //    この行に来た時点でキューは完成している＝あとから行が増えて表がガタつくことがない。
+    _renderTray();
   }
 
   // ── ハブパネル ───────────────────────────────────────────────────
@@ -1281,7 +1464,17 @@
     // テスト用（_work/test_missions.js / test_gamify_ceremony.js）
     _defs: {
       daily: MISSIONS_DAILY, weekly: MISSIONS_WEEKLY, allXp: MISSION_ALL_XP,
-      ceremony, toast, cerPending: () => _cerQ.length, toastPending: () => _toastQ.length,
+      ceremony, toast,
+      // 併合キューの内訳（旧 _cerQ / _toastQ 相当。未再生ぶんだけを数える）
+      cerPending: () => _annQ.filter(x => x.kind === 'cer').length,
+      toastPending: () => _annQ.filter(x => x.kind === 'toast').length,
+      annState: () => ({
+        total: _annTotal(), pos: _annPos(), pending: _annQ.length, playing: !!_annCur,
+        done: _annDone.map(_annLabel), queue: _annQ.map(_annLabel),
+        kinds: _annDone.concat(_annCur ? [_annCur] : []).concat(_annQ).map(x => x.kind),
+      }),
+      skipAll: _annSkipAll, skipOne: _annNext, renderTray: _renderTray,
+      tapGuardMs: ANN_TAP_GUARD_MS, toastMs: ANN_TOAST_MS, fadeMs: ANN_FADE_MS,
       settleMs: CER_SETTLE_MS, gapMs: CER_GAP_MS,
     },
   };
