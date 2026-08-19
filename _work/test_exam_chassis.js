@@ -373,6 +373,35 @@ t('15. レール=::before / 稼働灯=::after／稼働灯は animation-play-stat
     '稼働灯が単独セレクタで指せない（body.exam-sprint .st-hdr::after{opacity:0} の逃げ道が書けない）');
 });
 
+t('15b. 稼働灯は箱の外へ1pxも出ない（iOS でページの縮尺が振動した回帰のガード）', () => {
+  const after = RULES.find(r => /\.st-hdr::after/.test(r.sel));
+  assert.ok(after, '.st-hdr::after が無い');
+  // 箱いっぱいに広げて固定する＝はみ出しようがない形にすること
+  assert.ok(/(^|;)\s*left:\s*0/.test(after.body) && /(^|;)\s*right:\s*0/.test(after.body),
+    '稼働灯が left:0 / right:0 で箱に固定されていない（width:N% + translateX で走らせると右へあふれる）');
+  assert.ok(!/(^|;)\s*width\s*:/.test(after.body),
+    '稼働灯に width が指定されている（left/right で決めること）');
+  // 動かすのは background-position だけ。transform で走らせない
+  assert.ok(!/transform/.test(after.body), '稼働灯の宣言に transform がある');
+  const kf = /@keyframes\s+examIdleRun\s*\{([\s\S]*?)\}\s*\n/.exec(CSS);
+  assert.ok(kf, '@keyframes examIdleRun が無い');
+  assert.ok(!/translate/i.test(kf[1]),
+    'examIdleRun が translate で走っている＝箱の外へ出る。' +
+    'iOS Safari は右へあふれた内容でレイアウトビューポートを広げ、ページの縮尺が周期的に振動する');
+  assert.ok(/background-position/.test(kf[1]), 'examIdleRun が background-position を動かしていない');
+  // 端で光が見切れないだけの振り幅があること（background-size:26% なら基準は 74%）
+  const nums = (kf[1].match(/-?\d+(?:\.\d+)?%/g) || []).map(parseFloat);
+  assert.ok(nums.length >= 2, 'examIdleRun の位置指定が読めない');
+  const sizeM = /background-size:\s*(\d+(?:\.\d+)?)%/.exec(after.body);
+  assert.ok(sizeM, '稼働灯に background-size の % 指定が無い');
+  const imgW = parseFloat(sizeM[1]) / 100, basis = 1 - imgW;
+  const from = Math.min(...nums) / 100, to = Math.max(...nums) / 100;
+  assert.ok(from * basis + imgW <= 0.001,
+    '開始位置で光が右端にはみ出して見えている（' + (from * basis + imgW).toFixed(3) + ' > 0）');
+  assert.ok(to * basis >= 0.999,
+    '終了位置で光が左端に残る（' + (to * basis).toFixed(3) + ' < 1）');
+});
+
 // ══ 16. モーダルの筐体を疑似要素で描かない ═════════════════════════════════
 t('16. .exam-start-box / .exam-modal の ::before / ::after が1つも宣言されていない', () => {
   RULES.forEach(r => {

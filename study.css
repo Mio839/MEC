@@ -73,12 +73,23 @@ body.exam-mode .st-hdr::before{content:'';position:absolute;left:0;right:0;botto
    逃げ道: 実機でラストスパートと重なって「うるさい」と感じたら
    `body.exam-mode.exam-sprint .st-hdr::after{opacity:0;}` の1行で消せる（稼働灯が単独セレクタで
    指せる形にしてあるのはこのため）。 */
-body.exam-mode .st-hdr::after{content:'';position:absolute;left:0;bottom:0;width:26%;height:1px;
+/* ⚠️ 光は「箱の外へ出る要素」ではなく「箱いっぱいの要素の中を動く background」で作ること。
+   ⚠️⚠️ 2026-08-19 の実害: 初版は width:26% の疑似要素を translateX(-110%→395%) で走らせていた。
+      これだと右端が包含ブロックの 128%（1905px 幅で右へ約 547px）まではみ出す。デスクトップ
+      Chrome は文書のスクロール領域を広げないので気づけないが、**iOS Safari は右へあふれた内容に
+      合わせてレイアウトビューポートを広げる**ため、width=device-width の下でページの縮尺が
+      1.4秒周期で勝手に伸び縮みし続けた（「試験中に勝手にピンチアウトして元に戻るのが終わらない」）。
+      left:0/right:0 で箱に固定し、background-position を動かせば geometry は1pxも動かない＝
+      あふれようがない。position:sticky の疑似要素に無限の transform を掛けない、という意味でも安全。
+   background-size:26% なので % 指定の background-position は (幅 - 画像幅)=74% を基準にする。
+   完全に画面外へ出すには -40% ／ 140% が要る（-30%/130% では端で光が見切れて残る）。 */
+body.exam-mode .st-hdr::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;
   pointer-events:none;opacity:0;transition:opacity 180ms linear;
-  background:linear-gradient(90deg,transparent,var(--exam-brass-hi),transparent);
+  background-image:linear-gradient(90deg,transparent,var(--exam-brass-hi),transparent);
+  background-repeat:no-repeat;background-size:26% 100%;
   animation:examIdleRun var(--exam-idle-cycle) linear infinite;}
 body.exam-mode.exam-idle-lit .st-hdr::after{opacity:.85;}
-@keyframes examIdleRun{from{transform:translateX(-110%);}to{transform:translateX(395%);}}
+@keyframes examIdleRun{from{background-position:-40% 0;}to{background-position:140% 0;}}
 .st-title{font-family:var(--font-display);letter-spacing:var(--font-display-ls);font-size:15px;font-weight:800;white-space:nowrap;flex-shrink:0;}
 .hub-link{font-size:11px;color:rgba(255,255,255,.6);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,255,255,.18);border-radius:20px;white-space:nowrap;}
 .hub-link:hover{background:rgba(var(--glass-rgb),.1);}

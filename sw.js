@@ -1,3 +1,9 @@
+// 2026-08-19b: 稼働灯(D9)が試験中にページの縮尺を1.4秒周期で振動させていたのを直した。
+// width:26% の疑似要素を translateX(-110%→395%) で走らせており右へ約547pxはみ出していた——
+// デスクトップ Chrome は文書のスクロール領域を広げないが、iOS Safari は右へあふれた内容に
+// 合わせてレイアウトビューポートを広げるため、width=device-width の下でページが勝手に
+// 拡大→復帰を繰り返し続けた。left:0/right:0 で箱に固定し background-position を動かす形へ変更。
+// シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-19a: 試験UIを「筐体（真鍮固定）／盤面（テーマ可変）」の2層に分けた（演出強化 Phase 4・D1〜D9）。
 // ヘッダ下端の真鍮のレール、進捗トラックを銅の樋（チャネル）へ、開始／結果モーダルを同じ真鍮の額縁
 // （稜線＋四隅のリベット）に統一。開始＝琥珀・結果＝青という根拠の無い色分けを廃止。動くのは
@@ -206,7 +212,7 @@ const CACHE = "mec-v168";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-19b";
+const SHELL_VERSION = "2026-08-19c";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
