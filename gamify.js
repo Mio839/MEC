@@ -46,6 +46,7 @@
     { id: 'ortho',   name: '整形外科',   icon: '🦴', color: '#A16207', total: 174 },
     { id: 'anes',    name: '麻酔科',     icon: '💉', color: '#7C3AED', total: 52 },
     { id: 'rad',     name: '放射線科',   icon: '☢️', color: '#475569', total: 60 },
+    { id: 'tox',     name: '中毒・職業病', icon: '☠️', color: '#65A30D', total: 48 },
     { id: 'jitsu1',  name: '実力試験Ⅰ', icon: '🎯', color: '#6366F1', total: 160 },
   ];
 

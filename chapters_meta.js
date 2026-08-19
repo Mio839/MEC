@@ -1131,6 +1131,56 @@ const MEC_CHAPTERS = [
         "count": 16
       }
     ]
+  },
+  {
+    "id": "tox",
+    "name": "中毒・職業病",
+    "icon": "☠️",
+    "color": "#65A30D",
+    "chapters": [
+      {
+        "prefix": "tox_ch01",
+        "file": "中毒・職業病/ch01_kinzoku_chudoku.html",
+        "title": "第1章 金属中毒",
+        "count": 4
+      },
+      {
+        "prefix": "tox_ch02",
+        "file": "中毒・職業病/ch02_yuki_yozai.html",
+        "title": "第2章 有機溶剤中毒",
+        "count": 5
+      },
+      {
+        "prefix": "tox_ch03",
+        "file": "中毒・職業病/ch03_noyaku_chudoku.html",
+        "title": "第3章 農薬中毒",
+        "count": 6
+      },
+      {
+        "prefix": "tox_ch04",
+        "file": "中毒・職業病/ch04_sonota_chudoku.html",
+        "title": "第4章 その他の中毒",
+        "count": 6
+      },
+      {
+        "prefix": "tox_ch05",
+        "file": "中毒・職業病/ch05_shizendoku.html",
+        "title": "第5章 自然毒",
+        "count": 3
+      },
+      {
+        "prefix": "tox_ch06",
+        "file": "中毒・職業病/ch06_gastai_chudoku.html",
+        "title": "第6章 ガス体中毒",
+        "count": 6
+      },
+      {
+        "prefix": "tox_ch07",
+        "file": "中毒・職業病/ch07_butsuriteki_shikkan.html",
+        "title": "第7章 物理的原因による疾患",
+        "count": 18
+      }
+    ]
   }
 ];
 const MEC_CHAPTER_META = {

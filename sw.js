@@ -44,6 +44,17 @@
 // 2026-08-13c: ハブの「今日の目標」ゲージを拡大（viewBox 140→168・盤面 152→208px・
 // 歯車4枚）し、演出を常時化した（火花と蒸気が1.7秒ごと・22秒ごとに祝砲）。
 // 見出し行に日付も出す。シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
+// v168: 中毒・職業病(tox)を新科目として追加（☠️・#65A30D・全7章48問）。
+// questions_tox.json を CARDS に加えたので CACHE を bump（画像は0枚）。
+// 金属中毒4／有機溶剤中毒5／農薬中毒6／その他の中毒6／自然毒3／ガス体中毒6／
+// 物理的原因による疾患18。マイナー講座8科目とは別枠の「横断テーマ」科目で、
+// PDFは「レジュメ＋問題」が交互に並ぶ構成（マイナー講座の問題集PDFとは版面が違う）。
+// 本科目の軸は①曝露源（BM＝生物学的モニタリング）から物質を決める ②ガス体中毒は
+// 「酸素のどこを止めるか」の3系統（追い出す／運ばせない／使わせない）で割る
+// ③物理的因子は「エネルギーがどこまで届くか」で障害部位が決まる（紫外線＝角膜上皮／
+// 赤外線・マイクロ波＝白内障）④現場では「まず自分が死なない」。
+// 最難は NO.46(115F-21・60%)＝奇形は受精2〜8週の器官形成期（8〜15週は精神発達遅滞）、
+// 次いで NO.43(110I-24・64%)＝職業被ばくは 100mSv/5年 かつ 50mSv/年。
 // v167: 放射線科(rad)を新科目として追加（☢️・#475569・全4章60問）。
 // questions_rad.json を CARDS に加え、放射線科/images/（32枚）を追加したので CACHE を bump。
 // 序章1問／放射線診断学33問／放射線治療学10問／医療安全・放射線防護16問。
@@ -182,12 +193,12 @@
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v167";
+const CACHE = "mec-v168";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-18e";
+const SHELL_VERSION = "2026-08-19a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -218,7 +229,7 @@ const CARDS = [
   "questions_neur.json","questions_hbp.json","questions_jinzo_d.json","questions_hema.json",
   "questions_imma.json","questions_kansen.json","questions_jitsu1.json",
   "questions_peds.json","questions_obg.json","questions_psy.json",
-  "questions_derm.json","questions_oph.json","questions_ent.json","questions_uro.json","questions_ortho.json","questions_anes.json","questions_rad.json"
+  "questions_derm.json","questions_oph.json","questions_ent.json","questions_uro.json","questions_ortho.json","questions_anes.json","questions_rad.json","questions_tox.json"
 ];
 
 self.addEventListener("install", e => {

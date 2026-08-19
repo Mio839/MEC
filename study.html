@@ -93,6 +93,7 @@ if ('serviceWorker' in navigator) {
     <button class="chip" data-sid="ortho" onclick="toggleSubjectChip(this,'ortho')" aria-pressed="false">🦴&nbsp;整形外科</button>
     <button class="chip" data-sid="anes" onclick="toggleSubjectChip(this,'anes')" aria-pressed="false">💉&nbsp;麻酔科</button>
     <button class="chip" data-sid="rad" onclick="toggleSubjectChip(this,'rad')" aria-pressed="false">☢️&nbsp;放射線科</button>
+    <button class="chip" data-sid="tox" onclick="toggleSubjectChip(this,'tox')" aria-pressed="false">☠️&nbsp;中毒・職業病</button>
     <button class="chip" data-sid="custom" onclick="toggleSubjectChip(this,'custom')" aria-pressed="false">✏️&nbsp;自作問題</button>
     <button class="chip" data-sid="memo" onclick="toggleSubjectChip(this,'memo')" aria-pressed="false">📝&nbsp;暗記メモ</button>
   </div>
@@ -386,6 +387,10 @@ if ('serviceWorker' in navigator) {
 <div class="subj-hdr" style="background:#475569"><span class="subj-hdr-icon">☢️</span><span class="subj-hdr-name">放射線科</span><span class="subj-hdr-count">60問</span></div>
 <div class="subj-cards-loading" data-sid="rad">読み込み中…</div>
 </div>
+<div class="subj-section" data-sid="tox" data-visible="true">
+<div class="subj-hdr" style="background:#65A30D"><span class="subj-hdr-icon">☠️</span><span class="subj-hdr-name">中毒・職業病</span><span class="subj-hdr-count">48問</span></div>
+<div class="subj-cards-loading" data-sid="tox">読み込み中…</div>
+</div>
 <div class="subj-section" data-sid="jitsu1" data-visible="true">
 <div class="subj-hdr" style="background:#728FC0"><span class="subj-hdr-icon">🎯</span><span class="subj-hdr-name">実力試験Ⅰ</span><span class="subj-hdr-count">160問</span></div>
 <div class="subj-cards-loading" data-sid="jitsu1">読み込み中…</div>
@@ -405,7 +410,7 @@ if ('serviceWorker' in navigator) {
 </div>
 
 <script>
-const STUDY_SUBJECTS = [{"id": "endo", "name": "内分泌", "icon": "⚗️", "color": "#169E9F"}, {"id": "resp", "name": "呼吸器", "icon": "🌬️", "color": "#4390EE"}, {"id": "circ", "name": "循環器", "icon": "❤️", "color": "#E16E33"}, {"id": "dige", "name": "消化器", "icon": "🌿", "color": "#8A81EF"}, {"id": "neur", "name": "神経", "icon": "🧠", "color": "#619E37"}, {"id": "hbp", "name": "肝胆膵", "icon": "🧪", "color": "#C0820E"}, {"id": "jinzo_d", "name": "腎臓", "icon": "💧", "color": "#7494A1"}, {"id": "hema", "name": "血液", "icon": "🩸", "color": "#E56574"}, {"id": "imma", "name": "免アレ膠", "icon": "🛡️", "color": "#B973D7"}, {"id": "kansen", "name": "感染症", "icon": "🦠", "color": "#9B920A"}, {"id": "peds", "name": "小児科", "icon": "🧸", "color": "#10A276"}, {"id": "obg", "name": "産婦人科", "icon": "🤰", "color": "#D36BAA"}, {"id": "psy", "name": "精神科", "icon": "💭", "color": "#5E60CE"}, {"id": "derm", "name": "皮膚科", "icon": "🩹", "color": "#B5654A"}, {"id": "oph", "name": "眼科", "icon": "👁️", "color": "#0E7490"}, {"id": "ent", "name": "耳鼻咽喉科", "icon": "👂", "color": "#0F766E"}, {"id": "uro", "name": "泌尿器科", "icon": "💦", "color": "#0891B2"}, {"id": "ortho", "name": "整形外科", "icon": "🦴", "color": "#A16207"}, {"id": "anes", "name": "麻酔科", "icon": "💉", "color": "#7C3AED"}, {"id": "rad", "name": "放射線科", "icon": "☢️", "color": "#475569"}, {"id": "jitsu1", "name": "実力試験Ⅰ", "icon": "🎯", "color": "#728FC0"}, {"id": "custom", "name": "自作問題", "icon": "✏️", "color": "#CB9BC6"}, {"id": "memo", "name": "暗記メモ", "icon": "📝", "color": "#D0C7A6"}];
+const STUDY_SUBJECTS = [{"id": "endo", "name": "内分泌", "icon": "⚗️", "color": "#169E9F"}, {"id": "resp", "name": "呼吸器", "icon": "🌬️", "color": "#4390EE"}, {"id": "circ", "name": "循環器", "icon": "❤️", "color": "#E16E33"}, {"id": "dige", "name": "消化器", "icon": "🌿", "color": "#8A81EF"}, {"id": "neur", "name": "神経", "icon": "🧠", "color": "#619E37"}, {"id": "hbp", "name": "肝胆膵", "icon": "🧪", "color": "#C0820E"}, {"id": "jinzo_d", "name": "腎臓", "icon": "💧", "color": "#7494A1"}, {"id": "hema", "name": "血液", "icon": "🩸", "color": "#E56574"}, {"id": "imma", "name": "免アレ膠", "icon": "🛡️", "color": "#B973D7"}, {"id": "kansen", "name": "感染症", "icon": "🦠", "color": "#9B920A"}, {"id": "peds", "name": "小児科", "icon": "🧸", "color": "#10A276"}, {"id": "obg", "name": "産婦人科", "icon": "🤰", "color": "#D36BAA"}, {"id": "psy", "name": "精神科", "icon": "💭", "color": "#5E60CE"}, {"id": "derm", "name": "皮膚科", "icon": "🩹", "color": "#B5654A"}, {"id": "oph", "name": "眼科", "icon": "👁️", "color": "#0E7490"}, {"id": "ent", "name": "耳鼻咽喉科", "icon": "👂", "color": "#0F766E"}, {"id": "uro", "name": "泌尿器科", "icon": "💦", "color": "#0891B2"}, {"id": "ortho", "name": "整形外科", "icon": "🦴", "color": "#A16207"}, {"id": "anes", "name": "麻酔科", "icon": "💉", "color": "#7C3AED"}, {"id": "rad", "name": "放射線科", "icon": "☢️", "color": "#475569"}, {"id": "tox", "name": "中毒・職業病", "icon": "☠️", "color": "#65A30D"}, {"id": "jitsu1", "name": "実力試験Ⅰ", "icon": "🎯", "color": "#728FC0"}, {"id": "custom", "name": "自作問題", "icon": "✏️", "color": "#CB9BC6"}, {"id": "memo", "name": "暗記メモ", "icon": "📝", "color": "#D0C7A6"}];
 // Study time tracking
 let _studyStartTime = Date.now();
 let _studyTimeSaved = false;
@@ -976,7 +981,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0818a";
+const MEC_BUILD = "b-0819a";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
