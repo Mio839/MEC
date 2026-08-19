@@ -363,16 +363,31 @@ t('28. R1 の放出は噴気よりはっきり大きく、正誤で差を付け�
         「機械は判定しない、ただ圧を抜く」という性格が誤答時に効く（誤答は罰さない）。 */
   const b = fnBody('_examPuffSteam');
   assert.ok(b, '_examPuffSteam が見つからない');
-  // release ? A : B の A（放出）と B（噴気）を拾って大小を比べる
-  const pair = k => {
-    const m = new RegExp(k + ':\\s*release \\? ([\\d.]+) : ([\\d.]+)').exec(b);
-    return m ? [parseFloat(m[1]), parseFloat(m[2])] : null;
+  /* 噴気（if (!release) のブロック）と放出（その後）に割って大小を比べる。
+     ⚠️ 最初の `return;` で切ってはいけない——関数の先頭に
+        `if (!window.MecFX || _fxOff()) return;` のガードがあり、そこで切ると
+        噴気ブロックまで丸ごと「放出」側に入って検査が素通りする（一度踏んだ）。
+        `if (!release)` の波括弧を数えて閉じること。 */
+  const i0 = b.indexOf('if (!release)');
+  assert.ok(i0 > 0, 'if (!release) の分岐が無い（噴気と放出が分かれていない）');
+  let j = b.indexOf('{', i0), depth = 0, end = -1;
+  for (; j < b.length; j++) {
+    if (b[j] === '{') depth++;
+    else if (b[j] === '}') { depth--; if (!depth) { end = j; break; } }
+  }
+  assert.ok(end > 0, 'if (!release) のブロックが閉じていない');
+  const amb = b.slice(i0, end), rel = b.slice(end);
+  // ⚠️ 放出側は式で書いてある（count: Math.round(11 - 2 * s) 等）ので、
+  //    キー直後の最初の数値リテラルを拾う（Math.xxx( を1段だけ剥がす）。
+  const val = (src, k) => {
+    const m = new RegExp(k + ':\\s*(?:Math\\.\\w+\\(\\s*)?([\\d.]+)').exec(src);
+    return m ? parseFloat(m[1]) : null;
   };
   [['count', 3], ['alpha', 1.4], ['max', 2]].forEach(([k, ratio]) => {
-    const p = pair(k);
-    assert.ok(p, k + ' が release で分岐していない');
-    assert.ok(p[0] >= p[1] * ratio,
-      '放出の ' + k + ' が噴気の ' + ratio + '倍に届かない（' + p[0] + ' vs ' + p[1] + '）' +
+    const a = val(amb, k), r = val(rel, k);
+    assert.ok(a != null && r != null, k + ' が噴気／放出の両方に無い');
+    assert.ok(r >= a * ratio,
+      '放出の ' + k + ' が噴気の ' + ratio + '倍に届かない（' + r + ' vs ' + a + '）' +
       '＝放出に読書中の制約を引きずっている');
   });
   // 正誤を受け取らない＝差を付けようがない形にしておく
@@ -380,9 +395,70 @@ t('28. R1 の放出は噴気よりはっきり大きく、正誤で差を付け�
     '_examPuffSteam が release 以外の引数を取っている（正誤で差を付けないこと）');
   assert.ok(!/_examPuffSteam\((?!true\)|false\)|release\))/.test(JS_NC),
     '_examPuffSteam に true/false 以外が渡されている（正誤で分岐している）');
-  // 発生源は2点のまま（安全弁が2つという筋書き）
-  const pts = (b.match(/b\.(left|right)\s*[-+]/g) || []).length;
-  assert.strictEqual(pts, 2, '安全弁が2点でない（量は点を増やさず1つの弁を大きくして出す）');
+});
+
+t('29. R1 の放出は画面幅に比例して伸び、左右対称である', () => {
+  /* ⚠️ 到達距離を固定 px にしないこと。iPad(820〜1024) では中央を大きく越え、
+     デスクトップ(1920) では全く届かない。「弁から内側へ画面幅の何割」で持つ。
+     ⚠️ MecFX.steam の引数や既定値は変えない（エミッタは純増の約束＝7テーマに波及する）。
+     横へ伸ばすのは同じ弁から x をずらして複数回呼ぶことで作る。 */
+  const b = fnBody('_examPuffSteam');
+  assert.ok(/b\.width\s*\*\s*STEAM_SPAN/.test(b),
+    '到達距離が画面幅に比例していない（固定 px では画面サイズで意味が変わる）');
+  const L = (b.match(/b\.left\s*\+\s*34/g) || []).length;
+  const R = (b.match(/b\.right\s*-\s*34/g) || []).length;
+  assert.ok(L >= 1 && L === R, '左右の弁が対称でない（左' + L + ' / 右' + R + '）');
+  assert.ok(/vx:\s*240/.test(b) && /vx:\s*-240/.test(b),
+    '左右が中央へ向かっていない（vx が対称に符号違いで入っていること）');
+  const span = /STEAM_SPAN\s*=\s*([\d.]+)/.exec(JS);
+  assert.ok(span && parseFloat(span[1]) >= .35,
+    'STEAM_SPAN が小さすぎて中央で重ならない（' + (span && span[1]) + '）');
+});
+
+t('30. 歯車の膨らみは scale プロパティで、はみ出しても iOS の縦横比を壊さない', () => {
+  /* ⚠️⚠️ transform:scale() は使えない。歯車は animation:epGearSpin が transform を占有して
+     おり、transform を別途宣言しても走行中のアニメーションに上書きされて何も起きない。
+     ⚠️ 倍率は「右の歯車から画面右端までの約110px」を超えないこと。超えると iOS Safari が
+     レイアウトビューポートを広げ、2026-08-19 のページ縮尺の振動が再発する。 */
+  const blow = RULES.find(r => /\.ep-gear-blow/.test(r.sel));
+  assert.ok(blow, '.ep-gear-blow のルールが無い');
+  assert.ok(/(^|;|\s)scale\s*:/.test(blow.body),
+    '拡大に scale プロパティを使っていない → ' + blow.sel.trim());
+  assert.ok(!/transform\s*:/.test(blow.body),
+    'transform で拡大しようとしている（epGearSpin に上書きされて何も起きない）');
+  const m = /(^|;|\s)scale\s*:\s*([\d.]+)/.exec(blow.body);
+  const base = RULES.find(r => r.sel.trim() === '.ep-gear');
+  const wpx = parseFloat(/width:\s*([\d.]+)px/.exec(base.body)[1]);
+  const half = wpx * parseFloat(m[2]) / 2;
+  assert.ok(half <= 110,
+    '拡大した歯車の半径 ' + half + 'px が右端の余白 110px を超える' +
+    '（iOS がレイアウトビューポートを広げてページの縮尺が振動する）');
+  // レイアウトを動かさない＝ヘッダの高さが変わらない
+  assert.ok(!/(^|;|\s)(width|height|padding|margin)\s*:/.test(blow.body),
+    '.ep-gear-blow がレイアウト箱を変えている → ヘッダの高さが動く（_fxBand の焦点がずれる）');
+});
+
+t('31. 火花は歯車から飛び、加算合成にしない（光の玉ではなく金属片に見せる）', () => {
+  const b = fnBody('_examGearBlow');
+  assert.ok(b, '_examGearBlow が見つからない');
+  assert.ok(/querySelectorAll\('\.ep-gear'\)/.test(b), '火花の発生源が歯車になっていない');
+  assert.ok(/additive:\s*false/.test(b),
+    'additive:false を渡していない（burst の既定は加算合成＝光の玉になって金属片に見えない）');
+  assert.ok(/shapes:\s*\[[^\]]*'shard'/.test(b), 'shard（金属片）を使っていない');
+  assert.ok(/gravity:/.test(b), '重力が無い（火花が弧を描いて落ちない）');
+  assert.ok(/clearTimeout\(_gearBlowTimer\)/.test(b),
+    '張り直す前にタイマーを落としていない（多重発火）');
+  // 放出とだけ連動する（読書中の噴気では鳴らさない）
+  const p = fnBody('_examPuffSteam');
+  const i0 = p.indexOf('if (!release)');
+  let j = p.indexOf('{', i0), depth = 0, end = -1;
+  for (; j < p.length; j++) {
+    if (p[j] === '{') depth++;
+    else if (p[j] === '}') { depth--; if (!depth) { end = j; break; } }
+  }
+  assert.ok(p.slice(end).includes('_examGearBlow()'), '放出で歯車が膨らまない');
+  assert.ok(!p.slice(i0, end).includes('_examGearBlow'),
+    '読書中の噴気でも歯車が膨らむ（原則1・2に反する）');
 });
 
 // ══ 10. exitExam が Phase 5 の痕跡を全部落とす ═══════════════════════════════

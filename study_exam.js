@@ -3680,22 +3680,83 @@ function _examPressureBuilt(card) {
       量は「点を増やす」のではなく「1つの弁を大きくする」（count と w）で出す。
    ⚠️ w を広げても DOM は1pxも動かない（fixed の canvas 描画なので、あふれても
       iOS のレイアウトビューポートは広がらない＝2026-08-19 の縮尺振動とは無関係）。 */
+/* 放出は「弁から内側へ伸びる噴煙」として、左右2本を画面中央で重なるところまで届かせる。
+   ⚠️ MecFX.steam の引数や既定値を変えないこと（エミッタは純増の約束＝7テーマ全部に波及する）。
+      横へ伸ばすのは **同じ弁から x をずらして複数回呼ぶ**ことで作る。steam の w は左右対称に
+      撒くので、弁1点で w を広げると画面外へ半分捨てることになる。
+   ⚠️ 到達距離は画面幅に比例させること。固定 px にすると iPad(820〜1024) では中央を大きく
+      越え、デスクトップ(1920)では全く届かない。SPAN は「弁から内側へ画面幅の何割伸ばすか」。
+   ⚠️ drag は Math.pow(drag, dt*60) ＝ .985 なら1秒で速度が約40%まで落ちる。横speed を上げても
+      距離は伸びにくいので、届かせるのは速度ではなく **発生位置の分散（下の STEPS）**で作る。 */
+const STEAM_SPAN = .42;   // 弁から内側へ伸ばす割合（画面幅比）
+const STEAM_STEPS = 4;    // 弁元から内へ向かう小噴出の数（弁元ほど濃い）
 function _examPuffSteam(release) {
   if (!window.MecFX || _fxOff()) return;
   const b = _fxBand(), y = _examFxHeaderBottom();
-  const inset = release ? 34 : 26;
-  [b.left + inset, b.right - inset].forEach(x => {
-    MecFX.steam(x, y, {
-      count: release ? 18 : 3, alpha: release ? .55 : .26, w: release ? 30 : 7,
-      // ⚠️ rise を上げすぎないこと。発生源はレール（試験ヘッダの下端＝実測 y≒211）で、画面上端
-      //    までの余地はその 211px しかない。rise:250 だと初速 -250〜-550px/s になり、粒の寿命
-      //    1.0〜1.9秒のうち半分以上が画面外で消費される＝「速く抜ける細い噴射」に見える。
-      //    大きく見せたいときは速度ではなく **滞留時間と粒径（grow）** を稼ぐ。
-      rise: release ? 170 : 74, min: release ? 22 : 14, max: release ? 84 : 28,
-      grow: release ? 2.8 : 1.8, color: '#E8E2D4', blend: false,
-      stagger: release ? .28 : .5
+  if (!release) {
+    // 噴気（読書中）。⚠️ ここは原則1（周辺視野）・原則2（文字に重ねない）に縛られる＝薄いまま。
+    [b.left + 26, b.right - 26].forEach(x => {
+      MecFX.steam(x, y, {
+        count: 3, alpha: .26, w: 7, rise: 74, min: 14, max: 28,
+        grow: 1.8, color: '#E8E2D4', blend: false, stagger: .5
+      });
+    });
+    return;
+  }
+  // 放出（解答後）。読解はもう終わっているので大きく出してよい。左右が中央で重なるのは意図どおり。
+  const w = Math.round(b.width * .10);
+  for (let s = 0; s < STEAM_STEPS; s++) {
+    const t = s / (STEAM_STEPS - 1);              // 0=弁元 → 1=最も内側
+    const dx = b.width * STEAM_SPAN * t;
+    const o = {
+      // 弁元が濃く、内へ行くほど薄い（11+9+7+5＝片弁32粒・両弁で64粒）
+      count: Math.round(11 - 2 * s), alpha: .55 - .06 * s, w: w,
+      // ⚠️ rise を上げすぎないこと。発生源はレール（試験ヘッダの下端＝実測 y≒209）で画面上端
+      //    までの余地がそれしかなく、初速を上げると寿命1.0〜1.9秒の半分以上を画面外で使い
+      //    「速く抜ける細い噴射」になる。大きさは速度ではなく滞留時間と粒径(grow)で出す。
+      rise: 170, min: 24, max: 110, grow: 3, color: '#E8E2D4',
+      blend: false, stagger: .3, delay: s * .05    // 内側ほど遅らせて「伸びていく」ように見せる
+    };
+    MecFX.steam(b.left  + 34 + dx, y, Object.assign({ vx:  240 }, o));
+    MecFX.steam(b.right - 34 - dx, y, Object.assign({ vx: -240 }, o));
+  }
+  _examGearBlow();
+}
+
+/* 放出に合わせて歯車が大きくなり、噛み合いから火花が飛ぶ。
+   ⚠️⚠️ 拡大は `scale` プロパティで行うこと。`transform:scale()` は使えない——歯車は
+      `animation:epGearSpin` が transform を占有しており、transform を別途宣言しても
+      走行中のアニメーションに上書きされて**何も起きない**（黙って死ぬ型の失敗）。
+      `scale` は独立プロパティなので回転と合成される。
+   ⚠️ `scale` はレイアウトに影響しないので、拡大してもヘッダの高さは1pxも変わらない
+      （_fxBand() の焦点は動かない）。フィードからはみ出すのは意図どおりで、.st-hdr /
+      .exam-prog / body / html はいずれも overflow:visible（実測）なので切られない。
+   ⚠️ 右の歯車は画面右端から約110px 内側にある（タイマーと終了ボタンのぶんで、画面幅に依らない）。
+      GEAR_BLOW_SCALE を上げるときはこの余白を超えないこと——超えると iOS Safari が
+      レイアウトビューポートを広げ、2026-08-19 のページ縮尺の振動が再発する。
+   ⚠️ タイマーは1本。張り直す前に必ず clearTimeout する。 */
+const GEAR_BLOW_MS = 520;
+let _gearBlowTimer = null;
+function _examGearBlow() {
+  const gears = [...document.querySelectorAll('.ep-gear')];
+  if (!gears.length) return;
+  gears.forEach(g => {
+    g.classList.add('ep-gear-blow');
+    const r = g.getBoundingClientRect();
+    if (!r.width) return;
+    // 火花。⚠️ additive:false を必ず渡すこと（既定は加算合成＝光の玉になって金属片に見えない）。
+    MecFX.burst(r.left + r.width / 2, r.top + r.height / 2, {
+      count: 16, tier: 3, scale: .85, speed: 640,
+      colors: ['#E0C25E', '#C9A227', '#B87333', '#FFD9A0'],
+      shapes: ['shard', 'square'],
+      gravity: 1500, upBias: 40, additive: false, glow: false
     });
   });
+  clearTimeout(_gearBlowTimer);
+  _gearBlowTimer = setTimeout(() => {
+    _gearBlowTimer = null;
+    document.querySelectorAll('.ep-gear-blow').forEach(g => g.classList.remove('ep-gear-blow'));
+  }, GEAR_BLOW_MS);
 }
 function _examSteamTick() {
   if (!examMode || _fxOff() || document.hidden) return;
@@ -4098,6 +4159,8 @@ function exitExam() {
   // Phase 5 段2: R1 の圧・R8 の減速・R10 のスリープを全部落とす。
   // ⚠️ 1つでも残すと通常閲覧のヘッダで機械が動き続ける（D9 で同じ失敗を踏んでいる）。
   clearInterval(_examSteamInt); _examSteamInt = null;
+  clearTimeout(_gearBlowTimer); _gearBlowTimer = null;
+  document.querySelectorAll('.ep-gear-blow').forEach(g => g.classList.remove('ep-gear-blow'));
   _machDecayTimers.forEach(clearTimeout); _machDecayTimers = [];
   _setMachineRate(1);
   clearTimeout(_examSleepTimer); _examSleepTimer = null;

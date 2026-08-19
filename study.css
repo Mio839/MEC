@@ -446,8 +446,20 @@ body.exam-mode .exam-prog{display:flex;}
       外すと角度が 0 に戻って歯車がワープする。稼働灯(D9)で paused を禁じたのは「光が途中で
       凍ると"固まった"に見える」からだが、歯車は逆で **途中で止まるのが正しい絵**（1拍止まる）。
    ⚠️ 左右で逆回り＝噛み合って見える条件。歯数が同じなので速さも同じでなければならない。 */
-.ep-gear{width:13px;height:13px;flex:none;fill:var(--exam-brass);opacity:.72;
+/* ⚠️⚠️ 拡大は scale プロパティで行うこと。transform:scale() は使えない——下の
+      animation:epGearSpin が transform を占有しており、transform を別途宣言しても走行中の
+      アニメーションに上書きされて何も起きない（黙って死ぬ型の失敗）。scale は独立プロパティ
+      なので回転と合成される。scale はレイアウトに影響しないのでヘッダの高さも変わらない。 */
+.ep-gear{width:13px;height:13px;flex:none;fill:var(--exam-brass);opacity:.72;scale:1;
+  transition:scale .5s cubic-bezier(.22,1,.36,1),opacity .5s ease;
   animation:epGearSpin 5.6s linear infinite;animation-play-state:paused;}
+/* 蒸気の放出に合わせて歯車が膨らみ、噛み合いから火花が飛ぶ（JS が .ep-gear-blow を 520ms 付ける）。
+   ⚠️ フィードからはみ出すのは意図どおり（.st-hdr / .exam-prog は overflow:visible）。
+   ⚠️ 倍率を上げるときは右の歯車から画面右端までの約110px（タイマーと終了ボタンのぶん・画面幅に
+      依らない）を超えないこと。超えると iOS Safari がレイアウトビューポートを広げ、
+      2026-08-19 のページ縮尺の振動が再発する。13px×3.2＝41.6px＝中心から20.8px なので余裕がある。 */
+body.exam-mode .ep-gear.ep-gear-blow{scale:3.2;opacity:.95;
+  transition:scale .16s cubic-bezier(.34,1.8,.64,1),opacity .16s ease;}
 .ep-gear-b{animation-direction:reverse;}
 body.exam-mode.exam-idle-lit .ep-gear{animation-play-state:running;}
 @keyframes epGearSpin{to{transform:rotate(360deg);}}
