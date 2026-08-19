@@ -3667,15 +3667,33 @@ function _examPressureBuilt(card) {
 }
 /* 蒸気はレール（＝ヘッダ下端）の両端の安全弁から上がる。
    ⚠️ blend:false を必ず渡すこと。加算合成にすると湯気ではなく発光体になる（ハブのゲージで踏んだ罠）。
-   ⚠️ 量を増やさないこと。原則1（周辺視野）・原則2（文字に重ねない）を守る薄さで止める。 */
+
+   ⚠️⚠️ 噴気（release=false）と放出（release=true）で**掛かる制約がまるで違う**。
+      噴気は読んでいる最中に出るので原則1（周辺視野）・原則2（文字に重ねない）に縛られ、
+      薄さで止めなければならない。**放出は解答した後＝読解がもう終わっている瞬間**なので
+      その制約は掛からず、正解／誤答の演出と同じ土俵で大きく出してよい。
+      2026-08-19 の初版は放出量を噴気の延長で決めており（両弁あわせて14粒・最大44px）、
+      「小さすぎる」との報告を受けて放出側だけを約2.5倍へ引き上げた。**噴気は据え置き**。
+   ⚠️ 正解と誤答で量も色も変えないこと。この演出が量っているのは正誤ではなく**費やした思考**で、
+      「機械は判定しない、ただ圧を抜くだけ」という性格が誤答時に効く（誤答は罰さない方針）。
+   ⚠️ 発生源はレールの両端2点のまま増やさない。安全弁が2つという筋書きが崩れる。
+      量は「点を増やす」のではなく「1つの弁を大きくする」（count と w）で出す。
+   ⚠️ w を広げても DOM は1pxも動かない（fixed の canvas 描画なので、あふれても
+      iOS のレイアウトビューポートは広がらない＝2026-08-19 の縮尺振動とは無関係）。 */
 function _examPuffSteam(release) {
   if (!window.MecFX || _fxOff()) return;
   const b = _fxBand(), y = _examFxHeaderBottom();
-  [b.left + 26, b.right - 26].forEach(x => {
+  const inset = release ? 34 : 26;
+  [b.left + inset, b.right - inset].forEach(x => {
     MecFX.steam(x, y, {
-      count: release ? 7 : 3, alpha: release ? .40 : .26, w: 7,
-      rise: release ? 150 : 74, min: 14, max: release ? 44 : 28,
-      grow: 1.8, color: '#E8E2D4', blend: false, stagger: release ? .18 : .5
+      count: release ? 18 : 3, alpha: release ? .55 : .26, w: release ? 30 : 7,
+      // ⚠️ rise を上げすぎないこと。発生源はレール（試験ヘッダの下端＝実測 y≒211）で、画面上端
+      //    までの余地はその 211px しかない。rise:250 だと初速 -250〜-550px/s になり、粒の寿命
+      //    1.0〜1.9秒のうち半分以上が画面外で消費される＝「速く抜ける細い噴射」に見える。
+      //    大きく見せたいときは速度ではなく **滞留時間と粒径（grow）** を稼ぐ。
+      rise: release ? 170 : 74, min: release ? 22 : 14, max: release ? 84 : 28,
+      grow: release ? 2.8 : 1.8, color: '#E8E2D4', blend: false,
+      stagger: release ? .28 : .5
     });
   });
 }

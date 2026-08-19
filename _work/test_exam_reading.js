@@ -355,6 +355,36 @@ t('27. R6 のキーキャップが水平の「線」を作らない（下線部�
   });
 });
 
+t('28. R1 の放出は噴気よりはっきり大きく、正誤で差を付けない', () => {
+  /* ⚠️ 噴気（読書中）と放出（解答後）で掛かる制約が違う。噴気は原則1・2に縛られて薄くするが、
+     放出は読解が終わった後なので大きく出してよい。初版は放出量を噴気の延長で決めていて
+     「小さすぎる」との報告を受けた（2026-08-19）。
+     ⚠️ 正誤で量や色を変えないこと。量っているのは正誤ではなく費やした思考で、
+        「機械は判定しない、ただ圧を抜く」という性格が誤答時に効く（誤答は罰さない）。 */
+  const b = fnBody('_examPuffSteam');
+  assert.ok(b, '_examPuffSteam が見つからない');
+  // release ? A : B の A（放出）と B（噴気）を拾って大小を比べる
+  const pair = k => {
+    const m = new RegExp(k + ':\\s*release \\? ([\\d.]+) : ([\\d.]+)').exec(b);
+    return m ? [parseFloat(m[1]), parseFloat(m[2])] : null;
+  };
+  [['count', 3], ['alpha', 1.4], ['max', 2]].forEach(([k, ratio]) => {
+    const p = pair(k);
+    assert.ok(p, k + ' が release で分岐していない');
+    assert.ok(p[0] >= p[1] * ratio,
+      '放出の ' + k + ' が噴気の ' + ratio + '倍に届かない（' + p[0] + ' vs ' + p[1] + '）' +
+      '＝放出に読書中の制約を引きずっている');
+  });
+  // 正誤を受け取らない＝差を付けようがない形にしておく
+  assert.ok(/function _examPuffSteam\(release\)/.test(JS),
+    '_examPuffSteam が release 以外の引数を取っている（正誤で差を付けないこと）');
+  assert.ok(!/_examPuffSteam\((?!true\)|false\)|release\))/.test(JS_NC),
+    '_examPuffSteam に true/false 以外が渡されている（正誤で分岐している）');
+  // 発生源は2点のまま（安全弁が2つという筋書き）
+  const pts = (b.match(/b\.(left|right)\s*[-+]/g) || []).length;
+  assert.strictEqual(pts, 2, '安全弁が2点でない（量は点を増やさず1つの弁を大きくして出す）');
+});
+
 // ══ 10. exitExam が Phase 5 の痕跡を全部落とす ═══════════════════════════════
 t('25. exitExam が段1〜3のクラス・タイマー・observer を全部落とす', () => {
   const b = fnBody('exitExam');
