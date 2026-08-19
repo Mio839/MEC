@@ -3556,6 +3556,27 @@ function _updateExamProg(isCorrect = false) {
 }
 
 let _examScrollRaf = null;
+
+/* D9(2026-08-19): 稼働灯。カードに向かっている間だけヘッダのレールを光が走り、答えた瞬間に消える。
+   ⚠️ フックは _updateExamFocus の1か所だけにすること。_afterCorrectFx は複数選択の経路を通らず、
+      _tallyQuestion は3箇所に散る。_updateExamFocus は開始・スクロール・解答直後の3経路すべてを
+      含む9箇所から呼ばれており、1関数で全経路を覆えて取りこぼしが構造的に起きない。 */
+// カードに向かってから点灯するまでの遅延。★既定 0（2026-08-19 ユーザー決定）。
+// 定数のまま残してあるのは、解答速度によって体感が正反対に振れるため（1問10秒なら拍が読めるが、
+// 6秒だと点滅に近くうるさい）。倒すなら FAST_TIER_MS[2]=7000（A3 の「速答ではない」の境目）を
+// 再利用する——A3 が褒める区間は静かで、褒めない区間だけ機械が回るという筋が通り、新しい定数も
+// 増えない。⚠️ 分布は推測せず mec_attempts_v1 の所要秒（弱点カルテの素材）から出すこと。
+const EXAM_IDLE_DELAY_MS = 0;
+// 解答してから再点灯するまでの「一息」。解答演出とほぼ同尺。
+const EXAM_IDLE_BEAT_MS = 1200;
+// ⚠️ タイマーは常に1本。張り直す前に必ず clearTimeout する。_updateExamFocus はスクロールの
+//    たびに走る＝この経路で一番呼ばれる関数なので、守らないと多重発火する
+//    （_armHold・_startGaugeAmbient で同じ型の前科が2件ある）。
+let _examIdleTimer = null;
+let _examIdleHoldUntil = 0;   // この時刻までは点けない（解答直後の一息）
+let _examIdleFocusUid = null; // いま焦点のカード。変わった時だけ _examIdleFocusAt を打ち直す
+let _examIdleFocusAt = 0;
+
 function _getExamTargetCard() {
   const hdr = document.querySelector('.st-hdr');
   const hdrH = hdr ? hdr.getBoundingClientRect().bottom : 0;
@@ -3563,9 +3584,29 @@ function _getExamTargetCard() {
   return visibleCards.find(c => c.getBoundingClientRect().bottom > hdrH) || null;
 }
 function _updateExamFocus() {
+  const prevFocus = document.querySelector('.qc.exam-key-focus');
   const card = _getExamTargetCard();
   document.querySelectorAll('.qc.exam-key-focus').forEach(c => c.classList.remove('exam-key-focus'));
   if (card) { card.classList.add('exam-key-focus'); _markCardSeen(card); }
+
+  // ── D9 稼働灯 ───────────────────────────────────────────────────────────
+  clearTimeout(_examIdleTimer); _examIdleTimer = null;  // ★張り直す前に必ず落とす
+  if (_fxOff()) { document.body.classList.remove('exam-idle-lit'); return; }
+  // 直前まで焦点だったカードが解答済みになった＝「答えた瞬間」。ここで止めるのが D9 の要。
+  if (prevFocus && prevFocus !== card && prevFocus.classList.contains('exam-revealed')) {
+    _examIdleHoldUntil = Date.now() + EXAM_IDLE_BEAT_MS;
+  }
+  if (!card) { document.body.classList.remove('exam-idle-lit'); return; }
+  const uid = card.dataset.uid || null;
+  if (uid !== _examIdleFocusUid) { _examIdleFocusUid = uid; _examIdleFocusAt = Date.now(); }
+  // 遅延は「焦点になった時刻」から測る。呼ばれた時刻から測るとスクロールのたびに延び続ける。
+  const wait = Math.max(_examIdleFocusAt + EXAM_IDLE_DELAY_MS, _examIdleHoldUntil) - Date.now();
+  if (wait <= 0) { document.body.classList.add('exam-idle-lit'); return; }
+  document.body.classList.remove('exam-idle-lit');
+  _examIdleTimer = setTimeout(() => {
+    _examIdleTimer = null;
+    if (examMode && !_fxOff() && _getExamTargetCard()) document.body.classList.add('exam-idle-lit');
+  }, wait);
 }
 function _onExamScroll() {
   if (_examScrollRaf) cancelAnimationFrame(_examScrollRaf);
@@ -3817,7 +3858,10 @@ function exitExam() {
   // 解除は通常閲覧へ戻る _srsRestoreAfterReview() に集約している。
   _lastSessionWasSrs = _srsReviewMode;
   _lastSessionWasTodayWrong = _todayWrongMode;
-  document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink', 'exam-sprint');
+  // ⚠️ 稼働灯(D9)は点灯クラスとタイマーの両方を落とすこと。残ると通常閲覧のヘッダで光が走り続ける。
+  document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink', 'exam-sprint', 'exam-idle-lit');
+  clearTimeout(_examIdleTimer); _examIdleTimer = null;
+  _examIdleHoldUntil = 0; _examIdleFocusUid = null; _examIdleFocusAt = 0;
   clearInterval(examTimerInt);
   document.removeEventListener('keydown', _examKeyHandler);
   document.removeEventListener('visibilitychange', _examVisibilityHandler);
