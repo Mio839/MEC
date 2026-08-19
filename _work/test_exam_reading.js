@@ -326,6 +326,35 @@ t('24. R6 のキーキャップは R9 の相転移とセットで、.exam-select
   });
 });
 
+t('27. R6 のキーキャップが水平の「線」を作らない（下線部と紛れる）', () => {
+  /* ⚠️ 2026-08-19 の実害。初版は各肢の上端に明線・下端に暗線・直下に硬い銅の側壁を置いており、
+     肢が負マージンで詰めて積まれているため「各行に罫線が引かれた表」に見えた。
+     とくに銅の側壁は下線そのもの。**下線部はこの教材では意味を持つ記号**で、
+     「本文中の下線部①〜⑤が選択肢そのもの」という問題が実在する（ortho NO.167/171/142・
+     rad NO.2）。装飾の線がそこに紛れると設問の読解を壊す。
+     判定: box-shadow の各層で「縦オフセットがあるのに blur が 0」＝硬い線、を禁じる。 */
+  RULES.filter(r => /\.exam-deciding[^,{]*\.ch2(?!\.)/.test(r.sel)).forEach(r => {
+    const m = /box-shadow\s*:([^;]*)/.exec(r.body);
+    if (!m) return;
+    // rgba(...) / var(...) の中のカンマを潰してから層に割る
+    const flat = m[1].replace(/\([^()]*\)/g, '()');
+    flat.split(',').forEach((layer, i) => {
+      // ⚠️ 長さは `0` のように単位無しで書かれる（`0px` 決め打ちだと硬い線を見逃す）。
+      //    括弧を潰したうえで空白区切りにし、数値トークンだけを拾うこと。
+      const nums = layer.replace(/\binset\b/g, '').replace(/\(\)/g, '').trim().split(/\s+/)
+        .filter(tok => /^-?[\d.]+(px)?$/.test(tok)).map(parseFloat);
+      if (nums.length < 3) return;              // 色だけ / 省略形は対象外
+      const [, dy, blur] = nums;                // [dx, dy, blur, spread?]
+      assert.ok(!(Math.abs(dy) > 0 && blur === 0),
+        'キーキャップの影に硬い線がある（層' + (i + 1) + ': ' + layer.trim() + '）' +
+        ' → 下線部と紛れる。立体感は拡散した影で出すこと');
+    });
+    assert.ok(!/inset/.test(m[1]),
+      'キーキャップに inset の縁がある → ' + r.sel.trim() +
+      '（肢は負マージンで詰めて積まれているので、上下の縁が罫線に見える）');
+  });
+});
+
 // ══ 10. exitExam が Phase 5 の痕跡を全部落とす ═══════════════════════════════
 t('25. exitExam が段1〜3のクラス・タイマー・observer を全部落とす', () => {
   const b = fnBody('exitExam');

@@ -233,19 +233,29 @@ body.exam-mode .qimg{border-color:rgba(201,162,39,.5);
    ⚠️ 稼働灯を消す経路は R10（スリープ）と分けること＝専用クラスで表し、どちらが消したのか追える
       ようにしておく。両方が同じ exam-idle-lit を落とすと切り分けができなくなる。 */
 body.exam-mode.exam-phase-decide .st-hdr::after{opacity:0;}
-/* R6: 決断フェーズで選択肢がキーキャップとして起き上がる。
+/* R6: 決断フェーズで選択肢がわずかに起き上がる。
    ⚠️ R9 と必ずセット。単体では静的で弱く、意味も持たない。
    ⚠️ .ch2 の padding/margin を変えないこと（負マージンで詰めてあり、.exam-selected と
       .exam-instant-correct の背景の当たりがずれる）。
    ⚠️ 計算問題には .ch2 が無い＝何も出ないのが正しい。
    ⚠️ 下の .exam-selected の再宣言を消さないこと。この規則は study.css:156 より後ろにあるので、
-      書かないと複数選択の「選択中」の青が background ごと上書きされて消える。 */
+      書かないと複数選択の「選択中」の青が background ごと上書きされて消える。
+
+   ⚠️⚠️ 水平の「線」を1本も作らないこと（2026-08-19 にユーザー報告を受けて全部落とした）。
+      初版はキーキャップらしさを出すために
+        inset 0 1px 0 --exam-bevel-hi   … 各肢の上端に明るい線
+        inset 0 -1px 0 --exam-bevel-lo  … 各肢の下端に暗い線
+        0 2px 0 --exam-copper           … 各肢の直下に硬い銅の側壁
+      の3本を置いていたが、肢は負マージンで詰めて積んであるので**各行に罫線が引かれた表**に
+      見え、とくに銅の側壁が**下線そのもの**に見えた。
+      これは見た目の好みの問題では済まない——**下線部はこの教材では意味を持つ記号**で、
+      「本文中の下線部①〜⑤が選択肢そのもの」という問題が実在する（整形外科 NO.167/171・
+      NO.142、放射線科 NO.2 など）。装飾の線がそこに紛れると設問の読解を壊す。
+      キーの立体感は「硬い線」ではなく**拡散した影＋わずかな浮き**だけで出すこと。
+      負の spread(-3px) は影を要素より内側へ縮めて、左右の端で線状に伸びるのを防いでいる。 */
 body.exam-mode .qc.exam-deciding .ch2{
-  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(0,0,0,.13));
-  /* ⚠️ 明線(--exam-bevel-hi)と暗線(--exam-bevel-lo)は必ず対で置くこと。明線だけだと「地が少し
-        明るい帯」に見えるだけで、対になって初めてキーの縁＝金属に見える（Phase 4 §5-7 と同じ要）。 */
-  box-shadow:inset 0 1px 0 var(--exam-bevel-hi),inset 0 -1px 0 var(--exam-bevel-lo),
-             0 2px 0 var(--exam-copper),0 3px 5px rgba(0,0,0,.34);
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.012));
+  box-shadow:0 3px 8px -3px rgba(0,0,0,.5);
   animation:examKeycapUp .3s cubic-bezier(.34,1.56,.64,1) both;
 }
 body.exam-mode .qc.exam-deciding .ch2.exam-selected{background:rgba(96,165,250,.2);}
