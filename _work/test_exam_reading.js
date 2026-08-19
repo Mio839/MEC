@@ -224,6 +224,13 @@ t('14. R8 は疑似要素のアニメを getAnimations({subtree:true}) で掴む
   assert.ok(/getAnimations\(\s*\{\s*subtree:\s*true\s*\}\s*\)/.test(b),
     'subtree:true が無い（::after のアニメは element.animate() では作れない）');
   assert.ok(/catch\s*\(/.test(b), '未対応環境の受けが無い（例外を投げてはいけない）');
+  /* ⚠️ getAnimations() は CSS transition も返す。名前で絞らないと歯車の scale/opacity の
+     transition まで加速され、膨らみのバネ(.16s)が潰れて瞬間移動に見える（実機で踏んだ）。 */
+  assert.ok(/_isNamedAnim\(/.test(b),
+    'CSS transition を除外していない（歯車の膨らみのバネが playbackRate で潰れる）');
+  const named = fnBody('_isNamedAnim');
+  assert.ok(named && /animationName/.test(named),
+    '_isNamedAnim が animationName で判別していない');
 });
 
 // ══ 7. R10 / R2：タイマーは種類ごとに1本、歯車は稼働灯に連動 ══════════════════
@@ -459,6 +466,82 @@ t('31. 火花は歯車から飛び、加算合成にしない（光の玉では�
   assert.ok(p.slice(end).includes('_examGearBlow()'), '放出で歯車が膨らまない');
   assert.ok(!p.slice(i0, end).includes('_examGearBlow'),
     '読書中の噴気でも歯車が膨らむ（原則1・2に反する）');
+});
+
+t('32. 膨らんだ歯車は回転が止まらない（D9 の「1拍止まる」を上書きする）', () => {
+  /* ⚠️ 解答した瞬間に D9 が exam-idle-lit を外して歯車を止める（1拍止まる）。
+     .ep-gear-blow が animation-play-state:running を強制していないと、膨らんだ歯車は
+     停止したままで、playbackRate をいくら上げても1frameも回らない。 */
+  const blow = RULES.find(r => /\.ep-gear-blow/.test(r.sel));
+  assert.ok(blow, '.ep-gear-blow のルールが無い');
+  assert.ok(/animation-play-state\s*:\s*running/.test(blow.body),
+    '膨らんだ歯車が running を強制していない → 解答直後は D9 が止めているので回らない');
+  // 速さは playbackRate（位相が飛ばない）。CSS で duration を差し替えない。
+  assert.ok(!/animation-duration|animation\s*:/.test(blow.body),
+    '.ep-gear-blow が animation を差し替えている（位相が飛んで歯車がワープする）');
+  const rate = /GEAR_BLOW_RATE\s*=\s*([\d.]+)/.exec(JS);
+  assert.ok(rate && parseFloat(rate[1]) >= 5,
+    '吹き上がりの倍率が小さすぎる（' + (rate && rate[1]) + '）＝速くなったと分からない');
+  // 表示時間が1回転ぶんに足りていること（基本周期 5.6s ÷ 倍率 < 表示時間）
+  const ms = /GEAR_BLOW_MS\s*=\s*(\d+)/.exec(JS);
+  const base = /epGearSpin\s+([\d.]+)s/.exec(CSS_NC);
+  assert.ok(ms && base, 'GEAR_BLOW_MS / 基本周期が読めない');
+  const perTurn = parseFloat(base[1]) * 1000 / parseFloat(rate[1]);
+  assert.ok(parseFloat(ms[1]) >= perTurn,
+    '膨らみが ' + ms[1] + 'ms しか無く1回転(' + Math.round(perTurn) + 'ms)に届かない');
+});
+
+t('33. playbackRate の持ち主は _machSurge 1つ（2経路が打ち消し合わない）', () => {
+  /* ⚠️ スクロール応答(R8)と歯車の吹き上がり(R2)が別々のタイマー列を持つと、片方の減速が
+     もう片方の加速を打ち消して「たまに速くならない」という追えない挙動になる。 */
+  const surge = fnBody('_machSurge');
+  assert.ok(surge, '_machSurge が見つからない');
+  assert.ok(/_machDecayTimers\.forEach\(clearTimeout\)/.test(surge),
+    '張り直す前に既存のタイマーを落としていない');
+  ['_examScrollPulse', '_examGearBlow'].forEach(fn => {
+    const b = fnBody(fn);
+    assert.ok(/_machSurge\(/.test(b), fn + ' が _machSurge を経由していない');
+    assert.ok(!/_setMachineRate\(/.test(b),
+      fn + ' が _setMachineRate を直接叩いている（持ち主を1つに保つこと）');
+  });
+});
+
+t('34. 濃い煙は粒数ではなく alpha と色で作る（描画面積は粒径の2乗で効く）', () => {
+  const b = fnBody('_examPuffSteam');
+  const i0 = b.indexOf('if (!release)');
+  let j = b.indexOf('{', i0), depth = 0, end = -1;
+  for (; j < b.length; j++) {
+    if (b[j] === '{') depth++;
+    else if (b[j] === '}') { depth--; if (!depth) { end = j; break; } }
+  }
+  const rel = b.slice(end);
+  const alpha = parseFloat(/alpha:\s*([\d.]+)/.exec(rel)[1]);
+  assert.ok(alpha >= .75, '放出の alpha が薄い（' + alpha + '）＝濃い煙に見えない');
+  // 弁元（核）が最も暗い＝厚みのある煙に見える
+  const tones = /STEAM_TONES\s*=\s*\[([^\]]+)\]/.exec(JS);
+  assert.ok(tones, 'STEAM_TONES が無い');
+  const lum = tones[1].match(/#[0-9A-Fa-f]{6}/g).map(h => {
+    const n = parseInt(h.slice(1), 16);
+    return ((n >> 16 & 255) + (n >> 8 & 255) + (n & 255)) / 3;
+  });
+  assert.ok(lum.length >= 2, 'STEAM_TONES が1色しかない（核と外周の差が作れない）');
+  for (let i = 1; i < lum.length; i++) {
+    assert.ok(lum[i] > lum[i - 1],
+      'STEAM_TONES が「核ほど暗い」順になっていない（' + lum.join(' → ') + '）');
+  }
+  assert.ok(lum[0] >= 90, '核が暗すぎる（' + lum[0] + '）＝濃紺系のベース配色に沈んで見えなくなる');
+  // 描画コストの上限を見張る（max*(1+grow) 角 × 粒数）
+  const max = parseFloat(/max:\s*([\d.]+)/.exec(rel)[1]);
+  const grow = parseFloat(/grow:\s*([\d.]+)/.exec(rel)[1]);
+  const head = parseFloat(/count:\s*Math\.\w+\((\d+)/.exec(rel)[1]);
+  const steps = parseFloat(/STEAM_STEPS\s*=\s*(\d+)/.exec(JS)[1]);
+  // 片弁の粒数（head, head-2, ...）× 2弁
+  let n = 0; for (let s = 0; s < steps; s++) n += head - 2 * s;
+  n *= 2;
+  const side = max * (1 + grow);
+  assert.ok(n * side * side <= 30e6,
+    '放出の描画面積が大きすぎる（' + n + '粒 × ' + Math.round(side) + 'px角＝' +
+    Math.round(n * side * side / 1e6) + 'Mpx/frame）→ iPad でコマ落ちする');
 });
 
 // ══ 10. exitExam が Phase 5 の痕跡を全部落とす ═══════════════════════════════

@@ -458,7 +458,11 @@ body.exam-mode .exam-prog{display:flex;}
    ⚠️ 倍率を上げるときは右の歯車から画面右端までの約110px（タイマーと終了ボタンのぶん・画面幅に
       依らない）を超えないこと。超えると iOS Safari がレイアウトビューポートを広げ、
       2026-08-19 のページ縮尺の振動が再発する。13px×3.2＝41.6px＝中心から20.8px なので余裕がある。 */
-body.exam-mode .ep-gear.ep-gear-blow{scale:3.2;opacity:.95;
+/* ⚠️ 膨らんでいる間は animation-play-state:running を強制すること。解答した瞬間は D9 が
+      exam-idle-lit を外して歯車を止める（1拍止まる）ので、これが無いと**膨らんだ歯車は
+      停止したまま**で、回転を速くしても1frameも見えない。圧を抜いた瞬間に弾み車が回り上がる、
+      という絵にする（速さ自体は JS が playbackRate で付ける＝位相が飛ばない）。 */
+body.exam-mode .ep-gear.ep-gear-blow{scale:3.2;opacity:.95;animation-play-state:running;
   transition:scale .16s cubic-bezier(.34,1.8,.64,1),opacity .16s ease;}
 .ep-gear-b{animation-direction:reverse;}
 body.exam-mode.exam-idle-lit .ep-gear{animation-play-state:running;}

@@ -1,3 +1,16 @@
+// 2026-08-19h: 歯車を吹き上がらせ、火花と煙をさらに大きく・濃くした。歯車は膨らんでいる間
+// playbackRate 14倍（約0.4秒/回転）で回り、表示も 520→680ms（1回転半ぶん読める）。
+// ⚠️⚠️ .ep-gear-blow に animation-play-state:running を強制しないと1frameも回らない——
+// 解答した瞬間は D9 が exam-idle-lit を外して歯車を止めている（1拍止まる）ため。
+// ⚠️⚠️ getAnimations() は CSS transition も返す。名前で絞らずに playbackRate を書き換えると
+// 歯車の scale/opacity の transition まで加速され、膨らみのバネ(.16s)が14倍速で潰れて瞬間移動に
+// 見える（実機で確認して _isNamedAnim を追加）。⚠️ playbackRate の持ち主は _machSurge 1つに
+// 寄せること（R8 とR2 が別々のタイマー列を持つと片方の減速が他方の加速を打ち消す）。
+// 火花は count 16→26・scale .85→2.2・speed 640→900（⚠️大きさは tier ではなく scale で上げる。
+// tier は speed の既定と ttl も動かすので「大きく」ではなく「遠くまで長く飛ぶ」になる）。
+// 煙は alpha .55→.82・max 110→130・粒数 64→88、色を STEAM_TONES で核ほど暗くして厚みを出した。
+// ⚠️ 濃さは粒数と粒径ではなく alpha と色で稼ぐこと——描画面積は粒径の2乗で効く（現在
+// 546px角×88粒＝約26Mpx/frame。テストが30Mpxを上限に見張る）。シェルのみ＝CACHE は据え置き。
 // 2026-08-19g: 蒸気の放出(R1)をさらに拡大し、歯車の膨らみと火花(R2)を足した。左右の弁から
 // それぞれ内側へ4段の小噴出（計8点・64粒・最大110px）を撒き、画面中央で重なる。⚠️ 到達距離は
 // 必ず画面幅に比例させること（STEAM_SPAN=.42）——固定 px だと iPad で中央を越え、1920 では
@@ -246,7 +259,7 @@ const CACHE = "mec-v168";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-19g";
+const SHELL_VERSION = "2026-08-19h";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

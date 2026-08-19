@@ -3690,6 +3690,12 @@ function _examPressureBuilt(card) {
       距離は伸びにくいので、届かせるのは速度ではなく **発生位置の分散（下の STEPS）**で作る。 */
 const STEAM_SPAN = .42;   // 弁から内側へ伸ばす割合（画面幅比）
 const STEAM_STEPS = 4;    // 弁元から内へ向かう小噴出の数（弁元ほど濃い）
+/* 「濃い煙」は alpha だけでなく色でも作る。**弁元（核）を暗く、外へ行くほど明るく**すると
+   厚みのある煙に見える（本物の濃煙も核が暗い）。⚠️ 真っ黒にしないこと——蒸気機関の湯気で
+   あって火災の煙ではないし、暗くしすぎると濃紺系のベース配色に沈んで逆に見えなくなる。
+   ⚠️ glowSprite は色ごとにキャッシュされるので、色を増やすとスプライトが増える（4色なら4枚）。
+      色をランダムにしないこと（毎回新しいスプライトを焼くことになる）。 */
+const STEAM_TONES = ['#B9B0A0', '#CFC6B4', '#E0DACB', '#EFEAE0'];
 function _examPuffSteam(release) {
   if (!window.MecFX || _fxOff()) return;
   const b = _fxBand(), y = _examFxHeaderBottom();
@@ -3709,12 +3715,15 @@ function _examPuffSteam(release) {
     const t = s / (STEAM_STEPS - 1);              // 0=弁元 → 1=最も内側
     const dx = b.width * STEAM_SPAN * t;
     const o = {
-      // 弁元が濃く、内へ行くほど薄い（11+9+7+5＝片弁32粒・両弁で64粒）
-      count: Math.round(11 - 2 * s), alpha: .55 - .06 * s, w: w,
+      // 弁元が濃く、内へ行くほど薄い（14+12+10+8＝片弁44粒・両弁で88粒）
+      count: Math.round(14 - 2 * s), alpha: .82 - .07 * s, w: w,
       // ⚠️ rise を上げすぎないこと。発生源はレール（試験ヘッダの下端＝実測 y≒209）で画面上端
       //    までの余地がそれしかなく、初速を上げると寿命1.0〜1.9秒の半分以上を画面外で使い
       //    「速く抜ける細い噴射」になる。大きさは速度ではなく滞留時間と粒径(grow)で出す。
-      rise: 170, min: 24, max: 110, grow: 3, color: '#E8E2D4',
+      // ⚠️ 粒径は描画面積に「2乗で」効く。steam の1粒は最大 max*(1+grow) 角のスプライトを
+      //    毎フレーム drawImage するので、130×4.2＝546px 角×88粒が上限になる。濃さを上げたい
+      //    ときは粒数と粒径ではなく **alpha と色**で稼ぐこと（こちらは実質タダ）。
+      rise: 170, min: 26, max: 130, grow: 3.2, color: STEAM_TONES[s] || STEAM_TONES[0],
       blend: false, stagger: .3, delay: s * .05    // 内側ほど遅らせて「伸びていく」ように見せる
     };
     MecFX.steam(b.left  + 34 + dx, y, Object.assign({ vx:  240 }, o));
@@ -3735,7 +3744,7 @@ function _examPuffSteam(release) {
       GEAR_BLOW_SCALE を上げるときはこの余白を超えないこと——超えると iOS Safari が
       レイアウトビューポートを広げ、2026-08-19 のページ縮尺の振動が再発する。
    ⚠️ タイマーは1本。張り直す前に必ず clearTimeout する。 */
-const GEAR_BLOW_MS = 520;
+const GEAR_BLOW_MS = 680;   // ⚠️ 回転(約0.4秒/回転)が1回転半ぶん読める長さ。短くすると速さが伝わらない
 let _gearBlowTimer = null;
 function _examGearBlow() {
   const gears = [...document.querySelectorAll('.ep-gear')];
@@ -3744,14 +3753,20 @@ function _examGearBlow() {
     g.classList.add('ep-gear-blow');
     const r = g.getBoundingClientRect();
     if (!r.width) return;
-    // 火花。⚠️ additive:false を必ず渡すこと（既定は加算合成＝光の玉になって金属片に見えない）。
+    /* 火花。⚠️ additive:false を必ず渡すこと（既定は加算合成＝光の玉になって金属片に見えない）。
+       ⚠️ 大きさは tier ではなく scale で上げること——tier は maxSz だけでなく speed の既定と
+          ttl も動かすので、tier を上げると「大きく」ではなく「遠くまで長く飛ぶ」になる。
+          ここでは speed を明示しているぶん tier の影響は maxSz と ttl に限られる。 */
     MecFX.burst(r.left + r.width / 2, r.top + r.height / 2, {
-      count: 16, tier: 3, scale: .85, speed: 640,
+      count: 26, tier: 5, scale: 2.2, speed: 900,
       colors: ['#E0C25E', '#C9A227', '#B87333', '#FFD9A0'],
       shapes: ['shard', 'square'],
       gravity: 1500, upBias: 40, additive: false, glow: false
     });
   });
+  // 圧を抜いた瞬間に弾み車が回り上がる。⚠️ CSS 側で animation-play-state:running を強制して
+  // いないと、この時点で D9 が歯車を止めている（1拍止まる）ので1frameも回らない。
+  _machSurge(GEAR_BLOW_RATE, GEAR_BLOW_DECAY);
   clearTimeout(_gearBlowTimer);
   _gearBlowTimer = setTimeout(() => {
     _gearBlowTimer = null;
@@ -3772,7 +3787,15 @@ function _examSteamTick() {
       getAnimations({subtree:true}) で掴む。掴めなければ何もしない（機能低下で済ませる）。 */
 const MACH_SCROLL_RATE = 2.4;
 const MACH_DECAY_STEPS = [[1.7, 220], [1.25, 420], [1, 620]];
+// 圧を抜いた瞬間に弾み車が回り上がる（R2）。基本周期 5.6s なので 14倍＝約0.4秒/回転。
+const GEAR_BLOW_RATE = 14;
+const GEAR_BLOW_DECAY = [[6, 380], [2.5, 560], [1, 700]];
 let _machDecayTimers = [];
+/* ⚠️⚠️ getAnimations() は **CSS transition も返す**。名前で絞らずに playbackRate を書き換えると、
+   歯車の scale/opacity の transition まで一緒に加速され、**膨らみのバネ(.16s)が14倍速で潰れて
+   瞬間移動に見える**（2026-08-19 に実機で確認）。速さを変えてよいのは「回り続けているもの」
+   ＝名前を持つ CSSAnimation だけ。animationName の有無で判別する。 */
+function _isNamedAnim(a) { return !!(a && a.animationName); }
 function _machineAnims() {
   const out = [];
   const hdr = document.querySelector('.st-hdr');
@@ -3780,26 +3803,32 @@ function _machineAnims() {
     try {
       hdr.getAnimations({ subtree: true }).forEach(a => {
         const ef = a.effect;
-        if (ef && ef.pseudoElement === '::after' && ef.target === hdr) out.push(a);
+        if (_isNamedAnim(a) && ef && ef.pseudoElement === '::after' && ef.target === hdr) out.push(a);
       });
     } catch (e) { /* 未対応環境では稼働灯の速度だけ据え置き */ }
   }
   document.querySelectorAll('.ep-gear').forEach(el => {
-    if (el.getAnimations) { try { el.getAnimations().forEach(a => out.push(a)); } catch (e) {} }
+    if (!el.getAnimations) return;
+    try { el.getAnimations().forEach(a => { if (_isNamedAnim(a)) out.push(a); }); } catch (e) {}
   });
   return out;
 }
 function _setMachineRate(r) {
   _machineAnims().forEach(a => { try { a.playbackRate = r; } catch (e) {} });
 }
-function _examScrollPulse() {
+/* 速度を一段上げてから段階的に戻す。スクロール応答(R8)と歯車の吹き上がり(R2)の共通の口。
+   ⚠️ playbackRate の持ち主を1つにしておくこと。2つの経路が別々のタイマー列を持つと、
+      片方の減速がもう片方の加速を打ち消して「たまに速くならない」という追えない挙動になる。
+      ここでは必ず既存のタイマーを全部落としてから張り直す＝最後に呼んだ方が勝つ。
+   ⚠️ 一気に 1 へ戻すと velocity が跳ねるので段で落とす（位相は playbackRate では飛ばない）。 */
+function _machSurge(rate, steps) {
   if (!examMode || _fxOff()) return;
   _machDecayTimers.forEach(clearTimeout); _machDecayTimers = [];
-  _setMachineRate(MACH_SCROLL_RATE);
-  // 一気に 1 へ戻すと velocity が跳ねるので段で落とす（位相は playbackRate では飛ばない）
-  MACH_DECAY_STEPS.forEach(([rate, ms]) => {
-    _machDecayTimers.push(setTimeout(() => _setMachineRate(rate), ms));
-  });
+  _setMachineRate(rate);
+  steps.forEach(([r, ms]) => _machDecayTimers.push(setTimeout(() => _setMachineRate(r), ms)));
+}
+function _examScrollPulse() {
+  _machSurge(MACH_SCROLL_RATE, MACH_DECAY_STEPS);
 }
 
 /* R10: 60秒動きが無ければ機械が休み、動いたら起動シーケンスを見せる。
