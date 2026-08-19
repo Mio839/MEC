@@ -5021,39 +5021,39 @@
      "uid": "hbp_ch02_q87",
      "qn": "Q.87",
      "episode": "(103F-11)",
-     "rate": -1,
-     "rate_cls": "",
-     "rate_text": "",
+     "rate": 97,
+     "rate_cls": "ch",
+     "rate_text": "正答率 97%",
      "badges": [
       {
        "cls": "bs",
        "t": "★"
       }
      ],
-     "qt": "針刺し事故を起こした医療従事者に対し、事故後48 時間以内に抗HBs ヒト免疫グロブリン投与を行うべき組合せはどれか。<br/>患　　　者医療従事者HBs 抗原HBs 抗体HBs 抗原HBs 抗体",
+     "qt": "針刺し事故を起こした医療従事者に対し、事故後48 時間以内に抗HBs ヒト免疫グロブリン投与を行うべき組合せはどれか。",
      "choices": [
       {
-       "t": "ａ　＋\n－\n－\n＋",
+       "t": "ａ　患者：HBs抗原 ＋・HBs抗体 －／医療従事者：HBs抗原 －・HBs抗体 ＋",
        "ok": false
       },
       {
-       "t": "ｂ　＋\n－\n－\n－",
+       "t": "ｂ　患者：HBs抗原 ＋・HBs抗体 －／医療従事者：HBs抗原 －・HBs抗体 －",
        "ok": true
       },
       {
-       "t": "ｃ　－\n＋\n－\n＋",
+       "t": "ｃ　患者：HBs抗原 －・HBs抗体 ＋／医療従事者：HBs抗原 －・HBs抗体 ＋",
        "ok": false
       },
       {
-       "t": "ｄ　－\n＋\n－\n－",
+       "t": "ｄ　患者：HBs抗原 －・HBs抗体 ＋／医療従事者：HBs抗原 －・HBs抗体 －",
        "ok": false
       },
       {
-       "t": "ｅ　－\n＋\n＋\n－",
+       "t": "ｅ　患者：HBs抗原 －・HBs抗体 ＋／医療従事者：HBs抗原 ＋・HBs抗体 －",
        "ok": false
       }
      ],
-     "ans_label": "b　（患者HBs抗原陽性＋医療者HBs抗体陰性）",
+     "ans_label": "ｂ　患者：HBs抗原 ＋・HBs抗体 －／医療従事者：HBs抗原 －・HBs抗体 －",
      "ans_sub": "",
      "eg": [
       {
