@@ -813,6 +813,10 @@ function startExam(overrideUids = null) {
   }, 1000);
   document.addEventListener('keydown', _examKeyHandler);
   window.addEventListener('scroll', _onExamScroll, { passive: true });
+  // Phase 5 段2: R1 の圧（蒸気）と R10 のスリープ番。⚠️ どちらも exitExam で必ず落とすこと。
+  clearInterval(_examSteamInt);
+  _examSteamInt = setInterval(_examSteamTick, STEAM_EVERY_MS);
+  _armExamSleep();
   requestAnimationFrame(_updateExamFocus);
   const modeBtn = document.getElementById('examModeBtn');
   if (modeBtn) { modeBtn.textContent = '📖 終了'; modeBtn.classList.add('exam-on'); modeBtn.onclick = exitExam; }
@@ -822,6 +826,12 @@ function startExam(overrideUids = null) {
   // B6/B7: 幕が明けてから1問目を立ち上げる。カウントダウン中に走らせると誰も見ていない。
   setTimeout(() => {
     if (!examMode) return;
+    // Phase 5(2026-08-19): 開始直後だけ焦点が付かない穴をここで塞ぐ。上の
+    // requestAnimationFrame(_updateExamFocus) はカードが出そろう前に1度走るだけで、次に走るのは
+    // 最初のスクロールか解答だった。2026-08-19 に「稼働灯が点かないだけ」として一度は許容したが、
+    // 段1（R3 焦点枠の色・R5 クランプ・R13 持ち上げ）が全部この状態にぶら下がるので判断を覆した。
+    // ⚠️ 直すのはここ1か所。_getExamTargetCard() の条件は触らないこと（解答直後の焦点移動が壊れる）。
+    _updateExamFocus();
     _firstCardEntrance(examQueue[0]);
     setTimeout(() => { if (examMode) _revealShuffleFx(_firstFlips); }, 180);
   }, _cdEnd + 60);
@@ -3583,11 +3593,39 @@ function _getExamTargetCard() {
   const visibleCards = [...document.querySelectorAll('.qc[data-uid]')].filter(c => c.style.display !== 'none' && !c.classList.contains('exam-revealed'));
   return visibleCards.find(c => c.getBoundingClientRect().bottom > hdrH) || null;
 }
+/* R3(Phase 5): 連続正解を読書中も残す。tier の色を焦点枠（盤面側）へ流す。
+   ⚠️ クランプ(R5)は筐体なので真鍮固定＝ここで色を振るのは outline と glow だけ。
+   ⚠️ tier で配列を引くときは必ず _tIdx を使う（Math.min(tier,6) を新しく書かない）。
+   ⚠️ 呼ぶ場所は _updateExamFocus の中だけ。誤答時は C1（コンボメーター崩落）が examStreak を
+      読んでから同期処理が走る順になっており、先に色を戻すと崩落と競合する。 */
+function _hexToRgba(hex, a) {
+  const m = /^#([0-9a-f]{6})$/i.exec(String(hex || ''));
+  if (!m) return null;
+  const n = parseInt(m[1], 16);
+  return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')';
+}
+function _syncFocusStreakColor() {
+  const st = document.body.style;
+  const cols = _examTheme().comboColors;
+  const c = examStreak >= 2 && cols ? cols[_tIdx(_examTier(examStreak), cols)] : null;
+  const glow = c ? _hexToRgba(c, .22) : null;
+  if (c && glow) { st.setProperty('--exam-focus-c', c); st.setProperty('--exam-focus-glow', glow); }
+  else { st.removeProperty('--exam-focus-c'); st.removeProperty('--exam-focus-glow'); }
+}
+
 function _updateExamFocus() {
   const prevFocus = document.querySelector('.qc.exam-key-focus');
   const card = _getExamTargetCard();
-  document.querySelectorAll('.qc.exam-key-focus').forEach(c => c.classList.remove('exam-key-focus'));
-  if (card) { card.classList.add('exam-key-focus'); _markCardSeen(card); }
+  // ⚠️ 焦点が変わっていない時は付け替えないこと。R5 のクランプは class 付与でアニメが走るので、
+  //    スクロールのたびに remove→add すると閉じる動きが繰り返される（この関数はスクロールで
+  //    一番呼ばれる）。同一タスク内の remove→add は再生されないが、依存させずに明示で守る。
+  if (prevFocus !== card) {
+    document.querySelectorAll('.qc.exam-key-focus').forEach(c => c.classList.remove('exam-key-focus'));
+    if (card) card.classList.add('exam-key-focus');
+  }
+  if (card) _markCardSeen(card);
+  _syncFocusStreakColor();   // R3
+  _examIOWatch(card);        // 段3: 監視対象を焦点カードのぶんだけに張り替える
 
   // ── D9 稼働灯 ───────────────────────────────────────────────────────────
   clearTimeout(_examIdleTimer); _examIdleTimer = null;  // ★張り直す前に必ず落とす
@@ -3595,6 +3633,10 @@ function _updateExamFocus() {
   // 直前まで焦点だったカードが解答済みになった＝「答えた瞬間」。ここで止めるのが D9 の要。
   if (prevFocus && prevFocus !== card && prevFocus.classList.contains('exam-revealed')) {
     _examIdleHoldUntil = Date.now() + EXAM_IDLE_BEAT_MS;
+    // R1(Phase 5): 溜まっていた圧を解答の瞬間に放出する。⚠️ ここに置く理由は D9 と同じで、
+    // この分岐が単一・複数選択・計算・採点除外の**全経路**を1か所で捉える唯一の場所だから
+    // （_afterCorrectFx は複数選択を通らず、_tallyQuestion は3箇所に散る）。
+    if (_examPressureBuilt(prevFocus)) _examPuffSteam(true);
   }
   if (!card) { document.body.classList.remove('exam-idle-lit'); return; }
   const uid = card.dataset.uid || null;
@@ -3608,12 +3650,182 @@ function _updateExamFocus() {
     if (examMode && !_fxOff() && _getExamTargetCard()) document.body.classList.add('exam-idle-lit');
   }, wait);
 }
+/* ══ Phase 5 段2(2026-08-19): 稼働灯まわり ═══════════════════════════════════
+   R1 圧が溜まり解答で放出する（蒸気）／R8 スクロールに機械が応答する／R10 離席でスリープ。
+   設計 §11-5。 */
+
+/* R1: 読書が FAST_TIER_MS[2]（7秒＝A3 が「速答ではない」と判定する境目）を超えたら圧が溜まる。
+   ⚠️ 新しいしきい値の定数を作らないこと。この再利用によって「A3 が褒める区間は静かで、
+      褒めない区間だけ機械が動く」という筋が通る（D9 のコメントが既に提案していた）。
+   ⚠️ 経過時刻の帳簿を新設しないこと。_examCardSeenAt（_markCardSeen が記録・速答判定の起点）が正本。 */
+const STEAM_EVERY_MS = 3200;
+let _examSteamInt = null;
+function _examPressureBuilt(card) {
+  const uid = card && card.dataset && card.dataset.uid;
+  const t0 = uid ? _examCardSeenAt.get(uid) : 0;
+  return !!t0 && (Date.now() - t0) >= FAST_TIER_MS[2];
+}
+/* 蒸気はレール（＝ヘッダ下端）の両端の安全弁から上がる。
+   ⚠️ blend:false を必ず渡すこと。加算合成にすると湯気ではなく発光体になる（ハブのゲージで踏んだ罠）。
+   ⚠️ 量を増やさないこと。原則1（周辺視野）・原則2（文字に重ねない）を守る薄さで止める。 */
+function _examPuffSteam(release) {
+  if (!window.MecFX || _fxOff()) return;
+  const b = _fxBand(), y = _examFxHeaderBottom();
+  [b.left + 26, b.right - 26].forEach(x => {
+    MecFX.steam(x, y, {
+      count: release ? 7 : 3, alpha: release ? .40 : .26, w: 7,
+      rise: release ? 150 : 74, min: 14, max: release ? 44 : 28,
+      grow: 1.8, color: '#E8E2D4', blend: false, stagger: release ? .18 : .5
+    });
+  });
+}
+function _examSteamTick() {
+  if (!examMode || _fxOff() || document.hidden) return;
+  if (document.body.classList.contains('exam-asleep')) return;
+  const card = _getExamTargetCard();
+  if (card && _examPressureBuilt(card)) _examPuffSteam(false);
+}
+
+/* R8: スクロール中だけ機械が速く回る＝「待っている機械」から「読みに追従する機械」へ。
+   ⚠️⚠️ animation-duration を書き換えてはいけない。走行中に duration を変えると進捗率が
+      不連続に飛び、光がワープする。playbackRate は位相を保つので飛ばない。
+   ⚠️ 疑似要素(.st-hdr::after)のアニメは element.animate() では作れないので
+      getAnimations({subtree:true}) で掴む。掴めなければ何もしない（機能低下で済ませる）。 */
+const MACH_SCROLL_RATE = 2.4;
+const MACH_DECAY_STEPS = [[1.7, 220], [1.25, 420], [1, 620]];
+let _machDecayTimers = [];
+function _machineAnims() {
+  const out = [];
+  const hdr = document.querySelector('.st-hdr');
+  if (hdr && hdr.getAnimations) {
+    try {
+      hdr.getAnimations({ subtree: true }).forEach(a => {
+        const ef = a.effect;
+        if (ef && ef.pseudoElement === '::after' && ef.target === hdr) out.push(a);
+      });
+    } catch (e) { /* 未対応環境では稼働灯の速度だけ据え置き */ }
+  }
+  document.querySelectorAll('.ep-gear').forEach(el => {
+    if (el.getAnimations) { try { el.getAnimations().forEach(a => out.push(a)); } catch (e) {} }
+  });
+  return out;
+}
+function _setMachineRate(r) {
+  _machineAnims().forEach(a => { try { a.playbackRate = r; } catch (e) {} });
+}
+function _examScrollPulse() {
+  if (!examMode || _fxOff()) return;
+  _machDecayTimers.forEach(clearTimeout); _machDecayTimers = [];
+  _setMachineRate(MACH_SCROLL_RATE);
+  // 一気に 1 へ戻すと velocity が跳ねるので段で落とす（位相は playbackRate では飛ばない）
+  MACH_DECAY_STEPS.forEach(([rate, ms]) => {
+    _machDecayTimers.push(setTimeout(() => _setMachineRate(rate), ms));
+  });
+}
+
+/* R10: 60秒動きが無ければ機械が休み、動いたら起動シーケンスを見せる。
+   ⚠️ 「放置＝叱られている」に見せないこと。暗くするだけで印（レール・溝・リベット）は残す。
+   ⚠️ タイマーは D9 の _examIdleTimer とは別に1本持ち、張り直す前に必ず clearTimeout する
+      （_armHold・_startGaugeAmbient・D9 で同じ型の前科が3件ある）。 */
+const EXAM_SLEEP_MS = 60000;
+let _examSleepTimer = null;
+let _examWakeTimer = null;
+function _armExamSleep() {
+  clearTimeout(_examSleepTimer); _examSleepTimer = null;
+  if (!examMode || _fxOff()) return;
+  _examSleepTimer = setTimeout(() => {
+    _examSleepTimer = null;
+    if (examMode) document.body.classList.add('exam-asleep');
+  }, EXAM_SLEEP_MS);
+}
+function _examWake() {
+  if (!examMode) return;
+  const b = document.body;
+  if (b.classList.contains('exam-asleep')) {
+    b.classList.remove('exam-asleep');
+    if (!_fxOff()) {
+      b.classList.add('exam-waking');
+      clearTimeout(_examWakeTimer);
+      _examWakeTimer = setTimeout(() => { _examWakeTimer = null; b.classList.remove('exam-waking'); }, 900);
+    }
+  }
+  _armExamSleep();
+}
+
+/* ══ Phase 5 段3(2026-08-19): IntersectionObserver を1本だけ立てて共有する ═════
+   R7 読影灯／R9 読む→決めるの相転移／R6 キーキャップ。設計 §11-6。
+   ⚠️⚠️ 全カードを observe してはいけない（最大594枚）。焦点カードが変わったら前のカードの
+      対象を unobserve し、新しいカードの .qimg と最初の .ch2 だけを observe する＝常に数個。
+   ⚠️ rootMargin は 0 のまま。広げると content-visibility:auto のカードの描画を強制することになる。
+   ⚠️ observer は1本。exitExam で必ず disconnect する（通常閲覧へ持ち越さない）。 */
+let _examIO = null;
+let _examIOCard = null;
+
+function _examIOTargets(card) {
+  if (!card) return [];
+  const t = [...card.querySelectorAll('.qimg')];
+  const firstCh = card.querySelector('.ch2');   // 計算問題には .ch2 が無い＝相転移も起きない（正しい）
+  if (firstCh) t.push(firstCh);
+  return t;
+}
+function _ensureExamIO() {
+  if (_examIO || typeof IntersectionObserver !== 'function') return _examIO;
+  _examIO = new IntersectionObserver(ents => {
+    ents.forEach(e => {
+      if (!e.isIntersecting) return;
+      if (e.target.classList.contains('qimg')) _examLightbox(e.target);
+      else _examPhaseDecide(e.target);
+    });
+  }, { threshold: .35 });
+  return _examIO;
+}
+function _examIOWatch(card) {
+  if (_examIOCard === card) return;
+  const io = _ensureExamIO();
+  if (!io) return;
+  _examIOTargets(_examIOCard).forEach(el => io.unobserve(el));
+  if (_examIOCard) _examIOCard.classList.remove('exam-deciding');
+  document.body.classList.remove('exam-phase-decide');
+  _examIOCard = card;
+  if (!card || card.classList.contains('exam-revealed')) return;
+  _examIOTargets(card).forEach(el => io.observe(el));
+}
+
+/* R7: 医療画像が視野に入った瞬間に読影灯が点く。
+   ⚠️ 画像を CSS で暗くしてから JS で戻す形にしないこと。JS が落ちた日に画像が読めなくなる
+      （stats.html の armReveal で同じ失敗の型を踏んでいる）。**素の状態は常に通常表示**で、
+      クラスが付いたときだけ「暗→明」のアニメが一度走る＝失敗しても情報が失われない。
+   ⚠️ 一度点けた画像は二度と点け直さない（スクロールで往復するたびに光ると鬱陶しい）。
+   ⚠️ 拡大表示（.qimg の zoom-in クリック）と競合させないこと＝当たり判定を作らない。 */
+function _examLightbox(img) {
+  if (_fxOff() || img.dataset.examLit) return;
+  img.dataset.examLit = '1';
+  const lite = () => img.classList.add('qimg-lit');
+  if (img.complete && img.naturalWidth) lite();
+  else img.addEventListener('load', lite, { once: true });   // lazy 読込がまだの場合
+}
+
+/* R9: 選択肢が視野に入った＝「読む」から「決める」への相転移。
+   ⚠️ 焦点カードについてのみ判定する（下のカードの選択肢が見えても発火させない）。
+   ⚠️ 稼働灯の停止は R10（スリープ）と経路を分ける＝専用クラスで表し、どちらが消したのか
+      追えるようにしておく（同じ exam-idle-lit を2箇所から落とさない）。 */
+function _examPhaseDecide(el) {
+  const card = el.closest ? el.closest('.qc') : null;
+  if (!card || !card.classList.contains('exam-key-focus')) return;
+  if (card.classList.contains('exam-revealed')) return;
+  card.classList.add('exam-deciding');
+  document.body.classList.add('exam-phase-decide');
+}
+
 function _onExamScroll() {
   if (_examScrollRaf) cancelAnimationFrame(_examScrollRaf);
   _examScrollRaf = requestAnimationFrame(_updateExamFocus);
+  _examScrollPulse();   // R8。⚠️ 代入1回だけに留めること（この関数は最も呼ばれる）
+  _examWake();          // R10
 }
 function _examKeyHandler(e) {
   if (!examMode) return;
+  _examWake();   // R10: キーボードだけで解いている人もスリープから起こす
   const tag = document.activeElement && document.activeElement.tagName;
   if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
   const card = _getExamTargetCard();
@@ -3862,6 +4074,25 @@ function exitExam() {
   document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink', 'exam-sprint', 'exam-idle-lit');
   clearTimeout(_examIdleTimer); _examIdleTimer = null;
   _examIdleHoldUntil = 0; _examIdleFocusUid = null; _examIdleFocusAt = 0;
+  // Phase 5 段1: R3 の焦点色は body のインラインスタイルなので通常閲覧へ持ち越さない。
+  document.body.style.removeProperty('--exam-focus-c');
+  document.body.style.removeProperty('--exam-focus-glow');
+  // Phase 5 段2: R1 の圧・R8 の減速・R10 のスリープを全部落とす。
+  // ⚠️ 1つでも残すと通常閲覧のヘッダで機械が動き続ける（D9 で同じ失敗を踏んでいる）。
+  clearInterval(_examSteamInt); _examSteamInt = null;
+  _machDecayTimers.forEach(clearTimeout); _machDecayTimers = [];
+  _setMachineRate(1);
+  clearTimeout(_examSleepTimer); _examSleepTimer = null;
+  clearTimeout(_examWakeTimer);  _examWakeTimer = null;
+  document.body.classList.remove('exam-asleep', 'exam-waking');
+  // Phase 5 段3: observer は1本しか無いので必ず disconnect（通常閲覧へ持ち越さない）。
+  if (_examIO) { _examIO.disconnect(); _examIO = null; }
+  _examIOCard = null;
+  document.body.classList.remove('exam-phase-decide');
+  document.querySelectorAll('.qc.exam-deciding').forEach(c => c.classList.remove('exam-deciding'));
+  document.querySelectorAll('.qimg.qimg-lit').forEach(el => {
+    el.classList.remove('qimg-lit'); delete el.dataset.examLit;
+  });
   clearInterval(examTimerInt);
   document.removeEventListener('keydown', _examKeyHandler);
   document.removeEventListener('visibilitychange', _examVisibilityHandler);

@@ -142,9 +142,25 @@ t('4. 真鍮トークンが盤面のセレクタに1つも現れない（D6 の�
   });
 });
 
-t('4b. .qc（どの状態でも）に真鍮が1つも現れない', () => {
+/* ⚠️ 2026-08-19（Phase 5 段1）に条件を1段だけ緩めた。旧: 「.qc に真鍮が1つも現れない」。
+   R5（真鍮のクランプ）は焦点カードだけを掴む筐体の部品なので、.exam-key-focus に限って許す。
+   緩めたのはここだけで、「答え終わったカード・素のカードには真鍮を入れない」は据え置き
+   ——傷(C5)・成績(B5)・カード本体が真鍮になると「機械の部品」と「問題」の区別が消えるため。 */
+t('4b. .qc に真鍮が現れてよいのは R5 のクランプと R6 のキーキャップだけ', () => {
   rulesFor('.qc').forEach(r => {
-    assert.ok(!BRASS_RE.test(r.body), '.qc に真鍮が現れる → ' + r.sel.trim());
+    if (!BRASS_RE.test(r.body)) return;
+    // R6: 決断フェーズ（R9）の選択肢＝押す機械のキー。カード面ではなく中身なので許す。
+    if (/\.exam-deciding[^,]*\.ch2/.test(r.sel)) return;
+    assert.ok(/\.exam-key-focus/.test(r.sel),
+      '.qc の非焦点セレクタに真鍮が現れる → ' + r.sel.trim());
+    assert.ok(/:not\(\.exam-revealed\)/.test(r.sel),
+      'R5 は :not(.exam-revealed) で C5 の傷と排他にすること → ' + r.sel.trim());
+  });
+  // ⚠️ カード面そのもの（.qc の素のルール）は据え置き＝「機械の部品」と「問題」の区別を保つ
+  rulesFor('.qc').forEach(r => {
+    if (!BRASS_RE.test(r.body)) return;
+    assert.ok(/\.exam-key-focus|\.exam-deciding/.test(r.sel),
+      'カード面に真鍮が入っている → ' + r.sel.trim());
   });
 });
 
@@ -231,9 +247,31 @@ t('8. 筐体で animation を持つのは .st-hdr::after（D9 稼働灯）だけ
     if (!/(^|;|\s)animation\s*:/.test(r.body)) return;
     animated.push(r.sel.trim());
   });
+  // ⚠️ 2026-08-19（Phase 5 段1）に例外を1つ足した。R5 のクランプは「焦点が移った瞬間に閉じる」
+  //    一度きりの入場アニメで、常時回り続ける演出ではない＝5-6 の「動くのは稼働灯1つだけ」は
+  //    《常時アニメ》についての約束なので破っていない。infinite を持たせないことで担保する。
+  /* ⚠️ 2026-08-19（Phase 5）に約束を精密化した。旧: 「animation を持つのは .st-hdr::after だけ」。
+     新: **常時アニメ（infinite）を持てるのは「稼働灯の状態（.exam-idle-lit）に連動するもの」だけ**。
+     ——稼働灯(D9)と歯車(R2)がこれに当たり、どちらも同じ1つの状態の表現なので
+     「動くのは稼働灯1つだけ」（5-6）の趣旨は保たれている。
+     一度きりの入場・起動アニメ（R5 クランプ・R10 起動シーケンス）は常時ではないので別扱い。 */
+  const INFINITE_OK = ['.st-hdr::after', '.ep-gear'];
   animated.forEach(sel => {
-    assert.ok(/\.st-hdr::after/.test(sel),
+    const r = RULES.find(x => x.sel.trim() === sel);
+    if (r && !/infinite/.test(r.body)) return;            // 一度きりのアニメは対象外
+    assert.ok(INFINITE_OK.some(ok => sel.includes(ok)),
       '筐体に理由のない常時アニメが増えている → ' + sel + '（動くのは稼働灯1つだけ・5-6）');
+  });
+  // 常時アニメを持つ筐体は、稼働灯の状態で止まること＝勝手に回り続けない
+  assert.ok(/exam-idle-lit[^{]*\.ep-gear\{[^}]*animation-play-state\s*:\s*running/.test(FLAT),
+    '歯車(R2)が .exam-idle-lit に連動していない（読書中だけ回り、答えた瞬間に1拍止まる約束）');
+  // 一度きりのアニメが infinite に化けていないこと
+  ['.exam-key-focus', '.exam-waking'].forEach(k => {
+    RULES.forEach(r => {
+      if (!r.sel.includes(k) || !/(^|;|\s)animation\s*:/.test(r.body)) return;
+      assert.ok(!/infinite/.test(r.body),
+        k + ' のアニメが常時になっている → ' + r.sel.trim() + '（入場・起動は1回きりに留めること）');
+    });
   });
   void chassis;
 });
@@ -253,10 +291,16 @@ t('9. .qc / .st-hdr / .sgh の宣言に backdrop-filter が無い（iOS WebKit �
 t('10. .qc の疑似要素の前提が生きている（exam-scar=::before / data-recap=::after）', () => {
   assert.ok(/\.qc\.exam-scar::before\{/.test(FLAT), 'exam-scar が ::before を使う前提が崩れている');
   assert.ok(/\.qc\[data-recap\]::after\{/.test(FLAT), 'data-recap が ::after を使う前提が崩れている');
-  // Phase 4 が .qc に疑似要素を足していないこと（真鍮を含む .qc::before / ::after が無い）
+  /* ⚠️ 2026-08-19（Phase 5 段1）に条件を書き換えた。旧: 「.qc の疑似要素に真鍮が入っていない」。
+     R5 が ::before を使えるのは《層が空いたから》ではなく《状態で排他だから》——
+     .exam-scar は exam-revealed のカードにしか付かず、焦点は _getExamTargetCard() が
+     !exam-revealed で絞った未解答カードにしか付かない。排他の担保はあのフィルタにある。
+     ここでは CSS 側が :not(.exam-revealed) を明示していることを検査して二重に守る。 */
   RULES.forEach(r => {
-    if (!/\.qc[^,]*::(before|after)/.test(r.sel)) return;
-    assert.ok(!BRASS_RE.test(r.body), '.qc の疑似要素に真鍮が入っている → ' + r.sel.trim());
+    if (!/\.qc[^,]*::(before|after)/.test(r.sel) || !BRASS_RE.test(r.body)) return;
+    assert.ok(/\.exam-key-focus[^,]*:not\(\.exam-revealed\)::before/.test(r.sel),
+      '.qc の疑似要素に真鍮が入っている → ' + r.sel.trim() +
+      '（許されるのは .exam-key-focus:not(.exam-revealed)::before ＝ R5 のクランプだけ）');
   });
 });
 
@@ -346,9 +390,14 @@ t('15. レール=::before / 稼働灯=::after／稼働灯は animation-play-stat
   const before = RULES.find(r => /\.st-hdr::before/.test(r.sel));
   const after  = RULES.find(r => /\.st-hdr::after/.test(r.sel));
   assert.ok(before && after, '.st-hdr の ::before / ::after が揃っていない');
-  // レール（::before）は animation を持たない＝静止
-  assert.ok(!/(^|;|\s)animation\s*:/.test(before.body),
-    'レール（::before）が animation を持っている（動くのは稼働灯だけ）');
+  /* レール（::before）は静止。⚠️ 2026-08-19（Phase 5）の例外は R10 の起動シーケンスだけで、
+     これは離席から戻った時に一度きり走る。常時アニメを持たせないことで担保する。 */
+  RULES.forEach(r => {
+    if (!/\.st-hdr::before/.test(r.sel) || !/(^|;|\s)animation\s*:/.test(r.body)) return;
+    assert.ok(/\.exam-waking/.test(r.sel) && !/infinite/.test(r.body),
+      'レール（::before）が動いている → ' + r.sel.trim() +
+      '（許されるのは .exam-waking の一度きりの起動シーケンスだけ）');
+  });
   // 稼働灯（::after）が走る光であること
   assert.ok(/(^|;|\s)animation\s*:/.test(after.body),
     '稼働灯（::after）に animation が無い（レールと ::before/::after を取り違えると光がレールの下に隠れる）');
@@ -358,9 +407,12 @@ t('15. レール=::before / 稼働灯=::after／稼働灯は animation-play-stat
     assert.ok(!/animation-play-state/.test(r.body),
       '稼働灯に animation-play-state が使われている → ' + r.sel.trim());
   });
-  // 消灯は opacity で受ける
-  const lit = RULES.filter(r => /exam-idle-lit/.test(r.sel));
-  assert.ok(lit.length >= 1, '点灯クラス .exam-idle-lit のルールが無い');
+  /* 消灯は opacity で受ける。
+     ⚠️ 2026-08-19（Phase 5）に対象を「稼働灯そのもののルール」へ絞った。歯車(R2)も
+        .exam-idle-lit に連動するが、あちらは animation-play-state で止めるのが正しい
+        ——光は途中で凍ると「固まった」に見えるが、歯車は途中で止まるのが正しい絵だから。 */
+  const lit = RULES.filter(r => /exam-idle-lit/.test(r.sel) && /\.st-hdr::after/.test(r.sel));
+  assert.ok(lit.length >= 1, '点灯クラス .exam-idle-lit の稼働灯ルールが無い');
   lit.forEach(r => {
     const props = (r.body.match(/(^|;)\s*([a-z-]+)\s*:/g) || [])
       .map(s => s.replace(/[;:\s]/g, ''));

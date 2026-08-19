@@ -164,7 +164,92 @@ body.exam-mode .qc.exam-multi-correct::after{content:'✓ 正解';display:block;
 .exam-multi-info{font-size:11px;font-weight:700;padding:4px 8px;margin:4px 0;border-radius:var(--r-sm);background:rgba(var(--glass-rgb),.06);color:var(--ts);border:1.5px solid rgba(255,255,255,.12);transition:background .2s,border-color .2s,color .2s;}
 .exam-multi-info[data-ready="1"]{background:rgba(61,214,140,.1);color:var(--gr);border-color:rgba(61,214,140,.3);}
 .exam-excluded-note{font-size:11px;font-weight:700;padding:5px 9px;margin:5px 0;border-radius:var(--r-sm);background:rgba(196,181,253,.12);color:#C4B5FD;border:1.5px solid rgba(196,181,253,.32);}
-body.exam-mode .qc.exam-key-focus:not(.exam-revealed){outline:3px solid var(--yl);outline-offset:2px;box-shadow:0 0 0 5px rgba(255,184,48,.15);}
+/* ══ Phase 5 段1(2026-08-19): 焦点まわり ══════════════════════════════════════
+   読んでいる 8〜15 秒はほぼ無演出だった（焦点枠は静止・稼働灯は 1px）。設計 §11。
+   R13 焦点カードを持ち上げる／R5 真鍮のクランプで「装填」する／R3 連続正解を枠の色で残す。
+   ⚠️ 命名は Phase 4 と同じ2条件（--exam- 接頭辞 かつ vars.css に同名が無い）を守ること。
+      vars.css が持つ --exam-* は --exam-modal-a / --exam-modal-b の2つだけ＝この2つは安全。 */
+body{
+  --exam-focus-c   : var(--yl);                /* R3: 焦点枠の色。JS が tier 色で上書きする */
+  --exam-focus-glow: rgba(255,184,48,.15);     /* 同上（--yl の RGB）。ぼかし側 */
+}
+/* ⚠️ R13 は .qc の既存 box-shadow（0 4px 24px ＋ inset ハイライト）を必ず書き足すこと。
+      box-shadow はカスケードで合成されないので、書かないと消える＝カードが平らになり、
+      .qc:hover でも戻らない（B5 で同じ注意を書いている）。
+   ⚠️ 焦点枠の色は --exam-focus-c であって真鍮ではない。ここは「盤面」＝可変で正しい
+      （筐体＝真鍮固定という Phase 4 の約束は下のクランプの側が守る）。 */
+body.exam-mode .qc.exam-key-focus:not(.exam-revealed){
+  position:relative;
+  outline:3px solid var(--exam-focus-c);outline-offset:2px;
+  box-shadow:0 0 0 5px var(--exam-focus-glow),
+             0 16px 40px rgba(0,0,0,.5),
+             0 4px 24px rgba(0,0,0,.3),
+             inset 0 1px 0 rgba(255,255,255,.08);
+}
+/* R5: 真鍮のクランプ（上下の顎が閉じてカードを掴む）。
+   ⚠️⚠️ .qc::before を使ってよい理由を消さないこと。C5 の .exam-scar::before と衝突しないのは
+      「.exam-scar が付くのは exam-revealed のカードだけ」「焦点は _getExamTargetCard() が
+      !exam-revealed で絞った未解答カードにしか付かない」という**状態の排他**による。
+      この排他を担保しているのは _getExamTargetCard() のフィルタなので、あそこを触るときは
+      必ずここを思い出すこと。CSS 側も :not(.exam-revealed) を明示して二重に守っている。
+   ⚠️ .qc[data-recap]::after（B5 の成績）と .qc.exam-multi-correct::after は ::after 側＝無関係。
+   ⚠️ クランプは筐体なので真鍮固定。tier にもテーマにも振らない（設計 §11-7 の条件2）。
+   顎は上下 16px の塊・間は 3px の桟。太さを変えられないので background の3層で描いている。 */
+body.exam-mode .qc.exam-key-focus:not(.exam-revealed)::before{
+  content:'';position:absolute;left:0;top:10px;bottom:10px;width:5px;
+  pointer-events:none;z-index:1;
+  background-image:linear-gradient(180deg,var(--exam-brass-hi),var(--exam-copper)),
+                   linear-gradient(180deg,var(--exam-copper),var(--exam-brass-hi)),
+                   linear-gradient(180deg,var(--exam-copper),var(--exam-brass) 50%,var(--exam-copper));
+  background-repeat:no-repeat;
+  background-size:5px 16px,5px 16px,3px 100%;
+  background-position:0 0,0 100%,1px 0;
+  box-shadow:1px 0 0 var(--exam-bevel-lo);
+  animation:examClampIn .34s cubic-bezier(.34,1.56,.64,1) both;
+}
+/* ⚠️ 顎は「箱の中で background-position を動かす」こと。要素ごと transform で外から
+      滑り込ませると .qc の overflow:hidden の外へ出る＝2026-08-19 の縮尺振動と同じ型の罠。 */
+@keyframes examClampIn{
+  from{background-position:0 -20px,0 calc(100% + 20px),1px 0;opacity:0;}
+  to  {background-position:0 0,0 100%,1px 0;opacity:1;}
+}
+
+/* ══ Phase 5 段3(2026-08-19): R7 読影灯 ／ R9 相転移 ／ R6 キーキャップ ═══════
+   ⚠️ セレクタに .qc を含めるかどうかで意味が変わる。画像の枠は「掛ける台」＝カードの装飾では
+      ないので body.exam-mode .qimg（カードに依らない）で書く。 */
+/* R7: 試験中の画像はシャウカステン（読影灯）に掛かっている＝真鍮の枠に嵌る。枠は常時・静的。 */
+body.exam-mode .qimg{border-color:rgba(201,162,39,.5);
+  box-shadow:0 0 0 1px var(--exam-bevel-lo),0 6px 18px rgba(0,0,0,.45);}
+/* ⚠️ 素の状態を暗くしないこと。クラスが付いた時だけ「暗→明」が一度走る形にしてあるので、
+      JS が落ちても画像は普通に読める（stats.html の armReveal で踏んだ失敗の型を避ける）。
+   ⚠️ pointer-events を作らない＝拡大表示（zoom-in）と競合させない。filter だけで作る。 */
+.qimg.qimg-lit{animation:qimgLight .75s ease both;}
+@keyframes qimgLight{
+  0%  {filter:brightness(.30) saturate(.45);}
+  42% {filter:brightness(1.22) saturate(1.06);}
+  100%{filter:none;}
+}
+/* R9: 選択肢が視野に入ったら「読む」から「決める」へ相転移する。稼働灯を止め、肢の側を生かす。
+   ⚠️ 稼働灯を消す経路は R10（スリープ）と分けること＝専用クラスで表し、どちらが消したのか追える
+      ようにしておく。両方が同じ exam-idle-lit を落とすと切り分けができなくなる。 */
+body.exam-mode.exam-phase-decide .st-hdr::after{opacity:0;}
+/* R6: 決断フェーズで選択肢がキーキャップとして起き上がる。
+   ⚠️ R9 と必ずセット。単体では静的で弱く、意味も持たない。
+   ⚠️ .ch2 の padding/margin を変えないこと（負マージンで詰めてあり、.exam-selected と
+      .exam-instant-correct の背景の当たりがずれる）。
+   ⚠️ 計算問題には .ch2 が無い＝何も出ないのが正しい。
+   ⚠️ 下の .exam-selected の再宣言を消さないこと。この規則は study.css:156 より後ろにあるので、
+      書かないと複数選択の「選択中」の青が background ごと上書きされて消える。 */
+body.exam-mode .qc.exam-deciding .ch2{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(0,0,0,.13));
+  /* ⚠️ 明線(--exam-bevel-hi)と暗線(--exam-bevel-lo)は必ず対で置くこと。明線だけだと「地が少し
+        明るい帯」に見えるだけで、対になって初めてキーの縁＝金属に見える（Phase 4 §5-7 と同じ要）。 */
+  box-shadow:inset 0 1px 0 var(--exam-bevel-hi),inset 0 -1px 0 var(--exam-bevel-lo),
+             0 2px 0 var(--exam-copper),0 3px 5px rgba(0,0,0,.34);
+  animation:examKeycapUp .3s cubic-bezier(.34,1.56,.64,1) both;
+}
+body.exam-mode .qc.exam-deciding .ch2.exam-selected{background:rgba(96,165,250,.2);}
+@keyframes examKeycapUp{from{transform:translateY(3px);}to{transform:translateY(-1px);}}
 @keyframes examShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 /* ── Correct answer effects ── */
 @keyframes correctPop{
@@ -342,6 +427,29 @@ body.exam-mode .exam-prog{display:flex;}
   background:linear-gradient(180deg,rgba(0,0,0,.58),rgba(0,0,0,.30)),var(--exam-copper);
   box-shadow:inset 0 1px 0 var(--exam-bevel-lo),inset 0 -1px 0 var(--exam-bevel-hi);}
 .exam-prog-fill{height:100%;background:var(--yl);border-radius:4px;transition:width .3s;}
+/* ══ Phase 5 段2(2026-08-19): R2 歯車 ／ R10 スリープと起動 ═══════════════════
+   ⚠️ 13px は「この行が既に持っている高さ」に収まる寸法。ヘッダを1pxも伸ばさない（§5-5）。
+      .exam-prog は padding:4px と 11px×1.7 の文字＋終了ボタン（約23px）を含むので歯車は行を伸ばさない。
+      ⚠️ 寸法を変えるときは必ず .exam-prog の実測高さを before/after で比べること。
+   ⚠️ 歯車は筐体なので真鍮固定。tier にもテーマにも振らない（設計 §11-7 の条件2）。
+   ⚠️ 回転の開始／停止は animation-play-state で行い、animation ごと外さないこと。
+      外すと角度が 0 に戻って歯車がワープする。稼働灯(D9)で paused を禁じたのは「光が途中で
+      凍ると"固まった"に見える」からだが、歯車は逆で **途中で止まるのが正しい絵**（1拍止まる）。
+   ⚠️ 左右で逆回り＝噛み合って見える条件。歯数が同じなので速さも同じでなければならない。 */
+.ep-gear{width:13px;height:13px;flex:none;fill:var(--exam-brass);opacity:.72;
+  animation:epGearSpin 5.6s linear infinite;animation-play-state:paused;}
+.ep-gear-b{animation-direction:reverse;}
+body.exam-mode.exam-idle-lit .ep-gear{animation-play-state:running;}
+@keyframes epGearSpin{to{transform:rotate(360deg);}}
+/* R10: 離席（60秒）で機械が休む。⚠️「叱られている」に見せないこと＝暗くするだけで印は消さない。 */
+body.exam-mode.exam-asleep .st-hdr::after{opacity:0;}
+body.exam-mode.exam-asleep .st-hdr::before{opacity:.3;}
+body.exam-mode.exam-asleep .ep-gear{animation-play-state:paused;opacity:.28;}
+/* ⚠️ .st-hdr::before は必ず body.exam-mode でゲートすること（通常閲覧のヘッダを1pxも変えない）。 */
+body.exam-mode .st-hdr::before,body.exam-mode .ep-gear{transition:opacity .5s ease;}
+/* 起動シーケンス（一度きり）。⚠️ 常時アニメではないので §5-6「動くのは稼働灯1つ」に反しない。 */
+body.exam-mode.exam-waking .st-hdr::before{animation:examRailWake .9s ease-out;}
+@keyframes examRailWake{0%{opacity:.3;}35%{opacity:1;filter:brightness(1.7);}100%{opacity:1;}}
 /* B2(2026-08-18): 節目は「祝わない」。跨いだ瞬間に光が走るだけで音も粒子も出さない
    （連続正解 tier と別軸で祝うと画面がぶつかる）。印は距離感のためだけにある。 */
 /* ⚠️ 印は「進んだ側（アンバーの塗り）」と「まだの側（暗いトラック）」の両方の上に載る。
@@ -1038,6 +1146,14 @@ body.exam-awaken #examComboMeter{height:5px;}
   #examCountdown,#examStreakSig,.exam-rank-stamp{display:none!important;}
   .qc.exam-sink .ch2{transition:none;transform:none;opacity:1;filter:none;}
   .ch-divider.gm-ch-sweep::after{display:none!important;}
+  /* Phase 5: 動きだけ止め、意匠は残す（設計 §11-7 の条件3＝静止画に戻るだけで情報は失われない）。
+     クランプ・焦点枠・持ち上げは静的なので消さない。閉じる動きだけを消す。 */
+  body.exam-mode .qc.exam-key-focus:not(.exam-revealed)::before{animation:none!important;}
+  /* 段2/段3も同様に「動きだけ止めて意匠は残す」。歯車は止まって見えるのが正しい（絵は残る）。 */
+  .ep-gear{animation:none!important;}
+  .qimg.qimg-lit{animation:none!important;}
+  body.exam-mode .qc.exam-deciding .ch2{animation:none!important;transform:none!important;}
+  body.exam-mode.exam-waking .st-hdr::before{animation:none!important;}
 }
 
 /* 自己診断（🔊設定内・演出が出ない時の切り分け用） */

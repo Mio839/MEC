@@ -131,7 +131,14 @@ if ('serviceWorker' in navigator) {
   </div><!-- /st-filter-panel -->
   <div class="exam-prog" id="examProg">
     <span id="examProgTxt">0 / 0 問</span>
+    <!-- R2(Phase 5): 計器ベイの歯車。読書中は回り、答えた瞬間に1拍止まる（.exam-idle-lit と連動）。
+         ⚠️ 13px＝この行の既存の高さ（11px×1.7 の文字と 終了ボタン）に収まる寸法。ヘッダを1pxも
+            伸ばしてはいけない（_fxBand() の焦点が動く・設計 §5-5）。
+         ⚠️ 歯車の実装を3本目にしない、という Phase 4 の判断を守るため d は静的に持つ
+            （fx_engine.js の gearPath と同じ諸元＝歯8・root .70R・軸穴 .26R で生成した）。 -->
+    <svg class="ep-gear" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M 33.69 17.05 L 39.85 17.55 L 39.85 22.45 L 33.69 22.95 A 14.00 14.00 0 0 1 31.76 27.59 L 35.77 32.30 L 32.30 35.77 L 27.59 31.76 A 14.00 14.00 0 0 1 22.95 33.69 L 22.45 39.85 L 17.55 39.85 L 17.05 33.69 A 14.00 14.00 0 0 1 12.41 31.76 L 7.70 35.77 L 4.23 32.30 L 8.24 27.59 A 14.00 14.00 0 0 1 6.31 22.95 L 0.15 22.45 L 0.15 17.55 L 6.31 17.05 A 14.00 14.00 0 0 1 8.24 12.41 L 4.23 7.70 L 7.70 4.23 L 12.41 8.24 A 14.00 14.00 0 0 1 17.05 6.31 L 17.55 0.15 L 22.45 0.15 L 22.95 6.31 A 14.00 14.00 0 0 1 27.59 8.24 L 32.30 4.23 L 35.77 7.70 L 31.76 12.41 A 14.00 14.00 0 0 1 33.69 17.05 Z M 25.20 20.00 A 5.20 5.20 0 1 0 14.80 20.00 A 5.20 5.20 0 1 0 25.20 20.00 Z"/></svg>
     <div class="exam-prog-track"><div class="exam-prog-fill" id="examProgFill" style="width:0%"></div></div>
+    <svg class="ep-gear ep-gear-b" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M 33.69 17.05 L 39.85 17.55 L 39.85 22.45 L 33.69 22.95 A 14.00 14.00 0 0 1 31.76 27.59 L 35.77 32.30 L 32.30 35.77 L 27.59 31.76 A 14.00 14.00 0 0 1 22.95 33.69 L 22.45 39.85 L 17.55 39.85 L 17.05 33.69 A 14.00 14.00 0 0 1 12.41 31.76 L 7.70 35.77 L 4.23 32.30 L 8.24 27.59 A 14.00 14.00 0 0 1 6.31 22.95 L 0.15 22.45 L 0.15 17.55 L 6.31 17.05 A 14.00 14.00 0 0 1 8.24 12.41 L 4.23 7.70 L 7.70 4.23 L 12.41 8.24 A 14.00 14.00 0 0 1 17.05 6.31 L 17.55 0.15 L 22.45 0.15 L 22.95 6.31 A 14.00 14.00 0 0 1 27.59 8.24 L 32.30 4.23 L 35.77 7.70 L 31.76 12.41 A 14.00 14.00 0 0 1 33.69 17.05 Z M 25.20 20.00 A 5.20 5.20 0 1 0 14.80 20.00 A 5.20 5.20 0 1 0 25.20 20.00 Z"/></svg>
     <span id="examTimer">00:00</span>
     <button onclick="exitExam()" style="background:none;border:1px solid rgba(255,255,255,.4);border-radius:var(--r-md);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;cursor:pointer;">終了</button>
   </div>
