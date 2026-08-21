@@ -225,6 +225,12 @@ function _playBootSound() {
 function _playCorrectSound() {
   if (_correctSound === 'off') return;
   _playWavSound(_sndFind('correct', _correctSound));
+  if (!_fxOff() && window.MecFX && window.MecFX.sonicWave) {
+    const b = _fxBand();
+    const theme = _examTheme();
+    const t = Math.max(2, Math.min(_examTier(examStreak) || 2, 7));
+    window.MecFX.sonicWave(b.cx, b.cy, { color: theme.ringColor(t), count: 3, maxR: 260 + t * 20 });
+  }
 }
 
 
@@ -735,11 +741,21 @@ function startExam(overrideUids = null) {
     card.querySelectorAll('.ch2').forEach(ch => {
       if (!ch.dataset.examInit) {
         ch.dataset.examInit = '1';
-        ch.addEventListener('click', function() {
+        ch.addEventListener('click', function(e) {
           if (!examMode || this.closest('.qc').classList.contains('exam-revealed')) return;
           _playSelectSound();
           const c = this.closest('.qc');
           const r = _getRequiredCount(c);
+
+          // 【案10】重厚メカニカル接点電気スパーク
+          if (!_fxOff() && window.MecFX && window.MecFX.sparks) {
+            const rect = this.getBoundingClientRect();
+            window.MecFX.sparks(e.clientX || (rect.left + 24), e.clientY || (rect.top + rect.height / 2), { count: 7 });
+          }
+
+          // 【案2】超集中バレットタイム
+          if (!_fxOff()) document.body.classList.add('exam-bullet-time');
+
           if (_isExamUngraded(c)) { // 採点除外＝赤フラッシュ無しでそのまま中立表示へ
             this.closest('.cs').querySelectorAll('.ch2').forEach(x => x.classList.remove('exam-selected'));
             this.classList.add('exam-selected');
@@ -808,6 +824,7 @@ function startExam(overrideUids = null) {
 }
 
 function revealAnswer(card) {
+  document.body.classList.remove('exam-bullet-time');
   if (card.classList.contains('exam-revealed')) return;
   // 採点除外（正解肢なし）は採点対象外。分母・正誤・myrate・赤旗・再試験のどれにも入れない。
   if (_isExamUngraded(card)) { _revealExcludedNeutral(card); return; }
@@ -3260,7 +3277,12 @@ function _updateComboMeter(n) {
   const fill  = document.getElementById('examComboMeterFill');
   const lbl   = document.getElementById('examComboMeterLbl');
   if (!meter || !fill) return;
-  if (n < 2) { meter.style.opacity='0'; fill.style.width='0%'; if (lbl) lbl.style.opacity='0'; meter.classList.remove('tier-overheat'); return; }
+  if (n < 2) {
+    meter.style.opacity='0'; fill.style.width='0%'; if (lbl) lbl.style.opacity='0';
+    meter.classList.remove('tier-overheat');
+    document.querySelectorAll('.qc').forEach(c => c.classList.remove('card-heat-low', 'card-heat-mid', 'card-heat-max'));
+    return;
+  }
   meter.style.opacity = '1';
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const tier = _examTier(n);
@@ -3270,6 +3292,15 @@ function _updateComboMeter(n) {
   fill.style.background = grads[_tIdx(tier, grads)];
   fill.style.width = pct.toFixed(1) + '%';
   meter.classList.toggle('tier-overheat', tier >= 7);
+
+  // 【案1】カード赤熱ヒートチャージ連動
+  const curCard = document.querySelector('.qc.exam-key-focus') || document.querySelector('.qc:not(.exam-revealed)');
+  if (curCard) {
+    curCard.classList.toggle('card-heat-low', tier >= 2 && tier < 4);
+    curCard.classList.toggle('card-heat-mid', tier >= 4 && tier < 6);
+    curCard.classList.toggle('card-heat-max', tier >= 6);
+  }
+
   // B6: 次のティアまで残り何問かを表示（今まで3pxバーだけで誰も気づけなかった）
   if (lbl) {
     const remain = tier >= 7 ? 0 : ends[tier] - n;
@@ -3293,6 +3324,7 @@ function _resetComboMeter() {
   const fill  = document.getElementById('examComboMeterFill');
   const lbl   = document.getElementById('examComboMeterLbl');
   if (meter) meter.classList.remove('tier-overheat');
+  document.querySelectorAll('.qc').forEach(c => c.classList.remove('card-heat-low', 'card-heat-mid', 'card-heat-max'));
   if (lbl) { lbl.getAnimations?.().forEach(a => a.cancel()); lbl.style.opacity = '0'; }
   if (!meter || !fill || !parseFloat(fill.style.width)) return;
   fill.animate([{width:fill.style.width},{width:'0%'}],{duration:280,easing:'ease-in',fill:'forwards'})
@@ -3727,6 +3759,10 @@ function _updateExamProg(isCorrect = false) {
         {scale:'1',textShadow:'0 0 8px rgba(255,196,90,.35)'}
       ], {duration:250, easing:'cubic-bezier(.34,1.4,.64,1)'});
     }
+  }
+  // 【案4】10問ごとのチェックポイント・ワープゲート突破
+  if (examAnswered > 0 && examAnswered % 10 === 0 && examAnswered < total) {
+    setTimeout(() => _triggerWarpGate(examAnswered), 320);
   }
 }
 
@@ -4738,3 +4774,75 @@ function closeExamSummary() {
   // 既に全体初期化が済んでいるケースでは何もしないため、こちらが本命の復帰経路）。
   window._srsRestoreAfterReview?.();
 }
+
+/* ══ 新・演出特化10選のヘルパー群 ══ */
+/* 【案4】10問ごとのチェックポイント・光のワープゲート突破 */
+function _triggerWarpGate(n) {
+  if (_fxOff()) return;
+  const ov = document.createElement('div');
+  ov.className = 'warp-gate-overlay';
+  ov.innerHTML = '<div class="warp-ring" style="animation-delay:0s"></div>' +
+                 '<div class="warp-ring" style="animation-delay:.15s"></div>' +
+                 '<div class="warp-ring" style="animation-delay:.3s"></div>' +
+                 '<div class="warp-gate-title">🚀 CHECKPOINT ' + n + ' CLEARED!</div>';
+  document.body.appendChild(ov);
+  if (window.MecFX) {
+    const b = _fxBand();
+    window.MecFX.warp({ count: 18, color: '#FFD700' });
+    window.MecFX.burst(b.cx, b.cy, { count: 36, colors: ['#FFD700', '#00E5FF', '#FFFFFF'], shapes: ['star', 'gem'], tier: 5, scale: 1.5 });
+  }
+  setTimeout(() => ov.remove(), 1100);
+}
+
+/* 【案7】ダイナミック環境ライティング（朝・夕・深夜宿直室） */
+function _applyEnvLighting() {
+  const h = new Date().getHours();
+  document.body.classList.remove('env-morning', 'env-sunset', 'env-nightshift');
+  if (h >= 6 && h < 11) document.body.classList.add('env-morning');
+  else if (h >= 17 && h < 20) document.body.classList.add('env-sunset');
+  else if (h >= 23 || h < 5) document.body.classList.add('env-nightshift');
+}
+try { _applyEnvLighting(); } catch (e) {}
+
+/* 【案3】3Dジャイロ・マウス光沢ティルト */
+function _initTiltEffect() {
+  if (_fxOff()) return;
+  let ticking = false;
+  const onMove = (e) => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      const card = document.querySelector('.qc.exam-key-focus') || document.querySelector('.qc:hover');
+      if (!card) return;
+      card.classList.add('qc-3d-tilt');
+      const r = card.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      const x = (clientX - r.left) / r.width;
+      const y = (clientY - r.top) / r.height;
+      const tiltX = ((0.5 - y) * 8).toFixed(2);
+      const tiltY = ((x - 0.5) * 8).toFixed(2);
+      card.style.setProperty('--tilt-x', tiltX + 'deg');
+      card.style.setProperty('--tilt-y', tiltY + 'deg');
+      card.style.setProperty('--shine-x', (x * 100).toFixed(1) + '%');
+      card.style.setProperty('--shine-y', (y * 100).toFixed(1) + '%');
+    });
+  };
+  window.addEventListener('pointermove', onMove, { passive: true });
+  if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission !== 'function') {
+    window.addEventListener('deviceorientation', (e) => {
+      if (!e.gamma || !e.beta) return;
+      const card = document.querySelector('.qc.exam-key-focus');
+      if (!card) return;
+      card.classList.add('qc-3d-tilt');
+      const tiltY = Math.max(-12, Math.min(12, e.gamma / 3)).toFixed(2);
+      const tiltX = Math.max(-12, Math.min(12, (e.beta - 45) / 3)).toFixed(2);
+      card.style.setProperty('--tilt-x', tiltX + 'deg');
+      card.style.setProperty('--tilt-y', tiltY + 'deg');
+      card.style.setProperty('--shine-x', ((e.gamma + 30) / 60 * 100).toFixed(1) + '%');
+      card.style.setProperty('--shine-y', ((e.beta) / 90 * 100).toFixed(1) + '%');
+    }, { passive: true });
+  }
+}
+try { _initTiltEffect(); } catch (e) {}

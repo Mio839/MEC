@@ -1192,6 +1192,50 @@
     });
   }
 
+  /** 音波ビジュアライザー（正解音と同期する同心多重音波） */
+  function sonicWave(x, y, o) {
+    o = o || {};
+    var n = o.count || 3;
+    var maxR = o.maxR || 260;
+    var color = o.color || '#FFD700';
+    var thick = o.thickness || 3.5;
+    for (var i = 0; i < n; i++) {
+      addP({
+        type: 'ring',
+        x: x, y: y,
+        r0: 12 + i * 8,
+        r1: maxR + i * 30,
+        thickness: thick,
+        color: color,
+        blend: true,
+        ttl: 0.55 + i * 0.12,
+        delay: (o.delay || 0) + i * 0.07
+      });
+    }
+  }
+
+  /** 接点電気スパーク（微細な高圧放電火花） */
+  function sparks(x, y, o) {
+    o = o || {};
+    var n = o.count || 8;
+    var colors = o.colors || ['#00E5FF', '#FFFFFF', '#69F0AE'];
+    for (var i = 0; i < n; i++) {
+      var ang = rnd(0, 6.2832);
+      var spd = rnd(120, 360);
+      addP({
+        x: x, y: y,
+        vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd,
+        gy: 400, drag: 0.88,
+        size: rnd(1.5, 3.2),
+        color: pick(colors),
+        shape: 'circle',
+        glow: true, blend: true,
+        ttl: rnd(0.18, 0.35),
+        fadeOut: 0.8
+      });
+    }
+  }
+
   window.MecFX = {
     burst: burst,
     confetti: confetti,
@@ -1220,6 +1264,8 @@
     pixelPop: pixelPop,
     diamondSparkle: diamondSparkle,
     slashRibbon: slashRibbon,
+    sonicWave: sonicWave,
+    sparks: sparks,
     clear: clearAll,
     count: function () { return pool.length; }
   };

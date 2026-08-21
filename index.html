@@ -2094,8 +2094,8 @@ function _stampGoalSeal() {
   MecFX.gears(c.x, c.y, { count: 24, spread: 380, min: 14, max: 28, gravity: 520, w: 18, delay: .12 });
   MecFX.confetti({ count: 120, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], big: true });
   // 【案7】全方位スチーム大爆発（四方八方からの大蒸気噴出）
-  MecFX.steam(c.x - c.r * .9, c.y + c.r * .3, { count: 8, w: c.r * .8, rise: 180, min: 40, max: 80, alpha: .4, vx: -160 });
-  MecFX.steam(c.x + c.r * .9, c.y + c.r * .3, { count: 8, w: c.r * .8, rise: 180, min: 40, max: 80, alpha: .4, vx: 160 });
+  MecFX.steam(c.x - c.r * .8, c.y + c.r * .3, { count: 8, w: c.r * .8, rise: 180, min: 40, max: 80, alpha: .4, vx: -160 });
+  MecFX.steam(c.x + c.r * .8, c.y + c.r * .3, { count: 8, w: c.r * .8, rise: 180, min: 40, max: 80, alpha: .4, vx: 160 });
   MecFX.steam(c.x, c.y - c.r * .6, { count: 6, w: c.r * .7, rise: 160, min: 36, max: 70, alpha: .35 });
 }
 
@@ -2260,6 +2260,55 @@ function _startHeroDust() {
     MecFX.dust({ count: 8, colors: [_accent(), '#FFFFFF'] });
   }, 6000);
 }
+
+// 【案9】星図リンク・天球儀コネクト（Star Constellation）
+function _initConstellation() {
+  if (_reducedMotion()) return;
+  const canvas = document.createElement('canvas');
+  canvas.id = 'hubConstellation';
+  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.28;';
+  document.body.prepend(canvas);
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = window.innerWidth;
+  let h = canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }, { passive: true });
+
+  const streak = window.MECSync ? MECSync.calcStreak() : 1;
+  const numStars = Math.min(24, Math.max(8, streak * 2));
+  const stars = [];
+  for (let i = 0; i < numStars; i++) {
+    stars.push({
+      x: (0.15 + 0.7 * Math.abs(Math.sin(i * 1.4 + 0.5))) * w,
+      y: (0.08 + 0.45 * Math.abs(Math.cos(i * 1.1 + 1.2))) * h,
+      r: (i % 3 === 0) ? 2.5 : 1.5,
+      tw: Math.random() * 6.28
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    ctx.strokeStyle = 'rgba(255, 215, 0, 0.22)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let i = 0; i < stars.length - 1; i++) {
+      ctx.moveTo(stars[i].x, stars[i].y);
+      ctx.lineTo(stars[i+1].x, stars[i+1].y);
+    }
+    ctx.stroke();
+
+    stars.forEach(s => {
+      s.tw += 0.03;
+      const alpha = 0.4 + 0.5 * Math.sin(s.tw);
+      ctx.fillStyle = `rgba(255, 235, 160, ${alpha.toFixed(2)})`;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, 6.28);
+      ctx.fill();
+    });
+    if (!_reducedMotion() && scrollY < 300) requestAnimationFrame(draw);
+  }
+  draw();
+}
+try { if (document.readyState === 'loading') window.addEventListener('DOMContentLoaded', _initConstellation); else _initConstellation(); } catch (e) {}
 
 // ヘッダー下端のスクロール進捗。
 // scroll イベントを使うのはここだけ（進捗そのものがスクロール量なので IO では出せない）。

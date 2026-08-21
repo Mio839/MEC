@@ -1348,6 +1348,17 @@
       if (correct / answered >= 0.8) bumps.push('acc80');   // 高正答率セッション（80%以上）
       if (correct >= answered) bumps.push('perfect');       // 全問正解セッション
       _bumpMission(bumps);
+      // 【案8】科目・章制覇の真鍮トロフィー溶鉄鋳造演出
+      if (correct >= answered && answered >= 10 && window.MecFX && !_reducedMotion()) {
+        setTimeout(() => {
+          const w = window.innerWidth, h = window.innerHeight;
+          window.MecFX.burst(w / 2, h / 2 - 40, {
+            count: 50, colors: ['#FFD700', '#FF8C00', '#FFFFFF', '#FFA040'],
+            shapes: ['gem', 'star', 'shard'], tier: 6, scale: 2.2, speed: 650, glow: true, additive: true
+          });
+          window.MecFX.steam(w / 2, h / 2 - 20, { count: 8, w: 100, rise: 120, min: 30, max: 60, alpha: .4 });
+        }, 1100);
+      }
       // 章別試験で80%以上。同じ章は週1回だけ算入（同じ章を回して稼げないように）。
       if (o.chPrefix && correct / answered >= 0.8) {
         const wk = _weekKeyJST();
