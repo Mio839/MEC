@@ -87,34 +87,60 @@ let _lastSessionWasSrs = false;
 let _lastSessionWasTodayWrong = false;
 const _examChoiceBackup = new Map();
 let _examAudioCtx = null;
-let _correctSound = localStorage.getItem('mec_correct_sound_v1') || 'ping';
+/* 効果音のファイル名・キー・音量は **sounds_index.js（window.MecSounds）が唯一の正本**。
+   ここにも index.html にも chapter_exam.js にも表を持たない（2026-08-21）。
+   ⚠️ 音を足すのは「sounds/{正解音|起動音|選択音}/ にファイルを置く → sounds/meta.json に
+      1行足す → node _work/build_sounds_index.js」の3手順。コードは1文字も触らない。
+   ⚠️ 2026-08-21 に合成音（ping/chime/pop…）は正解音・選択音とも全廃した。ユーザーが
+      置いた音だけを鳴らす。合成音が残っているのはコンボ音（_playComboNote）だけ。 */
+function _sndList(slot) {
+  const l = window.MecSounds && window.MecSounds[slot];
+  return Array.isArray(l) ? l : [];
+}
+function _sndFind(slot, key) { return _sndList(slot).find(s => s.key === key) || null; }
+/* 保存されている設定を実在するキーへ解決する。'off' はそのまま通し、見当たらないキー
+   （消したファイル／旧・合成音のキー）は先頭＝既定へ落とす。
+   ⚠️ localStorage は書き換えない——別端末の設定を同期で壊さないため、解決は読む側で行う。 */
+function _sndResolve(slot, stored) {
+  if (stored === 'off') return 'off';
+  if (stored && _sndFind(slot, stored)) return stored;
+  const first = _sndList(slot)[0];
+  return first ? first.key : 'off';
+}
 
-/* 正解音として選べる wav（キー → ファイル名と音量）。
-   ⚠️ 音量は「wav のピーク × vol」がおおよそ 0.5 に揃うように決めてある（ピーク実測値：
-      correct .49 ／ ＭＳ動作 .96 ／ ビームサーベル斬撃 1.00 ／ ビームマグナム .36 ／
-      ブッピガン2 1.00 ／ MS起動 .66）。wav を差し替えたら vol も測り直すこと——揃って
-      いないと正解音を選び替えただけで体感の音量が2倍以上変わる。
-   ⚠️ キーは localStorage('mec_correct_sound_v1') にそのまま入るので改名しないこと
-      （'custom' は correct.wav の旧キー＝既存ユーザーの設定が刺さっている）。
-   ⚠️ 2026-08-21 に MS起動 と ＭＳ動作 を入れ替えた（MS起動＝起動音／ＭＳ動作＝正解音）。
-      旧キー 'msboot' は**意図的に消してある**——同じキーに別のファイルを入れると
-      「MS起動 を選んだはずが ＭＳ動作 が鳴る」になるため。旧設定は既定の ping に落ちる。 */
-const CORRECT_WAVS = {
-  custom:   { file: 'correct.wav',           vol: 1.0 },
-  msmove:   { file: 'ＭＳ動作.wav',           vol: 0.5 },
-  saber:    { file: 'ビームサーベル斬撃.wav', vol: 0.5 },
-  magnum:   { file: 'ビームマグナム.wav',     vol: 1.3 },
-  buppigan: { file: 'ブッピガン2.wav',        vol: 0.5 }
-};
-/* 試験開始の起動アニメ中に鳴る音（CORRECT_WAVS とは別枠＝正解音として選ばせない）。
-   ⚠️ 尺 2.01 秒。カウントダウンは最短でも 2.535 秒（ログ3行の cyber）あるので収まるが、
-      これ以上長い素材に差し替えるなら _examCountdown の尺（t0 + 3*420 + 780）を確認すること。 */
-const BOOT_WAV = { file: 'MS起動.wav', vol: 0.75 };
-let _bootSound = localStorage.getItem('mec_boot_sound_v1') || 'ms';
+let _correctSound = _sndResolve('correct', localStorage.getItem('mec_correct_sound_v1'));
+let _selectSound  = _sndResolve('select',  localStorage.getItem('mec_select_sound_v1'));
 
-/* wav は「AudioContext のバッファ」と「<audio> 要素」の2本立てで持つ。
+/* 起動音は設定で1つに固定せず、**試験開始のたびにランダムで1つ**鳴る（2026-08-21〜）。
+   localStorage('mec_boot_sound_v1') が持つのは「鳴らす／鳴らさない」だけ。
+   ⚠️ 旧値（'ms' 等＝ファイルを指していた頃の設定）は 'off' 以外なので鳴らす側へ落ちる。
+   ⚠️ 起動音の尺（現在 4.73s / 4.85s）はカウントダウン演出（2.535〜2.745s）より長いが、
+      **鳴らし切る**のが仕様（2026-08-21 にユーザーが選択）。カウントダウンが明けて1問目に
+      入っても音だけ続く。_examCountdown の尺は1msも増やさないこと。 */
+let _bootSound = (localStorage.getItem('mec_boot_sound_v1') === 'off') ? 'off' : 'on';
+/* 「開始」を押したそのタップの中で1つ選んで prepare しておく＝iOS の自動再生制限を
+   通せる唯一の機会。_playBootSound はここで選ばれたものを鳴らすだけ。 */
+let _pendingBootSpec = null;
+function _pickBootSpec() {
+  const l = _sndList('boot');
+  return l.length ? l[(Math.random() * l.length) | 0] : null;
+}
+
+let _comboSound = localStorage.getItem('mec_combo_sound_v1') || 'rise';
+
+/* 選択音・正解音・起動音はすべて同じ wav/mp3 の配管（_prepareWavSound / _playWavSound）に
+   乗る。⚠️ 種類ごとの受け皿は _wavSlot が1つずつだけ作る（プレビューのたびに Audio を
+   new すると溜まる）。 */
+function _prepareSelectSound() { _prepareWavSound(_sndFind('select', _selectSound)); }
+function _playSelectSound() {
+  if (_selectSound === 'off') return;
+  _playWavSound(_sndFind('select', _selectSound));
+}
+
+/* wav/mp3 は「AudioContext のバッファ」と「<audio> 要素」の2本立てで持つ。
    バッファは遅延ゼロで多重再生でき、要素は AudioContext が使えない環境の受け皿。
-   ⚠️ 種類ごとに1つずつしか作らないこと（プレビューのたびに Audio を new すると溜まる）。 */
+   ⚠️ 種類ごとに1つずつしか作らないこと（プレビューのたびに Audio を new すると溜まる）。
+   ⚠️ キーは spec.file（'{フォルダ名}/{ファイル名}' のフォルダ込みの相対パス）。 */
 const _wavCache = new Map();
 function _wavSlot(spec) {
   let slot = _wavCache.get(spec.file);
@@ -126,88 +152,6 @@ function _wavSlot(spec) {
   }
   return slot;
 }
-
-let _selectSound = localStorage.getItem('mec_select_sound_v1') || 'mp3';
-const _selectAudio = new Audio('sounds/選択.mp3');
-_selectAudio.preload = 'auto';
-let _selectBuffer = null;
-let _selectBufferPromise = null;
-
-let _comboSound = localStorage.getItem('mec_combo_sound_v1') || 'rise';
-
-function _prepareSelectSound() {
-  const ctx = _getExamAudioCtx();
-  if (!ctx || _selectBuffer) return;
-  if (!_selectBufferPromise) {
-    _selectBufferPromise = fetch('sounds/選択.mp3')
-      .then(res => res.arrayBuffer())
-      .then(buf => ctx.decodeAudioData(buf))
-      .then(decoded => { _selectBuffer = decoded; })
-      .catch(() => { _selectBufferPromise = null; });
-  }
-}
-
-function _playSelectSynthFallback() {
-  try {
-    const ctx = _getExamAudioCtx();
-    if (!ctx) return;
-    const now = ctx.currentTime;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = 'square';
-    osc.frequency.setValueAtTime(1200, now);
-    gain.gain.setValueAtTime(0.025, now);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start(now);
-    osc.stop(now + 0.04);
-  } catch (e) {}
-}
-
-function _playSelectSound() {
-  if (_selectSound === 'off') return;
-  if (_selectSound === 'mp3') {
-    try {
-      const ctx = _getExamAudioCtx();
-      if (ctx && _selectBuffer) {
-        const src = ctx.createBufferSource();
-        src.buffer = _selectBuffer;
-        src.connect(ctx.destination);
-        src.start(ctx.currentTime);
-        return;
-      }
-      _prepareSelectSound();
-      const clone = _selectAudio.cloneNode();
-      clone.volume = 0.6;
-      clone.play().catch(() => { _playSelectSynthFallback(); });
-    } catch (e) { _playSelectSynthFallback(); }
-    return;
-  }
-  try {
-    const ctx = _getExamAudioCtx();
-    if (!ctx) return;
-    const now = ctx.currentTime;
-    const sounds = {
-      click: { type: 'square',    freq: 1400, dur: 0.04, vol: 0.030 },
-      tick:  { type: 'triangle',  freq: 900,  dur: 0.05, vol: 0.040 },
-      blip:  { type: 'sine',      freq: 660,  dur: 0.07, vol: 0.055 },
-      soft:  { type: 'sine',      freq: 400,  dur: 0.09, vol: 0.065 }
-    };
-    const s = sounds[_selectSound] || sounds.click;
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = s.type;
-    osc.frequency.setValueAtTime(s.freq, now);
-    gain.gain.setValueAtTime(s.vol, now);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + s.dur);
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start(now);
-    osc.stop(now + s.dur);
-  } catch (e) {}
-}
-
 
 function _getExamAudioCtx() {
   const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -231,23 +175,38 @@ function _prepareWavSound(spec) {
   }
 }
 
+function _emitWav(ctx, buffer, spec) {
+  const src = ctx.createBufferSource();
+  const gain = ctx.createGain();
+  src.buffer = buffer;
+  gain.gain.setValueAtTime(spec.vol == null ? 1 : spec.vol, ctx.currentTime);
+  src.connect(gain);
+  gain.connect(ctx.destination);
+  src.start(ctx.currentTime);
+}
+
 function _playWavSound(spec) {
   if (!spec) return;
   try {
     const slot = _wavSlot(spec);
     const ctx = _getExamAudioCtx();
-    if (ctx && slot.buffer) {
-      const src = ctx.createBufferSource();
-      const gain = ctx.createGain();
-      src.buffer = slot.buffer;
-      gain.gain.setValueAtTime(spec.vol == null ? 1 : spec.vol, ctx.currentTime);
-      src.connect(gain);
-      gain.connect(ctx.destination);
-      src.start(ctx.currentTime);
-      return;
+    if (ctx) {
+      if (slot.buffer) { _emitWav(ctx, slot.buffer, spec); return; }
+      _prepareWavSound(spec);
+      /* デコードが済んでいなければ、終わり次第そのまま鳴らす。
+         ⚠️ 「間に合わないから <audio> へ落とす」をやってはいけない——要素側は音量が 1 で
+            頭打ちなので、vol>1 の素材（MHF 4.3 / アカツキ起動 9.8）がほぼ無音になる。
+         ⚠️ 待っている間の重複要求は捨てる（連打で同じ音が積み上がるのを防ぐ）。 */
+      if (slot.promise && !slot.waiting) {
+        slot.waiting = true;
+        slot.promise.then(() => {
+          slot.waiting = false;
+          if (slot.buffer) _emitWav(ctx, slot.buffer, spec);
+        });
+      }
+      if (slot.promise) return;
     }
-    _prepareWavSound(spec);
-    // 要素側は音量を1で頭打ちにするしかない（GainNode と違い増幅できない）
+    // AudioContext が使えない環境の受け皿（音量は 1 で頭打ちにするしかない）
     slot.audio.volume = Math.max(0, Math.min(1, spec.vol == null ? 1 : spec.vol));
     slot.audio.pause();
     slot.audio.currentTime = 0;
@@ -255,63 +214,17 @@ function _playWavSound(spec) {
   } catch (e) {}
 }
 
-// 旧名の受け皿（study.html のプレビューが呼ぶ）
-function _prepareCustomCorrectSound() { _prepareWavSound(CORRECT_WAVS.custom); }
-function _playCustomCorrectSound() { _playWavSound(CORRECT_WAVS.custom); }
-
-// 試験開始の起動アニメ中に1回だけ鳴らす
+/* 試験開始の起動アニメ中に1回だけ鳴らす。何を鳴らすかは startExam が
+   _pendingBootSpec に入れてある（＝タップの中で選んで prepare 済み）。
+   ⚠️ ここで選び直さないこと——prepare していないバッファは iOS で鳴らない。 */
 function _playBootSound() {
   if (_bootSound === 'off') return;
-  _playWavSound(BOOT_WAV);
+  _playWavSound(_pendingBootSpec || _pickBootSpec());
 }
 
 function _playCorrectSound() {
   if (_correctSound === 'off') return;
-  if (CORRECT_WAVS[_correctSound]) {
-    _playWavSound(CORRECT_WAVS[_correctSound]);
-    return;
-  }
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  if (!AudioContext) return;
-  try {
-    if (!_examAudioCtx) _examAudioCtx = new AudioContext();
-    if (_examAudioCtx.state === 'suspended') _examAudioCtx.resume();
-
-    const now = _examAudioCtx.currentTime;
-    const master = _examAudioCtx.createGain();
-    const sounds = {
-      ping: { type: 'sine', notes: [659.25, 987.77], gap: 0.045, duration: 0.34, volume: 0.12 },
-      chime: { type: 'triangle', notes: [523.25, 659.25, 1046.5], gap: 0.06, duration: 0.56, volume: 0.10 },
-      pop: { type: 'square', notes: [392, 523.25], gap: 0.035, duration: 0.22, volume: 0.065 },
-      bell: { type: 'sine', notes: [880, 1320], gap: 0.025, duration: 0.5, volume: 0.09 },
-      coin: { type: 'triangle', notes: [1318.51, 1760], gap: 0.055, duration: 0.28, volume: 0.095 },
-      sparkle: { type: 'sine', notes: [1046.5, 1318.51, 1567.98, 2093], gap: 0.04, duration: 0.42, volume: 0.085 },
-      fanfare: { type: 'triangle', notes: [523.25, 659.25, 783.99, 1046.5], gap: 0.075, duration: 0.62, volume: 0.1 },
-      level: { type: 'sine', notes: [392, 493.88, 587.33, 783.99], gap: 0.07, duration: 0.5, volume: 0.095 },
-      notice: { type: 'triangle', notes: [587.33, 783.99], gap: 0.055, duration: 0.24, volume: 0.075 },
-      click: { type: 'square', notes: [1200], gap: 0, duration: 0.06, volume: 0.035 },
-      soft: { type: 'sine', notes: [261.63, 392], gap: 0.045, duration: 0.28, volume: 0.09 }
-    };
-    const sound = sounds[_correctSound] || sounds.ping;
-    const totalDuration = sound.duration + sound.gap * Math.max(0, sound.notes.length - 1);
-    master.gain.setValueAtTime(0.0001, now);
-    master.gain.exponentialRampToValueAtTime(sound.volume, now + 0.018);
-    master.gain.exponentialRampToValueAtTime(0.0001, now + totalDuration);
-    master.connect(_examAudioCtx.destination);
-
-    sound.notes.forEach((freq, i) => {
-      const osc = _examAudioCtx.createOscillator();
-      const gain = _examAudioCtx.createGain();
-      const start = now + i * sound.gap;
-      osc.type = sound.type;
-      osc.frequency.setValueAtTime(freq, start);
-      gain.gain.setValueAtTime(1 / Math.max(1, sound.notes.length), start);
-      osc.connect(gain);
-      gain.connect(master);
-      osc.start(start);
-      osc.stop(start + sound.duration);
-    });
-  } catch (e) {}
+  _playWavSound(_sndFind('correct', _correctSound));
 }
 
 
@@ -748,9 +661,11 @@ function startExam(overrideUids = null) {
   window._srsHostShow?.();
   document.getElementById('examFinishBtn')?.remove(); // 前回の結果ボタンが残っていれば除去
   _prepareSelectSound();
-  if (CORRECT_WAVS[_correctSound]) _prepareWavSound(CORRECT_WAVS[_correctSound]);
-  // 起動音は「開始を押した」このタップの中で用意する＝iOS の自動再生制限を通せる唯一の機会
-  if (_bootSound !== 'off') _prepareWavSound(BOOT_WAV);
+  _prepareWavSound(_sndFind('correct', _correctSound));
+  // 起動音は「開始を押した」このタップの中で選んで用意する＝iOS の自動再生制限を通せる
+  // 唯一の機会。⚠️ ランダムの抽選もここで済ませること（_playBootSound では遅い）。
+  _pendingBootSpec = null;
+  if (_bootSound !== 'off') { _pendingBootSpec = _pickBootSpec(); _prepareWavSound(_pendingBootSpec); }
   const chFilter = !overrideUids ? _examChPrefix : null;
   _examActiveChPrefix = chFilter;
   _examChPrefix = null;

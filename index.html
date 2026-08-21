@@ -14,6 +14,7 @@
 <script src="fx_engine.js"></script>
 <script src="gamify.js"></script>
 <link rel="stylesheet" href="vars.css">
+<script src="sounds_index.js"></script>
 <script src="theme.js"></script>
 <style>
 /* Hallmark · genre: atmospheric · macrostructure: Workbench · theme: project-locked (vars.css)
@@ -1104,40 +1105,18 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
     <div class="modal-title">🔊 効果音設定</div>
     <div class="modal-sub">試験モードで鳴る音を選択します。</div>
 
+    <!-- 選択音・正解音のボタンは sounds_index.js（window.MecSounds）から生成する。
+         ⚠️ ここに <button> を書き足さないこと——音を足す口は sounds/ + sounds/meta.json だけ。 -->
     <div class="sound-label">選択音（選択肢タップ時）</div>
-    <div class="sound-grid" id="selectSoundGrid">
-      <button class="sound-btn" data-ssound="mp3" onclick="saveSoundPref('select','mp3',this)">選択.mp3</button>
-      <button class="sound-btn" data-ssound="click" onclick="saveSoundPref('select','click',this)">クリック</button>
-      <button class="sound-btn" data-ssound="tick" onclick="saveSoundPref('select','tick',this)">ティック</button>
-      <button class="sound-btn" data-ssound="blip" onclick="saveSoundPref('select','blip',this)">ブリップ</button>
-      <button class="sound-btn" data-ssound="soft" onclick="saveSoundPref('select','soft',this)">ソフト</button>
-      <button class="sound-btn" data-ssound="off" onclick="saveSoundPref('select','off',this)">無音</button>
-    </div>
+    <div class="sound-grid" id="selectSoundGrid"></div>
 
     <div class="sound-label">正解音</div>
-    <div class="sound-grid" id="correctSoundGrid">
-      <button class="sound-btn" data-sound="ping" onclick="saveSoundPref('correct','ping',this)">ピン</button>
-      <button class="sound-btn" data-sound="chime" onclick="saveSoundPref('correct','chime',this)">チャイム</button>
-      <button class="sound-btn" data-sound="pop" onclick="saveSoundPref('correct','pop',this)">ポン</button>
-      <button class="sound-btn" data-sound="bell" onclick="saveSoundPref('correct','bell',this)">ベル</button>
-      <button class="sound-btn" data-sound="coin" onclick="saveSoundPref('correct','coin',this)">コイン</button>
-      <button class="sound-btn" data-sound="sparkle" onclick="saveSoundPref('correct','sparkle',this)">キラキラ</button>
-      <button class="sound-btn" data-sound="fanfare" onclick="saveSoundPref('correct','fanfare',this)">ファンファーレ</button>
-      <button class="sound-btn" data-sound="level" onclick="saveSoundPref('correct','level',this)">レベルUP</button>
-      <button class="sound-btn" data-sound="notice" onclick="saveSoundPref('correct','notice',this)">通知</button>
-      <button class="sound-btn" data-sound="click" onclick="saveSoundPref('correct','click',this)">クリック</button>
-      <button class="sound-btn" data-sound="soft" onclick="saveSoundPref('correct','soft',this)">低めポン</button>
-      <button class="sound-btn" data-sound="custom" onclick="saveSoundPref('correct','custom',this)">WAV</button>
-      <button class="sound-btn" data-sound="msmove" onclick="saveSoundPref('correct','msmove',this)">ＭＳ動作</button>
-      <button class="sound-btn" data-sound="saber" onclick="saveSoundPref('correct','saber',this)">ビームサーベル</button>
-      <button class="sound-btn" data-sound="magnum" onclick="saveSoundPref('correct','magnum',this)">ビームマグナム</button>
-      <button class="sound-btn" data-sound="buppigan" onclick="saveSoundPref('correct','buppigan',this)">ブッピガン</button>
-      <button class="sound-btn" data-sound="off" onclick="saveSoundPref('correct','off',this)">無音</button>
-    </div>
+    <div class="sound-grid" id="correctSoundGrid"></div>
 
-    <div class="sound-label">起動音（試験開始のカウントダウン中）</div>
+    <!-- 起動音は「どれを鳴らすか」を選ばせない＝試験開始のたびにランダムで1つ鳴る（2026-08-21）。 -->
+    <div class="sound-label">起動音（試験開始のカウントダウン中・毎回ランダム）</div>
     <div class="sound-grid" id="bootSoundGrid">
-      <button class="sound-btn" data-bsound="ms" onclick="saveSoundPref('boot','ms',this)">MS起動</button>
+      <button class="sound-btn" data-bsound="on" onclick="saveSoundPref('boot','on',this)">🎲 ランダム</button>
       <button class="sound-btn" data-bsound="off" onclick="saveSoundPref('boot','off',this)">無音</button>
     </div>
 
@@ -2947,126 +2926,82 @@ function closeThemeModal() {
   document.getElementById('themeModal').classList.remove('open');
 }
 
+/* ハブの効果音プレビュー。ファイル名・音量・並びは sounds_index.js（window.MecSounds）が
+   唯一の正本＝ここに表を持たない（2026-08-21）。以前は study_exam.js の表のミラーがここに
+   あり、片方だけ増やすと黙って乖離した。
+   ⚠️ 音を足すのは「sounds/{正解音|起動音|選択音}/ に置く → sounds/meta.json に1行 →
+      node _work/build_sounds_index.js」の3手順。index.html は1文字も触らない。
+   ⚠️ ハブは AudioContext を使わず <audio> でプレビューするので音量は 1 で頭打ち。
+      vol>1 の素材（MHF 4.3 / アカツキ起動 9.8）は本番より小さく鳴る。 */
+function _sndListHub(slot) {
+  const l = window.MecSounds && window.MecSounds[slot];
+  return Array.isArray(l) ? l : [];
+}
+function _sndFindHub(slot, key) { return _sndListHub(slot).find(s => s.key === key) || null; }
+function _sndResolveHub(slot, stored) {
+  if (stored === 'off') return 'off';
+  if (stored && _sndFindHub(slot, stored)) return stored;
+  const first = _sndListHub(slot)[0];
+  return first ? first.key : 'off';
+}
+
+function _renderHubSoundGrid(gridId, slot, attr, type) {
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
+  const list = _sndListHub(slot);
+  grid.textContent = '';
+  if (!list.length) {
+    grid.innerHTML = '<div style="opacity:.7;font-size:12px">sounds_index.js が読めていません'
+      + '（sounds/ に音を置いて node _work/build_sounds_index.js を流してください）</div>';
+    return;
+  }
+  const add = (key, label) => {
+    const btn = document.createElement('button');
+    btn.className = 'sound-btn';
+    btn.dataset[attr] = key;
+    btn.textContent = label;
+    btn.addEventListener('click', () => saveSoundPref(type, key, btn));
+    grid.appendChild(btn);
+  };
+  list.forEach(sp => add(sp.key, sp.label));
+  add('off', '無音');
+}
+
 function openSoundModal() {
-  const sel = localStorage.getItem('mec_select_sound_v1') || 'mp3';
-  const cor = localStorage.getItem('mec_correct_sound_v1') || 'ping';
-  document.querySelectorAll('#selectSoundGrid .sound-btn').forEach(b => {
-    b.classList.toggle('sel', b.dataset.ssound === sel);
-  });
-  document.querySelectorAll('#correctSoundGrid .sound-btn').forEach(b => {
-    b.classList.toggle('sel', b.dataset.sound === cor);
-  });
-  const boot = localStorage.getItem('mec_boot_sound_v1') || 'ms';
-  document.querySelectorAll('#bootSoundGrid .sound-btn').forEach(b => {
-    b.classList.toggle('sel', b.dataset.bsound === boot);
-  });
+  _renderHubSoundGrid('selectSoundGrid', 'select', 'ssound', 'select');
+  _renderHubSoundGrid('correctSoundGrid', 'correct', 'sound', 'correct');
+  // 印は保存値そのものではなく実在するキーへ解決した値に合わせる
+  // （消したファイル・旧合成音のキーが残っていても、実際に鳴る方が光る）
+  const sel = _sndResolveHub('select', localStorage.getItem('mec_select_sound_v1'));
+  const cor = _sndResolveHub('correct', localStorage.getItem('mec_correct_sound_v1'));
+  // 起動音は毎回ランダム＝保存されているのは鳴らす／鳴らさないだけ
+  const boot = (localStorage.getItem('mec_boot_sound_v1') === 'off') ? 'off' : 'on';
+  document.querySelectorAll('#selectSoundGrid .sound-btn').forEach(b => b.classList.toggle('sel', b.dataset.ssound === sel));
+  document.querySelectorAll('#correctSoundGrid .sound-btn').forEach(b => b.classList.toggle('sel', b.dataset.sound === cor));
+  document.querySelectorAll('#bootSoundGrid .sound-btn').forEach(b => b.classList.toggle('sel', b.dataset.bsound === boot));
   document.getElementById('soundModal').classList.add('open');
 }
 function closeSoundModal() {
   document.getElementById('soundModal').classList.remove('open');
 }
-let _previewAudioCtx = null;
-function _getPreviewCtx() {
-  const AC = window.AudioContext || window.webkitAudioContext;
-  if (!AC) return null;
-  if (!_previewAudioCtx) _previewAudioCtx = new AC();
-  if (_previewAudioCtx.state === 'suspended') _previewAudioCtx.resume().catch(() => {});
-  return _previewAudioCtx;
-}
-function _previewSelectSound(value) {
-  if (value === 'off') return;
-  if (value === 'mp3') {
-    const a = new Audio('sounds/選択.mp3');
-    a.volume = 0.6;
-    a.play().catch(() => {});
-    return;
-  }
-  const ctx = _getPreviewCtx();
-  if (!ctx) return;
-  const sounds = {
-    click: { type: 'square',   freq: 1400, dur: 0.04, vol: 0.030 },
-    tick:  { type: 'triangle', freq: 900,  dur: 0.05, vol: 0.040 },
-    blip:  { type: 'sine',     freq: 660,  dur: 0.07, vol: 0.055 },
-    soft:  { type: 'sine',     freq: 400,  dur: 0.09, vol: 0.065 }
-  };
-  const s = sounds[value] || sounds.click;
-  const now = ctx.currentTime;
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = s.type;
-  osc.frequency.setValueAtTime(s.freq, now);
-  gain.gain.setValueAtTime(s.vol, now);
-  gain.gain.exponentialRampToValueAtTime(0.0001, now + s.dur);
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.start(now);
-  osc.stop(now + s.dur);
-}
-/* 正解音として選べる wav（study_exam.js の CORRECT_WAVS のミラー）。
-   ⚠️ ハブは study_exam.js を読まないので表が2本ある。**片方だけ増やさないこと**
-      （chapter_exam.js の演出テーマと同じ約束）。音量の根拠は study_exam.js 側のコメント。
-   ⚠️ <audio> の volume は 1 で頭打ちなので、増幅が要る magnum はハブのプレビューだけ
-      本番より小さく鳴る（本番は GainNode で 1.3 倍）。 */
-const HUB_CORRECT_WAVS = {
-  custom:   { file: 'correct.wav',           vol: 1.0 },
-  msmove:   { file: 'ＭＳ動作.wav',           vol: 0.5 },
-  saber:    { file: 'ビームサーベル斬撃.wav', vol: 0.5 },
-  magnum:   { file: 'ビームマグナム.wav',     vol: 1.0 },
-  buppigan: { file: 'ブッピガン2.wav',        vol: 0.5 }
-};
-const HUB_BOOT_WAV = { file: 'MS起動.wav', vol: 0.75 };
 
 function _previewWavFile(spec) {
+  if (!spec) return;
   try {
     const a = new Audio('sounds/' + spec.file);
     a.volume = Math.max(0, Math.min(1, spec.vol == null ? 1 : spec.vol));
     a.play().catch(() => {});
   } catch (e) {}
 }
-
+function _previewSelectSound(value) { if (value !== 'off') _previewWavFile(_sndFindHub('select', value)); }
+function _previewCorrectSound(value) { if (value !== 'off') _previewWavFile(_sndFindHub('correct', value)); }
+/* 「ランダム」の試聴＝押すたびに抽選し直す（何が入っているかを耳で確かめられる） */
 function _previewBootSound(value) {
   if (value === 'off') return;
-  _previewWavFile(HUB_BOOT_WAV);
+  const l = _sndListHub('boot');
+  if (l.length) _previewWavFile(l[(Math.random() * l.length) | 0]);
 }
 
-function _previewCorrectSound(value) {
-  if (value === 'off') return;
-  if (HUB_CORRECT_WAVS[value]) { _previewWavFile(HUB_CORRECT_WAVS[value]); return; }
-  const ctx = _getPreviewCtx();
-  if (!ctx) return;
-  const sounds = {
-    ping:    { type: 'sine',     notes: [659.25, 987.77],                    gap: 0.045, duration: 0.34, volume: 0.12 },
-    chime:   { type: 'triangle', notes: [523.25, 659.25, 1046.5],            gap: 0.06,  duration: 0.56, volume: 0.10 },
-    pop:     { type: 'square',   notes: [392, 523.25],                       gap: 0.035, duration: 0.22, volume: 0.065 },
-    bell:    { type: 'sine',     notes: [880, 1320],                         gap: 0.025, duration: 0.50, volume: 0.09 },
-    coin:    { type: 'triangle', notes: [1318.51, 1760],                     gap: 0.055, duration: 0.28, volume: 0.095 },
-    sparkle: { type: 'sine',     notes: [1046.5, 1318.51, 1567.98, 2093],   gap: 0.04,  duration: 0.42, volume: 0.085 },
-    fanfare: { type: 'triangle', notes: [523.25, 659.25, 783.99, 1046.5],   gap: 0.075, duration: 0.62, volume: 0.10 },
-    level:   { type: 'sine',     notes: [392, 493.88, 587.33, 783.99],      gap: 0.07,  duration: 0.50, volume: 0.095 },
-    notice:  { type: 'triangle', notes: [587.33, 783.99],                   gap: 0.055, duration: 0.24, volume: 0.075 },
-    click:   { type: 'square',   notes: [1200],                             gap: 0,     duration: 0.06, volume: 0.035 },
-    soft:    { type: 'sine',     notes: [261.63, 392],                      gap: 0.045, duration: 0.28, volume: 0.09 }
-  };
-  const s = sounds[value] || sounds.ping;
-  const now = ctx.currentTime;
-  const master = ctx.createGain();
-  master.gain.setValueAtTime(0.0001, now);
-  master.gain.exponentialRampToValueAtTime(s.volume, now + 0.018);
-  master.gain.exponentialRampToValueAtTime(0.0001, now + s.duration + s.gap * Math.max(0, s.notes.length - 1));
-  master.connect(ctx.destination);
-  s.notes.forEach((freq, i) => {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const t = now + i * s.gap;
-    osc.type = s.type;
-    osc.frequency.setValueAtTime(freq, t);
-    gain.gain.setValueAtTime(1 / Math.max(1, s.notes.length), t);
-    osc.connect(gain);
-    gain.connect(master);
-    osc.start(t);
-    osc.stop(t + s.duration);
-  });
-}
 function saveSoundPref(type, value, btn) {
   if (type === 'select') {
     localStorage.setItem('mec_select_sound_v1', value);

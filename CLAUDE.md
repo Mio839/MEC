@@ -29,6 +29,7 @@
 | `calc_input.js` | 計算問題の桁入力エンジン（`window.MecCalc`）。原文がマークシートの計算問題48問（科目33＋過去問15）は選択肢を持たないため試験モードで解答不能だった。正解は `.ac`（ans_label）の `計算答：<桁文字列>` が正本。**study.html と 国家試験過去問/*.html の両方が読む共有ファイル**（演出テーマのようなミラー乖離を作らないため）。CSSは自前で注入する |
 | `card_renderer.js` | JSON→カードHTML描画（`window._renderSubjectFromJson`、エスケープ処理あり） |
 | `fx_engine.js` | エフェクトのCanvas描画エンジン（`window.MecFX`：粒子・花火・グリフバースト等）。ハブのゲージ用に `gears`／`gearRain`／`steam`（真鍮の歯車・蒸気）を、2026-08-14に `shatter`（破片）／`ribbon`（2点間を走る光）／`stamp`（刻印）／`orbit`（極座標で回る粒）／`wave`（走査する波形）を足した。**エミッタの追加は常に純増で行うこと**——study.html／chapter_exam.js の試験演出が同じエンジンを共用しているので、既存関数の引数や既定値を変えると7テーマ全部に波及する。⚠️ **位置を自前で持つ型（ribbon/wave/stamp/bar/bolt/ring）は `STATIC_TYPES` に登録すること**——登録し忘れると step() の物理を通り、重力で画面外へ落ちて1フレームで消える |
+| `sounds/` ＋ `sounds_index.js` | 効果音。実体は `sounds/{正解音,起動音,選択音}/`、台帳は `sounds/meta.json`、一覧は `_work/build_sounds_index.js` が生成する `sounds_index.js`（**派生物**・`window.MecSounds`）。**ファイル名・キー・音量の唯一の正本**で、study.html／index.html／chapter_exam.js の3つが全部これを読む。⚠️ 音を足すのは「フォルダに置く→meta.json に1行→生成スクリプト」の3手順でコードは触らない。⚠️ 起動音は設定で選ばせず毎回ランダム |
 | `image_dims.json` | 問題画像の実寸（パス→[w,h]・約109KB・**派生物**。`_work/build_image_dims.py`が生成）。`card_renderer.js`が`<img width height>`を出す材料。これが無いと遅延読込の画像でレイアウトが後からずれ、章ジャンプが目標に収束しない。**画像を差し替え・追加したら必ず再生成** |
 | `sw.js` | Service Worker（オフラインキャッシュ）。`CACHE`版数は**questions_*.json・画像を更新した時にbump**（bumpで全キャッシュ削除＝再DL）。SHELL/CARDSにパス列挙。相対パス必須 |
 | `chapters_meta.js` / `rate_index.js` | stats.html等が参照する章メタ・正答率インデックス（`_work/build.py`系で再生成） |
@@ -905,6 +906,7 @@ node _work/test_exam_chassis.js    試験UIの筐体／盤面の分離      (25)
 node _work/test_exam_reading.js    読んでいる間の演出            (26)
 node _work/test_exam_brasswork.js  筐体の外へ広げた真鍮細工      (36)
 node _work/test_mindmap_layout.js  マインドマップのレイアウト/データ (122)
+node _work/test_sounds.js          効果音の一覧・音量・ランダム起動音  (25)
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 ```
 
@@ -1401,36 +1403,70 @@ B1 の完了（`_subjLoadDone`）は `_finish` の rAF にぶら下がるが、*
 
 試験モード（🎓）で選択肢を選んだ瞬間に発火する視覚エフェクトの仕様。実装は `study_exam.js`（統合study.html用）と `chapter_exam.js`（章別過去問用・同一配色をミラー）。CSSアニメの一部は `study.css`。パーティクル描画は `fx_engine.js`（`window.MecFX`）。
 
-### 効果音の wav（正解音・起動音／2026-08-21）
+### 効果音は sounds/ の3フォルダ ＋ 生成された一覧が正本（2026-08-21に再編）
 
-`sounds/` の wav は **`study_exam.js` の `CORRECT_WAVS`（正解音・5種）と `BOOT_WAV`（起動音）が正本**。
-`_playWavSound(spec)` / `_prepareWavSound(spec)` の1本に集約してあり、`_playCustomCorrectSound()` は
-旧キー `custom`（= `correct.wav`）の受け皿として名前だけ残してある。
+```
+sounds/正解音/   sounds/起動音/   sounds/選択音/   ← 音の実体（ユーザーが置く）
+sounds/meta.json                                  ← 台帳（key / label / vol / peak）※人が編集する唯一の場所
+        ↓ node _work/build_sounds_index.js
+sounds_index.js（window.MecSounds・派生物）        ← ファイル名・キー・音量の唯一の正本
+        ↓
+study.html(study_exam.js) ／ index.html ／ chapter_exam.js  ← 3つとも「これを読むだけ」
+```
+
+**音を足す手順は3つだけ**——①フォルダに置く ②`sounds/meta.json` に1行足す
+③`node _work/build_sounds_index.js`。**コードもHTMLも1文字も触らない**（設定画面のボタンは
+`_renderStudySoundGrid` / `_renderHubSoundGrid` が一覧から生成する）。あとは `sw.js` の
+`SHELL_VERSION` を bump して push。テスト: `node _work/test_sounds.js`（25件）。
+
+⚠️⚠️ **ファイル名の表を2本目に書かないこと。** 2026-08-21 まで `study_exam.js` の
+`CORRECT_WAVS`/`BOOT_WAV`・`index.html` の `HUB_CORRECT_WAVS`/`HUB_BOOT_WAV`・
+`chapter_exam.js` の `ceBootSound` に**同じ表が3本**あり、ハブと過去問ビューアは
+`study_exam.js` を読まないので片方だけ増やすと黙って乖離した（`check_effect_themes_sync.js`
+はこれを検出しない）。`test_sounds.js` の項目3が、一覧に載っているファイル名がこの3ファイルに
+直書きされていないことと、旧ミラーの名前が復活していないことを見張る。
+⚠️ 過去問ビューアは `国家試験過去問/` の下にあるので、`sounds_index.js` を**自分で
+`scriptBase` 付きで動的ロード**する（27ページの HTML には `<script>` を足していない）。
+パスにも `scriptBase` を前置すること。
 
 | 設定キー | 既定 | 中身 |
 |---|---|---|
-| `mec_correct_sound_v1` | `ping` | 合成音11種＋wav 5種（`custom`＝correct.wav／`msmove`＝ＭＳ動作／`saber`／`magnum`／`buppigan`）＋`off` |
-| `mec_boot_sound_v1` | `ms` | 試験開始のカウントダウン中に1回鳴る `MS起動.wav`（`off` で無音） |
+| `mec_correct_sound_v1` | 一覧の先頭（`custom`＝正解音） | `sounds/正解音/` の8種＋`off` |
+| `mec_select_sound_v1` | 一覧の先頭（`mp3`＝選択） | `sounds/選択音/` の2種＋`off` |
+| `mec_boot_sound_v1` | `on` | **鳴らす／鳴らさないだけ**（下記） |
+| `mec_combo_sound_v1` | `rise` | コンボ音。**ここだけ合成音のまま**（ファイルを持たない） |
 
-- ⚠️ **キーは localStorage にそのまま入るので改名しないこと**（`custom` は旧ユーザーの設定が刺さっている）。
-  2026-08-21 に MS起動 と ＭＳ動作 を入れ替えた際、旧キー `msboot` は**同じキーに別のファイルを
-  入れず消した**（「MS起動 を選んだはずが ＭＳ動作 が鳴る」を避けるため。旧設定は既定の ping に落ちる）。
-- ⚠️ **起動音の尺はカウントダウンより短いこと**。MS起動 2.01秒 ＜ カウントダウン最短 2.535秒
-  （ログ3行の cyber。最長は 2.745秒）。長い素材へ替えるなら `_examCountdown` の
-  `t0 + 3*420 + 780` を数え直す。
-- ⚠️ **音量 `vol` は「wav のピーク × vol ≒ 0.5」に揃えてある**（ピーク実測 correct .49／MS起動 .66／
-  ビームサーベル 1.00／ビームマグナム .36／ブッピガン 1.00／ＭＳ動作 .96）。wav を差し替えたら測り直す
-  ——揃っていないと**選び替えただけで体感の音量が2倍以上変わる**。増幅（`vol>1`）は GainNode でしか
-  できないので、`<audio>` フォールバック側は 1 で頭打ちになる。
-- ⚠️ **ファイル名の表は3か所にある**（`study_exam.js` の `CORRECT_WAVS`/`BOOT_WAV`・`index.html` の
-  `HUB_CORRECT_WAVS`/`HUB_BOOT_WAV`・`chapter_exam.js` の `ceBootSound`）。ハブと過去問ビューアは
-  `study_exam.js` を読まないのでミラーになる＝**片方だけ増やさないこと**（演出テーマと同じ約束。
-  ただし `check_effect_themes_sync.js` はこれを検出しない）。
+- ⚠️ **起動音は設定で選ばせず、試験開始のたびにランダムで1つ鳴る**（2026-08-21〜）。
+  抽選は `_pickBootSpec()`。**抽選も prepare も `startExam` の中＝開始をタップしたその手の中で
+  済ませること**（iOS の自動再生制限を通せる唯一の機会。`_playBootSound` で選び直すと遅い）。
+  旧値（`'ms'` 等＝ファイルを指していた頃の設定）は `'off'` 以外なので鳴らす側へ落ちる。
+- ⚠️ **起動音の尺はカウントダウンより長くてよい＝鳴らし切る**（2026-08-21 にユーザーが選択）。
+  MS起動 4.73秒／アカツキ起動 4.85秒 に対しカウントダウンは 2.535〜2.745秒なので、明けて
+  1問目に入っても音だけ2秒ほど続く。**`_examCountdown` の尺は1msも増やさない**
+  （起動演出は待ち時間で、長い演出は2回目から邪魔になる）。
+- ⚠️ **正解音・選択音の合成音（ping/chime/pop…）は 2026-08-21 に全廃した**（ユーザーの判断＝
+  「自分が置いた音以外は要らない」）。**戻さないこと。** 合成音が残っているのはコンボ音だけ。
+  保存済みの旧キーは `_sndResolve()` が一覧の先頭へ落とす（**localStorage は書き換えない**——
+  別端末の設定を同期で壊さないため、解決は読む側で行う）。
+- ⚠️ **キーは localStorage にそのまま入るので改名しないこと**（`custom`＝correct.wav、
+  `mp3`＝選択.mp3 は既存ユーザーの設定が刺さっている）。ファイルをフォルダへ移しても key は据え置く。
+  **起動音の key だけは localStorage に入らないので改名してよい**（毎回ランダムなので）。
+- ⚠️ **音量 `vol` は「ピーク × vol」を揃える**（正解音・起動音は ≒0.5／選択音は頻繁に鳴るので ≒0.7）。
+  揃っていないと**選び替えただけで体感の音量が2倍以上変わる**。`test_sounds.js` の項目2が
+  台帳の `peak` と突き合わせて見張る。wav は python の `wave`+numpy で測れるが、**mp3 は
+  デコーダが要る**（ブラウザの `decodeAudioData` で実測した）。
+- ⚠️⚠️ **`vol>1` は GainNode でしか効かない**（`<audio>` の `volume` は 1 で頭打ち）。
+  MHF_クエスト開始BGM はピーク .117＝**vol 4.3**、アカツキ起動はピーク .051＝**vol 9.8** なので、
+  `<audio>` へ落ちるとほぼ無音になる。だから `_playWavSound` は**デコードが済んでいなければ
+  `<audio>` へ落とさず、バッファの完成を待ってから鳴らす**（`slot.waiting` で待機中の重複要求は
+  捨てる＝連打で同じ音が積み上がらない）。ハブのプレビューだけは `<audio>` なので本番より小さい。
 - **起動音は演出と一蓮托生**——`_examCountdown()` は `_fxOff()`（reduced-motion 等）で何も出さずに
-  返るので、そのときは音も鳴らない。バッファの用意は `startExam` の中＝**開始をタップしたその手の中**で
-  始める（iOS の自動再生制限を通せる唯一の機会）。
-- ⚠️ sw.js の SHELL/CARDS に `sounds/` は入っていない（`correct.wav` も昔から入っていない）。
-  オフラインで鳴らしたくなったら SHELL へ足す＝そのとき初めて `CACHE` の bump が要る。
+  返るので、そのときは音も鳴らない。
+- ⚠️ **過去問ビューアの旧キー `chExamCorrectSound` / `chExamSelectSound` は 2026-08-21 に廃止した**
+  ——書き込む UI がどこにも無く常に既定値のままだった（＝効かない設定）。いまは study/ハブと
+  同じ共有キーを見るので、そこで選んだ音が過去問でも鳴る。
+- ⚠️ sw.js の SHELL には `sounds_index.js` だけを入れてある。**`sounds/` の音そのものは入っていない**
+  （従来どおり＝オフラインでは鳴らない・約2.7MB）。入れるなら `CACHE` ごと bump が要る。
 
 ### ⚠️ 発火位置は「可視帯」が正本（2026-08-04〜）
 

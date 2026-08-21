@@ -21,6 +21,18 @@
     (document.head || document.documentElement).appendChild(s);
   })();
 
+  /* ─── sounds_index.js（効果音の一覧）を動的ロード ──
+     過去問ビューアの27ページは <script> を持たないので、ここで自分で読む。
+     ⚠️ ファイル名・音量の表をこの中に書かないこと（study_exam.js / index.html と3本に
+        分かれていたのを 2026-08-21 に1本へ寄せた）。読めなければ音が鳴らないだけ。 */
+  (function () {
+    if (window.MecSounds) return;
+    var s = document.createElement('script');
+    s.src = scriptBase + 'sounds_index.js';
+    s.async = true;
+    (document.head || document.documentElement).appendChild(s);
+  })();
+
   // ─── State ────────────────────────────────────────────────────
   var exam = {
     active: false,
@@ -33,8 +45,13 @@
     count: 50,
     chKey: null,
     effectSet: 'classic',
-    sound: localStorage.getItem('chExamCorrectSound') || 'ping',
-    ssound: localStorage.getItem('chExamSelectSound') || 'mp3'
+    /* ⚠️ 2026-08-21: 旧 'chExamCorrectSound' / 'chExamSelectSound' を廃止した——書き込む
+       UI がどこにも無く、常に既定値のままだった（＝設定が効かないキー）。study.html /
+       index.html と同じ共有キーを見るので、そこで選んだ音がここでも鳴る。
+       ⚠️ 実際にどの音かは鳴らす瞬間に解決する（sounds_index.js は非同期で読むため、
+          ここで解決すると常に空リストに当たる）。 */
+    sound: localStorage.getItem('mec_correct_sound_v1'),
+    ssound: localStorage.getItem('mec_select_sound_v1')
   };
 
   var CE_EFFECT_SETS = ['classic', 'neon', 'ink', 'ecg', 'space', 'retro', 'luxury'];
@@ -2440,61 +2457,97 @@
     return _actx;
   }
 
+  /* ── 効果音の再生（wav/mp3）─────────────────────────────────────
+     ファイル名・音量・並びは sounds_index.js（window.MecSounds）が唯一の正本。
+     ⚠️ ここに表を作らないこと。音を足すのは sounds/ + sounds/meta.json + 生成スクリプト。
+     ⚠️ 過去問ビューアは下の階層（国家試験過去問/）にあるので、パスには必ず scriptBase を
+        前置する（window.MecSounds.base は直下からの相対）。 */
+  function ceSndList(slot) {
+    var l = window.MecSounds && window.MecSounds[slot];
+    return Array.isArray(l) ? l : [];
+  }
+  function ceSndFind(slot, key) {
+    var l = ceSndList(slot);
+    for (var i = 0; i < l.length; i++) if (l[i].key === key) return l[i];
+    return null;
+  }
+  /* 保存値を実在するキーへ解決する。'off' はそのまま、見当たらないキー（消したファイル・
+     旧合成音のキー）は先頭＝既定へ落とす。 */
+  function ceSndResolve(slot, stored) {
+    if (stored === 'off') return null;
+    return ceSndFind(slot, stored) || ceSndList(slot)[0] || null;
+  }
+
+  var _ceWav = {};
+  function ceWavSlot(spec) {
+    var slot = _ceWav[spec.file];
+    if (!slot) {
+      var a = new Audio(scriptBase + 'sounds/' + spec.file);
+      a.preload = 'auto';
+      slot = _ceWav[spec.file] = { audio: a, buffer: null, promise: null, waiting: false };
+    }
+    return slot;
+  }
+  function cePrepareWav(spec) {
+    if (!spec) return;
+    var ctx = getCtx(), slot = ceWavSlot(spec);
+    if (!ctx || slot.buffer || slot.promise) return;
+    slot.promise = fetch(scriptBase + 'sounds/' + spec.file)
+      .then(function (r) { return r.arrayBuffer(); })
+      .then(function (b) { return ctx.decodeAudioData(b); })
+      .then(function (d) { slot.buffer = d; })
+      .catch(function () { slot.promise = null; });
+  }
+  function ceEmitWav(ctx, buffer, spec) {
+    var src = ctx.createBufferSource(), g = ctx.createGain();
+    src.buffer = buffer;
+    g.gain.setValueAtTime(spec.vol == null ? 1 : spec.vol, ctx.currentTime);
+    src.connect(g); g.connect(ctx.destination);
+    src.start(ctx.currentTime);
+  }
+  function cePlayWav(spec) {
+    if (!spec) return;
+    try {
+      var slot = ceWavSlot(spec), ctx = getCtx();
+      if (ctx) {
+        if (slot.buffer) { ceEmitWav(ctx, slot.buffer, spec); return; }
+        cePrepareWav(spec);
+        /* デコード待ちなら終わり次第そのまま鳴らす。⚠️ <audio> へ落とすと音量が 1 で
+           頭打ちになり、vol>1 の素材（MHF / アカツキ起動）がほぼ無音になる。 */
+        if (slot.promise && !slot.waiting) {
+          slot.waiting = true;
+          slot.promise.then(function () {
+            slot.waiting = false;
+            if (slot.buffer) ceEmitWav(ctx, slot.buffer, spec);
+          });
+        }
+        if (slot.promise) return;
+      }
+      slot.audio.volume = Math.max(0, Math.min(1, spec.vol == null ? 1 : spec.vol));
+      slot.audio.pause();
+      slot.audio.currentTime = 0;
+      slot.audio.play().catch(function () {});
+    } catch (e) {}
+  }
+
   /* 試験開始のカウントダウン中に鳴る起動音。
-     ⚠️ 設定キー・ファイル・音量は study_exam.js の BOOT_WAV と揃えること
-        （過去問ビューアは study_exam.js を読まないのでミラーになる）。 */
+     ⚠️ 2026-08-21 から**毎回ランダム**で1つ選ぶ（study 側の _playBootSound と同じ仕様）。
+        localStorage('mec_boot_sound_v1') が持つのは鳴らす／鳴らさないだけで、
+        'off' 以外の旧値（'ms' 等）は鳴らす側へ落ちる。 */
   function ceBootSound() {
     try {
-      if ((localStorage.getItem('mec_boot_sound_v1') || 'ms') === 'off') return;
-      var a = new Audio(scriptBase + 'sounds/MS起動.wav');
-      a.volume = .75;
-      a.play().catch(function(){});
+      if (localStorage.getItem('mec_boot_sound_v1') === 'off') return;
+      var l = ceSndList('boot');
+      if (l.length) cePlayWav(l[(Math.random() * l.length) | 0]);
     } catch (e) {}
   }
 
   function playSelect() {
-    var s = exam.ssound;
-    if (s === 'off') return;
-    if (s === 'mp3') {
-      try { var a = new Audio(scriptBase + 'sounds/選択.mp3'); a.volume = .4; a.play().catch(function(){}); } catch(e){}
-      return;
-    }
-    try {
-      var ctx = getCtx(), t = ctx.currentTime;
-      var osc = ctx.createOscillator(), g = ctx.createGain();
-      osc.connect(g); g.connect(ctx.destination);
-      if (s === 'click') { osc.type='square'; osc.frequency.value=800; g.gain.setValueAtTime(.08,t); g.gain.exponentialRampToValueAtTime(.001,t+.06); osc.start(t); osc.stop(t+.06); }
-      else if (s === 'tick') { osc.type='sine'; osc.frequency.value=1200; g.gain.setValueAtTime(.05,t); g.gain.exponentialRampToValueAtTime(.001,t+.04); osc.start(t); osc.stop(t+.04); }
-      else if (s === 'blip') { osc.type='sine'; osc.frequency.setValueAtTime(600,t); osc.frequency.linearRampToValueAtTime(900,t+.05); g.gain.setValueAtTime(.06,t); g.gain.exponentialRampToValueAtTime(.001,t+.08); osc.start(t); osc.stop(t+.08); }
-      else { osc.type='sine'; osc.frequency.value=440; g.gain.setValueAtTime(.04,t); g.gain.exponentialRampToValueAtTime(.001,t+.05); osc.start(t); osc.stop(t+.05); }
-    } catch(e){}
+    cePlayWav(ceSndResolve('select', exam.ssound));
   }
 
   function playCorrect() {
-    var s = exam.sound;
-    if (s === 'off') return;
-    try {
-      var ctx = getCtx(), t = ctx.currentTime;
-      if (s === 'ping') {
-        var o=ctx.createOscillator(),g=ctx.createGain(); o.connect(g); g.connect(ctx.destination);
-        o.type='sine'; o.frequency.setValueAtTime(880,t); o.frequency.exponentialRampToValueAtTime(1760,t+.1);
-        g.gain.setValueAtTime(.15,t); g.gain.exponentialRampToValueAtTime(.001,t+.4); o.start(t); o.stop(t+.4);
-      } else if (s === 'chime') {
-        [523,659,784].forEach(function(f,i){
-          var o=ctx.createOscillator(),g=ctx.createGain(); o.connect(g); g.connect(ctx.destination);
-          o.type='sine'; o.frequency.value=f; var st=t+i*.1;
-          g.gain.setValueAtTime(.12,st); g.gain.exponentialRampToValueAtTime(.001,st+.5); o.start(st); o.stop(st+.5);
-        });
-      } else if (s === 'pop') {
-        var o=ctx.createOscillator(),g=ctx.createGain(); o.connect(g); g.connect(ctx.destination);
-        o.type='sine'; o.frequency.setValueAtTime(400,t); o.frequency.exponentialRampToValueAtTime(800,t+.08);
-        g.gain.setValueAtTime(.18,t); g.gain.exponentialRampToValueAtTime(.001,t+.18); o.start(t); o.stop(t+.18);
-      } else {
-        var o=ctx.createOscillator(),g=ctx.createGain(); o.connect(g); g.connect(ctx.destination);
-        o.type='sine'; o.frequency.value=660;
-        g.gain.setValueAtTime(.1,t); g.gain.exponentialRampToValueAtTime(.001,t+.3); o.start(t); o.stop(t+.3);
-      }
-    } catch(e){}
+    cePlayWav(ceSndResolve('correct', exam.sound));
   }
 
   // ─── Init ─────────────────────────────────────────────────────

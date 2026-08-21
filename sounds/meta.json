@@ -1,0 +1,52 @@
+{
+  "_readme": [
+    "効果音の台帳（人が編集する唯一の場所）。node _work/build_sounds_index.js が",
+    "sounds/{正解音,起動音,選択音}/ を走査してこの台帳と突き合わせ、sounds_index.js を生成する。",
+    "",
+    "■ 音を足す手順",
+    "  1. sounds/{正解音|起動音|選択音}/ に置く",
+    "  2. ここに 1 行足す（key / label / vol）",
+    "  3. node _work/build_sounds_index.js   → sounds_index.js が作り直される",
+    "  4. node _work/test_sounds.js          → 台帳とコードの整合を検査",
+    "  5. sw.js の SHELL_VERSION を bump してから push",
+    "  ※ 2 を飛ばしてもビルドは通る（key はファイル名から自動生成・vol は 1.0）。",
+    "    ただし体感音量が揃わないので、鳴らして違和感があれば vol を書くこと。",
+    "",
+    "■ key — localStorage('mec_correct_sound_v1' / 'mec_select_sound_v1') にそのまま入る。",
+    "  ⚠️ 改名するとその音を選んでいた端末の設定が既定へ落ちる。'custom' は correct.wav の",
+    "     旧キーで既存ユーザーの設定が刺さっているので、ファイルを移しても key は据え置く。",
+    "",
+    "■ vol — 「ピーク × vol ≒ 0.5」に揃えてある（選択音だけは頻繁に鳴るので ≒ 0.7）。",
+    "  ⚠️ 揃っていないと選び替えただけで体感音量が2倍以上変わる。差し替えたら測り直すこと。",
+    "     wav は python の wave+numpy で測れるが、mp3 はデコーダが要る（ブラウザの",
+    "     decodeAudioData で測った実測値が peak 欄）。",
+    "  ⚠️ vol>1 は AudioContext の GainNode でしか効かない。<audio> 要素のフォールバックは",
+    "     1 で頭打ちなので、MHF(4.3) と アカツキ起動(9.8) はフォールバック時だけ小さく鳴る。",
+    "",
+    "■ 起動音は設定で選ばせず、試験開始のたびにランダムに1つ鳴る（2026-08-21〜）。",
+    "  したがって起動音の key は localStorage に入らない＝改名してよい。",
+    "  ⚠️ 尺はカウントダウン演出（2.535〜2.745秒）より長くてよい——鳴らし切る方針で、",
+    "     カウントダウンが明けて1問目に入っても音だけ続く。演出の尺は1msも増やさない。"
+  ],
+
+  "正解音": {
+    "correct.wav":                { "key": "custom",   "label": "正解音",         "vol": 1.0,  "peak": 0.491, "dur": 1.17 },
+    "ＭＳ動作.wav":                { "key": "msmove",   "label": "ＭＳ動作",       "vol": 0.5,  "peak": 0.962, "dur": 1.56 },
+    "ビームサーベル斬撃.wav":      { "key": "saber",    "label": "ビームサーベル", "vol": 0.5,  "peak": 1.000, "dur": 1.15 },
+    "ビームマグナム.wav":          { "key": "magnum",   "label": "ビームマグナム", "vol": 1.5,  "peak": 0.338, "dur": 3.54 },
+    "ブッピガン.wav":              { "key": "buppigan", "label": "ブッピガン",     "vol": 0.5,  "peak": 0.997, "dur": 1.21 },
+    "Zelda.mp3":                  { "key": "zelda",    "label": "ゼルダ",         "vol": 0.95, "peak": 0.534, "dur": 1.90 },
+    "キングダムハーツ項目選択.wav": { "key": "kh",       "label": "キングダムハーツ", "vol": 0.7, "peak": 0.701, "dur": 4.14 },
+    "MHF_クエスト開始BGM.wav":     { "key": "mhf",      "label": "MHFクエスト開始", "vol": 4.3, "peak": 0.117, "dur": 2.00 }
+  },
+
+  "起動音": {
+    "MS起動.wav":        { "key": "ms",       "label": "MS起動",     "vol": 0.55, "peak": 0.919, "dur": 4.73 },
+    "アカツキ起動.mp3":   { "key": "akatsuki", "label": "アカツキ起動", "vol": 9.8, "peak": 0.051, "dur": 4.85 }
+  },
+
+  "選択音": {
+    "選択.mp3":            { "key": "mp3",      "label": "選択",           "vol": 0.70, "peak": 0.996, "dur": 1.07 },
+    "カーソル音【FF】.wav": { "key": "ffcursor", "label": "カーソル音【FF】", "vol": 1.03, "peak": 0.678, "dur": 0.16 }
+  }
+}

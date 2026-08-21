@@ -1,3 +1,11 @@
+// 2026-08-21e: 効果音を sounds/{正解音,起動音,選択音}/ の3フォルダに整理し、一覧を
+//   sounds_index.js（sounds/meta.json から node _work/build_sounds_index.js が生成）へ寄せた。
+//   ファイル名・キー・音量の表が study_exam.js / index.html / chapter_exam.js の3か所に
+//   分かれていたのを1本に統合＝片方だけ増やして乖離する事故が構造的に起きなくなった。
+//   起動音は設定で選ばせず**試験開始のたびにランダム**（設定は鳴らす／鳴らさないだけ）。
+//   正解音・選択音の合成音（ping/chime/…）は全廃し、ユーザーが置いた音だけにした。
+//   ⚠️ sounds/ 自体は SHELL に入れていない（従来どおり＝オフラインでは鳴らない）。入れる
+//      なら CACHE ごと bump が要る。シェルのみの変更なので今回は SHELL_VERSION だけ bump。
 // 2026-08-21d: 疾患マインドマップを 1エンジン＋データ分離へ移行し、SHELL に登録した。
 //   旧実装は mindmap 関連を1バイトもキャッシュしておらず、オフラインで開けなかった。
 //   questions_*.json も画像も触っていないので CACHE は据え置き＝SHELL_VERSION だけ bump。
@@ -272,7 +280,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-21d";
+const SHELL_VERSION = "2026-08-21e";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -296,6 +304,8 @@ const SHELL = [
   "./image_dims.json",
   "./card_renderer.js",
   "./gamify.js",
+  // 効果音の一覧（派生物）。⚠️ sounds/ の音そのものは入れていない（オフラインでは鳴らない）。
+  "./sounds_index.js",
   // 疾患マインドマップ（2026-08-21・段A）。旧9本＋統合マップは1エンジン＋データ分離へ移行した。
   // ⚠️ 新しい科目のマップを作ったら mindmap_data/{sid}.js をここへ足すこと（足さないとその科目だけ
   //    オフラインで開けない）。index.js の ready:true と一致していること。
