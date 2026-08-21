@@ -1,3 +1,6 @@
+// 2026-08-22a: 疾患マインドマップの残り6科目（精神科は前回・今回は 小児科(peds)・産婦人科(obg)・
+//   感染症(kansen)）を追加し、全21科目のデータが揃った（176章804疾患236関連＋ハブ168疾患104関連）。
+//   データファイルなので SHELL に登録した。CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-21h: 疾患マインドマップに 精神科(psy)・皮膚科(derm)・眼科(oph) を追加。
 //   これでマイナー講座8科目＋横断テーマ tox が全部マップ化された（残るは kansen/peds/obg）。
 // 2026-08-21g: 疾患マインドマップに 泌尿器科(uro)・整形外科(ortho)・耳鼻咽喉科(ent) を追加。
@@ -343,6 +346,7 @@ const SHELL = [
   "./mindmap_data/oph.js",
   "./mindmap_data/peds.js",
   "./mindmap_data/obg.js",
+  "./mindmap_data/kansen.js",
 ];
 // 新科目追加時は必ずここにも questions_{prefix}.json を追加すること（chapters_meta.js の sid 一覧と一致させる）
 const CARDS = [

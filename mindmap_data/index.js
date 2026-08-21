@@ -11,7 +11,7 @@ window.MM_SUBJECTS = [
   { sid: "jinzo_d", label: "腎臓", icon: "💧", color: "#94A3B8", ready: true },
   { sid: "hema", label: "血液", icon: "🩸", color: "#DC2626", ready: true },
   { sid: "imma", label: "免アレ膠", icon: "🛡️", color: "#EC4899", ready: true },
-  { sid: "kansen", label: "感染症", icon: "🦠", color: "#14B8A6", ready: false },
+  { sid: "kansen", label: "感染症", icon: "🦠", color: "#14B8A6", ready: true },
   { sid: "peds", label: "小児科", icon: "🧸", color: "#F472B6", ready: true },
   { sid: "obg", label: "産婦人科", icon: "🤰", color: "#E11D48", ready: true },
   { sid: "psy", label: "精神科", icon: "💭", color: "#5E60CE", ready: true },

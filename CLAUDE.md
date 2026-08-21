@@ -793,9 +793,9 @@ stats.html「🩺 弱点カルテ」     ← 科目×設問形式ヒートマッ
 - テスト: `node _work/test_attempts.js`（ログ）・`node _work/test_karte.js`（集計）・
   `node _work/test_merge_remote.js`（同期マージ）。いずれも実ソースを読み込むのでロジックの二重管理は無い。
 
-## 疾患マインドマップ（2026-08-21・段A で1エンジン＋データ分離へ移行）
+## 疾患マインドマップ（2026-08-21 段A：1エンジン＋データ分離／2026-08-22 段C：全21科目のデータが揃った）
 
-設計の正本は `_work/マインドマップ_設計.md`。テスト: `node _work/test_mindmap_layout.js`（122件）。
+設計の正本は `_work/マインドマップ_設計.md`。テスト: `node _work/test_mindmap_layout.js`（242件）。
 
 **役割は「直前期の俯瞰・想起」**（2026-08-21にユーザーが選択）。ここから何を載せないかが決まる。
 
@@ -803,7 +803,7 @@ stats.html「🩺 弱点カルテ」     ← 科目×設問形式ヒートマッ
 |---|---|
 | ページ | `mindmap.html`（`?sid={prefix}` で科目マップ・引数なしでハブ）1枚だけ |
 | データ | `mindmap_data/index.js`（レジストリ）／`{sid}.js`（科目）／`_hub.js`（ハブ） |
-| 現状 | 9科目 78章 320疾患 93関連＋ハブ72疾患45関連。**未作成12科目**（kansen/peds/obg/psy/derm/oph/ent/uro/ortho/anes/rad/tox） |
+| 現状 | **全21科目 176章 804疾患 236関連＋ハブ21科目168疾患104関連**（2026-08-22に段Cが完了＝未作成0）。既存9科目は旧HTMLからの移行、残る12科目（tox/anes/rad/uro/ortho/ent/psy/derm/oph/peds/obg/kansen）はCLAUDE.mdの「章を貫く筋」記述と questions_*.json の章構成から起こした |
 | 生成器 | `node _work/extract_mindmap_data.js`（旧HTMLからの移行・再実行可）／`node _work/build_mindmap_index.js`（レジストリ） |
 
 ### ⚠️ 不変条件（破ると「重い・使いづらい」が再発する）
@@ -876,6 +876,16 @@ R1   = max(250, N*(2*CH_R+CH_GAP)/2π)     親リング半径（Nから決まる
 ⚠️ **`{科目}/mindmap.html` を新しく作らないこと。** そこにあるのはリダイレクトのstubで、
 エンジンを科目ごとに持つ形へ戻すと study_exam.js ⇔ chapter_exam.js と同じ乖離を21方向で踏む。
 
+⚠️ **章の構成は questions_*.json をそのまま写さない科目が2つある。**
+`kansen` は「第N章」の見出し行が0問で、問題は §N の節に入っているので**問題のある15節を章にした**。
+`obg` の第13章「第120回国試問題」は年度別の問題集で疾患の章ではないため**マップには置いていない**
+（内容は各章のノードに含まれる）。ここを機械的に揃えようとしないこと。
+
+⚠️ **2026-08-22に追加した12科目の keys は、まだユーザーの医学的な検査を受けていない。**
+出典はCLAUDE.mdに残したPDF照合済みの「軸」記述と一般的な国試知識で、PDF原文と1行ずつ
+突き合わせたものではない（設計 §8-3 の手順5が未了）。誤りを見つけたら該当する `{sid}.js` の
+`keys` を直す——**問題データ（questions_*.json）とは独立**なので、こちらを直しても採点には影響しない。
+
 ⚠️ **`_archive/mindmap_src/` を消さないこと。** `extract_mindmap_data.js` がここを読むので、
 消すと移行をやり直して結果を突き合わせることができなくなる。
 
@@ -905,7 +915,7 @@ node _work/test_stats_sections.js  統計の再構成・弱点リスト統合  (
 node _work/test_exam_chassis.js    試験UIの筐体／盤面の分離      (25)
 node _work/test_exam_reading.js    読んでいる間の演出            (26)
 node _work/test_exam_brasswork.js  筐体の外へ広げた真鍮細工      (36)
-node _work/test_mindmap_layout.js  マインドマップのレイアウト/データ (122)
+node _work/test_mindmap_layout.js  マインドマップのレイアウト/データ (242)
 node _work/test_sounds.js          効果音の一覧・音量・ランダム起動音  (25)
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 ```
