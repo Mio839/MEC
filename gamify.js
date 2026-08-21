@@ -1028,6 +1028,9 @@
     mi.addEventListener('click', openPanelModal);
     row.appendChild(lv);
     row.appendChild(mi);
+    // 試験モードボタンを「今日のミッション」の右（末尾）へ移動
+    const examBtn = document.getElementById('examModeBtn');
+    if (examBtn) row.appendChild(examBtn);
     _updateHeaderChips();
   }
 
