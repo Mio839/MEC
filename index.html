@@ -2087,6 +2087,9 @@ function _stampGoalSeal() {
   MecFX.stamp(c.x, c.y, {
     color: '#E0C25E', size: r * 1.1, thick: 5, ticks: 18, rot: -6, ttl: 1.4
   });
+  // 【新同心円】アイリスシャッターの開放 ＆ 天球儀アストロラーベ
+  if (MecFX.irisShutter) MecFX.irisShutter(c.x, c.y, { maxR: r * 1.4, blades: 12, color: '#FFD700', thickness: 3.2 });
+  if (MecFX.astrolabeRings) MecFX.astrolabeRings(c.x, c.y, { maxR: r * 1.6, rings: 4, color: '#E0C25E', speed: 2.2 });
   MecFX.burst(c.x, c.y, {
     count: 48, colors: ['#FFD700', '#FFA040', '#FFFFFF', '#C9A227'],
     shapes: ['gem', 'star', 'shard'], tier: 6, scale: 2.0, speed: 720, glow: true, additive: true
@@ -2166,11 +2169,18 @@ function _gaugeCelebrate(tier) {
   const ringEl = document.querySelector('#gaugeBox .gauge-ring');
   const g = (ringEl && _centerOf(ringEl)) || c;
 
-  // 層1（全段）: 真鍮の衝撃波と、削り粉のような火花。段とともに輪も火花も増える
-  MecFX.rings(g.x, g.y, {
-    count: Math.min(6, tier + 2), maxR: 110 + tier * 42, thickness: 3,
-    color: hit ? '#E0C25E' : '#C9A227', additive: true
-  });
+  // 層1（全段）: 【案1】天球儀アストロラーベ ＆ 【案4】クロノス・タイムダイヤル
+  if (MecFX.astrolabeRings) {
+    MecFX.astrolabeRings(g.x, g.y, {
+      maxR: 120 + tier * 38, rings: Math.min(4, Math.max(2, tier)),
+      color: hit ? '#FFD700' : '#E0C25E', speed: 1.4 + tier * 0.2
+    });
+  }
+  if (tier >= 2 && MecFX.chronosDial) {
+    MecFX.chronosDial(g.x, g.y, {
+      maxR: 100 + tier * 32, color: hit ? '#FFF3C4' : '#C9A227'
+    });
+  }
   MecFX.burst(c.x, c.y, {
     tier: Math.min(6, tier + 2), count: 22 + tier * 14,
     colors: hit ? BRASS.concat(['#FFF3C4']) : BRASS,
@@ -2183,7 +2193,13 @@ function _gaugeCelebrate(tier) {
   MecFX.steam(g.x, g.y + 22, { count: 8 + tier * 3, w: 40, rise: 110, alpha: .44 });
   if (tier < 3) return;
 
-  // 層3（半分から）: ここから画面全体を使う。床から蒸気が立ち上り、歯車が降ってくる
+  // 層3（半分から）: 【案3】多重波紋干渉 ＆ 【案5】真鍮ベアリング・オービット
+  if (MecFX.rippleInterference) {
+    MecFX.rippleInterference(g.x, g.y, { maxR: 160 + tier * 40, span: 60 + tier * 15, color: '#E0C25E' });
+  }
+  if (MecFX.bearingOrbit) {
+    MecFX.bearingOrbit(g.x, g.y, { maxR: 140 + tier * 35, balls: 6 + tier * 2, color: '#FFD700' });
+  }
   MecFX.steam(innerWidth / 2, innerHeight + 30, {
     count: 14 + tier * 4, w: innerWidth / 2,
     rise: 240, min: 60, max: 130, grow: 3.2, alpha: .34, stagger: .7
@@ -2201,11 +2217,12 @@ function _gaugeCelebrate(tier) {
   });
   if (!hit) return;
 
-  // 層5（達成）: 金の粉が舞い、少し遅れて第2波が来る＝1日の山をここに置く
+  // 層5（達成）: 【案2】アイリスシャッターのサンバースト ＆ 金の粉
   MecFX.dust({ count: 26, colors: ['#E0C25E', '#C9A227', '#FFF3C4'] });
+  if (MecFX.irisShutter) MecFX.irisShutter(g.x, g.y, { maxR: 280, blades: 12, color: '#FFD700' });
   setTimeout(() => {
     if (!_fxOk()) return;
-    MecFX.rings(g.x, g.y, { count: 4, maxR: 260, thickness: 3, color: '#FFF3C4', additive: true });
+    if (MecFX.astrolabeRings) MecFX.astrolabeRings(g.x, g.y, { maxR: 300, rings: 4, color: '#FFF3C4' });
     MecFX.gearRain({ count: tier >= 6 ? 46 : 30, big: true });
   }, 620);
 }

@@ -117,7 +117,10 @@
 
   // 位置を自前で持つ（速度で動かさない）型。ここに載せた型は step() の物理を通らない。
   // 型を足したら必ずここに登録すること——登録し忘れると重力で画面外へ落ちて消える。
-  var STATIC_TYPES = { bar: 1, bolt: 1, ring: 1, stamp: 1, wave: 1, ribbon: 1 };
+  var STATIC_TYPES = {
+    bar: 1, bolt: 1, ring: 1, stamp: 1, wave: 1, ribbon: 1,
+    astrolabe: 1, iris: 1, ripple_interfere: 1, chronos_dial: 1, bearing_orbit: 1
+  };
 
   // 2次ベジェ（ribbon の軌道）
   function bez(a, b, c, u) { var v = 1 - u; return v * v * a + 2 * v * u * b + u * u * c; }
@@ -351,6 +354,169 @@
             ctx.lineTo(Math.cos(a3) * r2, Math.sin(a3) * r2);
             ctx.stroke();
           }
+        }
+        ctx.restore();
+        return;
+      }
+      case 'astrolabe': {
+        // 【案1】天球儀アストロラーベ: 相互逆回転する目盛り付き精密同心円 ＆ 公転ドット
+        var scA = easeOutCubic(t);
+        var nR = p.rings || 3;
+        ctx.save();
+        ctx.translate(x, y);
+        for (var ri = 0; ri < nR; ri++) {
+          var cr = (p.maxR * (0.28 + 0.72 * (ri + 1) / nR)) * scA;
+          if (cr <= 2) continue;
+          var dir = (ri % 2 === 0 ? 1 : -1);
+          var rotA = dir * (p.speed || 1.6) * t;
+          ctx.strokeStyle = p.color;
+          ctx.lineWidth = Math.max(0.8, (p.thick || 2.2) * (1 - t * 0.4));
+          // 二重円軌道
+          ctx.beginPath(); ctx.arc(0, 0, cr, 0, 6.2832); ctx.stroke();
+          if (ri === nR - 1) {
+            ctx.beginPath(); ctx.arc(0, 0, cr * 0.92, 0, 6.2832); ctx.stroke();
+          }
+          // 目盛り (Ticks)
+          var nTicks = 12 * (ri + 1);
+          for (var ti = 0; ti < nTicks; ti++) {
+            var aTi = rotA + ti / nTicks * 6.2832;
+            var tLen = (ti % 4 === 0) ? cr * 0.12 : cr * 0.06;
+            ctx.beginPath();
+            ctx.moveTo(Math.cos(aTi) * (cr - tLen), Math.sin(aTi) * (cr - tLen));
+            ctx.lineTo(Math.cos(aTi) * cr, Math.sin(aTi) * cr);
+            ctx.stroke();
+          }
+          // 公転ドット (Orbiting satellites)
+          var nDots = 2 + ri;
+          ctx.fillStyle = p.color;
+          for (var di = 0; di < nDots; di++) {
+            var aDi = rotA * 2.2 + di / nDots * 6.2832;
+            var dx2 = Math.cos(aDi) * cr, dy2 = Math.sin(aDi) * cr;
+            ctx.beginPath(); ctx.arc(dx2, dy2, (p.thick || 2.2) * 1.4, 0, 6.2832); ctx.fill();
+          }
+        }
+        ctx.restore();
+        return;
+      }
+      case 'iris': {
+        // 【案2】アイリスシャッター: 螺旋状に開く真鍮絞り羽 ＆ 放射サンバースト
+        var scI = easeOutCubic(t);
+        var nB = p.blades || 10;
+        var rI = p.maxR * scI;
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.strokeStyle = p.color;
+        ctx.lineWidth = Math.max(1, (p.thick || 2.5) * (1 - t * 0.35));
+        var rotI = t * 1.2;
+        // 放射光条 (Sunburst)
+        if (p.sunburst !== false) {
+          ctx.lineWidth = 0.9;
+          for (var sb = 0; sb < nB * 2; sb++) {
+            var asb = sb / (nB * 2) * 6.2832 + rotI * 0.5;
+            ctx.beginPath();
+            ctx.moveTo(Math.cos(asb) * (rI * 0.4), Math.sin(asb) * (rI * 0.4));
+            ctx.lineTo(Math.cos(asb) * (rI * 1.2), Math.sin(asb) * (rI * 1.2));
+            ctx.stroke();
+          }
+        }
+        // 絞り羽ブレード
+        ctx.lineWidth = Math.max(1.2, (p.thick || 2.5));
+        for (var bi = 0; bi < nB; bi++) {
+          var ab = bi / nB * 6.2832 + rotI;
+          var x0 = Math.cos(ab) * (rI * 0.25);
+          var y0 = Math.sin(ab) * (rI * 0.25);
+          var x1 = Math.cos(ab + 1.2) * rI;
+          var y1 = Math.sin(ab + 1.2) * rI;
+          ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+        }
+        // 外周枠
+        ctx.beginPath(); ctx.arc(0, 0, rI, 0, 6.2832); ctx.stroke();
+        ctx.restore();
+        return;
+      }
+      case 'ripple_interfere': {
+        // 【案3】多重波紋干渉: 3軸パルス ＆ 交点スパーク
+        var scR = easeOutCubic(t);
+        var rR = p.maxR * scR;
+        var span = p.span || 70;
+        var pts = [{x: x, y: y}, {x: x - span, y: y + span * 0.2}, {x: x + span, y: y + span * 0.2}];
+        ctx.strokeStyle = p.color;
+        ctx.lineWidth = Math.max(0.8, (p.thick || 2.0) * (1 - t * 0.5));
+        for (var pi = 0; pi < pts.length; pi++) {
+          var pt = pts[pi];
+          for (var rw = 0; rw < 2; rw++) {
+            var subR = Math.max(2, (rR - rw * 22) * (pi === 0 ? 1 : 0.75));
+            if (subR > 0) {
+              ctx.beginPath(); ctx.arc(pt.x, pt.y, subR, 0, 6.2832); ctx.stroke();
+            }
+          }
+        }
+        // 交点スパーク (Spark at intersections)
+        if (rR > span * 0.5 && t < 0.8) {
+          ctx.fillStyle = '#FFFFFF';
+          var spY = y + Math.sin(t * 12) * 8;
+          ctx.beginPath(); ctx.arc(x - span * 0.45, spY, 2.5, 0, 6.2832); ctx.fill();
+          ctx.beginPath(); ctx.arc(x + span * 0.45, spY, 2.5, 0, 6.2832); ctx.fill();
+        }
+        return;
+      }
+      case 'chronos_dial': {
+        // 【案4】クロノス・タイムダイヤル: 時計文字盤 ＆ 360度走査針
+        var scC = easeOutCubic(t);
+        var rC = p.maxR * scC;
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.strokeStyle = p.color;
+        ctx.lineWidth = Math.max(0.8, (p.thick || 2.0));
+        // 3重文字盤円
+        ctx.beginPath(); ctx.arc(0, 0, rC, 0, 6.2832); ctx.stroke();
+        ctx.beginPath(); ctx.arc(0, 0, rC * 0.78, 0, 6.2832); ctx.stroke();
+        ctx.beginPath(); ctx.arc(0, 0, rC * 0.45, 0, 6.2832); ctx.stroke();
+        // 12時間インデックス
+        for (var hi = 0; hi < 12; hi++) {
+          var ah = hi / 12 * 6.2832;
+          ctx.beginPath();
+          ctx.moveTo(Math.cos(ah) * (rC * 0.78), Math.sin(ah) * (rC * 0.78));
+          ctx.lineTo(Math.cos(ah) * rC, Math.sin(ah) * rC);
+          ctx.stroke();
+        }
+        // 走査針 (Scan Hand)
+        var aHand = t * 6.2832 * 1.75;
+        ctx.lineWidth = Math.max(1.5, (p.thick || 2.0) * 1.5);
+        ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.cos(aHand) * rC, Math.sin(aHand) * rC); ctx.stroke();
+        // 走査残像
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha *= 0.25;
+        ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, rC, aHand - 0.75, aHand); ctx.closePath(); ctx.fill();
+        ctx.restore();
+        return;
+      }
+      case 'bearing_orbit': {
+        // 【案5】真鍮ベアリング・オービット: 周回光球 ＆ 軌道ジャンプ
+        var scB = easeOutCubic(t);
+        var rB = p.maxR * scB;
+        var nBalls = p.balls || 8;
+        ctx.save();
+        ctx.translate(x, y);
+        // 2本の同心円レール
+        ctx.strokeStyle = p.color;
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(0, 0, rB * 0.55, 0, 6.2832); ctx.stroke();
+        ctx.beginPath(); ctx.arc(0, 0, rB, 0, 6.2832); ctx.stroke();
+        // 光球
+        ctx.fillStyle = p.color;
+        for (var bi2 = 0; bi2 < nBalls; bi2++) {
+          var aB = bi2 / nBalls * 6.2832 + t * 4.5;
+          // 半径が内側レールから外側レールへシフト
+          var curRB = rB * (0.55 + 0.45 * Math.min(1, t * 1.5));
+          var bx = Math.cos(aB) * curRB, by = Math.sin(aB) * curRB;
+          ctx.beginPath(); ctx.arc(bx, by, 3.2, 0, 6.2832); ctx.fill();
+          // 尾
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(bx, by);
+          ctx.lineTo(Math.cos(aB - 0.25) * curRB, Math.sin(aB - 0.25) * curRB);
+          ctx.stroke();
         }
         ctx.restore();
         return;
@@ -1236,6 +1402,96 @@
     }
   }
 
+  /** 【案1】天球儀アストロラーベ: 相互逆回転する目盛り付き精密同心円 ＆ 公転ドット */
+  function astrolabeRings(x, y, o) {
+    o = o || {};
+    addP({
+      type: 'astrolabe',
+      x: x == null ? W * .5 : x,
+      y: y == null ? H * .5 : y,
+      maxR: o.maxR || 220,
+      rings: o.rings || 3,
+      thick: o.thickness || 2.4,
+      speed: o.speed || 1.6,
+      color: o.color || '#E0C25E',
+      blend: o.additive !== false,
+      ttl: o.ttl || 1.1,
+      fadeOut: o.fadeOut || 0.35,
+      delay: o.delay || 0
+    });
+  }
+
+  /** 【案2】アイリスシャッター: 螺旋状に開く真鍮絞り羽 ＆ 放射サンバースト */
+  function irisShutter(x, y, o) {
+    o = o || {};
+    addP({
+      type: 'iris',
+      x: x == null ? W * .5 : x,
+      y: y == null ? H * .5 : y,
+      maxR: o.maxR || 240,
+      blades: o.blades || 10,
+      thick: o.thickness || 2.5,
+      color: o.color || '#FFD700',
+      sunburst: o.sunburst !== false,
+      blend: o.additive !== false,
+      ttl: o.ttl || 0.85,
+      fadeOut: o.fadeOut || 0.3,
+      delay: o.delay || 0
+    });
+  }
+
+  /** 【案3】多重波紋干渉: 3軸パルス ＆ 交点スパーク */
+  function rippleInterference(x, y, o) {
+    o = o || {};
+    addP({
+      type: 'ripple_interfere',
+      x: x == null ? W * .5 : x,
+      y: y == null ? H * .5 : y,
+      maxR: o.maxR || 220,
+      span: o.span || 70,
+      thick: o.thickness || 2.0,
+      color: o.color || '#E0C25E',
+      blend: o.additive !== false,
+      ttl: o.ttl || 0.9,
+      fadeOut: o.fadeOut || 0.35,
+      delay: o.delay || 0
+    });
+  }
+
+  /** 【案4】クロノス・タイムダイヤル: 時計文字盤 ＆ 360度走査針 */
+  function chronosDial(x, y, o) {
+    o = o || {};
+    addP({
+      type: 'chronos_dial',
+      x: x == null ? W * .5 : x,
+      y: y == null ? H * .5 : y,
+      maxR: o.maxR || 230,
+      thick: o.thickness || 2.0,
+      color: o.color || '#FFD700',
+      blend: o.additive !== false,
+      ttl: o.ttl || 1.0,
+      fadeOut: o.fadeOut || 0.35,
+      delay: o.delay || 0
+    });
+  }
+
+  /** 【案5】真鍮ベアリング・オービット: 周回光球 ＆ 軌道ジャンプ */
+  function bearingOrbit(x, y, o) {
+    o = o || {};
+    addP({
+      type: 'bearing_orbit',
+      x: x == null ? W * .5 : x,
+      y: y == null ? H * .5 : y,
+      maxR: o.maxR || 210,
+      balls: o.balls || 8,
+      color: o.color || '#E0C25E',
+      blend: o.additive !== false,
+      ttl: o.ttl || 0.95,
+      fadeOut: o.fadeOut || 0.3,
+      delay: o.delay || 0
+    });
+  }
+
   window.MecFX = {
     burst: burst,
     confetti: confetti,
@@ -1266,6 +1522,11 @@
     slashRibbon: slashRibbon,
     sonicWave: sonicWave,
     sparks: sparks,
+    astrolabeRings: astrolabeRings,
+    irisShutter: irisShutter,
+    rippleInterference: rippleInterference,
+    chronosDial: chronosDial,
+    bearingOrbit: bearingOrbit,
     clear: clearAll,
     count: function () { return pool.length; }
   };

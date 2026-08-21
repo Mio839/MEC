@@ -334,6 +334,7 @@ const SHELL = [
   "./mindmap_data/uro.js",
   "./mindmap_data/ortho.js",
   "./mindmap_data/ent.js",
+  "./mindmap_data/psy.js",
 ];
 // 新科目追加時は必ずここにも questions_{prefix}.json を追加すること（chapters_meta.js の sid 一覧と一致させる）
 const CARDS = [
