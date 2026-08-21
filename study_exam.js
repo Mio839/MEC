@@ -1867,7 +1867,33 @@ function _afterCorrectFx(card, fxEl) {
   //    プレートはラベルではない＝難問かつ克服のときに両方出てよい。
   // ⚠️ ここ（_afterCorrectFx）が正解の2経路（選択肢・計算問題）の合流点。
   //    revealAnswer 側だけに書くと計算問題50問で抜ける。
-  if (prior && prior.wasWrong) _polishPlate(card);
+  if (prior && prior.wasWrong) {
+    _polishPlate(card);
+    if (!_fxOff() && window.MecFX && card) {
+      const cr = card.getBoundingClientRect();
+      window.MecFX.burst(cr.left + 4, cr.top + Math.min(cr.height / 2, 80), {
+        count: 24,
+        shapes: ['shard', 'square'],
+        colors: ['#FFD700', '#FFA040', '#FFFFFF', '#C9A227', '#FF5722'],
+        gravity: 1600,
+        speed: 760,
+        additive: false,
+        upBias: 80
+      });
+    }
+  }
+
+  // 【案3】SRS復習モードでの定着刻印（STABLE）
+  if (_srsReviewMode && !_fxOff() && window.MecFX && card) {
+    const cr = card.getBoundingClientRect();
+    window.MecFX.stamp(cr.right - 35, cr.top + 25, {
+      color: '#C9A227',
+      size: 44,
+      thick: 2.2,
+      ticks: 12,
+      delay: .12
+    });
+  }
 
   if (_examRecoverPending) {
     _examRecoverPending = false;
@@ -3062,6 +3088,13 @@ function _triggerChoiceCorrectPop(el) {
     card.style.position = 'relative';
     card.prepend(ov);
     ov.animate([{opacity:1},{opacity:.5,offset:.3},{opacity:0}], {duration:650, easing:'ease-out'}).onfinish = () => ov.remove();
+
+    // 神速の一閃（≤2秒の速答時）
+    if (!_fxOff() && window.MecFX && _fastGrade(card) === 1) {
+      const cr = card.getBoundingClientRect();
+      const col = (theme.fastLabels && theme.burstPalettes && theme.burstPalettes[2]) ? theme.burstPalettes[2][0] : '#FFE040';
+      window.MecFX.slashRibbon(cr.left - 10, cr.top + 10, cr.right + 10, cr.bottom - 10, { color: col, width: 4.5, ttl: .45 });
+    }
   }
   _spawnScatteredCelebration(theme);
 }
@@ -3104,6 +3137,19 @@ function _spawnScatteredCelebration(theme) {
       if (glyphs && glyphs.length) window.MecFX.glyphBurst(p.x, p.y, { glyphs: glyphs, count: 3, w: 110, spread: 110 });
     }, i * 50);   // 0.05秒ずつ遅延して連続発火
   });
+
+  // テーマ固有シグネチャエミッタ（1回だけ可視帯の中心付近から発火）
+  if (t >= 3 && !_fxOff()) {
+    if (examEffectSet === 'ecg' && window.MecFX.defibShock) {
+      window.MecFX.defibShock(_sb.cx, _sb.cy, { color: '#00E676', boltColor: '#00E5FF' });
+    } else if (examEffectSet === 'ink' && window.MecFX.brushDust) {
+      window.MecFX.brushDust(_sb.cx, _sb.cy, { count: 20 + t * 4 });
+    } else if (examEffectSet === 'retro' && window.MecFX.pixelPop) {
+      window.MecFX.pixelPop(_sb.cx, _sb.cy, { count: 22 + t * 4 });
+    } else if (examEffectSet === 'luxury' && window.MecFX.diamondSparkle) {
+      window.MecFX.diamondSparkle(_sb.cx, _sb.cy, { count: 24 + t * 4 });
+    }
+  }
 }
 
 function _spawnFloatingCombo(card, n, tier) {
@@ -3458,10 +3504,26 @@ function _revealExcludedNeutral(card) {
 }
 
 function _updateMultiInfo(card) {
+  if (!card) return;
   const req = _getRequiredCount(card);
   const sel = card.querySelectorAll('.ch2.exam-selected').length;
   const info = card.querySelector('.exam-multi-info');
-  if (info) { info.textContent = sel + ' / ' + req + ' 選択中'; info.dataset.ready = sel >= req ? '1' : '0'; }
+  const ready = sel >= req;
+  if (info) { info.textContent = sel + ' / ' + req + ' 選択中'; info.dataset.ready = ready ? '1' : '0'; }
+  const wasLoaded = card.classList.contains('exam-target-loaded');
+  card.classList.toggle('exam-target-loaded', ready);
+  if (ready && !wasLoaded && !_fxOff() && window.MecFX) {
+    const selected = [...card.querySelectorAll('.ch2.exam-selected')];
+    if (selected.length >= 2) {
+      const r0 = selected[0].getBoundingClientRect();
+      const r1 = selected[selected.length - 1].getBoundingClientRect();
+      window.MecFX.slashRibbon(
+        r0.left + 15, r0.top + r0.height / 2,
+        r1.left + 15, r1.top + r1.height / 2,
+        { color: '#60A5FA', width: 3, ttl: .36 }
+      );
+    }
+  }
 }
 
 // 全問回答し終えたら「結果画面に進む」ボタンを最後の問題カードの直後に表示する。
@@ -4314,6 +4376,7 @@ function exitExam() {
   _examPauseStart = null;
   window.removeEventListener('scroll', _onExamScroll);
   document.querySelectorAll('.qc.exam-key-focus').forEach(c => c.classList.remove('exam-key-focus'));
+  document.querySelectorAll('.qc.exam-target-loaded').forEach(c => c.classList.remove('exam-target-loaded'));
   document.querySelectorAll('.exam-resume-marker').forEach(el => el.remove());
   // Feature 1: auto-flag wrong answers
   if (examWrong.length) {
@@ -4589,6 +4652,19 @@ function showExamSummary() {
       }
     }
     setTimeout(_srsCompleteCelebration, 700);
+    if (examCorrect === examAnswered && window.MecFX && !_fxOff()) {
+      setTimeout(() => {
+        const { cx, cy } = _fxBand();
+        window.MecFX.burst(cx, cy, {
+          count: 32,
+          shapes: ['shard', 'gem', 'square'],
+          colors: ['#FFD700', '#FFA040', '#FFFFFF', '#C9A227'],
+          gravity: 1200,
+          speed: 680,
+          scale: 1.3
+        });
+      }, 1050);
+    }
   }
   // 週次「章別試験80%以上を3章」ミッション用。下のブロックが _examActiveChPrefix を null に
   // 戻すので、gamify へ渡すぶんを先に控えておく。

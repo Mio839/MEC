@@ -77,6 +77,31 @@ body {
 .mm-dis-lb { font-size: 12.5px; font-weight: 700; fill: rgba(255, 255, 255, .9); pointer-events: none; }
 .mm-dis:hover .mm-dis-lb { fill: #fff; }
 
+/* シナプス線伸長アニメーション */
+.mm-edge-c {
+  stroke-dasharray: 240; stroke-dashoffset: 240;
+  animation: mmEdgeGrow .42s cubic-bezier(.16,1,.3,1) forwards;
+}
+@keyframes mmEdgeGrow { to { stroke-dashoffset: 0; } }
+
+/* 子ノードのバネ入場 */
+.mm-dis-in {
+  transform-box: fill-box; transform-origin: center;
+  opacity: 0;
+  animation: mmDisPop .38s cubic-bezier(.22,1.25,.36,1) forwards;
+  animation-delay: var(--delay, 0s);
+}
+@keyframes mmDisPop {
+  0% { transform: scale(0); opacity: 0; }
+  70% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* 習熟度別の静的意匠 */
+.mm-dis.mm-mastered .mm-dis-c { stroke: #3DD68C; stroke-width: 2.2px; }
+.mm-dis.mm-review .mm-dis-c { stroke: #FF9800; stroke-width: 2.2px; }
+.mm-dis.mm-fresh .mm-dis-c { stroke: rgba(201,162,39,.65); stroke-width: 1.5px; }
+
 .mm-rel { pointer-events: none; }
 .mm-rel-bg { fill: #060a14; opacity: .92; pointer-events: none; }
 .mm-rel-lb { font-size: 10px; font-weight: 700; text-anchor: middle; pointer-events: none; }

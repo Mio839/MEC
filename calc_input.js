@@ -80,11 +80,27 @@
 .calc-input.calc-wrong .calc-box{border-color:var(--rd,#C0392B);background:var(--rdl,#FDEAEA);}
 .calc-answer{margin-top:7px;font-size:.92em;font-weight:700;color:var(--gr,#2D8C4E);}
 .calc-answer .calc-yours{color:var(--rd,#C0392B);font-weight:700;}
+@keyframes calcDrumSpin{
+  0%{transform:translateY(-4px) scale(0.95);opacity:0.6;}
+  60%{transform:translateY(1px) scale(1.03);opacity:1;}
+  100%{transform:translateY(0) scale(1);opacity:1;}
+}
+.calc-box.calc-spin{animation:calcDrumSpin .16s cubic-bezier(.2,.8,.4,1.2);}
+@keyframes calcLockIn{
+  0%{transform:scale(1);}
+  50%{transform:scale(0.94) translateY(2px);}
+  100%{transform:scale(1) translateY(0);}
+}
+.calc-input.calc-correct .calc-box, .calc-input.calc-wrong .calc-box{
+  animation:calcLockIn .25s ease-out;
+}
 @keyframes calcShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}
   75%{transform:translateX(5px)}}
 .calc-input.calc-shake .calc-boxes{animation:calcShake .28s ease;}
 @media (prefers-reduced-motion: reduce){
   .calc-box{transition:none;}
+  .calc-box.calc-spin{animation:none;}
+  .calc-input.calc-correct .calc-box, .calc-input.calc-wrong .calc-box{animation:none;}
   .calc-input.calc-shake .calc-boxes{animation:none;}
 }`;
 
@@ -155,6 +171,11 @@
         const v = normStr(this.value).slice(-1);
         this.value = v;
         this.classList.toggle('calc-filled', !!v);
+        if (v) {
+          this.classList.remove('calc-spin');
+          void this.offsetWidth;
+          this.classList.add('calc-spin');
+        }
         if (v && bs[i + 1]) bs[i + 1].focus();
         _changed(card, wrap);
       });

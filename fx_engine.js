@@ -1037,6 +1037,161 @@
     });
   }
 
+  /**
+   * 【新規】除細動スパーク（ecg用）。可視帯を横断する鋭い放電ボルトと微小粒子。
+   * o: {y, color, count, boltCols, delay}
+   */
+  function defibShock(x, y, o) {
+    o = o || {};
+    var cy = y == null ? H * .5 : y;
+    var cx = x == null ? W * .5 : x;
+    var col = o.color || '#00E676';
+    // 水平スパークボルト2本
+    for (var b = 0; b < 2; b++) {
+      var pts = [-20, cy + rnd(-15, 15)];
+      var segs = 8;
+      var span = W + 40;
+      for (var j = 1; j < segs; j++) {
+        var t = j / segs;
+        pts.push(-20 + span * t, cy + rnd(-35, 35));
+      }
+      pts.push(W + 20, cy + rnd(-15, 15));
+      addP({
+        type: 'bolt', x: 0, y: cy, pts: pts,
+        color: o.boltColor || '#00E5FF',
+        glowW: 8, coreW: 2.2,
+        seed: rnd(0, 9), blend: true,
+        ttl: .28, fadeOut: .4,
+        delay: (o.delay || 0) + b * .06
+      });
+    }
+    // 放電粒子
+    var n = o.count || 28;
+    for (var i = 0; i < n; i++) {
+      var ang = rnd(0, 6.2832);
+      var spd = rnd(120, 520);
+      addP({
+        x: cx + rnd(-80, 80), y: cy + rnd(-15, 15),
+        vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd * .45,
+        gy: 300, drag: .91,
+        size: rnd(2, 5),
+        color: pick(o.colors || ['#00E676', '#69F0AE', '#00E5FF', '#FFFFFF']),
+        shape: 'circle', glow: true, blend: true,
+        ttl: rnd(.35, .75), fadeOut: .4,
+        delay: o.delay || 0
+      });
+    }
+  }
+
+  /**
+   * 【新規】和風墨飛沫（ink用）。筆払いのように斜めに流れる墨と和紙繊維。
+   * o: {x, y, count, colors, delay}
+   */
+  function brushDust(x, y, o) {
+    o = o || {};
+    var cx = x == null ? W * .5 : x;
+    var cy = y == null ? H * .5 : y;
+    var n = o.count || 22;
+    var cols = o.colors || ['#C93A3A', '#8B1E1E', '#1a1a1a', '#C9A24B', '#F5EFE0'];
+    for (var i = 0; i < n; i++) {
+      var ang = rnd(-.6, .6) - .4; // 右上方向への払い
+      var spd = rnd(180, 680);
+      addP({
+        x: cx + rnd(-30, 30), y: cy + rnd(-20, 20),
+        vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd,
+        gy: 550, drag: .93,
+        size: rnd(3, 9),
+        color: pick(cols),
+        shape: Math.random() > .4 ? 'blob' : 'shard',
+        rot: rnd(0, 360), vr: rnd(-300, 300),
+        glow: false, blend: false,
+        ttl: rnd(.45, .95), fadeOut: .35,
+        delay: o.delay || 0
+      });
+    }
+  }
+
+  /**
+   * 【新規】8bitピクセルバースト（retro用）。正方形のピクセルが格子状に跳ねる。
+   * o: {x, y, count, colors, delay}
+   */
+  function pixelPop(x, y, o) {
+    o = o || {};
+    var cx = x == null ? W * .5 : x;
+    var cy = y == null ? H * .5 : y;
+    var n = o.count || 24;
+    var cols = o.colors || ['#FF1053', '#00A8E8', '#FFD400', '#00E676', '#FFFFFF'];
+    for (var i = 0; i < n; i++) {
+      var ang = (i / n) * 6.2832 + rnd(-.15, .15);
+      var spd = rnd(160, 560);
+      addP({
+        x: cx, y: cy,
+        vx: Math.round(Math.cos(ang) * spd / 20) * 20, // 8bit風のステップ
+        vy: Math.round(Math.sin(ang) * spd / 20) * 20 - 120,
+        gy: 850, drag: .94,
+        size: rnd(5, 10),
+        color: pick(cols),
+        shape: 'square',
+        glow: false, blend: false,
+        ttl: rnd(.45, .85), fadeOut: .2,
+        delay: o.delay || 0
+      });
+    }
+  }
+
+  /**
+   * 【新規】ダイヤモンド＆金箔（luxury用）。幾何学ダイヤと金箔の舞い落ち。
+   * o: {x, y, count, colors, delay}
+   */
+  function diamondSparkle(x, y, o) {
+    o = o || {};
+    var cx = x == null ? W * .5 : x;
+    var cy = y == null ? H * .5 : y;
+    var n = o.count || 26;
+    var cols = o.colors || ['#FFD700', '#F7E7CE', '#FFF3C4', '#C9A227', '#FFFFFF'];
+    for (var i = 0; i < n; i++) {
+      var ang = rnd(0, 6.2832);
+      var spd = rnd(80, 420);
+      addP({
+        x: cx + rnd(-20, 20), y: cy + rnd(-20, 20),
+        vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd - 140,
+        gy: 420, drag: .95,
+        size: rnd(4, 9),
+        color: pick(cols),
+        shape: Math.random() > .5 ? 'gem' : 'shard',
+        rot: rnd(0, 360), vr: rnd(-240, 240),
+        flut: { f: rnd(8, 16), ph: rnd(0, 6.28) },
+        glow: true, blend: true,
+        ttl: rnd(.6, 1.2), fadeOut: .3,
+        delay: o.delay || 0
+      });
+    }
+  }
+
+  /**
+   * 【新規】神速の一閃スラッシュ（超速答用）。2点間を高速で切り裂く光刃。
+   * o: {x0, y0, x1, y1, color, width, ttl, delay}
+   */
+  function slashRibbon(x0, y0, x1, y1, o) {
+    o = o || {};
+    var col = o.color || '#FFE040';
+    addP({
+      type: 'ribbon',
+      x0: x0, y0: y0,
+      x1: x1, y1: y1,
+      bx: (x0 + x1) / 2 + (o.curveX || 0),
+      by: (y0 + y1) / 2 + (o.curveY || 0),
+      size: o.width || 4,
+      grow: .35,
+      tail: .45,
+      color: col,
+      glow: true,
+      blend: true,
+      ttl: o.ttl || .48,
+      delay: o.delay || 0
+    });
+  }
+
   window.MecFX = {
     burst: burst,
     confetti: confetti,
@@ -1060,6 +1215,11 @@
     stamp: stamp,
     orbit: orbit,
     wave: wave,
+    defibShock: defibShock,
+    brushDust: brushDust,
+    pixelPop: pixelPop,
+    diamondSparkle: diamondSparkle,
+    slashRibbon: slashRibbon,
     clear: clearAll,
     count: function () { return pool.length; }
   };

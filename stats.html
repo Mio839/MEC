@@ -317,9 +317,13 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 /* conic-gradient で達成率ぶんだけ着色（--p はJSが更新）。study.css の結果リングと同方式 */
 .hero-ring{--p:0;--ringc:var(--gr);width:104px;height:104px;border-radius:50%;flex-shrink:0;
   background:conic-gradient(var(--ringc) calc(var(--p)*1%),rgba(255,255,255,.08) 0);
-  display:flex;align-items:center;justify-content:center;}
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 16px rgba(0,0,0,.35), inset 0 0 0 1px rgba(224,194,94,.25);
+  animation:tourbillonBreathe 4s infinite alternate ease-in-out;}
+@keyframes tourbillonBreathe{0%{box-shadow:0 0 12px rgba(0,0,0,.35),inset 0 0 0 1px rgba(224,194,94,.2);}100%{box-shadow:0 0 20px rgba(224,194,94,.18),inset 0 0 0 1.5px rgba(224,194,94,.4);}}
 .hero-ring-in{width:84px;height:84px;border-radius:50%;background:var(--surf-2);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1;}
+  display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1;
+  box-shadow:inset 0 2px 6px rgba(0,0,0,.4);}
 .hero-pct{font-size:26px;font-weight:900;color:var(--tx);font-variant-numeric:tabular-nums;}
 .hero-pct-lbl{font-size:10px;font-weight:700;color:var(--ts);margin-top:1px;}
 .hero-info{flex:1;min-width:150px;}
@@ -328,6 +332,15 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .hero-cd #heroDays{font-size:44px;font-weight:900;color:var(--or);line-height:1.05;font-variant-numeric:tabular-nums;}
 .hero-cd-u{font-size:15px;font-weight:800;color:var(--or);}
 .hero-date{font-size:11px;color:var(--ts);margin-top:2px;}
+/* 生体スキャナー光波（弱点カルテ走査線） */
+.hm-scroll{position:relative;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px;}
+.hm-scroll::after{content:'';position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,229,255,.6),transparent);opacity:0;pointer-events:none;}
+.hm-scroll.scanning::after{animation:scannerSweep 1.2s ease-out forwards;}
+@keyframes scannerSweep{0%{top:0;opacity:.8;}100%{top:100%;opacity:0;}}
+@media (prefers-reduced-motion: reduce){
+  .hero-ring{animation:none;}
+  .hm-scroll.scanning::after{animation:none;}
+}
 /* 箱の中の箱をやめ、区切りは細い縦罫だけに任せる。
    後段の「復習の見通し」も3値だったので、あちらは1行の文へ形を変えて重複を避けた */
 /* 3列固定だと 320px で「16.4問/日」が「16.4問/ + 日」に割れる。

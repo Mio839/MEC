@@ -2085,6 +2085,9 @@ function _stampGoalSeal() {
     color: '#E0C25E', size: r * .92, thick: 4, ticks: 16, rot: -6, ttl: 1.25
   });
   MecFX.gears(c.x, c.y, { count: 8, spread: 260, min: 10, max: 20, gravity: 640, w: 14, delay: .18 });
+  // 【案4】全弁開放スチーム（左右両舷からの豪快な蒸気噴出）
+  MecFX.steam(c.x - c.r * .8, c.y + c.r * .4, { count: 6, w: c.r * .6, rise: 140, min: 32, max: 64, alpha: .32, vx: -120 });
+  MecFX.steam(c.x + c.r * .8, c.y + c.r * .4, { count: 6, w: c.r * .6, rise: 140, min: 32, max: 64, alpha: .32, vx: 120 });
 }
 
 // ── 盤面の常時演出 ───────────────────────────────────────────────
