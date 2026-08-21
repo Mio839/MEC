@@ -267,7 +267,12 @@ t('8. 筐体で animation を持つのは .st-hdr::after（D9 稼働灯）だけ
      ——稼働灯(D9)と歯車(R2)がこれに当たり、どちらも同じ1つの状態の表現なので
      「動くのは稼働灯1つだけ」（5-6）の趣旨は保たれている。
      一度きりの入場・起動アニメ（R5 クランプ・R10 起動シーケンス）は常時ではないので別扱い。 */
-  const INFINITE_OK = ['.st-hdr::after', '.ep-gear'];
+  /* ⚠️ 2026-08-21（Phase 7 段C・S8）に例外をもう1つ足した＝起動オーバーレイ（.cd-*）。
+     #examCountdown はセッションの入口に約2.5秒だけ出て kill() で消える一度きりの演出で、
+     **筐体（ずっと画面に居るもの）ではない**。既存の cyber 様式のリング（.cd-rings）も
+     同じく infinite で回っており、真鍮を使っていないから検査に掛かっていなかっただけ。
+     ⚠️ この例外を「.cd- で始まる」以上に広げないこと。広げると本物の筐体が素通りする。 */
+  const INFINITE_OK = ['.st-hdr::after', '.ep-gear', '.cd-'];
   animated.forEach(sel => {
     const r = RULES.find(x => x.sel.trim() === sel);
     if (r && !/infinite/.test(r.body)) return;            // 一度きりのアニメは対象外

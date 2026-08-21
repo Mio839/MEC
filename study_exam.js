@@ -2105,7 +2105,14 @@ function _setAwaken(on) {
 // C9: 開始カウントダウン。メカ起動シーケンス／電脳ダイブの2種を試験ごとにランダムで出す。
 // 様式（レイアウトと動き）で世界観を作り、配色は演出テーマ(EXAM_EFFECT_THEMES)から取るので
 // 7テーマ×2様式の組み合わせになる。試験自体は裏で既に開始済み＝非ブロッキング。
-const EXAM_BOOT_STYLES = ['mecha', 'cyber'];
+/* S8(2026-08-21): 'steam' を足した。筐体を真鍮で作り、歯車を回し、蒸気を噴かせておきながら、
+   **セッションの入口だけがサイバー**だった＝Phase 4・5 で作った世界観に最後に残っていた語彙の穴。
+   ⚠️ 既存インフラ（ランダム選択・タイプ表示・リマッチ分岐・_fxOff() の尊重）にそのまま乗る。
+   ⚠️ 起動にかかる時間を1msも増やさないこと——尺（_cdEnd）は3様式で完全に同じ。
+      試験を始めたい人にとって起動演出は待ち時間で、長い演出は2回目から邪魔になる。
+   ⚠️ 出題数・科目のブートログは**実用を兼ねている**（何が始まるのか読める）ので、
+      文体を変えても情報は1つも落とさないこと。 */
+const EXAM_BOOT_STYLES = ['mecha', 'cyber', 'steam'];
 
 // B8: リマッチのブートログ。相手は「前回落とした問題」だと明示する
 function _examRematchLines(style, qn) {
@@ -2114,6 +2121,14 @@ function _examRematchLines(style, qn) {
       'MEC-OS  REMATCH PROTOCOL',
       'TARGET .................. 前回の誤答 ' + qn + ' 問',
       'LOADING OPPONENT DATA ... OK',
+      'この ' + qn + ' 問を取り返す'
+    ];
+  }
+  if (style === 'steam') {
+    return [
+      'MEC 機関   再 点 火',
+      '標  的 ................ 前回の誤答 ' + qn + ' 問',
+      '当て板 装填 ............ 完了',
       'この ' + qn + ' 問を取り返す'
     ];
   }
@@ -2128,6 +2143,15 @@ function _examBootLines(style, qn, subjLabel) {
       'QUESTION BANK ........... ' + qn,
       'SUBJECT ................. ' + subjLabel,
       'ALL SYSTEMS GREEN'
+    ];
+  }
+  if (style === 'steam') {
+    return [
+      'MEC 機関   始 動 手 順',
+      'ボイラー圧 ............. 規定値',
+      '装填問題数 ............. ' + qn,
+      '科    目 ............... ' + subjLabel,
+      '全弁 開放'
     ];
   }
   return ['接続確立 / LINK ESTABLISHED', '電脳ダイブ ... STAND BY', 'BANK ' + qn + ' Q  //  ' + subjLabel];
@@ -2184,12 +2208,28 @@ function _examCountdown() {
     (style === 'mecha'
       ? '<div class="cd-reticle"><i class="rh"></i><i class="rv"></i>'
         + '<i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i></div>'
+      : style === 'steam'
+      ? '<div class="cd-boiler"><i class="cd-bz"></i></div>'
       : '<svg class="cd-rings" viewBox="0 0 200 200" aria-hidden="true">' +
         '<circle class="r1" cx="100" cy="100" r="86"/><circle class="r2" cx="100" cy="100" r="66"/>' +
         '<circle class="r3" cx="100" cy="100" r="46"/></svg>') +
     '<div class="cd-log"></div>' +
     '<div class="cd-num"></div>' +
     '<div class="cd-sub"></div>';
+
+  /* S8: 歯車は **計器ベイの .ep-gear を複製して使う**（study.html に1つだけある path を借りる）。
+     ⚠️ path を書き写して2本目の実装を作らないこと（Phase 4 で「歯車の実装を増やさない」と
+        決めてある）。複製なら形が食い違いようがない。 */
+  if (style === 'steam') {
+    const src = document.querySelector('.ep-gear');
+    const boiler = host.querySelector('.cd-boiler');
+    if (src && boiler) ['g1', 'g2'].forEach(k => {
+      const g = src.cloneNode(true);
+      g.setAttribute('class', 'cd-gear ' + k);
+      boiler.appendChild(g);
+    });
+  }
+  const bezel = host.querySelector('.cd-bz');
 
   const logEl = host.querySelector('.cd-log');
   const numEl = host.querySelector('.cd-num');
@@ -2204,17 +2244,19 @@ function _examCountdown() {
   lines.forEach((ln, i) => at(60 + i * 105, () => {
     const d = document.createElement('div');
     d.className = 'cd-line';
-    d.textContent = (style === 'mecha' ? '> ' : '// ') + ln;
+    d.textContent = (style === 'mecha' ? '> ' : style === 'steam' ? '— ' : '// ') + ln;
     logEl.appendChild(d);
     d.animate([{ opacity: 0, transform: 'translateX(-8px)' }, { opacity: 1, transform: 'none' }],
       { duration: 200, easing: 'ease-out' });
   }));
 
   // ② 3 → 2 → 1 → 起動語
-  const goWord = style === 'mecha' ? 'ALL GREEN' : 'DIVE';
+  const goWord = style === 'mecha' ? 'ALL GREEN' : style === 'steam' ? '全速' : 'DIVE';
   const t0 = 60 + lines.length * 105 + 120;
   ['3', '2', '1'].forEach((n, i) => at(t0 + i * 420, () => {
     host.classList.add('cd-p2');   // ログを上へ退かせて中央を数字に譲る
+    // S8: 3・2・1 で絞りが1段ずつ閉じる。⚠️ 尺は増やさない＝既存のカウントに相乗りするだけ
+    if (bezel) bezel.style.setProperty('--ap', String(i + 1));
     numEl.textContent = n;
     numEl.className = 'cd-num';
     void numEl.offsetWidth;
@@ -2236,7 +2278,25 @@ function _examCountdown() {
   at(t0 + 3 * 420, () => {
     numEl.textContent = goWord;
     numEl.className = 'cd-num go';
-    subEl.textContent = style === 'mecha' ? 'COMBAT MODE ENGAGED' : 'GHOST LINK — ONLINE';
+    subEl.textContent = style === 'mecha' ? 'COMBAT MODE ENGAGED'
+                      : style === 'steam' ? 'BOILER — FULL PRESSURE'
+                      : 'GHOST LINK — ONLINE';
+    // S8: 起動の瞬間だけ絞りが開き、下から蒸気が吹き上がる（R1 と同じ MecFX.steam を使う）
+    if (bezel) bezel.style.setProperty('--ap', '0');
+    if (style === 'steam' && window.MecFX) {
+      try {
+        const w = window.innerWidth, h = window.innerHeight;
+        [-.24, 0, .24].forEach(k => window.MecFX.steam(w / 2 + w * k, h * .92, {
+          // ⚠️ 薄く・低くとどめること。この蒸気は起動語と同時に出て、780ms 後には
+          //    1問目のカード（B7 の入場）が立ち上がる。濃く高く上げると**最初の問題文の上に
+          //    1秒以上かかる**＝読み始めを遅らせる（演出のために情報を遅らせない）。
+          count: 12, w: w * .10, rise: 130, max: 68, grow: 2.6,
+          // ⚠️ 色は STEAM_TONES から選ぶこと。glowSprite は色ごとにキャッシュするので、
+          //    新しい色を1つ足すたびにスプライトが1枚増える。
+          alpha: .24, color: STEAM_TONES[1], blend: false
+        }));
+      } catch (e) {}
+    }
     void numEl.offsetWidth;
     numEl.animate([
       { opacity: 0, transform: 'scale(1.5) translateY(6px)' },

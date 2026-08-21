@@ -53,9 +53,20 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
    ⚠️ ▼で畳んだ状態（hdr-collapsed）でもレールは残る＝.st-hdr 本体に付いており bottom:0 が
       親の高さの変化に自動で追従する。.st-filter-panel の中に入れると畳んだ瞬間に消える。
    両端を transparent へ落としているのは、角で切れると「板が貼ってある」ように見えるため。 */
-body.exam-mode .st-hdr::before{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;
+/* S9(2026-08-21 / Phase 7): レールの断面に丸みを与える。height 1px → 2px にして
+   **上1px を明側・下1px を暗側**にすると「上が光り下が翳る」＝平線ではなく管に見える。
+   既存の稜線の考え方（明線と暗線の対で初めて金属の縁になる）をそのまま当てただけ。
+   ⚠️ bottom:0 の absolute なのでヘッダの高さは1pxも増えない（§5-5 は死守）。実測で確認済み。
+   ⚠️ 稼働灯（::after）は 1px のままにすること。太くすると光が「帯」になり、
+      管の中を通る細い流体に見えなくなる。
+   ⚠️ 筐体の改修なのでテーマにも tier にも振らない。 */
+body.exam-mode .st-hdr::before{content:'';position:absolute;left:0;right:0;bottom:0;height:2px;
   pointer-events:none;
-  background:linear-gradient(90deg,transparent,var(--exam-brass) 12%,var(--exam-brass-hi) 50%,var(--exam-brass) 88%,transparent);}
+  background-image:linear-gradient(90deg,transparent,var(--exam-bevel-lo) 12%,rgba(0,0,0,.62) 50%,var(--exam-bevel-lo) 88%,transparent),
+                   linear-gradient(90deg,transparent,var(--exam-brass) 12%,var(--exam-brass-hi) 50%,var(--exam-brass) 88%,transparent);
+  background-repeat:no-repeat;
+  background-size:100% 1px,100% 1px;
+  background-position:0 100%,0 0;}
 /* D9(2026-08-19): 稼働灯。カードに向かっている間だけレールの上を光が走り、答えた瞬間に消える。
    筐体で唯一「時間」を持つ演出＝「機械があなたを待っている」。50問セッションでは動く／止まるが
    50回繰り返され、ユーザー自身の解答が刻む拍になる。
@@ -1234,6 +1245,29 @@ body.exam-awaken #examComboMeter{height:5px;}
 .cd-reticle .rh{left:-24vmin;right:-24vmin;top:50%;height:1px;}
 .cd-reticle .rv{top:-24vmin;bottom:-24vmin;left:50%;width:1px;}
 @keyframes cdReticle{0%{transform:scale(1.5) rotate(-3deg);opacity:0}35%{opacity:.5}100%{transform:none;opacity:.5}}
+
+/* ── steam(2026-08-21 / Phase 7 S8): 真鍮のベゼルと歯車＝機関の始動 ──────────
+   ⚠️ 歯車は study.html の .ep-gear を JS が**複製**して入れる（path を書き写さない）。
+      ここでは寸法・色・回転だけを与える。
+   ⚠️ ベゼル（絞り）は --ap（0〜3）で内径が段階的に閉じる。JS が 3・2・1 で 1→2→3、
+      起動で 0 に戻す＝**既存のカウントに相乗りするだけで尺は1msも増えない**。
+   ⚠️ 文字と数字の色は他の2様式と同じく --cd-col（演出テーマ由来）。真鍮にするのは
+      「物」＝ベゼルと歯車だけ＝Phase 4 の筐体／盤面の分け方をそのまま持ち込む。
+   ⚠️ 歯車はベゼルの外へはみ出すが #examCountdown が position:fixed;inset:0;overflow:hidden
+      なので文書のスクロール領域は1pxも増えない（2026-08-19 の iOS 縮尺振動の再発面）。 */
+.cd-boiler{position:absolute;width:52vmin;height:52vmin;pointer-events:none;}
+.cd-bz{position:absolute;inset:0;border-radius:50%;border:.9vmin solid var(--exam-brass);
+  background:radial-gradient(circle at 50% 40%,rgba(201,162,39,.12),transparent 64%);
+  box-shadow:inset 0 0 0 calc(var(--ap,0) * 2.4vmin) rgba(18,10,4,.78),
+             inset 0 0 3vmin rgba(0,0,0,.55),
+             0 0 4vmin rgba(201,162,39,.26);
+  transition:box-shadow .42s cubic-bezier(.16,1,.3,1);}
+.cd-boiler .cd-gear{position:absolute;fill:var(--exam-brass);opacity:.42;
+  width:15vmin;height:15vmin;top:-5vmin;left:-5vmin;
+  animation:cdGearSpin 9s linear infinite;}
+.cd-boiler .cd-gear.g2{width:10vmin;height:10vmin;top:auto;left:auto;bottom:-3vmin;right:-3vmin;
+  animation:cdGearSpin 6s linear infinite reverse;}
+@keyframes cdGearSpin{to{rotate:360deg}}
 
 /* ── cyber: 同心円リング＋データ列 ── */
 .cd-rings{position:absolute;width:58vmin;height:58vmin;overflow:visible;}

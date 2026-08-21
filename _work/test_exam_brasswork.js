@@ -131,7 +131,7 @@ function hardLineShadows(body) {
   let x;
   while ((x = m.exec(body))) {
     const decl = x[1];
-    if (/inset/.test(decl)) { bad.push('inset: ' + decl.trim()); continue; }
+    if (/\binset\b/.test(decl)) { bad.push('inset: ' + decl.trim()); continue; }
     splitTopLevel(decl).forEach(layer => {
       const clean = stripParens(layer).replace(/#[0-9a-fA-F]{3,8}/g, ' ');
       const nums = clean.match(/-?\d*\.?\d+(?:px)?/g);
@@ -278,6 +278,64 @@ t('S10-b. タイルのリベットが --exam-rivet-dot を借りている（額�
   // ⚠️ ::before は位置指定ボックス＝素のテキストより上に描かれる。ラベルと数字を持ち上げること
   const lift = RULES.filter(r => /\.exam-detail-item .*\.(lbl|val)/.test(r.sel) && /position\s*:\s*relative/.test(r.body));
   assert.ok(lift.length, 'ラベル/数字が position:relative で持ち上げられていない（窪みの下に隠れる）');
+});
+
+// ══ 段C: S8 蒸気ブート ／ S9 レールを管の断面に ═══════════════════════
+t('8. S8 が EXAM_BOOT_STYLES に足され、_examBootLines と _examRematchLines の両方に分岐がある', () => {
+  const m = /const EXAM_BOOT_STYLES\s*=\s*\[([^\]]+)\]/.exec(JS_NC);
+  assert.ok(m, 'EXAM_BOOT_STYLES が見つからない');
+  assert.ok(/'steam'/.test(m[1]), "EXAM_BOOT_STYLES に 'steam' が無い（入口だけサイバーのまま）");
+  ['_examBootLines', '_examRematchLines'].forEach(fn => {
+    const b = fnBody(fn);
+    assert.ok(b, fn + ' が見つからない');
+    assert.ok(/style === 'steam'/.test(b),
+      fn + " に steam の分岐が無い（片方だけだとリマッチか通常のどちらかがサイバーに戻る）");
+  });
+});
+
+t('9. S8 が出題数・科目名の情報を落としていない（ブートログは実用を兼ねている）', () => {
+  const b = fnBody('_examBootLines');
+  const i = b.indexOf("style === 'steam'");
+  const seg = b.slice(i, b.indexOf('return [', i) + 400);
+  assert.ok(/\+\s*qn\b/.test(seg), 'steam のブートログに出題数(qn)が出ていない');
+  assert.ok(/subjLabel/.test(seg), 'steam のブートログに科目名(subjLabel)が出ていない');
+  // リマッチ側は科目ではなく「前回の誤答 N 問」を出す＝こちらは qn だけでよい
+  assert.ok(/\+\s*qn\b/.test(fnBody('_examRematchLines')), 'リマッチの steam に問題数が出ていない');
+});
+
+t('S8-a. 起動の尺を1msも増やしていない（3様式とも同じ _cdEnd を返す）', () => {
+  const b = fnBody('_examCountdown');
+  assert.ok(b, '_examCountdown が見つからない');
+  // 様式ごとに at() の時刻や return 値を分岐させていないこと
+  assert.ok(!/style\s*===\s*'steam'\s*\?\s*\d/.test(b),
+    'steam だけ時刻を変えている（起動演出は待ち時間＝2回目から邪魔になる）');
+  const rets = b.match(/return\s+t0\s*\+[^;]+;/g) || [];
+  assert.strictEqual(rets.length, 1, '_examCountdown の戻り値（尺）が様式で分岐している');
+});
+
+t('S8-b. 歯車は .ep-gear を複製している（path を書き写して2本目の実装を作らない）', () => {
+  const b = fnBody('_examCountdown');
+  assert.ok(/querySelector\('\.ep-gear'\)/.test(b) && /cloneNode\(true\)/.test(b),
+    '起動画面の歯車が .ep-gear の複製になっていない');
+  // study.css 側に歯車の path を直書きしていないこと
+  assert.ok(!/fill-rule\s*:\s*evenodd/.test(CSS), 'study.css に歯車の輪郭が書き写されている');
+});
+
+t('10. S9 のレールが明線と暗線の対になっている（--exam-bevel-hi と --exam-bevel-lo の両方を使う）', () => {
+  const rs = ruleFor(/\.st-hdr::before/);
+  assert.ok(rs.length, '.st-hdr::before が無い');
+  const body = rs.map(r => r.body).join('');
+  assert.ok(/height\s*:\s*2px/.test(body), 'レールが 2px になっていない（1px の平線のままでは管に見えない）');
+  assert.ok(/--exam-bevel-lo/.test(body), 'レールに暗側が無い（明線だけでは「地が少し明るい帯」にしかならない）');
+  assert.ok(/--exam-brass/.test(body), 'レールに真鍮の明側が無い');
+});
+
+t('11. S9 の稼働灯（::after）が 1px のままである（太くすると光が帯になり流体に見えない）', () => {
+  const rs = ruleFor(/\.st-hdr::after/);
+  assert.ok(rs.length, '.st-hdr::after が無い');
+  const h = /height\s*:\s*(\d+)px/.exec(rs[0].body);
+  assert.ok(h, '稼働灯の height が読めない');
+  assert.strictEqual(h[1], '1', '稼働灯が 1px でなくなっている');
 });
 
 // ══ 全段共通 ═══════════════════════════════════════════════════════════
