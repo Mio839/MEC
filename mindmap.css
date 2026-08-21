@@ -1,0 +1,149 @@
+/* MEC 疾患マインドマップ（2026-08-21・段A）
+   ⚠️ このページは vars.css のテーマに乗らない。地図は常に暗い盤面で、
+      科目色・章色がその上のインクとして立つ必要があるため（旧9マップ＋統合マップも同じ判断）。
+   ⚠️ animation を infinite にしないこと。動くのはタップした瞬間の .mm-pulse 一度きりだけ。 */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
+               'Yu Gothic UI', 'Yu Gothic', sans-serif;
+  background: #060a14;
+  color: #fff;
+  width: 100vw; height: 100dvh;
+  overflow: hidden;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── ヘッダ ───────────────────────────────────────────────── */
+.mm-hdr {
+  position: fixed; inset: 0 0 auto 0; height: 48px; z-index: 100;
+  display: flex; align-items: center; gap: 10px; padding: 0 12px;
+  background: rgba(6, 10, 20, .97); border-bottom: 2px solid #F5A623;
+}
+.mm-badge { background: #F5A623; color: #000; font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 20px; flex-shrink: 0; }
+.mm-hdr h1 { font-size: 14px; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mm-back {
+  margin-left: auto; flex-shrink: 0; font-size: 11px; font-weight: 700; text-decoration: none;
+  color: #F5A623; border: 1.5px solid #F5A623; border-radius: 20px; padding: 3px 10px; white-space: nowrap;
+}
+
+/* ── 検索 ─────────────────────────────────────────────────── */
+.mm-search { position: relative; flex-shrink: 0; }
+.mm-search input {
+  width: 148px; font-family: inherit; font-size: 12px; color: #fff;
+  background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 16px; padding: 5px 11px; outline: none;
+}
+.mm-search input::placeholder { color: rgba(255, 255, 255, .38); }
+.mm-search input:focus { border-color: #F5A623; background: rgba(255, 255, 255, .12); }
+.mm-results {
+  display: none; position: absolute; top: 32px; left: 0; width: 250px; max-height: 44dvh; overflow-y: auto;
+  background: rgba(10, 15, 28, .98); border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 10px; padding: 4px; list-style: none; z-index: 220;
+}
+.mm-results.show { display: block; }
+.mm-results li {
+  display: flex; align-items: center; gap: 7px; padding: 6px 8px;
+  font-size: 12px; border-radius: 6px; cursor: pointer;
+}
+.mm-results li:hover { background: rgba(255, 255, 255, .09); }
+.mm-results li em { margin-left: auto; font-style: normal; font-size: 10px; color: rgba(255, 255, 255, .42); flex-shrink: 0; }
+.mm-res-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.mm-res-none { color: rgba(255, 255, 255, .42); cursor: default; }
+.mm-res-none:hover { background: none; }
+
+/* ── 盤面 ─────────────────────────────────────────────────── */
+#mmWrap { position: fixed; inset: 48px 0 0 0; overflow: hidden; touch-action: none; cursor: grab; }
+#mmWrap:active { cursor: grabbing; }
+#mmSvg { display: block; width: 100%; height: 100%; }
+
+.mm-root-ic { font-size: 21px; text-anchor: middle; }
+.mm-root-lb { font-size: 10px; font-weight: 900; fill: #fff; text-anchor: middle; }
+
+.mm-par { cursor: pointer; }
+.mm-par-halo { opacity: .3; transition: opacity .18s; }
+.mm-par.is-open .mm-par-halo { opacity: .75; }
+.mm-par-c { stroke: rgba(255, 255, 255, .3); stroke-width: 1.5; transition: r .18s; }
+.mm-par:hover .mm-par-c { r: 35; }
+.mm-par-ic { font-size: 16px; text-anchor: middle; pointer-events: none; }
+.mm-par-lb { font-size: 10px; font-weight: 700; fill: #fff; text-anchor: middle; pointer-events: none; }
+
+.mm-dis { cursor: pointer; }
+.mm-dis-c { stroke: rgba(255, 255, 255, .3); stroke-width: 1; transition: r .15s; }
+.mm-dis:hover .mm-dis-c { r: 30; }
+.mm-dis-ab { font-size: 10px; font-weight: 900; fill: #fff; text-anchor: middle; pointer-events: none; }
+.mm-dis-lb { font-size: 12.5px; font-weight: 700; fill: rgba(255, 255, 255, .9); pointer-events: none; }
+.mm-dis:hover .mm-dis-lb { fill: #fff; }
+
+.mm-rel { pointer-events: none; }
+.mm-rel-bg { fill: #060a14; opacity: .92; pointer-events: none; }
+.mm-rel-lb { font-size: 10px; font-weight: 700; text-anchor: middle; pointer-events: none; }
+.mm-rel-hit { cursor: pointer; }
+
+/* タップした瞬間の波紋。一度きりで、JS が 700ms 後に要素ごと消す。 */
+.mm-pulse {
+  transform-box: fill-box; transform-origin: center;
+  animation: mmPulse .62s ease-out forwards; pointer-events: none;
+}
+@keyframes mmPulse { to { transform: scale(2.9); opacity: 0; } }
+
+/* ── パネル ───────────────────────────────────────────────── */
+.mm-panel {
+  position: fixed; right: 12px; bottom: 12px; width: 290px; max-height: 62dvh; overflow-y: auto;
+  background: rgba(6, 10, 20, .97); border: 1.5px solid rgba(255, 255, 255, .15);
+  border-radius: 14px; padding: 14px 16px; z-index: 200;
+  opacity: 0; transform: translateY(12px); pointer-events: none;
+  transition: opacity .22s, transform .22s;
+}
+.mm-panel.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.mm-panel-close {
+  position: absolute; top: 8px; right: 10px; background: none; border: none;
+  color: rgba(255, 255, 255, .45); font-size: 18px; line-height: 1; cursor: pointer; font-family: inherit;
+}
+.mm-chip { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 9px; border-radius: 10px; margin-bottom: 6px; color: #fff; }
+.mm-panel h2 { font-size: 16px; font-weight: 900; line-height: 1.35; margin-bottom: 8px; }
+.mm-keys { list-style: none; font-size: 12px; line-height: 1.8; }
+.mm-keys li { display: flex; gap: 6px; align-items: flex-start; }
+.mm-keys li::before { content: '▸'; color: #F5A623; flex-shrink: 0; margin-top: 1px; }
+.mm-imgs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+.mm-imgs img { width: 76px; height: 76px; object-fit: cover; border-radius: 8px; cursor: zoom-in; border: 1px solid rgba(255, 255, 255, .16); }
+.mm-link {
+  display: inline-block; margin-top: 10px; padding: 6px 14px; background: #2D8C4E; color: #fff;
+  border-radius: 20px; font-size: 11px; font-weight: 700; text-decoration: none;
+}
+
+/* ── ライトボックス ───────────────────────────────────────── */
+.mm-lb { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0, 0, 0, .93); cursor: zoom-out; align-items: center; justify-content: center; }
+.mm-lb.open { display: flex; }
+.mm-lb img { max-width: 92vw; max-height: 88dvh; border-radius: 8px; }
+
+/* ── 左下のボタン ─────────────────────────────────────────── */
+.mm-ctrl { position: fixed; left: 12px; bottom: 12px; z-index: 100; display: flex; flex-direction: column; gap: 5px; }
+.mm-btn {
+  background: rgba(6, 10, 20, .92); border: 1px solid rgba(255, 255, 255, .16); border-radius: 8px;
+  color: #fff; font-family: inherit; font-size: 11px; font-weight: 700; padding: 5px 11px; cursor: pointer;
+}
+.mm-btn:hover { background: rgba(255, 255, 255, .14); }
+.mm-hint { font-size: 10px; color: rgba(255, 255, 255, .34); padding-left: 2px; }
+
+/* 読み込み失敗・データ未作成のときの案内 */
+.mm-empty {
+  position: fixed; inset: 48px 0 0 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 12px; text-align: center; padding: 24px; z-index: 90;
+}
+.mm-empty p { font-size: 13px; line-height: 1.8; color: rgba(255, 255, 255, .7); }
+.mm-empty a { color: #F5A623; font-weight: 700; }
+
+@media (max-width: 640px) {
+  .mm-hdr h1 { font-size: 12px; }
+  .mm-search input { width: 110px; }
+  .mm-panel { width: auto; left: 12px; right: 12px; max-height: 52dvh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-pulse { animation: none; display: none; }
+  .mm-panel { transition: none; }
+  .mm-par-c, .mm-dis-c, .mm-par-halo { transition: none; }
+}

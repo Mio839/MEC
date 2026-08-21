@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MEC 医師国試 学習ハブ</title>
 <script src="chapters_meta.js"></script>
+<script src="mindmap_data/index.js"></script>
 <script src="knowledge_notes.js"></script>
 <script src="progress.js?v=3"></script>
 <!-- 「今日の誤答を再履修」の件数を出すため。件数の正本を study.html と共有する
@@ -434,6 +435,8 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
   border-radius:var(--r-md);color:var(--subj-ink);font-size:13px;font-weight:700;
   text-decoration:none;transition:filter .15s var(--ease-out);}
 .mindmap-btn:hover{filter:brightness(1.1);}
+.mindmap-btn.is-todo{opacity:.34;cursor:default;pointer-events:none;}
+.mindmap-btn.is-todo em{margin-left:auto;font-style:normal;font-size:10px;font-weight:700;white-space:nowrap;}
 .mindmap-btn .mm-icon{font-size:18px;}
 
 /* フッターは廃止。唯一の中身だった「最終更新」はヘッダー（.hub-upd）へ移した。
@@ -1196,18 +1199,20 @@ const MINDMAP_TOOL = {
   icon: '🗺️',
   color: '#1C2E4A',
   type: 'mindmap',
-  maps: [
-    { subject: '全科目統合', href: 'mindmap_integrated.html', color: 'var(--yl)', icon: '🗺️' },
-    { subject: '血液',   href: '血液/mindmap.html',   color: '#E56574', icon: '🩸' },
-    { subject: '腎臓',   href: '腎臓/mindmap.html',   color: '#7494A1', icon: '💧' },
-    { subject: '肝胆膵', href: '肝胆膵/mindmap.html', color: '#C0820E', icon: '🔶' },
-    { subject: '呼吸器', href: '呼吸器/mindmap.html', color: '#4390EE', icon: '🌬️' },
-    { subject: '内分泌', href: '内分泌/mindmap.html', color: '#169E9F', icon: '🔬' },
-    { subject: '循環器', href: '循環器/mindmap.html', color: '#E16E33', icon: '❤️' },
-    { subject: '消化器', href: '消化器/mindmap.html', color: '#8A81EF', icon: '🍴' },
-    { subject: '神経',   href: '神経/mindmap.html',   color: '#619E37', icon: '🧠' },
-    { subject: '免アレ膠', href: '免アレ膠/mindmap.html', color: '#B973D7', icon: '🛡️' },
-  ]
+  // ⚠️ 科目の一覧をここに書かないこと。正本は mindmap_data/index.js（さらにその元は
+  //    gamify.js の SUBJECTS）で、旧実装はここに9科目を直書きしていたため、
+  //    科目色が gamify.js・chapters_meta.js・旧統合マップの3系統に割れていた。
+  get maps() {
+    const list = (window.MM_SUBJECTS || []).filter(s => s.ready);
+    return [{ subject: '全科目統合', href: 'mindmap.html', color: 'var(--yl)', icon: '🗺️', ready: true }]
+      .concat(list.map(s => ({
+        subject: s.label, href: 'mindmap.html?sid=' + s.sid, color: s.color, icon: s.icon, ready: true,
+      })));
+  },
+  // まだ作っていない科目（ランチャーに薄く並べて「これから増える」ことを見せる）
+  get pending() {
+    return (window.MM_SUBJECTS || []).filter(s => !s.ready);
+  }
 };
 
 // ── 過去問モード定義 ──────────────────────────────────────────
@@ -1624,7 +1629,7 @@ function _tileHtml(t) {
   } else if (t.id === 'knowledge') {
     sub = (typeof KNOWLEDGE_NOTES !== 'undefined' ? KNOWLEDGE_NOTES.length : 0) + ' 件のノート';
   } else if (t.id === 'mindmap') {
-    sub = MINDMAP_TOOL.maps.length + ' 科目';
+    sub = (MINDMAP_TOOL.maps.length - 1) + ' / ' + (MINDMAP_TOOL.maps.length - 1 + MINDMAP_TOOL.pending.length) + ' 科目';
   }
 
   const bar = pct === null ? '' : '<span class="tile-bar"><span style="width:' + pct + '%"></span></span>';
@@ -1747,11 +1752,17 @@ function _jitsuDetailHtml() {
 }
 
 function _mindmapDetailHtml() {
-  // 科目色は chapters_meta 由来の検証済み配色。明るい地なので文字は --subj-ink
-  return '<div class="mindmap-grid">' + MINDMAP_TOOL.maps.map(m =>
+  // 科目色の正本は gamify.js の SUBJECTS（mindmap_data/index.js 経由）。明るい地なので文字は --subj-ink
+  const done = MINDMAP_TOOL.maps.map(m =>
     '<a class="mindmap-btn" href="' + m.href + '" style="background:' + m.color + '">' +
       '<span class="mm-icon">' + m.icon + '</span>' + m.subject +
-    '</a>').join('') + '</div>';
+    '</a>').join('');
+  // 未作成の科目は押せない札として並べる。席を消すと「もう無い」に見えるので薄く残す。
+  const todo = MINDMAP_TOOL.pending.map(s =>
+    '<span class="mindmap-btn is-todo" style="background:' + s.color + '">' +
+      '<span class="mm-icon">' + s.icon + '</span>' + s.label + '<em>準備中</em>' +
+    '</span>').join('');
+  return '<div class="mindmap-grid">' + done + todo + '</div>';
 }
 
 function renderHub() {

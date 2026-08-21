@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>疾患マインドマップ | MEC</title>
+<link rel="stylesheet" href="mindmap.css"/>
+</head>
+<body>
+
+<div class="mm-hdr">
+  <span class="mm-badge">MEC</span>
+  <h1 id="mmTitle">疾患マインドマップ</h1>
+  <div class="mm-search">
+    <input id="mmSearch" type="search" placeholder="疾患を探す" autocomplete="off" enterkeyhint="search"/>
+    <ul class="mm-results" id="mmResults"></ul>
+  </div>
+  <a class="mm-back" href="index.html">← ホーム</a>
+</div>
+
+<div id="mmWrap"><svg id="mmSvg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"></svg></div>
+
+<div class="mm-ctrl">
+  <button class="mm-btn" id="mmFitAll">全体を見る</button>
+  <button class="mm-btn" id="mmToggleAll">すべて閉じる</button>
+  <span class="mm-hint">タップで展開 ／ ドラッグで移動 ／ ピンチで拡大</span>
+</div>
+
+<div class="mm-panel" id="mmPanel">
+  <button class="mm-panel-close" id="mmPanelClose" aria-label="閉じる">✕</button>
+  <span class="mm-chip" id="mmChip"></span>
+  <h2 id="mmPanelTitle"></h2>
+  <ul class="mm-keys" id="mmKeys"></ul>
+  <div class="mm-imgs" id="mmImgs"></div>
+  <a class="mm-link" id="mmLink" href="#"></a>
+</div>
+
+<div class="mm-lb" id="mmLightbox"><img id="mmLightboxImg" src="" alt=""/></div>
+
+<script src="mindmap_data/index.js"></script>
+<script src="mindmap.js"></script>
+<script>
+// ?sid={prefix} があればその科目マップ、無ければハブ（全科目）。
+// データはここで1本だけ動的に読む（21科目ぶんを常に読ませない）。
+(function () {
+  var sid = new URLSearchParams(location.search).get('sid') || '';
+  var list = window.MM_SUBJECTS || [];
+  var hit = null;
+  for (var i = 0; i < list.length; i++) if (list[i].sid === sid) hit = list[i];
+
+  function fail(msg, link) {
+    var d = document.createElement('div');
+    d.className = 'mm-empty';
+    var p = document.createElement('p');
+    p.textContent = msg;
+    d.appendChild(p);
+    if (link) {
+      var a = document.createElement('a');
+      a.href = link.href; a.textContent = link.text;
+      d.appendChild(a);
+    }
+    document.body.appendChild(d);
+  }
+
+  if (sid && !hit) { fail('科目「' + sid + '」は登録されていません。', { href: 'mindmap.html', text: '全科目マップへ →' }); return; }
+  if (sid && !hit.ready) {
+    fail(hit.label + 'のマインドマップはまだ作られていません。', { href: 'mindmap.html', text: '全科目マップへ →' });
+    var h = document.getElementById('mmTitle');
+    if (h) h.textContent = hit.icon + ' ' + hit.label + ' 疾患マインドマップ';
+    return;
+  }
+
+  var src = sid ? 'mindmap_data/' + sid + '.js' : 'mindmap_data/_hub.js';
+  var s = document.createElement('script');
+  s.src = src;
+  s.onload = function () {
+    try {
+      window.MMEngine.boot(sid ? { mode: 'subject', sid: sid } : { mode: 'hub' });
+    } catch (e) {
+      fail('マップの描画に失敗しました：' + e.message, { href: 'index.html', text: 'ホームへ →' });
+      throw e;
+    }
+  };
+  // ⚠️ file:// では動かない（ローカルの script 読み込みが CORS で落ちる）。
+  //    GitHub Pages か 127.0.0.1 の http.server で開くこと。
+  s.onerror = function () {
+    fail('データを読み込めませんでした（' + src + '）。file:// で開いていませんか？',
+         { href: 'index.html', text: 'ホームへ →' });
+  };
+  document.head.appendChild(s);
+})();
+</script>
+</body>
+</html>

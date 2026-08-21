@@ -1,3 +1,6 @@
+// 2026-08-21d: 疾患マインドマップを 1エンジン＋データ分離へ移行し、SHELL に登録した。
+//   旧実装は mindmap 関連を1バイトもキャッシュしておらず、オフラインで開けなかった。
+//   questions_*.json も画像も触っていないので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-20a: 結果画面の達成報告に「あと何件来るか」を持たせた（授与トレイ・Phase 6）。
 // セレモニーとトーストは _cerQ / _toastQ の2列で並行に流れていたため、全画面セレモニーの真上に
 // トーストが重なって両方読めず、しかも件数を数えられなかった。→ _annQ 1本に併合し、結果画面の
@@ -269,7 +272,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-21c";
+const SHELL_VERSION = "2026-08-21d";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -293,6 +296,23 @@ const SHELL = [
   "./image_dims.json",
   "./card_renderer.js",
   "./gamify.js",
+  // 疾患マインドマップ（2026-08-21・段A）。旧9本＋統合マップは1エンジン＋データ分離へ移行した。
+  // ⚠️ 新しい科目のマップを作ったら mindmap_data/{sid}.js をここへ足すこと（足さないとその科目だけ
+  //    オフラインで開けない）。index.js の ready:true と一致していること。
+  "./mindmap.html",
+  "./mindmap.js",
+  "./mindmap.css",
+  "./mindmap_data/index.js",
+  "./mindmap_data/_hub.js",
+  "./mindmap_data/endo.js",
+  "./mindmap_data/resp.js",
+  "./mindmap_data/circ.js",
+  "./mindmap_data/dige.js",
+  "./mindmap_data/neur.js",
+  "./mindmap_data/hbp.js",
+  "./mindmap_data/jinzo_d.js",
+  "./mindmap_data/hema.js",
+  "./mindmap_data/imma.js",
 ];
 // 新科目追加時は必ずここにも questions_{prefix}.json を追加すること（chapters_meta.js の sid 一覧と一致させる）
 const CARDS = [
