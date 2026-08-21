@@ -1653,17 +1653,6 @@ body.exam-bullet-time .qc:not(.exam-deciding) {
   transition: filter .14s ease-out, opacity .14s ease-out;
 }
 
-/* 【案3】3Dジャイロ・リアル光沢ティルト */
-.qc.qc-3d-tilt {
-  transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
-  transition: transform .08s ease-out;
-}
-.qc.qc-3d-tilt::after {
-  content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
-  background: radial-gradient(circle at var(--shine-x, 50%) var(--shine-y, 50%), rgba(255,255,255,.22) 0%, transparent 60%);
-  opacity: 0.75;
-}
-
 /* 【案4】チェックポイント・光のワープゲート突破 */
 .warp-gate-overlay {
   position: fixed; inset: 0; pointer-events: none; z-index: 9500;
@@ -1725,5 +1714,4 @@ body.env-nightshift {
   .qc.card-heat-mid, .qc.card-heat-max, .warp-ring, .warp-gate-title, .ans.open {
     animation: none!important;
   }
-  .qc.qc-3d-tilt { transform: none!important; }
 }

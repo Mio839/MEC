@@ -36,10 +36,10 @@ test('study.css と study_exam.js に exam-bullet-time がある', () => {
   assert(examSrc.includes('document.body.classList.remove(\'exam-bullet-time\')'), 'Missing bullet time remove in study_exam.js');
 });
 
-console.log('── 3. 3Dジャイロ・リアル光沢ティルト (案3) ──');
-test('study.css と study_exam.js に qc-3d-tilt と _initTiltEffect がある', () => {
-  assert(cssSrc.includes('.qc.qc-3d-tilt'), 'Missing .qc.qc-3d-tilt in study.css');
-  assert(examSrc.includes('function _initTiltEffect()'), 'Missing _initTiltEffect in study_exam.js');
+console.log('── 3. 3Dジャイロ・リアル光沢ティルトの完全削除 (案3削除) ──');
+test('study.css と study_exam.js から qc-3d-tilt と _initTiltEffect が完全に削除されている', () => {
+  assert(!cssSrc.includes('.qc.qc-3d-tilt'), 'Found residual .qc.qc-3d-tilt in study.css');
+  assert(!examSrc.includes('function _initTiltEffect()'), 'Found residual _initTiltEffect in study_exam.js');
 });
 
 console.log('── 4. チェックポイント・光のワープゲート (案4) ──');
