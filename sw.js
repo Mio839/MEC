@@ -1,3 +1,5 @@
+// 2026-08-21g: 疾患マインドマップに 泌尿器科(uro)・整形外科(ortho)・耳鼻咽喉科(ent) を追加。
+//   マイナー講座8科目のうち6科目（tox/anes/rad/uro/ortho/ent）がマップ化された。
 // 2026-08-21f: 疾患マインドマップに 中毒・職業病(tox)・麻酔科(anes)・放射線科(rad) の3科目を追加
 //   （mindmap_data/{tox,anes,rad}.js と _hub.js の代表疾患）。データファイルなので SHELL に登録した。
 //   questions_*.json も画像も触っていないので CACHE は据え置き＝SHELL_VERSION だけ bump。
@@ -283,7 +285,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-21f";
+const SHELL_VERSION = "2026-08-21g";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -330,6 +332,8 @@ const SHELL = [
   "./mindmap_data/anes.js",
   "./mindmap_data/rad.js",
   "./mindmap_data/uro.js",
+  "./mindmap_data/ortho.js",
+  "./mindmap_data/ent.js",
 ];
 // 新科目追加時は必ずここにも questions_{prefix}.json を追加すること（chapters_meta.js の sid 一覧と一致させる）
 const CARDS = [
