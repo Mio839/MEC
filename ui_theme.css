@@ -1,0 +1,220 @@
+/**
+ * ui_theme.css — 4つのUIテーマセット（着せ替えスキン）のスタイルシート
+ */
+
+/* ═══════════════════════════════════════════════════════════════════
+   1. 🌟 オーロラ・グラス (Aurora Glass)
+   ═══════════════════════════════════════════════════════════════════ */
+html.ui-aurora body {
+  background: radial-gradient(ellipse at 20% 20%, rgba(121, 40, 202, 0.28) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 80%, rgba(0, 112, 243, 0.25) 0%, transparent 60%),
+              radial-gradient(ellipse at 50% 50%, rgba(0, 223, 216, 0.15) 0%, transparent 70%),
+              #080A14 !important;
+  background-attachment: fixed !important;
+}
+
+html.ui-aurora .qc,
+html.ui-aurora .st-hdr,
+html.ui-aurora .st-filter-panel,
+html.ui-aurora .hub-card,
+html.ui-aurora .hero-tile,
+html.ui-aurora .card {
+  background: rgba(18, 24, 42, 0.72) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+}
+
+html.ui-aurora .qc {
+  position: relative;
+  overflow: hidden;
+}
+
+html.ui-aurora .qc::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #7928CA, #0070F3, #00DFD8, #7928CA);
+  background-size: 300% 100%;
+  animation: auroraEdgeFlow 6s linear infinite;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+@keyframes auroraEdgeFlow {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 300% 0%; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   2. 🕰️ 真鍮クロックワーク (Steampunk Brass)
+   ═══════════════════════════════════════════════════════════════════ */
+html.ui-brass body {
+  background: radial-gradient(ellipse at 50% 20%, rgba(201, 162, 39, 0.16) 0%, transparent 65%),
+              radial-gradient(ellipse at 80% 90%, rgba(140, 109, 31, 0.18) 0%, transparent 70%),
+              #120D08 !important;
+  background-attachment: fixed !important;
+}
+
+html.ui-brass .qc,
+html.ui-brass .st-hdr,
+html.ui-brass .st-filter-panel,
+html.ui-brass .hub-card,
+html.ui-brass .hero-tile,
+html.ui-brass .card {
+  background: rgba(28, 20, 14, 0.88) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1.5px solid rgba(224, 194, 94, 0.6) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 18px rgba(224, 194, 94, 0.12) !important;
+}
+
+html.ui-brass .qc::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #8C6D1F, #E0C25E, #FFF3C4, #E0C25E, #8C6D1F);
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   3. 🚀 サイバー・ホログラム (Cyber Hologram HUD)
+   ═══════════════════════════════════════════════════════════════════ */
+html.ui-cyber body {
+  background: linear-gradient(180deg, #050B14 0%, #03060A 100%) !important;
+  background-attachment: fixed !important;
+}
+
+html.ui-cyber body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image: 
+    linear-gradient(rgba(0, 229, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.7;
+}
+
+html.ui-cyber .qc,
+html.ui-cyber .st-hdr,
+html.ui-cyber .st-filter-panel,
+html.ui-cyber .hub-card,
+html.ui-cyber .hero-tile,
+html.ui-cyber .card {
+  background: rgba(6, 14, 26, 0.85) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1.5px solid rgba(0, 229, 255, 0.65) !important;
+  box-shadow: 0 0 24px rgba(0, 229, 255, 0.2), inset 0 0 16px rgba(0, 229, 255, 0.08) !important;
+}
+
+html.ui-cyber .qc::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #00E5FF, #76FF03, #D500F9);
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   4. 🌸 幻想リキッド・アート (Liquid Art)
+   ═══════════════════════════════════════════════════════════════════ */
+html.ui-liquid body {
+  background: radial-gradient(ellipse at 15% 15%, rgba(255, 0, 128, 0.24) 0%, transparent 65%),
+              radial-gradient(ellipse at 85% 85%, rgba(121, 40, 202, 0.28) 0%, transparent 65%),
+              radial-gradient(ellipse at 50% 50%, rgba(255, 122, 0, 0.16) 0%, transparent 70%),
+              #100616 !important;
+  background-attachment: fixed !important;
+}
+
+html.ui-liquid .qc,
+html.ui-liquid .st-hdr,
+html.ui-liquid .st-filter-panel,
+html.ui-liquid .hub-card,
+html.ui-liquid .hero-tile,
+html.ui-liquid .card {
+  background: rgba(28, 12, 36, 0.76) !important;
+  backdrop-filter: blur(20px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
+  border: 1.5px solid rgba(255, 0, 128, 0.45) !important;
+  box-shadow: 0 12px 36px rgba(255, 0, 128, 0.18), inset 0 0 20px rgba(121, 40, 202, 0.15) !important;
+}
+
+html.ui-liquid .qc::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #FF007F, #7928CA, #FF7A00, #FF007F);
+  background-size: 300% 100%;
+  animation: liquidEdgeFlow 5s linear infinite;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+@keyframes liquidEdgeFlow {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 300% 0%; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   5. UIテーマ選択モーダル用スタイル
+   ═══════════════════════════════════════════════════════════════════ */
+.ui-theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.ui-theme-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 10px 8px;
+  color: #FFF;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  transition: all .18s ease-out;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.ui-theme-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.ui-theme-btn.active {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: var(--theme-accent, #00E5FF);
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.4);
+}
+
+.ui-theme-preview {
+  width: 100%;
+  height: 24px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+.ui-theme-title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .3px;
+}
+
+.ui-theme-desc {
+  font-size: 9.5px;
+  opacity: 0.7;
+  line-height: 1.3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.ui-aurora .qc::before, html.ui-liquid .qc::before {
+    animation: none !important;
+  }
+}

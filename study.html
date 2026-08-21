@@ -39,6 +39,8 @@
 <script src="gamify.js"></script>
 <link rel="stylesheet" href="vars.css">
 <script src="theme.js"></script>
+<script src="ui_theme.js"></script>
+<link rel="stylesheet" href="ui_theme.css">
 <link rel="stylesheet" href="study.css">
 <script>
 if ('serviceWorker' in navigator) {
@@ -274,7 +276,11 @@ if ('serviceWorker' in navigator) {
 <!-- 音設定オーバーレイ（study.html内） -->
 <div id="studySoundOv" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="ssov-box">
-    <div class="ssov-title">🔊 効果音設定</div>
+    <div class="ssov-title">🎨 UIテーマ ＆ 効果音設定</div>
+    <!-- 🎨 UIテーマセット（着せ替えスキン） -->
+    <div class="ssov-lbl">🎨 UIテーマセット（着せ替えスキン）</div>
+    <div class="ui-theme-grid" id="uiThemeGrid"></div>
+
     <!-- 選択音・正解音のボタンは sounds_index.js（window.MecSounds）から生成する。
          ⚠️ ここに <button> を書き足さないこと——音を足す口は sounds/ + sounds/meta.json だけ。 -->
     <div class="ssov-lbl">選択音</div>
@@ -2218,7 +2224,26 @@ function _renderStudySoundGrid(gridId, slot, attr, type) {
   add('off', '無音');
 }
 
+function _renderUIThemePicker() {
+  const grid = document.getElementById('uiThemeGrid');
+  if (!grid || !window.MecUITheme) return;
+  const cur = MecUITheme.get();
+  grid.innerHTML = MecUITheme.list.map(t => `
+    <button type="button" class="ui-theme-btn ${t.id === cur ? 'active' : ''}" style="--theme-accent:${t.accent}" onclick="selectUITheme('${t.id}')">
+      <div class="ui-theme-preview" style="background:linear-gradient(135deg, ${t.colors.join(', ')})"></div>
+      <div class="ui-theme-title">${t.name}</div>
+      <div class="ui-theme-desc">${t.desc}</div>
+    </button>
+  `).join('');
+}
+
+function selectUITheme(id) {
+  if (window.MecUITheme) MecUITheme.set(id);
+  _renderUIThemePicker();
+}
+
 function openStudySoundOv() {
+  _renderUIThemePicker();
   _renderStudySoundGrid('ssovSelectGrid', 'select', 'ssound', 'select');
   _renderStudySoundGrid('ssovCorrectGrid', 'correct', 'sound', 'correct');
   // 選択中の印は「保存値」ではなく study_exam.js が解決した実効値に合わせる

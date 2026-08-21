@@ -287,7 +287,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-21h";
+const SHELL_VERSION = "2026-08-21i";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -304,6 +304,8 @@ const SHELL = [
   "./fixed_uids.js",
   "./vars.css",
   "./theme.js",
+  "./ui_theme.js",
+  "./ui_theme.css",
   "./study.css",
   "./chapters_meta.js",
   "./rate_index.js",
@@ -339,6 +341,8 @@ const SHELL = [
   "./mindmap_data/psy.js",
   "./mindmap_data/derm.js",
   "./mindmap_data/oph.js",
+  "./mindmap_data/peds.js",
+  "./mindmap_data/obg.js",
 ];
 // 新科目追加時は必ずここにも questions_{prefix}.json を追加すること（chapters_meta.js の sid 一覧と一致させる）
 const CARDS = [

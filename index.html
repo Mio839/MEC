@@ -16,6 +16,8 @@
 <link rel="stylesheet" href="vars.css">
 <script src="sounds_index.js"></script>
 <script src="theme.js"></script>
+<script src="ui_theme.js"></script>
+<link rel="stylesheet" href="ui_theme.css">
 <style>
 /* Hallmark · genre: atmospheric · macrostructure: Workbench · theme: project-locked (vars.css)
  * nav: N9 edge-aligned · footer: Ft2 inline · enrichment: none (typography only)
@@ -1092,10 +1094,15 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
 <!-- テーマ選択モーダル -->
 <div class="modal-overlay" id="themeModal" onclick="if(event.target===this)closeThemeModal()">
   <div class="modal-box">
-    <div class="modal-title">🎨 テーマ</div>
-    <div class="modal-sub">画面全体の配色を変えます。この端末だけに保存され、他の端末とは同期しません。</div>
+    <div class="modal-title">🎨 テーマ ＆ デザイン設定</div>
+    <div class="modal-sub">画面全体の着せ替えスキンとベース配色を変えます。この端末だけに保存されます。</div>
+    
+    <div class="sound-label" style="margin-top:14px;font-size:12px;font-weight:700;color:var(--yl,#E0C25E);">✨ UIテーマセット（着せ替えスキン）</div>
+    <div class="ui-theme-grid" id="hubUiThemeGrid"></div>
+
+    <div class="sound-label" style="margin-top:16px;font-size:12px;font-weight:700;color:var(--ts,rgba(255,255,255,.7));">🌈 ベース配色</div>
     <div class="theme-grid" id="themeGrid"></div>
-    <div class="modal-row">
+    <div class="modal-row" style="margin-top:16px">
       <button class="modal-btn secondary" style="flex:1" onclick="closeThemeModal()">閉じる</button>
     </div>
   </div>
@@ -2975,7 +2982,26 @@ function checkSyncWarning() {
 // ── テーマ選択 ────────────────────────────────────────────────────
 // 実際の配色は vars.css の html.th-*、クラス付与は theme.js（<head>で同期実行）。
 // ここは選択UIだけを持つ。押した瞬間に画面全体へ反映される（再読込不要）。
+function _renderHubUIThemeGrid() {
+  const host = document.getElementById('hubUiThemeGrid');
+  if (!host || !window.MecUITheme) return;
+  const cur = MecUITheme.get();
+  host.innerHTML = MecUITheme.list.map(t => `
+    <button type="button" class="ui-theme-btn ${t.id === cur ? 'active' : ''}" style="--theme-accent:${t.accent}" onclick="selectHubUITheme('${t.id}')">
+      <div class="ui-theme-preview" style="background:linear-gradient(135deg, ${t.colors.join(', ')})"></div>
+      <div class="ui-theme-title">${t.name}</div>
+      <div class="ui-theme-desc">${t.desc}</div>
+    </button>
+  `).join('');
+}
+
+function selectHubUITheme(id) {
+  if (window.MecUITheme) MecUITheme.set(id);
+  _renderHubUIThemeGrid();
+}
+
 function renderThemeGrid() {
+  _renderHubUIThemeGrid();
   const host = document.getElementById('themeGrid');
   if (!host || !window.MecTheme) return;
   const cur = MecTheme.get();
