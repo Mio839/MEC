@@ -4428,7 +4428,7 @@ function exitExam() {
   if (window.MecCalc) document.querySelectorAll('.qc .calc-input')
     .forEach(el => MecCalc.destroy(el.closest('.qc')));
   const modeBtn = document.getElementById('examModeBtn');
-  if (modeBtn) { modeBtn.textContent = '🎓 試験'; modeBtn.classList.remove('exam-on'); modeBtn.onclick = openExamStart; }
+  if (modeBtn) { modeBtn.textContent = '🎓 試験モード'; modeBtn.classList.remove('exam-on'); modeBtn.onclick = openExamStart; }
   // ストリーク演出を即座にリセット（サマリーモーダルを隠さないよう）
   ['examTimestopOv','examStreakToast','examStreakFlash','examStreakBorder','streakFullscreen'].forEach(id => {
     const el = document.getElementById(id);

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -71,6 +71,7 @@ if ('serviceWorker' in navigator) {
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
     <div class="st-stat">合計 <span>5487</span>問</div>
     <div class="st-stat"><span class="st-streak">🔥 <span id="studyStreak">0</span>日連続</span></div>
+    <button class="st-stat exam-mode-chip" id="examModeBtn" onclick="openExamStart()" title="試験モードを開始（現在のフィルター・科目から出題）">🎓 試験モード</button>
   </div>
   <div class="st-filter-panel" id="stFilterPanel">
     <div class="chip-row" role="group" aria-label="科目を選ぶ（1科目のみ）">
@@ -114,7 +115,6 @@ if ('serviceWorker' in navigator) {
     <button class="nb2" data-state="undone" onclick="setState('undone')" aria-pressed="false">未済</button>
     <button class="nb2" data-state="done" onclick="setState('done')" aria-pressed="false">済</button>
     <span class="fsep"></span>
-    <button class="nb" id="examModeBtn" onclick="openExamStart()">🎓試験</button>
     <button class="nb" id="srsReviewBtn" onclick="startSRSReview()" title="今日の復習セッション" aria-label="今日の復習セッションを始める">🔔</button>
     <button class="nb" onclick="openSelfcheck()" aria-label="自作問題を追加">✏️</button>
     <button class="nb" onclick="openStudySoundOv()" aria-label="効果音の設定">🔊</button>
