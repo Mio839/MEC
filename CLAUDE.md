@@ -1320,10 +1320,15 @@ B1 の完了（`_subjLoadDone`）は `_finish` の rAF にぶら下がるが、*
 
 | 設定キー | 既定 | 中身 |
 |---|---|---|
-| `mec_correct_sound_v1` | `ping` | 合成音11種＋wav 5種（`custom`＝correct.wav／`msboot`／`saber`／`magnum`／`buppigan`）＋`off` |
-| `mec_boot_sound_v1` | `ms` | 試験開始のカウントダウン中に1回鳴る `ＭＳ動作.wav`（`off` で無音） |
+| `mec_correct_sound_v1` | `ping` | 合成音11種＋wav 5種（`custom`＝correct.wav／`msmove`＝ＭＳ動作／`saber`／`magnum`／`buppigan`）＋`off` |
+| `mec_boot_sound_v1` | `ms` | 試験開始のカウントダウン中に1回鳴る `MS起動.wav`（`off` で無音） |
 
 - ⚠️ **キーは localStorage にそのまま入るので改名しないこと**（`custom` は旧ユーザーの設定が刺さっている）。
+  2026-08-21 に MS起動 と ＭＳ動作 を入れ替えた際、旧キー `msboot` は**同じキーに別のファイルを
+  入れず消した**（「MS起動 を選んだはずが ＭＳ動作 が鳴る」を避けるため。旧設定は既定の ping に落ちる）。
+- ⚠️ **起動音の尺はカウントダウンより短いこと**。MS起動 2.01秒 ＜ カウントダウン最短 2.535秒
+  （ログ3行の cyber。最長は 2.745秒）。長い素材へ替えるなら `_examCountdown` の
+  `t0 + 3*420 + 780` を数え直す。
 - ⚠️ **音量 `vol` は「wav のピーク × vol ≒ 0.5」に揃えてある**（ピーク実測 correct .49／MS起動 .66／
   ビームサーベル 1.00／ビームマグナム .36／ブッピガン 1.00／ＭＳ動作 .96）。wav を差し替えたら測り直す
   ——揃っていないと**選び替えただけで体感の音量が2倍以上変わる**。増幅（`vol>1`）は GainNode でしか

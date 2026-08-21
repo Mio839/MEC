@@ -91,20 +91,25 @@ let _correctSound = localStorage.getItem('mec_correct_sound_v1') || 'ping';
 
 /* 正解音として選べる wav（キー → ファイル名と音量）。
    ⚠️ 音量は「wav のピーク × vol」がおおよそ 0.5 に揃うように決めてある（ピーク実測値：
-      correct .49 ／ MS起動 .66 ／ ビームサーベル斬撃 1.00 ／ ビームマグナム .36 ／
-      ブッピガン2 1.00）。wav を差し替えたら vol も測り直すこと——揃っていないと
-      正解音を選び替えただけで体感の音量が2倍以上変わる。
+      correct .49 ／ ＭＳ動作 .96 ／ ビームサーベル斬撃 1.00 ／ ビームマグナム .36 ／
+      ブッピガン2 1.00 ／ MS起動 .66）。wav を差し替えたら vol も測り直すこと——揃って
+      いないと正解音を選び替えただけで体感の音量が2倍以上変わる。
    ⚠️ キーは localStorage('mec_correct_sound_v1') にそのまま入るので改名しないこと
-      （'custom' は correct.wav の旧キー＝既存ユーザーの設定が刺さっている）。 */
+      （'custom' は correct.wav の旧キー＝既存ユーザーの設定が刺さっている）。
+   ⚠️ 2026-08-21 に MS起動 と ＭＳ動作 を入れ替えた（MS起動＝起動音／ＭＳ動作＝正解音）。
+      旧キー 'msboot' は**意図的に消してある**——同じキーに別のファイルを入れると
+      「MS起動 を選んだはずが ＭＳ動作 が鳴る」になるため。旧設定は既定の ping に落ちる。 */
 const CORRECT_WAVS = {
   custom:   { file: 'correct.wav',           vol: 1.0 },
-  msboot:   { file: 'MS起動.wav',             vol: 0.75 },
+  msmove:   { file: 'ＭＳ動作.wav',           vol: 0.5 },
   saber:    { file: 'ビームサーベル斬撃.wav', vol: 0.5 },
   magnum:   { file: 'ビームマグナム.wav',     vol: 1.3 },
   buppigan: { file: 'ブッピガン2.wav',        vol: 0.5 }
 };
-// 試験開始の起動アニメ中に鳴る音（CORRECT_WAVS とは別枠＝正解音として選ばせない）
-const BOOT_WAV = { file: 'ＭＳ動作.wav', vol: 0.5 };
+/* 試験開始の起動アニメ中に鳴る音（CORRECT_WAVS とは別枠＝正解音として選ばせない）。
+   ⚠️ 尺 2.01 秒。カウントダウンは最短でも 2.535 秒（ログ3行の cyber）あるので収まるが、
+      これ以上長い素材に差し替えるなら _examCountdown の尺（t0 + 3*420 + 780）を確認すること。 */
+const BOOT_WAV = { file: 'MS起動.wav', vol: 0.75 };
 let _bootSound = localStorage.getItem('mec_boot_sound_v1') || 'ms';
 
 /* wav は「AudioContext のバッファ」と「<audio> 要素」の2本立てで持つ。

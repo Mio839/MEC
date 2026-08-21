@@ -2446,8 +2446,8 @@
   function ceBootSound() {
     try {
       if ((localStorage.getItem('mec_boot_sound_v1') || 'ms') === 'off') return;
-      var a = new Audio(scriptBase + 'sounds/ＭＳ動作.wav');
-      a.volume = .5;
+      var a = new Audio(scriptBase + 'sounds/MS起動.wav');
+      a.volume = .75;
       a.play().catch(function(){});
     } catch (e) {}
   }
