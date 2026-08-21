@@ -765,16 +765,19 @@ body.exam-sprint .exam-prog{background:rgba(60,22,0,.62);animation:epSprint 2.6s
 /* ★クリアバッジ: ★問だけ全部終わっている章に表示（右上隅・金色） */
 .exam-ch-card{position:relative;}
 .cc-star-badge{position:absolute;top:3px;right:4px;font-size:10px;line-height:1;color:#FFD166;text-shadow:0 0 6px rgba(255,209,102,.7);pointer-events:none;}
-/* 開始ボタンをモーダル下部に吸着（スクロールしても常に見える） */
-.exam-start-foot{position:sticky;bottom:0;background:linear-gradient(180deg,rgba(var(--exam-modal-b),0) 0%,rgba(var(--exam-modal-b),.97) 30%);padding:14px 0 18px;margin-top:4px;}
-/* 開始ボタン: グラデ脈動＋光沢スイープ */
-.exam-go-btn{position:relative;overflow:hidden;width:100%;padding:13px;border-radius:var(--r-md);border:none;background:linear-gradient(120deg,#FFB13C,#FF7A45 45%,#FF5E8A);background-size:220% 220%;color:#fff;font-size:16px;font-weight:800;letter-spacing:.08em;cursor:pointer;margin-bottom:8px;transition:transform .2s;animation:goPulse 2.6s ease-in-out infinite;}
+/* 開始ボタンとキャンセルボタンをモーダル下部に吸着（左2/3を開始、右1/3をキャンセル） */
+.exam-start-foot{position:sticky;bottom:0;background:linear-gradient(180deg,rgba(var(--exam-modal-b),0) 0%,rgba(var(--exam-modal-b),.97) 30%);padding:14px 0 18px;margin-top:4px;display:flex;gap:10px;align-items:stretch;}
+/* 開始ボタン: 左2/3（グラデ脈動＋光沢スイープ） */
+.exam-go-btn{position:relative;overflow:hidden;flex:2;padding:13px;border-radius:var(--r-md);border:none;background:linear-gradient(120deg,#FFB13C,#FF7A45 45%,#FF5E8A);background-size:220% 220%;color:#fff;font-size:16px;font-weight:800;letter-spacing:.08em;cursor:pointer;margin-bottom:0;transition:transform .2s;animation:goPulse 2.6s ease-in-out infinite;display:flex;align-items:center;justify-content:center;font-family:inherit;}
 @keyframes goPulse{0%,100%{background-position:0% 50%;box-shadow:0 6px 20px rgba(255,138,60,.4);}50%{background-position:100% 50%;box-shadow:0 8px 32px rgba(255,94,138,.6);}}
 .exam-go-btn::after{content:'';position:absolute;top:-10%;bottom:-10%;left:-45%;width:34%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-22deg);animation:goShine 2.6s ease-in-out infinite;}
 @keyframes goShine{0%,25%{left:-45%;}70%,100%{left:130%;}}
 .exam-go-btn:hover{transform:translateY(-1px);}
 .exam-go-btn:active{transform:scale(.98);}
-.exam-cancel-btn{background:none;border:none;color:var(--ts);font-size:12px;cursor:pointer;}
+/* キャンセルボタン: 右1/3（押しやすい同一高さのボタン） */
+.exam-cancel-btn{flex:1;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.18);border-radius:var(--r-md);color:var(--tx,#fff);font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;padding:13px 8px;display:flex;align-items:center;justify-content:center;transition:background .18s,border-color .18s,transform .12s;}
+.exam-cancel-btn:hover{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.35);transform:translateY(-1px);}
+.exam-cancel-btn:active{transform:scale(.98);}
 /* Resume section */
 .exam-resume-section{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08);}
 .exam-resume-head{font-size:12px;font-weight:800;color:var(--tx);text-align:left;margin-bottom:8px;}
