@@ -2477,6 +2477,15 @@ function _showStreakEffect(n) {
     {opacity:1, offset:.68},
     {opacity:0, transform:'translateX(-50%) translateY(-16px) scale(.88)', offset:1}
   ], {duration: durs[tier] * (promoted ? 1000 : 520), easing:'ease'});
+  /* S13(2026-08-21): 打撃の1フレーム。着地の瞬間に一度だけ沈んで戻る（1文字ずつのタイプはしない
+     ——ラベルは一瞬で読めることに価値があり、演出のために情報を遅らせてはいけない）。
+     ⚠️ translate プロパティで書くこと。入場アニメが transform を占有している。 */
+  {
+    const _dur = durs[tier] * (promoted ? 1000 : 520);
+    toast.animate([
+      {translate:'0 0'}, {translate:'0 1.6px', offset:.35}, {translate:'0 0'}
+    ], {duration: 200, delay: _dur * .12, easing:'cubic-bezier(.3,1.5,.5,1)'});
+  }
 
   const flash = document.getElementById('examStreakFlash');
   if (flash && promoted && tier >= 2) {
@@ -3628,6 +3637,7 @@ function _updateExamProg(isCorrect = false) {
   if (fill) fill.style.width = total > 0 ? (examAnswered / total * 100) + '%' : '0%';
   _syncExamProgMarks();   // B2: 目盛り・難問印・ラストスパート（祝わない）
   if (txt) {
+    const before = txt.textContent;
     if (_isHostSession()) {
       const remaining = total - examAnswered;
       const streakPart = examStreak >= 2 ? `  🔥×${examStreak}` : '';
@@ -3635,12 +3645,25 @@ function _updateExamProg(isCorrect = false) {
     } else {
       txt.textContent = examAnswered + ' / ' + total + ' 問';
     }
+    /* S12(2026-08-21): 管は**数字が変わるたびに**ともる。この数字が量っているのは正誤ではなく
+       「進んだこと」だから（R1 の放出を正誤で変えないのと同じ理屈）。
+       ⚠️ ただし現在ある報酬信号を消さないため **2段**にした（2026-08-21・ユーザー判断）——
+          正解＝強く緑に光る（従来どおり）／誤答・その他の更新＝弱く琥珀にともる。
+       ⚠️ 更新の口をここ1つに保つこと（増やすと「進んだ」の合図が2箇所に分かれる）。
+       ⚠️ scale は独立プロパティで書くこと。transform だと将来ここに入場アニメを足した
+          瞬間に黙って死ぬ（§11-5-4'・S6 と同じ罠）。 */
     if (isCorrect) {
       txt.getAnimations?.().forEach(a => a.cancel());
       txt.animate([
-        {transform:'scale(1.45)',color:'var(--gr)',textShadow:'0 0 12px rgba(61,214,140,.8)'},
-        {transform:'scale(1)',color:'inherit',textShadow:'none'}
+        {scale:'1.45',color:'var(--gr)',textShadow:'0 0 12px rgba(61,214,140,.8)'},
+        {scale:'1',color:'currentColor',textShadow:'0 0 8px rgba(255,196,90,.35)'}
       ], {duration:400, easing:'cubic-bezier(.34,1.56,.64,1)'});
+    } else if (txt.textContent !== before) {
+      txt.getAnimations?.().forEach(a => a.cancel());
+      txt.animate([
+        {scale:'1.12',textShadow:'0 0 14px rgba(255,196,90,.85)'},
+        {scale:'1',textShadow:'0 0 8px rgba(255,196,90,.35)'}
+      ], {duration:250, easing:'cubic-bezier(.34,1.4,.64,1)'});
     }
   }
 }
@@ -3691,6 +3714,9 @@ function _syncFocusStreakColor() {
   const glow = c ? _hexToRgba(c, .22) : null;
   if (c && glow) { st.setProperty('--exam-focus-c', c); st.setProperty('--exam-focus-glow', glow); }
   else { st.removeProperty('--exam-focus-c'); st.removeProperty('--exam-focus-glow'); }
+  /* S4(2026-08-21): 軸光の明るさだけ tier に載せる。⚠️ 色は CSS 側で琥珀固定＝ここでは
+     段（0〜7）しか渡さない。色まで渡すと筐体がテーマ可変になり Phase 4 の前提が消える。 */
+  st.setProperty('--exam-axle', String(examStreak >= 2 ? _examTier(examStreak) : 0));
 }
 
 function _updateExamFocus() {
@@ -3716,7 +3742,9 @@ function _updateExamFocus() {
     // R1(Phase 5): 溜まっていた圧を解答の瞬間に放出する。⚠️ ここに置く理由は D9 と同じで、
     // この分岐が単一・複数選択・計算・採点除外の**全経路**を1か所で捉える唯一の場所だから
     // （_afterCorrectFx は複数選択を通らず、_tallyQuestion は3箇所に散る）。
-    if (_examPressureBuilt(prevFocus)) _examPuffSteam(true);
+    // S1(Phase 7): 排圧計の針も同じ1つの出来事に加わる。⚠️ ここに置くのは D9・R1 と同じ理由で、
+    //    この分岐が単一・複数選択・計算・採点除外の**全経路**を1か所で捉える唯一の場所だから。
+    if (_examPressureBuilt(prevFocus)) { _examPuffSteam(true); _reliefKick(prevFocus); }
   }
   if (!card) { document.body.classList.remove('exam-idle-lit'); return; }
   const uid = card.dataset.uid || null;
@@ -3812,6 +3840,31 @@ function _examPuffSteam(release) {
   _examGearBlow();
 }
 
+/* S1 / S1'(2026-08-21): 排圧計の針。⚠️ 読書中は一度も動かさない＝原則5（急かさない）。
+   ⚠️ 振れ幅の元は _examCardSeenAt（速答判定の起点）＝R1 と同じ帳簿。**新設しないこと**。
+   ⚠️ 正誤を受け取らない。量っているのは正誤ではなく費やした思考で、これは R1 の放出を
+      正誤で変えないのと同じ理由（誤答を罰しない）。
+   ⚠️ rotate プロパティで書くこと（transform は走行中のアニメに殺される・§11-5-4'）。
+   ⚠️ 520ms は蒸気放出・歯車膨張と同じ1つの出来事の尺。伸ばすと計器だけが遅れて見える。 */
+const RELIEF_FULL_MS = 45000;   // ⚠️ 満針＝45秒。国試の配分（1問1分）より短く取り、長考が振り切れるようにしてある
+const RELIEF_ZERO_DEG = -72, RELIEF_SPAN_DEG = 144;
+function _reliefKick(card) {
+  const n = document.getElementById('epNeedle');
+  if (!n || _fxOff()) return;
+  const uid = card && card.dataset && card.dataset.uid;
+  const t0 = uid ? _examCardSeenAt.get(uid) : 0;
+  const k = t0 ? Math.max(0, Math.min(1, (Date.now() - t0) / RELIEF_FULL_MS)) : 0;
+  const peak = RELIEF_ZERO_DEG + RELIEF_SPAN_DEG * k;
+  const over = peak + 8 * k;      // S1': オーバーシュートは1回だけ
+  n.getAnimations?.().forEach(a => a.cancel());
+  n.animate([
+    { rotate: RELIEF_ZERO_DEG + 'deg' },
+    { rotate: over + 'deg', offset: .32 },
+    { rotate: (peak - 3 * k) + 'deg', offset: .46 },
+    { rotate: peak + 'deg', offset: .58 },
+    { rotate: RELIEF_ZERO_DEG + 'deg' }
+  ], { duration: 520, easing: 'cubic-bezier(.22,1,.36,1)' });
+}
 /* 放出に合わせて歯車が大きくなり、噛み合いから火花が飛ぶ。
    ⚠️⚠️ 拡大は `scale` プロパティで行うこと。`transform:scale()` は使えない——歯車は
       `animation:epGearSpin` が transform を占有しており、transform を別途宣言しても
@@ -4332,6 +4385,12 @@ function exitExam() {
   // S5(2026-08-21): 克服光の当て板も同じく持ち越さない（1.15秒で自分で消えるが、
   //   その途中で終了した場合に残るので必ず落とす）。
   document.querySelectorAll('.qc.exam-plate-fix').forEach(el => el.classList.remove('exam-plate-fix'));
+  // S4: 軸光の段も持ち越さない（通常閲覧の計器ベイは消えているが、値が残ると次の試験の
+  //     1問目だけ前回の tier の明るさで点く）。
+  document.body.style.removeProperty('--exam-axle');
+  // S1: 針は 0 に戻して止める（アニメの途中で終了すると中途半端な角度で固まる）。
+  { const _n = document.getElementById('epNeedle');
+    if (_n) { _n.getAnimations?.().forEach(a => a.cancel()); } }
   { const _cd = document.getElementById('examCountdown'); if (_cd) { _cd.style.display = 'none'; _cd.innerHTML = ''; } }
   { const _sig = document.getElementById('examStreakSig'); if (_sig) { _sig.getAnimations?.().forEach(a => a.cancel()); _sig.style.opacity = '0'; } }
   { const _lbl = document.getElementById('examComboMeterLbl'); if (_lbl) { _lbl.getAnimations?.().forEach(a => a.cancel()); _lbl.style.opacity = '0'; } }

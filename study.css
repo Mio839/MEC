@@ -534,9 +534,57 @@ body.exam-mode .exam-prog{display:flex;}
       animation:epGearSpin が transform を占有しており、transform を別途宣言しても走行中の
       アニメーションに上書きされて何も起きない（黙って死ぬ型の失敗）。scale は独立プロパティ
       なので回転と合成される。scale はレイアウトに影響しないのでヘッダの高さも変わらない。 */
+/* S12(2026-08-21 / Phase 7 段E): ヘッダの数字をニキシー管にする。
+   意匠だけを採る＝**フリッカーは入れない**（不規則な輝度変化は周辺視野で最も視線を引き、
+   §11-1 原則3「周期を一定にする」に正面から反する。ニキシー管の意匠は光り方ではなく
+   「ガラスと琥珀の数字」の側にある）。
+   ⚠️ 文字サイズと字送りを変えないこと。.exam-prog の行の高さが1pxでも増えると
+      _fxBand() の焦点がずれる（§5-5）。等幅化は font-variant-numeric で行い、
+      **font-family を差し替えない**（メトリクスが変わる）。
+   ⚠️ #examTimer は動かさない（点灯の脈を入れない）。1秒ごとに変わる数字なので、
+      「変わった瞬間にともす」を適用すると 1Hz の常時フリッカーになる。意匠だけを与える。 */
+#examProgTxt,#examTimer{color:#FFD98A;font-variant-numeric:tabular-nums;
+  text-shadow:0 0 8px rgba(255,196,90,.35),0 1px 2px rgba(0,0,0,.7);}
+
+/* S1 / S1'(2026-08-21 / Phase 7 段E): 排圧計。読書中は完全に静止し、解答した瞬間だけ跳ねて戻る。
+   ⚠️⚠️ 針は rotate プロパティで描くこと。箱の外へ出る要素を作らないこと——2026-08-19 に
+      稼働灯が包含ブロックの 128% まではみ出し、iOS Safari でページの縮尺が1.4秒周期で
+      伸び縮みし続けた事故がある。針は 4.6px で盤面（半径 6.5px）の中に完全に収まる。
+   ⚠️ S1'（2巡目 案2 から採った「針の物理」）＝目標値でピタリと止まらず、わずかに行き過ぎて戻る。
+      ⚠️ 常時の微振動と「レッドゾーン」は入れない。振動は読書中に周辺視野で動き続けるし、
+         赤は「誤答を罰しない」という既定方針と噛み合わない（§12-1【2巡目】）。
+   ⚠️ 盤面は真鍮固定（筐体）。tier にもテーマにも振らない。 */
+.ep-relief{position:relative;flex:none;width:13px;height:13px;border-radius:50%;
+  border:1px solid var(--exam-brass);
+  background:radial-gradient(circle at 50% 36%,rgba(224,194,94,.18),rgba(0,0,0,.55) 76%);
+  box-shadow:0 0 0 1px var(--exam-bevel-lo);}
+.ep-needle{position:absolute;left:50%;bottom:50%;width:1px;height:4.6px;margin-left:-.5px;
+  border-radius:1px;background:var(--exam-brass-hi);
+  transform-origin:50% 100%;rotate:-72deg;}
+
+/* ══ Phase 7 段E(2026-08-21): S4 軸光（アクスル・グロウ）══════════════════════
+   提案4 の真空管は、①時間連動を外すと点灯理由が無くなり ②計器ベイに7つ目の要素が増える。
+   両方を回避するため、**既存の歯車の「軸穴」を灯にする**。path は fill-rule:evenodd で
+   中心に半径 5.2/20 の穴が開いており、いま背景が透けているだけ＝**要素0増・幅0増**で
+   「熱を持って稼働する機械」が得られる。
+   ⚠️ SVG 要素の background は path の**後ろ**に描かれるので、見えるのは軸穴の中だけになる。
+      グラデの外周（46%）は歯車の不透明な本体（13%〜35%）の下に隠れる寸法にしてある。
+      半径を広げると歯の外の四隅に琥珀が滲むので触らないこと。
+   ⚠️ <circle> を足して歯車の実装を3本目にしないこと（Phase 4 の判断）。
+   ⚠️ 点灯条件は時間ではなく .exam-idle-lit ＝ D9・R2・S11 とまったく同じ状態。
+      これで「筐体で動くのは稼働灯の状態1つだけ」（§5-6）が保たれる。
+   ⚠️⚠️ 色は琥珀固定。tier 色（--exam-focus-c）を入れてはいけない——筐体は真鍮固定という
+      Phase 4 の約束を破る。tier で変えてよいのは**明るさだけ**（--exam-axle は 0〜7）。
+      R3（焦点枠の色＝盤面）との二重表示は意図的に許す（ハブのゲージが「機械の動き」と
+      「読み値の色」で同じ事実を2通りに出しているのと同型）。
+   ⚠️ .ep-gear-blow（膨張 520ms）中は scale:3.2 が掛かるので軸光も3.2倍になる。
+      ここは抑えない＝放出の瞬間に炉が開く絵として使う（読解はもう終わっている）。 */
 .ep-gear{width:13px;height:13px;flex:none;fill:var(--exam-brass);opacity:.72;scale:1;
-  transition:scale .5s cubic-bezier(.22,1,.36,1),opacity .5s ease;
+  background:radial-gradient(circle at 50% 50%,rgba(255,214,120,var(--exam-axle-a,0)) 0 18%,rgba(255,214,120,0) 46%);
+  transition:scale .5s cubic-bezier(.22,1,.36,1),opacity .5s ease,background .5s ease;
   animation:epGearSpin 5.6s linear infinite;animation-play-state:paused;}
+/* 灯るのは稼働灯が点いている間だけ。tier（--exam-axle 0〜7）で明るさだけが上がる。 */
+body.exam-mode.exam-idle-lit .ep-gear{--exam-axle-a:calc(.30 + var(--exam-axle,0) * .09);}
 /* 蒸気の放出に合わせて歯車が膨らみ、噛み合いから火花が飛ぶ（JS が .ep-gear-blow を 520ms 付ける）。
    ⚠️ フィードからはみ出すのは意図どおり（.st-hdr / .exam-prog は overflow:visible）。
    ⚠️ 倍率を上げるときは右の歯車から画面右端までの約110px（タイマーと終了ボタンのぶん・画面幅に
@@ -1420,6 +1468,8 @@ body.exam-awaken #examComboMeter{height:5px;}
   /* S11: 呼吸だけ止め、縁と排気口は残す（意匠は消さない＝Phase 4 の作法）。 */
   body.exam-mode.exam-idle-lit::after{animation:none!important;}
   body.exam-mode::after{transition:none;}
+  /* S4: 軸光は静止した意匠なので消さない。ふわりと点くのをやめるだけ。 */
+  .ep-gear{transition:none;}
 }
 
 /* 自己診断（🔊設定内・演出が出ない時の切り分け用） */

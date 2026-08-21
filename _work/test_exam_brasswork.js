@@ -318,7 +318,8 @@ t('S8-b. 歯車は .ep-gear を複製している（path を書き写して2本�
   assert.ok(/querySelector\('\.ep-gear'\)/.test(b) && /cloneNode\(true\)/.test(b),
     '起動画面の歯車が .ep-gear の複製になっていない');
   // study.css 側に歯車の path を直書きしていないこと
-  assert.ok(!/fill-rule\s*:\s*evenodd/.test(CSS), 'study.css に歯車の輪郭が書き写されている');
+  // ⚠️ CSS_NC（コメント除去済み）で見ること。注意書きに fill-rule:evenodd と書いてある。
+  assert.ok(!/fill-rule\s*:\s*evenodd/.test(CSS_NC), 'study.css に歯車の輪郭が書き写されている');
 });
 
 t('10. S9 のレールが明線と暗線の対になっている（--exam-bevel-hi と --exam-bevel-lo の両方を使う）', () => {
@@ -419,6 +420,119 @@ t('27. S11 の z-index が --z-hdr より上・モーダル(5000)と #examStreak
     assert.ok(/\+\s*1\b/.test(m[1]),
       r.sel.trim() + ' の z-index が --z-hdr + 1 でない（モーダル 5000 と tier の外周 9045 の下に居ること）');
   });
+});
+
+// ══ 段E: S4 軸光 ／ S1+S1' 排圧計 ／ S12 ヘッダの管 ／ S13 トーストの打撃 ══
+t('12. S4 の軸光が .exam-idle-lit に連動し、tier 色ではなく琥珀固定である', () => {
+  const lit = RULES.filter(r => /\.exam-idle-lit[^,]*\.ep-gear/.test(r.sel));
+  assert.ok(lit.length, '軸光が .exam-idle-lit に連動していない（新しい軸を作らない・§5-6）');
+  const all = RULES.filter(r => /\.ep-gear/.test(r.sel));
+  all.forEach(r => {
+    assert.ok(!/--exam-focus-c|--exam-focus-glow/.test(r.body),
+      '軸光に tier 色が入っている → ' + r.sel.trim() + '（筐体は真鍮固定・tier で変えてよいのは明るさだけ）');
+  });
+  // 明るさだけが段で変わる＝--exam-axle は数（0〜7）としてしか使われない
+  assert.ok(lit.some(r => /--exam-axle\b/.test(r.body)), '明るさが tier（--exam-axle）に載っていない');
+  const js = fnBody('_syncFocusStreakColor');
+  assert.ok(js && /--exam-axle/.test(js), 'JS が --exam-axle を渡していない');
+  assert.ok(!/setProperty\('--exam-axle',\s*[^)]*#/.test(js), 'JS が --exam-axle に色を渡している（段だけを渡すこと）');
+});
+
+t('13. S4 が歯車の実装を3本目にしていない（<circle> を足していない）', () => {
+  const gearSvgs = (HTML.match(/class="ep-gear[^"]*"/g) || []).length;
+  assert.strictEqual(gearSvgs, 2, '計器ベイの歯車が2枚でなくなっている');
+  // .ep-gear の SVG の中に <circle> が増えていないこと（軸光は background で作る）
+  const svgs = HTML.match(/<svg class="ep-gear[\s\S]*?<\/svg>/g) || [];
+  svgs.forEach(x => assert.ok(!/<circle/.test(x), '歯車の SVG に <circle> を足している（実装が3本目になる）'));
+  const lit = RULES.filter(r => /\.ep-gear/.test(r.sel)).map(r => r.body).join('');
+  assert.ok(/background\s*:\s*radial-gradient/.test(lit), '軸光が background の radial-gradient で作られていない');
+});
+
+t('14. S1 の針が rotate で描かれ、箱の外へ出る要素を作らない（iOS の縮尺振動の再発防止）', () => {
+  const dial = ruleFor(/\.ep-relief/);
+  const needle = ruleFor(/\.ep-needle/);
+  assert.ok(dial.length && needle.length, '排圧計の盤面／針が無い');
+  const nb = needle.map(r => r.body).join('');
+  assert.ok(/rotate\s*:/.test(nb), '針が rotate プロパティで描かれていない');
+  assert.ok(!/[^-]transform\s*:/.test(nb), '針が transform を使っている（走行中のアニメに殺される）');
+  // 針は盤面（13px＝半径 6.5px）に収まること
+  const dw = parseFloat(/width\s*:\s*([\d.]+)px/.exec(dial[0].body)[1]);
+  const nh = parseFloat(/height\s*:\s*([\d.]+)px/.exec(nb)[1]);
+  assert.ok(nh <= dw / 2, '針が盤面からはみ出す（' + nh + 'px > 半径 ' + (dw / 2) + 'px）');
+  // JS 側も rotate で書くこと
+  const k = fnBody('_reliefKick');
+  assert.ok(k, '_reliefKick が見つからない');
+  assert.ok(/rotate:/.test(k) && !/transform:/.test(k), '_reliefKick が transform を使っている');
+});
+
+t('15. S1 の振れ幅が _examCardSeenAt を正本にしている（帳簿を新設していない）', () => {
+  const k = fnBody('_reliefKick');
+  assert.ok(/_examCardSeenAt\.get\(/.test(k),
+    '_reliefKick が _examCardSeenAt を見ていない（経過時刻の帳簿を新設しないこと＝R1 と同じ正本）');
+  // 針は「読書中は1度も動かない」＝解答検出の1か所からしか呼ばれない
+  const calls = (JS_NC.match(/_reliefKick\(/g) || []).length;
+  assert.strictEqual(calls, 2, '_reliefKick の呼び出しが1か所でない（定義1＋呼び出し1＝2）');
+  const focus = fnBody('_updateExamFocus');
+  assert.ok(/_reliefKick\(/.test(focus),
+    '_reliefKick が _updateExamFocus（解答の全経路を捉える唯一の場所）から呼ばれていない');
+});
+
+t('16. S1 が正誤で色も振れ幅も変えない', () => {
+  const k = fnBody('_reliefKick');
+  assert.ok(!/isCorrect|correct|wrong/i.test(k),
+    '_reliefKick が正誤を見ている（量っているのは正誤ではなく費やした思考＝誤答を罰しない）');
+  // 呼び出し側も正誤を渡していない
+  const focus = fnBody('_updateExamFocus');
+  const m = /_reliefKick\(([^)]*)\)/.exec(focus);
+  assert.ok(m && !/true|false|isCorrect/.test(m[1]), '_reliefKick に正誤が渡されている: ' + (m && m[1]));
+});
+
+t("31. S1' のオーバーシュートが rotate プロパティで、箱の外へ出る要素を作らない", () => {
+  const k = fnBody('_reliefKick');
+  const frames = (k.match(/rotate:\s*[^,}]+/g) || []);
+  assert.ok(frames.length >= 4, '針のキーフレームが少なすぎる（オーバーシュートが無い）');
+  assert.ok(/over/.test(k), 'オーバーシュートの値が無い');
+  // 常時の微振動を入れていないこと（iterations / infinite）
+  assert.ok(!/infinite|iterations/.test(k), '針に常時の微振動が入っている（読書中に周辺視野で動き続ける）');
+  // レッドゾーンを入れていないこと
+  assert.ok(!/#F{0,2}[0-9A-F]{0,2}0000|red/i.test(k), '針にレッドゾーンが入っている（誤答を罰しない方針と噛み合わない）');
+});
+
+t('28. S12 が font-family を差し替えていない（等幅化は font-variant-numeric）', () => {
+  const rs = RULES.filter(r => /#examProgTxt|#examTimer/.test(r.sel));
+  assert.ok(rs.length, 'S12 の規則が無い');
+  const body = rs.map(r => r.body).join('');
+  assert.ok(!/font-family/.test(body), 'S12 が font-family を差し替えている（メトリクスが変わりヘッダが伸びる）');
+  assert.ok(!/font-size|letter-spacing/.test(body), 'S12 が文字サイズ／字送りを変えている（_fxBand の焦点がずれる）');
+  assert.ok(/font-variant-numeric\s*:\s*tabular-nums/.test(body), '等幅数字になっていない');
+  // 常時フリッカーを入れていないこと
+  rs.forEach(r => assert.ok(!/animation/.test(r.body), 'S12 が常時アニメを持っている → ' + r.sel.trim()));
+});
+
+t('29. S12 の点灯フックが _updateExamProg の中にあり、更新口を2つに増やしていない', () => {
+  const b = fnBody('_updateExamProg');
+  assert.ok(b, '_updateExamProg が見つからない');
+  assert.ok(/txt\.animate\(/.test(b), '点灯が _updateExamProg にない');
+  // 進捗テキストを書き換えているのがここ1か所であること
+  const writes = (JS_NC.match(/examProgTxt/g) || []).length;
+  assert.ok(writes <= 2, '#examProgTxt を触る場所が増えている（更新の口は1つ）');
+  // 2段（正解＝強／それ以外＝弱）になっていること
+  assert.ok(/if \(isCorrect\)/.test(b) && /else if \(txt\.textContent !== before\)/.test(b),
+    '2段（正解＝強／数字が変わったら弱）になっていない');
+});
+
+t('30. S12 / S13 が足すアニメは scale / translate の独立プロパティである', () => {
+  const b = fnBody('_updateExamProg');
+  assert.ok(/scale:/.test(b), 'S12 が scale プロパティを使っていない');
+  assert.ok(!/transform:/.test(b), 'S12 が transform を使っている（将来入場アニメを足した瞬間に黙って死ぬ）');
+});
+
+t('32. S13 の沈み込みが translate プロパティである', () => {
+  const i = JS.indexOf("getElementById('examStreakToast')");
+  assert.ok(i > 0, 'トーストが見つからない');
+  const seg = JS.slice(i, i + 3000);
+  assert.ok(/translate:'0 [\d.]+px'/.test(seg),
+    'トーストの打撃が translate プロパティで書かれていない（入場アニメが transform を占有している）');
 });
 
 // ══ 全段共通 ═══════════════════════════════════════════════════════════
