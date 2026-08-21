@@ -225,6 +225,57 @@ body.exam-mode .qc.exam-key-focus:not(.exam-revealed)::before{
   to  {background-position:0 0,0 100%,1px 0;opacity:1;}
 }
 
+/* ══ Phase 7 段D(2026-08-21): S11 炉のヴィネット（設計 §12-2 S11）═════════════
+   2巡目の案5「排気フレーム」と案9「ボイラーの呼吸」を1つに統合したもの。
+   案9 を全画面でやれない理由は3つある——① .qc は 6% のガラスなので背景の明滅が
+   **問題文の背面コントラストを直接動かす** ② 背景を描いているのは html::before
+   （vars.css・position:fixed）で**これは全ページ共有**＝触るとハブも統計も呼吸し始める
+   ③ あの層は iOS で塗り残し（白wash）を起こした前科があり、**最も踏みたくない場所**。
+   触らずに済む場所は「画面の縁」だけで、そこは案5 が枠を置きたがっている場所と同じ。
+   だから2つ置くのではなく「呼吸する縁」を1つ作る。
+
+   ⚠️⚠️ width / height / transform を1つも書かないこと。2026-08-19 に稼働灯が包含ブロックの
+      128% まではみ出し、**iOS Safari でページの縮尺が1.4秒周期で伸び縮みし続けた**事故がある。
+      使ってよいのは position:fixed / inset:0 / pointer-events:none と
+      box-shadow:inset / radial-gradient / opacity **だけ**。
+   ⚠️ body に transform を掛けてはいけないという既存の禁則（_fxBand の項）もここで守る。
+   ⚠️ セレクタは body.exam-mode::before / ::after であること（body::before にしない）。
+      exitExam で exam-mode が外れれば縁も消える＝通常閲覧へ持ち越さない。
+   ⚠️ 呼吸をフリーランのタイマーにしないこと。.exam-idle-lit に連動させる＝
+      「読んでいる間は炉が呼吸し、答えた瞬間に息を止める」。D9（稼働灯）・R2（歯車）と
+      **まったく同じ1つの状態**が、ベイの歯車・レールの光・画面の縁の3箇所で表現される形になる。
+      軸は増えない（§5-6・§11-7）。
+   ⚠️ 進捗で赤くしないこと。それは R11「セッションが進むと筐体が温まる」で、採るには
+      「筐体は真鍮固定」という約束を明示的に緩める判断が要る（§11-2・§12-7）。
+   ⚠️ z-index は --z-hdr + 1（＝201）。カードとヘッダの上・**すべてのモーダル（5000〜）と
+      #examStreakBorder（9045）の下**。tier の外周グローは常にこの縁の上に光る＝
+      「常時＝静止した筐体の縁／tier＝その上で光る盤面」という Phase 4 の役割分担が縁でも保たれる。 */
+body.exam-mode::before{content:'';position:fixed;inset:0;pointer-events:none;
+  z-index:calc(var(--z-hdr) + 1);
+  /* 四辺の稜線（明線と暗線の対）＋内側へ落ちる暗がり。⚠️ 明線だけだと「地が少し明るい帯」に
+     見えるだけで金属の縁にならない（Phase 4 の唯一の技術的な要）。 */
+  box-shadow:inset 0 0 0 1px var(--exam-bevel-hi),
+             inset 0 0 0 2px var(--exam-bevel-lo),
+             inset 0 0 30px rgba(0,0,0,.42);
+  /* 四隅の排気口＝暗がり。到達距離は 8vmin 以内（§12-3 のゲート5）。 */
+  background-image:radial-gradient(circle 8vmin at 0    0,   rgba(0,0,0,.34),transparent 72%),
+                   radial-gradient(circle 8vmin at 100% 0,   rgba(0,0,0,.34),transparent 72%),
+                   radial-gradient(circle 8vmin at 0    100%,rgba(0,0,0,.34),transparent 72%),
+                   radial-gradient(circle 8vmin at 100% 100%,rgba(0,0,0,.34),transparent 72%);}
+/* 熾火。⚠️ 動かすのは opacity だけ（合成のみ＝再レイアウトも再描画も起こさない）。
+   ⚠️ ピーク不透明度 .06 / 到達距離 8vmin / 呼吸の振幅はピークの ±50% 以内（§12-3 のゲート5）。
+      iPhone 幅ではカードの角が隅に入るので、この上限を超えないこと。 */
+body.exam-mode::after{content:'';position:fixed;inset:0;pointer-events:none;
+  z-index:calc(var(--z-hdr) + 1);opacity:.03;
+  background-image:radial-gradient(circle 8vmin at 0    0,   rgba(224,194,94,1),transparent 70%),
+                   radial-gradient(circle 8vmin at 100% 0,   rgba(224,194,94,1),transparent 70%),
+                   radial-gradient(circle 8vmin at 0    100%,rgba(224,194,94,1),transparent 70%),
+                   radial-gradient(circle 8vmin at 100% 100%,rgba(224,194,94,1),transparent 70%);
+  transition:opacity .6s ease;}
+/* ⚠️ 周期 5.6s は R2 の歯車（epGearSpin 5.6s）と同値。同じ機関の同じ拍にしてある。 */
+body.exam-mode.exam-idle-lit::after{animation:examForgeBreath 5.6s ease-in-out infinite;}
+@keyframes examForgeBreath{0%,100%{opacity:.03;}50%{opacity:.06;}}
+
 /* ══ Phase 5 段3(2026-08-19): R7 読影灯 ／ R9 相転移 ／ R6 キーキャップ ═══════
    ⚠️ セレクタに .qc を含めるかどうかで意味が変わる。画像の枠は「掛ける台」＝カードの装飾では
       ないので body.exam-mode .qimg（カードに依らない）で書く。 */
@@ -1366,6 +1417,9 @@ body.exam-awaken #examComboMeter{height:5px;}
   .exam-close-btn:active,.exam-fresh-btn:active{translate:none;}
   .exam-detail-item .val,.exam-pct{transition:none;}   /* 点灯は残す。ふわりと点くのをやめるだけ */
   .qc.exam-plate-fix::before{animation:none!important;display:none;}  /* 一瞬の光は出さない（残すと当て板が居座る） */
+  /* S11: 呼吸だけ止め、縁と排気口は残す（意匠は消さない＝Phase 4 の作法）。 */
+  body.exam-mode.exam-idle-lit::after{animation:none!important;}
+  body.exam-mode::after{transition:none;}
 }
 
 /* 自己診断（🔊設定内・演出が出ない時の切り分け用） */

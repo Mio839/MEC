@@ -338,6 +338,89 @@ t('11. S9 の稼働灯（::after）が 1px のままである（太くすると�
   assert.strictEqual(h[1], '1', '稼働灯が 1px でなくなっている');
 });
 
+// ══ 段D: S11 炉のヴィネット ══════════════════════════════════════════
+/** S11 の2層＝**body 自身の**疑似要素だけを拾う。
+    ⚠️ 子孫セレクタ（body.exam-mode .st-hdr::after ＝ D9 の稼働灯、
+       body.exam-mode .qc...::before ＝ R5 のクランプ）を巻き込まないこと。
+       巻き込むと稼働灯の opacity:0 を熾火の値として読むなど、全部が誤検出になる。 */
+function forgeRules() {
+  return RULES.filter(r => r.sel.split(',').some(one =>
+    /^body\.exam-mode[A-Za-z0-9_.-]*::(before|after)$/.test(one.trim())));
+}
+
+t('23. S11 が body.exam-mode::before / ::after に書かれている（body::before ではない）', () => {
+  const rs = forgeRules();
+  assert.ok(rs.length >= 2, 'S11 の2層（縁と熾火）が見つからない');
+  assert.ok(rs.some(r => /::before/.test(r.sel)), '縁（::before）が無い');
+  assert.ok(rs.some(r => /::after/.test(r.sel)), '熾火（::after）が無い');
+  // ⚠️ body::before / body::after（exam-mode 抜き）を書くと通常閲覧へ持ち越す
+  RULES.forEach(r => {
+    r.sel.split(',').forEach(one => {
+      const x = one.trim();
+      assert.ok(!/^body::(before|after)$/.test(x),
+        'body::before / body::after を素で書いている → ' + x + '（通常閲覧に縁が残る）');
+    });
+  });
+});
+
+t('24. S11 が width / height / transform を1つも使っていない（iOS の縮尺振動の再発防止）', () => {
+  forgeRules().forEach(r => {
+    ['width', 'height', 'transform'].forEach(prop => {
+      const re = new RegExp('(^|;|\\s)' + prop + '\\s*:');
+      assert.ok(!re.test(r.body),
+        r.sel.trim() + ' が ' + prop + ' を使っている（2026-08-19 にページの縮尺が1.4秒周期で振動した面）');
+    });
+  });
+});
+
+t('25. S11 の呼吸が .exam-idle-lit に連動している（フリーランのアニメを作らない）', () => {
+  const animated = forgeRules().filter(r => /(^|;|\s)animation\s*:/.test(r.body));
+  assert.ok(animated.length >= 1, '熾火の呼吸が無い');
+  animated.forEach(r => {
+    assert.ok(/\.exam-idle-lit/.test(r.sel),
+      '縁が稼働灯の状態と無関係に動いている → ' + r.sel.trim() +
+      '（筐体で常時動けるのは .exam-idle-lit に連動するものだけ・§5-6）');
+  });
+  // 連動していない素の ::after に infinite が無いこと
+  forgeRules().filter(r => !/\.exam-idle-lit/.test(r.sel)).forEach(r => {
+    assert.ok(!/infinite/.test(r.body), '素の縁に常時アニメがある → ' + r.sel.trim());
+  });
+});
+
+t('26. S11 の熾火のピーク不透明度が 0.06 以下・到達距離が 8vmin 以下', () => {
+  const after = forgeRules().filter(r => /::after/.test(r.sel));
+  assert.ok(after.length, '熾火の規則が無い');
+  const body = after.map(r => r.body).join('');
+  // 到達距離
+  const radii = (body.match(/circle\s+([\d.]+)vmin/g) || []).map(x => parseFloat(/([\d.]+)/.exec(x)[1]));
+  assert.ok(radii.length, '熾火の到達距離（circle Nvmin）が読めない');
+  radii.forEach(v => assert.ok(v <= 8, '熾火の到達距離が 8vmin を超えている: ' + v + 'vmin'));
+  // ピーク不透明度（素の opacity と keyframes の両方）
+  const peaks = [];
+  const base = /(^|;|\s)opacity\s*:\s*([\d.]+)/.exec(body);
+  if (base) peaks.push(parseFloat(base[2]));
+  const kf = /@keyframes\s+examForgeBreath\s*\{([\s\S]*?)\}\s*\n/.exec(CSS_NC);
+  assert.ok(kf, 'examForgeBreath の keyframes が無い');
+  (kf[1].match(/opacity\s*:\s*([\d.]+)/g) || []).forEach(x => peaks.push(parseFloat(/([\d.]+)/.exec(x)[1])));
+  assert.ok(peaks.length >= 2, '熾火の不透明度が読めない');
+  const hi = Math.max(...peaks), lo = Math.min(...peaks);
+  assert.ok(hi <= 0.06, '熾火のピーク不透明度が 0.06 を超えている: ' + hi);
+  // 振幅はピークの ±50% 以内
+  assert.ok((hi - lo) <= hi * 0.5 + 1e-9,
+    '呼吸の振幅がピークの50%を超えている（' + lo + '→' + hi + '）＝カード面のコントラストが動く');
+});
+
+t('27. S11 の z-index が --z-hdr より上・モーダル(5000)と #examStreakBorder(9045)より下', () => {
+  forgeRules().forEach(r => {
+    const m = /z-index\s*:\s*([^;]+)/.exec(r.body);
+    if (!m) return;
+    assert.ok(/--z-hdr/.test(m[1]),
+      r.sel.trim() + ' の z-index が --z-hdr 基準でない（数値直書きだとトークンとずれる）');
+    assert.ok(/\+\s*1\b/.test(m[1]),
+      r.sel.trim() + ' の z-index が --z-hdr + 1 でない（モーダル 5000 と tier の外周 9045 の下に居ること）');
+  });
+});
+
 // ══ 全段共通 ═══════════════════════════════════════════════════════════
 t('17. exitExam が Phase 7 で足したクラス・タイマーを全部落とす', () => {
   const b = fnBody('exitExam');
