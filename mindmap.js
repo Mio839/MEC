@@ -294,40 +294,25 @@
     // ── 子ノード（疾患）──
     function anchorFor(x) { return x < -20 ? 'end' : x > 20 ? 'start' : 'middle'; }
 
-    // 習熟度ヘルパー（myrate_v1 から正答率を評価）
-    let _mmRateCache = null;
-    function getMastery(did) {
-      if (_mmRateCache === null) {
-        try { _mmRateCache = JSON.parse(localStorage.getItem('myrate_v1') || '{}'); }
-        catch { _mmRateCache = {}; }
-      }
-      // did または関連uidで突合
-      const entry = _mmRateCache[did];
-      if (!entry || !entry[1]) return 'mm-fresh';
-      const pct = Math.round(entry[0] / entry[1] * 100);
-      return pct >= 80 ? 'mm-mastered' : (pct < 60 ? 'mm-review' : 'mm-learning');
-    }
-
     function drawChildren() {
       lEdgeC.textContent = ''; lNodeC.textContent = '';
       layout.parents.forEach((info, pi) => {
         if (!isOpen(pi)) return;
         const p = parents[pi];
-        let kidIdx = 0;
         info.rings.forEach(ring => ring.forEach(node => {
           const d = childOf[node.id].d;
-          const mastery = getMastery(node.id);
           const pth = ns('path', {
             class: 'mm-edge-c',
             d: `M ${info.x.toFixed(1)} ${info.y.toFixed(1)} L ${node.x.toFixed(1)} ${node.y.toFixed(1)}`,
             fill: 'none', stroke: p.color, 'stroke-width': 1.4, opacity: 0.32,
           });
           lEdgeC.append(pth);
+          // ⚠️ 位置はこの transform 属性が正本。CSS 側で transform を動かすと丸ごと
+          //    上書きされて全ノードが原点へ集まる（mindmap.css の .mm-dis-in を参照）。
           const g = ns('g', {
-            class: `mm-dis ${mastery} mm-dis-in`,
+            class: 'mm-dis mm-dis-in',
             transform: `translate(${node.x.toFixed(1)},${node.y.toFixed(1)})`
           });
-          g.style.setProperty('--delay', (kidIdx * 0.02) + 's');
           g.dataset.did = node.id;
           if (d.imgs && d.imgs.length) {
             const cid = 'clip_' + node.id;
@@ -356,7 +341,6 @@
           g.append(lb);
           g.addEventListener('click', e => { e.stopPropagation(); showDisease(node.id); });
           lNodeC.append(g);
-          kidIdx++;
         }));
       });
     }

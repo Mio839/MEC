@@ -211,5 +211,41 @@ ok(/setAttribute\('viewBox'/.test(src), 'viewBox 駆動のパン／ズームで�
 ok(/prefers-reduced-motion/.test(css), 'reduced-motion を見ている');
 ok(/setTimeout\(/.test(src) && /rAF|requestAnimationFrame/.test(src), 'panTo に rAF が止まった時の落とし所がある');
 
+// ⚠️⚠️ 2026-08-22の回帰。疾患ノード <g class="mm-dis"> の位置は SVG の transform 属性で
+//    与えているので、CSS 側で transform を動かすと属性ごと上書きされ、全ノードが原点
+//    （盤面の中央）へ折り重なる＝病名が中央に白文字で山になる。独立プロパティの
+//    scale / translate / rotate なら合成されるので、動かすならそちらを使う。
+{
+  const kf = {};                                   // keyframes名 → 本文
+  const rxKf = /@keyframes\s+([\w-]+)\s*\{([\s\S]*?)\n\}/g;
+  let m;
+  while ((m = rxKf.exec(css))) kf[m[1]] = m[2];
+  const movesTransform = new Set(
+    Object.keys(kf).filter(n => /(^|[\s;{])transform\s*:/.test(kf[n])));
+
+  const bad = [];
+  const rxRule = /([^{}]+)\{([^{}]*)\}/g;
+  while ((m = rxRule.exec(css))) {
+    const sel = m[1].trim(), body = m[2];
+    if (!/\.mm-(dis|par)\b/.test(sel)) continue;    // transform属性で置いている要素だけ見る
+    if (/(^|[\s;{])transform\s*:/.test(body)) { bad.push(sel + ' が transform を直接指定'); continue; }
+    const anim = /animation(?:-name)?\s*:\s*([^;]+)/.exec(body);
+    if (!anim) continue;
+    const words = anim[1].split(/[\s,]+/).filter(Boolean);
+    words.forEach(w => { if (movesTransform.has(w)) bad.push(sel + ' → @keyframes ' + w); });
+  }
+  ok(bad.length === 0, 'ノード（.mm-dis / .mm-par）の transform を CSS で動かしていない', bad.join(' / '));
+
+  // 走らなければ二度と見えない書き方をしていないか（非表示タブ・reduced-motion）
+  const disIn = /\.mm-dis-in\s*\{([^{}]*)\}/.exec(css);
+  ok(disIn && !/opacity\s*:\s*0/.test(disIn[1]),
+     '.mm-dis-in のベース規則に opacity:0 が無い（アニメが走らなくても見える）');
+  const edge = /\.mm-edge-c\s*\{([^{}]*)\}/.exec(css);
+  ok(edge && !/stroke-dashoffset/.test(edge[1]),
+     '.mm-edge-c のベース規則に stroke-dashoffset が無い（走らなくても実線で出る）');
+  ok(/prefers-reduced-motion[\s\S]*\.mm-dis-in/.test(css),
+     'reduced-motion で入場アニメを止めている');
+}
+
 console.log(`\n${pass + fail} 件中 ${pass} 件成功` + (fail ? ` / ${fail} 件失敗` : ''));
 process.exit(fail ? 1 : 0);
