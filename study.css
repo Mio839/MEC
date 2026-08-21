@@ -495,6 +495,27 @@ body.exam-effect-ink #examStreakToast.t6{background:rgba(201,58,58,.4);color:#FF
 /* ── New combo effects ── */
 #examComboMeter{position:fixed;top:0;left:0;right:0;height:3px;z-index:9300;pointer-events:none;opacity:0;transition:opacity .3s;}
 #examComboMeterFill{height:100%;width:0%;transition:width .35s cubic-bezier(.22,.68,0,1),background .4s;}
+#examComboMeter.tier-overheat{box-shadow:0 0 14px rgba(255,100,50,.85), 0 0 28px rgba(255,200,80,.5);animation:meterOverheatPulse 1.2s infinite alternate ease-in-out;}
+@keyframes meterOverheatPulse{0%{filter:brightness(1);}100%{filter:brightness(1.4);}}
+
+/* 章完走メダル封印（案1） */
+.sgh.ch-sealed::after{content:'🏅 完走';font-size:11px;font-weight:800;color:#000;background:linear-gradient(135deg,#FFE082,#FFD54F,#FFA000);padding:2px 8px;border-radius:12px;margin-left:auto;box-shadow:0 0 10px rgba(255,213,79,.6);animation:chSealIn .4s cubic-bezier(.17,.89,.32,1.25);}
+@keyframes chSealIn{0%{scale:0;rotate:-20deg;}100%{scale:1;rotate:0deg;}}
+
+/* 赤旗ピン打刻 ＆ 警戒光彩（案4） */
+.qc.flag-pinned{animation:cardFlagGlow .75s ease-out;}
+@keyframes cardFlagGlow{0%{box-shadow:0 0 0 0 rgba(239,68,68,.7);}50%{box-shadow:0 0 0 6px rgba(239,68,68,.4),0 8px 30px rgba(239,68,68,.25);}100%{box-shadow:none;}}
+
+/* キーワードタイプライター走光（案7） */
+.kw.type-glow{animation:kwTypeGlow .8s ease-out;}
+@keyframes kwTypeGlow{0%{background:rgba(255,215,0,.6);color:#000;}100%{background:transparent;color:inherit;}}
+
+@media (prefers-reduced-motion: reduce){
+  #examComboMeter.tier-overheat{animation:none;}
+  .sgh.ch-sealed::after{animation:none;}
+  .qc.flag-pinned{animation:none;}
+  .kw.type-glow{animation:none;}
+}
 .mec-myrate{font-size:10px;font-weight:700;padding:1px 6px;border-radius:var(--r-md);border:1.5px solid rgba(255,255,255,.14);white-space:nowrap;margin-left:2px;display:inline-block;color:var(--ts);}
 .mec-myrate[data-ok="true"]{background:rgba(61,214,140,.14);color:var(--gr);border-color:rgba(61,214,140,.32);}
 .mec-myrate[data-ok="false"]{background:rgba(255,154,60,.14);color:var(--or);border-color:rgba(255,154,60,.32);}

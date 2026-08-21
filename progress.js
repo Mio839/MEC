@@ -785,6 +785,13 @@
       flags[uid] = Date.now(); btn.classList.add('mec-flagged');
       delete tombs[uid];
       nowFlagged = true;
+      const card = btn.closest('.qc');
+      if (card) {
+        card.classList.remove('flag-pinned');
+        void card.offsetWidth;
+        card.classList.add('flag-pinned');
+        setTimeout(() => card.classList.remove('flag-pinned'), 800);
+      }
     }
     btn.setAttribute('aria-pressed', String(nowFlagged));
     lsRaw(KFT, tombs);

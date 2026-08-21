@@ -3239,7 +3239,7 @@ function _updateComboMeter(n) {
   const fill  = document.getElementById('examComboMeterFill');
   const lbl   = document.getElementById('examComboMeterLbl');
   if (!meter || !fill) return;
-  if (n < 2) { meter.style.opacity='0'; fill.style.width='0%'; if (lbl) lbl.style.opacity='0'; return; }
+  if (n < 2) { meter.style.opacity='0'; fill.style.width='0%'; if (lbl) lbl.style.opacity='0'; meter.classList.remove('tier-overheat'); return; }
   meter.style.opacity = '1';
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const tier = _examTier(n);
@@ -3248,6 +3248,7 @@ function _updateComboMeter(n) {
   const grads = theme.meterGrads;
   fill.style.background = grads[_tIdx(tier, grads)];
   fill.style.width = pct.toFixed(1) + '%';
+  meter.classList.toggle('tier-overheat', tier >= 7);
   // B6: 次のティアまで残り何問かを表示（今まで3pxバーだけで誰も気づけなかった）
   if (lbl) {
     const remain = tier >= 7 ? 0 : ends[tier] - n;
@@ -3258,13 +3259,19 @@ function _updateComboMeter(n) {
     lbl.animate([{opacity:1},{opacity:1,offset:.7},{opacity:0}], {duration:2400, easing:'ease-out', fill:'forwards'});
   }
   const prev = n-1 < 2 ? 0 : _examTier(n-1);
-  if (tier > prev) meter.animate([{height:'3px'},{height:'7px'},{height:'3px'}],{duration:400,easing:'ease-out'});
+  if (tier > prev) {
+    meter.animate([{height:'3px'},{height:'7px'},{height:'3px'}],{duration:400,easing:'ease-out'});
+    if (tier >= 7 && window.MecFX && !_fxOff()) {
+      window.MecFX.steam(window.innerWidth - 60, 20, { count: 3, w: 40, rise: 50, min: 14, max: 28, alpha: .22 });
+    }
+  }
 }
 
 function _resetComboMeter() {
   const meter = document.getElementById('examComboMeter');
   const fill  = document.getElementById('examComboMeterFill');
   const lbl   = document.getElementById('examComboMeterLbl');
+  if (meter) meter.classList.remove('tier-overheat');
   if (lbl) { lbl.getAnimations?.().forEach(a => a.cancel()); lbl.style.opacity = '0'; }
   if (!meter || !fill || !parseFloat(fill.style.width)) return;
   fill.animate([{width:fill.style.width},{width:'0%'}],{duration:280,easing:'ease-in',fill:'forwards'})

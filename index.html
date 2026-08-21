@@ -267,6 +267,8 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 }
 
 .hero-cta{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-5);}
+.btn.cylinder-loaded{animation:cylinderBreathe 2.4s infinite alternate ease-in-out;border-color:rgba(224,194,94,.65)!important;box-shadow:0 0 10px rgba(224,194,94,.3);}
+@keyframes cylinderBreathe{0%{box-shadow:0 0 6px rgba(224,194,94,.25);border-color:rgba(224,194,94,.5);}100%{box-shadow:0 0 16px rgba(224,194,94,.65),inset 0 0 6px rgba(224,194,94,.25);border-color:rgba(224,194,94,.9);}}
 
 /* ── 計器ベイ。読み値のブロックより一段沈めて、盤面の下部に埋め込む ── */
 .hero-inst{margin:var(--sp-5) calc(var(--sp-5) * -1) calc(var(--sp-5) * -1);
@@ -1481,6 +1483,7 @@ function renderHero() {
     _setCtaLabel(p3, on ? ('🔁 今日の誤答 ' + _fmtN(wrongN) + '問を再履修') : '🔁 今日の誤答なし');
     p3.classList.toggle('is-off', !on);
     p3.classList.toggle('is-clear', !on);
+    p3.classList.toggle('cylinder-loaded', on);
     p3.setAttribute('aria-disabled', on ? 'false' : 'true');
     p3.dataset.fx = 'redo';
     _setRedoLoad(p3, wrongN);
@@ -2225,14 +2228,18 @@ function _startStreakEmbers(streak) {
     if (!_fxOk()) return;
     const c = _centerOf(el);
     if (!c) return;
-    MecFX.glyphBurst(c.x, c.y, { glyphs: ['🔥'], count: tier >= 4 ? 3 : tier >= 2 ? 2 : 1, spread: 26 + tier * 6, w: 10 });
+    const isPlasma = tier >= 3;
+    const cols = isPlasma
+      ? ['#00E5FF', '#00B0FF', '#69F0AE', '#FFFFFF']
+      : ['#FF9A3C', '#FFD166', '#FFFFFF'];
+    MecFX.glyphBurst(c.x, c.y, { glyphs: isPlasma ? ['⚡', '🔥'] : ['🔥'], count: tier >= 4 ? 3 : tier >= 2 ? 2 : 1, spread: 26 + tier * 6, w: 10 });
     if (tier >= 2) {
       MecFX.burst(c.x, c.r.bottom - 3, {
-        tier: 2, count: 4 + tier * 2, colors: ['#FF9A3C', '#FFD166', '#FFFFFF'],
+        tier: 2, count: 4 + tier * 2, colors: cols,
         shapes: ['circle'], speed: 150 + tier * 40, gravity: -180, upBias: 60
       });
     }
-    // 30日を越えたら真鍮の火の粉も混ぜる＝盤面の意匠と地続きにする
+    // 30日を越えたら真鍮の火の粉と高圧蒸気も混ぜる
     if (tier >= 4) MecFX.steam(c.x, c.r.top + 2, { count: 2, w: 8, rise: 40, min: 10, max: 20, alpha: .3 });
   }, every);
 }

@@ -186,10 +186,15 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 /* Rate history chart (H) */
 .rh-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
 .rh-label{font-size:12px;font-weight:700;width:68px;flex-shrink:0;display:flex;align-items:center;gap:4px;}
-.rh-canvas-wrap{flex:1;position:relative;}
-.rh-canvas{display:block;width:100%;height:40px;}
+.rh-canvas-wrap{flex:1;position:relative;overflow:hidden;}
+.rh-canvas{display:block;width:100%;height:40px;clip-path:polygon(0 0, 100% 0, 100% 100%, 0 100%);animation:rhTraceIn .85s cubic-bezier(.16,1,.3,1);}
+@keyframes rhTraceIn{0%{clip-path:polygon(0 0, 0 0, 0 100%, 0 100%);}100%{clip-path:polygon(0 0, 100% 0, 100% 100%, 0 100%);}}
 .rh-latest{font-size:12px;font-weight:800;width:40px;text-align:right;flex-shrink:0;}
 .rh-no-data{font-size:12px;color:var(--ts);text-align:center;padding:20px 0;}
+
+@media (prefers-reduced-motion: reduce){
+  .rh-canvas{animation:none;}
+}
 
 /* ── 弱点リスト（統合）─────────────────────────────────────────
    旧実装は「弱いもの」のリストが4本（📐本番との差 / 💡取りこぼし / 🎯苦手ランキング /
