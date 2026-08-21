@@ -72,10 +72,9 @@ test('gamify.js に科目・章制覇時の溶鉄鍛造バーストがある', (
   assert(gmSrc.includes('colors: [\'#FFD700\', \'#FF8C00\', \'#FFFFFF\', \'#FFA040\']'), 'Missing foundry colors in gamify.js');
 });
 
-console.log('── 9. 星図リンク・天球儀コネクト (案9) ──');
-test('index.html に hubConstellation と _initConstellation がある', () => {
-  assert(indexSrc.includes('hubConstellation'), 'Missing hubConstellation in index.html');
-  assert(indexSrc.includes('function _initConstellation()'), 'Missing _initConstellation in index.html');
+console.log('── 9. 星図リンク・天球儀コネクトの整理 ──');
+test('index.html から hubConstellation が削除され、洗練されたスターダストになっている', () => {
+  assert(!indexSrc.includes('hubConstellation'), 'Found residual hubConstellation in index.html');
 });
 
 console.log('── 10. 重厚メカニカルトグル打刻 & 電気スパーク (案10) ──');

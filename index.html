@@ -2162,84 +2162,49 @@ function _startGaugeAmbient(tier) {
 // 真鍮・銅の火花。歯車と同じ色系統（テーマには振らない）
 const BRASS = ['#C9A227', '#E0C25E', '#B87333', '#8C6D1F'];
 
-// 段に応じた祝砲。層を1つずつ積み上げる構造にして、tier が上がるほど派手にする。
-// 意匠はスチームパンク＝真鍮の火花・回る歯車・蒸気で作る（花火や紙吹雪は使わない）。
-// 2026-08-13: 全体に量を上げ、画面全体を使う層の閾値を段5→段3へ下げた
-// （「達成した日だけ派手」ではなく「開けば毎回派手」にする方針）。
+// 段に応じた祝砲。騒々しい降下アニメーションや過剰な同心円を排除し、
+// 真鍮の光彩・微細火花・ゴールドダストによる大人の洗練された演出にする。
 function _gaugeCelebrate(tier) {
   const dot = document.getElementById('gaugeDot');
   if (!_fxOk() || !dot) return;
   const c = _centerOf(dot);
   if (!c) return;
   const hit = tier >= 5;
-  // 盤面の中心。輪と蒸気はここを軸にする（光点は円周上を回るので軸には使えない）
   const ringEl = document.querySelector('#gaugeBox .gauge-ring');
   const g = (ringEl && _centerOf(ringEl)) || c;
 
-  // 層1（全段）: 【案1】天球儀アストロラーベ ＆ 【案4】クロノス・タイムダイヤル
+  // 層1: 上品な天球儀の光輪（1回だけ優雅に広がる）
   if (MecFX.astrolabeRings) {
     MecFX.astrolabeRings(g.x, g.y, {
-      maxR: 120 + tier * 38, rings: Math.min(4, Math.max(2, tier)),
-      color: hit ? '#FFD700' : '#E0C25E', speed: 1.4 + tier * 0.2
+      maxR: 130 + tier * 25, rings: 2,
+      color: hit ? '#FFD700' : '#E0C25E', speed: 1.2
     });
   }
-  if (tier >= 2 && MecFX.chronosDial) {
-    MecFX.chronosDial(g.x, g.y, {
-      maxR: 100 + tier * 32, color: hit ? '#FFF3C4' : '#C9A227'
-    });
-  }
+  // 層2: 接点の微細なゴールド火花と微粒子
   MecFX.burst(c.x, c.y, {
-    tier: Math.min(6, tier + 2), count: 22 + tier * 14,
+    tier: Math.min(4, tier), count: 16 + tier * 6,
     colors: hit ? BRASS.concat(['#FFF3C4']) : BRASS,
-    // shard ＝ 細長い金属片。円だけだと火の粉に寄りすぎて金属に見えない
-    shapes: tier >= 2 ? ['circle', 'shard'] : ['circle'],
-    speed: 380 + tier * 110
+    shapes: ['circle', 'shard'],
+    speed: 280 + tier * 60
   });
-  // 層2（全段）: 軸から歯車が弾け、隙間から蒸気がひと吹き漏れる
-  MecFX.gears(g.x, g.y, { count: 6 + tier * 3, spread: 300 + tier * 60, up: true, w: 48 });
-  MecFX.steam(g.x, g.y + 22, { count: 8 + tier * 3, w: 40, rise: 110, alpha: .44 });
+  if (MecFX.sparks) MecFX.sparks(g.x, g.y, { count: 8 + tier * 2 });
+
   if (tier < 3) return;
 
-  // 層3（半分から）: 【案3】多重波紋干渉 ＆ 【案5】真鍮ベアリング・オービット
-  if (MecFX.rippleInterference) {
-    MecFX.rippleInterference(g.x, g.y, { maxR: 160 + tier * 40, span: 60 + tier * 15, color: '#E0C25E' });
-  }
-  if (MecFX.bearingOrbit) {
-    MecFX.bearingOrbit(g.x, g.y, { maxR: 140 + tier * 35, balls: 6 + tier * 2, color: '#FFD700' });
-  }
-  MecFX.steam(innerWidth / 2, innerHeight + 30, {
-    count: 14 + tier * 4, w: innerWidth / 2,
-    rise: 240, min: 60, max: 130, grow: 3.2, alpha: .34, stagger: .7
-  });
-  MecFX.gearRain({ count: 16 + tier * 6, big: tier >= 5 });
+  // 層3（半分から）: 軸からひと吹き漏れる柔らかな真鍮蒸気
+  MecFX.steam(g.x, g.y + 15, { count: 6 + tier * 2, w: 32, rise: 80, alpha: .32 });
   if (tier < 4) return;
 
-  // 層4（もう少しで達成〜）: 両脇の安全弁が抜け、盤面がもう一度打ち上がる
-  [0, innerWidth].forEach(x => MecFX.steam(x, innerHeight * .55, {
-    count: 10 + tier * 2, w: 10, rise: 60, min: 40, max: 90, grow: 3.4, alpha: .40,
-    vx: x ? -260 : 260, stagger: .3
-  }));
-  MecFX.gears(g.x, g.y, {
-    count: 8 + tier * 2, spread: 620, gravity: 520, min: 18, max: 46, stagger: .3
-  });
+  // 層4: ゴールドスターダスト（微細な金粉がきらめく）
+  MecFX.dust({ count: 18 + tier * 4, colors: ['#E0C25E', '#FFF3C4', '#FFFFFF'] });
   if (!hit) return;
 
-  // 層5（達成）: 【案2】アイリスシャッターのサンバースト ＆ 金の粉
-  MecFX.dust({ count: 26, colors: ['#E0C25E', '#C9A227', '#FFF3C4'] });
-  if (MecFX.irisShutter) MecFX.irisShutter(g.x, g.y, { maxR: 280, blades: 12, color: '#FFD700' });
-  setTimeout(() => {
-    if (!_fxOk()) return;
-    if (MecFX.astrolabeRings) MecFX.astrolabeRings(g.x, g.y, { maxR: 300, rings: 4, color: '#FFF3C4' });
-    MecFX.gearRain({ count: tier >= 6 ? 46 : 30, big: true });
-  }, 620);
+  // 層5（達成）: アイリスの黄金サンバーストが美しく輝く
+  if (MecFX.irisShutter) MecFX.irisShutter(g.x, g.y, { maxR: 220, blades: 10, color: '#FFD700', thickness: 2.2 });
 }
 
 // 連続日数の熾火。3日以上つながっているときだけ、画面内で時々1粒
 let _emberTimer = 0;
-/* D5(2026-08-14): 炎を段階化する。
-   旧実装は「3日以上なら🔥を1粒/5.2秒」の一律で、3日目と100日目が同じ絵だった。
-   連続日数は積み上げるほど失いたくなくなる数字なので、伸びが見えることに意味がある。
-   段: 1=3〜6日 / 2=7〜13日 / 3=14〜29日 / 4=30日〜 */
 function _emberTier(days) {
   if (days >= 30) return 4;
   if (days >= 14) return 3;
@@ -2269,70 +2234,19 @@ function _startStreakEmbers(streak) {
         shapes: ['circle'], speed: 150 + tier * 40, gravity: -180, upBias: 60
       });
     }
-    // 30日を越えたら真鍮の火の粉と高圧蒸気も混ぜる
-    if (tier >= 4) MecFX.steam(c.x, c.r.top + 2, { count: 2, w: 8, rise: 40, min: 10, max: 20, alpha: .3 });
   }, every);
 }
 
-// ヒーロー周辺の塵。ページ最上部を見ているときだけ撒く（全画面に散るので常時は煩い）
+// ヒーロー周辺の微細スターダスト（上品にきらめく微粒子）
 let _dustTimer = 0;
 function _startHeroDust() {
   clearInterval(_dustTimer);
   if (_reducedMotion()) return;
   _dustTimer = setInterval(() => {
     if (!_fxOk() || scrollY > 220) return;
-    MecFX.dust({ count: 8, colors: [_accent(), '#FFFFFF'] });
-  }, 6000);
+    MecFX.dust({ count: 6, colors: ['#E0C25E', '#FFFFFF', '#00E5FF'] });
+  }, 7000);
 }
-
-// 【案9】星図リンク・天球儀コネクト（Star Constellation）
-function _initConstellation() {
-  if (_reducedMotion()) return;
-  const canvas = document.createElement('canvas');
-  canvas.id = 'hubConstellation';
-  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.28;';
-  document.body.prepend(canvas);
-  const ctx = canvas.getContext('2d');
-  let w = canvas.width = window.innerWidth;
-  let h = canvas.height = window.innerHeight;
-  window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }, { passive: true });
-
-  const streak = window.MECSync ? MECSync.calcStreak() : 1;
-  const numStars = Math.min(24, Math.max(8, streak * 2));
-  const stars = [];
-  for (let i = 0; i < numStars; i++) {
-    stars.push({
-      x: (0.15 + 0.7 * Math.abs(Math.sin(i * 1.4 + 0.5))) * w,
-      y: (0.08 + 0.45 * Math.abs(Math.cos(i * 1.1 + 1.2))) * h,
-      r: (i % 3 === 0) ? 2.5 : 1.5,
-      tw: Math.random() * 6.28
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, w, h);
-    ctx.strokeStyle = 'rgba(255, 215, 0, 0.22)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    for (let i = 0; i < stars.length - 1; i++) {
-      ctx.moveTo(stars[i].x, stars[i].y);
-      ctx.lineTo(stars[i+1].x, stars[i+1].y);
-    }
-    ctx.stroke();
-
-    stars.forEach(s => {
-      s.tw += 0.03;
-      const alpha = 0.4 + 0.5 * Math.sin(s.tw);
-      ctx.fillStyle = `rgba(255, 235, 160, ${alpha.toFixed(2)})`;
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, 6.28);
-      ctx.fill();
-    });
-    if (!_reducedMotion() && scrollY < 300) requestAnimationFrame(draw);
-  }
-  draw();
-}
-try { if (document.readyState === 'loading') window.addEventListener('DOMContentLoaded', _initConstellation); else _initConstellation(); } catch (e) {}
 
 // ヘッダー下端のスクロール進捗。
 // scroll イベントを使うのはここだけ（進捗そのものがスクロール量なので IO では出せない）。
