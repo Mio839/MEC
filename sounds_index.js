@@ -22,7 +22,7 @@ window.MecSounds = {
   ],
   boot: [
     {"key":"ms","file":"起動音/MS起動.wav","label":"MS起動","vol":0.55,"peak":0.919,"dur":4.73},
-    {"key":"akatsuki","file":"起動音/アカツキ起動.mp3","label":"アカツキ起動","vol":9.8,"peak":0.051,"dur":4.85}
+    {"key":"akatsuki","file":"起動音/アカツキ起動.wav","label":"アカツキ起動","vol":1,"peak":0.5,"dur":4.85}
   ],
   select: [
     {"key":"mp3","file":"選択音/選択.mp3","label":"選択","vol":0.7,"peak":0.996,"dur":1.07},

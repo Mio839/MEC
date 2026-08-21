@@ -42,7 +42,7 @@
 
   "起動音": {
     "MS起動.wav":        { "key": "ms",       "label": "MS起動",     "vol": 0.55, "peak": 0.919, "dur": 4.73 },
-    "アカツキ起動.mp3":   { "key": "akatsuki", "label": "アカツキ起動", "vol": 9.8, "peak": 0.051, "dur": 4.85 }
+    "アカツキ起動.wav":   { "key": "akatsuki", "label": "アカツキ起動", "vol": 1.0, "peak": 0.5, "dur": 4.85 }
   },
 
   "選択音": {
