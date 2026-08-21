@@ -1010,27 +1010,36 @@
   // ── ヘッダーチップ（study.html） ─────────────────────────────────
   function _mountStudyHeader() {
     const row = document.querySelector('.st-stats');
-    if (!row || document.getElementById('gmLvChip')) return;
-    // キーボード操作可能にするため <button>（見た目は .st-stat ＋チップ用リセットで維持）
-    const lv = document.createElement('button');
-    lv.type = 'button';
-    lv.className = 'st-stat gm-lv-chip';
-    lv.id = 'gmLvChip';
-    lv.title = 'タップでレベル・実績・ミッションを表示';
-    lv.innerHTML = 'Lv.<b id="gmLvNum">–</b><span class="gm-chip-bar"><span class="gm-chip-fill" id="gmChipFill" style="width:0%"></span></span>';
-    lv.addEventListener('click', openPanelModal);
-    const mi = document.createElement('button');
-    mi.type = 'button';
-    mi.className = 'st-stat gm-mission-chip';
-    mi.id = 'gmMissionChip';
-    mi.title = '今日のミッション（必須が揃うと緑）';
-    mi.textContent = '🎯 –';
-    mi.addEventListener('click', openPanelModal);
-    row.appendChild(lv);
-    row.appendChild(mi);
-    // 試験モードボタンを「今日のミッション」の右（末尾）へ移動
+    if (!row) return;
+    let lv = document.getElementById('gmLvChip');
+    let mi = document.getElementById('gmMissionChip');
+    if (!lv) {
+      lv = document.createElement('button');
+      lv.type = 'button';
+      lv.className = 'st-stat gm-lv-chip';
+      lv.id = 'gmLvChip';
+      lv.title = 'タップでレベル・実績・ミッションを表示';
+      lv.innerHTML = 'Lv.<b id="gmLvNum">–</b><span class="gm-chip-bar"><span class="gm-chip-fill" id="gmChipFill" style="width:0%"></span></span>';
+      row.appendChild(lv);
+    }
+    lv.onclick = openPanelModal;
+
+    if (!mi) {
+      mi = document.createElement('button');
+      mi.type = 'button';
+      mi.className = 'st-stat gm-mission-chip';
+      mi.id = 'gmMissionChip';
+      mi.title = '今日のミッション（必須が揃うと緑）';
+      mi.textContent = '🎯 –';
+      row.appendChild(mi);
+    }
+    mi.onclick = openPanelModal;
+
+    // 試験モードボタンを「今日のミッション」の右（末尾）へ確実に移動
     const examBtn = document.getElementById('examModeBtn');
-    if (examBtn) row.appendChild(examBtn);
+    if (examBtn && examBtn.parentNode === row) {
+      row.appendChild(examBtn);
+    }
     _updateHeaderChips();
   }
 

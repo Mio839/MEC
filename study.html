@@ -71,6 +71,8 @@ if ('serviceWorker' in navigator) {
     <div class="st-stat">済 <span id="statDone">0</span>問</div>
     <div class="st-stat">合計 <span>5487</span>問</div>
     <div class="st-stat"><span class="st-streak">🔥 <span id="studyStreak">0</span>日連続</span></div>
+    <button type="button" class="st-stat gm-lv-chip" id="gmLvChip" title="タップでレベル・実績・ミッションを表示">Lv.<b id="gmLvNum">–</b><span class="gm-chip-bar"><span class="gm-chip-fill" id="gmChipFill" style="width:0%"></span></span></button>
+    <button type="button" class="st-stat gm-mission-chip" id="gmMissionChip" title="今日のミッション（必須が揃うと緑）">🎯 –</button>
     <button class="st-stat exam-mode-chip" id="examModeBtn" onclick="openExamStart()" title="試験モードを開始（現在のフィルター・科目から出題）">🎓 試験モード</button>
   </div>
   <div class="st-filter-panel" id="stFilterPanel">
