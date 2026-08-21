@@ -16,7 +16,7 @@ window.MM_SUBJECTS = [
   { sid: "obg", label: "産婦人科", icon: "🤰", color: "#E11D48", ready: false },
   { sid: "psy", label: "精神科", icon: "💭", color: "#5E60CE", ready: true },
   { sid: "derm", label: "皮膚科", icon: "🩹", color: "#B5654A", ready: true },
-  { sid: "oph", label: "眼科", icon: "👁️", color: "#0E7490", ready: false },
+  { sid: "oph", label: "眼科", icon: "👁️", color: "#0E7490", ready: true },
   { sid: "ent", label: "耳鼻咽喉科", icon: "👂", color: "#0F766E", ready: true },
   { sid: "uro", label: "泌尿器科", icon: "💦", color: "#0891B2", ready: true },
   { sid: "ortho", label: "整形外科", icon: "🦴", color: "#A16207", ready: true },
