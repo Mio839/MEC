@@ -295,7 +295,16 @@ if ('serviceWorker' in navigator) {
       <button class="ssov-btn" data-sound="click" onclick="saveStudySoundPref('correct','click',this)">クリック</button>
       <button class="ssov-btn" data-sound="soft" onclick="saveStudySoundPref('correct','soft',this)">低めポン</button>
       <button class="ssov-btn" data-sound="custom" onclick="saveStudySoundPref('correct','custom',this)">WAV</button>
+      <button class="ssov-btn" data-sound="msboot" onclick="saveStudySoundPref('correct','msboot',this)">MS起動</button>
+      <button class="ssov-btn" data-sound="saber" onclick="saveStudySoundPref('correct','saber',this)">ビームサーベル</button>
+      <button class="ssov-btn" data-sound="magnum" onclick="saveStudySoundPref('correct','magnum',this)">ビームマグナム</button>
+      <button class="ssov-btn" data-sound="buppigan" onclick="saveStudySoundPref('correct','buppigan',this)">ブッピガン</button>
       <button class="ssov-btn" data-sound="off" onclick="saveStudySoundPref('correct','off',this)">無音</button>
+    </div>
+    <div class="ssov-lbl">起動音（試験開始のカウントダウン中）</div>
+    <div class="ssov-grid" id="ssovBootGrid">
+      <button class="ssov-btn" data-bsound="ms" onclick="saveStudySoundPref('boot','ms',this)">ＭＳ動作</button>
+      <button class="ssov-btn" data-bsound="off" onclick="saveStudySoundPref('boot','off',this)">無音</button>
     </div>
     <div class="ssov-lbl">コンボ音（2連続正解〜）</div>
     <div class="ssov-grid" id="ssovComboGrid">
@@ -2207,9 +2216,11 @@ function openStudySoundOv() {
   const sel = localStorage.getItem('mec_select_sound_v1') || 'mp3';
   const cor = localStorage.getItem('mec_correct_sound_v1') || 'ping';
   const com = localStorage.getItem('mec_combo_sound_v1') || 'rise';
+  const boot = localStorage.getItem('mec_boot_sound_v1') || 'ms';
   document.querySelectorAll('#ssovSelectGrid .ssov-btn').forEach(b => b.classList.toggle('sel', b.dataset.ssound === sel));
   document.querySelectorAll('#ssovCorrectGrid .ssov-btn').forEach(b => b.classList.toggle('sel', b.dataset.sound === cor));
   document.querySelectorAll('#ssovComboGrid .ssov-btn').forEach(b => b.classList.toggle('sel', b.dataset.csound === com));
+  document.querySelectorAll('#ssovBootGrid .ssov-btn').forEach(b => b.classList.toggle('sel', b.dataset.bsound === boot));
   document.getElementById('studySoundOv').classList.add('open');
   _renderStudyDiag();
 }
@@ -2266,6 +2277,12 @@ function saveStudySoundPref(type, value, btn) {
     document.querySelectorAll('#ssovSelectGrid .ssov-btn').forEach(b => b.classList.remove('sel'));
     btn.classList.add('sel');
     _previewStudySelectSound(value);
+  } else if (type === 'boot') {
+    localStorage.setItem('mec_boot_sound_v1', value);
+    _bootSound = value;
+    document.querySelectorAll('#ssovBootGrid .ssov-btn').forEach(b => b.classList.remove('sel'));
+    btn.classList.add('sel');
+    _playBootSound();
   } else if (type === 'combo') {
     localStorage.setItem('mec_combo_sound_v1', value);
     _comboSound = value;
@@ -2301,7 +2318,10 @@ function _previewStudySelectSound(value) {
 
 function _previewStudyCorrectSound(value) {
   if (value === 'off') return;
-  if (value === 'custom') { _playCustomCorrectSound(); return; }
+  // wav（correct.wav と追加した4種）は study_exam.js の CORRECT_WAVS が正本。
+  // ここに2本目のファイル名の表を作らないこと。
+  // ⚠️ const は window に生えないので typeof で見る（window.CORRECT_WAVS は常に undefined）
+  if (typeof CORRECT_WAVS !== 'undefined' && CORRECT_WAVS[value]) { _playWavSound(CORRECT_WAVS[value]); return; }
   const ctx = _getExamAudioCtx();
   if (!ctx) return;
   const sounds = {

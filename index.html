@@ -1125,7 +1125,17 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
       <button class="sound-btn" data-sound="click" onclick="saveSoundPref('correct','click',this)">クリック</button>
       <button class="sound-btn" data-sound="soft" onclick="saveSoundPref('correct','soft',this)">低めポン</button>
       <button class="sound-btn" data-sound="custom" onclick="saveSoundPref('correct','custom',this)">WAV</button>
+      <button class="sound-btn" data-sound="msboot" onclick="saveSoundPref('correct','msboot',this)">MS起動</button>
+      <button class="sound-btn" data-sound="saber" onclick="saveSoundPref('correct','saber',this)">ビームサーベル</button>
+      <button class="sound-btn" data-sound="magnum" onclick="saveSoundPref('correct','magnum',this)">ビームマグナム</button>
+      <button class="sound-btn" data-sound="buppigan" onclick="saveSoundPref('correct','buppigan',this)">ブッピガン</button>
       <button class="sound-btn" data-sound="off" onclick="saveSoundPref('correct','off',this)">無音</button>
+    </div>
+
+    <div class="sound-label">起動音（試験開始のカウントダウン中）</div>
+    <div class="sound-grid" id="bootSoundGrid">
+      <button class="sound-btn" data-bsound="ms" onclick="saveSoundPref('boot','ms',this)">ＭＳ動作</button>
+      <button class="sound-btn" data-bsound="off" onclick="saveSoundPref('boot','off',this)">無音</button>
     </div>
 
     <div class="modal-actions" style="margin-top:20px;">
@@ -2935,6 +2945,10 @@ function openSoundModal() {
   document.querySelectorAll('#correctSoundGrid .sound-btn').forEach(b => {
     b.classList.toggle('sel', b.dataset.sound === cor);
   });
+  const boot = localStorage.getItem('mec_boot_sound_v1') || 'ms';
+  document.querySelectorAll('#bootSoundGrid .sound-btn').forEach(b => {
+    b.classList.toggle('sel', b.dataset.bsound === boot);
+  });
   document.getElementById('soundModal').classList.add('open');
 }
 function closeSoundModal() {
@@ -2977,13 +2991,36 @@ function _previewSelectSound(value) {
   osc.start(now);
   osc.stop(now + s.dur);
 }
+/* 正解音として選べる wav（study_exam.js の CORRECT_WAVS のミラー）。
+   ⚠️ ハブは study_exam.js を読まないので表が2本ある。**片方だけ増やさないこと**
+      （chapter_exam.js の演出テーマと同じ約束）。音量の根拠は study_exam.js 側のコメント。
+   ⚠️ <audio> の volume は 1 で頭打ちなので、増幅が要る magnum はハブのプレビューだけ
+      本番より小さく鳴る（本番は GainNode で 1.3 倍）。 */
+const HUB_CORRECT_WAVS = {
+  custom:   { file: 'correct.wav',           vol: 1.0 },
+  msboot:   { file: 'MS起動.wav',             vol: 0.75 },
+  saber:    { file: 'ビームサーベル斬撃.wav', vol: 0.5 },
+  magnum:   { file: 'ビームマグナム.wav',     vol: 1.0 },
+  buppigan: { file: 'ブッピガン2.wav',        vol: 0.5 }
+};
+const HUB_BOOT_WAV = { file: 'ＭＳ動作.wav', vol: 0.5 };
+
+function _previewWavFile(spec) {
+  try {
+    const a = new Audio('sounds/' + spec.file);
+    a.volume = Math.max(0, Math.min(1, spec.vol == null ? 1 : spec.vol));
+    a.play().catch(() => {});
+  } catch (e) {}
+}
+
+function _previewBootSound(value) {
+  if (value === 'off') return;
+  _previewWavFile(HUB_BOOT_WAV);
+}
+
 function _previewCorrectSound(value) {
   if (value === 'off') return;
-  if (value === 'custom') {
-    const a = new Audio('sounds/correct.wav');
-    a.play().catch(() => {});
-    return;
-  }
+  if (HUB_CORRECT_WAVS[value]) { _previewWavFile(HUB_CORRECT_WAVS[value]); return; }
   const ctx = _getPreviewCtx();
   if (!ctx) return;
   const sounds = {
@@ -3024,6 +3061,10 @@ function saveSoundPref(type, value, btn) {
     localStorage.setItem('mec_select_sound_v1', value);
     document.querySelectorAll('#selectSoundGrid .sound-btn').forEach(b => b.classList.remove('sel'));
     _previewSelectSound(value);
+  } else if (type === 'boot') {
+    localStorage.setItem('mec_boot_sound_v1', value);
+    document.querySelectorAll('#bootSoundGrid .sound-btn').forEach(b => b.classList.remove('sel'));
+    _previewBootSound(value);
   } else {
     localStorage.setItem('mec_correct_sound_v1', value);
     document.querySelectorAll('#correctSoundGrid .sound-btn').forEach(b => b.classList.remove('sel'));

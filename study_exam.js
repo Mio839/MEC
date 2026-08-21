@@ -88,10 +88,39 @@ let _lastSessionWasTodayWrong = false;
 const _examChoiceBackup = new Map();
 let _examAudioCtx = null;
 let _correctSound = localStorage.getItem('mec_correct_sound_v1') || 'ping';
-const _customCorrectAudio = new Audio('sounds/correct.wav');
-_customCorrectAudio.preload = 'auto';
-let _customCorrectBuffer = null;
-let _customCorrectBufferPromise = null;
+
+/* 正解音として選べる wav（キー → ファイル名と音量）。
+   ⚠️ 音量は「wav のピーク × vol」がおおよそ 0.5 に揃うように決めてある（ピーク実測値：
+      correct .49 ／ MS起動 .66 ／ ビームサーベル斬撃 1.00 ／ ビームマグナム .36 ／
+      ブッピガン2 1.00）。wav を差し替えたら vol も測り直すこと——揃っていないと
+      正解音を選び替えただけで体感の音量が2倍以上変わる。
+   ⚠️ キーは localStorage('mec_correct_sound_v1') にそのまま入るので改名しないこと
+      （'custom' は correct.wav の旧キー＝既存ユーザーの設定が刺さっている）。 */
+const CORRECT_WAVS = {
+  custom:   { file: 'correct.wav',           vol: 1.0 },
+  msboot:   { file: 'MS起動.wav',             vol: 0.75 },
+  saber:    { file: 'ビームサーベル斬撃.wav', vol: 0.5 },
+  magnum:   { file: 'ビームマグナム.wav',     vol: 1.3 },
+  buppigan: { file: 'ブッピガン2.wav',        vol: 0.5 }
+};
+// 試験開始の起動アニメ中に鳴る音（CORRECT_WAVS とは別枠＝正解音として選ばせない）
+const BOOT_WAV = { file: 'ＭＳ動作.wav', vol: 0.5 };
+let _bootSound = localStorage.getItem('mec_boot_sound_v1') || 'ms';
+
+/* wav は「AudioContext のバッファ」と「<audio> 要素」の2本立てで持つ。
+   バッファは遅延ゼロで多重再生でき、要素は AudioContext が使えない環境の受け皿。
+   ⚠️ 種類ごとに1つずつしか作らないこと（プレビューのたびに Audio を new すると溜まる）。 */
+const _wavCache = new Map();
+function _wavSlot(spec) {
+  let slot = _wavCache.get(spec.file);
+  if (!slot) {
+    const audio = new Audio('sounds/' + spec.file);
+    audio.preload = 'auto';
+    slot = { audio, buffer: null, promise: null };
+    _wavCache.set(spec.file, slot);
+  }
+  return slot;
+}
 
 let _selectSound = localStorage.getItem('mec_select_sound_v1') || 'mp3';
 const _selectAudio = new Audio('sounds/選択.mp3');
@@ -183,39 +212,58 @@ function _getExamAudioCtx() {
   return _examAudioCtx;
 }
 
-function _prepareCustomCorrectSound() {
+function _prepareWavSound(spec) {
+  if (!spec) return;
   const ctx = _getExamAudioCtx();
-  if (!ctx || _customCorrectBuffer) return;
-  if (!_customCorrectBufferPromise) {
-    _customCorrectBufferPromise = fetch('sounds/correct.wav')
+  const slot = _wavSlot(spec);
+  if (!ctx || slot.buffer) return;
+  if (!slot.promise) {
+    slot.promise = fetch('sounds/' + spec.file)
       .then(res => res.arrayBuffer())
       .then(buf => ctx.decodeAudioData(buf))
-      .then(decoded => { _customCorrectBuffer = decoded; })
-      .catch(() => { _customCorrectBufferPromise = null; });
+      .then(decoded => { slot.buffer = decoded; })
+      .catch(() => { slot.promise = null; });
   }
 }
 
-function _playCustomCorrectSound() {
+function _playWavSound(spec) {
+  if (!spec) return;
   try {
+    const slot = _wavSlot(spec);
     const ctx = _getExamAudioCtx();
-    if (ctx && _customCorrectBuffer) {
+    if (ctx && slot.buffer) {
       const src = ctx.createBufferSource();
-      src.buffer = _customCorrectBuffer;
-      src.connect(ctx.destination);
+      const gain = ctx.createGain();
+      src.buffer = slot.buffer;
+      gain.gain.setValueAtTime(spec.vol == null ? 1 : spec.vol, ctx.currentTime);
+      src.connect(gain);
+      gain.connect(ctx.destination);
       src.start(ctx.currentTime);
       return;
     }
-    _prepareCustomCorrectSound();
-    _customCorrectAudio.pause();
-    _customCorrectAudio.currentTime = 0;
-    _customCorrectAudio.play().catch(() => {});
+    _prepareWavSound(spec);
+    // 要素側は音量を1で頭打ちにするしかない（GainNode と違い増幅できない）
+    slot.audio.volume = Math.max(0, Math.min(1, spec.vol == null ? 1 : spec.vol));
+    slot.audio.pause();
+    slot.audio.currentTime = 0;
+    slot.audio.play().catch(() => {});
   } catch (e) {}
+}
+
+// 旧名の受け皿（study.html のプレビューが呼ぶ）
+function _prepareCustomCorrectSound() { _prepareWavSound(CORRECT_WAVS.custom); }
+function _playCustomCorrectSound() { _playWavSound(CORRECT_WAVS.custom); }
+
+// 試験開始の起動アニメ中に1回だけ鳴らす
+function _playBootSound() {
+  if (_bootSound === 'off') return;
+  _playWavSound(BOOT_WAV);
 }
 
 function _playCorrectSound() {
   if (_correctSound === 'off') return;
-  if (_correctSound === 'custom') {
-    _playCustomCorrectSound();
+  if (CORRECT_WAVS[_correctSound]) {
+    _playWavSound(CORRECT_WAVS[_correctSound]);
     return;
   }
   const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -695,7 +743,9 @@ function startExam(overrideUids = null) {
   window._srsHostShow?.();
   document.getElementById('examFinishBtn')?.remove(); // 前回の結果ボタンが残っていれば除去
   _prepareSelectSound();
-  if (_correctSound === 'custom') _prepareCustomCorrectSound();
+  if (CORRECT_WAVS[_correctSound]) _prepareWavSound(CORRECT_WAVS[_correctSound]);
+  // 起動音は「開始を押した」このタップの中で用意する＝iOS の自動再生制限を通せる唯一の機会
+  if (_bootSound !== 'off') _prepareWavSound(BOOT_WAV);
   const chFilter = !overrideUids ? _examChPrefix : null;
   _examActiveChPrefix = chFilter;
   _examChPrefix = null;
@@ -2160,6 +2210,8 @@ function _examBootLines(style, qn, subjLabel) {
 // 戻り値 = カウントダウンが明けるまでのms（B6/B7 がこれに合わせて1問目を立ち上げる）
 function _examCountdown() {
   if (_fxOff()) return 0;
+  // 起動音は演出と一蓮托生（reduced-motion で演出ごと出ないときは鳴らさない）
+  _playBootSound();
   const theme = _examTheme();
   const style = EXAM_BOOT_STYLES[(Math.random() * EXAM_BOOT_STYLES.length) | 0];
   let host = document.getElementById('examCountdown');

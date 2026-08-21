@@ -258,7 +258,7 @@ ch01を貫く筋は4本。①**麻酔は「4要素（鎮静・鎮痛・筋弛緩
 - `mec_attempts_v1` — 解答イベントログ（attempts.js）。`"uid|t|c|o|s|m|sess|n"` の文字列配列・上限5000件。追記専用なので同期は`sess+n`をキーにしたunion＋時刻昇順ソート＋上限切り詰め
 - `error_reports_v1` — 問題エラー報告 ／ `mec_err_cleared_at` — 一括消去のタイムスタンプ
 - `mec_gist_token` — GitHub PAT（gistスコープ）／ `mec_gist_id` — Gist ID ／ `mec_last_sync_v1` — 最終同期時刻
-- UIローカル設定（非同期）: `mec_subjects_v1`（選択科目）/`mec_filter_v1`/`mec_state_v1`/`mec_combo_sound_v1` 等
+- UIローカル設定（非同期）: `mec_subjects_v1`（選択科目）/`mec_filter_v1`/`mec_state_v1`/`mec_combo_sound_v1`/`mec_correct_sound_v1`/`mec_select_sound_v1`/`mec_boot_sound_v1` 等
 
 ## UID フォーマット
 
@@ -1311,6 +1311,32 @@ B1 の完了（`_subjLoadDone`）は `_finish` の rAF にぶら下がるが、*
 ## 試験モードの演出エフェクト仕様
 
 試験モード（🎓）で選択肢を選んだ瞬間に発火する視覚エフェクトの仕様。実装は `study_exam.js`（統合study.html用）と `chapter_exam.js`（章別過去問用・同一配色をミラー）。CSSアニメの一部は `study.css`。パーティクル描画は `fx_engine.js`（`window.MecFX`）。
+
+### 効果音の wav（正解音・起動音／2026-08-21）
+
+`sounds/` の wav は **`study_exam.js` の `CORRECT_WAVS`（正解音・5種）と `BOOT_WAV`（起動音）が正本**。
+`_playWavSound(spec)` / `_prepareWavSound(spec)` の1本に集約してあり、`_playCustomCorrectSound()` は
+旧キー `custom`（= `correct.wav`）の受け皿として名前だけ残してある。
+
+| 設定キー | 既定 | 中身 |
+|---|---|---|
+| `mec_correct_sound_v1` | `ping` | 合成音11種＋wav 5種（`custom`＝correct.wav／`msboot`／`saber`／`magnum`／`buppigan`）＋`off` |
+| `mec_boot_sound_v1` | `ms` | 試験開始のカウントダウン中に1回鳴る `ＭＳ動作.wav`（`off` で無音） |
+
+- ⚠️ **キーは localStorage にそのまま入るので改名しないこと**（`custom` は旧ユーザーの設定が刺さっている）。
+- ⚠️ **音量 `vol` は「wav のピーク × vol ≒ 0.5」に揃えてある**（ピーク実測 correct .49／MS起動 .66／
+  ビームサーベル 1.00／ビームマグナム .36／ブッピガン 1.00／ＭＳ動作 .96）。wav を差し替えたら測り直す
+  ——揃っていないと**選び替えただけで体感の音量が2倍以上変わる**。増幅（`vol>1`）は GainNode でしか
+  できないので、`<audio>` フォールバック側は 1 で頭打ちになる。
+- ⚠️ **ファイル名の表は3か所にある**（`study_exam.js` の `CORRECT_WAVS`/`BOOT_WAV`・`index.html` の
+  `HUB_CORRECT_WAVS`/`HUB_BOOT_WAV`・`chapter_exam.js` の `ceBootSound`）。ハブと過去問ビューアは
+  `study_exam.js` を読まないのでミラーになる＝**片方だけ増やさないこと**（演出テーマと同じ約束。
+  ただし `check_effect_themes_sync.js` はこれを検出しない）。
+- **起動音は演出と一蓮托生**——`_examCountdown()` は `_fxOff()`（reduced-motion 等）で何も出さずに
+  返るので、そのときは音も鳴らない。バッファの用意は `startExam` の中＝**開始をタップしたその手の中**で
+  始める（iOS の自動再生制限を通せる唯一の機会）。
+- ⚠️ sw.js の SHELL/CARDS に `sounds/` は入っていない（`correct.wav` も昔から入っていない）。
+  オフラインで鳴らしたくなったら SHELL へ足す＝そのとき初めて `CACHE` の bump が要る。
 
 ### ⚠️ 発火位置は「可視帯」が正本（2026-08-04〜）
 

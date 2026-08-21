@@ -1595,6 +1595,7 @@
   // 様式=レイアウトと動き / 配色=演出テーマ由来 なので7テーマ×2様式になる。
   function ceCountdown() {
     if (ceReduced()) return;
+    ceBootSound();   // 起動音（study 側の _playBootSound と同じ設定キーを見る）
     var theme = ceTheme();
     var style = CE_BOOT_STYLES[(Math.random() * CE_BOOT_STYLES.length) | 0];
     var host = document.getElementById('chExamCountdown');
@@ -2437,6 +2438,18 @@
   function getCtx() {
     if (!_actx) _actx = new (window.AudioContext || window.webkitAudioContext)();
     return _actx;
+  }
+
+  /* 試験開始のカウントダウン中に鳴る起動音。
+     ⚠️ 設定キー・ファイル・音量は study_exam.js の BOOT_WAV と揃えること
+        （過去問ビューアは study_exam.js を読まないのでミラーになる）。 */
+  function ceBootSound() {
+    try {
+      if ((localStorage.getItem('mec_boot_sound_v1') || 'ms') === 'off') return;
+      var a = new Audio(scriptBase + 'sounds/ＭＳ動作.wav');
+      a.volume = .5;
+      a.play().catch(function(){});
+    } catch (e) {}
   }
 
   function playSelect() {
