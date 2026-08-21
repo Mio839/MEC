@@ -120,7 +120,7 @@ ready.forEach(s => {
 
 section('6. ハブ：隣り合う科目を同時に開いても重ならない');
 const hp = hubParents();
-ok(hp.length === 9, 'ハブの科目数（現在は作成済み9科目）', 'len=' + hp.length);
+ok(hp.length === ready.length, 'ハブの科目数＝レジストリの作成済み科目数（新科目はハブにも代表疾患を足す）', `len=${hp.length} ready=${ready.length}`);
 for (let start = 0; start < hp.length; start++) {
   const openIdx = new Set();
   for (let k = 0; k < D.HUB_MAX_OPEN; k++) openIdx.add((start + k) % hp.length);

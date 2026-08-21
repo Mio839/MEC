@@ -20,7 +20,7 @@ window.MM_SUBJECTS = [
   { sid: "ent", label: "耳鼻咽喉科", icon: "👂", color: "#0F766E", ready: false },
   { sid: "uro", label: "泌尿器科", icon: "💦", color: "#0891B2", ready: false },
   { sid: "ortho", label: "整形外科", icon: "🦴", color: "#A16207", ready: false },
-  { sid: "anes", label: "麻酔科", icon: "💉", color: "#7C3AED", ready: false },
-  { sid: "rad", label: "放射線科", icon: "☢️", color: "#475569", ready: false },
-  { sid: "tox", label: "中毒・職業病", icon: "☠️", color: "#65A30D", ready: false },
+  { sid: "anes", label: "麻酔科", icon: "💉", color: "#7C3AED", ready: true },
+  { sid: "rad", label: "放射線科", icon: "☢️", color: "#475569", ready: true },
+  { sid: "tox", label: "中毒・職業病", icon: "☠️", color: "#65A30D", ready: true },
 ];

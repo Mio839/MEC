@@ -1,3 +1,6 @@
+// 2026-08-21f: 疾患マインドマップに 中毒・職業病(tox)・麻酔科(anes)・放射線科(rad) の3科目を追加
+//   （mindmap_data/{tox,anes,rad}.js と _hub.js の代表疾患）。データファイルなので SHELL に登録した。
+//   questions_*.json も画像も触っていないので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-21e: 効果音を sounds/{正解音,起動音,選択音}/ の3フォルダに整理し、一覧を
 //   sounds_index.js（sounds/meta.json から node _work/build_sounds_index.js が生成）へ寄せた。
 //   ファイル名・キー・音量の表が study_exam.js / index.html / chapter_exam.js の3か所に
@@ -280,7 +283,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-21e";
+const SHELL_VERSION = "2026-08-21f";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -323,6 +326,9 @@ const SHELL = [
   "./mindmap_data/jinzo_d.js",
   "./mindmap_data/hema.js",
   "./mindmap_data/imma.js",
+  "./mindmap_data/tox.js",
+  "./mindmap_data/anes.js",
+  "./mindmap_data/rad.js",
 ];
 // 新科目追加時は必ずここにも questions_{prefix}.json を追加すること（chapters_meta.js の sid 一覧と一致させる）
 const CARDS = [
