@@ -1123,88 +1123,6 @@ html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-bloc
 .mec-flag-btn.mec-flagged{opacity:1;}
 .mec-done-btns{display:flex;gap:3px;}
 .mec-done-btn{padding:2px 7px;border-radius:var(--r-md);font-size:10px;font-weight:700;border:1.5px solid rgba(255,255,255,.14);color:var(--ts);background:rgba(var(--glass-rgb),.05);cursor:pointer;font-family:inherit;transition:background .2s,border-color .2s,color .2s;white-space:nowrap;}
-/* ══ ダイナミック演出強化 ══ */
-/* 【案1】全画面オーバードライブ（連続正解時の覚醒モード） */
-body.exam-overdrive::before {
-  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 8990;
-  box-shadow: inset 0 0 80px rgba(255,184,48,.35), inset 0 0 160px rgba(255,94,138,.2);
-  animation: overdrivePulse 1.4s infinite alternate ease-in-out;
-}
-@keyframes overdrivePulse {
-  0% { opacity: .6; filter: hue-rotate(0deg); }
-  100% { opacity: 1; filter: hue-rotate(25deg); }
-}
-
-/* 【案2】正解カードの立体浮遊（3D Pop & Gold Aura） */
-.qc.card-3d-pop {
-  animation: card3dPopAnim .55s cubic-bezier(.22,.8,.36,1.25);
-  z-index: 10;
-}
-@keyframes card3dPopAnim {
-  0% { transform: scale(1) translateY(0); box-shadow: var(--shadow-card); }
-  40% { transform: scale(1.03) translateY(-14px); box-shadow: 0 20px 48px rgba(0,0,0,.55), 0 0 35px rgba(255,215,0,.65); }
-  75% { transform: scale(.99) translateY(-2px); }
-  100% { transform: scale(1) translateY(0); box-shadow: var(--shadow-card); }
-}
-
-/* 【案3】不正解スクリーンシェイク ＆ 警告レッドフラッシュ */
-body.exam-screen-shake {
-  animation: screenShakeAnim .38s cubic-bezier(.36,.07,.19,.97) both;
-}
-@keyframes screenShakeAnim {
-  10%, 90% { transform: translate3d(-3px, 2px, 0); }
-  20%, 80% { transform: translate3d(4px, -3px, 0); }
-  30%, 50%, 70% { transform: translate3d(-6px, 4px, 0); }
-  40%, 60% { transform: translate3d(6px, -4px, 0); }
-}
-body.exam-red-flash::after {
-  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
-  background: radial-gradient(ellipse at 50% 50%, rgba(255,0,0,.25) 0%, rgba(255,0,0,.65) 100%);
-  animation: redFlashAnim .42s ease-out forwards;
-}
-@keyframes redFlashAnim {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-/* 【案6】神速スラッシュ残像フリーズ */
-body.exam-slash-freeze {
-  filter: contrast(1.3) brightness(1.2);
-  transition: filter .12s ease-out;
-}
-
-/* 【案8】読影X線ビーム走査 */
-.qimg.xray-scanned {
-  position: relative;
-  animation: xrayGlow .75s ease-out;
-}
-@keyframes xrayGlow {
-  0% { filter: brightness(1.8) drop-shadow(0 0 20px rgba(0,229,255,.9)); }
-  100% { filter: brightness(1) drop-shadow(none); }
-}
-
-/* 【案10】難問突破の巨大ゴールドクラウン（王冠） */
-.exam-hard-pop {
-  animation: hardCrownPop .95s cubic-bezier(.17,.89,.32,1.28) forwards;
-}
-@keyframes hardCrownPop {
-  0% { transform: translate(-50%, -50%) scale(0) rotate(-15deg); opacity: 0; }
-  50% { transform: translate(-50%, -50%) scale(1.25) rotate(5deg); opacity: 1; box-shadow: 0 0 50px rgba(255,215,0,.8); }
-  80% { transform: translate(-50%, -50%) scale(.95) rotate(-2deg); }
-  100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body.exam-overdrive::before, .qc.card-3d-pop, body.exam-screen-shake, body.exam-red-flash::after, .exam-hard-pop {
-    animation: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #examStreakToast,#examStreakSig,.exam-rank-stamp{animation:none!important;}
-  #examCountdown,#examStreakSig,.exam-rank-stamp{display:none!important;}
-  #examStreakToast{display:none!important;}
-}
 .mec-done-btn.passed{background:rgba(61,214,140,.18);border-color:rgba(61,214,140,.38);color:var(--gr);}
 .mec-done-btn.active{background:var(--gr);border-color:var(--gr);color:#061a0f;}
 
@@ -1624,4 +1542,81 @@ body.srs-review #mecNoSubj{display:none!important;}
 @media (max-width:540px), (max-height:520px){
   body.srs-review .st-stats{display:none;}
   body.srs-review .st-title-row{margin-bottom:4px;}
+}
+
+/* ══ ダイナミック演出強化 ══ */
+/* 【案1】全画面オーバードライブ（連続正解時の覚醒モード） */
+body.exam-overdrive::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 8990;
+  box-shadow: inset 0 0 80px rgba(255,184,48,.35), inset 0 0 160px rgba(255,94,138,.2);
+  animation: overdrivePulse 1.4s infinite alternate ease-in-out;
+}
+@keyframes overdrivePulse {
+  0% { opacity: .6; filter: hue-rotate(0deg); }
+  100% { opacity: 1; filter: hue-rotate(25deg); }
+}
+
+/* 【案2】正解カードの立体浮遊（3D Pop & Gold Aura） */
+.qc.card-3d-pop {
+  animation: card3dPopAnim .55s cubic-bezier(.22,.8,.36,1.25);
+  z-index: 10;
+}
+@keyframes card3dPopAnim {
+  0% { transform: scale(1) translateY(0); box-shadow: var(--shadow-card); }
+  40% { transform: scale(1.03) translateY(-14px); box-shadow: 0 20px 48px rgba(0,0,0,.55), 0 0 35px rgba(255,215,0,.65); }
+  75% { transform: scale(.99) translateY(-2px); }
+  100% { transform: scale(1) translateY(0); box-shadow: var(--shadow-card); }
+}
+
+/* 【案3】不正解スクリーンシェイク ＆ 警告レッドフラッシュ */
+body.exam-screen-shake {
+  animation: screenShakeAnim .38s cubic-bezier(.36,.07,.19,.97) both;
+}
+@keyframes screenShakeAnim {
+  10%, 90% { transform: translate3d(-3px, 2px, 0); }
+  20%, 80% { transform: translate3d(4px, -3px, 0); }
+  30%, 50%, 70% { transform: translate3d(-6px, 4px, 0); }
+  40%, 60% { transform: translate3d(6px, -4px, 0); }
+}
+body.exam-red-flash::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+  background: radial-gradient(ellipse at 50% 50%, rgba(255,0,0,.25) 0%, rgba(255,0,0,.65) 100%);
+  animation: redFlashAnim .42s ease-out forwards;
+}
+@keyframes redFlashAnim {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* 【案6】神速スラッシュ残像フリーズ */
+body.exam-slash-freeze {
+  filter: contrast(1.3) brightness(1.2);
+  transition: filter .12s ease-out;
+}
+
+/* 【案8】読影X線ビーム走査 */
+.qimg.xray-scanned {
+  position: relative;
+  animation: xrayGlow .75s ease-out;
+}
+@keyframes xrayGlow {
+  0% { filter: brightness(1.8) drop-shadow(0 0 20px rgba(0,229,255,.9)); }
+  100% { filter: brightness(1) drop-shadow(none); }
+}
+
+/* 【案10】難問突破の巨大ゴールドクラウン（王冠） */
+.exam-hard-pop {
+  animation: hardCrownPop .95s cubic-bezier(.17,.89,.32,1.28) forwards;
+}
+@keyframes hardCrownPop {
+  0% { transform: translate(-50%, -50%) scale(0) rotate(-15deg); opacity: 0; }
+  50% { transform: translate(-50%, -50%) scale(1.25) rotate(5deg); opacity: 1; box-shadow: 0 0 50px rgba(255,215,0,.8); }
+  80% { transform: translate(-50%, -50%) scale(.95) rotate(-2deg); }
+  100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.exam-overdrive::before, .qc.card-3d-pop, body.exam-screen-shake, body.exam-red-flash::after, .exam-hard-pop {
+    animation: none;
+  }
 }

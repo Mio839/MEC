@@ -1700,13 +1700,7 @@ function _triggerHardClear(el, card) {
         shapes: ['gem', 'star', 'shard'], tier: 5, scale: 1.8, speed: 620, glow: true, additive: true
       });
       window.MecFX.rings(cx, cy, { count: 2, color: '#FFD700', thickness: 5, maxR: 160, additive: true });
-    } catch (e) {}
-  }
       window.MecFX.stamp(cx, cy, { color: col, size: 148, thick: 4, ticks: 12, rot: -8, ttl: 1.0 });
-      window.MecFX.burst(cx, cy, {
-        count: 46, colors: cols, shapes: theme.shapes(4), tier: 4,
-        glow: examEffectSet !== 'ink', additive: examEffectSet !== 'ink'
-      });
     } catch (e) {}
   }
 }
