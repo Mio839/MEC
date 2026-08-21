@@ -260,6 +260,28 @@ body.exam-mode .qc.exam-deciding .ch2{
 }
 body.exam-mode .qc.exam-deciding .ch2.exam-selected{background:rgba(96,165,250,.2);}
 @keyframes examKeycapUp{from{transform:translateY(3px);}to{transform:translateY(-1px);}}
+
+/* ══ Phase 7(2026-08-21): S6 選択肢に「押した」手応えを与える ════════════════
+   これは演出の追加ではなく **現に存在する欠落の修復**である。.ch2 の押下フィードバックは
+   body.exam-mode .ch2:hover の背景だけで、**iPad には hover が無い**＝主要な使用端末では
+   選択肢を押しても押した瞬間には何も起きなかった。R6 でキーキャップの見た目までは作ったのに、
+   キーが沈まないまま止まっていた。
+   ⚠️⚠️ transform で書くと黙って死ぬ。translate プロパティで書くこと。
+      R6 の examKeycapUp が both で transform:translateY(-1px) を保持し続けているので、
+      :active{transform:translateY(2px)} は走行中のアニメーションに上書きされて何も起きない。
+      §11-5-4' で歯車の拡大を scale プロパティへ逃がしたのと同一の罠。独立プロパティなら合成される。
+   ⚠️ 水平の「線」を1本も作らないこと（§11-6-3'）。沈み込みは影の縮小だけで表す
+      ——box-shadow の blur を 0 にしない・inset を使わない。下線部が選択肢そのものになる設問が
+      実在するため、装飾の線がそこに紛れると設問の読解を壊す。
+   ⚠️ .ch2 の padding / margin を1pxも変えないこと（負マージンで詰めてあり、.exam-selected と
+      .exam-instant-correct の背景の当たりがずれる）。
+   ⚠️ 計算問題には .ch2 が無い＝何も出ないのが正しい。
+   ⚠️ :not(.exam-revealed) で絞るのは「押しても何も起きない場所で手応えを返さない」ため
+      （解答済みカードの肢はクリックしても revealAnswer が即 return する）。 */
+body.exam-mode .qc:not(.exam-revealed) .ch2{transition:background .1s,translate .09s ease,box-shadow .09s ease;}
+body.exam-mode .qc:not(.exam-revealed) .ch2:active{translate:0 2px;}
+/* 影が縮むのは R6 が影を与えている決断フェーズだけ。素の状態に影は無いので縮めようが無い。 */
+body.exam-mode .qc.exam-deciding:not(.exam-revealed) .ch2:active{box-shadow:0 1px 4px -3px rgba(0,0,0,.5);}
 @keyframes examShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 /* ── Correct answer effects ── */
 @keyframes correctPop{
@@ -968,11 +990,62 @@ html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-bloc
 /* C3(2026-08-14): 同じ肢を繰り返し選んだときの注意（責めずに事実だけ出す） */
 .exam-mark-pop.warn{font-size:12px;}
 
-/* C5(2026-08-14): 落とした問題に残る傷。セッション中だけの印で cleanup が外す */
+/* C5(2026-08-14) → S5(2026-08-21): 落とした問題に残る印。セッション中だけの印で cleanup が外す。
+   ══ Phase 7 S5: 「傷」ではなく「真鍮のプレートをリベットで打ち付けた補強痕」にする ══
+   旧実装は 3px の赤い縦線で、Phase 4 が筐体に敷いた語彙（真鍮・リベット・稜線）と噛み合って
+   いない唯一のカード側要素だった。意味の面でも合っていない——このプロジェクトは **誤答を罰しない**
+   方針を繰り返し採ってきた（A2 リベンジ／C2 立て直し／R1 の放出を正誤で変えない）のに、印だけが
+   「傷」という損傷の比喩に留まっていた。当て板にすると「ここは前に壊れたので補強してある」という
+   履歴になり、**弱点リストを畳む動機ではなく戻ってくる動機**になる。
+   ⚠️ 層は増えない。::before の background を差し替えるだけ。
+   ⚠️ 幅 3px → 5px。3px ではリベットの頭が潰れて点にならない。5px は **R5 のクランプと同幅**で、
+      これによりカード左端の語彙が
+        クランプ5px（いま読んでいる）／プレート5px（この回で落とした）／data-recap 3px（前回の成績）
+      と揃い、幅で3者を読み分けられる。
+   ⚠️⚠️ 赤を完全に捨てないこと。傷の実用は「セッション中にどこで落としたかを後から目で探す」ことなので、
+      真鍮一色にすると通過済みカードの中で埋もれる。**プレートを 3px にして左右 1px ずつ赤を覗かせ、
+      リベットの頭を銅赤にする**＝真鍮の中で赤が2点だけ光る。
+   ⚠️ .qc の box-shadow を上書きしないこと（B5・R13 と同じ注意）。
+   ⚠️ exam-revealed のカードにしか付かないという R5 との状態排他を壊さないこと（§11-4-2）。
+      S5 は ::before の**中身**を変えるだけで、付く条件には一切触れない。 */
+body{
+  /* プレートの「絵」は S5（履歴として残る当て板）と S5 の克服光（一度だけ光って消える当て板）で
+     共有する。⚠️ 色と層をこのトークンの外に書き写さないこと——片方だけ直すと「同じ板なのに絵が違う」
+        になる。⚠️ 幾何（width / background-size / position）だけは2つの規則に重複して書いてある。
+        セレクタをカンマでまとめると `.qc.exam-scar::before{` の**文字列そのもの**を前提にしている
+        既存テスト3本（test_exam_prog / test_exam_reading / test_exam_chassis）が落ちるため。 */
+  --exam-plate-rivet:radial-gradient(circle at 50% 50%,#F2A07B 0 30%,rgba(176,58,40,.95) 44%,rgba(0,0,0,.5) 58%,transparent 72%);
+  --exam-plate-face :linear-gradient(180deg,var(--exam-brass-hi),var(--exam-brass) 46%,var(--exam-copper));
+  --exam-plate-red  :linear-gradient(180deg,transparent,rgba(255,107,107,.75) 18%,rgba(255,107,107,.75) 82%,transparent);
+}
 .qc.exam-scar{position:relative;}
-.qc.exam-scar::before{content:'';position:absolute;left:0;top:10px;bottom:10px;width:3px;
+.qc.exam-scar::before{content:'';position:absolute;left:0;top:10px;bottom:10px;width:5px;
   border-radius:0 3px 3px 0;pointer-events:none;
-  background:linear-gradient(180deg,transparent,rgba(255,107,107,.75) 18%,rgba(255,107,107,.75) 82%,transparent);}
+  background-image:var(--exam-plate-rivet),var(--exam-plate-rivet),var(--exam-plate-face),var(--exam-plate-red);
+  background-repeat:no-repeat;
+  background-size:5px 5px,5px 5px,3px 100%,5px 100%;
+  background-position:0 7px,0 calc(100% - 7px),1px 0,0 0;
+  box-shadow:1px 0 0 var(--exam-bevel-lo);}
+/* S5 の克服光: 前に落とした問題を正解し直した瞬間、当て板が打たれて一度だけ磨かれ、消える。
+   ⚠️ 付ける場所は _afterCorrectFx（正解の2経路の合流点）。片方に書くと計算問題50問で抜ける。
+   ⚠️ 残さず消すのは exam-scar（この回で落とした）との意味の衝突を避けるため——
+      板が居座ると「落とした印」と「克服した印」が同じ絵で並ぶ。
+   ⚠️ 付くのは exam-revealed のカードなので R5 のクランプとは状態で排他になる（§11-4-2）。 */
+.qc.exam-plate-fix{position:relative;}
+.qc.exam-plate-fix::before{content:'';position:absolute;left:0;top:10px;bottom:10px;width:5px;
+  border-radius:0 3px 3px 0;pointer-events:none;
+  background-image:var(--exam-plate-rivet),var(--exam-plate-rivet),var(--exam-plate-face),var(--exam-plate-red);
+  background-repeat:no-repeat;
+  background-size:5px 5px,5px 5px,3px 100%,5px 100%;
+  background-position:0 7px,0 calc(100% - 7px),1px 0,0 0;
+  box-shadow:1px 0 0 var(--exam-bevel-lo);
+  animation:examPlateFix 1.05s ease both;}
+@keyframes examPlateFix{
+  0%  {opacity:0;filter:brightness(.7);}
+  22% {opacity:1;filter:brightness(1);}
+  46% {opacity:1;filter:brightness(2.2) saturate(1.2);}
+  74% {opacity:1;filter:brightness(1);}
+  100%{opacity:0;filter:brightness(1);}}
 
 /* B7(2026-08-18): 1問目だけの入場。カウントダウンが明けた直後の1枚に「幕が上がった」を作る */
 .qc.exam-first-in{animation:examFirstIn .9s cubic-bezier(.16,1,.3,1) both;}

@@ -144,13 +144,20 @@ t('4. 真鍮トークンが盤面のセレクタに1つも現れない（D6 の�
 
 /* ⚠️ 2026-08-19（Phase 5 段1）に条件を1段だけ緩めた。旧: 「.qc に真鍮が1つも現れない」。
    R5（真鍮のクランプ）は焦点カードだけを掴む筐体の部品なので、.exam-key-focus に限って許す。
-   緩めたのはここだけで、「答え終わったカード・素のカードには真鍮を入れない」は据え置き
-   ——傷(C5)・成績(B5)・カード本体が真鍮になると「機械の部品」と「問題」の区別が消えるため。 */
-t('4b. .qc に真鍮が現れてよいのは R5 のクランプと R6 のキーキャップだけ', () => {
+   ⚠️ 2026-08-21（Phase 7 段A・S5）にもう1段だけ緩めた。誤答の印を「3px の赤い線（傷）」から
+      「真鍮の当て板をリベットで打った補強痕」へ作り替えたため、exam-revealed のカードの左端にも
+      真鍮が出る。**緩めたのはここまで**——カード面そのもの（.qc の素のルール）は据え置きで、
+      「機械の部品」と「問題」の区別は保たれている。
+      設計 §12-2 S5。付く条件（exam-revealed のカードだけ）は1バイトも触っていないので、
+      R5 のクランプとの状態排他（§11-4-2）はそのまま生きている。 */
+t('4b. .qc に真鍮が現れてよいのは R5 のクランプ・R6 のキーキャップ・S5 の当て板だけ', () => {
+  // S5: 補強プレート（exam-scar＝この回で落とした／exam-plate-fix＝克服して一度だけ光る）
+  const isPlate = sel => /\.exam-scar|\.exam-plate-fix/.test(sel);
   rulesFor('.qc').forEach(r => {
     if (!BRASS_RE.test(r.body)) return;
     // R6: 決断フェーズ（R9）の選択肢＝押す機械のキー。カード面ではなく中身なので許す。
     if (/\.exam-deciding[^,]*\.ch2/.test(r.sel)) return;
+    if (isPlate(r.sel)) return;
     assert.ok(/\.exam-key-focus/.test(r.sel),
       '.qc の非焦点セレクタに真鍮が現れる → ' + r.sel.trim());
     assert.ok(/:not\(\.exam-revealed\)/.test(r.sel),
@@ -159,7 +166,7 @@ t('4b. .qc に真鍮が現れてよいのは R5 のクランプと R6 のキー�
   // ⚠️ カード面そのもの（.qc の素のルール）は据え置き＝「機械の部品」と「問題」の区別を保つ
   rulesFor('.qc').forEach(r => {
     if (!BRASS_RE.test(r.body)) return;
-    assert.ok(/\.exam-key-focus|\.exam-deciding/.test(r.sel),
+    assert.ok(/\.exam-key-focus|\.exam-deciding|\.exam-scar|\.exam-plate-fix/.test(r.sel),
       'カード面に真鍮が入っている → ' + r.sel.trim());
   });
 });
@@ -296,11 +303,14 @@ t('10. .qc の疑似要素の前提が生きている（exam-scar=::before / dat
      .exam-scar は exam-revealed のカードにしか付かず、焦点は _getExamTargetCard() が
      !exam-revealed で絞った未解答カードにしか付かない。排他の担保はあのフィルタにある。
      ここでは CSS 側が :not(.exam-revealed) を明示していることを検査して二重に守る。 */
+  /* ⚠️ 2026-08-21（Phase 7 段A・S5）にもう1つだけ許した＝当て板（exam-scar / exam-plate-fix）。
+     こちらは R5 と逆側の状態（exam-revealed のカード）にしか付かないので、排他はそのまま成立する。 */
   RULES.forEach(r => {
     if (!/\.qc[^,]*::(before|after)/.test(r.sel) || !BRASS_RE.test(r.body)) return;
+    if (/\.exam-scar::before|\.exam-plate-fix::before/.test(r.sel)) return;
     assert.ok(/\.exam-key-focus[^,]*:not\(\.exam-revealed\)::before/.test(r.sel),
       '.qc の疑似要素に真鍮が入っている → ' + r.sel.trim() +
-      '（許されるのは .exam-key-focus:not(.exam-revealed)::before ＝ R5 のクランプだけ）');
+      '（許されるのは .exam-key-focus:not(.exam-revealed)::before ＝ R5 のクランプと S5 の当て板だけ）');
   });
 });
 

@@ -1892,10 +1892,30 @@ function _afterCorrectFx(card, fxEl) {
     setTimeout(() => _triggerAnswerMark(fxEl, 'fresh'), 150);
   }
 
+  // S5(2026-08-21): 克服＝前に落とした問題を正解し直した瞬間、当て板が打たれて一度だけ磨かれ、消える。
+  // ⚠️ ラベル（難問／リベンジ／初見）の else-if 連鎖の外に置くこと。ラベルは1つに絞る約束だが、
+  //    プレートはラベルではない＝難問かつ克服のときに両方出てよい。
+  // ⚠️ ここ（_afterCorrectFx）が正解の2経路（選択肢・計算問題）の合流点。
+  //    revealAnswer 側だけに書くと計算問題50問で抜ける。
+  if (prior && prior.wasWrong) _polishPlate(card);
+
   if (_examRecoverPending) {
     _examRecoverPending = false;
     setTimeout(() => _triggerRecover(fxEl), 220);
   }
+}
+
+/* S5 の克服光（2026-08-21）。当て板を一時的に打ってから消す。
+   ⚠️ 残さないこと——板が居座ると exam-scar（この回で落とした印）と同じ絵が並び、
+      「落とした」と「克服した」が見分けられなくなる。
+   ⚠️ exam-scar が付いているカードには出さない（正解では付かないので実際には起きないが、
+      将来 scar の条件が変わったときに絵が二重にならないようにしておく）。 */
+function _polishPlate(card) {
+  if (!card || _fxOff() || card.classList.contains('exam-scar')) return;
+  card.classList.remove('exam-plate-fix');
+  void card.offsetWidth;                 // アニメを確実に頭から流す
+  card.classList.add('exam-plate-fix');
+  setTimeout(() => card.classList.remove('exam-plate-fix'), 1150);
 }
 
 /* ══════════ C1: コンボメーターの崩落（2026-08-14）══════════
@@ -4249,6 +4269,9 @@ function exitExam() {
   document.querySelectorAll('.streak-particle,.streak-ring,.exam-bg-breath,.exam-fx-temp,.mec-cfx,.exam-tierup,.exam-fast-pop,.exam-trace-svg,.exam-zone-collapse,.exam-hard-pop,.exam-recover-pop,.exam-mark-pop').forEach(el => el.remove());
   // C5: 誤答の傷はセッション中だけの印。通常閲覧に持ち越さない
   document.querySelectorAll('.qc.exam-scar').forEach(el => el.classList.remove('exam-scar'));
+  // S5(2026-08-21): 克服光の当て板も同じく持ち越さない（1.15秒で自分で消えるが、
+  //   その途中で終了した場合に残るので必ず落とす）。
+  document.querySelectorAll('.qc.exam-plate-fix').forEach(el => el.classList.remove('exam-plate-fix'));
   { const _cd = document.getElementById('examCountdown'); if (_cd) { _cd.style.display = 'none'; _cd.innerHTML = ''; } }
   { const _sig = document.getElementById('examStreakSig'); if (_sig) { _sig.getAnimations?.().forEach(a => a.cancel()); _sig.style.opacity = '0'; } }
   { const _lbl = document.getElementById('examComboMeterLbl'); if (_lbl) { _lbl.getAnimations?.().forEach(a => a.cancel()); _lbl.style.opacity = '0'; } }
