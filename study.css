@@ -767,6 +767,76 @@ body.exam-sprint .exam-prog{background:rgba(60,22,0,.62);animation:epSprint 2.6s
 .exam-review-btn{width:100%;padding:11px;border-radius:var(--r-md);border:none;background:linear-gradient(120deg,var(--blu),#7C6CF6);color:#fff;font-size:14px;font-weight:800;cursor:pointer;margin-bottom:8px;box-shadow:0 4px 14px rgba(96,165,250,.35);transition:transform .2s,box-shadow .2s;}
 .exam-review-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,108,246,.5);}
 .exam-review-btn:active{transform:scale(.98);}
+
+/* ══ Phase 7 段B(2026-08-21): S10 結果画面を「計器盤」にする（設計 §12-2 S10）══════
+   結果画面は**読解が完全に終わった後**の画面で、§11-1 の5原則が1つも掛からない
+   ——演出を強くしてよい唯一の広い面でありながら、Phase 4 は額縁を与えただけで
+   中身は数字が並んでいるだけで止まっていた。しかもここは**セッションの締めくくり＝
+   最も記憶に残る場所**である。
+
+   ⚠️⚠️ 配色の裁定（2026-08-21・ユーザー判断）: **枠＝真鍮／数字＝意味色のまま**。
+      設計の原文は「タイルも数字も琥珀のニキシー管」だったが、4タイルは
+      緑=正解／赤=不正解／青=回答／紫=時間 で**意味を色分けしている**ので、琥珀で統一すると
+      その情報が消える。Phase 4 の「筐体は真鍮固定／盤面はテーマ可変」と、ハブのゲージ
+      （真鍮の歯車 ⇔ --or/--gr の弧）の分け方をそのまま当てはめ、
+      **物（枠・面の稜線・リベット・ボタン）は真鍮／読み値（数字）は意味色**とした。
+      これにより Phase 4 の D6（盤面に真鍮を入れない）を実質的に守れている。
+   ⚠️ .gm-*（授与トレイ・セレモニー・トースト）には1バイトも触れないこと。CSS は gamify.js が
+      自分で注入しており **ハブ（index.html）と共有**している。study.css から上書きすると
+      ハブ側の見た目が黙って動く。授与トレイは既に #FFD166（琥珀）なので色は喧嘩しない。
+   ⚠️ 水平の「線」を作らないこと（§11-6-3'）。沈み込みは影の縮小だけで表し、
+      inset の稜線は使わない（金属の窪みは background のグラデで作る）。
+   ⚠️ .exam-modal は overflow-y:auto なので、モーダル本体の筐体は疑似要素ではなく
+      background-image と box-shadow:inset で描く（§5 の既存の不変条件）。S10 が足すのは
+      **タイルとボタンの中**なので、その規約はモーダル側にそのまま残る。 */
+
+/* ── タイル＝計器の窓。縁だけ真鍮に替え、面の色（意味）はそのまま残す ── */
+.exam-detail-item.di-ok,.exam-detail-item.di-ng,
+.exam-detail-item.di-n,.exam-detail-item.di-t{border-color:var(--exam-brass);}
+/* リベットは --exam-rivet-dot をそのまま借りる（.exam-modal が定義し継承で降りてくる）。
+   ⚠️ 新しいリベットの絵を作らないこと——額縁の鋲とタイルの鋲が別物になる。
+   3層目は「数字が沈むガラスの窪み」。inset の影を使わずグラデで作る（上の注意）。 */
+.exam-detail-item::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background-image:var(--exam-rivet-dot),var(--exam-rivet-dot),
+                   radial-gradient(ellipse 72% 56% at 50% 78%,rgba(0,0,0,.40),transparent 72%);
+  background-repeat:no-repeat;
+  background-size:5px 5px,5px 5px,100% 100%;
+  background-position:4px 4px,calc(100% - 4px) calc(100% - 4px),0 0;}
+/* ⚠️ ::before は position:absolute＝位置指定ボックスなので、素のテキストより上に描かれる。
+      ラベルと数字を position:relative にして窪みの上へ戻すこと（消えて見える）。 */
+.exam-detail-item .lbl,.exam-detail-item .val{position:relative;}
+.exam-detail-item .val{text-shadow:0 1px 2px rgba(0,0,0,.6);transition:text-shadow .5s ease;}
+
+/* ── 管が「ともる」のは、数字が動き終わった瞬間に一度だけ ──
+   ⚠️ 常時フリッカーは入れない（結果画面も「読む面」である）。点灯は結果が確定した合図。
+   ⚠️ 動いている数字は #sumPct（900ms のカウントアップ）だけなので、その完了を
+      セッション全体の確定とみなして5本まとめてともす。フックは showExamSummary の1か所。 */
+.exam-modal.tubes-lit .exam-detail-item .val{
+  text-shadow:0 0 10px currentColor,0 0 24px color-mix(in srgb,currentColor 42%,transparent),0 1px 2px rgba(0,0,0,.6);}
+.exam-pct{transition:text-shadow .5s ease;}
+.exam-modal.tubes-lit .exam-pct{
+  text-shadow:0 0 20px color-mix(in srgb,var(--ringc) 62%,transparent),
+              0 0 46px color-mix(in srgb,var(--ringc) 28%,transparent);}
+
+/* ── ボタン＝押すと沈む金属板。面の色（意味）は残し、縁と鋲だけ真鍮にする ──
+   ⚠️⚠️ 沈み込みは translate プロパティで書くこと。:hover の transform:translateY(-1px) と
+      :active の transform:scale(.98) が既にあり、transform で書くと後勝ちで潰し合う。
+      独立プロパティなら3つとも合成される（§11-5-4' と同じ罠）。 */
+.exam-review-btn,.exam-retry-btn{border:1px solid var(--exam-brass);
+  transition:transform .2s,box-shadow .2s,translate .1s ease;}
+.exam-review-btn{background-image:var(--exam-rivet-dot),var(--exam-rivet-dot),linear-gradient(120deg,var(--blu),#7C6CF6);}
+.exam-retry-btn {background-image:var(--exam-rivet-dot),var(--exam-rivet-dot),linear-gradient(120deg,#FF6B6B,#FF5E8A);}
+.exam-review-btn,.exam-retry-btn{background-repeat:no-repeat;background-size:5px 5px,5px 5px,100% 100%;
+  background-position:6px 50%,calc(100% - 6px) 50%,0 0;}
+.exam-close-btn{border-color:var(--exam-brass);
+  background-image:var(--exam-rivet-dot),var(--exam-rivet-dot);
+  background-repeat:no-repeat;background-size:5px 5px,5px 5px;
+  background-position:6px 50%,calc(100% - 6px) 50%;
+  transition:background .15s,translate .1s ease;}
+.exam-fresh-btn{transition:color .15s,translate .1s ease;}
+.exam-review-btn:active,.exam-retry-btn:active,
+.exam-close-btn:active,.exam-fresh-btn:active{translate:0 2px;}
+.exam-review-btn:active,.exam-retry-btn:active{box-shadow:0 1px 5px -2px rgba(0,0,0,.5);}
 .nb[data-filter="due"].fc-on{background:var(--or);border-color:var(--or);color:#fff;}
 #studySoundOv{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:var(--z-ov);align-items:center;justify-content:center;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);}
 #studySoundOv.open{display:flex;}
@@ -1253,6 +1323,15 @@ body.exam-awaken #examComboMeter{height:5px;}
   .qimg.qimg-lit{animation:none!important;}
   body.exam-mode .qc.exam-deciding .ch2{animation:none!important;transform:none!important;}
   body.exam-mode.exam-waking .st-hdr::before{animation:none!important;}
+  /* Phase 7: 動きだけ止め、意匠（当て板・リベット・稜線・管の点灯）は残す。
+     ⚠️ S6 の沈み込みは「押しても何も起きない」に戻してはいけない。動きを止める代わりに
+        背景で手応えを返す＝情報（押せた／押した）は1つも失われない。 */
+  body.exam-mode .qc:not(.exam-revealed) .ch2{transition:background .1s;}
+  body.exam-mode .qc:not(.exam-revealed) .ch2:active{translate:none;background:rgba(var(--glass-rgb),.16);}
+  .exam-review-btn:active,.exam-retry-btn:active,
+  .exam-close-btn:active,.exam-fresh-btn:active{translate:none;}
+  .exam-detail-item .val,.exam-pct{transition:none;}   /* 点灯は残す。ふわりと点くのをやめるだけ */
+  .qc.exam-plate-fix::before{animation:none!important;display:none;}  /* 一瞬の光は出さない（残すと当て板が居座る） */
 }
 
 /* 自己診断（🔊設定内・演出が出ない時の切り分け用） */

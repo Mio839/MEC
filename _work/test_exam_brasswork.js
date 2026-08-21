@@ -107,16 +107,34 @@ function fnBody(name) {
   }
   return null;
 }
-/** 「縦オフセットがあるのに blur が 0」＝水平の線を引いている box-shadow を探す（§11-6-3'）。 */
+/** 「縦オフセットがあるのに blur が 0」＝水平の線を引いている box-shadow を探す（§11-6-3'）。
+    ⚠️ カンマは括弧の外だけで割ること。rgba(...) / color-mix(...) の中にもカンマがあるので、
+       素の split(',') だと 1 つの影が複数の層に割れて誤検出になる（実際に踏んだ）。
+    ⚠️ 長さの抽出では単位なしの 0 も拾うこと。`0 4px 14px rgba(...)` を px だけで拾うと
+       dy=14 / blur=無し と読み違える。 */
+function splitTopLevel(str) {
+  const out = []; let depth = 0, cur = '';
+  for (const ch of str) {
+    if (ch === '(') depth++;
+    else if (ch === ')') depth--;
+    if (ch === ',' && depth === 0) { out.push(cur); cur = ''; } else cur += ch;
+  }
+  out.push(cur); return out;
+}
+function stripParens(str) {
+  let prev; do { prev = str; str = str.replace(/\([^()]*\)/g, ' '); } while (str !== prev);
+  return str;
+}
 function hardLineShadows(body) {
   const bad = [];
   const m = /box-shadow\s*:([^;]+);/g;
   let x;
   while ((x = m.exec(body))) {
     const decl = x[1];
-    if (/\binset\b/.test(decl)) { bad.push('inset: ' + decl.trim()); continue; }
-    decl.split(',').forEach(layer => {
-      const nums = layer.match(/-?\d*\.?\d+px/g);
+    if (/inset/.test(decl)) { bad.push('inset: ' + decl.trim()); continue; }
+    splitTopLevel(decl).forEach(layer => {
+      const clean = stripParens(layer).replace(/#[0-9a-fA-F]{3,8}/g, ' ');
+      const nums = clean.match(/-?\d*\.?\d+(?:px)?/g);
       if (!nums || nums.length < 2) return;
       const dy = parseFloat(nums[1]);
       const blur = nums.length >= 3 ? parseFloat(nums[2]) : 0;
@@ -196,6 +214,70 @@ t('7. S5 の克服光が _afterCorrectFx にある（正解の2経路の合流�
   assert.ok(/_fxOff\(\)/.test(p), '_polishPlate が reduced-motion を尊重していない');
   assert.ok(/classList\.remove\('exam-plate-fix'\)/.test(p),
     '克服光の当て板を消していない（残ると exam-scar と同じ絵が並んで見分けられなくなる）');
+});
+
+// ══ 段B: S10 結果画面を計器盤にする ════════════════════════════════════
+t('19. S10 が .gm- で始まるセレクタを1つも書いていない（gamify.js 注入＝ハブと共有の CSS を上書きしない）', () => {
+  RULES.forEach(r => {
+    assert.ok(!/(^|[\s,>+~])\.gm-/.test(r.sel),
+      'study.css が .gm-* を上書きしている → ' + r.sel.trim() +
+      '（gamify.js が注入する CSS はハブ index.html と共有＝ハブの見た目が黙って動く）');
+  });
+});
+
+t('20. S10 のボタンの沈み込みが translate プロパティで書かれている（transform は殺される）', () => {
+  const btns = ['.exam-review-btn', '.exam-retry-btn', '.exam-close-btn', '.exam-fresh-btn'];
+  btns.forEach(b => {
+    const rs = RULES.filter(r => r.sel.split(',').some(x => x.trim().startsWith(b) && x.includes(':active')));
+    assert.ok(rs.length, b + ':active の規則が無い（押しても沈まない）');
+    assert.ok(rs.some(r => /translate\s*:/.test(r.body)),
+      b + ':active に translate プロパティが無い（:hover の transform と :active の scale が潰し合う）');
+  });
+});
+
+t('21. S10 が水平の「線」を作らない（縦オフセットがあるのに blur が 0 の層・inset を禁じる）', () => {
+  const sels = ['.exam-detail-item', '.exam-review-btn', '.exam-retry-btn', '.exam-close-btn', '.exam-fresh-btn'];
+  RULES.forEach(r => {
+    if (!sels.some(x => r.sel.includes(x))) return;
+    const bad = hardLineShadows(r.body);
+    assert.ok(!bad.length, r.sel.trim() + ' が硬い線を引いている: ' + bad.join(' / '));
+  });
+});
+
+t('22. S10 の管の点灯がカウントアップの完了後に一度だけで、常時フリッカーが無い', () => {
+  const b = fnBody('showExamSummary');
+  assert.ok(b, 'showExamSummary が見つからない');
+  assert.ok(/tubes-lit/.test(b), '点灯クラス tubes-lit を付けていない');
+  assert.ok(/classList\.remove\('tubes-lit'\)/.test(b),
+    '前回の点灯を消していない（次のセッションで「ともる瞬間」が無くなる）');
+  assert.ok(/else\s+_litTubes\(\)/.test(b),
+    'カウントアップの完了で点灯していない（k<1 の else に置くこと）');
+  assert.ok(/setTimeout\(_litTubes/.test(b),
+    'rAF が止まった時の落とし所が無い（非表示タブでは管が永久に点かない）');
+  // 常時フリッカー＝tubes-lit 系に infinite の animation が無いこと
+  RULES.forEach(r => {
+    if (!/tubes-lit/.test(r.sel)) return;
+    assert.ok(!/infinite/.test(r.body), '結果画面の管が常時フリッカーしている → ' + r.sel.trim());
+  });
+});
+
+t('S10-a. タイルとボタンの「面の色（意味）」が残っている（琥珀一色にしていない）', () => {
+  // 4タイルの数字は緑/赤/青/紫のまま＝正解・不正解・回答・時間が見分けられる
+  [['di-ok', '#7CEFB2'], ['di-ng', '#FF9B9B'], ['di-n', '#A8CDFF'], ['di-t', '#C9B8FF']].forEach(([k, col]) => {
+    const rs = RULES.filter(r => r.sel.includes(k) && /\.val/.test(r.sel));
+    assert.ok(rs.some(r => r.body.toUpperCase().includes(col.toUpperCase())),
+      k + ' の数字が意味色 ' + col + ' でなくなっている（4つの数字が見分けられなくなる）');
+  });
+});
+
+t('S10-b. タイルのリベットが --exam-rivet-dot を借りている（額縁の鋲と別物を作らない）', () => {
+  const rs = ruleFor(/\.exam-detail-item::before/);
+  assert.ok(rs.length, '.exam-detail-item::before が無い');
+  assert.ok(/--exam-rivet-dot/.test(rs[0].body),
+    'タイルのリベットが --exam-rivet-dot を使っていない（モーダルの額縁の鋲と絵が食い違う）');
+  // ⚠️ ::before は位置指定ボックス＝素のテキストより上に描かれる。ラベルと数字を持ち上げること
+  const lift = RULES.filter(r => /\.exam-detail-item .*\.(lbl|val)/.test(r.sel) && /position\s*:\s*relative/.test(r.body));
+  assert.ok(lift.length, 'ラベル/数字が position:relative で持ち上げられていない（窪みの下に隠れる）');
 });
 
 // ══ 全段共通 ═══════════════════════════════════════════════════════════

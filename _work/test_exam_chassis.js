@@ -126,10 +126,15 @@ t('3. ヘッダと計器ベイの寸法が現行値のまま（_fxBand() の焦�
 });
 
 // ══ 4. 盤面を侵さない（D6・この節が Phase 4 の目的そのもの） ════════════════
+/* ⚠️ 2026-08-21（Phase 7 段B・S10）に禁止リストから**結果画面の中身だけ**を外した。
+   結果画面は読解が完全に終わった後の面で、しかもタイルとボタンは「読み値」ではなく「物」である。
+   外したのは枠・縁・銖だけで、**面の色（緑=正解／赤=不正解／青=回答／紫=時間）と
+   数字の色は意味色のまま残してある**――だから D6 の趣旨（盤面の読み値に真鍮を入れない）は生きている。
+   ⚠️ **リング（.exam-pct-ring / .exam-pct）は外さない**。あれは合否を色で表す盤面そのもの。
+   ⚠️ 試験中に見えているもの（.exam-prog-fill / .ep-* / 開始モーダル）も外さない。 */
 t('4. 真鍮トークンが盤面のセレクタに1つも現れない（D6 の禁止リスト）', () => {
   const banned = ['.exam-prog-fill', '.ep-sprint', '.ep-hard', '.ep-last', '.ep-tick',
-    '.exam-pct-ring', '.exam-pct', '.exam-detail-item', '.exam-go-btn', '.exam-retry-btn',
-    '.exam-review-btn', '.exam-close-btn', '.exam-fresh-btn', '.exam-hard-note',
+    '.exam-pct-ring', '.exam-pct', '.exam-go-btn', '.exam-hard-note',
     '.exam-predict', '.exam-ch-card', '.exam-finish-btn'];
   banned.forEach(sel => {
     rulesFor(sel).forEach(r => {

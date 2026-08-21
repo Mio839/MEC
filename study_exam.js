@@ -4328,6 +4328,14 @@ function showExamSummary() {
   const pctCol = pct >= 80 ? '#3DD68C' : pct >= 60 ? '#FFB830' : '#FF6B6B';
   if (pctEl) pctEl.style.color = pctCol;
   if (pctRing) { pctRing.style.setProperty('--ringc', pctCol); pctRing.style.setProperty('--p', 0); }
+  /* S10(2026-08-21): ニキシー管は「数字が止まった瞬間に一度だけ」ともる＝結果が確定した合図。
+     ⚠️ 動いている数字は #sumPct だけなので、そのカウントアップの完了を5本まとめての合図に使う。
+        点灯の口をここ1つに寄せること（タイル側にも作ると2回に分かれて意味が薄まる）。
+     ⚠️ rAF が止まった時の落とし所を必ず置く。非表示タブでは rAF が1フレームも来ないので、
+        保険が無いと**裏で終わったセッションの管が永久に点かない**（_tweenNum・countUp と同じ穴）。 */
+  const _modal = document.querySelector('#examOverlay .exam-modal');
+  if (_modal) _modal.classList.remove('tubes-lit');
+  const _litTubes = () => { if (_modal) _modal.classList.add('tubes-lit'); };
   if (pctEl) {
     const t0 = performance.now(), dur = 900;
     const tick = now => {
@@ -4335,9 +4343,12 @@ function showExamSummary() {
       const v = Math.round(pct * (1 - Math.pow(1 - k, 3)));
       pctEl.textContent = v + '%';
       if (pctRing) pctRing.style.setProperty('--p', v);
-      if (k < 1) requestAnimationFrame(tick);
+      if (k < 1) requestAnimationFrame(tick); else _litTubes();
     };
     requestAnimationFrame(tick);
+    setTimeout(_litTubes, dur + 400);
+  } else {
+    _litTubes();
   }
   document.getElementById('sumCorrect').textContent = examCorrect;
   document.getElementById('sumWrong').textContent = examAnswered - examCorrect;
