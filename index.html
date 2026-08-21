@@ -2085,12 +2085,18 @@ function _stampGoalSeal() {
   if (!c) return;
   const r = Math.min(c.r.width, c.r.height);
   MecFX.stamp(c.x, c.y, {
-    color: '#E0C25E', size: r * .92, thick: 4, ticks: 16, rot: -6, ttl: 1.25
+    color: '#E0C25E', size: r * 1.1, thick: 5, ticks: 18, rot: -6, ttl: 1.4
   });
-  MecFX.gears(c.x, c.y, { count: 8, spread: 260, min: 10, max: 20, gravity: 640, w: 14, delay: .18 });
-  // 【案4】全弁開放スチーム（左右両舷からの豪快な蒸気噴出）
-  MecFX.steam(c.x - c.r * .8, c.y + c.r * .4, { count: 6, w: c.r * .6, rise: 140, min: 32, max: 64, alpha: .32, vx: -120 });
-  MecFX.steam(c.x + c.r * .8, c.y + c.r * .4, { count: 6, w: c.r * .6, rise: 140, min: 32, max: 64, alpha: .32, vx: 120 });
+  MecFX.burst(c.x, c.y, {
+    count: 48, colors: ['#FFD700', '#FFA040', '#FFFFFF', '#C9A227'],
+    shapes: ['gem', 'star', 'shard'], tier: 6, scale: 2.0, speed: 720, glow: true, additive: true
+  });
+  MecFX.gears(c.x, c.y, { count: 24, spread: 380, min: 14, max: 28, gravity: 520, w: 18, delay: .12 });
+  MecFX.confetti({ count: 120, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], big: true });
+  // 【案7】全方位スチーム大爆発（四方八方からの大蒸気噴出）
+  MecFX.steam(c.x - c.r * .9, c.y + c.r * .3, { count: 8, w: c.r * .8, rise: 180, min: 40, max: 80, alpha: .4, vx: -160 });
+  MecFX.steam(c.x + c.r * .9, c.y + c.r * .3, { count: 8, w: c.r * .8, rise: 180, min: 40, max: 80, alpha: .4, vx: 160 });
+  MecFX.steam(c.x, c.y - c.r * .6, { count: 6, w: c.r * .7, rise: 160, min: 36, max: 70, alpha: .35 });
 }
 
 // ── 盤面の常時演出 ───────────────────────────────────────────────

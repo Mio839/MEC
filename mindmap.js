@@ -443,15 +443,28 @@
       animateView(( x0 + x1) / 2 - w / 2, (y0 + y1) / 2 - w * aspect / 2, w, w * aspect);
     }
 
-    // 開いた瞬間の波紋。一度きりで、終わったら自分で消える（infinite にしない）。
+    // 開いた瞬間の波紋。超伝導ビッグバン（親から子へ電光連鎖）。
     function pulse(info) {
       if (reduceMotion) return;
-      const c = ns('circle', {
-        class: 'mm-pulse', cx: info.x.toFixed(1), cy: info.y.toFixed(1), r: CH_R,
-        fill: 'none', stroke: parents[info.idx].color, 'stroke-width': 3,
-      });
-      lFx.append(c);
-      setTimeout(() => c.remove(), 700);
+      for (let w = 0; w < 3; w++) {
+        const c = ns('circle', {
+          class: 'mm-pulse', cx: info.x.toFixed(1), cy: info.y.toFixed(1), r: CH_R,
+          fill: 'none', stroke: parents[info.idx].color, 'stroke-width': 4 - w,
+        });
+        c.style.animationDelay = (w * 0.08) + 's';
+        lFx.append(c);
+        setTimeout(() => c.remove(), 800);
+      }
+      info.rings.forEach(ring => ring.forEach((n, ni) => {
+        setTimeout(() => {
+          const cp = ns('circle', {
+            class: 'mm-pulse', cx: n.x.toFixed(1), cy: n.y.toFixed(1), r: DIS_R,
+            fill: 'none', stroke: parents[info.idx].color, 'stroke-width': 2.5,
+          });
+          lFx.append(cp);
+          setTimeout(() => cp.remove(), 700);
+        }, 100 + ni * 22);
+      }));
     }
 
     // ── パネル ─────────────────────────────────────────────────

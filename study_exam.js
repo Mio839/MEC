@@ -852,6 +852,13 @@ function revealAnswer(card) {
       _resetComboMeter();
       _clearDarkFx();
       _zoneStop(true);   // B5: ゾーン崩壊（漂う粒子が一点に吸い込まれて消える）
+      document.body.classList.remove('exam-overdrive');
+      if (!_fxOff()) {
+        document.body.classList.remove('exam-screen-shake', 'exam-red-flash');
+        void document.body.offsetWidth;
+        document.body.classList.add('exam-screen-shake', 'exam-red-flash');
+        setTimeout(() => document.body.classList.remove('exam-screen-shake', 'exam-red-flash'), 420);
+      }
       examWrong.push(card.dataset.uid);
       card.classList.add('exam-revealed');
       if (revBtn) { revBtn.textContent = '▼ 解答を隠す'; revBtn.onclick = () => _toggleWrongAnswer(card, revBtn); }
@@ -1672,22 +1679,29 @@ function _triggerHardClear(el, card) {
   const lab = document.createElement('div');
   lab.className = 'exam-hard-pop';
   lab.innerHTML = '<span class="hc-lbl"></span><span class="hc-rate"></span>';
-  lab.firstChild.textContent = theme.hardLabel || '💪 難問突破！';
+  lab.firstChild.textContent = '👑 ' + (theme.hardLabel ? theme.hardLabel.replace(/^[^\s]+\s*/, '') : '難問突破！');
   lab.lastChild.textContent = rate != null ? '正答率 ' + rate + '%' : '';
   lab.style.setProperty('--hc-col', col);
   lab.style.left = cx + 'px';
   lab.style.top = cy + 'px';
   document.body.appendChild(lab);
   lab.animate([
-    { opacity: 0, transform: 'translate(-50%,-50%) scale(.5) rotate(-10deg)' },
-    { opacity: 1, transform: 'translate(-50%,-50%) scale(1.12) rotate(-4deg)', offset: .2 },
-    { opacity: 1, transform: 'translate(-50%,-50%) scale(1) rotate(-4deg)', offset: .34 },
-    { opacity: 1, transform: 'translate(-50%,-62%) scale(1) rotate(-4deg)', offset: .72 },
-    { opacity: 0, transform: 'translate(-50%,-86%) scale(.96) rotate(-4deg)' }
-  ], { duration: 1320, easing: 'cubic-bezier(.2,1.25,.35,1)', fill: 'forwards' }).onfinish = () => lab.remove();
+    { opacity: 0, transform: 'translate(-50%,-50%) scale(.4) rotate(-15deg)' },
+    { opacity: 1, transform: 'translate(-50%,-50%) scale(1.3) rotate(6deg)', offset: .22 },
+    { opacity: 1, transform: 'translate(-50%,-50%) scale(1) rotate(-2deg)', offset: .38 },
+    { opacity: 1, transform: 'translate(-50%,-62%) scale(1) rotate(0deg)', offset: .72 },
+    { opacity: 0, transform: 'translate(-50%,-86%) scale(.96) rotate(0deg)' }
+  ], { duration: 1400, easing: 'cubic-bezier(.2,1.3,.35,1)', fill: 'forwards' }).onfinish = () => lab.remove();
 
   if (window.MecFX) {
     try {
+      window.MecFX.burst(cx, cy, {
+        count: 48, colors: ['#FFD700', '#FFA040', '#FFD166', '#FFFFFF', '#FF5722'],
+        shapes: ['gem', 'star', 'shard'], tier: 5, scale: 1.8, speed: 620, glow: true, additive: true
+      });
+      window.MecFX.rings(cx, cy, { count: 2, color: '#FFD700', thickness: 5, maxR: 160, additive: true });
+    } catch (e) {}
+  }
       window.MecFX.stamp(cx, cy, { color: col, size: 148, thick: 4, ticks: 12, rot: -8, ttl: 1.0 });
       window.MecFX.burst(cx, cy, {
         count: 46, colors: cols, shapes: theme.shapes(4), tier: 4,
@@ -2009,6 +2023,13 @@ function _afterWrongFx(card, fxEl, brokeStreak) {
   _examRecoverPending = true;   // 次の1問を正解したら「立て直し」を出す
   _markCardScar(card);
   _shatterComboMeter(brokeStreak || 0);
+  document.body.classList.remove('exam-overdrive');
+  if (!_fxOff()) {
+    document.body.classList.remove('exam-screen-shake', 'exam-red-flash');
+    void document.body.offsetWidth;
+    document.body.classList.add('exam-screen-shake', 'exam-red-flash');
+    setTimeout(() => document.body.classList.remove('exam-screen-shake', 'exam-red-flash'), 420);
+  }
   if (_examTheme().useFlatline) _ecgFlatline();
   const uid = card && card.dataset && card.dataset.uid;
   if (uid && _isRepeatWrongChoice(uid, fxEl)) setTimeout(() => _triggerRepeatWrong(fxEl), 260);
@@ -3069,31 +3090,31 @@ function _triggerChoiceCorrectPop(el) {
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   el.animate([
     {transform:'scale(1)',filter:'brightness(1)'},
-    {transform:'scale(1.1) translateY(-3px)',filter:'brightness(1.8)',offset:.15},
-    {transform:'scale(.96) translateY(1px)',filter:'brightness(1.2)',offset:.37},
-    {transform:'scale(1.03)',offset:.56},
+    {transform:'scale(1.18) translateY(-6px)',filter:'brightness(2.2)',offset:.15},
+    {transform:'scale(.94) translateY(2px)',filter:'brightness(1.4)',offset:.37},
+    {transform:'scale(1.06)',offset:.56},
     {transform:'scale(1)',filter:'brightness(1)'}
-  ], {duration:420, easing:'cubic-bezier(.22,.68,0,1.25)'});
+  ], {duration:480, easing:'cubic-bezier(.22,.8,.36,1.25)'});
   const card = el.closest('.qc');
   if (card) {
-    card.animate([
-      {transform:'translateY(0) rotate(0deg)'},
-      {transform:'translateY(-6px) rotate(-.5deg)',offset:.2},
-      {transform:'translateY(2px) rotate(.3deg)',offset:.5},
-      {transform:'translateY(-2px)',offset:.7},
-      {transform:'translateY(0)'}
-    ], {duration:480, easing:'ease-out'});
+    card.classList.remove('card-3d-pop');
+    void card.offsetWidth;
+    card.classList.add('card-3d-pop');
+    setTimeout(() => card.classList.remove('card-3d-pop'), 600);
+
     const ov = document.createElement('div');
     ov.style.cssText = `position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:${theme.popOverlay};`;
     card.style.position = 'relative';
     card.prepend(ov);
-    ov.animate([{opacity:1},{opacity:.5,offset:.3},{opacity:0}], {duration:650, easing:'ease-out'}).onfinish = () => ov.remove();
+    ov.animate([{opacity:1},{opacity:.6,offset:.3},{opacity:0}], {duration:700, easing:'ease-out'}).onfinish = () => ov.remove();
 
-    // 神速の一閃（≤2秒の速答時）
+    // 【案6】神速の一閃スラッシュ ＆ 残像フリーズ（≤2秒の速答時）
     if (!_fxOff() && window.MecFX && _fastGrade(card) === 1) {
+      document.body.classList.add('exam-slash-freeze');
+      setTimeout(() => document.body.classList.remove('exam-slash-freeze'), 220);
       const cr = card.getBoundingClientRect();
       const col = (theme.fastLabels && theme.burstPalettes && theme.burstPalettes[2]) ? theme.burstPalettes[2][0] : '#FFE040';
-      window.MecFX.slashRibbon(cr.left - 10, cr.top + 10, cr.right + 10, cr.bottom - 10, { color: col, width: 4.5, ttl: .45 });
+      window.MecFX.slashRibbon(cr.left - 30, cr.top - 10, cr.right + 30, cr.bottom + 10, { color: col, width: 8, ttl: .55 });
     }
   }
   _spawnScatteredCelebration(theme);
@@ -3125,29 +3146,35 @@ function _spawnScatteredCelebration(theme) {
   const pal = theme.burstPalettes[t] || theme.burstPalettes[2];
   const isInk = examEffectSet === 'ink';
   const glyphs = theme.correctEmoji; // classic は無し
-  const n = 4 + Math.min(t, 3);       // 4〜7 箇所
+  const n = 5 + Math.min(t, 4);       // 5〜9 箇所
   const _sb = _fxBand();
-  const minDist = Math.min(_sb.width, _sb.height) * 0.264; // 0.22 ×1.2（重複回避を強化）
+  const minDist = Math.min(_sb.width, _sb.height) * 0.22;
   const pts = _scatterPositions(n, minDist);
   pts.forEach((p, i) => {
     setTimeout(() => {
       if (!window.MecFX) return;
-      window.MecFX.rings(p.x, p.y, { count: 1, color: theme.ringColor(t), thickness: 3, maxR: 105 + t * 18, additive: !isInk });
-      window.MecFX.burst(p.x, p.y, { count: 12 + t * 2, colors: pal, shapes: isInk ? ['shard', 'square'] : ['circle', 'star'], tier: 3, scale: 1.2, glow: !isInk, additive: !isInk });
-      if (glyphs && glyphs.length) window.MecFX.glyphBurst(p.x, p.y, { glyphs: glyphs, count: 3, w: 110, spread: 110 });
-    }, i * 50);   // 0.05秒ずつ遅延して連続発火
+      window.MecFX.rings(p.x, p.y, { count: 2, color: theme.ringColor(t), thickness: 4, maxR: 130 + t * 24, additive: !isInk });
+      window.MecFX.burst(p.x, p.y, { count: 32 + t * 8, colors: pal, shapes: isInk ? ['shard', 'square'] : ['circle', 'star', 'gem'], tier: 4, scale: 1.6, speed: 450 + t * 50, glow: !isInk, additive: !isInk });
+      if (glyphs && glyphs.length) window.MecFX.glyphBurst(p.x, p.y, { glyphs: glyphs, count: 4, w: 140, spread: 140 });
+    }, i * 45);   // 0.045秒ずつ遅延して連続発火
   });
+
+  // 【案1】高コンボ時の全画面オーバードライブ ＆ 稲妻
+  if (t >= 4 && !_fxOff()) {
+    document.body.classList.add('exam-overdrive');
+    window.MecFX.lightning({ count: 3, color: pal[0] || '#FFD700', glow: true });
+  }
 
   // テーマ固有シグネチャエミッタ（1回だけ可視帯の中心付近から発火）
   if (t >= 3 && !_fxOff()) {
     if (examEffectSet === 'ecg' && window.MecFX.defibShock) {
-      window.MecFX.defibShock(_sb.cx, _sb.cy, { color: '#00E676', boltColor: '#00E5FF' });
+      window.MecFX.defibShock(_sb.cx, _sb.cy, { color: '#00E676', boltColor: '#00E5FF', count: 48 });
     } else if (examEffectSet === 'ink' && window.MecFX.brushDust) {
-      window.MecFX.brushDust(_sb.cx, _sb.cy, { count: 20 + t * 4 });
+      window.MecFX.brushDust(_sb.cx, _sb.cy, { count: 40 + t * 8 });
     } else if (examEffectSet === 'retro' && window.MecFX.pixelPop) {
-      window.MecFX.pixelPop(_sb.cx, _sb.cy, { count: 22 + t * 4 });
+      window.MecFX.pixelPop(_sb.cx, _sb.cy, { count: 44 + t * 8 });
     } else if (examEffectSet === 'luxury' && window.MecFX.diamondSparkle) {
-      window.MecFX.diamondSparkle(_sb.cx, _sb.cy, { count: 24 + t * 4 });
+      window.MecFX.diamondSparkle(_sb.cx, _sb.cy, { count: 48 + t * 8 });
     }
   }
 }
@@ -4353,7 +4380,7 @@ function exitExam() {
   _lastSessionWasSrs = _srsReviewMode;
   _lastSessionWasTodayWrong = _todayWrongMode;
   // ⚠️ 稼働灯(D9)は点灯クラスとタイマーの両方を落とすこと。残ると通常閲覧のヘッダで光が走り続ける。
-  document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink', 'exam-sprint', 'exam-idle-lit');
+  document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink', 'exam-sprint', 'exam-idle-lit', 'exam-overdrive', 'exam-screen-shake', 'exam-red-flash', 'exam-slash-freeze');
   clearTimeout(_examIdleTimer); _examIdleTimer = null;
   _examIdleHoldUntil = 0; _examIdleFocusUid = null; _examIdleFocusAt = 0;
   // Phase 5 段1: R3 の焦点色は body のインラインスタイルなので通常閲覧へ持ち越さない。
@@ -4588,23 +4615,25 @@ function showExamSummary() {
   if (examAnswered > 0 && window.MecFX) {
     try {
       if (pct >= 100) {
-        // PERFECT: 金の花火＋金紙吹雪をスタンプに合わせて遅らせる
+        // PERFECT: 大規模金花火キャノン＋金銀紙吹雪の大嵐
         setTimeout(() => {
-          window.MecFX.fireworks({ count: 7, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830'], tier: 6 });
-          window.MecFX.confetti({ count: 120, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], big: true });
-          window.MecFX.dust({ count: 70, colors: ['#FFD700', '#FFF3C4', '#FFFFFF'] });
+          window.MecFX.fireworks({ count: 16, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], tier: 7 });
+          window.MecFX.confetti({ count: 240, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], big: true });
+          window.MecFX.dust({ count: 120, colors: ['#FFD700', '#FFF3C4', '#FFFFFF'] });
         }, 980);
       } else if (pct >= 90) {
         setTimeout(() => {
-          window.MecFX.fireworks({ count: 5, colors: ['#3DD68C', '#60A5FA', '#FFD37A', '#FF5E8A'], tier: 5 });
-          window.MecFX.confetti({ count: 90, colors: ['#3DD68C', '#60A5FA', '#FFB830', '#FF5E8A', '#A78BFA'], big: true });
+          window.MecFX.fireworks({ count: 10, colors: ['#3DD68C', '#60A5FA', '#FFD37A', '#FF5E8A', '#FFD700'], tier: 6 });
+          window.MecFX.confetti({ count: 180, colors: ['#3DD68C', '#60A5FA', '#FFB830', '#FF5E8A', '#A78BFA'], big: true });
         }, 980);
       } else if (pct >= 80) {
-        window.MecFX.confetti({ count: 70, colors: ['#3DD68C', '#60A5FA', '#FFB830', '#A78BFA'], big: true });
+        window.MecFX.fireworks({ count: 6, colors: ['#3DD68C', '#60A5FA', '#FFB830'], tier: 4 });
+        window.MecFX.confetti({ count: 140, colors: ['#3DD68C', '#60A5FA', '#FFB830', '#A78BFA'], big: true });
       } else if (pct >= 60) {
-        window.MecFX.confetti({ count: 50, colors: ['#60A5FA', '#FFB830', '#3DD68C'] });
+        window.MecFX.fireworks({ count: 3, colors: ['#60A5FA', '#FFB830'], tier: 3 });
+        window.MecFX.confetti({ count: 90, colors: ['#60A5FA', '#FFB830', '#3DD68C'] });
       } else {
-        { const _rb = _fxBand(); window.MecFX.rings(_rb.cx, _rb.cy, { count: 1, color: 'rgba(96,165,250,.7)', thickness: 3, maxR: 140, additive: true }); }
+        { const _rb = _fxBand(); window.MecFX.rings(_rb.cx, _rb.cy, { count: 3, color: 'rgba(96,165,250,.85)', thickness: 4, maxR: 160, additive: true }); }
       }
     } catch (e) {}
   }
