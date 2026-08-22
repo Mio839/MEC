@@ -72,7 +72,7 @@ if ('serviceWorker' in navigator) {
     <span class="vis-count" id="visCount" role="status" aria-live="polite" aria-atomic="true">—</span>
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
     <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
-    <button class="hdr-toggle" onclick="document.getElementById('mecKbHelp').classList.add('open')" title="キーボードショートカット (?)">⌨️</button>
+    <button class="hdr-toggle" onclick="openStudySoundOv()" title="UIテーマ & 効果音設定" aria-label="UIテーマ & 効果音設定">🎨🔊</button>
     <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0725a</span>
   </div>
   <div class="st-filter-panel" id="stFilterPanel">
@@ -110,16 +110,9 @@ if ('serviceWorker' in navigator) {
     <button class="nb" data-filter="star" onclick="setFilter('star')" aria-pressed="false" aria-label="★問題だけ">★</button>
     <button class="nb" data-filter="img" onclick="setFilter('img')" aria-pressed="false" aria-label="画像問題だけ">🖼</button>
     <button class="nb" data-filter="weak" onclick="setFilter('weak')" aria-pressed="false">🎯苦手</button>
-    <button class="nb" data-filter="due" onclick="setFilter('due')" aria-pressed="false">🔔復習</button>
     <span class="fsep"></span>
     <button class="nb2 fs-on" data-state="all" onclick="setState('all')" aria-pressed="false">全</button>
     <button class="nb2" data-state="flag" onclick="setState('flag')" aria-pressed="false" aria-label="赤旗を付けた問題だけ">🚩</button>
-    <button class="nb2" data-state="undone" onclick="setState('undone')" aria-pressed="false">未済</button>
-    <button class="nb2" data-state="done" onclick="setState('done')" aria-pressed="false">済</button>
-    <span class="fsep"></span>
-    <button class="nb" id="srsReviewBtn" onclick="startSRSReview()" title="今日の復習セッション" aria-label="今日の復習セッションを始める">🔔</button>
-    <button class="nb" onclick="openSelfcheck()" aria-label="自作問題を追加">✏️</button>
-    <button class="nb" onclick="openStudySoundOv()" aria-label="効果音の設定">🔊</button>
   </div>
   <div class="jump-row">
     <div class="search-wrap">

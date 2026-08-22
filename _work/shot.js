@@ -48,7 +48,7 @@ body { margin: 20px auto; max-width: 900px; font-family: -apple-system, BlinkMac
       <span class="vis-count">—</span>
       <button class="hdr-toggle">${isCollapsed ? '▶' : '▼'}</button>
       <button class="hdr-toggle">🔄</button>
-      <button class="hdr-toggle">⌨️</button>
+      <button class="hdr-toggle">🎨🔊</button>
       <span id="mecBuildVer" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;">b-0725a</span>
     </div>
     ${!isCollapsed ? `

@@ -1,3 +1,8 @@
+// 2026-08-22m: 統合学習ツールの不要ボタン整理、UIテーマ&音設定ボタン移設、ハブ画面セルフチェック追加。
+//   - study.html: 「今日の復習セッション」「復習を始める」「済」「未済」「セルフチェック」「キーボード」ボタンを削除。
+//   - study.html: 「UIテーマ ＆ 効果音設定」ボタン（🎨🔊）をヘッダー上部へ移動。
+//   - index.html: ハブ画面の「ほかの行き先」に「✏️ セルフチェック」タイルを追加（全10科目の展開メニュー対応）。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-22l: ヘッダー統計・試験モードボタンを「←ハブへ」と同じ行へ統合。
 //   - study.html / ui_theme.css / gamify.js: 「済/合計/連続/Lv/ミッション/試験モード」を「←ハブへ」の行に統合。
 //   - 折りたたみ時（hdr-collapsed）と展開時でボタンの並び順が完全に一致するよう最適化。
@@ -319,7 +324,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-22l";
+const SHELL_VERSION = "2026-08-22m";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

@@ -1234,6 +1234,7 @@ const HUB_TILES = [
   { id:'kakumon',   icon:'📝',  name:'国家試験 過去問',   kind:'expand', span:'lead' },
   { id:'jitsu1',    icon:'🎯',  name:'実力試験Ⅰ',        kind:'expand' },
   { id:'knowledge', icon:'🔎',  name:'検索知識ノート',    kind:'link', href:'knowledge.html' },
+  { id:'selfcheck', icon:'✏️',  name:'セルフチェック',    kind:'expand' },
   { id:'mindmap',   icon:'🗺️', name:'科目マインドマップ', kind:'expand', span:'wide' },
 ];
 
@@ -1617,6 +1618,8 @@ function _tileHtml(t) {
     sub = _fmtN(p.doneCount) + ' / ' + _fmtN(p.total) + '問';
   } else if (t.id === 'knowledge') {
     sub = (typeof KNOWLEDGE_NOTES !== 'undefined' ? KNOWLEDGE_NOTES.length : 0) + ' 件のノート';
+  } else if (t.id === 'selfcheck') {
+    sub = '10 科目';
   } else if (t.id === 'mindmap') {
     sub = (MINDMAP_TOOL.maps.length - 1) + ' / ' + (MINDMAP_TOOL.maps.length - 1 + MINDMAP_TOOL.pending.length) + ' 科目';
   }
@@ -1680,6 +1683,7 @@ function toggleTile(btn) {
 function tileDetailHtml(id) {
   if (id === 'kakumon') return _kakumonDetailHtml();
   if (id === 'jitsu1')  return _jitsuDetailHtml();
+  if (id === 'selfcheck') return _selfcheckDetailHtml();
   if (id === 'mindmap') return _mindmapDetailHtml();
   return '';
 }
@@ -1738,6 +1742,28 @@ function _jitsuDetailHtml() {
       '<span class="chapter-prog-txt">' + doneCnt + '/' + ch.count + '</span>' +
     '</a>';
   }).join('');
+}
+
+function _selfcheckDetailHtml() {
+  const SELFCHECK_ITEMS = [
+    { subject: '⚗️ 内分泌', href: '内分泌/selfcheck_intro.html', color: 'rgba(255, 107, 107, 0.22)' },
+    { subject: '🌬️ 呼吸器', href: '呼吸器/selfcheck_intro.html', color: 'rgba(78, 205, 196, 0.22)' },
+    { subject: '❤️ 循環器', href: '循環器/selfcheck_intro.html', color: 'rgba(255, 122, 0, 0.22)' },
+    { subject: '🌿 消化器', href: '消化器/selfcheck_intro.html', color: 'rgba(61, 214, 140, 0.22)' },
+    { subject: '🧠 神経',   href: '神経/selfcheck_intro.html',   color: 'rgba(168, 85, 247, 0.22)' },
+    { subject: '🧪 肝胆膵', href: '肝胆膵/selfcheck_intro.html', color: 'rgba(234, 179, 8, 0.22)' },
+    { subject: '💧 腎臓',   href: '腎臓/selfcheck_intro.html',   color: 'rgba(59, 130, 246, 0.22)' },
+    { subject: '🩸 血液',   href: '血液/selfcheck_intro.html',   color: 'rgba(239, 68, 68, 0.22)' },
+    { subject: '🛡️ 免アレ膠', href: '免アレ膠/selfcheck_intro.html', color: 'rgba(14, 165, 233, 0.22)' },
+    { subject: '🦠 感染症', href: '感染症/selfcheck_intro.html', color: 'rgba(34, 197, 94, 0.22)' },
+  ];
+  return '<div class="mindmap-grid">' +
+    SELFCHECK_ITEMS.map(s =>
+      '<a class="mindmap-btn" href="' + s.href + '" style="background:' + s.color + '">' +
+        s.subject +
+      '</a>'
+    ).join('') +
+  '</div>';
 }
 
 function _mindmapDetailHtml() {
