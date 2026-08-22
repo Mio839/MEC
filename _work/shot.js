@@ -216,7 +216,7 @@ function cdpSend(ws, method, params = {}, id = 1) {
   });
 }
 
-async function captureAll(iterName = 'iter1', state = 'default', isCollapsed = false) {
+async function captureAll(iterName = 'iter1', state = 'default', isCollapsed = false, isExam = false) {
   const server = await startServer();
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'chrome-mec-'));
   const chromeProc = spawn(CHROME_PATH, [
@@ -260,8 +260,8 @@ async function captureAll(iterName = 'iter1', state = 'default', isCollapsed = f
     }, msgId++);
 
     for (const t of themes) {
-      // 1. 通常プレビュー
-      const previewUrl = `http://localhost:${PORT}/preview/${t}.html?state=${state}&collapsed=${isCollapsed}`;
+      const examSuffix = isExam ? '_exam' : '';
+      const previewUrl = `http://localhost:${PORT}/preview/${t}${examSuffix}.html?state=${state}&collapsed=${isCollapsed}`;
       await cdpSend(ws, 'Page.navigate', { url: previewUrl }, msgId++);
       await new Promise(r => setTimeout(r, 600));
 
@@ -269,7 +269,8 @@ async function captureAll(iterName = 'iter1', state = 'default', isCollapsed = f
       const vpSuffix = vp.name === 'mobile' ? '_mobile' : '';
       const stateSuffix = state !== 'default' ? `_${state}` : '';
       const colSuffix = isCollapsed ? '_collapsed' : '';
-      const outFile = path.join(SHOTS_DIR, `${iterName}_${t}${vpSuffix}${stateSuffix}${colSuffix}.png`);
+      const examFileSuffix = isExam ? '_exam' : '';
+      const outFile = path.join(SHOTS_DIR, `${iterName}_${t}${vpSuffix}${stateSuffix}${colSuffix}${examFileSuffix}.png`);
       fs.writeFileSync(outFile, Buffer.from(shot.data, 'base64'));
       captured[`${t}_${vp.name}`] = outFile;
       console.log(`Saved screenshot: ${outFile}`);
@@ -286,18 +287,21 @@ const args = process.argv.slice(2);
 let iter = 'iter1';
 let state = 'default';
 let isCollapsed = false;
+let isExam = false;
 
 for (const arg of args) {
   if (arg.startsWith('--state=')) {
     state = arg.replace('--state=', '');
   } else if (arg === '--collapsed' || arg === '--collapsed=true') {
     isCollapsed = true;
+  } else if (arg === '--exam' || arg === '--exam=true') {
+    isExam = true;
   } else if (!arg.startsWith('--')) {
     iter = arg;
   }
 }
 
-captureAll(iter, state, isCollapsed).then(() => {
+captureAll(iter, state, isCollapsed, isExam).then(() => {
   console.log('Capture completed successfully.');
   process.exit(0);
 }).catch((err) => {

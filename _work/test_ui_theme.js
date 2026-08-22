@@ -106,6 +106,7 @@ test('全テーマで試験モード未開示時に .ch2.ok が隠蔽される',
     assert(themeCss.includes(`html.${theme} body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected)`), `Missing exam concealment rule in ${theme}`);
   });
   assert(themeCss.includes('body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected)'), 'Missing global exam concealment rule');
+  assert(!themeCss.includes('html.ui-aurora body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected) {\n  background: rgba(255, 255, 255, 0.08) !important;\n  border: 1.5px solid rgba(255, 255, 255, 0.22) !important;\n  border-left: 4px'), 'Aurora must not have distinct border-left in unrevealed exam mode');
 });
 
 console.log('\n全 ' + passed + ' 件 ok\n');
