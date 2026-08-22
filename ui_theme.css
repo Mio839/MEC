@@ -93,33 +93,37 @@ html.ui-aurora .qc::after {
 
 /* 🌟 問題番号バッジ: クリスタル・ファセット */
 html.ui-aurora .qc .qn {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.28) 0%, rgba(0, 223, 216, 0.38) 100%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(0, 223, 216, 0.45) 50%, rgba(121, 40, 202, 0.35) 100%) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.7) !important;
   color: #FFFFFF !important;
-  text-shadow: 0 0 8px rgba(0, 223, 216, 0.8) !important;
-  border-radius: 8px !important;
-  padding: 3px 9px !important;
+  text-shadow: 0 0 10px rgba(0, 223, 216, 0.9) !important;
+  border-radius: 10px !important;
+  padding: 4px 11px !important;
   font-weight: 800 !important;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  letter-spacing: .5px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 0 14px rgba(0, 223, 216, 0.35) !important;
 }
 
 /* 🌟 メタバッジ・正答率・エピソード */
 html.ui-aurora .qc .qe,
 html.ui-aurora .qc .bg,
 html.ui-aurora .qc .cr {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(0, 223, 216, 0.3) !important;
-  color: #E2E8F0 !important;
-  backdrop-filter: blur(8px) !important;
-  border-radius: 6px !important;
-  padding: 3px 8px !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(0, 223, 216, 0.45) !important;
+  color: #F1F5F9 !important;
+  backdrop-filter: blur(10px) !important;
+  border-radius: 8px !important;
+  padding: 3px 9px !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
 }
 
 html.ui-aurora .qc .cr {
   color: #6EE7B7 !important;
-  border-color: rgba(110, 231, 183, 0.35) !important;
+  border-color: rgba(110, 231, 183, 0.5) !important;
+  background: rgba(110, 231, 183, 0.14) !important;
+  text-shadow: 0 0 8px rgba(110, 231, 183, 0.6) !important;
 }
 
 /* 🌟 ヘッダー境界ディバイダー: プリズムクリスタルライン & ジュエルノード */
@@ -326,6 +330,26 @@ html.ui-aurora .qc .eg {
   color: #E2E8F0 !important;
 }
 
+/* 🌟 問題画像: プリズムグラス・フレーム */
+html.ui-aurora .qc .qimg {
+  border: 1.5px solid rgba(255, 255, 255, 0.35) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35), 0 0 16px rgba(0, 223, 216, 0.2) !important;
+  transition: transform .2s ease-out, box-shadow .2s ease-out, border-color .2s ease-out !important;
+}
+
+html.ui-aurora .qc .qimg:hover {
+  border-color: #00DFD8 !important;
+  box-shadow: 0 6px 24px rgba(0, 223, 216, 0.45) !important;
+  transform: scale(1.015) !important;
+}
+
+html.ui-aurora #mecImgLbImg {
+  border: 2px solid rgba(0, 223, 216, 0.6) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 0 40px rgba(0, 223, 216, 0.4) !important;
+}
+
 /* 🌟 選択肢アクティブ & フォーカス */
 html.ui-aurora .qc .ch2:active {
   transform: scale(0.985) translateY(1px) !important;
@@ -348,20 +372,29 @@ html.ui-aurora .qc .mec-flag-btn:active {
 }
 
 /* 🌟 統計チップ・ヘッダー & 試験モードバッジ: プリズムクリスタル */
+html.ui-aurora .st-hdr {
+  background: rgba(10, 14, 28, 0.7) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
+  border-radius: 18px !important;
+  backdrop-filter: blur(16px) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
 html.ui-aurora .st-stat {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border: 1px solid rgba(255, 255, 255, 0.32) !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
   border-radius: 12px !important;
   backdrop-filter: blur(14px) !important;
-  font-weight: 600 !important;
-  letter-spacing: .3px !important;
+  font-weight: 700 !important;
+  letter-spacing: .4px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2) !important;
   transition: all .16s ease-out !important;
 }
 
 html.ui-aurora .st-stat:hover {
-  background: rgba(255, 255, 255, 0.18) !important;
+  background: rgba(255, 255, 255, 0.22) !important;
   border-color: #00DFD8 !important;
-  box-shadow: 0 0 16px rgba(0, 223, 216, 0.45) !important;
+  box-shadow: 0 0 18px rgba(0, 223, 216, 0.6) !important;
 }
 
 html.ui-aurora .st-stat.exam-mode-chip {
@@ -389,6 +422,44 @@ html.ui-aurora .st-stat.exam-mode-chip:hover {
   100% { background-position: 300% 0%; }
 }
 
+/* 🌟 スクロールバー: 偏光クリスタルスライダー */
+html.ui-aurora ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+html.ui-aurora ::-webkit-scrollbar-track {
+  background: rgba(6, 8, 18, 0.6);
+}
+html.ui-aurora ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(0, 223, 216, 0.4), rgba(121, 40, 202, 0.4));
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+html.ui-aurora ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(0, 223, 216, 0.7), rgba(121, 40, 202, 0.7));
+  box-shadow: 0 0 10px rgba(0, 223, 216, 0.5);
+}
+
+/* 🌟 取消トースト: 偏光クリスタルバナー */
+html.ui-aurora #mecUndoToast {
+  background: rgba(10, 14, 28, 0.85) !important;
+  border: 1.5px solid rgba(0, 223, 216, 0.5) !important;
+  border-radius: 14px !important;
+  backdrop-filter: blur(16px) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 223, 216, 0.3) !important;
+}
+
+html.ui-aurora #mecUndoProg {
+  background: linear-gradient(90deg, #00DFD8, #7928CA) !important;
+}
+
+html.ui-aurora .mec-undo-btn {
+  background: rgba(0, 223, 216, 0.2) !important;
+  border: 1px solid #00DFD8 !important;
+  color: #00DFD8 !important;
+  border-radius: 8px !important;
+}
+
 
 /* ═══════════════════════════════════════════════════════════════════
    2. 🕰️ 真鍮クロックワーク (Steampunk Brass)
@@ -401,6 +472,12 @@ html.ui-brass body {
               repeating-linear-gradient(0deg, rgba(224, 194, 94, 0.015) 0px, rgba(224, 194, 94, 0.015) 1px, transparent 1px, transparent 4px),
               #0F0A05 !important;
   background-attachment: fixed !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif !important;
+}
+
+html.ui-brass .qc .qn,
+html.ui-brass .qc .ab strong {
+  font-family: "Georgia", "Times New Roman", "BIZ UDPMincho", serif !important;
 }
 
 html.ui-brass body::before {
@@ -456,10 +533,15 @@ html.ui-brass .qc:hover {
               inset 0 0 0 1px rgba(255, 215, 0, 0.6) !important;
 }
 
-/* 🕰️ カード上部: 真鍮ゴールド象嵌ストライプ */
+/* 🕰️ カード上部: 真鍮ゴールド象嵌ストライプ & 4隅リベット金具 */
 html.ui-brass .qc::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-  background: linear-gradient(90deg, #8C6D1F, #E0C25E 25%, #FFF3C4 50%, #E0C25E 75%, #8C6D1F);
+  content: ''; position: absolute; inset: 0;
+  border-top: 4px solid #E0C25E;
+  background: 
+    radial-gradient(circle at 8px 8px, #FFF3C4 2px, #8C6D1F 4px, transparent 5px) left top / 16px 16px no-repeat,
+    radial-gradient(circle at 8px 8px, #FFF3C4 2px, #8C6D1F 4px, transparent 5px) right top / 16px 16px no-repeat,
+    radial-gradient(circle at 8px 8px, #FFF3C4 2px, #8C6D1F 4px, transparent 5px) left bottom / 16px 16px no-repeat,
+    radial-gradient(circle at 8px 8px, #FFF3C4 2px, #8C6D1F 4px, transparent 5px) right bottom / 16px 16px no-repeat;
   pointer-events: none;
   opacity: 0.95;
   z-index: 2;
@@ -482,35 +564,38 @@ html.ui-brass .qc::after {
   to { transform: rotate(360deg); }
 }
 
-/* 🕰️ 問題番号バッジ: 真鍮エングレーブ・メダリオン */
+/* 🕰️ 問題番号バッジ: 鋳造真鍮エングレーブ・メダリオン */
 html.ui-brass .qc .qn {
   background: linear-gradient(135deg, #B8860B, #E0C25E 40%, #8C6D1F) !important;
   border: 1.5px solid #FFF3C4 !important;
   color: #120D07 !important;
-  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6) !important;
-  border-radius: 6px !important;
-  padding: 3px 9px !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+  border-radius: 8px !important;
+  padding: 4px 11px !important;
   font-weight: 900 !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.5) !important;
-  letter-spacing: .5px !important;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.6) !important;
+  letter-spacing: .6px !important;
 }
 
 /* 🕰️ メタバッジ・正答率・エピソード */
 html.ui-brass .qc .qe,
 html.ui-brass .qc .bg,
 html.ui-brass .qc .cr {
-  background: rgba(224, 194, 94, 0.14) !important;
-  border: 1px solid rgba(224, 194, 94, 0.45) !important;
+  background: rgba(224, 194, 94, 0.18) !important;
+  border: 1px solid rgba(224, 194, 94, 0.6) !important;
   color: #FFF3C4 !important;
-  border-radius: 4px !important;
-  padding: 3px 8px !important;
-  font-size: 12px !important;
-  font-weight: 700 !important;
+  border-radius: 6px !important;
+  padding: 3px 9px !important;
+  font-size: 12.5px !important;
+  font-weight: 800 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 243, 196, 0.3) !important;
 }
 
 html.ui-brass .qc .cr {
   color: #FFD700 !important;
-  border-color: rgba(255, 215, 0, 0.5) !important;
+  border-color: #FFD700 !important;
+  background: rgba(255, 215, 0, 0.18) !important;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.7) !important;
 }
 
 /* 🕰️ ヘッダー境界ディバイダー: 真鍮ギロシェライン & リベット */
@@ -718,6 +803,26 @@ html.ui-brass .qc .eg {
   color: #EEDEB8 !important;
 }
 
+/* 🕰️ 問題画像: 鋳造真鍮フレーム額縁 */
+html.ui-brass .qc .qimg {
+  border: 2px solid rgba(224, 194, 94, 0.75) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6), inset 0 0 12px rgba(0, 0, 0, 0.5) !important;
+  transition: transform .2s ease-out, box-shadow .2s ease-out, border-color .2s ease-out !important;
+}
+
+html.ui-brass .qc .qimg:hover {
+  border-color: #FFD700 !important;
+  box-shadow: 0 8px 26px rgba(224, 194, 94, 0.5) !important;
+  transform: scale(1.015) !important;
+}
+
+html.ui-brass #mecImgLbImg {
+  border: 2.5px solid #FFD700 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 0 35px rgba(224, 194, 94, 0.45) !important;
+}
+
 /* 🕰️ 自己採点ボタン群アクティブ */
 html.ui-brass .qc .ch2:focus-visible,
 html.ui-brass .qc button:focus-visible {
@@ -734,20 +839,28 @@ html.ui-brass .qc .mec-flag-btn:active {
 }
 
 /* 🕰️ 統計チップ & 試験モードバッジ: 鋳造真鍮インジケーター */
+html.ui-brass .st-hdr {
+  background: rgba(20, 14, 8, 0.9) !important;
+  border: 1.5px solid rgba(224, 194, 94, 0.6) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 243, 196, 0.3) !important;
+}
+
 html.ui-brass .st-stat {
-  background: rgba(224, 194, 94, 0.14) !important;
-  border: 1px solid rgba(224, 194, 94, 0.55) !important;
-  border-radius: 6px !important;
-  color: #FFF3C4 !important;
-  font-weight: 700 !important;
-  letter-spacing: .3px !important;
+  background: rgba(224, 194, 94, 0.18) !important;
+  border: 1px solid rgba(224, 194, 94, 0.6) !important;
+  border-radius: 8px !important;
+  color: #FFF8E7 !important;
+  font-weight: 800 !important;
+  letter-spacing: .4px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 243, 196, 0.25), 0 2px 8px rgba(0, 0, 0, 0.4) !important;
   transition: all .16s ease-out !important;
 }
 
 html.ui-brass .st-stat:hover {
-  background: rgba(224, 194, 94, 0.28) !important;
+  background: rgba(224, 194, 94, 0.32) !important;
   border-color: #FFD700 !important;
-  box-shadow: 0 0 16px rgba(224, 194, 94, 0.5) !important;
+  box-shadow: 0 0 18px rgba(224, 194, 94, 0.6) !important;
 }
 
 html.ui-brass .st-stat.exam-mode-chip {
@@ -770,6 +883,43 @@ html.ui-brass .st-stat.exam-mode-chip:hover {
   transform: scale(1.03) !important;
 }
 
+/* 🕰️ スクロールバー: 鋳造真鍮スライダー */
+html.ui-brass ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+html.ui-brass ::-webkit-scrollbar-track {
+  background: rgba(15, 10, 5, 0.7);
+}
+html.ui-brass ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8C6D1F, #E0C25E 50%, #8C6D1F);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 243, 196, 0.3);
+}
+html.ui-brass ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #B8860B, #FFD700 50%, #B8860B);
+  box-shadow: 0 0 10px rgba(224, 194, 94, 0.6);
+}
+
+/* 🕰️ 取消トースト: 鋳造真鍮プレートバナー */
+html.ui-brass #mecUndoToast {
+  background: rgba(20, 14, 8, 0.95) !important;
+  border: 1.5px solid #E0C25E !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 243, 196, 0.4) !important;
+}
+
+html.ui-brass #mecUndoProg {
+  background: linear-gradient(90deg, #B8860B, #FFD700) !important;
+}
+
+html.ui-brass .mec-undo-btn {
+  background: rgba(224, 194, 94, 0.25) !important;
+  border: 1px solid #FFD700 !important;
+  color: #FFF3C4 !important;
+  border-radius: 6px !important;
+}
+
 
 /* ═══════════════════════════════════════════════════════════════════
    3. 🚀 サイバー・ホログラム (Cyber Hologram HUD)
@@ -780,6 +930,7 @@ html.ui-cyber body {
               radial-gradient(circle at 80% 80%, rgba(0, 255, 102, 0.12) 0%, transparent 60%),
               linear-gradient(180deg, #040913 0%, #010408 100%) !important;
   background-attachment: fixed !important;
+  font-family: 'SFMono-Regular', Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "BIZ UDPGothic", Meiryo, monospace !important;
 }
 
 html.ui-cyber body::before {
@@ -863,35 +1014,38 @@ html.ui-cyber .qc::after {
 
 /* 🚀 問題番号バッジ: ヘキサゴン・ターゲットHUD */
 html.ui-cyber .qc .qn {
-  background: rgba(0, 229, 255, 0.2) !important;
+  background: rgba(0, 229, 255, 0.25) !important;
   border: 1.5px solid #00E5FF !important;
   color: #00E5FF !important;
-  text-shadow: 0 0 10px rgba(0, 229, 255, 0.9) !important;
+  text-shadow: 0 0 12px rgba(0, 229, 255, 0.95) !important;
   border-radius: 4px !important;
-  padding: 2px 8px !important;
+  padding: 3px 10px !important;
   font-family: 'SFMono-Regular', Menlo, Consolas, monospace !important;
   font-weight: 900 !important;
   letter-spacing: 1px !important;
-  box-shadow: 0 0 12px rgba(0, 229, 255, 0.4) !important;
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.5), inset 0 0 8px rgba(0, 229, 255, 0.3) !important;
 }
 
 /* 🚀 メタバッジ・正答率・エピソード */
 html.ui-cyber .qc .qe,
 html.ui-cyber .qc .bg,
 html.ui-cyber .qc .cr {
-  background: rgba(0, 229, 255, 0.12) !important;
-  border: 1px solid rgba(0, 229, 255, 0.5) !important;
+  background: rgba(0, 229, 255, 0.16) !important;
+  border: 1px solid rgba(0, 229, 255, 0.65) !important;
   color: #00E5FF !important;
-  border-radius: 2px !important;
-  padding: 2px 7px !important;
-  font-size: 11px !important;
+  border-radius: 3px !important;
+  padding: 2.5px 8px !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
   font-family: 'SFMono-Regular', Menlo, Consolas, monospace !important;
+  box-shadow: inset 0 0 6px rgba(0, 229, 255, 0.2) !important;
 }
 
 html.ui-cyber .qc .cr {
   color: #00FF66 !important;
-  border-color: rgba(0, 255, 102, 0.6) !important;
-  box-shadow: 0 0 8px rgba(0, 255, 102, 0.3) !important;
+  border-color: #00FF66 !important;
+  background: rgba(0, 255, 102, 0.18) !important;
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.4), inset 0 0 6px rgba(0, 255, 102, 0.2) !important;
 }
 
 /* 🚀 ヘッダー境界ディバイダー: HUDレーザー走査線 & ターゲットロックマーク */
@@ -1100,6 +1254,26 @@ html.ui-cyber .qc .eg {
   color: #E0F2FE !important;
 }
 
+/* 🚀 問題画像: HUD診断ホロスキャナー枠 */
+html.ui-cyber .qc .qimg {
+  border: 1.5px solid rgba(0, 229, 255, 0.65) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.25) !important;
+  transition: transform .18s ease-out, box-shadow .18s ease-out, border-color .18s ease-out !important;
+}
+
+html.ui-cyber .qc .qimg:hover {
+  border-color: #00FF66 !important;
+  box-shadow: 0 0 24px rgba(0, 255, 102, 0.5) !important;
+  transform: scale(1.015) !important;
+}
+
+html.ui-cyber #mecImgLbImg {
+  border: 2px solid #00E5FF !important;
+  border-radius: 6px !important;
+  box-shadow: 0 0 45px rgba(0, 229, 255, 0.5) !important;
+}
+
 /* 🚀 自己採点ボタン群アクティブ */
 html.ui-cyber .qc .ch2:focus-visible,
 html.ui-cyber .qc button:focus-visible {
@@ -1116,21 +1290,29 @@ html.ui-cyber .qc .mec-flag-btn:active {
 }
 
 /* 🚀 統計チップ & 試験モードバッジ: タクティカルHUDディスプレイ */
+html.ui-cyber .st-hdr {
+  background: rgba(4, 10, 20, 0.94) !important;
+  border: 1.5px solid #00E5FF !important;
+  border-radius: 6px !important;
+  box-shadow: 0 0 24px rgba(0, 229, 255, 0.3), inset 0 0 12px rgba(0, 229, 255, 0.15) !important;
+}
+
 html.ui-cyber .st-stat {
-  background: rgba(0, 229, 255, 0.12) !important;
-  border: 1px solid rgba(0, 229, 255, 0.55) !important;
+  background: rgba(0, 229, 255, 0.16) !important;
+  border: 1px solid rgba(0, 229, 255, 0.7) !important;
   color: #00E5FF !important;
-  border-radius: 3px !important;
+  border-radius: 4px !important;
   font-family: 'SFMono-Regular', Menlo, monospace !important;
-  font-weight: 700 !important;
-  letter-spacing: .5px !important;
+  font-weight: 800 !important;
+  letter-spacing: .6px !important;
+  box-shadow: inset 0 0 6px rgba(0, 229, 255, 0.2) !important;
   transition: all .14s ease-out !important;
 }
 
 html.ui-cyber .st-stat:hover {
-  background: rgba(0, 229, 255, 0.25) !important;
+  background: rgba(0, 229, 255, 0.3) !important;
   border-color: #00FF66 !important;
-  box-shadow: 0 0 16px rgba(0, 255, 102, 0.5) !important;
+  box-shadow: 0 0 18px rgba(0, 255, 102, 0.6) !important;
 }
 
 html.ui-cyber .st-stat.exam-mode-chip {
@@ -1151,6 +1333,45 @@ html.ui-cyber .st-stat.exam-mode-chip:hover {
   background: linear-gradient(135deg, rgba(0, 229, 255, 0.45), rgba(0, 255, 102, 0.45)) !important;
   box-shadow: 0 0 28px rgba(0, 255, 102, 0.85) !important;
   transform: scale(1.03) !important;
+}
+
+/* 🚀 スクロールバー: レーザーHUDスライダー */
+html.ui-cyber ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+html.ui-cyber ::-webkit-scrollbar-track {
+  background: rgba(4, 10, 20, 0.85);
+}
+html.ui-cyber ::-webkit-scrollbar-thumb {
+  background: #00E5FF;
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
+}
+html.ui-cyber ::-webkit-scrollbar-thumb:hover {
+  background: #00FF66;
+  box-shadow: 0 0 12px rgba(0, 255, 102, 0.8);
+}
+
+/* 🚀 取消トースト: タクティカルHUDアラート */
+html.ui-cyber #mecUndoToast {
+  background: rgba(4, 10, 20, 0.96) !important;
+  border: 1.5px solid #00E5FF !important;
+  border-radius: 4px !important;
+  box-shadow: 0 0 24px rgba(0, 229, 255, 0.4) !important;
+  font-family: 'SFMono-Regular', Menlo, monospace !important;
+}
+
+html.ui-cyber #mecUndoProg {
+  background: #00FF66 !important;
+  box-shadow: 0 0 8px #00FF66 !important;
+}
+
+html.ui-cyber .mec-undo-btn {
+  background: rgba(0, 229, 255, 0.2) !important;
+  border: 1px solid #00E5FF !important;
+  color: #00E5FF !important;
+  border-radius: 2px !important;
 }
 
 
@@ -1249,33 +1470,37 @@ html.ui-liquid .qc::after {
 
 /* 🌸 問題番号バッジ: リキッドドロップ・ブロブ */
 html.ui-liquid .qc .qn {
-  background: linear-gradient(135deg, #FF007F, #7928CA) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
+  background: linear-gradient(135deg, #FF007F, #7928CA 60%, #FF7A00) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.7) !important;
   color: #FFFFFF !important;
-  text-shadow: 0 0 10px rgba(255, 0, 128, 0.8) !important;
-  border-radius: 12px 6px 12px 6px !important;
-  padding: 3px 10px !important;
-  font-weight: 800 !important;
-  box-shadow: 0 4px 14px rgba(255, 0, 128, 0.4) !important;
+  text-shadow: 0 0 10px rgba(255, 0, 128, 0.9) !important;
+  border-radius: 14px 6px 14px 6px !important;
+  padding: 4px 11px !important;
+  font-weight: 900 !important;
+  letter-spacing: .5px !important;
+  box-shadow: 0 4px 16px rgba(255, 0, 128, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
 }
 
 /* 🌸 メタバッジ・正答率・エピソード */
 html.ui-liquid .qc .qe,
 html.ui-liquid .qc .bg,
 html.ui-liquid .qc .cr {
-  background: rgba(255, 0, 128, 0.12) !important;
-  border: 1px solid rgba(255, 0, 128, 0.4) !important;
-  color: #FF7AE6 !important;
-  border-radius: 12px !important;
-  padding: 3px 9px !important;
-  font-size: 12px !important;
-  font-weight: 700 !important;
+  background: rgba(255, 0, 128, 0.16) !important;
+  border: 1px solid rgba(255, 0, 128, 0.55) !important;
+  color: #FDF2F8 !important;
+  border-radius: 14px !important;
+  padding: 3px 10px !important;
+  font-size: 12.5px !important;
+  font-weight: 800 !important;
+  box-shadow: inset 0 0 8px rgba(121, 40, 202, 0.2) !important;
 }
 
 html.ui-liquid .qc .cr {
   color: #F472B6 !important;
-  border-color: rgba(244, 114, 182, 0.5) !important;
-  box-shadow: 0 0 10px rgba(255, 0, 128, 0.25) !important;
+  border-color: #F472B6 !important;
+  background: rgba(244, 114, 182, 0.2) !important;
+  box-shadow: 0 0 12px rgba(255, 0, 128, 0.4), inset 0 0 8px rgba(244, 114, 182, 0.25) !important;
+  text-shadow: 0 0 8px rgba(244, 114, 182, 0.7) !important;
 }
 
 /* 🌸 ヘッダー境界ディバイダー: ネオンフルイド・アンビエントライン */
@@ -1483,6 +1708,26 @@ html.ui-liquid .qc .eg {
   color: #FDF2F8 !important;
 }
 
+/* 🌸 問題画像: 蛍光流体有機的マウント */
+html.ui-liquid .qc .qimg {
+  border: 2px solid rgba(255, 0, 128, 0.5) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 6px 22px rgba(255, 0, 128, 0.25) !important;
+  transition: transform .22s ease-out, box-shadow .22s ease-out, border-color .22s ease-out !important;
+}
+
+html.ui-liquid .qc .qimg:hover {
+  border-color: #FF007F !important;
+  box-shadow: 0 8px 28px rgba(255, 0, 128, 0.5) !important;
+  transform: scale(1.02) !important;
+}
+
+html.ui-liquid #mecImgLbImg {
+  border: 2.5px solid #FF007F !important;
+  border-radius: 20px !important;
+  box-shadow: 0 0 45px rgba(255, 0, 128, 0.45) !important;
+}
+
 /* 🌸 自己採点ボタン群アクティブ */
 html.ui-liquid .qc .ch2:focus-visible,
 html.ui-liquid .qc button:focus-visible {
@@ -1499,20 +1744,28 @@ html.ui-liquid .qc .mec-flag-btn:active {
 }
 
 /* 🌸 統計チップ & 試験モードバッジ: 蛍光流体カプセル */
+html.ui-liquid .st-hdr {
+  background: rgba(18, 6, 26, 0.8) !important;
+  border: 1.5px solid rgba(255, 0, 128, 0.5) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 8px 26px rgba(255, 0, 128, 0.25), inset 0 0 14px rgba(255, 0, 128, 0.1) !important;
+}
+
 html.ui-liquid .st-stat {
-  background: rgba(255, 0, 128, 0.14) !important;
-  border: 1.5px solid rgba(255, 0, 128, 0.45) !important;
+  background: rgba(255, 0, 128, 0.16) !important;
+  border: 1.5px solid rgba(255, 0, 128, 0.55) !important;
   color: #FDF2F8 !important;
-  border-radius: 18px !important;
-  font-weight: 700 !important;
-  letter-spacing: .3px !important;
+  border-radius: 20px !important;
+  font-weight: 800 !important;
+  letter-spacing: .4px !important;
+  box-shadow: inset 0 0 8px rgba(121, 40, 202, 0.2), 0 2px 8px rgba(0, 0, 0, 0.2) !important;
   transition: all .16s ease-out !important;
 }
 
 html.ui-liquid .st-stat:hover {
-  background: rgba(255, 0, 128, 0.28) !important;
+  background: rgba(255, 0, 128, 0.32) !important;
   border-color: #FF007F !important;
-  box-shadow: 0 0 18px rgba(255, 0, 128, 0.55) !important;
+  box-shadow: 0 0 20px rgba(255, 0, 128, 0.65) !important;
 }
 
 html.ui-liquid .st-stat.exam-mode-chip {
@@ -1540,6 +1793,43 @@ html.ui-liquid .st-stat.exam-mode-chip:hover {
   100% { background-position: 300% 0%; }
 }
 
+/* 🌸 スクロールバー: 蛍光流体ジェルスライダー */
+html.ui-liquid ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+html.ui-liquid ::-webkit-scrollbar-track {
+  background: rgba(22, 8, 30, 0.75);
+}
+html.ui-liquid ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #FF007F, #7928CA);
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(255, 0, 128, 0.4);
+}
+html.ui-liquid ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #FF007F, #FF7A00);
+  box-shadow: 0 0 14px rgba(255, 0, 128, 0.7);
+}
+
+/* 🌸 取消トースト: 蛍光流体カプセルバナー */
+html.ui-liquid #mecUndoToast {
+  background: rgba(22, 8, 30, 0.92) !important;
+  border: 1.5px solid #FF007F !important;
+  border-radius: 20px !important;
+  box-shadow: 0 10px 30px rgba(255, 0, 128, 0.35) !important;
+}
+
+html.ui-liquid #mecUndoProg {
+  background: linear-gradient(90deg, #FF007F, #7928CA, #FF7A00) !important;
+}
+
+html.ui-liquid .mec-undo-btn {
+  background: rgba(255, 0, 128, 0.25) !important;
+  border: 1px solid #FF007F !important;
+  color: #FFF !important;
+  border-radius: 14px !important;
+}
+
 
 /* ═══════════════════════════════════════════════════════════════════
    5. UIテーマ選択モーダル用スタイル
@@ -1552,58 +1842,60 @@ html.ui-liquid .st-stat.exam-mode-chip:hover {
 }
 
 .ui-theme-btn {
-  background: rgba(255, 255, 255, 0.06);
-  border: 2px solid rgba(255, 255, 255, 0.15);
-  border-radius: 14px;
-  padding: 12px 10px;
+  background: rgba(18, 24, 40, 0.75);
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  border-radius: 16px;
+  padding: 14px 12px;
   color: #FFF;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-family: inherit;
-  transition: all .2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all .22s cubic-bezier(0.16, 1, 0.3, 1);
   text-align: center;
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
 .ui-theme-btn:hover {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  background: rgba(28, 36, 60, 0.85);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.15);
 }
 
 .ui-theme-btn.active {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(24, 32, 54, 0.95);
   border-color: #00E5FF;
-  box-shadow: 0 0 24px rgba(0, 229, 255, 0.5), inset 0 0 12px rgba(0, 229, 255, 0.2);
+  box-shadow: 0 0 28px rgba(0, 229, 255, 0.5), inset 0 0 16px rgba(0, 229, 255, 0.2);
   transform: scale(1.02);
 }
 
 .ui-theme-btn.active::after {
   content: '✓ 適用中';
   position: absolute;
-  top: 4px;
-  right: 6px;
-  font-size: 8.5px;
+  top: 6px;
+  right: 8px;
+  font-size: 9px;
   font-weight: 900;
   color: #00FF66;
-  background: rgba(0, 255, 102, 0.15);
-  border: 1px solid rgba(0, 255, 102, 0.4);
-  border-radius: 4px;
-  padding: 1px 4px;
+  background: rgba(0, 255, 102, 0.2);
+  border: 1px solid rgba(0, 255, 102, 0.6);
+  border-radius: 6px;
+  padding: 2px 6px;
+  box-shadow: 0 0 8px rgba(0, 255, 102, 0.4);
 }
 
 .ui-theme-preview {
   width: 100%;
-  height: 28px;
-  border-radius: 8px;
+  height: 32px;
+  border-radius: 10px;
   margin-bottom: 4px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .ui-theme-title {

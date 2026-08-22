@@ -64,17 +64,21 @@
     var cx = window.innerWidth / 2;
     var cy = window.innerHeight / 2;
     if (id === 'aurora') {
-      if (MecFX.diamondSparkle) MecFX.diamondSparkle(cx, cy, { count: 18, color: '#00DFD8' });
-      if (MecFX.rings) MecFX.rings(cx, cy, { count: 2, maxR: 200, color: '#0070F3', additive: true });
+      if (MecFX.diamondSparkle) MecFX.diamondSparkle(cx, cy, { count: 24, color: '#00DFD8', additive: true });
+      if (MecFX.rings) MecFX.rings(cx, cy, { count: 3, maxR: 240, color: '#0070F3', additive: true });
+      if (MecFX.stars) MecFX.stars(cx, cy, { count: 16, color: '#7928CA' });
     } else if (id === 'brass') {
-      if (MecFX.astrolabeRings) MecFX.astrolabeRings(cx, cy, { maxR: 180, color: '#E0C25E' });
-      if (MecFX.gears) MecFX.gears(cx, cy, { count: 6, spread: 220, w: 20 });
+      if (MecFX.astrolabeRings) MecFX.astrolabeRings(cx, cy, { maxR: 220, color: '#FFD700' });
+      if (MecFX.gears) MecFX.gears(cx, cy, { count: 8, spread: 260, w: 24 });
+      if (MecFX.sparkFountain) MecFX.sparkFountain(cx, cy, { count: 16, color: '#E0C25E' });
     } else if (id === 'cyber') {
-      if (MecFX.glitchBars) MecFX.glitchBars(cx, cy, { count: 8, color: '#00E5FF' });
+      if (MecFX.glitchBars) MecFX.glitchBars(cx, cy, { count: 12, color: '#00E5FF' });
       if (MecFX.defibShock) MecFX.defibShock(cx, cy, { color: '#00FF66' });
+      if (MecFX.diamondSparkle) MecFX.diamondSparkle(cx, cy, { count: 16, color: '#00E5FF' });
     } else if (id === 'liquid') {
-      if (MecFX.irisShutter) MecFX.irisShutter(cx, cy, { maxR: 200, color: '#FF007F' });
-      if (MecFX.bubbles) MecFX.bubbles(cx, cy, { count: 12, colors: ['#FF007F', '#7928CA'] });
+      if (MecFX.irisShutter) MecFX.irisShutter(cx, cy, { maxR: 240, color: '#FF007F' });
+      if (MecFX.bubbles) MecFX.bubbles(cx, cy, { count: 18, colors: ['#FF007F', '#7928CA', '#FF7A00'] });
+      if (MecFX.rings) MecFX.rings(cx, cy, { count: 2, maxR: 220, color: '#FF007F', additive: true });
     }
   }
 
