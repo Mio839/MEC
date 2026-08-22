@@ -27,5 +27,8 @@ window.MecSounds = {
   select: [
     {"key":"mp3","file":"選択音/選択.mp3","label":"選択","vol":0.7,"peak":0.996,"dur":1.07},
     {"key":"ffcursor","file":"選択音/カーソル音【FF】.wav","label":"カーソル音【FF】","vol":1.03,"peak":0.678,"dur":0.16}
+  ],
+  result: [
+    {"key":"fanfare","file":"結果画面/勝利のファンファーレ.wav","label":"勝利のファンファーレ","vol":0.5,"peak":0.992,"dur":4.24}
   ]
 };

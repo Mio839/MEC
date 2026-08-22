@@ -29,11 +29,11 @@ const studyExam = R('study_exam.js');
 const studyHtml = R('study.html');
 const indexHtml = R('index.html');
 const chapterExam = R('chapter_exam.js');
-const SLOTS = ['correct', 'boot', 'select'];
-const DIRS = ['正解音', '起動音', '選択音'];
+const SLOTS = ['correct', 'boot', 'select', 'result'];
+const DIRS = ['正解音', '起動音', '選択音', '結果画面'];
 
 console.log('\n[1] 一覧（sounds_index.js）の形');
-t('window.MecSounds が correct / boot / select を持つ', () => {
+t('window.MecSounds が correct / boot / select / result を持つ', () => {
   ok(S && SLOTS.every(k => Array.isArray(S[k])), 'slot が足りない');
 });
 t('どのフォルダも1つ以上の音を持つ', () => {
@@ -71,8 +71,8 @@ t('vol は正の数', () => {
   SLOTS.forEach(k => S[k].forEach(s =>
     ok(typeof s.vol === 'number' && s.vol > 0, s.file + ' の vol が不正')));
 });
-t('peak を持つ音は実効音量が揃っている（正解/起動 .5±.12・選択 .7±.15）', () => {
-  const want = { correct: [0.5, 0.12], boot: [0.5, 0.12], select: [0.7, 0.15] };
+t('peak を持つ音は実効音量が揃っている（正解/起動/結果 .5±.12・選択 .7±.15）', () => {
+  const want = { correct: [0.5, 0.12], boot: [0.5, 0.12], select: [0.7, 0.15], result: [0.5, 0.12] };
   SLOTS.forEach(k => S[k].forEach(s => {
     if (s.peak == null) return;
     const tgt = want[k][0], tol = want[k][1];

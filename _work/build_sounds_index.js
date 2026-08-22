@@ -20,7 +20,8 @@ const OUT = path.join(ROOT, 'sounds_index.js');
 const GROUPS = [
   { dir: '正解音', slot: 'correct' },
   { dir: '起動音', slot: 'boot' },
-  { dir: '選択音', slot: 'select' }
+  { dir: '選択音', slot: 'select' },
+  { dir: '結果画面', slot: 'result' }
 ];
 const AUDIO_RE = /\.(wav|mp3|ogg|m4a)$/i;
 

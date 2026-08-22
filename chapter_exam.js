@@ -569,6 +569,7 @@
       '<div class="ce-di"><div class="lbl">時間</div><div class="val" style="font-size:14px">' + ts + '</div></div>';
 
     var _rov = document.getElementById('chExamResultOv');
+    playResult();
     _rov.classList.add('open');
     _ceBindOverlayVV(_rov);
     _ceFitOverlayVV(_rov);
@@ -2565,6 +2566,13 @@
 
   function playCorrect() {
     cePlayWav(ceSndResolve('correct', exam.sound));
+  }
+
+  function playResult() {
+    try {
+      var l = ceSndList('result');
+      if (l.length) cePlayWav(l[(Math.random() * l.length) | 0]);
+    } catch (e) {}
   }
 
   // ─── Init ─────────────────────────────────────────────────────

@@ -126,9 +126,23 @@ function _pickBootSpec() {
   return l.length ? l[(Math.random() * l.length) | 0] : null;
 }
 
+let _pendingResultSpec = null;
+function _pickResultSpec() {
+  const l = _sndList('result');
+  return l.length ? l[(Math.random() * l.length) | 0] : null;
+}
+function _prepareResultSound() {
+  _pendingResultSpec = _pickResultSpec();
+  if (_pendingResultSpec) _prepareWavSound(_pendingResultSpec);
+}
+function _playResultSound() {
+  const spec = _pendingResultSpec || _pickResultSpec();
+  if (spec) _playWavSound(spec);
+}
+
 let _comboSound = localStorage.getItem('mec_combo_sound_v1') || 'rise';
 
-/* 選択音・正解音・起動音はすべて同じ wav/mp3 の配管（_prepareWavSound / _playWavSound）に
+/* 選択音・正解音・起動音・結果音はすべて同じ wav/mp3 の配管（_prepareWavSound / _playWavSound）に
    乗る。⚠️ 種類ごとの受け皿は _wavSlot が1つずつだけ作る（プレビューのたびに Audio を
    new すると溜まる）。 */
 function _prepareSelectSound() { _prepareWavSound(_sndFind('select', _selectSound)); }
@@ -668,6 +682,7 @@ function startExam(overrideUids = null) {
   document.getElementById('examFinishBtn')?.remove(); // 前回の結果ボタンが残っていれば除去
   _prepareSelectSound();
   _prepareWavSound(_sndFind('correct', _correctSound));
+  _prepareResultSound();
   // 起動音は「開始を押した」このタップの中で選んで用意する＝iOS の自動再生制限を通せる
   // 唯一の機会。⚠️ ランダムの抽選もここで済ませること（_playBootSound では遅い）。
   _pendingBootSpec = null;
@@ -4650,6 +4665,7 @@ function showExamSummary() {
   if (retryBtn) retryBtn.style.display = examWrong.length > 0 ? '' : 'none';
   if (retryCount) retryCount.textContent = examWrong.length;
   const _ov = document.getElementById('examOverlay');
+  _playResultSound();
   _ov.classList.add('open');
   _bindOverlayVV(_ov);
   _fitOverlayToVV(_ov);
