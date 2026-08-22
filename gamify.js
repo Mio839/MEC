@@ -1009,7 +1009,7 @@
 
   // ── ヘッダーチップ（study.html） ─────────────────────────────────
   function _mountStudyHeader() {
-    const row = document.querySelector('.st-stats');
+    const row = document.querySelector('.st-stats') || document.querySelector('.st-title-row');
     if (!row) return;
     let lv = document.getElementById('gmLvChip');
     let mi = document.getElementById('gmMissionChip');
@@ -1035,10 +1035,10 @@
     }
     mi.onclick = openPanelModal;
 
-    // 試験モードボタンを「今日のミッション」の右（末尾）へ確実に移動
+    // 試験モードボタンを「今日のミッション」の右へ配置
     const examBtn = document.getElementById('examModeBtn');
-    if (examBtn && examBtn.parentNode === row) {
-      row.appendChild(examBtn);
+    if (examBtn && mi && mi.nextSibling !== examBtn && mi.parentNode) {
+      mi.parentNode.insertBefore(examBtn, mi.nextSibling);
     }
     _updateHeaderChips();
   }

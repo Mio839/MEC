@@ -37,6 +37,12 @@ body { margin: 20px auto; max-width: 900px; font-family: -apple-system, BlinkMac
     <div class="st-title-row">
       <span class="st-title">📚 統合学習ツール</span>
       <a class="hub-link" href="#">← ハブへ</a>
+      <div class="st-stat">済 <span>12</span>問</div>
+      <div class="st-stat">合計 <span>5487</span>問</div>
+      <div class="st-stat"><span class="st-streak">🔥 <span>3</span>日連続</span></div>
+      <button type="button" class="st-stat gm-lv-chip">Lv.<b>12</b></button>
+      <button type="button" class="st-stat gm-mission-chip">🎯 1/3</button>
+      <button class="st-stat exam-mode-chip">🎓 試験モード</button>
       <span class="mec-sync-badge">⚙️ 未設定</span>
       <button class="mec-err-badge" style="display:inline-flex;">⚠️ 0件</button>
       <span class="vis-count">—</span>
@@ -44,14 +50,6 @@ body { margin: 20px auto; max-width: 900px; font-family: -apple-system, BlinkMac
       <button class="hdr-toggle">🔄</button>
       <button class="hdr-toggle">⌨️</button>
       <span id="mecBuildVer" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;">b-0725a</span>
-    </div>
-    <div class="st-stats">
-      <div class="st-stat">済 <span>12</span>問</div>
-      <div class="st-stat">合計 <span>5487</span>問</div>
-      <div class="st-stat"><span class="st-streak">🔥 <span>3</span>日連続</span></div>
-      <button type="button" class="st-stat gm-lv-chip">Lv.<b>12</b></button>
-      <button type="button" class="st-stat gm-mission-chip">🎯 1/3</button>
-      <button class="st-stat exam-mode-chip">🎓 試験モード</button>
     </div>
     ${!isCollapsed ? `
     <div class="st-filter-panel" style="margin-top:8px;">

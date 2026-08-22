@@ -2268,72 +2268,32 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   ヘッダー折りたたみ時 (hdr-collapsed): 1行統合レイアウト
+   ヘッダー: 1行統合レイアウト & 折りたたみ時 (hdr-collapsed)
    ═══════════════════════════════════════════════════════════════════ */
-.st-hdr.hdr-collapsed {
+.st-title-row {
   display: flex !important;
-  flex-direction: row !important;
   align-items: center !important;
+  gap: 6px !important;
   flex-wrap: nowrap !important;
-  gap: 8px !important;
-  padding: 6px 12px !important;
   overflow-x: auto !important;
   scrollbar-width: none !important;
+  margin-bottom: 7px !important;
 }
 
-.st-hdr.hdr-collapsed::-webkit-scrollbar {
+.st-title-row::-webkit-scrollbar {
   display: none !important;
 }
 
+.st-hdr.hdr-collapsed {
+  padding: 6px 12px !important;
+}
+
 .st-hdr.hdr-collapsed .st-title-row {
-  display: contents !important;
+  margin-bottom: 0 !important;
 }
 
 .st-hdr.hdr-collapsed .st-title {
   display: none !important;
-}
-
-.st-hdr.hdr-collapsed .st-stats {
-  display: contents !important;
-}
-
-.st-hdr.hdr-collapsed .hub-link {
-  order: 1 !important;
-}
-
-.st-hdr.hdr-collapsed .st-stat.exam-mode-chip {
-  order: 2 !important;
-  margin-left: 0 !important;
-}
-
-.st-hdr.hdr-collapsed .st-stat:not(.exam-mode-chip) {
-  order: 3 !important;
-}
-
-.st-hdr.hdr-collapsed .mec-sync-badge {
-  order: 4 !important;
-  margin-left: 0 !important;
-}
-
-.st-hdr.hdr-collapsed .mec-err-badge {
-  order: 5 !important;
-}
-
-.st-hdr.hdr-collapsed .vis-count {
-  order: 6 !important;
-}
-
-.st-hdr.hdr-collapsed #hdrToggle {
-  order: 7 !important;
-  margin-left: 4px !important;
-}
-
-.st-hdr.hdr-collapsed #mecRefreshBtn {
-  order: 8 !important;
-}
-
-.st-hdr.hdr-collapsed .hdr-toggle:not(#hdrToggle):not(#mecRefreshBtn) {
-  order: 9 !important;
 }
 
 .st-hdr.hdr-collapsed #mecBuildVer,
