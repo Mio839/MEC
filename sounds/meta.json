@@ -47,7 +47,8 @@
 
   "選択音": {
     "選択.mp3":            { "key": "mp3",      "label": "選択",           "vol": 0.70, "peak": 0.996, "dur": 1.07 },
-    "カーソル音【FF】.wav": { "key": "ffcursor", "label": "カーソル音【FF】", "vol": 1.03, "peak": 0.678, "dur": 0.16 }
+    "カーソル音【FF】.wav": { "key": "ffcursor", "label": "カーソル音【FF】", "vol": 1.03, "peak": 0.678, "dur": 0.16 },
+    "プルアパッド 起動.wav": { "key": "purahpad",  "label": "プルアパッド起動", "vol": 0.88, "peak": 0.794, "dur": 2.70 }
   },
 
   "結果画面": {
