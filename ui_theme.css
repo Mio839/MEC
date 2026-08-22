@@ -3321,3 +3321,11 @@ html.ui-liquid .ce-prog-track.exam-prog-complete .ce-prog-fill {
   0% { filter: brightness(1) drop-shadow(0 0 8px rgba(255,0,128,.6)); }
   100% { filter: brightness(1.35) drop-shadow(0 0 18px rgba(255,0,128,1)); }
 }
+
+/* 難問印・目盛りドットの完全非表示（ノイズレスなプログレスバー） */
+.exam-prog-track .ep-hard,
+.exam-prog-track .ep-tick,
+.ce-prog-track .ep-hard,
+.ce-prog-track .ep-tick {
+  display: none !important;
+}

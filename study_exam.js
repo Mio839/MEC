@@ -1647,43 +1647,21 @@ function _renderExamProgMarks() {
   const track = document.querySelector('.exam-prog-track');
   if (!track) return;
   track.querySelectorAll('.ep-tick,.ep-hard').forEach(el => el.remove());
-  track.classList.remove('ep-sprint', 'ep-sweep');
-  if (!_examProgL.total) return;
-  const frag = document.createDocumentFragment();
-  _examProgL.ticks.forEach(t => {
-    const i = document.createElement('i');
-    i.className = 'ep-tick ep-' + t.kind;
-    i.style.left = (t.at * 100).toFixed(3) + '%';
-    i.title = t.kind === 'half' ? '折り返し（' + t.n + '問）' : '残り' + PROG_LAST_N + '問';
-    frag.appendChild(i);
-  });
-  _examProgL.marks.forEach(m => {
-    const i = document.createElement('i');
-    i.className = 'ep-hard';
-    i.style.left = (m.at * 100).toFixed(3) + '%';
-    i.dataset.n = String(m.n);
-    i.title = m.n + '問目：難問（本番正答率' + EXAM_HARD_RATE + '%未満）';
-    frag.appendChild(i);
-  });
-  track.appendChild(frag);
+  track.classList.remove('ep-sprint', 'ep-sweep', 'exam-prog-complete');
+  // 難問印（.ep-hard）や目盛り（.ep-tick）などの図形挿入は視覚的ノイズ全廃のため一切行わない
 }
 
-// 進行に合わせて目盛り・難問印・ラストスパートを更新する（祝わない＝音も粒子も出さない）
 function _syncExamProgMarks() {
   const L = _examProgL;
   const track = document.querySelector('.exam-prog-track');
   if (!L || !L.total || !track) return;
+  // 目盛り跨ぎのスイープ発光のみ保持
   L.ticks.forEach(t => {
     if (examAnswered < t.n || _examProgCrossed.has(t.kind)) return;
     _examProgCrossed.add(t.kind);
     if (_fxOff()) return;
-    const el = track.querySelector('.ep-' + t.kind);
-    if (el) { el.classList.remove('lit'); void el.offsetWidth; el.classList.add('lit'); }
     track.classList.remove('ep-sweep'); void track.offsetWidth; track.classList.add('ep-sweep');
     setTimeout(() => track.classList.remove('ep-sweep'), 800);
-  });
-  track.querySelectorAll('.ep-hard').forEach(el => {
-    el.classList.toggle('done', (parseInt(el.dataset.n, 10) || 0) <= examAnswered);
   });
   if (L.sprintFrom != null) {
     const on = examAnswered >= L.sprintFrom && examAnswered < L.total;
