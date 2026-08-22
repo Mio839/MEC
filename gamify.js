@@ -271,6 +271,13 @@
 #gmToast .ti{font-size:26px;line-height:1;}
 #gmToast .tt{font-size:13px;font-weight:800;color:#FFD166;line-height:1.3;}
 #gmToast .ts{font-size:11px;font-weight:700;color:rgba(255,255,255,.75);line-height:1.35;}
+/* ── 統合バッチセレモニー（複数達成の一括表示） ── */
+.gm-batch-list{display:flex;flex-direction:column;gap:6px;margin:12px auto 8px;max-width:min(90vw,420px);max-height:48vh;overflow-y:auto;padding:2px 4px;-webkit-overflow-scrolling:touch;}
+.gm-batch-row{display:flex;align-items:center;gap:10px;background:rgba(var(--glass-rgb),.14);border:1px solid rgba(255,209,102,.35);border-radius:10px;padding:7px 12px;text-align:left;animation:gmCerIn .4s cubic-bezier(.2,1.2,.3,1) both;}
+.gm-batch-ic{font-size:22px;line-height:1;flex-shrink:0;}
+.gm-batch-info{flex:1;min-width:0;}
+.gm-batch-tt{font-size:12.5px;font-weight:800;color:#FFD166;line-height:1.3;}
+.gm-batch-sub{font-size:11px;font-weight:700;color:rgba(255,255,255,.82);line-height:1.3;margin-top:1px;}
 /* ── セレモニー（レベルアップ・章/科目制覇・ミッション） ── */
 #gmCerOv{position:fixed;top:0;left:0;right:0;height:100vh;height:100dvh;z-index:var(--z-gm-cer,9550);display:none;align-items:center;justify-content:center;background:rgba(var(--ov-rgb),.55);pointer-events:none;}
 #gmCerOv.show{display:flex;pointer-events:auto;cursor:pointer;}
@@ -394,8 +401,19 @@
   let _annTimers = [];   // 再生中アイテムのタイマー（スキップで畳む）
   let _annShownAt = 0;
 
-  function _annTotal() { return _annDone.length + (_annCur ? 1 : 0) + _annQ.length; }
-  function _annPos() { return _annDone.length + (_annCur ? 1 : 0); }
+  function _annTotal() {
+    let n = 0;
+    _annDone.forEach(x => { n += (x.kind === 'batch' && Array.isArray(x.items)) ? x.items.length : 1; });
+    if (_annCur) n += (_annCur.kind === 'batch' && Array.isArray(_annCur.items)) ? _annCur.items.length : 1;
+    _annQ.forEach(x => { n += (x.kind === 'batch' && Array.isArray(x.items)) ? x.items.length : 1; });
+    return n;
+  }
+  function _annPos() {
+    let n = 0;
+    _annDone.forEach(x => { n += (x.kind === 'batch' && Array.isArray(x.items)) ? x.items.length : 1; });
+    if (_annCur) n += (_annCur.kind === 'batch' && Array.isArray(_annCur.items)) ? _annCur.items.length : 1;
+    return n;
+  }
 
   function _annPush(item) {
     // 前の一群を出し切った後の新しい発火＝新しい一群。トレイを畳んでから積む。
@@ -422,12 +440,73 @@
     // reduced-motion: トレイが見えているならそこへ全部載せて終わる（演出を出さずに情報だけ残す）。
     // ⚠️ トレイが無い画面では従来どおり再生する——出さずに捨てると情報が丸ごと失われる。
     if (_reducedMotion() && _trayVisible()) { _annSkipAll(); return; }
+
+    // 複数件たまっている場合（2件以上）は、1枚の統合セレモニーで一括表示する（重なり防止・待ち時間短縮）
+    if (_annQ.length > 1) {
+      const items = _annQ.splice(0, _annQ.length);
+      const batchItem = {
+        kind: 'batch',
+        items: items,
+        icon: '🎉',
+        label: items.map(_annLabel).join(' ＆ '),
+      };
+      _annCur = batchItem;
+      _annShownAt = Date.now();
+      _annTimers = [];
+      _renderTray();
+      _playBatchCer(batchItem);
+      return;
+    }
+
     const item = _annQ.shift();
     _annCur = item;
     _annShownAt = Date.now();
     _annTimers = [];
     _renderTray();
     if (item.kind === 'cer') _playCer(item); else _playToast(item);
+  }
+
+  function _playBatchCer(batch) {
+    const items = batch.items || [];
+    let ov = document.getElementById('gmCerOv');
+    if (!ov) { ov = document.createElement('div'); ov.id = 'gmCerOv'; document.body.appendChild(ov); }
+
+    const hasLv = items.some(x => (x.html || '').includes('LEVEL UP') || (x.label || '').includes('LEVEL UP'));
+    const hasClear = items.some(x => (x.html || '').includes('制覇') || (x.label || '').includes('制覇') || (x.html || '').includes('MISSION COMPLETE'));
+    const snd = hasLv ? SND.levelup : (hasClear ? SND.clear : SND.mission);
+
+    const rowsHtml = items.map(it => {
+      const icon = it.icon || '🎖️';
+      const label = _annLabel(it);
+      const sub = it.sub || (it.opts && it.opts.label) || '';
+      return '<div class="gm-batch-row">' +
+        '<span class="gm-batch-ic">' + _esc(icon) + '</span>' +
+        '<div class="gm-batch-info">' +
+          '<div class="gm-batch-tt">' + _esc(label) + '</div>' +
+          (sub && sub !== label ? '<div class="gm-batch-sub">' + _esc(sub) + '</div>' : '') +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    ov.innerHTML =
+      '<div class="gm-cer">' +
+        '<div class="gm-cer-ic">🎉</div>' +
+        '<div class="gm-cer-big">ACHIEVEMENTS!</div>' +
+        '<div class="gm-cer-sub">今回の獲得・達成（' + items.length + '件）</div>' +
+        '<div class="gm-batch-list">' + rowsHtml + '</div>' +
+        '<div class="gm-cer-note">タップで閉じる</div>' +
+      '</div>' + _annPosHtml(false);
+    ov.classList.add('show');
+    _annBindTap(ov);
+    _fxConfetti(true);
+    try { snd && snd(); } catch {}
+
+    const dur = 3200;
+    _annTimers.push(setTimeout(() => {
+      const c = ov.querySelector('.gm-cer');
+      if (c) c.classList.add('out');
+      _annTimers.push(setTimeout(() => { ov.classList.remove('show'); _annFinish(CER_GAP_MS); }, ANN_FADE_MS));
+    }, dur));
   }
 
   function _playCer(item) {
@@ -475,7 +554,11 @@
   function _annFinish(gap) {
     if (!_annCur) return;
     _annTimers.forEach(id => clearTimeout(id)); _annTimers = [];
-    _annDone.push(_annCur);
+    if (_annCur.kind === 'batch' && Array.isArray(_annCur.items)) {
+      _annCur.items.forEach(it => _annDone.push(it));
+    } else {
+      _annDone.push(_annCur);
+    }
     _annCur = null;
     _renderTray();
     if (!_annQ.length) return;
@@ -499,7 +582,14 @@
   function _annSkipAll() {
     _annTimers.forEach(id => clearTimeout(id)); _annTimers = [];
     _annHideAll();
-    if (_annCur) { _annDone.push(_annCur); _annCur = null; }
+    if (_annCur) {
+      if (_annCur.kind === 'batch' && Array.isArray(_annCur.items)) {
+        _annCur.items.forEach(it => _annDone.push(it));
+      } else {
+        _annDone.push(_annCur);
+      }
+      _annCur = null;
+    }
     const rest = _annQ.splice(0, _annQ.length);
     _renderTray();
     // 一段ずつ点灯させる（一気に全部だと「消えた」に見える）
@@ -654,16 +744,61 @@
   //   「その日1科目だけ」が普通に起こるため、core にすると日次セレモニーの敷居が上がりすぎる。
   //
   // xp は達成時に一度だけ入るボーナスXP（_awardMissionXp・重複防止は同期台帳 s.xp.ledger）。
-  const MISSIONS_DAILY = [
-    { id: 'ans',     tier: 'core',  xp: 40, icon: '📝', label: '40問 解答する',           target: 40, counter: 'ans' },
-    { id: 'exam',    tier: 'core',  xp: 40, icon: '🎓', label: '試験セッション1本(10問+)', target: 1,  counter: 'exam' },
-    { id: 'cor',     tier: 'core',  xp: 60, icon: '✅', label: '試験で20問 正解',          target: 20, counter: 'cor' },
-    { id: 'srs',     tier: 'bonus', xp: 60, icon: '🔁', label: 'SRS復習を20問 こなす',     target: 20, counter: 'srs' },
-    { id: 'redo',    tier: 'bonus', xp: 70, icon: '♻️', label: '落とした問題を10問 奪回',  target: 10, counter: 'redo' },
-    { id: 'subj',    tier: 'bonus', xp: 50, icon: '🧭', label: '科目を2つ以上またぐ',       target: 2,  counter: 'subj' },
-    { id: 'acc',     tier: 'bonus', xp: 50, icon: '🎯', label: '正答率80%以上を1回',       target: 1,  counter: 'acc80' },
-    { id: 'perfect', tier: 'bonus', xp: 80, icon: '💯', label: '試験で全問正解を1回',      target: 1,  counter: 'perfect' },
+  // ── 日替わりクエストプール ─────────────────────────────────────────
+  const DAILY_QUEST_POOL = [
+    { id: 'd_hard',    tier: 'bonus', xp: 60, icon: '🔥', label: '正答率60%未満の難問を5問', target: 5,  counter: 'hard' },
+    { id: 'd_srs15',   tier: 'bonus', xp: 60, icon: '🔁', label: 'SRS復習を15問 こなす',     target: 15, counter: 'srs' },
+    { id: 'd_redo5',   tier: 'bonus', xp: 70, icon: '♻️', label: '落とした問題を5問 奪回',   target: 5,  counter: 'redo' },
+    { id: 'd_acc80',   tier: 'bonus', xp: 50, icon: '🎯', label: '正答率80%以上を1回',       target: 1,  counter: 'acc80' },
+    { id: 'd_exam2',   tier: 'bonus', xp: 60, icon: '🎓', label: '試験セッションを2本 解答', target: 2,  counter: 'exam' },
+    { id: 'd_perfect', tier: 'bonus', xp: 80, icon: '💯', label: '試験で全問正解を1回',      target: 1,  counter: 'perfect' },
   ];
+
+  function _dateSeed(dk) {
+    let h = 0;
+    for (let i = 0; i < dk.length; i++) h = ((h << 5) - h + dk.charCodeAt(i)) | 0;
+    return Math.abs(h);
+  }
+
+  // ユーザーの学習履歴から最も強化すべき弱点科目を決定論的に抽出
+  function _weakestSubject() {
+    const my = _g('myrate_v1', {});
+    let worst = null, minScore = 999;
+    SUBJECTS.forEach(sub => {
+      let t = 0, c = 0;
+      for (const uid in my) {
+        if (uid.indexOf(sub.id + '_') === 0 || uid.indexOf(sub.id + 'ch') === 0) {
+          const r = my[uid]; if (r && r.total > 0) { t += r.total; c += (r.correct || 0); }
+        }
+      }
+      const rate = t >= 5 ? (c / t) : 0.5;
+      const s = stats();
+      const doneCount = (s.bySubj && s.bySubj[sub.id]) || 0;
+      const prog = doneCount / Math.max(1, sub.total);
+      const score = rate * 0.7 + prog * 0.3;
+      if (score < minScore) { minScore = score; worst = sub; }
+    });
+    return worst || SUBJECTS[0];
+  }
+
+  function _getDailyMissions(dateKey) {
+    const dk = dateKey || _todayJST();
+    const seed = _dateSeed(dk);
+    const quest = DAILY_QUEST_POOL[seed % DAILY_QUEST_POOL.length];
+    const weak = _weakestSubject();
+    return [
+      { id: 'ans',        tier: 'core',  xp: 40, icon: '📝', label: '40問 解答する',           target: 40, counter: 'ans' },
+      { id: 'exam',       tier: 'core',  xp: 40, icon: '🎓', label: '試験セッション1本(10問+)', target: 1,  counter: 'exam' },
+      { id: 'cor',        tier: 'core',  xp: 60, icon: '✅', label: '試験で20問 正解',          target: 20, counter: 'cor' },
+      { id: 'srs',        tier: 'bonus', xp: 60, icon: '🔁', label: 'SRS復習を20問 こなす',     target: 20, counter: 'srs' },
+      { id: 'redo',       tier: 'bonus', xp: 70, icon: '♻️', label: '落とした問題を10問 奪回',  target: 10, counter: 'redo' },
+      { id: 'subj',       tier: 'bonus', xp: 50, icon: '🧭', label: '科目を2つ以上またぐ',       target: 2,  counter: 'subj' },
+      { id: quest.id,     tier: quest.tier, xp: quest.xp, icon: quest.icon, label: quest.label, target: quest.target, counter: quest.counter },
+      { id: 'd_focus_' + weak.id, tier: 'bonus', xp: 70, icon: weak.icon, label: '【弱点強化】' + weak.name + 'を10問 解答', target: 10, counter: 'subj_focus' },
+    ];
+  }
+
+  const MISSIONS_DAILY = _getDailyMissions();
   const MISSIONS_WEEKLY = [
     { id: 'w_ans',     tier: 'core',  xp: 150, icon: '📅', label: '今週 250問 解答する',         target: 250, counter: 'ans' },
     { id: 'w_cor',     tier: 'core',  xp: 200, icon: '✅', label: '今週 試験で120問 正解',       target: 120, counter: 'cor' },
@@ -1317,10 +1452,18 @@
     return bumps;
   }
 
+  function _focusBump(uid) {
+    if (!uid) return [];
+    const weak = _weakestSubject();
+    const i = uid.indexOf('_ch');
+    const sid = i > 0 ? uid.slice(0, i) : '';
+    return (sid === weak.id) ? ['subj_focus'] : [];
+  }
+
   function onLap(uid, btn) {
     const bumps = ['ans']; // 「済」も解答数ミッションに算入
     if (_isHardQ(uid)) bumps.push('hard');
-    _bumpMission(bumps.concat(_dailyFirstBumps(uid)));
+    _bumpMission(bumps.concat(_dailyFirstBumps(uid)).concat(_focusBump(uid)));
     _microLapFx(btn);
     _lapMilestoneFx(uid, btn);
     _afterEvent(uid);
@@ -1335,7 +1478,7 @@
     if (isCorrect && o.wasWrong) bumps.push('redo');
     // 難問は正誤を問わず「触った数」で数える（正解だけだと難問を避けるほど有利になる）
     if (_isHardQ(uid)) bumps.push('hard');
-    _bumpMission(bumps.concat(_dailyFirstBumps(uid)));
+    _bumpMission(bumps.concat(_dailyFirstBumps(uid)).concat(_focusBump(uid)));
     _trackStreak(isCorrect);
     _afterEvent(uid);
     // XP = 試験解答×4 ＋ 試験正解×6 → 正解 +10 / 不正解 +4（stats() の配点と一致させること）
@@ -1481,9 +1624,39 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _init);
   else _init();
 
+  function goldenDays() {
+    const s = _missionStore();
+    const g = s.xp && s.xp.ledger ? s.xp.ledger : {};
+    const res = [];
+    for (const k in g) {
+      if (k.startsWith('d:') && g[k] && g[k].__all__) {
+        res.push(k.slice(2));
+      }
+    }
+    return res;
+  }
+
+  function goldenStreak() {
+    const gSet = new Set(goldenDays());
+    const d = new Date(Date.now() + 9 * 3600000);
+    const today = d.toISOString().slice(0, 10);
+    d.setUTCDate(d.getUTCDate() - 1);
+    const yesterday = d.toISOString().slice(0, 10);
+
+    let cur = gSet.has(today) ? today : (gSet.has(yesterday) ? yesterday : null);
+    if (!cur) return 0;
+    let count = 0;
+    const ptr = new Date(cur + 'T00:00:00Z');
+    while (gSet.has(ptr.toISOString().slice(0, 10))) {
+      count++;
+      ptr.setUTCDate(ptr.getUTCDate() - 1);
+    }
+    return count;
+  }
+
   window.MecGamify = {
     onLap, onAnswer, onFlag, onExamFinish, stats, missionSummary, missionXp, dailyGoal,
-    renderPanel, openPanelModal, refreshAllStars, flushCeremonies,
+    renderPanel, openPanelModal, refreshAllStars, flushCeremonies, goldenDays, goldenStreak,
     // テスト用（_work/test_missions.js / test_gamify_ceremony.js）
     _defs: {
       daily: MISSIONS_DAILY, weekly: MISSIONS_WEEKLY, allXp: MISSION_ALL_XP,

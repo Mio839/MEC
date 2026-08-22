@@ -675,17 +675,16 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
 .mfx .gm-mission.done{transform:translateY(-1px);
   border-color:rgba(61,214,140,.55);
   box-shadow:0 4px 20px rgba(61,214,140,.30),inset 0 0 22px rgba(61,214,140,.14);}
-/* 面の下を回る光。行より大きい正方形を回して overflow で切る＝角丸に沿って光が回る */
+/* 達成時の柔らかな呼吸・パルス発光 */
 .mfx .gm-mission.done::before{content:'';position:absolute;z-index:0;pointer-events:none;
-  top:50%;left:50%;width:170%;aspect-ratio:1;
-  background:conic-gradient(from 0deg,transparent 0deg,rgba(61,214,140,.38) 34deg,
-    rgba(255,255,255,.40) 60deg,rgba(61,214,140,.38) 86deg,transparent 150deg);
-  animation:conicSpin 4.2s linear infinite;}
-@keyframes conicSpin{
-  from{transform:translate(-50%,-50%) rotate(0deg);}
-  to{transform:translate(-50%,-50%) rotate(360deg);}
+  inset:0;border-radius:inherit;
+  background:radial-gradient(ellipse at 50% 50%, rgba(61,214,140,.24), transparent 75%);
+  animation:missionPulse 3.2s var(--ease-in-out) infinite alternate;}
+@keyframes missionPulse{
+  0%{opacity:.35;transform:scale(.98);}
+  100%{opacity:.85;transform:scale(1.01);}
 }
-/* 回る光より前に中身を出す */
+/* パルス光より前に中身を出す */
 .mfx .gm-mission > *{position:relative;z-index:1;}
 .mfx .gm-mission.done::after{content:'';position:absolute;z-index:2;top:0;bottom:0;left:0;width:45%;
   pointer-events:none;

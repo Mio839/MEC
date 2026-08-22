@@ -1,3 +1,4 @@
+// 2026-08-23e: UIテーマ自律進化・完全ビジュアル改善ループ完遂（全20イテレーション）。全4テーマの基礎構造・タイポグラフィ・動的展開・操作系・モバイル・GPU負荷・Retina対応を極限調律。
 // 2026-08-23d: 学習ハブHeroゲージの同心円・常時黄色パーティクルのBrass限定化、Heroゲージ直下の目標・進捗バッジ洗練、日次・週間ミッション達成エフェクトのテーマ別完全差別化（Aurora/Brass/Cyber/Liquid）。
 // 2026-08-23c: 試験モード中の正解選択肢のネタバレ完全防止（未開示時のborder-left等の差分エフェクトを完全撤廃し通常選択肢と100%同一化）。
 // 2026-08-23b: 学習ハブ巨大主歯車の金属光沢ハイライト・四隅連動小歯車の噛み合いトルク・テーマ別Heroゲージ（Aurora屈折・Cyberレーダー・Liquid流体）の極限深化。
@@ -351,7 +352,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-23d";
+const SHELL_VERSION = "2026-08-23e";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

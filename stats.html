@@ -410,6 +410,9 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .cal-cell.l4{background:var(--ramp-c5);}
 .cal-cell.is-today{outline:1.5px solid var(--yl);outline-offset:1px;}
 .cal-cell.is-sel{outline:2px solid var(--tx);outline-offset:1px;}
+.cal-cell.is-golden{box-shadow:0 0 0 1.5px #FFD166,0 0 6px rgba(255,209,102,.6);position:relative;}
+.cal-cell.is-golden::after{content:'';position:absolute;inset:2px;border-radius:2px;background:rgba(255,209,102,.35);pointer-events:none;}
+.cal-lg.is-golden{box-shadow:0 0 0 1.5px #FFD166,0 0 5px rgba(255,209,102,.5);position:relative;}
 .cal-legend{display:flex;align-items:center;gap:4px;margin-top:9px;font-size:10px;color:var(--ts);}
 .cal-lg{width:11px;height:11px;border-radius:3px;display:inline-block;background:var(--ramp-none);}
 .cal-lg.l1{background:var(--ramp-c2);}.cal-lg.l2{background:var(--ramp-c3);}
@@ -2105,21 +2108,27 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     const t1 = q(.25), t2 = q(.5), t3 = q(.75);
     const lv = n => n <= 0 ? 0 : n <= t1 ? 1 : n <= t2 ? 2 : n <= t3 ? 3 : 4;
 
+    const gDays = (window.MecGamify && window.MecGamify.goldenDays) ? new Set(window.MecGamify.goldenDays()) : new Set();
+    const gStreak = (window.MecGamify && window.MecGamify.goldenStreak) ? window.MecGamify.goldenStreak() : 0;
+
     const grid = document.getElementById('calGrid');
     if (grid) {
       grid.innerHTML = vals.map(v => {
         const d = new Date(Date.parse(v.ds + 'T00:00:00Z'));
         const head = `${d.getUTCMonth() + 1}/${d.getUTCDate()}(${DOW[d.getUTCDay()]})`;
+        const isGold = gDays.has(v.ds);
         // 旧「⏱30日間の学習時間」の中身はここへ吸収した＝日ごとの分数はセルの内訳で読む
         const tip = v.future ? `${head} — これから`
-          : `${head} ${v.n}問` + (v.min ? ` / ${v.min}分` : '');
+          : `${head} ${v.n}問` + (v.min ? ` / ${v.min}分` : '') + (isGold ? ' 👑 ミッション全達成！' : '');
         return '<div class="cal-cell l' + (v.future ? 0 : lv(v.n)) +
-          (v.ds === today ? ' is-today' : '') + '" tabindex="0" role="button" data-tip="' + tip + '"></div>';
+          (v.ds === today ? ' is-today' : '') + (isGold ? ' is-golden' : '') +
+          '" tabindex="0" role="button" data-tip="' + tip + '"></div>';
       }).join('');
       stagger([...grid.querySelectorAll('.cal-cell')], 4);
     }
     const tot = vals.filter(v => !v.future).reduce((s, v) => s + v.n, 0);
     const activeDays = vals.filter(v => v.n > 0).length;
+    const goldCount = vals.filter(v => !v.future && gDays.has(v.ds)).length;
     wireGridReadout(grid, '.cal-cell', document.getElementById('calReadout'),
       'セルをタップすると、その日の問題数と学習時間が出ます。');
 
@@ -2130,10 +2139,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
         '<span>直近30日 <b id="calFig30">0</b>問</span>' +
         '<span>学習時間 <b id="calFigT">—</b></span>' +
         '<span>12週間 <b id="calFig12">0</b>問</span>' +
-        '<span>学習日 <b id="calFigD">0</b>日</span>';
+        '<span>学習日 <b id="calFigD">0</b>日</span>' +
+        '<span>ミッション全達成 <b id="calFigGold">0</b>日' + (gStreak > 1 ? ' (' + gStreak + '日連続🔥)' : '') + '</span>';
       countUp(document.getElementById('calFig30'), total30, { dur: 800 });
       countUp(document.getElementById('calFig12'), tot, { dur: 900 });
       countUp(document.getElementById('calFigD'), activeDays, { dur: 800 });
+      countUp(document.getElementById('calFigGold'), goldCount, { dur: 800 });
       const tEl = document.getElementById('calFigT');
       if (tEl) tEl.textContent = fmtMins(total30Mins);
     }
