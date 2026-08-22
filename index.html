@@ -2173,12 +2173,15 @@ function _gaugeCelebrate(tier) {
   const ringEl = document.querySelector('#gaugeBox .gauge-ring');
   const g = (ringEl && _centerOf(ringEl)) || c;
 
-  // 層1: 上品な天球儀の光輪（1回だけ優雅に広がる）
+  // 層1: 上品な天球儀の光輪（1回だけ優雅に広がる）＆ 干渉波紋
   if (MecFX.astrolabeRings) {
     MecFX.astrolabeRings(g.x, g.y, {
       maxR: 130 + tier * 25, rings: 2,
       color: hit ? '#FFD700' : '#E0C25E', speed: 1.2
     });
+  }
+  if (MecFX.rippleInterference && hit) {
+    MecFX.rippleInterference(g.x, g.y, { maxR: 160 + tier * 20, color: '#FFD700' });
   }
   // 層2: 接点の微細なゴールド火花と微粒子
   MecFX.burst(c.x, c.y, {
@@ -2191,12 +2194,18 @@ function _gaugeCelebrate(tier) {
 
   if (tier < 3) return;
 
-  // 層3（半分から）: 軸からひと吹き漏れる柔らかな真鍮蒸気
+  // 層3（半分から）: 軸からひと吹き漏れる柔らかな真鍮蒸気 ＆ クロノスダイヤル
   MecFX.steam(g.x, g.y + 15, { count: 6 + tier * 2, w: 32, rise: 80, alpha: .32 });
+  if (MecFX.chronosDial && tier >= 3) {
+    MecFX.chronosDial(g.x, g.y, { maxR: 140 + tier * 15, color: '#E0C25E' });
+  }
   if (tier < 4) return;
 
-  // 層4: ゴールドスターダスト（微細な金粉がきらめく）
+  // 層4: ゴールドスターダスト（微細な金粉がきらめく） ＆ ベアリングオービット
   MecFX.dust({ count: 18 + tier * 4, colors: ['#E0C25E', '#FFF3C4', '#FFFFFF'] });
+  if (MecFX.bearingOrbit && tier >= 4) {
+    MecFX.bearingOrbit(g.x, g.y, { maxR: 160 + tier * 20, color: '#FFD700' });
+  }
   if (!hit) return;
 
   // 層5（達成）: アイリスの黄金サンバーストが美しく輝く
