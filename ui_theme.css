@@ -212,13 +212,37 @@ html.ui-aurora .qc .ch2.exam-selected {
   box-shadow: 0 0 22px rgba(0, 229, 255, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.3) !important;
 }
 
-html.ui-aurora .qc .ch2.ok {
+/* 🌟 正解選択肢: 通常閲覧時、または試験モードで解答開示後 */
+html.ui-aurora body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
+html.ui-aurora body.exam-mode .qc.exam-revealed .ch2.ok,
+html.ui-aurora body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   border-color: #3DD68C !important;
   border-left: 4.5px solid #3DD68C !important;
   color: #A7F3D0 !important;
   font-weight: 700 !important;
   background: linear-gradient(90deg, rgba(61, 214, 140, 0.22), rgba(0, 223, 216, 0.15)) !important;
   box-shadow: 0 0 24px rgba(61, 214, 140, 0.5), inset 0 0 12px rgba(61, 214, 140, 0.2) !important;
+}
+
+/* 🌟 試験モード未開示時: 正解肢であることを完全に隠蔽し通常選択肢と同一にする */
+html.ui-aurora body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected),
+html.ui-aurora body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.16) !important;
+  border-left: 3.5px solid rgba(0, 223, 216, 0.4) !important;
+  color: #F1F5F9 !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+}
+
+html.ui-aurora body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected):hover,
+html.ui-aurora body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected):hover {
+  background: linear-gradient(90deg, rgba(121, 40, 202, 0.28), rgba(0, 112, 243, 0.28)) !important;
+  border-color: rgba(0, 223, 216, 0.7) !important;
+  border-left: 4px solid #00DFD8 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 18px rgba(0, 223, 216, 0.25) !important;
+  transform: translateX(3px) !important;
 }
 
 /* 🌟 正解確定時のカードリアクション */
@@ -551,13 +575,37 @@ html.ui-brass .qc .ch2.exam-selected {
   box-shadow: 0 0 20px rgba(224, 194, 94, 0.6), inset 0 0 12px rgba(255, 215, 0, 0.35) !important;
 }
 
-html.ui-brass .qc .ch2.ok {
+/* 🕰️ 正解選択肢: 通常閲覧時、または試験モードで解答開示後 */
+html.ui-brass body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
+html.ui-brass body.exam-mode .qc.exam-revealed .ch2.ok,
+html.ui-brass body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   border-color: #3DD68C !important;
   border-left: 4.5px solid #3DD68C !important;
   color: #A7F3D0 !important;
   font-weight: 700 !important;
   background: linear-gradient(90deg, rgba(61, 214, 140, 0.25), rgba(224, 194, 94, 0.15)) !important;
   box-shadow: 0 0 24px rgba(61, 214, 140, 0.5), inset 0 0 12px rgba(61, 214, 140, 0.25) !important;
+}
+
+/* 🕰️ 試験モード未開示時: 正解肢であることを完全に隠蔽し通常選択肢と同一にする */
+html.ui-brass body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected),
+html.ui-brass body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
+  background: rgba(224, 194, 94, 0.08) !important;
+  border: 1.5px solid rgba(224, 194, 94, 0.32) !important;
+  border-left: 3.5px solid rgba(224, 194, 94, 0.5) !important;
+  color: #FFF3C4 !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+}
+
+html.ui-brass body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected):hover,
+html.ui-brass body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected):hover {
+  background: rgba(224, 194, 94, 0.22) !important;
+  border-color: #FFD700 !important;
+  border-left: 4px solid #FFD700 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 16px rgba(224, 194, 94, 0.45), inset 0 0 10px rgba(224, 194, 94, 0.2) !important;
+  transform: translateY(-1px) !important;
 }
 
 /* 🕰️ 正解確定時の真鍮刻印フラッシュ */
@@ -884,12 +932,37 @@ html.ui-cyber .qc .ch2.exam-selected {
   box-shadow: 0 0 24px rgba(0, 229, 255, 0.65), inset 0 0 14px rgba(0, 229, 255, 0.35) !important;
 }
 
-html.ui-cyber .qc .ch2.ok {
+/* 🚀 正解選択肢: 通常閲覧時、または試験モードで解答開示後 */
+html.ui-cyber body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
+html.ui-cyber body.exam-mode .qc.exam-revealed .ch2.ok,
+html.ui-cyber body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   border-color: #00FF66 !important;
+  border-left: 4.5px solid #00FF66 !important;
   color: #86EFAC !important;
   font-weight: 700 !important;
-  background: rgba(0, 255, 102, 0.15) !important;
-  box-shadow: 0 0 26px rgba(0, 255, 102, 0.65), inset 0 0 14px rgba(0, 255, 102, 0.3) !important;
+  background: linear-gradient(90deg, rgba(0, 255, 102, 0.25), rgba(0, 229, 255, 0.15)) !important;
+  box-shadow: 0 0 26px rgba(0, 255, 102, 0.65), inset 0 0 14px rgba(0, 229, 255, 0.3) !important;
+}
+
+/* 🚀 試験モード未開示時: 正解肢であることを完全に隠蔽し通常選択肢と同一にする */
+html.ui-cyber body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected),
+html.ui-cyber body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
+  background: rgba(0, 229, 255, 0.05) !important;
+  border: 1.5px solid rgba(0, 229, 255, 0.3) !important;
+  border-left: 3.5px solid rgba(0, 229, 255, 0.6) !important;
+  color: #E0F2FE !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+}
+
+html.ui-cyber body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected):hover,
+html.ui-cyber body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected):hover {
+  background: rgba(0, 229, 255, 0.18) !important;
+  border-color: #00FF66 !important;
+  border-left: 4px solid #00FF66 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 20px rgba(0, 255, 102, 0.4) !important;
+  transform: translateX(4px) !important;
 }
 
 /* 🚀 正解確定時のサイバーパルス */
@@ -1214,13 +1287,37 @@ html.ui-liquid .qc .ch2.exam-selected {
   box-shadow: 0 0 24px rgba(255, 0, 128, 0.55), inset 0 0 12px rgba(255, 122, 0, 0.35) !important;
 }
 
-html.ui-liquid .qc .ch2.ok {
+/* 🌸 正解選択肢: 通常閲覧時、または試験モードで解答開示後 */
+html.ui-liquid body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
+html.ui-liquid body.exam-mode .qc.exam-revealed .ch2.ok,
+html.ui-liquid body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   border-color: #3DD68C !important;
   border-left: 5px solid #3DD68C !important;
   color: #A7F3D0 !important;
   font-weight: 700 !important;
   background: linear-gradient(90deg, rgba(61, 214, 140, 0.25), rgba(255, 0, 128, 0.15)) !important;
   box-shadow: 0 0 24px rgba(61, 214, 140, 0.5), inset 0 0 12px rgba(61, 214, 140, 0.25) !important;
+}
+
+/* 🌸 試験モード未開示時: 正解肢であることを完全に隠蔽し通常選択肢と同一にする */
+html.ui-liquid body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected),
+html.ui-liquid body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
+  background: rgba(255, 0, 128, 0.06) !important;
+  border: 1.5px solid rgba(255, 0, 128, 0.28) !important;
+  border-left: 4px solid rgba(255, 0, 128, 0.5) !important;
+  color: #FDF2F8 !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+}
+
+html.ui-liquid body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected):hover,
+html.ui-liquid body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected):hover {
+  background: linear-gradient(90deg, rgba(255, 0, 128, 0.25), rgba(121, 40, 202, 0.25)) !important;
+  border-color: #FF007F !important;
+  border-left: 4.5px solid #FF007F !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 6px 22px rgba(255, 0, 128, 0.35) !important;
+  transform: translateX(3px) !important;
 }
 
 /* 🌸 正解確定時のフルイドブルーム波紋 */
@@ -1414,6 +1511,16 @@ html.ui-liquid .st-stat.exam-mode-chip:hover {
   font-size: 10px;
   opacity: 0.75;
   line-height: 1.35;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   全テーマ共通: 試験モード未開示時の正解エフェクト完全抑止
+   ═══════════════════════════════════════════════════════════════════ */
+body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected),
+body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
+  border-color: inherit;
+  box-shadow: none;
+  font-weight: 500;
 }
 
 @media (prefers-reduced-motion: reduce) {

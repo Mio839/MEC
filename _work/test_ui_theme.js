@@ -98,4 +98,15 @@ test('study.html, index.html, sw.js が正しく設定されている', () => {
   assert(swJs.includes('"./ui_theme.css"'), 'Missing ui_theme.css in sw.js');
 });
 
+console.log('── 5. 試験モード中の正解エフェクト完全抑止（ネタバレ防止） ──');
+test('全テーマで試験モード未開示時に .ch2.ok が隠蔽される', () => {
+  ['ui-aurora', 'ui-brass', 'ui-cyber', 'ui-liquid'].forEach(theme => {
+    assert(themeCss.includes(`html.${theme} body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok`), `Missing normal reveal rule in ${theme}`);
+    assert(themeCss.includes(`html.${theme} body.exam-mode .qc.exam-revealed .ch2.ok`), `Missing exam-revealed rule in ${theme}`);
+    assert(themeCss.includes(`html.${theme} body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected)`), `Missing exam concealment rule in ${theme}`);
+  });
+  assert(themeCss.includes('body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected)'), 'Missing global exam concealment rule');
+});
+
 console.log('\n全 ' + passed + ' 件 ok\n');
+
