@@ -399,6 +399,23 @@ html.ui-aurora .st-hdr {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.6) !important;
 }
 
+html.ui-aurora .hub-link {
+  background: linear-gradient(135deg, rgba(0, 223, 216, 0.32), rgba(0, 112, 243, 0.32)) !important;
+  border: 1.5px solid #00DFD8 !important;
+  color: #FFFFFF !important;
+  font-weight: 800 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 0 16px rgba(0, 223, 216, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  text-shadow: 0 0 8px rgba(0, 223, 216, 0.8) !important;
+}
+
+html.ui-aurora .hub-link:hover {
+  background: linear-gradient(135deg, rgba(0, 223, 216, 0.55), rgba(0, 112, 243, 0.55)) !important;
+  border-color: #FFFFFF !important;
+  box-shadow: 0 0 24px rgba(0, 223, 216, 0.75), inset 0 1px 0 #FFF !important;
+  transform: translateY(-1px) scale(1.03) !important;
+}
+
 html.ui-aurora .st-stat {
   background: rgba(255, 255, 255, 0.14) !important;
   border: 1.5px solid rgba(0, 223, 216, 0.5) !important;
@@ -887,6 +904,23 @@ html.ui-brass .st-hdr {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), inset 0 1.5px 0 rgba(255, 243, 196, 0.5) !important;
 }
 
+html.ui-brass .hub-link {
+  background: linear-gradient(180deg, rgba(224, 194, 94, 0.4), rgba(140, 109, 31, 0.4)) !important;
+  border: 1.5px solid #FFD700 !important;
+  color: #FFF8DC !important;
+  font-weight: 900 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 243, 196, 0.6) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important;
+}
+
+html.ui-brass .hub-link:hover {
+  background: linear-gradient(180deg, rgba(255, 215, 0, 0.55), rgba(201, 162, 39, 0.55)) !important;
+  border-color: #FFFFFF !important;
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.75), inset 0 1px 0 #FFF !important;
+  transform: translateY(-1px) scale(1.03) !important;
+}
+
 html.ui-brass .st-stat {
   background: rgba(224, 194, 94, 0.22) !important;
   border: 1.5px solid rgba(224, 194, 94, 0.75) !important;
@@ -1359,6 +1393,25 @@ html.ui-cyber .st-hdr {
   border: 1.5px solid #00E5FF !important;
   border-radius: 6px !important;
   box-shadow: 0 0 26px rgba(0, 229, 255, 0.35), inset 0 0 14px rgba(0, 229, 255, 0.15) !important;
+}
+
+html.ui-cyber .hub-link {
+  background: rgba(0, 229, 255, 0.25) !important;
+  border: 1.5px solid #00E5FF !important;
+  color: #00E5FF !important;
+  font-weight: 900 !important;
+  font-family: 'SFMono-Regular', Menlo, monospace !important;
+  border-radius: 4px !important;
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.5), inset 0 0 8px rgba(0, 229, 255, 0.25) !important;
+  text-shadow: 0 0 10px #00E5FF !important;
+}
+
+html.ui-cyber .hub-link:hover {
+  background: rgba(0, 255, 102, 0.35) !important;
+  border-color: #00FF66 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 24px rgba(0, 255, 102, 0.8), inset 0 0 10px rgba(0, 255, 102, 0.4) !important;
+  transform: translateY(-1px) scale(1.03) !important;
 }
 
 html.ui-cyber .st-stat {
@@ -1839,6 +1892,23 @@ html.ui-liquid .st-hdr {
   box-shadow: 0 10px 32px rgba(255, 0, 128, 0.3), inset 0 0 16px rgba(121, 40, 202, 0.2) !important;
 }
 
+html.ui-liquid .hub-link {
+  background: linear-gradient(135deg, rgba(255, 0, 128, 0.35), rgba(121, 40, 202, 0.35)) !important;
+  border: 1.5px solid #FF007F !important;
+  color: #FFFFFF !important;
+  font-weight: 800 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 0 16px rgba(255, 0, 128, 0.45), inset 0 0 8px rgba(255, 255, 255, 0.4) !important;
+  text-shadow: 0 0 8px rgba(255, 0, 128, 0.9) !important;
+}
+
+html.ui-liquid .hub-link:hover {
+  background: linear-gradient(135deg, rgba(255, 0, 128, 0.55), rgba(255, 122, 0, 0.55)) !important;
+  border-color: #FFFFFF !important;
+  box-shadow: 0 0 24px rgba(255, 0, 128, 0.75), inset 0 0 10px #FFF !important;
+  transform: translateY(-1px) scale(1.04) !important;
+}
+
 html.ui-liquid .st-stat {
   background: rgba(255, 0, 128, 0.22) !important;
   border: 1.5px solid rgba(255, 0, 128, 0.65) !important;
@@ -2081,4 +2151,78 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
     font-size: 12.5px !important;
     padding: 4px 10px !important;
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ヘッダー折りたたみ時 (hdr-collapsed): 1行統合レイアウト
+   ═══════════════════════════════════════════════════════════════════ */
+.st-hdr.hdr-collapsed {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  gap: 8px !important;
+  padding: 6px 12px !important;
+  overflow-x: auto !important;
+  scrollbar-width: none !important;
+}
+
+.st-hdr.hdr-collapsed::-webkit-scrollbar {
+  display: none !important;
+}
+
+.st-hdr.hdr-collapsed .st-title-row {
+  display: contents !important;
+}
+
+.st-hdr.hdr-collapsed .st-title {
+  display: none !important;
+}
+
+.st-hdr.hdr-collapsed .st-stats {
+  display: contents !important;
+}
+
+.st-hdr.hdr-collapsed .hub-link {
+  order: 1 !important;
+}
+
+.st-hdr.hdr-collapsed .st-stat.exam-mode-chip {
+  order: 2 !important;
+  margin-left: 0 !important;
+}
+
+.st-hdr.hdr-collapsed .st-stat:not(.exam-mode-chip) {
+  order: 3 !important;
+}
+
+.st-hdr.hdr-collapsed .mec-sync-badge {
+  order: 4 !important;
+  margin-left: 0 !important;
+}
+
+.st-hdr.hdr-collapsed .mec-err-badge {
+  order: 5 !important;
+}
+
+.st-hdr.hdr-collapsed .vis-count {
+  order: 6 !important;
+}
+
+.st-hdr.hdr-collapsed #hdrToggle {
+  order: 7 !important;
+  margin-left: 4px !important;
+}
+
+.st-hdr.hdr-collapsed #mecRefreshBtn {
+  order: 8 !important;
+}
+
+.st-hdr.hdr-collapsed .hdr-toggle:not(#hdrToggle):not(#mecRefreshBtn) {
+  order: 9 !important;
+}
+
+.st-hdr.hdr-collapsed #mecBuildVer,
+.st-hdr.hdr-collapsed [id="mecBuildVer"] {
+  display: none !important;
 }

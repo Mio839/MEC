@@ -13,7 +13,7 @@ if (!fs.existsSync(SHOTS_DIR)) {
   fs.mkdirSync(SHOTS_DIR, { recursive: true });
 }
 
-function generatePreviewHtml(theme, isExam = false, state = 'default') {
+function generatePreviewHtml(theme, isExam = false, state = 'default', isCollapsed = false) {
   const isAnswered = state === 'answered' || !isExam;
   return `<!DOCTYPE html>
 <html class="${theme}">
@@ -22,24 +22,47 @@ function generatePreviewHtml(theme, isExam = false, state = 'default') {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/study.css">
 <link rel="stylesheet" href="/ui_theme.css">
-<title>Theme Preview - ${theme} (Exam: ${isExam}, State: ${state})</title>
+<title>Theme Preview - ${theme} (Exam: ${isExam}, State: ${state}, Collapsed: ${isCollapsed})</title>
 <style>
-body { margin: 24px auto; max-width: 900px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-.preview-container { display: flex; flex-direction: column; gap: 20px; }
+body { margin: 20px auto; max-width: 900px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+.preview-container { display: flex; flex-direction: column; gap: 16px; }
 @media (max-width: 600px) {
-  body { margin: 12px auto; padding: 0 10px; }
+  body { margin: 8px auto; padding: 0 8px; }
 }
 </style>
 </head>
 <body class="${isExam ? 'exam-mode' : ''}">
 <div class="preview-container">
-  <div class="st-hdr" style="padding: 12px 18px;">
-    <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
-      <span class="st-stat">118A-12</span>
-      <span class="st-stat exam-mode-chip">${isExam ? '⚡ 試験モード' : '📖 復習モード'}</span>
-      <span class="st-stat">正答率: 84%</span>
+  <header class="st-hdr ${isCollapsed ? 'hdr-collapsed' : ''}">
+    <div class="st-title-row">
+      <span class="st-title">📚 統合学習ツール</span>
+      <a class="hub-link" href="#">← ハブへ</a>
+      <span class="mec-sync-badge">⚙️ 未設定</span>
+      <button class="mec-err-badge" style="display:inline-flex;">⚠️ 0件</button>
+      <span class="vis-count">—</span>
+      <button class="hdr-toggle">${isCollapsed ? '▶' : '▼'}</button>
+      <button class="hdr-toggle">🔄</button>
+      <button class="hdr-toggle">⌨️</button>
+      <span id="mecBuildVer" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;">b-0725a</span>
     </div>
-  </div>
+    <div class="st-stats">
+      <div class="st-stat">済 <span>12</span>問</div>
+      <div class="st-stat">合計 <span>5487</span>問</div>
+      <div class="st-stat"><span class="st-streak">🔥 <span>3</span>日連続</span></div>
+      <button type="button" class="st-stat gm-lv-chip">Lv.<b>12</b></button>
+      <button type="button" class="st-stat gm-mission-chip">🎯 1/3</button>
+      <button class="st-stat exam-mode-chip">🎓 試験モード</button>
+    </div>
+    ${!isCollapsed ? `
+    <div class="st-filter-panel" style="margin-top:8px;">
+      <div style="display:flex; gap:6px; flex-wrap:wrap;">
+        <button class="nb fc-on">全問</button>
+        <button class="nb">難問</button>
+        <button class="nb">標準</button>
+        <button class="nb">易問</button>
+      </div>
+    </div>` : ''}
+  </header>
 
   <!-- 問題カード -->
   <div class="qc ${isAnswered ? 'answered ok-card' : ''}" style="padding: 24px;">
@@ -98,12 +121,13 @@ function startServer() {
     let reqUrl = new URL(req.url, `http://localhost:${PORT}`);
     let reqPath = reqUrl.pathname;
     let stateParam = reqUrl.searchParams.get('state') || 'default';
+    let isCollapsed = reqUrl.searchParams.get('collapsed') === 'true';
 
     if (reqPath.startsWith('/preview/')) {
       const isExam = reqPath.includes('_exam');
       const theme = reqPath.replace('/preview/', '').replace('_exam', '').replace('.html', '');
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-      res.end(generatePreviewHtml(theme, isExam, stateParam));
+      res.end(generatePreviewHtml(theme, isExam, stateParam, isCollapsed));
       return;
     }
 
@@ -140,7 +164,7 @@ function cdpSend(ws, method, params = {}, id = 1) {
   });
 }
 
-async function captureAll(iterName = 'iter1', state = 'default') {
+async function captureAll(iterName = 'iter1', state = 'default', isCollapsed = false) {
   const server = await startServer();
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'chrome-mec-'));
   const chromeProc = spawn(CHROME_PATH, [
@@ -185,14 +209,15 @@ async function captureAll(iterName = 'iter1', state = 'default') {
 
     for (const t of themes) {
       // 1. 通常プレビュー
-      const previewUrl = `http://localhost:${PORT}/preview/${t}.html?state=${state}`;
+      const previewUrl = `http://localhost:${PORT}/preview/${t}.html?state=${state}&collapsed=${isCollapsed}`;
       await cdpSend(ws, 'Page.navigate', { url: previewUrl }, msgId++);
       await new Promise(r => setTimeout(r, 600));
 
       const shot = await cdpSend(ws, 'Page.captureScreenshot', { format: 'png' }, msgId++);
       const vpSuffix = vp.name === 'mobile' ? '_mobile' : '';
       const stateSuffix = state !== 'default' ? `_${state}` : '';
-      const outFile = path.join(SHOTS_DIR, `${iterName}_${t}${vpSuffix}${stateSuffix}.png`);
+      const colSuffix = isCollapsed ? '_collapsed' : '';
+      const outFile = path.join(SHOTS_DIR, `${iterName}_${t}${vpSuffix}${stateSuffix}${colSuffix}.png`);
       fs.writeFileSync(outFile, Buffer.from(shot.data, 'base64'));
       captured[`${t}_${vp.name}`] = outFile;
       console.log(`Saved screenshot: ${outFile}`);
@@ -208,16 +233,19 @@ async function captureAll(iterName = 'iter1', state = 'default') {
 const args = process.argv.slice(2);
 let iter = 'iter1';
 let state = 'default';
+let isCollapsed = false;
 
 for (const arg of args) {
   if (arg.startsWith('--state=')) {
     state = arg.replace('--state=', '');
+  } else if (arg === '--collapsed' || arg === '--collapsed=true') {
+    isCollapsed = true;
   } else if (!arg.startsWith('--')) {
     iter = arg;
   }
 }
 
-captureAll(iter, state).then(() => {
+captureAll(iter, state, isCollapsed).then(() => {
   console.log('Capture completed successfully.');
   process.exit(0);
 }).catch((err) => {

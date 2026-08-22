@@ -102,8 +102,8 @@ body.exam-mode .st-hdr::after{content:'';position:absolute;left:0;right:0;bottom
 body.exam-mode.exam-idle-lit .st-hdr::after{opacity:.85;}
 @keyframes examIdleRun{from{background-position:-40% 0;}to{background-position:140% 0;}}
 .st-title{font-family:var(--font-display);letter-spacing:var(--font-display-ls);font-size:15px;font-weight:800;white-space:nowrap;flex-shrink:0;}
-.hub-link{font-size:11px;color:rgba(255,255,255,.6);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,255,255,.18);border-radius:20px;white-space:nowrap;}
-.hub-link:hover{background:rgba(var(--glass-rgb),.1);}
+.hub-link{font-size:12.5px;color:#FFFFFF;font-weight:750;text-decoration:none;padding:4px 12px;border:1.5px solid rgba(255,255,255,.45);border-radius:14px;white-space:nowrap;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);box-shadow:0 2px 8px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.35);transition:all .16s ease-out;display:inline-flex;align-items:center;gap:3px;flex-shrink:0;}
+.hub-link:hover{background:rgba(255,255,255,.28);border-color:#FFFFFF;box-shadow:0 0 12px rgba(255,255,255,.45);transform:translateY(-1px);}
 .mec-sync-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(var(--glass-rgb),.1);color:rgba(255,255,255,.8);margin-left:auto;white-space:nowrap;flex-shrink:0;}
 /* 統計チップは折り返さず横スクロール＝常に1行に収める（Lv/ミッションのチップが増えて
    狭い画面では2〜3行に折り返し、ヘッダーを押し上げていた） */
