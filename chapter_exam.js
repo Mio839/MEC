@@ -619,11 +619,33 @@
     } catch (err) {}
   }
 
+  function _ceShowFinishBtn() {
+    var btn = document.getElementById('ceFinishBtn');
+    if (btn) return;
+    btn = document.createElement('button');
+    btn.id = 'ceFinishBtn';
+    btn.style.cssText = 'display:block;margin:24px auto 40px;padding:12px 28px;font-size:15px;font-weight:700;cursor:pointer;background:#2D8C4E;border:none;color:#fff;border-radius:10px;box-shadow:0 6px 20px rgba(45,140,78,.4);transition:transform .15s;';
+    btn.textContent = '📊 結果画面に進む';
+    btn.onclick = function () {
+      btn.disabled = true;
+      cleanup();
+      showResult();
+    };
+    var lastCard = exam.queue[exam.queue.length - 1];
+    if (lastCard && lastCard.parentNode) lastCard.after(btn);
+    else (document.querySelector('.ct') || document.body).appendChild(btn);
+  }
+
   // ─── Progress & timer ──────────────────────────────────────────
   function updateProg() {
     document.getElementById('ceProgTxt').textContent = exam.answered + ' / ' + exam.queue.length + ' 問';
     var w = exam.queue.length ? exam.answered / exam.queue.length * 100 : 0;
     document.getElementById('ceProgFill').style.width = w + '%';
+    var track = document.querySelector('.ce-prog-track');
+    if (track) {
+      if (exam.queue.length && exam.answered >= exam.queue.length) track.classList.add('exam-prog-complete');
+      else track.classList.remove('exam-prog-complete');
+    }
   }
 
   function startTimer() {
@@ -736,7 +758,7 @@
     ceUpdateFocus();
 
     if (exam.answered >= exam.queue.length) {
-      setTimeout(function () { cleanup(); showResult(); }, 1200);
+      _ceShowFinishBtn();
     }
   }
 

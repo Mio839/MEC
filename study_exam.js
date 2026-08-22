@@ -4440,6 +4440,7 @@ function exitExam() {
   _lastSessionWasTodayWrong = _todayWrongMode;
   // ⚠️ 稼働灯(D9)は点灯クラスとタイマーの両方を落とすこと。残ると通常閲覧のヘッダで光が走り続ける。
   document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink', 'exam-sprint', 'exam-idle-lit', 'exam-overdrive', 'exam-screen-shake', 'exam-red-flash', 'exam-slash-freeze');
+  document.querySelector('.exam-prog-track')?.classList.remove('exam-prog-complete');
   clearTimeout(_examIdleTimer); _examIdleTimer = null;
   _examIdleHoldUntil = 0; _examIdleFocusUid = null; _examIdleFocusAt = 0;
   // Phase 5 段1: R3 の焦点色は body のインラインスタイルなので通常閲覧へ持ち越さない。

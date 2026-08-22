@@ -1,3 +1,4 @@
+// 2026-08-23f: 試験モードプログレスバーの難問丸印（.ep-hard）完全撤廃、テーマ別進捗バー演出（Aurora/Brass/Cyber/Liquid）、全問解答完了時コンプリート発光、最終問題解答後の即時自動遷移廃止、ゲージ行の終了ボタン削除。
 // 2026-08-23e: UIテーマ自律進化・完全ビジュアル改善ループ完遂（全20イテレーション）。全4テーマの基礎構造・タイポグラフィ・動的展開・操作系・モバイル・GPU負荷・Retina対応を極限調律。
 // 2026-08-23d: 学習ハブHeroゲージの同心円・常時黄色パーティクルのBrass限定化、Heroゲージ直下の目標・進捗バッジ洗練、日次・週間ミッション達成エフェクトのテーマ別完全差別化（Aurora/Brass/Cyber/Liquid）。
 // 2026-08-23c: 試験モード中の正解選択肢のネタバレ完全防止（未開示時のborder-left等の差分エフェクトを完全撤廃し通常選択肢と100%同一化）。
@@ -352,7 +353,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-23e";
+const SHELL_VERSION = "2026-08-23f";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
