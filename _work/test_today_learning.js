@@ -44,11 +44,22 @@ all &= run('昨日の解答は除外',
   { [todayKey]: 1, [ydayKey]: 30 },
   { solved: 1, exT: 1, exC: 1, normal: 0, xp: 20 });
 
-// 同一セッションで同じUIDを2回解答 → firstTouch は1つ
+// 同一セッションで同じUIDを2回解答 → 2問としてカウント
 all &= run('同一セッション同一UIDの再解答',
   [row('a_ch01_q1', nowMin, '0', 's1'), row('a_ch01_q1', nowMin, '1', 's1')],
-  { [todayKey]: 1 },
+  { [todayKey]: 2 },
   { solved: 2, exT: 2, exC: 1, normal: 0, xp: 34 });
+
+// 初回試験10問(7正解3誤答)＋誤答3問を再試験(全正解) → solved = 13問 (exT=13, exC=10)
+all &= run('初回試験10問＋誤答3問再試験',
+  [
+    row('q1', nowMin, '1', 's1'), row('q2', nowMin, '1', 's1'), row('q3', nowMin, '1', 's1'),
+    row('q4', nowMin, '1', 's1'), row('q5', nowMin, '1', 's1'), row('q6', nowMin, '1', 's1'),
+    row('q7', nowMin, '1', 's1'), row('q8', nowMin, '0', 's1'), row('q9', nowMin, '0', 's1'), row('q10', nowMin, '0', 's1'),
+    row('q8', nowMin, '1', 's2'), row('q9', nowMin, '1', 's2'), row('q10', nowMin, '1', 's2')
+  ],
+  { [todayKey]: 13 },
+  { solved: 13, exT: 13, exC: 10, normal: 0, xp: 13 * 10 + 13 * 4 + 10 * 6 });
 
 // attempts だけ他端末から同期されて activity が追いつかない → 負にしない
 all &= run('activity 不足でも負にしない',

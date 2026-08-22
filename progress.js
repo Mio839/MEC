@@ -721,10 +721,9 @@
     const prevCount = done[uid] || 0;
     done[uid] = prevCount + 1;
     lsRaw(KD, done);
-    const isFirstThisSession = !window.mecSessionDone.has(uid);
     window.mecSessionDone.add(uid);
     window.mecMarkStale?.();
-    if (isFirstThisSession) logActivity();
+    logActivity();
     scheduleSync();
     // ページ側がSRSを持つ場合は自己申告つきで復習キューへ反映（study.htmlが定義）
     try { window.mecOnLapSRS?.(uid, grade); } catch {}

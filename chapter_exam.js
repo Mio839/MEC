@@ -376,6 +376,7 @@
     exam.answered = 0;
     exam.correct = 0;
     exam.streak = 0;
+    exam.sess = 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
     _ceRecoverPending = false;   // C2: 立て直しはセッションをまたがない
     exam.active = true;
     exam.startTime = Date.now();
@@ -781,7 +782,67 @@
     if (choices[n]) ceSelectChoice(card, choices[n]);
   }
 
-  // ─── myrate tracking ──────────────────────────────────────────
+  // ─── myrate tracking & attempt logging ─────────────────────────
+  function logCeAttempt(uid, ok) {
+    if (!uid) return;
+    try {
+      if (window.MecAttempts && typeof MecAttempts.log === 'function') {
+        MecAttempts.log({
+          uid: uid,
+          ok: ok,
+          choice: '',
+          seenAt: _ceSeenAt[uid],
+          mode: 'c',
+          sess: exam.sess || '',
+          n: exam.answered || 1
+        });
+      } else {
+        var nowMin = Math.floor(Date.now() / 60000);
+        var sec = '';
+        if (_ceSeenAt[uid]) {
+          var diff = Math.round((Date.now() - _ceSeenAt[uid]) / 1000);
+          if (diff >= 0 && diff <= 600) sec = String(diff);
+        }
+        var line = [
+          uid,
+          nowMin,
+          '',
+          ok ? '1' : '0',
+          sec,
+          'c',
+          exam.sess || ('c_' + nowMin),
+          exam.answered || 1
+        ].join('|');
+        var att = JSON.parse(localStorage.getItem('mec_attempts_v1') || '[]');
+        if (!Array.isArray(att)) att = [];
+        att.push(line);
+        if (att.length > 5000) att = att.slice(-5000);
+        localStorage.setItem('mec_attempts_v1', JSON.stringify(att));
+      }
+    } catch (e) {}
+
+    // activity_v1 加算
+    try {
+      if (typeof window.mecLogActivity === 'function') {
+        window.mecLogActivity();
+      } else {
+        var today = new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
+        var act = JSON.parse(localStorage.getItem('activity_v1') || '{}');
+        act[today] = (act[today] || 0) + 1;
+        localStorage.setItem('activity_v1', JSON.stringify(act));
+      }
+    } catch (e) {}
+
+    // done_v2 加算
+    try {
+      var done = JSON.parse(localStorage.getItem('done_v2') || '{}');
+      done[uid] = (done[uid] || 0) + 1;
+      localStorage.setItem('done_v2', JSON.stringify(done));
+    } catch (e) {}
+
+    try { if (window.MECSync) window.MECSync.scheduleSync(); } catch (e) {}
+  }
+
   function saveMyRate(uid, ok) {
     if (!uid) return;
     try {
@@ -792,6 +853,7 @@
       r[uid] = e;
       localStorage.setItem('myrate_v1', JSON.stringify(r));
     } catch (err) {}
+    logCeAttempt(uid, ok);
   }
 
   // ─── 演出セット（study.html の EXAM_EFFECT_THEMES と同一配色） ──

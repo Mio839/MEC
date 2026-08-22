@@ -107,12 +107,12 @@ test('試験モードの _markExamDone でも今日が記録される', () => {
   assert.strictEqual(JSON.parse(store.done_v2)['circ_ch02_q7'], 1, '周回数も加算される');
 });
 
-test('同じ問題を同一セッションで2回触れても活動は1回だけ数える', () => {
+test('同じ問題を2回解いた場合（再試験・再演習）も活動回数・周回数ともに積み上がる', () => {
   const { ctx, store } = env({});
   vm.runInContext(grabFn(EXAM, '_markExamDone') + '\n window.__markExamDone = _markExamDone;', ctx);
   ctx.window.__markExamDone('circ_ch02_q7');
   ctx.window.__markExamDone('circ_ch02_q7');
-  assert.strictEqual(JSON.parse(store.activity_v1)[daysBack(0)], 1, '二重計上している');
+  assert.strictEqual(JSON.parse(store.activity_v1)[daysBack(0)], 2, '再試験・再演習もそれぞれ1問としてカウントされる');
   assert.strictEqual(JSON.parse(store.done_v2)['circ_ch02_q7'], 2, '周回数は2回とも加算される');
 });
 

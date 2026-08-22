@@ -1,3 +1,8 @@
+// 2026-08-22q: 再試験・再演習・章別試験の解答数を「今日解いた問題」に完全累積カウント。
+//   - chapter_exam.js: 試験解答時に attempts / activity_v1 / done_v2 へのログ追記を追加。
+//   - progress.js / study_exam.js: 同一セッション同一問題の重複ガードを撤廃し、解いた回数すべてを activity_v1 へ計上。
+//   - index.html: getTodayLearning() を試験・再試験・通常演習の全解答回数の完全累積へ更新。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-22p: 自作問題・暗記メモチップのフィルター行移設、未採点・苦手ボタン削除、検索窓のフォーカス拡大と極限スリム化。
 //   - study.html: 「自作問題」「暗記メモ」をフィルター行先頭へ移設。不要な「未採点」「苦手」フィルターボタンを削除。
 //   - ui_theme.css: 検索窓（通常90px→フォーカス時175px）のスムーズ拡大、章ジャンプの極限スリム化（92px）。
@@ -332,7 +337,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-22p";
+const SHELL_VERSION = "2026-08-22q";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

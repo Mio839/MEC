@@ -1268,7 +1268,6 @@ function getTodayLearning() {
   try { att = JSON.parse(localStorage.getItem('mec_attempts_v1') || '[]'); } catch {}
 
   let exT = 0, exC = 0;
-  const firstTouch = new Set();          // sess|uid の異なり＝activity_v1 と同じ数え方
   (Array.isArray(att) ? att : []).forEach(line => {
     if (typeof line !== 'string') return;
     const p = line.split('|');
@@ -1277,13 +1276,12 @@ function getTodayLearning() {
     if (!t || _jstDay(t * 60000) !== today) return;
     exT++;
     if (p[3] === '1') exC++;
-    firstTouch.add(p[6] + '|' + p[0]);
   });
 
   let act = 0;
   try { act = (JSON.parse(localStorage.getItem('activity_v1') || '{}'))[today] || 0; } catch {}
-  // 引き算が負になる状況（attempts だけ他端末から同期された等）は0で止める
-  const normal = Math.max(0, act - firstTouch.size);
+  // 通常モードぶん: 今日の全活動回数(act)から試験・再試験の解答回数(exT)を引いたもの（負なら0）
+  const normal = Math.max(0, act - exT);
 
   return {
     solved: exT + normal,
