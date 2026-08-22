@@ -62,6 +62,60 @@ body { margin: 20px auto; max-width: 900px; font-family: -apple-system, BlinkMac
     </div>` : ''}
   </header>
 
+  <!-- 学習ハブ Heroゲージ (演出確認用) -->
+  <div style="display:flex; justify-content:center; align-items:center; padding:16px 0; background:rgba(0,0,0,0.2); border-radius:16px;">
+    <div class="gauge" id="gaugeBox" data-tier="4">
+      <div class="gauge-ring">
+        <svg viewBox="0 0 168 168" aria-hidden="true">
+          <path class="gear gear-main" id="gearMain"></path>
+          <path class="gear gear-a"    id="gearA"></path>
+          <path class="gear gear-b"    id="gearB"></path>
+          <path class="gear gear-c"    id="gearC"></path>
+          <path class="gear gear-d"    id="gearD"></path>
+          <circle class="gauge-trk"  cx="84" cy="84" r="54"></circle>
+          <circle class="gauge-val" id="gaugeVal" cx="84" cy="84" r="54" style="stroke-dashoffset: 84.8;"></circle>
+          <circle class="gauge-ovf" id="gaugeOvf" cx="84" cy="84" r="54"></circle>
+          <g class="gauge-dot" id="gaugeDot" style="transform-origin:84px 84px; transform: rotate(270deg);">
+            <circle class="halo" cx="84" cy="30" r="10"></circle>
+            <circle cx="84" cy="30" r="5"></circle>
+          </g>
+        </svg>
+        <span class="gauge-mid" id="gaugeMid"><span id="statPct">75</span><em>%</em></span>
+      </div>
+      <p class="gauge-cap" id="gaugeCap" style="margin:4px 0 2px; font-size:12px; opacity:0.8;">今日の目標 (Tier 4)</p>
+      <p class="gauge-goal" style="margin:0; font-size:13px; font-weight:700;"><b id="gaugeDoneN">30</b> / <span id="gaugeGoalN">40</span>問</p>
+    </div>
+  </div>
+  <script>
+    function _gearPath(cx, cy, root, tip, n) {
+      const step = Math.PI * 2 / n, w = step * .27;
+      const pt = (a, r) => (cx + Math.cos(a) * r).toFixed(2) + ' ' + (cy + Math.sin(a) * r).toFixed(2);
+      let d = 'M' + pt(-w, root);
+      for (let i = 0; i < n; i++) {
+        const a = i * step;
+        d += 'L' + pt(a - w * .58, tip) + 'L' + pt(a + w * .58, tip) + 'L' + pt(a + w, root);
+        d += 'A' + root + ' ' + root + ' 0 0 1 ' + pt(a + step - w, root);
+      }
+      return d + 'Z';
+    }
+    function _holePath(cx, cy, r) {
+      return 'M' + (cx + r) + ' ' + cy + 'A' + r + ' ' + r + ' 0 1 0 ' + (cx - r) + ' ' + cy + 'A' + r + ' ' + r + ' 0 1 0 ' + (cx + r) + ' ' + cy + 'Z';
+    }
+    [
+      { id: 'gearMain', cx: 84,  cy: 84,  root: 74,   tip: 82, n: 24, hole: 66 },
+      { id: 'gearA',    cx: 17,  cy: 17,  root: 10.6, tip: 17, n: 12, hole: 4.8 },
+      { id: 'gearB',    cx: 151, cy: 151, root: 11.5, tip: 17, n: 16, hole: 5.1 },
+      { id: 'gearC',    cx: 148, cy: 20,  root: 8,    tip: 13, n: 10, hole: 3.7 },
+      { id: 'gearD',    cx: 18,  cy: 150, root: 10,   tip: 15, n: 14, hole: 4.4 }
+    ].forEach(g => {
+      const el = document.getElementById(g.id);
+      if (el) {
+        el.setAttribute('d', _gearPath(g.cx, g.cy, g.root, g.tip, g.n) + _holePath(g.cx, g.cy, g.hole));
+        el.setAttribute('fill-rule', 'evenodd');
+      }
+    });
+  </script>
+
   <!-- 問題カード -->
   <div class="qc ${isAnswered ? 'answered ok-card' : ''}" style="padding: 24px;">
     <div class="qh" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">

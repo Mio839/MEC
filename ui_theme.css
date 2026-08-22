@@ -8,7 +8,8 @@
    コンセプト: Appleライクな極上すりガラス・虹色プリズム屈折・透明感
    ═══════════════════════════════════════════════════════════════════ */
 html.ui-aurora body {
-  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(121, 40, 202, 0.5) 0%, transparent 60%),
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(121, 40, 202, 0.55) 0%, transparent 60%),
+              radial-gradient(circle at 50% 15%, rgba(0, 223, 216, 0.25) 0%, transparent 50%),
               radial-gradient(circle at 10% 40%, rgba(0, 223, 216, 0.35) 0%, transparent 55%),
               radial-gradient(circle at 90% 60%, rgba(0, 112, 243, 0.4) 0%, transparent 55%),
               radial-gradient(ellipse at 50% 110%, rgba(255, 0, 128, 0.25) 0%, transparent 60%),
@@ -2202,6 +2203,12 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
    ═══════════════════════════════════════════════════════════════════ */
 /* 📱 モバイル幅（375px）極限調律 */
 @media (max-width: 600px) {
+  .gauge {
+    width: clamp(125px, 35vw, 155px) !important;
+  }
+  .gauge-mid {
+    font-size: clamp(22px, 6vw, 30px) !important;
+  }
   .qc {
     padding: 16px 14px !important;
     border-radius: 14px !important;
@@ -2416,25 +2423,25 @@ html.ui-liquid .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
    学習ハブ ゲージ & 背景アニメーションのテーマ別分岐 (Hub Themes)
    ═══════════════════════════════════════════════════════════════════ */
 
-/* 1. Brass 専用: 歯車列 (Clockwork Gears) & 真鍮光彩 */
+/* 1. Brass 専用: 歯車列 (Clockwork Gears) & 段階的メカニカル進化 (Tiers 0-6) */
 html:not(.ui-brass) .gauge .gear {
   display: none !important;
 }
 
 html.ui-brass .gauge .gear {
   display: block;
-  fill: #B8860B;
+  fill: #A07810;
   stroke: #E6C350;
   stroke-width: 1px;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 10px rgba(201, 162, 39, 0.4));
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 8px rgba(201, 162, 39, 0.3));
   transition: opacity var(--dur-long) var(--ease-out), fill var(--dur-long) var(--ease-out), filter var(--dur-long) var(--ease-out);
 }
 
 html.ui-brass .gauge .gear-main {
-  fill: #D4AF37;
+  fill: #C9A227;
   stroke: #FFF3A8;
   stroke-width: 1.2px;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 14px rgba(212, 175, 55, 0.5));
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 12px rgba(212, 175, 55, 0.45));
 }
 
 html.ui-brass .gauge .gauge-ring {
@@ -2447,9 +2454,9 @@ html.ui-brass .gauge .gauge-ring::before {
   position: absolute;
   inset: -2px;
   border-radius: 50%;
-  border: 1.5px dashed rgba(224, 194, 94, 0.45);
+  border: 1.5px dashed rgba(224, 194, 94, 0.4);
   box-shadow: inset 0 0 12px rgba(184, 134, 11, 0.35), 0 0 10px rgba(201, 162, 39, 0.25);
-  animation: gearSpin 36s linear infinite;
+  animation: gearSpin var(--brass-ring-t, 36s) linear infinite;
   pointer-events: none;
 }
 
@@ -2459,14 +2466,42 @@ html.ui-brass .gauge .gauge-ring::after {
   inset: 8px;
   border-radius: 50%;
   border: 1px dotted rgba(255, 235, 150, 0.35);
-  animation: gearSpin 24s linear infinite reverse;
+  animation: gearSpin calc(var(--brass-ring-t, 36s) * 0.65) linear infinite reverse;
   pointer-events: none;
 }
 
-/* 2. Aurora 専用: 偏光クリスタル & オーロラウェーブ (Aurora Waves) */
+/* 🕰️ Brass 段階的進化 (Tiers 0 - 6) */
+html.ui-brass .gauge[data-tier="0"] { --gear-t: 36s; --brass-ring-t: 45s; }
+html.ui-brass .gauge[data-tier="1"] { --gear-t: 24s; --brass-ring-t: 32s; }
+html.ui-brass .gauge[data-tier="2"] { --gear-t: 14s; --brass-ring-t: 22s; }
+html.ui-brass .gauge[data-tier="3"] { --gear-t: 9s;  --brass-ring-t: 15s; }
+html.ui-brass .gauge[data-tier="4"] { --gear-t: 5.5s; --brass-ring-t: 9s; }
+html.ui-brass .gauge[data-tier="5"] { --gear-t: 3.2s; --brass-ring-t: 5s; }
+html.ui-brass .gauge[data-tier="6"] { --gear-t: 1.8s; --brass-ring-t: 3s; }
+
+html.ui-brass .gauge[data-tier="3"] .gear-main,
+html.ui-brass .gauge[data-tier="4"] .gear-main {
+  fill: #D4AF37;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 16px rgba(224, 194, 94, 0.65));
+}
+
+html.ui-brass .gauge[data-tier="5"] .gear-main,
+html.ui-brass .gauge[data-tier="6"] .gear-main {
+  fill: #FFDF00;
+  stroke: #FFFFFF;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 24px rgba(255, 215, 0, 0.9));
+}
+
+html.ui-brass .gauge[data-tier="5"] .gauge-ring::before,
+html.ui-brass .gauge[data-tier="6"] .gauge-ring::before {
+  border-color: rgba(255, 223, 0, 0.85);
+  box-shadow: inset 0 0 18px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+/* 2. Aurora 専用: 偏光クリスタル & 段階的オーロラウェーブ (Tiers 0-6) */
 html.ui-aurora .gauge .gauge-ring {
   position: relative;
-  filter: drop-shadow(0 0 16px rgba(0, 223, 216, 0.35));
+  filter: drop-shadow(0 0 16px rgba(0, 223, 216, 0.4));
 }
 
 html.ui-aurora .gauge .gauge-ring::before {
@@ -2474,9 +2509,9 @@ html.ui-aurora .gauge .gauge-ring::before {
   position: absolute;
   inset: -6px;
   border-radius: 50%;
-  background: conic-gradient(from 0deg, rgba(0, 242, 254, 0.22), rgba(121, 40, 202, 0.28), rgba(255, 0, 128, 0.20), rgba(0, 112, 243, 0.25), rgba(0, 242, 254, 0.22));
+  background: conic-gradient(from 0deg, rgba(0, 242, 254, 0.25), rgba(121, 40, 202, 0.32), rgba(255, 0, 128, 0.22), rgba(0, 112, 243, 0.3), rgba(0, 242, 254, 0.25));
   filter: blur(10px);
-  animation: auroraWaveRotate 12s ease-in-out infinite alternate;
+  animation: auroraWaveRotate var(--aurora-wave-t, 14s) ease-in-out infinite alternate;
   pointer-events: none;
 }
 
@@ -2485,10 +2520,56 @@ html.ui-aurora .gauge .gauge-ring::after {
   position: absolute;
   inset: 4px;
   border-radius: 50%;
-  border: 1.5px solid rgba(255, 255, 255, 0.45);
-  box-shadow: inset 0 0 18px rgba(0, 223, 216, 0.4), 0 0 14px rgba(121, 40, 202, 0.35);
-  animation: auroraPulse 5s ease-in-out infinite alternate;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  box-shadow: inset 0 0 18px rgba(0, 223, 216, 0.45), 0 0 14px rgba(121, 40, 202, 0.4);
+  animation: auroraPulse var(--aurora-pulse-t, 6s) ease-in-out infinite alternate;
   pointer-events: none;
+}
+
+/* 🌟 Aurora 段階的進化 (Tiers 0 - 6) */
+html.ui-aurora .gauge[data-tier="0"] { --aurora-wave-t: 18s; --aurora-pulse-t: 8s; }
+html.ui-aurora .gauge[data-tier="1"] { --aurora-wave-t: 14s; --aurora-pulse-t: 6.5s; }
+html.ui-aurora .gauge[data-tier="2"] { --aurora-wave-t: 10s; --aurora-pulse-t: 5s; }
+html.ui-aurora .gauge[data-tier="3"] { --aurora-wave-t: 7s;  --aurora-pulse-t: 3.8s; }
+html.ui-aurora .gauge[data-tier="4"] { --aurora-wave-t: 4.5s; --aurora-pulse-t: 2.6s; }
+html.ui-aurora .gauge[data-tier="5"] { --aurora-wave-t: 2.8s; --aurora-pulse-t: 1.6s; }
+html.ui-aurora .gauge[data-tier="6"] { --aurora-wave-t: 1.6s; --aurora-pulse-t: 1.0s; }
+
+html.ui-aurora .gauge[data-tier="3"] .gauge-ring::before,
+html.ui-aurora .gauge[data-tier="4"] .gauge-ring::before {
+  background: conic-gradient(from 0deg, rgba(0, 242, 254, 0.45), rgba(121, 40, 202, 0.5), rgba(255, 0, 128, 0.4), rgba(0, 242, 254, 0.45));
+  filter: blur(12px);
+}
+
+html.ui-aurora .gauge[data-tier="5"] .gauge-ring::before,
+html.ui-aurora .gauge[data-tier="6"] .gauge-ring::before {
+  background: conic-gradient(from 0deg, rgba(0, 255, 255, 0.75), rgba(160, 68, 255, 0.8), rgba(255, 0, 128, 0.75), rgba(0, 255, 255, 0.75));
+  filter: blur(14px);
+  transform: scale(1.12);
+}
+
+html.ui-aurora .gauge .gauge-mid {
+  color: #FFFFFF !important;
+  text-shadow: 0 0 16px rgba(0, 223, 216, 0.9), 0 2px 4px rgba(0, 0, 0, 0.8) !important;
+}
+
+html.ui-aurora .gauge .gauge-cap,
+html.ui-aurora .gauge .gauge-goal,
+html.ui-aurora .gauge .gauge-all {
+  color: #E2E8F0 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8) !important;
+}
+
+html.ui-brass .gauge .gauge-mid {
+  color: #FFF3C4 !important;
+  text-shadow: 0 0 16px rgba(224, 194, 94, 0.9), 0 2px 4px rgba(0, 0, 0, 0.9) !important;
+}
+
+html.ui-brass .gauge .gauge-cap,
+html.ui-brass .gauge .gauge-goal,
+html.ui-brass .gauge .gauge-all {
+  color: #FFF8DC !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9) !important;
 }
 
 @keyframes auroraWaveRotate {
@@ -2502,10 +2583,10 @@ html.ui-aurora .gauge .gauge-ring::after {
   100% { transform: scale(1.03); opacity: 1; border-color: rgba(255, 255, 255, 0.85); box-shadow: inset 0 0 24px rgba(0, 223, 216, 0.6), 0 0 20px rgba(121, 40, 202, 0.5); }
 }
 
-/* 3. Cyber 専用: ホログラフィック・レーダー & タクティカルHUD (Cyber Hologram Radar) */
+/* 3. Cyber 専用: ホログラフィック・レーダー & 段階的タクティカルHUD (Tiers 0-6) */
 html.ui-cyber .gauge .gauge-ring {
   position: relative;
-  filter: drop-shadow(0 0 16px rgba(0, 229, 255, 0.45));
+  filter: drop-shadow(0 0 16px rgba(0, 229, 255, 0.5));
 }
 
 html.ui-cyber .gauge .gauge-ring::before {
@@ -2513,10 +2594,10 @@ html.ui-cyber .gauge .gauge-ring::before {
   position: absolute;
   inset: -4px;
   border-radius: 50%;
-  border: 1.5px solid rgba(0, 229, 255, 0.55);
-  background: conic-gradient(from 0deg, rgba(0, 229, 255, 0.35) 0deg, rgba(0, 229, 255, 0.08) 45deg, transparent 90deg, transparent 360deg);
-  box-shadow: inset 0 0 15px rgba(0, 229, 255, 0.25), 0 0 12px rgba(0, 229, 255, 0.35);
-  animation: cyberRadarSweep 3.5s linear infinite;
+  border: 1.5px solid rgba(0, 229, 255, 0.65);
+  background: conic-gradient(from 0deg, rgba(0, 229, 255, 0.4) 0deg, rgba(0, 229, 255, 0.1) 45deg, transparent 90deg, transparent 360deg);
+  box-shadow: inset 0 0 15px rgba(0, 229, 255, 0.35), 0 0 14px rgba(0, 229, 255, 0.4);
+  animation: cyberRadarSweep var(--cyber-radar-t, 4s) linear infinite;
   pointer-events: none;
 }
 
@@ -2525,20 +2606,56 @@ html.ui-cyber .gauge .gauge-ring::after {
   position: absolute;
   inset: 6px;
   border-radius: 50%;
-  border: 1.5px dashed rgba(0, 255, 157, 0.45);
-  box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
-  animation: cyberRadarSweep 8s linear infinite reverse;
+  border: 1.5px dashed rgba(0, 255, 157, 0.55);
+  box-shadow: 0 0 12px rgba(0, 255, 157, 0.35);
+  animation: cyberRadarSweep var(--cyber-reticle-t, 9s) linear infinite reverse;
   pointer-events: none;
+}
+
+/* 🚀 Cyber 段階的進化 (Tiers 0 - 6) */
+html.ui-cyber .gauge[data-tier="0"] { --cyber-radar-t: 8s; --cyber-reticle-t: 16s; }
+html.ui-cyber .gauge[data-tier="1"] { --cyber-radar-t: 6s; --cyber-reticle-t: 12s; }
+html.ui-cyber .gauge[data-tier="2"] { --cyber-radar-t: 4s; --cyber-reticle-t: 8s; }
+html.ui-cyber .gauge[data-tier="3"] { --cyber-radar-t: 2.8s; --cyber-reticle-t: 5.5s; }
+html.ui-cyber .gauge[data-tier="4"] { --cyber-radar-t: 1.8s; --cyber-reticle-t: 3.6s; }
+html.ui-cyber .gauge[data-tier="5"] { --cyber-radar-t: 1.1s; --cyber-reticle-t: 2.2s; }
+html.ui-cyber .gauge[data-tier="6"] { --cyber-radar-t: 0.65s; --cyber-reticle-t: 1.3s; }
+
+html.ui-cyber .gauge[data-tier="3"] .gauge-ring::before,
+html.ui-cyber .gauge[data-tier="4"] .gauge-ring::before {
+  border-color: #00E5FF;
+  box-shadow: inset 0 0 20px rgba(0, 229, 255, 0.6), 0 0 20px rgba(0, 229, 255, 0.6);
+}
+
+html.ui-cyber .gauge[data-tier="5"] .gauge-ring::before,
+html.ui-cyber .gauge[data-tier="6"] .gauge-ring::before {
+  border-color: #00FF9D;
+  background: conic-gradient(from 0deg, rgba(0, 255, 157, 0.6) 0deg, rgba(0, 229, 255, 0.3) 60deg, transparent 120deg, transparent 360deg);
+  box-shadow: inset 0 0 25px rgba(0, 255, 157, 0.8), 0 0 28px rgba(0, 255, 157, 0.8);
+}
+
+html.ui-cyber .gauge .gauge-mid {
+  color: #00E5FF !important;
+  font-family: 'SFMono-Regular', Menlo, Consolas, monospace !important;
+  text-shadow: 0 0 16px rgba(0, 229, 255, 1), 0 0 4px #FFFFFF !important;
+}
+
+html.ui-cyber .gauge .gauge-cap,
+html.ui-cyber .gauge .gauge-goal,
+html.ui-cyber .gauge .gauge-all {
+  color: #00E5FF !important;
+  font-family: 'SFMono-Regular', Menlo, Consolas, monospace !important;
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.6) !important;
 }
 
 @keyframes cyberRadarSweep {
   to { transform: rotate(360deg); }
 }
 
-/* 4. Liquid 専用: フルイドモーフィング & ネオンジェル (Liquid Fluid Morph) */
+/* 4. Liquid 専用: フルイドモーフィング & 段階的ネオンジェル (Tiers 0-6) */
 html.ui-liquid .gauge .gauge-ring {
   position: relative;
-  filter: drop-shadow(0 0 18px rgba(255, 0, 127, 0.4)) drop-shadow(0 0 28px rgba(121, 40, 202, 0.25));
+  filter: drop-shadow(0 0 18px rgba(255, 0, 127, 0.45)) drop-shadow(0 0 28px rgba(121, 40, 202, 0.3));
 }
 
 html.ui-liquid .gauge .gauge-ring::before {
@@ -2546,9 +2663,9 @@ html.ui-liquid .gauge .gauge-ring::before {
   position: absolute;
   inset: -6px;
   border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
-  background: linear-gradient(135deg, rgba(255, 0, 127, 0.35), rgba(121, 40, 202, 0.28), rgba(0, 242, 254, 0.3));
+  background: linear-gradient(135deg, rgba(255, 0, 127, 0.4), rgba(121, 40, 202, 0.35), rgba(0, 242, 254, 0.35));
   filter: blur(8px);
-  animation: liquidFluidMorph 7s ease-in-out infinite alternate;
+  animation: liquidFluidMorph var(--liquid-morph-t, 7s) ease-in-out infinite alternate;
   pointer-events: none;
 }
 
@@ -2557,10 +2674,151 @@ html.ui-liquid .gauge .gauge-ring::after {
   position: absolute;
   inset: 4px;
   border-radius: 55% 45% 35% 65% / 60% 40% 60% 40%;
-  border: 1.5px solid rgba(255, 0, 127, 0.55);
-  box-shadow: inset 0 0 16px rgba(255, 0, 127, 0.3), 0 0 12px rgba(0, 242, 254, 0.35);
-  animation: liquidFluidMorph 10s ease-in-out infinite alternate-reverse;
+  border: 1.5px solid rgba(255, 0, 127, 0.65);
+  box-shadow: inset 0 0 16px rgba(255, 0, 127, 0.35), 0 0 14px rgba(0, 242, 254, 0.4);
+  animation: liquidFluidMorph var(--liquid-gel-t, 10s) ease-in-out infinite alternate-reverse;
   pointer-events: none;
+}
+
+/* 🌸 Liquid 段階的進化 (Tiers 0 - 6) */
+html.ui-liquid .gauge[data-tier="0"] { --liquid-morph-t: 12s; --liquid-gel-t: 16s; }
+html.ui-liquid .gauge[data-tier="1"] { --liquid-morph-t: 9s;  --liquid-gel-t: 13s; }
+html.ui-liquid .gauge[data-tier="2"] { --liquid-morph-t: 6.5s; --liquid-gel-t: 9.5s; }
+html.ui-liquid .gauge[data-tier="3"] { --liquid-morph-t: 4.5s; --liquid-gel-t: 6.5s; }
+html.ui-liquid .gauge[data-tier="4"] { --liquid-morph-t: 3.0s; --liquid-gel-t: 4.5s; }
+html.ui-liquid .gauge[data-tier="5"] { --liquid-morph-t: 1.8s; --liquid-gel-t: 2.8s; }
+html.ui-liquid .gauge[data-tier="6"] { --liquid-morph-t: 1.0s; --liquid-gel-t: 1.6s; }
+
+html.ui-liquid .gauge[data-tier="3"] .gauge-ring::before,
+html.ui-liquid .gauge[data-tier="4"] .gauge-ring::before {
+  background: linear-gradient(135deg, rgba(255, 0, 127, 0.6), rgba(121, 40, 202, 0.5), rgba(0, 242, 254, 0.55));
+  filter: blur(10px);
+}
+
+html.ui-liquid .gauge[data-tier="5"] .gauge-ring::before,
+html.ui-liquid .gauge[data-tier="6"] .gauge-ring::before {
+  background: linear-gradient(135deg, #FF007F, #7928CA, #00F2FE);
+  filter: blur(14px);
+  transform: scale(1.1);
+}
+
+/* 🌟 ゲージ中央カウンター (#gaugeMid) のテーマ別完全調律 */
+html.ui-aurora .gauge .gauge-mid {
+  color: #FFFFFF !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 800 !important;
+  text-shadow: 0 0 20px rgba(0, 223, 216, 0.9), 0 0 35px rgba(121, 40, 202, 0.6), 0 2px 4px rgba(0, 0, 0, 0.9) !important;
+}
+
+html.ui-aurora .gauge[data-tier="5"] .gauge-mid,
+html.ui-aurora .gauge[data-tier="6"] .gauge-mid {
+  text-shadow: 0 0 25px rgba(255, 255, 255, 1), 0 0 40px rgba(0, 242, 254, 0.95), 0 0 60px rgba(121, 40, 202, 0.8) !important;
+}
+
+html.ui-brass .gauge .gauge-mid {
+  color: #FFF3C4 !important;
+  font-family: 'Georgia', 'Times New Roman', serif !important;
+  font-weight: 900 !important;
+  text-shadow: 0 0 18px rgba(224, 194, 94, 0.85), 0 2px 4px rgba(0, 0, 0, 0.95) !important;
+}
+
+html.ui-brass .gauge[data-tier="5"] .gauge-mid,
+html.ui-brass .gauge[data-tier="6"] .gauge-mid {
+  color: #FFE066 !important;
+  text-shadow: 0 0 24px rgba(255, 224, 102, 1), 0 0 45px rgba(201, 162, 39, 0.9), 0 2px 4px rgba(0, 0, 0, 0.95) !important;
+}
+
+html.ui-cyber .gauge .gauge-mid {
+  color: #00E5FF !important;
+  font-family: 'SFMono-Regular', Menlo, Consolas, monospace !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.05em !important;
+  text-shadow: 0 0 18px rgba(0, 229, 255, 1), 0 0 30px rgba(0, 229, 255, 0.6), 0 0 4px #FFFFFF !important;
+}
+
+html.ui-cyber .gauge[data-tier="5"] .gauge-mid,
+html.ui-cyber .gauge[data-tier="6"] .gauge-mid {
+  color: #00FF9D !important;
+  text-shadow: 0 0 22px rgba(0, 255, 157, 1), 0 0 40px rgba(0, 255, 157, 0.8), 0 0 6px #FFFFFF !important;
+}
+
+html.ui-liquid .gauge .gauge-mid {
+  color: #FFFFFF !important;
+  font-family: 'Avenir Next', -apple-system, sans-serif !important;
+  font-weight: 800 !important;
+  text-shadow: 0 0 18px rgba(255, 0, 127, 1), 0 0 32px rgba(121, 40, 202, 0.8), 0 2px 4px rgba(0, 0, 0, 0.9) !important;
+}
+
+html.ui-liquid .gauge[data-tier="5"] .gauge-mid,
+html.ui-liquid .gauge[data-tier="6"] .gauge-mid {
+  text-shadow: 0 0 24px rgba(255, 255, 255, 1), 0 0 45px rgba(255, 0, 127, 1), 0 0 60px rgba(0, 242, 254, 0.9) !important;
+}
+
+/* 🌟 ゲージ進捗アーク & トラック & 光点 (.gauge-val, .gauge-trk, .gauge-dot) のテーマ別完全深化 */
+html.ui-aurora .gauge .gauge-trk { stroke: rgba(0, 223, 216, 0.15); stroke-width: 10; }
+html.ui-aurora .gauge .gauge-val { stroke: #00DFD8; filter: drop-shadow(0 0 8px rgba(0, 223, 216, 0.8)); }
+html.ui-aurora .gauge[data-tier="5"] .gauge-val,
+html.ui-aurora .gauge[data-tier="6"] .gauge-val { stroke: #FFFFFF; filter: drop-shadow(0 0 14px #00DFD8) drop-shadow(0 0 25px #7928CA); }
+html.ui-aurora .gauge .gauge-dot circle { fill: #00DFD8; filter: drop-shadow(0 0 8px #00DFD8); }
+html.ui-aurora .gauge .gauge-dot .halo { fill: rgba(0, 223, 216, 0.35); }
+
+html.ui-brass .gauge .gauge-trk { stroke: rgba(184, 134, 11, 0.2); stroke-width: 10; }
+html.ui-brass .gauge .gauge-val { stroke: #D4AF37; filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.8)); }
+html.ui-brass .gauge[data-tier="5"] .gauge-val,
+html.ui-brass .gauge[data-tier="6"] .gauge-val { stroke: #FFDF00; filter: drop-shadow(0 0 14px #FFD700) drop-shadow(0 0 24px rgba(255, 223, 0, 0.8)); }
+html.ui-brass .gauge .gauge-dot circle { fill: #FFD700; filter: drop-shadow(0 0 8px #FFD700); }
+html.ui-brass .gauge .gauge-dot .halo { fill: rgba(255, 215, 0, 0.35); }
+
+html.ui-cyber .gauge .gauge-trk { stroke: rgba(0, 229, 255, 0.15); stroke-width: 9; }
+html.ui-cyber .gauge .gauge-val { stroke: #00E5FF; filter: drop-shadow(0 0 10px #00E5FF); stroke-linecap: square; }
+html.ui-cyber .gauge[data-tier="5"] .gauge-val,
+html.ui-cyber .gauge[data-tier="6"] .gauge-val { stroke: #00FF9D; filter: drop-shadow(0 0 16px #00FF9D) drop-shadow(0 0 25px #00E5FF); }
+html.ui-cyber .gauge .gauge-dot circle { fill: #00FF9D; filter: drop-shadow(0 0 10px #00FF9D); }
+html.ui-cyber .gauge .gauge-dot .halo { fill: rgba(0, 255, 157, 0.4); }
+
+html.ui-liquid .gauge .gauge-trk { stroke: rgba(255, 0, 127, 0.15); stroke-width: 10; }
+html.ui-liquid .gauge .gauge-val { stroke: #FF007F; filter: drop-shadow(0 0 10px rgba(255, 0, 127, 0.85)); }
+html.ui-liquid .gauge[data-tier="5"] .gauge-val,
+html.ui-liquid .gauge[data-tier="6"] .gauge-val { stroke: #FFFFFF; filter: drop-shadow(0 0 16px #FF007F) drop-shadow(0 0 28px #7928CA); }
+/* 🌟 目標達成（Tier 5 & 6）セレブレーション演出のテーマ別完全深化 */
+html.ui-aurora .gauge[data-tier="5"] .gauge-ring,
+html.ui-aurora .gauge[data-tier="6"] .gauge-ring {
+  animation: auroraTierPulse 1.8s ease-in-out infinite alternate !important;
+}
+
+@keyframes auroraTierPulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(0, 242, 254, 0.7)) drop-shadow(0 0 40px rgba(121, 40, 202, 0.5)); }
+  100% { transform: scale(1.04); filter: drop-shadow(0 0 35px rgba(255, 255, 255, 0.9)) drop-shadow(0 0 60px rgba(0, 242, 254, 0.8)); }
+}
+
+html.ui-brass .gauge[data-tier="5"] .gauge-ring,
+html.ui-brass .gauge[data-tier="6"] .gauge-ring {
+  animation: brassTierBeat 1.4s ease-in-out infinite alternate !important;
+}
+
+@keyframes brassTierBeat {
+  0% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(201, 162, 39, 0.8)); }
+  100% { transform: scale(1.03); filter: drop-shadow(0 0 30px rgba(255, 223, 0, 1)) drop-shadow(0 0 45px rgba(255, 180, 0, 0.7)); }
+}
+
+html.ui-cyber .gauge[data-tier="5"] .gauge-ring,
+html.ui-cyber .gauge[data-tier="6"] .gauge-ring {
+  animation: cyberTierGlitch 1.2s ease-in-out infinite alternate !important;
+}
+
+@keyframes cyberTierGlitch {
+  0% { transform: scale(1); filter: drop-shadow(0 0 18px rgba(0, 229, 255, 0.8)); }
+  100% { transform: scale(1.035); filter: drop-shadow(0 0 32px rgba(0, 255, 157, 1)) drop-shadow(0 0 50px rgba(0, 229, 255, 0.9)); }
+}
+
+html.ui-liquid .gauge[data-tier="5"] .gauge-ring,
+html.ui-liquid .gauge[data-tier="6"] .gauge-ring {
+  animation: liquidTierSurge 1.6s ease-in-out infinite alternate !important;
+}
+
+@keyframes liquidTierSurge {
+  0% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(255, 0, 127, 0.8)); }
+  100% { transform: scale(1.045); filter: drop-shadow(0 0 35px rgba(255, 0, 127, 1)) drop-shadow(0 0 55px rgba(121, 40, 202, 0.85)); }
 }
 
 @keyframes liquidFluidMorph {
