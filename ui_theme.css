@@ -2285,27 +2285,66 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
 }
 
 .st-hdr.hdr-collapsed {
-  padding: 6px 12px !important;
+  padding: 8px 12px 7px !important;
 }
 
 .st-hdr.hdr-collapsed .st-title-row {
   margin-bottom: 0 !important;
 }
 
-.st-hdr.hdr-collapsed .st-title {
-  display: none !important;
+/* 検索 & 章ジャンプ (filter-row 統合) のスタイリング */
+.filter-row .search-wrap {
+  flex-shrink: 0;
+  width: 140px;
 }
 
-.st-hdr.hdr-collapsed #mecBuildVer,
-.st-hdr.hdr-collapsed [id="mecBuildVer"] {
-  display: none !important;
+.filter-row .search-input {
+  width: 100%;
+  padding: 3px 9px;
+  font-size: 11.5px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  background: rgba(var(--glass-rgb), 0.08);
+  color: #fff;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.filter-row .jump-select {
+  flex-shrink: 0;
+  padding: 3px 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  border-radius: 20px;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  background: rgba(var(--glass-rgb), 0.08);
+  color: rgba(255, 255, 255, 0.85);
+  font-family: inherit;
+  cursor: pointer;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   正解時・解答済み（系統済み）の暗くなるエフェクト (Sink & Dimmed Feedback)
+   問題カードの明度保証 & 正解確定時の選択肢沈み込み (Sink Feedback)
    ═══════════════════════════════════════════════════════════════════ */
 
-/* 1. 正解確定時: 選ばれなかった選択肢が暗く奥へ沈み込むエフェクト */
+/* 1. 問題カードは常時 100% の明度を維持（ホバー依存の暗転を撤廃） */
+.qc {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* 2. 試験モード中：キーボード入力対象カード & 解説を見る（開示）カードの完全明度保証 */
+body.exam-mode .qc.exam-key-focus,
+body.exam-mode .qc.exam-revealed,
+body.exam-mode .qc.exam-answer-opened,
+body.exam-mode .qc:not(.exam-revealed),
+body.ch-exam-mode .qc.ch-exam-key-focus,
+body.ch-exam-mode .qc.ch-exam-revealed {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* 3. 正解確定時: 選ばれなかった選択肢のみが暗く奥へ沈み込むエフェクト */
 .qc.exam-sink .ch2:not(.ok):not(.exam-selected),
 .qc.ce-sink .ch2:not(.ok):not(.ch-exam-selected):not(.ch-exam-instant-correct) {
   opacity: 0.35 !important;
@@ -2314,19 +2353,7 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease !important;
 }
 
-/* 2. 通常演習で解答済み（済・○×△完了）となった問題カードの暗くなるエフェクト */
-.qc.mec-done {
-  opacity: 0.62 !important;
-  filter: brightness(0.9) saturate(0.85) !important;
-  transition: opacity 0.25s ease, filter 0.25s ease !important;
-}
-
-.qc.mec-done:hover {
-  opacity: 0.95 !important;
-  filter: brightness(1) saturate(1) !important;
-}
-
-/* 3. 各テーマ別の解答済みカード・沈み込みの調律 */
+/* 4. 各テーマ別の選ばれなかった肢の沈み込み調律 */
 html.ui-aurora .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
   background: rgba(10, 15, 30, 0.4) !important;
   border-color: rgba(255, 255, 255, 0.05) !important;

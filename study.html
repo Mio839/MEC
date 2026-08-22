@@ -71,7 +71,7 @@ if ('serviceWorker' in navigator) {
     <button class="mec-err-badge" id="mecErrBadge" onclick="openErrReports()">⚠️ <span id="errCount">0</span>件</button>
     <span class="vis-count" id="visCount" role="status" aria-live="polite" aria-atomic="true">—</span>
     <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
-    <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">🔄</button>
+    <button class="hdr-toggle" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">♻️</button>
     <button class="hdr-toggle" onclick="openStudySoundOv()" title="UIテーマ & 効果音設定" aria-label="UIテーマ & 効果音設定">🎨🔊</button>
     <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0725a</span>
   </div>
@@ -113,16 +113,13 @@ if ('serviceWorker' in navigator) {
     <span class="fsep"></span>
     <button class="nb2 fs-on" data-state="all" onclick="setState('all')" aria-pressed="false">全</button>
     <button class="nb2" data-state="flag" onclick="setState('flag')" aria-pressed="false" aria-label="赤旗を付けた問題だけ">🚩</button>
-  </div>
-  <div class="jump-row">
+    <span class="fsep"></span>
     <div class="search-wrap">
-      <input class="search-input" type="search" id="searchInput" placeholder="キーワード検索…" aria-label="問題文と解説をキーワード検索" oninput="onSearchInput(this.value)">
+      <input class="search-input" type="search" id="searchInput" placeholder="検索 / Q番号…" aria-label="問題文・解説の検索または問題番号" oninput="onSearchInput(this.value)" onkeydown="if(event.key==='Enter'){const d=this.value.trim().match(/^(?:q|#|問)?\s*(\d+)$/i);if(d){event.preventDefault();jumpToQnum(d[1]);}}">
     </div>
     <select class="jump-select" id="chJumpSel" aria-label="章へジャンプ" onchange="if(this.value){var _v=this.value;this.value='';this.blur();jumpToChapter(_v);}">
       <option value="">📍 章ジャンプ…</option>
     </select>
-    <input class="jump-qnum" type="number" id="qJumpInput" placeholder="Q#" aria-label="問題番号へジャンプ" min="1" onkeydown="if(event.key==='Enter')jumpToQnum()">
-    <button class="jump-go" onclick="jumpToQnum()" aria-label="入力した問題番号へ移動">→</button>
   </div>
   </div><!-- /st-filter-panel -->
   <div class="exam-prog" id="examProg">
@@ -2159,10 +2156,12 @@ function jumpToChapter(idxStr) {
   _jumpScrollToEl(el || ch.divEl);
 }
 
-function jumpToQnum() {
-  const inp = document.getElementById('qJumpInput');
-  if (!inp || !inp.value) return;
-  const qnum = parseInt(inp.value, 10);
+function jumpToQnum(optVal) {
+  const inp = document.getElementById('searchInput') || document.getElementById('qJumpInput');
+  const raw = (optVal !== undefined && optVal !== null) ? String(optVal) : (inp ? inp.value : '');
+  const digits = raw.replace(/[^0-9]/g, '');
+  if (!digits) return;
+  const qnum = parseInt(digits, 10);
   if (!qnum) return;
   const want = String(qnum);
   // Q番号は科目ごとの連番で同番号が複数科目にある（例: Q.324 は10科目）。
@@ -2184,9 +2183,14 @@ function jumpToQnum() {
       if (target) break;
     }
   }
-  if (!target) { inp.style.borderColor = 'var(--rd)'; setTimeout(() => { inp.style.borderColor = ''; }, 900); return; }
-  inp.value = '';
-  inp.blur(); // iOS が入力欄(ヘッダ)を可視化しようと文書先頭へ戻すのを防ぐ
+  if (!target) {
+    if (inp) {
+      inp.style.borderColor = 'var(--rd)';
+      setTimeout(() => { inp.style.borderColor = ''; }, 900);
+    }
+    return;
+  }
+  if (inp) inp.blur(); // iOS が入力欄(ヘッダ)を可視化しようと文書先頭へ戻すのを防ぐ
   _jumpScrollToEl(target);
 }
 
