@@ -35,8 +35,9 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
    ヘッダーだけで画面の4割を占めていた。折りたたみボタンは .st-filter-panel しか畳まないので
    この行が肥大化すると回避手段が無くなる。子要素側の white-space:nowrap と必ずセットで維持すること。 */
 .st-title-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;flex-wrap:wrap;}
-.hdr-toggle{background:none;border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.65);font-size:12px;font-weight:700;cursor:pointer;padding:3px 9px;border-radius:20px;font-family:inherit;flex-shrink:0;transition:transform .25s,background .15s;}
-.hdr-toggle:hover{background:rgba(var(--glass-rgb),.1);}
+.hdr-toggle, .hdr-btn{background:none;border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.65);font-size:12px;font-weight:700;cursor:pointer;padding:3px 9px;border-radius:20px;font-family:inherit;flex-shrink:0;transition:background .15s;}
+.hdr-toggle{transition:transform .25s,background .15s;}
+.hdr-toggle:hover, .hdr-btn:hover{background:rgba(var(--glass-rgb),.1);}
 .st-hdr.hdr-collapsed .hdr-toggle{transform:rotate(-90deg);}
 .st-filter-panel{overflow:hidden;max-height:220px;transition:max-height .3s cubic-bezier(.16,1,.3,1);}
 .st-hdr.hdr-collapsed .st-filter-panel{max-height:0;}

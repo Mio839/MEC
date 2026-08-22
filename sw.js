@@ -1,3 +1,6 @@
+// 2026-08-22r: フィード折りたたみ時の再読み込み・テーマ設定ボタンの静止化（回転分離）。
+//   - study.html / study.css: 再読み込み（♻️）とテーマ設定（🎨🔊）のクラスを hdr-btn に分離し、折りたたみ時の回転を hdrToggle のみに限定。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-22q: 再試験・再演習・章別試験の解答数を「今日解いた問題」に完全累積カウント。
 //   - chapter_exam.js: 試験解答時に attempts / activity_v1 / done_v2 へのログ追記を追加。
 //   - progress.js / study_exam.js: 同一セッション同一問題の重複ガードを撤廃し、解いた回数すべてを activity_v1 へ計上。
@@ -337,7 +340,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-22q";
+const SHELL_VERSION = "2026-08-22r";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
