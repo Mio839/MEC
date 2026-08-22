@@ -1,3 +1,8 @@
+// 2026-08-22h: UIテーマ自律進化・完全ビジュアル改善ループ（全10イテレーション完遂）。
+//   全4テーマ（Aurora/Brass/Cyber/Liquid）の背景・環境光・問題カード立体造形・ヘッダー・
+//   バッジ・引用インジケーター・タクタイル選択肢・解答解説・自己採点ボタン群（44pxタッチ領域）・
+//   GPU動的リアクション・モバイル幅最適化を極限調律。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-22b: 疾患マインドマップが全科目で壊れていたのを直した。演出強化で入った
 //   @keyframes mmDisPop が transform を動かしており、疾患ノードの位置を与えている
 //   <g transform="translate(x,y)"> の提示属性を丸ごと上書き＝全ノードが原点（盤面中央）に
@@ -296,7 +301,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-22g";
+const SHELL_VERSION = "2026-08-22h";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

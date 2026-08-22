@@ -13,7 +13,8 @@ if (!fs.existsSync(SHOTS_DIR)) {
   fs.mkdirSync(SHOTS_DIR, { recursive: true });
 }
 
-function generatePreviewHtml(theme, isExam = false) {
+function generatePreviewHtml(theme, isExam = false, state = 'default') {
+  const isAnswered = state === 'answered' || !isExam;
   return `<!DOCTYPE html>
 <html class="${theme}">
 <head>
@@ -21,10 +22,13 @@ function generatePreviewHtml(theme, isExam = false) {
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/study.css">
 <link rel="stylesheet" href="/ui_theme.css">
-<title>Theme Preview - ${theme} (Exam: ${isExam})</title>
+<title>Theme Preview - ${theme} (Exam: ${isExam}, State: ${state})</title>
 <style>
 body { margin: 24px auto; max-width: 900px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
 .preview-container { display: flex; flex-direction: column; gap: 20px; }
+@media (max-width: 600px) {
+  body { margin: 12px auto; padding: 0 10px; }
+}
 </style>
 </head>
 <body class="${isExam ? 'exam-mode' : ''}">
@@ -32,13 +36,13 @@ body { margin: 24px auto; max-width: 900px; font-family: -apple-system, BlinkMac
   <div class="st-hdr" style="padding: 12px 18px;">
     <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
       <span class="st-stat">118A-12</span>
-      <span class="st-stat exam-mode-chip">⚡ 試験モード</span>
+      <span class="st-stat exam-mode-chip">${isExam ? '⚡ 試験モード' : '📖 復習モード'}</span>
       <span class="st-stat">正答率: 84%</span>
     </div>
   </div>
 
-  <!-- 問題カード (未解答カード) -->
-  <div class="qc" style="padding: 24px;">
+  <!-- 問題カード -->
+  <div class="qc ${isAnswered ? 'answered ok-card' : ''}" style="padding: 24px;">
     <div class="qh" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
       <div style="display:flex; gap:10px; align-items:center;">
         <span class="qn">問 12</span>
@@ -46,7 +50,7 @@ body { margin: 24px auto; max-width: 900px; font-family: -apple-system, BlinkMac
         <span class="cr">84%</span>
       </div>
       <div style="display:flex; gap:8px;">
-        <button class="mec-grade-btn">○</button>
+        <button class="mec-grade-btn ${isAnswered ? 'selected-ok' : ''}">○</button>
         <button class="mec-grade-btn">×</button>
         <button class="mec-flag-btn">🚩</button>
       </div>
@@ -58,12 +62,13 @@ body { margin: 24px auto; max-width: 900px; font-family: -apple-system, BlinkMac
 
     <div class="qch" style="display:flex; flex-direction:column; gap:12px;">
       <div class="ch2" style="padding:14px 18px;">a  ループ利尿薬</div>
-      <div class="ch2 ${isExam ? 'exam-selected' : ''}" style="padding:14px 18px;">b  β遮断薬およびACE阻害薬/ARNI</div>
+      <div class="ch2 ${isExam && !isAnswered ? 'exam-selected' : (isAnswered ? 'selected ok' : '')}" style="padding:14px 18px;">b  β遮断薬およびACE阻害薬/ARNI</div>
       <div class="ch2" style="padding:14px 18px;">c  ジギタリス製剤</div>
-      <div class="ch2 ok" style="padding:14px 18px;">d  SGLT2阻害薬・MRA併用療法</div>
+      <div class="ch2 ${isAnswered ? 'ok' : ''}" style="padding:14px 18px;">d  SGLT2阻害薬・MRA併用療法</div>
       <div class="ch2" style="padding:14px 18px;">e  カルシウム拮抗薬</div>
     </div>
 
+    ${isAnswered ? `
     <div class="ab" style="margin-top:20px; padding:14px 18px;">
       <strong>【正解】 b, d</strong>
     </div>
@@ -71,7 +76,7 @@ body { margin: 24px auto; max-width: 900px; font-family: -apple-system, BlinkMac
     <div class="eg" style="margin-top:16px; padding:16px 20px;">
       <div style="font-weight:bold; margin-bottom:8px;">💡 解説・エピソード</div>
       HFrEF（駆出率低下型心不全）の予後改善薬は「Fantastic 4」（β遮断薬、ARNI/ACEI、MRA、SGLT2阻害薬）が基本となる。
-    </div>
+    </div>` : ''}
   </div>
 </div>
 </body>
@@ -90,12 +95,15 @@ function startServer() {
   };
 
   const server = http.createServer((req, res) => {
-    let reqPath = req.url.split('?')[0];
+    let reqUrl = new URL(req.url, `http://localhost:${PORT}`);
+    let reqPath = reqUrl.pathname;
+    let stateParam = reqUrl.searchParams.get('state') || 'default';
+
     if (reqPath.startsWith('/preview/')) {
       const isExam = reqPath.includes('_exam');
       const theme = reqPath.replace('/preview/', '').replace('_exam', '').replace('.html', '');
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-      res.end(generatePreviewHtml(theme, isExam));
+      res.end(generatePreviewHtml(theme, isExam, stateParam));
       return;
     }
 
@@ -132,7 +140,7 @@ function cdpSend(ws, method, params = {}, id = 1) {
   });
 }
 
-async function captureAll(iterName = 'iter1') {
+async function captureAll(iterName = 'iter1', state = 'default') {
   const server = await startServer();
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'chrome-mec-'));
   const chromeProc = spawn(CHROME_PATH, [
@@ -158,38 +166,37 @@ async function captureAll(iterName = 'iter1') {
   let msgId = 1;
   await cdpSend(ws, 'Page.enable', {}, msgId++);
   await cdpSend(ws, 'DOM.enable', {}, msgId++);
-  await cdpSend(ws, 'Emulation.setDeviceMetricsOverride', {
-    width: 1200,
-    height: 960,
-    deviceScaleFactor: 1,
-    mobile: false
-  }, msgId++);
 
   const themes = ['ui-aurora', 'ui-brass', 'ui-cyber', 'ui-liquid'];
   const captured = {};
 
-  for (const t of themes) {
-    // 1. 通常モード（解答開示状態）
-    const previewUrl = `http://localhost:${PORT}/preview/${t}.html`;
-    await cdpSend(ws, 'Page.navigate', { url: previewUrl }, msgId++);
-    await new Promise(r => setTimeout(r, 800));
+  const viewports = [
+    { name: 'desktop', width: 1200, height: 960, mobile: false },
+    { name: 'mobile', width: 375, height: 812, mobile: true, deviceScaleFactor: 2 }
+  ];
 
-    const shot = await cdpSend(ws, 'Page.captureScreenshot', { format: 'png' }, msgId++);
-    const outFile = path.join(SHOTS_DIR, `${iterName}_${t}.png`);
-    fs.writeFileSync(outFile, Buffer.from(shot.data, 'base64'));
-    captured[t] = outFile;
-    console.log(`Saved screenshot: ${outFile}`);
+  for (const vp of viewports) {
+    await cdpSend(ws, 'Emulation.setDeviceMetricsOverride', {
+      width: vp.width,
+      height: vp.height,
+      deviceScaleFactor: vp.deviceScaleFactor || 1,
+      mobile: vp.mobile
+    }, msgId++);
 
-    // 2. 試験モード中（未解答・未開示状態）
-    const examUrl = `http://localhost:${PORT}/preview/${t}_exam.html`;
-    await cdpSend(ws, 'Page.navigate', { url: examUrl }, msgId++);
-    await new Promise(r => setTimeout(r, 800));
+    for (const t of themes) {
+      // 1. 通常プレビュー
+      const previewUrl = `http://localhost:${PORT}/preview/${t}.html?state=${state}`;
+      await cdpSend(ws, 'Page.navigate', { url: previewUrl }, msgId++);
+      await new Promise(r => setTimeout(r, 600));
 
-    const examShot = await cdpSend(ws, 'Page.captureScreenshot', { format: 'png' }, msgId++);
-    const examOutFile = path.join(SHOTS_DIR, `${iterName}_${t}_exam.png`);
-    fs.writeFileSync(examOutFile, Buffer.from(examShot.data, 'base64'));
-    captured[`${t}_exam`] = examOutFile;
-    console.log(`Saved screenshot: ${examOutFile}`);
+      const shot = await cdpSend(ws, 'Page.captureScreenshot', { format: 'png' }, msgId++);
+      const vpSuffix = vp.name === 'mobile' ? '_mobile' : '';
+      const stateSuffix = state !== 'default' ? `_${state}` : '';
+      const outFile = path.join(SHOTS_DIR, `${iterName}_${t}${vpSuffix}${stateSuffix}.png`);
+      fs.writeFileSync(outFile, Buffer.from(shot.data, 'base64'));
+      captured[`${t}_${vp.name}`] = outFile;
+      console.log(`Saved screenshot: ${outFile}`);
+    }
   }
 
   ws.close();
@@ -198,8 +205,19 @@ async function captureAll(iterName = 'iter1') {
   return captured;
 }
 
-const iter = process.argv[2] || 'iter1';
-captureAll(iter).then(() => {
+const args = process.argv.slice(2);
+let iter = 'iter1';
+let state = 'default';
+
+for (const arg of args) {
+  if (arg.startsWith('--state=')) {
+    state = arg.replace('--state=', '');
+  } else if (!arg.startsWith('--')) {
+    iter = arg;
+  }
+}
+
+captureAll(iter, state).then(() => {
   console.log('Capture completed successfully.');
   process.exit(0);
 }).catch((err) => {
