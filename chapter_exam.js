@@ -703,7 +703,18 @@
       for (var _ci = _ceIdx + 1; _ci < exam.queue.length; _ci++) {
         if (!exam.queue[_ci].classList.contains('ch-exam-revealed')) { _ceNext = exam.queue[_ci]; break; }
       }
-      if (_ceNext) { (function(nc){ setTimeout(function(){ ceApplyChoiceShimmer(nc); }, 140); })(_ceNext); }
+      if (_ceNext) {
+        (function(nc){
+          setTimeout(function(){ ceApplyChoiceShimmer(nc); }, 140);
+          setTimeout(function(){
+            var hdr = document.querySelector('.st-hdr, .sn, .mec-ch-prog');
+            var offset = hdr ? hdr.getBoundingClientRect().height + 16 : 80;
+            var scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+            var y = nc.getBoundingClientRect().top + scrollY - offset;
+            window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+          }, 350);
+        })(_ceNext);
+      }
       saveMyRate(card.dataset.uid, true);
     } else {
       // 計算問題は正解を MecCalc.lock が入力欄の下に出すので、肢の色付けは行わない

@@ -877,6 +877,7 @@ function revealAnswer(card) {
       // A2/A3/A1: ショックウェーブ・ボーダートレース・速答ボーナス
       { const _ok = card.querySelector('.ch2.ok'); _correctShockwave(_ok); if (_isFastAnswer(card)) setTimeout(() => _triggerFastBonus(_ok), 90); }
       _traceCardBorder(card);
+      _afterCorrectFx(card, card.querySelector('.ch2.ok') || selected[0]);
       card.classList.add('exam-revealed', 'exam-multi-correct');
       if (revBtn) { revBtn.textContent = '▶ 解説を見る'; revBtn.onclick = () => _toggleCorrectAnswer(card, revBtn); }
     } else {
@@ -898,13 +899,13 @@ function revealAnswer(card) {
     _updateExamProg(isCorrect);
     _saveExamResume();
     requestAnimationFrame(_updateExamFocus);
-    if (isCorrect) setTimeout(() => _scrollToNextCard(card), 500);
+    if (isCorrect) setTimeout(() => _scrollToNextCard(card), 400);
     else _maybeShowFinishBtn();
     return;
   }
 
   const revBtn = card.querySelector('.exam-reveal-btn');
-  const sel = card.querySelector('.ch2.exam-selected');
+  const sel = card.querySelector('.ch2.exam-selected') || card.querySelector('.ch2.exam-instant-correct') || card.querySelector('.ch2.ok') || card.querySelector('.ch2');
   if (!sel) return;
   const isCorrect = sel.classList.contains('ok');
   examAnswered++;
@@ -935,7 +936,7 @@ function revealAnswer(card) {
     _updateExamProg(true);
     _saveExamResume();
     requestAnimationFrame(_updateExamFocus);
-    setTimeout(() => _scrollToNextCard(card), 300);
+    setTimeout(() => _scrollToNextCard(card), 350);
   } else {
     const _broke = examStreak;   // C1: 崩落の規模は「途切れた時点の連続数」で決まる（0 にする前に控える）
     examStreak = 0;

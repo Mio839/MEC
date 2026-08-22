@@ -2226,3 +2226,50 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
 .st-hdr.hdr-collapsed [id="mecBuildVer"] {
   display: none !important;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   正解時・解答済み（系統済み）の暗くなるエフェクト (Sink & Dimmed Feedback)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* 1. 正解確定時: 選ばれなかった選択肢が暗く奥へ沈み込むエフェクト */
+.qc.exam-sink .ch2:not(.ok):not(.exam-selected),
+.qc.ce-sink .ch2:not(.ok):not(.ch-exam-selected):not(.ch-exam-instant-correct) {
+  opacity: 0.35 !important;
+  filter: grayscale(0.6) brightness(0.65) !important;
+  transform: scale(0.98) translateY(2px) !important;
+  transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease !important;
+}
+
+/* 2. 通常演習で解答済み（済・○×△完了）となった問題カードの暗くなるエフェクト */
+.qc.mec-done {
+  opacity: 0.62 !important;
+  filter: brightness(0.9) saturate(0.85) !important;
+  transition: opacity 0.25s ease, filter 0.25s ease !important;
+}
+
+.qc.mec-done:hover {
+  opacity: 0.95 !important;
+  filter: brightness(1) saturate(1) !important;
+}
+
+/* 3. 各テーマ別の解答済みカード・沈み込みの調律 */
+html.ui-aurora .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
+  background: rgba(10, 15, 30, 0.4) !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+html.ui-brass .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
+  background: rgba(18, 14, 10, 0.45) !important;
+  border-color: rgba(201, 162, 39, 0.1) !important;
+}
+
+html.ui-cyber .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
+  background: rgba(4, 10, 22, 0.5) !important;
+  border-color: rgba(0, 229, 255, 0.08) !important;
+}
+
+html.ui-liquid .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
+  background: rgba(10, 10, 24, 0.45) !important;
+  border-color: rgba(255, 0, 127, 0.08) !important;
+}
+

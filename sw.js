@@ -1,3 +1,8 @@
+// 2026-08-22j: 正解時に問題カードの暗くなるエフェクトが出ず先に進まないバグの修正。
+//   - chapter_exam.js: 正解時の _ceNext へのスムーズスクロール処理を追加。
+//   - study_exam.js: revealAnswer の単一選択における選択肢取得フォールバック強化、複数選択時の _afterCorrectFx 呼び出しを追加。
+//   - ui_theme.css: 正解時の選ばれなかった肢の沈み込み (.qc.exam-sink / .qc.ce-sink) と解答済みカード (.qc.mec-done) の暗くなるエフェクトを完全適用。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-22i: ヘッダー折りたたみ時（hdr-collapsed）の1行統合レイアウト実装。
 //   「← ハブへ」「試験モード」「統計バッジ群」を1行に整然とまとめ、問題閲覧領域を大幅拡大。
 //   「← ハブへ」ボタンを高コントラスト・鮮明な発光・立体感のあるデザインに全面刷新。
@@ -305,7 +310,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-22i";
+const SHELL_VERSION = "2026-08-22j";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
