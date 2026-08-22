@@ -98,27 +98,26 @@ if ('serviceWorker' in navigator) {
     <button class="chip" data-sid="anes" onclick="toggleSubjectChip(this,'anes')" aria-pressed="false">💉&nbsp;麻酔科</button>
     <button class="chip" data-sid="rad" onclick="toggleSubjectChip(this,'rad')" aria-pressed="false">☢️&nbsp;放射線科</button>
     <button class="chip" data-sid="tox" onclick="toggleSubjectChip(this,'tox')" aria-pressed="false">☠️&nbsp;中毒・職業病</button>
-    <button class="chip" data-sid="custom" onclick="toggleSubjectChip(this,'custom')" aria-pressed="false">✏️&nbsp;自作問題</button>
-    <button class="chip" data-sid="memo" onclick="toggleSubjectChip(this,'memo')" aria-pressed="false">📝&nbsp;暗記メモ</button>
   </div>
   <div class="filter-row" role="group" aria-label="絞り込みと学習モード">
+    <button class="chip" data-sid="custom" onclick="toggleSubjectChip(this,'custom')" aria-pressed="false">✏️&nbsp;自作問題</button>
+    <button class="chip" data-sid="memo" onclick="toggleSubjectChip(this,'memo')" aria-pressed="false">📝&nbsp;暗記メモ</button>
+    <span class="fsep"></span>
     <button class="nb fc-on" data-filter="all" onclick="setFilter('all')" aria-pressed="false">全問</button>
     <button class="nb" data-filter="hard" onclick="setFilter('hard')" aria-pressed="false">難問</button>
     <button class="nb" data-filter="mid" onclick="setFilter('mid')" aria-pressed="false">標準</button>
     <button class="nb" data-filter="easy" onclick="setFilter('easy')" aria-pressed="false">易問</button>
-    <button class="nb" data-filter="norate" onclick="setFilter('norate')" aria-pressed="false">未採点</button>
     <button class="nb" data-filter="star" onclick="setFilter('star')" aria-pressed="false" aria-label="★問題だけ">★</button>
     <button class="nb" data-filter="img" onclick="setFilter('img')" aria-pressed="false" aria-label="画像問題だけ">🖼</button>
-    <button class="nb" data-filter="weak" onclick="setFilter('weak')" aria-pressed="false">🎯苦手</button>
     <span class="fsep"></span>
     <button class="nb2 fs-on" data-state="all" onclick="setState('all')" aria-pressed="false">全</button>
     <button class="nb2" data-state="flag" onclick="setState('flag')" aria-pressed="false" aria-label="赤旗を付けた問題だけ">🚩</button>
     <span class="fsep"></span>
     <div class="search-wrap">
-      <input class="search-input" type="search" id="searchInput" placeholder="検索 / Q番号…" aria-label="問題文・解説の検索または問題番号" oninput="onSearchInput(this.value)" onkeydown="if(event.key==='Enter'){const d=this.value.trim().match(/^(?:q|#|問)?\s*(\d+)$/i);if(d){event.preventDefault();jumpToQnum(d[1]);}}">
+      <input class="search-input" type="search" id="searchInput" placeholder="検索/Q#" aria-label="問題文・解説の検索または問題番号" oninput="onSearchInput(this.value)" onkeydown="if(event.key==='Enter'){const d=this.value.trim().match(/^(?:q|#|問)?\s*(\d+)$/i);if(d){event.preventDefault();jumpToQnum(d[1]);}}">
     </div>
     <select class="jump-select" id="chJumpSel" aria-label="章へジャンプ" onchange="if(this.value){var _v=this.value;this.value='';this.blur();jumpToChapter(_v);}">
-      <option value="">📍 章ジャンプ…</option>
+      <option value="">📍 章…</option>
     </select>
   </div>
   </div><!-- /st-filter-panel -->
