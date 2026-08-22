@@ -96,36 +96,36 @@ html.ui-aurora .qc::after {
 /* 🌟 問題番号バッジ: クリスタル・ファセット */
 html.ui-aurora .qc .qn {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(0, 223, 216, 0.55) 45%, rgba(121, 40, 202, 0.45) 100%) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.85) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.95) !important;
   color: #FFFFFF !important;
-  text-shadow: 0 0 12px rgba(0, 223, 216, 1), 0 1px 2px rgba(0, 0, 0, 0.6) !important;
+  text-shadow: 0 0 12px rgba(0, 223, 216, 1), 0 1px 2px rgba(0, 0, 0, 0.8) !important;
   border-radius: 12px !important;
   padding: 4px 13px !important;
   font-weight: 800 !important;
   letter-spacing: .6px !important;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.9), 0 0 20px rgba(0, 223, 216, 0.45) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.95), 0 0 20px rgba(0, 223, 216, 0.45) !important;
 }
 
 /* 🌟 メタバッジ・正答率・エピソード */
 html.ui-aurora .qc .qe,
 html.ui-aurora .qc .bg,
 html.ui-aurora .qc .cr {
-  background: rgba(255, 255, 255, 0.15) !important;
-  border: 1px solid rgba(0, 223, 216, 0.55) !important;
-  color: #F8FAFC !important;
+  background: rgba(255, 255, 255, 0.18) !important;
+  border: 1px solid rgba(0, 223, 216, 0.65) !important;
+  color: #FFFFFF !important;
   backdrop-filter: blur(12px) !important;
   border-radius: 9px !important;
-  padding: 3.5px 10px !important;
-  font-size: 12.5px !important;
+  padding: 4px 11px !important;
+  font-size: 13px !important;
   font-weight: 700 !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3) !important;
 }
 
 html.ui-aurora .qc .cr {
-  color: #6EE7B7 !important;
-  border-color: rgba(110, 231, 183, 0.6) !important;
-  background: rgba(110, 231, 183, 0.18) !important;
-  text-shadow: 0 0 10px rgba(110, 231, 183, 0.7) !important;
+  color: #A7F3D0 !important;
+  border-color: rgba(110, 231, 183, 0.75) !important;
+  background: rgba(16, 185, 129, 0.22) !important;
+  text-shadow: 0 0 10px rgba(110, 231, 183, 0.8) !important;
 }
 
 /* 🌟 ヘッダー境界ディバイダー: プリズムクリスタルライン & ジュエルノード */
@@ -148,17 +148,13 @@ html.ui-aurora .qc .qh::after {
   border-radius: 2px;
 }
 
-/* 🌟 自己採点ボタン群 */
+/* 🌟 自己採点ボタン: クリスタルジェム・タクタイルボタン */
 html.ui-aurora .qc .mec-grade-btn,
-html.ui-aurora .qc .mec-lap-btn,
-html.ui-aurora .qc .mec-flag-btn,
-html.ui-aurora .qc .mec-err-btn {
-  background: rgba(255, 255, 255, 0.14) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.45) !important;
-  backdrop-filter: blur(12px) !important;
-  border-radius: 12px !important;
-  padding: 6px 14px !important;
-  min-height: 44px !important;
+html.ui-aurora .qc .mec-flag-btn {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
+  color: #FFFFFF !important;
+  border-radius: 10px !important;
   min-width: 44px !important;
   display: inline-flex !important;
   align-items: center !important;
@@ -199,6 +195,34 @@ html.ui-aurora .qc .mec-grade-btn.selected-ok {
   box-shadow: 0 0 24px rgba(61, 214, 140, 0.8), inset 0 1px 0 #FFF !important;
 }
 
+/* 🌟 選択肢ボタン: クリスタルアクリル・タクタイルプレート */
+html.ui-aurora .qc .ch2 {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
+  border-radius: 12px !important;
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+  font-weight: 500 !important;
+  min-height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+html.ui-aurora .qc .ch2:hover {
+  background: linear-gradient(90deg, rgba(0, 223, 216, 0.22) 0%, rgba(121, 40, 202, 0.22) 100%) !important;
+  border-color: rgba(0, 223, 216, 0.75) !important;
+  box-shadow: 0 0 20px rgba(0, 223, 216, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+  transform: translateX(4px) scale(1.008) !important;
+}
+
+html.ui-aurora .qc .ch2.selected {
+  background: linear-gradient(90deg, rgba(0, 223, 216, 0.35) 0%, rgba(121, 40, 202, 0.35) 100%) !important;
+  border-color: #00DFD8 !important;
+  box-shadow: 0 0 24px rgba(0, 223, 216, 0.55), inset 0 0 12px rgba(0, 223, 216, 0.3) !important;
+}
+
 html.ui-aurora .qc .mec-lap-btn:hover {
   background: rgba(0, 112, 243, 0.4) !important;
   border-color: #0070F3 !important;
@@ -220,18 +244,6 @@ html.ui-aurora .qc .mec-err-btn:hover {
   transform: translateY(-2px) scale(1.05) !important;
 }
 
-/* 🌟 選択肢: プリズムすりガラス */
-html.ui-aurora .qc .ch2 {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
-  border-left: 4px solid rgba(0, 223, 216, 0.5) !important;
-  color: #FFFFFF !important;
-  border-radius: 12px !important;
-  backdrop-filter: blur(14px) !important;
-  font-size: 15.5px !important;
-  font-weight: 550 !important;
-  letter-spacing: .25px !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
   transition: all .16s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
@@ -332,20 +344,10 @@ html.ui-aurora .qc.exam-revealed:not(.exam-multi-correct) {
   40%, 80% { transform: translateX(5px) scale(1.004); box-shadow: 0 0 42px rgba(255, 107, 107, 0.75); }
 }
 
-/* 🌟 問題文アクセント */
-html.ui-aurora .qc .qq {
-  position: relative;
-  padding-left: 2px;
-}
-
-/* 🌟 解答ボックス & 解説ボックス: プリズムグラス */
+/* 🌟 正解解答ボックス: クリスタル・インジケーター */
 html.ui-aurora .qc .ab {
-  background: linear-gradient(135deg, rgba(0, 223, 216, 0.25), rgba(121, 40, 202, 0.25)) !important;
+  background: linear-gradient(135deg, rgba(0, 223, 216, 0.25) 0%, rgba(0, 112, 243, 0.28) 50%, rgba(121, 40, 202, 0.25) 100%) !important;
   border: 1.5px solid rgba(0, 223, 216, 0.8) !important;
-  color: #FFFFFF !important;
-  border-radius: 14px !important;
-  box-shadow: 0 8px 30px rgba(0, 223, 216, 0.35), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.65), inset 0 0 16px rgba(0, 223, 216, 0.15) !important;
-  font-size: 16px !important;
   letter-spacing: .35px !important;
   padding: 12px 18px !important;
 }
@@ -2198,11 +2200,30 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
 /* ═══════════════════════════════════════════════════════════════════
    モバイル幅 (max-width: 600px) 向けレイアウト・余白・タップ領域の極限調律
    ═══════════════════════════════════════════════════════════════════ */
+/* 📱 モバイル幅（375px）極限調律 */
 @media (max-width: 600px) {
   .qc {
     padding: 16px 14px !important;
     border-radius: 14px !important;
+  }
+  .qc .qh {
     margin-bottom: 14px !important;
+  }
+  .qc .qq {
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+    margin-bottom: 16px !important;
+  }
+  .qc .ch2 {
+    padding: 12px 14px !important;
+    font-size: 14.5px !important;
+    min-height: 46px !important;
+  }
+  .st-hdr {
+    padding: 8px 10px !important;
+  }
+  .st-title-row {
+    gap: 6px !important;
   }
   .qc .qh {
     display: flex !important;
@@ -2389,5 +2410,162 @@ html.ui-cyber .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
 html.ui-liquid .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
   background: rgba(10, 10, 24, 0.45) !important;
   border-color: rgba(255, 0, 127, 0.08) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   学習ハブ ゲージ & 背景アニメーションのテーマ別分岐 (Hub Themes)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* 1. Brass 専用: 歯車列 (Clockwork Gears) & 真鍮光彩 */
+html:not(.ui-brass) .gauge .gear {
+  display: none !important;
+}
+
+html.ui-brass .gauge .gear {
+  display: block;
+  fill: #B8860B;
+  stroke: #E6C350;
+  stroke-width: 1px;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 10px rgba(201, 162, 39, 0.4));
+  transition: opacity var(--dur-long) var(--ease-out), fill var(--dur-long) var(--ease-out), filter var(--dur-long) var(--ease-out);
+}
+
+html.ui-brass .gauge .gear-main {
+  fill: #D4AF37;
+  stroke: #FFF3A8;
+  stroke-width: 1.2px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 14px rgba(212, 175, 55, 0.5));
+}
+
+html.ui-brass .gauge .gauge-ring {
+  position: relative;
+}
+
+/* ギロシェ彫刻調の同心メカニカルリング */
+html.ui-brass .gauge .gauge-ring::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(224, 194, 94, 0.45);
+  box-shadow: inset 0 0 12px rgba(184, 134, 11, 0.35), 0 0 10px rgba(201, 162, 39, 0.25);
+  animation: gearSpin 36s linear infinite;
+  pointer-events: none;
+}
+
+html.ui-brass .gauge .gauge-ring::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  border: 1px dotted rgba(255, 235, 150, 0.35);
+  animation: gearSpin 24s linear infinite reverse;
+  pointer-events: none;
+}
+
+/* 2. Aurora 専用: 偏光クリスタル & オーロラウェーブ (Aurora Waves) */
+html.ui-aurora .gauge .gauge-ring {
+  position: relative;
+  filter: drop-shadow(0 0 16px rgba(0, 223, 216, 0.35));
+}
+
+html.ui-aurora .gauge .gauge-ring::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(0, 242, 254, 0.22), rgba(121, 40, 202, 0.28), rgba(255, 0, 128, 0.20), rgba(0, 112, 243, 0.25), rgba(0, 242, 254, 0.22));
+  filter: blur(10px);
+  animation: auroraWaveRotate 12s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+html.ui-aurora .gauge .gauge-ring::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  box-shadow: inset 0 0 18px rgba(0, 223, 216, 0.4), 0 0 14px rgba(121, 40, 202, 0.35);
+  animation: auroraPulse 5s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes auroraWaveRotate {
+  0% { transform: rotate(0deg) scale(0.96); opacity: 0.75; }
+  50% { transform: rotate(180deg) scale(1.04); opacity: 1; filter: blur(8px) hue-rotate(45deg); }
+  100% { transform: rotate(360deg) scale(0.96); opacity: 0.75; }
+}
+
+@keyframes auroraPulse {
+  0% { transform: scale(0.97); opacity: 0.6; border-color: rgba(0, 242, 254, 0.5); }
+  100% { transform: scale(1.03); opacity: 1; border-color: rgba(255, 255, 255, 0.85); box-shadow: inset 0 0 24px rgba(0, 223, 216, 0.6), 0 0 20px rgba(121, 40, 202, 0.5); }
+}
+
+/* 3. Cyber 専用: ホログラフィック・レーダー & タクティカルHUD (Cyber Hologram Radar) */
+html.ui-cyber .gauge .gauge-ring {
+  position: relative;
+  filter: drop-shadow(0 0 16px rgba(0, 229, 255, 0.45));
+}
+
+html.ui-cyber .gauge .gauge-ring::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0, 229, 255, 0.55);
+  background: conic-gradient(from 0deg, rgba(0, 229, 255, 0.35) 0deg, rgba(0, 229, 255, 0.08) 45deg, transparent 90deg, transparent 360deg);
+  box-shadow: inset 0 0 15px rgba(0, 229, 255, 0.25), 0 0 12px rgba(0, 229, 255, 0.35);
+  animation: cyberRadarSweep 3.5s linear infinite;
+  pointer-events: none;
+}
+
+html.ui-cyber .gauge .gauge-ring::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(0, 255, 157, 0.45);
+  box-shadow: 0 0 10px rgba(0, 255, 157, 0.3);
+  animation: cyberRadarSweep 8s linear infinite reverse;
+  pointer-events: none;
+}
+
+@keyframes cyberRadarSweep {
+  to { transform: rotate(360deg); }
+}
+
+/* 4. Liquid 専用: フルイドモーフィング & ネオンジェル (Liquid Fluid Morph) */
+html.ui-liquid .gauge .gauge-ring {
+  position: relative;
+  filter: drop-shadow(0 0 18px rgba(255, 0, 127, 0.4)) drop-shadow(0 0 28px rgba(121, 40, 202, 0.25));
+}
+
+html.ui-liquid .gauge .gauge-ring::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+  background: linear-gradient(135deg, rgba(255, 0, 127, 0.35), rgba(121, 40, 202, 0.28), rgba(0, 242, 254, 0.3));
+  filter: blur(8px);
+  animation: liquidFluidMorph 7s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+html.ui-liquid .gauge .gauge-ring::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 55% 45% 35% 65% / 60% 40% 60% 40%;
+  border: 1.5px solid rgba(255, 0, 127, 0.55);
+  box-shadow: inset 0 0 16px rgba(255, 0, 127, 0.3), 0 0 12px rgba(0, 242, 254, 0.35);
+  animation: liquidFluidMorph 10s ease-in-out infinite alternate-reverse;
+  pointer-events: none;
+}
+
+@keyframes liquidFluidMorph {
+  0% { border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; transform: rotate(0deg) scale(0.97); }
+  50% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: rotate(180deg) scale(1.03); filter: hue-rotate(30deg); }
+  100% { border-radius: 35% 65% 55% 45% / 40% 65% 35% 60%; transform: rotate(360deg) scale(0.97); }
 }
 

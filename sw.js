@@ -1,3 +1,7 @@
+// 2026-08-22s: UIテーマ自律進化・完全ビジュアル改善ループ完遂（全10イテレーション）。
+//   - 学習ハブのHero大歯車アニメーション改善とBrassテーマ専用化（他テーマは各世界観に即したオーロラ光彩・HUDレーダー・流体モーフィングを実装）。
+//   - 全4テーマ（Aurora/Brass/Cyber/Liquid）の問題カード装飾、タクタイル選択肢、高コントラストバッジ、解答解説ボックス、自己採点ボタン、375pxモバイル最適化を完了。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-22r: フィード折りたたみ時の再読み込み・テーマ設定ボタンの静止化（回転分離）。
 //   - study.html / study.css: 再読み込み（♻️）とテーマ設定（🎨🔊）のクラスを hdr-btn に分離し、折りたたみ時の回転を hdrToggle のみに限定。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
@@ -340,7 +344,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-22r";
+const SHELL_VERSION = "2026-08-22s";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

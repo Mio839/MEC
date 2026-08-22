@@ -28,8 +28,10 @@ __pycache__/
 *.tmp
 *.bak
 
-# Claude Code 内部ファイル（設定・ワークツリー等、プロジェクト内容ではない）
+# Claude Code / Antigravity 内部ファイル
 .claude/
+.antigravity/
+*.exe
 
 # 予備校配布資料PDF（著作権・容量の都合でリポジトリに含めない）
 MEC問題文pdf/
