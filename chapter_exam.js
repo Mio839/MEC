@@ -1386,6 +1386,23 @@
       setTimeout(function () { ceAnswerMark(el, 'fresh'); }, 150);
     }
 
+    // 【UIテーマ固有演出】正解時のテーマ別リアクション
+    if (!ceReduced() && window.MecFX && card) {
+      var curUi = window.MecUITheme ? MecUITheme.get() : 'aurora';
+      var cr = card.getBoundingClientRect();
+      var cx = cr.left + cr.width / 2;
+      var cy = cr.top + Math.min(cr.height / 2, 90);
+      if (curUi === 'aurora' && window.MecFX.diamondSparkle) {
+        window.MecFX.diamondSparkle(cx, cy, { count: 12, color: '#00DFD8' });
+      } else if (curUi === 'brass' && window.MecFX.sparks) {
+        window.MecFX.sparks(cx, cy, { count: 10, colors: ['#FFD700', '#FFA040', '#FFFFFF'] });
+      } else if (curUi === 'cyber' && window.MecFX.glitchBars) {
+        window.MecFX.glitchBars(cx, cy, { count: 6, color: '#00E5FF' });
+      } else if (curUi === 'liquid' && window.MecFX.bubbles) {
+        window.MecFX.bubbles(cx, cy, { count: 8, colors: ['#FF007F', '#7928CA'] });
+      }
+    }
+
     if (_ceRecoverPending) {
       _ceRecoverPending = false;
       setTimeout(function () { ceRecover(el); }, 220);

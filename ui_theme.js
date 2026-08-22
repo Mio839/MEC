@@ -59,11 +59,33 @@
     el.classList.add('ui-' + validId);
   }
 
+  function triggerThemeChangeFx(id) {
+    if (!window.MecFX) return;
+    var cx = window.innerWidth / 2;
+    var cy = window.innerHeight / 2;
+    if (id === 'aurora') {
+      if (MecFX.diamondSparkle) MecFX.diamondSparkle(cx, cy, { count: 18, color: '#00DFD8' });
+      if (MecFX.rings) MecFX.rings(cx, cy, { count: 2, maxR: 200, color: '#0070F3', additive: true });
+    } else if (id === 'brass') {
+      if (MecFX.astrolabeRings) MecFX.astrolabeRings(cx, cy, { maxR: 180, color: '#E0C25E' });
+      if (MecFX.gears) MecFX.gears(cx, cy, { count: 6, spread: 220, w: 20 });
+    } else if (id === 'cyber') {
+      if (MecFX.glitchBars) MecFX.glitchBars(cx, cy, { count: 8, color: '#00E5FF' });
+      if (MecFX.defibShock) MecFX.defibShock(cx, cy, { color: '#00FF66' });
+    } else if (id === 'liquid') {
+      if (MecFX.irisShutter) MecFX.irisShutter(cx, cy, { maxR: 200, color: '#FF007F' });
+      if (MecFX.bubbles) MecFX.bubbles(cx, cy, { count: 12, colors: ['#FF007F', '#7928CA'] });
+    }
+  }
+
   function set(id) {
     try {
       localStorage.setItem(KEY, id);
     } catch (e) {}
     apply(id);
+    try {
+      triggerThemeChangeFx(id);
+    } catch (e) {}
     try {
       document.dispatchEvent(new CustomEvent('mecUIThemeChange', { detail: { id: id } }));
     } catch (e) {}
@@ -76,6 +98,7 @@
     list: UI_THEMES,
     get: get,
     set: set,
-    apply: apply
+    apply: apply,
+    triggerFx: triggerThemeChangeFx
   };
 })();
