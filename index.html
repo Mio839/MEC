@@ -707,25 +707,10 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
   animation:icPulse 2s var(--ease-in-out) infinite;}
 @keyframes icPulse{
   0%,100%{transform:scale(1) rotate(0deg);}
-  26%{transform:scale(1.34) rotate(-11deg);}
-  58%{transform:scale(1.1) rotate(8deg);}
+  26%{transform:scale(1.15) rotate(-6deg);}
+  58%{transform:scale(1.05) rotate(4deg);}
 }
-/* 明滅する✨3つ。位置は自然に散るよう子要素に相乗りさせる */
-.mfx .gm-mission.done .gm-mission-ic::after,
-.mfx .gm-mission.done .gm-mission-num::after{content:'✨';position:absolute;
-  font-size:12px;line-height:1;pointer-events:none;
-  animation:twinkle 1.6s var(--ease-in-out) infinite;}
-.mfx .gm-mission.done .gm-mission-ic::after{top:-5px;right:-7px;}
-.mfx .gm-mission.done .gm-mission-num{position:relative;}
-.mfx .gm-mission.done .gm-mission-num::after{top:-6px;left:-8px;animation-delay:-.8s;}
-.mfx .gm-mission.done .gm-mission-lbl::after{content:'✨';display:inline-block;
-  margin-left:6px;font-size:12px;line-height:1;vertical-align:middle;
-  animation:twinkle 1.6s var(--ease-in-out) -1.15s infinite;}
-@keyframes twinkle{
-  0%,100%{opacity:0;transform:scale(.25) rotate(-30deg);}
-  50%{opacity:1;transform:scale(1.15) rotate(18deg);}
-}
-/* ラベルも淡く発光させる。行の中で一番面積があるので効きが大きい */
+/* ラベルも淡く発光させる */
 .mfx .gm-mission.done .gm-mission-lbl{animation:lblGlow 2.6s var(--ease-in-out) infinite;}
 @keyframes lblGlow{0%,100%{text-shadow:none;}50%{text-shadow:0 0 10px rgba(124,239,178,.75);}}
 /* 満タンのバーを光が走る */
@@ -2107,7 +2092,7 @@ function _driveGauge(pct) {
   setTimeout(() => _gaugeCelebrate(tier), over > 0 ? 2400 : 1350);
 }
 
-// D6: 目標達成の刻印。盤面の中心に真鍮の封印が「押される」
+// D6: 目標達成の刻印。テーマごとに固有の祝砲を放つ
 function _stampGoalSeal() {
   if (!_fxOk()) return;
   const box = document.getElementById('gaugeBox');
@@ -2115,36 +2100,70 @@ function _stampGoalSeal() {
   const c = _centerOf(ring);
   if (!c) return;
   const r = Math.min(c.r.width, c.r.height);
-  MecFX.stamp(c.x, c.y, {
-    color: '#E0C25E', size: r * 1.1, thick: 5, ticks: 18, rot: -6, ttl: 1.4
-  });
-  // 【新同心円】アイリスシャッターの開放 ＆ 天球儀アストロラーベ
-  if (MecFX.irisShutter) MecFX.irisShutter(c.x, c.y, { maxR: r * 1.4, blades: 12, color: '#FFD700', thickness: 3.2 });
-  if (MecFX.astrolabeRings) MecFX.astrolabeRings(c.x, c.y, { maxR: r * 1.6, rings: 4, color: '#E0C25E', speed: 2.2 });
-  MecFX.burst(c.x, c.y, {
-    count: 48, colors: ['#FFD700', '#FFA040', '#FFFFFF', '#C9A227'],
-    shapes: ['gem', 'star', 'shard'], tier: 6, scale: 2.0, speed: 720, glow: true, additive: true
-  });
-  MecFX.gears(c.x, c.y, { count: 24, spread: 380, min: 14, max: 28, gravity: 520, w: 18, delay: .12 });
-  MecFX.confetti({ count: 120, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], big: true });
-  // 【案7】全方位スチーム大爆発（四方八方からの大蒸気噴出）
-  MecFX.steam(c.x - c.r * .8, c.y + c.r * .3, { count: 8, w: c.r * .8, rise: 180, min: 40, max: 80, alpha: .4, vx: -160 });
-  MecFX.steam(c.x + c.r * .8, c.y + c.r * .3, { count: 8, w: c.r * .8, rise: 180, min: 40, max: 80, alpha: .4, vx: 160 });
-  MecFX.steam(c.x, c.y - c.r * .6, { count: 6, w: c.r * .7, rise: 160, min: 36, max: 70, alpha: .35 });
+  const curTheme = window.MecUITheme ? MecUITheme.get() : (document.documentElement.classList.contains('ui-brass') ? 'brass' : 'aurora');
+
+  if (curTheme === 'brass') {
+    MecFX.stamp(c.x, c.y, {
+      color: '#E0C25E', size: r * 1.1, thick: 5, ticks: 18, rot: -6, ttl: 1.4
+    });
+    // 【新同心円】アイリスシャッターの開放 ＆ 天球儀アストロラーベ (Brass限定)
+    if (MecFX.irisShutter) MecFX.irisShutter(c.x, c.y, { maxR: r * 1.4, blades: 12, color: '#FFD700', thickness: 3.2 });
+    if (MecFX.astrolabeRings) MecFX.astrolabeRings(c.x, c.y, { maxR: r * 1.6, rings: 4, color: '#E0C25E', speed: 2.2 });
+    MecFX.burst(c.x, c.y, {
+      count: 48, colors: ['#FFD700', '#FFA040', '#FFFFFF', '#C9A227'],
+      shapes: ['gem', 'star', 'shard'], tier: 6, scale: 2.0, speed: 720, glow: true, additive: true
+    });
+    MecFX.gears(c.x, c.y, { count: 24, spread: 380, min: 14, max: 28, gravity: 520, w: 18, delay: .12 });
+    MecFX.confetti({ count: 120, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], big: true });
+    // 全方位スチーム大爆発（四方八方からの大蒸気噴出）
+    MecFX.steam(c.x - c.r * .8, c.y + c.r * .3, { count: 8, w: c.r * .8, rise: 180, min: 40, max: 80, alpha: .4, vx: -160 });
+    MecFX.steam(c.x + c.r * .8, c.y + c.r * .3, { count: 8, w: c.r * .8, rise: 180, min: 40, max: 80, alpha: .4, vx: 160 });
+    MecFX.steam(c.x, c.y - c.r * .6, { count: 6, w: c.r * .7, rise: 160, min: 36, max: 70, alpha: .35 });
+    return;
+  }
+
+  if (curTheme === 'aurora') {
+    MecFX.burst(c.x, c.y, {
+      count: 50, colors: ['#00DFD8', '#7928CA', '#FFFFFF', '#0070F3', '#FF0080'],
+      shapes: ['gem', 'star'], tier: 6, scale: 2.0, speed: 650, glow: true, additive: true
+    });
+    MecFX.confetti({ count: 80, colors: ['#00DFD8', '#7928CA', '#FFFFFF', '#FF0080'], big: true });
+    return;
+  }
+
+  if (curTheme === 'cyber') {
+    MecFX.burst(c.x, c.y, {
+      count: 50, colors: ['#00E5FF', '#00FF9D', '#FFFFFF', '#0070F3'],
+      shapes: ['shard', 'star'], tier: 6, scale: 2.0, speed: 700, glow: true, additive: true
+    });
+    MecFX.confetti({ count: 80, colors: ['#00E5FF', '#00FF9D', '#FFFFFF'], big: true });
+    return;
+  }
+
+  if (curTheme === 'liquid') {
+    MecFX.burst(c.x, c.y, {
+      count: 50, colors: ['#FF007F', '#7928CA', '#00F2FE', '#FFFFFF'],
+      shapes: ['circle', 'gem'], tier: 6, scale: 2.0, speed: 650, glow: true, additive: true
+    });
+    MecFX.confetti({ count: 80, colors: ['#FF007F', '#7928CA', '#00F2FE', '#FFFFFF'], big: true });
+    return;
+  }
 }
 
 // ── 盤面の常時演出 ───────────────────────────────────────────────
 // 「達成した瞬間だけ派手」ではなく、開いている間ずっと機械が動いて見えるようにする。
-//   ・常時（1.7秒ごと）: 歯車の噛み合いから火花が散り、軸から蒸気が漏れる
-//   ・22秒ごと: いまの段の祝砲をもう一度撒く＝しばらく眺めていても山が来る
-// ⚠️ 撒く条件は _fxOk()（reduced-motion / 非表示タブを弾く）＋ ゲージが画面内にいること。
-//    スクロールで見えない位置にあるときに撒いても canvas を無駄に回すだけ。
+//   ・Brass専用: 歯車の噛み合いから火花が散り、軸から蒸気が漏れる / 22秒ごとの祝砲
+//   ・他テーマ: 不要な黄色いパーティクルや同心円を抑止
 let _gaugeFxTimer = 0, _gaugeFxBoom = 0, _gaugeFxTier = -1;
 function _startGaugeAmbient(tier) {
   if (tier === _gaugeFxTier) return;          // 段が変わらない限り作り直さない
   _gaugeFxTier = tier;
   clearInterval(_gaugeFxTimer); clearInterval(_gaugeFxBoom);
   if (_reducedMotion()) return;
+
+  // テーマ判定: Brass 以外は黄色パーティクルを撒かない
+  const curTheme = window.MecUITheme ? MecUITheme.get() : (document.documentElement.classList.contains('ui-brass') ? 'brass' : 'aurora');
+  if (curTheme !== 'brass') return;
 
   // 歯車の中心。ゲージが画面外／未描画なら null（撒かない）
   const spot = () => {
@@ -2178,7 +2197,7 @@ function _startGaugeAmbient(tier) {
     });
   }, 1700);
 
-  // 定期の祝砲。段0（まだ1問も解いていない日）は鳴らさない＝「やった」ことの合図を守る
+  // 定期の祝砲。段0（まだ1問も解いていない日）は鳴らさない
   if (tier <= 0) return;
   _gaugeFxBoom = setInterval(() => { if (spot()) _gaugeCelebrate(tier); }, 22000);
 }
@@ -2186,8 +2205,7 @@ function _startGaugeAmbient(tier) {
 // 真鍮・銅の火花。歯車と同じ色系統（テーマには振らない）
 const BRASS = ['#C9A227', '#E0C25E', '#B87333', '#8C6D1F'];
 
-// 段に応じた祝砲。騒々しい降下アニメーションや過剰な同心円を排除し、
-// 真鍮の光彩・微細火花・ゴールドダストによる大人の洗練された演出にする。
+// 段に応じた祝砲。Brass テーマのみ同心円や真鍮火花を発火、他テーマは同心円を排除
 function _gaugeCelebrate(tier) {
   const dot = document.getElementById('gaugeDot');
   if (!_fxOk() || !dot) return;
@@ -2196,44 +2214,74 @@ function _gaugeCelebrate(tier) {
   const hit = tier >= 5;
   const ringEl = document.querySelector('#gaugeBox .gauge-ring');
   const g = (ringEl && _centerOf(ringEl)) || c;
+  const curTheme = window.MecUITheme ? MecUITheme.get() : (document.documentElement.classList.contains('ui-brass') ? 'brass' : 'aurora');
 
-  // 層1: 上品な天球儀の光輪（1回だけ優雅に広がる）＆ 干渉波紋
-  if (MecFX.astrolabeRings) {
-    MecFX.astrolabeRings(g.x, g.y, {
-      maxR: 130 + tier * 25, rings: 2,
-      color: hit ? '#FFD700' : '#E0C25E', speed: 1.2
+  // 1. Brass テーマ専用: 天球儀の同心円光輪 ＆ 真鍮火花 ＆ スチーム
+  if (curTheme === 'brass') {
+    if (MecFX.astrolabeRings) {
+      MecFX.astrolabeRings(g.x, g.y, {
+        maxR: 130 + tier * 25, rings: 2,
+        color: hit ? '#FFD700' : '#E0C25E', speed: 1.2
+      });
+    }
+    if (MecFX.rippleInterference && hit) {
+      MecFX.rippleInterference(g.x, g.y, { maxR: 160 + tier * 20, color: '#FFD700' });
+    }
+    MecFX.burst(c.x, c.y, {
+      tier: Math.min(4, tier), count: 16 + tier * 6,
+      colors: hit ? BRASS.concat(['#FFF3C4']) : BRASS,
+      shapes: ['circle', 'shard'],
+      speed: 280 + tier * 60
     });
-  }
-  if (MecFX.rippleInterference && hit) {
-    MecFX.rippleInterference(g.x, g.y, { maxR: 160 + tier * 20, color: '#FFD700' });
-  }
-  // 層2: 接点の微細なゴールド火花と微粒子
-  MecFX.burst(c.x, c.y, {
-    tier: Math.min(4, tier), count: 16 + tier * 6,
-    colors: hit ? BRASS.concat(['#FFF3C4']) : BRASS,
-    shapes: ['circle', 'shard'],
-    speed: 280 + tier * 60
-  });
-  if (MecFX.sparks) MecFX.sparks(g.x, g.y, { count: 8 + tier * 2 });
+    if (MecFX.sparks) MecFX.sparks(g.x, g.y, { count: 8 + tier * 2 });
 
-  if (tier < 3) return;
-
-  // 層3（半分から）: 軸からひと吹き漏れる柔らかな真鍮蒸気 ＆ クロノスダイヤル
-  MecFX.steam(g.x, g.y + 15, { count: 6 + tier * 2, w: 32, rise: 80, alpha: .32 });
-  if (MecFX.chronosDial && tier >= 3) {
-    MecFX.chronosDial(g.x, g.y, { maxR: 140 + tier * 15, color: '#E0C25E' });
+    if (tier >= 3) {
+      MecFX.steam(g.x, g.y + 15, { count: 6 + tier * 2, w: 32, rise: 80, alpha: .32 });
+      if (MecFX.chronosDial) MecFX.chronosDial(g.x, g.y, { maxR: 140 + tier * 15, color: '#E0C25E' });
+    }
+    if (tier >= 4) {
+      MecFX.dust({ count: 18 + tier * 4, colors: ['#E0C25E', '#FFF3C4', '#FFFFFF'] });
+      if (MecFX.bearingOrbit) MecFX.bearingOrbit(g.x, g.y, { maxR: 160 + tier * 20, color: '#FFD700' });
+    }
+    if (hit && MecFX.irisShutter) {
+      MecFX.irisShutter(g.x, g.y, { maxR: 220, blades: 10, color: '#FFD700', thickness: 2.2 });
+    }
+    return;
   }
-  if (tier < 4) return;
 
-  // 層4: ゴールドスターダスト（微細な金粉がきらめく） ＆ ベアリングオービット
-  MecFX.dust({ count: 18 + tier * 4, colors: ['#E0C25E', '#FFF3C4', '#FFFFFF'] });
-  if (MecFX.bearingOrbit && tier >= 4) {
-    MecFX.bearingOrbit(g.x, g.y, { maxR: 160 + tier * 20, color: '#FFD700' });
+  // 2. Aurora テーマ: 同心円は出さず、クリスタルオーロラダストとプリズム発光のみ
+  if (curTheme === 'aurora') {
+    MecFX.dust({ count: 12 + tier * 4, colors: ['#00DFD8', '#7928CA', '#FFFFFF', '#0070F3'] });
+    if (hit) {
+      MecFX.burst(c.x, c.y, {
+        tier: 3, count: 20, colors: ['#00DFD8', '#FFFFFF', '#7928CA'],
+        shapes: ['gem', 'star'], speed: 220
+      });
+    }
+    return;
   }
-  if (!hit) return;
 
-  // 層5（達成）: アイリスの黄金サンバーストが美しく輝く
-  if (MecFX.irisShutter) MecFX.irisShutter(g.x, g.y, { maxR: 220, blades: 10, color: '#FFD700', thickness: 2.2 });
+  // 3. Cyber テーマ: 同心円は出さず、シアン・ネオングリーンのデジタルフォトンのみ
+  if (curTheme === 'cyber') {
+    if (hit) {
+      MecFX.burst(c.x, c.y, {
+        tier: 3, count: 24, colors: ['#00E5FF', '#00FF9D', '#FFFFFF'],
+        shapes: ['shard', 'star'], speed: 260
+      });
+    }
+    return;
+  }
+
+  // 4. Liquid テーマ: 同心円は出さず、ネオンインクドロップレットのみ
+  if (curTheme === 'liquid') {
+    if (hit) {
+      MecFX.burst(c.x, c.y, {
+        tier: 3, count: 22, colors: ['#FF007F', '#7928CA', '#00F2FE', '#FFFFFF'],
+        shapes: ['circle', 'gem'], speed: 240
+      });
+    }
+    return;
+  }
 }
 
 // 連続日数の熾火。3日以上つながっているときだけ、画面内で時々1粒
@@ -2455,56 +2503,63 @@ const _sparkledMissions = new Set();
 function _sparkleMissions() {
   if (!_fxOk()) return;
 
-  const accent = _accent();
+  const curTheme = window.MecUITheme ? MecUITheme.get() : (document.documentElement.classList.contains('ui-brass') ? 'brass' : 'aurora');
   const rows = _missionRows();
   const doneRows = rows.filter(r => r.classList.contains('done'));
   let n = 0;
 
+  // テーマ別カラー設定
+  let themeColors, themeShapes;
+  if (curTheme === 'brass') {
+    themeColors = ['#E0C25E', '#FFD700', '#B87333', '#FFFFFF'];
+    themeShapes = ['circle', 'shard'];
+  } else if (curTheme === 'cyber') {
+    themeColors = ['#00E5FF', '#00FF9D', '#FFFFFF'];
+    themeShapes = ['shard', 'star'];
+  } else if (curTheme === 'liquid') {
+    themeColors = ['#FF007F', '#00F2FE', '#7928CA', '#FFFFFF'];
+    themeShapes = ['circle', 'gem'];
+  } else { // aurora
+    themeColors = ['#00DFD8', '#7928CA', '#FFFFFF', '#0070F3'];
+    themeShapes = ['gem', 'star'];
+  }
+
   doneRows.forEach((row, i) => {
-    // 行の中身（ラベル）をキーにする。位置で覚えると、週間と今日で番号が衝突する
     const key = (row.querySelector('.gm-mission-lbl') || {}).textContent || ('m' + rows.indexOf(row));
     if (_sparkledMissions.has(key)) return;
     const c = _centerOf(row);
-    // ⚠️ 画面外なら「撒いた」印を付けずに抜ける。先に印を付けると、週間パネルのように
-    //    折り返しの下にある行がスクロールで出てきたときに二度と撒かれない
     if (!c) return;
     _sparkledMissions.add(key);
     n++;
     setTimeout(() => {
       const icX = c.r.left + 24;
-      if (MecFX.sparks) {
-        MecFX.sparks(icX, c.y, { count: 6, colors: [MISSION_GREEN, '#7CEFB2', '#FFFFFF'], speed: 120, maxR: 16 });
+      if (MecFX.sparks && curTheme === 'brass') {
+        MecFX.sparks(icX, c.y, { count: 6, colors: themeColors, speed: 120, maxR: 16 });
       }
       MecFX.burst(icX, c.y, {
-        tier: 2, count: 10, colors: [MISSION_GREEN, '#7CEFB2', '#FFFFFF'], shapes: ['circle'], speed: 160
+        tier: 2, count: 12, colors: themeColors, shapes: themeShapes, speed: 160
       });
-      MecFX.dust({ count: 4, colors: [MISSION_GREEN, '#FFFFFF'], speed: 50 });
-      MecFX.glyphBurst(c.x, c.y, { glyphs: ['✨'], count: 2, spread: 36, w: c.r.width * .5 });
+      MecFX.dust({ count: 6, colors: themeColors, speed: 50 });
     }, i * 130);
   });
 
-  // 全部達成していたら、行ごとの粒子に加えて花火と絵文字の吹き上げでちゃんと祝う
+  // 全部達成していたら、行ごとの粒子に加えてテーマ別の大祝砲を放つ
   if (n > 0 && doneRows.length === rows.length && rows.length > 0) {
     const c = _centerOf(doneRows[doneRows.length - 1]);
     if (!c) return;
     setTimeout(() => {
       MecFX.burst(c.x, c.y, {
-        tier: 4, count: 36, colors: [accent, '#FFD166', '#FFFFFF'], shapes: ['circle', 'star']
+        tier: 4, count: 36, colors: themeColors, shapes: themeShapes
       });
-      MecFX.confetti({ colors: [MISSION_GREEN, accent, '#FFD166', '#FFFFFF'], count: 36 });
-      MecFX.floaters({ glyphs: ['🎉', '✨', '🏅'], count: 8, scale: .8 });
+      MecFX.confetti({ colors: themeColors, count: 40 });
     }, doneRows.length * 130 + 120);
   }
 }
 
-// 達成の緑。gamify.js の .gm-mission.done と vars.css の --gr が同じ値（完了の意味を持つ
-// ので、この色だけはテーマで振らない）。粒子は CSS 変数を読めないのでここに定数を置く。
+// 達成の緑。
 const MISSION_GREEN = '#3DD68C';
 
-// 全達成なら見出しの件数を緑にして脈打たせる。件数の数字自体は gamify.js が入れる実データ。
-// 判定は data-tier="core" の行だけ＝gamify.js の MISSION COMPLETE セレモニーと同じ条件。
-// ボーナス行（SRSの在庫や「全問正解」など運に左右されるもの）まで含めると、旧仕様と同じく
-// ほぼ緑にならない見出しになる。
+// 全達成なら見出しの件数を緑にして脈打たせる。
 function _markAllDone() {
   const host = document.getElementById('gmDaily');
   const cnt = document.getElementById('gmDailyCnt');
@@ -2513,8 +2568,6 @@ function _markAllDone() {
   cnt.classList.toggle('all', core.length > 0 && core.every(r => r.classList.contains('done')));
 }
 
-// #gamifyPanel は gamify.js が innerHTML で作り直すので、描き直された瞬間に
-// 演出（常時撒き・全達成判定）を仕切り直す。MutationObserver で拾うのが確実。
 function _watchGamifyPanel() {
   const panel = document.getElementById('gamifyPanel');
   if (!panel || !('MutationObserver' in window)) return;
@@ -2525,38 +2578,58 @@ function _watchGamifyPanel() {
   }).observe(panel, { childList: true });
 }
 
-// 達成行から時々ひと粒。3行あっても同時には撒かず1行ずつ順に回す
+// 達成行から時々ひと粒。テーマに応じた微細光彩を放つ
 let _missionAmbientTimer = 0, _missionAmbientAt = 0;
 function _startMissionAmbient() {
   clearInterval(_missionAmbientTimer);
   if (_reducedMotion()) return;
   _missionAmbientTimer = setInterval(() => {
     if (!_fxOk()) return;
-    // 画面内にある達成行だけを対象にする（週間パネルは折り返しの下にいることが多い）
     const done = _missionRows().filter(r => r.classList.contains('done') && _centerOf(r));
     if (!done.length) return;
     const row = done[_missionAmbientAt++ % done.length];
     const c = _centerOf(row);
     if (!c) return;
-    // 行の幅のどこかから1粒。毎回同じ位置だと作り物に見える
+    const curTheme = window.MecUITheme ? MecUITheme.get() : (document.documentElement.classList.contains('ui-brass') ? 'brass' : 'aurora');
     const x = c.r.left + c.r.width * (.15 + Math.random() * .7);
-    MecFX.glyphBurst(x, c.y, { glyphs: ['✨', '✦'], count: 1, spread: 34, w: 8 });
+    
+    if (curTheme === 'brass') {
+      MecFX.burst(x, c.y, { tier: 1, count: 2, colors: ['#FFD700', '#E0C25E'], shapes: ['circle'], speed: 60 });
+    } else if (curTheme === 'cyber') {
+      MecFX.burst(x, c.y, { tier: 1, count: 2, colors: ['#00E5FF', '#00FF9D'], shapes: ['shard'], speed: 60 });
+    } else if (curTheme === 'liquid') {
+      MecFX.burst(x, c.y, { tier: 1, count: 2, colors: ['#FF007F', '#00F2FE'], shapes: ['circle'], speed: 60 });
+    } else {
+      MecFX.dust({ count: 2, colors: ['#00DFD8', '#FFFFFF'] });
+    }
   }, 2600);
 }
 
-// 達成行を押すと祝いをやり直す。触って反応が返るのが一番効く
+// 達成行を押すとテーマ別の祝いをやり直す
 function _initMissionTap() {
-  // 週間パネルは gamify.js が作り直すので、個々の行ではなく document に1つだけ張る
   document.addEventListener('pointerdown', e => {
     const row = e.target.closest('.mfx .gm-mission.done');
     if (!row || !_fxOk()) return;
-    const c = _centerOf(row);
-    if (!c) return;
-    const icX = c.r.left + 24;
+    const curTheme = window.MecUITheme ? MecUITheme.get() : (document.documentElement.classList.contains('ui-brass') ? 'brass' : 'aurora');
+    
+    let colors, shapes;
+    if (curTheme === 'brass') {
+      colors = ['#FFD700', '#E0C25E', '#B87333'];
+      shapes = ['circle', 'shard'];
+    } else if (curTheme === 'cyber') {
+      colors = ['#00E5FF', '#00FF9D', '#FFFFFF'];
+      shapes = ['shard', 'star'];
+    } else if (curTheme === 'liquid') {
+      colors = ['#FF007F', '#00F2FE', '#7928CA'];
+      shapes = ['circle', 'gem'];
+    } else {
+      colors = ['#00DFD8', '#7928CA', '#FFFFFF'];
+      shapes = ['gem', 'star'];
+    }
+
     MecFX.burst(e.clientX, e.clientY, {
-      tier: 2, count: 14, colors: [MISSION_GREEN, '#7CEFB2', '#FFFFFF'], shapes: ['circle', 'star'], speed: 200
+      tier: 2, count: 14, colors: colors, shapes: shapes, speed: 200
     });
-    MecFX.glyphBurst(e.clientX, e.clientY, { glyphs: ['✨', '⭐️'], count: 3, spread: 60, w: 20 });
   }, { passive: true });
 }
 

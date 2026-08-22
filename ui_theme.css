@@ -2937,3 +2937,169 @@ html.ui-liquid .gauge[data-tier="6"] .gauge-ring {
   100% { border-radius: 35% 65% 55% 45% / 40% 65% 35% 60%; transform: rotate(360deg) scale(0.97); }
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   🌟 Heroゲージ直下：目標・進捗カプセルバッジ（洗練調律）
+   ═══════════════════════════════════════════════════════════════════ */
+.gauge-cap {
+  margin-top: 6px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: .14em !important;
+  text-transform: uppercase !important;
+}
+
+.gauge-goal {
+  margin-top: 4px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 3px 12px !important;
+  border-radius: 20px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: .02em !important;
+}
+
+.gauge-all {
+  margin-top: 4px !important;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  opacity: 0.82 !important;
+}
+
+/* 1. Aurora: クリスタルピル */
+html.ui-aurora .gauge-cap { color: #00DFD8 !important; text-shadow: 0 0 8px rgba(0, 223, 216, 0.6); }
+html.ui-aurora .gauge-goal {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(0, 223, 216, 0.45) !important;
+  color: #FFFFFF !important;
+  backdrop-filter: blur(8px) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3), 0 0 14px rgba(0, 223, 216, 0.25) !important;
+}
+html.ui-aurora .gauge-goal b { color: #00DFD8 !important; font-size: 13.5px !important; }
+html.ui-aurora .gauge-all { color: rgba(255, 255, 255, 0.75) !important; }
+html.ui-aurora .gauge-all b { color: #00DFD8 !important; }
+
+/* 2. Brass: 真鍮彫刻プレート */
+html.ui-brass .gauge-cap { color: #E0C25E !important; font-family: Georgia, serif !important; text-shadow: 0 1px 2px #000; }
+html.ui-brass .gauge-goal {
+  background: linear-gradient(180deg, rgba(224, 194, 94, 0.15) 0%, rgba(20, 14, 5, 0.7) 100%) !important;
+  border: 1px solid rgba(224, 194, 94, 0.55) !important;
+  color: #FFFDF5 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 243, 196, 0.3) !important;
+  font-family: Georgia, serif !important;
+}
+html.ui-brass .gauge-goal b { color: #FFD700 !important; font-size: 13.5px !important; }
+html.ui-brass .gauge-all { color: #C9A227 !important; font-family: Georgia, serif !important; }
+html.ui-brass .gauge-all b { color: #FFE066 !important; }
+
+/* 3. Cyber: タクティカルHUDチップ */
+html.ui-cyber .gauge-cap { color: #00E5FF !important; font-family: 'SFMono-Regular', Consolas, monospace !important; letter-spacing: .08em !important; }
+html.ui-cyber .gauge-goal {
+  background: rgba(0, 229, 255, 0.08) !important;
+  border: 1px solid rgba(0, 229, 255, 0.5) !important;
+  border-radius: 4px !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.3), inset 0 0 6px rgba(0, 229, 255, 0.15) !important;
+  font-family: 'SFMono-Regular', Consolas, monospace !important;
+}
+html.ui-cyber .gauge-goal b { color: #00FF9D !important; font-size: 13px !important; }
+html.ui-cyber .gauge-all { color: #00E5FF !important; font-family: 'SFMono-Regular', Consolas, monospace !important; }
+html.ui-cyber .gauge-all b { color: #00FF9D !important; }
+
+/* 4. Liquid: ネオンジェルピル */
+html.ui-liquid .gauge-cap { color: #FF007F !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(255, 0, 127, 0.6); }
+html.ui-liquid .gauge-goal {
+  background: linear-gradient(135deg, rgba(255, 0, 127, 0.15) 0%, rgba(121, 40, 202, 0.15) 100%) !important;
+  border: 1px solid rgba(255, 0, 127, 0.5) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(255, 0, 127, 0.25), inset 0 0 10px rgba(0, 242, 254, 0.15) !important;
+}
+html.ui-liquid .gauge-goal b { color: #FF007F !important; font-size: 13.5px !important; }
+html.ui-liquid .gauge-all { color: rgba(255, 255, 255, 0.8) !important; }
+html.ui-liquid .gauge-all b { color: #00F2FE !important; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   🏆 ミッション達成（.gm-mission.done）のテーマ別専用演出
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* 1. Aurora: クリスタルオーロラリボン */
+html.ui-aurora .mfx .gm-mission.done {
+  background: linear-gradient(90deg, rgba(0, 223, 216, 0.15) 0%, rgba(121, 40, 202, 0.15) 100%) !important;
+  border: 1.5px solid rgba(0, 223, 216, 0.55) !important;
+  border-left: 4px solid #00DFD8 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 18px rgba(0, 223, 216, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+html.ui-aurora .mfx .gm-mission.done::before {
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(0, 223, 216, 0.3) 40deg, rgba(255, 255, 255, 0.45) 60deg, rgba(121, 40, 202, 0.3) 80deg, transparent 140deg) !important;
+}
+html.ui-aurora .mfx .gm-mission.done .gm-mission-ic {
+  color: #00DFD8 !important;
+  text-shadow: 0 0 12px #00DFD8 !important;
+}
+html.ui-aurora .mfx .gm-mission.done .gm-mission-fill {
+  background: linear-gradient(90deg, #00DFD8, #7928CA) !important;
+  box-shadow: 0 0 10px rgba(0, 223, 216, 0.6) !important;
+}
+
+/* 2. Brass: 黄金刻印・真鍮プレート */
+html.ui-brass .mfx .gm-mission.done {
+  background: linear-gradient(180deg, rgba(224, 194, 94, 0.15) 0%, rgba(20, 14, 5, 0.85) 100%) !important;
+  border: 1.5px solid #DAA520 !important;
+  border-left: 4px solid #FFD700 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 243, 196, 0.25) !important;
+}
+html.ui-brass .mfx .gm-mission.done::before {
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(224, 194, 94, 0.35) 40deg, rgba(255, 243, 196, 0.5) 60deg, rgba(184, 115, 51, 0.35) 80deg, transparent 140deg) !important;
+}
+html.ui-brass .mfx .gm-mission.done .gm-mission-ic {
+  color: #FFD700 !important;
+  text-shadow: 0 0 10px #DAA520 !important;
+}
+html.ui-brass .mfx .gm-mission.done .gm-mission-fill {
+  background: linear-gradient(90deg, #DAA520, #FFD700) !important;
+  box-shadow: 0 0 10px rgba(218, 165, 32, 0.6) !important;
+}
+
+/* 3. Cyber: タクティカルHUDロックオン */
+html.ui-cyber .mfx .gm-mission.done {
+  background: rgba(0, 229, 255, 0.08) !important;
+  border: 1.5px solid rgba(0, 229, 255, 0.45) !important;
+  border-left: 4px solid #00FF9D !important;
+  border-radius: 4px !important;
+  box-shadow: 0 0 20px rgba(0, 255, 157, 0.3), inset 0 0 10px rgba(0, 229, 255, 0.1) !important;
+}
+html.ui-cyber .mfx .gm-mission.done::before {
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(0, 229, 255, 0.35) 40deg, rgba(0, 255, 157, 0.5) 60deg, rgba(0, 229, 255, 0.35) 80deg, transparent 140deg) !important;
+}
+html.ui-cyber .mfx .gm-mission.done .gm-mission-ic {
+  color: #00FF9D !important;
+  text-shadow: 0 0 12px #00FF9D !important;
+}
+html.ui-cyber .mfx .gm-mission.done .gm-mission-fill {
+  background: linear-gradient(90deg, #00E5FF, #00FF9D) !important;
+  box-shadow: 0 0 12px rgba(0, 255, 157, 0.7) !important;
+}
+
+/* 4. Liquid: ネオンフルイドジェル */
+html.ui-liquid .mfx .gm-mission.done {
+  background: linear-gradient(90deg, rgba(255, 0, 127, 0.15) 0%, rgba(121, 40, 202, 0.15) 100%) !important;
+  border: 1.5px solid rgba(255, 0, 127, 0.5) !important;
+  border-left: 4px solid #FF007F !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 20px rgba(255, 0, 127, 0.3), inset 0 0 12px rgba(0, 242, 254, 0.15) !important;
+}
+html.ui-liquid .mfx .gm-mission.done::before {
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(255, 0, 127, 0.35) 40deg, rgba(255, 255, 255, 0.5) 60deg, rgba(0, 242, 254, 0.35) 80deg, transparent 140deg) !important;
+}
+html.ui-liquid .mfx .gm-mission.done .gm-mission-ic {
+  color: #FF007F !important;
+  text-shadow: 0 0 12px #FF007F !important;
+}
+html.ui-liquid .mfx .gm-mission.done .gm-mission-fill {
+  background: linear-gradient(90deg, #FF007F, #00F2FE) !important;
+  box-shadow: 0 0 12px rgba(255, 0, 127, 0.7) !important;
+}
+

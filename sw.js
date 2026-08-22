@@ -1,3 +1,4 @@
+// 2026-08-23d: 学習ハブHeroゲージの同心円・常時黄色パーティクルのBrass限定化、Heroゲージ直下の目標・進捗バッジ洗練、日次・週間ミッション達成エフェクトのテーマ別完全差別化（Aurora/Brass/Cyber/Liquid）。
 // 2026-08-23c: 試験モード中の正解選択肢のネタバレ完全防止（未開示時のborder-left等の差分エフェクトを完全撤廃し通常選択肢と100%同一化）。
 // 2026-08-23b: 学習ハブ巨大主歯車の金属光沢ハイライト・四隅連動小歯車の噛み合いトルク・テーマ別Heroゲージ（Aurora屈折・Cyberレーダー・Liquid流体）の極限深化。
 //   - Brass: 巨大主歯車（gearMain）に多重ベベル陰影・金古美ハイライト・金属反射シミュレーション。小歯車（gearA~D）に銅/真鍮コントラストと高速逆回転。
@@ -350,7 +351,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-23c";
+const SHELL_VERSION = "2026-08-23d";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
