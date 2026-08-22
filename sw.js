@@ -1,3 +1,8 @@
+// 2026-08-22k: UIテーマ自律進化・完全ビジュアル改善ループ（全10イテレーション完遂）。
+//   全4テーマ（Aurora/Brass/Cyber/Liquid）の背景・環境光・問題カード境界ディバイダー・引用インジケーター・
+//   タクタイル選択肢・解答ボックス/解説ボックス・自己採点ボタン群（40/44pxタップ領域 & 物理反発感）・
+//   高DPIフォントスムージング・モバイル幅最適化を極限調律。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-22j: 正解時に問題カードの暗くなるエフェクトが出ず先に進まないバグの修正。
 //   - chapter_exam.js: 正解時の _ceNext へのスムーズスクロール処理を追加。
 //   - study_exam.js: revealAnswer の単一選択における選択肢取得フォールバック強化、複数選択時の _afterCorrectFx 呼び出しを追加。
@@ -310,7 +315,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-22j";
+const SHELL_VERSION = "2026-08-22k";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
