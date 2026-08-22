@@ -2447,12 +2447,16 @@ function _sparkleMissions() {
     _sparkledMissions.add(key);
     n++;
     setTimeout(() => {
-      MecFX.rings(c.x, c.y, { count: 2, maxR: 200, thickness: 2, color: MISSION_GREEN, additive: true });
-      MecFX.burst(c.x, c.y, {
-        tier: 3, count: 18, colors: [MISSION_GREEN, '#7CEFB2', '#FFFFFF'], shapes: ['circle', 'star'], speed: 340
+      const icX = c.r.left + 24;
+      if (MecFX.sparks) {
+        MecFX.sparks(icX, c.y, { count: 6, colors: [MISSION_GREEN, '#7CEFB2', '#FFFFFF'], speed: 120, maxR: 16 });
+      }
+      MecFX.burst(icX, c.y, {
+        tier: 2, count: 10, colors: [MISSION_GREEN, '#7CEFB2', '#FFFFFF'], shapes: ['circle'], speed: 160
       });
-      MecFX.glyphBurst(c.x, c.y, { glyphs: ['✨', '⭐️', '💫'], count: 6, spread: 80, w: c.r.width * .7 });
-    }, i * 150);
+      MecFX.dust({ count: 4, colors: [MISSION_GREEN, '#FFFFFF'], speed: 50 });
+      MecFX.glyphBurst(c.x, c.y, { glyphs: ['✨'], count: 2, spread: 36, w: c.r.width * .5 });
+    }, i * 130);
   });
 
   // 全部達成していたら、行ごとの粒子に加えて花火と絵文字の吹き上げでちゃんと祝う
@@ -2461,11 +2465,11 @@ function _sparkleMissions() {
     if (!c) return;
     setTimeout(() => {
       MecFX.burst(c.x, c.y, {
-        tier: 4, count: 40, colors: [accent, '#FFD166', '#FFFFFF'], shapes: ['circle', 'star']
+        tier: 4, count: 36, colors: [accent, '#FFD166', '#FFFFFF'], shapes: ['circle', 'star']
       });
-      MecFX.confetti({ colors: [MISSION_GREEN, accent, '#FFD166', '#FFFFFF'], count: 46 });
-      MecFX.floaters({ glyphs: ['🎉', '✨', '🏅'], count: 10, scale: .8 });
-    }, doneRows.length * 150 + 120);
+      MecFX.confetti({ colors: [MISSION_GREEN, accent, '#FFD166', '#FFFFFF'], count: 36 });
+      MecFX.floaters({ glyphs: ['🎉', '✨', '🏅'], count: 8, scale: .8 });
+    }, doneRows.length * 130 + 120);
   }
 }
 
@@ -2524,11 +2528,11 @@ function _initMissionTap() {
     if (!row || !_fxOk()) return;
     const c = _centerOf(row);
     if (!c) return;
-    MecFX.rings(c.x, c.y, { count: 2, maxR: 190, thickness: 2, color: MISSION_GREEN, additive: true });
+    const icX = c.r.left + 24;
     MecFX.burst(e.clientX, e.clientY, {
-      tier: 3, count: 22, colors: [MISSION_GREEN, '#7CEFB2', '#FFFFFF'], shapes: ['circle', 'star']
+      tier: 2, count: 14, colors: [MISSION_GREEN, '#7CEFB2', '#FFFFFF'], shapes: ['circle', 'star'], speed: 200
     });
-    MecFX.glyphBurst(e.clientX, e.clientY, { glyphs: ['✨', '⭐️', '💫'], count: 4, spread: 90, w: 24 });
+    MecFX.glyphBurst(e.clientX, e.clientY, { glyphs: ['✨', '⭐️'], count: 3, spread: 60, w: 20 });
   }, { passive: true });
 }
 
