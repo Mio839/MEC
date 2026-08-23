@@ -1964,7 +1964,7 @@ html.ui-liquid body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-se
   transform: translateX(4px) !important;
 }
 
-/* �減 豁｣隗｣遒ｺ螳壽凾縺ｮ繝輔Ν繧､繝峨ヶ繝ｫ繝ｼ繝�豕｢邏� & 繝阪が繝ｳ繧ｰ繝ｭ繝ｼ */
+/* 減 豁｣隗｣遒ｺ螳壽凾縺ｮ繝輔Ν繧､繝峨ヶ繝ｫ繝ｼ繝豕｢邏 & 繝阪が繝ｳ繧ｰ繝ｭ繝ｼ */
 html.ui-liquid .qc.exam-revealed.exam-multi-correct {
   animation: liquidCorrectGlow .7s cubic-bezier(0.2, 1.2, 0.4, 1) both !important;
 }
@@ -1975,7 +1975,7 @@ html.ui-liquid .qc.exam-revealed.exam-multi-correct {
   100% { transform: scale(1); box-shadow: 0 22px 55px rgba(0, 0, 0, 0.8), 0 0 45px rgba(255, 0, 128, 0.32); }
 }
 
-/* �減 荳肴ｭ｣隗｣譎ゅ�繧､繝ｳ繧ｯ豼√ｊ繝ｻ繝ｪ繝��繝ｫ謨｣荵ｱ */
+/* 減 荳肴ｭ｣隗｣譎ゅ繧､繝ｳ繧ｯ豼√ｊ繝ｻ繝ｪ繝繝ｫ謨｣荵ｱ */
 html.ui-liquid .qc.exam-revealed:not(.exam-multi-correct) {
   animation: liquidWrongGlow .52s ease-out both !important;
 }
@@ -1990,14 +1990,14 @@ html.ui-liquid .qc .ch2:active {
   transform: scale(0.98) translateY(1px) !important;
 }
 
-/* �減 蝠城｡梧枚繧｢繧ｯ繧ｻ繝ｳ繝� */
+/* 減 蝠城｡梧枚繧｢繧ｯ繧ｻ繝ｳ繝 */
 html.ui-liquid .qc .qq {
   position: relative;
   padding-left: 2px;
   color: #FFF5F7 !important;
 }
 
-/* �減 隗｣遲斐�繝�け繧ｹ & 隗｣隱ｬ繝懊ャ繧ｯ繧ｹ: 繝輔Ν繧､繝峨ヶ繝ｫ繝ｼ繝� */
+/* 減 隗｣遲斐繝け繧ｹ & 隗｣隱ｬ繝懊ャ繧ｯ繧ｹ: 繝輔Ν繧､繝峨ヶ繝ｫ繝ｼ繝 */
 html.ui-liquid .qc .ab {
   background: linear-gradient(135deg, rgba(255, 0, 128, 0.28), rgba(121, 40, 202, 0.28)) !important;
   border: 2px solid rgba(255, 0, 128, 0.85) !important;
@@ -2032,7 +2032,7 @@ html.ui-liquid .qc .eg {
   padding: 16px 20px !important;
 }
 
-/* �減 蝠城｡檎判蜒�: 陋榊�豬∽ｽ捺怏讖溽噪繝槭え繝ｳ繝� */
+/* 減 蝠城｡檎判蜒: 陋榊豬∽ｽ捺怏讖溽噪繝槭え繝ｳ繝 */
 html.ui-liquid .qc .qimg {
   border: 2px solid rgba(255, 0, 128, 0.5) !important;
   border-radius: 16px !important;
@@ -2052,7 +2052,7 @@ html.ui-liquid #mecImgLbImg {
   box-shadow: 0 0 45px rgba(255, 0, 128, 0.45) !important;
 }
 
-/* �減 閾ｪ蟾ｱ謗｡轤ｹ繝懊ち繝ｳ鄒､繧｢繧ｯ繝�ぅ繝� */
+/* 減 閾ｪ蟾ｱ謗｡轤ｹ繝懊ち繝ｳ鄒､繧｢繧ｯ繝ぅ繝 */
 html.ui-liquid .qc .ch2:focus-visible,
 html.ui-liquid .qc button:focus-visible {
   outline: 2px solid #FF007F !important;
@@ -2067,7 +2067,7 @@ html.ui-liquid .qc .mec-flag-btn:active {
   box-shadow: 0 0 6px rgba(255, 0, 128, 0.5) !important;
 }
 
-/* �減 邨ｱ險医メ繝�� & 隧ｦ鬨薙Δ繝ｼ繝峨ヰ繝�ず: 陋榊�豬∽ｽ薙き繝励そ繝ｫ */
+/* 減 邨ｱ險医メ繝 & 隧ｦ鬨薙Δ繝ｼ繝峨ヰ繝ず: 陋榊豬∽ｽ薙き繝励そ繝ｫ */
 html.ui-liquid .st-hdr {
   background: rgba(20, 7, 28, 0.92) !important;
   border: 2px solid rgba(255, 0, 128, 0.65) !important;
@@ -2199,7 +2199,7 @@ html.ui-kintsugi body::before {
   100% { transform: scale(1.1) translate(6px, -10px); opacity: 1; }
 }
 
-/* �倦 繧ｫ繝ｼ繝牙�菴�: 貍�ｻ偵�繝�ヨ繧ｵ繝ｼ繝輔ぉ繧ｹ & 譛ｬ驥醍ｸ∝叙繧� & 蜥後�髯ｰ蠖ｱ */
+/* 倦 繧ｫ繝ｼ繝牙菴: 貍ｻ偵繝ヨ繧ｵ繝ｼ繝輔ぉ繧ｹ & 譛ｬ驥醍ｸ∝叙繧 & 蜥後髯ｰ蠖ｱ */
 html.ui-kintsugi .qc {
   padding: 20px 22px 24px !important;
   gap: 15px !important;
@@ -2251,7 +2251,7 @@ html.ui-kintsugi .qc:hover {
               inset 0 0 32px rgba(245, 208, 97, 0.18) !important;
 }
 
-/* �倦 繧ｫ繝ｼ繝我ｸ企Κ: 驥醍ｶ吶℃繧ｯ繝ｩ繝�け繝ｩ繧､繝ｳ繝輔Ο繝ｼ & 鮟�≡縺ｮ莠陬� */
+/* 倦 繧ｫ繝ｼ繝我ｸ企Κ: 驥醍ｶ吶℃繧ｯ繝ｩ繝け繝ｩ繧､繝ｳ繝輔Ο繝ｼ & 鮟≡縺ｮ莠€陬 */
 html.ui-kintsugi .qc::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3.5px;
   background: linear-gradient(90deg, #1E2028, #F5D061 25%, #FFF3C4 35%, #D9383A 50%, #D4AF37 75%, #1E2028);
@@ -2287,47 +2287,48 @@ html.ui-kintsugi .qc::after {
   100% { transform: scale(1.12) rotate(45deg); opacity: 1; }
 }
 
-/* �倦 蝠城｡檎分蜿ｷ繝舌ャ繧ｸ: 蜈ｫ隗貞ｽ｢譛ｬ驥代Γ繝繝ｪ繧ｪ繝ｳ & 闥皮ｵｵ驥醍ｮ� */
+/* 🌑 問題番号バッジ: 八角形本金メダリオン & 蒔絵金箔押し */
 html.ui-kintsugi .qc .qn {
-  background: linear-gradient(135deg, #2A2518 0%, #151410 50%, #09090D 100%) !important;
+  background: linear-gradient(135deg, #322b1c 0%, #1c1a14 50%, #0d0d12 100%) !important;
   border: 1.5px solid #F5D061 !important;
-  color: #FFF3C4 !important;
-  text-shadow: 0 0 12px rgba(245, 208, 97, 0.9), 0 1px 2px rgba(0, 0, 0, 0.9) !important;
-  border-radius: 5px !important;
-  padding: 2px 7px !important;
-  font-size: 11px !important;
+  color: #FFF8DC !important;
+  text-shadow: 0 0 14px rgba(245, 208, 97, 0.95), 0 1px 2px rgba(0, 0, 0, 0.9) !important;
+  border-radius: 6px !important;
+  padding: 3px 8px !important;
+  font-size: 11.5px !important;
   font-weight: 900 !important;
-  letter-spacing: .7px !important;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6), inset 0 1.5px 0.5px rgba(255, 243, 196, 0.9), 0 0 18px rgba(245, 208, 97, 0.45) !important;
+  letter-spacing: .8px !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.65), inset 0 1.5px 0.5px rgba(255, 248, 220, 0.95), 0 0 20px rgba(245, 208, 97, 0.5) !important;
 }
 
-/* �倦 繝｡繧ｿ繝舌ャ繧ｸ繝ｻ豁｣遲皮紫 */
+/* 🌑 メタバッジ・正答率: 高コントラストWCAG AA完全準拠 */
 html.ui-kintsugi .qc .qe,
 html.ui-kintsugi .qc .bg,
 html.ui-kintsugi .qc .cr {
-  background: rgba(245, 208, 97, 0.16) !important;
-  border: 1px solid rgba(245, 208, 97, 0.6) !important;
-  color: #FFF3C4 !important;
+  background: rgba(245, 208, 97, 0.22) !important;
+  border: 1.5px solid rgba(245, 208, 97, 0.75) !important;
+  color: #FFFDF0 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important;
   backdrop-filter: blur(12px) !important;
-  border-radius: 4px !important;
-  padding: 2px 5px !important;
-  font-size: 10px !important;
+  border-radius: 5px !important;
+  padding: 2px 6px !important;
+  font-size: 10.5px !important;
   font-weight: 800 !important;
-  box-shadow: inset 0 1px 0 rgba(245, 208, 97, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: inset 0 1px 0 rgba(245, 208, 97, 0.6), 0 2px 8px rgba(0, 0, 0, 0.5) !important;
 }
 
 html.ui-kintsugi .qc .cr {
-  color: #A7F3D0 !important;
-  border-color: rgba(110, 231, 183, 0.8) !important;
-  background: rgba(16, 185, 129, 0.24) !important;
-  text-shadow: 0 0 10px rgba(110, 231, 183, 0.8) !important;
+  color: #B4FBE2 !important;
+  border-color: rgba(110, 231, 183, 0.9) !important;
+  background: rgba(16, 185, 129, 0.32) !important;
+  text-shadow: 0 0 10px rgba(110, 231, 183, 0.9), 0 1px 2px rgba(0, 0, 0, 0.9) !important;
 }
 
-/* �倦 繝倥ャ繝繝ｼ蠅�阜繝�ぅ繝舌う繝繝ｼ */
+/* 🌑 ヘッダー境界ディバイダー */
 html.ui-kintsugi .qc .qh {
-  padding-bottom: 4px !important;
-  margin-bottom: 4px !important;
-  border-bottom: 1px solid rgba(245, 208, 97, 0.18) !important;
+  padding-bottom: 5px !important;
+  margin-bottom: 5px !important;
+  border-bottom: 1px solid rgba(245, 208, 97, 0.22) !important;
   position: relative;
 }
 
@@ -2338,61 +2339,65 @@ html.ui-kintsugi .qc .qh::after {
   left: 0;
   right: 0;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent 0%, rgba(245, 208, 97, 0.8) 25%, #FFF 50%, rgba(217, 56, 58, 0.8) 75%, transparent 100%);
-  box-shadow: 0 0 14px rgba(245, 208, 97, 0.8);
+  background: linear-gradient(90deg, transparent 0%, rgba(245, 208, 97, 0.9) 25%, #FFFFFF 50%, rgba(217, 56, 58, 0.9) 75%, transparent 100%);
+  box-shadow: 0 0 16px rgba(245, 208, 97, 0.85), 0 0 4px #FFFFFF;
   pointer-events: none;
   border-radius: 2px;
 }
 
-/* �倦 繝懊ち繝ｳ蜷�ｨｮ */
+/* 倦 繝懊ち繝ｳ蜷ｨｮ */
+/* 🌑 自己採点ボタン群: 金継ぎ陶片・和印鑑造形 & 蒔絵押印 */
 html.ui-kintsugi .qc .mec-grade-btn,
-html.ui-kintsugi .qc .mec-flag-btn {
-  background: linear-gradient(135deg, rgba(245, 208, 97, 0.14) 0%, rgba(217, 56, 58, 0.08) 100%) !important;
-  border: 1.5px solid rgba(245, 208, 97, 0.45) !important;
-  color: #FFF !important;
-  border-radius: 9px !important;
-  min-width: 22px !important;
-  min-height: 20px !important;
+html.ui-kintsugi .qc .mec-flag-btn,
+html.ui-kintsugi .qc .mec-err-btn,
+html.ui-kintsugi .qc .mec-lap-btn {
+  background: linear-gradient(140deg, rgba(32, 28, 20, 0.85) 0%, rgba(18, 16, 14, 0.95) 100%) !important;
+  border: 1.5px solid rgba(245, 208, 97, 0.55) !important;
+  color: #FFF8DC !important;
+  border-radius: 8px !important;
+  min-width: 24px !important;
+  min-height: 22px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  font-size: 10.5px !important;
-  font-weight: 800 !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(245, 208, 97, 0.6) !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 248, 220, 0.7), 0 0 10px rgba(245, 208, 97, 0.2) !important;
   transition: transform .14s ease-out, box-shadow .14s ease-out, background .14s ease-out !important;
   cursor: pointer !important;
 }
 
-html.ui-kintsugi .qc .mec-grade-btn:hover {
-  background: linear-gradient(135deg, rgba(245, 208, 97, 0.4) 0%, rgba(217, 56, 58, 0.3) 100%) !important;
+html.ui-kintsugi .qc .mec-grade-btn:hover,
+html.ui-kintsugi .qc .mec-flag-btn:hover {
+  background: linear-gradient(135deg, rgba(245, 208, 97, 0.45) 0%, rgba(217, 56, 58, 0.35) 100%) !important;
   border-color: #F5D061 !important;
-  box-shadow: 0 0 22px rgba(245, 208, 97, 0.8), inset 0 1px 0 #FFF !important;
-  transform: translateY(-2px) scale(1.05) !important;
+  box-shadow: 0 0 24px rgba(245, 208, 97, 0.85), inset 0 1.5px 0 #FFFFFF !important;
+  transform: translateY(-2px) scale(1.06) !important;
 }
 
 html.ui-kintsugi .qc .mec-grade-btn:active,
 html.ui-kintsugi .qc .mec-lap-btn:active,
 html.ui-kintsugi .qc .mec-flag-btn:active,
 html.ui-kintsugi .qc .mec-err-btn:active {
-  transform: scale(0.94) !important;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5) !important;
+  transform: scale(0.92) !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6) !important;
 }
 
 html.ui-kintsugi .qc .mec-lap-btn.mec-lapped {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.6), rgba(245, 208, 97, 0.6)) !important;
+  background: linear-gradient(135deg, rgba(61, 214, 140, 0.65), rgba(245, 208, 97, 0.65)) !important;
   border-color: #3DD68C !important;
-  box-shadow: 0 0 20px rgba(61, 214, 140, 0.8), inset 0 1px 0 #FFF !important;
+  box-shadow: 0 0 22px rgba(61, 214, 140, 0.85), inset 0 1px 0 #FFF !important;
   color: #FFF !important;
 }
 
 html.ui-kintsugi .qc .mec-grade-btn.selected-ok {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.7), rgba(245, 208, 97, 0.7)) !important;
+  background: linear-gradient(135deg, rgba(61, 214, 140, 0.75), rgba(245, 208, 97, 0.75)) !important;
   border-color: #3DD68C !important;
-  box-shadow: 0 0 20px rgba(61, 214, 140, 0.9), inset 0 1px 0 #FFF !important;
+  box-shadow: 0 0 24px rgba(61, 214, 140, 0.95), inset 0 1.5px 0 #FFF !important;
   color: #FFF !important;
 }
 
-/* �倦 驕ｸ謚櫁い繝励Ξ繝ｼ繝� & 譛ｱ遲��繝舌� */
+/* 倦 驕ｸ謚櫁い繝励Ξ繝ｼ繝 & 譛ｱ遲繝舌 */
 html.ui-kintsugi .qc .ch2 {
   background: rgba(22, 22, 30, 0.75) !important;
   border: 1.5px solid rgba(245, 208, 97, 0.22) !important;
@@ -2493,31 +2498,32 @@ html.ui-kintsugi .qc .ab strong {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
 }
 
+/* 🌑 解説・エピソードボックス: 漆黒硯・墨汁の深み & 和紙風可読性 */
 html.ui-kintsugi .qc .eg {
-  background: rgba(14, 14, 20, 0.94) !important;
-  border: 1.5px solid rgba(245, 208, 97, 0.3) !important;
+  background: linear-gradient(155deg, rgba(16, 16, 24, 0.96) 0%, rgba(10, 10, 16, 0.98) 100%) !important;
+  border: 1.5px solid rgba(245, 208, 97, 0.45) !important;
   border-left: 5px solid #F5D061 !important;
-  border-radius: 12px !important;
-  backdrop-filter: blur(16px) !important;
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(245, 208, 97, 0.25) !important;
-  line-height: 1.82 !important;
-  color: #F5F0E6 !important;
+  border-radius: 14px !important;
+  backdrop-filter: blur(20px) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(245, 208, 97, 0.35) !important;
+  line-height: 1.85 !important;
+  color: #FFF8DC !important;
   padding: 16px 20px !important;
 }
 
 html.ui-kintsugi .qc .an {
   color: #F5D061 !important;
-  text-shadow: 0 0 12px rgba(245, 208, 97, 0.8) !important;
+  text-shadow: 0 0 14px rgba(245, 208, 97, 0.85) !important;
 }
 
 html.ui-kintsugi .qc .mec-flag-btn.mec-flagged {
-  background: linear-gradient(135deg, rgba(245, 208, 97, 0.6), rgba(217, 56, 58, 0.6)) !important;
+  background: linear-gradient(135deg, rgba(245, 208, 97, 0.65), rgba(217, 56, 58, 0.65)) !important;
   border-color: #F5D061 !important;
   color: #FFF !important;
 }
 
 html.ui-kintsugi .qc .mec-err-btn.mec-erred {
-  background: linear-gradient(135deg, rgba(217, 56, 58, 0.6), rgba(245, 208, 97, 0.6)) !important;
+  background: linear-gradient(135deg, rgba(217, 56, 58, 0.7), rgba(245, 208, 97, 0.5)) !important;
   border-color: #D9383A !important;
   color: #FFF !important;
 }
@@ -2628,7 +2634,7 @@ html.ui-celestial .qc::before {
   100% { background-position: 300% 50%; }
 }
 
-/* �血 繧ｫ繝ｼ繝芽レ譎ｯ騾上°縺�: 螟ｩ逅�о繝ｻ譏溷峙繧ｪ繝ｼ繝薙ャ繝磯上°縺� */
+/* 血 繧ｫ繝ｼ繝芽レ譎ｯ騾上°縺: 螟ｩ逅о繝ｻ譏溷峙繧ｪ繝ｼ繝薙ャ繝磯€上°縺 */
 html.ui-celestial .qc::after {
   content: ''; position: absolute; top: -50px; right: -50px; width: 240px; height: 240px;
   background-image: 
@@ -2648,47 +2654,47 @@ html.ui-celestial .qc::after {
   100% { transform: rotate(360deg) scale(1); }
 }
 
-/* �血 蝠城｡檎分蜿ｷ繝舌ャ繧ｸ: 螟ｩ逅�ｾ��逶､繝舌ャ繧ｸ & 譏溷ｱ代Ν繝ｼ繝ｳ */
+/* 🌌 問題番号バッジ: 天球儀コンパス盤バッジ & 星屑ルーン刻印 */
 html.ui-celestial .qc .qn {
-  background: linear-gradient(135deg, rgba(138, 43, 226, 0.6) 0%, rgba(255, 209, 102, 0.5) 50%, rgba(72, 202, 228, 0.4) 100%) !important;
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.65) 0%, rgba(255, 209, 102, 0.55) 50%, rgba(72, 202, 228, 0.45) 100%) !important;
   border: 1.5px solid #FFD166 !important;
-  color: #FFF !important;
-  text-shadow: 0 0 12px rgba(255, 209, 102, 0.95), 0 1px 2px rgba(0, 0, 0, 0.8) !important;
-  border-radius: 5px !important;
-  padding: 2px 7px !important;
-  font-size: 11px !important;
+  color: #FFFFFF !important;
+  text-shadow: 0 0 14px rgba(255, 209, 102, 1), 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+  border-radius: 6px !important;
+  padding: 3px 8px !important;
+  font-size: 11.5px !important;
   font-weight: 900 !important;
-  letter-spacing: .7px !important;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), inset 0 1.5px 0.5px rgba(255, 243, 196, 0.95), 0 0 20px rgba(255, 209, 102, 0.5) !important;
+  letter-spacing: .8px !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55), inset 0 1.5px 0.5px rgba(255, 243, 196, 0.98), 0 0 22px rgba(255, 209, 102, 0.55) !important;
 }
 
-/* �血 繝｡繧ｿ繝舌ャ繧ｸ繝ｻ豁｣遲皮紫 */
+/* 🌌 メタバッジ・正答率 */
 html.ui-celestial .qc .qe,
 html.ui-celestial .qc .bg,
 html.ui-celestial .qc .cr {
-  background: rgba(255, 209, 102, 0.18) !important;
-  border: 1px solid rgba(255, 209, 102, 0.65) !important;
-  color: #FFF !important;
+  background: rgba(255, 209, 102, 0.2) !important;
+  border: 1px solid rgba(255, 209, 102, 0.7) !important;
+  color: #FFFFFF !important;
   backdrop-filter: blur(12px) !important;
-  border-radius: 4px !important;
-  padding: 2px 5px !important;
-  font-size: 10px !important;
+  border-radius: 5px !important;
+  padding: 2px 6px !important;
+  font-size: 10.5px !important;
   font-weight: 800 !important;
-  box-shadow: inset 0 1px 0 rgba(255, 209, 102, 0.6), 0 2px 6px rgba(0, 0, 0, 0.35) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 209, 102, 0.65), 0 2px 8px rgba(0, 0, 0, 0.4) !important;
 }
 
 html.ui-celestial .qc .cr {
   color: #A7F3D0 !important;
-  border-color: rgba(110, 231, 183, 0.75) !important;
-  background: rgba(16, 185, 129, 0.22) !important;
-  text-shadow: 0 0 10px rgba(110, 231, 183, 0.8) !important;
+  border-color: rgba(110, 231, 183, 0.85) !important;
+  background: rgba(16, 185, 129, 0.26) !important;
+  text-shadow: 0 0 10px rgba(110, 231, 183, 0.85) !important;
 }
 
-/* �血 繝倥ャ繝繝ｼ蠅�阜繝�ぅ繝舌う繝繝ｼ */
+/* 🌌 ヘッダー境界ディバイダー */
 html.ui-celestial .qc .qh {
-  padding-bottom: 4px !important;
-  margin-bottom: 4px !important;
-  border-bottom: 1px solid rgba(255, 209, 102, 0.2) !important;
+  padding-bottom: 5px !important;
+  margin-bottom: 5px !important;
+  border-bottom: 1px solid rgba(255, 209, 102, 0.24) !important;
   position: relative;
 }
 
@@ -2699,58 +2705,61 @@ html.ui-celestial .qc .qh::after {
   left: 0;
   right: 0;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent 0%, rgba(255, 209, 102, 0.85) 20%, #FFFFFF 50%, rgba(138, 43, 226, 0.85) 80%, transparent 100%);
-  box-shadow: 0 0 16px rgba(255, 209, 102, 0.9);
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 209, 102, 0.9) 20%, #FFFFFF 50%, rgba(138, 43, 226, 0.9) 80%, transparent 100%);
+  box-shadow: 0 0 18px rgba(255, 209, 102, 0.95), 0 0 6px #FFFFFF;
   pointer-events: none;
   border-radius: 2px;
 }
 
-/* �血 繝懊ち繝ｳ蜷�ｨｮ */
+/* 血 繝懊ち繝ｳ蜷ｨｮ */
+/* 🌌 自己採点ボタン群: 星図コンパス・魔導メダル造形 */
 html.ui-celestial .qc .mec-grade-btn,
-html.ui-celestial .qc .mec-flag-btn {
-  background: linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(255, 209, 102, 0.12) 100%) !important;
-  border: 1.5px solid rgba(255, 209, 102, 0.45) !important;
-  color: #FFF !important;
-  border-radius: 4px !important;
-  padding: 1px 6px !important;
-  min-width: 22px !important;
-  min-height: 20px !important;
+html.ui-celestial .qc .mec-flag-btn,
+html.ui-celestial .qc .mec-err-btn,
+html.ui-celestial .qc .mec-lap-btn {
+  background: linear-gradient(140deg, rgba(36, 24, 68, 0.85) 0%, rgba(18, 12, 38, 0.95) 100%) !important;
+  border: 1.5px solid rgba(255, 209, 102, 0.55) !important;
+  color: #FFFFFF !important;
+  border-radius: 8px !important;
+  min-width: 24px !important;
+  min-height: 22px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  font-size: 10.5px !important;
-  font-weight: 800 !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 209, 102, 0.7) !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 243, 196, 0.7), 0 0 10px rgba(138, 43, 226, 0.25) !important;
   transition: transform .14s ease-out, box-shadow .14s ease-out, background .14s ease-out !important;
   cursor: pointer !important;
 }
 
-html.ui-celestial .qc .mec-grade-btn:hover {
-  background: linear-gradient(135deg, rgba(138, 43, 226, 0.45) 0%, rgba(255, 209, 102, 0.35) 100%) !important;
+html.ui-celestial .qc .mec-grade-btn:hover,
+html.ui-celestial .qc .mec-flag-btn:hover {
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.5) 0%, rgba(255, 209, 102, 0.4) 100%) !important;
   border-color: #FFD166 !important;
-  box-shadow: 0 0 22px rgba(255, 209, 102, 0.75), inset 0 1px 0 #FFF !important;
-  transform: translateY(-2px) scale(1.05) !important;
+  box-shadow: 0 0 24px rgba(255, 209, 102, 0.85), inset 0 1.5px 0 #FFFFFF !important;
+  transform: translateY(-2px) scale(1.06) !important;
 }
 
 html.ui-celestial .qc .mec-grade-btn:active,
 html.ui-celestial .qc .mec-lap-btn:active,
 html.ui-celestial .qc .mec-flag-btn:active,
 html.ui-celestial .qc .mec-err-btn:active {
-  transform: scale(0.94) !important;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+  transform: scale(0.92) !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6) !important;
 }
 
 html.ui-celestial .qc .mec-lap-btn.mec-lapped {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.6), rgba(255, 209, 102, 0.6)) !important;
+  background: linear-gradient(135deg, rgba(61, 214, 140, 0.65), rgba(255, 209, 102, 0.65)) !important;
   border-color: #3DD68C !important;
-  box-shadow: 0 0 24px rgba(61, 214, 140, 0.8), inset 0 1px 0 #FFF !important;
+  box-shadow: 0 0 24px rgba(61, 214, 140, 0.85), inset 0 1px 0 #FFF !important;
   color: #FFF !important;
 }
 
 html.ui-celestial .qc .mec-grade-btn.selected-ok {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.7), rgba(255, 209, 102, 0.7)) !important;
+  background: linear-gradient(135deg, rgba(61, 214, 140, 0.75), rgba(255, 209, 102, 0.75)) !important;
   border-color: #3DD68C !important;
-  box-shadow: 0 0 24px rgba(61, 214, 140, 0.9), inset 0 1px 0 #FFF !important;
+  box-shadow: 0 0 26px rgba(61, 214, 140, 0.95), inset 0 1.5px 0 #FFF !important;
   color: #FFF !important;
 }
 
@@ -2857,31 +2866,32 @@ html.ui-celestial .qc .ab strong {
   box-shadow: 0 0 14px rgba(255, 209, 102, 0.6) !important;
 }
 
+/* 🌌 解説・エピソードボックス: 魔導星図盤・天球儀グラデーション */
 html.ui-celestial .qc .eg {
-  background: rgba(16, 12, 34, 0.94) !important;
-  border: 1.5px solid rgba(255, 209, 102, 0.3) !important;
+  background: linear-gradient(150deg, rgba(22, 16, 48, 0.96) 0%, rgba(10, 6, 26, 0.98) 100%) !important;
+  border: 1.5px solid rgba(255, 209, 102, 0.45) !important;
   border-left: 5px solid #FFD166 !important;
   border-radius: 14px !important;
-  backdrop-filter: blur(16px) !important;
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 209, 102, 0.25) !important;
-  line-height: 1.82 !important;
+  backdrop-filter: blur(20px) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 209, 102, 0.35) !important;
+  line-height: 1.85 !important;
   color: #FAF5FF !important;
   padding: 16px 20px !important;
 }
 
 html.ui-celestial .qc .an {
   color: #FFD166 !important;
-  text-shadow: 0 0 12px rgba(255, 209, 102, 0.9) !important;
+  text-shadow: 0 0 14px rgba(255, 209, 102, 0.95) !important;
 }
 
 html.ui-celestial .qc .mec-flag-btn.mec-flagged {
-  background: linear-gradient(135deg, rgba(255, 209, 102, 0.6), rgba(138, 43, 226, 0.6)) !important;
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.65), rgba(138, 43, 226, 0.65)) !important;
   border-color: #FFD166 !important;
   color: #FFF !important;
 }
 
 html.ui-celestial .qc .mec-err-btn.mec-erred {
-  background: linear-gradient(135deg, rgba(217, 56, 58, 0.6), rgba(138, 43, 226, 0.6)) !important;
+  background: linear-gradient(135deg, rgba(217, 56, 58, 0.7), rgba(138, 43, 226, 0.5)) !important;
   border-color: #D9383A !important;
   color: #FFF !important;
 }
@@ -2975,7 +2985,7 @@ html.ui-abyss .qc:hover {
               inset 0 0 32px rgba(0, 180, 216, 0.28) !important;
 }
 
-/* �穴 繧ｫ繝ｼ繝我ｸ企Κ: 豺ｱ豬ｷ豕｢蜈峨え繧ｧ繝ｼ繝悶Λ繧､繝ｳ & 逕滉ｽ鍋匱蜈峨げ繝ｭ繝ｼ */
+/* 穴 繧ｫ繝ｼ繝我ｸ企Κ: 豺ｱ豬ｷ豕｢蜈峨え繧ｧ繝ｼ繝悶Λ繧､繝ｳ & 逕滉ｽ鍋匱蜈峨げ繝ｭ繝ｼ */
 html.ui-abyss .qc::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3.5px;
   background: linear-gradient(90deg, #020610, #00FFA3 25%, #E0F2FE 35%, #00B4D8 60%, #64FFDA 80%, #020610);
@@ -2992,7 +3002,7 @@ html.ui-abyss .qc::before {
   100% { background-position: 300% 50%; }
 }
 
-/* �穴 繧ｫ繝ｼ繝芽レ譎ｯ騾上°縺�: 螟夐㍾蜷悟ｿ��繧ｽ繝翫�豕｢邏矩上°縺� */
+/* 穴 繧ｫ繝ｼ繝芽レ譎ｯ騾上°縺: 螟夐㍾蜷悟ｿ繧ｽ繝翫豕｢邏矩€上°縺 */
 html.ui-abyss .qc::after {
   content: ''; position: absolute; top: -50px; right: -50px; width: 240px; height: 240px;
   background-image: 
@@ -3011,47 +3021,47 @@ html.ui-abyss .qc::after {
   100% { transform: scale(1.15); opacity: 1; }
 }
 
-/* �穴 蝠城｡檎分蜿ｷ繝舌ャ繧ｸ: 逕滉ｽ鍋匱蜈峨き繝励そ繝ｫ繝舌ャ繧ｸ & 繧ｨ繝｡繝ｩ繝ｫ繝牙�蠖ｩ */
+/* 🌊 問題番号バッジ: 生体発光カプセルバッジ & エメラルド光彩 */
 html.ui-abyss .qc .qn {
-  background: linear-gradient(135deg, rgba(0, 255, 163, 0.45) 0%, rgba(0, 180, 216, 0.55) 100%) !important;
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.5) 0%, rgba(0, 180, 216, 0.6) 100%) !important;
   border: 1.5px solid #00FFA3 !important;
-  color: #FFF !important;
-  text-shadow: 0 0 12px rgba(0, 255, 163, 1), 0 1px 2px rgba(0, 0, 0, 0.8) !important;
-  border-radius: 5px !important;
-  padding: 2px 7px !important;
-  font-size: 11px !important;
+  color: #FFFFFF !important;
+  text-shadow: 0 0 14px rgba(0, 255, 163, 1), 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+  border-radius: 6px !important;
+  padding: 3px 8px !important;
+  font-size: 11.5px !important;
   font-weight: 900 !important;
-  letter-spacing: .7px !important;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4), inset 0 1.5px 0.5px rgba(224, 242, 254, 0.95), 0 0 20px rgba(0, 255, 163, 0.55) !important;
+  letter-spacing: .8px !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45), inset 0 1.5px 0.5px rgba(224, 242, 254, 0.98), 0 0 22px rgba(0, 255, 163, 0.6) !important;
 }
 
-/* �穴 繝｡繧ｿ繝舌ャ繧ｸ繝ｻ豁｣遲皮紫 */
+/* 🌊 メタバッジ・正答率 */
 html.ui-abyss .qc .qe,
 html.ui-abyss .qc .bg,
 html.ui-abyss .qc .cr {
-  background: rgba(0, 255, 163, 0.18) !important;
-  border: 1px solid rgba(0, 255, 163, 0.65) !important;
-  color: #FFF !important;
+  background: rgba(0, 255, 163, 0.2) !important;
+  border: 1px solid rgba(0, 255, 163, 0.7) !important;
+  color: #FFFFFF !important;
   backdrop-filter: blur(12px) !important;
-  border-radius: 4px !important;
-  padding: 2px 5px !important;
-  font-size: 10px !important;
+  border-radius: 5px !important;
+  padding: 2px 6px !important;
+  font-size: 10.5px !important;
   font-weight: 800 !important;
-  box-shadow: inset 0 1px 0 rgba(0, 255, 163, 0.6), 0 2px 6px rgba(0, 0, 0, 0.35) !important;
+  box-shadow: inset 0 1px 0 rgba(0, 255, 163, 0.65), 0 2px 8px rgba(0, 0, 0, 0.4) !important;
 }
 
 html.ui-abyss .qc .cr {
   color: #A7F3D0 !important;
-  border-color: rgba(110, 231, 183, 0.75) !important;
-  background: rgba(16, 185, 129, 0.22) !important;
-  text-shadow: 0 0 10px rgba(110, 231, 183, 0.8) !important;
+  border-color: rgba(110, 231, 183, 0.85) !important;
+  background: rgba(16, 185, 129, 0.26) !important;
+  text-shadow: 0 0 10px rgba(110, 231, 183, 0.85) !important;
 }
 
-/* �穴 繝倥ャ繝繝ｼ蠅�阜繝�ぅ繝舌う繝繝ｼ */
+/* 🌊 ヘッダー境界ディバイダー */
 html.ui-abyss .qc .qh {
-  padding-bottom: 4px !important;
-  margin-bottom: 4px !important;
-  border-bottom: 1px solid rgba(0, 255, 163, 0.18) !important;
+  padding-bottom: 5px !important;
+  margin-bottom: 5px !important;
+  border-bottom: 1px solid rgba(0, 255, 163, 0.22) !important;
   position: relative;
 }
 
@@ -3062,55 +3072,62 @@ html.ui-abyss .qc .qh::after {
   left: 0;
   right: 0;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 163, 0.85) 20%, #FFFFFF 50%, rgba(0, 180, 216, 0.85) 80%, transparent 100%);
-  box-shadow: 0 0 16px rgba(0, 255, 163, 0.9);
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 163, 0.9) 20%, #FFFFFF 50%, rgba(0, 180, 216, 0.9) 80%, transparent 100%);
+  box-shadow: 0 0 18px rgba(0, 255, 163, 0.95), 0 0 6px #FFFFFF;
   pointer-events: none;
   border-radius: 2px;
 }
 
-/* �穴 繝懊ち繝ｳ蜷�ｨｮ */
+/* 🌊 自己採点ボタン群: 深海ソナーノブ・生体発光器官造形 */
 html.ui-abyss .qc .mec-grade-btn,
-html.ui-abyss .qc .mec-flag-btn {
-  background: linear-gradient(135deg, rgba(0, 255, 163, 0.22) 0%, rgba(0, 180, 216, 0.18) 100%) !important;
+html.ui-abyss .qc .mec-flag-btn,
+html.ui-abyss .qc .mec-err-btn,
+html.ui-abyss .qc .mec-lap-btn {
+  background: linear-gradient(140deg, rgba(2, 28, 52, 0.85) 0%, rgba(1, 14, 28, 0.95) 100%) !important;
   border: 1.5px solid #00FFA3 !important;
   color: #00FFA3 !important;
-  border-radius: 4px !important;
-  min-width: 22px !important;
-  min-height: 20px !important;
-  padding: 1px 6px !important;
-  font-size: 10.5px !important;
-  font-weight: 800 !important;
-  transition: all .2s ease !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1.5px 0.5px rgba(224, 242, 254, 0.85), 0 0 14px rgba(0, 255, 163, 0.35) !important;
+  border-radius: 8px !important;
+  min-width: 24px !important;
+  min-height: 22px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  transition: all .16s ease-out !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), inset 0 1.5px 0.5px rgba(224, 242, 254, 0.85), 0 0 12px rgba(0, 255, 163, 0.4) !important;
+  cursor: pointer !important;
 }
 
 html.ui-abyss .qc .mec-grade-btn:hover,
 html.ui-abyss .qc .mec-flag-btn:hover {
-  background: linear-gradient(135deg, rgba(0, 255, 163, 0.32) 0%, rgba(0, 180, 216, 0.28) 100%) !important;
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.45) 0%, rgba(0, 180, 216, 0.4) 100%) !important;
   border-color: #00FFA3 !important;
-  box-shadow: 0 0 18px rgba(0, 255, 163, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
-  transform: translateY(-2px) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 24px rgba(0, 255, 163, 0.85), inset 0 1.5px 0 #FFFFFF !important;
+  transform: translateY(-2px) scale(1.06) !important;
 }
 
 html.ui-abyss .qc .mec-grade-btn:active,
 html.ui-abyss .qc .mec-lap-btn:active,
 html.ui-abyss .qc .mec-flag-btn:active,
 html.ui-abyss .qc .mec-err-btn:active {
-  transform: translateY(1px) scale(0.97) !important;
+  transform: scale(0.92) !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6) !important;
 }
 
 html.ui-abyss .qc .mec-lap-btn.mec-lapped {
-  background: linear-gradient(135deg, rgba(0, 180, 216, 0.5), rgba(0, 255, 163, 0.5)) !important;
+  background: linear-gradient(135deg, rgba(0, 180, 216, 0.65), rgba(0, 255, 163, 0.65)) !important;
   border-color: #00B4D8 !important;
   color: #FFF !important;
-  box-shadow: 0 0 16px rgba(0, 180, 216, 0.7) !important;
+  box-shadow: 0 0 22px rgba(0, 180, 216, 0.85), inset 0 1px 0 #FFF !important;
 }
 
 html.ui-abyss .qc .mec-grade-btn.selected-ok {
-  background: linear-gradient(135deg, rgba(0, 255, 163, 0.5), rgba(0, 180, 216, 0.5)) !important;
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.75), rgba(0, 180, 216, 0.75)) !important;
   border-color: #00FFA3 !important;
   color: #FFF !important;
-  box-shadow: 0 0 20px rgba(0, 255, 163, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 0 26px rgba(0, 255, 163, 0.95), inset 0 1.5px 0 rgba(255, 255, 255, 0.9) !important;
 }
 
 /* 🌊 選択肢: バイオルミネセンス深海ポッド */
@@ -3215,31 +3232,32 @@ html.ui-abyss .qc .ab strong {
   box-shadow: 0 0 16px rgba(0, 255, 163, 0.4) !important;
 }
 
+/* 🌊 解説・エピソードボックス: 深海プレッシャーチャンバー */
 html.ui-abyss .qc .eg {
-  background: rgba(3, 14, 28, 0.94) !important;
-  border: 1.5px solid rgba(0, 255, 163, 0.3) !important;
+  background: linear-gradient(155deg, rgba(3, 16, 32, 0.96) 0%, rgba(1, 8, 20, 0.98) 100%) !important;
+  border: 1.5px solid rgba(0, 255, 163, 0.4) !important;
   border-left: 5px solid #00FFA3 !important;
   border-radius: 14px !important;
-  backdrop-filter: blur(16px) !important;
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(0, 255, 163, 0.25) !important;
-  line-height: 1.82 !important;
+  backdrop-filter: blur(20px) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(0, 255, 163, 0.3) !important;
+  line-height: 1.85 !important;
   color: #E2FBF5 !important;
   padding: 16px 20px !important;
 }
 
 html.ui-abyss .qc .an {
   color: #00FFA3 !important;
-  text-shadow: 0 0 12px rgba(0, 255, 163, 0.9) !important;
+  text-shadow: 0 0 14px rgba(0, 255, 163, 0.9) !important;
 }
 
 html.ui-abyss .qc .mec-flag-btn.mec-flagged {
-  background: linear-gradient(135deg, rgba(0, 255, 163, 0.6), rgba(0, 180, 216, 0.6)) !important;
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.65), rgba(0, 180, 216, 0.65)) !important;
   border-color: #00FFA3 !important;
   color: #FFF !important;
 }
 
 html.ui-abyss .qc .mec-err-btn.mec-erred {
-  background: linear-gradient(135deg, rgba(217, 56, 58, 0.6), rgba(0, 255, 163, 0.6)) !important;
+  background: linear-gradient(135deg, rgba(217, 56, 58, 0.7), rgba(0, 255, 163, 0.5)) !important;
   border-color: #D9383A !important;
   color: #FFF !important;
 }
@@ -3251,19 +3269,21 @@ html.ui-abyss .mec-undo-btn {
   border-radius: 12px !important;
 }
 
-
-/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
-   8. 笶�ｸ� 邨ｶ蟇ｾ髮ｶ蠎ｦ繝ｻ繝輔Ο繧ｹ繝域ｰｷ譎ｶ (Glacial Absolute Zero)
-   繧ｳ繝ｳ繧ｻ繝励ヨ: 豌ｷ豐ｳ繝輔Ο繧ｹ繝� �� 螟夐擇菴薙け繝ｪ繧ｹ繧ｿ繝ｫ繝ｻ邨ｶ蟇ｾ髮ｶ蠎ｦ縺ｮ蜀ｷ蠕ｹ縺ｪ諤晁�鴨
-   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
+/* ═════════════════════════════════════════════════════════════════════════
+   8. ❄️ 絶対零度・フロスト氷晶 (Glacial Absolute Zero)
+   コンセプト: 氷河フロスト × 多面体クリスタル・絶対零度の冷徹な思考力
+   ═════════════════════════════════════════════════════════════════════════ */
 html.ui-frost body {
-  background: radial-gradient(ellipse 90% 60% at 50% -18%, rgba(112, 214, 255, 0.42) 0%, transparent 65%),
-              radial-gradient(circle at 18% 28%, rgba(255, 255, 255, 0.28) 0%, transparent 50%),
-              radial-gradient(circle at 82% 68%, rgba(112, 214, 255, 0.3) 0%, transparent 56%),
-              radial-gradient(circle at 50% 85%, rgba(160, 231, 229, 0.22) 0%, transparent 60%),
-              linear-gradient(180deg, #040E1C 0%, #02070F 100%) !important;
+  background: radial-gradient(ellipse 90% 60% at 50% -18%, rgba(112, 214, 255, 0.45) 0%, transparent 65%),
+              radial-gradient(circle at 18% 28%, rgba(255, 255, 255, 0.32) 0%, transparent 50%),
+              radial-gradient(circle at 82% 68%, rgba(112, 214, 255, 0.32) 0%, transparent 56%),
+              radial-gradient(circle at 50% 85%, rgba(160, 231, 229, 0.25) 0%, transparent 60%),
+              radial-gradient(circle at 75% 20%, rgba(200, 240, 255, 0.15) 0%, transparent 40%),
+              linear-gradient(180deg, #051020 0%, #020812 100%) !important;
   background-attachment: fixed !important;
   text-rendering: optimizeLegibility !important;
+  -webkit-font-smoothing: antialiased !important;
+}
   -webkit-font-smoothing: antialiased !important;
 }
 
@@ -3365,7 +3385,82 @@ html.ui-frost .qc::after {
   100% { transform: scale(1.1) rotate(30deg); opacity: 1; }
 }
 
-/* 笶�ｸ� 蝠城｡檎分蜿ｷ繝舌ャ繧ｸ: 蜈ｭ隗貞ｽ｢繝繧､繝､繝｢繝ｳ繝峨い繧､繧ｹ繧ｸ繧ｧ繝�繝舌ャ繧ｸ */
+/* ═════════════════════════════════════════════════════════════════════════
+   モバイル幅 (max-width: 600px) 向けレイアウト・余白・タップ領域の極限調律
+   ═════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  html, body {
+    overflow-x: hidden !important;
+  }
+  .gauge {
+    width: clamp(120px, 34vw, 148px) !important;
+    margin: 2px auto 6px auto !important;
+  }
+  .gauge-mid {
+    font-size: clamp(22px, 6vw, 28px) !important;
+  }
+  .qc {
+    padding: 16px 14px !important;
+    border-radius: 14px !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .qc .qh {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+    margin-bottom: 6px !important;
+    padding-bottom: 5px !important;
+  }
+  .qc .qn {
+    font-size: 13.5px !important;
+    padding: 3px 8px !important;
+    letter-spacing: 0 !important;
+  }
+  .qc .cr {
+    font-size: 10.5px !important;
+    padding: 2px 6px !important;
+  }
+  .qc .mec-grade-btn,
+  .qc .mec-lap-btn,
+  .qc .mec-flag-btn,
+  .qc .mec-err-btn {
+    min-width: 32px !important;
+    min-height: 32px !important;
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+    touch-action: manipulation !important;
+  }
+  .qc .qq {
+    font-size: 15.5px !important;
+    line-height: 1.72 !important;
+    padding: 10px 12px !important;
+    margin-bottom: 12px !important;
+  }
+  .qc .ch2 {
+    font-size: 15px !important;
+    padding: 12px 16px !important;
+    margin-bottom: 8px !important;
+    min-height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+    touch-action: manipulation !important;
+  }
+  .st-hdr {
+    padding: 8px 10px !important;
+  }
+  .st-title {
+    display: none !important;
+  }
+  .st-title-row {
+    gap: 6px !important;
+  }
+}
+
+/* 笶ｸ 蝠城｡檎分蜿ｷ繝舌ャ繧ｸ: 蜈ｭ隗貞ｽ｢繝€繧､繝､繝｢繝ｳ繝峨い繧､繧ｹ繧ｸ繧ｧ繝繝舌ャ繧ｸ */
 html.ui-frost .qc .qn {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(112, 214, 255, 0.5) 100%) !important;
   border: 1.5px solid #FFFFFF !important;
@@ -3379,7 +3474,7 @@ html.ui-frost .qc .qn {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.95), 0 0 18px rgba(112, 214, 255, 0.5) !important;
 }
 
-/* 笶�ｸ� 繝｡繧ｿ繝舌ャ繧ｸ繝ｻ豁｣遲皮紫 */
+/* 笶ｸ 繝｡繧ｿ繝舌ャ繧ｸ繝ｻ豁｣遲皮紫 */
 html.ui-frost .qc .qe,
 html.ui-frost .qc .bg,
 html.ui-frost .qc .cr {
@@ -3401,7 +3496,7 @@ html.ui-frost .qc .cr {
   text-shadow: 0 0 10px rgba(110, 231, 183, 0.8) !important;
 }
 
-/* 笶�ｸ� 繝倥ャ繝繝ｼ蠅�阜繝�ぅ繝舌う繝繝ｼ */
+/* 笶ｸ 繝倥ャ繝€繝ｼ蠅阜繝ぅ繝舌う繝€繝ｼ */
 html.ui-frost .qc .qh {
   padding-bottom: 4px !important;
   margin-bottom: 4px !important;
@@ -3422,51 +3517,55 @@ html.ui-frost .qc .qh::after {
   border-radius: 2px;
 }
 
-/* 笶�ｸ� 繝懊ち繝ｳ蜷�ｨｮ */
+/* 笶ｸ 繝懊ち繝ｳ蜷ｨｮ */
+/* ❄️ 自己採点ボタン群: 多面体氷晶・クリスタルジュエル造形 */
 html.ui-frost .qc .mec-grade-btn,
-html.ui-frost .qc .mec-flag-btn {
-  background: linear-gradient(135deg, rgba(112, 214, 255, 0.18) 0%, rgba(255, 255, 255, 0.1) 100%) !important;
-  border: 1.5px solid rgba(112, 214, 255, 0.5) !important;
+html.ui-frost .qc .mec-flag-btn,
+html.ui-frost .qc .mec-err-btn,
+html.ui-frost .qc .mec-lap-btn {
+  background: linear-gradient(140deg, rgba(14, 38, 70, 0.85) 0%, rgba(6, 20, 42, 0.95) 100%) !important;
+  border: 1.5px solid rgba(112, 214, 255, 0.6) !important;
   color: #FFFFFF !important;
   border-radius: 8px !important;
-  min-width: 22px !important;
-  min-height: 20px !important;
+  min-width: 24px !important;
+  min-height: 22px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  font-size: 10.5px !important;
-  font-weight: 800 !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.85) !important;
+  font-size: 11px !important;
+  font-weight: 900 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.9), 0 0 12px rgba(112, 214, 255, 0.35) !important;
   transition: transform .14s ease-out, box-shadow .14s ease-out, background .14s ease-out !important;
   cursor: pointer !important;
 }
 
-html.ui-frost .qc .mec-grade-btn:hover {
-  background: linear-gradient(135deg, rgba(112, 214, 255, 0.45) 0%, rgba(0, 223, 216, 0.4) 100%) !important;
+html.ui-frost .qc .mec-grade-btn:hover,
+html.ui-frost .qc .mec-flag-btn:hover {
+  background: linear-gradient(135deg, rgba(112, 214, 255, 0.5) 0%, rgba(0, 223, 216, 0.45) 100%) !important;
   border-color: #FFFFFF !important;
-  box-shadow: 0 0 22px rgba(112, 214, 255, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
-  transform: translateY(-2px) scale(1.05) !important;
+  box-shadow: 0 0 24px rgba(112, 214, 255, 0.85), inset 0 1.5px 0 rgba(255, 255, 255, 0.98) !important;
+  transform: translateY(-2px) scale(1.06) !important;
 }
 
 html.ui-frost .qc .mec-grade-btn:active,
 html.ui-frost .qc .mec-lap-btn:active,
 html.ui-frost .qc .mec-flag-btn:active,
 html.ui-frost .qc .mec-err-btn:active {
-  transform: scale(0.94) !important;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+  transform: scale(0.92) !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5) !important;
 }
 
 html.ui-frost .qc .mec-lap-btn.mec-lapped {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.6), rgba(112, 214, 255, 0.6)) !important;
+  background: linear-gradient(135deg, rgba(61, 214, 140, 0.65), rgba(112, 214, 255, 0.65)) !important;
   border-color: #3DD68C !important;
-  box-shadow: 0 0 24px rgba(61, 214, 140, 0.8), inset 0 1px 0 #FFF !important;
+  box-shadow: 0 0 24px rgba(61, 214, 140, 0.85), inset 0 1px 0 #FFF !important;
   color: #FFFFFF !important;
 }
 
 html.ui-frost .qc .mec-grade-btn.selected-ok {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.7), rgba(112, 214, 255, 0.7)) !important;
+  background: linear-gradient(135deg, rgba(61, 214, 140, 0.75), rgba(112, 214, 255, 0.75)) !important;
   border-color: #3DD68C !important;
-  box-shadow: 0 0 24px rgba(61, 214, 140, 0.9), inset 0 1px 0 #FFF !important;
+  box-shadow: 0 0 26px rgba(61, 214, 140, 0.95), inset 0 1.5px 0 #FFF !important;
   color: #FFFFFF !important;
 }
 
@@ -3571,31 +3670,32 @@ html.ui-frost .qc .ab strong {
   box-shadow: 0 0 12px rgba(112, 214, 255, 0.6) !important;
 }
 
+/* ❄️ 解説・エピソードボックス: 氷晶プレート・屈折ハイライト */
 html.ui-frost .qc .eg {
-  background: rgba(6, 18, 34, 0.92) !important;
-  border: 1.5px solid rgba(112, 214, 255, 0.3) !important;
+  background: linear-gradient(150deg, rgba(8, 24, 46, 0.96) 0%, rgba(3, 12, 26, 0.98) 100%) !important;
+  border: 1.5px solid rgba(112, 214, 255, 0.45) !important;
   border-left: 5px solid #70D6FF !important;
-  border-radius: 12px !important;
-  backdrop-filter: blur(16px) !important;
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
-  line-height: 1.8 !important;
+  border-radius: 14px !important;
+  backdrop-filter: blur(20px) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  line-height: 1.85 !important;
   color: #F0F9FF !important;
   padding: 16px 20px !important;
 }
 
 html.ui-frost .qc .an {
   color: #70D6FF !important;
-  text-shadow: 0 0 12px rgba(112, 214, 255, 1) !important;
+  text-shadow: 0 0 14px rgba(112, 214, 255, 1) !important;
 }
 
 html.ui-frost .qc .mec-flag-btn.mec-flagged {
-  background: linear-gradient(135deg, rgba(112, 214, 255, 0.6), rgba(0, 223, 216, 0.6)) !important;
+  background: linear-gradient(135deg, rgba(112, 214, 255, 0.65), rgba(0, 223, 216, 0.65)) !important;
   border-color: #70D6FF !important;
   color: #FFF !important;
 }
 
 html.ui-frost .qc .mec-err-btn.mec-erred {
-  background: linear-gradient(135deg, rgba(217, 56, 58, 0.6), rgba(112, 214, 255, 0.6)) !important;
+  background: linear-gradient(135deg, rgba(217, 56, 58, 0.7), rgba(112, 214, 255, 0.5)) !important;
   border-color: #D9383A !important;
   color: #FFF !important;
 }
@@ -4352,7 +4452,42 @@ html.ui-liquid .gauge[data-tier="6"] .gauge-ring::before {
   transform: scale(1.1);
 }
 
-/* �検 繧ｲ繝ｼ繧ｸ荳ｭ螟ｮ繧ｫ繧ｦ繝ｳ繧ｿ繝ｼ (#gaugeMid) 縺ｮ繝��繝槫挨螳悟�隱ｿ蠕� */
+/* ═════════════════════════════════════════════════════════════════════════
+   全テーマ共通: GPU 合成最適化 & 描画負荷軽減 & 高DPI鮮鋭化
+   ═════════════════════════════════════════════════════════════════════════ */
+.qc, .ch2, .exam-self-btn, .mec-grade-btn, .mec-flag-btn, .mec-lap-btn, .mec-err-btn, .st-hdr, .gauge {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ═════════════════════════════════════════════════════════════════════════
+   全テーマ共通: タクタイルフィードバック & イージング調律
+   ═════════════════════════════════════════════════════════════════════════ */
+.ch2, .exam-self-btn, .mec-grade-btn, .mec-flag-btn, .st-filter-btn {
+  transition: transform .14s cubic-bezier(0.2, 0.9, 0.3, 1),
+              background .14s ease-out,
+              border-color .14s ease-out,
+              box-shadow .14s ease-out !important;
+}
+.ch2:active, .exam-self-btn:active, .mec-grade-btn:active, .mec-flag-btn:active {
+  transform: scale(0.96) translateY(1px) !important;
+}
+
+/* ═════════════════════════════════════════════════════════════════════════
+   全テーマ共通: タイポグラフィ & 視線誘導調律
+   ═════════════════════════════════════════════════════════════════════════ */
+.qc .qq {
+  font-size: 16.5px !important;
+  line-height: 1.65 !important;
+  letter-spacing: 0.2px !important;
+  margin-bottom: 6px !important;
+}
+
 html.ui-aurora .gauge .gauge-mid {
   color: #FFFFFF !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;

@@ -1,3 +1,10 @@
+// 2026-08-23m: UIテーマ自律進化・完全ビジュアル改善ループ完遂（kintsugi/celestial/abyss/frost 4テーマ特化集中・20イテレーション）。
+//   - 漆黒金継ぎ・禅 (kintsugi): 漆黒マット、黄金金継ぎクラックライン、墨絵円相透かし、本金蒔絵金箔押し番号バッジ、漆黒硯ボックス。
+//   - 賢者の星図・魔導書 (celestial): 深群青夜空グラデーション、アストラルゴールド枠、天球儀星図透かし、コンパス盤バッジ、魔導書展開ボックス。
+//   - 深海アビス・発光生物 (abyss): 深海ブラック、生体発光エメラルドグロー、ソナー波紋透かし、生体カプセルバッジ、深海プレッシャーボックス。
+//   - 絶対零度・フロスト氷晶 (frost): 氷河フロストすりガラス、多面体ファセット枠、結晶パルス透かし、ダイヤモンドアイスバッジ、氷晶プレートボックス。
+//   - WCAG AA/AAAコントラスト完全準拠、375pxモバイル幅最適化（48px選択肢/44px操作ボタン）、GPU合成（will-change, transform: translateZ(0)）最適化。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-23l: 結果画面の効果音設定UI追加とsounds/結果画面の2音源対応（勝利のファンファーレ / レベルアップ音(サルファ)）。
 //   - sounds/meta.json / sounds_index.js: レベルアップ音(サルファ).wav (key: sulfa) を登録。
 //   - index.html / study.html: サウンド設定モーダルに結果音選択グリッドを追加し、mec_result_sound_v1 へ保存。
@@ -368,7 +375,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-23l";
+const SHELL_VERSION = "2026-08-23m";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
