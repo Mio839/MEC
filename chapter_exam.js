@@ -2116,20 +2116,24 @@
         if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#70D6FF', thickness: 3, maxR: 220 + tier * 20, additive: true });
         return;
       } else if (curUi === 'aurora') {
-        if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(cx, cy, { maxR: 210 + tier * 25, sparkleCount: 18 + tier * 4 });
-        if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 16 + tier * 4, color: '#00DFD8' });
+        if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(cx, cy, { maxR: 210 + tier * 25, sparkleCount: 18 + tier * 5 });
+        if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 18 + tier * 6, color: '#00DFD8' });
+        if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#00DFD8', thickness: 3, maxR: 220 + tier * 20, additive: true });
         return;
       } else if (curUi === 'brass') {
         if (window.MecFX.brassClockworkBurst) window.MecFX.brassClockworkBurst(cx, cy, { maxR: 200 + tier * 25, gearCount: Math.min(12, 4 + tier) });
-        if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 16 + tier * 5, colors: ['#FFD700', '#FFA040', '#FFFFFF'] });
+        if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 18 + tier * 6, colors: ['#FFD700', '#FFA040', '#FFFFFF', '#D4AF37'] });
+        if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#FFD700', thickness: 3, maxR: 210 + tier * 20, additive: false });
         return;
       } else if (curUi === 'cyber') {
         if (window.MecFX.cyberTargetLock) window.MecFX.cyberTargetLock(cx, cy, { maxR: 210 + tier * 25, glitchCount: 8 + tier * 3 });
-        if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 6 + tier * 2, color: '#00FF66' });
+        if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 8 + tier * 3, color: '#00FF66' });
+        if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#00FF66', thickness: 2.5, maxR: 220 + tier * 20, additive: true });
         return;
       } else if (curUi === 'liquid') {
         if (window.MecFX.liquidBloomRipple) window.MecFX.liquidBloomRipple(cx, cy, { maxR: 210 + tier * 25, bubbleCount: 14 + tier * 4 });
-        if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 14 + tier * 4, colors: ['#FF007F', '#7928CA', '#00DFD8'] });
+        if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 18 + tier * 6, colors: ['#FF007F', '#7928CA', '#00DFD8', '#FF7A00'] });
+        if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#FF007F', thickness: 3, maxR: 220 + tier * 20, additive: true });
         return;
       }
     }
