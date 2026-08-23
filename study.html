@@ -59,21 +59,25 @@ if ('serviceWorker' in navigator) {
 
 <header class="st-hdr">
   <div class="st-title-row">
-    <span class="st-title">📚 統合学習ツール</span>
-    <a class="hub-link" href="index.html">← ハブへ</a>
-    <div class="st-stat">済 <span id="statDone">0</span>問</div>
-    <div class="st-stat">合計 <span>5487</span>問</div>
-    <div class="st-stat"><span class="st-streak">🔥 <span id="studyStreak">0</span>日連続</span></div>
-    <button type="button" class="st-stat gm-lv-chip" id="gmLvChip" title="タップでレベル・実績・ミッションを表示">Lv.<b id="gmLvNum">–</b><span class="gm-chip-bar"><span class="gm-chip-fill" id="gmChipFill" style="width:0%"></span></span></button>
-    <button type="button" class="st-stat gm-mission-chip" id="gmMissionChip" title="今日のミッション（必須が揃うと緑）">🎯 –</button>
-    <button class="st-stat exam-mode-chip" id="examModeBtn" onclick="openExamStart()" title="試験モードを開始（現在のフィルター・科目から出題）">🎓 試験モード</button>
-    <span class="mec-sync-badge">⚙️ 未設定</span>
-    <button class="mec-err-badge" id="mecErrBadge" onclick="openErrReports()">⚠️ <span id="errCount">0</span>件</button>
-    <span class="vis-count" id="visCount" role="status" aria-live="polite" aria-atomic="true">—</span>
-    <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
-    <button class="hdr-btn" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">♻️</button>
-    <button class="hdr-btn" onclick="openStudySoundOv()" title="UIテーマ & 効果音設定" aria-label="UIテーマ & 効果音設定">🎨🔊</button>
-    <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0725a</span>
+    <div class="st-title-left">
+      <span class="st-title">📚 統合学習ツール</span>
+      <a class="hub-link" href="index.html">← ハブへ</a>
+      <div class="st-stat">済 <span id="statDone">0</span>問</div>
+      <div class="st-stat">合計 <span>5487</span>問</div>
+      <div class="st-stat"><span class="st-streak">🔥 <span id="studyStreak">0</span>日連続</span></div>
+      <button type="button" class="st-stat gm-lv-chip" id="gmLvChip" title="タップでレベル・実績・ミッションを表示">Lv.<b id="gmLvNum">–</b><span class="gm-chip-bar"><span class="gm-chip-fill" id="gmChipFill" style="width:0%"></span></span></button>
+      <button type="button" class="st-stat gm-mission-chip" id="gmMissionChip" title="今日のミッション（必須が揃うと緑）">🎯 –</button>
+      <button class="st-stat exam-mode-chip" id="examModeBtn" onclick="openExamStart()" title="試験モードを開始（現在のフィルター・科目から出題）">🎓 試験モード</button>
+      <span class="mec-sync-badge">⚙️ 未設定</span>
+      <button class="mec-err-badge" id="mecErrBadge" onclick="openErrReports()">⚠️ <span id="errCount">0</span>件</button>
+      <span class="vis-count" id="visCount" role="status" aria-live="polite" aria-atomic="true">—</span>
+    </div>
+    <div class="st-title-right">
+      <button class="hdr-btn hdr-theme-btn" onclick="openStudySoundOv()" title="UIテーマ ＆ 効果音設定" aria-label="UIテーマ ＆ 効果音設定">🎨 テーマ</button>
+      <button class="hdr-btn" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">♻️</button>
+      <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
+      <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0725a</span>
+    </div>
   </div>
   <div class="st-filter-panel" id="stFilterPanel">
     <div class="chip-row" role="group" aria-label="科目を選ぶ（1科目のみ）">
@@ -119,6 +123,7 @@ if ('serviceWorker' in navigator) {
     <select class="jump-select" id="chJumpSel" aria-label="章へジャンプ" onchange="if(this.value){var _v=this.value;this.value='';this.blur();jumpToChapter(_v);}">
       <option value="">📍 章…</option>
     </select>
+    <button class="chip" onclick="openStudySoundOv()" title="UIテーマ & 効果音設定" aria-label="UIテーマ & 効果音設定" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.25);font-weight:700;">🎨&nbsp;テーマ</button>
   </div>
   </div><!-- /st-filter-panel -->
   <div class="exam-prog" id="examProg">

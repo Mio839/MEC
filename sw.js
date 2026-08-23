@@ -1,3 +1,7 @@
+// 2026-08-23i: UIテーマ選択UIの復旧・ヘッダー固定化・構文エラー修正。
+//   - ui_theme.js: triggerThemeChangeFx 内の閉じ括弧構文エラーを修正し全8テーマの選択UI描画を復旧。
+//   - study.html / study.css / ui_theme.css: ヘッダーの左右分離・右端ツールバー固定化（🎨 テーマ、♻️、▼）およびフィルター行へのテーマボタン追加。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-23h: UIテーマ自律進化・完全ビジュアル改善ループ完遂（全8テーマ対応・20イテレーション）。全8テーマの静的構造、動的解答展開、自己採点ボタン群、WCAG AA視認性、375pxモバイル完全対応、GPU合成最適化を極限調律。
 // 2026-08-23g: 試験モードプログレスバーの難問丸印（.ep-hard）および目盛り（.ep-tick）のDOM挿入を完全撤廃し、完全ノイズレスなフラットプログレスバーに統一。
 // 2026-08-23f: 試験モードプログレスバーの難問丸印（.ep-hard）完全撤廃、テーマ別進捗バー演出（Aurora/Brass/Cyber/Liquid）、全問解答完了時コンプリート発光、最終問題解答後の即時自動遷移廃止、ゲージ行の終了ボタン削除。
@@ -355,7 +359,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-23h";
+const SHELL_VERSION = "2026-08-23i";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

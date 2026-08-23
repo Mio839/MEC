@@ -132,6 +132,7 @@
       if (MecFX.diamondSparkle) MecFX.diamondSparkle(cx, cy, { count: 24, color: '#FFFFFF', additive: true });
       if (MecFX.dust) MecFX.dust({ count: 16, colors: ['#70D6FF', '#FFFFFF'] });
     }
+  }
 
   function set(id) {
     try {

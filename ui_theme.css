@@ -3698,6 +3698,9 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   .st-hdr {
     padding: 8px 10px !important;
   }
+  .st-title {
+    display: none !important;
+  }
   .st-title-row {
     gap: 6px !important;
   }
@@ -3765,20 +3768,59 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   ヘッダー: 1行統合レイアウト & 折りたたみ時 (hdr-collapsed)
+   ヘッダー: 1行統合レイアウト & ツールバー固定 & 折りたたみ時 (hdr-collapsed)
    ═══════════════════════════════════════════════════════════════════ */
 .st-title-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  flex-wrap: nowrap !important;
+  overflow: visible !important;
+  margin-bottom: 7px !important;
+}
+
+.st-title-left {
   display: flex !important;
   align-items: center !important;
   gap: 6px !important;
   flex-wrap: nowrap !important;
   overflow-x: auto !important;
   scrollbar-width: none !important;
-  margin-bottom: 7px !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
 }
 
-.st-title-row::-webkit-scrollbar {
+.st-title-left::-webkit-scrollbar {
   display: none !important;
+}
+
+.st-title-right {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  flex-shrink: 0 !important;
+  margin-left: auto !important;
+  z-index: 2 !important;
+}
+
+.hdr-theme-btn {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08)) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.38) !important;
+  color: #FFF !important;
+  font-weight: 800 !important;
+  padding: 3px 10px !important;
+  border-radius: 16px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+  transition: all .16s ease-out !important;
+  cursor: pointer !important;
+}
+
+.hdr-theme-btn:hover {
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.35), rgba(121, 40, 202, 0.35)) !important;
+  border-color: #00E5FF !important;
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.6) !important;
+  transform: translateY(-1px) scale(1.04) !important;
 }
 
 .st-hdr.hdr-collapsed {
