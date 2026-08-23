@@ -2174,12 +2174,13 @@ html.ui-liquid #mecUndoProg {
    繧ｳ繝ｳ繧ｻ繝励ヨ: 貍�ｻ� �� 鮟�≡縺ｮ驥醍ｶ吶℃繧ｯ繝ｩ繝�け繝ｻ蜥檎ｴ吶ユ繧ｯ繧ｹ繝√Ε繝ｻ譛ｱ蜊ｰ繝ｻ邊ｾ逾樒ｵｱ荳
    笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 html.ui-kintsugi body {
-  background: radial-gradient(ellipse 95% 65% at 50% -15%, rgba(245, 208, 97, 0.35) 0%, transparent 68%),
-              radial-gradient(circle at 10% 38%, rgba(217, 56, 58, 0.28) 0%, transparent 56%),
-              radial-gradient(circle at 90% 65%, rgba(245, 208, 97, 0.24) 0%, transparent 58%),
-              radial-gradient(circle at 50% 92%, rgba(212, 175, 55, 0.2) 0%, transparent 62%),
-              repeating-linear-gradient(45deg, rgba(245, 208, 97, 0.02) 0px, rgba(245, 208, 97, 0.02) 1px, transparent 1px, transparent 6px),
-              linear-gradient(180deg, #07070B 0%, #030305 100%) !important;
+  background: radial-gradient(ellipse 95% 65% at 50% -15%, rgba(245, 208, 97, 0.38) 0%, transparent 68%),
+              radial-gradient(circle at 10% 38%, rgba(217, 56, 58, 0.22) 0%, transparent 54%),
+              radial-gradient(circle at 90% 65%, rgba(245, 208, 97, 0.28) 0%, transparent 58%),
+              radial-gradient(circle at 50% 92%, rgba(212, 175, 55, 0.22) 0%, transparent 62%),
+              radial-gradient(circle at 50% 50%, rgba(20, 18, 14, 0.9) 0%, rgba(8, 8, 11, 0.98) 100%),
+              repeating-linear-gradient(45deg, rgba(245, 208, 97, 0.025) 0px, rgba(245, 208, 97, 0.025) 1px, transparent 1px, transparent 8px),
+              linear-gradient(180deg, #09090D 0%, #040406 100%) !important;
   background-attachment: fixed !important;
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased !important;
@@ -2187,9 +2188,9 @@ html.ui-kintsugi body {
 
 html.ui-kintsugi body::before {
   content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background: radial-gradient(circle at 75% 25%, rgba(245, 208, 97, 0.18) 0%, transparent 45%),
-              radial-gradient(circle at 25% 75%, rgba(217, 56, 58, 0.15) 0%, transparent 48%),
-              radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+  background: radial-gradient(circle at 75% 25%, rgba(245, 208, 97, 0.22) 0%, transparent 45%),
+              radial-gradient(circle at 25% 75%, rgba(217, 56, 58, 0.16) 0%, transparent 48%),
+              radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.12) 0%, transparent 50%);
   animation: kintsugiAmbient 16s ease-in-out infinite alternate;
 }
 
@@ -2199,7 +2200,7 @@ html.ui-kintsugi body::before {
   100% { transform: scale(1.1) translate(6px, -10px); opacity: 1; }
 }
 
-/* 倦 繧ｫ繝ｼ繝牙菴: 貍ｻ偵繝ヨ繧ｵ繝ｼ繝輔ぉ繧ｹ & 譛ｬ驥醍ｸ∝叙繧 & 蜥後髯ｰ蠖ｱ */
+/* 🌑 カード全体: 漆黒マットサーフェス & 本金金継ぎクラック境界 & 侘び寂び陰影 */
 html.ui-kintsugi .qc {
   padding: 20px 22px 24px !important;
   gap: 15px !important;
@@ -2207,8 +2208,8 @@ html.ui-kintsugi .qc {
 html.ui-kintsugi .qc .qh {
   padding-bottom: 4px !important;
   margin-bottom: 4px !important;
-  border-bottom: 1px solid rgba(245, 208, 97, 0.25) !important;
-  box-shadow: 0 1px 0 rgba(245, 208, 97, 0.18) !important;
+  border-bottom: 1px solid rgba(245, 208, 97, 0.3) !important;
+  box-shadow: 0 1px 0 rgba(245, 208, 97, 0.22) !important;
 }
 html.ui-kintsugi .qc,
 html.ui-kintsugi .st-hdr,
@@ -2219,14 +2220,14 @@ html.ui-kintsugi .card,
 html.ui-kintsugi .ssov-box,
 html.ui-kintsugi .exam-start-box,
 html.ui-kintsugi .modal-box {
-  background: linear-gradient(145deg, rgba(20, 20, 30, 0.97) 0%, rgba(10, 10, 16, 0.99) 100%) !important;
-  backdrop-filter: blur(26px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(26px) saturate(180%) !important;
-  border: 1.5px solid rgba(245, 208, 97, 0.8) !important;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.96),
-              0 0 45px rgba(245, 208, 97, 0.32),
-              inset 0 1.5px 1px rgba(255, 243, 196, 0.85),
-              inset 0 0 30px rgba(245, 208, 97, 0.16),
+  background: linear-gradient(150deg, rgba(22, 20, 26, 0.98) 0%, rgba(12, 12, 15, 0.99) 100%) !important;
+  backdrop-filter: blur(24px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
+  border: 1.5px solid rgba(245, 208, 97, 0.85) !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.98),
+              0 0 45px rgba(245, 208, 97, 0.28),
+              inset 0 1.5px 1px rgba(255, 243, 196, 0.9),
+              inset 0 0 28px rgba(245, 208, 97, 0.15),
               inset 0 0 0 1px rgba(217, 56, 58, 0.35) !important;
   border-radius: 16px !important;
 }
@@ -2289,38 +2290,38 @@ html.ui-kintsugi .qc::after {
 
 /* 🌑 問題番号バッジ: 八角形本金メダリオン & 蒔絵金箔押し */
 html.ui-kintsugi .qc .qn {
-  background: linear-gradient(135deg, #322b1c 0%, #1c1a14 50%, #0d0d12 100%) !important;
+  background: linear-gradient(135deg, #3a321e 0%, #1e1b14 50%, #0d0d12 100%) !important;
   border: 1.5px solid #F5D061 !important;
   color: #FFF8DC !important;
   text-shadow: 0 0 14px rgba(245, 208, 97, 0.95), 0 1px 2px rgba(0, 0, 0, 0.9) !important;
   border-radius: 6px !important;
-  padding: 3px 8px !important;
+  padding: 3px 9px !important;
   font-size: 11.5px !important;
   font-weight: 900 !important;
   letter-spacing: .8px !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.65), inset 0 1.5px 0.5px rgba(255, 248, 220, 0.95), 0 0 20px rgba(245, 208, 97, 0.5) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.75), inset 0 1.5px 0.5px rgba(255, 248, 220, 0.95), 0 0 22px rgba(245, 208, 97, 0.55) !important;
 }
 
 /* 🌑 メタバッジ・正答率: 高コントラストWCAG AA完全準拠 */
 html.ui-kintsugi .qc .qe,
 html.ui-kintsugi .qc .bg,
 html.ui-kintsugi .qc .cr {
-  background: rgba(245, 208, 97, 0.22) !important;
-  border: 1.5px solid rgba(245, 208, 97, 0.75) !important;
+  background: linear-gradient(180deg, rgba(245, 208, 97, 0.25) 0%, rgba(20, 16, 12, 0.7) 100%) !important;
+  border: 1.5px solid rgba(245, 208, 97, 0.8) !important;
   color: #FFFDF0 !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important;
   backdrop-filter: blur(12px) !important;
   border-radius: 5px !important;
-  padding: 2px 6px !important;
+  padding: 2px 7px !important;
   font-size: 10.5px !important;
   font-weight: 800 !important;
-  box-shadow: inset 0 1px 0 rgba(245, 208, 97, 0.6), 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 248, 220, 0.7), 0 2px 8px rgba(0, 0, 0, 0.6) !important;
 }
 
 html.ui-kintsugi .qc .cr {
   color: #B4FBE2 !important;
-  border-color: rgba(110, 231, 183, 0.9) !important;
-  background: rgba(16, 185, 129, 0.32) !important;
+  border-color: rgba(110, 231, 183, 0.95) !important;
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.35) 0%, rgba(6, 40, 24, 0.75) 100%) !important;
   text-shadow: 0 0 10px rgba(110, 231, 183, 0.9), 0 1px 2px rgba(0, 0, 0, 0.9) !important;
 }
 
@@ -2328,7 +2329,7 @@ html.ui-kintsugi .qc .cr {
 html.ui-kintsugi .qc .qh {
   padding-bottom: 5px !important;
   margin-bottom: 5px !important;
-  border-bottom: 1px solid rgba(245, 208, 97, 0.22) !important;
+  border-bottom: 1px solid rgba(245, 208, 97, 0.25) !important;
   position: relative;
 }
 
@@ -2339,8 +2340,8 @@ html.ui-kintsugi .qc .qh::after {
   left: 0;
   right: 0;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent 0%, rgba(245, 208, 97, 0.9) 25%, #FFFFFF 50%, rgba(217, 56, 58, 0.9) 75%, transparent 100%);
-  box-shadow: 0 0 16px rgba(245, 208, 97, 0.85), 0 0 4px #FFFFFF;
+  background: linear-gradient(90deg, transparent 0%, rgba(245, 208, 97, 0.95) 25%, #FFFFFF 50%, rgba(217, 56, 58, 0.95) 75%, transparent 100%);
+  box-shadow: 0 0 18px rgba(245, 208, 97, 0.9), 0 0 5px #FFFFFF;
   pointer-events: none;
   border-radius: 2px;
 }
@@ -2351,27 +2352,27 @@ html.ui-kintsugi .qc .mec-grade-btn,
 html.ui-kintsugi .qc .mec-flag-btn,
 html.ui-kintsugi .qc .mec-err-btn,
 html.ui-kintsugi .qc .mec-lap-btn {
-  background: linear-gradient(140deg, rgba(32, 28, 20, 0.85) 0%, rgba(18, 16, 14, 0.95) 100%) !important;
-  border: 1.5px solid rgba(245, 208, 97, 0.55) !important;
+  background: linear-gradient(140deg, rgba(36, 32, 22, 0.9) 0%, rgba(18, 16, 14, 0.98) 100%) !important;
+  border: 1.5px solid rgba(245, 208, 97, 0.65) !important;
   color: #FFF8DC !important;
   border-radius: 8px !important;
-  min-width: 24px !important;
-  min-height: 22px !important;
+  min-width: 26px !important;
+  min-height: 24px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  font-size: 11px !important;
+  font-size: 11.5px !important;
   font-weight: 900 !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 248, 220, 0.7), 0 0 10px rgba(245, 208, 97, 0.2) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 248, 220, 0.8), 0 0 12px rgba(245, 208, 97, 0.25) !important;
   transition: transform .14s ease-out, box-shadow .14s ease-out, background .14s ease-out !important;
   cursor: pointer !important;
 }
 
 html.ui-kintsugi .qc .mec-grade-btn:hover,
 html.ui-kintsugi .qc .mec-flag-btn:hover {
-  background: linear-gradient(135deg, rgba(245, 208, 97, 0.45) 0%, rgba(217, 56, 58, 0.35) 100%) !important;
+  background: linear-gradient(135deg, rgba(245, 208, 97, 0.5) 0%, rgba(217, 56, 58, 0.4) 100%) !important;
   border-color: #F5D061 !important;
-  box-shadow: 0 0 24px rgba(245, 208, 97, 0.85), inset 0 1.5px 0 #FFFFFF !important;
+  box-shadow: 0 0 24px rgba(245, 208, 97, 0.9), inset 0 1.5px 0 #FFFFFF !important;
   transform: translateY(-2px) scale(1.06) !important;
 }
 
@@ -2380,21 +2381,21 @@ html.ui-kintsugi .qc .mec-lap-btn:active,
 html.ui-kintsugi .qc .mec-flag-btn:active,
 html.ui-kintsugi .qc .mec-err-btn:active {
   transform: scale(0.92) !important;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.7) !important;
 }
 
 html.ui-kintsugi .qc .mec-lap-btn.mec-lapped {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.65), rgba(245, 208, 97, 0.65)) !important;
+  background: linear-gradient(135deg, rgba(61, 214, 140, 0.7), rgba(245, 208, 97, 0.7)) !important;
   border-color: #3DD68C !important;
-  box-shadow: 0 0 22px rgba(61, 214, 140, 0.85), inset 0 1px 0 #FFF !important;
-  color: #FFF !important;
+  box-shadow: 0 0 24px rgba(61, 214, 140, 0.9), inset 0 1px 0 #FFFFFF !important;
+  color: #FFFFFF !important;
 }
 
 html.ui-kintsugi .qc .mec-grade-btn.selected-ok {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.75), rgba(245, 208, 97, 0.75)) !important;
+  background: linear-gradient(135deg, rgba(61, 214, 140, 0.8), rgba(245, 208, 97, 0.8)) !important;
   border-color: #3DD68C !important;
-  box-shadow: 0 0 24px rgba(61, 214, 140, 0.95), inset 0 1.5px 0 #FFF !important;
-  color: #FFF !important;
+  box-shadow: 0 0 26px rgba(61, 214, 140, 0.98), inset 0 1.5px 0 #FFFFFF !important;
+  color: #FFFFFF !important;
 }
 
 /* 倦 驕ｸ謚櫁い繝励Ξ繝ｼ繝 & 譛ｱ遲繝舌 */
@@ -2439,10 +2440,11 @@ html.ui-kintsugi .qc .mec-err-btn:hover {
 html.ui-kintsugi body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
 html.ui-kintsugi body.exam-mode .qc.exam-revealed .ch2.ok,
 html.ui-kintsugi body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.35), rgba(245, 208, 97, 0.3)) !important;
+  background: linear-gradient(135deg, rgba(61, 214, 140, 0.42), rgba(245, 208, 97, 0.35)) !important;
   border-color: #F5D061 !important;
-  box-shadow: 0 0 24px rgba(245, 208, 97, 0.7), inset 0 1px 0 #FFF !important;
-  color: #FFF !important;
+  box-shadow: 0 0 26px rgba(245, 208, 97, 0.75), inset 0 1px 0 rgba(255, 248, 220, 0.9) !important;
+  color: #FFFDF0 !important;
+  font-weight: 700 !important;
 }
 
 /* �倦 隧ｦ鬨薙Δ繝ｼ繝画悴髢狗､ｺ譎�: 豁｣隗｣閧｢縺ｧ縺ゅｋ縺薙→繧貞ｮ悟�縺ｫ髫�阡ｽ�医ロ繧ｿ繝舌Ξ螳悟�髦ｲ豁｢�� */
@@ -2481,39 +2483,40 @@ html.ui-kintsugi body.ch-exam-mode .qc.ch-exam-revealed .ch2.ng {
 
 /* �倦 隗｣遲碑ｧ｣隱ｬ繝懊ャ繧ｯ繧ｹ */
 html.ui-kintsugi .qc .ab {
-  background: linear-gradient(180deg, rgba(20, 20, 30, 0.96), rgba(10, 10, 16, 0.98)) !important;
-  border: 1.5px solid rgba(245, 208, 97, 0.55) !important;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(245, 208, 97, 0.5), inset 0 0 20px rgba(245, 208, 97, 0.08) !important;
-  border-radius: 12px !important;
-  padding: 16px 18px !important;
+  background: linear-gradient(150deg, rgba(24, 22, 32, 0.98), rgba(12, 12, 18, 0.99)) !important;
+  border: 1.5px solid rgba(245, 208, 97, 0.65) !important;
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 248, 220, 0.6), inset 0 0 24px rgba(245, 208, 97, 0.12) !important;
+  border-radius: 14px !important;
+  padding: 16px 20px !important;
 }
 
 html.ui-kintsugi .qc .ab strong {
   background: linear-gradient(135deg, #F5D061 0%, #D4AF37 50%, #8C6D1F 100%) !important;
-  padding: 4px 13px !important;
+  padding: 5px 14px !important;
   border-radius: 6px !important;
-  color: #0E0E14 !important;
+  color: #0A0A0E !important;
   font-weight: 900 !important;
   text-shadow: none !important;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
 }
 
 /* 🌑 解説・エピソードボックス: 漆黒硯・墨汁の深み & 和紙風可読性 */
 html.ui-kintsugi .qc .eg {
-  background: linear-gradient(155deg, rgba(16, 16, 24, 0.96) 0%, rgba(10, 10, 16, 0.98) 100%) !important;
-  border: 1.5px solid rgba(245, 208, 97, 0.45) !important;
+  background: linear-gradient(150deg, rgba(20, 18, 28, 0.98) 0%, rgba(10, 10, 15, 0.99) 100%) !important;
+  border: 1.5px solid rgba(245, 208, 97, 0.55) !important;
   border-left: 5px solid #F5D061 !important;
   border-radius: 14px !important;
   backdrop-filter: blur(20px) !important;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(245, 208, 97, 0.35) !important;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 248, 220, 0.5), inset 0 0 20px rgba(245, 208, 97, 0.08) !important;
   line-height: 1.85 !important;
-  color: #FFF8DC !important;
-  padding: 16px 20px !important;
+  color: #FFFDF5 !important;
+  padding: 18px 22px !important;
 }
 
 html.ui-kintsugi .qc .an {
   color: #F5D061 !important;
-  text-shadow: 0 0 14px rgba(245, 208, 97, 0.85) !important;
+  text-shadow: 0 0 14px rgba(245, 208, 97, 0.9) !important;
+  font-weight: 700 !important;
 }
 
 html.ui-kintsugi .qc .mec-flag-btn.mec-flagged {
@@ -2656,45 +2659,46 @@ html.ui-celestial .qc::after {
 
 /* 🌌 問題番号バッジ: 天球儀コンパス盤バッジ & 星屑ルーン刻印 */
 html.ui-celestial .qc .qn {
-  background: linear-gradient(135deg, rgba(138, 43, 226, 0.65) 0%, rgba(255, 209, 102, 0.55) 50%, rgba(72, 202, 228, 0.45) 100%) !important;
+  background: linear-gradient(135deg, rgba(80, 24, 138, 0.9) 0%, rgba(32, 18, 70, 0.95) 50%, rgba(20, 10, 48, 1) 100%) !important;
   border: 1.5px solid #FFD166 !important;
-  color: #FFFFFF !important;
-  text-shadow: 0 0 14px rgba(255, 209, 102, 1), 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+  color: #FFFDF5 !important;
+  text-shadow: 0 0 14px rgba(255, 209, 102, 1), 0 1px 2px rgba(0, 0, 0, 0.9) !important;
   border-radius: 6px !important;
-  padding: 3px 8px !important;
+  padding: 3px 9px !important;
   font-size: 11.5px !important;
   font-weight: 900 !important;
   letter-spacing: .8px !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55), inset 0 1.5px 0.5px rgba(255, 243, 196, 0.98), 0 0 22px rgba(255, 209, 102, 0.55) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.65), inset 0 1.5px 0.5px rgba(255, 243, 196, 0.98), 0 0 22px rgba(255, 209, 102, 0.55) !important;
 }
 
 /* 🌌 メタバッジ・正答率 */
 html.ui-celestial .qc .qe,
 html.ui-celestial .qc .bg,
 html.ui-celestial .qc .cr {
-  background: rgba(255, 209, 102, 0.2) !important;
-  border: 1px solid rgba(255, 209, 102, 0.7) !important;
-  color: #FFFFFF !important;
+  background: linear-gradient(180deg, rgba(255, 209, 102, 0.25) 0%, rgba(32, 18, 70, 0.75) 100%) !important;
+  border: 1.5px solid rgba(255, 209, 102, 0.8) !important;
+  color: #FFFDF8 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
   backdrop-filter: blur(12px) !important;
   border-radius: 5px !important;
-  padding: 2px 6px !important;
+  padding: 2px 7px !important;
   font-size: 10.5px !important;
   font-weight: 800 !important;
-  box-shadow: inset 0 1px 0 rgba(255, 209, 102, 0.65), 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 243, 196, 0.7), 0 2px 8px rgba(0, 0, 0, 0.5) !important;
 }
 
 html.ui-celestial .qc .cr {
-  color: #A7F3D0 !important;
-  border-color: rgba(110, 231, 183, 0.85) !important;
-  background: rgba(16, 185, 129, 0.26) !important;
-  text-shadow: 0 0 10px rgba(110, 231, 183, 0.85) !important;
+  color: #B4FBE2 !important;
+  border-color: rgba(110, 231, 183, 0.95) !important;
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.35) 0%, rgba(10, 48, 32, 0.75) 100%) !important;
+  text-shadow: 0 0 10px rgba(110, 231, 183, 0.9), 0 1px 2px rgba(0, 0, 0, 0.9) !important;
 }
 
 /* 🌌 ヘッダー境界ディバイダー */
 html.ui-celestial .qc .qh {
   padding-bottom: 5px !important;
   margin-bottom: 5px !important;
-  border-bottom: 1px solid rgba(255, 209, 102, 0.24) !important;
+  border-bottom: 1px solid rgba(255, 209, 102, 0.28) !important;
   position: relative;
 }
 
@@ -2705,7 +2709,7 @@ html.ui-celestial .qc .qh::after {
   left: 0;
   right: 0;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent 0%, rgba(255, 209, 102, 0.9) 20%, #FFFFFF 50%, rgba(138, 43, 226, 0.9) 80%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 209, 102, 0.95) 20%, #FFFFFF 50%, rgba(138, 43, 226, 0.95) 80%, transparent 100%);
   box-shadow: 0 0 18px rgba(255, 209, 102, 0.95), 0 0 6px #FFFFFF;
   pointer-events: none;
   border-radius: 2px;
@@ -2717,27 +2721,27 @@ html.ui-celestial .qc .mec-grade-btn,
 html.ui-celestial .qc .mec-flag-btn,
 html.ui-celestial .qc .mec-err-btn,
 html.ui-celestial .qc .mec-lap-btn {
-  background: linear-gradient(140deg, rgba(36, 24, 68, 0.85) 0%, rgba(18, 12, 38, 0.95) 100%) !important;
-  border: 1.5px solid rgba(255, 209, 102, 0.55) !important;
-  color: #FFFFFF !important;
+  background: linear-gradient(140deg, rgba(42, 28, 76, 0.9) 0%, rgba(20, 12, 42, 0.98) 100%) !important;
+  border: 1.5px solid rgba(255, 209, 102, 0.65) !important;
+  color: #FFFDF5 !important;
   border-radius: 8px !important;
-  min-width: 24px !important;
-  min-height: 22px !important;
+  min-width: 26px !important;
+  min-height: 24px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  font-size: 11px !important;
+  font-size: 11.5px !important;
   font-weight: 900 !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 243, 196, 0.7), 0 0 10px rgba(138, 43, 226, 0.25) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 243, 196, 0.8), 0 0 12px rgba(138, 43, 226, 0.3) !important;
   transition: transform .14s ease-out, box-shadow .14s ease-out, background .14s ease-out !important;
   cursor: pointer !important;
 }
 
 html.ui-celestial .qc .mec-grade-btn:hover,
 html.ui-celestial .qc .mec-flag-btn:hover {
-  background: linear-gradient(135deg, rgba(138, 43, 226, 0.5) 0%, rgba(255, 209, 102, 0.4) 100%) !important;
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.6) 0%, rgba(255, 209, 102, 0.5) 100%) !important;
   border-color: #FFD166 !important;
-  box-shadow: 0 0 24px rgba(255, 209, 102, 0.85), inset 0 1.5px 0 #FFFFFF !important;
+  box-shadow: 0 0 24px rgba(255, 209, 102, 0.9), inset 0 1.5px 0 #FFFFFF !important;
   transform: translateY(-2px) scale(1.06) !important;
 }
 
@@ -2746,21 +2750,21 @@ html.ui-celestial .qc .mec-lap-btn:active,
 html.ui-celestial .qc .mec-flag-btn:active,
 html.ui-celestial .qc .mec-err-btn:active {
   transform: scale(0.92) !important;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.7) !important;
 }
 
 html.ui-celestial .qc .mec-lap-btn.mec-lapped {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.65), rgba(255, 209, 102, 0.65)) !important;
+  background: linear-gradient(135deg, rgba(61, 214, 140, 0.7), rgba(255, 209, 102, 0.7)) !important;
   border-color: #3DD68C !important;
-  box-shadow: 0 0 24px rgba(61, 214, 140, 0.85), inset 0 1px 0 #FFF !important;
-  color: #FFF !important;
+  box-shadow: 0 0 24px rgba(61, 214, 140, 0.9), inset 0 1px 0 #FFFFFF !important;
+  color: #FFFFFF !important;
 }
 
 html.ui-celestial .qc .mec-grade-btn.selected-ok {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.75), rgba(255, 209, 102, 0.75)) !important;
+  background: linear-gradient(135deg, rgba(61, 214, 140, 0.8), rgba(255, 209, 102, 0.8)) !important;
   border-color: #3DD68C !important;
-  box-shadow: 0 0 26px rgba(61, 214, 140, 0.95), inset 0 1.5px 0 #FFF !important;
-  color: #FFF !important;
+  box-shadow: 0 0 26px rgba(61, 214, 140, 0.98), inset 0 1.5px 0 #FFFFFF !important;
+  color: #FFFFFF !important;
 }
 
 /* �血 驕ｸ謚櫁い繝励Ξ繝ｼ繝� & 譏溷ｱ代�繝舌� */
@@ -2805,10 +2809,11 @@ html.ui-celestial .qc .mec-err-btn:hover {
 html.ui-celestial body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
 html.ui-celestial body.exam-mode .qc.exam-revealed .ch2.ok,
 html.ui-celestial body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.4), rgba(255, 209, 102, 0.35)) !important;
+  background: linear-gradient(135deg, rgba(61, 214, 140, 0.45), rgba(255, 209, 102, 0.38)) !important;
   border-color: #FFD166 !important;
-  box-shadow: 0 0 24px rgba(255, 209, 102, 0.7), inset 0 1px 0 #FFF !important;
-  color: #FFF !important;
+  box-shadow: 0 0 26px rgba(255, 209, 102, 0.75), inset 0 1px 0 #FFFFFF !important;
+  color: #FFFDF8 !important;
+  font-weight: 700 !important;
 }
 
 /* 血 隧ｦ鬨薙Δ繝ｼ繝画悴髢狗､ｺ譎: 豁｣隗｣閧｢縺ｧ縺ゅｋ縺薙→繧貞ｮ悟縺ｫ髫阡ｽ医ロ繧ｿ繝舌Ξ螳悟髦ｲ豁｢ */
@@ -2847,41 +2852,42 @@ html.ui-celestial body.ch-exam-mode .qc.ch-exam-revealed .ch2.ng {
 
 /* 血 隗｣遲碑ｧ｣隱ｬ繝懊ャ繧ｯ繧ｹ */
 html.ui-celestial .qc .ab {
-  background: linear-gradient(135deg, rgba(26, 20, 58, 0.96) 0%, rgba(12, 8, 30, 0.98) 100%) !important;
+  background: linear-gradient(145deg, rgba(30, 22, 66, 0.98) 0%, rgba(14, 8, 34, 0.99) 100%) !important;
   border: 1.5px solid #FFD166 !important;
-  box-shadow: 0 16px 46px rgba(0, 0, 0, 0.88), 0 0 35px rgba(138, 43, 226, 0.38), inset 0 1.5px 0.5px #FFF3C4 !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.92), 0 0 38px rgba(138, 43, 226, 0.42), inset 0 1.5px 0.5px #FFF8DC !important;
   border-radius: 16px !important;
-  padding: 16px 18px !important;
+  padding: 16px 20px !important;
   backdrop-filter: blur(24px) !important;
 }
 
 html.ui-celestial .qc .ab strong {
   background: linear-gradient(135deg, #FFD166 0%, #8A2BE2 70%, #48CAE4 100%) !important;
-  padding: 4px 13px !important;
+  padding: 5px 14px !important;
   border-radius: 6px !important;
-  border: 1.5px solid #FFF3C4 !important;
-  color: #0E0A20 !important;
+  border: 1.5px solid #FFF8DC !important;
+  color: #0A0618 !important;
   font-weight: 900 !important;
   text-shadow: none !important;
-  box-shadow: 0 0 14px rgba(255, 209, 102, 0.6) !important;
+  box-shadow: 0 2px 14px rgba(255, 209, 102, 0.65) !important;
 }
 
 /* 🌌 解説・エピソードボックス: 魔導星図盤・天球儀グラデーション */
 html.ui-celestial .qc .eg {
-  background: linear-gradient(150deg, rgba(22, 16, 48, 0.96) 0%, rgba(10, 6, 26, 0.98) 100%) !important;
-  border: 1.5px solid rgba(255, 209, 102, 0.45) !important;
+  background: linear-gradient(150deg, rgba(28, 20, 58, 0.98) 0%, rgba(12, 8, 30, 0.99) 100%) !important;
+  border: 1.5px solid rgba(255, 209, 102, 0.55) !important;
   border-left: 5px solid #FFD166 !important;
   border-radius: 14px !important;
   backdrop-filter: blur(20px) !important;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 209, 102, 0.35) !important;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 243, 196, 0.5), inset 0 0 24px rgba(138, 43, 226, 0.15) !important;
   line-height: 1.85 !important;
-  color: #FAF5FF !important;
-  padding: 16px 20px !important;
+  color: #FFFDF8 !important;
+  padding: 18px 22px !important;
 }
 
 html.ui-celestial .qc .an {
   color: #FFD166 !important;
-  text-shadow: 0 0 14px rgba(255, 209, 102, 0.95) !important;
+  text-shadow: 0 0 14px rgba(255, 209, 102, 1) !important;
+  font-weight: 700 !important;
 }
 
 html.ui-celestial .qc .mec-flag-btn.mec-flagged {
@@ -2909,11 +2915,12 @@ html.ui-celestial .mec-undo-btn {
    繧ｳ繝ｳ繧ｻ繝励ヨ: 豺ｱ豬ｷ繝悶Λ繝�け �� 逕滉ｽ鍋匱蜈峨お繝｡繝ｩ繝ｫ繝峨�雜�寔荳ｭ繝�ぅ繝ｼ繝励が繝ｼ繧ｷ繝｣繝ｳ
    笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 html.ui-abyss body {
-  background: radial-gradient(ellipse 95% 65% at 50% -15%, rgba(0, 255, 163, 0.35) 0%, transparent 68%),
-              radial-gradient(circle at 8% 42%, rgba(0, 180, 216, 0.4) 0%, transparent 56%),
-              radial-gradient(circle at 92% 68%, rgba(0, 255, 163, 0.28) 0%, transparent 58%),
-              radial-gradient(circle at 50% 92%, rgba(100, 255, 218, 0.2) 0%, transparent 62%),
-              linear-gradient(180deg, #010612 0%, #000308 100%) !important;
+  background: radial-gradient(ellipse 95% 65% at 50% -15%, rgba(0, 255, 163, 0.42) 0%, transparent 68%),
+              radial-gradient(circle at 8% 42%, rgba(0, 180, 216, 0.45) 0%, transparent 56%),
+              radial-gradient(circle at 92% 68%, rgba(0, 255, 163, 0.32) 0%, transparent 58%),
+              radial-gradient(circle at 50% 92%, rgba(100, 255, 218, 0.25) 0%, transparent 62%),
+              radial-gradient(circle at 50% 40%, rgba(4, 30, 50, 0.95) 0%, rgba(1, 8, 18, 0.99) 100%),
+              linear-gradient(180deg, #010814 0%, #00040A 100%) !important;
   background-attachment: fixed !important;
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased !important;
@@ -2921,9 +2928,9 @@ html.ui-abyss body {
 
 html.ui-abyss body::before {
   content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background: radial-gradient(circle at 65% 25%, rgba(0, 255, 163, 0.22) 0%, transparent 45%),
-              radial-gradient(circle at 35% 75%, rgba(0, 180, 216, 0.25) 0%, transparent 48%),
-              radial-gradient(circle at 80% 80%, rgba(100, 255, 218, 0.18) 0%, transparent 40%);
+  background: radial-gradient(circle at 65% 25%, rgba(0, 255, 163, 0.25) 0%, transparent 45%),
+              radial-gradient(circle at 35% 75%, rgba(0, 180, 216, 0.28) 0%, transparent 48%),
+              radial-gradient(circle at 80% 80%, rgba(100, 255, 218, 0.22) 0%, transparent 40%);
   animation: abyssAmbientBreeze 14s ease-in-out infinite alternate;
 }
 
@@ -2977,6 +2984,65 @@ html.ui-abyss .qc {
   to { opacity: 1; transform: none; filter: blur(0); }
 }
 
+html.ui-frost body {
+  background: radial-gradient(ellipse 90% 60% at 50% -18%, rgba(112, 214, 255, 0.48) 0%, transparent 65%),
+              radial-gradient(circle at 18% 28%, rgba(255, 255, 255, 0.35) 0%, transparent 50%),
+              radial-gradient(circle at 82% 68%, rgba(112, 214, 255, 0.35) 0%, transparent 56%),
+              radial-gradient(circle at 50% 85%, rgba(160, 231, 229, 0.28) 0%, transparent 60%),
+              radial-gradient(circle at 75% 20%, rgba(200, 240, 255, 0.2) 0%, transparent 40%),
+              radial-gradient(circle at 50% 30%, rgba(12, 36, 68, 0.95) 0%, rgba(4, 16, 32, 0.99) 100%),
+              linear-gradient(180deg, #061426 0%, #020914 100%) !important;
+  background-attachment: fixed !important;
+  text-rendering: optimizeLegibility !important;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+html.ui-frost body::before {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(circle at 65% 25%, rgba(112, 214, 255, 0.25) 0%, transparent 45%),
+              radial-gradient(circle at 35% 75%, rgba(255, 255, 255, 0.18) 0%, transparent 48%),
+              radial-gradient(circle at 80% 80%, rgba(160, 231, 229, 0.22) 0%, transparent 40%);
+  animation: frostAmbientBreeze 14s ease-in-out infinite alternate;
+}
+
+@keyframes frostAmbientBreeze {
+  0% { transform: scale(1) translate(0, 0); opacity: 0.75; }
+  50% { transform: scale(1.08) translate(-10px, 8px); opacity: 0.95; }
+  100% { transform: scale(1.12) translate(8px, -12px); opacity: 1; }
+}
+
+/* ❄️ カード全体: 多面体ファセット氷晶サーフェス & ダイヤモンドクリスタル枠 */
+html.ui-frost .qc {
+  padding: 18px 20px 22px !important;
+  gap: 14px !important;
+}
+html.ui-frost .qc .qh {
+  padding-bottom: 4px !important;
+  margin-bottom: 4px !important;
+  border-bottom: 1px solid rgba(112, 214, 255, 0.3) !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+}
+html.ui-frost .qc,
+html.ui-frost .st-hdr,
+html.ui-frost .st-filter-panel,
+html.ui-frost .hub-card,
+html.ui-frost .hero-tile,
+html.ui-frost .card,
+html.ui-frost .ssov-box,
+html.ui-frost .exam-start-box,
+html.ui-frost .modal-box {
+  background: linear-gradient(135deg, rgba(16, 42, 78, 0.94) 0%, rgba(8, 24, 46, 0.97) 100%) !important;
+  backdrop-filter: blur(28px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+  border: 1.5px solid #70D6FF !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.88),
+              0 0 48px rgba(112, 214, 255, 0.42),
+              inset 0 1.5px 1px #FFFFFF,
+              inset 0 0 32px rgba(112, 214, 255, 0.25),
+              inset 0 0 0 1px rgba(160, 231, 229, 0.35) !important;
+  border-radius: 14px !important;
+}
+
 html.ui-abyss .qc:hover {
   border-color: rgba(0, 255, 163, 0.95) !important;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.95),
@@ -3023,45 +3089,46 @@ html.ui-abyss .qc::after {
 
 /* 🌊 問題番号バッジ: 生体発光カプセルバッジ & エメラルド光彩 */
 html.ui-abyss .qc .qn {
-  background: linear-gradient(135deg, rgba(0, 255, 163, 0.5) 0%, rgba(0, 180, 216, 0.6) 100%) !important;
+  background: linear-gradient(135deg, rgba(0, 100, 70, 0.9) 0%, rgba(2, 40, 50, 0.95) 50%, rgba(1, 20, 30, 1) 100%) !important;
   border: 1.5px solid #00FFA3 !important;
-  color: #FFFFFF !important;
-  text-shadow: 0 0 14px rgba(0, 255, 163, 1), 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+  color: #E0F2FE !important;
+  text-shadow: 0 0 14px rgba(0, 255, 163, 1), 0 1px 2px rgba(0, 0, 0, 0.9) !important;
   border-radius: 6px !important;
-  padding: 3px 8px !important;
+  padding: 3px 9px !important;
   font-size: 11.5px !important;
   font-weight: 900 !important;
   letter-spacing: .8px !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45), inset 0 1.5px 0.5px rgba(224, 242, 254, 0.98), 0 0 22px rgba(0, 255, 163, 0.6) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.65), inset 0 1.5px 0.5px rgba(224, 242, 254, 0.98), 0 0 22px rgba(0, 255, 163, 0.6) !important;
 }
 
 /* 🌊 メタバッジ・正答率 */
 html.ui-abyss .qc .qe,
 html.ui-abyss .qc .bg,
 html.ui-abyss .qc .cr {
-  background: rgba(0, 255, 163, 0.2) !important;
-  border: 1px solid rgba(0, 255, 163, 0.7) !important;
-  color: #FFFFFF !important;
+  background: linear-gradient(180deg, rgba(0, 255, 163, 0.25) 0%, rgba(4, 30, 50, 0.75) 100%) !important;
+  border: 1.5px solid rgba(0, 255, 163, 0.8) !important;
+  color: #F0FDF4 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
   backdrop-filter: blur(12px) !important;
   border-radius: 5px !important;
-  padding: 2px 6px !important;
+  padding: 2px 7px !important;
   font-size: 10.5px !important;
   font-weight: 800 !important;
-  box-shadow: inset 0 1px 0 rgba(0, 255, 163, 0.65), 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: inset 0 1px 0 rgba(224, 242, 254, 0.7), 0 2px 8px rgba(0, 0, 0, 0.5) !important;
 }
 
 html.ui-abyss .qc .cr {
-  color: #A7F3D0 !important;
-  border-color: rgba(110, 231, 183, 0.85) !important;
-  background: rgba(16, 185, 129, 0.26) !important;
-  text-shadow: 0 0 10px rgba(110, 231, 183, 0.85) !important;
+  color: #B4FBE2 !important;
+  border-color: rgba(110, 231, 183, 0.95) !important;
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.35) 0%, rgba(4, 40, 28, 0.75) 100%) !important;
+  text-shadow: 0 0 10px rgba(110, 231, 183, 0.9), 0 1px 2px rgba(0, 0, 0, 0.9) !important;
 }
 
 /* 🌊 ヘッダー境界ディバイダー */
 html.ui-abyss .qc .qh {
   padding-bottom: 5px !important;
   margin-bottom: 5px !important;
-  border-bottom: 1px solid rgba(0, 255, 163, 0.22) !important;
+  border-bottom: 1px solid rgba(0, 255, 163, 0.28) !important;
   position: relative;
 }
 
@@ -3072,7 +3139,7 @@ html.ui-abyss .qc .qh::after {
   left: 0;
   right: 0;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 163, 0.9) 20%, #FFFFFF 50%, rgba(0, 180, 216, 0.9) 80%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 163, 0.95) 20%, #FFFFFF 50%, rgba(0, 180, 216, 0.95) 80%, transparent 100%);
   box-shadow: 0 0 18px rgba(0, 255, 163, 0.95), 0 0 6px #FFFFFF;
   pointer-events: none;
   border-radius: 2px;
@@ -3083,28 +3150,28 @@ html.ui-abyss .qc .mec-grade-btn,
 html.ui-abyss .qc .mec-flag-btn,
 html.ui-abyss .qc .mec-err-btn,
 html.ui-abyss .qc .mec-lap-btn {
-  background: linear-gradient(140deg, rgba(2, 28, 52, 0.85) 0%, rgba(1, 14, 28, 0.95) 100%) !important;
+  background: linear-gradient(140deg, rgba(2, 32, 60, 0.9) 0%, rgba(1, 14, 28, 0.98) 100%) !important;
   border: 1.5px solid #00FFA3 !important;
-  color: #00FFA3 !important;
+  color: #E0F2FE !important;
   border-radius: 8px !important;
-  min-width: 24px !important;
-  min-height: 22px !important;
+  min-width: 26px !important;
+  min-height: 24px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  font-size: 11px !important;
+  font-size: 11.5px !important;
   font-weight: 900 !important;
   transition: all .16s ease-out !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), inset 0 1.5px 0.5px rgba(224, 242, 254, 0.85), 0 0 12px rgba(0, 255, 163, 0.4) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), inset 0 1.5px 0.5px rgba(224, 242, 254, 0.9), 0 0 14px rgba(0, 255, 163, 0.45) !important;
   cursor: pointer !important;
 }
 
 html.ui-abyss .qc .mec-grade-btn:hover,
 html.ui-abyss .qc .mec-flag-btn:hover {
-  background: linear-gradient(135deg, rgba(0, 255, 163, 0.45) 0%, rgba(0, 180, 216, 0.4) 100%) !important;
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.55) 0%, rgba(0, 180, 216, 0.5) 100%) !important;
   border-color: #00FFA3 !important;
   color: #FFFFFF !important;
-  box-shadow: 0 0 24px rgba(0, 255, 163, 0.85), inset 0 1.5px 0 #FFFFFF !important;
+  box-shadow: 0 0 24px rgba(0, 255, 163, 0.95), inset 0 1.5px 0 #FFFFFF !important;
   transform: translateY(-2px) scale(1.06) !important;
 }
 
@@ -3113,21 +3180,21 @@ html.ui-abyss .qc .mec-lap-btn:active,
 html.ui-abyss .qc .mec-flag-btn:active,
 html.ui-abyss .qc .mec-err-btn:active {
   transform: scale(0.92) !important;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.7) !important;
 }
 
 html.ui-abyss .qc .mec-lap-btn.mec-lapped {
-  background: linear-gradient(135deg, rgba(0, 180, 216, 0.65), rgba(0, 255, 163, 0.65)) !important;
+  background: linear-gradient(135deg, rgba(0, 180, 216, 0.7), rgba(0, 255, 163, 0.7)) !important;
   border-color: #00B4D8 !important;
-  color: #FFF !important;
-  box-shadow: 0 0 22px rgba(0, 180, 216, 0.85), inset 0 1px 0 #FFF !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 24px rgba(0, 180, 216, 0.9), inset 0 1px 0 #FFFFFF !important;
 }
 
 html.ui-abyss .qc .mec-grade-btn.selected-ok {
-  background: linear-gradient(135deg, rgba(0, 255, 163, 0.75), rgba(0, 180, 216, 0.75)) !important;
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.8), rgba(0, 180, 216, 0.8)) !important;
   border-color: #00FFA3 !important;
-  color: #FFF !important;
-  box-shadow: 0 0 26px rgba(0, 255, 163, 0.95), inset 0 1.5px 0 rgba(255, 255, 255, 0.9) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 28px rgba(0, 255, 163, 1), inset 0 1.5px 0 rgba(255, 255, 255, 0.95) !important;
 }
 
 /* 🌊 選択肢: バイオルミネセンス深海ポッド */
@@ -3171,11 +3238,12 @@ html.ui-abyss .qc .ch2:active {
 html.ui-abyss body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
 html.ui-abyss body.exam-mode .qc.exam-revealed .ch2.ok,
 html.ui-abyss body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
-  background: linear-gradient(135deg, rgba(0, 255, 163, 0.4), rgba(0, 180, 216, 0.35)) !important;
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.45), rgba(0, 180, 216, 0.38)) !important;
   border-color: #00FFA3 !important;
   border-left: 5px solid #00FFA3 !important;
-  box-shadow: 0 0 28px rgba(0, 255, 163, 0.7), inset 0 1px 0 #FFF !important;
-  color: #FFF !important;
+  box-shadow: 0 0 28px rgba(0, 255, 163, 0.75), inset 0 1px 0 #FFFFFF !important;
+  color: #F0FDF4 !important;
+  font-weight: 700 !important;
 }
 
 /* 🌊 試験モード未開示時: 正解肢であることを完全に隠蔽（ネタバレ完全防止） */
@@ -3213,41 +3281,42 @@ html.ui-abyss body.ch-exam-mode .qc.ch-exam-revealed .ch2.ng {
 }
 
 html.ui-abyss .qc .ab {
-  background: linear-gradient(135deg, rgba(6, 28, 54, 0.96) 0%, rgba(2, 12, 28, 0.98) 100%) !important;
+  background: linear-gradient(145deg, rgba(8, 32, 60, 0.98) 0%, rgba(2, 12, 28, 0.99) 100%) !important;
   border: 1.5px solid #00FFA3 !important;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.88), 0 0 35px rgba(0, 255, 163, 0.42), inset 0 1.5px 0.5px rgba(224, 242, 254, 0.9) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.92), 0 0 38px rgba(0, 255, 163, 0.45), inset 0 1.5px 0.5px rgba(224, 242, 254, 0.95) !important;
   border-radius: 14px !important;
-  padding: 16px 18px !important;
+  padding: 16px 20px !important;
   backdrop-filter: blur(24px) !important;
 }
 
 html.ui-abyss .qc .ab strong {
-  background: linear-gradient(135deg, rgba(0, 255, 163, 0.35), rgba(0, 180, 216, 0.35)) !important;
-  padding: 4px 13px !important;
+  background: linear-gradient(135deg, #00FFA3 0%, #00B4D8 100%) !important;
+  padding: 5px 14px !important;
   border-radius: 6px !important;
-  border: 1.5px solid #00FFA3 !important;
-  color: #00FFA3 !important;
-  font-weight: 800 !important;
-  text-shadow: 0 0 12px rgba(0, 255, 163, 1) !important;
-  box-shadow: 0 0 16px rgba(0, 255, 163, 0.4) !important;
+  border: 1.5px solid #E0F2FE !important;
+  color: #011424 !important;
+  font-weight: 900 !important;
+  text-shadow: none !important;
+  box-shadow: 0 2px 14px rgba(0, 255, 163, 0.65) !important;
 }
 
 /* 🌊 解説・エピソードボックス: 深海プレッシャーチャンバー */
 html.ui-abyss .qc .eg {
-  background: linear-gradient(155deg, rgba(3, 16, 32, 0.96) 0%, rgba(1, 8, 20, 0.98) 100%) !important;
-  border: 1.5px solid rgba(0, 255, 163, 0.4) !important;
+  background: linear-gradient(150deg, rgba(4, 20, 42, 0.98) 0%, rgba(1, 8, 20, 0.99) 100%) !important;
+  border: 1.5px solid rgba(0, 255, 163, 0.5) !important;
   border-left: 5px solid #00FFA3 !important;
   border-radius: 14px !important;
   backdrop-filter: blur(20px) !important;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(0, 255, 163, 0.3) !important;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(224, 242, 254, 0.4), inset 0 0 24px rgba(0, 255, 163, 0.1) !important;
   line-height: 1.85 !important;
-  color: #E2FBF5 !important;
-  padding: 16px 20px !important;
+  color: #F0FDF4 !important;
+  padding: 18px 22px !important;
 }
 
 html.ui-abyss .qc .an {
   color: #00FFA3 !important;
-  text-shadow: 0 0 14px rgba(0, 255, 163, 0.9) !important;
+  text-shadow: 0 0 14px rgba(0, 255, 163, 0.95) !important;
+  font-weight: 700 !important;
 }
 
 html.ui-abyss .qc .mec-flag-btn.mec-flagged {
@@ -3460,47 +3529,48 @@ html.ui-frost .qc::after {
   }
 }
 
-/* 笶ｸ 蝠城｡檎分蜿ｷ繝舌ャ繧ｸ: 蜈ｭ隗貞ｽ｢繝€繧､繝､繝｢繝ｳ繝峨い繧､繧ｹ繧ｸ繧ｧ繝繝舌ャ繧ｸ */
+/* ❄️ 問題番号バッジ: 六角形ダイヤモンドアイスジェムバッジ */
 html.ui-frost .qc .qn {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(112, 214, 255, 0.5) 100%) !important;
-  border: 1.5px solid #FFFFFF !important;
+  background: linear-gradient(135deg, rgba(16, 50, 90, 0.9) 0%, rgba(8, 30, 60, 0.95) 50%, rgba(4, 18, 40, 1) 100%) !important;
+  border: 1.5px solid #70D6FF !important;
   color: #FFFFFF !important;
-  text-shadow: 0 0 12px rgba(112, 214, 255, 1), 0 1px 2px rgba(0, 0, 0, 0.8) !important;
-  border-radius: 5px !important;
-  padding: 2px 7px !important;
-  font-size: 11px !important;
-  font-weight: 800 !important;
-  letter-spacing: .6px !important;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.95), 0 0 18px rgba(112, 214, 255, 0.5) !important;
+  text-shadow: 0 0 14px rgba(112, 214, 255, 1), 0 1px 2px rgba(0, 0, 0, 0.9) !important;
+  border-radius: 6px !important;
+  padding: 3px 9px !important;
+  font-size: 11.5px !important;
+  font-weight: 900 !important;
+  letter-spacing: .8px !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.98), 0 0 22px rgba(112, 214, 255, 0.55) !important;
 }
 
-/* 笶ｸ 繝｡繧ｿ繝舌ャ繧ｸ繝ｻ豁｣遲皮紫 */
+/* ❄️ メタバッジ・正答率 */
 html.ui-frost .qc .qe,
 html.ui-frost .qc .bg,
 html.ui-frost .qc .cr {
-  background: rgba(112, 214, 255, 0.16) !important;
-  border: 1px solid rgba(112, 214, 255, 0.6) !important;
-  color: #FFFFFF !important;
+  background: linear-gradient(180deg, rgba(112, 214, 255, 0.25) 0%, rgba(8, 36, 68, 0.75) 100%) !important;
+  border: 1.5px solid rgba(112, 214, 255, 0.8) !important;
+  color: #F0FDF4 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
   backdrop-filter: blur(12px) !important;
-  border-radius: 4px !important;
-  padding: 2px 5px !important;
-  font-size: 10px !important;
-  font-weight: 700 !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+  border-radius: 5px !important;
+  padding: 2px 7px !important;
+  font-size: 10.5px !important;
+  font-weight: 800 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 2px 8px rgba(0, 0, 0, 0.5) !important;
 }
 
 html.ui-frost .qc .cr {
-  color: #A7F3D0 !important;
-  border-color: rgba(110, 231, 183, 0.75) !important;
-  background: rgba(16, 185, 129, 0.22) !important;
-  text-shadow: 0 0 10px rgba(110, 231, 183, 0.8) !important;
+  color: #B4FBE2 !important;
+  border-color: rgba(110, 231, 183, 0.95) !important;
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.35) 0%, rgba(6, 42, 32, 0.75) 100%) !important;
+  text-shadow: 0 0 10px rgba(110, 231, 183, 0.9), 0 1px 2px rgba(0, 0, 0, 0.9) !important;
 }
 
-/* 笶ｸ 繝倥ャ繝€繝ｼ蠅阜繝ぅ繝舌う繝€繝ｼ */
+/* ❄️ ヘッダー境界ディバイダー */
 html.ui-frost .qc .qh {
-  padding-bottom: 4px !important;
-  margin-bottom: 4px !important;
-  border-bottom: 1px solid rgba(112, 214, 255, 0.2) !important;
+  padding-bottom: 5px !important;
+  margin-bottom: 5px !important;
+  border-bottom: 1px solid rgba(112, 214, 255, 0.28) !important;
   position: relative;
 }
 
@@ -3511,8 +3581,8 @@ html.ui-frost .qc .qh::after {
   left: 0;
   right: 0;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent 0%, rgba(112, 214, 255, 0.85) 20%, #FFFFFF 50%, rgba(160, 231, 229, 0.85) 80%, transparent 100%);
-  box-shadow: 0 0 16px rgba(112, 214, 255, 0.9), 0 0 8px rgba(255, 255, 255, 0.8);
+  background: linear-gradient(90deg, transparent 0%, rgba(112, 214, 255, 0.95) 20%, #FFFFFF 50%, rgba(160, 231, 229, 0.95) 80%, transparent 100%);
+  box-shadow: 0 0 18px rgba(112, 214, 255, 0.95), 0 0 8px rgba(255, 255, 255, 0.85);
   pointer-events: none;
   border-radius: 2px;
 }
@@ -3523,27 +3593,27 @@ html.ui-frost .qc .mec-grade-btn,
 html.ui-frost .qc .mec-flag-btn,
 html.ui-frost .qc .mec-err-btn,
 html.ui-frost .qc .mec-lap-btn {
-  background: linear-gradient(140deg, rgba(14, 38, 70, 0.85) 0%, rgba(6, 20, 42, 0.95) 100%) !important;
-  border: 1.5px solid rgba(112, 214, 255, 0.6) !important;
+  background: linear-gradient(140deg, rgba(16, 44, 82, 0.9) 0%, rgba(6, 20, 42, 0.98) 100%) !important;
+  border: 1.5px solid rgba(112, 214, 255, 0.75) !important;
   color: #FFFFFF !important;
   border-radius: 8px !important;
-  min-width: 24px !important;
-  min-height: 22px !important;
+  min-width: 26px !important;
+  min-height: 24px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  font-size: 11px !important;
+  font-size: 11.5px !important;
   font-weight: 900 !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.9), 0 0 12px rgba(112, 214, 255, 0.35) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.95), 0 0 14px rgba(112, 214, 255, 0.4) !important;
   transition: transform .14s ease-out, box-shadow .14s ease-out, background .14s ease-out !important;
   cursor: pointer !important;
 }
 
 html.ui-frost .qc .mec-grade-btn:hover,
 html.ui-frost .qc .mec-flag-btn:hover {
-  background: linear-gradient(135deg, rgba(112, 214, 255, 0.5) 0%, rgba(0, 223, 216, 0.45) 100%) !important;
+  background: linear-gradient(135deg, rgba(112, 214, 255, 0.6) 0%, rgba(0, 223, 216, 0.55) 100%) !important;
   border-color: #FFFFFF !important;
-  box-shadow: 0 0 24px rgba(112, 214, 255, 0.85), inset 0 1.5px 0 rgba(255, 255, 255, 0.98) !important;
+  box-shadow: 0 0 24px rgba(112, 214, 255, 0.95), inset 0 1.5px 0 rgba(255, 255, 255, 1) !important;
   transform: translateY(-2px) scale(1.06) !important;
 }
 
@@ -3552,20 +3622,20 @@ html.ui-frost .qc .mec-lap-btn:active,
 html.ui-frost .qc .mec-flag-btn:active,
 html.ui-frost .qc .mec-err-btn:active {
   transform: scale(0.92) !important;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6) !important;
 }
 
 html.ui-frost .qc .mec-lap-btn.mec-lapped {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.65), rgba(112, 214, 255, 0.65)) !important;
+  background: linear-gradient(135deg, rgba(61, 214, 140, 0.7), rgba(112, 214, 255, 0.7)) !important;
   border-color: #3DD68C !important;
-  box-shadow: 0 0 24px rgba(61, 214, 140, 0.85), inset 0 1px 0 #FFF !important;
+  box-shadow: 0 0 24px rgba(61, 214, 140, 0.9), inset 0 1px 0 #FFFFFF !important;
   color: #FFFFFF !important;
 }
 
 html.ui-frost .qc .mec-grade-btn.selected-ok {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.75), rgba(112, 214, 255, 0.75)) !important;
+  background: linear-gradient(135deg, rgba(61, 214, 140, 0.8), rgba(112, 214, 255, 0.8)) !important;
   border-color: #3DD68C !important;
-  box-shadow: 0 0 26px rgba(61, 214, 140, 0.95), inset 0 1.5px 0 #FFF !important;
+  box-shadow: 0 0 26px rgba(61, 214, 140, 0.98), inset 0 1.5px 0 #FFFFFF !important;
   color: #FFFFFF !important;
 }
 
@@ -3611,10 +3681,11 @@ html.ui-frost .qc .mec-err-btn:hover {
 html.ui-frost body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
 html.ui-frost body.exam-mode .qc.exam-revealed .ch2.ok,
 html.ui-frost body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.4), rgba(112, 214, 255, 0.4)) !important;
+  background: linear-gradient(135deg, rgba(61, 214, 140, 0.45), rgba(112, 214, 255, 0.42)) !important;
   border-color: #70D6FF !important;
-  box-shadow: 0 0 24px rgba(112, 214, 255, 0.75), inset 0 1px 0 #FFF !important;
-  color: #FFF !important;
+  box-shadow: 0 0 26px rgba(112, 214, 255, 0.8), inset 0 1px 0 #FFFFFF !important;
+  color: #F0FDF4 !important;
+  font-weight: 700 !important;
 }
 
 /* 笶�ｸ� 隧ｦ鬨薙Δ繝ｼ繝画悴髢狗､ｺ譎�: 豁｣隗｣閧｢縺ｧ縺ゅｋ縺薙→繧貞ｮ悟�縺ｫ髫�阡ｽ�医ロ繧ｿ繝舌Ξ螳悟�髦ｲ豁｢�� */
@@ -3653,39 +3724,42 @@ html.ui-frost body.ch-exam-mode .qc.ch-exam-revealed .ch2.ng {
 
 /* 笶�ｸ� 隗｣遲碑ｧ｣隱ｬ繝懊ャ繧ｯ繧ｹ */
 html.ui-frost .qc .ab {
-  background: linear-gradient(135deg, rgba(8, 26, 48, 0.95) 0%, rgba(4, 14, 28, 0.98) 100%) !important;
-  border: 1.5px solid rgba(112, 214, 255, 0.65) !important;
-  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.8), 0 0 28px rgba(112, 214, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
-  border-radius: 12px !important;
-  padding: 16px 18px !important;
+  background: linear-gradient(145deg, rgba(10, 32, 60, 0.98) 0%, rgba(4, 16, 32, 0.99) 100%) !important;
+  border: 1.5px solid rgba(112, 214, 255, 0.75) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.88), 0 0 32px rgba(112, 214, 255, 0.4), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.95) !important;
+  border-radius: 14px !important;
+  padding: 16px 20px !important;
+  backdrop-filter: blur(24px) !important;
 }
 
 html.ui-frost .qc .ab strong {
   background: linear-gradient(135deg, #70D6FF 0%, #00DFD8 100%) !important;
-  padding: 4px 12px !important;
-  border-radius: 8px !important;
-  color: #030D1A !important;
-  font-weight: 800 !important;
+  padding: 5px 14px !important;
+  border-radius: 6px !important;
+  border: 1.5px solid #FFFFFF !important;
+  color: #020A14 !important;
+  font-weight: 900 !important;
   text-shadow: none !important;
-  box-shadow: 0 0 12px rgba(112, 214, 255, 0.6) !important;
+  box-shadow: 0 2px 14px rgba(112, 214, 255, 0.65) !important;
 }
 
 /* ❄️ 解説・エピソードボックス: 氷晶プレート・屈折ハイライト */
 html.ui-frost .qc .eg {
-  background: linear-gradient(150deg, rgba(8, 24, 46, 0.96) 0%, rgba(3, 12, 26, 0.98) 100%) !important;
-  border: 1.5px solid rgba(112, 214, 255, 0.45) !important;
+  background: linear-gradient(150deg, rgba(12, 32, 60, 0.98) 0%, rgba(4, 16, 32, 0.99) 100%) !important;
+  border: 1.5px solid rgba(112, 214, 255, 0.55) !important;
   border-left: 5px solid #70D6FF !important;
   border-radius: 14px !important;
   backdrop-filter: blur(20px) !important;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.88), inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 0 20px rgba(112, 214, 255, 0.1) !important;
   line-height: 1.85 !important;
-  color: #F0F9FF !important;
-  padding: 16px 20px !important;
+  color: #F8FAFC !important;
+  padding: 18px 22px !important;
 }
 
 html.ui-frost .qc .an {
   color: #70D6FF !important;
   text-shadow: 0 0 14px rgba(112, 214, 255, 1) !important;
+  font-weight: 700 !important;
 }
 
 html.ui-frost .qc .mec-flag-btn.mec-flagged {
@@ -4542,6 +4616,102 @@ html.ui-liquid .gauge[data-tier="5"] .gauge-mid,
 html.ui-liquid .gauge[data-tier="6"] .gauge-mid {
   text-shadow: 0 0 30px rgba(255, 255, 255, 1), 0 0 55px rgba(255, 0, 127, 1), 0 0 75px rgba(0, 242, 254, 1) !important;
 }
+
+html.ui-kintsugi .gauge .gauge-mid {
+  color: #F5D061 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-weight: 800 !important;
+  font-size: clamp(32px, 8.5vw, 44px) !important;
+  text-shadow: 0 0 20px rgba(245, 208, 97, 0.9), 0 0 35px rgba(217, 56, 58, 0.6), 0 2px 4px rgba(0, 0, 0, 0.95) !important;
+}
+
+html.ui-kintsugi .gauge .gauge-trk { stroke: rgba(245, 208, 97, 0.18); stroke-width: 10; }
+html.ui-kintsugi .gauge .gauge-val { stroke: #F5D061; filter: drop-shadow(0 0 10px rgba(245, 208, 97, 0.85)); }
+html.ui-kintsugi .gauge[data-tier="5"] .gauge-val,
+html.ui-kintsugi .gauge[data-tier="6"] .gauge-val { stroke: #FFF8DC; filter: drop-shadow(0 0 16px #F5D061) drop-shadow(0 0 26px rgba(217, 56, 58, 0.8)); }
+html.ui-kintsugi .gauge .gauge-dot circle { fill: #F5D061; filter: drop-shadow(0 0 10px #F5D061); }
+html.ui-kintsugi .gauge .gauge-dot .halo { fill: rgba(245, 208, 97, 0.35); }
+html.ui-kintsugi .gauge .gear { fill: rgba(245, 208, 97, 0.12); stroke: rgba(245, 208, 97, 0.3); }
+html.ui-kintsugi .gauge-cap { color: #F5D061 !important; text-shadow: 0 1px 2px #000; }
+html.ui-kintsugi .gauge-goal {
+  background: linear-gradient(180deg, rgba(245, 208, 97, 0.15) 0%, rgba(20, 16, 12, 0.8) 100%) !important;
+  border: 1px solid rgba(245, 208, 97, 0.6) !important;
+  color: #FFF8DC !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 248, 220, 0.4) !important;
+}
+html.ui-kintsugi .gauge-goal b { color: #F5D061 !important; font-size: 13.5px !important; }
+
+html.ui-celestial .gauge .gauge-mid {
+  color: #FFD166 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-weight: 800 !important;
+  font-size: clamp(32px, 8.5vw, 44px) !important;
+  text-shadow: 0 0 22px rgba(255, 209, 102, 0.95), 0 0 40px rgba(138, 43, 226, 0.7), 0 2px 4px rgba(0, 0, 0, 0.95) !important;
+}
+
+html.ui-celestial .gauge .gauge-trk { stroke: rgba(138, 43, 226, 0.25); stroke-width: 10; }
+html.ui-celestial .gauge .gauge-val { stroke: #FFD166; filter: drop-shadow(0 0 10px rgba(255, 209, 102, 0.9)) drop-shadow(0 0 20px rgba(138, 43, 226, 0.6)); }
+html.ui-celestial .gauge[data-tier="5"] .gauge-val,
+html.ui-celestial .gauge[data-tier="6"] .gauge-val { stroke: #FFF8DC; filter: drop-shadow(0 0 16px #FFD166) drop-shadow(0 0 28px rgba(72, 202, 228, 0.8)); }
+html.ui-celestial .gauge .gauge-dot circle { fill: #FFD166; filter: drop-shadow(0 0 10px #FFD166); }
+html.ui-celestial .gauge .gauge-dot .halo { fill: rgba(255, 209, 102, 0.4); }
+html.ui-celestial .gauge .gear { fill: rgba(138, 43, 226, 0.15); stroke: rgba(255, 209, 102, 0.35); }
+html.ui-celestial .gauge-cap { color: #FFD166 !important; text-shadow: 0 0 10px rgba(255, 209, 102, 0.6); }
+html.ui-celestial .gauge-goal {
+  background: linear-gradient(180deg, rgba(138, 43, 226, 0.2) 0%, rgba(20, 15, 45, 0.85) 100%) !important;
+  border: 1px solid rgba(255, 209, 102, 0.6) !important;
+  color: #FFFDF5 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 209, 102, 0.4) !important;
+}
+html.ui-celestial .gauge-goal b { color: #FFD166 !important; font-size: 13.5px !important; }
+
+html.ui-abyss .gauge .gauge-mid {
+  color: #00FFA3 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-weight: 800 !important;
+  font-size: clamp(32px, 8.5vw, 44px) !important;
+  text-shadow: 0 0 22px rgba(0, 255, 163, 0.95), 0 0 40px rgba(0, 180, 216, 0.75), 0 2px 4px rgba(0, 0, 0, 0.95) !important;
+}
+
+html.ui-abyss .gauge .gauge-trk { stroke: rgba(0, 255, 163, 0.2); stroke-width: 10; }
+html.ui-abyss .gauge .gauge-val { stroke: #00FFA3; filter: drop-shadow(0 0 10px rgba(0, 255, 163, 0.9)) drop-shadow(0 0 20px rgba(0, 180, 216, 0.6)); }
+html.ui-abyss[data-tier="5"] .gauge-val,
+html.ui-abyss[data-tier="6"] .gauge-val { stroke: #E0F2FE; filter: drop-shadow(0 0 16px #00FFA3) drop-shadow(0 0 28px rgba(100, 255, 218, 0.8)); }
+html.ui-abyss .gauge .gauge-dot circle { fill: #00FFA3; filter: drop-shadow(0 0 10px #00FFA3); }
+html.ui-abyss .gauge .gauge-dot .halo { fill: rgba(0, 255, 163, 0.4); }
+html.ui-abyss .gauge .gear { fill: rgba(0, 180, 216, 0.12); stroke: rgba(0, 255, 163, 0.3); }
+html.ui-abyss .gauge-cap { color: #00FFA3 !important; text-shadow: 0 0 10px rgba(0, 255, 163, 0.6); }
+html.ui-abyss .gauge-goal {
+  background: linear-gradient(180deg, rgba(0, 255, 163, 0.15) 0%, rgba(4, 20, 36, 0.85) 100%) !important;
+  border: 1px solid rgba(0, 255, 163, 0.6) !important;
+  color: #E0F2FE !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(224, 242, 254, 0.4) !important;
+}
+html.ui-abyss .gauge-goal b { color: #00FFA3 !important; font-size: 13.5px !important; }
+
+html.ui-frost .gauge .gauge-mid {
+  color: #70D6FF !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-weight: 800 !important;
+  font-size: clamp(32px, 8.5vw, 44px) !important;
+  text-shadow: 0 0 22px rgba(112, 214, 255, 0.95), 0 0 40px rgba(255, 255, 255, 0.8), 0 2px 4px rgba(0, 0, 0, 0.95) !important;
+}
+
+html.ui-frost .gauge .gauge-trk { stroke: rgba(112, 214, 255, 0.2); stroke-width: 10; }
+html.ui-frost .gauge .gauge-val { stroke: #70D6FF; filter: drop-shadow(0 0 10px rgba(112, 214, 255, 0.9)) drop-shadow(0 0 20px rgba(255, 255, 255, 0.7)); }
+html.ui-frost[data-tier="5"] .gauge-val,
+html.ui-frost[data-tier="6"] .gauge-val { stroke: #FFFFFF; filter: drop-shadow(0 0 16px #70D6FF) drop-shadow(0 0 28px rgba(160, 231, 229, 0.9)); }
+html.ui-frost .gauge .gauge-dot circle { fill: #70D6FF; filter: drop-shadow(0 0 10px #70D6FF); }
+html.ui-frost .gauge .gauge-dot .halo { fill: rgba(112, 214, 255, 0.4); }
+html.ui-frost .gauge .gear { fill: rgba(112, 214, 255, 0.12); stroke: rgba(112, 214, 255, 0.35); }
+html.ui-frost .gauge-cap { color: #70D6FF !important; text-shadow: 0 0 10px rgba(112, 214, 255, 0.6); }
+html.ui-frost .gauge-goal {
+  background: linear-gradient(180deg, rgba(112, 214, 255, 0.15) 0%, rgba(8, 24, 48, 0.85) 100%) !important;
+  border: 1px solid rgba(112, 214, 255, 0.6) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+}
+html.ui-frost .gauge-goal b { color: #70D6FF !important; font-size: 13.5px !important; }
 
 /* �検 繧ｲ繝ｼ繧ｸ騾ｲ謐励い繝ｼ繧ｯ & 繝医Λ繝�け & 蜈臥せ (.gauge-val, .gauge-trk, .gauge-dot) 縺ｮ繝��繝槫挨螳悟�豺ｱ蛹� */
 html.ui-aurora .gauge .gauge-trk { stroke: rgba(0, 223, 216, 0.15); stroke-width: 10; }
