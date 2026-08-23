@@ -243,7 +243,7 @@ async function captureAll(iterName = 'iter1', state = 'default', isCollapsed = f
   await cdpSend(ws, 'Page.enable', {}, msgId++);
   await cdpSend(ws, 'DOM.enable', {}, msgId++);
 
-  const themes = ['ui-aurora', 'ui-brass', 'ui-cyber', 'ui-liquid'];
+  const themes = ['ui-aurora', 'ui-brass', 'ui-cyber', 'ui-liquid', 'ui-kintsugi', 'ui-celestial', 'ui-abyss', 'ui-frost'];
   const captured = {};
 
   const viewports = [

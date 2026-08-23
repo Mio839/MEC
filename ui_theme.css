@@ -52,14 +52,14 @@ html.ui-aurora .card,
 html.ui-aurora .ssov-box,
 html.ui-aurora .exam-start-box,
 html.ui-aurora .modal-box {
-  background: rgba(14, 20, 38, 0.82) !important;
+  background: linear-gradient(135deg, rgba(20, 30, 58, 0.85) 0%, rgba(10, 16, 32, 0.88) 100%) !important;
   backdrop-filter: blur(28px) saturate(210%) !important;
   -webkit-backdrop-filter: blur(28px) saturate(210%) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.32) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.36) !important;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7),
-              0 0 45px rgba(0, 223, 216, 0.22),
-              inset 0 1.5px 1px rgba(255, 255, 255, 0.65),
-              inset 0 0 28px rgba(0, 223, 216, 0.1) !important;
+              0 0 45px rgba(0, 223, 216, 0.25),
+              inset 0 1.5px 1px rgba(255, 255, 255, 0.75),
+              inset 0 0 28px rgba(0, 223, 216, 0.12) !important;
   border-radius: 20px !important;
 }
 
@@ -76,10 +76,11 @@ html.ui-aurora .qc {
 }
 
 html.ui-aurora .qc:hover {
-  border-color: rgba(0, 229, 255, 0.55) !important;
-  box-shadow: 0 22px 52px rgba(0, 112, 243, 0.28),
-              inset 0 1px 0 rgba(255, 255, 255, 0.6),
-              inset 0 0 24px rgba(0, 223, 216, 0.12) !important;
+  border-color: rgba(0, 229, 255, 0.65) !important;
+  box-shadow: 0 22px 52px rgba(0, 112, 243, 0.32),
+              0 0 30px rgba(0, 223, 216, 0.35),
+              inset 0 1px 0 rgba(255, 255, 255, 0.7),
+              inset 0 0 24px rgba(0, 223, 216, 0.16) !important;
 }
 
 /* 🌟 カード上部: 虹色プリズム屈折フローライン */
@@ -88,6 +89,7 @@ html.ui-aurora .qc::before {
   background: linear-gradient(90deg, #7928CA, #0070F3, #00DFD8, #FF0080, #7928CA);
   background-size: 300% 100%;
   animation: auroraEdgeFlow 5s linear infinite;
+  box-shadow: 0 0 12px rgba(0, 223, 216, 0.6);
   pointer-events: none;
   opacity: 0.95;
   z-index: 2;
@@ -161,26 +163,26 @@ html.ui-aurora .qc .qh::after {
 /* 🌟 自己採点ボタン: クリスタルジェム・タクタイルボタン */
 html.ui-aurora .qc .mec-grade-btn,
 html.ui-aurora .qc .mec-flag-btn {
-  background: rgba(255, 255, 255, 0.12) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(0, 223, 216, 0.12) 100%) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.4) !important;
   color: #FFFFFF !important;
   border-radius: 10px !important;
   min-width: 44px !important;
+  min-height: 44px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   font-size: 15px !important;
   font-weight: 800 !important;
-  color: #FFF !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
-  transition: all .16s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.75) !important;
+  transition: transform .14s ease-out, box-shadow .14s ease-out, background .14s ease-out !important;
   cursor: pointer !important;
 }
 
 html.ui-aurora .qc .mec-grade-btn:hover {
-  background: rgba(0, 223, 216, 0.4) !important;
+  background: linear-gradient(135deg, rgba(0, 223, 216, 0.45) 0%, rgba(0, 112, 243, 0.4) 100%) !important;
   border-color: #00DFD8 !important;
-  box-shadow: 0 0 20px rgba(0, 223, 216, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 0 22px rgba(0, 223, 216, 0.75), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.9) !important;
   transform: translateY(-2px) scale(1.05) !important;
 }
 
@@ -584,14 +586,14 @@ html.ui-brass .card,
 html.ui-brass .ssov-box,
 html.ui-brass .exam-start-box,
 html.ui-brass .modal-box {
-  background: linear-gradient(180deg, rgba(28, 20, 12, 0.96) 0%, rgba(18, 12, 6, 0.98) 100%) !important;
+  background: linear-gradient(180deg, rgba(32, 22, 12, 0.97) 0%, rgba(16, 10, 5, 0.99) 100%) !important;
   backdrop-filter: blur(20px) !important;
-  border: 2px solid rgba(224, 194, 94, 0.85) !important;
-  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.9),
-              0 0 38px rgba(224, 194, 94, 0.2),
-              inset 0 0 32px rgba(224, 194, 94, 0.18),
-              inset 0 1.5px 0 rgba(255, 243, 196, 0.6),
-              inset 0 0 0 1px rgba(140, 109, 31, 0.7) !important;
+  border: 2px solid rgba(224, 194, 94, 0.9) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.95),
+              0 0 42px rgba(224, 194, 94, 0.25),
+              inset 0 0 36px rgba(224, 194, 94, 0.22),
+              inset 0 2px 0 rgba(255, 243, 196, 0.75),
+              inset 0 0 0 1px rgba(140, 109, 31, 0.85) !important;
   border-radius: 14px !important;
 }
 
@@ -608,10 +610,11 @@ html.ui-brass .qc {
 }
 
 html.ui-brass .qc:hover {
-  border-color: rgba(255, 215, 0, 0.95) !important;
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.9),
-              inset 0 0 32px rgba(224, 194, 94, 0.24),
-              inset 0 0 0 1px rgba(255, 215, 0, 0.6) !important;
+  border-color: rgba(255, 215, 0, 1) !important;
+  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.95),
+              0 0 25px rgba(224, 194, 94, 0.4),
+              inset 0 0 36px rgba(224, 194, 94, 0.3),
+              inset 0 0 0 1px rgba(255, 215, 0, 0.8) !important;
 }
 
 /* 🕰️ カード上部: 真鍮ゴールド象嵌ストライプ & 4隅リベット金具 */
@@ -619,13 +622,14 @@ html.ui-brass .qc::before {
   content: ''; position: absolute; inset: 0;
   border-top: 4px solid #E0C25E;
   background: 
-    radial-gradient(circle at 8px 8px, #FFF3C4 2px, #8C6D1F 4px, transparent 5px) left top / 16px 16px no-repeat,
-    radial-gradient(circle at 8px 8px, #FFF3C4 2px, #8C6D1F 4px, transparent 5px) right top / 16px 16px no-repeat,
-    radial-gradient(circle at 8px 8px, #FFF3C4 2px, #8C6D1F 4px, transparent 5px) left bottom / 16px 16px no-repeat,
-    radial-gradient(circle at 8px 8px, #FFF3C4 2px, #8C6D1F 4px, transparent 5px) right bottom / 16px 16px no-repeat;
+    radial-gradient(circle at 9px 9px, #FFF3C4 2.5px, #8C6D1F 5px, #3A2807 6px, transparent 7px) left top / 18px 18px no-repeat,
+    radial-gradient(circle at 9px 9px, #FFF3C4 2.5px, #8C6D1F 5px, #3A2807 6px, transparent 7px) right top / 18px 18px no-repeat,
+    radial-gradient(circle at 9px 9px, #FFF3C4 2.5px, #8C6D1F 5px, #3A2807 6px, transparent 7px) left bottom / 18px 18px no-repeat,
+    radial-gradient(circle at 9px 9px, #FFF3C4 2.5px, #8C6D1F 5px, #3A2807 6px, transparent 7px) right bottom / 18px 18px no-repeat;
   pointer-events: none;
-  opacity: 0.95;
+  opacity: 0.98;
   z-index: 2;
+  box-shadow: inset 0 2px 8px rgba(224, 194, 94, 0.4);
 }
 
 /* 🕰️ カード背景透かし: 精密時計のスケルトン歯車線画 */
@@ -1158,20 +1162,21 @@ html.ui-cyber .qc::before {
   border-top: 3px solid #00E5FF;
   border-bottom: 3px solid #00E5FF;
   background: 
-    linear-gradient(#00E5FF, #00E5FF) left top / 12px 3px no-repeat,
-    linear-gradient(#00E5FF, #00E5FF) right top / 12px 3px no-repeat,
-    linear-gradient(#00E5FF, #00E5FF) left bottom / 12px 3px no-repeat,
-    linear-gradient(#00E5FF, #00E5FF) right bottom / 12px 3px no-repeat;
-  opacity: 0.9;
+    linear-gradient(90deg, #00E5FF 3px, transparent 3px) left top / 16px 16px no-repeat,
+    linear-gradient(-90deg, #00E5FF 3px, transparent 3px) right top / 16px 16px no-repeat,
+    linear-gradient(90deg, #00E5FF 3px, transparent 3px) left bottom / 16px 16px no-repeat,
+    linear-gradient(-90deg, #00E5FF 3px, transparent 3px) right bottom / 16px 16px no-repeat;
+  box-shadow: inset 0 0 16px rgba(0, 229, 255, 0.28);
+  opacity: 0.95;
 }
 
 /* 🚀 カード背景のホログラム走査線 */
 html.ui-cyber .qc::after {
   content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
-  background: linear-gradient(180deg, transparent 0%, rgba(0, 229, 255, 0.06) 50%, transparent 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 229, 255, 0.08) 50%, transparent 100%);
   background-size: 100% 40px;
   animation: cyberScanline 3s linear infinite;
-  opacity: 0.65;
+  opacity: 0.7;
 }
 
 @keyframes cyberScanline {
@@ -1665,14 +1670,14 @@ html.ui-liquid .card,
 html.ui-liquid .ssov-box,
 html.ui-liquid .exam-start-box,
 html.ui-liquid .modal-box {
-  background: rgba(20, 7, 28, 0.9) !important;
+  background: linear-gradient(135deg, rgba(28, 10, 38, 0.92) 0%, rgba(14, 5, 20, 0.95) 100%) !important;
   backdrop-filter: blur(28px) saturate(220%) !important;
   -webkit-backdrop-filter: blur(28px) saturate(220%) !important;
-  border: 2px solid rgba(255, 0, 128, 0.75) !important;
-  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.8),
-              0 0 45px rgba(255, 0, 128, 0.32),
-              inset 0 0 32px rgba(121, 40, 202, 0.28),
-              inset 0 1px 0 rgba(255, 122, 0, 0.4) !important;
+  border: 2px solid rgba(255, 0, 128, 0.8) !important;
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.85),
+              0 0 48px rgba(255, 0, 128, 0.38),
+              inset 0 0 35px rgba(121, 40, 202, 0.32),
+              inset 0 1.5px 0 rgba(255, 122, 0, 0.5) !important;
   border-radius: 24px !important;
 }
 
@@ -1690,8 +1695,9 @@ html.ui-liquid .qc {
 
 html.ui-liquid .qc:hover {
   border-color: #FF007F !important;
-  box-shadow: 0 24px 60px rgba(255, 0, 128, 0.4),
-              inset 0 0 32px rgba(255, 122, 0, 0.28) !important;
+  box-shadow: 0 24px 60px rgba(255, 0, 128, 0.45),
+              0 0 30px rgba(255, 122, 0, 0.35),
+              inset 0 0 32px rgba(255, 122, 0, 0.32) !important;
   transform: translateY(-2px) !important;
 }
 
@@ -1701,6 +1707,7 @@ html.ui-liquid .qc::before {
   background: linear-gradient(90deg, #FF007F, #7928CA 30%, #FF7A00 65%, #FF007F);
   background-size: 300% 100%;
   animation: liquidEdgeFlow 4.5s linear infinite;
+  box-shadow: 0 0 14px rgba(255, 0, 128, 0.7);
   pointer-events: none;
   opacity: 0.95;
   z-index: 2;
@@ -2007,9 +2014,6 @@ html.ui-liquid .qc .eg {
   color: #FDF2F8 !important;
   padding: 16px 20px !important;
 }
-  line-height: 1.78 !important;
-  color: #FDF2F8 !important;
-}
 
 /* 🌸 問題画像: 蛍光流体有機的マウント */
 html.ui-liquid .qc .qimg {
@@ -2193,14 +2197,14 @@ html.ui-kintsugi .card,
 html.ui-kintsugi .ssov-box,
 html.ui-kintsugi .exam-start-box,
 html.ui-kintsugi .modal-box {
-  background: rgba(14, 14, 20, 0.88) !important;
+  background: linear-gradient(145deg, rgba(16, 16, 24, 0.94) 0%, rgba(10, 10, 15, 0.97) 100%) !important;
   backdrop-filter: blur(24px) !important;
   -webkit-backdrop-filter: blur(24px) !important;
-  border: 1.5px solid rgba(245, 208, 97, 0.35) !important;
-  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.8),
-              0 0 30px rgba(245, 208, 97, 0.12),
-              inset 0 1px 1px rgba(245, 208, 97, 0.5),
-              inset 0 0 20px rgba(245, 208, 97, 0.05) !important;
+  border: 1.5px solid rgba(245, 208, 97, 0.45) !important;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.9),
+              0 0 32px rgba(245, 208, 97, 0.16),
+              inset 0 1.5px 1px rgba(245, 208, 97, 0.6),
+              inset 0 0 24px rgba(245, 208, 97, 0.08) !important;
   border-radius: 16px !important;
 }
 
@@ -2217,10 +2221,10 @@ html.ui-kintsugi .qc {
 }
 
 html.ui-kintsugi .qc:hover {
-  border-color: rgba(245, 208, 97, 0.65) !important;
-  box-shadow: 0 22px 52px rgba(0, 0, 0, 0.85),
-              0 0 36px rgba(245, 208, 97, 0.22),
-              inset 0 1px 0 rgba(245, 208, 97, 0.7) !important;
+  border-color: rgba(245, 208, 97, 0.8) !important;
+  box-shadow: 0 22px 52px rgba(0, 0, 0, 0.95),
+              0 0 40px rgba(245, 208, 97, 0.28),
+              inset 0 1px 0 rgba(245, 208, 97, 0.8) !important;
 }
 
 /* 🌑 カード上部: 金継ぎクラックラインフロー */
@@ -2229,6 +2233,7 @@ html.ui-kintsugi .qc::before {
   background: linear-gradient(90deg, #1E2028, #F5D061, #D9383A, #D4AF37, #1E2028);
   background-size: 300% 100%;
   animation: kintsugiEdgeFlow 6s linear infinite;
+  box-shadow: 0 0 10px rgba(245, 208, 97, 0.5);
   pointer-events: none;
   opacity: 0.95;
   z-index: 2;
@@ -2313,25 +2318,26 @@ html.ui-kintsugi .qc .qh::after {
 /* 🌑 ボタン各種 */
 html.ui-kintsugi .qc .mec-grade-btn,
 html.ui-kintsugi .qc .mec-flag-btn {
-  background: rgba(245, 208, 97, 0.1) !important;
-  border: 1.5px solid rgba(245, 208, 97, 0.35) !important;
+  background: linear-gradient(135deg, rgba(245, 208, 97, 0.14) 0%, rgba(217, 56, 58, 0.08) 100%) !important;
+  border: 1.5px solid rgba(245, 208, 97, 0.45) !important;
   color: #FFF !important;
   border-radius: 9px !important;
   min-width: 44px !important;
+  min-height: 44px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   font-size: 15px !important;
   font-weight: 800 !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(245, 208, 97, 0.5) !important;
-  transition: all .16s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(245, 208, 97, 0.6) !important;
+  transition: transform .14s ease-out, box-shadow .14s ease-out, background .14s ease-out !important;
   cursor: pointer !important;
 }
 
 html.ui-kintsugi .qc .mec-grade-btn:hover {
-  background: rgba(245, 208, 97, 0.3) !important;
+  background: linear-gradient(135deg, rgba(245, 208, 97, 0.4) 0%, rgba(217, 56, 58, 0.3) 100%) !important;
   border-color: #F5D061 !important;
-  box-shadow: 0 0 18px rgba(245, 208, 97, 0.7), inset 0 1px 0 #FFF !important;
+  box-shadow: 0 0 22px rgba(245, 208, 97, 0.8), inset 0 1px 0 #FFF !important;
   transform: translateY(-2px) scale(1.05) !important;
 }
 
@@ -2441,11 +2447,33 @@ html.ui-kintsugi body.ch-exam-mode .qc.ch-exam-revealed .ch2.ng {
 
 /* 🌑 解答解説ボックス */
 html.ui-kintsugi .qc .ab {
-  background: linear-gradient(180deg, rgba(16, 16, 24, 0.95), rgba(10, 10, 15, 0.98)) !important;
-  border: 1.5px solid rgba(245, 208, 97, 0.45) !important;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(245, 208, 97, 0.4) !important;
+  background: linear-gradient(180deg, rgba(20, 20, 30, 0.96), rgba(10, 10, 16, 0.98)) !important;
+  border: 1.5px solid rgba(245, 208, 97, 0.55) !important;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(245, 208, 97, 0.5), inset 0 0 20px rgba(245, 208, 97, 0.08) !important;
   border-radius: 12px !important;
   padding: 16px 18px !important;
+}
+
+html.ui-kintsugi .qc .ab strong {
+  background: linear-gradient(135deg, #F5D061 0%, #D4AF37 50%, #8C6D1F 100%) !important;
+  padding: 4px 13px !important;
+  border-radius: 6px !important;
+  color: #0E0E14 !important;
+  font-weight: 900 !important;
+  text-shadow: none !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+}
+
+html.ui-kintsugi .qc .eg {
+  background: rgba(14, 14, 20, 0.94) !important;
+  border: 1.5px solid rgba(245, 208, 97, 0.3) !important;
+  border-left: 5px solid #F5D061 !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(16px) !important;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(245, 208, 97, 0.25) !important;
+  line-height: 1.82 !important;
+  color: #F5F0E6 !important;
+  padding: 16px 20px !important;
 }
 
 html.ui-kintsugi .qc .an {
@@ -2520,14 +2548,14 @@ html.ui-celestial .card,
 html.ui-celestial .ssov-box,
 html.ui-celestial .exam-start-box,
 html.ui-celestial .modal-box {
-  background: rgba(18, 14, 38, 0.85) !important;
+  background: linear-gradient(135deg, rgba(24, 18, 52, 0.92) 0%, rgba(12, 9, 28, 0.95) 100%) !important;
   backdrop-filter: blur(26px) !important;
   -webkit-backdrop-filter: blur(26px) !important;
-  border: 1.5px solid rgba(255, 209, 102, 0.38) !important;
-  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.75),
-              0 0 35px rgba(138, 43, 226, 0.22),
-              inset 0 1.5px 1px rgba(255, 209, 102, 0.5),
-              inset 0 0 24px rgba(138, 43, 226, 0.1) !important;
+  border: 1.5px solid rgba(255, 209, 102, 0.45) !important;
+  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.8),
+              0 0 38px rgba(138, 43, 226, 0.28),
+              inset 0 1.5px 1px rgba(255, 209, 102, 0.6),
+              inset 0 0 28px rgba(138, 43, 226, 0.15) !important;
   border-radius: 18px !important;
 }
 
@@ -2544,10 +2572,10 @@ html.ui-celestial .qc {
 }
 
 html.ui-celestial .qc:hover {
-  border-color: rgba(255, 209, 102, 0.7) !important;
-  box-shadow: 0 24px 56px rgba(138, 43, 226, 0.35),
-              0 0 38px rgba(255, 209, 102, 0.25),
-              inset 0 1px 0 rgba(255, 209, 102, 0.7) !important;
+  border-color: rgba(255, 209, 102, 0.85) !important;
+  box-shadow: 0 24px 56px rgba(138, 43, 226, 0.4),
+              0 0 40px rgba(255, 209, 102, 0.3),
+              inset 0 1px 0 rgba(255, 209, 102, 0.8) !important;
 }
 
 /* 🌌 カード上部: 星座結線フローライン */
@@ -2556,6 +2584,7 @@ html.ui-celestial .qc::before {
   background: linear-gradient(90deg, #8A2BE2, #FFD166, #48CAE4, #9D4EDD, #8A2BE2);
   background-size: 300% 100%;
   animation: celestialEdgeFlow 5.5s linear infinite;
+  box-shadow: 0 0 12px rgba(255, 209, 102, 0.55);
   pointer-events: none;
   opacity: 0.95;
   z-index: 2;
@@ -2641,25 +2670,26 @@ html.ui-celestial .qc .qh::after {
 /* 🌌 ボタン各種 */
 html.ui-celestial .qc .mec-grade-btn,
 html.ui-celestial .qc .mec-flag-btn {
-  background: rgba(138, 43, 226, 0.15) !important;
-  border: 1.5px solid rgba(255, 209, 102, 0.35) !important;
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(255, 209, 102, 0.12) 100%) !important;
+  border: 1.5px solid rgba(255, 209, 102, 0.45) !important;
   color: #FFF !important;
   border-radius: 10px !important;
   min-width: 44px !important;
+  min-height: 44px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   font-size: 15px !important;
   font-weight: 800 !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 209, 102, 0.6) !important;
-  transition: all .16s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 209, 102, 0.7) !important;
+  transition: transform .14s ease-out, box-shadow .14s ease-out, background .14s ease-out !important;
   cursor: pointer !important;
 }
 
 html.ui-celestial .qc .mec-grade-btn:hover {
-  background: rgba(138, 43, 226, 0.4) !important;
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.45) 0%, rgba(255, 209, 102, 0.35) 100%) !important;
   border-color: #FFD166 !important;
-  box-shadow: 0 0 20px rgba(255, 209, 102, 0.7), inset 0 1px 0 #FFF !important;
+  box-shadow: 0 0 22px rgba(255, 209, 102, 0.75), inset 0 1px 0 #FFF !important;
   transform: translateY(-2px) scale(1.05) !important;
 }
 
@@ -2769,11 +2799,34 @@ html.ui-celestial body.ch-exam-mode .qc.ch-exam-revealed .ch2.ng {
 
 /* 🌌 解答解説ボックス */
 html.ui-celestial .qc .ab {
-  background: rgba(16, 12, 34, 0.94) !important;
-  border: 1.5px solid rgba(255, 209, 102, 0.4) !important;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.65), 0 0 22px rgba(138, 43, 226, 0.2) !important;
+  background: linear-gradient(135deg, rgba(24, 18, 52, 0.95) 0%, rgba(12, 8, 28, 0.98) 100%) !important;
+  border: 1.5px solid rgba(255, 209, 102, 0.55) !important;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75), 0 0 28px rgba(138, 43, 226, 0.28), inset 0 1px 0 rgba(255, 209, 102, 0.5) !important;
   border-radius: 14px !important;
   padding: 16px 18px !important;
+}
+
+html.ui-celestial .qc .ab strong {
+  background: linear-gradient(135deg, #FFD166 0%, #8A2BE2 70%, #48CAE4 100%) !important;
+  padding: 4px 13px !important;
+  border-radius: 6px !important;
+  border: 1.5px solid #FFF3C4 !important;
+  color: #0E0A20 !important;
+  font-weight: 900 !important;
+  text-shadow: none !important;
+  box-shadow: 0 0 14px rgba(255, 209, 102, 0.6) !important;
+}
+
+html.ui-celestial .qc .eg {
+  background: rgba(16, 12, 34, 0.94) !important;
+  border: 1.5px solid rgba(255, 209, 102, 0.3) !important;
+  border-left: 5px solid #FFD166 !important;
+  border-radius: 14px !important;
+  backdrop-filter: blur(16px) !important;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 209, 102, 0.25) !important;
+  line-height: 1.82 !important;
+  color: #FAF5FF !important;
+  padding: 16px 20px !important;
 }
 
 html.ui-celestial .qc .an {
@@ -2848,14 +2901,14 @@ html.ui-abyss .card,
 html.ui-abyss .ssov-box,
 html.ui-abyss .exam-start-box,
 html.ui-abyss .modal-box {
-  background: rgba(5, 16, 32, 0.86) !important;
+  background: linear-gradient(135deg, rgba(8, 24, 46, 0.92) 0%, rgba(3, 11, 24, 0.96) 100%) !important;
   backdrop-filter: blur(28px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
-  border: 1.5px solid rgba(0, 255, 163, 0.32) !important;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8),
-              0 0 40px rgba(0, 255, 163, 0.18),
-              inset 0 1px 1px rgba(0, 255, 163, 0.5),
-              inset 0 0 24px rgba(0, 180, 216, 0.1) !important;
+  border: 1.5px solid rgba(0, 255, 163, 0.42) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85),
+              0 0 42px rgba(0, 255, 163, 0.25),
+              inset 0 1.5px 1px rgba(0, 255, 163, 0.6),
+              inset 0 0 28px rgba(0, 180, 216, 0.15) !important;
   border-radius: 20px !important;
 }
 
@@ -2872,10 +2925,10 @@ html.ui-abyss .qc {
 }
 
 html.ui-abyss .qc:hover {
-  border-color: rgba(0, 255, 163, 0.65) !important;
-  box-shadow: 0 24px 56px rgba(0, 180, 216, 0.35),
-              0 0 40px rgba(0, 255, 163, 0.28),
-              inset 0 1px 0 rgba(0, 255, 163, 0.7) !important;
+  border-color: rgba(0, 255, 163, 0.8) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9),
+              0 0 45px rgba(0, 255, 163, 0.35),
+              inset 0 1px 0 rgba(0, 255, 163, 0.8) !important;
 }
 
 /* 🌊 カード上部: 深海波光ウェーブライン */
@@ -2884,6 +2937,7 @@ html.ui-abyss .qc::before {
   background: linear-gradient(90deg, #030914, #00FFA3, #00B4D8, #64FFDA, #030914);
   background-size: 300% 100%;
   animation: abyssEdgeFlow 6s ease-in-out infinite;
+  box-shadow: 0 0 12px rgba(0, 255, 163, 0.6);
   pointer-events: none;
   opacity: 0.95;
   z-index: 2;
@@ -2968,25 +3022,26 @@ html.ui-abyss .qc .qh::after {
 /* 🌊 ボタン各種 */
 html.ui-abyss .qc .mec-grade-btn,
 html.ui-abyss .qc .mec-flag-btn {
-  background: rgba(0, 255, 163, 0.12) !important;
-  border: 1.5px solid rgba(0, 255, 163, 0.35) !important;
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.16) 0%, rgba(0, 180, 216, 0.12) 100%) !important;
+  border: 1.5px solid rgba(0, 255, 163, 0.45) !important;
   color: #FFF !important;
   border-radius: 10px !important;
   min-width: 44px !important;
+  min-height: 44px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   font-size: 15px !important;
   font-weight: 800 !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(0, 255, 163, 0.6) !important;
-  transition: all .16s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(0, 255, 163, 0.7) !important;
+  transition: transform .14s ease-out, box-shadow .14s ease-out, background .14s ease-out !important;
   cursor: pointer !important;
 }
 
 html.ui-abyss .qc .mec-grade-btn:hover {
-  background: rgba(0, 255, 163, 0.35) !important;
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.4) 0%, rgba(0, 180, 216, 0.35) 100%) !important;
   border-color: #00FFA3 !important;
-  box-shadow: 0 0 20px rgba(0, 255, 163, 0.7), inset 0 1px 0 #FFF !important;
+  box-shadow: 0 0 22px rgba(0, 255, 163, 0.8), inset 0 1px 0 #FFF !important;
   transform: translateY(-2px) scale(1.05) !important;
 }
 
@@ -3096,11 +3151,34 @@ html.ui-abyss body.ch-exam-mode .qc.ch-exam-revealed .ch2.ng {
 
 /* 🌊 解答解説ボックス */
 html.ui-abyss .qc .ab {
-  background: rgba(4, 18, 36, 0.94) !important;
-  border: 1.5px solid rgba(0, 255, 163, 0.4) !important;
-  box-shadow: 0 14px 45px rgba(0, 0, 0, 0.7), 0 0 24px rgba(0, 255, 163, 0.25) !important;
+  background: linear-gradient(135deg, rgba(6, 24, 46, 0.95) 0%, rgba(2, 12, 26, 0.98) 100%) !important;
+  border: 1.5px solid rgba(0, 255, 163, 0.55) !important;
+  box-shadow: 0 14px 45px rgba(0, 0, 0, 0.8), 0 0 28px rgba(0, 255, 163, 0.3), inset 0 1px 0 rgba(0, 255, 163, 0.5) !important;
   border-radius: 14px !important;
   padding: 16px 18px !important;
+}
+
+html.ui-abyss .qc .ab strong {
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.35), rgba(0, 180, 216, 0.35)) !important;
+  padding: 4px 13px !important;
+  border-radius: 6px !important;
+  border: 1.5px solid #00FFA3 !important;
+  color: #00FFA3 !important;
+  font-weight: 800 !important;
+  text-shadow: 0 0 12px rgba(0, 255, 163, 1) !important;
+  box-shadow: 0 0 16px rgba(0, 255, 163, 0.4) !important;
+}
+
+html.ui-abyss .qc .eg {
+  background: rgba(3, 14, 28, 0.94) !important;
+  border: 1.5px solid rgba(0, 255, 163, 0.3) !important;
+  border-left: 5px solid #00FFA3 !important;
+  border-radius: 14px !important;
+  backdrop-filter: blur(16px) !important;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(0, 255, 163, 0.25) !important;
+  line-height: 1.82 !important;
+  color: #E2FBF5 !important;
+  padding: 16px 20px !important;
 }
 
 html.ui-abyss .qc .an {
@@ -3175,14 +3253,14 @@ html.ui-frost .card,
 html.ui-frost .ssov-box,
 html.ui-frost .exam-start-box,
 html.ui-frost .modal-box {
-  background: rgba(8, 22, 40, 0.84) !important;
+  background: linear-gradient(135deg, rgba(12, 32, 58, 0.9) 0%, rgba(6, 18, 34, 0.94) 100%) !important;
   backdrop-filter: blur(26px) saturate(190%) !important;
   -webkit-backdrop-filter: blur(26px) saturate(190%) !important;
-  border: 1.5px solid rgba(112, 214, 255, 0.45) !important;
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.75),
-              0 0 35px rgba(112, 214, 255, 0.25),
-              inset 0 1.5px 1px rgba(255, 255, 255, 0.75),
-              inset 0 0 24px rgba(112, 214, 255, 0.12) !important;
+  border: 1.5px solid rgba(112, 214, 255, 0.55) !important;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.8),
+              0 0 40px rgba(112, 214, 255, 0.3),
+              inset 0 1.5px 1px rgba(255, 255, 255, 0.85),
+              inset 0 0 26px rgba(112, 214, 255, 0.16) !important;
   border-radius: 14px !important;
 }
 
@@ -3199,10 +3277,10 @@ html.ui-frost .qc {
 }
 
 html.ui-frost .qc:hover {
-  border-color: rgba(255, 255, 255, 0.8) !important;
-  box-shadow: 0 24px 56px rgba(112, 214, 255, 0.4),
-              0 0 42px rgba(112, 214, 255, 0.35),
-              inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 24px 56px rgba(112, 214, 255, 0.45),
+              0 0 45px rgba(112, 214, 255, 0.4),
+              inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
 }
 
 /* ❄️ カード上部: 氷晶フロストライン */
@@ -3211,6 +3289,7 @@ html.ui-frost .qc::before {
   background: linear-gradient(90deg, #05111F, #70D6FF, #FFFFFF, #A0E7E5, #05111F);
   background-size: 300% 100%;
   animation: frostEdgeFlow 5s linear infinite;
+  box-shadow: 0 0 14px rgba(112, 214, 255, 0.65);
   pointer-events: none;
   opacity: 0.95;
   z-index: 2;
@@ -3295,25 +3374,26 @@ html.ui-frost .qc .qh::after {
 /* ❄️ ボタン各種 */
 html.ui-frost .qc .mec-grade-btn,
 html.ui-frost .qc .mec-flag-btn {
-  background: rgba(112, 214, 255, 0.14) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.35) !important;
+  background: linear-gradient(135deg, rgba(112, 214, 255, 0.18) 0%, rgba(255, 255, 255, 0.1) 100%) !important;
+  border: 1.5px solid rgba(112, 214, 255, 0.5) !important;
   color: #FFFFFF !important;
   border-radius: 8px !important;
   min-width: 44px !important;
+  min-height: 44px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   font-size: 15px !important;
   font-weight: 800 !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
-  transition: all .16s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.85) !important;
+  transition: transform .14s ease-out, box-shadow .14s ease-out, background .14s ease-out !important;
   cursor: pointer !important;
 }
 
 html.ui-frost .qc .mec-grade-btn:hover {
-  background: rgba(112, 214, 255, 0.4) !important;
+  background: linear-gradient(135deg, rgba(112, 214, 255, 0.45) 0%, rgba(0, 223, 216, 0.4) 100%) !important;
   border-color: #FFFFFF !important;
-  box-shadow: 0 0 20px rgba(112, 214, 255, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 0 22px rgba(112, 214, 255, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
   transform: translateY(-2px) scale(1.05) !important;
 }
 
@@ -3423,11 +3503,33 @@ html.ui-frost body.ch-exam-mode .qc.ch-exam-revealed .ch2.ng {
 
 /* ❄️ 解答解説ボックス */
 html.ui-frost .qc .ab {
-  background: rgba(6, 20, 36, 0.95) !important;
-  border: 1.5px solid rgba(112, 214, 255, 0.5) !important;
-  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.7), 0 0 25px rgba(112, 214, 255, 0.3) !important;
+  background: linear-gradient(135deg, rgba(8, 26, 48, 0.95) 0%, rgba(4, 14, 28, 0.98) 100%) !important;
+  border: 1.5px solid rgba(112, 214, 255, 0.65) !important;
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.8), 0 0 28px rgba(112, 214, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
   border-radius: 12px !important;
   padding: 16px 18px !important;
+}
+
+html.ui-frost .qc .ab strong {
+  background: linear-gradient(135deg, #70D6FF 0%, #00DFD8 100%) !important;
+  padding: 4px 12px !important;
+  border-radius: 8px !important;
+  color: #030D1A !important;
+  font-weight: 800 !important;
+  text-shadow: none !important;
+  box-shadow: 0 0 12px rgba(112, 214, 255, 0.6) !important;
+}
+
+html.ui-frost .qc .eg {
+  background: rgba(6, 18, 34, 0.92) !important;
+  border: 1.5px solid rgba(112, 214, 255, 0.3) !important;
+  border-left: 5px solid #70D6FF !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(16px) !important;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+  line-height: 1.8 !important;
+  color: #F0F9FF !important;
+  padding: 16px 20px !important;
 }
 
 html.ui-frost .qc .an {
@@ -4452,66 +4554,68 @@ html.ui-liquid .mfx .gm-mission.done .gm-mission-fill {
 
 
 /* ═══════════════════════════════════════════════════════════════════
-   全テーマ共通: WCAG AA 準拠の視認性・文字コントラスト調律
+   全テーマ共通: WCAG AA 準拠の視認性・文字コントラスト調律 (4.5:1以上)
    ═══════════════════════════════════════════════════════════════════ */
-html.ui-aurora .qc .qq, html.ui-aurora .qc .ch2 { color: #FFFFFF !important; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6); }
-html.ui-brass .qc .qq, html.ui-brass .qc .ch2 { color: #FFF8E7 !important; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8); }
+html.ui-aurora .qc .qq, html.ui-aurora .qc .ch2 { color: #FFFFFF !important; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7); }
+html.ui-brass .qc .qq, html.ui-brass .qc .ch2 { color: #FFFDF5 !important; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85); }
 html.ui-cyber .qc .qq, html.ui-cyber .qc .ch2 { color: #E6FFFF !important; text-shadow: 0 0 2px rgba(0, 229, 255, 0.4); }
 html.ui-liquid .qc .qq, html.ui-liquid .qc .ch2 { color: #FFFFFF !important; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7); }
+html.ui-kintsugi .qc .qq, html.ui-kintsugi .qc .ch2 { color: #FFFDF5 !important; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85); }
+html.ui-celestial .qc .qq, html.ui-celestial .qc .ch2 { color: #FAF5FF !important; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75); }
+html.ui-abyss .qc .qq, html.ui-abyss .qc .ch2 { color: #F0FDFA !important; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8); }
+html.ui-frost .qc .qq, html.ui-frost .qc .ch2 { color: #FFFFFF !important; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75); }
 
 @media (max-width: 600px) {
-  html.ui-aurora .qc, html.ui-liquid .qc {
+  html.ui-aurora .qc, html.ui-brass .qc, html.ui-cyber .qc, html.ui-liquid .qc,
+  html.ui-kintsugi .qc, html.ui-celestial .qc, html.ui-abyss .qc, html.ui-frost .qc {
     padding: 14px 14px 18px !important;
-    border-radius: 16px !important;
-  }
-  html.ui-aurora .qc .ch2, html.ui-liquid .qc .ch2 {
-    min-height: 44px !important;
-    padding: 10px 14px !important;
-    font-size: 15px !important;
-  }
-  html.ui-aurora .exam-self-btn, html.ui-liquid .exam-self-btn {
-    min-height: 44px !important;
-    min-width: 44px !important;
-  }
-}
-
-@media (max-width: 600px) {
-  html.ui-brass .qc, html.ui-cyber .qc {
-    padding: 14px 14px 18px !important;
-    border-radius: 8px !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
   }
-  html.ui-brass .qc .ch2, html.ui-cyber .qc .ch2 {
-    min-height: 44px !important;
-    padding: 10px 12px !important;
-    font-size: 15px !important;
+  html.ui-aurora .qc .qh, html.ui-brass .qc .qh, html.ui-cyber .qc .qh, html.ui-liquid .qc .qh,
+  html.ui-kintsugi .qc .qh, html.ui-celestial .qc .qh, html.ui-abyss .qc .qh, html.ui-frost .qc .qh {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    justify-content: space-between !important;
+    align-items: center !important;
   }
-  html.ui-brass .exam-self-btn, html.ui-cyber .exam-self-btn {
+  html.ui-aurora .qc .ch2, html.ui-brass .qc .ch2, html.ui-cyber .qc .ch2, html.ui-liquid .qc .ch2,
+  html.ui-kintsugi .qc .ch2, html.ui-celestial .qc .ch2, html.ui-abyss .qc .ch2, html.ui-frost .qc .ch2 {
+    min-height: 44px !important;
+    padding: 10px 14px !important;
+    font-size: 15px !important;
+    box-sizing: border-box !important;
+  }
+  html.ui-aurora .mec-grade-btn, html.ui-brass .mec-grade-btn, html.ui-cyber .mec-grade-btn, html.ui-liquid .mec-grade-btn,
+  html.ui-kintsugi .mec-grade-btn, html.ui-celestial .mec-grade-btn, html.ui-abyss .mec-grade-btn, html.ui-frost .mec-grade-btn {
     min-height: 44px !important;
     min-width: 44px !important;
+    box-sizing: border-box !important;
   }
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   全テーマ共通: GPU 合成最適化 & 描画負荷軽減
+   全テーマ共通: GPU 合成最適化 & 描画負荷軽減 & 高DPI鮮鋭化
    ═══════════════════════════════════════════════════════════════════ */
-.qc, .ch2, .exam-self-btn, .st-hdr {
+.qc, .ch2, .exam-self-btn, .mec-grade-btn, .mec-flag-btn, .mec-lap-btn, .mec-err-btn, .st-hdr {
   will-change: transform, opacity;
   transform: translateZ(0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
    全テーマ共通: タクタイルフィードバック & イージング調律
    ═══════════════════════════════════════════════════════════════════ */
-.ch2, .exam-self-btn, .st-filter-btn {
+.ch2, .exam-self-btn, .mec-grade-btn, .mec-flag-btn, .st-filter-btn {
   transition: transform .14s cubic-bezier(0.2, 0.9, 0.3, 1),
               background .14s ease-out,
               border-color .14s ease-out,
               box-shadow .14s ease-out !important;
 }
-.ch2:active, .exam-self-btn:active {
-  transform: scale(0.97) translateY(1px) !important;
+.ch2:active, .exam-self-btn:active, .mec-grade-btn:active, .mec-flag-btn:active {
+  transform: scale(0.96) translateY(1px) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
