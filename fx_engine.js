@@ -1580,7 +1580,77 @@
     dust({ count: o.dustCount || 16, colors: [iceBlue, crystalWhite] });
   }
 
+  /** 【4テーマ特化】オーロラ・グラス: 偏光オーロラカーテン ＆ 虹色屈折ダイヤモンドグリッター */
+  function auroraPrismSweep(cx, cy, o) {
+    o = o || {};
+    cx = cx == null ? W * .5 : cx;
+    cy = cy == null ? H * .5 : cy;
+    var cyan = '#00DFD8', purple = '#7928CA', blue = '#0070F3', neonPink = '#FF0080';
+    // 1. 虹色プリズムダイヤモンド閃光
+    diamondSparkle(cx, cy, { count: o.sparkleCount || 20, color: '#FFFFFF', additive: true });
+    diamondSparkle(cx, cy, { count: o.sparkleCount || 14, color: cyan, additive: true });
+    // 2. 偏光オーロラ同心円リングウェーブ
+    rings(cx, cy, { count: 3, maxR: o.maxR || 240, color: cyan, additive: true });
+    rings(cx, cy, { count: 2, maxR: (o.maxR || 240) * 0.85, color: purple, additive: true });
+    // 3. 星屑グリッター粒子
+    dust({ count: o.dustCount || 18, colors: [cyan, blue, purple, neonPink] });
+  }
+
+  /** 【4テーマ特化】真鍮クロックワーク: 時計機構歯車連鎖 ＆ ゴールド金粉スパーク噴水 */
+  function brassClockworkBurst(cx, cy, o) {
+    o = o || {};
+    cx = cx == null ? W * .5 : cx;
+    cy = cy == null ? H * .5 : cy;
+    var gold = '#FFD700', brass = '#E0C25E', amber = '#FFA040', warmWhite = '#FFF8DC';
+    // 1. 真鍮スケルトン歯車散乱
+    gears(cx, cy, { count: o.gearCount || 6, spread: o.spread || 220, w: 22 });
+    // 2. アストロラーベ幾何学リング
+    astrolabeRings(cx, cy, { maxR: o.maxR || 200, color: gold });
+    // 3. 金粉スパーク噴水
+    sparks(cx, cy, { count: o.sparkCount || 16, colors: [gold, brass, amber, warmWhite] });
+    // 4. 金属微粉ダスト
+    dust({ count: o.dustCount || 14, colors: [gold, brass] });
+  }
+
+  /** 【4テーマ特化】サイバー・ホログラム: 照準スコープターゲットロック ＆ ネオングリッドパルス */
+  function cyberTargetLock(cx, cy, o) {
+    o = o || {};
+    cx = cx == null ? W * .5 : cx;
+    cy = cy == null ? H * .5 : cy;
+    var neonGreen = '#00FF66', cyan = '#00E5FF', magenta = '#D500F9', matrixGreen = '#76FF03';
+    // 1. デジタルグリッチバー
+    glitchBars(cx, cy, { count: o.glitchCount || 10, color: cyan });
+    // 2. 電脳除細動ショックパルス
+    defibShock(cx, cy, { color: neonGreen });
+    // 3. 照準ロック・ダイヤモンド閃光
+    diamondSparkle(cx, cy, { count: o.sparkleCount || 16, color: neonGreen, additive: true });
+    // 4. データ破片ピクセルポップ
+    pixelPop(cx, cy, { count: o.pixelCount || 20, colors: [neonGreen, cyan, matrixGreen, magenta] });
+    // 5. 幾何学同心円ソニックウェーブ
+    sonicWave(cx, cy, { count: 2, maxR: o.maxR || 220, color: neonGreen, thickness: 2.2 });
+  }
+
+  /** 【4テーマ特化】幻想リキッド・アート: 蛍光インクスプラッシュ ＆ ジェル弾性バブルリップル */
+  function liquidBloomRipple(cx, cy, o) {
+    o = o || {};
+    cx = cx == null ? W * .5 : cx;
+    cy = cy == null ? H * .5 : cy;
+    var magenta = '#FF007F', purple = '#7928CA', neonOrange = '#FF7A00', cyan = '#00DFD8';
+    // 1. 蛍光インク拡散アイリスシャッター
+    irisShutter(cx, cy, { maxR: o.maxR || 230, color: magenta });
+    // 2. 弾性ジェルバブル浮遊
+    bubbles(cx, cy, { count: o.bubbleCount || 16, colors: [magenta, purple, neonOrange, cyan] });
+    // 3. 多重波紋干渉
+    rippleInterference(cx, cy, { maxR: (o.maxR || 230) * 0.9, color: magenta });
+    // 4. 水彩インク飛沫ダスト
+    dust({ count: o.dustCount || 16, colors: [magenta, neonOrange, purple] });
+  }
+
   window.MecFX = {
+    auroraPrismSweep: auroraPrismSweep,
+    brassClockworkBurst: brassClockworkBurst,
+    cyberTargetLock: cyberTargetLock,
+    liquidBloomRipple: liquidBloomRipple,
     burst: burst,
     confetti: confetti,
     glyphRain: glyphRain,

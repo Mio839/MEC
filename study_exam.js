@@ -1940,14 +1940,18 @@ function _afterCorrectFx(card, fxEl) {
     const cr = card.getBoundingClientRect();
     const cx = cr.left + cr.width / 2;
     const cy = cr.top + Math.min(cr.height / 2, 90);
-    if (curUi === 'aurora' && window.MecFX.diamondSparkle) {
-      window.MecFX.diamondSparkle(cx, cy, { count: 12, color: '#00DFD8' });
-    } else if (curUi === 'brass' && window.MecFX.sparks) {
-      window.MecFX.sparks(cx, cy, { count: 10, colors: ['#FFD700', '#FFA040', '#FFFFFF'] });
-    } else if (curUi === 'cyber' && window.MecFX.glitchBars) {
-      window.MecFX.glitchBars(cx, cy, { count: 6, color: '#00E5FF' });
-    } else if (curUi === 'liquid' && window.MecFX.bubbles) {
-      window.MecFX.bubbles(cx, cy, { count: 8, colors: ['#FF007F', '#7928CA'] });
+    if (curUi === 'aurora') {
+      if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(cx, cy, { maxR: 200, sparkleCount: 16 });
+      else if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 12, color: '#00DFD8' });
+    } else if (curUi === 'brass') {
+      if (window.MecFX.brassClockworkBurst) window.MecFX.brassClockworkBurst(cx, cy, { maxR: 210, gearCount: 6 });
+      else if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 10, colors: ['#FFD700', '#FFA040', '#FFFFFF'] });
+    } else if (curUi === 'cyber') {
+      if (window.MecFX.cyberTargetLock) window.MecFX.cyberTargetLock(cx, cy, { maxR: 220, glitchCount: 8 });
+      else if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 6, color: '#00E5FF' });
+    } else if (curUi === 'liquid') {
+      if (window.MecFX.liquidBloomRipple) window.MecFX.liquidBloomRipple(cx, cy, { maxR: 220, bubbleCount: 12 });
+      else if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 8, colors: ['#FF007F', '#7928CA'] });
     } else if (curUi === 'kintsugi') {
       if (window.MecFX.kintsugiCrack) window.MecFX.kintsugiCrack(cx, cy, { maxR: 200 });
       else if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 12, colors: ['#F5D061', '#D9383A', '#FFFFFF'] });

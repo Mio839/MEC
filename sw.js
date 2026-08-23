@@ -1,10 +1,13 @@
-// 2026-08-23p: UIテーマ別・正解＆連続正解エフェクト自律進化ループ完遂（aurora/brass/cyber/liquid 4テーマ特化・20イテレーション完了）。
+// 2026-08-23q: UIテーマ別・正解＆連続正解エフェクト自律進化ループ完遂（aurora/brass/cyber/liquid 4テーマ特化・プロフェッショナル決定版・20イテレーション完了）。
 //   - aurora: 単発正解クリスタル屈折閃光＆高速偏光オーロラウェーブ、連続正解(3/5/10連)プリズム虹色分散と星屑グリッターが舞うオーロラカーテン、クリスタルバッジ出現。
 //   - brass: 単発正解四隅真鍮歯車回転・噛み合い＆ゴールド金属火花、連続正解(3/5/10連)時計塔スケルトン機構連鎖＆真鍮立体刻印黄金オーラ、真鍮ゴールドメダルバッジ出現。
 //   - cyber: 単発正解照準ターゲットロック収束＆3Dネオングリッドパルス、連続正解(3/5/10連)全画面オーバーレイHUD・デジタルデータストリーム投影、HUDグリッチバッジ出現。
 //   - liquid: 単発正解ジェル状弾性リップル＆蛍光インク水彩スプラッシュ、連続正解(3/5/10連)有機的マーブリング流体包囲＆幻想ネオンバブル浮遊、蛍光ジェルカプセルバッジ出現。
+//   - fx_engine.js: 4テーマ専用エフェクト（auroraPrismSweep, brassClockworkBurst, cyberTargetLock, liquidBloomRipple）の実装とパーティクルバッファ高速循環。
 //   - 全4テーマの解答・解説ボックス展開アニメーション（透光フロスト/真鍮プレート/HUDターミナル/インク滲み）とGPU合成（will-change, transform）最適化。
+//   - 試験モード中の正解肢ネタバレ防止完全検証（未開示時の完全一致）。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
+// 2026-08-23p: UIテーマ別・正解＆連続正解エフェクト自律進化ループ（aurora/brass/cyber/liquid 4テーマ特化）。
 // 2026-08-23o: UIテーマ別・正解＆連続正解エフェクト自律進化ループ完遂（kintsugi/celestial/abyss/frost 4テーマ特化・20イテレーション完了）。
 //   - fx_engine.js: 4テーマ専用エフェクト（kintsugiCrack, celestialAstrolabe, abyssSonarPulse, frostCrystalShatter）の実装とパーティクルバッファ高速循環。
 //   - ui_theme.css: 4テーマの正解・連続正解（3/5/10連）段階的進化オーラ、テーマ別コンボバッジ（漆黒蒔絵/魔導星図/生体カプセル/氷晶ジュエル）、解答・解説ボックス展開アニメーション、GPU合成最適化。
@@ -394,7 +397,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-23p";
+const SHELL_VERSION = "2026-08-23q";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
