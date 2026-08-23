@@ -1,3 +1,8 @@
+// 2026-08-23t: UIテーマ別・正解＆連続正解エフェクト完全純化・テーマ別専用パーティクル直結（旧試験エフェクト混入を完全排除）。
+//   - study_exam.js / chapter_exam.js: _spawnStreakParticles, _spawnLightStreakFx, _spawnScatteredCelebration, _correctShockwave, _traceCardBorder, _spawnFloatingCombo を window.MecUITheme と完全連動。
+//   - 旧来の虹色紙吹雪や黄色リングの画面上書きを完全排除し、kintsugi(黄金・金粉), celestial(天球儀・星屑・マナ紫), abyss(深海ソナー・生体発光), frost(氷晶・ダイヤモンドダスト)のテーマ固有エフェクトのみを描画。
+//   - 正解カードへの .combo-streak-3/5/10 オーラ付与とテーマ別 .mec-combo-badge の動的注入・更新を確実に実装。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-23s: UIテーマ別・正解＆連続正解エフェクト自律進化ループ完遂（kintsugi/celestial/abyss/frost 4テーマ特化・プロフェッショナル決定版・20イテレーション完了）。
 //   - kintsugi: 単発金継ぎクラック・金粉吸着インプロージョン・継ぎ目修復グロー、連続正解(3/5/10連)墨絵円相と金箔和紋様立ち上り禅オーラ、蒔絵角丸印鑑バッジ出現。
 //   - celestial: 単発八芒星天球儀リング回転展開＆古代ルーン文字フラッシュ＆星座ノード接続ビーム、連続正解(3/5/10連)星屑降下グリッター＆満天星座共鳴・超魔導陣オーラ、天球儀魔導刻印バッジ出現。
@@ -405,7 +410,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-23s";
+const SHELL_VERSION = "2026-08-23t";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

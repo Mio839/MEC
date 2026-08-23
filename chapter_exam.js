@@ -713,6 +713,7 @@
       exam.correct++;
       exam.streak++;
       try {
+        ceApplyCardThemeComboFx(card, true, exam.streak);
         showStreak(exam.streak);
         var _ceTier = ceTier(exam.streak);
         if (fxEl) ceTriggerChoiceCorrectPop(fxEl);
@@ -752,6 +753,7 @@
       var _ceBroke = exam.streak;   // C1: 0 にする前に控える
       exam.streak = 0;
       try {
+        ceApplyCardThemeComboFx(card, false, 0);
         ceResetComboMeter();
         ceZoneStop(true);   // ゾーン崩壊
         // ⚠️ 誤答の演出は「選んだ肢」を掴む。正解肢（instant-correct）を渡すと位置が別物になる
@@ -1465,6 +1467,44 @@
     } catch (e) {}
   }
   // A5: 選ばなかった肢が一段沈む。1.1秒で必ず戻す
+  /* UIテーマ固有の正解・連続正解（コンボ）カード装飾＆バッジ同期（2026-08-23） */
+  function ceApplyCardThemeComboFx(card, isCorrect, streak) {
+    if (!card) return;
+    if (isCorrect) {
+      card.classList.add('fx-correct');
+      card.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10');
+      if (streak >= 10) card.classList.add('combo-streak-10');
+      else if (streak >= 5) card.classList.add('combo-streak-5');
+      else if (streak >= 3) card.classList.add('combo-streak-3');
+
+      card.querySelectorAll('.ch2.ok, .ch2.ch-exam-selected, .ch2.ch-exam-instant-correct').forEach(function (c) {
+        if (isChoiceOk(c)) c.classList.add('correct');
+      });
+
+      if (streak >= 2) {
+        var badge = card.querySelector('.mec-combo-badge');
+        if (!badge) {
+          badge = document.createElement('div');
+          badge.className = 'mec-combo-badge';
+          badge.innerHTML = '<span class="combo-count">' + streak + '</span><span class="combo-label">COMBO</span>';
+          card.appendChild(badge);
+        } else {
+          var cntEl = badge.querySelector('.combo-count');
+          if (cntEl) cntEl.textContent = streak;
+          badge.style.animation = 'none';
+          void badge.offsetHeight;
+          badge.style.animation = '';
+        }
+      }
+    } else {
+      document.querySelectorAll('.qc').forEach(function (c) {
+        c.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10');
+        var b = c.querySelector('.mec-combo-badge');
+        if (b) b.remove();
+      });
+    }
+  }
+
   function ceSinkOthers(card) {
     if (!card || ceReduced()) return;
     card.classList.add('ce-sink');
@@ -1610,12 +1650,25 @@
     if (!window.MecFX || !el || !el.getBoundingClientRect) return;
     var r = el.getBoundingClientRect();
     if (!r.width) return;
+    var curUi = window.MecUITheme ? MecUITheme.get() : null;
     var theme = ceTheme();
     var t = Math.max(1, Math.min(ceTier(exam.streak) || 1, 7));
+
+    var ringColor = theme.ringColor(t);
+    var isAdditive = exam.effectSet !== 'ink';
+    if (curUi === 'kintsugi') { ringColor = '#F5D061'; isAdditive = true; }
+    else if (curUi === 'celestial') { ringColor = '#FFD166'; isAdditive = true; }
+    else if (curUi === 'abyss') { ringColor = '#00FFA3'; isAdditive = true; }
+    else if (curUi === 'frost') { ringColor = '#70D6FF'; isAdditive = true; }
+    else if (curUi === 'aurora') { ringColor = '#00DFD8'; isAdditive = true; }
+    else if (curUi === 'brass') { ringColor = '#FFD700'; isAdditive = false; }
+    else if (curUi === 'cyber') { ringColor = '#00FF66'; isAdditive = true; }
+    else if (curUi === 'liquid') { ringColor = '#FF007F'; isAdditive = true; }
+
     try {
       window.MecFX.rings(r.left + r.width / 2, r.top + r.height / 2, {
-        count: t >= 4 ? 3 : 2, color: theme.ringColor(t), thickness: t >= 4 ? 3 : 2,
-        maxR: 150 + t * 45, additive: exam.effectSet !== 'ink', stagger: .075
+        count: t >= 4 ? 3 : 2, color: ringColor, thickness: t >= 4 ? 3 : 2,
+        maxR: 150 + t * 45, additive: isAdditive, stagger: .075
       });
     } catch (e) {}
   }
@@ -1623,9 +1676,19 @@
     if (!card || ceReduced()) return;
     var r = card.getBoundingClientRect();
     if (!r.width || !r.height) return;
-    { var _tb = ceBand(); if (r.bottom < _tb.top + 4 || r.top > _tb.vBottom) return; } // カードが可視域外
+    { var _tb = ceBand(); if (r.bottom < _tb.top + 4 || r.top > _tb.vBottom) return; }
+    var curUi = window.MecUITheme ? MecUITheme.get() : null;
     var theme = ceTheme();
     var col = (theme.comboColors && theme.comboColors[3]) || '#FFD700';
+    if (curUi === 'kintsugi') col = '#F5D061';
+    else if (curUi === 'celestial') col = '#FFD166';
+    else if (curUi === 'abyss') col = '#00FFA3';
+    else if (curUi === 'frost') col = '#70D6FF';
+    else if (curUi === 'aurora') col = '#00DFD8';
+    else if (curUi === 'brass') col = '#FFD700';
+    else if (curUi === 'cyber') col = '#00FF66';
+    else if (curUi === 'liquid') col = '#FF007F';
+
     var NS = 'http://www.w3.org/2000/svg';
     var svg = document.createElementNS(NS, 'svg');
     svg.setAttribute('class', 'ce-trace-svg');
@@ -1739,6 +1802,32 @@
   function ceLightStreakFx(tier) {
     if (!window.MecFX) return;
     var _b = ceBand(), cx = _b.cx, cy = _b.cy;
+    var curUi = window.MecUITheme ? MecUITheme.get() : null;
+    if (curUi === 'kintsugi') {
+      if (window.MecFX.dust) window.MecFX.dust({ count: 14 + tier * 4, colors: ['#F5D061', '#D4AF37', '#FFFFFF'] });
+      return;
+    } else if (curUi === 'celestial') {
+      if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 12 + tier * 3, color: '#FFD166' });
+      return;
+    } else if (curUi === 'abyss') {
+      if (window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 1, color: '#00FFA3', thickness: 2, maxR: 120 + tier * 15, additive: true });
+      return;
+    } else if (curUi === 'frost') {
+      if (window.MecFX.dust) window.MecFX.dust({ count: 14 + tier * 4, colors: ['#70D6FF', '#FFFFFF'] });
+      return;
+    } else if (curUi === 'aurora') {
+      if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 12 + tier * 3, color: '#00DFD8' });
+      return;
+    } else if (curUi === 'brass') {
+      if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 10 + tier * 3, colors: ['#FFD700', '#FFA040'] });
+      return;
+    } else if (curUi === 'cyber') {
+      if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 5 + tier * 2, color: '#00FF66' });
+      return;
+    } else if (curUi === 'liquid') {
+      if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 8 + tier * 2, colors: ['#FF007F', '#7928CA'] });
+      return;
+    }
     var counts = [0, 14, 22, 30, 40, 52, 64, 80];
     spawnBurst(cx, cy, tier, counts[ceTIdx(tier, counts)] || 14);
     try {
@@ -1999,20 +2088,60 @@
   function spawnParticles(tier) {
     var toast = document.getElementById('chExamStreakToast');
     if (!toast) return;
-    // パーティクル原点はトースト(画面最上部)でなく可視帯の中心に（上端だと粒子が画面外へ抜けて
-    // 半分しか見えない。study_exam.js と同方針・2026-07-08／帯へ移したのは 2026-08-04）。
     var _pb = ceBand();
     var cx = _pb.cx;
     var cy = _pb.cy;
-    var theme = ceTheme();
+    var curUi = window.MecUITheme ? MecUITheme.get() : null;
 
+    // ── UIテーマ完全連動型コンボパーティクル（2026-08-23） ──
+    if (curUi && window.MecFX) {
+      if (curUi === 'kintsugi') {
+        if (window.MecFX.kintsugiCrack) window.MecFX.kintsugiCrack(cx, cy, { maxR: 200 + tier * 25, branches: Math.min(10, 4 + tier) });
+        if (window.MecFX.dust) window.MecFX.dust({ count: 20 + tier * 12, colors: ['#F5D061', '#D4AF37', '#FFFFFF', '#D9383A'] });
+        if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#F5D061', thickness: 3, maxR: 220 + tier * 20, additive: true });
+        return;
+      } else if (curUi === 'celestial') {
+        if (window.MecFX.celestialAstrolabe) window.MecFX.celestialAstrolabe(cx, cy, { maxR: 210 + tier * 25, sparkleCount: 16 + tier * 5 });
+        if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 16 + tier * 6, color: '#FFD166' });
+        if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#8A2BE2', thickness: 3, maxR: 240 + tier * 20, additive: true });
+        return;
+      } else if (curUi === 'abyss') {
+        if (window.MecFX.abyssSonarPulse) window.MecFX.abyssSonarPulse(cx, cy, { maxR: 210 + tier * 25, marineSnowCount: 18 + tier * 6 });
+        if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 14 + tier * 4, colors: ['#00FFA3', '#00B4D8', '#64FFDA'] });
+        if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 3, color: '#00FFA3', thickness: 3, maxR: 230 + tier * 20, additive: true });
+        return;
+      } else if (curUi === 'frost') {
+        if (window.MecFX.frostCrystalShatter) window.MecFX.frostCrystalShatter(cx, cy, { maxR: 190 + tier * 22, dendriteCount: Math.min(10, 4 + tier) });
+        if (window.MecFX.dust) window.MecFX.dust({ count: 20 + tier * 12, colors: ['#70D6FF', '#FFFFFF', '#A0E7E5'] });
+        if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#70D6FF', thickness: 3, maxR: 220 + tier * 20, additive: true });
+        return;
+      } else if (curUi === 'aurora') {
+        if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(cx, cy, { maxR: 210 + tier * 25, sparkleCount: 18 + tier * 4 });
+        if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 16 + tier * 4, color: '#00DFD8' });
+        return;
+      } else if (curUi === 'brass') {
+        if (window.MecFX.brassClockworkBurst) window.MecFX.brassClockworkBurst(cx, cy, { maxR: 200 + tier * 25, gearCount: Math.min(12, 4 + tier) });
+        if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 16 + tier * 5, colors: ['#FFD700', '#FFA040', '#FFFFFF'] });
+        return;
+      } else if (curUi === 'cyber') {
+        if (window.MecFX.cyberTargetLock) window.MecFX.cyberTargetLock(cx, cy, { maxR: 210 + tier * 25, glitchCount: 8 + tier * 3 });
+        if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 6 + tier * 2, color: '#00FF66' });
+        return;
+      } else if (curUi === 'liquid') {
+        if (window.MecFX.liquidBloomRipple) window.MecFX.liquidBloomRipple(cx, cy, { maxR: 210 + tier * 25, bubbleCount: 14 + tier * 4 });
+        if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 14 + tier * 4, colors: ['#FF007F', '#7928CA', '#00DFD8'] });
+        return;
+      }
+    }
+
+    var theme = ceTheme();
     spawnRings(cx, cy, tier);
     spawnLightning(cx, cy, tier);
 
     var burstCounts = [0, 0, 50, 140, 340, 580, 900, 1300];
     spawnBurst(cx, cy, tier, burstCounts[ceTIdx(tier, burstCounts)] || 50);
 
-    // 中tier(2-3)は最頻出。時間差の二段バースト＋追撃リングで密度を出す（study と同方針）。
+    // 中tier(2-3)は最頻出。時間差の二段バースト＋追撃リングで密度を出す
     if (tier === 2 || tier === 3) {
       setTimeout(function(){ spawnBurst(cx, cy, tier, tier === 3 ? 80 : 36); }, tier === 3 ? 150 : 130);
       setTimeout(function(){ spawnRings(cx, cy, tier); }, tier === 3 ? 140 : 120);
@@ -2483,19 +2612,51 @@
   }
 
   function ceSpawnFloatingCombo(card, n, tier) {
+    var curUi = window.MecUITheme ? MecUITheme.get() : null;
     var theme = ceTheme();
     var el = document.createElement('div');
-    var cols = theme.comboColors;
-    var sz = 16 + Math.min(tier,7) * 4;
-    el.textContent = theme.comboLabel(n);
-    // カード相対だと見切れ・高さバラつきが出るため可視帯の中心に統一（study_exam.jsと同方針）。
+    var sz = 18 + Math.min(tier, 7) * 4;
+    var col = '#FFD700';
+    var font = 'system-ui, -apple-system, sans-serif';
+    var txt = n + ' COMBO!';
+    if (curUi === 'kintsugi') {
+      col = '#F5D061';
+      txt = n + ' 連続正解 (禅)';
+    } else if (curUi === 'celestial') {
+      col = '#FFD166';
+      txt = '✦ ' + n + ' COMBO ✦';
+    } else if (curUi === 'abyss') {
+      col = '#00FFA3';
+      txt = 'DEPTH ' + (n * 100) + 'm';
+    } else if (curUi === 'frost') {
+      col = '#70D6FF';
+      txt = '❄ ' + n + ' COMBO';
+    } else if (curUi === 'cyber') {
+      col = '#00FF66';
+      font = 'Consolas, monospace';
+      txt = '[SYNC x' + n + ']';
+    } else if (curUi === 'brass') {
+      col = '#FFD700';
+      txt = '⚙ ' + n + ' COMBO';
+    } else if (curUi === 'liquid') {
+      col = '#FF007F';
+      txt = '★ ' + n + ' SPLASH';
+    } else if (curUi === 'aurora') {
+      col = '#00DFD8';
+      txt = '✧ ' + n + ' COMBO';
+    } else {
+      var cols = theme.comboColors;
+      col = cols[ceTIdx(tier, cols)];
+      txt = theme.comboLabel(n);
+    }
+    el.textContent = txt;
     var _cb = ceBand(), cx = _cb.cx, cy = _cb.cy;
-    el.style.cssText = 'position:fixed;left:'+cx+'px;top:'+cy+'px;font-weight:900;font-size:'+sz+'px;color:'+cols[ceTIdx(tier, cols)]+';pointer-events:none;z-index:9200;text-shadow:0 2px 12px rgba(0,0,0,.7);transform:translateX(-50%);white-space:nowrap;';
+    el.style.cssText = 'position:fixed;left:'+cx+'px;top:'+cy+'px;font-family:'+font+';font-weight:900;font-size:'+sz+'px;color:'+col+';pointer-events:none;z-index:9200;text-shadow:0 2px 14px rgba(0,0,0,.85), 0 0 20px '+col+';transform:translateX(-50%);white-space:nowrap;';
     document.body.appendChild(el);
     el.animate([
       {opacity:1,transform:'translateX(-50%) translateY(0) scale(1)'},
-      {opacity:0,transform:'translateX(-50%) translateY(-70px) scale(1.3)'}
-    ], {duration:900, easing:'cubic-bezier(.22,.68,0,1.2)', fill:'forwards'}).onfinish = function(){ el.remove(); };
+      {opacity:0,transform:'translateX(-50%) translateY(-70px) scale(1.25)'}
+    ], {duration:850, easing:'cubic-bezier(.22,.68,0,1.2)', fill:'forwards'}).onfinish = function(){ el.remove(); };
   }
 
   function ceTriggerBgBreath(tier) {

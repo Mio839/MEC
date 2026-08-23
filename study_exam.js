@@ -870,6 +870,7 @@ function revealAnswer(card) {
       examBySubj[sid].correct++;
       try {
         _playCorrectSound();
+        _applyCardThemeComboFx(card, true, examStreak);
         _showStreakEffect(examStreak);
         const _t = _examTier(examStreak);
         card.querySelectorAll('.ch2.ok').forEach(c => _triggerChoiceCorrectPop(c));
@@ -889,6 +890,7 @@ function revealAnswer(card) {
       const _broke = examStreak;
       examStreak = 0;
       try {
+        _applyCardThemeComboFx(card, false, 0);
         _resetComboMeter();
         _clearDarkFx();
         _zoneStop(true);   // B5: ゾーン崩壊（漂う粒子が一点に吸い込まれて消える）
@@ -936,6 +938,7 @@ function revealAnswer(card) {
     examBySubj[sid].correct++;
     try {
       _playCorrectSound();
+      _applyCardThemeComboFx(card, true, examStreak);
       _showStreakEffect(examStreak);
       const _t = _examTier(examStreak);
       _triggerChoiceCorrectPop(sel);
@@ -957,6 +960,7 @@ function revealAnswer(card) {
     const _broke = examStreak;   // C1: 崩落の規模は「途切れた時点の連続数」で決まる（0 にする前に控える）
     examStreak = 0;
     try {
+      _applyCardThemeComboFx(card, false, 0);
       _resetComboMeter();
       _clearDarkFx();
       _zoneStop(true);   // B5: ゾーン崩壊
@@ -1501,34 +1505,57 @@ function _triggerFastBonus(el, grade) {
   }
 }
 
-// A2: 正解した肢の位置から広がるショックウェーブ（単発正解でも必ず出る手応え）
+// A2: 正解した肢の位置から広がるショックウェーブ（UIテーマ連動）
 function _correctShockwave(el) {
   if (!window.MecFX || !el || !el.getBoundingClientRect) return;
   const r = el.getBoundingClientRect();
   if (!r.width) return;
+  const curUi = window.MecUITheme ? MecUITheme.get() : null;
   const theme = _examTheme();
   const t = Math.max(1, Math.min(_examTier(examStreak) || 1, 7));
   const [sx, sy] = _examClampFxXY(r.left + r.width / 2, r.top + r.height / 2);
+
+  let ringColor = theme.ringColor(t);
+  let isAdditive = examEffectSet !== 'ink';
+  if (curUi === 'kintsugi') { ringColor = '#F5D061'; isAdditive = true; }
+  else if (curUi === 'celestial') { ringColor = '#FFD166'; isAdditive = true; }
+  else if (curUi === 'abyss') { ringColor = '#00FFA3'; isAdditive = true; }
+  else if (curUi === 'frost') { ringColor = '#70D6FF'; isAdditive = true; }
+  else if (curUi === 'aurora') { ringColor = '#00DFD8'; isAdditive = true; }
+  else if (curUi === 'brass') { ringColor = '#FFD700'; isAdditive = false; }
+  else if (curUi === 'cyber') { ringColor = '#00FF66'; isAdditive = true; }
+  else if (curUi === 'liquid') { ringColor = '#FF007F'; isAdditive = true; }
+
   try {
     window.MecFX.rings(sx, sy, {
       count: t >= 4 ? 3 : 2,
-      color: theme.ringColor(t),
+      color: ringColor,
       thickness: t >= 4 ? 3 : 2,
       maxR: 150 + t * 45,
-      additive: examEffectSet !== 'ink',
+      additive: isAdditive,
       stagger: .075
     });
   } catch (e) {}
 }
 
-// A3: カード外周を光が一周するボーダートレース（SVGのstroke-dashoffsetアニメ）
+// A3: カード外周を光が一周するボーダートレース（UIテーマ連動）
 function _traceCardBorder(card) {
   if (!card || _fxOff()) return;
   const r = card.getBoundingClientRect();
   if (!r.width || !r.height) return;
-  { const b = _fxBand(); if (r.bottom < b.top + 4 || r.top > b.vBottom) return; } // カードが可視域外＝枠が上端等でズレる
+  { const b = _fxBand(); if (r.bottom < b.top + 4 || r.top > b.vBottom) return; }
+  const curUi = window.MecUITheme ? MecUITheme.get() : null;
   const theme = _examTheme();
-  const col = (theme.fx && theme.fx.hex) || (theme.comboColors && theme.comboColors[3]) || '#FFD700';
+  let col = (theme.fx && theme.fx.hex) || (theme.comboColors && theme.comboColors[3]) || '#FFD700';
+  if (curUi === 'kintsugi') col = '#F5D061';
+  else if (curUi === 'celestial') col = '#FFD166';
+  else if (curUi === 'abyss') col = '#00FFA3';
+  else if (curUi === 'frost') col = '#70D6FF';
+  else if (curUi === 'aurora') col = '#00DFD8';
+  else if (curUi === 'brass') col = '#FFD700';
+  else if (curUi === 'cyber') col = '#00FF66';
+  else if (curUi === 'liquid') col = '#FF007F';
+
   const NS = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(NS, 'svg');
   svg.setAttribute('class', 'exam-trace-svg');
@@ -1870,12 +1897,45 @@ function _traceToAnswer(card, fxEl) {
   } catch (e) {}
 }
 
-/* A5(2026-08-14): 選ばなかった肢が一段沈み、正解肢だけが手前に残る。
-   一時的な強調なので、解説を読む段階では必ず元へ戻す。 */
-function _sinkOtherChoices(card) {
-  if (!card || _fxOff()) return;
-  card.classList.add('exam-sink');
-  setTimeout(() => card.classList.remove('exam-sink'), 1100);
+/* UIテーマ固有の正解・連続正解（コンボ）カード装飾＆バッジ同期（2026-08-23） */
+function _applyCardThemeComboFx(card, isCorrect, streak) {
+  if (!card) return;
+  if (isCorrect) {
+    card.classList.add('fx-correct');
+    card.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10');
+    if (streak >= 10) card.classList.add('combo-streak-10');
+    else if (streak >= 5) card.classList.add('combo-streak-5');
+    else if (streak >= 3) card.classList.add('combo-streak-3');
+
+    // 正解選択肢に .correct クラス付与
+    card.querySelectorAll('.ch2.ok, .ch2.exam-selected').forEach(c => {
+      if (c.classList.contains('ok')) c.classList.add('correct');
+    });
+
+    // コンボバッジの生成または更新
+    if (streak >= 2) {
+      let badge = card.querySelector('.mec-combo-badge');
+      if (!badge) {
+        badge = document.createElement('div');
+        badge.className = 'mec-combo-badge';
+        badge.innerHTML = '<span class="combo-count">' + streak + '</span><span class="combo-label">COMBO</span>';
+        card.appendChild(badge);
+      } else {
+        const cntEl = badge.querySelector('.combo-count');
+        if (cntEl) cntEl.textContent = streak;
+        badge.style.animation = 'none';
+        void badge.offsetHeight;
+        badge.style.animation = '';
+      }
+    }
+  } else {
+    // 誤答時はコンボリセット
+    document.querySelectorAll('.qc').forEach(c => {
+      c.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10');
+      const b = c.querySelector('.mec-combo-badge');
+      if (b) b.remove();
+    });
+  }
 }
 
 /* ══ 正解／誤答の追加演出の合流点（2026-08-14）══
@@ -2600,10 +2660,36 @@ function _showStreakEffect(n) {
   _updateComboMeter(n);
 }
 
-// B4: 昇格しなかったフレーム用の軽量エフェクト
+// B4: 昇格しなかったフレーム用の軽量エフェクト（UIテーマ完全連動）
 function _spawnLightStreakFx(tier) {
   if (!window.MecFX) return;
   const { cx, cy } = _fxBand();
+  const curUi = window.MecUITheme ? MecUITheme.get() : null;
+  if (curUi === 'kintsugi') {
+    if (window.MecFX.dust) window.MecFX.dust({ count: 14 + tier * 4, colors: ['#F5D061', '#D4AF37', '#FFFFFF'] });
+    return;
+  } else if (curUi === 'celestial') {
+    if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 12 + tier * 3, color: '#FFD166' });
+    return;
+  } else if (curUi === 'abyss') {
+    if (window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 1, color: '#00FFA3', thickness: 2, maxR: 120 + tier * 15, additive: true });
+    return;
+  } else if (curUi === 'frost') {
+    if (window.MecFX.dust) window.MecFX.dust({ count: 14 + tier * 4, colors: ['#70D6FF', '#FFFFFF'] });
+    return;
+  } else if (curUi === 'aurora') {
+    if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 12 + tier * 3, color: '#00DFD8' });
+    return;
+  } else if (curUi === 'brass') {
+    if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 10 + tier * 3, colors: ['#FFD700', '#FFA040'] });
+    return;
+  } else if (curUi === 'cyber') {
+    if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 5 + tier * 2, color: '#00FF66' });
+    return;
+  } else if (curUi === 'liquid') {
+    if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 8 + tier * 2, colors: ['#FF007F', '#7928CA'] });
+    return;
+  }
   const counts = [0, 14, 22, 30, 40, 52, 64, 80];
   _spawnBurst(cx, cy, tier, counts[_tIdx(tier, counts)] || 14);
   const theme = _examTheme();
@@ -2703,6 +2789,8 @@ function _triggerBorderGlow(tier) {
 
 function _spawnEmojiFloaters(tier) {
   if (!window.MecFX) return;
+  const curUi = window.MecUITheme ? MecUITheme.get() : null;
+  if (curUi) return; // UIテーマ適用時は絵文字を浮遊させず世界観を純化
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const sets = theme.floaterGlyphs;
   const scale = theme.floaterScale || 1;
@@ -2742,15 +2830,53 @@ function _spawnBurst(cx, cy, tier, count) {
 }
 
 function _spawnStreakParticles(tier) {
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const toast = document.getElementById('examStreakToast');
   if (!toast) return;
-  // パーティクルの発生原点はトースト位置(画面最上部)ではなく可視帯の中心にする。
-  // 上端だと上向きに飛ぶ粒子・バーストが画面外に抜けて半分しか見えないため（iPad実機・2026-07-08）。
-  // 「画面の 0.44」だとヘッダーの高い iPad でまだ上に寄って切れていたので、
-  // ヘッダー下端〜画面下端の中心（_fxBand）へ移した（iPad実機・2026-08-04）。
   const { cx, cy } = _fxBand();
+  const curUi = window.MecUITheme ? MecUITheme.get() : null;
 
+  // ── UIテーマ完全連動型コンボパーティクル（2026-08-23） ──
+  if (curUi && window.MecFX) {
+    if (curUi === 'kintsugi') {
+      if (window.MecFX.kintsugiCrack) window.MecFX.kintsugiCrack(cx, cy, { maxR: 200 + tier * 25, branches: Math.min(10, 4 + tier) });
+      if (window.MecFX.dust) window.MecFX.dust({ count: 20 + tier * 12, colors: ['#F5D061', '#D4AF37', '#FFFFFF', '#D9383A'] });
+      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#F5D061', thickness: 3, maxR: 220 + tier * 20, additive: true });
+      return;
+    } else if (curUi === 'celestial') {
+      if (window.MecFX.celestialAstrolabe) window.MecFX.celestialAstrolabe(cx, cy, { maxR: 210 + tier * 25, sparkleCount: 16 + tier * 5 });
+      if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 16 + tier * 6, color: '#FFD166' });
+      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#8A2BE2', thickness: 3, maxR: 240 + tier * 20, additive: true });
+      return;
+    } else if (curUi === 'abyss') {
+      if (window.MecFX.abyssSonarPulse) window.MecFX.abyssSonarPulse(cx, cy, { maxR: 210 + tier * 25, marineSnowCount: 18 + tier * 6 });
+      if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 14 + tier * 4, colors: ['#00FFA3', '#00B4D8', '#64FFDA'] });
+      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 3, color: '#00FFA3', thickness: 3, maxR: 230 + tier * 20, additive: true });
+      return;
+    } else if (curUi === 'frost') {
+      if (window.MecFX.frostCrystalShatter) window.MecFX.frostCrystalShatter(cx, cy, { maxR: 190 + tier * 22, dendriteCount: Math.min(10, 4 + tier) });
+      if (window.MecFX.dust) window.MecFX.dust({ count: 20 + tier * 12, colors: ['#70D6FF', '#FFFFFF', '#A0E7E5'] });
+      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#70D6FF', thickness: 3, maxR: 220 + tier * 20, additive: true });
+      return;
+    } else if (curUi === 'aurora') {
+      if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(cx, cy, { maxR: 210 + tier * 25, sparkleCount: 18 + tier * 4 });
+      if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 16 + tier * 4, color: '#00DFD8' });
+      return;
+    } else if (curUi === 'brass') {
+      if (window.MecFX.brassClockworkBurst) window.MecFX.brassClockworkBurst(cx, cy, { maxR: 200 + tier * 25, gearCount: Math.min(12, 4 + tier) });
+      if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 16 + tier * 5, colors: ['#FFD700', '#FFA040', '#FFFFFF'] });
+      return;
+    } else if (curUi === 'cyber') {
+      if (window.MecFX.cyberTargetLock) window.MecFX.cyberTargetLock(cx, cy, { maxR: 210 + tier * 25, glitchCount: 8 + tier * 3 });
+      if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 6 + tier * 2, color: '#00FF66' });
+      return;
+    } else if (curUi === 'liquid') {
+      if (window.MecFX.liquidBloomRipple) window.MecFX.liquidBloomRipple(cx, cy, { maxR: 210 + tier * 25, bubbleCount: 14 + tier * 4 });
+      if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 14 + tier * 4, colors: ['#FF007F', '#7928CA', '#00DFD8'] });
+      return;
+    }
+  }
+
+  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   _spawnShockwaveRings(cx, cy, tier);
   _spawnLightning(cx, cy, tier);
 
@@ -2758,7 +2884,6 @@ function _spawnStreakParticles(tier) {
   _spawnBurst(cx, cy, tier, burstCounts[_tIdx(tier, burstCounts)] || 50);
 
   // 中tier(2-3)は最頻出。単発だと弱いので時間差の二段バースト＋追撃リングで密度を出す
-  // （高tier ≥4 は下で既に多段化されているのでそのまま）。
   if (tier === 2 || tier === 3) {
     setTimeout(() => _spawnBurst(cx, cy, tier, tier === 3 ? 80 : 36), tier === 3 ? 150 : 130);
     setTimeout(() => _spawnShockwaveRings(cx, cy, tier), tier === 3 ? 140 : 120);
@@ -3199,12 +3324,47 @@ function _scatterPositions(n, minDist) {
 
 function _spawnScatteredCelebration(theme) {
   if (!window.MecFX) return;
+  const curUi = window.MecUITheme ? MecUITheme.get() : null;
   const t = Math.max(2, Math.min(_examTier(examStreak) || 2, 7));
+  const _sb = _fxBand();
+
+  // ── UIテーマ固有の祝祭エフェクト（2026-08-23） ──
+  if (curUi) {
+    if (curUi === 'kintsugi') {
+      window.MecFX.dust({ count: 28 + t * 6, colors: ['#F5D061', '#D4AF37', '#FFFFFF'] });
+      if (t >= 4 && window.MecFX.rings) window.MecFX.rings(_sb.cx, _sb.cy, { count: 1, color: '#F5D061', thickness: 3, maxR: 180 + t * 20, additive: true });
+      return;
+    } else if (curUi === 'celestial') {
+      window.MecFX.diamondSparkle(_sb.cx, _sb.cy, { count: 24 + t * 6, color: '#FFD166' });
+      if (t >= 4 && window.MecFX.rings) window.MecFX.rings(_sb.cx, _sb.cy, { count: 1, color: '#8A2BE2', thickness: 3, maxR: 200 + t * 20, additive: true });
+      return;
+    } else if (curUi === 'abyss') {
+      window.MecFX.bubbles(_sb.cx, _sb.cy, { count: 18 + t * 4, colors: ['#00FFA3', '#00B4D8'] });
+      if (t >= 4 && window.MecFX.rings) window.MecFX.rings(_sb.cx, _sb.cy, { count: 2, color: '#00FFA3', thickness: 2.5, maxR: 180 + t * 20, additive: true });
+      return;
+    } else if (curUi === 'frost') {
+      window.MecFX.dust({ count: 24 + t * 6, colors: ['#70D6FF', '#FFFFFF'] });
+      if (t >= 4 && window.MecFX.rings) window.MecFX.rings(_sb.cx, _sb.cy, { count: 1, color: '#70D6FF', thickness: 3, maxR: 180 + t * 20, additive: true });
+      return;
+    } else if (curUi === 'aurora') {
+      window.MecFX.diamondSparkle(_sb.cx, _sb.cy, { count: 22 + t * 5, color: '#00DFD8' });
+      return;
+    } else if (curUi === 'brass') {
+      window.MecFX.sparks(_sb.cx, _sb.cy, { count: 18 + t * 4, colors: ['#FFD700', '#FFA040'] });
+      return;
+    } else if (curUi === 'cyber') {
+      window.MecFX.glitchBars({ count: 6 + t * 2, color: '#00FF66' });
+      return;
+    } else if (curUi === 'liquid') {
+      window.MecFX.bubbles(_sb.cx, _sb.cy, { count: 18 + t * 4, colors: ['#FF007F', '#7928CA'] });
+      return;
+    }
+  }
+
   const pal = theme.burstPalettes[t] || theme.burstPalettes[2];
   const isInk = examEffectSet === 'ink';
   const glyphs = theme.correctEmoji; // classic は無し
   const n = 5 + Math.min(t, 4);       // 5〜9 箇所
-  const _sb = _fxBand();
   const minDist = Math.min(_sb.width, _sb.height) * 0.22;
   const pts = _scatterPositions(n, minDist);
   pts.forEach((p, i) => {
@@ -3237,21 +3397,51 @@ function _spawnScatteredCelebration(theme) {
 }
 
 function _spawnFloatingCombo(card, n, tier) {
+  const curUi = window.MecUITheme ? MecUITheme.get() : null;
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const el = document.createElement('div');
-  const cols = theme.comboColors;
-  const sz = 16 + Math.min(tier,7) * 4;
-  el.textContent = theme.comboLabel(n);
-  // 位置はカード相対だとカードのスクロール位置で上端に寄って見切れ、演出ごとに高さがバラつく。
-  // 粒子・全画面コンボ数字と同じ可視帯の中心(_fxBand)に統一して、正解/連続正解の演出をまとめる。
-  // ⚠️ 上へ70px飛ぶアニメがあるので、焦点は帯の中心より下げない。
+  const sz = 18 + Math.min(tier, 7) * 4;
+  let col = '#FFD700';
+  let font = 'system-ui, -apple-system, sans-serif';
+  let txt = n + ' COMBO!';
+  if (curUi === 'kintsugi') {
+    col = '#F5D061';
+    txt = n + ' 連続正解 (禅)';
+  } else if (curUi === 'celestial') {
+    col = '#FFD166';
+    txt = '✦ ' + n + ' COMBO ✦';
+  } else if (curUi === 'abyss') {
+    col = '#00FFA3';
+    txt = 'DEPTH ' + (n * 100) + 'm';
+  } else if (curUi === 'frost') {
+    col = '#70D6FF';
+    txt = '❄ ' + n + ' COMBO';
+  } else if (curUi === 'cyber') {
+    col = '#00FF66';
+    font = 'Consolas, monospace';
+    txt = '[SYNC x' + n + ']';
+  } else if (curUi === 'brass') {
+    col = '#FFD700';
+    txt = '⚙ ' + n + ' COMBO';
+  } else if (curUi === 'liquid') {
+    col = '#FF007F';
+    txt = '★ ' + n + ' SPLASH';
+  } else if (curUi === 'aurora') {
+    col = '#00DFD8';
+    txt = '✧ ' + n + ' COMBO';
+  } else {
+    const cols = theme.comboColors;
+    col = cols[_tIdx(tier, cols)];
+    txt = theme.comboLabel(n);
+  }
+  el.textContent = txt;
   const { cx, cy } = _fxBand();
-  el.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;font-weight:900;font-size:${sz}px;color:${cols[_tIdx(tier, cols)]};pointer-events:none;z-index:9200;text-shadow:0 2px 12px rgba(0,0,0,.7);transform:translateX(-50%);white-space:nowrap;`;
+  el.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;font-family:${font};font-weight:900;font-size:${sz}px;color:${col};pointer-events:none;z-index:9200;text-shadow:0 2px 14px rgba(0,0,0,.85), 0 0 20px ${col};transform:translateX(-50%);white-space:nowrap;`;
   document.body.appendChild(el);
   el.animate([
     {opacity:1,transform:'translateX(-50%) translateY(0) scale(1)'},
-    {opacity:0,transform:'translateX(-50%) translateY(-70px) scale(1.3)'}
-  ], {duration:900, easing:'cubic-bezier(.22,.68,0,1.2)', fill:'forwards'}).onfinish = () => el.remove();
+    {opacity:0,transform:'translateX(-50%) translateY(-70px) scale(1.25)'}
+  ], {duration:850, easing:'cubic-bezier(.22,.68,0,1.2)', fill:'forwards'}).onfinish = () => el.remove();
 }
 
 function _triggerBgBreath(tier) {
