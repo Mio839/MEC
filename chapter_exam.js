@@ -1471,6 +1471,8 @@
   function ceApplyCardThemeComboFx(card, isCorrect, streak) {
     if (!card) return;
     if (isCorrect) {
+      card.classList.remove('fx-correct');
+      void card.offsetWidth; // アニメーションを確実に再トリガー
       card.classList.add('fx-correct');
       card.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10');
       if (streak >= 10) card.classList.add('combo-streak-10');
@@ -1478,7 +1480,11 @@
       else if (streak >= 3) card.classList.add('combo-streak-3');
 
       card.querySelectorAll('.ch2.ok, .ch2.ch-exam-selected, .ch2.ch-exam-instant-correct').forEach(function (c) {
-        if (isChoiceOk(c)) c.classList.add('correct');
+        if (isChoiceOk(c)) {
+          c.classList.remove('correct');
+          void c.offsetWidth;
+          c.classList.add('correct');
+        }
       });
 
       if (streak >= 2) {
@@ -1531,12 +1537,17 @@
       setTimeout(function () { ceAnswerMark(el, 'fresh'); }, 150);
     }
 
-    // 【UIテーマ固有演出】正解時のテーマ別リアクション
+    // 【UIテーマ固有演出】正解時のテーマ別リアクション（可視帯域内に安全クランプして確実に毎回表示）
     if (!ceReduced() && window.MecFX && card) {
       var curUi = window.MecUITheme ? MecUITheme.get() : 'aurora';
       var cr = card.getBoundingClientRect();
-      var cx = cr.left + cr.width / 2;
-      var cy = cr.top + Math.min(cr.height / 2, 90);
+      var b = ceBand();
+      var elRect = (el && el.getBoundingClientRect) ? el.getBoundingClientRect() : null;
+      var rawCx = elRect && elRect.width ? (elRect.left + elRect.width / 2) : (cr.left + cr.width / 2);
+      var rawCy = elRect && elRect.height ? (elRect.top + elRect.height / 2) : (cr.top + Math.min(cr.height / 2, 90));
+      var cx = Math.max(b.left + 40, Math.min(b.right - 40, rawCx));
+      var cy = Math.max(b.top + 40, Math.min(b.bottom - 40, rawCy));
+
       if (curUi === 'aurora') {
         if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(cx, cy, { maxR: 200, sparkleCount: 16 });
         else if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 12, color: '#00DFD8' });
@@ -1562,6 +1573,7 @@
         if (window.MecFX.frostCrystalShatter) window.MecFX.frostCrystalShatter(cx, cy, { maxR: 190 });
         else if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 12, color: '#FFFFFF' });
       }
+    }
     }
 
     if (_ceRecoverPending) {
@@ -2548,13 +2560,21 @@
 
   function ceTriggerChoiceCorrectPop(el) {
     if (!el) return;
-    el.animate([
-      {transform:'scale(1)',filter:'brightness(1)'},
-      {transform:'scale(1.1) translateY(-3px)',filter:'brightness(1.8)',offset:.15},
-      {transform:'scale(.96) translateY(1px)',filter:'brightness(1.2)',offset:.37},
-      {transform:'scale(1.03)',offset:.56},
-      {transform:'scale(1)',filter:'brightness(1)'}
-    ], {duration:420, easing:'cubic-bezier(.22,.68,0,1.25)'});
+    var curUi = window.MecUITheme ? MecUITheme.get() : null;
+    if (!curUi || curUi === 'classic') {
+      el.animate([
+        {transform:'scale(1)',filter:'brightness(1)'},
+        {transform:'scale(1.1) translateY(-3px)',filter:'brightness(1.8)',offset:.15},
+        {transform:'scale(.96) translateY(1px)',filter:'brightness(1.2)',offset:.37},
+        {transform:'scale(1.03)',offset:.56},
+        {transform:'scale(1)',filter:'brightness(1)'}
+      ], {duration:420, easing:'cubic-bezier(.22,.68,0,1.25)'});
+    } else {
+      el.animate([
+        {filter:'brightness(1.8)'},
+        {filter:'brightness(1)', offset: 1}
+      ], {duration:320, easing:'ease-out'});
+    }
     var card = el.closest('.qc');
     if (card) {
       card.animate([

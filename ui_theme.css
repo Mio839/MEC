@@ -2883,6 +2883,7 @@ html.ui-kintsugi .qc .mec-err-btn:hover {
   box-shadow: 0 0 16px rgba(255, 92, 92, 0.7) !important;
 }
 
+html.ui-kintsugi .qc.fx-correct .ch2.correct,
 html.ui-kintsugi body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
 html.ui-kintsugi body.exam-mode .qc.exam-revealed .ch2.ok,
 html.ui-kintsugi body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
@@ -2891,11 +2892,11 @@ html.ui-kintsugi body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   box-shadow: 0 0 26px rgba(245, 208, 97, 0.75), inset 0 1px 0 rgba(255, 248, 220, 0.9) !important;
   color: #FFFDF0 !important;
   font-weight: 700 !important;
-  animation: kintsugiChoiceRepair 0.48s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: kintsugiChoiceRepair 0.48s cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 html.ui-kintsugi .qc.fx-correct {
-  animation: kintsugiCardRepairGlow 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: kintsugiCardRepairGlow 0.55s cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 @keyframes kintsugiCardRepairGlow {
@@ -3328,6 +3329,7 @@ html.ui-celestial .qc .mec-err-btn:hover {
   box-shadow: 0 0 18px rgba(255, 92, 92, 0.7) !important;
 }
 
+html.ui-celestial .qc.fx-correct .ch2.correct,
 html.ui-celestial body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
 html.ui-celestial body.exam-mode .qc.exam-revealed .ch2.ok,
 html.ui-celestial body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
@@ -3336,11 +3338,11 @@ html.ui-celestial body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   box-shadow: 0 0 26px rgba(255, 209, 102, 0.75), inset 0 1px 0 #FFFFFF !important;
   color: #FFFDF8 !important;
   font-weight: 700 !important;
-  animation: celestialChoiceRuneGlow 0.48s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: celestialChoiceRuneGlow 0.48s cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 html.ui-celestial .qc.fx-correct {
-  animation: celestialCardAstrolabeGlow 0.46s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: celestialCardAstrolabeGlow 0.46s cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 @keyframes celestialCardAstrolabeGlow {
@@ -3876,6 +3878,7 @@ html.ui-abyss body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-sel
   transform: translateX(2px) scale(0.99) !important;
 }
 
+html.ui-abyss .qc.fx-correct .ch2.correct,
 html.ui-abyss body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
 html.ui-abyss body.exam-mode .qc.exam-revealed .ch2.ok,
 html.ui-abyss body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
@@ -3885,11 +3888,11 @@ html.ui-abyss body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   box-shadow: 0 0 28px rgba(0, 255, 163, 0.75), inset 0 1px 0 #FFFFFF !important;
   color: #F0FDF4 !important;
   font-weight: 700 !important;
-  animation: abyssChoiceBioPulseGlow 0.48s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: abyssChoiceBioPulseGlow 0.48s cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 html.ui-abyss .qc.fx-correct {
-  animation: abyssCardSonarPulseGlow 0.46s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: abyssCardSonarPulseGlow 0.46s cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 @keyframes abyssCardSonarPulseGlow {
@@ -4482,6 +4485,7 @@ html.ui-frost .qc .mec-err-btn:hover {
   box-shadow: 0 0 18px rgba(255, 92, 92, 0.7) !important;
 }
 
+html.ui-frost .qc.fx-correct .ch2.correct,
 html.ui-frost body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
 html.ui-frost body.exam-mode .qc.exam-revealed .ch2.ok,
 html.ui-frost body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
@@ -4490,11 +4494,11 @@ html.ui-frost body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   box-shadow: 0 0 26px rgba(112, 214, 255, 0.8), inset 0 1px 0 #FFFFFF !important;
   color: #F0FDF4 !important;
   font-weight: 700 !important;
-  animation: frostChoiceCrystallizeGlow 0.48s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: frostChoiceCrystallizeGlow 0.48s cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 html.ui-frost .qc.fx-correct {
-  animation: frostCardCrystalFlashGlow 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: frostCardCrystalFlashGlow 0.55s cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 @keyframes frostCardCrystalFlashGlow {

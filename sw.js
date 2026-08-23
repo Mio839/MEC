@@ -1,3 +1,9 @@
+// 2026-08-24c: 正解時アニメーション・エフェクトが交互に不発となるバグの完全修正。
+//   - study_exam.js / chapter_exam.js: _applyCardThemeComboFx / ceApplyCardThemeComboFx にて .fx-correct および .correct 付与時に void element.offsetWidth による強制リフローを導入し、アニメーション再トリガーを完全保証。
+//   - _afterCorrectFx / ceAfterCorrectFx: 正解時パーティクル座標を可視帯域（_fxBand / ceBand）内に安全クランプし、スクロール中・画面端での描画漏れ・画面外逸脱を完全防止。
+//   - _triggerChoiceCorrectPop / ceTriggerChoiceCorrectPop: WAAPIのインラインtransformがCSSテーマアニメーション（auroraChoicePrismFlash等）を上書きする競合を解消。
+//   - ui_theme.css: 全8テーマで .qc.fx-correct .ch2.correct および開示後セレクタに !important を明示し、正解時アニメーションの100%発火を完全保証。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-24b: UIテーマ別・極彩正解＆超絶コンボエフェクト自律進化ループ完遂（全8テーマ・プロフェッショナル決定版・20イテレーション完了）。
 //   - 1 COMBO即時爆発: 全8テーマ（aurora/brass/cyber/liquid/kintsugi/celestial/abyss/frost）でリング展開＋パーティクル散乱＋オーラ変形＋固有特殊ギミックの4層同時爆発を完全実装。
 //   - 連続正解（3→5→10連撃〜）進化オーラ: プリズム極光ゾーン/時計塔スケルトン機構/フルダイブHUD/極彩色蛍光インクの海/墨絵円相＆神聖金粉滝/大魔導陣星屑大瀑布/深度超深海ゾーン/絶対零度フリーズゾーンへ3段階覚醒。
@@ -421,7 +427,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-24b";
+const SHELL_VERSION = "2026-08-24c";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

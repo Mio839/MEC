@@ -1901,15 +1901,21 @@ function _traceToAnswer(card, fxEl) {
 function _applyCardThemeComboFx(card, isCorrect, streak) {
   if (!card) return;
   if (isCorrect) {
+    card.classList.remove('fx-correct');
+    void card.offsetWidth; // アニメーションを確実に再トリガー
     card.classList.add('fx-correct');
     card.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10');
     if (streak >= 10) card.classList.add('combo-streak-10');
     else if (streak >= 5) card.classList.add('combo-streak-5');
     else if (streak >= 3) card.classList.add('combo-streak-3');
 
-    // 正解選択肢に .correct クラス付与
+    // 正解選択肢に .correct クラス付与（アニメーションを確実に再トリガー）
     card.querySelectorAll('.ch2.ok, .ch2.exam-selected').forEach(c => {
-      if (c.classList.contains('ok')) c.classList.add('correct');
+      if (c.classList.contains('ok')) {
+        c.classList.remove('correct');
+        void c.offsetWidth;
+        c.classList.add('correct');
+      }
     });
 
     // コンボバッジの生成または更新
@@ -1970,7 +1976,12 @@ function _afterCorrectFx(card, fxEl) {
     _polishPlate(card);
     if (!_fxOff() && window.MecFX && card) {
       const cr = card.getBoundingClientRect();
-      window.MecFX.burst(cr.left + 4, cr.top + Math.min(cr.height / 2, 80), {
+      const b = _fxBand();
+      const rawX = cr.left + 4;
+      const rawY = cr.top + Math.min(cr.height / 2, 80);
+      const bx = Math.max(b.left + 20, Math.min(b.right - 20, rawX));
+      const by = Math.max(b.top + 20, Math.min(b.bottom - 20, rawY));
+      window.MecFX.burst(bx, by, {
         count: 24,
         shapes: ['shard', 'square'],
         colors: ['#FFD700', '#FFA040', '#FFFFFF', '#C9A227', '#FF5722'],
@@ -1985,7 +1996,12 @@ function _afterCorrectFx(card, fxEl) {
   // 【案3】SRS復習モードでの定着刻印（STABLE）
   if (_srsReviewMode && !_fxOff() && window.MecFX && card) {
     const cr = card.getBoundingClientRect();
-    window.MecFX.stamp(cr.right - 35, cr.top + 25, {
+    const b = _fxBand();
+    const rawX = cr.right - 35;
+    const rawY = cr.top + 25;
+    const sx = Math.max(b.left + 30, Math.min(b.right - 30, rawX));
+    const sy = Math.max(b.top + 30, Math.min(b.bottom - 30, rawY));
+    window.MecFX.stamp(sx, sy, {
       color: '#C9A227',
       size: 44,
       thick: 2.2,
@@ -1994,12 +2010,17 @@ function _afterCorrectFx(card, fxEl) {
     });
   }
 
-  // 【UIテーマ固有演出】正解時のテーマ別リアクション
+  // 【UIテーマ固有演出】正解時のテーマ別リアクション（可視帯域内に安全クランプして確実に毎回表示）
   if (!_fxOff() && window.MecFX && card) {
     const curUi = window.MecUITheme ? MecUITheme.get() : 'aurora';
     const cr = card.getBoundingClientRect();
-    const cx = cr.left + cr.width / 2;
-    const cy = cr.top + Math.min(cr.height / 2, 90);
+    const b = _fxBand();
+    const elRect = (fxEl && fxEl.getBoundingClientRect) ? fxEl.getBoundingClientRect() : null;
+    const rawCx = elRect && elRect.width ? (elRect.left + elRect.width / 2) : (cr.left + cr.width / 2);
+    const rawCy = elRect && elRect.height ? (elRect.top + elRect.height / 2) : (cr.top + Math.min(cr.height / 2, 90));
+    const cx = Math.max(b.left + 40, Math.min(b.right - 40, rawCx));
+    const cy = Math.max(b.top + 40, Math.min(b.bottom - 40, rawCy));
+
     if (curUi === 'aurora') {
       if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(cx, cy, { maxR: 200, sparkleCount: 16 });
       else if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 12, color: '#00DFD8' });
@@ -3274,13 +3295,22 @@ function _spawnChoiceRipple(el) {
 function _triggerChoiceCorrectPop(el) {
   if (!el) return;
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  el.animate([
-    {transform:'scale(1)',filter:'brightness(1)'},
-    {transform:'scale(1.18) translateY(-6px)',filter:'brightness(2.2)',offset:.15},
-    {transform:'scale(.94) translateY(2px)',filter:'brightness(1.4)',offset:.37},
-    {transform:'scale(1.06)',offset:.56},
-    {transform:'scale(1)',filter:'brightness(1)'}
-  ], {duration:480, easing:'cubic-bezier(.22,.8,.36,1.25)'});
+  const curUi = window.MecUITheme ? MecUITheme.get() : null;
+  if (!curUi || curUi === 'classic') {
+    el.animate([
+      {transform:'scale(1)',filter:'brightness(1)'},
+      {transform:'scale(1.18) translateY(-6px)',filter:'brightness(2.2)',offset:.15},
+      {transform:'scale(.94) translateY(2px)',filter:'brightness(1.4)',offset:.37},
+      {transform:'scale(1.06)',offset:.56},
+      {transform:'scale(1)',filter:'brightness(1)'}
+    ], {duration:480, easing:'cubic-bezier(.22,.8,.36,1.25)'});
+  } else {
+    // UIテーマ設定時はCSSキーフレーム（auroraChoicePrismFlash等）を優先し、瞬間的な露光のみ支援
+    el.animate([
+      {filter:'brightness(1.8)'},
+      {filter:'brightness(1)', offset: 1}
+    ], {duration:320, easing:'ease-out'});
+  }
   const card = el.closest('.qc');
   if (card) {
     card.classList.remove('card-3d-pop');
