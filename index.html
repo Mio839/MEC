@@ -101,15 +101,16 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 /* 360px級では屋号・更新時刻・同期バッジ・道具2つが一行に収まらない。
    情報量の一番少ない「学習ハブ」を落として時刻のほうを残す（題はタブに出ている） */
 @media (max-width:430px){.hub-mark i,.hub-mark em{display:none;}}
-.hub-tools{margin-left:auto;flex-shrink:0;display:flex;align-items:center;gap:var(--sp-2);}
-.hub-icon{position:relative;width:34px;height:34px;flex-shrink:0;
-  display:grid;place-items:center;font-size:15px;line-height:1;
+.hub-tools{margin-left:auto;flex-shrink:0;display:flex;align-items:center;gap:4px;flex-wrap:nowrap;}
+.hub-icon{position:relative;width:30px;height:30px;flex-shrink:0;
+  display:grid;place-items:center;font-size:14px;line-height:1;
   border-radius:var(--r-sm);border:1px solid var(--hair);background:rgba(var(--glass-rgb),.05);
   color:var(--tx);text-decoration:none;cursor:pointer;font-family:inherit;
   transition:background-color .15s var(--ease-out),border-color .15s var(--ease-out);}
 .hub-icon:hover{background:rgba(var(--glass-rgb),.12);border-color:var(--hair-2);}
-/* エラー報告が1件でもあるとき ☰ に点が付く。件数はメニューの中で読める */
-.hub-dot{position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:var(--or);}
+.hub-err-badge{position:absolute;top:-4px;right:-4px;min-width:14px;height:14px;padding:0 3px;
+  border-radius:7px;background:#FF6B6B;color:#fff;font-size:9px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;line-height:1;}
 .mec-sync-badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap;
   background:rgba(var(--glass-rgb),.07);border:1px solid var(--hair);color:var(--ts);}
 /* D2: 同期中は真鍮の縁で「機械が回っている」ことを示す。粒子は canvas 側（_startSyncFx） */
@@ -903,8 +904,12 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
   <div class="hub-tools">
     <!-- 同期状態は常時見えていてほしい（stale/error を progress.js が data-status で塗る） -->
     <span class="mec-sync-badge">⚙️ 未設定</span>
+    <button class="hub-icon" onclick="openSyncModal()" title="同期設定" aria-label="同期設定">☁️</button>
+    <button class="hub-icon" onclick="manualSync()" title="今すぐ同期" aria-label="今すぐ同期">🔄</button>
     <a class="hub-icon" href="stats.html" title="学習統計" aria-label="学習統計">📊</a>
-    <button class="hub-icon" id="hubMenuBtn" onclick="openMenuModal()" title="メニュー" aria-label="メニュー">☰<span class="hub-dot" id="hubMenuDot" hidden></span></button>
+    <button class="hub-icon" onclick="openThemeModal()" title="テーマ ＆ デザイン設定" aria-label="テーマ ＆ デザイン設定">🎨</button>
+    <button class="hub-icon" onclick="openSoundModal()" title="効果音設定" aria-label="効果音設定">🔊</button>
+    <button class="hub-icon" id="hubErrBtn" onclick="window.mecOpenErrReports()" title="エラー報告" aria-label="エラー報告" style="display:none">⚠️<span class="hub-err-badge" id="hubErrCount">0</span></button>
   </div>
   <span class="hub-prog" id="hubProg" aria-hidden="true"></span>
 </header>
@@ -1034,30 +1039,6 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
     <div id="gamifyPanel" class="mfx"><!-- gamify.js が描画（レベル・炎・週間ミッション・実績） --></div>
   </section>
 </main>
-
-<!-- メニュー（旧ヘッダーのボタン群＋旧フッターのテーマ/効果音をここへ集約した） -->
-<div class="modal-overlay" id="menuModal" onclick="if(event.target===this)closeMenuModal()">
-  <div class="modal-box">
-    <div class="modal-title">☰ メニュー</div>
-    <div class="modal-sub">同期・表示・キャッシュの設定。</div>
-    <div class="menu-list">
-      <button class="menu-row" type="button" onclick="closeMenuModal();openSyncModal()">
-        <span class="mr-ic">☁️</span><span class="mr-b">同期設定<span class="mr-n">GitHub Gist で PC・iPad・スマホの進捗を共有</span></span></button>
-      <button class="menu-row" type="button" onclick="closeMenuModal();manualSync()">
-        <span class="mr-ic">🔄</span><span class="mr-b">今すぐ同期</span></button>
-      <a class="menu-row" href="stats.html">
-        <span class="mr-ic">📊</span><span class="mr-b">学習統計<span class="mr-n">30日チャート・SRS統計・弱点カルテ</span></span></a>
-      <button class="menu-row" type="button" onclick="closeMenuModal();openThemeModal()">
-        <span class="mr-ic">🎨</span><span class="mr-b">テーマ ＆ デザイン<span class="mr-n">画面全体の着せ替えスキン（この端末だけに保存）</span></span></button>
-      <button class="menu-row" type="button" onclick="closeMenuModal();openSoundModal()">
-        <span class="mr-ic">🔊</span><span class="mr-b">効果音設定</span></button>
-      <!-- 報告が1件も無いときは出さない（押しても空の一覧が出るだけなので） -->
-      <button class="menu-row" type="button" id="menuErrRow" style="display:none" onclick="closeMenuModal();window.mecOpenErrReports()">
-        <span class="mr-ic">⚠️</span><span class="mr-b">エラー報告 <b id="hubErrCount">0</b>件</span></button>
-    </div>
-    <div class="modal-row"><button class="modal-btn secondary" style="flex:1" onclick="closeMenuModal()">閉じる</button></div>
-  </div>
-</div>
 
 <!-- テーマ選択モーダル -->
 <div class="modal-overlay" id="themeModal" onclick="if(event.target===this)closeThemeModal()">
@@ -2636,8 +2617,8 @@ function _initScrollReveal() {
 }
 
 // ── メニュー（旧ヘッダーのボタン群をここへ集約した） ─────────────
-function openMenuModal()  { document.getElementById('menuModal').classList.add('open'); }
-function closeMenuModal() { document.getElementById('menuModal').classList.remove('open'); }
+function openMenuModal()  {}
+function closeMenuModal() {}
 
 // ── レベル・ミッション・実績の開閉 ───────────────────────────────
 // この端末だけの UI 設定（同期しない）。progress.js の同期キーには足さないこと。
@@ -2661,12 +2642,10 @@ function initGmSection() {
 // エラー報告（0件なら ☰ の点も行も出さない）。progress.js の共有ビューアが全消去したあとも呼ばれる
 function updateErrBtn() {
   const n = (window.mecGetErrorReports ? window.mecGetErrorReports() : []).length;
+  const btn = document.getElementById('hubErrBtn');
   const cnt = document.getElementById('hubErrCount');
-  const row = document.getElementById('menuErrRow');
-  const dot = document.getElementById('hubMenuDot');
   if (cnt) cnt.textContent = n;
-  if (row) row.style.display = n > 0 ? '' : 'none';
-  if (dot) dot.hidden = !(n > 0);
+  if (btn) btn.style.display = n > 0 ? 'inline-grid' : 'none';
 }
 window._mecUpdateErrBadge = updateErrBtn;
 
