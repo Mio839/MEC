@@ -261,7 +261,7 @@ ch01を貫く筋は4本。①**麻酔は「4要素（鎮静・鎮痛・筋弛緩
 - `mec_attempts_v1` — 解答イベントログ（attempts.js）。`"uid|t|c|o|s|m|sess|n"` の文字列配列・上限5000件。追記専用なので同期は`sess+n`をキーにしたunion＋時刻昇順ソート＋上限切り詰め
 - `error_reports_v1` — 問題エラー報告 ／ `mec_err_cleared_at` — 一括消去のタイムスタンプ
 - `mec_gist_token` — GitHub PAT（gistスコープ）／ `mec_gist_id` — Gist ID ／ `mec_last_sync_v1` — 最終同期時刻
-- UIローカル設定（非同期）: `mec_subjects_v1`（選択科目）/`mec_filter_v1`/`mec_state_v1`/`mec_combo_sound_v1`/`mec_correct_sound_v1`/`mec_select_sound_v1`/`mec_boot_sound_v1` 等
+- UIローカル設定（非同期）: `mec_subjects_v1`（選択科目）/`mec_filter_v1`/`mec_state_v1`/`mec_correct_sound_v1`/`mec_select_sound_v1`/`mec_boot_sound_v1` 等
 
 ## UID フォーマット
 
@@ -1456,7 +1456,6 @@ study.html(study_exam.js) ／ index.html ／ chapter_exam.js  ← 3つとも「�
 | `mec_correct_sound_v1` | 一覧の先頭（`custom`＝正解音） | `sounds/正解音/` の8種＋`off` |
 | `mec_select_sound_v1` | 一覧の先頭（`mp3`＝選択） | `sounds/選択音/` の2種＋`off` |
 | `mec_boot_sound_v1` | `on` | **鳴らす／鳴らさないだけ**（下記） |
-| `mec_combo_sound_v1` | `rise` | コンボ音。**ここだけ合成音のまま**（ファイルを持たない） |
 
 - ⚠️ **起動音は設定で選ばせず、試験開始のたびにランダムで1つ鳴る**（2026-08-21〜）。
   抽選は `_pickBootSpec()`。**抽選も prepare も `startExam` の中＝開始をタップしたその手の中で
@@ -1466,8 +1465,8 @@ study.html(study_exam.js) ／ index.html ／ chapter_exam.js  ← 3つとも「�
   MS起動 4.73秒／アカツキ起動 4.85秒 に対しカウントダウンは 2.535〜2.745秒なので、明けて
   1問目に入っても音だけ2秒ほど続く。**`_examCountdown` の尺は1msも増やさない**
   （起動演出は待ち時間で、長い演出は2回目から邪魔になる）。
-- ⚠️ **正解音・選択音の合成音（ping/chime/pop…）は 2026-08-21 に全廃した**（ユーザーの判断＝
-  「自分が置いた音以外は要らない」）。**戻さないこと。** 合成音が残っているのはコンボ音だけ。
+- ⚠️ **正解音・選択音・コンボ音等の合成音（ping/chime/pop…）は全廃した**（ユーザーの判断＝
+  「自分が置いた音以外は要らない」、コンボ音も廃止）。**戻さないこと。**
   保存済みの旧キーは `_sndResolve()` が一覧の先頭へ落とす（**localStorage は書き換えない**——
   別端末の設定を同期で壊さないため、解決は読む側で行う）。
 - ⚠️ **キーは localStorage にそのまま入るので改名しないこと**（`custom`＝correct.wav、
@@ -1566,7 +1565,7 @@ study.html(study_exam.js) ／ index.html ／ chapter_exam.js  ← 3つとも「�
 どちらを渡しても範囲外にならない。`Math.min(tier, 6)` を新しく書かないこと。
 
 `_showStreakEffect(n)` は **n≥2 でのみ発火**し、tierに応じて段階的に増える:
-- **全tier(≥2)**: 上部トースト（`t1`〜`t6`、`labels[tier]` 例 classic=`🔥 n連続！！`）＋ 背景ブレス（`_triggerBgBreath`）＋ コンボ音（`_playComboNote`・設定キー `mec_combo_sound_v1`）＋ 上端コンボメーター（`_updateComboMeter`）
+- **全tier(≥2)**: 上部トースト（`t1`〜`t6`、`labels[tier]` 例 classic=`🔥 n連続！！`）＋ 背景ブレス（`_triggerBgBreath`）＋ 上端コンボメーター（`_updateComboMeter`）
 - **tier≥2**: 画面中央に特大 `×n`（`_triggerFullscreenCombo`）＋ 全画面フラッシュ（`flashColors`）＋ ストリーク粒子（`_spawnStreakParticles`）
 - **tier≥3**: 画面シェイク（`_triggerScreenShake`）
 - **tier≥4**: タイムストップ暗転（`_triggerTimeStop`）＋ 画面外周ボーダーグロー（`_triggerBorderGlow`）＋ フラッシュが複数回パルス

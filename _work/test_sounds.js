@@ -124,22 +124,24 @@ t('chapter_exam.js も毎回抽選する', () => {
   ok(/function ceBootSound\(\)[\s\S]*?Math\.random\(\) \* l\.length/.test(chapterExam), 'ceBootSound が抽選していない');
 });
 
-console.log('\n[5] 合成音は正解音・選択音から全廃（コンボ音だけ残す）');
+console.log('\n[5] 合成音は全廃（正解音・選択音・コンボ音すべて）');
 t('_playCorrectSound / _playSelectSound がオシレータを使わない', () => {
   const cor = studyExam.match(/function _playCorrectSound\(\)[\s\S]*?\n\}/)[0];
   const sel = studyExam.match(/function _playSelectSound\(\)[\s\S]*?\n\}/)[0];
   ok(!/createOscillator/.test(cor), '_playCorrectSound に合成音が残っている');
   ok(!/createOscillator/.test(sel), '_playSelectSound に合成音が残っている');
 });
-t('コンボ音（_playComboNote / cePlayComboNote）は残っている', () => {
-  ok(/function _playComboNote/.test(studyExam), 'study_exam.js のコンボ音が消えた');
-  ok(/function cePlayComboNote/.test(chapterExam), 'chapter_exam.js のコンボ音が消えた');
+t('コンボ音（_playComboNote / cePlayComboNote）は全廃されている', () => {
+  ok(!/function _playComboNote/.test(studyExam), 'study_exam.js にコンボ音が残っている');
+  ok(!/function cePlayComboNote/.test(chapterExam), 'chapter_exam.js にコンボ音が残っている');
 });
-t('設定画面のボタンは一覧から生成する（HTML に直書きしない）', () => {
+t('設定画面のボタンは一覧から生成し、コンボ音設定は残っていない', () => {
   ok(studyHtml.includes('_renderStudySoundGrid'), 'study.html がボタンを生成していない');
   ok(indexHtml.includes('_renderHubSoundGrid'), 'index.html がボタンを生成していない');
   ok(!(studyHtml + indexHtml).includes('data-sound="ping"'), '旧・合成音のボタンが残っている');
   ok(!(studyHtml + indexHtml).includes('data-ssound="click"'), '旧・合成音のボタンが残っている');
+  ok(!studyHtml.includes('ssovComboGrid'), 'study.html に ssovComboGrid が残っている');
+  ok(!studyHtml.includes('mec_combo_sound_v1'), 'study.html に mec_combo_sound_v1 が残っている');
 });
 
 console.log('\n[6] vol>1 は GainNode でしか鳴らない（<audio> へ落とさない）');

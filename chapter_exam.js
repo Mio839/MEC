@@ -1844,7 +1844,6 @@
     if (promoted && tier >= 4) ceTimeStop(tier);
     if (promoted && tier >= 2) ceFullscreenCombo(n, tier);
     ceTriggerBgBreath(tier);
-    cePlayComboNote(n);
     ceUpdateComboMeter(n);
     ceShowSignature(n, tier, promoted);
     var toast = document.getElementById('chExamStreakToast');
@@ -2492,23 +2491,6 @@
     document.body.appendChild(el);
     el.animate([{opacity:0},{opacity:1,offset:.2},{opacity:.7,offset:.5},{opacity:0}],
       {duration:dur, easing:'ease-in-out', fill:'forwards'}).onfinish = function(){ el.remove(); };
-  }
-
-  function cePlayComboNote(n) {
-    try {
-      var ctx = getCtx();
-      if (!ctx || exam.sound === 'off') return;
-      var freq = 261.63 * Math.pow(2, Math.min(n-1,23)/12);
-      var t = ctx.currentTime;
-      var osc = ctx.createOscillator(), g = ctx.createGain();
-      osc.connect(g); g.connect(ctx.destination);
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, t);
-      g.gain.setValueAtTime(.0001, t);
-      g.gain.exponentialRampToValueAtTime(.09, t+.012);
-      g.gain.exponentialRampToValueAtTime(.0001, t+.28);
-      osc.start(t); osc.stop(t+.3);
-    } catch(e){}
   }
 
   function ceUpdateComboMeter(n) {

@@ -286,16 +286,6 @@ if ('serviceWorker' in navigator) {
       <button class="ssov-btn" data-bsound="on" onclick="saveStudySoundPref('boot','on',this)">🎲 ランダム</button>
       <button class="ssov-btn" data-bsound="off" onclick="saveStudySoundPref('boot','off',this)">無音</button>
     </div>
-    <div class="ssov-lbl">コンボ音（2連続正解〜）</div>
-    <div class="ssov-grid" id="ssovComboGrid">
-      <button class="ssov-btn" data-csound="rise" onclick="saveStudySoundPref('combo','rise',this)">上昇</button>
-      <button class="ssov-btn" data-csound="ping" onclick="saveStudySoundPref('combo','ping',this)">ピン</button>
-      <button class="ssov-btn" data-csound="pop" onclick="saveStudySoundPref('combo','pop',this)">ポン</button>
-      <button class="ssov-btn" data-csound="ding" onclick="saveStudySoundPref('combo','ding',this)">ディン</button>
-      <button class="ssov-btn" data-csound="sweep" onclick="saveStudySoundPref('combo','sweep',this)">スイープ</button>
-      <button class="ssov-btn" data-csound="drum" onclick="saveStudySoundPref('combo','drum',this)">ドン</button>
-      <button class="ssov-btn" data-csound="off" onclick="saveStudySoundPref('combo','off',this)">無音</button>
-    </div>
     <div id="studyDiag"></div>
     <div style="margin-top:14px">
       <button style="width:100%;padding:9px;border-radius:var(--r-md);border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--ts);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;" onclick="document.getElementById('studySoundOv').classList.remove('open')">閉じる</button>
@@ -2247,10 +2237,8 @@ function openStudySoundOv() {
   _renderStudySoundGrid('ssovCorrectGrid', 'correct', 'sound', 'correct');
   // 選択中の印は「保存値」ではなく study_exam.js が解決した実効値に合わせる
   // （消したファイル・旧合成音のキーが保存されていても、鳴る方のボタンが光る）。
-  const com = localStorage.getItem('mec_combo_sound_v1') || 'rise';
   document.querySelectorAll('#ssovSelectGrid .ssov-btn').forEach(b => b.classList.toggle('sel', b.dataset.ssound === _selectSound));
   document.querySelectorAll('#ssovCorrectGrid .ssov-btn').forEach(b => b.classList.toggle('sel', b.dataset.sound === _correctSound));
-  document.querySelectorAll('#ssovComboGrid .ssov-btn').forEach(b => b.classList.toggle('sel', b.dataset.csound === com));
   document.querySelectorAll('#ssovBootGrid .ssov-btn').forEach(b => b.classList.toggle('sel', b.dataset.bsound === _bootSound));
   document.getElementById('studySoundOv').classList.add('open');
   _renderStudyDiag();
@@ -2315,12 +2303,6 @@ function saveStudySoundPref(type, value, btn) {
     btn.classList.add('sel');
     // 「ランダム」の試聴＝押すたびに抽選し直す（何が入っているかを耳で確かめられる）
     if (value !== 'off') _playWavSound(_pickBootSpec());
-  } else if (type === 'combo') {
-    localStorage.setItem('mec_combo_sound_v1', value);
-    _comboSound = value;
-    document.querySelectorAll('#ssovComboGrid .ssov-btn').forEach(b => b.classList.remove('sel'));
-    btn.classList.add('sel');
-    _previewStudyComboSound(value);
   } else {
     localStorage.setItem('mec_correct_sound_v1', value);
     _correctSound = value;
@@ -2328,11 +2310,6 @@ function saveStudySoundPref(type, value, btn) {
     btn.classList.add('sel');
     _previewStudyCorrectSound(value);
   }
-}
-
-function _previewStudyComboSound(value) {
-  if (value === 'off') return;
-  _playComboNote(2);
 }
 
 function _previewStudySelectSound(value) {

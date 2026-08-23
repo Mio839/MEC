@@ -91,8 +91,8 @@ let _examAudioCtx = null;
    ここにも index.html にも chapter_exam.js にも表を持たない（2026-08-21）。
    ⚠️ 音を足すのは「sounds/{正解音|起動音|選択音}/ にファイルを置く → sounds/meta.json に
       1行足す → node _work/build_sounds_index.js」の3手順。コードは1文字も触らない。
-   ⚠️ 2026-08-21 に合成音（ping/chime/pop…）は正解音・選択音とも全廃した。ユーザーが
-      置いた音だけを鳴らす。合成音が残っているのはコンボ音（_playComboNote）だけ。 */
+   ⚠️ 2026-08-21 に合成音（ping/chime/pop…）は全廃した（コンボ音も廃止）。ユーザーが
+      置いた音だけを鳴らす。 */
 function _sndList(slot) {
   const l = window.MecSounds && window.MecSounds[slot];
   return Array.isArray(l) ? l : [];
@@ -139,8 +139,6 @@ function _playResultSound() {
   const spec = _pendingResultSpec || _pickResultSpec();
   if (spec) _playWavSound(spec);
 }
-
-let _comboSound = localStorage.getItem('mec_combo_sound_v1') || 'rise';
 
 /* 選択音・正解音・起動音・結果音はすべて同じ wav/mp3 の配管（_prepareWavSound / _playWavSound）に
    乗る。⚠️ 種類ごとの受け皿は _wavSlot が1つずつだけ作る（プレビューのたびに Audio を
@@ -2569,7 +2567,6 @@ function _showStreakEffect(n) {
     _spawnLightStreakFx(tier);
   }
   _triggerBgBreath(tier);
-  _playComboNote(n);
   _updateComboMeter(n);
 }
 
@@ -3239,56 +3236,6 @@ function _triggerBgBreath(tier) {
   document.body.appendChild(el);
   el.animate([{opacity:0},{opacity:1,offset:.2},{opacity:.7,offset:.5},{opacity:0}],
     {duration:dur, easing:'ease-in-out', fill:'forwards'}).onfinish = () => el.remove();
-}
-
-function _playComboNote(n) {
-  const ctx = _getExamAudioCtx();
-  if (!ctx || _comboSound === 'off') return;
-  const t = ctx.currentTime;
-  const osc = ctx.createOscillator(), gain = ctx.createGain();
-  osc.connect(gain); gain.connect(ctx.destination);
-  if (_comboSound === 'ping') {
-    osc.type = 'sine'; osc.frequency.setValueAtTime(1200, t);
-    gain.gain.setValueAtTime(.0001, t);
-    gain.gain.exponentialRampToValueAtTime(.07, t+.008);
-    gain.gain.exponentialRampToValueAtTime(.0001, t+.12);
-    osc.start(t); osc.stop(t+.13);
-  } else if (_comboSound === 'pop') {
-    osc.type = 'square'; osc.frequency.setValueAtTime(600, t);
-    gain.gain.setValueAtTime(.0001, t);
-    gain.gain.exponentialRampToValueAtTime(.04, t+.005);
-    gain.gain.exponentialRampToValueAtTime(.0001, t+.05);
-    osc.start(t); osc.stop(t+.06);
-  } else if (_comboSound === 'ding') {
-    osc.type = 'triangle'; osc.frequency.setValueAtTime(880, t);
-    gain.gain.setValueAtTime(.0001, t);
-    gain.gain.exponentialRampToValueAtTime(.08, t+.01);
-    gain.gain.exponentialRampToValueAtTime(.0001, t+.18);
-    osc.start(t); osc.stop(t+.2);
-  } else if (_comboSound === 'sweep') {
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(400, t);
-    osc.frequency.linearRampToValueAtTime(1300, t+.12);
-    gain.gain.setValueAtTime(.0001, t);
-    gain.gain.exponentialRampToValueAtTime(.07, t+.01);
-    gain.gain.exponentialRampToValueAtTime(.0001, t+.14);
-    osc.start(t); osc.stop(t+.15);
-  } else if (_comboSound === 'drum') {
-    osc.type = 'sine'; osc.frequency.setValueAtTime(150, t);
-    osc.frequency.exponentialRampToValueAtTime(40, t+.07);
-    gain.gain.setValueAtTime(.0001, t);
-    gain.gain.exponentialRampToValueAtTime(.12, t+.005);
-    gain.gain.exponentialRampToValueAtTime(.0001, t+.09);
-    osc.start(t); osc.stop(t+.1);
-  } else {
-    // rise (default): sine, pitch rises with streak
-    const freq = 261.63 * Math.pow(2, Math.min(n-1,23)/12);
-    osc.type = 'sine'; osc.frequency.setValueAtTime(freq, t);
-    gain.gain.setValueAtTime(.0001, t);
-    gain.gain.exponentialRampToValueAtTime(.09, t+.012);
-    gain.gain.exponentialRampToValueAtTime(.0001, t+.28);
-    osc.start(t); osc.stop(t+.3);
-  }
 }
 
 function _updateComboMeter(n) {
