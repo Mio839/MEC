@@ -1740,9 +1740,8 @@
     cy = cy == null ? H * .5 : cy;
     var gold = '#F5D061', goldLight = '#FFF2A8', goldDark = '#D4AF37', white = '#FFFFFF';
 
-    // 全画面インパクト: 和の黄金露光フラッシュ & 重厚静寂シェイク
+    // 全画面インパクト: 和の黄金露光フラッシュ
     if (o.flash !== false) flashScreen('rgba(245, 208, 97, 0.38)', 0.38);
-    if (o.shake !== false) shakeScreen(true);
 
     // 1. 有機的クラックラインの構築（画面全域へ走る黄金亀裂）
     var branches = o.branches || 12;
@@ -1813,7 +1812,6 @@
 
     // 全画面インパクト: マナパープル＆ゴールド露光フラッシュ
     if (o.flash !== false) flashScreen('rgba(138, 43, 226, 0.35)', 0.36);
-    if (o.shake !== false) shakeScreen(false);
 
     // 1. 天球儀ルーン大魔導陣 (Celestial Grimoire Array 全画面回転)
     addP({
@@ -1865,9 +1863,8 @@
     var emerald = '#00FFA3', deepCyan = '#00B4D8', bioGlow = '#64FFDA', white = '#FFFFFF';
     var maxR = o.maxR || Math.max(W, H) * 0.75;
 
-    // 全画面インパクト: 深海エメラルド露光フラッシュ & 水圧パルスシェイク
+    // 全画面インパクト: 深海エメラルド露光フラッシュ
     if (o.flash !== false) flashScreen('rgba(0, 255, 163, 0.35)', 0.35);
-    if (o.shake !== false) shakeScreen(false);
 
     // 1. 深海メガソナーパルス ＆ 走査スイープ（全画面全域）
     addP({
@@ -1918,9 +1915,8 @@
     var iceBlue = '#70D6FF', crystalWhite = '#FFFFFF', frostCyan = '#A0E7E5';
     var maxR = o.maxR || Math.max(W, H) * 0.72;
 
-    // 全画面インパクト: 氷河シアン露光フラッシュ & 凍結クラックシェイク
+    // 全画面インパクト: 氷河シアン露光フラッシュ
     if (o.flash !== false) flashScreen('rgba(112, 214, 255, 0.38)', 0.35);
-    if (o.shake !== false) shakeScreen(true);
 
     // 1. 六角幾何学氷晶急速成長 ＆ ファセット全画面展開
     addP({
@@ -1965,14 +1961,7 @@
   }
 
   function shakeScreen(heavy) {
-    if (typeof document === 'undefined' || !document.body) return;
-    var cls = heavy ? 'fx-camera-shake-heavy' : 'fx-camera-shake-light';
-    document.body.classList.remove('fx-camera-shake-light', 'fx-camera-shake-heavy');
-    void document.body.offsetWidth;
-    document.body.classList.add(cls);
-    setTimeout(function () {
-      if (document.body) document.body.classList.remove(cls);
-    }, heavy ? 380 : 300);
+    // 画面揺れアニメーションはユーザー体験向上のため無効化（画面を揺らさない）
   }
 
   /** 【4テーマ特化】オーロラ・グラス: 偏光オーロラカーテン ＆ 虹色屈折ダイヤモンドグリッター (超極彩爆発) */
@@ -1982,9 +1971,8 @@
     cy = cy == null ? H * .5 : cy;
     var cyan = '#00DFD8', purple = '#7928CA', blue = '#0070F3', neonPink = '#FF0080', white = '#FFFFFF';
     
-    // 全画面インパクト: 露光フラッシュ & 画面微細シェイク
+    // 全画面インパクト: 露光フラッシュ
     if (o.flash !== false) flashScreen('rgba(0, 229, 255, 0.35)', 0.35);
-    if (o.shake !== false) shakeScreen(false);
 
     // 1. 虹色プリズムダイヤモンド閃光 ＆ 星屑グリッターバースト（全画面規模）
     diamondSparkle(cx, cy, { count: o.sparkleCount || 42, color: white, additive: true });
@@ -2013,9 +2001,8 @@
     cy = cy == null ? H * .5 : cy;
     var gold = '#FFD700', brass = '#E0C25E', amber = '#FFA040', warmWhite = '#FFF8DC';
     
-    // 全画面インパクト: ゴールド露光フラッシュ & 重厚打撃タクタイルシェイク
+    // 全画面インパクト: ゴールド露光フラッシュ
     if (o.flash !== false) flashScreen('rgba(255, 215, 0, 0.35)', 0.35);
-    if (o.shake !== false) shakeScreen(true);
 
     // 1. 真鍮スケルトン歯車大量散乱＆連鎖回転（画面全方位）
     gears(cx, cy, { count: o.gearCount || 18, spread: o.spread || Math.max(W, H) * 0.45, w: 40, min: 18, max: 48 });
@@ -2043,9 +2030,8 @@
     cy = cy == null ? H * .5 : cy;
     var neonGreen = '#00FF66', cyan = '#00E5FF', magenta = '#D500F9', matrixGreen = '#76FF03', white = '#FFFFFF';
     
-    // 全画面インパクト: エメラルドグリーン露光フラッシュ & デジタルグリッチシェイク
+    // 全画面インパクト: エメラルドグリーン露光フラッシュ
     if (o.flash !== false) flashScreen('rgba(0, 255, 102, 0.35)', 0.32);
-    if (o.shake !== false) shakeScreen(false);
 
     // 1. デジタルグリッチバー全画面高速走査
     glitchBars({ count: o.glitchCount || 24, colors: ['rgba(0,255,102,0.45)', 'rgba(0,229,255,0.45)', 'rgba(213,0,249,0.35)'], thick: true });
@@ -2074,9 +2060,8 @@
     cy = cy == null ? H * .5 : cy;
     var magenta = '#FF007F', purple = '#7928CA', neonOrange = '#FF7A00', cyan = '#00DFD8', white = '#FFFFFF';
     
-    // 全画面インパクト: 蛍光ピンク露光フラッシュ & 弾性シェイク
+    // 全画面インパクト: 蛍光ピンク露光フラッシュ
     if (o.flash !== false) flashScreen('rgba(255, 0, 127, 0.35)', 0.36);
-    if (o.shake !== false) shakeScreen(false);
 
     // 1. 蛍光インク拡散アイリスシャッター (全画面規模多層展開)
     irisShutter(cx, cy, { maxR: o.maxR || Math.max(W, H) * 0.72, color: magenta, blades: 12 });

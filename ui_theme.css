@@ -28,7 +28,7 @@ html.ui-aurora body::before {
 }
 
 /* ══════════════════════════════════════════════════════════════════
-   全画面エフェクトステージ・カメラシェイク・露光フラッシュ基盤
+   全画面エフェクトステージ・露光フラッシュ基盤
    ══════════════════════════════════════════════════════════════════ */
 .fx-fullscreen-stage {
   position: fixed;
@@ -36,30 +36,6 @@ html.ui-aurora body::before {
   pointer-events: none;
   z-index: 9060;
   overflow: hidden;
-}
-
-.fx-camera-shake-light {
-  animation: cameraShakeLight .32s cubic-bezier(.36,.07,.19,.97) both !important;
-}
-.fx-camera-shake-heavy {
-  animation: cameraShakeHeavy .42s cubic-bezier(.36,.07,.19,.97) both !important;
-}
-
-@keyframes cameraShakeLight {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-  20% { transform: translate3d(-3px, 2px, 0) rotate(-0.3deg); }
-  40% { transform: translate3d(3px, -2px, 0) rotate(0.3deg); }
-  60% { transform: translate3d(-2px, 1px, 0) rotate(-0.15deg); }
-  80% { transform: translate3d(1px, -1px, 0) rotate(0.1deg); }
-}
-
-@keyframes cameraShakeHeavy {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-  15% { transform: translate3d(-6px, 4px, 0) rotate(-0.8deg); }
-  30% { transform: translate3d(6px, -4px, 0) rotate(0.7deg); }
-  50% { transform: translate3d(-4px, 3px, 0) rotate(-0.4deg); }
-  70% { transform: translate3d(3px, -2px, 0) rotate(0.3deg); }
-  85% { transform: translate3d(-1px, 1px, 0) rotate(-0.1deg); }
 }
 
 /* 全画面露光フラッシュオーバーレイ */

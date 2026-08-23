@@ -1,3 +1,7 @@
+// 2026-08-24g: 画面全体が大きく揺れるアニメーション（cameraShake/shakeScreen）を完全削除。
+//   - ui_theme.css: .fx-camera-shake-light, .fx-camera-shake-heavy, @keyframes cameraShakeLight, @keyframes cameraShakeHeavy を完全削除。
+//   - fx_engine.js: shakeScreen を無効化し、全テーマエフェクト（aurora/brass/cyber/liquid/kintsugi/celestial/abyss/frost）からの画面揺れトリガーを完全除去。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-24f: UIテーマ別・極限覚醒Heroゲージ自律進化ループ完遂（kintsugi/celestial/abyss/frost 4テーマ特化・プロフェッショナル決定版・20イテレーション完了）。
 //   - 4テーマ固有Heroゲージ造形: 漆黒陶器外枠/アストロラーベ真鍮星盤/チタン耐圧ガラス管/多面体氷晶ファセットフレームを完全実装。
 //   - 内部固有マテリアル: 溶融ゴールドリキッド＆金粉対流/深群青コズミック星屑＆星座ライン/エメラルド高圧発光液体＆バブル上昇/ダイヤモンドダスト氷晶結晶化。
@@ -447,7 +451,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-24f";
+const SHELL_VERSION = "2026-08-24g";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
