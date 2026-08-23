@@ -1,3 +1,7 @@
+// 2026-08-24h: 統合学習ツール画面のテーマ・効果音設定のUI分離とテーマ選択時文字化け修正。
+//   - study.html / study.css / ui_theme.css: テーマボタンと効果音ボタンを切り分け、テーマ選択モーダル（#studyThemeOv）と効果音設定モーダル（#studySoundOv）を分離。
+//   - fx_engine.js: 賢者の星図・魔導書エフェクト（celestial_grimoire）内の未対応ルーン文字をクロスプラットフォーム対応のギリシャ文字・天体幾何学記号列に修正。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-24g: 画面全体が大きく揺れるアニメーション（cameraShake/shakeScreen）を完全削除。
 //   - ui_theme.css: .fx-camera-shake-light, .fx-camera-shake-heavy, @keyframes cameraShakeLight, @keyframes cameraShakeHeavy を完全削除。
 //   - fx_engine.js: shakeScreen を無効化し、全テーマエフェクト（aurora/brass/cyber/liquid/kintsugi/celestial/abyss/frost）からの画面揺れトリガーを完全除去。
@@ -451,7 +455,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-24g";
+const SHELL_VERSION = "2026-08-24h";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

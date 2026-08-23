@@ -73,10 +73,11 @@ if ('serviceWorker' in navigator) {
       <span class="vis-count" id="visCount" role="status" aria-live="polite" aria-atomic="true">—</span>
     </div>
     <div class="st-title-right">
-      <button class="hdr-btn hdr-theme-btn" onclick="openStudySoundOv()" title="UIテーマ ＆ 効果音設定" aria-label="UIテーマ ＆ 効果音設定">🎨 テーマ</button>
+      <button class="hdr-btn hdr-theme-btn" onclick="openStudyThemeOv()" title="UIテーマ ＆ デザイン設定" aria-label="UIテーマ ＆ デザイン設定">🎨 テーマ</button>
+      <button class="hdr-btn hdr-sound-btn" onclick="openStudySoundOv()" title="効果音設定" aria-label="効果音設定">🔊 効果音</button>
       <button class="hdr-btn" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">♻️</button>
       <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
-      <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0725a</span>
+      <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0824h</span>
     </div>
   </div>
   <div class="st-filter-panel" id="stFilterPanel">
@@ -264,17 +265,28 @@ if ('serviceWorker' in navigator) {
   </div>
 </div>
 
-<!-- 音設定オーバーレイ（study.html内） -->
-<div id="studySoundOv" onclick="if(event.target===this)this.classList.remove('open')">
+<!-- テーマ選択オーバーレイ（study.html内） -->
+<div id="studyThemeOv" onclick="if(event.target===this)closeStudyThemeOv()">
   <div class="ssov-box">
-    <div class="ssov-title">🎨 UIテーマ ＆ 効果音設定</div>
-    <!-- 🎨 UIテーマセット（着せ替えスキン） -->
-    <div class="ssov-lbl">🎨 UIテーマセット（着せ替えスキン）</div>
+    <div class="ssov-title">🎨 テーマ ＆ デザイン設定</div>
+    <div style="font-size:12px;color:var(--ts);margin-bottom:12px;line-height:1.6;">画面全体の着せ替えスキン（UIテーマ）を変更します。この端末だけに保存されます。</div>
+    <div class="ssov-lbl" style="color:var(--yl,#E0C25E);font-weight:700;">✨ UIテーマセット（着せ替えスキン）</div>
     <div class="ui-theme-grid" id="uiThemeGrid"></div>
+    <div style="margin-top:16px">
+      <button style="width:100%;padding:9px;border-radius:var(--r-md);border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--ts);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;" onclick="closeStudyThemeOv()">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<!-- 音設定オーバーレイ（study.html内） -->
+<div id="studySoundOv" onclick="if(event.target===this)closeStudySoundOv()">
+  <div class="ssov-box">
+    <div class="ssov-title">🔊 効果音設定</div>
+    <div style="font-size:12px;color:var(--ts);margin-bottom:12px;line-height:1.6;">試験モードで鳴る音を選択します。</div>
 
     <!-- 選択音・正解音のボタンは sounds_index.js（window.MecSounds）から生成する。
          ⚠️ ここに <button> を書き足さないこと——音を足す口は sounds/ + sounds/meta.json だけ。 -->
-    <div class="ssov-lbl">選択音</div>
+    <div class="ssov-lbl">選択音（選択肢タップ時）</div>
     <div class="ssov-grid" id="ssovSelectGrid"></div>
     <div class="ssov-lbl">正解音</div>
     <div class="ssov-grid" id="ssovCorrectGrid"></div>
@@ -288,8 +300,8 @@ if ('serviceWorker' in navigator) {
       <button class="ssov-btn" data-bsound="off" onclick="saveStudySoundPref('boot','off',this)">無音</button>
     </div>
     <div id="studyDiag"></div>
-    <div style="margin-top:14px">
-      <button style="width:100%;padding:9px;border-radius:var(--r-md);border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--ts);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;" onclick="document.getElementById('studySoundOv').classList.remove('open')">閉じる</button>
+    <div style="margin-top:16px">
+      <button style="width:100%;padding:9px;border-radius:var(--r-md);border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--ts);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;" onclick="closeStudySoundOv()">閉じる</button>
     </div>
   </div>
 </div>
@@ -980,7 +992,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0821a";
+const MEC_BUILD = "b-0824h";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
@@ -2232,8 +2244,16 @@ function selectUITheme(id) {
   _renderUIThemePicker();
 }
 
-function openStudySoundOv() {
+function openStudyThemeOv() {
   _renderUIThemePicker();
+  document.getElementById('studyThemeOv').classList.add('open');
+}
+
+function closeStudyThemeOv() {
+  document.getElementById('studyThemeOv').classList.remove('open');
+}
+
+function openStudySoundOv() {
   _renderStudySoundGrid('ssovSelectGrid', 'select', 'ssound', 'select');
   _renderStudySoundGrid('ssovCorrectGrid', 'correct', 'sound', 'correct');
   _renderStudySoundGrid('ssovResultGrid', 'result', 'rsound', 'result');
@@ -2245,6 +2265,10 @@ function openStudySoundOv() {
   document.querySelectorAll('#ssovBootGrid .ssov-btn').forEach(b => b.classList.toggle('sel', b.dataset.bsound === _bootSound));
   document.getElementById('studySoundOv').classList.add('open');
   _renderStudyDiag();
+}
+
+function closeStudySoundOv() {
+  document.getElementById('studySoundOv').classList.remove('open');
 }
 
 // 演出が出ない等の切り分け用の自己診断。iPhone等の実機でも状態を目視できるようにする。

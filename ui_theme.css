@@ -4919,7 +4919,8 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   z-index: 2 !important;
 }
 
-.hdr-theme-btn {
+.hdr-theme-btn,
+.hdr-sound-btn {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.08)) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.38) !important;
   color: #FFF !important;
@@ -4932,7 +4933,8 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   cursor: pointer !important;
 }
 
-.hdr-theme-btn:hover {
+.hdr-theme-btn:hover,
+.hdr-sound-btn:hover {
   background: linear-gradient(135deg, rgba(0, 229, 255, 0.35), rgba(121, 40, 202, 0.35)) !important;
   border-color: #00E5FF !important;
   box-shadow: 0 0 14px rgba(0, 229, 255, 0.6) !important;

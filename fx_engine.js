@@ -574,12 +574,12 @@
         return;
       }
       case 'celestial_grimoire': {
-        // 【賢者の星図・魔導書】多重天球儀リング ＆ 古代ルーン文字回転 ＆ 八芒星幾何学
+        // 【賢者の星図・魔導書】多重天球儀リング ＆ 古代神秘文字・天文幾何学回転 ＆ 八芒星幾何学
         var scG = easeOutCubic(t);
         var rG = p.maxR * scG;
         var starGold = p.color || '#FFD166';
         var manaPurple = p.accentColor || '#8A2BE2';
-        var runes = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚷ', 'ᚹ', 'ᚺ', 'ᚾ', 'ᛁ', 'ᛃ', 'ᛈ', 'ᛋ', 'ᛏ', 'ᛒ'];
+        var runes = ['α', 'β', 'γ', 'δ', 'ε', 'θ', 'λ', 'μ', 'π', 'σ', 'φ', 'ψ', 'ω', '✦', '✧', '★'];
 
         ctx.save();
         ctx.translate(x, y);
@@ -613,9 +613,9 @@
           ctx.stroke();
         }
 
-        // 3. 古代ルーン文字の点灯・公転
+        // 3. 古代神秘文字・天文幾何学記号の点灯・公転
         ctx.fillStyle = starGold;
-        ctx.font = 'bold ' + Math.max(10, Math.round(rG * 0.08)) + 'px sans-serif';
+        ctx.font = 'bold ' + Math.max(10, Math.round(rG * 0.08)) + 'px "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         var runeCount = 12;
