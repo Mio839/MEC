@@ -13,10 +13,30 @@ if (!fs.existsSync(SHOTS_DIR)) {
   fs.mkdirSync(SHOTS_DIR, { recursive: true });
 }
 
-function generatePreviewHtml(theme, isExam = false, state = 'default', isCollapsed = false, combo = 1) {
+function generatePreviewHtml(theme, isExam = false, state = 'default', isCollapsed = false, combo = 1, valParam = 75) {
   const isAnswered = state === 'answered' || state === 'correct' || state === 'combo' || !isExam;
   const isCorrectState = state === 'correct';
   const isComboState = state === 'combo';
+  const isGaugeCharge = state === 'gauge-charge';
+  const isGaugeMax = state === 'gauge-max';
+  const isProgressState = state === 'progress';
+
+  let currentVal = valParam;
+  let currentTier = 4;
+  if (isGaugeMax) {
+    currentVal = 100;
+    currentTier = 6;
+  } else if (isGaugeCharge) {
+    currentVal = Math.max(valParam, 85);
+    currentTier = 5;
+  } else if (isProgressState) {
+    currentVal = valParam;
+    currentTier = currentVal >= 100 ? 6 : currentVal >= 75 ? 4 : currentVal >= 50 ? 3 : currentVal >= 25 ? 2 : 1;
+  }
+
+  const circumference = 2 * Math.PI * 54; // ~339.292
+  const offset = circumference * (1 - Math.min(100, currentVal) / 100);
+  const rotDeg = Math.min(100, currentVal) * 3.6;
   return `<!DOCTYPE html>
 <html class="${theme}">
 <head>
@@ -70,7 +90,7 @@ body { margin: 20px auto; max-width: 900px; font-family: -apple-system, BlinkMac
 
   <!-- 学習ハブ Heroゲージ (演出確認用) -->
   <div style="display:flex; justify-content:center; align-items:center; padding:16px 0; background:rgba(0,0,0,0.2); border-radius:16px;">
-    <div class="gauge" id="gaugeBox" data-tier="4">
+    <div class="gauge ${isGaugeCharge ? 'gauge-charge' : ''} ${isGaugeMax ? 'gauge-max' : ''}" id="gaugeBox" data-tier="${currentTier}">
       <div class="gauge-ring">
         <svg viewBox="0 0 168 168" aria-hidden="true">
           <path class="gear gear-main" id="gearMain"></path>
@@ -79,17 +99,17 @@ body { margin: 20px auto; max-width: 900px; font-family: -apple-system, BlinkMac
           <path class="gear gear-c"    id="gearC"></path>
           <path class="gear gear-d"    id="gearD"></path>
           <circle class="gauge-trk"  cx="84" cy="84" r="54"></circle>
-          <circle class="gauge-val" id="gaugeVal" cx="84" cy="84" r="54" style="stroke-dashoffset: 84.8;"></circle>
+          <circle class="gauge-val" id="gaugeVal" cx="84" cy="84" r="54" style="stroke-dashoffset: ${offset.toFixed(1)};"></circle>
           <circle class="gauge-ovf" id="gaugeOvf" cx="84" cy="84" r="54"></circle>
-          <g class="gauge-dot" id="gaugeDot" style="transform-origin:84px 84px; transform: rotate(270deg);">
+          <g class="gauge-dot" id="gaugeDot" style="transform-origin:84px 84px; transform: rotate(${rotDeg.toFixed(1)}deg);">
             <circle class="halo" cx="84" cy="30" r="10"></circle>
             <circle cx="84" cy="30" r="5"></circle>
           </g>
         </svg>
-        <span class="gauge-mid" id="gaugeMid"><span id="statPct">75</span><em>%</em></span>
+        <span class="gauge-mid" id="gaugeMid"><span id="statPct">${currentVal}</span><em>%</em></span>
       </div>
-      <p class="gauge-cap" id="gaugeCap" style="margin:4px 0 2px; font-size:12px; opacity:0.8;">今日の目標 (Tier 4)</p>
-      <p class="gauge-goal" style="margin:0; font-size:13px; font-weight:700;"><b id="gaugeDoneN">30</b> / <span id="gaugeGoalN">40</span>問</p>
+      <p class="gauge-cap" id="gaugeCap" style="margin:4px 0 2px; font-size:12px; opacity:0.8;">今日の目標 (Tier ${currentTier})</p>
+      <p class="gauge-goal" style="margin:0; font-size:13px; font-weight:700;"><b id="gaugeDoneN">${Math.round(currentVal * 0.4)}</b> / <span id="gaugeGoalN">40</span>問</p>
     </div>
   </div>
   <script>
@@ -208,6 +228,7 @@ function startServer() {
     let reqUrl = new URL(req.url, `http://localhost:${PORT}`);
     let reqPath = reqUrl.pathname;
     let stateParam = reqUrl.searchParams.get('state') || 'default';
+    let valParam = parseInt(reqUrl.searchParams.get('val') || '75', 10);
     let comboParam = parseInt(reqUrl.searchParams.get('combo') || '1', 10);
     let isCollapsed = reqUrl.searchParams.get('collapsed') === 'true';
 
@@ -215,7 +236,7 @@ function startServer() {
       const isExam = reqPath.includes('_exam');
       const theme = reqPath.replace('/preview/', '').replace('_exam', '').replace('.html', '');
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-      res.end(generatePreviewHtml(theme, isExam, stateParam, isCollapsed, comboParam));
+      res.end(generatePreviewHtml(theme, isExam, stateParam, isCollapsed, comboParam, valParam));
       return;
     }
 
@@ -252,7 +273,7 @@ function cdpSend(ws, method, params = {}, id = 1) {
   });
 }
 
-async function captureAll(iterName = 'iter1', state = 'default', isCollapsed = false, isExam = false, combo = 1, targetTheme = '') {
+async function captureAll(iterName = 'iter1', state = 'default', isCollapsed = false, isExam = false, combo = 1, targetTheme = '', val = 75) {
   const server = await startServer();
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'chrome-mec-'));
   const chromeProc = spawn(CHROME_PATH, [
@@ -298,17 +319,18 @@ async function captureAll(iterName = 'iter1', state = 'default', isCollapsed = f
 
     for (const t of themes) {
       const examSuffix = isExam ? '_exam' : '';
-      const previewUrl = `http://localhost:${PORT}/preview/${t}${examSuffix}.html?state=${state}&collapsed=${isCollapsed}&combo=${combo}`;
+      const previewUrl = `http://localhost:${PORT}/preview/${t}${examSuffix}.html?state=${state}&collapsed=${isCollapsed}&combo=${combo}&val=${val}`;
       await cdpSend(ws, 'Page.navigate', { url: previewUrl }, msgId++);
       await new Promise(r => setTimeout(r, 600));
 
       const shot = await cdpSend(ws, 'Page.captureScreenshot', { format: 'png' }, msgId++);
       const vpSuffix = vp.name === 'mobile' ? '_mobile' : '';
       const stateSuffix = state !== 'default' ? `_${state}` : '';
+      const valSuffix = state === 'progress' ? `_val${val}` : '';
       const comboSuffix = state === 'combo' ? `_combo${combo}` : '';
       const colSuffix = isCollapsed ? '_collapsed' : '';
       const examFileSuffix = isExam ? '_exam' : '';
-      const outFile = path.join(SHOTS_DIR, `${iterName}_${t}${vpSuffix}${stateSuffix}${comboSuffix}${colSuffix}${examFileSuffix}.png`);
+      const outFile = path.join(SHOTS_DIR, `${iterName}_${t}${vpSuffix}${stateSuffix}${valSuffix}${comboSuffix}${colSuffix}${examFileSuffix}.png`);
       fs.writeFileSync(outFile, Buffer.from(shot.data, 'base64'));
       captured[`${t}_${vp.name}`] = outFile;
       console.log(`Saved screenshot: ${outFile}`);
@@ -324,6 +346,7 @@ async function captureAll(iterName = 'iter1', state = 'default', isCollapsed = f
 const args = process.argv.slice(2);
 let iter = 'iter1';
 let state = 'default';
+let val = 75;
 let isCollapsed = false;
 let isExam = false;
 let combo = 1;
@@ -332,6 +355,8 @@ let targetTheme = '';
 for (const arg of args) {
   if (arg.startsWith('--state=')) {
     state = arg.replace('--state=', '');
+  } else if (arg.startsWith('--val=')) {
+    val = parseInt(arg.replace('--val=', ''), 10);
   } else if (arg.startsWith('--combo=')) {
     combo = parseInt(arg.replace('--combo=', ''), 10);
   } else if (arg.startsWith('--theme=')) {
@@ -345,7 +370,7 @@ for (const arg of args) {
   }
 }
 
-captureAll(iter, state, isCollapsed, isExam, combo, targetTheme).then(() => {
+captureAll(iter, state, isCollapsed, isExam, combo, targetTheme, val).then(() => {
   console.log('Capture completed successfully.');
   process.exit(0);
 }).catch((err) => {
