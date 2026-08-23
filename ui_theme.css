@@ -2269,7 +2269,7 @@ html.ui-kintsugi .qc::before {
   100% { background-position: 300% 50%; }
 }
 
-/* �倦 繧ｫ繝ｼ繝芽レ譎ｯ騾上°縺�: 髱呵ｬ舌↑蠅ｨ邨ｵ蜀�嶌 & 驥醍ｶ吶℃繧ｯ繝ｩ繝�け */
+/* 🌑 カード背後円相: 繊細な円相背景 & 金継ぎクラック */
 html.ui-kintsugi .qc::after {
   content: ''; position: absolute; top: -45px; right: -45px; width: 230px; height: 230px;
   background-image: 
@@ -2286,6 +2286,32 @@ html.ui-kintsugi .qc::after {
 @keyframes kintsugiEnsoPulse {
   0% { transform: scale(1) rotate(0deg); opacity: 0.75; }
   100% { transform: scale(1.12) rotate(45deg); opacity: 1; }
+}
+
+/* 🌑 解答解説ボックス: 漆黒硯 ＆ 金箔箔押し結合 */
+html.ui-kintsugi .qc .ab {
+  background: linear-gradient(150deg, rgba(24, 22, 32, 0.98), rgba(12, 12, 18, 0.99)) !important;
+  border: 1.5px solid rgba(245, 208, 97, 0.65) !important;
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 248, 220, 0.6), inset 0 0 24px rgba(245, 208, 97, 0.12) !important;
+  border-radius: 14px !important;
+  padding: 16px 20px !important;
+  animation: kintsugiAnswerBoxReveal 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes kintsugiAnswerBoxReveal {
+  0% { opacity: 0; transform: translateY(8px); border-color: rgba(245, 208, 97, 0.2); }
+  50% { border-color: #FFF2A8; box-shadow: 0 0 26px rgba(245, 208, 97, 0.55); }
+  100% { opacity: 1; transform: translateY(0); border-color: rgba(245, 208, 97, 0.65); }
+}
+
+html.ui-kintsugi .qc .ab strong {
+  background: linear-gradient(135deg, #F5D061 0%, #D4AF37 50%, #8C6D1F 100%) !important;
+  padding: 5px 14px !important;
+  border-radius: 6px !important;
+  color: #0A0A0E !important;
+  font-weight: 900 !important;
+  text-shadow: none !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
 }
 
 /* 🌑 問題番号バッジ: 八角形本金メダリオン & 蒔絵金箔押し */
@@ -2445,6 +2471,23 @@ html.ui-kintsugi body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   box-shadow: 0 0 26px rgba(245, 208, 97, 0.75), inset 0 1px 0 rgba(255, 248, 220, 0.9) !important;
   color: #FFFDF0 !important;
   font-weight: 700 !important;
+  animation: kintsugiChoiceRepair 0.48s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+html.ui-kintsugi .qc.fx-correct {
+  animation: kintsugiCardRepairGlow 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes kintsugiCardRepairGlow {
+  0% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 10px rgba(245, 208, 97, 0.2); }
+  40% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(245, 208, 97, 0.9), inset 0 0 35px rgba(245, 208, 97, 0.35); }
+  100% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(245, 208, 97, 0.35), inset 0 0 20px rgba(245, 208, 97, 0.12); }
+}
+
+@keyframes kintsugiChoiceRepair {
+  0% { transform: scale(0.97); filter: brightness(1.6); border-color: #FFF2A8; }
+  50% { transform: scale(1.02); filter: brightness(1.3); border-color: #F5D061; box-shadow: 0 0 32px rgba(245, 208, 97, 0.95); }
+  100% { transform: scale(1); filter: brightness(1); border-color: #F5D061; }
 }
 
 /* �倦 隧ｦ鬨薙Δ繝ｼ繝画悴髢狗､ｺ譎�: 豁｣隗｣閧｢縺ｧ縺ゅｋ縺薙→繧貞ｮ悟�縺ｫ髫�阡ｽ�医ロ繧ｿ繝舌Ξ螳悟�髦ｲ豁｢�� */
@@ -2500,7 +2543,7 @@ html.ui-kintsugi .qc .ab strong {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
 }
 
-/* 🌑 解説・エピソードボックス: 漆黒硯・墨汁の深み & 和紙風可読性 */
+/* 🌑 解説・エピソードボックス: 漆黒巻物展開 ＆ 和紙風可読性 */
 html.ui-kintsugi .qc .eg {
   background: linear-gradient(150deg, rgba(20, 18, 28, 0.98) 0%, rgba(10, 10, 15, 0.99) 100%) !important;
   border: 1.5px solid rgba(245, 208, 97, 0.55) !important;
@@ -2511,6 +2554,13 @@ html.ui-kintsugi .qc .eg {
   line-height: 1.85 !important;
   color: #FFFDF5 !important;
   padding: 18px 22px !important;
+  animation: kintsugiScrollUnfold 0.44s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes kintsugiScrollUnfold {
+  0% { opacity: 0; transform: translateY(10px) scaleY(0.96); border-left-color: rgba(245, 208, 97, 0.2); }
+  60% { border-left-color: #FFF2A8; }
+  100% { opacity: 1; transform: translateY(0) scaleY(1); border-left-color: #F5D061; }
 }
 
 html.ui-kintsugi .qc .an {
@@ -2519,10 +2569,38 @@ html.ui-kintsugi .qc .an {
   font-weight: 700 !important;
 }
 
-html.ui-kintsugi .qc .mec-flag-btn.mec-flagged {
+html.ui-kintsugi .qc.mec-flag-btn.mec-flagged {
   background: linear-gradient(135deg, rgba(245, 208, 97, 0.65), rgba(217, 56, 58, 0.65)) !important;
   border-color: #F5D061 !important;
   color: #FFF !important;
+}
+
+/* 🌑 連続正解 (Combo) 段階的進化オーラ */
+html.ui-kintsugi .qc.combo-streak-3 {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 28px rgba(245, 208, 97, 0.35), inset 0 0 16px rgba(245, 208, 97, 0.12) !important;
+  border-color: rgba(245, 208, 97, 0.6) !important;
+}
+
+html.ui-kintsugi .qc.combo-streak-5 {
+  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 42px rgba(245, 208, 97, 0.55), inset 0 0 24px rgba(245, 208, 97, 0.22) !important;
+  border-color: #F5D061 !important;
+  animation: kintsugiEnsoComboPulse 3.5s ease-in-out infinite alternate !important;
+}
+
+html.ui-kintsugi .qc.combo-streak-10 {
+  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 60px rgba(245, 208, 97, 0.8), inset 0 0 35px rgba(245, 208, 97, 0.35) !important;
+  border-color: #FFF2A8 !important;
+  animation: kintsugiZenZenithAura 2.2s ease-in-out infinite alternate !important;
+}
+
+@keyframes kintsugiEnsoComboPulse {
+  0% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 35px rgba(245, 208, 97, 0.45); }
+  100% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 55px rgba(245, 208, 97, 0.75); }
+}
+
+@keyframes kintsugiZenZenithAura {
+  0% { box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 50px rgba(245, 208, 97, 0.7), inset 0 0 25px rgba(245, 208, 97, 0.25); }
+  100% { box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 75px rgba(245, 208, 97, 0.95), inset 0 0 45px rgba(245, 208, 97, 0.45); }
 }
 
 html.ui-kintsugi .qc .mec-err-btn.mec-erred {
@@ -2536,6 +2614,41 @@ html.ui-kintsugi .mec-undo-btn {
   border: 1px solid #F5D061 !important;
   color: #FFF !important;
   border-radius: 12px !important;
+}
+
+/* 🌑 コンボバッジ: 漆黒蒔絵プレート ＆ 黄金箔押し */
+html.ui-kintsugi .mec-combo-badge {
+  background: linear-gradient(135deg, rgba(30, 26, 20, 0.96) 0%, rgba(12, 12, 16, 0.98) 100%) !important;
+  border: 1.5px solid #F5D061 !important;
+  border-radius: 10px !important;
+  padding: 6px 14px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.9), 0 0 20px rgba(245, 208, 97, 0.6), inset 0 1px 0 #FFF2A8 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  animation: kintsugiBadgePop 0.38s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+html.ui-kintsugi .mec-combo-badge .combo-count {
+  font-size: 20px !important;
+  font-weight: 900 !important;
+  color: #F5D061 !important;
+  text-shadow: 0 0 12px rgba(245, 208, 97, 0.9) !important;
+  line-height: 1 !important;
+}
+
+html.ui-kintsugi .mec-combo-badge .combo-label {
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  color: #FFFDF0 !important;
+  letter-spacing: 1px !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+}
+
+@keyframes kintsugiBadgePop {
+  0% { transform: scale(0.8) translateY(-4px); opacity: 0; }
+  60% { transform: scale(1.08) translateY(0); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
 }
 
 
@@ -2814,6 +2927,23 @@ html.ui-celestial body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   box-shadow: 0 0 26px rgba(255, 209, 102, 0.75), inset 0 1px 0 #FFFFFF !important;
   color: #FFFDF8 !important;
   font-weight: 700 !important;
+  animation: celestialChoiceRuneGlow 0.48s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+html.ui-celestial .qc.fx-correct {
+  animation: celestialCardAstrolabeGlow 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes celestialCardAstrolabeGlow {
+  0% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 12px rgba(138, 43, 226, 0.3); }
+  40% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 54px rgba(255, 209, 102, 0.95), inset 0 0 35px rgba(138, 43, 226, 0.4); }
+  100% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 32px rgba(255, 209, 102, 0.35), inset 0 0 20px rgba(138, 43, 226, 0.15); }
+}
+
+@keyframes celestialChoiceRuneGlow {
+  0% { transform: scale(0.97); filter: brightness(1.6); border-color: #FFF3C4; }
+  50% { transform: scale(1.02); filter: brightness(1.3); border-color: #FFD166; box-shadow: 0 0 34px rgba(255, 209, 102, 0.95); }
+  100% { transform: scale(1); filter: brightness(1); border-color: #FFD166; }
 }
 
 /* 血 隧ｦ鬨薙Δ繝ｼ繝画悴髢狗､ｺ譎: 豁｣隗｣閧｢縺ｧ縺ゅｋ縺薙→繧貞ｮ悟縺ｫ髫阡ｽ医ロ繧ｿ繝舌Ξ螳悟髦ｲ豁｢ */
@@ -2850,7 +2980,7 @@ html.ui-celestial body.ch-exam-mode .qc.ch-exam-revealed .ch2.ng {
   color: #FFF !important;
 }
 
-/* 血 隗｣遲碑ｧ｣隱ｬ繝懊ャ繧ｯ繧ｹ */
+/* 🌌 解答解説ボックス: 天球儀魔導書オープン */
 html.ui-celestial .qc .ab {
   background: linear-gradient(145deg, rgba(30, 22, 66, 0.98) 0%, rgba(14, 8, 34, 0.99) 100%) !important;
   border: 1.5px solid #FFD166 !important;
@@ -2858,6 +2988,13 @@ html.ui-celestial .qc .ab {
   border-radius: 16px !important;
   padding: 16px 20px !important;
   backdrop-filter: blur(24px) !important;
+  animation: celestialAnswerBoxReveal 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes celestialAnswerBoxReveal {
+  0% { opacity: 0; transform: translateY(8px); border-color: rgba(255, 209, 102, 0.3); }
+  50% { border-color: #FFF8DC; box-shadow: 0 0 30px rgba(255, 209, 102, 0.7), 0 0 45px rgba(138, 43, 226, 0.5); }
+  100% { opacity: 1; transform: translateY(0); border-color: #FFD166; }
 }
 
 html.ui-celestial .qc .ab strong {
@@ -2871,7 +3008,7 @@ html.ui-celestial .qc .ab strong {
   box-shadow: 0 2px 14px rgba(255, 209, 102, 0.65) !important;
 }
 
-/* 🌌 解説・エピソードボックス: 魔導星図盤・天球儀グラデーション */
+/* 🌌 解説・エピソードボックス: 魔導星図盤・天球儀グラデーション展開 */
 html.ui-celestial .qc .eg {
   background: linear-gradient(150deg, rgba(28, 20, 58, 0.98) 0%, rgba(12, 8, 30, 0.99) 100%) !important;
   border: 1.5px solid rgba(255, 209, 102, 0.55) !important;
@@ -2882,6 +3019,13 @@ html.ui-celestial .qc .eg {
   line-height: 1.85 !important;
   color: #FFFDF8 !important;
   padding: 18px 22px !important;
+  animation: celestialGrimoireOpen 0.44s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes celestialGrimoireOpen {
+  0% { opacity: 0; transform: translateY(10px) scaleY(0.96); border-left-color: rgba(255, 209, 102, 0.2); }
+  60% { border-left-color: #FFF8DC; box-shadow: 0 14px 40px rgba(0, 0, 0, 0.9), 0 0 28px rgba(255, 209, 102, 0.4); }
+  100% { opacity: 1; transform: translateY(0) scaleY(1); border-left-color: #FFD166; }
 }
 
 html.ui-celestial .qc .an {
@@ -2896,6 +3040,35 @@ html.ui-celestial .qc .mec-flag-btn.mec-flagged {
   color: #FFF !important;
 }
 
+/* 🌌 連続正解 (Combo) 段階的進化オーラ */
+html.ui-celestial .qc.combo-streak-3 {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 28px rgba(255, 209, 102, 0.35), 0 0 40px rgba(138, 43, 226, 0.25) !important;
+  border-color: rgba(255, 209, 102, 0.65) !important;
+}
+
+html.ui-celestial .qc.combo-streak-5 {
+  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 45px rgba(255, 209, 102, 0.65), 0 0 60px rgba(138, 43, 226, 0.45) !important;
+  border-color: #FFD166 !important;
+  animation: celestialAstrolabeComboSpin 4.5s linear infinite !important;
+}
+
+html.ui-celestial .qc.combo-streak-10 {
+  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 65px rgba(255, 209, 102, 0.9), 0 0 80px rgba(138, 43, 226, 0.65) !important;
+  border-color: #FFF8DC !important;
+  animation: celestialGrimoireZenithAura 2.5s ease-in-out infinite alternate !important;
+}
+
+@keyframes celestialAstrolabeComboSpin {
+  0% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 35px rgba(255, 209, 102, 0.55), 0 0 50px rgba(138, 43, 226, 0.35); }
+  50% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 55px rgba(255, 209, 102, 0.8), 0 0 70px rgba(72, 202, 228, 0.55); }
+  100% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 35px rgba(255, 209, 102, 0.55), 0 0 50px rgba(138, 43, 226, 0.35); }
+}
+
+@keyframes celestialGrimoireZenithAura {
+  0% { box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 50px rgba(255, 209, 102, 0.75), 0 0 65px rgba(138, 43, 226, 0.5); }
+  100% { box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 80px rgba(255, 209, 102, 0.98), 0 0 95px rgba(72, 202, 228, 0.75); }
+}
+
 html.ui-celestial .qc .mec-err-btn.mec-erred {
   background: linear-gradient(135deg, rgba(217, 56, 58, 0.7), rgba(138, 43, 226, 0.5)) !important;
   border-color: #D9383A !important;
@@ -2907,6 +3080,41 @@ html.ui-celestial .mec-undo-btn {
   border: 1px solid #FFD166 !important;
   color: #FFF !important;
   border-radius: 12px !important;
+}
+
+/* 🌌 コンボバッジ: 魔導星図天球儀バッジ ＆ マナパープル発光 */
+html.ui-celestial .mec-combo-badge {
+  background: linear-gradient(135deg, rgba(38, 22, 70, 0.96) 0%, rgba(16, 8, 38, 0.98) 100%) !important;
+  border: 1.5px solid #FFD166 !important;
+  border-radius: 10px !important;
+  padding: 6px 14px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.9), 0 0 24px rgba(255, 209, 102, 0.7), 0 0 35px rgba(138, 43, 226, 0.45), inset 0 1px 0 #FFF8DC !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  animation: celestialBadgePop 0.38s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+html.ui-celestial .mec-combo-badge .combo-count {
+  font-size: 20px !important;
+  font-weight: 900 !important;
+  color: #FFD166 !important;
+  text-shadow: 0 0 12px rgba(255, 209, 102, 1), 0 0 20px rgba(138, 43, 226, 0.8) !important;
+  line-height: 1 !important;
+}
+
+html.ui-celestial .mec-combo-badge .combo-label {
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  color: #FFFDF8 !important;
+  letter-spacing: 1px !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+}
+
+@keyframes celestialBadgePop {
+  0% { transform: scale(0.8) translateY(-4px) rotate(-3deg); opacity: 0; }
+  60% { transform: scale(1.08) translateY(0) rotate(1deg); opacity: 1; }
+  100% { transform: scale(1) translateY(0) rotate(0deg); opacity: 1; }
 }
 
 
@@ -3244,6 +3452,23 @@ html.ui-abyss body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   box-shadow: 0 0 28px rgba(0, 255, 163, 0.75), inset 0 1px 0 #FFFFFF !important;
   color: #F0FDF4 !important;
   font-weight: 700 !important;
+  animation: abyssChoiceBioPulseGlow 0.48s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+html.ui-abyss .qc.fx-correct {
+  animation: abyssCardSonarPulseGlow 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes abyssCardSonarPulseGlow {
+  0% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 12px rgba(0, 255, 163, 0.2); }
+  40% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 55px rgba(0, 255, 163, 0.95), inset 0 0 35px rgba(0, 180, 216, 0.35); }
+  100% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 32px rgba(0, 255, 163, 0.35), inset 0 0 20px rgba(0, 255, 163, 0.12); }
+}
+
+@keyframes abyssChoiceBioPulseGlow {
+  0% { transform: scale(0.97); filter: brightness(1.6); border-color: #B4FBE2; }
+  50% { transform: scale(1.02); filter: brightness(1.3); border-color: #00FFA3; box-shadow: 0 0 36px rgba(0, 255, 163, 0.98); }
+  100% { transform: scale(1); filter: brightness(1); border-color: #00FFA3; }
 }
 
 /* 🌊 試験モード未開示時: 正解肢であることを完全に隠蔽（ネタバレ完全防止） */
@@ -3280,6 +3505,7 @@ html.ui-abyss body.ch-exam-mode .qc.ch-exam-revealed .ch2.ng {
   color: #FFF !important;
 }
 
+/* 🌊 解答解説ボックス: 深海耐圧ハッチ展開 */
 html.ui-abyss .qc .ab {
   background: linear-gradient(145deg, rgba(8, 32, 60, 0.98) 0%, rgba(2, 12, 28, 0.99) 100%) !important;
   border: 1.5px solid #00FFA3 !important;
@@ -3287,6 +3513,13 @@ html.ui-abyss .qc .ab {
   border-radius: 14px !important;
   padding: 16px 20px !important;
   backdrop-filter: blur(24px) !important;
+  animation: abyssAnswerBoxReveal 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes abyssAnswerBoxReveal {
+  0% { opacity: 0; transform: translateY(8px); border-color: rgba(0, 255, 163, 0.3); }
+  50% { border-color: #B4FBE2; box-shadow: 0 0 32px rgba(0, 255, 163, 0.8), 0 0 45px rgba(0, 180, 216, 0.6); }
+  100% { opacity: 1; transform: translateY(0); border-color: #00FFA3; }
 }
 
 html.ui-abyss .qc .ab strong {
@@ -3300,7 +3533,7 @@ html.ui-abyss .qc .ab strong {
   box-shadow: 0 2px 14px rgba(0, 255, 163, 0.65) !important;
 }
 
-/* 🌊 解説・エピソードボックス: 深海プレッシャーチャンバー */
+/* 🌊 解説・エピソードボックス: 深海プレッシャーチャンバー・耐圧ハッチ展開 */
 html.ui-abyss .qc .eg {
   background: linear-gradient(150deg, rgba(4, 20, 42, 0.98) 0%, rgba(1, 8, 20, 0.99) 100%) !important;
   border: 1.5px solid rgba(0, 255, 163, 0.5) !important;
@@ -3311,6 +3544,13 @@ html.ui-abyss .qc .eg {
   line-height: 1.85 !important;
   color: #F0FDF4 !important;
   padding: 18px 22px !important;
+  animation: abyssHatchOpen 0.44s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes abyssHatchOpen {
+  0% { opacity: 0; transform: translateY(10px) scaleY(0.96); border-left-color: rgba(0, 255, 163, 0.2); }
+  60% { border-left-color: #B4FBE2; box-shadow: 0 14px 40px rgba(0, 0, 0, 0.9), 0 0 28px rgba(0, 255, 163, 0.4); }
+  100% { opacity: 1; transform: translateY(0) scaleY(1); border-left-color: #00FFA3; }
 }
 
 html.ui-abyss .qc .an {
@@ -3325,6 +3565,34 @@ html.ui-abyss .qc .mec-flag-btn.mec-flagged {
   color: #FFF !important;
 }
 
+/* 🌊 連続正解 (Combo) 段階的進化オーラ */
+html.ui-abyss .qc.combo-streak-3 {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.88), 0 0 30px rgba(0, 255, 163, 0.35), 0 0 45px rgba(0, 180, 216, 0.25) !important;
+  border-color: rgba(0, 255, 163, 0.65) !important;
+}
+
+html.ui-abyss .qc.combo-streak-5 {
+  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.9), 0 0 48px rgba(0, 255, 163, 0.65), 0 0 65px rgba(0, 180, 216, 0.5) !important;
+  border-color: #00FFA3 !important;
+  animation: abyssSonarComboPulse 3.8s ease-in-out infinite alternate !important;
+}
+
+html.ui-abyss .qc.combo-streak-10 {
+  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.95), 0 0 68px rgba(0, 255, 163, 0.92), 0 0 85px rgba(0, 180, 216, 0.7) !important;
+  border-color: #B4FBE2 !important;
+  animation: abyssDeepOceanZenithAura 2.4s ease-in-out infinite alternate !important;
+}
+
+@keyframes abyssSonarComboPulse {
+  0% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.9), 0 0 38px rgba(0, 255, 163, 0.5), 0 0 50px rgba(0, 180, 216, 0.35); }
+  100% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.9), 0 0 58px rgba(0, 255, 163, 0.8), 0 0 75px rgba(0, 180, 216, 0.65); }
+}
+
+@keyframes abyssDeepOceanZenithAura {
+  0% { box-shadow: 0 28px 75px rgba(0, 0, 0, 0.95), 0 0 55px rgba(0, 255, 163, 0.75), 0 0 70px rgba(0, 180, 216, 0.55); }
+  100% { box-shadow: 0 28px 75px rgba(0, 0, 0, 0.95), 0 0 85px rgba(0, 255, 163, 0.98), 0 0 100px rgba(100, 255, 218, 0.8); }
+}
+
 html.ui-abyss .qc .mec-err-btn.mec-erred {
   background: linear-gradient(135deg, rgba(217, 56, 58, 0.7), rgba(0, 255, 163, 0.5)) !important;
   border-color: #D9383A !important;
@@ -3336,6 +3604,41 @@ html.ui-abyss .mec-undo-btn {
   border: 1px solid #00FFA3 !important;
   color: #FFF !important;
   border-radius: 12px !important;
+}
+
+/* 🌊 コンボバッジ: 深海生体発光カプセル ＆ エメラルドパルス */
+html.ui-abyss .mec-combo-badge {
+  background: linear-gradient(135deg, rgba(2, 28, 52, 0.96) 0%, rgba(1, 10, 22, 0.98) 100%) !important;
+  border: 1.5px solid #00FFA3 !important;
+  border-radius: 10px !important;
+  padding: 6px 14px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.9), 0 0 22px rgba(0, 255, 163, 0.65), inset 0 1px 0 rgba(224, 242, 254, 0.9) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  animation: abyssBadgePulse 0.38s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+html.ui-abyss .mec-combo-badge .combo-count {
+  font-size: 20px !important;
+  font-weight: 900 !important;
+  color: #00FFA3 !important;
+  text-shadow: 0 0 14px rgba(0, 255, 163, 1) !important;
+  line-height: 1 !important;
+}
+
+html.ui-abyss .mec-combo-badge .combo-label {
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  color: #E0F2FE !important;
+  letter-spacing: 1px !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important;
+}
+
+@keyframes abyssBadgePulse {
+  0% { transform: scale(0.8) translateY(-4px); opacity: 0; }
+  60% { transform: scale(1.08) translateY(0); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
 }
 
 /* ═════════════════════════════════════════════════════════════════════════
@@ -3400,6 +3703,23 @@ html.ui-frost .modal-box {
               inset 0 0 30px rgba(112, 214, 255, 0.22),
               inset 0 0 0 1px rgba(160, 231, 229, 0.28) !important;
   border-radius: 14px !important;
+}
+
+/* ❄️ 解答解説ボックス: 氷晶プレート・屈折スライド展開 */
+html.ui-frost .qc .ab {
+  background: linear-gradient(145deg, rgba(10, 32, 60, 0.98) 0%, rgba(4, 16, 32, 0.99) 100%) !important;
+  border: 1.5px solid rgba(112, 214, 255, 0.75) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.88), 0 0 32px rgba(112, 214, 255, 0.4), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.95) !important;
+  border-radius: 14px !important;
+  padding: 16px 20px !important;
+  backdrop-filter: blur(24px) !important;
+  animation: frostAnswerBoxReveal 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes frostAnswerBoxReveal {
+  0% { opacity: 0; transform: translateY(8px); border-color: rgba(112, 214, 255, 0.3); }
+  50% { border-color: #FFFFFF; box-shadow: 0 0 32px rgba(112, 214, 255, 0.85), 0 0 45px rgba(255, 255, 255, 0.6); }
+  100% { opacity: 1; transform: translateY(0); border-color: rgba(112, 214, 255, 0.75); }
 }
 
 html.ui-frost .qc {
@@ -3686,6 +4006,23 @@ html.ui-frost body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   box-shadow: 0 0 26px rgba(112, 214, 255, 0.8), inset 0 1px 0 #FFFFFF !important;
   color: #F0FDF4 !important;
   font-weight: 700 !important;
+  animation: frostChoiceCrystallizeGlow 0.48s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+html.ui-frost .qc.fx-correct {
+  animation: frostCardCrystalFlashGlow 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes frostCardCrystalFlashGlow {
+  0% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 12px rgba(112, 214, 255, 0.25); }
+  40% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 54px rgba(112, 214, 255, 0.98), inset 0 0 35px rgba(255, 255, 255, 0.45); }
+  100% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 32px rgba(112, 214, 255, 0.35), inset 0 0 20px rgba(112, 214, 255, 0.12); }
+}
+
+@keyframes frostChoiceCrystallizeGlow {
+  0% { transform: scale(0.97); filter: brightness(1.6); border-color: #FFFFFF; }
+  50% { transform: scale(1.02); filter: brightness(1.3); border-color: #70D6FF; box-shadow: 0 0 36px rgba(112, 214, 255, 0.98); }
+  100% { transform: scale(1); filter: brightness(1); border-color: #70D6FF; }
 }
 
 /* 笶�ｸ� 隧ｦ鬨薙Δ繝ｼ繝画悴髢狗､ｺ譎�: 豁｣隗｣閧｢縺ｧ縺ゅｋ縺薙→繧貞ｮ悟�縺ｫ髫�阡ｽ�医ロ繧ｿ繝舌Ξ螳悟�髦ｲ豁｢�� */
@@ -3743,7 +4080,7 @@ html.ui-frost .qc .ab strong {
   box-shadow: 0 2px 14px rgba(112, 214, 255, 0.65) !important;
 }
 
-/* ❄️ 解説・エピソードボックス: 氷晶プレート・屈折ハイライト */
+/* ❄️ 解説・エピソードボックス: 氷晶プレート・屈折スライド展開 */
 html.ui-frost .qc .eg {
   background: linear-gradient(150deg, rgba(12, 32, 60, 0.98) 0%, rgba(4, 16, 32, 0.99) 100%) !important;
   border: 1.5px solid rgba(112, 214, 255, 0.55) !important;
@@ -3754,6 +4091,13 @@ html.ui-frost .qc .eg {
   line-height: 1.85 !important;
   color: #F8FAFC !important;
   padding: 18px 22px !important;
+  animation: frostPlateSlide 0.44s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes frostPlateSlide {
+  0% { opacity: 0; transform: translateY(10px) scaleY(0.96); border-left-color: rgba(112, 214, 255, 0.2); }
+  60% { border-left-color: #FFFFFF; box-shadow: 0 14px 40px rgba(0, 0, 0, 0.88), 0 0 28px rgba(112, 214, 255, 0.4); }
+  100% { opacity: 1; transform: translateY(0) scaleY(1); border-left-color: #70D6FF; }
 }
 
 html.ui-frost .qc .an {
@@ -3768,6 +4112,34 @@ html.ui-frost .qc .mec-flag-btn.mec-flagged {
   color: #FFF !important;
 }
 
+/* ❄️ 連続正解 (Combo) 段階的進化オーラ */
+html.ui-frost .qc.combo-streak-3 {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 28px rgba(112, 214, 255, 0.35), inset 0 0 16px rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(112, 214, 255, 0.65) !important;
+}
+
+html.ui-frost .qc.combo-streak-5 {
+  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 46px rgba(112, 214, 255, 0.65), inset 0 0 26px rgba(255, 255, 255, 0.35) !important;
+  border-color: #FFFFFF !important;
+  animation: frostIceWallComboPulse 3.6s ease-in-out infinite alternate !important;
+}
+
+html.ui-frost .qc.combo-streak-10 {
+  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 68px rgba(112, 214, 255, 0.95), 0 0 85px rgba(255, 255, 255, 0.8) !important;
+  border-color: #FFFFFF !important;
+  animation: frostAbsoluteZeroZenithAura 2.2s ease-in-out infinite alternate !important;
+}
+
+@keyframes frostIceWallComboPulse {
+  0% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 35px rgba(112, 214, 255, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.25); }
+  100% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 58px rgba(112, 214, 255, 0.85), inset 0 0 35px rgba(255, 255, 255, 0.45); }
+}
+
+@keyframes frostAbsoluteZeroZenithAura {
+  0% { box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 52px rgba(112, 214, 255, 0.8), 0 0 70px rgba(255, 255, 255, 0.6); }
+  100% { box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 82px rgba(112, 214, 255, 1), 0 0 100px rgba(255, 255, 255, 0.95); }
+}
+
 html.ui-frost .qc .mec-err-btn.mec-erred {
   background: linear-gradient(135deg, rgba(217, 56, 58, 0.7), rgba(112, 214, 255, 0.5)) !important;
   border-color: #D9383A !important;
@@ -3779,6 +4151,41 @@ html.ui-frost .mec-undo-btn {
   border: 1px solid #70D6FF !important;
   color: #FFF !important;
   border-radius: 12px !important;
+}
+
+/* ❄️ コンボバッジ: 多面体クリスタルジュエルバッジ ＆ ダイヤモンドダスト */
+html.ui-frost .mec-combo-badge {
+  background: linear-gradient(135deg, rgba(8, 28, 54, 0.96) 0%, rgba(3, 12, 28, 0.98) 100%) !important;
+  border: 1.5px solid #70D6FF !important;
+  border-radius: 10px !important;
+  padding: 6px 14px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.9), 0 0 24px rgba(112, 214, 255, 0.7), 0 0 35px rgba(255, 255, 255, 0.45), inset 0 1px 0 #FFFFFF !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  animation: frostBadgePop 0.38s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+html.ui-frost .mec-combo-badge .combo-count {
+  font-size: 20px !important;
+  font-weight: 900 !important;
+  color: #70D6FF !important;
+  text-shadow: 0 0 14px rgba(112, 214, 255, 1), 0 0 20px #FFFFFF !important;
+  line-height: 1 !important;
+}
+
+html.ui-frost .mec-combo-badge .combo-label {
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  color: #F8FAFC !important;
+  letter-spacing: 1px !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+}
+
+@keyframes frostBadgePop {
+  0% { transform: scale(0.8) translateY(-4px); opacity: 0; }
+  60% { transform: scale(1.08) translateY(0); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
 }
 
 
@@ -5310,6 +5717,29 @@ html.ui-frost .qc .ch2 {
     align-items: center !important;
     justify-content: center !important;
   }
+
+  /* モバイル幅 (375px) 最適化: コンボバッジ & アニメーション余白 */
+  html.ui-aurora .qc .mec-combo-badge,
+  html.ui-brass .qc .mec-combo-badge,
+  html.ui-cyber .qc .mec-combo-badge,
+  html.ui-liquid .qc .mec-combo-badge,
+  html.ui-kintsugi .qc .mec-combo-badge,
+  html.ui-celestial .qc .mec-combo-badge,
+  html.ui-abyss .qc .mec-combo-badge,
+  html.ui-frost .qc .mec-combo-badge {
+    padding: 4px 10px !important;
+    gap: 6px !important;
+  }
+  html.ui-aurora .qc .mec-combo-badge .combo-count,
+  html.ui-brass .qc .mec-combo-badge .combo-count,
+  html.ui-cyber .qc .mec-combo-badge .combo-count,
+  html.ui-liquid .qc .mec-combo-badge .combo-count,
+  html.ui-kintsugi .qc .mec-combo-badge .combo-count,
+  html.ui-celestial .qc .mec-combo-badge .combo-count,
+  html.ui-abyss .qc .mec-combo-badge .combo-count,
+  html.ui-frost .qc .mec-combo-badge .combo-count {
+    font-size: 17px !important;
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -5322,7 +5752,32 @@ html.ui-liquid .qc,
 html.ui-kintsugi .qc,
 html.ui-celestial .qc,
 html.ui-abyss .qc,
-html.ui-frost .qc {
+html.ui-frost .qc,
+html.ui-aurora .qc .ch2,
+html.ui-brass .qc .ch2,
+html.ui-cyber .qc .ch2,
+html.ui-liquid .qc .ch2,
+html.ui-kintsugi .qc .ch2,
+html.ui-celestial .qc .ch2,
+html.ui-abyss .qc .ch2,
+html.ui-frost .qc .ch2,
+html.ui-aurora .qc .ab,
+html.ui-brass .qc .ab,
+html.ui-cyber .qc .ab,
+html.ui-liquid .qc .ab,
+html.ui-kintsugi .qc .ab,
+html.ui-celestial .qc .ab,
+html.ui-abyss .qc .ab,
+html.ui-frost .qc .ab,
+html.ui-aurora .qc .eg,
+html.ui-brass .qc .eg,
+html.ui-cyber .qc .eg,
+html.ui-liquid .qc .eg,
+html.ui-kintsugi .qc .eg,
+html.ui-celestial .qc .eg,
+html.ui-abyss .qc .eg,
+html.ui-frost .qc .eg,
+.mec-combo-badge {
   will-change: transform, opacity;
   transform: translateZ(0);
   backface-visibility: hidden;

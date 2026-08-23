@@ -115,22 +115,17 @@
       if (MecFX.bubbles) MecFX.bubbles(cx, cy, { count: 18, colors: ['#FF007F', '#7928CA', '#FF7A00'] });
       if (MecFX.rings) MecFX.rings(cx, cy, { count: 2, maxR: 220, color: '#FF007F', additive: true });
     } else if (id === 'kintsugi') {
-      if (MecFX.sparks) MecFX.sparks(cx, cy, { count: 20, colors: ['#F5D061', '#D9383A', '#FFFFFF'] });
-      if (MecFX.slashRibbon) MecFX.slashRibbon(cx, cy, { color: '#F5D061', len: 260 });
-      if (MecFX.brushDust) MecFX.brushDust({ count: 18, colors: ['#F5D061', '#D4AF37', '#FFFFFF'] });
+      if (MecFX.kintsugiCrack) MecFX.kintsugiCrack(cx, cy, { maxR: 240 });
+      else if (MecFX.sparks) MecFX.sparks(cx, cy, { count: 20, colors: ['#F5D061', '#D9383A', '#FFFFFF'] });
     } else if (id === 'celestial') {
-      if (MecFX.astrolabeRings) MecFX.astrolabeRings(cx, cy, { maxR: 260, color: '#FFD166' });
-      if (MecFX.diamondSparkle) MecFX.diamondSparkle(cx, cy, { count: 22, color: '#FFD166', additive: true });
-      if (MecFX.stars) MecFX.stars(cx, cy, { count: 20, color: '#8A2BE2' });
-      if (MecFX.rings) MecFX.rings(cx, cy, { count: 2, maxR: 220, color: '#48CAE4', additive: true });
+      if (MecFX.celestialAstrolabe) MecFX.celestialAstrolabe(cx, cy, { maxR: 260 });
+      else if (MecFX.astrolabeRings) MecFX.astrolabeRings(cx, cy, { maxR: 260, color: '#FFD166' });
     } else if (id === 'abyss') {
-      if (MecFX.rippleInterference) MecFX.rippleInterference(cx, cy, { maxR: 240, color: '#00FFA3' });
-      if (MecFX.bubbles) MecFX.bubbles(cx, cy, { count: 22, colors: ['#00FFA3', '#00B4D8', '#64FFDA'] });
-      if (MecFX.wave) MecFX.wave(cx, cy, { color: '#00B4D8', amp: 24 });
+      if (MecFX.abyssSonarPulse) MecFX.abyssSonarPulse(cx, cy, { maxR: 240 });
+      else if (MecFX.rippleInterference) MecFX.rippleInterference(cx, cy, { maxR: 240, color: '#00FFA3' });
     } else if (id === 'frost') {
-      if (MecFX.shatter) MecFX.shatter(cx, cy, { count: 24, colors: ['#70D6FF', '#FFFFFF', '#A0E7E5'] });
-      if (MecFX.diamondSparkle) MecFX.diamondSparkle(cx, cy, { count: 24, color: '#FFFFFF', additive: true });
-      if (MecFX.dust) MecFX.dust({ count: 16, colors: ['#70D6FF', '#FFFFFF'] });
+      if (MecFX.frostCrystalShatter) MecFX.frostCrystalShatter(cx, cy, { maxR: 220 });
+      else if (MecFX.shatter) MecFX.shatter(cx, cy, { count: 24, colors: ['#70D6FF', '#FFFFFF', '#A0E7E5'] });
     }
   }
 

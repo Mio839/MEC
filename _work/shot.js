@@ -13,8 +13,10 @@ if (!fs.existsSync(SHOTS_DIR)) {
   fs.mkdirSync(SHOTS_DIR, { recursive: true });
 }
 
-function generatePreviewHtml(theme, isExam = false, state = 'default', isCollapsed = false) {
-  const isAnswered = state === 'answered' || !isExam;
+function generatePreviewHtml(theme, isExam = false, state = 'default', isCollapsed = false, combo = 1) {
+  const isAnswered = state === 'answered' || state === 'correct' || state === 'combo' || !isExam;
+  const isCorrectState = state === 'correct';
+  const isComboState = state === 'combo';
   return `<!DOCTYPE html>
 <html class="${theme}">
 <head>
@@ -22,16 +24,16 @@ function generatePreviewHtml(theme, isExam = false, state = 'default', isCollaps
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/study.css">
 <link rel="stylesheet" href="/ui_theme.css">
-<title>Theme Preview - ${theme} (Exam: ${isExam}, State: ${state}, Collapsed: ${isCollapsed})</title>
+<title>Theme Preview - ${theme} (Exam: ${isExam}, State: ${state}, Combo: ${combo}, Collapsed: ${isCollapsed})</title>
 <style>
-body { margin: 20px auto; max-width: 900px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-.preview-container { display: flex; flex-direction: column; gap: 16px; }
+body { margin: 20px auto; max-width: 900px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; position: relative; }
+.preview-container { display: flex; flex-direction: column; gap: 16px; position: relative; }
 @media (max-width: 600px) {
   body { margin: 8px auto; padding: 0 8px; }
 }
 </style>
 </head>
-<body class="${isExam ? 'exam-mode' : ''}">
+<body class="${isExam ? 'exam-mode' : ''} ${isComboState ? 'combo-active' : ''}">
 <div class="preview-container">
   <header class="st-hdr ${isCollapsed ? 'hdr-collapsed' : ''}">
     <div class="st-title-row">
@@ -121,7 +123,7 @@ body { margin: 20px auto; max-width: 900px; font-family: -apple-system, BlinkMac
   </script>
 
   <!-- 問題カード -->
-  <div class="qc ${isAnswered ? 'answered ok-card' : ''}" style="padding: 24px;">
+  <div class="qc ${isAnswered ? 'answered ok-card' : ''} ${isCorrectState ? 'fx-correct' : ''} ${isComboState ? 'combo-streak-' + combo : ''}" style="padding: 24px; position: relative;">
     <div class="qh" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
       <div style="display:flex; gap:10px; align-items:center;">
         <span class="qn">問 12</span>
@@ -141,9 +143,9 @@ body { margin: 20px auto; max-width: 900px; font-family: -apple-system, BlinkMac
 
     <div class="qch" style="display:flex; flex-direction:column; gap:12px;">
       <div class="ch2" style="padding:14px 18px;">a  ループ利尿薬</div>
-      <div class="ch2 ${isExam && !isAnswered ? 'exam-selected' : (isAnswered ? 'selected ok' : '')}" style="padding:14px 18px;">b  β遮断薬およびACE阻害薬/ARNI</div>
+      <div class="ch2 ${isExam && !isAnswered ? 'exam-selected' : (isAnswered ? 'selected ok correct' : '')}" style="padding:14px 18px;">b  β遮断薬およびACE阻害薬/ARNI</div>
       <div class="ch2" style="padding:14px 18px;">c  ジギタリス製剤</div>
-      <div class="ch2 ${isAnswered ? 'ok' : ''}" style="padding:14px 18px;">d  SGLT2阻害薬・MRA併用療法</div>
+      <div class="ch2 ${isAnswered ? 'ok correct' : ''}" style="padding:14px 18px;">d  SGLT2阻害薬・MRA併用療法</div>
       <div class="ch2" style="padding:14px 18px;">e  カルシウム拮抗薬</div>
     </div>
 
@@ -156,8 +158,37 @@ body { margin: 20px auto; max-width: 900px; font-family: -apple-system, BlinkMac
       <div style="font-weight:bold; margin-bottom:8px;">💡 解説・エピソード</div>
       HFrEF（駆出率低下型心不全）の予後改善薬は「Fantastic 4」（β遮断薬、ARNI/ACEI、MRA、SGLT2阻害薬）が基本となる。
     </div>` : ''}
+
+    ${isComboState ? `
+    <div class="mec-combo-badge combo-badge-${combo}" style="position:absolute; top:-16px; right:20px; z-index:10;">
+      <span class="combo-count">${combo}</span>
+      <span class="combo-label">${combo >= 10 ? 'PERFECT COMBO!' : combo >= 5 ? 'SUPER COMBO!' : 'COMBO!'}</span>
+    </div>` : ''}
   </div>
 </div>
+
+<script src="/fx_engine.js"></script>
+<script src="/ui_theme.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const rawTheme = "${theme}".replace('ui-', '');
+    if (window.MecUITheme) {
+      MecUITheme.apply(rawTheme);
+    }
+    ${isCorrectState ? `
+    setTimeout(() => {
+      if (window.MecUITheme && MecUITheme.triggerFx) {
+        MecUITheme.triggerFx(rawTheme);
+      }
+    }, 100);` : ''}
+    ${isComboState ? `
+    setTimeout(() => {
+      if (window.MecUITheme && MecUITheme.triggerFx) {
+        MecUITheme.triggerFx(rawTheme);
+      }
+    }, 100);` : ''}
+  });
+</script>
 </body>
 </html>`;
 }
@@ -177,13 +208,14 @@ function startServer() {
     let reqUrl = new URL(req.url, `http://localhost:${PORT}`);
     let reqPath = reqUrl.pathname;
     let stateParam = reqUrl.searchParams.get('state') || 'default';
+    let comboParam = parseInt(reqUrl.searchParams.get('combo') || '1', 10);
     let isCollapsed = reqUrl.searchParams.get('collapsed') === 'true';
 
     if (reqPath.startsWith('/preview/')) {
       const isExam = reqPath.includes('_exam');
       const theme = reqPath.replace('/preview/', '').replace('_exam', '').replace('.html', '');
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-      res.end(generatePreviewHtml(theme, isExam, stateParam, isCollapsed));
+      res.end(generatePreviewHtml(theme, isExam, stateParam, isCollapsed, comboParam));
       return;
     }
 
@@ -220,7 +252,7 @@ function cdpSend(ws, method, params = {}, id = 1) {
   });
 }
 
-async function captureAll(iterName = 'iter1', state = 'default', isCollapsed = false, isExam = false) {
+async function captureAll(iterName = 'iter1', state = 'default', isCollapsed = false, isExam = false, combo = 1) {
   const server = await startServer();
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'chrome-mec-'));
   const chromeProc = spawn(CHROME_PATH, [
@@ -265,16 +297,17 @@ async function captureAll(iterName = 'iter1', state = 'default', isCollapsed = f
 
     for (const t of themes) {
       const examSuffix = isExam ? '_exam' : '';
-      const previewUrl = `http://localhost:${PORT}/preview/${t}${examSuffix}.html?state=${state}&collapsed=${isCollapsed}`;
+      const previewUrl = `http://localhost:${PORT}/preview/${t}${examSuffix}.html?state=${state}&collapsed=${isCollapsed}&combo=${combo}`;
       await cdpSend(ws, 'Page.navigate', { url: previewUrl }, msgId++);
       await new Promise(r => setTimeout(r, 600));
 
       const shot = await cdpSend(ws, 'Page.captureScreenshot', { format: 'png' }, msgId++);
       const vpSuffix = vp.name === 'mobile' ? '_mobile' : '';
       const stateSuffix = state !== 'default' ? `_${state}` : '';
+      const comboSuffix = state === 'combo' ? `_combo${combo}` : '';
       const colSuffix = isCollapsed ? '_collapsed' : '';
       const examFileSuffix = isExam ? '_exam' : '';
-      const outFile = path.join(SHOTS_DIR, `${iterName}_${t}${vpSuffix}${stateSuffix}${colSuffix}${examFileSuffix}.png`);
+      const outFile = path.join(SHOTS_DIR, `${iterName}_${t}${vpSuffix}${stateSuffix}${comboSuffix}${colSuffix}${examFileSuffix}.png`);
       fs.writeFileSync(outFile, Buffer.from(shot.data, 'base64'));
       captured[`${t}_${vp.name}`] = outFile;
       console.log(`Saved screenshot: ${outFile}`);
@@ -292,10 +325,13 @@ let iter = 'iter1';
 let state = 'default';
 let isCollapsed = false;
 let isExam = false;
+let combo = 1;
 
 for (const arg of args) {
   if (arg.startsWith('--state=')) {
     state = arg.replace('--state=', '');
+  } else if (arg.startsWith('--combo=')) {
+    combo = parseInt(arg.replace('--combo=', ''), 10);
   } else if (arg === '--collapsed' || arg === '--collapsed=true') {
     isCollapsed = true;
   } else if (arg === '--exam' || arg === '--exam=true') {
@@ -305,7 +341,7 @@ for (const arg of args) {
   }
 }
 
-captureAll(iter, state, isCollapsed, isExam).then(() => {
+captureAll(iter, state, isCollapsed, isExam, combo).then(() => {
   console.log('Capture completed successfully.');
   process.exit(0);
 }).catch((err) => {

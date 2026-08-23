@@ -1,3 +1,8 @@
+// 2026-08-23o: UIテーマ別・正解＆連続正解エフェクト自律進化ループ完遂（kintsugi/celestial/abyss/frost 4テーマ特化・20イテレーション完了）。
+//   - fx_engine.js: 4テーマ専用エフェクト（kintsugiCrack, celestialAstrolabe, abyssSonarPulse, frostCrystalShatter）の実装とパーティクルバッファ高速循環。
+//   - ui_theme.css: 4テーマの正解・連続正解（3/5/10連）段階的進化オーラ、テーマ別コンボバッジ（漆黒蒔絵/魔導星図/生体カプセル/氷晶ジュエル）、解答・解説ボックス展開アニメーション、GPU合成最適化。
+//   - study_exam.js / chapter_exam.js: 正解・連続正解時のテーマ別専用演出トリガー連携。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-23n: UIテーマ自律進化・完全ビジュアル改善ループ完遂（kintsugi/celestial/abyss/frost 4テーマ特化集中・20イテレーション完了）。
 //   - 漆黒金継ぎ・禅 (kintsugi): 漆黒マット陶器、本金金継ぎクラック発光、墨絵円相透かし、蒔絵八角形番号バッジ、和紙金泥メタバッジ、漆黒蒔絵硯解答ボックス、金継ぎ陶片操作ボタン。
 //   - 賢者の星図・魔導書 (celestial): 深群青夜空グラデーション、天球儀星図フレーム、アストラルゴールド枠、コンパス盤番号バッジ、星屑ルーンメタバッジ、魔導書展開解答ボックス、星図コンパス操作ボタン。
@@ -382,7 +387,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-23n";
+const SHELL_VERSION = "2026-08-23o";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
