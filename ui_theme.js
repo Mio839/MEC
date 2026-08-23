@@ -39,19 +39,54 @@
       desc: '蛍光流体インク ＆ 幻想グラデーション。現代アートのような有機的快感',
       accent: '#FF007F',
       colors: ['#FF007F', '#7928CA', '#FF7A00']
+    },
+    {
+      id: 'kintsugi',
+      name: '🌑 漆黒金継ぎ・禅',
+      enName: 'Kintsugi Zen',
+      desc: '漆黒 ＆ 黄金の金継ぎクラック。和の静寂と極限の集中美',
+      accent: '#F5D061',
+      colors: ['#F5D061', '#D9383A', '#1E2028']
+    },
+    {
+      id: 'celestial',
+      name: '🌌 賢者の星図・魔導書',
+      enName: 'Celestial Grimoire',
+      desc: '深遠な夜空 ＆ 天球儀・幾何学星図。知の探求者たる古代魔導学',
+      accent: '#FFD166',
+      colors: ['#FFD166', '#8A2BE2', '#48CAE4']
+    },
+    {
+      id: 'abyss',
+      name: '🌊 深海アビス・発光生物',
+      enName: 'Abyss Bioluminescence',
+      desc: '深海ブラック ＆ 生体発光エメラルド。超集中へ沈潜するディープオーシャン',
+      accent: '#00FFA3',
+      colors: ['#00FFA3', '#00B4D8', '#030914']
+    },
+    {
+      id: 'frost',
+      name: '❄️ 絶対零度・フロスト氷晶',
+      enName: 'Glacial Absolute Zero',
+      desc: '氷河フロスト ＆ 多面体クリスタル。冷徹な思考力を研ぎ澄ます絶対零度',
+      accent: '#70D6FF',
+      colors: ['#70D6FF', '#FFFFFF', '#0A1D33']
     }
   ];
 
+  var VALID_IDS = ['aurora', 'brass', 'cyber', 'liquid', 'kintsugi', 'celestial', 'abyss', 'frost'];
+
   function get() {
     try {
-      return localStorage.getItem(KEY) || 'aurora';
+      var saved = localStorage.getItem(KEY);
+      return (VALID_IDS.indexOf(saved) >= 0) ? saved : 'aurora';
     } catch (e) {
       return 'aurora';
     }
   }
 
   function apply(id) {
-    var validId = (id === 'brass' || id === 'cyber' || id === 'liquid') ? id : 'aurora';
+    var validId = (VALID_IDS.indexOf(id) >= 0) ? id : 'aurora';
     var el = document.documentElement;
     UI_THEMES.forEach(function (t) {
       el.classList.remove('ui-' + t.id);
@@ -79,8 +114,24 @@
       if (MecFX.irisShutter) MecFX.irisShutter(cx, cy, { maxR: 240, color: '#FF007F' });
       if (MecFX.bubbles) MecFX.bubbles(cx, cy, { count: 18, colors: ['#FF007F', '#7928CA', '#FF7A00'] });
       if (MecFX.rings) MecFX.rings(cx, cy, { count: 2, maxR: 220, color: '#FF007F', additive: true });
+    } else if (id === 'kintsugi') {
+      if (MecFX.sparks) MecFX.sparks(cx, cy, { count: 20, colors: ['#F5D061', '#D9383A', '#FFFFFF'] });
+      if (MecFX.slashRibbon) MecFX.slashRibbon(cx, cy, { color: '#F5D061', len: 260 });
+      if (MecFX.brushDust) MecFX.brushDust({ count: 18, colors: ['#F5D061', '#D4AF37', '#FFFFFF'] });
+    } else if (id === 'celestial') {
+      if (MecFX.astrolabeRings) MecFX.astrolabeRings(cx, cy, { maxR: 260, color: '#FFD166' });
+      if (MecFX.diamondSparkle) MecFX.diamondSparkle(cx, cy, { count: 22, color: '#FFD166', additive: true });
+      if (MecFX.stars) MecFX.stars(cx, cy, { count: 20, color: '#8A2BE2' });
+      if (MecFX.rings) MecFX.rings(cx, cy, { count: 2, maxR: 220, color: '#48CAE4', additive: true });
+    } else if (id === 'abyss') {
+      if (MecFX.rippleInterference) MecFX.rippleInterference(cx, cy, { maxR: 240, color: '#00FFA3' });
+      if (MecFX.bubbles) MecFX.bubbles(cx, cy, { count: 22, colors: ['#00FFA3', '#00B4D8', '#64FFDA'] });
+      if (MecFX.wave) MecFX.wave(cx, cy, { color: '#00B4D8', amp: 24 });
+    } else if (id === 'frost') {
+      if (MecFX.shatter) MecFX.shatter(cx, cy, { count: 24, colors: ['#70D6FF', '#FFFFFF', '#A0E7E5'] });
+      if (MecFX.diamondSparkle) MecFX.diamondSparkle(cx, cy, { count: 24, color: '#FFFFFF', additive: true });
+      if (MecFX.dust) MecFX.dust({ count: 16, colors: ['#70D6FF', '#FFFFFF'] });
     }
-  }
 
   function set(id) {
     try {

@@ -1496,6 +1496,14 @@
         window.MecFX.glitchBars(cx, cy, { count: 6, color: '#00E5FF' });
       } else if (curUi === 'liquid' && window.MecFX.bubbles) {
         window.MecFX.bubbles(cx, cy, { count: 8, colors: ['#FF007F', '#7928CA'] });
+      } else if (curUi === 'kintsugi' && window.MecFX.sparks) {
+        window.MecFX.sparks(cx, cy, { count: 12, colors: ['#F5D061', '#D9383A', '#FFFFFF'] });
+      } else if (curUi === 'celestial' && window.MecFX.diamondSparkle) {
+        window.MecFX.diamondSparkle(cx, cy, { count: 12, color: '#FFD166' });
+      } else if (curUi === 'abyss' && window.MecFX.bubbles) {
+        window.MecFX.bubbles(cx, cy, { count: 10, colors: ['#00FFA3', '#00B4D8'] });
+      } else if (curUi === 'frost' && window.MecFX.diamondSparkle) {
+        window.MecFX.diamondSparkle(cx, cy, { count: 12, color: '#FFFFFF' });
       }
     }
 

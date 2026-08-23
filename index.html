@@ -2083,6 +2083,47 @@ function _stampGoalSeal() {
     MecFX.confetti({ count: 80, colors: ['#FF007F', '#7928CA', '#00F2FE', '#FFFFFF'], big: true });
     return;
   }
+
+  if (curTheme === 'kintsugi') {
+    MecFX.burst(c.x, c.y, {
+      count: 50, colors: ['#F5D061', '#D9383A', '#FFFFFF', '#D4AF37'],
+      shapes: ['shard', 'star'], tier: 6, scale: 2.0, speed: 680, glow: true, additive: true
+    });
+    if (MecFX.slashRibbon) MecFX.slashRibbon(c.x, c.y, { color: '#F5D061', len: 300 });
+    MecFX.confetti({ count: 80, colors: ['#F5D061', '#D9383A', '#FFFFFF', '#D4AF37'], big: true });
+    return;
+  }
+
+  if (curTheme === 'celestial') {
+    if (MecFX.astrolabeRings) MecFX.astrolabeRings(c.x, c.y, { maxR: r * 1.5, rings: 3, color: '#FFD166', speed: 1.8 });
+    MecFX.burst(c.x, c.y, {
+      count: 50, colors: ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFFFF'],
+      shapes: ['star', 'gem'], tier: 6, scale: 2.0, speed: 660, glow: true, additive: true
+    });
+    MecFX.confetti({ count: 80, colors: ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFFFF'], big: true });
+    return;
+  }
+
+  if (curTheme === 'abyss') {
+    if (MecFX.rippleInterference) MecFX.rippleInterference(c.x, c.y, { maxR: r * 1.4, color: '#00FFA3' });
+    MecFX.burst(c.x, c.y, {
+      count: 50, colors: ['#00FFA3', '#00B4D8', '#64FFDA', '#FFFFFF'],
+      shapes: ['circle', 'gem'], tier: 6, scale: 2.0, speed: 620, glow: true, additive: true
+    });
+    MecFX.bubbles(c.x, c.y, { count: 24, colors: ['#00FFA3', '#00B4D8', '#64FFDA'] });
+    MecFX.confetti({ count: 80, colors: ['#00FFA3', '#00B4D8', '#64FFDA', '#FFFFFF'], big: true });
+    return;
+  }
+
+  if (curTheme === 'frost') {
+    if (MecFX.shatter) MecFX.shatter(c.x, c.y, { count: 32, colors: ['#70D6FF', '#FFFFFF', '#A0E7E5'] });
+    MecFX.burst(c.x, c.y, {
+      count: 50, colors: ['#70D6FF', '#FFFFFF', '#A0E7E5', '#00DFD8'],
+      shapes: ['shard', 'star'], tier: 6, scale: 2.0, speed: 700, glow: true, additive: true
+    });
+    MecFX.confetti({ count: 80, colors: ['#70D6FF', '#FFFFFF', '#A0E7E5', '#E0F7FA'], big: true });
+    return;
+  }
 }
 
 // ── 盤面の常時演出 ───────────────────────────────────────────────
@@ -2454,6 +2495,18 @@ function _sparkleMissions() {
   } else if (curTheme === 'liquid') {
     themeColors = ['#FF007F', '#00F2FE', '#7928CA', '#FFFFFF'];
     themeShapes = ['circle', 'gem'];
+  } else if (curTheme === 'kintsugi') {
+    themeColors = ['#F5D061', '#D9383A', '#FFFFFF', '#D4AF37'];
+    themeShapes = ['shard', 'star'];
+  } else if (curTheme === 'celestial') {
+    themeColors = ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFFFF'];
+    themeShapes = ['star', 'gem'];
+  } else if (curTheme === 'abyss') {
+    themeColors = ['#00FFA3', '#00B4D8', '#64FFDA', '#FFFFFF'];
+    themeShapes = ['circle', 'gem'];
+  } else if (curTheme === 'frost') {
+    themeColors = ['#70D6FF', '#FFFFFF', '#A0E7E5', '#E0F7FA'];
+    themeShapes = ['shard', 'star'];
   } else { // aurora
     themeColors = ['#00DFD8', '#7928CA', '#FFFFFF', '#0070F3'];
     themeShapes = ['gem', 'star'];
@@ -2534,6 +2587,14 @@ function _startMissionAmbient() {
       MecFX.burst(x, c.y, { tier: 1, count: 2, colors: ['#00E5FF', '#00FF9D'], shapes: ['shard'], speed: 60 });
     } else if (curTheme === 'liquid') {
       MecFX.burst(x, c.y, { tier: 1, count: 2, colors: ['#FF007F', '#00F2FE'], shapes: ['circle'], speed: 60 });
+    } else if (curTheme === 'kintsugi') {
+      MecFX.burst(x, c.y, { tier: 1, count: 2, colors: ['#F5D061', '#D9383A'], shapes: ['shard'], speed: 60 });
+    } else if (curTheme === 'celestial') {
+      MecFX.burst(x, c.y, { tier: 1, count: 2, colors: ['#FFD166', '#8A2BE2'], shapes: ['star'], speed: 60 });
+    } else if (curTheme === 'abyss') {
+      MecFX.burst(x, c.y, { tier: 1, count: 2, colors: ['#00FFA3', '#00B4D8'], shapes: ['circle'], speed: 60 });
+    } else if (curTheme === 'frost') {
+      MecFX.burst(x, c.y, { tier: 1, count: 2, colors: ['#70D6FF', '#FFFFFF'], shapes: ['shard'], speed: 60 });
     } else {
       MecFX.dust({ count: 2, colors: ['#00DFD8', '#FFFFFF'] });
     }
@@ -2557,6 +2618,18 @@ function _initMissionTap() {
     } else if (curTheme === 'liquid') {
       colors = ['#FF007F', '#00F2FE', '#7928CA'];
       shapes = ['circle', 'gem'];
+    } else if (curTheme === 'kintsugi') {
+      colors = ['#F5D061', '#D9383A', '#FFFFFF'];
+      shapes = ['shard', 'star'];
+    } else if (curTheme === 'celestial') {
+      colors = ['#FFD166', '#8A2BE2', '#48CAE4'];
+      shapes = ['star', 'gem'];
+    } else if (curTheme === 'abyss') {
+      colors = ['#00FFA3', '#00B4D8', '#64FFDA'];
+      shapes = ['circle', 'gem'];
+    } else if (curTheme === 'frost') {
+      colors = ['#70D6FF', '#FFFFFF', '#A0E7E5'];
+      shapes = ['shard', 'star'];
     } else {
       colors = ['#00DFD8', '#7928CA', '#FFFFFF'];
       shapes = ['gem', 'star'];

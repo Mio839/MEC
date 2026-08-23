@@ -23,17 +23,21 @@ const studyHtml = fs.readFileSync(path.join(__dirname, '../study.html'), 'utf8')
 const indexHtml = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
 const swJs = fs.readFileSync(path.join(__dirname, '../sw.js'), 'utf8');
 
-console.log('── 1. ui_theme.js: 4大テーマ定義と動的演出トリガー ──');
-test('ui_theme.js に 4テーマ定義と triggerFx がある', () => {
+console.log('── 1. ui_theme.js: 8大テーマ定義と動的演出トリガー ──');
+test('ui_theme.js に 8テーマ定義と triggerFx がある', () => {
   assert(themeJs.includes('id: \'aurora\''), 'Missing aurora theme');
   assert(themeJs.includes('id: \'brass\''), 'Missing brass theme');
   assert(themeJs.includes('id: \'cyber\''), 'Missing cyber theme');
   assert(themeJs.includes('id: \'liquid\''), 'Missing liquid theme');
+  assert(themeJs.includes('id: \'kintsugi\''), 'Missing kintsugi theme');
+  assert(themeJs.includes('id: \'celestial\''), 'Missing celestial theme');
+  assert(themeJs.includes('id: \'abyss\''), 'Missing abyss theme');
+  assert(themeJs.includes('id: \'frost\''), 'Missing frost theme');
   assert(themeJs.includes('function triggerThemeChangeFx'), 'Missing triggerThemeChangeFx');
   assert(themeJs.includes('triggerFx: triggerThemeChangeFx'), 'Missing triggerFx export');
 });
 
-console.log('── 2. 最重要：全4テーマの問題カード固有装飾の徹底検証 ──');
+console.log('── 2. 最重要：全8テーマの問題カード固有装飾の徹底検証 ──');
 test('🌟 オーロラ・グラス (ui-aurora) の問題カード固有装飾', () => {
   assert(themeCss.includes('html.ui-aurora .qc'), 'Missing html.ui-aurora .qc');
   assert(themeCss.includes('html.ui-aurora .qc::before'), 'Missing aurora edge flow');
@@ -73,6 +77,46 @@ test('🌸 幻想リキッド・アート (ui-liquid) の問題カード固有�
   assert(themeCss.includes('html.ui-liquid .qc .ab'), 'Missing fluid bloom answer box in liquid');
 });
 
+test('🌑 漆黒金継ぎ・禅 (ui-kintsugi) の問題カード固有装飾', () => {
+  assert(themeCss.includes('html.ui-kintsugi .qc'), 'Missing html.ui-kintsugi .qc');
+  assert(themeCss.includes('html.ui-kintsugi .qc::before'), 'Missing kintsugi edge flow');
+  assert(themeCss.includes('html.ui-kintsugi .qc::after'), 'Missing kintsugi enso watermark');
+  assert(themeCss.includes('@keyframes kintsugiEnsoPulse'), 'Missing enso pulse animation');
+  assert(themeCss.includes('html.ui-kintsugi .qc .qn'), 'Missing kintsugi num badge in kintsugi');
+  assert(themeCss.includes('html.ui-kintsugi .qc .ch2:hover'), 'Missing brush choice hover in kintsugi');
+  assert(themeCss.includes('html.ui-kintsugi .qc .ab'), 'Missing inkstone answer box in kintsugi');
+});
+
+test('🌌 賢者の星図・魔導書 (ui-celestial) の問題カード固有装飾', () => {
+  assert(themeCss.includes('html.ui-celestial .qc'), 'Missing html.ui-celestial .qc');
+  assert(themeCss.includes('html.ui-celestial .qc::before'), 'Missing celestial edge flow');
+  assert(themeCss.includes('html.ui-celestial .qc::after'), 'Missing celestial astrolabe watermark');
+  assert(themeCss.includes('@keyframes celestialAstrolabeSpin'), 'Missing astrolabe spin animation');
+  assert(themeCss.includes('html.ui-celestial .qc .qn'), 'Missing compass num badge in celestial');
+  assert(themeCss.includes('html.ui-celestial .qc .ch2:hover'), 'Missing starlight choice hover in celestial');
+  assert(themeCss.includes('html.ui-celestial .qc .ab'), 'Missing grimoire answer box in celestial');
+});
+
+test('🌊 深海アビス・発光生物 (ui-abyss) の問題カード固有装飾', () => {
+  assert(themeCss.includes('html.ui-abyss .qc'), 'Missing html.ui-abyss .qc');
+  assert(themeCss.includes('html.ui-abyss .qc::before'), 'Missing abyss edge flow');
+  assert(themeCss.includes('html.ui-abyss .qc::after'), 'Missing abyss sonar watermark');
+  assert(themeCss.includes('@keyframes abyssSonarRipple'), 'Missing sonar ripple animation');
+  assert(themeCss.includes('html.ui-abyss .qc .qn'), 'Missing capsule num badge in abyss');
+  assert(themeCss.includes('html.ui-abyss .qc .ch2:hover'), 'Missing bioluminescent choice hover in abyss');
+  assert(themeCss.includes('html.ui-abyss .qc .ab'), 'Missing abyss pod answer box in abyss');
+});
+
+test('❄️ 絶対零度・フロスト氷晶 (ui-frost) の問題カード固有装飾', () => {
+  assert(themeCss.includes('html.ui-frost .qc'), 'Missing html.ui-frost .qc');
+  assert(themeCss.includes('html.ui-frost .qc::before'), 'Missing frost edge flow');
+  assert(themeCss.includes('html.ui-frost .qc::after'), 'Missing frost crystal watermark');
+  assert(themeCss.includes('@keyframes frostCrystalPulse'), 'Missing crystal pulse animation');
+  assert(themeCss.includes('html.ui-frost .qc .qn'), 'Missing crystal num badge in frost');
+  assert(themeCss.includes('html.ui-frost .qc .ch2:hover'), 'Missing frost mist choice hover in frost');
+  assert(themeCss.includes('html.ui-frost .qc .ab'), 'Missing crystal answer box in frost');
+});
+
 console.log('── 3. study_exam.js / chapter_exam.js: 正解時のUIテーマ固有リアクション ──');
 test('正解処理で UI テーマに応じたエフェクトが発火する', () => {
   assert(studyExamJs.includes('window.MecUITheme ? MecUITheme.get() : \'aurora\''), 'Missing UI theme check in study_exam.js');
@@ -80,12 +124,20 @@ test('正解処理で UI テーマに応じたエフェクトが発火する', (
   assert(studyExamJs.includes('curUi === \'brass\''), 'Missing brass case in study_exam.js');
   assert(studyExamJs.includes('curUi === \'cyber\''), 'Missing cyber case in study_exam.js');
   assert(studyExamJs.includes('curUi === \'liquid\''), 'Missing liquid case in study_exam.js');
+  assert(studyExamJs.includes('curUi === \'kintsugi\''), 'Missing kintsugi case in study_exam.js');
+  assert(studyExamJs.includes('curUi === \'celestial\''), 'Missing celestial case in study_exam.js');
+  assert(studyExamJs.includes('curUi === \'abyss\''), 'Missing abyss case in study_exam.js');
+  assert(studyExamJs.includes('curUi === \'frost\''), 'Missing frost case in study_exam.js');
 
   assert(chapterExamJs.includes('window.MecUITheme ? MecUITheme.get() : \'aurora\''), 'Missing UI theme check in chapter_exam.js');
   assert(chapterExamJs.includes('curUi === \'aurora\''), 'Missing aurora case in chapter_exam.js');
   assert(chapterExamJs.includes('curUi === \'brass\''), 'Missing brass case in chapter_exam.js');
   assert(chapterExamJs.includes('curUi === \'cyber\''), 'Missing cyber case in chapter_exam.js');
   assert(chapterExamJs.includes('curUi === \'liquid\''), 'Missing liquid case in chapter_exam.js');
+  assert(chapterExamJs.includes('curUi === \'kintsugi\''), 'Missing kintsugi case in chapter_exam.js');
+  assert(chapterExamJs.includes('curUi === \'celestial\''), 'Missing celestial case in chapter_exam.js');
+  assert(chapterExamJs.includes('curUi === \'abyss\''), 'Missing abyss case in chapter_exam.js');
+  assert(chapterExamJs.includes('curUi === \'frost\''), 'Missing frost case in chapter_exam.js');
 });
 
 console.log('── 4. HTML と Service Worker の整合性 ──');
@@ -99,8 +151,8 @@ test('study.html, index.html, sw.js が正しく設定されている', () => {
 });
 
 console.log('── 5. 試験モード中の正解エフェクト完全抑止（ネタバレ防止） ──');
-test('全テーマで試験モード未開示時に .ch2.ok が隠蔽される', () => {
-  ['ui-aurora', 'ui-brass', 'ui-cyber', 'ui-liquid'].forEach(theme => {
+test('全8テーマで試験モード未開示時に .ch2.ok が隠蔽される', () => {
+  ['ui-aurora', 'ui-brass', 'ui-cyber', 'ui-liquid', 'ui-kintsugi', 'ui-celestial', 'ui-abyss', 'ui-frost'].forEach(theme => {
     assert(themeCss.includes(`html.${theme} body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok`), `Missing normal reveal rule in ${theme}`);
     assert(themeCss.includes(`html.${theme} body.exam-mode .qc.exam-revealed .ch2.ok`), `Missing exam-revealed rule in ${theme}`);
     assert(themeCss.includes(`html.${theme} body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected)`), `Missing exam concealment rule in ${theme}`);
