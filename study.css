@@ -38,14 +38,14 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .st-title-left{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;flex:1 1 auto;min-width:0;}
 .st-title-left::-webkit-scrollbar{display:none;}
 .st-title-right{display:flex;align-items:center;gap:5px;flex-shrink:0;margin-left:auto;z-index:2;}
-.hdr-toggle, .hdr-btn{background:none;border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.65);font-size:12px;font-weight:700;cursor:pointer;padding:3px 9px;border-radius:20px;font-family:inherit;flex-shrink:0;transition:background .15s;}
-.hdr-theme-btn{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.35);color:#fff;font-weight:800;padding:3px 10px;}
+.hdr-toggle, .hdr-btn{background:none;border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.65);font-size:9px;font-weight:700;cursor:pointer;padding:2px 6px;border-radius:10px;font-family:inherit;flex-shrink:0;transition:background .15s;}
+.hdr-theme-btn{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.35);color:#fff;font-weight:800;padding:2px 7px;}
 .hdr-toggle{transition:transform .25s,background .15s;}
 .hdr-toggle:hover, .hdr-btn:hover{background:rgba(var(--glass-rgb),.1);}
 .hdr-theme-btn:hover{background:rgba(0,229,255,.25);border-color:#00E5FF;color:#fff;}
 @media (max-width: 480px) {
   .st-title { display: none !important; }
-  .hdr-theme-btn { padding: 3px 8px !important; font-size: 11.5px !important; }
+  .hdr-theme-btn { padding: 2px 6px !important; font-size: 8.5px !important; }
 }
 .st-hdr.hdr-collapsed .hdr-toggle{transform:rotate(-90deg);}
 .st-filter-panel{overflow:hidden;max-height:220px;transition:max-height .3s cubic-bezier(.16,1,.3,1);}
@@ -111,41 +111,41 @@ body.exam-mode .st-hdr::after{content:'';position:absolute;left:0;right:0;bottom
   animation:examIdleRun var(--exam-idle-cycle) linear infinite;}
 body.exam-mode.exam-idle-lit .st-hdr::after{opacity:.85;}
 @keyframes examIdleRun{from{background-position:-40% 0;}to{background-position:140% 0;}}
-.st-title{font-family:var(--font-display);letter-spacing:var(--font-display-ls);font-size:15px;font-weight:800;white-space:nowrap;flex-shrink:0;}
-.hub-link{font-size:12.5px;color:#FFFFFF;font-weight:750;text-decoration:none;padding:4px 12px;border:1.5px solid rgba(255,255,255,.45);border-radius:14px;white-space:nowrap;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);box-shadow:0 2px 8px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.35);transition:all .16s ease-out;display:inline-flex;align-items:center;gap:3px;flex-shrink:0;}
-.hub-link:hover{background:rgba(255,255,255,.28);border-color:#FFFFFF;box-shadow:0 0 12px rgba(255,255,255,.45);transform:translateY(-1px);}
-.mec-sync-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(var(--glass-rgb),.1);color:rgba(255,255,255,.8);margin-left:auto;white-space:nowrap;flex-shrink:0;}
+.st-title{font-family:var(--font-display);letter-spacing:var(--font-display-ls);font-size:10px;font-weight:800;white-space:nowrap;flex-shrink:0;}
+.hub-link{font-size:9px;color:#FFFFFF;font-weight:750;text-decoration:none;padding:2px 7px;border:1px solid rgba(255,255,255,.45);border-radius:8px;white-space:nowrap;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);box-shadow:0 1px 4px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.35);transition:all .16s ease-out;display:inline-flex;align-items:center;gap:2px;flex-shrink:0;}
+.hub-link:hover{background:rgba(255,255,255,.28);border-color:#FFFFFF;box-shadow:0 0 8px rgba(255,255,255,.45);transform:translateY(-1px);}
+.mec-sync-badge{font-size:8.5px;padding:2px 6px;border-radius:10px;font-weight:700;background:rgba(var(--glass-rgb),.1);color:rgba(255,255,255,.8);margin-left:auto;white-space:nowrap;flex-shrink:0;}
 /* 統計チップは折り返さず横スクロール＝常に1行に収める（Lv/ミッションのチップが増えて
    狭い画面では2〜3行に折り返し、ヘッダーを押し上げていた） */
-.st-stats{display:flex;align-items:center;gap:5px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-bottom:7px;}
+.st-stats{display:flex;align-items:center;gap:4px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-bottom:4px;}
 .st-stats::-webkit-scrollbar{display:none;}
-.st-stat{background:rgba(var(--glass-rgb),.08);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;border:1px solid rgba(255,255,255,.1);font-variant-numeric:tabular-nums;flex-shrink:0;white-space:nowrap;}
+.st-stat{background:rgba(var(--glass-rgb),.08);border-radius:10px;padding:2px 6px;font-size:9px;font-weight:700;border:1px solid rgba(255,255,255,.1);font-variant-numeric:tabular-nums;flex-shrink:0;white-space:nowrap;}
 .st-stat span{color:var(--yl);}
-.st-stat.exam-mode-chip{background:rgba(224,194,94,.14);border:1.5px solid rgba(224,194,94,.55);color:var(--or,#FFD700);cursor:pointer;font-family:inherit;font-size:13.2px;font-weight:800;padding:4px 13px;border-radius:22px;margin-left:6px;transition:background .18s,border-color .18s,transform .12s,box-shadow .18s;display:inline-flex;align-items:center;gap:4px;box-shadow:0 1px 6px rgba(0,0,0,.25);}
-.st-stat.exam-mode-chip:hover{background:rgba(224,194,94,.24);border-color:rgba(224,194,94,.85);box-shadow:0 0 12px rgba(224,194,94,.38);}
+.st-stat.exam-mode-chip{background:rgba(224,194,94,.14);border:1.5px solid rgba(224,194,94,.55);color:var(--or,#FFD700);cursor:pointer;font-family:inherit;font-size:9.5px;font-weight:800;padding:2px 8px;border-radius:12px;margin-left:4px;transition:background .18s,border-color .18s,transform .12s,box-shadow .18s;display:inline-flex;align-items:center;gap:3px;box-shadow:0 1px 4px rgba(0,0,0,.25);}
+.st-stat.exam-mode-chip:hover{background:rgba(224,194,94,.24);border-color:rgba(224,194,94,.85);box-shadow:0 0 8px rgba(224,194,94,.38);}
 .st-stat.exam-mode-chip:active{transform:scale(.96);}
 .st-stat.exam-mode-chip.exam-on{background:rgba(255,107,107,.18);border-color:rgba(255,107,107,.55);color:#FF6B6B;}
 
 /* ── Filter chips ── */
-.chip-row{display:flex;gap:4px;overflow-x:auto;padding-bottom:5px;scrollbar-width:none;margin-bottom:6px;}
+.chip-row{display:flex;gap:3px;overflow-x:auto;padding-bottom:3px;scrollbar-width:none;margin-bottom:4px;}
 .chip-row::-webkit-scrollbar{display:none;}
 /* B1(2026-08-18): 読み込み中のチップ。縁が科目色で脈打つ（ハブの .cta-redo[data-load] と同型）。
    ⚠️ 変数名は --chip- 接頭辞を必須にすること。--cb のような短い名前は vars.css の共通トークンを
       継承で拾い、animation ショートハンドが色を duration に食ってプロパティごと unset になる
       （2026-08-14にハブで実際に起きた）。 */
 .chip{position:relative;}
-.chip[data-load]::after{content:'';position:absolute;inset:-3px;border-radius:22px;pointer-events:none;
-  border:1.5px solid var(--chip-load,var(--yl));opacity:.25;animation:chipLoadPulse 1.05s ease-in-out infinite;}
+.chip[data-load]::after{content:'';position:absolute;inset:-2px;border-radius:12px;pointer-events:none;
+  border:1px solid var(--chip-load,var(--yl));opacity:.25;animation:chipLoadPulse 1.05s ease-in-out infinite;}
 @keyframes chipLoadPulse{0%,100%{opacity:.18;transform:scale(1);}50%{opacity:.85;transform:scale(1.06);}}
 /* カードの着地（上から順に）。--land-i が段差、14枚までしか付けない */
 .qc.subj-land{animation:subjLand .52s cubic-bezier(.16,1,.3,1) both;animation-delay:calc(var(--land-i,0) * 34ms);}
 @keyframes subjLand{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
-.chip{padding:3px 10px;border-radius:20px;border:1.5px solid rgba(255,255,255,.18);background:rgba(var(--glass-rgb),.04);color:rgba(255,255,255,.52);font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s,color .15s;flex-shrink:0;}
+.chip{padding:2px 6px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(var(--glass-rgb),.04);color:rgba(255,255,255,.52);font-size:8.5px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s,color .15s;flex-shrink:0;}
 .chip.on{color:#fff;background:rgba(var(--glass-rgb),.12);border-color:rgba(255,255,255,.38);}
 
-.filter-row{display:flex;align-items:center;gap:3px;overflow-x:auto;scrollbar-width:none;}
+.filter-row{display:flex;align-items:center;gap:2px;overflow-x:auto;scrollbar-width:none;}
 .filter-row::-webkit-scrollbar{display:none;}
-.nb{flex-shrink:0;background:rgba(var(--glass-rgb),.04);border:1.5px solid rgba(255,255,255,.18);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;color:rgba(255,255,255,.58);transition:background .15s,border-color .15s,color .15s;white-space:nowrap;}
+.nb{flex-shrink:0;background:rgba(var(--glass-rgb),.04);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:2px 6px;font-size:8.5px;font-weight:700;font-family:inherit;cursor:pointer;color:rgba(255,255,255,.58);transition:background .15s,border-color .15s,color .15s;white-space:nowrap;}
 .nb.fc-on{background:var(--or);border-color:var(--or);color:#fff;}
 .nb[data-filter="hard"].fc-on{background:var(--rd);border-color:var(--rd);}
 .nb[data-filter="mid"].fc-on{background:var(--yl);border-color:var(--yl);color:#1a1200;}
@@ -154,19 +154,19 @@ body.exam-mode.exam-idle-lit .st-hdr::after{opacity:.85;}
 .nb[data-filter="star"].fc-on{background:var(--yl);border-color:var(--yl);color:#1a1200;}
 .nb[data-filter="img"].fc-on{background:var(--blu);border-color:var(--blu);color:#001a40;}
 .nb[data-filter="weak"].fc-on{background:var(--pu);border-color:var(--pu);color:#1a0040;}
-.fsep{width:1px;height:14px;background:rgba(var(--glass-rgb),.15);margin:0 2px;flex-shrink:0;align-self:center;}
-.vis-count{font-size:11px;font-weight:700;color:rgba(255,255,255,.45);white-space:nowrap;flex-shrink:0;}
+.fsep{width:1px;height:10px;background:rgba(var(--glass-rgb),.15);margin:0 1px;flex-shrink:0;align-self:center;}
+.vis-count{font-size:8.5px;font-weight:700;color:rgba(255,255,255,.45);white-space:nowrap;flex-shrink:0;}
 
-.filter-row2{display:flex;align-items:center;gap:3px;overflow-x:auto;scrollbar-width:none;margin-top:4px;}
+.filter-row2{display:flex;align-items:center;gap:2px;overflow-x:auto;scrollbar-width:none;margin-top:3px;}
 .filter-row2::-webkit-scrollbar{display:none;}
-.nb2{flex-shrink:0;background:rgba(var(--glass-rgb),.04);border:1.5px solid rgba(255,255,255,.18);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;color:rgba(255,255,255,.58);transition:background .15s,border-color .15s,color .15s;white-space:nowrap;}
+.nb2{flex-shrink:0;background:rgba(var(--glass-rgb),.04);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:2px 6px;font-size:8.5px;font-weight:700;font-family:inherit;cursor:pointer;color:rgba(255,255,255,.58);transition:background .15s,border-color .15s,color .15s;white-space:nowrap;}
 .nb2.fs-on{background:rgba(var(--glass-rgb),.15);border-color:rgba(255,255,255,.5);color:#fff;}
 .nb2[data-state="flag"].fs-on{background:var(--rd);border-color:var(--rd);color:#fff;}
 .nb2[data-state="undone"].fs-on{background:#78909C;border-color:#78909C;color:#fff;}
 .nb2[data-state="done"].fs-on{background:var(--gr);border-color:var(--gr);color:#061a0f;}
 .search-wrap{position:relative;flex:2;min-width:0;}
-.search-wrap::before{content:'🔍';position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:11px;pointer-events:none;}
-.search-input{width:100%;background:rgba(var(--glass-rgb),.07);border:1.5px solid rgba(255,255,255,.14);border-radius:20px;padding:5px 12px 5px 28px;font-size:12px;color:#fff;font-family:inherit;box-sizing:border-box;}
+.search-wrap::before{content:'🔍';position:absolute;left:7px;top:50%;transform:translateY(-50%);font-size:9px;pointer-events:none;}
+.search-input{width:100%;background:rgba(var(--glass-rgb),.07);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:3px 8px 3px 22px;font-size:9.5px;color:#fff;font-family:inherit;box-sizing:border-box;height:22px;}
 .search-input::placeholder{color:rgba(255,255,255,.28);}
 .search-input:focus{border-color:rgba(255,255,255,.38);background:rgba(var(--glass-rgb),.1);}
 .search-input::-webkit-search-cancel-button{filter:invert(1);opacity:.5;}
@@ -1024,11 +1024,11 @@ html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-bloc
 @keyframes mecJumpFlash{0%{box-shadow:0 0 0 3px var(--yl),0 0 22px rgba(255,184,48,.5);}100%{box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08);}}
 .qc.mec-jump-flash{animation:mecJumpFlash 1.2s ease forwards;}
 .qc:hover{box-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.1);}
-.qh{display:flex;align-items:center;gap:7px;padding:11px 15px 7px;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.07);}
-.qn{font-family:var(--font-display);letter-spacing:var(--font-display-ls);font-size:14px;font-weight:900;color:var(--qn-col);min-width:30px;}
-.qe{font-size:11px;color:var(--ts);}
+.qh{display:flex;align-items:center;gap:5px;padding:4px 12px 3px;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.07);}
+.qn{font-family:var(--font-display);letter-spacing:var(--font-display-ls);font-size:11px;font-weight:800;color:var(--qn-col);min-width:24px;}
+.qe{font-size:10px;color:var(--ts);}
 /* Badge tags */
-.bg{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;}
+.bg{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:1px 5px;border-radius:3px;}
 .bs{background:rgba(255,184,48,.15);color:var(--yl);border:1px solid rgba(255,184,48,.35);}
 .bc{background:rgba(96,165,250,.15);color:var(--blu);border:1px solid rgba(96,165,250,.35);}
 .bh{background:rgba(255,107,107,.15);color:#FF8A8A;border:1px solid rgba(255,107,107,.35);}
@@ -1039,7 +1039,7 @@ html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-bloc
 .bx{background:rgba(196,181,253,.12);color:#C4B5FD;border:1px solid rgba(196,181,253,.3);}
 .bsub{background:rgba(148,163,184,.15);color:#94A3B8;border:1px solid rgba(148,163,184,.35);}
 /* Accuracy rate badges */
-.cr{margin-left:auto;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;flex-shrink:0;}
+.cr{margin-left:auto;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;flex-shrink:0;}
 .ch{background:rgba(61,214,140,.12);color:var(--gr);border:1px solid rgba(61,214,140,.3);}
 .cm{background:rgba(255,184,48,.12);color:var(--yl);border:1px solid rgba(255,184,48,.3);}
 .cl{background:rgba(255,107,107,.12);color:var(--rd);border:1px solid rgba(255,107,107,.3);}
@@ -1103,26 +1103,21 @@ html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-bloc
 }
 
 /* ── Controls ── */
-.mec-controls{display:flex;align-items:center;gap:6px;margin-left:auto;flex-shrink:0;}
+.mec-controls{display:flex;align-items:center;gap:4px;margin-left:auto;flex-shrink:0;}
 
 /* 自己採点（× / △ / ○）。旧「済」1つを3分割したもの。
    ⚠️ progress.js の _injectSeriesCSS が .mec-lap-btn の旧・章ページ用パレット（白地）を
    実行時に <style> で注ぎ込む。あれは study.css の <link> より後ろに入るので、
    同じ詳細度だと向こうが勝つ。ここは必ず .mec-controls を前置して詳細度で上回ること。 */
-.mec-controls .mec-grade{display:inline-flex;align-items:stretch;gap:2px;padding:2px;
-  border-radius:var(--r-md);background:rgba(var(--glass-rgb),.07);border:1px solid var(--bd);}
+.mec-controls .mec-grade{display:inline-flex;align-items:stretch;gap:1px;padding:1px;
+  border-radius:var(--r-sm);background:rgba(var(--glass-rgb),.07);border:1px solid var(--bd);}
 .mec-controls .mec-grade-btn,
 .mec-controls .mec-grade .mec-lap-btn{
   display:inline-flex;align-items:center;justify-content:center;gap:2px;
-  min-width:26px;padding:2px 7px;border-radius:calc(var(--r-md) - 2px);
-  font-size:11px;font-weight:800;line-height:1.5;font-family:inherit;
+  min-width:20px;padding:1px 5px;border-radius:calc(var(--r-sm) - 1px);
+  font-size:10.5px;font-weight:800;line-height:1.4;font-family:inherit;
   border:1px solid transparent;background:none;color:var(--ts);
   cursor:pointer;white-space:nowrap;transition:background .18s,color .18s,border-color .18s;}
-/* タップ標的は最低36px確保する（iPadで隣の段階を誤爆すると復習間隔が壊れる） */
-@media (hover:none){
-  .mec-controls .mec-grade-btn,
-  .mec-controls .mec-grade .mec-lap-btn{min-width:36px;padding:5px 9px;}
-}
 .mec-controls .mec-grade-btn.g-ng:hover{color:var(--rd);background:var(--rdl);}
 .mec-controls .mec-grade-btn.g-mid:hover{color:var(--or);background:var(--orl);}
 .mec-controls .mec-grade .mec-lap-btn:hover{color:var(--gr);background:var(--grl);}
@@ -1132,14 +1127,14 @@ html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-bloc
 /* 周回済み（done_v2>0）は従来どおり ○ が緑で満ちる。既存の .mec-lapped を踏襲 */
 .mec-controls .mec-grade .mec-lap-btn.mec-lapped,
 .mec-controls .mec-grade .mec-lap-btn.mec-grade-on{color:var(--gr);background:var(--grl);border-color:var(--gr);}
-.mec-controls .mec-grade .mec-lap-num{font-size:9px;font-weight:800;opacity:.8;margin-left:1px;}
+.mec-controls .mec-grade .mec-lap-num{font-size:8.5px;font-weight:800;opacity:.8;margin-left:1px;}
 .mec-controls .mec-grade-btn:focus-visible,
 .mec-controls .mec-grade .mec-lap-btn:focus-visible{outline:2px solid var(--ord);outline-offset:1px;}
-.mec-flag-btn{background:none;border:none;font-size:16px;cursor:pointer;opacity:.3;padding:0 2px;line-height:1;transition:opacity .2s;}
-.mec-fixed-badge{display:inline-flex;align-items:center;font-size:9px;font-weight:800;background:rgba(255,165,0,.15);color:#FFA040;border:1px solid rgba(255,165,0,.45);border-radius:4px;padding:1px 6px;letter-spacing:.04em;cursor:default;white-space:nowrap;}
+.mec-flag-btn{background:none;border:none;font-size:11px;cursor:pointer;opacity:.3;padding:0 1px;line-height:1;transition:opacity .2s;}
+.mec-fixed-badge{display:inline-flex;align-items:center;font-size:8.5px;font-weight:800;background:rgba(255,165,0,.15);color:#FFA040;border:1px solid rgba(255,165,0,.45);border-radius:3px;padding:1px 4px;letter-spacing:.04em;cursor:default;white-space:nowrap;}
 .mec-flag-btn.mec-flagged{opacity:1;}
-.mec-done-btns{display:flex;gap:3px;}
-.mec-done-btn{padding:2px 7px;border-radius:var(--r-md);font-size:10px;font-weight:700;border:1.5px solid rgba(255,255,255,.14);color:var(--ts);background:rgba(var(--glass-rgb),.05);cursor:pointer;font-family:inherit;transition:background .2s,border-color .2s,color .2s;white-space:nowrap;}
+.mec-done-btns{display:flex;gap:2px;}
+.mec-done-btn{padding:1px 5px;border-radius:var(--r-sm);font-size:9.5px;font-weight:700;border:1px solid rgba(255,255,255,.14);color:var(--ts);background:rgba(var(--glass-rgb),.05);cursor:pointer;font-family:inherit;transition:background .2s,border-color .2s,color .2s;white-space:nowrap;}
 .mec-done-btn.passed{background:rgba(61,214,140,.18);border-color:rgba(61,214,140,.38);color:var(--gr);}
 .mec-done-btn.active{background:var(--gr);border-color:var(--gr);color:#061a0f;}
 
@@ -1173,16 +1168,16 @@ html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-bloc
 .subj-cards-loading::before{content:'';width:18px;height:18px;border:2px solid rgba(255,255,255,.2);border-top-color:var(--or,var(--yl));border-radius:50%;animation:mecSpin .8s linear infinite;margin-right:8px;}
 
 /* ── Error reporting ── */
-.mec-err-btn{background:rgba(255,154,60,.1);border:1px solid rgba(255,154,60,.35);border-radius:var(--r-md);font-size:10px;font-weight:700;cursor:pointer;padding:1px 6px;line-height:1.5;transition:background .2s,border-color .2s,color .2s;flex-shrink:0;color:rgba(255,154,60,.8);font-family:inherit;}
+.mec-err-btn{background:rgba(255,154,60,.1);border:1px solid rgba(255,154,60,.35);border-radius:var(--r-sm);font-size:9.5px;font-weight:700;cursor:pointer;padding:1px 5px;line-height:1.4;transition:background .2s,border-color .2s,color .2s;flex-shrink:0;color:rgba(255,154,60,.8);font-family:inherit;}
 .mec-err-btn:hover{background:rgba(255,154,60,.22);border-color:rgba(255,154,60,.6);color:var(--or);}
 .mec-err-btn.mec-err-reported{background:rgba(255,107,107,.15);border-color:rgba(255,107,107,.5);color:var(--rd);}
-.mec-err-panel{display:none;padding:6px 14px;gap:5px;flex-wrap:wrap;border-top:1px solid rgba(255,154,60,.25);background:rgba(255,154,60,.05);}
+.mec-err-panel{display:none;padding:4px 10px;gap:4px;flex-wrap:wrap;border-top:1px solid rgba(255,154,60,.25);background:rgba(255,154,60,.05);}
 .mec-err-panel.open{display:flex;align-items:center;}
-.mec-err-label{font-size:10px;font-weight:700;color:rgba(255,154,60,.65);margin-right:3px;white-space:nowrap;}
-.mec-err-type{padding:2px 9px;border-radius:var(--r-md);border:1.5px solid rgba(255,154,60,.4);color:rgba(255,154,60,.75);background:none;font-size:10px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .2s,border-color .2s,color .2s;white-space:nowrap;}
+.mec-err-label{font-size:9px;font-weight:700;color:rgba(255,154,60,.65);margin-right:2px;white-space:nowrap;}
+.mec-err-type{padding:1px 6px;border-radius:var(--r-sm);border:1px solid rgba(255,154,60,.4);color:rgba(255,154,60,.75);background:none;font-size:9px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .2s,border-color .2s,color .2s;white-space:nowrap;}
 .mec-err-type:hover{background:rgba(255,154,60,.15);}
 .mec-err-type.selected{background:rgba(255,154,60,.25);border-color:var(--or);color:var(--or);}
-.mec-err-badge{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:700;background:rgba(255,154,60,.15);color:var(--or);border:1px solid rgba(255,154,60,.35);cursor:pointer;font-family:inherit;display:none;}
+.mec-err-badge{font-size:8.5px;padding:2px 6px;border-radius:10px;font-weight:700;background:rgba(255,154,60,.15);color:var(--or);border:1px solid rgba(255,154,60,.35);cursor:pointer;font-family:inherit;display:none;}
 .mec-err-badge.visible{display:inline-block;}
 /* モーダル本体のCSSは progress.js が注入する（hubと共通実装のため）。
    ここに残すのはカード内パネル・ヘッダーバッジなど study.html 固有のものだけ。 */
