@@ -14,575 +14,1086 @@
 <script src="ui_theme.js"></script>
 <link rel="stylesheet" href="ui_theme.css">
 <style>
-/* ══════════ stats.html のローカルトークン ══════════
-   ベース配色・z-index・イージングは vars.css が正本。ここには統計ページ固有の
-   グラフ配色だけを置く。⚠️ 以下のいずれの値も CSS/JS から直値で書かないこと
-   （html.pal-* でベース色を替えたときにここだけ追従せず取り残されるため）。
+/* ══════════ stats.html ローカルトークン ══════════ */
+:root {
+  /* 5 & 6. 直感的な3色シグナル（視覚心理＆アクセシビリティ準拠） */
+  --stat-good: #3DD68C;
+  --stat-good-bg: rgba(61,214,140,0.16);
+  --stat-good-bd: rgba(61,214,140,0.38);
 
-   データの配色言語は 2 つだけに絞ってある:
-     ・弱さランプ (--ramp-w*)  アンバー単一色相・弱いほど明るく浮く＝目が先に向く
-     ・網羅ランプ (--ramp-c*)  グリーン単一色相・やった量が増えるほど濃い
-   赤と緑を対で意味に使わない（色覚特性で最も読めなくなる組み合わせのため）。 */
-:root{
-  /* 弱さランプ7段（アンバー単一色相・相対輝度で単調増加・最小段差 0.024）。
-     ⚠️ 段の明度は自由に決められない。明インク(--tx)が 4.5:1 を保てるのは L<=0.142、
-     暗インク(--ramp-w-ink)が保てるのは L>=0.226 で、その間はどちらを載せても
-     読めない死角になる。w1〜w4 を死角の下、w5〜w7 を上へ寄せてあるのはそのため
-     （旧実装の w5 は L=0.190 ＝ちょうど死角で、11px太字が 3.61:1 しかなかった）。
-     値を触るときは必ずコントラストを測り直すこと。 */
-  --ramp-w1:#2a1b03; --ramp-w2:#483209; --ramp-w3:#644711; --ramp-w4:#825c19;
-  --ramp-w5:#b07f26; --ramp-w6:#c9912c; --ramp-w7:#e5a634;
-  --ramp-w-ink:#241a05;                  /* 明るい3段(w5〜w7)の上に載せる文字色 */
-  /* 網羅ランプ5段。学習カレンダーと共通の緑＝「やった量」の言語 */
-  --ramp-c1:rgba(61,214,140,.22); --ramp-c2:rgba(61,214,140,.38);
-  --ramp-c3:rgba(61,214,140,.55); --ramp-c4:rgba(61,214,140,.75);
-  --ramp-c5:var(--gr);
-  --ramp-none:rgba(255,255,255,.06);     /* データ無し。ランプの外に置く中立色 */
+  --stat-warn: #FF9A3C;
+  --stat-warn-bg: rgba(255,154,60,0.16);
+  --stat-warn-bd: rgba(255,154,60,0.38);
 
-  /* 30日グラフの系列色 */
-  --c-act:#A5D6A7; --c-time:#90CAF9; --c-time-today:#7B5EA7;
-  --bar-idle:rgba(255,255,255,.25);      /* 誤答選択肢の非最多バー */
-  --canvas-grid:rgba(255,255,255,.12);   /* 推移グラフの70%基準線 */
-  /* 達成リングの祝福パーティクル。Canvas には var() が届かないので cssVar() で実値を引く */
-  --fx-1:var(--gr); --fx-2:#7CEFB2; --fx-3:#FFD166; --fx-4:#FFFFFF;
+  --stat-bad: #FF6B6B;
+  --stat-bad-bg: rgba(255,107,107,0.18);
+  --stat-bad-bd: rgba(255,107,107,0.42);
 
-  /* 済みレベル分布（未済→済6+ の緑シーケンシャル） */
-  --lv0:rgba(255,255,255,.28); --lv1:#C8EBD4; --lv2:#81C784; --lv3:#4CAF50;
-  --lv4:#2E7D32; --lv5:#1B5E20; --lv6:#0D3B1A; --lv-bd:rgba(255,255,255,.18);
-  --prog-total:#2D8C4E;                  /* 科目別進捗の合計行 */
-  /* 科目が特定できなかったバッジの下地。白文字を載せるので暗めに取る
-     （旧実装の #888 は白文字とのコントラストが 2.9:1 しかなかった） */
-  --badge-none:#4A5A72;
+  --stat-neutral: #60A5FA;
+  --stat-neutral-bg: rgba(96,165,250,0.14);
+  --stat-neutral-bd: rgba(96,165,250,0.32);
 
-  /* ボタン。暗色面ではカラーグローで高さを出さず、面の明るさで出す。
-     いずれも下地が明るいので文字は暗インクにしてコントラストを取る */
-  /* 主ボタンはテーマのブランドアクセントに追随させる。以前は固定の紫で、
-     無彩色が主旨の「炭」テーマでもここだけ紫が残って浮いていた。
-     2つ目（ドリル）は用途が違うので分けるが、色相ではなく
-     「塗り vs 輪郭」の階層で分ける＝どのテーマでも成立する。 */
-  --btn-ai:var(--or);   --btn-ai-h:var(--ord);   --btn-ai-ink:var(--subj-ink);
-  --btn-ok:var(--gr);   --btn-ok-ink:#04231A;
+  --stat-none: rgba(255,255,255,0.06);
 
-  /* 意味色の枠線。淡い面は vars.css の --grl/--orl/--rdl/--bl を使う */
-  --gr-bd:rgba(61,214,140,.3); --or-bd:rgba(255,154,60,.3);
-  --rd-bd:rgba(255,107,107,.3); --blu-bd:rgba(96,165,250,.3);
+  /* 面の階層 */
+  --sec-bg: rgba(var(--glass-rgb), 0.06);
+  --sec-bd: rgba(255,255,255, 0.11);
+  --lead-bg: rgba(var(--glass-rgb), 0.12);
+  --lead-bd: rgba(255,255,255, 0.18);
+  --card-bg: rgba(0, 0, 0, 0.22);
+  --card-bd: rgba(255, 255, 255, 0.08);
 
-  /* 面の3階層。全セクションが同じ箱だと主役と余談が同じ重さで並ぶ */
-  --sec-bg:rgba(var(--glass-rgb),.06);
-  --sec-bd:rgba(255,255,255,.1);
-  --lead-bg:rgba(var(--glass-rgb),.11);
-  --lead-bd:rgba(255,255,255,.16);
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-/* ページ本体は横スクロールさせない最後の砦。広い表やグリッドは各自
-   overflow-x:auto の器を持つこと（.subj-scroll / .hm-scroll / .cal-wrap）。
-   ⚠️ html 側には掛けない。vars.css の html::before（固定背景・iOS白wash対策）に
-   触れるのを避けるため、body だけに留めてある。 */
-body{overflow-x:clip;}
-body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:transparent;color:var(--tx);font-size:14px;line-height:1.7;font-variant-numeric:tabular-nums;}
-
-.hdr{background:rgba(var(--hdr-rgb),.97);border-bottom:1px solid rgba(255,255,255,.08);color:#fff;padding:12px 14px 10px;position:sticky;top:0;z-index:var(--z-hdr);box-shadow:0 2px 20px rgba(0,0,0,.45);}
-.hdr-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
-.hdr-title{font-family:var(--font-display);letter-spacing:var(--font-display-ls);font-size:16px;font-weight:800;}
-.hub-link{font-size:11px;color:rgba(255,255,255,.6);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,255,255,.18);border-radius:20px;white-space:nowrap;}
-.hub-link:hover{background:rgba(var(--glass-rgb),.1);}
-.mec-sync-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(var(--glass-rgb),.1);color:rgba(255,255,255,.8);margin-left:auto;}
-
-.summary-row{display:flex;gap:6px;flex-wrap:wrap;}
-/* 375px 以下では「2241問」が「2241 / 問」と縦に割れていた。数値は折らず、
-   入らないときはカード自体を段に落とす（flex-wrap 済み） */
-.sum-card{background:rgba(var(--glass-rgb),.08);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-md);padding:6px 8px;text-align:center;flex:1;min-width:74px;}
-.sum-val{font-size:20px;font-weight:900;color:var(--yl);display:block;white-space:nowrap;}
-/* 赤旗はページ内の他所（.flag-num）で赤を意味色として使っているので揃える */
-.sum-val.flag{color:var(--rd);}
-.sum-lbl{font-size:10px;color:rgba(255,255,255,.6);white-space:nowrap;}
-
-.ct{max-width:700px;margin:0 auto;padding:14px 12px 32px;}
-
-/* ── 面の3階層 ──────────────────────────────────────────
-   旧実装は14セクションが全て同じ箱で、「試験まであと何日」（このページの主役）と
-   「誤答選択肢パターン」（参考）が同じ視覚的重みで並んでいた。3段に分ける:
-     .sec--lead  主役。面を持ち上げ、余白を広く取る
-     .sec        通常。従来の箱のまま
-     .sec--aside 参考。箱を外し、罫線と余白だけで区切る */
-.sec{background:var(--sec-bg);border:1px solid var(--sec-bd);border-radius:var(--r-lg);box-shadow:var(--shadow-card);padding:16px;margin-bottom:14px;}
-.sec--lead{background:var(--lead-bg);border-color:var(--lead-bd);border-radius:var(--r-lg);padding:20px 18px 18px;margin-bottom:20px;
-  box-shadow:0 8px 34px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.12);}
-.sec--aside{background:none;border:none;border-radius:0;box-shadow:none;
-  padding:20px 2px 0;margin-bottom:22px;border-top:1px solid rgba(255,255,255,.09);}
-/* 参考段の先頭だけ、通常段との間を余分に空けて「ここから下は補足」を示す */
-.sec--aside.is-first{margin-top:16px;}
-.sec-title{font-family:var(--font-display);letter-spacing:var(--font-display-ls);font-size:13px;font-weight:800;color:var(--tx);margin-bottom:14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
-.sec--lead .sec-title{font-size:14px;}
-.sec--aside .sec-title{color:var(--ts);margin-bottom:12px;}
-
-/* ── 4層の見出し（2026-08-18・Phase 3）────────────────────────────
-   旧実装は14セクションが平坦に並び、「あの表はどこだっけ」が起きていた。
-   セクションを減らしたうえで、残ったものを「今の状態 / 積み上げ / どこが弱いか / 道具」
-   の4層に束ねる。層の見出しは箱を持たない＝セクションと同じ重みで読ませない。 */
-.layer-hd{display:flex;align-items:center;gap:8px;margin:26px 2px 10px;
-  font-family:var(--font-display);letter-spacing:var(--font-display-ls);
-  font-size:11px;font-weight:800;color:var(--ts);text-transform:none;}
-.layer-hd:first-child{margin-top:2px;}
-.layer-hd .layer-n{display:inline-flex;align-items:center;justify-content:center;
-  width:17px;height:17px;border-radius:50%;flex-shrink:0;
-  background:rgba(255,255,255,.09);color:var(--tx);font-size:10px;font-weight:900;}
-.layer-hd::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.09);}
-
-/* 空の状態。旧実装は該当データが無いとセクションごと display:none にしていたので、
-   日によってページの形が変わっていた。常設して中身だけ差し替える */
-.sec-empty{font-size:13px;color:var(--ts);text-align:center;padding:18px 0;line-height:1.7;}
-
-
-/* Subject table
-   5列あり、320/375px では列が潰れきってページごと横スクロールしていた。
-   広い表は「自前の器の中でスクロールさせる」＝ページ本体は絶対に横スクロールさせない
-   （弱点カルテの .hm-scroll と同じ作法） */
-.subj-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px;}
-/* min-width が無いと width:100% のまま列が潰れ、「循環器」が縦書きに割れる。
-   下限を切って、入らない幅では器の中で横スクロールさせる */
-.subj-table{width:100%;min-width:430px;border-collapse:collapse;}
-.subj-table th{font-size:10px;font-weight:700;color:var(--ts);text-align:left;padding:4px 6px;border-bottom:1px solid rgba(255,255,255,.12);}
-.subj-table th.r{text-align:right;}
-.subj-table td{padding:7px 6px;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:middle;}
-.subj-table td.r{text-align:right;font-size:12px;font-weight:700;}
-.subj-row{cursor:pointer;}
-.subj-row:hover td{background:rgba(var(--glass-rgb),.04);}
-.subj-expand-icon{font-size:9px;color:var(--ts);margin-left:2px;transition:transform .2s;}
-.ch-row{cursor:pointer;}
-.ch-row:hover td{background:rgba(var(--glass-rgb),.04);}
-.ch-num{padding:5px 8px 5px 20px;font-size:11px;color:var(--ts);}
-.ch-sm{font-size:11px;}
-.ch-host{padding:0;}
-.ch-table{width:100%;border-collapse:collapse;border-top:1px solid var(--bd);}
-.subj-name-cell{display:flex;align-items:center;gap:6px;}
-.subj-icon{font-size:16px;}
-.subj-name{font-size:13px;font-weight:700;white-space:nowrap;}
-.subj-prog-wrap{display:flex;align-items:center;gap:6px;}
-.subj-prog-bar{flex:1;height:6px;background:var(--bd);border-radius:3px;overflow:hidden;min-width:48px;}
-.subj-prog-fill{height:100%;border-radius:3px;}
-.subj-prog-txt{font-size:11px;color:var(--ts);white-space:nowrap;min-width:36px;text-align:right;}
-.flag-num{color:var(--rd);}
-.due-num{color:var(--or);}
-
-/* Level distribution */
-.level-bars{display:flex;gap:6px;align-items:flex-end;height:80px;margin-bottom:6px;}
-.level-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
-.level-bar{width:100%;border-radius:4px 4px 0 0;min-height:3px;}
-.level-lbl{font-size:10px;font-weight:700;color:var(--ts);white-space:nowrap;}
-.level-val{font-size:10px;font-weight:700;color:var(--ts);}
-.level-legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;}
-.legend-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ts);}
-.legend-dot{width:10px;height:10px;border-radius:2px;}
-
-
-/* Accuracy badge */
-.acc-badge{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:var(--r-md);white-space:nowrap;}
-.acc-badge.good{background:var(--grl);color:var(--gr);border:1px solid var(--gr-bd);}
-.acc-badge.poor{background:var(--orl);color:var(--or);border:1px solid var(--or-bd);}
-.acc-badge.bad{background:var(--rdl);color:var(--rd);border:1px solid var(--rd-bd);}
-.acc-badge.none{color:var(--ts);}
-.acc-sub{font-weight:400;font-size:10px;}
-
-/* Rate history chart (H) */
-.rh-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
-.rh-label{font-size:12px;font-weight:700;width:68px;flex-shrink:0;display:flex;align-items:center;gap:4px;}
-.rh-canvas-wrap{flex:1;position:relative;overflow:hidden;}
-.rh-canvas{display:block;width:100%;height:40px;clip-path:polygon(0 0, 100% 0, 100% 100%, 0 100%);animation:rhTraceIn .85s cubic-bezier(.16,1,.3,1);}
-@keyframes rhTraceIn{0%{clip-path:polygon(0 0, 0 0, 0 100%, 0 100%);}100%{clip-path:polygon(0 0, 100% 0, 100% 100%, 0 100%);}}
-.rh-latest{font-size:12px;font-weight:800;width:40px;text-align:right;flex-shrink:0;}
-.rh-no-data{font-size:12px;color:var(--ts);text-align:center;padding:20px 0;}
-
-@media (prefers-reduced-motion: reduce){
-  .rh-canvas{animation:none;}
+  /* 12. 済みレベル分布（緑シーケンシャル） */
+  --lv0: rgba(255,255,255,0.22);
+  --lv1: #A7F3D0; --lv2: #6EE7B7; --lv3: #34D399;
+  --lv4: #10B981; --lv5: #059669; --lv6: #047857;
 }
 
-/* ── 弱点リスト（統合）─────────────────────────────────────────
-   旧実装は「弱いもの」のリストが4本（📐本番との差 / 💡取りこぼし / 🎯苦手ランキング /
-   🔍誤答選択肢パターン）に割れており、同じ uid が複数の表に重複して載っていた。
-   4本を1本に畳み、どの理由で挙がったかは行のタグで示す。
-   ⚠️ 📐本番との差は「引き算の左右で分母が違う」ため廃止した（§4-2）。
-      同じ uid での比較＝分母が揃った形だけを 🔻本番差 タグとして残してある。 */
-.wk-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
-.wk-fbtn{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;cursor:pointer;font-family:inherit;
-  background:transparent;border:1px solid rgba(255,255,255,.16);color:var(--ts);}
-.wk-fbtn.on{background:rgba(96,165,250,.18);border-color:var(--blu-bd);color:var(--blu);}
-.wk-fbtn:disabled{opacity:.4;cursor:default;}
-
-.wk-item{border-bottom:1px solid var(--gb);}
-.wk-item:last-child{border-bottom:none;}
-.wk-head{display:flex;align-items:stretch;gap:0;margin:0 -16px;}
-/* hover で margin/padding を動かすと行が飛び跳ねるので、幅は常時広げておき
-   hover では背景色だけを変える（レイアウトを触らない） */
-.wk-row{flex:1;min-width:0;display:flex;align-items:center;gap:8px;padding:8px 4px 8px 16px;
-  text-decoration:none;color:var(--tx);border-radius:var(--r-sm);}
-.wk-row:hover{background:rgba(var(--glass-rgb),.05);}
-.wk-rank{font-size:11px;font-weight:700;color:var(--ts);width:20px;flex-shrink:0;text-align:right;font-variant-numeric:tabular-nums;}
-.wk-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:var(--r-md);color:var(--subj-ink);white-space:nowrap;flex-shrink:0;}
-.wk-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
-.wk-ch{font-size:12px;color:var(--ts);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.wk-tags{display:flex;gap:4px;flex-wrap:wrap;}
-/* タグは3種だけ。色ではなく字で読ませる（塗りだけに意味を負わせない） */
-.wk-tag{font-size:9px;font-weight:700;font-style:normal;padding:1px 5px;border-radius:var(--r-sm);
-  white-space:nowrap;border:1px solid transparent;}
-.wk-tag.t-miss{background:var(--rdl);color:var(--rd);border-color:var(--rd-bd);}
-.wk-tag.t-gap{background:var(--orl);color:var(--or);border-color:var(--or-bd);}
-.wk-tag.t-rep{background:rgba(255,255,255,.07);color:var(--ts);border-color:rgba(255,255,255,.14);}
-.wk-acc{font-size:13px;font-weight:700;flex-shrink:0;}
-.wk-more{flex-shrink:0;width:34px;border:none;background:none;color:var(--ts);font-size:11px;cursor:pointer;
-  font-family:inherit;border-radius:var(--r-sm);}
-.wk-more:hover{background:rgba(var(--glass-rgb),.06);color:var(--tx);}
-.wk-more .wk-caret{display:inline-block;transition:transform .18s var(--ease-out);}
-.wk-more[aria-expanded="true"] .wk-caret{transform:rotate(180deg);}
-
-/* 行の内訳。旧「🔍誤答選択肢パターン」の中身はここへ落とした＝
-   全体の分布より「この問題でどの肢に流れたか」の方が打ち手に直結する */
-.wk-detail{padding:2px 0 12px 44px;font-size:11px;color:var(--ts);line-height:1.75;}
-.wk-detail[hidden]{display:none;}
-.wk-cmp{display:flex;align-items:center;gap:7px;margin-bottom:6px;}
-.wk-cmp-lbl{width:52px;flex-shrink:0;}
-.wk-cmp-track{flex:1;max-width:190px;height:7px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden;}
-.wk-cmp-fill{height:100%;border-radius:4px;transform-origin:left center;}
-.wk-cmp-fill.nat{background:var(--gr);}
-.wk-cmp-fill.you{background:var(--rd);}
-.wk-cmp-v{width:38px;flex-shrink:0;text-align:right;font-weight:700;color:var(--tx);font-variant-numeric:tabular-nums;}
-.wk-picks{margin-top:4px;}
-.wk-pick{display:inline-block;margin-right:8px;font-weight:700;color:var(--tx);}
-.wk-pick .n{font-weight:400;color:var(--ts);}
-.wk-foot{font-size:11px;color:var(--ts);margin-top:12px;padding-top:10px;
-  border-top:1px solid rgba(255,255,255,.07);line-height:1.7;}
-
-/* ── 章別ヒートマップ 2段（科目 → 章）───────────────────────────
-   旧実装は 180章を一度に出していた。1段目を科目タイルにすると、
-   一望する対象が科目数まで減り、2段目には章名を書く余地が生まれる */
-.hm-subj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:7px;}
-.hm-subj{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:8px 9px;cursor:pointer;
-  font-family:inherit;text-align:left;border-radius:var(--r-md);
-  background:rgba(var(--glass-rgb),.05);border:1px solid rgba(255,255,255,.10);}
-.hm-subj:hover{background:rgba(var(--glass-rgb),.10);}
-.hm-subj-top{display:flex;align-items:center;gap:5px;width:100%;min-width:0;}
-.hm-subj-ic{font-size:14px;flex-shrink:0;}
-.hm-subj-nm{font-size:11px;font-weight:700;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.hm-subj-row{display:flex;align-items:center;gap:6px;width:100%;}
-.hm-subj-v{font-size:10px;color:var(--ts);font-variant-numeric:tabular-nums;}
-.hm-subj-v b{color:var(--tx);font-size:11px;}
-
-.hm-back{display:flex;align-items:center;gap:9px;margin-bottom:11px;flex-wrap:wrap;}
-.hm-back-btn{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;cursor:pointer;font-family:inherit;
-  background:transparent;border:1px solid rgba(255,255,255,.18);color:var(--ts);}
-.hm-back-btn:hover{background:rgba(255,255,255,.09);color:var(--tx);}
-.hm-back-nm{font-size:12px;font-weight:800;color:var(--tx);}
-.hm-back-go{margin-left:auto;font-size:11px;color:var(--blu);text-decoration:none;white-space:nowrap;}
-.hm-back-go:hover{text-decoration:underline;}
-.hm-ch-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);}
-.hm-ch-row:last-child{border-bottom:none;}
-.hm-ch-n{width:44px;flex-shrink:0;font-size:11px;font-weight:700;color:var(--ts);white-space:nowrap;}
-.hm-ch-t{flex:1;min-width:0;font-size:11px;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-/* 升目そのものは .hm-cell を使い回す＝ランプの対応表を2箇所に持たない */
-.hm-ch-row .hm-cell,.hm-subj .hm-cell{flex-shrink:0;cursor:inherit;}
-.hm-ch-v{width:96px;flex-shrink:0;text-align:right;font-size:11px;font-weight:700;color:var(--tx);font-variant-numeric:tabular-nums;}
-.hm-ch-v small{font-weight:400;color:var(--ts);}
-
-/* ── カレンダーの数字（旧「📅30日間の学習記録」「⏱30日間の学習時間」を畳んだ先）── */
-.cal-figs{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:10px;font-size:11px;color:var(--ts);}
-.cal-figs b{color:var(--tx);font-weight:800;font-variant-numeric:tabular-nums;font-size:13px;}
-
-/* AI export */
-.ai-desc{font-size:12px;color:var(--ts);margin-bottom:12px;line-height:1.6;}
-/* 暗色面のボタンは「グラデ＋同色のグロー」で浮かせない（最も生成物らしく見える組み合わせ）。
-   単色の面で塗り、高さは面の明るさで出す。下地が明るいので文字は暗インク。 */
-.ai-export-btn{width:100%;padding:12px 16px;border:none;border-radius:var(--r-md);
-  background:var(--btn-ai);color:var(--btn-ai-ink);
-  font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;
-  transition:background-color .18s var(--ease-out),transform .1s var(--ease-out);}
-.ai-export-btn:hover{background:var(--btn-ai-h);}
-.ai-export-btn:active{transform:translateY(1px);}
-.ai-export-btn.copied{background:var(--btn-ok);color:var(--btn-ok-ink);}
-.ai-export-msg{font-size:11px;color:var(--ts);text-align:center;margin-top:8px;min-height:14px;}
-.ai-opts{display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
-.ai-opt{font-size:11px;color:var(--ts);display:flex;align-items:center;gap:4px;cursor:pointer;user-select:none;}
-/* 2つ目のボタンは用途が違う（相談ではなく出題）ので配色を分け、区切り線で段を切る */
-.ai-desc2{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);}
-/* 用途違いを色相ではなく階層で示す（塗り＝主／輪郭＝副）。
-   どのテーマのアクセントでも成立し、テーマ固有の色を足さずに済む */
-.ai-drill-btn{background:transparent;color:var(--or);
-  box-shadow:inset 0 0 0 1.5px var(--or);}
-.ai-drill-btn:hover{background:var(--orl);color:var(--ord);}
-/* コピーが端末に拒否されたときの退避先。font-size 16px 未満はiOSが自動ズームする */
-.ai-copy-fallback{width:100%;min-height:110px;margin-top:10px;resize:vertical;font-size:16px;
-  font-family:monospace;background:rgba(0,0,0,.4);border:1.5px solid rgba(255,255,255,.2);
-  border-radius:var(--r-md);padding:10px 12px;color:var(--tx);line-height:1.6;
-  -webkit-user-select:text;user-select:text;}
-.ai-copy-fallback[hidden]{display:none;}
-
-.sec-note{font-size:11px;font-weight:400;color:var(--ts);}
-
-/* ── A1/B1: ヒーロー（カウントダウン＋達成リング） ── */
-.hero-sec{padding:18px 16px 16px;}
-.hero-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-/* conic-gradient で達成率ぶんだけ着色（--p はJSが更新）。study.css の結果リングと同方式 */
-.hero-ring{--p:0;--ringc:var(--gr);width:104px;height:104px;border-radius:50%;flex-shrink:0;
-  background:conic-gradient(var(--ringc) calc(var(--p)*1%),rgba(255,255,255,.08) 0);
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 0 16px rgba(0,0,0,.35), inset 0 0 0 1px rgba(224,194,94,.25);
-  animation:tourbillonBreathe 4s infinite alternate ease-in-out;}
-@keyframes tourbillonBreathe{0%{box-shadow:0 0 12px rgba(0,0,0,.35),inset 0 0 0 1px rgba(224,194,94,.2);}100%{box-shadow:0 0 20px rgba(224,194,94,.18),inset 0 0 0 1.5px rgba(224,194,94,.4);}}
-.hero-ring-in{width:84px;height:84px;border-radius:50%;background:var(--surf-2);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1;
-  box-shadow:inset 0 2px 6px rgba(0,0,0,.4);}
-.hero-pct{font-size:26px;font-weight:900;color:var(--tx);font-variant-numeric:tabular-nums;}
-.hero-pct-lbl{font-size:10px;font-weight:700;color:var(--ts);margin-top:1px;}
-.hero-info{flex:1;min-width:150px;}
-.hero-cd-lbl{font-size:11px;font-weight:700;color:var(--ts);}
-.hero-cd{display:flex;align-items:baseline;gap:4px;}
-.hero-cd #heroDays{font-size:44px;font-weight:900;color:var(--or);line-height:1.05;font-variant-numeric:tabular-nums;}
-.hero-cd-u{font-size:15px;font-weight:800;color:var(--or);}
-.hero-date{font-size:11px;color:var(--ts);margin-top:2px;}
-/* 生体スキャナー光波（弱点カルテ走査線） */
-.hm-scroll{position:relative;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px;}
-.hm-scroll::after{content:'';position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,229,255,.6),transparent);opacity:0;pointer-events:none;}
-.hm-scroll.scanning::after{animation:scannerSweep 1.2s ease-out forwards;}
-@keyframes scannerSweep{0%{top:0;opacity:.8;}100%{top:100%;opacity:0;}}
-@media (prefers-reduced-motion: reduce){
-  .hero-ring{animation:none;}
-  .hm-scroll.scanning::after{animation:none;}
-}
-/* 箱の中の箱をやめ、区切りは細い縦罫だけに任せる。
-   後段の「復習の見通し」も3値だったので、あちらは1行の文へ形を変えて重複を避けた */
-/* 3列固定だと 320px で「16.4問/日」が「16.4問/ + 日」に割れる。
-   auto-fit にして、入らない幅では列数のほうを落とす（値は折らない） */
-.pace-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));
-  row-gap:12px;margin-top:16px;}
-.pace-item{padding:0 12px;border-left:1px solid rgba(255,255,255,.13);}
-.pace-item:first-child{border-left:none;padding-left:0;}
-.pace-lbl{font-size:10px;font-weight:700;color:var(--ts);white-space:nowrap;}
-.pace-val{font-size:18px;font-weight:900;color:var(--tx);font-variant-numeric:tabular-nums;margin-top:2px;white-space:nowrap;}
-.pace-msg{font-size:12px;font-weight:700;margin-top:14px;padding:8px 11px;border-radius:var(--r-md);line-height:1.6;}
-.pace-msg.ok{background:var(--grl);color:var(--gr);border:1px solid var(--gr-bd);}
-.pace-msg.warn{background:var(--orl);color:var(--or);border:1px solid var(--or-bd);}
-.pace-msg.bad{background:var(--rdl);color:var(--rd);border:1px solid var(--rd-bd);}
-/* 実績ペースが必要ペースの何%かを示すバー。100%の位置に目盛りを立てる */
-.pace-bar{position:relative;height:7px;border-radius:4px;background:rgba(255,255,255,.09);margin-top:9px;overflow:hidden;}
-/* width ではなく transform を伸ばす（width は毎フレーム再レイアウトを起こす）。
-   角丸は親側の overflow:hidden が担うので、fill 自身は角丸を持たなくてよい */
-.pace-bar-fill{height:100%;width:100%;background:var(--gr);
-  transform:scaleX(0);transform-origin:left center;
-  transition:transform .5s var(--ease-out);}
-.pace-bar-mark{position:absolute;top:-2px;bottom:-2px;width:2px;background:rgba(255,255,255,.55);}
-.pace-foot{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap;}
-.pace-foot label{font-size:11px;font-weight:700;color:var(--ts);}
-.exam-date-input{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);border-radius:var(--r-sm);
-  padding:5px 9px;font-size:12px;color:var(--tx);font-family:inherit;}
-.pace-reset{background:none;border:1px solid rgba(255,255,255,.18);border-radius:var(--r-sm);color:var(--ts);
-  font-size:11px;font-weight:700;padding:5px 10px;cursor:pointer;font-family:inherit;}
-.pace-reset:hover{background:rgba(255,255,255,.1);color:var(--tx);}
-
-/* ── A2: 復習の見通し ── */
-/* 旧実装は「小ラベル＋大きい数字」の箱が3つ並ぶ形で、ヒーローの .pace-grid と
-   同じ形が2セクション離れて再演されていた。ここは下に棒グラフが控えているので
-   数値は1行の文に落とし、視覚的な重みはグラフ側に集める */
-.fc-summary{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 16px;margin-bottom:14px;}
-.fc-stat{display:inline-flex;align-items:baseline;gap:5px;font-size:11px;font-weight:700;color:var(--ts);}
-.fc-stat .v{font-size:19px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--tx);}
-.fc-stat.over .v{color:var(--rd);}
-.fc-stat.today .v{color:var(--or);}
-.fc-stat.week .v{color:var(--blu);}
-.fc-bars{display:flex;align-items:flex-end;gap:5px;height:84px;}
-.fc-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;justify-content:flex-end;}
-.fc-bar{width:100%;border-radius:4px 4px 0 0;min-height:3px;background:var(--blu);transform-origin:bottom center;}
-.fc-col.is-today .fc-bar{background:var(--or);}
-.fc-col.is-over .fc-bar{background:var(--rd);}
-.fc-n{font-size:10px;font-weight:800;color:var(--ts);font-variant-numeric:tabular-nums;}
-.fc-d{font-size:10px;color:var(--ts);white-space:nowrap;}
-.fc-note{font-size:11px;color:var(--ts);margin-top:10px;line-height:1.6;}
-
-/* ── B2: 学習カレンダー（週×曜日のグリッド） ── */
-.cal-wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
-.cal-wrap::-webkit-scrollbar{display:none;}
-.cal-dow{display:grid;grid-template-rows:repeat(7,1fr);gap:3px;flex-shrink:0;}
-.cal-dow span{font-size:10px;color:var(--ts);height:13px;line-height:13px;text-align:right;padding-right:3px;}
-.cal-grid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,1fr);gap:3px;flex:1;min-width:0;}
-.cal-cell{width:13px;height:13px;border-radius:3px;background:var(--ramp-none);cursor:pointer;}
-.cal-cell.l1{background:var(--ramp-c2);}
-.cal-cell.l2{background:var(--ramp-c3);}
-.cal-cell.l3{background:var(--ramp-c4);}
-.cal-cell.l4{background:var(--ramp-c5);}
-.cal-cell.is-today{outline:1.5px solid var(--yl);outline-offset:1px;}
-.cal-cell.is-sel{outline:2px solid var(--tx);outline-offset:1px;}
-.cal-cell.is-golden{box-shadow:0 0 0 1.5px #FFD166,0 0 6px rgba(255,209,102,.6);position:relative;}
-.cal-cell.is-golden::after{content:'';position:absolute;inset:2px;border-radius:2px;background:rgba(255,209,102,.35);pointer-events:none;}
-.cal-lg.is-golden{box-shadow:0 0 0 1.5px #FFD166,0 0 5px rgba(255,209,102,.5);position:relative;}
-.cal-legend{display:flex;align-items:center;gap:4px;margin-top:9px;font-size:10px;color:var(--ts);}
-.cal-lg{width:11px;height:11px;border-radius:3px;display:inline-block;background:var(--ramp-none);}
-.cal-lg.l1{background:var(--ramp-c2);}.cal-lg.l2{background:var(--ramp-c3);}
-.cal-lg.l3{background:var(--ramp-c4);}.cal-lg.l4{background:var(--ramp-c5);}
-/* 13px のセルに吹き出しを出すと、親の overflow-x:auto に上端を切られるうえ
-   指では狙えない。タップした値をこの1行に書き出す方式に変えた（iPadに hover は無い） */
-.grid-readout{margin-top:8px;font-size:11px;color:var(--ts);min-height:17px;line-height:17px;
-  font-variant-numeric:tabular-nums;}
-.grid-readout.has-val{color:var(--tx);font-weight:700;}
-/* B3: 曜日別の学習量 */
-.dow-wrap{display:flex;gap:5px;margin-top:14px;align-items:flex-end;height:56px;}
-.dow-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;height:100%;justify-content:flex-end;}
-.dow-bar{width:100%;border-radius:3px 3px 0 0;min-height:2px;background:rgba(96,165,250,.65);transform-origin:bottom center;}
-/* 最多／最少を緑と赤の対で示していたが、色覚特性で最も読めなくなる組み合わせ。
-   ページ全体の言語（緑＝やった量／アンバー＝要注意）に合わせて赤をアンバーへ寄せる */
-.dow-col.best .dow-bar{background:var(--gr);}
-.dow-col.worst .dow-bar{background:var(--ramp-w7);}
-.dow-l{font-size:10px;color:var(--ts);}
-.dow-v{font-size:10px;font-weight:700;color:var(--ts);font-variant-numeric:tabular-nums;}
-
-/* ── A3: 章別ヒートマップ ── */
-.hm-mode{display:flex;gap:6px;margin-bottom:10px;}
-.hm-mode-btn{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;cursor:pointer;font-family:inherit;
-  background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.14);color:var(--ts);
-  transition:background-color .15s var(--ease-out),border-color .15s var(--ease-out),color .15s var(--ease-out);}
-.hm-mode-btn.on{background:rgba(96,165,250,.18);border-color:var(--blu-bd);color:var(--blu);}
-.hm-row{display:flex;align-items:center;gap:7px;padding:3px 0;}
-.hm-name{width:66px;flex-shrink:0;font-size:11px;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:3px;
-  text-decoration:none;white-space:nowrap;overflow:hidden;}
-.hm-cells{display:flex;gap:3px;flex-wrap:wrap;flex:1;min-width:0;}
-/* 旧実装は 緑→黄→赤 の混色スケールだった。同じページ内の弱点カルテが
-   「赤緑は使わない」方針で作られていたので、言語が真っ向から食い違っていた。
-   ここを2言語に統一する:
-     .a1〜.a5  正答率モード = 弱さランプ（弱いほど明るく浮く。a5が最も強い＝暗い）
-     .p1〜.p5  進捗モード   = 網羅ランプ（やった量が増えるほど濃い。カレンダーと同じ緑）
-   .n0 はデータ無し。ランプの外の中立色に置き、「弱い」と誤読させない */
-/* ハイライン枠は必須。ランプ最暗段(w1 L=0.013)はセクションの地(L≈0.017)より暗く、
-   枠が無いと「最も強い章」がそのまま地に沈んで穴のように見える。カルテ(.hm td)と同じ作法。 */
-.hm-cell{width:15px;height:15px;border-radius:3px;background:var(--ramp-none);cursor:pointer;
-  border:1px solid rgba(255,255,255,.10);}
-.hm-cell.a5{background:var(--ramp-w1);}
-.hm-cell.a4{background:var(--ramp-w3);}
-.hm-cell.a3{background:var(--ramp-w4);}
-.hm-cell.a2{background:var(--ramp-w6);}
-.hm-cell.a1{background:var(--ramp-w7);}
-.hm-cell.p5{background:var(--ramp-c5);}
-.hm-cell.p4{background:var(--ramp-c4);}
-.hm-cell.p3{background:var(--ramp-c3);}
-.hm-cell.p2{background:var(--ramp-c2);}
-.hm-cell.p1{background:var(--ramp-c1);}
-/* データ無しは「弱い」ではなくランプの外。塗りで表すと最暗段(＝最も強い)と
-   明度が近く、未受験が得意に見えてしまう。カルテの「—」と同じく破線で外へ出す */
-.hm-cell.n0{background:transparent;border-style:dashed;border-color:rgba(255,255,255,.22);}
-.hm-cell.is-sel{outline:2px solid var(--tx);outline-offset:1px;}
-.hm-legend{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:10px;color:var(--ts);flex-wrap:wrap;}
-.hm-legend i{width:11px;height:11px;border-radius:3px;display:inline-block;}
-
-
-/* ── 弱点カルテ: 科目×設問形式ヒートマップ ─────────────────────────────
-   セルの塗りは「弱さ」の逐次ランプ（アンバー単一色相・L単調）。強い＝面に沈み、
-   弱い＝明るく浮くので、目が弱点へ先に向く。塗りだけに意味を負わせないよう
-   全セルに％を印字し、ハイライン枠で升目そのものは常に見えるようにしてある。 */
-.hm-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px;}
-.hm{border-collapse:separate;border-spacing:2px;width:100%;min-width:340px;}
-.hm th{font-size:10px;font-weight:700;color:var(--ts);padding:2px 4px;white-space:nowrap;text-align:center;}
-.hm th.hm-rh{text-align:left;font-size:11px;color:var(--tx);padding-right:8px;}
-.hm td{width:15%;height:34px;border-radius:var(--r-sm);text-align:center;font-size:11px;font-weight:700;
-  color:var(--tx);border:1px solid rgba(255,255,255,.10);background:transparent;cursor:default;}
-.hm td.hm-nd{color:var(--ts);font-weight:400;border-style:dashed;}
-.hm td.hm-low{color:rgba(255,255,255,.55);}
-/* 弱さランプ7段。JS が数値からクラスを選ぶ（背景を style 属性で直に書かない） */
-.hm td.w1{background:var(--ramp-w1);} .hm td.w2{background:var(--ramp-w2);}
-.hm td.w3{background:var(--ramp-w3);} .hm td.w4{background:var(--ramp-w4);}
-.hm td.w5{background:var(--ramp-w5);color:var(--ramp-w-ink);}
-.hm td.w6{background:var(--ramp-w6);color:var(--ramp-w-ink);}
-.hm td.w7{background:var(--ramp-w7);color:var(--ramp-w-ink);}
-/* E3(2026-08-14): カルテの登場。左上から対角に立ち上げ、最後に最弱セルだけ脈打つ。
-   ⚠️ 塗りそのものは触らない（弱さランプの意味を壊さない）。動かすのは opacity と scale だけ。 */
-.hm.hm-in td{opacity:0;transform:scale(.9);
-  animation:hmIn .34s cubic-bezier(.16,1,.3,1) calc(var(--i,0) * 45ms + 80ms) forwards;}
-@keyframes hmIn{to{opacity:1;transform:none;}}
-.hm td.hm-worst{animation:hmWorst 1.9s ease-in-out 3;}
-@keyframes hmWorst{
-  0%,100%{box-shadow:0 0 0 0 rgba(255,184,48,0);}
-  50%{box-shadow:0 0 0 2px rgba(255,184,48,.85),0 0 14px rgba(255,184,48,.45);}
-}
-@media (prefers-reduced-motion: reduce){
-  .hm.hm-in td{opacity:1;transform:none;animation:none;}
-  .hm td.hm-worst{animation:none;}
-}
-.hm-sub{display:block;font-size:10px;font-weight:400;color:var(--tx);opacity:.66;line-height:1.2;}
-/* 明るい3段は白文字が読めないので、副文字も暗インクへ反転させる */
-.hm td.w5 .hm-sub,.hm td.w6 .hm-sub,.hm td.w7 .hm-sub{color:var(--ramp-w-ink);opacity:.72;}
-.hm td.hm-nd .hm-sub{color:var(--ts);opacity:1;}
-.hm-foot{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:10px;}
-/* ⚠️ 旧実装ではこれが上の章別ヒートマップと同じ .hm-legend という名前で、
-   後勝ちで章別側のスウォッチ寸法まで奪っていた。別名に分けてある */
-.karte-legend{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--ts);}
-.karte-legend .hm-sw{display:flex;gap:2px;}
-.karte-legend i{width:16px;height:10px;border-radius:2px;border:1px solid rgba(255,255,255,.10);}
-.karte-legend i.w1{background:var(--ramp-w1);} .karte-legend i.w2{background:var(--ramp-w2);}
-.karte-legend i.w3{background:var(--ramp-w3);} .karte-legend i.w4{background:var(--ramp-w4);}
-.karte-legend i.w5{background:var(--ramp-w5);} .karte-legend i.w6{background:var(--ramp-w6);}
-.karte-legend i.w7{background:var(--ramp-w7);}
-.hm-note{font-size:10px;color:var(--ts);flex:1;min-width:140px;}
-
-/* 本番正答率帯ごとの自分の正答率 */
-.band-wrap{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);}
-.band-title{font-size:11px;font-weight:700;color:var(--tx);margin-bottom:10px;}
-.band-rows{display:flex;flex-direction:column;gap:7px;}
-.band-row{display:flex;align-items:center;gap:8px;font-size:11px;}
-.band-lbl{width:78px;flex-shrink:0;color:var(--ts);}
-.band-track{flex:1;height:9px;border-radius:5px;background:rgba(255,255,255,.07);overflow:hidden;}
-.band-fill{height:100%;border-radius:5px;}
-.band-val{width:74px;flex-shrink:0;text-align:right;font-weight:700;color:var(--tx);}
-.band-val small{font-weight:400;color:var(--ts);}
-/* 帯グラフも弱さランプで塗る。ただし最も暗い2段は暗色の地に沈んで棒が見えなくなるので
-   w3 から下だけを使う（JS 側で下限を掛けている） */
-.band-fill.w3{background:var(--ramp-w3);} .band-fill.w4{background:var(--ramp-w4);}
-.band-fill.w5{background:var(--ramp-w5);} .band-fill.w6{background:var(--ramp-w6);}
-.band-fill.w7{background:var(--ramp-w7);}
-
-/* 意味色の文字ユーティリティ。JS から色を組み立てるときは style 属性に hex を
-   書かず、このクラスを付け外しする */
-.t-gr{color:var(--gr);} .t-or{color:var(--or);} .t-rd{color:var(--rd);}
-.t-yl{color:var(--yl);} .t-ts{color:var(--ts);}
-
-/* 展開できる行のキーボード操作。旧実装は <tr onclick> だけで、Tabで到達できず
-   Enter でも開けなかった（vars.css のフォーカスリングは可フォーカス要素にしか効かない） */
-.subj-row:focus-visible,.ch-row:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-2px;}
-.hm-cell:focus-visible,.cal-cell:focus-visible{outline:2px solid var(--focus-ring);outline-offset:1px;}
-
-/* ── セクションの入場（2026-08-18・Phase 3）─────────────────────────
-   ⚠️ 旧実装にも armReveal() があり、14セクション全部を IntersectionObserver で
-      動かしていて「ページが落ち着かない」ため撤去された経緯がある。
-      戻すにあたって守っている条件は3つ:
-        ① セクションを減らしてから載せる（減らす → 動かす の順序）
-        ② 層の見出しとセクションの箱だけ。中身（セル・棒・数字）は既存の演出に任せる
-        ③ ブラウザのセッション内で1回だけ（再読込のたびに全部動くと重い）
-   ⚠️ 隠すのは .rv-on が付いている間だけ。CSS 側だけで .rvs{opacity:0} にすると、
-      JS が落ちた日にページが丸ごと真っ白になる。付けるのは armReveal() の中。
-   ⚠️ transform は使うが body には掛けない（fixed の包含ブロックになるため）。 */
-.rv-on .rvs{opacity:0;transform:translateY(10px);}
-.rv-on .rvs.in{animation:rvsIn .42s var(--ease-out) forwards;}
-@keyframes rvsIn{to{opacity:1;transform:none;}}
-
-/* 「今日」のセルだけ呼吸する。カレンダーは12週＝84セルあり、今日の位置は
-   毎日ずれるので静止していると見つけられない。
-   ⚠️ .cal-cell は本体の animation を他で使っていないのでここに置いてよい
-      （1要素で使える層は本体 / ::before / ::after の3つだけ・後勝ちで死ぬ） */
-.cal-cell.is-today{animation:calToday 3.2s ease-in-out infinite;}
-@keyframes calToday{
-  0%,100%{box-shadow:0 0 0 0 rgba(255,209,102,0);}
-  50%{box-shadow:0 0 0 2px rgba(255,209,102,.55),0 0 10px rgba(255,209,102,.35);}
-}
-@media (prefers-reduced-motion: reduce){
-  /* 動きを消すだけにしない。今日のセルは outline（.cal-cell.is-today に常時ある）が
-     残るので位置は依然わかる＝事実は静的な印で二重化されている */
-  .rv-on .rvs,.rv-on .rvs.in{opacity:1;transform:none;animation:none;}
-  .cal-cell.is-today{animation:none;}
-  .wk-more .wk-caret{transition:none;}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  overflow-x: clip;
+  font-family: -apple-system, 'Noto Sans JP', 'Helvetica Neue', sans-serif;
+  background: transparent;
+  color: var(--tx);
+  font-size: 14px;
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
 }
 
-/* ページを閉じる1行 */
-.foot{max-width:700px;margin:0 auto;padding:18px 12px 40px;display:flex;flex-wrap:wrap;
-  align-items:baseline;gap:6px 14px;font-size:11px;color:var(--ts);
-  border-top:1px solid rgba(255,255,255,.08);}
-.foot a{color:var(--ts);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.2);white-space:nowrap;}
-.foot a:hover{color:var(--tx);}
-.foot .foot-sp{margin-left:auto;}
+/* ── 4. 固定ヘッダー（スリム化） ── */
+.hdr {
+  background: rgba(var(--hdr-rgb), 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  color: #fff;
+  padding: 8px 12px 6px;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-hdr);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.4);
+}
+.hdr-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.hdr-title {
+  font-family: var(--font-display);
+  letter-spacing: var(--font-display-ls);
+  font-size: 15px;
+  font-weight: 800;
+}
+.hub-link {
+  font-size: 11px;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  padding: 2px 8px;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 16px;
+  white-space: nowrap;
+}
+.hub-link:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.mec-sync-badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 14px;
+  font-weight: 700;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.8);
+  margin-left: auto;
+}
+
+/* 7. 数字とラベルのジャンプ率拡大 */
+.summary-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+.sum-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--r-sm);
+  padding: 3px 6px;
+  text-align: center;
+}
+.sum-val {
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--yl);
+  display: block;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.sum-val.flag { color: var(--stat-bad); }
+.sum-lbl {
+  font-size: 9px;
+  color: var(--ts);
+  white-space: nowrap;
+}
+
+/* ── 1. タブナビゲーション ── */
+.tab-nav-wrap {
+  position: sticky;
+  top: 58px;
+  z-index: calc(var(--z-hdr) - 1);
+  background: rgba(var(--hdr-rgb), 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 6px 12px;
+}
+.tab-nav {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tab-nav::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex: 1;
+  min-width: 74px;
+  padding: 7px 10px;
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ts);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  white-space: nowrap;
+  transition: all 0.18s var(--ease-out);
+}
+.tab-btn:hover { background: rgba(255,255,255,0.06); color: var(--tx); }
+.tab-btn.active {
+  background: var(--stat-good-bg);
+  border-color: var(--stat-good-bd);
+  color: var(--stat-good);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+.ct {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 14px 12px 40px;
+}
+
+.tab-pane {
+  display: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.22s var(--ease-out), transform 0.22s var(--ease-out);
+}
+.tab-pane.active {
+  display: block;
+  opacity: 1;
+  transform: none;
+}
+
+/* ── 3. セクション構造 & アコーディオン ── */
+.sec {
+  background: var(--sec-bg);
+  border: 1px solid var(--sec-bd);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  padding: 16px;
+  margin-bottom: 14px;
+  transition: box-shadow 0.2s;
+}
+.sec--lead {
+  background: var(--lead-bg);
+  border-color: var(--lead-bd);
+  padding: 18px 16px;
+  box-shadow: 0 6px 28px rgba(0,0,0,0.36), inset 0 1px 0 rgba(255,255,255,0.12);
+}
+.sec-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+  user-select: none;
+}
+.sec-title {
+  font-family: var(--font-display);
+  letter-spacing: var(--font-display-ls);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--tx);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.sec-toggle-btn {
+  background: none;
+  border: none;
+  color: var(--ts);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+}
+.sec-toggle-btn:hover { background: rgba(255,255,255,0.08); color: var(--tx); }
+.sec-toggle-icon { display: inline-block; transition: transform 0.2s; }
+.sec.is-collapsed .sec-toggle-icon { transform: rotate(-90deg); }
+.sec.is-collapsed .sec-body { display: none !important; }
+.sec-note { font-size: 11px; font-weight: 400; color: var(--ts); }
+
+/* ── 2. 今日の学習診断カード ── */
+.diag-card {
+  background: linear-gradient(135deg, rgba(var(--glass-rgb), 0.15) 0%, rgba(var(--glass-rgb), 0.05) 100%);
+  border: 1.5px solid var(--lead-bd);
+  border-radius: var(--r-lg);
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+}
+.diag-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.diag-badge {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: var(--stat-good-bg);
+  color: var(--stat-good);
+  border: 1px solid var(--stat-good-bd);
+}
+.diag-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.diag-metric {
+  background: var(--card-bg);
+  border: 1px solid var(--card-bd);
+  border-radius: var(--r-md);
+  padding: 8px 10px;
+}
+.diag-lbl { font-size: 10px; color: var(--ts); font-weight: 700; }
+.diag-val {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--tx);
+  margin-top: 2px;
+  line-height: 1.2;
+}
+.diag-val.good { color: var(--stat-good); }
+.diag-val.warn { color: var(--stat-warn); }
+.diag-val.bad  { color: var(--stat-bad); }
+
+.diag-msg {
+  background: rgba(0,0,0,0.25);
+  border-left: 3px solid var(--stat-warn);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-bottom: 14px;
+  color: var(--tx);
+}
+.diag-msg strong { color: var(--stat-warn); }
+
+/* 17. クイック直行ドリルボタン */
+.quick-act-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.quick-btn {
+  flex: 1;
+  min-width: 140px;
+  padding: 9px 12px;
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.18s var(--ease-out);
+}
+.quick-btn:active { transform: translateY(1px); }
+.quick-btn-pri {
+  background: var(--stat-good);
+  color: #04231A;
+  box-shadow: 0 2px 10px rgba(61,214,140,0.3);
+}
+.quick-btn-pri:hover { filter: brightness(1.1); }
+.quick-btn-warn {
+  background: var(--stat-warn-bg);
+  border-color: var(--stat-warn-bd);
+  color: var(--stat-warn);
+}
+.quick-btn-warn:hover { background: rgba(255,154,60,0.25); }
+.quick-btn-bad {
+  background: var(--stat-bad-bg);
+  border-color: var(--stat-bad-bd);
+  color: var(--stat-bad);
+}
+.quick-btn-bad:hover { background: rgba(255,107,107,0.25); }
+
+/* ── Hero: 国試カウントダウン ── */
+.hero-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.hero-ring {
+  --p: 0;
+  --ringc: var(--stat-good);
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: conic-gradient(var(--ringc) calc(var(--p)*1%), rgba(255,255,255,.08) 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 16px rgba(0,0,0,.35), inset 0 0 0 1px rgba(224,194,94,.25);
+}
+.hero-ring-in {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--surf-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.1;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.4);
+}
+.hero-pct { font-size: 22px; font-weight: 900; color: var(--tx); }
+.hero-pct-lbl { font-size: 9px; font-weight: 700; color: var(--ts); }
+.hero-info { flex: 1; min-width: 150px; }
+.hero-cd-lbl { font-size: 11px; font-weight: 700; color: var(--ts); }
+.hero-cd { display: flex; align-items: baseline; gap: 4px; }
+.hero-cd #heroDays {
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--stat-warn);
+  line-height: 1.05;
+}
+.hero-cd-u { font-size: 14px; font-weight: 800; color: var(--stat-warn); }
+.hero-date { font-size: 11px; color: var(--ts); margin-top: 2px; }
+
+.pace-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+.pace-item {
+  background: var(--card-bg);
+  border: 1px solid var(--card-bd);
+  border-radius: var(--r-sm);
+  padding: 8px;
+  text-align: center;
+}
+.pace-lbl { font-size: 10px; font-weight: 700; color: var(--ts); }
+.pace-val { font-size: 17px; font-weight: 900; color: var(--tx); margin-top: 2px; }
+
+.pace-msg {
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: var(--r-md);
+  line-height: 1.5;
+}
+.pace-msg.ok { background: var(--stat-good-bg); color: var(--stat-good); border: 1px solid var(--stat-good-bd); }
+.pace-msg.warn { background: var(--stat-warn-bg); color: var(--stat-warn); border: 1px solid var(--stat-warn-bd); }
+.pace-msg.bad { background: var(--stat-bad-bg); color: var(--stat-bad); border: 1px solid var(--stat-bad-bd); }
+
+.pace-bar {
+  position: relative;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255,255,255,.09);
+  margin-top: 8px;
+  overflow: hidden;
+}
+.pace-bar-fill {
+  height: 100%;
+  width: 100%;
+  background: var(--stat-good);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .5s var(--ease-out);
+}
+.pace-bar-mark {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: rgba(255,255,255,.7);
+}
+
+/* 19. 目標ペースシミュレーター */
+.sim-wrap {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.sim-title {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ts);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sim-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sim-slider {
+  flex: 1;
+  accent-color: var(--stat-good);
+  cursor: pointer;
+}
+.sim-badge {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--tx);
+  min-width: 54px;
+  text-align: right;
+}
+.sim-result {
+  font-size: 11px;
+  color: var(--ts);
+  margin-top: 4px;
+}
+.sim-result strong { color: var(--tx); font-weight: 800; }
+
+.pace-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.pace-foot label { font-size: 11px; font-weight: 700; color: var(--ts); }
+.exam-date-input {
+  background: rgba(255,255,255,.07);
+  border: 1.5px solid rgba(255,255,255,.15);
+  border-radius: var(--r-sm);
+  padding: 4px 8px;
+  font-size: 11px;
+  color: var(--tx);
+  font-family: inherit;
+}
+.pace-reset {
+  background: none;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: var(--r-sm);
+  color: var(--ts);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.pace-reset:hover { background: rgba(255,255,255,.1); color: var(--tx); }
+
+/* ── 10. 復習の見通し (SRS) ── */
+.fc-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  margin-bottom: 12px;
+}
+.fc-stat {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ts);
+}
+.fc-stat .v { font-size: 18px; font-weight: 900; color: var(--tx); }
+.fc-stat.over .v { color: var(--stat-bad); }
+.fc-stat.today .v { color: var(--stat-warn); }
+.fc-stat.week .v { color: var(--stat-neutral); }
+
+.fc-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 84px;
+  margin-bottom: 8px;
+}
+.fc-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  height: 100%;
+  justify-content: flex-end;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 2px;
+  transition: background 0.15s;
+}
+.fc-col:hover { background: rgba(255,255,255,0.06); }
+.fc-bar {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  min-height: 4px;
+  background: var(--stat-neutral);
+  transform-origin: bottom center;
+  position: relative;
+}
+.fc-col.is-today .fc-bar { background: var(--stat-warn); }
+.fc-col.is-over .fc-bar { background: var(--stat-bad); }
+.fc-n { font-size: 10px; font-weight: 800; color: var(--ts); }
+.fc-d { font-size: 10px; color: var(--ts); white-space: nowrap; }
+.fc-note { font-size: 11px; color: var(--ts); margin-top: 8px; line-height: 1.5; }
+
+.fc-popover {
+  background: var(--surf-1);
+  border: 1px solid var(--sec-bd);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+  margin-top: 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  font-size: 11px;
+}
+.fc-popover-hd {
+  font-weight: 800;
+  color: var(--tx);
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+.fc-popover-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  color: var(--ts);
+}
+.fc-popover-item strong { color: var(--tx); }
+
+/* ── 13. 科目別進捗テーブル & ソート ── */
+.table-ctrls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.sort-lbl { font-size: 11px; color: var(--ts); font-weight: 700; }
+.sort-btn {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: transparent;
+  color: var(--ts);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.sort-btn:hover { background: rgba(255,255,255,0.08); color: var(--tx); }
+.sort-btn.active {
+  background: var(--stat-good-bg);
+  border-color: var(--stat-good-bd);
+  color: var(--stat-good);
+}
+
+.subj-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -4px; padding: 0 4px; }
+.subj-table { width: 100%; min-width: 440px; border-collapse: collapse; }
+.subj-table th {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ts);
+  text-align: left;
+  padding: 6px 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.subj-table th.r { text-align: right; }
+.subj-table td {
+  padding: 8px 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  vertical-align: middle;
+}
+.subj-table td.r { text-align: right; font-size: 12px; font-weight: 700; }
+.subj-row { cursor: pointer; }
+.subj-row:hover td { background: rgba(255,255,255,0.04); }
+.subj-expand-icon { font-size: 9px; color: var(--ts); margin-left: 3px; transition: transform .2s; }
+.subj-name-cell { display: flex; align-items: center; gap: 6px; }
+.subj-icon { font-size: 15px; }
+.subj-name { font-size: 12px; font-weight: 700; white-space: nowrap; }
+.subj-prog-wrap { display: flex; align-items: center; gap: 6px; }
+.subj-prog-bar { flex: 1; height: 6px; background: rgba(255,255,255,0.09); border-radius: 3px; overflow: hidden; min-width: 44px; }
+.subj-prog-fill { height: 100%; border-radius: 3px; }
+.subj-prog-txt { font-size: 11px; color: var(--ts); white-space: nowrap; min-width: 38px; text-align: right; }
+
+.acc-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 1px 7px;
+  border-radius: var(--r-sm);
+  white-space: nowrap;
+}
+.acc-badge.good { background: var(--stat-good-bg); color: var(--stat-good); border: 1px solid var(--stat-good-bd); }
+.acc-badge.poor { background: var(--stat-warn-bg); color: var(--stat-warn); border: 1px solid var(--stat-warn-bd); }
+.acc-badge.bad  { background: var(--stat-bad-bg); color: var(--stat-bad); border: 1px solid var(--stat-bad-bd); }
+.acc-badge.none { color: var(--ts); }
+.acc-sub { font-weight: 400; font-size: 9px; opacity: 0.8; }
+
+.ch-row { cursor: pointer; }
+.ch-row:hover td { background: rgba(255,255,255,0.04); }
+.ch-num { padding: 6px 8px 6px 20px; font-size: 11px; color: var(--ts); }
+.ch-sm { font-size: 11px; }
+.ch-host { padding: 0; }
+.ch-table { width: 100%; border-collapse: collapse; border-top: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.18); }
+
+/* ── 5. 14. 弱点カルテ ── */
+.karte-ctrl-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.karte-toggle-btn {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: transparent;
+  color: var(--ts);
+  cursor: pointer;
+}
+.karte-toggle-btn.active {
+  background: var(--stat-bad-bg);
+  border-color: var(--stat-bad-bd);
+  color: var(--stat-bad);
+}
+
+.hm-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -4px; padding: 0 4px; }
+.hm { border-collapse: separate; border-spacing: 3px; width: 100%; min-width: 360px; }
+.hm th { font-size: 10px; font-weight: 700; color: var(--ts); padding: 2px 4px; text-align: center; }
+.hm th.hm-rh { text-align: left; font-size: 11px; color: var(--tx); padding-right: 6px; white-space: nowrap; }
+.hm td {
+  width: 14%;
+  height: 36px;
+  border-radius: var(--r-sm);
+  text-align: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--tx);
+  border: 1px solid rgba(255,255,255,0.1);
+  background: transparent;
+  cursor: default;
+}
+.hm td.hm-nd { color: var(--ts); font-weight: 400; border-style: dashed; border-color: rgba(255,255,255,0.15); }
+.hm td.c-good { background: var(--stat-good-bg); color: var(--stat-good); border-color: var(--stat-good-bd); }
+.hm td.c-warn { background: var(--stat-warn-bg); color: var(--stat-warn); border-color: var(--stat-warn-bd); }
+.hm td.c-bad  { background: var(--stat-bad-bg); color: var(--stat-bad); border-color: var(--stat-bad-bd); }
+.hm td.dimmed { opacity: 0.25; }
+.hm-sub { display: block; font-size: 9px; font-weight: 400; opacity: 0.8; line-height: 1.1; }
+
+.karte-legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  color: var(--ts);
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.k-lg-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.k-lg-dot.good { background: var(--stat-good); }
+.k-lg-dot.warn { background: var(--stat-warn); }
+.k-lg-dot.bad  { background: var(--stat-bad); }
+
+/* 18. 本番正答率帯別 & 処方箋 */
+.band-wrap {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.band-title { font-size: 11px; font-weight: 700; color: var(--tx); margin-bottom: 8px; }
+.band-rows { display: flex; flex-direction: column; gap: 6px; }
+.band-row { display: flex; align-items: center; gap: 8px; font-size: 11px; }
+.band-lbl { width: 80px; flex-shrink: 0; color: var(--ts); font-size: 10px; }
+.band-track { flex: 1; height: 8px; border-radius: 4px; background: rgba(255,255,255,.07); overflow: hidden; }
+.band-fill { height: 100%; border-radius: 4px; }
+.band-fill.good { background: var(--stat-good); }
+.band-fill.warn { background: var(--stat-warn); }
+.band-fill.bad  { background: var(--stat-bad); }
+.band-val { width: 70px; flex-shrink: 0; text-align: right; font-weight: 700; color: var(--tx); font-size: 10px; }
+
+.band-rx-box {
+  margin-top: 10px;
+  background: rgba(0,0,0,0.22);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--r-md);
+  padding: 8px 10px;
+  font-size: 11px;
+  color: var(--tx);
+  line-height: 1.5;
+}
+.band-rx-box strong { color: var(--stat-warn); }
+
+/* ── 15. 弱点リスト（カード型） ── */
+.wk-filter { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 12px; }
+.wk-fbtn {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-family: inherit;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.16);
+  color: var(--ts);
+  transition: all 0.15s;
+}
+.wk-fbtn.on { background: var(--stat-neutral-bg); border-color: var(--stat-neutral-bd); color: var(--stat-neutral); }
+.wk-fbtn:disabled { opacity: .4; cursor: default; }
+
+.wk-cards { display: flex; flex-direction: column; gap: 8px; }
+.wk-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-bd);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+  transition: border-color 0.15s;
+}
+.wk-card:hover { border-color: rgba(255,255,255,0.2); }
+.wk-card-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.wk-card-rank { font-size: 11px; font-weight: 800; color: var(--ts); width: 18px; text-align: center; }
+.wk-card-badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: var(--r-sm); color: #fff; }
+.wk-card-info { flex: 1; min-width: 0; }
+.wk-card-title { font-size: 12px; font-weight: 700; color: var(--tx); text-decoration: none; display: block; }
+.wk-card-title:hover { text-decoration: underline; color: var(--stat-good); }
+.wk-card-tags { display: flex; gap: 4px; margin-top: 2px; flex-wrap: wrap; }
+.wk-tag {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+}
+.wk-tag.t-miss { background: var(--stat-bad-bg); color: var(--stat-bad); border-color: var(--stat-bad-bd); }
+.wk-tag.t-gap  { background: var(--stat-warn-bg); color: var(--stat-warn); border-color: var(--stat-warn-bd); }
+.wk-tag.t-rep  { background: rgba(255,255,255,0.08); color: var(--ts); border-color: rgba(255,255,255,0.14); }
+
+.wk-card-acc { text-align: right; flex-shrink: 0; }
+.wk-card-toggle {
+  background: none;
+  border: none;
+  color: var(--ts);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px;
+}
+.wk-card-toggle:hover { color: var(--tx); }
+.wk-card-detail {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 11px;
+  color: var(--ts);
+  line-height: 1.6;
+}
+.wk-card-detail[hidden] { display: none; }
+
+.wk-cmp { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+.wk-cmp-lbl { width: 44px; flex-shrink: 0; }
+.wk-cmp-track { flex: 1; max-width: 160px; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.08); overflow: hidden; }
+.wk-cmp-fill { height: 100%; border-radius: 3px; }
+.wk-cmp-fill.nat { background: var(--stat-good); }
+.wk-cmp-fill.you { background: var(--stat-bad); }
+.wk-cmp-v { width: 34px; flex-shrink: 0; text-align: right; font-weight: 700; color: var(--tx); }
+
+/* ── 16. 章別ヒートマップ ── */
+.hm-mode { display: flex; gap: 6px; margin-bottom: 10px; }
+.hm-mode-btn {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-family: inherit;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: var(--ts);
+}
+.hm-mode-btn.on { background: var(--stat-neutral-bg); border-color: var(--stat-neutral-bd); color: var(--stat-neutral); }
+
+.hm-subj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 6px; }
+.hm-subj-item {
+  background: var(--card-bg);
+  border: 1px solid var(--card-bd);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.hm-subj-btn {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 8px 9px;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  border: none;
+  background: transparent;
+  color: var(--tx);
+}
+.hm-subj-btn:hover { background: rgba(255,255,255,0.05); }
+.hm-subj-top { display: flex; align-items: center; gap: 4px; width: 100%; }
+.hm-subj-ic { font-size: 14px; }
+.hm-subj-nm { font-size: 11px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hm-subj-row { display: flex; align-items: center; gap: 6px; width: 100%; }
+.hm-cell-dot { width: 10px; height: 10px; border-radius: 2px; }
+.hm-cell-dot.good { background: var(--stat-good); }
+.hm-cell-dot.warn { background: var(--stat-warn); }
+.hm-cell-dot.bad  { background: var(--stat-bad); }
+.hm-cell-dot.none { background: rgba(255,255,255,0.1); border: 1px dashed rgba(255,255,255,0.2); }
+.hm-subj-v { font-size: 10px; color: var(--ts); }
+.hm-subj-v b { color: var(--tx); font-size: 11px; }
+
+.hm-inline-chs {
+  padding: 6px 8px;
+  background: rgba(0,0,0,0.25);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 10px;
+}
+.hm-inline-chs[hidden] { display: none; }
+.hm-in-ch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.hm-in-ch:last-child { border-bottom: none; }
+.hm-in-ch-nm { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--ts); }
+.hm-in-ch-v { font-weight: 700; color: var(--tx); margin-left: 6px; }
+
+/* ── 9. 統合科目別推移チャート ── */
+.chart-ctrl-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.chart-subj-select {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: var(--r-sm);
+  color: var(--tx);
+  font-family: inherit;
+  font-size: 11px;
+  padding: 3px 8px;
+}
+.rh-unified-canvas-wrap {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  background: rgba(0,0,0,0.18);
+  border: 1px solid var(--card-bd);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.rh-unified-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── 12. 済みレベル分布 ── */
+.level-stack-bar {
+  display: flex;
+  height: 14px;
+  border-radius: 7px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.08);
+  margin-bottom: 10px;
+}
+.level-stack-seg {
+  height: 100%;
+  transition: width 0.4s var(--ease-out);
+}
+.level-legend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 6px;
+}
+.level-lg-item {
+  background: var(--card-bg);
+  border: 1px solid var(--card-bd);
+  border-radius: var(--r-sm);
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: var(--ts);
+}
+.level-lg-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+.level-lg-val { margin-left: auto; font-weight: 700; color: var(--tx); }
+
+/* ── 11. 学習カレンダー ── */
+.cal-months {
+  display: flex;
+  font-size: 10px;
+  color: var(--ts);
+  font-weight: 700;
+  margin-left: 20px;
+  margin-bottom: 2px;
+}
+.cal-wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.cal-wrap::-webkit-scrollbar { display: none; }
+.cal-dow { display: grid; grid-template-rows: repeat(7, 1fr); gap: 3px; flex-shrink: 0; }
+.cal-dow span { font-size: 9px; color: var(--ts); height: 13px; line-height: 13px; text-align: right; padding-right: 3px; }
+.cal-grid { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 1fr); gap: 3px; flex: 1; min-width: 0; }
+.cal-cell { width: 13px; height: 13px; border-radius: 3px; background: var(--stat-none); cursor: pointer; }
+.cal-cell.l1 { background: rgba(61,214,140,0.25); }
+.cal-cell.l2 { background: rgba(61,214,140,0.45); }
+.cal-cell.l3 { background: rgba(61,214,140,0.7); }
+.cal-cell.l4 { background: var(--stat-good); }
+.cal-cell.is-today { outline: 1.5px solid var(--yl); outline-offset: 1px; }
+.cal-cell.is-sel { outline: 2px solid var(--tx); outline-offset: 1px; }
+.cal-cell.is-golden { box-shadow: 0 0 0 1.5px #FFD166, 0 0 6px rgba(255,209,102,.6); }
+
+.grid-readout {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--ts);
+  min-height: 17px;
+}
+.grid-readout.has-val { color: var(--tx); font-weight: 700; }
+.cal-figs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--ts);
+}
+.cal-figs b { color: var(--tx); font-weight: 800; }
+
+.dow-wrap { display: flex; gap: 5px; margin-top: 12px; align-items: flex-end; height: 50px; }
+.dow-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; height: 100%; justify-content: flex-end; }
+.dow-bar { width: 100%; border-radius: 3px 3px 0 0; min-height: 2px; background: rgba(96,165,250,.6); transform-origin: bottom center; }
+.dow-col.best .dow-bar { background: var(--stat-good); }
+.dow-col.worst .dow-bar { background: var(--stat-warn); }
+.dow-l { font-size: 9px; color: var(--ts); }
+.dow-v { font-size: 9px; font-weight: 700; color: var(--ts); }
+
+/* ── 20. AIツールカード ── */
+.ai-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ai-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-bd);
+  border-radius: var(--r-md);
+  padding: 14px;
+}
+.ai-card-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--tx);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ai-card-desc {
+  font-size: 11px;
+  color: var(--ts);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+.ai-card-btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: var(--r-sm);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.ai-card-btn.pri { background: var(--stat-warn); color: #241A05; }
+.ai-card-btn.pri:hover { filter: brightness(1.1); }
+.ai-card-btn.sec {
+  background: transparent;
+  color: var(--stat-neutral);
+  border: 1.5px solid var(--stat-neutral);
+}
+.ai-card-btn.sec:hover { background: var(--stat-neutral-bg); }
+.ai-card-btn.copied { background: var(--stat-good) !important; color: #04231A !important; border-color: transparent !important; }
+.ai-card-msg { font-size: 10px; color: var(--ts); text-align: center; margin-top: 6px; min-height: 14px; }
+
+.sec-empty { font-size: 12px; color: var(--ts); text-align: center; padding: 16px 0; }
+.foot {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 16px 12px 32px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 14px;
+  font-size: 11px;
+  color: var(--ts);
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.foot a { color: var(--ts); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.2); }
+.foot a:hover { color: var(--tx); }
+.foot .foot-sp { margin-left: auto; }
 </style>
 </head>
 <body>
@@ -590,8 +1101,8 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 <header class="hdr">
   <div class="hdr-top">
     <h1 class="hdr-title">📊 学習統計</h1>
-    <a class="hub-link" href="index.html">← ハブへ</a>
-    <span class="mec-sync-badge">⚙️ 未設定</span>
+    <a class="hub-link" href="index.html">← ハブ</a>
+    <span class="mec-sync-badge">⚙️ 未同期</span>
   </div>
   <div class="summary-row" id="summaryRow">
     <div class="sum-card"><span class="sum-val" id="sumDone">—</span><span class="sum-lbl">済み</span></div>
@@ -601,164 +1112,282 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   </div>
 </header>
 
+<div class="tab-nav-wrap">
+  <nav class="tab-nav">
+    <button class="tab-btn active" data-tab="summary">📊 サマリー</button>
+    <button class="tab-btn" data-tab="weakness">🩺 弱点分析</button>
+    <button class="tab-btn" data-tab="progress">📈 進捗・推移</button>
+    <button class="tab-btn" data-tab="ai">🤖 AIツール</button>
+  </nav>
+</div>
+
 <main class="ct">
 
-  <!-- ══════════ 1. 今の状態 ══════════ -->
-  <p class="layer-hd rvs"><span class="layer-n">1</span>今の状態</p>
+  <!-- ══════════════ TAB 1: サマリー ══════════════ -->
+  <div class="tab-pane active" id="pane-summary">
 
-  <!-- A1/B1: 国試カウントダウンと必要ペース。統計が「過去」しか映していなかったので、
-       「間に合うのか」に答える主役セクションとして最上部に置く -->
-  <section class="sec sec--lead hero-sec rvs">
-    <div class="hero-top">
-      <div class="hero-ring" id="heroRing"><div class="hero-ring-in">
-        <span class="hero-pct" id="heroPct">—</span><span class="hero-pct-lbl">達成</span>
-      </div></div>
-      <div class="hero-info">
-        <h2 class="hero-cd-lbl">第121回 医師国家試験まで</h2>
-        <div class="hero-cd"><span id="heroDays">—</span><span class="hero-cd-u">日</span></div>
-        <div class="hero-date" id="heroDate">—</div>
+    <div class="diag-card" id="diagCard">
+      <div class="diag-header">
+        <h2 class="sec-title" style="margin:0;">🩺 今日の学習診断</h2>
+        <span class="diag-badge" id="diagBadge">順調</span>
+      </div>
+      <div class="diag-grid">
+        <div class="diag-metric">
+          <div class="diag-lbl">総合達成率</div>
+          <div class="diag-val good" id="diagPct">—%</div>
+        </div>
+        <div class="diag-metric">
+          <div class="diag-lbl">試験モード正解率</div>
+          <div class="diag-val" id="diagAcc">—%</div>
+        </div>
+        <div class="diag-metric">
+          <div class="diag-lbl">今日の復習タスク</div>
+          <div class="diag-val warn" id="diagReview">—問</div>
+        </div>
+      </div>
+      <div class="diag-msg" id="diagMsg">データを集計中...</div>
+      
+      <div class="quick-act-row">
+        <a class="quick-btn quick-btn-pri" id="btnQuickReview" href="study.html?mode=srs_review">🔔 復習を始める</a>
+        <a class="quick-btn quick-btn-bad" id="btnQuickWeak" href="study.html?filter=weak">🚨 苦手問題を解く</a>
+        <a class="quick-btn quick-btn-warn" id="btnQuickFlag" href="study.html?filter=flag">🚩 赤旗問題を解く</a>
       </div>
     </div>
-    <div class="pace-grid">
-      <div class="pace-item"><div class="pace-lbl">未着手</div><div class="pace-val" id="paceLeft">—</div></div>
-      <div class="pace-item"><div class="pace-lbl">必要ペース</div><div class="pace-val" id="paceNeed">—</div></div>
-      <div class="pace-item"><div class="pace-lbl">直近7日の実績</div><div class="pace-val" id="paceReal">—</div></div>
-    </div>
-    <div class="pace-msg" id="paceMsg"></div>
-    <div class="pace-bar"><div class="pace-bar-fill" id="paceBarFill"></div><div class="pace-bar-mark" id="paceBarMark"></div></div>
-    <div class="pace-foot">
-      <label for="examDateInput">試験日</label>
-      <input type="date" id="examDateInput" class="exam-date-input">
-      <button class="pace-reset" id="examDateReset">既定に戻す</button>
-    </div>
-  </section>
 
-  <!-- A2: 今後の復習予測。mec_srs_v1 は今まで統計側で完全に未使用だった -->
-  <section class="sec rvs" id="srsForecastSec">
-    <h2 class="sec-title">🔔 復習の見通し <span class="sec-note">（SRSの予定日から集計）</span></h2>
-    <div class="fc-summary" id="fcSummary"></div>
-    <div class="fc-bars" id="fcBars"></div>
-    <div class="fc-note" id="fcNote"></div>
-  </section>
-
-  <!-- ══════════ 2. 積み上げ ══════════ -->
-  <p class="layer-hd rvs"><span class="layer-n">2</span>積み上げ</p>
-
-  <!-- B2: 学習カレンダー。旧「📅30日間の学習記録」「⏱30日間の学習時間」は
-       期間も内容もここに包含されるので、セルの内訳（#calReadout）と
-       下の数字（.cal-figs）へ畳んだ。時間の記録を3本並べない。 -->
-  <section class="sec rvs">
-    <h2 class="sec-title">🗓 学習カレンダー <span class="sec-note">（直近12週間・セルをタップで内訳）</span></h2>
-    <div class="cal-wrap">
-      <div class="cal-dow" id="calDow"></div>
-      <div class="cal-grid" id="calGrid"></div>
-    </div>
-    <div class="grid-readout" id="calReadout"></div>
-    <div class="cal-legend">
-      <span>少</span>
-      <i class="cal-lg l0"></i><i class="cal-lg l1"></i><i class="cal-lg l2"></i><i class="cal-lg l3"></i><i class="cal-lg l4"></i>
-      <span>多</span>
-    </div>
-    <div class="cal-figs" id="calFigs"></div>
-    <div class="dow-wrap" id="dowWrap"></div>
-  </section>
-
-  <section class="sec rvs">
-    <h2 class="sec-title">📚 科目別進捗</h2>
-    <div class="subj-scroll">
-      <table class="subj-table">
-        <thead>
-          <tr>
-            <th>科目</th>
-            <th>進捗</th>
-            <th class="r">済み率</th>
-            <th class="r">正解率</th>
-            <th class="r">🚩</th>
-          </tr>
-        </thead>
-        <tbody id="subjTableBody"></tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- ── ここから下は参考段（.sec--aside）──────────────────────────────
-       箱を外し、罫線と余白だけで区切る。同じ「積み上げ」の層だが、
-       行動を決めるための指標ではなく眺めるためのものなので重みを下げる。 -->
-  <section class="sec sec--aside is-first rvs">
-    <h2 class="sec-title">✅ 済みレベル分布</h2>
-    <div class="level-bars" id="levelBars"></div>
-    <div class="level-legend" id="levelLegend"></div>
-  </section>
-
-  <section class="sec sec--aside rvs">
-    <h2 class="sec-title">📈 科目別正答率の推移 <span class="sec-note">（stats.html を開くたびに記録）</span></h2>
-    <div id="rateHistoryWrap"></div>
-  </section>
-
-  <!-- ══════════ 3. どこが弱いか ══════════ -->
-  <p class="layer-hd rvs"><span class="layer-n">3</span>どこが弱いか</p>
-
-  <!-- 弱点リスト（統合）。旧実装は 📐本番との差 / 💡取りこぼし / 🎯苦手問題ランキング /
-       🔍誤答選択肢パターン の4本に割れており、同じ問題が複数の表へ重複して載っていた。
-       ⚠️ 📐本番との差は廃止した（引き算の左右で分母が違い、原理的に読めない値だった）。
-          同じ uid で比べる形＝分母が揃った比較だけを 🔻本番差 のタグとして残してある。 -->
-  <section class="sec rvs" id="weakSec">
-    <h2 class="sec-title">🎯 弱点リスト <span class="sec-note">（試験モードの記録から・行の ▾ で内訳）</span></h2>
-    <div class="wk-filter" id="wkFilter"></div>
-    <div id="wkList"></div>
-    <div class="wk-foot" id="wkFoot"></div>
-  </section>
-
-  <!-- 弱点カルテ: 科目×設問形式のヒートマップ（qmeta.json × myrate_v1）。
-       章別集計では見えない「治療選択だけ落ちる」型の弱点を出すのが目的。
-       ⚠️ 旧実装は display:none から出入りしていて、日によってページの形が変わっていた。
-          常設して、データが無いときは中身を空の状態に差し替える。 -->
-  <section class="sec rvs" id="chartSec">
-    <h2 class="sec-title">🩺 弱点カルテ <span class="sec-note">（科目 × 設問形式の試験正答率）</span></h2>
-    <div id="karteEmpty" class="sec-empty">まだ試験モードのデータがありません。<br>試験モードで解くと、科目 × 設問形式（診断／検査／治療／対応／知識）の正答率が出ます。</div>
-    <div id="karteBody" hidden>
-      <div class="hm-scroll">
-        <table class="hm" id="hmTable"></table>
+    <section class="sec sec--lead" data-sec-id="hero">
+      <div class="sec-hd">
+        <h2 class="sec-title">🎯 国試カウントダウン & ペース</h2>
+        <button type="button" class="sec-toggle-btn" aria-label="開閉"><span class="sec-toggle-icon">▾</span></button>
       </div>
-      <div class="hm-foot">
-        <div class="karte-legend" id="hmKarteLegend"></div>
-        <div class="hm-note" id="hmNote"></div>
+      <div class="sec-body">
+        <div class="hero-top">
+          <div class="hero-ring" id="heroRing"><div class="hero-ring-in">
+            <span class="hero-pct" id="heroPct">—</span><span class="hero-pct-lbl">達成</span>
+          </div></div>
+          <div class="hero-info">
+            <h3 class="hero-cd-lbl">第121回 医師国家試験まで</h3>
+            <div class="hero-cd"><span id="heroDays">—</span><span class="hero-cd-u">日</span></div>
+            <div class="hero-date" id="heroDate">—</div>
+          </div>
+        </div>
+        <div class="pace-grid">
+          <div class="pace-item"><div class="pace-lbl">未着手</div><div class="pace-val" id="paceLeft">—</div></div>
+          <div class="pace-item"><div class="pace-lbl">必要ペース</div><div class="pace-val" id="paceNeed">—</div></div>
+          <div class="pace-item"><div class="pace-lbl">直近7日の実績</div><div class="pace-val" id="paceReal">—</div></div>
+        </div>
+        <div class="pace-msg" id="paceMsg"></div>
+        <div class="pace-bar"><div class="pace-bar-fill" id="paceBarFill"></div><div class="pace-bar-mark" id="paceBarMark"></div></div>
+        
+        <div class="sim-wrap">
+          <div class="sim-title">
+            <span>⚡ ペースシミュレーター</span>
+            <span class="sim-badge" id="simBadge">20 問/日</span>
+          </div>
+          <div class="sim-slider-row">
+            <input type="range" id="simSlider" class="sim-slider" min="5" max="100" step="5" value="20">
+          </div>
+          <div class="sim-result" id="simResult">1日 <strong>20問</strong> のペースで進めると、約 <strong>—日</strong> で全問走破できます。</div>
+        </div>
+
+        <div class="pace-foot">
+          <label for="examDateInput">試験日</label>
+          <input type="date" id="examDateInput" class="exam-date-input">
+          <button class="pace-reset" id="examDateReset">既定に戻す</button>
+        </div>
       </div>
-      <div class="band-wrap" id="bandWrap">
-        <h3 class="band-title">本番正答率帯ごとの自分の正答率 <span class="sec-note">（易しい帯で崩れる＝読み落とし型／難しい帯だけ落ちる＝知識型）</span></h3>
-        <div class="band-rows" id="bandRows"></div>
+    </section>
+
+    <section class="sec" data-sec-id="srsForecast">
+      <div class="sec-hd">
+        <h2 class="sec-title">🔔 復習の見通し <span class="sec-note">（SRS予定日・タップで科目内訳）</span></h2>
+        <button type="button" class="sec-toggle-btn" aria-label="開閉"><span class="sec-toggle-icon">▾</span></button>
       </div>
-    </div>
-  </section>
+      <div class="sec-body">
+        <div class="fc-summary" id="fcSummary"></div>
+        <div class="fc-bars" id="fcBars"></div>
+        <div class="fc-note" id="fcNote"></div>
+        <div class="fc-popover" id="fcPopover" hidden>
+          <div class="fc-popover-hd">
+            <span id="fcPopDate">日付</span>
+            <span id="fcPopTotal">計 0問</span>
+          </div>
+          <div class="fc-popover-list" id="fcPopList"></div>
+        </div>
+      </div>
+    </section>
 
-  <!-- A3: 章別ヒートマップ。旧実装は 180章を一度に並べていた。
-       科目タイル → 章、の2段にして、2段目には章名を書く余地を作った。 -->
-  <section class="sec rvs">
-    <h2 class="sec-title">🗺 章別ヒートマップ <span class="sec-note">（科目をタップすると章の内訳へ）</span></h2>
-    <div class="hm-mode">
-      <button class="hm-mode-btn on" data-hm="acc">正答率で見る</button>
-      <button class="hm-mode-btn" data-hm="prog">進捗で見る</button>
-    </div>
-    <div id="heatmap"></div>
-    <div class="hm-legend" id="hmLegend"></div>
-  </section>
+  </div>
 
-  <!-- ══════════ 4. 道具 ══════════ -->
-  <p class="layer-hd rvs"><span class="layer-n">4</span>道具</p>
+  <!-- ══════════════ TAB 2: 弱点分析 ══════════════ -->
+  <div class="tab-pane" id="pane-weakness">
 
-  <!-- 旧実装ではページの上から2番目にあった。道具であって情報ではないので末尾へ移した -->
-  <section class="sec rvs" id="aiExportSec">
-    <h2 class="sec-title">🤖 AI相談用データ</h2>
-    <p class="ai-desc">学習データを要約してコピーします。ClaudeなどのAIに貼り付けると、弱点分析や今後の学習計画を相談できます。</p>
-    <button id="aiExportBtn" class="ai-export-btn">📋 AI相談用にコピー</button>
-    <div class="ai-opts">
-      <label class="ai-opt"><input type="checkbox" id="aiOptRaw"> 苦手問題の生リストも含める（長め）</label>
+    <section class="sec" data-sec-id="karte">
+      <div class="sec-hd">
+        <h2 class="sec-title">🩺 弱点カルテ <span class="sec-note">（科目 × 設問形式）</span></h2>
+        <button type="button" class="sec-toggle-btn" aria-label="開閉"><span class="sec-toggle-icon">▾</span></button>
+      </div>
+      <div class="sec-body">
+        <div class="karte-ctrl-row">
+          <div class="karte-legend">
+            <span><i class="k-lg-dot good"></i> 良好(≧70%)</span>
+            <span><i class="k-lg-dot warn"></i> 注意(50-69%)</span>
+            <span><i class="k-lg-dot bad"></i> 苦手(&lt;50%)</span>
+          </div>
+          <button type="button" class="karte-toggle-btn" id="btnKarteFocus">🚨 苦手セルのみ強調</button>
+        </div>
+        <div id="karteEmpty" class="sec-empty">試験モードで解くと、科目×形式（診断/検査/治療/対応/知識）のカルテが出ます。</div>
+        <div id="karteBody" hidden>
+          <div class="hm-scroll">
+            <table class="hm" id="hmTable"></table>
+          </div>
+          
+          <div class="band-wrap" id="bandWrap">
+            <h3 class="band-title">📊 本番正答率帯ごとの自分の正答率</h3>
+            <div class="band-rows" id="bandRows"></div>
+            <div class="band-rx-box" id="bandRxBox">分析中...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" data-sec-id="weakList">
+      <div class="sec-hd">
+        <h2 class="sec-title">🎯 弱点問題リスト <span class="sec-note">（試験モードの誤答集約）</span></h2>
+        <button type="button" class="sec-toggle-btn" aria-label="開閉"><span class="sec-toggle-icon">▾</span></button>
+      </div>
+      <div class="sec-body">
+        <div class="wk-filter" id="wkFilter"></div>
+        <div class="wk-cards" id="wkCards"></div>
+        <div class="sec-note" id="wkFoot" style="margin-top: 10px;"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ══════════════ TAB 3: 進捗・推移 ══════════════ -->
+  <div class="tab-pane" id="pane-progress">
+
+    <section class="sec" data-sec-id="subjTable">
+      <div class="sec-hd">
+        <h2 class="sec-title">📚 科目別進捗</h2>
+        <button type="button" class="sec-toggle-btn" aria-label="開閉"><span class="sec-toggle-icon">▾</span></button>
+      </div>
+      <div class="sec-body">
+        <div class="table-ctrls">
+          <span class="sort-lbl">並び替え:</span>
+          <button class="sort-btn active" data-sort="default">標準順</button>
+          <button class="sort-btn" data-sort="acc-asc">苦手順 (正答率↑)</button>
+          <button class="sort-btn" data-sort="left-desc">未着手順 (残り問数↓)</button>
+          <button class="sort-btn" data-sort="flag-desc">赤旗順 (🚩↓)</button>
+        </div>
+        <div class="subj-scroll">
+          <table class="subj-table">
+            <thead>
+              <tr>
+                <th>科目</th>
+                <th>進捗</th>
+                <th class="r">済み率</th>
+                <th class="r">正解率</th>
+                <th class="r">🚩</th>
+              </tr>
+            </thead>
+            <tbody id="subjTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" data-sec-id="chHeatmap">
+      <div class="sec-hd">
+        <h2 class="sec-title">🗺 章別ヒートマップ <span class="sec-note">（タップで章一覧インライン展開）</span></h2>
+        <button type="button" class="sec-toggle-btn" aria-label="開閉"><span class="sec-toggle-icon">▾</span></button>
+      </div>
+      <div class="sec-body">
+        <div class="hm-mode">
+          <button class="hm-mode-btn on" data-hm="acc">正答率で見る</button>
+          <button class="hm-mode-btn" data-hm="prog">進捗で見る</button>
+        </div>
+        <div class="hm-subj-grid" id="heatmapGrid"></div>
+      </div>
+    </section>
+
+    <section class="sec" data-sec-id="rateHistory">
+      <div class="sec-hd">
+        <h2 class="sec-title">📈 正答率の推移</h2>
+        <button type="button" class="sec-toggle-btn" aria-label="開閉"><span class="sec-toggle-icon">▾</span></button>
+      </div>
+      <div class="sec-body">
+        <div class="chart-ctrl-row">
+          <span class="sec-note">直近の推移と70%合格基準線</span>
+          <select id="chartSubjSelect" class="chart-subj-select">
+            <option value="all">全科目平均</option>
+          </select>
+        </div>
+        <div class="rh-unified-canvas-wrap">
+          <canvas id="rhUnifiedCanvas" class="rh-unified-canvas"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" data-sec-id="levelDist">
+      <div class="sec-hd">
+        <h2 class="sec-title">✅ 済みレベル分布（SRS周回数）</h2>
+        <button type="button" class="sec-toggle-btn" aria-label="開閉"><span class="sec-toggle-icon">▾</span></button>
+      </div>
+      <div class="sec-body">
+        <div class="level-stack-bar" id="levelStackBar"></div>
+        <div class="level-legend-grid" id="levelLegendGrid"></div>
+      </div>
+    </section>
+
+    <section class="sec" data-sec-id="calendar">
+      <div class="sec-hd">
+        <h2 class="sec-title">🗓 学習カレンダー <span class="sec-note">（直近12週間・タップで詳細）</span></h2>
+        <button type="button" class="sec-toggle-btn" aria-label="開閉"><span class="sec-toggle-icon">▾</span></button>
+      </div>
+      <div class="sec-body">
+        <div class="cal-months" id="calMonths"></div>
+        <div class="cal-wrap">
+          <div class="cal-dow" id="calDow"></div>
+          <div class="cal-grid" id="calGrid"></div>
+        </div>
+        <div class="grid-readout" id="calReadout">セルをタップすると、その日の問題数と学習時間が出ます。</div>
+        <div class="cal-figs" id="calFigs"></div>
+        <div class="dow-wrap" id="dowWrap"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ══════════════ TAB 4: AIツール ══════════════ -->
+  <div class="tab-pane" id="pane-ai">
+    
+    <div class="ai-cards-grid">
+      
+      <div class="ai-card">
+        <h3 class="ai-card-title">📋 AI学習相談用データ</h3>
+        <p class="ai-card-desc">現在の進捗・科目別正答率・弱点カルテをMarkdown形式でコピーします。ClaudeやChatGPTに貼り付けると、今後の学習計画を相談できます。</p>
+        <button id="aiExportBtn" class="ai-card-btn pri">📋 AI相談用にコピー</button>
+        <div class="ai-card-msg" id="aiExportMsg"></div>
+      </div>
+
+      <div class="ai-card">
+        <h3 class="ai-card-title">🎯 一問一答プロンプト</h3>
+        <p class="ai-card-desc">弱点分野（正答率の低い章や設問形式）にフォーカスした医師国試一問一答プロンプトを生成します。AIに貼り付けると1問ずつ出題してくれます。</p>
+        <button id="aiDrillBtn" class="ai-card-btn sec">🎯 一問一答プロンプトをコピー</button>
+        <div class="ai-card-msg" id="aiDrillMsg"></div>
+      </div>
+
+      <div class="ai-card">
+        <h3 class="ai-card-title">⚡ 直前・弱点集中プロンプト</h3>
+        <p class="ai-card-desc">「取りこぼし問題」や「本番正答率80%以上で間違えた論点」のみをAIに徹底指導させる集中対策プロンプトです。</p>
+        <button id="aiFocusBtn" class="ai-card-btn sec">⚡ 弱点集中プロンプトをコピー</button>
+        <div class="ai-card-msg" id="aiFocusMsg"></div>
+      </div>
+
     </div>
-    <div id="aiExportMsg" class="ai-export-msg"></div>
-    <p class="ai-desc ai-desc2">弱点に合わせて一問一答を出題させるプロンプトも作れます。貼り付けるとAIが1問ずつ出題し、答えるまで正解を伏せます。</p>
-    <button id="aiDrillBtn" class="ai-export-btn ai-drill-btn">🎯 一問一答プロンプトをコピー</button>
-    <div id="aiDrillMsg" class="ai-export-msg"></div>
-  </section>
+
+  </div>
 
 </main>
 
@@ -771,74 +1400,354 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
 <script>
 (function () {
-  // JST (UTC+9) で今日の日付を計算
   const today = new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
 
   function lsGet(k) { try { return JSON.parse(localStorage.getItem(k) || '{}'); } catch { return {}; } }
 
-  // Canvas と MecFX は CSS の var() を解釈しないので、トークンの実値をここで解決する。
-  // （html.pal-* で配色を替えたときグラフだけ旧色のまま取り残されるのを防ぐ）
   const _cs = getComputedStyle(document.documentElement);
   function cssVar(name, fallback) {
     const v = _cs.getPropertyValue(name).trim();
     return v || fallback || '#888';
   }
 
-  const done   = lsGet('done_v2');
-  const flags  = lsGet('flag_v2');
+  const done = lsGet('done_v2');
+  const flags = lsGet('flag_v2');
   const activity = lsGet('activity_v1');
-
-  // ── Summary ──────────────────────────────────────────────
-  const doneCount  = Object.keys(done).length;
-  const flagCount  = Object.keys(flags).length;
-
-  document.getElementById('sumDone').textContent   = doneCount + '問';
-  document.getElementById('sumStreak').textContent = window.MECSync ? window.MECSync.calcStreak() : 0;
-  document.getElementById('sumFlag').textContent   = flagCount + '問';
-
-  // ── 30日の解答数・学習時間 ────────────────────────────────
-  // ⚠️ 旧実装はここで棒グラフを2本描いていた（📅30日間の学習記録 / ⏱30日間の学習時間）。
-  //    どちらも「🗓 学習カレンダー(12週)」に期間ごと包含される同じ話なので、
-  //    2セクションは畳んでカレンダーの数字（.cal-figs）と読み取り行へ吸収した。
-  //    集計値そのものは AI相談用Markdown が参照するので計算だけ残す。
-  const days = [];
-  for (let i = 29; i >= 0; i--) {
-    const d = new Date(Date.now() + 9 * 3600000); d.setUTCDate(d.getUTCDate() - i);
-    days.push(activity[d.toISOString().slice(0, 10)] || 0);
-  }
-  const total30 = days.reduce((s, n) => s + n, 0);
-
   const studytime = lsGet('studytime_v1');
+  const myrate = lsGet('myrate_v1');
+  const choiceData = lsGet('mec_choice_v1');
+  const RATE = window.MEC_RATE || {};
+
+  const chMap = {};
+  if (typeof MEC_CHAPTERS !== 'undefined') {
+    MEC_CHAPTERS.forEach(subj => {
+      subj.chapters.forEach((ch, i) => {
+        chMap[ch.prefix] = { subjName: subj.name, subjId: subj.id, subjIcon: subj.icon, subjColor: subj.color, chNum: i + 1, chTitle: ch.title, chFile: ch.file };
+      });
+    });
+  }
+  function uidInfo(uid) {
+    const m = uid.match(/^(.+)_q(\d+)$/);
+    if (!m) return { qNum: '?', prefix: null, info: null };
+    return { qNum: m[2], prefix: m[1], info: chMap[m[1]] || null };
+  }
+
+  const doneCount = Object.keys(done).length;
+  const flagCount = Object.keys(flags).length;
   const todayTime = studytime[today] || 0;
+
+  document.getElementById('sumDone').textContent = doneCount + '問';
+  document.getElementById('sumStreak').textContent = window.MECSync ? window.MECSync.calcStreak() : 0;
+  document.getElementById('sumFlag').textContent = flagCount + '問';
   document.getElementById('sumTime').textContent = todayTime + '分';
 
-  let total30Mins = 0;
-  for (let i = 29; i >= 0; i--) {
-    const d = new Date(Date.now() + 9 * 3600000); d.setUTCDate(d.getUTCDate() - i);
-    total30Mins += studytime[d.toISOString().slice(0, 10)] || 0;
+  const TOTAL_Q = (typeof MEC_CHAPTERS !== 'undefined')
+    ? MEC_CHAPTERS.reduce((s, x) => s + x.chapters.reduce((t, c) => t + c.count, 0), 0) : 0;
+
+  function dstr(d) { return d.toISOString().slice(0, 10); }
+  function jstNow() { return new Date(Date.now() + 9 * 3600000); }
+  function daysBetween(a, b) {
+    return Math.round((Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / 86400000);
+  }
+  function addDaysStr(s, n) {
+    const d = new Date(Date.parse(s + 'T00:00:00Z') + n * 86400000);
+    return dstr(d);
   }
 
-  // 分を「N時間M分」へ。カレンダーの数字と AI相談Markdown が共有する
-  function fmtMins(m) {
-    const h = Math.floor(m / 60), mm = m % 60;
-    return h > 0 ? h + '時間' + mm + '分' : m + '分';
+  // ── 1. タブ切り替え & ハッシュ連動 ──
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabPanes = document.querySelectorAll('.tab-pane');
+
+  function switchTab(tabId) {
+    tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === tabId));
+    tabPanes.forEach(p => {
+      const isMatch = p.id === 'pane-' + tabId;
+      p.classList.toggle('active', isMatch);
+    });
+    try {
+      history.replaceState(null, '', '#' + tabId);
+    } catch(e) {}
+    if (tabId === 'progress') {
+      renderUnifiedChart();
+    }
   }
 
-  // ── Subject stats ─────────────────────────────────────────
-  const myrate = lsGet('myrate_v1');
-  const tbody = document.getElementById('subjTableBody');
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+  });
 
-  function accBadgeHtml(correct, total) {
-    if (total < 3) return '<span class="acc-badge none">—</span>';
-    const pct = Math.round(correct / total * 100);
-    const cls = pct >= 70 ? 'good' : pct >= 50 ? 'poor' : 'bad';
-    return `<span class="acc-badge ${cls}">${pct}%<span class="acc-sub"> (${correct}/${total})</span></span>`;
+  const initHash = location.hash.replace('#', '');
+  if (['summary', 'weakness', 'progress', 'ai'].includes(initHash)) {
+    switchTab(initHash);
   }
 
-  if (typeof MEC_CHAPTERS !== 'undefined') {
+  // ── 3. セクションのアコーディオン開閉 ──
+  const K_COLLAPSE = 'mec_stats_collapse_v1';
+  let collapsedMap = lsGet(K_COLLAPSE);
+
+  document.querySelectorAll('.sec').forEach(sec => {
+    const secId = sec.dataset.secId;
+    if (!secId) return;
+    if (collapsedMap[secId]) sec.classList.add('is-collapsed');
+
+    const toggleBtn = sec.querySelector('.sec-toggle-btn');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        sec.classList.toggle('is-collapsed');
+        collapsedMap[secId] = sec.classList.contains('is-collapsed') ? 1 : 0;
+        try { localStorage.setItem(K_COLLAPSE, JSON.stringify(collapsedMap)); } catch(err) {}
+      });
+    }
+  });
+
+  // ── 2. 今日の学習診断 ──
+  function renderDiagnostic() {
+    const totalDone = doneCount;
+    const donePct = TOTAL_Q ? Math.round(totalDone / TOTAL_Q * 100) : 0;
+    document.getElementById('diagPct').textContent = donePct + '%';
+
+    const mrValues = Object.values(myrate);
+    const totalAns = mrValues.reduce((s, v) => s + (v.total || 0), 0);
+    const totalCorr = mrValues.reduce((s, v) => s + (v.correct || 0), 0);
+    const accPct = totalAns ? Math.round(totalCorr / totalAns * 100) : null;
+    const accEl = document.getElementById('diagAcc');
+    if (accPct !== null) {
+      accEl.textContent = accPct + '%';
+      accEl.className = 'diag-val ' + (accPct >= 75 ? 'good' : accPct >= 65 ? 'warn' : 'bad');
+    } else {
+      accEl.textContent = '—';
+    }
+
+    const srs = lsGet('mec_srs_v1');
+    let reviewCount = 0;
+    Object.values(srs).forEach(e => {
+      if (e && e.nextReview && e.nextReview <= today) reviewCount++;
+    });
+    document.getElementById('diagReview').textContent = reviewCount + '問';
+
+    const msgEl = document.getElementById('diagMsg');
+    const badgeEl = document.getElementById('diagBadge');
+    const msgs = [];
+
+    if (reviewCount > 0) {
+      msgs.push(`本日のSRS復習が <strong>${reviewCount}問</strong> あります。定着のために最優先で消化しましょう。`);
+    } else {
+      msgs.push('本日のSRS復習はすべて完了しています！');
+    }
+
+    const missCount = Object.entries(myrate).filter(([uid, v]) => {
+      const nat = RATE[uid];
+      return nat >= 80 && v.total >= 1 && (v.correct / v.total < 0.5);
+    }).length;
+
+    if (missCount > 0) {
+      msgs.push(`本番正答率80%以上の<strong>「取りこぼし問題」が ${missCount}問</strong> 検出されています。`);
+      badgeEl.textContent = '要復習';
+      badgeEl.style.background = 'var(--stat-warn-bg)';
+      badgeEl.style.color = 'var(--stat-warn)';
+      badgeEl.style.borderColor = 'var(--stat-warn-bd)';
+    } else if (donePct >= 80) {
+      badgeEl.textContent = '合格圏内';
+    }
+
+    msgEl.innerHTML = msgs.join(' ');
+  }
+
+  // ── Hero & ペースシミュレーター ──
+  const EXAM_DATE_DEFAULT = '2027-02-06';
+  const K_EXAM_DATE = 'mec_exam_date_v1';
+  function examDate() {
+    try { return localStorage.getItem(K_EXAM_DATE) || EXAM_DATE_DEFAULT; } catch (e) { return EXAM_DATE_DEFAULT; }
+  }
+
+  function renderHero() {
+    const ed = examDate();
+    const left = Math.max(0, daysBetween(today, ed));
+    const donePct = TOTAL_Q ? (doneCount / TOTAL_Q * 100) : 0;
+    const remain = Math.max(0, TOTAL_Q - doneCount);
+    const need = left > 0 ? remain / left : remain;
+
+    let last7 = 0;
+    for (let i = 0; i < 7; i++) last7 += (activity[addDaysStr(today, -i)] || 0);
+    const real = last7 / 7;
+
+    const ring = document.getElementById('heroRing');
+    const pctCol = donePct >= 80 ? 'var(--stat-good)' : donePct >= 50 ? 'var(--stat-warn)' : 'var(--stat-bad)';
+    if (ring) {
+      ring.style.setProperty('--ringc', pctCol);
+      ring.style.setProperty('--p', donePct.toFixed(1));
+    }
+    const pctEl = document.getElementById('heroPct');
+    if (pctEl) {
+      pctEl.style.color = pctCol;
+      pctEl.textContent = Math.round(donePct) + '%';
+    }
+
+    document.getElementById('heroDays').textContent = left;
+    const dd = new Date(Date.parse(ed + 'T00:00:00Z'));
+    const wd = ['日', '月', '火', '水', '木', '金', '土'][dd.getUTCDay()];
+    document.getElementById('heroDate').textContent = `${dd.getUTCFullYear()}年${dd.getUTCMonth() + 1}月${dd.getUTCDate()}日(${wd}) 開始`;
+
+    document.getElementById('paceLeft').textContent = remain + '問';
+    document.getElementById('paceNeed').textContent = need.toFixed(1) + '問/日';
+    document.getElementById('paceReal').textContent = real.toFixed(1) + '問/日';
+
+    const ratio = need > 0 ? real / need : (remain === 0 ? 2 : 0);
+    const msg = document.getElementById('paceMsg');
+    if (msg) {
+      if (remain === 0) {
+        msg.className = 'pace-msg ok';
+        msg.textContent = '🎉 全問走破！あとは復習で精度を高めましょう。';
+      } else if (ratio >= 1) {
+        msg.className = 'pace-msg ok';
+        msg.textContent = `✅ 順調なペースです（必要の${Math.round(ratio * 100)}%）。約${Math.ceil(remain / Math.max(real, 0.1))}日で走破できます。`;
+      } else if (ratio >= 0.7) {
+        msg.className = 'pace-msg warn';
+        msg.textContent = `⚠️ やや遅れています（必要の${Math.round(ratio * 100)}%）。あと1日 ${(need - real).toFixed(1)}問 追加で追いつきます。`;
+      } else {
+        msg.className = 'pace-msg bad';
+        msg.textContent = `🚨 ペース不足です（必要の${Math.round(ratio * 100)}%）。1日あたり ${(need - real).toFixed(1)}問 増やす必要があります。`;
+      }
+    }
+
+    const fill = document.getElementById('paceBarFill');
+    const mark = document.getElementById('paceBarMark');
+    if (mark) mark.style.left = (100 / 150 * 100) + '%';
+    if (fill) {
+      fill.style.background = ratio >= 1 ? 'var(--stat-good)' : ratio >= 0.7 ? 'var(--stat-warn)' : 'var(--stat-bad)';
+      fill.style.transform = `scaleX(${Math.min(150, ratio * 100) / 150})`;
+    }
+
+    const slider = document.getElementById('simSlider');
+    const badge = document.getElementById('simBadge');
+    const res = document.getElementById('simResult');
+    if (slider && badge && res) {
+      const updateSim = () => {
+        const val = parseInt(slider.value, 10);
+        badge.textContent = val + ' 問/日';
+        if (remain === 0) {
+          res.innerHTML = '全問走破済みです。';
+          return;
+        }
+        const daysReq = Math.ceil(remain / val);
+        const finishDate = addDaysStr(today, daysReq);
+        const canSolveByExam = Math.min(TOTAL_Q, doneCount + (val * left));
+        res.innerHTML = `1日 <strong>${val}問</strong> 解くと、約 <strong>${daysReq}日後 (${finishDate})</strong> に完走予定です（本番までに計 <strong>${canSolveByExam}/${TOTAL_Q}問</strong> 走破）。`;
+      };
+      slider.oninput = updateSim;
+      updateSim();
+    }
+
+    const inp = document.getElementById('examDateInput');
+    if (inp) {
+      inp.value = ed;
+      inp.onchange = () => {
+        if (!inp.value) return;
+        try { localStorage.setItem(K_EXAM_DATE, inp.value); } catch (e) {}
+        renderHero();
+      };
+    }
+    const rst = document.getElementById('examDateReset');
+    if (rst) rst.onclick = () => {
+      try { localStorage.removeItem(K_EXAM_DATE); } catch (e) {}
+      renderHero();
+    };
+  }
+
+  // ── 10. 復習の見通し (SRS & ポップアップ) ──
+  function renderForecast() {
+    const srs = lsGet('mec_srs_v1');
+    const byDate = {};
+    const byDateSubjs = {};
+    let overdue = 0, todayN = 0;
+
+    Object.entries(srs).forEach(([uid, e]) => {
+      if (!e || !e.nextReview) return;
+      const targetDate = (e.nextReview < today) ? 'overdue' : e.nextReview;
+      if (e.nextReview < today) overdue++;
+      else if (e.nextReview === today) todayN++;
+
+      byDate[targetDate] = (byDate[targetDate] || 0) + 1;
+      const inf = uidInfo(uid);
+      const sName = inf.info ? inf.info.subjName : 'その他';
+      byDateSubjs[targetDate] = byDateSubjs[targetDate] || {};
+      byDateSubjs[targetDate][sName] = (byDateSubjs[targetDate][sName] || 0) + 1;
+    });
+
+    const days = [];
+    for (let i = 1; i <= 7; i++) {
+      const d = addDaysStr(today, i);
+      days.push({ d, n: byDate[d] || 0, subjs: byDateSubjs[d] || {} });
+    }
+    const week = days.reduce((s, x) => s + x.n, 0);
+
+    const sum = document.getElementById('fcSummary');
+    if (sum) {
+      sum.innerHTML =
+        `<span class="fc-stat over"><b class="v">${overdue}</b>期限切れ</span>` +
+        `<span class="fc-stat today"><b class="v">${todayN}</b>今日</span>` +
+        `<span class="fc-stat week"><b class="v">${week}</b>今後7日</span>`;
+    }
+
+    const todaySubjs = Object.assign({}, byDateSubjs['overdue'] || {}, byDateSubjs[today] || {});
+    const cols = [{ d: today, n: overdue + todayN, today: true, over: overdue > 0, subjs: todaySubjs }].concat(days);
+    const max = Math.max(...cols.map(c => c.n), 1);
+    const bars = document.getElementById('fcBars');
+    const pop = document.getElementById('fcPopover');
+    const popDate = document.getElementById('fcPopDate');
+    const popTotal = document.getElementById('fcPopTotal');
+    const popList = document.getElementById('fcPopList');
+
+    if (bars) {
+      bars.innerHTML = cols.map((c, i) => {
+        const dd = new Date(Date.parse(c.d + 'T00:00:00Z'));
+        const lbl = i === 0 ? '今日' : `${dd.getUTCMonth() + 1}/${dd.getUTCDate()}`;
+        const cls = i === 0 ? (c.over ? ' is-over' : ' is-today') : '';
+        return `<div class="fc-col${cls}" data-idx="${i}">
+          <span class="fc-n">${c.n}</span>
+          <div class="fc-bar" style="height:${Math.max(4, Math.round(c.n / max * 100))}%;"></div>
+          <span class="fc-d">${lbl}</span>
+        </div>`;
+      }).join('');
+
+      bars.querySelectorAll('.fc-col').forEach(col => {
+        col.addEventListener('click', () => {
+          const idx = parseInt(col.dataset.idx, 10);
+          const c = cols[idx];
+          if (!pop) return;
+          pop.hidden = false;
+          popDate.textContent = idx === 0 ? '本日（期限切れ含む）' : c.d;
+          popTotal.textContent = `計 ${c.n}問`;
+          const sEntries = Object.entries(c.subjs);
+          if (sEntries.length) {
+            popList.innerHTML = sEntries.map(([name, n]) => `<span class="fc-popover-item">${name} <strong>${n}問</strong></span>`).join(' / ');
+          } else {
+            popList.innerHTML = '<span>復習予定の問題はありません</span>';
+          }
+        });
+      });
+    }
+
+    const note = document.getElementById('fcNote');
+    if (note) {
+      note.textContent = overdue > 0
+        ? `⚠️ 期限切れが ${overdue}問 あります。1セッション50問で約${Math.ceil((overdue + todayN) / 50)}セッションで解消できます。`
+        : '直近7日間に無理のない復習ペースです。';
+    }
+  }
+
+  // ── 13. 科目別進捗テーブル & ソート ──
+  let currentSubjSort = 'default';
+
+  function renderSubjectTable() {
+    const tbody = document.getElementById('subjTableBody');
+    if (!tbody || typeof MEC_CHAPTERS === 'undefined') return;
+
+    let subjs = [...MEC_CHAPTERS];
     let grandTotal = 0, grandDone = 0, grandAcc = 0, grandAccT = 0;
 
-    MEC_CHAPTERS.forEach(subj => {
+    const listData = subjs.map((subj, origIdx) => {
       const prefixes = subj.chapters.map(ch => ch.prefix + '_');
       const isIn = uid => prefixes.some(p => uid.startsWith(p));
       const totalQ = subj.chapters.reduce((s, ch) => s + ch.count, 0);
@@ -851,16 +1760,29 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
       const accTotal   = mrEntries.reduce((s, [, v]) => s + (v.total || 0), 0);
       const accCorrect = mrEntries.reduce((s, [, v]) => s + (v.correct || 0), 0);
       grandAccT += accTotal; grandAcc += accCorrect;
+      const accPct = accTotal >= 1 ? (accCorrect / accTotal * 100) : -1;
 
+      return { subj, origIdx, totalQ, doneQ, flagQ, pct, accTotal, accCorrect, accPct, leftQ: totalQ - doneQ };
+    });
+
+    if (currentSubjSort === 'acc-asc') {
+      listData.sort((a, b) => {
+        if (a.accPct === -1 && b.accPct === -1) return a.origIdx - b.origIdx;
+        if (a.accPct === -1) return 1;
+        if (b.accPct === -1) return -1;
+        return a.accPct - b.accPct;
+      });
+    } else if (currentSubjSort === 'left-desc') {
+      listData.sort((a, b) => b.leftQ - a.leftQ);
+    } else if (currentSubjSort === 'flag-desc') {
+      listData.sort((a, b) => b.flagQ - a.flagQ);
+    }
+
+    tbody.innerHTML = '';
+    listData.forEach(({ subj, totalQ, doneQ, flagQ, pct, accTotal, accCorrect }) => {
       const tr = document.createElement('tr');
       tr.className = 'subj-row';
-      tr.style.cursor = 'pointer';
-      tr.title = 'クリックで章別展開';
-      // <tr onclick> のままだと Tab で到達できず Enter でも開けなかった。
-      // 行そのものを操作対象として公開する
       tr.tabIndex = 0;
-      tr.setAttribute('role', 'button');
-      tr.setAttribute('aria-expanded', 'false');
       tr.innerHTML = `
         <td><div class="subj-name-cell">
           <span class="subj-icon">${subj.icon}</span>
@@ -875,13 +1797,13 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
         </div></td>
         <td class="r">${pct}%</td>
         <td class="r">${accBadgeHtml(accCorrect, accTotal)}</td>
-        <td class="r flag-num">${flagQ || '—'}</td>`;
+        <td class="r flag-num" style="color:var(--stat-bad);">${flagQ || '—'}</td>`;
+
       const toggleRow = () => {
         const next = tr.nextElementSibling;
         if (next && next.classList.contains('subj-ch-detail')) {
           next.remove();
           tr.querySelector('.subj-expand-icon').textContent = '▶';
-          tr.setAttribute('aria-expanded', 'false');
           return;
         }
         const chRows = subj.chapters.map((ch, ci) => {
@@ -893,12 +1815,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
           const cAccT = cMr.reduce((s, [, v]) => s + (v.total || 0), 0);
           const cAccC = cMr.reduce((s, [, v]) => s + (v.correct || 0), 0);
           const cPct = cTotal ? Math.round(cDone / cTotal * 100) : 0;
-          return `<tr class="ch-row" tabindex="0" role="link" data-href="${ch.file}" title="${ch.title}">
+          return `<tr class="ch-row" data-href="${ch.file}">
             <td class="ch-num">第${ci+1}章</td>
             <td><div class="subj-prog-wrap"><div class="subj-prog-bar"><div class="subj-prog-fill" style="width:${cPct}%;background:${subj.color}"></div></div><span class="subj-prog-txt">${cDone}/${cTotal}</span></div></td>
             <td class="r ch-sm">${cPct}%</td>
             <td class="r">${accBadgeHtml(cAccC, cAccT)}</td>
-            <td class="r flag-num ch-sm">${cFlag || '—'}</td>
+            <td class="r ch-sm" style="color:var(--stat-bad);">${cFlag || '—'}</td>
           </tr>`;
         }).join('');
         const detailTr = document.createElement('tr');
@@ -906,439 +1828,47 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
         detailTr.innerHTML = `<td colspan="5" class="ch-host"><table class="ch-table">${chRows}</table></td>`;
         tr.after(detailTr);
         tr.querySelector('.subj-expand-icon').textContent = '▼';
-        tr.setAttribute('aria-expanded', 'true');
       };
       tr.onclick = toggleRow;
-      tr.onkeydown = e => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleRow(); }
-      };
       tbody.appendChild(tr);
     });
 
-    // Total row
-    const tr = document.createElement('tr');
-    tr.style.fontWeight = '700';
+    const totalTr = document.createElement('tr');
+    totalTr.style.fontWeight = '800';
+    totalTr.style.background = 'rgba(255,255,255,0.03)';
     const totalPct = grandTotal ? Math.round(grandDone / grandTotal * 100) : 0;
-    tr.innerHTML = `
+    totalTr.innerHTML = `
       <td><div class="subj-name-cell"><span class="subj-name">合計</span></div></td>
       <td><div class="subj-prog-wrap">
-        <div class="subj-prog-bar"><div class="subj-prog-fill" style="width:${totalPct}%;background:var(--prog-total)"></div></div>
+        <div class="subj-prog-bar"><div class="subj-prog-fill" style="width:${totalPct}%;background:var(--stat-good)"></div></div>
         <span class="subj-prog-txt">${grandDone}/${grandTotal}</span>
       </div></td>
       <td class="r">${totalPct}%</td>
       <td class="r">${accBadgeHtml(grandAcc, grandAccT)}</td>
-      <td class="r flag-num">${Object.keys(flags).length || '—'}</td>`;
-    tbody.appendChild(tr);
+      <td class="r flag-num" style="color:var(--stat-bad);">${Object.keys(flags).length || '—'}</td>`;
+    tbody.appendChild(totalTr);
 
-    // 章行はテーブル展開のたびに作り直されるので、個別に配線せず tbody へ委譲する
     const goCh = el => { if (el && el.dataset.href) location.href = el.dataset.href; };
-    tbody.addEventListener('click', e => goCh(e.target.closest('.ch-row')));
-    tbody.addEventListener('keydown', e => {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-      const row = e.target.closest('.ch-row');
-      if (!row) return;
-      e.preventDefault(); goCh(row);
+    tbody.onclick = e => goCh(e.target.closest('.ch-row'));
+  }
+
+  function accBadgeHtml(correct, total) {
+    if (total < 3) return '<span class="acc-badge none">—</span>';
+    const pct = Math.round(correct / total * 100);
+    const cls = pct >= 70 ? 'good' : pct >= 50 ? 'poor' : 'bad';
+    return `<span class="acc-badge ${cls}">${pct}%<span class="acc-sub"> (${correct}/${total})</span></span>`;
+  }
+
+  document.querySelectorAll('.sort-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentSubjSort = btn.dataset.sort;
+      renderSubjectTable();
     });
-  }
-
-  // ── Level distribution ────────────────────────────────────
-  const LEVELS = [
-    { label: '未済', color: 'var(--lv0)' },
-    { label: '済1', color: 'var(--lv1)' },
-    { label: '済2', color: 'var(--lv2)' },
-    { label: '済3', color: 'var(--lv3)' },
-    { label: '済4', color: 'var(--lv4)' },
-    { label: '済5', color: 'var(--lv5)' },
-    { label: '済6+', color: 'var(--lv6)' },
-  ];
-  const levelCounts = [0, 0, 0, 0, 0, 0, 0];
-  Object.values(done).forEach(lv => {
-    if (lv >= 1 && lv <= 5) levelCounts[lv]++;
-    else if (lv >= 6) levelCounts[6]++;
-  });
-  if (typeof MEC_CHAPTERS !== 'undefined') {
-    const totalQ = MEC_CHAPTERS.reduce((s, subj) => s + subj.chapters.reduce((ss, ch) => ss + ch.count, 0), 0);
-    levelCounts[0] = totalQ - Object.keys(done).length;
-  }
-  const maxLevel = Math.max(...levelCounts, 1);
-  const barsDiv  = document.getElementById('levelBars');
-  const legDiv   = document.getElementById('levelLegend');
-  LEVELS.forEach(({ label, color }, i) => {
-    const pct = Math.round(levelCounts[i] / maxLevel * 100);
-    const col = document.createElement('div');
-    col.className = 'level-col';
-    col.innerHTML = `
-      <span class="level-val">${levelCounts[i]}</span>
-      <div class="level-bar" style="height:${Math.max(pct, 2)}%;background:${color};border:1px solid var(--lv-bd)"></div>
-      <span class="level-lbl">${label}</span>`;
-    barsDiv.appendChild(col);
-
-    const leg = document.createElement('div');
-    leg.className = 'legend-item';
-    leg.innerHTML = `<div class="legend-dot" style="background:${color};border:1px solid var(--lv-bd)"></div>${label}: ${levelCounts[i]}問`;
-    legDiv.appendChild(leg);
   });
 
-
-  // ── H: 科目別正答率の推移 ────────────────────────────────────
-  const SNAP_KEY = 'mec_rate_snap_v1';
-  const rateSnap = lsGet(SNAP_KEY);
-
-  // Save today's snapshot
-  if (!rateSnap[today] && typeof MEC_CHAPTERS !== 'undefined') {
-    const snap = {};
-    MEC_CHAPTERS.forEach(subj => {
-      const prefixes = subj.chapters.map(ch => ch.prefix + '_');
-      const isIn = uid => prefixes.some(p => uid.startsWith(p));
-      const entries = Object.entries(myrate).filter(([uid]) => isIn(uid));
-      const t = entries.reduce((s, [, v]) => s + (v.total || 0), 0);
-      const c = entries.reduce((s, [, v]) => s + (v.correct || 0), 0);
-      if (t >= 5) snap[subj.id] = { correct: c, total: t };
-    });
-    if (Object.keys(snap).length) {
-      rateSnap[today] = snap;
-      // Keep only last 60 days
-      const allDates = Object.keys(rateSnap).sort();
-      if (allDates.length > 60) { allDates.slice(0, allDates.length - 60).forEach(d => delete rateSnap[d]); }
-      try { localStorage.setItem(SNAP_KEY, JSON.stringify(rateSnap)); } catch {}
-    }
-  }
-
-  const snapDates = Object.keys(rateSnap).sort().slice(-14);
-  const rhWrap = document.getElementById('rateHistoryWrap');
-  if (snapDates.length < 2) {
-    rhWrap.innerHTML = '<div class="rh-no-data">データが少なすぎます。stats.htmlを複数日開くと推移グラフが表示されます。</div>';
-  } else if (typeof MEC_CHAPTERS !== 'undefined') {
-    MEC_CHAPTERS.forEach(subj => {
-      const pts = snapDates.map(d => {
-        const e = rateSnap[d]?.[subj.id];
-        return (e && e.total >= 5) ? Math.round(e.correct / e.total * 100) : null;
-      });
-      if (pts.every(p => p === null)) return;
-      const latest = pts[pts.length - 1];
-      const latestCls = latest === null ? 't-ts' : latest >= 70 ? 't-gr' : latest >= 50 ? 't-or' : 't-rd';
-
-      const row = document.createElement('div');
-      row.className = 'rh-row';
-      const cvId = 'rhcv_' + subj.id;
-      row.innerHTML = `
-        <span class="rh-label"><span>${subj.icon}</span>${subj.name}</span>
-        <div class="rh-canvas-wrap"><canvas class="rh-canvas" id="${cvId}" height="40"></canvas></div>
-        <span class="rh-latest ${latestCls}">${latest !== null ? latest + '%' : '—'}</span>`;
-      rhWrap.appendChild(row);
-
-      requestAnimationFrame(() => {
-        const cv = document.getElementById(cvId);
-        if (!cv) return;
-        // 実ピクセル数で描かないと Retina では 1倍解像度のまま拡大され線が甘くなる。
-        // 表示サイズは CSS（width:100%/height:40px）が持つので、ここは裏のバッファだけ広げる
-        const dpr = Math.min(window.devicePixelRatio || 1, 3);
-        const w = cv.parentElement.offsetWidth || 200, h = 40;
-        cv.width = Math.round(w * dpr);
-        cv.height = Math.round(h * dpr);
-        const ctx = cv.getContext('2d');
-        ctx.scale(dpr, dpr);
-        const validPts = pts.filter(p => p !== null);
-        if (validPts.length < 2) return;
-        const n = pts.length;
-
-        // 70% reference line
-        ctx.beginPath(); ctx.strokeStyle = cssVar('--canvas-grid'); ctx.lineWidth = 1;
-        ctx.setLineDash([3, 3]);
-        const refY = h - (70 / 100) * h;
-        ctx.moveTo(0, refY); ctx.lineTo(w, refY); ctx.stroke();
-        ctx.setLineDash([]);
-
-        // Fill area under line
-        ctx.beginPath();
-        let started = false;
-        pts.forEach((v, i) => {
-          if (v === null) return;
-          const x = (i / (n - 1)) * w;
-          const y = h - (v / 100) * h;
-          if (!started) { ctx.moveTo(x, h); ctx.lineTo(x, y); started = true; }
-          else ctx.lineTo(x, y);
-        });
-        ctx.lineTo(((n-1) / (n-1)) * w, h); ctx.closePath();
-        ctx.fillStyle = subj.color + '28';
-        ctx.fill();
-
-        // Main line
-        ctx.beginPath(); ctx.strokeStyle = subj.color; ctx.lineWidth = 2; ctx.lineJoin = 'round';
-        started = false;
-        pts.forEach((v, i) => {
-          if (v === null) return;
-          const x = (i / (n - 1)) * w;
-          const y = h - (v / 100) * h;
-          if (!started) { ctx.moveTo(x, y); started = true; } else ctx.lineTo(x, y);
-        });
-        ctx.stroke();
-
-        // Dots
-        pts.forEach((v, i) => {
-          if (v === null) return;
-          const x = (i / (n - 1)) * w;
-          const y = h - (v / 100) * h;
-          ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2);
-          ctx.fillStyle = subj.color; ctx.fill();
-        });
-      });
-    });
-  }
-
-  // ── K: 誤答選択肢の全体傾向 ─────────────────────────────────
-  // ⚠️ 旧実装はここで a〜e の分布を1セクション（🔍誤答選択肢パターン）使って棒グラフに
-  //    していた。全体分布は「どこを直すか」に繋がらないので、問題ごとの内訳を
-  //    弱点リストの行（▾）へ移し、全体の傾向は下の1行だけに残した。
-  //    AI相談用Markdownの「誤答選択肢の傾向」はそのまま出す。
-  const choiceData = lsGet('mec_choice_v1');
-  let _wkChoiceNote = '';
-  {
-    const agg = {};
-    let totalWrong = 0;
-    Object.values(choiceData).forEach(entry => {
-      Object.entries(entry).forEach(([ch, cnt]) => {
-        if (ch === '_last') return;
-        agg[ch] = (agg[ch] || 0) + cnt;
-        totalWrong += cnt;
-      });
-    });
-    if (totalWrong) {
-      const sorted = Object.entries(agg).sort((a, b) => b[1] - a[1]);
-      const [mc, mn] = sorted[0];
-      _wkChoiceNote = `全体では計${totalWrong}回の誤答のうち最多は「${mc}」（${mn}回・${Math.round(mn / totalWrong * 100)}%）。`;
-    }
-  }
-
-  // ── AI相談用エクスポート＋取りこぼし分析 ────────────────────────────
-  const RATE = window.MEC_RATE || {};
-
-  // uid prefix(科目_章) → 章情報
-  const chMap = {};
-  if (typeof MEC_CHAPTERS !== 'undefined') {
-    MEC_CHAPTERS.forEach(subj => {
-      subj.chapters.forEach((ch, i) => {
-        chMap[ch.prefix] = { subjName: subj.name, subjId: subj.id, subjIcon: subj.icon, subjColor: subj.color, chNum: i + 1, chTitle: ch.title };
-      });
-    });
-  }
-  function uidInfo(uid) {
-    const m = uid.match(/^(.+)_q(\d+)$/);
-    if (!m) return { qNum: '?', prefix: null, info: null };
-    return { qNum: m[2], prefix: m[1], info: chMap[m[1]] || null };
-  }
-
-  function subjectStats() {
-    const rows = [];
-    if (typeof MEC_CHAPTERS === 'undefined') return rows;
-    MEC_CHAPTERS.forEach(subj => {
-      const prefixes = subj.chapters.map(ch => ch.prefix + '_');
-      const isIn = uid => prefixes.some(p => uid.startsWith(p));
-      const totalQ = subj.chapters.reduce((s, ch) => s + ch.count, 0);
-      const doneQ = Object.keys(done).filter(isIn).length;
-      const flagQ = Object.keys(flags).filter(isIn).length;
-      const mr = Object.entries(myrate).filter(([uid]) => isIn(uid));
-      const accT = mr.reduce((s, [, v]) => s + (v.total || 0), 0);
-      const accC = mr.reduce((s, [, v]) => s + (v.correct || 0), 0);
-      const natRates = Object.keys(RATE).filter(isIn).map(u => RATE[u]);
-      const natAvg = natRates.length ? Math.round(natRates.reduce((a, b) => a + b, 0) / natRates.length) : null;
-      rows.push({ name: subj.name, icon: subj.icon, totalQ, doneQ, flagQ, accT, accC, natAvg,
-        donePct: totalQ ? Math.round(doneQ / totalQ * 100) : 0,
-        accPct: accT >= 1 ? Math.round(accC / accT * 100) : null });
-    });
-    return rows;
-  }
-
-  // 取りこぼし: 本番正答率>=80 なのに自分の正答率<50%
-  function missItems() {
-    const items = [];
-    Object.entries(myrate).forEach(([uid, v]) => {
-      const nat = RATE[uid];
-      if (nat === undefined || nat < 80) return;
-      if (!v.total || v.correct / v.total >= 0.5) return;
-      const you = Math.round(v.correct / v.total * 100);
-      items.push({ uid, nat, you, correct: v.correct, total: v.total, gap: nat - you, ...uidInfo(uid) });
-    });
-    return items.sort((a, b) => b.gap - a.gap);
-  }
-
-  function weakItemsFull() {
-    return Object.entries(myrate)
-      .filter(([, v]) => v.total >= 3 && (v.correct / v.total) < 0.5)
-      .sort((a, b) => (a[1].correct / a[1].total) - (b[1].correct / b[1].total))
-      .map(([uid, v]) => ({ uid, you: Math.round(v.correct / v.total * 100), correct: v.correct, total: v.total, nat: RATE[uid], ...uidInfo(uid) }));
-  }
-
-  // ══════════ 弱点リスト（統合・2026-08-18 Phase 3）══════════
-  // 旧実装は「弱いもの」のリストが4本に割れていた:
-  //   📐本番との差 / 💡取りこぼし問題 / 🎯苦手問題ランキング / 🔍誤答選択肢パターン。
-  // どれも uid 単位で、同じ問題が複数の表へ重複して載り、4本を見比べないと
-  // 「次に何をやるか」が決まらなかった。1本に畳んで、挙がった理由をタグで示す。
-  //
-  // ⚠️ 📐本番との差（科目単位）は廃止した。あれは
-  //      左 = 自分が試験モードで解いた問題の正答率
-  //      右 = その科目の全問の本番正答率の平均
-  //    と引き算の左右で分母が違い、難問だけ解けばマイナス・易問だけ解けばプラスへ
-  //    振れる＝数字が何を意味するのか原理的に読めなかった。
-  //    ここで残しているのは「同じ uid どうし」＝分母が揃った比較だけ（🔻本番差）。
-  //    科目単位のあの形を作り直さないこと。
-  const WK_TAGS = {
-    miss: { label: '💡取りこぼし', cls: 't-miss' },   // 本番80%以上なのに自分は50%未満
-    gap:  { label: '🔻本番差',     cls: 't-gap'  },   // 同じ問題で本番を大きく下回る
-    rep:  { label: '🔁反復ミス',   cls: 't-rep'  },   // 3回以上受けて50%未満
-  };
-  const WK_GAP_PT = 40;   // 本番正答率をこれ以上下回ったら「本番差」
-  const WK_LIMIT  = 24;
-
-  function weakUnified() {
-    const out = [];
-    Object.entries(myrate).forEach(([uid, v]) => {
-      const total = v.total || 0;
-      if (!total) return;
-      const correct = v.correct || 0;
-      const you = Math.round(correct / total * 100);
-      const nat = RATE[uid];
-      const gap = (nat === undefined) ? null : nat - you;
-      const tags = [];
-      if (nat !== undefined && nat >= 80 && you < 50) tags.push('miss');
-      if (gap !== null && gap >= WK_GAP_PT) tags.push('gap');
-      if (total >= 3 && you < 50) tags.push('rep');
-      if (!tags.length) return;
-      out.push({ uid, you, nat, gap, tags, correct, total, ...uidInfo(uid) });
-    });
-    // 並びは ①タグ数（複数の理由で挙がったものほど上）②本番との差 ③自分の正答率 ④受験回数。
-    // 本番正答率が無い問題は差を比べられないので、差を持つ問題の後ろへ回す
-    return out.sort((a, b) =>
-      (b.tags.length - a.tags.length) ||
-      ((b.gap === null ? -1 : b.gap) - (a.gap === null ? -1 : a.gap)) ||
-      (a.you - b.you) || (b.total - a.total));
-  }
-
-  // その問題で実際に選んだ誤答の肢。旧「🔍誤答選択肢パターン」は全体の a〜e 分布を
-  // 1セクション使って出していたが、打ち手に直結するのは「この問題でどこへ流れたか」
-  // なので行の内訳へ落とした（全体の傾向は下の1行と AI相談Markdown に残してある）
-  function wkPicks(uid) {
-    const e = choiceData[uid];
-    if (!e) return [];
-    return Object.entries(e)
-      .filter(([c, n]) => c !== '_last' && n > 0)
-      .map(([c, n]) => ({ c, n }))
-      .sort((a, b) => b.n - a.n);
-  }
-
-  function renderWeakList() {
-    const listEl = document.getElementById('wkList');
-    const filEl  = document.getElementById('wkFilter');
-    const footEl = document.getElementById('wkFoot');
-    if (!listEl) return;
-
-    const all = weakUnified();
-    if (!all.length) {
-      if (filEl) filEl.innerHTML = '';
-      listEl.innerHTML = '<div class="sec-empty">まだ弱点として挙がる問題がありません。<br>' +
-        '試験モードで解くと、取りこぼし・本番との差・繰り返しのミスをここに集約します。</div>';
-      if (footEl) footEl.textContent = '';
-      return;
-    }
-
-    const counts = { all: all.length, miss: 0, gap: 0, rep: 0 };
-    all.forEach(it => it.tags.forEach(t => { counts[t]++; }));
-
-    if (filEl) {
-      filEl.innerHTML =
-        '<button type="button" class="wk-fbtn on" data-wk="all">すべて ' + counts.all + '</button>' +
-        Object.keys(WK_TAGS).map(k =>
-          '<button type="button" class="wk-fbtn" data-wk="' + k + '"' + (counts[k] ? '' : ' disabled') + '>' +
-          WK_TAGS[k].label + ' ' + counts[k] + '</button>').join('');
-    }
-
-    const rowHtml = (it, idx) => {
-      const label = it.info ? it.info.subjIcon + ' ' + it.info.subjName : (it.prefix || it.uid).split('_')[0];
-      const color = it.info ? it.info.subjColor : 'var(--badge-none)';
-      const ch    = it.info ? '第' + it.info.chNum + '章 ' : (it.prefix ? it.prefix + ' ' : '');
-      const href  = it.info ? 'study.html?sid=' + it.info.subjId + '&filter=weak' : 'study.html?filter=weak';
-      const accCls = it.you < 30 ? 'bad' : 'poor';
-      const tags = it.tags.map(t => '<i class="wk-tag ' + WK_TAGS[t].cls + '">' + WK_TAGS[t].label + '</i>').join('');
-
-      // 内訳: 同じ問題どうしの本番 vs 自分（分母が揃っている比較）＋流れた肢
-      const cmp = [];
-      if (it.nat !== undefined) {
-        cmp.push('<div class="wk-cmp"><span class="wk-cmp-lbl">本番</span>' +
-          '<span class="wk-cmp-track"><span class="wk-cmp-fill nat" style="width:' + it.nat + '%"></span></span>' +
-          '<span class="wk-cmp-v">' + it.nat + '%</span></div>');
-      }
-      cmp.push('<div class="wk-cmp"><span class="wk-cmp-lbl">自分</span>' +
-        '<span class="wk-cmp-track"><span class="wk-cmp-fill you" style="width:' + it.you + '%"></span></span>' +
-        '<span class="wk-cmp-v">' + it.you + '%</span></div>');
-      cmp.push(it.nat !== undefined
-        ? '同じ問題で本番より' + Math.abs(it.gap) + 'pt' + (it.gap >= 0 ? '低い' : '高い') +
-          '。試験モードで' + it.total + '回中' + it.correct + '回正解。'
-        : 'この問題には本番正答率のデータがありません。試験モードで' + it.total + '回中' + it.correct + '回正解。');
-      const p = wkPicks(it.uid);
-      if (p.length) {
-        cmp.push('<div class="wk-picks">選んだ誤答の肢: ' +
-          p.map(x => '<span class="wk-pick">' + x.c + '<span class="n"> ' + x.n + '回</span></span>').join('') +
-          '</div>');
-      }
-
-      return '<div class="wk-item">' +
-        '<div class="wk-head">' +
-          '<a class="wk-row" href="' + href + '">' +
-            '<span class="wk-rank">' + (idx + 1) + '</span>' +
-            '<span class="wk-badge" style="background:' + color + '">' + label + '</span>' +
-            '<span class="wk-main"><span class="wk-ch">' + ch + 'Q.' + it.qNum + '</span>' +
-            '<span class="wk-tags">' + tags + '</span></span>' +
-            '<span class="wk-acc acc-badge ' + accCls + '">' + it.you + '% ' +
-            '<span class="acc-sub">(' + it.correct + '/' + it.total + ')</span></span>' +
-          '</a>' +
-          '<button type="button" class="wk-more" aria-expanded="false" aria-label="内訳を開く">' +
-            '<span class="wk-caret">▾</span></button>' +
-        '</div>' +
-        '<div class="wk-detail" hidden>' + cmp.join('') + '</div>' +
-      '</div>';
-    };
-
-    let cur = 'all';
-    const draw = () => {
-      const rows = (cur === 'all' ? all : all.filter(it => it.tags.indexOf(cur) >= 0));
-      listEl.innerHTML = rows.slice(0, WK_LIMIT).map(rowHtml).join('') ||
-        '<div class="sec-empty">この条件に当てはまる問題はありません。</div>';
-      stagger([...listEl.querySelectorAll('.wk-item')], 26, 'translateY(6px)');
-      if (footEl) {
-        const more = rows.length > WK_LIMIT ? `（上位${WK_LIMIT}件を表示・全${rows.length}件）` : `（全${rows.length}件）`;
-        footEl.textContent = '行をタップすると科目の🎯苦手フィルターへ移動します。▾ で本番正答率との比較と、その問題で流れた肢が開きます。' + more +
-          (_wkChoiceNote ? ' ' + _wkChoiceNote : '');
-      }
-    };
-    draw();
-
-    if (filEl) {
-      filEl.addEventListener('click', e => {
-        const b = e.target.closest('.wk-fbtn');
-        if (!b || b.disabled) return;
-        cur = b.dataset.wk;
-        filEl.querySelectorAll('.wk-fbtn').forEach(x => x.classList.toggle('on', x === b));
-        draw();
-      });
-    }
-    // 行は作り直されるのでホストへ委譲する（renderWeakList の中で張ると積み上がる）
-    listEl.addEventListener('click', e => {
-      const btn = e.target.closest('.wk-more');
-      if (!btn) return;
-      const item = btn.closest('.wk-item');
-      const det = item && item.querySelector('.wk-detail');
-      if (!det) return;
-      const open = det.hidden;
-      det.hidden = !open;
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-  }
-
-  // ══════════ 弱点カルテ（qmeta.json × myrate_v1）══════════
-  // 章別の集計では「循環器が弱い」までしか言えない。設問形式の軸を掛けることで
-  // 「循環器の“治療選択”だけ落ちる」まで絞り込めるようにする。
-  // qmeta.json は _work/build_qmeta.py が questions_*.json から生成する派生物。
-
+  // ── 5. 14. 弱点カルテ ＆ 処方箋 ──
   const QTYPES = [
     { k: 'dx', label: '診断' },
     { k: 'ix', label: '検査' },
@@ -1346,37 +1876,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     { k: 'mgmt', label: '対応' },
     { k: 'know', label: '知識' },
   ];
-  // 「弱さ」の逐次ランプ7段（90以上 / 80-89 / 70-79 / 60-69 / 50-59 / 35-49 / 35未満）。
-  // 実際の色と文字色の反転は CSS の .hm td.w1〜.w7 が持つ（:root の --ramp-w* を参照）。
-  // ここでは段の名前だけを持ち、JS から色を組み立てない。
-  // 刻みが弱い側で細かいのは、強い側は「もう見なくていい」ので潰れてよく、
-  // 弱い側は 17% と 43% が同じ見た目になると優先順位が付けられなくなるため。
-  const HM_RAMP = ['w1', 'w2', 'w3', 'w4', 'w5', 'w6', 'w7'];
-  const HM_MIN_N = 3;   // これ未満の受験数はノイズなので数値を出さない
-
-  function rampIndex(pct) {
-    if (pct >= 90) return 0;
-    if (pct >= 80) return 1;
-    if (pct >= 70) return 2;
-    if (pct >= 60) return 3;
-    if (pct >= 50) return 4;
-    if (pct >= 35) return 5;
-    return 6;
-  }
-
-  // カルテの集計結果。AI相談Markdownからも参照するので外に持つ
-  let _karte = null;
-
-  function subjIdOfUid(uid) {
-    const i = uid.indexOf('_ch');
-    return i > 0 ? uid.slice(0, i) : null;
-  }
+  let _karteDoc = null;
+  let _focusWeakOnly = false;
 
   function buildKarte(qmeta) {
     const subjects = (typeof MEC_CHAPTERS !== 'undefined') ? MEC_CHAPTERS : [];
-    const cells = {};    // subjId → type → {correct,total}
-    const colTot = {};   // type → {correct,total}
-    const rowTot = {};   // subjId → {correct,total}
+    const cells = {}, colTot = {}, rowTot = {};
     const all = { correct: 0, total: 0 };
     const bands = [
       { k: 'e', label: '本番80%以上', min: 80, max: 101, correct: 0, total: 0 },
@@ -1384,16 +1889,15 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
       { k: 'h', label: '本番40-59%', min: 40, max: 60, correct: 0, total: 0 },
       { k: 'x', label: '本番40%未満', min: 0, max: 40, correct: 0, total: 0 },
     ];
-    const flagAgg = {};  // フラグ別（neg/multi/img/case/calc）の正答率
+    const flagAgg = {};
 
     Object.entries(myrate).forEach(([uid, v]) => {
       const total = v.total || 0;
       if (!total) return;
       const correct = v.correct || 0;
       const m = qmeta[uid];
-      // 正解肢ゼロの問題は何を選んでも不正解になるため母数から外す
       if (m && m.f && m.f.indexOf('ungraded') !== -1) return;
-      const sid = subjIdOfUid(uid);
+      const sid = uid.indexOf('_ch') > 0 ? uid.slice(0, uid.indexOf('_ch')) : null;
       all.correct += correct; all.total += total;
 
       if (sid && m) {
@@ -1426,676 +1930,400 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
   function renderKarte(k) {
     const table = document.getElementById('hmTable');
-    if (!table || !k.rows.length) return;   // HTML 側の空の状態のまま残す
-    // ⚠️ 旧実装はセクションごと display:none から出入りしていたので、
-    //    データの有無で日ごとにページの形が変わっていた。中身だけ差し替える
-    const _kEmpty = document.getElementById('karteEmpty');
-    const _kBody  = document.getElementById('karteBody');
-    if (_kEmpty) _kEmpty.hidden = true;
-    if (_kBody)  _kBody.hidden = false;
+    if (!table || !k.rows.length) return;
+    document.getElementById('karteEmpty').hidden = true;
+    document.getElementById('karteBody').hidden = false;
 
-    /* E3(2026-08-14): セルを左上から対角に立ち上げ、最後に最弱セルだけを脈打たせる。
-       ⚠️ --i は「行+列」＝対角線の順番。行ごと・列ごとに揃えるより、面が一枚の布のように
-          めくれて見えるので、どこが明るい（＝弱い）かが目に残る。
-       ⚠️ 最弱セルの判定は本体（科目×形式）だけで行う。「計」の列と「全科目」の行は
-          個別の弱点ではなく合計なので、そこを名指ししても打ち手にならない。 */
-    let worst = { pct: 101, key: '' };
-    const cell = (d, idx, key) => {
-      const st = ` style="--i:${idx || 0}"`;
-      if (!d || !d.total) return `<td class="hm-nd"${st}>—</td>`;
-      if (d.total < HM_MIN_N) {
-        return `<td class="hm-nd"${st}>—<span class="hm-sub">${d.total}回</span></td>`;
-      }
+    const cell = (d) => {
+      if (!d || !d.total) return '<td class="hm-nd">—</td>';
+      if (d.total < 3) return `<td class="hm-nd">—<span class="hm-sub">${d.total}回</span></td>`;
       const pct = Math.round(d.correct / d.total * 100);
-      if (key && pct < worst.pct) worst = { pct, key };
-      const kAttr = key ? ` data-hk="${key}"` : '';
-      return `<td class="${HM_RAMP[rampIndex(pct)]}"${st}${kAttr}>${pct}%<span class="hm-sub">${d.total}回</span></td>`;
+      const cls = pct >= 70 ? 'c-good' : pct >= 50 ? 'c-warn' : 'c-bad';
+      const mark = pct >= 70 ? '⭕' : pct >= 50 ? '⚠️' : '🚨';
+      const dim = (_focusWeakOnly && pct >= 70) ? ' dimmed' : '';
+      return `<td class="${cls}${dim}">${mark} ${pct}%<span class="hm-sub">${d.total}回</span></td>`;
     };
 
-    const head = '<tr><th class="hm-rh">科目</th>' +
-      QTYPES.map(t => `<th>${t.label}</th>`).join('') + '<th>計</th></tr>';
-    const body = k.rows.map((s, ri) =>
+    const head = '<tr><th class="hm-rh">科目</th>' + QTYPES.map(t => `<th>${t.label}</th>`).join('') + '<th>計</th></tr>';
+    const body = k.rows.map(s =>
       `<tr><th class="hm-rh">${s.icon} ${s.name}</th>` +
-      QTYPES.map((t, ci) => cell(k.cells[s.id] && k.cells[s.id][t.k], ri + ci, ri + '_' + ci)).join('') +
-      cell(k.rowTot[s.id], ri + QTYPES.length) + '</tr>'
+      QTYPES.map(t => cell(k.cells[s.id] && k.cells[s.id][t.k])).join('') +
+      cell(k.rowTot[s.id]) + '</tr>'
     ).join('');
-    const fr = k.rows.length;
     const foot = '<tr><th class="hm-rh">全科目</th>' +
-      QTYPES.map((t, ci) => cell(k.colTot[t.k], fr + ci)).join('') +
-      cell(k.all, fr + QTYPES.length) + '</tr>';
+      QTYPES.map(t => cell(k.colTot[t.k])).join('') +
+      cell(k.all) + '</tr>';
     table.innerHTML = head + body + foot;
-    // 立ち上がりが終わってから最弱セルを一度だけ指す（アニメ中に光らせても埋もれる）
-    if (worst.key && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      table.classList.add('hm-in');
-      const wc = table.querySelector(`td[data-hk="${worst.key}"]`);
-      if (wc) setTimeout(() => wc.classList.add('hm-worst'), 900);
-    }
 
-    // ⚠️ 旧実装はここが章別ヒートマップと同じ id="hmLegend" を掴んでいたため、
-    //    カルテの凡例が章別ヒートマップの凡例欄を上書きし、カルテ側は空のままだった
-    const legend = document.getElementById('hmKarteLegend');
-    if (legend) {
-      legend.innerHTML = '<span>強い</span><span class="hm-sw">' +
-        HM_RAMP.map(c => `<i class="${c}"></i>`).join('') +
-        '</span><span>弱い</span>';
-    }
-    const note = document.getElementById('hmNote');
-    if (note) {
-      note.textContent = `試験モードの解答のみ集計（${HM_MIN_N}回未満は「—」）。設問形式は設問文からの自動分類なので、傾向を見る目安として使うこと。`;
-    }
-
-    // 本番正答率帯ごとの自分の正答率
     const bandRows = document.getElementById('bandRows');
-    const bandWrap = document.getElementById('bandWrap');
-    const withData = k.bands.filter(b => b.total >= HM_MIN_N);
+    const rxBox = document.getElementById('bandRxBox');
+    const withData = k.bands.filter(b => b.total >= 3);
     if (bandRows && withData.length) {
       bandRows.innerHTML = withData.map(b => {
         const pct = Math.round(b.correct / b.total * 100);
-        // 最も暗い2段は暗色の地に沈んで棒が見えないので、w3 を下限にする
-        const cls = HM_RAMP[Math.max(2, rampIndex(pct))];
+        const cls = pct >= 70 ? 'good' : pct >= 50 ? 'warn' : 'bad';
         return `<div class="band-row">
           <span class="band-lbl">${b.label}</span>
           <span class="band-track"><span class="band-fill ${cls}" style="width:${pct}%"></span></span>
-          <span class="band-val">${pct}% <small>${b.correct}/${b.total}</small></span>
+          <span class="band-val">${pct}% <small>(${b.correct}/${b.total})</small></span>
         </div>`;
       }).join('');
-    } else if (bandWrap) {
-      bandWrap.style.display = 'none';
+
+      const b80 = k.bands.find(b => b.k === 'e');
+      const b80Pct = (b80 && b80.total >= 3) ? Math.round(b80.correct / b80.total * 100) : null;
+      if (b80Pct !== null && b80Pct < 80) {
+        rxBox.innerHTML = `💡 <strong>診断処方箋</strong>: 本番80%以上の基本問題での正答率が <strong>${b80Pct}%</strong> とやや低めです。難問の暗記よりも、問題文の否定形（〜でないもの）や主訴の読み落とし対策を徹底しましょう。`;
+      } else {
+        rxBox.innerHTML = `💡 <strong>診断処方箋</strong>: 基礎問題（本番80%以上）は安定しています。合格点を伸ばすために、正答率60〜79%の標準的鑑別問題・治療選択肢を重点補強しましょう。`;
+      }
     }
   }
 
-  // qmeta.json は派生物なので、取得できなければカルテを出さないだけで他の統計には影響させない
+  const btnFocus = document.getElementById('btnKarteFocus');
+  if (btnFocus) {
+    btnFocus.addEventListener('click', () => {
+      _focusWeakOnly = !_focusWeakOnly;
+      btnFocus.classList.toggle('active', _focusWeakOnly);
+      if (_karteDoc) renderKarte(_karteDoc);
+    });
+  }
+
   fetch('qmeta.json')
     .then(r => r.ok ? r.json() : null)
     .then(doc => {
       if (!doc || !doc.q) return;
-      _karte = buildKarte(doc.q);
-      renderKarte(_karte);
-    })
-    .catch(() => {});
+      _karteDoc = buildKarte(doc.q);
+      renderKarte(_karteDoc);
+    }).catch(() => {});
 
-  // 一度も正解していない問題（試験2回以上）。計画に直接落とせるので最優先で提示する
-  function neverCorrect() {
-    return Object.entries(myrate)
-      .filter(([, v]) => (v.total || 0) >= 2 && (v.correct || 0) === 0)
-      .map(([uid, v]) => ({ uid, total: v.total, nat: RATE[uid], ...uidInfo(uid) }))
-      .sort((a, b) => (b.total - a.total) || ((b.nat || 0) - (a.nat || 0)));
-  }
+  // ── 15. 弱点リスト（カード型UI） ──
+  const WK_TAGS = {
+    miss: { label: '💡取りこぼし', cls: 't-miss' },
+    gap:  { label: '🔻本番差',     cls: 't-gap'  },
+    rep:  { label: '🔁反復ミス',   cls: 't-rep'  },
+  };
 
-  // 解答ログから「前回正解 → 今回誤答」の反転を数える。ログが溜まるまでは 0 件で何も出ない
-  function flipStats() {
-    if (!window.MecAttempts) return null;
-    const log = MecAttempts.all();
-    if (log.length < 20) return null;
-    const last = {};
-    let flips = 0, repeats = 0;
-    log.forEach(a => {
-      if (last[a.uid] === true) { repeats++; if (!a.ok) flips++; }
-      last[a.uid] = a.ok;
-    });
-    if (repeats < 5) return null;
-    return { flips, repeats, pct: Math.round(flips / repeats * 100) };
-  }
+  function renderWeakList() {
+    const cardsEl = document.getElementById('wkCards');
+    const filEl   = document.getElementById('wkFilter');
+    const footEl  = document.getElementById('wkFoot');
+    if (!cardsEl) return;
 
-  // ══════════ 一問一答ドリル用プロンプト ══════════
-  // AI に一般問題（症例文なしの知識問題）を1問ずつ出させるための指示文を組み立てる。
-  // 出題範囲だけを学習データから差し込み、進行のルールは固定文にしてある。
-
-  // 章タイトルは科目により「MEC循環器 第2章 心不全 解答解説」「第1章 産婦人科総論」等と
-  // 表記がまちまちで、そのまま並べると科目名と章番号が二重に出る。中身だけ取り出す。
-  // chapters_meta.js の title は「MEC{講座名} 第N章 {章名} 解答解説」という形。
-  // ⚠️ 講座名は科目名と一致しない（内分泌 → 「MEC内分泌代謝」）ので、科目名を頭から
-  //    削るだけでは「代謝」が残る。章番号と「解答解説」で挟んで中身を取るのが確実で、
-  //    その形に当てはまらない title のためだけに旧来の削り方を残してある。
-  function cleanChTitle(title, subjName) {
-    // 末尾の「解答解説」は先に落とす。ここを1つの正規表現に混ぜると、章名が無い
-    // title（例「MEC呼吸器 第1章 解答解説」）で「解答解説」自体が章名として残る
-    const t0 = String(title || '').replace(/\s*解答\s*解説\s*$/, '');
-    const m = t0.match(/第\s*[0-9０-９]+\s*章\s*([\s\S]*)$/);
-    if (m) return m[1].trim();
-    // 「第N章」を持たない title のための旧来の削り方
-    let t = t0.replace(/^MEC\s*/, '');
-    if (subjName) t = t.replace(new RegExp('^' + subjName + '\\s*'), '');
-    t = t.replace(/第\s*[0-9０-９]+\s*章\s*/g, '');
-    return t.trim();
-  }
-
-
-
-  // 章ごとの試験正答率。ドリルの出題範囲は章名まで指定できた方が具体的になる
-  function weakChapters(minTotal, maxPct, limit) {
-    const agg = {};
-    Object.entries(myrate).forEach(([uid, v]) => {
-      if (!v.total) return;
-      const m = uid.match(/^(.+)_q\d+$/);
-      if (!m) return;
-      const a = agg[m[1]] = agg[m[1]] || { correct: 0, total: 0 };
-      a.correct += v.correct || 0; a.total += v.total;
-    });
-    return Object.entries(agg)
-      .filter(([, a]) => a.total >= minTotal && (a.correct / a.total) * 100 < maxPct)
-      .map(([prefix, a]) => ({ prefix, pct: Math.round(a.correct / a.total * 100), total: a.total, info: chMap[prefix] }))
-      .filter(x => x.info)
-      .sort((a, b) => a.pct - b.pct)
-      .slice(0, limit);
-  }
-
-  // 科目×設問形式のうち弱いセル。「循環器の治療選択」のように範囲を絞れる
-  function weakCells(limit) {
-    if (!_karte) return [];
     const out = [];
-    _karte.rows.forEach(s => {
-      const row = _karte.cells[s.id] || {};
-      QTYPES.forEach(t => {
-        const d = row[t.k];
-        if (!d || d.total < HM_MIN_N) return;
-        const pct = Math.round(d.correct / d.total * 100);
-        if (pct >= 70) return;
-        out.push({ name: s.name, type: t.label, pct, total: d.total });
-      });
+    Object.entries(myrate).forEach(([uid, v]) => {
+      const total = v.total || 0;
+      if (!total) return;
+      const correct = v.correct || 0;
+      const you = Math.round(correct / total * 100);
+      const nat = RATE[uid];
+      const gap = (nat === undefined) ? null : nat - you;
+      const tags = [];
+      if (nat !== undefined && nat >= 80 && you < 50) tags.push('miss');
+      if (gap !== null && gap >= 40) tags.push('gap');
+      if (total >= 3 && you < 50) tags.push('rep');
+      if (!tags.length) return;
+      out.push({ uid, you, nat, gap, tags, correct, total, ...uidInfo(uid) });
     });
-    return out.sort((a, b) => a.pct - b.pct).slice(0, limit);
-  }
 
-  function buildDrillPrompt() {
-    const scope = [];
-    const cells = weakCells(6);
-    const chs = weakChapters(5, 65, 8);
+    out.sort((a, b) => (b.tags.length - a.tags.length) || (a.you - b.you) || (b.total - a.total));
 
-    if (cells.length) {
-      scope.push('正答率が低い組み合わせです。上から順に重点的に出してください。');
-      cells.forEach(c => scope.push(`- ${c.name}の「${c.type}」を問う問題（試験正答率 ${c.pct}%）`));
-      scope.push('');
-    }
-    if (chs.length) {
-      scope.push('正答率が低い章は次のとおりです。論点はここから拾ってください。');
-      chs.forEach(c => {
-        const t = cleanChTitle(c.info.chTitle, c.info.subjName);
-        scope.push(`- ${c.info.subjName} 第${c.info.chNum}章${t ? ' ' + t : ''}（${c.pct}%・${c.total}問受験）`);
-      });
-      scope.push('');
-    }
-    if (_karte && _karte.flagAgg && _karte.all.total) {
-      const base = Math.round(_karte.all.correct / _karte.all.total * 100);
-      const names = { neg: '否定形（〜でないのはどれか）', multi: '複数選択（2つ選べ）', calc: '数値・計算' };
-      const weak = Object.keys(names).filter(f => {
-        const d = _karte.flagAgg[f];
-        return d && d.total >= HM_MIN_N && Math.round(d.correct / d.total * 100) <= base - 5;
-      });
-      if (weak.length) {
-        scope.push('次の形式で全体平均より落としています。意識して混ぜてください。');
-        weak.forEach(f => {
-          const d = _karte.flagAgg[f];
-          scope.push(`- ${names[f]}: ${Math.round(d.correct / d.total * 100)}%（全体平均 ${base}%）`);
-        });
-        scope.push('');
-      }
-    }
-    if (!scope.length) {
-      scope.push('全科目からランダムに出題してください。');
-      scope.push('（試験モードのデータがまだ少ないため、弱点の指定はありません）');
-      scope.push('');
+    if (!out.length) {
+      cardsEl.innerHTML = '<div class="sec-empty">現在弱点として検出された問題はありません。順調です！</div>';
+      return;
     }
 
-    return [
-      'あなたは医師国家試験の「一般問題」を出題する出題官です。',
-      '私が答えを書くまで、正解・解説・次の問題を絶対に書かないでください。これが最優先ルールです。',
-      '',
-      '# 出題範囲',
-      ...scope,
-      '# 出題形式',
-      '- 1回の発言につき1問だけ。',
-      '- 症例文は付けない。設問は1〜2行の知識問題にする。',
-      '- 選択肢は a〜e の5つ。原則「1つ選べ」。5問に1問くらい「2つ選べ」を混ぜる。',
-      '- 難易度は本番レベル（想定正答率60〜85%）。丸暗記ではなく、鑑別・機序・数値の境界を問う。',
-      '- もっともらしい誤りの選択肢を必ず2つ以上入れる。明らかな捨て肢は1つまで。',
-      '- 同じ論点は繰り返さない。',
-      '- 自信のない事実は出題しない。ガイドラインで変動しやすい数値は避けるか、基準の年を明記する。',
-      '',
-      '# 出題テンプレート（厳守）',
-      '【第N問】通算 X問正解 / Y問（Z%）',
-      '〈分野〉',
-      '設問文',
-      'a　…',
-      'b　…',
-      'c　…',
-      'd　…',
-      'e　…',
-      '',
-      '↑ここで発言を終える。解答も解説も書かない。',
-      '',
-      '# 私が答えた後の動き',
-      '私は「a」のように1文字だけ答えることがある。それも解答として受け付ける。',
-      '1) 採点する',
-      '   - 正解: 「⭕ 正解 a」＋要点1〜2行のみ。長く書かない。',
-      '   - 誤答: 「❌ 正解は c」＋ ①なぜcが正しいか2〜3行 ②私が選んだ肢がなぜ違うか1〜2行',
-      '           ③セットで覚える論点1行',
-      '2) 採点と解説を書いたら、同じ発言の続きでそのまま次の問題を出す。私の合図は待たない。',
-      '3) 私が誤答した論点は、5問後と15問後に角度を変えて再出題する。',
-      '   出題時は再出題だと明かさず、採点のときに「（第N問の再出題）」と添える。',
-      '',
-      '# 私が使うコマンド',
-      '- 「解説」… 直前の問題をもっと詳しく',
-      '- 「飛ばす」… その問題を捨てて次へ',
-      '- 「難しく」「易しく」… 以降の難易度を調整',
-      '- 「分野: ○○」… 以降の出題範囲を変更',
-      '- 「まとめ」… ここまでに誤答した論点を箇条書きで一覧化する（次のセッションに引き継ぐため）',
-      '',
-      '# 禁止',
-      '前置き・励まし・「頑張りましょう」の類は書かない。絵文字は採点の⭕❌だけ。テンポを最優先する。',
-      '',
-      '準備ができたら第1問だけを出してください。',
-    ].join('\n');
-  }
+    const counts = { all: out.length, miss: 0, gap: 0, rep: 0 };
+    out.forEach(it => it.tags.forEach(t => { counts[t]++; }));
 
-  function buildMarkdown(includeRaw) {
-    const totalAll = (typeof MEC_CHAPTERS !== 'undefined') ? MEC_CHAPTERS.reduce((s, subj) => s + subj.chapters.reduce((ss, ch) => ss + ch.count, 0), 0) : 0;
-    const donePct = totalAll ? Math.round(doneCount / totalAll * 100) : 0;
-    const streak = window.MECSync ? window.MECSync.calcStreak() : 0;
-
-    const L = [];
-    L.push(`# MEC 医師国試 学習データ (${today})`);
-    L.push('');
-    L.push('## 概況');
-    const _ed = (typeof examDate === 'function') ? examDate() : '';
-    if (_ed) L.push(`- 試験日: ${_ed}（あと ${Math.max(0, daysBetween(today, _ed))} 日）`);
-    L.push(`- 済み: ${doneCount} / ${totalAll} 問 (${donePct}%)`);
-    L.push(`- 連続学習: ${streak} 日`);
-    L.push(`- 赤旗（苦手マーク）: ${flagCount} 問`);
-    L.push(`- 直近30日: ${total30} 問 / ${fmtMins(total30Mins)}`);
-    L.push('');
-    L.push('## 科目別成績');
-    L.push('| 科目 | 済み率 | 試験正答率 | 本番正答率(平均) | 赤旗 |');
-    L.push('|---|---|---|---|---|');
-    subjectStats().forEach(r => {
-      const acc = r.accPct !== null ? `${r.accPct}% (${r.accC}/${r.accT})` : '—';
-      const nat = r.natAvg !== null ? `${r.natAvg}%` : '—';
-      L.push(`| ${r.name} | ${r.donePct}% (${r.doneQ}/${r.totalQ}) | ${acc} | ${nat} | ${r.flagQ || 0} |`);
-    });
-    L.push('');
-    // 弱点カルテ: 科目×設問形式。章別の集計では出ない「形式による弱点」をAIに渡す主材料
-    if (_karte && _karte.rows.length) {
-      const fmt = d => (d && d.total >= HM_MIN_N) ? `${Math.round(d.correct / d.total * 100)}%(${d.correct}/${d.total})` : '—';
-      L.push('## 科目 × 設問形式の正答率（試験モード）');
-      L.push('※ 設問形式は設問文からの自動分類。' + HM_MIN_N + '回未満は「—」。');
-      L.push('| 科目 | ' + QTYPES.map(t => t.label).join(' | ') + ' | 計 |');
-      L.push('|---|' + QTYPES.map(() => '---|').join('') + '---|');
-      _karte.rows.forEach(s => {
-        L.push('| ' + s.name + ' | ' +
-          QTYPES.map(t => fmt(_karte.cells[s.id] && _karte.cells[s.id][t.k])).join(' | ') +
-          ' | ' + fmt(_karte.rowTot[s.id]) + ' |');
-      });
-      L.push('| **全科目** | ' + QTYPES.map(t => fmt(_karte.colTot[t.k])).join(' | ') + ' | ' + fmt(_karte.all) + ' |');
-      L.push('');
-
-      const fl = _karte.flagAgg || {};
-      const flNames = { neg: '否定形（〜でないのはどれか）', multi: '複数選択（Nつ選べ）', img: '画像問題', case: '症例問題', calc: '数値・計算' };
-      const flRows = Object.keys(flNames).filter(f => fl[f] && fl[f].total >= HM_MIN_N);
-      if (flRows.length) {
-        L.push('## 設問の性質ごとの正答率');
-        const base = _karte.all.total ? Math.round(_karte.all.correct / _karte.all.total * 100) : 0;
-        L.push(`- 全体平均: ${base}%`);
-        flRows.forEach(f => {
-          const d = fl[f], p = Math.round(d.correct / d.total * 100);
-          const diff = p - base;
-          L.push(`- ${flNames[f]}: ${p}% (${d.correct}/${d.total}) — 全体比 ${diff >= 0 ? '+' : ''}${diff}pt`);
-        });
-        L.push('');
-      }
-
-      const bd = _karte.bands.filter(b => b.total >= HM_MIN_N);
-      if (bd.length) {
-        L.push('## 本番正答率帯ごとの自分の正答率');
-        bd.forEach(b => L.push(`- ${b.label}: ${Math.round(b.correct / b.total * 100)}% (${b.correct}/${b.total})`));
-        L.push('');
-      }
+    if (filEl) {
+      filEl.innerHTML =
+        `<button type="button" class="wk-fbtn on" data-wk="all">すべて ${counts.all}</button>` +
+        Object.keys(WK_TAGS).map(k =>
+          `<button type="button" class="wk-fbtn" data-wk="${k}" ${counts[k] ? '' : 'disabled'}>${WK_TAGS[k].label} ${counts[k]}</button>`
+        ).join('');
     }
 
-    const nc = neverCorrect();
-    L.push(`## 一度も正解できていない問題（試験2回以上） ${nc.length}件`);
-    if (nc.length) {
-      nc.slice(0, includeRaw ? 60 : 20).forEach(it => {
-        const nm = it.info ? `${it.info.subjName} 第${it.info.chNum}章` : (it.prefix || '');
-        const nat = it.nat !== undefined ? ` / 本番${it.nat}%` : '';
-        L.push(`- ${nm} Q.${it.qNum} — ${it.total}回受験して全問不正解${nat}`);
-      });
-    } else {
-      L.push('- なし');
-    }
-    L.push('');
+    let curFilter = 'all';
+    const draw = () => {
+      const rows = (curFilter === 'all' ? out : out.filter(it => it.tags.includes(curFilter))).slice(0, 30);
+      cardsEl.innerHTML = rows.map((it, idx) => {
+        const label = it.info ? `${it.info.subjIcon} ${it.info.subjName}` : (it.prefix || '');
+        const color = it.info ? it.info.subjColor : '#666';
+        const chName = it.info ? `第${it.info.chNum}章` : '';
+        const href = it.info ? `study.html?sid=${it.info.subjId}&filter=weak` : `study.html?filter=weak`;
+        const accCls = it.you < 35 ? 'bad' : 'poor';
+        const tagBadges = it.tags.map(t => `<span class="wk-tag ${WK_TAGS[t].cls}">${WK_TAGS[t].label}</span>`).join('');
 
-    const fs2 = flipStats();
-    if (fs2) {
-      L.push('## 定着（解答ログから）');
-      L.push(`- 一度正解した問題を再度落とした割合: ${fs2.pct}%（再受験${fs2.repeats}回中${fs2.flips}回）`);
-      L.push('');
-    }
+        const pData = choiceData[it.uid] || {};
+        const picks = Object.entries(pData).filter(([c, n]) => c !== '_last' && n > 0).sort((a, b) => b[1] - a[1]);
 
-    const miss2 = missItems();
-    L.push(`## 取りこぼし問題（本番正答率80%以上なのに試験で落とした・最優先復習） ${miss2.length}件`);
-    if (miss2.length) {
-      miss2.slice(0, 30).forEach(it => {
-        const nm = it.info ? `${it.info.subjName} 第${it.info.chNum}章` : (it.prefix || '');
-        L.push(`- ${nm} Q.${it.qNum} — 本番${it.nat}% / 自分${it.you}%(${it.correct}/${it.total})`);
-      });
-    } else {
-      L.push('- なし（試験モードのデータが少ないか、取りこぼしが無い）');
-    }
-    L.push('');
-    const wk = weakItemsFull();
-    L.push(`## 繰り返し落とす問題（試験正答率50%未満・3回以上） ${wk.length}件`);
-    wk.slice(0, includeRaw ? 60 : 15).forEach(it => {
-      const nm = it.info ? `${it.info.subjName} 第${it.info.chNum}章` : (it.prefix || '');
-      const nat = it.nat !== undefined ? ` / 本番${it.nat}%` : '';
-      L.push(`- ${nm} Q.${it.qNum} — 自分${it.you}%(${it.correct}/${it.total})${nat}`);
-    });
-    L.push('');
-    const agg2 = {}; let tw = 0;
-    Object.values(choiceData).forEach(entry => Object.entries(entry).forEach(([c, n]) => { if (c === '_last') return; agg2[c] = (agg2[c] || 0) + n; tw += n; }));
-    if (tw) {
-      const sorted = Object.entries(agg2).sort((a, b) => b[1] - a[1]);
-      L.push('## 誤答選択肢の傾向');
-      L.push(`- 計${tw}回の誤答。分布: ` + sorted.map(([c, n]) => `${c}=${n}`).join(', '));
-      L.push('');
-    }
-    const lc = [0, 0, 0, 0, 0, 0, 0];
-    Object.values(done).forEach(lv => { if (lv >= 1 && lv <= 5) lc[lv]++; else if (lv >= 6) lc[6]++; });
-    L.push('## 復習状況（SRS周回数分布）');
-    L.push(`- 済1:${lc[1]} 済2:${lc[2]} 済3:${lc[3]} 済4:${lc[4]} 済5:${lc[5]} 済6+:${lc[6]}`);
-    L.push('');
-    L.push('---');
-    L.push('上記は私の医師国家試験対策の学習データです。数値はすべて集計済みなので、再計算ではなく解釈をしてください。');
-    L.push('');
-    L.push('1) **弱点分野の特定**: 「科目 × 設問形式」の表と「設問の性質ごとの正答率」から、');
-    L.push('   どこが弱いかを具体的に指摘してください。科目だけでなく形式（診断/検査/治療/対応/知識）の');
-    L.push('   偏りにも触れ、全科目平均との差が大きいセルを根拠として挙げること。');
-    L.push('2) **学習計画の立案**: 上の試験日までの残り日数から逆算し、優先順位つきの週次プランを');
-    L.push('   出してください。1日あたりの問題数の目安と、どの科目・形式に時間を割くかを明示すること。');
-    L.push('3) 直近2週間で最初に着手すべきことを3つに絞って教えてください。');
-    L.push('');
-    L.push('※ 問題文そのものは含めていません。個別の問題の中身を検討したい場合は、対象を数問に絞って指定してください。');
-    return L.join('\n');
-  }
-
-  // ══════════ 拡張セクション（2026-07-20）══════════
-  // 動きを減らす設定では数値を即確定し、アニメーションは一切走らせない
-  const _rm = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-
-  // 数値のカウントアップ。to が小数なら小数1桁で見せる
-  function countUp(el, to, opt) {
-    if (!el) return;
-    opt = opt || {};
-    const dec = opt.dec || 0, suf = opt.suf || '', dur = opt.dur || 900;
-    const fmt = v => (dec ? v.toFixed(dec) : Math.round(v).toLocaleString('ja-JP')) + suf;
-    if (_rm) { el.textContent = fmt(to); return; }
-    let settled = false;
-    const finish = () => { if (settled) return; settled = true; el.textContent = fmt(to); };
-    const t0 = performance.now();
-    const step = now => {
-      if (settled) return;
-      const k = Math.min(1, (now - t0) / dur);
-      el.textContent = fmt(to * (1 - Math.pow(1 - k, 3)));
-      if (k < 1) requestAnimationFrame(step); else finish();
-    };
-    requestAnimationFrame(step);
-    // ⚠️ 非表示タブでは rAF が動かない。保険が無いと、裏で開いた統計の数字が
-    //    開始値（0）のまま凍る（ハブで実際に起きた。index.html の _tweenNum と同じ作り）
-    setTimeout(finish, dur + 400);
-  }
-
-  // WAAPI の easing は CSS の var() を解決しないので、トークンの実値を一度引いておく
-  const EASE_OUT = cssVar('--ease-out', 'cubic-bezier(.16,1,.3,1)');
-
-  // セルを少しずつずらして出す（ヒートマップ・カレンダー用）。
-  // 旧実装は cubic-bezier(.2,1.2,.3,1) ＝行き過ぎ戻りだった。あれはドラッグ解放のような
-  // 物理操作にだけ許されるもので、データセルの入場に使うと安く見える
-  function stagger(nodes, per, from) {
-    if (_rm || !nodes.length) return;
-    nodes.forEach((n, i) => {
-      n.animate([{ opacity: 0, transform: from || 'scale(.4)' }, { opacity: 1, transform: 'none' }],
-        { duration: 260, delay: Math.min(i * per, 900), easing: EASE_OUT, fill: 'backwards' });
-    });
-  }
-
-  // 13〜15px のセルは指では狙えないうえ、吹き出しを出しても親の overflow に切られる。
-  // タップ／Enter で下の1行に値を書き出す方式にした（iPad に hover は無い＝
-  // 旧実装の title 属性だけでは 195セルぶんのデータが物理的に読めなかった）
-  // 呼び出し側が選択を解除できるよう clear を返す（モード切替で中身を作り直すため）
-  function wireGridReadout(host, cellSel, readout, defaultText) {
-    if (!host || !readout) return null;
-    const clear = () => {
-      readout.textContent = defaultText;
-      readout.classList.remove('has-val');
-    };
-    clear();
-    const pick = cell => {
-      host.querySelectorAll('.is-sel').forEach(c => c.classList.remove('is-sel'));
-      if (!cell) { clear(); return; }
-      cell.classList.add('is-sel');
-      readout.textContent = cell.dataset.tip || '';
-      readout.classList.add('has-val');
-    };
-    host.addEventListener('click', e => pick(e.target.closest(cellSel)));
-    host.addEventListener('keydown', e => {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-      const c = e.target.closest(cellSel);
-      if (!c) return;
-      e.preventDefault(); pick(c);
-    });
-    return clear;
-  }
-
-  // 棒を下から伸ばす。height ではなく transform を動かす
-  // （height/width は毎フレーム再レイアウトを起こす。ここは合計90本ぶん走る）
-  function growBars(nodes) {
-    nodes.forEach((b, i) => {
-      b.style.height = b.dataset.h + '%';
-      if (_rm) return;
-      b.animate([{ transform: 'scaleY(0)' }, { transform: 'scaleY(1)' }],
-        { duration: 500, delay: i * 45, easing: EASE_OUT, fill: 'backwards' });
-    });
-  }
-
-  // ⚠️ 旧実装にはここに armReveal() があり、.ct .sec 全14セクションを
-  //    IntersectionObserver で fade+translateY させていた。カウントアップ・リング・
-  //    セルの stagger・棒の伸長と合わせて同時に6系統が走り、ページが落ち着かなかった。
-  //    入場演出は主役（達成リングとカウントダウン）1つに絞ってある。
-
-  function dstr(d) { return d.toISOString().slice(0, 10); }
-  function jstNow() { return new Date(Date.now() + 9 * 3600000); }
-  function daysBetween(a, b) {
-    return Math.round((Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / 86400000);
-  }
-  function addDaysStr(s, n) {
-    const d = new Date(Date.parse(s + 'T00:00:00Z') + n * 86400000);
-    return dstr(d);
-  }
-
-  const TOTAL_Q = (typeof MEC_CHAPTERS !== 'undefined')
-    ? MEC_CHAPTERS.reduce((s, x) => s + x.chapters.reduce((t, c) => t + c.count, 0), 0) : 0;
-
-  // ── A1/B1: 国試カウントダウンと必要ペース ─────────────────────────
-  // 第121回 医師国家試験 = 令和9年2月6日(土)・7日(日) → 2027-02-06
-  const EXAM_DATE_DEFAULT = '2027-02-06';
-  const K_EXAM_DATE = 'mec_exam_date_v1';
-  function examDate() {
-    try { return localStorage.getItem(K_EXAM_DATE) || EXAM_DATE_DEFAULT; } catch (e) { return EXAM_DATE_DEFAULT; }
-  }
-
-  function renderHero() {
-    const ed = examDate();
-    const left = Math.max(0, daysBetween(today, ed));
-    const donePct = TOTAL_Q ? (doneCount / TOTAL_Q * 100) : 0;
-    const remain = Math.max(0, TOTAL_Q - doneCount);
-    const need = left > 0 ? remain / left : remain;
-    // 直近7日の実績（今日を含む）
-    let last7 = 0;
-    for (let i = 0; i < 7; i++) last7 += (activity[addDaysStr(today, -i)] || 0);
-    const real = last7 / 7;
-
-    const ring = document.getElementById('heroRing');
-    const pctCol = donePct >= 80 ? 'var(--gr)' : donePct >= 50 ? 'var(--yl)' : 'var(--or)';
-    if (ring) ring.style.setProperty('--ringc', pctCol);
-    const pctEl = document.getElementById('heroPct');
-    if (pctEl) pctEl.style.color = pctCol;
-    // リングの塗りと数字を同時に伸ばす
-    if (_rm) {
-      if (ring) ring.style.setProperty('--p', donePct.toFixed(1));
-      if (pctEl) pctEl.textContent = Math.round(donePct) + '%';
-    } else {
-      const t0 = performance.now(), dur = 1100;
-      let ringDone = false;
-      const ringFinish = () => {
-        if (ringDone) return;
-        ringDone = true;
-        if (ring) ring.style.setProperty('--p', donePct.toFixed(1));
-        if (pctEl) pctEl.textContent = Math.round(donePct) + '%';
-      };
-      const tick = now => {
-        if (ringDone) return;
-        const k = Math.min(1, (now - t0) / dur);
-        const v = donePct * (1 - Math.pow(1 - k, 3));
-        if (ring) ring.style.setProperty('--p', v.toFixed(1));
-        if (pctEl) pctEl.textContent = Math.round(v) + '%';
-        if (k < 1) requestAnimationFrame(tick); else ringFinish();
-      };
-      requestAnimationFrame(tick);
-      // 非表示タブでは rAF が動かない。countUp と同じ落とし所を置く
-      setTimeout(ringFinish, dur + 400);
-    }
-
-    countUp(document.getElementById('heroDays'), left, { dur: 1000 });
-    const dd = new Date(Date.parse(ed + 'T00:00:00Z'));
-    const wd = ['日', '月', '火', '水', '木', '金', '土'][dd.getUTCDay()];
-    const dEl = document.getElementById('heroDate');
-    if (dEl) dEl.textContent = `${dd.getUTCFullYear()}年${dd.getUTCMonth() + 1}月${dd.getUTCDate()}日(${wd}) 開始`;
-
-    countUp(document.getElementById('paceLeft'), remain, { suf: '問', dur: 900 });
-    countUp(document.getElementById('paceNeed'), need, { dec: 1, suf: '問/日', dur: 900 });
-    countUp(document.getElementById('paceReal'), real, { dec: 1, suf: '問/日', dur: 900 });
-
-    const ratio = need > 0 ? real / need : (remain === 0 ? 2 : 0);
-    const msg = document.getElementById('paceMsg');
-    if (msg) {
-      if (remain === 0) {
-        msg.className = 'pace-msg ok';
-        msg.textContent = '🎉 全問走破。あとは復習で精度を上げる段階です。';
-      } else if (ratio >= 1) {
-        msg.className = 'pace-msg ok';
-        msg.textContent = `✅ このペースなら間に合います（必要の${Math.round(ratio * 100)}%）。約${Math.ceil(remain / Math.max(real, .1))}日で完走できる計算です。`;
-      } else if (ratio >= .7) {
-        msg.className = 'pace-msg warn';
-        msg.textContent = `⚠️ わずかに遅れています（必要の${Math.round(ratio * 100)}%）。1日あと${(need - real).toFixed(1)}問で追いつきます。`;
-      } else {
-        msg.className = 'pace-msg bad';
-        msg.textContent = `🚨 ペースが不足しています（必要の${Math.round(ratio * 100)}%）。1日あと${(need - real).toFixed(1)}問、または試験日までの計画見直しを。`;
-      }
-    }
-    // バーは 0〜150% の範囲。100%（＝必要ペース到達）の位置に目盛りを立てる
-    const fill = document.getElementById('paceBarFill');
-    const mark = document.getElementById('paceBarMark');
-    if (mark) mark.style.left = (100 / 150 * 100) + '%';
-    if (fill) {
-      fill.style.background = ratio >= 1 ? 'var(--gr)' : ratio >= .7 ? 'var(--yl)' : 'var(--rd)';
-      const w = Math.min(150, ratio * 100) / 150;   // 0〜1（バーの範囲は 0〜150%）
-      // width ではなく scaleX を伸ばす（width は毎フレーム再レイアウトを起こす）
-      if (_rm) fill.style.transform = 'scaleX(' + w + ')';
-      else setTimeout(() => { fill.style.transform = 'scaleX(' + w + ')'; }, 120);
-    }
-    // ペースが足りている時だけ、リングから小さく祝う
-    if (!_rm && ratio >= 1 && window.MecFX && ring) {
-      setTimeout(() => {
-        try {
-          const r = ring.getBoundingClientRect();
-          window.MecFX.burst(r.left + r.width / 2, r.top + r.height / 2, {
-            count: 26, colors: [cssVar('--fx-1'), cssVar('--fx-2'), cssVar('--fx-3'), cssVar('--fx-4')],
-            shapes: ['circle', 'star'], tier: 2, glow: true, additive: true
-          });
-        } catch (e) {}
-      }, 900);
-    }
-
-    const inp = document.getElementById('examDateInput');
-    if (inp) {
-      inp.value = ed;
-      inp.onchange = () => {
-        if (!inp.value) return;
-        try { localStorage.setItem(K_EXAM_DATE, inp.value); } catch (e) {}
-        renderHero();
-      };
-    }
-    const rst = document.getElementById('examDateReset');
-    if (rst) rst.onclick = () => {
-      try { localStorage.removeItem(K_EXAM_DATE); } catch (e) {}
-      renderHero();
-    };
-  }
-
-  // ── A2: 復習の見通し（mec_srs_v1 は従来 統計で未使用だった） ──────
-  function renderForecast() {
-    const srs = lsGet('mec_srs_v1');
-    const byDate = {};
-    let overdue = 0, todayN = 0;
-    Object.values(srs).forEach(e => {
-      if (!e || !e.nextReview) return;
-      if (e.nextReview < today) overdue++;
-      else if (e.nextReview === today) todayN++;
-      else byDate[e.nextReview] = (byDate[e.nextReview] || 0) + 1;
-    });
-    const days = [];
-    for (let i = 1; i <= 7; i++) {
-      const d = addDaysStr(today, i);
-      days.push({ d, n: byDate[d] || 0 });
-    }
-    const week = days.reduce((s, x) => s + x.n, 0);
-
-    // 旧実装は3枚のカードだった。ヒーローの .pace-grid と同じ形の再演になるうえ
-    // 箱の中の箱でもあったので、1行の文へ落として下の棒グラフに重みを預ける
-    const sum = document.getElementById('fcSummary');
-    if (sum) {
-      sum.innerHTML =
-        '<span class="fc-stat over"><b class="v">' + overdue + '</b>期限切れ</span>' +
-        '<span class="fc-stat today"><b class="v">' + todayN + '</b>今日</span>' +
-        '<span class="fc-stat week"><b class="v">' + week + '</b>今後7日</span>';
-    }
-
-    const cols = [{ d: today, n: overdue + todayN, today: true, over: overdue > 0 }].concat(days);
-    const max = Math.max(...cols.map(c => c.n), 1);
-    const bars = document.getElementById('fcBars');
-    if (bars) {
-      bars.innerHTML = cols.map((c, i) => {
-        const dd = new Date(Date.parse(c.d + 'T00:00:00Z'));
-        const lbl = i === 0 ? '今日' : (dd.getUTCMonth() + 1) + '/' + dd.getUTCDate();
-        const cls = i === 0 ? (c.over ? ' is-over' : ' is-today') : '';
-        return '<div class="fc-col' + cls + '">' +
-          '<span class="fc-n">' + c.n + '</span>' +
-          '<div class="fc-bar" data-h="' + Math.max(3, Math.round(c.n / max * 100)) + '"></div>' +
-          '<span class="fc-d">' + lbl + '</span></div>';
+        return `<div class="wk-card">
+          <div class="wk-card-top">
+            <span class="wk-card-rank">${idx + 1}</span>
+            <span class="wk-card-badge" style="background:${color}">${label}</span>
+            <div class="wk-card-info">
+              <a class="wk-card-title" href="${href}">${chName} Q.${it.qNum}</a>
+              <div class="wk-card-tags">${tagBadges}</div>
+            </div>
+            <div class="wk-card-acc">
+              <span class="acc-badge ${accCls}">${it.you}%</span>
+            </div>
+            <button type="button" class="wk-card-toggle" aria-label="詳細">▾</button>
+          </div>
+          <div class="wk-card-detail" hidden>
+            ${it.nat !== undefined ? `<div class="wk-cmp"><span class="wk-cmp-lbl">本番</span><div class="wk-cmp-track"><div class="wk-cmp-fill nat" style="width:${it.nat}%"></div></div><span class="wk-cmp-v">${it.nat}%</span></div>` : ''}
+            <div class="wk-cmp"><span class="wk-cmp-lbl">自分</span><div class="wk-cmp-track"><div class="wk-cmp-fill you" style="width:${it.you}%"></div></div><span class="wk-cmp-v">${it.you}%</span></div>
+            <div>試験モードで ${it.total}回中 ${it.correct}回正解。${picks.length ? '（選んだ誤答: ' + picks.map(x => `${x[0]}:${x[1]}回`).join(' ') + '）' : ''}</div>
+          </div>
+        </div>`;
       }).join('');
-      growBars([...bars.querySelectorAll('.fc-bar')]);
-    }
-    const note = document.getElementById('fcNote');
-    if (note) {
-      const peak = days.reduce((a, b) => (b.n > a.n ? b : a), { n: -1 });
-      note.textContent = overdue > 0
-        ? `期限切れが${overdue}問あります。1セッション50問ずつ消化できます（${Math.ceil((overdue + todayN) / 50)}セッションで解消）。`
-        : (peak.n > 0 ? `今後のピークは ${peak.d.slice(5).replace('-', '/')} の${peak.n}問です。` : '直近7日に大きな山はありません。');
+
+      cardsEl.querySelectorAll('.wk-card-toggle').forEach(btn => {
+        btn.onclick = () => {
+          const det = btn.closest('.wk-card').querySelector('.wk-card-detail');
+          if (det) det.hidden = !det.hidden;
+        };
+      });
+
+      if (footEl) footEl.textContent = `上位 ${rows.length}件を表示中（タイトルをタップすると問題へジャンプ）`;
+    };
+    draw();
+
+    if (filEl) {
+      filEl.onclick = e => {
+        const btn = e.target.closest('.wk-fbtn');
+        if (!btn || btn.disabled) return;
+        curFilter = btn.dataset.wk;
+        filEl.querySelectorAll('.wk-fbtn').forEach(b => b.classList.toggle('on', b === btn));
+        draw();
+      };
     }
   }
 
-  // ── B2/B3: 学習カレンダーと曜日別 ──────────────────────────────
-  // 旧実装は「時間の記録」が3本（🗓カレンダー12週 / 📅30日の学習記録 / ⏱30日の学習時間）
-  // あり、ほぼ同じ期間の同じ話を3通りに描いていた。カレンダーを主にして、
-  // 30日の2本はセルの内訳（読み取り行）と下の数字（.cal-figs）へ畳んである。
+  // ── 16. 章別ヒートマップ ──
+  let _hmMode = 'acc';
+
+  function renderChapterHeatmap() {
+    const grid = document.getElementById('heatmapGrid');
+    if (!grid || typeof MEC_CHAPTERS === 'undefined') return;
+
+    grid.innerHTML = MEC_CHAPTERS.map(subj => {
+      const prefixes = subj.chapters.map(ch => ch.prefix + '_');
+      const isIn = uid => prefixes.some(p => uid.startsWith(p));
+      const totalQ = subj.chapters.reduce((s, ch) => s + ch.count, 0);
+      const doneQ  = Object.keys(done).filter(isIn).length;
+      const mr = Object.entries(myrate).filter(([uid]) => isIn(uid));
+      const accT = mr.reduce((s, [, v]) => s + (v.total || 0), 0);
+      const accC = mr.reduce((s, [, v]) => s + (v.correct || 0), 0);
+
+      let valTxt = '—', dotCls = 'none';
+      if (_hmMode === 'prog') {
+        const pct = totalQ ? Math.round(doneQ / totalQ * 100) : 0;
+        valTxt = pct + '%';
+        dotCls = pct >= 80 ? 'good' : pct >= 40 ? 'warn' : 'bad';
+      } else {
+        if (accT >= 3) {
+          const pct = Math.round(accC / accT * 100);
+          valTxt = pct + '%';
+          dotCls = pct >= 70 ? 'good' : pct >= 50 ? 'warn' : 'bad';
+        }
+      }
+
+      const chItems = subj.chapters.map((ch, i) => {
+        const cp = ch.prefix + '_';
+        const cTotal = ch.count;
+        const cDone = Object.keys(done).filter(k => k.startsWith(cp)).length;
+        const cMr = Object.entries(myrate).filter(([uid]) => uid.startsWith(cp));
+        const cAccT = cMr.reduce((s, [, v]) => s + (v.total || 0), 0);
+        const cAccC = cMr.reduce((s, [, v]) => s + (v.correct || 0), 0);
+        let cTxt = '—';
+        if (_hmMode === 'prog') {
+          cTxt = cTotal ? Math.round(cDone / cTotal * 100) + '%' : '0%';
+        } else {
+          cTxt = cAccT >= 1 ? Math.round(cAccC / cAccT * 100) + '%' : '未';
+        }
+        return `<div class="hm-in-ch">
+          <span class="hm-in-ch-nm">第${i+1}章 ${ch.title.replace(/^MEC.*?第\d+章\s*/, '')}</span>
+          <span class="hm-in-ch-v">${cTxt}</span>
+        </div>`;
+      }).join('');
+
+      return `<div class="hm-subj-item">
+        <button type="button" class="hm-subj-btn">
+          <div class="hm-subj-top">
+            <span class="hm-subj-ic">${subj.icon}</span>
+            <span class="hm-subj-nm">${subj.name}</span>
+          </div>
+          <div class="hm-subj-row">
+            <span class="hm-cell-dot ${dotCls}"></span>
+            <span class="hm-subj-v"><b>${valTxt}</b></span>
+          </div>
+        </button>
+        <div class="hm-inline-chs" hidden>${chItems}</div>
+      </div>`;
+    }).join('');
+
+    grid.querySelectorAll('.hm-subj-btn').forEach(btn => {
+      btn.onclick = () => {
+        const chBox = btn.closest('.hm-subj-item').querySelector('.hm-inline-chs');
+        if (chBox) chBox.hidden = !chBox.hidden;
+      };
+    });
+  }
+
+  document.querySelectorAll('.hm-mode-btn').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('.hm-mode-btn').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      _hmMode = btn.dataset.hm;
+      renderChapterHeatmap();
+    };
+  });
+
+  // ── 9. 統合科目別推移チャート ──
+  const SNAP_KEY = 'mec_rate_snap_v1';
+  const rateSnap = lsGet(SNAP_KEY);
+
+  if (!rateSnap[today] && typeof MEC_CHAPTERS !== 'undefined') {
+    const snap = {};
+    MEC_CHAPTERS.forEach(subj => {
+      const prefixes = subj.chapters.map(ch => ch.prefix + '_');
+      const isIn = uid => prefixes.some(p => uid.startsWith(p));
+      const entries = Object.entries(myrate).filter(([uid]) => isIn(uid));
+      const t = entries.reduce((s, [, v]) => s + (v.total || 0), 0);
+      const c = entries.reduce((s, [, v]) => s + (v.correct || 0), 0);
+      if (t >= 3) snap[subj.id] = { correct: c, total: t };
+    });
+    if (Object.keys(snap).length) {
+      rateSnap[today] = snap;
+      try { localStorage.setItem(SNAP_KEY, JSON.stringify(rateSnap)); } catch {}
+    }
+  }
+
+  function renderUnifiedChart() {
+    const cv = document.getElementById('rhUnifiedCanvas');
+    const select = document.getElementById('chartSubjSelect');
+    if (!cv || !select) return;
+
+    if (select.options.length <= 1 && typeof MEC_CHAPTERS !== 'undefined') {
+      MEC_CHAPTERS.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id; opt.textContent = `${s.icon} ${s.name}`;
+        select.appendChild(opt);
+      });
+      select.onchange = renderUnifiedChart;
+    }
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 3);
+    const w = cv.parentElement.offsetWidth || 300, h = 160;
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    const ctx = cv.getContext('2d');
+    ctx.scale(dpr, dpr);
+
+    const dates = Object.keys(rateSnap).sort().slice(-14);
+    if (dates.length < 2) {
+      ctx.fillStyle = cssVar('--ts'); ctx.font = '12px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('データ収集中（複数日利用で推移線が表示されます）', w / 2, h / 2);
+      return;
+    }
+
+    const selSid = select.value;
+    const pts = dates.map(d => {
+      const dayData = rateSnap[d];
+      if (!dayData) return null;
+      if (selSid === 'all') {
+        let t = 0, c = 0;
+        Object.values(dayData).forEach(v => { t += v.total; c += v.correct; });
+        return t >= 5 ? Math.round(c / t * 100) : null;
+      } else {
+        const e = dayData[selSid];
+        return (e && e.total >= 3) ? Math.round(e.correct / e.total * 100) : null;
+      }
+    });
+
+    const padL = 36, padR = 16, padT = 16, padB = 24;
+    const plotW = w - padL - padR, plotH = h - padT - padB;
+
+    const y70 = padT + plotH - (70 / 100 * plotH);
+    ctx.strokeStyle = 'rgba(255,255,255,0.2)'; ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(padL, y70); ctx.lineTo(w - padR, y70); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = cssVar('--ts'); ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+    ctx.fillText('70%', padL - 4, y70 + 3);
+
+    const n = dates.length;
+    dates.forEach((d, i) => {
+      if (i % Math.ceil(n / 5) === 0 || i === n - 1) {
+        const x = padL + (i / (n - 1)) * plotW;
+        ctx.fillText(d.slice(5).replace('-', '/'), x, h - 6);
+      }
+    });
+
+    ctx.strokeStyle = selSid === 'all' ? cssVar('--stat-good') : '#60A5FA';
+    ctx.lineWidth = 2.5; ctx.lineJoin = 'round';
+    ctx.beginPath();
+    let started = false;
+    pts.forEach((v, i) => {
+      if (v === null) return;
+      const x = padL + (i / (n - 1)) * plotW;
+      const y = padT + plotH - (v / 100 * plotH);
+      if (!started) { ctx.moveTo(x, y); started = true; } else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    ctx.fillStyle = ctx.strokeStyle;
+    pts.forEach((v, i) => {
+      if (v === null) return;
+      const x = padL + (i / (n - 1)) * plotW;
+      const y = padT + plotH - (v / 100 * plotH);
+      ctx.beginPath(); ctx.arc(x, y, 3.5, 0, Math.PI * 2); ctx.fill();
+    });
+  }
+
+  // ── 12. 済みレベル分布 ──
+  function renderLevelStack() {
+    const bar = document.getElementById('levelStackBar');
+    const grid = document.getElementById('levelLegendGrid');
+    if (!bar || !grid) return;
+
+    const LEVELS = [
+      { label: '未済', color: 'var(--lv0)' },
+      { label: '済1', color: 'var(--lv1)' },
+      { label: '済2', color: 'var(--lv2)' },
+      { label: '済3', color: 'var(--lv3)' },
+      { label: '済4', color: 'var(--lv4)' },
+      { label: '済5', color: 'var(--lv5)' },
+      { label: '済6+', color: 'var(--lv6)' },
+    ];
+    const counts = [0, 0, 0, 0, 0, 0, 0];
+    Object.values(done).forEach(lv => {
+      if (lv >= 1 && lv <= 5) counts[lv]++;
+      else if (lv >= 6) counts[6]++;
+    });
+    counts[0] = Math.max(0, TOTAL_Q - doneCount);
+
+    bar.innerHTML = LEVELS.map((l, i) => {
+      const pct = TOTAL_Q ? (counts[i] / TOTAL_Q * 100) : 0;
+      return `<div class="level-stack-seg" style="width:${pct}%;background:${l.color};" title="${l.label}: ${counts[i]}問"></div>`;
+    }).join('');
+
+    grid.innerHTML = LEVELS.map((l, i) => {
+      return `<div class="level-lg-item">
+        <span class="level-lg-dot" style="background:${l.color}"></span>
+        <span>${l.label}</span>
+        <span class="level-lg-val">${counts[i]}</span>
+      </div>`;
+    }).join('');
+  }
+
+  // ── 11. 学習カレンダー ──
   function renderCalendar() {
     const WEEKS = 12, DOW = ['日', '月', '火', '水', '木', '金', '土'];
     const end = jstNow();
-    // 週の頭(日曜)に揃えるため、今日の曜日ぶん戻してから 11週前へ
     const endSunday = new Date(end); endSunday.setUTCDate(endSunday.getUTCDate() - endSunday.getUTCDay());
     const start = new Date(endSunday); start.setUTCDate(start.getUTCDate() - (WEEKS - 1) * 7);
 
-    const dowEl = document.getElementById('calDow');
-    if (dowEl) dowEl.innerHTML = DOW.map((d, i) => '<span>' + (i % 2 ? d : '') + '</span>').join('');
+    document.getElementById('calDow').innerHTML = DOW.map((d, i) => `<span>${i % 2 ? d : ''}</span>`).join('');
 
     const vals = [];
     for (let w = 0; w < WEEKS; w++) for (let d = 0; d < 7; d++) {
@@ -2103,53 +2331,40 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
       const ds = dstr(cur);
       vals.push({ ds, n: activity[ds] || 0, min: studytime[ds] || 0, future: ds > today });
     }
+
     const nz = vals.filter(v => v.n > 0).map(v => v.n).sort((a, b) => a - b);
     const q = p => nz.length ? nz[Math.min(nz.length - 1, Math.floor(nz.length * p))] : 1;
     const t1 = q(.25), t2 = q(.5), t3 = q(.75);
     const lv = n => n <= 0 ? 0 : n <= t1 ? 1 : n <= t2 ? 2 : n <= t3 ? 3 : 4;
-
-    const gDays = (window.MecGamify && window.MecGamify.goldenDays) ? new Set(window.MecGamify.goldenDays()) : new Set();
-    const gStreak = (window.MecGamify && window.MecGamify.goldenStreak) ? window.MecGamify.goldenStreak() : 0;
 
     const grid = document.getElementById('calGrid');
     if (grid) {
       grid.innerHTML = vals.map(v => {
         const d = new Date(Date.parse(v.ds + 'T00:00:00Z'));
         const head = `${d.getUTCMonth() + 1}/${d.getUTCDate()}(${DOW[d.getUTCDay()]})`;
-        const isGold = gDays.has(v.ds);
-        // 旧「⏱30日間の学習時間」の中身はここへ吸収した＝日ごとの分数はセルの内訳で読む
-        const tip = v.future ? `${head} — これから`
-          : `${head} ${v.n}問` + (v.min ? ` / ${v.min}分` : '') + (isGold ? ' 👑 ミッション全達成！' : '');
-        return '<div class="cal-cell l' + (v.future ? 0 : lv(v.n)) +
-          (v.ds === today ? ' is-today' : '') + (isGold ? ' is-golden' : '') +
-          '" tabindex="0" role="button" data-tip="' + tip + '"></div>';
+        const tip = v.future ? `${head} — 未来` : `${head} ${v.n}問 ${v.min ? '/ ' + v.min + '分' : ''}`;
+        return `<div class="cal-cell l${v.future ? 0 : lv(v.n)}${v.ds === today ? ' is-today' : ''}" data-tip="${tip}"></div>`;
       }).join('');
-      stagger([...grid.querySelectorAll('.cal-cell')], 4);
-    }
-    const tot = vals.filter(v => !v.future).reduce((s, v) => s + v.n, 0);
-    const activeDays = vals.filter(v => v.n > 0).length;
-    const goldCount = vals.filter(v => !v.future && gDays.has(v.ds)).length;
-    wireGridReadout(grid, '.cal-cell', document.getElementById('calReadout'),
-      'セルをタップすると、その日の問題数と学習時間が出ます。');
 
-    // 旧「📅30日間の学習記録」「⏱30日間の学習時間」の合計はここへ畳んだ
-    const figs = document.getElementById('calFigs');
-    if (figs) {
-      figs.innerHTML =
-        '<span>直近30日 <b id="calFig30">0</b>問</span>' +
-        '<span>学習時間 <b id="calFigT">—</b></span>' +
-        '<span>12週間 <b id="calFig12">0</b>問</span>' +
-        '<span>学習日 <b id="calFigD">0</b>日</span>' +
-        '<span>ミッション全達成 <b id="calFigGold">0</b>日' + (gStreak > 1 ? ' (' + gStreak + '日連続🔥)' : '') + '</span>';
-      countUp(document.getElementById('calFig30'), total30, { dur: 800 });
-      countUp(document.getElementById('calFig12'), tot, { dur: 900 });
-      countUp(document.getElementById('calFigD'), activeDays, { dur: 800 });
-      countUp(document.getElementById('calFigGold'), goldCount, { dur: 800 });
-      const tEl = document.getElementById('calFigT');
-      if (tEl) tEl.textContent = fmtMins(total30Mins);
+      grid.querySelectorAll('.cal-cell').forEach(c => {
+        c.onclick = () => {
+          const ro = document.getElementById('calReadout');
+          if (ro) {
+            ro.textContent = c.dataset.tip || '';
+            ro.classList.add('has-val');
+          }
+        };
+      });
     }
 
-    // 曜日別（平均問数）。行動パターンを掴むためのもの
+    const mHead = document.getElementById('calMonths');
+    if (mHead) {
+      const m1 = new Date(start).getUTCMonth() + 1;
+      const m2 = new Date(Date.parse(addDaysStr(dstr(start), 42) + 'T00:00:00Z')).getUTCMonth() + 1;
+      const m3 = new Date(end).getUTCMonth() + 1;
+      mHead.innerHTML = `<span style="flex:1;">${m1}月</span><span style="flex:1;">${m2}月</span><span>${m3}月</span>`;
+    }
+
     const sums = [0, 0, 0, 0, 0, 0, 0], cnts = [0, 0, 0, 0, 0, 0, 0];
     vals.forEach(v => {
       if (v.future) return;
@@ -2163,266 +2378,157 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
     if (dw) {
       dw.innerHTML = avgs.map((a, i) => {
         const cls = a > 0 && i === best ? ' best' : (i === worst ? ' worst' : '');
-        return '<div class="dow-col' + cls + '"><span class="dow-v">' + a.toFixed(0) + '</span>' +
-          '<div class="dow-bar" data-h="' + Math.max(2, Math.round(a / mx * 100)) + '"></div>' +
-          '<span class="dow-l">' + DOW[i] + '</span></div>';
+        return `<div class="dow-col${cls}"><span class="dow-v">${a.toFixed(0)}</span><div class="dow-bar" style="height:${Math.max(4, Math.round(a / mx * 100))}%;"></div><span class="dow-l">${DOW[i]}</span></div>`;
       }).join('');
-      growBars([...dw.querySelectorAll('.dow-bar')]);
+    }
+
+    const f30 = vals.slice(-30).reduce((s, v) => s + v.n, 0);
+    const tot = vals.filter(v => !v.future).reduce((s, v) => s + v.n, 0);
+    const figs = document.getElementById('calFigs');
+    if (figs) {
+      figs.innerHTML = `<span>直近30日: <b>${f30}</b>問</span><span>12週合計: <b>${tot}</b>問</span>`;
     }
   }
 
-  // ── A3: 章別ヒートマップ（科目 → 章 の2段・2026-08-18）──────────────
-  // 旧実装は 180章を一度に並べていた。1段目を科目タイルにすると一望する対象が
-  // 科目数まで減り、2段目には章名と数字を書く余地が生まれる。
-  // ⚠️ 旧実装には読み取り行（#hmReadout）があった。15pxの升目は指で狙えず、
-  //    どの章なのかを1つずつタップして下の行で読むしかなかったための代替だったが、
-  //    2段目が章名と正答率をそのまま印字するようになったので役目が終わり、外した。
+  // ── 20. AIツール エクスポート（フルスペックMarkdown生成） ──
+  function buildFullMarkdown() {
+    const L = [];
+    L.push(`# MEC 医師国家試験 学習診断データ (${today})`);
+    L.push('');
+    L.push('## 1. 総合状況');
+    L.push(`- 達成率: ${doneCount} / ${TOTAL_Q} 問 (${TOTAL_Q ? Math.round(doneCount / TOTAL_Q * 100) : 0}%)`);
+    L.push(`- 連続学習日数: ${window.MECSync ? window.MECSync.calcStreak() : 0} 日`);
+    L.push(`- 赤旗マーク（要注意）: ${flagCount} 問`);
+    L.push('');
 
-  // 章prefix ごとの集計を一度だけ作る。章ごとに myrate / done を全件走査すると
-  // 180章 × 全解答の二乗になり、モード切替のたびに走っていた
-  const _mrByCh = {}, _doneByCh = {};
-  Object.entries(myrate).forEach(([uid, v]) => {
-    const m = uid.match(/^(.+)_q\d+$/);
-    if (!m) return;
-    const a = _mrByCh[m[1]] = _mrByCh[m[1]] || { correct: 0, total: 0 };
-    a.correct += v.correct || 0; a.total += v.total || 0;
-  });
-  Object.keys(done).forEach(uid => {
-    const m = uid.match(/^(.+)_q\d+$/);
-    if (!m) return;
-    _doneByCh[m[1]] = (_doneByCh[m[1]] || 0) + 1;
-  });
-
-  // 章1つ以上をまとめた1マスぶんの集計。段(0〜5)の意味は科目タイルでも章行でも共通で、
-  // 0 だけがランプの外（データ無し）
-  function hmStat(chapters, mode) {
-    if (mode === 'prog') {
-      let d = 0, c = 0;
-      chapters.forEach(ch => { d += _doneByCh[ch.prefix] || 0; c += ch.count || 0; });
-      const pct = c ? d / c * 100 : 0;
-      return {
-        s: pct >= 100 ? 5 : pct >= 75 ? 4 : pct >= 50 ? 3 : pct >= 25 ? 2 : pct > 0 ? 1 : 0,
-        has: c > 0, pct, txt: Math.round(pct) + '%', sub: d + '/' + c,
-      };
-    }
-    let t = 0, c = 0;
-    chapters.forEach(ch => {
-      const a = _mrByCh[ch.prefix];
-      if (!a) return;
-      t += a.total; c += a.correct;
-    });
-    if (t < 1) return { s: 0, has: false, pct: 0, txt: '未受験', sub: '' };
-    const pct = c / t * 100;
-    return {
-      s: pct >= 80 ? 5 : pct >= 70 ? 4 : pct >= 60 ? 3 : pct >= 50 ? 2 : 1,
-      has: true, pct, txt: Math.round(pct) + '%', sub: c + '/' + t,
-    };
-  }
-  // 0 はデータ無し＝ランプの外。1〜5 は正答率なら弱さランプ(a*)、進捗なら網羅ランプ(p*)
-  function hmCls(mode, s) { return s === 0 ? 'n0' : (mode === 'prog' ? 'p' : 'a') + s; }
-
-  let _hmSubj = null;     // null = 科目一覧 / 科目id = その科目の章
-  let _hmMode = 'acc';
-
-  function renderHeatmap(mode) {
-    _hmMode = mode || 'acc';
-    const host = document.getElementById('heatmap');
-    if (!host || typeof MEC_CHAPTERS === 'undefined') return;
-    const subj = _hmSubj && MEC_CHAPTERS.find(s => s.id === _hmSubj);
-
-    if (!subj) {
-      _hmSubj = null;
-      host.innerHTML = '<div class="hm-subj-grid">' + MEC_CHAPTERS.map(s => {
-        const st = hmStat(s.chapters, _hmMode);
-        return '<button type="button" class="hm-subj" data-sid="' + s.id + '">' +
-          '<span class="hm-subj-top"><span class="hm-subj-ic">' + s.icon + '</span>' +
-          '<span class="hm-subj-nm">' + s.name + '</span></span>' +
-          '<span class="hm-subj-row"><span class="hm-cell ' + hmCls(_hmMode, st.s) + '"></span>' +
-          '<span class="hm-subj-v"><b>' + st.txt + '</b>' + (st.sub ? ' ' + st.sub : '') + '</span></span>' +
-          '</button>';
-      }).join('') + '</div>';
-      stagger([...host.querySelectorAll('.hm-subj')], 18, 'translateY(6px)');
-    } else {
-      const rows = subj.chapters.map((ch, ci) => {
-        const st = hmStat([ch], _hmMode);
-        const title = cleanChTitle(ch.title, subj.name) || ('第' + (ci + 1) + '章');
-        return '<div class="hm-ch-row">' +
-          '<span class="hm-ch-n">第' + (ci + 1) + '章</span>' +
-          '<span class="hm-ch-t">' + title + '</span>' +
-          '<span class="hm-cell ' + hmCls(_hmMode, st.s) + '"></span>' +
-          '<span class="hm-ch-v">' + st.txt + (st.sub ? ' <small>' + st.sub + '</small>' : '') + '</span>' +
-          '</div>';
-      }).join('');
-      host.innerHTML = '<div class="hm-back">' +
-        '<button type="button" class="hm-back-btn" data-hmback="1">← 科目一覧</button>' +
-        '<span class="hm-back-nm">' + subj.icon + ' ' + subj.name + '</span>' +
-        '<a class="hm-back-go" href="study.html?sid=' + subj.id + '">この科目を開く →</a>' +
-        '</div>' + rows;
-      stagger([...host.querySelectorAll('.hm-ch-row')], 22, 'translateY(6px)');
-    }
-
-    const lg = document.getElementById('hmLegend');
-    if (lg) {
-      lg.innerHTML = _hmMode === 'prog'
-        ? '<span>未着手</span><i class="hm-cell n0"></i><span>少</span>' +
-          '<i class="hm-cell p1"></i><i class="hm-cell p2"></i><i class="hm-cell p3"></i>' +
-          '<i class="hm-cell p4"></i><i class="hm-cell p5"></i><span>多</span>'
-        // 弱点カルテと同じ向き（強い＝暗い → 弱い＝明るい）で並べる
-        : '<span>強い</span><i class="hm-cell a5"></i><i class="hm-cell a4"></i>' +
-          '<i class="hm-cell a3"></i><i class="hm-cell a2"></i><i class="hm-cell a1"></i><span>弱い</span>' +
-          '<i class="hm-cell n0"></i><span>未受験</span>';
-    }
-  }
-
-  document.querySelectorAll('.hm-mode-btn').forEach(b => {
-    b.addEventListener('click', () => {
-      document.querySelectorAll('.hm-mode-btn').forEach(x => x.classList.toggle('on', x === b));
-      renderHeatmap(b.dataset.hm);
-    });
-  });
-  // 段の移動はホストへ委譲する（中身は作り直されるので個別に張ると消える）
-  {
-    const _hmHost = document.getElementById('heatmap');
-    if (_hmHost) _hmHost.addEventListener('click', e => {
-      if (e.target.closest('[data-hmback]')) { _hmSubj = null; renderHeatmap(_hmMode); return; }
-      const t = e.target.closest('.hm-subj');
-      if (!t) return;
-      _hmSubj = t.dataset.sid;
-      renderHeatmap(_hmMode);
-    });
-  }
-
-  // ── セクションの入場（Phase 3）────────────────────────────────
-  // ⚠️ 旧実装にも armReveal() があり、14セクション全部を IntersectionObserver で
-  //    動かしていて「ページが落ち着かない」ため撤去された経緯がある。戻すにあたり:
-  //      ① セクションを減らしてから載せる（減らす → 動かす の順序）
-  //      ② 層の見出しとセクションの箱だけ。中身は既存の演出（カウントアップ・
-  //         セルの stagger・棒の伸長）に任せ、系統を増やさない
-  //      ③ ブラウザのセッション内で1回だけ。2回目以降は素の表示
-  //    ⚠️ 隠すクラス（.rv-on）は JS が付けてから初めて効く。CSS 側だけで
-  //       opacity:0 にすると、JS が落ちた時にページが真っ白になる
-  const K_REVEALED = 'mec_stats_revealed_v1';
-  function armReveal() {
-    const nodes = [...document.querySelectorAll('.ct .rvs')];
-    if (!nodes.length || _rm || !('IntersectionObserver' in window)) return;
-    let seen = false;
-    try { seen = sessionStorage.getItem(K_REVEALED) === '1'; } catch (e) {}
-    if (seen) return;
-    // 裏で開かれた読み込みでは最初から演出しない（見ていない間に流れて終わるだけ）。
-    // セッションの印もここでは付けない＝表で開き直したときに一度は動く
-    if (document.hidden) return;
-    try { sessionStorage.setItem(K_REVEALED, '1'); } catch (e) {}
-
-    document.documentElement.classList.add('rv-on');
-    // ⚠️ 隠すのをやめる口はこの1つだけにすること。
-    //    .in を足して回る方式では駄目だった——CSSアニメーションは非表示タブでは
-    //    進まないので animation-fill-mode:forwards が適用されず、.in を付けても
-    //    opacity:0 のまま残る（rAF が止まるのと同じ失敗の仕方。実際に踏んだ）。
-    //    rv-on を外せば隠すルールごと消えるので、何があっても不可視で残らない。
-    const unhide = () => document.documentElement.classList.remove('rv-on');
-    const io = new IntersectionObserver(es => {
-      es.forEach(e => {
-        if (!e.isIntersecting) return;
-        io.unobserve(e.target);
-        e.target.style.animationDelay = Math.min(6, nodes.indexOf(e.target)) * 45 + 'ms';
-        e.target.classList.add('in');
+    L.push('## 2. 科目別成績');
+    L.push('| 科目 | 済み率 | 試験正答率 | 赤旗 |');
+    L.push('|---|---|---|---|');
+    if (typeof MEC_CHAPTERS !== 'undefined') {
+      MEC_CHAPTERS.forEach(s => {
+        const prefixes = s.chapters.map(ch => ch.prefix + '_');
+        const isIn = uid => prefixes.some(p => uid.startsWith(p));
+        const totalQ = s.chapters.reduce((sum, ch) => sum + ch.count, 0);
+        const doneQ  = Object.keys(done).filter(isIn).length;
+        const mr = Object.entries(myrate).filter(([uid]) => isIn(uid));
+        const accT = mr.reduce((sum, [, v]) => sum + (v.total || 0), 0);
+        const accC = mr.reduce((sum, [, v]) => sum + (v.correct || 0), 0);
+        const accTxt = accT >= 1 ? `${Math.round(accC / accT * 100)}% (${accC}/${accT})` : '—';
+        L.push(`| ${s.name} | ${totalQ ? Math.round(doneQ / totalQ * 100) : 0}% (${doneQ}/${totalQ}) | ${accTxt} | ${Object.keys(flags).filter(isIn).length} |`);
       });
-    }, { rootMargin: '0px 0px -6% 0px' });
-    nodes.forEach(n => io.observe(n));
+    }
+    L.push('');
 
-    // 途中でタブが裏へ回ったら、その時点で隠すのをやめる（戻ってきたとき白紙にしない）
-    document.addEventListener('visibilitychange', () => { if (document.hidden) unhide(); });
-    // 最後の保険。IntersectionObserver が何らかの理由で発火しなくても不可視で残らない
-    setTimeout(unhide, 8000);
-  }
-
-  try { renderHero(); } catch (e) { console.error('hero', e); }
-  try { renderForecast(); } catch (e) { console.error('forecast', e); }
-  try { renderCalendar(); } catch (e) { console.error('calendar', e); }
-  try { renderHeatmap('acc'); } catch (e) { console.error('heatmap', e); }
-  try { renderWeakList(); } catch (e) { console.error('weak', e); }
-  try { armReveal(); } catch (e) { console.error('reveal', e); }
-
-
-  // フッターの最終更新。同期していれば同期時刻、していなければ今日の日付を出す
-  const footEl = document.getElementById('footUpdated');
-  if (footEl) {
-    let ls = '';
-    try { ls = localStorage.getItem('mec_last_sync_v1') || ''; } catch (e) {}
-    const d = ls ? new Date(+ls || ls) : null;
-    footEl.textContent = (d && !isNaN(d))
-      ? '最終同期 ' + d.toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
-      : '集計日 ' + today + '（未同期）';
-  }
-
-  // クリップボードへコピーしてボタンを一時的に完了表示にする。
-  // 実処理は progress.js の mecCopyText（iOSはPromiseを跨ぐと操作文脈を失うため、
-  // 同期フレーム内で execCommand を先に試してから clipboard API に落とす）。
-  // 拒否されたときは黙って終わらせず、手動選択できる textarea を出す。
-  function copyWithFeedback(text, btn, msgEl, origLabel, doneMsg) {
-    const ok_ = () => {
-      btn.classList.add('copied');
-      btn.textContent = '✅ コピーしました';
-      if (msgEl) msgEl.textContent = doneMsg;
-      // 前回失敗して出した退避枠が残っていると成功したのか分からないので畳む
-      const old = document.getElementById('aiCopyFallback');
-      if (old) { old.hidden = true; old.value = ''; }
-      setTimeout(() => { btn.classList.remove('copied'); btn.textContent = origLabel; }, 2500);
-    };
-    const ng_ = () => {
-      btn.textContent = '⚠️ 手動コピーへ';
-      setTimeout(() => { btn.textContent = origLabel; }, 2500);
-      let ta = document.getElementById('aiCopyFallback');
-      if (!ta) {
-        ta = document.createElement('textarea');
-        ta.id = 'aiCopyFallback';
-        ta.className = 'ai-copy-fallback';
-        ta.readOnly = true;
-        btn.parentNode.insertBefore(ta, btn.nextSibling);
+    // 取りこぼし
+    const miss = [];
+    Object.entries(myrate).forEach(([uid, v]) => {
+      const nat = RATE[uid];
+      if (nat !== undefined && nat >= 80 && v.total >= 1 && (v.correct / v.total < 0.5)) {
+        miss.push({ uid, nat, you: Math.round(v.correct / v.total * 100), correct: v.correct, total: v.total, ...uidInfo(uid) });
       }
-      ta.value = text;
-      ta.hidden = false;
-      ta.focus();
-      ta.setSelectionRange(0, text.length);
-      if (msgEl) msgEl.textContent = 'この端末ではコピーが許可されていません。下の枠は全選択済みです。枠内を長押しして「コピー」を選んでください。';
+    });
+    L.push(`## 3. 取りこぼし問題（本番正答率80%以上なのにミス）: ${miss.length}件`);
+    miss.slice(0, 20).forEach(it => {
+      const nm = it.info ? `${it.info.subjName} 第${it.info.chNum}章` : '';
+      L.push(`- ${nm} Q.${it.qNum} (本番${it.nat}% / 自分${it.you}% [${it.correct}/${it.total}])`);
+    });
+    L.push('');
+
+    L.push('---');
+    L.push('上記のデータを基に、私の強み・弱点を分析し、医師国試に向けた優先度の高い学習アドバイスを提示してください。');
+    return L.join('\n');
+  }
+
+  function buildDrillPrompt() {
+    const scope = [];
+    if (_karteDoc && _karteDoc.rows) {
+      _karteDoc.rows.forEach(s => {
+        const r = _karteDoc.cells[s.id] || {};
+        QTYPES.forEach(t => {
+          const d = r[t.k];
+          if (d && d.total >= 3 && (d.correct / d.total) < 0.6) {
+            scope.push(`- ${s.name} の「${t.label}」に関する知識問題（正答率 ${Math.round(d.correct / d.total * 100)}%）`);
+          }
+        });
+      });
+    }
+
+    return [
+      'あなたは医師国家試験の出題官です。',
+      '以下の弱点分野から、知識問題を1問ずつ出題してください。',
+      '',
+      '# 重点出題分野',
+      scope.length ? scope.slice(0, 6).join('\n') : '- 臨床全般からバランスよく出題',
+      '',
+      '# ルール',
+      '1. 1回の発言につき1問だけ出題する。',
+      '2. 設問文＋選択肢 a〜e を提示し、私が答えるまで正解・解説は絶対に書かない。',
+      '3. 私が解答したら、正誤判定＋簡潔なポイント解説を行い、続けて次の問題を出題する。',
+      '',
+      '準備ができたら第1問を出題してください。'
+    ].join('\n');
+  }
+
+  function buildFocusPrompt() {
+    return [
+      'あなたは医師国家試験の指導医です。',
+      '国試で「受験生の80%以上が正解する必修・基本問題」を確実に正解するための集中トレーニングを行います。',
+      'ケアレスミス、否定形の読み落とし、典型的な鑑別・第一選択薬の誤認を防ぐポイントを1問1答形式で出題してください。',
+      '私が答えるまで解答は書かないでください。第1問をお願いします。'
+    ].join('\n');
+  }
+
+  function copyText(text, btn, msgEl, defaultLabel, successMsg) {
+    const ok = () => {
+      btn.classList.add('copied');
+      btn.textContent = '✅ コピー完了';
+      if (msgEl) msgEl.textContent = successMsg;
+      setTimeout(() => { btn.classList.remove('copied'); btn.textContent = defaultLabel; }, 2500);
     };
-    if (window.mecCopyText) window.mecCopyText(text).then(o => (o ? ok_() : ng_()));
-    else ng_();
+    if (window.mecCopyText) window.mecCopyText(text).then(r => r ? ok() : null);
+    else if (navigator.clipboard) navigator.clipboard.writeText(text).then(ok);
   }
 
   const exportBtn = document.getElementById('aiExportBtn');
-  const exportMsg = document.getElementById('aiExportMsg');
   if (exportBtn) {
-    exportBtn.addEventListener('click', () => {
-      const raw = document.getElementById('aiOptRaw') && document.getElementById('aiOptRaw').checked;
-      const md = buildMarkdown(raw);
-      copyWithFeedback(md, exportBtn, exportMsg, '📋 AI相談用にコピー',
-        `${md.length}文字をコピー。AIに貼り付けて相談できます。`);
-    });
+    exportBtn.onclick = () => {
+      const md = buildFullMarkdown();
+      copyText(md, exportBtn, document.getElementById('aiExportMsg'), '📋 AI相談用にコピー', `${md.length}文字をコピーしました！AIに貼り付けてご相談ください。`);
+    };
   }
 
   const drillBtn = document.getElementById('aiDrillBtn');
-  const drillMsg = document.getElementById('aiDrillMsg');
   if (drillBtn) {
-    drillBtn.addEventListener('click', () => {
+    drillBtn.onclick = () => {
       const p = buildDrillPrompt();
-      const cells = weakCells(6).length, chs = weakChapters(5, 65, 8).length;
-      const scope = (cells || chs)
-        ? `弱点${cells}件・弱い章${chs}件を出題範囲に入れました。`
-        : '弱点データがまだ少ないため、全科目ランダムの指定になっています。';
-      copyWithFeedback(p, drillBtn, drillMsg, '🎯 一問一答プロンプトをコピー', scope);
-    });
+      copyText(p, drillBtn, document.getElementById('aiDrillMsg'), '🎯 一問一答プロンプトをコピー', '一問一答プロンプトをコピーしました！');
+    };
+  }
+
+  const focusBtn = document.getElementById('aiFocusBtn');
+  if (focusBtn) {
+    focusBtn.onclick = () => {
+      const p = buildFocusPrompt();
+      copyText(p, focusBtn, document.getElementById('aiFocusMsg'), '⚡ 弱点集中プロンプトをコピー', '弱点集中プロンプトをコピーしました！');
+    };
+  }
+
+  // 初期化実行
+  renderDiagnostic();
+  renderHero();
+  renderForecast();
+  renderSubjectTable();
+  renderWeakList();
+  renderChapterHeatmap();
+  renderLevelStack();
+  renderCalendar();
+
+  const footEl = document.getElementById('footUpdated');
+  if (footEl) {
+    footEl.textContent = `集計日: ${today}`;
   }
 
 })();
-
-// Reload once after Gist sync to show fresh data
-document.addEventListener('mecSyncComplete', function() {
-  const key = '_mec_stats_sync_reloaded';
-  if (sessionStorage.getItem(key)) { sessionStorage.removeItem(key); return; }
-  sessionStorage.setItem(key, '1');
-  location.reload();
-});
 </script>
 <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});</script>
 </body>
