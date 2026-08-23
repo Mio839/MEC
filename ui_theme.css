@@ -364,15 +364,15 @@ html.ui-aurora .qc.exam-revealed.exam-multi-correct .ch2.correct::after {
 }
 
 @keyframes auroraChoicePrismFlash {
-  0% { transform: scale(0.985); }
-  35% { transform: scale(1.022); filter: brightness(1.3) drop-shadow(0 0 16px rgba(0, 229, 255, 0.9)); box-shadow: 0 0 38px rgba(0, 223, 216, 0.85), 0 0 18px rgba(121, 40, 202, 0.6); }
-  100% { transform: scale(1); filter: brightness(1); }
+  0% { transform: scale(0.985) translateZ(0); filter: brightness(1); }
+  35% { transform: scale(1.025) translateZ(10px); filter: brightness(1.35) drop-shadow(0 0 20px rgba(0, 229, 255, 0.95)); box-shadow: 0 0 45px rgba(0, 223, 216, 0.9), 0 0 24px rgba(121, 40, 202, 0.7); }
+  100% { transform: scale(1) translateZ(0); filter: brightness(1); }
 }
 
 @keyframes auroraCorrectGlow {
-  0% { transform: scale(1); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7); }
-  35% { transform: scale(1.015); box-shadow: 0 0 65px rgba(0, 229, 255, 0.98), 0 0 35px rgba(121, 40, 202, 0.65), inset 0 0 36px rgba(0, 223, 216, 0.45); border-color: #00DFD8; }
-  100% { transform: scale(1); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7), 0 0 45px rgba(0, 229, 255, 0.3); }
+  0% { transform: scale(1) perspective(1000px) rotateX(0deg); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7); }
+  35% { transform: scale(1.018) perspective(1000px) rotateX(-1deg) translateY(-2px); box-shadow: 0 0 75px rgba(0, 229, 255, 1), 0 0 45px rgba(121, 40, 202, 0.75), inset 0 0 42px rgba(0, 223, 216, 0.55); border-color: #00DFD8; }
+  100% { transform: scale(1) perspective(1000px) rotateX(0deg); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7), 0 0 45px rgba(0, 229, 255, 0.3); }
 }
 
 /* 検 蝠城｡梧枚: 繝励Μ繧ｺ繝繧ｬ繝ｩ繧ｹ繝ｻ繧ｯ繧ｩ繝ｼ繝医う繝ｳ繧ｸ繧ｱ繝ｼ繧ｿ繝ｼ */
@@ -1024,9 +1024,9 @@ html.ui-brass .qc.exam-revealed.exam-multi-correct {
 }
 
 @keyframes brassCorrectGlow {
-  0% { transform: scale(1); box-shadow: 0 22px 55px rgba(0, 0, 0, 0.9); }
-  40% { transform: scale(1.015); box-shadow: 0 0 52px rgba(255, 215, 0, 0.9), 0 0 28px rgba(224, 194, 94, 0.6), inset 0 0 36px rgba(224, 194, 94, 0.6); border-color: #FFD700; }
-  100% { transform: scale(1); box-shadow: 0 22px 55px rgba(0, 0, 0, 0.9), 0 0 38px rgba(224, 194, 94, 0.2); }
+  0% { transform: scale(1) translateY(0); box-shadow: 0 22px 55px rgba(0, 0, 0, 0.9); }
+  35% { transform: scale(1.02) translateY(-2px); box-shadow: 0 0 70px rgba(255, 215, 0, 1), 0 0 40px rgba(224, 194, 94, 0.8), inset 0 0 45px rgba(224, 194, 94, 0.75); border-color: #FFD700; }
+  100% { transform: scale(1) translateY(0); box-shadow: 0 22px 55px rgba(0, 0, 0, 0.9), 0 0 40px rgba(224, 194, 94, 0.25); }
 }
 
 /* �焚�� 荳肴ｭ｣隗｣譎ゅ�逵滄紺謖ｯ蜍� & 繧ｹ繝｢繝ｼ繧ｯ隴ｦ蜻� */
@@ -1729,9 +1729,9 @@ html.ui-cyber .qc.exam-revealed.exam-multi-correct {
 }
 
 @keyframes cyberCorrectGlow {
-  0% { transform: scale(1); box-shadow: 0 18px 50px rgba(0, 0, 0, 0.85); }
-  35% { transform: scale(1.015); box-shadow: 0 0 58px rgba(0, 255, 102, 0.95), 0 0 30px rgba(0, 229, 255, 0.75), inset 0 0 38px rgba(0, 255, 102, 0.6); border-color: #00FF66; }
-  100% { transform: scale(1); box-shadow: 0 18px 50px rgba(0, 0, 0, 0.85), 0 0 42px rgba(0, 229, 255, 0.35); }
+  0% { transform: scale(1) perspective(800px) rotateX(0deg); box-shadow: 0 18px 50px rgba(0, 0, 0, 0.85); }
+  35% { transform: scale(1.02) perspective(800px) rotateX(-1.5deg) translateY(-2px); box-shadow: 0 0 70px rgba(0, 255, 102, 1), 0 0 38px rgba(0, 229, 255, 0.85), inset 0 0 45px rgba(0, 255, 102, 0.7); border-color: #00FF66; }
+  100% { transform: scale(1) perspective(800px) rotateX(0deg); box-shadow: 0 18px 50px rgba(0, 0, 0, 0.85), 0 0 42px rgba(0, 229, 255, 0.35); }
 }
 
 /* �噫 荳肴ｭ｣隗｣譎ゅ�HUD繧｢繝ｩ繝ｼ繝医げ繝ｪ繝�メ & 襍ｰ譟ｻ邱壹ヵ繝ｪ繝ｼ繧ｺ */
@@ -2973,30 +2973,33 @@ html.ui-kintsugi .qc.mec-flag-btn.mec-flagged {
 
 /* 🌑 連続正解 (Combo) 段階的進化オーラ */
 html.ui-kintsugi .qc.combo-streak-3 {
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 28px rgba(245, 208, 97, 0.4), inset 0 0 16px rgba(245, 208, 97, 0.15) !important;
-  border-color: rgba(245, 208, 97, 0.65) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 35px rgba(245, 208, 97, 0.6), inset 0 0 20px rgba(245, 208, 97, 0.25) !important;
+  border-color: rgba(245, 208, 97, 0.85) !important;
 }
 
 html.ui-kintsugi .qc.combo-streak-5 {
-  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 46px rgba(245, 208, 97, 0.65), 0 0 70px rgba(217, 56, 58, 0.25), inset 0 0 24px rgba(245, 208, 97, 0.25) !important;
+  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 65px rgba(245, 208, 97, 0.85), 0 0 85px rgba(217, 56, 58, 0.35), inset 0 0 32px rgba(245, 208, 97, 0.45) !important;
   border-color: #F5D061 !important;
-  animation: kintsugiEnsoComboPulse 3.2s ease-in-out infinite alternate !important;
+  animation: kintsugiEnsoComboPulse 2.4s ease-in-out infinite alternate !important;
 }
 
-html.ui-kintsugi .qc.combo-streak-10 {
-  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 65px rgba(245, 208, 97, 0.88), 0 0 95px rgba(245, 208, 97, 0.4), inset 0 0 35px rgba(245, 208, 97, 0.4) !important;
+html.ui-kintsugi .qc.combo-streak-10,
+html.ui-kintsugi .qc[class*="combo-streak-"]:not(.combo-streak-1):not(.combo-streak-2):not(.combo-streak-3):not(.combo-streak-4):not(.combo-streak-5) {
+  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 95px rgba(245, 208, 97, 1), 0 0 120px rgba(245, 208, 97, 0.6), inset 0 0 50px rgba(245, 208, 97, 0.65) !important;
   border-color: #FFF2A8 !important;
-  animation: kintsugiZenZenithAura 2.0s ease-in-out infinite alternate !important;
+  animation: kintsugiZenZenithAura 1.6s ease-in-out infinite alternate !important;
 }
 
 @keyframes kintsugiEnsoComboPulse {
-  0% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 35px rgba(245, 208, 97, 0.45); }
-  100% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 55px rgba(245, 208, 97, 0.75); }
+  0% { transform: scale(1); box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 45px rgba(245, 208, 97, 0.6); }
+  50% { transform: scale(1.008) translateY(-1.5px); box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 75px rgba(245, 208, 97, 0.95), 0 0 95px rgba(217, 56, 58, 0.45); }
+  100% { transform: scale(1); box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 45px rgba(245, 208, 97, 0.6); }
 }
 
 @keyframes kintsugiZenZenithAura {
-  0% { box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 50px rgba(245, 208, 97, 0.7), inset 0 0 25px rgba(245, 208, 97, 0.25); }
-  100% { box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 75px rgba(245, 208, 97, 0.95), inset 0 0 45px rgba(245, 208, 97, 0.45); }
+  0% { transform: scale(1); box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 70px rgba(245, 208, 97, 0.85), inset 0 0 35px rgba(245, 208, 97, 0.4); }
+  50% { transform: scale(1.015) translateY(-3px); box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 110px rgba(245, 208, 97, 1), 0 0 135px rgba(255, 242, 168, 0.8), inset 0 0 60px rgba(245, 208, 97, 0.75); }
+  100% { transform: scale(1); box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 70px rgba(245, 208, 97, 0.85), inset 0 0 35px rgba(245, 208, 97, 0.4); }
 }
 
 html.ui-kintsugi .qc .mec-err-btn.mec-erred {
@@ -3014,11 +3017,11 @@ html.ui-kintsugi .mec-undo-btn {
 
 /* 🌑 コンボバッジ: 漆黒蒔絵プレート ＆ 黄金箔押し */
 html.ui-kintsugi .mec-combo-badge {
-  background: linear-gradient(135deg, rgba(32, 28, 22, 0.98) 0%, rgba(14, 14, 18, 0.99) 100%) !important;
-  border: 1.5px solid #F5D061 !important;
-  border-radius: 8px !important;
-  padding: 6px 15px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.9), 0 0 24px rgba(245, 208, 97, 0.65), 0 0 40px rgba(217, 56, 58, 0.25), inset 0 1.5px 0 #FFF2A8 !important;
+  background: linear-gradient(135deg, rgba(28, 24, 18, 0.99) 0%, rgba(12, 12, 16, 0.99) 100%) !important;
+  border: 1.8px solid #F5D061 !important;
+  border-radius: 10px !important;
+  padding: 6px 18px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.95), 0 0 35px rgba(245, 208, 97, 0.85), 0 0 45px rgba(217, 56, 58, 0.35), inset 0 1.5px 0 #FFF2A8 !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 8px !important;
@@ -3026,19 +3029,19 @@ html.ui-kintsugi .mec-combo-badge {
 }
 
 html.ui-kintsugi .mec-combo-badge .combo-count {
-  font-size: 21px !important;
+  font-size: 24px !important;
   font-weight: 900 !important;
   color: #F5D061 !important;
-  text-shadow: 0 0 14px rgba(245, 208, 97, 0.95), 0 1px 2px rgba(0, 0, 0, 0.9) !important;
+  text-shadow: 0 0 18px rgba(245, 208, 97, 1), 0 1px 2px rgba(0, 0, 0, 0.95) !important;
   line-height: 1 !important;
 }
 
 html.ui-kintsugi .mec-combo-badge .combo-label {
-  font-size: 11px !important;
-  font-weight: 800 !important;
+  font-size: 11.5px !important;
+  font-weight: 900 !important;
   color: #FFFDF0 !important;
-  letter-spacing: 1.2px !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important;
+  letter-spacing: 1.4px !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 8px rgba(245, 208, 97, 0.7) !important;
 }
 
 @keyframes kintsugiBadgePop {
@@ -3424,31 +3427,33 @@ html.ui-celestial .qc .mec-flag-btn.mec-flagged {
 
 /* 🌌 連続正解 (Combo) 段階的進化オーラ */
 html.ui-celestial .qc.combo-streak-3 {
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(255, 209, 102, 0.4), 0 0 45px rgba(138, 43, 226, 0.3) !important;
-  border-color: rgba(255, 209, 102, 0.7) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 38px rgba(255, 209, 102, 0.6), 0 0 55px rgba(138, 43, 226, 0.45) !important;
+  border-color: rgba(255, 209, 102, 0.85) !important;
 }
 
 html.ui-celestial .qc.combo-streak-5 {
-  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 48px rgba(255, 209, 102, 0.75), 0 0 65px rgba(138, 43, 226, 0.5), inset 0 0 24px rgba(138, 43, 226, 0.3) !important;
+  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 65px rgba(255, 209, 102, 0.95), 0 0 85px rgba(138, 43, 226, 0.75), inset 0 0 32px rgba(138, 43, 226, 0.45) !important;
   border-color: #FFD166 !important;
-  animation: celestialAstrolabeComboSpin 4.0s linear infinite !important;
+  animation: celestialAstrolabeComboSpin 3.0s linear infinite !important;
 }
 
-html.ui-celestial .qc.combo-streak-10 {
-  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 70px rgba(255, 209, 102, 0.95), 0 0 90px rgba(138, 43, 226, 0.75), 0 0 110px rgba(72, 202, 228, 0.5), inset 0 0 35px rgba(138, 43, 226, 0.45) !important;
+html.ui-celestial .qc.combo-streak-10,
+html.ui-celestial .qc[class*="combo-streak-"]:not(.combo-streak-1):not(.combo-streak-2):not(.combo-streak-3):not(.combo-streak-4):not(.combo-streak-5) {
+  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 95px rgba(255, 209, 102, 1), 0 0 115px rgba(138, 43, 226, 0.95), 0 0 135px rgba(72, 202, 228, 0.75), inset 0 0 50px rgba(138, 43, 226, 0.65) !important;
   border-color: #FFF8DC !important;
-  animation: celestialGrimoireZenithAura 2.2s ease-in-out infinite alternate !important;
+  animation: celestialGrimoireZenithAura 1.8s ease-in-out infinite alternate !important;
 }
 
 @keyframes celestialAstrolabeComboSpin {
-  0% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 35px rgba(255, 209, 102, 0.55), 0 0 50px rgba(138, 43, 226, 0.35); }
-  50% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 55px rgba(255, 209, 102, 0.8), 0 0 70px rgba(72, 202, 228, 0.55); }
-  100% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 35px rgba(255, 209, 102, 0.55), 0 0 50px rgba(138, 43, 226, 0.35); }
+  0% { transform: scale(1); box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 45px rgba(255, 209, 102, 0.75), 0 0 65px rgba(138, 43, 226, 0.55); }
+  50% { transform: scale(1.01) translateY(-1.5px); box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 75px rgba(255, 209, 102, 1), 0 0 95px rgba(72, 202, 228, 0.8); }
+  100% { transform: scale(1); box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 45px rgba(255, 209, 102, 0.75), 0 0 65px rgba(138, 43, 226, 0.55); }
 }
 
 @keyframes celestialGrimoireZenithAura {
-  0% { box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 50px rgba(255, 209, 102, 0.75), 0 0 65px rgba(138, 43, 226, 0.5); }
-  100% { box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 80px rgba(255, 209, 102, 0.98), 0 0 95px rgba(72, 202, 228, 0.75); }
+  0% { transform: scale(1); box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 70px rgba(255, 209, 102, 0.85), 0 0 85px rgba(138, 43, 226, 0.65); }
+  50% { transform: scale(1.015) translateY(-3px); box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 110px rgba(255, 209, 102, 1), 0 0 135px rgba(72, 202, 228, 0.95); }
+  100% { transform: scale(1); box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 70px rgba(255, 209, 102, 0.85), 0 0 85px rgba(138, 43, 226, 0.65); }
 }
 
 html.ui-celestial .qc .mec-err-btn.mec-erred {
@@ -3466,11 +3471,11 @@ html.ui-celestial .mec-undo-btn {
 
 /* 🌌 コンボバッジ: 魔導星図天球儀バッジ ＆ マナパープル発光 */
 html.ui-celestial .mec-combo-badge {
-  background: linear-gradient(135deg, rgba(38, 22, 70, 0.98) 0%, rgba(16, 8, 38, 0.99) 100%) !important;
-  border: 1.5px solid #FFD166 !important;
+  background: linear-gradient(135deg, rgba(38, 22, 70, 0.99) 0%, rgba(16, 8, 38, 0.99) 100%) !important;
+  border: 1.8px solid #FFD166 !important;
   border-radius: 12px !important;
-  padding: 6px 16px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.92), 0 0 26px rgba(255, 209, 102, 0.8), 0 0 42px rgba(138, 43, 226, 0.55), inset 0 1.5px 0 #FFF8DC !important;
+  padding: 6px 18px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.95), 0 0 35px rgba(255, 209, 102, 0.95), 0 0 50px rgba(138, 43, 226, 0.75), inset 0 1.5px 0 #FFF8DC !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 8px !important;
@@ -3478,19 +3483,19 @@ html.ui-celestial .mec-combo-badge {
 }
 
 html.ui-celestial .mec-combo-badge .combo-count {
-  font-size: 21px !important;
+  font-size: 24px !important;
   font-weight: 900 !important;
   color: #FFD166 !important;
-  text-shadow: 0 0 14px rgba(255, 209, 102, 1), 0 0 24px rgba(138, 43, 226, 0.85) !important;
+  text-shadow: 0 0 18px rgba(255, 209, 102, 1), 0 0 30px rgba(138, 43, 226, 0.95) !important;
   line-height: 1 !important;
 }
 
 html.ui-celestial .mec-combo-badge .combo-label {
-  font-size: 11px !important;
-  font-weight: 800 !important;
-  color: #FFFDF8 !important;
-  letter-spacing: 1.2px !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important;
+  font-size: 11.5px !important;
+  font-weight: 900 !important;
+  color: #FFFDF0 !important;
+  letter-spacing: 1.4px !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 10px rgba(255, 209, 102, 0.8) !important;
 }
 
 @keyframes celestialBadgePop {
@@ -3888,15 +3893,15 @@ html.ui-abyss .qc.fx-correct {
 }
 
 @keyframes abyssCardSonarPulseGlow {
-  0% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 12px rgba(0, 255, 163, 0.2); }
-  35% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 54px rgba(0, 255, 163, 0.95), 0 0 75px rgba(0, 180, 216, 0.45), inset 0 0 28px rgba(0, 180, 216, 0.3); }
-  100% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 28px rgba(0, 255, 163, 0.35), inset 0 0 16px rgba(0, 255, 163, 0.1); }
+  0% { transform: scale(1); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 12px rgba(0, 255, 163, 0.2); }
+  35% { transform: scale(1.018) translateY(-2px); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 68px rgba(0, 255, 163, 1), 0 0 85px rgba(0, 180, 216, 0.6), inset 0 0 35px rgba(0, 255, 163, 0.4); border-color: #00FFA3; }
+  100% { transform: scale(1) translateY(0); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 32px rgba(0, 255, 163, 0.35), inset 0 0 16px rgba(0, 255, 163, 0.1); }
 }
 
 @keyframes abyssChoiceBioPulseGlow {
   0% { transform: scale(0.98); filter: brightness(1.55); border-color: #B4FBE2; box-shadow: 0 0 12px rgba(0, 180, 216, 0.4); }
-  45% { transform: scale(1.015); filter: brightness(1.28); border-color: #00FFA3; box-shadow: 0 0 32px rgba(0, 255, 163, 0.95), 0 0 20px rgba(0, 180, 216, 0.6); }
-  100% { transform: scale(1); filter: brightness(1); border-color: #00FFA3; box-shadow: 0 0 18px rgba(0, 255, 163, 0.45); }
+  45% { transform: scale(1.025); filter: brightness(1.35); border-color: #00FFA3; box-shadow: 0 0 42px rgba(0, 255, 163, 1), 0 0 26px rgba(0, 180, 216, 0.75); }
+  100% { transform: scale(1); filter: brightness(1); border-color: #00FFA3; box-shadow: 0 0 22px rgba(0, 255, 163, 0.5); }
 }
 
 /* 🌊 試験モード未開示時: 正解肢であることを完全に隠蔽（ネタバレ完全防止） */
@@ -3971,30 +3976,33 @@ html.ui-abyss .qc .mec-flag-btn.mec-flagged {
 
 /* 🌊 連続正解 (Combo) 段階的進化オーラ */
 html.ui-abyss .qc.combo-streak-3 {
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.88), 0 0 32px rgba(0, 255, 163, 0.4), 0 0 48px rgba(0, 180, 216, 0.3) !important;
-  border-color: rgba(0, 255, 163, 0.7) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.88), 0 0 38px rgba(0, 255, 163, 0.6), 0 0 55px rgba(0, 180, 216, 0.45) !important;
+  border-color: rgba(0, 255, 163, 0.85) !important;
 }
 
 html.ui-abyss .qc.combo-streak-5 {
-  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.9), 0 0 50px rgba(0, 255, 163, 0.75), 0 0 70px rgba(0, 180, 216, 0.55), inset 0 0 24px rgba(0, 255, 163, 0.25) !important;
+  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.9), 0 0 68px rgba(0, 255, 163, 0.95), 0 0 88px rgba(0, 180, 216, 0.75), inset 0 0 32px rgba(0, 255, 163, 0.45) !important;
   border-color: #00FFA3 !important;
-  animation: abyssSonarComboPulse 3.4s ease-in-out infinite alternate !important;
+  animation: abyssSonarComboPulse 2.4s ease-in-out infinite alternate !important;
 }
 
-html.ui-abyss .qc.combo-streak-10 {
-  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.95), 0 0 72px rgba(0, 255, 163, 0.95), 0 0 95px rgba(0, 180, 216, 0.75), 0 0 110px rgba(100, 255, 218, 0.6), inset 0 0 35px rgba(0, 255, 163, 0.4) !important;
+html.ui-abyss .qc.combo-streak-10,
+html.ui-abyss .qc[class*="combo-streak-"]:not(.combo-streak-1):not(.combo-streak-2):not(.combo-streak-3):not(.combo-streak-4):not(.combo-streak-5) {
+  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.95), 0 0 98px rgba(0, 255, 163, 1), 0 0 120px rgba(0, 180, 216, 0.95), 0 0 135px rgba(100, 255, 218, 0.8), inset 0 0 50px rgba(0, 255, 163, 0.65) !important;
   border-color: #B4FBE2 !important;
-  animation: abyssDeepOceanZenithAura 2.0s ease-in-out infinite alternate !important;
+  animation: abyssDeepOceanZenithAura 1.6s ease-in-out infinite alternate !important;
 }
 
 @keyframes abyssSonarComboPulse {
-  0% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.9), 0 0 38px rgba(0, 255, 163, 0.5), 0 0 50px rgba(0, 180, 216, 0.35); }
-  100% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.9), 0 0 58px rgba(0, 255, 163, 0.8), 0 0 75px rgba(0, 180, 216, 0.65); }
+  0% { transform: scale(1); box-shadow: 0 24px 65px rgba(0, 0, 0, 0.9), 0 0 45px rgba(0, 255, 163, 0.6), 0 0 60px rgba(0, 180, 216, 0.45); }
+  50% { transform: scale(1.008) translateY(-1.5px); box-shadow: 0 24px 65px rgba(0, 0, 0, 0.9), 0 0 75px rgba(0, 255, 163, 0.98), 0 0 95px rgba(0, 180, 216, 0.8); }
+  100% { transform: scale(1); box-shadow: 0 24px 65px rgba(0, 0, 0, 0.9), 0 0 45px rgba(0, 255, 163, 0.6), 0 0 60px rgba(0, 180, 216, 0.45); }
 }
 
 @keyframes abyssDeepOceanZenithAura {
-  0% { box-shadow: 0 28px 75px rgba(0, 0, 0, 0.95), 0 0 55px rgba(0, 255, 163, 0.75), 0 0 70px rgba(0, 180, 216, 0.55); }
-  100% { box-shadow: 0 28px 75px rgba(0, 0, 0, 0.95), 0 0 85px rgba(0, 255, 163, 0.98), 0 0 100px rgba(100, 255, 218, 0.8); }
+  0% { transform: scale(1); box-shadow: 0 28px 75px rgba(0, 0, 0, 0.95), 0 0 70px rgba(0, 255, 163, 0.85), 0 0 85px rgba(0, 180, 216, 0.65); }
+  50% { transform: scale(1.015) translateY(-3px); box-shadow: 0 28px 75px rgba(0, 0, 0, 0.95), 0 0 110px rgba(0, 255, 163, 1), 0 0 135px rgba(100, 255, 218, 0.95); }
+  100% { transform: scale(1); box-shadow: 0 28px 75px rgba(0, 0, 0, 0.95), 0 0 70px rgba(0, 255, 163, 0.85), 0 0 85px rgba(0, 180, 216, 0.65); }
 }
 
 html.ui-abyss .qc .mec-err-btn.mec-erred {
@@ -4012,11 +4020,11 @@ html.ui-abyss .mec-undo-btn {
 
 /* 🌊 コンボバッジ: 深海生体発光カプセル ＆ エメラルドパルス */
 html.ui-abyss .mec-combo-badge {
-  background: linear-gradient(135deg, rgba(2, 32, 58, 0.98) 0%, rgba(1, 12, 26, 0.99) 100%) !important;
-  border: 1.5px solid #00FFA3 !important;
+  background: linear-gradient(135deg, rgba(2, 32, 58, 0.99) 0%, rgba(1, 12, 26, 0.99) 100%) !important;
+  border: 1.8px solid #00FFA3 !important;
   border-radius: 12px !important;
-  padding: 6px 16px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.92), 0 0 26px rgba(0, 255, 163, 0.75), 0 0 45px rgba(0, 180, 216, 0.4), inset 0 1.5px 0 rgba(224, 242, 254, 0.95) !important;
+  padding: 6px 18px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.95), 0 0 35px rgba(0, 255, 163, 0.95), 0 0 50px rgba(0, 180, 216, 0.6), inset 0 1.5px 0 rgba(224, 242, 254, 0.95) !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 8px !important;
@@ -4024,19 +4032,19 @@ html.ui-abyss .mec-combo-badge {
 }
 
 html.ui-abyss .mec-combo-badge .combo-count {
-  font-size: 21px !important;
+  font-size: 24px !important;
   font-weight: 900 !important;
   color: #00FFA3 !important;
-  text-shadow: 0 0 14px rgba(0, 255, 163, 1), 0 0 24px rgba(0, 180, 216, 0.8) !important;
+  text-shadow: 0 0 18px rgba(0, 255, 163, 1), 0 0 28px rgba(0, 180, 216, 0.9) !important;
   line-height: 1 !important;
 }
 
 html.ui-abyss .mec-combo-badge .combo-label {
-  font-size: 11px !important;
-  font-weight: 800 !important;
+  font-size: 11.5px !important;
+  font-weight: 900 !important;
   color: #E0F2FE !important;
-  letter-spacing: 1.2px !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important;
+  letter-spacing: 1.4px !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 255, 163, 0.8) !important;
 }
 
 @keyframes abyssBadgePulse {
@@ -4490,14 +4498,14 @@ html.ui-frost .qc.fx-correct {
 }
 
 @keyframes frostCardCrystalFlashGlow {
-  0% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 12px rgba(112, 214, 255, 0.25); }
-  40% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 54px rgba(112, 214, 255, 0.98), inset 0 0 35px rgba(255, 255, 255, 0.45); }
-  100% { box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 32px rgba(112, 214, 255, 0.35), inset 0 0 20px rgba(112, 214, 255, 0.12); }
+  0% { transform: scale(1); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 12px rgba(112, 214, 255, 0.25); }
+  35% { transform: scale(1.018) translateY(-2px); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 68px rgba(112, 214, 255, 1), 0 0 45px rgba(255, 255, 255, 0.8), inset 0 0 42px rgba(255, 255, 255, 0.55); border-color: #70D6FF; }
+  100% { transform: scale(1) translateY(0); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 32px rgba(112, 214, 255, 0.35), inset 0 0 20px rgba(112, 214, 255, 0.12); }
 }
 
 @keyframes frostChoiceCrystallizeGlow {
   0% { transform: scale(0.97); filter: brightness(1.6); border-color: #FFFFFF; }
-  50% { transform: scale(1.02); filter: brightness(1.3); border-color: #70D6FF; box-shadow: 0 0 36px rgba(112, 214, 255, 0.98); }
+  45% { transform: scale(1.025); filter: brightness(1.35); border-color: #FFFFFF; box-shadow: 0 0 42px rgba(112, 214, 255, 1), 0 0 24px rgba(255, 255, 255, 0.85); }
   100% { transform: scale(1); filter: brightness(1); border-color: #70D6FF; }
 }
 
@@ -4566,30 +4574,33 @@ html.ui-frost .qc .mec-flag-btn.mec-flagged {
 
 /* ❄️ 連続正解 (Combo) 段階的進化オーラ */
 html.ui-frost .qc.combo-streak-3 {
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(112, 214, 255, 0.4), inset 0 0 16px rgba(255, 255, 255, 0.2) !important;
-  border-color: rgba(112, 214, 255, 0.7) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 38px rgba(112, 214, 255, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.3) !important;
+  border-color: rgba(112, 214, 255, 0.85) !important;
 }
 
 html.ui-frost .qc.combo-streak-5 {
-  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 50px rgba(112, 214, 255, 0.75), 0 0 65px rgba(255, 255, 255, 0.4), inset 0 0 26px rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 68px rgba(112, 214, 255, 0.95), 0 0 85px rgba(255, 255, 255, 0.6), inset 0 0 32px rgba(255, 255, 255, 0.5) !important;
   border-color: #FFFFFF !important;
-  animation: frostIceWallComboPulse 3.2s ease-in-out infinite alternate !important;
+  animation: frostIceWallComboPulse 2.4s ease-in-out infinite alternate !important;
 }
 
-html.ui-frost .qc.combo-streak-10 {
-  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 72px rgba(112, 214, 255, 0.98), 0 0 95px rgba(255, 255, 255, 0.9), 0 0 115px rgba(160, 231, 229, 0.6), inset 0 0 35px rgba(255, 255, 255, 0.5) !important;
+html.ui-frost .qc.combo-streak-10,
+html.ui-frost .qc[class*="combo-streak-"]:not(.combo-streak-1):not(.combo-streak-2):not(.combo-streak-3):not(.combo-streak-4):not(.combo-streak-5) {
+  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 98px rgba(112, 214, 255, 1), 0 0 120px rgba(255, 255, 255, 1), 0 0 135px rgba(160, 231, 229, 0.8), inset 0 0 50px rgba(255, 255, 255, 0.65) !important;
   border-color: #FFFFFF !important;
-  animation: frostAbsoluteZeroZenithAura 2.0s ease-in-out infinite alternate !important;
+  animation: frostAbsoluteZeroZenithAura 1.6s ease-in-out infinite alternate !important;
 }
 
 @keyframes frostIceWallComboPulse {
-  0% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 35px rgba(112, 214, 255, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.25); }
-  100% { box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 58px rgba(112, 214, 255, 0.85), inset 0 0 35px rgba(255, 255, 255, 0.45); }
+  0% { transform: scale(1); box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 45px rgba(112, 214, 255, 0.65), inset 0 0 25px rgba(255, 255, 255, 0.35); }
+  50% { transform: scale(1.008) translateY(-1.5px); box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 75px rgba(112, 214, 255, 0.98), inset 0 0 40px rgba(255, 255, 255, 0.6); }
+  100% { transform: scale(1); box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 45px rgba(112, 214, 255, 0.65), inset 0 0 25px rgba(255, 255, 255, 0.35); }
 }
 
 @keyframes frostAbsoluteZeroZenithAura {
-  0% { box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 52px rgba(112, 214, 255, 0.8), 0 0 70px rgba(255, 255, 255, 0.6); }
-  100% { box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 82px rgba(112, 214, 255, 1), 0 0 100px rgba(255, 255, 255, 0.95); }
+  0% { transform: scale(1); box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 70px rgba(112, 214, 255, 0.85), 0 0 85px rgba(255, 255, 255, 0.7); }
+  50% { transform: scale(1.015) translateY(-3px); box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 110px rgba(112, 214, 255, 1), 0 0 135px rgba(255, 255, 255, 1); }
+  100% { transform: scale(1); box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 70px rgba(112, 214, 255, 0.85), 0 0 85px rgba(255, 255, 255, 0.7); }
 }
 
 html.ui-frost .qc .mec-err-btn.mec-erred {
@@ -4607,11 +4618,11 @@ html.ui-frost .mec-undo-btn {
 
 /* ❄️ コンボバッジ: 多面体クリスタルジュエルバッジ ＆ ダイヤモンドダスト */
 html.ui-frost .mec-combo-badge {
-  background: linear-gradient(135deg, rgba(8, 28, 54, 0.96) 0%, rgba(3, 12, 28, 0.98) 100%) !important;
-  border: 1.5px solid #70D6FF !important;
-  border-radius: 10px !important;
-  padding: 6px 14px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.9), 0 0 24px rgba(112, 214, 255, 0.7), 0 0 35px rgba(255, 255, 255, 0.45), inset 0 1px 0 #FFFFFF !important;
+  background: linear-gradient(135deg, rgba(8, 28, 54, 0.99) 0%, rgba(3, 12, 28, 0.99) 100%) !important;
+  border: 1.8px solid #70D6FF !important;
+  border-radius: 12px !important;
+  padding: 6px 18px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.95), 0 0 35px rgba(112, 214, 255, 0.9), 0 0 50px rgba(255, 255, 255, 0.65), inset 0 1.5px 0 #FFFFFF !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 8px !important;
@@ -4619,19 +4630,19 @@ html.ui-frost .mec-combo-badge {
 }
 
 html.ui-frost .mec-combo-badge .combo-count {
-  font-size: 20px !important;
+  font-size: 24px !important;
   font-weight: 900 !important;
   color: #70D6FF !important;
-  text-shadow: 0 0 14px rgba(112, 214, 255, 1), 0 0 20px #FFFFFF !important;
+  text-shadow: 0 0 18px rgba(112, 214, 255, 1), 0 0 28px #FFFFFF !important;
   line-height: 1 !important;
 }
 
 html.ui-frost .mec-combo-badge .combo-label {
-  font-size: 11px !important;
-  font-weight: 800 !important;
+  font-size: 11.5px !important;
+  font-weight: 900 !important;
   color: #F8FAFC !important;
-  letter-spacing: 1px !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+  letter-spacing: 1.4px !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 10px rgba(112, 214, 255, 0.8) !important;
 }
 
 @keyframes frostBadgePop {
@@ -6239,180 +6250,182 @@ html.ui-frost .qc .eg,
    4テーマ固有 段階的連続正解（コンボ・ストリーク）エフェクト
    ================================================================== */
 
-/* -- 1. aurora: 3連(プリズム光) / 5連(オーロラカーテン) / 10連(全画面偏光ダイヤモンド) -- */
+/* -- 1. aurora: 3連(プリズム光) / 5連(オーロラカーテン) / 10連(全画面偏光ダイヤモンド極光ゾーン) -- */
 html.ui-aurora .qc.combo-streak-3 {
-  box-shadow: 0 0 38px rgba(0, 229, 255, 0.65), 0 20px 50px rgba(0, 0, 0, 0.65), inset 0 0 16px rgba(0, 223, 216, 0.25) !important;
-  border-color: rgba(0, 229, 255, 0.85) !important;
+  box-shadow: 0 0 45px rgba(0, 229, 255, 0.75), 0 0 20px rgba(121, 40, 202, 0.5), 0 20px 50px rgba(0, 0, 0, 0.65), inset 0 0 20px rgba(0, 223, 216, 0.3) !important;
+  border-color: rgba(0, 229, 255, 0.9) !important;
 }
 html.ui-aurora .qc.combo-streak-5 {
-  box-shadow: 0 0 65px rgba(0, 229, 255, 0.85), 0 0 40px rgba(121, 40, 202, 0.7), 0 24px 60px rgba(0, 0, 0, 0.75), inset 0 0 28px rgba(0, 223, 216, 0.35) !important;
+  box-shadow: 0 0 75px rgba(0, 229, 255, 0.95), 0 0 48px rgba(121, 40, 202, 0.8), 0 24px 60px rgba(0, 0, 0, 0.75), inset 0 0 35px rgba(0, 223, 216, 0.45) !important;
   border-color: #00DFD8 !important;
-  animation: auroraCurtainWave 2.2s ease-in-out infinite alternate !important;
+  animation: auroraCurtainWave 2.0s ease-in-out infinite alternate !important;
 }
 html.ui-aurora .qc.combo-streak-5::before {
   background-size: 200% 100% !important;
-  animation: auroraEdgeFlow 2.5s linear infinite !important;
-  height: 4.5px !important;
+  animation: auroraEdgeFlow 2.0s linear infinite !important;
+  height: 5px !important;
+  box-shadow: 0 0 18px rgba(0, 229, 255, 0.8) !important;
 }
 html.ui-aurora .qc.combo-streak-10,
 html.ui-aurora .qc[class*="combo-streak-"]:not(.combo-streak-1):not(.combo-streak-2):not(.combo-streak-3):not(.combo-streak-4):not(.combo-streak-5) {
-  box-shadow: 0 0 95px rgba(0, 229, 255, 1), 0 0 60px rgba(121, 40, 202, 0.95), 0 0 40px rgba(0, 112, 243, 0.9), inset 0 0 45px rgba(0, 223, 216, 0.5) !important;
+  box-shadow: 0 0 110px rgba(0, 229, 255, 1), 0 0 75px rgba(121, 40, 202, 1), 0 0 50px rgba(0, 112, 243, 0.95), inset 0 0 55px rgba(0, 223, 216, 0.65) !important;
   border-color: #FFFFFF !important;
-  animation: auroraDiamondPulse 1.6s ease-in-out infinite alternate !important;
+  animation: auroraDiamondPulse 1.4s ease-in-out infinite alternate !important;
 }
 html.ui-aurora .qc.combo-streak-10::before,
 html.ui-aurora .qc[class*="combo-streak-"]:not(.combo-streak-1):not(.combo-streak-2):not(.combo-streak-3):not(.combo-streak-4):not(.combo-streak-5)::before {
-  background-size: 150% 100% !important;
-  animation: auroraEdgeFlow 1.5s linear infinite !important;
-  height: 5.5px !important;
-  box-shadow: 0 0 22px rgba(0, 229, 255, 0.95), 0 0 35px rgba(121, 40, 202, 0.8) !important;
+  background-size: 140% 100% !important;
+  animation: auroraEdgeFlow 1.2s linear infinite !important;
+  height: 6px !important;
+  box-shadow: 0 0 28px rgba(0, 229, 255, 1), 0 0 45px rgba(121, 40, 202, 0.95) !important;
 }
 @keyframes auroraCurtainWave {
   0% { filter: hue-rotate(0deg) brightness(1); transform: scale(1); }
-  50% { filter: hue-rotate(25deg) brightness(1.18); transform: scale(1.004) translateY(-1px); }
-  100% { filter: hue-rotate(-20deg) brightness(1.12); transform: scale(1.002) translateY(1px); }
+  50% { filter: hue-rotate(30deg) brightness(1.22); transform: scale(1.006) translateY(-1.5px); }
+  100% { filter: hue-rotate(-25deg) brightness(1.15); transform: scale(1.003) translateY(1px); }
 }
 @keyframes auroraDiamondPulse {
-  0% { transform: scale(1); filter: brightness(1) drop-shadow(0 0 14px rgba(0,229,255,0.75)); }
-  50% { transform: scale(1.012) translateY(-2px); filter: brightness(1.28) drop-shadow(0 0 36px rgba(0,229,255,1)) drop-shadow(0 0 20px rgba(121,40,202,0.9)); }
-  100% { transform: scale(1); filter: brightness(1.05) drop-shadow(0 0 18px rgba(0,229,255,0.85)); }
+  0% { transform: scale(1); filter: brightness(1) drop-shadow(0 0 16px rgba(0,229,255,0.85)); }
+  50% { transform: scale(1.015) translateY(-3px); filter: brightness(1.35) drop-shadow(0 0 45px rgba(0,229,255,1)) drop-shadow(0 0 28px rgba(121,40,202,0.95)); }
+  100% { transform: scale(1); filter: brightness(1.08) drop-shadow(0 0 22px rgba(0,229,255,0.9)); }
 }
 
 /* -- 2. brass: 3連(歯車パルス) / 5連(スケルトン連鎖) / 10連(ゴールド蒸気＆時計塔フル稼働) -- */
 html.ui-brass .qc.combo-streak-3 {
-  box-shadow: 0 0 38px rgba(224, 194, 94, 0.6), 0 20px 50px rgba(0, 0, 0, 0.88), inset 0 0 18px rgba(224, 194, 94, 0.3) !important;
-  border-color: rgba(224, 194, 94, 0.85) !important;
+  box-shadow: 0 0 45px rgba(224, 194, 94, 0.7), 0 0 20px rgba(255, 215, 0, 0.4), 0 20px 50px rgba(0, 0, 0, 0.88), inset 0 0 22px rgba(224, 194, 94, 0.35) !important;
+  border-color: rgba(224, 194, 94, 0.9) !important;
 }
 html.ui-brass .qc.combo-streak-5 {
-  box-shadow: 0 0 65px rgba(255, 215, 0, 0.85), 0 0 35px rgba(224, 194, 94, 0.75), inset 0 0 28px rgba(224, 194, 94, 0.45) !important;
+  box-shadow: 0 0 75px rgba(255, 215, 0, 0.95), 0 0 45px rgba(224, 194, 94, 0.85), inset 0 0 35px rgba(224, 194, 94, 0.55) !important;
   border-color: #FFD700 !important;
-  animation: brassGearPulse 2.0s ease-in-out infinite alternate !important;
+  animation: brassGearPulse 1.8s ease-in-out infinite alternate !important;
 }
 html.ui-brass .qc.combo-streak-5::after {
-  animation: brassGearSlowSpin 14s linear infinite !important;
-  opacity: 0.65 !important;
+  animation: brassGearSlowSpin 10s linear infinite !important;
+  opacity: 0.75 !important;
+  filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.75)) !important;
 }
 html.ui-brass .qc.combo-streak-10,
 html.ui-brass .qc[class*="combo-streak-"]:not(.combo-streak-1):not(.combo-streak-2):not(.combo-streak-3):not(.combo-streak-4):not(.combo-streak-5) {
-  box-shadow: 0 0 95px rgba(255, 215, 0, 1), 0 0 55px rgba(224, 194, 94, 0.95), inset 0 0 50px rgba(255, 243, 196, 0.65) !important;
+  box-shadow: 0 0 110px rgba(255, 215, 0, 1), 0 0 65px rgba(224, 194, 94, 1), inset 0 0 60px rgba(255, 243, 196, 0.75) !important;
   border-color: #FFF8DC !important;
-  animation: brassClocktowerFull 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate !important;
+  animation: brassClocktowerFull 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate !important;
 }
 html.ui-brass .qc.combo-streak-10::after,
 html.ui-brass .qc[class*="combo-streak-"]:not(.combo-streak-1):not(.combo-streak-2):not(.combo-streak-3):not(.combo-streak-4):not(.combo-streak-5)::after {
-  animation: brassGearSlowSpin 6s linear infinite !important;
-  opacity: 0.85 !important;
-  filter: drop-shadow(0 0 16px rgba(255, 215, 0, 0.95)) !important;
+  animation: brassGearSlowSpin 4.5s linear infinite !important;
+  opacity: 0.95 !important;
+  filter: drop-shadow(0 0 24px rgba(255, 215, 0, 1)) drop-shadow(0 0 12px rgba(255, 243, 196, 0.9)) !important;
 }
 @keyframes brassGearPulse {
   0% { filter: brightness(1); transform: scale(1); }
-  50% { filter: brightness(1.22); transform: scale(1.008) translateY(-1px); }
-  100% { filter: brightness(1.08); transform: scale(1); }
+  50% { filter: brightness(1.26); transform: scale(1.01) translateY(-1.5px); }
+  100% { filter: brightness(1.1); transform: scale(1); }
 }
 @keyframes brassClocktowerFull {
-  0% { transform: scale(1); filter: drop-shadow(0 0 16px rgba(255,215,0,0.75)); }
-  50% { transform: scale(1.012) translateY(-2px); filter: drop-shadow(0 0 38px rgba(255,215,0,1)) drop-shadow(0 0 20px rgba(224,194,94,0.9)); }
-  100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(255,215,0,0.8)); }
+  0% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(255,215,0,0.85)); }
+  50% { transform: scale(1.015) translateY(-3px); filter: drop-shadow(0 0 48px rgba(255,215,0,1)) drop-shadow(0 0 26px rgba(224,194,94,0.95)); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 24px rgba(255,215,0,0.9)); }
 }
 
 
 /* -- 3. cyber: 3連(HUD照準) / 5連(データストリーム) / 10連(フルホログラム空間＆3Dグリッド展開) -- */
 html.ui-cyber .qc.combo-streak-3 {
-  box-shadow: 0 0 40px rgba(0, 255, 102, 0.65), 0 0 20px rgba(0, 229, 255, 0.4), 0 20px 50px rgba(0, 0, 0, 0.85) !important;
-  border-color: rgba(0, 255, 102, 0.85) !important;
+  box-shadow: 0 0 48px rgba(0, 255, 102, 0.75), 0 0 25px rgba(0, 229, 255, 0.5), 0 20px 50px rgba(0, 0, 0, 0.85) !important;
+  border-color: rgba(0, 255, 102, 0.9) !important;
 }
 html.ui-cyber .qc.combo-streak-5 {
-  box-shadow: 0 0 65px rgba(0, 255, 102, 0.85), 0 0 40px rgba(0, 229, 255, 0.75), inset 0 0 35px rgba(0, 255, 102, 0.4) !important;
+  box-shadow: 0 0 75px rgba(0, 255, 102, 0.95), 0 0 45px rgba(0, 229, 255, 0.85), inset 0 0 40px rgba(0, 255, 102, 0.5) !important;
   border-color: #00FF66 !important;
-  animation: cyberDataStreamPulse 2.0s ease-in-out infinite alternate !important;
+  animation: cyberDataStreamPulse 1.8s ease-in-out infinite alternate !important;
 }
 html.ui-cyber .qc.combo-streak-5::after {
-  animation: cyberScanline 3s linear infinite !important;
-  opacity: 0.75 !important;
+  animation: cyberScanline 2.2s linear infinite !important;
+  opacity: 0.85 !important;
 }
 html.ui-cyber .qc.combo-streak-10,
 html.ui-cyber .qc[class*="combo-streak-"]:not(.combo-streak-1):not(.combo-streak-2):not(.combo-streak-3):not(.combo-streak-4):not(.combo-streak-5) {
-  box-shadow: 0 0 100px rgba(0, 255, 102, 1), 0 0 60px rgba(0, 229, 255, 0.95), inset 0 0 50px rgba(0, 255, 102, 0.6) !important;
+  box-shadow: 0 0 115px rgba(0, 255, 102, 1), 0 0 70px rgba(0, 229, 255, 1), inset 0 0 60px rgba(0, 255, 102, 0.7) !important;
   border-color: #00E5FF !important;
-  animation: cyberHoloFull 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) infinite alternate !important;
+  animation: cyberHoloFull 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite alternate !important;
 }
 html.ui-cyber .qc.combo-streak-10::before,
 html.ui-cyber .qc[class*="combo-streak-"]:not(.combo-streak-1):not(.combo-streak-2):not(.combo-streak-3):not(.combo-streak-4):not(.combo-streak-5)::before {
-  background-size: 24px 24px !important;
-  filter: drop-shadow(0 0 12px #00FF66) !important;
+  background-size: 28px 28px !important;
+  filter: drop-shadow(0 0 18px #00FF66) drop-shadow(0 0 10px #00E5FF) !important;
 }
 @keyframes cyberDataStreamPulse {
   0% { filter: brightness(1); transform: scale(1); }
-  50% { filter: brightness(1.26) drop-shadow(0 0 22px rgba(0,255,102,0.85)); transform: scale(1.008) translateY(-1px); }
-  100% { filter: brightness(1.1); transform: scale(1); }
+  50% { filter: brightness(1.3) drop-shadow(0 0 28px rgba(0,255,102,0.95)); transform: scale(1.01) translateY(-1.5px); }
+  100% { filter: brightness(1.12); transform: scale(1); }
 }
 @keyframes cyberHoloFull {
-  0% { transform: scale(1); filter: brightness(1.08) drop-shadow(0 0 18px rgba(0,229,255,0.8)); }
-  50% { transform: scale(1.012) translateY(-2px); filter: brightness(1.3) drop-shadow(0 0 38px rgba(0,255,102,1)) drop-shadow(0 0 22px rgba(0,229,255,0.95)); }
-  100% { transform: scale(1); filter: brightness(1.12) drop-shadow(0 0 20px rgba(0,255,102,0.85)); }
+  0% { transform: scale(1); filter: brightness(1.1) drop-shadow(0 0 22px rgba(0,229,255,0.9)); }
+  50% { transform: scale(1.016) translateY(-3px); filter: brightness(1.35) drop-shadow(0 0 45px rgba(0,255,102,1)) drop-shadow(0 0 28px rgba(0,229,255,1)); }
+  100% { transform: scale(1); filter: brightness(1.15) drop-shadow(0 0 24px rgba(0,255,102,0.9)); }
 }
 
 /* -- 4. liquid: 3連(ジェルバブル) / 5連(マーブリング流体) / 10連(幻想ネオンインクオーラ常時展開) -- */
 html.ui-liquid .qc.combo-streak-3 {
-  box-shadow: 0 0 40px rgba(255, 0, 128, 0.65), 0 20px 50px rgba(0, 0, 0, 0.75), inset 0 0 18px rgba(255, 0, 128, 0.25) !important;
-  border-color: rgba(255, 0, 128, 0.85) !important;
+  box-shadow: 0 0 48px rgba(255, 0, 128, 0.75), 0 0 20px rgba(121, 40, 202, 0.5), 0 20px 50px rgba(0, 0, 0, 0.75), inset 0 0 22px rgba(255, 0, 128, 0.3) !important;
+  border-color: rgba(255, 0, 128, 0.9) !important;
 }
 html.ui-liquid .qc.combo-streak-5 {
-  box-shadow: 0 0 70px rgba(255, 0, 128, 0.9), 0 0 40px rgba(121, 40, 202, 0.75), inset 0 0 35px rgba(255, 122, 0, 0.5) !important;
+  box-shadow: 0 0 80px rgba(255, 0, 128, 0.95), 0 0 48px rgba(121, 40, 202, 0.85), inset 0 0 40px rgba(255, 122, 0, 0.6) !important;
   border-color: #FF007F !important;
-  animation: liquidMarblingPulse 2.2s ease-in-out infinite alternate !important;
+  animation: liquidMarblingPulse 1.9s ease-in-out infinite alternate !important;
 }
 html.ui-liquid .qc.combo-streak-5::after {
-  animation: liquidBlobMorph 8s ease-in-out infinite alternate !important;
-  opacity: 0.75 !important;
+  animation: liquidBlobMorph 6s ease-in-out infinite alternate !important;
+  opacity: 0.85 !important;
 }
 html.ui-liquid .qc.combo-streak-10,
 html.ui-liquid .qc[class*="combo-streak-"]:not(.combo-streak-1):not(.combo-streak-2):not(.combo-streak-3):not(.combo-streak-4):not(.combo-streak-5) {
-  box-shadow: 0 0 100px rgba(255, 0, 128, 1), 0 0 60px rgba(121, 40, 202, 0.95), 0 0 45px rgba(255, 122, 0, 0.9), inset 0 0 45px rgba(255, 0, 128, 0.55) !important;
+  box-shadow: 0 0 115px rgba(255, 0, 128, 1), 0 0 70px rgba(121, 40, 202, 1), 0 0 50px rgba(255, 122, 0, 0.95), inset 0 0 55px rgba(255, 0, 128, 0.65) !important;
   border-color: #FFFFFF !important;
-  animation: liquidNeonAuraFull 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) infinite alternate !important;
+  animation: liquidNeonAuraFull 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) infinite alternate !important;
 }
 html.ui-liquid .qc.combo-streak-10::after,
 html.ui-liquid .qc[class*="combo-streak-"]:not(.combo-streak-1):not(.combo-streak-2):not(.combo-streak-3):not(.combo-streak-4):not(.combo-streak-5)::after {
-  animation: liquidBlobMorph 4s ease-in-out infinite alternate !important;
-  opacity: 0.9 !important;
-  filter: blur(14px) drop-shadow(0 0 20px rgba(255, 0, 128, 0.9)) !important;
+  animation: liquidBlobMorph 3s ease-in-out infinite alternate !important;
+  opacity: 0.95 !important;
+  filter: blur(14px) drop-shadow(0 0 28px rgba(255, 0, 128, 1)) drop-shadow(0 0 14px rgba(121, 40, 202, 0.9)) !important;
 }
 @keyframes liquidMarblingPulse {
   0% { filter: hue-rotate(0deg) brightness(1); transform: scale(1); }
-  50% { filter: hue-rotate(30deg) brightness(1.22); transform: scale(1.008) translateY(-1px); }
-  100% { filter: hue-rotate(-20deg) brightness(1.1); transform: scale(1); }
+  50% { filter: hue-rotate(35deg) brightness(1.26); transform: scale(1.01) translateY(-1.5px); }
+  100% { filter: hue-rotate(-25deg) brightness(1.12); transform: scale(1); }
 }
 @keyframes liquidNeonAuraFull {
-  0% { transform: scale(1); filter: brightness(1.08) drop-shadow(0 0 20px rgba(255,0,128,0.8)); }
-  50% { transform: scale(1.015) translateY(-2px); filter: brightness(1.28) drop-shadow(0 0 40px rgba(255,0,128,1)) drop-shadow(0 0 22px rgba(121,40,202,0.95)); }
-  100% { transform: scale(1); filter: brightness(1.12) drop-shadow(0 0 22px rgba(255,0,128,0.85)); }
+  0% { transform: scale(1); filter: brightness(1.1) drop-shadow(0 0 24px rgba(255,0,128,0.85)); }
+  50% { transform: scale(1.018) translateY(-3px); filter: brightness(1.35) drop-shadow(0 0 48px rgba(255,0,128,1)) drop-shadow(0 0 28px rgba(121,40,202,1)); }
+  100% { transform: scale(1); filter: brightness(1.15) drop-shadow(0 0 26px rgba(255,0,128,0.9)); }
 }
 
 
 /* ── コンボバッジ: aurora クリスタルプリズム造形 ── */
 html.ui-aurora .mec-combo-badge {
-  background: linear-gradient(135deg, rgba(0, 229, 255, 0.45) 0%, rgba(121, 40, 202, 0.5) 100%) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.95) !important;
-  border-radius: 20px !important;
-  padding: 6px 18px !important;
-  backdrop-filter: blur(20px) saturate(200%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(200%) !important;
-  box-shadow: 0 0 36px rgba(0, 229, 255, 0.9), 0 0 20px rgba(121, 40, 202, 0.7), inset 0 1.5px 1px rgba(255, 255, 255, 0.95) !important;
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.6) 0%, rgba(121, 40, 202, 0.65) 100%) !important;
+  border: 2px solid rgba(255, 255, 255, 0.98) !important;
+  border-radius: 24px !important;
+  padding: 6px 20px !important;
+  backdrop-filter: blur(24px) saturate(220%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(220%) !important;
+  box-shadow: 0 0 42px rgba(0, 229, 255, 1), 0 0 24px rgba(121, 40, 202, 0.85), inset 0 1.5px 1px rgba(255, 255, 255, 1) !important;
   animation: auroraBadgePop .32s cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 html.ui-aurora .mec-combo-badge .combo-count {
   font-weight: 900 !important;
-  font-size: 22px !important;
+  font-size: 24px !important;
   color: #FFFFFF !important;
-  text-shadow: 0 0 16px rgba(0, 229, 255, 1), 0 0 28px rgba(121, 40, 202, 0.9) !important;
+  text-shadow: 0 0 18px rgba(0, 229, 255, 1), 0 0 32px rgba(121, 40, 202, 0.95) !important;
 }
 html.ui-aurora .mec-combo-badge .combo-label {
-  font-weight: 800 !important;
-  font-size: 11px !important;
-  letter-spacing: 1.2px !important;
-  color: #DCFCE7 !important;
-  text-shadow: 0 0 12px rgba(0, 229, 255, 0.95) !important;
+  font-weight: 900 !important;
+  font-size: 11.5px !important;
+  letter-spacing: 1.4px !important;
+  color: #F0FDF4 !important;
+  text-shadow: 0 0 14px rgba(0, 229, 255, 1), 0 1px 2px rgba(0, 0, 0, 0.8) !important;
 }
 @keyframes auroraBadgePop {
   0% { transform: scale(0.6) translateY(-10px); opacity: 0; filter: blur(4px); }
@@ -6422,56 +6435,56 @@ html.ui-aurora .mec-combo-badge .combo-label {
 
 /* ── コンボバッジ: cyber HUDホログラム投影造形 ── */
 html.ui-cyber .mec-combo-badge {
-  background: rgba(2, 10, 8, 0.96) !important;
-  border: 1.5px solid #00FF66 !important;
+  background: rgba(2, 10, 8, 0.98) !important;
+  border: 1.8px solid #00FF66 !important;
   border-radius: 4px !important;
-  padding: 5px 16px !important;
-  box-shadow: 0 0 35px rgba(0, 255, 102, 0.85), inset 0 0 16px rgba(0, 229, 255, 0.45) !important;
+  padding: 6px 18px !important;
+  box-shadow: 0 0 40px rgba(0, 255, 102, 0.95), 0 0 20px rgba(0, 229, 255, 0.6), inset 0 0 18px rgba(0, 229, 255, 0.5) !important;
   animation: cyberBadgePop .25s steps(4, end) both !important;
   transform: skewX(-4deg) !important;
 }
 html.ui-cyber .mec-combo-badge .combo-count {
   font-family: 'SF Mono', Consolas, Monaco, monospace !important;
   font-weight: 900 !important;
-  font-size: 22px !important;
+  font-size: 24px !important;
   color: #00FF66 !important;
-  text-shadow: 0 0 16px #00FF66, 0 0 28px #00E5FF !important;
+  text-shadow: 0 0 18px #00FF66, 0 0 32px #00E5FF !important;
 }
 html.ui-cyber .mec-combo-badge .combo-label {
   font-family: 'SF Mono', Consolas, Monaco, monospace !important;
-  font-weight: 800 !important;
-  font-size: 11px !important;
-  letter-spacing: 1.5px !important;
+  font-weight: 900 !important;
+  font-size: 11.5px !important;
+  letter-spacing: 1.6px !important;
   color: #00E5FF !important;
-  text-shadow: 0 0 10px #00E5FF !important;
+  text-shadow: 0 0 12px #00E5FF, 0 0 6px #00FF66 !important;
 }
 @keyframes cyberBadgePop {
-  0% { transform: scale(0.6) skewX(-12deg); opacity: 0; filter: brightness(2); }
-  50% { transform: scale(1.1) skewX(4deg); opacity: 1; filter: brightness(1.4); }
+  0% { transform: scale(0.6) skewX(-14deg); opacity: 0; filter: brightness(2.2); }
+  50% { transform: scale(1.12) skewX(4deg); opacity: 1; filter: brightness(1.5); }
   100% { transform: scale(1) skewX(-4deg); opacity: 1; filter: brightness(1); }
 }
 
 /* ── コンボバッジ: brass 真鍮ゴールドメダリオン造形 ── */
 html.ui-brass .mec-combo-badge {
-  background: linear-gradient(180deg, rgba(38, 28, 14, 0.98), rgba(20, 14, 6, 0.98)) !important;
+  background: linear-gradient(180deg, rgba(38, 28, 14, 0.99), rgba(20, 14, 6, 0.99)) !important;
   border: 2px solid #FFD700 !important;
-  border-radius: 8px !important;
-  padding: 5px 16px !important;
-  box-shadow: 0 0 35px rgba(255, 215, 0, 0.9), 0 8px 24px rgba(0, 0, 0, 0.8), inset 0 1.5px 0 rgba(255, 243, 196, 0.9) !important;
+  border-radius: 10px !important;
+  padding: 6px 18px !important;
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.95), 0 8px 24px rgba(0, 0, 0, 0.85), inset 0 1.5px 0 rgba(255, 243, 196, 0.95) !important;
   animation: brassBadgeDrop .3s cubic-bezier(0.18, 0.9, 0.25, 1) both !important;
 }
 html.ui-brass .mec-combo-badge .combo-count {
   font-weight: 900 !important;
-  font-size: 22px !important;
+  font-size: 24px !important;
   color: #FFD700 !important;
-  text-shadow: 0 0 16px rgba(255, 215, 0, 1), 0 2px 4px rgba(0, 0, 0, 0.9) !important;
+  text-shadow: 0 0 18px rgba(255, 215, 0, 1), 0 2px 4px rgba(0, 0, 0, 0.95) !important;
 }
 html.ui-brass .mec-combo-badge .combo-label {
-  font-weight: 800 !important;
-  font-size: 11px !important;
-  letter-spacing: 1.2px !important;
+  font-weight: 900 !important;
+  font-size: 11.5px !important;
+  letter-spacing: 1.4px !important;
   color: #FFF3C4 !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 10px rgba(255, 215, 0, 0.8) !important;
 }
 @keyframes brassBadgeDrop {
   0% { transform: scale(0.65) translateY(-12px); opacity: 0; }
