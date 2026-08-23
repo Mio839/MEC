@@ -65,17 +65,6 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   display:flex;align-items:center;gap:var(--sp-3);
   padding:var(--sp-3) var(--sp-4);
   background:rgba(var(--hdr-rgb),.94);border-bottom:1px solid var(--hair);}
-/* 起動時に一度だけ下端を走る光。計器に電源が入る合図で、以後は動かない
-   （無限ループは目を引き続けるので使わない） */
-.hub-header::after{content:'';position:absolute;left:0;bottom:-1px;height:1px;width:42%;
-  background:linear-gradient(90deg,transparent,var(--or),transparent);
-  animation:scan 1.5s var(--ease-in-out) .25s both;}
-@keyframes scan{
-  0%{transform:translateX(-110%);opacity:0;}
-  18%{opacity:.9;}
-  100%{transform:translateX(320%);opacity:0;}
-}
-@media (prefers-reduced-motion:reduce){.hub-header::after{display:none;}}
 /* 同期バッジが長文（⚠️ ストレージ不足）になっても道具側を潰さない。
    狭い画面では先に屋号のほうを詰める */
 .hub-mark{display:flex;align-items:baseline;gap:7px;white-space:nowrap;min-width:0;overflow:hidden;
@@ -627,13 +616,6 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
 @keyframes dueBeat{0%,100%{text-shadow:0 0 9px rgba(255,107,107,.4);}
   50%{text-shadow:0 0 17px rgba(255,107,107,.85);}}
 
-/* E8: 計器ベイの走査線。盤面の下段にも一度だけ電気を通す（上段は D1 の bootScan） */
-.hero-inst{position:relative;overflow:hidden;}
-.hero-inst::after{content:'';position:absolute;top:0;bottom:0;left:0;width:34%;pointer-events:none;
-  z-index:1;background:linear-gradient(100deg,transparent,rgba(224,194,94,.13),transparent);
-  animation:instSweep 1.45s var(--ease-in-out) .6s backwards;}
-@keyframes instSweep{from{transform:translateX(-140%);}to{transform:translateX(340%);}}
-.hero.settled .hero-inst::after{display:none;}
 
 /* E9: 今日の目標に届いた日は、大きな読み値そのものが金になる。
    段は _goalTier と同じ考え方（5=達成 / 6=1.5倍超）だが、ここは2段で足りる */
@@ -643,14 +625,6 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
 @keyframes goalGlow{0%,100%{text-shadow:0 0 20px rgba(255,215,0,.38);}
   50%{text-shadow:0 0 34px rgba(255,215,0,.8);}}
 
-/* D1(2026-08-14): 起動シーケンス。盤面に電源が入る0.9秒だけ走査光がなめる。
-   ⚠️ 一度きり（_bootSequence が .booting を1回だけ載せて外す） */
-.hero.booting{position:relative;}
-.hero.booting::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:2;
-  background:linear-gradient(100deg,transparent 40%,rgba(224,194,94,.16) 50%,transparent 60%);
-  animation:bootScan .9s var(--ease-out) both;}
-@keyframes bootScan{from{transform:translateX(-60%);opacity:0;}
-  20%{opacity:1;}to{transform:translateX(60%);opacity:0;}}
 .hero.booting .hero-cnr{animation:bootCnr .9s var(--ease-out) both;}
 @keyframes bootCnr{from{opacity:0;transform:scale(.7);}60%{opacity:1;}to{opacity:1;transform:none;}}
 
