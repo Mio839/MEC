@@ -156,9 +156,13 @@ test('全8テーマで試験モード未開示時に .ch2.ok が隠蔽される'
     assert(themeCss.includes(`html.${theme} body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok`), `Missing normal reveal rule in ${theme}`);
     assert(themeCss.includes(`html.${theme} body.exam-mode .qc.exam-revealed .ch2.ok`), `Missing exam-revealed rule in ${theme}`);
     assert(themeCss.includes(`html.${theme} body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected)`), `Missing exam concealment rule in ${theme}`);
+    assert(themeCss.includes(`html.${theme} body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected):hover`), `Missing exam concealment hover rule in ${theme}`);
   });
   assert(themeCss.includes('body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected)'), 'Missing global exam concealment rule');
+  // 以前のバグ（通常選択肢と乖離した個別定義）が存在しないことを検証
   assert(!themeCss.includes('html.ui-aurora body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected) {\n  background: rgba(255, 255, 255, 0.08) !important;\n  border: 1.5px solid rgba(255, 255, 255, 0.22) !important;\n  border-left: 4px'), 'Aurora must not have distinct border-left in unrevealed exam mode');
+  assert(!themeCss.includes('html.ui-liquid body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected) {\n  background: rgba(255, 0, 128, 0.08) !important;\n  border: 1.5px solid rgba(255, 0, 128, 0.35) !important;\n  border-left: 4px solid rgba(255, 0, 128, 0.65) !important;\n  color: #FFFFFF !important;\n  border-radius: 12px'), 'Liquid must not have distinct border-radius (12px) in unrevealed exam mode');
+  assert(!themeCss.includes('html.ui-abyss body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected) {\n  background: rgba(4, 18, 38, 0.75) !important;\n  border: 1.5px solid rgba(0, 255, 163, 0.28) !important;\n  border-left: 1.5px solid rgba(0, 255, 163, 0.28) !important;\n  border-radius: 14px !important;\n  color: #F0FDFA !important;\n  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;\n  font-weight: 500 !important;\n  box-shadow: none'), 'Abyss must not have distinct border-left (1.5px) in unrevealed exam mode');
 });
 
 console.log('\n全 ' + passed + ' 件 ok\n');

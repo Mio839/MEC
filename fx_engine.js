@@ -1489,7 +1489,10 @@
       balls: o.balls || 8,
       color: o.color || '#E0C25E',
       blend: o.additive !== false,
-      ttl: o.ttl || 0.95,
+      ttl: o.ttl || 0.95
+    });
+  }
+
   /** 【4テーマ特化】漆黒金継ぎ・禅: 金継ぎクラック修復 ＆ 金粉光彩 */
   function kintsugiCrack(cx, cy, o) {
     o = o || {};
