@@ -51,7 +51,8 @@
        ⚠️ 実際にどの音かは鳴らす瞬間に解決する（sounds_index.js は非同期で読むため、
           ここで解決すると常に空リストに当たる）。 */
     sound: localStorage.getItem('mec_correct_sound_v1'),
-    ssound: localStorage.getItem('mec_select_sound_v1')
+    ssound: localStorage.getItem('mec_select_sound_v1'),
+    rsound: localStorage.getItem('mec_result_sound_v1')
   };
 
   var CE_EFFECT_SETS = ['classic', 'neon', 'ink', 'ecg', 'space', 'retro', 'luxury'];
@@ -2663,8 +2664,7 @@
 
   function playResult() {
     try {
-      var l = ceSndList('result');
-      if (l.length) cePlayWav(l[(Math.random() * l.length) | 0]);
+      cePlayWav(ceSndResolve('result', exam.rsound));
     } catch (e) {}
   }
 

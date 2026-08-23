@@ -167,6 +167,22 @@ t('localStorage に刺さる旧キーが生きている', () => {
   ['custom', 'msmove', 'saber', 'magnum', 'buppigan'].forEach(k =>
     ok(cor.has(k), '正解音の key ' + k + ' が消えた（その音を選んでいた端末の設定が落ちる）'));
   ok(new Set(S.select.map(s => s.key)).has('mp3'), '選択音の key mp3 が消えた');
+  ok(new Set(S.result.map(s => s.key)).has('fanfare'), '結果音の key fanfare が消えた');
+});
+
+console.log('\n[8] 結果音の設定と再生');
+t('sounds_index.js の result スロットに2つの音声が含まれている', () => {
+  const resKeys = S.result.map(s => s.key);
+  ok(resKeys.includes('fanfare'), 'fanfare が含まれていない');
+  ok(resKeys.includes('sulfa'), 'sulfa が含まれていない');
+});
+t('study_exam.js / chapter_exam.js が mec_result_sound_v1 を参照している', () => {
+  ok(studyExam.includes("localStorage.getItem('mec_result_sound_v1')"), 'study_exam.js が mec_result_sound_v1 を読んでいない');
+  ok(chapterExam.includes("localStorage.getItem('mec_result_sound_v1')"), 'chapter_exam.js が mec_result_sound_v1 を読んでいない');
+});
+t('index.html / study.html が結果音グリッドを生成している', () => {
+  ok(indexHtml.includes('resultSoundGrid'), 'index.html に resultSoundGrid が無い');
+  ok(studyHtml.includes('ssovResultGrid'), 'study.html に ssovResultGrid が無い');
 });
 
 console.log('\n' + (fail ? 'FAILED  ' : 'ALL OK  ') + pass + ' passed, ' + fail + ' failed');

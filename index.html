@@ -342,6 +342,11 @@ button.sec-h:hover{color:var(--or);}
    border-color はここに書かない（ID セレクタが .mfx に競り勝って弱い枠に戻ってしまう） */
 #gmDaily .gm-mission.done{background:var(--grl);}
 #gmDaily .gm-mission.done .gm-mission-fill{background:var(--gr);}
+/* ランダムミッション専用配色 */
+#gmDaily .gm-mission.is-random{background:linear-gradient(135deg,rgba(168,85,247,.16),rgba(56,189,248,.09),rgba(245,158,11,.1));}
+#gmDaily .gm-mission.is-random .gm-mission-fill{background:linear-gradient(90deg,#A855F7,#EC4899,#F59E0B);}
+#gmDaily .gm-mission.is-random.done{background:linear-gradient(135deg,rgba(168,85,247,.25),rgba(61,214,140,.2),rgba(245,158,11,.15));}
+#gmDaily .gm-mission.is-random.done .gm-mission-fill{background:linear-gradient(90deg,#EC4899,#A855F7,#3DD68C);}
 /* 必須／ボーナスの仕切りと、末尾の獲得ボーナスXP行もテーマの文字色に寄せる */
 #gmDaily .gm-sub-title,#gmDaily .gm-mission-foot{color:var(--ts);}
 #gmDaily .gm-mission-foot b{color:var(--or);}
@@ -650,11 +655,22 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
 .mfx .gm-mission.done{transform:translateY(-1px);
   border-color:rgba(61,214,140,.55);
   box-shadow:0 4px 20px rgba(61,214,140,.30),inset 0 0 22px rgba(61,214,140,.14);}
+.mfx .gm-mission.is-random{border-color:rgba(192,132,252,.45);}
+.mfx .gm-mission.is-random.done{transform:translateY(-1px);
+  border-color:rgba(236,72,153,.7);
+  box-shadow:0 4px 24px rgba(236,72,153,.38),inset 0 0 24px rgba(168,85,247,.22);}
 /* 達成時の柔らかな呼吸・パルス発光 */
 .mfx .gm-mission.done::before{content:'';position:absolute;z-index:0;pointer-events:none;
   inset:0;border-radius:inherit;
   background:radial-gradient(ellipse at 50% 50%, rgba(61,214,140,.24), transparent 75%);
   animation:missionPulse 3.2s var(--ease-in-out) infinite alternate;}
+.mfx .gm-mission.is-random.done::before{
+  background:radial-gradient(ellipse at 50% 50%, rgba(236,72,153,.32), rgba(168,85,247,.18) 45%, transparent 75%);
+  animation:randomMissionPulse 2.8s var(--ease-in-out) infinite alternate;}
+@keyframes randomMissionPulse{
+  0%{opacity:.45;transform:scale(.98);}
+  100%{opacity:.95;transform:scale(1.02);}
+}
 @keyframes missionPulse{
   0%{opacity:.35;transform:scale(.98);}
   100%{opacity:.85;transform:scale(1.01);}
@@ -665,6 +681,8 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
   pointer-events:none;
   background:linear-gradient(100deg,transparent,rgba(255,255,255,.52),transparent);
   animation:sheen 3s var(--ease-in-out) infinite;}
+.mfx .gm-mission.is-random.done::after{
+  background:linear-gradient(100deg,transparent,rgba(255,214,249,.75),rgba(255,255,255,.9),rgba(255,214,249,.75),transparent);}
 /* 同時に光ると点滅に見えるので行ごとに位相をずらす（負の delay ＝ 途中から開始）。
    週間は5行あるので5段ぶん用意する */
 .mfx .gm-mission:nth-child(2).done::after{animation-delay:-.6s;}
@@ -687,6 +705,8 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
 /* ラベルも淡く発光させる */
 .mfx .gm-mission.done .gm-mission-lbl{animation:lblGlow 2.6s var(--ease-in-out) infinite;}
 @keyframes lblGlow{0%,100%{text-shadow:none;}50%{text-shadow:0 0 10px rgba(124,239,178,.75);}}
+.mfx .gm-mission.is-random.done .gm-mission-lbl{animation:randomLblGlow 2.6s var(--ease-in-out) infinite;}
+@keyframes randomLblGlow{0%,100%{text-shadow:none;}50%{text-shadow:0 0 12px rgba(236,72,153,.85),0 0 20px rgba(168,85,247,.6);}}
 /* 満タンのバーを光が走る */
 .mfx .gm-mission.done .gm-mission-fill{position:relative;overflow:hidden;}
 .mfx .gm-mission.done .gm-mission-fill::after{content:'';position:absolute;
@@ -1041,6 +1061,9 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
 
     <div class="sound-label">正解音</div>
     <div class="sound-grid" id="correctSoundGrid"></div>
+
+    <div class="sound-label">結果音（結果画面表示時）</div>
+    <div class="sound-grid" id="resultSoundGrid"></div>
 
     <!-- 起動音は「どれを鳴らすか」を選ばせない＝試験開始のたびにランダムで1つ鳴る（2026-08-21）。 -->
     <div class="sound-label">起動音（試験開始のカウントダウン中・毎回ランダム）</div>
@@ -2519,15 +2542,21 @@ function _sparkleMissions() {
     if (!c) return;
     _sparkledMissions.add(key);
     n++;
+    const isRand = row.classList.contains('is-random');
+    const fxColors = isRand ? ['#EC4899', '#A855F7', '#38BDF8', '#FFD166', '#FFFFFF'] : themeColors;
+    const fxShapes = isRand ? ['star', 'gem', 'shard'] : themeShapes;
     setTimeout(() => {
       const icX = c.r.left + 24;
-      if (MecFX.sparks && curTheme === 'brass') {
+      if (isRand && MecFX.glyphBurst) {
+        MecFX.glyphBurst(icX, c.y, { glyphs: ['🎲', '✨', '⭐', '💎'], count: 4, spread: 85, w: 24 });
+      }
+      if (MecFX.sparks && curTheme === 'brass' && !isRand) {
         MecFX.sparks(icX, c.y, { count: 6, colors: themeColors, speed: 120, maxR: 16 });
       }
       MecFX.burst(icX, c.y, {
-        tier: 2, count: 12, colors: themeColors, shapes: themeShapes, speed: 160
+        tier: isRand ? 3 : 2, count: isRand ? 18 : 12, colors: fxColors, shapes: fxShapes, speed: isRand ? 190 : 160
       });
-      MecFX.dust({ count: 6, colors: themeColors, speed: 50 });
+      MecFX.dust({ count: isRand ? 10 : 6, colors: fxColors, speed: 60 });
     }, i * 130);
   });
 
@@ -2606,10 +2635,17 @@ function _initMissionTap() {
   document.addEventListener('pointerdown', e => {
     const row = e.target.closest('.mfx .gm-mission.done');
     if (!row || !_fxOk()) return;
+    const isRand = row.classList.contains('is-random');
     const curTheme = window.MecUITheme ? MecUITheme.get() : (document.documentElement.classList.contains('ui-brass') ? 'brass' : 'aurora');
     
     let colors, shapes;
-    if (curTheme === 'brass') {
+    if (isRand) {
+      colors = ['#EC4899', '#A855F7', '#38BDF8', '#FFD166', '#FFFFFF'];
+      shapes = ['star', 'gem', 'shard'];
+      if (MecFX.glyphBurst) {
+        MecFX.glyphBurst(e.clientX, e.clientY, { glyphs: ['🎲', '✨', '⭐', '💎'], count: 5, spread: 90, w: 24 });
+      }
+    } else if (curTheme === 'brass') {
       colors = ['#FFD700', '#E0C25E', '#B87333'];
       shapes = ['circle', 'shard'];
     } else if (curTheme === 'cyber') {
@@ -2636,7 +2672,7 @@ function _initMissionTap() {
     }
 
     MecFX.burst(e.clientX, e.clientY, {
-      tier: 2, count: 14, colors: colors, shapes: shapes, speed: 200
+      tier: isRand ? 3 : 2, count: isRand ? 18 : 14, colors: colors, shapes: shapes, speed: 200
     });
   }, { passive: true });
 }
@@ -3082,14 +3118,17 @@ function _renderHubSoundGrid(gridId, slot, attr, type) {
 function openSoundModal() {
   _renderHubSoundGrid('selectSoundGrid', 'select', 'ssound', 'select');
   _renderHubSoundGrid('correctSoundGrid', 'correct', 'sound', 'correct');
+  _renderHubSoundGrid('resultSoundGrid', 'result', 'rsound', 'result');
   // 印は保存値そのものではなく実在するキーへ解決した値に合わせる
   // （消したファイル・旧合成音のキーが残っていても、実際に鳴る方が光る）
   const sel = _sndResolveHub('select', localStorage.getItem('mec_select_sound_v1'));
   const cor = _sndResolveHub('correct', localStorage.getItem('mec_correct_sound_v1'));
+  const res = _sndResolveHub('result', localStorage.getItem('mec_result_sound_v1'));
   // 起動音は毎回ランダム＝保存されているのは鳴らす／鳴らさないだけ
   const boot = (localStorage.getItem('mec_boot_sound_v1') === 'off') ? 'off' : 'on';
   document.querySelectorAll('#selectSoundGrid .sound-btn').forEach(b => b.classList.toggle('sel', b.dataset.ssound === sel));
   document.querySelectorAll('#correctSoundGrid .sound-btn').forEach(b => b.classList.toggle('sel', b.dataset.sound === cor));
+  document.querySelectorAll('#resultSoundGrid .sound-btn').forEach(b => b.classList.toggle('sel', b.dataset.rsound === res));
   document.querySelectorAll('#bootSoundGrid .sound-btn').forEach(b => b.classList.toggle('sel', b.dataset.bsound === boot));
   document.getElementById('soundModal').classList.add('open');
 }
@@ -3107,6 +3146,7 @@ function _previewWavFile(spec) {
 }
 function _previewSelectSound(value) { if (value !== 'off') _previewWavFile(_sndFindHub('select', value)); }
 function _previewCorrectSound(value) { if (value !== 'off') _previewWavFile(_sndFindHub('correct', value)); }
+function _previewResultSound(value) { if (value !== 'off') _previewWavFile(_sndFindHub('result', value)); }
 /* 「ランダム」の試聴＝押すたびに抽選し直す（何が入っているかを耳で確かめられる） */
 function _previewBootSound(value) {
   if (value === 'off') return;
@@ -3123,6 +3163,10 @@ function saveSoundPref(type, value, btn) {
     localStorage.setItem('mec_boot_sound_v1', value);
     document.querySelectorAll('#bootSoundGrid .sound-btn').forEach(b => b.classList.remove('sel'));
     _previewBootSound(value);
+  } else if (type === 'result') {
+    localStorage.setItem('mec_result_sound_v1', value);
+    document.querySelectorAll('#resultSoundGrid .sound-btn').forEach(b => b.classList.remove('sel'));
+    _previewResultSound(value);
   } else {
     localStorage.setItem('mec_correct_sound_v1', value);
     document.querySelectorAll('#correctSoundGrid .sound-btn').forEach(b => b.classList.remove('sel'));

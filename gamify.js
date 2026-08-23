@@ -222,8 +222,19 @@
 .gm-mission{display:flex;align-items:center;gap:8px;background:rgba(var(--glass-rgb),.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:6px 10px;}
 .gm-mission.done{background:rgba(61,214,140,.1);border-color:rgba(61,214,140,.35);}
 .gm-mission-ic{font-size:16px;flex-shrink:0;}
-.gm-mission-lbl{flex:1;font-size:12px;font-weight:700;color:#EAF0FA;}
+.gm-mission-lbl{flex:1;font-size:12px;font-weight:700;color:#EAF0FA;display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
 .gm-mission.done .gm-mission-lbl{color:#7CEFB2;}
+.gm-mission-tag{display:inline-flex;align-items:center;gap:2px;font-size:9.5px;font-weight:900;letter-spacing:.3px;padding:1px 5px;border-radius:5px;background:linear-gradient(135deg,rgba(168,85,247,.38),rgba(236,72,153,.38));border:1px solid rgba(236,72,153,.55);color:#FFD6F9;text-shadow:0 0 6px rgba(236,72,153,.8);flex-shrink:0;line-height:1.2;animation:gmTagGlow 3s ease-in-out infinite;}
+@keyframes gmTagGlow{0%,100%{box-shadow:0 0 4px rgba(168,85,247,.3);}50%{box-shadow:0 0 10px rgba(236,72,153,.7);}}
+/* ── ランダム（日替わり）ミッション特別デザイン ── */
+.gm-mission.is-random{background:linear-gradient(135deg,rgba(168,85,247,.14),rgba(56,189,248,.08),rgba(245,158,11,.09));border:1px solid rgba(192,132,252,.4);box-shadow:0 0 14px rgba(168,85,247,.16),inset 0 1px 0 rgba(255,255,255,.12);animation:gmRandomBreath 4.5s ease-in-out infinite alternate;position:relative;}
+@keyframes gmRandomBreath{0%{border-color:rgba(192,132,252,.4);box-shadow:0 0 10px rgba(168,85,247,.15);}50%{border-color:rgba(236,72,153,.55);box-shadow:0 0 16px rgba(236,72,153,.26),inset 0 0 8px rgba(168,85,247,.12);}100%{border-color:rgba(56,189,248,.48);box-shadow:0 0 14px rgba(56,189,248,.22);}}
+.gm-mission.is-random .gm-mission-ic{display:inline-block;animation:gmDiceWiggle 5.5s ease-in-out infinite;transform-origin:center;}
+@keyframes gmDiceWiggle{0%,84%,100%{transform:rotate(0deg) scale(1);}88%{transform:rotate(-14deg) scale(1.18);}92%{transform:rotate(12deg) scale(1.14);}96%{transform:rotate(-6deg) scale(1.06);}}
+.gm-mission.is-random .gm-mission-fill{background:linear-gradient(90deg,#A855F7,#EC4899,#F59E0B);}
+.gm-mission.is-random.done{background:linear-gradient(135deg,rgba(168,85,247,.22),rgba(61,214,140,.18),rgba(245,158,11,.15));border-color:rgba(236,72,153,.65);box-shadow:0 0 20px rgba(236,72,153,.32),inset 0 0 14px rgba(168,85,247,.2);}
+.gm-mission.is-random.done .gm-mission-lbl{color:#FFF0F8;text-shadow:0 0 10px rgba(236,72,153,.7);}
+.gm-mission.is-random.done .gm-mission-tag{background:linear-gradient(135deg,rgba(61,214,140,.4),rgba(236,72,153,.4));border-color:rgba(61,214,140,.7);color:#D1FAE5;text-shadow:0 0 6px rgba(61,214,140,.8);}
 .gm-mission-bar{position:relative;width:64px;height:6px;border-radius:4px;background:rgba(var(--glass-rgb),.1);overflow:hidden;flex-shrink:0;}
 /* ⚠️ display:block は必須。span のままだと inline 扱いで width/height が無視され、
    親(.gm-mission-bar)がフレックスアイテムで枠だけ見えるため「常に空のゲージ」になる */
@@ -746,12 +757,12 @@
   // xp は達成時に一度だけ入るボーナスXP（_awardMissionXp・重複防止は同期台帳 s.xp.ledger）。
   // ── 日替わりクエストプール ─────────────────────────────────────────
   const DAILY_QUEST_POOL = [
-    { id: 'd_hard',    tier: 'bonus', xp: 60, icon: '🔥', label: '正答率60%未満の難問を5問', target: 5,  counter: 'hard' },
-    { id: 'd_srs15',   tier: 'bonus', xp: 60, icon: '🔁', label: 'SRS復習を15問 こなす',     target: 15, counter: 'srs' },
-    { id: 'd_redo5',   tier: 'bonus', xp: 70, icon: '♻️', label: '落とした問題を5問 奪回',   target: 5,  counter: 'redo' },
-    { id: 'd_acc80',   tier: 'bonus', xp: 50, icon: '🎯', label: '正答率80%以上を1回',       target: 1,  counter: 'acc80' },
-    { id: 'd_exam2',   tier: 'bonus', xp: 60, icon: '🎓', label: '試験セッションを2本 解答', target: 2,  counter: 'exam' },
-    { id: 'd_perfect', tier: 'bonus', xp: 80, icon: '💯', label: '試験で全問正解を1回',      target: 1,  counter: 'perfect' },
+    { id: 'd_hard',    tier: 'bonus', xp: 60, icon: '🔥', label: '正答率60%未満の難問を5問', target: 5,  counter: 'hard',    isRandom: true },
+    { id: 'd_srs15',   tier: 'bonus', xp: 60, icon: '🔁', label: 'SRS復習を15問 こなす',     target: 15, counter: 'srs',     isRandom: true },
+    { id: 'd_redo5',   tier: 'bonus', xp: 70, icon: '♻️', label: '落とした問題を5問 奪回',   target: 5,  counter: 'redo',    isRandom: true },
+    { id: 'd_acc80',   tier: 'bonus', xp: 50, icon: '🎯', label: '正答率80%以上を1回',       target: 1,  counter: 'acc80',   isRandom: true },
+    { id: 'd_exam2',   tier: 'bonus', xp: 60, icon: '🎓', label: '試験セッションを2本 解答', target: 2,  counter: 'exam',    isRandom: true },
+    { id: 'd_perfect', tier: 'bonus', xp: 80, icon: '💯', label: '試験で全問正解を1回',      target: 1,  counter: 'perfect', isRandom: true },
   ];
 
   function _dateSeed(dk) {
@@ -793,7 +804,7 @@
       { id: 'srs',        tier: 'bonus', xp: 60, icon: '🔁', label: 'SRS復習を20問 こなす',     target: 20, counter: 'srs' },
       { id: 'redo',       tier: 'bonus', xp: 70, icon: '♻️', label: '落とした問題を10問 奪回',  target: 10, counter: 'redo' },
       { id: 'subj',       tier: 'bonus', xp: 50, icon: '🧭', label: '科目を2つ以上またぐ',       target: 2,  counter: 'subj' },
-      { id: quest.id,     tier: quest.tier, xp: quest.xp, icon: quest.icon, label: quest.label, target: quest.target, counter: quest.counter },
+      { id: quest.id,     tier: quest.tier, xp: quest.xp, icon: quest.icon, label: quest.label, target: quest.target, counter: quest.counter, isRandom: true },
       { id: 'd_focus_' + weak.id, tier: 'bonus', xp: 70, icon: weak.icon, label: '【弱点強化】' + weak.name + 'を10問 解答', target: 10, counter: 'subj_focus' },
     ];
   }
@@ -921,7 +932,8 @@
         _awardMissionXp(lk, def.id, def.xp);
         if (!seen.includes(def.id)) {
           seen.push(def.id);
-          toast(def.icon, 'ミッション達成！', def.label + '（+' + def.xp + ' XP）', SND.mission, def.label);
+          const tTitle = def.isRandom ? '🎲 日替わりミッション達成！' : 'ミッション達成！';
+          toast(def.icon, tTitle, def.label + '（+' + def.xp + ' XP）', SND.mission, def.label);
         }
       });
       // セレモニーは core のみで判定する（bonus は在庫・運に左右され毎回は達成できないため）
@@ -1241,11 +1253,12 @@
       const done = raw >= d.target;
       const ratio = cur / d.target;
       const behind = !done && pace != null && ratio < pace;
+      const isRand = !!d.isRandom;
       // data-tier は index.html（ハブ）が「必須だけ揃ったか」を判定するのに使う
-      return '<div class="gm-mission' + (done ? ' done' : '') + (behind ? ' behind' : '') +
-        '" data-tier="' + d.tier + '">' +
+      return '<div class="gm-mission' + (done ? ' done' : '') + (behind ? ' behind' : '') + (isRand ? ' is-random' : '') +
+        '" data-tier="' + d.tier + '"' + (isRand ? ' data-random="true"' : '') + '>' +
         '<span class="gm-mission-ic">' + (done ? '✅' : d.icon) + '</span>' +
-        '<span class="gm-mission-lbl">' + d.label + '</span>' +
+        '<span class="gm-mission-lbl">' + (isRand ? '<span class="gm-mission-tag">🎲 日替わり</span>' : '') + d.label + '</span>' +
         '<span class="gm-mission-bar"><span class="gm-mission-fill" style="width:' + Math.round(ratio * 100) + '%"></span>' +
           (pace != null && !done ? '<i class="gm-pace" style="left:' + (pace * 100).toFixed(1) + '%"></i>' : '') +
         '</span>' +

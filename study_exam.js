@@ -110,6 +110,7 @@ function _sndResolve(slot, stored) {
 
 let _correctSound = _sndResolve('correct', localStorage.getItem('mec_correct_sound_v1'));
 let _selectSound  = _sndResolve('select',  localStorage.getItem('mec_select_sound_v1'));
+let _resultSound  = _sndResolve('result',  localStorage.getItem('mec_result_sound_v1'));
 
 /* 起動音は設定で1つに固定せず、**試験開始のたびにランダムで1つ**鳴る（2026-08-21〜）。
    localStorage('mec_boot_sound_v1') が持つのは「鳴らす／鳴らさない」だけ。
@@ -127,16 +128,14 @@ function _pickBootSpec() {
 }
 
 let _pendingResultSpec = null;
-function _pickResultSpec() {
-  const l = _sndList('result');
-  return l.length ? l[(Math.random() * l.length) | 0] : null;
-}
 function _prepareResultSound() {
-  _pendingResultSpec = _pickResultSpec();
+  if (_resultSound === 'off') { _pendingResultSpec = null; return; }
+  _pendingResultSpec = _sndFind('result', _resultSound);
   if (_pendingResultSpec) _prepareWavSound(_pendingResultSpec);
 }
 function _playResultSound() {
-  const spec = _pendingResultSpec || _pickResultSpec();
+  if (_resultSound === 'off') return;
+  const spec = _pendingResultSpec || _sndFind('result', _resultSound);
   if (spec) _playWavSound(spec);
 }
 

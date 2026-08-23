@@ -417,6 +417,19 @@ t('日替わりクエストと弱点フォーカスミッションが正しく�
   assert.ok(focus, '弱点科目フォーカスミッションが存在する');
   assert.ok(focus.label.indexOf('【弱点強化】') >= 0, '弱点強化のラベル');
   assert.strictEqual(focus.tier, 'bonus');
+
+  const randQuest = d.daily.find(m => m.isRandom);
+  assert.ok(randQuest, '日替わりランダムクエストが存在する');
+  assert.strictEqual(randQuest.isRandom, true);
+});
+
+t('日替わりランダムミッションの描画に is-random クラスと日替わりバッジが付与される', () => {
+  const ctx = makeCtx();
+  const html = renderInto(ctx.window.MecGamify, { only: 'daily' });
+  assert.ok(html.indexOf('is-random') > 0, 'is-random クラスが存在する');
+  assert.ok(html.indexOf('data-random="true"') > 0, 'data-random="true" が存在する');
+  assert.ok(html.indexOf('gm-mission-tag') > 0, 'gm-mission-tag が存在する');
+  assert.ok(html.indexOf('🎲 日替わり') > 0, '🎲 日替わり ラベルが存在する');
 });
 
 t('goldenDays と goldenStreak の計算', () => {

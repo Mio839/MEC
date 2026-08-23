@@ -1,3 +1,8 @@
+// 2026-08-23l: 結果画面の効果音設定UI追加とsounds/結果画面の2音源対応（勝利のファンファーレ / レベルアップ音(サルファ)）。
+//   - sounds/meta.json / sounds_index.js: レベルアップ音(サルファ).wav (key: sulfa) を登録。
+//   - index.html / study.html: サウンド設定モーダルに結果音選択グリッドを追加し、mec_result_sound_v1 へ保存。
+//   - study_exam.js / chapter_exam.js: 結果画面表示時に mec_result_sound_v1 の設定音を再生するよう更新。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-23j: 試験モードの正解・誤答処理における演出エラー安全化（try-catchガード）。
 //   - study_exam.js: revealAnswer (単一/複数選択) および _revealCalcAnswer 内の演出呼び出しを try-catch で保護し、演出処理でエラーが発生してもカードの暗転・確定・次問スクロールが確実に完了するよう改善。
 //   - chapter_exam.js: ceFinishAnswer 内の演出呼び出しを try-catch で保護。
@@ -363,7 +368,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-23k";
+const SHELL_VERSION = "2026-08-23l";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

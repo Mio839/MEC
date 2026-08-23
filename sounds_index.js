@@ -18,8 +18,7 @@ window.MecSounds = {
     {"key":"buppigan","file":"正解音/ブッピガン.wav","label":"ブッピガン","vol":0.5,"peak":0.997,"dur":1.21},
     {"key":"zelda","file":"正解音/Zelda.mp3","label":"ゼルダ","vol":0.95,"peak":0.534,"dur":1.9},
     {"key":"kh","file":"正解音/キングダムハーツ項目選択.wav","label":"キングダムハーツ","vol":0.7,"peak":0.701,"dur":4.14},
-    {"key":"mhf","file":"正解音/MHF_クエスト開始BGM.wav","label":"MHFクエスト開始","vol":4.3,"peak":0.117,"dur":2},
-    {"key":"s9","file":"正解音/レベルアップ音(サルファ).wav","label":"レベルアップ音(サルファ)","vol":1}
+    {"key":"mhf","file":"正解音/MHF_クエスト開始BGM.wav","label":"MHFクエスト開始","vol":4.3,"peak":0.117,"dur":2}
   ],
   boot: [
     {"key":"ms","file":"起動音/MS起動.wav","label":"MS起動","vol":0.55,"peak":0.919,"dur":4.73},
@@ -31,6 +30,7 @@ window.MecSounds = {
     {"key":"purahpad","file":"選択音/プルアパッド 起動.wav","label":"プルアパッド起動","vol":0.88,"peak":0.794,"dur":2.7}
   ],
   result: [
-    {"key":"fanfare","file":"結果画面/勝利のファンファーレ.wav","label":"勝利のファンファーレ","vol":0.5,"peak":0.992,"dur":4.24}
+    {"key":"fanfare","file":"結果画面/勝利のファンファーレ.wav","label":"勝利のファンファーレ","vol":0.5,"peak":0.992,"dur":4.24},
+    {"key":"sulfa","file":"結果画面/レベルアップ音(サルファ).wav","label":"レベルアップ音(サルファ)","vol":0.7,"peak":0.707,"dur":3.36}
   ]
 };

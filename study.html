@@ -278,6 +278,8 @@ if ('serviceWorker' in navigator) {
     <div class="ssov-grid" id="ssovSelectGrid"></div>
     <div class="ssov-lbl">正解音</div>
     <div class="ssov-grid" id="ssovCorrectGrid"></div>
+    <div class="ssov-lbl">結果音（結果画面表示時）</div>
+    <div class="ssov-grid" id="ssovResultGrid"></div>
     <!-- 起動音は「どれを鳴らすか」を選ばせない＝試験開始のたびにランダムで1つ鳴る。
          ここが持つのは鳴らす／鳴らさないだけ（2026-08-21）。 -->
     <div class="ssov-lbl">起動音（試験開始のカウントダウン中・毎回ランダム）</div>
@@ -2234,10 +2236,12 @@ function openStudySoundOv() {
   _renderUIThemePicker();
   _renderStudySoundGrid('ssovSelectGrid', 'select', 'ssound', 'select');
   _renderStudySoundGrid('ssovCorrectGrid', 'correct', 'sound', 'correct');
+  _renderStudySoundGrid('ssovResultGrid', 'result', 'rsound', 'result');
   // 選択中の印は「保存値」ではなく study_exam.js が解決した実効値に合わせる
   // （消したファイル・旧合成音のキーが保存されていても、鳴る方のボタンが光る）。
   document.querySelectorAll('#ssovSelectGrid .ssov-btn').forEach(b => b.classList.toggle('sel', b.dataset.ssound === _selectSound));
   document.querySelectorAll('#ssovCorrectGrid .ssov-btn').forEach(b => b.classList.toggle('sel', b.dataset.sound === _correctSound));
+  document.querySelectorAll('#ssovResultGrid .ssov-btn').forEach(b => b.classList.toggle('sel', b.dataset.rsound === _resultSound));
   document.querySelectorAll('#ssovBootGrid .ssov-btn').forEach(b => b.classList.toggle('sel', b.dataset.bsound === _bootSound));
   document.getElementById('studySoundOv').classList.add('open');
   _renderStudyDiag();
@@ -2302,6 +2306,12 @@ function saveStudySoundPref(type, value, btn) {
     btn.classList.add('sel');
     // 「ランダム」の試聴＝押すたびに抽選し直す（何が入っているかを耳で確かめられる）
     if (value !== 'off') _playWavSound(_pickBootSpec());
+  } else if (type === 'result') {
+    localStorage.setItem('mec_result_sound_v1', value);
+    _resultSound = value;
+    document.querySelectorAll('#ssovResultGrid .ssov-btn').forEach(b => b.classList.remove('sel'));
+    btn.classList.add('sel');
+    _previewStudyResultSound(value);
   } else {
     localStorage.setItem('mec_correct_sound_v1', value);
     _correctSound = value;
@@ -2320,6 +2330,11 @@ function _previewStudyCorrectSound(value) {
   if (value === 'off') return;
   // ファイル名も音量も sounds_index.js が正本。ここに2本目の表を作らないこと。
   _playWavSound(_sndFind('correct', value));
+}
+
+function _previewStudyResultSound(value) {
+  if (value === 'off') return;
+  _playWavSound(_sndFind('result', value));
 }
 
 </script>

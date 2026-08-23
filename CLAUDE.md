@@ -1454,7 +1454,8 @@ study.html(study_exam.js) ／ index.html ／ chapter_exam.js  ← 3つとも「�
 | 設定キー | 既定 | 中身 |
 |---|---|---|
 | `mec_correct_sound_v1` | 一覧の先頭（`custom`＝正解音） | `sounds/正解音/` の8種＋`off` |
-| `mec_select_sound_v1` | 一覧の先頭（`mp3`＝選択） | `sounds/選択音/` の2種＋`off` |
+| `mec_select_sound_v1` | 一覧の先頭（`mp3`＝選択） | `sounds/選択音/` の3種＋`off` |
+| `mec_result_sound_v1` | 一覧の先頭（`fanfare`＝勝利のファンファーレ） | `sounds/結果画面/` の2種＋`off` |
 | `mec_boot_sound_v1` | `on` | **鳴らす／鳴らさないだけ**（下記） |
 
 - ⚠️ **起動音は設定で選ばせず、試験開始のたびにランダムで1つ鳴る**（2026-08-21〜）。
