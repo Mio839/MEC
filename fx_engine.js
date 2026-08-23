@@ -118,11 +118,10 @@
   function pick(arr) { return arr[(Math.random() * arr.length) | 0]; }
   function easeOutCubic(t) { var u = 1 - t; return 1 - u * u * u; }
 
-  // 位置を自前で持つ（速度で動かさない）型。ここに載せた型は step() の物理を通らない。
-  // 型を足したら必ずここに登録すること——登録し忘れると重力で画面外へ落ちて消える。
   var STATIC_TYPES = {
     bar: 1, bolt: 1, ring: 1, stamp: 1, wave: 1, ribbon: 1,
-    astrolabe: 1, iris: 1, ripple_interfere: 1, chronos_dial: 1, bearing_orbit: 1
+    astrolabe: 1, iris: 1, ripple_interfere: 1, chronos_dial: 1, bearing_orbit: 1,
+    kintsugi_crack: 1, celestial_grimoire: 1, abyss_sonar: 1, frost_crystal: 1
   };
 
   // 2次ベジェ（ribbon の軌道）
@@ -521,6 +520,247 @@
           ctx.lineTo(Math.cos(aB - 0.25) * curRB, Math.sin(aB - 0.25) * curRB);
           ctx.stroke();
         }
+        ctx.restore();
+        return;
+      }
+      case 'kintsugi_crack': {
+        // 【漆黒金継ぎ】SVG風有機的クラックライン ＆ 金粉吸着光芒
+        var scK = easeOutCubic(t);
+        ctx.save();
+        ctx.translate(x, y);
+        var lines = p.lines || [];
+        for (var li = 0; li < lines.length; li++) {
+          var line = lines[li];
+          var lPts = line.pts;
+          if (!lPts || lPts.length < 2) continue;
+          var curLen = (lPts.length - 1) * Math.min(1, t * 2.2);
+          var curIdx = Math.floor(curLen);
+          var subT = curLen - curIdx;
+
+          // 金継ぎの主亀裂ライン
+          ctx.beginPath();
+          ctx.strokeStyle = p.color || '#F5D061';
+          ctx.lineWidth = (line.w || 3.0) * (1 - t * 0.25);
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.moveTo(lPts[0].x, lPts[0].y);
+          for (var pi = 1; pi <= curIdx; pi++) {
+            ctx.lineTo(lPts[pi].x, lPts[pi].y);
+          }
+          if (curIdx < lPts.length - 1 && subT > 0) {
+            var pFrom = lPts[curIdx], pTo = lPts[curIdx + 1];
+            ctx.lineTo(pFrom.x + (pTo.x - pFrom.x) * subT, pFrom.y + (pTo.y - pFrom.y) * subT);
+          }
+          ctx.stroke();
+
+          // 亀裂先端の黄金グロー閃光
+          if (curIdx < lPts.length - 1) {
+            var pFrom2 = lPts[curIdx], pTo2 = lPts[curIdx + 1];
+            var tipX = pFrom2.x + (pTo2.x - pFrom2.x) * subT;
+            var tipY = pFrom2.y + (pTo2.y - pFrom2.y) * subT;
+            ctx.fillStyle = '#FFFFFF';
+            ctx.beginPath(); ctx.arc(tipX, tipY, (line.w || 3.0) * 1.5, 0, 6.2832); ctx.fill();
+          }
+
+          // 継ぎ目の金粉グロー（修復後の光彩滲み）
+          if (t > 0.25) {
+            var glowAlpha = Math.sin((t - 0.25) / 0.75 * Math.PI) * 0.7;
+            ctx.strokeStyle = 'rgba(255, 242, 168, ' + glowAlpha + ')';
+            ctx.lineWidth = (line.w || 3.0) * 2.4;
+            ctx.stroke();
+          }
+        }
+        ctx.restore();
+        return;
+      }
+      case 'celestial_grimoire': {
+        // 【賢者の星図・魔導書】多重天球儀リング ＆ 古代ルーン文字回転 ＆ 八芒星幾何学
+        var scG = easeOutCubic(t);
+        var rG = p.maxR * scG;
+        var starGold = p.color || '#FFD166';
+        var manaPurple = p.accentColor || '#8A2BE2';
+        var runes = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚷ', 'ᚹ', 'ᚺ', 'ᚾ', 'ᛁ', 'ᛃ', 'ᛈ', 'ᛋ', 'ᛏ', 'ᛒ'];
+
+        ctx.save();
+        ctx.translate(x, y);
+
+        // 1. 八芒星幾何学ライン (Octagram Magic Circle)
+        var octR = rG * 0.72;
+        ctx.strokeStyle = starGold;
+        ctx.lineWidth = Math.max(0.9, 1.8 * (1 - t * 0.3));
+        ctx.beginPath();
+        for (var sq = 0; sq < 2; sq++) {
+          var sqRot = (sq * Math.PI / 4) + t * 0.8;
+          for (var si = 0; si < 4; si++) {
+            var sa = sqRot + (si * Math.PI / 2);
+            var sx = Math.cos(sa) * octR, sy = Math.sin(sa) * octR;
+            if (si === 0) ctx.moveTo(sx, sy);
+            else ctx.lineTo(sx, sy);
+          }
+          ctx.closePath();
+        }
+        ctx.stroke();
+
+        // 2. 天球儀二重リング ＆ 目盛り
+        ctx.beginPath(); ctx.arc(0, 0, rG, 0, 6.2832); ctx.stroke();
+        ctx.beginPath(); ctx.arc(0, 0, rG * 0.88, 0, 6.2832); ctx.stroke();
+        var nTicks = 24;
+        for (var ti = 0; ti < nTicks; ti++) {
+          var aTi = (ti / nTicks) * 6.2832 - t * 1.5;
+          ctx.beginPath();
+          ctx.moveTo(Math.cos(aTi) * (rG * 0.88), Math.sin(aTi) * (rG * 0.88));
+          ctx.lineTo(Math.cos(aTi) * rG, Math.sin(aTi) * rG);
+          ctx.stroke();
+        }
+
+        // 3. 古代ルーン文字の点灯・公転
+        ctx.fillStyle = starGold;
+        ctx.font = 'bold ' + Math.max(10, Math.round(rG * 0.08)) + 'px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        var runeCount = 12;
+        for (var ri = 0; ri < runeCount; ri++) {
+          var ra = (ri / runeCount) * 6.2832 + t * 1.2;
+          var rx = Math.cos(ra) * (rG * 0.52);
+          var ry = Math.sin(ra) * (rG * 0.52);
+          ctx.save();
+          ctx.translate(rx, ry);
+          ctx.rotate(ra + Math.PI / 2);
+          ctx.fillText(runes[ri % runes.length], 0, 0);
+          ctx.restore();
+        }
+
+        // 4. 星座ノード (Glowing Stars)
+        for (var si2 = 0; si2 < 8; si2++) {
+          var sa2 = (si2 / 8) * 6.2832 + t * 0.5;
+          var sx2 = Math.cos(sa2) * rG, sy2 = Math.sin(sa2) * rG;
+          ctx.fillStyle = '#FFFFFF';
+          ctx.beginPath(); ctx.arc(sx2, sy2, 2.5, 0, 6.2832); ctx.fill();
+        }
+
+        ctx.restore();
+        return;
+      }
+      case 'abyss_sonar': {
+        // 【深海アビス】エメラルドソナーパルス ＆ 生体発光スパーク ＆ 走査スイープ
+        var scS = easeOutCubic(t);
+        var rS = p.maxR * scS;
+        var emerald = p.color || '#00FFA3';
+        var deepCyan = p.accentColor || '#00B4D8';
+
+        ctx.save();
+        ctx.translate(x, y);
+
+        // 1. 同心ソナーリング（3重）
+        for (var si = 0; si < 3; si++) {
+          var curSR = rS * (1 - si * 0.22);
+          if (curSR <= 0) continue;
+          ctx.beginPath();
+          ctx.arc(0, 0, curSR, 0, 6.2832);
+          ctx.strokeStyle = (si === 0 ? emerald : deepCyan);
+          ctx.lineWidth = Math.max(1, (3 - si * 0.8) * (1 - t * 0.4));
+          ctx.stroke();
+        }
+
+        // 2. ソナー走査扇形スイープ (Sonar Sweep Beam)
+        var sweepA = t * 4.2;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.arc(0, 0, rS, sweepA - 0.6, sweepA);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(0, 255, 163, ' + (0.22 * (1 - t * 0.5)) + ')';
+        ctx.fill();
+
+        // 3. ソナー走査線
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(Math.cos(sweepA) * rS, Math.sin(sweepA) * rS);
+        ctx.strokeStyle = emerald;
+        ctx.lineWidth = 2.2;
+        ctx.stroke();
+
+        // 4. 生体発光器官点灯 (Bioluminescent nodes)
+        var nodeCount = 8;
+        for (var ni = 0; ni < nodeCount; ni++) {
+          var na = (ni / nodeCount) * 6.2832 + 0.3;
+          var nr = rS * 0.65;
+          var nx = Math.cos(na) * nr, ny = Math.sin(na) * nr;
+          var nodeGlow = Math.sin((t * 8 + ni) * 0.8) * 0.5 + 0.5;
+          ctx.fillStyle = 'rgba(255, 255, 255, ' + nodeGlow + ')';
+          ctx.beginPath(); ctx.arc(nx, ny, 2.5, 0, 6.2832); ctx.fill();
+        }
+
+        ctx.restore();
+        return;
+      }
+      case 'frost_crystal': {
+        // 【絶対零度・フロスト氷晶】六角幾何学氷晶急成長 ＆ 多面体ファセット屈折
+        var scF = easeOutCubic(t);
+        var rF = p.maxR * scF;
+        var iceBlue = p.color || '#70D6FF';
+        var crystalWhite = '#FFFFFF';
+        var frostCyan = p.accentColor || '#A0E7E5';
+
+        ctx.save();
+        ctx.translate(x, y);
+
+        // 1. 半透明氷結多角形ファセット
+        ctx.beginPath();
+        var nFacets = 6;
+        for (var fi = 0; fi < nFacets; fi++) {
+          var fa = (fi / nFacets) * 6.2832 + t * 0.4;
+          var fx = Math.cos(fa) * (rF * 0.75);
+          var fy = Math.sin(fa) * (rF * 0.75);
+          if (fi === 0) ctx.moveTo(fx, fy);
+          else ctx.lineTo(fx, fy);
+        }
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(112, 214, 255, ' + (0.18 * (1 - t * 0.4)) + ')';
+        ctx.fill();
+        ctx.strokeStyle = iceBlue;
+        ctx.lineWidth = Math.max(1, 2.2 * (1 - t * 0.35));
+        ctx.stroke();
+
+        // 2. 六角氷晶スパイク（主軸と分岐結晶羽）
+        ctx.strokeStyle = crystalWhite;
+        for (var ax = 0; ax < 6; ax++) {
+          var aa = (ax / 6) * 6.2832;
+          var axEnd = Math.cos(aa) * rF;
+          var ayEnd = Math.sin(aa) * rF;
+
+          // 主軸
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.lineTo(axEnd, ayEnd);
+          ctx.lineWidth = 1.8;
+          ctx.stroke();
+
+          // 枝結晶羽（Dendrite branches）
+          for (var bi = 1; bi <= 2; bi++) {
+            var branchDist = rF * (bi * 0.32);
+            var bx0 = Math.cos(aa) * branchDist;
+            var by0 = Math.sin(aa) * branchDist;
+            var branchLen = rF * 0.22 * (1 - bi * 0.2);
+
+            var bAngle1 = aa + 0.6;
+            var bAngle2 = aa - 0.6;
+
+            ctx.beginPath();
+            ctx.moveTo(bx0, by0);
+            ctx.lineTo(bx0 + Math.cos(bAngle1) * branchLen, by0 + Math.sin(bAngle1) * branchLen);
+            ctx.moveTo(bx0, by0);
+            ctx.lineTo(bx0 + Math.cos(bAngle2) * branchLen, by0 + Math.sin(bAngle2) * branchLen);
+            ctx.lineWidth = 1.2;
+            ctx.stroke();
+          }
+
+          // 先端の結晶ダイヤモンド
+          ctx.fillStyle = '#FFFFFF';
+          ctx.beginPath();
+          ctx.arc(axEnd, ayEnd, 2.2, 0, 6.2832);
+          ctx.fill();
+        }
+
         ctx.restore();
         return;
       }
@@ -1499,26 +1739,62 @@
     cx = cx == null ? W * .5 : cx;
     cy = cy == null ? H * .5 : cy;
     var gold = '#F5D061', goldLight = '#FFF2A8', goldDark = '#D4AF37';
-    // 1. 折れ線クラック（金色の亀裂が走る）
-    var branches = o.branches || 4;
-    for (var b = 0; b < branches; b++) {
-      var angle = (b / branches) * Math.PI * 2 + rnd(-0.3, 0.3);
-      var segLen1 = rnd(40, 75);
-      var x1 = cx + Math.cos(angle) * segLen1;
-      var y1 = cy + Math.sin(angle) * segLen1;
-      slashRibbon(cx, cy, x1, y1, { color: gold, width: 3.5, ttl: 0.42, delay: b * 0.02 });
 
-      var angle2 = angle + rnd(-0.6, 0.6);
-      var segLen2 = rnd(35, 65);
-      var x2 = x1 + Math.cos(angle2) * segLen2;
-      var y2 = y1 + Math.sin(angle2) * segLen2;
-      slashRibbon(x1, y1, x2, y2, { color: goldLight, width: 2.2, ttl: 0.48, delay: 0.04 + b * 0.02 });
+    // 1. 有機的クラックラインの構築（折れ線・分岐ノード）
+    var branches = o.branches || 5;
+    var lines = [];
+    var crackMaxR = Math.min(o.maxR || 190, W * 0.42);
+    for (var b = 0; b < branches; b++) {
+      var baseAngle = (b / branches) * Math.PI * 2 + rnd(-0.25, 0.25);
+      var pts = [{ x: 0, y: 0 }];
+      var segCount = 3 + (Math.random() > 0.5 ? 1 : 0);
+      var curDist = 0;
+      var curA = baseAngle;
+      for (var s = 0; s < segCount; s++) {
+        curDist += (crackMaxR / segCount) * rnd(0.7, 1.2);
+        curA += rnd(-0.55, 0.55);
+        pts.push({ x: Math.cos(curA) * curDist, y: Math.sin(curA) * curDist });
+      }
+      lines.push({ pts: pts, w: rnd(2.5, 4.0) });
     }
-    // 2. 金粉スパーク＆ブラシダスト
-    sparks(cx, cy, { count: o.sparksCount || 18, colors: [gold, goldLight, goldDark, '#FFFFFF'] });
-    brushDust({ count: o.dustCount || 14, colors: [gold, goldDark, '#FFE57F'] });
-    // 3. 継ぎ目修復の金光グローリング
-    rings(cx, cy, { count: 2, maxR: o.maxR || 180, color: gold, additive: true });
+
+    addP({
+      type: 'kintsugi_crack',
+      x: cx,
+      y: cy,
+      lines: lines,
+      color: gold,
+      blend: true,
+      ttl: o.ttl || 0.62
+    });
+
+    // 2. 金粉吸着（インプロージョン: 外側から継ぎ目へ引き寄せられる金箔粒子）
+    var nGoldLeaf = o.goldLeafCount || 24;
+    for (var g = 0; g < nGoldLeaf; g++) {
+      var ga = Math.random() * Math.PI * 2;
+      var gr = rnd(crackMaxR * 0.5, crackMaxR * 1.3);
+      var spd = rnd(2.2, 4.5);
+      addP({
+        type: 'spark',
+        x: cx + Math.cos(ga) * gr,
+        y: cy + Math.sin(ga) * gr,
+        vx: -Math.cos(ga) * spd * 38,
+        vy: -Math.sin(ga) * spd * 38,
+        grav: 0,
+        drag: 0.94,
+        size: rnd(1.8, 3.8),
+        color: pick([gold, goldLight, goldDark, '#FFFFFF']),
+        blend: true,
+        ttl: rnd(0.35, 0.55)
+      });
+    }
+
+    // 3. 散布金粉スパーク＆ブラシダスト
+    sparks(cx, cy, { count: o.sparksCount || 16, colors: [gold, goldLight, goldDark, '#FFFFFF'] });
+    brushDust({ count: o.dustCount || 12, colors: [gold, goldDark, '#FFE57F'] });
+
+    // 4. 継ぎ目修復の金光グローリング
+    rings(cx, cy, { count: 2, maxR: crackMaxR * 0.9, color: gold, additive: true });
   }
 
   /** 【4テーマ特化】賢者の星図・魔導書: 天球儀回転 ＆ 星座ルーンフラッシュ */
@@ -1527,26 +1803,42 @@
     cx = cx == null ? W * .5 : cx;
     cy = cy == null ? H * .5 : cy;
     var starGold = '#FFD166', manaPurple = '#8A2BE2', cyanGlow = '#48CAE4';
-    // 1. 天球儀リング
-    astrolabeRings(cx, cy, { maxR: o.maxR || 240, color: starGold, additive: true });
+    var maxR = Math.min(o.maxR || 230, W * 0.42);
+
+    // 1. 天球儀ルーン魔導陣 (Celestial Grimoire Array)
+    addP({
+      type: 'celestial_grimoire',
+      x: cx,
+      y: cy,
+      maxR: maxR,
+      color: starGold,
+      accentColor: manaPurple,
+      blend: true,
+      ttl: o.ttl || 0.65
+    });
+
     // 2. 星座接続ライン（星と星を結ぶ神速の光芒）
-    var starsN = 6;
+    var starsN = 7;
     var pts = [];
     for (var s = 0; s < starsN; s++) {
-      var a = (s / starsN) * Math.PI * 2 + rnd(-0.2, 0.2);
-      var r = rnd(50, 110);
+      var a = (s / starsN) * Math.PI * 2 + rnd(-0.25, 0.25);
+      var r = rnd(maxR * 0.35, maxR * 0.75);
       pts.push({ x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r });
     }
     for (var i = 0; i < pts.length; i++) {
       var nextP = pts[(i + 1) % pts.length];
-      slashRibbon(pts[i].x, pts[i].y, nextP.x, nextP.y, { color: starGold, width: 2.2, ttl: 0.45, delay: i * 0.03 });
+      slashRibbon(pts[i].x, pts[i].y, nextP.x, nextP.y, { color: starGold, width: 2.5, ttl: 0.45, delay: i * 0.025 });
     }
-    // 3. 星屑ダイヤモンドスパークル
-    diamondSparkle(cx, cy, { count: o.sparkleCount || 20, color: starGold, additive: true });
-    // 4. 魔導星図リング
-    rings(cx, cy, { count: 2, maxR: (o.maxR || 240) * 0.8, color: cyanGlow, additive: true });
-    // 5. 魔導ルーンの煌めき
-    sparks(cx, cy, { count: o.sparksCount || 14, colors: [starGold, manaPurple, cyanGlow, '#FFFFFF'] });
+
+    // 3. 星屑ダイヤモンドグリッタースパークル
+    diamondSparkle(cx, cy, { count: o.sparkleCount || 22, color: starGold, additive: true });
+    diamondSparkle(cx, cy, { count: 12, color: cyanGlow, additive: true });
+
+    // 4. 魔導マナ波動リング
+    rings(cx, cy, { count: 2, maxR: maxR * 0.85, color: manaPurple, additive: true });
+
+    // 5. 魔導ルーンの煌めきスパーク
+    sparks(cx, cy, { count: o.sparksCount || 16, colors: [starGold, manaPurple, cyanGlow, '#FFFFFF'] });
   }
 
   /** 【4テーマ特化】深海アビス・発光生物: 生体発光ソナー波紋 ＆ 発光生物パルス */
@@ -1555,13 +1847,43 @@
     cx = cx == null ? W * .5 : cx;
     cy = cy == null ? H * .5 : cy;
     var emerald = '#00FFA3', deepCyan = '#00B4D8', bioGlow = '#64FFDA';
-    // 1. ソナー波紋干渉
-    rippleInterference(cx, cy, { maxR: o.maxR || 230, color: emerald });
-    sonicWave(cx, cy, { count: 3, maxR: (o.maxR || 230) * 1.1, color: deepCyan, thickness: 2.8 });
-    // 2. 生体発光微粒子バブル
-    bubbles(cx, cy, { count: o.bubbleCount || 18, colors: [emerald, deepCyan, bioGlow] });
-    // 3. 発光パルス
-    sparks(cx, cy, { count: o.sparksCount || 12, colors: [emerald, bioGlow, '#FFFFFF'] });
+    var maxR = Math.min(o.maxR || 230, W * 0.42);
+
+    // 1. 深海ソナーパルス ＆ 走査スイープ
+    addP({
+      type: 'abyss_sonar',
+      x: cx,
+      y: cy,
+      maxR: maxR,
+      color: emerald,
+      accentColor: deepCyan,
+      blend: true,
+      ttl: o.ttl || 0.62
+    });
+
+    // 2. マリンスノー粒子（深海有機粒子の浮遊上昇）
+    var nMarineSnow = o.marineSnowCount || 20;
+    for (var m = 0; m < nMarineSnow; m++) {
+      var ma = Math.random() * Math.PI * 2;
+      var mr = rnd(20, maxR * 0.9);
+      addP({
+        type: 'dust',
+        x: cx + Math.cos(ma) * mr,
+        y: cy + Math.sin(ma) * mr,
+        vx: rnd(-8, 8),
+        vy: rnd(-24, -8),
+        size: rnd(1.5, 3.2),
+        color: pick([emerald, deepCyan, bioGlow, '#FFFFFF']),
+        blend: true,
+        ttl: rnd(0.45, 0.7)
+      });
+    }
+
+    // 3. 生体発光微粒子バブル
+    bubbles(cx, cy, { count: o.bubbleCount || 16, colors: [emerald, deepCyan, bioGlow] });
+
+    // 4. 深海パルススパーク
+    sparks(cx, cy, { count: o.sparksCount || 14, colors: [emerald, bioGlow, '#FFFFFF'] });
   }
 
   /** 【4テーマ特化】絶対零度・フロスト氷晶: 幾何学結晶急成長 ＆ ダイヤモンドダスト */
@@ -1570,14 +1892,32 @@
     cx = cx == null ? W * .5 : cx;
     cy = cy == null ? H * .5 : cy;
     var iceBlue = '#70D6FF', crystalWhite = '#FFFFFF', frostCyan = '#A0E7E5';
-    // 1. 氷晶ファセット破砕
-    shatter(cx, cy, { count: o.shatterCount || 24, colors: [iceBlue, crystalWhite, frostCyan] });
-    // 2. ダイヤモンドダスト閃光
-    diamondSparkle(cx, cy, { count: o.sparkleCount || 22, color: crystalWhite, additive: true });
-    // 3. 氷結衝撃リング
-    rings(cx, cy, { count: 2, maxR: o.maxR || 190, color: iceBlue, additive: true });
-    // 4. 極微粉氷ダスト
-    dust({ count: o.dustCount || 16, colors: [iceBlue, crystalWhite] });
+    var maxR = Math.min(o.maxR || 200, W * 0.42);
+
+    // 1. 六角幾何学氷晶急成長 ＆ ファセット展開
+    addP({
+      type: 'frost_crystal',
+      x: cx,
+      y: cy,
+      maxR: maxR,
+      color: iceBlue,
+      accentColor: frostCyan,
+      blend: true,
+      ttl: o.ttl || 0.58
+    });
+
+    // 2. 氷晶ファセット破砕破片
+    shatter(cx, cy, { count: o.shatterCount || 20, colors: [iceBlue, crystalWhite, frostCyan] });
+
+    // 3. ダイヤモンドダスト閃光
+    diamondSparkle(cx, cy, { count: o.sparkleCount || 24, color: crystalWhite, additive: true });
+    diamondSparkle(cx, cy, { count: 12, color: iceBlue, additive: true });
+
+    // 4. 氷結衝撃リング
+    rings(cx, cy, { count: 2, maxR: maxR * 0.9, color: iceBlue, additive: true });
+
+    // 5. 極微粉氷ダスト吹雪
+    dust({ count: o.dustCount || 18, colors: [iceBlue, crystalWhite, frostCyan] });
   }
 
   /** 【4テーマ特化】オーロラ・グラス: 偏光オーロラカーテン ＆ 虹色屈折ダイヤモンドグリッター */
