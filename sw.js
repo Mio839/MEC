@@ -1,3 +1,7 @@
+// 2026-08-23j: 試験モードの正解・誤答処理における演出エラー安全化（try-catchガード）。
+//   - study_exam.js: revealAnswer (単一/複数選択) および _revealCalcAnswer 内の演出呼び出しを try-catch で保護し、演出処理でエラーが発生してもカードの暗転・確定・次問スクロールが確実に完了するよう改善。
+//   - chapter_exam.js: ceFinishAnswer 内の演出呼び出しを try-catch で保護。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-23i: UIテーマ選択UIの復旧・ヘッダー固定化・構文エラー修正。
 //   - ui_theme.js: triggerThemeChangeFx 内の閉じ括弧構文エラーを修正し全8テーマの選択UI描画を復旧。
 //   - study.html / study.css / ui_theme.css: ヘッダーの左右分離・右端ツールバー固定化（🎨 テーマ、♻️、▼）およびフィルター行へのテーマボタン追加。
@@ -359,7 +363,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-23i";
+const SHELL_VERSION = "2026-08-23k";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

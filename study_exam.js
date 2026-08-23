@@ -869,33 +869,46 @@ function revealAnswer(card) {
       examCorrect++;
       examStreak++;
       examBySubj[sid].correct++;
-      _playCorrectSound();
-      _showStreakEffect(examStreak);
-      { const _t=_examTier(examStreak); card.querySelectorAll('.ch2.ok').forEach(c=>_triggerChoiceCorrectPop(c)); _spawnFloatingCombo(card,examStreak,_t); }
-      // A2/A3/A1: ショックウェーブ・ボーダートレース・速答ボーナス
-      { const _ok = card.querySelector('.ch2.ok'); _correctShockwave(_ok); if (_isFastAnswer(card)) setTimeout(() => _triggerFastBonus(_ok), 90); }
-      _traceCardBorder(card);
-      _afterCorrectFx(card, card.querySelector('.ch2.ok') || selected[0]);
+      try {
+        _playCorrectSound();
+        _showStreakEffect(examStreak);
+        const _t = _examTier(examStreak);
+        card.querySelectorAll('.ch2.ok').forEach(c => _triggerChoiceCorrectPop(c));
+        _spawnFloatingCombo(card, examStreak, _t);
+        // A2/A3/A1: ショックウェーブ・ボーダートレース・速答ボーナス
+        const _ok = card.querySelector('.ch2.ok');
+        _correctShockwave(_ok);
+        if (_isFastAnswer(card)) setTimeout(() => _triggerFastBonus(_ok), 90);
+        _traceCardBorder(card);
+        _afterCorrectFx(card, card.querySelector('.ch2.ok') || selected[0]);
+      } catch (err) {
+        console.error('[ExamFx] Error in multi-correct fx:', err);
+      }
       card.classList.add('exam-revealed', 'exam-multi-correct');
       if (revBtn) { revBtn.textContent = '▶ 解説を見る'; revBtn.onclick = () => _toggleCorrectAnswer(card, revBtn); }
     } else {
+      const _broke = examStreak;
       examStreak = 0;
-      _resetComboMeter();
-      _clearDarkFx();
-      _zoneStop(true);   // B5: ゾーン崩壊（漂う粒子が一点に吸い込まれて消える）
-      document.body.classList.remove('exam-overdrive');
-      if (!_fxOff()) {
-        document.body.classList.remove('exam-screen-shake', 'exam-red-flash');
-        void document.body.offsetWidth;
-        document.body.classList.add('exam-screen-shake', 'exam-red-flash');
-        setTimeout(() => document.body.classList.remove('exam-screen-shake', 'exam-red-flash'), 420);
+      try {
+        _resetComboMeter();
+        _clearDarkFx();
+        _zoneStop(true);   // B5: ゾーン崩壊（漂う粒子が一点に吸い込まれて消える）
+        document.body.classList.remove('exam-overdrive');
+        if (!_fxOff()) {
+          document.body.classList.remove('exam-screen-shake', 'exam-red-flash');
+          void document.body.offsetWidth;
+          document.body.classList.add('exam-screen-shake', 'exam-red-flash');
+          setTimeout(() => document.body.classList.remove('exam-screen-shake', 'exam-red-flash'), 420);
+        }
+      } catch (err) {
+        console.error('[ExamFx] Error in multi-wrong fx:', err);
       }
       examWrong.push(card.dataset.uid);
       card.classList.add('exam-revealed');
       if (revBtn) { revBtn.textContent = '▼ 解答を隠す'; revBtn.onclick = () => _toggleWrongAnswer(card, revBtn); }
     }
-    _updateExamProg(isCorrect);
-    _saveExamResume();
+    try { _updateExamProg(isCorrect); } catch (e) {}
+    try { _saveExamResume(); } catch (e) {}
     requestAnimationFrame(_updateExamFocus);
     if (isCorrect) setTimeout(() => _scrollToNextCard(card), 400);
     else _maybeShowFinishBtn();
@@ -922,31 +935,41 @@ function revealAnswer(card) {
     examCorrect++;
     examStreak++;
     examBySubj[sid].correct++;
-    _playCorrectSound();
-    _showStreakEffect(examStreak);
-    { const _t=_examTier(examStreak); _triggerChoiceCorrectPop(sel); _spawnFloatingCombo(card,examStreak,_t); }
-    // A2/A3/A1: ショックウェーブ・ボーダートレース・速答ボーナス
-    _correctShockwave(sel);
-    _traceCardBorder(card);
-    _afterCorrectFx(card, sel);
+    try {
+      _playCorrectSound();
+      _showStreakEffect(examStreak);
+      const _t = _examTier(examStreak);
+      _triggerChoiceCorrectPop(sel);
+      _spawnFloatingCombo(card, examStreak, _t);
+      // A2/A3/A1: ショックウェーブ・ボーダートレース・速答ボーナス
+      _correctShockwave(sel);
+      _traceCardBorder(card);
+      _afterCorrectFx(card, sel);
+    } catch (err) {
+      console.error('[ExamFx] Error in correct fx:', err);
+    }
     card.classList.add('exam-revealed', 'exam-multi-correct');
     if (revBtn) { revBtn.textContent = '▶ 解説を見る'; revBtn.onclick = () => _toggleCorrectAnswer(card, revBtn); }
-    _updateExamProg(true);
-    _saveExamResume();
+    try { _updateExamProg(true); } catch (e) {}
+    try { _saveExamResume(); } catch (e) {}
     requestAnimationFrame(_updateExamFocus);
     setTimeout(() => _scrollToNextCard(card), 350);
   } else {
     const _broke = examStreak;   // C1: 崩落の規模は「途切れた時点の連続数」で決まる（0 にする前に控える）
     examStreak = 0;
-    _resetComboMeter();
-    _clearDarkFx();
-    _zoneStop(true);   // B5: ゾーン崩壊
-    _afterWrongFx(card, sel, _broke);
+    try {
+      _resetComboMeter();
+      _clearDarkFx();
+      _zoneStop(true);   // B5: ゾーン崩壊
+      _afterWrongFx(card, sel, _broke);
+    } catch (err) {
+      console.error('[ExamFx] Error in wrong fx:', err);
+    }
     examWrong.push(card.dataset.uid);
     card.classList.add('exam-revealed');
     if (revBtn) { revBtn.textContent = '▼ 解答を隠す'; revBtn.onclick = () => _toggleWrongAnswer(card, revBtn); }
-    _updateExamProg();
-    _saveExamResume();
+    try { _updateExamProg(); } catch (e) {}
+    try { _saveExamResume(); } catch (e) {}
     requestAnimationFrame(_updateExamFocus);
     _maybeShowFinishBtn();
   }
@@ -3469,30 +3492,40 @@ function _revealCalcAnswer(card, sid) {
     examCorrect++;
     examStreak++;
     examBySubj[sid].correct++;
-    _playCorrectSound();
-    _showStreakEffect(examStreak);
-    { const _t = _examTier(examStreak); _triggerChoiceCorrectPop(fxEl); _spawnFloatingCombo(card, examStreak, _t); }
-    _correctShockwave(fxEl);
-    _traceCardBorder(card);
-    _afterCorrectFx(card, fxEl);
+    try {
+      _playCorrectSound();
+      _showStreakEffect(examStreak);
+      const _t = _examTier(examStreak);
+      _triggerChoiceCorrectPop(fxEl);
+      _spawnFloatingCombo(card, examStreak, _t);
+      _correctShockwave(fxEl);
+      _traceCardBorder(card);
+      _afterCorrectFx(card, fxEl);
+    } catch (err) {
+      console.error('[ExamFx] Error in calc-correct fx:', err);
+    }
     card.classList.add('exam-revealed', 'exam-multi-correct');
     if (revBtn) { revBtn.textContent = '▶ 解説を見る'; revBtn.onclick = () => _toggleCorrectAnswer(card, revBtn); }
-    _updateExamProg(true);
-    _saveExamResume();
+    try { _updateExamProg(true); } catch (e) {}
+    try { _saveExamResume(); } catch (e) {}
     requestAnimationFrame(_updateExamFocus);
     setTimeout(() => _scrollToNextCard(card), 300);
   } else {
     const _broke = examStreak;   // C1: 0 にする前に控える
     examStreak = 0;
-    _resetComboMeter();
-    _clearDarkFx();
-    _zoneStop(true);
-    _afterWrongFx(card, fxEl, _broke);
+    try {
+      _resetComboMeter();
+      _clearDarkFx();
+      _zoneStop(true);
+      _afterWrongFx(card, fxEl, _broke);
+    } catch (err) {
+      console.error('[ExamFx] Error in calc-wrong fx:', err);
+    }
     examWrong.push(uid);
     card.classList.add('exam-revealed');
     if (revBtn) { revBtn.textContent = '▼ 解答を隠す'; revBtn.onclick = () => _toggleWrongAnswer(card, revBtn); }
-    _updateExamProg();
-    _saveExamResume();
+    try { _updateExamProg(); } catch (e) {}
+    try { _saveExamResume(); } catch (e) {}
     requestAnimationFrame(_updateExamFocus);
     _maybeShowFinishBtn();
   }

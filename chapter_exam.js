@@ -711,16 +711,20 @@
     if (isOk) {
       exam.correct++;
       exam.streak++;
-      showStreak(exam.streak);
-      var _ceTier = ceTier(exam.streak);
-      if (fxEl) ceTriggerChoiceCorrectPop(fxEl);
-      else card.querySelectorAll('.ch2.ch-exam-instant-correct').forEach(function (c) { ceTriggerChoiceCorrectPop(c); });
-      ceSpawnFloatingCombo(card, exam.streak, _ceTier);
-      // ショックウェーブ・ボーダートレース・速答ボーナス
-      var _ceOk = fxEl || card.querySelector('.ch2.ch-exam-instant-correct');
-      ceCorrectShockwave(_ceOk);
-      ceTraceCardBorder(card);
-      ceAfterCorrectFx(card, _ceOk);
+      try {
+        showStreak(exam.streak);
+        var _ceTier = ceTier(exam.streak);
+        if (fxEl) ceTriggerChoiceCorrectPop(fxEl);
+        else card.querySelectorAll('.ch2.ch-exam-instant-correct').forEach(function (c) { ceTriggerChoiceCorrectPop(c); });
+        ceSpawnFloatingCombo(card, exam.streak, _ceTier);
+        // ショックウェーブ・ボーダートレース・速答ボーナス
+        var _ceOk = fxEl || card.querySelector('.ch2.ch-exam-instant-correct');
+        ceCorrectShockwave(_ceOk);
+        ceTraceCardBorder(card);
+        ceAfterCorrectFx(card, _ceOk);
+      } catch (err) {
+        console.error('[ChapterExamFx] Error in correct fx:', err);
+      }
       var _ceIdx = exam.queue.indexOf(card);
       var _ceNext = null;
       for (var _ci = _ceIdx + 1; _ci < exam.queue.length; _ci++) {
@@ -738,7 +742,7 @@
           }, 350);
         })(_ceNext);
       }
-      saveMyRate(card.dataset.uid, true);
+      try { saveMyRate(card.dataset.uid, true); } catch (e) {}
     } else {
       // 計算問題は正解を MecCalc.lock が入力欄の下に出すので、肢の色付けは行わない
       if (!fxEl) card.querySelectorAll('.ch2').forEach(function (c) {
@@ -746,11 +750,15 @@
       });
       var _ceBroke = exam.streak;   // C1: 0 にする前に控える
       exam.streak = 0;
-      ceResetComboMeter();
-      ceZoneStop(true);   // ゾーン崩壊
-      // ⚠️ 誤答の演出は「選んだ肢」を掴む。正解肢（instant-correct）を渡すと位置が別物になる
-      ceAfterWrongFx(card, fxEl || card.querySelector('.ch2.ch-exam-selected'), _ceBroke);
-      saveMyRate(card.dataset.uid, false);
+      try {
+        ceResetComboMeter();
+        ceZoneStop(true);   // ゾーン崩壊
+        // ⚠️ 誤答の演出は「選んだ肢」を掴む。正解肢（instant-correct）を渡すと位置が別物になる
+        ceAfterWrongFx(card, fxEl || card.querySelector('.ch2.ch-exam-selected'), _ceBroke);
+      } catch (err) {
+        console.error('[ChapterExamFx] Error in wrong fx:', err);
+      }
+      try { saveMyRate(card.dataset.uid, false); } catch (e) {}
     }
 
     if (isOk) setTimeout(playCorrect, 80);

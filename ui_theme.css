@@ -1,19 +1,19 @@
 /**
- * ui_theme.css — 4大UIテーマセット（着せ替えスキン）の完全スタイルシート
- * 各テーマの世界観・質感・角飾り・問題番号・背景透かし・ホバー演出・出現アニメーション・パーツ装飾を徹底差別化
+ * ui_theme.css 窶� 4螟ｧUI繝��繝槭そ繝�ヨ�育捩縺帶崛縺医せ繧ｭ繝ｳ�峨�螳悟�繧ｹ繧ｿ繧､繝ｫ繧ｷ繝ｼ繝�
+ * 蜷�ユ繝ｼ繝槭�荳也阜隕ｳ繝ｻ雉ｪ諢溘�隗帝｣ｾ繧翫�蝠城｡檎分蜿ｷ繝ｻ閭梧勹騾上°縺励�繝帙ヰ繝ｼ貍泌�繝ｻ蜃ｺ迴ｾ繧｢繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ繝ｻ繝代�繝�｣�｣ｾ繧貞ｾｹ蠎募ｷｮ蛻･蛹�
  */
 
-/* ═══════════════════════════════════════════════════════════════════
-   1. 🌟 オーロラ・グラス (Aurora Glass)
-   コンセプト: Appleライクな極上すりガラス・虹色プリズム屈折・透明感
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   1. �検 繧ｪ繝ｼ繝ｭ繝ｩ繝ｻ繧ｰ繝ｩ繧ｹ (Aurora Glass)
+   繧ｳ繝ｳ繧ｻ繝励ヨ: Apple繝ｩ繧､繧ｯ縺ｪ讌ｵ荳翫☆繧翫ぎ繝ｩ繧ｹ繝ｻ陌ｹ濶ｲ繝励Μ繧ｺ繝�螻域釜繝ｻ騾乗�諢�
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 html.ui-aurora body {
-  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(121, 40, 202, 0.55) 0%, transparent 60%),
-              radial-gradient(circle at 50% 15%, rgba(0, 223, 216, 0.25) 0%, transparent 50%),
-              radial-gradient(circle at 10% 40%, rgba(0, 223, 216, 0.35) 0%, transparent 55%),
-              radial-gradient(circle at 90% 60%, rgba(0, 112, 243, 0.4) 0%, transparent 55%),
-              radial-gradient(ellipse at 50% 110%, rgba(255, 0, 128, 0.25) 0%, transparent 60%),
-              #050713 !important;
+  background: radial-gradient(ellipse 95% 65% at 50% -18%, rgba(121, 40, 202, 0.55) 0%, transparent 68%),
+              radial-gradient(circle at 15% 22%, rgba(0, 229, 255, 0.32) 0%, transparent 52%),
+              radial-gradient(circle at 85% 32%, rgba(0, 112, 243, 0.38) 0%, transparent 56%),
+              radial-gradient(circle at 12% 78%, rgba(121, 40, 202, 0.32) 0%, transparent 62%),
+              radial-gradient(ellipse at 50% 112%, rgba(255, 0, 128, 0.28) 0%, transparent 66%),
+              linear-gradient(180deg, #050814 0%, #03050c 100%) !important;
   background-attachment: fixed !important;
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased !important;
@@ -21,27 +21,27 @@ html.ui-aurora body {
 
 html.ui-aurora body::before {
   content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background: radial-gradient(circle at 65% 25%, rgba(0, 223, 216, 0.22) 0%, transparent 45%),
-              radial-gradient(circle at 35% 75%, rgba(121, 40, 202, 0.24) 0%, transparent 48%),
-              radial-gradient(circle at 80% 80%, rgba(0, 112, 243, 0.18) 0%, transparent 40%);
+  background: radial-gradient(circle at 60% 20%, rgba(0, 223, 216, 0.2) 0%, transparent 45%),
+              radial-gradient(circle at 40% 70%, rgba(121, 40, 202, 0.22) 0%, transparent 50%),
+              radial-gradient(circle at 85% 75%, rgba(0, 112, 243, 0.16) 0%, transparent 40%);
   animation: auroraAmbientBreeze 14s ease-in-out infinite alternate;
 }
 
 @keyframes auroraAmbientBreeze {
   0% { transform: scale(1) translate(0, 0); opacity: 0.75; }
-  50% { transform: scale(1.08) translate(-10px, 8px); opacity: 0.95; }
-  100% { transform: scale(1.12) translate(8px, -12px); opacity: 1; }
+  50% { transform: scale(1.06) translate(-8px, 6px); opacity: 0.95; }
+  100% { transform: scale(1.1) translate(6px, -10px); opacity: 1; }
 }
 
-/* 🌟 カード全体: 高密度すりガラス & プリズム屈折 & アクリル立体感 */
+/* �検 繧ｫ繝ｼ繝牙�菴�: 鬮伜ｯ�ｺｦ縺吶ｊ繧ｬ繝ｩ繧ｹ & 繝励Μ繧ｺ繝�螻域釜 & 繧｢繧ｯ繝ｪ繝ｫ遶倶ｽ捺─ */
 html.ui-aurora .qc {
-  padding: 18px 20px 22px !important;
-  gap: 14px !important;
+  padding: 20px 22px 24px !important;
+  gap: 15px !important;
 }
 html.ui-aurora .qc .qh {
-  padding-bottom: 12px !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 1px 0 rgba(0, 223, 216, 0.15) !important;
+  padding-bottom: 14px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14) !important;
+  box-shadow: 0 1px 0 rgba(0, 223, 216, 0.18) !important;
 }
 html.ui-aurora .qc,
 html.ui-aurora .st-hdr,
@@ -52,14 +52,14 @@ html.ui-aurora .card,
 html.ui-aurora .ssov-box,
 html.ui-aurora .exam-start-box,
 html.ui-aurora .modal-box {
-  background: linear-gradient(135deg, rgba(20, 30, 58, 0.85) 0%, rgba(10, 16, 32, 0.88) 100%) !important;
+  background: linear-gradient(135deg, rgba(18, 28, 56, 0.88) 0%, rgba(8, 14, 32, 0.94) 100%) !important;
   backdrop-filter: blur(28px) saturate(210%) !important;
   -webkit-backdrop-filter: blur(28px) saturate(210%) !important;
-  border: 1.5px solid rgba(255, 255, 255, 0.36) !important;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7),
-              0 0 45px rgba(0, 223, 216, 0.25),
-              inset 0 1.5px 1px rgba(255, 255, 255, 0.75),
-              inset 0 0 28px rgba(0, 223, 216, 0.12) !important;
+  border: 1.5px solid rgba(0, 229, 255, 0.45) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8),
+              0 0 45px rgba(0, 229, 255, 0.32),
+              inset 0 1.5px 1px rgba(255, 255, 255, 0.88),
+              inset 0 0 28px rgba(0, 223, 216, 0.16) !important;
   border-radius: 20px !important;
 }
 
@@ -76,54 +76,54 @@ html.ui-aurora .qc {
 }
 
 html.ui-aurora .qc:hover {
-  border-color: rgba(0, 229, 255, 0.65) !important;
-  box-shadow: 0 22px 52px rgba(0, 112, 243, 0.32),
-              0 0 30px rgba(0, 223, 216, 0.35),
-              inset 0 1px 0 rgba(255, 255, 255, 0.7),
-              inset 0 0 24px rgba(0, 223, 216, 0.16) !important;
+  border-color: rgba(0, 229, 255, 0.7) !important;
+  box-shadow: 0 24px 54px rgba(0, 112, 243, 0.35),
+              0 0 35px rgba(0, 223, 216, 0.4),
+              inset 0 1.5px 0 rgba(255, 255, 255, 0.75),
+              inset 0 0 26px rgba(0, 223, 216, 0.18) !important;
 }
 
-/* 🌟 カード上部: 虹色プリズム屈折フローライン */
+/* �検 繧ｫ繝ｼ繝我ｸ企Κ: 陌ｹ濶ｲ繝励Μ繧ｺ繝�螻域釜繝輔Ο繝ｼ繝ｩ繧､繝ｳ */
 html.ui-aurora .qc::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3.5px;
   background: linear-gradient(90deg, #7928CA, #0070F3, #00DFD8, #FF0080, #7928CA);
   background-size: 300% 100%;
   animation: auroraEdgeFlow 5s linear infinite;
-  box-shadow: 0 0 12px rgba(0, 223, 216, 0.6);
+  box-shadow: 0 0 14px rgba(0, 223, 216, 0.7);
   pointer-events: none;
   opacity: 0.95;
   z-index: 2;
 }
 
-/* 🌟 カード背景透かし: プリズム・ジオメトリック */
+/* �検 繧ｫ繝ｼ繝芽レ譎ｯ騾上°縺�: 繝励Μ繧ｺ繝�繝ｻ繧ｸ繧ｪ繝｡繝医Μ繝�け */
 html.ui-aurora .qc::after {
   content: ''; position: absolute; top: -50px; right: -50px; width: 220px; height: 220px;
-  background: radial-gradient(circle, rgba(0, 223, 216, 0.12) 0%, rgba(121, 40, 202, 0.06) 50%, transparent 75%);
+  background: radial-gradient(circle, rgba(0, 223, 216, 0.14) 0%, rgba(121, 40, 202, 0.08) 50%, transparent 75%);
   pointer-events: none;
   border-radius: 50%;
   filter: blur(20px);
   z-index: 0;
 }
 
-/* 🌟 問題番号バッジ: クリスタル・ファセット */
+/* �検 蝠城｡檎分蜿ｷ繝舌ャ繧ｸ: 繧ｯ繝ｪ繧ｹ繧ｿ繝ｫ繝ｻ繝輔ぃ繧ｻ繝�ヨ */
 html.ui-aurora .qc .qn {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(0, 223, 216, 0.55) 45%, rgba(121, 40, 202, 0.45) 100%) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(0, 223, 216, 0.6) 45%, rgba(121, 40, 202, 0.5) 100%) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.95) !important;
   color: #FFFFFF !important;
   text-shadow: 0 0 12px rgba(0, 223, 216, 1), 0 1px 2px rgba(0, 0, 0, 0.8) !important;
   border-radius: 12px !important;
-  padding: 4px 13px !important;
+  padding: 4px 14px !important;
   font-weight: 800 !important;
   letter-spacing: .6px !important;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.95), 0 0 20px rgba(0, 223, 216, 0.45) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.95), 0 0 20px rgba(0, 223, 216, 0.5) !important;
 }
 
-/* 🌟 メタバッジ・正答率・エピソード */
+/* �検 繝｡繧ｿ繝舌ャ繧ｸ繝ｻ豁｣遲皮紫繝ｻ繧ｨ繝斐た繝ｼ繝� */
 html.ui-aurora .qc .qe,
 html.ui-aurora .qc .bg,
 html.ui-aurora .qc .cr {
-  background: rgba(255, 255, 255, 0.18) !important;
-  border: 1px solid rgba(0, 223, 216, 0.65) !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid rgba(0, 223, 216, 0.7) !important;
   color: #FFFFFF !important;
   backdrop-filter: blur(12px) !important;
   border-radius: 9px !important;
@@ -135,12 +135,12 @@ html.ui-aurora .qc .cr {
 
 html.ui-aurora .qc .cr {
   color: #A7F3D0 !important;
-  border-color: rgba(110, 231, 183, 0.75) !important;
-  background: rgba(16, 185, 129, 0.22) !important;
+  border-color: rgba(110, 231, 183, 0.8) !important;
+  background: rgba(16, 185, 129, 0.25) !important;
   text-shadow: 0 0 10px rgba(110, 231, 183, 0.8) !important;
 }
 
-/* 🌟 ヘッダー境界ディバイダー: プリズムクリスタルライン & ジュエルノード */
+/* �検 繝倥ャ繝繝ｼ蠅�阜繝�ぅ繝舌う繝繝ｼ: 繝励Μ繧ｺ繝�繧ｯ繝ｪ繧ｹ繧ｿ繝ｫ繝ｩ繧､繝ｳ & 繧ｸ繝･繧ｨ繝ｫ繝弱�繝� */
 html.ui-aurora .qc .qh {
   padding-bottom: 16px !important;
   border-bottom: 1px solid rgba(255, 255, 255, 0.16) !important;
@@ -160,7 +160,7 @@ html.ui-aurora .qc .qh::after {
   border-radius: 2px;
 }
 
-/* 🌟 自己採点ボタン: クリスタルジェム・タクタイルボタン */
+/* �検 閾ｪ蟾ｱ謗｡轤ｹ繝懊ち繝ｳ: 繧ｯ繝ｪ繧ｹ繧ｿ繝ｫ繧ｸ繧ｧ繝�繝ｻ繧ｿ繧ｯ繧ｿ繧､繝ｫ繝懊ち繝ｳ */
 html.ui-aurora .qc .mec-grade-btn,
 html.ui-aurora .qc .mec-flag-btn {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(0, 223, 216, 0.12) 100%) !important;
@@ -207,7 +207,7 @@ html.ui-aurora .qc .mec-grade-btn.selected-ok {
   box-shadow: 0 0 24px rgba(61, 214, 140, 0.8), inset 0 1px 0 #FFF !important;
 }
 
-/* 🌟 選択肢ボタン: クリスタルアクリル・タクタイルプレート */
+/* �検 驕ｸ謚櫁い繝懊ち繝ｳ: 繧ｯ繝ｪ繧ｹ繧ｿ繝ｫ繧｢繧ｯ繝ｪ繝ｫ繝ｻ繧ｿ繧ｯ繧ｿ繧､繝ｫ繝励Ξ繝ｼ繝� */
 html.ui-aurora .qc .ch2 {
   background: rgba(255, 255, 255, 0.08) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.22) !important;
@@ -285,7 +285,7 @@ html.ui-aurora .qc .ch2:active {
   box-shadow: 0 2px 10px rgba(0, 223, 216, 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* 🌟 正解選択肢: 通常閲覧時、または試験モードで解答開示後 */
+/* �検 豁｣隗｣驕ｸ謚櫁い: 騾壼ｸｸ髢ｲ隕ｧ譎ゅ√∪縺溘�隧ｦ鬨薙Δ繝ｼ繝峨〒隗｣遲秘幕遉ｺ蠕� */
 html.ui-aurora body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
 html.ui-aurora body.exam-mode .qc.exam-revealed .ch2.ok,
 html.ui-aurora body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
@@ -297,7 +297,7 @@ html.ui-aurora body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   box-shadow: 0 0 26px rgba(61, 214, 140, 0.55), inset 0 0 14px rgba(61, 214, 140, 0.25) !important;
 }
 
-/* 🌟 試験モード未開示時: 正解肢であることを完全に隠蔽し通常選択肢と完全に同一にする（ネタバレ完全防止） */
+/* �検 隧ｦ鬨薙Δ繝ｼ繝画悴髢狗､ｺ譎�: 豁｣隗｣閧｢縺ｧ縺ゅｋ縺薙→繧貞ｮ悟�縺ｫ髫�阡ｽ縺鈴壼ｸｸ驕ｸ謚櫁い縺ｨ螳悟�縺ｫ蜷御ｸ縺ｫ縺吶ｋ�医ロ繧ｿ繝舌Ξ螳悟�髦ｲ豁｢�� */
 html.ui-aurora body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected),
 html.ui-aurora body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   background: rgba(255, 255, 255, 0.08) !important;
@@ -312,7 +312,7 @@ html.ui-aurora body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-se
   animation: none !important;
 }
 
-/* 🌟 問題文: プリズムガラス・クォートインジケーター */
+/* �検 蝠城｡梧枚: 繝励Μ繧ｺ繝�繧ｬ繝ｩ繧ｹ繝ｻ繧ｯ繧ｩ繝ｼ繝医う繝ｳ繧ｸ繧ｱ繝ｼ繧ｿ繝ｼ */
 html.ui-aurora .qc .qq {
   position: relative;
   padding: 14px 18px 14px 20px !important;
@@ -338,7 +338,7 @@ html.ui-aurora body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-se
   transform: translateX(4px) scale(1.008) !important;
 }
 
-/* 🌟 正解確定時のカードリアクション: プリズムオーラグロー */
+/* �検 豁｣隗｣遒ｺ螳壽凾縺ｮ繧ｫ繝ｼ繝峨Μ繧｢繧ｯ繧ｷ繝ｧ繝ｳ: 繝励Μ繧ｺ繝�繧ｪ繝ｼ繝ｩ繧ｰ繝ｭ繝ｼ */
 html.ui-aurora .qc.exam-revealed.exam-multi-correct {
   animation: auroraCorrectGlow .65s cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
@@ -349,7 +349,7 @@ html.ui-aurora .qc.exam-revealed.exam-multi-correct {
   100% { transform: scale(1); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7), 0 0 45px rgba(0, 223, 216, 0.25); }
 }
 
-/* 🌟 不正解時のクリスタルクラック振動 */
+/* �検 荳肴ｭ｣隗｣譎ゅ�繧ｯ繝ｪ繧ｹ繧ｿ繝ｫ繧ｯ繝ｩ繝�け謖ｯ蜍� */
 html.ui-aurora .qc.exam-revealed:not(.exam-multi-correct) {
   animation: auroraWrongGlow .52s ease-out both !important;
 }
@@ -360,7 +360,7 @@ html.ui-aurora .qc.exam-revealed:not(.exam-multi-correct) {
   40%, 80% { transform: translateX(5px) scale(1.004); box-shadow: 0 0 42px rgba(255, 107, 107, 0.75); }
 }
 
-/* 🌟 正解解答ボックス: クリスタル・インジケーター */
+/* �検 豁｣隗｣隗｣遲斐�繝�け繧ｹ: 繧ｯ繝ｪ繧ｹ繧ｿ繝ｫ繝ｻ繧､繝ｳ繧ｸ繧ｱ繝ｼ繧ｿ繝ｼ */
 html.ui-aurora .qc .ab {
   background: linear-gradient(135deg, rgba(0, 223, 216, 0.25) 0%, rgba(0, 112, 243, 0.28) 50%, rgba(121, 40, 202, 0.25) 100%) !important;
   border: 1.5px solid rgba(0, 223, 216, 0.8) !important;
@@ -392,7 +392,7 @@ html.ui-aurora .qc .eg {
   padding: 16px 20px !important;
 }
 
-/* 🌟 問題画像: プリズムグラス・フレーム */
+/* �検 蝠城｡檎判蜒�: 繝励Μ繧ｺ繝�繧ｰ繝ｩ繧ｹ繝ｻ繝輔Ξ繝ｼ繝� */
 html.ui-aurora .qc .qimg {
   border: 1.5px solid rgba(255, 255, 255, 0.35) !important;
   border-radius: 12px !important;
@@ -412,7 +412,7 @@ html.ui-aurora #mecImgLbImg {
   box-shadow: 0 0 40px rgba(0, 223, 216, 0.4) !important;
 }
 
-/* 🌟 選択肢アクティブ & フォーカス */
+/* �検 驕ｸ謚櫁い繧｢繧ｯ繝�ぅ繝� & 繝輔か繝ｼ繧ｫ繧ｹ */
 html.ui-aurora .qc .ch2:active {
   transform: scale(0.985) translateY(1px) !important;
   box-shadow: 0 2px 10px rgba(0, 223, 216, 0.3) !important;
@@ -425,7 +425,7 @@ html.ui-aurora .qc button:focus-visible {
   box-shadow: 0 0 16px rgba(0, 223, 216, 0.7) !important;
 }
 
-/* 🌟 自己採点ボタン群アクティブ */
+/* �検 閾ｪ蟾ｱ謗｡轤ｹ繝懊ち繝ｳ鄒､繧｢繧ｯ繝�ぅ繝� */
 html.ui-aurora .qc .mec-grade-btn:active,
 html.ui-aurora .qc .mec-lap-btn:active,
 html.ui-aurora .qc .mec-flag-btn:active {
@@ -433,7 +433,7 @@ html.ui-aurora .qc .mec-flag-btn:active {
   box-shadow: 0 0 6px rgba(0, 223, 216, 0.4) !important;
 }
 
-/* 🌟 統計チップ・ヘッダー & 試験モードバッジ: プリズムクリスタル */
+/* �検 邨ｱ險医メ繝��繝ｻ繝倥ャ繝繝ｼ & 隧ｦ鬨薙Δ繝ｼ繝峨ヰ繝�ず: 繝励Μ繧ｺ繝�繧ｯ繝ｪ繧ｹ繧ｿ繝ｫ */
 html.ui-aurora .st-hdr {
   background: rgba(14, 20, 38, 0.85) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.3) !important;
@@ -504,7 +504,7 @@ html.ui-aurora .st-stat.exam-mode-chip:hover {
   100% { background-position: 300% 0%; }
 }
 
-/* 🌟 スクロールバー: 偏光クリスタルスライダー */
+/* �検 繧ｹ繧ｯ繝ｭ繝ｼ繝ｫ繝舌�: 蛛丞�繧ｯ繝ｪ繧ｹ繧ｿ繝ｫ繧ｹ繝ｩ繧､繝繝ｼ */
 html.ui-aurora ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -522,7 +522,7 @@ html.ui-aurora ::-webkit-scrollbar-thumb:hover {
   box-shadow: 0 0 10px rgba(0, 223, 216, 0.5);
 }
 
-/* 🌟 取消トースト: 偏光クリスタルバナー */
+/* �検 蜿匁ｶ医ヨ繝ｼ繧ｹ繝�: 蛛丞�繧ｯ繝ｪ繧ｹ繧ｿ繝ｫ繝舌リ繝ｼ */
 html.ui-aurora #mecUndoToast {
   background: rgba(10, 14, 28, 0.85) !important;
   border: 1.5px solid rgba(0, 223, 216, 0.5) !important;
@@ -543,16 +543,16 @@ html.ui-aurora .mec-undo-btn {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   2. 🕰️ 真鍮クロックワーク (Steampunk Brass)
-   コンセプト: パテックフィリップ・精密アンティーク時計・真鍮工芸
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   2. �焚�� 逵滄紺繧ｯ繝ｭ繝�け繝ｯ繝ｼ繧ｯ (Steampunk Brass)
+   繧ｳ繝ｳ繧ｻ繝励ヨ: 繝代ユ繝�け繝輔ぅ繝ｪ繝��繝ｻ邊ｾ蟇�い繝ｳ繝�ぅ繝ｼ繧ｯ譎りｨ医�逵滄紺蟾･闃ｸ
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 html.ui-brass body {
-  background: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(255, 215, 0, 0.3) 0%, transparent 60%),
-              radial-gradient(circle at 50% 15%, rgba(201, 162, 39, 0.22) 0%, transparent 50%),
-              radial-gradient(circle at 10% 80%, rgba(140, 109, 31, 0.45) 0%, transparent 60%),
-              radial-gradient(circle at 90% 70%, rgba(201, 162, 39, 0.3) 0%, transparent 55%),
-              repeating-linear-gradient(0deg, rgba(224, 194, 94, 0.02) 0px, rgba(224, 194, 94, 0.02) 1px, transparent 1px, transparent 4px),
+  background: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(255, 215, 0, 0.32) 0%, transparent 60%),
+              radial-gradient(circle at 50% 15%, rgba(201, 162, 39, 0.25) 0%, transparent 50%),
+              radial-gradient(circle at 10% 80%, rgba(140, 109, 31, 0.48) 0%, transparent 60%),
+              radial-gradient(circle at 90% 70%, rgba(201, 162, 39, 0.32) 0%, transparent 55%),
+              repeating-linear-gradient(0deg, rgba(224, 194, 94, 0.025) 0px, rgba(224, 194, 94, 0.025) 1px, transparent 1px, transparent 4px),
               #0D0804 !important;
   background-attachment: fixed !important;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif !important;
@@ -566,8 +566,8 @@ html.ui-brass .qc .ab strong {
 html.ui-brass body::before {
   content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
   background-image: 
-    radial-gradient(circle at 25% 35%, rgba(255, 215, 0, 0.16) 0%, transparent 45%),
-    radial-gradient(circle at 75% 65%, rgba(184, 134, 11, 0.18) 0%, transparent 45%);
+    radial-gradient(circle at 25% 35%, rgba(255, 215, 0, 0.18) 0%, transparent 45%),
+    radial-gradient(circle at 75% 65%, rgba(184, 134, 11, 0.2) 0%, transparent 45%);
   animation: brassAmbientDust 14s ease-in-out infinite alternate;
 }
 
@@ -576,7 +576,7 @@ html.ui-brass body::before {
   100% { transform: translateY(-12px) scale(1.06); opacity: 1; }
 }
 
-/* 🕰️ カード全体: 重厚な真鍮プレート & 二重真鍮ベベル & リベット角鋲 */
+/* �焚�� 繧ｫ繝ｼ繝牙�菴�: 驥榊字縺ｪ逵滄紺繝励Ξ繝ｼ繝� & 莠碁㍾逵滄紺繝吶�繝ｫ & 繝ｪ繝吶ャ繝郁ｧ帝挟 */
 html.ui-brass .qc,
 html.ui-brass .st-hdr,
 html.ui-brass .st-filter-panel,
@@ -586,14 +586,14 @@ html.ui-brass .card,
 html.ui-brass .ssov-box,
 html.ui-brass .exam-start-box,
 html.ui-brass .modal-box {
-  background: linear-gradient(180deg, rgba(32, 22, 12, 0.97) 0%, rgba(16, 10, 5, 0.99) 100%) !important;
-  backdrop-filter: blur(20px) !important;
-  border: 2px solid rgba(224, 194, 94, 0.9) !important;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.95),
-              0 0 42px rgba(224, 194, 94, 0.25),
-              inset 0 0 36px rgba(224, 194, 94, 0.22),
-              inset 0 2px 0 rgba(255, 243, 196, 0.75),
-              inset 0 0 0 1px rgba(140, 109, 31, 0.85) !important;
+  background: linear-gradient(180deg, rgba(36, 26, 14, 0.98) 0%, rgba(20, 14, 7, 0.99) 100%) !important;
+  backdrop-filter: blur(22px) !important;
+  border: 2px solid #E0C25E !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.96),
+              0 0 40px rgba(224, 194, 94, 0.32),
+              inset 0 0 40px rgba(224, 194, 94, 0.26),
+              inset 0 2px 0 #FFF3C4,
+              inset 0 0 0 1.5px rgba(140, 109, 31, 0.95) !important;
   border-radius: 14px !important;
 }
 
@@ -611,13 +611,13 @@ html.ui-brass .qc {
 
 html.ui-brass .qc:hover {
   border-color: rgba(255, 215, 0, 1) !important;
-  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.95),
-              0 0 25px rgba(224, 194, 94, 0.4),
-              inset 0 0 36px rgba(224, 194, 94, 0.3),
-              inset 0 0 0 1px rgba(255, 215, 0, 0.8) !important;
+  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.96),
+              0 0 30px rgba(224, 194, 94, 0.45),
+              inset 0 0 38px rgba(224, 194, 94, 0.32),
+              inset 0 0 0 1px rgba(255, 215, 0, 0.85) !important;
 }
 
-/* 🕰️ カード上部: 真鍮ゴールド象嵌ストライプ & 4隅リベット金具 */
+/* �焚�� 繧ｫ繝ｼ繝我ｸ企Κ: 逵滄紺繧ｴ繝ｼ繝ｫ繝芽ｱ｡蠏後せ繝医Λ繧､繝� & 4髫�Μ繝吶ャ繝磯≡蜈ｷ */
 html.ui-brass .qc::before {
   content: ''; position: absolute; inset: 0;
   border-top: 4px solid #E0C25E;
@@ -629,15 +629,15 @@ html.ui-brass .qc::before {
   pointer-events: none;
   opacity: 0.98;
   z-index: 2;
-  box-shadow: inset 0 2px 8px rgba(224, 194, 94, 0.4);
+  box-shadow: inset 0 2px 8px rgba(224, 194, 94, 0.45);
 }
 
-/* 🕰️ カード背景透かし: 精密時計のスケルトン歯車線画 */
+/* �焚�� 繧ｫ繝ｼ繝芽レ譎ｯ騾上°縺�: 邊ｾ蟇�凾險医�繧ｹ繧ｱ繝ｫ繝医Φ豁ｯ霆顔ｷ夂判 */
 html.ui-brass .qc::after {
-  content: ''; position: absolute; bottom: -20px; right: -20px; width: 160px; height: 160px;
-  background-image: radial-gradient(circle, transparent 35%, rgba(224, 194, 94, 0.14) 36%, rgba(224, 194, 94, 0.14) 42%, transparent 43%),
-                    repeating-conic-gradient(from 0deg, rgba(224, 194, 94, 0.1) 0deg 15deg, transparent 15deg 30deg);
-  border: 2px dashed rgba(224, 194, 94, 0.18);
+  content: ''; position: absolute; bottom: -20px; right: -20px; width: 170px; height: 170px;
+  background-image: radial-gradient(circle, transparent 35%, rgba(224, 194, 94, 0.16) 36%, rgba(224, 194, 94, 0.16) 42%, transparent 43%),
+                    repeating-conic-gradient(from 0deg, rgba(224, 194, 94, 0.12) 0deg 15deg, transparent 15deg 30deg);
+  border: 2px dashed rgba(224, 194, 94, 0.22);
   border-radius: 50%;
   pointer-events: none;
   animation: brassGearSlowSpin 40s linear infinite;
@@ -649,7 +649,7 @@ html.ui-brass .qc::after {
   to { transform: rotate(360deg); }
 }
 
-/* 🕰️ 問題番号バッジ: 鋳造真鍮エングレーブ・メダリオン */
+/* �焚�� 蝠城｡檎分蜿ｷ繝舌ャ繧ｸ: 驪ｳ騾�逵滄紺繧ｨ繝ｳ繧ｰ繝ｬ繝ｼ繝悶�繝｡繝繝ｪ繧ｪ繝ｳ */
 html.ui-brass .qc .qn {
   background: linear-gradient(135deg, #D4AF37 0%, #FFF3C4 35%, #AA7C11 70%, #6A4E08 100%) !important;
   border: 1.5px solid #FFF8DC !important;
@@ -662,7 +662,7 @@ html.ui-brass .qc .qn {
   letter-spacing: .7px !important;
 }
 
-/* 🕰️ メタバッジ・正答率・エピソード */
+/* �焚�� 繝｡繧ｿ繝舌ャ繧ｸ繝ｻ豁｣遲皮紫繝ｻ繧ｨ繝斐た繝ｼ繝� */
 html.ui-brass .qc .qe,
 html.ui-brass .qc .bg,
 html.ui-brass .qc .cr {
@@ -683,7 +683,7 @@ html.ui-brass .qc .cr {
   text-shadow: 0 0 10px rgba(255, 215, 0, 0.8) !important;
 }
 
-/* 🕰️ ヘッダー境界ディバイダー: 真鍮ギロシェライン & リベット */
+/* �焚�� 繝倥ャ繝繝ｼ蠅�阜繝�ぅ繝舌う繝繝ｼ: 逵滄紺繧ｮ繝ｭ繧ｷ繧ｧ繝ｩ繧､繝ｳ & 繝ｪ繝吶ャ繝� */
 html.ui-brass .qc .qh {
   padding-bottom: 16px !important;
   border-bottom: 1px solid rgba(224, 194, 94, 0.4) !important;
@@ -702,7 +702,7 @@ html.ui-brass .qc .qh::after {
   pointer-events: none;
 }
 
-/* 🕰️ 自己採点ボタン群: 鋳造真鍮プッシュスイッチ */
+/* �焚�� 閾ｪ蟾ｱ謗｡轤ｹ繝懊ち繝ｳ鄒､: 驪ｳ騾�逵滄紺繝励ャ繧ｷ繝･繧ｹ繧､繝�メ */
 html.ui-brass .qc .mec-grade-btn,
 html.ui-brass .qc .mec-lap-btn,
 html.ui-brass .qc .mec-flag-btn,
@@ -774,7 +774,7 @@ html.ui-brass .qc .mec-err-btn:hover {
   transform: translateY(-2px) scale(1.05) !important;
 }
 
-/* 🕰️ 問題文: 真鍮アンティーク・クォートインジケーター */
+/* �焚�� 蝠城｡梧枚: 逵滄紺繧｢繝ｳ繝�ぅ繝ｼ繧ｯ繝ｻ繧ｯ繧ｩ繝ｼ繝医う繝ｳ繧ｸ繧ｱ繝ｼ繧ｿ繝ｼ */
 html.ui-brass .qc .qq {
   position: relative;
   padding: 14px 18px 14px 20px !important;
@@ -790,7 +790,7 @@ html.ui-brass .qc .qq {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 0 16px rgba(224, 194, 94, 0.12), inset 0 1px 0 rgba(255, 243, 196, 0.2) !important;
 }
 
-/* 🕰️ 選択肢: 真鍮プレート */
+/* �焚�� 驕ｸ謚櫁い: 逵滄紺繝励Ξ繝ｼ繝� */
 html.ui-brass .qc .ch2 {
   background: rgba(224, 194, 94, 0.1) !important;
   border: 1.5px solid rgba(224, 194, 94, 0.4) !important;
@@ -829,7 +829,7 @@ html.ui-brass .qc .ch2:active {
   box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.7), 0 1px 4px rgba(255, 215, 0, 0.4) !important;
 }
 
-/* 🕰️ 正解選択肢: 通常閲覧時、または試験モードで解答開示後 */
+/* �焚�� 豁｣隗｣驕ｸ謚櫁い: 騾壼ｸｸ髢ｲ隕ｧ譎ゅ√∪縺溘�隧ｦ鬨薙Δ繝ｼ繝峨〒隗｣遲秘幕遉ｺ蠕� */
 html.ui-brass body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
 html.ui-brass body.exam-mode .qc.exam-revealed .ch2.ok,
 html.ui-brass body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
@@ -841,7 +841,7 @@ html.ui-brass body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   box-shadow: 0 0 26px rgba(61, 214, 140, 0.6), inset 0 0 14px rgba(61, 214, 140, 0.3) !important;
 }
 
-/* 🕰️ 試験モード未開示時: 正解肢であることを完全に隠蔽し通常選択肢と完全に同一にする（ネタバレ完全防止） */
+/* �焚�� 隧ｦ鬨薙Δ繝ｼ繝画悴髢狗､ｺ譎�: 豁｣隗｣閧｢縺ｧ縺ゅｋ縺薙→繧貞ｮ悟�縺ｫ髫�阡ｽ縺鈴壼ｸｸ驕ｸ謚櫁い縺ｨ螳悟�縺ｫ蜷御ｸ縺ｫ縺吶ｋ�医ロ繧ｿ繝舌Ξ螳悟�髦ｲ豁｢�� */
 html.ui-brass body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected),
 html.ui-brass body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   background: rgba(224, 194, 94, 0.1) !important;
@@ -866,7 +866,7 @@ html.ui-brass body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-sel
   transform: translateX(4px) !important;
 }
 
-/* 🕰️ 正解確定時の真鍮刻印フラッシュ & ゴールドブルーム */
+/* �焚�� 豁｣隗｣遒ｺ螳壽凾縺ｮ逵滄紺蛻ｻ蜊ｰ繝輔Λ繝�す繝･ & 繧ｴ繝ｼ繝ｫ繝峨ヶ繝ｫ繝ｼ繝� */
 html.ui-brass .qc.exam-revealed.exam-multi-correct {
   animation: brassCorrectGlow .65s cubic-bezier(0.2, 0.9, 0.3, 1) both !important;
 }
@@ -877,7 +877,7 @@ html.ui-brass .qc.exam-revealed.exam-multi-correct {
   100% { transform: scale(1); box-shadow: 0 22px 55px rgba(0, 0, 0, 0.9), 0 0 38px rgba(224, 194, 94, 0.2); }
 }
 
-/* 🕰️ 不正解時の真鍮振動 & スモーク警告 */
+/* �焚�� 荳肴ｭ｣隗｣譎ゅ�逵滄紺謖ｯ蜍� & 繧ｹ繝｢繝ｼ繧ｯ隴ｦ蜻� */
 html.ui-brass .qc.exam-revealed:not(.exam-multi-correct) {
   animation: brassWrongGlow .52s ease-out both !important;
 }
@@ -892,14 +892,14 @@ html.ui-brass .qc .ch2:active {
   transform: translateY(1px) scale(.99) !important;
 }
 
-/* 🕰️ 問題文アクセント */
+/* �焚�� 蝠城｡梧枚繧｢繧ｯ繧ｻ繝ｳ繝� */
 html.ui-brass .qc .qq {
   position: relative;
   padding-left: 2px;
   color: #FFF8E7 !important;
 }
 
-/* 🕰️ 解答ボックス & 解説ボックス: 鋳造真鍮フレーム */
+/* �焚�� 隗｣遲斐�繝�け繧ｹ & 隗｣隱ｬ繝懊ャ繧ｯ繧ｹ: 驪ｳ騾�逵滄紺繝輔Ξ繝ｼ繝� */
 html.ui-brass .qc .ab {
   margin-top: 14px !important;
   border-radius: 8px !important;
@@ -944,7 +944,7 @@ html.ui-brass .qc .eg {
   padding: 16px 20px !important;
 }
 
-/* 🕰️ 問題画像: 鋳造真鍮フレーム額縁 */
+/* �焚�� 蝠城｡檎判蜒�: 驪ｳ騾�逵滄紺繝輔Ξ繝ｼ繝�鬘咲ｸ� */
 html.ui-brass .qc .qimg {
   border: 2px solid rgba(224, 194, 94, 0.75) !important;
   border-radius: 8px !important;
@@ -964,7 +964,7 @@ html.ui-brass #mecImgLbImg {
   box-shadow: 0 0 35px rgba(224, 194, 94, 0.45) !important;
 }
 
-/* 🕰️ 自己採点ボタン群アクティブ */
+/* �焚�� 閾ｪ蟾ｱ謗｡轤ｹ繝懊ち繝ｳ鄒､繧｢繧ｯ繝�ぅ繝� */
 html.ui-brass .qc .ch2:focus-visible,
 html.ui-brass .qc button:focus-visible {
   outline: 2px solid #FFD700 !important;
@@ -979,7 +979,7 @@ html.ui-brass .qc .mec-flag-btn:active {
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6) !important;
 }
 
-/* 🕰️ 統計チップ & 試験モードバッジ: 鋳造真鍮インジケーター */
+/* �焚�� 邨ｱ險医メ繝�� & 隧ｦ鬨薙Δ繝ｼ繝峨ヰ繝�ず: 驪ｳ騾�逵滄紺繧､繝ｳ繧ｸ繧ｱ繝ｼ繧ｿ繝ｼ */
 html.ui-brass .st-hdr {
   background: linear-gradient(180deg, rgba(28, 20, 12, 0.96), rgba(18, 12, 6, 0.98)) !important;
   border: 2px solid rgba(224, 194, 94, 0.85) !important;
@@ -1043,7 +1043,7 @@ html.ui-brass .st-stat.exam-mode-chip:hover {
   transform: scale(1.03) !important;
 }
 
-/* 🕰️ スクロールバー: 鋳造真鍮スライダー */
+/* �焚�� 繧ｹ繧ｯ繝ｭ繝ｼ繝ｫ繝舌�: 驪ｳ騾�逵滄紺繧ｹ繝ｩ繧､繝繝ｼ */
 html.ui-brass ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -1061,7 +1061,7 @@ html.ui-brass ::-webkit-scrollbar-thumb:hover {
   box-shadow: 0 0 10px rgba(224, 194, 94, 0.6);
 }
 
-/* 🕰️ 取消トースト: 鋳造真鍮プレートバナー */
+/* �焚�� 蜿匁ｶ医ヨ繝ｼ繧ｹ繝�: 驪ｳ騾�逵滄紺繝励Ξ繝ｼ繝医ヰ繝翫� */
 html.ui-brass #mecUndoToast {
   background: rgba(20, 14, 8, 0.95) !important;
   border: 1.5px solid #E0C25E !important;
@@ -1081,13 +1081,14 @@ html.ui-brass .mec-undo-btn {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   3. 🚀 サイバー・ホログラム (Cyber Hologram HUD)
-   コンセプト: SF戦闘機コックピット・アイアンマンHUD・電脳走査線
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   3. �噫 繧ｵ繧､繝舌�繝ｻ繝帙Ο繧ｰ繝ｩ繝� (Cyber Hologram HUD)
+   繧ｳ繝ｳ繧ｻ繝励ヨ: SF謌ｦ髣俶ｩ溘さ繝�け繝斐ャ繝医�繧｢繧､繧｢繝ｳ繝槭ΦHUD繝ｻ髮ｻ閼ｳ襍ｰ譟ｻ邱�
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 html.ui-cyber body {
-  background: radial-gradient(circle at 50% 15%, rgba(0, 229, 255, 0.25) 0%, transparent 65%),
-              radial-gradient(circle at 85% 85%, rgba(0, 255, 102, 0.18) 0%, transparent 60%),
+  background: radial-gradient(circle at 50% 15%, rgba(0, 229, 255, 0.28) 0%, transparent 65%),
+              radial-gradient(circle at 85% 85%, rgba(0, 255, 102, 0.2) 0%, transparent 60%),
+              radial-gradient(circle at 15% 75%, rgba(0, 150, 255, 0.2) 0%, transparent 55%),
               linear-gradient(180deg, #030812 0%, #010307 100%) !important;
   background-attachment: fixed !important;
   font-family: 'SFMono-Regular', Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "BIZ UDPGothic", Meiryo, monospace !important;
@@ -1098,8 +1099,8 @@ html.ui-cyber body {
 html.ui-cyber body::before {
   content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
   background-image: 
-    linear-gradient(rgba(0, 229, 255, 0.16) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 229, 255, 0.16) 1px, transparent 1px);
+    linear-gradient(rgba(0, 229, 255, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.18) 1px, transparent 1px);
   background-size: 32px 32px;
   opacity: 0.85;
   animation: cyberGridPulse 8s ease-in-out infinite alternate;
@@ -1107,18 +1108,18 @@ html.ui-cyber body::before {
 
 @keyframes cyberGridPulse {
   0% { opacity: 0.65; transform: scale(1); }
-  100% { opacity: 0.95; transform: scale(1.03); }
+  100% { opacity: 0.95; transform: scale(1.02); }
 }
 
-/* 🚀 カード全体: サイバーHUDフレーム & 走査線 */
+/* �噫 繧ｫ繝ｼ繝牙�菴�: 繧ｵ繧､繝舌�HUD繝輔Ξ繝ｼ繝� & 襍ｰ譟ｻ邱� */
 html.ui-cyber .qc {
-  padding: 16px 18px 20px !important;
-  gap: 12px !important;
+  padding: 18px 20px 22px !important;
+  gap: 14px !important;
 }
 html.ui-cyber .qc .qh {
-  padding-bottom: 10px !important;
-  border-bottom: 1px dashed rgba(0, 229, 255, 0.4) !important;
-  box-shadow: 0 1px 0 rgba(0, 255, 102, 0.15) !important;
+  padding-bottom: 12px !important;
+  border-bottom: 1px dashed rgba(0, 229, 255, 0.45) !important;
+  box-shadow: 0 1px 0 rgba(0, 255, 102, 0.18) !important;
 }
 html.ui-cyber .qc,
 html.ui-cyber .st-hdr,
@@ -1129,13 +1130,14 @@ html.ui-cyber .card,
 html.ui-cyber .ssov-box,
 html.ui-cyber .exam-start-box,
 html.ui-cyber .modal-box {
-  background: rgba(3, 9, 18, 0.94) !important;
-  backdrop-filter: blur(22px) !important;
-  border: 1.5px solid rgba(0, 229, 255, 0.9) !important;
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.85),
-              0 0 42px rgba(0, 229, 255, 0.35),
-              inset 0 0 28px rgba(0, 229, 255, 0.15) !important;
-  border-radius: 10px !important;
+  background: rgba(4, 12, 24, 0.96) !important;
+  backdrop-filter: blur(24px) !important;
+  border: 1.5px solid #00E5FF !important;
+  box-shadow: 0 20px 56px rgba(0, 0, 0, 0.92),
+              0 0 40px rgba(0, 229, 255, 0.42),
+              inset 0 0 28px rgba(0, 229, 255, 0.22),
+              inset 0 1px 0 rgba(0, 255, 102, 0.5) !important;
+  border-radius: 8px !important;
 }
 
 html.ui-cyber .qc {
@@ -1152,31 +1154,31 @@ html.ui-cyber .qc {
 
 html.ui-cyber .qc:hover {
   border-color: #00FF66 !important;
-  box-shadow: 0 0 40px rgba(0, 255, 102, 0.35),
-              inset 0 0 26px rgba(0, 255, 102, 0.15) !important;
+  box-shadow: 0 0 42px rgba(0, 255, 102, 0.4),
+              inset 0 0 28px rgba(0, 255, 102, 0.18) !important;
 }
 
-/* 🚀 カード四隅のHUDターゲット角ブラケット（[ ]） */
+/* �噫 繧ｫ繝ｼ繝牙屁髫��HUD繧ｿ繝ｼ繧ｲ繝�ヨ隗偵ヶ繝ｩ繧ｱ繝�ヨ�� ]�� */
 html.ui-cyber .qc::before {
   content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 2;
   border-top: 3px solid #00E5FF;
   border-bottom: 3px solid #00E5FF;
   background: 
-    linear-gradient(90deg, #00E5FF 3px, transparent 3px) left top / 16px 16px no-repeat,
-    linear-gradient(-90deg, #00E5FF 3px, transparent 3px) right top / 16px 16px no-repeat,
-    linear-gradient(90deg, #00E5FF 3px, transparent 3px) left bottom / 16px 16px no-repeat,
-    linear-gradient(-90deg, #00E5FF 3px, transparent 3px) right bottom / 16px 16px no-repeat;
-  box-shadow: inset 0 0 16px rgba(0, 229, 255, 0.28);
-  opacity: 0.95;
+    linear-gradient(90deg, #00E5FF 3px, transparent 3px) left top / 18px 18px no-repeat,
+    linear-gradient(-90deg, #00E5FF 3px, transparent 3px) right top / 18px 18px no-repeat,
+    linear-gradient(90deg, #00E5FF 3px, transparent 3px) left bottom / 18px 18px no-repeat,
+    linear-gradient(-90deg, #00E5FF 3px, transparent 3px) right bottom / 18px 18px no-repeat;
+  box-shadow: inset 0 0 18px rgba(0, 229, 255, 0.32);
+  opacity: 0.98;
 }
 
-/* 🚀 カード背景のホログラム走査線 */
+/* �噫 繧ｫ繝ｼ繝芽レ譎ｯ縺ｮ繝帙Ο繧ｰ繝ｩ繝�襍ｰ譟ｻ邱� */
 html.ui-cyber .qc::after {
   content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
-  background: linear-gradient(180deg, transparent 0%, rgba(0, 229, 255, 0.08) 50%, transparent 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 229, 255, 0.09) 50%, transparent 100%);
   background-size: 100% 40px;
   animation: cyberScanline 3s linear infinite;
-  opacity: 0.7;
+  opacity: 0.75;
 }
 
 @keyframes cyberScanline {
@@ -1184,7 +1186,7 @@ html.ui-cyber .qc::after {
   100% { transform: translateY(100%); }
 }
 
-/* 🚀 問題番号バッジ: ヘキサゴン・ターゲットHUD */
+/* �噫 蝠城｡檎分蜿ｷ繝舌ャ繧ｸ: 繝倥く繧ｵ繧ｴ繝ｳ繝ｻ繧ｿ繝ｼ繧ｲ繝�ヨHUD */
 html.ui-cyber .qc .qn {
   background: rgba(0, 229, 255, 0.3) !important;
   border: 1.5px solid #00E5FF !important;
@@ -1198,7 +1200,7 @@ html.ui-cyber .qc .qn {
   box-shadow: 0 0 20px rgba(0, 229, 255, 0.6), inset 0 0 10px rgba(0, 229, 255, 0.35) !important;
 }
 
-/* 🚀 メタバッジ・正答率・エピソード */
+/* �噫 繝｡繧ｿ繝舌ャ繧ｸ繝ｻ豁｣遲皮紫繝ｻ繧ｨ繝斐た繝ｼ繝� */
 html.ui-cyber .qc .qe,
 html.ui-cyber .qc .bg,
 html.ui-cyber .qc .cr {
@@ -1220,7 +1222,7 @@ html.ui-cyber .qc .cr {
   box-shadow: 0 0 12px rgba(0, 255, 102, 0.5), inset 0 0 8px rgba(0, 255, 102, 0.25) !important;
 }
 
-/* 🚀 ヘッダー境界ディバイダー: HUDレーザー走査線 & ターゲットロックマーク */
+/* �噫 繝倥ャ繝繝ｼ蠅�阜繝�ぅ繝舌う繝繝ｼ: HUD繝ｬ繝ｼ繧ｶ繝ｼ襍ｰ譟ｻ邱� & 繧ｿ繝ｼ繧ｲ繝�ヨ繝ｭ繝�け繝槭�繧ｯ */
 html.ui-cyber .qc .qh {
   padding-bottom: 16px !important;
   border-bottom: 1px dashed rgba(0, 229, 255, 0.45) !important;
@@ -1238,7 +1240,7 @@ html.ui-cyber .qc .qh::after {
   box-shadow: 0 0 16px #00E5FF, 0 0 6px #00FF66;
 }
 
-/* 🚀 自己採点ボタン群: タクティカルHUDキー */
+/* �噫 閾ｪ蟾ｱ謗｡轤ｹ繝懊ち繝ｳ鄒､: 繧ｿ繧ｯ繝�ぅ繧ｫ繝ｫHUD繧ｭ繝ｼ */
 html.ui-cyber .qc .mec-grade-btn,
 html.ui-cyber .qc .mec-lap-btn,
 html.ui-cyber .qc .mec-flag-btn,
@@ -1315,7 +1317,7 @@ html.ui-cyber .qc .mec-err-btn:hover {
   transform: translateY(-2px) scale(1.05) !important;
 }
 
-/* 🚀 問題文: HUDレーザーガイドインジケーター */
+/* �噫 蝠城｡梧枚: HUD繝ｬ繝ｼ繧ｶ繝ｼ繧ｬ繧､繝峨う繝ｳ繧ｸ繧ｱ繝ｼ繧ｿ繝ｼ */
 html.ui-cyber .qc .qq {
   position: relative;
   padding: 14px 18px 14px 20px !important;
@@ -1331,7 +1333,7 @@ html.ui-cyber .qc .qq {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 16px rgba(0, 229, 255, 0.15), inset 0 0 14px rgba(0, 229, 255, 0.1) !important;
 }
 
-/* 🚀 選択肢: サイバーロックオン・ブロック */
+/* �噫 驕ｸ謚櫁い: 繧ｵ繧､繝舌�繝ｭ繝�け繧ｪ繝ｳ繝ｻ繝悶Ο繝�け */
 html.ui-cyber .qc .ch2 {
   background: rgba(0, 229, 255, 0.08) !important;
   border: 1.5px solid rgba(0, 229, 255, 0.38) !important;
@@ -1364,7 +1366,7 @@ html.ui-cyber .qc .ch2.selected {
   transform: translateX(3px) !important;
 }
 
-/* 🚀 解答ボックス & 解説ボックス: サイバーターミナルHUD */
+/* �噫 隗｣遲斐�繝�け繧ｹ & 隗｣隱ｬ繝懊ャ繧ｯ繧ｹ: 繧ｵ繧､繝舌�繧ｿ繝ｼ繝溘リ繝ｫHUD */
 html.ui-cyber .qc .ab {
   background: linear-gradient(90deg, rgba(0, 229, 255, 0.25) 0%, rgba(3, 9, 18, 0.92) 100%) !important;
   border: 1.5px solid #00E5FF !important;
@@ -1406,7 +1408,7 @@ html.ui-cyber .qc .ch2:active {
   box-shadow: 0 0 18px rgba(0, 229, 255, 0.6), inset 0 0 10px rgba(0, 0, 0, 0.6) !important;
 }
 
-/* 🚀 正解選択肢: 通常閲覧時、または試験モードで解答開示後 */
+/* �噫 豁｣隗｣驕ｸ謚櫁い: 騾壼ｸｸ髢ｲ隕ｧ譎ゅ√∪縺溘�隧ｦ鬨薙Δ繝ｼ繝峨〒隗｣遲秘幕遉ｺ蠕� */
 html.ui-cyber body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
 html.ui-cyber body.exam-mode .qc.exam-revealed .ch2.ok,
 html.ui-cyber body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
@@ -1418,7 +1420,7 @@ html.ui-cyber body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   box-shadow: 0 0 28px rgba(0, 255, 102, 0.7), inset 0 0 14px rgba(0, 229, 255, 0.35) !important;
 }
 
-/* 🚀 試験モード未開示時: 正解肢であることを完全に隠蔽し通常選択肢と完全に同一にする（ネタバレ完全防止） */
+/* �噫 隧ｦ鬨薙Δ繝ｼ繝画悴髢狗､ｺ譎�: 豁｣隗｣閧｢縺ｧ縺ゅｋ縺薙→繧貞ｮ悟�縺ｫ髫�阡ｽ縺鈴壼ｸｸ驕ｸ謚櫁い縺ｨ螳悟�縺ｫ蜷御ｸ縺ｫ縺吶ｋ�医ロ繧ｿ繝舌Ξ螳悟�髦ｲ豁｢�� */
 html.ui-cyber body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected),
 html.ui-cyber body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   background: rgba(0, 229, 255, 0.08) !important;
@@ -1443,7 +1445,7 @@ html.ui-cyber body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-sel
   transform: translateX(4px) !important;
 }
 
-/* 🚀 正解確定時のサイバーパルス & レーザーロック */
+/* �噫 豁｣隗｣遒ｺ螳壽凾縺ｮ繧ｵ繧､繝舌�繝代Ν繧ｹ & 繝ｬ繝ｼ繧ｶ繝ｼ繝ｭ繝�け */
 html.ui-cyber .qc.exam-revealed.exam-multi-correct {
   animation: cyberCorrectGlow .6s cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
@@ -1454,7 +1456,7 @@ html.ui-cyber .qc.exam-revealed.exam-multi-correct {
   100% { transform: scale(1); box-shadow: 0 18px 50px rgba(0, 0, 0, 0.85), 0 0 42px rgba(0, 229, 255, 0.35); }
 }
 
-/* 🚀 不正解時のHUDアラートグリッチ & 走査線フリーズ */
+/* �噫 荳肴ｭ｣隗｣譎ゅ�HUD繧｢繝ｩ繝ｼ繝医げ繝ｪ繝�メ & 襍ｰ譟ｻ邱壹ヵ繝ｪ繝ｼ繧ｺ */
 html.ui-cyber .qc.exam-revealed:not(.exam-multi-correct) {
   animation: cyberWrongGlow .48s ease-out both !important;
 }
@@ -1469,7 +1471,7 @@ html.ui-cyber .qc .ch2:active {
   transform: scale(0.985) translateY(1px) !important;
 }
 
-/* 🚀 問題文アクセント */
+/* �噫 蝠城｡梧枚繧｢繧ｯ繧ｻ繝ｳ繝� */
 html.ui-cyber .qc .qq {
   position: relative;
   padding-left: 2px;
@@ -1478,7 +1480,7 @@ html.ui-cyber .qc .qq {
 
 
 
-/* 🚀 問題画像: HUD診断ホロスキャナー枠 */
+/* �噫 蝠城｡檎判蜒�: HUD險ｺ譁ｭ繝帙Ο繧ｹ繧ｭ繝｣繝翫�譫� */
 html.ui-cyber .qc .qimg {
   border: 1.5px solid rgba(0, 229, 255, 0.65) !important;
   border-radius: 4px !important;
@@ -1498,7 +1500,7 @@ html.ui-cyber #mecImgLbImg {
   box-shadow: 0 0 45px rgba(0, 229, 255, 0.5) !important;
 }
 
-/* 🚀 自己採点ボタン群アクティブ */
+/* �噫 閾ｪ蟾ｱ謗｡轤ｹ繝懊ち繝ｳ鄒､繧｢繧ｯ繝�ぅ繝� */
 html.ui-cyber .qc .ch2:focus-visible,
 html.ui-cyber .qc button:focus-visible {
   outline: 2px solid #00E5FF !important;
@@ -1513,7 +1515,7 @@ html.ui-cyber .qc .mec-flag-btn:active {
   box-shadow: 0 0 4px #00FF66 !important;
 }
 
-/* 🚀 統計チップ & 試験モードバッジ: タクティカルHUDディスプレイ */
+/* �噫 邨ｱ險医メ繝�� & 隧ｦ鬨薙Δ繝ｼ繝峨ヰ繝�ず: 繧ｿ繧ｯ繝�ぅ繧ｫ繝ｫHUD繝�ぅ繧ｹ繝励Ξ繧､ */
 html.ui-cyber .st-hdr {
   background: rgba(3, 9, 18, 0.96) !important;
   border: 1.5px solid #00E5FF !important;
@@ -1582,7 +1584,7 @@ html.ui-cyber .st-stat.exam-mode-chip:hover {
   transform: scale(1.03) !important;
 }
 
-/* 🚀 スクロールバー: レーザーHUDスライダー */
+/* �噫 繧ｹ繧ｯ繝ｭ繝ｼ繝ｫ繝舌�: 繝ｬ繝ｼ繧ｶ繝ｼHUD繧ｹ繝ｩ繧､繝繝ｼ */
 html.ui-cyber ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -1600,7 +1602,7 @@ html.ui-cyber ::-webkit-scrollbar-thumb:hover {
   box-shadow: 0 0 12px rgba(0, 255, 102, 0.8);
 }
 
-/* 🚀 取消トースト: タクティカルHUDアラート */
+/* �噫 蜿匁ｶ医ヨ繝ｼ繧ｹ繝�: 繧ｿ繧ｯ繝�ぅ繧ｫ繝ｫHUD繧｢繝ｩ繝ｼ繝� */
 html.ui-cyber #mecUndoToast {
   background: rgba(4, 10, 20, 0.96) !important;
   border: 1.5px solid #00E5FF !important;
@@ -1622,16 +1624,16 @@ html.ui-cyber .mec-undo-btn {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   4. 🌸 幻想リキッド・アート (Liquid Art)
-   コンセプト: 現代アート・蛍光流体インク・有機的フルイドオーラ
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   4. �減 蟷ｻ諠ｳ繝ｪ繧ｭ繝�ラ繝ｻ繧｢繝ｼ繝� (Liquid Art)
+   繧ｳ繝ｳ繧ｻ繝励ヨ: 迴ｾ莉｣繧｢繝ｼ繝医�陋榊�豬∽ｽ薙う繝ｳ繧ｯ繝ｻ譛画ｩ溽噪繝輔Ν繧､繝峨が繝ｼ繝ｩ
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 html.ui-liquid body {
-  background: radial-gradient(ellipse 70% 50% at 20% 10%, rgba(255, 0, 128, 0.48) 0%, transparent 60%),
-              radial-gradient(ellipse 60% 60% at 85% 85%, rgba(121, 40, 202, 0.5) 0%, transparent 60%),
-              radial-gradient(circle at 50% 50%, rgba(255, 122, 0, 0.32) 0%, transparent 65%),
-              radial-gradient(circle at 80% 20%, rgba(0, 223, 216, 0.25) 0%, transparent 55%),
-              #0A0310 !important;
+  background: radial-gradient(ellipse 70% 50% at 20% 10%, rgba(255, 0, 128, 0.5) 0%, transparent 65%),
+              radial-gradient(ellipse 60% 60% at 85% 85%, rgba(121, 40, 202, 0.52) 0%, transparent 65%),
+              radial-gradient(circle at 50% 50%, rgba(255, 122, 0, 0.35) 0%, transparent 70%),
+              radial-gradient(circle at 80% 20%, rgba(0, 223, 216, 0.28) 0%, transparent 55%),
+              #0A0312 !important;
   background-attachment: fixed !important;
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased !important;
@@ -1639,27 +1641,27 @@ html.ui-liquid body {
 
 html.ui-liquid body::before {
   content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background: radial-gradient(circle at 30% 20%, rgba(255, 0, 128, 0.22) 0%, transparent 45%),
-              radial-gradient(circle at 70% 80%, rgba(121, 40, 202, 0.24) 0%, transparent 45%),
-              radial-gradient(circle at 50% 50%, rgba(255, 122, 0, 0.16) 0%, transparent 40%);
+  background: radial-gradient(circle at 30% 20%, rgba(255, 0, 128, 0.24) 0%, transparent 45%),
+              radial-gradient(circle at 70% 80%, rgba(121, 40, 202, 0.26) 0%, transparent 45%),
+              radial-gradient(circle at 50% 50%, rgba(255, 122, 0, 0.18) 0%, transparent 40%);
   animation: liquidMarbleFlow 12s ease-in-out infinite alternate;
 }
 
 @keyframes liquidMarbleFlow {
   0% { transform: scale(1) translate(0, 0); opacity: 0.8; }
-  50% { transform: scale(1.1) translate(-12px, 8px); opacity: 1; }
-  100% { transform: scale(1.15) translate(8px, -12px); opacity: 0.85; }
+  50% { transform: scale(1.08) translate(-10px, 7px); opacity: 1; }
+  100% { transform: scale(1.12) translate(7px, -10px); opacity: 0.85; }
 }
 
-/* 🌸 カード全体: フルイド・ネオンオーラ & 有機的カーブ */
+/* �減 繧ｫ繝ｼ繝牙�菴�: 繝輔Ν繧､繝峨�繝阪が繝ｳ繧ｪ繝ｼ繝ｩ & 譛画ｩ溽噪繧ｫ繝ｼ繝� */
 html.ui-liquid .qc {
-  padding: 18px 20px 22px !important;
-  gap: 14px !important;
+  padding: 20px 22px 24px !important;
+  gap: 15px !important;
 }
 html.ui-liquid .qc .qh {
-  padding-bottom: 12px !important;
-  border-bottom: 1px solid rgba(255, 0, 128, 0.25) !important;
-  box-shadow: 0 1px 0 rgba(121, 40, 202, 0.3) !important;
+  padding-bottom: 14px !important;
+  border-bottom: 1px solid rgba(255, 0, 128, 0.28) !important;
+  box-shadow: 0 1px 0 rgba(121, 40, 202, 0.35) !important;
 }
 html.ui-liquid .qc,
 html.ui-liquid .st-hdr,
@@ -1670,15 +1672,15 @@ html.ui-liquid .card,
 html.ui-liquid .ssov-box,
 html.ui-liquid .exam-start-box,
 html.ui-liquid .modal-box {
-  background: linear-gradient(135deg, rgba(28, 10, 38, 0.92) 0%, rgba(14, 5, 20, 0.95) 100%) !important;
+  background: linear-gradient(135deg, rgba(32, 12, 46, 0.94) 0%, rgba(16, 6, 24, 0.97) 100%) !important;
   backdrop-filter: blur(28px) saturate(220%) !important;
   -webkit-backdrop-filter: blur(28px) saturate(220%) !important;
-  border: 2px solid rgba(255, 0, 128, 0.8) !important;
-  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.85),
-              0 0 48px rgba(255, 0, 128, 0.38),
-              inset 0 0 35px rgba(121, 40, 202, 0.32),
-              inset 0 1.5px 0 rgba(255, 122, 0, 0.5) !important;
-  border-radius: 24px !important;
+  border: 2px solid rgba(255, 0, 128, 0.9) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.88),
+              0 0 45px rgba(255, 0, 128, 0.38),
+              inset 0 0 36px rgba(121, 40, 202, 0.3),
+              inset 0 1.5px 0.5px rgba(255, 122, 0, 0.6) !important;
+  border-radius: 22px !important;
 }
 
 html.ui-liquid .qc {
@@ -1695,28 +1697,28 @@ html.ui-liquid .qc {
 
 html.ui-liquid .qc:hover {
   border-color: #FF007F !important;
-  box-shadow: 0 24px 60px rgba(255, 0, 128, 0.45),
-              0 0 30px rgba(255, 122, 0, 0.35),
-              inset 0 0 32px rgba(255, 122, 0, 0.32) !important;
+  box-shadow: 0 24px 60px rgba(255, 0, 128, 0.5),
+              0 0 32px rgba(255, 122, 0, 0.4),
+              inset 0 0 35px rgba(255, 122, 0, 0.35) !important;
   transform: translateY(-2px) !important;
 }
 
-/* 🌸 カード上部: 蛍光インクの有機的フルイドライン */
+/* �減 繧ｫ繝ｼ繝我ｸ企Κ: 陋榊�繧､繝ｳ繧ｯ縺ｮ譛画ｩ溽噪繝輔Ν繧､繝峨Λ繧､繝ｳ */
 html.ui-liquid .qc::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
   background: linear-gradient(90deg, #FF007F, #7928CA 30%, #FF7A00 65%, #FF007F);
   background-size: 300% 100%;
   animation: liquidEdgeFlow 4.5s linear infinite;
-  box-shadow: 0 0 14px rgba(255, 0, 128, 0.7);
+  box-shadow: 0 0 16px rgba(255, 0, 128, 0.75);
   pointer-events: none;
-  opacity: 0.95;
+  opacity: 0.96;
   z-index: 2;
 }
 
-/* 🌸 カード背景透かし: 蛍光流体インク・マーブルブロブ */
+/* �減 繧ｫ繝ｼ繝芽レ譎ｯ騾上°縺�: 陋榊�豬∽ｽ薙う繝ｳ繧ｯ繝ｻ繝槭�繝悶Ν繝悶Ο繝� */
 html.ui-liquid .qc::after {
-  content: ''; position: absolute; top: -30px; left: -30px; width: 180px; height: 180px;
-  background: radial-gradient(circle, rgba(255, 0, 128, 0.16) 0%, rgba(121, 40, 202, 0.08) 50%, transparent 75%);
+  content: ''; position: absolute; top: -30px; left: -30px; width: 190px; height: 190px;
+  background: radial-gradient(circle, rgba(255, 0, 128, 0.18) 0%, rgba(121, 40, 202, 0.09) 50%, transparent 75%);
   pointer-events: none;
   border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
   animation: liquidBlobMorph 8s ease-in-out infinite alternate;
@@ -1729,7 +1731,7 @@ html.ui-liquid .qc::after {
   100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: rotate(180deg); }
 }
 
-/* 🌸 問題番号バッジ: リキッドドロップ・ブロブ */
+/* �減 蝠城｡檎分蜿ｷ繝舌ャ繧ｸ: 繝ｪ繧ｭ繝�ラ繝峨Ο繝��繝ｻ繝悶Ο繝� */
 html.ui-liquid .qc .qn {
   background: linear-gradient(135deg, #FF007F 0%, #7928CA 50%, #FF7A00 100%) !important;
   border: 1.5px solid rgba(255, 255, 255, 0.85) !important;
@@ -1742,7 +1744,7 @@ html.ui-liquid .qc .qn {
   box-shadow: 0 4px 18px rgba(255, 0, 128, 0.6), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.75) !important;
 }
 
-/* 🌸 メタバッジ・正答率・エピソード */
+/* �減 繝｡繧ｿ繝舌ャ繧ｸ繝ｻ豁｣遲皮紫繝ｻ繧ｨ繝斐た繝ｼ繝� */
 html.ui-liquid .qc .qe,
 html.ui-liquid .qc .bg,
 html.ui-liquid .qc .cr {
@@ -1764,7 +1766,7 @@ html.ui-liquid .qc .cr {
   text-shadow: 0 0 10px rgba(244, 114, 182, 0.8) !important;
 }
 
-/* 🌸 ヘッダー境界ディバイダー: ネオンフルイド・アンビエントライン */
+/* �減 繝倥ャ繝繝ｼ蠅�阜繝�ぅ繝舌う繝繝ｼ: 繝阪が繝ｳ繝輔Ν繧､繝峨�繧｢繝ｳ繝薙お繝ｳ繝医Λ繧､繝ｳ */
 html.ui-liquid .qc .qh {
   padding-bottom: 16px !important;
   border-bottom: 1.5px solid rgba(255, 0, 128, 0.35) !important;
@@ -1783,7 +1785,7 @@ html.ui-liquid .qc .qh::after {
   border-radius: 3px;
 }
 
-/* 🌸 自己採点ボタン群: 蛍光流体ジェルピル */
+/* �減 閾ｪ蟾ｱ謗｡轤ｹ繝懊ち繝ｳ鄒､: 陋榊�豬∽ｽ薙ず繧ｧ繝ｫ繝斐Ν */
 html.ui-liquid .qc .mec-grade-btn,
 html.ui-liquid .qc .mec-lap-btn,
 html.ui-liquid .qc .mec-flag-btn,
@@ -1855,7 +1857,7 @@ html.ui-liquid .qc .mec-err-btn:hover {
   transform: translateY(-2px) scale(1.06) !important;
 }
 
-/* 🌸 問題文: 蛍光流体インク・クォートインジケーター */
+/* �減 蝠城｡梧枚: 陋榊�豬∽ｽ薙う繝ｳ繧ｯ繝ｻ繧ｯ繧ｩ繝ｼ繝医う繝ｳ繧ｸ繧ｱ繝ｼ繧ｿ繝ｼ */
 html.ui-liquid .qc .qq {
   position: relative;
   padding: 14px 18px 14px 20px !important;
@@ -1871,7 +1873,7 @@ html.ui-liquid .qc .qq {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 16px rgba(255, 0, 128, 0.12), inset 0 0 16px rgba(255, 0, 128, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
-/* 🌸 選択肢: ネオンフルイド・カプセル */
+/* �減 驕ｸ謚櫁い: 繝阪が繝ｳ繝輔Ν繧､繝峨�繧ｫ繝励そ繝ｫ */
 html.ui-liquid .qc .ch2 {
   background: rgba(255, 0, 128, 0.08) !important;
   border: 1.5px solid rgba(255, 0, 128, 0.35) !important;
@@ -1910,7 +1912,7 @@ html.ui-liquid .qc .ch2:active {
   box-shadow: 0 2px 10px rgba(255, 0, 128, 0.5), inset 0 2px 6px rgba(0, 0, 0, 0.4) !important;
 }
 
-/* 🌸 正解選択肢: 通常閲覧時、または試験モードで解答開示後 */
+/* �減 豁｣隗｣驕ｸ謚櫁い: 騾壼ｸｸ髢ｲ隕ｧ譎ゅ√∪縺溘�隧ｦ鬨薙Δ繝ｼ繝峨〒隗｣遲秘幕遉ｺ蠕� */
 html.ui-liquid body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
 html.ui-liquid body.exam-mode .qc.exam-revealed .ch2.ok,
 html.ui-liquid body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
@@ -1922,7 +1924,7 @@ html.ui-liquid body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   box-shadow: 0 0 26px rgba(61, 214, 140, 0.6), inset 0 0 14px rgba(61, 214, 140, 0.3) !important;
 }
 
-/* 🌸 試験モード未開示時: 正解肢であることを完全に隠蔽し通常選択肢と完全に同一にする（ネタバレ完全防止） */
+/* �減 隧ｦ鬨薙Δ繝ｼ繝画悴髢狗､ｺ譎�: 豁｣隗｣閧｢縺ｧ縺ゅｋ縺薙→繧貞ｮ悟�縺ｫ髫�阡ｽ縺鈴壼ｸｸ驕ｸ謚櫁い縺ｨ螳悟�縺ｫ蜷御ｸ縺ｫ縺吶ｋ�医ロ繧ｿ繝舌Ξ螳悟�髦ｲ豁｢�� */
 html.ui-liquid body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected),
 html.ui-liquid body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   background: rgba(255, 0, 128, 0.08) !important;
@@ -1947,7 +1949,7 @@ html.ui-liquid body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-se
   transform: translateX(4px) !important;
 }
 
-/* 🌸 正解確定時のフルイドブルーム波紋 & ネオングロー */
+/* �減 豁｣隗｣遒ｺ螳壽凾縺ｮ繝輔Ν繧､繝峨ヶ繝ｫ繝ｼ繝�豕｢邏� & 繝阪が繝ｳ繧ｰ繝ｭ繝ｼ */
 html.ui-liquid .qc.exam-revealed.exam-multi-correct {
   animation: liquidCorrectGlow .7s cubic-bezier(0.2, 1.2, 0.4, 1) both !important;
 }
@@ -1958,7 +1960,7 @@ html.ui-liquid .qc.exam-revealed.exam-multi-correct {
   100% { transform: scale(1); box-shadow: 0 22px 55px rgba(0, 0, 0, 0.8), 0 0 45px rgba(255, 0, 128, 0.32); }
 }
 
-/* 🌸 不正解時のインク濁り・リップル散乱 */
+/* �減 荳肴ｭ｣隗｣譎ゅ�繧､繝ｳ繧ｯ豼√ｊ繝ｻ繝ｪ繝��繝ｫ謨｣荵ｱ */
 html.ui-liquid .qc.exam-revealed:not(.exam-multi-correct) {
   animation: liquidWrongGlow .52s ease-out both !important;
 }
@@ -1973,14 +1975,14 @@ html.ui-liquid .qc .ch2:active {
   transform: scale(0.98) translateY(1px) !important;
 }
 
-/* 🌸 問題文アクセント */
+/* �減 蝠城｡梧枚繧｢繧ｯ繧ｻ繝ｳ繝� */
 html.ui-liquid .qc .qq {
   position: relative;
   padding-left: 2px;
   color: #FFF5F7 !important;
 }
 
-/* 🌸 解答ボックス & 解説ボックス: フルイドブルーム */
+/* �減 隗｣遲斐�繝�け繧ｹ & 隗｣隱ｬ繝懊ャ繧ｯ繧ｹ: 繝輔Ν繧､繝峨ヶ繝ｫ繝ｼ繝� */
 html.ui-liquid .qc .ab {
   background: linear-gradient(135deg, rgba(255, 0, 128, 0.28), rgba(121, 40, 202, 0.28)) !important;
   border: 2px solid rgba(255, 0, 128, 0.85) !important;
@@ -2015,7 +2017,7 @@ html.ui-liquid .qc .eg {
   padding: 16px 20px !important;
 }
 
-/* 🌸 問題画像: 蛍光流体有機的マウント */
+/* �減 蝠城｡檎判蜒�: 陋榊�豬∽ｽ捺怏讖溽噪繝槭え繝ｳ繝� */
 html.ui-liquid .qc .qimg {
   border: 2px solid rgba(255, 0, 128, 0.5) !important;
   border-radius: 16px !important;
@@ -2035,7 +2037,7 @@ html.ui-liquid #mecImgLbImg {
   box-shadow: 0 0 45px rgba(255, 0, 128, 0.45) !important;
 }
 
-/* 🌸 自己採点ボタン群アクティブ */
+/* �減 閾ｪ蟾ｱ謗｡轤ｹ繝懊ち繝ｳ鄒､繧｢繧ｯ繝�ぅ繝� */
 html.ui-liquid .qc .ch2:focus-visible,
 html.ui-liquid .qc button:focus-visible {
   outline: 2px solid #FF007F !important;
@@ -2050,7 +2052,7 @@ html.ui-liquid .qc .mec-flag-btn:active {
   box-shadow: 0 0 6px rgba(255, 0, 128, 0.5) !important;
 }
 
-/* 🌸 統計チップ & 試験モードバッジ: 蛍光流体カプセル */
+/* �減 邨ｱ險医メ繝�� & 隧ｦ鬨薙Δ繝ｼ繝峨ヰ繝�ず: 陋榊�豬∽ｽ薙き繝励そ繝ｫ */
 html.ui-liquid .st-hdr {
   background: rgba(20, 7, 28, 0.92) !important;
   border: 2px solid rgba(255, 0, 128, 0.65) !important;
@@ -2119,7 +2121,7 @@ html.ui-liquid .st-stat.exam-mode-chip:hover {
   100% { background-position: 300% 0%; }
 }
 
-/* 🌸 スクロールバー: 蛍光流体ジェルスライダー */
+/* �減 繧ｹ繧ｯ繝ｭ繝ｼ繝ｫ繝舌�: 陋榊�豬∽ｽ薙ず繧ｧ繝ｫ繧ｹ繝ｩ繧､繝繝ｼ */
 html.ui-liquid ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -2137,7 +2139,7 @@ html.ui-liquid ::-webkit-scrollbar-thumb:hover {
   box-shadow: 0 0 14px rgba(255, 0, 128, 0.7);
 }
 
-/* 🌸 取消トースト: 蛍光流体カプセルバナー */
+/* �減 蜿匁ｶ医ヨ繝ｼ繧ｹ繝�: 陋榊�豬∽ｽ薙き繝励そ繝ｫ繝舌リ繝ｼ */
 html.ui-liquid #mecUndoToast {
   background: rgba(22, 8, 30, 0.92) !important;
   border: 1.5px solid #FF007F !important;
@@ -2150,15 +2152,17 @@ html.ui-liquid #mecUndoProg {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   5. 🌑 漆黒金継ぎ・禅 (Kintsugi Zen)
-   コンセプト: 漆黒 ＆ 黄金の金継ぎクラック・和紙テクスチャ・朱印・精神統一
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   5. �倦 貍�ｻ帝≡邯吶℃繝ｻ遖� (Kintsugi Zen)
+   繧ｳ繝ｳ繧ｻ繝励ヨ: 貍�ｻ� �� 鮟�≡縺ｮ驥醍ｶ吶℃繧ｯ繝ｩ繝�け繝ｻ蜥檎ｴ吶ユ繧ｯ繧ｹ繝√Ε繝ｻ譛ｱ蜊ｰ繝ｻ邊ｾ逾樒ｵｱ荳
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 html.ui-kintsugi body {
-  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(245, 208, 97, 0.22) 0%, transparent 60%),
-              radial-gradient(circle at 15% 40%, rgba(217, 56, 58, 0.18) 0%, transparent 50%),
-              radial-gradient(circle at 85% 70%, rgba(245, 208, 97, 0.14) 0%, transparent 55%),
-              #09090D !important;
+  background: radial-gradient(ellipse 95% 65% at 50% -15%, rgba(245, 208, 97, 0.35) 0%, transparent 68%),
+              radial-gradient(circle at 10% 38%, rgba(217, 56, 58, 0.28) 0%, transparent 56%),
+              radial-gradient(circle at 90% 65%, rgba(245, 208, 97, 0.24) 0%, transparent 58%),
+              radial-gradient(circle at 50% 92%, rgba(212, 175, 55, 0.2) 0%, transparent 62%),
+              repeating-linear-gradient(45deg, rgba(245, 208, 97, 0.02) 0px, rgba(245, 208, 97, 0.02) 1px, transparent 1px, transparent 6px),
+              linear-gradient(180deg, #07070B 0%, #030305 100%) !important;
   background-attachment: fixed !important;
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased !important;
@@ -2166,27 +2170,27 @@ html.ui-kintsugi body {
 
 html.ui-kintsugi body::before {
   content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background: radial-gradient(circle at 75% 25%, rgba(245, 208, 97, 0.15) 0%, transparent 45%),
-              radial-gradient(circle at 25% 75%, rgba(217, 56, 58, 0.12) 0%, transparent 48%),
-              radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
+  background: radial-gradient(circle at 75% 25%, rgba(245, 208, 97, 0.18) 0%, transparent 45%),
+              radial-gradient(circle at 25% 75%, rgba(217, 56, 58, 0.15) 0%, transparent 48%),
+              radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
   animation: kintsugiAmbient 16s ease-in-out infinite alternate;
 }
 
 @keyframes kintsugiAmbient {
-  0% { transform: scale(1) translate(0, 0); opacity: 0.7; }
-  50% { transform: scale(1.06) translate(-8px, 6px); opacity: 0.9; }
-  100% { transform: scale(1.1) translate(6px, -10px); opacity: 0.95; }
+  0% { transform: scale(1) translate(0, 0); opacity: 0.75; }
+  50% { transform: scale(1.06) translate(-8px, 6px); opacity: 0.95; }
+  100% { transform: scale(1.1) translate(6px, -10px); opacity: 1; }
 }
 
-/* 🌑 カード全体: 漆黒マットサーフェス & 本金縁取り & 和の陰影 */
+/* �倦 繧ｫ繝ｼ繝牙�菴�: 貍�ｻ偵�繝�ヨ繧ｵ繝ｼ繝輔ぉ繧ｹ & 譛ｬ驥醍ｸ∝叙繧� & 蜥後�髯ｰ蠖ｱ */
 html.ui-kintsugi .qc {
-  padding: 18px 20px 22px !important;
-  gap: 14px !important;
+  padding: 20px 22px 24px !important;
+  gap: 15px !important;
 }
 html.ui-kintsugi .qc .qh {
-  padding-bottom: 12px !important;
-  border-bottom: 1px solid rgba(245, 208, 97, 0.18) !important;
-  box-shadow: 0 1px 0 rgba(245, 208, 97, 0.12) !important;
+  padding-bottom: 14px !important;
+  border-bottom: 1px solid rgba(245, 208, 97, 0.25) !important;
+  box-shadow: 0 1px 0 rgba(245, 208, 97, 0.18) !important;
 }
 html.ui-kintsugi .qc,
 html.ui-kintsugi .st-hdr,
@@ -2197,14 +2201,15 @@ html.ui-kintsugi .card,
 html.ui-kintsugi .ssov-box,
 html.ui-kintsugi .exam-start-box,
 html.ui-kintsugi .modal-box {
-  background: linear-gradient(145deg, rgba(16, 16, 24, 0.94) 0%, rgba(10, 10, 15, 0.97) 100%) !important;
-  backdrop-filter: blur(24px) !important;
-  -webkit-backdrop-filter: blur(24px) !important;
-  border: 1.5px solid rgba(245, 208, 97, 0.45) !important;
-  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.9),
-              0 0 32px rgba(245, 208, 97, 0.16),
-              inset 0 1.5px 1px rgba(245, 208, 97, 0.6),
-              inset 0 0 24px rgba(245, 208, 97, 0.08) !important;
+  background: linear-gradient(145deg, rgba(20, 20, 30, 0.97) 0%, rgba(10, 10, 16, 0.99) 100%) !important;
+  backdrop-filter: blur(26px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(26px) saturate(180%) !important;
+  border: 1.5px solid rgba(245, 208, 97, 0.8) !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.96),
+              0 0 45px rgba(245, 208, 97, 0.32),
+              inset 0 1.5px 1px rgba(255, 243, 196, 0.85),
+              inset 0 0 30px rgba(245, 208, 97, 0.16),
+              inset 0 0 0 1px rgba(217, 56, 58, 0.35) !important;
   border-radius: 16px !important;
 }
 
@@ -2221,21 +2226,22 @@ html.ui-kintsugi .qc {
 }
 
 html.ui-kintsugi .qc:hover {
-  border-color: rgba(245, 208, 97, 0.8) !important;
-  box-shadow: 0 22px 52px rgba(0, 0, 0, 0.95),
-              0 0 40px rgba(245, 208, 97, 0.28),
-              inset 0 1px 0 rgba(245, 208, 97, 0.8) !important;
+  border-color: rgba(245, 208, 97, 0.95) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.98),
+              0 0 50px rgba(245, 208, 97, 0.38),
+              inset 0 1.5px 0 rgba(245, 208, 97, 0.95),
+              inset 0 0 32px rgba(245, 208, 97, 0.18) !important;
 }
 
-/* 🌑 カード上部: 金継ぎクラックラインフロー */
+/* �倦 繧ｫ繝ｼ繝我ｸ企Κ: 驥醍ｶ吶℃繧ｯ繝ｩ繝�け繝ｩ繧､繝ｳ繝輔Ο繝ｼ & 鮟�≡縺ｮ莠陬� */
 html.ui-kintsugi .qc::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3.5px;
-  background: linear-gradient(90deg, #1E2028, #F5D061, #D9383A, #D4AF37, #1E2028);
+  background: linear-gradient(90deg, #1E2028, #F5D061 25%, #FFF3C4 35%, #D9383A 50%, #D4AF37 75%, #1E2028);
   background-size: 300% 100%;
-  animation: kintsugiEdgeFlow 6s linear infinite;
-  box-shadow: 0 0 10px rgba(245, 208, 97, 0.5);
+  animation: kintsugiEdgeFlow 5s linear infinite;
+  box-shadow: 0 0 14px rgba(245, 208, 97, 0.75), 0 0 4px #FFF3C4;
   pointer-events: none;
-  opacity: 0.95;
+  opacity: 0.98;
   z-index: 2;
 }
 
@@ -2244,58 +2250,61 @@ html.ui-kintsugi .qc::before {
   100% { background-position: 300% 50%; }
 }
 
-/* 🌑 カード背景透かし: 静謐な墨絵円相 */
+/* �倦 繧ｫ繝ｼ繝芽レ譎ｯ騾上°縺�: 髱呵ｬ舌↑蠅ｨ邨ｵ蜀�嶌 & 驥醍ｶ吶℃繧ｯ繝ｩ繝�け */
 html.ui-kintsugi .qc::after {
-  content: ''; position: absolute; top: -40px; right: -40px; width: 210px; height: 210px;
-  background: radial-gradient(circle, transparent 40%, rgba(245, 208, 97, 0.08) 55%, rgba(217, 56, 58, 0.05) 70%, transparent 80%);
+  content: ''; position: absolute; top: -45px; right: -45px; width: 230px; height: 230px;
+  background-image: 
+    radial-gradient(circle, transparent 38%, rgba(245, 208, 97, 0.14) 48%, rgba(217, 56, 58, 0.08) 62%, transparent 75%),
+    repeating-conic-gradient(from 45deg, rgba(245, 208, 97, 0.06) 0deg 30deg, transparent 30deg 90deg);
+  border: 2px dashed rgba(245, 208, 97, 0.18);
   pointer-events: none;
   border-radius: 50%;
-  filter: blur(14px);
+  filter: blur(12px);
   z-index: 0;
   animation: kintsugiEnsoPulse 12s ease-in-out infinite alternate;
 }
 
 @keyframes kintsugiEnsoPulse {
-  0% { transform: scale(1) rotate(0deg); opacity: 0.7; }
+  0% { transform: scale(1) rotate(0deg); opacity: 0.75; }
   100% { transform: scale(1.12) rotate(45deg); opacity: 1; }
 }
 
-/* 🌑 問題番号バッジ: 八角形本金メダリオン */
+/* �倦 蝠城｡檎分蜿ｷ繝舌ャ繧ｸ: 蜈ｫ隗貞ｽ｢譛ｬ驥代Γ繝繝ｪ繧ｪ繝ｳ & 闥皮ｵｵ驥醍ｮ� */
 html.ui-kintsugi .qc .qn {
-  background: linear-gradient(135deg, #1E2028 0%, #09090D 100%) !important;
+  background: linear-gradient(135deg, #2A2518 0%, #151410 50%, #09090D 100%) !important;
   border: 1.5px solid #F5D061 !important;
-  color: #F5D061 !important;
-  text-shadow: 0 0 10px rgba(245, 208, 97, 0.8), 0 1px 2px rgba(0, 0, 0, 0.9) !important;
+  color: #FFF3C4 !important;
+  text-shadow: 0 0 12px rgba(245, 208, 97, 0.9), 0 1px 2px rgba(0, 0, 0, 0.9) !important;
   border-radius: 8px !important;
-  padding: 4px 13px !important;
-  font-weight: 800 !important;
-  letter-spacing: .6px !important;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(245, 208, 97, 0.8), 0 0 16px rgba(245, 208, 97, 0.35) !important;
+  padding: 4px 14px !important;
+  font-weight: 900 !important;
+  letter-spacing: .7px !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6), inset 0 1.5px 0.5px rgba(255, 243, 196, 0.9), 0 0 18px rgba(245, 208, 97, 0.45) !important;
 }
 
-/* 🌑 メタバッジ・正答率 */
+/* �倦 繝｡繧ｿ繝舌ャ繧ｸ繝ｻ豁｣遲皮紫 */
 html.ui-kintsugi .qc .qe,
 html.ui-kintsugi .qc .bg,
 html.ui-kintsugi .qc .cr {
-  background: rgba(245, 208, 97, 0.12) !important;
-  border: 1px solid rgba(245, 208, 97, 0.5) !important;
-  color: #F5D061 !important;
+  background: rgba(245, 208, 97, 0.16) !important;
+  border: 1px solid rgba(245, 208, 97, 0.6) !important;
+  color: #FFF3C4 !important;
   backdrop-filter: blur(12px) !important;
   border-radius: 8px !important;
   padding: 4px 11px !important;
   font-size: 13px !important;
-  font-weight: 700 !important;
-  box-shadow: inset 0 1px 0 rgba(245, 208, 97, 0.4), 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+  font-weight: 800 !important;
+  box-shadow: inset 0 1px 0 rgba(245, 208, 97, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4) !important;
 }
 
 html.ui-kintsugi .qc .cr {
   color: #A7F3D0 !important;
-  border-color: rgba(110, 231, 183, 0.75) !important;
-  background: rgba(16, 185, 129, 0.2) !important;
+  border-color: rgba(110, 231, 183, 0.8) !important;
+  background: rgba(16, 185, 129, 0.24) !important;
   text-shadow: 0 0 10px rgba(110, 231, 183, 0.8) !important;
 }
 
-/* 🌑 ヘッダー境界ディバイダー */
+/* �倦 繝倥ャ繝繝ｼ蠅�阜繝�ぅ繝舌う繝繝ｼ */
 html.ui-kintsugi .qc .qh {
   padding-bottom: 16px !important;
   border-bottom: 1px solid rgba(245, 208, 97, 0.18) !important;
@@ -2315,7 +2324,7 @@ html.ui-kintsugi .qc .qh::after {
   border-radius: 2px;
 }
 
-/* 🌑 ボタン各種 */
+/* �倦 繝懊ち繝ｳ蜷�ｨｮ */
 html.ui-kintsugi .qc .mec-grade-btn,
 html.ui-kintsugi .qc .mec-flag-btn {
   background: linear-gradient(135deg, rgba(245, 208, 97, 0.14) 0%, rgba(217, 56, 58, 0.08) 100%) !important;
@@ -2363,7 +2372,7 @@ html.ui-kintsugi .qc .mec-grade-btn.selected-ok {
   color: #FFF !important;
 }
 
-/* 🌑 選択肢プレート & 朱筆ホバー */
+/* �倦 驕ｸ謚櫁い繝励Ξ繝ｼ繝� & 譛ｱ遲��繝舌� */
 html.ui-kintsugi .qc .ch2 {
   background: rgba(22, 22, 30, 0.75) !important;
   border: 1.5px solid rgba(245, 208, 97, 0.22) !important;
@@ -2411,7 +2420,7 @@ html.ui-kintsugi body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   color: #FFF !important;
 }
 
-/* 🌑 試験モード未開示時: 正解肢であることを完全に隠蔽（ネタバレ完全防止） */
+/* �倦 隧ｦ鬨薙Δ繝ｼ繝画悴髢狗､ｺ譎�: 豁｣隗｣閧｢縺ｧ縺ゅｋ縺薙→繧貞ｮ悟�縺ｫ髫�阡ｽ�医ロ繧ｿ繝舌Ξ螳悟�髦ｲ豁｢�� */
 html.ui-kintsugi body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected),
 html.ui-kintsugi body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   background: rgba(22, 22, 30, 0.75) !important;
@@ -2445,7 +2454,7 @@ html.ui-kintsugi body.ch-exam-mode .qc.ch-exam-revealed .ch2.ng {
   color: #FFF !important;
 }
 
-/* 🌑 解答解説ボックス */
+/* �倦 隗｣遲碑ｧ｣隱ｬ繝懊ャ繧ｯ繧ｹ */
 html.ui-kintsugi .qc .ab {
   background: linear-gradient(180deg, rgba(20, 20, 30, 0.96), rgba(10, 10, 16, 0.98)) !important;
   border: 1.5px solid rgba(245, 208, 97, 0.55) !important;
@@ -2501,15 +2510,16 @@ html.ui-kintsugi .mec-undo-btn {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   6. 🌌 賢者の星図・魔導書 (Celestial Grimoire)
-   コンセプト: 深遠な夜空 ＆ 天球儀・幾何学星図・古代魔導学
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   6. �血 雉｢閠��譏溷峙繝ｻ鬲泌ｰ取嶌 (Celestial Grimoire)
+   繧ｳ繝ｳ繧ｻ繝励ヨ: 豺ｱ驕�縺ｪ螟懃ｩｺ �� 螟ｩ逅�о繝ｻ蟷ｾ菴募ｭｦ譏溷峙繝ｻ蜿､莉｣鬲泌ｰ主ｭｦ
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 html.ui-celestial body {
-  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(138, 43, 226, 0.4) 0%, transparent 60%),
-              radial-gradient(circle at 80% 30%, rgba(72, 202, 228, 0.25) 0%, transparent 50%),
-              radial-gradient(circle at 20% 75%, rgba(255, 209, 102, 0.2) 0%, transparent 55%),
-              #0D0B1C !important;
+  background: radial-gradient(ellipse 95% 65% at 50% -15%, rgba(138, 43, 226, 0.55) 0%, transparent 68%),
+              radial-gradient(circle at 82% 24%, rgba(72, 202, 228, 0.38) 0%, transparent 56%),
+              radial-gradient(circle at 16% 76%, rgba(255, 209, 102, 0.3) 0%, transparent 62%),
+              radial-gradient(circle at 50% 50%, rgba(157, 78, 221, 0.22) 0%, transparent 66%),
+              linear-gradient(180deg, #0A0818 0%, #05040D 100%) !important;
   background-attachment: fixed !important;
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased !important;
@@ -2517,9 +2527,9 @@ html.ui-celestial body {
 
 html.ui-celestial body::before {
   content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background: radial-gradient(circle at 70% 20%, rgba(255, 209, 102, 0.16) 0%, transparent 42%),
-              radial-gradient(circle at 30% 80%, rgba(138, 43, 226, 0.22) 0%, transparent 48%),
-              radial-gradient(circle at 85% 75%, rgba(72, 202, 228, 0.18) 0%, transparent 45%);
+  background: radial-gradient(circle at 70% 20%, rgba(255, 209, 102, 0.2) 0%, transparent 45%),
+              radial-gradient(circle at 30% 80%, rgba(138, 43, 226, 0.25) 0%, transparent 48%),
+              radial-gradient(circle at 85% 75%, rgba(72, 202, 228, 0.2) 0%, transparent 45%);
   animation: celestialAmbient 14s ease-in-out infinite alternate;
 }
 
@@ -2529,15 +2539,15 @@ html.ui-celestial body::before {
   100% { transform: scale(1.12) translate(8px, -12px); opacity: 1; }
 }
 
-/* 🌌 カード全体: 深群青ベルベットガラス & アストラルゴールド枠 */
+/* �血 繧ｫ繝ｼ繝牙�菴�: 豺ｱ鄒､髱偵�繝ｫ繝吶ャ繝医ぎ繝ｩ繧ｹ & 繧｢繧ｹ繝医Λ繝ｫ繧ｴ繝ｼ繝ｫ繝画棧 */
 html.ui-celestial .qc {
-  padding: 18px 20px 22px !important;
-  gap: 14px !important;
+  padding: 20px 22px 24px !important;
+  gap: 15px !important;
 }
 html.ui-celestial .qc .qh {
-  padding-bottom: 12px !important;
-  border-bottom: 1px solid rgba(255, 209, 102, 0.2) !important;
-  box-shadow: 0 1px 0 rgba(138, 43, 226, 0.2) !important;
+  padding-bottom: 14px !important;
+  border-bottom: 1px solid rgba(255, 209, 102, 0.28) !important;
+  box-shadow: 0 1px 0 rgba(138, 43, 226, 0.25) !important;
 }
 html.ui-celestial .qc,
 html.ui-celestial .st-hdr,
@@ -2548,14 +2558,15 @@ html.ui-celestial .card,
 html.ui-celestial .ssov-box,
 html.ui-celestial .exam-start-box,
 html.ui-celestial .modal-box {
-  background: linear-gradient(135deg, rgba(24, 18, 52, 0.92) 0%, rgba(12, 9, 28, 0.95) 100%) !important;
-  backdrop-filter: blur(26px) !important;
-  -webkit-backdrop-filter: blur(26px) !important;
-  border: 1.5px solid rgba(255, 209, 102, 0.45) !important;
-  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.8),
-              0 0 38px rgba(138, 43, 226, 0.28),
-              inset 0 1.5px 1px rgba(255, 209, 102, 0.6),
-              inset 0 0 28px rgba(138, 43, 226, 0.15) !important;
+  background: linear-gradient(135deg, rgba(28, 22, 60, 0.95) 0%, rgba(13, 9, 30, 0.98) 100%) !important;
+  backdrop-filter: blur(28px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
+  border: 1.5px solid #FFD166 !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.9),
+              0 0 45px rgba(138, 43, 226, 0.4),
+              inset 0 1.5px 1px #FFF3C4,
+              inset 0 0 32px rgba(138, 43, 226, 0.25),
+              inset 0 0 0 1px rgba(72, 202, 228, 0.3) !important;
   border-radius: 18px !important;
 }
 
@@ -2572,21 +2583,22 @@ html.ui-celestial .qc {
 }
 
 html.ui-celestial .qc:hover {
-  border-color: rgba(255, 209, 102, 0.85) !important;
-  box-shadow: 0 24px 56px rgba(138, 43, 226, 0.4),
-              0 0 40px rgba(255, 209, 102, 0.3),
-              inset 0 1px 0 rgba(255, 209, 102, 0.8) !important;
+  border-color: rgba(255, 209, 102, 0.95) !important;
+  box-shadow: 0 24px 60px rgba(138, 43, 226, 0.5),
+              0 0 48px rgba(255, 209, 102, 0.4),
+              inset 0 1.5px 0 rgba(255, 209, 102, 0.95),
+              inset 0 0 32px rgba(138, 43, 226, 0.25) !important;
 }
 
-/* 🌌 カード上部: 星座結線フローライン */
+/* �血 繧ｫ繝ｼ繝我ｸ企Κ: 譏溷ｺｧ邨千ｷ壹ヵ繝ｭ繝ｼ繝ｩ繧､繝ｳ & 鬲泌ｰ弱Ν繝ｼ繝ｳ蜈牙ｽｩ */
 html.ui-celestial .qc::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3.5px;
-  background: linear-gradient(90deg, #8A2BE2, #FFD166, #48CAE4, #9D4EDD, #8A2BE2);
+  background: linear-gradient(90deg, #8A2BE2, #FFD166 25%, #FFF3C4 35%, #48CAE4 60%, #9D4EDD 80%, #8A2BE2);
   background-size: 300% 100%;
   animation: celestialEdgeFlow 5.5s linear infinite;
-  box-shadow: 0 0 12px rgba(255, 209, 102, 0.55);
+  box-shadow: 0 0 14px rgba(255, 209, 102, 0.75), 0 0 6px #FFF3C4;
   pointer-events: none;
-  opacity: 0.95;
+  opacity: 0.98;
   z-index: 2;
 }
 
@@ -2595,13 +2607,16 @@ html.ui-celestial .qc::before {
   100% { background-position: 300% 50%; }
 }
 
-/* 🌌 カード背景透かし: 天球儀・星図オービット透かし */
+/* �血 繧ｫ繝ｼ繝芽レ譎ｯ騾上°縺�: 螟ｩ逅�о繝ｻ譏溷峙繧ｪ繝ｼ繝薙ャ繝磯上°縺� */
 html.ui-celestial .qc::after {
-  content: ''; position: absolute; top: -50px; right: -50px; width: 230px; height: 230px;
-  background: radial-gradient(circle, rgba(255, 209, 102, 0.12) 0%, rgba(138, 43, 226, 0.08) 50%, transparent 75%);
+  content: ''; position: absolute; top: -50px; right: -50px; width: 240px; height: 240px;
+  background-image: 
+    radial-gradient(circle, transparent 36%, rgba(255, 209, 102, 0.16) 46%, rgba(72, 202, 228, 0.1) 60%, transparent 75%),
+    repeating-conic-gradient(from 0deg, rgba(255, 209, 102, 0.08) 0deg 20deg, transparent 20deg 60deg);
+  border: 2px dashed rgba(255, 209, 102, 0.22);
   pointer-events: none;
   border-radius: 50%;
-  filter: blur(18px);
+  filter: blur(14px);
   z-index: 0;
   animation: celestialAstrolabeSpin 40s linear infinite;
 }
@@ -2612,32 +2627,32 @@ html.ui-celestial .qc::after {
   100% { transform: rotate(360deg) scale(1); }
 }
 
-/* 🌌 問題番号バッジ: 天球羅針盤バッジ */
+/* �血 蝠城｡檎分蜿ｷ繝舌ャ繧ｸ: 螟ｩ逅�ｾ��逶､繝舌ャ繧ｸ & 譏溷ｱ代Ν繝ｼ繝ｳ */
 html.ui-celestial .qc .qn {
-  background: linear-gradient(135deg, rgba(138, 43, 226, 0.5) 0%, rgba(255, 209, 102, 0.4) 100%) !important;
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.6) 0%, rgba(255, 209, 102, 0.5) 50%, rgba(72, 202, 228, 0.4) 100%) !important;
   border: 1.5px solid #FFD166 !important;
   color: #FFF !important;
-  text-shadow: 0 0 12px rgba(255, 209, 102, 0.9), 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+  text-shadow: 0 0 12px rgba(255, 209, 102, 0.95), 0 1px 2px rgba(0, 0, 0, 0.8) !important;
   border-radius: 12px !important;
-  padding: 4px 13px !important;
-  font-weight: 800 !important;
-  letter-spacing: .6px !important;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4), inset 0 1.5px 0.5px rgba(255, 209, 102, 0.9), 0 0 18px rgba(255, 209, 102, 0.4) !important;
+  padding: 4px 14px !important;
+  font-weight: 900 !important;
+  letter-spacing: .7px !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), inset 0 1.5px 0.5px rgba(255, 243, 196, 0.95), 0 0 20px rgba(255, 209, 102, 0.5) !important;
 }
 
-/* 🌌 メタバッジ・正答率 */
+/* �血 繝｡繧ｿ繝舌ャ繧ｸ繝ｻ豁｣遲皮紫 */
 html.ui-celestial .qc .qe,
 html.ui-celestial .qc .bg,
 html.ui-celestial .qc .cr {
-  background: rgba(255, 209, 102, 0.14) !important;
-  border: 1px solid rgba(255, 209, 102, 0.55) !important;
+  background: rgba(255, 209, 102, 0.18) !important;
+  border: 1px solid rgba(255, 209, 102, 0.65) !important;
   color: #FFF !important;
   backdrop-filter: blur(12px) !important;
   border-radius: 9px !important;
   padding: 4px 11px !important;
   font-size: 13px !important;
-  font-weight: 700 !important;
-  box-shadow: inset 0 1px 0 rgba(255, 209, 102, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+  font-weight: 800 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 209, 102, 0.6), 0 2px 6px rgba(0, 0, 0, 0.35) !important;
 }
 
 html.ui-celestial .qc .cr {
@@ -2647,7 +2662,7 @@ html.ui-celestial .qc .cr {
   text-shadow: 0 0 10px rgba(110, 231, 183, 0.8) !important;
 }
 
-/* 🌌 ヘッダー境界ディバイダー */
+/* �血 繝倥ャ繝繝ｼ蠅�阜繝�ぅ繝舌う繝繝ｼ */
 html.ui-celestial .qc .qh {
   padding-bottom: 16px !important;
   border-bottom: 1px solid rgba(255, 209, 102, 0.2) !important;
@@ -2667,7 +2682,7 @@ html.ui-celestial .qc .qh::after {
   border-radius: 2px;
 }
 
-/* 🌌 ボタン各種 */
+/* �血 繝懊ち繝ｳ蜷�ｨｮ */
 html.ui-celestial .qc .mec-grade-btn,
 html.ui-celestial .qc .mec-flag-btn {
   background: linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(255, 209, 102, 0.12) 100%) !important;
@@ -2715,7 +2730,7 @@ html.ui-celestial .qc .mec-grade-btn.selected-ok {
   color: #FFF !important;
 }
 
-/* 🌌 選択肢プレート & 星屑ホバー */
+/* �血 驕ｸ謚櫁い繝励Ξ繝ｼ繝� & 譏溷ｱ代�繝舌� */
 html.ui-celestial .qc .ch2 {
   background: rgba(22, 18, 46, 0.75) !important;
   border: 1.5px solid rgba(255, 209, 102, 0.25) !important;
@@ -2763,7 +2778,7 @@ html.ui-celestial body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   color: #FFF !important;
 }
 
-/* 🌌 試験モード未開示時: 正解肢であることを完全に隠蔽（ネタバレ完全防止） */
+/* 血 隧ｦ鬨薙Δ繝ｼ繝画悴髢狗､ｺ譎: 豁｣隗｣閧｢縺ｧ縺ゅｋ縺薙→繧貞ｮ悟縺ｫ髫阡ｽ医ロ繧ｿ繝舌Ξ螳悟髦ｲ豁｢ */
 html.ui-celestial body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected),
 html.ui-celestial body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   background: rgba(22, 18, 46, 0.75) !important;
@@ -2797,13 +2812,14 @@ html.ui-celestial body.ch-exam-mode .qc.ch-exam-revealed .ch2.ng {
   color: #FFF !important;
 }
 
-/* 🌌 解答解説ボックス */
+/* 血 隗｣遲碑ｧ｣隱ｬ繝懊ャ繧ｯ繧ｹ */
 html.ui-celestial .qc .ab {
-  background: linear-gradient(135deg, rgba(24, 18, 52, 0.95) 0%, rgba(12, 8, 28, 0.98) 100%) !important;
-  border: 1.5px solid rgba(255, 209, 102, 0.55) !important;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75), 0 0 28px rgba(138, 43, 226, 0.28), inset 0 1px 0 rgba(255, 209, 102, 0.5) !important;
-  border-radius: 14px !important;
+  background: linear-gradient(135deg, rgba(26, 20, 58, 0.96) 0%, rgba(12, 8, 30, 0.98) 100%) !important;
+  border: 1.5px solid #FFD166 !important;
+  box-shadow: 0 16px 46px rgba(0, 0, 0, 0.88), 0 0 35px rgba(138, 43, 226, 0.38), inset 0 1.5px 0.5px #FFF3C4 !important;
+  border-radius: 16px !important;
   padding: 16px 18px !important;
+  backdrop-filter: blur(24px) !important;
 }
 
 html.ui-celestial .qc .ab strong {
@@ -2854,15 +2870,16 @@ html.ui-celestial .mec-undo-btn {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   7. 🌊 深海アビス・発光生物 (Abyss Bioluminescence)
-   コンセプト: 深海ブラック ＆ 生体発光エメラルド・超集中ディープオーシャン
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   7. �穴 豺ｱ豬ｷ繧｢繝薙せ繝ｻ逋ｺ蜈臥函迚ｩ (Abyss Bioluminescence)
+   繧ｳ繝ｳ繧ｻ繝励ヨ: 豺ｱ豬ｷ繝悶Λ繝�け �� 逕滉ｽ鍋匱蜈峨お繝｡繝ｩ繝ｫ繝峨�雜�寔荳ｭ繝�ぅ繝ｼ繝励が繝ｼ繧ｷ繝｣繝ｳ
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 html.ui-abyss body {
-  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 255, 163, 0.22) 0%, transparent 60%),
-              radial-gradient(circle at 10% 45%, rgba(0, 180, 216, 0.3) 0%, transparent 55%),
-              radial-gradient(circle at 90% 65%, rgba(0, 255, 163, 0.18) 0%, transparent 50%),
-              #030914 !important;
+  background: radial-gradient(ellipse 95% 65% at 50% -15%, rgba(0, 255, 163, 0.35) 0%, transparent 68%),
+              radial-gradient(circle at 8% 42%, rgba(0, 180, 216, 0.4) 0%, transparent 56%),
+              radial-gradient(circle at 92% 68%, rgba(0, 255, 163, 0.28) 0%, transparent 58%),
+              radial-gradient(circle at 50% 92%, rgba(100, 255, 218, 0.2) 0%, transparent 62%),
+              linear-gradient(180deg, #010612 0%, #000308 100%) !important;
   background-attachment: fixed !important;
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased !important;
@@ -2870,9 +2887,9 @@ html.ui-abyss body {
 
 html.ui-abyss body::before {
   content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background: radial-gradient(circle at 65% 25%, rgba(0, 255, 163, 0.18) 0%, transparent 45%),
-              radial-gradient(circle at 35% 75%, rgba(0, 180, 216, 0.22) 0%, transparent 48%),
-              radial-gradient(circle at 80% 80%, rgba(100, 255, 218, 0.15) 0%, transparent 40%);
+  background: radial-gradient(circle at 65% 25%, rgba(0, 255, 163, 0.22) 0%, transparent 45%),
+              radial-gradient(circle at 35% 75%, rgba(0, 180, 216, 0.25) 0%, transparent 48%),
+              radial-gradient(circle at 80% 80%, rgba(100, 255, 218, 0.18) 0%, transparent 40%);
   animation: abyssAmbientBreeze 14s ease-in-out infinite alternate;
 }
 
@@ -2882,15 +2899,15 @@ html.ui-abyss body::before {
   100% { transform: scale(1.12) translate(8px, -12px); opacity: 1; }
 }
 
-/* 🌊 カード全体: アビスインクサーフェス & 生体発光エメラルド枠 */
+/* �穴 繧ｫ繝ｼ繝牙�菴�: 繧｢繝薙せ繧､繝ｳ繧ｯ繧ｵ繝ｼ繝輔ぉ繧ｹ & 逕滉ｽ鍋匱蜈峨お繝｡繝ｩ繝ｫ繝画棧 */
 html.ui-abyss .qc {
-  padding: 18px 20px 22px !important;
-  gap: 14px !important;
+  padding: 20px 22px 24px !important;
+  gap: 15px !important;
 }
 html.ui-abyss .qc .qh {
-  padding-bottom: 12px !important;
-  border-bottom: 1px solid rgba(0, 255, 163, 0.18) !important;
-  box-shadow: 0 1px 0 rgba(0, 180, 216, 0.15) !important;
+  padding-bottom: 14px !important;
+  border-bottom: 1px solid rgba(0, 255, 163, 0.25) !important;
+  box-shadow: 0 1px 0 rgba(0, 180, 216, 0.2) !important;
 }
 html.ui-abyss .qc,
 html.ui-abyss .st-hdr,
@@ -2901,14 +2918,15 @@ html.ui-abyss .card,
 html.ui-abyss .ssov-box,
 html.ui-abyss .exam-start-box,
 html.ui-abyss .modal-box {
-  background: linear-gradient(135deg, rgba(8, 24, 46, 0.92) 0%, rgba(3, 11, 24, 0.96) 100%) !important;
-  backdrop-filter: blur(28px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
-  border: 1.5px solid rgba(0, 255, 163, 0.42) !important;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85),
-              0 0 42px rgba(0, 255, 163, 0.25),
-              inset 0 1.5px 1px rgba(0, 255, 163, 0.6),
-              inset 0 0 28px rgba(0, 180, 216, 0.15) !important;
+  background: linear-gradient(135deg, rgba(6, 28, 56, 0.95) 0%, rgba(2, 10, 24, 0.98) 100%) !important;
+  backdrop-filter: blur(28px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+  border: 1.5px solid #00FFA3 !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.95),
+              0 0 45px rgba(0, 255, 163, 0.4),
+              inset 0 1.5px 1px rgba(224, 242, 254, 0.9),
+              inset 0 0 32px rgba(0, 180, 216, 0.25),
+              inset 0 0 0 1px rgba(100, 255, 218, 0.3) !important;
   border-radius: 20px !important;
 }
 
@@ -2925,21 +2943,22 @@ html.ui-abyss .qc {
 }
 
 html.ui-abyss .qc:hover {
-  border-color: rgba(0, 255, 163, 0.8) !important;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9),
-              0 0 45px rgba(0, 255, 163, 0.35),
-              inset 0 1px 0 rgba(0, 255, 163, 0.8) !important;
+  border-color: rgba(0, 255, 163, 0.95) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.95),
+              0 0 50px rgba(0, 255, 163, 0.45),
+              inset 0 1.5px 0 rgba(0, 255, 163, 0.95),
+              inset 0 0 32px rgba(0, 180, 216, 0.28) !important;
 }
 
-/* 🌊 カード上部: 深海波光ウェーブライン */
+/* �穴 繧ｫ繝ｼ繝我ｸ企Κ: 豺ｱ豬ｷ豕｢蜈峨え繧ｧ繝ｼ繝悶Λ繧､繝ｳ & 逕滉ｽ鍋匱蜈峨げ繝ｭ繝ｼ */
 html.ui-abyss .qc::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3.5px;
-  background: linear-gradient(90deg, #030914, #00FFA3, #00B4D8, #64FFDA, #030914);
+  background: linear-gradient(90deg, #020610, #00FFA3 25%, #E0F2FE 35%, #00B4D8 60%, #64FFDA 80%, #020610);
   background-size: 300% 100%;
-  animation: abyssEdgeFlow 6s ease-in-out infinite;
-  box-shadow: 0 0 12px rgba(0, 255, 163, 0.6);
+  animation: abyssEdgeFlow 5.5s ease-in-out infinite;
+  box-shadow: 0 0 14px rgba(0, 255, 163, 0.8), 0 0 6px #E0F2FE;
   pointer-events: none;
-  opacity: 0.95;
+  opacity: 0.98;
   z-index: 2;
 }
 
@@ -2948,42 +2967,52 @@ html.ui-abyss .qc::before {
   100% { background-position: 300% 50%; }
 }
 
-/* 🌊 カード背景透かし: ソナー波紋透かし */
+/* �穴 繧ｫ繝ｼ繝芽レ譎ｯ騾上°縺�: 螟夐㍾蜷悟ｿ��繧ｽ繝翫�豕｢邏矩上°縺� */
 html.ui-abyss .qc::after {
-  content: ''; position: absolute; top: -50px; right: -50px; width: 230px; height: 230px;
-  background: radial-gradient(circle, rgba(0, 255, 163, 0.12) 0%, rgba(0, 180, 216, 0.06) 50%, transparent 75%);
+  content: ''; position: absolute; top: -50px; right: -50px; width: 240px; height: 240px;
+  background-image: 
+    radial-gradient(circle, transparent 35%, rgba(0, 255, 163, 0.16) 45%, rgba(0, 180, 216, 0.1) 58%, transparent 72%),
+    repeating-conic-gradient(from 0deg, rgba(0, 255, 163, 0.08) 0deg 15deg, transparent 15deg 45deg);
+  border: 2px dashed rgba(0, 255, 163, 0.22);
   pointer-events: none;
   border-radius: 50%;
-  filter: blur(20px);
+  filter: blur(14px);
   z-index: 0;
   animation: abyssSonarRipple 8s ease-in-out infinite alternate;
 }
 
 @keyframes abyssSonarRipple {
-  0% { transform: scale(1); opacity: 0.6; }
+  0% { transform: scale(1); opacity: 0.65; }
   100% { transform: scale(1.15); opacity: 1; }
 }
 
-/* 🌊 問題番号バッジ: 生体発光カプセルバッジ */
+/* �穴 蝠城｡檎分蜿ｷ繝舌ャ繧ｸ: 逕滉ｽ鍋匱蜈峨き繝励そ繝ｫ繝舌ャ繧ｸ & 繧ｨ繝｡繝ｩ繝ｫ繝牙�蠖ｩ */
 html.ui-abyss .qc .qn {
-  background: linear-gradient(135deg, rgba(0, 255, 163, 0.35) 0%, rgba(0, 180, 216, 0.45) 100%) !important;
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.45) 0%, rgba(0, 180, 216, 0.55) 100%) !important;
   border: 1.5px solid #00FFA3 !important;
   color: #FFF !important;
   text-shadow: 0 0 12px rgba(0, 255, 163, 1), 0 1px 2px rgba(0, 0, 0, 0.8) !important;
   border-radius: 14px !important;
-  padding: 4px 13px !important;
-  font-weight: 800 !important;
-  letter-spacing: .6px !important;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1.5px 0.5px rgba(0, 255, 163, 0.9), 0 0 18px rgba(0, 255, 163, 0.5) !important;
+  padding: 4px 14px !important;
+  font-weight: 900 !important;
+  letter-spacing: .7px !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4), inset 0 1.5px 0.5px rgba(224, 242, 254, 0.95), 0 0 20px rgba(0, 255, 163, 0.55) !important;
 }
 
-/* 🌊 メタバッジ・正答率 */
+/* �穴 繝｡繧ｿ繝舌ャ繧ｸ繝ｻ豁｣遲皮紫 */
 html.ui-abyss .qc .qe,
 html.ui-abyss .qc .bg,
 html.ui-abyss .qc .cr {
-  background: rgba(0, 255, 163, 0.14) !important;
-  border: 1px solid rgba(0, 255, 163, 0.55) !important;
+  background: rgba(0, 255, 163, 0.18) !important;
+  border: 1px solid rgba(0, 255, 163, 0.65) !important;
   color: #FFF !important;
+  backdrop-filter: blur(12px) !important;
+  border-radius: 9px !important;
+  padding: 4px 11px !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  box-shadow: inset 0 1px 0 rgba(0, 255, 163, 0.6), 0 2px 6px rgba(0, 0, 0, 0.35) !important;
+}
   backdrop-filter: blur(12px) !important;
   border-radius: 9px !important;
   padding: 4px 11px !important;
@@ -2999,7 +3028,7 @@ html.ui-abyss .qc .cr {
   text-shadow: 0 0 10px rgba(110, 231, 183, 0.8) !important;
 }
 
-/* 🌊 ヘッダー境界ディバイダー */
+/* �穴 繝倥ャ繝繝ｼ蠅�阜繝�ぅ繝舌う繝繝ｼ */
 html.ui-abyss .qc .qh {
   padding-bottom: 16px !important;
   border-bottom: 1px solid rgba(0, 255, 163, 0.18) !important;
@@ -3019,111 +3048,104 @@ html.ui-abyss .qc .qh::after {
   border-radius: 2px;
 }
 
-/* 🌊 ボタン各種 */
+/* �穴 繝懊ち繝ｳ蜷�ｨｮ */
 html.ui-abyss .qc .mec-grade-btn,
 html.ui-abyss .qc .mec-flag-btn {
-  background: linear-gradient(135deg, rgba(0, 255, 163, 0.16) 0%, rgba(0, 180, 216, 0.12) 100%) !important;
-  border: 1.5px solid rgba(0, 255, 163, 0.45) !important;
-  color: #FFF !important;
-  border-radius: 10px !important;
-  min-width: 44px !important;
-  min-height: 44px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  font-size: 15px !important;
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.22) 0%, rgba(0, 180, 216, 0.18) 100%) !important;
+  border: 1.5px solid #00FFA3 !important;
+  color: #00FFA3 !important;
+  border-radius: 12px !important;
   font-weight: 800 !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(0, 255, 163, 0.7) !important;
-  transition: transform .14s ease-out, box-shadow .14s ease-out, background .14s ease-out !important;
-  cursor: pointer !important;
+  transition: all .2s ease !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 1.5px 0.5px rgba(224, 242, 254, 0.85), 0 0 14px rgba(0, 255, 163, 0.35) !important;
 }
 
-html.ui-abyss .qc .mec-grade-btn:hover {
-  background: linear-gradient(135deg, rgba(0, 255, 163, 0.4) 0%, rgba(0, 180, 216, 0.35) 100%) !important;
+html.ui-abyss .qc .mec-grade-btn:hover,
+html.ui-abyss .qc .mec-flag-btn:hover {
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.32) 0%, rgba(0, 180, 216, 0.28) 100%) !important;
   border-color: #00FFA3 !important;
-  box-shadow: 0 0 22px rgba(0, 255, 163, 0.8), inset 0 1px 0 #FFF !important;
-  transform: translateY(-2px) scale(1.05) !important;
+  box-shadow: 0 0 18px rgba(0, 255, 163, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  transform: translateY(-2px) !important;
 }
 
 html.ui-abyss .qc .mec-grade-btn:active,
 html.ui-abyss .qc .mec-lap-btn:active,
 html.ui-abyss .qc .mec-flag-btn:active,
 html.ui-abyss .qc .mec-err-btn:active {
-  transform: scale(0.94) !important;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+  transform: translateY(1px) scale(0.97) !important;
 }
 
 html.ui-abyss .qc .mec-lap-btn.mec-lapped {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.6), rgba(0, 255, 163, 0.6)) !important;
-  border-color: #3DD68C !important;
-  box-shadow: 0 0 24px rgba(61, 214, 140, 0.8), inset 0 1px 0 #FFF !important;
+  background: linear-gradient(135deg, rgba(0, 180, 216, 0.5), rgba(0, 255, 163, 0.5)) !important;
+  border-color: #00B4D8 !important;
   color: #FFF !important;
+  box-shadow: 0 0 16px rgba(0, 180, 216, 0.7) !important;
 }
 
 html.ui-abyss .qc .mec-grade-btn.selected-ok {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.7), rgba(0, 255, 163, 0.7)) !important;
-  border-color: #3DD68C !important;
-  box-shadow: 0 0 24px rgba(61, 214, 140, 0.9), inset 0 1px 0 #FFF !important;
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.5), rgba(0, 180, 216, 0.5)) !important;
+  border-color: #00FFA3 !important;
   color: #FFF !important;
+  box-shadow: 0 0 20px rgba(0, 255, 163, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
 }
 
-/* 🌊 選択肢プレート & 生体発光脈動ホバー */
+/* 🌊 選択肢: バイオルミネセンス深海ポッド */
 html.ui-abyss .qc .ch2 {
-  background: rgba(6, 22, 44, 0.75) !important;
-  border: 1.5px solid rgba(0, 255, 163, 0.25) !important;
-  color: #F7FAFC !important;
-  border-radius: 12px !important;
-  transition: all .16s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  background: rgba(4, 18, 38, 0.75) !important;
+  border: 1.5px solid rgba(0, 255, 163, 0.28) !important;
+  border-left: 4px solid rgba(0, 255, 163, 0.65) !important;
+  border-radius: 14px !important;
+  color: #F0FDFA !important;
+  backdrop-filter: blur(14px) !important;
+  transition: all .24s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(0, 255, 163, 0.15) !important;
 }
 
 html.ui-abyss .qc .ch2:hover {
-  background: rgba(0, 255, 163, 0.2) !important;
+  background: rgba(0, 255, 163, 0.18) !important;
   border-color: #00FFA3 !important;
-  box-shadow: 0 0 20px rgba(0, 255, 163, 0.45), inset 0 0 12px rgba(0, 180, 216, 0.25) !important;
+  border-left: 4px solid #00FFA3 !important;
+  box-shadow: 0 0 24px rgba(0, 255, 163, 0.5), inset 0 0 16px rgba(0, 180, 216, 0.25) !important;
   transform: translateX(4px) !important;
 }
 
-html.ui-abyss .qc .ch2.selected,
-html.ui-abyss .qc .ch2.exam-selected {
-  background: rgba(0, 255, 163, 0.28) !important;
+html.ui-abyss .qc .ch2.selected {
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.3), rgba(0, 180, 216, 0.3)) !important;
   border-color: #00FFA3 !important;
-  box-shadow: 0 0 24px rgba(0, 255, 163, 0.6), inset 0 0 16px rgba(0, 180, 216, 0.3) !important;
+  border-left: 5px solid #00FFA3 !important;
+  box-shadow: 0 0 26px rgba(0, 255, 163, 0.65), inset 0 1px 0 #FFF !important;
 }
 
-html.ui-abyss .qc .mec-lap-btn:hover {
-  background: rgba(61, 214, 140, 0.35) !important;
-  border-color: #3DD68C !important;
-  box-shadow: 0 0 18px rgba(61, 214, 140, 0.7) !important;
-}
-html.ui-abyss .qc .mec-flag-btn:hover {
-  background: rgba(0, 255, 163, 0.35) !important;
+html.ui-abyss .qc .ch2.exam-selected,
+html.ui-abyss .qc .ch2.selected {
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.32), rgba(0, 180, 216, 0.32)) !important;
   border-color: #00FFA3 !important;
-  box-shadow: 0 0 18px rgba(0, 255, 163, 0.7) !important;
+  box-shadow: 0 0 24px rgba(0, 255, 163, 0.6), inset 0 1px 0 #FFF !important;
 }
-html.ui-abyss .qc .mec-err-btn:hover {
-  background: rgba(255, 92, 92, 0.35) !important;
-  border-color: #FF5C5C !important;
-  box-shadow: 0 0 18px rgba(255, 92, 92, 0.7) !important;
+
+html.ui-abyss .qc .ch2:active {
+  transform: translateX(2px) scale(0.99) !important;
 }
 
 html.ui-abyss body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
 html.ui-abyss body.exam-mode .qc.exam-revealed .ch2.ok,
 html.ui-abyss body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
-  background: linear-gradient(135deg, rgba(61, 214, 140, 0.4), rgba(0, 255, 163, 0.35)) !important;
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.4), rgba(0, 180, 216, 0.35)) !important;
   border-color: #00FFA3 !important;
-  box-shadow: 0 0 24px rgba(0, 255, 163, 0.7), inset 0 1px 0 #FFF !important;
+  border-left: 5px solid #00FFA3 !important;
+  box-shadow: 0 0 28px rgba(0, 255, 163, 0.7), inset 0 1px 0 #FFF !important;
   color: #FFF !important;
 }
 
 /* 🌊 試験モード未開示時: 正解肢であることを完全に隠蔽（ネタバレ完全防止） */
 html.ui-abyss body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected),
 html.ui-abyss body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
-  background: rgba(6, 22, 44, 0.75) !important;
-  border: 1.5px solid rgba(0, 255, 163, 0.25) !important;
-  border-left: 1.5px solid rgba(0, 255, 163, 0.25) !important;
-  border-radius: 12px !important;
-  color: #F7FAFC !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7) !important;
+  background: rgba(4, 18, 38, 0.75) !important;
+  border: 1.5px solid rgba(0, 255, 163, 0.28) !important;
+  border-left: 1.5px solid rgba(0, 255, 163, 0.28) !important;
+  border-radius: 14px !important;
+  color: #F0FDFA !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
   font-weight: 500 !important;
   box-shadow: none !important;
   transform: none !important;
@@ -3132,11 +3154,11 @@ html.ui-abyss body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-sel
 
 html.ui-abyss body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected):hover,
 html.ui-abyss body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected):hover {
-  background: rgba(0, 255, 163, 0.2) !important;
+  background: rgba(0, 255, 163, 0.18) !important;
   border-color: #00FFA3 !important;
   border-left: 1.5px solid #00FFA3 !important;
-  color: #F7FAFC !important;
-  box-shadow: 0 0 20px rgba(0, 255, 163, 0.45), inset 0 0 12px rgba(0, 180, 216, 0.25) !important;
+  color: #F0FDFA !important;
+  box-shadow: 0 0 20px rgba(0, 255, 163, 0.5), inset 0 0 14px rgba(0, 180, 216, 0.2) !important;
   transform: translateX(4px) !important;
 }
 
@@ -3149,13 +3171,13 @@ html.ui-abyss body.ch-exam-mode .qc.ch-exam-revealed .ch2.ng {
   color: #FFF !important;
 }
 
-/* 🌊 解答解説ボックス */
 html.ui-abyss .qc .ab {
-  background: linear-gradient(135deg, rgba(6, 24, 46, 0.95) 0%, rgba(2, 12, 26, 0.98) 100%) !important;
-  border: 1.5px solid rgba(0, 255, 163, 0.55) !important;
-  box-shadow: 0 14px 45px rgba(0, 0, 0, 0.8), 0 0 28px rgba(0, 255, 163, 0.3), inset 0 1px 0 rgba(0, 255, 163, 0.5) !important;
+  background: linear-gradient(135deg, rgba(6, 28, 54, 0.96) 0%, rgba(2, 12, 28, 0.98) 100%) !important;
+  border: 1.5px solid #00FFA3 !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.88), 0 0 35px rgba(0, 255, 163, 0.42), inset 0 1.5px 0.5px rgba(224, 242, 254, 0.9) !important;
   border-radius: 14px !important;
   padding: 16px 18px !important;
+  backdrop-filter: blur(24px) !important;
 }
 
 html.ui-abyss .qc .ab strong {
@@ -3206,15 +3228,16 @@ html.ui-abyss .mec-undo-btn {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   8. ❄️ 絶対零度・フロスト氷晶 (Glacial Absolute Zero)
-   コンセプト: 氷河フロスト ＆ 多面体クリスタル・絶対零度の冷徹な思考力
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   8. 笶�ｸ� 邨ｶ蟇ｾ髮ｶ蠎ｦ繝ｻ繝輔Ο繧ｹ繝域ｰｷ譎ｶ (Glacial Absolute Zero)
+   繧ｳ繝ｳ繧ｻ繝励ヨ: 豌ｷ豐ｳ繝輔Ο繧ｹ繝� �� 螟夐擇菴薙け繝ｪ繧ｹ繧ｿ繝ｫ繝ｻ邨ｶ蟇ｾ髮ｶ蠎ｦ縺ｮ蜀ｷ蠕ｹ縺ｪ諤晁�鴨
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 html.ui-frost body {
-  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(112, 214, 255, 0.32) 0%, transparent 60%),
-              radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 45%),
-              radial-gradient(circle at 80% 70%, rgba(112, 214, 255, 0.22) 0%, transparent 55%),
-              #05111F !important;
+  background: radial-gradient(ellipse 90% 60% at 50% -18%, rgba(112, 214, 255, 0.42) 0%, transparent 65%),
+              radial-gradient(circle at 18% 28%, rgba(255, 255, 255, 0.28) 0%, transparent 50%),
+              radial-gradient(circle at 82% 68%, rgba(112, 214, 255, 0.3) 0%, transparent 56%),
+              radial-gradient(circle at 50% 85%, rgba(160, 231, 229, 0.22) 0%, transparent 60%),
+              linear-gradient(180deg, #040E1C 0%, #02070F 100%) !important;
   background-attachment: fixed !important;
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased !important;
@@ -3234,7 +3257,7 @@ html.ui-frost body::before {
   100% { transform: scale(1.12) translate(8px, -12px); opacity: 1; }
 }
 
-/* ❄️ カード全体: 多面体ファセット氷晶サーフェス & ダイヤモンドクリスタル枠 */
+/* 笶�ｸ� 繧ｫ繝ｼ繝牙�菴�: 螟夐擇菴薙ヵ繧｡繧ｻ繝�ヨ豌ｷ譎ｶ繧ｵ繝ｼ繝輔ぉ繧ｹ & 繝繧､繝､繝｢繝ｳ繝峨け繝ｪ繧ｹ繧ｿ繝ｫ譫� */
 html.ui-frost .qc {
   padding: 18px 20px 22px !important;
   gap: 14px !important;
@@ -3253,14 +3276,15 @@ html.ui-frost .card,
 html.ui-frost .ssov-box,
 html.ui-frost .exam-start-box,
 html.ui-frost .modal-box {
-  background: linear-gradient(135deg, rgba(12, 32, 58, 0.9) 0%, rgba(6, 18, 34, 0.94) 100%) !important;
-  backdrop-filter: blur(26px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(26px) saturate(190%) !important;
-  border: 1.5px solid rgba(112, 214, 255, 0.55) !important;
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.8),
-              0 0 40px rgba(112, 214, 255, 0.3),
-              inset 0 1.5px 1px rgba(255, 255, 255, 0.85),
-              inset 0 0 26px rgba(112, 214, 255, 0.16) !important;
+  background: linear-gradient(135deg, rgba(14, 36, 66, 0.92) 0%, rgba(6, 20, 38, 0.96) 100%) !important;
+  backdrop-filter: blur(28px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+  border: 1.5px solid #70D6FF !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.85),
+              0 0 45px rgba(112, 214, 255, 0.38),
+              inset 0 1.5px 1px #FFFFFF,
+              inset 0 0 30px rgba(112, 214, 255, 0.22),
+              inset 0 0 0 1px rgba(160, 231, 229, 0.28) !important;
   border-radius: 14px !important;
 }
 
@@ -3283,7 +3307,7 @@ html.ui-frost .qc:hover {
               inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
 }
 
-/* ❄️ カード上部: 氷晶フロストライン */
+/* 笶�ｸ� 繧ｫ繝ｼ繝我ｸ企Κ: 豌ｷ譎ｶ繝輔Ο繧ｹ繝医Λ繧､繝ｳ */
 html.ui-frost .qc::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3.5px;
   background: linear-gradient(90deg, #05111F, #70D6FF, #FFFFFF, #A0E7E5, #05111F);
@@ -3300,7 +3324,7 @@ html.ui-frost .qc::before {
   100% { background-position: 300% 50%; }
 }
 
-/* ❄️ カード背景透かし: 雪結晶フラクタル透かし */
+/* 笶�ｸ� 繧ｫ繝ｼ繝芽レ譎ｯ騾上°縺�: 髮ｪ邨先匕繝輔Λ繧ｯ繧ｿ繝ｫ騾上°縺� */
 html.ui-frost .qc::after {
   content: ''; position: absolute; top: -50px; right: -50px; width: 220px; height: 220px;
   background: radial-gradient(circle, rgba(112, 214, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 45%, transparent 70%);
@@ -3316,7 +3340,7 @@ html.ui-frost .qc::after {
   100% { transform: scale(1.1) rotate(30deg); opacity: 1; }
 }
 
-/* ❄️ 問題番号バッジ: 六角形ダイヤモンドアイスジェムバッジ */
+/* 笶�ｸ� 蝠城｡檎分蜿ｷ繝舌ャ繧ｸ: 蜈ｭ隗貞ｽ｢繝繧､繝､繝｢繝ｳ繝峨い繧､繧ｹ繧ｸ繧ｧ繝�繝舌ャ繧ｸ */
 html.ui-frost .qc .qn {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(112, 214, 255, 0.5) 100%) !important;
   border: 1.5px solid #FFFFFF !important;
@@ -3329,7 +3353,7 @@ html.ui-frost .qc .qn {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.95), 0 0 18px rgba(112, 214, 255, 0.5) !important;
 }
 
-/* ❄️ メタバッジ・正答率 */
+/* 笶�ｸ� 繝｡繧ｿ繝舌ャ繧ｸ繝ｻ豁｣遲皮紫 */
 html.ui-frost .qc .qe,
 html.ui-frost .qc .bg,
 html.ui-frost .qc .cr {
@@ -3351,7 +3375,7 @@ html.ui-frost .qc .cr {
   text-shadow: 0 0 10px rgba(110, 231, 183, 0.8) !important;
 }
 
-/* ❄️ ヘッダー境界ディバイダー */
+/* 笶�ｸ� 繝倥ャ繝繝ｼ蠅�阜繝�ぅ繝舌う繝繝ｼ */
 html.ui-frost .qc .qh {
   padding-bottom: 16px !important;
   border-bottom: 1px solid rgba(112, 214, 255, 0.2) !important;
@@ -3371,7 +3395,7 @@ html.ui-frost .qc .qh::after {
   border-radius: 2px;
 }
 
-/* ❄️ ボタン各種 */
+/* 笶�ｸ� 繝懊ち繝ｳ蜷�ｨｮ */
 html.ui-frost .qc .mec-grade-btn,
 html.ui-frost .qc .mec-flag-btn {
   background: linear-gradient(135deg, rgba(112, 214, 255, 0.18) 0%, rgba(255, 255, 255, 0.1) 100%) !important;
@@ -3419,7 +3443,7 @@ html.ui-frost .qc .mec-grade-btn.selected-ok {
   color: #FFFFFF !important;
 }
 
-/* ❄️ 選択肢プレート & 冷気霜ホバー */
+/* 笶�ｸ� 驕ｸ謚櫁い繝励Ξ繝ｼ繝� & 蜀ｷ豌鈴惧繝帙ヰ繝ｼ */
 html.ui-frost .qc .ch2 {
   background: rgba(10, 26, 48, 0.75) !important;
   border: 1.5px solid rgba(112, 214, 255, 0.28) !important;
@@ -3467,7 +3491,7 @@ html.ui-frost body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   color: #FFF !important;
 }
 
-/* ❄️ 試験モード未開示時: 正解肢であることを完全に隠蔽（ネタバレ完全防止） */
+/* 笶�ｸ� 隧ｦ鬨薙Δ繝ｼ繝画悴髢狗､ｺ譎�: 豁｣隗｣閧｢縺ｧ縺ゅｋ縺薙→繧貞ｮ悟�縺ｫ髫�阡ｽ�医ロ繧ｿ繝舌Ξ螳悟�髦ｲ豁｢�� */
 html.ui-frost body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected),
 html.ui-frost body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   background: rgba(10, 26, 48, 0.75) !important;
@@ -3501,7 +3525,7 @@ html.ui-frost body.ch-exam-mode .qc.ch-exam-revealed .ch2.ng {
   color: #FFF !important;
 }
 
-/* ❄️ 解答解説ボックス */
+/* 笶�ｸ� 隗｣遲碑ｧ｣隱ｬ繝懊ャ繧ｯ繧ｹ */
 html.ui-frost .qc .ab {
   background: linear-gradient(135deg, rgba(8, 26, 48, 0.95) 0%, rgba(4, 14, 28, 0.98) 100%) !important;
   border: 1.5px solid rgba(112, 214, 255, 0.65) !important;
@@ -3557,9 +3581,9 @@ html.ui-frost .mec-undo-btn {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   5. UIテーマ選択モーダル用スタイル
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   5. UI繝��繝樣∈謚槭Δ繝ｼ繝繝ｫ逕ｨ繧ｹ繧ｿ繧､繝ｫ
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 .ui-theme-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -3602,7 +3626,7 @@ html.ui-frost .mec-undo-btn {
 }
 
 .ui-theme-btn.active::after {
-  content: '✓ 適用中';
+  content: '笨� 驕ｩ逕ｨ荳ｭ';
   position: absolute;
   top: 6px;
   right: 8px;
@@ -3636,9 +3660,9 @@ html.ui-frost .mec-undo-btn {
   line-height: 1.35;
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   全テーマ共通: 試験モード未開示時の正解エフェクト完全抑止（ネタバレ完全防止）
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   蜈ｨ繝��繝槫�騾�: 隧ｦ鬨薙Δ繝ｼ繝画悴髢狗､ｺ譎ゅ�豁｣隗｣繧ｨ繝輔ぉ繧ｯ繝亥ｮ悟�謚第ｭ｢�医ロ繧ｿ繝舌Ξ螳悟�髦ｲ豁｢��
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected),
 body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   border-color: inherit;
@@ -3666,10 +3690,10 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   モバイル幅 (max-width: 600px) 向けレイアウト・余白・タップ領域の極限調律
-   ═══════════════════════════════════════════════════════════════════ */
-/* 📱 モバイル幅（375px）極限調律 */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   繝｢繝舌う繝ｫ蟷� (max-width: 600px) 蜷代￠繝ｬ繧､繧｢繧ｦ繝医�菴咏區繝ｻ繧ｿ繝��鬆伜沺縺ｮ讌ｵ髯占ｪｿ蠕�
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
+/* �導 繝｢繝舌う繝ｫ蟷�ｼ�375px�画･ｵ髯占ｪｿ蠕� */
 @media (max-width: 600px) {
   .gauge {
     width: clamp(120px, 34vw, 148px) !important;
@@ -3767,9 +3791,9 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   ヘッダー: 1行統合レイアウト & ツールバー固定 & 折りたたみ時 (hdr-collapsed)
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   繝倥ャ繝繝ｼ: 1陦檎ｵｱ蜷医Ξ繧､繧｢繧ｦ繝� & 繝��繝ｫ繝舌�蝗ｺ螳� & 謚倥ｊ縺溘◆縺ｿ譎� (hdr-collapsed)
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 .st-title-row {
   display: flex !important;
   align-items: center !important;
@@ -3831,7 +3855,7 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   margin-bottom: 0 !important;
 }
 
-/* 検索 & 章ジャンプ (filter-row 統合) のスリム化 & フォーカス自動拡大 */
+/* 讀懃ｴ｢ & 遶�繧ｸ繝｣繝ｳ繝� (filter-row 邨ｱ蜷�) 縺ｮ繧ｹ繝ｪ繝�蛹� & 繝輔か繝ｼ繧ｫ繧ｹ閾ｪ蜍墓僑螟ｧ */
 .filter-row .search-wrap {
   flex-shrink: 0;
   width: 90px;
@@ -3879,17 +3903,17 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   text-overflow: ellipsis;
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   問題カードの明度保証 & 正解確定時の選択肢沈み込み (Sink Feedback)
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   蝠城｡後き繝ｼ繝峨�譏主ｺｦ菫晁ｨｼ & 豁｣隗｣遒ｺ螳壽凾縺ｮ驕ｸ謚櫁い豐医∩霎ｼ縺ｿ (Sink Feedback)
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 
-/* 1. 問題カードは常時 100% の明度を維持（ホバー依存の暗転を撤廃） */
+/* 1. 蝠城｡後き繝ｼ繝峨�蟶ｸ譎� 100% 縺ｮ譏主ｺｦ繧堤ｶｭ謖�ｼ医�繝舌�萓晏ｭ倥�證苓ｻ｢繧呈彫蟒�ｼ� */
 .qc {
   opacity: 1 !important;
   filter: none !important;
 }
 
-/* 2. 試験モード中：キーボード入力対象カード & 解説を見る（開示）カードの完全明度保証 */
+/* 2. 隧ｦ鬨薙Δ繝ｼ繝我ｸｭ�壹く繝ｼ繝懊�繝牙�蜉帛ｯｾ雎｡繧ｫ繝ｼ繝� & 隗｣隱ｬ繧定ｦ九ｋ�磯幕遉ｺ�峨き繝ｼ繝峨�螳悟�譏主ｺｦ菫晁ｨｼ */
 body.exam-mode .qc.exam-key-focus,
 body.exam-mode .qc.exam-revealed,
 body.exam-mode .qc.exam-answer-opened,
@@ -3900,7 +3924,7 @@ body.ch-exam-mode .qc.ch-exam-revealed {
   filter: none !important;
 }
 
-/* 3. 正解確定時: 選ばれなかった選択肢のみが暗く奥へ沈み込むエフェクト */
+/* 3. 豁｣隗｣遒ｺ螳壽凾: 驕ｸ縺ｰ繧後↑縺九▲縺滄∈謚櫁い縺ｮ縺ｿ縺梧囓縺丞･･縺ｸ豐医∩霎ｼ繧繧ｨ繝輔ぉ繧ｯ繝� */
 .qc.exam-sink .ch2:not(.ok):not(.exam-selected),
 .qc.ce-sink .ch2:not(.ok):not(.ch-exam-selected):not(.ch-exam-instant-correct) {
   opacity: 0.35 !important;
@@ -3909,7 +3933,7 @@ body.ch-exam-mode .qc.ch-exam-revealed {
   transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease !important;
 }
 
-/* 4. 各テーマ別の選ばれなかった肢の沈み込み調律 */
+/* 4. 蜷�ユ繝ｼ繝槫挨縺ｮ驕ｸ縺ｰ繧後↑縺九▲縺溯い縺ｮ豐医∩霎ｼ縺ｿ隱ｿ蠕� */
 html.ui-aurora .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
   background: rgba(10, 15, 30, 0.4) !important;
   border-color: rgba(255, 255, 255, 0.05) !important;
@@ -3930,11 +3954,11 @@ html.ui-liquid .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
   border-color: rgba(255, 0, 127, 0.08) !important;
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   学習ハブ ゲージ & 背景アニメーションのテーマ別分岐 (Hub Themes)
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   蟄ｦ鄙偵ワ繝� 繧ｲ繝ｼ繧ｸ & 閭梧勹繧｢繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ縺ｮ繝��繝槫挨蛻�ｲ� (Hub Themes)
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 
-/* 1. Brass 専用: 巨大主歯車 (Clockwork Main Gear) & 段階的メカニカル進化 (Tiers 0-6) */
+/* 1. Brass 蟆ら畑: 蟾ｨ螟ｧ荳ｻ豁ｯ霆� (Clockwork Main Gear) & 谿ｵ髫守噪繝｡繧ｫ繝九き繝ｫ騾ｲ蛹� (Tiers 0-6) */
 html:not(.ui-brass) .gauge .gear {
   display: none !important;
 }
@@ -3949,7 +3973,7 @@ html.ui-brass .gauge .gear {
   transition: opacity var(--dur-long) var(--ease-out), fill var(--dur-long) var(--ease-out), filter var(--dur-long) var(--ease-out);
 }
 
-/* 🕰️ 巨大主歯車 (gearMain): 重厚な鋳造真鍮・多重立体陰影・金属反射シミュレーション */
+/* �焚�� 蟾ｨ螟ｧ荳ｻ豁ｯ霆� (gearMain): 驥榊字縺ｪ驪ｳ騾�逵滄紺繝ｻ螟夐㍾遶倶ｽ馴匆蠖ｱ繝ｻ驥大ｱ槫渚蟆�す繝溘Η繝ｬ繝ｼ繧ｷ繝ｧ繝ｳ */
 html.ui-brass .gauge .gear-main {
   fill: url(#brassGearGrad, #C9A227);
   stroke: #FFF8DC;
@@ -3960,7 +3984,7 @@ html.ui-brass .gauge .gear-main {
   animation: gearSpin var(--gear-t, 26s) cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-/* 🕰️ 四隅の連動小歯車 (gearA - gearD): 銅・真鍮の噛み合い & 高速逆回転 */
+/* �焚�� 蝗幃嚆縺ｮ騾｣蜍募ｰ乗ｭｯ霆� (gearA - gearD): 驫��逵滄紺縺ｮ蝎帙∩蜷医＞ & 鬮倬滄�屓霆｢ */
 html.ui-brass .gauge .gear-a,
 html.ui-brass .gauge .gear-c {
   fill: #B87333;
@@ -4002,7 +4026,7 @@ html.ui-brass .gauge[data-tier="6"] .gear-d {
   filter: drop-shadow(0 0 14px rgba(255, 215, 0, 0.95)) drop-shadow(0 2px 4px #000);
 }
 
-/* ギロシェ彫刻調の同心メカニカルリング */
+/* 繧ｮ繝ｭ繧ｷ繧ｧ蠖ｫ蛻ｻ隱ｿ縺ｮ蜷悟ｿ�Γ繧ｫ繝九き繝ｫ繝ｪ繝ｳ繧ｰ */
 html.ui-brass .gauge .gauge-ring::before {
   content: '';
   position: absolute;
@@ -4024,7 +4048,7 @@ html.ui-brass .gauge .gauge-ring::after {
   pointer-events: none;
 }
 
-/* 🕰️ Brass 段階的進化 (Tiers 0 - 6) */
+/* �焚�� Brass 谿ｵ髫守噪騾ｲ蛹� (Tiers 0 - 6) */
 html.ui-brass .gauge[data-tier="0"] { --gear-t: 36s; --brass-ring-t: 45s; }
 html.ui-brass .gauge[data-tier="1"] { --gear-t: 24s; --brass-ring-t: 32s; }
 html.ui-brass .gauge[data-tier="2"] { --gear-t: 14s; --brass-ring-t: 22s; }
@@ -4052,7 +4076,7 @@ html.ui-brass .gauge[data-tier="6"] .gauge-ring::before {
   box-shadow: inset 0 0 18px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.5);
 }
 
-/* 2. Aurora 専用: 偏光クリスタル & 段階的オーロラウェーブ (Tiers 0-6) */
+/* 2. Aurora 蟆ら畑: 蛛丞�繧ｯ繝ｪ繧ｹ繧ｿ繝ｫ & 谿ｵ髫守噪繧ｪ繝ｼ繝ｭ繝ｩ繧ｦ繧ｧ繝ｼ繝� (Tiers 0-6) */
 html.ui-aurora .gauge .gauge-ring {
   position: relative;
   filter: drop-shadow(0 0 24px rgba(0, 223, 216, 0.55)) drop-shadow(0 0 40px rgba(121, 40, 202, 0.35));
@@ -4087,7 +4111,7 @@ html.ui-aurora .gauge .gauge-ring::after {
   pointer-events: none;
 }
 
-/* 🌟 Aurora 段階的進化 (Tiers 0 - 6) */
+/* �検 Aurora 谿ｵ髫守噪騾ｲ蛹� (Tiers 0 - 6) */
 html.ui-aurora .gauge[data-tier="0"] { --aurora-wave-t: 18s; --aurora-pulse-t: 8s; }
 html.ui-aurora .gauge[data-tier="1"] { --aurora-wave-t: 14s; --aurora-pulse-t: 6.5s; }
 html.ui-aurora .gauge[data-tier="2"] { --aurora-wave-t: 10s; --aurora-pulse-t: 5s; }
@@ -4144,7 +4168,7 @@ html.ui-brass .gauge .gauge-all {
   100% { transform: scale(1.03); opacity: 1; border-color: rgba(255, 255, 255, 0.85); box-shadow: inset 0 0 24px rgba(0, 223, 216, 0.6), 0 0 20px rgba(121, 40, 202, 0.5); }
 }
 
-/* 🌟 ゲージ進捗アーク & トラック & 光点 (.gauge-val, .gauge-trk, .gauge-dot) のテーマ別完全深化 */
+/* �検 繧ｲ繝ｼ繧ｸ騾ｲ謐励い繝ｼ繧ｯ & 繝医Λ繝�け & 蜈臥せ (.gauge-val, .gauge-trk, .gauge-dot) 縺ｮ繝��繝槫挨螳悟�豺ｱ蛹� */
 html.ui-aurora .gauge .gauge-trk { stroke: rgba(0, 223, 216, 0.2); stroke-width: 10; }
 html.ui-aurora .gauge .gauge-val { stroke: #00DFD8; filter: drop-shadow(0 0 12px rgba(0, 223, 216, 0.95)) drop-shadow(0 0 24px rgba(121, 40, 202, 0.7)); }
 html.ui-aurora .gauge[data-tier="5"] .gauge-val,
@@ -4173,7 +4197,7 @@ html.ui-liquid .gauge[data-tier="6"] .gauge-val { stroke: #FFFFFF; filter: drop-
 html.ui-liquid .gauge .gauge-dot circle { fill: #FF007F; filter: drop-shadow(0 0 14px #FF007F); }
 html.ui-liquid .gauge .gauge-dot .halo { fill: rgba(255, 0, 127, 0.55); filter: blur(3px); }
 
-/* 3. Cyber 専用: ホログラフィック・レーダー & 段階的タクティカルHUD (Tiers 0-6) */
+/* 3. Cyber 蟆ら畑: 繝帙Ο繧ｰ繝ｩ繝輔ぅ繝�け繝ｻ繝ｬ繝ｼ繝繝ｼ & 谿ｵ髫守噪繧ｿ繧ｯ繝�ぅ繧ｫ繝ｫHUD (Tiers 0-6) */
 html.ui-cyber .gauge .gauge-ring {
   position: relative;
   filter: drop-shadow(0 0 24px rgba(0, 229, 255, 0.65)) drop-shadow(0 0 40px rgba(0, 255, 157, 0.35));
@@ -4206,7 +4230,7 @@ html.ui-cyber .gauge .gauge-ring::after {
   pointer-events: none;
 }
 
-/* 🚀 Cyber 段階的進化 (Tiers 0 - 6) */
+/* �噫 Cyber 谿ｵ髫守噪騾ｲ蛹� (Tiers 0 - 6) */
 html.ui-cyber .gauge[data-tier="0"] { --cyber-radar-t: 8s; --cyber-reticle-t: 16s; }
 html.ui-cyber .gauge[data-tier="1"] { --cyber-radar-t: 6s; --cyber-reticle-t: 12s; }
 html.ui-cyber .gauge[data-tier="2"] { --cyber-radar-t: 4s; --cyber-reticle-t: 8s; }
@@ -4246,7 +4270,7 @@ html.ui-cyber .gauge .gauge-all {
   to { transform: rotate(360deg); }
 }
 
-/* 4. Liquid 専用: フルイドモーフィング & 段階的ネオンジェル (Tiers 0-6) */
+/* 4. Liquid 蟆ら畑: 繝輔Ν繧､繝峨Δ繝ｼ繝輔ぅ繝ｳ繧ｰ & 谿ｵ髫守噪繝阪が繝ｳ繧ｸ繧ｧ繝ｫ (Tiers 0-6) */
 html.ui-liquid .gauge .gauge-ring {
   position: relative;
   filter: drop-shadow(0 0 26px rgba(255, 0, 127, 0.65)) drop-shadow(0 0 42px rgba(121, 40, 202, 0.45));
@@ -4277,7 +4301,7 @@ html.ui-liquid .gauge .gauge-ring::after {
   pointer-events: none;
 }
 
-/* 🌸 Liquid 段階的進化 (Tiers 0 - 6) */
+/* �減 Liquid 谿ｵ髫守噪騾ｲ蛹� (Tiers 0 - 6) */
 html.ui-liquid .gauge[data-tier="0"] { --liquid-morph-t: 12s; --liquid-gel-t: 16s; }
 html.ui-liquid .gauge[data-tier="1"] { --liquid-morph-t: 9s;  --liquid-gel-t: 13s; }
 html.ui-liquid .gauge[data-tier="2"] { --liquid-morph-t: 6.5s; --liquid-gel-t: 9.5s; }
@@ -4299,7 +4323,7 @@ html.ui-liquid .gauge[data-tier="6"] .gauge-ring::before {
   transform: scale(1.1);
 }
 
-/* 🌟 ゲージ中央カウンター (#gaugeMid) のテーマ別完全調律 */
+/* �検 繧ｲ繝ｼ繧ｸ荳ｭ螟ｮ繧ｫ繧ｦ繝ｳ繧ｿ繝ｼ (#gaugeMid) 縺ｮ繝��繝槫挨螳悟�隱ｿ蠕� */
 html.ui-aurora .gauge .gauge-mid {
   color: #FFFFFF !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
@@ -4355,7 +4379,7 @@ html.ui-liquid .gauge[data-tier="6"] .gauge-mid {
   text-shadow: 0 0 30px rgba(255, 255, 255, 1), 0 0 55px rgba(255, 0, 127, 1), 0 0 75px rgba(0, 242, 254, 1) !important;
 }
 
-/* 🌟 ゲージ進捗アーク & トラック & 光点 (.gauge-val, .gauge-trk, .gauge-dot) のテーマ別完全深化 */
+/* �検 繧ｲ繝ｼ繧ｸ騾ｲ謐励い繝ｼ繧ｯ & 繝医Λ繝�け & 蜈臥せ (.gauge-val, .gauge-trk, .gauge-dot) 縺ｮ繝��繝槫挨螳悟�豺ｱ蛹� */
 html.ui-aurora .gauge .gauge-trk { stroke: rgba(0, 223, 216, 0.15); stroke-width: 10; }
 html.ui-aurora .gauge .gauge-val { stroke: #00DFD8; filter: drop-shadow(0 0 8px rgba(0, 223, 216, 0.8)); }
 html.ui-aurora .gauge[data-tier="5"] .gauge-val,
@@ -4381,7 +4405,7 @@ html.ui-liquid .gauge .gauge-trk { stroke: rgba(255, 0, 127, 0.15); stroke-width
 html.ui-liquid .gauge .gauge-val { stroke: #FF007F; filter: drop-shadow(0 0 10px rgba(255, 0, 127, 0.85)); }
 html.ui-liquid .gauge[data-tier="5"] .gauge-val,
 html.ui-liquid .gauge[data-tier="6"] .gauge-val { stroke: #FFFFFF; filter: drop-shadow(0 0 16px #FF007F) drop-shadow(0 0 28px #7928CA); }
-/* 🌟 目標達成（Tier 5 & 6）セレブレーション演出のテーマ別完全深化 */
+/* �検 逶ｮ讓咎＃謌撰ｼ�ier 5 & 6�峨そ繝ｬ繝悶Ξ繝ｼ繧ｷ繝ｧ繝ｳ貍泌�縺ｮ繝��繝槫挨螳悟�豺ｱ蛹� */
 html.ui-aurora .gauge[data-tier="5"] .gauge-ring,
 html.ui-aurora .gauge[data-tier="6"] .gauge-ring {
   animation: auroraTierPulse 1.8s ease-in-out infinite alternate !important;
@@ -4428,9 +4452,9 @@ html.ui-liquid .gauge[data-tier="6"] .gauge-ring {
   100% { border-radius: 35% 65% 55% 45% / 40% 65% 35% 60%; transform: rotate(360deg) scale(0.97); }
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   🌟 Heroゲージ直下：目標・進捗カプセルバッジ（洗練調律）
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   �検 Hero繧ｲ繝ｼ繧ｸ逶ｴ荳具ｼ夂岼讓吶�騾ｲ謐励き繝励そ繝ｫ繝舌ャ繧ｸ�域ｴ礼ｷｴ隱ｿ蠕具ｼ�
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 .gauge-cap {
   margin-top: 6px !important;
   font-size: 11px !important;
@@ -4458,7 +4482,7 @@ html.ui-liquid .gauge[data-tier="6"] .gauge-ring {
   opacity: 0.82 !important;
 }
 
-/* 1. Aurora: クリスタルピル */
+/* 1. Aurora: 繧ｯ繝ｪ繧ｹ繧ｿ繝ｫ繝斐Ν */
 html.ui-aurora .gauge-cap { color: #00DFD8 !important; text-shadow: 0 0 8px rgba(0, 223, 216, 0.6); }
 html.ui-aurora .gauge-goal {
   background: rgba(255, 255, 255, 0.08) !important;
@@ -4471,7 +4495,7 @@ html.ui-aurora .gauge-goal b { color: #00DFD8 !important; font-size: 13.5px !imp
 html.ui-aurora .gauge-all { color: rgba(255, 255, 255, 0.75) !important; }
 html.ui-aurora .gauge-all b { color: #00DFD8 !important; }
 
-/* 2. Brass: 真鍮彫刻プレート */
+/* 2. Brass: 逵滄紺蠖ｫ蛻ｻ繝励Ξ繝ｼ繝� */
 html.ui-brass .gauge-cap { color: #E0C25E !important; font-family: Georgia, serif !important; text-shadow: 0 1px 2px #000; }
 html.ui-brass .gauge-goal {
   background: linear-gradient(180deg, rgba(224, 194, 94, 0.15) 0%, rgba(20, 14, 5, 0.7) 100%) !important;
@@ -4484,7 +4508,7 @@ html.ui-brass .gauge-goal b { color: #FFD700 !important; font-size: 13.5px !impo
 html.ui-brass .gauge-all { color: #C9A227 !important; font-family: Georgia, serif !important; }
 html.ui-brass .gauge-all b { color: #FFE066 !important; }
 
-/* 3. Cyber: タクティカルHUDチップ */
+/* 3. Cyber: 繧ｿ繧ｯ繝�ぅ繧ｫ繝ｫHUD繝√ャ繝� */
 html.ui-cyber .gauge-cap { color: #00E5FF !important; font-family: 'SFMono-Regular', Consolas, monospace !important; letter-spacing: .08em !important; }
 html.ui-cyber .gauge-goal {
   background: rgba(0, 229, 255, 0.08) !important;
@@ -4498,7 +4522,7 @@ html.ui-cyber .gauge-goal b { color: #00FF9D !important; font-size: 13px !import
 html.ui-cyber .gauge-all { color: #00E5FF !important; font-family: 'SFMono-Regular', Consolas, monospace !important; }
 html.ui-cyber .gauge-all b { color: #00FF9D !important; }
 
-/* 4. Liquid: ネオンジェルピル */
+/* 4. Liquid: 繝阪が繝ｳ繧ｸ繧ｧ繝ｫ繝斐Ν */
 html.ui-liquid .gauge-cap { color: #FF007F !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(255, 0, 127, 0.6); }
 html.ui-liquid .gauge-goal {
   background: linear-gradient(135deg, rgba(255, 0, 127, 0.15) 0%, rgba(121, 40, 202, 0.15) 100%) !important;
@@ -4510,11 +4534,11 @@ html.ui-liquid .gauge-goal b { color: #FF007F !important; font-size: 13.5px !imp
 html.ui-liquid .gauge-all { color: rgba(255, 255, 255, 0.8) !important; }
 html.ui-liquid .gauge-all b { color: #00F2FE !important; }
 
-/* ═══════════════════════════════════════════════════════════════════
-   🏆 ミッション達成（.gm-mission.done）のテーマ別専用演出
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   �醇 繝溘ャ繧ｷ繝ｧ繝ｳ驕疲���.gm-mission.done�峨�繝��繝槫挨蟆ら畑貍泌�
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 
-/* 1. Aurora: クリスタルオーロラリボン */
+/* 1. Aurora: 繧ｯ繝ｪ繧ｹ繧ｿ繝ｫ繧ｪ繝ｼ繝ｭ繝ｩ繝ｪ繝懊Φ */
 html.ui-aurora .mfx .gm-mission.done {
   background: linear-gradient(90deg, rgba(0, 223, 216, 0.15) 0%, rgba(121, 40, 202, 0.15) 100%) !important;
   border: 1.5px solid rgba(0, 223, 216, 0.55) !important;
@@ -4534,7 +4558,7 @@ html.ui-aurora .mfx .gm-mission.done .gm-mission-fill {
   box-shadow: 0 0 10px rgba(0, 223, 216, 0.6) !important;
 }
 
-/* 2. Brass: 黄金刻印・真鍮プレート */
+/* 2. Brass: 鮟�≡蛻ｻ蜊ｰ繝ｻ逵滄紺繝励Ξ繝ｼ繝� */
 html.ui-brass .mfx .gm-mission.done {
   background: linear-gradient(180deg, rgba(224, 194, 94, 0.15) 0%, rgba(20, 14, 5, 0.85) 100%) !important;
   border: 1.5px solid #DAA520 !important;
@@ -4554,7 +4578,7 @@ html.ui-brass .mfx .gm-mission.done .gm-mission-fill {
   box-shadow: 0 0 10px rgba(218, 165, 32, 0.6) !important;
 }
 
-/* 3. Cyber: タクティカルHUDロックオン */
+/* 3. Cyber: 繧ｿ繧ｯ繝�ぅ繧ｫ繝ｫHUD繝ｭ繝�け繧ｪ繝ｳ */
 html.ui-cyber .mfx .gm-mission.done {
   background: rgba(0, 229, 255, 0.08) !important;
   border: 1.5px solid rgba(0, 229, 255, 0.45) !important;
@@ -4574,7 +4598,7 @@ html.ui-cyber .mfx .gm-mission.done .gm-mission-fill {
   box-shadow: 0 0 12px rgba(0, 255, 157, 0.7) !important;
 }
 
-/* 4. Liquid: ネオンフルイドジェル */
+/* 4. Liquid: 繝阪が繝ｳ繝輔Ν繧､繝峨ず繧ｧ繝ｫ */
 html.ui-liquid .mfx .gm-mission.done {
   background: linear-gradient(90deg, rgba(255, 0, 127, 0.15) 0%, rgba(121, 40, 202, 0.15) 100%) !important;
   border: 1.5px solid rgba(255, 0, 127, 0.5) !important;
@@ -4595,9 +4619,9 @@ html.ui-liquid .mfx .gm-mission.done .gm-mission-fill {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   全テーマ共通: WCAG AA 準拠の視認性・文字コントラスト調律 (4.5:1以上)
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   蜈ｨ繝��繝槫�騾�: WCAG AA 貅匁侠縺ｮ隕冶ｪ肴ｧ繝ｻ譁�ｭ励さ繝ｳ繝医Λ繧ｹ繝郁ｪｿ蠕� (4.5:1莉･荳�)
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 html.ui-aurora .qc .qq, html.ui-aurora .qc .ch2 { color: #FFFFFF !important; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7); }
 html.ui-brass .qc .qq, html.ui-brass .qc .ch2 { color: #FFFDF5 !important; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85); }
 html.ui-cyber .qc .qq, html.ui-cyber .qc .ch2 { color: #E6FFFF !important; text-shadow: 0 0 2px rgba(0, 229, 255, 0.4); }
@@ -4637,9 +4661,9 @@ html.ui-frost .qc .qq, html.ui-frost .qc .ch2 { color: #FFFFFF !important; text-
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   全テーマ共通: GPU 合成最適化 & 描画負荷軽減 & 高DPI鮮鋭化
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   蜈ｨ繝��繝槫�騾�: GPU 蜷域�譛驕ｩ蛹� & 謠冗判雋�闕ｷ霆ｽ貂� & 鬮魯PI魄ｮ驪ｭ蛹�
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 .qc, .ch2, .exam-self-btn, .mec-grade-btn, .mec-flag-btn, .mec-lap-btn, .mec-err-btn, .st-hdr {
   will-change: transform, opacity;
   transform: translateZ(0);
@@ -4647,9 +4671,9 @@ html.ui-frost .qc .qq, html.ui-frost .qc .ch2 { color: #FFFFFF !important; text-
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   全テーマ共通: タクタイルフィードバック & イージング調律
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   蜈ｨ繝��繝槫�騾�: 繧ｿ繧ｯ繧ｿ繧､繝ｫ繝輔ぅ繝ｼ繝峨ヰ繝�け & 繧､繝ｼ繧ｸ繝ｳ繧ｰ隱ｿ蠕�
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 .ch2, .exam-self-btn, .mec-grade-btn, .mec-flag-btn, .st-filter-btn {
   transition: transform .14s cubic-bezier(0.2, 0.9, 0.3, 1),
               background .14s ease-out,
@@ -4660,9 +4684,9 @@ html.ui-frost .qc .qq, html.ui-frost .qc .ch2 { color: #FFFFFF !important; text-
   transform: scale(0.96) translateY(1px) !important;
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   全テーマ共通: タイポグラフィ & 視線誘導調律
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   蜈ｨ繝��繝槫�騾�: 繧ｿ繧､繝昴げ繝ｩ繝輔ぅ & 隕也ｷ夊ｪ伜ｰ手ｪｿ蠕�
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 .qc .qq {
   font-size: 16.5px !important;
   line-height: 1.65 !important;
@@ -4678,9 +4702,9 @@ html.ui-frost .qc .qq, html.ui-frost .qc .ch2 { color: #FFFFFF !important; text-
   line-height: 1.6 !important;
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   全テーマ共通: 高DPI（Retina）ディスプレイ向けシャープ化調律
-   ═══════════════════════════════════════════════════════════════════ */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   蜈ｨ繝��繝槫�騾�: 鬮魯PI��etina�峨ョ繧｣繧ｹ繝励Ξ繧､蜷代￠繧ｷ繝｣繝ｼ繝怜喧隱ｿ蠕�
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .qc {
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6) !important;
@@ -4691,10 +4715,10 @@ html.ui-frost .qc .qq, html.ui-frost .qc .ch2 { color: #FFFFFF !important; text-
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   4大テーマ別: 試験進捗プログレスバー深化 & コンプリート発光
-   ═══════════════════════════════════════════════════════════════════ */
-/* 🌟 Aurora */
+/* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
+   4螟ｧ繝��繝槫挨: 隧ｦ鬨馴ｲ謐励�繝ｭ繧ｰ繝ｬ繧ｹ繝舌�豺ｱ蛹� & 繧ｳ繝ｳ繝励Μ繝ｼ繝育匱蜈�
+   笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊� */
+/* �検 Aurora */
 html.ui-aurora .exam-prog-track, html.ui-aurora .ce-prog-track {
   background: rgba(255, 255, 255, 0.12) !important;
   border: 1px solid rgba(255, 255, 255, 0.25) !important;
@@ -4715,7 +4739,7 @@ html.ui-aurora .ce-prog-track.exam-prog-complete .ce-prog-fill {
   100% { filter: brightness(1.3) drop-shadow(0 0 16px rgba(0,223,216,1)); }
 }
 
-/* 🕰️ Brass */
+/* �焚�� Brass */
 html.ui-brass .exam-prog-track, html.ui-brass .ce-prog-track {
   background: rgba(14, 10, 6, 0.95) !important;
   border: 1px solid rgba(224, 194, 94, 0.5) !important;
@@ -4736,7 +4760,7 @@ html.ui-brass .ce-prog-track.exam-prog-complete .ce-prog-fill {
   100% { filter: brightness(1.35) drop-shadow(0 0 18px rgba(255,215,0,1)); }
 }
 
-/* 🚀 Cyber */
+/* �噫 Cyber */
 html.ui-cyber .exam-prog-track, html.ui-cyber .ce-prog-track {
   background: rgba(2, 6, 12, 0.95) !important;
   border: 1px solid rgba(0, 229, 255, 0.6) !important;
@@ -4757,7 +4781,7 @@ html.ui-cyber .ce-prog-track.exam-prog-complete .ce-prog-fill {
   100% { filter: brightness(1.4) drop-shadow(0 0 20px rgba(0,255,102,1)); }
 }
 
-/* 🌸 Liquid */
+/* �減 Liquid */
 html.ui-liquid .exam-prog-track, html.ui-liquid .ce-prog-track {
   background: rgba(20, 7, 28, 0.9) !important;
   border: 1.5px solid rgba(255, 0, 128, 0.55) !important;
@@ -4778,7 +4802,7 @@ html.ui-liquid .ce-prog-track.exam-prog-complete .ce-prog-fill {
   100% { filter: brightness(1.35) drop-shadow(0 0 18px rgba(255,0,128,1)); }
 }
 
-/* 🌑 Kintsugi */
+/* �倦 Kintsugi */
 html.ui-kintsugi .exam-prog-track, html.ui-kintsugi .ce-prog-track {
   background: rgba(14, 14, 20, 0.95) !important;
   border: 1px solid rgba(245, 208, 97, 0.5) !important;
@@ -4799,7 +4823,7 @@ html.ui-kintsugi .ce-prog-track.exam-prog-complete .ce-prog-fill {
   100% { filter: brightness(1.35) drop-shadow(0 0 18px rgba(245,208,97,1)); }
 }
 
-/* 🌌 Celestial */
+/* �血 Celestial */
 html.ui-celestial .exam-prog-track, html.ui-celestial .ce-prog-track {
   background: rgba(18, 14, 38, 0.95) !important;
   border: 1px solid rgba(255, 209, 102, 0.5) !important;
@@ -4820,7 +4844,7 @@ html.ui-celestial .ce-prog-track.exam-prog-complete .ce-prog-fill {
   100% { filter: brightness(1.35) drop-shadow(0 0 20px rgba(255,209,102,1)); }
 }
 
-/* 🌊 Abyss */
+/* �穴 Abyss */
 html.ui-abyss .exam-prog-track, html.ui-abyss .ce-prog-track {
   background: rgba(5, 16, 32, 0.95) !important;
   border: 1px solid rgba(0, 255, 163, 0.5) !important;
@@ -4841,7 +4865,7 @@ html.ui-abyss .ce-prog-track.exam-prog-complete .ce-prog-fill {
   100% { filter: brightness(1.4) drop-shadow(0 0 20px rgba(0,255,163,1)); }
 }
 
-/* ❄️ Frost */
+/* 笶�ｸ� Frost */
 html.ui-frost .exam-prog-track, html.ui-frost .ce-prog-track {
   background: rgba(8, 22, 40, 0.95) !important;
   border: 1px solid rgba(112, 214, 255, 0.5) !important;
@@ -4862,10 +4886,112 @@ html.ui-frost .ce-prog-track.exam-prog-complete .ce-prog-fill {
   100% { filter: brightness(1.4) drop-shadow(0 0 20px rgba(112,214,255,1)); }
 }
 
-/* 難問印・目盛りドットの完全非表示（ノイズレスなプログレスバー） */
+/* 髮｣蝠丞魂繝ｻ逶ｮ逶帙ｊ繝峨ャ繝医�螳悟�髱櫁｡ｨ遉ｺ�医ヮ繧､繧ｺ繝ｬ繧ｹ縺ｪ繝励Ο繧ｰ繝ｬ繧ｹ繝舌��� */
 .exam-prog-track .ep-hard,
 .exam-prog-track .ep-tick,
 .ce-prog-track .ep-hard,
 .ce-prog-track .ep-tick {
   display: none !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   全8テーマ共通: WCAG AA コントラスト最適化 & テキスト鮮明化
+   ══════════════════════════════════════════════════════════════════ */
+html.ui-aurora .qc .qq,
+html.ui-brass .qc .qq,
+html.ui-cyber .qc .qq,
+html.ui-liquid .qc .qq,
+html.ui-kintsugi .qc .qq,
+html.ui-celestial .qc .qq,
+html.ui-abyss .qc .qq,
+html.ui-frost .qc .qq {
+  color: #FFFFFF !important;
+  font-weight: 500 !important;
+}
+
+html.ui-aurora .qc .ch2,
+html.ui-brass .qc .ch2,
+html.ui-cyber .qc .ch2,
+html.ui-liquid .qc .ch2,
+html.ui-kintsugi .qc .ch2,
+html.ui-celestial .qc .ch2,
+html.ui-abyss .qc .ch2,
+html.ui-frost .qc .ch2 {
+  font-size: 15.5px !important;
+  line-height: 1.55 !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   全8テーマ共通: モバイル375px最適化 & 44pxタップ領域完全保証
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  html.ui-aurora .qc,
+  html.ui-brass .qc,
+  html.ui-cyber .qc,
+  html.ui-liquid .qc,
+  html.ui-kintsugi .qc,
+  html.ui-celestial .qc,
+  html.ui-abyss .qc,
+  html.ui-frost .qc {
+    padding: 16px 14px 20px !important;
+    gap: 12px !important;
+    border-radius: 14px !important;
+  }
+
+  html.ui-aurora .qc .ch2,
+  html.ui-brass .qc .ch2,
+  html.ui-cyber .qc .ch2,
+  html.ui-liquid .qc .ch2,
+  html.ui-kintsugi .qc .ch2,
+  html.ui-celestial .qc .ch2,
+  html.ui-abyss .qc .ch2,
+  html.ui-frost .qc .ch2 {
+    min-height: 44px !important;
+    padding: 12px 14px !important;
+    font-size: 15px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  html.ui-aurora .qc .mec-grade-btn,
+  html.ui-brass .qc .mec-grade-btn,
+  html.ui-cyber .qc .mec-grade-btn,
+  html.ui-liquid .qc .mec-grade-btn,
+  html.ui-kintsugi .qc .mec-grade-btn,
+  html.ui-celestial .qc .mec-grade-btn,
+  html.ui-abyss .qc .mec-grade-btn,
+  html.ui-frost .qc .mec-grade-btn,
+  html.ui-aurora .qc .mec-flag-btn,
+  html.ui-brass .qc .mec-flag-btn,
+  html.ui-cyber .qc .mec-flag-btn,
+  html.ui-liquid .qc .mec-flag-btn,
+  html.ui-kintsugi .qc .mec-flag-btn,
+  html.ui-celestial .qc .mec-flag-btn,
+  html.ui-abyss .qc .mec-flag-btn,
+  html.ui-frost .qc .mec-flag-btn {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    padding: 8px 12px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   全8テーマ共通: GPUハードウェアアクセラレーション & 高DPI鮮明化
+   ══════════════════════════════════════════════════════════════════ */
+html.ui-aurora .qc,
+html.ui-brass .qc,
+html.ui-cyber .qc,
+html.ui-liquid .qc,
+html.ui-kintsugi .qc,
+html.ui-celestial .qc,
+html.ui-abyss .qc,
+html.ui-frost .qc {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
