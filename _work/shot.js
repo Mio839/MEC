@@ -252,7 +252,7 @@ function cdpSend(ws, method, params = {}, id = 1) {
   });
 }
 
-async function captureAll(iterName = 'iter1', state = 'default', isCollapsed = false, isExam = false, combo = 1) {
+async function captureAll(iterName = 'iter1', state = 'default', isCollapsed = false, isExam = false, combo = 1, targetTheme = '') {
   const server = await startServer();
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'chrome-mec-'));
   const chromeProc = spawn(CHROME_PATH, [
@@ -279,7 +279,8 @@ async function captureAll(iterName = 'iter1', state = 'default', isCollapsed = f
   await cdpSend(ws, 'Page.enable', {}, msgId++);
   await cdpSend(ws, 'DOM.enable', {}, msgId++);
 
-  const themes = ['ui-aurora', 'ui-brass', 'ui-cyber', 'ui-liquid', 'ui-kintsugi', 'ui-celestial', 'ui-abyss', 'ui-frost'];
+  const allTargetThemes = ['ui-aurora', 'ui-brass', 'ui-cyber', 'ui-liquid'];
+  const themes = targetTheme ? (targetTheme.startsWith('ui-') ? [targetTheme] : ['ui-' + targetTheme]) : allTargetThemes;
   const captured = {};
 
   const viewports = [
@@ -326,12 +327,15 @@ let state = 'default';
 let isCollapsed = false;
 let isExam = false;
 let combo = 1;
+let targetTheme = '';
 
 for (const arg of args) {
   if (arg.startsWith('--state=')) {
     state = arg.replace('--state=', '');
   } else if (arg.startsWith('--combo=')) {
     combo = parseInt(arg.replace('--combo=', ''), 10);
+  } else if (arg.startsWith('--theme=')) {
+    targetTheme = arg.replace('--theme=', '');
   } else if (arg === '--collapsed' || arg === '--collapsed=true') {
     isCollapsed = true;
   } else if (arg === '--exam' || arg === '--exam=true') {
@@ -341,7 +345,7 @@ for (const arg of args) {
   }
 }
 
-captureAll(iter, state, isCollapsed, isExam, combo).then(() => {
+captureAll(iter, state, isCollapsed, isExam, combo, targetTheme).then(() => {
   console.log('Capture completed successfully.');
   process.exit(0);
 }).catch((err) => {
