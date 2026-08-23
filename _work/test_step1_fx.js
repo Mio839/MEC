@@ -48,9 +48,9 @@ test('4. 克服時に金床火花 (burst) が発火する', () => {
   assert(examSrc.includes('shapes: [\'shard\', \'square\']'), 'Missing spark burst in prior.wasWrong');
 });
 
-test('5. 超速答時にスラッシュ光刃 (slashRibbon) が発火する', () => {
-  assert(examSrc.includes('slashRibbon'), 'Missing slashRibbon in examSrc');
-  assert(examSrc.includes('_fastGrade(card) === 1'), 'Missing _fastGrade check');
+test('5. 超速答時に神速ライトニングバースト (godSpeedBurst) が発火する', () => {
+  assert(examSrc.includes('godSpeedBurst'), 'Missing godSpeedBurst in examSrc');
+  assert(examSrc.includes('_fastGrade'), 'Missing _fastGrade check');
 });
 
 console.log('── Step 1: 複数選択の装填状態 (exam-target-loaded) ──');

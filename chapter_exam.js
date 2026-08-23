@@ -1289,17 +1289,34 @@
     var lab = document.createElement('div');
     lab.className = 'ce-fast-pop fast-g' + g;
     var labels = theme.fastLabels;
-    lab.textContent = (labels && labels[3 - g]) || theme.fastLabel || '⚡ 速答！';
+    lab.textContent = (labels && labels[3 - g]) || theme.fastLabel || (g === 3 ? '⚡ 神速一閃！' : '⚡ 速答！');
     lab.style.left = cx + 'px'; lab.style.top = cy + 'px';
     lab.style.color = (theme.comboColors && theme.comboColors[3]) || '#FFD700';
     document.body.appendChild(lab);
     lab.animate([
-      {opacity:0, transform:'translate(-50%,0) scale(.6)'},
-      {opacity:1, transform:'translate(-50%,-16px) scale(1.15)', offset:.25},
-      {opacity:1, transform:'translate(-50%,-24px) scale(1)', offset:.55},
-      {opacity:0, transform:'translate(-50%,-52px) scale(.95)'}
-    ], {duration:900, easing:'cubic-bezier(.22,.68,0,1.2)', fill:'forwards'}).onfinish = function(){ lab.remove(); };
-    if (window.MecFX) { try { window.MecFX.glyphBurst(cx, cy, {glyphs:['⚡'], count:4, w:50, spread:130}); } catch(e){} }
+      {opacity:0, transform:'translate(-50%,10px) scale(.6)'},
+      {opacity:1, transform:'translate(-50%,-18px) scale(1.2)', offset:.25},
+      {opacity:1, transform:'translate(-50%,-28px) scale(1.02)', offset:.55},
+      {opacity:0, transform:'translate(-50%,-56px) scale(.95)'}
+    ], {duration:950, easing:'cubic-bezier(.22,.68,0,1.2)', fill:'forwards'}).onfinish = function(){ lab.remove(); };
+
+    if (window.MecFX) {
+      if (g === 3) {
+        var curUi = window.MecUITheme ? MecUITheme.get() : null;
+        var lightCol = '#FFF566', ringCol = '#FFD700', spkCols = ['#FFD700', '#FFA040', '#FFFFFF', '#00E5FF'];
+        if (curUi === 'aurora') { lightCol = '#00E5FF'; ringCol = '#00DFD8'; spkCols = ['#00DFD8', '#7928CA', '#00E5FF', '#FFFFFF']; }
+        else if (curUi === 'brass') { lightCol = '#FFD700'; ringCol = '#FFA040'; spkCols = ['#FFD700', '#FFA040', '#FFFFFF', '#C9A227']; }
+        else if (curUi === 'cyber') { lightCol = '#00FF66'; ringCol = '#00FF66'; spkCols = ['#00FF66', '#00E5FF', '#FF007F', '#FFFFFF']; }
+        else if (curUi === 'liquid') { lightCol = '#FF007F'; ringCol = '#FF007F'; spkCols = ['#FF007F', '#7928CA', '#00DFD8', '#FFFFFF']; }
+        else if (curUi === 'kintsugi') { lightCol = '#F5D061'; ringCol = '#F5D061'; spkCols = ['#F5D061', '#D4AF37', '#FFFFFF', '#FF4500']; }
+        else if (curUi === 'celestial') { lightCol = '#FFD166'; ringCol = '#FFD166'; spkCols = ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFFFF']; }
+        else if (curUi === 'abyss') { lightCol = '#00FFA3'; ringCol = '#00FFA3'; spkCols = ['#00FFA3', '#00B4D8', '#FFFFFF', '#70D6FF']; }
+        else if (curUi === 'frost') { lightCol = '#70D6FF'; ringCol = '#70D6FF'; spkCols = ['#70D6FF', '#FFFFFF', '#E0F2FE', '#38BDF8']; }
+        window.MecFX.godSpeedBurst(cx, cy, { lightningColor: lightCol, ringColor: ringCol, sparkColors: spkCols, maxR: 350 });
+      } else {
+        try { window.MecFX.glyphBurst(cx, cy, {glyphs:['⚡'], count:4, w:50, spread:130}); } catch(e){}
+      }
+    }
   }
   /* ══ A1 難問クリア / C2 立て直し（2026-08-14・study_exam.js のミラー）══
      閾値・ラベル・色は study 側と揃えること（テーマのキーは

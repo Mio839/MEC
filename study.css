@@ -1281,9 +1281,20 @@ body{
       （インラインの方が強い）。色は JS 側で選び、ここは字の色だけを担当する。 */
 #examCountdown.cd-rematch .cd-line{color:rgba(255,180,170,.92);}
 
-/* A3(2026-08-14): 速答の3段。1段目（まずまず）は控えめ、3段目（一閃）は強く */
+/* A3(2026-08-14): 速答の3段。1段目（まずまず）は控えめ、3段目（神速・一閃）は超ド派手黄金発光 */
 .exam-fast-pop.fast-g1{font-size:14px;opacity:.78;}
-.exam-fast-pop.fast-g3{font-size:22px;letter-spacing:.08em;}
+.exam-fast-pop.fast-g3{
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  color: #FFFDF0 !important;
+  text-shadow: 0 0 20px #FFD700, 0 0 40px #FFA040, 0 2px 10px rgba(0,0,0,.9);
+  padding: 4px 16px;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.35) 0%, rgba(255, 69, 0, 0.4) 100%);
+  border: 2px solid #FFD700;
+  border-radius: 30px;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.6);
+}
 
 /* C2(2026-08-14): 立て直し。誤答の次を正解した1回だけ出る */
 .exam-recover-pop{position:fixed;z-index:9225;pointer-events:none;white-space:nowrap;

@@ -2009,11 +2009,40 @@
     sparks(cx, cy, { count: 12, colors: [magenta, cyan, white] });
   }
 
+  /**
+   * ⚡ 神速・超速答ライトニングバースト（GOD SPEED / LIGHTNING SHOCKWAVE）
+   * 2秒以内の神速即答正解時に発火する超ド派手多重衝撃波＆稲妻大放電演出。
+   * o: { color, lightningColor, ringColor, sparkColors, maxR }
+   */
+  function godSpeedBurst(x, y, o) {
+    o = o || {};
+    var mainCol = o.color || '#FFE040';
+    var lightCol = o.lightningColor || '#FFF566';
+    var ringCol = o.ringColor || '#FFD700';
+    var cols = o.sparkColors || ['#FFD700', '#FFA040', '#FFFFFF', '#00E5FF'];
+
+    // 1. 全方位8方向ライトニングボルト放電
+    lightning(x, y, { bolts: 8, tier: 6, color: lightCol });
+
+    // 2. 超音速ソニックウェーブ多重拡散
+    sonicWave(x, y, { count: 3, maxR: o.maxR || 340, color: ringCol, thickness: 4.5 });
+
+    // 3. 高速黄金スパーク大爆裂
+    sparks(x, y, { count: 36, colors: cols, speed: 700, maxDist: 260, upBias: 50 });
+
+    // 4. クリスタル光芒スパークル
+    diamondSparkle(x, y, { count: 20, color: '#FFFFFF' });
+
+    // 5. 神速グリフ大噴出
+    glyphBurst(x, y, { glyphs: ['⚡', '👑', '✨', '⚡'], count: 6, w: 48, spread: 150 });
+  }
+
   window.MecFX = {
     auroraPrismSweep: auroraPrismSweep,
     brassClockworkBurst: brassClockworkBurst,
     cyberTargetLock: cyberTargetLock,
     liquidBloomRipple: liquidBloomRipple,
+    godSpeedBurst: godSpeedBurst,
     burst: burst,
     confetti: confetti,
     glyphRain: glyphRain,

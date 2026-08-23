@@ -1475,7 +1475,7 @@ function _examClampFxXY(cx, cy) {
 }
 
 // A1: 速答ボーナス。ラベル＋⚡グリフを選んだ肢の位置から出す
-// grade は _fastGrade の3段（省略時は従来どおりの「速答」= 2段目）
+// grade は _fastGrade の3段（3=神速/一閃, 2=速答, 1=まずまず）
 function _triggerFastBonus(el, grade) {
   if (_fxOff()) return;
   const theme = _examTheme();
@@ -1489,19 +1489,35 @@ function _triggerFastBonus(el, grade) {
   lab.className = 'exam-fast-pop fast-g' + g;
   // fastLabels は強い順 [一閃, 速答, まずまず]。旧 fastLabel は2段目の文言として残す
   const labels = theme.fastLabels;
-  lab.textContent = (labels && labels[3 - g]) || theme.fastLabel || '⚡ 速答！';
+  lab.textContent = (labels && labels[3 - g]) || theme.fastLabel || (g === 3 ? '⚡ 神速一閃！' : '⚡ 速答！');
   lab.style.left = cx + 'px';
   lab.style.top = cy + 'px';
   lab.style.color = (theme.comboColors && theme.comboColors[3]) || '#FFD700';
   document.body.appendChild(lab);
   lab.animate([
-    { opacity: 0, transform: 'translate(-50%,0) scale(.6)' },
-    { opacity: 1, transform: 'translate(-50%,-16px) scale(1.15)', offset: .25 },
-    { opacity: 1, transform: 'translate(-50%,-24px) scale(1)', offset: .55 },
-    { opacity: 0, transform: 'translate(-50%,-52px) scale(.95)' }
-  ], { duration: 900, easing: 'cubic-bezier(.22,.68,0,1.2)', fill: 'forwards' }).onfinish = () => lab.remove();
+    { opacity: 0, transform: 'translate(-50%,10px) scale(.6)' },
+    { opacity: 1, transform: 'translate(-50%,-18px) scale(1.2)', offset: .25 },
+    { opacity: 1, transform: 'translate(-50%,-28px) scale(1.02)', offset: .55 },
+    { opacity: 0, transform: 'translate(-50%,-56px) scale(.95)' }
+  ], { duration: 950, easing: 'cubic-bezier(.22,.68,0,1.2)', fill: 'forwards' }).onfinish = () => lab.remove();
+
   if (window.MecFX) {
-    try { window.MecFX.glyphBurst(cx, cy, { glyphs: ['⚡'], count: 4, w: 50, spread: 130 }); } catch (e) {}
+    if (g === 3) {
+      // ⚡ 神速・超速答ライトニング大爆裂（全方位稲妻・衝撃波・スパーク・グリフ）
+      const curUi = window.MecUITheme ? MecUITheme.get() : null;
+      let lightCol = '#FFF566', ringCol = '#FFD700', spkCols = ['#FFD700', '#FFA040', '#FFFFFF', '#00E5FF'];
+      if (curUi === 'aurora') { lightCol = '#00E5FF'; ringCol = '#00DFD8'; spkCols = ['#00DFD8', '#7928CA', '#00E5FF', '#FFFFFF']; }
+      else if (curUi === 'brass') { lightCol = '#FFD700'; ringCol = '#FFA040'; spkCols = ['#FFD700', '#FFA040', '#FFFFFF', '#C9A227']; }
+      else if (curUi === 'cyber') { lightCol = '#00FF66'; ringCol = '#00FF66'; spkCols = ['#00FF66', '#00E5FF', '#FF007F', '#FFFFFF']; }
+      else if (curUi === 'liquid') { lightCol = '#FF007F'; ringCol = '#FF007F'; spkCols = ['#FF007F', '#7928CA', '#00DFD8', '#FFFFFF']; }
+      else if (curUi === 'kintsugi') { lightCol = '#F5D061'; ringCol = '#F5D061'; spkCols = ['#F5D061', '#D4AF37', '#FFFFFF', '#FF4500']; }
+      else if (curUi === 'celestial') { lightCol = '#FFD166'; ringCol = '#FFD166'; spkCols = ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFFFF']; }
+      else if (curUi === 'abyss') { lightCol = '#00FFA3'; ringCol = '#00FFA3'; spkCols = ['#00FFA3', '#00B4D8', '#FFFFFF', '#70D6FF']; }
+      else if (curUi === 'frost') { lightCol = '#70D6FF'; ringCol = '#70D6FF'; spkCols = ['#70D6FF', '#FFFFFF', '#E0F2FE', '#38BDF8']; }
+      window.MecFX.godSpeedBurst(cx, cy, { lightningColor: lightCol, ringColor: ringCol, sparkColors: spkCols, maxR: 350 });
+    } else {
+      try { window.MecFX.glyphBurst(cx, cy, { glyphs: ['⚡'], count: 4, w: 50, spread: 130 }); } catch (e) {}
+    }
   }
 }
 
@@ -3321,16 +3337,10 @@ function _triggerChoiceCorrectPop(el) {
     const ov = document.createElement('div');
     ov.style.cssText = `position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:${theme.popOverlay};`;
     card.style.position = 'relative';
-    card.prepend(ov);
-    ov.animate([{opacity:1},{opacity:.6,offset:.3},{opacity:0}], {duration:700, easing:'ease-out'}).onfinish = () => ov.remove();
-
-    // 【案6】神速の一閃スラッシュ ＆ 残像フリーズ（≤2秒の速答時）
-    if (!_fxOff() && window.MecFX && _fastGrade(card) === 1) {
+    // ≤2秒の速答（神速）時は画面フリーズ演出のみ支援（エフェクト本体は _triggerFastBonus の godSpeedBurst が担当）
+    if (!_fxOff() && _fastGrade(card) === 3) {
       document.body.classList.add('exam-slash-freeze');
       setTimeout(() => document.body.classList.remove('exam-slash-freeze'), 220);
-      const cr = card.getBoundingClientRect();
-      const col = (theme.fastLabels && theme.burstPalettes && theme.burstPalettes[2]) ? theme.burstPalettes[2][0] : '#FFE040';
-      window.MecFX.slashRibbon(cr.left - 30, cr.top - 10, cr.right + 30, cr.bottom + 10, { color: col, width: 8, ttl: .55 });
     }
   }
   _spawnScatteredCelebration(theme);

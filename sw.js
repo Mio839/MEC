@@ -1,3 +1,8 @@
+// 2026-08-24d: 一閃スラッシュ（斜め直線）を完全撤廃し、超速答・神速判定専用の超激震「godSpeedBurst（神速ライトニングバースト＆ソニックウェーブ＆黄金大爆裂）」へ全面リニューアル。
+//   - fx_engine.js: godSpeedBurst（8方向全方位稲妻放電＋超音速ソニックウェーブ＋36粒子高速スパーク＋クリスタルスパークル＋神速グリフ大噴出）を新設。
+//   - study_exam.js / chapter_exam.js: 2秒以内の神速判定（fastGrade === 3）時にテーマ別カラー連動の godSpeedBurst を発火。
+//   - study.css: .exam-fast-pop.fast-g3 を黄金グラデーション＋ネオングロー＋特大ポップに強化。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-24c: 正解時アニメーション・エフェクトが交互に不発となるバグの完全修正。
 //   - study_exam.js / chapter_exam.js: _applyCardThemeComboFx / ceApplyCardThemeComboFx にて .fx-correct および .correct 付与時に void element.offsetWidth による強制リフローを導入し、アニメーション再トリガーを完全保証。
 //   - _afterCorrectFx / ceAfterCorrectFx: 正解時パーティクル座標を可視帯域（_fxBand / ceBand）内に安全クランプし、スクロール中・画面端での描画漏れ・画面外逸脱を完全防止。
@@ -427,7 +432,7 @@ const CACHE = "mec-v169";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-24c";
+const SHELL_VERSION = "2026-08-24d";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
