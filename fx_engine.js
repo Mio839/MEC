@@ -1746,7 +1746,7 @@
     // 1. 有機的クラックラインの構築（画面全域へ走る黄金亀裂）
     var branches = o.branches || 12;
     var lines = [];
-    var crackMaxR = o.maxR || Math.max(W, H) * 0.65;
+    var crackMaxR = o.maxR || Math.min(W, H) * 0.45;
     for (var b = 0; b < branches; b++) {
       var baseAngle = (b / branches) * Math.PI * 2 + rnd(-0.25, 0.25);
       var pts = [{ x: 0, y: 0 }];
@@ -1808,7 +1808,7 @@
     cx = cx == null ? W * .5 : cx;
     cy = cy == null ? H * .5 : cy;
     var starGold = '#FFD166', manaPurple = '#8A2BE2', cyanGlow = '#48CAE4', white = '#FFFFFF';
-    var maxR = o.maxR || Math.max(W, H) * 0.72;
+    var maxR = o.maxR || Math.min(W, H) * 0.45;
 
     // 全画面インパクト: マナパープル＆ゴールド露光フラッシュ
     if (o.flash !== false) flashScreen('rgba(138, 43, 226, 0.35)', 0.36);
@@ -1861,7 +1861,7 @@
     cx = cx == null ? W * .5 : cx;
     cy = cy == null ? H * .5 : cy;
     var emerald = '#00FFA3', deepCyan = '#00B4D8', bioGlow = '#64FFDA', white = '#FFFFFF';
-    var maxR = o.maxR || Math.max(W, H) * 0.75;
+    var maxR = o.maxR || Math.min(W, H) * 0.45;
 
     // 全画面インパクト: 深海エメラルド露光フラッシュ
     if (o.flash !== false) flashScreen('rgba(0, 255, 163, 0.35)', 0.35);
@@ -1913,7 +1913,7 @@
     cx = cx == null ? W * .5 : cx;
     cy = cy == null ? H * .5 : cy;
     var iceBlue = '#70D6FF', crystalWhite = '#FFFFFF', frostCyan = '#A0E7E5';
-    var maxR = o.maxR || Math.max(W, H) * 0.72;
+    var maxR = o.maxR || Math.min(W, H) * 0.45;
 
     // 全画面インパクト: 氷河シアン露光フラッシュ
     if (o.flash !== false) flashScreen('rgba(112, 214, 255, 0.38)', 0.35);
@@ -1931,7 +1931,7 @@
     });
 
     // 2. 氷晶ファセット破砕破片（全方位・多層フラクタル爆散）
-    shatter(cx, cy, { count: o.shatterCount || 68, colors: [iceBlue, crystalWhite, frostCyan, '#E0F7FA', '#80DEEA'], spread: Math.max(W, H) * 0.55 });
+    shatter(cx, cy, { count: o.shatterCount || 68, colors: [iceBlue, crystalWhite, frostCyan, '#E0F7FA', '#80DEEA'], spread: maxR * 0.85 });
 
     // 3. ダイヤモンドダスト閃光 (超高輝度・全画面・眩い乱反射)
     diamondSparkle(cx, cy, { count: o.sparkleCount || 64, color: crystalWhite, additive: true });
@@ -1970,6 +1970,7 @@
     cx = cx == null ? W * .5 : cx;
     cy = cy == null ? H * .5 : cy;
     var cyan = '#00DFD8', purple = '#7928CA', blue = '#0070F3', neonPink = '#FF0080', white = '#FFFFFF';
+    var maxR = o.maxR || Math.min(W, H) * 0.45;
     
     // 全画面インパクト: 露光フラッシュ
     if (o.flash !== false) flashScreen('rgba(0, 229, 255, 0.35)', 0.35);
@@ -1981,17 +1982,16 @@
     diamondSparkle(cx, cy, { count: 18, color: neonPink, additive: true });
 
     // 2. 偏光オーロラ同心円リングウェーブ (多層超特大展開)
-    rings(cx, cy, { count: 4, maxR: o.maxR || Math.max(W, H) * 0.75, color: cyan, additive: true });
-    rings(cx, cy, { count: 3, maxR: (o.maxR || Math.max(W, H) * 0.75) * 0.82, color: purple, additive: true });
-    rings(cx, cy, { count: 2, maxR: (o.maxR || Math.max(W, H) * 0.75) * 0.65, color: blue, additive: true });
+    rings(cx, cy, { count: 4, maxR: maxR, color: cyan, additive: true });
+    rings(cx, cy, { count: 3, maxR: maxR * 0.82, color: purple, additive: true });
+    rings(cx, cy, { count: 2, maxR: maxR * 0.65, color: blue, additive: true });
 
     // 3. 星屑グリッター粒子散乱（全画面）
     dust({ count: o.dustCount || 48, colors: [cyan, blue, purple, neonPink, white] });
 
-    // 4. プリズム光条リボン（画面斜めに鋭く走る）
-    slashRibbon(cx - W * 0.45, cy - 60, cx + W * 0.45, cy + 60, { color: cyan, width: 4.0, ttl: 0.42 });
-    slashRibbon(cx + W * 0.4, cy - 80, cx - W * 0.4, cy + 80, { color: purple, width: 3.2, ttl: 0.38, delay: 0.04 });
-    slashRibbon(cx - W * 0.3, cy + 90, cx + W * 0.3, cy - 90, { color: neonPink, width: 2.6, ttl: 0.36, delay: 0.08 });
+    // 4. プリズム光条リボン（画面中央基準で安全に走る）
+    slashRibbon(cx - maxR * 0.6, cy - 40, cx + maxR * 0.6, cy + 40, { color: cyan, width: 3.5, ttl: 0.38 });
+    slashRibbon(cx + maxR * 0.5, cy - 50, cx - maxR * 0.5, cy + 50, { color: purple, width: 2.8, ttl: 0.35, delay: 0.04 });
   }
 
   /** 【4テーマ特化】真鍮クロックワーク: 時計機構歯車連鎖 ＆ ゴールド金粉スパーク噴水 (重厚機械爆発) */
@@ -2000,27 +2000,26 @@
     cx = cx == null ? W * .5 : cx;
     cy = cy == null ? H * .5 : cy;
     var gold = '#FFD700', brass = '#E0C25E', amber = '#FFA040', warmWhite = '#FFF8DC';
+    var maxR = o.maxR || Math.min(W, H) * 0.45;
     
     // 全画面インパクト: ゴールド露光フラッシュ
     if (o.flash !== false) flashScreen('rgba(255, 215, 0, 0.35)', 0.35);
 
     // 1. 真鍮スケルトン歯車大量散乱＆連鎖回転（画面全方位）
-    gears(cx, cy, { count: o.gearCount || 18, spread: o.spread || Math.max(W, H) * 0.45, w: 40, min: 18, max: 48 });
+    gears(cx, cy, { count: o.gearCount || 18, spread: maxR * 0.8, w: 40, min: 18, max: 48 });
     
     // 2. アストロラーベ巨大幾何学時計盤 ＆ 重力波リング
-    astrolabeRings(cx, cy, { maxR: o.maxR || Math.max(W, H) * 0.72, color: gold, thickness: 3.2 });
-    chronosDial(cx, cy, { maxR: (o.maxR || Math.max(W, H) * 0.65), color: brass, thickness: 2.8 });
-    rings(cx, cy, { count: 4, maxR: (o.maxR || Math.max(W, H) * 0.78), color: brass, additive: true });
+    astrolabeRings(cx, cy, { maxR: maxR * 0.95, color: gold, thickness: 3.2 });
+    chronosDial(cx, cy, { maxR: maxR * 0.85, color: brass, thickness: 2.8 });
+    rings(cx, cy, { count: 4, maxR: maxR, color: brass, additive: true });
 
     // 3. 金粉スパーク噴水 ＆ 高圧スチーム蒸気全画面噴出
     sparks(cx, cy, { count: o.sparkCount || 36, colors: [gold, brass, amber, warmWhite] });
-    steam(cx, cy, { count: 24, maxR: 280, rise: 180 });
-    steam(0, H * 0.8, { count: 12, vx: 80, rise: 120, color: '#F0E6D2' });
-    steam(W, H * 0.8, { count: 12, vx: -80, rise: 120, color: '#F0E6D2' });
+    steam(cx, cy, { count: 20, maxR: maxR * 0.7, rise: 140 });
 
     // 4. 金属微粉ダスト ＆ 衝撃波パルス
     dust({ count: o.dustCount || 38, colors: [gold, brass, amber, '#FFE082'] });
-    sonicWave(cx, cy, { count: 3, maxR: Math.max(W, H) * 0.55, color: gold, thickness: 3.5 });
+    sonicWave(cx, cy, { count: 3, maxR: maxR * 0.75, color: gold, thickness: 3.5 });
   }
 
   /** 【4テーマ特化】サイバー・ホログラム: 照準スコープターゲットロック ＆ ネオングリッドパルス (電脳極彩爆発) */
@@ -2029,6 +2028,7 @@
     cx = cx == null ? W * .5 : cx;
     cy = cy == null ? H * .5 : cy;
     var neonGreen = '#00FF66', cyan = '#00E5FF', magenta = '#D500F9', matrixGreen = '#76FF03', white = '#FFFFFF';
+    var maxR = o.maxR || Math.min(W, H) * 0.45;
     
     // 全画面インパクト: エメラルドグリーン露光フラッシュ
     if (o.flash !== false) flashScreen('rgba(0, 255, 102, 0.35)', 0.32);
@@ -2037,20 +2037,18 @@
     glitchBars({ count: o.glitchCount || 24, colors: ['rgba(0,255,102,0.45)', 'rgba(0,229,255,0.45)', 'rgba(213,0,249,0.35)'], thick: true });
 
     // 2. 電脳除細動ショックパルス（全画面横断ボルト）
-    defibShock(cx, cy, { color: neonGreen, count: 42 });
-    defibShock(cx, cy, { color: cyan, boltColor: magenta, count: 28, delay: 0.05 });
+    defibShock(cx, cy, { color: neonGreen, count: 32 });
 
     // 3. 照準ロック・ダイヤモンド閃光 ＆ 3D空間ワープ光線
     diamondSparkle(cx, cy, { count: o.sparkleCount || 32, color: neonGreen, additive: true });
     diamondSparkle(cx, cy, { count: 22, color: cyan, additive: true });
-    warp({ x: cx, y: cy, count: 48, colors: [neonGreen, cyan, white, matrixGreen] });
 
     // 4. データ破片ピクセルポップ（大量）
-    pixelPop(cx, cy, { count: o.pixelCount || 46, colors: [neonGreen, cyan, matrixGreen, magenta, white] });
+    pixelPop(cx, cy, { count: o.pixelCount || 36, colors: [neonGreen, cyan, matrixGreen, magenta, white] });
 
     // 5. 幾何学同心円ソニックウェーブ (3Dネオングリッドパルス)
-    sonicWave(cx, cy, { count: 4, maxR: o.maxR || Math.max(W, H) * 0.72, color: neonGreen, thickness: 3.6 });
-    rings(cx, cy, { count: 3, maxR: (o.maxR || Math.max(W, H) * 0.72) * 0.8, color: cyan, additive: true });
+    sonicWave(cx, cy, { count: 4, maxR: maxR, color: neonGreen, thickness: 3.6 });
+    rings(cx, cy, { count: 3, maxR: maxR * 0.8, color: cyan, additive: true });
   }
 
   /** 【4テーマ特化】幻想リキッド・アート: 蛍光インクスプラッシュ ＆ ジェル弾性バブルリップル (極彩流体爆発) */
@@ -2059,21 +2057,21 @@
     cx = cx == null ? W * .5 : cx;
     cy = cy == null ? H * .5 : cy;
     var magenta = '#FF007F', purple = '#7928CA', neonOrange = '#FF7A00', cyan = '#00DFD8', white = '#FFFFFF';
+    var maxR = o.maxR || Math.min(W, H) * 0.45;
     
     // 全画面インパクト: 蛍光ピンク露光フラッシュ
     if (o.flash !== false) flashScreen('rgba(255, 0, 127, 0.35)', 0.36);
 
     // 1. 蛍光インク拡散アイリスシャッター (全画面規模多層展開)
-    irisShutter(cx, cy, { maxR: o.maxR || Math.max(W, H) * 0.72, color: magenta, blades: 12 });
-    irisShutter(cx, cy, { maxR: (o.maxR || Math.max(W, H) * 0.72) * 0.7, color: purple, blades: 8, delay: 0.05 });
+    irisShutter(cx, cy, { maxR: maxR, color: magenta, blades: 12 });
+    irisShutter(cx, cy, { maxR: maxR * 0.7, color: purple, blades: 8, delay: 0.05 });
 
     // 2. 弾性ジェルバブル浮遊＆大量破裂
     bubbles(cx, cy, { count: o.bubbleCount || 38, colors: [magenta, purple, neonOrange, cyan, white] });
 
     // 3. 多重波紋干渉（特大リップル）
-    rippleInterference(cx, cy, { maxR: (o.maxR || Math.max(W, H) * 0.65), color: magenta, span: 110 });
-    rings(cx, cy, { count: 4, maxR: Math.max(W, H) * 0.78, color: cyan, additive: true });
-    rings(cx, cy, { count: 3, maxR: Math.max(W, H) * 0.55, color: neonOrange, additive: true });
+    rippleInterference(cx, cy, { maxR: maxR * 0.85, color: magenta, span: 90 });
+    rings(cx, cy, { count: 4, maxR: maxR, color: cyan, additive: true });
 
     // 4. 水彩インク飛沫ダスト ＆ スプラッシュ全画面大爆散
     dust({ count: o.dustCount || 42, colors: [magenta, neonOrange, purple, cyan, white] });

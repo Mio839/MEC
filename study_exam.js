@@ -1602,12 +1602,16 @@ function _correctShockwave(el) {
   else if (curUi === 'cyber') { ringColor = '#00FF66'; isAdditive = true; }
   else if (curUi === 'liquid') { ringColor = '#FF007F'; isAdditive = true; }
 
+  const b = _fxBand();
+  const shortSide = Math.min(b.width, b.height);
+  const ringMaxR = shortSide * Math.min(0.48, 0.35 + t * 0.02);
+
   try {
     window.MecFX.rings(sx, sy, {
       count: t >= 4 ? 3 : 2,
       color: ringColor,
       thickness: t >= 4 ? 3 : 2,
-      maxR: 150 + t * 45,
+      maxR: ringMaxR,
       additive: isAdditive,
       stagger: .075
     });
@@ -1953,23 +1957,38 @@ function _triggerAnswerMark(el, kind) {
   }
 }
 
-/* A4(2026-08-14): 正解した肢から解答ブロック(.ab)へ光の線を引く。
-   演出であると同時に視線誘導で、「なぜ正解か」を読む場所へ目を運ぶ。 */
+/* A4(2026-08-26 改訂): 正解時の画面中央基準・短辺0〜90%ダイナミック光彩パルス
+   スクロールで引き伸ばされる固定要素間リボンを廃止し、画面中央(cx, cy)から
+   短辺の0〜90%の範囲内へランダムに広がるテーマ連動スパーク＆閃光を展開。 */
 function _traceToAnswer(card, fxEl) {
   if (_fxOff() || !window.MecFX || !card) return;
-  const ab = card.querySelector('.ab');
-  if (!ab || !fxEl || !fxEl.getBoundingClientRect) return;
-  const a = fxEl.getBoundingClientRect(), t = ab.getBoundingClientRect();
-  if (!a.width || !t.width) return;
   const b = _fxBand();
-  // どちらかが可視域の外なら引かない（画面外へ伸びる線になる）
-  if (a.bottom < b.top || a.top > b.vBottom || t.bottom < b.top || t.top > b.vBottom) return;
+  const shortSide = Math.min(b.width, b.height);
+  const maxR = shortSide * 0.45; // 短辺の90%（半径45%）
+  const curUi = window.MecUITheme ? MecUITheme.get() : null;
+  const ang = Math.random() * Math.PI * 2;
+  const dist = Math.random() * maxR;
+  const tx = b.cx + Math.cos(ang) * dist;
+  const ty = b.cy + Math.sin(ang) * dist;
+
   try {
-    window.MecFX.ribbon(
-      a.left + a.width * .5, a.bottom - 4,
-      t.left + Math.min(48, t.width * .2), t.top + 6,
-      { color: (_examTheme().comboColors || [])[4] || '#FFD700', width: 2.6, ttl: .85, grow: .5, bow: 30 }
-    );
+    if (curUi === 'brass' && window.MecFX.sparks) {
+      window.MecFX.sparks(tx, ty, { count: 8, colors: ['#FFD700', '#FFA040', '#FFFFFF'] });
+    } else if (curUi === 'cyber' && window.MecFX.glitchBars) {
+      window.MecFX.glitchBars(tx, ty, { count: 4, color: '#00FF66' });
+    } else if (curUi === 'liquid' && window.MecFX.bubbles) {
+      window.MecFX.bubbles(tx, ty, { count: 6, colors: ['#FF007F', '#7928CA'] });
+    } else if (curUi === 'kintsugi' && window.MecFX.dust) {
+      window.MecFX.dust({ count: 12, colors: ['#F5D061', '#D4AF37', '#FFFFFF'] });
+    } else if (curUi === 'celestial' && window.MecFX.diamondSparkle) {
+      window.MecFX.diamondSparkle(tx, ty, { count: 8, color: '#FFD166' });
+    } else if (curUi === 'abyss' && window.MecFX.bubbles) {
+      window.MecFX.bubbles(tx, ty, { count: 6, colors: ['#00FFA3', '#00B4D8'] });
+    } else if (curUi === 'frost' && window.MecFX.diamondSparkle) {
+      window.MecFX.diamondSparkle(tx, ty, { count: 8, color: '#FFFFFF' });
+    } else if (window.MecFX.diamondSparkle) {
+      window.MecFX.diamondSparkle(tx, ty, { count: 8, color: '#00DFD8' });
+    }
   } catch (e) {}
 }
 
@@ -2134,40 +2153,41 @@ function _afterCorrectFx(card, fxEl) {
     });
   }
 
-  // 【UIテーマ固有演出】正解時のテーマ別リアクション（可視帯域内に安全クランプして確実に毎回表示）
+  // 【UIテーマ固有演出】正解時のテーマ別リアクション（画面中央基準・短辺0〜90%動的スケーリング）
   if (!_fxOff() && window.MecFX && card) {
     const curUi = window.MecUITheme ? MecUITheme.get() : 'aurora';
-    const cr = card.getBoundingClientRect();
     const b = _fxBand();
-    const elRect = (fxEl && fxEl.getBoundingClientRect) ? fxEl.getBoundingClientRect() : null;
-    const rawCx = elRect && elRect.width ? (elRect.left + elRect.width / 2) : (cr.left + cr.width / 2);
-    const rawCy = elRect && elRect.height ? (elRect.top + elRect.height / 2) : (cr.top + Math.min(cr.height / 2, 90));
-    const cx = Math.max(b.left + 40, Math.min(b.right - 40, rawCx));
-    const cy = Math.max(b.top + 40, Math.min(b.bottom - 40, rawCy));
+    const shortSide = Math.min(b.width, b.height);
+    const maxR = shortSide * 0.45; // 短辺の90%（半径45%）
+    // 中心から短辺の0〜90%の範囲でランダムに微小オフセットを加えて発火
+    const ang = Math.random() * Math.PI * 2;
+    const dist = Math.random() * (maxR * 0.25);
+    const cx = b.cx + Math.cos(ang) * dist;
+    const cy = b.cy + Math.sin(ang) * dist;
 
     if (curUi === 'aurora') {
-      if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(cx, cy, { maxR: 200, sparkleCount: 16 });
+      if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(cx, cy, { maxR: maxR, sparkleCount: 16 });
       else if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 12, color: '#00DFD8' });
     } else if (curUi === 'brass') {
-      if (window.MecFX.brassClockworkBurst) window.MecFX.brassClockworkBurst(cx, cy, { maxR: 210, gearCount: 6 });
+      if (window.MecFX.brassClockworkBurst) window.MecFX.brassClockworkBurst(cx, cy, { maxR: maxR, gearCount: 6 });
       else if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 10, colors: ['#FFD700', '#FFA040', '#FFFFFF'] });
     } else if (curUi === 'cyber') {
-      if (window.MecFX.cyberTargetLock) window.MecFX.cyberTargetLock(cx, cy, { maxR: 220, glitchCount: 8 });
+      if (window.MecFX.cyberTargetLock) window.MecFX.cyberTargetLock(cx, cy, { maxR: maxR, glitchCount: 8 });
       else if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 6, color: '#00E5FF' });
     } else if (curUi === 'liquid') {
-      if (window.MecFX.liquidBloomRipple) window.MecFX.liquidBloomRipple(cx, cy, { maxR: 220, bubbleCount: 12 });
+      if (window.MecFX.liquidBloomRipple) window.MecFX.liquidBloomRipple(cx, cy, { maxR: maxR, bubbleCount: 12 });
       else if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 8, colors: ['#FF007F', '#7928CA'] });
     } else if (curUi === 'kintsugi') {
-      if (window.MecFX.kintsugiCrack) window.MecFX.kintsugiCrack(cx, cy, { maxR: 200 });
+      if (window.MecFX.kintsugiCrack) window.MecFX.kintsugiCrack(cx, cy, { maxR: maxR });
       else if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 12, colors: ['#F5D061', '#D9383A', '#FFFFFF'] });
     } else if (curUi === 'celestial') {
-      if (window.MecFX.celestialAstrolabe) window.MecFX.celestialAstrolabe(cx, cy, { maxR: 220 });
+      if (window.MecFX.celestialAstrolabe) window.MecFX.celestialAstrolabe(cx, cy, { maxR: maxR });
       else if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 12, color: '#FFD166' });
     } else if (curUi === 'abyss') {
-      if (window.MecFX.abyssSonarPulse) window.MecFX.abyssSonarPulse(cx, cy, { maxR: 200 });
+      if (window.MecFX.abyssSonarPulse) window.MecFX.abyssSonarPulse(cx, cy, { maxR: maxR });
       else if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 10, colors: ['#00FFA3', '#00B4D8'] });
     } else if (curUi === 'frost') {
-      if (window.MecFX.frostCrystalShatter) window.MecFX.frostCrystalShatter(cx, cy, { maxR: 190 });
+      if (window.MecFX.frostCrystalShatter) window.MecFX.frostCrystalShatter(cx, cy, { maxR: maxR });
       else if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 12, color: '#FFFFFF' });
     }
   }
@@ -2979,50 +2999,53 @@ function _spawnBurst(cx, cy, tier, count) {
 function _spawnStreakParticles(tier) {
   const toast = document.getElementById('examStreakToast');
   if (!toast) return;
-  const { cx, cy } = _fxBand();
+  const b = _fxBand();
+  const shortSide = Math.min(b.width, b.height);
+  const maxR = shortSide * Math.min(0.48, 0.40 + tier * 0.012); // 短辺0〜90%動的スケーリング
+  const { cx, cy } = b;
   const curUi = window.MecUITheme ? MecUITheme.get() : null;
 
   // ── UIテーマ完全連動型コンボパーティクル（2026-08-23） ──
   if (curUi && window.MecFX) {
     if (curUi === 'kintsugi') {
-      if (window.MecFX.kintsugiCrack) window.MecFX.kintsugiCrack(cx, cy, { maxR: 200 + tier * 25, branches: Math.min(10, 4 + tier) });
+      if (window.MecFX.kintsugiCrack) window.MecFX.kintsugiCrack(cx, cy, { maxR: maxR, branches: Math.min(10, 4 + tier) });
       if (window.MecFX.dust) window.MecFX.dust({ count: 20 + tier * 12, colors: ['#F5D061', '#D4AF37', '#FFFFFF', '#D9383A'] });
-      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#F5D061', thickness: 3, maxR: 220 + tier * 20, additive: true });
+      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#F5D061', thickness: 3, maxR: maxR * 1.05, additive: true });
       return;
     } else if (curUi === 'celestial') {
-      if (window.MecFX.celestialAstrolabe) window.MecFX.celestialAstrolabe(cx, cy, { maxR: 210 + tier * 25, sparkleCount: 16 + tier * 5 });
+      if (window.MecFX.celestialAstrolabe) window.MecFX.celestialAstrolabe(cx, cy, { maxR: maxR, sparkleCount: 16 + tier * 5 });
       if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 16 + tier * 6, color: '#FFD166' });
-      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#8A2BE2', thickness: 3, maxR: 240 + tier * 20, additive: true });
+      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#8A2BE2', thickness: 3, maxR: maxR * 1.05, additive: true });
       return;
     } else if (curUi === 'abyss') {
-      if (window.MecFX.abyssSonarPulse) window.MecFX.abyssSonarPulse(cx, cy, { maxR: 210 + tier * 25, marineSnowCount: 18 + tier * 6 });
+      if (window.MecFX.abyssSonarPulse) window.MecFX.abyssSonarPulse(cx, cy, { maxR: maxR, marineSnowCount: 18 + tier * 6 });
       if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 14 + tier * 4, colors: ['#00FFA3', '#00B4D8', '#64FFDA'] });
-      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 3, color: '#00FFA3', thickness: 3, maxR: 230 + tier * 20, additive: true });
+      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 3, color: '#00FFA3', thickness: 3, maxR: maxR * 1.05, additive: true });
       return;
     } else if (curUi === 'frost') {
-      if (window.MecFX.frostCrystalShatter) window.MecFX.frostCrystalShatter(cx, cy, { maxR: 190 + tier * 22, dendriteCount: Math.min(10, 4 + tier) });
+      if (window.MecFX.frostCrystalShatter) window.MecFX.frostCrystalShatter(cx, cy, { maxR: maxR, dendriteCount: Math.min(10, 4 + tier) });
       if (window.MecFX.dust) window.MecFX.dust({ count: 20 + tier * 12, colors: ['#70D6FF', '#FFFFFF', '#A0E7E5'] });
-      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#70D6FF', thickness: 3, maxR: 220 + tier * 20, additive: true });
+      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#70D6FF', thickness: 3, maxR: maxR * 1.05, additive: true });
       return;
     } else if (curUi === 'aurora') {
-      if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(cx, cy, { maxR: 210 + tier * 25, sparkleCount: 18 + tier * 5 });
+      if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(cx, cy, { maxR: maxR, sparkleCount: 18 + tier * 5 });
       if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 18 + tier * 6, color: '#00DFD8' });
-      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#00DFD8', thickness: 3, maxR: 220 + tier * 20, additive: true });
+      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#00DFD8', thickness: 3, maxR: maxR * 1.05, additive: true });
       return;
     } else if (curUi === 'brass') {
-      if (window.MecFX.brassClockworkBurst) window.MecFX.brassClockworkBurst(cx, cy, { maxR: 200 + tier * 25, gearCount: Math.min(12, 4 + tier) });
+      if (window.MecFX.brassClockworkBurst) window.MecFX.brassClockworkBurst(cx, cy, { maxR: maxR, gearCount: Math.min(12, 4 + tier) });
       if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 18 + tier * 6, colors: ['#FFD700', '#FFA040', '#FFFFFF', '#D4AF37'] });
-      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#FFD700', thickness: 3, maxR: 210 + tier * 20, additive: false });
+      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#FFD700', thickness: 3, maxR: maxR * 1.05, additive: false });
       return;
     } else if (curUi === 'cyber') {
-      if (window.MecFX.cyberTargetLock) window.MecFX.cyberTargetLock(cx, cy, { maxR: 210 + tier * 25, glitchCount: 8 + tier * 3 });
+      if (window.MecFX.cyberTargetLock) window.MecFX.cyberTargetLock(cx, cy, { maxR: maxR, glitchCount: 8 + tier * 3 });
       if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 8 + tier * 3, color: '#00FF66' });
-      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#00FF66', thickness: 2.5, maxR: 220 + tier * 20, additive: true });
+      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#00FF66', thickness: 2.5, maxR: maxR * 1.05, additive: true });
       return;
     } else if (curUi === 'liquid') {
-      if (window.MecFX.liquidBloomRipple) window.MecFX.liquidBloomRipple(cx, cy, { maxR: 210 + tier * 25, bubbleCount: 14 + tier * 4 });
+      if (window.MecFX.liquidBloomRipple) window.MecFX.liquidBloomRipple(cx, cy, { maxR: maxR, bubbleCount: 14 + tier * 4 });
       if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 18 + tier * 6, colors: ['#FF007F', '#7928CA', '#00DFD8', '#FF7A00'] });
-      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#FF007F', thickness: 3, maxR: 220 + tier * 20, additive: true });
+      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#FF007F', thickness: 3, maxR: maxR * 1.05, additive: true });
       return;
     }
   }

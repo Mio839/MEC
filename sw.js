@@ -1,3 +1,7 @@
+// 2026-08-26e: 正解・コンボエフェクトの画面中央基準・短辺0〜90%動的スケーリング刷新。
+//   - study_exam.js / chapter_exam.js: スクロールで引き伸ばされる固定要素間リボン線を廃止し、画面中央から短辺0〜90%の範囲でランダムに広がるダイナミック光彩パルスに置換。テーマ演出のmaxRを画面短辺の90%（shortSide * 0.45）に動的スケーリング。
+//   - fx_engine.js: テーマ関数の既定maxRを画面短辺0〜90%ベースに最適化。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-26d: ハブ画面の学習推移行を14日化・ペース診断インサイト・連続学習アンダーライン・2週間最多新記録ファンファーレへ刷新。
 //   - index.html: 30日極小スパークラインを14日立体バーグラフに拡張。直近3日vs前週同3日のペース診断バナー（#heroPaceBanner）、目標40問ライン、👑最多日演出、連続学習アンダーライントラック（#heroStreakTrack）、タップ時ツールチップ（.spark-tip）、最多記録更新ファンファーレ（MecFX粒子・花火・効果音連携）を完全実装。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
@@ -479,7 +483,7 @@ const CACHE = "mec-v174";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-26d";
+const SHELL_VERSION = "2026-08-26e";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
