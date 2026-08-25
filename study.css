@@ -48,8 +48,8 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   .hdr-theme-btn, .hdr-sound-btn { padding: 2px 6px !important; font-size: 8.5px !important; }
 }
 .st-hdr.hdr-collapsed .hdr-toggle{transform:rotate(-90deg);}
-.st-filter-panel{overflow:hidden;max-height:220px;transition:max-height .3s cubic-bezier(.16,1,.3,1);}
-.st-hdr.hdr-collapsed .st-filter-panel{max-height:0;}
+.st-filter-panel{overflow:hidden;max-height:220px;transition:max-height .3s cubic-bezier(.16,1,.3,1),padding .3s cubic-bezier(.16,1,.3,1),margin .3s cubic-bezier(.16,1,.3,1),opacity .2s;padding:6px 10px 5px;margin:4px 0;}
+.st-hdr.hdr-collapsed .st-filter-panel{max-height:0;padding-top:0!important;padding-bottom:0!important;margin-top:0!important;margin-bottom:0!important;border-top-width:0!important;border-bottom-width:0!important;border-color:transparent!important;box-shadow:none!important;opacity:0;pointer-events:none;}
 .st-hdr.hdr-collapsed .st-stats{margin-bottom:0;}
 /* D3(2026-08-19): ヘッダのレール＝試験に入ると筐体が閉じる。計器ベイの下端に真鍮の板が通る。
    ⚠️ .st-hdr の padding / border-bottom を1pxも変えないこと。既存の border-bottom はそのまま残し、
@@ -127,7 +127,7 @@ body.exam-mode.exam-idle-lit .st-hdr::after{opacity:.85;}
 .st-stat.exam-mode-chip.exam-on{background:rgba(255,107,107,.18);border-color:rgba(255,107,107,.55);color:#FF6B6B;}
 
 /* ── Filter chips ── */
-.chip-row{display:flex;gap:3px;overflow-x:auto;padding-bottom:3px;scrollbar-width:none;margin-bottom:4px;}
+.chip-row{display:flex;gap:3px;overflow-x:auto;padding:2px 2px 3px;scrollbar-width:none;margin-bottom:3px;}
 .chip-row::-webkit-scrollbar{display:none;}
 /* B1(2026-08-18): 読み込み中のチップ。縁が科目色で脈打つ（ハブの .cta-redo[data-load] と同型）。
    ⚠️ 変数名は --chip- 接頭辞を必須にすること。--cb のような短い名前は vars.css の共通トークンを
@@ -143,7 +143,7 @@ body.exam-mode.exam-idle-lit .st-hdr::after{opacity:.85;}
 .chip{padding:2px 6px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(var(--glass-rgb),.04);color:rgba(255,255,255,.52);font-size:8.5px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s,color .15s;flex-shrink:0;}
 .chip.on{color:#fff;background:rgba(var(--glass-rgb),.12);border-color:rgba(255,255,255,.38);}
 
-.filter-row{display:flex;align-items:center;gap:2px;overflow-x:auto;scrollbar-width:none;}
+.filter-row{display:flex;align-items:center;gap:2px;overflow-x:auto;padding:2px 2px;scrollbar-width:none;}
 .filter-row::-webkit-scrollbar{display:none;}
 .nb{flex-shrink:0;background:rgba(var(--glass-rgb),.04);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:2px 6px;font-size:8.5px;font-weight:700;font-family:inherit;cursor:pointer;color:rgba(255,255,255,.58);transition:background .15s,border-color .15s,color .15s;white-space:nowrap;}
 .nb.fc-on{background:var(--or);border-color:var(--or);color:#fff;}
