@@ -174,7 +174,8 @@ group('3. 実装の不変条件');
 
 const fnSrc = {};
 ['_getExamTargetCard', '_scrollToNextCard', 'revealAnswer', 'startExam',
- 'resumeExam', '_removeCardFromExam', '_maybeShowFinishBtn'].forEach(n => { fnSrc[n] = slice(n); });
+ 'resumeExam', '_removeCardFromExam', '_maybeShowFinishBtn',
+ '_bindExamChoices', '_examChoiceClick', 'exitExam'].forEach(n => { fnSrc[n] = slice(n); });
 
 t('_getExamTargetCard / _scrollToNextCard は DOM を全走査しない', () => {
   ['_getExamTargetCard', '_scrollToNextCard'].forEach(n => {
@@ -196,12 +197,33 @@ t('revealAnswer は採点より前にキュー所属を確かめる', () => {
 });
 
 t('選択肢の click ハンドラがキュー所属を確かめる', () => {
-  const m = /ch\.addEventListener\('click', function\(e\) \{[\s\S]{0,600}?\n/.exec(fnSrc.startExam);
-  assert.ok(m, 'startExam に選択肢の click ハンドラが見つからない');
-  const head = fnSrc.startExam.slice(m.index, m.index + 800);
-  assert.ok(head.includes('_examHas('),
-    'click ハンドラに _examHas のガードが無い（リスナーは dataset.examInit で一度きり付き、' +
+  assert.ok(fnSrc._examChoiceClick.includes('_examHas('),
+    '_examChoiceClick に _examHas のガードが無い（リスナーは dataset.examInit で一度きり付き、' +
     '以後どのセッションでも生き続けるので前のセッションのカードが遊べてしまう）');
+});
+
+/* 2026-08-25: 選択肢の click は _bindExamChoices / _examChoiceClick の1組だけ。
+   併合前は startExam と resumeExam が同じリスナーを別々に持ち、resumeExam 側にだけ
+   _examHas のガードが無かった＝再開経路だけ 2026-08-24 の修正が素通しになっていた。 */
+t('選択肢の click リスナーを張るのは1か所だけ（二重定義を作らない）', () => {
+  const n = (SRC.match(/addEventListener\('click', _examChoiceClick\)/g) || []).length;
+  assert.strictEqual(n, 1, '_examChoiceClick を張る場所が ' + n + ' か所ある（1か所に寄せること）');
+  assert.ok(!/\.ch2'\)\.forEach\([\s\S]{0,200}?addEventListener\('click', function/.test(SRC),
+    'startExam / resumeExam に選択肢の click ハンドラが直書きで復活している');
+  ['startExam', 'resumeExam'].forEach(k => {
+    assert.ok(fnSrc[k].includes('_bindExamChoices(card)'), k + ' が _bindExamChoices を通っていない');
+  });
+});
+
+/* 2026-08-25: exitExam は removeEventListener していないので、フラグだけ消すと
+   次の startExam が2本目のリスナーを張る。単一選択は revealAnswer の exam-revealed
+   ガードが二重採点を弾くが、複数選択は classList.toggle が2回走って選択が入らなくなる
+   （シャッフル対象外＝画像・下線部参照・参照型の問題で起きる）。 */
+t('exitExam は dataset.examInit を消さない（リスナーの二重付けを防ぐ）', () => {
+  assert.ok(!/delete\s+\w+\.dataset\.examInit/.test(SRC),
+    'dataset.examInit を消す箇所が復活している＝2回目の試験で複数選択が押せなくなる');
+  assert.ok(fnSrc._bindExamChoices.includes('ch.dataset.examInit'),
+    '_bindExamChoices が examInit フラグで一度きりを守っていない');
 });
 
 t('キューを触る3か所すべてで _examSyncQueue() を呼ぶ', () => {

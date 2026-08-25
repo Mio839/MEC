@@ -60,3 +60,6 @@ _work/_baseline_*.json
 
 # 作業用スクリーンショット
 _work/screenshots/
+
+# msys/Git Bash のクラッシュダンプ（作業と無関係のゴミ）
+*.stackdump

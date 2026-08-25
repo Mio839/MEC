@@ -40,6 +40,7 @@
 | `産婦人科/` | 章別HTML(ch01〜ch13)＋`images/`＋`obg_questions.json`（メタ）。HTMLが`questions_obg.json`のソース＝`_work/build_obg_json.py`で再生成 |
 | `_archive/` | 到達不能になった旧・章別HTMLの保管先。編集対象外、読み物としてのみ残す |
 | `vars.css` | 共通CSSカスタムプロパティ（全ページ共通色変数） |
+| `ui_theme.css` / `ui_theme.js` | **UIテーマ（着せ替えスキン）全8種**（aurora／brass／cyber／liquid／kintsugi／celestial／abyss／frost）。`ui_theme.js` が `localStorage['mec_ui_theme_v1']` を読んで `<html>` に `ui-{id}` を付ける＝**必ず1つ適用される**（既定 `aurora`）。study/index/stats/knowledge の4ページと `sw.js` が読む。テスト: `node _work/test_ui_theme.js`。⚠️ **全8テーマが `.qc` に `animation: {id}CardEnter … both`（`from{opacity:0}`）と `overflow:hidden` を掛けている**。`.qc` を触るときは Phase 4/5/7 の「`.qc` の層は満杯」「`transform` は既存アニメに黙って殺される」がここと直接ぶつかることを思い出すこと。⚠️ `opacity:0` の backwards fill は**非表示タブではアニメが1frameも進まない**間そのまま残る（stats.html の `armReveal`・マインドマップと同型）。ここはアニメが自分で終わる形なのでタブを表に戻せば自力で復帰するが、**JSでクラスを外す形へ作り変えないこと**（落ちた日にカードが白紙になる） |
 | `_work/` | ビルド・検証・マージ用スクリプト（`build.py`・`pdf_audit.py`・`build_qmeta.py`・`build_image_dims.py`・`compress_images.py`・`fix_missing_bi_badges.py`・各`test_*.js`等）。⚠️**PDFから新科目の章別HTMLを作るときは先に `_work/新科目HTML生成ガイド.md` を読む**（抽出フロー・産婦人科水準の解説品質基準・統合チェックリスト・着手プロンプト。参照実装は精神科psy=`build_psy_ch01.py`／`build_psy_json.py`） |
 | `精神科/` | マイナー講座・精神科（prefix `psy`）。章別HTML(`ch01_seishinka_kihon.html`〜`ch08_sonota.html`)＋`images/`＋`psy_questions.json`（章名メタ）。HTMLが`questions_psy.json`のソース＝章ごとの生成器`_work/build_psy_ch{NN}.py`→`_work/build_psy_json.py`で再生成。産婦人科と同構造。**ch01は`EXTRA`辞書で肢別解説を後付けする方式、ch02以降はQ()に`patho`/`deep`/`point`を直接渡す方式**（新章は最初から4ブロック書くため）。ch03のQ.34(105D-54)は国試の**採点除外問題**＝`bx`バッジ・正解肢0・`rate=None`で作る（`_isExamUngraded`が中立表示で通す）。第1章73問・第2章25問・第3章41問・第4章36問・第5章18問・第6章25問・第7章24問・第8章14問＝**全8章256問（NO.1-256）完成**。**Q番号はPDFの通し番号（NO.）を厳守**＝章ごとにQ.1へ振り直さない（下記「問題番号は科目内の通し番号」） |
 | `耳鼻咽喉科/` | マイナー講座・耳鼻咽喉科（prefix `ent`・👂・#0F766E）。章別HTML(`ch01_mimi_kihon.html`〜)＋`images/`＋`ent_questions.json`（全8章の章名メタ）。HTMLが`questions_ent.json`のソース＝章ごとの生成器`_work/build_ent_ch{NN}.py`→`_work/build_ent_json.py`で再生成。眼科と同方式。**全8章214問（2026-08-07完成）・章頭NO.は 1／21／51／99／102／138／152／172**（章名はPDF表記のまま「耳①：耳の基本」等）。**2026-08-06に第1章「耳①：耳の基本」NO.1-20（画像8問14枚）と第2章「耳②：耳の疾患（中耳）」NO.21-50（30問・画像23問41枚）、第3章「耳③：耳の疾患（内耳・後迷路性・その他）」NO.51-98（48問・画像19問39枚＝**ent最大の章**）、第4章「鼻・口・唾液腺①：鼻・口・唾液腺の基本」NO.99-101（3問・画像1問1枚＝**ent最小の章**）、第5章「鼻・口・唾液腺②：鼻の疾患」NO.102-137（36問・画像17問39枚）を追加。2026-08-07に第6章「鼻・口・唾液腺③：口・唾液腺の疾患」NO.138-151（14問・画像11問16枚）と第7章「咽喉頭①：咽喉頭の基本」NO.152-171（20問・画像7問17枚）を追加**。ch02の軸は急性中耳炎9問・真珠腫性中耳炎7問・滲出性中耳炎5問・耳硬化症3問・慢性穿孔性中耳炎3問で、**鼓膜写真1枚から疾患を決めて治療（保存/鼓膜切開/チューブ/鼓室形成術/アブミ骨手術）へ橋渡しする**筋が繰り返し問われる。ch03の軸はBPPV 9問・Ramsay Hunt 8問・聴神経腫瘍6問・騒音性難聴6問・老人性難聴5問・Ménière病4問・前庭神経炎3問で、**めまいは「持続時間」（秒＝BPPV／分〜時間＝Ménière／日＝前庭神経炎）、難聴は「オージオグラムの型」で疾患を決める**という筋。
@@ -725,9 +726,11 @@ study.html からも引ける。
 `?sid=ortho` で開いても麻酔科52問がDOMに載るので、開始時の関所より後に着いたぶんが素通しになる。
 **実機で再現済み**（2026-08-24・127.0.0.1 で `selectedSubjects = ['ortho','anes']`）。
 
-⚠️ **選択肢の click リスナーは `ch.dataset.examInit` で一度きり付き、以後どのセッションでも
-生き続ける**（`exitExam` が消すのはフラグだけでリスナー本体は残る）。だから前のセッションの
-カードが画面に出た瞬間そのまま遊べてしまう＝ガードは `examMode` だけでなく `_examHas` も見ること。
+⚠️ **選択肢の click リスナーは `_bindExamChoices` / `_examChoiceClick` の1組だけ**（2026-08-25 に `startExam` と `resumeExam` の二重定義を併合した）。リスナーは `ch.dataset.examInit` で一度きり付き、以後どのセッションでも生き続けるので、**ガードは `examMode` だけでなく `_examHas` も見ること**。
+
+⚠️⚠️ **`exitExam` で `dataset.examInit` を消さないこと。** `removeEventListener` はしていないので、フラグだけ消すと次の `startExam` が**2本目**を張る。単一選択は `revealAnswer` の `exam-revealed` ガードが二重採点を弾くが、**複数選択は `classList.toggle('exam-selected')` が2回走って選択が入らない＝その問題が解けなくなる**。シャッフルされた問題は `_restoreChoices` が肢を**シャッフル前のクローン**で差し替えるのでノードごと入れ替わりフラグもリスナーも落ちるが、**シャッフル対象外（`.qimg-row` の画像問題・`.qt u` の下線部参照型・①②③/a〜eだけの参照型）は残る**——2026-08-25 まで、同じページで2回目の試験を始めると該当317問（画像あり×正解2つ以上）が押せなかった。
+
+⚠️ **併合前は `resumeExam` 側のリスナーにだけ `_examHas` が無く、2026-08-24 の修正が再開経路だけ素通しになっていた**（`revealAnswer` の入口ガードが採点は止めるので、肢が選択状態のまま固まる形で出る）。ついでに選択音・スパーク・採点除外の中立表示も欠けていた＝「再開した試験だけ手触りが違う」状態だった。**分岐を2本に戻さないこと。**
 
 ⚠️ **連続正解中に露見しないのは演出のせいではない。** 正解時だけ `_scrollToNextCard` が必ず
 キュー内の次カードへ強制スクロールして視界をキュー上に固定するのに対し、**誤答時は自動スクロールが
@@ -993,7 +996,7 @@ node _work/test_calc_input.js      計算問題の桁入力・データ整合   
 node _work/test_missions.js        日次/週次ミッション          (36)
 node _work/test_gamify_ceremony.js セレモニー/授与トレイ/スキップ (28)
 node _work/test_exam_prog.js       試験の進捗バー・難問の可視化  (29)
-node _work/test_exam_queue_scope.js 試験の出題範囲がキューに閉じているか (17)
+node _work/test_exam_queue_scope.js 試験の出題範囲がキューに閉じているか (19)
 node _work/test_daily_goal.js      ハブのゲージ・歯車の意匠      (36)
 node _work/test_hero_cta.js        ハブのボタン・計器ベイの演出  (43)
 node _work/test_fx_band.js         試験演出の可視帯(発火位置)    (15)
@@ -1004,6 +1007,7 @@ node _work/test_exam_reading.js    読んでいる間の演出            (26)
 node _work/test_exam_brasswork.js  筐体の外へ広げた真鍮細工      (36)
 node _work/test_mindmap_layout.js  マインドマップのレイアウト/データ (242)
 node _work/test_sounds.js          効果音の一覧・音量・ランダム起動音  (25)
+node _work/test_ui_theme.js        UIテーマ全8種（.qc への干渉・ネタバレ防止）(12)
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 ```
 

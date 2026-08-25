@@ -775,60 +775,7 @@ function startExam(overrideUids = null) {
       const ab = qb.querySelector('.ab');
       if (ab) ab.parentNode.insertBefore(btn, ab); else qb.appendChild(btn);
     }
-    card.querySelectorAll('.ch2').forEach(ch => {
-      if (!ch.dataset.examInit) {
-        ch.dataset.examInit = '1';
-        ch.addEventListener('click', function(e) {
-          const c = this.closest('.qc');
-          // ⚠️ キュー所属を必ず見ること。このリスナーは dataset.examInit で一度きり付き、
-          //    以後どのセッションでも生き続けるので、前のセッションのカード（＝別科目）が
-          //    画面に出た瞬間そのまま遊べてしまう。
-          if (!examMode || !_examHas(c) || c.classList.contains('exam-revealed')) return;
-          _playSelectSound();
-          const r = _getRequiredCount(c);
-
-          // 【案10】重厚メカニカル接点電気スパーク
-          if (!_fxOff() && window.MecFX && window.MecFX.sparks) {
-            const rect = this.getBoundingClientRect();
-            window.MecFX.sparks(e.clientX || (rect.left + 24), e.clientY || (rect.top + rect.height / 2), { count: 7 });
-          }
-
-          // 【案2】超集中バレットタイム
-          if (!_fxOff()) document.body.classList.add('exam-bullet-time');
-
-          if (_isExamUngraded(c)) { // 採点除外＝赤フラッシュ無しでそのまま中立表示へ
-            this.closest('.cs').querySelectorAll('.ch2').forEach(x => x.classList.remove('exam-selected'));
-            this.classList.add('exam-selected');
-            setTimeout(() => revealAnswer(c), 10);
-            return;
-          }
-          if (r > 1) {
-            this.classList.toggle('exam-selected');
-            if (this.classList.contains('exam-selected') && !this.classList.contains('ok')) {
-              this.classList.add('exam-instant-wrong');
-              setTimeout(() => revealAnswer(c), 400);
-            } else {
-              _updateMultiInfo(c);
-              const sel = [...c.querySelectorAll('.ch2.exam-selected')];
-              if (sel.length === r && sel.every(ch => ch.classList.contains('ok'))) {
-                sel.forEach(ch => ch.classList.add('exam-instant-correct'));
-                setTimeout(() => revealAnswer(c), 10);
-              }
-            }
-          } else {
-            this.closest('.cs').querySelectorAll('.ch2').forEach(x => x.classList.remove('exam-selected'));
-            this.classList.add('exam-selected');
-            if (this.classList.contains('ok')) {
-              this.classList.add('exam-instant-correct');
-              setTimeout(() => revealAnswer(c), 10);
-            } else {
-              this.classList.add('exam-instant-wrong');
-              setTimeout(() => revealAnswer(c), 400);
-            }
-          }
-        });
-      }
-    });
+    _bindExamChoices(card);
   });
   _updateExamProg();
   if (examTimerInt) clearInterval(examTimerInt);
@@ -861,6 +808,70 @@ function startExam(overrideUids = null) {
     _firstCardEntrance(examQueue[0]);
     setTimeout(() => { if (examMode) _revealShuffleFx(_firstFlips); }, 180);
   }, _cdEnd + 60);
+}
+
+/* 選択肢のクリックは【ここ1か所】。2026-08-25 に startExam / resumeExam の二重定義を併合した。
+   ⚠️ 併合前は resumeExam 側のリスナーに _examHas のガードが無く、2026-08-24 の
+      「試験が他科目を巻き込む」修正が**再開経路だけ素通し**になっていた（revealAnswer の
+      入口ガードが採点は止めるが、肢は選択状態のまま遊べてしまう）。ガードを2か所に書かないこと。
+   ⚠️ 併合前の resumeExam 側は選択音・スパーク・採点除外の中立表示も持っていなかった＝
+      「再開した試験だけ手触りが違う」状態だった。分岐を戻さないこと。 */
+function _bindExamChoices(card) {
+  card.querySelectorAll('.ch2').forEach(ch => {
+    if (ch.dataset.examInit) return;   // 一度きり。exitExam はこのフラグを消さない（下の cleanup の注記）
+    ch.dataset.examInit = '1';
+    ch.addEventListener('click', _examChoiceClick);
+  });
+}
+
+function _examChoiceClick(e) {
+  const c = this.closest('.qc');
+  // ⚠️ キュー所属を必ず見ること。このリスナーは dataset.examInit で一度きり付き、
+  //    以後どのセッションでも生き続けるので、前のセッションのカード（＝別科目）が
+  //    画面に出た瞬間そのまま遊べてしまう。
+  if (!examMode || !_examHas(c) || c.classList.contains('exam-revealed')) return;
+  _playSelectSound();
+  const r = _getRequiredCount(c);
+
+  // 【案10】重厚メカニカル接点電気スパーク
+  if (!_fxOff() && window.MecFX && window.MecFX.sparks) {
+    const rect = this.getBoundingClientRect();
+    window.MecFX.sparks(e.clientX || (rect.left + 24), e.clientY || (rect.top + rect.height / 2), { count: 7 });
+  }
+
+  // 【案2】超集中バレットタイム
+  if (!_fxOff()) document.body.classList.add('exam-bullet-time');
+
+  if (_isExamUngraded(c)) { // 採点除外＝赤フラッシュ無しでそのまま中立表示へ
+    this.closest('.cs').querySelectorAll('.ch2').forEach(x => x.classList.remove('exam-selected'));
+    this.classList.add('exam-selected');
+    setTimeout(() => revealAnswer(c), 10);
+    return;
+  }
+  if (r > 1) {
+    this.classList.toggle('exam-selected');
+    if (this.classList.contains('exam-selected') && !this.classList.contains('ok')) {
+      this.classList.add('exam-instant-wrong');
+      setTimeout(() => revealAnswer(c), 400);
+    } else {
+      _updateMultiInfo(c);
+      const sel = [...c.querySelectorAll('.ch2.exam-selected')];
+      if (sel.length === r && sel.every(ch => ch.classList.contains('ok'))) {
+        sel.forEach(ch => ch.classList.add('exam-instant-correct'));
+        setTimeout(() => revealAnswer(c), 10);
+      }
+    }
+  } else {
+    this.closest('.cs').querySelectorAll('.ch2').forEach(x => x.classList.remove('exam-selected'));
+    this.classList.add('exam-selected');
+    if (this.classList.contains('ok')) {
+      this.classList.add('exam-instant-correct');
+      setTimeout(() => revealAnswer(c), 10);
+    } else {
+      this.classList.add('exam-instant-wrong');
+      setTimeout(() => revealAnswer(c), 400);
+    }
+  }
 }
 
 function revealAnswer(card) {
@@ -4612,40 +4623,7 @@ function resumeExam(savedAt) {
         const ab = qb.querySelector('.ab');
         if (ab) ab.parentNode.insertBefore(btn, ab); else qb.appendChild(btn);
       }
-      card.querySelectorAll('.ch2').forEach(ch => {
-        if (!ch.dataset.examInit) {
-          ch.dataset.examInit = '1';
-          ch.addEventListener('click', function() {
-            if (!examMode || this.closest('.qc').classList.contains('exam-revealed')) return;
-            const c = this.closest('.qc');
-            const r = _getRequiredCount(c);
-            if (r > 1) {
-              this.classList.toggle('exam-selected');
-              if (this.classList.contains('exam-selected') && !this.classList.contains('ok')) {
-                this.classList.add('exam-instant-wrong');
-                setTimeout(() => revealAnswer(c), 400);
-              } else {
-                _updateMultiInfo(c);
-                const sel = [...c.querySelectorAll('.ch2.exam-selected')];
-                if (sel.length === r && sel.every(ch => ch.classList.contains('ok'))) {
-                  sel.forEach(ch => ch.classList.add('exam-instant-correct'));
-                  setTimeout(() => revealAnswer(c), 10);
-                }
-              }
-            } else {
-              this.closest('.cs').querySelectorAll('.ch2').forEach(x => x.classList.remove('exam-selected'));
-              this.classList.add('exam-selected');
-              if (this.classList.contains('ok')) {
-                this.classList.add('exam-instant-correct');
-                setTimeout(() => revealAnswer(c), 10);
-              } else {
-                this.classList.add('exam-instant-wrong');
-                setTimeout(() => revealAnswer(c), 400);
-              }
-            }
-          });
-        }
-      });
+      _bindExamChoices(card);
     }
   });
 
@@ -4761,7 +4739,12 @@ function exitExam() {
   document.querySelectorAll('.ch2.exam-selected').forEach(c => c.classList.remove('exam-selected'));
   document.querySelectorAll('.ch2.exam-instant-correct').forEach(c => c.classList.remove('exam-instant-correct'));
   document.querySelectorAll('.ch2.exam-instant-wrong').forEach(c => c.classList.remove('exam-instant-wrong'));
-  document.querySelectorAll('.ch2[data-exam-init]').forEach(c => delete c.dataset.examInit);
+  /* ⚠️ dataset.examInit を消さないこと（2026-08-25）。リスナーは removeEventListener していないので、
+     フラグだけ消すと次の startExam が2本目を付ける。単一選択は revealAnswer の exam-revealed ガードが
+     二重採点を弾くが、**複数選択は classList.toggle が2回走って選択が入らなくなる**（＝その問題が解けない）。
+     シャッフルされた問題は直前の _restoreChoices が肢をクローンで差し替えるのでノードごと入れ替わり、
+     フラグもリスナーも一緒に落ちる。残るのはシャッフル対象外（画像・下線部参照・参照型）だけで、
+     そこはフラグを残して「一度きり」を守るのが正しい。 */
   document.querySelectorAll('.exam-multi-info').forEach(el => el.remove());
   // 計算問題の桁入力UIを畳む（通常モードでは .cs は空のまま＝×△○の自己採点に戻る）
   if (window.MecCalc) document.querySelectorAll('.qc .calc-input')
