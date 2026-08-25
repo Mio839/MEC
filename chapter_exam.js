@@ -895,8 +895,14 @@
   function ceTIdx(tier, o) {
     return Array.isArray(o) ? Math.min(tier, o.length - 1) : Math.min(tier, 7);
   }
+  /* 2026-08-25: 段の敷居を前倒し（4/7/10/15/20/30 → 3/5/7/10/14/20）。
+     ⚠️ study_exam.js の _examTier と必ず同じ梯子にすること。
+     ⚠️ 変えたら ceUpdateComboMeter の starts/ends と ceSetAwaken の閾値も揃える。 */
+  /* 2026-08-25: 「昇格フレームだけフル演出」の山谷設計を撤回（study_exam.js と対）。
+     ⚠️ TIER UP スタンプだけは promoted のまま。 */
+  var CE_STREAK_FULL_EVERY_TIME = true;
   function ceTier(n) {
-    return n >= 30 ? 7 : n >= 20 ? 6 : n >= 15 ? 5 : n >= 10 ? 4 : n >= 7 ? 3 : n >= 4 ? 2 : 1;
+    return n >= 20 ? 7 : n >= 14 ? 6 : n >= 10 ? 5 : n >= 7 ? 4 : n >= 5 ? 3 : n >= 3 ? 2 : 1;
   }
 
   var CE_EFFECT_THEMES = {
@@ -1268,7 +1274,7 @@
   }
   /* A3(2026-08-14・study_exam.js のミラー): 速答を3段に割る。
      3=一閃 / 2=速答 / 1=まずまず / 0=速答ではない。theme.fastLabels は強い順 [3,2,1]。 */
-  var CE_FAST_TIER_MS = [2000, 4000, 7000];
+  var CE_FAST_TIER_MS = [3000, 6000, 12000];   // 2026-08-25 に 2/4/7 秒から緩和（study 側と対）
   function ceFastGrade(card) {
     var uid = card && card.dataset && card.dataset.uid;
     if (!uid || !_ceSeenAt[uid]) return 0;
@@ -1429,7 +1435,7 @@
   /* A2 初見突破 / リベンジ達成（study_exam.js のミラー）。
      ⚠️ ceFinishAnswer は saveMyRate より先に ceAfterCorrectFx を呼ぶので、
         ここでは myrate_v1 を素直に読めば「加算前」の値になる。順序を入れ替えないこと。 */
-  var CE_EASY_RATE = 80;
+  // 2026-08-25: 「初見は易問（>=80%）では出さない」制限を撤廃したので CE_EASY_RATE は削除した。
   function cePrior(uid) {
     try {
       var r = JSON.parse(localStorage.getItem('myrate_v1') || '{}');
@@ -1544,14 +1550,18 @@
     ceSinkOthers(card);
     setTimeout(function () { ceTraceToAnswer(card, el); }, 260);
 
-    var rate = ceCardRate(card);
     var prior = cePrior(card.dataset && card.dataset.uid);
+    /* 2026-08-25: ラベルを1つに絞る排他をやめ、該当するものを全部出す（study 側と対）。
+       リベンジと初見は定義上どちらか一方しか立たないので、そこだけ else-if のまま。
+       初見の「易問(>=80%)では出さない」制限も撤廃した。 */
+    var _markDelay = ceIsHard(card) ? 420 : 150;
     if (ceIsHard(card)) {
       setTimeout(function () { ceHardClear(el, card); }, 150);
-    } else if (prior.wasWrong) {
-      setTimeout(function () { ceAnswerMark(el, 'revenge'); }, 150);
-    } else if (prior.fresh && !(rate != null && rate >= CE_EASY_RATE)) {
-      setTimeout(function () { ceAnswerMark(el, 'fresh'); }, 150);
+    }
+    if (prior.wasWrong) {
+      setTimeout(function () { ceAnswerMark(el, 'revenge'); }, _markDelay);
+    } else if (prior.fresh) {
+      setTimeout(function () { ceAnswerMark(el, 'fresh'); }, _markDelay);
     }
 
     // 【UIテーマ固有演出】正解時のテーマ別リアクション（可視帯域内に安全クランプして確実に毎回表示）
@@ -1590,7 +1600,6 @@
         if (window.MecFX.frostCrystalShatter) window.MecFX.frostCrystalShatter(cx, cy, { maxR: 190 });
         else if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 12, color: '#FFFFFF' });
       }
-    }
     }
 
     if (_ceRecoverPending) {
@@ -1969,18 +1978,20 @@
     var tier = ceTier(n);
     var labels = theme.labels(n);
     var durs = [0, 2.0, 2.5, 3.2, 4.2, 5.2, 5.8];
-    // 昇格フレーム（tierが上がった瞬間）だけフル演出にする
+    // 昇格フレーム（tierが上がった瞬間）の判定。2026-08-25 以降 TIER UP スタンプだけを分ける。
     var prevTier = (n - 1) < 2 ? 0 : ceTier(n - 1);
     var promoted = tier > prevTier;
-    if (tier >= 4) ceZoneStart();
-    ceSetAwaken(n >= 20);
+    // 2026-08-25: 同ティア継続でもフル演出（promoted は TIER UP スタンプ専用に縮小）
+    var full = promoted || CE_STREAK_FULL_EVERY_TIME;
+    if (tier >= 3) ceZoneStart();
+    ceSetAwaken(n >= 14);   // tier6 の入口に合わせる
     if (promoted) ceTierUpStamp(tier);
-    if (promoted && theme.useCRT) ceSpawnCRTOverlay(tier);
-    if (promoted && tier >= 4) ceTimeStop(tier);
-    if (promoted && tier >= 2) ceFullscreenCombo(n, tier);
+    if (full && theme.useCRT) ceSpawnCRTOverlay(tier);
+    if (full && tier >= 3) ceTimeStop(tier);
+    if (full && tier >= 1) ceFullscreenCombo(n, tier);
     ceTriggerBgBreath(tier);
     ceUpdateComboMeter(n);
-    ceShowSignature(n, tier, promoted);
+    ceShowSignature(n, tier, full);
     var toast = document.getElementById('chExamStreakToast');
     if (!toast) return;
     toast.className = '';
@@ -1988,11 +1999,11 @@
     // 縦位置は固定値(旧 top:68px)ではなく可視帯の上端＝ナビ下端に置く（iPadで上端に切れるため）
     toast.style.top = ceBand().top + 'px';
     toast.textContent = labels[tier];
-    toast.style.setProperty('--sd', (promoted ? durs[tier] : durs[tier] * 0.52) + 's');
+    toast.style.setProperty('--sd', (full ? durs[tier] : durs[tier] * 0.52) + 's');
     toast.className = 't' + tier + ' show';
 
     var flash = document.getElementById('chExamStreakFlash');
-    if (flash && promoted && tier >= 2) {
+    if (flash && full && tier >= 1) {
       var fc = theme.flashColors;
       flash.style.background = fc[tier];
       flash.style.opacity = '0';
@@ -2008,18 +2019,18 @@
         flash.className = 'flash';
       }
     }
-    if (promoted) {
-      if (tier >= 2) spawnParticles(tier);
-      if (tier >= 3) triggerShake(tier);
-      if (tier >= 4) triggerBorderGlow(tier);
-      if (tier >= 5) {
+    if (full) {
+      if (tier >= 1) spawnParticles(tier);
+      if (tier >= 2) triggerShake(tier);
+      if (tier >= 3) triggerBorderGlow(tier);
+      if (tier >= 4) {
         setTimeout(function() { spawnEmojiFloaters(tier); }, 80);
         if (theme.useGlitch) triggerGlitch(tier);
         else if (theme.useBrushSwipe) ceInkBrushSwipe(tier);
       }
-    } else {
-      ceLightStreakFx(tier);
     }
+    // UIテーマ連動の軽量エフェクトは上乗せとして残す（study 側と対）
+    if (!promoted) ceLightStreakFx(tier);
   }
 
   function ceEnsureShakeOverlay() {
@@ -2720,7 +2731,7 @@
     if (n < 2) { meter.style.opacity='0'; fill.style.width='0%'; if (lbl) lbl.style.opacity='0'; return; }
     meter.style.opacity = '1';
     var tier = ceTier(n);
-    var starts=[0,2,4,7,10,15,20,30], ends=[0,4,7,10,15,20,30,40];
+    var starts=[0,2,3,5,7,10,14,20], ends=[0,3,5,7,10,14,20,28];
     var pct = tier>=7 ? 100 : ((n-starts[tier])/(ends[tier]-starts[tier])*100);
     var theme = ceTheme();
     var grads = theme.meterGrads;

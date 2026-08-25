@@ -961,6 +961,15 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
             <path class="gear gear-b"    id="gearB"></path>
             <path class="gear gear-c"    id="gearC"></path>
             <path class="gear gear-d"    id="gearD"></path>
+            <!-- 漆黒金継ぎ・禅: 陶器皿・墨絵円相・金継ぎクラック（割れ目） -->
+            <g class="kt-layer" id="gaugeKtLayer">
+              <circle class="kt-plate" cx="84" cy="84" r="74"></circle>
+              <path class="kt-enso" d="M 84,18 A 66,66 0 1,1 83.2,18.1"></path>
+              <path class="kt-crack kt-crack-1" d="M 84,18 Q 80,38 68,52 T 50,72 Q 40,78 28,78"></path>
+              <path class="kt-crack kt-crack-2" d="M 68,52 Q 74,68 84,84 T 96,112 Q 104,130 110,146"></path>
+              <path class="kt-crack kt-crack-3" d="M 84,84 Q 102,80 120,74 T 142,66"></path>
+              <path class="kt-crack kt-crack-4" d="M 50,72 Q 42,94 48,118 T 58,138"></path>
+            </g>
             <circle class="gauge-trk"  cx="84" cy="84" r="54"></circle>
             <circle class="gauge-val" id="gaugeVal" cx="84" cy="84" r="54"></circle>
             <!-- 100%を超えたぶんだけを1周目の上に重ねて描く2周目の弧。
@@ -2108,12 +2117,16 @@ function _stampGoalSeal() {
   }
 
   if (curTheme === 'kintsugi') {
-    MecFX.burst(c.x, c.y, {
-      count: 50, colors: ['#F5D061', '#D9383A', '#FFFFFF', '#D4AF37'],
-      shapes: ['shard', 'star'], tier: 6, scale: 2.0, speed: 680, glow: true, additive: true
-    });
-    if (MecFX.slashRibbon) MecFX.slashRibbon(c.x, c.y, { color: '#F5D061', len: 300 });
-    MecFX.confetti({ count: 80, colors: ['#F5D061', '#D9383A', '#FFFFFF', '#D4AF37'], big: true });
+    if (MecFX.kintsugiCrack) {
+      MecFX.kintsugiCrack(c.x, c.y, { maxR: r * 2.5, branches: 14, goldLeafCount: 120 });
+    } else {
+      MecFX.burst(c.x, c.y, {
+        count: 50, colors: ['#F5D061', '#D9383A', '#FFFFFF', '#D4AF37'],
+        shapes: ['shard', 'star'], tier: 6, scale: 2.0, speed: 680, glow: true, additive: true
+      });
+    }
+    if (MecFX.slashRibbon) MecFX.slashRibbon(c.x, c.y, { color: '#F5D061', len: 320 });
+    MecFX.confetti({ count: 90, colors: ['#F5D061', '#D9383A', '#FFFFFF', '#D4AF37', '#FFF8DC'], big: true });
     return;
   }
 
@@ -2150,9 +2163,52 @@ function _stampGoalSeal() {
 }
 
 // ── 盤面の常時演出 ───────────────────────────────────────────────
-// 「達成した瞬間だけ派手」ではなく、開いている間ずっと機械が動いて見えるようにする。
-//   ・Brass専用: 歯車の噛み合いから火花が散り、軸から蒸気が漏れる / 22秒ごとの祝砲
-//   ・他テーマ: 不要な黄色いパーティクルや同心円を抑止
+// 「達成した瞬間だけ派手」ではなく、開いている間ずっと世界観が息づいて見えるようにする。
+// 全8テーマそれぞれに特化した微粒子（オーロラダスト、真鍮火花、デジタルフォトン、インク液滴、
+// 金粉砂、アストラル星屑、深海バイオ気泡、ダイヤモンドダスト）を放出。
+const GAUGE_AMBIENTS = {
+  aurora: {
+    interval: 2200,
+    dust: ['#00DFD8', '#7928CA', '#FFFFFF', '#0070F3'],
+    burst: { shapes: ['gem', 'star'], colors: ['#00DFD8', '#FFFFFF', '#7928CA'], speed: 65 }
+  },
+  brass: {
+    interval: 1700,
+    isBrass: true
+  },
+  cyber: {
+    interval: 1900,
+    dust: ['#00E5FF', '#00FF9D', '#76FF03', '#FFFFFF'],
+    burst: { shapes: ['shard', 'star'], colors: ['#00E5FF', '#00FF9D', '#FFFFFF'], speed: 90 }
+  },
+  liquid: {
+    interval: 2100,
+    dust: ['#FF007F', '#7928CA', '#00F2FE', '#FF7A00'],
+    burst: { shapes: ['circle', 'gem'], colors: ['#FF007F', '#00F2FE', '#FFFFFF'], speed: 60 }
+  },
+  kintsugi: {
+    interval: 2000,
+    dust: ['#F5D061', '#FFF8DC', '#D4AF37', '#E0C25E'],
+    burst: { shapes: ['circle', 'shard'], colors: ['#F5D061', '#FFFFFF', '#D4AF37'], speed: 70 }
+  },
+  celestial: {
+    interval: 2100,
+    dust: ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFDF0'],
+    burst: { shapes: ['star', 'gem'], colors: ['#FFD166', '#8A2BE2', '#FFFFFF'], speed: 75 }
+  },
+  abyss: {
+    interval: 2200,
+    dust: ['#00FFA3', '#00B4D8', '#64FFDA'],
+    isAbyss: true,
+    burst: { shapes: ['circle'], colors: ['#00FFA3', '#64FFDA', '#FFFFFF'], speed: 50 }
+  },
+  frost: {
+    interval: 2000,
+    dust: ['#70D6FF', '#FFFFFF', '#A0E7E5', '#E0F7FA'],
+    burst: { shapes: ['shard', 'star'], colors: ['#70D6FF', '#FFFFFF', '#A0E7E5'], speed: 80 }
+  }
+};
+
 let _gaugeFxTimer = 0, _gaugeFxBoom = 0, _gaugeFxTier = -1;
 function _startGaugeAmbient(tier) {
   if (tier === _gaugeFxTier) return;          // 段が変わらない限り作り直さない
@@ -2160,11 +2216,10 @@ function _startGaugeAmbient(tier) {
   clearInterval(_gaugeFxTimer); clearInterval(_gaugeFxBoom);
   if (_reducedMotion()) return;
 
-  // テーマ判定: Brass 以外は黄色パーティクルを撒かない
   const curTheme = window.MecUITheme ? MecUITheme.get() : (document.documentElement.classList.contains('ui-brass') ? 'brass' : 'aurora');
-  if (curTheme !== 'brass') return;
+  const cfg = GAUGE_AMBIENTS[curTheme] || GAUGE_AMBIENTS.aurora;
 
-  // 歯車の中心。ゲージが画面外／未描画なら null（撒かない）
+  // 歯車・ゲージの中心。ゲージが画面外／未描画なら null（撒かない）
   const spot = () => {
     const box = document.getElementById('gaugeBox');
     if (!box || !_fxOk()) return null;
@@ -2178,23 +2233,53 @@ function _startGaugeAmbient(tier) {
   _gaugeFxTimer = setInterval(() => {
     const c = spot();
     if (!c) return;
-    const hot = Math.max(1, tier);            // 0% の日も機械は動いている（最小の火花は出す）
-    // 歯車が噛み合う四隅から火花。段が上がるほど散る数と勢いが増える
-    const ang = Math.random() * Math.PI * 2;
-    MecFX.burst(c.x + Math.cos(ang) * c.r * .82, c.y + Math.sin(ang) * c.r * .82, {
-      tier: Math.min(4, hot), count: 3 + hot * 2, colors: BRASS,
-      shapes: hot >= 3 ? ['circle', 'shard'] : ['circle'], speed: 130 + hot * 40
-    });
-    // 軸から漏れる蒸気。薄く・少なく（読み値の邪魔をしない濃さに留める）
-    MecFX.steam(c.x, c.y + c.r * .5, {
-      count: 1 + (hot >= 4 ? 2 : 1), w: c.r * .5, rise: 60 + hot * 12,
-      min: 18, max: 40, alpha: .18 + hot * .02
-    });
-    // 半分まで来たら歯車そのものが弾ける粒も混ぜる
-    if (hot >= 3) MecFX.gears(c.x, c.y, {
-      count: hot >= 5 ? 4 : 2, spread: 150 + hot * 30, up: true, w: c.r * .6, min: 10, max: 20
-    });
-  }, 1700);
+    const hot = Math.max(1, tier);
+
+    // 1. Brass 専用処理
+    if (cfg.isBrass) {
+      const ang = Math.random() * Math.PI * 2;
+      MecFX.burst(c.x + Math.cos(ang) * c.r * .82, c.y + Math.sin(ang) * c.r * .82, {
+        tier: Math.min(4, hot), count: 3 + hot * 2, colors: BRASS,
+        shapes: hot >= 3 ? ['circle', 'shard'] : ['circle'], speed: 130 + hot * 40
+      });
+      MecFX.steam(c.x, c.y + c.r * .5, {
+        count: 1 + (hot >= 4 ? 2 : 1), w: c.r * .5, rise: 60 + hot * 12,
+        min: 18, max: 40, alpha: .18 + hot * .02
+      });
+      if (hot >= 3) MecFX.gears(c.x, c.y, {
+        count: hot >= 5 ? 4 : 2, spread: 150 + hot * 30, up: true, w: c.r * .6, min: 10, max: 20
+      });
+      return;
+    }
+
+    // 2. 全テーマ共通の微粒子 Ambient
+    if (cfg.dust) {
+      MecFX.dust({
+        count: 2 + hot * 2,
+        colors: cfg.dust
+      });
+    }
+
+    // 深海アビス専用: 微細気泡の上昇
+    if (cfg.isAbyss && hot >= 2 && MecFX.bubbles && Math.random() < 0.5) {
+      MecFX.bubbles(c.x + (Math.random() - 0.5) * c.r, c.y + c.r * 0.4, {
+        count: 2 + hot, colors: cfg.dust
+      });
+    }
+
+    // 段2以上: テーマ固有の微光・スパーク放出
+    if (cfg.burst && hot >= 2 && Math.random() < 0.6) {
+      const ang = Math.random() * Math.PI * 2;
+      const dist = (0.3 + Math.random() * 0.55) * c.r;
+      MecFX.burst(c.x + Math.cos(ang) * dist, c.y + Math.sin(ang) * dist, {
+        tier: Math.min(2, hot), count: 2 + hot,
+        colors: cfg.burst.colors,
+        shapes: cfg.burst.shapes,
+        speed: (cfg.burst.speed || 60) + hot * 20,
+        glow: true
+      });
+    }
+  }, cfg.interval || 2000);
 
   // 定期の祝砲。段0（まだ1問も解いていない日）は鳴らさない
   if (tier <= 0) return;
@@ -2279,6 +2364,70 @@ function _gaugeCelebrate(tier) {
         shapes: ['circle', 'gem'], speed: 240
       });
     }
+    return;
+  }
+
+  // 5. Kintsugi テーマ: 金粉光芒 ＆ 金継ぎスラッシュ ＆ 墨絵の残響
+  if (curTheme === 'kintsugi') {
+    MecFX.dust({ count: 16 + tier * 5, colors: ['#F5D061', '#FFF8DC', '#D4AF37', '#E0C25E'] });
+    MecFX.burst(c.x, c.y, {
+      tier: Math.min(4, tier), count: 14 + tier * 6,
+      colors: hit ? ['#FFF8DC', '#F5D061', '#D9383A', '#FFFFFF'] : ['#F5D061', '#D4AF37', '#FFF8DC'],
+      shapes: ['shard', 'circle'], speed: 220 + tier * 50, glow: true
+    });
+    if (tier >= 3 && MecFX.slashRibbon) {
+      MecFX.slashRibbon(g.x, g.y, { color: '#F5D061', len: 140 + tier * 25 });
+    }
+    if (hit && MecFX.kintsugiCrack) {
+      MecFX.kintsugiCrack(g.x, g.y, { maxR: 200, branches: 8, goldLeafCount: 60, flash: false });
+    }
+    return;
+  }
+
+  // 6. Celestial テーマ: アストロラーベ天球儀 ＆ 星座魔導スター
+  if (curTheme === 'celestial') {
+    if (MecFX.astrolabeRings && tier >= 2) {
+      MecFX.astrolabeRings(g.x, g.y, {
+        maxR: 120 + tier * 20, rings: 2,
+        color: hit ? '#FFFDF0' : '#FFD166', speed: 1.4
+      });
+    }
+    MecFX.dust({ count: 14 + tier * 4, colors: ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFDF0'] });
+    MecFX.burst(c.x, c.y, {
+      tier: Math.min(4, tier), count: 16 + tier * 5,
+      colors: hit ? ['#FFFDF0', '#FFD166', '#8A2BE2', '#48CAE4'] : ['#FFD166', '#8A2BE2', '#FFFFFF'],
+      shapes: ['star', 'gem'], speed: 240 + tier * 45, glow: true
+    });
+    return;
+  }
+
+  // 7. Abyss テーマ: 深海リップル ＆ バイオルミネセンス気泡
+  if (curTheme === 'abyss') {
+    if (MecFX.rippleInterference && tier >= 3) {
+      MecFX.rippleInterference(g.x, g.y, { maxR: 130 + tier * 20, color: '#00FFA3' });
+    }
+    if (MecFX.bubbles) {
+      MecFX.bubbles(g.x, g.y, { count: 8 + tier * 3, colors: ['#00FFA3', '#00B4D8', '#64FFDA'] });
+    }
+    MecFX.burst(c.x, c.y, {
+      tier: Math.min(4, tier), count: 14 + tier * 5,
+      colors: hit ? ['#FFFFFF', '#00FFA3', '#00B4D8', '#64FFDA'] : ['#00FFA3', '#00B4D8', '#64FFDA'],
+      shapes: ['circle', 'gem'], speed: 200 + tier * 40, glow: true
+    });
+    return;
+  }
+
+  // 8. Frost テーマ: 氷晶シャッター ＆ ダイヤモンドダスト
+  if (curTheme === 'frost') {
+    if (MecFX.shatter && tier >= 3) {
+      MecFX.shatter(g.x, g.y, { count: 12 + tier * 3, colors: ['#70D6FF', '#FFFFFF', '#A0E7E5'] });
+    }
+    MecFX.dust({ count: 16 + tier * 5, colors: ['#70D6FF', '#FFFFFF', '#A0E7E5', '#E0F7FA'] });
+    MecFX.burst(c.x, c.y, {
+      tier: Math.min(4, tier), count: 16 + tier * 5,
+      colors: hit ? ['#FFFFFF', '#70D6FF', '#A0E7E5', '#E0F7FA'] : ['#70D6FF', '#FFFFFF', '#A0E7E5'],
+      shapes: ['shard', 'star'], speed: 250 + tier * 50, glow: true
+    });
     return;
   }
 }

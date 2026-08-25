@@ -5509,6 +5509,71 @@ html.ui-liquid .gauge[data-tier="6"] .gauge-mid {
 }
 
 /* 5. Kintsugi 固有: 漆黒陶器プレート ＆ 黄金金継ぎリキッドゲージ */
+.kt-layer { display: none !important; }
+html.ui-kintsugi .kt-layer { display: inline !important; }
+
+/* 漆黒陶器プレート */
+html.ui-kintsugi .kt-plate {
+  fill: #0c0a08;
+  stroke: rgba(245, 208, 97, 0.35);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 4px rgba(245, 208, 97, 0.2));
+}
+
+/* 墨絵円相: 筆の息づかいを感じる呼吸アニメーション */
+html.ui-kintsugi .kt-enso {
+  fill: none;
+  stroke: rgba(245, 208, 97, 0.38);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 6px rgba(245, 208, 97, 0.4));
+  animation: kintsugiEnsoBreath 4.6s ease-in-out infinite;
+}
+
+@keyframes kintsugiEnsoBreath {
+  0%, 100% { stroke: rgba(245, 208, 97, 0.32); stroke-width: 3.0; filter: drop-shadow(0 0 4px rgba(245, 208, 97, 0.3)); }
+  50% { stroke: rgba(255, 248, 220, 0.65); stroke-width: 3.6; filter: drop-shadow(0 0 10px rgba(245, 208, 97, 0.8)) drop-shadow(0 0 18px rgba(217, 56, 58, 0.4)); }
+}
+
+/* 金継ぎクラック: 陶器の割れ目に黄金が満ちていく修復表現 */
+html.ui-kintsugi .kt-crack {
+  fill: none;
+  stroke: rgba(245, 208, 97, 0.22);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.8s ease, stroke-width 0.8s ease, filter 0.8s ease, opacity 0.8s ease;
+}
+
+html.ui-kintsugi .gauge[data-tier="1"] .kt-crack-1 {
+  stroke: #F5D061;
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 4px rgba(245, 208, 97, 0.85));
+}
+
+html.ui-kintsugi .gauge[data-tier="2"] .kt-crack-1,
+html.ui-kintsugi .gauge[data-tier="2"] .kt-crack-2 {
+  stroke: #F5D061;
+  stroke-width: 2.4;
+  filter: drop-shadow(0 0 6px rgba(245, 208, 97, 0.9));
+}
+
+html.ui-kintsugi .gauge[data-tier="3"] .kt-crack-1,
+html.ui-kintsugi .gauge[data-tier="3"] .kt-crack-2,
+html.ui-kintsugi .gauge[data-tier="3"] .kt-crack-3 {
+  stroke: #FFF8DC;
+  stroke-width: 2.6;
+  filter: drop-shadow(0 0 8px #F5D061) drop-shadow(0 0 14px rgba(217, 56, 58, 0.6));
+}
+
+html.ui-kintsugi .gauge[data-tier="4"] .kt-crack,
+html.ui-kintsugi .gauge[data-tier="5"] .kt-crack,
+html.ui-kintsugi .gauge[data-tier="6"] .kt-crack {
+  stroke: #FFFDF0;
+  stroke-width: 2.8;
+  filter: drop-shadow(0 0 10px #FFF8DC) drop-shadow(0 0 18px #F5D061) drop-shadow(0 0 28px rgba(245, 208, 97, 0.95));
+}
+
 html.ui-kintsugi .gauge .gauge-ring {
   position: relative;
   filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 25px rgba(245, 208, 97, 0.35));

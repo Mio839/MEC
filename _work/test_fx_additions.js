@@ -138,18 +138,33 @@ const NAMES = Object.keys(THEMES);
 
 t('テーマは7つある', () => assert.strictEqual(NAMES.length, 7));
 
-t('_examTier / ceTier は 30連続で 7 を返す', () => {
-  const tierFn = src => {
-    const m = src.match(/return n >= 30 \? 7 :[^;]+;/);
-    assert.ok(m, 'tier の梯子に 30→7 が無い');
-    return vm.runInNewContext('(function (n) { ' + m[0] + ' })');
-  };
-  [tierFn(STUDY), tierFn(CHAP)].forEach(f => {
-    assert.strictEqual(f(29), 6, '29連続はまだ tier6');
-    assert.strictEqual(f(30), 7, '30連続で tier7 にならない');
+/* 梯子の段数は 2026-08-25 に前倒しした（4/7/10/15/20/30 → 3/5/7/10/14/20）ので、
+   ここに数字を書き写さない。ソースから読み、study ⇔ chapter の一致と
+   コンボメーターの目盛りとの整合だけを検査する。 */
+function tierLadder(src) {
+  const m = src.match(/return n >= (\d+) \? 7 :[^;]+;/);
+  assert.ok(m, 'tier の梯子（… ? 7 : …）が見つからない');
+  const f = vm.runInNewContext('(function (n) { ' + m[0] + ' })');
+  const starts = [0, 0];                    // starts[tier] = その段に入る連続数
+  for (let t = 1, n = 1; t <= 7 && n < 500; n++) {
+    if (f(n) === t + 1) { starts[++t] = n; }
+  }
+  starts[1] = 2;                            // tier1 は「2連続から」（n<2 は演出を出さない）
+  return { f, top: Number(m[1]), starts };
+}
+
+t('_examTier / ceTier は天井 tier7 で頭打ちになる', () => {
+  [tierLadder(STUDY), tierLadder(CHAP)].forEach(({ f, top }) => {
+    assert.strictEqual(f(top - 1), 6, (top - 1) + '連続はまだ tier6');
+    assert.strictEqual(f(top), 7, top + '連続で tier7 にならない');
     assert.strictEqual(f(999), 7, 'tier7 が天井になっていない');
     assert.strictEqual(f(1), 1);
   });
+});
+
+t('tier の梯子が study ⇔ chapter で一致する', () => {
+  assert.deepStrictEqual(tierLadder(STUDY).starts, tierLadder(CHAP).starts,
+    'study と chapter で段の敷居が違う');
 });
 
 // index 7 が無いと、最上段だけ色・ラベルが undefined になって演出が無言で壊れる
@@ -211,7 +226,8 @@ t('コンボメーターの目盛りが tier7 まで伸びている', () => {
     const starts = m[1].split(',').map(Number), ends = m[2].split(',').map(Number);
     assert.strictEqual(starts.length, 8, 'starts が tier7 まで無い');
     assert.strictEqual(ends.length, 8, 'ends が tier7 まで無い');
-    assert.strictEqual(starts[7], 30, 'tier7 の開始が 30連続になっていない');
+    assert.deepStrictEqual(starts, tierLadder(src).starts,
+      'メーターの目盛りが _examTier/ceTier の梯子と食い違う（「あと N で TIER」が嘘になる）');
     // 各段は必ず前の段の終わりから始まる（隙間や重なりがあると「あと N」が嘘になる）
     for (let i = 2; i <= 7; i++) assert.strictEqual(starts[i], ends[i - 1], 'tier' + i + ' の目盛りが不連続');
   });
@@ -254,6 +270,29 @@ t('A1/A2/C2 のテーマキーが7テーマ全部に揃っている', () => {
       assert.ok(THEMES[n][key], `${n}.${key} が無い`)));
 });
 
+/* 2026-08-25: 「昇格フレームだけフル演出」の山谷設計を撤回した。
+   ここが promoted に戻ると、同ティア継続が再び quiet（尺52%・軽量バーストのみ）になる。 */
+t('同ティア継続でもフル演出が出る（山谷設計は撤回済み）', () => {
+  assert.ok(/const STREAK_FULL_EVERY_TIME = true;/.test(STUDY), 'study の撤回フラグが無い');
+  assert.ok(/var CE_STREAK_FULL_EVERY_TIME = true;/.test(CHAP), 'chapter の撤回フラグが無い');
+  [[STUDY, 'study'], [CHAP, 'chapter']].forEach(([src, name]) => {
+    assert.ok(/full = promoted \|\| \w*STREAK_FULL_EVERY_TIME;/.test(src), name + ': full の合成が無い');
+    assert.ok(!/if \(promoted && tier >= /.test(src), name + ': promoted && tier >= のゲートが残っている');
+  });
+  // TIER UP スタンプだけは昇格フレーム限定のまま（昇格していないのに TIER UP は嘘になる）
+  assert.ok(/if \(promoted\) _triggerTierUpStamp\(/.test(STUDY), 'study: TIER UP が promoted 限定でない');
+  assert.ok(/if \(promoted\) ceTierUpStamp\(/.test(CHAP), 'chapter: TIER UP が promoted 限定でない');
+});
+
+/* 2026-08-25: 「ラベルは1つに絞る」排他と「初見は易問では出さない」制限を撤廃した。
+   リベンジ（wasWrong）と初見（fresh）は定義上排他なので、そこだけ else-if が残る。 */
+t('正解ラベルの排他と易問での抑制が撤廃されている', () => {
+  assert.ok(!/\} else if \(prior && prior\.wasWrong\)/.test(STUDY), 'study: 難問とリベンジがまだ排他');
+  assert.ok(!/\} else if \(prior\.wasWrong\)/.test(CHAP), 'chapter: 難問とリベンジがまだ排他');
+  assert.ok(!/EXAM_EASY_RATE = 80/.test(STUDY), 'study: 易問での抑制が残っている');
+  assert.ok(!/CE_EASY_RATE = 80/.test(CHAP), 'chapter: 易問での抑制が残っている');
+});
+
 t('フラットラインを持つのは心電図テーマだけ', () => {
   const withFlat = NAMES.filter(n => THEMES[n].useFlatline);
   assert.deepStrictEqual(withFlat, ['ecg'], 'useFlatline を持つテーマが ecg 以外にある');
@@ -282,14 +321,20 @@ t('新しい演出はどちらのファイルにも入っている', () => {
   });
 });
 
-// 正解／誤答の追加演出は2経路（選択肢・計算問題の桁入力）から必ず同じ口を通す。
-// 片方に直接書くと計算問題50問だけ演出が抜ける。
-t('study 側は正解2経路・誤答2経路とも合流点を通っている', () => {
+// 正解／誤答の追加演出は全経路から必ず同じ口を通す。片方に直接書くと、その経路だけ演出が抜ける。
+// 正解は3経路（複数選択・単一選択・計算問題の桁入力）、誤答は2経路。
+t('study 側は正解3経路・誤答2経路とも合流点を通っている', () => {
   // 呼び出しだけを数える（`function _afterCorrectFx(card, ...)` の定義行を除く）
   const c = (STUDY.match(/(?<!function )_afterCorrectFx\(card, /g) || []).length;
   const w = (STUDY.match(/(?<!function )_afterWrongFx\(card, /g) || []).length;
-  assert.strictEqual(c, 2, '_afterCorrectFx の呼び出しが2箇所でない（選択肢＋計算問題）');
+  assert.strictEqual(c, 3, '_afterCorrectFx の呼び出しが3箇所でない（複数選択＋単一選択＋計算問題）');
   assert.strictEqual(w, 2, '_afterWrongFx の呼び出しが2箇所でない');
+});
+
+// 合流点が出すものを経路側でも出すと、同じラベルが同じ位置へ二重に飛ぶ
+t('速答ボーナスは合流点だけが出す（経路側の二重呼び出しが無い）', () => {
+  const outside = (STUDY.match(/_triggerFastBonus\(/g) || []).length;
+  assert.strictEqual(outside, 2, '_triggerFastBonus は定義と _afterCorrectFx からの1回だけであるべき');
 });
 
 // C1 は「途切れた時点の連続数」で規模を決めるので、0 にする前に控えていないと常に 0 になる
