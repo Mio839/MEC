@@ -1199,6 +1199,12 @@ const MEC_CHAPTERS = [
         "file": "公衆衛生/ch02_hokenjo.html",
         "title": "第2章 保健所",
         "count": 9
+      },
+      {
+        "prefix": "ph_ch03",
+        "file": "公衆衛生/ch03_shi.html",
+        "title": "第3章 死",
+        "count": 32
       }
     ]
   }

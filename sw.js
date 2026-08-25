@@ -1,3 +1,5 @@
+// 2026-08-25c: 公衆衛生 第3章「死」NO.81-112（32問・画像6問10枚・連問1組）を追加し全19章中3章112問。
+//   questions_ph.json と 公衆衛生/images/ を更新したので CACHE を bump（v171 -> v172）。
 // 2026-08-24j: 削除済みフィルターの保存値が残って0問表示になる経路を閉じた。
 //   - study.html: 許可リスト外の mec_filter_v1 / mec_state_v1 を起動時に all へ正規化し、旧フィルター分岐（norate/weak/due/done/undone）を削除。
 //   - study.css: 削除済みフィルターの選択中スタイルを削除。
@@ -454,12 +456,12 @@
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v171";
+const CACHE = "mec-v172";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-25b";
+const SHELL_VERSION = "2026-08-25c";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
