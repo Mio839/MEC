@@ -4975,7 +4975,6 @@ html.ui-brass .gauge[data-tier="6"] .gear-d {
   filter: drop-shadow(0 0 14px rgba(255, 215, 0, 0.95)) drop-shadow(0 2px 4px #000);
 }
 
-/* 繧ｮ繝ｭ繧ｷ繧ｧ蠖ｫ蛻ｻ隱ｿ縺ｮ蜷悟ｿ�Γ繧ｫ繝九き繝ｫ繝ｪ繝ｳ繧ｰ */
 html.ui-brass .gauge .gauge-ring::before {
   content: '';
   position: absolute;
@@ -4997,7 +4996,6 @@ html.ui-brass .gauge .gauge-ring::after {
   pointer-events: none;
 }
 
-/* �焚�� Brass 谿ｵ髫守噪騾ｲ蛹� (Tiers 0 - 6) */
 html.ui-brass .gauge[data-tier="0"] { --gear-t: 36s; --brass-ring-t: 45s; }
 html.ui-brass .gauge[data-tier="1"] { --gear-t: 24s; --brass-ring-t: 32s; }
 html.ui-brass .gauge[data-tier="2"] { --gear-t: 14s; --brass-ring-t: 22s; }
@@ -5025,7 +5023,6 @@ html.ui-brass .gauge[data-tier="6"] .gauge-ring::before {
   box-shadow: inset 0 0 18px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.5);
 }
 
-/* 2. Aurora 蟆ら畑: 蛛丞�繧ｯ繝ｪ繧ｹ繧ｿ繝ｫ & 谿ｵ髫守噪繧ｪ繝ｼ繝ｭ繝ｩ繧ｦ繧ｧ繝ｼ繝� (Tiers 0-6) */
 html.ui-aurora .gauge .gauge-ring {
   position: relative;
   filter: drop-shadow(0 0 24px rgba(0, 223, 216, 0.55)) drop-shadow(0 0 40px rgba(121, 40, 202, 0.35));
@@ -5060,7 +5057,6 @@ html.ui-aurora .gauge .gauge-ring::after {
   pointer-events: none;
 }
 
-/* �検 Aurora 谿ｵ髫守噪騾ｲ蛹� (Tiers 0 - 6) */
 html.ui-aurora .gauge[data-tier="0"] { --aurora-wave-t: 18s; --aurora-pulse-t: 8s; }
 html.ui-aurora .gauge[data-tier="1"] { --aurora-wave-t: 14s; --aurora-pulse-t: 6.5s; }
 html.ui-aurora .gauge[data-tier="2"] { --aurora-wave-t: 10s; --aurora-pulse-t: 5s; }
@@ -5117,7 +5113,6 @@ html.ui-brass .gauge .gauge-all {
   100% { transform: scale(1.03); opacity: 1; border-color: rgba(255, 255, 255, 0.85); box-shadow: inset 0 0 24px rgba(0, 223, 216, 0.6), 0 0 20px rgba(121, 40, 202, 0.5); }
 }
 
-/* �検 繧ｲ繝ｼ繧ｸ騾ｲ謐励い繝ｼ繧ｯ & 繝医Λ繝�け & 蜈臥せ (.gauge-val, .gauge-trk, .gauge-dot) 縺ｮ繝��繝槫挨螳悟�豺ｱ蛹� */
 html.ui-aurora .gauge .gauge-trk { stroke: rgba(0, 223, 216, 0.2); stroke-width: 10; }
 html.ui-aurora .gauge .gauge-val { stroke: #00DFD8; filter: drop-shadow(0 0 12px rgba(0, 223, 216, 0.95)) drop-shadow(0 0 24px rgba(121, 40, 202, 0.7)); }
 html.ui-aurora .gauge[data-tier="5"] .gauge-val,
@@ -5146,7 +5141,6 @@ html.ui-liquid .gauge[data-tier="6"] .gauge-val { stroke: #FFFFFF; filter: drop-
 html.ui-liquid .gauge .gauge-dot circle { fill: #FF007F; filter: drop-shadow(0 0 14px #FF007F); }
 html.ui-liquid .gauge .gauge-dot .halo { fill: rgba(255, 0, 127, 0.55); filter: blur(3px); }
 
-/* 3. Cyber 蟆ら畑: 繝帙Ο繧ｰ繝ｩ繝輔ぅ繝�け繝ｻ繝ｬ繝ｼ繝繝ｼ & 谿ｵ髫守噪繧ｿ繧ｯ繝�ぅ繧ｫ繝ｫHUD (Tiers 0-6) */
 html.ui-cyber .gauge .gauge-ring {
   position: relative;
   filter: drop-shadow(0 0 24px rgba(0, 229, 255, 0.65)) drop-shadow(0 0 40px rgba(0, 255, 157, 0.35));
@@ -5179,7 +5173,6 @@ html.ui-cyber .gauge .gauge-ring::after {
   pointer-events: none;
 }
 
-/* �噫 Cyber 谿ｵ髫守噪騾ｲ蛹� (Tiers 0 - 6) */
 html.ui-cyber .gauge[data-tier="0"] { --cyber-radar-t: 8s; --cyber-reticle-t: 16s; }
 html.ui-cyber .gauge[data-tier="1"] { --cyber-radar-t: 6s; --cyber-reticle-t: 12s; }
 html.ui-cyber .gauge[data-tier="2"] { --cyber-radar-t: 4s; --cyber-reticle-t: 8s; }
@@ -5219,7 +5212,6 @@ html.ui-cyber .gauge .gauge-all {
   to { transform: rotate(360deg); }
 }
 
-/* 4. Liquid 蟆ら畑: 繝輔Ν繧､繝峨Δ繝ｼ繝輔ぅ繝ｳ繧ｰ & 谿ｵ髫守噪繝阪が繝ｳ繧ｸ繧ｧ繝ｫ (Tiers 0-6) */
 html.ui-liquid .gauge .gauge-ring {
   position: relative;
   filter: drop-shadow(0 0 26px rgba(255, 0, 127, 0.65)) drop-shadow(0 0 42px rgba(121, 40, 202, 0.45));
@@ -5250,7 +5242,6 @@ html.ui-liquid .gauge .gauge-ring::after {
   pointer-events: none;
 }
 
-/* �減 Liquid 谿ｵ髫守噪騾ｲ蛹� (Tiers 0 - 6) */
 html.ui-liquid .gauge[data-tier="0"] { --liquid-morph-t: 12s; --liquid-gel-t: 16s; }
 html.ui-liquid .gauge[data-tier="1"] { --liquid-morph-t: 9s;  --liquid-gel-t: 13s; }
 html.ui-liquid .gauge[data-tier="2"] { --liquid-morph-t: 6.5s; --liquid-gel-t: 9.5s; }
@@ -5272,9 +5263,6 @@ html.ui-liquid .gauge[data-tier="6"] .gauge-ring::before {
   transform: scale(1.1);
 }
 
-/* ═════════════════════════════════════════════════════════════════════════
-   全テーマ共通: GPU 合成最適化 & 描画負荷軽減 & 高DPI鮮鋭化
-   ═════════════════════════════════════════════════════════════════════════ */
 .qc, .ch2, .exam-self-btn, .mec-grade-btn, .mec-flag-btn, .mec-lap-btn, .mec-err-btn, .st-hdr, .gauge {
   will-change: transform, opacity;
   transform: translateZ(0);
@@ -5285,9 +5273,6 @@ html.ui-liquid .gauge[data-tier="6"] .gauge-ring::before {
   text-rendering: optimizeLegibility;
 }
 
-/* ═════════════════════════════════════════════════════════════════════════
-   全テーマ共通: タクタイルフィードバック & イージング調律
-   ═════════════════════════════════════════════════════════════════════════ */
 .ch2, .exam-self-btn, .mec-grade-btn, .mec-flag-btn, .st-filter-btn {
   transition: transform .14s cubic-bezier(0.2, 0.9, 0.3, 1),
               background .14s ease-out,
@@ -5298,9 +5283,6 @@ html.ui-liquid .gauge[data-tier="6"] .gauge-ring::before {
   transform: scale(0.96) translateY(1px) !important;
 }
 
-/* ═════════════════════════════════════════════════════════════════════════
-   全テーマ共通: タイポグラフィ & 視線誘導調律
-   ═════════════════════════════════════════════════════════════════════════ */
 .qc .qq {
   font-size: 16.5px !important;
   line-height: 1.65 !important;
@@ -5363,11 +5345,12 @@ html.ui-liquid .gauge[data-tier="6"] .gauge-mid {
   text-shadow: 0 0 30px rgba(255, 255, 255, 1), 0 0 55px rgba(255, 0, 127, 1), 0 0 75px rgba(0, 242, 254, 1) !important;
 }
 
-/* 5. Kintsugi 固有: 漆黒陶器プレート ＆ 黄金金継ぎリキッドゲージ */
-.kt-layer { display: none !important; }
+.kt-layer, .cel-layer, .abyss-layer, .frost-layer { display: none !important; }
 html.ui-kintsugi .kt-layer { display: inline !important; }
+html.ui-celestial .cel-layer { display: inline !important; }
+html.ui-abyss .abyss-layer { display: inline !important; }
+html.ui-frost .frost-layer { display: inline !important; }
 
-/* 漆黒陶器プレート */
 html.ui-kintsugi .kt-plate {
   fill: #0c0a08;
   stroke: rgba(245, 208, 97, 0.35);
@@ -5375,7 +5358,6 @@ html.ui-kintsugi .kt-plate {
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 4px rgba(245, 208, 97, 0.2));
 }
 
-/* 墨絵円相: 筆の息づかいを感じる呼吸アニメーション */
 html.ui-kintsugi .kt-enso {
   fill: none;
   stroke: rgba(245, 208, 97, 0.38);
@@ -5390,7 +5372,6 @@ html.ui-kintsugi .kt-enso {
   50% { stroke: rgba(255, 248, 220, 0.65); stroke-width: 3.6; filter: drop-shadow(0 0 10px rgba(245, 208, 97, 0.8)) drop-shadow(0 0 18px rgba(217, 56, 58, 0.4)); }
 }
 
-/* 金継ぎクラック: 陶器の割れ目に黄金が満ちていく修復表現 */
 html.ui-kintsugi .kt-crack {
   fill: none;
   stroke: rgba(245, 208, 97, 0.22);
@@ -5582,7 +5563,84 @@ html.ui-kintsugi .gauge-goal {
 }
 html.ui-kintsugi .gauge-goal b { color: #F5D061 !important; font-size: 13.5px !important; }
 
-/* 6. Celestial 固有: 星図天球儀 ＆ アストラルマナ・コズミックゲージ */
+/* 6. Celestial 固有: 天球儀多重環 ＆ 星座幾何学 ＆ 八芒星極星 */
+html.ui-celestial .cel-plate {
+  fill: #080419;
+  stroke: rgba(255, 209, 102, 0.4);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 12px rgba(138, 43, 226, 0.6)) drop-shadow(0 0 4px rgba(255, 209, 102, 0.3));
+}
+
+html.ui-celestial .cel-ring-outer {
+  fill: none;
+  stroke: rgba(255, 209, 102, 0.45);
+  stroke-width: 1.8;
+  stroke-dasharray: 4 6;
+  animation: celRingClockwise var(--celestial-astro-t, 24s) linear infinite;
+  transform-origin: 84px 84px;
+}
+
+html.ui-celestial .cel-ring-inner {
+  fill: none;
+  stroke: rgba(138, 43, 226, 0.55);
+  stroke-width: 1.5;
+  stroke-dasharray: 8 4 2 4;
+  animation: celRingCounterClockwise calc(var(--celestial-astro-t, 24s) * 0.65) linear infinite reverse;
+  transform-origin: 84px 84px;
+}
+
+@keyframes celRingClockwise {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes celRingCounterClockwise {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+
+html.ui-celestial .cel-line {
+  fill: none;
+  stroke: rgba(138, 43, 226, 0.28);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+  transition: stroke 0.8s ease, stroke-width 0.8s ease, filter 0.8s ease;
+}
+
+html.ui-celestial .gauge[data-tier="1"] .cel-line-1 {
+  stroke: rgba(255, 209, 102, 0.65);
+  filter: drop-shadow(0 0 4px rgba(255, 209, 102, 0.7));
+}
+
+html.ui-celestial .gauge[data-tier="2"] .cel-line-1,
+html.ui-celestial .gauge[data-tier="2"] .cel-line-2 {
+  stroke: #FFD166;
+  stroke-width: 1.8;
+  filter: drop-shadow(0 0 6px rgba(255, 209, 102, 0.9)) drop-shadow(0 0 12px rgba(138, 43, 226, 0.6));
+}
+
+html.ui-celestial .gauge[data-tier="3"] .cel-line,
+html.ui-celestial .gauge[data-tier="4"] .cel-line,
+html.ui-celestial .gauge[data-tier="5"] .cel-line,
+html.ui-celestial .gauge[data-tier="6"] .cel-line {
+  stroke: #FFFDF0;
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 8px #FFD166) drop-shadow(0 0 16px rgba(138, 43, 226, 0.95)) drop-shadow(0 0 24px rgba(72, 202, 228, 0.8));
+}
+
+html.ui-celestial .cel-polaris {
+  fill: #FFD166;
+  stroke: #FFFDF0;
+  stroke-width: 0.8;
+  filter: drop-shadow(0 0 6px #FFD166) drop-shadow(0 0 14px rgba(138, 43, 226, 0.85));
+  animation: celPolarisPulse 3.6s ease-in-out infinite;
+}
+
+@keyframes celPolarisPulse {
+  0%, 100% { transform: rotate(0deg) scale(0.92); opacity: 0.8; filter: drop-shadow(0 0 4px #FFD166); }
+  50% { transform: rotate(180deg) scale(1.15); opacity: 1; filter: drop-shadow(0 0 12px #FFFDF0) drop-shadow(0 0 22px rgba(138, 43, 226, 0.95)); }
+}
+
 html.ui-celestial .gauge .gauge-ring {
   position: relative;
   filter: drop-shadow(0 0 24px rgba(138, 43, 226, 0.55)) drop-shadow(0 0 35px rgba(255, 209, 102, 0.4));
