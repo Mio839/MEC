@@ -38,7 +38,19 @@ ok(Array.isArray(E.MM_PALETTE) && E.MM_PALETTE.length >= 11, 'MM_PALETTE が11�
 ok(new Set(E.MM_PALETTE).size === E.MM_PALETTE.length, 'MM_PALETTE に重複が無い');
 
 section('2. 科目レジストリ');
-ok(SUBJECTS.length === 21, '21科目が登録されている', 'len=' + SUBJECTS.length);
+// ⚠️ 科目数を直接書かない。レジストリは gamify.js の SUBJECTS から
+//    _work/build_mindmap_index.js が生成する派生物なので、科目を1つ足すたびに
+//    ここを直す羽目になる。gamify.js 側の id 数と突き合わせる。
+const _gam = fs.readFileSync(path.join(ROOT, 'gamify.js'), 'utf8');
+//    非コア科目（jitsu1/custom/memo）は build_mindmap_index.js の SKIP と同じく除く。
+const _skip = new Set(['jitsu1', 'custom', 'memo']);
+const _gamIds = [...(_gam.slice(_gam.indexOf('SUBJECTS'), _gam.indexOf('SUBJECTS') + 4000)
+  .matchAll(/\bid:\s*'([a-z_0-9]+)'/g))].map(m => m[1]).filter(x => !_skip.has(x));
+ok(SUBJECTS.length === _gamIds.length, 'gamify.js の科目数とレジストリが一致している',
+   'registry=' + SUBJECTS.length + ' gamify=' + _gamIds.length);
+ok(_gamIds.every(id => SUBJECTS.some(s => s.sid === id)),
+   'gamify.js の全科目がレジストリにある',
+   '欠け=' + _gamIds.filter(id => !SUBJECTS.some(s => s.sid === id)).join(','));
 ok(SUBJECTS.filter(s => s.ready).length >= 9, 'ready な科目が9以上ある');
 ok(new Set(SUBJECTS.map(s => s.sid)).size === SUBJECTS.length, 'sid が重複していない');
 ok(SUBJECTS.every(s => /^#[0-9A-Fa-f]{6}$/.test(s.color)), '色が全部6桁hex');

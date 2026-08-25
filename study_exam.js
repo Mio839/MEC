@@ -5,6 +5,31 @@
 // Exam mode state
 let examMode = false;
 let examQueue = [];
+/* ⚠️⚠️ 出題キューの正本は examQueue。_examSet（所属判定）と _examOrder（DOM順）はその索引で、
+   examQueue を差し替えたら必ず _examSyncQueue() を呼んで作り直すこと。
+
+   2026-08-24: 「1科目で始めた試験が、一度誤答すると他科目を巻き込んだ複数科目の試験になる」
+   不具合の修正。原因は examQueue が権威になっていなかったこと——次の問題を決める
+   (_getExamTargetCard / _scrollToNextCard)・選択肢のクリック・採点(revealAnswer) の3つが
+   すべて DOM を全走査しており、キュー外のカードを締め出していたのは **開始時に1度だけ**
+   実行される「キュー外は display:none」の1行だけだった。開始後に DOM へ足されたカード
+   （試験中リロード→自動復元が selectedSubjects へ他科目を足して _fetchSubjectCards する
+   経路など）はその関所を通らないので、そのまま出題・採点され、revealAnswer が
+   examBySubj[sid] を無条件に作るため別科目がセッションに生えた。
+   ⚠️ 連続正解中に露見しないのは、正解時だけ _scrollToNextCard が必ずキュー内の次カードへ
+      強制スクロールして視界をキュー上に固定するから。誤答時は自動スクロールが無く、
+      ユーザーが自力でスクロールしてキュー外へ入り込む＝誤答は原因ではなく露見の契機。
+   ⚠️ 判定を display や DOM の並びに戻さないこと（同じ穴が開く）。 */
+let _examSet = new Set();
+let _examOrder = [];
+function _examSyncQueue() {
+  _examSet = new Set(examQueue);
+  // DOM順（画面の上から下）。examQueue の配列順は出題順であって DOM 順とは限らない。
+  _examOrder = examQueue.slice().sort((a, b) =>
+    (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1);
+}
+function _examHas(card) { return !!card && _examSet.has(card); }
+window._examHas = _examHas;
 let examAnswered = 0;
 let examCorrect = 0;
 let examStreak = 0;
@@ -267,7 +292,7 @@ function _saveResumes(arr) {
   if (window.MECSync) window.MECSync.scheduleSync();
 }
 function _renderResumeList() {
-  const subjNameMap = { endo:'内分泌', resp:'呼吸器', circ:'循環器', dige:'消化器', neur:'神経', hbp:'肝胆膵', jinzo_d:'腎臓', hema:'血液', imma:'免アレ膠', kansen:'感染症', peds:'小児科', obg:'産婦人科', psy:'精神科', derm:'皮膚科', oph:'眼科', ent:'耳鼻咽喉科', uro:'泌尿器科', ortho:'整形外科', anes:'麻酔科', rad:'放射線科', tox:'中毒・職業病' };
+  const subjNameMap = { endo:'内分泌', resp:'呼吸器', circ:'循環器', dige:'消化器', neur:'神経', hbp:'肝胆膵', jinzo_d:'腎臓', hema:'血液', imma:'免アレ膠', kansen:'感染症', peds:'小児科', obg:'産婦人科', psy:'精神科', derm:'皮膚科', oph:'眼科', ent:'耳鼻咽喉科', uro:'泌尿器科', ortho:'整形外科', anes:'麻酔科', rad:'放射線科', tox:'中毒・職業病', ph:'公衆衛生' };
   // 達成度は doneCount（開封済み・採点除外含む）基準。旧データは answeredCount にフォールバック。
   const _done = r => (r.doneCount != null ? r.doneCount : r.answeredCount);
   const resumes = _loadResumes().filter(r => r.total > _done(r));
@@ -725,8 +750,8 @@ function startExam(overrideUids = null) {
   if (!_isHostSession()) localStorage.setItem('mec_exam_active_key', _examSessionKey);
   _examChoiceBackup.clear();
   document.body.classList.add('exam-mode');
-  const _eqSet = new Set(examQueue);
-  document.querySelectorAll('.qc[data-uid]').forEach(c => { if (!_eqSet.has(c)) c.style.display = 'none'; });
+  _examSyncQueue();
+  document.querySelectorAll('.qc[data-uid]').forEach(c => { if (!_examSet.has(c)) c.style.display = 'none'; });
   let _firstFlips = null;   // B6: 1問目だけ並べ替えの移動量を控える
   examQueue.forEach((card, qi) => {
     card.style.display = '';
@@ -754,9 +779,12 @@ function startExam(overrideUids = null) {
       if (!ch.dataset.examInit) {
         ch.dataset.examInit = '1';
         ch.addEventListener('click', function(e) {
-          if (!examMode || this.closest('.qc').classList.contains('exam-revealed')) return;
-          _playSelectSound();
           const c = this.closest('.qc');
+          // ⚠️ キュー所属を必ず見ること。このリスナーは dataset.examInit で一度きり付き、
+          //    以後どのセッションでも生き続けるので、前のセッションのカード（＝別科目）が
+          //    画面に出た瞬間そのまま遊べてしまう。
+          if (!examMode || !_examHas(c) || c.classList.contains('exam-revealed')) return;
+          _playSelectSound();
           const r = _getRequiredCount(c);
 
           // 【案10】重厚メカニカル接点電気スパーク
@@ -837,6 +865,9 @@ function startExam(overrideUids = null) {
 
 function revealAnswer(card) {
   document.body.classList.remove('exam-bullet-time');
+  // ⚠️ キュー外のカードを採点しないこと。下で examBySubj[sid] を無条件に作るので、
+  //    1問でも通すと1科目で始めた試験が複数科目のセッションとして集計・表示される。
+  if (examMode && !_examHas(card)) return;
   if (card.classList.contains('exam-revealed')) return;
   // 採点除外（正解肢なし）は採点対象外。分母・正誤・myrate・赤旗・再試験のどれにも入れない。
   if (_isExamUngraded(card)) { _revealExcludedNeutral(card); return; }
@@ -878,7 +909,7 @@ function revealAnswer(card) {
         // A2/A3/A1: ショックウェーブ・ボーダートレース・速答ボーナス
         const _ok = card.querySelector('.ch2.ok');
         _correctShockwave(_ok);
-        if (_isFastAnswer(card)) setTimeout(() => _triggerFastBonus(_ok), 90);
+        // ⚠️ 速答ボーナスは _afterCorrectFx が段（_fastGrade）付きで出す。ここで出すと二重に飛ぶ。
         _traceCardBorder(card);
         _afterCorrectFx(card, card.querySelector('.ch2.ok') || selected[0]);
       } catch (err) {
@@ -1062,9 +1093,14 @@ function _triggerFullscreenCombo(n, tier) {
 
 /* B1(2026-08-14): 天井を tier6（20連続〜）から tier7（30連続〜）へ。
    上限が見えていると「そこまで行けば終わり」になって伸ばす動機が止まるため、
-   最上段の手前にもう一段置く。tier7 は各テーマが専用の配色・ラベルを持つ。 */
+   最上段の手前にもう一段置く。tier7 は各テーマが専用の配色・ラベルを持つ。
+   2026-08-25: 段の敷居を前倒しした（4/7/10/15/20/30 → 3/5/7/10/14/20）。
+   50問セッションで tier5 以上に一度も届かないことが多く、上段の演出（絵文字群・
+   グリッチ・墨スワイプ）が事実上死んでいたため。天井は tier7 のまま。
+   ⚠️ この梯子を変えたら _updateComboMeter の starts/ends（次の段まであと何問かの表示）と
+      _setAwaken の閾値も必ず揃えること。ceTier（chapter_exam.js）とも対で直す。 */
 function _examTier(n) {
-  return n >= 30 ? 7 : n >= 20 ? 6 : n >= 15 ? 5 : n >= 10 ? 4 : n >= 7 ? 3 : n >= 4 ? 2 : 1;
+  return n >= 20 ? 7 : n >= 14 ? 6 : n >= 10 ? 5 : n >= 7 ? 4 : n >= 5 ? 3 : n >= 3 ? 2 : 1;
 }
 
 /* tier で配列・マップを引くときのクランプ。
@@ -1387,10 +1423,15 @@ const EXAM_EFFECT_THEMES = {
 };
 
 /* ══════════ 追加演出（2026-07-20）══════════
-   設計方針: 総量を増やすのではなく「山谷」を作る。ティア昇格の瞬間だけフル演出にし、
+   設計方針(2026-08-14): 総量を増やすのではなく「山谷」を作る。ティア昇格の瞬間だけフル演出にし、
    同ティア内の連続正解はむしろ軽くする（_showStreakEffect の promoted 分岐）。
+   ⚠️ 2026-08-25 にこの山谷設計は撤回した（STREAK_FULL_EVERY_TIME）。同ティア継続でもフル演出を出す。
    DOM系の演出は _fxOff() でガードする（MecFXはstudy.html側で既にno-op化される）。 */
 const FAST_ANSWER_MS = 3000;          // これ以内の正解を「速答」とみなす
+/* 2026-08-25: 「昇格フレームだけフル演出・同ティア内はあえて軽く」という山谷設計を撤回した。
+   同ティア継続でもフル演出を出す（ユーザーの判断）。false へ戻せば旧挙動に戻る。
+   ⚠️ TIER UP スタンプだけは promoted のまま——昇格していないのに TIER UP は嘘になる。 */
+const STREAK_FULL_EVERY_TIME = true;
 const _examCardSeenAt = new Map();    // uid → 最初に画面フォーカスされた時刻ms
 let _zoneTimer = null;                // ゾーン（tier4+の常駐環境演出）のemitインターバル
 let _zoneActive = false;
@@ -1416,10 +1457,14 @@ function _isFastAnswer(card) {
 
 /* A3(2026-08-14): 速答を3段に割る。
    以前は「3秒以内かどうか」の二値で、迷わず即答したのか少し考えたのかが同じ扱いだった。
-   上に一段足す形にしてあるので、従来「速答」だった帯（〜3秒）はほぼそのまま残る。
+   2026-08-25: 帯を 2/4/7 秒から 3/6/12 秒へ広げた（症例文の長い問題では読むだけで
+   7秒を超え、速答ラベルがほぼ出なかったため）。
+   ⚠️ FAST_TIER_MS[2] は R1（読書中の蒸気）が「圧が溜まる」境目として再利用している。
+      ここを緩めると蒸気も同じぶん遅れて出る＝「A3 が褒める区間は静かで、褒めない区間だけ
+      機械が動く」という筋はそのまま保たれる（定数を分けないこと）。
    返り値 3=一閃 / 2=速答 / 1=まずまず / 0=速答ではない。
    ⚠️ theme.fastLabels の並びは [3段目, 2段目, 1段目]（強い順）。 */
-const FAST_TIER_MS = [2000, 4000, 7000];   // [一閃, 速答, まずまず] の上限
+const FAST_TIER_MS = [3000, 6000, 12000];  // [一閃, 速答, まずまず] の上限（2026-08-25 に 2/4/7 秒から緩和）
 function _fastGrade(card) {
   const uid = card && card.dataset && card.dataset.uid;
   if (!uid) return 0;
@@ -1858,8 +1903,8 @@ function _triggerRecover(el) {
 /* ══════════ A2: 初見突破 / リベンジ達成（2026-08-14）══════════
    「一発で当てた」と「前に落とした問題を取り返した」は価値が違うのに、今まで
    どちらも同じ祝い方だった。判定材料は myrate_v1 の **加算前** の値（_recordMyRate が控える）。
-   ⚠️ 初見は易問（正答率80%以上）では出さない。初回の通し学習では毎問出て意味が薄れるため。 */
-const EXAM_EASY_RATE = 80;
+   2026-08-25: 「初見は易問（正答率80%以上）では出さない」制限を撤廃した（ユーザーの判断）。
+   閾値 EXAM_EASY_RATE(=80) は参照が無くなったので定数ごと外してある。 */
 
 function _triggerAnswerMark(el, kind) {
   if (_fxOff()) return;
@@ -1960,6 +2005,16 @@ function _applyCardThemeComboFx(card, isCorrect, streak) {
   }
 }
 
+/* A5: 選ばなかった肢が沈む。⚠️ 1.1秒で必ずクラスを外すこと（解説が読めなくなる）。
+   ⚠️ 2026-08-25 に復旧した—— 5ca577f でこの定義だけが消え、呼び出しが残っていたため
+   _afterCorrectFx が2行目で ReferenceError を投げ、以降の演出（A4 リボン・A1/A2 ラベル・
+   S5 当て板・UIテーマ固有演出・C2 立て直し）が丸ごと死んでいた（try/catch に飲まれていた）。 */
+function _sinkOtherChoices(card) {
+  if (!card || _fxOff()) return;
+  card.classList.add('exam-sink');
+  setTimeout(() => card.classList.remove('exam-sink'), 1100);
+}
+
 /* ══ 正解／誤答の追加演出の合流点（2026-08-14）══
    revealAnswer（選択肢）と _revealCalcAnswer（計算問題の桁入力）の2経路があるので、
    新しい演出は必ずこの2関数へ足すこと。片方だけに書くと計算問題50問で演出が抜ける。
@@ -1974,13 +2029,20 @@ function _afterCorrectFx(card, fxEl) {
 
   const uid = card && card.dataset && card.dataset.uid;
   const prior = (_lastAnswerPrior.uid && _lastAnswerPrior.uid === uid) ? _lastAnswerPrior : null;
-  const rate = _cardRate(card);
+  /* 2026-08-25: ラベルを1つに絞る排他をやめ、該当するものを全部出す（ユーザーの判断）。
+     難問は肢の中央・リベンジ／初見は肢の右下と発火位置が違うので重ならない。
+     ⚠️ リベンジ（wasWrong）と初見（fresh）は定義上どちらか一方しか立たない（fresh は total=0）
+        ので、この2つだけは else-if のままにしてある。
+     ⚠️ 難問と同時に出るときはラベルが2つ立て続けに飛ぶので、マーク側を後ろへずらす。
+     2026-08-25: 初見ラベルの「易問(>=80%)では出さない」制限も撤廃した。 */
+  const _markDelay = _isHardCard(card) ? 420 : 150;
   if (_isHardCard(card)) {
     setTimeout(() => _triggerHardClear(fxEl, card), 150);
-  } else if (prior && prior.wasWrong) {
-    setTimeout(() => _triggerAnswerMark(fxEl, 'revenge'), 150);
-  } else if (prior && prior.fresh && !(rate != null && rate >= EXAM_EASY_RATE)) {
-    setTimeout(() => _triggerAnswerMark(fxEl, 'fresh'), 150);
+  }
+  if (prior && prior.wasWrong) {
+    setTimeout(() => _triggerAnswerMark(fxEl, 'revenge'), _markDelay);
+  } else if (prior && prior.fresh) {
+    setTimeout(() => _triggerAnswerMark(fxEl, 'fresh'), _markDelay);
   }
 
   // S5(2026-08-21): 克服＝前に落とした問題を正解し直した瞬間、当て板が打たれて一度だけ磨かれ、消える。
@@ -2613,20 +2675,22 @@ function _showStreakEffect(n) {
   if (n < 2) return;
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const tier = _examTier(n);
-  // B4: 昇格フレーム（tierが上がった瞬間）だけフル演出。同ティア内はあえて軽くして山谷を作る。
+  // B4: 昇格フレーム（tierが上がった瞬間）の判定。2026-08-25 以降これが分けるのは TIER UP スタンプだけ。
   const prevTier = (n - 1) < 2 ? 0 : _examTier(n - 1);
   const promoted = tier > prevTier;
+  // 2026-08-25: 同ティア継続でもフル演出（promoted は TIER UP スタンプ専用に縮小）
+  const full = promoted || STREAK_FULL_EVERY_TIME;
   const labels = theme.labels(n);
   const durs   = [0, 2.0, 2.5, 3.2, 4.2, 5.2, 5.8];
 
-  // B5/B7: tier4以上でゾーン突入、20連続で覚醒モード
-  if (tier >= 4) _zoneStart();
-  _setAwaken(n >= 20);
+  // B5/B7: tier3以上でゾーン突入、tier6 の入口（14連続）で覚醒モード
+  if (tier >= 3) _zoneStart();
+  _setAwaken(n >= 14);   // tier6 の入口に合わせる
   if (promoted) _triggerTierUpStamp(tier, n);
 
-  if (promoted && theme.useCRT) _spawnCRTOverlay(tier);
-  if (promoted && tier >= 4) _triggerTimeStop(tier);
-  if (promoted && tier >= 2) _triggerFullscreenCombo(n, tier);
+  if (full && theme.useCRT) _spawnCRTOverlay(tier);
+  if (full && tier >= 3) _triggerTimeStop(tier);
+  if (full && tier >= 1) _triggerFullscreenCombo(n, tier);
 
   const toast = document.getElementById('examStreakToast');
   if (!toast) return;
@@ -2637,9 +2701,9 @@ function _showStreakEffect(n) {
   // 縦位置は固定値(旧 top:68px)ではなく可視帯の上端＝ヘッダー下端に置く。
   // iPadはヘッダーが高く、68px だとヘッダーに重なって上端で切れていた（実機報告・2026-08-04）。
   toast.style.top = _fxBand().top + 'px';
-  toast.className = 't' + tier + (promoted ? '' : ' quiet');
+  toast.className = 't' + tier + (full ? '' : ' quiet');
   toast.textContent = labels[tier];
-  _showStreakSignature(n, tier, promoted);
+  _showStreakSignature(n, tier, full);
   void toast.offsetWidth;
   toast.animate([
     {opacity:0, transform:'translateX(-50%) translateY(-22px) scale(.65) rotate(-4deg)', offset:0},
@@ -2650,19 +2714,19 @@ function _showStreakEffect(n) {
     {transform:'translateX(-50%) translateY(0) scale(1)', offset:.50},
     {opacity:1, offset:.68},
     {opacity:0, transform:'translateX(-50%) translateY(-16px) scale(.88)', offset:1}
-  ], {duration: durs[tier] * (promoted ? 1000 : 520), easing:'ease'});
+  ], {duration: durs[tier] * (full ? 1000 : 520), easing:'ease'});
   /* S13(2026-08-21): 打撃の1フレーム。着地の瞬間に一度だけ沈んで戻る（1文字ずつのタイプはしない
      ——ラベルは一瞬で読めることに価値があり、演出のために情報を遅らせてはいけない）。
      ⚠️ translate プロパティで書くこと。入場アニメが transform を占有している。 */
   {
-    const _dur = durs[tier] * (promoted ? 1000 : 520);
+    const _dur = durs[tier] * (full ? 1000 : 520);
     toast.animate([
       {translate:'0 0'}, {translate:'0 1.6px', offset:.35}, {translate:'0 0'}
     ], {duration: 200, delay: _dur * .12, easing:'cubic-bezier(.3,1.5,.5,1)'});
   }
 
   const flash = document.getElementById('examStreakFlash');
-  if (flash && promoted && tier >= 2) {
+  if (flash && full && tier >= 1) {
     flash.getAnimations?.().forEach(a => a.cancel());
     const fc = theme.flashColors;
     flash.style.background = fc[tier];
@@ -2680,24 +2744,24 @@ function _showStreakEffect(n) {
     }
   }
 
-  if (promoted) {
-    if (tier >= 2) _spawnStreakParticles(tier);
-    if (tier >= 3) _triggerScreenShake(tier);
-    if (tier >= 4) _triggerBorderGlow(tier);
-    if (tier >= 5) {
+  if (full) {
+    if (tier >= 1) _spawnStreakParticles(tier);
+    if (tier >= 2) _triggerScreenShake(tier);
+    if (tier >= 3) _triggerBorderGlow(tier);
+    if (tier >= 4) {
       setTimeout(() => _spawnEmojiFloaters(tier), 80);
       if (theme.useGlitch) _triggerGlitch(tier);
       else if (theme.useBrushSwipe) _inkBrushSwipe(tier);
     }
-  } else {
-    // 同ティア内の継続。控えめな中央バースト＋リングのみで「積み上がっている」感じだけ残す
-    _spawnLightStreakFx(tier);
   }
+  // UIテーマ連動の軽量エフェクト。旧実装では昇格しないフレームの「代わり」だったが、
+  // フル演出が毎回出るようになったので上乗せとして残す（テーマ固有の粒が失われないため）。
+  if (!promoted) _spawnLightStreakFx(tier);
   _triggerBgBreath(tier);
   _updateComboMeter(n);
 }
 
-// B4: 昇格しなかったフレーム用の軽量エフェクト（UIテーマ完全連動）
+// B4: 同ティア継続のフレームへ上乗せする軽量エフェクト（UIテーマ完全連動）
 function _spawnLightStreakFx(tier) {
   if (!window.MecFX) return;
   const { cx, cy } = _fxBand();
@@ -3516,7 +3580,7 @@ function _updateComboMeter(n) {
   meter.style.opacity = '1';
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const tier = _examTier(n);
-  const starts=[0,2,4,7,10,15,20,30], ends=[0,4,7,10,15,20,30,40];
+  const starts=[0,2,3,5,7,10,14,20], ends=[0,3,5,7,10,14,20,28];
   const pct = tier>=7 ? 100 : ((n-starts[tier])/(ends[tier]-starts[tier])*100);
   const grads = theme.meterGrads;
   fill.style.background = grads[_tIdx(tier, grads)];
@@ -3835,10 +3899,8 @@ function _maybeShowFinishBtn() {
   btn.className = 'exam-finish-btn';
   btn.textContent = '📊 結果画面に進む';
   btn.onclick = () => { btn.disabled = true; exitExam(); };
-  // DOM順で最後の試験カードの直後に挿入
-  const ordered = examQueue.slice().sort((a, b) =>
-    (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1);
-  const lastCard = ordered[ordered.length - 1];
+  // DOM順で最後の試験カードの直後に挿入（並べ替えは _examSyncQueue が済ませてある）
+  const lastCard = _examOrder[_examOrder.length - 1];
   if (lastCard && lastCard.parentNode) lastCard.after(btn);
   else (document.querySelector('.ct') || document.body).appendChild(btn);
   return btn;
@@ -3855,7 +3917,8 @@ function _showFinishAndScroll() {
 }
 
 function _scrollToNextCard(fromCard) {
-  const allShown = [...document.querySelectorAll('.qc[data-uid]')].filter(c => c.style.display !== 'none');
+  // ⚠️ キュー(_examOrder)から選ぶこと。DOM 全走査に戻すとキュー外のカードへ送り込む。
+  const allShown = _examOrder.filter(c => c.style.display !== 'none');
   const unrevealed = allShown.filter(c => !c.classList.contains('exam-revealed'));
   if (!unrevealed.length) { _showFinishAndScroll(); return; }
   let next;
@@ -3874,15 +3937,16 @@ function _removeCardFromExam(card) {
   const idx = examQueue.indexOf(card);
   if (idx < 0) return;
   // カードを隠す前に次の未回答カードを特定（nullを渡すと先頭スクロールになるため）
-  const allShown = [...document.querySelectorAll('.qc[data-uid]')].filter(c => c.style.display !== 'none');
+  const allShown = _examOrder.filter(c => c.style.display !== 'none');
   const cardIdx = allShown.indexOf(card);
   const nextTarget = allShown.slice(cardIdx + 1).find(c => !c.classList.contains('exam-revealed'));
   examQueue.splice(idx, 1);
+  _examSyncQueue();   // ⚠️ キューを触ったら索引を必ず張り直す
   card.querySelectorAll('.mec-err-panel.open').forEach(p => p.classList.remove('open'));
   card.style.display = 'none';
   _updateExamProg();
   _saveExamResume();
-  const remaining = [...document.querySelectorAll('.qc[data-uid]')].filter(c => c.style.display !== 'none' && !c.classList.contains('exam-revealed'));
+  const remaining = _examOrder.filter(c => c.style.display !== 'none' && !c.classList.contains('exam-revealed'));
   if (!remaining.length) { exitExam(); return; }
   if (nextTarget && remaining.includes(nextTarget)) {
     const hdr = document.querySelector('.st-hdr');
@@ -4010,7 +4074,7 @@ let _examScrollRaf = null;
       含む9箇所から呼ばれており、1関数で全経路を覆えて取りこぼしが構造的に起きない。 */
 // カードに向かってから点灯するまでの遅延。★既定 0（2026-08-19 ユーザー決定）。
 // 定数のまま残してあるのは、解答速度によって体感が正反対に振れるため（1問10秒なら拍が読めるが、
-// 6秒だと点滅に近くうるさい）。倒すなら FAST_TIER_MS[2]=7000（A3 の「速答ではない」の境目）を
+// 6秒だと点滅に近くうるさい）。倒すなら FAST_TIER_MS[2]（A3 の「速答ではない」の境目・現在12000）を
 // 再利用する——A3 が褒める区間は静かで、褒めない区間だけ機械が回るという筋が通り、新しい定数も
 // 増えない。⚠️ 分布は推測せず mec_attempts_v1 の所要秒（弱点カルテの素材）から出すこと。
 const EXAM_IDLE_DELAY_MS = 0;
@@ -4027,7 +4091,9 @@ let _examIdleFocusAt = 0;
 function _getExamTargetCard() {
   const hdr = document.querySelector('.st-hdr');
   const hdrH = hdr ? hdr.getBoundingClientRect().bottom : 0;
-  const visibleCards = [...document.querySelectorAll('.qc[data-uid]')].filter(c => c.style.display !== 'none' && !c.classList.contains('exam-revealed'));
+  // ⚠️ DOM を全走査しないこと。キュー外のカード（他科目・フィルター外）が display:none を
+  //    失っていると、そのまま「次の問題」として焦点が乗り、出題・採点されてしまう。
+  const visibleCards = _examOrder.filter(c => c.style.display !== 'none' && !c.classList.contains('exam-revealed'));
   return visibleCards.find(c => c.getBoundingClientRect().bottom > hdrH) || null;
 }
 /* R3(Phase 5): 連続正解を読書中も残す。tier の色を焦点枠（盤面側）へ流す。
@@ -4096,7 +4162,7 @@ function _updateExamFocus() {
    R1 圧が溜まり解答で放出する（蒸気）／R8 スクロールに機械が応答する／R10 離席でスリープ。
    設計 §11-5。 */
 
-/* R1: 読書が FAST_TIER_MS[2]（7秒＝A3 が「速答ではない」と判定する境目）を超えたら圧が溜まる。
+/* R1: 読書が FAST_TIER_MS[2]（A3 が「速答ではない」と判定する境目・2026-08-25に7秒→12秒）を超えたら圧が溜まる。
    ⚠️ 新しいしきい値の定数を作らないこと。この再利用によって「A3 が褒める区間は静かで、
       褒めない区間だけ機械が動く」という筋が通る（D9 のコメントが既に提案していた）。
    ⚠️ 経過時刻の帳簿を新設しないこと。_examCardSeenAt（_markCardSeen が記録・速答判定の起点）が正本。 */
@@ -4496,8 +4562,8 @@ function resumeExam(savedAt) {
   localStorage.setItem('mec_exam_active_key', saved.key || '');
   _examChoiceBackup.clear();
   document.body.classList.add('exam-mode');
-  const _eqSet = new Set(examQueue);
-  document.querySelectorAll('.qc[data-uid]').forEach(c => { if (!_eqSet.has(c)) c.style.display = 'none'; });
+  _examSyncQueue();
+  document.querySelectorAll('.qc[data-uid]').forEach(c => { if (!_examSet.has(c)) c.style.display = 'none'; });
 
   const revealedUids = saved.revealedUids || {};
 
@@ -4741,6 +4807,8 @@ function exitExam() {
   try { showExamSummary(); } catch(e) { console.error('showExamSummary error:', e); document.getElementById('examOverlay')?.classList.add('open'); }
   _srsReviewMode = false;
   _todayWrongMode = false;
+  // キューの索引は通常閲覧へ持ち越さない（examQueue は結果画面が読むので触らない）
+  _examSet = new Set(); _examOrder = [];
   try { applyFilters(); } catch(e) {}
   try { _refreshExamLapUI(); } catch(e) {}
   try { if (window.MECSync) window.MECSync.pushToGist(); } catch(e) {}

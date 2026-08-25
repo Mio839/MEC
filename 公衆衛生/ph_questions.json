@@ -1,0 +1,21 @@
+[
+  { "chapter": { "num": 1, "name": "医師法と医療法" } },
+  { "chapter": { "num": 2, "name": "保健所" } },
+  { "chapter": { "num": 3, "name": "死" } },
+  { "chapter": { "num": 4, "name": "医療職" } },
+  { "chapter": { "num": 5, "name": "医療保険" } },
+  { "chapter": { "num": 6, "name": "介護保険" } },
+  { "chapter": { "num": 7, "name": "人　口" } },
+  { "chapter": { "num": 8, "name": "疫学研究" } },
+  { "chapter": { "num": 9, "name": "検査学" } },
+  { "chapter": { "num": 10, "name": "健康増進と生活習慣" } },
+  { "chapter": { "num": 11, "name": "医薬品・食品・嗜好品" } },
+  { "chapter": { "num": 12, "name": "母子保健" } },
+  { "chapter": { "num": 13, "name": "小児保健・学校保健" } },
+  { "chapter": { "num": 14, "name": "障害とノーマライゼーション" } },
+  { "chapter": { "num": 15, "name": "感染症" } },
+  { "chapter": { "num": 16, "name": "産業衛生" } },
+  { "chapter": { "num": 17, "name": "環境問題" } },
+  { "chapter": { "num": 18, "name": "海外協力" } },
+  { "chapter": { "num": 19, "name": "その他基本事項" } }
+]

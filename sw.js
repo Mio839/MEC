@@ -1,3 +1,7 @@
+// 2026-08-24j: 削除済みフィルターの保存値が残って0問表示になる経路を閉じた。
+//   - study.html: 許可リスト外の mec_filter_v1 / mec_state_v1 を起動時に all へ正規化し、旧フィルター分岐（norate/weak/due/done/undone）を削除。
+//   - study.css: 削除済みフィルターの選択中スタイルを削除。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-24h: 統合学習ツール画面のテーマ・効果音設定のUI分離とテーマ選択時文字化け修正。
 //   - study.html / study.css / ui_theme.css: テーマボタンと効果音ボタンを切り分け、テーマ選択モーダル（#studyThemeOv）と効果音設定モーダル（#studySoundOv）を分離。
 //   - fx_engine.js: 賢者の星図・魔導書エフェクト（celestial_grimoire）内の未対応ルーン文字をクロスプラットフォーム対応のギリシャ文字・天体幾何学記号列に修正。
@@ -450,12 +454,12 @@
 // v103: 計算問題を桁入力で解答できるようにした（calc_input.js 新設）。
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
-const CACHE = "mec-v169";
+const CACHE = "mec-v170";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-24h";
+const SHELL_VERSION = "2026-08-25a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -519,7 +523,7 @@ const CARDS = [
   "questions_neur.json","questions_hbp.json","questions_jinzo_d.json","questions_hema.json",
   "questions_imma.json","questions_kansen.json","questions_jitsu1.json",
   "questions_peds.json","questions_obg.json","questions_psy.json",
-  "questions_derm.json","questions_oph.json","questions_ent.json","questions_uro.json","questions_ortho.json","questions_anes.json","questions_rad.json","questions_tox.json"
+  "questions_derm.json","questions_oph.json","questions_ent.json","questions_uro.json","questions_ortho.json","questions_anes.json","questions_rad.json","questions_tox.json","questions_ph.json"
 ];
 
 self.addEventListener("install", e => {

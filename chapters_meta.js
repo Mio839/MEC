@@ -1181,6 +1181,20 @@ const MEC_CHAPTERS = [
         "count": 18
       }
     ]
+  },
+  {
+    "id": "ph",
+    "name": "公衆衛生",
+    "icon": "🏛",
+    "color": "#0891B2",
+    "chapters": [
+      {
+        "prefix": "ph_ch01",
+        "file": "公衆衛生/ch01_ishihou_to_iryouhou.html",
+        "title": "第1章 医師法と医療法",
+        "count": 71
+      }
+    ]
   }
 ];
 const MEC_CHAPTER_META = {

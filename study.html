@@ -77,7 +77,7 @@ if ('serviceWorker' in navigator) {
       <button class="hdr-btn hdr-sound-btn" onclick="openStudySoundOv()" title="効果音設定" aria-label="効果音設定">🔊 効果音</button>
       <button class="hdr-btn" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">♻️</button>
       <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
-      <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0824h</span>
+      <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0824j</span>
     </div>
   </div>
   <div class="st-filter-panel" id="stFilterPanel">
@@ -103,6 +103,7 @@ if ('serviceWorker' in navigator) {
     <button class="chip" data-sid="anes" onclick="toggleSubjectChip(this,'anes')" aria-pressed="false">💉&nbsp;麻酔科</button>
     <button class="chip" data-sid="rad" onclick="toggleSubjectChip(this,'rad')" aria-pressed="false">☢️&nbsp;放射線科</button>
     <button class="chip" data-sid="tox" onclick="toggleSubjectChip(this,'tox')" aria-pressed="false">☠️&nbsp;中毒・職業病</button>
+    <button class="chip" data-sid="ph" onclick="toggleSubjectChip(this,'ph')" aria-pressed="false">🏛&nbsp;公衆衛生</button>
   </div>
   <div class="filter-row" role="group" aria-label="絞り込みと学習モード">
     <button class="chip" data-sid="custom" onclick="toggleSubjectChip(this,'custom')" aria-pressed="false">✏️&nbsp;自作問題</button>
@@ -402,6 +403,10 @@ if ('serviceWorker' in navigator) {
 <div class="subj-hdr" style="background:#65A30D"><span class="subj-hdr-icon">☠️</span><span class="subj-hdr-name">中毒・職業病</span><span class="subj-hdr-count">48問</span></div>
 <div class="subj-cards-loading" data-sid="tox">読み込み中…</div>
 </div>
+<div class="subj-section" data-sid="ph" data-visible="true">
+<div class="subj-hdr" style="background:#0891B2"><span class="subj-hdr-icon">🏛</span><span class="subj-hdr-name">公衆衛生</span><span class="subj-hdr-count">71問</span></div>
+<div class="subj-cards-loading" data-sid="ph">読み込み中…</div>
+</div>
 <div class="subj-section" data-sid="jitsu1" data-visible="true">
 <div class="subj-hdr" style="background:#728FC0"><span class="subj-hdr-icon">🎯</span><span class="subj-hdr-name">実力試験Ⅰ</span><span class="subj-hdr-count">160問</span></div>
 <div class="subj-cards-loading" data-sid="jitsu1">読み込み中…</div>
@@ -421,7 +426,7 @@ if ('serviceWorker' in navigator) {
 </div>
 
 <script>
-const STUDY_SUBJECTS = [{"id": "endo", "name": "内分泌", "icon": "⚗️", "color": "#169E9F"}, {"id": "resp", "name": "呼吸器", "icon": "🌬️", "color": "#4390EE"}, {"id": "circ", "name": "循環器", "icon": "❤️", "color": "#E16E33"}, {"id": "dige", "name": "消化器", "icon": "🌿", "color": "#8A81EF"}, {"id": "neur", "name": "神経", "icon": "🧠", "color": "#619E37"}, {"id": "hbp", "name": "肝胆膵", "icon": "🧪", "color": "#C0820E"}, {"id": "jinzo_d", "name": "腎臓", "icon": "💧", "color": "#7494A1"}, {"id": "hema", "name": "血液", "icon": "🩸", "color": "#E56574"}, {"id": "imma", "name": "免アレ膠", "icon": "🛡️", "color": "#B973D7"}, {"id": "kansen", "name": "感染症", "icon": "🦠", "color": "#9B920A"}, {"id": "peds", "name": "小児科", "icon": "🧸", "color": "#10A276"}, {"id": "obg", "name": "産婦人科", "icon": "🤰", "color": "#D36BAA"}, {"id": "psy", "name": "精神科", "icon": "💭", "color": "#5E60CE"}, {"id": "derm", "name": "皮膚科", "icon": "🩹", "color": "#B5654A"}, {"id": "oph", "name": "眼科", "icon": "👁️", "color": "#0E7490"}, {"id": "ent", "name": "耳鼻咽喉科", "icon": "👂", "color": "#0F766E"}, {"id": "uro", "name": "泌尿器科", "icon": "💦", "color": "#0891B2"}, {"id": "ortho", "name": "整形外科", "icon": "🦴", "color": "#A16207"}, {"id": "anes", "name": "麻酔科", "icon": "💉", "color": "#7C3AED"}, {"id": "rad", "name": "放射線科", "icon": "☢️", "color": "#475569"}, {"id": "tox", "name": "中毒・職業病", "icon": "☠️", "color": "#65A30D"}, {"id": "jitsu1", "name": "実力試験Ⅰ", "icon": "🎯", "color": "#728FC0"}, {"id": "custom", "name": "自作問題", "icon": "✏️", "color": "#CB9BC6"}, {"id": "memo", "name": "暗記メモ", "icon": "📝", "color": "#D0C7A6"}];
+const STUDY_SUBJECTS = [{"id": "endo", "name": "内分泌", "icon": "⚗️", "color": "#169E9F"}, {"id": "resp", "name": "呼吸器", "icon": "🌬️", "color": "#4390EE"}, {"id": "circ", "name": "循環器", "icon": "❤️", "color": "#E16E33"}, {"id": "dige", "name": "消化器", "icon": "🌿", "color": "#8A81EF"}, {"id": "neur", "name": "神経", "icon": "🧠", "color": "#619E37"}, {"id": "hbp", "name": "肝胆膵", "icon": "🧪", "color": "#C0820E"}, {"id": "jinzo_d", "name": "腎臓", "icon": "💧", "color": "#7494A1"}, {"id": "hema", "name": "血液", "icon": "🩸", "color": "#E56574"}, {"id": "imma", "name": "免アレ膠", "icon": "🛡️", "color": "#B973D7"}, {"id": "kansen", "name": "感染症", "icon": "🦠", "color": "#9B920A"}, {"id": "peds", "name": "小児科", "icon": "🧸", "color": "#10A276"}, {"id": "obg", "name": "産婦人科", "icon": "🤰", "color": "#D36BAA"}, {"id": "psy", "name": "精神科", "icon": "💭", "color": "#5E60CE"}, {"id": "derm", "name": "皮膚科", "icon": "🩹", "color": "#B5654A"}, {"id": "oph", "name": "眼科", "icon": "👁️", "color": "#0E7490"}, {"id": "ent", "name": "耳鼻咽喉科", "icon": "👂", "color": "#0F766E"}, {"id": "uro", "name": "泌尿器科", "icon": "💦", "color": "#0891B2"}, {"id": "ortho", "name": "整形外科", "icon": "🦴", "color": "#A16207"}, {"id": "anes", "name": "麻酔科", "icon": "💉", "color": "#7C3AED"}, {"id": "rad", "name": "放射線科", "icon": "☢️", "color": "#475569"}, {"id": "tox", "name": "中毒・職業病", "icon": "☠️", "color": "#65A30D"}, {"id": "ph", "name": "公衆衛生", "icon": "🏛", "color": "#0891B2"}, {"id": "jitsu1", "name": "実力試験Ⅰ", "icon": "🎯", "color": "#728FC0"}, {"id": "custom", "name": "自作問題", "icon": "✏️", "color": "#CB9BC6"}, {"id": "memo", "name": "暗記メモ", "icon": "📝", "color": "#D0C7A6"}];
 // Study time tracking
 let _studyStartTime = Date.now();
 let _studyTimeSaved = false;
@@ -519,6 +524,10 @@ let currentFilter = 'all';
 let currentState = 'all';
 let currentSearch = '';
 let _searchTimer = null;
+const VALID_FILTERS = new Set(['all', 'hard', 'mid', 'easy', 'star', 'img']);
+const VALID_STATES = new Set(['all', 'flag']);
+function _validFilter(f) { return VALID_FILTERS.has(f) ? f : 'all'; }
+function _validState(s) { return VALID_STATES.has(s) ? s : 'all'; }
 
 function onSearchInput(val) {
   clearTimeout(_searchTimer);
@@ -640,16 +649,16 @@ function _syncStateBtns(s) {
 }
 
 function setFilter(f) {
-  currentFilter = f;
-  _syncFilterBtns(f);
-  localStorage.setItem('mec_filter_v1', f);
+  currentFilter = _validFilter(f);
+  _syncFilterBtns(currentFilter);
+  localStorage.setItem('mec_filter_v1', currentFilter);
   applyFilters();
 }
 
 function setState(s) {
-  currentState = s;
-  _syncStateBtns(s);
-  localStorage.setItem('mec_state_v1', s);
+  currentState = _validState(s);
+  _syncStateBtns(currentState);
+  localStorage.setItem('mec_state_v1', currentState);
   applyFilters();
 }
 
@@ -686,18 +695,13 @@ function applyFilters() {
     const uid = m.uid, r = m.rate;
     let showDiff;
     if (f === 'all') showDiff = true;
-    else if (f === 'norate') showDiff = r === null;
     else if (f === 'star') showDiff = m.hasStar;
     else if (f === 'img') showDiff = m.hasImg;
-    else if (f === 'weak') { const mr = _myrate[uid]; showDiff = !!mr && mr.total >= 2 && (mr.correct / mr.total) < 0.8; }
-    else if (f === 'due') { const e = _srsData[uid]; const today = _today(); showDiff = !!e && !!e.nextReview && e.nextReview <= today; }
     else if (r !== null) showDiff = (f === 'hard' && r < 60) || (f === 'mid' && r >= 60 && r < 80) || (f === 'easy' && r >= 80);
     else showDiff = false;
     let showState;
     if (st === 'all') showState = true;
     else if (st === 'flag') showState = !!_flags[uid];
-    else if (st === 'undone') showState = !_done[uid];
-    else if (st === 'done') showState = !!_done[uid];
     else showState = true;
     if (search && m.searchText === null) m.searchText = (m.el.querySelector('.qb') || m.el).textContent.toLowerCase();
     const showSearch = !search || m.searchText.includes(search);
@@ -992,7 +996,7 @@ function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
 // ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0824h";
+const MEC_BUILD = "b-0824j";
 
 document.addEventListener('DOMContentLoaded', () => {
   // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
@@ -1043,10 +1047,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   const filterParam = new URLSearchParams(location.search).get('filter');
-  const savedFilter = filterParam || localStorage.getItem('mec_filter_v1');
-  if (savedFilter) { currentFilter = savedFilter; document.querySelectorAll('[data-filter]').forEach(b => b.classList.toggle('fc-on', b.dataset.filter === savedFilter)); }
-  const savedState = localStorage.getItem('mec_state_v1');
-  if (savedState) { currentState = savedState; document.querySelectorAll('[data-state]').forEach(b => b.classList.toggle('fs-on', b.dataset.state === savedState)); }
+  const rawFilter = filterParam || localStorage.getItem('mec_filter_v1');
+  const savedFilter = _validFilter(rawFilter);
+  if (rawFilter !== savedFilter) localStorage.setItem('mec_filter_v1', savedFilter);
+  currentFilter = savedFilter;
+  _syncFilterBtns(savedFilter);
+  const rawState = localStorage.getItem('mec_state_v1');
+  const savedState = _validState(rawState);
+  if (rawState !== savedState) localStorage.setItem('mec_state_v1', savedState);
+  currentState = savedState;
+  _syncStateBtns(savedState);
 
   // 初回訪問（localStorage未設定）はどの科目も未選択のままにする（軽量な初期状態）。
   // 上の科目バーから選ぶと _fetchSubjectCards で読み込まれる。チップ表示状態を反映。
@@ -2403,6 +2413,13 @@ function _fetchSubjectCards(sid) {
     if (!(typeof examMode !== 'undefined' && examMode && _isHostSession())) {
       const _srsHost = document.getElementById('srsReviewHost');
       if (_srsHost) _srsHost.querySelectorAll('.qc[data-uid^="' + sid + '_ch"]').forEach(c => c.remove());
+    }
+    // ⚠️ 試験中に後から科目が読み込まれることがある（試験中リロードの自動復元が
+    //    selectedSubjects へ他科目を足して呼ぶ経路など）。startExam の「キュー外は
+    //    display:none」は開始時の1回きりなので、ここで貼り直さないと新しいカードが
+    //    生きた出題として混ざる（2026-08-24 の複数科目混入の直接の引き金）。
+    if (typeof examMode !== 'undefined' && examMode && typeof window._examHas === 'function') {
+      section.querySelectorAll('.qc[data-uid]').forEach(c => { if (!window._examHas(c)) c.style.display = 'none'; });
     }
     section.dataset.loaded = 'true';
     _loadedSids.add(sid);
