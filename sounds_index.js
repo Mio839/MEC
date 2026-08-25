@@ -20,12 +20,15 @@ window.MecSounds = {
     {"key":"kh","file":"正解音/キングダムハーツ項目選択.wav","label":"キングダムハーツ","vol":0.7,"peak":0.701,"dur":4.14},
     {"key":"mhf","file":"正解音/MHF_クエスト開始BGM.wav","label":"MHFクエスト開始","vol":4.3,"peak":0.117,"dur":2},
     {"key":"gomadare","file":"正解音/ごまだれ【ゼルダの伝説】.wav","label":"ごまだれ【ゼルダ】","vol":0.53,"peak":0.948,"dur":2.6},
-    {"key":"deen","file":"正解音/デエエエエエエエエン.mp3","label":"デエエエン","vol":0.48,"peak":1.035,"dur":3.59}
+    {"key":"deen","file":"正解音/デエエエエエエエエン.mp3","label":"デエエエン","vol":0.48,"peak":1.035,"dur":3.59},
+    {"key":"twinbuster","file":"正解音/ツインバスターライフル_B♭_major__bpm_131.wav","label":"ツインバスターライフル","vol":0.64,"peak":0.777,"dur":3.54}
   ],
   boot: [
     {"key":"ms","file":"起動音/MS起動.wav","label":"MS起動","vol":0.55,"peak":0.919,"dur":4.73},
     {"key":"akatsuki","file":"起動音/アカツキ起動.wav","label":"アカツキ起動","vol":1,"peak":0.5,"dur":4.85},
-    {"key":"motor","file":"起動音/巨大モーター起動.wav","label":"巨大モーター起動","vol":1,"peak":0.502,"dur":5.33}
+    {"key":"motor","file":"起動音/巨大モーター起動.wav","label":"巨大モーター起動","vol":1,"peak":0.502,"dur":5.33},
+    {"key":"zerosystem","file":"起動音/ゼロシステム.wav","label":"ゼロシステム","vol":1.31,"peak":0.382,"dur":5.54},
+    {"key":"whitebase","file":"起動音/ホワイトベース.wav","label":"ホワイトベース","vol":0.69,"peak":0.721,"dur":4.39}
   ],
   select: [
     {"key":"mp3","file":"選択音/選択.mp3","label":"選択","vol":0.7,"peak":0.996,"dur":1.07},

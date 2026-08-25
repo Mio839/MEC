@@ -39,13 +39,16 @@
     "キングダムハーツ項目選択.wav": { "key": "kh",       "label": "キングダムハーツ", "vol": 0.7, "peak": 0.701, "dur": 4.14 },
     "MHF_クエスト開始BGM.wav":     { "key": "mhf",      "label": "MHFクエスト開始", "vol": 4.3, "peak": 0.117, "dur": 2.00 },
     "ごまだれ【ゼルダの伝説】.wav": { "key": "gomadare", "label": "ごまだれ【ゼルダ】", "vol": 0.53, "peak": 0.948, "dur": 2.60 },
-    "デエエエエエエエエン.mp3":     { "key": "deen",     "label": "デエエエン",     "vol": 0.48, "peak": 1.035, "dur": 3.59 }
+    "デエエエエエエエエン.mp3":     { "key": "deen",     "label": "デエエエン",     "vol": 0.48, "peak": 1.035, "dur": 3.59 },
+    "ツインバスターライフル_B♭_major__bpm_131.wav": { "key": "twinbuster", "label": "ツインバスターライフル", "vol": 0.64, "peak": 0.777, "dur": 3.54 }
   },
 
   "起動音": {
     "MS起動.wav":        { "key": "ms",       "label": "MS起動",     "vol": 0.55, "peak": 0.919, "dur": 4.73 },
     "アカツキ起動.wav":   { "key": "akatsuki", "label": "アカツキ起動", "vol": 1.0, "peak": 0.5, "dur": 4.85 },
-    "巨大モーター起動.wav": { "key": "motor",  "label": "巨大モーター起動", "vol": 1.0, "peak": 0.502, "dur": 5.33 }
+    "巨大モーター起動.wav": { "key": "motor",  "label": "巨大モーター起動", "vol": 1.0, "peak": 0.502, "dur": 5.33 },
+    "ゼロシステム.wav":   { "key": "zerosystem", "label": "ゼロシステム",  "vol": 1.31, "peak": 0.382, "dur": 5.54 },
+    "ホワイトベース.wav": { "key": "whitebase",  "label": "ホワイトベース", "vol": 0.69, "peak": 0.721, "dur": 4.39 }
   },
 
   "選択音": {

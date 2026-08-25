@@ -732,6 +732,8 @@ study.html からも引ける。
 
 ⚠️ **併合前は `resumeExam` 側のリスナーにだけ `_examHas` が無く、2026-08-24 の修正が再開経路だけ素通しになっていた**（`revealAnswer` の入口ガードが採点は止めるので、肢が選択状態のまま固まる形で出る）。ついでに選択音・スパーク・採点除外の中立表示も欠けていた＝「再開した試験だけ手触りが違う」状態だった。**分岐を2本に戻さないこと。**
 
+⚠️ **リスナーは名前付き関数（`_examChoiceClick`）で渡すこと。** `addEventListener` は**同じ関数オブジェクトの重複登録を仕様上無視する**ので、名前付きで渡している限り万一もう一度 bind しても2本にはならない（旧コードは毎回インラインの `function(e){…}` リテラルを渡していたので別オブジェクトになり、本当に2本付いた）。インライン化に戻すとこの保険が消える。**2026-08-25 に実機で確認済み**——同じ参照の再 bind は `listeners:1` のまま、別オブジェクトを足すと `listeners:2` になり複数選択が `selected:false`（＝押しても入らない）になる。
+
 ⚠️ **連続正解中に露見しないのは演出のせいではない。** 正解時だけ `_scrollToNextCard` が必ず
 キュー内の次カードへ強制スクロールして視界をキュー上に固定するのに対し、**誤答時は自動スクロールが
 無い**（`_maybeShowFinishBtn()` を呼ぶだけ）ので、ユーザーが自力でスクロールしてキュー外へ
@@ -1006,7 +1008,7 @@ node _work/test_exam_chassis.js    試験UIの筐体／盤面の分離      (25)
 node _work/test_exam_reading.js    読んでいる間の演出            (26)
 node _work/test_exam_brasswork.js  筐体の外へ広げた真鍮細工      (36)
 node _work/test_mindmap_layout.js  マインドマップのレイアウト/データ (242)
-node _work/test_sounds.js          効果音の一覧・音量・ランダム起動音  (25)
+node _work/test_sounds.js          効果音の一覧・音量・ランダム起動音  (28)
 node _work/test_ui_theme.js        UIテーマ全8種（.qc への干渉・ネタバレ防止）(12)
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 ```
