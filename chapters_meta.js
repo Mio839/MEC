@@ -1193,6 +1193,12 @@ const MEC_CHAPTERS = [
         "file": "公衆衛生/ch01_ishihou_to_iryouhou.html",
         "title": "第1章 医師法と医療法",
         "count": 71
+      },
+      {
+        "prefix": "ph_ch02",
+        "file": "公衆衛生/ch02_hokenjo.html",
+        "title": "第2章 保健所",
+        "count": 9
       }
     ]
   }
