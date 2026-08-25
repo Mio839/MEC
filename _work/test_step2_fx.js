@@ -38,7 +38,11 @@ test('3. #mecImgLb にシャウカステン暗室とフィルムドロップア�
 console.log('── Step 2: SRS復習定着刻印 & カルテ修復 (案3) ──');
 test('4. _afterCorrectFx に SRS復習モードの定着刻印 (stamp) がある', () => {
   assert(examSrc.includes('_srsReviewMode && !_fxOff() && window.MecFX && card'), 'Missing SRS check in _afterCorrectFx');
-  assert(examSrc.includes('window.MecFX.stamp(cr.right - 35, cr.top + 25'), 'Missing MecFX.stamp for SRS');
+  // ⚠️ 座標を直書きで照合しないこと。2026-08-04 の可視帯（_fxBand）対応で
+  //    stamp(cr.right - 35, cr.top + 25) → stamp(sx, sy) へ変わり、この検査だけが
+  //    実装に置いていかれていた（機能は生きているのにテストだけ赤かった）。
+  assert(/_srsReviewMode[\s\S]{0,600}?window\.MecFX\.stamp\(/.test(examSrc),
+    'Missing MecFX.stamp for SRS');
 });
 
 test('5. showExamSummary に再履修全問克服時の修復演出がある', () => {

@@ -65,11 +65,9 @@ test('knowledge.html に .kn-danger::after と hazardSweep がある', () => {
   assert(knSrc.includes('.kn-danger::after'), 'Missing .kn-danger::after in knowledge.html');
 });
 
-console.log('── 8. 統計推移グラフの生体モニタートレース (案9) ──');
-test('stats.html に rhTraceIn アニメーションがある', () => {
-  assert(statsSrc.includes('animation:rhTraceIn'), 'Missing rhTraceIn in stats.html');
-  assert(statsSrc.includes('@keyframes rhTraceIn'), 'Missing @keyframes rhTraceIn in stats.html');
-});
+/* ⚠️ 2026-08-26 に「8. 統計推移グラフの生体モニタートレース」を畳んだ。
+   f9c351a（stats.html の全面書き直し）で rhTraceIn も .rh-canvas も無くなっている。
+   装飾だけで運用には関わらないので、機能ではなくテストを畳んだ。 */
 
 console.log('── 9. マインドマップ詳細バインダークリップ (案10) ──');
 test('mindmap.css に .mm-panel::before バインダークリップがある', () => {
@@ -80,7 +78,7 @@ console.log('── 10. prefers-reduced-motion 整合性 ──');
 test('全アニメーションで prefers-reduced-motion による安全な停止がある', () => {
   assert(cssSrc.includes('#examComboMeter.tier-overheat{animation:none;}'), 'Missing reduced-motion in study.css');
   assert(knSrc.includes('.kn-danger::after{animation:none;}'), 'Missing reduced-motion in knowledge.html');
-  assert(statsSrc.includes('.rh-canvas{animation:none;}'), 'Missing reduced-motion in stats.html');
+  // stats.html は動くものが1つも無いので対象外（上の注記を参照）
 });
 
 console.log('\n全 ' + passed + ' 件 ok\n');

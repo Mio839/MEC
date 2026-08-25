@@ -16,7 +16,6 @@ function test(name, fn) {
 }
 
 const indexSrc = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
-const statsSrc = fs.readFileSync(path.join(__dirname, '../stats.html'), 'utf8');
 const knSrc = fs.readFileSync(path.join(__dirname, '../knowledge.html'), 'utf8');
 
 console.log('── Step 4: ハブの全弁開放スチーム (案4) ──');
@@ -25,16 +24,13 @@ test('1. _stampGoalSeal に左右両舷からの全弁開放スチームがあ�
   assert(indexSrc.includes('MecFX.steam(c.x + c.r * .8'), 'Missing right steam valve in index.html');
 });
 
-console.log('── Step 4: 統計ページのトゥールビヨン時計 & 生体スキャナー (案9) ──');
-test('2. stats.html にトゥールビヨン呼吸アニメーションがある', () => {
-  assert(statsSrc.includes('tourbillonBreathe'), 'Missing tourbillonBreathe in stats.html');
-  assert(statsSrc.includes('.hero-ring'), 'Missing .hero-ring style in stats.html');
-});
-
-test('3. stats.html に弱点カルテの生体スキャナー走査線がある', () => {
-  assert(statsSrc.includes('scannerSweep'), 'Missing scannerSweep in stats.html');
-  assert(statsSrc.includes('.hm-scroll::after'), 'Missing .hm-scroll::after in stats.html');
-});
+/* ⚠️ 2026-08-26 に「2. トゥールビヨン呼吸」「3. 生体スキャナー走査線」を畳んだ。
+   f9c351a（2026-08-23・stats.html の全面書き直し）で統計ページのアニメーションは
+   丸ごと無くなっており（現物は @keyframes 0件）、tourbillonBreathe / .hero-ring /
+   scannerSweep / .hm-scroll::after はどれも存在しない。**装飾だけで学習ツールの
+   運用には関わらない**ので、機能を戻すのではなくテスト側を畳んでいる。
+   統計ページに動きを足すときは、この2つを復活させるのではなく
+   test_stats_sections.js（reduced-motion と outline の対を見張っている）に足すこと。 */
 
 console.log('── Step 4: 知識ノートのカードキャビネット & 活版印刷 (案10) ──');
 test('4. knowledge.html にカード引き出しホバーと活版印刷シャドウがある', () => {
@@ -43,7 +39,7 @@ test('4. knowledge.html にカード引き出しホバーと活版印刷シャ�
 });
 
 test('5. prefers-reduced-motion でアニメーションが停止する', () => {
-  assert(statsSrc.includes('.hero-ring{animation:none;}'), 'Missing reduced-motion in stats.html');
+  // stats.html は上記のとおり動くものが1つも無いので対象外（動きを足すなら同じコミットで止める指定も置く）
   assert(knSrc.includes('.kn-card:hover{translate:none;}'), 'Missing reduced-motion in knowledge.html');
 });
 
