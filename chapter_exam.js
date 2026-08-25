@@ -734,6 +734,10 @@
       }
       if (_ceNext) {
         (function(nc){
+          nc.classList.remove('exam-next-entering');
+          void nc.offsetWidth;
+          nc.classList.add('exam-next-entering');
+          setTimeout(function(){ nc.classList.remove('exam-next-entering'); }, 500);
           setTimeout(function(){ ceApplyChoiceShimmer(nc); }, 140);
           setTimeout(function(){
             var hdr = document.querySelector('.st-hdr, .sn, .mec-ch-prog');
@@ -1490,11 +1494,41 @@
     } catch (e) {}
   }
   // A5: 選ばなかった肢が一段沈む。1.1秒で必ず戻す
-  /* UIテーマ固有の正解・連続正解（コンボ）カード装飾＆バッジ同期（2026-08-23） */
+  /* ── ⑦ 触覚フィードバック（Web Haptics: テーマ固有振動パターン） ── */
+  function ceTriggerThemeHaptics() {
+    if (typeof navigator === 'undefined' || !navigator.vibrate) return;
+    var curUi = window.MecUITheme ? MecUITheme.get() : 'aurora';
+    try {
+      if (curUi === 'brass') navigator.vibrate([35]);
+      else if (curUi === 'cyber') navigator.vibrate([10, 20, 10]);
+      else if (curUi === 'liquid') navigator.vibrate([25]);
+      else if (curUi === 'kintsugi') navigator.vibrate([20]);
+      else if (curUi === 'celestial') navigator.vibrate([12, 12, 12]);
+      else if (curUi === 'abyss') navigator.vibrate([40]);
+      else if (curUi === 'frost') navigator.vibrate([18]);
+      else navigator.vibrate([15]);
+    } catch (e) {}
+  }
+
+  /* ── ⑤ 画面最外周ボーダーパルス (#examEdgePulse) ── */
+  function ceTriggerEdgePulse() {
+    var pulse = document.getElementById('examEdgePulse');
+    if (!pulse) {
+      pulse = document.createElement('div');
+      pulse.id = 'examEdgePulse';
+      document.body.appendChild(pulse);
+    }
+    pulse.classList.remove('active');
+    void pulse.offsetWidth;
+    pulse.classList.add('active');
+    setTimeout(function () { if (pulse) pulse.classList.remove('active'); }, 300);
+  }
+
+  /* UIテーマ固有の正解・連続正解（コンボ）カード装飾（2026-08-26 改訂: バッジ完全撤廃 ＆ 12要素統合） */
   function ceApplyCardThemeComboFx(card, isCorrect, streak) {
     if (!card) return;
     if (isCorrect) {
-      card.classList.remove('fx-correct');
+      card.classList.remove('fx-correct', 'exam-wrong-hit');
       void card.offsetWidth; // アニメーションを確実に再トリガー
       card.classList.add('fx-correct');
       card.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10');
@@ -1510,27 +1544,24 @@
         }
       });
 
-      if (streak >= 2) {
-        var badge = card.querySelector('.mec-combo-badge');
-        if (!badge) {
-          badge = document.createElement('div');
-          badge.className = 'mec-combo-badge';
-          badge.innerHTML = '<span class="combo-count">' + streak + '</span><span class="combo-label">COMBO</span>';
-          card.appendChild(badge);
-        } else {
-          var cntEl = badge.querySelector('.combo-count');
-          if (cntEl) cntEl.textContent = streak;
-          badge.style.animation = 'none';
-          void badge.offsetHeight;
-          badge.style.animation = '';
-        }
+      // ⑫ 10連勝以上のゾーン状態（アンビエント呼吸）制御
+      if (streak >= 10) {
+        document.body.classList.add('exam-streak-zone');
       }
+
+      // ⑤ 画面最外周パルス ＆ ⑦ 触覚フィードバック
+      ceTriggerEdgePulse();
+      ceTriggerThemeHaptics();
     } else {
+      // 誤答時はコンボリセット & ゾーン解除 & ダメージ付与
+      document.body.classList.remove('exam-streak-zone');
       document.querySelectorAll('.qc').forEach(function (c) {
         c.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10');
-        var b = c.querySelector('.mec-combo-badge');
-        if (b) b.remove();
       });
+      card.classList.remove('fx-correct');
+      void card.offsetWidth;
+      card.classList.add('exam-wrong-hit');
+      setTimeout(function () { card.classList.remove('exam-wrong-hit'); }, 500);
     }
   }
 
@@ -2895,6 +2926,18 @@
     exam.chKey = detectChKey();
     injectUI();
     renderHistBadge();
+    document.addEventListener('pointerdown', function(e) {
+      var ch = e.target.closest('.ch2');
+      if (ch) ch.classList.add('ch2-pressing');
+    });
+    document.addEventListener('pointerup', function(e) {
+      var ch = e.target.closest('.ch2');
+      if (ch) ch.classList.remove('ch2-pressing');
+    });
+    document.addEventListener('pointercancel', function(e) {
+      var ch = e.target.closest('.ch2');
+      if (ch) ch.classList.remove('ch2-pressing');
+    });
     document.addEventListener('click', onChoiceClick);
   }
 

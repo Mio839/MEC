@@ -820,6 +820,10 @@ function _bindExamChoices(card) {
   card.querySelectorAll('.ch2').forEach(ch => {
     if (ch.dataset.examInit) return;   // 一度きり。exitExam はこのフラグを消さない（下の cleanup の注記）
     ch.dataset.examInit = '1';
+    ch.addEventListener('pointerdown', function() { this.classList.add('ch2-pressing'); });
+    ch.addEventListener('pointerup', function() { this.classList.remove('ch2-pressing'); });
+    ch.addEventListener('pointercancel', function() { this.classList.remove('ch2-pressing'); });
+    ch.addEventListener('pointerleave', function() { this.classList.remove('ch2-pressing'); });
     ch.addEventListener('click', _examChoiceClick);
   });
 }
@@ -1969,11 +1973,41 @@ function _traceToAnswer(card, fxEl) {
   } catch (e) {}
 }
 
-/* UIテーマ固有の正解・連続正解（コンボ）カード装飾＆バッジ同期（2026-08-23） */
+/* ── ⑦ 触覚フィードバック（Web Haptics: テーマ固有振動パターン） ── */
+function _triggerThemeHaptics() {
+  if (typeof navigator === 'undefined' || !navigator.vibrate) return;
+  const curUi = window.MecUITheme ? MecUITheme.get() : 'aurora';
+  try {
+    if (curUi === 'brass') navigator.vibrate([35]);
+    else if (curUi === 'cyber') navigator.vibrate([10, 20, 10]);
+    else if (curUi === 'liquid') navigator.vibrate([25]);
+    else if (curUi === 'kintsugi') navigator.vibrate([20]);
+    else if (curUi === 'celestial') navigator.vibrate([12, 12, 12]);
+    else if (curUi === 'abyss') navigator.vibrate([40]);
+    else if (curUi === 'frost') navigator.vibrate([18]);
+    else navigator.vibrate([15]);
+  } catch (e) {}
+}
+
+/* ── ⑤ 画面最外周ボーダーパルス (#examEdgePulse) ── */
+function _triggerEdgePulse() {
+  let pulse = document.getElementById('examEdgePulse');
+  if (!pulse) {
+    pulse = document.createElement('div');
+    pulse.id = 'examEdgePulse';
+    document.body.appendChild(pulse);
+  }
+  pulse.classList.remove('active');
+  void pulse.offsetWidth;
+  pulse.classList.add('active');
+  setTimeout(() => { if (pulse) pulse.classList.remove('active'); }, 300);
+}
+
+/* UIテーマ固有の正解・連続正解（コンボ）カード装飾（2026-08-26 改訂: バッジ完全撤廃 ＆ 12要素統合） */
 function _applyCardThemeComboFx(card, isCorrect, streak) {
   if (!card) return;
   if (isCorrect) {
-    card.classList.remove('fx-correct');
+    card.classList.remove('fx-correct', 'exam-wrong-hit');
     void card.offsetWidth; // アニメーションを確実に再トリガー
     card.classList.add('fx-correct');
     card.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10');
@@ -1990,29 +2024,24 @@ function _applyCardThemeComboFx(card, isCorrect, streak) {
       }
     });
 
-    // コンボバッジの生成または更新
-    if (streak >= 2) {
-      let badge = card.querySelector('.mec-combo-badge');
-      if (!badge) {
-        badge = document.createElement('div');
-        badge.className = 'mec-combo-badge';
-        badge.innerHTML = '<span class="combo-count">' + streak + '</span><span class="combo-label">COMBO</span>';
-        card.appendChild(badge);
-      } else {
-        const cntEl = badge.querySelector('.combo-count');
-        if (cntEl) cntEl.textContent = streak;
-        badge.style.animation = 'none';
-        void badge.offsetHeight;
-        badge.style.animation = '';
-      }
+    // ⑫ 10連勝以上のゾーン状態（アンビエント呼吸）制御
+    if (streak >= 10) {
+      document.body.classList.add('exam-streak-zone');
     }
+
+    // ⑤ 画面最外周パルス ＆ ⑦ 触覚フィードバック
+    _triggerEdgePulse();
+    _triggerThemeHaptics();
   } else {
-    // 誤答時はコンボリセット
+    // 誤答時はコンボリセット & ゾーン解除 & ダメージ付与
+    document.body.classList.remove('exam-streak-zone');
     document.querySelectorAll('.qc').forEach(c => {
       c.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10');
-      const b = c.querySelector('.mec-combo-badge');
-      if (b) b.remove();
     });
+    card.classList.remove('fx-correct');
+    void card.offsetWidth;
+    card.classList.add('exam-wrong-hit');
+    setTimeout(() => card.classList.remove('exam-wrong-hit'), 500);
   }
 }
 
@@ -2033,7 +2062,13 @@ function _sinkOtherChoices(card) {
       3つ同時に出すと画面が文字だらけになり、どれも読まれなくなる。 */
 function _afterCorrectFx(card, fxEl) {
   const fast = _fastGrade(card);
-  if (fast > 0) setTimeout(() => _triggerFastBonus(fxEl, fast), 90);
+  if (fast > 0) {
+    if (card) {
+      card.classList.add('exam-fast-hit');
+      setTimeout(() => card.classList.remove('exam-fast-hit'), 800);
+    }
+    setTimeout(() => _triggerFastBonus(fxEl, fast), 90);
+  }
 
   _sinkOtherChoices(card);
   setTimeout(() => _traceToAnswer(card, fxEl), 260);
@@ -3937,8 +3972,13 @@ function _scrollToNextCard(fromCard) {
     const idx = allShown.indexOf(fromCard);
     next = allShown.slice(idx + 1).find(c => !c.classList.contains('exam-revealed'));
   }
-  if (!next) next = unrevealed[0];
-  if (next) setTimeout(() => _applyChoiceShimmer(next), 140);
+  if (next) {
+    next.classList.remove('exam-next-entering');
+    void next.offsetWidth;
+    next.classList.add('exam-next-entering');
+    setTimeout(() => next.classList.remove('exam-next-entering'), 500);
+    setTimeout(() => _applyChoiceShimmer(next), 140);
+  }
   const hdr = document.querySelector('.st-hdr');
   const y = next.getBoundingClientRect().top + window.scrollY - (hdr ? hdr.offsetHeight + 8 : 0);
   window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });

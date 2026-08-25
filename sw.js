@@ -1,3 +1,7 @@
+// 2026-08-26c: 正解時コンボ数バッジ（.mec-combo-badge）を完全削除し、全8テーマ固有の12要素統合演出システムへ刷新。
+//   - ui_theme.css: コンボバッジを全廃し、予備動作・OKグリフ・不正解肢消滅・次問登場・画面枠パルス・透かし活性化・誤答ダメージ・ゾーン呼吸を8テーマ個別に新設。
+//   - study_exam.js / chapter_exam.js: バッジ生成ロジックを完全撤去し、触覚フィードバック（Web Haptics）・外周パルス・次問登場トリガー・ゾーン状態制御を同期。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-26b: stats.html の書き直し（f9c351a）で落ちていた4点を戻した。
 //   ヒートマップの章prefix索引（全件走査 197ms → 0.01ms）・cleanChTitle（85章の「解答解説」）・
 //   弱点リストの本番差ソート・ドリルの weakChapters/weakCells。シェルのみの変更なので
@@ -472,7 +476,7 @@ const CACHE = "mec-v174";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-26b";
+const SHELL_VERSION = "2026-08-26c";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
