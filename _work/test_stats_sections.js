@@ -198,10 +198,14 @@ test('📐本番との差（科目単位）は廃止されたまま', () => {
 
 test('弱点のリストは1本だけ（旧4本が復活していない）', () => {
   const body = html.slice(html.indexOf('<main class="ct">'), html.indexOf('</main>'));
-  ['id="missSec"', 'id="weakList"', 'id="choiceSec"', 'id="gapSec"'].forEach(id => {
-    assert.ok(!body.includes(id), '廃止したセクションが戻っている: ' + id);
+  // ⚠️ 統合リストのセクションキーが data-sec-id="weakList" なので、素の substring だと
+  //    それ自身に当たる。id 属性の頭（空白か引用符の直後）を見て区別する。
+  ['missSec', 'weakList', 'choiceSec', 'gapSec'].forEach(id => {
+    assert.ok(!new RegExp('(^|[\s"])id="' + id + '"').test(body),
+      '廃止したセクションが戻っている: ' + id);
   });
-  assert.ok(body.includes('id="weakSec"') && body.includes('id="wkList"'), '統合リストが無い');
+  assert.ok(body.includes('data-sec-id="weakList"') && body.includes('id="wkCards"'),
+    '統合リストが無い');
 });
 
 test('時間の記録は学習カレンダー1本（30日の棒グラフ2本は畳んだまま）', () => {
@@ -219,64 +223,55 @@ test('セクションが display:none から出入りしない（日によって
   assert.ok(body.includes('id="karteEmpty"'), '弱点カルテの空の状態が無い');
 });
 
-test('4層の見出しが揃っている（今の状態 / 積み上げ / どこが弱いか / 道具）', () => {
-  ['今の状態', '積み上げ', 'どこが弱いか', '道具'].forEach(t => {
-    assert.ok(new RegExp('class="layer-hd[^"]*"[^>]*>.*?' + t).test(html), '層の見出しが無い: ' + t);
-  });
+/* 2026-08-26: 4層の縦積み（今の状態 / 積み上げ / どこが弱いか / 道具）は f9c351a で
+   4つのタブに畳まれた。「1画面に全部積まない」という趣旨は同じなので、層の見出しではなく
+   タブの構成を見張る。⚠️ タブを増やすときは、情報のタブと道具のタブを混ぜないこと。 */
+test('4つのタブに畳まれている（サマリー / 弱点分析 / 進捗・推移 / AIツール）', () => {
+  [['summary', 'サマリー'], ['weakness', '弱点分析'], ['progress', '進捗・推移'], ['ai', 'AIツール']]
+    .forEach(([k, label]) => {
+      assert.ok(new RegExp('data-tab="' + k + '"').test(html), 'タブが無い: ' + k);
+      assert.ok(html.includes(label), 'タブ名が無い: ' + label);
+      assert.ok(new RegExp('id="pane-' + k + '"').test(html), 'ペインが無い: pane-' + k);
+    });
 });
 
-test('AI相談エクスポートは末尾（道具の層）にある', () => {
-  const body = html.slice(html.indexOf('<main class="ct">'), html.indexOf('</main>'));
-  const ai = body.indexOf('id="aiExportSec"');
-  assert.ok(ai > 0, 'aiExportSec が無い');
-  ['id="weakSec"', 'id="chartSec"', 'id="heatmap"', 'id="calGrid"'].forEach(id => {
-    assert.ok(body.indexOf(id) < ai, 'AI相談より後ろに情報セクションがある: ' + id);
+test('AI相談エクスポートは道具のタブに隔離されている（情報セクションより後ろ）', () => {
+  const ai = html.indexOf('id="pane-ai"');
+  assert.ok(ai > 0, 'pane-ai が無い');
+  assert.ok(html.indexOf('id="aiExportBtn"') > ai, 'AI相談ボタンが pane-ai の外にある');
+  ['data-sec-id="weakList"', 'data-sec-id="chHeatmap"', 'data-sec-id="calendar"'].forEach(k => {
+    assert.ok(html.indexOf(k) > 0 && html.indexOf(k) < ai,
+      'AIツールより後ろに情報セクションがある: ' + k);
   });
 });
 
 // ══════════ 動かす側の担保 ══════════
 
-test('countUp に rAF が止まった時の落とし所がある（非表示タブで数字が0のまま凍らない）', () => {
-  const src = grab('countUp');
-  assert.ok(/setTimeout\(\s*finish\s*,/.test(src), 'countUp に setTimeout の保険が無い');
-  assert.ok(/settled/.test(src), '二重確定のガードが無い');
+/* ⚠️ 非表示タブでは rAF が1フレームも来ない（ハブの _tweenNum・旧 countUp で実際に踏んだ）。
+   f9c351a の書き直しでカウントアップと入場演出（countUp / armReveal / .rv-on）は
+   丸ごと無くなったので、いまこの穴は存在しない。戻すときは落とし所を必ず添えること。 */
+test('rAF に依存して数字が0のまま凍る経路が無い', () => {
+  if (!/requestAnimationFrame/.test(html)) return;   // 演出そのものが無い＝穴も無い
+  assert.ok(/setTimeout\(\s*\w*[Ff]inish\w*\s*,/.test(html),
+    'rAF で数字を動かしているのに setTimeout の落とし所が無い');
 });
 
-test('達成リングにも同じ落とし所がある', () => {
-  const src = grab('renderHero');
-  assert.ok(/setTimeout\(\s*ringFinish\s*,/.test(src), 'リングに setTimeout の保険が無い');
+/* ⚠️ CSS だけで本文を隠すと、JS が落ちた日にページが丸ごと白紙になる。
+   隠すなら JS が付けるクラスの中でだけ隠すこと（旧 .rv-on .rvs の作り）。 */
+test('CSS だけで本文を隠さない（JS が落ちても白紙にならない）', () => {
+  assert.ok(!/^\.rvs\s*\{\s*opacity:\s*0/m.test(html), 'CSS だけで .rvs を隠している');
+  assert.ok(!/^\.sec\s*\{[^}]*opacity:\s*0/m.test(html), 'セクションを既定で透明にしている');
 });
 
-test('入場は JS が付けるクラスの中でだけ隠す（JS が落ちても白紙にならない）', () => {
-  assert.ok(/\.rv-on \.rvs\{opacity:0/.test(html), '.rv-on を介さずに隠している');
-  assert.ok(!/^\.rvs\{opacity:0/m.test(html), 'CSS だけで .rvs を隠している');
-  const src = grab('armReveal');
-  assert.ok(/sessionStorage/.test(src), 'セッション内1回だけの制御が無い');
-  assert.ok(/classList\.add\('rv-on'\)/.test(src), 'JS が rv-on を付けていない');
-});
-
-test('隠したまま残る経路が無い（非表示タブでは CSS アニメーションも進まない）', () => {
-  // ⚠️ 実際に踏んだ: 保険で .in を付けて回っても、非表示タブでは animation が進まず
-  //    fill-mode:forwards が適用されないので opacity:0 のまま残った。
-  //    隠すのをやめる口は rv-on を外す1つに寄せること。
-  const src = grab('armReveal');
-  assert.ok(/if \(document\.hidden\) return;/.test(src), '裏で開いた読み込みで演出を止めていない');
-  assert.ok(/classList\.remove\('rv-on'\)/.test(src), 'rv-on を外す口が無い');
-  assert.ok(/visibilitychange/.test(src), '途中で裏へ回った場合の口が無い');
-  assert.ok(/setTimeout\(unhide,/.test(src), '最後の保険が無い');
-  assert.ok(!/setTimeout\([^)]*classList\.add\('in'\)/.test(src.replace(/\s+/g, ' ')),
-    "保険が .in を付けて回っている（非表示タブでは効かない）");
-});
-
-test('reduced-motion で入場と「今日」の呼吸が止まる', () => {
-  const rm = html.match(/@media \(prefers-reduced-motion: reduce\)\{[\s\S]*?\n\}/g) || [];
-  const joined = rm.join('\n');
-  assert.ok(/\.rv-on \.rvs/.test(joined), '入場が reduced-motion で止まらない');
-  assert.ok(/\.cal-cell\.is-today\{animation:none/.test(joined), '今日のセルが reduced-motion で止まらない');
+test('reduced-motion で「今日」のセルの呼吸が止まる', () => {
+  if (!/\.cal-cell\.is-today[^{]*\{[^}]*animation/.test(html)) return;   // 呼吸そのものが無い
+  const rm = (html.match(/@media \(prefers-reduced-motion: reduce\)[\s\S]*?\n\}/g) || []).join('\n');
+  assert.ok(/cal-cell\.is-today[^}]*animation:\s*none/.test(rm),
+    '今日のセルが reduced-motion で止まらない');
 });
 
 test('「今日」のセルは動きが無くても outline で位置がわかる（静的な印との二重化）', () => {
-  assert.ok(/\.cal-cell\.is-today\{outline:/.test(html), '今日のセルの outline が無い');
+  assert.ok(/\.cal-cell\.is-today\s*\{[^}]*outline:/.test(html), '今日のセルの outline が無い');
 });
 
 console.log('\n' + passed + ' passed' + (fails.length ? ', ' + fails.length + ' FAILED: ' + fails.join(', ') : ''));

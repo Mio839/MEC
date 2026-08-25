@@ -1,3 +1,7 @@
+// 2026-08-26b: stats.html の書き直し（f9c351a）で落ちていた4点を戻した。
+//   ヒートマップの章prefix索引（全件走査 197ms → 0.01ms）・cleanChTitle（85章の「解答解説」）・
+//   弱点リストの本番差ソート・ドリルの weakChapters/weakCells。シェルのみの変更なので
+//   CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-26a: 効果音を3種追加（正解音「ツインバスターライフル」／起動音「ゼロシステム」「ホワイトベース」）。
 //   sounds_index.js だけがシェルに載る（音の実体は従来どおり非キャッシュ）ので CACHE は据え置き＝SHELL_VERSION だけ bump。
 //   あわせて試験モードの選択肢リスナーを _bindExamChoices / _examChoiceClick の1組へ併合（study_exam.js）。
@@ -468,7 +472,7 @@ const CACHE = "mec-v174";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-26a";
+const SHELL_VERSION = "2026-08-26b";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

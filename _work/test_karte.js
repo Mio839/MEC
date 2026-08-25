@@ -113,7 +113,7 @@ function makeDrill(myrate) {
     (html.match(/const QTYPES = (\[[\s\S]*?\]);/) || [])[1]
       .replace(/(\w+):/g, '"$1":').replace(/'/g, '"').replace(/,(\s*[\]}])/g, '$1')
   );
-  const fn = new Function('myrate', 'chMap', 'QTYPES', 'HM_MIN_N', '_karte',
+  const fn = new Function('myrate', 'chMap', 'QTYPES', 'HM_MIN_N', '_karteDoc',
     grab('cleanChTitle') + '\n' + grab('weakChapters') + '\n' + grab('weakCells') + '\n' + grab('buildDrillPrompt') +
     '\n return { p: buildDrillPrompt(), cells: weakCells(6), chs: weakChapters(5,65,8) };');
   return fn(myrate, chMap, QTYPES, HM_MIN_N, karte);

@@ -1432,6 +1432,71 @@ body {
     return { qNum: m[2], prefix: m[1], info: chMap[m[1]] || null };
   }
 
+  function subjIdOfUid(uid) {
+    const i = uid.indexOf('_ch');
+    return i > 0 ? uid.slice(0, i) : null;
+  }
+
+  // 章名の整形。⚠️ 末尾の「解答解説」は先に落とすこと。1つの正規表現に混ぜると、
+  //   章名の無い title（例「MEC呼吸器 第1章 解答解説」）で「解答解説」自体が章名として残る。
+  //   講座名は科目名と一致しない（内分泌 →「MEC内分泌代謝」）ので頭から科目名を削るだけでは
+  //   「代謝」が残る＝「第N章」で挟んで中身を取る。
+  function cleanChTitle(title, subjName) {
+    const t0 = String(title || '').replace(/\s*解答\s*解説\s*$/, '');
+    const m = t0.match(/第\s*[0-9０-９]+\s*章\s*([\s\S]*)$/);
+    if (m) return m[1].trim();
+    let t = t0.replace(/^MEC\s*/, '');
+    if (subjName) t = t.replace(new RegExp('^' + subjName + '\\s*'), '');
+    t = t.replace(/第\s*[0-9０-９]+\s*章\s*/g, '');
+    return t.trim();
+  }
+
+  const HM_MIN_N = 3;   // これ未満の受験数はノイズなので数値を出さない
+
+  /* 章prefixの索引。⚠️ ヒートマップは章ごとに myrate / done を全件走査しないこと——
+     174章 × 全解答の二乗になり、しかもモード切替のたびに走る（実測で1回197ms）。
+     ここで1回だけ畳んでおき、hmStat はこの索引を引くだけにする。 */
+  const _mrByCh = {}, _doneByCh = {};
+  Object.entries(myrate).forEach(([uid, v]) => {
+    const m = uid.match(/^(.+)_q\d+$/);
+    if (!m) return;
+    const a = _mrByCh[m[1]] = _mrByCh[m[1]] || { correct: 0, total: 0 };
+    a.correct += v.correct || 0; a.total += v.total || 0;
+  });
+  Object.keys(done).forEach(uid => {
+    const m = uid.match(/^(.+)_q\d+$/);
+    if (!m) return;
+    _doneByCh[m[1]] = (_doneByCh[m[1]] || 0) + 1;
+  });
+
+  // 章1つ以上をまとめた1マスぶんの集計。段(0〜5)の意味は科目タイルでも章行でも共通で、
+  // 0 だけがランプの外（データ無し）
+  function hmStat(chapters, mode) {
+    if (mode === 'prog') {
+      let d = 0, c = 0;
+      chapters.forEach(ch => { d += _doneByCh[ch.prefix] || 0; c += ch.count || 0; });
+      const pct = c ? d / c * 100 : 0;
+      return {
+        s: pct >= 100 ? 5 : pct >= 75 ? 4 : pct >= 50 ? 3 : pct >= 25 ? 2 : pct > 0 ? 1 : 0,
+        has: c > 0, pct, n: d, txt: Math.round(pct) + '%', sub: d + '/' + c,
+      };
+    }
+    let t = 0, c = 0;
+    chapters.forEach(ch => {
+      const a = _mrByCh[ch.prefix];
+      if (!a) return;
+      t += a.total; c += a.correct;
+    });
+    if (t < 1) return { s: 0, has: false, pct: 0, n: 0, txt: '未受験', sub: '' };
+    const pct = c / t * 100;
+    return {
+      s: pct >= 80 ? 5 : pct >= 70 ? 4 : pct >= 60 ? 3 : pct >= 50 ? 2 : 1,
+      has: true, pct, n: t, txt: Math.round(pct) + '%', sub: c + '/' + t,
+    };
+  }
+  // 0 はデータ無し＝ランプの外。1〜5 は正答率なら弱さランプ(a*)、進捗なら網羅ランプ(p*)
+  function hmCls(mode, s) { return s === 0 ? 'n0' : (mode === 'prog' ? 'p' : 'a') + s; }
+
   const doneCount = Object.keys(done).length;
   const flagCount = Object.keys(flags).length;
   const todayTime = studytime[today] || 0;
@@ -1897,7 +1962,7 @@ body {
       const correct = v.correct || 0;
       const m = qmeta[uid];
       if (m && m.f && m.f.indexOf('ungraded') !== -1) return;
-      const sid = uid.indexOf('_ch') > 0 ? uid.slice(0, uid.indexOf('_ch')) : null;
+      const sid = subjIdOfUid(uid);
       all.correct += correct; all.total += total;
 
       if (sid && m) {
@@ -1936,7 +2001,7 @@ body {
 
     const cell = (d) => {
       if (!d || !d.total) return '<td class="hm-nd">—</td>';
-      if (d.total < 3) return `<td class="hm-nd">—<span class="hm-sub">${d.total}回</span></td>`;
+      if (d.total < HM_MIN_N) return `<td class="hm-nd">—<span class="hm-sub">${d.total}回</span></td>`;
       const pct = Math.round(d.correct / d.total * 100);
       const cls = pct >= 70 ? 'c-good' : pct >= 50 ? 'c-warn' : 'c-bad';
       const mark = pct >= 70 ? '⭕' : pct >= 50 ? '⚠️' : '🚨';
@@ -1997,18 +2062,18 @@ body {
     }).catch(() => {});
 
   // ── 15. 弱点リスト（カード型UI） ──
+  const WK_GAP_PT = 40;   // 本番正答率をこれ以上下回ったら「🔻本番差」
+  const WK_LIMIT  = 30;   // 一度に見せる行数（残りは件数だけ下に出す）
   const WK_TAGS = {
     miss: { label: '💡取りこぼし', cls: 't-miss' },
     gap:  { label: '🔻本番差',     cls: 't-gap'  },
     rep:  { label: '🔁反復ミス',   cls: 't-rep'  },
   };
 
-  function renderWeakList() {
-    const cardsEl = document.getElementById('wkCards');
-    const filEl   = document.getElementById('wkFilter');
-    const footEl  = document.getElementById('wkFoot');
-    if (!cardsEl) return;
-
+  /* 挙げる／並べるの判定はここ1か所（描画から切り離してあるのはテストが実ソースを
+     そのまま eval するため＝ロジックを二重に持たない）。⚠️ 同じ問題は必ず1行で、
+     挙がった理由をタグで示す（旧・取りこぼし／本番差／苦手ランキング／誤答肢の4本を畳んだのが主旨）。 */
+  function weakUnified() {
     const out = [];
     Object.entries(myrate).forEach(([uid, v]) => {
       const total = v.total || 0;
@@ -2019,13 +2084,38 @@ body {
       const gap = (nat === undefined) ? null : nat - you;
       const tags = [];
       if (nat !== undefined && nat >= 80 && you < 50) tags.push('miss');
-      if (gap !== null && gap >= 40) tags.push('gap');
+      if (gap !== null && gap >= WK_GAP_PT) tags.push('gap');
       if (total >= 3 && you < 50) tags.push('rep');
       if (!tags.length) return;
       out.push({ uid, you, nat, gap, tags, correct, total, ...uidInfo(uid) });
     });
+    // 並びは ①タグ数（複数の理由で挙がったものほど上）②本番との差 ③自分の正答率 ④受験回数。
+    // ⚠️ 本番正答率が無い問題は差を比べられないので、差を持つ問題の後ろへ回す
+    return out.sort((a, b) =>
+      (b.tags.length - a.tags.length) ||
+      ((b.gap === null ? -1 : b.gap) - (a.gap === null ? -1 : a.gap)) ||
+      (a.you - b.you) || (b.total - a.total));
+  }
 
-    out.sort((a, b) => (b.tags.length - a.tags.length) || (a.you - b.you) || (b.total - a.total));
+  /* その問題で実際に選んだ誤答の肢。旧「🔍誤答選択肢パターン」は全体の a〜e 分布を
+     1セクション使って出していたが、打ち手に直結するのは「この問題でどこへ流れたか」なので
+     行の内訳へ落とした。⚠️ `_last`（最後に選んだ肢）は回数ではないので除く。 */
+  function wkPicks(uid) {
+    const e = choiceData[uid];
+    if (!e) return [];
+    return Object.entries(e)
+      .filter(([c, n]) => c !== '_last' && n > 0)
+      .map(([c, n]) => ({ c, n }))
+      .sort((a, b) => b.n - a.n);
+  }
+
+  function renderWeakList() {
+    const cardsEl = document.getElementById('wkCards');
+    const filEl   = document.getElementById('wkFilter');
+    const footEl  = document.getElementById('wkFoot');
+    if (!cardsEl) return;
+
+    const out = weakUnified();
 
     if (!out.length) {
       cardsEl.innerHTML = '<div class="sec-empty">現在弱点として検出された問題はありません。順調です！</div>';
@@ -2045,7 +2135,7 @@ body {
 
     let curFilter = 'all';
     const draw = () => {
-      const rows = (curFilter === 'all' ? out : out.filter(it => it.tags.includes(curFilter))).slice(0, 30);
+      const rows = (curFilter === 'all' ? out : out.filter(it => it.tags.includes(curFilter))).slice(0, WK_LIMIT);
       cardsEl.innerHTML = rows.map((it, idx) => {
         const label = it.info ? `${it.info.subjIcon} ${it.info.subjName}` : (it.prefix || '');
         const color = it.info ? it.info.subjColor : '#666';
@@ -2054,8 +2144,7 @@ body {
         const accCls = it.you < 35 ? 'bad' : 'poor';
         const tagBadges = it.tags.map(t => `<span class="wk-tag ${WK_TAGS[t].cls}">${WK_TAGS[t].label}</span>`).join('');
 
-        const pData = choiceData[it.uid] || {};
-        const picks = Object.entries(pData).filter(([c, n]) => c !== '_last' && n > 0).sort((a, b) => b[1] - a[1]);
+        const picks = wkPicks(it.uid).map(x => [x.c, x.n]);
 
         return `<div class="wk-card">
           <div class="wk-card-top">
@@ -2107,43 +2196,27 @@ body {
     const grid = document.getElementById('heatmapGrid');
     if (!grid || typeof MEC_CHAPTERS === 'undefined') return;
 
+    /* ⚠️ 集計は hmStat に寄せること。章ごとに myrate / done を全件走査すると
+       174章 × 全解答の二乗になり、しかもモード切替のたびに走る（実測で1回197ms）。 */
     grid.innerHTML = MEC_CHAPTERS.map(subj => {
-      const prefixes = subj.chapters.map(ch => ch.prefix + '_');
-      const isIn = uid => prefixes.some(p => uid.startsWith(p));
-      const totalQ = subj.chapters.reduce((s, ch) => s + ch.count, 0);
-      const doneQ  = Object.keys(done).filter(isIn).length;
-      const mr = Object.entries(myrate).filter(([uid]) => isIn(uid));
-      const accT = mr.reduce((s, [, v]) => s + (v.total || 0), 0);
-      const accC = mr.reduce((s, [, v]) => s + (v.correct || 0), 0);
+      const st = hmStat(subj.chapters, _hmMode);
 
       let valTxt = '—', dotCls = 'none';
       if (_hmMode === 'prog') {
-        const pct = totalQ ? Math.round(doneQ / totalQ * 100) : 0;
+        const pct = Math.round(st.pct);
         valTxt = pct + '%';
         dotCls = pct >= 80 ? 'good' : pct >= 40 ? 'warn' : 'bad';
-      } else {
-        if (accT >= 3) {
-          const pct = Math.round(accC / accT * 100);
-          valTxt = pct + '%';
-          dotCls = pct >= 70 ? 'good' : pct >= 50 ? 'warn' : 'bad';
-        }
+      } else if (st.n >= HM_MIN_N) {   // 受験数が少ないうちはノイズなので数値を出さない
+        const pct = Math.round(st.pct);
+        valTxt = pct + '%';
+        dotCls = pct >= 70 ? 'good' : pct >= 50 ? 'warn' : 'bad';
       }
 
       const chItems = subj.chapters.map((ch, i) => {
-        const cp = ch.prefix + '_';
-        const cTotal = ch.count;
-        const cDone = Object.keys(done).filter(k => k.startsWith(cp)).length;
-        const cMr = Object.entries(myrate).filter(([uid]) => uid.startsWith(cp));
-        const cAccT = cMr.reduce((s, [, v]) => s + (v.total || 0), 0);
-        const cAccC = cMr.reduce((s, [, v]) => s + (v.correct || 0), 0);
-        let cTxt = '—';
-        if (_hmMode === 'prog') {
-          cTxt = cTotal ? Math.round(cDone / cTotal * 100) + '%' : '0%';
-        } else {
-          cTxt = cAccT >= 1 ? Math.round(cAccC / cAccT * 100) + '%' : '未';
-        }
+        const cst = hmStat([ch], _hmMode);
+        const cTxt = (_hmMode === 'prog' || cst.has) ? Math.round(cst.pct) + '%' : '未';
         return `<div class="hm-in-ch">
-          <span class="hm-in-ch-nm">第${i+1}章 ${ch.title.replace(/^MEC.*?第\d+章\s*/, '')}</span>
+          <span class="hm-in-ch-nm">第${i+1}章 ${cleanChTitle(ch.title, subj.name)}</span>
           <span class="hm-in-ch-v">${cTxt}</span>
         </div>`;
       }).join('');
@@ -2439,33 +2512,130 @@ body {
     return L.join('\n');
   }
 
+  /* ドリルの出題範囲は章名まで指定できた方が具体的になる（「神経 第3章 …」）。
+     ⚠️ ここは _karteDoc（科目×設問形式）とは別の軸＝章の粒度。両方を prompt に載せる。 */
+  function weakChapters(minTotal, maxPct, limit) {
+    const agg = {};
+    Object.entries(myrate).forEach(([uid, v]) => {
+      if (!v.total) return;
+      const m = uid.match(/^(.+)_q\d+$/);
+      if (!m) return;
+      const a = agg[m[1]] = agg[m[1]] || { correct: 0, total: 0 };
+      a.correct += v.correct || 0; a.total += v.total;
+    });
+    return Object.entries(agg)
+      .filter(([, a]) => a.total >= minTotal && (a.correct / a.total) * 100 < maxPct)
+      .map(([prefix, a]) => ({ prefix, pct: Math.round(a.correct / a.total * 100), total: a.total, info: chMap[prefix] }))
+      .filter(x => x.info)
+      .sort((a, b) => a.pct - b.pct)
+      .slice(0, limit);
+  }
+
+  // 科目×設問形式のうち弱いセル。「循環器の治療選択」のように範囲を絞れる
+  function weakCells(limit) {
+    if (!_karteDoc) return [];
+    const out = [];
+    _karteDoc.rows.forEach(s => {
+      const row = _karteDoc.cells[s.id] || {};
+      QTYPES.forEach(t => {
+        const d = row[t.k];
+        if (!d || d.total < HM_MIN_N) return;
+        const pct = Math.round(d.correct / d.total * 100);
+        if (pct >= 70) return;
+        out.push({ name: s.name, type: t.label, pct, total: d.total });
+      });
+    });
+    return out.sort((a, b) => a.pct - b.pct).slice(0, limit);
+  }
+
   function buildDrillPrompt() {
     const scope = [];
-    if (_karteDoc && _karteDoc.rows) {
-      _karteDoc.rows.forEach(s => {
-        const r = _karteDoc.cells[s.id] || {};
-        QTYPES.forEach(t => {
-          const d = r[t.k];
-          if (d && d.total >= 3 && (d.correct / d.total) < 0.6) {
-            scope.push(`- ${s.name} の「${t.label}」に関する知識問題（正答率 ${Math.round(d.correct / d.total * 100)}%）`);
-          }
-        });
+    const cells = weakCells(6);
+    const chs = weakChapters(5, 65, 8);
+
+    if (cells.length) {
+      scope.push('正答率が低い組み合わせです。上から順に重点的に出してください。');
+      cells.forEach(c => scope.push(`- ${c.name}の「${c.type}」を問う問題（試験正答率 ${c.pct}%）`));
+      scope.push('');
+    }
+    if (chs.length) {
+      scope.push('正答率が低い章は次のとおりです。論点はここから拾ってください。');
+      chs.forEach(c => {
+        const t = cleanChTitle(c.info.chTitle, c.info.subjName);
+        scope.push(`- ${c.info.subjName} 第${c.info.chNum}章${t ? ' ' + t : ''}（${c.pct}%・${c.total}問受験）`);
       });
+      scope.push('');
+    }
+    if (_karteDoc && _karteDoc.flagAgg && _karteDoc.all.total) {
+      const base = Math.round(_karteDoc.all.correct / _karteDoc.all.total * 100);
+      const names = { neg: '否定形（〜でないのはどれか）', multi: '複数選択（2つ選べ）', calc: '数値・計算' };
+      const weak = Object.keys(names).filter(f => {
+        const d = _karteDoc.flagAgg[f];
+        return d && d.total >= HM_MIN_N && Math.round(d.correct / d.total * 100) <= base - 5;
+      });
+      if (weak.length) {
+        scope.push('次の形式で全体平均より落としています。意識して混ぜてください。');
+        weak.forEach(f => {
+          const d = _karteDoc.flagAgg[f];
+          scope.push(`- ${names[f]}: ${Math.round(d.correct / d.total * 100)}%（全体平均 ${base}%）`);
+        });
+        scope.push('');
+      }
+    }
+    if (!scope.length) {
+      scope.push('全科目からランダムに出題してください。');
+      scope.push('（試験モードのデータがまだ少ないため、弱点の指定はありません）');
+      scope.push('');
     }
 
     return [
-      'あなたは医師国家試験の出題官です。',
-      '以下の弱点分野から、知識問題を1問ずつ出題してください。',
+      'あなたは医師国家試験の「一般問題」を出題する出題官です。',
+      '私が答えを書くまで、正解・解説・次の問題を絶対に書かないでください。これが最優先ルールです。',
       '',
-      '# 重点出題分野',
-      scope.length ? scope.slice(0, 6).join('\n') : '- 臨床全般からバランスよく出題',
+      '# 出題範囲',
+      ...scope,
+      '# 出題形式',
+      '- 1回の発言につき1問だけ。',
+      '- 症例文は付けない。設問は1〜2行の知識問題にする。',
+      '- 選択肢は a〜e の5つ。原則「1つ選べ」。5問に1問くらい「2つ選べ」を混ぜる。',
+      '- 難易度は本番レベル（想定正答率60〜85%）。丸暗記ではなく、鑑別・機序・数値の境界を問う。',
+      '- もっともらしい誤りの選択肢を必ず2つ以上入れる。明らかな捨て肢は1つまで。',
+      '- 同じ論点は繰り返さない。',
+      '- 自信のない事実は出題しない。ガイドラインで変動しやすい数値は避けるか、基準の年を明記する。',
       '',
-      '# ルール',
-      '1. 1回の発言につき1問だけ出題する。',
-      '2. 設問文＋選択肢 a〜e を提示し、私が答えるまで正解・解説は絶対に書かない。',
-      '3. 私が解答したら、正誤判定＋簡潔なポイント解説を行い、続けて次の問題を出題する。',
+      '# 出題テンプレート（厳守）',
+      '【第N問】通算 X問正解 / Y問（Z%）',
+      '〈分野〉',
+      '設問文',
+      'a　…',
+      'b　…',
+      'c　…',
+      'd　…',
+      'e　…',
       '',
-      '準備ができたら第1問を出題してください。'
+      '↑ここで発言を終える。解答も解説も書かない。',
+      '',
+      '# 私が答えた後の動き',
+      '私は「a」のように1文字だけ答えることがある。それも解答として受け付ける。',
+      '1) 採点する',
+      '   - 正解: 「⭕ 正解 a」＋要点1〜2行のみ。長く書かない。',
+      '   - 誤答: 「❌ 正解は c」＋ ①なぜcが正しいか2〜3行 ②私が選んだ肢がなぜ違うか1〜2行',
+      '           ③セットで覚える論点1行',
+      '2) 採点と解説を書いたら、同じ発言の続きでそのまま次の問題を出す。私の合図は待たない。',
+      '3) 私が誤答した論点は、5問後と15問後に角度を変えて再出題する。',
+      '   出題時は再出題だと明かさず、採点のときに「（第N問の再出題）」と添える。',
+      '',
+      '# 私が使うコマンド',
+      '- 「解説」… 直前の問題をもっと詳しく',
+      '- 「飛ばす」… その問題を捨てて次へ',
+      '- 「難しく」「易しく」… 以降の難易度を調整',
+      '- 「分野: ○○」… 以降の出題範囲を変更',
+      '- 「まとめ」… ここまでに誤答した論点を箇条書きで一覧化する（次のセッションに引き継ぐため）',
+      '',
+      '# 禁止',
+      '前置き・励まし・「頑張りましょう」の類は書かない。絵文字は採点の⭕❌だけ。テンポを最優先する。',
+      '',
+      '準備ができたら第1問だけを出してください。',
     ].join('\n');
   }
 
