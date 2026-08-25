@@ -1260,6 +1260,40 @@
       cy: Math.round((top + bottom) / 2)
     };
   }
+
+  var _ceLastFxAngle = 0;
+  var _ceLastFxPos = { x: 0, y: 0 };
+
+  function ceClampFxXY(cx, cy) {
+    var b = ceBand();
+    return [Math.max(b.left + 8, Math.min(b.right - 8, cx)), Math.max(b.top, Math.min(b.bottom, cy))];
+  }
+
+  /**
+   * 黄金角巡回 ＋ 最小距離保証（重なり最大60% ＝ 40%以上離す） ＋ 均等面積サンプリング
+   */
+  function ceGetDispersedFxPos(baseCx, baseCy, maxR) {
+    var GOLDEN_ANGLE = 2.399963;
+    var minSeparation = maxR * 0.45;
+
+    for (var attempt = 0; attempt < 4; attempt++) {
+      _ceLastFxAngle = (_ceLastFxAngle + GOLDEN_ANGLE + (Math.random() - 0.5) * 0.35) % (Math.PI * 2);
+      var dist = maxR * Math.sqrt(0.12 + 0.88 * Math.random());
+      var x = baseCx + Math.cos(_ceLastFxAngle) * dist;
+      var y = baseCy + Math.sin(_ceLastFxAngle) * dist;
+
+      var dx = x - _ceLastFxPos.x;
+      var dy = y - _ceLastFxPos.y;
+      var distFromLast = Math.sqrt(dx * dx + dy * dy);
+
+      if (distFromLast >= minSeparation || attempt === 3) {
+        _ceLastFxPos = { x: x, y: y };
+        var clamped = ceClampFxXY(x, y);
+        return { x: clamped[0], y: clamped[1] };
+      }
+    }
+    return { x: baseCx, y: baseCy };
+  }
   // 演出レイヤーだけを揺らす。body を transform すると body が position:fixed の包含ブロックに
   // なり、揺れている間だけ演出がページ先頭基準になって画面外へ飛ぶ。
   function ceShakeFxLayers(frames, timing) {
@@ -1478,19 +1512,17 @@
       try { window.MecFX.glyphBurst(cx, cy, {glyphs:['⚔️','✨'], count:5, w:40, spread:120}); } catch(e){}
     }
   }
-  /* A4(2026-08-26 改訂): 正解時の画面中央基準・短辺0〜90%ダイナミック光彩パルス
-     スクロールで引き伸ばされる固定要素間リボンを廃止し、画面中央(cx, cy)から
-     短辺の0〜90%の範囲内へランダムに広がるテーマ連動スパーク＆閃光を展開。 */
+  /* A4(2026-08-26 改訂): 正解時の画面中央基準・短辺0〜90%黄金角巡回ダイナミック光彩パルス
+     黄金角（137.5°）＋均等面積サンプリング＋重なり最大60%制御で画面全体に心地よく散乱。 */
   function ceTraceToAnswer(card, el) {
     if (ceReduced() || !window.MecFX || !card) return;
     var b = ceBand();
     var shortSide = Math.min(b.width, b.height);
     var maxR = shortSide * 0.45; // 短辺の90%（半径45%）
     var curUi = window.MecUITheme ? MecUITheme.get() : null;
-    var ang = Math.random() * Math.PI * 2;
-    var dist = Math.random() * maxR;
-    var tx = b.cx + Math.cos(ang) * dist;
-    var ty = b.cy + Math.sin(ang) * dist;
+    var pos = ceGetDispersedFxPos(b.cx, b.cy, maxR);
+    var tx = pos.x;
+    var ty = pos.y;
 
     try {
       if (curUi === 'brass' && window.MecFX.sparks) {
@@ -1614,16 +1646,16 @@
       setTimeout(function () { ceAnswerMark(el, 'fresh'); }, _markDelay);
     }
 
-    // 【UIテーマ固有演出】正解時のテーマ別リアクション（画面中央基準・短辺0〜90%動的スケーリング）
+    // 【UIテーマ固有演出】正解時のテーマ別リアクション（画面中央基準・黄金角巡回・短辺0〜90%動的スケーリング）
     if (!ceReduced() && window.MecFX && card) {
       var curUi = window.MecUITheme ? MecUITheme.get() : 'aurora';
       var b = ceBand();
       var shortSide = Math.min(b.width, b.height);
       var maxR = shortSide * 0.45; // 短辺の90%（半径45%）
-      var ang = Math.random() * Math.PI * 2;
-      var dist = Math.random() * (maxR * 0.25);
-      var cx = b.cx + Math.cos(ang) * dist;
-      var cy = b.cy + Math.sin(ang) * dist;
+      // 黄金角巡回＋均等面積サンプリング（重なり最大60%保証）でバラけさせて発火
+      var pos = ceGetDispersedFxPos(b.cx, b.cy, maxR);
+      var cx = pos.x;
+      var cy = pos.y;
 
       if (curUi === 'aurora') {
         if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(cx, cy, { maxR: maxR, sparkleCount: 16 });
@@ -2185,8 +2217,9 @@
     var _pb = ceBand();
     var shortSide = Math.min(_pb.width, _pb.height);
     var maxR = shortSide * Math.min(0.48, 0.40 + tier * 0.012); // 短辺0〜90%動的スケーリング
-    var cx = _pb.cx;
-    var cy = _pb.cy;
+    var pos = ceGetDispersedFxPos(_pb.cx, _pb.cy, maxR);
+    var cx = pos.x;
+    var cy = pos.y;
     var curUi = window.MecUITheme ? MecUITheme.get() : null;
 
     // ── UIテーマ完全連動型コンボパーティクル（2026-08-23） ──

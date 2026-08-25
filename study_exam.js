@@ -1534,6 +1534,39 @@ function _examClampFxXY(cx, cy) {
   return [Math.max(b.left + 8, Math.min(b.right - 8, cx)), Math.max(b.top, Math.min(b.bottom, cy))];
 }
 
+let _examLastFxAngle = 0;
+let _examLastFxPos = { x: 0, y: 0 };
+
+/**
+ * 黄金角巡回 ＋ 最小距離保証（重なり最大60% ＝ 40%以上離す） ＋ 均等面積サンプリング
+ * baseCx, baseCy: 基準中心（_fxBand().cx, _fxBand().cy）
+ * maxR: 最大発火半径（shortSide * 0.45）
+ */
+function _getDispersedFxPos(baseCx, baseCy, maxR) {
+  const GOLDEN_ANGLE = 2.399963; // 約137.5077度（ラジアン）
+  const minSeparation = maxR * 0.45; // 2点間の最小離間距離（重なり60%以下）
+
+  for (let attempt = 0; attempt < 4; attempt++) {
+    // 黄金角で回転＋乱数微小揺らぎ
+    _examLastFxAngle = (_examLastFxAngle + GOLDEN_ANGLE + (Math.random() - 0.5) * 0.35) % (Math.PI * 2);
+    // 均等面積サンプリング（中心密集を完全解消し、短辺の20%〜90%に均等分散）
+    const dist = maxR * Math.sqrt(0.12 + 0.88 * Math.random());
+    const x = baseCx + Math.cos(_examLastFxAngle) * dist;
+    const y = baseCy + Math.sin(_examLastFxAngle) * dist;
+
+    const dx = x - _examLastFxPos.x;
+    const dy = y - _examLastFxPos.y;
+    const distFromLast = Math.hypot(dx, dy);
+
+    if (distFromLast >= minSeparation || attempt === 3) {
+      _examLastFxPos = { x, y };
+      const [clampedX, clampedY] = _examClampFxXY(x, y);
+      return { x: clampedX, y: clampedY };
+    }
+  }
+  return { x: baseCx, y: baseCy };
+}
+
 // A1: 速答ボーナス。ラベル＋⚡グリフを選んだ肢の位置から出す
 // grade は _fastGrade の3段（3=神速/一閃, 2=速答, 1=まずまず）
 function _triggerFastBonus(el, grade) {
@@ -1957,19 +1990,17 @@ function _triggerAnswerMark(el, kind) {
   }
 }
 
-/* A4(2026-08-26 改訂): 正解時の画面中央基準・短辺0〜90%ダイナミック光彩パルス
-   スクロールで引き伸ばされる固定要素間リボンを廃止し、画面中央(cx, cy)から
-   短辺の0〜90%の範囲内へランダムに広がるテーマ連動スパーク＆閃光を展開。 */
+/* A4(2026-08-26 改訂): 正解時の画面中央基準・短辺0〜90%黄金角巡回ダイナミック光彩パルス
+   黄金角（137.5°）＋均等面積サンプリング＋重なり最大60%制御で画面全体に心地よく散乱。 */
 function _traceToAnswer(card, fxEl) {
   if (_fxOff() || !window.MecFX || !card) return;
   const b = _fxBand();
   const shortSide = Math.min(b.width, b.height);
   const maxR = shortSide * 0.45; // 短辺の90%（半径45%）
   const curUi = window.MecUITheme ? MecUITheme.get() : null;
-  const ang = Math.random() * Math.PI * 2;
-  const dist = Math.random() * maxR;
-  const tx = b.cx + Math.cos(ang) * dist;
-  const ty = b.cy + Math.sin(ang) * dist;
+  const pos = _getDispersedFxPos(b.cx, b.cy, maxR);
+  const tx = pos.x;
+  const ty = pos.y;
 
   try {
     if (curUi === 'brass' && window.MecFX.sparks) {
@@ -2153,17 +2184,16 @@ function _afterCorrectFx(card, fxEl) {
     });
   }
 
-  // 【UIテーマ固有演出】正解時のテーマ別リアクション（画面中央基準・短辺0〜90%動的スケーリング）
+  // 【UIテーマ固有演出】正解時のテーマ別リアクション（画面中央基準・黄金角巡回・短辺0〜90%動的スケーリング）
   if (!_fxOff() && window.MecFX && card) {
     const curUi = window.MecUITheme ? MecUITheme.get() : 'aurora';
     const b = _fxBand();
     const shortSide = Math.min(b.width, b.height);
     const maxR = shortSide * 0.45; // 短辺の90%（半径45%）
-    // 中心から短辺の0〜90%の範囲でランダムに微小オフセットを加えて発火
-    const ang = Math.random() * Math.PI * 2;
-    const dist = Math.random() * (maxR * 0.25);
-    const cx = b.cx + Math.cos(ang) * dist;
-    const cy = b.cy + Math.sin(ang) * dist;
+    // 黄金角巡回＋均等面積サンプリング（重なり最大60%保証）でバラけさせて発火
+    const pos = _getDispersedFxPos(b.cx, b.cy, maxR);
+    const cx = pos.x;
+    const cy = pos.y;
 
     if (curUi === 'aurora') {
       if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(cx, cy, { maxR: maxR, sparkleCount: 16 });
@@ -3002,7 +3032,9 @@ function _spawnStreakParticles(tier) {
   const b = _fxBand();
   const shortSide = Math.min(b.width, b.height);
   const maxR = shortSide * Math.min(0.48, 0.40 + tier * 0.012); // 短辺0〜90%動的スケーリング
-  const { cx, cy } = b;
+  const pos = _getDispersedFxPos(b.cx, b.cy, maxR);
+  const cx = pos.x;
+  const cy = pos.y;
   const curUi = window.MecUITheme ? MecUITheme.get() : null;
 
   // ── UIテーマ完全連動型コンボパーティクル（2026-08-23） ──
