@@ -1,3 +1,6 @@
+// 2026-08-26d: ハブ画面の学習推移行を14日化・ペース診断インサイト・連続学習アンダーライン・2週間最多新記録ファンファーレへ刷新。
+//   - index.html: 30日極小スパークラインを14日立体バーグラフに拡張。直近3日vs前週同3日のペース診断バナー（#heroPaceBanner）、目標40問ライン、👑最多日演出、連続学習アンダーライントラック（#heroStreakTrack）、タップ時ツールチップ（.spark-tip）、最多記録更新ファンファーレ（MecFX粒子・花火・効果音連携）を完全実装。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-26c: 正解時コンボ数バッジ（.mec-combo-badge）を完全削除し、全8テーマ固有の12要素統合演出システムへ刷新。
 //   - ui_theme.css: コンボバッジを全廃し、予備動作・OKグリフ・不正解肢消滅・次問登場・画面枠パルス・透かし活性化・誤答ダメージ・ゾーン呼吸を8テーマ個別に新設。
 //   - study_exam.js / chapter_exam.js: バッジ生成ロジックを完全撤去し、触覚フィードバック（Web Haptics）・外周パルス・次問登場トリガー・ゾーン状態制御を同期。
@@ -476,7 +479,7 @@ const CACHE = "mec-v174";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-26c";
+const SHELL_VERSION = "2026-08-26d";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

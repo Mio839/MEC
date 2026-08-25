@@ -278,19 +278,69 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 /* 数字は b・単位は span。両方 span にすると単位の小さいグレーが数字にも掛かる */
 .strip dd span{margin-left:2px;font-size:11px;font-weight:700;color:var(--ts);}
 
-/* ── 直近30日の波形。棒は scaleY だけを伸ばす（height は触らない） ── */
-.spark-row{display:flex;align-items:flex-end;gap:var(--sp-3);margin-top:var(--sp-4);}
-.spark-lb{padding-bottom:3px;font-size:10px;letter-spacing:.1em;color:var(--ts);white-space:nowrap;}
-.spark{display:flex;align-items:flex-end;gap:2px;flex:1;min-width:0;height:26px;}
-.spark i{flex:1;min-width:0;border-radius:1px;background:rgba(var(--glass-rgb),.16);
+/* ── ペース分析インサイトバナー ── */
+.pace-banner{display:flex;align-items:center;gap:8px;margin-top:var(--sp-3);padding:7px 11px;
+  border-radius:var(--r-md);font-size:11.5px;font-weight:700;line-height:1.4;
+  background:rgba(var(--glass-rgb),.05);border:1px solid var(--hair-2);
+  transition:background-color .3s,border-color .3s,color .3s;}
+.pace-banner.good{background:rgba(61,214,140,.12);border-color:rgba(61,214,140,.38);color:#3DD68C;}
+.pace-banner.neutral{background:rgba(96,165,250,.12);border-color:rgba(96,165,250,.35);color:#93C5FD;}
+.pace-banner.warn{background:rgba(255,154,60,.12);border-color:rgba(255,154,60,.38);color:#FFB347;}
+.pace-banner.bad{background:rgba(255,107,107,.14);border-color:rgba(255,107,107,.42);color:#FF7B7B;}
+.pace-banner.steady{background:rgba(var(--glass-rgb),.06);border-color:var(--hair-2);color:var(--ts);}
+.pace-banner-ic{flex-shrink:0;font-size:13px;}
+.pace-banner-tx{flex:1;min-width:0;}
+
+/* ── 直近14日の波形＆連続学習トラック ── */
+.spark-section{margin-top:var(--sp-4);position:relative;}
+.spark-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:11px;font-weight:700;color:var(--ts);}
+.spark-hdr-title{letter-spacing:.05em;}
+.spark-hdr-record{color:var(--yl,#FFD166);font-size:10.5px;}
+
+.spark-container{position:relative;height:54px;display:flex;align-items:flex-end;}
+.spark-target-line{position:absolute;left:0;right:0;border-top:1px dashed rgba(255,255,255,.20);
+  pointer-events:none;z-index:2;display:flex;justify-content:flex-end;}
+.spark-target-lbl{font-size:8.5px;color:rgba(255,255,255,.45);margin-top:-11px;padding-right:2px;font-weight:600;letter-spacing:.02em;}
+
+.spark-bars{display:flex;align-items:flex-end;gap:5px;flex:1;height:100%;min-width:0;position:relative;z-index:3;}
+.bar-col{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative;cursor:pointer;}
+.bar{width:100%;max-width:16px;border-radius:3px 3px 1px 1px;background:rgba(var(--glass-rgb),.16);
   transform-origin:bottom;animation:sparkUp .5s var(--ease-out) backwards;
-  animation-delay:calc(.3s + var(--i,0) * 10ms);}
-.spark i.on{background:var(--or);}
+  animation-delay:calc(.25s + var(--i,0) * 15ms);transition:filter var(--dur-micro) var(--ease-out);}
+.bar-col:hover .bar,.bar-col:active .bar{filter:brightness(1.22);}
+.bar.on{background:var(--or);}
 @keyframes sparkUp{from{transform:scaleY(.02);}}
-/* 30本入るので狭い画面では隙間を詰める（詰めないと棒が1px未満になって波形が読めない） */
-@media (max-width:420px){.spark{gap:1px;}}
+
+@media (max-width:400px){.spark-bars{gap:3px;}.bar{max-width:13px;}}
+
+.spark-dates{display:flex;gap:5px;margin-top:4px;}
+@media (max-width:400px){.spark-dates{gap:3px;}}
+.date-lbl{flex:1;min-width:0;text-align:center;font-size:9px;color:var(--ts);
+  font-variant-numeric:tabular-nums;line-height:1.15;white-space:nowrap;}
+.date-lbl.sat{color:rgba(96,165,250,.85);}
+.date-lbl.sun{color:rgba(255,107,107,.85);}
+.date-lbl.today{color:var(--or);font-weight:800;}
+
+.spark-streak-track{display:flex;gap:5px;margin-top:4px;padding-top:1px;position:relative;}
+@media (max-width:400px){.spark-streak-track{gap:3px;}}
+.streak-seg{flex:1;min-width:0;height:3px;border-radius:1.5px;background:transparent;
+  transition:background-color .3s,box-shadow .3s;}
+.streak-seg.active{background:linear-gradient(90deg,#FF9A3C,#FF4500);
+  box-shadow:0 0 6px rgba(255,122,47,.75);}
+.streak-seg.active.today{box-shadow:0 0 9px rgba(255,69,0,.9);position:relative;}
+.streak-seg.active.today::after{content:'🔥';position:absolute;right:-2px;top:-9px;font-size:8px;line-height:1;}
+
+.spark-tip{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);
+  padding:4px 8px;border-radius:6px;background:rgba(18,20,28,.94);border:1px solid var(--hair-3);
+  color:#fff;font-size:10px;font-weight:700;white-space:nowrap;pointer-events:none;z-index:20;
+  box-shadow:0 4px 14px rgba(0,0,0,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  animation:tipFadeIn .15s ease-out;display:flex;flex-direction:column;align-items:center;gap:1px;}
+@keyframes tipFadeIn{from{opacity:0;transform:translateX(-50%) translateY(3px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
+.spark-tip::after{content:'';position:absolute;top:100%;left:50%;margin-left:-4px;border:4px solid transparent;border-top-color:rgba(18,20,28,.94);}
+.spark-tip-sub{font-size:8.5px;color:rgba(255,255,255,.65);font-weight:500;}
+
 /* 再描画（同期完了）で全部の棒がもう一度立ち上がると読みづらいので2回目以降は止める */
-.hero.settled .spark i,.hero.settled .gauge-val{animation:none;}
+.hero.settled .bar,.hero.settled .gauge-val{animation:none;}
 /* 明るいアクセントが地なので白文字だと 2.1:1。暗インクへ反転（テーマで色が変わっても成立する） */
 .cta-main{flex:1 1 200px;padding:13px 18px;border-radius:var(--r-md);text-align:center;
   background:var(--or);color:var(--subj-ink);font-size:14px;font-weight:800;letter-spacing:.02em;
@@ -484,20 +534,18 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
 /* 28%で走り切って残り72%は画面外で待つ＝「時々光る」 */
 @keyframes sheen{0%{transform:translateX(-170%);}28%,100%{transform:translateX(400%);}}
 
-/* ── 今日の棒だけ息をする ── */
-.spark i{position:relative;}
-.spark i.today::after{content:'';position:absolute;inset:-2px -1px;border-radius:2px;
+/* ── 今日の棒だけ息をする ＆ 最多日の演出 ── */
+.bar.today{box-shadow:0 0 8px color-mix(in srgb,var(--or) 60%,transparent);position:relative;}
+.bar.today::after{content:'';position:absolute;inset:-2px -1px;border-radius:3px;
   background:var(--or);animation:todayGlow 2.4s var(--ease-in-out) infinite;}
 @keyframes todayGlow{0%,100%{opacity:.12;}50%{opacity:.5;}}
-/* D4(2026-08-14): 今日がこの30日で最多なら、柱そのものを金色に立てて印を付ける。
-   「今日も学習した」（.today）と「今日が一番やった日」（.record）は別の事実なので描き分ける */
-.spark i.record{background:linear-gradient(180deg,#FFD166,var(--or));
-  box-shadow:0 0 8px color-mix(in srgb,var(--or) 65%,transparent);}
-.spark i.record::before{content:'';position:absolute;left:50%;top:-7px;width:4px;height:4px;
-  margin-left:-2px;border-radius:50%;background:#FFD166;
-  box-shadow:0 0 7px 2px color-mix(in srgb,#FFD166 70%,transparent);
-  animation:recDot 2.2s var(--ease-in-out) infinite;}
-@keyframes recDot{0%,100%{opacity:.45;transform:translateY(0);}50%{opacity:1;transform:translateY(-2px);}}
+
+/* 期間内最多日（Record Day）: ゴールドグラデーション ＋ 光彩 ＋ 👑 王冠 */
+.bar.record{background:linear-gradient(180deg,#FFD166,var(--or));
+  box-shadow:0 0 10px rgba(255,209,102,.55);}
+.bar-crown{position:absolute;top:-13px;left:50%;transform:translateX(-50%);font-size:9px;line-height:1;
+  pointer-events:none;animation:crownFloat 2.2s var(--ease-in-out) infinite;z-index:4;}
+@keyframes crownFloat{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(-2px);}}
 
 /* D5(2026-08-14): 連続日数の炎。段が上がるほど数字が熱を持つ（粒子は canvas 側） */
 #statStreak[data-ember="2"]{color:#FFB347;}
@@ -804,7 +852,7 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
 
 @media (prefers-reduced-motion:reduce){
   .rv-s{opacity:1;transform:none;}
-  .gear,.hero-live::after,.cta-main::after,.spark i.today::after,.gauge-dot .halo,
+  .gear,.hero-live::after,.cta-main::after,.bar.today::after,.bar-crown,.gauge-dot .halo,
   .gauge-ring,.gauge-mid,
   .hero-num .dg,.hero-xp.pop,.sec-n.all,
   .mfx .gm-mission.done::before,.mfx .gm-mission.done::after,
@@ -812,7 +860,7 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
   .mfx .gm-mission.done .gm-mission-fill::after{animation:none;}
   /* 段ごとの脈動は詳細度が1段高いので、同じ詳細度で後から打ち消す */
   .gauge[data-tier] .gauge-ring,.gauge[data-tier] .gauge-mid{animation:none;}
-  .hero-live::after,.cta-main::after,.spark i.today::after,
+  .hero-live::after,.cta-main::after,.bar.today::after,.bar-crown,
   .mfx .gm-mission.done::before,.mfx .gm-mission.done::after,
   .mfx .gm-mission.done .gm-mission-ic::after,
   .mfx .gm-mission.done .gm-mission-num::after,
@@ -820,7 +868,7 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
   .mfx .gm-mission.done .gm-mission-fill::after{display:none;}
   .gauge-dot{transition:none;}
   /* 2026-08-14 追加分（D1 起動シーケンス / D3 レベル間近 / D4 記録更新 / D5 炎の段） */
-  .hero.booting::after,.spark i.record::before{display:none;}
+  .hero.booting::after{display:none;}
   .hero.booting .hero-cnr,.hero-lv-bar span.near,
   .hero.settled .hero-lv-bar span.near,
   #statStreak[data-ember="4"]{animation:none;}
@@ -1013,9 +1061,23 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
         <div class="strip-c" style="--i:2"><dt>済 累計</dt><dd><b id="statDone">0</b><span>問</span></dd></div>
       </dl>
 
-      <div class="spark-row">
-        <span class="spark-lb">30日</span>
-        <div class="spark" id="heroSpark" role="img" aria-label="直近30日の学習量"></div>
+      <!-- ペース分析インサイトバナー -->
+      <div class="pace-banner" id="heroPaceBanner" hidden></div>
+
+      <!-- 直近14日間の推移 ＆ 連続学習アンダーライン -->
+      <div class="spark-section">
+        <div class="spark-hdr">
+          <span class="spark-hdr-title">直近14日間の推移</span>
+          <span class="spark-hdr-record" id="heroSparkRecord"></span>
+        </div>
+        <div class="spark-container" id="heroSparkContainer">
+          <div class="spark-target-line" id="heroSparkTargetLine" title="デイリー目標（40問）">
+            <span class="spark-target-lbl">目標 40</span>
+          </div>
+          <div class="spark-bars" id="heroSpark" role="img" aria-label="直近14日間の学習量"></div>
+        </div>
+        <div class="spark-dates" id="heroSparkDates" aria-hidden="true"></div>
+        <div class="spark-streak-track" id="heroStreakTrack" aria-hidden="true"></div>
       </div>
     </div>
   </section>
@@ -1324,45 +1386,220 @@ const GAUGE_C = 339.29;
 // 正本は gamify.js の MISSIONS_DAILY の ans（40問）で、通常はそちらが使われる。
 const DAILY_GOAL_FALLBACK = 40;
 
-// 直近30日の学習量の波形。素材は activity_v1（日→操作回数）。
-// 高さは「その30日の最大日」を100%とした相対値＝実データのみで作る。
+// 直近14日の学習量・ペース分析・連続学習トラック。素材は activity_v1（日→解答回数）。
 let _sparkRecordShown = false;
+let _activeSparkTip = null;
+
 function _renderSpark() {
   const host = document.getElementById('heroSpark');
+  const dateHost = document.getElementById('heroSparkDates');
+  const streakHost = document.getElementById('heroStreakTrack');
+  const paceBanner = document.getElementById('heroPaceBanner');
+  const recordHdr = document.getElementById('heroSparkRecord');
+  const targetLine = document.getElementById('heroSparkTargetLine');
   if (!host) return;
+
   let log = {};
   try { log = JSON.parse(localStorage.getItem('activity_v1') || '{}'); } catch {}
   const base = Date.now() + 9 * 3600000;   // JST。日付の切り方を calcStreak と揃える
-  const days = [];
-  for (let i = 29; i >= 0; i--) days.push(log[new Date(base - i * 86400000).toISOString().slice(0, 10)] || 0);
-  const mx = Math.max(1, ...days);
-  const active = days.filter(v => v > 0).length;
 
-  // D4(2026-08-14): 今日がこの30日の最大なら「記録更新」として別扱いにする。
-  // 同率首位（mx と同じ日が他にもある）は更新ではないので数える。
-  const today = days[29];
-  const isRecord = today > 0 && today >= mx && days.filter(v => v >= mx).length === 1;
+  // 直近14日分の配列を生成（0 = 13日前, 13 = 今日）
+  const days14 = [];
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date(base - i * 86400000);
+    const iso = d.toISOString().slice(0, 10);
+    days14.push({
+      iso: iso,
+      dateObj: d,
+      day: d.getUTCDate(),
+      month: d.getUTCMonth() + 1,
+      wd: _WD_JA[d.getUTCDay()],
+      dayIdx: d.getUTCDay(),
+      count: log[iso] || 0,
+      isToday: i === 0,
+    });
+  }
 
-  host.innerHTML = days.map((v, i) => {
-    // 1回でも触った日は必ず見える高さを与える（14%未満だと線に潰れて0日と区別が付かない）
-    const h = v ? Math.max(14, Math.round(v / mx * 100)) + '%' : '2px';
-    // 末尾＝今日。学習済みなら息をさせる（.today の演出は CSS 側）
-    const cls = (v ? 'on' : '') + (i === 29 && v ? ' today' : '') + (i === 29 && isRecord ? ' record' : '');
-    return '<i class="' + cls + '" style="--i:' + i + ';height:' + h + '"></i>';
+  const counts = days14.map(d => d.count);
+  const todayCount = days14[13].count;
+  const mx = Math.max(1, ...counts);
+  const past13Max = Math.max(0, ...counts.slice(0, 13));
+  const isRecord = todayCount > 0 && todayCount > past13Max;
+  const activeDays = counts.filter(v => v > 0).length;
+
+  // 期間内最多日（最も問題数を解いた日）
+  let maxDay = null;
+  if (mx > 0) {
+    for (let i = 13; i >= 0; i--) {
+      if (days14[i].count === mx) { maxDay = days14[i]; break; }
+    }
+  }
+
+  // 1. ヘッダー記録表示
+  if (recordHdr) {
+    if (maxDay && mx > 0) {
+      const isTodayMax = maxDay.isToday;
+      recordHdr.textContent = '👑 2週間最多: ' + mx + '問 (' + (isTodayMax ? '今日' : maxDay.month + '/' + maxDay.day) + ')';
+    } else {
+      recordHdr.textContent = '';
+    }
+  }
+
+  // 2. ペース分析インサイトバナー
+  if (paceBanner) {
+    // 直近3日間（今日＋昨日＋一昨日）
+    const recent3 = days14[13].count + days14[12].count + days14[11].count;
+    // 前週の同3日間（7日前＋8日前＋9日前）
+    const d7 = log[new Date(base - 7 * 86400000).toISOString().slice(0, 10)] || 0;
+    const d8 = log[new Date(base - 8 * 86400000).toISOString().slice(0, 10)] || 0;
+    const d9 = log[new Date(base - 9 * 86400000).toISOString().slice(0, 10)] || 0;
+    const prev3 = d7 + d8 + d9;
+
+    let pCls = 'steady', pIcon = '⚖️', pMsg = '';
+    if (prev3 > 0) {
+      const diffPct = Math.round(((recent3 - prev3) / prev3) * 100);
+      const diffCount = recent3 - prev3;
+      if (diffPct >= 30) {
+        pCls = 'good'; pIcon = '🚀';
+        pMsg = '驚異的なペース！直近3日は先週比 +' + diffPct + '%（+' + diffCount + '問）加速中！';
+      } else if (diffPct >= 5) {
+        pCls = 'neutral'; pIcon = '📈';
+        pMsg = '順調！直近3日は先週比 +' + diffPct + '%（+' + diffCount + '問）ペースを維持しています';
+      } else if (diffPct >= -5) {
+        pCls = 'steady'; pIcon = '⚖️';
+        pMsg = '直近3日は先週と同水準（' + recent3 + '問）で着実に進行中';
+      } else if (diffPct >= -35) {
+        pCls = 'warn'; pIcon = '⚠️';
+        const need = Math.max(1, prev3 - recent3);
+        pMsg = '直近3日は先週比 ' + diffPct + '% ペース。あと' + need + '問で先週ペース維持！';
+      } else {
+        pCls = 'bad'; pIcon = '📉';
+        pMsg = '直近3日は先週比 ' + diffPct + '%。まずは今日の1問からリズムを取り戻そう！';
+      }
+    } else {
+      if (recent3 > 0) {
+        pCls = 'good'; pIcon = '✨';
+        pMsg = '直近3日で ' + recent3 + '問 解答！いい調子で進んでいます';
+      } else {
+        pCls = 'steady'; pIcon = '💡';
+        pMsg = '今日のミッションを解いて、直近14日間のペースグラフを伸ばそう！';
+      }
+    }
+    paceBanner.className = 'pace-banner ' + pCls;
+    paceBanner.innerHTML = '<span class="pace-banner-ic">' + pIcon + '</span><span class="pace-banner-tx">' + pMsg + '</span>';
+    paceBanner.hidden = false;
+  }
+
+  // 3. デイリー目標ライン（既定40問）
+  const targetGoal = 40;
+  const scaleMax = Math.max(targetGoal * 1.15, mx);
+  if (targetLine) {
+    const targetPct = Math.min(88, Math.max(16, Math.round(targetGoal / scaleMax * 100)));
+    targetLine.style.bottom = targetPct + '%';
+  }
+
+  // 4. 14本のバー列
+  host.innerHTML = days14.map((d, i) => {
+    const isPeak = d.count === mx && d.count > 0;
+    const h = d.count ? Math.max(10, Math.round(d.count / scaleMax * 100)) + '%' : '2px';
+    const cls = 'bar' + (d.count ? ' on' : '') + (d.isToday && d.count ? ' today' : '') + (isPeak ? ' record' : '');
+    const crown = isPeak ? '<span class="bar-crown" aria-hidden="true">👑</span>' : '';
+    return '<div class="bar-col" data-i="' + i + '" data-iso="' + d.iso + '" data-count="' + d.count + '" data-month="' + d.month + '" data-day="' + d.day + '" data-wd="' + d.wd + '" data-peak="' + (isPeak ? '1' : '0') + '" data-today="' + (d.isToday ? '1' : '0') + '" style="--i:' + i + '">'
+      + crown + '<i class="' + cls + '" style="height:' + h + '"></i></div>';
   }).join('');
-  host.setAttribute('aria-label', '直近30日の学習量。学習した日は ' + active + ' 日' +
-    (isRecord ? '。今日はこの30日で最多' : ''));
 
-  // 記録更新の日だけ、今日の柱から一度きり火花を散らす（同期の再描画では鳴らさない）
+  host.setAttribute('aria-label', '直近14日間の学習量。学習した日は ' + activeDays + ' 日' +
+    (isRecord ? '。今日は2週間で最多記録更新' : ''));
+
+  // 5. 日付・曜日行
+  if (dateHost) {
+    dateHost.innerHTML = days14.map(d => {
+      let cls = 'date-lbl';
+      if (d.dayIdx === 6) cls += ' sat';
+      else if (d.dayIdx === 0) cls += ' sun';
+      if (d.isToday) cls += ' today';
+      const label = d.isToday ? '今日' : d.day;
+      return '<div class="' + cls + '">' + label + '</div>';
+    }).join('');
+  }
+
+  // 6. 連続学習（Streak）アンダーライン
+  if (streakHost) {
+    const streak = window.MECSync ? MECSync.calcStreak() : 0;
+    streakHost.innerHTML = days14.map((d, i) => {
+      // 連続記録中の日数（末尾の今日から streak 日前まで）
+      const inStreak = streak > 0 && (13 - i) < streak && d.count > 0;
+      const isStreakToday = inStreak && d.isToday;
+      const cls = 'streak-seg' + (inStreak ? ' active' : '') + (isStreakToday ? ' today' : '');
+      return '<div class="' + cls + '"></div>';
+    }).join('');
+  }
+
+  // 7. インタラクティブ・ツールチップ（タップ/ホバー）
+  _bindSparkTooltips(host);
+
+  // 8. 🎉【第7位】2週間最多記録の更新ファンファーレ（Record Burst）
   if (isRecord && !_sparkRecordShown) {
     _sparkRecordShown = true;
     setTimeout(() => {
-      const bar = host.querySelector('i.record');
+      const bar = host.querySelector('.bar-col[data-today="1"] .bar');
       const c = _centerOf(bar);
-      if (c && _fxOk()) MecFX.glyphBurst(c.x, c.r.top, { glyphs: ['✦', '✨'], count: 5, spread: 80, w: 8 });
-    }, 900);
+      if (c && _fxOk()) {
+        MecFX.glyphBurst(c.x, c.r.top, { glyphs: ['👑', '✨', '✦', '🎉'], count: 8, spread: 110, w: 12 });
+        const curTheme = localStorage.getItem('mec_ui_theme_v1') || 'aurora';
+        if (curTheme === 'brass' && MecFX.gears) {
+          MecFX.gears(c.x, c.r.top, { count: 5 });
+        } else if (MecFX.sparks) {
+          MecFX.sparks(c.x, c.r.top, { count: 12, speed: 220 });
+        }
+      }
+      // サウンド再生（保存されている結果音があれば鳴らす）
+      try {
+        const rSound = localStorage.getItem('mec_result_sound_v1');
+        if (rSound && rSound !== 'off' && typeof _previewResultSound === 'function') {
+          _previewResultSound(rSound);
+        }
+      } catch (e) {}
+    }, 700);
   }
 }
+
+// ツールチップの制御
+function _bindSparkTooltips(host) {
+  if (!host) return;
+  const cols = host.querySelectorAll('.bar-col');
+  cols.forEach(col => {
+    const show = (e) => {
+      e.stopPropagation();
+      if (_activeSparkTip) _activeSparkTip.remove();
+      const count = parseInt(col.dataset.count || '0', 10);
+      const m = col.dataset.month;
+      const d = col.dataset.day;
+      const wd = col.dataset.wd;
+      const isPeak = col.dataset.peak === '1';
+      const isToday = col.dataset.today === '1';
+
+      const tip = document.createElement('div');
+      tip.className = 'spark-tip';
+      let title = (isToday ? '今日 ' : '') + m + '月' + d + '日 (' + wd + ')';
+      let sub = count + '問 解答';
+      if (isPeak && count > 0) sub += ' 👑 期間最多';
+      tip.innerHTML = '<span>' + title + '</span><span class="spark-tip-sub">' + sub + '</span>';
+      col.appendChild(tip);
+      _activeSparkTip = tip;
+    };
+    col.addEventListener('pointerenter', show);
+    col.addEventListener('click', show);
+  });
+}
+
+// 画面外タップでツールチップを閉じる
+document.addEventListener('click', (e) => {
+  if (_activeSparkTip && !e.target.closest('.spark-container')) {
+    _activeSparkTip.remove();
+    _activeSparkTip = null;
+  }
+});
 
 function renderHero() {
   // 分子は calcTotalQ と同じスコープで数える（custom_ / memo_ は分母に無いので除外）
