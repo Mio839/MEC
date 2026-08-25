@@ -1205,6 +1205,12 @@ const MEC_CHAPTERS = [
         "file": "公衆衛生/ch03_shi.html",
         "title": "第3章 死",
         "count": 32
+      },
+      {
+        "prefix": "ph_ch04",
+        "file": "公衆衛生/ch04_iryoushoku.html",
+        "title": "第4章 医療職",
+        "count": 19
       }
     ]
   }
