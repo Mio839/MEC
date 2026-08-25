@@ -3040,39 +3040,11 @@ html.ui-kintsugi .mec-undo-btn {
   border-radius: 12px !important;
 }
 
-/* 🌑 コンボバッジ: 漆黒蒔絵プレート ＆ 黄金箔押し（特大和印鑑・金粉光彩） */
-html.ui-kintsugi .mec-combo-badge {
-  background: linear-gradient(135deg, rgba(32, 26, 20, 0.99) 0%, rgba(14, 12, 18, 0.99) 100%) !important;
-  border: 2.2px solid #F5D061 !important;
-  border-radius: 12px !important;
-  padding: 8px 22px !important;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.95), 0 0 45px rgba(245, 208, 97, 0.95), 0 0 60px rgba(217, 56, 58, 0.45), inset 0 2px 0 #FFF2A8 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-  animation: kintsugiBadgePop 0.38s cubic-bezier(0.16, 1, 0.3, 1) both !important;
-}
-
-html.ui-kintsugi .mec-combo-badge .combo-count {
-  font-size: 28px !important;
-  font-weight: 950 !important;
-  color: #F5D061 !important;
-  text-shadow: 0 0 22px rgba(245, 208, 97, 1), 0 2px 4px rgba(0, 0, 0, 0.95) !important;
-  line-height: 1 !important;
-}
-
-html.ui-kintsugi .mec-combo-badge .combo-label {
-  font-size: 12.5px !important;
-  font-weight: 900 !important;
-  color: #FFFDF0 !important;
-  letter-spacing: 1.6px !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 12px rgba(245, 208, 97, 0.85) !important;
-}
-
-@keyframes kintsugiBadgePop {
-  0% { transform: scale(0.4) translateY(-18px); opacity: 0; filter: blur(5px); }
-  65% { transform: scale(1.12) translateY(2px); opacity: 1; filter: blur(0); }
-  100% { transform: scale(1) translateY(0); opacity: 1; }
+/* 🌑 漆黒金継ぎ・禅: 正解時＆操作時テーマ固有スタイル（バッジ廃止・軽量化） */
+html.ui-kintsugi .qc .ch2.ch2-pressing,
+html.ui-kintsugi .qc .ch2:active {
+  transform: scale(0.985) !important;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 16px rgba(245, 208, 97, 0.4) !important;
 }
 
 
@@ -3495,39 +3467,11 @@ html.ui-celestial .mec-undo-btn {
   border-radius: 12px !important;
 }
 
-/* 🌌 コンボバッジ: 魔導星図天球儀バッジ ＆ マナパープル発光（特大魔導ジュエル・ルーン点灯） ── */
-html.ui-celestial .mec-combo-badge {
-  background: linear-gradient(135deg, rgba(45, 26, 85, 0.99) 0%, rgba(18, 10, 42, 0.99) 100%) !important;
-  border: 2.2px solid #FFD166 !important;
-  border-radius: 14px !important;
-  padding: 8px 22px !important;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.95), 0 0 50px rgba(255, 209, 102, 1), 0 0 65px rgba(138, 43, 226, 0.9), inset 0 2px 0 #FFF8DC !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-  animation: celestialBadgePop 0.38s cubic-bezier(0.16, 1, 0.3, 1) both !important;
-}
-
-html.ui-celestial .mec-combo-badge .combo-count {
-  font-size: 28px !important;
-  font-weight: 950 !important;
-  color: #FFD166 !important;
-  text-shadow: 0 0 22px rgba(255, 209, 102, 1), 0 0 38px rgba(138, 43, 226, 1) !important;
-  line-height: 1 !important;
-}
-
-html.ui-celestial .mec-combo-badge .combo-label {
-  font-size: 12.5px !important;
-  font-weight: 900 !important;
-  color: #FFFDF0 !important;
-  letter-spacing: 1.6px !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 14px rgba(255, 209, 102, 0.9) !important;
-}
-
-@keyframes celestialBadgePop {
-  0% { transform: scale(0.4) translateY(-18px) rotate(-6deg); opacity: 0; filter: blur(5px); }
-  65% { transform: scale(1.14) translateY(2px) rotate(1deg); opacity: 1; filter: blur(0); }
-  100% { transform: scale(1) translateY(0) rotate(0deg); opacity: 1; }
+/* 🌌 賢者の星図・魔導書: 正解時＆操作時テーマ固有スタイル（バッジ廃止・軽量化） */
+html.ui-celestial .qc .ch2.ch2-pressing,
+html.ui-celestial .qc .ch2:active {
+  transform: scale(0.985) !important;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 18px rgba(255, 209, 102, 0.45) !important;
 }
 
 
@@ -4039,39 +3983,11 @@ html.ui-abyss .mec-undo-btn {
   border-radius: 12px !important;
 }
 
-/* 🌊 コンボバッジ: 深海生体発光カプセル ＆ エメラルドパルス（特大ソナーインジケーター） ── */
-html.ui-abyss .mec-combo-badge {
-  background: linear-gradient(135deg, rgba(2, 38, 68, 0.99) 0%, rgba(1, 14, 30, 0.99) 100%) !important;
-  border: 2.2px solid #00FFA3 !important;
-  border-radius: 14px !important;
-  padding: 8px 22px !important;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.95), 0 0 45px rgba(0, 255, 163, 1), 0 0 65px rgba(0, 180, 216, 0.8), inset 0 2px 0 rgba(224, 242, 254, 1) !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-  animation: abyssBadgePulse 0.38s cubic-bezier(0.16, 1, 0.3, 1) both !important;
-}
-
-html.ui-abyss .mec-combo-badge .combo-count {
-  font-size: 28px !important;
-  font-weight: 950 !important;
-  color: #00FFA3 !important;
-  text-shadow: 0 0 22px rgba(0, 255, 163, 1), 0 0 35px rgba(0, 180, 216, 1) !important;
-  line-height: 1 !important;
-}
-
-html.ui-abyss .mec-combo-badge .combo-label {
-  font-size: 12.5px !important;
-  font-weight: 900 !important;
-  color: #E0F2FE !important;
-  letter-spacing: 1.6px !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 12px rgba(0, 255, 163, 0.9) !important;
-}
-
-@keyframes abyssBadgePulse {
-  0% { transform: scale(0.4) translateY(-18px); opacity: 0; filter: blur(5px); }
-  65% { transform: scale(1.14) translateY(2px); opacity: 1; filter: blur(0); }
-  100% { transform: scale(1) translateY(0); opacity: 1; }
+/* 🌊 深海アビス・発光生物: 正解時＆操作時テーマ固有スタイル（バッジ廃止・軽量化） */
+html.ui-abyss .qc .ch2.ch2-pressing,
+html.ui-abyss .qc .ch2:active {
+  transform: scale(0.985) !important;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 18px rgba(0, 255, 163, 0.45) !important;
 }
 
 /* ═════════════════════════════════════════════════════════════════════════
@@ -4323,39 +4239,11 @@ html.ui-frost .qc .qn {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55), inset 0 1.5px 0.5px rgba(255, 255, 255, 0.98), 0 0 22px rgba(112, 214, 255, 0.55) !important;
 }
 
-/* ❄️ コンボバッジ: 多面体氷晶ファセットバッジ ＆ ダイヤモンドダスト（特大氷晶・凍結ポップ） ── */
-html.ui-frost .mec-combo-badge {
-  background: linear-gradient(135deg, rgba(14, 38, 72, 0.99) 0%, rgba(6, 18, 38, 0.99) 100%) !important;
-  border: 2.2px solid #70D6FF !important;
-  border-radius: 14px !important;
-  padding: 8px 22px !important;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.95), 0 0 45px rgba(112, 214, 255, 1), 0 0 65px rgba(255, 255, 255, 0.9), inset 0 2px 0 #FFFFFF !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-  animation: frostBadgePop 0.38s cubic-bezier(0.16, 1, 0.3, 1) both !important;
-}
-
-html.ui-frost .mec-combo-badge .combo-count {
-  font-size: 28px !important;
-  font-weight: 950 !important;
-  color: #70D6FF !important;
-  text-shadow: 0 0 22px rgba(112, 214, 255, 1), 0 0 35px #FFFFFF !important;
-  line-height: 1 !important;
-}
-
-html.ui-frost .mec-combo-badge .combo-label {
-  font-size: 12.5px !important;
-  font-weight: 900 !important;
-  color: #F8FAFC !important;
-  letter-spacing: 1.6px !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 12px rgba(112, 214, 255, 0.9) !important;
-}
-
-@keyframes frostBadgePop {
-  0% { transform: scale(0.4) translateY(-18px); opacity: 0; filter: blur(5px); }
-  65% { transform: scale(1.14) translateY(2px); opacity: 1; filter: blur(0); }
-  100% { transform: scale(1) translateY(0); opacity: 1; }
+/* ❄️ 絶対零度・フロスト氷晶: 正解時＆操作時テーマ固有スタイル（バッジ廃止・軽量化） */
+html.ui-frost .qc .ch2.ch2-pressing,
+html.ui-frost .qc .ch2:active {
+  transform: scale(0.985) !important;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 18px rgba(112, 214, 255, 0.45) !important;
 }
 
 /* ❄️ メタバッジ・正答率 */
@@ -4638,40 +4526,7 @@ html.ui-frost .mec-undo-btn {
   border-radius: 12px !important;
 }
 
-/* ❄️ コンボバッジ: 多面体クリスタルジュエルバッジ ＆ ダイヤモンドダスト */
-html.ui-frost .mec-combo-badge {
-  background: linear-gradient(135deg, rgba(8, 28, 54, 0.99) 0%, rgba(3, 12, 28, 0.99) 100%) !important;
-  border: 1.8px solid #70D6FF !important;
-  border-radius: 12px !important;
-  padding: 6px 18px !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.95), 0 0 35px rgba(112, 214, 255, 0.9), 0 0 50px rgba(255, 255, 255, 0.65), inset 0 1.5px 0 #FFFFFF !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  animation: frostBadgePop 0.38s cubic-bezier(0.16, 1, 0.3, 1) both !important;
-}
 
-html.ui-frost .mec-combo-badge .combo-count {
-  font-size: 24px !important;
-  font-weight: 900 !important;
-  color: #70D6FF !important;
-  text-shadow: 0 0 18px rgba(112, 214, 255, 1), 0 0 28px #FFFFFF !important;
-  line-height: 1 !important;
-}
-
-html.ui-frost .mec-combo-badge .combo-label {
-  font-size: 11.5px !important;
-  font-weight: 900 !important;
-  color: #F8FAFC !important;
-  letter-spacing: 1.4px !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 10px rgba(112, 214, 255, 0.8) !important;
-}
-
-@keyframes frostBadgePop {
-  0% { transform: scale(0.8) translateY(-4px); opacity: 0; }
-  60% { transform: scale(1.08) translateY(0); opacity: 1; }
-  100% { transform: scale(1) translateY(0); opacity: 1; }
-}
 
 
 /* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
@@ -6789,28 +6644,6 @@ html.ui-frost .qc .ch2 {
     justify-content: center !important;
   }
 
-  /* モバイル幅 (375px) 最適化: コンボバッジ & アニメーション余白 */
-  html.ui-aurora .qc .mec-combo-badge,
-  html.ui-brass .qc .mec-combo-badge,
-  html.ui-cyber .qc .mec-combo-badge,
-  html.ui-liquid .qc .mec-combo-badge,
-  html.ui-kintsugi .qc .mec-combo-badge,
-  html.ui-celestial .qc .mec-combo-badge,
-  html.ui-abyss .qc .mec-combo-badge,
-  html.ui-frost .qc .mec-combo-badge {
-    padding: 4px 10px !important;
-    gap: 6px !important;
-  }
-  html.ui-aurora .qc .mec-combo-badge .combo-count,
-  html.ui-brass .qc .mec-combo-badge .combo-count,
-  html.ui-cyber .qc .mec-combo-badge .combo-count,
-  html.ui-liquid .qc .mec-combo-badge .combo-count,
-  html.ui-kintsugi .qc .mec-combo-badge .combo-count,
-  html.ui-celestial .qc .mec-combo-badge .combo-count,
-  html.ui-abyss .qc .mec-combo-badge .combo-count,
-  html.ui-frost .qc .mec-combo-badge .combo-count {
-    font-size: 17px !important;
-  }
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -6847,8 +6680,7 @@ html.ui-liquid .qc .eg,
 html.ui-kintsugi .qc .eg,
 html.ui-celestial .qc .eg,
 html.ui-abyss .qc .eg,
-html.ui-frost .qc .eg,
-.mec-combo-badge {
+html.ui-frost .qc .eg {
   will-change: transform, opacity;
   transform: translateZ(0);
   backface-visibility: hidden;
@@ -7014,133 +6846,162 @@ html.ui-liquid .qc[class*="combo-streak-"]:not(.combo-streak-1):not(.combo-strea
 }
 
 
-/* ── コンボバッジ: aurora クリスタルプリズム造形（特大ポップ・偏光屈折） ── */
-html.ui-aurora .mec-combo-badge {
-  background: linear-gradient(135deg, rgba(0, 229, 255, 0.75) 0%, rgba(121, 40, 202, 0.75) 100%) !important;
-  border: 2.2px solid rgba(255, 255, 255, 1) !important;
-  border-radius: 28px !important;
-  padding: 8px 24px !important;
-  backdrop-filter: blur(28px) saturate(240%) !important;
-  -webkit-backdrop-filter: blur(28px) saturate(240%) !important;
-  box-shadow: 0 0 52px rgba(0, 229, 255, 1), 0 0 32px rgba(121, 40, 202, 0.95), inset 0 2px 2px rgba(255, 255, 255, 1) !important;
-  animation: auroraBadgePop .36s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+/* ══════════════════════════════════════════════════════════════════
+   全8テーマ固有 12要素統合演出システム（バッジ完全撤廃 ＆ 超高速応答）
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── ⑪ 操作前: 予備動作 (Pointer Down / Active) ── */
+html.ui-aurora .qc .ch2.ch2-pressing,
+html.ui-aurora .qc .ch2:active {
+  transform: scale(0.985) !important;
+  box-shadow: inset 0 0 20px rgba(0, 229, 255, 0.65), 0 0 18px rgba(121, 40, 202, 0.45) !important;
 }
-html.ui-aurora .mec-combo-badge .combo-count {
-  font-weight: 950 !important;
-  font-size: 28px !important;
-  color: #FFFFFF !important;
-  text-shadow: 0 0 22px rgba(0, 229, 255, 1), 0 0 36px rgba(121, 40, 202, 1) !important;
+html.ui-brass .qc .ch2.ch2-pressing,
+html.ui-brass .qc .ch2:active {
+  transform: translateY(2px) scale(0.985) !important;
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.95), 0 0 16px rgba(255, 215, 0, 0.45) !important;
 }
-html.ui-aurora .mec-combo-badge .combo-label {
-  font-weight: 900 !important;
-  font-size: 12.5px !important;
-  letter-spacing: 1.6px !important;
-  color: #F0FDF4 !important;
-  text-shadow: 0 0 16px rgba(0, 229, 255, 1), 0 1px 3px rgba(0, 0, 0, 0.8) !important;
+html.ui-cyber .qc .ch2.ch2-pressing,
+html.ui-cyber .qc .ch2:active {
+  transform: skewX(-4deg) scale(0.985) !important;
+  box-shadow: inset 0 0 22px rgba(0, 255, 102, 0.75), 0 0 16px rgba(0, 229, 255, 0.5) !important;
+  border-color: #00FF66 !important;
 }
-@keyframes auroraBadgePop {
-  0% { transform: scale(0.4) translateY(-16px); opacity: 0; filter: blur(6px); }
-  65% { transform: scale(1.14) translateY(0); opacity: 1; filter: blur(0); }
-  100% { transform: scale(1); opacity: 1; }
+html.ui-liquid .qc .ch2.ch2-pressing,
+html.ui-liquid .qc .ch2:active {
+  transform: scale(0.975, 0.96) !important;
+  box-shadow: inset 0 0 24px rgba(255, 0, 128, 0.7), 0 0 18px rgba(255, 122, 0, 0.5) !important;
+  border-radius: 18px !important;
 }
 
-/* ── コンボバッジ: cyber HUDホログラム投影造形（特大SF・グリッチ出現） ── */
-html.ui-cyber .mec-combo-badge {
-  background: rgba(2, 10, 8, 0.98) !important;
-  border: 2.2px solid #00FF66 !important;
-  border-radius: 6px !important;
-  padding: 8px 22px !important;
-  box-shadow: 0 0 50px rgba(0, 255, 102, 1), 0 0 28px rgba(0, 229, 255, 0.8), inset 0 0 22px rgba(0, 229, 255, 0.6) !important;
-  animation: cyberBadgePop .28s steps(5, end) both !important;
-  transform: skewX(-5deg) !important;
-}
-html.ui-cyber .mec-combo-badge .combo-count {
-  font-family: 'SF Mono', Consolas, Monaco, monospace !important;
-  font-weight: 950 !important;
-  font-size: 28px !important;
-  color: #00FF66 !important;
-  text-shadow: 0 0 22px #00FF66, 0 0 38px #00E5FF !important;
-}
-html.ui-cyber .mec-combo-badge .combo-label {
-  font-family: 'SF Mono', Consolas, Monaco, monospace !important;
-  font-weight: 900 !important;
-  font-size: 12.5px !important;
-  letter-spacing: 1.8px !important;
-  color: #00E5FF !important;
-  text-shadow: 0 0 14px #00E5FF, 0 0 8px #00FF66 !important;
-}
-@keyframes cyberBadgePop {
-  0% { transform: scale(0.4) skewX(-18deg); opacity: 0; filter: brightness(2.8); }
-  50% { transform: scale(1.16) skewX(6deg); opacity: 1; filter: brightness(1.8); }
-  100% { transform: scale(1) skewX(-5deg); opacity: 1; filter: brightness(1); }
-}
+/* ── ③ 正解チェックマーク: テーマ別OKグリフ刻印 ── */
+html.ui-aurora .qc .ch2.ok.correct::before { content: '✧ ' !important; color: #00DFD8 !important; text-shadow: 0 0 14px #00DFD8 !important; }
+html.ui-brass .qc .ch2.ok.correct::before { content: '⚙ ' !important; color: #FFD700 !important; text-shadow: 0 0 14px #FFD700 !important; }
+html.ui-cyber .qc .ch2.ok.correct::before { content: '⌖ ' !important; color: #00FF66 !important; text-shadow: 0 0 14px #00FF66 !important; }
+html.ui-liquid .qc .ch2.ok.correct::before { content: '💧 ' !important; color: #FF007F !important; text-shadow: 0 0 14px #FF007F !important; }
+html.ui-kintsugi .qc .ch2.ok.correct::before { content: '〇 ' !important; color: #F5D061 !important; text-shadow: 0 0 14px #F5D061 !important; }
+html.ui-celestial .qc .ch2.ok.correct::before { content: '✦ ' !important; color: #FFD166 !important; text-shadow: 0 0 14px #FFD166 !important; }
+html.ui-abyss .qc .ch2.ok.correct::before { content: '🪼 ' !important; color: #00FFA3 !important; text-shadow: 0 0 14px #00FFA3 !important; }
+html.ui-frost .qc .ch2.ok.correct::before { content: '❄ ' !important; color: #70D6FF !important; text-shadow: 0 0 14px #70D6FF !important; }
 
-/* ── コンボバッジ: brass 真鍮ゴールドメダリオン造形（特大重厚・打刻ドロップ） ── */
-html.ui-brass .mec-combo-badge {
-  background: linear-gradient(180deg, rgba(42, 32, 16, 0.99), rgba(22, 16, 8, 0.99)) !important;
-  border: 2.2px solid #FFD700 !important;
-  border-radius: 12px !important;
-  padding: 8px 22px !important;
-  box-shadow: 0 0 50px rgba(255, 215, 0, 1), 0 10px 30px rgba(0, 0, 0, 0.9), inset 0 2px 0 rgba(255, 243, 196, 1) !important;
-  animation: brassBadgeDrop .34s cubic-bezier(0.18, 0.9, 0.25, 1) both !important;
-}
-html.ui-brass .mec-combo-badge .combo-count {
-  font-weight: 950 !important;
-  font-size: 28px !important;
-  color: #FFD700 !important;
-  text-shadow: 0 0 22px rgba(255, 215, 0, 1), 0 2px 5px rgba(0, 0, 0, 0.95) !important;
-}
-html.ui-brass .mec-combo-badge .combo-label {
-  font-weight: 900 !important;
-  font-size: 12.5px !important;
-  letter-spacing: 1.6px !important;
-  color: #FFF3C4 !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 14px rgba(255, 215, 0, 0.9) !important;
-}
-@keyframes brassBadgeDrop {
-  0% { transform: scale(0.4) translateY(-18px); opacity: 0; }
-  65% { transform: scale(1.12) translateY(2px); opacity: 1; }
-  100% { transform: scale(1) translateY(0); opacity: 1; }
-}
+/* ── ④ 不正解肢のテーマ別フェードアウト（消滅） ── */
+html.ui-aurora .qc.fx-correct .ch2:not(.ok) { opacity: 0.28 !important; filter: blur(1.5px) !important; transform: scale(0.985) !important; transition: opacity .35s ease, filter .35s ease, transform .35s ease !important; }
+html.ui-brass .qc.fx-correct .ch2:not(.ok) { opacity: 0.25 !important; transform: translateY(4px) scale(0.98) !important; filter: brightness(0.7) !important; transition: opacity .35s ease, transform .35s ease, filter .35s ease !important; }
+html.ui-cyber .qc.fx-correct .ch2:not(.ok) { opacity: 0.2 !important; filter: contrast(1.4) brightness(0.6) !important; transform: skewX(2deg) scale(0.98) !important; transition: opacity .3s steps(4, end) !important; }
+html.ui-liquid .qc.fx-correct .ch2:not(.ok) { opacity: 0.25 !important; transform: scale(0.97) translateY(3px) !important; filter: blur(2px) !important; transition: opacity .38s cubic-bezier(0.34, 1.56, 0.64, 1) !important; }
+html.ui-kintsugi .qc.fx-correct .ch2:not(.ok) { opacity: 0.22 !important; filter: grayscale(100%) !important; transform: scale(0.985) !important; transition: opacity .4s ease !important; }
+html.ui-celestial .qc.fx-correct .ch2:not(.ok) { opacity: 0.2 !important; transform: translateY(-3px) scale(0.98) !important; filter: brightness(0.6) !important; transition: opacity .35s ease !important; }
+html.ui-abyss .qc.fx-correct .ch2:not(.ok) { opacity: 0.18 !important; transform: translateY(5px) scale(0.975) !important; filter: blur(2.5px) brightness(0.5) !important; transition: opacity .4s ease !important; }
+html.ui-frost .qc.fx-correct .ch2:not(.ok) { opacity: 0.22 !important; transform: scale(0.98) !important; filter: brightness(0.65) blur(1.2px) !important; transition: opacity .35s ease !important; }
 
-/* ── コンボバッジ: liquid 蛍光インクドロップ・ジェルカプセル造形（特大ポップ・弾性バウンス） ── */
-html.ui-liquid .mec-combo-badge {
-  background: linear-gradient(135deg, rgba(255, 0, 127, 0.75) 0%, rgba(121, 40, 202, 0.75) 100%) !important;
-  border: 2.2px solid rgba(255, 255, 255, 1) !important;
-  border-radius: 28px !important;
-  padding: 8px 24px !important;
-  backdrop-filter: blur(20px) saturate(220%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(220%) !important;
-  box-shadow: 0 0 48px rgba(255, 0, 127, 1), 0 0 24px rgba(255, 122, 0, 0.85), inset 0 0 20px rgba(255, 122, 0, 0.8) !important;
-  animation: liquidBadgeBlob .38s cubic-bezier(0.34, 1.56, 0.64, 1) both !important;
-}
-html.ui-liquid .mec-combo-badge .combo-count {
-  font-weight: 950 !important;
-  font-size: 28px !important;
-  color: #FFFFFF !important;
-  text-shadow: 0 0 22px rgba(255, 0, 127, 1), 0 0 32px rgba(0, 223, 216, 1) !important;
-}
-html.ui-liquid .mec-combo-badge .combo-label {
-  font-weight: 900 !important;
-  font-size: 12px !important;
-  letter-spacing: 1.4px !important;
-  color: #FFE4EC !important;
-  text-shadow: 0 0 14px rgba(255, 0, 127, 1) !important;
-}
-@keyframes liquidBadgeBlob {
-  0% { transform: scale(0.35) rotate(-14deg); opacity: 0; filter: blur(5px); }
-  65% { transform: scale(1.16) rotate(5deg); opacity: 1; filter: blur(0); }
-  100% { transform: scale(1) rotate(0); opacity: 1; }
-}
+/* ── ② 次問カードのテーマ別登場エフェクト (.exam-next-entering) ── */
+html.ui-aurora .qc.exam-next-entering { animation: auroraNextEnter .38s cubic-bezier(0.16, 1, 0.3, 1) both !important; }
+html.ui-brass .qc.exam-next-entering { animation: brassNextEnter .36s cubic-bezier(0.2, 0.9, 0.3, 1) both !important; }
+html.ui-cyber .qc.exam-next-entering { animation: cyberNextEnter .28s steps(4, end) both !important; }
+html.ui-liquid .qc.exam-next-entering { animation: liquidNextEnter .38s cubic-bezier(0.34, 1.56, 0.64, 1) both !important; }
+html.ui-kintsugi .qc.exam-next-entering { animation: kintsugiNextEnter .4s ease-out both !important; }
+html.ui-celestial .qc.exam-next-entering { animation: celestialNextEnter .38s cubic-bezier(0.16, 1, 0.3, 1) both !important; }
+html.ui-abyss .qc.exam-next-entering { animation: abyssNextEnter .42s ease-out both !important; }
+html.ui-frost .qc.exam-next-entering { animation: frostNextEnter .36s cubic-bezier(0.16, 1, 0.3, 1) both !important; }
 
-/* ── モバイル幅（375px等）適応: コンボバッジ・Heroゲージ配置・文字視認性最適化 ── */
+@keyframes auroraNextEnter { 0% { opacity: 0.4; filter: blur(6px) brightness(1.4); transform: scale(0.975); } 100% { opacity: 1; filter: blur(0); transform: scale(1); } }
+@keyframes brassNextEnter { 0% { opacity: 0.4; transform: translateY(12px); filter: brightness(0.8); } 100% { opacity: 1; transform: translateY(0); filter: brightness(1); } }
+@keyframes cyberNextEnter { 0% { opacity: 0.3; transform: skewX(-3deg) scale(0.98); filter: brightness(2.2); } 50% { opacity: 0.8; transform: skewX(1deg); filter: brightness(1.4); } 100% { opacity: 1; transform: skewX(0) scale(1); filter: brightness(1); } }
+@keyframes liquidNextEnter { 0% { opacity: 0.4; transform: scale(0.96) translateY(8px); filter: blur(4px); } 100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); } }
+@keyframes kintsugiNextEnter { 0% { opacity: 0.3; filter: contrast(1.3); } 100% { opacity: 1; filter: contrast(1); } }
+@keyframes celestialNextEnter { 0% { opacity: 0.4; transform: scale(0.98) translateY(-6px); filter: brightness(1.5); } 100% { opacity: 1; transform: scale(1) translateY(0); filter: brightness(1); } }
+@keyframes abyssNextEnter { 0% { opacity: 0.3; transform: translateY(10px); filter: blur(5px); } 100% { opacity: 1; transform: translateY(0); filter: blur(0); } }
+@keyframes frostNextEnter { 0% { opacity: 0.4; filter: brightness(1.6) blur(4px); transform: scale(0.98); } 100% { opacity: 1; filter: brightness(1) blur(0); transform: scale(1); } }
+
+/* ── ⑤ 画面最外周ボーダーパルス (#examEdgePulse / .exam-edge-pulse) ── */
+#examEdgePulse {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+  transition: opacity .18s ease-out;
+  box-sizing: border-box;
+}
+#examEdgePulse.active { opacity: 1; }
+html.ui-aurora #examEdgePulse.active { box-shadow: inset 0 0 35px rgba(0, 229, 255, 0.85), inset 0 0 15px rgba(121, 40, 202, 0.6) !important; }
+html.ui-brass #examEdgePulse.active { box-shadow: inset 0 0 35px rgba(255, 215, 0, 0.85), inset 0 0 15px rgba(224, 194, 94, 0.6) !important; }
+html.ui-cyber #examEdgePulse.active { box-shadow: inset 0 0 35px rgba(0, 255, 102, 0.9), inset 0 0 18px rgba(0, 229, 255, 0.7) !important; }
+html.ui-liquid #examEdgePulse.active { box-shadow: inset 0 0 35px rgba(255, 0, 128, 0.85), inset 0 0 18px rgba(255, 122, 0, 0.7) !important; }
+html.ui-kintsugi #examEdgePulse.active { box-shadow: inset 0 0 32px rgba(245, 208, 97, 0.85) !important; }
+html.ui-celestial #examEdgePulse.active { box-shadow: inset 0 0 35px rgba(255, 209, 102, 0.85), inset 0 0 18px rgba(138, 43, 226, 0.7) !important; }
+html.ui-abyss #examEdgePulse.active { box-shadow: inset 0 0 35px rgba(0, 255, 163, 0.85), inset 0 0 18px rgba(0, 180, 216, 0.7) !important; }
+html.ui-frost #examEdgePulse.active { box-shadow: inset 0 0 35px rgba(112, 214, 255, 0.85), inset 0 0 18px #FFFFFF !important; }
+
+/* ── ⑧ 透かし（Watermark）正解時一瞬活性化 ── */
+html.ui-aurora .qc.fx-correct::after { animation: auroraWatermarkFlash .6s ease-out !important; }
+html.ui-brass .qc.fx-correct::after { animation: brassWatermarkFlash .6s ease-out !important; }
+html.ui-cyber .qc.fx-correct::after { animation: cyberWatermarkFlash .6s ease-out !important; }
+html.ui-liquid .qc.fx-correct::after { animation: liquidWatermarkFlash .6s ease-out !important; }
+html.ui-kintsugi .qc.fx-correct::after { animation: kintsugiWatermarkFlash .6s ease-out !important; }
+html.ui-celestial .qc.fx-correct::after { animation: celestialWatermarkFlash .6s ease-out !important; }
+html.ui-abyss .qc.fx-correct::after { animation: abyssWatermarkFlash .6s ease-out !important; }
+html.ui-frost .qc.fx-correct::after { animation: frostWatermarkFlash .6s ease-out !important; }
+
+@keyframes auroraWatermarkFlash { 0% { opacity: 0.3; filter: brightness(1); } 40% { opacity: 0.95; filter: brightness(2.2) drop-shadow(0 0 25px rgba(0,229,255,1)); } 100% { opacity: 0.3; filter: brightness(1); } }
+@keyframes brassWatermarkFlash { 0% { opacity: 0.3; } 40% { opacity: 0.95; filter: brightness(2) drop-shadow(0 0 25px rgba(255,215,0,1)); transform: rotate(18deg); } 100% { opacity: 0.3; } }
+@keyframes cyberWatermarkFlash { 0% { opacity: 0.3; } 40% { opacity: 0.95; filter: brightness(2.4) drop-shadow(0 0 25px #00FF66); } 100% { opacity: 0.3; } }
+@keyframes liquidWatermarkFlash { 0% { opacity: 0.3; } 40% { opacity: 0.95; filter: brightness(2.2) drop-shadow(0 0 25px rgba(255,0,128,1)); } 100% { opacity: 0.3; } }
+@keyframes kintsugiWatermarkFlash { 0% { opacity: 0.3; } 40% { opacity: 0.95; filter: brightness(2.2) drop-shadow(0 0 25px #F5D061); } 100% { opacity: 0.3; } }
+@keyframes celestialWatermarkFlash { 0% { opacity: 0.3; } 40% { opacity: 0.95; filter: brightness(2.2) drop-shadow(0 0 25px #FFD166); transform: rotate(20deg); } 100% { opacity: 0.3; } }
+@keyframes abyssWatermarkFlash { 0% { opacity: 0.3; } 40% { opacity: 0.95; filter: brightness(2.2) drop-shadow(0 0 25px #00FFA3); } 100% { opacity: 0.3; } }
+@keyframes frostWatermarkFlash { 0% { opacity: 0.3; } 40% { opacity: 0.95; filter: brightness(2.2) drop-shadow(0 0 25px #70D6FF); } 100% { opacity: 0.3; } }
+
+/* ── ⑨ 誤答ダメージ対比 (.exam-wrong-hit) ── */
+html.ui-aurora .qc.exam-wrong-hit { animation: auroraWrongDamage .36s ease-out !important; }
+html.ui-brass .qc.exam-wrong-hit { animation: brassWrongDamage .36s ease-out !important; }
+html.ui-cyber .qc.exam-wrong-hit { animation: cyberWrongDamage .32s steps(4, end) !important; }
+html.ui-liquid .qc.exam-wrong-hit { animation: liquidWrongDamage .38s ease-out !important; }
+html.ui-kintsugi .qc.exam-wrong-hit { animation: kintsugiWrongDamage .38s ease-out !important; }
+html.ui-celestial .qc.exam-wrong-hit { animation: celestialWrongDamage .36s ease-out !important; }
+html.ui-abyss .qc.exam-wrong-hit { animation: abyssWrongDamage .4s ease-out !important; }
+html.ui-frost .qc.exam-wrong-hit { animation: frostWrongDamage .36s ease-out !important; }
+
+@keyframes auroraWrongDamage { 0%, 100% { transform: translateX(0); filter: brightness(1); } 25% { transform: translateX(-6px); filter: brightness(0.6) hue-rotate(90deg); } 75% { transform: translateX(6px); } }
+@keyframes brassWrongDamage { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px) rotate(-1deg); filter: contrast(1.4); } 75% { transform: translateX(8px) rotate(1deg); } }
+@keyframes cyberWrongDamage { 0%, 100% { transform: skewX(0); filter: none; } 25% { transform: skewX(-8deg) translateX(-6px); filter: invert(0.3) brightness(1.8); } 75% { transform: skewX(8deg) translateX(6px); } }
+@keyframes liquidWrongDamage { 0%, 100% { transform: scale(1); filter: none; } 50% { transform: scale(0.96, 1.04); filter: hue-rotate(180deg) blur(2px); } }
+@keyframes kintsugiWrongDamage { 0%, 100% { transform: scale(1); } 30% { transform: scale(0.97); filter: grayscale(100%) brightness(0.5); } }
+@keyframes celestialWrongDamage { 0%, 100% { opacity: 1; } 40% { opacity: 0.4; filter: brightness(0.4); } }
+@keyframes abyssWrongDamage { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(6px); filter: brightness(0.3) blur(3px); } }
+@keyframes frostWrongDamage { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-1.5deg) scale(0.98); filter: contrast(1.6); } 70% { transform: rotate(1.5deg); } }
+
+/* ── ⑫ ゾーン状態（10連勝以上）アンビエント呼吸 (body.exam-streak-zone) ── */
+html.ui-aurora body.exam-streak-zone { animation: auroraZoneBreathe 3.2s ease-in-out infinite alternate !important; }
+html.ui-brass body.exam-streak-zone { animation: brassZoneBreathe 2.8s ease-in-out infinite alternate !important; }
+html.ui-cyber body.exam-streak-zone { animation: cyberZoneBreathe 1.8s ease-in-out infinite alternate !important; }
+html.ui-liquid body.exam-streak-zone { animation: liquidZoneBreathe 3.6s ease-in-out infinite alternate !important; }
+html.ui-kintsugi body.exam-streak-zone { animation: kintsugiZoneBreathe 4.0s ease-in-out infinite alternate !important; }
+html.ui-celestial body.exam-streak-zone { animation: celestialZoneBreathe 3.4s ease-in-out infinite alternate !important; }
+html.ui-abyss body.exam-streak-zone { animation: abyssZoneBreathe 4.2s ease-in-out infinite alternate !important; }
+html.ui-frost body.exam-streak-zone { animation: frostZoneBreathe 3.0s ease-in-out infinite alternate !important; }
+
+@keyframes auroraZoneBreathe { 0% { filter: brightness(1) drop-shadow(0 0 0 transparent); } 100% { filter: brightness(1.08) drop-shadow(0 0 35px rgba(0,229,255,0.45)); } }
+@keyframes brassZoneBreathe { 0% { filter: brightness(1); } 100% { filter: brightness(1.09) drop-shadow(0 0 35px rgba(255,215,0,0.4)); } }
+@keyframes cyberZoneBreathe { 0% { filter: brightness(1); } 100% { filter: brightness(1.12) drop-shadow(0 0 35px rgba(0,255,102,0.45)); } }
+@keyframes liquidZoneBreathe { 0% { filter: brightness(1); } 100% { filter: brightness(1.08) drop-shadow(0 0 35px rgba(255,0,128,0.45)); } }
+@keyframes kintsugiZoneBreathe { 0% { filter: brightness(1); } 100% { filter: brightness(1.06) drop-shadow(0 0 30px rgba(245,208,97,0.35)); } }
+@keyframes celestialZoneBreathe { 0% { filter: brightness(1); } 100% { filter: brightness(1.08) drop-shadow(0 0 35px rgba(255,209,102,0.4)); } }
+@keyframes abyssZoneBreathe { 0% { filter: brightness(1); } 100% { filter: brightness(1.07) drop-shadow(0 0 35px rgba(0,255,163,0.4)); } }
+@keyframes frostZoneBreathe { 0% { filter: brightness(1); } 100% { filter: brightness(1.08) drop-shadow(0 0 35px rgba(112,214,255,0.4)); } }
+
+/* ── ⑥ 速答クリティカル演出 (.qc.exam-fast-hit) ── */
+html.ui-aurora .qc.exam-fast-hit .ch2.ok.correct { box-shadow: 0 0 55px rgba(0, 229, 255, 1), 0 0 35px rgba(121, 40, 202, 1) !important; }
+html.ui-brass .qc.exam-fast-hit .ch2.ok.correct { box-shadow: 0 0 55px rgba(255, 215, 0, 1), 0 0 35px rgba(255, 243, 196, 1) !important; }
+html.ui-cyber .qc.exam-fast-hit .ch2.ok.correct { box-shadow: 0 0 55px #00FF66, 0 0 35px #00E5FF !important; }
+html.ui-liquid .qc.exam-fast-hit .ch2.ok.correct { box-shadow: 0 0 55px rgba(255, 0, 128, 1), 0 0 35px rgba(255, 122, 0, 1) !important; }
+html.ui-kintsugi .qc.exam-fast-hit .ch2.ok.correct { box-shadow: 0 0 50px #F5D061, 0 0 30px #FFF2A8 !important; }
+html.ui-celestial .qc.exam-fast-hit .ch2.ok.correct { box-shadow: 0 0 55px #FFD166, 0 0 35px #8A2BE2 !important; }
+html.ui-abyss .qc.exam-fast-hit .ch2.ok.correct { box-shadow: 0 0 55px #00FFA3, 0 0 35px #00B4D8 !important; }
+html.ui-frost .qc.exam-fast-hit .ch2.ok.correct { box-shadow: 0 0 55px #70D6FF, 0 0 35px #FFFFFF !important; }
+
+/* ── モバイル幅（375px等）適応: Heroゲージ配置・文字視認性最適化 ── */
 @media (max-width: 600px) {
-  .mec-combo-badge {
-    top: -14px !important;
-    right: 12px !important;
-    transform-origin: top right !important;
-    scale: 0.88 !important;
-  }
   .gauge {
     width: clamp(140px, 48vw, 175px) !important;
   }
@@ -7210,7 +7071,6 @@ html.ui-frost .gauge .gauge-mid { color: #FFFFFF !important; text-shadow: 0 0 20
 .qc.fx-correct .ch2.correct,
 .qc.fx-correct .ab,
 .qc.fx-correct .eg,
-.mec-combo-badge,
 .qc[class*="combo-streak-"],
 .gauge .gauge-ring,
 .gauge .gauge-ring::before,
