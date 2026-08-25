@@ -15,7 +15,7 @@
 
 | ファイル/フォルダ | 役割 |
 |---|---|
-| `study.html` | 統合学習ツール（コア11科目4802問＋実力試験・自作・フィルター）。試験モードUI等のマークアップ＋インラインJS |
+| `study.html` | 統合学習ツール（コア12科目5487問＋マイナー講座・実力試験・自作・フィルター）。試験モードUI等のマークアップ＋インラインJS |
 | `study_exam.js` | study.htmlの試験モードロジック（state・効果音・演出エフェクト・SRS採点連携）。classic scriptでインライン<script>より前に読込み、共有グローバルスコープで相互参照 |
 | `study.css` | study.html専用のCSS（旧インライン<style>を2026-07-05に外出し）。⚠️ study.htmlはこれに依存＝両方一緒にcommit/push必須 |
 | `index.html` | ハブダッシュボード（全科目の進捗表示・ナビ・同期設定）。ヒーローのボタンは**席が固定の3つ**＝主（やるべきこと）・副（復習）・「🔁 今日の誤答を再履修」。0件の日も席を空けず `.is-off` で無効表示にする。⚠️ **統計への導線をここに置かないこと**（下記「ヒーローのボタン」） |
@@ -25,11 +25,11 @@
 | `stats.html` | 学習統計ページ（30日チャート・SRS統計・AI相談Markdownエクスポート） |
 | `knowledge.html` | 検索知識ノート機能 |
 | `mindmap.html` / `mindmap.js` / `mindmap.css` | 疾患マインドマップ。**1枚のページで科目マップ（`?sid=hema`）とハブ（引数なし＝全科目）の両方を描く**。2026-08-21に、9科目ぶんの自前エンジンを内蔵した `{科目}/mindmap.html` ＋ `mindmap_integrated.html` から移行した（旧ファイルは `_archive/mindmap_src/`・旧URLにはリダイレクトstubを置いてある）。⚠️ 下記「疾患マインドマップ」の不変条件を読んでから触ること |
-| `mindmap_data/` | マインドマップのデータ。`index.js`（科目レジストリ21件・`gamify.js` の SUBJECTS から `_work/build_mindmap_index.js` が生成する**派生物**）／`{sid}.js`（科目1件ぶんの章・疾患・関連）／`_hub.js`（ハブの代表疾患。科目データの射影**ではなく**独立にキュレーションされたもの）。**新科目のマップを足す作業＝ここにファイルを1つ書くこと**（エンジンは触らない） |
-| `calc_input.js` | 計算問題の桁入力エンジン（`window.MecCalc`）。原文がマークシートの計算問題48問（科目33＋過去問15）は選択肢を持たないため試験モードで解答不能だった。正解は `.ac`（ans_label）の `計算答：<桁文字列>` が正本。**study.html と 国家試験過去問/*.html の両方が読む共有ファイル**（演出テーマのようなミラー乖離を作らないため）。CSSは自前で注入する |
+| `mindmap_data/` | マインドマップのデータ。`index.js`（科目レジストリ22件＝**マップがあるのは `ready:true` の21件で、公衆衛生 `ph` だけ `ready:false`**・`gamify.js` の SUBJECTS から `_work/build_mindmap_index.js` が生成する**派生物**）／`{sid}.js`（科目1件ぶんの章・疾患・関連）／`_hub.js`（ハブの代表疾患。科目データの射影**ではなく**独立にキュレーションされたもの）。**新科目のマップを足す作業＝ここにファイルを1つ書くこと**（エンジンは触らない） |
+| `calc_input.js` | 計算問題の桁入力エンジン（`window.MecCalc`）。原文がマークシートの計算問題50問（科目33＋過去問17）は選択肢を持たないため試験モードで解答不能だった。正解は `.ac`（ans_label）の `計算答：<桁文字列>` が正本。**study.html と 国家試験過去問/*.html の両方が読む共有ファイル**（演出テーマのようなミラー乖離を作らないため）。CSSは自前で注入する |
 | `card_renderer.js` | JSON→カードHTML描画（`window._renderSubjectFromJson`、エスケープ処理あり） |
 | `fx_engine.js` | エフェクトのCanvas描画エンジン（`window.MecFX`：粒子・花火・グリフバースト等）。ハブのゲージ用に `gears`／`gearRain`／`steam`（真鍮の歯車・蒸気）を、2026-08-14に `shatter`（破片）／`ribbon`（2点間を走る光）／`stamp`（刻印）／`orbit`（極座標で回る粒）／`wave`（走査する波形）を足した。**エミッタの追加は常に純増で行うこと**——study.html／chapter_exam.js の試験演出が同じエンジンを共用しているので、既存関数の引数や既定値を変えると7テーマ全部に波及する。⚠️ **位置を自前で持つ型（ribbon/wave/stamp/bar/bolt/ring）は `STATIC_TYPES` に登録すること**——登録し忘れると step() の物理を通り、重力で画面外へ落ちて1フレームで消える |
-| `sounds/` ＋ `sounds_index.js` | 効果音。実体は `sounds/{正解音,起動音,選択音}/`、台帳は `sounds/meta.json`、一覧は `_work/build_sounds_index.js` が生成する `sounds_index.js`（**派生物**・`window.MecSounds`）。**ファイル名・キー・音量の唯一の正本**で、study.html／index.html／chapter_exam.js の3つが全部これを読む。⚠️ 音を足すのは「フォルダに置く→meta.json に1行→生成スクリプト」の3手順でコードは触らない。⚠️ 起動音は設定で選ばせず毎回ランダム |
+| `sounds/` ＋ `sounds_index.js` | 効果音。実体は `sounds/{正解音,起動音,選択音,結果画面}/` の**4フォルダ**（`結果画面/` は 2026-08-21 に追加）、台帳は `sounds/meta.json`、一覧は `_work/build_sounds_index.js` が生成する `sounds_index.js`（**派生物**・`window.MecSounds`）。**ファイル名・キー・音量の唯一の正本**で、study.html／index.html／chapter_exam.js の3つが全部これを読む。⚠️ 音を足すのは「フォルダに置く→meta.json に1行→生成スクリプト」の3手順でコードは触らない。⚠️ 起動音は設定で選ばせず毎回ランダム |
 | `image_dims.json` | 問題画像の実寸（パス→[w,h]・約109KB・**派生物**。`_work/build_image_dims.py`が生成）。`card_renderer.js`が`<img width height>`を出す材料。これが無いと遅延読込の画像でレイアウトが後からずれ、章ジャンプが目標に収束しない。**画像を差し替え・追加したら必ず再生成** |
 | `sw.js` | Service Worker（オフラインキャッシュ）。`CACHE`版数は**questions_*.json・画像を更新した時にbump**（bumpで全キャッシュ削除＝再DL）。SHELL/CARDSにパス列挙。相対パス必須 |
 | `chapters_meta.js` / `rate_index.js` | stats.html等が参照する章メタ・正答率インデックス（`_work/build.py`系で再生成） |
@@ -706,7 +706,7 @@ SRS復習と共通で、判定は **`_isHostSession()`**（study_exam.js）に�
 ## 試験モードの出題範囲は examQueue が権威（2026-08-24）
 
 「整形外科だけで試験を始めたのに、一度誤答すると他科目を巻き込んだ複数科目の試験が進む」
-不具合の修正で入れた不変条件。テスト: `node _work/test_exam_queue_scope.js`（17件）。
+不具合の修正で入れた不変条件。テスト: `node _work/test_exam_queue_scope.js`（19件）。
 
 出題キューの正本は `examQueue`。**所属判定は `_examSet`／並び順は `_examOrder`**（`study_exam.js`
 冒頭）で、`examQueue` を差し替えたら**必ず `_examSyncQueue()` を呼ぶ**（startExam・resumeExam・
@@ -756,10 +756,13 @@ study.html からも引ける。
 
 ### 選択肢を持たない問題（2026-07-26〜）
 
-選択肢が0個の問題は**計算問題48問だけ**になった（2026-07-28に欠落分の復元が完了）。
-`node _work/test_calc_input.js` の「選択肢を持たない問題は計算問題48件だけ」がこれを守る。
+選択肢が0個の問題は**計算問題50問だけ**になった（2026-07-28に欠落分の復元が完了）。
+`node _work/test_calc_input.js` の「選択肢を持たない問題は計算問題50件だけ」がこれを守る。
+（当初48問。下記「正解肢（ok）が無いカードの修復」で過去問2問が入力型へ戻り50問になった。
+⚠️ **公衆衛生 ch07・ch08 のマークシート計算6問を入れると56問になる**＝そのときテストの
+定数も一緒に上げる。`_work/公衆衛生_引き継ぎ.md` §3-5 に同じことが書いてある）
 
-- **計算問題48問（科目33・過去問15）** — 原文がマークシートの桁入力。`ans_label` は
+- **計算問題50問（科目33・過去問17）** — 原文がマークシートの桁入力。`ans_label` は
   **`計算答：<桁文字列>` の正規形**でなければならない（例 `計算答：2.0` `計算答：0.40` `計算答：315`）。
   桁数＝文字数、小数点位置＝文字列そのもの。**正解は数値ではなく桁文字列**で、`0.40` の
   先頭ゼロ・末尾ゼロは意味を持つ（数値化して `0.4` にすると採点が壊れる）。
@@ -804,10 +807,15 @@ study.html からも引ける。
 上の PDF ブロック解析では最後まで取れなかった14問。2種類あった。
 
 - **表・図が選択肢の11問** — PDFからテキスト抽出すると列の対応が崩れるため、
-  **ユーザーがスクリーンショットを撮って送り、それを目視で読んで書き起こした**。
-  以後この形の問題はAI抽出せずスクリーンショットを依頼する（`_work/新科目HTML生成ガイド.md` §1）。
+  当時は**ユーザーがスクリーンショットを撮って送り、それを目視で読んで書き起こした**。
+  ⚠️ **2026-08-19 にこの依頼は不要になった**——`fitz` で該当ページを **300dpi（読めなければ
+  600dpi）で描画し、その画像を自分で目視して読む**（ユーザー承認済み。公衆衛生155問・
+  エラー報告19問の修正はこの方式）。手順は `_work/新科目HTML生成ガイド.md` §1。
+  依頼するのは**描画しても判読できなかったときだけ**。
   書き起こしは**列見出しを各肢に埋め込む**（`ｃ　Na 75／K 0／Cl 75／…`）。
   表を別途置く方式は肢のシャッフルで対応が崩れるので採らない。単位は qt 末尾に注記。
+  ⚠️ **表を直したら `ans_label` も作り直すこと**（列の対応を直すと正解肢の文字列が変わる。
+  2026-08-19 に3問がこれだった）。⚠️ **5択決め打ちのコードを書かない**（6択・7択・9択が実在）。
 - **カードごと別問題の紙面から作られていた3問**（`118C15` `119E7` `119E14`）— qt に隣の問題の
   check point の表が丸ごと入り、設問文も選択肢も失われていた。`119E14` は解説まで別問題
   （《処方箋》）のものだった。**`data-rate` と正解の肢は正しかった**ので、その2つが一致する
@@ -831,7 +839,8 @@ study.html からも引ける。
 ### ⚠️ 未解決：連問（次の文を読み〜）のサブ設問が設問文と選択肢を共有している（147カード）
 
 上の `117F71` を調べる過程で見つかった**別口の未解決問題**。過去問カード1825枚のうち
-**147枚が「直前のカードと qt も選択肢も完全一致」**している。連問（`次の文を読み、71〜73の問いに答えよ`）を
+**147枚が「直前のカードと qt も選択肢も完全一致」**している（**2026-08-26 に数え直したら
+2000枚中154枚**＝件数は増えているが状況は変わっていない）。連問（`次の文を読み、71〜73の問いに答えよ`）を
 HTML化したときにサブ設問ごとに切り分けられず、グループ内の全カードが**同じ設問文と同じ1組の選択肢**を
 持ってしまっている。正しいのはグループ内の1問だけで、残りは別の設問の選択肢で出題・採点される。
 
@@ -874,7 +883,7 @@ stats.html「🩺 弱点カルテ」     ← 科目×設問形式ヒートマッ
 
 ## 疾患マインドマップ（2026-08-21 段A：1エンジン＋データ分離／2026-08-22 段C：全21科目のデータが揃った）
 
-設計の正本は `_work/マインドマップ_設計.md`。テスト: `node _work/test_mindmap_layout.js`（242件）。
+設計の正本は `_work/マインドマップ_設計.md`。テスト: `node _work/test_mindmap_layout.js`（248件）。
 
 **役割は「直前期の俯瞰・想起」**（2026-08-21にユーザーが選択）。ここから何を載せないかが決まる。
 
@@ -882,7 +891,7 @@ stats.html「🩺 弱点カルテ」     ← 科目×設問形式ヒートマッ
 |---|---|
 | ページ | `mindmap.html`（`?sid={prefix}` で科目マップ・引数なしでハブ）1枚だけ |
 | データ | `mindmap_data/index.js`（レジストリ）／`{sid}.js`（科目）／`_hub.js`（ハブ） |
-| 現状 | **全21科目 176章 804疾患 236関連＋ハブ21科目168疾患104関連**（2026-08-22に段Cが完了＝未作成0）。既存9科目は旧HTMLからの移行、残る12科目（tox/anes/rad/uro/ortho/ent/psy/derm/oph/peds/obg/kansen）はCLAUDE.mdの「章を貫く筋」記述と questions_*.json の章構成から起こした |
+| 現状 | **21科目 176章 804疾患 236関連＋ハブ21科目168疾患104関連**（2026-08-22に段Cが完了）。既存9科目は旧HTMLからの移行、残る12科目（tox/anes/rad/uro/ortho/ent/psy/derm/oph/peds/obg/kansen）はCLAUDE.mdの「章を貫く筋」記述と questions_*.json の章構成から起こした。⚠️ **2026-08-25 に足した公衆衛生 `ph` のマップだけ未作成**（レジストリは22件で `ph` が `ready:false`）。全19章がそろってから作るのが自然 |
 | 生成器 | `node _work/extract_mindmap_data.js`（旧HTMLからの移行・再実行可）／`node _work/build_mindmap_index.js`（レジストリ） |
 
 ### ⚠️ 不変条件（破ると「重い・使いづらい」が再発する）
@@ -985,9 +994,9 @@ R1   = max(250, N*(2*CH_R+CH_GAP)/2π)     親リング半径（Nから決まる
 いずれも実ソースを読み込む（ロジックの二重管理をしない）。コミット前に全部通すこと。
 
 ```
-node _work/test_attempts.js        解答イベントログ・今日の誤答 (16)
+node _work/test_attempts.js        解答イベントログ・今日の誤答 (18)
 node _work/test_karte.js           弱点カルテの集計            (14)
-node _work/test_merge_remote.js    Gist同期のマージ戦略        (63)
+node _work/test_merge_remote.js    Gist同期のマージ戦略        (64)
 node _work/test_streak.js          連続日数と activity_v1      (9)
 node _work/test_copy.js            クリップボード/2段階タップ  (17)
 node _work/test_today_learning.js  ハブの「今日解いた問題」
@@ -995,23 +1004,36 @@ node _work/test_srs_grade.js       SRSの自己採点3段階          (10)
 node _work/test_subject_totals.js  科目別問題数の三者一致      (3)
 node _work/test_card_render.js     カード描画（画像実寸・採点ボタン）(7)
 node _work/test_calc_input.js      計算問題の桁入力・データ整合      (29)
-node _work/test_missions.js        日次/週次ミッション          (36)
+node _work/test_missions.js        日次/週次ミッション          (39)
 node _work/test_gamify_ceremony.js セレモニー/授与トレイ/スキップ (28)
 node _work/test_exam_prog.js       試験の進捗バー・難問の可視化  (29)
 node _work/test_exam_queue_scope.js 試験の出題範囲がキューに閉じているか (19)
 node _work/test_daily_goal.js      ハブのゲージ・歯車の意匠      (36)
 node _work/test_hero_cta.js        ハブのボタン・計器ベイの演出  (43)
 node _work/test_fx_band.js         試験演出の可視帯(発火位置)    (15)
-node _work/test_fx_additions.js    新エミッタ・tier7・難問/速答  (25)
+node _work/test_fx_additions.js    新エミッタ・tier7・難問/速答  (29)
 node _work/test_stats_sections.js  統計の4タブ構成・弱点リスト統合 (26)
+node _work/test_gist_sync.js       Gistの分割保存・切り詰めの復旧 (15)
 node _work/test_exam_chassis.js    試験UIの筐体／盤面の分離      (25)
-node _work/test_exam_reading.js    読んでいる間の演出            (26)
+node _work/test_exam_reading.js    読んでいる間の演出            (34)
 node _work/test_exam_brasswork.js  筐体の外へ広げた真鍮細工      (36)
-node _work/test_mindmap_layout.js  マインドマップのレイアウト/データ (242)
+node _work/test_mindmap_layout.js  マインドマップのレイアウト/データ (248)
 node _work/test_sounds.js          効果音の一覧・音量・ランダム起動音  (28)
 node _work/test_ui_theme.js        UIテーマ全8種（.qc への干渉・ネタバレ防止）(12)
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
+
+# UIテーマの「自律進化ループ」（2026-08-23〜24）が置いていった検査。粒度が細かく
+# 個別の @keyframes 名を名指しするので、演出を作り直すとここが落ちる
+node _work/test_step1_fx.js        (10)   node _work/test_step2_fx.js       (6)
+node _work/test_step4_fx.js        (3)    node _work/test_new10_fx.js       (10)
+node _work/test_next10_fx.js       (9)    node _work/test_dynamic_fx.js     (10)
+node _work/test_concentric_fx.js   (4)
 ```
+
+⚠️ **`node _work/check_themes.js`（ベース6テーマの配色検査）は 2026-08-26 時点で6テーマ全部が
+不合格**。原因はテーマ側ではなく**放射線科 `rad` の科目色 `#475569`** で、カード面に対する
+コントラストが 1.95〜2.03:1 と基準（2.5:1）に届かない。**科目色を足すときはこの検査を通すこと**
+——通っていれば全科目色が基準を満たす設計になっている。他の検査はすべて green。
 
 `test_subject_totals.js` は questions_*.json / `gamify.js`の`SUBJECTS` / `chapters_meta.js`
 の3か所に散らばった問題数が一致しているかを見る。問題を増減したら必ずここが落ちる。
@@ -1080,19 +1102,20 @@ diff = (自分が試験モードで解いた問題の正答率) − (その科�
 
 - 並びは **①タグ数 → ②本番との差 → ③自分の正答率 → ④受験回数**。
   本番正答率が無い問題は差を比べられないので、差を持つ問題の後ろへ回す。
-- 上部のチップで理由ごとに絞り込める。**表示は上位 `WK_LIMIT`(=24) 件**で、全件数は下に出す。
+- 上部のチップで理由ごとに絞り込める。**表示は上位 `WK_LIMIT`(=30) 件**で、全件数は下に出す。
 - **旧「🔍誤答選択肢パターン」の a〜e 分布は行の ▾（`wkPicks`）へ移した**。
   全体の分布は「どこを直すか」に繋がらないので、セクションではなく末尾の1行に留めてある
   （AI相談Markdownの「誤答選択肢の傾向」は従来どおり出す）。
 
 ### 🗺 章別ヒートマップは2段（科目 → 章）
 
-旧実装は **180章を一度に**並べ、どの章なのかは15pxの升目を1つずつタップして
+旧実装は **174章を一度に**並べ、どの章なのかは15pxの升目を1つずつタップして
 読み取り行（`#hmReadout`）で読むしかなかった。1段目を科目タイルにすると一望する対象が
 科目数まで減り、**2段目に章名と正答率をそのまま印字できる**ので読み取り行は廃止した。
 
 - ⚠️ **`hmStat` は章prefixの索引（`_mrByCh` / `_doneByCh`）を引くこと**。章ごとに `myrate`
-  を全件走査すると 180章 × 全解答の二乗になり、モード切替のたびに走る。テストが検査する。
+  を全件走査すると 174章（`chapters_meta.js` の全章）× 全解答の二乗になり、モード切替の
+  たびに走る。テストが検査する（2026-08-23 に一度これが落ちて実測 197ms になった）。
 - 升目は `.hm-cell` を使い回す＝**ランプの対応表（a1〜a5 / p1〜p5 / n0）を2箇所に持たない**。
 - ⚠️ `cleanChTitle` は**「第N章」と「解答解説」で挟んで中身を取る**。講座名は科目名と一致
   しない（内分泌 → 「MEC内分泌代謝」）ので、科目名を頭から削るだけでは「代謝」が残る。
@@ -1101,35 +1124,56 @@ diff = (自分が試験モードで解いた問題の正答率) − (その科�
 
 ### ⚠️ セクションを `display:none` から出入りさせないこと
 
-旧実装は `chartSec` / `gapSec` / `missSec` がデータの有無で出入りしており、
+旧実装は `chartSec` / `gapSec` / `missSec` が**データの有無で**出入りしており、
 **日によってページの形が変わって**「あの表はどこだっけ」の原因になっていた。
 常設して**中身だけ**を空の状態（`.sec-empty`）に差し替える。
 
-### 演出（減らしてから載せた）
+⚠️ **タブ自身の `display:none` はこれに当たらない**（`.tab-pane` は選択で切り替わるだけで、
+データの有無では動かない）。禁じているのは「今日はデータが無いから消える」セクション。
+畳んだ状態は `.sec.is-collapsed`（`mec_stats_collapse_v1` に `data-sec-id` ごと永続）で、
+これも**ユーザーが畳んだときだけ**閉じる。
 
-⚠️ 旧実装にも `armReveal()` があり、**14セクション全部**を動かしていて「ページが落ち着かない」
-ため一度撤去されている。戻すにあたっての条件は3つ——①セクションを減らしてから載せる
-②層の見出しとセクションの箱だけ（中身は既存のカウントアップ・セルの stagger・棒の伸長に任せる）
-③**ブラウザのセッション内で1回だけ**（`mec_stats_revealed_v1`・sessionStorage）。
+⚠️ **裏のタブに canvas を置いたら、そのタブを開いたときに描き直すこと。**
+`display:none` の中では `offsetWidth` が 0 なので、`renderUnifiedChart()` は
+`cv.parentElement.offsetWidth || 300` の**フォールバック 300px で焼き付いてしまう**。
+`switchTab('progress')` が再描画を呼ぶのはこのため（消すと推移グラフだけ幅が合わなくなる）。
 
-- ⚠️ **隠すのは JS が付けた `.rv-on` の中でだけ**（`.rv-on .rvs{opacity:0}`）。
+### 演出は今このページに1つも無い（戻すときの条件）
+
+⚠️ **`f9c351a`（2026-08-23）で入場演出とカウントアップは丸ごと消えた。**
+`armReveal` / `.rv-on` / `.rvs` / `mec_stats_revealed_v1`（sessionStorage）/ `countUp` /
+達成リングの rAF は**1つも残っていない**。現物は `@keyframes` 0件・`animation:` 0件・
+`requestAnimationFrame` 0件で、動くのは `transition:` 13本（タブの切替とホバー）だけ。
+数字は最初から確定値で描かれる＝**非表示タブで0のまま凍る穴は構造的に存在しない**。
+
+以下は撤去の経緯と、**動きを足すときに必ず添える条件**。無いものの手順書ではないので、
+ここを読んで `armReveal` を探しに行かないこと。
+
+- Phase 3 以前にも `armReveal()` があり、**14セクション全部**を動かして「ページが落ち着かない」
+  ため一度撤去された（つまり2回撤去されている）。戻すなら ①対象を減らしてから載せる
+  ②箱だけ（中身は既存の動きに任せる）③**ブラウザのセッション内で1回だけ**、の3条件を守る。
+- ⚠️ **隠すのは JS が付けたクラスの中でだけ**（旧 `.rv-on .rvs{opacity:0}` の作り）。
   CSS 側だけで `.rvs{opacity:0}` にすると、JS が落ちた日に**ページが丸ごと真っ白**になる。
-- ⚠️ **隠すのをやめる口は `rv-on` を外す1つに寄せること**。保険で `.in` を付けて回る実装は
-  駄目だった——**CSSアニメーションは非表示タブでは進まない**ので `animation-fill-mode:forwards`
-  が適用されず、`.in` が付いても `opacity:0` のまま残る（実機で踏んだ。rAF が止まるのと
-  同じ失敗の仕方）。`document.hidden` の読み込みでは最初から演出しない・途中で裏へ回ったら
-  `visibilitychange` で外す・最後に `setTimeout(unhide, 8000)`、の3段で受けている。
-- ⚠️ **`countUp` と達成リングには rAF が止まった時の落とし所を必ず置く**
-  （`setTimeout(finish, dur+400)`）。非表示タブで開いた統計の数字が0のまま凍る。
-  ハブの `_tweenNum`（index.html）と同じ作り。
-- 「今日」のセルだけ呼吸する（12週＝84セルの中で今日の位置が毎日ずれるため）。
-  reduced-motion では止まるが、**`outline` は常時あるので位置は依然わかる**（静的な印との二重化）。
+  `test_stats_sections.js` は実装が無い今も「CSS だけで本文を隠していない」を見張っている。
+- ⚠️ **隠すのをやめる口は1つに寄せること**。保険で `.in` を付けて回る実装は駄目だった——
+  **CSSアニメーションは非表示タブでは進まない**ので `animation-fill-mode:forwards` が適用されず、
+  `.in` が付いても `opacity:0` のまま残る（実機で踏んだ。rAF が止まるのと同じ失敗の仕方）。
+- ⚠️ **rAF で数字を動かすなら `setTimeout(finish, dur+400)` の落とし所を必ず添える**
+  （非表示タブでは rAF が1フレームも来ない）。ハブの `_tweenNum`（index.html）と同じ作り。
+  テストは**rAF を使っているのに落とし所が無いときだけ**落ちる＝使わない今は無条件で通る。
+- ⚠️ **`prefers-reduced-motion` のブロックが現物に1つも無い**。`@keyframes` が無いので今は
+  実害が出ていないだけで、**動きを1つでも足すなら同じコミットで止める指定も置くこと**。
+- 「今日」のセルは `.cal-cell.is-today{outline:1.5px solid var(--yl)}` の**静的な印だけ**で、
+  呼吸のアニメーションは今は無い（12週＝84セルの中で今日の位置が毎日ずれるので印は要る）。
+  ⚠️ **呼吸を足すときも `outline` は残すこと**——reduced-motion で動きが止まっても位置が
+  わかる二重化で、テストが「outline があること」と「呼吸があるなら reduced-motion で
+  止まること」を対で検査する。
 
 ## 筐体（真鍮固定）と盤面（テーマ可変）の分離（2026-08-19・Phase 4・D1〜D9）
 
 設計の正本は `_work/演出強化_設計.md` §5。**study.css だけで完結する意匠**で、JS を触るのは
 稼働灯（D9）の `_updateExamFocus` と cleanup だけ。**`vars.css` / `study.html` / `index.html` には
-1行も触れていない**。テスト: `node _work/test_exam_chassis.js`（24件）。
+1行も触れていない**。テスト: `node _work/test_exam_chassis.js`（25件）。
 
 衝突していた前提は2つ——ハブ（index.html）は**真鍮・銅で固定**、試験モードは**演出7テーマで
 配色がランダムに変わる**。片方に寄せるともう片方の意味が壊れるので、層を分けた。
@@ -1558,8 +1602,8 @@ study.html(study_exam.js) ／ index.html ／ chapter_exam.js  ← 3つとも「�
 
 | 設定キー | 既定 | 中身 |
 |---|---|---|
-| `mec_correct_sound_v1` | 一覧の先頭（`custom`＝正解音） | `sounds/正解音/` の8種＋`off` |
-| `mec_select_sound_v1` | 一覧の先頭（`mp3`＝選択） | `sounds/選択音/` の3種＋`off` |
+| `mec_correct_sound_v1` | 一覧の先頭（`custom`＝正解音） | `sounds/正解音/`（現在11種）＋`off` |
+| `mec_select_sound_v1` | 一覧の先頭（`mp3`＝選択） | `sounds/選択音/`（現在4種）＋`off` |
 | `mec_result_sound_v1` | 一覧の先頭（`fanfare`＝勝利のファンファーレ） | `sounds/結果画面/` の2種＋`off` |
 | `mec_boot_sound_v1` | `on` | **鳴らす／鳴らさないだけ**（下記） |
 
