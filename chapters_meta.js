@@ -1235,6 +1235,12 @@ const MEC_CHAPTERS = [
         "file": "公衆衛生/ch08_ekigaku.html",
         "title": "第8章 疫学研究",
         "count": 46
+      },
+      {
+        "prefix": "ph_ch09",
+        "file": "公衆衛生/ch09_kensagaku.html",
+        "title": "第9章 検査学",
+        "count": 9
       }
     ]
   }

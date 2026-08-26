@@ -519,7 +519,8 @@
 // v175: 公衆衛生 第6章「介護保険」35問を追加（questions_ph.json が155→190問・画像1枚追加）。データ更新のため bump。
 // v176: 公衆衛生 第7章「人口」36問を追加（questions_ph.json が190→226問・画像14問21枚追加）。データ更新のため bump。
 // v177: 公衆衛生 第8章「疫学研究」46問を追加（questions_ph.json が226→272問・画像1問1枚追加）。データ更新のため bump。
-const CACHE = "mec-v177";
+// v178: 公衆衛生 第9章「検査学」9問を追加（questions_ph.json が272→281問・画像1問1枚追加）。データ更新のため bump。
+const CACHE = "mec-v178";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
