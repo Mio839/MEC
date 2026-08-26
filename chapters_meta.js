@@ -1217,6 +1217,12 @@ const MEC_CHAPTERS = [
         "file": "公衆衛生/ch05_iryouhoken.html",
         "title": "第5章 医療保険",
         "count": 24
+      },
+      {
+        "prefix": "ph_ch06",
+        "file": "公衆衛生/ch06_kaigohoken.html",
+        "title": "第6章 介護保険",
+        "count": 35
       }
     ]
   }

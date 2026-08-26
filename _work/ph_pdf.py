@@ -6,7 +6,9 @@
   python _work/ph_pdf.py anstable          巻末解答一覧表(PDF p267-277)を全619問ぶん抽出
   python _work/ph_pdf.py spec   --ch 1     指定章の NO/国試番号/正解/バッジ/正答率 一覧
   python _work/ph_pdf.py text   --ch 1     指定章のページ本文を dump（Readで読む用）
-  python _work/ph_pdf.py text   --ch 1 --resume --p0 2 --p1 9   レジュメPDFの指定ページを dump
+  python _work/ph_pdf.py text   --ch 1 --resume --p0 8 --p1 15  レジュメPDFの指定ページを dump
+        ⚠️ --p0/--p1 は **PDFのページ番号**（pg = d[p-1]）。レジュメは 印刷ページ+6。
+           第1章のレジュメは印刷 p.2-9 ＝ PDF p.8-15。
   python _work/ph_pdf.py images --ch 1     画像の矩形と設問への帰属候補＋ページ画像（目視確認用）
   python _work/ph_pdf.py save   --ch 1     images が出した map ファイルに従って画像を保存
 

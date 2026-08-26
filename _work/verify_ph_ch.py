@@ -16,9 +16,68 @@ JSON = os.path.join(BASE, 'questions_ph.json')
 ANS = os.path.join(BASE, '_work', '_ph_tmp', 'anstable.json')
 FW2A = {'ａ': 'a', 'ｂ': 'b', 'ｃ': 'c', 'ｄ': 'd', 'ｅ': 'e', 'ｆ': 'f', 'ｇ': 'g'}
 
+# --- §2 品質基準（問題単位・ERROR） ----------------------------------------
+# 2026-08-26: 章平均・WARN 止まりだったのを問題単位の ERROR へ変えた。
+# 章平均だと「章の後半だけ薄い」が平均に埋もれて検出できず、しかもガイドの
+# 閾値（500字/kw10/ブロック3.8）は実測より遥かに低いので事実上ノーガードだった。
+# 下限は第1〜5章155問の実測（最小 863字 / kw31 / 4ブロック）に合わせてある。
+# ⚠️ 下げるときは「速度優先でいくつへ下げたか」を必ず引き継ぎ.md に書くこと。
+EG_ORDER = ['ep', 'ee', 'em', 'ept']   # 155問すべてがこの順・この4枚だった
+MIN_CHARS = 800                        # 1問あたりの解説文字数（タグを除く）
+MIN_KW = 25                            # 1問あたりの kw/kw2/kw3/kw4 の数
+
 
 def strip_tags(s):
     return re.sub(r'<[^>]+>', '', s)
+
+
+def check_answer_label(q, uid, excluded, errs):
+    """`.ac`（ans_label）と ok 肢の一致を見る。
+
+    表・図を目視で書き起こした問題は、肢を直したのに ans_label を直し忘れる事故が
+    起きる（2026-08-19 のエラー報告修正で3問がこれだった）。ans_label は採点に
+    使われないので、ずれても試験モードは無言で通る＝ここで捕まえるしかない。
+
+    規約（第1〜5章155問で実証済み）:
+      採点除外 → '（採点除外）'                     ／ 複数正解 → 'ａ・ｄ'
+      単一正解 → 正解肢の本文そのまま（全角字＋全角空白＋本文）
+    """
+    al = (q.get('ans_label') or '').strip()
+    oks = [c['t'].strip() for c in q['choices'] if c['ok']]
+    if excluded:
+        if '採点除外' not in al:
+            errs.append('%s: 採点除外なのに ans_label が「%s」' % (uid, al))
+        return
+    if not al:
+        errs.append('%s: ans_label が空' % uid)
+        return
+    if re.fullmatch(r'[ａ-ｇ](・[ａ-ｇ])+', al):
+        got, want = set(al.split('・')), {t[0] for t in oks}
+        if got != want:
+            errs.append('%s: ans_label と ok 肢がずれている label=%s ok=%s'
+                        % (uid, al, ''.join(sorted(want))))
+    elif len(oks) != 1 or al != oks[0]:
+        errs.append('%s: ans_label が正解肢の本文と一致しない label=%r ok=%r'
+                    % (uid, al[:40], (oks[0][:40] if oks else None)))
+
+
+def check_quality(q, uid, errs):
+    """§2 の品質基準を1問ずつ見る（章平均ではなく問題単位）。"""
+    cls = [e['cls'] for e in q['eg']]
+    if cls != EG_ORDER:
+        errs.append('%s: 解説ブロックが %s（正しくは %s）' % (uid, cls, EG_ORDER))
+    body = ''.join(e['c'] for e in q['eg'])
+    n = len(strip_tags(body))
+    if n < MIN_CHARS:
+        errs.append('%s: 解説 %d字 < %d' % (uid, n, MIN_CHARS))
+    kw = len(re.findall(r'<span class="kw[234]?"', body))
+    if kw < MIN_KW:
+        errs.append('%s: kw強調 %d個 < %d' % (uid, kw, MIN_KW))
+    # ee は全肢を1つずつ検討する表なので、行数は「見出し行＋選択肢数」以上になる
+    tr = sum(len(re.findall(r'<tr', e['c'])) for e in q['eg'] if e['cls'] == 'ee')
+    if tr < len(q['choices']) + 1:
+        errs.append('%s: ee の行が %d（選択肢%d個ぶんの検討が足りない）'
+                    % (uid, tr, len(q['choices'])))
 
 
 def main():
@@ -62,6 +121,9 @@ def main():
             if not excluded and n_ok != want:
                 errs.append('%s: 「%dつ選べ」だが ok=%d 個' % (uid, want, n_ok))
 
+            check_answer_label(q, uid, excluded, errs)
+            check_quality(q, uid, errs)
+
             # --- PDF解答一覧表との突合 ---------------------------------------
             r = rows.get(no)
             if r is None:
@@ -97,12 +159,11 @@ def main():
         if n:
             lines.append('ch%02d %-28s %2d問  ブロック%.2f/問  文字%.0f/問  kw%.1f/問'
                          % (ci, ch['title'], n, nblk / n, nchr / n, nkw / n))
-            if nblk / n < 3.8:
-                warns.append('ch%02d: ブロック数 %.2f < 3.8' % (ci, nblk / n))
-            if nchr / n < 500:
-                warns.append('ch%02d: 解説文字数 %.0f < 500' % (ci, nchr / n))
-            if nkw / n < 10:
-                warns.append('ch%02d: kw強調 %.1f < 10' % (ci, nkw / n))
+            # 章平均は「読み値」＝合否は上の問題単位の ERROR が決める。
+            # ここは章全体が痩せていないかを一目で見るためだけに残してある。
+            if nchr / n < MIN_CHARS * 1.2:
+                warns.append('ch%02d: 章平均 %.0f字 が下限 %d の1.2倍を切っている'
+                             % (ci, nchr / n, MIN_CHARS))
 
     print('\n'.join(lines))
     print()
