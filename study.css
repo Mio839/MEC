@@ -468,13 +468,14 @@ body.exam-mode .qc:has(.exam-instant-wrong){animation:cardWrongGlow .8s ease for
   padding:9px 24px;border-radius:28px;font-weight:900;pointer-events:none;
   z-index:9100;opacity:0;white-space:nowrap;letter-spacing:.05em;
   text-shadow:0 2px 10px rgba(0,0,0,.55);
+  max-width:90vw;overflow:hidden;text-overflow:ellipsis;
 }
 #examStreakToast.show{animation:streakToastIn var(--sd,2s) ease forwards;}
 #examStreakToast.t1{background:rgba(61,214,140,.22);color:var(--gr);border:2px solid rgba(61,214,140,.55);font-size:24px;}
 #examStreakToast.t2{background:rgba(255,160,64,.24);color:#FFA040;border:2px solid rgba(255,160,64,.65);font-size:28px;box-shadow:0 0 30px rgba(255,160,64,.35),0 0 60px rgba(255,160,64,.12);}
 #examStreakToast.t3{background:rgba(255,80,40,.24);color:#FF5820;border:2px solid rgba(255,100,40,.7);font-size:34px;box-shadow:0 0 45px rgba(255,80,40,.5),0 0 90px rgba(255,80,40,.2);}
-#examStreakToast.t4{background:rgba(255,200,0,.28);color:#FFD700;border:2.5px solid rgba(255,210,0,.8);font-size:40px;box-shadow:0 0 70px rgba(255,200,0,.65),0 0 140px rgba(255,200,0,.3),0 0 220px rgba(255,180,0,.12);}
-#examStreakToast.t5{background:rgba(255,220,0,.32);color:#FFE840;border:3px solid rgba(255,240,0,.9);font-size:46px;box-shadow:0 0 100px rgba(255,220,0,.8),0 0 200px rgba(255,200,0,.4),0 0 300px rgba(255,180,0,.18);}
+#examStreakToast.t4{background:rgba(255,200,0,.28);color:#FFD700;border:2.5px solid rgba(255,210,0,.8);font-size:clamp(20px,4.5vw,36px);box-shadow:0 0 70px rgba(255,200,0,.65),0 0 140px rgba(255,200,0,.3),0 0 220px rgba(255,180,0,.12);}
+#examStreakToast.t5{background:rgba(255,220,0,.32);color:#FFE840;border:3px solid rgba(255,240,0,.9);font-size:clamp(22px,5vw,38px);box-shadow:0 0 100px rgba(255,220,0,.8),0 0 200px rgba(255,200,0,.4),0 0 300px rgba(255,180,0,.18);}
 #examStreakFlash{position:fixed;inset:0;pointer-events:none;z-index:9050;opacity:0;}
 #examStreakFlash.flash{animation:streakFlashIn .75s ease forwards;}
 #examStreakBorder{position:fixed;inset:0;pointer-events:none;z-index:9045;opacity:0;}
@@ -485,7 +486,7 @@ body.exam-mode .qc:has(.exam-instant-wrong){animation:cardWrongGlow .8s ease for
 #streakFullscreen{position:fixed;inset:0;z-index:9080;display:flex;align-items:center;justify-content:center;pointer-events:none;font-weight:900;line-height:1;font-size:42vmin;letter-spacing:-.04em;opacity:0;}
 .streak-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:9055;}
 @keyframes rainbowHue{0%{filter:hue-rotate(0deg);}100%{filter:hue-rotate(360deg);}}
-#examStreakToast.t6{background:rgba(160,0,255,.35);color:#EE88FF;border:3px solid rgba(210,80,255,.97);font-size:54px;box-shadow:0 0 120px rgba(160,0,255,.9),0 0 260px rgba(100,0,220,.5),0 0 420px rgba(60,0,180,.2);}
+#examStreakToast.t6{background:rgba(160,0,255,.35);color:#EE88FF;border:3px solid rgba(210,80,255,.97);font-size:clamp(24px,5.5vw,42px);box-shadow:0 0 120px rgba(160,0,255,.9),0 0 260px rgba(100,0,220,.5),0 0 420px rgba(60,0,180,.2);}
 /* ── 演出セット別: トースト配色（ネオン/和風） ── */
 body.exam-effect-neon #examStreakToast{font-family:'Courier New',monospace;border-radius:var(--r-sm);letter-spacing:.02em;}
 body.exam-effect-neon #examStreakToast.t1{background:rgba(0,229,255,.18);color:#00E5FF;border:2px solid rgba(0,229,255,.55);}

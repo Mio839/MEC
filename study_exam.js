@@ -1081,19 +1081,22 @@ function _triggerFullscreenCombo(n, tier) {
   const glowR = theme.fullscreenGlow;
   const col = cols[_tIdx(tier, cols)];
   const g = glowR[_tIdx(tier, glowR)];
-  const spread = 60 + tier * 35;
-  el.textContent = '×' + n;
+  const str = '×' + n;
+  el.textContent = str;
   // 全画面レイヤーを可視帯へ合わせる（CSSの inset:0 は画面全体＝ヘッダーぶん中心が上にずれる）。
-  // 文字も帯に収まる大きさへ抑える（42vmin のままだと帯からはみ出して上下が切れる）。
+  // 文字も帯に収まる大きさへ抑える（2桁時は文字幅に応じてフォント係数を縮小して画面突き破りを防ぐ）。
   const b = _fxBand();
+  const shortSide = Math.min(b.width, b.height);
+  const fontRatio = str.length >= 3 ? (str.length >= 4 ? 0.24 : 0.29) : 0.40;
   el.style.left = b.left + 'px';
   el.style.top = b.top + 'px';
   el.style.right = 'auto';
   el.style.bottom = 'auto';
   el.style.width = b.width + 'px';
   el.style.height = b.height + 'px';
-  el.style.fontSize = Math.round(Math.min(b.width, b.height) * 0.42) + 'px';
+  el.style.fontSize = Math.round(shortSide * fontRatio) + 'px';
   el.style.color = col;
+  const spread = Math.min(40 + tier * 16, 95);
   el.style.textShadow = `0 0 ${spread}px rgba(${g},.65), 0 0 ${spread*2}px rgba(${g},.35), 0 0 ${spread*3}px rgba(${g},.15)`;
   const dur = tier >= 7 ? 1120 : tier >= 6 ? 980 : tier >= 5 ? 820 : tier >= 4 ? 680 : 560;
   el.animate([
@@ -2998,16 +3001,18 @@ function _spawnEmojiFloaters(tier) {
   });
 }
 
-function _spawnShockwaveRings(cx, cy, tier) {
+function _spawnShockwaveRings(cx, cy, tier, customMaxR) {
   if (!window.MecFX) return;
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const ringCounts = [0,0,1,2,3,4,6,8];
-  const maxScale = tier >= 7 ? 48 : tier >= 6 ? 38 : tier >= 5 ? 30 : tier >= 4 ? 22 : tier >= 3 ? 14 : 9;
+  const b = _fxBand();
+  const shortSide = Math.min(b.width, b.height);
+  const targetMaxR = customMaxR || (shortSide * Math.min(0.48, 0.38 + tier * 0.015));
   window.MecFX.rings(cx, cy, {
     count: ringCounts[_tIdx(tier, ringCounts)],
     color: theme.ringColor(tier),
     thickness: tier >= 5 ? 4 : tier >= 3 ? 3 : 2,
-    maxR: maxScale * 20,
+    maxR: targetMaxR,
     additive: tier >= 4
   });
 }
@@ -3083,8 +3088,8 @@ function _spawnStreakParticles(tier) {
   }
 
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  _spawnShockwaveRings(cx, cy, tier);
-  _spawnLightning(cx, cy, tier);
+  _spawnShockwaveRings(cx, cy, tier, maxR);
+  _spawnLightning(cx, cy, tier, maxR);
 
   const burstCounts = [0, 0, 50, 140, 340, 580, 900, 1300];
   _spawnBurst(cx, cy, tier, burstCounts[_tIdx(tier, burstCounts)] || 50);
@@ -3092,7 +3097,7 @@ function _spawnStreakParticles(tier) {
   // 中tier(2-3)は最頻出。単発だと弱いので時間差の二段バースト＋追撃リングで密度を出す
   if (tier === 2 || tier === 3) {
     setTimeout(() => _spawnBurst(cx, cy, tier, tier === 3 ? 80 : 36), tier === 3 ? 150 : 130);
-    setTimeout(() => _spawnShockwaveRings(cx, cy, tier), tier === 3 ? 140 : 120);
+    setTimeout(() => _spawnShockwaveRings(cx, cy, tier, maxR * 0.8), tier === 3 ? 140 : 120);
   }
 
   if (tier >= 4) setTimeout(() => _spawnBurst(cx, cy, tier, tier >= 6 ? 220 : tier >= 5 ? 150 : 90), 160);
@@ -3193,15 +3198,16 @@ function _inkStampBurst(cx, cy, tier) {
 function _inkBrushSwipe(tier) {
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const rgb = theme.brushColorRgb || '26,26,26';
+  const b = _fxBand();
   const el = document.createElement('div');
   el.className = 'exam-fx-temp';
-  el.style.cssText = `position:fixed;top:-20%;left:-30%;width:160%;height:140%;pointer-events:none;z-index:9070;background:linear-gradient(115deg,transparent 42%,rgba(${rgb},.55) 48%,rgba(${rgb},.75) 50%,rgba(${rgb},.55) 52%,transparent 58%);`;
+  el.style.cssText = `position:fixed;top:${b.top}px;left:${b.left}px;width:${b.width}px;height:${b.height}px;pointer-events:none;z-index:9070;background:linear-gradient(115deg,transparent 42%,rgba(${rgb},.55) 48%,rgba(${rgb},.75) 50%,rgba(${rgb},.55) 52%,transparent 58%);`;
   document.body.appendChild(el);
   el.animate([
-    {transform:'translateX(-120%) rotate(-4deg)', opacity:0},
-    {transform:'translateX(-40%) rotate(-4deg)', opacity:1, offset:.35},
-    {transform:'translateX(40%) rotate(-4deg)', opacity:1, offset:.65},
-    {transform:'translateX(120%) rotate(-4deg)', opacity:0}
+    {transform:'translateX(-100%) rotate(-3deg)', opacity:0},
+    {transform:'translateX(-30%) rotate(-3deg)', opacity:1, offset:.35},
+    {transform:'translateX(30%) rotate(-3deg)', opacity:1, offset:.65},
+    {transform:'translateX(100%) rotate(-3deg)', opacity:0}
   ], {duration: tier >= 6 ? 620 : 480, easing:'ease-in-out'}).onfinish = () => el.remove();
 }
 
@@ -3404,15 +3410,19 @@ function _spawnConfettiRain(tier) {
   });
 }
 
-function _spawnLightning(cx, cy, tier) {
+function _spawnLightning(cx, cy, tier, customMaxR) {
   if (tier < 3) return;
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   if (theme.useLightning === false) return;
   if (!window.MecFX) return;
+  const b = _fxBand();
+  const shortSide = Math.min(b.width, b.height);
+  const targetMaxR = customMaxR || (shortSide * 0.45);
   window.MecFX.lightning(cx, cy, {
     bolts: tier >= 7 ? 18 : tier >= 6 ? 14 : tier >= 5 ? 9 : tier >= 4 ? 5 : 3,
     color: theme.lightningCols[_tIdx(tier, theme.lightningCols)],
-    tier: tier
+    tier: tier,
+    maxR: targetMaxR
   });
 }
 

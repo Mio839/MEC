@@ -124,14 +124,14 @@
       '@keyframes ceStreakIn{0%{opacity:0;transform:translateX(-50%) translateY(-22px) scale(.65) rotate(-4deg);}12%{opacity:1;transform:translateX(-50%) translateY(5px) scale(1.18) rotate(1.5deg);}20%{transform:translateX(-50%) translateY(-3px) scale(.95) rotate(-.5deg);}30%{transform:translateX(-50%) translateY(1px) scale(1.05);}50%{transform:translateX(-50%) translateY(0) scale(1);}68%{opacity:1;}100%{opacity:0;transform:translateX(-50%) translateY(-16px) scale(.88);}}',
       '@keyframes ceFlash{0%{opacity:1;}35%{opacity:.25;}55%{opacity:.75;}100%{opacity:0;}}',
       '@keyframes ceRainbowHue{0%{filter:hue-rotate(0deg);}100%{filter:hue-rotate(360deg);}}',
-      '#chExamStreakToast{position:fixed;top:68px;left:50%;transform:translateX(-50%);padding:9px 24px;border-radius:28px;font-weight:900;pointer-events:none;z-index:9100;opacity:0;white-space:nowrap;letter-spacing:.05em;text-shadow:0 2px 10px rgba(0,0,0,.55);}',
+      '#chExamStreakToast{position:fixed;top:68px;left:50%;transform:translateX(-50%);padding:9px 24px;border-radius:28px;font-weight:900;pointer-events:none;z-index:9100;opacity:0;white-space:nowrap;letter-spacing:.05em;text-shadow:0 2px 10px rgba(0,0,0,.55);max-width:90vw;overflow:hidden;text-overflow:ellipsis;}',
       '#chExamStreakToast.show{animation:ceStreakIn var(--sd,2s) ease forwards;}',
       '#chExamStreakToast.t1{background:rgba(61,214,140,.22);color:#3DD68C;border:2px solid rgba(61,214,140,.55);font-size:24px;}',
       '#chExamStreakToast.t2{background:rgba(255,160,64,.24);color:#FFA040;border:2px solid rgba(255,160,64,.65);font-size:28px;box-shadow:0 0 30px rgba(255,160,64,.35);}',
       '#chExamStreakToast.t3{background:rgba(255,80,40,.24);color:#FF5820;border:2px solid rgba(255,100,40,.7);font-size:34px;box-shadow:0 0 45px rgba(255,80,40,.5);}',
-      '#chExamStreakToast.t4{background:rgba(255,200,0,.28);color:#FFD700;border:2.5px solid rgba(255,210,0,.8);font-size:40px;box-shadow:0 0 70px rgba(255,200,0,.65),0 0 140px rgba(255,200,0,.3);}',
-      '#chExamStreakToast.t5{background:rgba(255,220,0,.32);color:#FFE840;border:3px solid rgba(255,240,0,.9);font-size:46px;box-shadow:0 0 100px rgba(255,220,0,.8),0 0 200px rgba(255,200,0,.4);}',
-      '#chExamStreakToast.t6{background:rgba(160,0,255,.35);color:#EE88FF;border:3px solid rgba(210,80,255,.97);font-size:54px;box-shadow:0 0 120px rgba(160,0,255,.9),0 0 260px rgba(100,0,220,.5);}',
+      '#chExamStreakToast.t4{background:rgba(255,200,0,.28);color:#FFD700;border:2.5px solid rgba(255,210,0,.8);font-size:clamp(20px,4.5vw,36px);box-shadow:0 0 70px rgba(255,200,0,.65),0 0 140px rgba(255,200,0,.3);}',
+      '#chExamStreakToast.t5{background:rgba(255,220,0,.32);color:#FFE840;border:3px solid rgba(255,240,0,.9);font-size:clamp(22px,5vw,38px);box-shadow:0 0 100px rgba(255,220,0,.8),0 0 200px rgba(255,200,0,.4);}',
+      '#chExamStreakToast.t6{background:rgba(160,0,255,.35);color:#EE88FF;border:3px solid rgba(210,80,255,.97);font-size:clamp(24px,5.5vw,42px);box-shadow:0 0 120px rgba(160,0,255,.9),0 0 260px rgba(100,0,220,.5);}',
       '#chExamStreakToast.t6.show{animation:ceStreakIn var(--sd,2s) ease forwards,ceRainbowHue var(--sd,2s) linear;}',
       /* 演出セット別: トースト配色（ネオン/和風） */
       'body.ch-effect-neon #chExamStreakToast{font-family:\'Courier New\',monospace;border-radius:6px;letter-spacing:.02em;}',
@@ -2184,15 +2184,17 @@
     });
   }
 
-  function spawnRings(cx, cy, tier) {
+  function spawnRings(cx, cy, tier, customMaxR) {
     if (!window.MecFX) return;
     var ringCounts = [0,0,1,2,3,4,6,8];
-    var maxScale = tier >= 7 ? 48 : tier >= 6 ? 38 : tier >= 5 ? 30 : tier >= 4 ? 22 : tier >= 3 ? 14 : 9;
+    var _pb = ceBand();
+    var shortSide = Math.min(_pb.width, _pb.height);
+    var targetMaxR = customMaxR || (shortSide * Math.min(0.48, 0.38 + tier * 0.015));
     window.MecFX.rings(cx, cy, {
       count: ringCounts[ceTIdx(tier, ringCounts)],
       color: ceTheme().ringColor(tier),
       thickness: tier >= 5 ? 4 : tier >= 3 ? 3 : 2,
-      maxR: maxScale * 20,
+      maxR: targetMaxR,
       additive: tier >= 4
     });
   }
@@ -2268,8 +2270,8 @@
     }
 
     var theme = ceTheme();
-    spawnRings(cx, cy, tier);
-    spawnLightning(cx, cy, tier);
+    spawnRings(cx, cy, tier, maxR);
+    spawnLightning(cx, cy, tier, maxR);
 
     var burstCounts = [0, 0, 50, 140, 340, 580, 900, 1300];
     spawnBurst(cx, cy, tier, burstCounts[ceTIdx(tier, burstCounts)] || 50);
@@ -2277,7 +2279,7 @@
     // 中tier(2-3)は最頻出。時間差の二段バースト＋追撃リングで密度を出す
     if (tier === 2 || tier === 3) {
       setTimeout(function(){ spawnBurst(cx, cy, tier, tier === 3 ? 80 : 36); }, tier === 3 ? 150 : 130);
-      setTimeout(function(){ spawnRings(cx, cy, tier); }, tier === 3 ? 140 : 120);
+      setTimeout(function(){ spawnRings(cx, cy, tier, maxR * 0.8); }, tier === 3 ? 140 : 120);
     }
 
     if (tier >= 4) setTimeout(function(){ spawnBurst(cx, cy, tier, tier>=6?220:tier>=5?150:90); }, 160);
@@ -2585,15 +2587,19 @@
     setTimeout(function(){ spawnBurst(cx, cy, tier, tier >= 6 ? 24 : 14); }, drawDur * 0.7);
   }
 
-  function spawnLightning(cx, cy, tier) {
+  function spawnLightning(cx, cy, tier, customMaxR) {
     if (tier < 3) return;
     if (ceTheme().useLightning === false) return;
     if (!window.MecFX) return;
+    var _pb = ceBand();
+    var shortSide = Math.min(_pb.width, _pb.height);
+    var targetMaxR = customMaxR || (shortSide * 0.45);
     var cols = ceTheme().lightningCols;
     window.MecFX.lightning(cx, cy, {
       bolts: tier >= 7 ? 18 : tier >= 6 ? 14 : tier >= 5 ? 9 : tier >= 4 ? 5 : 3,
       color: cols[ceTIdx(tier, cols)],
-      tier: tier
+      tier: tier,
+      maxR: targetMaxR
     });
   }
 
@@ -2652,18 +2658,21 @@
     var glowR = theme.fullscreenGlow;
     var col = cols[ceTIdx(tier, cols)];
     var g = glowR[ceTIdx(tier, glowR)];
-    var spread = 60 + tier * 35;
-    el.textContent = '\xd7' + n;
+    var str = '\xd7' + n;
+    el.textContent = str;
     // 全画面レイヤーを可視帯へ合わせる（inset:0 のままだとナビぶん中心が上にずれ、文字も帯からはみ出す）
     var _fb = ceBand();
+    var shortSide = Math.min(_fb.width, _fb.height);
+    var fontRatio = str.length >= 3 ? (str.length >= 4 ? 0.24 : 0.29) : 0.40;
     el.style.left = _fb.left + 'px';
     el.style.top = _fb.top + 'px';
     el.style.right = 'auto';
     el.style.bottom = 'auto';
     el.style.width = _fb.width + 'px';
     el.style.height = _fb.height + 'px';
-    el.style.fontSize = Math.round(Math.min(_fb.width, _fb.height) * 0.42) + 'px';
+    el.style.fontSize = Math.round(shortSide * fontRatio) + 'px';
     el.style.color = col;
+    var spread = Math.min(40 + tier * 16, 95);
     el.style.textShadow = '0 0 '+spread+'px rgba('+g+',.65), 0 0 '+(spread*2)+'px rgba('+g+',.35)';
     var dur = tier >= 7 ? 1120 : tier >= 6 ? 980 : tier >= 5 ? 820 : tier >= 4 ? 680 : 560;
     el.animate([

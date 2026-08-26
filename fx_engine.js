@@ -1056,27 +1056,31 @@
     }
   }
 
-  /** 稲妻。o: {bolts, color, tier} */
+  /** 稲妻。o: {bolts, color, tier, maxR} */
   function lightning(x, y, o) {
+    o = o || {};
     var tier = o.tier || 4;
     var bolts = o.bolts || 4;
+    var maxR = o.maxR || (Math.min(W, H) * 0.45);
     for (var i = 0; i < bolts; i++) {
       var ang = (i / bolts) * 6.2832 + rnd(-.35, .35);
-      var len = 220 + rnd(0, tier >= 5 ? 380 : 220);
+      var rawLen = 180 + rnd(0, tier >= 5 ? 240 : 160);
+      var len = Math.min(rawLen, maxR);
       var ex = x + Math.cos(ang) * len, ey = y + Math.sin(ang) * len;
       var segs = 5 + (Math.random() * 4 | 0);
       var pts = [x, y];
+      var jitter = Math.min(len * 0.25, tier >= 5 ? 60 : 40);
       for (var j = 1; j < segs; j++) {
         var t = j / segs;
-        pts.push(x + (ex - x) * t + rnd(-1, 1) * (tier >= 5 ? 110 : 70));
-        pts.push(y + (ey - y) * t + rnd(-1, 1) * (tier >= 5 ? 110 : 70));
+        pts.push(x + (ex - x) * t + rnd(-1, 1) * jitter);
+        pts.push(y + (ey - y) * t + rnd(-1, 1) * jitter);
       }
       pts.push(ex, ey);
       addP({
         type: 'bolt', x: x, y: y, pts: pts,
         color: o.color || 'rgba(255,210,0,1)',
-        glowW: tier >= 5 ? 9 : 6.5,
-        coreW: tier >= 5 ? 2.6 : 1.8,
+        glowW: tier >= 5 ? 8 : 6,
+        coreW: tier >= 5 ? 2.4 : 1.8,
         seed: rnd(0, 9),
         blend: true,
         ttl: .26 + rnd(0, .14),

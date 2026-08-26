@@ -1,3 +1,8 @@
+// 2026-08-26i: 10連続正解時（Tier 5）のエフェクト空間的引き伸ばしバグを解消。
+//   - study_exam.js / chapter_exam.js: 全画面「×n」コンボの文字数連動スケーリング（2桁以上で係数0.29へ縮小）・光彩spread制限、衝撃波リング・稲妻の可視帯短辺基準（maxR）クランプ、墨スワイプ幾何の可視領域内収束。
+//   - fx_engine.js: lightning（稲妻）の最大長を画面短辺（maxR）でクランプし、過大なジッター揺れを抑制。
+//   - study.css / chapter_exam.js: ストリークトースト（.t4/.t5/.t6）のフォントサイズをclamp()化し、max-width: 90vwで画面突き破りを防止。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-26f: 正解・コンボ演出の黄金角巡回（137.5°）＋均等面積サンプリング＋重なり最大60%分散アルゴリズムを導入。
 //   - study_exam.js / chapter_exam.js: _getDispersedFxPos / ceGetDispersedFxPos を実装し、正解・コンボ・ショックウェーブが同一点に密集する問題を解消。黄金角でリズミカルに巡回し、重なり最大60%（40%以上離間保証）で心地よくバラけさせる。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
@@ -482,12 +487,13 @@
 // questions_circ/dige/endo/jinzo_d/peds/resp.json の ans_label を正規形へ書き換えたので、
 // CARDS が旧内容のままだと入力欄が作れず解答不能のままになる。よって CACHE を bump する。
 // v175: 公衆衛生 第6章「介護保険」35問を追加（questions_ph.json が155→190問・画像1枚追加）。データ更新のため bump。
-const CACHE = "mec-v175";
+// v176: 公衆衛生 第7章「人口」36問を追加（questions_ph.json が190→226問・画像14問21枚追加）。データ更新のため bump。
+const CACHE = "mec-v176";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-26g";
+const SHELL_VERSION = "2026-08-26i";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
