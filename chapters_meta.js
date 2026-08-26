@@ -1223,6 +1223,12 @@ const MEC_CHAPTERS = [
         "file": "公衆衛生/ch06_kaigohoken.html",
         "title": "第6章 介護保険",
         "count": 35
+      },
+      {
+        "prefix": "ph_ch07",
+        "file": "公衆衛生/ch07_jinkou.html",
+        "title": "第7章 人　口",
+        "count": 36
       }
     ]
   }

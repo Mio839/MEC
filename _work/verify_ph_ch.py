@@ -31,6 +31,10 @@ def strip_tags(s):
     return re.sub(r'<[^>]+>', '', s)
 
 
+def is_calc(q):
+    return not q["choices"] and (q.get("ans_label") or "").startswith("計算答：")
+
+
 def check_answer_label(q, uid, excluded, errs):
     """`.ac`（ans_label）と ok 肢の一致を見る。
 
@@ -42,6 +46,8 @@ def check_answer_label(q, uid, excluded, errs):
       採点除外 → '（採点除外）'                     ／ 複数正解 → 'ａ・ｄ'
       単一正解 → 正解肢の本文そのまま（全角字＋全角空白＋本文）
     """
+    if is_calc(q):
+        return
     al = (q.get('ans_label') or '').strip()
     oks = [c['t'].strip() for c in q['choices'] if c['ok']]
     if excluded:
@@ -105,8 +111,9 @@ def main():
             excluded = any('採点除外' in b['t'] for b in q['badges'])
 
             # --- §4 不変条件 -------------------------------------------------
+            calc = is_calc(q)
             n_ok = sum(1 for c in q['choices'] if c['ok'])
-            if n_ok == 0 and not excluded:
+            if n_ok == 0 and not excluded and not calc:
                 errs.append('%s: 正解肢(ok)が0個' % uid)
             if bool(q['imgs']) != ('bi' in badge_cls):
                 errs.append('%s: 📷バッジと imgs の不一致 (imgs=%d, bi=%s)'
@@ -118,7 +125,7 @@ def main():
                     errs.append('%s: 画像が存在しない %s' % (uid, p))
             m = re.search(r'(\d+)\s*つ選べ', strip_tags(q['qt']))
             want = int(m.group(1)) if m else 1
-            if not excluded and n_ok != want:
+            if not excluded and not calc and n_ok != want:
                 errs.append('%s: 「%dつ選べ」だが ok=%d 個' % (uid, want, n_ok))
 
             check_answer_label(q, uid, excluded, errs)
@@ -134,10 +141,11 @@ def main():
                 if r['kid'] != q['episode'].strip('()'):
                     errs.append('%s: 国試番号ずれ HTML=%s PDF=%s'
                                 % (uid, q['episode'], r['kid']))
-                pdf_ans = sorted(r['ans'].strip().split(',')) if r['ans'].strip() != 'なし' else []
-                got = sorted(FW2A[c['t'][0]] for c in q['choices'] if c['ok'])
-                if pdf_ans != got:
-                    errs.append('%s: 正解ずれ HTML=%s PDF=%s' % (uid, got, pdf_ans))
+                if not calc:
+                    pdf_ans = sorted(r['ans'].strip().split(',')) if r['ans'].strip() != 'なし' else []
+                    got = sorted(FW2A[c['t'][0]] for c in q['choices'] if c['ok'])
+                    if pdf_ans != got:
+                        errs.append('%s: 正解ずれ HTML=%s PDF=%s' % (uid, got, pdf_ans))
                 pdf_rate = r['rate'].strip()
                 pdf_rate = None if pdf_rate in ('', '－', '-') else int(pdf_rate)
                 got_rate = q['rate'] if q['rate'] >= 0 else None

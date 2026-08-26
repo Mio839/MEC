@@ -164,11 +164,13 @@ const other = rows.filter(r => !M.parse(r.al));
 // 以後ここに増えたら、選択肢を持たない問題が新しく紛れ込んだということ。
 // 48→50 になったのは、計算問題なのに別の設問の選択肢が付いていた kakumon_117F_q71 /
 // kakumon_118C_q73 から選択肢を外して入力型に戻したため（_work/restore_missing_ok_flags.py）。
-t('選択肢を持たない問題は計算問題50件だけ（選択肢欠落は0件）', () => {
-  assert.strictEqual(calc.length, 50, '計算問題が ' + calc.length + '件');
+// 50→52 になったのは、公衆衛生 第7章「人口」NO.207（総再生産率）・NO.218（直接法の
+// 年齢調整死亡率）の計算問題2問を追加したため（2026-08-26）。
+t('選択肢を持たない問題は計算問題52件だけ（選択肢欠落は0件）', () => {
+  assert.strictEqual(calc.length, 52, '計算問題が ' + calc.length + '件');
   assert.strictEqual(other.length, 0,
     '選択肢欠落: ' + other.map(r => r.uid).join(', '));
-  assert.strictEqual(rows.length, 50, '実際は ' + rows.length + '件');
+  assert.strictEqual(rows.length, 52, '実際は ' + rows.length + '件');
 });
 
 t('計算問題の ans_label は全件が正規形（旧カンマ形式の混入なし）', () => {
