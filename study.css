@@ -262,7 +262,13 @@ body.exam-mode .qc.exam-key-focus:not(.exam-revealed)::before{
    ⚠️ z-index は --z-hdr + 1（＝201）。カードとヘッダの上・**すべてのモーダル（5000〜）と
       #examStreakBorder（9045）の下**。tier の外周グローは常にこの縁の上に光る＝
       「常時＝静止した筐体の縁／tier＝その上で光る盤面」という Phase 4 の役割分担が縁でも保たれる。 */
-body.exam-mode::before{content:'';position:fixed;inset:0;pointer-events:none;
+/* ⚠️⚠️ セレクタを body.exam-mode::before へ戻さないこと（§13-3 P4）。
+   html.ui-* body::before（8テーマの環境光・詳細度 0,1,3）が body.exam-mode::before（0,1,2）に
+   勝つので **z-index が 0 で確定**し、稜線がカードの下敷きになり、四隅の排気口は
+   テーマの background に丸ごと上書きされて消える。::before は1つの箱なので
+   「テーマの環境光は背景(0)・試験の筐体は前景(201)」を分け合えない。
+   #examChrome は study.html の markup にある（無いと筐体が丸ごと消える）。 */
+body.exam-mode #examChrome{position:fixed;inset:0;pointer-events:none;
   z-index:calc(var(--z-hdr) + 1);
   /* 四辺の稜線（明線と暗線の対）＋内側へ落ちる暗がり。⚠️ 明線だけだと「地が少し明るい帯」に
      見えるだけで金属の縁にならない（Phase 4 の唯一の技術的な要）。 */
@@ -479,6 +485,8 @@ body.exam-mode .qc:has(.exam-instant-wrong){animation:cardWrongGlow .8s ease for
 #examStreakFlash{position:fixed;inset:0;pointer-events:none;z-index:9050;opacity:0;}
 #examStreakFlash.flash{animation:streakFlashIn .75s ease forwards;}
 #examStreakBorder{position:fixed;inset:0;pointer-events:none;z-index:9045;opacity:0;}
+/* §13-3 P4: 試験の筐体を載せる2枚。クラスが付くまでは箱があるだけで何も描かない。 */
+#examChrome,#examOverdriveGlow{position:fixed;inset:0;pointer-events:none;z-index:-1;}
 /* §13 Z1: ゾーン状態（10連続正解）のアンビエント呼吸。
    ⚠️⚠️ これを `body { filter: brightness(...) }` へ戻さないこと。filter が none でない要素は
    position:fixed の子孫の包含ブロックになり、#mecFxCanvas（fixed/inset:0/100%）が
@@ -517,6 +525,10 @@ body.exam-effect-ink #examStreakToast.t4{background:rgba(26,26,26,.4);color:#C9A
 body.exam-effect-ink #examStreakToast.t5{background:rgba(26,26,26,.5);color:#E8C468;border:3px solid rgba(232,196,104,.85);box-shadow:0 0 70px rgba(232,196,104,.5);}
 body.exam-effect-ink #examStreakToast.t6{background:rgba(201,58,58,.4);color:#FFD9D9;border:3px solid rgba(201,58,58,.95);box-shadow:0 0 100px rgba(201,58,58,.7),0 0 200px rgba(26,26,26,.4);}
 #examStreakToast.t6.show{animation:streakToastIn var(--sd,2s) ease forwards,rainbowHue var(--sd,2s) linear;}
+/* §13-3 P3: t7（20連続＝梯子の天井）。これが無いと最高段だけ font-size 14px・背景も枠も無い
+   素の見た目になっていた。⚠️ 段を足したらここも足すこと（t1〜t7 で漏れなく）。 */
+#examStreakToast.t7{background:rgba(255,255,255,.34);color:#FFFFFF;border:3.5px solid rgba(255,255,255,.98);font-size:clamp(26px,6vw,46px);box-shadow:0 0 140px rgba(255,240,180,.95),0 0 300px rgba(255,180,0,.55),0 0 480px rgba(160,0,255,.28);}
+#examStreakToast.t7.show{animation:streakToastIn var(--sd,2s) ease forwards,rainbowHue calc(var(--sd,2s) / 2) linear infinite;}
 /* ── New combo effects ── */
 #examComboMeter{position:fixed;top:0;left:0;right:0;height:3px;z-index:9300;pointer-events:none;opacity:0;transition:opacity .3s;}
 #examComboMeterFill{height:100%;width:0%;transition:width .35s cubic-bezier(.22,.68,0,1),background .4s;}
@@ -1579,8 +1591,10 @@ body.srs-review #mecNoSubj{display:none!important;}
 
 /* ══ ダイナミック演出強化 ══ */
 /* 【案1】全画面オーバードライブ（連続正解時の覚醒モード） */
-body.exam-overdrive::before {
-  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 8990;
+/* ⚠️ body.exam-overdrive::before へ戻さないこと（§13-3 P4）。テーマの body::before に
+   z-index を奪われてカードの下敷きになる。 */
+body.exam-overdrive #examOverdriveGlow {
+  position: fixed; inset: 0; pointer-events: none; z-index: 8990;
   box-shadow: inset 0 0 80px rgba(255,184,48,.35), inset 0 0 160px rgba(255,94,138,.2);
   animation: overdrivePulse 1.4s infinite alternate ease-in-out;
 }
@@ -1648,7 +1662,7 @@ body.exam-slash-freeze .qc {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body.exam-overdrive::before, .qc.card-3d-pop, body.exam-red-flash::after, .exam-hard-pop {
+  body.exam-overdrive #examOverdriveGlow, .qc.card-3d-pop, body.exam-red-flash::after, .exam-hard-pop {
     animation: none;
   }
 }

@@ -1021,6 +1021,7 @@ node _work/test_mindmap_layout.js  マインドマップのレイアウト/デ�
 node _work/test_sounds.js          効果音の一覧・音量・ランダム起動音  (28)
 node _work/test_ui_theme.js        UIテーマ全8種（.qc への干渉・ネタバレ防止）(12)
 node _work/test_body_containing_block.js  body/html を position:fixed の包含ブロックにしない
+node _work/test_glitch_bars.js     グリッチ帯の引数形・可視帯・幅（実ソースを回す）(14)
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 
 # UIテーマの「自律進化ループ」（2026-08-23〜24）が置いていった検査。粒度が細かく
@@ -1668,6 +1669,17 @@ study.html(study_exam.js) ／ index.html ／ chapter_exam.js  ← 3つとも「�
   画面を揺らす演出は `_shakeFxLayers()` / `ceShakeFxLayers()`（canvas＋ヴィネットだけを揺らす）を使う。
   検査は `node _work/test_body_containing_block.js`（セレクタの主体が body/html のルールと、
   そこから参照される `@keyframes` の両方を走査する）。
+- ⚠️⚠️ **試験の筐体を `body::before` に置かないこと**（2026-08-26・§13-3 P4）。
+  `body::before` は **`html.ui-* body::before`（8テーマの環境光）専用**で、詳細度 (0,1,3) が
+  `body.exam-mode::before` / `body.exam-overdrive::before` (0,1,2) に勝つため
+  **`z-index` が 0 で確定**し、Phase 4 の稜線（S11）とオーバードライブのグローが
+  **カードの下敷き**になっていた。四隅の排気口（`background-image`）に至ってはテーマの
+  `background` に丸ごと上書きされて消えていた。**`::before` は1つの箱なので
+  「テーマの環境光＝背景(0)／試験の筐体＝前景(201)」を分け合えない**——詳細度を上げると
+  今度はテーマの環境光がカードの上へ出る。いまは **`body.exam-mode #examChrome`(201)** と
+  **`body.exam-overdrive #examOverdriveGlow`(8990)** という専用レイヤーで、実体は
+  `study.html` の markup にある（**この2枚の `<div>` を消すと筐体が丸ごと見えなくなる**）。
+  S11 の熾火だけは `body.exam-mode::after` のままでよい（テーマは `body::after` を持たない）。
 - 📌 **画面の揺れの方針（2026-08-26 にユーザーが更新）**——以前の「画面を揺らさない」
   （`fx_engine.js` の `shakeScreen()` が空実装になっている）は**全面禁止ではなくなった**。
   **禁止されるのは「正解時」と「連続正解時」の揺れだけ**で、それ以外の領域

@@ -345,14 +345,16 @@ t('11. S9 の稼働灯（::after）が 1px のままである（太くすると�
        body.exam-mode .qc...::before ＝ R5 のクランプ）を巻き込まないこと。
        巻き込むと稼働灯の opacity:0 を熾火の値として読むなど、全部が誤検出になる。 */
 function forgeRules() {
+  // §13-3 P4 以降、稜線は body.exam-mode::before ではなく専用レイヤー #examChrome にある
+  // （テーマの html.ui-* body::before に z-index を奪われるため）。熾火は ::after のまま。
   return RULES.filter(r => r.sel.split(',').some(one =>
-    /^body\.exam-mode[A-Za-z0-9_.-]*::(before|after)$/.test(one.trim())));
+    /^body\.exam-mode[A-Za-z0-9_.-]*(::(before|after)|\s+#examChrome)$/.test(one.trim())));
 }
 
-t('23. S11 が body.exam-mode::before / ::after に書かれている（body::before ではない）', () => {
+t('23. S11 が exam-mode 前提で書かれている（body::before ではない）', () => {
   const rs = forgeRules();
   assert.ok(rs.length >= 2, 'S11 の2層（縁と熾火）が見つからない');
-  assert.ok(rs.some(r => /::before/.test(r.sel)), '縁（::before）が無い');
+  assert.ok(rs.some(r => /#examChrome/.test(r.sel)), '縁（#examChrome）が無い');
   assert.ok(rs.some(r => /::after/.test(r.sel)), '熾火（::after）が無い');
   // ⚠️ body::before / body::after（exam-mode 抜き）を書くと通常閲覧へ持ち越す
   RULES.forEach(r => {

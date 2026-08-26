@@ -1,3 +1,16 @@
+// 2026-08-26k: §13 G1 / P1〜P5 — グリッチ帯の幾何と、黙って壊れていた4件。
+//   - fx_engine.js: glitchBars が (x,y,o) の3引数形も受けるようにし（P1: 8箇所が3引数で呼んでいて
+//     count/color が黙って捨てられていた）、w（帯の幅）と band（可視帯）を足した。未指定なら従来どおり全幅・全高。
+//   - study_exam.js / chapter_exam.js: cyber スキンのグリッチを可視帯・短辺スケールの断片へ。
+//     _triggerGlitch / triggerGlitch の `tier<5` 二重ゲートを外し（ちょうど10連続でデビューする段差）本数を連続に。
+//   - P2: durs[7] が undefined で 20連続（tier7）に toast.animate が TypeError を投げ、
+//     _showStreakEffect 以降（打撃・フラッシュ・粒子・シェイク・ボーダー・フローター・背景ブレス）が全滅していた。
+//   - P3: #examStreakToast.t7 の CSS が無く最高段だけ font-size 14px・背景も枠も無い素の見た目だった。
+//   - P4: html.ui-* body::before(0,1,3) がテーマ側で z-index:0 を確定させ、S11 の稜線と
+//     オーバードライブのグローがカードの下敷きになっていた。専用レイヤー #examChrome(201) /
+//     #examOverdriveGlow(8990) へ分離（study.html に markup を追加）。
+//   - P5: MecFX.warp は colors（複数形）を読むので color は無視されていた。可視帯の中心も明示。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-26j: §13 Z1〜Z6 — 10連続正解で全演出が縦に引き伸ばされるバグの真因を断つ。
 //   - ui_theme.css / study.css: body.exam-streak-zone の filter（8テーマ）・body.exam-screen-shake の
 //     transform・body.exam-slash-freeze の filter を撤去。filter/transform が付いた body は
@@ -503,7 +516,7 @@ const CACHE = "mec-v176";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-26j";
+const SHELL_VERSION = "2026-08-26k";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

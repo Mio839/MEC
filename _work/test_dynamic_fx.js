@@ -22,7 +22,9 @@ const mmSrc = fs.readFileSync(path.join(__dirname, '../mindmap.js'), 'utf8');
 
 console.log('── 1. 全画面オーバードライブ & 稲妻 (案1) ──');
 test('study.css と study_exam.js に exam-overdrive と lightning がある', () => {
-  assert(cssSrc.includes('body.exam-overdrive::before'), 'Missing body.exam-overdrive in study.css');
+  // §13-3 P4: テーマの html.ui-* body::before に z-index を奪われるので専用レイヤーへ移した。
+  assert(cssSrc.includes('body.exam-overdrive #examOverdriveGlow'), 'Missing body.exam-overdrive layer in study.css');
+  assert(!cssSrc.includes('body.exam-overdrive::before {'), 'グローが body::before へ戻っている（§13-3 P4）');
   assert(examSrc.includes('document.body.classList.add(\'exam-overdrive\')'), 'Missing exam-overdrive in study_exam.js');
   assert(examSrc.includes('window.MecFX.lightning'), 'Missing lightning in study_exam.js');
 });

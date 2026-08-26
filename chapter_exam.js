@@ -133,6 +133,9 @@
       '#chExamStreakToast.t5{background:rgba(255,220,0,.32);color:#FFE840;border:3px solid rgba(255,240,0,.9);font-size:clamp(22px,5vw,38px);box-shadow:0 0 100px rgba(255,220,0,.8),0 0 200px rgba(255,200,0,.4);}',
       '#chExamStreakToast.t6{background:rgba(160,0,255,.35);color:#EE88FF;border:3px solid rgba(210,80,255,.97);font-size:clamp(24px,5.5vw,42px);box-shadow:0 0 120px rgba(160,0,255,.9),0 0 260px rgba(100,0,220,.5);}',
       '#chExamStreakToast.t6.show{animation:ceStreakIn var(--sd,2s) ease forwards,ceRainbowHue var(--sd,2s) linear;}',
+      /* §13-3 P3: t7（20連続＝梯子の天井）。無いと最高段だけ素の見た目になる。 */
+      '#chExamStreakToast.t7{background:rgba(255,255,255,.34);color:#FFFFFF;border:3.5px solid rgba(255,255,255,.98);font-size:clamp(26px,6vw,46px);box-shadow:0 0 140px rgba(255,240,180,.95),0 0 300px rgba(255,180,0,.55);}',
+      '#chExamStreakToast.t7.show{animation:ceStreakIn var(--sd,2s) ease forwards,ceRainbowHue calc(var(--sd,2s) / 2) linear infinite;}',
       /* 演出セット別: トースト配色（ネオン/和風） */
       'body.ch-effect-neon #chExamStreakToast{font-family:\'Courier New\',monospace;border-radius:6px;letter-spacing:.02em;}',
       'body.ch-effect-neon #chExamStreakToast.t1{background:rgba(0,229,255,.18);color:#00E5FF;border:2px solid rgba(0,229,255,.55);}',
@@ -1530,7 +1533,7 @@
       if (curUi === 'brass' && window.MecFX.sparks) {
         window.MecFX.sparks(tx, ty, { count: 8, colors: ['#FFD700', '#FFA040', '#FFFFFF'] });
       } else if (curUi === 'cyber' && window.MecFX.glitchBars) {
-        window.MecFX.glitchBars(tx, ty, { count: 4, color: '#00FF66' });
+        window.MecFX.glitchBars(tx, ty, { count: 4, color: '#00FF66', w: maxR * 2, band: b });
       } else if (curUi === 'liquid' && window.MecFX.bubbles) {
         window.MecFX.bubbles(tx, ty, { count: 6, colors: ['#FF007F', '#7928CA'] });
       } else if (curUi === 'kintsugi' && window.MecFX.dust) {
@@ -1667,7 +1670,7 @@
         else if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 10, colors: ['#FFD700', '#FFA040', '#FFFFFF'] });
       } else if (curUi === 'cyber') {
         if (window.MecFX.cyberTargetLock) window.MecFX.cyberTargetLock(cx, cy, { maxR: maxR, glitchCount: 8 });
-        else if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 6, color: '#00E5FF' });
+        else if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 6, color: '#00E5FF', w: maxR * 2, band: b });
       } else if (curUi === 'liquid') {
         if (window.MecFX.liquidBloomRipple) window.MecFX.liquidBloomRipple(cx, cy, { maxR: maxR, bubbleCount: 12 });
         else if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 8, colors: ['#FF007F', '#7928CA'] });
@@ -1948,7 +1951,7 @@
       if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 10 + tier * 3, colors: ['#FFD700', '#FFA040'] });
       return;
     } else if (curUi === 'cyber') {
-      if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 5 + tier * 2, color: '#00FF66' });
+      if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 5 + tier * 2, color: '#00FF66', w: Math.min(_b.width, _b.height) * 0.9, band: _b });
       return;
     } else if (curUi === 'liquid') {
       if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 8 + tier * 2, colors: ['#FF007F', '#7928CA'] });
@@ -2065,7 +2068,10 @@
     var theme = ceTheme();
     var tier = ceTier(n);
     var labels = theme.labels(n);
-    var durs = [0, 2.0, 2.5, 3.2, 4.2, 5.2, 5.8];
+    // ⚠️ index は tier と対応させ必ず 7 まで埋めること（§13-3 P2）。6 で止めると
+    // durs[7] が undefined → `--sd:NaNs` になり既定 2s へ落ちて尺が段と合わなくなる
+    // （study 側は同じ穴で TypeError を投げて演出が丸ごと落ちていた）。
+    var durs = [0, 2.0, 2.5, 3.2, 4.2, 5.2, 5.8, 6.4];
     // 昇格フレーム（tierが上がった瞬間）の判定。2026-08-25 以降 TIER UP スタンプだけを分ける。
     var prevTier = (n - 1) < 2 ? 0 : ceTier(n - 1);
     var promoted = tier > prevTier;
@@ -2087,7 +2093,8 @@
     // 縦位置は固定値(旧 top:68px)ではなく可視帯の上端＝ナビ下端に置く（iPadで上端に切れるため）
     toast.style.top = ceBand().top + 'px';
     toast.textContent = labels[tier];
-    toast.style.setProperty('--sd', (full ? durs[tier] : durs[tier] * 0.52) + 's');
+    var _d = durs[ceTIdx(tier, durs)];
+    toast.style.setProperty('--sd', (full ? _d : _d * 0.52) + 's');
     toast.className = 't' + tier + ' show';
 
     var flash = document.getElementById('chExamStreakFlash');
@@ -2260,7 +2267,7 @@
         return;
       } else if (curUi === 'cyber') {
         if (window.MecFX.cyberTargetLock) window.MecFX.cyberTargetLock(cx, cy, { maxR: maxR, glitchCount: 8 + tier * 3 });
-        if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 8 + tier * 3, color: '#00FF66' });
+        if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 8 + tier * 3, color: '#00FF66', w: maxR * 2, band: b });
         if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#00FF66', thickness: 2.5, maxR: maxR * 1.05, additive: true });
         return;
       } else if (curUi === 'liquid') {
@@ -2619,13 +2626,17 @@
   // 旧実装は body 全体への filter で iPad では最重量級だったため、
   // 軽い transform ジッター + Canvas のグリッチ帯に置き換え
   function triggerGlitch(tier) {
-    if (tier < 5) return;
+    // ⚠️ ここに `if (tier < 5) return;` を戻さないこと（§13-2）。呼び出し側が既に tier>=4 で
+    // 絞っているので二重ゲートであり、ちょうど10連続（tier5）でグリッチが急にデビューする
+    // 段差を作っていた。本数を tier で連続に増やして段差を均す。
     var heavy = !!ceTheme().useHeavyGlitch;
     if (window.MecFX) {
+      // ⚠️ 帯は全幅のまま（「画面全体が乱れる」意匠）。band を渡して可視帯の中だけに描く。
       window.MecFX.glitchBars({
-        count: (tier >= 6 ? 14 : 9) + (heavy ? 5 : 0),
+        count: Math.round(4 + tier * 1.7) + (heavy ? 5 : 0),
         thick: tier >= 6,
-        long: heavy
+        long: heavy,
+        band: ceBand()
       });
     }
     var amp = tier >= 7 ? 9 : tier >= 6 ? 7 : 4;

@@ -2004,7 +2004,7 @@ function _traceToAnswer(card, fxEl) {
     if (curUi === 'brass' && window.MecFX.sparks) {
       window.MecFX.sparks(tx, ty, { count: 8, colors: ['#FFD700', '#FFA040', '#FFFFFF'] });
     } else if (curUi === 'cyber' && window.MecFX.glitchBars) {
-      window.MecFX.glitchBars(tx, ty, { count: 4, color: '#00FF66' });
+      window.MecFX.glitchBars(tx, ty, { count: 4, color: '#00FF66', w: maxR * 2, band: b });
     } else if (curUi === 'liquid' && window.MecFX.bubbles) {
       window.MecFX.bubbles(tx, ty, { count: 6, colors: ['#FF007F', '#7928CA'] });
     } else if (curUi === 'kintsugi' && window.MecFX.dust) {
@@ -2202,7 +2202,7 @@ function _afterCorrectFx(card, fxEl) {
       else if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 10, colors: ['#FFD700', '#FFA040', '#FFFFFF'] });
     } else if (curUi === 'cyber') {
       if (window.MecFX.cyberTargetLock) window.MecFX.cyberTargetLock(cx, cy, { maxR: maxR, glitchCount: 8 });
-      else if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 6, color: '#00E5FF' });
+      else if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 6, color: '#00E5FF', w: maxR * 2, band: b });
     } else if (curUi === 'liquid') {
       if (window.MecFX.liquidBloomRipple) window.MecFX.liquidBloomRipple(cx, cy, { maxR: maxR, bubbleCount: 12 });
       else if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 8, colors: ['#FF007F', '#7928CA'] });
@@ -2771,7 +2771,13 @@ function _showStreakEffect(n) {
   // 2026-08-25: 同ティア継続でもフル演出（promoted は TIER UP スタンプ専用に縮小）
   const full = promoted || STREAK_FULL_EVERY_TIME;
   const labels = theme.labels(n);
-  const durs   = [0, 2.0, 2.5, 3.2, 4.2, 5.2, 5.8];
+  // ⚠️ index は tier と対応させ、必ず **7 まで** 埋めること（梯子は 3/5/7/10/14/20 の6段＋tier7）。
+  // 6 で止めると durs[7] が undefined → duration が NaN になり toast.animate が
+  // 「duration must be non-negative or auto」で TypeError を投げ、20連続で
+  // _showStreakEffect の以降（打撃・フラッシュ・粒子・シェイク・ボーダー・フローター・
+  // 背景ブレス・コンボメーター更新）が丸ごと落ちる（§13-3 P2）。
+  // 引くときは範囲外にならない _tIdx() を通すこと（`Math.min(tier,6)` を書かない）。
+  const durs   = [0, 2.0, 2.5, 3.2, 4.2, 5.2, 5.8, 6.4];
 
   // B5/B7: tier3以上でゾーン突入、tier6 の入口（14連続）で覚醒モード
   if (tier >= 3) _zoneStart();
@@ -2804,12 +2810,12 @@ function _showStreakEffect(n) {
     {transform:'translateX(-50%) translateY(0) scale(1)', offset:.50},
     {opacity:1, offset:.68},
     {opacity:0, transform:'translateX(-50%) translateY(-16px) scale(.88)', offset:1}
-  ], {duration: durs[tier] * (full ? 1000 : 520), easing:'ease'});
+  ], {duration: durs[_tIdx(tier, durs)] * (full ? 1000 : 520), easing:'ease'});
   /* S13(2026-08-21): 打撃の1フレーム。着地の瞬間に一度だけ沈んで戻る（1文字ずつのタイプはしない
      ——ラベルは一瞬で読めることに価値があり、演出のために情報を遅らせてはいけない）。
      ⚠️ translate プロパティで書くこと。入場アニメが transform を占有している。 */
   {
-    const _dur = durs[tier] * (full ? 1000 : 520);
+    const _dur = durs[_tIdx(tier, durs)] * (full ? 1000 : 520);
     toast.animate([
       {translate:'0 0'}, {translate:'0 1.6px', offset:.35}, {translate:'0 0'}
     ], {duration: 200, delay: _dur * .12, easing:'cubic-bezier(.3,1.5,.5,1)'});
@@ -2854,7 +2860,8 @@ function _showStreakEffect(n) {
 // B4: 同ティア継続のフレームへ上乗せする軽量エフェクト（UIテーマ完全連動）
 function _spawnLightStreakFx(tier) {
   if (!window.MecFX) return;
-  const { cx, cy } = _fxBand();
+  const b = _fxBand();
+  const { cx, cy } = b;
   const curUi = window.MecUITheme ? MecUITheme.get() : null;
   if (curUi === 'kintsugi') {
     if (window.MecFX.dust) window.MecFX.dust({ count: 14 + tier * 4, colors: ['#F5D061', '#D4AF37', '#FFFFFF'] });
@@ -2875,7 +2882,7 @@ function _spawnLightStreakFx(tier) {
     if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 10 + tier * 3, colors: ['#FFD700', '#FFA040'] });
     return;
   } else if (curUi === 'cyber') {
-    if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 5 + tier * 2, color: '#00FF66' });
+    if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 5 + tier * 2, color: '#00FF66', w: Math.min(b.width, b.height) * 0.9, band: b });
     return;
   } else if (curUi === 'liquid') {
     if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 8 + tier * 2, colors: ['#FF007F', '#7928CA'] });
@@ -3110,7 +3117,7 @@ function _spawnStreakParticles(tier) {
       return;
     } else if (curUi === 'cyber') {
       if (window.MecFX.cyberTargetLock) window.MecFX.cyberTargetLock(cx, cy, { maxR: maxR, glitchCount: 8 + tier * 3 });
-      if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 8 + tier * 3, color: '#00FF66' });
+      if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 8 + tier * 3, color: '#00FF66', w: maxR * 2, band: b });
       if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#00FF66', thickness: 2.5, maxR: maxR * 1.05, additive: true });
       return;
     } else if (curUi === 'liquid') {
@@ -3475,14 +3482,19 @@ function _spawnFirework(tier) {
 // 旧実装は body 全体への filter で iPad では最重量級だったため、
 // 軽い transform ジッター + Canvas のグリッチ帯に置き換え
 function _triggerGlitch(tier) {
-  if (tier < 5) return;
+  // ⚠️ ここに `if (tier < 5) return;` を戻さないこと（§13-2）。呼び出し側が既に tier>=4 で
+  // 絞っているので二重ゲートであり、**ちょうど10連続（tier5）でグリッチが急にデビューする**
+  // 段差を作っていた（梯子は 3/5/7/10/14/20）。本数を tier で連続に増やして段差を均す。
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const heavy = !!theme.useHeavyGlitch;
   if (window.MecFX) {
+    // ⚠️ 帯は全幅のまま（「画面全体が乱れる」意匠）。ただし band を渡して
+    // 可視帯の中だけに描く＝iPad で約180px あるヘッダの裏に帯を描かない。
     window.MecFX.glitchBars({
-      count: (tier >= 6 ? 14 : 9) + (heavy ? 5 : 0),
+      count: Math.round(4 + tier * 1.7) + (heavy ? 5 : 0),
       thick: tier >= 6,
-      long: heavy
+      long: heavy,
+      band: _fxBand()
     });
   }
   const amp = tier >= 7 ? 9 : tier >= 6 ? 7 : 4;
@@ -3606,7 +3618,7 @@ function _spawnScatteredCelebration(theme) {
       window.MecFX.sparks(_sb.cx, _sb.cy, { count: 18 + t * 4, colors: ['#FFD700', '#FFA040'] });
       return;
     } else if (curUi === 'cyber') {
-      window.MecFX.glitchBars({ count: 6 + t * 2, color: '#00FF66' });
+      window.MecFX.glitchBars(_sb.cx, _sb.cy, { count: 6 + t * 2, color: '#00FF66', w: Math.min(_sb.width, _sb.height) * 0.9, band: _sb });
       return;
     } else if (curUi === 'liquid') {
       window.MecFX.bubbles(_sb.cx, _sb.cy, { count: 18 + t * 4, colors: ['#FF007F', '#7928CA'] });
@@ -5216,7 +5228,9 @@ function _triggerWarpGate(n) {
   document.body.appendChild(ov);
   if (window.MecFX) {
     const b = _fxBand();
-    window.MecFX.warp({ count: 18, color: '#FFD700' });
+    // ⚠️ warp が読むのは colors（複数形）。color を渡しても黙って既定の白/紫/水色で出る（§13-3 P5）。
+    //    発火点も既定は画面中央なので、可視帯の中心を明示して渡す。
+    window.MecFX.warp({ count: 18, x: b.cx, y: b.cy, colors: ['#FFD700', '#FFF3C4', '#FFFFFF'] });
     window.MecFX.burst(b.cx, b.cy, { count: 36, colors: ['#FFD700', '#00E5FF', '#FFFFFF'], shapes: ['star', 'gem'], tier: 5, scale: 1.5 });
   }
   setTimeout(() => ov.remove(), 1100);

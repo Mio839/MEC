@@ -283,9 +283,13 @@
         return;
       }
       case 'bar': { // グリッチ帯（毎フレーム位置が飛ぶ）
-        var by = Math.random() * H;
+        // bTop/bBot は可視帯（未指定なら 0〜H＝従来どおり全高）。
+        // bw は帯の横幅（未指定なら 0＝全幅＝従来どおり）。§13 G1-b。
+        var bt = p.bTop || 0, bb = (p.bBot != null ? p.bBot : H);
+        var by = bt + Math.random() * Math.max(1, bb - bt);
         ctx.fillStyle = p.color;
-        ctx.fillRect(0, by, W, p.h);
+        if (p.bw) ctx.fillRect(p.bx, by, p.bw, p.h);
+        else ctx.fillRect(0, by, W, p.h);
         return;
       }
       case 'steam': {
@@ -964,7 +968,9 @@
 
   /** 中心から放射するワープ光線 */
   function warp(o) {
-    var colors = o.colors || ['#FFFFFF', '#7C4DFF', '#40C4FF'];
+    o = o || {};
+    // ⚠️ 読むのは colors（複数形）。単数の color を渡している呼び出しがあったら直すこと（§13-3 P5）。
+    var colors = o.colors || (o.color ? [o.color] : ['#FFFFFF', '#7C4DFF', '#40C4FF']);
     var cx = o.x != null ? o.x : W / 2;
     var cy = o.y != null ? o.y : H / 2;
     var n = o.count || 40;
@@ -1243,14 +1249,36 @@
   }
 
   /** グリッチ帯（RGBスプリット風の水平バー） */
-  function glitchBars(o) {
+  /**
+   * グリッチ帯。呼び出しは `glitchBars(o)` と `glitchBars(x, y, o)` の両方を受ける。
+   *
+   * ⚠️ 2引数目までを座標として受けるのは §13-3 P1 の修正。8箇所の呼び出しが
+   *    `glitchBars(cx, cy, {count, color})` の形で書かれており、1引数版に cx（数値）が
+   *    渡って `o` になっていたため **count も color も黙って捨てられていた**
+   *    （cyber スキンは緑を指定したつもりが既定の赤/シアン/白で出ていた）。
+   *
+   * o.w    … 帯の横幅（px）。未指定なら**全幅**＝従来どおり（エミッタの追加は純増の約束）。
+   * o.band … {top, bottom|vBottom} 可視帯。未指定なら**全高**＝従来どおり。
+   *          study_exam.js の `_fxBand()` をそのまま渡せる形にしてある。
+   * o.color / o.colors / o.count / o.thick / o.long は従来どおり。
+   */
+  function glitchBars(x, y, o) {
+    if (typeof x === 'object' && x !== null) { o = x; x = null; y = null; }
     o = o || {};
-    var cols = o.colors || ['rgba(255,0,60,.3)', 'rgba(0,210,255,.3)', 'rgba(255,255,255,.22)'];
+    var cols = o.colors || (o.color ? [o.color] : ['rgba(255,0,60,.3)', 'rgba(0,210,255,.3)', 'rgba(255,255,255,.22)']);
     var n = o.count || 10;
+    // 帯の横幅と左端。w 未指定は全幅（従来）。指定時は x（無ければ画面中央）を中心に置く。
+    var bw = o.w || 0;
+    var bx = bw ? ((x == null ? W / 2 : x) - bw / 2) : 0;
+    // 可視帯。未指定は全高（従来）。
+    var bTop = o.band ? o.band.top : 0;
+    var bBot = o.band ? (o.band.vBottom != null ? o.band.vBottom : o.band.bottom) : H;
+    if (!(bBot > bTop)) { bTop = 0; bBot = H; }
     for (var i = 0; i < n; i++) {
       addP({
         type: 'bar',
         x: 0, y: 0,
+        bx: bx, bw: bw, bTop: bTop, bBot: bBot,
         h: rnd(2, o.thick ? 14 : 9),
         color: pick(cols),
         blend: false,
