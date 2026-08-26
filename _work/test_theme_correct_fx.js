@@ -50,7 +50,10 @@ themes.forEach(theme => {
   assert(uiThemeCss.includes(`html.ui-${theme} .qc.exam-wrong-hit`), `Missing wrong hit damage animation for ${theme}`);
   
   // ゾーン呼吸
-  assert(uiThemeCss.includes(`html.ui-${theme} body.exam-streak-zone`), `Missing streak zone breathing animation for ${theme}`);
+  // §13 Z1: 呼吸は body の filter ではなく、専用レイヤー #examZoneBreath へ渡す変数で表す。
+  //          body に filter を掛けると #mecFxCanvas が文書全体の高さへ引き伸ばされる。
+  assert(new RegExp(`html\\.ui-${theme}\\s+body\\.exam-streak-zone[^}]*--zone-col`).test(uiThemeCss), `Missing --zone-col for ${theme}`);
+  assert(!new RegExp(`@keyframes\\s+${theme}ZoneBreathe`).test(uiThemeCss), `${theme}ZoneBreathe が復活している（body に filter・§13-1 ①）`);
   
   // 速答クリティカル
   assert(uiThemeCss.includes(`html.ui-${theme} .qc.exam-fast-hit .ch2.ok.correct`), `Missing fast hit style for ${theme}`);

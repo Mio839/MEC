@@ -42,6 +42,13 @@
     W = window.innerWidth; H = window.innerHeight;
     canvas.width = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
+    // §13 Z4（防御）: CSS 寸法を px で明示する。`width:100%;height:100%` のままだと、
+    // 祖先（とくに <body>）に filter / transform が付いた瞬間に包含ブロックが
+    // ビューポートから文書全体へ切り替わり、絵が丸ごと縦に引き伸ばされる
+    // （実測 1080px → 18680px）。px 固定なら少なくとも引き伸ばしは起きない。
+    // ⚠️ 位置ズレは残るので、これは body に filter を掛けない約束の代わりにはならない。
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
   }
 
   // ── 色ユーティリティ ────────────────────────────────────────

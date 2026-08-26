@@ -1020,6 +1020,7 @@ node _work/test_exam_brasswork.js  筐体の外へ広げた真鍮細工      (36
 node _work/test_mindmap_layout.js  マインドマップのレイアウト/データ (248)
 node _work/test_sounds.js          効果音の一覧・音量・ランダム起動音  (28)
 node _work/test_ui_theme.js        UIテーマ全8種（.qc への干渉・ネタバレ防止）(12)
+node _work/test_body_containing_block.js  body/html を position:fixed の包含ブロックにしない
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 
 # UIテーマの「自律進化ループ」（2026-08-23〜24）が置いていった検査。粒度が細かく
@@ -1651,9 +1652,30 @@ study.html(study_exam.js) ／ index.html ／ chapter_exam.js  ← 3つとも「�
   粒子・特大×nの焦点 `0.44×画面高` も上に寄って、上向きの粒子と数字が上端で切れていた。
   トースト・シグネチャ・TIER UP・全画面×n は**発火時にインラインで**帯の座標を入れる
   （CSSの `top:68px` / `top:112px` / `top:38%` / `inset:0` はフォールバック）。
-- ⚠️ **`document.body` を transform してはいけない**。transform された要素は `position:fixed` の
-  包含ブロックになるため、揺れている間だけ全演出がページ先頭基準になって画面外へ飛ぶ。
+- ⚠️⚠️ **`<body>` / `<html>` に `transform` `filter` `backdrop-filter` `perspective`
+  `will-change:transform` `contain` を掛けてはいけない（JS でも CSS でも）**。これらが付いた要素は
+  `position:fixed` の子孫の**包含ブロック**になるため、掛かっている間だけ
+  ① 全演出（トースト・特大×n・ボーダー・タイムストップ・FXキャンバス）が
+  **ビューポートではなく文書**を基準に置かれ、
+  ② `#mecFxCanvas`（`inset:0;width:100%;height:100%`）は**箱だけが文書の高さまで伸びて
+  バッキングストアはビューポート寸法のまま**になり、**描いた絵が丸ごと縦に引き伸ばされる**
+  （2026-08-26 実測: 麻酔科52問で 1080px → 18680px ＝ **17.3倍**、解説を開くと 28.7倍。
+  同心円リングが画面の天地を貫く縦線になる）。
+  ⚠️ **`filter` は `transform` と完全に同じ効果を持つ**——2026-08-23〜24 の自律進化ループが
+  `body.exam-streak-zone`（8UIテーマ・**10連続で発火し `infinite alternate`**）と
+  `body.exam-slash-freeze` に `filter` を、`body.exam-screen-shake` に `transform` を
+  CSS で入れて、この不変条件がまるごと破られていた。**JS 側だけ守っても意味がない。**
   画面を揺らす演出は `_shakeFxLayers()` / `ceShakeFxLayers()`（canvas＋ヴィネットだけを揺らす）を使う。
+  検査は `node _work/test_body_containing_block.js`（セレクタの主体が body/html のルールと、
+  そこから参照される `@keyframes` の両方を走査する）。
+- 📌 **画面の揺れの方針（2026-08-26 にユーザーが更新）**——以前の「画面を揺らさない」
+  （`fx_engine.js` の `shakeScreen()` が空実装になっている）は**全面禁止ではなくなった**。
+  **禁止されるのは「正解時」と「連続正解時」の揺れだけ**で、それ以外の領域
+  （UIテーマの切り替え、起動・章制覇などのセレモニー、誤答のフィードバック等）では**揺らしてよい**。
+  理由: 解答直後の揺れは**読解と次の一手の妨げ**になるが、画面が切り替わる場面の揺れは
+  手応えとして働くため。
+  ⚠️ **「揺らしてよい」と「body を揺らしてよい」は別**。どこで揺らす場合でも上の不変条件は
+  絶対で、`<body>` を transform せず演出レイヤーだけを揺らすこと。
 - ⚠️ 試験終了時に `opacity:0!important` を張る要素（`examStreakToast`・`streakFullscreen`・
   `examStreakBorder`）は、**次の発火で `removeProperty('opacity')` すること**。
   `!important` は WAAPI アニメより強いので、外さないと同じページの2回目以降の試験で一度も出ない。

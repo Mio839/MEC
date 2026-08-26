@@ -479,6 +479,20 @@ body.exam-mode .qc:has(.exam-instant-wrong){animation:cardWrongGlow .8s ease for
 #examStreakFlash{position:fixed;inset:0;pointer-events:none;z-index:9050;opacity:0;}
 #examStreakFlash.flash{animation:streakFlashIn .75s ease forwards;}
 #examStreakBorder{position:fixed;inset:0;pointer-events:none;z-index:9045;opacity:0;}
+/* §13 Z1: ゾーン状態（10連続正解）のアンビエント呼吸。
+   ⚠️⚠️ これを `body { filter: brightness(...) }` へ戻さないこと。filter が none でない要素は
+   position:fixed の子孫の包含ブロックになり、#mecFxCanvas（fixed/inset:0/100%）が
+   文書全体の高さへ引き伸ばされる＝全演出が縦に伸びる（実測17〜28倍・§13-1）。
+   色と周期は ui_theme.css の ⑫ が --zone-col / --zone-beat / --zone-a で差す（8テーマ）。
+   z-index は #mecFxCanvas(9070)・#examShakeOverlay(9040)・#examStreakBorder(9045) より下＝
+   粒子と外周グローは常にこの色被りの上に出る。 */
+#examZoneBreath{position:fixed;inset:0;pointer-events:none;z-index:9035;opacity:0;
+  background:rgba(var(--zone-col,255,215,0),var(--zone-a,.05));}
+body.exam-streak-zone #examZoneBreath{animation:zoneBreathe var(--zone-beat,3.2s) ease-in-out infinite alternate;}
+@keyframes zoneBreathe{0%{opacity:.12}100%{opacity:1}}
+@media (prefers-reduced-motion: reduce){
+  body.exam-streak-zone #examZoneBreath{animation:none;opacity:0;}
+}
 /* display:none を既定に。JSがタイムストップ演出中だけ display を空にして表示する。
    これがないと backdrop-filter を持つ全画面要素が常時重なり、一部端末（iPad/WebKit）で
    画面が暗いまま残る不具合につながる。 */
@@ -1588,15 +1602,11 @@ body.exam-overdrive::before {
 }
 
 /* 【案3】不正解スクリーンシェイク ＆ 警告レッドフラッシュ */
-body.exam-screen-shake {
-  animation: screenShakeAnim .38s cubic-bezier(.36,.07,.19,.97) both;
-}
-@keyframes screenShakeAnim {
-  10%, 90% { transform: translate3d(-3px, 2px, 0); }
-  20%, 80% { transform: translate3d(4px, -3px, 0); }
-  30%, 50%, 70% { transform: translate3d(-6px, 4px, 0); }
-  40%, 60% { transform: translate3d(6px, -4px, 0); }
-}
+/* ⚠️⚠️ 揺れの実装をここ（CSS で body を transform する形）へ戻さないこと（§13-1 ③）。
+   body を transform すると body が position:fixed の包含ブロックになり、揺れている間だけ
+   全演出（トースト・特大×n・粒子canvas）がページ先頭基準になって画面外へ飛ぶ。
+   誤答時に揺れること自体は禁止していない（§13-5）——揺らすのは演出レイヤーだけ＝
+   _shakeFxLayers() / ceShakeFxLayers() を使う。body.exam-screen-shake はもう何も描かない。 */
 body.exam-red-flash::after {
   content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
   background: radial-gradient(ellipse at 50% 50%, rgba(255,0,0,.25) 0%, rgba(255,0,0,.65) 100%);
@@ -1608,7 +1618,10 @@ body.exam-red-flash::after {
 }
 
 /* 【案6】神速スラッシュ残像フリーズ */
-body.exam-slash-freeze {
+/* ⚠️ filter は body ではなくカード側に掛ける（§13-1 ②／Z2）。body に掛けると
+   #mecFxCanvas が文書全体の高さへ引き伸ばされる。
+   バレットタイム（案2）が既に `.qc` 側へ掛けているのでそれに倣う。 */
+body.exam-slash-freeze .qc {
   filter: contrast(1.3) brightness(1.2);
   transition: filter .12s ease-out;
 }
@@ -1635,7 +1648,7 @@ body.exam-slash-freeze {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body.exam-overdrive::before, .qc.card-3d-pop, body.exam-screen-shake, body.exam-red-flash::after, .exam-hard-pop {
+  body.exam-overdrive::before, .qc.card-3d-pop, body.exam-red-flash::after, .exam-hard-pop {
     animation: none;
   }
 }

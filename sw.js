@@ -1,3 +1,13 @@
+// 2026-08-26j: §13 Z1〜Z6 — 10連続正解で全演出が縦に引き伸ばされるバグの真因を断つ。
+//   - ui_theme.css / study.css: body.exam-streak-zone の filter（8テーマ）・body.exam-screen-shake の
+//     transform・body.exam-slash-freeze の filter を撤去。filter/transform が付いた body は
+//     position:fixed の包含ブロックになり #mecFxCanvas が文書全体の高さへ伸びる（実測17.3倍）。
+//     ゾーンの呼吸は専用レイヤー #examZoneBreath（opacity のみ）＋テーマ変数へ、
+//     誤答の揺れは _shakeFxLayers()（演出レイヤーだけ）へ、フリーズの filter は .qc へ移した。
+//   - fx_engine.js: resize() でキャンバスの CSS 寸法を px で明示（防御）。
+//   - study_exam.js / chapter_exam.js: exitExam / cleanup で exam-streak-zone を必ず落とす。
+//   - _work/test_body_containing_block.js（新設）が CSS 側の再発を門番する。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-26i: 10連続正解時（Tier 5）のエフェクト空間的引き伸ばしバグを解消。
 //   - study_exam.js / chapter_exam.js: 全画面「×n」コンボの文字数連動スケーリング（2桁以上で係数0.29へ縮小）・光彩spread制限、衝撃波リング・稲妻の可視帯短辺基準（maxR）クランプ、墨スワイプ幾何の可視領域内収束。
 //   - fx_engine.js: lightning（稲妻）の最大長を画面短辺（maxR）でクランプし、過大なジッター揺れを抑制。
@@ -493,7 +503,7 @@ const CACHE = "mec-v176";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-26i";
+const SHELL_VERSION = "2026-08-26j";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

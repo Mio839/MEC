@@ -530,7 +530,9 @@
     exam.active = false;
     ceZoneStop(false); ceSetAwaken(false);
     clearInterval(exam.timerInt);
-    document.body.classList.remove.apply(document.body.classList, ['ch-exam-mode'].concat(CE_EFFECT_SETS.map(function (s) { return 'ch-effect-' + s; })));
+    // §13 Z6: ゾーン状態は誤答するまで掛かりっぱなしなので、10連続のまま試験を終えると
+    // 通常閲覧へ持ち越される。exam-mode と一緒に必ず落とす。
+    document.body.classList.remove.apply(document.body.classList, ['ch-exam-mode', 'exam-streak-zone'].concat(CE_EFFECT_SETS.map(function (s) { return 'ch-effect-' + s; })));
     var btn = document.getElementById('chExamBtn');
     if (btn) btn.classList.remove('exam-on');
     document.querySelectorAll('.qc').forEach(function (c) {

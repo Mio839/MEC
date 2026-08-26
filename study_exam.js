@@ -941,12 +941,7 @@ function revealAnswer(card) {
         _clearDarkFx();
         _zoneStop(true);   // B5: ゾーン崩壊（漂う粒子が一点に吸い込まれて消える）
         document.body.classList.remove('exam-overdrive');
-        if (!_fxOff()) {
-          document.body.classList.remove('exam-screen-shake', 'exam-red-flash');
-          void document.body.offsetWidth;
-          document.body.classList.add('exam-screen-shake', 'exam-red-flash');
-          setTimeout(() => document.body.classList.remove('exam-screen-shake', 'exam-red-flash'), 420);
-        }
+        _wrongDamageFx();
       } catch (err) {
         console.error('[ExamFx] Error in multi-wrong fx:', err);
       }
@@ -2079,6 +2074,7 @@ function _applyCardThemeComboFx(card, isCorrect, streak) {
 
     // ⑫ 10連勝以上のゾーン状態（アンビエント呼吸）制御
     if (streak >= 10) {
+      _ensureZoneBreath();
       document.body.classList.add('exam-streak-zone');
     }
 
@@ -2340,12 +2336,7 @@ function _afterWrongFx(card, fxEl, brokeStreak) {
   _markCardScar(card);
   _shatterComboMeter(brokeStreak || 0);
   document.body.classList.remove('exam-overdrive');
-  if (!_fxOff()) {
-    document.body.classList.remove('exam-screen-shake', 'exam-red-flash');
-    void document.body.offsetWidth;
-    document.body.classList.add('exam-screen-shake', 'exam-red-flash');
-    setTimeout(() => document.body.classList.remove('exam-screen-shake', 'exam-red-flash'), 420);
-  }
+  _wrongDamageFx();
   if (_examTheme().useFlatline) _ecgFlatline();
   const uid = card && card.dataset && card.dataset.uid;
   if (uid && _isRepeatWrongChoice(uid, fxEl)) setTimeout(() => _triggerRepeatWrong(fxEl), 260);
@@ -2928,6 +2919,49 @@ function _shakeFxLayers(frames, timing) {
   if (fxCanvas) fxCanvas.animate(frames, timing);
   const ov = document.getElementById('examShakeOverlay');
   if (ov) ov.animate(frames, timing);
+}
+
+// §13 Z1: ゾーン状態（10連続正解）の色被り用レイヤー。
+// 旧実装は ui_theme.css が `<body>` に filter:brightness() を掛けており、body が
+// position:fixed の包含ブロックになるため #mecFxCanvas（fixed/inset:0/100%）が
+// 文書全体の高さへ引き伸ばされていた（実測 1080px → 18680px＝17.3倍。同心円リングの
+// 脇腹だけが天地を貫く縦線として残る＝ユーザー報告の症状そのもの）。
+// 見えていた実効は「画面が 6〜12% 明るくなって呼吸する」だけなので、専用レイヤーを
+// opacity で呼吸させる形へ置き換えた。色・周期・濃さは ui_theme.css の ⑫ が変数で差す。
+function _ensureZoneBreath() {
+  let el = document.getElementById('examZoneBreath');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'examZoneBreath';
+    el.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9035;opacity:0;';
+    document.body.appendChild(el);
+  }
+  return el;
+}
+
+// §13 Z3: 誤答のダメージ演出（赤フラッシュ＋揺れ）。
+// ⚠️⚠️ 揺れを `body.exam-screen-shake`（CSS の @keyframes screenShakeAnim が
+// `<body>` を translate3d する）へ戻さないこと。body を transform すると body が
+// position:fixed の包含ブロックになり、揺れている 420ms のあいだ全演出
+// （トースト・特大×n・粒子canvas）がページ先頭基準になって画面外へ飛ぶ。
+// 揺れること自体は禁じていない（§13-5）——揺らすのは演出レイヤーだけにする。
+// 赤フラッシュは body::after の疑似要素なのでクラスのままでよい（filter も transform も無い）。
+function _wrongDamageFx() {
+  if (_fxOff()) return;
+  document.body.classList.remove('exam-red-flash');
+  void document.body.offsetWidth;
+  document.body.classList.add('exam-red-flash');
+  setTimeout(() => document.body.classList.remove('exam-red-flash'), 420);
+  _ensureShakeOverlay();
+  _shakeFxLayers([
+    { transform: 'translate(0,0)' },
+    { transform: 'translate(-3px,2px)' },
+    { transform: 'translate(4px,-3px)' },
+    { transform: 'translate(-6px,4px)' },
+    { transform: 'translate(6px,-4px)' },
+    { transform: 'translate(-3px,2px)' },
+    { transform: 'translate(0,0)' }
+  ], { duration: 380, easing: 'cubic-bezier(.36,.07,.19,.97)' });
 }
 
 // 演出用の固定オーバーレイ（周縁ヴィネット）。body を揺らさないための受け皿。
@@ -4795,7 +4829,7 @@ function exitExam() {
   _lastSessionWasSrs = _srsReviewMode;
   _lastSessionWasTodayWrong = _todayWrongMode;
   // ⚠️ 稼働灯(D9)は点灯クラスとタイマーの両方を落とすこと。残ると通常閲覧のヘッダで光が走り続ける。
-  document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink', 'exam-sprint', 'exam-idle-lit', 'exam-overdrive', 'exam-screen-shake', 'exam-red-flash', 'exam-slash-freeze');
+  document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink', 'exam-sprint', 'exam-idle-lit', 'exam-overdrive', 'exam-screen-shake', 'exam-red-flash', 'exam-slash-freeze', 'exam-streak-zone', 'exam-bullet-time');
   document.querySelector('.exam-prog-track')?.classList.remove('exam-prog-complete');
   clearTimeout(_examIdleTimer); _examIdleTimer = null;
   _examIdleHoldUntil = 0; _examIdleFocusUid = null; _examIdleFocusAt = 0;

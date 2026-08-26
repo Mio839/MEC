@@ -7030,23 +7030,24 @@ html.ui-frost .qc.exam-wrong-hit { animation: frostWrongDamage .36s ease-out !im
 @keyframes frostWrongDamage { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-1.5deg) scale(0.98); filter: contrast(1.6); } 70% { transform: rotate(1.5deg); } }
 
 /* ── ⑫ ゾーン状態（10連勝以上）アンビエント呼吸 (body.exam-streak-zone) ── */
-html.ui-aurora body.exam-streak-zone { animation: auroraZoneBreathe 3.2s ease-in-out infinite alternate !important; }
-html.ui-brass body.exam-streak-zone { animation: brassZoneBreathe 2.8s ease-in-out infinite alternate !important; }
-html.ui-cyber body.exam-streak-zone { animation: cyberZoneBreathe 1.8s ease-in-out infinite alternate !important; }
-html.ui-liquid body.exam-streak-zone { animation: liquidZoneBreathe 3.6s ease-in-out infinite alternate !important; }
-html.ui-kintsugi body.exam-streak-zone { animation: kintsugiZoneBreathe 4.0s ease-in-out infinite alternate !important; }
-html.ui-celestial body.exam-streak-zone { animation: celestialZoneBreathe 3.4s ease-in-out infinite alternate !important; }
-html.ui-abyss body.exam-streak-zone { animation: abyssZoneBreathe 4.2s ease-in-out infinite alternate !important; }
-html.ui-frost body.exam-streak-zone { animation: frostZoneBreathe 3.0s ease-in-out infinite alternate !important; }
-
-@keyframes auroraZoneBreathe { 0% { filter: brightness(1) drop-shadow(0 0 0 transparent); } 100% { filter: brightness(1.08) drop-shadow(0 0 35px rgba(0,229,255,0.45)); } }
-@keyframes brassZoneBreathe { 0% { filter: brightness(1); } 100% { filter: brightness(1.09) drop-shadow(0 0 35px rgba(255,215,0,0.4)); } }
-@keyframes cyberZoneBreathe { 0% { filter: brightness(1); } 100% { filter: brightness(1.12) drop-shadow(0 0 35px rgba(0,255,102,0.45)); } }
-@keyframes liquidZoneBreathe { 0% { filter: brightness(1); } 100% { filter: brightness(1.08) drop-shadow(0 0 35px rgba(255,0,128,0.45)); } }
-@keyframes kintsugiZoneBreathe { 0% { filter: brightness(1); } 100% { filter: brightness(1.06) drop-shadow(0 0 30px rgba(245,208,97,0.35)); } }
-@keyframes celestialZoneBreathe { 0% { filter: brightness(1); } 100% { filter: brightness(1.08) drop-shadow(0 0 35px rgba(255,209,102,0.4)); } }
-@keyframes abyssZoneBreathe { 0% { filter: brightness(1); } 100% { filter: brightness(1.07) drop-shadow(0 0 35px rgba(0,255,163,0.4)); } }
-@keyframes frostZoneBreathe { 0% { filter: brightness(1); } 100% { filter: brightness(1.08) drop-shadow(0 0 35px rgba(112,214,255,0.4)); } }
+/* ⚠️⚠️ ここで `<body>` に filter を掛けないこと（§13-1）。filter が none でない要素は
+   position:fixed の子孫の包含ブロックになる（transform と同じ）。#mecFxCanvas は
+   `position:fixed;inset:0;width:100%;height:100%` なので、基準がビューポートから
+   文書全体の高さへ切り替わり、キャンバスの絵が丸ごと縦に引き伸ばされる
+   （実測 1080px → 18680px＝17.3倍。同心円リングが天地を貫く縦線になる）。
+   実効は「画面が 6〜12% 明るくなって呼吸する」だけだった（drop-shadow は body の
+   不透明背景の外側＝全部画面外）ので、専用の固定レイヤー #examZoneBreath を
+   opacity だけで呼吸させる形へ置き換えた。実体は study.css・作るのは study_exam.js。
+   ⚠️ 8テーマぶんの @keyframes を並べる形へ戻さないこと（同じ絵を8回書くと直すたび8か所）。
+   ここが持つのは色と周期の変数だけ。 */
+html.ui-aurora    body.exam-streak-zone { --zone-col: 0,229,255;   --zone-beat: 3.2s; --zone-a: .048; }
+html.ui-brass     body.exam-streak-zone { --zone-col: 255,215,0;   --zone-beat: 2.8s; --zone-a: .054; }
+html.ui-cyber     body.exam-streak-zone { --zone-col: 0,255,102;   --zone-beat: 1.8s; --zone-a: .072; }
+html.ui-liquid    body.exam-streak-zone { --zone-col: 255,0,128;   --zone-beat: 3.6s; --zone-a: .048; }
+html.ui-kintsugi  body.exam-streak-zone { --zone-col: 245,208,97;  --zone-beat: 4.0s; --zone-a: .036; }
+html.ui-celestial body.exam-streak-zone { --zone-col: 255,209,102; --zone-beat: 3.4s; --zone-a: .048; }
+html.ui-abyss     body.exam-streak-zone { --zone-col: 0,255,163;   --zone-beat: 4.2s; --zone-a: .042; }
+html.ui-frost     body.exam-streak-zone { --zone-col: 112,214,255; --zone-beat: 3.0s; --zone-a: .048; }
 
 /* ── ⑥ 速答クリティカル演出 (.qc.exam-fast-hit) ── */
 html.ui-aurora .qc.exam-fast-hit .ch2.ok.correct { box-shadow: 0 0 55px rgba(0, 229, 255, 1), 0 0 35px rgba(121, 40, 202, 1) !important; }
