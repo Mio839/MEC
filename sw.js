@@ -1,3 +1,10 @@
+// 2026-08-26l: §13 P6 — テーマ選択パネルの「適用中」バッジの文字化けを修正。
+//   - ui_theme.css: .ui-theme-btn.active::after の content が '笨� 驕ｩ逕ｨ荳ｭ' になっており、
+//     画面に出る唯一の実害だった（他の161行はコメント内で無害）。正しい文字列は clean な
+//     6d80c05 から取得＝'✓ 適用中'。混入は d86222c（2026-08-23 のUIテーマ自律進化）。
+//   - _work/test_ui_theme.js: レンダリング対象（コメント外）に U+FFFD が無いことと、
+//     バッジが「適用中」であることを検査する項目を追加。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-26k: §13 G1 / P1〜P5 — グリッチ帯の幾何と、黙って壊れていた4件。
 //   - fx_engine.js: glitchBars が (x,y,o) の3引数形も受けるようにし（P1: 8箇所が3引数で呼んでいて
 //     count/color が黙って捨てられていた）、w（帯の幅）と band（可視帯）を足した。未指定なら従来どおり全幅・全高。
@@ -516,7 +523,7 @@ const CACHE = "mec-v176";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-26k";
+const SHELL_VERSION = "2026-08-26l";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

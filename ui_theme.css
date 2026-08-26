@@ -4574,7 +4574,7 @@ html.ui-frost .mec-undo-btn {
 }
 
 .ui-theme-btn.active::after {
-  content: '笨� 驕ｩ逕ｨ荳ｭ';
+  content: '✓ 適用中';
   position: absolute;
   top: 6px;
   right: 8px;

@@ -165,5 +165,25 @@ test('全8テーマで試験モード未開示時に .ch2.ok が隠蔽される'
   assert(!themeCss.includes('html.ui-abyss body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected) {\n  background: rgba(4, 18, 38, 0.75) !important;\n  border: 1.5px solid rgba(0, 255, 163, 0.28) !important;\n  border-left: 1.5px solid rgba(0, 255, 163, 0.28) !important;\n  border-radius: 14px !important;\n  color: #F0FDFA !important;\n  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;\n  font-weight: 500 !important;\n  box-shadow: none'), 'Abyss must not have distinct border-left (1.5px) in unrevealed exam mode');
 });
 
+console.log('── 6. 画面に出る文字列に文字化けが無いこと ──');
+// 2026-08-26: `.ui-theme-btn.active::after` の content が `'笨� 驕ｩ逕ｨ荳ｭ'` になっており、
+// **テーマ選択パネルで「適用中」バッジが文字化けして表示されていた**（U+FFFD 入り）。
+// 混入は d86222c（2026-08-23 の UIテーマ自律進化）で、その親は clean。
+// ⚠️ コメントの中の文字化けは実害が無いのでここでは見ない。見るのは
+//    **レンダリングされる CSS（コメントを除いた本体）** だけ——そこに U+FFFD があれば
+//    それは必ず content / font-family など画面に出る文字列である。
+test('ui_theme.css のレンダリング対象に U+FFFD が無い（コメントは対象外）', () => {
+  const noComments = themeCss.replace(/\/\*[\s\S]*?\*\//g, '');
+  const bad = noComments.split('\n').filter(l => l.indexOf('�') >= 0);
+  assert(bad.length === 0,
+    'コメント外に文字化けがある（画面に出る）→ ' + bad.map(l => l.trim().slice(0, 60)).join(' / '));
+});
+test('テーマ選択の「適用中」バッジが正しい文字列である', () => {
+  const m = /\.ui-theme-btn\.active::after\s*\{[^}]*?content\s*:\s*('[^']*'|"[^"]*")/.exec(themeCss);
+  assert(m, '.ui-theme-btn.active::after の content が見つからない');
+  assert(m[1].indexOf('�') < 0, 'バッジの文字列が文字化けしている → ' + m[1]);
+  assert(/適用中/.test(m[1]), 'バッジが「適用中」でない → ' + m[1]);
+});
+
 console.log('\n全 ' + passed + ' 件 ok\n');
 
