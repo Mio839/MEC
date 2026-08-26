@@ -50,7 +50,7 @@
 | `放射線科/` | マイナー講座・放射線科（prefix `rad`・☢️・#475569）。章別HTML(`ch01_josho.html`〜)＋`images/`＋`rad_questions.json`（章名メタ）。HTMLが`questions_rad.json`のソース＝`_work/build_rad_ch{NN}.py`→`_work/build_rad_json.py`で再生成。**全4章60問**。⚠️ **この科目だけPDFが2冊**（問題41p＋レジュメ43p）で**レジュメが解説の正本**。抽出・照合は `_work/rad_pdf.py`／`_work/verify_rad_ch.py`。⚠️ **この科目の章を書く・直すときは `_work/放射線科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・分割生成器はそこが正本） |
 | `中毒・職業病/` | **マイナー講座ではなく横断テーマ**（prefix `tox`・☠️・#65A30D）。章別HTML(`ch01_kinzoku_chudoku.html`〜`ch07_butsuriteki_shikkan.html`)＋`tox_questions.json`（章名メタ）。HTMLが`questions_tox.json`のソース＝`_work/build_tox_ch{NN}.py`→`_work/build_tox_json.py`で再生成。**全7章48問・画像0枚**。⚠️ **版面が他科目と違う**（レジュメと問題が交互に並ぶ／解答表に★列・CBT列が無い）。抽出・照合は `_work/tox_pdf.py`／`_work/verify_tox_ch.py`。⚠️ **この科目の章を書く・直すときは `_work/中毒・職業病_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問はそこが正本） |
 | `公衆衛生/` | **マイナー講座ではなく独立した公衆衛生講座**（prefix `ph`・🏛・#0891B2）。章別HTML(`ch01_ishihou_to_iryouhou.html`〜)＋`ph_questions.json`（全19章の章名メタ）。HTMLが`questions_ph.json`のソース＝`_work/build_ph_ch{NN}.py`→`_work/build_ph_json.py`で再生成。**全19章619問のうち7章226問が完成（進行中）**。⚠️ **この科目もPDFが2冊**（問題283p＋レジュメ96p）で**レジュメが解説の正本**。抽出・照合は `_work/ph_pdf.py`／`_work/verify_ph_ch.py`。⚠️⚠️ **次の章に着手するときは `_work/公衆衛生_章作業手順.md` 1本だけを読む**——**このCLAUDE.mdの行や他の資料を並行して読ませないこと**（参照が3本に散ると末端の約束が落ちる）。章ごとの軸・罠・座標の台帳は `_work/公衆衛生_引き継ぎ.md` |
-| `眼科/` | マイナー講座・眼科（prefix `oph`・👁️・#0E7490）。章別HTML(`ch01_ganka_kihon.html`〜)＋`images/`＋`oph_questions.json`（章名メタ）。HTMLが`questions_oph.json`のソース＝`_work/build_oph_ch{NN}.py`→`_work/build_oph_json.py`で再生成。**全8章213問**。抽出は `_work/oph_pdf.py`（⚠️ `_work/verify_oph_ch.py` は**中身が空**＝この科目だけ照合スクリプトが無い）。⚠️ **この科目の章を書く・直すときは `_work/眼科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・図が選択肢の問題はそこが正本） |
+| `眼科/` | マイナー講座・眼科（prefix `oph`・👁️・#0E7490）。章別HTML(`ch01_ganka_kihon.html`〜)＋`images/`＋`oph_questions.json`（章名メタ）。HTMLが`questions_oph.json`のソース＝`_work/build_oph_ch{NN}.py`→`_work/build_oph_json.py`で再生成。**全8章213問**。抽出・照合は `_work/oph_pdf.py`／`_work/verify_oph_ch.py`（⚠️ 後者は長く**0バイト**で存在しないのと同じだった。2026-08-26に ent 版から復元＝全8章213問 errors=0。**`--dis` で解答一覧表の「疾患名」列を出せる**＝眼底写真の読みを裏取りする正本）。⚠️ **この科目の章を書く・直すときは `_work/眼科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・図が選択肢の問題はそこが正本） |
 | `皮膚科/` | マイナー講座・皮膚科（prefix `derm`・🩹・#B5654A）。章別HTML(`ch01_hifuka_kihon.html`〜)＋`images/`＋`derm_questions.json`（章名メタ）。HTMLが`questions_derm.json`のソース＝`_work/build_derm_ch{NN}.py`→`_work/build_derm_json.py`で再生成。**全9章249問**（画像問題が主体・PDF全体で埋め込みJPEG204枚）。⚠️ **この科目の章を書く・直すときは `_work/皮膚科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・章頭NO.はそこが正本） |
 
 ⚠️ **科目フォルダの行には「何のフォルダで、どう再生成するか」だけを書く。**
@@ -58,50 +58,32 @@
 
 ## 問題数
 
-実測値（`node -e`で `questions_*.json` の `chapters[].qs` を集計、2026-07-05時点）。
+⚠️⚠️ **ここに数字の表を置かないこと。** 章を足すたびに変わる数字を文書へ手で書くと必ず腐る——
+2026-08-26 まで `ph` の行が `5章155問` のまま残っており、実際は `7章226問`（2章71問ぶんのずれ）だった。
+**正本は `questions_*.json` だけ**で、実測はいつでもこれで出る:
 
-| 分野 | prefix | 章数 | 問題数 |
-|---|---|---|---|
-| 内分泌 | endo | 10 | 542 |
-| 呼吸器 | resp | 9 | 506 |
-| 循環器 | circ | 10 | 572 |
-| 消化器 | dige | 11 | 501 |
-| 神経 | neur | 11 | 594 |
-| 肝胆膵 | hbp | 8 | 418 |
-| 腎臓 | jinzo_d | 6 | 315 |
-| 血液 | hema | 8 | 378 |
-| 免アレ膠 | imma | 5 | 247 |
-| 感染症 | kansen | 22 | 356 |
-| 小児科 | peds | 13 | 373 |
-| 産婦人科 | obg | 13 | 685 |
-| **コア12科目 小計** | | **126章** | **5487問** |
-| 精神科（マイナー講座） | psy | 8 | 256 |
-| 皮膚科（マイナー講座） | derm | 9 | 249 |
-| 眼科（マイナー講座） | oph | 8 | 213 |
-| 耳鼻咽喉科（マイナー講座） | ent | 8 | 214 |
-| 泌尿器科（マイナー講座） | uro | 6 | 242 |
-| 整形外科（マイナー講座） | ortho | 6 | 174 |
-| 麻酔科（マイナー講座） | anes | 2 | 52 |
-| 放射線科（マイナー講座） | rad | 4 | 60 |
-| 中毒・職業病（横断テーマ） | tox | 7 | 48 |
-| 公衆衛生（公衆衛生講座） | ph | 5（全19章中） | 155（全619問中） |
-| 実力試験Ⅰ | jitsu1 | 2 | 160 |
-| 自作問題 | custom | 1 | 可変（現在28） |
-| 暗記メモ | memo | 4 | 可変（現在121） |
-| **総合計** | | **196章** | **7459問** |
+```bash
+node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋コア12科目の合計
+```
 
-※ `study.html` タイトルの「5487問」はコア12科目の合計（マイナー講座・実力試験・自作・暗記メモは含まない）。
-※ 精神科は2026-07-28に全8章完成。`study.html` の科目ヘッダは実数（256問）を出す。
-※ 皮膚科は2026-07-29に全9章249問が完成。`study.html` の科目ヘッダは実数（249問）を出す。
-※ 眼科は2026-07-30に第1・2章76問、2026-07-31に第3〜7章115問、2026-08-04に第8章22問を追加して**全8章213問が完成**。`study.html` の科目ヘッダは実数（213問）を出す。
-※ 泌尿器科は2026-08-11に第1章「泌尿器の基本」44問・第2章「腎」25問・第3章「尿管・膀胱・尿道」64問・第4章「前立腺」53問・第5章「精巣・外性器」28問、2026-08-12に第6章「泌尿器科感染症」28問を追加して**全6章242問が完成**（基本44／腎25／尿管膀胱尿道64／前立腺53／精巣外性器28／感染症28）。`study.html` の科目ヘッダは実数（242問）を出す。**これでマイナー講座5科目（psy/derm/oph/ent/uro）がすべて完成した。**
-※ 整形外科は2026-08-12に第1章「整形外科の基本」30問・第2章「神経の障害」43問・第3章「関節疾患」33問・第4章「骨　折」33問・第5章「その他の疾患」27問、2026-08-13に第6章「ロコモティブシンドロームとサルコペニア・フレイル」8問を追加して**全6章174問が完成**（基本30／神経の障害43／関節疾患33／骨折33／その他27／ロコモ8）。`study.html` の科目ヘッダは実数（174問）を出す。**これでマイナー講座6科目（psy/derm/oph/ent/uro/ortho）がすべて完成した。**
-※ 耳鼻咽喉科は2026-08-06に第1章20問・第2章30問・第3章48問・第4章3問・第5章36問、2026-08-07に第6章14問・第7章20問・第8章43問を追加して**全8章214問が完成**（耳20/30/48・鼻口唾3/36/14・咽喉頭20/43）。`study.html` の科目ヘッダは実数（214問）を出す。
-※ 麻酔科は2026-08-13に第1章「周術期の麻酔」35問・第2章「緩和医療」17問を追加して**全2章52問が完成**。`study.html` の科目ヘッダは実数（52問）を出す。**マイナー講座7科目め**で、PDFは35ページ・全52問と講座中で最小。**これでマイナー講座7科目（psy/derm/oph/ent/uro/ortho/anes）がすべて完成した。**
-※ 放射線科は2026-08-18に第1章「序　章」1問・第2章「放射線診断学」33問・第3章「放射線治療学」10問・第4章「医療安全・放射線防護」16問を追加して**全4章60問が完成**。`study.html` の科目ヘッダは実数（60問）を出す。**マイナー講座8科目め**で、**この科目だけPDFが2冊ある**（問題41ページ＋レジュメ43ページ）——解説はレジュメ編（放-2〜放-37）を下敷きに書いた。**これでマイナー講座8科目（psy/derm/oph/ent/uro/ortho/anes/rad）がすべて完成した。**
-※ 中毒・職業病は2026-08-19に全7章48問が完成（金属中毒4／有機溶剤中毒5／農薬中毒6／その他の中毒6／自然毒3／ガス体中毒6／物理的原因による疾患18）。`study.html` の科目ヘッダは実数（48問）を出す。**マイナー講座ではなく「横断テーマ」の独立PDF**で、版面が違う（レジュメと問題が交互に並ぶ・解答表に★列とCBT列が無い・画像0枚）。**これで科目prefixは全24となり、総合計191章7304問**。
-※ 公衆衛生は2026-08-25に第1章「医師法と医療法」71問・第2章「保健所」9問・第3章「死」32問・第4章「医療職」19問・第5章「医療保険」24問を追加（**全19章619問のうち第1〜5章155問が完成／残14章464問**）。`study.html` の科目ヘッダは実数（155問）を出す。**これで科目prefixは全25となり、総合計196章7459問**。**産婦人科685問に次ぐ規模の科目**で、**この科目だけPDFが2冊**（問題283ページ＋レジュメ96ページ）——**レジュメが解説の正本**。**マイナー講座ではなく独立した公衆衛生講座**。次は第6章「介護保険」NO.156-190（35問）。章を足すたびに総数が変わるので、`node _work/test_subject_totals.js` を必ず通すこと。
-　 章を足すたびに `gamify.js` の `total`・`chapters_meta.js`・`study.html` の `subj-hdr-count` を実数へ更新すること。
+区分（ここは章を足しても変わらない）:
+
+| 区分 | prefix |
+|---|---|
+| コア12科目 | `endo` `resp` `circ` `dige` `neur` `hbp` `jinzo_d` `hema` `imma` `kansen` `peds` `obg` |
+| マイナー講座8科目 | `psy` `derm` `oph` `ent` `uro` `ortho` `anes` `rad`（**全科目完成済み**） |
+| 横断テーマ | `tox`（マイナー講座ではない・版面が違う） |
+| 公衆衛生講座 | `ph`（マイナー講座ではない・**唯一の進行中**＝全19章619問） |
+| 非コア | `jitsu1`（実力試験Ⅰ）・`custom`（自作）・`memo`（暗記メモ） |
+
+⚠️ **章を足したら `gamify.js` の `total`・`chapters_meta.js`・`study.html` の `subj-hdr-count` を
+実数へ更新し、`node _work/test_subject_totals.js` を通すこと。** テストが守るのは**この3者の一致だけ**で、
+文書に書いた数字は誰も守らない（だからここに書かない）。
+
+⚠️ `study.html` タイトルの「5487問」は**コア12科目の合計**（マイナー講座・実力試験・自作・暗記メモを含まない）。
+科目を足しても増えないので、増やすときは意図的に判断すること。
+
+各科目がいつどの章を追加したかの経緯は `_work/{科目名}_引き継ぎ.md` にある。
 
 ## localStorage キー（全ページ共通）
 
@@ -832,9 +814,10 @@ node _work/test_exam_reading.js    読んでいる間の演出            (34)
 node _work/test_exam_brasswork.js  筐体の外へ広げた真鍮細工      (36)
 node _work/test_mindmap_layout.js  マインドマップのレイアウト/データ (248)
 node _work/test_sounds.js          効果音の一覧・音量・ランダム起動音  (28)
-node _work/test_ui_theme.js        UIテーマ全8種（.qc への干渉・ネタバレ防止）(12)
+node _work/test_ui_theme.js        UIテーマ全8種（.qc への干渉・ネタバレ防止）(14)
 node _work/test_body_containing_block.js  body/html を position:fixed の包含ブロックにしない
 node _work/test_glitch_bars.js     グリッチ帯の引数形・可視帯・幅（実ソースを回す）(14)
+node _work/test_theme_correct_fx.js  UIテーマ8種の正解演出・study/chapter の同期
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 
 # UIテーマの「自律進化ループ」（2026-08-23〜24）が置いていった検査。粒度が細かく
@@ -1389,10 +1372,10 @@ B1 の完了（`_subjLoadDone`）は `_finish` の rAF にぶら下がるが、*
 
 試験モード（🎓）で選択肢を選んだ瞬間に発火する視覚エフェクトの仕様。実装は `study_exam.js`（統合study.html用）と `chapter_exam.js`（章別過去問用・同一配色をミラー）。CSSアニメの一部は `study.css`。パーティクル描画は `fx_engine.js`（`window.MecFX`）。
 
-### 効果音は sounds/ の3フォルダ ＋ 生成された一覧が正本（2026-08-21に再編）
+### 効果音は sounds/ の4フォルダ ＋ 生成された一覧が正本（2026-08-21に再編）
 
 ```
-sounds/正解音/   sounds/起動音/   sounds/選択音/   ← 音の実体（ユーザーが置く）
+sounds/正解音/  sounds/起動音/  sounds/選択音/  sounds/結果画面/   ← 音の実体（ユーザーが置く）
 sounds/meta.json                                  ← 台帳（key / label / vol / peak）※人が編集する唯一の場所
         ↓ node _work/build_sounds_index.js
 sounds_index.js（window.MecSounds・派生物）        ← ファイル名・キー・音量の唯一の正本
@@ -1403,7 +1386,7 @@ study.html(study_exam.js) ／ index.html ／ chapter_exam.js  ← 3つとも「�
 **音を足す手順は3つだけ**——①フォルダに置く ②`sounds/meta.json` に1行足す
 ③`node _work/build_sounds_index.js`。**コードもHTMLも1文字も触らない**（設定画面のボタンは
 `_renderStudySoundGrid` / `_renderHubSoundGrid` が一覧から生成する）。あとは `sw.js` の
-`SHELL_VERSION` を bump して push。テスト: `node _work/test_sounds.js`（25件）。
+`SHELL_VERSION` を bump して push。テスト: `node _work/test_sounds.js`（28件）。
 
 ⚠️⚠️ **ファイル名の表を2本目に書かないこと。** 2026-08-21 まで `study_exam.js` の
 `CORRECT_WAVS`/`BOOT_WAV`・`index.html` の `HUB_CORRECT_WAVS`/`HUB_BOOT_WAV`・
