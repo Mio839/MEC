@@ -1229,6 +1229,12 @@ const MEC_CHAPTERS = [
         "file": "公衆衛生/ch07_jinkou.html",
         "title": "第7章 人　口",
         "count": 36
+      },
+      {
+        "prefix": "ph_ch08",
+        "file": "公衆衛生/ch08_ekigaku.html",
+        "title": "第8章 疫学研究",
+        "count": 46
       }
     ]
   }
