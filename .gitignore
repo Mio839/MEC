@@ -48,6 +48,10 @@ _work/_oph_tmp/
 _work/_ent_tmp/
 _work/_circ_tmp/
 _work/_uro_tmp/
+
+# 自動再開ツールの実行時状態・ログ（マシンローカル）
+_work/.auto_resume_state.json
+_work/auto_resume.log
 _work/_ortho_tmp/
 _work/_anes_tmp/
 _work/_rad_tmp/
