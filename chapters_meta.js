@@ -1265,6 +1265,12 @@ const MEC_CHAPTERS = [
         "file": "公衆衛生/ch13_shonihoken_gakkohoken.html",
         "title": "第13章 小児保健・学校保健",
         "count": 15
+      },
+      {
+        "prefix": "ph_ch14",
+        "file": "公衆衛生/ch14_shougai_normalization.html",
+        "title": "第14章 障害とノーマライゼーション",
+        "count": 45
       }
     ]
   }
