@@ -1241,6 +1241,12 @@ const MEC_CHAPTERS = [
         "file": "公衆衛生/ch09_kensagaku.html",
         "title": "第9章 検査学",
         "count": 9
+      },
+      {
+        "prefix": "ph_ch10",
+        "file": "公衆衛生/ch10_kenkouzoushin.html",
+        "title": "第10章 健康増進と生活習慣",
+        "count": 23
       }
     ]
   }
