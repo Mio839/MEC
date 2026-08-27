@@ -58,6 +58,26 @@ function Write-Log {
     Write-Host $line
 }
 
+function Show-ResumeToast {
+    # 音（beep_stop_hook.ps1等）だけでは「レート制限で止まっていたセッションを
+    # 自動再開した」という具体的な内容が伝わらず、気づけないという指摘（2026-08-28）
+    # を受けて追加。Windows標準のトースト通知（追加モジュール不要・非ブロッキング）。
+    # 失敗しても再開処理自体は止めない（ログにだけ残す）。
+    param([string]$Title, [string]$Message)
+    try {
+        [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null
+        [Windows.Data.Xml.Dom.XmlDocument, Windows.Data.Xml.Dom.XmlDocument, ContentType = WindowsRuntime] | Out-Null
+        $template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText02)
+        $texts = $template.GetElementsByTagName('text')
+        [void]$texts.Item(0).AppendChild($template.CreateTextNode($Title))
+        [void]$texts.Item(1).AppendChild($template.CreateTextNode($Message))
+        $toast = [Windows.UI.Notifications.ToastNotification]::new($template)
+        [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier('Windows PowerShell').Show($toast)
+    } catch {
+        Write-Log "⚠️ トースト通知に失敗（$_）。処理は続行します。"
+    }
+}
+
 function Load-State {
     if (Test-Path $StateFile) {
         return Get-Content $StateFile -Raw -Encoding UTF8 | ConvertFrom-Json
@@ -163,10 +183,14 @@ function Invoke-ClaudeTurn {
 }
 
 function Handle-Turn {
-    param([string]$Prompt, [string]$SessId)
+    param([string]$Prompt, [string]$SessId, [switch]$IsAutoResume)
 
     $startLabel = if ($SessId) { "resume=$SessId" } else { '新規セッション' }
     Write-Log "Claude起動: $startLabel"
+
+    if ($IsAutoResume) {
+        Show-ResumeToast -Title '🔄 MEC自動再開' -Message "レート制限で止まっていたセッションを再開しました（session=$($SessId.Substring(0,8))…）。バックグラウンドで作業を続けます。"
+    }
 
     # ⚠️ ここで status を 'running' に更新しないと、-Status は claude -p が
     # 完了するまで（数十分〜1時間規模になりうる）ずっと 'waiting' のまま表示され、
@@ -208,6 +232,9 @@ function Handle-Turn {
 
         Register-ScheduledResume $resetAt
         Write-Log "上限リセット待ち。次回実行予定: $resetAt"
+        if ($IsAutoResume) {
+            Show-ResumeToast -Title '⏳ MEC自動再開' -Message "再開直後に再びレート制限に到達しました。次回再試行: $($resetAt.ToString('MM/dd HH:mm'))"
+        }
         return
     }
 
@@ -220,8 +247,14 @@ function Handle-Turn {
 
     if ($r.ExitCode -eq 0) {
         Write-Log 'タスク完了（上限に当たらず正常終了）。'
+        if ($IsAutoResume) {
+            Show-ResumeToast -Title '✅ MEC自動再開' -Message '自動再開したタスクが完了しました。'
+        }
     } else {
         Write-Log "⚠️ 上限以外の理由でエラー終了しました（終了コード $($r.ExitCode)）。自動再試行はしません。ログを確認してください。"
+        if ($IsAutoResume) {
+            Show-ResumeToast -Title '⚠️ MEC自動再開' -Message "自動再開したタスクがエラー終了しました（コード $($r.ExitCode)）。ログを確認してください。"
+        }
     }
 }
 
@@ -289,6 +322,7 @@ function Handle-HookCapture {
     Save-State $state
     Register-ScheduledResume $resetAt
     Write-Log "上限リセット待ち（フック経由・無操作）。次回実行予定: $resetAt"
+    Show-ResumeToast -Title '⏸ MEC自動再開' -Message "レート制限を検知しました。$($resetAt.ToString('MM/dd HH:mm')) に自動再開します。"
 }
 
 if ($FromHook) {
@@ -345,7 +379,11 @@ if ($Resume) {
         Write-Log '❌ 状態ファイルが見つかりません。-Start からやり直してください。'
         exit 1
     }
-    Handle-Turn -Prompt '前回の続きから作業を再開してください。中断していたタスクを最後まで完了させてください。' -SessId $state.session_id
+    # 先頭に明示マーカーを付ける。後で `claude --resume` で会話履歴を開いたときに
+    # 「これは自動再開ツールが送った合成メッセージであってユーザーの発言ではない」
+    # と一目でわかるようにする（2026-08-28）。
+    $resumePrompt = "⏰[自動再開] レート制限で中断していたセッションを、上限リセット後（$(Get-Date -Format 'yyyy-MM-dd HH:mm')）に自動再開しました。前回の続きから作業を再開してください。中断していたタスクを最後まで完了させてください。"
+    Handle-Turn -Prompt $resumePrompt -SessId $state.session_id -IsAutoResume
     exit 0
 }
 
