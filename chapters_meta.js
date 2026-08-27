@@ -1259,6 +1259,12 @@ const MEC_CHAPTERS = [
         "file": "公衆衛生/ch12_boshihoken.html",
         "title": "第12章 母子保健",
         "count": 21
+      },
+      {
+        "prefix": "ph_ch13",
+        "file": "公衆衛生/ch13_shonihoken_gakkohoken.html",
+        "title": "第13章 小児保健・学校保健",
+        "count": 15
       }
     ]
   }
