@@ -1271,6 +1271,12 @@ const MEC_CHAPTERS = [
         "file": "公衆衛生/ch14_shougai_normalization.html",
         "title": "第14章 障害とノーマライゼーション",
         "count": 45
+      },
+      {
+        "prefix": "ph_ch15",
+        "file": "公衆衛生/ch15_kansensho.html",
+        "title": "第15章 感染症",
+        "count": 37
       }
     ]
   }
