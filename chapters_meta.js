@@ -1289,6 +1289,12 @@ const MEC_CHAPTERS = [
         "file": "公衆衛生/ch17_kankyoumondai.html",
         "title": "第17章 環境問題",
         "count": 11
+      },
+      {
+        "prefix": "ph_ch18",
+        "file": "公衆衛生/ch18_kaigaikyoryoku.html",
+        "title": "第18章 海外協力",
+        "count": 17
       }
     ]
   }
