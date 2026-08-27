@@ -1253,6 +1253,12 @@ const MEC_CHAPTERS = [
         "file": "公衆衛生/ch11_iyakuhin_shokuhin.html",
         "title": "第11章 医薬品・食品・嗜好品",
         "count": 12
+      },
+      {
+        "prefix": "ph_ch12",
+        "file": "公衆衛生/ch12_boshihoken.html",
+        "title": "第12章 母子保健",
+        "count": 21
       }
     ]
   }
