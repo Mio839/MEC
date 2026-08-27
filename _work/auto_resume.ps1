@@ -9,7 +9,12 @@ Claude Codeが使用上限（session/weekly limit）に達して停止したと�
   新規タスクを無人で開始:
     powershell -ExecutionPolicy Bypass -File _work\auto_resume.ps1 -Start "<タスクの指示文>"
 
-  今まさに対話セッションで上限に当たって止まった場合（そのセッションを引き継いで監視下に置く）:
+  ⚠️ 対話セッション（通常のclaude起動）が使用上限で止まった場合は手動操作は不要。
+  .claude\settings.json の StopFailure フック（matcher: rate_limit）が自動的に
+  このスクリプトを -FromHook 付きで呼び出し、session_idを検知してリセット時刻に
+  自動再開を登録する。ユーザーは何もしなくてよい。
+
+  （フックが未設定・失敗した場合の手動フォールバック）
     claude --resume  （引数なしで一覧表示 → 該当セッションIDを控える）
     powershell -ExecutionPolicy Bypass -File _work\auto_resume.ps1 -Start "続けて" -SessionId <そのID>
 
@@ -19,7 +24,8 @@ Claude Codeが使用上限（session/weekly limit）に達して停止したと�
   解除（スケジュール済みタスクと状態ファイルを削除）:
     powershell -ExecutionPolicy Bypass -File _work\auto_resume.ps1 -Cancel
 
-  ※ -Resume はタスクスケジューラから内部的に呼ばれる。手で叩く必要はない。
+  ※ -Resume と -FromHook はそれぞれタスクスケジューラ／Claude Codeフックから
+    内部的に呼ばれる。手で叩く必要はない。
 
 ⚠️ --dangerously-skip-permissions で実行する（無人実行のため全ツール呼び出しを確認なしで承認）。
    このリポジトリ専用として作った。他のリポジトリで使い回さないこと。
@@ -34,7 +40,8 @@ param(
     [string]$SessionId,
     [switch]$Resume,
     [switch]$Status,
-    [switch]$Cancel
+    [switch]$Cancel,
+    [switch]$FromHook
 )
 
 $ErrorActionPreference = 'Stop'
@@ -191,6 +198,65 @@ function Handle-Turn {
     } else {
         Write-Log "⚠️ 上限以外の理由でエラー終了しました（終了コード $($r.ExitCode)）。自動再試行はしません。ログを確認してください。"
     }
+}
+
+function Handle-HookCapture {
+    # Claude Codeの StopFailure フック（matcher: rate_limit）から呼ばれる。
+    # 対話セッションが使用上限で打ち切られた"その瞬間"にstdin経由でJSONが渡される。
+    # ここでは claude を起動し直さず、リセット時刻の登録だけを即座に行う（フックのtimeout予算内で終える）。
+    $stdinRaw = [Console]::In.ReadToEnd()
+    $hookData = $null
+    try { $hookData = $stdinRaw | ConvertFrom-Json } catch {
+        Write-Log "❌ フック入力のJSON解析に失敗しました: $stdinRaw"
+        return
+    }
+
+    $errType = $hookData.error_type
+    if ($errType -ne 'rate_limit') {
+        Write-Log "StopFailureフックが発火しましたが error_type=$errType のため何もしません（rate_limit以外）。"
+        return
+    }
+
+    $sessId = $hookData.session_id
+    $errMsg = $hookData.error_message
+    if (-not $sessId) {
+        Write-Log '⚠️ フック入力に session_id がありません。中断します。'
+        return
+    }
+
+    Write-Log "使用上限ヒットをフックで検知（session_id=$sessId）。"
+    Write-Log "エラーメッセージ: $errMsg"
+
+    $resetAt = Parse-ResetTime $errMsg
+    if (-not $resetAt) {
+        Write-Log '⚠️ リセット時刻を自動解析できませんでした。暫定で1時間後に再試行します。ログを確認して手動調整してください。'
+        $resetAt = (Get-Date).AddHours(1)
+    }
+    $resetAt = $resetAt.AddMinutes(2)
+
+    if (Test-Path $StateFile) {
+        $existing = Load-State
+        if ($existing -and $existing.status -eq 'waiting' -and $existing.session_id -ne $sessId) {
+            Write-Log "⚠️ 既存の自動再開待ち（session_id=$($existing.session_id)）を上書きします。"
+        }
+    }
+
+    $state = [pscustomobject]@{
+        prompt      = '(StopFailureフックで自動検知)'
+        session_id  = $sessId
+        status      = 'waiting'
+        started     = (Get-Date).ToString('o')
+        next_run    = $resetAt.ToString('o')
+        last_result = $null
+    }
+    Save-State $state
+    Register-ScheduledResume $resetAt
+    Write-Log "上限リセット待ち（フック経由・無操作）。次回実行予定: $resetAt"
+}
+
+if ($FromHook) {
+    Handle-HookCapture
+    exit 0
 }
 
 if ($Cancel) {
