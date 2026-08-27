@@ -92,6 +92,10 @@ function Register-ScheduledResume {
 function Parse-ResetTime {
     param([string]$Text)
     $now = Get-Date
+    # 分は省略されることがある（実測: "resets 7pm (Asia/Tokyo)" ← コロン無し）。
+    # タイムゾーン注記 "(Asia/Tokyo)" は末尾に付くことがあるが、このマシンの
+    # ロケール(Asia/Tokyo)と一致する前提でローカル時刻としてそのまま解釈する。
+    $timeToken = '(\d{1,2})(?::(\d{2}))?\s*([ap]m)'
 
     # 例: "resets 2026-08-09 00:00 UTC"
     if ($Text -match 'resets\s+(\d{4}-\d{2}-\d{2})\s+(\d{1,2}:\d{2})\s*(UTC)?') {
@@ -102,27 +106,34 @@ function Parse-ResetTime {
         return $dt
     }
 
-    # 例: "resets Mon 12:00am"（週次）
-    if ($Text -match 'resets\s+([A-Za-z]{3})\s+(\d{1,2}:\d{2}\s*[ap]m)') {
+    # 例: "resets Mon 12:00am" / "resets Mon 7pm"（週次・分省略あり）
+    if ($Text -match "resets\s+([A-Za-z]{3})\s+$timeToken") {
         $dayName = $Matches[1]
-        $timePart = $Matches[2]
+        $hour = [int]$Matches[2]
+        $min = if ($Matches[3]) { [int]$Matches[3] } else { 0 }
+        $ampm = $Matches[4]
+        if ($ampm -eq 'pm' -and $hour -ne 12) { $hour += 12 }
+        if ($ampm -eq 'am' -and $hour -eq 12) { $hour = 0 }
         $days = @('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat')
         $targetDow = [array]::IndexOf($days, $dayName)
-        $t = [datetime]::Parse($timePart)
         for ($i = 0; $i -le 7; $i++) {
             $cand = $now.Date.AddDays($i)
             if ([int]$cand.DayOfWeek -eq $targetDow) {
-                $result = $cand.Add($t.TimeOfDay)
+                $result = $cand.AddHours($hour).AddMinutes($min)
                 if ($result -gt $now) { return $result }
             }
         }
         return $now.AddDays(7)
     }
 
-    # 例: "resets 3:45pm"（当日 or 翌日）
-    if ($Text -match 'resets\s+(\d{1,2}:\d{2}\s*[ap]m)') {
-        $t = [datetime]::Parse($Matches[1])
-        $result = $now.Date.Add($t.TimeOfDay)
+    # 例: "resets 3:45pm" / "resets 7pm"（当日 or 翌日・分省略あり）
+    if ($Text -match "resets\s+$timeToken") {
+        $hour = [int]$Matches[1]
+        $min = if ($Matches[2]) { [int]$Matches[2] } else { 0 }
+        $ampm = $Matches[3]
+        if ($ampm -eq 'pm' -and $hour -ne 12) { $hour += 12 }
+        if ($ampm -eq 'am' -and $hour -eq 12) { $hour = 0 }
+        $result = $now.Date.AddHours($hour).AddMinutes($min)
         if ($result -le $now) { $result = $result.AddDays(1) }
         return $result
     }
@@ -205,29 +216,41 @@ function Handle-HookCapture {
     # 対話セッションが使用上限で打ち切られた"その瞬間"にstdin経由でJSONが渡される。
     # ここでは claude を起動し直さず、リセット時刻の登録だけを即座に行う（フックのtimeout予算内で終える）。
     $stdinRaw = [Console]::In.ReadToEnd()
+    # ⚠️ 正確なJSONスキーマ（フィールド名）はClaude Code非公開で、実測で
+    # error_type が空だった前科がある（2026-08-27）。生の入力を必ず全文ログに残す
+    # ——次回スキーマが違っても手がかりが残るように。
+    Write-Log "フック生入力: $stdinRaw"
+
     $hookData = $null
     try { $hookData = $stdinRaw | ConvertFrom-Json } catch {
-        Write-Log "❌ フック入力のJSON解析に失敗しました: $stdinRaw"
-        return
+        Write-Log '⚠️ JSON解析に失敗。生テキストからの抽出にフォールバックします。'
     }
 
-    $errType = $hookData.error_type
-    if ($errType -ne 'rate_limit') {
-        Write-Log "StopFailureフックが発火しましたが error_type=$errType のため何もしません（rate_limit以外）。"
-        return
+    # matcher側で既に rate_limit のみに絞られている想定なので、error_typeの値では
+    # ゲートしない（フィールド名が想定と違っていても取りこぼさないため）。
+    # session_id はキー名の揺れ（session_id/sessionId等）に備えて生テキストからも探す。
+    $sessId = $null
+    foreach ($key in @('session_id', 'sessionId', 'sessionID', 'session')) {
+        if ($hookData -and $hookData.$key) { $sessId = $hookData.$key; break }
     }
-
-    $sessId = $hookData.session_id
-    $errMsg = $hookData.error_message
+    if (-not $sessId -and $stdinRaw -match '"session_?[Ii][dD]"\s*:\s*"([0-9a-fA-F-]{8,})"') {
+        $sessId = $Matches[1]
+    }
+    if (-not $sessId -and $stdinRaw -match '"transcript_path"\s*:\s*"([^"]+)"') {
+        # transcript_path のファイル名(拡張子抜き)がsession_idと一致する仕様を利用
+        $tp = $Matches[1] -replace '\\\\', '\'
+        $sessId = [System.IO.Path]::GetFileNameWithoutExtension($tp)
+    }
     if (-not $sessId) {
-        Write-Log '⚠️ フック入力に session_id がありません。中断します。'
+        Write-Log '❌ session_id をどの方法でも抽出できませんでした。中断します。生入力をログで確認してください。'
         return
     }
 
+    # メッセージ本文がどのフィールドに入っていても拾えるよう、フィールド指定をせず
+    # 生JSON全体に対して直接 "resets ..." を探す。
     Write-Log "使用上限ヒットをフックで検知（session_id=$sessId）。"
-    Write-Log "エラーメッセージ: $errMsg"
 
-    $resetAt = Parse-ResetTime $errMsg
+    $resetAt = Parse-ResetTime $stdinRaw
     if (-not $resetAt) {
         Write-Log '⚠️ リセット時刻を自動解析できませんでした。暫定で1時間後に再試行します。ログを確認して手動調整してください。'
         $resetAt = (Get-Date).AddHours(1)
