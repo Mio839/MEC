@@ -1247,6 +1247,12 @@ const MEC_CHAPTERS = [
         "file": "公衆衛生/ch10_kenkouzoushin.html",
         "title": "第10章 健康増進と生活習慣",
         "count": 23
+      },
+      {
+        "prefix": "ph_ch11",
+        "file": "公衆衛生/ch11_iyakuhin_shokuhin.html",
+        "title": "第11章 医薬品・食品・嗜好品",
+        "count": 12
       }
     ]
   }
