@@ -196,12 +196,20 @@ function Handle-Turn {
     # 完了するまで（数十分〜1時間規模になりうる）ずっと 'waiting' のまま表示され、
     # 「動いていない」と誤認する原因になる（2026-08-28 に実測で発覚）。
     # このプロセス自身のPIDも記録し、-Status が生死を裏取りできるようにする。
+    #
+    # ⚠️⚠️ PSCustomObject（ConvertFrom-Jsonの戻り値）は、既存プロパティへの代入は
+    # 通常の "." 代入でよいが、"存在しないプロパティへの代入" は
+    # SetValueInvocationException を投げて$ErrorActionPreference='Stop'下で
+    # スクリプト全体を即死させる（2026-08-28に実機で確認：runner_pid/run_startedは
+    # 元のJSONスキーマに無いプロパティで、代入した瞬間にHandle-Turnがクラッシュし、
+    # claude起動どころか"終了コード"ログも一切出さずに落ちていた＝6時間何も動いていない
+    # ように見えた真因）。新規プロパティは必ず Add-Member -Force で追加すること。
     $runningState = Load-State
     if ($runningState) {
         $runningState.status     = 'running'
         $runningState.session_id = $SessId
-        $runningState.runner_pid = $PID
-        $runningState.run_started = (Get-Date).ToString('o')
+        $runningState | Add-Member -Force -NotePropertyName 'runner_pid' -NotePropertyValue $PID
+        $runningState | Add-Member -Force -NotePropertyName 'run_started' -NotePropertyValue (Get-Date).ToString('o')
         Save-State $runningState
     }
 
