@@ -1277,6 +1277,12 @@ const MEC_CHAPTERS = [
         "file": "公衆衛生/ch15_kansensho.html",
         "title": "第15章 感染症",
         "count": 37
+      },
+      {
+        "prefix": "ph_ch16",
+        "file": "公衆衛生/ch16_sangyoeisei.html",
+        "title": "第16章 産業衛生",
+        "count": 35
       }
     ]
   }
