@@ -1283,6 +1283,12 @@ const MEC_CHAPTERS = [
         "file": "公衆衛生/ch16_sangyoeisei.html",
         "title": "第16章 産業衛生",
         "count": 35
+      },
+      {
+        "prefix": "ph_ch17",
+        "file": "公衆衛生/ch17_kankyoumondai.html",
+        "title": "第17章 環境問題",
+        "count": 11
       }
     ]
   }
