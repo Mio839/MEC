@@ -167,6 +167,20 @@ function Handle-Turn {
 
     $startLabel = if ($SessId) { "resume=$SessId" } else { '新規セッション' }
     Write-Log "Claude起動: $startLabel"
+
+    # ⚠️ ここで status を 'running' に更新しないと、-Status は claude -p が
+    # 完了するまで（数十分〜1時間規模になりうる）ずっと 'waiting' のまま表示され、
+    # 「動いていない」と誤認する原因になる（2026-08-28 に実測で発覚）。
+    # このプロセス自身のPIDも記録し、-Status が生死を裏取りできるようにする。
+    $runningState = Load-State
+    if ($runningState) {
+        $runningState.status     = 'running'
+        $runningState.session_id = $SessId
+        $runningState.runner_pid = $PID
+        $runningState.run_started = (Get-Date).ToString('o')
+        Save-State $runningState
+    }
+
     $r = Invoke-ClaudeTurn -Prompt $Prompt -SessId $SessId
     Write-Log "終了コード: $($r.ExitCode)"
     Add-Content -Path $LogFile -Value $r.Output -Encoding UTF8
@@ -296,6 +310,14 @@ if ($Status) {
         exit 0
     }
     $state | Format-List
+    if ($state.status -eq 'running' -and $state.runner_pid) {
+        $proc = Get-Process -Id $state.runner_pid -ErrorAction SilentlyContinue
+        if ($proc) {
+            Write-Host "→ 実行中プロセス確認: PID $($state.runner_pid) は生存しています（開始 $($state.run_started)）。"
+        } else {
+            Write-Host "⚠️ status='running' ですが PID $($state.runner_pid) は既に存在しません。異常終了した可能性があります。auto_resume.log を確認してください。"
+        }
+    }
     exit 0
 }
 
