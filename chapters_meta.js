@@ -1295,6 +1295,12 @@ const MEC_CHAPTERS = [
         "file": "公衆衛生/ch18_kaigaikyoryoku.html",
         "title": "第18章 海外協力",
         "count": 17
+      },
+      {
+        "prefix": "ph_ch19",
+        "file": "公衆衛生/ch19_sonota_kihonjikou.html",
+        "title": "第19章 その他基本事項",
+        "count": 122
       }
     ]
   }

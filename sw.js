@@ -528,12 +528,14 @@
 // v185: 公衆衛生 第16章「産業衛生」35問を追加（questions_ph.json が434→469問・画像0問）。データ更新のため bump。
 // v186: 公衆衛生 第17章「環境問題」11問を追加（questions_ph.json が469→480問・画像0問）。データ更新のため bump。
 // v187: 公衆衛生 第18章「海外協力」17問を追加（questions_ph.json が480→497問・画像1問1枚追加）。データ更新のため bump。
-const CACHE = "mec-v187";
+// v188: 公衆衛生 第19章「その他基本事項」122問を追加（questions_ph.json が497→619問・画像2問6枚追加）。
+//       これで公衆衛生講座は全19章619問が完成。データ更新のため bump。
+const CACHE = "mec-v188";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-27i";
+const SHELL_VERSION = "2026-08-28a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
