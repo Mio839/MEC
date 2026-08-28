@@ -530,7 +530,10 @@
 // v187: 公衆衛生 第18章「海外協力」17問を追加（questions_ph.json が480→497問・画像1問1枚追加）。データ更新のため bump。
 // v188: 公衆衛生 第19章「その他基本事項」122問を追加（questions_ph.json が497→619問・画像2問6枚追加）。
 //       これで公衆衛生講座は全19章619問が完成。データ更新のため bump。
-const CACHE = "mec-v188";
+// v189: 循環器の設問文(qt)を整形外科式へ機械整形し、必修/CBT/一般/臨床のバッジを新設（全572問）。
+//       qt-context を解体して連問の宣言文をPDF原文から転記・PDF折り返しの<br/>除去・項目見出しの<b>・
+//       設問文まるごと<strong>・rate_text を「96%」形へ。questions_circ.json 更新のため bump。
+const CACHE = "mec-v189";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。

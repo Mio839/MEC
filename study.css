@@ -1060,6 +1060,11 @@ html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-bloc
 .br{background:rgba(125,211,252,.12);color:#7DD3FC;border:1px solid rgba(125,211,252,.3);}
 .bx{background:rgba(196,181,253,.12);color:#C4B5FD;border:1px solid rgba(196,181,253,.3);}
 .bsub{background:rgba(148,163,184,.15);color:#94A3B8;border:1px solid rgba(148,163,184,.35);}
+/* 一般(bip)/臨床(brn)＝国試の出題区分。全問がどちらか一方を必ず持つので、
+   ★・📷・必修・CBT と同じ強さで塗ると毎カードがバッジで埋まって稀なバッジの意味が薄まる。
+   常にある属性＝メタ情報なので .bsub と同じ灰系で沈める。⚠️ 色を上げないこと。
+   ⚠️ クラス名に bg は使えない（全バッジ共通の土台）／br も連問バッジが使用中。 */
+.bip,.brn{background:rgba(148,163,184,.12);color:#94A3B8;border:1px solid rgba(148,163,184,.28);}
 /* Accuracy rate badges */
 .cr{margin-left:auto;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;flex-shrink:0;}
 .ch{background:rgba(61,214,140,.12);color:var(--gr);border:1px solid rgba(61,214,140,.3);}
