@@ -21,6 +21,7 @@
 import argparse, io, json, os, re, sys
 
 import fitz
+from PIL import Image
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
@@ -28,6 +29,7 @@ BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PDF = os.path.join(BASE, 'MEC問題文pdf', 'MEC臓器別講座・循環器_問題（表紙2026）.pdf')
 JSON_PATH = os.path.join(BASE, 'questions_circ.json')
 OUT = os.path.join(BASE, '_work', '_circ_tmp')
+DEST_IMG = os.path.join(BASE, '循環器', 'images')
 
 # 設問アンカー「442.（120A-3）」。pdf_audit.py と同じ規約
 ANCHOR = re.compile(r'(\d{1,3})\s*[.．]\s*[（(]\s*(\d{2,3}[A-Z]-\d+)\s*[）)]')
@@ -174,13 +176,162 @@ def cmd_qtdiff(a):
         _w('ch%02d_qtdiff.txt' % a.ch, '\n'.join(detail))
 
 
+# ---------------------------------------------------------------- images
+# 設問アンカーの番号だけを持つ語（「118.」）。x<120 の左端に来る
+NO_WORD = re.compile(r'^(\d{1,3})[.．]$')
+# 連問の宣言「次の文を読み、118 と 119 の問いに答えよ。」
+DECL_W = re.compile(r'次の文を読み[、,]\s*(\d{1,3})')
+
+
+def page_events(pg):
+    """そのページの「ここから誰の領域か」が変わる位置を y 昇順で返す。
+
+    ⚠️ 臓器別講座の版面は **連問の共通ステム → 図 → 各設問** の順に並ぶ。
+       図が最初の設問アンカーより上に来るので、アンカーだけを見ると持ち主が決まらない
+       （実際に p60 の胸部エックス線写真が該当した）。宣言文もイベントとして拾い、
+       規約どおり **連問1問目**を持ち主にする。
+    """
+    ev = []
+    for w in pg.get_text('words'):
+        m = NO_WORD.match(w[4])
+        if m and w[0] < 120:
+            ev.append((w[1], int(m.group(1)), 'anchor'))
+    txt = pg.get_text('blocks')
+    for b in txt:
+        m = DECL_W.search(b[4].replace('\n', ''))
+        if m:
+            ev.append((b[1], int(m.group(1)), 'decl'))
+    return sorted(ev)
+
+
+def attribute(pages):
+    """全ページを走査し、画像矩形ごとに持ち主のNOを決める。
+
+    ⚠️ ページをまたいで持ち主を持ち越すこと。図だけが載ったページ（アンカーも宣言も無い）が
+       実在するので、そのページで打ち切ると持ち主を見失う。
+    """
+    doc = pages
+    out, cur = [], None
+    for pno in range(doc.page_count):
+        pg = doc[pno]
+        ev = page_events(pg)
+        rects = []
+        for im in pg.get_images(full=True):
+            for r in pg.get_image_rects(im[0]):
+                rects.append((r, im[0]))
+        rects.sort(key=lambda t: (t[0].y0, t[0].x0))
+        for r, xref in rects:
+            owner, kind = cur, 'carry'
+            for y, n, k in ev:
+                if y <= r.y0 + 24:
+                    owner, kind = n, k
+            out.append(dict(page=pno + 1, xref=xref, rect=r, owner=owner, via=kind))
+        if ev:
+            cur = ev[-1][1]
+    return out
+
+
+def fig_labels(pg, rects):
+    """矩形の直下(±34px)にある A/B/C を図ラベルとして拾う。
+    ⚠️ 読み順ではなく **x座標** で左右を決める（紙面が B A の順に並ぶことがある）。"""
+    labs = []
+    for w in pg.get_text('words'):
+        if w[4] not in ('A', 'B', 'C', 'D', 'Ａ', 'Ｂ', 'Ｃ'):
+            continue
+        for r, xref in rects:
+            if r.y1 <= w[1] <= r.y1 + 34 and r.x0 - 24 <= w[0] <= r.x1 + 24:
+                labs.append((w[4], round(w[0]), xref))
+    return sorted(labs, key=lambda t: t[1])
+
+
+def cmd_images(a):
+    """画像の矩形を列挙し、帰属候補つきの ch{NN}_map.txt とページ描画を出す。
+
+    map の行は `page xref 国試番号 連番`。**必ずページ描画を見て検収してから save すること**
+    （帰属は機械では決めきれない＝整形外科式）。
+    """
+    doc = fitz.open(PDF)
+    qs = chapter_qs(a.ch)
+    nos = {int(q['qn'].replace('Q.', '')): q['episode'].strip('()（）') for q in qs}
+    lo, hi = min(nos), max(nos)
+    recs = [r for r in attribute(doc) if r['owner'] is not None and lo <= r['owner'] <= hi]
+
+    sheet = os.path.join(OUT, 'sheet')
+    os.makedirs(sheet, exist_ok=True)
+    log, maps = [], []
+    seen = {}
+    for pno in sorted({r['page'] for r in recs}):
+        rs = [r for r in recs if r['page'] == pno]
+        pg = doc[pno - 1]
+        log.append('PAGE %d  events=%s' % (pno, page_events(pg)))
+        labs = fig_labels(pg, [(r['rect'], r['xref']) for r in rs])
+        if labs:
+            log.append('   図ラベル(x順): %s' % labs)
+        for r in rs:
+            kid = nos.get(r['owner'], '?')
+            seen[kid] = seen.get(kid, 0) + 1
+            rc = r['rect']
+            log.append('   xref=%-5d rect=(%.0f,%.0f,%.0f,%.0f) -> NO.%s (%s) via=%s'
+                       % (r['xref'], rc.x0, rc.y0, rc.x1, rc.y1, r['owner'], kid, r['via']))
+            maps.append('%d %d %s %d' % (pno, r['xref'], kid, seen[kid]))
+        pg.get_pixmap(dpi=110).save(os.path.join(sheet, 'p%03d.png' % pno))
+
+    _w('ch%02d_images.txt' % a.ch, '\n'.join(log))
+    _w('ch%02d_map.txt' % a.ch,
+       '# page xref 国試番号 連番   ← ページ描画を見て検収して直す（連図は A→1, B→2）\n'
+       + '\n'.join(maps) + '\n')
+    print('ch%02d: 画像 %d 枚 / %d ページ  ページ描画は %s'
+          % (a.ch, len(recs), len({r['page'] for r in recs}), sheet))
+
+
+# ---------------------------------------------------------------- save
+def _is_line_art(im):
+    """ほぼ無彩色（＝シェーマ・心電図・単純エックス線）かどうか。
+    線画は q85 だと細い線が崩れ pdf_audit.py の知覚ハッシュ照合が誤検出するので q95 で保存する。"""
+    small = im.resize((32, 32))
+    px = list(small.getdata())
+    chroma = sum(1 for r, g, b in px if max(r, g, b) - min(r, g, b) > 24)
+    return chroma < len(px) * 0.05
+
+
+def cmd_save(a):
+    """ch{NN}_map.txt に従って 循環器/images/{国試番号}_{n}.jpeg を保存。
+    ⚠️ compress_images.py は使わない（既存を再エンコードして巨大な差分を生む）。"""
+    mp = getattr(a, 'map', None) or os.path.join(OUT, 'ch%02d_map.txt' % a.ch)
+    doc = fitz.open(PDF)
+    os.makedirs(DEST_IMG, exist_ok=True)
+    n = 0
+    for line in io.open(mp, encoding='utf-8'):
+        line = line.split('#')[0].strip()
+        if not line:
+            continue
+        _p, xref, kid, idx = line.split()
+        info = doc.extract_image(int(xref))
+        im = Image.open(io.BytesIO(info['image'])).convert('RGB')
+        w, h = im.size
+        if max(w, h) > 1200:
+            s = 1200.0 / max(w, h)
+            im = im.resize((int(w * s + 0.5), int(h * s + 0.5)), Image.LANCZOS)
+        path = os.path.join(DEST_IMG, '%s_%s.jpeg' % (kid, idx))
+        q = 95 if _is_line_art(im) else 85
+        im.save(path, 'JPEG', quality=q, optimize=True)
+        print('%-20s %4dx%-4d -> %dx%d q%d' % (os.path.basename(path), w, h,
+                                               im.size[0], im.size[1], q))
+        n += 1
+    print('saved %d images' % n)
+
+
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest='cmd', required=True)
     sub.add_parser('pages').set_defaults(f=cmd_pages)
-    for name, fn in (('text', cmd_text), ('qtdiff', cmd_qtdiff)):
+    for name, fn in (('text', cmd_text), ('qtdiff', cmd_qtdiff),
+                     ('images', cmd_images), ('save', cmd_save)):
         p = sub.add_parser(name)
-        p.add_argument('--ch', type=int, required=True)
+        # save は章ぶんの map でも、全章まとめた map（--map）でも動く
+        p.add_argument('--ch', type=int, required=(name != 'save'))
+        if name == 'save':
+            p.add_argument('--map')
         p.set_defaults(f=fn)
     args = ap.parse_args()
     args.f(args)

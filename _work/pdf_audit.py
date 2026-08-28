@@ -141,6 +141,44 @@ def dhash(im):
     return b
 
 
+
+# ── 画像の中身の照合（dhash の取りこぼしを拾う 第二段）────────────────
+NCC_N = 64
+
+
+def _ncc_vec(im):
+    """正規化相関用のベクトル。平均を引いてノルムで割るので、明るさ・コントラストの
+    ちがいに影響されない。"""
+    import math
+    g = im.convert('L').resize((NCC_N, NCC_N))
+    px = [float(v) for v in g.getdata()]
+    m = sum(px) / len(px)
+    d = [v - m for v in px]
+    n = math.sqrt(sum(v * v for v in d)) or 1.0
+    return [v / n for v in d]
+
+
+def pilimgs_append(store, pil):
+    try:
+        store.append(_ncc_vec(pil))
+    except Exception:
+        pass
+
+
+def _best_ncc(pil, vecs):
+    try:
+        v = _ncc_vec(pil)
+    except Exception:
+        return 0.0
+    best = 0.0
+    for w in vecs:
+        s = 0.0
+        for a, b in zip(v, w):
+            s += a * b
+        if s > best:
+            best = s
+    return best
+
 def audit(sid, check_images=True):
     pdf_name, img_dir_name = SUBJECTS[sid]
     pdf_path = os.path.join(PDF_DIR, pdf_name)
@@ -229,28 +267,39 @@ def audit(sid, check_images=True):
         import fitz
         from PIL import Image
         doc = fitz.open(pdf_path)
-        hashes, seen = [], set()
+        hashes, pilimgs, seen = [], [], set()
         for p in range(len(doc)):
             for im in doc[p].get_images(full=True):
                 if im[0] in seen:
                     continue
                 seen.add(im[0])
                 try:
-                    hashes.append(dhash(Image.open(io.BytesIO(doc.extract_image(im[0])['image']))))
+                    pi = Image.open(io.BytesIO(doc.extract_image(im[0])['image']))
+                    hashes.append(dhash(pi))
+                    pilimgs_append(pilimgs, pi)
                 except Exception:
                     pass
-        doc.close()
         for f in sorted(used):
             fp = os.path.join(img_dir, f)
             if not os.path.exists(fp) or f in VECTOR_RENDERED.get(sid, ()):
                 continue
             try:
-                h = dhash(Image.open(fp))
+                pf = Image.open(fp)
+                h = dhash(pf)
             except Exception:
                 continue
-            if hashes and min(bin(h ^ r).count('1') for r in hashes) > 6:
-                issues.append(('画像', f'{img_dir_name}/images/{f}',
-                               'PDF内のどの図とも一致しない（ページ描画のゴミ画像の疑い）'))
+            if not hashes or min(bin(h ^ r).count('1') for r in hashes) <= 6:
+                continue
+            # ⚠️ dhash が外れても即断しないこと。dhash は隣接画素の勾配を見るので、
+            #    心電図の方眼・造影のノイズのような細かい周期模様では、**同じ図でも**
+            #    再エンコードで符号が反転して閾値を越える（循環器で10枚が誤検出され、
+            #    しかもうち8枚は dhash 距離 1〜4＝ほぼ同一だった）。
+            #    正規化相関で取り直し、本当にどの図とも合わないものだけを挙げる。
+            if _best_ncc(pf, pilimgs) > 0.90:
+                continue
+            issues.append(('画像', f'{img_dir_name}/images/{f}',
+                           'PDF内のどの図とも一致しない（ページ描画のゴミ画像の疑い）'))
+        doc.close()
     return issues
 
 

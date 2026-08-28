@@ -533,12 +533,15 @@
 // v189: 循環器の設問文(qt)を整形外科式へ機械整形し、必修/CBT/一般/臨床のバッジを新設（全572問）。
 //       qt-context を解体して連問の宣言文をPDF原文から転記・PDF折り返しの<br/>除去・項目見出しの<b>・
 //       設問文まるごと<strong>・rate_text を「96%」形へ。questions_circ.json 更新のため bump。
-const CACHE = "mec-v189";
+// v190: 循環器の画像を全問PDFから作り直した（③）。20枚を追加・48枚を差替・9枚を削除し、
+//       imgs を15問・📷バッジを11問直した。**ファイル名は変えていないので bump しないと
+//       全端末が古い画像を掴み続ける**（差替48枚は「同じ名前で中身が違う」）。
+const CACHE = "mec-v190";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-28a";
+const SHELL_VERSION = "2026-08-28b";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
