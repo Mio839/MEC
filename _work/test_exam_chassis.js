@@ -534,16 +534,19 @@ t('18. study.html の #examProg が #stFilterPanel の外にある（畳んで�
     '#examProg が st-filter-panel の中にある（▼で畳むと計器ベイごと消える）');
 });
 
-t('19. .st-hdr.hdr-collapsed のルールが3本のまま（.exam-prog や疑似要素を隠さない）', () => {
+t('19. .st-hdr.hdr-collapsed のルールが通常3本＋試験モードスリム化3本であること（.exam-prog や疑似要素を隠さない）', () => {
   const hits = RULES.filter(r => /\.st-hdr\.hdr-collapsed/.test(r.sel));
-  assert.strictEqual(hits.length, 3,
-    '.st-hdr.hdr-collapsed のルールが ' + hits.length + ' 本ある（現在は 3 本）:\n        ' +
+  assert.strictEqual(hits.length, 6,
+    '.st-hdr.hdr-collapsed のルールが ' + hits.length + ' 本ある（現在は 6 本）:\n        ' +
     hits.map(r => r.sel.trim()).join('\n        '));
   const targets = hits.map(r => r.sel.trim()).sort();
   assert.deepStrictEqual(targets, [
     '.st-hdr.hdr-collapsed .hdr-toggle',
     '.st-hdr.hdr-collapsed .st-filter-panel',
-    '.st-hdr.hdr-collapsed .st-stats'
+    '.st-hdr.hdr-collapsed .st-stats',
+    'body.exam-mode .st-hdr.hdr-collapsed',
+    'body.exam-mode .st-hdr.hdr-collapsed .exam-prog',
+    'body.exam-mode .st-hdr.hdr-collapsed .st-title-row'
   ], '畳む対象が変わっている（.exam-prog / ::before / ::after を隠すと筐体が消える）');
 });
 

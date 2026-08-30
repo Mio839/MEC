@@ -563,6 +563,10 @@ body.exam-mode .qc.exam-revealed.exam-ans-hidden .eg{display:none!important;}
 /* Progress bar */
 .exam-prog{display:none;align-items:center;gap:8px;padding:4px 14px;background:rgba(0,0,0,.5);color:#fff;font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;}
 body.exam-mode .exam-prog{display:flex;}
+/* 試験モード中：折りたたみ時の余白スリム化（2026-08-30） */
+body.exam-mode .st-hdr.hdr-collapsed{padding:4px 12px 3px;}
+body.exam-mode .st-hdr.hdr-collapsed .st-title-row{margin-bottom:2px;}
+body.exam-mode .st-hdr.hdr-collapsed .exam-prog{padding:2px 10px;}
 /* D2(2026-08-19): 計器ベイ＝「まだの側」を真鍮／銅の樋（チャネル）にする。ここは表示ではなく
    容れ物なので筐体側。上に暗線・下に明線＝凹んで見える（ボタンの逆）。塗りが伸びるにつれて
    樋が埋まっていく構図になる。

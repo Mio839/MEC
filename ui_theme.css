@@ -4403,6 +4403,7 @@ html.ui-frost body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
   animation: frostChoiceCrystallizeGlow 0.48s cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
+
 html.ui-frost .qc.fx-correct {
   animation: frostCardCrystalFlashGlow 0.55s cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
@@ -4806,19 +4807,32 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
 
 /* 讀懃ｴ｢ & 遶�繧ｸ繝｣繝ｳ繝� (filter-row 邨ｱ蜷�) 縺ｮ繧ｹ繝ｪ繝�蛹� & 繝輔か繝ｼ繧ｫ繧ｹ閾ｪ蜍墓僑螟ｧ */
 .filter-row .search-wrap {
+  position: relative;
   flex-shrink: 0;
-  width: 90px;
+  width: 64px;
   transition: width 0.26s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .filter-row .search-wrap:focus-within {
-  width: 175px;
+  width: 165px;
+}
+
+.filter-row .search-wrap::before {
+  content: '🔍';
+  position: absolute;
+  left: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 9.5px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.75;
 }
 
 .filter-row .search-input {
   width: 100%;
-  padding: 3px 8px;
-  font-size: 11px;
+  padding: 3px 6px 3px 21px;
+  font-size: 10.5px;
   border-radius: 18px;
   border: 1.5px solid rgba(255, 255, 255, 0.22);
   background: rgba(var(--glass-rgb), 0.08);
@@ -7125,6 +7139,220 @@ html.ui-celestial .gauge .gauge-mid { color: #FFFDF0 !important; text-shadow: 0 
 html.ui-abyss .gauge .gauge-mid { color: #E0F2FE !important; text-shadow: 0 0 20px rgba(0, 255, 163, 0.95), 0 2px 6px #000 !important; }
 html.ui-frost .gauge .gauge-mid { color: #FFFFFF !important; text-shadow: 0 0 20px rgba(112, 214, 255, 0.95), 0 2px 6px #000 !important; }
 
+/* ── 🌌 全8テーマ固有の背景ギミック深化＆動的機構 ── */
+
+/* 1. Celestial: ポラリス極星の自転 ＆ 星座幾何学の光芒 */
+html.ui-celestial .cel-polaris {
+  animation: celPolarisSpin 16s linear infinite !important;
+  transform-origin: 84px 84px !important;
+}
+@keyframes celPolarisSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+html.ui-celestial .cel-line {
+  stroke-dasharray: 40 8;
+  animation: celLineFlow 8s linear infinite;
+}
+@keyframes celLineFlow {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 96; }
+}
+
+/* 2. Cyber: HUDスキャンライン＆デジタルグリッチ */
+html.ui-cyber .gauge .gauge-ring::before {
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(0, 20, 30, 0.95) 0%, rgba(0, 5, 10, 0.98) 75%, rgba(0, 0, 0, 1) 100%),
+    linear-gradient(rgba(0, 229, 255, 0.08) 50%, rgba(0, 0, 0, 0.3) 50%) !important;
+  background-size: 100% 100%, 100% 4px !important;
+  box-shadow: inset 0 0 20px rgba(0, 229, 255, 0.4), 0 0 15px rgba(0, 229, 255, 0.3) !important;
+}
+html.ui-cyber .gauge-pulse-trk {
+  stroke: #00E5FF !important;
+  filter: drop-shadow(0 0 8px #00E5FF);
+}
+
+/* 3. Liquid: 有機的流体波打ち（フルイドモーフ） */
+html.ui-liquid .gauge .gauge-ring::before {
+  animation: liquidFluidMorph 6s ease-in-out infinite alternate !important;
+}
+@keyframes liquidFluidMorph {
+  0% { border-radius: 50% 48% 52% 49% / 49% 51% 49% 51%; transform: rotate(0deg) scale(0.98); }
+  50% { border-radius: 48% 52% 49% 51% / 52% 48% 51% 49%; transform: rotate(180deg) scale(1.02); }
+  100% { border-radius: 51% 49% 50% 50% / 49% 50% 50% 51%; transform: rotate(360deg) scale(0.98); }
+}
+
+/* 4. Abyss: 深度ソナー波紋の周期放射 */
+html.ui-abyss .abyss-sonar {
+  fill: none;
+  stroke: rgba(0, 255, 163, 0.5);
+  stroke-width: 1.5;
+  transform-origin: 84px 84px;
+  animation: abyssSonarPing 3.6s cubic-bezier(0.1, 0.7, 0.1, 1) infinite;
+}
+@keyframes abyssSonarPing {
+  0% { r: 10; opacity: 0.9; stroke-width: 2.5; }
+  80% { r: 68; opacity: 0.15; stroke-width: 1; }
+  100% { r: 76; opacity: 0; stroke-width: 0.5; }
+}
+
+/* 5. Kintsugi: 金継ぎクラックの光芒ストリーム */
+html.ui-kintsugi .kt-crack {
+  stroke-dasharray: 20 6;
+  animation: kintsugiCrackStream 6s linear infinite;
+}
+@keyframes kintsugiCrackStream {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -52; }
+}
+
+/* 6. Frost: フラクタル氷針の成長＆きらめきパルス */
+html.ui-frost .frost-needle {
+  stroke: rgba(255, 255, 255, 0.6);
+  stroke-width: 1.5;
+  animation: frostNeedleSparkle 3s ease-in-out infinite alternate;
+}
+@keyframes frostNeedleSparkle {
+  0% { stroke: rgba(112, 214, 255, 0.4); filter: drop-shadow(0 0 2px #70D6FF); }
+  100% { stroke: #FFFFFF; filter: drop-shadow(0 0 6px #FFFFFF) drop-shadow(0 0 12px #70D6FF); }
+}
+
+/* ── 🌟 各テーマ別 リミッター解除メガリング (.gauge-megaring) ── */
+html.ui-aurora .gauge-megaring { stroke: #00DFD8 !important; }
+html.ui-aurora .gauge[data-tier="5"] .gauge-megaring,
+html.ui-aurora .gauge[data-tier="6"] .gauge-megaring { filter: drop-shadow(0 0 8px #00DFD8) drop-shadow(0 0 14px #7928CA); }
+
+html.ui-cyber .gauge-megaring { stroke: #00E5FF !important; }
+html.ui-cyber .gauge[data-tier="5"] .gauge-megaring,
+html.ui-cyber .gauge[data-tier="6"] .gauge-megaring { filter: drop-shadow(0 0 10px #00E5FF) drop-shadow(0 0 18px #00FF9D); }
+
+html.ui-liquid .gauge-megaring { stroke: #FF007F !important; }
+html.ui-liquid .gauge[data-tier="5"] .gauge-megaring,
+html.ui-liquid .gauge[data-tier="6"] .gauge-megaring { filter: drop-shadow(0 0 8px #FF007F) drop-shadow(0 0 14px #00F2FE); }
+
+html.ui-kintsugi .gauge-megaring { stroke: #F5D061 !important; }
+html.ui-kintsugi .gauge[data-tier="5"] .gauge-megaring,
+html.ui-kintsugi .gauge[data-tier="6"] .gauge-megaring { stroke: #FFF8DC !important; filter: drop-shadow(0 0 10px #F5D061) drop-shadow(0 0 16px rgba(217, 56, 58, 0.6)); }
+
+html.ui-celestial .gauge-megaring { stroke: #FFD166 !important; }
+html.ui-celestial .gauge[data-tier="5"] .gauge-megaring,
+html.ui-celestial .gauge[data-tier="6"] .gauge-megaring { filter: drop-shadow(0 0 10px #FFD166) drop-shadow(0 0 18px #8A2BE2); }
+
+html.ui-abyss .gauge-megaring { stroke: #00FFA3 !important; }
+html.ui-abyss .gauge[data-tier="5"] .gauge-megaring,
+html.ui-abyss .gauge[data-tier="6"] .gauge-megaring { filter: drop-shadow(0 0 10px #00FFA3) drop-shadow(0 0 18px #00B4D8); }
+
+html.ui-frost .gauge-megaring { stroke: #70D6FF !important; }
+html.ui-frost .gauge[data-tier="5"] .gauge-megaring,
+html.ui-frost .gauge[data-tier="6"] .gauge-megaring { stroke: #FFFFFF !important; filter: drop-shadow(0 0 10px #FFFFFF) drop-shadow(0 0 20px #70D6FF); }
+
+/* ── 🔥 各テーマ別 覚醒オーラ (.gauge-aura) ── */
+html.ui-aurora .gauge-aura {
+  background: radial-gradient(circle, rgba(0, 223, 216, 0.35) 0%, rgba(121, 40, 202, 0.25) 50%, rgba(0, 0, 0, 0) 74%) !important;
+}
+html.ui-cyber .gauge-aura {
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.4) 0%, rgba(0, 255, 157, 0.25) 50%, rgba(0, 0, 0, 0) 74%) !important;
+}
+html.ui-liquid .gauge-aura {
+  background: radial-gradient(circle, rgba(255, 0, 127, 0.4) 0%, rgba(0, 242, 254, 0.25) 50%, rgba(0, 0, 0, 0) 74%) !important;
+}
+html.ui-kintsugi .gauge-aura {
+  background: radial-gradient(circle, rgba(245, 208, 97, 0.45) 0%, rgba(217, 56, 58, 0.25) 50%, rgba(0, 0, 0, 0) 74%) !important;
+}
+html.ui-celestial .gauge-aura {
+  background: radial-gradient(circle, rgba(255, 209, 102, 0.45) 0%, rgba(138, 43, 226, 0.3) 50%, rgba(0, 0, 0, 0) 74%) !important;
+}
+html.ui-abyss .gauge-aura {
+  background: radial-gradient(circle, rgba(0, 255, 163, 0.4) 0%, rgba(0, 180, 216, 0.25) 50%, rgba(0, 0, 0, 0) 74%) !important;
+}
+html.ui-frost .gauge-aura {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, rgba(112, 214, 255, 0.35) 50%, rgba(0, 0, 0, 0) 74%) !important;
+}
+
+/* ── 🧭 サブ針メーターのテーマ別カラー ── */
+html.ui-aurora .submeter-needle { background: #00DFD8 !important; box-shadow: 0 0 6px #00DFD8 !important; }
+html.ui-brass .submeter-needle { background: #E0C25E !important; box-shadow: 0 0 6px #E0C25E !important; }
+html.ui-cyber .submeter-needle { background: #00E5FF !important; box-shadow: 0 0 6px #00E5FF !important; }
+html.ui-liquid .submeter-needle { background: #FF007F !important; box-shadow: 0 0 6px #FF007F !important; }
+html.ui-kintsugi .submeter-needle { background: #F5D061 !important; box-shadow: 0 0 6px #F5D061 !important; }
+html.ui-celestial .submeter-needle { background: #FFD166 !important; box-shadow: 0 0 6px #FFD166 !important; }
+html.ui-abyss .submeter-needle { background: #00FFA3 !important; box-shadow: 0 0 6px #00FFA3 !important; }
+/* ── 🌌 各テーマ超個性化レイヤー（Cyberマトリックス、Celestial月齢、Liquid気泡、Abyss深度、Frostクラスト） ── */
+.cyber-data-matrix, .cel-moon-phase, .liquid-bubble-layer { display: none !important; }
+
+/* Cyber マトリックスストリーム */
+html.ui-cyber .cyber-data-matrix { display: inline !important; }
+html.ui-cyber .cyber-matrix-orbit {
+  fill: none; stroke: rgba(0, 229, 255, 0.45); stroke-width: 1.6;
+  stroke-dasharray: 2 6 4 8 1 5;
+  transform-origin: 84px 84px;
+  animation: cyberMatrixSpin 14s linear infinite;
+}
+@keyframes cyberMatrixSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* Celestial 月齢天体フェーズ */
+html.ui-celestial .cel-moon-phase { display: inline !important; transform-origin: 84px 84px; }
+html.ui-celestial .moon-base { fill: #FFFDF0; filter: drop-shadow(0 0 6px rgba(255, 209, 102, 0.75)); }
+html.ui-celestial .moon-shadow { fill: #080419; opacity: 0.85; }
+
+/* Liquid ネオン気泡の上昇 */
+html.ui-liquid .liquid-bubble-layer { display: inline !important; }
+html.ui-liquid .l-bubble { fill: #00F2FE; opacity: 0.75; filter: drop-shadow(0 0 4px #00F2FE); }
+html.ui-liquid .lb-1 { animation: bubbleRise 3.2s ease-in-out infinite; }
+html.ui-liquid .lb-2 { animation: bubbleRise 2.6s ease-in-out infinite 0.8s; }
+html.ui-liquid .lb-3 { animation: bubbleRise 3.8s ease-in-out infinite 1.4s; }
+@keyframes bubbleRise {
+  0% { transform: translateY(0) scale(0.8); opacity: 0; }
+  30% { opacity: 0.85; }
+  100% { transform: translateY(-42px) scale(1.25); opacity: 0; }
+}
+
+/* Abyss 水深インジケーター */
+html.ui-abyss .abyss-depth-text {
+  fill: #00FFA3; font-family: var(--font-display, monospace); font-size: 8px; font-weight: 800;
+  letter-spacing: 0.12em; opacity: 0.85; filter: drop-shadow(0 0 4px rgba(0, 255, 163, 0.75));
+}
+
+/* Frost 氷結解凍クラスト */
+.frost-crust-crack {
+  fill: none; stroke: rgba(255, 255, 255, 0.75); stroke-width: 1.5; stroke-dasharray: 6 3;
+  opacity: 0.75; filter: drop-shadow(0 0 4px #70D6FF);
+}
+html.ui-frost .gauge[data-tier="5"] .frost-crust-crack,
+html.ui-frost .gauge[data-tier="6"] .frost-crust-crack { opacity: 0.15; transition: opacity 0.8s ease; }
+
+/* ── 各テーマ別 エネルギー・コンジット ＆ 主ボタントレーサー ── */
+html.ui-aurora .conduit-pulse { stroke: #00DFD8 !important; filter: drop-shadow(0 0 6px #00DFD8) !important; }
+html.ui-brass .conduit-pulse { stroke: #E0C25E !important; filter: drop-shadow(0 0 6px #E0C25E) !important; }
+html.ui-cyber .conduit-pulse { stroke: #00E5FF !important; filter: drop-shadow(0 0 6px #00E5FF) !important; }
+html.ui-liquid .conduit-pulse { stroke: #FF007F !important; filter: drop-shadow(0 0 6px #FF007F) !important; }
+html.ui-kintsugi .conduit-pulse { stroke: #F5D061 !important; filter: drop-shadow(0 0 6px #F5D061) !important; }
+html.ui-celestial .conduit-pulse { stroke: #FFD166 !important; filter: drop-shadow(0 0 6px #FFD166) !important; }
+html.ui-abyss .conduit-pulse { stroke: #00FFA3 !important; filter: drop-shadow(0 0 6px #00FFA3) !important; }
+html.ui-frost .conduit-pulse { stroke: #70D6FF !important; filter: drop-shadow(0 0 6px #70D6FF) !important; }
+
+html.ui-cyber .cta-tracer { background: linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0)) padding-box, conic-gradient(from 0deg,transparent 65%,#00E5FF 88%,#FFF 100%) border-box !important; }
+html.ui-kintsugi .cta-tracer { background: linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0)) padding-box, conic-gradient(from 0deg,transparent 65%,#F5D061 88%,#FFF 100%) border-box !important; }
+html.ui-celestial .cta-tracer { background: linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0)) padding-box, conic-gradient(from 0deg,transparent 65%,#FFD166 88%,#8A2BE2 100%) border-box !important; }
+html.ui-abyss .cta-tracer { background: linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0)) padding-box, conic-gradient(from 0deg,transparent 65%,#00FFA3 88%,#FFF 100%) border-box !important; }
+html.ui-frost .cta-tracer { background: linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0)) padding-box, conic-gradient(from 0deg,transparent 65%,#70D6FF 88%,#FFF 100%) border-box !important; }
+
+/* ── 各テーマ別 臨床スキルレーダー ＆ アセンションカード ── */
+html.ui-aurora .radar-val { stroke: #00DFD8 !important; fill: rgba(0, 223, 216, 0.25) !important; filter: drop-shadow(0 0 6px #00DFD8) !important; }
+html.ui-brass .radar-val { stroke: #E0C25E !important; fill: rgba(224, 194, 94, 0.25) !important; filter: drop-shadow(0 0 6px #E0C25E) !important; }
+html.ui-cyber .radar-val { stroke: #00E5FF !important; fill: rgba(0, 229, 255, 0.28) !important; filter: drop-shadow(0 0 8px #00E5FF) !important; }
+html.ui-liquid .radar-val { stroke: #FF007F !important; fill: rgba(255, 0, 127, 0.25) !important; filter: drop-shadow(0 0 6px #FF007F) !important; }
+html.ui-kintsugi .radar-val { stroke: #F5D061 !important; fill: rgba(245, 208, 97, 0.28) !important; filter: drop-shadow(0 0 6px #F5D061) !important; }
+html.ui-celestial .radar-val { stroke: #FFD166 !important; fill: rgba(255, 209, 102, 0.28) !important; filter: drop-shadow(0 0 6px #FFD166) !important; }
+html.ui-abyss .radar-val { stroke: #00FFA3 !important; fill: rgba(0, 255, 163, 0.28) !important; filter: drop-shadow(0 0 8px #00FFA3) !important; }
+html.ui-frost .radar-val { stroke: #70D6FF !important; fill: rgba(112, 214, 255, 0.28) !important; filter: drop-shadow(0 0 8px #70D6FF) !important; }
+
+html.ui-cyber .ascension-card { border-color: #00E5FF !important; box-shadow: 0 0 35px rgba(0, 229, 255, 0.5) !important; }
+html.ui-kintsugi .ascension-card { border-color: #F5D061 !important; box-shadow: 0 0 35px rgba(245, 208, 97, 0.5) !important; }
+html.ui-celestial .ascension-card { border-color: #FFD166 !important; box-shadow: 0 0 35px rgba(255, 209, 102, 0.5) !important; }
+html.ui-abyss .ascension-card { border-color: #00FFA3 !important; box-shadow: 0 0 35px rgba(0, 255, 163, 0.5) !important; }
+html.ui-frost .ascension-card { border-color: #70D6FF !important; box-shadow: 0 0 35px rgba(112, 214, 255, 0.5) !important; }
+
 /* ── GPU合成レイヤー最適化: 60fps常時維持 ── */
 .qc.fx-correct,
 .qc.fx-correct .ch2.correct,
@@ -7135,7 +7363,19 @@ html.ui-frost .gauge .gauge-mid { color: #FFFFFF !important; text-shadow: 0 0 20
 .gauge .gauge-ring::before,
 .gauge .gauge-ring::after,
 .gauge .gauge-dot,
-.gauge .gauge-val {
+.gauge .gauge-val,
+.gauge .gauge-megaring,
+.gauge .gauge-aura,
+.gauge .submeter-needle,
+.gauge .gauge-sheen,
+.gauge .crown-bead,
+.gauge .heatsink-vent,
+.gauge .plasma-arc,
+.conduit-pulse,
+.cta-tracer,
+.lv-fluid-wave,
+.spark-ecg-beam,
+.radar-sonar-sweep {
   will-change: transform, opacity;
   transform: translateZ(0);
   backface-visibility: hidden;

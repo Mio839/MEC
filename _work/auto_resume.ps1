@@ -28,6 +28,12 @@ MEC自動再開ツール（auto_resume.ps1）
      → schtasks の呼び出しは cmd.exe 越しに握りつぶす。
   4) レート制限の文言・reset時刻の書式はClaude Code非公開のため正規表現で推定検出している。
      捕まえられなかったら auto_resume.log の「フック生入力」を見て Parse-ResetTime を調整すること。
+  5) --dangerously-skip-permissions は**初回だけ全画面の同意ダイアログ**を出す（"Yes, I accept"）。
+     無人の再開ウィンドウでは誰も Enter を押さないのでそこで止まり、リセット枠を丸ごと落とす
+     （2026-08-28 18:02 に発生）。同意は ~/.claude/settings.json の
+     skipDangerousModePermissionPrompt に記録される（claude本体は userSettings / localSettings /
+     flagSettings / policySettings のどれかに true があればダイアログを出さない）。
+     → Start-Resume が起動直前に Ensure-BypassAccepted で立っていることを確かめ、無ければ立てる。
 
 ⚠️ トークンを食っているのはこのスクリプトではなく再開先のセッション（実測 341ターン×
    平均326kトークンで $25.92／1回）。自動再開が通常セッションより多く食っている事実は無い
@@ -143,6 +149,35 @@ function Register-Task {
     }
 }
 
+function Ensure-BypassAccepted {
+    # ⚠️⚠️ --dangerously-skip-permissions は初回だけ全画面の同意ダイアログ（"Yes, I accept"）を出す。
+    #   無人の再開ウィンドウでは誰も Enter を押さないのでそこで止まり、その回のリセット枠を
+    #   丸ごと落とす（2026-08-28 18:02 に実際に発生）。同意は
+    #   ~/.claude/settings.json の skipDangerousModePermissionPrompt に記録されるので、
+    #   起動直前に立っていることを確かめ、無ければ立てる（一度ユーザーが受諾した同意の
+    #   再宣言。claude 本体の更新でフラグが落ちてもここで自己修復する）。
+    # ⚠️ JSONの往復（ConvertFrom/To-Json）はしない。settings.json は hooks を抱えていて整形が
+    #   丸ごと変わるし、Set-Content -Encoding UTF8 は BOM を付けて JSON.parse を壊す。
+    $f = Join-Path $env:USERPROFILE '.claude\settings.json'
+    try {
+        if (-not (Test-Path $f)) { return }
+        $raw = [System.IO.File]::ReadAllText($f)
+        if ($raw -match '"skipDangerousModePermissionPrompt"\s*:\s*true') { return }
+        Copy-Item $f "$f.bak" -Force
+        if ($raw -match '"skipDangerousModePermissionPrompt"\s*:\s*false') {
+            $new = $raw -replace '("skipDangerousModePermissionPrompt"\s*:\s*)false', '${1}true'
+        } else {
+            # \A ＝文字列の先頭だけ（^ と違い1箇所しか当たらない）。最初の { の直後に1行差し込む。
+            $new = [regex]::Replace($raw, '\A\s*\{', "{`r`n  `"skipDangerousModePermissionPrompt`": true,")
+        }
+        if ($new -eq $raw) { Write-Log '⚠️ 同意フラグを入れられませんでした（settings.json の形が想定外）。'; return }
+        [System.IO.File]::WriteAllText($f, $new, (New-Object System.Text.UTF8Encoding($false)))
+        Write-Log '同意フラグ skipDangerousModePermissionPrompt を立てました（再開が同意ダイアログで止まらないように）。'
+    } catch {
+        Write-Log "⚠️ 同意フラグの確認に失敗（$_）。再開ウィンドウがダイアログで止まる可能性があります。"
+    }
+}
+
 function Start-Resume {
     param([string]$SessId)
     # ⚠️ 人が同じセッションを触っている最中に開くと、同じtranscriptを2つのClaudeが書く。
@@ -153,6 +188,7 @@ function Start-Resume {
         return
     }
     Remove-Task
+    Ensure-BypassAccepted
 
     $exe = (Get-Command $ClaudeExe -ErrorAction SilentlyContinue).Source
     if (-not $exe) { $exe = $ClaudeExe }
