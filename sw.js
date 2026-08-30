@@ -1,4 +1,4 @@
-// 2026-08-30x: 試験モード中・上部折りたたみ時（hdr-collapsed）の問題カウントゲージおよびヘッダー上下余白をスリム化。
+// 2026-08-30y: 試験モード中・上部折りたたみ時（hdr-collapsed）の問題カウントゲージおよびヘッダー上下余白をスリム化。
 //   - study.css: body.exam-mode .st-hdr.hdr-collapsed のパディングを 4px 12px 3px に縮小、タイトル行下マージンを 2px に、.exam-prog のパディングを 2px 10px に縮小。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-30h: circ 第1章「循環器の基本」の解説を6問追加（Q.49-54・54/77問）。
@@ -556,12 +556,12 @@
 // v193: 循環器 ch01「循環器の基本」77問の原文照合（④）。Q.20 の設問文の末尾に PDF ページへの
 //       手書きメモが紛れ込んでいたのを除去。Q.24 は肢が図中の a〜e を指すだけなのに解答の機序が
 //       書き足されていたので原文へ戻した。正答率の欠落7件を補った。
-const CACHE = "mec-v245";
+const CACHE = "mec-v246";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-30x";
+const SHELL_VERSION = "2026-08-30y";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
