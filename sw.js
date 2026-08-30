@@ -1,3 +1,7 @@
+// 2026-08-31c: Heroゲージの「クリスタルドーム風防レンズ＆偏光ホログラム光沢」および「ゲージ先端のコメットテール＆火花スパーク」を削除。
+//   - index.html: .gauge-lens / .gauge-sheen / @keyframes prismSheen / .comet-tail / .dot-spark / @keyframes cometTailPulse / @keyframes sparkFlicker を撤去。
+//   - ui_theme.css: .gauge-sheen の will-change 指定を削除。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-30y: 試験モード中・上部折りたたみ時（hdr-collapsed）の問題カウントゲージおよびヘッダー上下余白をスリム化。
 //   - study.css: body.exam-mode .st-hdr.hdr-collapsed のパディングを 4px 12px 3px に縮小、タイトル行下マージンを 2px に、.exam-prog のパディングを 2px 10px に縮小。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
@@ -561,7 +565,7 @@ const CACHE = "mec-v249";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-31b";
+const SHELL_VERSION = "2026-08-31c";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

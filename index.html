@@ -918,21 +918,12 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
   animation-delay:calc(var(--i,0) * 55ms);}
 @keyframes digitIn{from{opacity:0;transform:translateY(.24em) scale(.86);}}
 
-/* ── ゲージ先端の光点＆コメットテール。円弧と同じ時間で回り込む ── */
+/* ── ゲージ先端の光点。円弧と同じ時間で回り込む ── */
 .gauge-dot{transform:rotate(0deg);transition:transform 1.15s var(--ease-out) .25s;}
 .gauge-dot circle{fill:var(--or);}
 .gauge-dot .dot-core{fill:var(--or);filter:drop-shadow(0 0 5px var(--or));}
 .gauge-dot .halo{fill:var(--or);opacity:.28;animation:haloPulse 2s var(--ease-in-out) infinite;}
 @keyframes haloPulse{0%,100%{opacity:.14;}50%{opacity:.42;}}
-.gauge-dot .comet-tail{stroke:var(--or);stroke-width:5;stroke-linecap:round;opacity:.36;
-  stroke-dasharray:14 40;animation:cometTailPulse 1.8s var(--ease-in-out) infinite;}
-@keyframes cometTailPulse{0%,100%{opacity:.22;stroke-width:4;}50%{opacity:.55;stroke-width:6;}}
-.gauge-dot .dot-spark{fill:#FFF8DC;opacity:0;}
-.gauge[data-tier="3"] .gauge-dot .dot-spark,
-.gauge[data-tier="4"] .gauge-dot .dot-spark,
-.gauge[data-tier="5"] .gauge-dot .dot-spark,
-.gauge[data-tier="6"] .gauge-dot .dot-spark{animation:sparkFlicker .6s steps(2,start) infinite;}
-@keyframes sparkFlicker{0%,100%{opacity:0;transform:scale(.6);}50%{opacity:.95;transform:scale(1.2);}}
 .hero.settled .gauge-dot{transition:transform var(--dur-long) var(--ease-out);}
 
 /* ── 軌道パルス。トラック上を周回するエネルギー光球 ── */
@@ -970,15 +961,6 @@ html.ui-brass .brass-piston-layer{display:inline;}
 @keyframes pistonReciprocateLeft{0%{transform:translate(0,0) rotate(0deg);}100%{transform:translate(-5px,-4px) rotate(-6deg);}}
 @keyframes pistonReciprocateRight{0%{transform:translate(0,0) rotate(0deg);}100%{transform:translate(5px,-4px) rotate(6deg);}}
 
-/* ── 🔮 クリスタルドーム風防レンズ ＆ 偏光ホログラム光沢 ── */
-.gauge-lens{position:absolute;inset:-2px;border-radius:50%;pointer-events:none;z-index:3;
-  box-shadow:inset 0 2px 5px rgba(255,255,255,.32),inset 0 -3px 6px rgba(0,0,0,.4);
-  overflow:hidden;}
-.gauge-sheen{position:absolute;inset:-100%;
-  background:linear-gradient(115deg,transparent 44%,rgba(255,255,255,.24) 48%,rgba(0,229,255,.3) 50%,rgba(255,160,64,.24) 52%,transparent 56%);
-  animation:prismSheen 8s ease-in-out infinite;pointer-events:none;}
-@keyframes prismSheen{0%,100%{transform:translateX(-60%) translateY(-60%) rotate(25deg);}
-  45%,55%{transform:translateX(60%) translateY(60%) rotate(25deg);}}
 
 /* ── 👑 週間達成クラウンビーズ（7-Day Crown Orbit）── */
 .crown-bead{fill:rgba(var(--glass-rgb),.2);stroke:rgba(var(--glass-rgb),.32);stroke-width:.8;transition:fill .5s,filter .5s;}
@@ -1134,7 +1116,7 @@ html.ui-brass .brass-piston-layer{display:inline;}
   .cta-ic{animation:none;}
   /* 2026-08-30 追加分（Heroゲージ拡張・動的機構・総合演出） */
   .gauge-pulse-trk,.gauge-megaring,.piston-left,.piston-right,.gauge-aura,
-  .comet-tail,.dot-spark,.submeter-needle,.conduit-pulse,.ambient-nebula,
+  .submeter-needle,.conduit-pulse,.ambient-nebula,
   .hero-shockwave-ring,.cta-tracer,.lv-fluid-wave,.spark-ecg-beam,
   .hero[data-streak-milestone]{animation:none!important;transition:none!important;}
   .gauge-pulse-trk,.gauge-aura,.hero-shockwave-layer,.spark-ecg-beam,.cta-tracer{display:none;}
@@ -1280,9 +1262,6 @@ html.ui-brass .brass-piston-layer{display:inline;}
            達成率は 100% で頭打ちにしない（超えた日はそのまま 130% 等を出す）。 -->
       <div class="gauge" id="gaugeBox" data-tier="0" data-time="day">
         <div class="gauge-aura" id="gaugeAura" aria-hidden="true"></div>
-        <div class="gauge-lens" aria-hidden="true">
-          <div class="gauge-sheen"></div>
-        </div>
         <div class="gauge-ring">
           <!-- viewBox は 168。弧(r=54)は据え置きのまま外側に余白を作り、そこへ歯車列を
                大きく載せている（GAUGE_C = 2π×54 は変えない＝弧の計算はそのまま） -->
@@ -1412,14 +1391,11 @@ html.ui-brass .brass-piston-layer{display:inline;}
             <!-- 100%を超えたぶんだけを1周目の上に重ねて描く2周目の弧。
                  100%までは長さ0＝見えない。200%超は満タンで頭打ち（数字は正しく出る） -->
             <circle class="gauge-ovf" id="gaugeOvf" cx="84" cy="84" r="54"></circle>
-            <!-- 円弧の先端に付く光点＆彗星（コメット）テール。SVG の既定 transform-box は view-box なので
+            <!-- 円弧の先端に付く光点。SVG の既定 transform-box は view-box なので
                  transform-origin にユーザー単位の中心(84,84)をそのまま書ける -->
             <g class="gauge-dot" id="gaugeDot" style="transform-origin:84px 84px">
-              <path class="comet-tail" d="M 84,30 A 54,54 0 0,0 66,33.5" fill="none"></path>
               <circle class="halo" cx="84" cy="30" r="10"></circle>
               <circle class="dot-core" cx="84" cy="30" r="5"></circle>
-              <circle class="dot-spark spark-1" cx="81" cy="27" r="1.5"></circle>
-              <circle class="dot-spark spark-2" cx="87" cy="33" r="1.2"></circle>
             </g>
           </svg>
           <span class="gauge-mid" id="gaugeMid"><span id="statPct">0</span><em>%</em></span>
@@ -2313,6 +2289,7 @@ function renderHero() {
       bead.classList.toggle('done', isDone);
       if (!isDone && i <= dayOfWeek) weekAllDone = false;
     }
+    const gBox = document.getElementById('gaugeBox');
     if (gBox) gBox.classList.toggle('all-week-crowned', weekAllDone);
   }
 
