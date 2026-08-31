@@ -1,3 +1,7 @@
+// 2026-08-31f: 正解後の正解肢以外の選択肢に対するフェードアウト・沈み込み・ぼかしエフェクトを完全廃止し、通常視認性を維持。
+//   - ui_theme.css: 全8テーマの .qc.fx-correct .ch2:not(.ok) および .qc.exam-sink / .qc.ce-sink における opacity低下・blur・brightness低下・縮小を撤去（通常表示を保証）。
+//   - study.css / chapter_exam.js: .qc.exam-sink / .qc.ce-sink の沈み込みエフェクトを無効化。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-31d: エネルギー・コンジット配線（Hero数値〜ゲージ間）の光パルス・パイプ描画を削除。
 //   - index.html: .hero-conduit-svg / .conduit-pipe / .conduit-pulse / .conduit-node / @keyframes conduitPulse を撤去。
 //   - ui_theme.css: テーマ別 .conduit-pulse および will-change 指定を削除。
@@ -569,7 +573,7 @@ const CACHE = "mec-v250";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-31e";
+const SHELL_VERSION = "2026-08-31f";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

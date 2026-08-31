@@ -2652,7 +2652,7 @@ function _examCountdown() {
   return t0 + 3 * 420 + 780;
 }
 
-// C10: 結果画面のランクスタンプ（S/A/B/C・100%はPERFECT）
+// C10: 結果画面のランク刻印スタンプ（S/A/B/C・100%はPERFECT）
 function _stampRank(pct) {
   const modal = document.querySelector('#examOverlay .exam-modal');
   if (!modal || _fxOff()) return;
@@ -2660,27 +2660,60 @@ function _stampRank(pct) {
   const perfect = pct >= 100;
   // 基準は章カードの色分け（80/60）に合わせ、90以上をSとして上乗せする
   const rank = perfect ? 'PERFECT' : pct >= 90 ? 'S' : pct >= 80 ? 'A' : pct >= 60 ? 'B' : 'C';
+  const sub = perfect ? '★ MASTERED ★' : pct >= 90 ? 'EXCELLENT' : pct >= 80 ? 'GREAT' : pct >= 60 ? 'PASS' : 'TRAINING';
   const col = perfect ? '#FFD700' : pct >= 90 ? '#FFD700' : pct >= 80 ? '#3DD68C' : pct >= 60 ? '#FFB830' : '#FF6B6B';
+  const glow = perfect ? 'rgba(255,215,0,.45)' : pct >= 90 ? 'rgba(255,215,0,.35)' : pct >= 80 ? 'rgba(61,214,140,.35)' : pct >= 60 ? 'rgba(255,184,48,.32)' : 'rgba(255,107,107,.32)';
+
   const el = document.createElement('div');
   el.className = 'exam-rank-stamp' + (perfect ? ' perfect' : '');
-  el.textContent = rank;
   el.style.setProperty('--rk-col', col);
+  el.style.setProperty('--rk-glow', glow);
+  el.innerHTML = '<div class="rk-inner"><div class="rk-val">' + rank + '</div><div class="rk-sub">' + sub + '</div></div>';
   modal.appendChild(el);
+
+  // ハードプレス・落下刻印アニメーション（上空から盤面にズドンと打ち込む）
   el.animate([
-    { opacity: 0, transform: 'translate(-50%,-50%) scale(2.8) rotate(-24deg)' },
-    { opacity: 1, transform: 'translate(-50%,-50%) scale(.94) rotate(-13deg)', offset: .3 },
-    { transform: 'translate(-50%,-50%) scale(1.05) rotate(-13deg)', offset: .42 },
-    { transform: 'translate(-50%,-50%) scale(1) rotate(-13deg)', offset: .55 },
-    { opacity: 1, transform: 'translate(-50%,-50%) scale(1) rotate(-13deg)' }
-  ], { duration: 720, easing: 'cubic-bezier(.2,1.35,.35,1)', fill: 'forwards' });
-  // 押印の衝撃（スタンプ位置から）
-  if (window.MecFX) {
-    try {
-      const r = el.getBoundingClientRect();
-      window.MecFX.rings(r.left + r.width / 2, r.top + r.height / 2,
-        { count: 2, color: 'rgba(255,255,255,.55)', thickness: 3, maxR: 220, additive: true });
-    } catch (e) {}
-  }
+    { opacity: 0, transform: 'translate(-50%,-50%) scale(3.2) rotate(-28deg)', filter: 'brightness(2)' },
+    { opacity: 1, transform: 'translate(-50%,-50%) scale(.92) rotate(-11deg)', filter: 'brightness(1.8)', offset: .34 },
+    { transform: 'translate(-50%,-50%) scale(1.06) rotate(-11deg)', filter: 'brightness(1.2)', offset: .48 },
+    { transform: 'translate(-50%,-50%) scale(1) rotate(-11deg)', filter: 'brightness(1)', offset: .62 },
+    { opacity: 1, transform: 'translate(-50%,-50%) scale(1) rotate(-11deg)', filter: 'brightness(1)' }
+  ], { duration: 750, easing: 'cubic-bezier(.12,1.15,.28,1)', fill: 'forwards' });
+
+  // 激突の瞬間の衝撃演出（スタンプ着地時: 約 255ms）
+  setTimeout(() => {
+    // 1. モーダルのマイクロバウンス（body は動かさず .exam-modal だけを微振動）
+    modal.classList.remove('exam-modal-impact');
+    void modal.offsetWidth; // reflow
+    modal.classList.add('exam-modal-impact');
+    setTimeout(() => modal.classList.remove('exam-modal-impact'), 300);
+
+    // 2. MecFX 衝撃波リング ＆ 金属火花パーティクル
+    if (window.MecFX) {
+      try {
+        const r = el.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const cy = r.top + r.height / 2;
+        // 衝撃波二重リング
+        window.MecFX.rings(cx, cy, {
+          count: perfect ? 3 : 2,
+          color: col,
+          thickness: perfect ? 4 : 3,
+          maxR: perfect ? 260 : 200,
+          additive: true
+        });
+        // 金属火花・破片バースト（非加算合成で金属片らしさを出す）
+        window.MecFX.burst(cx, cy, {
+          count: perfect ? 24 : 16,
+          colors: [col, '#FFF3C4', '#FFFFFF'],
+          shapes: ['shard', 'square'],
+          gravity: 1200,
+          additive: false,
+          scale: perfect ? 1.4 : 1.1
+        });
+      } catch (e) {}
+    }
+  }, 255);
 }
 
 // C11: SRS復習セッションを完走した時の完了演出（習慣化の達成感）
@@ -4982,24 +5015,60 @@ function showExamSummary() {
   // 周囲のconic-gradientリングも同時に伸びる（--p/--ringc は study.css の .exam-pct-ring が参照）
   const pctEl = document.getElementById('sumPct');
   const pctRing = document.getElementById('sumPctRing');
+  const corEl = document.getElementById('sumCorrect');
+  const wrnEl = document.getElementById('sumWrong');
+  const ansEl = document.getElementById('sumAnswered');
+  const timEl = document.getElementById('sumTime');
+
+  const targetCorrect = examCorrect;
+  const targetWrong = examAnswered - examCorrect;
+  const targetAnswered = examAnswered;
+  const targetSec = elapsed;
+
   const pctCol = pct >= 80 ? '#3DD68C' : pct >= 60 ? '#FFB830' : '#FF6B6B';
   if (pctEl) pctEl.style.color = pctCol;
   if (pctRing) { pctRing.style.setProperty('--ringc', pctCol); pctRing.style.setProperty('--p', 0); }
+
   /* S10(2026-08-21): ニキシー管は「数字が止まった瞬間に一度だけ」ともる＝結果が確定した合図。
-     ⚠️ 動いている数字は #sumPct だけなので、そのカウントアップの完了を5本まとめての合図に使う。
-        点灯の口をここ1つに寄せること（タイル側にも作ると2回に分かれて意味が薄まる）。
+     全数字（正答率・正解・不正解・回答・時間）のカウントアップ完了をまとめて確定の合図に使う。
      ⚠️ rAF が止まった時の落とし所を必ず置く。非表示タブでは rAF が1フレームも来ないので、
         保険が無いと**裏で終わったセッションの管が永久に点かない**（_tweenNum・countUp と同じ穴）。 */
   const _modal = document.querySelector('#examOverlay .exam-modal');
   if (_modal) _modal.classList.remove('tubes-lit');
-  const _litTubes = () => { if (_modal) _modal.classList.add('tubes-lit'); };
-  if (pctEl) {
+  let _countFinished = false;
+  const _litTubes = () => {
+    if (_countFinished) return;
+    _countFinished = true;
+    if (pctEl) pctEl.textContent = pct + '%';
+    if (pctRing) pctRing.style.setProperty('--p', pct);
+    if (corEl) corEl.textContent = targetCorrect;
+    if (wrnEl) wrnEl.textContent = targetWrong;
+    if (ansEl) ansEl.textContent = targetAnswered;
+    if (timEl) timEl.textContent = Math.floor(targetSec / 60) + '分' + (targetSec % 60) + '秒';
+    if (_modal) _modal.classList.add('tubes-lit');
+  };
+
+  // 初期値のセット
+  if (pctEl) pctEl.textContent = '0%';
+  if (corEl) corEl.textContent = '0';
+  if (wrnEl) wrnEl.textContent = '0';
+  if (ansEl) ansEl.textContent = '0';
+  if (timEl) timEl.textContent = '0分0秒';
+
+  if (pctEl || corEl || ansEl) {
     const t0 = performance.now(), dur = 900;
     const tick = now => {
       const k = Math.min(1, (now - t0) / dur);
-      const v = Math.round(pct * (1 - Math.pow(1 - k, 3)));
-      pctEl.textContent = v + '%';
-      if (pctRing) pctRing.style.setProperty('--p', v);
+      const ease = 1 - Math.pow(1 - k, 3);
+      if (pctEl) pctEl.textContent = Math.round(pct * ease) + '%';
+      if (pctRing) pctRing.style.setProperty('--p', Math.round(pct * ease));
+      if (corEl) corEl.textContent = Math.round(targetCorrect * ease);
+      if (wrnEl) wrnEl.textContent = Math.round(targetWrong * ease);
+      if (ansEl) ansEl.textContent = Math.round(targetAnswered * ease);
+      if (timEl) {
+        const s = Math.round(targetSec * ease);
+        timEl.textContent = Math.floor(s / 60) + '分' + (s % 60) + '秒';
+      }
       if (k < 1) requestAnimationFrame(tick); else _litTubes();
     };
     requestAnimationFrame(tick);
@@ -5007,10 +5076,6 @@ function showExamSummary() {
   } else {
     _litTubes();
   }
-  document.getElementById('sumCorrect').textContent = examCorrect;
-  document.getElementById('sumWrong').textContent = examAnswered - examCorrect;
-  document.getElementById('sumAnswered').textContent = examAnswered;
-  document.getElementById('sumTime').textContent = Math.floor(elapsed/60) + '分' + (elapsed%60) + '秒';
   const subjEl = document.getElementById('sumSubjTable');
   if (subjEl) {
     // E2(2026-08-14): 数字だけの表に細いバーを重ねて、内訳が一目で読めるようにする。
@@ -5097,13 +5162,20 @@ function showExamSummary() {
           window.MecFX.confetti({ count: 180, colors: ['#3DD68C', '#60A5FA', '#FFB830', '#FF5E8A', '#A78BFA'], big: true });
         }, 980);
       } else if (pct >= 80) {
-        window.MecFX.fireworks({ count: 6, colors: ['#3DD68C', '#60A5FA', '#FFB830'], tier: 4 });
-        window.MecFX.confetti({ count: 140, colors: ['#3DD68C', '#60A5FA', '#FFB830', '#A78BFA'], big: true });
+        setTimeout(() => {
+          window.MecFX.fireworks({ count: 6, colors: ['#3DD68C', '#60A5FA', '#FFB830'], tier: 4 });
+          window.MecFX.confetti({ count: 140, colors: ['#3DD68C', '#60A5FA', '#FFB830', '#A78BFA'], big: true });
+        }, 980);
       } else if (pct >= 60) {
-        window.MecFX.fireworks({ count: 3, colors: ['#60A5FA', '#FFB830'], tier: 3 });
-        window.MecFX.confetti({ count: 90, colors: ['#60A5FA', '#FFB830', '#3DD68C'] });
+        setTimeout(() => {
+          window.MecFX.fireworks({ count: 3, colors: ['#60A5FA', '#FFB830'], tier: 3 });
+          window.MecFX.confetti({ count: 90, colors: ['#60A5FA', '#FFB830', '#3DD68C'] });
+        }, 980);
       } else {
-        { const _rb = _fxBand(); window.MecFX.rings(_rb.cx, _rb.cy, { count: 3, color: 'rgba(96,165,250,.85)', thickness: 4, maxR: 160, additive: true }); }
+        setTimeout(() => {
+          const _rb = _fxBand();
+          window.MecFX.rings(_rb.cx, _rb.cy, { count: 3, color: 'rgba(96,165,250,.85)', thickness: 4, maxR: 160, additive: true });
+        }, 980);
       }
     } catch (e) {}
   }

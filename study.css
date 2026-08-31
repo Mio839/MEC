@@ -1332,13 +1332,10 @@ body{
   font-size:19px;font-weight:900;letter-spacing:.05em;color:var(--rc-col,#3DD68C);
   text-shadow:0 0 16px color-mix(in srgb,var(--rc-col,#3DD68C) 65%,transparent),0 2px 10px rgba(0,0,0,.7);}
 
-/* A5(2026-08-14): 正解の瞬間だけ、選ばなかった肢が一段沈む。
-   ⚠️ transition:all は使わない（この規模のカードでは再レイアウトを誘発する）。
-   ⚠️ 一時的な強調なので JS 側が 1.1秒で必ずクラスを外す。付けっぱなしにすると
-      解説を読む段階で肢が読めなくなる。 */
-.qc.exam-sink .ch2{transition:transform .28s cubic-bezier(.2,.8,.3,1),opacity .28s ease,filter .28s ease;}
+/* A5: 正解時も選ばなかった肢の視認性を維持 */
+.qc.exam-sink .ch2{transition:none;opacity:1;filter:none;transform:none;}
 .qc.exam-sink .ch2:not(.exam-selected):not(.exam-instant-correct):not(.ok){
-  transform:scale(.985) translateY(2px);opacity:.5;filter:saturate(.55);}
+  transform:none;opacity:1;filter:none;}
 
 /* A3: カード外周を一周するボーダートレース */
 .exam-trace-svg{position:fixed;z-index:8500;pointer-events:none;overflow:visible;}
@@ -1471,12 +1468,37 @@ body.exam-awaken #examComboMeter{height:5px;}
   .cd-sub{font-size:10px;letter-spacing:.22em;}
 }
 
-/* C10: 結果画面のランクスタンプ */
-.exam-rank-stamp{position:absolute;top:150px;left:76%;z-index:5;pointer-events:none;
-  font-size:52px;font-weight:900;letter-spacing:.02em;color:var(--rk-col,#FFD700);
-  border:5px solid var(--rk-col,#FFD700);border-radius:var(--r-md);padding:2px 14px 4px;
-  opacity:0;transform:translate(-50%,-50%);text-shadow:0 2px 10px rgba(0,0,0,.5);}
-.exam-rank-stamp.perfect{font-size:26px;letter-spacing:.14em;padding:6px 12px;}
+/* C10: 結果画面のランク刻印スタンプ */
+.exam-rank-stamp{position:absolute;top:148px;left:76%;z-index:5;pointer-events:none;
+  display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  min-width:92px;padding:6px 14px 7px;border-radius:10px;
+  background:radial-gradient(circle at 50% 30%, rgba(28,32,40,.96), rgba(12,14,18,.98));
+  border:3px solid var(--rk-col,#FFD700);
+  box-shadow:0 0 0 1.5px rgba(0,0,0,.85), inset 0 0 0 1.5px rgba(255,255,255,.22),
+             0 8px 24px rgba(0,0,0,.75), 0 0 18px var(--rk-glow,rgba(255,215,0,.35));
+  opacity:0;transform:translate(-50%,-50%);}
+.exam-rank-stamp .rk-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.exam-rank-stamp .rk-val{font-size:48px;font-weight:900;line-height:1;letter-spacing:.02em;color:var(--rk-col,#FFD700);
+  font-family:var(--font-display,inherit);text-shadow:0 2px 10px rgba(0,0,0,.8), 0 0 12px var(--rk-col,#FFD700);}
+.exam-rank-stamp .rk-sub{font-size:9.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--rk-col,#FFD700);opacity:.88;margin-top:4px;white-space:nowrap;
+  text-shadow:0 1px 4px rgba(0,0,0,.9);}
+.exam-rank-stamp.perfect{min-width:138px;padding:8px 14px 9px;}
+.exam-rank-stamp.perfect .rk-val{font-size:24px;letter-spacing:.14em;}
+.exam-rank-stamp.perfect .rk-sub{font-size:8.5px;letter-spacing:.20em;}
+
+@media (max-width:480px){
+  .exam-rank-stamp{top:140px;left:74%;transform:translate(-50%,-50%) scale(.86);}
+}
+
+/* 押印時のモーダル・マイクロバウンス（body は動かさず modal だけを微振動） */
+.exam-modal.exam-modal-impact{animation:examModalImpact .28s cubic-bezier(.25,1.4,.45,1);}
+@keyframes examModalImpact{
+  0%{transform:translateY(0)}
+  30%{transform:translateY(4px)}
+  60%{transform:translateY(-2px)}
+  100%{transform:translateY(0)}
+}
 
 /* C11: SRS復習セッション完走バナー */
 .exam-srs-done{background:rgba(255,154,60,.14);border:1.5px solid rgba(255,154,60,.42);border-radius:var(--r-md);
@@ -1531,6 +1553,7 @@ body.exam-awaken #examComboMeter{height:5px;}
   .exam-fast-pop,.exam-trace-svg,.exam-tierup,.exam-zone-collapse,
   .exam-hard-pop,.exam-recover-pop,.exam-mark-pop,
   #examCountdown,#examStreakSig,.exam-rank-stamp{display:none!important;}
+  .exam-modal.exam-modal-impact{animation:none!important;}
   .qc.exam-sink .ch2{transition:none;transform:none;opacity:1;filter:none;}
   .ch-divider.gm-ch-sweep::after{display:none!important;}
   /* Phase 5: 動きだけ止め、意匠は残す（設計 §11-7 の条件3＝静止画に戻るだけで情報は失われない）。

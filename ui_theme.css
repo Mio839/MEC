@@ -4890,31 +4890,30 @@ body.ch-exam-mode .qc.ch-exam-revealed {
 /* 3. 豁｣隗｣遒ｺ螳壽凾: 驕ｸ縺ｰ繧後↑縺九▲縺滄∈謚櫁い縺ｮ縺ｿ縺梧囓縺丞･･縺ｸ豐医∩霎ｼ繧繧ｨ繝輔ぉ繧ｯ繝� */
 .qc.exam-sink .ch2:not(.ok):not(.exam-selected),
 .qc.ce-sink .ch2:not(.ok):not(.ch-exam-selected):not(.ch-exam-instant-correct) {
-  opacity: 0.35 !important;
-  filter: grayscale(0.6) brightness(0.65) !important;
-  transform: scale(0.98) translateY(2px) !important;
-  transition: opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease !important;
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+  transition: none !important;
 }
 
-/* 4. 蜷�ユ繝ｼ繝槫挨縺ｮ驕ｸ縺ｰ繧後↑縺九▲縺溯い縺ｮ豐医∩霎ｼ縺ｿ隱ｿ蠕� */
 html.ui-aurora .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
-  background: rgba(10, 15, 30, 0.4) !important;
-  border-color: rgba(255, 255, 255, 0.05) !important;
+  background: inherit;
+  border-color: inherit;
 }
 
 html.ui-brass .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
-  background: rgba(18, 14, 10, 0.45) !important;
-  border-color: rgba(201, 162, 39, 0.1) !important;
+  background: inherit;
+  border-color: inherit;
 }
 
 html.ui-cyber .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
-  background: rgba(4, 10, 22, 0.5) !important;
-  border-color: rgba(0, 229, 255, 0.08) !important;
+  background: inherit;
+  border-color: inherit;
 }
 
 html.ui-liquid .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
-  background: rgba(10, 10, 24, 0.45) !important;
-  border-color: rgba(255, 0, 127, 0.08) !important;
+  background: inherit;
+  border-color: inherit;
 }
 
 /* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�
@@ -6957,14 +6956,14 @@ html.ui-abyss .qc .ch2.ok.correct::before { content: '🪼 ' !important; color: 
 html.ui-frost .qc .ch2.ok.correct::before { content: '❄ ' !important; color: #70D6FF !important; text-shadow: 0 0 14px #70D6FF !important; }
 
 /* ── ④ 不正解肢のテーマ別フェードアウト（消滅） ── */
-html.ui-aurora .qc.fx-correct .ch2:not(.ok) { opacity: 0.28 !important; filter: blur(1.5px) !important; transform: scale(0.985) !important; transition: opacity .35s ease, filter .35s ease, transform .35s ease !important; }
-html.ui-brass .qc.fx-correct .ch2:not(.ok) { opacity: 0.25 !important; transform: translateY(4px) scale(0.98) !important; filter: brightness(0.7) !important; transition: opacity .35s ease, transform .35s ease, filter .35s ease !important; }
-html.ui-cyber .qc.fx-correct .ch2:not(.ok) { opacity: 0.2 !important; filter: contrast(1.4) brightness(0.6) !important; transform: skewX(2deg) scale(0.98) !important; transition: opacity .3s steps(4, end) !important; }
-html.ui-liquid .qc.fx-correct .ch2:not(.ok) { opacity: 0.25 !important; transform: scale(0.97) translateY(3px) !important; filter: blur(2px) !important; transition: opacity .38s cubic-bezier(0.34, 1.56, 0.64, 1) !important; }
-html.ui-kintsugi .qc.fx-correct .ch2:not(.ok) { opacity: 0.22 !important; filter: grayscale(100%) !important; transform: scale(0.985) !important; transition: opacity .4s ease !important; }
-html.ui-celestial .qc.fx-correct .ch2:not(.ok) { opacity: 0.2 !important; transform: translateY(-3px) scale(0.98) !important; filter: brightness(0.6) !important; transition: opacity .35s ease !important; }
-html.ui-abyss .qc.fx-correct .ch2:not(.ok) { opacity: 0.18 !important; transform: translateY(5px) scale(0.975) !important; filter: blur(2.5px) brightness(0.5) !important; transition: opacity .4s ease !important; }
-html.ui-frost .qc.fx-correct .ch2:not(.ok) { opacity: 0.22 !important; transform: scale(0.98) !important; filter: brightness(0.65) blur(1.2px) !important; transition: opacity .35s ease !important; }
+html.ui-aurora .qc.fx-correct .ch2:not(.ok) { opacity: 1 !important; filter: none !important; transform: none !important; transition: none !important; }
+html.ui-brass .qc.fx-correct .ch2:not(.ok) { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
+html.ui-cyber .qc.fx-correct .ch2:not(.ok) { opacity: 1 !important; filter: none !important; transform: none !important; transition: none !important; }
+html.ui-liquid .qc.fx-correct .ch2:not(.ok) { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
+html.ui-kintsugi .qc.fx-correct .ch2:not(.ok) { opacity: 1 !important; filter: none !important; transform: none !important; transition: none !important; }
+html.ui-celestial .qc.fx-correct .ch2:not(.ok) { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
+html.ui-abyss .qc.fx-correct .ch2:not(.ok) { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
+html.ui-frost .qc.fx-correct .ch2:not(.ok) { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
 
 /* ── ② 次問カードのテーマ別登場エフェクト (.exam-next-entering) ── */
 html.ui-aurora .qc.exam-next-entering { animation: auroraNextEnter .38s cubic-bezier(0.16, 1, 0.3, 1) both !important; }
