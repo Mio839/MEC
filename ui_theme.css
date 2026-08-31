@@ -7363,7 +7363,6 @@ html.ui-frost .ascension-card { border-color: #70D6FF !important; box-shadow: 0 
 .gauge .plasma-arc,
 .cta-tracer,
 .lv-fluid-wave,
-.spark-ecg-beam,
 .radar-sonar-sweep {
   will-change: transform, opacity;
   transform: translateZ(0);

@@ -387,11 +387,6 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .ascension-btn{padding:10px 28px;border-radius:var(--r-md);border:none;background:var(--or);color:var(--subj-ink);
   font-weight:800;font-size:14px;cursor:pointer;font-family:inherit;}
 
-/* ── 📈 スパークライン心電図パルスビーム ── */
-.spark-ecg-beam{position:absolute;top:0;bottom:0;width:32px;
-  background:linear-gradient(90deg,transparent,rgba(0,229,255,.32),rgba(255,255,255,.75),transparent);
-  pointer-events:none;animation:ecgBeamScan 5.5s ease-in-out infinite;z-index:2;}
-@keyframes ecgBeamScan{0%{left:-35px;opacity:0;}12%{opacity:.85;}88%{opacity:.85;}100%{left:100%;opacity:0;}}
 
 .hero-cta{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:var(--sp-5);}
 .btn.cylinder-loaded{animation:cylinderBreathe 2.4s infinite alternate ease-in-out;border-color:rgba(224,194,94,.65)!important;box-shadow:0 0 10px rgba(224,194,94,.3);}
@@ -1108,9 +1103,9 @@ html.ui-brass .brass-piston-layer{display:inline;}
   /* 2026-08-30 追加分（Heroゲージ拡張・動的機構・総合演出） */
   .gauge-pulse-trk,.gauge-megaring,.piston-left,.piston-right,.gauge-aura,
   .submeter-needle,.ambient-nebula,
-  .hero-shockwave-ring,.cta-tracer,.lv-fluid-wave,.spark-ecg-beam,
+  .hero-shockwave-ring,.cta-tracer,.lv-fluid-wave,
   .hero[data-streak-milestone]{animation:none!important;transition:none!important;}
-  .gauge-pulse-trk,.gauge-aura,.hero-shockwave-layer,.spark-ecg-beam,.cta-tracer{display:none;}
+  .gauge-pulse-trk,.gauge-aura,.hero-shockwave-layer,.cta-tracer{display:none;}
 }
 
 /* ── メニュー（旧ヘッダーのボタン群＋旧フッターのテーマ/効果音をここへ集約） ── */
@@ -1437,7 +1432,6 @@ html.ui-brass .brass-piston-layer{display:inline;}
           <span class="spark-hdr-record" id="heroSparkRecord"></span>
         </div>
         <div class="spark-container" id="heroSparkContainer">
-          <div class="spark-ecg-beam" aria-hidden="true"></div>
           <div class="spark-target-line" id="heroSparkTargetLine" title="デイリー目標（40問）">
             <span class="spark-target-lbl">目標 40</span>
           </div>
