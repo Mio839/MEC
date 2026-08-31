@@ -740,7 +740,6 @@
       if (_ceNext) {
         (function(nc){
           nc.classList.remove('exam-next-entering');
-          void nc.offsetWidth;
           nc.classList.add('exam-next-entering');
           setTimeout(function(){ nc.classList.remove('exam-next-entering'); }, 500);
           setTimeout(function(){ ceApplyChoiceShimmer(nc); }, 140);
@@ -1574,18 +1573,16 @@
       pulse.id = 'examEdgePulse';
       document.body.appendChild(pulse);
     }
-    pulse.classList.remove('active');
-    void pulse.offsetWidth;
     pulse.classList.add('active');
-    setTimeout(function () { if (pulse) pulse.classList.remove('active'); }, 300);
+    clearTimeout(pulse._pulseTimer);
+    pulse._pulseTimer = setTimeout(function () { if (pulse) pulse.classList.remove('active'); }, 300);
   }
 
   /* UIテーマ固有の正解・連続正解（コンボ）カード装飾（2026-08-26 改訂: バッジ完全撤廃 ＆ 12要素統合） */
   function ceApplyCardThemeComboFx(card, isCorrect, streak) {
     if (!card) return;
     if (isCorrect) {
-      card.classList.remove('fx-correct', 'exam-wrong-hit');
-      void card.offsetWidth; // アニメーションを確実に再トリガー
+      card.classList.remove('exam-wrong-hit');
       card.classList.add('fx-correct');
       card.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10');
       if (streak >= 10) card.classList.add('combo-streak-10');
@@ -1594,8 +1591,6 @@
 
       card.querySelectorAll('.ch2.ok, .ch2.ch-exam-selected, .ch2.ch-exam-instant-correct').forEach(function (c) {
         if (isChoiceOk(c)) {
-          c.classList.remove('correct');
-          void c.offsetWidth;
           c.classList.add('correct');
         }
       });
@@ -1615,7 +1610,6 @@
         c.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10');
       });
       card.classList.remove('fx-correct');
-      void card.offsetWidth;
       card.classList.add('exam-wrong-hit');
       setTimeout(function () { card.classList.remove('exam-wrong-hit'); }, 500);
     }
@@ -2088,8 +2082,7 @@
     ceShowSignature(n, tier, full);
     var toast = document.getElementById('chExamStreakToast');
     if (!toast) return;
-    toast.className = '';
-    void toast.offsetWidth;
+    toast.getAnimations?.().forEach(function (a) { a.cancel(); });
     // 縦位置は固定値(旧 top:68px)ではなく可視帯の上端＝ナビ下端に置く（iPadで上端に切れるため）
     toast.style.top = ceBand().top + 'px';
     toast.textContent = labels[tier];
@@ -2099,6 +2092,7 @@
 
     var flash = document.getElementById('chExamStreakFlash');
     if (flash && full && tier >= 1) {
+      flash.getAnimations?.().forEach(function (a) { a.cancel(); });
       var fc = theme.flashColors;
       flash.style.background = fc[tier];
       flash.style.opacity = '0';
@@ -2109,9 +2103,12 @@
         kf.push({opacity: 0});
         flash.animate(kf, {duration: 85 * pulses, easing:'linear', fill:'forwards'});
       } else {
-        flash.className = '';
-        void flash.offsetWidth;
-        flash.className = 'flash';
+        flash.animate([
+          { opacity: 1, offset: 0 },
+          { opacity: 0.25, offset: 0.35 },
+          { opacity: 0.75, offset: 0.55 },
+          { opacity: 0, offset: 1 }
+        ], { duration: 750, easing: 'ease', fill: 'forwards' });
       }
     }
     if (full) {

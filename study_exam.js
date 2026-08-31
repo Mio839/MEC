@@ -2045,29 +2045,25 @@ function _triggerEdgePulse() {
     pulse.id = 'examEdgePulse';
     document.body.appendChild(pulse);
   }
-  pulse.classList.remove('active');
-  void pulse.offsetWidth;
   pulse.classList.add('active');
-  setTimeout(() => { if (pulse) pulse.classList.remove('active'); }, 300);
+  clearTimeout(pulse._pulseTimer);
+  pulse._pulseTimer = setTimeout(() => { if (pulse) pulse.classList.remove('active'); }, 300);
 }
 
 /* UIテーマ固有の正解・連続正解（コンボ）カード装飾（2026-08-26 改訂: バッジ完全撤廃 ＆ 12要素統合） */
 function _applyCardThemeComboFx(card, isCorrect, streak) {
   if (!card) return;
   if (isCorrect) {
-    card.classList.remove('fx-correct', 'exam-wrong-hit');
-    void card.offsetWidth; // アニメーションを確実に再トリガー
+    card.classList.remove('exam-wrong-hit');
     card.classList.add('fx-correct');
     card.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10');
     if (streak >= 10) card.classList.add('combo-streak-10');
     else if (streak >= 5) card.classList.add('combo-streak-5');
     else if (streak >= 3) card.classList.add('combo-streak-3');
 
-    // 正解選択肢に .correct クラス付与（アニメーションを確実に再トリガー）
+    // 正解選択肢に .correct クラス付与
     card.querySelectorAll('.ch2.ok, .ch2.exam-selected').forEach(c => {
       if (c.classList.contains('ok')) {
-        c.classList.remove('correct');
-        void c.offsetWidth;
         c.classList.add('correct');
       }
     });
@@ -2088,7 +2084,6 @@ function _applyCardThemeComboFx(card, isCorrect, streak) {
       c.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10');
     });
     card.classList.remove('fx-correct');
-    void card.offsetWidth;
     card.classList.add('exam-wrong-hit');
     setTimeout(() => card.classList.remove('exam-wrong-hit'), 500);
   }
@@ -2235,7 +2230,6 @@ function _afterCorrectFx(card, fxEl) {
 function _polishPlate(card) {
   if (!card || _fxOff() || card.classList.contains('exam-scar')) return;
   card.classList.remove('exam-plate-fix');
-  void card.offsetWidth;                 // アニメを確実に頭から流す
   card.classList.add('exam-plate-fix');
   setTimeout(() => card.classList.remove('exam-plate-fix'), 1150);
 }
@@ -2833,7 +2827,6 @@ function _showStreakEffect(n) {
   toast.className = 't' + tier + (full ? '' : ' quiet');
   toast.textContent = labels[tier];
   _showStreakSignature(n, tier, full);
-  void toast.offsetWidth;
   toast.animate([
     {opacity:0, transform:'translateX(-50%) translateY(-22px) scale(.65) rotate(-4deg)', offset:0},
     {opacity:1, transform:'translateX(-50%) translateY(5px) scale(1.18) rotate(1.5deg)', offset:.12},
@@ -2867,9 +2860,12 @@ function _showStreakEffect(n) {
       kf.push({opacity: 0});
       flash.animate(kf, {duration: 85 * pulses, easing:'linear'});
     } else {
-      flash.className = '';
-      void flash.offsetWidth;
-      flash.className = 'flash';
+      flash.animate([
+        { opacity: 1, offset: 0 },
+        { opacity: 0.25, offset: 0.35 },
+        { opacity: 0.75, offset: 0.55 },
+        { opacity: 0, offset: 1 }
+      ], { duration: 750, easing: 'ease', fill: 'forwards' });
     }
   }
 
@@ -2988,10 +2984,9 @@ function _ensureZoneBreath() {
 // 赤フラッシュは body::after の疑似要素なのでクラスのままでよい（filter も transform も無い）。
 function _wrongDamageFx() {
   if (_fxOff()) return;
-  document.body.classList.remove('exam-red-flash');
-  void document.body.offsetWidth;
   document.body.classList.add('exam-red-flash');
-  setTimeout(() => document.body.classList.remove('exam-red-flash'), 420);
+  clearTimeout(_wrongDamageFx._timer);
+  _wrongDamageFx._timer = setTimeout(() => document.body.classList.remove('exam-red-flash'), 420);
   _ensureShakeOverlay();
   _shakeFxLayers([
     { transform: 'translate(0,0)' },
@@ -3584,7 +3579,6 @@ function _triggerChoiceCorrectPop(el) {
   const card = el.closest('.qc');
   if (card) {
     card.classList.remove('card-3d-pop');
-    void card.offsetWidth;
     card.classList.add('card-3d-pop');
     setTimeout(() => card.classList.remove('card-3d-pop'), 600);
 
@@ -4118,7 +4112,6 @@ function _scrollToNextCard(fromCard) {
   }
   if (next) {
     next.classList.remove('exam-next-entering');
-    void next.offsetWidth;
     next.classList.add('exam-next-entering');
     setTimeout(() => next.classList.remove('exam-next-entering'), 500);
     setTimeout(() => _applyChoiceShimmer(next), 140);
