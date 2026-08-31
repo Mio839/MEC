@@ -113,7 +113,6 @@ html.ui-aurora .qc::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3.5px;
   background: linear-gradient(90deg, #7928CA, #0070F3, #00DFD8, #FF0080, #7928CA);
   background-size: 300% 100%;
-  animation: auroraEdgeFlow 5s linear infinite;
   box-shadow: 0 0 14px rgba(0, 223, 216, 0.7);
   pointer-events: none;
   opacity: 0.95;
@@ -751,7 +750,6 @@ html.ui-brass .qc::after {
   border: 2px dashed rgba(224, 194, 94, 0.22);
   border-radius: 50%;
   pointer-events: none;
-  animation: brassGearSlowSpin 40s linear infinite;
   z-index: 0;
 }
 
@@ -1388,7 +1386,6 @@ html.ui-cyber .qc::after {
   content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
   background: linear-gradient(180deg, transparent 0%, rgba(0, 229, 255, 0.09) 50%, transparent 100%);
   background-size: 100% 40px;
-  animation: cyberScanline 3s linear infinite;
   opacity: 0.75;
 }
 
@@ -2011,7 +2008,6 @@ html.ui-liquid .qc::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
   background: linear-gradient(90deg, #FF007F, #7928CA 30%, #FF7A00 65%, #FF007F);
   background-size: 300% 100%;
-  animation: liquidEdgeFlow 4.5s linear infinite;
   box-shadow: 0 0 16px rgba(255, 0, 128, 0.75);
   pointer-events: none;
   opacity: 0.96;
@@ -2024,7 +2020,6 @@ html.ui-liquid .qc::after {
   background: radial-gradient(circle, rgba(255, 0, 128, 0.18) 0%, rgba(121, 40, 202, 0.09) 50%, transparent 75%);
   pointer-events: none;
   border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-  animation: liquidBlobMorph 8s ease-in-out infinite alternate;
   filter: blur(14px);
   z-index: 0;
 }
@@ -2674,7 +2669,6 @@ html.ui-kintsugi .qc::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3.5px;
   background: linear-gradient(90deg, #1E2028, #F5D061 25%, #FFF3C4 35%, #D9383A 50%, #D4AF37 75%, #1E2028);
   background-size: 300% 100%;
-  animation: kintsugiEdgeFlow 5s linear infinite;
   box-shadow: 0 0 14px rgba(245, 208, 97, 0.75), 0 0 4px #FFF3C4;
   pointer-events: none;
   opacity: 0.98;
@@ -2697,7 +2691,6 @@ html.ui-kintsugi .qc::after {
   border-radius: 50%;
   filter: blur(12px);
   z-index: 0;
-  animation: kintsugiEnsoPulse 12s ease-in-out infinite alternate;
 }
 
 @keyframes kintsugiEnsoPulse {
@@ -3005,13 +2998,11 @@ html.ui-kintsugi .qc.combo-streak-3 {
 html.ui-kintsugi .qc.combo-streak-5 {
   box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 85px rgba(245, 208, 97, 1), 0 0 95px rgba(217, 56, 58, 0.45), inset 0 0 42px rgba(245, 208, 97, 0.6) !important;
   border-color: #F5D061 !important;
-  animation: kintsugiEnsoComboPulse 2.0s ease-in-out infinite alternate !important;
 }
 
 html.ui-kintsugi .qc.combo-streak-10 {
   box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 120px rgba(245, 208, 97, 1), 0 0 140px rgba(255, 242, 168, 0.85), inset 0 0 65px rgba(245, 208, 97, 0.8) !important;
   border-color: #FFF2A8 !important;
-  animation: kintsugiZenZenithAura 1.4s ease-in-out infinite alternate !important;
 }
 
 @keyframes kintsugiEnsoComboPulse {
@@ -3133,7 +3124,6 @@ html.ui-celestial .qc::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3.5px;
   background: linear-gradient(90deg, #8A2BE2, #FFD166 25%, #FFF3C4 35%, #48CAE4 60%, #9D4EDD 80%, #8A2BE2);
   background-size: 300% 100%;
-  animation: celestialEdgeFlow 5.5s linear infinite;
   box-shadow: 0 0 14px rgba(255, 209, 102, 0.75), 0 0 6px #FFF3C4;
   pointer-events: none;
   opacity: 0.98;
@@ -3145,7 +3135,7 @@ html.ui-celestial .qc::before {
   100% { background-position: 300% 50%; }
 }
 
-/* 血 繧ｫ繝ｼ繝芽レ譎ｯ騾上°縺: 螟ｩ逅о繝ｻ譏溷峙繧ｪ繝ｼ繝薙ャ繝磯€上°縺 */
+/* 🌌 カード背景透かし: 天球儀・星図オービット透かし */
 html.ui-celestial .qc::after {
   content: ''; position: absolute; top: -50px; right: -50px; width: 240px; height: 240px;
   background-image: 
@@ -3156,7 +3146,6 @@ html.ui-celestial .qc::after {
   border-radius: 50%;
   filter: blur(14px);
   z-index: 0;
-  animation: celestialAstrolabeSpin 40s linear infinite;
 }
 
 @keyframes celestialAstrolabeSpin {
@@ -3431,13 +3420,11 @@ html.ui-celestial .qc.combo-streak-3 {
 html.ui-celestial .qc.combo-streak-5 {
   box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 85px rgba(255, 209, 102, 1), 0 0 105px rgba(138, 43, 226, 0.85), inset 0 0 42px rgba(138, 43, 226, 0.55) !important;
   border-color: #FFD166 !important;
-  animation: celestialAstrolabeComboSpin 2.4s linear infinite !important;
 }
 
 html.ui-celestial .qc.combo-streak-10 {
   box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 120px rgba(255, 209, 102, 1), 0 0 135px rgba(138, 43, 226, 1), 0 0 155px rgba(72, 202, 228, 0.9), inset 0 0 65px rgba(138, 43, 226, 0.75) !important;
   border-color: #FFF8DC !important;
-  animation: celestialGrimoireZenithAura 1.4s ease-in-out infinite alternate !important;
 }
 
 @keyframes celestialAstrolabeComboSpin {
@@ -3653,7 +3640,6 @@ html.ui-abyss .qc::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3.5px;
   background: linear-gradient(90deg, #020610, #00FFA3 25%, #E0F2FE 35%, #00B4D8 60%, #64FFDA 80%, #020610);
   background-size: 300% 100%;
-  animation: abyssEdgeFlow 5.5s ease-in-out infinite;
   box-shadow: 0 0 14px rgba(0, 255, 163, 0.8), 0 0 6px #E0F2FE;
   pointer-events: none;
   opacity: 0.98;
@@ -3665,7 +3651,7 @@ html.ui-abyss .qc::before {
   100% { background-position: 300% 50%; }
 }
 
-/* 穴 繧ｫ繝ｼ繝芽レ譎ｯ騾上°縺: 螟夐㍾蜷悟ｿ繧ｽ繝翫豕｢邏矩€上°縺 */
+/* 🌊 カード背景透かし: 多重同心円ソナー波紋透かし */
 html.ui-abyss .qc::after {
   content: ''; position: absolute; top: -50px; right: -50px; width: 240px; height: 240px;
   background-image: 
@@ -3676,7 +3662,6 @@ html.ui-abyss .qc::after {
   border-radius: 50%;
   filter: blur(14px);
   z-index: 0;
-  animation: abyssSonarRipple 8s ease-in-out infinite alternate;
 }
 
 @keyframes abyssSonarRipple {
@@ -3946,13 +3931,11 @@ html.ui-abyss .qc.combo-streak-3 {
 html.ui-abyss .qc.combo-streak-5 {
   box-shadow: 0 24px 65px rgba(0, 0, 0, 0.9), 0 0 88px rgba(0, 255, 163, 1), 0 0 108px rgba(0, 180, 216, 0.85), inset 0 0 42px rgba(0, 255, 163, 0.6) !important;
   border-color: #00FFA3 !important;
-  animation: abyssSonarComboPulse 2.0s ease-in-out infinite alternate !important;
 }
 
 html.ui-abyss .qc.combo-streak-10 {
   box-shadow: 0 28px 75px rgba(0, 0, 0, 0.95), 0 0 120px rgba(0, 255, 163, 1), 0 0 140px rgba(0, 180, 216, 1), 0 0 160px rgba(100, 255, 218, 0.9), inset 0 0 65px rgba(0, 255, 163, 0.8) !important;
   border-color: #B4FBE2 !important;
-  animation: abyssDeepOceanZenithAura 1.4s ease-in-out infinite alternate !important;
 }
 
 @keyframes abyssSonarComboPulse {
@@ -4119,7 +4102,6 @@ html.ui-frost .qc::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3.5px;
   background: linear-gradient(90deg, #05111F, #70D6FF, #FFFFFF, #A0E7E5, #05111F);
   background-size: 300% 100%;
-  animation: frostEdgeFlow 5s linear infinite;
   box-shadow: 0 0 14px rgba(112, 214, 255, 0.65);
   pointer-events: none;
   opacity: 0.95;
@@ -4139,7 +4121,6 @@ html.ui-frost .qc::after {
   border-radius: 50%;
   filter: blur(16px);
   z-index: 0;
-  animation: frostCrystalPulse 10s ease-in-out infinite alternate;
 }
 
 @keyframes frostCrystalPulse {
@@ -4489,13 +4470,11 @@ html.ui-frost .qc.combo-streak-3 {
 html.ui-frost .qc.combo-streak-5 {
   box-shadow: 0 24px 65px rgba(0, 0, 0, 0.88), 0 0 88px rgba(112, 214, 255, 1), 0 0 105px rgba(255, 255, 255, 0.8), inset 0 0 42px rgba(255, 255, 255, 0.65) !important;
   border-color: #FFFFFF !important;
-  animation: frostIceWallComboPulse 2.0s ease-in-out infinite alternate !important;
 }
 
 html.ui-frost .qc.combo-streak-10 {
   box-shadow: 0 28px 75px rgba(0, 0, 0, 0.92), 0 0 120px rgba(112, 214, 255, 1), 0 0 145px rgba(255, 255, 255, 1), 0 0 160px rgba(160, 231, 229, 0.95), inset 0 0 65px rgba(255, 255, 255, 0.8) !important;
   border-color: #FFFFFF !important;
-  animation: frostAbsoluteZeroZenithAura 1.4s ease-in-out infinite alternate !important;
 }
 
 @keyframes frostIceWallComboPulse {
@@ -6768,22 +6747,18 @@ html.ui-aurora .qc.combo-streak-3 {
 html.ui-aurora .qc.combo-streak-5 {
   box-shadow: 0 0 90px rgba(0, 229, 255, 1), 0 0 55px rgba(121, 40, 202, 0.9), 0 24px 60px rgba(0, 0, 0, 0.75), inset 0 0 45px rgba(0, 223, 216, 0.55) !important;
   border-color: #00DFD8 !important;
-  animation: auroraCurtainWave 2.0s ease-in-out infinite alternate !important;
 }
 html.ui-aurora .qc.combo-streak-5::before {
   background-size: 200% 100% !important;
-  animation: auroraEdgeFlow 2.0s linear infinite !important;
   height: 5.5px !important;
   box-shadow: 0 0 22px rgba(0, 229, 255, 0.95) !important;
 }
 html.ui-aurora .qc.combo-streak-10 {
   box-shadow: 0 0 130px rgba(0, 229, 255, 1), 0 0 95px rgba(121, 40, 202, 1), 0 0 65px rgba(0, 112, 243, 1), inset 0 0 70px rgba(0, 223, 216, 0.8) !important;
   border-color: #FFFFFF !important;
-  animation: auroraDiamondPulse 1.2s ease-in-out infinite alternate !important;
 }
 html.ui-aurora .qc.combo-streak-10::before {
   background-size: 140% 100% !important;
-  animation: auroraEdgeFlow 1.0s linear infinite !important;
   height: 7px !important;
   box-shadow: 0 0 35px rgba(0, 229, 255, 1), 0 0 55px rgba(121, 40, 202, 1) !important;
 }
@@ -6806,20 +6781,16 @@ html.ui-brass .qc.combo-streak-3 {
 html.ui-brass .qc.combo-streak-5 {
   box-shadow: 0 0 90px rgba(255, 215, 0, 1), 0 0 55px rgba(224, 194, 94, 0.95), inset 0 0 45px rgba(224, 194, 94, 0.65) !important;
   border-color: #FFD700 !important;
-  animation: brassGearPulse 1.6s ease-in-out infinite alternate !important;
 }
 html.ui-brass .qc.combo-streak-5::after {
-  animation: brassGearSlowSpin 8s linear infinite !important;
   opacity: 0.85 !important;
   filter: drop-shadow(0 0 16px rgba(255, 215, 0, 0.9)) !important;
 }
 html.ui-brass .qc.combo-streak-10 {
   box-shadow: 0 0 130px rgba(255, 215, 0, 1), 0 0 85px rgba(224, 194, 94, 1), inset 0 0 75px rgba(255, 243, 196, 0.85) !important;
   border-color: #FFF8DC !important;
-  animation: brassClocktowerFull 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate !important;
 }
 html.ui-brass .qc.combo-streak-10::after {
-  animation: brassGearSlowSpin 3.5s linear infinite !important;
   opacity: 1 !important;
   filter: drop-shadow(0 0 32px rgba(255, 215, 0, 1)) drop-shadow(0 0 18px rgba(255, 243, 196, 1)) !important;
 }
@@ -6843,16 +6814,13 @@ html.ui-cyber .qc.combo-streak-3 {
 html.ui-cyber .qc.combo-streak-5 {
   box-shadow: 0 0 95px rgba(0, 255, 102, 1), 0 0 58px rgba(0, 229, 255, 0.95), inset 0 0 50px rgba(0, 255, 102, 0.6) !important;
   border-color: #00FF66 !important;
-  animation: cyberDataStreamPulse 1.6s ease-in-out infinite alternate !important;
 }
 html.ui-cyber .qc.combo-streak-5::after {
-  animation: cyberScanline 1.8s linear infinite !important;
   opacity: 0.9 !important;
 }
 html.ui-cyber .qc.combo-streak-10 {
   box-shadow: 0 0 135px rgba(0, 255, 102, 1), 0 0 85px rgba(0, 229, 255, 1), 0 0 50px rgba(213, 0, 249, 0.9), inset 0 0 70px rgba(0, 255, 102, 0.8) !important;
   border-color: #00E5FF !important;
-  animation: cyberHoloFull 1.0s cubic-bezier(0.2, 0.8, 0.2, 1) infinite alternate !important;
 }
 html.ui-cyber .qc.combo-streak-10::before {
   background-size: 28px 28px !important;
@@ -6877,19 +6845,15 @@ html.ui-liquid .qc.combo-streak-3 {
 html.ui-liquid .qc.combo-streak-5 {
   box-shadow: 0 0 95px rgba(255, 0, 128, 1), 0 0 58px rgba(121, 40, 202, 0.95), inset 0 0 50px rgba(255, 122, 0, 0.7) !important;
   border-color: #FF007F !important;
-  animation: liquidMarblingPulse 1.7s ease-in-out infinite alternate !important;
 }
 html.ui-liquid .qc.combo-streak-5::after {
-  animation: liquidBlobMorph 5s ease-in-out infinite alternate !important;
   opacity: 0.9 !important;
 }
 html.ui-liquid .qc.combo-streak-10 {
   box-shadow: 0 0 135px rgba(255, 0, 128, 1), 0 0 85px rgba(121, 40, 202, 1), 0 0 60px rgba(255, 122, 0, 1), inset 0 0 68px rgba(255, 0, 128, 0.8) !important;
   border-color: #FFFFFF !important;
-  animation: liquidNeonAuraFull 1.3s cubic-bezier(0.34, 1.56, 0.64, 1) infinite alternate !important;
 }
 html.ui-liquid .qc.combo-streak-10::after {
-  animation: liquidBlobMorph 2.5s ease-in-out infinite alternate !important;
   opacity: 1 !important;
   filter: blur(12px) drop-shadow(0 0 35px rgba(255, 0, 128, 1)) drop-shadow(0 0 18px rgba(121, 40, 202, 1)) !important;
 }

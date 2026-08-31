@@ -1,3 +1,7 @@
+// 2026-08-31j: 問題文を読んでいる最中にずっと動いている問題カードの無限アニメーションを全削除。
+//   - ui_theme.css: 全8UIテーマ（aurora/brass/cyber/liquid/kintsugi/celestial/abyss/frost）の .qc::before / .qc::after および .qc.combo-streak-5 / .qc.combo-streak-10 から infinite アニメーションを削除（静止意匠を維持）。
+//   - study.css: .qc.card-heat-mid / .qc.card-heat-max の heatHaze infinite アニメーションを削除。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-31h: 結果画面（showExamSummary）の軽量化（案1〜4: 祝賀パーティクル適正化・conic-gradient再ペイント間引き・スタンプと花火のタイミング分散・CSSシャドウ最適化）。
 //   - study_exam.js / study.css: カウントアップ時の円グラフ更新間引き、花火/紙吹雪/スタンプ衝撃波のスリム化、スタンプ着地と花火の負荷分散（1350ms）、CSS多重シャドウ最適化。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
@@ -585,7 +589,7 @@ const CACHE = "mec-v250";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-31i";
+const SHELL_VERSION = "2026-08-31j";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
