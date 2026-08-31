@@ -2085,7 +2085,7 @@
     // ⚠️ index は tier と対応させ必ず 7 まで埋めること（§13-3 P2）。6 で止めると
     // durs[7] が undefined → `--sd:NaNs` になり既定 2s へ落ちて尺が段と合わなくなる
     // （study 側は同じ穴で TypeError を投げて演出が丸ごと落ちていた）。
-    var durs = [0, 2.0, 2.5, 3.2, 4.2, 5.2, 5.8, 6.4];
+    var durs = [0, 1.0, 1.25, 1.6, 2.1, 2.6, 2.9, 3.2];
     // 昇格フレーム（tierが上がった瞬間）の判定。2026-08-25 以降 TIER UP スタンプだけを分ける。
     var prevTier = (n - 1) < 2 ? 0 : ceTier(n - 1);
     var promoted = tier > prevTier;
