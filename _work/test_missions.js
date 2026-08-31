@@ -330,11 +330,33 @@ t('ボーナスXPは stats().xp に乗る', () => {
 t('同じミッションを何度満たしてもXPは1回だけ（台帳は値を上書きしない）', () => {
   const ctx = makeCtx();
   const g = ctx.window.MecGamify;
+  const ledOf = () => {
+    const led = JSON.parse(ctx._store['mec_missions_v1']).xp.ledger;
+    return led[Object.keys(led).filter(k => k[0] === 'd')[0]];
+  };
+  const xpOf = id => id === '__all__'
+    ? g._defs.allXp.d
+    : g._defs.daily.find(d => d.id === id).xp;
+
   driveDailyCore(g);
   const before = g.missionXp();
+  const snap = Object.assign({}, ledOf());
+
   for (let i = 0; i < 40; i++) g.onAnswer('b_ch01_q' + i, true); // さらに40問
   g.onExamFinish(40, 40, {});
-  assert.strictEqual(g.missionXp(), before, 'target超過ぶんでXPは増えない');
+  const after = ledOf();
+
+  // ここが本体の不変条件：既に記帳済みのキーは1つも書き換わらない
+  for (const k of Object.keys(snap)) {
+    assert.strictEqual(after[k], snap[k], k + ' が上書きされた（target超過ぶんで増えた）');
+  }
+  // ⚠️ 2周目は「試験セッションを2本」(d_exam2) を新たに満たすのでXPは 290→350 に増える。
+  //    これは二重加算ではなく、1周目では未達だった別のミッションの達成。
+  //    額は defs から引いて検算する（ミッションを足すたびに数字を書き換えずに済む）。
+  const gained = Object.keys(after).filter(k => !(k in snap));
+  assert.deepStrictEqual(gained, ['d_exam2'], '2周目で新たに達成されるのは d_exam2 だけ');
+  const expect = before + gained.reduce((a, k) => a + xpOf(k), 0);
+  assert.strictEqual(g.missionXp(), expect, '増分は新規達成ぶんちょうど');
 });
 
 t('missionSummary は8個ぶんの達成数と core の達成数を返す', () => {
