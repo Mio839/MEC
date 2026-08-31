@@ -1,3 +1,6 @@
+// 2026-08-31h: 結果画面（showExamSummary）の軽量化（案1〜4: 祝賀パーティクル適正化・conic-gradient再ペイント間引き・スタンプと花火のタイミング分散・CSSシャドウ最適化）。
+//   - study_exam.js / study.css: カウントアップ時の円グラフ更新間引き、花火/紙吹雪/スタンプ衝撃波のスリム化、スタンプ着地と花火の負荷分散（1350ms）、CSS多重シャドウ最適化。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-31g: 正解時・連続正解時の強制同期レイアウト（Layout Thrashing / forced reflow）を解消しiPadでのプチフリを改善。
 //   - study_exam.js / chapter_exam.js: void offsetWidth の同期リフローハックを完全撤廃、WAAPIへの移行とパルスタイマー最適化。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
@@ -576,7 +579,7 @@ const CACHE = "mec-v250";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-31g";
+const SHELL_VERSION = "2026-08-31h";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

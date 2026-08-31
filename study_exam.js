@@ -2678,7 +2678,6 @@ function _stampRank(pct) {
   setTimeout(() => {
     // 1. モーダルのマイクロバウンス（body は動かさず .exam-modal だけを微振動）
     modal.classList.remove('exam-modal-impact');
-    void modal.offsetWidth; // reflow
     modal.classList.add('exam-modal-impact');
     setTimeout(() => modal.classList.remove('exam-modal-impact'), 300);
 
@@ -2690,20 +2689,20 @@ function _stampRank(pct) {
         const cy = r.top + r.height / 2;
         // 衝撃波二重リング
         window.MecFX.rings(cx, cy, {
-          count: perfect ? 3 : 2,
+          count: perfect ? 2 : 1,
           color: col,
-          thickness: perfect ? 4 : 3,
-          maxR: perfect ? 260 : 200,
+          thickness: perfect ? 3 : 2,
+          maxR: perfect ? 220 : 170,
           additive: true
         });
         // 金属火花・破片バースト（非加算合成で金属片らしさを出す）
         window.MecFX.burst(cx, cy, {
-          count: perfect ? 24 : 16,
+          count: perfect ? 16 : 10,
           colors: [col, '#FFF3C4', '#FFFFFF'],
           shapes: ['shard', 'square'],
           gravity: 1200,
           additive: false,
-          scale: perfect ? 1.4 : 1.1
+          scale: perfect ? 1.2 : 1.0
         });
       } catch (e) {}
     }
@@ -2714,8 +2713,8 @@ function _stampRank(pct) {
 function _srsCompleteCelebration() {
   if (!window.MecFX) return;
   try {
-    window.MecFX.glyphRain({ glyphs: ['🔔', '🎉', '✨', '⭐'], colors: ['#FF9A3C', '#FFD166', '#3DD68C', '#60A5FA'], count: 26 });
-    window.MecFX.confetti({ count: 60, colors: ['#FF9A3C', '#FFD166', '#3DD68C', '#60A5FA'] });
+    window.MecFX.glyphRain({ glyphs: ['🔔', '🎉', '✨', '⭐'], colors: ['#FF9A3C', '#FFD166', '#3DD68C', '#60A5FA'], count: 14 });
+    window.MecFX.confetti({ count: 32, colors: ['#FF9A3C', '#FFD166', '#3DD68C', '#60A5FA'] });
   } catch (e) {}
 }
 
@@ -5050,11 +5049,16 @@ function showExamSummary() {
 
   if (pctEl || corEl || ansEl) {
     const t0 = performance.now(), dur = 900;
+    let _lastRingP = -1;
     const tick = now => {
       const k = Math.min(1, (now - t0) / dur);
       const ease = 1 - Math.pow(1 - k, 3);
-      if (pctEl) pctEl.textContent = Math.round(pct * ease) + '%';
-      if (pctRing) pctRing.style.setProperty('--p', Math.round(pct * ease));
+      const curPct = Math.round(pct * ease);
+      if (pctEl) pctEl.textContent = curPct + '%';
+      if (pctRing && (Math.abs(curPct - _lastRingP) >= 3 || k >= 1)) {
+        _lastRingP = curPct;
+        pctRing.style.setProperty('--p', curPct);
+      }
       if (corEl) corEl.textContent = Math.round(targetCorrect * ease);
       if (wrnEl) wrnEl.textContent = Math.round(targetWrong * ease);
       if (ansEl) ansEl.textContent = Math.round(targetAnswered * ease);
@@ -5140,35 +5144,36 @@ function showExamSummary() {
     setTimeout(() => _stampRank(pct), 950);
   }
   // スコアに応じた祝賀エフェクト（FXキャンバスはz9070＝モーダルより上に描画される）
+  // 案3: スタンプ着地（約1205ms）の余韻後に発火させて負荷スパイクを分散
   if (examAnswered > 0 && window.MecFX) {
     try {
       if (pct >= 100) {
-        // PERFECT: 大規模金花火キャノン＋金銀紙吹雪の大嵐
+        // PERFECT: 金花火キャノン＋金銀紙吹雪
         setTimeout(() => {
-          window.MecFX.fireworks({ count: 16, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], tier: 7 });
-          window.MecFX.confetti({ count: 240, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], big: true });
-          window.MecFX.dust({ count: 120, colors: ['#FFD700', '#FFF3C4', '#FFFFFF'] });
-        }, 980);
+          window.MecFX.fireworks({ count: 8, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], tier: 7 });
+          window.MecFX.confetti({ count: 100, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], big: true });
+          window.MecFX.dust({ count: 40, colors: ['#FFD700', '#FFF3C4', '#FFFFFF'] });
+        }, 1350);
       } else if (pct >= 90) {
         setTimeout(() => {
-          window.MecFX.fireworks({ count: 10, colors: ['#3DD68C', '#60A5FA', '#FFD37A', '#FF5E8A', '#FFD700'], tier: 6 });
-          window.MecFX.confetti({ count: 180, colors: ['#3DD68C', '#60A5FA', '#FFB830', '#FF5E8A', '#A78BFA'], big: true });
-        }, 980);
+          window.MecFX.fireworks({ count: 5, colors: ['#3DD68C', '#60A5FA', '#FFD37A', '#FF5E8A', '#FFD700'], tier: 6 });
+          window.MecFX.confetti({ count: 80, colors: ['#3DD68C', '#60A5FA', '#FFB830', '#FF5E8A', '#A78BFA'], big: true });
+        }, 1350);
       } else if (pct >= 80) {
         setTimeout(() => {
-          window.MecFX.fireworks({ count: 6, colors: ['#3DD68C', '#60A5FA', '#FFB830'], tier: 4 });
-          window.MecFX.confetti({ count: 140, colors: ['#3DD68C', '#60A5FA', '#FFB830', '#A78BFA'], big: true });
-        }, 980);
+          window.MecFX.fireworks({ count: 4, colors: ['#3DD68C', '#60A5FA', '#FFB830'], tier: 4 });
+          window.MecFX.confetti({ count: 60, colors: ['#3DD68C', '#60A5FA', '#FFB830', '#A78BFA'], big: true });
+        }, 1350);
       } else if (pct >= 60) {
         setTimeout(() => {
-          window.MecFX.fireworks({ count: 3, colors: ['#60A5FA', '#FFB830'], tier: 3 });
-          window.MecFX.confetti({ count: 90, colors: ['#60A5FA', '#FFB830', '#3DD68C'] });
-        }, 980);
+          window.MecFX.fireworks({ count: 2, colors: ['#60A5FA', '#FFB830'], tier: 3 });
+          window.MecFX.confetti({ count: 40, colors: ['#60A5FA', '#FFB830', '#3DD68C'] });
+        }, 1350);
       } else {
         setTimeout(() => {
           const _rb = _fxBand();
-          window.MecFX.rings(_rb.cx, _rb.cy, { count: 3, color: 'rgba(96,165,250,.85)', thickness: 4, maxR: 160, additive: true });
-        }, 980);
+          window.MecFX.rings(_rb.cx, _rb.cy, { count: 2, color: 'rgba(96,165,250,.85)', thickness: 3, maxR: 150, additive: true });
+        }, 1350);
       }
     } catch (e) {}
   }
@@ -5227,12 +5232,12 @@ function showExamSummary() {
       setTimeout(() => {
         const { cx, cy } = _fxBand();
         window.MecFX.burst(cx, cy, {
-          count: 32,
+          count: 18,
           shapes: ['shard', 'gem', 'square'],
           colors: ['#FFD700', '#FFA040', '#FFFFFF', '#C9A227'],
           gravity: 1200,
           speed: 680,
-          scale: 1.3
+          scale: 1.2
         });
       }, 1050);
     }

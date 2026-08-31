@@ -989,11 +989,10 @@ body.exam-sprint .exam-prog{background:rgba(60,22,0,.62);animation:epSprint 2.6s
    ⚠️ 動いている数字は #sumPct（900ms のカウントアップ）だけなので、その完了を
       セッション全体の確定とみなして5本まとめてともす。フックは showExamSummary の1か所。 */
 .exam-modal.tubes-lit .exam-detail-item .val{
-  text-shadow:0 0 10px currentColor,0 0 24px color-mix(in srgb,currentColor 42%,transparent),0 1px 2px rgba(0,0,0,.6);}
+  text-shadow:0 0 10px currentColor,0 1px 2px rgba(0,0,0,.6);}
 .exam-pct{transition:text-shadow .5s ease;}
 .exam-modal.tubes-lit .exam-pct{
-  text-shadow:0 0 20px color-mix(in srgb,var(--ringc) 62%,transparent),
-              0 0 46px color-mix(in srgb,var(--ringc) 28%,transparent);}
+  text-shadow:0 0 18px color-mix(in srgb,var(--ringc) 60%,transparent),0 1px 4px rgba(0,0,0,.7);}
 
 /* ── ボタン＝押すと沈む金属板。面の色（意味）は残し、縁と鋲だけ真鍮にする ──
    ⚠️⚠️ 沈み込みは translate プロパティで書くこと。:hover の transform:translateY(-1px) と
@@ -1121,21 +1120,23 @@ html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-bloc
 .qimg-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px;}
 /* ⚠️ width/height:auto は必須。card_renderer.js が実寸を width/height 属性で出すため、
    auto を外すと max-width:48% で横だけ縮んで縦が属性値のまま残り、画像が潰れる。
-   auto にしておくと属性は「縦横比の先出し」だけに効き、デコード前から正しい高さの箱が
-   確保される（＝画像の遅延読込によるスクロールずれが消える）。 */
-.qimg{width:auto;height:auto;max-height:220px;max-width:48%;object-fit:contain;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,.12);cursor:zoom-in;transition:max-height .2s,max-width .2s;}
-/* Image lightbox (真鍮シャウカステン・読影灯演出) */
-#mecImgLb{display:none;position:fixed;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(14,20,32,.97) 0%,rgba(4,7,11,.98) 100%);z-index:var(--z-lightbox);align-items:center;justify-content:center;cursor:zoom-out;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
-#mecImgLb.open{display:flex;}
-#mecImgLb.open img{animation:filmDropIn .32s cubic-bezier(.16,1,.3,1);max-width:95vw;max-height:90vh;object-fit:contain;border-radius:4px;border:2px solid rgba(220,240,255,.35);box-shadow:0 0 45px rgba(160,210,255,.22),0 16px 60px rgba(0,0,0,.85);}
-@keyframes filmDropIn{0%{translate:0 -20px;scale:.96;opacity:0;filter:brightness(.6);}50%{filter:brightness(1.4);}100%{translate:0 0;scale:1;opacity:1;filter:brightness(1);}}
-@media (prefers-reduced-motion: reduce){
-  .ab,.eg,.ept::after,#mecImgLb.open img{animation:none;}
-}
-
-/* ── Controls ── */
-.mec-controls{display:flex;align-items:center;gap:4px;margin-left:auto;flex-shrink:0;}
-
+   auto にしておくと属性は「縦横比の先出�/* C10: 結果画面のランク刻印スタンプ */
+.exam-rank-stamp{position:absolute;top:148px;left:76%;z-index:5;pointer-events:none;
+  display:inline-flex;flex-direction:column;align-items:center;justify-content:center;
+  min-width:92px;padding:6px 14px 7px;border-radius:10px;
+  background:radial-gradient(circle at 50% 30%, rgba(28,32,40,.96), rgba(12,14,18,.98));
+  border:3px solid var(--rk-col,#FFD700);
+  box-shadow:0 6px 18px rgba(0,0,0,.65), 0 0 14px var(--rk-glow,rgba(255,215,0,.35));
+  opacity:0;transform:translate(-50%,-50%);}
+.exam-rank-stamp .rk-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.exam-rank-stamp .rk-val{font-size:48px;font-weight:900;line-height:1;letter-spacing:.02em;color:var(--rk-col,#FFD700);
+  font-family:var(--font-display,inherit);text-shadow:0 2px 8px rgba(0,0,0,.8);}
+.exam-rank-stamp .rk-sub{font-size:9.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--rk-col,#FFD700);opacity:.88;margin-top:4px;white-space:nowrap;
+  text-shadow:0 1px 3px rgba(0,0,0,.9);}
+.exam-rank-stamp.perfect{min-width:138px;padding:8px 14px 9px;}
+.exam-rank-stamp.perfect .rk-val{font-size:24px;letter-spacing:.14em;}
+.exam-rank-stamp.perfect .rk-sub{font-size:8.5px;letter-spacing:.20em;}
 /* 自己採点（× / △ / ○）。旧「済」1つを3分割したもの。
    ⚠️ progress.js の _injectSeriesCSS が .mec-lap-btn の旧・章ページ用パレット（白地）を
    実行時に <style> で注ぎ込む。あれは study.css の <link> より後ろに入るので、
