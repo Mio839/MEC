@@ -87,6 +87,7 @@
       'body.ch-exam-mode .ch2{cursor:pointer;border-radius:5px;padding:2px 5px;margin:-2px -5px;transition:background .1s;}',
       'body.ch-exam-mode .ch2:hover{background:rgba(0,0,0,.06);}',
       'body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok{color:inherit;font-weight:normal;}',
+      'body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2::before{content:none!important;display:none!important;}',
       'body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2 .ok{color:inherit;font-weight:normal;}',
       'body.ch-exam-mode .qc.ch-exam-key-focus:not(.ch-exam-revealed){outline:3px solid #FFB830;outline-offset:2px;box-shadow:0 0 0 5px rgba(255,184,48,.15);}',
       // 計算問題（桁入力）の確定ボタンと、選択肢データが欠落した問題の注記
@@ -405,6 +406,9 @@
     if (exam.effectSet !== 'classic') document.body.classList.add('ch-effect-' + exam.effectSet);
     if (location.search.indexOf('debug=1') !== -1) alert('[chapter_exam.js] effectSet: ' + exam.effectSet);
 
+    document.querySelectorAll('.ch2.correct').forEach(function (c) { c.classList.remove('correct'); });
+    document.querySelectorAll('.qc.fx-correct').forEach(function (c) { c.classList.remove('fx-correct'); });
+    document.querySelectorAll('.qc.exam-fast-hit').forEach(function (c) { c.classList.remove('exam-fast-hit'); });
     document.body.classList.add('ch-exam-mode');
     var btn = document.getElementById('chExamBtn');
     if (btn) btn.classList.add('exam-on');
@@ -458,7 +462,10 @@
       var cs = document.querySelector('.qc[data-uid="' + uid + '"] .cs');
       if (!cs) return;
       cs.innerHTML = '';
-      originals.forEach(function (c) { cs.appendChild(c); });
+      originals.forEach(function (c) {
+        c.classList.remove('correct', 'ch-exam-selected', 'ch-exam-instant-correct', 'ch-exam-instant-wrong');
+        cs.appendChild(c);
+      });
     });
     _ceChoiceBackup.clear();
   }
@@ -554,10 +561,10 @@
     var btn = document.getElementById('chExamBtn');
     if (btn) btn.classList.remove('exam-on');
     document.querySelectorAll('.qc').forEach(function (c) {
-      c.classList.remove('ch-exam-revealed', 'ch-exam-key-focus');
+      c.classList.remove('ch-exam-revealed', 'ch-exam-key-focus', 'fx-correct', 'exam-fast-hit');
     });
     document.querySelectorAll('.ch2').forEach(function (c) {
-      c.classList.remove('ch-exam-selected', 'ch-exam-instant-correct', 'ch-exam-instant-wrong');
+      c.classList.remove('ch-exam-selected', 'ch-exam-instant-correct', 'ch-exam-instant-wrong', 'correct');
     });
     document.querySelectorAll('.ch-exam-multi-info').forEach(function (el) { el.remove(); });
     document.querySelectorAll('.ce-nodata-note,.ce-calc-submit').forEach(function (el) { el.remove(); });

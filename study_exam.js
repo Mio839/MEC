@@ -759,6 +759,9 @@ function startExam(overrideUids = null) {
   // ホスト出題（SRS復習・今日の誤答）は中断データを持たないので消さない
   // （同じキーの通常試験の中断データを巻き込まないため）
   if (!_isHostSession()) _clearExamResume();
+  document.querySelectorAll('.ch2.correct').forEach(c => c.classList.remove('correct'));
+  document.querySelectorAll('.qc.fx-correct').forEach(c => c.classList.remove('fx-correct'));
+  document.querySelectorAll('.qc.exam-fast-hit').forEach(c => c.classList.remove('exam-fast-hit'));
   examMode = true; examAnswered = 0; examCorrect = 0; examStreak = 0; examBySubj = {}; examByChapter = {}; examWrong = []; _examSessionWrongChoices.clear(); examStartTime = Date.now(); _examPausedMs = 0; _examPauseStart = null;
   _attemptSessionId = window.MecAttempts ? MecAttempts.newSession() : '';
   _examCardSeenAt.clear(); _zoneStop(false); _setAwaken(false); _examRecoverPending = false;
@@ -3992,7 +3995,10 @@ function _restoreChoices() {
     const cs = document.querySelector(`.qc[data-uid="${uid}"] .cs`);
     if (!cs) return;
     cs.innerHTML = '';
-    originals.forEach(c => cs.appendChild(c));
+    originals.forEach(c => {
+      c.classList.remove('correct', 'exam-selected', 'exam-instant-correct', 'exam-instant-wrong');
+      cs.appendChild(c);
+    });
   });
   _examChoiceBackup.clear();
 }
@@ -4568,6 +4574,8 @@ function resumeExam(savedAt) {
         MecCalc.lock(card, !!revealedUids[uid].correct);
       }
     } else {
+      card.querySelectorAll('.ch2.correct').forEach(c => c.classList.remove('correct'));
+      card.classList.remove('fx-correct', 'exam-fast-hit');
       _shuffleChoices(card);
       const isCalc = _setupCalcCard(card);
       // 中断時に入力途中だった桁を戻す
@@ -4709,6 +4717,9 @@ function exitExam() {
   document.querySelectorAll('.exam-reveal-btn').forEach(b => b.remove());
   document.getElementById('examFinishBtn')?.remove();
   document.querySelectorAll('.qc.exam-revealed').forEach(c => c.classList.remove('exam-revealed', 'exam-multi-correct', 'exam-answer-opened'));
+  document.querySelectorAll('.qc.fx-correct').forEach(c => c.classList.remove('fx-correct'));
+  document.querySelectorAll('.qc.exam-fast-hit').forEach(c => c.classList.remove('exam-fast-hit'));
+  document.querySelectorAll('.ch2.correct').forEach(c => c.classList.remove('correct'));
   document.querySelectorAll('.ch2.exam-selected').forEach(c => c.classList.remove('exam-selected'));
   document.querySelectorAll('.ch2.exam-instant-correct').forEach(c => c.classList.remove('exam-instant-correct'));
   document.querySelectorAll('.ch2.exam-instant-wrong').forEach(c => c.classList.remove('exam-instant-wrong'));

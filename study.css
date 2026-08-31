@@ -176,6 +176,7 @@ body.exam-mode .ch2{cursor:pointer;border-radius:5px;padding:2px 5px;margin:-2px
 body.exam-mode .ch2:hover{background:rgba(var(--glass-rgb),.08);}
 body.exam-mode .ch2.exam-selected{background:rgba(96,165,250,.22);font-weight:700;color:var(--tx);box-shadow:0 2px 8px -2px rgba(96,165,250,.45),0 0 0 1px rgba(96,165,250,.38);translate:0 1px;}
 body.exam-mode .qc:not(.exam-revealed) .ch2.ok{color:inherit;font-weight:normal;}
+body.exam-mode .qc:not(.exam-revealed) .ch2::before{content:none!important;display:none!important;}
 body.exam-mode .qc.exam-target-loaded .exam-reveal-btn{animation:examBtnReady 1.2s infinite alternate ease-in-out;border-color:var(--exam-brass,#C9A227);color:var(--exam-brass-hi,#E0C25E);box-shadow:0 0 12px rgba(224,194,94,.4);}
 @keyframes examBtnReady{0%{scale:1;box-shadow:0 0 6px rgba(224,194,94,.3);}100%{scale:1.02;box-shadow:0 0 16px rgba(224,194,94,.65);}}
 body.exam-mode .qc.exam-multi-correct .ab,body.exam-mode .qc.exam-multi-correct .eg{display:none!important;}

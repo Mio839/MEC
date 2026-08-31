@@ -6898,13 +6898,52 @@ html.ui-liquid .qc .ch2:active {
 }
 
 /* ── ③ 正解チェックマーク: テーマ別OKグリフ刻印 ── */
+/* ⚠️ 試験モード未開示時・通常モード未解答時の正解グリフ(::before)完全抑止（ネタバレ防止） */
+body.exam-mode .qc:not(.exam-revealed) .ch2::before,
+body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2::before,
+body:not(.exam-mode):not(.ch-exam-mode) .qc:not(.fx-correct) .ch2::before {
+  content: none !important;
+  display: none !important;
+}
+
+html.ui-aurora .qc.fx-correct .ch2.ok.correct::before,
+html.ui-aurora body.exam-mode .qc.exam-revealed .ch2.ok.correct::before,
+html.ui-aurora body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok.correct::before,
 html.ui-aurora .qc .ch2.ok.correct::before { content: '✧ ' !important; color: #00DFD8 !important; text-shadow: 0 0 14px #00DFD8 !important; }
+
+html.ui-brass .qc.fx-correct .ch2.ok.correct::before,
+html.ui-brass body.exam-mode .qc.exam-revealed .ch2.ok.correct::before,
+html.ui-brass body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok.correct::before,
 html.ui-brass .qc .ch2.ok.correct::before { content: '⚙ ' !important; color: #FFD700 !important; text-shadow: 0 0 14px #FFD700 !important; }
+
+html.ui-cyber .qc.fx-correct .ch2.ok.correct::before,
+html.ui-cyber body.exam-mode .qc.exam-revealed .ch2.ok.correct::before,
+html.ui-cyber body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok.correct::before,
 html.ui-cyber .qc .ch2.ok.correct::before { content: '⌖ ' !important; color: #00FF66 !important; text-shadow: 0 0 14px #00FF66 !important; }
+
+html.ui-liquid .qc.fx-correct .ch2.ok.correct::before,
+html.ui-liquid body.exam-mode .qc.exam-revealed .ch2.ok.correct::before,
+html.ui-liquid body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok.correct::before,
 html.ui-liquid .qc .ch2.ok.correct::before { content: '💧 ' !important; color: #FF007F !important; text-shadow: 0 0 14px #FF007F !important; }
+
+html.ui-kintsugi .qc.fx-correct .ch2.ok.correct::before,
+html.ui-kintsugi body.exam-mode .qc.exam-revealed .ch2.ok.correct::before,
+html.ui-kintsugi body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok.correct::before,
 html.ui-kintsugi .qc .ch2.ok.correct::before { content: '〇 ' !important; color: #F5D061 !important; text-shadow: 0 0 14px #F5D061 !important; }
+
+html.ui-celestial .qc.fx-correct .ch2.ok.correct::before,
+html.ui-celestial body.exam-mode .qc.exam-revealed .ch2.ok.correct::before,
+html.ui-celestial body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok.correct::before,
 html.ui-celestial .qc .ch2.ok.correct::before { content: '✦ ' !important; color: #FFD166 !important; text-shadow: 0 0 14px #FFD166 !important; }
+
+html.ui-abyss .qc.fx-correct .ch2.ok.correct::before,
+html.ui-abyss body.exam-mode .qc.exam-revealed .ch2.ok.correct::before,
+html.ui-abyss body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok.correct::before,
 html.ui-abyss .qc .ch2.ok.correct::before { content: '🪼 ' !important; color: #00FFA3 !important; text-shadow: 0 0 14px #00FFA3 !important; }
+
+html.ui-frost .qc.fx-correct .ch2.ok.correct::before,
+html.ui-frost body.exam-mode .qc.exam-revealed .ch2.ok.correct::before,
+html.ui-frost body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok.correct::before,
 html.ui-frost .qc .ch2.ok.correct::before { content: '❄ ' !important; color: #70D6FF !important; text-shadow: 0 0 14px #70D6FF !important; }
 
 /* ── ④ 不正解肢のテーマ別フェードアウト（消滅） ── */
