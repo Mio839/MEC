@@ -14,10 +14,25 @@
 
   // ─── fx_engine.js（Canvasパーティクルエンジン）を動的ロード ──
   (function () {
-    if (window.MecFX) return;
+    /* ⚠️ 2026-08-31: 読み込んだ直後と OS 設定の変更時に MecFX.setEnabled を同期する。
+       study.html 側と同じ約束（§有効/無効）。過去問ビューアは study.html を読まないので
+       ここに置かないと **reduced-motion でも粒子だけが出続ける**（ceReduced() は
+       DOM 演出しか止めない）。 */
+    function syncFx() {
+      if (window.MecFX && MecFX.setEnabled) {
+        MecFX.setEnabled(!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches));
+      }
+    }
+    try {
+      var mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+      if (mq && mq.addEventListener) mq.addEventListener('change', syncFx);
+      else if (mq && mq.addListener) mq.addListener(syncFx);
+    } catch (e) {}
+    if (window.MecFX) { syncFx(); return; }
     var s = document.createElement('script');
     s.src = scriptBase + 'fx_engine.js';
     s.async = true;
+    s.onload = syncFx;
     (document.head || document.documentElement).appendChild(s);
   })();
 
@@ -1951,11 +1966,9 @@
       if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 8 + tier * 2, colors: ['#FF007F', '#7928CA'] });
       return;
     }
-    var counts = [0, 14, 22, 30, 40, 52, 64, 80];
-    spawnBurst(cx, cy, tier, counts[ceTIdx(tier, counts)] || 14);
-    try {
-      window.MecFX.rings(cx, cy, {count:1, color: ceTheme().ringColor(tier), thickness:2, maxR:130 + tier*22, additive: exam.effectSet !== 'ink'});
-    } catch (e) {}
+    /* ⚠️ ここに legacy の fallback を書かないこと（2026-08-31）。MecUITheme.get() は
+       必ず8種のどれかを返すので、上の分岐は網羅＝下は到達しない。study_exam.js の
+       _spawnLightStreakFx と同じ約束。 */
   }
   var CE_BOOT_STYLES = ['mecha', 'cyber'];
   // 開始ブートシーケンス（study_exam.js の _examCountdown をミラー）。
@@ -2190,34 +2203,6 @@
     });
   }
 
-  function spawnRings(cx, cy, tier, customMaxR) {
-    if (!window.MecFX) return;
-    var ringCounts = [0,0,1,2,3,4,6,8];
-    var _pb = ceBand();
-    var shortSide = Math.min(_pb.width, _pb.height);
-    var targetMaxR = customMaxR || (shortSide * Math.min(0.48, 0.38 + tier * 0.015));
-    window.MecFX.rings(cx, cy, {
-      count: ringCounts[ceTIdx(tier, ringCounts)],
-      color: ceTheme().ringColor(tier),
-      thickness: tier >= 5 ? 4 : tier >= 3 ? 3 : 2,
-      maxR: targetMaxR,
-      additive: tier >= 4
-    });
-  }
-
-  function spawnBurst(cx, cy, tier, count) {
-    if (!window.MecFX) return;
-    var theme = ceTheme();
-    var palettes = theme.burstPalettes;
-    window.MecFX.burst(cx, cy, {
-      count: Math.round(count * (theme.floaterScale || 1)),
-      colors: palettes[ceTIdx(tier, palettes)] || palettes[4],
-      shapes: theme.shapes(tier),
-      tier: tier,
-      glow: exam.effectSet !== 'ink',
-      additive: exam.effectSet !== 'ink'
-    });
-  }
 
   function spawnParticles(tier) {
     var toast = document.getElementById('chExamStreakToast');
@@ -2275,57 +2260,13 @@
       }
     }
 
-    var theme = ceTheme();
-    spawnRings(cx, cy, tier, maxR);
-    spawnLightning(cx, cy, tier, maxR);
-
-    var burstCounts = [0, 0, 50, 140, 340, 580, 900, 1300];
-    spawnBurst(cx, cy, tier, burstCounts[ceTIdx(tier, burstCounts)] || 50);
-
-    // 中tier(2-3)は最頻出。時間差の二段バースト＋追撃リングで密度を出す
-    if (tier === 2 || tier === 3) {
-      setTimeout(function(){ spawnBurst(cx, cy, tier, tier === 3 ? 80 : 36); }, tier === 3 ? 150 : 130);
-      setTimeout(function(){ spawnRings(cx, cy, tier, maxR * 0.8); }, tier === 3 ? 140 : 120);
-    }
-
-    if (tier >= 4) setTimeout(function(){ spawnBurst(cx, cy, tier, tier>=6?220:tier>=5?150:90); }, 160);
-    if (tier >= 5) setTimeout(function(){ spawnBurst(cx, cy, tier, tier>=6?340:200); }, tier>=6?200:340);
-    if (tier >= 6) {
-      setTimeout(function(){ spawnBurst(cx, cy, tier, 250); }, 400);
-      setTimeout(function(){ spawnBurst(cx, cy, tier, 170); }, 600);
-      if (theme.useMedalDrop) ceSpawnMedalDrop(tier);
-      if (theme.useBlackHole) ceSpawnBlackHoleVignette(tier, cx, cy);
-      if (theme.useDefib) setTimeout(function(){ ceEcgDefib(tier); }, 300);
-    }
-
-    if (tier >= 4) {
-      if (theme.useFireworks) spawnFirework(tier);
-      else if (theme.useCircuitPulse) ceNeonCircuitPulse(cx, cy, tier);
-      else if (theme.useStampBurst) ceInkStampBurst(cx, cy, tier);
-      else if (theme.useECGSweep) ceEcgSweep(tier);
-      else if (theme.useBrushCircle) ceInkBrushCircle(cx, cy, tier);
-      if (theme.useSpotlight) ceSpawnSpotlightRays(tier);
-    }
-
-    if (tier >= 5 && window.MecFX) {
-      if (exam.effectSet === 'luxury') window.MecFX.dust({count: tier >= 6 ? 90 : 55});
-      else if (exam.effectSet === 'space') window.MecFX.dust({count: tier >= 6 ? 80 : 50, colors:['#FFFFFF','#FFD54F','#B388FF','#40C4FF']});
-    }
-
-    var rainWaves = [0, 0, 0, 1, 3, 6, 10, 15][Math.min(tier, 7)];
-    for (var w = 0; w < rainWaves; w++) {
-      (function(wave){ setTimeout(function(){ spawnRain(tier); }, 55 + wave * 120); })(w);
-    }
+    /* ⚠️⚠️ ここには演出テーマ7種ぶんの粒子（リング・稲妻・特大バースト・レイン・
+       メダル・ブラックホール・除細動・ECGスイープ・墨円・スポットライト）が約40行あったが、
+       上の8分岐が MecUITheme.get() の全戻り値を網羅して必ず return するため
+       **一度も実行されていなかった**（2026-08-31 に関連17関数ごと削除）。
+       burstCounts=[…,1300] も rainWaves も同様。書き戻さないこと。 */
   }
 
-  function spawnRain(tier) {
-    var theme = ceTheme();
-    if (theme.rainType === 'digital') ceSpawnDigitalRain(tier);
-    else if (theme.rainType === 'petals') ceSpawnPetalRain(tier);
-    else if (theme.rainType === 'warp') ceSpawnWarpStreaks(tier);
-    else if (theme.rainType === 'bubbles') ceSpawnBubbleRise(tier);
-    else spawnConfetti(tier);
-  }
 
   function spawnConfetti(tier) {
     if (!window.MecFX) return;
@@ -2337,61 +2278,6 @@
     });
   }
 
-  function ceSpawnDigitalRain(tier) {
-    if (!window.MecFX) return;
-    var theme = ceTheme();
-    window.MecFX.glyphRain({
-      count: tier >= 6 ? 50 : tier >= 5 ? 36 : tier >= 4 ? 24 : 16,
-      glyphs: theme.rainGlyphs || ['0','1','#','$','%','&','∆','◆','▮','▯'],
-      colors: theme.rainCols || ['#00E5FF','#FF2BD6','#7A5CFF','#39FF88'],
-      bigGlyph: tier >= 5,
-      additive: true
-    });
-  }
-
-  function ceSpawnPetalRain(tier) {
-    if (!window.MecFX) return;
-    window.MecFX.petals({
-      count: tier >= 6 ? 44 : tier >= 5 ? 32 : tier >= 4 ? 22 : 15,
-      colors: ceTheme().rainCols || ['#F4A6B0','#FFFFFF','#E8C468','#C93A3A']
-    });
-  }
-
-  function ceNeonCircuitPulse(cx, cy, tier) {
-    var n = tier >= 6 ? 3 : tier >= 5 ? 2 : 1;
-    var col = tier >= 6 ? 'rgba(255,43,214,.9)' : 'rgba(0,229,255,.9)';
-    for (var i = 0; i < n; i++) {
-      (function(idx) {
-        setTimeout(function() {
-          var el = document.createElement('div');
-          el.className = 'ce-ring ce-fx-temp';
-          el.style.cssText = 'left:'+cx+'px;top:'+cy+'px;width:60px;height:60px;margin:-30px 0 0 -30px;border:2px solid '+col+';border-radius:4px;';
-          document.body.appendChild(el);
-          el.animate([
-            {transform:'scale(0) rotate(0deg)', opacity:.9},
-            {transform:'scale('+(tier>=6?14:10)+') rotate(20deg)', opacity:0}
-          ], {duration: 520+idx*90, easing:'ease-out', fill:'forwards'}).onfinish = function(){ el.remove(); };
-        }, idx * 140);
-      })(i);
-    }
-  }
-
-  function ceInkStampBurst(cx, cy, tier) {
-    var theme = ceTheme();
-    var col = theme.stampColor ? theme.stampColor(tier) : '#C93A3A';
-    var sz = 70 + tier * 8;
-    var el = document.createElement('div');
-    el.className = 'ce-fx-temp';
-    el.style.cssText = 'position:fixed;left:'+cx+'px;top:'+cy+'px;width:'+sz+'px;height:'+sz+'px;margin:'+(-sz/2)+'px 0 0 '+(-sz/2)+'px;border:5px solid '+col+';border-radius:50%;pointer-events:none;z-index:9060;box-shadow:0 0 24px '+col+'80;';
-    document.body.appendChild(el);
-    el.animate([
-      {transform:'scale(2.2) rotate(-8deg)', opacity:0},
-      {transform:'scale(.9) rotate(3deg)', opacity:1, offset:.4},
-      {transform:'scale(1) rotate(0deg)', opacity:.9, offset:.55},
-      {transform:'scale(1) rotate(0deg)', opacity:0}
-    ], {duration: 700, easing:'ease-out', fill:'forwards'}).onfinish = function(){ el.remove(); };
-    setTimeout(function(){ spawnBurst(cx, cy, tier, tier >= 6 ? 34 : 20); }, 120);
-  }
 
   function ceInkBrushSwipe(tier) {
     var rgb = ceTheme().brushColorRgb || '26,26,26';
@@ -2407,151 +2293,6 @@
     ], {duration: tier >= 6 ? 620 : 480, easing:'ease-in-out', fill:'forwards'}).onfinish = function(){ el.remove(); };
   }
 
-  function ceEcgSweep(tier) {
-    var theme = ceTheme();
-    var col = theme.fullscreenCols[ceTIdx(tier, theme.fullscreenCols)] || '#00E676';
-    var _eb = ceBand();
-    var w = window.innerWidth;
-    var y = _eb.top + _eb.height * (0.4 + Math.random() * 0.2);
-    var amp = tier >= 6 ? 90 : tier >= 5 ? 65 : 40;
-    var segW = w / 10;
-    var d = 'M0,' + y.toFixed(0);
-    for (var i = 0; i < 10; i++) {
-      var x0 = i * segW;
-      if (i % 3 === 1) {
-        d += ' L'+(x0+segW*.2).toFixed(0)+','+y.toFixed(0)+' L'+(x0+segW*.32).toFixed(0)+','+(y-amp*.3).toFixed(0)+' L'+(x0+segW*.42).toFixed(0)+','+(y+amp).toFixed(0)+' L'+(x0+segW*.52).toFixed(0)+','+(y-amp*.6).toFixed(0)+' L'+(x0+segW*.62).toFixed(0)+','+y.toFixed(0)+' L'+(x0+segW).toFixed(0)+','+y.toFixed(0);
-      } else {
-        d += ' L'+(x0+segW).toFixed(0)+','+y.toFixed(0);
-      }
-    }
-    var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-    svg.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9070;overflow:visible;';
-    var path = document.createElementNS('http://www.w3.org/2000/svg','path');
-    path.setAttribute('d', d);
-    path.setAttribute('stroke', col);
-    path.setAttribute('stroke-width', tier >= 5 ? '4' : '3');
-    path.setAttribute('fill', 'none');
-    path.setAttribute('stroke-linecap', 'round');
-    path.setAttribute('stroke-linejoin', 'round');
-    path.style.filter = 'drop-shadow(0 0 8px '+col+')';
-    path.style.strokeDasharray = '3000';
-    path.style.strokeDashoffset = '3000';
-    svg.appendChild(path);
-    document.body.appendChild(svg);
-    var dur = tier >= 6 ? 900 : tier >= 5 ? 750 : 600;
-    path.animate([{strokeDashoffset:3000},{strokeDashoffset:0}], {duration: dur * .65, easing:'linear', fill:'forwards'});
-    svg.animate([{opacity:0},{opacity:1},{opacity:1},{opacity:0}], {duration: dur, easing:'ease-out', fill:'forwards'}).onfinish = function(){ svg.remove(); };
-  }
-
-  function ceEcgDefib(tier) {
-    var theme = ceTheme();
-    var col = theme.fullscreenCols[6] || '#00E5FF';
-    var dim = document.createElement('div');
-    dim.className = 'ce-fx-temp';
-    dim.style.cssText = 'position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:9400;';
-    document.body.appendChild(dim);
-    var y = ceBand().cy;
-    var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-    svg.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9401;overflow:visible;';
-    var line = document.createElementNS('http://www.w3.org/2000/svg','line');
-    line.setAttribute('x1','0'); line.setAttribute('y1', y); line.setAttribute('x2', window.innerWidth); line.setAttribute('y2', y);
-    line.setAttribute('stroke', col);
-    line.setAttribute('stroke-width','3');
-    line.style.filter = 'drop-shadow(0 0 6px '+col+')';
-    svg.appendChild(line);
-    document.body.appendChild(svg);
-    dim.animate([{opacity:0},{opacity:.55},{opacity:.55},{opacity:0}], {duration:520, easing:'ease-in'}).onfinish = function(){ dim.remove(); };
-    svg.animate([{opacity:0},{opacity:1},{opacity:1},{opacity:0}], {duration:520, easing:'linear'}).onfinish = function(){ svg.remove(); };
-    setTimeout(function() {
-      var flash = document.getElementById('chExamStreakFlash');
-      if (flash) {
-        flash.style.background = '#FFFFFF';
-        flash.style.opacity = '0';
-        flash.animate([{opacity:0},{opacity:.9},{opacity:.08},{opacity:.85},{opacity:0}], {duration:260, easing:'linear'});
-      }
-      // body ではなく演出レイヤーを揺らす（body の transform は fixed 要素の基準をページ先頭にずらす）
-      ceShakeFxLayers([
-        {transform:'translate(0,0)'},{transform:'translate(6px,-4px)'},{transform:'translate(-8px,5px)'},{transform:'translate(0,0)'}
-      ], {duration:180, easing:'ease-out'});
-    }, 540);
-  }
-
-  function ceSpawnBlackHoleVignette(tier, cx, cy) {
-    var el = document.createElement('div');
-    el.className = 'ce-fx-temp';
-    el.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9040;background:radial-gradient(circle at center, transparent 28%, rgba(0,0,0,.78) 100%);';
-    document.body.appendChild(el);
-    el.animate([{opacity:0},{opacity:1},{opacity:1},{opacity:0}], {duration: tier >= 6 ? 950 : 700, easing:'ease-in-out'}).onfinish = function(){ el.remove(); };
-    // 画面中央の引力点が漂うパーティクルを実際に吸い込み、消滅時に外へ弾ける
-    if (window.MecFX) {
-      var _hb = ceBand(), bx = _hb.cx, by = _hb.cy;
-      window.MecFX.attractor(bx, by, {ttl: .75, strength: 130000});
-      setTimeout(function(){
-        if (!window.MecFX) return;
-        window.MecFX.burst(bx, by, {count: 130, colors: ceTheme().burstPalettes[6], shapes: ['star','circle'], tier: 6, glow: true});
-        window.MecFX.rings(bx, by, {count: 2, color: 'rgba(224,64,251,.85)', thickness: 4, maxR: 500, additive: true});
-      }, 780);
-    }
-  }
-
-  function ceSpawnWarpStreaks(tier) {
-    if (!window.MecFX) return;
-    window.MecFX.warp({
-      count: tier >= 6 ? 80 : tier >= 5 ? 55 : tier >= 4 ? 36 : 20,
-      colors: ceTheme().rainCols || ['#FFFFFF','#7C4DFF','#40C4FF']
-    });
-  }
-
-  function ceSpawnBubbleRise(tier) {
-    if (!window.MecFX) return;
-    window.MecFX.bubbles({
-      count: tier >= 6 ? 40 : tier >= 5 ? 28 : tier >= 4 ? 18 : 12,
-      colors: ceTheme().rainCols || ['#FFD700','#FFFFFF']
-    });
-  }
-
-  function ceSpawnSpotlightRays(tier) {
-    var theme = ceTheme();
-    var col = theme.fullscreenCols[ceTIdx(tier, theme.fullscreenCols)] || '#FFD700';
-    var el = document.createElement('div');
-    el.className = 'ce-fx-temp';
-    el.style.cssText = 'position:fixed;inset:-50%;pointer-events:none;z-index:9042;background:conic-gradient(from 0deg, transparent 0deg, '+col+'40 8deg, transparent 16deg, transparent 60deg, '+col+'40 68deg, transparent 76deg, transparent 120deg, '+col+'40 128deg, transparent 136deg, transparent 180deg, '+col+'40 188deg, transparent 196deg, transparent 240deg, '+col+'40 248deg, transparent 256deg, transparent 300deg, '+col+'40 308deg, transparent 316deg);';
-    document.body.appendChild(el);
-    var dur = tier >= 6 ? 1400 : 1000;
-    el.animate([
-      {transform:'rotate(0deg)', opacity:0},
-      {opacity:.9, offset:.15},
-      {opacity:.9, offset:.8},
-      {transform:'rotate('+(tier >= 6 ? 140 : 90)+'deg)', opacity:0}
-    ], {duration: dur, easing:'ease-out'}).onfinish = function(){ el.remove(); };
-  }
-
-  function ceSpawnMedalDrop(tier) {
-    var glyphs = ['🏆','🥇','👑'];
-    var count = 3;
-    for (var i = 0; i < count; i++) {
-      (function(idx) {
-        setTimeout(function() {
-          var el = document.createElement('div');
-          el.className = 'ce-fx-temp';
-          var b = ceBand();
-          var x = b.left + b.width * (0.25 + idx * 0.25);
-          // 画面上端(-80px)から落として可視帯の中心で受け止める
-          var drop = Math.round(b.cy + 48);
-          el.textContent = glyphs[idx % glyphs.length];
-          el.style.cssText = 'position:fixed;left:'+x.toFixed(0)+'px;top:-80px;font-size:64px;pointer-events:none;z-index:9066;filter:drop-shadow(0 6px 14px rgba(0,0,0,.5));';
-          document.body.appendChild(el);
-          el.animate([
-            {transform:'translateY(0) rotate(-8deg) scale(.6)', opacity:0},
-            {transform:'translateY('+(drop+20)+'px) rotate(4deg) scale(1.15)', opacity:1, offset:.55},
-            {transform:'translateY('+(drop-20)+'px) rotate(-2deg) scale(1)', offset:.7},
-            {transform:'translateY('+drop+'px) rotate(0deg) scale(1)', opacity:1, offset:.85},
-            {opacity:0}
-          ], {duration:1400, easing:'cubic-bezier(.22,.9,.3,1.3)'}).onfinish = function(){ el.remove(); };
-        }, idx * 140);
-      })(i);
-    }
-  }
 
   function ceSpawnCRTOverlay(tier) {
     var el = document.createElement('div');
@@ -2561,64 +2302,6 @@
     el.animate([{opacity:0},{opacity:.8},{opacity:.8},{opacity:0}], {duration: tier >= 6 ? 900 : 600, easing:'ease-in-out'}).onfinish = function(){ el.remove(); };
   }
 
-  function ceInkBrushCircle(cx, cy, tier) {
-    var theme = ceTheme();
-    var col = theme.stampColor ? theme.stampColor(tier) : '#C93A3A';
-    var r = 55 + tier * 6;
-    var segs = 40;
-    var pts = [];
-    for (var i = 0; i <= segs; i++) {
-      var a = (i / segs) * Math.PI * 2 * 1.08;
-      var jitter = (Math.random() - .5) * 6;
-      pts.push((cx + Math.cos(a) * (r + jitter)).toFixed(1) + ',' + (cy + Math.sin(a) * (r + jitter)).toFixed(1));
-    }
-    var d = 'M' + pts.join(' L');
-    var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-    svg.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9070;overflow:visible;';
-    var path = document.createElementNS('http://www.w3.org/2000/svg','path');
-    path.setAttribute('d', d);
-    path.setAttribute('stroke', col);
-    path.setAttribute('stroke-width', tier >= 6 ? '10' : '7');
-    path.setAttribute('fill', 'none');
-    path.setAttribute('stroke-linecap', 'round');
-    path.style.filter = 'drop-shadow(0 0 6px '+col+')';
-    var len = 2 * Math.PI * r * 1.15;
-    path.style.strokeDasharray = String(len);
-    path.style.strokeDashoffset = String(len);
-    svg.appendChild(path);
-    document.body.appendChild(svg);
-    var drawDur = tier >= 6 ? 520 : 380;
-    path.animate([{strokeDashoffset:len},{strokeDashoffset:0}], {duration: drawDur, easing:'ease-in-out', fill:'forwards'});
-    svg.animate([{opacity:1},{opacity:1},{opacity:0}], {duration: drawDur + 500, easing:'ease-in', fill:'forwards'}).onfinish = function(){ svg.remove(); };
-    setTimeout(function(){ spawnBurst(cx, cy, tier, tier >= 6 ? 24 : 14); }, drawDur * 0.7);
-  }
-
-  function spawnLightning(cx, cy, tier, customMaxR) {
-    if (tier < 3) return;
-    if (ceTheme().useLightning === false) return;
-    if (!window.MecFX) return;
-    var _pb = ceBand();
-    var shortSide = Math.min(_pb.width, _pb.height);
-    var targetMaxR = customMaxR || (shortSide * 0.45);
-    var cols = ceTheme().lightningCols;
-    window.MecFX.lightning(cx, cy, {
-      bolts: tier >= 7 ? 18 : tier >= 6 ? 14 : tier >= 5 ? 9 : tier >= 4 ? 5 : 3,
-      color: cols[ceTIdx(tier, cols)],
-      tier: tier,
-      maxR: targetMaxR
-    });
-  }
-
-  function spawnFirework(tier) {
-    if (tier < 4) return;
-    if (!window.MecFX) return;
-    var palettes = ceTheme().burstPalettes;
-    window.MecFX.fireworks({
-      count: tier >= 7 ? 11 : tier >= 6 ? 8 : tier >= 5 ? 5 : 3,
-      colors: palettes[ceTIdx(tier, palettes)] || palettes[4],
-      tier: tier
-    });
-  }
 
   // 旧実装は body 全体への filter で iPad では最重量級だったため、
   // 軽い transform ジッター + Canvas のグリッチ帯に置き換え
@@ -2696,21 +2379,13 @@
 
   function ceTriggerChoiceCorrectPop(el) {
     if (!el) return;
-    var curUi = window.MecUITheme ? MecUITheme.get() : null;
-    if (!curUi || curUi === 'classic') {
-      el.animate([
-        {transform:'scale(1)',filter:'brightness(1)'},
-        {transform:'scale(1.1) translateY(-3px)',filter:'brightness(1.8)',offset:.15},
-        {transform:'scale(.96) translateY(1px)',filter:'brightness(1.2)',offset:.37},
-        {transform:'scale(1.03)',offset:.56},
-        {transform:'scale(1)',filter:'brightness(1)'}
-      ], {duration:420, easing:'cubic-bezier(.22,.68,0,1.25)'});
-    } else {
-      el.animate([
-        {filter:'brightness(1.8)'},
-        {filter:'brightness(1)', offset: 1}
-      ], {duration:320, easing:'ease-out'});
-    }
+    /* UIテーマのCSSキーフレームが肢の見た目を持つので、ここは瞬間的な露光だけ足す。
+       ⚠️ 2026-08-31 まで `if (!curUi || curUi === 'classic')` の分岐があったが、
+          MecUITheme は常に8種のどれかを返すのでリッチな側は一度も走っていなかった。 */
+    el.animate([
+      {filter:'brightness(1.8)'},
+      {filter:'brightness(1)', offset: 1}
+    ], {duration:320, easing:'ease-out'});
     var card = el.closest('.qc');
     if (card) {
       card.animate([

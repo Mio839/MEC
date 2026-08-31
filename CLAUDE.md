@@ -1368,6 +1368,103 @@ B1 の完了（`_subjLoadDone`）は `_finish` の rAF にぶら下がるが、*
 1フレームも来ない**（実測。ハブの `_tweenNum` が数字を0で凍らせたのと同じ原因）。
 `_subjLoadStart` が `SUBJ_LOAD_MAX_MS` の `setTimeout` を落とし所として必ず張る。
 
+## 演出の予算・reduced-motion・後始末（2026-08-31・レビュー対応）
+
+演出コードのレビューで見つかった構造的な問題への対処。テスト: 既存37本に加えて
+`node _work/test_dynamic_fx.js` を**文字列検索から到達可能性の検査へ**書き換えてある。
+
+### ⚠️ 全画面レイヤーは1解答につき1枚（`FULLSCREEN_BUDGET`）
+
+旧実装は上限が無く、tier4 の1解答で **暗転(backdrop-filter) / フラッシュ / 特大×n /
+外周ボーダー / 背景ブレスの5枚**が同時に重なり、読ませたい演出（A4 リボン・A5 沈み込み）が
+埋もれていた。`_showStreakEffect` が `_fsBudgetReset()` してから `_fsTake()` で取り合う。
+
+- **消費するのは面を覆うものだけ**＝`_triggerTimeStop` / `_triggerFullscreenCombo` /
+  `_spawnCRTOverlay`。優先順は暗転 ＞ 特大×n ＞ CRT。
+- **予算の外**: `_triggerBorderGlow`（縁だけ）・`_triggerBgBreath`（alpha .12 の環境光）・
+  粒子・トースト・コンボメーター・カード上の演出。
+- ⚠️⚠️ **上限を上げて派手さを出そうとしないこと。** 段が上がったときに増やすのは
+  「枚数」ではなく「1枚の強さ」（色・持続・スケール）。
+- ⚠️ **特大×n は tier6（14連続）以上へ格下げした**（§情報設計）。あれが伝えるのは連続数だけで、
+  同じ数字をトーストとコンボメーターが既に持っている＝画面全体を使う価値がいちばん低い。
+  代わりに `.exam-mark-pop`（難問突破・リベンジ・初見突破）を 12.5px → 15px にした。
+- **派手さの置き場は結果画面**（`showExamSummary`）。読むべき本文がもう無く、セッションの
+  終わりという滅多に来ない瞬間なので制約が掛からない。PERFECT のみ花火16発＋紙吹雪240片。
+
+### ⚠️ reduced-motion は「DOM演出」と「粒子」の両方を止める
+
+- `_showStreakEffect` の先頭に `_fxOff()` ガードがある。**外さないこと。**
+  以前は無く、MecFX（粒子）だけ止まって **全画面フラッシュ・特大×n・暗転・シェイク・
+  外周ボーダー・背景ブレス・浮遊コンボは素通り**していた＝「動きを減らす」を選んだ人に
+  いちばん強い層だけが残るという逆転。⚠️ コンボメーターだけは情報なので残す。
+- 粒子側は **`MecFX.setEnabled(bool)`**（fx_engine.js の `addP` / `attractor` で弾く）。
+  ⚠️⚠️ **旧方式（`MecFX[k] = function(){}` で全メソッドを潰す）へ戻さないこと。**
+  ① 判定が `load` 時の1回きりで OS 設定の変更に追随しない
+  ② 潰したメソッドは戻せない＝ONで起動して途中でOFFにすると粒子が二度と出ない。
+  study.html と chapter_exam.js の両方が `matchMedia('...').addEventListener('change')` を
+  購読して同期する。
+- `ui_theme.css` に**全停止ブロック**がある（`animation-duration:1ms` へ潰す形）。
+  ⚠️ `animation: none` にしないこと。8テーマ全部が `.qc` に `{id}CardEnter … both`
+  （`from{opacity:0}`）を掛けているので、fill-mode ごと消すと**カードが白紙になる**。
+
+### ⚠️ 全画面フラッシュの明滅は 2.8Hz 以下（`FLASH_CYCLE_MS = 360`）
+
+`#examStreakFlash` は `inset:0` の全画面。旧実装は 85ms 刻みで 0.95↔0.06 を往復＝
+**1周期170ms＝5.9Hz** で、WCAG 2.3.1 の「1秒に3回まで」を超えていた（ecg の tier5 は
+`rgba(255,23,68,.65)` ＝飽和した赤で、赤色フラッシュはさらに厳しい基準の対象）。
+いまは1周期360ms・暗側も 0.42 で輝度の振れ幅を半分以下にしてある。
+⚠️ **段の派手さを明滅の速さで出さないこと。**
+
+### ⚠️ 演出の遅延は `_fxTimeout()` を通す（§cleanup）
+
+study_exam.js の setTimeout 64本のうち `clearTimeout` されていたのは10本だけで、
+残りは試験を抜けても走り続けていた（正解直後に「終了」を押すと、**通常閲覧の画面に
+演出DOMが生えてから消える**／`MecFX.clear()` の後から粒子が撒き直される）。
+
+- `_fxTimeout(fn, ms)` が登録簿 `_fxTimers` に積み、`exitExam` の**先頭**で `_fxClearTimers()`。
+  ⚠️ 掃除より先に止めること。後にすると掃除の直後に遅延ぶんが新しい演出を生やす。
+- ⚠️ **「試験を抜けた後も動いてよいもの」は素の setTimeout のまま**にすること
+  （`_stampRank` / `showExamSummary` の祝賀は exitExam の後に動くのが正しい）。
+
+### ⚠️ 可視帯 `_fxBand()` は 16ms キャッシュ
+
+`.st-hdr` の `getBoundingClientRect()` を同期で読む関数が40箇所から呼ばれ、
+`_examClampFxXY` が内部でもう一度呼ぶので **1解答あたり15〜20回**のレイアウト読みになり、
+その合間に style を書くので read→write→read の Layout Thrashing が起きていた。
+
+- `FX_BAND_TTL_MS = 16`（60fps の1コマ）。⚠️ **伸ばさないこと**（スクロール中に古い帯へ出る）。
+- 無効化は `_fxBandInvalidate()`＝window の resize と **visualViewport の resize/scroll**。
+  ⚠️ 口を減らさないこと（iOS のツールバー出入り・分割表示・ピンチ・ソフトキーボード）。
+- ⚠️ **rAF でキャッシュを無効化しないこと**——非表示タブでは rAF が1コマも来ないので、
+  裏に回した瞬間の帯が永久に固まる。
+
+### ⚠️ `.qc` を全走査しない／`.qc` の疑似要素に `infinite` を置かない
+
+- `card-heat-*` の消灯は `_heatedCard` の参照1つで行う。旧実装は
+  `document.querySelectorAll('.qc')` を**誤答のたび**に回していた（神経594枚）。
+- ⚠️⚠️ **`html.ui-* .qc::before` / `::after` に `infinite` を置かないこと。**
+  8テーマ全部が持っていて（13ルール）、しかも study.css は iOS 限定で
+  `content-visibility: visible` に戻している（白タイル化の実バグ回避）ため、
+  **iPad では画面外のカードも全部描画され、594〜1188本のアニメが常時走っていた**。
+  `auroraEdgeFlow` 等は `background-position`＝**ペイント**なので毎フレーム塗り直しになる。
+  いまは既定 `animation-play-state: paused` で、`.exam-key-focus` / `.fx-correct` / `:hover`
+  のときだけ `running`。グラデーション自体は残るので世界観は失われない。
+- ⚠️⚠️ **`will-change` を状態クラスに貼りっぱなしにしないこと。**
+  `ui_theme.css` の「GPUレイヤー最適化」に `.qc.fx-correct` 系があり、`fx-correct` は
+  **正解した瞬間に付いてセッション中ずっと残る**ので、50問の試験で最大50枚のカードが
+  恒久的に合成レイヤーへ昇格してテクスチャを抱えていた（iPad のメモリ逼迫の一因）。
+  **アニメーション中の要素はブラウザが自動で昇格する。** あの一覧に残してよいのは
+  ハブに1つずつしか無い要素（ゲージ等）だけ。
+- `.qc[class*="combo-streak-"]:not(…)×5` は `.combo-streak-10` と等価（設定されるのは 3/5/10 だけ）
+  なので単純化した。属性部分一致＋否定連鎖を594枚のカードに当てないこと。
+
+### ⚠️ テストは「文字列が在るか」ではなく「生きた経路から呼ばれるか」を見る
+
+到達不能コードが数か月見つからなかった直接の原因が、`test_dynamic_fx.js` の
+`assert(examSrc.includes('count: 240'))` のような**マジックナンバーの存在確認**だった。
+実装は死んでいても文字列はソースに在るので、ずっと green のままだった。
+`fnBodyOf(src, name)` で関数本体を切り出してから検査すること。
+
 ## 試験モードの演出エフェクト仕様
 
 試験モード（🎓）で選択肢を選んだ瞬間に発火する視覚エフェクトの仕様。実装は `study_exam.js`（統合study.html用）と `chapter_exam.js`（章別過去問用・同一配色をミラー）。CSSアニメの一部は `study.css`。パーティクル描画は `fx_engine.js`（`window.MecFX`）。
@@ -1489,10 +1586,36 @@ study.html(study_exam.js) ／ index.html ／ chapter_exam.js  ← 3つとも「�
   `!important` は WAAPI アニメより強いので、外さないと同じページの2回目以降の試験で一度も出ない。
 - テスト: `node _work/test_fx_band.js`（帯の幾何・両ファイルのミラー整合・上の回帰ガード）
 
-### 演出セット（テーマ）
+### 演出セット（テーマ）— UIテーマから決定論的に引く（2026-08-31 にランダム廃止）
 - 全7セット: `classic` / `neon` / `ink` / `ecg` / `space` / `retro` / `luxury`（`EXAM_EFFECT_SETS`）。定義本体は `EXAM_EFFECT_THEMES`（study_exam.js）。
-- **試験開始ごとにランダム選択**（ユーザー選択UIは無い・localStorage永続もしない）。`EXAM_EFFECT_POOL` は classic を1票・他を各2票の重み付き（classicは他の半分の確率）。
-- セットは正解／連続正解エフェクトの見た目（配色パレット・絵文字・ラベル・雷/紙吹雪/花火などのON/OFF）を丸ごと切り替える。各テーマは `burstPalettes` `labels(n)` `comboLabel(n)` `comboColors` `fullscreenCols/Glow` `flashColors` `borderColors` `meterGrads` `floaterGlyphs` `correctEmoji` `use*`（useConfetti/useFireworks/useLightning/useGlitch 等のフラグ）を持つ。
+- **選択は `UI_TO_EXAM_SET`（`_examSetForUi()`）＝UIテーマ8種からの固定写像**。
+  aurora→neon／brass→luxury／cyber→retro／liquid→classic／kintsugi→ink／celestial→space／
+  abyss→ecg／frost→space（frost と celestial だけ space を共有＝どちらも寒色系）。
+  `startExam` と `resumeExam` の両方で引き直す（同じ値が返るので中断・再開で変わらない）。
+- ⚠️⚠️ **`EXAM_EFFECT_POOL` によるランダム選択へ戻さないこと（2026-08-31 に廃止）。** 理由は2つ:
+  ① 7テーマが持っていた「粒子の署名」は **一度も発火していなかった**（下記）ので、
+     ランダムにしても変わるのはラベルとフラッシュ色だけ。
+  ② その色が、ユーザーが自分で選んだUIテーマの色と半分の確率でぶつかっていた。
+     「今日は何色か」が運で決まることに情報上の意味は無い。
+- ⚠️⚠️ **演出テーマ7種の粒子層は 2026-08-31 に削除した（到達不能だったため）。**
+  `MecUITheme.get()` は **必ず8種のどれかを返す**（`VALID_IDS` 外は `aurora` に落ちる）ので、
+  `_spawnStreakParticles` / `_spawnLightStreakFx` / `_spawnScatteredCelebration` /
+  `_spawnEmojiFloaters` / `_triggerChoiceCorrectPop` の UIテーマ分岐が**網羅かつ必ず return**し、
+  その下にあった 花火・雷・レイン（紙吹雪/デジタル/花弁/ワープ/泡）・メダル・ブラックホール・
+  除細動・ECGスイープ・墨円・スポットライト・絵文字フローター は **一行も実行されていなかった**。
+  study 側19関数・chapter 側17関数を削除（-368行 / -387行）。
+  ⚠️ **legacy の fallback を書き戻さないこと。書いても死ぬ。**
+     UIテーマを増やすときは **その4関数の分岐に足す**（1つ欠けるとそのテーマだけ無音になる）。
+- したがって現在テーマが持つのは **語彙と配色だけ**：`labels(n)` `comboLabel(n)` `comboColors`
+  `fullscreenCols/Glow` `flashColors` `borderColors` `meterGrads` `bgRgbs` `signature`
+  `tierUpLabel` `hardLabel`/`freshLabel`/`revengeLabel`/`fastLabels`、および
+  `useCRT` / `useBrushSwipe` / `useFlatline` の3フラグ。
+  ⚠️ `useFireworks` `useLightning` `lightningCols` `rainType` `useConfetti` `useMedalDrop`
+     `useBlackHole` `useDefib` `useECGSweep` `useStampBurst` `useCircuitPulse` `useBrushCircle`
+     `useSpotlight` `floaterGlyphs` `burstPalettes` `shapes` `ringColor` は
+     **study 側では誰も読まないデータ**として残っている（chapter 側の
+     `ceSpawnScatteredCelebration` はまだ `burstPalettes`/`ringColor`/`correctEmoji` を読む）。
+     `check_effect_themes_sync.js` が両者の一致を守るので、消すなら必ず対で消すこと。
 - ⚠️ `body.exam-effect-*` クラスのCSS定義は `neon`/`ink` のみ（`study.css`）。他セット（ecg/space/retro/luxury）はJS（`EXAM_EFFECT_THEMES` + `MecFX`）だけで描画される。classicは `body` クラス無し。
 
 ### 正解／誤答の追加演出は「合流点」を通す（2026-08-14〜）
@@ -1559,7 +1682,13 @@ study.html(study_exam.js) ／ index.html ／ chapter_exam.js  ← 3つとも「�
 - **tier≥1**: 画面中央に特大 `×n`（`_triggerFullscreenCombo`）＋ 全画面フラッシュ（`flashColors`）＋ ストリーク粒子（`_spawnStreakParticles`）
 - **tier≥2**: 画面シェイク（`_triggerScreenShake`）
 - **tier≥3**: ゾーン突入（`_zoneStart`）＋ タイムストップ暗転（`_triggerTimeStop`）＋ 画面外周ボーダーグロー（`_triggerBorderGlow`）＋ フラッシュが複数回パルス
-- **tier≥4**: 絵文字フローター群（`floaterGlyphs`）＋ グリッチ（`useGlitch`）or 墨スワイプ（`useBrushSwipe`）＋ dust（luxury/space）
+- **tier≥4**: グリッチ（`useGlitch`）or 墨スワイプ（`useBrushSwipe`）
+  ⚠️ 絵文字フローター（`floaterGlyphs`）は 2026-08-31 に削除した。`_spawnEmojiFloaters` は
+     先頭が `if (curUi) return;` で、UIテーマは常に8種のどれかなので **一度も出ていなかった**。
+- **tier≥5**: オーバードライブ（`_setOverdrive`・`body.exam-overdrive`）。**持続状態**であって
+  1解答ごとの演出ではない（入った瞬間に一度だけ稲妻）。誤答と `exitExam` で落ちる。
+  ⚠️ これも 2026-08-31 まで到達不能な尾部にあり、`overdrivePulse` も `#examOverdriveGlow` も
+     丸ごと死んでいた。
 - **覚醒モード**（`_setAwaken`）は tier6 の入口 ＝ **14連続**から
 
 ### ⚠️ 「昇格フレームだけフル演出」の山谷設計は撤回した（2026-08-25）

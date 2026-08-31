@@ -88,7 +88,25 @@
   }
 
   // ── パーティクル生成 ────────────────────────────────────────
+  /* ══════════ 有効/無効（2026-08-31）══════════
+     ⚠️⚠️ 以前は study.html が `load` 時に **MecFX の全メソッドを空関数へ差し替える**ことで
+     reduced-motion を実現していた。壊れ方が2つあった:
+       ① 判定が load 時の1回きり＝セッション中に OS 設定を変えても追随しない
+       ② メソッドを潰すので **元に戻せない**。ONで起動して途中で OFF にすると、
+          その後リロードするまで粒子が二度と出ない。
+     いまはフラグ1つで、粒子の生成口（addP / attractor）で弾く。
+     ⚠️ 粒子の生成は必ずこの2関数を通すこと（新しいエミッタを足すときも同じ）。
+        直接 pool.push すると、この関門を素通りして reduced-motion で描かれる。 */
+  var enabled = true;
+  function setEnabled(v) {
+    v = !!v;
+    if (v === enabled) return;
+    enabled = v;
+    if (!v) clearAll();
+  }
+
   function addP(p) {
+    if (!enabled) return p;
     if (pool.length >= MAX_PARTICLES) {
       // 連打・高頻度発火時のオーバーフロー保護: 古い粒子を破棄して最新演出を優先
       pool.splice(0, Math.min(pool.length, 300));
@@ -1243,6 +1261,7 @@
 
   /** 引力点（ブラックホール）。生きている間パーティクルを吸い込む */
   function attractor(x, y, o) {
+    if (!enabled) return;           // ⚠️ addP と対で必ず落とすこと（§有効/無効）
     o = o || {};
     attractors.push({ x: x, y: y, age: 0, ttl: o.ttl || .9, strength: o.strength || 90000 });
     startLoop();
@@ -2192,6 +2211,8 @@
     abyssSonarPulse: abyssSonarPulse,
     frostCrystalShatter: frostCrystalShatter,
     clear: clearAll,
+    setEnabled: setEnabled,
+    isEnabled: function () { return enabled; },
     count: function () { return pool.length; }
   };
 })();

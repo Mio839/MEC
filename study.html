@@ -1238,14 +1238,26 @@ async function mecForceRefresh(btn) {
 function _mecReducedMotion() {
   return window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
-// MecFX（Canvas粒子）は全メソッドがfire-and-forgetなので、設定ONならno-op化して一括抑止
-window.addEventListener('load', function() {
-  if (_mecReducedMotion() && window.MecFX) {
-    Object.keys(MecFX).forEach(k => {
-      if (k !== 'clear' && k !== 'count' && typeof MecFX[k] === 'function') MecFX[k] = function(){};
-    });
+/* MecFX（Canvas粒子）の一括抑止。
+   ⚠️⚠️ 2026-08-31: **メソッドを空関数へ差し替える方式をやめた**。旧実装は
+     `MecFX[k] = function(){}` で全メソッドを潰しており、
+       ① 判定が load 時の1回きり＝セッション中に OS 設定を変えても追随しない
+       ② 潰したメソッドは元に戻せない＝ONで起動して途中でOFFにすると、
+          リロードするまで粒子が二度と出ない
+     という壊れ方をしていた。いまはエンジン側のフラグ（MecFX.setEnabled）を切り替える。
+   ⚠️ matchMedia の change を必ず購読すること。DOM側の `_fxOff()` はその都度評価されるので、
+      購読しないと「DOM演出は止まったのに粒子だけ出続ける」というちぐはぐが起きる。 */
+(function() {
+  function _syncFxEnabled() {
+    if (window.MecFX && MecFX.setEnabled) MecFX.setEnabled(!_mecReducedMotion());
   }
-});
+  window.addEventListener('load', _syncFxEnabled);
+  try {
+    const mq = matchMedia('(prefers-reduced-motion: reduce)');
+    if (mq.addEventListener) mq.addEventListener('change', _syncFxEnabled);
+    else if (mq.addListener) mq.addListener(_syncFxEnabled);   // 古い WebKit
+  } catch (e) {}
+})();
 (function() {
   const GREEN = ['#3DD68C','#52FFB8','#A7F3D0','#00FF80','#B9FFE0'];
   const GOLD  = ['#FFD700','#FFE566','#FFF0A0','#FFBB00'];

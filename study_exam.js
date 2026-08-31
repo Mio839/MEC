@@ -34,8 +34,32 @@ let examAnswered = 0;
 let examCorrect = 0;
 let examStreak = 0;
 const EXAM_EFFECT_SETS = ['classic', 'neon', 'ink', 'ecg', 'space', 'retro', 'luxury'];
-// classic は他セットの半分の重み（1票 vs 各2票）で選ばれる
-const EXAM_EFFECT_POOL = EXAM_EFFECT_SETS.flatMap(s => s === 'classic' ? [s] : [s, s]);
+/* ⚠️⚠️ 2026-08-31: 試験開始ごとのランダム選択を廃止し、UIテーマから決定論的に引く形にした。
+   理由は2つ。① 演出テーマ7種が持っていた「粒子の署名」（花火・雷・レイン・メダル・ブラックホール・
+   除細動・ECGスイープ・墨・スポットライト・紙吹雪＝19関数）は、UIテーマ8種の分岐が先に必ず
+   return するため **一度も発火していなかった**（到達不能コードだった。同コミットで削除）。
+   残っていたのはラベル・フラッシュ色・×n の色・メーターの配色だけで、それがランダムに変わると
+   ② ユーザーが自分で選んだUIテーマの色と半分の確率でぶつかる。「今日は何色か」が運で決まる
+   状態に情報上の意味は無い。
+   ⚠️ この表を「またランダムに戻す」前に、粒子の署名が復活しているかを必ず確認すること。
+      復活していないなら、戻しても変わるのは色だけで、UIテーマと衝突する側に戻るだけ。
+   ⚠️ frost と celestial が space を共有しているのは意図的（どちらも寒色＋金の世界観で、
+      7セットに8テーマを割り当てるため）。8つ目のセットを新設するなら chapter_exam.js の
+      CE_EFFECT_THEMES にも同時に足すこと（check_effect_themes_sync.js が対で検査する）。 */
+const UI_TO_EXAM_SET = {
+  aurora:    'neon',     // 虹色ガラス → シアン/マゼンタ/バイオレット
+  brass:     'luxury',   // 真鍮 → 金・プラチナ
+  cyber:     'retro',    // HUD → アーケード/CRT
+  liquid:    'classic',  // 流体ピンク → 橙〜紫〜桃
+  kintsugi:  'ink',      // 漆黒金継ぎ → 朱・墨・金
+  celestial: 'space',    // 星図 → 青・紫・金
+  abyss:     'ecg',      // 深海発光 → 緑〜赤〜シアン
+  frost:     'space'     // 氷晶 → 青・紫（celestial と共有）
+};
+function _examSetForUi() {
+  const ui = (window.MecUITheme && MecUITheme.get) ? MecUITheme.get() : 'aurora';
+  return UI_TO_EXAM_SET[ui] || 'classic';
+}
 let examEffectSet = 'classic';
 let examBySubj = {};
 // 章別の集計。key = "{sid}_{章番号}"（例 "endo_1"）→ {sid, ch, correct, total}。
@@ -741,7 +765,7 @@ function startExam(overrideUids = null) {
   _examIsRematch = _rematchPending > 0; _rematchPending = 0;   // B8
   _clearRecapChips(); _examSessionResults.clear();             // B5: 前回の成績表示を畳む
   _renderExamProgMarks();                                      // B2: 目盛りと難問印を敷く
-  examEffectSet = EXAM_EFFECT_POOL[Math.floor(Math.random() * EXAM_EFFECT_POOL.length)];
+  examEffectSet = _examSetForUi();
   document.body.classList.remove('exam-effect-neon', 'exam-effect-ink');
   if (examEffectSet !== 'classic') document.body.classList.add('exam-effect-' + examEffectSet);
   if (location.search.indexOf('debug=1') !== -1) alert('[study.html] effectSet: ' + examEffectSet);
@@ -940,7 +964,7 @@ function revealAnswer(card) {
         _resetComboMeter();
         _clearDarkFx();
         _zoneStop(true);   // B5: ゾーン崩壊（漂う粒子が一点に吸い込まれて消える）
-        document.body.classList.remove('exam-overdrive');
+        _setOverdrive(false);
         _wrongDamageFx();
       } catch (err) {
         console.error('[ExamFx] Error in multi-wrong fx:', err);
@@ -1453,6 +1477,32 @@ function _fxOff() {
   return typeof _mecReducedMotion === 'function' && _mecReducedMotion();
 }
 
+/* ══════════ 演出タイマーの登録簿（2026-08-31・§cleanup）══════════
+   演出は「クラスを付ける → N ミリ秒後に外す」「少し遅らせて粒子を撒く」の形が多く、
+   study_exam.js には setTimeout が64本ある。そのうち `clearTimeout` で管理されていたのは
+   10本だけで、**残りは試験を抜けても走り続けていた**。実害:
+     ・`_afterCorrectFx` の遅延（90/150/260/420ms）は、正解直後に「終了」を押すと
+       **通常閲覧の画面に演出DOMを生やしてから消える**
+     ・`exitExam` が `MecFX.clear()` で粒子を消した後から、遅延ぶんが撒き直される
+   ⚠️⚠️ **演出の遅延は必ず `_fxTimeout()` を通すこと。** 素の `setTimeout` で書くと
+      登録簿に載らず、exitExam で止まらない。
+   ⚠️ 逆に「試験を抜けた後も続いてよいもの」は素の setTimeout のままにすること——
+      結果画面のランク刻印・祝賀（`_stampRank` / `showExamSummary`）は
+      **exitExam の後に動くのが正しい**ので登録簿へ入れない。
+   ⚠️ 登録簿は「掃除の一覧」を人が書き写す方式（exitExab の長い手続き）を減らすための
+      仕組みなので、新しい演出を足すときに **cleanup へ1行足すことを思い出さなくて済む**
+      形を保つこと。 */
+let _fxTimers = new Set();
+function _fxTimeout(fn, ms) {
+  const id = setTimeout(() => { _fxTimers.delete(id); try { fn(); } catch (e) {} }, ms);
+  _fxTimers.add(id);
+  return id;
+}
+function _fxClearTimers() {
+  _fxTimers.forEach(clearTimeout);
+  _fxTimers.clear();
+}
+
 function _examTheme() {
   return EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
 }
@@ -1509,7 +1559,27 @@ function _examFxHeaderBottom() {
 // ピンチ・ソフトキーボードに追従する）。fixed 要素も MecFX の canvas も同じ
 // レイアウトビューポート座標系なので、この帯の値をそのまま両方に使える。
 const FX_BAND_PAD = 16;
+/* ══════════ 可視帯の短命キャッシュ（2026-08-31）══════════
+   `_fxBand()` は `.st-hdr` の getBoundingClientRect() を **同期で**読む。この関数は
+   study_exam.js の40箇所から呼ばれ、`_examClampFxXY` が内部でもう一度呼ぶので
+   `_getDispersedFxPos` は1回の座標決定で2回ぶん消費する。結果、**1解答あたり15〜20回**の
+   レイアウト読みになり、その合間に演出側が style を書くので
+   read→write→read の Layout Thrashing が起きていた（commit 2eea7fb が
+   `void offsetWidth` を7箇所消したのはこの前段で、本丸はこちら）。
+
+   帯は1コマの中では動かないので `FX_BAND_TTL_MS` だけ結果を使い回す。
+   ⚠️ TTL を伸ばさないこと。16ms＝60fps の1コマぶんで、これを超えるとスクロール中に
+      古い帯へ粒子が出る。
+   ⚠️ 無効化の口（`_fxBandInvalidate`）を減らさないこと。ヘッダ下端はスクロールでは
+      動かないが、**visualViewport の resize/scroll**（iOS のツールバー出入り・分割表示・
+      ピンチ・ソフトキーボード）と window の resize では帯そのものが変わる。
+   ⚠️ ここに rAF を使ったキャッシュ無効化を持ち込まないこと——非表示タブでは rAF が
+      1コマも来ないので、裏に回した瞬間の帯が永久に固まる。 */
+const FX_BAND_TTL_MS = 16;
+let _bandCache = null, _bandCacheAt = -1e9;
 function _fxBand() {
+  const _now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now();
+  if (_bandCache && (_now - _bandCacheAt) >= 0 && (_now - _bandCacheAt) <= FX_BAND_TTL_MS) return _bandCache;
   const vv = window.visualViewport;
   const vLeft = vv ? vv.offsetLeft : 0;
   const vTop  = vv ? vv.offsetTop  : 0;
@@ -1519,14 +1589,26 @@ function _fxBand() {
   let bottom = vTop + vH - FX_BAND_PAD;
   // ヘッダーが可視域を食い尽くす（横向きの iPhone 等）ときは帯が潰れるので可視域全体へ戻す。
   if (bottom - top < 140) { top = vTop + FX_BAND_PAD; bottom = vTop + vH - FX_BAND_PAD; }
-  return {
+  _bandCacheAt = _now;
+  _bandCache = {
     left: vLeft, width: vW, right: vLeft + vW,
     top: top, bottom: bottom, height: Math.max(1, bottom - top),
     vTop: vTop, vBottom: vTop + vH, vHeight: vH,   // ヘッダーを差し引く前の素の可視域
     cx: Math.round(vLeft + vW / 2),
     cy: Math.round((top + bottom) / 2)
   };
+  return _bandCache;
 }
+function _fxBandInvalidate() { _bandCache = null; _bandCacheAt = -1e9; }
+(function _bindBandInvalidate() {
+  try {
+    window.addEventListener('resize', _fxBandInvalidate);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', _fxBandInvalidate);
+      window.visualViewport.addEventListener('scroll', _fxBandInvalidate);
+    }
+  } catch (e) {}
+})();
 function _examClampFxXY(cx, cy) {
   const b = _fxBand();
   return [Math.max(b.left + 8, Math.min(b.right - 8, cx)), Math.max(b.top, Math.min(b.bottom, cy))];
@@ -1819,7 +1901,7 @@ function _syncExamProgMarks() {
     _examProgCrossed.add(t.kind);
     if (_fxOff()) return;
     track.classList.remove('ep-sweep'); void track.offsetWidth; track.classList.add('ep-sweep');
-    setTimeout(() => track.classList.remove('ep-sweep'), 800);
+    _fxTimeout(() => track.classList.remove('ep-sweep'), 800);
   });
   if (L.sprintFrom != null) {
     const on = examAnswered >= L.sprintFrom && examAnswered < L.total;
@@ -2022,6 +2104,10 @@ function _traceToAnswer(card, fxEl) {
 }
 
 /* ── ⑦ 触覚フィードバック（Web Haptics: テーマ固有振動パターン） ── */
+/* ⚠️ iOS Safari は `navigator.vibrate` を実装していないので、**主環境の iPad では常に no-op**。
+   壊れているのではなく「その端末には無い機能」で、Android Chrome では実際に振動する。
+   消さずに残してあるのはそのため。iPad で触覚を出したくなっても、ここを直す話にはならない
+   （WebKit に相当APIが無い）。 */
 function _triggerThemeHaptics() {
   if (typeof navigator === 'undefined' || !navigator.vibrate) return;
   const curUi = window.MecUITheme ? MecUITheme.get() : 'aurora';
@@ -2085,7 +2171,7 @@ function _applyCardThemeComboFx(card, isCorrect, streak) {
     });
     card.classList.remove('fx-correct');
     card.classList.add('exam-wrong-hit');
-    setTimeout(() => card.classList.remove('exam-wrong-hit'), 500);
+    _fxTimeout(() => card.classList.remove('exam-wrong-hit'), 500);
   }
 }
 
@@ -2096,7 +2182,7 @@ function _applyCardThemeComboFx(card, isCorrect, streak) {
 function _sinkOtherChoices(card) {
   if (!card || _fxOff()) return;
   card.classList.add('exam-sink');
-  setTimeout(() => card.classList.remove('exam-sink'), 1100);
+  _fxTimeout(() => card.classList.remove('exam-sink'), 1100);
 }
 
 /* ══ 正解／誤答の追加演出の合流点（2026-08-14）══
@@ -2109,13 +2195,13 @@ function _afterCorrectFx(card, fxEl) {
   if (fast > 0) {
     if (card) {
       card.classList.add('exam-fast-hit');
-      setTimeout(() => card.classList.remove('exam-fast-hit'), 800);
+      _fxTimeout(() => card.classList.remove('exam-fast-hit'), 800);
     }
-    setTimeout(() => _triggerFastBonus(fxEl, fast), 90);
+    _fxTimeout(() => _triggerFastBonus(fxEl, fast), 90);
   }
 
   _sinkOtherChoices(card);
-  setTimeout(() => _traceToAnswer(card, fxEl), 260);
+  _fxTimeout(() => _traceToAnswer(card, fxEl), 260);
 
   const uid = card && card.dataset && card.dataset.uid;
   const prior = (_lastAnswerPrior.uid && _lastAnswerPrior.uid === uid) ? _lastAnswerPrior : null;
@@ -2127,12 +2213,12 @@ function _afterCorrectFx(card, fxEl) {
      2026-08-25: 初見ラベルの「易問(>=80%)では出さない」制限も撤廃した。 */
   const _markDelay = _isHardCard(card) ? 420 : 150;
   if (_isHardCard(card)) {
-    setTimeout(() => _triggerHardClear(fxEl, card), 150);
+    _fxTimeout(() => _triggerHardClear(fxEl, card), 150);
   }
   if (prior && prior.wasWrong) {
-    setTimeout(() => _triggerAnswerMark(fxEl, 'revenge'), _markDelay);
+    _fxTimeout(() => _triggerAnswerMark(fxEl, 'revenge'), _markDelay);
   } else if (prior && prior.fresh) {
-    setTimeout(() => _triggerAnswerMark(fxEl, 'fresh'), _markDelay);
+    _fxTimeout(() => _triggerAnswerMark(fxEl, 'fresh'), _markDelay);
   }
 
   // S5(2026-08-21): 克服＝前に落とした問題を正解し直した瞬間、当て板が打たれて一度だけ磨かれ、消える。
@@ -2218,7 +2304,7 @@ function _afterCorrectFx(card, fxEl) {
 
   if (_examRecoverPending) {
     _examRecoverPending = false;
-    setTimeout(() => _triggerRecover(fxEl), 220);
+    _fxTimeout(() => _triggerRecover(fxEl), 220);
   }
 }
 
@@ -2231,7 +2317,7 @@ function _polishPlate(card) {
   if (!card || _fxOff() || card.classList.contains('exam-scar')) return;
   card.classList.remove('exam-plate-fix');
   card.classList.add('exam-plate-fix');
-  setTimeout(() => card.classList.remove('exam-plate-fix'), 1150);
+  _fxTimeout(() => card.classList.remove('exam-plate-fix'), 1150);
 }
 
 /* ══════════ C1: コンボメーターの崩落（2026-08-14）══════════
@@ -2329,11 +2415,11 @@ function _afterWrongFx(card, fxEl, brokeStreak) {
   _examRecoverPending = true;   // 次の1問を正解したら「立て直し」を出す
   _markCardScar(card);
   _shatterComboMeter(brokeStreak || 0);
-  document.body.classList.remove('exam-overdrive');
+  _setOverdrive(false);
   _wrongDamageFx();
   if (_examTheme().useFlatline) _ecgFlatline();
   const uid = card && card.dataset && card.dataset.uid;
-  if (uid && _isRepeatWrongChoice(uid, fxEl)) setTimeout(() => _triggerRepeatWrong(fxEl), 260);
+  if (uid && _isRepeatWrongChoice(uid, fxEl)) _fxTimeout(() => _triggerRepeatWrong(fxEl), 260);
 }
 
 // B4: ティア昇格スタンプ。昇格した瞬間だけ「TIER UP」を叩き込む
@@ -2787,10 +2873,68 @@ function _srsRenderNextPlan(anchorEl) {
   }, 420);
 }
 
+/* ══════════ 全画面レイヤーの予算（2026-08-31・§演出予算）══════════
+   1解答で「画面全体を覆う層」を何枚まで出してよいかの上限。旧実装は上限が無く、
+   tier4 の1解答で **暗転(backdrop-filter) / フラッシュ / 特大×n / 外周ボーダー /
+   背景ブレス の5枚**が同時に重なっていた。そのぶん、読ませたい演出
+   （A4 正解肢→解答ブロックのリボン・A5 他の肢が沈む）が埋もれていた。
+
+   ⚠️⚠️ **この上限を上げて派手さを出そうとしないこと。** 段が上がったときに増やすのは
+      「枚数」ではなく「1枚の強さ」（色・持続・スケール）。枚数を増やすと必ず読解を潰す。
+   ⚠️ 予算を消費するのは **面を覆って下を読みにくくするもの**だけ＝
+      暗転(_triggerTimeStop) / 特大×n(_triggerFullscreenCombo) / CRT(_spawnCRTOverlay)。
+      次の3つは意図的に予算の外に置いてある:
+        ・_triggerBorderGlow … 画面の「縁」だけ（inset box-shadow）で本文に被らない
+        ・_triggerBgBreath  … 最大 alpha .12 の環境光で、覆うのではなく色が乗るだけ
+        ・粒子 / トースト / コンボメーター / カード上の演出 … そもそも面を占有しない
+      この3種を予算に入れると、段が上がっても画面が何も変わらないフレームが出る。
+   ⚠️ 消費順＝優先順。先に取ったものが勝つので、意味の重い順に並べること。 */
+const FULLSCREEN_BUDGET = 1;
+let _fsBudgetLeft = 0;
+function _fsBudgetReset() { _fsBudgetLeft = FULLSCREEN_BUDGET; }
+function _fsTake() { if (_fsBudgetLeft <= 0) return false; _fsBudgetLeft--; return true; }
+
+/* 【案1】オーバードライブ＝高tierの「持続状態」（2026-08-31 に生きた経路へ移設）。
+   ⚠️ もとは _spawnScatteredCelebration の到達不能な尾部にあり、body へ付ける唯一の
+      場所がそこだったので **一度も発動していなかった**（study.css の overdrivePulse も
+      study.html の #examOverdriveGlow も丸ごと死んでいた）。
+   ⚠️ 1解答ごとのフラッシュとして復活させないこと——持続状態なので全画面予算を消費しない
+      （毎フレーム新しく被さるものではなく、入るときに1回だけ点く）。
+   ⚠️ 解除は誤答（revealAnswer の2経路）と exitExam が既に行っている。 */
+let _overdriveOn = false;
+function _setOverdrive(on) {
+  on = !!on && !_fxOff();
+  if (on === _overdriveOn) return;
+  _overdriveOn = on;
+  document.body.classList.toggle('exam-overdrive', on);
+  /* 突入の瞬間に一度だけ稲妻。⚠️ **毎解答ではなく「入った1回だけ」**であることが重要で、
+     ここを解答ごとにすると全画面演出をもう1枚足したのと同じになる（§演出予算）。
+     ⚠️ 引数は `lightning(x, y, opts)`。死んでいた旧コードは `lightning({count:3,…})` と
+        オブジェクトを x に渡しており、仮に到達していても座標が NaN になっていた
+        ——一度も実行されていなかった何よりの証拠。 */
+  if (on && window.MecFX && window.MecFX.lightning) {
+    const _b = _fxBand();
+    window.MecFX.lightning(_b.cx, _b.cy, {
+      bolts: 5, tier: 6,
+      color: (_examTheme().comboColors || [])[6] || '#FFD700',
+      maxR: Math.min(_b.width, _b.height) * 0.45
+    });
+  }
+}
+
 function _showStreakEffect(n) {
   if (n < 2) return;
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const tier = _examTier(n);
+  /* ⚠️⚠️ 2026-08-31: reduced-motion のガードをここへ置いた。以前この関数には
+     `_fxOff()` が無く、MecFX（粒子）は study.html 側で no-op 化されるので止まる一方、
+     **全画面フラッシュ・特大×n・全画面暗転・シェイク・外周ボーダー・背景ブレス・
+     浮遊コンボは素通りしていた**＝「動きを減らす」を選んでいるユーザーに、いちばん
+     強い層だけが残るという逆転が起きていた。
+     ⚠️ コンボメーターだけは残す——あれは演出ではなく「今何連続か」という情報で、
+        止めると読める情報が減る（動きは width の遷移のみ）。 */
+  if (_fxOff()) { _updateComboMeter(n); return; }
+  _fsBudgetReset();
   // B4: 昇格フレーム（tierが上がった瞬間）の判定。2026-08-25 以降これが分けるのは TIER UP スタンプだけ。
   const prevTier = (n - 1) < 2 ? 0 : _examTier(n - 1);
   const promoted = tier > prevTier;
@@ -2810,9 +2954,23 @@ function _showStreakEffect(n) {
   _setAwaken(n >= 14);   // tier6 の入口に合わせる
   if (promoted) _triggerTierUpStamp(tier, n);
 
-  if (full && theme.useCRT) _spawnCRTOverlay(tier);
-  if (full && tier >= 3) _triggerTimeStop(tier);
-  if (full && tier >= 1) _triggerFullscreenCombo(n, tier);
+  /* §演出予算 ＋ §情報設計（2026-08-31）。
+     旧: CRT / 暗転 / 特大×n を **無条件に全部**出していた（そこへ後段のフラッシュ・
+         ボーダー・背景ブレスが重なって全画面5枚）。
+     新: 予算1枚を **意味の重い順**に取り合う。
+     ⚠️ 特大×n を先頭に置かないこと。あれが伝えるのは「連続数」だけで、同じ数字を
+        コンボメーターとトーストが既に持っている＝画面全体を使う価値がいちばん低い。
+        難問突破・リベンジといった「何が偉かったか」はカード脇のマークが担当で、
+        そちらを全画面が塗り潰さないようにするのがこの順序の狙い。
+     ⚠️ 特大×n は tier6（14連続）以上に格下げした。毎回出ていた頃は「稀だから効く」
+        という前提そのものが無く、2連続でも画面が覆われていた。 */
+  if (full) {
+    if (tier >= 3 && _fsTake()) _triggerTimeStop(tier);        // 暗転＝「今そこに入った」
+    else if (tier >= 6 && _fsTake()) _triggerFullscreenCombo(n, tier);
+    else if (theme.useCRT && _fsTake()) _spawnCRTOverlay(tier);
+  }
+  // 高tierは持続状態として点す（面を1枚占有しないので予算の外）
+  _setOverdrive(tier >= 5);
 
   const toast = document.getElementById('examStreakToast');
   if (!toast) return;
@@ -2846,6 +3004,16 @@ function _showStreakEffect(n) {
     ], {duration: 200, delay: _dur * .12, easing:'cubic-bezier(.3,1.5,.5,1)'});
   }
 
+  /* ══════════ 全画面フラッシュ（2026-08-31 に明滅周波数を落とした）══════════
+     ⚠️⚠️ **1周期を FLASH_CYCLE_MS 未満にしないこと。** 旧実装は 85ms 刻みで
+     0.95 ↔ 0.06 を往復しており、明→暗→明の1周期が 170ms ＝ **約5.9Hz**。
+     `#examStreakFlash` は `inset:0` の全画面なので、これは WCAG 2.3.1 の
+     「1秒に3回まで」を超える。しかも ecg の tier5 は rgba(255,23,68,.65) ＝
+     飽和した赤で、赤色フラッシュはさらに厳しい基準の対象になる。
+     いまは 1周期 360ms ＝ **2.8Hz**（基準の3Hzを下回る）に固定し、
+     暗側も 0.06 → 0.42 に上げて輝度の振れ幅そのものを半分以下にしてある。
+     段の派手さは **明滅の速さではなく、色と持続と回数**で出すこと。 */
+  const FLASH_CYCLE_MS = 360;              // 1周期（明→暗→明）。2.8Hz
   const flash = document.getElementById('examStreakFlash');
   if (flash && full && tier >= 1) {
     flash.getAnimations?.().forEach(a => a.cancel());
@@ -2853,11 +3021,11 @@ function _showStreakEffect(n) {
     flash.style.background = fc[tier];
     flash.style.opacity = '0';
     if (tier >= 4) {
-      const pulses = tier >= 7 ? 8 : tier >= 6 ? 6 : tier >= 5 ? 4 : 3;
-      const kf = [];
-      for (let p = 0; p < pulses; p++) kf.push({opacity: p % 2 === 0 ? 0.95 : 0.06});
+      const cycles = tier >= 7 ? 3 : tier >= 6 ? 3 : tier >= 5 ? 2 : 2;
+      const kf = [{opacity: 0}];
+      for (let p = 0; p < cycles; p++) kf.push({opacity: .88}, {opacity: .42});
       kf.push({opacity: 0});
-      flash.animate(kf, {duration: 85 * pulses, easing:'linear'});
+      flash.animate(kf, {duration: FLASH_CYCLE_MS * cycles, easing:'ease-in-out'});
     } else {
       flash.animate([
         { opacity: 1, offset: 0 },
@@ -2872,8 +3040,10 @@ function _showStreakEffect(n) {
     if (tier >= 1) _spawnStreakParticles(tier);
     if (tier >= 2) _triggerScreenShake(tier);
     if (tier >= 3) _triggerBorderGlow(tier);
+    /* ⚠️ 2026-08-31: ここにあった `_spawnEmojiFloaters(tier)` を削除した。
+       あの関数は先頭が `if (curUi) return;` で、MecUITheme は常に8種のどれかを
+       返すので **一度も絵文字を出していなかった**（関数ごと削除済み）。 */
     if (tier >= 4) {
-      setTimeout(() => _spawnEmojiFloaters(tier), 80);
       if (theme.useGlitch) _triggerGlitch(tier);
       else if (theme.useBrushSwipe) _inkBrushSwipe(tier);
     }
@@ -2916,12 +3086,8 @@ function _spawnLightStreakFx(tier) {
     if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 8 + tier * 2, colors: ['#FF007F', '#7928CA'] });
     return;
   }
-  const counts = [0, 14, 22, 30, 40, 52, 64, 80];
-  _spawnBurst(cx, cy, tier, counts[_tIdx(tier, counts)] || 14);
-  const theme = _examTheme();
-  try {
-    window.MecFX.rings(cx, cy, { count: 1, color: theme.ringColor(tier), thickness: 2, maxR: 130 + tier * 22, additive: examEffectSet !== 'ink' });
-  } catch (e) {}
+  /* ⚠️ ここに legacy の fallback を書かないこと（2026-08-31）。上の8分岐は
+     MecUITheme.get() の全戻り値を網羅していて必ず return するので、下は到達しない。 */
 }
 
 // B8: テーマ固有のシグネチャー表示（ecg=心拍数 / retro=スコア / space=ワープ速度 等）
@@ -2985,7 +3151,7 @@ function _wrongDamageFx() {
   if (_fxOff()) return;
   document.body.classList.add('exam-red-flash');
   clearTimeout(_wrongDamageFx._timer);
-  _wrongDamageFx._timer = setTimeout(() => document.body.classList.remove('exam-red-flash'), 420);
+  _wrongDamageFx._timer = _fxTimeout(() => document.body.classList.remove('exam-red-flash'), 420);
   _ensureShakeOverlay();
   _shakeFxLayers([
     { transform: 'translate(0,0)' },
@@ -3055,49 +3221,8 @@ function _triggerBorderGlow(tier) {
   }
 }
 
-function _spawnEmojiFloaters(tier) {
-  if (!window.MecFX) return;
-  const curUi = window.MecUITheme ? MecUITheme.get() : null;
-  if (curUi) return; // UIテーマ適用時は絵文字を浮遊させず世界観を純化
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const sets = theme.floaterGlyphs;
-  const scale = theme.floaterScale || 1;
-  window.MecFX.floaters({
-    glyphs: sets[_tIdx(tier, sets)] || sets[5],
-    count: Math.round((tier >= 7 ? 36 : tier >= 6 ? 26 : 14) * scale),
-    scale: scale
-  });
-}
 
-function _spawnShockwaveRings(cx, cy, tier, customMaxR) {
-  if (!window.MecFX) return;
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const ringCounts = [0,0,1,2,3,4,6,8];
-  const b = _fxBand();
-  const shortSide = Math.min(b.width, b.height);
-  const targetMaxR = customMaxR || (shortSide * Math.min(0.48, 0.38 + tier * 0.015));
-  window.MecFX.rings(cx, cy, {
-    count: ringCounts[_tIdx(tier, ringCounts)],
-    color: theme.ringColor(tier),
-    thickness: tier >= 5 ? 4 : tier >= 3 ? 3 : 2,
-    maxR: targetMaxR,
-    additive: tier >= 4
-  });
-}
 
-function _spawnBurst(cx, cy, tier, count) {
-  if (!window.MecFX) return;
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const palettes = theme.burstPalettes;
-  window.MecFX.burst(cx, cy, {
-    count: Math.round(count * (theme.floaterScale || 1)),
-    colors: palettes[_tIdx(tier, palettes)] || palettes[4],
-    shapes: theme.shapes(tier),
-    tier: tier,
-    glow: examEffectSet !== 'ink',
-    additive: examEffectSet !== 'ink'
-  });
-}
 
 function _spawnStreakParticles(tier) {
   const toast = document.getElementById('examStreakToast');
@@ -3110,7 +3235,16 @@ function _spawnStreakParticles(tier) {
   const cy = pos.y;
   const curUi = window.MecUITheme ? MecUITheme.get() : null;
 
-  // ── UIテーマ完全連動型コンボパーティクル（2026-08-23） ──
+  /* ── UIテーマ完全連動型コンボパーティクル（2026-08-23） ──
+     ⚠️⚠️ MecUITheme.get() は **必ず8種のどれかを返す**（VALID_IDS 外は 'aurora' に落ちる）。
+     つまりこの8分岐は網羅で、どれも return する＝**ここから下には決して到達しない**。
+     2026-08-31 まで、この下に演出テーマ7種ぶんの粒子（花火・雷・レイン・メダル・
+     ブラックホール・除細動・ECGスイープ・墨円・スポットライト・紙吹雪）が約90行あり、
+     burstCounts=[…,1300] も rainWaves も **一度も走っていなかった**。同コミットで
+     関連19関数ごと削除した。
+     ⚠️ ここに legacy の fallback を書き足さないこと。書いても死ぬ。
+        UIテーマを増やしたら **この分岐に足す**（`_spawnLightStreakFx` /
+        `_spawnScatteredCelebration` / `_afterCorrectFx` も同じ構造なので4か所セット）。 */
   if (curUi && window.MecFX) {
     if (curUi === 'kintsugi') {
       if (window.MecFX.kintsugiCrack) window.MecFX.kintsugiCrack(cx, cy, { maxR: maxR, branches: Math.min(10, 4 + tier) });
@@ -3154,114 +3288,11 @@ function _spawnStreakParticles(tier) {
       return;
     }
   }
-
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  _spawnShockwaveRings(cx, cy, tier, maxR);
-  _spawnLightning(cx, cy, tier, maxR);
-
-  const burstCounts = [0, 0, 50, 140, 340, 580, 900, 1300];
-  _spawnBurst(cx, cy, tier, burstCounts[_tIdx(tier, burstCounts)] || 50);
-
-  // 中tier(2-3)は最頻出。単発だと弱いので時間差の二段バースト＋追撃リングで密度を出す
-  if (tier === 2 || tier === 3) {
-    setTimeout(() => _spawnBurst(cx, cy, tier, tier === 3 ? 80 : 36), tier === 3 ? 150 : 130);
-    setTimeout(() => _spawnShockwaveRings(cx, cy, tier, maxR * 0.8), tier === 3 ? 140 : 120);
-  }
-
-  if (tier >= 4) setTimeout(() => _spawnBurst(cx, cy, tier, tier >= 6 ? 220 : tier >= 5 ? 150 : 90), 160);
-  if (tier >= 5) setTimeout(() => _spawnBurst(cx, cy, tier, tier >= 6 ? 340 : 200), tier >= 6 ? 200 : 340);
-  if (tier >= 6) {
-    setTimeout(() => _spawnBurst(cx, cy, tier, 250), 400);
-    setTimeout(() => _spawnBurst(cx, cy, tier, 170), 600);
-    if (theme.useMedalDrop) _spawnMedalDrop(tier);
-    if (theme.useBlackHole) _spawnBlackHoleVignette(tier);
-    if (theme.useDefib) setTimeout(() => _ecgDefib(tier), 300);
-  }
-
-  if (tier >= 4) {
-    if (theme.useFireworks) _spawnFirework(tier);
-    else if (theme.useCircuitPulse) _neonCircuitPulse(cx, cy, tier);
-    else if (theme.useStampBurst) _inkStampBurst(cx, cy, tier);
-    else if (theme.useECGSweep) _ecgSweep(tier);
-    else if (theme.useBrushCircle) _inkBrushCircle(cx, cy, tier);
-    if (theme.useSpotlight) _spawnSpotlightRays(tier);
-  }
-
-  if (tier >= 5 && window.MecFX) {
-    if (examEffectSet === 'luxury') window.MecFX.dust({count: tier >= 6 ? 90 : 55});
-    else if (examEffectSet === 'space') window.MecFX.dust({count: tier >= 6 ? 80 : 50, colors:['#FFFFFF','#FFD54F','#B388FF','#40C4FF']});
-  }
-
-  const rainWaves = [0, 0, 0, 1, 3, 6, 10, 15][Math.min(tier, 7)];
-  for (let w = 0; w < rainWaves; w++) {
-    setTimeout(() => _spawnRain(tier), 55 + w * 120);
-  }
 }
 
-function _spawnRain(tier) {
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  if (theme.rainType === 'digital') _spawnDigitalRain(tier);
-  else if (theme.rainType === 'petals') _spawnPetalRain(tier);
-  else if (theme.rainType === 'warp') _spawnWarpStreaks(tier);
-  else if (theme.rainType === 'bubbles') _spawnBubbleRise(tier);
-  else _spawnConfettiRain(tier);
-}
 
-function _spawnDigitalRain(tier) {
-  if (!window.MecFX) return;
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  window.MecFX.glyphRain({
-    count: tier >= 6 ? 50 : tier >= 5 ? 36 : tier >= 4 ? 24 : 16,
-    glyphs: theme.rainGlyphs || ['0','1','#','$','%','&','∆','◆','▮','▯'],
-    colors: theme.rainCols || ['#00E5FF','#FF2BD6','#7A5CFF','#39FF88'],
-    bigGlyph: tier >= 5,
-    additive: true
-  });
-}
 
-function _spawnPetalRain(tier) {
-  if (!window.MecFX) return;
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  window.MecFX.petals({
-    count: tier >= 6 ? 44 : tier >= 5 ? 32 : tier >= 4 ? 22 : 15,
-    colors: theme.rainCols || ['#F4A6B0','#FFFFFF','#E8C468','#C93A3A']
-  });
-}
 
-function _neonCircuitPulse(cx, cy, tier) {
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const n = tier >= 6 ? 3 : tier >= 5 ? 2 : 1;
-  const col = theme.ringColor(tier);
-  for (let i = 0; i < n; i++) {
-    setTimeout(() => {
-      const el = document.createElement('div');
-      el.className = 'streak-ring exam-fx-temp';
-      el.style.cssText = `left:${cx}px;top:${cy}px;width:60px;height:60px;margin:-30px 0 0 -30px;border:2px solid ${col};border-radius:4px;`;
-      document.body.appendChild(el);
-      el.animate([
-        {transform:'scale(0) rotate(0deg)', opacity:.9},
-        {transform:`scale(${tier>=6?14:10}) rotate(20deg)`, opacity:0}
-      ], {duration: 520 + i*90, easing:'ease-out', fill:'forwards'}).onfinish = () => el.remove();
-    }, i * 140);
-  }
-}
-
-function _inkStampBurst(cx, cy, tier) {
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const col = theme.stampColor ? theme.stampColor(tier) : '#C93A3A';
-  const sz = 70 + tier * 8;
-  const el = document.createElement('div');
-  el.className = 'exam-fx-temp';
-  el.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;width:${sz}px;height:${sz}px;margin:${-sz/2}px 0 0 ${-sz/2}px;border:5px solid ${col};border-radius:50%;pointer-events:none;z-index:9060;box-shadow:0 0 24px ${col}80;`;
-  document.body.appendChild(el);
-  el.animate([
-    {transform:'scale(2.2) rotate(-8deg)', opacity:0},
-    {transform:'scale(.9) rotate(3deg)', opacity:1, offset:.4},
-    {transform:'scale(1) rotate(0deg)', opacity:.9, offset:.55},
-    {transform:'scale(1) rotate(0deg)', opacity:0}
-  ], {duration: 700, easing:'ease-out'}).onfinish = () => el.remove();
-  setTimeout(() => _spawnBurst(cx, cy, tier, tier >= 6 ? 30 : 18), 120);
-}
 
 function _inkBrushSwipe(tier) {
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
@@ -3279,153 +3310,12 @@ function _inkBrushSwipe(tier) {
   ], {duration: tier >= 6 ? 620 : 480, easing:'ease-in-out'}).onfinish = () => el.remove();
 }
 
-function _ecgSweep(tier) {
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const col = theme.fullscreenCols[_tIdx(tier, theme.fullscreenCols)] || '#00E676';
-  const _b = _fxBand();
-  const w = window.innerWidth;
-  const y = _b.top + _b.height * (0.4 + Math.random() * 0.2);
-  const amp = tier >= 6 ? 90 : tier >= 5 ? 65 : 40;
-  const segW = w / 10;
-  let d = `M0,${y.toFixed(0)}`;
-  for (let i = 0; i < 10; i++) {
-    const x0 = i * segW;
-    if (i % 3 === 1) {
-      d += ` L${(x0+segW*.2).toFixed(0)},${y.toFixed(0)} L${(x0+segW*.32).toFixed(0)},${(y-amp*.3).toFixed(0)} L${(x0+segW*.42).toFixed(0)},${(y+amp).toFixed(0)} L${(x0+segW*.52).toFixed(0)},${(y-amp*.6).toFixed(0)} L${(x0+segW*.62).toFixed(0)},${y.toFixed(0)} L${(x0+segW).toFixed(0)},${y.toFixed(0)}`;
-    } else {
-      d += ` L${(x0+segW).toFixed(0)},${y.toFixed(0)}`;
-    }
-  }
-  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-  svg.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9070;overflow:visible;';
-  const path = document.createElementNS('http://www.w3.org/2000/svg','path');
-  path.setAttribute('d', d);
-  path.setAttribute('stroke', col);
-  path.setAttribute('stroke-width', tier >= 5 ? '4' : '3');
-  path.setAttribute('fill', 'none');
-  path.setAttribute('stroke-linecap', 'round');
-  path.setAttribute('stroke-linejoin', 'round');
-  path.style.filter = `drop-shadow(0 0 8px ${col})`;
-  path.style.strokeDasharray = '3000';
-  path.style.strokeDashoffset = '3000';
-  svg.appendChild(path);
-  document.body.appendChild(svg);
-  const dur = tier >= 6 ? 900 : tier >= 5 ? 750 : 600;
-  path.animate([{strokeDashoffset:3000},{strokeDashoffset:0}], {duration: dur * .65, easing:'linear', fill:'forwards'});
-  svg.animate([{opacity:0},{opacity:1},{opacity:1},{opacity:0}], {duration: dur, easing:'ease-out', fill:'forwards'}).onfinish = () => svg.remove();
-}
 
-function _ecgDefib(tier) {
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const col = theme.fullscreenCols[6] || '#00E5FF';
-  const dim = document.createElement('div');
-  dim.className = 'exam-fx-temp';
-  dim.style.cssText = 'position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:9400;';
-  document.body.appendChild(dim);
-  const y = _fxBand().cy;
-  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-  svg.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9401;overflow:visible;';
-  const line = document.createElementNS('http://www.w3.org/2000/svg','line');
-  line.setAttribute('x1','0'); line.setAttribute('y1', y); line.setAttribute('x2', window.innerWidth); line.setAttribute('y2', y);
-  line.setAttribute('stroke', col);
-  line.setAttribute('stroke-width','3');
-  line.style.filter = `drop-shadow(0 0 6px ${col})`;
-  svg.appendChild(line);
-  document.body.appendChild(svg);
-  dim.animate([{opacity:0},{opacity:.55},{opacity:.55},{opacity:0}], {duration:520, easing:'ease-in'}).onfinish = () => dim.remove();
-  svg.animate([{opacity:0},{opacity:1},{opacity:1},{opacity:0}], {duration:520, easing:'linear'}).onfinish = () => svg.remove();
-  setTimeout(() => {
-    const flash = document.getElementById('examStreakFlash');
-    if (flash) {
-      flash.getAnimations?.().forEach(a => a.cancel());
-      flash.style.background = '#FFFFFF';
-      flash.style.opacity = '0';
-      flash.animate([{opacity:0},{opacity:.9},{opacity:.08},{opacity:.85},{opacity:0}], {duration:260, easing:'linear'});
-    }
-    // body ではなく演出レイヤーを揺らす（body の transform は fixed 要素の基準をページ先頭にずらす）
-    _shakeFxLayers([
-      {transform:'translate(0,0)'},{transform:'translate(6px,-4px)'},{transform:'translate(-8px,5px)'},{transform:'translate(0,0)'}
-    ], {duration:180, easing:'ease-out'});
-  }, 540);
-}
 
-function _spawnBlackHoleVignette(tier) {
-  const el = document.createElement('div');
-  el.className = 'exam-fx-temp';
-  el.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9040;background:radial-gradient(circle at center, transparent 28%, rgba(0,0,0,.78) 100%);';
-  document.body.appendChild(el);
-  el.animate([{opacity:0},{opacity:1},{opacity:1},{opacity:0}], {duration: tier >= 6 ? 950 : 700, easing:'ease-in-out'}).onfinish = () => el.remove();
-  // 画面中央の引力点が漂うパーティクルを実際に吸い込み、消滅時に外へ弾ける
-  if (window.MecFX) {
-    const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-    const { cx: bx, cy: by } = _fxBand();
-    window.MecFX.attractor(bx, by, {ttl: .75, strength: 130000});
-    setTimeout(() => {
-      if (!window.MecFX) return;
-      window.MecFX.burst(bx, by, {count: 130, colors: theme.burstPalettes[6], shapes: ['star','circle'], tier: 6, glow: true});
-      window.MecFX.rings(bx, by, {count: 2, color: 'rgba(224,64,251,.85)', thickness: 4, maxR: 500, additive: true});
-    }, 780);
-  }
-}
 
-function _spawnWarpStreaks(tier) {
-  if (!window.MecFX) return;
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  window.MecFX.warp({
-    count: tier >= 6 ? 80 : tier >= 5 ? 55 : tier >= 4 ? 36 : 20,
-    colors: theme.rainCols || ['#FFFFFF','#7C4DFF','#40C4FF']
-  });
-}
 
-function _spawnBubbleRise(tier) {
-  if (!window.MecFX) return;
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  window.MecFX.bubbles({
-    count: tier >= 6 ? 40 : tier >= 5 ? 28 : tier >= 4 ? 18 : 12,
-    colors: theme.rainCols || ['#FFD700','#FFFFFF']
-  });
-}
 
-function _spawnSpotlightRays(tier) {
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const col = theme.fullscreenCols[_tIdx(tier, theme.fullscreenCols)] || '#FFD700';
-  const el = document.createElement('div');
-  el.className = 'exam-fx-temp';
-  el.style.cssText = `position:fixed;inset:-50%;pointer-events:none;z-index:9042;background:conic-gradient(from 0deg, transparent 0deg, ${col}40 8deg, transparent 16deg, transparent 60deg, ${col}40 68deg, transparent 76deg, transparent 120deg, ${col}40 128deg, transparent 136deg, transparent 180deg, ${col}40 188deg, transparent 196deg, transparent 240deg, ${col}40 248deg, transparent 256deg, transparent 300deg, ${col}40 308deg, transparent 316deg);`;
-  document.body.appendChild(el);
-  const dur = tier >= 6 ? 1400 : 1000;
-  el.animate([
-    {transform:'rotate(0deg)', opacity:0},
-    {opacity:.9, offset:.15},
-    {opacity:.9, offset:.8},
-    {transform:`rotate(${tier >= 6 ? 140 : 90}deg)`, opacity:0}
-  ], {duration: dur, easing:'ease-out'}).onfinish = () => el.remove();
-}
 
-function _spawnMedalDrop(tier) {
-  const glyphs = ['🏆','🥇','👑'];
-  const count = 3;
-  for (let i = 0; i < count; i++) {
-    setTimeout(() => {
-      const el = document.createElement('div');
-      el.className = 'exam-fx-temp';
-      const b = _fxBand();
-      const x = b.left + b.width * (0.25 + i * 0.25);
-      // 画面上端(-80px)から落として可視帯の中心で受け止める（0.4×画面高だとヘッダーの高い端末で上に止まる）
-      const drop = Math.round(b.cy + 48);
-      el.textContent = glyphs[i % glyphs.length];
-      el.style.cssText = `position:fixed;left:${x.toFixed(0)}px;top:-80px;font-size:64px;pointer-events:none;z-index:9066;filter:drop-shadow(0 6px 14px rgba(0,0,0,.5));`;
-      document.body.appendChild(el);
-      el.animate([
-        {transform:'translateY(0) rotate(-8deg) scale(.6)', opacity:0},
-        {transform:`translateY(${drop + 20}px) rotate(4deg) scale(1.15)`, opacity:1, offset:.55},
-        {transform:`translateY(${drop - 20}px) rotate(-2deg) scale(1)`, offset:.7},
-        {transform:`translateY(${drop}px) rotate(0deg) scale(1)`, opacity:1, offset:.85},
-        {opacity:0}
-      ], {duration:1400, easing:'cubic-bezier(.22,.9,.3,1.3)'}).onfinish = () => el.remove();
-    }, i * 140);
-  }
-}
 
 function _spawnCRTOverlay(tier) {
   const el = document.createElement('div');
@@ -3435,76 +3325,9 @@ function _spawnCRTOverlay(tier) {
   el.animate([{opacity:0},{opacity:.8},{opacity:.8},{opacity:0}], {duration: tier >= 6 ? 900 : 600, easing:'ease-in-out'}).onfinish = () => el.remove();
 }
 
-function _inkBrushCircle(cx, cy, tier) {
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const col = theme.stampColor ? theme.stampColor(tier) : '#C93A3A';
-  const r = 55 + tier * 6;
-  const segs = 40;
-  const pts = [];
-  for (let i = 0; i <= segs; i++) {
-    const a = (i / segs) * Math.PI * 2 * 1.08;
-    const jitter = (Math.random() - .5) * 6;
-    pts.push([(cx + Math.cos(a) * (r + jitter)).toFixed(1), (cy + Math.sin(a) * (r + jitter)).toFixed(1)]);
-  }
-  const d = 'M' + pts.map(p => p.join(',')).join(' L');
-  const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-  svg.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9070;overflow:visible;';
-  const path = document.createElementNS('http://www.w3.org/2000/svg','path');
-  path.setAttribute('d', d);
-  path.setAttribute('stroke', col);
-  path.setAttribute('stroke-width', tier >= 6 ? '10' : '7');
-  path.setAttribute('fill', 'none');
-  path.setAttribute('stroke-linecap', 'round');
-  path.style.filter = `drop-shadow(0 0 6px ${col})`;
-  const len = 2 * Math.PI * r * 1.15;
-  path.style.strokeDasharray = String(len);
-  path.style.strokeDashoffset = String(len);
-  svg.appendChild(path);
-  document.body.appendChild(svg);
-  const drawDur = tier >= 6 ? 520 : 380;
-  path.animate([{strokeDashoffset:len},{strokeDashoffset:0}], {duration: drawDur, easing:'ease-in-out', fill:'forwards'});
-  svg.animate([{opacity:1},{opacity:1},{opacity:0}], {duration: drawDur + 500, easing:'ease-in', fill:'forwards'}).onfinish = () => svg.remove();
-  setTimeout(() => _spawnBurst(cx, cy, tier, tier >= 6 ? 24 : 14), drawDur * 0.7);
-}
 
-function _spawnConfettiRain(tier) {
-  if (!window.MecFX) return;
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const cols = theme.rainCols || ['#FFD700','#FF9800','#FF5722','#4FC3F7','#81C784','#BA68C8','#F06292','#FFFFFF','#FFE082','#AED581','#EE88FF','#CC44FF'];
-  window.MecFX.confetti({
-    count: tier >= 6 ? 120 : tier >= 5 ? 85 : tier >= 4 ? 55 : 40,
-    colors: cols,
-    big: tier >= 5
-  });
-}
 
-function _spawnLightning(cx, cy, tier, customMaxR) {
-  if (tier < 3) return;
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  if (theme.useLightning === false) return;
-  if (!window.MecFX) return;
-  const b = _fxBand();
-  const shortSide = Math.min(b.width, b.height);
-  const targetMaxR = customMaxR || (shortSide * 0.45);
-  window.MecFX.lightning(cx, cy, {
-    bolts: tier >= 7 ? 18 : tier >= 6 ? 14 : tier >= 5 ? 9 : tier >= 4 ? 5 : 3,
-    color: theme.lightningCols[_tIdx(tier, theme.lightningCols)],
-    tier: tier,
-    maxR: targetMaxR
-  });
-}
 
-function _spawnFirework(tier) {
-  if (tier < 4) return;
-  if (!window.MecFX) return;
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const palettes = theme.burstPalettes;
-  window.MecFX.fireworks({
-    count: tier >= 7 ? 11 : tier >= 6 ? 8 : tier >= 5 ? 5 : 3,
-    colors: palettes[_tIdx(tier, palettes)] || palettes[4],
-    tier: tier
-  });
-}
 
 // 旧実装は body 全体への filter で iPad では最重量級だったため、
 // 軽い transform ジッター + Canvas のグリッチ帯に置き換え
@@ -3559,27 +3382,20 @@ function _spawnChoiceRipple(el) {
 function _triggerChoiceCorrectPop(el) {
   if (!el) return;
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const curUi = window.MecUITheme ? MecUITheme.get() : null;
-  if (!curUi || curUi === 'classic') {
-    el.animate([
-      {transform:'scale(1)',filter:'brightness(1)'},
-      {transform:'scale(1.18) translateY(-6px)',filter:'brightness(2.2)',offset:.15},
-      {transform:'scale(.94) translateY(2px)',filter:'brightness(1.4)',offset:.37},
-      {transform:'scale(1.06)',offset:.56},
-      {transform:'scale(1)',filter:'brightness(1)'}
-    ], {duration:480, easing:'cubic-bezier(.22,.8,.36,1.25)'});
-  } else {
-    // UIテーマ設定時はCSSキーフレーム（auroraChoicePrismFlash等）を優先し、瞬間的な露光のみ支援
-    el.animate([
-      {filter:'brightness(1.8)'},
-      {filter:'brightness(1)', offset: 1}
-    ], {duration:320, easing:'ease-out'});
-  }
+  /* UIテーマのCSSキーフレーム（auroraChoicePrismFlash 等）が肢の見た目を持つので、
+     ここは瞬間的な露光だけを足す。
+     ⚠️ 2026-08-31 まで `if (!curUi || curUi === 'classic')` の分岐があり、そちらの
+        リッチなポップ（scale + brightness）は **MecUITheme が常に8種のどれかを返すため
+        一度も走っていなかった**。分岐ごと削除した（`curUi` はここでは不要）。 */
+  el.animate([
+    {filter:'brightness(1.8)'},
+    {filter:'brightness(1)', offset: 1}
+  ], {duration:320, easing:'ease-out'});
   const card = el.closest('.qc');
   if (card) {
     card.classList.remove('card-3d-pop');
     card.classList.add('card-3d-pop');
-    setTimeout(() => card.classList.remove('card-3d-pop'), 600);
+    _fxTimeout(() => card.classList.remove('card-3d-pop'), 600);
 
     const ov = document.createElement('div');
     ov.style.cssText = `position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:${theme.popOverlay};`;
@@ -3587,31 +3403,12 @@ function _triggerChoiceCorrectPop(el) {
     // ≤2秒の速答（神速）時は画面フリーズ演出のみ支援（エフェクト本体は _triggerFastBonus の godSpeedBurst が担当）
     if (!_fxOff() && _fastGrade(card) === 3) {
       document.body.classList.add('exam-slash-freeze');
-      setTimeout(() => document.body.classList.remove('exam-slash-freeze'), 220);
+      _fxTimeout(() => document.body.classList.remove('exam-slash-freeze'), 220);
     }
   }
   _spawnScatteredCelebration(theme);
 }
 
-// 選択肢付近以外に出す祝祭エフェクト。中央1点に固定せず、互いに離れたランダムな複数箇所へ
-// 0.05秒ずつ遅延して連続発火する（肢のポップは別途肢の上で光る＝そちらは文脈表示として維持）。
-// 位置は最小距離リジェクションで重複を避ける。上寄り中央帯に置き、答えた肢や下のカードに被りにくくする。
-function _scatterPositions(n, minDist) {
-  const b = _fxBand();
-  const x0 = b.left + b.width * 0.08, x1 = b.left + b.width * 0.92;
-  const y0 = b.top + b.height * 0.06, y1 = b.top + b.height * 0.86;
-  const pts = [];
-  let guard = 0;
-  while (pts.length < n && guard < n * 40) {
-    guard++;
-    const x = x0 + Math.random() * (x1 - x0);
-    const y = y0 + Math.random() * (y1 - y0);
-    if (pts.every(p => Math.hypot(p.x - x, p.y - y) >= minDist)) pts.push({ x, y });
-  }
-  // 最小距離を満たす点が足りなければ距離条件を無視して埋める
-  while (pts.length < n) pts.push({ x: x0 + Math.random() * (x1 - x0), y: y0 + Math.random() * (y1 - y0) });
-  return pts;
-}
 
 function _spawnScatteredCelebration(theme) {
   if (!window.MecFX) return;
@@ -3651,40 +3448,14 @@ function _spawnScatteredCelebration(theme) {
       return;
     }
   }
-
-  const pal = theme.burstPalettes[t] || theme.burstPalettes[2];
-  const isInk = examEffectSet === 'ink';
-  const glyphs = theme.correctEmoji; // classic は無し
-  const n = 5 + Math.min(t, 4);       // 5〜9 箇所
-  const minDist = Math.min(_sb.width, _sb.height) * 0.22;
-  const pts = _scatterPositions(n, minDist);
-  pts.forEach((p, i) => {
-    setTimeout(() => {
-      if (!window.MecFX) return;
-      window.MecFX.rings(p.x, p.y, { count: 2, color: theme.ringColor(t), thickness: 4, maxR: 130 + t * 24, additive: !isInk });
-      window.MecFX.burst(p.x, p.y, { count: 32 + t * 8, colors: pal, shapes: isInk ? ['shard', 'square'] : ['circle', 'star', 'gem'], tier: 4, scale: 1.6, speed: 450 + t * 50, glow: !isInk, additive: !isInk });
-      if (glyphs && glyphs.length) window.MecFX.glyphBurst(p.x, p.y, { glyphs: glyphs, count: 4, w: 140, spread: 140 });
-    }, i * 45);   // 0.045秒ずつ遅延して連続発火
-  });
-
-  // 【案1】高コンボ時の全画面オーバードライブ ＆ 稲妻
-  if (t >= 4 && !_fxOff()) {
-    document.body.classList.add('exam-overdrive');
-    window.MecFX.lightning({ count: 3, color: pal[0] || '#FFD700', glow: true });
-  }
-
-  // テーマ固有シグネチャエミッタ（1回だけ可視帯の中心付近から発火）
-  if (t >= 3 && !_fxOff()) {
-    if (examEffectSet === 'ecg' && window.MecFX.defibShock) {
-      window.MecFX.defibShock(_sb.cx, _sb.cy, { color: '#00E676', boltColor: '#00E5FF', count: 48 });
-    } else if (examEffectSet === 'ink' && window.MecFX.brushDust) {
-      window.MecFX.brushDust(_sb.cx, _sb.cy, { count: 40 + t * 8 });
-    } else if (examEffectSet === 'retro' && window.MecFX.pixelPop) {
-      window.MecFX.pixelPop(_sb.cx, _sb.cy, { count: 44 + t * 8 });
-    } else if (examEffectSet === 'luxury' && window.MecFX.diamondSparkle) {
-      window.MecFX.diamondSparkle(_sb.cx, _sb.cy, { count: 48 + t * 8 });
-    }
-  }
+  /* ⚠️ ここに legacy の fallback を書かないこと（2026-08-31）。上の8分岐は必ず return する。
+     2026-08-31 まで、この下に「散開する祝祭（5〜9箇所へ 0.045 秒ずつ）」と
+     **【案1】全画面オーバードライブ＋稲妻**、テーマ固有シグネチャ（defibShock /
+     brushDust / pixelPop / diamondSparkle）が約35行あったが一度も走っていなかった。
+     ⚠️ `exam-overdrive` を **body へ付ける唯一の場所がここだった** ため、
+        study.css の `overdrivePulse … infinite` も study.html の `#examOverdriveGlow` も
+        丸ごと死んでいた。オーバードライブは「1解答の演出」ではなく
+        **高tierの持続状態**として `_setOverdrive()` に移設してある（§演出予算）。 */
 }
 
 function _spawnFloatingCombo(card, n, tier) {
@@ -3749,6 +3520,18 @@ function _triggerBgBreath(tier) {
     {duration:dur, easing:'ease-in-out', fill:'forwards'}).onfinish = () => el.remove();
 }
 
+/* ══════════ カード赤熱（card-heat-*）の消灯（2026-08-31）══════════
+   ⚠️ 以前は `document.querySelectorAll('.qc')` を回して剥がしていた。付いているのは
+      常に **1枚だけ**（下の `curCard`）なのに、誤答のたび・リセットのたびに
+      DOM 上の全カード（神経は594枚）を走査していた。参照を1つ持てば消える。
+   ⚠️ カードは `_unloadSubjectCards` で DOM ごと捨てられることがあるので、
+      参照が生きているかは触る側では確かめない（クラスを外すだけなので無害）。 */
+let _heatedCard = null;
+function _clearCardHeat() {
+  if (_heatedCard) _heatedCard.classList.remove('card-heat-low', 'card-heat-mid', 'card-heat-max');
+  _heatedCard = null;
+}
+
 function _updateComboMeter(n) {
   const meter = document.getElementById('examComboMeter');
   const fill  = document.getElementById('examComboMeterFill');
@@ -3757,7 +3540,7 @@ function _updateComboMeter(n) {
   if (n < 2) {
     meter.style.opacity='0'; fill.style.width='0%'; if (lbl) lbl.style.opacity='0';
     meter.classList.remove('tier-overheat');
-    document.querySelectorAll('.qc').forEach(c => c.classList.remove('card-heat-low', 'card-heat-mid', 'card-heat-max'));
+    _clearCardHeat();
     return;
   }
   meter.style.opacity = '1';
@@ -3773,9 +3556,12 @@ function _updateComboMeter(n) {
   // 【案1】カード赤熱ヒートチャージ連動
   const curCard = document.querySelector('.qc.exam-key-focus') || document.querySelector('.qc:not(.exam-revealed)');
   if (curCard) {
+    // 焦点が移ったら前のカードから必ず落とす（残ると赤熱したカードが増え続ける）
+    if (_heatedCard && _heatedCard !== curCard) _clearCardHeat();
     curCard.classList.toggle('card-heat-low', tier >= 2 && tier < 4);
     curCard.classList.toggle('card-heat-mid', tier >= 4 && tier < 6);
     curCard.classList.toggle('card-heat-max', tier >= 6);
+    _heatedCard = tier >= 2 ? curCard : null;
   }
 
   // B6: 次のティアまで残り何問かを表示（今まで3pxバーだけで誰も気づけなかった）
@@ -3801,7 +3587,7 @@ function _resetComboMeter() {
   const fill  = document.getElementById('examComboMeterFill');
   const lbl   = document.getElementById('examComboMeterLbl');
   if (meter) meter.classList.remove('tier-overheat');
-  document.querySelectorAll('.qc').forEach(c => c.classList.remove('card-heat-low', 'card-heat-mid', 'card-heat-max'));
+  _clearCardHeat();
   if (lbl) { lbl.getAnimations?.().forEach(a => a.cancel()); lbl.style.opacity = '0'; }
   if (!meter || !fill || !parseFloat(fill.style.width)) return;
   fill.animate([{width:fill.style.width},{width:'0%'}],{duration:280,easing:'ease-in',fill:'forwards'})
@@ -3811,7 +3597,7 @@ function _resetComboMeter() {
 function _applyChoiceShimmer(card) {
   if (!card) return;
   card.querySelectorAll('.ch2').forEach((ch, i) => {
-    setTimeout(() => {
+    _fxTimeout(() => {
       const r = ch.getBoundingClientRect();
       if (r.width === 0) return;
       const wrap = document.createElement('div');
@@ -4198,7 +3984,7 @@ function _firstCardEntrance(card) {
   if (!card || !card.isConnected || _fxOff()) return;
   card.classList.remove('exam-first-in'); void card.offsetWidth;
   card.classList.add('exam-first-in');
-  setTimeout(() => card.classList.remove('exam-first-in'), 1200);
+  _fxTimeout(() => card.classList.remove('exam-first-in'), 1200);
 }
 
 function _restoreChoices() {
@@ -4748,6 +4534,13 @@ function resumeExam(savedAt) {
   document.addEventListener('visibilitychange', _examVisibilityHandler);
   localStorage.setItem('mec_exam_active_key', saved.key || '');
   _examChoiceBackup.clear();
+  /* 2026-08-31: 再開経路でも演出テーマを引き直す。ランダム選択だった頃はここで引くと
+     中断前と別のテーマになってしまうので意図的に省かれていたが、UIテーマから決定論的に
+     引くようになったので **中断前と必ず同じものが復元される**。省くと、リロードを挟んだ
+     再開だけ examEffectSet が初期値 'classic' のまま進み、ラベルと色だけが別世界になる。 */
+  examEffectSet = _examSetForUi();
+  document.body.classList.remove('exam-effect-neon', 'exam-effect-ink');
+  if (examEffectSet !== 'classic') document.body.classList.add('exam-effect-' + examEffectSet);
   document.body.classList.add('exam-mode');
   _examSyncQueue();
   document.querySelectorAll('.qc[data-uid]').forEach(c => { if (!_examSet.has(c)) c.style.display = 'none'; });
@@ -4860,7 +4653,11 @@ function exitExam() {
   }
   examMode = false;
   localStorage.removeItem('mec_exam_active_key');
-  _zoneStop(false); _setAwaken(false);
+  /* ⚠️ 演出の遅延タイマーを最初に落とす（§cleanup）。ここより後ろの掃除は
+     「いま画面に出ているもの」を消すだけなので、先に止めないと掃除の直後に
+     遅延ぶんが新しい演出を生やす（正解直後に「終了」を押すと再現する）。 */
+  _fxClearTimers();
+  _zoneStop(false); _setAwaken(false); _setOverdrive(false); _clearCardHeat();
   // srs-review クラスはここでは外さない。結果画面〜誤答再試験の間も復習の最小表示を保つため、
   // 解除は通常閲覧へ戻る _srsRestoreAfterReview() に集約している。
   _lastSessionWasSrs = _srsReviewMode;
@@ -5143,15 +4940,24 @@ function showExamSummary() {
   if (examAnswered > 0) {
     setTimeout(() => _stampRank(pct), 950);
   }
-  // スコアに応じた祝賀エフェクト（FXキャンバスはz9070＝モーダルより上に描画される）
-  // 案3: スタンプ着地（約1205ms）の余韻後に発火させて負荷スパイクを分散
-  if (examAnswered > 0 && window.MecFX) {
+  /* スコアに応じた祝賀エフェクト（FXキャンバスはz9070＝モーダルより上に描画される）
+     案3: スタンプ着地（約1205ms）の余韻後に発火させて負荷スパイクを分散。
+
+     ⚠️⚠️ **ここは演出を大きくしてよい唯一の場所**（2026-08-31・§情報設計）。
+     解答中の演出は「読解の邪魔になりうる」ので全画面レイヤーを1枚に絞ってあるが、
+     結果画面は **読むべき本文がもう無い**うえ、セッションの終わりという滅多に来ない
+     瞬間なので、制約が掛からない。派手さの置き場をここへ寄せている。
+     ⚠️ それでも段は score で切ること。毎回フルで出すと「稀だから効く」が消える。 */
+  if (examAnswered > 0 && window.MecFX && !_fxOff()) {
     try {
       if (pct >= 100) {
-        // PERFECT: 金花火キャノン＋金銀紙吹雪
+        /* PERFECT: 金花火キャノン＋金銀紙吹雪（案5「リザルト大花火 & 紙吹雪キャノン」）。
+           ⚠️ 花火16発は 0.16 秒ずつずれて上がるので同時には存在しない（約2.5秒に分散）。
+              紙吹雪240片（ttl 3.2秒）と合わせて瞬間の粒子数は MAX_PARTICLES(2600) の
+              半分ほどに収まる。**数を増やすならこの見積もりを取り直すこと。** */
         setTimeout(() => {
-          window.MecFX.fireworks({ count: 8, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], tier: 7 });
-          window.MecFX.confetti({ count: 100, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], big: true });
+          window.MecFX.fireworks({ count: 16, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], tier: 7 });
+          window.MecFX.confetti({ count: 240, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], big: true });
           window.MecFX.dust({ count: 40, colors: ['#FFD700', '#FFF3C4', '#FFFFFF'] });
         }, 1350);
       } else if (pct >= 90) {
@@ -5303,7 +5109,7 @@ function _triggerWarpGate(n) {
     window.MecFX.warp({ count: 18, x: b.cx, y: b.cy, colors: ['#FFD700', '#FFF3C4', '#FFFFFF'] });
     window.MecFX.burst(b.cx, b.cy, { count: 36, colors: ['#FFD700', '#00E5FF', '#FFFFFF'], shapes: ['star', 'gem'], tier: 5, scale: 1.5 });
   }
-  setTimeout(() => ov.remove(), 1100);
+  _fxTimeout(() => ov.remove(), 1100);
 }
 
 /* 【案7】ダイナミック環境ライティング（朝・夕・深夜宿直室） */

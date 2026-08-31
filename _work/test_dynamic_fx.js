@@ -20,20 +20,63 @@ const examSrc = fs.readFileSync(path.join(__dirname, '../study_exam.js'), 'utf8'
 const indexSrc = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
 const mmSrc = fs.readFileSync(path.join(__dirname, '../mindmap.js'), 'utf8');
 
+/* トップレベル `function NAME(...)` の本体を波括弧の対応で切り出す。
+   ⚠️ 「ファイル全体に文字列が在るか」で判定しないための道具。在るだけでは
+      **その行が実行されるとは限らない**（2026-08-31 に約300行の到達不能コードが
+      見つかった原因がまさにこれ）。 */
+function fnBodyOf(src, name) {
+  const m = new RegExp('^function\\s+' + name + '\\s*\\(', 'm').exec(src);
+  if (!m) return '';
+  let i = src.indexOf('{', m.index), depth = 0;
+  for (let k = i; k < src.length; k++) {
+    if (src[k] === '{') depth++;
+    else if (src[k] === '}') { depth--; if (depth === 0) return src.slice(m.index, k + 1); }
+  }
+  return src.slice(m.index);
+}
+
+/* ⚠️⚠️ 2026-08-31: この2件は「ソースにこの文字列があるか」しか見ていなかった。
+   実際にはオーバードライブも稲妻も大爆発バーストも、`_spawnScatteredCelebration` の
+   **到達不能な尾部**（MecUITheme.get() が常に8種のどれかを返すため、手前の8分岐が必ず
+   return する）に置かれていて **一度も実行されていなかった**のに、文字列はソースに
+   在るのでずっと green だった。稲妻に至っては `lightning({count:3,…})` と
+   `lightning(x, y, opts)` に対してオブジェクトを x へ渡しており、到達していても
+   座標が NaN になる呼び方だった。
+   ⚠️ **文字列の存在ではなく「生きた経路から呼ばれているか」を見ること。**
+      マジックナンバー（count: 240 のような）を assert に書くと、実装を動かすたびに
+      テストが嘘をつくか、意味の無い数字を守るためにコードが歪む。 */
 console.log('── 1. 全画面オーバードライブ & 稲妻 (案1) ──');
-test('study.css と study_exam.js に exam-overdrive と lightning がある', () => {
+test('オーバードライブは生きた経路から点り、稲妻は正しい引数で呼ばれる', () => {
   // §13-3 P4: テーマの html.ui-* body::before に z-index を奪われるので専用レイヤーへ移した。
   assert(cssSrc.includes('body.exam-overdrive #examOverdriveGlow'), 'Missing body.exam-overdrive layer in study.css');
   assert(!cssSrc.includes('body.exam-overdrive::before {'), 'グローが body::before へ戻っている（§13-3 P4）');
-  assert(examSrc.includes('document.body.classList.add(\'exam-overdrive\')'), 'Missing exam-overdrive in study_exam.js');
-  assert(examSrc.includes('window.MecFX.lightning'), 'Missing lightning in study_exam.js');
+  // 点灯の口は _setOverdrive の1本だけ（散らすと消し忘れが必ず出る）
+  assert(/function _setOverdrive\(/.test(examSrc), 'Missing _setOverdrive in study_exam.js');
+  const setOd = fnBodyOf(examSrc, '_setOverdrive');
+  assert(setOd.includes("classList.toggle('exam-overdrive'"), '_setOverdrive が exam-overdrive を切り替えていない');
+  assert(/MecFX\.lightning\(\s*[^{)]/.test(setOd),
+    '稲妻が _setOverdrive から座標付きで呼ばれていない（オブジェクトを x に渡す旧形に戻っている）');
+  // _setOverdrive は連続正解の判定（_showStreakEffect）から実際に呼ばれること
+  assert(fnBodyOf(examSrc, '_showStreakEffect').includes('_setOverdrive('),
+    '_showStreakEffect から _setOverdrive が呼ばれていない＝また誰も点けない状態');
+  // 解除の経路（誤答・終了）が残っていること
+  assert((examSrc.match(/_setOverdrive\(false\)/g) || []).length >= 2,
+    'オーバードライブの解除（誤答・exitExam）が足りない');
 });
 
 console.log('── 2. 正解カード3D浮遊 & 大爆発スターバースト (案2) ──');
-test('study.css と study_exam.js に card-3d-pop と大量バーストがある', () => {
+test('card-3d-pop が生きていて、祝祭バーストがUIテーマ経路から出る', () => {
   assert(cssSrc.includes('.qc.card-3d-pop'), 'Missing .qc.card-3d-pop in study.css');
   assert(examSrc.includes('card.classList.add(\'card-3d-pop\')'), 'Missing card-3d-pop in study_exam.js');
-  assert(examSrc.includes('count: 32 + t * 8'), 'Missing boosted burst count in study_exam.js');
+  /* ⚠️ 旧: `count: 32 + t * 8` というマジックナンバーの存在を見ていたが、その行は
+     到達不能な尾部にあった。いまは「祝祭が UIテーマ8種すべてに用意されているか」を見る
+     ——ここが実際に走る唯一の経路なので、1つ欠けるとそのテーマだけ無音になる。 */
+  const cel = fnBodyOf(examSrc, '_spawnScatteredCelebration');
+  ['aurora', 'brass', 'cyber', 'liquid', 'kintsugi', 'celestial', 'abyss', 'frost'].forEach(id => {
+    assert(cel.includes("'" + id + "'"), '_spawnScatteredCelebration に ' + id + ' の分岐が無い');
+  });
+  assert(/_spawnScatteredCelebration\(/.test(fnBodyOf(examSrc, '_triggerChoiceCorrectPop')),
+    '_triggerChoiceCorrectPop から祝祭が呼ばれていない');
 });
 
 console.log('── 3. 誤答スクリーンシェイク & 警告赤フラッシュ (案3) ──');
