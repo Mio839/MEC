@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ハブ（index.html）のヒーロー・14日間の推移（_renderSpark）レンダリング検証テスト
  * Run: node _work/test_render_hero.js
  */
@@ -159,8 +159,20 @@ test('renderHero() が例外なく完走する', () => {
 test('直近14日間のバー (heroSpark) が14本描画される', () => {
   const spark = elements['heroSpark'];
   assert.ok(spark, 'heroSpark要素が存在する');
-  const barCols = (spark.innerHTML.match(/class="bar-col"/g) || []).length;
+  const barCols = (spark.innerHTML.match(/class="bar-col/g) || []).length;
   assert.strictEqual(barCols, 14, '14日分のバーカラムが描画されている');
+});
+
+test('週末ゾーン背景 (weekend) と週境界線 (week-end) が正しく付与される', () => {
+  const spark = elements['heroSpark'];
+  assert.ok(spark.innerHTML.includes('weekend'), '週末クラスが付与されている');
+  assert.ok(spark.innerHTML.includes('week-end'), '週境界クラスが付与されている');
+});
+
+test('2週間最多日バーに record クラスと 👑 王冠が付与される', () => {
+  const spark = elements['heroSpark'];
+  assert.ok(spark.innerHTML.includes('record'), '最多日バーに record クラスが付与されている');
+  assert.ok(spark.innerHTML.includes('bar-crown'), '最多日バーに王冠が付与されている');
 });
 
 test('直近14日間の日付ラベル (heroSparkDates) が14日分描画される', () => {

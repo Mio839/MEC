@@ -7367,6 +7367,66 @@ html.ui-frost .ascension-card { border-color: #70D6FF !important; box-shadow: 0 
   -webkit-backface-visibility: hidden;
 }
 
+/* ══════════════════════════════════════════════════════════════════════════
+   直近14日間の推移（スパークライン） テーマ別マテリアル連動（第8位）
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Aurora Glass */
+html.ui-aurora .bar.on { background: linear-gradient(180deg, #00DFD8, #7928CA); box-shadow: 0 0 6px rgba(0, 223, 216, 0.4); }
+html.ui-aurora .bar.overdrive { background: linear-gradient(180deg, #00FFA3 0%, #00DFD8 45%, #7928CA 100%); box-shadow: 0 -2px 8px rgba(0, 255, 163, 0.6), 0 0 12px rgba(0, 223, 216, 0.4); }
+html.ui-aurora .bar.record { background: linear-gradient(180deg, #00E5FF 0%, #FF007F 45%, #7928CA 100%); box-shadow: 0 0 12px rgba(0, 229, 255, 0.6), 0 -2px 6px rgba(255, 0, 127, 0.7); }
+html.ui-aurora .spark-target-line.achieved { border-top-color: rgba(0, 255, 163, 0.7); box-shadow: 0 0 8px rgba(0, 255, 163, 0.4); }
+html.ui-aurora .spark-target-line.achieved .spark-target-lbl { color: #00FFA3; }
+
+/* Steampunk Brass */
+html.ui-brass .bar.on { background: linear-gradient(180deg, #E0C25E, #8C6D1F); box-shadow: 0 0 6px rgba(224, 194, 94, 0.4); }
+html.ui-brass .bar.overdrive { background: linear-gradient(180deg, #A8E6CF 0%, #E0C25E 45%, #8C6D1F 100%); box-shadow: 0 -2px 8px rgba(168, 230, 207, 0.6), 0 0 12px rgba(224, 194, 94, 0.4); }
+html.ui-brass .bar.record { background: linear-gradient(180deg, #FFF0A5 0%, #D4AF37 40%, #8C6D1F 100%); box-shadow: 0 0 14px rgba(212, 175, 55, 0.65), 0 -2px 6px rgba(255, 240, 165, 0.8); }
+html.ui-brass .spark-target-line.achieved { border-top-color: rgba(224, 194, 94, 0.75); box-shadow: 0 0 8px rgba(224, 194, 94, 0.4); }
+html.ui-brass .spark-target-line.achieved .spark-target-lbl { color: #E0C25E; }
+
+/* Cyber Hologram HUD */
+html.ui-cyber .bar.on { background: linear-gradient(180deg, #00FF66, #004D20); box-shadow: 0 0 6px rgba(0, 255, 102, 0.5); }
+html.ui-cyber .bar.overdrive { background: linear-gradient(180deg, #76FF03 0%, #00E5FF 50%, #004D20 100%); box-shadow: 0 -2px 8px rgba(118, 255, 3, 0.7), 0 0 12px rgba(0, 229, 255, 0.5); }
+html.ui-cyber .bar.record { background: linear-gradient(180deg, #00E5FF 0%, #D500F9 50%, #00FF66 100%); box-shadow: 0 0 14px rgba(0, 229, 255, 0.7), 0 -2px 6px rgba(213, 0, 249, 0.8); }
+html.ui-cyber .spark-target-line.achieved { border-top-color: rgba(0, 255, 102, 0.8); box-shadow: 0 0 8px rgba(0, 255, 102, 0.5); }
+html.ui-cyber .spark-target-line.achieved .spark-target-lbl { color: #00FF66; }
+
+/* Liquid Art */
+html.ui-liquid .bar.on { background: linear-gradient(180deg, #FF007F, #7928CA); box-shadow: 0 0 6px rgba(255, 0, 127, 0.4); }
+html.ui-liquid .bar.overdrive { background: linear-gradient(180deg, #00F5D4 0%, #FF007F 50%, #7928CA 100%); box-shadow: 0 -2px 8px rgba(0, 245, 212, 0.6), 0 0 12px rgba(255, 0, 127, 0.4); }
+html.ui-liquid .bar.record { background: linear-gradient(180deg, #FFD166 0%, #FF007F 45%, #7928CA 100%); box-shadow: 0 0 14px rgba(255, 0, 127, 0.65), 0 -2px 6px rgba(255, 209, 102, 0.8); }
+html.ui-liquid .spark-target-line.achieved { border-top-color: rgba(0, 245, 212, 0.75); box-shadow: 0 0 8px rgba(0, 245, 212, 0.4); }
+html.ui-liquid .spark-target-line.achieved .spark-target-lbl { color: #00F5D4; }
+
+/* Kintsugi Zen */
+html.ui-kintsugi .bar.on { background: linear-gradient(180deg, #F5D061, #8C6D1F); box-shadow: 0 0 6px rgba(245, 208, 97, 0.4); }
+html.ui-kintsugi .bar.overdrive { background: linear-gradient(180deg, #F5D061 0%, #D9383A 50%, #8C6D1F 100%); box-shadow: 0 -2px 8px rgba(245, 208, 97, 0.6), 0 0 12px rgba(217, 56, 58, 0.4); }
+html.ui-kintsugi .bar.record { background: linear-gradient(180deg, #FFF2A1 0%, #E5A93C 45%, #D9383A 100%); box-shadow: 0 0 14px rgba(245, 208, 97, 0.7), 0 -2px 6px rgba(255, 242, 161, 0.8); }
+html.ui-kintsugi .spark-target-line.achieved { border-top-color: rgba(245, 208, 97, 0.8); box-shadow: 0 0 8px rgba(245, 208, 97, 0.4); }
+html.ui-kintsugi .spark-target-line.achieved .spark-target-lbl { color: #F5D061; }
+
+/* Celestial Grimoire */
+html.ui-celestial .bar.on { background: linear-gradient(180deg, #48CAE4, #8A2BE2); box-shadow: 0 0 6px rgba(72, 202, 228, 0.4); }
+html.ui-celestial .bar.overdrive { background: linear-gradient(180deg, #00F5D4 0%, #FFD166 45%, #8A2BE2 100%); box-shadow: 0 -2px 8px rgba(0, 245, 212, 0.6), 0 0 12px rgba(255, 209, 102, 0.4); }
+html.ui-celestial .bar.record { background: linear-gradient(180deg, #FFD166 0%, #8A2BE2 50%, #48CAE4 100%); box-shadow: 0 0 14px rgba(255, 209, 102, 0.7), 0 -2px 6px rgba(138, 43, 226, 0.8); }
+html.ui-celestial .spark-target-line.achieved { border-top-color: rgba(255, 209, 102, 0.8); box-shadow: 0 0 8px rgba(255, 209, 102, 0.4); }
+html.ui-celestial .spark-target-line.achieved .spark-target-lbl { color: #FFD166; }
+
+/* Abyss Bioluminescence */
+html.ui-abyss .bar.on { background: linear-gradient(180deg, #00FFA3, #003840); box-shadow: 0 0 6px rgba(0, 255, 163, 0.4); }
+html.ui-abyss .bar.overdrive { background: linear-gradient(180deg, #00FFA3 0%, #00B4D8 50%, #003840 100%); box-shadow: 0 -2px 8px rgba(0, 255, 163, 0.6), 0 0 12px rgba(0, 180, 216, 0.4); }
+html.ui-abyss .bar.record { background: linear-gradient(180deg, #70D6FF 0%, #00FFA3 45%, #003840 100%); box-shadow: 0 0 14px rgba(0, 255, 163, 0.7), 0 -2px 6px rgba(112, 214, 255, 0.8); }
+html.ui-abyss .spark-target-line.achieved { border-top-color: rgba(0, 255, 163, 0.8); box-shadow: 0 0 8px rgba(0, 255, 163, 0.4); }
+html.ui-abyss .spark-target-line.achieved .spark-target-lbl { color: #00FFA3; }
+
+/* Glacial Absolute Zero */
+html.ui-frost .bar.on { background: linear-gradient(180deg, #70D6FF, #0A3663); box-shadow: 0 0 6px rgba(112, 214, 255, 0.4); }
+html.ui-frost .bar.overdrive { background: linear-gradient(180deg, #A0E9FF 0%, #38B6FF 50%, #0A3663 100%); box-shadow: 0 -2px 8px rgba(160, 233, 255, 0.6), 0 0 12px rgba(56, 182, 255, 0.4); }
+html.ui-frost .bar.record { background: linear-gradient(180deg, #FFFFFF 0%, #70D6FF 45%, #0A3663 100%); box-shadow: 0 0 14px rgba(112, 214, 255, 0.7), 0 -2px 6px rgba(255, 255, 255, 0.9); }
+html.ui-frost .spark-target-line.achieved { border-top-color: rgba(112, 214, 255, 0.8); box-shadow: 0 0 8px rgba(112, 214, 255, 0.4); }
+html.ui-frost .spark-target-line.achieved .spark-target-lbl { color: #70D6FF; }
+
 
 /* ══════════════════════════════════════════════════════════════════════════
    カード装飾の常時アニメを止める（2026-08-31）
