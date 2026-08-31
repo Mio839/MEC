@@ -7321,15 +7321,7 @@ html.ui-abyss .abyss-depth-text {
 html.ui-frost .gauge[data-tier="5"] .frost-crust-crack,
 html.ui-frost .gauge[data-tier="6"] .frost-crust-crack { opacity: 0.15; transition: opacity 0.8s ease; }
 
-/* ── 各テーマ別 エネルギー・コンジット ＆ 主ボタントレーサー ── */
-html.ui-aurora .conduit-pulse { stroke: #00DFD8 !important; filter: drop-shadow(0 0 6px #00DFD8) !important; }
-html.ui-brass .conduit-pulse { stroke: #E0C25E !important; filter: drop-shadow(0 0 6px #E0C25E) !important; }
-html.ui-cyber .conduit-pulse { stroke: #00E5FF !important; filter: drop-shadow(0 0 6px #00E5FF) !important; }
-html.ui-liquid .conduit-pulse { stroke: #FF007F !important; filter: drop-shadow(0 0 6px #FF007F) !important; }
-html.ui-kintsugi .conduit-pulse { stroke: #F5D061 !important; filter: drop-shadow(0 0 6px #F5D061) !important; }
-html.ui-celestial .conduit-pulse { stroke: #FFD166 !important; filter: drop-shadow(0 0 6px #FFD166) !important; }
-html.ui-abyss .conduit-pulse { stroke: #00FFA3 !important; filter: drop-shadow(0 0 6px #00FFA3) !important; }
-html.ui-frost .conduit-pulse { stroke: #70D6FF !important; filter: drop-shadow(0 0 6px #70D6FF) !important; }
+/* ── 各テーマ別 主ボタントレーサー ── */
 
 html.ui-cyber .cta-tracer { background: linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0)) padding-box, conic-gradient(from 0deg,transparent 65%,#00E5FF 88%,#FFF 100%) border-box !important; }
 html.ui-kintsugi .cta-tracer { background: linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0)) padding-box, conic-gradient(from 0deg,transparent 65%,#F5D061 88%,#FFF 100%) border-box !important; }
@@ -7370,7 +7362,6 @@ html.ui-frost .ascension-card { border-color: #70D6FF !important; box-shadow: 0 
 .gauge .crown-bead,
 .gauge .heatsink-vent,
 .gauge .plasma-arc,
-.conduit-pulse,
 .cta-tracer,
 .lv-fluid-wave,
 .spark-ecg-beam,

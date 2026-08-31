@@ -277,16 +277,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   .gauge{width:min(172px,58vw);justify-self:end;}
 }
 
-/* ── ⚡ エネルギー・コンジット配線 ── */
 .hero-body{position:relative;}
-.hero-conduit-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.72;}
-.conduit-pipe{fill:none;stroke:rgba(var(--glass-rgb),.13);stroke-width:2.2;stroke-linecap:round;}
-.conduit-pulse{fill:none;stroke:var(--or);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:14 120;
-  animation:conduitPulse 3.4s linear infinite;opacity:.85;filter:drop-shadow(0 0 4px var(--or));}
-.pulse-xp{animation-delay:.9s;stroke:var(--gr,#3DD68C);filter:drop-shadow(0 0 4px var(--gr));}
-.pulse-lv{animation-delay:1.8s;stroke:var(--yl,#FFD166);filter:drop-shadow(0 0 4px var(--yl));}
-@keyframes conduitPulse{0%{stroke-dashoffset:134;}100%{stroke-dashoffset:0;}}
-.conduit-node{fill:var(--brass-hi);stroke:var(--copper);stroke-width:1;filter:drop-shadow(0 0 3px var(--brass-hi));}
 
 /* ── 🌌 環境パーティクルフィールド ── */
 .hero-ambient-field{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:inherit;z-index:0;}
@@ -1116,7 +1107,7 @@ html.ui-brass .brass-piston-layer{display:inline;}
   .cta-ic{animation:none;}
   /* 2026-08-30 追加分（Heroゲージ拡張・動的機構・総合演出） */
   .gauge-pulse-trk,.gauge-megaring,.piston-left,.piston-right,.gauge-aura,
-  .submeter-needle,.conduit-pulse,.ambient-nebula,
+  .submeter-needle,.ambient-nebula,
   .hero-shockwave-ring,.cta-tracer,.lv-fluid-wave,.spark-ecg-beam,
   .hero[data-streak-milestone]{animation:none!important;transition:none!important;}
   .gauge-pulse-trk,.gauge-aura,.hero-shockwave-layer,.spark-ecg-beam,.cta-tracer{display:none;}
@@ -1216,19 +1207,6 @@ html.ui-brass .brass-piston-layer{display:inline;}
     <span class="hero-cnr br" aria-hidden="true"></span>
 
     <div class="hero-body">
-      <!-- ⚡ エネルギー・コンジット配線（Heroゲージと数字・XP・レベルバーを繋ぐ光のパイプ） -->
-      <svg class="hero-conduit-svg" viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true">
-        <path class="conduit-pipe pipe-main" d="M 280,100 C 220,100 180,60 120,60"></path>
-        <path class="conduit-pipe pipe-xp"   d="M 280,100 C 220,100 180,110 120,110"></path>
-        <path class="conduit-pipe pipe-lv"   d="M 280,100 C 220,100 180,150 120,150"></path>
-        <path class="conduit-pulse pulse-main" d="M 280,100 C 220,100 180,60 120,60"></path>
-        <path class="conduit-pulse pulse-xp"   d="M 280,100 C 220,100 180,110 120,110"></path>
-        <path class="conduit-pulse pulse-lv"   d="M 280,100 C 220,100 180,150 120,150"></path>
-        <circle class="conduit-node node-gauge" cx="280" cy="100" r="3.5"></circle>
-        <circle class="conduit-node node-num"   cx="120" cy="60"  r="2.5"></circle>
-        <circle class="conduit-node node-xp"    cx="120" cy="110" r="2.5"></circle>
-        <circle class="conduit-node node-lv"    cx="120" cy="150" r="2.5"></circle>
-      </svg>
       <div>
         <!-- 日付は「今日解いた問題」と同じ行に置く。日をまたいで開きっぱなしにしていると
              数字が0に戻る日があるので、どの日の集計かをここで名指しする -->
