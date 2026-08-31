@@ -1,3 +1,6 @@
+// 2026-08-31r: 試験モードの問題数カウントゲージの行を60%サイズに変更し、上下の余白を50%に変更。
+//   - study.css / chapter_exam.js: .exam-prog / #chExamProg の要素寸法（トラック高・角丸・フォント・歯車・排圧計・難問印・gap）を60%に縮小、上下paddingを50%に縮小。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-08-31q: 連続正解トースト（Streak Toast）の表示滞留時間を1/2に短縮（1.0s〜3.2s）。
 //   - study_exam.js / chapter_exam.js: durs 配列の各Tier表示秒数を半減。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
@@ -592,7 +595,7 @@ const CACHE = "mec-v257";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-08-31q";
+const SHELL_VERSION = "2026-08-31r";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

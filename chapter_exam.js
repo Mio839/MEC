@@ -109,10 +109,10 @@
       'body.ch-exam-mode .ch2.ch-exam-instant-wrong{background:rgba(255,107,107,.15)!important;color:#FF6B6B!important;font-weight:700!important;animation:ceWrongPop .3s ease forwards,ceWrongShake .48s .04s ease;}',
       'body.ch-exam-mode .qc:has(.ch-exam-instant-wrong){animation:ceCardGlow .8s ease forwards;}',
       /* progress bar */
-      '#chExamProg{display:none;align-items:center;gap:8px;padding:4px 14px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;font-weight:700;position:sticky;top:var(--ch-sn-h,0px);z-index:99;}',
+      '#chExamProg{display:none;align-items:center;gap:4.8px;padding:2px 14px;background:rgba(0,0,0,.55);color:#fff;font-size:6.6px;font-weight:700;position:sticky;top:var(--ch-sn-h,0px);z-index:99;}',
       'body.ch-exam-mode #chExamProg{display:flex;}',
-      '.ce-prog-track{flex:1;height:5px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden;}',
-      '.ce-prog-fill{height:100%;background:#FFB830;border-radius:3px;transition:width .3s;}',
+      '.ce-prog-track{flex:1;height:3px;background:rgba(255,255,255,.15);border-radius:1.8px;overflow:hidden;}',
+      '.ce-prog-fill{height:100%;background:#FFB830;border-radius:1.8px;transition:width .3s;}',
       /* start modal */
       '#chExamStartOv{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:5000;align-items:center;justify-content:center;backdrop-filter:blur(4px);}',
       '#chExamStartOv.open{display:flex;}',

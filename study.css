@@ -562,12 +562,12 @@ body.exam-effect-ink #examStreakToast.t6{background:rgba(201,58,58,.4);color:#FF
 body.exam-mode .qc.exam-revealed.exam-ans-hidden .ab{display:none!important;}
 body.exam-mode .qc.exam-revealed.exam-ans-hidden .eg{display:none!important;}
 /* Progress bar */
-.exam-prog{display:none;align-items:center;gap:8px;padding:4px 14px;background:rgba(0,0,0,.5);color:#fff;font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;}
+.exam-prog{display:none;align-items:center;gap:4.8px;padding:2px 14px;background:rgba(0,0,0,.5);color:#fff;font-size:6.6px;font-weight:700;font-variant-numeric:tabular-nums;}
 body.exam-mode .exam-prog{display:flex;}
 /* 試験モード中：折りたたみ時の余白スリム化（2026-08-30） */
 body.exam-mode .st-hdr.hdr-collapsed{padding:4px 12px 3px;}
 body.exam-mode .st-hdr.hdr-collapsed .st-title-row{margin-bottom:2px;}
-body.exam-mode .st-hdr.hdr-collapsed .exam-prog{padding:2px 10px;}
+body.exam-mode .st-hdr.hdr-collapsed .exam-prog{padding:1px 10px;}
 /* D2(2026-08-19): 計器ベイ＝「まだの側」を真鍮／銅の樋（チャネル）にする。ここは表示ではなく
    容れ物なので筐体側。上に暗線・下に明線＝凹んで見える（ボタンの逆）。塗りが伸びるにつれて
    樋が埋まっていく構図になる。
@@ -582,10 +582,10 @@ body.exam-mode .st-hdr.hdr-collapsed .exam-prog{padding:2px 10px;}
    ⚠️ --exam-copper は「レイヤー」ではなく background ショートハンド最終位置の地の色（＝
       background-color）として効く。色は最終レイヤーにしか置けないので、暗いグラデを上に敷いて
       銅を沈めるこの書き方が正しい。レイヤーのつもりで前へ動かすと none になって銅が消える。 */
-.exam-prog-track{position:relative;flex:1;height:7px;border-radius:4px;overflow:hidden;
+.exam-prog-track{position:relative;flex:1;height:4.2px;border-radius:2.4px;overflow:hidden;
   background:linear-gradient(180deg,rgba(0,0,0,.58),rgba(0,0,0,.30)),var(--exam-copper);
   box-shadow:inset 0 1px 0 var(--exam-bevel-lo),inset 0 -1px 0 var(--exam-bevel-hi);}
-.exam-prog-fill{height:100%;background:var(--yl);border-radius:4px;transition:width .3s;}
+.exam-prog-fill{height:100%;background:var(--yl);border-radius:2.4px;transition:width .3s;}
 /* ══ Phase 5 段2(2026-08-19): R2 歯車 ／ R10 スリープと起動 ═══════════════════
    ⚠️ 13px は「この行が既に持っている高さ」に収まる寸法。ヘッダを1pxも伸ばさない（§5-5）。
       .exam-prog は padding:4px と 11px×1.7 の文字＋終了ボタン（約23px）を含むので歯車は行を伸ばさない。
@@ -619,11 +619,11 @@ body.exam-mode .st-hdr.hdr-collapsed .exam-prog{padding:2px 10px;}
       ⚠️ 常時の微振動と「レッドゾーン」は入れない。振動は読書中に周辺視野で動き続けるし、
          赤は「誤答を罰しない」という既定方針と噛み合わない（§12-1【2巡目】）。
    ⚠️ 盤面は真鍮固定（筐体）。tier にもテーマにも振らない。 */
-.ep-relief{position:relative;flex:none;width:13px;height:13px;border-radius:50%;
+.ep-relief{position:relative;flex:none;width:7.8px;height:7.8px;border-radius:50%;
   border:1px solid var(--exam-brass);
   background:radial-gradient(circle at 50% 36%,rgba(224,194,94,.18),rgba(0,0,0,.55) 76%);
   box-shadow:0 0 0 1px var(--exam-bevel-lo);}
-.ep-needle{position:absolute;left:50%;bottom:50%;width:1px;height:4.6px;margin-left:-.5px;
+.ep-needle{position:absolute;left:50%;bottom:50%;width:1px;height:2.8px;margin-left:-.5px;
   border-radius:1px;background:var(--exam-brass-hi);
   transform-origin:50% 100%;rotate:-72deg;}
 
@@ -644,7 +644,7 @@ body.exam-mode .st-hdr.hdr-collapsed .exam-prog{padding:2px 10px;}
       「読み値の色」で同じ事実を2通りに出しているのと同型）。
    ⚠️ .ep-gear-blow（膨張 520ms）中は scale:3.2 が掛かるので軸光も3.2倍になる。
       ここは抑えない＝放出の瞬間に炉が開く絵として使う（読解はもう終わっている）。 */
-.ep-gear{width:13px;height:13px;flex:none;fill:var(--exam-brass);opacity:.72;scale:1;
+.ep-gear{width:7.8px;height:7.8px;flex:none;fill:var(--exam-brass);opacity:.72;scale:1;
   background:radial-gradient(circle at 50% 50%,rgba(255,214,120,var(--exam-axle-a,0)) 0 18%,rgba(255,214,120,0) 46%);
   transition:scale .5s cubic-bezier(.22,1,.36,1),opacity .5s ease,background .5s ease;
   animation:epGearSpin 5.6s linear infinite;animation-play-state:paused;}
@@ -684,7 +684,7 @@ body.exam-mode.exam-waking .st-hdr::before{animation:examRailWake .9s ease-out;}
 @keyframes epTickLit{0%{box-shadow:0 0 0 0 rgba(255,255,255,.9);background:#fff;}
   100%{box-shadow:0 0 0 7px rgba(255,255,255,0);}}
 /* 難問の位置＝残りに何が待っているか。通過すると芯が埋まる */
-.exam-prog-track .ep-hard{position:absolute;top:50%;width:5px;height:5px;margin:-2.5px 0 0 -2.5px;
+.exam-prog-track .ep-hard{position:absolute;top:50%;width:3px;height:3px;margin:-1.5px 0 0 -1.5px;
   border-radius:50%;border:1.5px solid var(--or);background:rgba(0,0,0,.6);pointer-events:none;}
 /* 通過した難問は芯が白く埋まる（アンバーで埋めると塗りと同化して見えない） */
 .exam-prog-track .ep-hard.done{background:#fff;border-color:rgba(0,0,0,.5);}

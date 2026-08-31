@@ -266,7 +266,7 @@ t('18. 歯車がヘッダの中に入っていて、寸法が行の高さを超�
   const iGear = HTML.indexOf('class="ep-gear"');
   assert.ok(iProg >= 0 && iGear > iProg, '歯車が .exam-prog の中にない');
   const base = RULES.find(r => r.sel.trim() === '.ep-gear');
-  const m = /width:\s*(\d+)px/.exec(base.body);
+  const m = /width:\s*([\d.]+)px/.exec(base.body);
   assert.ok(m, '歯車に固定幅が無い');
   assert.ok(Number(m[1]) <= 19, '歯車が ' + m[1] + 'px（11px×1.7=約19px の行を超える＝ヘッダが伸びる）');
 });
