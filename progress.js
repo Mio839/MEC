@@ -17,6 +17,11 @@
   const K_ATT = 'mec_attempts_v1';  // 解答イベントログ（attempts.js が追記・追記専用でunionマージ）
   const ATT_CAP = 5000;             // attempts.js の CAP と一致させること（2026-08-06に2000から引き上げ）
   const K_MISSIONS = 'mec_missions_v1'; // 日次/週次ミッション進捗（端末別G-counter・同一(期間,端末,カウンタ)はmax）＋達成ボーナスXP台帳
+  // 容量超過の発火回数。IndexedDB 化を検討する際に「本当に枯渇しているのか」を
+  // 事実で判断するための計測（2026-09-01〜）。storage_perf.html がこれを表示する。
+  // ⚠️ 記録できるのは lsRaw を通る書き込みだけ。gamify.js の _s() は
+  //    localStorage.setItem を直接呼ぶので、そこでの超過はここに残らない。
+  const K_QUOTA_HITS = 'mec_quota_hits_v1';
 
   let syncTimer = null;
   let syncInProgress = false;
@@ -73,6 +78,28 @@
         localStorage.setItem(KE, JSON.stringify(r.slice(0, 1)));
       }
     } catch {}
+    // 発火の記録は最後に行う（上で空きを作った後なので、この小さな書き込み自体は通る）
+    try {
+      const h = JSON.parse(localStorage.getItem(K_QUOTA_HITS) || '{"n":0}');
+      h.n = (h.n || 0) + 1;
+      h.last = new Date().toISOString();
+      localStorage.setItem(K_QUOTA_HITS, JSON.stringify(h));
+    } catch {}
+  }
+
+  // ── ストレージの永続化要求 ───────────────────────────────────────
+  // ブラウザが容量逼迫時に「消してよいデータ」として扱うのを防ぐ申請。
+  // 永続化はオリジン単位なので localStorage にも IndexedDB にも同時に効く。
+  // ⚠️ Safari の ITP（一定期間アクセスが無いと script-writable storage を消す）は
+  //    この申請だけでは免除されない。実質の条件はホーム画面への追加。
+  //    したがってこれは保険であって、端末が飛んだときの本命は Gist 同期のまま。
+  // ⚠️ 例外を投げさせない。未対応環境では null を返して黙る。
+  async function requestPersistence() {
+    try {
+      if (!navigator.storage || !navigator.storage.persist) return null;
+      if (await navigator.storage.persisted()) return true;
+      return await navigator.storage.persist();
+    } catch { return null; }
   }
 
   // ── Utilities ────────────────────────────────────────────────────
@@ -1149,6 +1176,7 @@
     syncFromGist,
     pushToGist,
     scheduleSync,
+    requestPersistence,
     getToken: () => localStorage.getItem(K_TOKEN) || '',
     setToken: t => localStorage.setItem(K_TOKEN, t),
     clearToken: () => localStorage.removeItem(K_TOKEN),
@@ -1207,6 +1235,7 @@
   })();
 
   document.addEventListener('DOMContentLoaded', () => {
+    requestPersistence();
     _initSeriesBadges();
     _initQcCards();
 
