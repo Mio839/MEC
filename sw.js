@@ -1,3 +1,7 @@
+// 2026-09-01b: 呼吸器 第5章に欠落していた NO.282〜286 の5問を復元（506問 → 511問）。
+//   - questions_resp.json / 呼吸器/images/(108E-67_1,2 / 107A-30_1,2 / 106A-32_1,2,3) を追加、
+//     image_dims.json・qmeta.json を再生成、gamify.js / chapters_meta.js / study.html の問題数を更新。
+//   questions_*.json と画像を変えたので CACHE も bump（v276 → v277）。
 // 2026-09-01a: 試験モード中のヘッダー全体（タイトル〜問題数ゲージ）の上下余白を30%へスリム化。
 //   - study.css / chapter_exam.js: body.exam-mode .st-hdr の上下padding（3px/2px）、.st-title-row のmargin-bottom（2px）、.exam-prog の上下padding（0.6px/0px）を30%に縮小しヘッダーを上部に圧縮。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
@@ -593,12 +597,12 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v276";
+const CACHE = "mec-v277";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-01q";
+const SHELL_VERSION = "2026-09-01b";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

@@ -102,7 +102,7 @@ const MEC_CHAPTERS = [
         "prefix": "resp_ch05",
         "file": "_archive/呼吸器/ch05_lung_circulation.html",
         "title": "MEC呼吸器 第5章 肺循環障害 解答解説",
-        "count": 37
+        "count": 42
       },
       {
         "prefix": "resp_ch06",

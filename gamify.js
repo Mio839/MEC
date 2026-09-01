@@ -27,7 +27,7 @@
   // 科目メタ（total は CLAUDE.md の実測値。科目全問制覇の判定にのみ使用）
   const SUBJECTS = [
     { id: 'endo',    name: '内分泌',     icon: '⚗️', color: '#00A5B5', total: 542 },
-    { id: 'resp',    name: '呼吸器',     icon: '🌬️', color: '#3B82F6', total: 506 },
+    { id: 'resp',    name: '呼吸器',     icon: '🌬️', color: '#3B82F6', total: 511 },
     { id: 'circ',    name: '循環器',     icon: '❤️', color: '#EF4444', total: 572 },
     { id: 'dige',    name: '消化器',     icon: '🌿', color: '#A855F7', total: 501 },
     { id: 'neur',    name: '神経',       icon: '🧠', color: '#22C55E', total: 594 },
