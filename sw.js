@@ -1,3 +1,8 @@
+// 2026-09-01c: 呼吸器の作り直し②——qt を整形外科式へ／バッジ4種を巻末解答一覧表から機械転記／rate_text を "90%" 形へ。
+//   - questions_resp.json: qt 500問（qt-context 解体・PDF折り返し除去・<b>項目見出し</b>・SpO<sub>2</sub>・設問文まるごと<strong>）、
+//     badges 506問（bs/bh/bc/bip/brn を作り直し、bi/bm/bk/bx は引き継ぎ、br〈連問〉は廃止）、rate_text 505問。
+//     本文の文字は1字も動かしていない（qt_style.verify がタグを剥がした素文の一致を検査）。qmeta.json 再生成。
+//   questions_*.json を変えたので CACHE も bump（v277 → v278）。
 // 2026-09-01b: 呼吸器 第5章に欠落していた NO.282〜286 の5問を復元（506問 → 511問）。
 //   - questions_resp.json / 呼吸器/images/(108E-67_1,2 / 107A-30_1,2 / 106A-32_1,2,3) を追加、
 //     image_dims.json・qmeta.json を再生成、gamify.js / chapters_meta.js / study.html の問題数を更新。
@@ -597,12 +602,12 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v277";
+const CACHE = "mec-v278";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-01b";
+const SHELL_VERSION = "2026-09-01c";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
