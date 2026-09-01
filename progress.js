@@ -17,8 +17,11 @@
   const K_ATT = 'mec_attempts_v1';  // 解答イベントログ（attempts.js が追記・追記専用でunionマージ）
   const ATT_CAP = 5000;             // attempts.js の CAP と一致させること（2026-08-06に2000から引き上げ）
   const K_MISSIONS = 'mec_missions_v1'; // 日次/週次ミッション進捗（端末別G-counter・同一(期間,端末,カウンタ)はmax）＋達成ボーナスXP台帳
-  // 容量超過の発火回数。IndexedDB 化を検討する際に「本当に枯渇しているのか」を
-  // 事実で判断するための計測（2026-09-01〜）。storage_perf.html がこれを表示する。
+  // 容量超過の発火回数。2026-09-01 に IndexedDB 化を検討した際、「本当に枯渇しているのか」を
+  // 事実で確かめるために入れた。実測は iPad で 24.6%(1261KB/5MB)・発火0回で、
+  // 容量は当面の問題ではないと結論した（計測用の storage_perf.html はそこで役目を終えて削除）。
+  // ⚠️ ここは**残す**。事後に容量が効いてきたときに気付ける唯一の仕掛けで、
+  //    発火しない限りコストは0。消すと次に同じ議論をするとき再び推測から始まる。
   // ⚠️ 記録できるのは lsRaw を通る書き込みだけ。gamify.js の _s() は
   //    localStorage.setItem を直接呼ぶので、そこでの超過はここに残らない。
   const K_QUOTA_HITS = 'mec_quota_hits_v1';
