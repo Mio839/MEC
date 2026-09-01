@@ -38,9 +38,17 @@ function makeEl() {
 // cards: { [uid]: rate|null } … 難問判定(_isHardQ)が読む .qc[data-uid] の data-rate を差し込む。
 //   値 null は「カードはあるが正答率データが無い（norate）」を表す。
 //   ⚠️ .qc 以外のセレクタは従来どおり null を返すこと（演出系を no-op に保つため）。
-function makeCtx(cards) {
+// nowMs を渡すと時計を固定する。⚠️ 日次ミッションの8個目は DAILY_QUEST_POOL から
+//   `_dateSeed(日付) % 6` で選ばれる日替わりクエストなので、実時刻のままだと
+//   「どのクエストが出ているか」が日によって変わり、テストが6日に1日しか通らない。
+//   その日付に依存する検証をするときは必ず時計を固定すること。
+function makeCtx(cards, nowMs) {
   const store = {};
   const CARDS = cards || {};
+  const DateImpl = nowMs === undefined ? Date : class extends Date {
+    constructor(...a) { if (a.length === 0) super(nowMs); else super(...a); }
+    static now() { return nowMs; }
+  };
   const ctx = {
     localStorage: {
       getItem: k => (Object.prototype.hasOwnProperty.call(store, k) ? store[k] : null),
@@ -65,7 +73,7 @@ function makeCtx(cards) {
     },
     setTimeout: () => 0, clearTimeout: () => {}, setInterval: () => 0,
     requestAnimationFrame: () => 0, requestIdleCallback: null,
-    Math, Date, JSON, console, Set, Map, Object, Array, String, Number, Error,
+    Math, Date: DateImpl, JSON, console, Set, Map, Object, Array, String, Number, Error,
   };
   ctx.window = ctx;
   vm.createContext(ctx);
@@ -327,8 +335,14 @@ t('ボーナスXPは stats().xp に乗る', () => {
   assert.strictEqual(s.missionXp, g.missionXp());
 });
 
+// 日替わりクエストが「試験セッションを2本」(d_exam2) になる日に固定して回す。
+// ⚠️ 実時刻のままだと当選するクエストが日によって変わり、下の「2周目で新たに達成される」
+//    という筋道そのものが成立しない日が6日に5日ある（2026-08-30 頃に日替わりクエストを
+//    入れたとき、このテストがそのまま残って落ちていた）。
+const D_EXAM2_DAY = Date.UTC(2026, 0, 5, 3, 0, 0); // JST 2026-01-05 12:00
+
 t('同じミッションを何度満たしてもXPは1回だけ（台帳は値を上書きしない）', () => {
-  const ctx = makeCtx();
+  const ctx = makeCtx(null, D_EXAM2_DAY);
   const g = ctx.window.MecGamify;
   const ledOf = () => {
     const led = JSON.parse(ctx._store['mec_missions_v1']).xp.ledger;
@@ -350,11 +364,16 @@ t('同じミッションを何度満たしてもXPは1回だけ（台帳は値�
   for (const k of Object.keys(snap)) {
     assert.strictEqual(after[k], snap[k], k + ' が上書きされた（target超過ぶんで増えた）');
   }
-  // ⚠️ 2周目は「試験セッションを2本」(d_exam2) を新たに満たすのでXPは 290→350 に増える。
+  // ⚠️ 2周目は「試験セッションを2本」(d_exam2) を新たに満たすのでXPが増える。
   //    これは二重加算ではなく、1周目では未達だった別のミッションの達成。
   //    額は defs から引いて検算する（ミッションを足すたびに数字を書き換えずに済む）。
+  // ⚠️ id を直に書かず defs から引く。日替わりクエストは日付で選ばれるので、
+  //    「その日 d_exam2 が出ている」ことまで含めてここで検査する。
+  const rnd = g._defs.daily.find(d => d.isRandom);
+  assert.ok(rnd && rnd.counter === 'exam' && rnd.target === 2,
+    '時計を固定した日の日替わりクエストは d_exam2（試験セッション2本）のはず');
   const gained = Object.keys(after).filter(k => !(k in snap));
-  assert.deepStrictEqual(gained, ['d_exam2'], '2周目で新たに達成されるのは d_exam2 だけ');
+  assert.deepStrictEqual(gained, [rnd.id], '2周目で新たに達成されるのは日替わりクエストだけ');
   const expect = before + gained.reduce((a, k) => a + xpOf(k), 0);
   assert.strictEqual(g.missionXp(), expect, '増分は新規達成ぶんちょうど');
 });
@@ -471,6 +490,32 @@ t('goldenDays と goldenStreak の計算', () => {
 
   assert.deepStrictEqual(Array.from(mg.goldenDays()), [today]);
   assert.strictEqual(mg.goldenStreak(), 1);
+});
+
+// ⚠️ このテスト自身が日付で落ちるのを防ぐための検査。
+//    日次の8個目は日付ハッシュで DAILY_QUEST_POOL から1つ選ばれるので、
+//    「今日たまたま出ているクエスト」を前提に書いたアサーションは6日に5日落ちる
+//    （2026-09-01 に実際にそうなっていた＝当選は d_redo5 なのに d_exam2 を期待していた）。
+//    日付に依存する検証は makeCtx(null, nowMs) で時計を固定すること。
+t('日替わりクエストは日付だけで決まり、プールの全項目が出番を持つ', () => {
+  const seen = new Map();          // クエストid → 最初に出た日
+  const DAY = 86400000;
+  for (let i = 0; i < 366; i++) {
+    const now = Date.UTC(2026, 0, 1, 3, 0, 0) + i * DAY;
+    const daily = makeCtx(null, now).window.MecGamify._defs.daily;
+    const rnd = daily.filter(d => d.isRandom);
+    assert.strictEqual(rnd.length, 1, '日替わりクエストは常にちょうど1つ');
+    assert.strictEqual(daily.length, 8, '日次は日替わりを含めて常に8個');
+    if (!seen.has(rnd[0].id)) seen.set(rnd[0].id, new Date(now).toISOString().slice(0, 10));
+  }
+  // プールの中身は gamify.js が正本なので、件数を書き写さず「出た種類 ≧ 2」ではなく
+  // 「同じ日付なら必ず同じクエスト」＋「1年で複数種類が回る」を見る
+  assert.ok(seen.size >= 2, 'プールが1種類に固まっていない（実際に出たのは ' + seen.size + ' 種類）');
+
+  // 決定論であること: 同じ日付なら何度作っても同じクエスト
+  const at = t0 => makeCtx(null, t0).window.MecGamify._defs.daily.find(d => d.isRandom).id;
+  const t0 = Date.UTC(2026, 4, 17, 3, 0, 0);
+  assert.strictEqual(at(t0), at(t0), '同じ日付なら同じクエスト');
 });
 
 console.log('\n' + (fail ? 'FAILED ' : 'all passed ') + ' (' + pass + '/' + (pass + fail) + ')');
