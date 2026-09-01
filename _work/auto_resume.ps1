@@ -3,8 +3,8 @@ MEC自動再開ツール（auto_resume.ps1）
 
 上限で止まったセッションに、上限リセット後「続き」を送るだけのツール。
 
-  上限で停止 → StopFailureフックが発火 → リセット時刻を解析してタスクを1本登録 → 終了
-  リセット時刻 → claude --resume <id> "続き" を新しいウィンドウで起動 → 終了
+  上限で停止 → StopFailureフックが発火 → リセット時刻と本体PIDを解析してタスクを1本登録 → 終了
+  リセット時刻 → 止まったままの旧プロセスを終了 → claude --resume <id> "続き" を起動 → 終了
 
 使い方（通常はユーザーの操作は不要）:
   状態確認:   powershell -ExecutionPolicy Bypass -File _work\auto_resume.ps1 -Status
@@ -13,6 +13,7 @@ MEC自動再開ツール（auto_resume.ps1）
   解除:       powershell -ExecutionPolicy Bypass -File _work\auto_resume.ps1 -Cancel
 
 ⚠️ 再開したウィンドウは --dangerously-skip-permissions で起動する（無人で進めるため）。
+⚠️ 再開したウィンドウは --remote-control 付きで起動する（他マシンから届くように）。下の罠7を読むこと。
 
 ⚠️⚠️ 過去に踏んだ罠（消さないこと）:
   1) 状態ファイル（.auto_resume_state.json）は**持たない**。PSCustomObjectに存在しない
@@ -34,6 +35,21 @@ MEC自動再開ツール（auto_resume.ps1）
      skipDangerousModePermissionPrompt に記録される（claude本体は userSettings / localSettings /
      flagSettings / policySettings のどれかに true があればダイアログを出さない）。
      → Start-Resume が起動直前に Ensure-BypassAccepted で立っていることを確かめ、無ければ立てる。
+  6) 上限で止まった claude.exe は**終了せずプロンプトに戻って生き続ける**。放っておくと同じ会話に
+     プロセスが2つ並び、**Remote Control の権利を旧プロセスが握ったまま**になる（RCは会話ごとに
+     1プロセスの排他）。2026-09-01 に実際に発生——13:02 の再開ウィンドウに
+     「another Claude Code on this machine (started 4h ago) already has Remote Control」が出た。
+     → Start-Resume が起動前に Stop-OldSession で旧プロセスを終了させる。
+     ⚠️ 3分ガード（人が操作中なら見送り）を**必ず先に**通すこと。人が使っている窓を殺さないため。
+     ⚠️ PIDは上限ヒット時にフックが記録し、タスクのコマンドラインへ埋める（罠1と同じ理由で
+        状態ファイルは持たない）。**数時間空くのでPIDは再利用されうる**＝起動時刻(FileTime)も
+        一緒に埋めて、名前と起動時刻の両方が一致した時だけ終了させる。
+  7) **Remote Control セッションは ~/.claude/sessions/<pid>.json を書かない**（<pid>.<hash>.key
+     だけ書く）。対話セッションは両方書く。2026-09-01 に実測（rc-probe で確認）。
+     → session_id → PID の逆引きをこのレジストリに頼れない＝フックが先祖を辿って拾うのが本命で、
+       レジストリはフォールバックにすぎない。
+     → 再開後の接続確認もこの形（key有り・json無し）を手がかりにしているが、**非公開の挙動なので
+       形が変われば黙って外れる**。外れても再開は止めず、ログに1行残すだけにすること。
 
 ⚠️ トークンを食っているのはこのスクリプトではなく再開先のセッション（実測 341ターン×
    平均326kトークンで $25.92／1回）。自動再開が通常セッションより多く食っている事実は無い
@@ -47,7 +63,10 @@ param(
     [switch]$Cancel,
     [switch]$Status,
     [string]$SessionId,
-    [string]$At
+    [string]$At,
+    # 罠6: 上限で止まったまま生きている claude.exe。起動時刻(FileTime)とセットでのみ信用する。
+    [int]$OldPid = 0,
+    [string]$OldStart
 )
 
 $ErrorActionPreference = 'Stop'
@@ -125,9 +144,11 @@ function Remove-Task {
 }
 
 function Register-Task {
-    param([datetime]$When, [string]$SessId)
+    param([datetime]$When, [string]$SessId, [int]$OldPid = 0, [string]$OldStart)
     Remove-Task
     $argLine = "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$PSCommandPath`" -Resume -SessionId $SessId"
+    # 罠6: 旧プロセスの素性もコマンドラインに埋める（状態ファイルは持たない＝罠1）。
+    if ($OldPid -gt 0 -and $OldStart) { $argLine += " -OldPid $OldPid -OldStart $OldStart" }
     try {
         # ⚠️ 罠2: StartWhenAvailable=取りこぼし復帰 / WakeToRun=スリープ解除。
         #   -AtLogOn は -User を必ず付ける（無しだと管理者権限が要り Access is denied で全体が失敗する）。
@@ -178,8 +199,112 @@ function Ensure-BypassAccepted {
     }
 }
 
-function Start-Resume {
+function Get-ClaudeAncestorPid {
+    # StopFailureフックは claude.exe の子として走るので、先祖を辿れば本体が取れる。
+    # ⚠️ 罠7: Remote Control セッションは sessions\<pid>.json を書かないので、
+    #    session_id からの逆引きはこの経路でしか成立しない。ここが本命。
+    $cur = $PID
+    for ($i = 0; $i -lt 8 -and $cur -gt 0; $i++) {
+        $p = Get-CimInstance Win32_Process -Filter "ProcessId=$cur" -ErrorAction SilentlyContinue
+        if (-not $p) { return $null }
+        if ($p.Name -eq 'claude.exe') { return $p }
+        $cur = [int]$p.ParentProcessId
+    }
+    return $null
+}
+
+function Find-SessionPid {
+    # フォールバック。対話セッションだけが ~/.claude/sessions/<pid>.json に session_id を書く
+    # （罠7＝Remote Control セッションはここに載らない）。
     param([string]$SessId)
+    $dir = Join-Path $env:USERPROFILE '.claude\sessions'
+    if (-not (Test-Path $dir)) { return 0 }
+    foreach ($f in (Get-ChildItem "$dir\*.json" -ErrorAction SilentlyContinue)) {
+        try { $o = Get-Content $f.FullName -Raw -ErrorAction Stop | ConvertFrom-Json } catch { continue }
+        if ($o.sessionId -eq $SessId -and $o.pid) { return [int]$o.pid }
+    }
+    return 0
+}
+
+function Stop-OldSession {
+    # 罠6: 上限で止まった claude.exe は生き続け、Remote Control の権利を握ったままになる。
+    # ⚠️ 呼ぶ前に「人が操作中」ガードを通すこと（Start-Resume が先に見ている）。
+    param([int]$OldPid, [string]$OldStart, [string]$SessId)
+
+    $target = 0
+    if ($OldPid -gt 0) {
+        $c = Get-CimInstance Win32_Process -Filter "ProcessId=$OldPid" -ErrorAction SilentlyContinue
+        if (-not $c) {
+            Write-Log "旧プロセス PID $OldPid は既に終了しています。"
+        } elseif ($c.Name -ne 'claude.exe') {
+            Write-Log "⚠️ PID $OldPid は claude.exe ではありません（$($c.Name)）。終了しません。"
+        } elseif ($OldStart) {
+            # ⚠️ 上限ヒットから数時間空くのでPIDは再利用されうる。起動時刻が一致した時だけ殺す。
+            #   FileTime とのサブ秒差は必ず出るので2秒の許容を置く（2026-09-01 実測）。
+            $want = [datetime]::FromFileTime([int64]$OldStart)
+            if ([Math]::Abs(($c.CreationDate - $want).TotalSeconds) -le 2) { $target = $OldPid }
+            else { Write-Log "⚠️ PID $OldPid は再利用されています（起動 $($c.CreationDate) ≠ 記録 $want）。終了しません。" }
+        } else { $target = $OldPid }
+    }
+    if ($target -eq 0 -and $SessId) {
+        $alt = Find-SessionPid $SessId
+        if ($alt -gt 0) { Write-Log "レジストリから旧プロセスを特定: PID $alt"; $target = $alt }
+    }
+    if ($target -eq 0) { return }
+
+    try {
+        $h = Get-Process -Id $target -ErrorAction Stop
+        try { $null = $h.CloseMainWindow() } catch { }
+        if (-not $h.WaitForExit(4000)) {
+            Stop-Process -Id $target -Force -ErrorAction SilentlyContinue
+            $null = $h.WaitForExit(4000)
+        }
+        if (Get-Process -Id $target -ErrorAction SilentlyContinue) {
+            Write-Log "⚠️ 旧プロセス PID $target を終了できませんでした。Remote Control が奪えない可能性があります。"
+        } else {
+            Write-Log "旧プロセス PID $target を終了しました（Remote Control の権利を解放）。"
+        }
+    } catch {
+        Write-Log "⚠️ 旧プロセスの終了に失敗（$_）。再開は続行します。"
+    }
+}
+
+function Confirm-Resumed {
+    # 再開が本当に立ち上がったか、Remote Control に繋がったかをログへ残す。
+    # ⚠️ ここで失敗しても再開そのものは止めない（判定は罠7の非公開挙動に依存する）。
+    param([string]$SessId, [datetime]$Since)
+
+    $proc = $null
+    for ($i = 0; $i -lt 40; $i++) {
+        $proc = Get-CimInstance Win32_Process -Filter "Name='claude.exe'" -ErrorAction SilentlyContinue |
+                Where-Object { $_.CommandLine -like "*$SessId*" -and $_.CreationDate -ge $Since } |
+                Select-Object -First 1
+        if ($proc) { break }
+        Start-Sleep -Milliseconds 500
+    }
+    if (-not $proc) { Write-Log '⚠️ 再開プロセスを確認できませんでした（起動に失敗した可能性）。'; return }
+    Write-Log "再開プロセスを確認: PID $($proc.ProcessId)"
+
+    # ⚠️ 罠7の逆引き: Remote Control は <pid>.<hash>.key だけを書き <pid>.json を書かない。
+    #   対話のまま（＝RC未接続）なら .json が2秒ほどで現れる。15秒見て判定する。
+    $dir = Join-Path $env:USERPROFILE '.claude\sessions'
+    $p   = $proc.ProcessId
+    for ($i = 0; $i -lt 30; $i++) {
+        if (Test-Path (Join-Path $dir "$p.json")) {
+            Write-Log '⚠️ 再開セッションは対話として登録されました＝Remote Control 未接続の可能性。手元で /remote-control を確認してください。'
+            return
+        }
+        if (Get-ChildItem "$dir\$p.*.key" -ErrorAction SilentlyContinue) {
+            Write-Log 'Remote Control に接続したと判定しました（key のみ・json 無し）。'
+            return
+        }
+        Start-Sleep -Milliseconds 500
+    }
+    Write-Log '⚠️ Remote Control の接続を確認できませんでした（レジストリに痕跡なし）。'
+}
+
+function Start-Resume {
+    param([string]$SessId, [int]$OldPid = 0, [string]$OldStart)
     # ⚠️ 人が同じセッションを触っている最中に開くと、同じtranscriptを2つのClaudeが書く。
     #   Claudeのプロジェクトディレクトリ名はパスの非英数字を '-' に潰したもの。
     $tp = Join-Path $env:USERPROFILE (".claude\projects\" + ($RepoRoot -replace '[:\\/_.]', '-') + "\$SessId.jsonl")
@@ -188,14 +313,19 @@ function Start-Resume {
         return
     }
     Remove-Task
+    # 罠6: 3分ガードを抜けた＝誰も触っていない。ここで旧プロセスを退かす。
+    Stop-OldSession -OldPid $OldPid -OldStart $OldStart -SessId $SessId
     Ensure-BypassAccepted
 
     $exe = (Get-Command $ClaudeExe -ErrorAction SilentlyContinue).Source
     if (-not $exe) { $exe = $ClaudeExe }
     # プロンプトはコマンドラインに載るので、引用符と ;（Windows Terminalの区切り）を除く
     $safe = ($ResumePrompt -replace '"', '') -replace ';', '、'
-    $tail = ((@('--resume', $SessId, '--dangerously-skip-permissions') + $ClaudeArgs) -join ' ')
+    # ⚠️ --remote-control は「省略可能な名前」を取るので、**プロンプトの直前に置かないこと**
+    #   （次のトークンを名前として食う）。後ろが必ず - で始まるこの位置なら食わない。2026-09-01 実測。
+    $tail = ((@('--resume', $SessId, '--remote-control', '--dangerously-skip-permissions') + $ClaudeArgs) -join ' ')
 
+    $since = Get-Date
     $wt = (Get-Command wt.exe -ErrorAction SilentlyContinue).Source
     if ($wt) {
         Start-Process -FilePath $wt -ArgumentList "-d `"$RepoRoot`" `"$exe`" $tail `"$safe`"" -WindowStyle Normal | Out-Null
@@ -204,6 +334,7 @@ function Start-Resume {
         Start-Process -FilePath $exe -ArgumentList "$tail `"$safe`"" -WorkingDirectory $RepoRoot -WindowStyle Normal | Out-Null
         Write-Log "コンソールで再開: $SessId"
     }
+    Confirm-Resumed $SessId $since
 }
 
 # ───────────────────────────── エントリポイント ─────────────────────────────
@@ -237,10 +368,20 @@ try {
             Write-Log '⚠️ リセット時刻を解析できませんでした。暫定で1時間後にします。'
             $when = (Get-Date).AddHours(1)
         }
-        Write-Log "上限ヒットを検知（session_id=$sess）。"
+        # 罠6: 上限で止まった本体は生き続けるので、今のうちにPIDと起動時刻を控える
+        #   （リセットまで数時間空くのでPIDだけでは足りない＝再利用の見分けに起動時刻が要る）。
+        $op = 0; $os = ''
+        $anc = Get-ClaudeAncestorPid
+        if ($anc) {
+            $op = [int]$anc.ProcessId
+            $os = $anc.CreationDate.ToFileTime().ToString()
+            Write-Log "上限ヒットを検知（session_id=$sess／本体 PID $op 起動 $($anc.CreationDate)）。"
+        } else {
+            Write-Log "上限ヒットを検知（session_id=$sess）。⚠️ 本体PIDを辿れませんでした（旧プロセスはレジストリ経由で探します）。"
+        }
         # 同じ上限ヒットで本体＋サブエージェントから複数回呼ばれる（実測2回）。
         # 同名タスクを登録し直すだけなので害はない。
-        Register-Task $when.AddMinutes(2) $sess
+        Register-Task $when.AddMinutes(2) $sess $op $os
         exit 0
     }
 
@@ -251,7 +392,18 @@ try {
         if (-not $t) { Write-Host "→ タスク $TaskName は登録されていません（再開待ちなし）。"; exit 0 }
         $info = Get-ScheduledTaskInfo -TaskName $TaskName -ErrorAction SilentlyContinue
         Write-Host "→ 状態=$($t.State) 次回=$($info.NextRunTime) 前回=$($info.LastRunTime) 結果=$($info.LastTaskResult)"
-        Write-Host "→ 対象: $(($t.Actions[0].Arguments -split '-SessionId ')[-1])"
+        # ⚠️ 引数には -OldPid / -OldStart も並ぶので、素の分割で末尾を取ると混ざる。
+        $args0 = $t.Actions[0].Arguments
+        $sid = ''; if ($args0 -match '-SessionId\s+(\S+)') { $sid = $Matches[1] }
+        Write-Host "→ 対象: $sid"
+        if ($args0 -match '-OldPid\s+(\d+)') {
+            $op = [int]$Matches[1]
+            $alive = Get-CimInstance Win32_Process -Filter "ProcessId=$op" -ErrorAction SilentlyContinue
+            if ($alive -and $alive.Name -eq 'claude.exe') { Write-Host "→ 旧プロセス: PID $op 稼働中（再開時に終了させます）" }
+            else { Write-Host "→ 旧プロセス: PID $op は既に終了" }
+        } else {
+            Write-Host '→ 旧プロセス: 記録なし（レジストリから探します）'
+        }
         exit 0
     }
 
@@ -259,13 +411,13 @@ try {
         if (-not $SessionId) { Write-Log '❌ -Arm には -SessionId が必要です。'; exit 1 }
         $when = if ($At) { [datetime]::Parse($At) } else { (Get-Date).AddHours(1) }
         if ($when -le (Get-Date)) { $when = $when.AddDays(1) }
-        Register-Task $when $SessionId
+        Register-Task $when $SessionId $OldPid $OldStart
         exit 0
     }
 
     if ($Resume) {
         if (-not $SessionId) { Write-Log '❌ -Resume には -SessionId が必要です。'; exit 1 }
-        Start-Resume $SessionId
+        Start-Resume $SessionId $OldPid $OldStart
         exit 0
     }
 
