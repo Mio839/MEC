@@ -562,12 +562,16 @@ body.exam-effect-ink #examStreakToast.t6{background:rgba(201,58,58,.4);color:#FF
 body.exam-mode .qc.exam-revealed.exam-ans-hidden .ab{display:none!important;}
 body.exam-mode .qc.exam-revealed.exam-ans-hidden .eg{display:none!important;}
 /* Progress bar */
-.exam-prog{display:none;align-items:center;gap:4.8px;padding:2px 14px;background:rgba(0,0,0,.5);color:#fff;font-size:6.6px;font-weight:700;font-variant-numeric:tabular-nums;}
+.exam-prog{display:none;align-items:center;gap:4.8px;padding:0.6px 14px;background:rgba(0,0,0,.5);color:#fff;font-size:6.6px;font-weight:700;font-variant-numeric:tabular-nums;}
 body.exam-mode .exam-prog{display:flex;}
-/* 試験モード中：折りたたみ時の余白スリム化（2026-08-30） */
-body.exam-mode .st-hdr.hdr-collapsed{padding:4px 12px 3px;}
-body.exam-mode .st-hdr.hdr-collapsed .st-title-row{margin-bottom:2px;}
-body.exam-mode .st-hdr.hdr-collapsed .exam-prog{padding:1px 10px;}
+/* 試験モード中：ヘッダー全体（「統合学習ツール」からゲージまで）の上下余白スリム化（2026-09-01） */
+body.exam-mode .st-hdr{padding:3px 12px 2px;}
+body.exam-mode .st-title-row{margin-bottom:2px;}
+body.exam-mode .st-filter-panel{margin:1px 0;padding:2px 10px 1.5px;}
+/* 試験モード中：折りたたみ時（hdr-collapsed）の余白スリム化 */
+body.exam-mode .st-hdr.hdr-collapsed{padding:1.5px 12px 1px;}
+body.exam-mode .st-hdr.hdr-collapsed .st-title-row{margin-bottom:0;}
+body.exam-mode .st-hdr.hdr-collapsed .exam-prog{padding:0 10px;}
 /* D2(2026-08-19): 計器ベイ＝「まだの側」を真鍮／銅の樋（チャネル）にする。ここは表示ではなく
    容れ物なので筐体側。上に暗線・下に明線＝凹んで見える（ボタンの逆）。塗りが伸びるにつれて
    樋が埋まっていく構図になる。

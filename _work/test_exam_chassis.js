@@ -117,7 +117,7 @@ t('3. ヘッダと計器ベイの寸法が現行値のまま（_fxBand() の焦�
   assert.ok(/border-bottom:1px solid rgba\(255,255,255,\.08\)/.test(hdr),
     '.st-hdr の border-bottom が変わっている（レールは疑似要素で重ねる・書き換えない）');
   const prog = soleBody('.exam-prog');
-  assert.ok(prog && /padding:2px 14px/.test(prog), '.exam-prog の padding が変わっている');
+  assert.ok(prog && /padding:0\.6px 14px/.test(prog), '.exam-prog の padding が変わっている');
   const track = soleBody('.exam-prog-track');
   assert.ok(track, '.exam-prog-track のルールが見つからない');
   assert.ok(/height:4\.2px/.test(track), '.exam-prog-track の height が 4.2px でない');
