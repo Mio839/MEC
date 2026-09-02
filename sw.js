@@ -1,3 +1,8 @@
+// 2026-09-02: 呼吸器の作り直し⑤——解説を後期章水準へ底上げ（進行中）。
+//   questions_resp.json の eg を 4ブロック（ep 病態／ee 選択肢の検討／em 深掘り／ept 国試ポイント）
+//   ＋ans_sub へ書き直す作業。第1章の全72問が完了（authored 77 / 511問）。
+//   あわせて NO.43 の ans_label から解答と矛盾する注記を除去。
+//   questions_*.json を変えたので CACHE を bump（v280 → v281）。
 // 2026-09-01c: 呼吸器の作り直し②——qt を整形外科式へ／バッジ4種を巻末解答一覧表から機械転記／rate_text を "90%" 形へ。
 //   - questions_resp.json: qt 500問（qt-context 解体・PDF折り返し除去・<b>項目見出し</b>・SpO<sub>2</sub>・設問文まるごと<strong>）、
 //     badges 506問（bs/bh/bc/bip/brn を作り直し、bi/bm/bk/bx は引き継ぎ、br〈連問〉は廃止）、rate_text 505問。
@@ -602,7 +607,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v280";
+const CACHE = "mec-v281";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
