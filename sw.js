@@ -1,3 +1,7 @@
+// 2026-09-03c: 呼吸器⑤——ch04 間質性疾患 NO.207〜212 の解説を4ブロック化（平均約11,300字・authored 217/511問）。
+//   あわせて ①apply_auth.py にタグの入れ子検査を足し、既に live だった37問56ブロックの <b>/<u> 崩れを修復、
+//   ②NO.210（112C-38）の図の並びを設問文の宣言順（A／B／C①〜⑤）へ直した（画像の中身を保存し直し＋image_dims.json 再生成）。
+//   questions_resp.json と画像を変えたので CACHE を bump（v285 → v286）。
 // 2026-09-03b: 呼吸器⑤——ch04 間質性疾患 NO.201〜206 の解説を4ブロック化（平均約11,600字・authored 211/511問）。
 //   questions_resp.json を変えたので CACHE を bump（v284 → v285）。
 // 2026-09-02: 呼吸器の作り直し⑤——解説を後期章水準へ底上げ（進行中）。
@@ -609,7 +613,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v285";
+const CACHE = "mec-v286";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
