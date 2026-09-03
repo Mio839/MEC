@@ -1,3 +1,5 @@
+// 2026-09-03b: 呼吸器⑤——ch04 間質性疾患 NO.201〜206 の解説を4ブロック化（平均約11,600字・authored 211/511問）。
+//   questions_resp.json を変えたので CACHE を bump（v284 → v285）。
 // 2026-09-02: 呼吸器の作り直し⑤——解説を後期章水準へ底上げ（進行中）。
 //   questions_resp.json の eg を 4ブロック（ep 病態／ee 選択肢の検討／em 深掘り／ept 国試ポイント）
 //   ＋ans_sub へ書き直す作業。第1章の全72問が完了（authored 77 / 511問）。
@@ -607,7 +609,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v284";
+const CACHE = "mec-v285";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
