@@ -1,3 +1,11 @@
+// 2026-09-04ae: 肝胆膵⑤——ch03 肝硬変 NO.161〜166 の解説を4ブロック化（平均約10,000字・authored 166/418問）。
+//   NO.161 肝予備能評価ICG試験（非代償性肝硬変Child B/CでICG15分停滞率30%前後まで高度停滞・幕内基準、ans_label修復）／
+//   NO.162 ビリルビン代謝と尿濃染（水溶性直接ビリルビンのみ糸球体濾過・間接型はアルブミン結合で尿中出ず、ans_label修復）／
+//   NO.163 上部消化管出血とBUN単独上昇（黒色便で血液蛋白が腸内細菌分解吸収・BUN/Cr比60開大、ans_label修復）／
+//   NO.164 門脈圧亢進症と黒色便（食道胃静脈瘤破裂の緊急対応・最優先で上部消化管内視鏡検査EVL/EIS、ans_label修復）／
+//   NO.165 肝硬変腹水脳症の治療禁忌（生理食塩液は二次性アルドステロン症下でNa排泄不能・腹水爆発悪化、ans_label修復）／
+//   NO.166 原発性肝癌の生化学徴候（HCC特異的AFP上昇＋微小胆管浸潤局所圧迫によるALP解離性著明高値、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v321 → v322）。
 // 2026-09-04ad: 肝胆膵⑤——ch03 肝硬変 NO.155〜160 の解説を4ブロック化（平均約10,000字・authored 160/418問）。
 //   NO.155 重症アルコール性肝炎と離脱管理（離脱けいれん既往発汗頻脈・BZD系投与・Wernicke脳症予防ビタミンB群急速補充、ans_label修復）／
 //   NO.156 希釈性低Na血症と尿中Na低下（肝硬変/心不全は有効循環血漿量低下RAAS/ADH亢進・尿Na<20mEq/L、ans_label修復）／
@@ -846,7 +854,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v321";
+const CACHE = "mec-v322";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
