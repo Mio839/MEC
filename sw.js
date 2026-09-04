@@ -1,3 +1,11 @@
+// 2026-09-04f: 肝胆膵⑤——ch01 肝胆膵の基本 NO.7〜12 の解説を4ブロック化（平均約11,200字・authored 12/418問）。
+//   NO.7 Traube三角の解剖（第6肋骨・前腋窩線・肋骨弓）とCastell吸気時打診法／
+//   NO.8 閉塞性黄疸の超音波読影（shotgun sign/並走胆管拡張）と高齢者無痛性黄疸／
+//   NO.9 肝代謝（グルコース-アラニン回路・コレステロール胆汁酸合成・Fischer比崩壊と偽神経伝達物質）／
+//   NO.10 大量腹水の腹部単純X線像（floating loop sign/全腹部均等白濁）と波動の物理機序／
+//   NO.11 閉塞性黄疸・腎障害（Cr3.5）での検査選択（造影CT禁忌・超音波ファースト・非造影MRCP）／
+//   NO.12 体質性黄疸（Gilbert症候群と低カロリー食試験・UGT1A1・経過観察・4大体質性黄疸鑑別）。
+//   questions_hbp.json を変えたので CACHE を bump（v296 → v297）。
 // 2026-09-04e: 肝胆膵⑤——ch01 肝胆膵の基本 NO.1〜6 の解説を4ブロック化（平均約11,500字・authored 6/418問）。
 //   NO.1 腹部膨満・波動・shifting dullnessとSAAG／NO.2 腹水精査の第一選択（腹部超音波検査）とMorison窩／
 //   NO.3 肝合成蛋白（アルブミン・凝固因子）vs 非合成（アンモニア・間接Bil・γグロブリン）／
@@ -642,7 +650,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v296";
+const CACHE = "mec-v297";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
