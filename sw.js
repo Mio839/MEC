@@ -1,3 +1,11 @@
+// 2026-09-04ad: 肝胆膵⑤——ch03 肝硬変 NO.155〜160 の解説を4ブロック化（平均約10,000字・authored 160/418問）。
+//   NO.155 重症アルコール性肝炎と離脱管理（離脱けいれん既往発汗頻脈・BZD系投与・Wernicke脳症予防ビタミンB群急速補充、ans_label修復）／
+//   NO.156 希釈性低Na血症と尿中Na低下（肝硬変/心不全は有効循環血漿量低下RAAS/ADH亢進・尿Na<20mEq/L、ans_label修復）／
+//   NO.157 成人肝移植の適応と禁忌（アルコール性肝硬変は6か月以上完全断酒が絶対必須・断酒不能例は適応外、ans_label修復）／
+//   NO.158 門脈圧亢進症の身体徴候（下腿浮腫/腹壁静脈怒張/脾腫Traube濁音/shifting dullness・Rovsingは虫垂炎、ans_label修復）／
+//   NO.159 肝硬変エコー像と検査値（表面凹凸結節・粗雑化エコー・脾機能亢進とTPO低下による血小板著明低値、ans_label修復）／
+//   NO.160 肝硬変大量腹水の保存的管理（塩分制限5〜7g/日・スピロノラクトン内服・脳症のない患者への蛋白制限は禁忌、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v320 → v321）。
 // 2026-09-04ac: 肝胆膵⑤——ch03 肝硬変 NO.149〜154 の解説を4ブロック化（平均約10,000字・authored 154/418問、第3章開幕！）。
 //   NO.149 非代償性肝硬変の腹水管理（禁酒・塩分制限5〜7g/日・スピロノラクトン第一選択・好中球陰性でSBP否定的、ans_label修復）／
 //   NO.150 肝性脳症の神経徴候（NASH肝硬変便秘契機・昏睡度II度傾眠見当識障害・固定姿勢保持困難asterixis羽ばたき振戦、ans_label修復）／
@@ -838,7 +846,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v320";
+const CACHE = "mec-v321";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
