@@ -1,3 +1,8 @@
+// 2026-09-04d: 呼吸器⑤——ch05 肺循環障害 NO.257〜262 の解説を4ブロック化（平均約9,100字・authored 267/511問）。
+//   NO.257 陰性所見だらけの設問文と致死的胸痛5つ／258 心電図と心エコー図を実測して右心負荷を読む／
+//   259 若年VTEと血栓性素因（日本人で多いもの・いつ測るか）／260 A-aDO2の計算と血液ガス3値の検算／
+//   261 Dダイマーは何の分解産物か（FDPとの違い）／262 造影CTの読みと重症度分類（抗凝固だけでよいのは誰か）。
+//   questions_resp.json を変えたので CACHE を bump（v294 → v295）。
 // 2026-09-04c: 肝胆膵の作り直し①〜④（基盤整備完了）。
 //   - questions_hbp.json: qt 314問（整形外科式へ統一・連問共通ステム展開・旧qt-context全廃）、
 //     badges 418問（巻末解答一覧表から★/必修/CBT/一般/臨床バッジを完全付与）、rate_text 301問（"N%"形式統一＋正答率33問同期）。
@@ -630,7 +635,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v294";
+const CACHE = "mec-v295";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
