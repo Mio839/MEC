@@ -1,3 +1,7 @@
+// 2026-09-04a: iOS WebKit（iPad Safari）における問題カードのレイヤー合成クリッピング不具合を修正。
+//   - study.css: @supports (-webkit-touch-callout: none) および html.ios-no-cv で .qc の contain: none !important と backdrop-filter: none !important を適用。
+//     画像遅延ロード時の包含ブロック再計算スキップおよび初期高さ（約155px）でのGPUテクスチャ焼き付きを解消。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
 // 2026-09-03c: 呼吸器⑤——ch04 間質性疾患 NO.207〜212 の解説を4ブロック化（平均約11,300字・authored 217/511問）。
 //   あわせて ①apply_auth.py にタグの入れ子検査を足し、既に live だった37問56ブロックの <b>/<u> 崩れを修復、
 //   ②NO.210（112C-38）の図の並びを設問文の宣言順（A／B／C①〜⑤）へ直した（画像の中身を保存し直し＋image_dims.json 再生成）。
@@ -618,7 +622,7 @@ const CACHE = "mec-v289";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-01g";
+const SHELL_VERSION = "2026-09-04a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

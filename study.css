@@ -1040,11 +1040,37 @@ mark.sh{background:rgba(255,215,0,.28);color:inherit;border-radius:2px;padding:0
    ② content-visibility:auto は iOS でカードを白く描画する実バグがある（★=少数でも再発を実機確認）。
       一方 visible は正しく描画されるが、全問=約5000枚を一度に描くとページが高すぎて iOS の
       タイル上限を超え下部が白化する。→ **visible を採用して描画を正しくし（下の @supports）**、
-      全問の枚数過多は別途ページング/仮想化で抑える方針（描画枚数の上限化）。 */
-/* iOS 限定でカードの描画スキップ(content-visibility:auto)を無効化。@supports(-webkit-touch-callout)
-   は iOS WebKit のみ真＝UA/JS非依存で Brave でも確実に効く（navigatorのUA判定は保護機能で外れる）。 */
+      全問の枚数過多は別途ページング/仮想化で抑える方針（描画枚数の上限化）。
+   ③ contain: layout style が残っていると、遅延ロード画像でカード高さが伸びた際、
+      iOS WebKit が GPU 合成レイヤーおよび疑似要素（::before/::after）の包含ブロック再計算をスキップし、
+      画像ロード前の初期高さ（約155px）で装飾や背景が切り取られて画像に被る重大バグが発生する。
+      → contain: none !important と backdrop-filter 解除で完全に解消する。 */
+/* iOS 限定でカードの描画スキップ(content-visibility:auto)と contain、backdrop-filter を無効化。
+   @supports(-webkit-touch-callout) は iOS WebKit のみ真＝UA/JS非依存で確実に効く。
+   さらに study.html 冒頭で付与される html.ios-no-cv でも二重に保証する。 */
 @supports (-webkit-touch-callout: none) {
-  .qc{content-visibility:visible;contain-intrinsic-block-size:none;}
+  .qc{
+    content-visibility:visible!important;
+    contain-intrinsic-block-size:none!important;
+    contain:none!important;
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+  }
+  html[class*="ui-"] .qc{
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+  }
+}
+html.ios-no-cv .qc{
+  content-visibility:visible!important;
+  contain-intrinsic-block-size:none!important;
+  contain:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+html.ios-no-cv html[class*="ui-"] .qc{
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
 }
 /* 章ジャンプ中は content-visibility:auto の画面外カード高さが推定値に変わって目標がずれ、
    章まで飛ばず先頭付近で止まる。ジャンプ中だけ全カードのスキップを止めて高さを確定させ、
