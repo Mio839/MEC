@@ -1,3 +1,10 @@
+// 2026-09-05d: 肝胆膵⑤——ch04 肝腫瘍 NO.244〜248 の解説を4ブロック化（平均約3,250字・authored 248/418問、進捗59.3%）。
+//   NO.244 肝癌治療方針の決定因子（Child-Pughの腹水/Bil/脳症/PTは肝予備能直結・成因自体は切除/RFA選択に不関与、ans_label修復）／
+//   NO.245 細菌性肝膿瘍の初期治療（77歳高熱・右季肋部叩打痛・WBC23,100/CRP31に対し抗菌薬＋超音波下PTADドレナージ、ans_label修復）／
+//   NO.246 NASH背景の肝細胞癌（肥満女性メタボ背景多血性HCC・EOB-MRI動脈相早期濃染＋肝細胞相OATP1B3欠損defect・血管腫誤記修正、ans_label修復）／
+//   NO.247 慢性肉芽腫症の肝膿瘍（10歳男児CGD・NADPHオキシダーゼ欠損・カタラーゼ陽性黄色ブドウ球菌による肝膿瘍、ans_label修復）／
+//   NO.248 大腸癌肝転移の切除適応（門脈第一関門捕捉による肝限局病態・R0切除後5年生存率35〜50%・再切除可能、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v335 → v336）。
 // 2026-09-05c: 肝胆膵⑤——ch04 肝腫瘍 NO.238〜243 の解説を4ブロック化（平均約2,950字・authored 243/418問、進捗58.1%）。
 //   NO.238 肝海綿状血管腫の画像所見（良性最多・US均一高エコー・単純CT均一低吸収・アンギオ綿花状濃染Cotton-wool、ans_label修復）／
 //   NO.239 造影CT前のeGFR評価（2連問1/2・造影剤腎症CIN予防のためeGFR 70.1の確認が最重要・メトホルミン併用注意、ans_label修復）／
@@ -964,7 +971,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v335";
+const CACHE = "mec-v336";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
