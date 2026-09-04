@@ -1,3 +1,11 @@
+// 2026-09-04h: 肝胆膵⑤——ch01 肝胆膵の基本 NO.19〜24 の解説を4ブロック化（平均約9,800字・authored 24/418問）。
+//   NO.19 門脈系vs下大静脈系（内腸骨静脈の体循環還流・坐薬と初回通過効果、ans_label誤記修復）／
+//   NO.20 肝予備能指標（Child-PughのAlb・T-Bil・PT vs 逸脱酵素・幕内基準、ans_label誤記修復）／
+//   NO.21 膵島細胞構築（β細胞最多60-70%・δ細胞ソマトスタチン・1型vs2型病理）／
+//   NO.22 胆嚢の組織・生理（粘膜筋板・粘膜下層欠如・肝床部漿膜欠落・CCK収縮・肝細胞での胆汁酸合成）／
+//   NO.23 造影CT肝区域読影（横隔膜直下の右葉前上区S8巨大腫瘤、ans_label誤記修復）／
+//   NO.24 肝細胞非合成蛋白質（血管内皮・巨核球のvon Willebrand因子 vs 肝合成CRP・Hp・C3、ans_label誤記修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v298 → v299）。
 // 2026-09-04g: 肝胆膵⑤——ch01 肝胆膵の基本 NO.13〜18 の解説を4ブロック化（平均約10,500字・authored 18/418問）。
 //   NO.13 肝臓の構造（Cantlie線・外科的左葉S1-S4・短肝静脈IVC流入）／
 //   NO.14 肝左葉切除と切離面露出静脈（正中裂の中肝静脈温存露出）／
@@ -658,7 +666,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v298";
+const CACHE = "mec-v299";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
