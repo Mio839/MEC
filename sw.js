@@ -1,3 +1,11 @@
+// 2026-09-04n: 肝胆膵⑤——ch01 肝胆膵の基本 NO.55〜60 の解説を4ブロック化（平均約10,000字・authored 60/418問）。
+//   NO.55 Gilbert症候群の症候（高間接型Bil血症・UGT1A1活性低下 vs 肥厚性幽門狭窄症/Wilson病/腸重積、ans_label修復）／
+//   NO.56 腹部診察順序（視診→聴診→打診→触診・腸雑音アーチファクト防止・胸部診察との対比、ans_label修復）／
+//   NO.57 灰白色便の胆汁成分（直接Bil→腸内細菌→ステルコビリン欠乏、ans_label修復）／
+//   NO.58 灰白色便をきたす疾患（総胆管結石・膵頭部癌による総胆管閉塞 vs 溶血亢進、ans_label修復）／
+//   NO.59 打診の運動力学（手首のスナップ・左手中指DIP密着・指尖部垂直叩打・跳ね上げ、ans_label修復）／
+//   NO.60 腹部臓器の診察体位（脾臓は右側臥位で重力下垂触知 vs 肝仰臥位/腎双手診/膵前屈坐位、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v304 → v305）。
 // 2026-09-04m: 肝胆膵⑤——ch01 肝胆膵の基本 NO.49〜54 の解説を4ブロック化（平均約10,500字・authored 54/418問）。
 //   NO.49 胆汁うっ滞の吸収障害（ミセル形成不全・脂質および脂溶性Vit K低下・PT延長、ans_label修復）／
 //   NO.50 顕性黄疸の濃度閾値（総Bil 2〜3mg/dL以上・エラスチン親和性・柑皮症との鑑別、ans_label修復）／
@@ -706,7 +714,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v304";
+const CACHE = "mec-v305";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
