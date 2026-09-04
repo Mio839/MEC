@@ -1,3 +1,11 @@
+// 2026-09-04t: 肝胆膵⑤——ch02 急性・慢性肝炎 NO.93〜98 の解説を4ブロック化（平均約10,000字・authored 98/418問）。
+//   NO.93 de Ritis比≦1.0の疾患（急性/慢性肝炎/脂肪肝ALT優位 vs アルコール性/肝硬変AST優位、ans_label修復）／
+//   NO.94 羽ばたき振戦の診察手技（上肢水平挙上・手関節背屈・手指開帳・陰性ミオクローヌス、ans_label修復）／
+//   NO.95 PBCの病理と検査（小葉間胆管CNSDC/類上皮肉芽腫・IgM高値・AMA陽性 vs 胆汁酸低値、ans_label修復）／
+//   NO.96 急性黄疸の初期アプローチ（腹部超音波による胆道閉塞除外先行 vs 造影CT/DLST、ans_label修復）／
+//   NO.97 脂肪肝＋肝癌家族歴（生活改善運動食事指導＋母親肝癌死を考慮した肝炎ウイルス検査、ans_label修復）／
+//   NO.98 NAFLD/MASLDの診断（高度肥満・2型DM・高血圧・他肝疾患除外による代謝性脂肪肝、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v310 → v311）。
 // 2026-09-04s: 肝胆膵⑤——ch02 急性・慢性肝炎 NO.87〜92 の解説を4ブロック化（平均約10,000字・authored 92/418問）。
 //   NO.87 HBV針刺し事故対応（患者HBs抗原+/従事者HBs抗体-で48時間以内HBIG+ワクチン vs 既抗体保有、ans_label修復）／
 //   NO.88 肝炎ウイルスの疫学（C型キャリアは高齢層に偏在・過去の輸血等 vs 全年齢均一は誤り、ans_label修復）／
@@ -756,7 +764,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v310";
+const CACHE = "mec-v311";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
