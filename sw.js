@@ -1,3 +1,11 @@
+// 2026-09-04z: 肝胆膵⑤——ch02 急性・慢性肝炎 NO.129〜134 の解説を4ブロック化（平均約10,000字・authored 134/418問）。
+//   NO.129 NAFLD/MASLDの合併症（インスリン抵抗性を基盤とする2型糖尿病高率合併・ステロイド禁忌、ans_label修復）／
+//   NO.130 輸血後C型慢性肝炎（15歳時輸血歴による感染・トランスアミナーゼ中等度上昇・DAA根治、ans_label修復）／
+//   NO.131 胆汁うっ滞性肝疾患の鑑別（皮膚掻痒・ALP/GTP上昇・高IgM血症のPBCとPSC、ans_label修復）／
+//   NO.132 A型急性肝炎の前駆症状（経口感染・発熱と全身倦怠感の高頻度出現・慢性化なし、ans_label修復）／
+//   NO.133 A型急性肝炎の自然史（IgM-HA陽性・終生免疫獲得で絶対に慢性化しない・劇症化率約0.1%、ans_label修復）／
+//   NO.134 重症アルコール性肝炎の病理（焼酎4合多飲・好中球浸潤・大滴性脂肪沈着・Mallory小体の3徴、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v316 → v317）。
 // 2026-09-04y: 肝胆膵⑤——ch02 急性・慢性肝炎 NO.123〜128 の解説を4ブロック化（平均約10,000字・authored 128/418問）。
 //   NO.123 E型急性肝炎（イノシシ肉ジビエBBQ・潜伏期4週・会食者集団発症・主要肝炎陰性、ans_label修復）／
 //   NO.124 自己免疫性肝炎AIHの自己抗体（中年女性・非飲酒・ALT優位・ZTT高値・ANA/ASMA陽性、ans_label修復）／
@@ -804,7 +812,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v316";
+const CACHE = "mec-v317";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
