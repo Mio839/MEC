@@ -1,3 +1,11 @@
+// 2026-09-04af: 肝胆膵⑤——ch03 肝硬変 NO.167〜172 の解説を4ブロック化（平均約10,000字・authored 172/418問）。
+//   NO.167 肝外門脈閉塞症EHOVO（若年食道静脈瘤・門脈本幹閉塞と海綿状血管変性・肝機能完全保持、ans_label修復）／
+//   NO.168 肝硬変腹水形成の代償機序（有効循環血漿量低下・二次性アルドステロン症・尿Na低下とBUN上昇、ans_label修復）／
+//   NO.169 肝硬変身体所見と振戦（手掌紅斑/くも状血管腫/女性化乳房/メデューサ頭・静止時振戦はParkinson病、ans_label修復）／
+//   NO.170 肝硬変腹水時の輸液選択（正答率16%難問・二次性アルドステロン症下のNa負荷回避で開始液1号液Na 35mEq/L、ans_label修復）／
+//   NO.171 尿中Na低下型低Na血症（肝硬変/心不全は有効循環血漿量低下RAAS/ADH亢進・尿Na<20mEq/L、ans_label修復）／
+//   NO.172 日本の肝硬変成因疫学（DAA普及によるHCV激減・アルコール性肝障害が最多成因へ逆転・NASH急増、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v322 → v323）。
 // 2026-09-04ae: 肝胆膵⑤——ch03 肝硬変 NO.161〜166 の解説を4ブロック化（平均約10,000字・authored 166/418問）。
 //   NO.161 肝予備能評価ICG試験（非代償性肝硬変Child B/CでICG15分停滞率30%前後まで高度停滞・幕内基準、ans_label修復）／
 //   NO.162 ビリルビン代謝と尿濃染（水溶性直接ビリルビンのみ糸球体濾過・間接型はアルブミン結合で尿中出ず、ans_label修復）／
@@ -854,7 +862,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v322";
+const CACHE = "mec-v323";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
