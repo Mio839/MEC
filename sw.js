@@ -1,3 +1,11 @@
+// 2026-09-04m: 肝胆膵⑤——ch01 肝胆膵の基本 NO.49〜54 の解説を4ブロック化（平均約10,500字・authored 54/418問）。
+//   NO.49 胆汁うっ滞の吸収障害（ミセル形成不全・脂質および脂溶性Vit K低下・PT延長、ans_label修復）／
+//   NO.50 顕性黄疸の濃度閾値（総Bil 2〜3mg/dL以上・エラスチン親和性・柑皮症との鑑別、ans_label修復）／
+//   NO.51 肺肝境界（含気肺清音→実質肝濁音の打診手技・触診不適・free air消失、ans_label修復）／
+//   NO.52 腹部触診の愛護的順序（疼痛部から最も遠い部位から開始・随意性筋緊張回避、ans_label修復）／
+//   NO.53 胆汁酸の産生（肝細胞CYP7A1・BSEP分泌 vs Kupffer/星/Pit/胆管上皮の機能）／
+//   NO.54 腹水性状の鑑別（肝硬変は淡黄色透明漏出性 vs 乳び腹水TG著増・悪性リンパ腫、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v303 → v304）。
 // 2026-09-04l: 肝胆膵⑤——ch01 肝胆膵の基本 NO.43〜48 の解説を4ブロック化（平均約9,800字・authored 48/418問）。
 //   NO.43 脾腫の触診解剖（模式図脾切痕・左季肋から臍方向・左腎腫大との完全鑑別、ans_label修復）／
 //   NO.44 悪性胆道閉塞の症候（CT肝内外胆管著明拡張・灰白色便・掻痒感・脂溶性Vit吸収障害、ans_label修復）／
@@ -698,7 +706,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v303";
+const CACHE = "mec-v304";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
