@@ -1,3 +1,11 @@
+// 2026-09-04y: 肝胆膵⑤——ch02 急性・慢性肝炎 NO.123〜128 の解説を4ブロック化（平均約10,000字・authored 128/418問）。
+//   NO.123 E型急性肝炎（イノシシ肉ジビエBBQ・潜伏期4週・会食者集団発症・主要肝炎陰性、ans_label修復）／
+//   NO.124 自己免疫性肝炎AIHの自己抗体（中年女性・非飲酒・ALT優位・ZTT高値・ANA/ASMA陽性、ans_label修復）／
+//   NO.125 劇症肝炎の最多成因（日本の約35〜40%を占めるHBV・キャリア発症/de novo再活性化、ans_label修復）／
+//   NO.126 HBV針刺し事故対応（患者HBs抗原+/受傷者抗体-で48時間以内HBIG受動+HBワクチン能動、ans_label修復）／
+//   NO.127 急性肝炎の臨床症候（倦怠感・食思不振・悪心・発熱・黄疸 vs 頭痛は非典型的、ans_label修復）／
+//   NO.128 PBCの免疫学的特徴（50〜60代女性・血清IgM著明高値・AMA陽性 vs AIHのIgG/ASMA、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v315 → v316）。
 // 2026-09-04x: 肝胆膵⑤——ch02 急性・慢性肝炎 NO.117〜122 の解説を4ブロック化（平均約10,000字・authored 122/418問）。
 //   NO.117 PBCの確定診断マーカー（中高年女性・掻痒・ALP/GTP上昇・CNSDC・抗ミトコンドリア抗体AMA、ans_label修復）／
 //   NO.118 アルコール性肝障害の酵素学的特徴（mAST逸脱/Vit B6欠乏でAST/ALT比>1〜2・比<1は誤り、ans_label修復）／
@@ -796,7 +804,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v315";
+const CACHE = "mec-v316";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
