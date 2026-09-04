@@ -1,3 +1,11 @@
+// 2026-09-04r: 肝胆膵⑤——ch02 急性・慢性肝炎 NO.81〜86 の解説を4ブロック化（平均約10,000字・authored 86/418問）。
+//   NO.81 NASHの病理組織像（大滴性脂肪化/風船化/小葉内炎症 vs ロゼット形成はAIH、ans_label修復）／
+//   NO.82 γ-GTP単独上昇の病態（NASH/アルコール性ミクロソーム酵素誘導 vs 胆管病変ALP上昇、ans_label修復）／
+//   NO.83 慢性肝炎活動性の指標（肝細胞特異的逸脱酵素ALT vs 線維化血小板/予備能Alb/PT、ans_label修復）／
+//   NO.84 発生母地と癌（NASHの母地は肝細胞癌HCC vs 肝内胆管癌CCC、ans_label修復）／
+//   NO.85 アルコール性肝炎の病理3徴（肝細胞風船化・Mallory小体・好中球浸潤 vs リンパ濾胞、ans_label修復）／
+//   NO.86 医原性C型肝炎の感染源（1990年以前の帝王切開時輸血歴・非加熱フィブリノゲン製剤、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v308 → v309）。
 // 2026-09-04q: 肝胆膵⑤——ch02 急性・慢性肝炎 NO.75〜80 の解説を4ブロック化（平均約10,000字・authored 80/418問）。
 //   NO.75 C型慢性肝炎第一選択（経口DAAソホスブビル/グレカプレビル vs IFN/核酸アナログ、ans_label修復）／
 //   NO.76 自己免疫性肝炎急性発症（IgG著増・ANA強陽性・形質細胞浸潤・ステロイド著効 vs IFN/核酸アナログ、ans_label修復）／
@@ -740,7 +748,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v308";
+const CACHE = "mec-v309";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
