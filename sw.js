@@ -1,3 +1,11 @@
+// 2026-09-04k: 肝胆膵⑤——ch01 肝胆膵の基本 NO.37〜42 の解説を4ブロック化（平均約10,000字・authored 42/418問）。
+//   NO.37 肝臓触診の呼吸連動（吸気時横隔膜下降・膝屈曲位・腹式深呼吸、ans_label修復）／
+//   NO.38 腹水の身体診察（波動fluid wave・皮下脂肪遮断手技・移動性濁音・水たまり徴候、ans_label修復）／
+//   NO.39 閉塞性黄疸の症候（直接Bil優位・灰白色便・ステルコビリン枯渇・Courvoisier、ans_label修復）／
+//   NO.40 膵内分泌機能検査（75g OGTT・内分泌vs外分泌BT-PABA、ans_label修復）／
+//   NO.41 肝切除術式（造影CT巨大HCC・右葉＋S4占拠・右3区域切除・Makuuchi基準、ans_label修復）／
+//   NO.42 肝臓の脈管解剖（右肝静脈RHV・前区域と後区域境界・Cantlie線・胎児循環遺残、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v301 → v302）。
 // 2026-09-04j: 肝胆膵⑤——ch01 肝胆膵の基本 NO.31〜36 の解説を4ブロック化（平均約9,500字・authored 36/418問）。
 //   NO.31 移動性濁音の手技（仰臥位→側臥位30-60秒待機・Puddle徴候）／
 //   NO.32 腹膜刺激徴候の手技（Blumberg指先圧迫解放・愛護的原則・咳テスト、ans_label修復）／
@@ -682,7 +690,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v301";
+const CACHE = "mec-v302";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
