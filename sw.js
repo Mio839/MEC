@@ -1,3 +1,11 @@
+// 2026-09-04v: 肝胆膵⑤——ch02 急性・慢性肝炎 NO.105〜110 の解説を4ブロック化（平均約10,000字・authored 110/418問）。
+//   NO.105 羽ばたき振戦の誘発肢位（手関節背屈・手指開帳・陰性ミオクローヌス・肝性脳症/CO2/尿毒症、ans_label修復）／
+//   NO.106 急性肝炎の重症度評価（短半減期凝固第VII因子を反映するPT時間/PT-INR・劇症化警戒、ans_label修復）／
+//   NO.107 ウイルス肝炎の診断抗体（B型急性肝炎は高力価IgM-HBc抗体・HBe抗体は感染性低下指標、ans_label修復）／
+//   NO.108 HBV増殖抑制薬（逆転写酵素阻害核酸アナログ製剤ラミブジン・ETV/TAFの先駆薬・cccDNA残存、ans_label修復）／
+//   NO.109 アルコール性肝障害の生活指導（日本酒3合過剰飲酒・酵素誘導γ-GTP単独上昇・節酒禁酒、ans_label修復）／
+//   NO.110 PBCの薬物治療（中高年女性・掻痒・黄疸・AMA陽性・第一選択UDCA・不応時ベザフィブラート、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v312 → v313）。
 // 2026-09-04u: 肝胆膵⑤——ch02 急性・慢性肝炎 NO.99〜104 の解説を4ブロック化（平均約10,000字・authored 104/418問）。
 //   NO.99 劇症肝炎の成因と予後（非B型成因不明/薬物アレルギー性で死亡率・移植率高値 vs B型・A型、ans_label修復）／
 //   NO.100 C型慢性肝炎の治療標的（非構造蛋白質NS3/4Aプロテアーゼ・NS5A・NS5Bポリメラーゼ阻害DAA、ans_label修復）／
@@ -772,7 +780,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v312";
+const CACHE = "mec-v313";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
