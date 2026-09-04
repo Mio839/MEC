@@ -1,3 +1,11 @@
+// 2026-09-05c: 肝胆膵⑤——ch04 肝腫瘍 NO.238〜243 の解説を4ブロック化（平均約2,950字・authored 243/418問、進捗58.1%）。
+//   NO.238 肝海綿状血管腫の画像所見（良性最多・US均一高エコー・単純CT均一低吸収・アンギオ綿花状濃染Cotton-wool、ans_label修復）／
+//   NO.239 造影CT前のeGFR評価（2連問1/2・造影剤腎症CIN予防のためeGFR 70.1の確認が最重要・メトホルミン併用注意、ans_label修復）／
+//   NO.240 細菌性肝膿瘍の穿刺ドレナージ（2連問2/2・Gram陰性桿菌・糖尿病合併肝膿瘍に対する超音波下PTAD＋抗菌薬、ans_label修復）／
+//   NO.241 発癌性病原体の対応（HCV→肝細胞癌・H.pylori→胃癌・HPV→子宮頸癌・HTLV-1→ATLの完全対比、ans_label修復）／
+//   NO.242 肝切除術前評価の除外項目（AFPは腫瘍マーカーでありChild-PughやICG等の肝予備能・耐術能指標ではない、ans_label修復）／
+//   NO.243 肝胆膵疾患と第一選択治療（多発肝細胞癌に対するTACE・胆嚢癌への腹腔鏡禁忌・急性胆管炎緊急減圧、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v334 → v335）。
 // 2026-09-05b: 肝胆膵⑤——ch04 肝腫瘍 NO.232〜237 の解説を4ブロック化（平均約2,900字・authored 237/418問、進捗56.7%）。
 //   NO.232 肝移植の適応（正答率19%・2cm単発Milan基準内HCC合併Child-Pugh C非代償性肝硬変に対する唯一の根治治療、ans_label修復）／
 //   NO.233 生体肝移植の非再建管（胆嚢摘出のため胆嚢管は再建せず・再建するのは肝動脈/肝静脈/門脈/胆管の4者、ans_label修復）／
@@ -956,7 +964,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v334";
+const CACHE = "mec-v335";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
