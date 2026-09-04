@@ -1,3 +1,11 @@
+// 2026-09-04p: 肝胆膵⑤——ch02 急性・慢性肝炎 NO.69〜74 の解説を4ブロック化（平均約10,000字・authored 74/418問）。
+//   NO.69 2型糖尿病初発スクリーニング（腹部超音波検査によるMASLD・膵病変精査 vs 肝生検/ERCP、ans_label修復）／
+//   NO.70 B型慢性肝炎・代償性肝硬変治療（核酸アナログ製剤ETV/TAF vs グリチルリチン/ステロイド/DAA、ans_label修復）／
+//   NO.71 E型急性肝炎（猪肉ジビエ鍋・加熱不十分・潜伏期4週・妊婦劇症化警戒 vs HAV/Campylobacter、ans_label修復）／
+//   NO.72 PBC非代償期移行例（皮膚瘙痒先行・IgM/ALP著増・抗ミトコンドリア抗体AMA測定 vs 肝生検禁忌、ans_label修復）／
+//   NO.73 NAFLD/MASLD生活指導（体重減量・栄養指導・運動量増加の3大原則 vs 最初から投薬、ans_label修復）／
+//   NO.74 肝生検の適応疾患（AIH界面肝炎/形質細胞・NASH風船様変性/線維化 vs Gilbert/Budd-Chiari、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v306 → v307）。
 // 2026-09-04o: 肝胆膵⑤——ch01 肝胆膵の基本 NO.61〜68 の解説を4ブロック化（平均約10,000字・authored 68/418問、第1章完走！）。
 //   NO.61 閉塞性黄疸の症候（腹部膨満は非症候 vs 黄疸/掻痒/濃褐色尿/灰白色便、ans_label修復）／
 //   NO.62 触診で異常な臓器（脾臓は正常では触知不能・触知＝脾腫 vs 肝下縁/右腎/大動脈/腰椎、ans_label修復）／
@@ -724,7 +732,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v306";
+const CACHE = "mec-v307";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
