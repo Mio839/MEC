@@ -29,6 +29,7 @@ BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PDFS = {
     'circ': os.path.join('MEC問題文pdf', 'MEC臓器別講座・循環器_問題（表紙2026）.pdf'),
     'resp': os.path.join('MEC問題文pdf', 'MEC臓器別講座・呼吸器_問題（表紙2026）.pdf'),
+    'hbp': os.path.join('MEC問題文pdf', 'MEC臓器別講座・肝胆膵_問題（表紙2026）.pdf'),
 }
 
 COLS = [('no', 0), ('ans', 62), ('kid', 95), ('type', 145), ('cbt', 165),
