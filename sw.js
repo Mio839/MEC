@@ -1,3 +1,11 @@
+// 2026-09-04i: 肝胆膵⑤——ch01 肝胆膵の基本 NO.25〜30 の解説を4ブロック化（平均約9,800字・authored 30/418問）。
+//   NO.25 癌性腹膜炎（胃癌Virchow転移・血性腹水・低SAAG・利尿薬抵抗性、ans_label修復）／
+//   NO.26 閉塞性黄疸の尿所見（水溶性抱合型Bil尿中排泄・ウロビリノーゲン陰性化・振盪試験）／
+//   NO.27 胆道流体力学（CCKによる胆嚢収縮＋Oddi弛緩・空腹時内圧差流入、ans_label修復）／
+//   NO.28 血漿アルブミン半減期21日（FcRnリサイクリング・迅速回転蛋白との対比）／
+//   NO.29 閉塞性黄疸の生化学パターン（下部胆管癌・ALP著増・直接Bil優位・Courvoisier徴候、ans_label誤記修復）／
+//   NO.30 腹部診察順序（視診→聴診→打診→触診・腸雑音変容防止・胸部診察との対比）。
+//   questions_hbp.json を変えたので CACHE を bump（v299 → v300）。
 // 2026-09-04h: 肝胆膵⑤——ch01 肝胆膵の基本 NO.19〜24 の解説を4ブロック化（平均約9,800字・authored 24/418問）。
 //   NO.19 門脈系vs下大静脈系（内腸骨静脈の体循環還流・坐薬と初回通過効果、ans_label誤記修復）／
 //   NO.20 肝予備能指標（Child-PughのAlb・T-Bil・PT vs 逸脱酵素・幕内基準、ans_label誤記修復）／
@@ -666,7 +674,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v299";
+const CACHE = "mec-v300";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
