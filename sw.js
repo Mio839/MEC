@@ -1,3 +1,13 @@
+// 2026-09-04ab: 肝胆膵⑤——ch02 急性・慢性肝炎 NO.141〜148 の解説を4ブロック化（平均約10,000字・authored 148/418問、第2章全80問完走！）。
+//   NO.141 アルコール性肝障害の3徴（肝腫大・γ-GTP著増・中性脂肪沈着・AST優位 vs 白血球増多、ans_label修復）／
+//   NO.142 劇症肝炎の定義と治療（PT活性40%以下必須・肝移植が唯一の根治療法・亜急性型予後最悪、ans_label修復）／
+//   NO.143 自己免疫性肝炎AIHの特徴（活動性肝炎・SLEと対比し糸球体腎炎合併低率・ステロイド著効、ans_label修復）／
+//   NO.144 B型急性肝炎の極期血清像（性交3か月後・高力価IgM-HBc陽性・IgG-HBc陰性・HBe抗原陽性、ans_label修復）／
+//   NO.145 自己免疫疾患の抗体対応（AIHの抗核抗体ANA・PBCの抗ミトコンドリア抗体AMA、ans_label修復）／
+//   NO.146 急性肝障害の重症度指標（短半減期凝固第VII因子を反映するPT時間/PT-INRが最有用、ans_label修復）／
+//   NO.147 慢性肝障害の重症度指標（肝実質合成能・予備能を反映する血清アルブミン値・Child-Pugh、ans_label修復）／
+//   NO.148 HBVの予防と特性（組換えHBワクチンの確立・中和抗体HBs抗体・母子感染予防でキャリア激減、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v318 → v319）。
 // 2026-09-04aa: 肝胆膵⑤——ch02 急性・慢性肝炎 NO.135〜140 の解説を4ブロック化（平均約10,000字・authored 140/418問）。
 //   NO.135 A型急性肝炎の臨床像（東南アジア渡航1か月後・発熱悪心からの黄疸肝腫大・経口感染、ans_label修復）／
 //   NO.136 劇症肝炎の致死病態（高アンモニア血症アストロサイト腫脹・脳浮腫頭蓋内圧亢進・低血糖、ans_label修復）／
@@ -820,7 +830,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v318";
+const CACHE = "mec-v319";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
