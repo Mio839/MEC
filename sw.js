@@ -1,3 +1,11 @@
+// 2026-09-04j: 肝胆膵⑤——ch01 肝胆膵の基本 NO.31〜36 の解説を4ブロック化（平均約9,500字・authored 36/418問）。
+//   NO.31 移動性濁音の手技（仰臥位→側臥位30-60秒待機・Puddle徴候）／
+//   NO.32 腹膜刺激徴候の手技（Blumberg指先圧迫解放・愛護的原則・咳テスト、ans_label修復）／
+//   NO.33 間接Bil優位黄疸（溶血性貧血・ハプトグロビン枯渇・LD著増・網赤血球）／
+//   NO.34 Gilbert症候群の管理（Hp正常・溶血否定・翌年の健診受診指示）／
+//   NO.35 上腹部脈管解剖（脾動脈・SMAと十二指腸水平部交叉・SMA症候群、ans_label修復）／
+//   NO.36 間接Bil優位の2大疾患（溶血性貧血・Gilbert症候群 vs Dubin/Rotor/総胆管結石）。
+//   questions_hbp.json を変えたので CACHE を bump（v300 → v301）。
 // 2026-09-04i: 肝胆膵⑤——ch01 肝胆膵の基本 NO.25〜30 の解説を4ブロック化（平均約9,800字・authored 30/418問）。
 //   NO.25 癌性腹膜炎（胃癌Virchow転移・血性腹水・低SAAG・利尿薬抵抗性、ans_label修復）／
 //   NO.26 閉塞性黄疸の尿所見（水溶性抱合型Bil尿中排泄・ウロビリノーゲン陰性化・振盪試験）／
@@ -674,7 +682,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v300";
+const CACHE = "mec-v301";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
