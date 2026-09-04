@@ -1,3 +1,11 @@
+// 2026-09-04ak: 肝胆膵⑤——ch03 肝硬変 NO.196〜201 の解説を4ブロック化（平均約16,000字・authored 201/418問）。
+//   NO.196 SBP合併AKIの造影剤禁忌（Cr 4.5mg/dLで造影剤腎症CINリスクのため造影CTは絶対禁忌・単純CT/MRI、ans_label修復）／
+//   NO.197 躯幹静脈怒張と血流方向（SVC症候群は上から下への下行性・IVC/Budd-Chiariは上行性・門脈圧亢進は放射状、ans_label修復）／
+//   NO.198 肝硬変腹水の性状（3連問1/3・門脈圧亢進低Albによる漏出性腹水transudateは淡黄色透明・SAAG≧1.1、ans_label修復）／
+//   NO.199 腹水患者の食事制限（3連問2/3正答率31%・二次性アルドステロン症下の大量腹水には塩分制限・アンモニア正常で蛋白制限不要、ans_label修復）／
+//   NO.200 低Alb血症下の利尿薬併用（3連問3/3・Alb 2.1g/dLで膠質浸透圧回復・利尿増強のため高張アルブミン製剤併用、ans_label修復）／
+//   NO.201 肝硬変でみられない所見（表在リンパ節腫脹は悪性リンパ腫・感染症等の所見で肝硬変ではみられない、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v327 → v328）。
 // 2026-09-04aj: 肝胆膵⑤——ch03 肝硬変 NO.190〜195 の解説を4ブロック化（平均約18,000字・authored 195/418問）。
 //   NO.190 昏睡患者の救急初期対応（3連問1/3・誤嚥窒息の危険から経腸栄養は絶対禁忌・ルート/心電図/血ガス/導尿優先、ans_label修復）／
 //   NO.191 飲酒者昏睡の鑑別採血（3連問2/3・肝性脳症のアンモニア＋Wernicke脳症/脚気心のビタミンB1治療前採血、ans_label修復）／
@@ -893,7 +901,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v327";
+const CACHE = "mec-v328";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
