@@ -1,3 +1,11 @@
+// 2026-09-04s: 肝胆膵⑤——ch02 急性・慢性肝炎 NO.87〜92 の解説を4ブロック化（平均約10,000字・authored 92/418問）。
+//   NO.87 HBV針刺し事故対応（患者HBs抗原+/従事者HBs抗体-で48時間以内HBIG+ワクチン vs 既抗体保有、ans_label修復）／
+//   NO.88 肝炎ウイルスの疫学（C型キャリアは高齢層に偏在・過去の輸血等 vs 全年齢均一は誤り、ans_label修復）／
+//   NO.89 B型急性肝炎（歓楽街性交渉2か月後・急性初感染の確定マーカーIgM-HBc抗体 vs HAV/HCV、ans_label修復）／
+//   NO.90 劇症肝炎の3大合併症（高NH3脳浮腫・糖新生停止低血糖・凝固枯渇出血傾向 vs 低体温/徐呼吸、ans_label修復）／
+//   NO.91 介護施設HBV感染対策（介護者への周知と標準予防策手袋遵守 vs 個室隔離/入浴制限は不要、ans_label修復）／
+//   NO.92 HBV母子感染防止（生後12時間以内HBIG受動免疫+HBワクチン3回能動免疫で垂直遮断95%以上、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v309 → v310）。
 // 2026-09-04r: 肝胆膵⑤——ch02 急性・慢性肝炎 NO.81〜86 の解説を4ブロック化（平均約10,000字・authored 86/418問）。
 //   NO.81 NASHの病理組織像（大滴性脂肪化/風船化/小葉内炎症 vs ロゼット形成はAIH、ans_label修復）／
 //   NO.82 γ-GTP単独上昇の病態（NASH/アルコール性ミクロソーム酵素誘導 vs 胆管病変ALP上昇、ans_label修復）／
@@ -748,7 +756,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v309";
+const CACHE = "mec-v310";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
