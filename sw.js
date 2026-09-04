@@ -1,3 +1,11 @@
+// 2026-09-04ac: 肝胆膵⑤——ch03 肝硬変 NO.149〜154 の解説を4ブロック化（平均約10,000字・authored 154/418問、第3章開幕！）。
+//   NO.149 非代償性肝硬変の腹水管理（禁酒・塩分制限5〜7g/日・スピロノラクトン第一選択・好中球陰性でSBP否定的、ans_label修復）／
+//   NO.150 肝性脳症の神経徴候（NASH肝硬変便秘契機・昏睡度II度傾眠見当識障害・固定姿勢保持困難asterixis羽ばたき振戦、ans_label修復）／
+//   NO.151 肝性脳症のアミノ酸代謝（Fischer比低下アミノ酸インバランス・偽性神経伝達物質遮断・BCAA製剤点滴、ans_label修復）／
+//   NO.152 門脈圧亢進症と脾腫（肝硬変/Budd-Chiari/住血吸虫/IPHは脾腫・良性体質性黄疸Rotor症候群は脾腫なし、ans_label修復）／
+//   NO.153 肝性脳症の増悪誘因（消化管出血/便秘/高蛋白食/脱水低K血症/感染症/BZD・蛋白制限は治療介入で誘因外、ans_label修復）／
+//   NO.154 SVR後HCCサーベイランス（DAAウイルス排除後も高度線維化で発癌持続・腹部超音波＋AFP/PIVKA-II定期検査、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v319 → v320）。
 // 2026-09-04ab: 肝胆膵⑤——ch02 急性・慢性肝炎 NO.141〜148 の解説を4ブロック化（平均約10,000字・authored 148/418問、第2章全80問完走！）。
 //   NO.141 アルコール性肝障害の3徴（肝腫大・γ-GTP著増・中性脂肪沈着・AST優位 vs 白血球増多、ans_label修復）／
 //   NO.142 劇症肝炎の定義と治療（PT活性40%以下必須・肝移植が唯一の根治療法・亜急性型予後最悪、ans_label修復）／
@@ -830,7 +838,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v319";
+const CACHE = "mec-v320";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
