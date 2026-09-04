@@ -1,3 +1,8 @@
+// 2026-09-04b: 呼吸器⑤——ch05 肺循環障害 NO.251〜256 の解説を4ブロック化（平均約10,700字・authored 261/511問）。
+//   NO.251 失神を「血が止まっている場所」で並べる／252 CTEPHで検査が2つ要る理由と頸静脈圧の読み方／
+//   253 SLEが胸に起こすこと／254 吸気の生理（奇脈とKussmaul徴候）／255 肺の毛細血管というふるいと孤立性肺結節／
+//   256 抗凝固薬をカスケードのどこで止めるかで並べる。
+//   questions_resp.json を変えたので CACHE を bump（v292 → v293）。
 // 2026-09-04a: iOS WebKit（iPad Safari）における問題カードのレイヤー合成クリッピング不具合を修正。
 //   - study.css: @supports (-webkit-touch-callout: none) および html.ios-no-cv で .qc の contain: none !important と backdrop-filter: none !important を適用。
 //     画像遅延ロード時の包含ブロック再計算スキップおよび初期高さ（約155px）でのGPUテクスチャ焼き付きを解消。
@@ -617,7 +622,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v292";
+const CACHE = "mec-v293";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
