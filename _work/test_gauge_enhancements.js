@@ -126,11 +126,14 @@ t('Abyss: 潜水艇角丸長方形コンソールと左右垂直深度バーが�
   assert.ok(HTML.includes('aProgL.setAttribute(\'height\''), '_driveThemeGauge 内の垂直深度バー制御が無い');
 });
 
-t('Frost: 正六角形スノークリスタルと六花氷結成長メカニクスが存在する', () => {
+t('Frost: 六花スノークリスタル（樹枝状幾何学）と氷晶アイスコメット周回軌道が存在する', () => {
   assert.ok(HTML.includes('frost-hex-rim'), 'frost-hex-rim が無い');
   assert.ok(HTML.includes('frost-hex-inner'), 'frost-hex-inner が無い');
-  assert.ok(HTML.includes('frost-axes-lines'), 'frost-axes-lines が無い');
+  assert.ok(HTML.includes('frost-snowflake-dendrite'), 'frost-snowflake-dendrite が無い');
+  assert.ok(HTML.includes('id="frostCometOrbit"'), 'frostCometOrbit が無い');
   assert.ok(HTML.includes('id="frostFreezeProg"'), 'frostFreezeProg が無い');
+  assert.ok(!HTML.includes('class="frost-axes-lines"'), '旧来のターゲット照準軸線 frost-axes-lines が残存している');
+  assert.ok(!HTML.includes('class="frost-shard'), '旧来のターゲット照準マーカー frost-shard が残存している');
 });
 
 console.log('── Celestial新演出（月齢ムーンフェイズ＆流星コメット）＆Brass歯車漏れ防止 検証 ──');
