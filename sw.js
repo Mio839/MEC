@@ -1,3 +1,5 @@
+// 2026-09-05ak: Celestialの点線円演出（旧cel-layer・dashedボーダー・absorber着弾astrolabe・ui_theme切替）を完全撤廃し神聖な星屑・星光演出へ刷新。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-05f → 2026-09-05g）。
 // 2026-09-05aj: CelestialのHeroゲージ演出を【月齢ムーンフェイズ＆流星コメット周回】へ刷新（丸玉と点線円の完全撤廃）＋Brass歯車演出の他テーマ漏れ防止（タイマーライフサイクル制御＆厳格ガード）。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-05e → 2026-09-05f）。
 // 2026-09-05ai: HeroゲージプランB採用（非円形4テーマ［Cyber角型戦術HUD/Frost正六角形/Abyss潜水艇角丸長方形＋垂直深度バー/Aurora菱形］＋円形4テーマ［Liquid Lava Lampフヨフヨ有機的モーフィング流体＆浮遊液滴/Brass真鍮気圧計/Celestial天球儀/Kintsugi金継ぎ陶器］）完全差別化実装。
@@ -1210,7 +1212,7 @@ const CACHE = "mec-v367";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-05f";
+const SHELL_VERSION = "2026-09-05g";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

@@ -118,8 +118,10 @@
       if (MecFX.kintsugiCrack) MecFX.kintsugiCrack(cx, cy, { maxR: 240 });
       else if (MecFX.sparks) MecFX.sparks(cx, cy, { count: 20, colors: ['#F5D061', '#D9383A', '#FFFFFF'] });
     } else if (id === 'celestial') {
-      if (MecFX.celestialAstrolabe) MecFX.celestialAstrolabe(cx, cy, { maxR: 260 });
-      else if (MecFX.astrolabeRings) MecFX.astrolabeRings(cx, cy, { maxR: 260, color: '#FFD166' });
+      if (MecFX.diamondSparkle) MecFX.diamondSparkle(cx, cy, { count: 36, colors: ['#FFD166', '#FFFDF0', '#8A2BE2'], additive: true });
+      if (MecFX.stars) MecFX.stars(cx, cy, { count: 20, colors: ['#FFD166', '#8A2BE2', '#48CAE4'] });
+      if (MecFX.dust) MecFX.dust({ count: 28, colors: ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFDF0'] });
+      if (MecFX.burst) MecFX.burst(cx, cy, { count: 24, colors: ['#FFFDF0', '#FFD166', '#8A2BE2'], shapes: ['star', 'gem'], speed: 380, glow: true });
     } else if (id === 'abyss') {
       if (MecFX.abyssSonarPulse) MecFX.abyssSonarPulse(cx, cy, { maxR: 240 });
       else if (MecFX.rippleInterference) MecFX.rippleInterference(cx, cy, { maxR: 240, color: '#00FFA3' });

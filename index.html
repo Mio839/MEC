@@ -1228,9 +1228,9 @@ html.ui-frost .od-frost{display:inline;}
 .od-kintsugi .gold-ray{stroke:#FFD700;stroke-width:1.5;filter:drop-shadow(0 0 6px #FFD700);animation:kintsugiRayPulse 1.2s ease-in-out infinite alternate;}
 @keyframes kintsugiRayPulse{0%{opacity:.3;stroke-width:1;}100%{opacity:1;stroke-width:2.5;}}
 
-/* Celestial: 天球儀多重ジャイロ回転 */
-.od-celestial .gyro-ring{fill:none;stroke:#FFD166;stroke-width:1.5;stroke-dasharray:24 12;animation:casingSpin 2s linear infinite reverse;}
-.od-celestial .supernova-star{fill:#FFF;filter:drop-shadow(0 0 8px #FFD166);animation:supernovaPulse .9s ease-in-out infinite alternate;}
+/* Celestial: 星光コロナリング ＆ 超新星パルス（点線は完全撤廃） */
+.od-celestial .gyro-ring{fill:none;stroke:url(#celMoonGrad);stroke-width:1.8;stroke-dasharray:none;opacity:.85;filter:drop-shadow(0 0 8px #FFD166);animation:celHaloBreathe 2s ease-in-out infinite alternate;}
+.od-celestial .supernova-star{fill:#FFFDF0;filter:drop-shadow(0 0 10px #FFD166) drop-shadow(0 0 20px rgba(138,43,226,.9));animation:supernovaPulse .9s ease-in-out infinite alternate;}
 @keyframes supernovaPulse{0%{transform:scale(.8);}100%{transform:scale(1.3);}}
 
 /* Abyss: 水深MAX警告＆超高周波バイオフラッシュ */
@@ -1293,7 +1293,13 @@ html.ui-kintsugi .gauge-pacer-ghost, html.ui-kintsugi .gauge-pulse-trk,
 html.ui-celestial .gauge-trk, html.ui-celestial .gauge-val, html.ui-celestial .gauge-ovf, html.ui-celestial .gauge-dot,
 html.ui-celestial .gauge-crown-orbit, html.ui-celestial .gauge-megaring, html.ui-celestial .gauge-heatsink,
 html.ui-celestial .doctor-casing-layer, html.ui-celestial .gauge-milestones, html.ui-celestial .gauge-surge-wave,
-html.ui-celestial .gauge-pacer-ghost, html.ui-celestial .gauge-pulse-trk {
+html.ui-celestial .gauge-pacer-ghost, html.ui-celestial .gauge-pulse-trk,
+html.ui-celestial .cel-layer, html.ui-celestial #gaugeCelLayer, html.ui-celestial .casing-celestial {
+  display: none !important;
+}
+/* Celestial: 点線外枠（::after dashed）を完全撤廃 */
+html.ui-celestial .gauge-ring::after {
+  border: none !important;
   display: none !important;
 }
 
@@ -4238,8 +4244,9 @@ function _runExamToHubAbsorber(targetPct, payload) {
         if (MecFX.slashRibbon) MecFX.slashRibbon(targetX, targetY, { color: '#F5D061', len: 260 });
         MecFX.burst(targetX, targetY, { count: 20, colors: ['#F5D061', '#D4AF37', '#FFFFFF'], shapes: ['shard'], speed: 420 });
       } else if (curTheme === 'celestial') {
-        if (MecFX.astrolabeRings) MecFX.astrolabeRings(targetX, targetY, { maxR: 160, rings: 3, color: '#FFD166', speed: 2.2 });
-        MecFX.burst(targetX, targetY, { count: 30, colors: ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFFFF'], shapes: ['star', 'gem'], speed: 440, tier: 4 });
+        if (MecFX.diamondSparkle) MecFX.diamondSparkle(targetX, targetY, { count: 32, colors: ['#FFFDF0', '#FFD166', '#8A2BE2'], additive: true });
+        if (MecFX.dust) MecFX.dust({ count: 24, colors: ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFDF0'] });
+        MecFX.burst(targetX, targetY, { count: 34, colors: ['#FFFDF0', '#FFD166', '#8A2BE2', '#48CAE4', '#FFFFFF'], shapes: ['star', 'gem'], speed: 440, tier: 4, glow: true });
       } else if (curTheme === 'abyss') {
         if (MecFX.rippleInterference) MecFX.rippleInterference(targetX, targetY, { maxR: 150, color: '#00FFA3' });
         if (MecFX.sonicWave) MecFX.sonicWave(targetX, targetY, { maxR: 140, color: '#00B4D8' });
