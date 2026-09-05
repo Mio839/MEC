@@ -103,9 +103,10 @@
       if (MecFX.rings) MecFX.rings(cx, cy, { count: 3, maxR: 240, color: '#0070F3', additive: true });
       if (MecFX.stars) MecFX.stars(cx, cy, { count: 16, color: '#7928CA' });
     } else if (id === 'brass') {
-      if (MecFX.astrolabeRings) MecFX.astrolabeRings(cx, cy, { maxR: 220, color: '#FFD700' });
-      if (MecFX.gears) MecFX.gears(cx, cy, { count: 8, spread: 260, w: 24 });
-      if (MecFX.sparkFountain) MecFX.sparkFountain(cx, cy, { count: 16, color: '#E0C25E' });
+      if (MecFX.irisShutter) MecFX.irisShutter(cx, cy, { maxR: 220, blades: 12, color: '#FFD700', thickness: 3 });
+      if (MecFX.gears) MecFX.gears(cx, cy, { count: 12, spread: 280, w: 24 });
+      if (MecFX.steam) MecFX.steam(cx, cy, { count: 8, w: 60, rise: 120, alpha: 0.35 });
+      if (MecFX.sparkFountain) MecFX.sparkFountain(cx, cy, { count: 18, color: '#E0C25E' });
     } else if (id === 'cyber') {
       if (MecFX.glitchBars) MecFX.glitchBars(cx, cy, { count: 12, color: '#00E5FF' });
       if (MecFX.defibShock) MecFX.defibShock(cx, cy, { color: '#00FF66' });

@@ -4968,8 +4968,8 @@ html.ui-brass .gauge .gauge-ring::before {
   position: absolute;
   inset: -2px;
   border-radius: 50%;
-  border: 1.5px dashed rgba(224, 194, 94, 0.4);
-  box-shadow: inset 0 0 12px rgba(184, 134, 11, 0.35), 0 0 10px rgba(201, 162, 39, 0.25);
+  border: 2px solid rgba(224, 194, 94, 0.6);
+  box-shadow: inset 0 0 14px rgba(184, 134, 11, 0.4), 0 0 10px rgba(201, 162, 39, 0.3);
   animation: gearSpin var(--brass-ring-t, 36s) linear infinite;
   pointer-events: none;
 }
@@ -4979,7 +4979,7 @@ html.ui-brass .gauge .gauge-ring::after {
   position: absolute;
   inset: 8px;
   border-radius: 50%;
-  border: 1px dotted rgba(255, 235, 150, 0.35);
+  border: 1.2px solid rgba(255, 235, 150, 0.45);
   animation: gearSpin calc(var(--brass-ring-t, 36s) * 0.65) linear infinite reverse;
   pointer-events: none;
 }
@@ -5155,8 +5155,8 @@ html.ui-cyber .gauge .gauge-ring::after {
   position: absolute;
   inset: 2px;
   border-radius: 50%;
-  border: 2px dashed rgba(0, 255, 157, 0.75);
-  box-shadow: 0 0 18px rgba(0, 255, 157, 0.55);
+  border: 1.5px solid rgba(0, 255, 157, 0.75);
+  box-shadow: 0 0 14px rgba(0, 255, 157, 0.5);
   animation: cyberRadarSweep var(--cyber-reticle-t, 9s) linear infinite reverse;
   pointer-events: none;
 }
@@ -5432,8 +5432,8 @@ html.ui-kintsugi .gauge .gauge-ring::after {
   position: absolute;
   inset: 4px;
   border-radius: 50%;
-  border: 1.5px dashed rgba(245, 208, 97, 0.5);
-  box-shadow: inset 0 0 12px rgba(217, 56, 58, 0.25);
+  border: 1.5px solid rgba(245, 208, 97, 0.45);
+  box-shadow: inset 0 0 12px rgba(217, 56, 58, 0.25), 0 0 10px rgba(245, 208, 97, 0.35);
   animation: kintsugiDustDrift calc(var(--kintsugi-drift-t, 18s) * 0.7) linear infinite reverse;
   pointer-events: none;
 }
@@ -5969,8 +5969,8 @@ html.ui-frost .gauge .gauge-ring::after {
   position: absolute;
   inset: -1px;
   border-radius: 50%;
-  border: 1.5px dashed rgba(255, 255, 255, 0.75);
-  box-shadow: inset 0 0 16px rgba(160, 231, 229, 0.4);
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  box-shadow: inset 0 0 16px rgba(160, 231, 229, 0.4), 0 0 10px rgba(112, 214, 255, 0.45);
   animation: frostCrystalSlowPulse calc(var(--frost-crystal-t, 14s) * 0.75) ease-in-out infinite alternate;
   pointer-events: none;
 }

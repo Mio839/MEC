@@ -46,8 +46,8 @@ test('MecFX に 5つの新エミッタが公開されている', () => {
 });
 
 console.log('── 4. index.html: ハブの _gaugeCelebrate と _stampGoalSeal での活用 ──');
-test('index.html で新同心円アニメーションが呼ばれている', () => {
-  assert(indexSrc.includes('MecFX.astrolabeRings'), 'Missing astrolabeRings in index.html');
+test('index.html で同心円アニメーション（アイリス・クロノス・ベアリング等）が活用され、点線円(astrolabe)は撤廃されている', () => {
+  assert(!indexSrc.includes('MecFX.astrolabeRings'), 'astrolabeRings must be removed from index.html');
   assert(indexSrc.includes('MecFX.irisShutter'), 'Missing irisShutter in index.html');
   assert(indexSrc.includes('MecFX.rippleInterference'), 'Missing rippleInterference in index.html');
   assert(indexSrc.includes('MecFX.chronosDial'), 'Missing chronosDial in index.html');

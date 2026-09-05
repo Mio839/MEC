@@ -100,16 +100,17 @@ t('CSS内に全8テーマの表示切り替えと共通円形パーツ非表示�
 
 console.log('── プランB（非円形4種＋円形4種＆Lava Lamp流体）詳細検証 ──');
 
-t('Liquid: 外枠アメーバ変形と内部の蛍光流体ダブルウェーブ充填＆ネオン気泡が定義されている', () => {
+t('Liquid: 外枠アメーバ変形と内部のデュアル・マーブル・ヴォルテックス（渦潮＆2色対流混色）が定義されている', () => {
   assert.ok(HTML.includes('id="lavaChamber"'), 'lavaChamber が見つからない');
-  assert.ok(HTML.includes('id="liquidWaveGroup"'), 'liquidWaveGroup が見つからない');
-  assert.ok(HTML.includes('class="liquid-wave-front"'), 'liquid-wave-front が見つからない');
-  assert.ok(HTML.includes('class="liquid-wave-back"'), 'liquid-wave-back が見つからない');
-  assert.ok(HTML.includes('class="liquid-sw-bubble'), 'liquid-sw-bubble が見つからない');
+  assert.ok(HTML.includes('id="vortexSwirlWorld"'), 'vortexSwirlWorld が見つからない');
+  assert.ok(HTML.includes('class="vortex-arm-group vortex-mag-layer"'), 'vortex-mag-layer が見つからない');
+  assert.ok(HTML.includes('class="vortex-arm-group vortex-cya-layer"'), 'vortex-cya-layer が見つからない');
+  assert.ok(HTML.includes('id="vortexBlendLayer"'), 'vortexBlendLayer が見つからない');
+  assert.ok(HTML.includes('id="vortexEyeGroup"'), 'vortexEyeGroup が見つからない');
   assert.ok(HTML.includes('@keyframes lavaChamberMorph'), 'lavaChamberMorph アニメーションが無い');
   assert.ok(HTML.includes('@keyframes lavaContainerMorph'), 'lavaContainerMorph アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes liquidWaveFrontAnim'), 'liquidWaveFrontAnim アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes liquidBubbleRise'), 'liquidBubbleRise アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes vortexSpin'), 'vortexSpin アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes vortexLayerWobble'), 'vortexLayerWobble アニメーションが無い');
 });
 
 t('非円形テーマ（Cyber, Frost, Abyss, Aurora）で共通円盤・メガリングが完全に解除・非表示化されている', () => {
@@ -183,7 +184,62 @@ t('Celestial: Heroゲージ外の点線円（旧cel-layer、gauge-ring::afterの
   assert.ok(celThemeBlock.includes('diamondSparkle'), 'ui_theme.jsのCelestialにdiamondSparkleが無い');
 });
 
+console.log('── 点線の円演出完全撤廃＆Aurora・Cyber全面刷新 検証 ──');
+
+t('Brassおよび全テーマ: 外から現れて消える点線の円（astrolabeRings）が祝砲・目標達成・テーマ切替から完全撤廃されている', () => {
+  const celebrateFn = HTML.substring(HTML.indexOf('function _gaugeCelebrate(tier)'), HTML.indexOf('function _emberTier('));
+  const brassBoomBlock = celebrateFn.substring(celebrateFn.indexOf("curTheme === 'brass'"), celebrateFn.indexOf("curTheme === 'aurora'"));
+  assert.ok(!brassBoomBlock.includes('MecFX.astrolabeRings'), 'Brass祝砲にastrolabeRingsが残っている');
+  assert.ok(brassBoomBlock.includes('MecFX.irisShutter'), 'Brass祝砲にirisShutterが無い');
+
+  const bigCelebrateFn = HTML.substring(HTML.indexOf('function _stampGoalSeal('), HTML.indexOf('const GAUGE_AMBIENTS ='));
+  const brassBigBlock = bigCelebrateFn.substring(bigCelebrateFn.indexOf("curTheme === 'brass'"), bigCelebrateFn.indexOf("curTheme === 'aurora'"));
+  assert.ok(!brassBigBlock.includes('MecFX.astrolabeRings'), 'Brass大祝砲にastrolabeRingsが残っている');
+  assert.ok(brassBigBlock.includes('MecFX.irisShutter'), 'Brass大祝砲にirisShutterが無い');
+
+  const themeJs = fs.readFileSync(path.join(__dirname, '..', 'ui_theme.js'), 'utf8');
+  const brassThemeBlock = themeJs.substring(themeJs.indexOf("id === 'brass'"), themeJs.indexOf("id === 'cyber'"));
+  assert.ok(!brassThemeBlock.includes('astrolabeRings'), 'ui_theme.jsのBrassにastrolabeRingsが残っている');
+  assert.ok(brassThemeBlock.includes('irisShutter'), 'ui_theme.jsのBrassにirisShutterが無い');
+});
+
+t('全テーマ: 外枠疑似要素（::before / ::after）およびケーシングから点線（dashed / dotted）が完全撤廃されている', () => {
+  const themeCss = fs.readFileSync(path.join(__dirname, '..', 'ui_theme.css'), 'utf8');
+  assert.ok(!themeCss.includes('html.ui-brass .gauge .gauge-ring::before {\n  content: \'\';\n  position: absolute;\n  inset: -2px;\n  border-radius: 50%;\n  border: 1.5px dashed'), 'Brass疑似要素にdashedが残っている');
+  assert.ok(!themeCss.includes('border: 1px dotted rgba(255, 235, 150'), 'Brass疑似要素にdottedが残っている');
+  assert.ok(!themeCss.includes('border: 2px dashed rgba(0, 255, 157'), 'Cyber疑似要素にdashedが残っている');
+  assert.ok(!themeCss.includes('border: 1.5px dashed rgba(245, 208, 97'), 'Kintsugi疑似要素にdashedが残っている');
+  assert.ok(!themeCss.includes('border: 1.5px dashed rgba(255, 255, 255'), 'Frost疑似要素にdashedが残っている');
+
+  // SVGケーシングのastrolabe-ringからもdashedが排除されていること
+  assert.ok(!HTML.includes('.casing-brass .astrolabe-ring{fill:none;stroke:var(--brass-hi);stroke-width:1.4;stroke-dasharray:2 2;'), 'casing-brass astrolabe-ringにdasharrayが残っている');
+});
+
+t('Cyber: 立体浮遊型タクティカルHUD（照準ブラケット・360度ホログラムレーザーゲージ・フォトンヘッド・ハニカムセル）が実装されている', () => {
+  assert.ok(HTML.includes('id="cyberHoloGauge"'), 'cyberHoloGauge が見つからない');
+  assert.ok(HTML.includes('id="cyberPhotonHead"'), 'cyberPhotonHead が見つからない');
+  assert.ok(HTML.includes('id="cyberHoneycombArray"'), 'cyberHoneycombArray が見つからない');
+  assert.ok(HTML.includes('id="cyberHudStatus"'), 'cyberHudStatus が見つからない');
+  assert.ok(HTML.includes('class="cyber-bracket b-tl"'), 'cyber-bracket が見つからない');
+  assert.ok(HTML.includes('class="cyber-scan-ring"'), 'cyber-scan-ring が見つからない');
+  assert.ok(HTML.includes('cHolo.style.strokeDashoffset'), '_driveThemeGauge 内のcyberHoloGauge制御が無い');
+  assert.ok(HTML.includes('cPhoton.style.transform'), '_driveThemeGauge 内のcyberPhotonHead制御が無い');
+});
+
+t('Aurora: 多面体カッティンググラス＆揺らめくオーロラカーテン＆360度プリズム光帯アークが実装されている', () => {
+  assert.ok(HTML.includes('class="aurora-glass-bezel"'), 'aurora-glass-bezel が見つからない');
+  assert.ok(HTML.includes('id="auroraCurtainGroup"'), 'auroraCurtainGroup が見つからない');
+  assert.ok(HTML.includes('id="auroraCurtainFront"'), 'auroraCurtainFront が見つからない');
+  assert.ok(HTML.includes('id="auroraPrismArc"'), 'auroraPrismArc が見つからない');
+  assert.ok(HTML.includes('id="auroraPrismJewel"'), 'auroraPrismJewel が見つからない');
+  assert.ok(HTML.includes('class="aurora-glass-glare"'), 'aurora-glass-glare が見つからない');
+  assert.ok(HTML.includes('class="aurora-sparkle'), 'aurora-sparkle が見つからない');
+  assert.ok(HTML.includes('aCurtain.style.transform'), '_driveThemeGauge 内のauroraCurtainGroup制御が無い');
+  assert.ok(HTML.includes('aPrismArc.style.strokeDashoffset'), '_driveThemeGauge 内のauroraPrismArc制御が無い');
+});
+
 console.log(`\nALL PASS (${pass}/${pass + fail})\n`);
+
 
 
 

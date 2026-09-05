@@ -1186,7 +1186,7 @@ html.ui-frost .casing-frost{display:inline;}
 /* Brass */
 .casing-brass .ticks-brass{fill:none;stroke:var(--brass);stroke-width:1.4;stroke-dasharray:1.5 5.5;}
 .casing-brass .rim-spec{fill:none;stroke:var(--brass-hi);stroke-width:1.2;stroke-dasharray:6 3;}
-.casing-brass .astrolabe-ring{fill:none;stroke:var(--brass-hi);stroke-width:1.4;stroke-dasharray:2 2;animation:casingSpin 32s linear infinite;}
+.casing-brass .astrolabe-ring{fill:none;stroke:var(--brass-hi);stroke-width:1.6;filter:drop-shadow(0 0 5px var(--brass-hi));animation:casingSpin 32s linear infinite;}
 /* Cyber */
 .casing-cyber .reticle-cyber{stroke:#00E5FF;stroke-width:1.2;stroke-dasharray:4 4;}
 .casing-cyber .tactical-arc{fill:none;stroke:#00FF9D;stroke-width:1.4;stroke-dasharray:12 8 4 8;}
@@ -1392,27 +1392,97 @@ html.ui-brass .theme-gauge-brass { display: inline; }
 .gauge[data-overdrive] .brass-needle polygon { fill: #FFD700; filter: drop-shadow(0 0 6px #FFD700); }
 
 /* ─────────────────────────────────────────────────────────────
-   2. Cyber: 角型戦術HUDモニター＆3連イコライザー（非円形・角型）
+   2. Cyber: 立体浮遊型 タクティカル・ホログラフィックHUD
    ───────────────────────────────────────────────────────────── */
 html.ui-cyber .theme-gauge-cyber { display: inline; }
-.cyber-hud-chassis {
-  fill: rgba(6, 18, 30, .88);
+.cyber-bracket {
+  fill: none;
   stroke: #00E5FF;
   stroke-width: 2.2;
-  filter: drop-shadow(0 0 12px rgba(0,229,255,.7));
+  stroke-linecap: square;
+  filter: drop-shadow(0 0 8px #00E5FF);
+  animation: cyberBracketBreathe 3s ease-in-out infinite alternate;
 }
-.cyber-hud-inner {
+@keyframes cyberBracketBreathe {
+  0% { opacity: .75; stroke-width: 2; }
+  100% { opacity: 1; stroke-width: 2.5; filter: drop-shadow(0 0 12px #00E5FF) drop-shadow(0 0 20px #00FF9D); }
+}
+.cyber-crosshair {
+  stroke: rgba(0, 229, 255, .5);
+  stroke-width: 1.2;
+}
+.cyber-outer-track {
+  fill: rgba(6, 18, 30, .85);
+  stroke: rgba(0, 229, 255, .3);
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 14px rgba(0, 229, 255, .4));
+}
+.cyber-inner-track {
   fill: none;
-  stroke: rgba(0, 255, 157, .4);
+  stroke: rgba(0, 255, 157, .25);
   stroke-width: 1;
-  stroke-dasharray: 4 4;
 }
-.cyber-scan-grid {
-  stroke: rgba(0, 229, 255, .2);
+.cyber-scan-ring {
+  fill: none;
+  stroke: rgba(0, 229, 255, .45);
+  stroke-width: 1.2;
+  stroke-dasharray: 8 16 4 16;
+  animation: cyberScanSpin 18s linear infinite reverse;
+  transform-origin: 84px 84px;
+}
+@keyframes cyberScanSpin {
+  to { transform: rotate(360deg); }
+}
+.cyber-holo-track {
+  fill: none;
+  stroke: rgba(0, 229, 255, .15);
+  stroke-width: 7;
+}
+.cyber-holo-gauge {
+  fill: none;
+  stroke: url(#cyberHoloGrad);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-dasharray: 402.12;
+  stroke-dashoffset: 402.12;
+  transform-origin: 84px 84px;
+  transform: rotate(-90deg);
+  transition: stroke-dashoffset .85s cubic-bezier(.2, .9, .3, 1);
+  filter: drop-shadow(0 0 8px #00E5FF) drop-shadow(0 0 16px rgba(0, 255, 157, .8));
+}
+.cyber-photon-head {
+  transition: transform .85s cubic-bezier(.2, .9, .3, 1);
+}
+.cyber-photon-head .c-photon-halo {
+  fill: rgba(0, 255, 157, .5);
+  filter: blur(2.5px);
+  animation: photonPulse 1.2s ease-in-out infinite alternate;
+}
+.cyber-photon-head .c-photon-core {
+  fill: #FFF;
+  filter: drop-shadow(0 0 6px #00FF9D);
+}
+@keyframes photonPulse {
+  0% { r: 5; opacity: .4; }
+  100% { r: 8; opacity: .95; }
+}
+.cyber-honeycomb-array .c-hex {
+  fill: rgba(0, 229, 255, .08);
+  stroke: rgba(0, 229, 255, .3);
   stroke-width: 1;
-  stroke-dasharray: 2 4;
+  transition: all .3s ease;
 }
-.cyber-laser-beam {
+.cyber-honeycomb-array .c-hex.active {
+  fill: #00FF9D;
+  stroke: #FFF;
+  filter: drop-shadow(0 0 6px #00FF9D) drop-shadow(0 0 12px rgba(0, 255, 157, .9));
+}
+.cyber-honeycomb-array .c-hex.overdrive {
+  fill: #FFD700;
+  stroke: #FFFDF0;
+  filter: drop-shadow(0 0 8px #FFD700) drop-shadow(0 0 16px #FF4500);
+}
+.cyber-scan-beam {
   stroke: #00FF9D;
   stroke-width: 1.5;
   filter: drop-shadow(0 0 6px #00FF9D);
@@ -1422,60 +1492,144 @@ html.ui-cyber .theme-gauge-cyber { display: inline; }
   0% { transform: translateY(-38px); opacity: .4; }
   100% { transform: translateY(38px); opacity: .95; }
 }
-.cyber-segments .c-seg {
-  fill: rgba(0, 229, 255, .12);
-  stroke: rgba(0, 229, 255, .35);
-  stroke-width: 1;
-  transition: fill .2s ease, filter .2s ease, stroke .2s ease;
+.cyber-hud-status {
+  font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 7.5px;
+  font-weight: 800;
+  fill: #00E5FF;
+  letter-spacing: 1.2px;
+  filter: drop-shadow(0 0 4px #00E5FF);
 }
-.cyber-segments .c-seg.active {
+.gauge[data-tier="5"] .cyber-bracket,
+.gauge[data-tier="6"] .cyber-bracket {
+  stroke: #00FF9D;
+  filter: drop-shadow(0 0 14px #00FF9D) drop-shadow(0 0 24px #00E5FF);
+}
+.gauge[data-tier="5"] .cyber-hud-status,
+.gauge[data-tier="6"] .cyber-hud-status {
   fill: #00FF9D;
-  stroke: #FFF;
-  filter: drop-shadow(0 0 6px #00FF9D) drop-shadow(0 0 12px rgba(0,255,157,.9));
+  filter: drop-shadow(0 0 6px #00FF9D);
 }
-.cyber-segments .c-seg.overdrive {
-  fill: #FFD700;
+.gauge[data-overdrive] .cyber-holo-gauge {
   stroke: #FFFDF0;
-  filter: drop-shadow(0 0 8px #FFD700) drop-shadow(0 0 16px #FF4500);
-  animation: cyberOverdriveFlash .6s steps(2,start) infinite;
-}
-@keyframes cyberOverdriveFlash {
-  0% { filter: drop-shadow(0 0 4px #FFD700); }
-  100% { filter: drop-shadow(0 0 14px #FF4500) brightness(1.25); }
+  filter: drop-shadow(0 0 12px #00FF9D) drop-shadow(0 0 24px #FFD700) drop-shadow(0 0 36px #FF4500);
 }
 
 /* ─────────────────────────────────────────────────────────────
-   3. Aurora: 菱形ダイヤモンドクリスタル＆垂直スペクトル（非円形）
+   3. Aurora: 多面体カッティングクリスタルグラス ＆ 揺らめくオーロラ光彩カーテン
    ───────────────────────────────────────────────────────────── */
 html.ui-aurora .theme-gauge-aurora { display: inline; }
-.aurora-prism-frame {
-  fill: rgba(12, 8, 30, .75);
+.aurora-glass-back {
+  filter: drop-shadow(0 0 18px rgba(0, 223, 216, .4)) drop-shadow(0 0 30px rgba(121, 40, 202, .35));
+}
+.aurora-glass-bezel {
+  fill: none;
   stroke: rgba(255, 255, 255, .85);
   stroke-width: 2.2;
-  filter: drop-shadow(0 0 14px rgba(0,223,216,.55)) drop-shadow(0 0 24px rgba(121,40,202,.45));
+  filter: drop-shadow(0 0 8px rgba(0, 223, 216, .7)) drop-shadow(0 0 18px rgba(121, 40, 202, .5));
+  animation: auroraBezelShine 4s ease-in-out infinite alternate;
 }
-.aurora-prism-fill {
-  transition: height 1s cubic-bezier(.16, 1, .3, 1), y 1s cubic-bezier(.16, 1, .3, 1);
-  filter: drop-shadow(0 0 14px rgba(0,242,254,.75));
+@keyframes auroraBezelShine {
+  0% { stroke: rgba(255, 255, 255, .75); filter: drop-shadow(0 0 8px rgba(0, 223, 216, .6)); }
+  50% { stroke: #FFFDF0; filter: drop-shadow(0 0 14px rgba(0, 242, 254, .9)) drop-shadow(0 0 24px rgba(255, 0, 128, .6)); }
+  100% { stroke: rgba(255, 255, 255, .75); filter: drop-shadow(0 0 8px rgba(121, 40, 202, .6)); }
 }
-.aurora-prism-facet {
-  stroke: rgba(255, 255, 255, .4);
+.aurora-facet-line {
+  stroke: rgba(0, 229, 255, .4);
   stroke-width: 1;
 }
-.aurora-prism-facet-inner {
-  fill: none;
-  stroke: rgba(0, 223, 216, .45);
-  stroke-width: 1.2;
-  stroke-dasharray: 6 4;
+.aurora-glass-glare {
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, .5));
+  pointer-events: none;
 }
-.gauge[data-tier="5"] .aurora-prism-frame,
-.gauge[data-tier="6"] .aurora-prism-frame {
+.aurora-glass-glare-edge {
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, .8));
+  pointer-events: none;
+}
+/* 🌊 内部オーロラカーテン */
+.aurora-curtain-group {
+  transition: transform 1.1s cubic-bezier(.2, .9, .3, 1);
+  will-change: transform;
+}
+.aurora-curtain-front {
+  animation: auroraCurtainAnim 5s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 14px rgba(0, 223, 216, .9)) drop-shadow(0 0 28px rgba(121, 40, 202, .75));
+}
+.aurora-curtain-back {
+  animation: auroraCurtainBackAnim 7s ease-in-out infinite alternate;
+}
+.aurora-curtain-crest {
+  animation: auroraCurtainAnim 5s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 6px #FFFDF0);
+}
+@keyframes auroraCurtainAnim {
+  0% { transform: translateX(0) skewX(-2deg); }
+  50% { transform: translateX(-42px) skewX(2deg); filter: drop-shadow(0 0 18px #00DFD8) drop-shadow(0 0 32px #FF0080); }
+  100% { transform: translateX(-84px) skewX(-2deg); }
+}
+@keyframes auroraCurtainBackAnim {
+  0% { transform: translateX(-84px) skewX(2deg); }
+  50% { transform: translateX(-42px) skewX(-2deg); }
+  100% { transform: translateX(0) skewX(2deg); }
+}
+/* ✨ クリスタルスパークル */
+.aurora-sparkle {
+  fill: #FFF;
+  filter: drop-shadow(0 0 4px #00DFD8);
+  animation: auroraSparkleTwinkle 2.4s ease-in-out infinite alternate;
+}
+.aurora-sparkle.sp1 { animation-delay: 0s; }
+.aurora-sparkle.sp2 { animation-delay: .6s; animation-duration: 3s; }
+.aurora-sparkle.sp3 { animation-delay: 1.2s; animation-duration: 2.8s; }
+.aurora-sparkle.sp4 { animation-delay: 1.8s; animation-duration: 3.4s; }
+@keyframes auroraSparkleTwinkle {
+  0% { opacity: .2; transform: scale(.7); }
+  100% { opacity: 1; transform: scale(1.3); filter: drop-shadow(0 0 8px #FFF) drop-shadow(0 0 14px #FF0080); }
+}
+/* 🌈 360度プリズム光帯アーク */
+.aurora-prism-orbit {
+  fill: none;
+  stroke: rgba(0, 223, 216, .12);
+  stroke-width: 3.5;
+}
+.aurora-prism-arc {
+  fill: none;
+  stroke: url(#auroraPrismArcGrad);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-dasharray: 427.26;
+  stroke-dashoffset: 427.26;
+  transform-origin: 84px 84px;
+  transform: rotate(-90deg);
+  transition: stroke-dashoffset .95s cubic-bezier(.2, .9, .3, 1);
+  filter: drop-shadow(0 0 6px #00DFD8) drop-shadow(0 0 14px rgba(121, 40, 202, .8));
+}
+.aurora-prism-jewel-wrap {
+  transition: transform .95s cubic-bezier(.2, .9, .3, 1);
+}
+.aurora-prism-jewel {
+  fill: #FFFDF0;
+  stroke: #00DFD8;
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 6px #FFF) drop-shadow(0 0 12px #00DFD8);
+  animation: jewelPulse 1.4s ease-in-out infinite alternate;
+}
+@keyframes jewelPulse {
+  0% { r: 3.2; }
+  100% { r: 4.5; filter: drop-shadow(0 0 10px #FFF) drop-shadow(0 0 18px #FF0080); }
+}
+.gauge[data-tier="5"] .aurora-glass-bezel,
+.gauge[data-tier="6"] .aurora-glass-bezel {
   stroke: #FFF;
-  filter: drop-shadow(0 0 18px #00DFD8) drop-shadow(0 0 32px #FF0080);
+  filter: drop-shadow(0 0 20px #00DFD8) drop-shadow(0 0 35px #FF0080);
+}
+.gauge[data-overdrive] .aurora-curtain-front {
+  animation-duration: 2.5s !important;
+  filter: drop-shadow(0 0 22px #00DFD8) drop-shadow(0 0 40px #FF0080) drop-shadow(0 0 60px #FFF) !important;
 }
 
 /* ─────────────────────────────────────────────────────────────
-   4. Liquid: 蛍光流体ダブルウェーブ充填 ＆ ネオン気泡（アメーバ容器内）
+   4. Liquid: デュアル・マーブル・ヴォルテックス（渦潮＆2色対流混色）
    ───────────────────────────────────────────────────────────── */
 html.ui-liquid .theme-gauge-liquid { display: inline; }
 html.ui-liquid .gauge-ring {
@@ -1489,7 +1643,7 @@ html.ui-liquid .gauge-ring {
   100% { border-radius: 48% 52% 62% 38% / 38% 48% 52% 62%; }
 }
 .lava-lamp-chamber {
-  fill: rgba(22, 6, 32, .88);
+  fill: rgba(14, 4, 24, .92);
   stroke: rgba(255, 0, 127, .85);
   stroke-width: 2.2;
   filter: drop-shadow(0 0 16px rgba(255,0,127,.65)) drop-shadow(0 0 28px rgba(121,40,202,.5));
@@ -1503,7 +1657,7 @@ html.ui-liquid .gauge-ring {
 }
 .liquid-chamber-rim {
   fill: none;
-  stroke: rgba(0, 242, 254, 0.4);
+  stroke: rgba(0, 242, 254, 0.45);
   stroke-width: 1.4;
   stroke-dasharray: 6 3;
   filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.5));
@@ -1512,64 +1666,114 @@ html.ui-liquid .gauge-ring {
   filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
 }
 
-/* 🌊 液体ウェーブ流体 */
-.liquid-wave-group {
-  transition: transform 1.1s cubic-bezier(.2, .9, .3, 1);
-  will-change: transform;
-}
-.liquid-wave-front {
-  animation: liquidWaveFrontAnim 4s linear infinite;
-  filter: drop-shadow(0 0 12px rgba(255, 0, 127, 0.85)) drop-shadow(0 0 22px rgba(0, 223, 216, 0.6));
-}
-.liquid-wave-back {
-  animation: liquidWaveBackAnim 6.5s linear infinite;
-}
-.liquid-wave-crest {
-  animation: liquidWaveFrontAnim 4s linear infinite;
-  filter: drop-shadow(0 0 6px #00F2FE);
-}
-.liquid-wave-glow {
-  animation: liquidWaveFrontAnim 4s linear infinite;
+/* 🌀 ヴォルテックス深淵プール */
+.vortex-deep-pool {
+  fill: #0a0214;
 }
 
-@keyframes liquidWaveFrontAnim {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-84px); }
+/* 🌀 渦潮全体回転ワールド（基本アニメーション） */
+.vortex-swirl-world {
+  transform-origin: 84px 84px;
+  animation: vortexSpin var(--vortex-speed, 6s) linear infinite;
+  transition: transform .8s cubic-bezier(.2, .9, .3, 1);
 }
-@keyframes liquidWaveBackAnim {
-  0% { transform: translateX(-84px); }
-  100% { transform: translateX(0); }
-}
-
-/* 🫧 液中ネオン気泡 */
-.liquid-sw-bubble {
-  opacity: 0;
-  animation: liquidBubbleRise 3.6s ease-in infinite;
-  filter: drop-shadow(0 0 5px rgba(0, 242, 254, 0.8));
-}
-.liquid-sw-bubble.b1 { animation-delay: 0s; animation-duration: 3.2s; }
-.liquid-sw-bubble.b2 { animation-delay: 0.9s; animation-duration: 4.1s; }
-.liquid-sw-bubble.b3 { animation-delay: 1.7s; animation-duration: 2.7s; }
-.liquid-sw-bubble.b4 { animation-delay: 2.5s; animation-duration: 3.5s; }
-.liquid-sw-bubble.b5 { animation-delay: 3.1s; animation-duration: 3.0s; }
-
-@keyframes liquidBubbleRise {
-  0% { transform: translateY(12px) scale(0.6); opacity: 0; }
-  25% { opacity: 0.9; }
-  80% { opacity: 0.8; }
-  100% { transform: translateY(-75px) scale(1.2); opacity: 0; }
+@keyframes vortexSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-/* 🔥 オーバードライブ時の激動 */
-.gauge[data-overdrive] .liquid-wave-front {
-  animation-duration: 2s !important;
-  filter: drop-shadow(0 0 16px #FF007F) drop-shadow(0 0 30px #00F2FE) drop-shadow(0 0 45px #FFF) !important;
+/* 🌸 マゼンタ層（相対的に微振動・粘性うねり） */
+.vortex-mag-layer {
+  transform-origin: 84px 84px;
+  animation: vortexLayerWobble 4.5s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 12px rgba(255, 0, 127, 0.9)) drop-shadow(0 0 24px rgba(121, 40, 202, 0.65));
 }
-.gauge[data-overdrive] .liquid-wave-back {
-  animation-duration: 3s !important;
+/* 🌊 シアン層（相対的に逆位相うねり） */
+.vortex-cya-layer {
+  transform-origin: 84px 84px;
+  animation: vortexLayerWobble 5.2s ease-in-out infinite alternate-reverse;
+  filter: drop-shadow(0 0 12px rgba(0, 242, 254, 0.9)) drop-shadow(0 0 24px rgba(0, 223, 216, 0.65));
 }
-.gauge[data-overdrive] .liquid-sw-bubble {
-  animation-duration: 1.8s !important;
+@keyframes vortexLayerWobble {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.05, 0.95) rotate(10deg); }
+  100% { transform: scale(0.95, 1.05) rotate(-8deg); }
+}
+
+/* ⚡ マーブル混色ストリーム */
+.vortex-blend-layer {
+  transform-origin: 84px 84px;
+  animation: vortexBlendPulse 3s ease-in-out infinite alternate;
+  transition: opacity .8s;
+}
+.vortex-blend-stream {
+  filter: drop-shadow(0 0 6px #FFF) drop-shadow(0 0 14px #00F2FE);
+}
+@keyframes vortexBlendPulse {
+  0% { opacity: 0.6; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1.04); }
+}
+
+/* 粒子吸引アニメーション */
+.v-part {
+  animation: vortexPartPull 3s ease-in-out infinite;
+}
+.v-part.vp-1 { animation-delay: 0s; }
+.v-part.vp-2 { animation-delay: 0.6s; }
+.v-part.vp-3 { animation-delay: 1.2s; }
+.v-part.vp-4 { animation-delay: 1.8s; }
+.v-part.vp-5 { animation-delay: 2.4s; }
+@keyframes vortexPartPull {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+  50% { opacity: 1; filter: drop-shadow(0 0 6px #FFF); }
+  100% { transform: translate(0, 0) scale(0.4); opacity: 0.3; }
+}
+
+/* 👁️ 渦の中心核（ヴォルテックス・アイ） */
+.vortex-eye-group {
+  transform-origin: 84px 84px;
+  transition: transform .8s cubic-bezier(.2, .9, .3, 1);
+}
+.vortex-eye-glow {
+  animation: vortexEyeBreathe 2.4s ease-in-out infinite alternate;
+}
+.vortex-eye-ring {
+  fill: none;
+  stroke: #00F2FE;
+  stroke-width: 1.6;
+  stroke-dasharray: 4 4;
+  animation: vortexEyeRingSpin 4s linear infinite reverse;
+  transform-origin: 84px 84px;
+  filter: drop-shadow(0 0 8px #00F2FE);
+}
+.vortex-eye-pit {
+  fill: #0c0216;
+  stroke: #FF007F;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 10px #FF007F);
+  animation: vortexEyeBreathe 1.8s ease-in-out infinite alternate;
+  transform-origin: 84px 84px;
+}
+@keyframes vortexEyeBreathe {
+  0% { transform: scale(0.85); opacity: 0.7; }
+  100% { transform: scale(1.15); opacity: 1; }
+}
+@keyframes vortexEyeRingSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 🔥 オーバードライブ覚醒時（臨界サイクロン） */
+.gauge[data-overdrive] .vortex-swirl-world {
+  animation-duration: 0.85s !important;
+}
+.gauge[data-overdrive] .vortex-eye-glow {
+  filter: drop-shadow(0 0 20px #FFF) drop-shadow(0 0 40px #FF007F) drop-shadow(0 0 60px #00F2FE) !important;
+  transform: scale(1.4) !important;
+}
+.gauge[data-overdrive] .vortex-blend-stream {
+  stroke-width: 2.8 !important;
+  filter: drop-shadow(0 0 10px #FFF) drop-shadow(0 0 20px #00F2FE) !important;
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -1778,14 +1982,17 @@ html.ui-frost .theme-gauge-frost { display: inline; }
 @media(prefers-reduced-motion:reduce){
   .brass-needle, .aurora-prism-fill, .liquid-fluid-rect, .liquid-wave-cap,
   .kt-join-crack, .cel-starlink-beam, .abyss-dive-prog, .frost-freeze-prog,
-  .lava-blob-main, .abyss-dive-prog-l, .abyss-dive-prog-r, .liquid-wave-group {
+  .lava-blob-main, .abyss-dive-prog-l, .abyss-dive-prog-r, .liquid-wave-group,
+  .vortex-swirl-world, .vortex-eye-group {
     transition: none !important;
   }
   .cyber-segments .c-seg.overdrive, .liquid-wave-cap, .kt-gold-dust,
   .cel-magic-ring1, .cel-magic-ring2, .cel-star.active,
   .cyber-laser-beam, .lava-lamp-chamber, .lava-blob-base,
   .lava-blob-float1, .lava-blob-float2, .lava-blob-float3, .frost-shard,
-  .liquid-wave-front, .liquid-wave-back, .liquid-wave-crest, .liquid-wave-glow, .liquid-sw-bubble {
+  .liquid-wave-front, .liquid-wave-back, .liquid-wave-crest, .liquid-wave-glow, .liquid-sw-bubble,
+  .vortex-swirl-world, .vortex-mag-layer, .vortex-cya-layer, .vortex-blend-layer,
+  .v-part, .vortex-eye-glow, .vortex-eye-ring, .vortex-eye-pit {
     animation: none !important;
   }
 }
@@ -2418,112 +2625,220 @@ html.ui-frost .exam-countdown{border:1px solid #A0E7E5;background:rgba(160,231,2
                 </g>
               </g>
 
-              <!-- 🚀 2. Cyber: 角型戦術HUDモニター＆3連イコライザーセグメント -->
+              <!-- 🚀 2. Cyber: 立体浮遊型 タクティカル・ホログラフィックHUD -->
               <g class="theme-gauge-cyber" id="gaugeCyberCore">
-                <!-- 面取り装甲パネル外枠（四隅を45°カット） -->
-                <polygon class="cyber-hud-chassis" points="24,20 144,20 156,32 156,136 144,148 24,148 12,136 12,32"></polygon>
-                <polygon class="cyber-hud-inner" points="26,24 142,24 152,34 152,134 142,144 26,144 16,134 16,34"></polygon>
-                <!-- 背景走査グリッド -->
-                <line class="cyber-scan-grid" x1="16" y1="54" x2="152" y2="54"></line>
-                <line class="cyber-scan-grid" x1="16" y1="84" x2="152" y2="84"></line>
-                <line class="cyber-scan-grid" x1="16" y1="114" x2="152" y2="114"></line>
-                <!-- 16個のデジタルセグメントブロック -->
-                <g class="cyber-segments" id="cyberSegments">
-                  <!-- 左レーン5段 -->
-                  <rect class="c-seg seg-0" x="22" y="124" width="14" height="12" rx="1"></rect>
-                  <rect class="c-seg seg-1" x="22" y="106" width="14" height="12" rx="1"></rect>
-                  <rect class="c-seg seg-2" x="22" y="88" width="14" height="12" rx="1"></rect>
-                  <rect class="c-seg seg-3" x="22" y="70" width="14" height="12" rx="1"></rect>
-                  <rect class="c-seg seg-4" x="22" y="52" width="14" height="12" rx="1"></rect>
-                  <!-- 右レーン5段 -->
-                  <rect class="c-seg seg-5" x="132" y="124" width="14" height="12" rx="1"></rect>
-                  <rect class="c-seg seg-6" x="132" y="106" width="14" height="12" rx="1"></rect>
-                  <rect class="c-seg seg-7" x="132" y="88" width="14" height="12" rx="1"></rect>
-                  <rect class="c-seg seg-8" x="132" y="70" width="14" height="12" rx="1"></rect>
-                  <rect class="c-seg seg-9" x="132" y="52" width="14" height="12" rx="1"></rect>
-                  <!-- 下部ステータスバー4段 -->
-                  <rect class="c-seg seg-10" x="42" y="128" width="16" height="8" rx="1"></rect>
-                  <rect class="c-seg seg-11" x="62" y="128" width="16" height="8" rx="1"></rect>
-                  <rect class="c-seg seg-12" x="90" y="128" width="16" height="8" rx="1"></rect>
-                  <rect class="c-seg seg-13" x="110" y="128" width="16" height="8" rx="1"></rect>
-                  <!-- 上部ピークLED2段 -->
-                  <rect class="c-seg seg-14" x="52" y="32" width="28" height="6" rx="1"></rect>
-                  <rect class="c-seg seg-15" x="88" y="32" width="28" height="6" rx="1"></rect>
+                <defs>
+                  <linearGradient id="cyberHoloGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#00E5FF"></stop>
+                    <stop offset="60%" stop-color="#00FF9D"></stop>
+                    <stop offset="100%" stop-color="#FFFFFF"></stop>
+                  </linearGradient>
+                  <linearGradient id="cyberLaserGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="rgba(0,229,255,0.2)"></stop>
+                    <stop offset="50%" stop-color="#00E5FF"></stop>
+                    <stop offset="100%" stop-color="#00FF9D"></stop>
+                  </linearGradient>
+                </defs>
+                <!-- 4隅のタクティカル照準ブラケット（フローティングレティクル） -->
+                <path class="cyber-bracket b-tl" d="M 18,36 L 18,18 L 36,18"></path>
+                <path class="cyber-bracket b-tr" d="M 150,36 L 150,18 L 132,18"></path>
+                <path class="cyber-bracket b-br" d="M 150,132 L 150,150 L 132,150"></path>
+                <path class="cyber-bracket b-bl" d="M 18,132 L 18,150 L 36,150"></path>
+                <!-- 照準クロスヘアマーク -->
+                <line class="cyber-crosshair" x1="12" y1="84" x2="22" y2="84"></line>
+                <line class="cyber-crosshair" x1="146" y1="84" x2="156" y2="84"></line>
+                <line class="cyber-crosshair" x1="84" y1="12" x2="84" y2="22"></line>
+                <line class="cyber-crosshair" x1="84" y1="146" x2="84" y2="156"></line>
+                <!-- 同心走査HUDトラック -->
+                <circle class="cyber-outer-track" cx="84" cy="84" r="70"></circle>
+                <circle class="cyber-inner-track" cx="84" cy="84" r="56"></circle>
+                <circle class="cyber-scan-ring" cx="84" cy="84" r="73"></circle>
+                <!-- 360度精密ホログラムレーザーゲージ（円周 C = 402.12） -->
+                <circle class="cyber-holo-track" cx="84" cy="84" r="64"></circle>
+                <circle class="cyber-holo-gauge" id="cyberHoloGauge" cx="84" cy="84" r="64"></circle>
+                <!-- 先端フォトンヘッド光点（進捗に合わせて360度回転） -->
+                <g class="cyber-photon-head" id="cyberPhotonHead" style="transform-origin:84px 84px;">
+                  <circle class="c-photon-halo" cx="84" cy="20" r="6.5"></circle>
+                  <circle class="c-photon-core" cx="84" cy="20" r="2.8"></circle>
                 </g>
-                <line class="cyber-laser-beam" x1="16" y1="84" x2="152" y2="84"></line>
+                <!-- 進捗連動六角形ハニカムデータセル群（6ノード） -->
+                <g class="cyber-honeycomb-array" id="cyberHoneycombArray">
+                  <polygon class="c-hex hex-0" points="36,54 42,50 48,54 48,62 42,66 36,62"></polygon>
+                  <polygon class="c-hex hex-1" points="28,80 34,76 40,80 40,88 34,92 28,88"></polygon>
+                  <polygon class="c-hex hex-2" points="36,106 42,102 48,106 48,114 42,118 36,114"></polygon>
+                  <polygon class="c-hex hex-3" points="132,54 126,50 120,54 120,62 126,66 132,62"></polygon>
+                  <polygon class="c-hex hex-4" points="140,80 134,76 128,80 128,88 134,92 140,88"></polygon>
+                  <polygon class="c-hex hex-5" points="132,106 126,102 120,106 120,114 126,118 132,114"></polygon>
+                </g>
+                <!-- 走査スキャンビーム -->
+                <line class="cyber-scan-beam" x1="28" y1="84" x2="140" y2="84"></line>
+                <!-- タクティカルステータステキスト -->
+                <text class="cyber-hud-status" id="cyberHudStatus" x="84" y="132" text-anchor="middle">SYS: READY</text>
+                <!-- 互換用hidden要素 -->
+                <g id="cyberSegments" style="display:none"></g>
               </g>
 
-              <!-- 🌟 3. Aurora: 菱形クリスタル＆垂直スペクトルチャージ -->
+              <!-- 🌟 3. Aurora: 多面体カッティングクリスタルグラス ＆ 揺らめくオーロラ光彩カーテン -->
               <g class="theme-gauge-aurora" id="gaugeAuroraCore">
                 <defs>
-                  <clipPath id="auroraPrismClip">
-                    <polygon points="84,14 154,84 84,154 14,84"></polygon>
+                  <!-- 八角ファセットグラスのクリップパス -->
+                  <clipPath id="auroraGlassClip">
+                    <polygon points="84,16 132,36 152,84 132,132 84,152 36,132 16,84 36,36"></polygon>
                   </clipPath>
-                  <linearGradient id="auroraPrismGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                    <stop offset="0%" stop-color="#00DFD8"></stop>
-                    <stop offset="50%" stop-color="#7928CA"></stop>
+                  <!-- 深層背景グラデーション -->
+                  <linearGradient id="auroraGlassBackGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#060214" stop-opacity="0.9"></stop>
+                    <stop offset="50%" stop-color="#120629" stop-opacity="0.85"></stop>
+                    <stop offset="100%" stop-color="#080218" stop-opacity="0.95"></stop>
+                  </linearGradient>
+                  <!-- 揺らめくオーロラ光彩カーテンのグラデーション -->
+                  <linearGradient id="auroraCurtainGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                    <stop offset="0%" stop-color="#00DFD8" stop-opacity="0.95"></stop>
+                    <stop offset="40%" stop-color="#7928CA" stop-opacity="0.85"></stop>
+                    <stop offset="80%" stop-color="#FF0080" stop-opacity="0.9"></stop>
+                    <stop offset="100%" stop-color="#FFFDF0" stop-opacity="0.95"></stop>
+                  </linearGradient>
+                  <!-- プリズムアーク用虹色グラデーション -->
+                  <linearGradient id="auroraPrismArcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FFFDF0"></stop>
+                    <stop offset="30%" stop-color="#00DFD8"></stop>
+                    <stop offset="65%" stop-color="#7928CA"></stop>
                     <stop offset="100%" stop-color="#FF0080"></stop>
                   </linearGradient>
                 </defs>
-                <polygon class="aurora-prism-frame" points="84,14 154,84 84,154 14,84"></polygon>
-                <rect class="aurora-prism-fill" id="auroraPrismFill" x="14" y="154" width="140" height="0" clip-path="url(#auroraPrismClip)" fill="url(#auroraPrismGrad)"></rect>
-                <line class="aurora-prism-facet" x1="84" y1="14" x2="84" y2="154"></line>
-                <line class="aurora-prism-facet" x1="14" y1="84" x2="154" y2="84"></line>
-                <polygon class="aurora-prism-facet-inner" points="84,36 132,84 84,132 36,84"></polygon>
+
+                <!-- グラス深層背景 -->
+                <polygon class="aurora-glass-back" points="84,16 132,36 152,84 132,132 84,152 36,132 16,84 36,36" fill="url(#auroraGlassBackGrad)"></polygon>
+
+                <!-- 内部オーロラカーテン（ガラス内部クリップ） -->
+                <g clip-path="url(#auroraGlassClip)">
+                  <g class="aurora-curtain-group" id="auroraCurtainGroup" style="transform: translateY(140px);">
+                    <!-- 奥のオーロラ光幕 -->
+                    <path class="aurora-curtain-back" d="M -168,0 Q -126,-8 -84,0 T 0,0 T 84,0 T 168,0 T 252,0 T 336,0 L 336,180 L -168,180 Z" fill="url(#auroraCurtainGrad)" opacity="0.6"></path>
+                    <!-- 手前のオーロラメイン光幕 -->
+                    <path class="aurora-curtain-front" id="auroraCurtainFront" d="M -168,0 Q -126,8 -84,0 T 0,0 T 84,0 T 168,0 T 252,0 T 336,0 L 336,180 L -168,180 Z" fill="url(#auroraCurtainGrad)"></path>
+                    <!-- 光彩サージ波頭ライン -->
+                    <path class="aurora-curtain-crest" d="M -168,0 Q -126,8 -84,0 T 0,0 T 84,0 T 168,0 T 252,0 T 336,0" fill="none" stroke="#FFFDF0" stroke-width="2" stroke-linecap="round"></path>
+                  </g>
+                  <!-- ガラス内部のクリスタル星屑スパークル -->
+                  <g class="aurora-sparkles">
+                    <circle class="aurora-sparkle sp1" cx="54" cy="68" r="1.6"></circle>
+                    <circle class="aurora-sparkle sp2" cx="114" cy="60" r="2.2"></circle>
+                    <circle class="aurora-sparkle sp3" cx="70" cy="110" r="1.8"></circle>
+                    <circle class="aurora-sparkle sp4" cx="102" cy="104" r="1.4"></circle>
+                  </g>
+                </g>
+
+                <!-- 360度プリズム光帯アーク（円周 C = 427.26） -->
+                <circle class="aurora-prism-orbit" cx="84" cy="84" r="68"></circle>
+                <circle class="aurora-prism-arc" id="auroraPrismArc" cx="84" cy="84" r="68"></circle>
+                <!-- アーク先端プリズムジュエル -->
+                <g class="aurora-prism-jewel-wrap" id="auroraPrismJewelWrap" style="transform-origin:84px 84px;">
+                  <circle class="aurora-prism-jewel" id="auroraPrismJewel" cx="84" cy="16" r="3.6"></circle>
+                </g>
+
+                <!-- 八角ファセットカッティングガラス外枠 -->
+                <polygon class="aurora-glass-bezel" points="84,16 132,36 152,84 132,132 84,152 36,132 16,84 36,36"></polygon>
+                <!-- ファセット屈折ライン群 -->
+                <line class="aurora-facet-line" x1="84" y1="16" x2="84" y2="38"></line>
+                <line class="aurora-facet-line" x1="152" y1="84" x2="130" y2="84"></line>
+                <line class="aurora-facet-line" x1="84" y1="152" x2="84" y2="130"></line>
+                <line class="aurora-facet-line" x1="16" y1="84" x2="38" y2="84"></line>
+                <line class="aurora-facet-line" x1="132" y1="36" x2="116" y2="52"></line>
+                <line class="aurora-facet-line" x1="132" y1="132" x2="116" y2="116"></line>
+                <line class="aurora-facet-line" x1="36" y1="132" x2="52" y2="116"></line>
+                <line class="aurora-facet-line" x1="36" y1="36" x2="52" y2="52"></line>
+
+                <!-- 表面の斜光ガラスハイライトグレア -->
+                <path class="aurora-glass-glare" d="M 40,48 Q 84,32 128,48" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" stroke-linecap="round"></path>
+                <path class="aurora-glass-glare-edge" d="M 40,36 L 84,18 L 128,36" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.8" stroke-linecap="round"></path>
+
+                <!-- 互換用hidden要素 -->
+                <rect class="aurora-prism-fill" id="auroraPrismFill" x="0" y="0" width="0" height="0" style="display:none"></rect>
               </g>
 
-              <!-- 🌸 4. Liquid: 蛍光流体ダブルウェーブ充填＆ネオン気泡（アメーバ容器内） -->
+              <!-- 🌸 4. Liquid: デュアル・マーブル・ヴォルテックス（2色インク螺旋渦潮ミキシング） -->
               <g class="theme-gauge-liquid" id="gaugeLiquidCore">
                 <defs>
                   <!-- チャンバー用クリップパス -->
                   <clipPath id="liquidChamberClip">
                     <circle cx="84" cy="84" r="64"></circle>
                   </clipPath>
-                  <!-- 液体グラデーション（手前のメイン波） -->
-                  <linearGradient id="liquidFluidGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                    <stop offset="0%" stop-color="#4B0082" stop-opacity="0.95"></stop>
-                    <stop offset="35%" stop-color="#7928CA" stop-opacity="0.9"></stop>
-                    <stop offset="75%" stop-color="#FF007F" stop-opacity="0.85"></stop>
-                    <stop offset="100%" stop-color="#00DFD8" stop-opacity="0.9"></stop>
+                  <!-- 蛍光マゼンタグラデーション（ホットピンク〜パープル） -->
+                  <linearGradient id="vortexMagentaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FF007F"></stop>
+                    <stop offset="60%" stop-color="#E100FF"></stop>
+                    <stop offset="100%" stop-color="#7928CA"></stop>
                   </linearGradient>
-                  <!-- 奥の波用グラデーション（ディープトーン） -->
-                  <linearGradient id="liquidWaveBackGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                    <stop offset="0%" stop-color="#2E0854" stop-opacity="0.8"></stop>
-                    <stop offset="60%" stop-color="#7928CA" stop-opacity="0.65"></stop>
-                    <stop offset="100%" stop-color="#FF007F" stop-opacity="0.6"></stop>
+                  <!-- 蛍光シアングラデーション（エレクトリックシアン〜ディープブルー） -->
+                  <linearGradient id="vortexCyanGrad" x1="100%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#00F2FE"></stop>
+                    <stop offset="50%" stop-color="#00DFD8"></stop>
+                    <stop offset="100%" stop-color="#4B0082"></stop>
                   </linearGradient>
-                  <!-- 液滴・気泡用グラデーション -->
-                  <radialGradient id="liquidBubbleGrad" cx="35%" cy="30%" r="70%">
+                  <!-- 混色エレクトリック・バイオレット（臨界コアグラデーション） -->
+                  <radialGradient id="vortexBlendCoreGrad" cx="50%" cy="50%" r="50%">
                     <stop offset="0%" stop-color="#FFFFFF"></stop>
-                    <stop offset="40%" stop-color="#00F2FE"></stop>
-                    <stop offset="80%" stop-color="#FF007F"></stop>
-                    <stop offset="100%" stop-color="#7928CA" stop-opacity="0.8"></stop>
+                    <stop offset="30%" stop-color="#00F2FE"></stop>
+                    <stop offset="65%" stop-color="#FF007F"></stop>
+                    <stop offset="100%" stop-color="#2E0854" stop-opacity="0"></stop>
                   </radialGradient>
+                  <!-- 混色マーブルライン用グラデーション -->
+                  <linearGradient id="vortexMarbleStreamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#FF007F"></stop>
+                    <stop offset="50%" stop-color="#FFFFFF"></stop>
+                    <stop offset="100%" stop-color="#00F2FE"></stop>
+                  </linearGradient>
                 </defs>
+
                 <!-- 有機的ガラスチャンバー背景・輪郭（アメーバ変形と調和） -->
                 <path class="lava-lamp-chamber" id="lavaChamber" d="M 84,18 C 122,14 154,46 150,84 C 146,124 122,154 84,150 C 46,146 14,122 18,84 C 22,46 46,22 84,18 Z"></path>
                 <circle class="liquid-chamber-rim" cx="84" cy="84" r="64"></circle>
 
-                <!-- 🌊 液体充填グループ（水位に応じて上下移動） -->
-                <g class="liquid-fluid-container" clip-path="url(#liquidChamberClip)">
-                  <!-- 水位で上下する波グループ -->
-                  <g class="liquid-wave-group" id="liquidWaveGroup">
-                    <!-- 奥の波（ゆったり逆方向へ） -->
-                    <path class="liquid-wave-back" d="M -168,0 Q -126,-6 -84,0 T 0,0 T 84,0 T 168,0 T 252,0 T 336,0 L 336,180 L -168,180 Z" fill="url(#liquidWaveBackGrad)"></path>
-                    <!-- 手前のメイン波 -->
-                    <path class="liquid-wave-front" d="M -168,0 Q -126,6 -84,0 T 0,0 T 84,0 T 168,0 T 252,0 T 336,0 L 336,180 L -168,180 Z" fill="url(#liquidFluidGrad)"></path>
-                    <!-- 水面のキラリとした光条ハイライト -->
-                    <path class="liquid-wave-crest" d="M -168,0 Q -126,6 -84,0 T 0,0 T 84,0 T 168,0 T 252,0 T 336,0" fill="none" stroke="#00F2FE" stroke-width="2" stroke-linecap="round"></path>
-                    <!-- 水面直下のグロー輝線 -->
-                    <path class="liquid-wave-glow" d="M -168,0 Q -126,6 -84,0 T 0,0 T 84,0 T 168,0 T 252,0 T 336,0" fill="none" stroke="#FFF" stroke-width="1" stroke-opacity="0.75"></path>
+                <!-- 🌀 渦潮マーブルミキシングコンテナ（クリップパス内） -->
+                <g class="vortex-container" clip-path="url(#liquidChamberClip)">
+                  <!-- 深淵ディーププール背景 -->
+                  <circle class="vortex-deep-pool" cx="84" cy="84" r="64"></circle>
+
+                  <!-- 🌀 全体渦潮回転グループ（JSで回転速度・トルク・スケール制御） -->
+                  <g class="vortex-swirl-world" id="vortexSwirlWorld">
+                    <!-- レイヤー1: マゼンタ螺旋アーム群（時計回り） -->
+                    <g class="vortex-arm-group vortex-mag-layer">
+                      <!-- 腕1: 太い流体スパイラル -->
+                      <path class="vortex-stream-blade" d="M 84,84 C 70,68 46,58 34,76 C 22,96 32,126 58,138 C 86,150 128,140 142,108 C 154,76 138,40 106,28 C 76,16 42,30 30,56 C 26,66 28,72 32,74 C 34,60 56,36 86,40 C 114,44 132,70 124,96 C 116,120 86,130 64,122 C 46,114 42,94 50,82 C 58,70 72,76 84,84 Z" fill="url(#vortexMagentaGrad)"></path>
+                      <!-- 腕2: 外周を補助する細いマゼンタストリーム -->
+                      <path class="vortex-thin-ribbon" d="M 84,84 C 98,96 118,106 130,94 C 142,80 134,54 112,42 C 88,30 50,38 36,66 C 24,94 38,126 66,138 C 76,142 84,142 86,138" fill="none" stroke="#FF007F" stroke-width="2.5" stroke-linecap="round"></path>
+                    </g>
+
+                    <!-- レイヤー2: シアン螺旋アーム群（180度対向から巻き込む） -->
+                    <g class="vortex-arm-group vortex-cya-layer">
+                      <!-- 腕1: 180度反転の太いシアン流体スパイラル -->
+                      <path class="vortex-stream-blade" d="M 84,84 C 98,100 122,110 134,92 C 146,72 136,42 110,30 C 82,18 40,28 26,60 C 14,92 30,128 62,140 C 92,152 126,138 138,112 C 142,102 140,96 136,94 C 134,108 112,132 82,128 C 54,124 36,98 44,72 C 52,48 82,38 104,46 C 122,54 126,74 118,86 C 110,98 96,92 84,84 Z" fill="url(#vortexCyanGrad)"></path>
+                      <!-- 腕2: 外周を補助する細いシアンストリーム -->
+                      <path class="vortex-thin-ribbon" d="M 84,84 C 70,72 50,62 38,74 C 26,88 34,114 56,126 C 80,138 118,130 132,102 C 144,74 130,42 102,30 C 92,26 84,26 82,30" fill="none" stroke="#00F2FE" stroke-width="2.5" stroke-linecap="round"></path>
+                    </g>
+
+                    <!-- レイヤー3: マーブル交差混色スパイラル光条（2色が擦れ合う境界） -->
+                    <g class="vortex-blend-layer" id="vortexBlendLayer">
+                      <path class="vortex-blend-stream b-s1" d="M 84,84 C 60,60 30,80 44,114 C 58,142 108,146 134,116 C 152,94 140,50 102,34 C 68,20 34,44 26,78" fill="none" stroke="url(#vortexMarbleStreamGrad)" stroke-width="1.8" stroke-linecap="round"></path>
+                      <path class="vortex-blend-stream b-s2" d="M 84,84 C 108,108 138,88 124,54 C 110,26 60,22 34,52 C 16,74 28,118 66,134 C 100,148 134,124 142,90" fill="none" stroke="url(#vortexMarbleStreamGrad)" stroke-width="1.8" stroke-linecap="round"></path>
+                    </g>
+
+                    <!-- レイヤー4: 渦に巻き込まれ吸引されるネオン液滴粒子 -->
+                    <g class="vortex-particles-layer">
+                      <circle class="v-part vp-1" cx="60" cy="68" r="2.2" fill="#FF007F"></circle>
+                      <circle class="v-part vp-2" cx="108" cy="100" r="2.0" fill="#00F2FE"></circle>
+                      <circle class="v-part vp-3" cx="72" cy="118" r="2.4" fill="#FFFFFF"></circle>
+                      <circle class="v-part vp-4" cx="96" cy="50" r="1.8" fill="#E100FF"></circle>
+                      <circle class="v-part vp-5" cx="44" cy="92" r="1.6" fill="#00DFD8"></circle>
+                    </g>
                   </g>
-                  <!-- 液中から立ち上るネオン気泡群 -->
-                  <g class="liquid-bubble-swarm" id="liquidBubbleSwarm">
-                    <circle class="liquid-sw-bubble b1" cx="64" cy="130" r="2.6" fill="url(#liquidBubbleGrad)"></circle>
-                    <circle class="liquid-sw-bubble b2" cx="104" cy="140" r="3.2" fill="url(#liquidBubbleGrad)"></circle>
-                    <circle class="liquid-sw-bubble b3" cx="82" cy="120" r="2.0" fill="url(#liquidBubbleGrad)"></circle>
-                    <circle class="liquid-sw-bubble b4" cx="94" cy="110" r="2.8" fill="url(#liquidBubbleGrad)"></circle>
-                    <circle class="liquid-sw-bubble b5" cx="72" cy="95" r="1.8" fill="url(#liquidBubbleGrad)"></circle>
+
+                  <!-- 🌀 渦の中心核（ヴォルテックス・アイ）：強烈な吸引点 -->
+                  <g class="vortex-eye-group" id="vortexEyeGroup">
+                    <circle class="vortex-eye-glow" cx="84" cy="84" r="24" fill="url(#vortexBlendCoreGrad)"></circle>
+                    <circle class="vortex-eye-ring" cx="84" cy="84" r="12"></circle>
+                    <circle class="vortex-eye-pit" cx="84" cy="84" r="5"></circle>
                   </g>
                 </g>
 
@@ -2532,6 +2847,7 @@ html.ui-frost .exam-countdown{border:1px solid #A0E7E5;background:rgba(160,231,2
 
                 <!-- 互換用hidden要素 -->
                 <rect class="liquid-fluid-rect" id="liquidFluidRect" x="0" y="0" width="0" height="0" style="display:none"></rect>
+                <g id="liquidWaveGroup" style="display:none"></g>
                 <g class="lava-wax-group" id="lavaWaxGroup" style="display:none"></g>
                 <ellipse class="lava-blob-main" id="lavaBlobMain" cx="84" cy="84" rx="0" ry="0" style="display:none"></ellipse>
               </g>
@@ -4214,18 +4530,54 @@ function _driveThemeGauge(pct, base, over, tier) {
     bNeedle.style.transform = 'rotate(' + bAngle.toFixed(1) + 'deg)';
   }
 
-  // 2. Cyber: 角型戦術HUD 16セグメント点灯
-  const cGroup = document.getElementById('cyberSegments');
-  if (cGroup && cGroup.children) {
-    const cActive = Math.round((base / 100) * 16);
-    const segs = cGroup.children;
-    for (let i = 0; i < segs.length; i++) {
-      segs[i].classList.toggle('active', i < cActive);
-      segs[i].classList.toggle('overdrive', over > 0);
+  // 2. Cyber: 立体浮遊型タクティカルHUD（360度ホログラムレーザーゲージ＆フォトンヘッド＆ハニカムセル）
+  const cHolo = document.getElementById('cyberHoloGauge');
+  const cPhoton = document.getElementById('cyberPhotonHead');
+  const cHexGroup = document.getElementById('cyberHoneycombArray');
+  const cHudStatus = document.getElementById('cyberHudStatus');
+  if (cHolo) {
+    // 360度ゲージ: C = 402.12
+    const cOffset = 402.12 * (1 - base / 100);
+    cHolo.style.strokeDashoffset = String(cOffset.toFixed(1));
+  }
+  if (cPhoton) {
+    const cRot = (base / 100) * 360;
+    cPhoton.style.transform = 'rotate(' + cRot.toFixed(1) + 'deg)';
+  }
+  if (cHexGroup && cHexGroup.children) {
+    // 6つのハニカムセルを進捗（16.6%刻み）に応じて点灯
+    const hActive = Math.round((base / 100) * 6);
+    const hexes = cHexGroup.children;
+    for (let i = 0; i < hexes.length; i++) {
+      hexes[i].classList.toggle('active', i < hActive);
+      hexes[i].classList.toggle('overdrive', over > 0);
     }
   }
+  if (cHudStatus) {
+    if (over > 0) cHudStatus.textContent = 'OVERDRIVE: ACTIVE';
+    else if (base >= 100) cHudStatus.textContent = 'TARGET: REACHED';
+    else if (base > 0) cHudStatus.textContent = 'SYNC: ' + Math.round(base) + '%';
+    else cHudStatus.textContent = 'SYS: READY';
+  }
 
-  // 3. Aurora: 菱形クリスタル垂直スペクトル液面充填 (h: 0 -> 140, y: 154 -> 14)
+  // 3. Aurora: 多面体カッティンググラス＆オーロラ光彩カーテン（水位上昇）＆360度プリズムアーク
+  const aCurtain = document.getElementById('auroraCurtainGroup');
+  const aPrismArc = document.getElementById('auroraPrismArc');
+  const aPrismJewel = document.getElementById('auroraPrismJewelWrap');
+  if (aCurtain) {
+    // 0% で y=148（底部）、100% で y=18（満杯）、overdriveでさらに上昇
+    const curY = Math.max(12, 148 - (base / 100) * 130 - (over > 0 ? 6 : 0));
+    aCurtain.style.transform = 'translateY(' + curY.toFixed(1) + 'px)';
+  }
+  if (aPrismArc) {
+    // 360度プリズム光帯アーク: C = 427.26
+    const aArcOffset = 427.26 * (1 - base / 100);
+    aPrismArc.style.strokeDashoffset = String(aArcOffset.toFixed(1));
+  }
+  if (aPrismJewel) {
+    const aRot = (base / 100) * 360;
+    aPrismJewel.style.transform = 'rotate(' + aRot.toFixed(1) + 'deg)';
+  }
   const aFill = document.getElementById('auroraPrismFill');
   if (aFill) {
     const aH = (base / 100) * 140;
@@ -4233,12 +4585,34 @@ function _driveThemeGauge(pct, base, over, tier) {
     aFill.setAttribute('height', String(aH));
   }
 
-  // 4. Liquid: 蛍光流体ダブルウェーブ充填 (水位 Y: 146 -> 22)
+  // 4. Liquid: デュアル・マーブル・ヴォルテックス（2色インク螺旋渦潮ミキシング）
+  const vWorld = document.getElementById('vortexSwirlWorld');
+  const vEye = document.getElementById('vortexEyeGroup');
+  const vBlend = document.getElementById('vortexBlendLayer');
   const lWaveGroup = document.getElementById('liquidWaveGroup');
   const lBlobMain = document.getElementById('lavaBlobMain');
   const lWaxGroup = document.getElementById('lavaWaxGroup');
+  if (vWorld) {
+    // 進捗率（0% -> 100%）に応じて回転速度が 7.0s から 1.6s へ激動加速！（overdriveで0.85s）
+    let speed = over > 0 ? 0.85 : (7.0 - (base / 100) * 5.4);
+    if (speed < 0.85) speed = 0.85;
+    vWorld.style.setProperty('--vortex-speed', speed.toFixed(2) + 's');
+
+    // 進捗率に応じて渦の規模（スケール 0.82 -> 1.08）を動的拡張
+    const vScale = 0.82 + (base / 100) * 0.26 + (over > 0 ? 0.08 : 0);
+    vWorld.style.transform = 'scale(' + vScale.toFixed(2) + ')';
+  }
+  if (vEye) {
+    // 中心の核がエネルギー吸引によって拡大・発光深度を増す
+    const eyeScale = 0.75 + (base / 100) * 0.45;
+    vEye.style.transform = 'scale(' + eyeScale.toFixed(2) + ')';
+  }
+  if (vBlend) {
+    // 進捗とともに混色度合（ブレンド層の不透明度 0.35 -> 1.0）が上昇
+    const blendOp = 0.35 + (base / 100) * 0.65;
+    vBlend.style.opacity = String(blendOp.toFixed(2));
+  }
   if (lWaveGroup) {
-    // 0% で y=146（底部）、100% で y=22（満杯）、overdriveでさらに上層へ
     const waterY = Math.max(14, 146 - (base / 100) * 124 - (over > 0 ? 6 : 0));
     lWaveGroup.style.transform = 'translateY(' + waterY.toFixed(1) + 'px)';
   }
@@ -4523,19 +4897,18 @@ function _stampGoalSeal() {
     MecFX.stamp(c.x, c.y, {
       color: '#E0C25E', size: r * 1.1, thick: 5, ticks: 18, rot: -6, ttl: 1.4
     });
-    // 【新同心円】アイリスシャッターの開放 ＆ 天球儀アストロラーベ (Brass限定)
-    if (MecFX.irisShutter) MecFX.irisShutter(c.x, c.y, { maxR: r * 1.4, blades: 12, color: '#FFD700', thickness: 3.2 });
-    if (MecFX.astrolabeRings) MecFX.astrolabeRings(c.x, c.y, { maxR: r * 1.6, rings: 4, color: '#E0C25E', speed: 2.2 });
+    // 【真鍮機構】アイリスシャッターの豪快開放 ＆ スチーム・大歯車展開 (Brass限定・点線円は完全撤廃)
+    if (MecFX.irisShutter) MecFX.irisShutter(c.x, c.y, { maxR: r * 1.5, blades: 14, color: '#FFD700', thickness: 3.6 });
     MecFX.burst(c.x, c.y, {
-      count: 48, colors: ['#FFD700', '#FFA040', '#FFFFFF', '#C9A227'],
+      count: 52, colors: ['#FFD700', '#FFA040', '#FFFFFF', '#C9A227'],
       shapes: ['gem', 'star', 'shard'], tier: 6, scale: 2.0, speed: 720, glow: true, additive: true
     });
-    MecFX.gears(c.x, c.y, { count: 24, spread: 380, min: 14, max: 28, gravity: 520, w: 18, delay: .12 });
+    MecFX.gears(c.x, c.y, { count: 28, spread: 400, min: 14, max: 30, gravity: 520, w: 20, delay: .1 });
     MecFX.confetti({ count: 120, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], big: true });
     // 全方位スチーム大爆発（四方八方からの大蒸気噴出）
-    MecFX.steam(c.x - c.r * .8, c.y + c.r * .3, { count: 8, w: c.r * .8, rise: 180, min: 40, max: 80, alpha: .4, vx: -160 });
-    MecFX.steam(c.x + c.r * .8, c.y + c.r * .3, { count: 8, w: c.r * .8, rise: 180, min: 40, max: 80, alpha: .4, vx: 160 });
-    MecFX.steam(c.x, c.y - c.r * .6, { count: 6, w: c.r * .7, rise: 160, min: 36, max: 70, alpha: .35 });
+    MecFX.steam(c.x - c.r * .8, c.y + c.r * .3, { count: 10, w: c.r * .8, rise: 190, min: 40, max: 80, alpha: .45, vx: -170 });
+    MecFX.steam(c.x + c.r * .8, c.y + c.r * .3, { count: 10, w: c.r * .8, rise: 190, min: 40, max: 80, alpha: .45, vx: 170 });
+    MecFX.steam(c.x, c.y - c.r * .6, { count: 8, w: c.r * .7, rise: 170, min: 36, max: 70, alpha: .4 });
     return;
   }
 
@@ -4756,35 +5129,29 @@ function _gaugeCelebrate(tier) {
   const g = (ringEl && _centerOf(ringEl)) || c;
   const curTheme = window.MecUITheme ? MecUITheme.get() : (document.documentElement.classList.contains('ui-brass') ? 'brass' : 'aurora');
 
-  // 1. Brass テーマ専用: 天球儀の同心円光輪 ＆ 真鍮火花 ＆ スチーム
+  // 1. Brass テーマ専用: アイリス機構 ＆ 真鍮火花 ＆ 高圧スチーム（点線円は完全撤廃）
   if (curTheme === 'brass') {
-    if (MecFX.astrolabeRings) {
-      MecFX.astrolabeRings(g.x, g.y, {
-        maxR: 130 + tier * 25, rings: 2,
-        color: hit ? '#FFD700' : '#E0C25E', speed: 1.2
-      });
-    }
-    if (MecFX.rippleInterference && hit) {
-      MecFX.rippleInterference(g.x, g.y, { maxR: 160 + tier * 20, color: '#FFD700' });
+    if (hit && MecFX.irisShutter) {
+      MecFX.irisShutter(g.x, g.y, { maxR: 150 + tier * 25, blades: 12, color: '#FFD700', thickness: 2.8 });
     }
     MecFX.burst(c.x, c.y, {
-      tier: Math.min(4, tier), count: 16 + tier * 6,
+      tier: Math.min(4, tier), count: 18 + tier * 6,
       colors: hit ? BRASS.concat(['#FFF3C4']) : BRASS,
       shapes: ['circle', 'shard'],
       speed: 280 + tier * 60
     });
-    if (MecFX.sparks) MecFX.sparks(g.x, g.y, { count: 8 + tier * 2 });
+    if (MecFX.sparks) MecFX.sparks(g.x, g.y, { count: 10 + tier * 3 });
 
     if (tier >= 3) {
-      MecFX.steam(g.x, g.y + 15, { count: 6 + tier * 2, w: 32, rise: 80, alpha: .32 });
+      MecFX.steam(g.x, g.y + 15, { count: 8 + tier * 2, w: 34, rise: 90, alpha: .36 });
       if (MecFX.chronosDial) MecFX.chronosDial(g.x, g.y, { maxR: 140 + tier * 15, color: '#E0C25E' });
     }
     if (tier >= 4) {
       MecFX.dust({ count: 18 + tier * 4, colors: ['#E0C25E', '#FFF3C4', '#FFFFFF'] });
       if (MecFX.bearingOrbit) MecFX.bearingOrbit(g.x, g.y, { maxR: 160 + tier * 20, color: '#FFD700' });
     }
-    if (hit && MecFX.irisShutter) {
-      MecFX.irisShutter(g.x, g.y, { maxR: 220, blades: 10, color: '#FFD700', thickness: 2.2 });
+    if (hit && MecFX.gears) {
+      MecFX.gears(g.x, g.y, { count: 6, spread: 160, min: 10, max: 18, gravity: 420 });
     }
     return;
   }

@@ -1790,8 +1790,9 @@ function _correctShockwave(el) {
       window.MecFX.frostCrystalShatter(sx, sy, { maxR: ringMaxR * 0.82, dendriteCount: 4 + t });
     } else if (curUi === 'brass' && window.MecFX.chronosDial) {
       window.MecFX.chronosDial(sx, sy, { maxR: ringMaxR * 0.82, ticks: 12 });
-    } else if (curUi === 'celestial' && window.MecFX.astrolabeRings) {
-      window.MecFX.astrolabeRings(sx, sy, { maxR: ringMaxR * 0.85, color: '#FFD166' });
+    } else if (curUi === 'celestial') {
+      if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(sx, sy, { count: 18 + t * 4, colors: ['#FFD166', '#FFFDF0', '#8A2BE2'], additive: true });
+      if (window.MecFX.stars) window.MecFX.stars(sx, sy, { count: 12 + t * 2, colors: ['#FFD166', '#8A2BE2', '#48CAE4'] });
     } else if (curUi === 'abyss' && window.MecFX.abyssSonarPulse) {
       window.MecFX.abyssSonarPulse(sx, sy, { maxR: ringMaxR * 0.88, marineSnowCount: 6 + t * 2 });
     } else if (curUi === 'liquid' && window.MecFX.liquidBloomRipple) {
