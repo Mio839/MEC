@@ -100,7 +100,7 @@ t('CSS内に全8テーマの表示切り替えと共通円形パーツ非表示�
 
 console.log('── プランB（非円形4種＋円形4種＆Lava Lamp流体）詳細検証 ──');
 
-t('Liquid: 外枠アメーバ変形と内部のデュアル・マーブル・ヴォルテックス（渦潮＆2色対流混色）が定義されている', () => {
+t('Liquid: 外枠アメーバ変形と内部のデュアル・マーブル・ヴォルテックス（有機的呼吸・ゆらぎパルス／回転廃止）が定義されている', () => {
   assert.ok(HTML.includes('id="lavaChamber"'), 'lavaChamber が見つからない');
   assert.ok(HTML.includes('id="vortexSwirlWorld"'), 'vortexSwirlWorld が見つからない');
   assert.ok(HTML.includes('class="vortex-arm-group vortex-mag-layer"'), 'vortex-mag-layer が見つからない');
@@ -109,8 +109,9 @@ t('Liquid: 外枠アメーバ変形と内部のデュアル・マーブル・ヴ
   assert.ok(HTML.includes('id="vortexEyeGroup"'), 'vortexEyeGroup が見つからない');
   assert.ok(HTML.includes('@keyframes lavaChamberMorph'), 'lavaChamberMorph アニメーションが無い');
   assert.ok(HTML.includes('@keyframes lavaContainerMorph'), 'lavaContainerMorph アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes vortexSpin'), 'vortexSpin アニメーションが無い');
   assert.ok(HTML.includes('@keyframes vortexLayerWobble'), 'vortexLayerWobble アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes vortexEyeRingPulse'), 'vortexEyeRingPulse アニメーションが無い');
+  assert.ok(!HTML.includes('@keyframes vortexSpin'), 'vortexSpin（高速回転）が残存している');
 });
 
 t('非円形テーマ（Cyber, Frost, Abyss, Aurora）で共通円盤・メガリングが完全に解除・非表示化されている', () => {
