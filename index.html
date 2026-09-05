@@ -1310,7 +1310,7 @@ html.ui-frost .od-frost{display:inline;}
 }
 .od-frost .frost-blizzard-ring {
   fill: none; stroke: rgba(160, 231, 229, .6); stroke-width: 1.5;
-  stroke-dasharray: 8 16 24 16;
+  stroke-dasharray: none;
   animation: casingSpin 3.2s linear infinite;
 }
 
@@ -1679,115 +1679,145 @@ html.ui-liquid .gauge-ring {
   filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
 }
 
-/* 🌀 ヴォルテックス深淵プール */
-.vortex-deep-pool {
+/* 🧪 深淵プール背景 */
+.liquid-chamber-pool {
   fill: #0a0214;
 }
 
-/* 🌀 渦潮流体ワールド（有機的な呼吸・ゆらぎパルス：360度回転スピンは完全撤廃） */
-.vortex-swirl-world {
+/* 🧪 中央の有機的流体セル（ラバ・ジェルブロブ本体） */
+.liquid-blob-core-group {
   transform-origin: 84px 84px;
-  animation: vortexWorldAura 7s ease-in-out infinite alternate;
   transition: transform .8s cubic-bezier(.2, .9, .3, 1);
 }
-@keyframes vortexWorldAura {
-  0% { filter: drop-shadow(0 0 6px rgba(255,0,127,.35)); }
-  100% { filter: drop-shadow(0 0 14px rgba(0,242,254,.45)); }
-}
 
-/* 🌸 マゼンタ層（相対的に微細な粘性うねり・呼吸） */
-.vortex-mag-layer {
+/* 表面張力オーラ膜（マントル） */
+.lava-cell-mantle {
+  fill: url(#lavaMembraneGrad);
+  filter: drop-shadow(0 0 16px rgba(255, 0, 127, 0.75)) drop-shadow(0 0 28px rgba(0, 242, 254, 0.55));
   transform-origin: 84px 84px;
-  animation: vortexLayerWobble 6.5s ease-in-out infinite alternate;
-  filter: drop-shadow(0 0 12px rgba(255, 0, 127, 0.9)) drop-shadow(0 0 24px rgba(121, 40, 202, 0.65));
-}
-/* 🌊 シアン層（逆位相の粘性うねり・呼吸） */
-.vortex-cya-layer {
-  transform-origin: 84px 84px;
-  animation: vortexLayerWobble 7.8s ease-in-out infinite alternate-reverse;
-  filter: drop-shadow(0 0 12px rgba(0, 242, 254, 0.9)) drop-shadow(0 0 24px rgba(0, 223, 216, 0.65));
-}
-@keyframes vortexLayerWobble {
-  0% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.03, 0.97) rotate(3deg); }
-  100% { transform: scale(0.97, 1.03) rotate(-2.5deg); }
-}
-
-/* ⚡ マーブル混色ストリーム */
-.vortex-blend-layer {
-  transform-origin: 84px 84px;
-  animation: vortexBlendPulse 4.5s ease-in-out infinite alternate;
+  animation: lavaMantleMorph 7.5s ease-in-out infinite alternate;
+  opacity: 0.7;
   transition: opacity .8s;
 }
-.vortex-blend-stream {
-  filter: drop-shadow(0 0 6px #FFF) drop-shadow(0 0 14px #00F2FE);
-}
-@keyframes vortexBlendPulse {
-  0% { opacity: 0.6; transform: scale(0.98); }
-  100% { opacity: 1; transform: scale(1.03); }
-}
-
-/* 粒子吸引アニメーション（ゆったり漂うネオン液滴） */
-.v-part {
-  animation: vortexPartPull 4.5s ease-in-out infinite;
-}
-.v-part.vp-1 { animation-delay: 0s; }
-.v-part.vp-2 { animation-delay: 0.9s; }
-.v-part.vp-3 { animation-delay: 1.8s; }
-.v-part.vp-4 { animation-delay: 2.7s; }
-.v-part.vp-5 { animation-delay: 3.6s; }
-@keyframes vortexPartPull {
-  0% { transform: translate(0, 0) scale(1); opacity: 0.8; }
-  50% { opacity: 1; filter: drop-shadow(0 0 6px #FFF); }
-  100% { transform: translate(0, 0) scale(0.4); opacity: 0.3; }
+@keyframes lavaMantleMorph {
+  0% { transform: scale(1.06, 0.95) rotate(0deg); }
+  35% { transform: scale(0.96, 1.05) rotate(4deg); }
+  70% { transform: scale(1.04, 0.98) rotate(-3deg); }
+  100% { transform: scale(0.98, 1.03) rotate(2deg); }
 }
 
-/* 👁️ 渦の中心核（ヴォルテックス・アイ）：呼吸パルス */
-.vortex-eye-group {
+/* ぷるぷる流体ジェルのメインボディ */
+.lava-cell-body {
+  fill: url(#lavaBlobCoreGrad);
+  transform-origin: 84px 84px;
+  animation: lavaCellMorph 6.2s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 12px rgba(255, 0, 127, 0.85)) drop-shadow(0 0 20px rgba(121, 40, 202, 0.6));
+}
+@keyframes lavaCellMorph {
+  0% { transform: scale(1, 1) translate(0, 0); }
+  30% { transform: scale(1.05, 0.95) translate(-1px, 2px); }
+  65% { transform: scale(0.96, 1.04) translate(2px, -1px); }
+  100% { transform: scale(1.03, 0.97) translate(-1px, -1px); }
+}
+
+/* 内部発光核（エレクトリック・ニュークリアス） */
+.lava-cell-nucleus {
+  fill: url(#lavaNucleusGrad);
+  transform-origin: 84px 84px;
+  animation: lavaNucleusGlow 3.6s ease-in-out infinite alternate;
+  transition: r .8s cubic-bezier(.2, .9, .3, 1), opacity .8s;
+}
+@keyframes lavaNucleusGlow {
+  0% { transform: scale(0.88); opacity: 0.65; filter: drop-shadow(0 0 6px #FFF); }
+  100% { transform: scale(1.14); opacity: 1; filter: drop-shadow(0 0 14px #00F2FE) drop-shadow(0 0 22px #FF007F); }
+}
+
+/* ジェル表面のぷるぷる光沢ハイライト */
+.lava-cell-specular {
+  fill: rgba(255, 255, 255, 0.4);
+  filter: drop-shadow(0 0 4px #FFFFFF);
+  transform-origin: 84px 84px;
+  animation: lavaSpecularPulse 4.8s ease-in-out infinite alternate;
+}
+@keyframes lavaSpecularPulse {
+  0% { transform: scale(0.92) translate(-1px, -1px); opacity: 0.35; }
+  100% { transform: scale(1.05) translate(1px, 1px); opacity: 0.85; }
+}
+
+/* 🪐 周囲を浮遊・対流するサテライト液滴群 */
+.liquid-satellites-group {
   transform-origin: 84px 84px;
   transition: transform .8s cubic-bezier(.2, .9, .3, 1);
 }
-.vortex-eye-glow {
-  animation: vortexEyeBreathe 3.6s ease-in-out infinite alternate;
+.lava-drop {
+  fill: url(#lavaDropletGrad);
+  filter: drop-shadow(0 0 6px #00F2FE) drop-shadow(0 0 10px #FF007F);
 }
-.vortex-eye-ring {
-  fill: none;
-  stroke: #00F2FE;
-  stroke-width: 1.6;
-  stroke-dasharray: 4 4;
-  animation: vortexEyeRingPulse 5s ease-in-out infinite alternate;
-  transform-origin: 84px 84px;
-  filter: drop-shadow(0 0 8px #00F2FE);
+.lava-drop.d1 {
+  animation: lavaDropFloat1 5.4s ease-in-out infinite alternate;
 }
-.vortex-eye-pit {
-  fill: #0c0216;
-  stroke: #FF007F;
-  stroke-width: 1.5;
-  filter: drop-shadow(0 0 10px #FF007F);
-  animation: vortexEyeBreathe 2.8s ease-in-out infinite alternate;
-  transform-origin: 84px 84px;
+.lava-drop.d2 {
+  animation: lavaDropFloat2 6.3s ease-in-out infinite alternate;
 }
-@keyframes vortexEyeBreathe {
-  0% { transform: scale(0.88); opacity: 0.7; }
-  100% { transform: scale(1.12); opacity: 1; }
+.lava-drop.d3 {
+  animation: lavaDropFloat3 4.9s ease-in-out infinite alternate;
 }
-@keyframes vortexEyeRingPulse {
-  0% { transform: scale(0.92); opacity: 0.6; stroke-width: 1.4; }
-  50% { transform: scale(1.06); opacity: 0.95; stroke-width: 1.8; }
-  100% { transform: scale(0.98); opacity: 0.75; stroke-width: 1.5; }
+.lava-drop.d4 {
+  animation: lavaDropFloat4 5.8s ease-in-out infinite alternate;
+}
+.lava-drop.d5 {
+  animation: lavaDropFloat5 7.0s ease-in-out infinite alternate;
+}
+@keyframes lavaDropFloat1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(3px, -4px) scale(1.12); }
+  100% { transform: translate(-2px, 3px) scale(0.92); }
+}
+@keyframes lavaDropFloat2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-4px, 3px) scale(0.9); }
+  100% { transform: translate(3px, -3px) scale(1.15); }
+}
+@keyframes lavaDropFloat3 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(4px, 2px) scale(1.18); }
+  100% { transform: translate(-3px, -4px) scale(0.88); }
+}
+@keyframes lavaDropFloat4 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-3px, -3px) scale(0.94); }
+  100% { transform: translate(2px, 4px) scale(1.1); }
+}
+@keyframes lavaDropFloat5 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(2px, 4px) scale(1.15); }
+  100% { transform: translate(-4px, -2px) scale(0.92); }
+}
+.lava-nano {
+  fill: #00F2FE;
+  filter: drop-shadow(0 0 4px #00F2FE);
+  animation: lavaNanoGlint 3s ease-in-out infinite alternate;
+}
+.lava-nano.n1 { animation-delay: 0s; }
+.lava-nano.n2 { animation-delay: 1.2s; fill: #FF007F; filter: drop-shadow(0 0 4px #FF007F); }
+.lava-nano.n3 { animation-delay: 2.1s; fill: #FFF; filter: drop-shadow(0 0 4px #FFF); }
+@keyframes lavaNanoGlint {
+  0% { opacity: 0.3; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1.3); }
 }
 
-/* 🔥 オーバードライブ覚醒時（臨界共鳴パルス：回転ではなく高エネルギーグロー） */
-.gauge[data-overdrive] .vortex-swirl-world {
-  filter: drop-shadow(0 0 16px rgba(255, 0, 127, 0.8)) drop-shadow(0 0 24px rgba(0, 242, 254, 0.8)) !important;
+/* 🔥 オーバードライブ覚醒時（臨界ジェル発光・プルプル高密度パルス） */
+.gauge[data-overdrive] .liquid-blob-core-group {
+  filter: drop-shadow(0 0 24px rgba(255, 0, 127, 0.95)) drop-shadow(0 0 38px rgba(0, 242, 254, 0.85)) !important;
 }
-.gauge[data-overdrive] .vortex-eye-glow {
-  filter: drop-shadow(0 0 20px #FFF) drop-shadow(0 0 40px #FF007F) drop-shadow(0 0 60px #00F2FE) !important;
-  transform: scale(1.4) !important;
+.gauge[data-overdrive] .lava-cell-mantle {
+  stroke: #00F2FE !important;
+  stroke-width: 1.5 !important;
+  opacity: 1 !important;
 }
-.gauge[data-overdrive] .vortex-blend-stream {
-  stroke-width: 2.8 !important;
-  filter: drop-shadow(0 0 10px #FFF) drop-shadow(0 0 20px #00F2FE) !important;
+.gauge[data-overdrive] .lava-cell-nucleus {
+  filter: drop-shadow(0 0 16px #FFF) drop-shadow(0 0 32px #00F2FE) drop-shadow(0 0 48px #FF007F) !important;
+  transform: scale(1.35) !important;
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -2032,7 +2062,7 @@ html.ui-frost .theme-gauge-frost { display: inline; }
   .brass-needle, .aurora-prism-fill, .liquid-fluid-rect, .liquid-wave-cap,
   .kt-join-crack, .cel-starlink-beam, .abyss-dive-prog, .frost-freeze-prog,
   .lava-blob-main, .abyss-dive-prog-l, .abyss-dive-prog-r, .liquid-wave-group,
-  .vortex-swirl-world, .vortex-eye-group {
+  .liquid-blob-core-group, .liquid-satellites-group, .vortex-swirl-world, .vortex-eye-group {
     transition: none !important;
   }
   .cyber-segments .c-seg.overdrive, .liquid-wave-cap, .kt-gold-dust,
@@ -2041,8 +2071,7 @@ html.ui-frost .theme-gauge-frost { display: inline; }
   .lava-blob-float1, .lava-blob-float2, .lava-blob-float3,
   .frost-comet-orbit, .frost-snowflake-dendrite,
   .liquid-wave-front, .liquid-wave-back, .liquid-wave-crest, .liquid-wave-glow, .liquid-sw-bubble,
-  .vortex-swirl-world, .vortex-mag-layer, .vortex-cya-layer, .vortex-blend-layer,
-  .v-part, .vortex-eye-glow, .vortex-eye-ring, .vortex-eye-pit {
+  .lava-cell-mantle, .lava-cell-body, .lava-cell-nucleus, .lava-cell-specular, .lava-drop, .lava-nano {
     animation: none !important;
   }
 }
@@ -3000,88 +3029,75 @@ html.ui-frost .sec-h .ln{background:linear-gradient(90deg,#A0E7E5 0%,#70D6FF 40%
                 <rect class="aurora-prism-fill" id="auroraPrismFill" x="0" y="0" width="0" height="0" style="display:none"></rect>
               </g>
 
-              <!-- 🌸 4. Liquid: デュアル・マーブル・ヴォルテックス（2色インク螺旋渦潮ミキシング） -->
+              <!-- 🌸 4. Liquid: オーガニック・ラバ・セル（アメーバ流体ジェル＆浮遊液滴） -->
               <g class="theme-gauge-liquid" id="gaugeLiquidCore">
                 <defs>
                   <!-- チャンバー用クリップパス -->
                   <clipPath id="liquidChamberClip">
                     <circle cx="84" cy="84" r="64"></circle>
                   </clipPath>
-                  <!-- 蛍光マゼンタグラデーション（ホットピンク〜パープル） -->
-                  <linearGradient id="vortexMagentaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#FF007F"></stop>
-                    <stop offset="60%" stop-color="#E100FF"></stop>
-                    <stop offset="100%" stop-color="#7928CA"></stop>
-                  </linearGradient>
-                  <!-- 蛍光シアングラデーション（エレクトリックシアン〜ディープブルー） -->
-                  <linearGradient id="vortexCyanGrad" x1="100%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#00F2FE"></stop>
-                    <stop offset="50%" stop-color="#00DFD8"></stop>
-                    <stop offset="100%" stop-color="#4B0082"></stop>
-                  </linearGradient>
-                  <!-- 混色エレクトリック・バイオレット（臨界コアグラデーション） -->
-                  <radialGradient id="vortexBlendCoreGrad" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stop-color="#FFFFFF"></stop>
-                    <stop offset="30%" stop-color="#00F2FE"></stop>
-                    <stop offset="65%" stop-color="#FF007F"></stop>
-                    <stop offset="100%" stop-color="#2E0854" stop-opacity="0"></stop>
+                  <!-- ぷるぷる流体ジェルのメイングラデーション（ディープインディゴ〜マゼンタ〜シアン〜白光） -->
+                  <radialGradient id="lavaBlobCoreGrad" cx="45%" cy="40%" r="65%">
+                    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"></stop>
+                    <stop offset="25%" stop-color="#00F2FE" stop-opacity="0.9"></stop>
+                    <stop offset="60%" stop-color="#FF007F" stop-opacity="0.85"></stop>
+                    <stop offset="90%" stop-color="#7928CA" stop-opacity="0.9"></stop>
+                    <stop offset="100%" stop-color="#1B0436" stop-opacity="0.95"></stop>
                   </radialGradient>
-                  <!-- 混色マーブルライン用グラデーション -->
-                  <linearGradient id="vortexMarbleStreamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <!-- 表面張力オーラ膜（マントル）グラデーション -->
+                  <linearGradient id="lavaMembraneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stop-color="#FF007F"></stop>
-                    <stop offset="50%" stop-color="#FFFFFF"></stop>
+                    <stop offset="50%" stop-color="#E100FF"></stop>
                     <stop offset="100%" stop-color="#00F2FE"></stop>
                   </linearGradient>
+                  <!-- 内部発光核（ニュークリアス）グラデーション -->
+                  <radialGradient id="lavaNucleusGrad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#FFFFFF"></stop>
+                    <stop offset="35%" stop-color="#00DFD8"></stop>
+                    <stop offset="70%" stop-color="#FF007F"></stop>
+                    <stop offset="100%" stop-color="#7928CA" stop-opacity="0"></stop>
+                  </radialGradient>
+                  <!-- 浮遊サテライト液滴用グラデーション -->
+                  <radialGradient id="lavaDropletGrad" cx="35%" cy="30%" r="70%">
+                    <stop offset="0%" stop-color="#FFFFFF"></stop>
+                    <stop offset="40%" stop-color="#00F2FE"></stop>
+                    <stop offset="85%" stop-color="#FF007F"></stop>
+                    <stop offset="100%" stop-color="#7928CA"></stop>
+                  </radialGradient>
                 </defs>
 
                 <!-- 有機的ガラスチャンバー背景・輪郭（アメーバ変形と調和） -->
                 <path class="lava-lamp-chamber" id="lavaChamber" d="M 84,18 C 122,14 154,46 150,84 C 146,124 122,154 84,150 C 46,146 14,122 18,84 C 22,46 46,22 84,18 Z"></path>
                 <circle class="liquid-chamber-rim" cx="84" cy="84" r="64"></circle>
 
-                <!-- 🌀 渦潮マーブルミキシングコンテナ（クリップパス内） -->
-                <g class="vortex-container" clip-path="url(#liquidChamberClip)">
-                  <!-- 深淵ディーププール背景 -->
-                  <circle class="vortex-deep-pool" cx="84" cy="84" r="64"></circle>
+                <!-- 🧪 オーガニック流体コンテナ（クリップパス内） -->
+                <g class="liquid-fluid-container" clip-path="url(#liquidChamberClip)">
+                  <!-- 深淵プール背景 -->
+                  <circle class="liquid-chamber-pool" cx="84" cy="84" r="64"></circle>
 
-                  <!-- 🌀 全体渦潮回転グループ（JSで回転速度・トルク・スケール制御） -->
-                  <g class="vortex-swirl-world" id="vortexSwirlWorld">
-                    <!-- レイヤー1: マゼンタ螺旋アーム群（時計回り） -->
-                    <g class="vortex-arm-group vortex-mag-layer">
-                      <!-- 腕1: 太い流体スパイラル -->
-                      <path class="vortex-stream-blade" d="M 84,84 C 70,68 46,58 34,76 C 22,96 32,126 58,138 C 86,150 128,140 142,108 C 154,76 138,40 106,28 C 76,16 42,30 30,56 C 26,66 28,72 32,74 C 34,60 56,36 86,40 C 114,44 132,70 124,96 C 116,120 86,130 64,122 C 46,114 42,94 50,82 C 58,70 72,76 84,84 Z" fill="url(#vortexMagentaGrad)"></path>
-                      <!-- 腕2: 外周を補助する細いマゼンタストリーム -->
-                      <path class="vortex-thin-ribbon" d="M 84,84 C 98,96 118,106 130,94 C 142,80 134,54 112,42 C 88,30 50,38 36,66 C 24,94 38,126 66,138 C 76,142 84,142 86,138" fill="none" stroke="#FF007F" stroke-width="2.5" stroke-linecap="round"></path>
-                    </g>
-
-                    <!-- レイヤー2: シアン螺旋アーム群（180度対向から巻き込む） -->
-                    <g class="vortex-arm-group vortex-cya-layer">
-                      <!-- 腕1: 180度反転の太いシアン流体スパイラル -->
-                      <path class="vortex-stream-blade" d="M 84,84 C 98,100 122,110 134,92 C 146,72 136,42 110,30 C 82,18 40,28 26,60 C 14,92 30,128 62,140 C 92,152 126,138 138,112 C 142,102 140,96 136,94 C 134,108 112,132 82,128 C 54,124 36,98 44,72 C 52,48 82,38 104,46 C 122,54 126,74 118,86 C 110,98 96,92 84,84 Z" fill="url(#vortexCyanGrad)"></path>
-                      <!-- 腕2: 外周を補助する細いシアンストリーム -->
-                      <path class="vortex-thin-ribbon" d="M 84,84 C 70,72 50,62 38,74 C 26,88 34,114 56,126 C 80,138 118,130 132,102 C 144,74 130,42 102,30 C 92,26 84,26 82,30" fill="none" stroke="#00F2FE" stroke-width="2.5" stroke-linecap="round"></path>
-                    </g>
-
-                    <!-- レイヤー3: マーブル交差混色スパイラル光条（2色が擦れ合う境界） -->
-                    <g class="vortex-blend-layer" id="vortexBlendLayer">
-                      <path class="vortex-blend-stream b-s1" d="M 84,84 C 60,60 30,80 44,114 C 58,142 108,146 134,116 C 152,94 140,50 102,34 C 68,20 34,44 26,78" fill="none" stroke="url(#vortexMarbleStreamGrad)" stroke-width="1.8" stroke-linecap="round"></path>
-                      <path class="vortex-blend-stream b-s2" d="M 84,84 C 108,108 138,88 124,54 C 110,26 60,22 34,52 C 16,74 28,118 66,134 C 100,148 134,124 142,90" fill="none" stroke="url(#vortexMarbleStreamGrad)" stroke-width="1.8" stroke-linecap="round"></path>
-                    </g>
-
-                    <!-- レイヤー4: 渦に巻き込まれ吸引されるネオン液滴粒子 -->
-                    <g class="vortex-particles-layer">
-                      <circle class="v-part vp-1" cx="60" cy="68" r="2.2" fill="#FF007F"></circle>
-                      <circle class="v-part vp-2" cx="108" cy="100" r="2.0" fill="#00F2FE"></circle>
-                      <circle class="v-part vp-3" cx="72" cy="118" r="2.4" fill="#FFFFFF"></circle>
-                      <circle class="v-part vp-4" cx="96" cy="50" r="1.8" fill="#E100FF"></circle>
-                      <circle class="v-part vp-5" cx="44" cy="92" r="1.6" fill="#00DFD8"></circle>
-                    </g>
+                  <!-- 🧪 中央の有機的流体セル（ラバ・ジェルブロブ本体） -->
+                  <g class="liquid-blob-core-group" id="liquidBlobCoreGroup">
+                    <!-- 外側オーラ膜（表面張力マントル） -->
+                    <path class="lava-cell-mantle" id="lavaCellMantle" d="M 84,36 C 114,34 136,58 134,84 C 132,112 110,134 84,132 C 56,130 34,110 36,84 C 38,56 56,38 84,36 Z"></path>
+                    <!-- メイン流体ボディ -->
+                    <path class="lava-cell-body" id="lavaCellBody" d="M 84,40 C 110,38 130,60 128,84 C 126,108 106,128 84,126 C 60,124 40,106 42,84 C 44,60 60,42 84,40 Z"></path>
+                    <!-- 内部コア発光核 -->
+                    <circle class="lava-cell-nucleus" id="lavaCellNucleus" cx="84" cy="84" r="20"></circle>
+                    <!-- ジェル光沢ハイライト -->
+                    <path class="lava-cell-specular" d="M 64,52 C 72,46 96,46 104,52 C 96,56 72,56 64,52 Z"></path>
                   </g>
 
-                  <!-- 🌀 渦の中心核（ヴォルテックス・アイ）：強烈な吸引点 -->
-                  <g class="vortex-eye-group" id="vortexEyeGroup">
-                    <circle class="vortex-eye-glow" cx="84" cy="84" r="24" fill="url(#vortexBlendCoreGrad)"></circle>
-                    <circle class="vortex-eye-ring" cx="84" cy="84" r="12"></circle>
-                    <circle class="vortex-eye-pit" cx="84" cy="84" r="5"></circle>
+                  <!-- 🪐 周囲を浮遊・対流するサテライト液滴群 -->
+                  <g class="liquid-satellites-group" id="liquidSatellites">
+                    <circle class="lava-drop d1" cx="54" cy="60" r="7"></circle>
+                    <circle class="lava-drop d2" cx="114" cy="68" r="8.5"></circle>
+                    <circle class="lava-drop d3" cx="72" cy="116" r="6"></circle>
+                    <circle class="lava-drop d4" cx="106" cy="110" r="5"></circle>
+                    <circle class="lava-drop d5" cx="48" cy="98" r="4.5"></circle>
+                    <!-- 微小ネオングリント -->
+                    <circle class="lava-nano n1" cx="84" cy="50" r="2.2"></circle>
+                    <circle class="lava-nano n2" cx="118" cy="92" r="1.8"></circle>
+                    <circle class="lava-nano n3" cx="50" cy="78" r="1.6"></circle>
                   </g>
                 </g>
 
@@ -3090,6 +3106,9 @@ html.ui-frost .sec-h .ln{background:linear-gradient(90deg,#A0E7E5 0%,#70D6FF 40%
 
                 <!-- 互換用hidden要素 -->
                 <rect class="liquid-fluid-rect" id="liquidFluidRect" x="0" y="0" width="0" height="0" style="display:none"></rect>
+                <g id="vortexSwirlWorld" style="display:none"></g>
+                <g id="vortexEyeGroup" style="display:none"></g>
+                <g id="vortexBlendLayer" style="display:none"></g>
                 <g id="liquidWaveGroup" style="display:none"></g>
                 <g class="lava-wax-group" id="lavaWaxGroup" style="display:none"></g>
                 <ellipse class="lava-blob-main" id="lavaBlobMain" cx="84" cy="84" rx="0" ry="0" style="display:none"></ellipse>
@@ -4860,27 +4879,38 @@ function _driveThemeGauge(pct, base, over, tier) {
     aFill.setAttribute('height', String(aH));
   }
 
-  // 4. Liquid: デュアル・マーブル・ヴォルテックス（2色インク有機呼吸・ゆらぎパルス／回転廃止）
+  // 4. Liquid: オーガニック・ラバ・セル（アメーバ流体ジェル＆浮遊液滴）
+  const lBlobGroup = document.getElementById('liquidBlobCoreGroup');
+  const lNucleus = document.getElementById('lavaCellNucleus');
+  const lMantle = document.getElementById('lavaCellMantle');
+  const lSatellites = document.getElementById('liquidSatellites');
   const vWorld = document.getElementById('vortexSwirlWorld');
   const vEye = document.getElementById('vortexEyeGroup');
   const vBlend = document.getElementById('vortexBlendLayer');
   const lWaveGroup = document.getElementById('liquidWaveGroup');
   const lBlobMain = document.getElementById('lavaBlobMain');
   const lWaxGroup = document.getElementById('lavaWaxGroup');
-  if (vWorld) {
-    // 360度回転スピンは完全撤廃：進捗率に応じた規模・エネルギー拡張（スケール 0.84 -> 1.10）を反映
-    const vScale = 0.84 + (base / 100) * 0.24 + (over > 0 ? 0.06 : 0);
-    vWorld.style.transform = 'scale(' + vScale.toFixed(2) + ')';
+  if (lBlobGroup) {
+    // 進捗率に応じて中央の流体セルがエネルギーを吸収し、豊かに膨張（スケール 0.84 -> 1.22）
+    const bScale = 0.84 + (base / 100) * 0.38 + (over > 0 ? 0.08 : 0);
+    lBlobGroup.style.transform = 'scale(' + bScale.toFixed(2) + ')';
   }
-  if (vEye) {
-    // 中心の核がエネルギー吸引によって拡大・発光深度を増す
-    const eyeScale = 0.75 + (base / 100) * 0.45;
-    vEye.style.transform = 'scale(' + eyeScale.toFixed(2) + ')';
+  if (lNucleus) {
+    // 中心の核が進捗とともに高密度化・発光拡大（半径 16 -> 26）
+    const nR = 16 + (base / 100) * 10 + (over > 0 ? 3 : 0);
+    lNucleus.setAttribute('r', String(nR.toFixed(1)));
+    const nOp = 0.6 + (base / 100) * 0.4;
+    lNucleus.style.opacity = String(nOp.toFixed(2));
   }
-  if (vBlend) {
-    // 進捗とともに混色度合（ブレンド層の不透明度 0.35 -> 1.0）が上昇
-    const blendOp = 0.35 + (base / 100) * 0.65;
-    vBlend.style.opacity = String(blendOp.toFixed(2));
+  if (lMantle) {
+    // 進捗とともにマントル（表面張力オーラ膜）の不透明度・グローが強化
+    const mOp = 0.4 + (base / 100) * 0.55;
+    lMantle.style.opacity = String(mOp.toFixed(2));
+  }
+  if (lSatellites) {
+    // 進捗に応じて周囲の液滴が中央のセルへ凝縮・合体するように引力を受ける（スケール 1.08 -> 0.90）
+    const sScale = 1.08 - (base / 100) * 0.18;
+    lSatellites.style.transform = 'scale(' + sScale.toFixed(2) + ')';
   }
   if (lWaveGroup) {
     const waterY = Math.max(14, 146 - (base / 100) * 124 - (over > 0 ? 6 : 0));

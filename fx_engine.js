@@ -1996,10 +1996,11 @@
     diamondSparkle(cx, cy, { count: 42, color: iceBlue, additive: true });
     diamondSparkle(cx, cy, { count: 32, color: frostCyan, additive: true });
 
-    // 4. 氷結衝撃リング (多重高速展開)
-    rings(cx, cy, { count: 4, maxR: maxR * 1.05, color: iceBlue, additive: true });
-    rings(cx, cy, { count: 3, maxR: maxR * 0.78, color: crystalWhite, additive: true });
-    sonicWave(cx, cy, { count: 2, maxR: maxR * 0.6, color: frostCyan, thickness: 3.2 });
+    // 4. 極低温クロス氷晶スラッシュ（同心円・リングは完全撤廃）
+    slashRibbon(cx - maxR * 0.72, cy, cx + maxR * 0.72, cy, { color: iceBlue, width: 3.6, ttl: 0.4 });
+    slashRibbon(cx, cy - maxR * 0.72, cx, cy + maxR * 0.72, { color: frostCyan, width: 3.2, ttl: 0.38, delay: 0.03 });
+    slashRibbon(cx - maxR * 0.52, cy - maxR * 0.52, cx + maxR * 0.52, cy + maxR * 0.52, { color: crystalWhite, width: 2.8, ttl: 0.34, delay: 0.05 });
+    slashRibbon(cx + maxR * 0.52, cy - maxR * 0.52, cx - maxR * 0.52, cy + maxR * 0.52, { color: iceBlue, width: 2.6, ttl: 0.36, delay: 0.07 });
 
     // 5. 極微粉氷ダスト猛吹雪（画面全体へ高速で吹き荒れる）
     dust({ count: o.dustCount || 65, colors: [iceBlue, crystalWhite, frostCyan, '#B2EBF2', '#E0F2F1'] });

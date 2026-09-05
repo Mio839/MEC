@@ -1794,9 +1794,10 @@
 
   function ceCorrectShockwave(el) {
     if (!window.MecFX || !el || !el.getBoundingClientRect) return;
+    var curUi = window.MecUITheme ? MecUITheme.get() : null;
+    if (curUi === 'frost') return; // Frostは同心円リング・点線円を完全撤廃
     var r = el.getBoundingClientRect();
     if (!r.width) return;
-    var curUi = window.MecUITheme ? MecUITheme.get() : null;
     var theme = ceTheme();
     var t = Math.max(1, Math.min(ceTier(exam.streak) || 1, 7));
 
@@ -2247,7 +2248,6 @@
       } else if (curUi === 'frost') {
         if (window.MecFX.frostCrystalShatter) window.MecFX.frostCrystalShatter(cx, cy, { maxR: maxR, dendriteCount: Math.min(10, 4 + tier) });
         if (window.MecFX.dust) window.MecFX.dust({ count: 20 + tier * 12, colors: ['#70D6FF', '#FFFFFF', '#A0E7E5'] });
-        if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#70D6FF', thickness: 3, maxR: maxR * 1.05, additive: true });
         return;
       } else if (curUi === 'aurora') {
         if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(cx, cy, { maxR: maxR, sparkleCount: 18 + tier * 5 });

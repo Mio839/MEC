@@ -100,17 +100,19 @@ t('CSS内に全8テーマの表示切り替えと共通円形パーツ非表示�
 
 console.log('── プランB（非円形4種＋円形4種＆Lava Lamp流体）詳細検証 ──');
 
-t('Liquid: 外枠アメーバ変形と内部のデュアル・マーブル・ヴォルテックス（有機的呼吸・ゆらぎパルス／回転廃止）が定義されている', () => {
+t('Liquid: 外枠アメーバ変形と内部のオーガニック・ラバ・セル（アメーバ流体ジェル＆浮遊液滴）が定義されている', () => {
   assert.ok(HTML.includes('id="lavaChamber"'), 'lavaChamber が見つからない');
-  assert.ok(HTML.includes('id="vortexSwirlWorld"'), 'vortexSwirlWorld が見つからない');
-  assert.ok(HTML.includes('class="vortex-arm-group vortex-mag-layer"'), 'vortex-mag-layer が見つからない');
-  assert.ok(HTML.includes('class="vortex-arm-group vortex-cya-layer"'), 'vortex-cya-layer が見つからない');
-  assert.ok(HTML.includes('id="vortexBlendLayer"'), 'vortexBlendLayer が見つからない');
-  assert.ok(HTML.includes('id="vortexEyeGroup"'), 'vortexEyeGroup が見つからない');
+  assert.ok(HTML.includes('id="liquidBlobCoreGroup"'), 'liquidBlobCoreGroup が見つからない');
+  assert.ok(HTML.includes('id="lavaCellBody"'), 'lavaCellBody が見つからない');
+  assert.ok(HTML.includes('id="lavaCellNucleus"'), 'lavaCellNucleus が見つからない');
+  assert.ok(HTML.includes('id="liquidSatellites"'), 'liquidSatellites が見つからない');
   assert.ok(HTML.includes('@keyframes lavaChamberMorph'), 'lavaChamberMorph アニメーションが無い');
   assert.ok(HTML.includes('@keyframes lavaContainerMorph'), 'lavaContainerMorph アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes vortexLayerWobble'), 'vortexLayerWobble アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes vortexEyeRingPulse'), 'vortexEyeRingPulse アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes lavaCellMorph'), 'lavaCellMorph アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes lavaMantleMorph'), 'lavaMantleMorph アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes lavaNucleusGlow'), 'lavaNucleusGlow アニメーションが無い');
+  assert.ok(!HTML.includes('vortex-mag-layer'), 'マゼンタ層が残存している');
+  assert.ok(!HTML.includes('vortex-cya-layer'), 'シアン層が残存している');
   assert.ok(!HTML.includes('@keyframes vortexSpin'), 'vortexSpin（高速回転）が残存している');
 });
 

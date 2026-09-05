@@ -1,3 +1,5 @@
+// 2026-09-05av: Liquid（幻想リキッド・アート）のHeroゲージ内部のマゼンタ層＆シアン層（螺旋ブレード）を完全撤廃し、【オーガニック・ラバ・セル（アメーバ流体ジェル＆浮遊液滴）】へ全面刷新。回転ゼロで呼吸・伸縮するジェルセルとサテライト液滴の引力対流を実装。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-05q → 2026-09-05r）。
 // 2026-09-05au: Liquid（幻想リキッド・アート）のHeroゲージ内部の高速回転アニメーション（vortexSpinおよびvortexEyeRingSpin）を完全撤廃し、優美な【有機的呼吸・ゆらぎパルス（Morph & Breathe）】へ刷新。回転スピンによる目眩・疲労感を解消し、流体のうねりと光輪パルスで表現。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-05p → 2026-09-05q）。
 // 2026-09-05at: Aurora（オーロラ・グラス）のHeroゲージ深層背景（.aurora-glass-back）の巨大drop-shadowを撤廃。デスクトップPC（Chromium）でSVG正方形キャンバス（168x168）による四角いクリッピング枠アーティファクトが浮き出るのを解消しハブ背景と完全一体化。
@@ -1230,7 +1232,7 @@ const CACHE = "mec-v367";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-05q";
+const SHELL_VERSION = "2026-09-05r";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
