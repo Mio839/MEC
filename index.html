@@ -1528,58 +1528,71 @@ html.ui-kintsugi .theme-gauge-kintsugi { display: inline; }
 }
 
 /* ─────────────────────────────────────────────────────────────
-   6. Celestial: 二重天球儀・八芒星魔法陣（天体運行円を極上化）
+   6. Celestial: 【月齢ムーンフェイズ ＆ 流星コメット周回】
    ───────────────────────────────────────────────────────────── */
 html.ui-celestial .theme-gauge-celestial { display: inline; }
-.cel-magic-ring1 {
+.cel-orbit-rim {
   fill: none;
-  stroke: rgba(255, 209, 102, .5);
-  stroke-width: 1.6;
-  stroke-dasharray: 4 6;
-  animation: casingSpin 32s linear infinite;
-  transform-origin: 84px 84px;
+  stroke: rgba(255, 209, 102, .3);
+  stroke-width: 1.2;
 }
-.cel-magic-ring2 {
-  fill: rgba(8, 4, 25, .7);
-  stroke: rgba(138, 43, 226, .6);
-  stroke-width: 1.4;
-  stroke-dasharray: 8 4;
-  animation: casingSpin 24s linear infinite reverse;
-  transform-origin: 84px 84px;
-}
-.cel-starlink-beam {
-  fill: none;
-  stroke: #FFD166;
-  stroke-width: 2.2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 340;
-  stroke-dashoffset: 340;
-  filter: drop-shadow(0 0 8px #FFD166) drop-shadow(0 0 16px rgba(138,43,226,.8));
-  transition: stroke-dashoffset 1s cubic-bezier(.2, .9, .3, 1);
-}
-.gauge[data-tier="5"] .cel-starlink-beam,
-.gauge[data-tier="6"] .cel-starlink-beam {
-  stroke: #FFFDF0;
-  stroke-width: 2.8;
-  filter: drop-shadow(0 0 12px #FFFDF0) drop-shadow(0 0 24px #FFD166) drop-shadow(0 0 36px rgba(138,43,226,.95));
-}
-.cel-star {
-  fill: rgba(255, 209, 102, .3);
-  stroke: rgba(255, 255, 255, .4);
+.cel-orbit-track {
+  fill: rgba(12, 6, 32, .55);
+  stroke: rgba(138, 43, 226, .35);
   stroke-width: 1;
-  transition: fill .4s, filter .4s, transform .4s;
 }
-.cel-star.active {
-  fill: #FFF;
+.cel-moon-base {
+  fill: #120924;
+  stroke: rgba(138, 43, 226, .4);
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 12px rgba(18, 9, 36, .8));
+}
+.cel-moon-lit {
+  filter: drop-shadow(0 0 10px rgba(255, 209, 102, .6)) drop-shadow(0 0 20px rgba(138, 43, 226, .7));
+  transition: filter .5s;
+}
+.cel-moon-halo {
+  fill: none;
   stroke: #FFD166;
-  stroke-width: 1.4;
-  filter: drop-shadow(0 0 8px #FFD166) drop-shadow(0 0 14px rgba(138,43,226,1));
-  animation: starPulse 1.4s ease-in-out infinite alternate;
+  stroke-width: 2;
+  opacity: 0;
+  filter: drop-shadow(0 0 12px #FFD166) drop-shadow(0 0 24px rgba(138,43,226,1));
+  transition: opacity .6s;
+  transform-origin: 84px 84px;
 }
-@keyframes starPulse {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.35); }
+.gauge[data-tier="5"] .cel-moon-halo,
+.gauge[data-tier="6"] .cel-moon-halo {
+  opacity: .95;
+  animation: celHaloBreathe 2.4s ease-in-out infinite alternate;
+}
+@keyframes celHaloBreathe {
+  0% { transform: scale(1); opacity: .75; }
+  100% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 18px #FFFDF0) drop-shadow(0 0 32px #FFD166); }
+}
+.cel-comet-orbit {
+  transform-origin: 84px 84px;
+  animation: cometCruise 8s cubic-bezier(.4, 0, .2, 1) infinite;
+  pointer-events: none;
+}
+.gauge[data-tier="3"] .cel-comet-orbit { animation-duration: 5.5s; }
+.gauge[data-tier="4"] .cel-comet-orbit { animation-duration: 3.8s; }
+.gauge[data-tier="5"] .cel-comet-orbit,
+.gauge[data-tier="6"] .cel-comet-orbit { animation-duration: 2.2s; }
+.cel-comet-tail {
+  fill: none;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+}
+.cel-comet-head {
+  fill: #FFFDF0;
+  filter: drop-shadow(0 0 6px #FFFDF0) drop-shadow(0 0 12px #FFD166);
+}
+.cel-comet-spark {
+  fill: #FFF;
+}
+@keyframes cometCruise {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -2300,21 +2313,44 @@ html.ui-frost .theme-gauge-frost { display: inline; }
                 <circle class="kt-gold-dust d-2" cx="84" cy="88" r="2.2"></circle>
               </g>
 
-              <!-- 🌌 6. Celestial: 八芒星の魔法陣＆星座星間ビーム -->
+              <!-- 🌌 6. Celestial: 【月齢ムーンフェイズ ＆ 流星コメット周回】天体運行演出 -->
               <g class="theme-gauge-celestial" id="gaugeCelestialCore">
-                <circle class="cel-magic-ring1" cx="84" cy="84" r="70"></circle>
-                <circle class="cel-magic-ring2" cx="84" cy="84" r="62"></circle>
-                <path class="cel-starlink-beam" id="celStarlink" d="M 84,24 L 126,42 L 144,84 L 126,126 L 84,144 L 42,126 L 24,84 L 42,42 Z"></path>
-                <g class="cel-stars-group" id="celStarsGroup">
-                  <circle class="cel-star c-s0" cx="84" cy="24" r="3.2"></circle>
-                  <circle class="cel-star c-s1" cx="126" cy="42" r="3"></circle>
-                  <circle class="cel-star c-s2" cx="144" cy="84" r="3.4"></circle>
-                  <circle class="cel-star c-s3" cx="126" cy="126" r="3"></circle>
-                  <circle class="cel-star c-s4" cx="84" cy="144" r="3.2"></circle>
-                  <circle class="cel-star c-s5" cx="42" cy="126" r="3"></circle>
-                  <circle class="cel-star c-s6" cx="24" cy="84" r="3.4"></circle>
-                  <circle class="cel-star c-s7" cx="42" cy="42" r="3"></circle>
+                <defs>
+                  <linearGradient id="celMoonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FFFDF0"></stop>
+                    <stop offset="45%" stop-color="#FFD166"></stop>
+                    <stop offset="80%" stop-color="#8A2BE2"></stop>
+                    <stop offset="100%" stop-color="#1A0B2E"></stop>
+                  </linearGradient>
+                  <linearGradient id="celCometTailGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="rgba(255,209,102,0)"></stop>
+                    <stop offset="60%" stop-color="rgba(138,43,226,0.6)"></stop>
+                    <stop offset="100%" stop-color="#FFFDF0"></stop>
+                  </linearGradient>
+                  <mask id="celMoonMask">
+                    <rect x="0" y="0" width="168" height="168" fill="#FFF"></rect>
+                    <ellipse id="celMoonShadow" cx="84" cy="84" rx="42" ry="42" fill="#000"></ellipse>
+                  </mask>
+                </defs>
+                <!-- 天体運行・円環フレーム -->
+                <circle class="cel-orbit-rim" cx="84" cy="84" r="70"></circle>
+                <circle class="cel-orbit-track" cx="84" cy="84" r="64"></circle>
+
+                <!-- 月齢ムーンフェイズ（中央の月球：進捗で新月→三日月→上弦→満月） -->
+                <circle class="cel-moon-base" id="celMoonBase" cx="84" cy="84" r="42"></circle>
+                <circle class="cel-moon-lit" id="celMoonLit" cx="84" cy="84" r="42" fill="url(#celMoonGrad)" mask="url(#celMoonMask)"></circle>
+                <circle class="cel-moon-halo" id="celMoonHalo" cx="84" cy="84" r="46"></circle>
+
+                <!-- 流星コメット周回軌道（外周を光の尾を引いて滑走） -->
+                <g class="cel-comet-orbit" id="celCometOrbit">
+                  <path class="cel-comet-tail" d="M 84,14 A 70,70 0 0,0 24,54" stroke="url(#celCometTailGrad)"></path>
+                  <circle class="cel-comet-head" cx="84" cy="14" r="3.6"></circle>
+                  <circle class="cel-comet-spark" cx="84" cy="14" r="1.8"></circle>
                 </g>
+
+                <!-- 互換用要素 -->
+                <path id="celStarlink" d="" style="display:none"></path>
+                <g id="celStarsGroup" style="display:none"></g>
               </g>
 
               <!-- 🌊 7. Abyss: 潜水艇角丸長方形コンソール＆垂直潜航深度バー -->
@@ -3995,17 +4031,15 @@ function _driveThemeGauge(pct, base, over, tier) {
     kc3.style.strokeDashoffset = String((100 * (1 - p3)).toFixed(1));
   }
 
-  // 6. Celestial: 星座星間ビーム (全長約340) と8つの星ノード
-  const celBeam = document.getElementById('celStarlink');
-  if (celBeam) {
-    celBeam.style.strokeDashoffset = String((340 * (1 - base / 100)).toFixed(1));
-  }
-  const celStars = document.getElementById('celStarsGroup');
-  if (celStars && celStars.children) {
-    const sActive = Math.round((base / 100) * 8);
-    for (let i = 0; i < celStars.children.length; i++) {
-      celStars.children[i].classList.toggle('active', i < sActive);
-    }
+  // 6. Celestial: 【月齢ムーンフェイズ】進捗に応じて新月(0%) → 三日月(25%) → 上弦(50%) → 満月(100%)
+  const mShadow = document.getElementById('celMoonShadow');
+  if (mShadow) {
+    const p = Math.min(1, Math.max(0, base / 100));
+    // 0%でrx=42(完全影), 100%でrx=0(影なし・完全満月)
+    const sRx = Math.max(0, 42 * (1 - p));
+    const sCx = 84 + (p * 42);
+    mShadow.setAttribute('rx', String(sRx.toFixed(1)));
+    mShadow.setAttribute('cx', String(sCx.toFixed(1)));
   }
 
   // 7. Abyss: 潜水艇垂直潜航深度バー (左右2本: h 0 -> 100) と深度テキスト
@@ -4312,12 +4346,12 @@ function _stampGoalSeal() {
   }
 
   if (curTheme === 'celestial') {
-    if (MecFX.astrolabeRings) MecFX.astrolabeRings(c.x, c.y, { maxR: r * 1.5, rings: 3, color: '#FFD166', speed: 1.8 });
+    MecFX.dust({ count: 28, colors: ['#FFFDF0', '#FFD166', '#8A2BE2', '#48CAE4'] });
     MecFX.burst(c.x, c.y, {
-      count: 50, colors: ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFFFF'],
-      shapes: ['star', 'gem'], tier: 6, scale: 2.0, speed: 660, glow: true, additive: true
+      count: 55, colors: ['#FFFDF0', '#FFD166', '#8A2BE2', '#48CAE4', '#FFFFFF'],
+      shapes: ['star', 'gem'], tier: 6, scale: 2.2, speed: 680, glow: true, additive: true
     });
-    MecFX.confetti({ count: 80, colors: ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFFFF'], big: true });
+    MecFX.confetti({ count: 90, colors: ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFDF0', '#FFFFFF'], big: true });
     return;
   }
 
@@ -4397,7 +4431,8 @@ function _startGaugeAmbient(tier) {
   clearInterval(_gaugeFxTimer); clearInterval(_gaugeFxBoom);
   if (_reducedMotion()) return;
 
-  const curTheme = window.MecUITheme ? MecUITheme.get() : (document.documentElement.classList.contains('ui-brass') ? 'brass' : 'aurora');
+  const getTheme = () => window.MecUITheme ? MecUITheme.get() : (document.documentElement.classList.contains('ui-brass') ? 'brass' : 'aurora');
+  const curTheme = getTheme();
   const cfg = GAUGE_AMBIENTS[curTheme] || GAUGE_AMBIENTS.aurora;
 
   // 歯車・ゲージの中心。ゲージが画面外／未描画なら null（撒かない）
@@ -4416,8 +4451,13 @@ function _startGaugeAmbient(tier) {
     if (!c) return;
     const hot = Math.max(1, tier);
 
-    // 1. Brass 専用処理
-    if (cfg.isBrass) {
+    // 実行時に現在のテーマを厳密再チェック（他テーマへの歯車漏れを完全防止）
+    const isBrassNow = document.documentElement.classList.contains('ui-brass');
+    const nowTheme = getTheme();
+    const nowCfg = GAUGE_AMBIENTS[nowTheme] || GAUGE_AMBIENTS.aurora;
+
+    // 1. Brass 専用処理（必ず ui-brass クラスが存在することを確認）
+    if (isBrassNow && nowCfg.isBrass) {
       const ang = Math.random() * Math.PI * 2;
       MecFX.burst(c.x + Math.cos(ang) * c.r * .82, c.y + Math.sin(ang) * c.r * .82, {
         tier: Math.min(4, hot), count: 3 + hot * 2, colors: BRASS,
@@ -4427,36 +4467,36 @@ function _startGaugeAmbient(tier) {
         count: 1 + (hot >= 4 ? 2 : 1), w: c.r * .5, rise: 60 + hot * 12,
         min: 18, max: 40, alpha: .18 + hot * .02
       });
-      if (hot >= 3) MecFX.gears(c.x, c.y, {
+      if (hot >= 3 && MecFX.gears) MecFX.gears(c.x, c.y, {
         count: hot >= 5 ? 4 : 2, spread: 150 + hot * 30, up: true, w: c.r * .6, min: 10, max: 20
       });
       return;
     }
 
-    // 2. 全テーマ共通の微粒子 Ambient
-    if (cfg.dust) {
+    // 2. 全テーマ共通の微粒子 Ambient（Brass以外では絶対に MecFX.gears を呼ばない）
+    if (nowCfg.dust) {
       MecFX.dust({
         count: 2 + hot * 2,
-        colors: cfg.dust
+        colors: nowCfg.dust
       });
     }
 
     // 深海アビス専用: 微細気泡の上昇
-    if (cfg.isAbyss && hot >= 2 && MecFX.bubbles && Math.random() < 0.5) {
+    if (nowCfg.isAbyss && hot >= 2 && MecFX.bubbles && Math.random() < 0.5) {
       MecFX.bubbles(c.x + (Math.random() - 0.5) * c.r, c.y + c.r * 0.4, {
-        count: 2 + hot, colors: cfg.dust
+        count: 2 + hot, colors: nowCfg.dust
       });
     }
 
     // 段2以上: テーマ固有の微光・スパーク放出
-    if (cfg.burst && hot >= 2 && Math.random() < 0.6) {
+    if (nowCfg.burst && hot >= 2 && Math.random() < 0.6) {
       const ang = Math.random() * Math.PI * 2;
       const dist = (0.3 + Math.random() * 0.55) * c.r;
       MecFX.burst(c.x + Math.cos(ang) * dist, c.y + Math.sin(ang) * dist, {
         tier: Math.min(2, hot), count: 2 + hot,
-        colors: cfg.burst.colors,
-        shapes: cfg.burst.shapes,
-        speed: (cfg.burst.speed || 60) + hot * 20,
+        colors: nowCfg.burst.colors,
+        shapes: nowCfg.burst.shapes,
+        speed: (nowCfg.burst.speed || 60) + hot * 20,
         glow: true
       });
     }
@@ -4565,17 +4605,11 @@ function _gaugeCelebrate(tier) {
     return;
   }
 
-  // 6. Celestial テーマ: アストロラーベ天球儀 ＆ 星座魔導スター
+  // 6. Celestial テーマ: ステラダスト ＆ 神聖な星屑バースト（点線円は出さない）
   if (curTheme === 'celestial') {
-    if (MecFX.astrolabeRings && tier >= 2) {
-      MecFX.astrolabeRings(g.x, g.y, {
-        maxR: 120 + tier * 20, rings: 2,
-        color: hit ? '#FFFDF0' : '#FFD166', speed: 1.4
-      });
-    }
-    MecFX.dust({ count: 14 + tier * 4, colors: ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFDF0'] });
+    MecFX.dust({ count: 16 + tier * 5, colors: ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFDF0'] });
     MecFX.burst(c.x, c.y, {
-      tier: Math.min(4, tier), count: 16 + tier * 5,
+      tier: Math.min(4, tier), count: 18 + tier * 6,
       colors: hit ? ['#FFFDF0', '#FFD166', '#8A2BE2', '#48CAE4'] : ['#FFD166', '#8A2BE2', '#FFFFFF'],
       shapes: ['star', 'gem'], speed: 240 + tier * 45, glow: true
     });
@@ -4726,8 +4760,11 @@ function _startSyncFx() {
     if (!_fxOk()) return;
     const c = _centerOf(_syncBadgeEl());
     if (!c) return;
-    MecFX.steam(c.x, c.r.bottom - 2, { count: 3, w: 12, rise: 46, min: 12, max: 24, alpha: .34, grow: 2.2 });
-    MecFX.gears(c.x + c.r.width * .34, c.y, { count: 1, spread: 70, min: 7, max: 11, gravity: 240, w: 4 });
+    const isBrass = document.documentElement.classList.contains('ui-brass');
+    if (isBrass) {
+      MecFX.steam(c.x, c.r.bottom - 2, { count: 3, w: 12, rise: 46, min: 12, max: 24, alpha: .34, grow: 2.2 });
+      if (MecFX.gears) MecFX.gears(c.x + c.r.width * .34, c.y, { count: 1, spread: 70, min: 7, max: 11, gravity: 240, w: 4 });
+    }
   };
   puff();
   _syncFxTimer = setInterval(puff, 1100);
@@ -4739,8 +4776,11 @@ function _syncFxDone() {
   if (!_fxOk()) return;
   const c = _centerOf(_syncBadgeEl());
   if (!c) return;
+  const isBrass = document.documentElement.classList.contains('ui-brass');
   MecFX.stamp(c.x, c.y, { color: SYNC_BRASS[1], size: 62, thick: 2.5, ticks: 8, ttl: .72, dust: false });
-  MecFX.gears(c.x, c.y, { count: 6, spread: 210, min: 8, max: 15, gravity: 620, w: 10 });
+  if (isBrass && MecFX.gears) {
+    MecFX.gears(c.x, c.y, { count: 6, spread: 210, min: 8, max: 15, gravity: 620, w: 10 });
+  }
   MecFX.rings(c.x, c.y, { count: 1, color: 'rgba(224,194,94,.85)', thickness: 2, maxR: 78 });
 }
 
@@ -5418,6 +5458,17 @@ function _renderHubUIThemeGrid() {
 function selectHubUITheme(id) {
   if (window.MecUITheme) MecUITheme.set(id);
   _renderHubUIThemeGrid();
+  // テーマ変更時に既存タイマーを破棄し、新テーマで即時再起動
+  _gaugeFxTier = -1;
+  clearInterval(_gaugeFxTimer);
+  clearInterval(_gaugeFxBoom);
+  try {
+    const g = (typeof MecGamify !== 'undefined' && MecGamify.dailyGoal) ? MecGamify.dailyGoal() : null;
+    if (g) {
+      if (typeof _driveGauge === 'function') _driveGauge(g.pct);
+      if (typeof _startGaugeAmbient === 'function') _startGaugeAmbient(_goalTier(g.pct));
+    }
+  } catch (e) {}
 }
 
 function openThemeModal() {

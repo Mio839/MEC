@@ -132,5 +132,41 @@ t('Frost: 正六角形スノークリスタルと六花氷結成長メカニク�
   assert.ok(HTML.includes('id="frostFreezeProg"'), 'frostFreezeProg が無い');
 });
 
+console.log('── Celestial新演出（月齢ムーンフェイズ＆流星コメット）＆Brass歯車漏れ防止 検証 ──');
+
+t('Celestial: 月齢ムーンフェイズ（新月→三日月→満月）と流星コメット周回が定義されている', () => {
+  assert.ok(HTML.includes('id="celMoonShadow"'), 'celMoonShadow が見つからない');
+  assert.ok(HTML.includes('id="celMoonLit"'), 'celMoonLit が見つからない');
+  assert.ok(HTML.includes('id="celMoonHalo"'), 'celMoonHalo が見つからない');
+  assert.ok(HTML.includes('id="celCometOrbit"'), 'celCometOrbit が見つからない');
+  assert.ok(HTML.includes('class="cel-comet-tail"'), 'cel-comet-tail が見つからない');
+  assert.ok(HTML.includes('class="cel-comet-head"'), 'cel-comet-head が見つからない');
+  assert.ok(HTML.includes('@keyframes cometCruise'), 'cometCruise アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes celHaloBreathe'), 'celHaloBreathe アニメーションが無い');
+  assert.ok(HTML.includes('mShadow.setAttribute(\'rx\''), '_driveThemeGauge 内の月齢計算が無い');
+});
+
+t('Celestial: 祝砲から外枠点線円（astrolabeRings）が撤廃されステラダストに統一されている', () => {
+  const celebrateFn = HTML.substring(HTML.indexOf('function _gaugeCelebrate(tier)'), HTML.indexOf('function _emberTier('));
+  const celBoomBlock = celebrateFn.substring(celebrateFn.indexOf("curTheme === 'celestial'"), celebrateFn.indexOf("curTheme === 'abyss'"));
+  assert.ok(!celBoomBlock.includes('MecFX.astrolabeRings'), 'Celestial祝砲にastrolabeRingsが残っている');
+  assert.ok(celBoomBlock.includes('MecFX.dust'), 'Celestial祝砲にdustが無い');
+
+  const bigCelebrateFn = HTML.substring(HTML.indexOf('function _stampGoalSeal('), HTML.indexOf('const GAUGE_AMBIENTS ='));
+  const celBigBlock = bigCelebrateFn.substring(bigCelebrateFn.indexOf("curTheme === 'celestial'"), bigCelebrateFn.indexOf("curTheme === 'abyss'"));
+  assert.ok(!celBigBlock.includes('MecFX.astrolabeRings'), 'Celestial大祝砲にastrolabeRingsが残っている');
+  assert.ok(celBigBlock.includes('MecFX.dust'), 'Celestial大祝砲にdustが無い');
+});
+
+t('Brass: 歯車演出（MecFX.gears）がBrass以外のテーマで発動しないよう厳格ガードされている', () => {
+  assert.ok(HTML.includes('isBrassNow && nowCfg.isBrass'), '_startGaugeAmbient内のBrass厳格判定が無い');
+  assert.ok(HTML.includes('isBrass = document.documentElement.classList.contains(\'ui-brass\')'), '同期演出内のBrass判定が無い');
+  assert.ok(HTML.includes('selectHubUITheme'), 'selectHubUITheme が見つからない');
+  const selectFn = HTML.substring(HTML.indexOf('function selectHubUITheme'), HTML.indexOf('function openThemeModal'));
+  assert.ok(selectFn.includes('clearInterval(_gaugeFxTimer)'), 'テーマ切り替え時のタイマークリアが無い');
+  assert.ok(selectFn.includes('_startGaugeAmbient'), 'テーマ切り替え時のアンビエント再起動が無い');
+});
+
 console.log(`\nALL PASS (${pass}/${pass + fail})\n`);
+
 
