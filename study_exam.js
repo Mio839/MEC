@@ -5080,6 +5080,18 @@ function showExamSummary() {
     _examActiveChPrefix = null;
   }
   try { window.MecGamify?.onExamFinish?.(examAnswered, examCorrect, { chPrefix: _gmChPrefix }); } catch {}
+  // Exam-to-Hub Absorber: 直前の学習成果をハブ帰還演出（Exam-to-Hub Absorber）用に記録
+  if (examAnswered > 0) {
+    try {
+      sessionStorage.setItem('mec_absorb_payload_v1', JSON.stringify({
+        count: examAnswered,
+        correct: examCorrect,
+        pct: pct,
+        xp: examAnswered * 10 + examCorrect * 15,
+        ts: Date.now()
+      }));
+    } catch(e) {}
+  }
 }
 
 function closeExamSummary() {
