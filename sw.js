@@ -1,3 +1,12 @@
+// 2026-09-05t: 肝胆膵⑤——ch07 膵炎 NO.345〜351 の解説を4ブロック化（平均約3,690字・authored 351/418問、進捗84.0%・第7章着手！）。
+//   NO.345 自己免疫性膵炎の特徴（AIPのソーセージ様びまん性腫大・主膵管狭窄・IgG4≧135・ステロイド著効、ans_label修復）／
+//   NO.346 急性膵炎の重症度判定（壊死域と膵外炎症進展度をスコアリングする造影CTグレードの絶対的意義、ans_label修復）／
+//   NO.347 慢性膵炎非代償期の脂肪便対応（正答率13%難問！多発膵石・燃え尽き病態に対する高力価消化酵素薬補充とESWL誤答トラップ、ans_label修復）／
+//   NO.348 被包化膵臓壊死〈WON〉の診断（改訂アトランタ分類4週以降・造影被膜と内部壊死残渣debris・感染WONとStep-up approach、ans_label修復）／
+//   NO.349 ERCP後急性膵炎〈PEP〉の初期治療（最多偶発症・大量急速輸液と蛋白分解酵素阻害薬・NSAIDs坐薬予防、ans_label修復）／
+//   NO.350 IgG4関連疾患の全身病変（Mikulicz病・多臓器線維炎症病変・溶骨変化は来さず多発性骨髄腫との鑑別、ans_label修復）／
+//   NO.351 急性膵炎重症度予後因子（正答率36%！CRP≧15とBUN≧40・PaO2とPaCO2の罠・酵素値除外の鉄則、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v352 → v353）。
 // 2026-09-05s: 肝胆膵⑤——ch06 胆腫瘍 NO.338〜344 の解説を4ブロック化（平均約2,610字・authored 344/418問、進捗82.3%・第6章全21問完走！🎉）。
 //   NO.338 胆管癌の危険因子除外（PBCは小葉間胆管病変で胆管癌リスクなし！PSC・先天性拡張症・合流異常・肝内結石との対比、ans_label修復）／
 //   NO.339 十二指腸乳頭部癌の三位一体画像（内視鏡カリフラワー腫瘍・ERCP double duct sign・造影CT十二指腸内腫瘤、ans_label修復）／
@@ -1097,7 +1106,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v352";
+const CACHE = "mec-v353";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
