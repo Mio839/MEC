@@ -3667,7 +3667,6 @@ function _spawnScatteredCelebration(theme) {
       return;
     } else if (curUi === 'frost') {
       window.MecFX.dust({ count: 24 + t * 6, colors: ['#70D6FF', '#FFFFFF'] });
-      if (t >= 4 && window.MecFX.rings) window.MecFX.rings(_sb.cx, _sb.cy, { count: 1, color: '#70D6FF', thickness: 3, maxR: 180 + t * 20, additive: true });
       return;
     } else if (curUi === 'aurora') {
       window.MecFX.diamondSparkle(_sb.cx, _sb.cy, { count: 22 + t * 5, color: '#00DFD8' });
