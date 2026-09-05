@@ -143,62 +143,92 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   background:radial-gradient(circle at 50% 50%,var(--orl) 0%,transparent 64%);}
 
 .hero-body{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--sp-5);align-items:center;}
+/* ── ヒーロー左列：計器コンソール＆情報ブロック ── */
+.hero-console{position:relative;min-width:0;z-index:2;}
 .hero-label{display:flex;align-items:center;gap:8px;min-width:0;
   font-size:12.5px;font-weight:800;letter-spacing:.14em;color:var(--tx);}
 /* 見出し語だけを詰める。先頭の点（.hero-live）まで巻き込まないよう限定する */
 .hero-label .lb{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.hero-live{width:7px;height:7px;flex-shrink:0;border-radius:50%;
-  background:var(--or);box-shadow:0 0 0 4px var(--orl);}
-/* 日付。見出しと同じ行の右端に小さく置く（読み値の主役は数字なので字は落とす） */
-.hero-date{margin-left:auto;flex-shrink:0;padding:2px 8px;border-radius:999px;
-  border:1px solid var(--hair-2);background:rgba(var(--glass-rgb),.06);
+/* 生体バイタルサイン調の鼓動ダブルパルス */
+.hero-live{width:8px;height:8px;flex-shrink:0;border-radius:50%;
+  background:var(--or);box-shadow:0 0 0 3px var(--orl),0 0 10px var(--or);
+  animation:vitalPulse 2.4s ease-in-out infinite;}
+@keyframes vitalPulse{
+  0%,100%{transform:scale(1);box-shadow:0 0 0 3px var(--orl),0 0 8px var(--or);}
+  50%{transform:scale(1.25);box-shadow:0 0 0 6px var(--orl),0 0 16px var(--or),0 0 24px var(--or);}
+}
+/* 日付。磨かれたガラスプレート調ピルバッジ */
+.hero-date{margin-left:auto;flex-shrink:0;padding:3px 10px;border-radius:999px;
+  border:1px solid var(--hair-2);background:rgba(var(--glass-rgb),.08);
   font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ts);
-  font-variant-numeric:tabular-nums;white-space:nowrap;}
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+  box-shadow:0 1px 4px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.08);
+  transition:border-color .3s,box-shadow .3s;}
+.hero-date:hover{border-color:var(--hair-3);box-shadow:0 0 8px rgba(var(--glass-rgb),.2);}
 .hero-fig{display:flex;align-items:baseline;gap:.14em;min-width:0;margin-top:var(--sp-3);
-  font-family:var(--font-display);}
+  font-family:var(--font-display);position:relative;}
+/* 特大数字：圧倒的存在感の立体ネオンタイポグラフィ */
 .hero-num{font-size:clamp(3.4rem,17vw,5.6rem);font-weight:800;line-height:.86;
-  letter-spacing:-.045em;color:var(--tx);font-variant-numeric:tabular-nums;overflow-wrap:anywhere;}
-/* 単位だけアクセント。数字そのものに発光を掛けるより静かで、かつ効く */
-.hero-unit{font-size:clamp(1.1rem,4.4vw,1.5rem);font-weight:800;color:var(--or);}
-/* 今日のXP。問題数の次に強い読み値なので、アクセントを地にした帯にする */
+  letter-spacing:-.045em;color:var(--tx);font-variant-numeric:tabular-nums;overflow-wrap:anywhere;
+  text-shadow:0 2px 10px rgba(0,0,0,.6),0 0 20px rgba(var(--glass-rgb),.25);
+  transition:color .4s,text-shadow .4s,filter .4s;}
+/* 単位だけアクセント。立体発光で数字を引き締める */
+.hero-unit{font-size:clamp(1.1rem,4.4vw,1.5rem);font-weight:800;color:var(--or);
+  filter:drop-shadow(0 0 6px var(--or));}
+/* 今日のXP。クリスタルプレート調の立体バッジ */
 .hero-xp{display:inline-flex;align-items:baseline;gap:3px;margin-top:var(--sp-3);
-  padding:5px 11px;border-radius:var(--r-sm);
-  background:var(--orl);border:1px solid var(--or);
+  padding:5px 12px;border-radius:var(--r-sm);
+  background:linear-gradient(135deg,rgba(var(--or-rgb,255,154,60),.18),rgba(var(--or-rgb,255,154,60),.06));
+  border:1px solid var(--or);
   font-family:var(--font-display);font-size:clamp(15px,4.6vw,19px);font-weight:800;
-  color:var(--or);font-variant-numeric:tabular-nums;letter-spacing:-.01em;}
+  color:var(--or);font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+  box-shadow:0 2px 10px rgba(0,0,0,.3),inset 0 1px 1px rgba(255,255,255,.3),0 0 12px var(--orl);
+  position:relative;overflow:hidden;}
+.hero-xp::after{content:'';position:absolute;top:0;bottom:0;left:0;width:35%;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);
+  animation:sheen 6s var(--ease-in-out) 1.5s infinite;}
 .hero-xp em{font-style:normal;font-size:.62em;font-weight:800;letter-spacing:.06em;}
-/* 内訳。アクセントの帯の中に灰色を入れると濁るので、帯の下に別行で置く */
+/* 内訳。アクセントの帯の下にインジケータ付きで配置 */
 .hero-xp-n{margin-top:6px;font-size:11.5px;font-weight:700;color:var(--ts);
   font-variant-numeric:tabular-nums;}
 .hero-xp-n:empty{display:none;}
 
 /* ── レベルの進み（gamify パネルから移設） ── */
-.hero-lv{margin-top:var(--sp-4);max-width:34em;}
+.hero-lv{margin-top:var(--sp-4);max-width:34em;position:relative;}
 .hero-lv[hidden]{display:none;}
 .hero-lv-top{display:flex;align-items:baseline;gap:var(--sp-2);min-width:0;}
 .hero-lv-t{flex-shrink:0;font-family:var(--font-display);font-size:13.5px;font-weight:800;
-  color:var(--tx);font-variant-numeric:tabular-nums;letter-spacing:.01em;}
+  color:var(--tx);font-variant-numeric:tabular-nums;letter-spacing:.01em;
+  padding:2px 7px;border-radius:4px;background:rgba(var(--glass-rgb),.08);border:1px solid var(--hair-2);}
+.hero-lv-t b{color:var(--or);font-size:14px;margin-left:2px;}
 /* 称号は飾り。幅が足りないときは真っ先に詰める */
 .hero-lv-ti{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--or);}
+  font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--or);
+  filter:drop-shadow(0 0 4px var(--orl));}
 .hero-lv-n{margin-left:auto;flex-shrink:0;font-size:11px;font-weight:700;color:var(--ts);
   font-variant-numeric:tabular-nums;}
 .hero-lv-n b{color:var(--tx);font-size:12px;}
-.hero-lv-bar{display:block;height:5px;margin-top:6px;border-radius:3px;overflow:hidden;
-  background:rgba(var(--glass-rgb),.12);}
+/* ガラスカプセル流体レベルバー */
+.hero-lv-bar{display:block;height:6px;margin-top:6px;border-radius:3px;overflow:hidden;
+  background:rgba(0,0,0,.35);border:1px solid rgba(var(--glass-rgb),.15);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.5);}
 /* barGrow はタイルの進捗バーと共用（backwards fill で0から伸びる） */
-.hero-lv-bar span{display:block;height:100%;border-radius:3px;background:var(--or);
+.hero-lv-bar span{display:block;height:100%;border-radius:2px;background:linear-gradient(90deg,var(--or),var(--ord,#E07A20));
+  box-shadow:0 0 8px var(--or);
   animation:barGrow .95s var(--ease-out) .35s backwards;}
 .hero.settled .hero-lv-bar span{animation:none;}
 /* D3(2026-08-14): レベルアップ間近（残り10%）だけ脈打つ。常時光らせると意味を失う */
-.hero-lv-bar span.near{box-shadow:0 0 8px 1px color-mix(in srgb,var(--or) 60%,transparent);
+.hero-lv-bar span.near{box-shadow:0 0 10px 2px color-mix(in srgb,var(--or) 70%,transparent);
   animation:barGrow .95s var(--ease-out) .35s backwards,lvNear 1.8s ease-in-out 1.3s infinite;}
 .hero.settled .hero-lv-bar span.near{animation:lvNear 1.8s ease-in-out infinite;}
 @keyframes lvNear{
   0%,100%{box-shadow:0 0 6px 0 color-mix(in srgb,var(--or) 45%,transparent);}
-  50%{box-shadow:0 0 13px 2px color-mix(in srgb,var(--or) 78%,transparent);}
+  50%{box-shadow:0 0 14px 3px color-mix(in srgb,var(--or) 85%,transparent);}
 }
-.hero-say{margin-top:var(--sp-3);font-size:13px;line-height:1.75;color:var(--ts);max-width:34em;}
+/* 応援メッセージ：生体コンソール風微光インジケータ付き */
+.hero-say{margin-top:var(--sp-3);font-size:13px;line-height:1.75;color:var(--ts);max-width:34em;
+  padding-left:11px;border-left:2px solid var(--or);background:linear-gradient(90deg,rgba(var(--or-rgb,255,154,60),.06),transparent 85%);
+  border-radius:0 4px 4px 0;}
 
 /* ── ゲージ（全体進捗）。円弧は stroke-dashoffset だけを動かす ── */
 /* 盤面そのものを大きく取る。viewBox は 168 で、進捗の弧(r=54)より外側の
@@ -331,12 +361,21 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   box-shadow:0 0 6px #FF3B30;vertical-align:middle;margin-right:4px;animation:hazardFlash .9s steps(2,start) infinite;}
 @keyframes hazardFlash{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(.7);}}
 
-/* ── ⏳ 国試カウントダウン・クロノス ── */
-.exam-countdown{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;
-  background:rgba(var(--glass-rgb),.07);padding:2px 8px;border-radius:var(--r-sm);
-  border:1px solid var(--hair-2);color:var(--ts);margin-left:var(--sp-2);vertical-align:middle;}
-.exam-countdown .cd-num{font-family:var(--font-display);font-size:13px;color:var(--or);margin:0 1px;}
-.exam-countdown .cd-unit{font-size:10px;color:var(--ts);}
+/* ── ⏳ 国試カウントダウン・クロノス（医師国家試験への計器バッジ） ── */
+.exam-countdown{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;
+  background:linear-gradient(135deg,rgba(var(--glass-rgb),.12),rgba(var(--glass-rgb),.04));
+  padding:3px 10px;border-radius:var(--r-md);
+  border:1px solid rgba(var(--glass-rgb),.22);color:var(--ts);margin-left:var(--sp-2);vertical-align:middle;
+  box-shadow:0 2px 10px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.14);
+  position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s;}
+.exam-countdown::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 0%,rgba(var(--or-rgb,255,154,60),.18),transparent 75%);
+  animation:countdownPulse 3s ease-in-out infinite alternate;}
+@keyframes countdownPulse{0%{opacity:.3;}100%{opacity:.85;filter:brightness(1.2);}}
+.exam-countdown .cd-lbl{letter-spacing:.06em;font-size:10px;font-weight:800;color:var(--ts);}
+.exam-countdown .cd-num{font-family:var(--font-display);font-size:14px;font-weight:900;color:var(--or);margin:0 2px;
+  filter:drop-shadow(0 0 6px var(--or));letter-spacing:-.02em;}
+.exam-countdown .cd-unit{font-size:10px;color:var(--ts);font-weight:700;}
 
 /* ── 🏛️ ホログラフィック・立体浮遊タイル ── */
 .tiles .tile{transition:transform .3s var(--ease-out),box-shadow .3s,border-color .3s;}
@@ -398,13 +437,17 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   border-top:1px solid var(--hair-2);
   background:rgba(0,0,0,.18);}  /* 面を沈めるための中立の暗幕（色相を持たせない） */
 
-/* ── 計器行。3つの読み値を縦罫で仕切る ── */
-.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));}
-.strip-c{padding-left:var(--sp-3);border-left:1px solid var(--hair);min-width:0;}
-.strip-c:first-child{padding-left:0;border-left:0;}
-.strip dt{font-size:10.5px;font-weight:700;letter-spacing:.12em;color:var(--ts);}
-.strip dd{margin-top:3px;font-family:var(--font-display);font-size:clamp(16px,5vw,20px);
-  font-weight:800;color:var(--tx);font-variant-numeric:tabular-nums;white-space:nowrap;}
+/* ── 計器行。3つの読み値を独立したHUDモジュールカードとして描く ── */
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-2);}
+.strip-c{padding:8px 10px;min-width:0;position:relative;
+  background:rgba(var(--glass-rgb),.05);border:1px solid var(--hair-2);border-radius:var(--r-sm);
+  box-shadow:0 1px 4px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.05);
+  transition:transform .2s var(--ease-out),border-color .2s,box-shadow .2s;}
+.strip-c:hover{transform:translateY(-1.5px);border-color:var(--hair-3);box-shadow:0 4px 12px rgba(0,0,0,.35);}
+.strip dt{font-size:10.5px;font-weight:700;letter-spacing:.12em;color:var(--ts);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.strip dd{margin-top:3px;font-family:var(--font-display);font-size:clamp(16px,5vw,21px);
+  font-weight:800;color:var(--tx);font-variant-numeric:tabular-nums;white-space:nowrap;
+  text-shadow:0 1px 4px rgba(0,0,0,.4);}
 /* 数字は b・単位は span。両方 span にすると単位の小さいグレーが数字にも掛かる */
 .strip dd span{margin-left:2px;font-size:11px;font-weight:700;color:var(--ts);}
 
@@ -527,8 +570,15 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   border:0;background:none;color:var(--tx);
   font-family:inherit;font-size:12.5px;font-weight:800;letter-spacing:.16em;text-align:left;
   transition:color var(--dur-short) var(--ease-out);}
-.sec-h::before{content:'';flex-shrink:0;width:3px;height:13px;border-radius:1px;background:var(--or);}
-.sec-h .ln{flex:1;min-width:12px;height:1px;background:linear-gradient(90deg,var(--hair-2),transparent 92%);}
+.sec-h::before{content:'';flex-shrink:0;width:3px;height:14px;border-radius:1px;background:var(--or);
+  box-shadow:0 0 8px var(--or);animation:secBeamGlow 3s ease-in-out infinite alternate;}
+@keyframes secBeamGlow{0%{opacity:.6;transform:scaleY(.85);}100%{opacity:1;transform:scaleY(1.15);box-shadow:0 0 12px var(--or);}}
+.sec-h .ln{flex:1;min-width:12px;height:1px;
+  background:linear-gradient(90deg,var(--or) 0%,var(--hair-2) 35%,transparent 95%);
+  position:relative;overflow:hidden;}
+.sec-h .ln::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+  animation:sheen 4s var(--ease-in-out) infinite;}
 button.sec-h{cursor:pointer;}
 button.sec-h:hover{color:var(--or);}
 .sec-h .ar{flex-shrink:0;font-size:10px;transition:transform var(--dur-short) var(--ease-out);}
@@ -842,13 +892,22 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
   50%{text-shadow:0 0 17px rgba(255,107,107,.85);}}
 
 
-/* E9: 今日の目標に届いた日は、大きな読み値そのものが金になる。
-   段は _goalTier と同じ考え方（5=達成 / 6=1.5倍超）だが、ここは2段で足りる */
-.hero-num[data-goal="1"]{color:#FFD166;text-shadow:0 0 20px rgba(255,209,102,.35);}
-.hero-num[data-goal="2"]{color:#FFD700;text-shadow:0 0 26px rgba(255,215,0,.5);
-  animation:goalGlow 2.8s var(--ease-in-out) infinite;}
-@keyframes goalGlow{0%,100%{text-shadow:0 0 20px rgba(255,215,0,.38);}
-  50%{text-shadow:0 0 34px rgba(255,215,0,.8);}}
+/* E9: 今日の目標に届いた日は、大きな読み値そのものが金になり、神々しいオーラを放つ。
+   段は _goalTier と同じ考え方（5=達成 / 6=1.5倍超） */
+.hero-num[data-goal="1"]{color:#FFD166!important;
+  text-shadow:0 0 16px rgba(255,209,102,.7),0 0 32px rgba(255,160,64,.5),0 0 50px rgba(255,215,0,.35)!important;
+  animation:goalPulse 2.8s var(--ease-in-out) infinite alternate;}
+.hero-num[data-goal="2"]{color:#FFD700!important;
+  text-shadow:0 0 20px #FFD700,0 0 38px #FFA040,0 0 60px #FF007F,0 0 90px rgba(255,215,0,.6)!important;
+  animation:goalOverdrivePulse 1.6s var(--ease-in-out) infinite alternate;}
+@keyframes goalPulse{
+  0%{filter:brightness(1) drop-shadow(0 0 4px rgba(255,209,102,.4));}
+  100%{filter:brightness(1.18) drop-shadow(0 0 16px rgba(255,209,102,.8));}
+}
+@keyframes goalOverdrivePulse{
+  0%{transform:scale(1);filter:brightness(1) drop-shadow(0 0 8px #FFD700);}
+  100%{transform:scale(1.02);filter:brightness(1.3) drop-shadow(0 0 22px #FFD700) drop-shadow(0 0 35px #FF52A0);}
+}
 
 .hero.booting .hero-cnr{animation:bootCnr .9s var(--ease-out) both;}
 @keyframes bootCnr{from{opacity:0;transform:scale(.7);}60%{opacity:1;}to{opacity:1;transform:none;}}
@@ -1416,7 +1475,7 @@ html.ui-aurora .theme-gauge-aurora { display: inline; }
 }
 
 /* ─────────────────────────────────────────────────────────────
-   4. Liquid: Lava Lamp（ラバランプ）メタボール流体＆フヨフヨ変形
+   4. Liquid: 蛍光流体ダブルウェーブ充填 ＆ ネオン気泡（アメーバ容器内）
    ───────────────────────────────────────────────────────────── */
 html.ui-liquid .theme-gauge-liquid { display: inline; }
 html.ui-liquid .gauge-ring {
@@ -1430,10 +1489,10 @@ html.ui-liquid .gauge-ring {
   100% { border-radius: 48% 52% 62% 38% / 38% 48% 52% 62%; }
 }
 .lava-lamp-chamber {
-  fill: rgba(25, 8, 35, .82);
+  fill: rgba(22, 6, 32, .88);
   stroke: rgba(255, 0, 127, .85);
-  stroke-width: 2.4;
-  filter: drop-shadow(0 0 16px rgba(255,0,127,.65)) drop-shadow(0 0 30px rgba(121,40,202,.5));
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 16px rgba(255,0,127,.65)) drop-shadow(0 0 28px rgba(121,40,202,.5));
   animation: lavaChamberMorph 9s ease-in-out infinite alternate;
   transform-origin: 84px 84px;
 }
@@ -1442,58 +1501,75 @@ html.ui-liquid .gauge-ring {
   50% { transform: scale(1.02) rotate(2deg); }
   100% { transform: scale(.98) rotate(-2deg); }
 }
-.lava-blob {
-  filter: drop-shadow(0 0 12px rgba(255,0,127,.85)) drop-shadow(0 0 20px rgba(0,242,254,.6));
+.liquid-chamber-rim {
+  fill: none;
+  stroke: rgba(0, 242, 254, 0.4);
+  stroke-width: 1.4;
+  stroke-dasharray: 6 3;
+  filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.5));
 }
-.lava-blob-base {
-  animation: lavaBasePulse 4.5s ease-in-out infinite alternate;
-  transform-origin: 84px 130px;
+.liquid-glass-glare {
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
 }
-@keyframes lavaBasePulse {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.06, .94); }
+
+/* 🌊 液体ウェーブ流体 */
+.liquid-wave-group {
+  transition: transform 1.1s cubic-bezier(.2, .9, .3, 1);
+  will-change: transform;
 }
-.lava-blob-main {
-  transition: cy 1.1s cubic-bezier(.2, .9, .3, 1), rx 1.1s cubic-bezier(.2, .9, .3, 1), ry 1.1s cubic-bezier(.2, .9, .3, 1);
-  animation: lavaMainWobble 5.2s ease-in-out infinite alternate;
-  transform-origin: 84px 100px;
+.liquid-wave-front {
+  animation: liquidWaveFrontAnim 4s linear infinite;
+  filter: drop-shadow(0 0 12px rgba(255, 0, 127, 0.85)) drop-shadow(0 0 22px rgba(0, 223, 216, 0.6));
 }
-@keyframes lavaMainWobble {
-  0% { transform: scale(1, 1) rotate(0deg); }
-  50% { transform: scale(1.08, .92) rotate(4deg); }
-  100% { transform: scale(.94, 1.06) rotate(-4deg); }
+.liquid-wave-back {
+  animation: liquidWaveBackAnim 6.5s linear infinite;
 }
-.lava-blob-float1 {
-  animation: lavaFloatUp1 7.2s ease-in-out infinite alternate;
-  transform-origin: 64px 74px;
+.liquid-wave-crest {
+  animation: liquidWaveFrontAnim 4s linear infinite;
+  filter: drop-shadow(0 0 6px #00F2FE);
 }
-@keyframes lavaFloatUp1 {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(6px, -24px) scale(1.18, .88); }
-  100% { transform: translate(-4px, -42px) scale(.88, 1.14); }
+.liquid-wave-glow {
+  animation: liquidWaveFrontAnim 4s linear infinite;
 }
-.lava-blob-float2 {
-  animation: lavaFloatUp2 9.5s ease-in-out infinite alternate;
-  transform-origin: 106px 62px;
+
+@keyframes liquidWaveFrontAnim {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-84px); }
 }
-@keyframes lavaFloatUp2 {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-8px, -28px) scale(.88, 1.16); }
-  100% { transform: translate(5px, -50px) scale(1.14, .9); }
+@keyframes liquidWaveBackAnim {
+  0% { transform: translateX(-84px); }
+  100% { transform: translateX(0); }
 }
-.lava-blob-float3 {
-  animation: lavaFloatUp3 6.4s ease-in-out infinite alternate;
-  transform-origin: 78px 40px;
+
+/* 🫧 液中ネオン気泡 */
+.liquid-sw-bubble {
+  opacity: 0;
+  animation: liquidBubbleRise 3.6s ease-in infinite;
+  filter: drop-shadow(0 0 5px rgba(0, 242, 254, 0.8));
 }
-@keyframes lavaFloatUp3 {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(-6px, 22px) scale(1.12, .92); }
+.liquid-sw-bubble.b1 { animation-delay: 0s; animation-duration: 3.2s; }
+.liquid-sw-bubble.b2 { animation-delay: 0.9s; animation-duration: 4.1s; }
+.liquid-sw-bubble.b3 { animation-delay: 1.7s; animation-duration: 2.7s; }
+.liquid-sw-bubble.b4 { animation-delay: 2.5s; animation-duration: 3.5s; }
+.liquid-sw-bubble.b5 { animation-delay: 3.1s; animation-duration: 3.0s; }
+
+@keyframes liquidBubbleRise {
+  0% { transform: translateY(12px) scale(0.6); opacity: 0; }
+  25% { opacity: 0.9; }
+  80% { opacity: 0.8; }
+  100% { transform: translateY(-75px) scale(1.2); opacity: 0; }
 }
-.lava-blob-tiny1 { animation: lavaTinyPop 3.8s ease-in-out infinite alternate; }
-.lava-blob-tiny2 { animation: lavaTinyPop 4.2s ease-in-out infinite alternate-reverse; }
-@keyframes lavaTinyPop {
-  0% { transform: translateY(0) scale(1); opacity: .7; }
-  100% { transform: translateY(-16px) scale(1.3); opacity: 1; }
+
+/* 🔥 オーバードライブ時の激動 */
+.gauge[data-overdrive] .liquid-wave-front {
+  animation-duration: 2s !important;
+  filter: drop-shadow(0 0 16px #FF007F) drop-shadow(0 0 30px #00F2FE) drop-shadow(0 0 45px #FFF) !important;
+}
+.gauge[data-overdrive] .liquid-wave-back {
+  animation-duration: 3s !important;
+}
+.gauge[data-overdrive] .liquid-sw-bubble {
+  animation-duration: 1.8s !important;
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -1702,13 +1778,14 @@ html.ui-frost .theme-gauge-frost { display: inline; }
 @media(prefers-reduced-motion:reduce){
   .brass-needle, .aurora-prism-fill, .liquid-fluid-rect, .liquid-wave-cap,
   .kt-join-crack, .cel-starlink-beam, .abyss-dive-prog, .frost-freeze-prog,
-  .lava-blob-main, .abyss-dive-prog-l, .abyss-dive-prog-r {
+  .lava-blob-main, .abyss-dive-prog-l, .abyss-dive-prog-r, .liquid-wave-group {
     transition: none !important;
   }
   .cyber-segments .c-seg.overdrive, .liquid-wave-cap, .kt-gold-dust,
   .cel-magic-ring1, .cel-magic-ring2, .cel-star.active,
   .cyber-laser-beam, .lava-lamp-chamber, .lava-blob-base,
-  .lava-blob-float1, .lava-blob-float2, .lava-blob-float3, .frost-shard {
+  .lava-blob-float1, .lava-blob-float2, .lava-blob-float3, .frost-shard,
+  .liquid-wave-front, .liquid-wave-back, .liquid-wave-crest, .liquid-wave-glow, .liquid-sw-bubble {
     animation: none !important;
   }
 }
@@ -1835,6 +1912,119 @@ html.ui-frost .theme-gauge-frost { display: inline; }
   box-shadow:0 0 16px #70D6FF,0 0 30px #FFF,inset 0 0 6px #FFF;
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   🌌 全8テーマ完全差別化：文字・表示・計器ベイ・コンソールの極上意匠
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. 🌟 Aurora: プリズム極光スペクトル＆クリスタル ── */
+html.ui-aurora .hero-console{border-left:2px solid rgba(0,223,216,.4);padding-left:14px;}
+html.ui-aurora .hero-num{
+  background:linear-gradient(135deg,#00DFD8 0%,#FFF 40%,#FF0080 85%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 16px rgba(0,223,216,.55)) drop-shadow(0 0 32px rgba(255,0,128,.35));
+}
+html.ui-aurora .strip-c{
+  background:linear-gradient(145deg,rgba(0,223,216,.08),rgba(121,40,202,.06));
+  border-color:rgba(0,223,216,.3);
+  box-shadow:0 2px 10px rgba(0,0,0,.2),inset 0 0 12px rgba(0,223,216,.08);
+}
+html.ui-aurora .exam-countdown{border-color:rgba(0,223,216,.4);box-shadow:0 0 12px rgba(0,223,216,.25);}
+
+/* ── 2. 🕰️ Brass: 真鍮アンティーク彫刻＆スチームボイラー ── */
+html.ui-brass .hero-console{border-left:2px solid var(--brass);padding-left:14px;}
+html.ui-brass .hero-num{
+  color:#E0C25E;
+  text-shadow:0 2px 0 #78350F,0 4px 6px rgba(0,0,0,.7),0 0 20px rgba(224,194,94,.6),0 0 40px rgba(184,115,51,.4);
+}
+html.ui-brass .strip-c{
+  background:linear-gradient(145deg,rgba(201,162,39,.10),rgba(184,115,51,.05));
+  border-color:rgba(201,162,39,.35);
+  box-shadow:0 2px 10px rgba(0,0,0,.3),inset 0 1px 0 rgba(224,194,94,.2);
+}
+html.ui-brass .exam-countdown{border-color:rgba(201,162,39,.45);background:rgba(201,162,39,.08);box-shadow:0 0 10px rgba(201,162,39,.25);}
+
+/* ── 3. 🚀 Cyber: 角型戦術HUDモニター＆ネオン走査線 ── */
+html.ui-cyber .hero-console{border-left:2px solid #00E5FF;padding-left:14px;}
+html.ui-cyber .hero-num{
+  color:#00FF9D;
+  text-shadow:0 0 8px #00FF9D,0 0 20px rgba(0,255,157,.8),0 0 35px rgba(0,229,255,.6);
+  letter-spacing:-0.02em;
+}
+html.ui-cyber .strip-c{
+  border-radius:2px;background:rgba(6,18,30,.75);
+  border:1px solid rgba(0,229,255,.45);
+  box-shadow:0 0 12px rgba(0,229,255,.2),inset 0 0 8px rgba(0,255,157,.1);
+}
+html.ui-cyber .strip-c::after{
+  content:'';position:absolute;top:0;right:0;width:6px;height:6px;
+  border-top:1.5px solid #00FF9D;border-right:1.5px solid #00FF9D;
+}
+html.ui-cyber .exam-countdown{border-radius:2px;border:1px solid #00E5FF;background:rgba(0,229,255,.08);box-shadow:0 0 12px rgba(0,229,255,.3);}
+
+/* ── 4. 🌸 Liquid: 蛍光Lavaランプ・グロス流体 ── */
+html.ui-liquid .hero-console{border-left:2px solid #FF007F;padding-left:14px;}
+html.ui-liquid .hero-num{
+  background:linear-gradient(135deg,#FF52A0 0%,#FFF 45%,#00F2FE 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 16px rgba(255,0,127,.6)) drop-shadow(0 0 32px rgba(0,242,254,.4));
+}
+html.ui-liquid .strip-c{
+  border-radius:12px;background:linear-gradient(145deg,rgba(255,0,127,.09),rgba(0,242,254,.07));
+  border-color:rgba(255,0,127,.35);box-shadow:0 4px 14px rgba(255,0,127,.15);
+}
+html.ui-liquid .exam-countdown{border-radius:14px;border-color:rgba(255,0,127,.45);background:rgba(255,0,127,.08);}
+
+/* ── 5. 🌑 Kintsugi: 漆黒陶器＆純金箔蒔絵 ── */
+html.ui-kintsugi .hero-console{border-left:2px solid #F5D061;padding-left:14px;}
+html.ui-kintsugi .hero-num{
+  color:#F5D061;
+  text-shadow:0 2px 4px #000,0 0 15px rgba(245,208,97,.7),0 0 32px rgba(212,175,55,.5),0 0 50px rgba(245,208,97,.3);
+}
+html.ui-kintsugi .strip-c{
+  background:rgba(18,14,10,.82);border:1px solid rgba(245,208,97,.35);
+  box-shadow:0 4px 14px rgba(0,0,0,.6),inset 0 0 10px rgba(245,208,97,.1);
+}
+html.ui-kintsugi .exam-countdown{border-color:rgba(245,208,97,.45);background:rgba(245,208,97,.08);box-shadow:0 0 12px rgba(245,208,97,.2);}
+
+/* ── 6. 🌌 Celestial: 星座幾何学＆月齢星光 ── */
+html.ui-celestial .hero-console{border-left:2px solid #FFD166;padding-left:14px;}
+html.ui-celestial .hero-num{
+  background:linear-gradient(135deg,#FFFDF0 0%,#FFD166 45%,#8A2BE2 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 16px rgba(255,209,102,.7)) drop-shadow(0 0 32px rgba(138,43,226,.5));
+}
+html.ui-celestial .strip-c{
+  background:linear-gradient(145deg,rgba(26,11,46,.75),rgba(138,43,226,.08));
+  border:1px solid rgba(255,209,102,.35);box-shadow:0 0 14px rgba(138,43,226,.25);
+}
+html.ui-celestial .exam-countdown{border-color:rgba(255,209,102,.45);background:rgba(138,43,226,.12);box-shadow:0 0 14px rgba(255,209,102,.3);}
+
+/* ── 7. 🌊 Abyss: 深海耐圧コンソール＆バイオエメラルド ── */
+html.ui-abyss .hero-console{border-left:2px solid #00FFA3;padding-left:14px;}
+html.ui-abyss .hero-num{
+  color:#00FFA3;
+  text-shadow:0 0 10px #00FFA3,0 0 24px rgba(0,255,163,.8),0 0 42px rgba(0,180,216,.6);
+}
+html.ui-abyss .strip-c{
+  border-radius:8px;background:rgba(2,14,26,.82);
+  border:1px solid rgba(0,255,163,.35);
+  box-shadow:0 0 14px rgba(0,255,163,.15),inset 0 0 8px rgba(0,180,216,.1);
+}
+html.ui-abyss .exam-countdown{border-radius:8px;border:1px solid #00FFA3;background:rgba(0,255,163,.08);box-shadow:0 0 12px rgba(0,255,163,.3);}
+
+/* ── 8. ❄️ Frost: 六花氷結クリスタル＆絶対零度 ── */
+html.ui-frost .hero-console{border-left:2px solid #A0E7E5;padding-left:14px;}
+html.ui-frost .hero-num{
+  background:linear-gradient(135deg,#FFF 0%,#A0E7E5 50%,#70D6FF 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 16px #FFF) drop-shadow(0 0 28px rgba(112,214,255,.7)) drop-shadow(0 0 45px rgba(160,231,229,.5));
+}
+html.ui-frost .strip-c{
+  background:rgba(8,18,32,.78);border:1px solid rgba(160,231,229,.35);
+  box-shadow:0 0 14px rgba(112,214,255,.25),inset 0 0 10px rgba(255,255,255,.08);
+}
+html.ui-frost .exam-countdown{border:1px solid #A0E7E5;background:rgba(160,231,229,.09);box-shadow:0 0 14px rgba(112,214,255,.35);}
+
 /* ── XPの帯。着地でひと突き ── */
 .hero-xp.pop{animation:xpPop .42s var(--ease-out);}
 @keyframes xpPop{0%{transform:scale(1);}38%{transform:scale(1.09);}100%{transform:scale(1);}}
@@ -1892,6 +2082,10 @@ html.ui-frost .theme-gauge-frost { display: inline; }
   .gauge-surge-wave,.milestone-node .ms-glow,.gauge-overdrive-fx,.gauge-overdrive-fx *,
   .absorber-orb,.gauge.winding-up *,.gauge.absorb-impact .gauge-ring{animation:none!important;transition:none!important;}
   .gauge-pulse-trk,.gauge-aura,.hero-shockwave-layer,.cta-tracer,.gauge-overdrive-fx,.gauge-surge-wave,.absorber-orb{display:none!important;}
+  /* 2026-09-05 追加分（Heroゲージ以外の文字・表示・コンソール演出強化） */
+  .hero-live,.exam-countdown::before,.sec-h::before,.sec-h .ln::after,
+  .hero-num[data-goal="1"],.hero-num[data-goal="2"]{animation:none!important;}
+  .exam-countdown::before,.sec-h .ln::after{display:none!important;}
 }
 
 /* ── メニュー（旧ヘッダーのボタン群＋旧フッターのテーマ/効果音をここへ集約） ── */
@@ -1988,7 +2182,7 @@ html.ui-frost .theme-gauge-frost { display: inline; }
     <span class="hero-cnr br" aria-hidden="true"></span>
 
     <div class="hero-body">
-      <div>
+      <div class="hero-console">
         <!-- 日付は「今日解いた問題」と同じ行に置く。日をまたいで開きっぱなしにしていると
              数字が0に戻る日があるので、どの日の集計かをここで名指しする -->
         <p class="hero-label">
@@ -2278,35 +2472,68 @@ html.ui-frost .theme-gauge-frost { display: inline; }
                 <polygon class="aurora-prism-facet-inner" points="84,36 132,84 84,132 36,84"></polygon>
               </g>
 
-              <!-- 🌸 4. Liquid: Lava Lamp（ラバランプ）メタボール流体＆フヨフヨ液滴 -->
+              <!-- 🌸 4. Liquid: 蛍光流体ダブルウェーブ充填＆ネオン気泡（アメーバ容器内） -->
               <g class="theme-gauge-liquid" id="gaugeLiquidCore">
                 <defs>
-                  <radialGradient id="lavaWaxGrad" cx="45%" cy="35%" r="65%">
-                    <stop offset="0%" stop-color="#FF52A0"></stop>
-                    <stop offset="45%" stop-color="#FF007F"></stop>
-                    <stop offset="85%" stop-color="#7928CA"></stop>
-                    <stop offset="100%" stop-color="#00F2FE"></stop>
-                  </radialGradient>
-                  <radialGradient id="lavaBubbleGrad" cx="35%" cy="30%" r="70%">
-                    <stop offset="0%" stop-color="#FFF"></stop>
-                    <stop offset="40%" stop-color="#FF007F"></stop>
-                    <stop offset="100%" stop-color="#7928CA"></stop>
+                  <!-- チャンバー用クリップパス -->
+                  <clipPath id="liquidChamberClip">
+                    <circle cx="84" cy="84" r="64"></circle>
+                  </clipPath>
+                  <!-- 液体グラデーション（手前のメイン波） -->
+                  <linearGradient id="liquidFluidGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                    <stop offset="0%" stop-color="#4B0082" stop-opacity="0.95"></stop>
+                    <stop offset="35%" stop-color="#7928CA" stop-opacity="0.9"></stop>
+                    <stop offset="75%" stop-color="#FF007F" stop-opacity="0.85"></stop>
+                    <stop offset="100%" stop-color="#00DFD8" stop-opacity="0.9"></stop>
+                  </linearGradient>
+                  <!-- 奥の波用グラデーション（ディープトーン） -->
+                  <linearGradient id="liquidWaveBackGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                    <stop offset="0%" stop-color="#2E0854" stop-opacity="0.8"></stop>
+                    <stop offset="60%" stop-color="#7928CA" stop-opacity="0.65"></stop>
+                    <stop offset="100%" stop-color="#FF007F" stop-opacity="0.6"></stop>
+                  </linearGradient>
+                  <!-- 液滴・気泡用グラデーション -->
+                  <radialGradient id="liquidBubbleGrad" cx="35%" cy="30%" r="70%">
+                    <stop offset="0%" stop-color="#FFFFFF"></stop>
+                    <stop offset="40%" stop-color="#00F2FE"></stop>
+                    <stop offset="80%" stop-color="#FF007F"></stop>
+                    <stop offset="100%" stop-color="#7928CA" stop-opacity="0.8"></stop>
                   </radialGradient>
                 </defs>
-                <!-- フヨフヨ有機的モーフィング流体壁（幾何学円ではなくアメーバ流体） -->
+                <!-- 有機的ガラスチャンバー背景・輪郭（アメーバ変形と調和） -->
                 <path class="lava-lamp-chamber" id="lavaChamber" d="M 84,18 C 122,14 154,46 150,84 C 146,124 122,154 84,150 C 46,146 14,122 18,84 C 22,46 46,22 84,18 Z"></path>
-                <!-- Lavaワックス群（下からせり上がる塊＋浮遊する液滴） -->
-                <g class="lava-wax-group" id="lavaWaxGroup">
-                  <path class="lava-blob lava-blob-base" id="lavaBlobBase" d="M 32,130 C 44,110 70,105 84,112 C 98,105 124,110 136,130 C 144,142 120,154 84,152 C 48,154 24,142 32,130 Z" fill="url(#lavaWaxGrad)"></path>
-                  <ellipse class="lava-blob lava-blob-main" id="lavaBlobMain" cx="84" cy="120" rx="36" ry="24" fill="url(#lavaWaxGrad)"></ellipse>
-                  <circle class="lava-blob lava-blob-float1" cx="64" cy="74" r="14" fill="url(#lavaBubbleGrad)"></circle>
-                  <circle class="lava-blob lava-blob-float2" cx="106" cy="62" r="18" fill="url(#lavaBubbleGrad)"></circle>
-                  <circle class="lava-blob lava-blob-float3" cx="78" cy="40" r="10" fill="url(#lavaBubbleGrad)"></circle>
-                  <circle class="lava-blob lava-blob-tiny1" cx="96" cy="95" r="5" fill="#00F2FE"></circle>
-                  <circle class="lava-blob lava-blob-tiny2" cx="54" cy="98" r="6" fill="#FF007F"></circle>
+                <circle class="liquid-chamber-rim" cx="84" cy="84" r="64"></circle>
+
+                <!-- 🌊 液体充填グループ（水位に応じて上下移動） -->
+                <g class="liquid-fluid-container" clip-path="url(#liquidChamberClip)">
+                  <!-- 水位で上下する波グループ -->
+                  <g class="liquid-wave-group" id="liquidWaveGroup">
+                    <!-- 奥の波（ゆったり逆方向へ） -->
+                    <path class="liquid-wave-back" d="M -168,0 Q -126,-6 -84,0 T 0,0 T 84,0 T 168,0 T 252,0 T 336,0 L 336,180 L -168,180 Z" fill="url(#liquidWaveBackGrad)"></path>
+                    <!-- 手前のメイン波 -->
+                    <path class="liquid-wave-front" d="M -168,0 Q -126,6 -84,0 T 0,0 T 84,0 T 168,0 T 252,0 T 336,0 L 336,180 L -168,180 Z" fill="url(#liquidFluidGrad)"></path>
+                    <!-- 水面のキラリとした光条ハイライト -->
+                    <path class="liquid-wave-crest" d="M -168,0 Q -126,6 -84,0 T 0,0 T 84,0 T 168,0 T 252,0 T 336,0" fill="none" stroke="#00F2FE" stroke-width="2" stroke-linecap="round"></path>
+                    <!-- 水面直下のグロー輝線 -->
+                    <path class="liquid-wave-glow" d="M -168,0 Q -126,6 -84,0 T 0,0 T 84,0 T 168,0 T 252,0 T 336,0" fill="none" stroke="#FFF" stroke-width="1" stroke-opacity="0.75"></path>
+                  </g>
+                  <!-- 液中から立ち上るネオン気泡群 -->
+                  <g class="liquid-bubble-swarm" id="liquidBubbleSwarm">
+                    <circle class="liquid-sw-bubble b1" cx="64" cy="130" r="2.6" fill="url(#liquidBubbleGrad)"></circle>
+                    <circle class="liquid-sw-bubble b2" cx="104" cy="140" r="3.2" fill="url(#liquidBubbleGrad)"></circle>
+                    <circle class="liquid-sw-bubble b3" cx="82" cy="120" r="2.0" fill="url(#liquidBubbleGrad)"></circle>
+                    <circle class="liquid-sw-bubble b4" cx="94" cy="110" r="2.8" fill="url(#liquidBubbleGrad)"></circle>
+                    <circle class="liquid-sw-bubble b5" cx="72" cy="95" r="1.8" fill="url(#liquidBubbleGrad)"></circle>
+                  </g>
                 </g>
+
+                <!-- ガラス面のハイライト反射 -->
+                <path class="liquid-glass-glare" d="M 44,40 A 60,60 0 0,1 124,40" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2" stroke-linecap="round"></path>
+
                 <!-- 互換用hidden要素 -->
                 <rect class="liquid-fluid-rect" id="liquidFluidRect" x="0" y="0" width="0" height="0" style="display:none"></rect>
+                <g class="lava-wax-group" id="lavaWaxGroup" style="display:none"></g>
+                <ellipse class="lava-blob-main" id="lavaBlobMain" cx="84" cy="84" rx="0" ry="0" style="display:none"></ellipse>
               </g>
 
               <!-- 🌑 5. Kintsugi: 割れた陶器皿＆3段階黄金接合クラック -->
@@ -4006,17 +4233,18 @@ function _driveThemeGauge(pct, base, over, tier) {
     aFill.setAttribute('height', String(aH));
   }
 
-  // 4. Liquid: Lava Lamp（ラバランプ）フヨフヨ変形＆メインワックス塊の上昇・膨張
+  // 4. Liquid: 蛍光流体ダブルウェーブ充填 (水位 Y: 146 -> 22)
+  const lWaveGroup = document.getElementById('liquidWaveGroup');
   const lBlobMain = document.getElementById('lavaBlobMain');
   const lWaxGroup = document.getElementById('lavaWaxGroup');
+  if (lWaveGroup) {
+    // 0% で y=146（底部）、100% で y=22（満杯）、overdriveでさらに上層へ
+    const waterY = Math.max(14, 146 - (base / 100) * 124 - (over > 0 ? 6 : 0));
+    lWaveGroup.style.transform = 'translateY(' + waterY.toFixed(1) + 'px)';
+  }
   if (lBlobMain) {
-    // 進捗に応じて中央のワックス塊が下からせり上がり、大きく膨張する
-    const bCy = 120 - (base / 100) * 50; // 120 -> 70
-    const bRx = 36 + (base / 100) * 20;  // 36 -> 56
-    const bRy = 24 + (base / 100) * 22;  // 24 -> 46
+    const bCy = 120 - (base / 100) * 50;
     lBlobMain.setAttribute('cy', String(bCy.toFixed(1)));
-    lBlobMain.setAttribute('rx', String(bRx.toFixed(1)));
-    lBlobMain.setAttribute('ry', String(bRy.toFixed(1)));
   }
   if (lWaxGroup) {
     lWaxGroup.dataset.tier = String(tier);

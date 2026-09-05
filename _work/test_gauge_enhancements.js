@@ -100,16 +100,16 @@ t('CSS内に全8テーマの表示切り替えと共通円形パーツ非表示�
 
 console.log('── プランB（非円形4種＋円形4種＆Lava Lamp流体）詳細検証 ──');
 
-t('Liquid: Lava Lamp のフヨフヨ有機的モーフィング流体と浮遊液滴群が定義されている', () => {
+t('Liquid: 外枠アメーバ変形と内部の蛍光流体ダブルウェーブ充填＆ネオン気泡が定義されている', () => {
   assert.ok(HTML.includes('id="lavaChamber"'), 'lavaChamber が見つからない');
-  assert.ok(HTML.includes('id="lavaBlobMain"'), 'lavaBlobMain が見つからない');
-  assert.ok(HTML.includes('id="lavaBlobBase"'), 'lavaBlobBase が見つからない');
-  assert.ok(HTML.includes('class="lava-blob lava-blob-float1"'), '浮遊液滴1が見つからない');
-  assert.ok(HTML.includes('class="lava-blob lava-blob-float2"'), '浮遊液滴2が見つからない');
-  assert.ok(HTML.includes('class="lava-blob lava-blob-float3"'), '浮遊液滴3が見つからない');
+  assert.ok(HTML.includes('id="liquidWaveGroup"'), 'liquidWaveGroup が見つからない');
+  assert.ok(HTML.includes('class="liquid-wave-front"'), 'liquid-wave-front が見つからない');
+  assert.ok(HTML.includes('class="liquid-wave-back"'), 'liquid-wave-back が見つからない');
+  assert.ok(HTML.includes('class="liquid-sw-bubble'), 'liquid-sw-bubble が見つからない');
   assert.ok(HTML.includes('@keyframes lavaChamberMorph'), 'lavaChamberMorph アニメーションが無い');
   assert.ok(HTML.includes('@keyframes lavaContainerMorph'), 'lavaContainerMorph アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes lavaMainWobble'), 'lavaMainWobble アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes liquidWaveFrontAnim'), 'liquidWaveFrontAnim アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes liquidBubbleRise'), 'liquidBubbleRise アニメーションが無い');
 });
 
 t('非円形テーマ（Cyber, Frost, Abyss, Aurora）で共通円盤・メガリングが完全に解除・非表示化されている', () => {
