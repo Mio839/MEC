@@ -1099,17 +1099,87 @@ function _triggerFullscreenCombo(n, tier) {
   el.getAnimations?.().forEach(a => a.cancel());
   el.style.removeProperty('opacity');   // 前回の試験終了時に張られた opacity:0!important を外す（下記⚠️）
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
+  const curUi = window.MecUITheme ? MecUITheme.get() : null;
   const cols = theme.fullscreenCols;
   const glowR = theme.fullscreenGlow;
-  const col = cols[_tIdx(tier, cols)];
-  const g = glowR[_tIdx(tier, glowR)];
-  const str = '×' + n;
+  let col = cols[_tIdx(tier, cols)];
+  let g = glowR[_tIdx(tier, glowR)];
+
+  // テーマ別の文字列・フォント・装飾の差別化
+  let str = '×' + n;
+  let fontFam = 'system-ui, -apple-system, sans-serif';
+  let fontRatio = str.length >= 3 ? (str.length >= 4 ? 0.24 : 0.29) : 0.40;
+  let themeCls = '';
+
+  if (curUi === 'cyber') {
+    str = '[SYNC x' + n + ']';
+    fontFam = "'Consolas', 'SFMono-Regular', monospace";
+    col = '#00FF66';
+    g = '0,255,102';
+    fontRatio = 0.22;
+    themeCls = 'fs-combo-cyber';
+  } else if (curUi === 'kintsugi') {
+    const kanjiNums = ['','壱','弐','参','四','伍','六','七','八','九','拾',
+      '拾壱','拾弐','拾参','拾四','拾伍','拾六','拾七','拾八','拾九','弐拾'];
+    str = (kanjiNums[n] || (n + '')) + '連';
+    fontFam = "'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', serif";
+    col = '#F5D061';
+    g = '245,208,97';
+    fontRatio = 0.32;
+    themeCls = 'fs-combo-kintsugi';
+  } else if (curUi === 'abyss') {
+    str = 'DEPTH ' + (n * 100) + 'm';
+    fontFam = "'DIN Alternate', 'Avenir Next', 'Trebuchet MS', sans-serif";
+    col = '#00FFA3';
+    g = '0,255,163';
+    fontRatio = 0.21;
+    themeCls = 'fs-combo-abyss';
+  } else if (curUi === 'brass') {
+    const roman = ['','I','II','III','IV','V','VI','VII','VIII','IX','X',
+      'XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX'];
+    str = (roman[n] || ('⚙' + n)) + ' COMBO';
+    fontFam = "'Georgia', 'Playfair Display', 'Times New Roman', serif";
+    col = '#E0C25E';
+    g = '224,194,94';
+    fontRatio = 0.22;
+    themeCls = 'fs-combo-brass';
+  } else if (curUi === 'celestial') {
+    str = '✦ ' + n + ' CONSTELLATION ✦';
+    fontFam = "'Cinzel', 'Palatino', 'Baskerville', serif";
+    col = '#FFD166';
+    g = '255,209,102';
+    fontRatio = 0.17;
+    themeCls = 'fs-combo-celestial';
+  } else if (curUi === 'frost') {
+    str = '❄ ' + n + ' GLACIAL';
+    fontFam = "'Avenir Next', 'Futura', sans-serif";
+    col = '#70D6FF';
+    g = '112,214,255';
+    fontRatio = 0.22;
+    themeCls = 'fs-combo-frost';
+  } else if (curUi === 'liquid') {
+    str = '★ ' + n + ' SPLASH';
+    fontFam = "'Futura', 'Trebuchet MS', sans-serif";
+    col = '#FF007F';
+    g = '255,0,127';
+    fontRatio = 0.23;
+    themeCls = 'fs-combo-liquid';
+  } else if (curUi === 'aurora') {
+    str = '✧ ' + n + ' AURORA';
+    fontFam = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+    col = '#00DFD8';
+    g = '0,223,216';
+    fontRatio = 0.22;
+    themeCls = 'fs-combo-aurora';
+  }
+
+  el.className = themeCls;
   el.textContent = str;
+  el.style.fontFamily = fontFam;
   // 全画面レイヤーを可視帯へ合わせる（CSSの inset:0 は画面全体＝ヘッダーぶん中心が上にずれる）。
   // 文字も帯に収まる大きさへ抑える（2桁時は文字幅に応じてフォント係数を縮小して画面突き破りを防ぐ）。
   const b = _fxBand();
   const shortSide = Math.min(b.width, b.height);
-  const fontRatio = str.length >= 3 ? (str.length >= 4 ? 0.24 : 0.29) : 0.40;
   el.style.left = b.left + 'px';
   el.style.top = b.top + 'px';
   el.style.right = 'auto';
@@ -1707,30 +1777,39 @@ function _correctShockwave(el) {
   const t = Math.max(1, Math.min(_examTier(examStreak) || 1, 7));
   const [sx, sy] = _examClampFxXY(r.left + r.width / 2, r.top + r.height / 2);
 
-  let ringColor = theme.ringColor(t);
-  let isAdditive = examEffectSet !== 'ink';
-  if (curUi === 'kintsugi') { ringColor = '#F5D061'; isAdditive = true; }
-  else if (curUi === 'celestial') { ringColor = '#FFD166'; isAdditive = true; }
-  else if (curUi === 'abyss') { ringColor = '#00FFA3'; isAdditive = true; }
-  else if (curUi === 'frost') { ringColor = '#70D6FF'; isAdditive = true; }
-  else if (curUi === 'aurora') { ringColor = '#00DFD8'; isAdditive = true; }
-  else if (curUi === 'brass') { ringColor = '#FFD700'; isAdditive = false; }
-  else if (curUi === 'cyber') { ringColor = '#00FF66'; isAdditive = true; }
-  else if (curUi === 'liquid') { ringColor = '#FF007F'; isAdditive = true; }
-
   const b = _fxBand();
   const shortSide = Math.min(b.width, b.height);
   const ringMaxR = shortSide * Math.min(0.48, 0.35 + t * 0.02);
 
   try {
-    window.MecFX.rings(sx, sy, {
-      count: t >= 4 ? 3 : 2,
-      color: ringColor,
-      thickness: t >= 4 ? 3 : 2,
-      maxR: ringMaxR,
-      additive: isAdditive,
-      stagger: .075
-    });
+    if (curUi === 'cyber' && window.MecFX.cyberTargetLock) {
+      window.MecFX.cyberTargetLock(sx, sy, { maxR: ringMaxR * 0.82, glitchCount: 4 + t });
+    } else if (curUi === 'kintsugi' && window.MecFX.kintsugiCrack) {
+      window.MecFX.kintsugiCrack(sx, sy, { maxR: ringMaxR * 0.88, branches: 3 + t });
+    } else if (curUi === 'frost' && window.MecFX.frostCrystalShatter) {
+      window.MecFX.frostCrystalShatter(sx, sy, { maxR: ringMaxR * 0.82, dendriteCount: 4 + t });
+    } else if (curUi === 'brass' && window.MecFX.chronosDial) {
+      window.MecFX.chronosDial(sx, sy, { maxR: ringMaxR * 0.82, ticks: 12 });
+    } else if (curUi === 'celestial' && window.MecFX.astrolabeRings) {
+      window.MecFX.astrolabeRings(sx, sy, { maxR: ringMaxR * 0.85, color: '#FFD166' });
+    } else if (curUi === 'abyss' && window.MecFX.abyssSonarPulse) {
+      window.MecFX.abyssSonarPulse(sx, sy, { maxR: ringMaxR * 0.88, marineSnowCount: 6 + t * 2 });
+    } else if (curUi === 'liquid' && window.MecFX.liquidBloomRipple) {
+      window.MecFX.liquidBloomRipple(sx, sy, { maxR: ringMaxR * 0.82, bubbleCount: 6 + t });
+    } else if (curUi === 'aurora' && window.MecFX.auroraPrismSweep) {
+      window.MecFX.auroraPrismSweep(sx, sy, { maxR: ringMaxR * 0.85, sparkleCount: 8 + t * 2 });
+    } else {
+      let ringColor = theme.ringColor(t);
+      let isAdditive = examEffectSet !== 'ink';
+      window.MecFX.rings(sx, sy, {
+        count: t >= 4 ? 3 : 2,
+        color: ringColor,
+        thickness: t >= 4 ? 3 : 2,
+        maxR: ringMaxR,
+        additive: isAdditive,
+        stagger: .075
+      });
+    }
   } catch (e) {}
 }
 
@@ -2519,7 +2598,19 @@ function _setAwaken(on) {
       試験を始めたい人にとって起動演出は待ち時間で、長い演出は2回目から邪魔になる。
    ⚠️ 出題数・科目のブートログは**実用を兼ねている**（何が始まるのか読める）ので、
       文体を変えても情報は1つも落とさないこと。 */
-const EXAM_BOOT_STYLES = ['mecha', 'cyber', 'steam'];
+const EXAM_BOOT_STYLES = ['mecha', 'cyber', 'steam', 'zen', 'grimoire', 'abyss', 'frost', 'prism', 'liquid'];
+
+function _examStyleForTheme(curUi) {
+  if (curUi === 'brass') return 'steam';
+  if (curUi === 'cyber') return 'cyber';
+  if (curUi === 'kintsugi') return 'zen';
+  if (curUi === 'celestial') return 'grimoire';
+  if (curUi === 'abyss') return 'abyss';
+  if (curUi === 'frost') return 'frost';
+  if (curUi === 'aurora') return 'prism';
+  if (curUi === 'liquid') return 'liquid';
+  return EXAM_BOOT_STYLES[(Math.random() * 3) | 0]; // mecha, cyber, steam fallback
+}
 
 // B8: リマッチのブートログ。相手は「前回落とした問題」だと明示する
 function _examRematchLines(style, qn) {
@@ -2537,6 +2628,54 @@ function _examRematchLines(style, qn) {
       '標  的 ................ 前回の誤答 ' + qn + ' 問',
       '当て板 装填 ............ 完了',
       'この ' + qn + ' 問を取り返す'
+    ];
+  }
+  if (style === 'zen') {
+    return [
+      '雪 辱   再 審',
+      '標    的 .............. 過去の誤答 ' + qn + ' 題',
+      '修復の心構え .......... 調息完了',
+      'この ' + qn + ' 題を取り戻す'
+    ];
+  }
+  if (style === 'grimoire') {
+    return [
+      'CONSTELLATION REFORGE',
+      'LOST STARS ............. ' + qn + ' NODES',
+      'STELLAR ALIGNMENT ...... READY',
+      '取り落とした星々を再び結ぶ'
+    ];
+  }
+  if (style === 'abyss') {
+    return [
+      'ABYSSAL SALVAGE PROTOCOL',
+      'TARGET ................. 前回の誤答 ' + qn + ' 問',
+      'SALVAGE SCANNER ........ LOCKED',
+      '沈んだ ' + qn + ' 問を引き揚げる'
+    ];
+  }
+  if (style === 'frost') {
+    return [
+      'THERMAL RESET PROTOCOL',
+      'FROZEN ANOMALIES ....... ' + qn + ' TARGETS',
+      'CRYSTALLINE RECOVERY ... STANDBY',
+      '凍てついた ' + qn + ' 問を砕き直す'
+    ];
+  }
+  if (style === 'prism') {
+    return [
+      'AURORA REFLECTION PROTOCOL',
+      'DISPERSED SPECTRUM ..... ' + qn + ' BANDS',
+      'CONVERGENCE LENS ....... READY',
+      '散乱した ' + qn + ' 問を収束する'
+    ];
+  }
+  if (style === 'liquid') {
+    return [
+      'LIQUID RE-FLOW PROTOCOL',
+      'FADED PIGMENTS ......... ' + qn + ' MARKS',
+      'CANVAS PREPARATION ..... OK',
+      '滲んだ ' + qn + ' 問を鮮やかに塗り替える'
     ];
   }
   return ['再戦 / REMATCH', '対象：前回落とした ' + qn + ' 問', 'この ' + qn + ' 問を取り返す'];
@@ -2561,6 +2700,60 @@ function _examBootLines(style, qn, subjLabel) {
       '全弁 開放'
     ];
   }
+  if (style === 'zen') {
+    return [
+      '調 息   一 問 一 会',
+      '静寂の境地 ............ 到達',
+      '出題帳簿 .............. ' + qn + ' 題',
+      '科    目 .............. ' + subjLabel,
+      '無心にて 挑む'
+    ];
+  }
+  if (style === 'grimoire') {
+    return [
+      'GRIMOIRE OF WISDOM',
+      'ASTROLABE SYNC ........ OK',
+      'STELLAR SECTOR ......... ' + subjLabel,
+      'STAR ATLAS ............. ' + qn + ' NODES',
+      'AWAKEN INTELLECT'
+    ];
+  }
+  if (style === 'abyss') {
+    return [
+      'ABYSSAL DIVE PROTOCOL',
+      'TARGET DEPTH ........... 1,000m',
+      'SONAR ARRAY ............ ONLINE',
+      'TARGET ................. ' + qn + ' Q  //  ' + subjLabel,
+      'DEEP FOCUS ENGAGED'
+    ];
+  }
+  if (style === 'frost') {
+    return [
+      'CRYOGENIC CORE SEQUENCE',
+      'CORE TEMP .............. ABSOLUTE ZERO',
+      'CRYSTAL MATRIX ......... ' + qn + ' UNITS',
+      'SUBJECT ................ ' + subjLabel,
+      'INTELLECT FROZEN PURE'
+    ];
+  }
+  if (style === 'prism') {
+    return [
+      'AURORA PRISM ALIGNMENT',
+      'SPECTRAL MATRIX ........ ' + qn + ' BANDS',
+      'SPECTRUM ............... ' + subjLabel,
+      'REFRACTION INDEX ....... 100%',
+      'ILLUMINATE THE PATH'
+    ];
+  }
+  if (style === 'liquid') {
+    return [
+      'LIQUID ART CANVASES',
+      'INK INJECTION .......... COMPLETED',
+      'PALETTE ................ ' + subjLabel,
+      'COLOR CARDS ............ ' + qn + ' LAYERS',
+      'PAINT THE TRUTH'
+    ];
+  }
   return ['接続確立 / LINK ESTABLISHED', '電脳ダイブ ... STAND BY', 'BANK ' + qn + ' Q  //  ' + subjLabel];
 }
 
@@ -2570,7 +2763,8 @@ function _examCountdown() {
   // 起動音は演出と一蓮托生（reduced-motion で演出ごと出ないときは鳴らさない）
   _playBootSound();
   const theme = _examTheme();
-  const style = EXAM_BOOT_STYLES[(Math.random() * EXAM_BOOT_STYLES.length) | 0];
+  const curUi = window.MecUITheme ? MecUITheme.get() : null;
+  const style = _examStyleForTheme(curUi);
   let host = document.getElementById('examCountdown');
   if (!host) {
     host = document.createElement('div');
@@ -2619,6 +2813,18 @@ function _examCountdown() {
         + '<i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i></div>'
       : style === 'steam'
       ? '<div class="cd-boiler"><i class="cd-bz"></i></div>'
+      : style === 'zen'
+      ? '<div class="cd-zen-enso"><svg viewBox="0 0 200 200" class="cd-enso-svg"><circle class="enso-circle" cx="100" cy="100" r="72"/></svg></div>'
+      : style === 'grimoire'
+      ? '<div class="cd-grimoire-circle"><svg viewBox="0 0 200 200" class="cd-magic-svg"><circle class="mc-outer" cx="100" cy="100" r="88"/><polygon class="mc-poly" points="100,16 172,142 28,142"/><polygon class="mc-poly-rev" points="100,184 28,58 172,58"/><circle class="mc-inner" cx="100" cy="100" r="54"/></svg></div>'
+      : style === 'abyss'
+      ? '<div class="cd-abyss-sonar"><svg viewBox="0 0 200 200" class="cd-sonar-svg"><circle class="sn-wave1" cx="100" cy="100" r="28"/><circle class="sn-wave2" cx="100" cy="100" r="58"/><circle class="sn-wave3" cx="100" cy="100" r="88"/><line x1="100" y1="8" x2="100" y2="192" class="sn-axis"/><line x1="8" y1="100" x2="192" y2="100" class="sn-axis"/></svg></div>'
+      : style === 'frost'
+      ? '<div class="cd-frost-frame"><i class="ff-crystal tl"></i><i class="ff-crystal tr"></i><i class="ff-crystal bl"></i><i class="ff-crystal br"></i><div class="ff-cooling-bar"><div class="ff-cool-fill"></div></div></div>'
+      : style === 'prism'
+      ? '<div class="cd-prism-field"><div class="cd-prism-ray ray-1"></div><div class="cd-prism-ray ray-2"></div><div class="cd-prism-ray ray-3"></div></div>'
+      : style === 'liquid'
+      ? '<div class="cd-liquid-bloom"><div class="cd-drop drop-1"></div><div class="cd-drop drop-2"></div><div class="cd-drop drop-3"></div></div>'
       : '<svg class="cd-rings" viewBox="0 0 200 200" aria-hidden="true">' +
         '<circle class="r1" cx="100" cy="100" r="86"/><circle class="r2" cx="100" cy="100" r="66"/>' +
         '<circle class="r3" cx="100" cy="100" r="46"/></svg>') +
@@ -2770,29 +2976,55 @@ function _stampRank(pct) {
     modal.classList.add('exam-modal-impact');
     setTimeout(() => modal.classList.remove('exam-modal-impact'), 300);
 
-    // 2. MecFX 衝撃波リング ＆ 金属火花パーティクル
+    // 2. MecFX テーマ固有の衝撃波 ＆ 祝賀パーティクル
     if (window.MecFX) {
       try {
+        const curUi = window.MecUITheme ? MecUITheme.get() : null;
         const r = el.getBoundingClientRect();
         const cx = r.left + r.width / 2;
         const cy = r.top + r.height / 2;
-        // 衝撃波二重リング
-        window.MecFX.rings(cx, cy, {
-          count: perfect ? 2 : 1,
-          color: col,
-          thickness: perfect ? 3 : 2,
-          maxR: perfect ? 220 : 170,
-          additive: true
-        });
-        // 金属火花・破片バースト（非加算合成で金属片らしさを出す）
-        window.MecFX.burst(cx, cy, {
-          count: perfect ? 16 : 10,
-          colors: [col, '#FFF3C4', '#FFFFFF'],
-          shapes: ['shard', 'square'],
-          gravity: 1200,
-          additive: false,
-          scale: perfect ? 1.2 : 1.0
-        });
+
+        if (curUi === 'cyber') {
+          if (window.MecFX.pixelPop) window.MecFX.pixelPop(cx, cy, { count: perfect ? 24 : 14, color: col });
+          if (window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 1, color: col, thickness: 2, maxR: perfect ? 200 : 150, additive: true });
+        } else if (curUi === 'kintsugi') {
+          if (window.MecFX.dust) window.MecFX.dust({ count: perfect ? 40 : 25, colors: ['#F5D061', '#D4AF37', '#D9383A', '#FFFFFF'] });
+          if (window.MecFX.kintsugiCrack) window.MecFX.kintsugiCrack(cx, cy, { maxR: perfect ? 220 : 160 });
+        } else if (curUi === 'frost') {
+          if (window.MecFX.frostCrystalShatter) window.MecFX.frostCrystalShatter(cx, cy, { maxR: perfect ? 220 : 160, dendriteCount: 8 });
+          if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 16, color: '#70D6FF' });
+        } else if (curUi === 'brass') {
+          if (window.MecFX.burst) window.MecFX.burst(cx, cy, { count: perfect ? 20 : 12, colors: [col, '#FFF3C4', '#C9A227'], shapes: ['shard', 'square'], gravity: 1200, additive: false });
+          if (window.MecFX.steam) window.MecFX.steam(cx, cy - 30, { count: 4, rise: 70, w: 40 });
+        } else if (curUi === 'abyss') {
+          if (window.MecFX.abyssSonarPulse) window.MecFX.abyssSonarPulse(cx, cy, { maxR: perfect ? 220 : 160 });
+          if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 16, colors: ['#00FFA3', '#00B4D8'] });
+        } else if (curUi === 'celestial') {
+          if (window.MecFX.celestialAstrolabe) window.MecFX.celestialAstrolabe(cx, cy, { maxR: perfect ? 220 : 160 });
+          if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 16, color: '#FFD166' });
+        } else if (curUi === 'aurora') {
+          if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(cx, cy, { maxR: perfect ? 220 : 160 });
+        } else if (curUi === 'liquid') {
+          if (window.MecFX.liquidBloomRipple) window.MecFX.liquidBloomRipple(cx, cy, { maxR: perfect ? 220 : 160 });
+          if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 16, colors: ['#FF007F', '#7928CA'] });
+        } else {
+          // 汎用フォールバック
+          window.MecFX.rings(cx, cy, {
+            count: perfect ? 2 : 1,
+            color: col,
+            thickness: perfect ? 3 : 2,
+            maxR: perfect ? 220 : 170,
+            additive: true
+          });
+          window.MecFX.burst(cx, cy, {
+            count: perfect ? 16 : 10,
+            colors: [col, '#FFF3C4', '#FFFFFF'],
+            shapes: ['shard', 'square'],
+            gravity: 1200,
+            additive: false,
+            scale: perfect ? 1.2 : 1.0
+          });
+        }
       } catch (e) {}
     }
   }, 255);
@@ -3211,11 +3443,13 @@ function _triggerBorderGlow(tier) {
   el.getAnimations?.().forEach(a => a.cancel());
   el.style.removeProperty('opacity');   // 前回の試験終了時の opacity:0!important を外す
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
+  const curUi = window.MecUITheme ? MecUITheme.get() : null;
   const colors = theme.borderColors;
   const sizes  = {4:'6px',5:'9px',6:'13px',7:'17px'};
   const color = colors[_tIdx(tier, colors)];
   const sz = sizes[_tIdx(tier, sizes)];
   el.style.boxShadow = `inset 0 0 0 ${sz} ${color}`;
+  el.className = curUi ? 'theme-border-' + curUi : '';
   const dur = tier >= 5 ? 1300 : 750;
   if (theme.pulseBeat) {
     el.animate([{opacity:.95},{opacity:.2},{opacity:.85},{opacity:.15},{opacity:.9},{opacity:0}], {duration: dur, easing:'ease-out'});
@@ -4961,34 +5195,71 @@ function showExamSummary() {
      ⚠️ それでも段は score で切ること。毎回フルで出すと「稀だから効く」が消える。 */
   if (examAnswered > 0 && window.MecFX && !_fxOff()) {
     try {
-      if (pct >= 100) {
-        /* PERFECT: 金花火キャノン＋金銀紙吹雪（案5「リザルト大花火 & 紙吹雪キャノン」）。
-           ⚠️ 花火16発は 0.16 秒ずつずれて上がるので同時には存在しない（約2.5秒に分散）。
-              紙吹雪240片（ttl 3.2秒）と合わせて瞬間の粒子数は MAX_PARTICLES(2600) の
-              半分ほどに収まる。**数を増やすならこの見積もりを取り直すこと。** */
+      const curUi = window.MecUITheme ? MecUITheme.get() : null;
+      const _rb = _fxBand();
+      if (pct >= 80) {
+        // テーマ固有のクライマックス祝賀フィナーレ（80%以上）
         setTimeout(() => {
-          window.MecFX.fireworks({ count: 16, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], tier: 7 });
-          window.MecFX.confetti({ count: 240, colors: ['#FFD700', '#FFF3C4', '#F7E7CE', '#FFB830', '#FFFFFF'], big: true });
-          window.MecFX.dust({ count: 40, colors: ['#FFD700', '#FFF3C4', '#FFFFFF'] });
-        }, 1350);
-      } else if (pct >= 90) {
-        setTimeout(() => {
-          window.MecFX.fireworks({ count: 5, colors: ['#3DD68C', '#60A5FA', '#FFD37A', '#FF5E8A', '#FFD700'], tier: 6 });
-          window.MecFX.confetti({ count: 80, colors: ['#3DD68C', '#60A5FA', '#FFB830', '#FF5E8A', '#A78BFA'], big: true });
-        }, 1350);
-      } else if (pct >= 80) {
-        setTimeout(() => {
-          window.MecFX.fireworks({ count: 4, colors: ['#3DD68C', '#60A5FA', '#FFB830'], tier: 4 });
-          window.MecFX.confetti({ count: 60, colors: ['#3DD68C', '#60A5FA', '#FFB830', '#A78BFA'], big: true });
+          if (curUi === 'kintsugi') {
+            // 禅・金継ぎ: 黄金の金粉 ＋ 優美な桜吹雪の舞い
+            if (window.MecFX.dust) window.MecFX.dust({ count: pct >= 100 ? 50 : 35, colors: ['#F5D061', '#D4AF37', '#FFFFFF', '#D9383A'] });
+            if (window.MecFX.petals) window.MecFX.petals({ count: pct >= 100 ? 70 : 45, colors: ['#FFB7C5', '#FFCCD5', '#FFFFFF', '#F5D061'] });
+            if (window.MecFX.rings) window.MecFX.rings(_rb.cx, _rb.cy, { count: 2, color: '#F5D061', thickness: 3, maxR: 260, additive: true });
+          } else if (curUi === 'cyber') {
+            // サイバー: デジタルホログラム花火 ＋ バイナリコードレイン
+            if (window.MecFX.fireworks) window.MecFX.fireworks({ count: pct >= 100 ? 12 : 6, colors: ['#00FF66', '#00E5FF', '#FF007F', '#FFFFFF'], tier: 7 });
+            if (window.MecFX.glyphRain) window.MecFX.glyphRain({ glyphs: ['0', '1', 'ｱ', 'ｶ', 'ｻ', 'ﾀ', 'ﾅ', '8', '9', 'A', 'F'], colors: ['#00FF66', '#00E5FF', '#39FF88'], count: pct >= 100 ? 28 : 18 });
+            if (window.MecFX.glitchBars) window.MecFX.glitchBars(_rb.cx, _rb.cy, { count: 8, color: '#00FF66', w: _rb.width * 0.8, band: _rb });
+          } else if (curUi === 'frost') {
+            // 絶対零度: ダイヤモンドダスト ＋ 万華鏡氷晶カスケード
+            if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(_rb.cx, _rb.cy, { count: pct >= 100 ? 40 : 25, color: '#70D6FF' });
+            if (window.MecFX.confetti) window.MecFX.confetti({ count: pct >= 100 ? 120 : 60, colors: ['#70D6FF', '#FFFFFF', '#E0F2FE', '#A0E7E5'], big: true });
+            if (window.MecFX.frostCrystalShatter) window.MecFX.frostCrystalShatter(_rb.cx, _rb.cy, { maxR: 280, dendriteCount: 10 });
+          } else if (curUi === 'brass') {
+            // 真鍮クロックワーク: 真鍮歯車の雨 ＋ ゴールドコインシャワー
+            if (window.MecFX.gearRain) window.MecFX.gearRain({ count: pct >= 100 ? 24 : 14, colors: ['#FFD700', '#FFA040', '#C9A227'] });
+            if (window.MecFX.confetti) window.MecFX.confetti({ count: pct >= 100 ? 100 : 50, colors: ['#FFD700', '#FFA040', '#C9A227', '#FFFFFF'], big: true });
+            if (window.MecFX.steam) window.MecFX.steam(_rb.cx, _rb.cy + 40, { count: 5, rise: 80, w: 50 });
+          } else if (curUi === 'abyss') {
+            // 深海アビス: 深海発光生物群（エメラルド気泡 ＋ ソナーパルス）の幻想的浮上
+            if (window.MecFX.bubbles) window.MecFX.bubbles(_rb.cx, _rb.cy, { count: pct >= 100 ? 50 : 30, colors: ['#00FFA3', '#00B4D8', '#64FFDA', '#FFFFFF'] });
+            if (window.MecFX.abyssSonarPulse) window.MecFX.abyssSonarPulse(_rb.cx, _rb.cy, { maxR: 320, marineSnowCount: 30 });
+            if (window.MecFX.rings) window.MecFX.rings(_rb.cx, _rb.cy, { count: 3, color: '#00FFA3', thickness: 3, maxR: 280, additive: true });
+          } else if (curUi === 'celestial') {
+            // 賢者の星図: 天球儀の幾何学星図 ＋ 満天の星屑シャワー
+            if (window.MecFX.celestialAstrolabe) window.MecFX.celestialAstrolabe(_rb.cx, _rb.cy, { maxR: 300, sparkleCount: 35 });
+            if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(_rb.cx, _rb.cy, { count: pct >= 100 ? 40 : 25, color: '#FFD166' });
+            if (window.MecFX.confetti) window.MecFX.confetti({ count: pct >= 100 ? 100 : 50, colors: ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFFFF'] });
+          } else if (curUi === 'aurora') {
+            // オーロラグラス: 極光プリズムスイープ ＋ 虹色コンフェッティ
+            if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(_rb.cx, _rb.cy, { maxR: 300, sparkleCount: 35 });
+            if (window.MecFX.confetti) window.MecFX.confetti({ count: pct >= 100 ? 140 : 70, colors: ['#00DFD8', '#7928CA', '#0070F3', '#FF0080', '#FFFFFF'], big: true });
+            if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(_rb.cx, _rb.cy, { count: 25, color: '#00DFD8' });
+          } else if (curUi === 'liquid') {
+            // 幻想リキッド: フルイドインクリプル ＋ ネオンバブル
+            if (window.MecFX.liquidBloomRipple) window.MecFX.liquidBloomRipple(_rb.cx, _rb.cy, { maxR: 300, bubbleCount: 25 });
+            if (window.MecFX.bubbles) window.MecFX.bubbles(_rb.cx, _rb.cy, { count: pct >= 100 ? 40 : 25, colors: ['#FF007F', '#7928CA', '#00DFD8', '#FF7A00'] });
+            if (window.MecFX.confetti) window.MecFX.confetti({ count: pct >= 100 ? 100 : 50, colors: ['#FF007F', '#7928CA', '#00DFD8', '#FFFFFF'] });
+          } else {
+            // クラシック花火フォールバック
+            window.MecFX.fireworks({ count: pct >= 100 ? 16 : 5, colors: ['#FFD700', '#FFF3C4', '#3DD68C', '#60A5FA'], tier: 7 });
+            window.MecFX.confetti({ count: pct >= 100 ? 240 : 80, colors: ['#FFD700', '#FFF3C4', '#3DD68C', '#60A5FA'], big: true });
+          }
         }, 1350);
       } else if (pct >= 60) {
         setTimeout(() => {
-          window.MecFX.fireworks({ count: 2, colors: ['#60A5FA', '#FFB830'], tier: 3 });
-          window.MecFX.confetti({ count: 40, colors: ['#60A5FA', '#FFB830', '#3DD68C'] });
+          if (curUi === 'brass' && window.MecFX.steam) {
+            window.MecFX.steam(_rb.cx, _rb.cy, { count: 3, rise: 60 });
+          } else if (curUi === 'cyber' && window.MecFX.glitchBars) {
+            window.MecFX.glitchBars(_rb.cx, _rb.cy, { count: 4, color: '#00E5FF', band: _rb });
+          } else if (curUi === 'kintsugi' && window.MecFX.dust) {
+            window.MecFX.dust({ count: 18, colors: ['#F5D061', '#D4AF37'] });
+          } else {
+            window.MecFX.confetti({ count: 40, colors: ['#60A5FA', '#FFB830', '#3DD68C'] });
+          }
         }, 1350);
       } else {
         setTimeout(() => {
-          const _rb = _fxBand();
           window.MecFX.rings(_rb.cx, _rb.cy, { count: 2, color: 'rgba(96,165,250,.85)', thickness: 3, maxR: 150, additive: true });
         }, 1350);
       }

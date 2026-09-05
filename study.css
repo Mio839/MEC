@@ -486,6 +486,60 @@ body.exam-mode .qc:has(.exam-instant-wrong){animation:cardWrongGlow .8s ease for
 #examStreakFlash{position:fixed;inset:0;pointer-events:none;z-index:9050;opacity:0;}
 #examStreakFlash.flash{animation:streakFlashIn .75s ease forwards;}
 #examStreakBorder{position:fixed;inset:0;pointer-events:none;z-index:9045;opacity:0;}
+
+/* ── テーマ別 外周ボーダーグロー装飾 ── */
+#examStreakBorder.theme-border-cyber::before,
+#examStreakBorder.theme-border-cyber::after {
+  content: ''; position: absolute; width: 36px; height: 36px;
+  border: 2.5px solid #00FF66; pointer-events: none;
+}
+#examStreakBorder.theme-border-cyber::before { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+#examStreakBorder.theme-border-cyber::after { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+
+#examStreakBorder.theme-border-brass::before,
+#examStreakBorder.theme-border-brass::after {
+  content: ''; position: absolute; width: 12px; height: 12px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFF0A0, #C9A227 60%, #5A4010 100%);
+  box-shadow: 0 0 6px rgba(201,162,39,.8), inset 0 1px 1px rgba(255,255,255,.8);
+  pointer-events: none;
+}
+#examStreakBorder.theme-border-brass::before { top: 12px; left: 12px; }
+#examStreakBorder.theme-border-brass::after { bottom: 12px; right: 12px; }
+
+#examStreakBorder.theme-border-celestial::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 0 0, rgba(255,209,102,.35) 0%, transparent 48px),
+    radial-gradient(circle at 100% 0, rgba(138,43,226,.35) 0%, transparent 48px),
+    radial-gradient(circle at 0 100%, rgba(72,202,228,.35) 0%, transparent 48px),
+    radial-gradient(circle at 100% 100%, rgba(255,209,102,.35) 0%, transparent 48px);
+}
+
+#examStreakBorder.theme-border-kintsugi::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(245,208,97,.4) 0%, transparent 25%, transparent 75%, rgba(245,208,97,.4) 100%),
+    linear-gradient(180deg, rgba(245,208,97,.4) 0%, transparent 25%, transparent 75%, rgba(245,208,97,.4) 100%);
+}
+
+#examStreakBorder.theme-border-frost::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 0 0, rgba(112,214,255,.45) 0%, rgba(255,255,255,.2) 28px, transparent 65px),
+    radial-gradient(circle at 100% 100%, rgba(112,214,255,.45) 0%, rgba(255,255,255,.2) 28px, transparent 65px);
+}
+
+#examStreakBorder.theme-border-abyss::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  box-shadow: inset 0 0 45px rgba(0,255,163,.25), inset 0 0 90px rgba(0,180,216,.15);
+}
+
+#examStreakBorder.theme-border-aurora::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,223,216,.2) 0%, transparent 40px),
+              linear-gradient(0deg, rgba(121,40,202,.2) 0%, transparent 40px);
+}
+
 /* §13-3 P4: 試験の筐体を載せる2枚。クラスが付くまでは箱があるだけで何も描かない。 */
 #examChrome,#examOverdriveGlow{position:fixed;inset:0;pointer-events:none;z-index:-1;}
 /* §13 Z1: ゾーン状態（10連続正解）のアンビエント呼吸。
@@ -507,6 +561,45 @@ body.exam-streak-zone #examZoneBreath{animation:zoneBreathe var(--zone-beat,3.2s
    画面が暗いまま残る不具合につながる。 */
 #examTimestopOv{position:fixed;inset:0;z-index:9000;backdrop-filter:grayscale(.9) blur(1.8px) brightness(.72);-webkit-backdrop-filter:grayscale(.9) blur(1.8px) brightness(.72);pointer-events:none;opacity:0;display:none;}
 #streakFullscreen{position:fixed;inset:0;z-index:9080;display:flex;align-items:center;justify-content:center;pointer-events:none;font-weight:900;line-height:1;font-size:42vmin;letter-spacing:-.04em;opacity:0;}
+
+/* ── 全画面特大コンボ テーマ別タイポグラフィ ── */
+#streakFullscreen.fs-combo-cyber {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 25px #00FF66, 0 0 50px rgba(0,255,102,.5), 0 0 80px rgba(0,229,255,.3);
+}
+#streakFullscreen.fs-combo-kintsugi {
+  letter-spacing: 0.16em;
+  text-shadow: 0 3px 14px rgba(0,0,0,.95), 0 0 30px rgba(245,208,97,.9), 0 0 60px rgba(212,175,55,.45);
+}
+#streakFullscreen.fs-combo-abyss {
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 25px #00FFA3, 0 0 55px rgba(0,180,216,.65);
+}
+#streakFullscreen.fs-combo-brass {
+  letter-spacing: 0.10em;
+  text-shadow: 0 4px 12px rgba(0,0,0,.9), 0 0 25px rgba(224,194,94,.8), 0 0 50px rgba(201,162,39,.4);
+}
+#streakFullscreen.fs-combo-celestial {
+  letter-spacing: 0.12em;
+  text-shadow: 0 0 30px #FFD166, 0 0 70px rgba(138,43,226,.6), 0 0 100px rgba(72,202,228,.4);
+}
+#streakFullscreen.fs-combo-frost {
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 25px #70D6FF, 0 0 50px rgba(255,255,255,.9), 0 0 90px rgba(56,189,248,.4);
+}
+#streakFullscreen.fs-combo-liquid {
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 30px #FF007F, 0 0 60px rgba(121,40,202,.6);
+}
+#streakFullscreen.fs-combo-aurora {
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, #00DFD8 0%, #0070F3 50%, #7928CA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 24px rgba(0,223,216,.75));
+}
+
 .streak-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:9055;}
 @keyframes rainbowHue{0%{filter:hue-rotate(0deg);}100%{filter:hue-rotate(360deg);}}
 #examStreakToast.t6{background:rgba(160,0,255,.35);color:#EE88FF;border:3px solid rgba(210,80,255,.97);font-size:clamp(24px,5.5vw,42px);box-shadow:0 0 120px rgba(160,0,255,.9),0 0 260px rgba(100,0,220,.5),0 0 420px rgba(60,0,180,.2);}
@@ -1499,6 +1592,68 @@ body.exam-awaken #examComboMeter{height:5px;}
   font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:13px;color:var(--cd-col,#00E5FF);
   animation:cdFall 2.6s linear var(--d,0s) both;}
 @keyframes cdFall{from{transform:translateY(-30%)}to{transform:translateY(130%)}}
+
+/* ── zen: 黄金の円相 ── */
+.cd-zen-enso{position:absolute;width:54vmin;height:54vmin;pointer-events:none;display:flex;align-items:center;justify-content:center;}
+.cd-enso-svg{width:100%;height:100%;transform:rotate(-85deg);}
+.cd-enso-svg .enso-circle{
+  fill:none;stroke:var(--cd-col,#F5D061);stroke-width:8;stroke-linecap:round;
+  stroke-dasharray:460;stroke-dashoffset:460;opacity:.85;
+  filter:drop-shadow(0 0 16px rgba(var(--cd-glow,245,208,97),.7));
+  animation:cdEnsoDraw 2.2s cubic-bezier(.16,1,.3,1) forwards;
+}
+@keyframes cdEnsoDraw{to{stroke-dashoffset:25;}}
+
+/* ── grimoire: 古代魔導書・星図魔法陣 ── */
+.cd-grimoire-circle{position:absolute;width:58vmin;height:58vmin;pointer-events:none;}
+.cd-magic-svg{width:100%;height:100%;transform-origin:100px 100px;animation:cdMagicSpin 14s linear infinite;}
+.cd-magic-svg .mc-outer{fill:none;stroke:var(--cd-col,#FFD166);stroke-width:1.5;stroke-dasharray:18 8;opacity:.7;}
+.cd-magic-svg .mc-inner{fill:none;stroke:var(--cd-col,#FFD166);stroke-width:1;opacity:.5;}
+.cd-magic-svg .mc-poly{fill:none;stroke:var(--cd-col,#FFD166);stroke-width:1.2;opacity:.65;transform-origin:100px 100px;animation:cdMagicRev 10s linear infinite;}
+.cd-magic-svg .mc-poly-rev{fill:none;stroke:var(--cd-col,#FFD166);stroke-width:1.2;opacity:.65;transform-origin:100px 100px;animation:cdMagicSpin 10s linear infinite;}
+@keyframes cdMagicSpin{to{transform:rotate(360deg)}}
+@keyframes cdMagicRev{to{transform:rotate(-360deg)}}
+
+/* ── abyss: 深海ソナーパルス ── */
+.cd-abyss-sonar{position:absolute;width:56vmin;height:56vmin;pointer-events:none;}
+.cd-sonar-svg{width:100%;height:100%;}
+.cd-sonar-svg .sn-axis{stroke:var(--cd-col,#00FFA3);stroke-width:1;opacity:.25;stroke-dasharray:4 4;}
+.cd-sonar-svg circle{fill:none;stroke:var(--cd-col,#00FFA3);opacity:0;transform-origin:100px 100px;}
+.cd-sonar-svg .sn-wave1{animation:cdSonarPing 2.4s cubic-bezier(.1,1,.3,1) infinite;}
+.cd-sonar-svg .sn-wave2{animation:cdSonarPing 2.4s cubic-bezier(.1,1,.3,1) .8s infinite;}
+.cd-sonar-svg .sn-wave3{animation:cdSonarPing 2.4s cubic-bezier(.1,1,.3,1) 1.6s infinite;}
+@keyframes cdSonarPing{
+  0%{transform:scale(.3);opacity:.8;stroke-width:3;}
+  70%{opacity:.4;stroke-width:1.5;}
+  100%{transform:scale(1.15);opacity:0;stroke-width:1;}
+}
+
+/* ── frost: 氷晶フレーム＋冷却ゲージ ── */
+.cd-frost-frame{position:absolute;inset:0;pointer-events:none;}
+.cd-frost-frame .ff-crystal{position:absolute;width:40px;height:40px;border:2px solid var(--cd-col,#70D6FF);opacity:.75;}
+.cd-frost-frame .ff-crystal.tl{top:20px;left:20px;clip-path:polygon(0 0, 100% 0, 0 100%);background:linear-gradient(135deg,rgba(112,214,255,.25),transparent);}
+.cd-frost-frame .ff-crystal.tr{top:20px;right:20px;clip-path:polygon(0 0, 100% 0, 100% 100%);background:linear-gradient(225deg,rgba(112,214,255,.25),transparent);}
+.cd-frost-frame .ff-crystal.bl{bottom:20px;left:20px;clip-path:polygon(0 0, 0 100%, 100% 100%);background:linear-gradient(45deg,rgba(112,214,255,.25),transparent);}
+.cd-frost-frame .ff-crystal.br{bottom:20px;right:20px;clip-path:polygon(100% 0, 0 100%, 100% 100%);background:linear-gradient(315deg,rgba(112,214,255,.25),transparent);}
+.ff-cooling-bar{position:absolute;bottom:14%;left:25%;right:25%;height:4px;border-radius:2px;background:rgba(255,255,255,.12);overflow:hidden;}
+.ff-cool-fill{width:0%;height:100%;background:linear-gradient(90deg,#70D6FF,#FFFFFF);animation:cdCoolProgress 2.2s ease-out forwards;}
+@keyframes cdCoolProgress{to{width:100%;}}
+
+/* ── prism: オーロラプリズム光芒 ── */
+.cd-prism-field{position:absolute;inset:0;pointer-events:none;overflow:hidden;opacity:.38;}
+.cd-prism-ray{position:absolute;width:160%;height:45px;transform:rotate(-35deg);filter:blur(18px);}
+.cd-prism-ray.ray-1{top:20%;left:-30%;background:linear-gradient(90deg,#00DFD8,#0070F3,#7928CA);animation:cdRayFloat 5s ease-in-out infinite alternate;}
+.cd-prism-ray.ray-2{top:50%;left:-20%;background:linear-gradient(90deg,#7928CA,#FF0080,#00DFD8);animation:cdRayFloat 6s ease-in-out infinite alternate-reverse;}
+.cd-prism-ray.ray-3{top:75%;left:-35%;background:linear-gradient(90deg,#0070F3,#00DFD8,#7928CA);animation:cdRayFloat 4s ease-in-out infinite alternate;}
+@keyframes cdRayFloat{0%{transform:rotate(-35deg) translateY(-20px);}100%{transform:rotate(-35deg) translateY(20px);}}
+
+/* ── liquid: 幻想フルイドブルーム ── */
+.cd-liquid-bloom{position:absolute;width:52vmin;height:52vmin;pointer-events:none;}
+.cd-liquid-bloom .cd-drop{position:absolute;inset:0;border-radius:50%;filter:blur(14px);opacity:0;}
+.cd-liquid-bloom .drop-1{background:radial-gradient(circle,rgba(255,0,127,.4) 0%,transparent 65%);animation:cdBloom 2.4s ease-out infinite;}
+.cd-liquid-bloom .drop-2{background:radial-gradient(circle,rgba(121,40,202,.4) 0%,transparent 65%);animation:cdBloom 2.4s ease-out .8s infinite;}
+.cd-liquid-bloom .drop-3{background:radial-gradient(circle,rgba(0,223,216,.35) 0%,transparent 65%);animation:cdBloom 2.4s ease-out 1.6s infinite;}
+@keyframes cdBloom{0%{transform:scale(.4);opacity:.85;}100%{transform:scale(1.2);opacity:0;}}
 
 @media (max-width:480px){
   .cd-sub{font-size:10px;letter-spacing:.22em;}
