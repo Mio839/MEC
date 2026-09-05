@@ -238,7 +238,58 @@ t('Aurora: 多面体カッティンググラス＆揺らめくオーロラカー
   assert.ok(HTML.includes('aPrismArc.style.strokeDashoffset'), '_driveThemeGauge 内のauroraPrismArc制御が無い');
 });
 
+t('Aurora & Cyber: オーバードライブ装飾およびHeroゲージから点線円が完全撤廃されている', () => {
+  // od-cyber
+  assert.ok(HTML.includes('.od-cyber .holo-scanner{fill:none;stroke:#00FF9D;stroke-width:1.8;stroke-dasharray:none;'), 'od-cyber holo-scannerに点線が残っている');
+  // od-aurora
+  assert.ok(HTML.includes('.od-aurora .chromatic-ring{fill:none;stroke:url(#auroraPrismArcGrad);stroke-width:2;stroke-dasharray:none;'), 'od-aurora chromatic-ringに点線が残っている');
+  // cyber-scan-ring
+  assert.ok(HTML.includes('.cyber-scan-ring {\n  fill: none;\n  stroke: rgba(0, 229, 255, .25);\n  stroke-width: 1;\n  stroke-dasharray: none;'), 'cyber-scan-ringに点線が残っている');
+});
+
+t('Aurora: 成果帰還着弾Absorberおよびui_theme切替からringsが完全撤廃されスラッシュリボン＆ダイヤモンド閃光へ刷新されている', () => {
+  const absorberFn = HTML.substring(HTML.indexOf('function _runExamToHubAbsorber('), HTML.indexOf('function _stampGoalSeal('));
+  const auroraAbsorbBlock = absorberFn.substring(absorberFn.lastIndexOf("curTheme === 'aurora'"), absorberFn.lastIndexOf("curTheme === 'liquid'"));
+  assert.ok(!auroraAbsorbBlock.includes('MecFX.rings'), 'Aurora着弾にMecFX.ringsが残っている');
+  assert.ok(auroraAbsorbBlock.includes('MecFX.diamondSparkle'), 'Aurora着弾にdiamondSparkleが無い');
+  assert.ok(auroraAbsorbBlock.includes('MecFX.slashRibbon'), 'Aurora着弾にslashRibbonが無い');
+
+  const themeJs = fs.readFileSync(path.join(__dirname, '..', 'ui_theme.js'), 'utf8');
+  const auroraThemeBlock = themeJs.substring(themeJs.indexOf("id === 'aurora'"), themeJs.indexOf("id === 'brass'"));
+  assert.ok(!auroraThemeBlock.includes('MecFX.rings'), 'ui_theme.jsのAuroraにMecFX.ringsが残っている');
+  assert.ok(auroraThemeBlock.includes('MecFX.diamondSparkle'), 'ui_theme.jsのAuroraにdiamondSparkleが無い');
+  assert.ok(auroraThemeBlock.includes('MecFX.slashRibbon'), 'ui_theme.jsのAuroraにslashRibbonが無い');
+});
+
+t('Aurora & Cyber: 正解演出（auroraPrismSweep, cyberTargetLock）から同心円rings/sonicWaveが完全撤廃されている', () => {
+  const fxJs = fs.readFileSync(path.join(__dirname, '..', 'fx_engine.js'), 'utf8');
+  const auroraSweepBlock = fxJs.substring(fxJs.indexOf('function auroraPrismSweep('), fxJs.indexOf('function brassClockworkBurst('));
+  assert.ok(!auroraSweepBlock.includes('rings('), 'auroraPrismSweepにringsが残っている');
+  assert.ok(auroraSweepBlock.includes('slashRibbon('), 'auroraPrismSweepにslashRibbonが無い');
+
+  const cyberLockBlock = fxJs.substring(fxJs.indexOf('function cyberTargetLock('), fxJs.indexOf('function liquidBloomRipple('));
+  assert.ok(!cyberLockBlock.includes('sonicWave('), 'cyberTargetLockにsonicWaveが残っている');
+  assert.ok(!cyberLockBlock.includes('rings('), 'cyberTargetLockにringsが残っている');
+  assert.ok(cyberLockBlock.includes('slashRibbon('), 'cyberTargetLockにslashRibbonが無い');
+  assert.ok(cyberLockBlock.includes('defibShock('), 'cyberTargetLockにdefibShockが無い');
+});
+
+t('Cyber: カウントダウン画面から点線3重円cd-ringsが完全撤廃されcd-cyber-hudへ刷新されている', () => {
+  const studyJs = fs.readFileSync(path.join(__dirname, '..', 'study_exam.js'), 'utf8');
+  assert.ok(!studyJs.includes('class="cd-rings"'), 'study_exam.jsにcd-ringsが残っている');
+  assert.ok(studyJs.includes('class="cd-cyber-hud"'), 'study_exam.jsにcd-cyber-hudが無い');
+
+  const chapterJs = fs.readFileSync(path.join(__dirname, '..', 'chapter_exam.js'), 'utf8');
+  assert.ok(!chapterJs.includes('<svg class="cd-rings"'), 'chapter_exam.jsにcd-ringsが残っている');
+  assert.ok(chapterJs.includes('class="cd-cyber-hud"'), 'chapter_exam.jsにcd-cyber-hudが無い');
+
+  const studyCss = fs.readFileSync(path.join(__dirname, '..', 'study.css'), 'utf8');
+  assert.ok(studyCss.includes('.cd-cyber-hud{'), 'study.cssに.cd-cyber-hudが無い');
+  assert.ok(studyCss.includes('.cd-rings{display:none!important;}'), 'study.cssに.cd-rings非表示が無い');
+});
+
 console.log(`\nALL PASS (${pass}/${pass + fail})\n`);
+
 
 
 

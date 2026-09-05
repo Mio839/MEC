@@ -1271,13 +1271,15 @@ html.ui-frost .od-frost{display:inline;}
 .od-brass .steam-jet{fill:none;stroke:#FFF;stroke-width:2.5;filter:drop-shadow(0 0 6px #FFA040);animation:steamJetPulse .32s ease-in-out infinite alternate;}
 @keyframes steamJetPulse{0%{opacity:.4;stroke-width:2;}100%{opacity:1;stroke-width:4;}}
 
-/* Cyber: ホログラムHUDスキャナー高速周回 */
-.od-cyber .holo-scanner{fill:none;stroke:#00FF9D;stroke-width:2;stroke-dasharray:18 45;animation:casingSpin 1.8s linear infinite;}
+/* Cyber: ホログラムHUDスキャナー高速周回（点線は完全撤廃・実線ネオングロー） */
+.od-cyber .holo-scanner{fill:none;stroke:#00FF9D;stroke-width:1.8;stroke-dasharray:none;opacity:.8;filter:drop-shadow(0 0 8px #00FF9D);animation:cyberHoloScanPulse 1.6s ease-in-out infinite alternate;}
 .od-cyber .hud-limiter-text{font-family:var(--font-display);font-size:7px;font-weight:800;fill:#00E5FF;letter-spacing:1px;text-anchor:middle;animation:textBlink .6s steps(2,start) infinite;}
+@keyframes cyberHoloScanPulse{0%{opacity:.4;stroke-width:1.2;}100%{opacity:.95;stroke-width:2.2;filter:drop-shadow(0 0 12px #00FF9D);}}
 @keyframes textBlink{0%,100%{opacity:1;}50%{opacity:.3;}}
 
-/* Aurora: プリズムスペクトル光彩リング */
-.od-aurora .chromatic-ring{fill:none;stroke:rgba(0,229,255,.6);stroke-width:2.4;stroke-dasharray:30 15;filter:drop-shadow(0 0 6px #7928CA);animation:casingSpin 3.2s linear infinite;}
+/* Aurora: プリズムスペクトル光彩リング（点線は完全撤廃・実線ファセット呼吸） */
+.od-aurora .chromatic-ring{fill:none;stroke:url(#auroraPrismArcGrad);stroke-width:2;stroke-dasharray:none;opacity:.85;filter:drop-shadow(0 0 8px #00DFD8) drop-shadow(0 0 16px rgba(121,40,202,.6));animation:auroraFacetBreathe 2.4s ease-in-out infinite alternate;}
+@keyframes auroraFacetBreathe{0%{opacity:.5;transform:scale(.98);}100%{opacity:1;transform:scale(1.02);filter:drop-shadow(0 0 12px #00DFD8) drop-shadow(0 0 22px rgba(255,0,128,.8));}}
 
 /* Liquid: 蛍光インク気泡激動 */
 .od-liquid .burst-droplets circle{animation:liquidBoil .8s ease-in-out infinite alternate;}
@@ -1424,14 +1426,10 @@ html.ui-cyber .theme-gauge-cyber { display: inline; }
 }
 .cyber-scan-ring {
   fill: none;
-  stroke: rgba(0, 229, 255, .45);
-  stroke-width: 1.2;
-  stroke-dasharray: 8 16 4 16;
-  animation: cyberScanSpin 18s linear infinite reverse;
+  stroke: rgba(0, 229, 255, .25);
+  stroke-width: 1;
+  stroke-dasharray: none;
   transform-origin: 84px 84px;
-}
-@keyframes cyberScanSpin {
-  to { transform: rotate(360deg); }
 }
 .cyber-holo-track {
   fill: none;
@@ -2136,6 +2134,30 @@ html.ui-aurora .strip-c{
   box-shadow:0 2px 10px rgba(0,0,0,.2),inset 0 0 12px rgba(0,223,216,.08);
 }
 html.ui-aurora .exam-countdown{border-color:rgba(0,223,216,.4);box-shadow:0 0 12px rgba(0,223,216,.25);}
+html.ui-aurora .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(0,223,216,.18) 0%,rgba(121,40,202,.14) 45%,transparent 70%);}
+html.ui-aurora .ambient-grid{opacity:.25;background-image:radial-gradient(rgba(0,223,216,.25) 1px,transparent 1px);background-size:20px 20px;}
+html.ui-aurora .cta-main{background:linear-gradient(135deg,#00DFD8,#7928CA 60%,#FF0080);color:#FFF;box-shadow:0 4px 18px rgba(0,223,216,.35),inset 0 1px 1px rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.4);text-shadow:0 1px 2px rgba(0,0,0,.4);}
+html.ui-aurora .cta-main:hover{box-shadow:0 6px 24px rgba(0,223,216,.5),0 0 16px rgba(255,0,128,.4);}
+html.ui-aurora .cta-sub{background:linear-gradient(135deg,rgba(0,223,216,.08),rgba(121,40,202,.08));border-color:rgba(0,223,216,.35);box-shadow:0 2px 10px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.2);}
+html.ui-aurora .cta-sub:hover{border-color:rgba(0,223,216,.6);box-shadow:0 0 14px rgba(0,223,216,.3);}
+html.ui-aurora .cta-redo{border-color:rgba(255,0,128,.45);}
+html.ui-aurora .skill-radar-box{background:linear-gradient(145deg,rgba(0,223,216,.05),rgba(121,40,202,.05));border-color:rgba(0,223,216,.3);box-shadow:0 4px 16px rgba(0,0,0,.25),inset 0 0 15px rgba(0,223,216,.06);}
+html.ui-aurora .radar-grid{stroke:rgba(0,223,216,.25);}
+html.ui-aurora .radar-axis{stroke:rgba(121,40,202,.3);}
+html.ui-aurora .radar-val{fill:rgba(0,223,216,.28);stroke:#00DFD8;filter:drop-shadow(0 0 8px rgba(0,223,216,.7)) drop-shadow(0 0 14px rgba(255,0,128,.4));}
+html.ui-aurora .radar-sonar-sweep{background:conic-gradient(from 0deg,transparent 65%,rgba(0,223,216,.2) 85%,rgba(255,0,128,.35) 100%);}
+html.ui-aurora .bar.on{background:linear-gradient(180deg,#00DFD8 0%,#7928CA 60%,#FF0080 100%);box-shadow:0 0 10px rgba(0,223,216,.5);border-radius:4px 4px 1px 1px;}
+html.ui-aurora .spark-target-line{border-top:1px dashed rgba(0,223,216,.45);}
+html.ui-aurora .spark-target-lbl{color:rgba(0,223,216,.8);}
+html.ui-aurora .streak-seg.active{background:linear-gradient(90deg,#00DFD8,#FF0080);box-shadow:0 0 8px rgba(0,223,216,.7);}
+html.ui-aurora .tiles .tile{background:linear-gradient(135deg,rgba(0,223,216,.06),rgba(121,40,202,.05));border-color:rgba(0,223,216,.25);box-shadow:0 4px 16px rgba(0,0,0,.25);}
+html.ui-aurora .tiles .tile:hover{border-color:rgba(0,223,216,.55);box-shadow:0 8px 24px rgba(0,0,0,.35),0 0 16px rgba(0,223,216,.25);}
+html.ui-aurora .tiles .tile.t-lead{background:linear-gradient(135deg,rgba(0,223,216,.12),rgba(121,40,202,.09));border-color:rgba(0,223,216,.4);}
+html.ui-aurora .tile-bar span{background:linear-gradient(90deg,#00DFD8,#FF0080);box-shadow:0 0 8px rgba(0,223,216,.6);}
+html.ui-aurora #gmDaily .gm-mission{background:linear-gradient(135deg,rgba(0,223,216,.07),rgba(121,40,202,.05));border-color:rgba(0,223,216,.25);}
+html.ui-aurora #gmDaily .gm-mission.done{background:linear-gradient(135deg,rgba(0,223,216,.18),rgba(61,214,140,.15));border-color:rgba(0,223,216,.5);box-shadow:0 0 16px rgba(0,223,216,.25);}
+html.ui-aurora .sec-h::before{background:linear-gradient(180deg,#00DFD8,#FF0080);box-shadow:0 0 10px #00DFD8;}
+html.ui-aurora .sec-h .ln{background:linear-gradient(90deg,#00DFD8 0%,#7928CA 40%,transparent 95%);}
 
 /* ── 2. 🕰️ Brass: 真鍮アンティーク彫刻＆スチームボイラー ── */
 html.ui-brass .hero-console{border-left:2px solid var(--brass);padding-left:14px;}
@@ -2149,6 +2171,30 @@ html.ui-brass .strip-c{
   box-shadow:0 2px 10px rgba(0,0,0,.3),inset 0 1px 0 rgba(224,194,94,.2);
 }
 html.ui-brass .exam-countdown{border-color:rgba(201,162,39,.45);background:rgba(201,162,39,.08);box-shadow:0 0 10px rgba(201,162,39,.25);}
+html.ui-brass .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(201,162,39,.18) 0%,rgba(184,115,51,.12) 45%,transparent 70%);}
+html.ui-brass .ambient-grid{opacity:.28;background-image:repeating-linear-gradient(45deg,rgba(201,162,39,.08) 0 1px,transparent 1px 12px);}
+html.ui-brass .cta-main{background:linear-gradient(180deg,#E0C25E 0%,#C9A227 45%,#967018 100%);color:#231604;font-weight:900;box-shadow:0 4px 16px rgba(0,0,0,.4),inset 0 1px 1px #FFFDF0,inset 0 -2px 3px rgba(0,0,0,.35);border:1.5px solid #E0C25E;text-shadow:0 1px 0 rgba(255,255,255,.4);}
+html.ui-brass .cta-main:hover{box-shadow:0 6px 20px rgba(201,162,39,.5),inset 0 1px 2px #FFF;filter:brightness(1.1);}
+html.ui-brass .cta-sub{background:linear-gradient(180deg,rgba(201,162,39,.12),rgba(184,115,51,.08));border:1px solid rgba(201,162,39,.4);box-shadow:0 2px 8px rgba(0,0,0,.3),inset 0 1px 0 rgba(224,194,94,.2);color:#E0C25E;}
+html.ui-brass .cta-sub:hover{border-color:var(--brass-hi);box-shadow:0 0 12px rgba(201,162,39,.35);}
+html.ui-brass .cta-redo{border-color:rgba(220,100,50,.5);color:#FFB347;}
+html.ui-brass .skill-radar-box{background:linear-gradient(145deg,rgba(26,20,12,.8),rgba(184,115,51,.08));border-color:rgba(201,162,39,.38);box-shadow:0 4px 16px rgba(0,0,0,.35),inset 0 1px 0 rgba(224,194,94,.2);}
+html.ui-brass .radar-grid{stroke:rgba(201,162,39,.3);}
+html.ui-brass .radar-axis{stroke:rgba(184,115,51,.4);}
+html.ui-brass .radar-val{fill:rgba(201,162,39,.26);stroke:#E0C25E;stroke-width:2.2;filter:drop-shadow(0 0 8px rgba(224,194,94,.6));}
+html.ui-brass .radar-sonar-sweep{background:conic-gradient(from 0deg,transparent 65%,rgba(201,162,39,.18) 85%,rgba(224,194,94,.35) 100%);}
+html.ui-brass .bar.on{background:linear-gradient(180deg,#E0C25E 0%,#C9A227 45%,#8A5A20 100%);box-shadow:0 0 8px rgba(201,162,39,.45);border:1px solid rgba(224,194,94,.4);}
+html.ui-brass .spark-target-line{border-top:1px dashed rgba(201,162,39,.5);}
+html.ui-brass .spark-target-lbl{color:#E0C25E;}
+html.ui-brass .streak-seg.active{background:linear-gradient(90deg,#C9A227,#E0C25E);box-shadow:0 0 8px rgba(201,162,39,.6);}
+html.ui-brass .tiles .tile{background:linear-gradient(145deg,rgba(28,22,14,.8),rgba(201,162,39,.08));border-color:rgba(201,162,39,.3);box-shadow:0 4px 14px rgba(0,0,0,.35),inset 0 1px 0 rgba(224,194,94,.15);}
+html.ui-brass .tiles .tile:hover{border-color:var(--brass-hi);box-shadow:0 6px 20px rgba(0,0,0,.45),0 0 14px rgba(201,162,39,.3);}
+html.ui-brass .tiles .tile.t-lead{background:linear-gradient(145deg,rgba(38,30,18,.85),rgba(201,162,39,.14));border-color:rgba(201,162,39,.45);}
+html.ui-brass .tile-bar span{background:linear-gradient(90deg,#C9A227,#E0C25E);box-shadow:0 0 8px rgba(201,162,39,.5);}
+html.ui-brass #gmDaily .gm-mission{background:linear-gradient(145deg,rgba(24,18,12,.75),rgba(201,162,39,.07));border-color:rgba(201,162,39,.28);}
+html.ui-brass #gmDaily .gm-mission.done{background:linear-gradient(145deg,rgba(30,38,20,.75),rgba(61,214,140,.12));border-color:rgba(201,162,39,.5);box-shadow:0 0 14px rgba(201,162,39,.25);}
+html.ui-brass .sec-h::before{background:var(--brass-hi);box-shadow:0 0 10px rgba(224,194,94,.8);}
+html.ui-brass .sec-h .ln{background:linear-gradient(90deg,var(--brass-hi) 0%,var(--brass) 40%,transparent 95%);}
 
 /* ── 3. 🚀 Cyber: 角型戦術HUDモニター＆ネオン走査線 ── */
 html.ui-cyber .hero-console{border-left:2px solid #00E5FF;padding-left:14px;}
@@ -2167,6 +2213,30 @@ html.ui-cyber .strip-c::after{
   border-top:1.5px solid #00FF9D;border-right:1.5px solid #00FF9D;
 }
 html.ui-cyber .exam-countdown{border-radius:2px;border:1px solid #00E5FF;background:rgba(0,229,255,.08);box-shadow:0 0 12px rgba(0,229,255,.3);}
+html.ui-cyber .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(0,229,255,.18) 0%,rgba(0,255,157,.10) 45%,transparent 70%);}
+html.ui-cyber .ambient-grid{opacity:.35;background-image:linear-gradient(rgba(0,229,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.12) 1px,transparent 1px);background-size:16px 16px;}
+html.ui-cyber .cta-main{border-radius:3px;background:linear-gradient(135deg,#00FF9D 0%,#00E5FF 100%);color:#02120A;font-weight:900;box-shadow:0 0 18px rgba(0,255,157,.45),inset 0 0 8px #FFF;border:1px solid #00FF9D;letter-spacing:0.04em;}
+html.ui-cyber .cta-main:hover{box-shadow:0 0 28px rgba(0,255,157,.7),0 0 16px #00E5FF;}
+html.ui-cyber .cta-sub{border-radius:3px;background:rgba(6,18,30,.8);border:1px solid rgba(0,229,255,.45);box-shadow:0 0 10px rgba(0,229,255,.15),inset 0 0 6px rgba(0,229,255,.08);color:#00E5FF;}
+html.ui-cyber .cta-sub:hover{border-color:#00FF9D;color:#00FF9D;box-shadow:0 0 16px rgba(0,255,157,.35);}
+html.ui-cyber .cta-redo{border-color:rgba(255,69,58,.55);color:#FF453A;}
+html.ui-cyber .skill-radar-box{border-radius:4px;background:rgba(4,14,24,.85);border:1px solid rgba(0,229,255,.4);box-shadow:0 0 18px rgba(0,229,255,.18),inset 0 0 10px rgba(0,255,157,.08);}
+html.ui-cyber .radar-grid{stroke:rgba(0,229,255,.3);}
+html.ui-cyber .radar-axis{stroke:rgba(0,255,157,.35);}
+html.ui-cyber .radar-val{fill:rgba(0,255,157,.25);stroke:#00FF9D;stroke-width:2;filter:drop-shadow(0 0 8px #00FF9D) drop-shadow(0 0 16px #00E5FF);}
+html.ui-cyber .radar-sonar-sweep{background:conic-gradient(from 0deg,transparent 65%,rgba(0,229,255,.2) 85%,rgba(0,255,157,.45) 100%);}
+html.ui-cyber .bar.on{border-radius:2px;background:linear-gradient(180deg,#00FF9D 0%,#00DFD8 50%,#005F73 100%);box-shadow:0 0 10px rgba(0,255,157,.5);}
+html.ui-cyber .spark-target-line{border-top:1px solid #00E5FF;box-shadow:0 0 8px rgba(0,229,255,.5);}
+html.ui-cyber .spark-target-lbl{color:#00E5FF;font-weight:800;text-shadow:0 0 6px #00E5FF;}
+html.ui-cyber .streak-seg.active{background:linear-gradient(90deg,#00E5FF,#00FF9D);box-shadow:0 0 10px rgba(0,255,157,.8);}
+html.ui-cyber .tiles .tile{border-radius:4px;background:rgba(5,15,26,.8);border:1px solid rgba(0,229,255,.35);box-shadow:0 0 12px rgba(0,229,255,.12);}
+html.ui-cyber .tiles .tile:hover{border-color:#00FF9D;box-shadow:0 0 20px rgba(0,255,157,.3),0 0 10px rgba(0,229,255,.2);}
+html.ui-cyber .tiles .tile.t-lead{background:rgba(8,22,38,.85);border-color:rgba(0,229,255,.55);}
+html.ui-cyber .tile-bar span{border-radius:1px;background:linear-gradient(90deg,#00E5FF,#00FF9D);box-shadow:0 0 8px #00FF9D;}
+html.ui-cyber #gmDaily .gm-mission{border-radius:3px;background:rgba(5,16,28,.8);border:1px solid rgba(0,229,255,.3);}
+html.ui-cyber #gmDaily .gm-mission.done{background:rgba(8,28,24,.85);border-color:#00FF9D;box-shadow:0 0 16px rgba(0,255,157,.3);}
+html.ui-cyber .sec-h::before{background:#00FF9D;box-shadow:0 0 12px #00FF9D,0 0 20px #00E5FF;}
+html.ui-cyber .sec-h .ln{background:linear-gradient(90deg,#00FF9D 0%,#00E5FF 40%,transparent 95%);}
 
 /* ── 4. 🌸 Liquid: 蛍光Lavaランプ・グロス流体 ── */
 html.ui-liquid .hero-console{border-left:2px solid #FF007F;padding-left:14px;}
@@ -2180,6 +2250,30 @@ html.ui-liquid .strip-c{
   border-color:rgba(255,0,127,.35);box-shadow:0 4px 14px rgba(255,0,127,.15);
 }
 html.ui-liquid .exam-countdown{border-radius:14px;border-color:rgba(255,0,127,.45);background:rgba(255,0,127,.08);}
+html.ui-liquid .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(255,0,127,.18) 0%,rgba(0,242,254,.12) 45%,transparent 70%);}
+html.ui-liquid .ambient-grid{opacity:.2;background-image:radial-gradient(rgba(255,0,127,.25) 1.5px,transparent 1.5px);background-size:24px 24px;}
+html.ui-liquid .cta-main{border-radius:18px;background:linear-gradient(135deg,#FF52A0 0%,#FF007F 50%,#00F2FE 100%);color:#FFF;box-shadow:0 4px 20px rgba(255,0,127,.4),inset 0 2px 2px rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.4);text-shadow:0 1px 3px rgba(0,0,0,.3);}
+html.ui-liquid .cta-main:hover{box-shadow:0 6px 26px rgba(255,0,127,.55),0 0 18px rgba(0,242,254,.45);}
+html.ui-liquid .cta-sub{border-radius:16px;background:linear-gradient(135deg,rgba(255,0,127,.08),rgba(0,242,254,.08));border-color:rgba(255,0,127,.35);box-shadow:0 2px 10px rgba(255,0,127,.12);}
+html.ui-liquid .cta-sub:hover{border-color:rgba(255,0,127,.65);box-shadow:0 0 16px rgba(255,0,127,.28);}
+html.ui-liquid .cta-redo{border-color:rgba(255,0,127,.55);}
+html.ui-liquid .skill-radar-box{border-radius:18px;background:linear-gradient(145deg,rgba(255,0,127,.06),rgba(0,242,254,.06));border-color:rgba(255,0,127,.3);box-shadow:0 4px 18px rgba(255,0,127,.15);}
+html.ui-liquid .radar-grid{stroke:rgba(255,0,127,.25);}
+html.ui-liquid .radar-axis{stroke:rgba(0,242,254,.3);}
+html.ui-liquid .radar-val{fill:rgba(255,0,127,.25);stroke:#FF007F;filter:drop-shadow(0 0 8px rgba(255,0,127,.6)) drop-shadow(0 0 16px rgba(0,242,254,.4));}
+html.ui-liquid .radar-sonar-sweep{background:conic-gradient(from 0deg,transparent 65%,rgba(0,242,254,.2) 85%,rgba(255,0,127,.4) 100%);}
+html.ui-liquid .bar.on{border-radius:6px 6px 2px 2px;background:linear-gradient(180deg,#FF52A0 0%,#FF007F 50%,#00F2FE 100%);box-shadow:0 0 12px rgba(255,0,127,.45);}
+html.ui-liquid .spark-target-line{border-top:1px dashed rgba(255,0,127,.5);}
+html.ui-liquid .spark-target-lbl{color:#FF52A0;}
+html.ui-liquid .streak-seg.active{background:linear-gradient(90deg,#FF007F,#00F2FE);box-shadow:0 0 8px rgba(255,0,127,.7);}
+html.ui-liquid .tiles .tile{border-radius:18px;background:linear-gradient(145deg,rgba(255,0,127,.06),rgba(0,242,254,.05));border-color:rgba(255,0,127,.28);box-shadow:0 4px 16px rgba(255,0,127,.1);}
+html.ui-liquid .tiles .tile:hover{border-color:rgba(255,0,127,.55);box-shadow:0 6px 22px rgba(255,0,127,.25),0 0 14px rgba(0,242,254,.2);}
+html.ui-liquid .tiles .tile.t-lead{background:linear-gradient(145deg,rgba(255,0,127,.12),rgba(0,242,254,.08));border-color:rgba(255,0,127,.45);}
+html.ui-liquid .tile-bar span{border-radius:4px;background:linear-gradient(90deg,#FF007F,#00F2FE);box-shadow:0 0 8px rgba(255,0,127,.5);}
+html.ui-liquid #gmDaily .gm-mission{border-radius:14px;background:linear-gradient(145deg,rgba(255,0,127,.06),rgba(0,242,254,.05));border-color:rgba(255,0,127,.25);}
+html.ui-liquid #gmDaily .gm-mission.done{background:linear-gradient(145deg,rgba(255,0,127,.16),rgba(61,214,140,.12));border-color:rgba(255,0,127,.45);box-shadow:0 0 16px rgba(255,0,127,.2);}
+html.ui-liquid .sec-h::before{background:#FF007F;box-shadow:0 0 10px #FF007F,0 0 18px #00F2FE;}
+html.ui-liquid .sec-h .ln{background:linear-gradient(90deg,#FF007F 0%,#00F2FE 40%,transparent 95%);}
 
 /* ── 5. 🌑 Kintsugi: 漆黒陶器＆純金箔蒔絵 ── */
 html.ui-kintsugi .hero-console{border-left:2px solid #F5D061;padding-left:14px;}
@@ -2192,6 +2286,30 @@ html.ui-kintsugi .strip-c{
   box-shadow:0 4px 14px rgba(0,0,0,.6),inset 0 0 10px rgba(245,208,97,.1);
 }
 html.ui-kintsugi .exam-countdown{border-color:rgba(245,208,97,.45);background:rgba(245,208,97,.08);box-shadow:0 0 12px rgba(245,208,97,.2);}
+html.ui-kintsugi .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(245,208,97,.14) 0%,rgba(212,175,55,.08) 45%,transparent 70%);}
+html.ui-kintsugi .ambient-grid{opacity:.18;background-image:repeating-linear-gradient(0deg,rgba(245,208,97,.08) 0 1px,transparent 1px 18px);}
+html.ui-kintsugi .cta-main{background:linear-gradient(180deg,#F5D061 0%,#E5B83A 40%,#B8860B 100%);color:#100C04;font-weight:900;box-shadow:0 4px 16px rgba(0,0,0,.6),inset 0 1px 1px #FFF8D6;border:1.5px solid #F5D061;text-shadow:0 1px 0 rgba(255,255,255,.5);}
+html.ui-kintsugi .cta-main:hover{box-shadow:0 6px 22px rgba(245,208,97,.45),inset 0 1px 2px #FFF;}
+html.ui-kintsugi .cta-sub{background:rgba(18,14,10,.85);border:1px solid rgba(245,208,97,.35);box-shadow:0 2px 8px rgba(0,0,0,.5),inset 0 0 8px rgba(245,208,97,.06);color:#F5D061;}
+html.ui-kintsugi .cta-sub:hover{border-color:#F5D061;box-shadow:0 0 14px rgba(245,208,97,.3);}
+html.ui-kintsugi .cta-redo{border-color:rgba(200,56,56,.5);color:#E57373;}
+html.ui-kintsugi .skill-radar-box{background:rgba(16,12,8,.88);border-color:rgba(245,208,97,.35);box-shadow:0 4px 16px rgba(0,0,0,.5),inset 0 0 12px rgba(245,208,97,.08);}
+html.ui-kintsugi .radar-grid{stroke:rgba(245,208,97,.28);}
+html.ui-kintsugi .radar-axis{stroke:rgba(212,175,55,.35);}
+html.ui-kintsugi .radar-val{fill:rgba(245,208,97,.24);stroke:#F5D061;stroke-width:2.2;filter:drop-shadow(0 0 8px rgba(245,208,97,.65));}
+html.ui-kintsugi .radar-sonar-sweep{background:conic-gradient(from 0deg,transparent 65%,rgba(245,208,97,.15) 85%,rgba(212,175,55,.35) 100%);}
+html.ui-kintsugi .bar.on{background:linear-gradient(180deg,#F5D061 0%,#D4AF37 50%,#5A4310 100%);box-shadow:0 0 8px rgba(245,208,97,.4);border:1px solid rgba(245,208,97,.35);}
+html.ui-kintsugi .spark-target-line{border-top:1px dashed rgba(245,208,97,.45);}
+html.ui-kintsugi .spark-target-lbl{color:#F5D061;}
+html.ui-kintsugi .streak-seg.active{background:linear-gradient(90deg,#D4AF37,#F5D061);box-shadow:0 0 8px rgba(245,208,97,.6);}
+html.ui-kintsugi .tiles .tile{background:rgba(18,14,10,.82);border-color:rgba(245,208,97,.28);box-shadow:0 4px 14px rgba(0,0,0,.5);}
+html.ui-kintsugi .tiles .tile:hover{border-color:#F5D061;box-shadow:0 6px 20px rgba(0,0,0,.6),0 0 14px rgba(245,208,97,.25);}
+html.ui-kintsugi .tiles .tile.t-lead{background:rgba(24,18,12,.88);border-color:rgba(245,208,97,.45);}
+html.ui-kintsugi .tile-bar span{background:linear-gradient(90deg,#D4AF37,#F5D061);box-shadow:0 0 8px rgba(245,208,97,.5);}
+html.ui-kintsugi #gmDaily .gm-mission{background:rgba(18,14,10,.78);border-color:rgba(245,208,97,.25);}
+html.ui-kintsugi #gmDaily .gm-mission.done{background:rgba(26,20,12,.85);border-color:#F5D061;box-shadow:0 0 14px rgba(245,208,97,.25);}
+html.ui-kintsugi .sec-h::before{background:#F5D061;box-shadow:0 0 10px rgba(245,208,97,.8);}
+html.ui-kintsugi .sec-h .ln{background:linear-gradient(90deg,#F5D061 0%,#D4AF37 40%,transparent 95%);}
 
 /* ── 6. 🌌 Celestial: 星座幾何学＆月齢星光 ── */
 html.ui-celestial .hero-console{border-left:2px solid #FFD166;padding-left:14px;}
@@ -2205,6 +2323,30 @@ html.ui-celestial .strip-c{
   border:1px solid rgba(255,209,102,.35);box-shadow:0 0 14px rgba(138,43,226,.25);
 }
 html.ui-celestial .exam-countdown{border-color:rgba(255,209,102,.45);background:rgba(138,43,226,.12);box-shadow:0 0 14px rgba(255,209,102,.3);}
+html.ui-celestial .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(255,209,102,.18) 0%,rgba(138,43,226,.15) 45%,transparent 70%);}
+html.ui-celestial .ambient-grid{opacity:.25;background-image:radial-gradient(rgba(255,209,102,.3) 1px,transparent 1px);background-size:28px 28px;}
+html.ui-celestial .cta-main{background:linear-gradient(135deg,#FFD166 0%,#8A2BE2 60%,#1A0B2E 100%);color:#FFF;font-weight:800;box-shadow:0 4px 20px rgba(138,43,226,.4),inset 0 1px 1px rgba(255,255,255,.5);border:1.5px solid #FFD166;text-shadow:0 1px 2px rgba(0,0,0,.5);}
+html.ui-celestial .cta-main:hover{box-shadow:0 6px 26px rgba(138,43,226,.6),0 0 18px rgba(255,209,102,.5);}
+html.ui-celestial .cta-sub{background:linear-gradient(135deg,rgba(26,11,46,.8),rgba(138,43,226,.1));border-color:rgba(255,209,102,.35);box-shadow:0 2px 10px rgba(0,0,0,.3),inset 0 0 10px rgba(138,43,226,.12);color:#FFD166;}
+html.ui-celestial .cta-sub:hover{border-color:#FFD166;box-shadow:0 0 16px rgba(255,209,102,.35);}
+html.ui-celestial .cta-redo{border-color:rgba(255,100,100,.5);color:#FFA0A0;}
+html.ui-celestial .skill-radar-box{background:linear-gradient(145deg,rgba(22,9,40,.85),rgba(138,43,226,.1));border-color:rgba(255,209,102,.35);box-shadow:0 4px 18px rgba(138,43,226,.25);}
+html.ui-celestial .radar-grid{stroke:rgba(255,209,102,.28);}
+html.ui-celestial .radar-axis{stroke:rgba(138,43,226,.4);}
+html.ui-celestial .radar-val{fill:rgba(255,209,102,.25);stroke:#FFD166;stroke-width:2.2;filter:drop-shadow(0 0 8px #FFD166) drop-shadow(0 0 18px #8A2BE2);}
+html.ui-celestial .radar-sonar-sweep{background:conic-gradient(from 0deg,transparent 65%,rgba(138,43,226,.25) 85%,rgba(255,209,102,.4) 100%);}
+html.ui-celestial .bar.on{background:linear-gradient(180deg,#FFFDF0 0%,#FFD166 40%,#8A2BE2 100%);box-shadow:0 0 10px rgba(255,209,102,.5);}
+html.ui-celestial .spark-target-line{border-top:1px dashed rgba(255,209,102,.5);}
+html.ui-celestial .spark-target-lbl{color:#FFD166;}
+html.ui-celestial .streak-seg.active{background:linear-gradient(90deg,#8A2BE2,#FFD166);box-shadow:0 0 8px rgba(255,209,102,.7);}
+html.ui-celestial .tiles .tile{background:linear-gradient(145deg,rgba(24,10,42,.8),rgba(138,43,226,.08));border-color:rgba(255,209,102,.28);box-shadow:0 4px 16px rgba(0,0,0,.35);}
+html.ui-celestial .tiles .tile:hover{border-color:#FFD166;box-shadow:0 6px 22px rgba(138,43,226,.35),0 0 14px rgba(255,209,102,.25);}
+html.ui-celestial .tiles .tile.t-lead{background:linear-gradient(145deg,rgba(32,14,58,.88),rgba(138,43,226,.14));border-color:rgba(255,209,102,.45);}
+html.ui-celestial .tile-bar span{background:linear-gradient(90deg,#8A2BE2,#FFD166);box-shadow:0 0 8px #FFD166;}
+html.ui-celestial #gmDaily .gm-mission{background:linear-gradient(145deg,rgba(22,9,38,.75),rgba(138,43,226,.08));border-color:rgba(255,209,102,.25);}
+html.ui-celestial #gmDaily .gm-mission.done{background:linear-gradient(145deg,rgba(28,18,48,.82),rgba(61,214,140,.15));border-color:#FFD166;box-shadow:0 0 16px rgba(138,43,226,.25);}
+html.ui-celestial .sec-h::before{background:#FFD166;box-shadow:0 0 10px #FFD166,0 0 20px #8A2BE2;}
+html.ui-celestial .sec-h .ln{background:linear-gradient(90deg,#FFD166 0%,#8A2BE2 40%,transparent 95%);}
 
 /* ── 7. 🌊 Abyss: 深海耐圧コンソール＆バイオエメラルド ── */
 html.ui-abyss .hero-console{border-left:2px solid #00FFA3;padding-left:14px;}
@@ -2218,6 +2360,30 @@ html.ui-abyss .strip-c{
   box-shadow:0 0 14px rgba(0,255,163,.15),inset 0 0 8px rgba(0,180,216,.1);
 }
 html.ui-abyss .exam-countdown{border-radius:8px;border:1px solid #00FFA3;background:rgba(0,255,163,.08);box-shadow:0 0 12px rgba(0,255,163,.3);}
+html.ui-abyss .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(0,255,163,.18) 0%,rgba(0,180,216,.12) 45%,transparent 70%);}
+html.ui-abyss .ambient-grid{opacity:.22;background-image:repeating-linear-gradient(180deg,rgba(0,255,163,.06) 0 1px,transparent 1px 14px);}
+html.ui-abyss .cta-main{border-radius:8px;background:linear-gradient(135deg,#00FFA3 0%,#00B4D8 100%);color:#001814;font-weight:900;box-shadow:0 4px 18px rgba(0,255,163,.4),inset 0 1px 1px #FFF;border:1.5px solid #00FFA3;text-shadow:0 1px 0 rgba(255,255,255,.3);}
+html.ui-abyss .cta-main:hover{box-shadow:0 6px 24px rgba(0,255,163,.6),0 0 16px #00B4D8;}
+html.ui-abyss .cta-sub{border-radius:8px;background:rgba(2,16,28,.85);border:1px solid rgba(0,255,163,.35);box-shadow:0 2px 10px rgba(0,0,0,.35),inset 0 0 8px rgba(0,180,216,.1);color:#00FFA3;}
+html.ui-abyss .cta-sub:hover{border-color:#00FFA3;box-shadow:0 0 16px rgba(0,255,163,.35);}
+html.ui-abyss .cta-redo{border-color:rgba(255,69,58,.5);color:#FF6B6B;}
+html.ui-abyss .skill-radar-box{border-radius:8px;background:rgba(2,14,26,.88);border-color:rgba(0,255,163,.35);box-shadow:0 4px 16px rgba(0,0,0,.4),inset 0 0 12px rgba(0,255,163,.08);}
+html.ui-abyss .radar-grid{stroke:rgba(0,255,163,.28);}
+html.ui-abyss .radar-axis{stroke:rgba(0,180,216,.35);}
+html.ui-abyss .radar-val{fill:rgba(0,255,163,.25);stroke:#00FFA3;stroke-width:2.2;filter:drop-shadow(0 0 8px #00FFA3) drop-shadow(0 0 18px #00B4D8);}
+html.ui-abyss .radar-sonar-sweep{background:conic-gradient(from 0deg,transparent 65%,rgba(0,180,216,.2) 85%,rgba(0,255,163,.4) 100%);}
+html.ui-abyss .bar.on{border-radius:4px 4px 1px 1px;background:linear-gradient(180deg,#00FFA3 0%,#00B4D8 60%,#001428 100%);box-shadow:0 0 10px rgba(0,255,163,.45);}
+html.ui-abyss .spark-target-line{border-top:1px dashed rgba(0,255,163,.45);}
+html.ui-abyss .spark-target-lbl{color:#00FFA3;}
+html.ui-abyss .streak-seg.active{background:linear-gradient(90deg,#00B4D8,#00FFA3);box-shadow:0 0 8px rgba(0,255,163,.7);}
+html.ui-abyss .tiles .tile{border-radius:8px;background:rgba(2,16,30,.82);border-color:rgba(0,255,163,.28);box-shadow:0 4px 14px rgba(0,0,0,.4);}
+html.ui-abyss .tiles .tile:hover{border-color:#00FFA3;box-shadow:0 6px 20px rgba(0,0,0,.5),0 0 14px rgba(0,255,163,.25);}
+html.ui-abyss .tiles .tile.t-lead{background:rgba(3,22,42,.88);border-color:rgba(0,255,163,.45);}
+html.ui-abyss .tile-bar span{border-radius:2px;background:linear-gradient(90deg,#00B4D8,#00FFA3);box-shadow:0 0 8px #00FFA3;}
+html.ui-abyss #gmDaily .gm-mission{border-radius:8px;background:rgba(2,16,28,.78);border-color:rgba(0,255,163,.25);}
+html.ui-abyss #gmDaily .gm-mission.done{background:rgba(2,24,28,.85);border-color:#00FFA3;box-shadow:0 0 16px rgba(0,255,163,.25);}
+html.ui-abyss .sec-h::before{background:#00FFA3;box-shadow:0 0 10px #00FFA3,0 0 18px #00B4D8;}
+html.ui-abyss .sec-h .ln{background:linear-gradient(90deg,#00FFA3 0%,#00B4D8 40%,transparent 95%);}
 
 /* ── 8. ❄️ Frost: 六花氷結クリスタル＆絶対零度 ── */
 html.ui-frost .hero-console{border-left:2px solid #A0E7E5;padding-left:14px;}
@@ -2231,6 +2397,30 @@ html.ui-frost .strip-c{
   box-shadow:0 0 14px rgba(112,214,255,.25),inset 0 0 10px rgba(255,255,255,.08);
 }
 html.ui-frost .exam-countdown{border:1px solid #A0E7E5;background:rgba(160,231,229,.09);box-shadow:0 0 14px rgba(112,214,255,.35);}
+html.ui-frost .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(160,231,229,.2) 0%,rgba(112,214,255,.14) 45%,transparent 70%);}
+html.ui-frost .ambient-grid{opacity:.28;background-image:radial-gradient(rgba(160,231,229,.35) 1px,transparent 1px);background-size:20px 20px;}
+html.ui-frost .cta-main{background:linear-gradient(135deg,#FFF 0%,#A0E7E5 50%,#70D6FF 100%);color:#041824;font-weight:900;box-shadow:0 4px 20px rgba(112,214,255,.45),inset 0 1px 2px #FFF;border:1.5px solid #FFF;text-shadow:0 1px 0 rgba(255,255,255,.5);}
+html.ui-frost .cta-main:hover{box-shadow:0 6px 26px rgba(112,214,255,.65),0 0 18px #A0E7E5;}
+html.ui-frost .cta-sub{background:rgba(8,20,36,.85);border:1px solid rgba(160,231,229,.38);box-shadow:0 2px 10px rgba(0,0,0,.3),inset 0 0 10px rgba(112,214,255,.08);color:#A0E7E5;}
+html.ui-frost .cta-sub:hover{border-color:#FFF;color:#FFF;box-shadow:0 0 16px rgba(160,231,229,.4);}
+html.ui-frost .cta-redo{border-color:rgba(255,120,120,.5);color:#FFB0B0;}
+html.ui-frost .skill-radar-box{background:rgba(8,18,34,.88);border-color:rgba(160,231,229,.38);box-shadow:0 4px 18px rgba(112,214,255,.2),inset 0 0 12px rgba(255,255,255,.06);}
+html.ui-frost .radar-grid{stroke:rgba(160,231,229,.3);}
+html.ui-frost .radar-axis{stroke:rgba(112,214,255,.38);}
+html.ui-frost .radar-val{fill:rgba(160,231,229,.26);stroke:#A0E7E5;stroke-width:2.2;filter:drop-shadow(0 0 8px #FFF) drop-shadow(0 0 18px #70D6FF);}
+html.ui-frost .radar-sonar-sweep{background:conic-gradient(from 0deg,transparent 65%,rgba(112,214,255,.2) 85%,rgba(160,231,229,.45) 100%);}
+html.ui-frost .bar.on{background:linear-gradient(180deg,#FFF 0%,#A0E7E5 45%,#70D6FF 100%);box-shadow:0 0 10px rgba(112,214,255,.5);}
+html.ui-frost .spark-target-line{border-top:1px dashed rgba(160,231,229,.5);}
+html.ui-frost .spark-target-lbl{color:#A0E7E5;}
+html.ui-frost .streak-seg.active{background:linear-gradient(90deg,#70D6FF,#FFF);box-shadow:0 0 8px rgba(112,214,255,.7);}
+html.ui-frost .tiles .tile{background:rgba(8,20,36,.82);border-color:rgba(160,231,229,.3);box-shadow:0 4px 16px rgba(0,0,0,.35);}
+html.ui-frost .tiles .tile:hover{border-color:#FFF;box-shadow:0 6px 22px rgba(0,0,0,.45),0 0 16px rgba(112,214,255,.3);}
+html.ui-frost .tiles .tile.t-lead{background:rgba(12,28,48,.88);border-color:rgba(160,231,229,.48);}
+html.ui-frost .tile-bar span{background:linear-gradient(90deg,#70D6FF,#FFF);box-shadow:0 0 8px #70D6FF;}
+html.ui-frost #gmDaily .gm-mission{background:rgba(8,18,32,.78);border-color:rgba(160,231,229,.28);}
+html.ui-frost #gmDaily .gm-mission.done{background:rgba(10,28,40,.85);border-color:#A0E7E5;box-shadow:0 0 16px rgba(112,214,255,.3);}
+html.ui-frost .sec-h::before{background:#A0E7E5;box-shadow:0 0 10px #A0E7E5,0 0 18px #70D6FF;}
+html.ui-frost .sec-h .ln{background:linear-gradient(90deg,#A0E7E5 0%,#70D6FF 40%,transparent 95%);}
 
 /* ── XPの帯。着地でひと突き ── */
 .hero-xp.pop{animation:xpPop .42s var(--ease-out);}
@@ -2291,8 +2481,9 @@ html.ui-frost .exam-countdown{border:1px solid #A0E7E5;background:rgba(160,231,2
   .gauge-pulse-trk,.gauge-aura,.hero-shockwave-layer,.cta-tracer,.gauge-overdrive-fx,.gauge-surge-wave,.absorber-orb{display:none!important;}
   /* 2026-09-05 追加分（Heroゲージ以外の文字・表示・コンソール演出強化） */
   .hero-live,.exam-countdown::before,.sec-h::before,.sec-h .ln::after,
-  .hero-num[data-goal="1"],.hero-num[data-goal="2"]{animation:none!important;}
-  .exam-countdown::before,.sec-h .ln::after{display:none!important;}
+  .hero-num[data-goal="1"],.hero-num[data-goal="2"],
+  .radar-sonar-sweep,.sonar-dot,.tiles .tile:nth-child(odd),.tiles .tile:nth-child(even){animation:none!important;}
+  .exam-countdown::before,.sec-h .ln::after,.radar-sonar-sweep{display:none!important;}
 }
 
 /* ── メニュー（旧ヘッダーのボタン群＋旧フッターのテーマ/効果音をここへ集約） ── */
@@ -4834,8 +5025,13 @@ function _runExamToHubAbsorber(targetPct, payload) {
         MecFX.burst(targetX, targetY, { count: 28, colors: ['#00E5FF', '#00FF9D', '#FFFFFF'], shapes: ['shard', 'star'], speed: 480, tier: 4 });
         if (MecFX.pixelPop) MecFX.pixelPop(targetX, targetY, { count: 20, colors: ['#00E5FF', '#00FF9D'] });
       } else if (curTheme === 'aurora') {
-        if (MecFX.rings) MecFX.rings(targetX, targetY, { count: 3, color: 'rgba(0,223,216,0.85)', thickness: 3.5, maxR: 160, additive: true });
-        MecFX.burst(targetX, targetY, { count: 30, colors: ['#00DFD8', '#7928CA', '#FF0080', '#FFFFFF'], shapes: ['gem', 'star'], speed: 420, tier: 4 });
+        if (MecFX.diamondSparkle) MecFX.diamondSparkle(targetX, targetY, { count: 32, colors: ['#00DFD8', '#FFFDF0', '#7928CA'], additive: true });
+        if (MecFX.dust) MecFX.dust({ count: 26, colors: ['#00DFD8', '#7928CA', '#FF0080', '#FFFDF0'] });
+        if (MecFX.slashRibbon) {
+          MecFX.slashRibbon(targetX - 110, targetY - 25, targetX + 110, targetY + 25, { color: '#00DFD8', width: 3.2, ttl: 0.4 });
+          MecFX.slashRibbon(targetX + 90, targetY - 35, targetX - 90, targetY + 35, { color: '#7928CA', width: 2.6, ttl: 0.36, delay: 0.04 });
+        }
+        MecFX.burst(targetX, targetY, { count: 32, colors: ['#00DFD8', '#7928CA', '#FF0080', '#FFFFFF'], shapes: ['gem', 'star'], speed: 430, tier: 4, glow: true });
       } else if (curTheme === 'liquid') {
         MecFX.burst(targetX, targetY, { count: 28, colors: ['#FF007F', '#00F2FE', '#FF7A00', '#FFFFFF'], shapes: ['circle'], speed: 420, tier: 4 });
         if (MecFX.rippleInterference) MecFX.rippleInterference(targetX, targetY, { maxR: 140, color: '#FF007F' });

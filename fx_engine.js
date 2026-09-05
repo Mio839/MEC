@@ -2039,10 +2039,11 @@
     diamondSparkle(cx, cy, { count: 20, color: purple, additive: true });
     diamondSparkle(cx, cy, { count: 18, color: neonPink, additive: true });
 
-    // 2. 偏光オーロラ同心円リングウェーブ (多層超特大展開)
-    rings(cx, cy, { count: 4, maxR: maxR, color: cyan, additive: true });
-    rings(cx, cy, { count: 3, maxR: maxR * 0.82, color: purple, additive: true });
-    rings(cx, cy, { count: 2, maxR: maxR * 0.65, color: blue, additive: true });
+    // 2. 偏光オーロラ多層クロス光芒スラッシュ（同心円・リングは完全撤廃）
+    slashRibbon(cx - maxR * 0.7, cy, cx + maxR * 0.7, cy, { color: cyan, width: 4.0, ttl: 0.42 });
+    slashRibbon(cx, cy - maxR * 0.7, cx, cy + maxR * 0.7, { color: purple, width: 3.5, ttl: 0.4, delay: 0.03 });
+    slashRibbon(cx - maxR * 0.55, cy - maxR * 0.35, cx + maxR * 0.55, cy + maxR * 0.35, { color: neonPink, width: 3.0, ttl: 0.36, delay: 0.05 });
+    slashRibbon(cx + maxR * 0.55, cy - maxR * 0.35, cx - maxR * 0.55, cy + maxR * 0.35, { color: blue, width: 2.8, ttl: 0.38, delay: 0.07 });
 
     // 3. 星屑グリッター粒子散乱（全画面）
     dust({ count: o.dustCount || 48, colors: [cyan, blue, purple, neonPink, white] });
@@ -2080,18 +2081,18 @@
     sonicWave(cx, cy, { count: 3, maxR: maxR * 0.75, color: gold, thickness: 3.5 });
   }
 
-  /** 【4テーマ特化】サイバー・ホログラム: 照準スコープターゲットロック ＆ ネオングリッドパルス (電脳極彩爆発) */
+  /** 【4テーマ特化】電脳サイバー・グリッド: ホログラムグリッチ ＆ 除細動ショックパルス (超高速デジタル爆発) */
   function cyberTargetLock(cx, cy, o) {
     o = o || {};
     cx = cx == null ? W * .5 : cx;
     cy = cy == null ? H * .5 : cy;
-    var neonGreen = '#00FF66', cyan = '#00E5FF', magenta = '#D500F9', matrixGreen = '#76FF03', white = '#FFFFFF';
+    var cyan = '#00E5FF', neonGreen = '#00FF9D', magenta = '#D500F9', matrixGreen = '#00FF66', white = '#FFFFFF';
     var maxR = o.maxR || Math.min(W, H) * 0.45;
-    
-    // 全画面インパクト: エメラルドグリーン露光フラッシュ
-    if (o.flash !== false) flashScreen('rgba(0, 255, 102, 0.35)', 0.32);
 
-    // 1. デジタルグリッチバー全画面高速走査
+    // 全画面インパクト: ネオングリーン露光フラッシュ
+    if (o.flash !== false) flashScreen('rgba(0, 255, 157, 0.32)', 0.34);
+
+    // 1. 全画面サイバーグリッチバー
     glitchBars({ count: o.glitchCount || 24, colors: ['rgba(0,255,102,0.45)', 'rgba(0,229,255,0.45)', 'rgba(213,0,249,0.35)'], thick: true });
 
     // 2. 電脳除細動ショックパルス（全画面横断ボルト）
@@ -2104,9 +2105,10 @@
     // 4. データ破片ピクセルポップ（大量）
     pixelPop(cx, cy, { count: o.pixelCount || 36, colors: [neonGreen, cyan, matrixGreen, magenta, white] });
 
-    // 5. 幾何学同心円ソニックウェーブ (3Dネオングリッドパルス)
-    sonicWave(cx, cy, { count: 4, maxR: maxR, color: neonGreen, thickness: 3.6 });
-    rings(cx, cy, { count: 3, maxR: maxR * 0.8, color: cyan, additive: true });
+    // 5. タクティカルHUDレーザースラッシュ ＆ 高圧グリッドパルス（同心円・リングは完全撤廃）
+    slashRibbon(cx - maxR * 0.75, cy, cx + maxR * 0.75, cy, { color: neonGreen, width: 3.2, ttl: 0.32 });
+    slashRibbon(cx, cy - maxR * 0.75, cx, cy + maxR * 0.75, { color: cyan, width: 3.2, ttl: 0.32, delay: 0.03 });
+    defibShock(cx, cy, { color: cyan, count: 24, delay: 0.04 });
   }
 
   /** 【4テーマ特化】幻想リキッド・アート: 蛍光インクスプラッシュ ＆ ジェル弾性バブルリップル (極彩流体爆発) */

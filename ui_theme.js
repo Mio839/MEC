@@ -99,18 +99,24 @@
     var cx = window.innerWidth / 2;
     var cy = window.innerHeight / 2;
     if (id === 'aurora') {
-      if (MecFX.diamondSparkle) MecFX.diamondSparkle(cx, cy, { count: 24, color: '#00DFD8', additive: true });
-      if (MecFX.rings) MecFX.rings(cx, cy, { count: 3, maxR: 240, color: '#0070F3', additive: true });
-      if (MecFX.stars) MecFX.stars(cx, cy, { count: 16, color: '#7928CA' });
+      if (MecFX.diamondSparkle) MecFX.diamondSparkle(cx, cy, { count: 36, colors: ['#00DFD8', '#FFFDF0', '#7928CA', '#FF0080'], additive: true });
+      if (MecFX.dust) MecFX.dust({ count: 30, colors: ['#00DFD8', '#7928CA', '#FF0080', '#FFFFFF'] });
+      if (MecFX.slashRibbon) {
+        MecFX.slashRibbon(cx - 200, cy - 60, cx + 200, cy + 60, { color: '#00DFD8', width: 4.2 });
+        MecFX.slashRibbon(cx + 180, cy - 70, cx - 180, cy + 70, { color: '#7928CA', width: 3.5, delay: 0.05 });
+      }
+      if (MecFX.stars) MecFX.stars(cx, cy, { count: 20, colors: ['#00DFD8', '#7928CA', '#FF0080'] });
+      if (MecFX.burst) MecFX.burst(cx, cy, { count: 28, colors: ['#00DFD8', '#7928CA', '#FFFFFF'], shapes: ['gem', 'star'], speed: 400, glow: true });
     } else if (id === 'brass') {
       if (MecFX.irisShutter) MecFX.irisShutter(cx, cy, { maxR: 220, blades: 12, color: '#FFD700', thickness: 3 });
       if (MecFX.gears) MecFX.gears(cx, cy, { count: 12, spread: 280, w: 24 });
       if (MecFX.steam) MecFX.steam(cx, cy, { count: 8, w: 60, rise: 120, alpha: 0.35 });
       if (MecFX.sparkFountain) MecFX.sparkFountain(cx, cy, { count: 18, color: '#E0C25E' });
     } else if (id === 'cyber') {
-      if (MecFX.glitchBars) MecFX.glitchBars(cx, cy, { count: 12, color: '#00E5FF' });
+      if (MecFX.glitchBars) MecFX.glitchBars(cx, cy, { count: 16, color: '#00E5FF' });
       if (MecFX.defibShock) MecFX.defibShock(cx, cy, { color: '#00FF66' });
-      if (MecFX.diamondSparkle) MecFX.diamondSparkle(cx, cy, { count: 16, color: '#00E5FF' });
+      if (MecFX.diamondSparkle) MecFX.diamondSparkle(cx, cy, { count: 24, colors: ['#00E5FF', '#00FF9D'], additive: true });
+      if (MecFX.pixelPop) MecFX.pixelPop(cx, cy, { count: 28, colors: ['#00E5FF', '#00FF9D', '#FFFFFF'] });
     } else if (id === 'liquid') {
       if (MecFX.irisShutter) MecFX.irisShutter(cx, cy, { maxR: 240, color: '#FF007F' });
       if (MecFX.bubbles) MecFX.bubbles(cx, cy, { count: 18, colors: ['#FF007F', '#7928CA', '#FF7A00'] });

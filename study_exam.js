@@ -2826,9 +2826,7 @@ function _examCountdown() {
       ? '<div class="cd-prism-field"><div class="cd-prism-ray ray-1"></div><div class="cd-prism-ray ray-2"></div><div class="cd-prism-ray ray-3"></div></div>'
       : style === 'liquid'
       ? '<div class="cd-liquid-bloom"><div class="cd-drop drop-1"></div><div class="cd-drop drop-2"></div><div class="cd-drop drop-3"></div></div>'
-      : '<svg class="cd-rings" viewBox="0 0 200 200" aria-hidden="true">' +
-        '<circle class="r1" cx="100" cy="100" r="86"/><circle class="r2" cx="100" cy="100" r="66"/>' +
-        '<circle class="r3" cx="100" cy="100" r="46"/></svg>') +
+      : '<div class="cd-cyber-hud"><div class="hud-frame"></div><div class="hud-corner hc-tl"></div><div class="hud-corner hc-tr"></div><div class="hud-corner hc-bl"></div><div class="hud-corner hc-br"></div><div class="hud-cross-h"></div><div class="hud-cross-v"></div><div class="hud-scanner-bar"></div></div>') +
     '<div class="cd-log"></div>' +
     '<div class="cd-num"></div>' +
     '<div class="cd-sub"></div>';

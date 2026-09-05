@@ -234,13 +234,18 @@
       '.cd-reticle .rh{left:-24vmin;right:-24vmin;top:50%;height:1px;}',
       '.cd-reticle .rv{top:-24vmin;bottom:-24vmin;left:50%;width:1px;}',
       '@keyframes cdReticle{0%{transform:scale(1.5) rotate(-3deg);opacity:0}35%{opacity:.5}100%{transform:none;opacity:.5}}',
-      '.cd-rings{position:absolute;width:58vmin;height:58vmin;overflow:visible;}',
-      '.cd-rings circle{fill:none;stroke:var(--cd-col,#00E5FF);transform-origin:100px 100px;}',
-      '.cd-rings .r1{stroke-width:1;opacity:.45;stroke-dasharray:34 12;animation:cdSpin 7s linear infinite;}',
-      '.cd-rings .r2{stroke-width:2;opacity:.7;stroke-dasharray:110 300;animation:cdSpinR 3.4s linear infinite;}',
-      '.cd-rings .r3{stroke-width:1;opacity:.3;stroke-dasharray:4 9;animation:cdSpin 5s linear infinite reverse;}',
-      '@keyframes cdSpin{to{transform:rotate(360deg)}}',
-      '@keyframes cdSpinR{from{transform:rotate(360deg)}to{transform:rotate(0)}}',
+      '.cd-cyber-hud{position:absolute;width:58vmin;height:58vmin;pointer-events:none;}',
+      '.cd-cyber-hud .hud-frame{position:absolute;inset:0;border:1.5px solid rgba(0,229,255,.5);box-shadow:0 0 20px rgba(0,229,255,.25),inset 0 0 20px rgba(0,255,157,.15);}',
+      '.cd-cyber-hud .hud-corner{position:absolute;width:18px;height:18px;border-color:var(--cd-col,#00FF9D);border-style:solid;}',
+      '.cd-cyber-hud .hc-tl{top:-2px;left:-2px;border-width:3px 0 0 3px;}',
+      '.cd-cyber-hud .hc-tr{top:-2px;right:-2px;border-width:3px 3px 0 0;}',
+      '.cd-cyber-hud .hc-bl{bottom:-2px;left:-2px;border-width:0 0 3px 3px;}',
+      '.cd-cyber-hud .hc-br{bottom:-2px;right:-2px;border-width:0 3px 3px 0;}',
+      '.cd-cyber-hud .hud-cross-h{position:absolute;top:50%;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,229,255,.4) 20%,rgba(0,255,157,.8) 50%,rgba(0,229,255,.4) 80%,transparent);transform:translateY(-50%);}',
+      '.cd-cyber-hud .hud-cross-v{position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,rgba(0,229,255,.4) 20%,rgba(0,255,157,.8) 50%,rgba(0,229,255,.4) 80%,transparent);transform:translateX(-50%);}',
+      '.cd-cyber-hud .hud-scanner-bar{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(0,255,157,.8),transparent);animation:hudScanMove 2.2s ease-in-out infinite alternate;}',
+      '@keyframes hudScanMove{0%{top:4%;opacity:.3;}100%{top:96%;opacity:.9;box-shadow:0 0 12px #00FF9D;}}',
+      '.cd-rings{display:none!important;}',
       '.cd-stream{position:absolute;inset:0;overflow:hidden;opacity:.28;}',
       '.cd-col{position:absolute;top:-40%;left:var(--x,0);white-space:pre;line-height:1.25;font-family:Menlo,Consolas,monospace;font-size:13px;color:var(--cd-col,#00E5FF);animation:cdFall 2.6s linear var(--d,0s) both;}',
       '@keyframes cdFall{from{transform:translateY(-30%)}to{transform:translateY(130%)}}',
@@ -2016,7 +2021,7 @@
       '<i class="cd-br tl"></i><i class="cd-br tr"></i><i class="cd-br bl"></i><i class="cd-br br"></i>' +
       (style === 'mecha'
         ? '<div class="cd-reticle"><i class="rh"></i><i class="rv"></i><i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i></div>'
-        : '<svg class="cd-rings" viewBox="0 0 200 200"><circle class="r1" cx="100" cy="100" r="86"/><circle class="r2" cx="100" cy="100" r="66"/><circle class="r3" cx="100" cy="100" r="46"/></svg>') +
+        : '<div class="cd-cyber-hud"><div class="hud-frame"></div><div class="hud-corner hc-tl"></div><div class="hud-corner hc-tr"></div><div class="hud-corner hc-bl"></div><div class="hud-corner hc-br"></div><div class="hud-cross-h"></div><div class="hud-cross-v"></div><div class="hud-scanner-bar"></div></div>') +
       '<div class="cd-log"></div><div class="cd-num"></div><div class="cd-sub"></div>';
     var logEl = host.querySelector('.cd-log');
     var numEl = host.querySelector('.cd-num');

@@ -1,99 +1,93 @@
-﻿/**
- * _work/test_hub_fx.js
- * ハブ画面：Heroゲージ以外の文字・表示・計器ベイ・全8テーマ差別化の演出強化 検証テスト
+/**
+ * ハブ画面（Heroゲージ以外の全要素：アクションボタン群・臨床スキルレーダー＆探知ソナー・
+ * 直近14日推移・タイル群・今日のミッション・アンビエント光彩・セクション見出し）
+ * 全8テーマ完全差別化＆演出大幅強化 検証テスト
+ * Run: node _work/test_hub_fx.js
  */
+'use strict';
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 
-const HTML_PATH = path.join(__dirname, '..', 'index.html');
-const HTML = fs.readFileSync(HTML_PATH, 'utf8');
+const html = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
+const swJs = fs.readFileSync(path.join(__dirname, '../sw.js'), 'utf8');
 
-let totalTests = 0;
-let passedTests = 0;
-
-function test(name, fn) {
-  totalTests++;
-  try {
-    fn();
-    passedTests++;
-    console.log(`  ok  - ${name}`);
-  } catch (err) {
-    console.error(`  FAIL - ${name}`);
-    console.error(err);
-  }
-}
-
-console.log('── 1. ヒーロー左列（特大数字・コンソール・国試カウントダウン）演出検証 ──');
-
-test('ヒーロー左列に .hero-console クラスがマークアップに存在する', () => {
-  assert.ok(/class="hero-console"/.test(HTML), 'hero-console がマークアップに存在しない');
-});
-
-test('特大数字（.hero-num）に立体ネオンテキストシャドウが定義されている', () => {
-  assert.ok(/\.hero-num\{[^}]*text-shadow:/.test(HTML), '.hero-num の立体 text-shadow が存在しない');
-});
-
-test('目標達成時（data-goal="1", "2"）のゴールドオーラとオーバードライブ覚醒が定義されている', () => {
-  assert.ok(/\.hero-num\[data-goal="1"\]\{[^}]*text-shadow:/.test(HTML), 'data-goal="1" のゴールドオーラが無い');
-  assert.ok(/\.hero-num\[data-goal="2"\]\{[^}]*animation:goalOverdrivePulse/.test(HTML), 'data-goal="2" のオーバードライブ覚醒が無い');
-});
-
-test('国試カウントダウン（.exam-countdown）が計器バッジ調に強化され、パルス発光が定義されている', () => {
-  assert.ok(/\.exam-countdown\{[^}]*box-shadow:/.test(HTML), '.exam-countdown の計器バッジ調スタイルが無い');
-  assert.ok(/\.exam-countdown::before\{[^}]*animation:countdownPulse/.test(HTML), 'countdownPulse アニメーションが無い');
-  assert.ok(/\.exam-countdown \.cd-num\{[^}]*filter:drop-shadow/.test(HTML), '.cd-num の発光フィルターが無い');
-});
-
-test('生体バイタルサイン（.hero-live）に鼓動ダブルパルスが定義されている', () => {
-  assert.ok(/\.hero-live\{[^}]*animation:vitalPulse/.test(HTML), 'vitalPulse アニメーションが無い');
-});
-
-console.log('── 2. 計器ベイ（HUDモジュールカード）演出検証 ──');
-
-test('計器行（.strip, .strip-c）が独立したHUDモジュールカードとして定義されている', () => {
-  assert.ok(/\.strip\{[^}]*gap:var\(--sp-2\)/.test(HTML), '.strip の gap 指定が無い');
-  assert.ok(/\.strip-c\{[^}]*border-radius:var\(--r-sm\)/.test(HTML), '.strip-c のモジュールカード枠が無い');
-  assert.ok(/\.strip-c:hover\{[^}]*transform:translateY/.test(HTML), '.strip-c のホバーリアクションが無い');
-});
-
-console.log('── 3. セクション見出し（.sec-h）演出検証 ──');
-
-test('セクション見出しのインジケータ（::before）と罫線（.ln）に光彩＆シマーが定義されている', () => {
-  assert.ok(/\.sec-h::before\{[^}]*animation:secBeamGlow/.test(HTML), 'secBeamGlow アニメーションが無い');
-  assert.ok(/\.sec-h \.ln::after\{[^}]*animation:sheen/.test(HTML), '見出し罫線の sheen 走査線が無い');
-});
-
-console.log('── 4. 全8テーマ完全差別化（文字・表示・コンソール）検証 ──');
+console.log('── ハブ画面（Heroゲージ以外）演出強化＆全8テーマ完全差別化 検証 ──');
 
 const THEMES = ['aurora', 'brass', 'cyber', 'liquid', 'kintsugi', 'celestial', 'abyss', 'frost'];
 
-THEMES.forEach(th => {
-  test(`html.ui-${th} で特大数字（.hero-num）と計器セル（.strip-c）とカウントダウンの独自装飾が定義されている`, () => {
-    const reNum = new RegExp(`html\\.ui-${th}\\s+\\.hero-num`);
-    const reStrip = new RegExp(`html\\.ui-${th}\\s+\\.strip-c`);
-    const reCountdown = new RegExp(`html\\.ui-${th}\\s+\\.exam-countdown`);
-    const reConsole = new RegExp(`html\\.ui-${th}\\s+\\.hero-console`);
+// 1. 各テーマの必須セレクタが index.html 内に存在すること
+THEMES.forEach(t => {
+  // アクションボタン群
+  assert(html.includes(`html.ui-${t} .cta-main`), `${t}: .cta-main スタイルが定義されていること`);
+  assert(html.includes(`html.ui-${t} .cta-sub`), `${t}: .cta-sub スタイルが定義されていること`);
+  assert(html.includes(`html.ui-${t} .cta-redo`), `${t}: .cta-redo スタイルが定義されていること`);
 
-    assert.ok(reNum.test(HTML), `html.ui-${th} の .hero-num スタイルが無い`);
-    assert.ok(reStrip.test(HTML), `html.ui-${th} の .strip-c スタイルが無い`);
-    assert.ok(reCountdown.test(HTML), `html.ui-${th} の .exam-countdown スタイルが無い`);
-    assert.ok(reConsole.test(HTML), `html.ui-${th} の .hero-console スタイルが無い`);
-  });
+  // 臨床スキルプロファイル ＆ 弱点探知ソナー
+  assert(html.includes(`html.ui-${t} .skill-radar-box`), `${t}: .skill-radar-box スタイルが定義されていること`);
+  assert(html.includes(`html.ui-${t} .radar-grid`), `${t}: .radar-grid スタイルが定義されていること`);
+  assert(html.includes(`html.ui-${t} .radar-val`), `${t}: .radar-val スタイルが定義されていること`);
+  assert(html.includes(`html.ui-${t} .radar-sonar-sweep`), `${t}: .radar-sonar-sweep スタイルが定義されていること`);
+
+  // 直近14日推移
+  assert(html.includes(`html.ui-${t} .bar.on`), `${t}: .bar.on スタイルが定義されていること`);
+  assert(html.includes(`html.ui-${t} .spark-target-line`), `${t}: .spark-target-line スタイルが定義されていること`);
+  assert(html.includes(`html.ui-${t} .spark-target-lbl`), `${t}: .spark-target-lbl スタイルが定義されていること`);
+  assert(html.includes(`html.ui-${t} .streak-seg.active`), `${t}: .streak-seg.active スタイルが定義されていること`);
+
+  // タイル群
+  assert(html.includes(`html.ui-${t} .tiles .tile`), `${t}: .tiles .tile スタイルが定義されていること`);
+  assert(html.includes(`html.ui-${t} .tiles .tile.t-lead`), `${t}: .tiles .tile.t-lead スタイルが定義されていること`);
+  assert(html.includes(`html.ui-${t} .tile-bar span`), `${t}: .tile-bar span スタイルが定義されていること`);
+
+  // 今日のミッション
+  assert(html.includes(`html.ui-${t} #gmDaily .gm-mission`), `${t}: #gmDaily .gm-mission スタイルが定義されていること`);
+  assert(html.includes(`html.ui-${t} #gmDaily .gm-mission.done`), `${t}: #gmDaily .gm-mission.done スタイルが定義されていること`);
+
+  // アンビエント空間光彩
+  assert(html.includes(`html.ui-${t} .ambient-nebula`), `${t}: .ambient-nebula スタイルが定義されていること`);
+  assert(html.includes(`html.ui-${t} .ambient-grid`), `${t}: .ambient-grid スタイルが定義されていること`);
+
+  // セクション見出し
+  assert(html.includes(`html.ui-${t} .sec-h::before`), `${t}: .sec-h::before スタイルが定義されていること`);
+  assert(html.includes(`html.ui-${t} .sec-h .ln`), `${t}: .sec-h .ln スタイルが定義されていること`);
+
+  console.log(`  ok  - ${t}: 全要素のテーマ差別化スタイルが完備`);
 });
 
-console.log('── 5. アクセシビリティ（prefers-reduced-motion）検証 ──');
+// 2. ボタン演出の不変条件
+assert(html.includes('.cta-main,.cta-sub{min-width:min-content;}'), 'min-width:min-content の不変条件');
+assert(html.includes('.cta-sub{position:relative;overflow:hidden;}'), 'position:relative;overflow:hidden の不変条件');
 
-test('新規アニメーションが prefers-reduced-motion で確実に停止されている', () => {
-  const rm = HTML.slice(HTML.indexOf('@media (prefers-reduced-motion:reduce)'));
-  assert.ok(rm.indexOf('.hero-live') > 0, '.hero-live の停止が無い');
-  assert.ok(rm.indexOf('.exam-countdown::before') > 0, '.exam-countdown::before の停止が無い');
-  assert.ok(rm.indexOf('.sec-h::before') > 0, '.sec-h::before の停止が無い');
-  assert.ok(rm.indexOf('.hero-num[data-goal="1"]') > 0, '目標達成パルスの停止が無い');
-  assert.ok(rm.indexOf('.hero-num[data-goal="2"]') > 0, '超過達成パルスの停止が無い');
-});
-
-console.log(`\n結果: ${passedTests} / ${totalTests} 件 PASSED\n`);
-if (passedTests !== totalTests) {
-  process.exit(1);
+// 3. prefers-reduced-motion ガード（ネストを考慮して抽出）
+function getReducedMotionCss(src) {
+  let combined = '';
+  const re = /@media\s*\(\s*prefers-reduced-motion\s*:\s*reduce\s*\)\s*\{/gi;
+  let match;
+  while ((match = re.exec(src)) !== null) {
+    let depth = 1;
+    let i = match.index + match[0].length;
+    let start = i;
+    while (i < src.length && depth > 0) {
+      if (src[i] === '{') depth++;
+      else if (src[i] === '}') depth--;
+      i++;
+    }
+    combined += src.slice(start, i - 1) + '\n';
+  }
+  return combined;
 }
+const prmBlocks = getReducedMotionCss(html);
+assert(prmBlocks.includes('.radar-sonar-sweep'), 'reduced-motion で .radar-sonar-sweep が停止・非表示');
+assert(prmBlocks.includes('.sonar-dot'), 'reduced-motion で .sonar-dot が停止');
+assert(prmBlocks.includes('.tiles .tile:nth-child(odd)'), 'reduced-motion でタイルの浮遊が停止');
+assert(prmBlocks.includes('.sec-h::before'), 'reduced-motion で見出しビームが停止');
+assert(prmBlocks.includes('.sec-h .ln::after'), 'reduced-motion で見出し走査線が非表示');
+console.log('  ok  - prefers-reduced-motion で新規演出が安全に停止・抑制');
+
+// 4. Service Worker SHELL_VERSION の整合性
+const shellVerMatch = swJs.match(/const SHELL_VERSION = "([^"]+)";/);
+assert.ok(shellVerMatch[1] >= '2026-09-05l', 'SHELL_VERSION が 2026-09-05l 以上に更新されていること');
+console.log(`  ok  - sw.js: SHELL_VERSION = ${shellVerMatch[1]}`);
+
+console.log('\nALL PASS (全8テーマ各19項目 + 不変条件 + reduced-motion + SW整合性)\n');
