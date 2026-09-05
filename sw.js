@@ -1,3 +1,5 @@
+// 2026-09-05ai: HeroゲージプランB採用（非円形4テーマ［Cyber角型戦術HUD/Frost正六角形/Abyss潜水艇角丸長方形＋垂直深度バー/Aurora菱形］＋円形4テーマ［Liquid Lava Lampフヨフヨ有機的モーフィング流体＆浮遊液滴/Brass真鍮気圧計/Celestial天球儀/Kintsugi金継ぎ陶器］）完全差別化実装。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-05d → 2026-09-05e）。
 // 2026-09-05ah: Hero計器盤ゲージ演出の全8テーマ完全差別化（真円360度固定の撤廃・8テーマ独自形状＆独自進捗メカニクス実装）。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-05c → 2026-09-05d）。
 // 2026-09-05ag: 試験演出のテーマ別差別化（開始カウントダウン・足元波紋・特大コンボ・外周グロー・結果画面祝賀）全8テーマ対応。
@@ -1206,7 +1208,7 @@ const CACHE = "mec-v367";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-05d";
+const SHELL_VERSION = "2026-09-05e";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

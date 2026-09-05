@@ -98,4 +98,39 @@ t('CSS内に全8テーマの表示切り替えと共通円形パーツ非表示�
   assert.ok(HTML.includes('html.ui-cyber .gauge-trk'), '非Brassテーマでの共通丸パーツ非表示ルールが無い');
 });
 
+console.log('── プランB（非円形4種＋円形4種＆Lava Lamp流体）詳細検証 ──');
+
+t('Liquid: Lava Lamp のフヨフヨ有機的モーフィング流体と浮遊液滴群が定義されている', () => {
+  assert.ok(HTML.includes('id="lavaChamber"'), 'lavaChamber が見つからない');
+  assert.ok(HTML.includes('id="lavaBlobMain"'), 'lavaBlobMain が見つからない');
+  assert.ok(HTML.includes('id="lavaBlobBase"'), 'lavaBlobBase が見つからない');
+  assert.ok(HTML.includes('class="lava-blob lava-blob-float1"'), '浮遊液滴1が見つからない');
+  assert.ok(HTML.includes('class="lava-blob lava-blob-float2"'), '浮遊液滴2が見つからない');
+  assert.ok(HTML.includes('class="lava-blob lava-blob-float3"'), '浮遊液滴3が見つからない');
+  assert.ok(HTML.includes('@keyframes lavaChamberMorph'), 'lavaChamberMorph アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes lavaContainerMorph'), 'lavaContainerMorph アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes lavaMainWobble'), 'lavaMainWobble アニメーションが無い');
+});
+
+t('非円形テーマ（Cyber, Frost, Abyss, Aurora）で共通円盤・メガリングが完全に解除・非表示化されている', () => {
+  assert.ok(HTML.includes('html.ui-cyber .gauge-ring,'), '非円形テーマの gauge-ring リセットセレクタが無い');
+  assert.ok(HTML.includes('border-radius: 0 !important'), 'gauge-ring の border-radius リセットが無い');
+  assert.ok(HTML.includes('background: none !important'), 'gauge-ring の background リセットが無い');
+});
+
+t('Abyss: 潜水艇角丸長方形コンソールと左右垂直深度バーがマークアップ＆制御ロジックに存在する', () => {
+  assert.ok(HTML.includes('id="abyssDiveProgL"'), 'abyssDiveProgL が無い');
+  assert.ok(HTML.includes('id="abyssDiveProgR"'), 'abyssDiveProgR が無い');
+  assert.ok(HTML.includes('id="abyssDepthDisplay"'), 'abyssDepthDisplay が無い');
+  assert.ok(HTML.includes('aProgL.setAttribute(\'height\''), '_driveThemeGauge 内の垂直深度バー制御が無い');
+});
+
+t('Frost: 正六角形スノークリスタルと六花氷結成長メカニクスが存在する', () => {
+  assert.ok(HTML.includes('frost-hex-rim'), 'frost-hex-rim が無い');
+  assert.ok(HTML.includes('frost-hex-inner'), 'frost-hex-inner が無い');
+  assert.ok(HTML.includes('frost-axes-lines'), 'frost-axes-lines が無い');
+  assert.ok(HTML.includes('id="frostFreezeProg"'), 'frostFreezeProg が無い');
+});
+
 console.log(`\nALL PASS (${pass}/${pass + fail})\n`);
+

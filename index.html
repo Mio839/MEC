@@ -1260,20 +1260,64 @@ html.ui-frost .od-frost{display:inline;}
 /* 基本: テーマ固有レイヤーは非表示 */
 .theme-gauge-layer > g { display: none; }
 
-/* ── テーマごとの共通円形パーツの非表示化 ──
-   Brass 以外は、共通の丸い gauge-trk / gauge-val / gauge-ovf / gauge-dot を非表示にして
-   各テーマの独自形状を主役にする */
+/* ═══════════════════════════════════════════════════════════════
+   🌌 全8テーマ完全差別化：プランB（ハイブリッド差別化）スタイル
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 過去の円形パーツの徹底非表示化 ──
+   Brass 以外では、共通の丸い進捗バーや円形ケーシング、円形のお皿（plate）を完全に隠す */
 html.ui-cyber .gauge-trk, html.ui-cyber .gauge-val, html.ui-cyber .gauge-ovf, html.ui-cyber .gauge-dot,
-html.ui-aurora .gauge-trk, html.ui-aurora .gauge-val, html.ui-aurora .gauge-ovf, html.ui-aurora .gauge-dot,
-html.ui-liquid .gauge-trk, html.ui-liquid .gauge-val, html.ui-liquid .gauge-ovf, html.ui-liquid .gauge-dot,
-html.ui-kintsugi .gauge-trk, html.ui-kintsugi .gauge-val, html.ui-kintsugi .gauge-ovf, html.ui-kintsugi .gauge-dot,
-html.ui-celestial .gauge-trk, html.ui-celestial .gauge-val, html.ui-celestial .gauge-ovf, html.ui-celestial .gauge-dot,
+html.ui-cyber .gauge-crown-orbit, html.ui-cyber .gauge-megaring, html.ui-cyber .gauge-heatsink,
+html.ui-cyber .doctor-casing-layer, html.ui-cyber .gauge-milestones, html.ui-cyber .gauge-surge-wave,
+html.ui-cyber .gauge-pacer-ghost, html.ui-cyber .gauge-pulse-trk, html.ui-cyber .gear,
+html.ui-frost .gauge-trk, html.ui-frost .gauge-val, html.ui-frost .gauge-ovf, html.ui-frost .gauge-dot,
+html.ui-frost .gauge-crown-orbit, html.ui-frost .gauge-megaring, html.ui-frost .gauge-heatsink,
+html.ui-frost .doctor-casing-layer, html.ui-frost .gauge-milestones, html.ui-frost .gauge-surge-wave,
+html.ui-frost .gauge-pacer-ghost, html.ui-frost .gauge-pulse-trk, html.ui-frost .frost-plate,
 html.ui-abyss .gauge-trk, html.ui-abyss .gauge-val, html.ui-abyss .gauge-ovf, html.ui-abyss .gauge-dot,
-html.ui-frost .gauge-trk, html.ui-frost .gauge-val, html.ui-frost .gauge-ovf, html.ui-frost .gauge-dot {
+html.ui-abyss .gauge-crown-orbit, html.ui-abyss .gauge-megaring, html.ui-abyss .gauge-heatsink,
+html.ui-abyss .doctor-casing-layer, html.ui-abyss .gauge-milestones, html.ui-abyss .gauge-surge-wave,
+html.ui-abyss .gauge-pacer-ghost, html.ui-abyss .gauge-pulse-trk, html.ui-abyss .abyss-plate,
+html.ui-aurora .gauge-trk, html.ui-aurora .gauge-val, html.ui-aurora .gauge-ovf, html.ui-aurora .gauge-dot,
+html.ui-aurora .gauge-crown-orbit, html.ui-aurora .gauge-megaring, html.ui-aurora .gauge-heatsink,
+html.ui-aurora .doctor-casing-layer, html.ui-aurora .gauge-milestones, html.ui-aurora .gauge-surge-wave,
+html.ui-aurora .gauge-pacer-ghost, html.ui-aurora .gauge-pulse-trk,
+html.ui-liquid .gauge-trk, html.ui-liquid .gauge-val, html.ui-liquid .gauge-ovf, html.ui-liquid .gauge-dot,
+html.ui-liquid .gauge-crown-orbit, html.ui-liquid .gauge-megaring, html.ui-liquid .gauge-heatsink,
+html.ui-liquid .doctor-casing-layer, html.ui-liquid .gauge-milestones, html.ui-liquid .gauge-surge-wave,
+html.ui-liquid .gauge-pacer-ghost, html.ui-liquid .gauge-pulse-trk, html.ui-liquid .gear,
+html.ui-kintsugi .gauge-trk, html.ui-kintsugi .gauge-val, html.ui-kintsugi .gauge-ovf, html.ui-kintsugi .gauge-dot,
+html.ui-kintsugi .gauge-crown-orbit, html.ui-kintsugi .gauge-megaring, html.ui-kintsugi .gauge-heatsink,
+html.ui-kintsugi .doctor-casing-layer, html.ui-kintsugi .gauge-milestones, html.ui-kintsugi .gauge-surge-wave,
+html.ui-kintsugi .gauge-pacer-ghost, html.ui-kintsugi .gauge-pulse-trk,
+html.ui-celestial .gauge-trk, html.ui-celestial .gauge-val, html.ui-celestial .gauge-ovf, html.ui-celestial .gauge-dot,
+html.ui-celestial .gauge-crown-orbit, html.ui-celestial .gauge-megaring, html.ui-celestial .gauge-heatsink,
+html.ui-celestial .doctor-casing-layer, html.ui-celestial .gauge-milestones, html.ui-celestial .gauge-surge-wave,
+html.ui-celestial .gauge-pacer-ghost, html.ui-celestial .gauge-pulse-trk {
   display: none !important;
 }
 
-/* 1. Brass: 機械式圧力計＆メーター針 */
+/* ── 非円形テーマ（Cyber, Frost, Abyss, Aurora）の丸型コンテナの完全解除 ── */
+html.ui-cyber .gauge-ring, html.ui-frost .gauge-ring, html.ui-abyss .gauge-ring, html.ui-aurora .gauge-ring {
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  animation: none !important;
+}
+html.ui-cyber .gauge-ring::before, html.ui-cyber .gauge-ring::after,
+html.ui-frost .gauge-ring::before, html.ui-frost .gauge-ring::after,
+html.ui-abyss .gauge-ring::before, html.ui-abyss .gauge-ring::after,
+html.ui-aurora .gauge-ring::before, html.ui-aurora .gauge-ring::after {
+  display: none !important;
+}
+html.ui-cyber .gauge-aura, html.ui-frost .gauge-aura, html.ui-abyss .gauge-aura, html.ui-aurora .gauge-aura {
+  display: none !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   1. Brass: 機械式圧力計＆メーター針（クラシック円形を極上化）
+   ───────────────────────────────────────────────────────────── */
 html.ui-brass .theme-gauge-brass { display: inline; }
 .brass-dial-arc { stroke: var(--brass); opacity: .7; }
 .brass-needle {
@@ -1282,59 +1326,72 @@ html.ui-brass .theme-gauge-brass { display: inline; }
 }
 .gauge[data-overdrive] .brass-needle polygon { fill: #FFD700; filter: drop-shadow(0 0 6px #FFD700); }
 
-/* 2. Cyber: 八角形オクタゴンHUD＆16セグメントブロック */
+/* ─────────────────────────────────────────────────────────────
+   2. Cyber: 角型戦術HUDモニター＆3連イコライザー（非円形・角型）
+   ───────────────────────────────────────────────────────────── */
 html.ui-cyber .theme-gauge-cyber { display: inline; }
-.cyber-octagon-frame {
-  fill: rgba(10, 25, 40, .65);
+.cyber-hud-chassis {
+  fill: rgba(6, 18, 30, .88);
   stroke: #00E5FF;
-  stroke-width: 1.8;
-  filter: drop-shadow(0 0 8px rgba(0,229,255,.4));
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 12px rgba(0,229,255,.7));
 }
-.cyber-octagon-inner {
+.cyber-hud-inner {
   fill: none;
-  stroke: rgba(0, 229, 255, .3);
+  stroke: rgba(0, 255, 157, .4);
   stroke-width: 1;
   stroke-dasharray: 4 4;
 }
-.cyber-reticle-center {
-  fill: none;
-  stroke: rgba(0, 255, 157, .25);
+.cyber-scan-grid {
+  stroke: rgba(0, 229, 255, .2);
   stroke-width: 1;
-  stroke-dasharray: 8 6;
+  stroke-dasharray: 2 4;
+}
+.cyber-laser-beam {
+  stroke: #00FF9D;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 6px #00FF9D);
+  animation: cyberLaserSweep 2.8s ease-in-out infinite alternate;
+}
+@keyframes cyberLaserSweep {
+  0% { transform: translateY(-38px); opacity: .4; }
+  100% { transform: translateY(38px); opacity: .95; }
 }
 .cyber-segments .c-seg {
   fill: rgba(0, 229, 255, .12);
-  stroke: rgba(0, 229, 255, .3);
-  stroke-width: .8;
-  transition: fill .25s ease, filter .25s ease, stroke .25s ease;
+  stroke: rgba(0, 229, 255, .35);
+  stroke-width: 1;
+  transition: fill .2s ease, filter .2s ease, stroke .2s ease;
 }
 .cyber-segments .c-seg.active {
   fill: #00FF9D;
   stroke: #FFF;
-  filter: drop-shadow(0 0 5px #00FF9D) drop-shadow(0 0 10px rgba(0,255,157,.8));
+  filter: drop-shadow(0 0 6px #00FF9D) drop-shadow(0 0 12px rgba(0,255,157,.9));
 }
 .cyber-segments .c-seg.overdrive {
   fill: #FFD700;
   stroke: #FFFDF0;
-  filter: drop-shadow(0 0 7px #FFD700) drop-shadow(0 0 14px #FF4500);
-  animation: cyberSegOverdrive .8s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 8px #FFD700) drop-shadow(0 0 16px #FF4500);
+  animation: cyberOverdriveFlash .6s steps(2,start) infinite;
 }
-@keyframes cyberSegOverdrive {
+@keyframes cyberOverdriveFlash {
   0% { filter: drop-shadow(0 0 4px #FFD700); }
-  100% { filter: drop-shadow(0 0 12px #FF4500) brightness(1.2); }
+  100% { filter: drop-shadow(0 0 14px #FF4500) brightness(1.25); }
 }
 
-/* 3. Aurora: 菱形クリスタル＆垂直スペクトルチャージ */
+/* ─────────────────────────────────────────────────────────────
+   3. Aurora: 菱形ダイヤモンドクリスタル＆垂直スペクトル（非円形）
+   ───────────────────────────────────────────────────────────── */
 html.ui-aurora .theme-gauge-aurora { display: inline; }
 .aurora-prism-frame {
-  fill: rgba(15, 10, 35, .6);
-  stroke: rgba(255, 255, 255, .8);
-  stroke-width: 2;
-  filter: drop-shadow(0 0 12px rgba(0,223,216,.5)) drop-shadow(0 0 20px rgba(121,40,202,.4));
+  fill: rgba(12, 8, 30, .75);
+  stroke: rgba(255, 255, 255, .85);
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 14px rgba(0,223,216,.55)) drop-shadow(0 0 24px rgba(121,40,202,.45));
 }
 .aurora-prism-fill {
   transition: height 1s cubic-bezier(.16, 1, .3, 1), y 1s cubic-bezier(.16, 1, .3, 1);
-  filter: drop-shadow(0 0 12px rgba(0,242,254,.7));
+  filter: drop-shadow(0 0 14px rgba(0,242,254,.75));
 }
 .aurora-prism-facet {
   stroke: rgba(255, 255, 255, .4);
@@ -1349,45 +1406,99 @@ html.ui-aurora .theme-gauge-aurora { display: inline; }
 .gauge[data-tier="5"] .aurora-prism-frame,
 .gauge[data-tier="6"] .aurora-prism-frame {
   stroke: #FFF;
-  filter: drop-shadow(0 0 16px #00DFD8) drop-shadow(0 0 28px #FF0080);
+  filter: drop-shadow(0 0 18px #00DFD8) drop-shadow(0 0 32px #FF0080);
 }
 
-/* 4. Liquid: カプセル型バイアルシリンダー＆波打ち流体 */
+/* ─────────────────────────────────────────────────────────────
+   4. Liquid: Lava Lamp（ラバランプ）メタボール流体＆フヨフヨ変形
+   ───────────────────────────────────────────────────────────── */
 html.ui-liquid .theme-gauge-liquid { display: inline; }
-.liquid-vial-frame {
-  fill: rgba(20, 10, 35, .65);
-  stroke: rgba(255, 0, 127, .75);
-  stroke-width: 2.2;
-  filter: drop-shadow(0 0 12px rgba(255,0,127,.5)) drop-shadow(0 0 24px rgba(121,40,202,.35));
+html.ui-liquid .gauge-ring {
+  border-radius: 42% 58% 70% 30% / 45% 45% 55% 55% !important;
+  animation: lavaContainerMorph 8s ease-in-out infinite alternate !important;
+  box-shadow: 0 0 32px rgba(255,0,127,.65), inset 0 0 22px rgba(0,242,254,.45) !important;
 }
-.liquid-fluid-rect {
-  transition: height 1s cubic-bezier(.16, 1, .3, 1), y 1s cubic-bezier(.16, 1, .3, 1);
-  filter: drop-shadow(0 0 10px rgba(255,0,127,.8));
+@keyframes lavaContainerMorph {
+  0% { border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; }
+  50% { border-radius: 58% 42% 35% 65% / 55% 65% 35% 45%; }
+  100% { border-radius: 48% 52% 62% 38% / 38% 48% 52% 62%; }
 }
-.liquid-wave-cap {
-  fill: #00F2FE;
-  opacity: .75;
-  filter: drop-shadow(0 0 6px #00F2FE);
-  transition: cy 1s cubic-bezier(.16, 1, .3, 1);
-  animation: liquidCapBreathe 2s ease-in-out infinite alternate;
+.lava-lamp-chamber {
+  fill: rgba(25, 8, 35, .82);
+  stroke: rgba(255, 0, 127, .85);
+  stroke-width: 2.4;
+  filter: drop-shadow(0 0 16px rgba(255,0,127,.65)) drop-shadow(0 0 30px rgba(121,40,202,.5));
+  animation: lavaChamberMorph 9s ease-in-out infinite alternate;
+  transform-origin: 84px 84px;
 }
-@keyframes liquidCapBreathe {
-  0% { rx: 40; opacity: .6; }
-  100% { rx: 43; opacity: .9; }
+@keyframes lavaChamberMorph {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.02) rotate(2deg); }
+  100% { transform: scale(.98) rotate(-2deg); }
 }
-.liquid-scale-ticks {
-  stroke: rgba(255, 255, 255, .4);
-  stroke-width: 1.4;
-  stroke-linecap: round;
+.lava-blob {
+  filter: drop-shadow(0 0 12px rgba(255,0,127,.85)) drop-shadow(0 0 20px rgba(0,242,254,.6));
+}
+.lava-blob-base {
+  animation: lavaBasePulse 4.5s ease-in-out infinite alternate;
+  transform-origin: 84px 130px;
+}
+@keyframes lavaBasePulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.06, .94); }
+}
+.lava-blob-main {
+  transition: cy 1.1s cubic-bezier(.2, .9, .3, 1), rx 1.1s cubic-bezier(.2, .9, .3, 1), ry 1.1s cubic-bezier(.2, .9, .3, 1);
+  animation: lavaMainWobble 5.2s ease-in-out infinite alternate;
+  transform-origin: 84px 100px;
+}
+@keyframes lavaMainWobble {
+  0% { transform: scale(1, 1) rotate(0deg); }
+  50% { transform: scale(1.08, .92) rotate(4deg); }
+  100% { transform: scale(.94, 1.06) rotate(-4deg); }
+}
+.lava-blob-float1 {
+  animation: lavaFloatUp1 7.2s ease-in-out infinite alternate;
+  transform-origin: 64px 74px;
+}
+@keyframes lavaFloatUp1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(6px, -24px) scale(1.18, .88); }
+  100% { transform: translate(-4px, -42px) scale(.88, 1.14); }
+}
+.lava-blob-float2 {
+  animation: lavaFloatUp2 9.5s ease-in-out infinite alternate;
+  transform-origin: 106px 62px;
+}
+@keyframes lavaFloatUp2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-8px, -28px) scale(.88, 1.16); }
+  100% { transform: translate(5px, -50px) scale(1.14, .9); }
+}
+.lava-blob-float3 {
+  animation: lavaFloatUp3 6.4s ease-in-out infinite alternate;
+  transform-origin: 78px 40px;
+}
+@keyframes lavaFloatUp3 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-6px, 22px) scale(1.12, .92); }
+}
+.lava-blob-tiny1 { animation: lavaTinyPop 3.8s ease-in-out infinite alternate; }
+.lava-blob-tiny2 { animation: lavaTinyPop 4.2s ease-in-out infinite alternate-reverse; }
+@keyframes lavaTinyPop {
+  0% { transform: translateY(0) scale(1); opacity: .7; }
+  100% { transform: translateY(-16px) scale(1.3); opacity: 1; }
 }
 
-/* 5. Kintsugi: 割れた陶器皿＆3段階黄金接合クラック */
+/* ─────────────────────────────────────────────────────────────
+   5. Kintsugi: 歪んだ漆黒の器＆3段階黄金接合（円を極上化）
+   ───────────────────────────────────────────────────────────── */
 html.ui-kintsugi .theme-gauge-kintsugi { display: inline; }
 .kt-vessel-rim {
   fill: #0c0a08;
-  stroke: rgba(245, 208, 97, .5);
+  stroke: rgba(245, 208, 97, .55);
   stroke-width: 2.2;
-  filter: drop-shadow(0 4px 14px rgba(0,0,0,.9)) drop-shadow(0 0 8px rgba(245,208,97,.3));
+  filter: drop-shadow(0 4px 14px rgba(0,0,0,.9)) drop-shadow(0 0 8px rgba(245,208,97,.35));
 }
 .kt-join-crack {
   fill: none;
@@ -1416,7 +1527,9 @@ html.ui-kintsugi .theme-gauge-kintsugi { display: inline; }
   100% { opacity: 1; transform: scale(1.3); }
 }
 
-/* 6. Celestial: 八芒星の魔法陣＆星座星間ビーム */
+/* ─────────────────────────────────────────────────────────────
+   6. Celestial: 二重天球儀・八芒星魔法陣（天体運行円を極上化）
+   ───────────────────────────────────────────────────────────── */
 html.ui-celestial .theme-gauge-celestial { display: inline; }
 .cel-magic-ring1 {
   fill: none;
@@ -1469,33 +1582,41 @@ html.ui-celestial .theme-gauge-celestial { display: inline; }
   100% { transform: scale(1.35); }
 }
 
-/* 7. Abyss: 扇形耐圧深度コンソール＆潜航インジケーター */
+/* ─────────────────────────────────────────────────────────────
+   7. Abyss: 潜水艇角丸長方形コンソール＆垂直潜航深度バー（非円形）
+   ───────────────────────────────────────────────────────────── */
 html.ui-abyss .theme-gauge-abyss { display: inline; }
-.abyss-sector-bezel {
-  fill: rgba(2, 18, 32, .75);
+.abyss-chassis-frame {
+  fill: rgba(2, 14, 26, .88);
   stroke: #00FFA3;
-  stroke-width: 2.4;
-  filter: drop-shadow(0 0 14px rgba(0,255,163,.45));
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 14px rgba(0,255,163,.5));
 }
-.abyss-sector-inner {
+.abyss-chassis-inner {
   fill: none;
   stroke: rgba(0, 180, 216, .35);
   stroke-width: 1.2;
   stroke-dasharray: 4 4;
 }
-.abyss-dive-prog {
-  fill: none;
-  stroke: #00E5FF;
-  stroke-width: 8;
-  stroke-linecap: round;
-  stroke-dasharray: 251.3;
-  stroke-dashoffset: 251.3;
-  filter: drop-shadow(0 0 10px #00E5FF) drop-shadow(0 0 20px rgba(0,255,163,.7));
-  transition: stroke-dashoffset 1s cubic-bezier(.16, 1, .3, 1);
+.abyss-bolt {
+  fill: #64FFDA;
+  stroke: #020E1A;
+  stroke-width: .8;
+  filter: drop-shadow(0 0 4px #64FFDA);
 }
-.abyss-depth-ticks {
-  stroke: rgba(255, 255, 255, .5);
-  stroke-width: 1.6;
+.abyss-depth-track-l, .abyss-depth-track-r {
+  fill: rgba(0, 255, 163, .12);
+  stroke: rgba(0, 255, 163, .35);
+  stroke-width: 1;
+}
+.abyss-dive-prog-l, .abyss-dive-prog-r {
+  fill: #00E5FF;
+  filter: drop-shadow(0 0 8px #00E5FF) drop-shadow(0 0 16px rgba(0,255,163,.8));
+  transition: height 1s cubic-bezier(.16, 1, .3, 1);
+}
+.abyss-scale-lines {
+  stroke: rgba(255, 255, 255, .45);
+  stroke-width: 1.4;
   stroke-linecap: round;
 }
 .abyss-depth-display {
@@ -1507,19 +1628,27 @@ html.ui-abyss .theme-gauge-abyss { display: inline; }
   filter: drop-shadow(0 0 4px rgba(0,255,163,.8));
 }
 
-/* 8. Frost: 正六角形スノークリスタル＆六花氷結成長 */
+/* ─────────────────────────────────────────────────────────────
+   8. Frost: 正六角形スノークリスタル＆六花氷結成長（非円形）
+   ───────────────────────────────────────────────────────────── */
 html.ui-frost .theme-gauge-frost { display: inline; }
 .frost-hex-rim {
-  fill: rgba(10, 20, 36, .7);
+  fill: rgba(8, 18, 32, .82);
   stroke: #A0E7E5;
-  stroke-width: 2;
-  filter: drop-shadow(0 0 12px rgba(112,214,255,.5));
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 14px rgba(112,214,255,.6));
+}
+.frost-hex-inner {
+  fill: none;
+  stroke: rgba(255, 255, 255, .3);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
 }
 .frost-axes-lines {
   fill: none;
-  stroke: rgba(255, 255, 255, .3);
+  stroke: rgba(255, 255, 255, .35);
   stroke-width: 1.2;
-  stroke-dasharray: 3 4;
+  stroke-dasharray: 2 3;
 }
 .frost-freeze-prog {
   fill: none;
@@ -1529,20 +1658,40 @@ html.ui-frost .theme-gauge-frost { display: inline; }
   stroke-linejoin: round;
   stroke-dasharray: 360;
   stroke-dashoffset: 360;
-  filter: drop-shadow(0 0 10px #FFF) drop-shadow(0 0 20px #70D6FF) drop-shadow(0 0 30px rgba(160,231,229,.9));
+  filter: drop-shadow(0 0 12px #FFF) drop-shadow(0 0 22px #70D6FF) drop-shadow(0 0 32px rgba(160,231,229,.95));
   transition: stroke-dashoffset 1s cubic-bezier(.2, .9, .3, 1);
 }
-.frost-vertex-node {
+.frost-shard {
   fill: #70D6FF;
   stroke: #FFF;
-  stroke-width: 1.2;
+  stroke-width: 1;
   filter: drop-shadow(0 0 6px #70D6FF);
+  animation: frostShardGlint 2.4s ease-in-out infinite alternate;
+}
+@keyframes frostShardGlint {
+  0% { filter: drop-shadow(0 0 4px #70D6FF); opacity: .7; }
+  100% { filter: drop-shadow(0 0 10px #FFF) drop-shadow(0 0 18px #A0E7E5); opacity: 1; }
 }
 .gauge[data-tier="5"] .frost-freeze-prog,
 .gauge[data-tier="6"] .frost-freeze-prog {
   stroke: #FFFDF0;
   stroke-width: 4;
   filter: drop-shadow(0 0 14px #FFF) drop-shadow(0 0 28px #70D6FF) drop-shadow(0 0 45px #A0E7E5);
+}
+
+/* prefers-reduced-motion での新演出の静止化 */
+@media(prefers-reduced-motion:reduce){
+  .brass-needle, .aurora-prism-fill, .liquid-fluid-rect, .liquid-wave-cap,
+  .kt-join-crack, .cel-starlink-beam, .abyss-dive-prog, .frost-freeze-prog,
+  .lava-blob-main, .abyss-dive-prog-l, .abyss-dive-prog-r {
+    transition: none !important;
+  }
+  .cyber-segments .c-seg.overdrive, .liquid-wave-cap, .kt-gold-dust,
+  .cel-magic-ring1, .cel-magic-ring2, .cel-star.active,
+  .cyber-laser-beam, .lava-lamp-chamber, .lava-blob-base,
+  .lava-blob-float1, .lava-blob-float2, .lava-blob-float3, .frost-shard {
+    animation: none !important;
+  }
 }
 
 /* prefers-reduced-motion での新演出の静止化 */
@@ -2056,36 +2205,46 @@ html.ui-frost .theme-gauge-frost { display: inline; }
                 </g>
               </g>
 
-              <!-- 🚀 2. Cyber: 八角形オクタゴンHUD＆16セグメントブロック -->
+              <!-- 🚀 2. Cyber: 角型戦術HUDモニター＆3連イコライザーセグメント -->
               <g class="theme-gauge-cyber" id="gaugeCyberCore">
-                <polygon class="cyber-octagon-frame" points="52,18 116,18 150,52 150,116 116,150 52,150 18,116 18,52"></polygon>
-                <polygon class="cyber-octagon-inner" points="55,24 113,24 144,55 144,113 113,144 55,144 24,113 24,55"></polygon>
+                <!-- 面取り装甲パネル外枠（四隅を45°カット） -->
+                <polygon class="cyber-hud-chassis" points="24,20 144,20 156,32 156,136 144,148 24,148 12,136 12,32"></polygon>
+                <polygon class="cyber-hud-inner" points="26,24 142,24 152,34 152,134 142,144 26,144 16,134 16,34"></polygon>
+                <!-- 背景走査グリッド -->
+                <line class="cyber-scan-grid" x1="16" y1="54" x2="152" y2="54"></line>
+                <line class="cyber-scan-grid" x1="16" y1="84" x2="152" y2="84"></line>
+                <line class="cyber-scan-grid" x1="16" y1="114" x2="152" y2="114"></line>
+                <!-- 16個のデジタルセグメントブロック -->
                 <g class="cyber-segments" id="cyberSegments">
-                  <rect class="c-seg seg-0" x="60" y="14" width="20" height="7" rx="1.5"></rect>
-                  <rect class="c-seg seg-1" x="88" y="14" width="20" height="7" rx="1.5"></rect>
-                  <rect class="c-seg seg-2" x="119" y="24" width="18" height="7" rx="1.5" transform="rotate(45 128 27.5)"></rect>
-                  <rect class="c-seg seg-3" x="138" y="43" width="18" height="7" rx="1.5" transform="rotate(45 147 46.5)"></rect>
-                  <rect class="c-seg seg-4" x="147" y="60" width="7" height="20" rx="1.5"></rect>
-                  <rect class="c-seg seg-5" x="147" y="88" width="7" height="20" rx="1.5"></rect>
-                  <rect class="c-seg seg-6" x="138" y="119" width="18" height="7" rx="1.5" transform="rotate(-45 147 122.5)"></rect>
-                  <rect class="c-seg seg-7" x="119" y="138" width="18" height="7" rx="1.5" transform="rotate(-45 128 141.5)"></rect>
-                  <rect class="c-seg seg-8" x="88" y="147" width="20" height="7" rx="1.5"></rect>
-                  <rect class="c-seg seg-9" x="60" y="147" width="20" height="7" rx="1.5"></rect>
-                  <rect class="c-seg seg-10" x="31" y="138" width="18" height="7" rx="1.5" transform="rotate(45 40 141.5)"></rect>
-                  <rect class="c-seg seg-11" x="12" y="119" width="18" height="7" rx="1.5" transform="rotate(45 21 122.5)"></rect>
-                  <rect class="c-seg seg-12" x="14" y="88" width="7" height="20" rx="1.5"></rect>
-                  <rect class="c-seg seg-13" x="14" y="60" width="7" height="20" rx="1.5"></rect>
-                  <rect class="c-seg seg-14" x="12" y="43" width="18" height="7" rx="1.5" transform="rotate(-45 21 46.5)"></rect>
-                  <rect class="c-seg seg-15" x="31" y="24" width="18" height="7" rx="1.5" transform="rotate(-45 40 27.5)"></rect>
+                  <!-- 左レーン5段 -->
+                  <rect class="c-seg seg-0" x="22" y="124" width="14" height="12" rx="1"></rect>
+                  <rect class="c-seg seg-1" x="22" y="106" width="14" height="12" rx="1"></rect>
+                  <rect class="c-seg seg-2" x="22" y="88" width="14" height="12" rx="1"></rect>
+                  <rect class="c-seg seg-3" x="22" y="70" width="14" height="12" rx="1"></rect>
+                  <rect class="c-seg seg-4" x="22" y="52" width="14" height="12" rx="1"></rect>
+                  <!-- 右レーン5段 -->
+                  <rect class="c-seg seg-5" x="132" y="124" width="14" height="12" rx="1"></rect>
+                  <rect class="c-seg seg-6" x="132" y="106" width="14" height="12" rx="1"></rect>
+                  <rect class="c-seg seg-7" x="132" y="88" width="14" height="12" rx="1"></rect>
+                  <rect class="c-seg seg-8" x="132" y="70" width="14" height="12" rx="1"></rect>
+                  <rect class="c-seg seg-9" x="132" y="52" width="14" height="12" rx="1"></rect>
+                  <!-- 下部ステータスバー4段 -->
+                  <rect class="c-seg seg-10" x="42" y="128" width="16" height="8" rx="1"></rect>
+                  <rect class="c-seg seg-11" x="62" y="128" width="16" height="8" rx="1"></rect>
+                  <rect class="c-seg seg-12" x="90" y="128" width="16" height="8" rx="1"></rect>
+                  <rect class="c-seg seg-13" x="110" y="128" width="16" height="8" rx="1"></rect>
+                  <!-- 上部ピークLED2段 -->
+                  <rect class="c-seg seg-14" x="52" y="32" width="28" height="6" rx="1"></rect>
+                  <rect class="c-seg seg-15" x="88" y="32" width="28" height="6" rx="1"></rect>
                 </g>
-                <circle class="cyber-reticle-center" cx="84" cy="84" r="50"></circle>
+                <line class="cyber-laser-beam" x1="16" y1="84" x2="152" y2="84"></line>
               </g>
 
               <!-- 🌟 3. Aurora: 菱形クリスタル＆垂直スペクトルチャージ -->
               <g class="theme-gauge-aurora" id="gaugeAuroraCore">
                 <defs>
                   <clipPath id="auroraPrismClip">
-                    <polygon points="84,18 150,84 84,150 18,84"></polygon>
+                    <polygon points="84,14 154,84 84,154 14,84"></polygon>
                   </clipPath>
                   <linearGradient id="auroraPrismGrad" x1="0%" y1="100%" x2="0%" y2="0%">
                     <stop offset="0%" stop-color="#00DFD8"></stop>
@@ -2100,24 +2259,35 @@ html.ui-frost .theme-gauge-frost { display: inline; }
                 <polygon class="aurora-prism-facet-inner" points="84,36 132,84 84,132 36,84"></polygon>
               </g>
 
-              <!-- 🌸 4. Liquid: カプセル型バイアルシリンダー＆波打ち流体 -->
+              <!-- 🌸 4. Liquid: Lava Lamp（ラバランプ）メタボール流体＆フヨフヨ液滴 -->
               <g class="theme-gauge-liquid" id="gaugeLiquidCore">
                 <defs>
-                  <clipPath id="liquidVialClip">
-                    <rect x="42" y="20" width="84" height="128" rx="42"></rect>
-                  </clipPath>
-                  <linearGradient id="liquidFluidGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                    <stop offset="0%" stop-color="#7928CA"></stop>
-                    <stop offset="60%" stop-color="#FF007F"></stop>
+                  <radialGradient id="lavaWaxGrad" cx="45%" cy="35%" r="65%">
+                    <stop offset="0%" stop-color="#FF52A0"></stop>
+                    <stop offset="45%" stop-color="#FF007F"></stop>
+                    <stop offset="85%" stop-color="#7928CA"></stop>
                     <stop offset="100%" stop-color="#00F2FE"></stop>
-                  </linearGradient>
+                  </radialGradient>
+                  <radialGradient id="lavaBubbleGrad" cx="35%" cy="30%" r="70%">
+                    <stop offset="0%" stop-color="#FFF"></stop>
+                    <stop offset="40%" stop-color="#FF007F"></stop>
+                    <stop offset="100%" stop-color="#7928CA"></stop>
+                  </radialGradient>
                 </defs>
-                <rect class="liquid-vial-frame" x="40" y="18" width="88" height="132" rx="44"></rect>
-                <g clip-path="url(#liquidVialClip)">
-                  <rect class="liquid-fluid-rect" id="liquidFluidRect" x="40" y="150" width="88" height="0" fill="url(#liquidFluidGrad)"></rect>
-                  <ellipse class="liquid-wave-cap" id="liquidWaveCap" cx="84" cy="150" rx="42" ry="4"></ellipse>
+                <!-- フヨフヨ有機的モーフィング流体壁（幾何学円ではなくアメーバ流体） -->
+                <path class="lava-lamp-chamber" id="lavaChamber" d="M 84,18 C 122,14 154,46 150,84 C 146,124 122,154 84,150 C 46,146 14,122 18,84 C 22,46 46,22 84,18 Z"></path>
+                <!-- Lavaワックス群（下からせり上がる塊＋浮遊する液滴） -->
+                <g class="lava-wax-group" id="lavaWaxGroup">
+                  <path class="lava-blob lava-blob-base" id="lavaBlobBase" d="M 32,130 C 44,110 70,105 84,112 C 98,105 124,110 136,130 C 144,142 120,154 84,152 C 48,154 24,142 32,130 Z" fill="url(#lavaWaxGrad)"></path>
+                  <ellipse class="lava-blob lava-blob-main" id="lavaBlobMain" cx="84" cy="120" rx="36" ry="24" fill="url(#lavaWaxGrad)"></ellipse>
+                  <circle class="lava-blob lava-blob-float1" cx="64" cy="74" r="14" fill="url(#lavaBubbleGrad)"></circle>
+                  <circle class="lava-blob lava-blob-float2" cx="106" cy="62" r="18" fill="url(#lavaBubbleGrad)"></circle>
+                  <circle class="lava-blob lava-blob-float3" cx="78" cy="40" r="10" fill="url(#lavaBubbleGrad)"></circle>
+                  <circle class="lava-blob lava-blob-tiny1" cx="96" cy="95" r="5" fill="#00F2FE"></circle>
+                  <circle class="lava-blob lava-blob-tiny2" cx="54" cy="98" r="6" fill="#FF007F"></circle>
                 </g>
-                <path class="liquid-scale-ticks" d="M 44,48 L 52,48 M 44,72 L 54,72 M 44,96 L 52,96 M 44,120 L 54,120 M 124,48 L 116,48 M 124,72 L 114,72 M 124,96 L 116,96 M 124,120 L 114,120"></path>
+                <!-- 互換用hidden要素 -->
+                <rect class="liquid-fluid-rect" id="liquidFluidRect" x="0" y="0" width="0" height="0" style="display:none"></rect>
               </g>
 
               <!-- 🌑 5. Kintsugi: 割れた陶器皿＆3段階黄金接合クラック -->
@@ -2147,26 +2317,37 @@ html.ui-frost .theme-gauge-frost { display: inline; }
                 </g>
               </g>
 
-              <!-- 🌊 7. Abyss: 扇形耐圧深度コンソール＆潜航インジケーター -->
+              <!-- 🌊 7. Abyss: 潜水艇角丸長方形コンソール＆垂直潜航深度バー -->
               <g class="theme-gauge-abyss" id="gaugeAbyssCore">
-                <path class="abyss-sector-bezel" d="M 32,114 A 60,60 0 1,1 136,114"></path>
-                <path class="abyss-sector-inner" d="M 40,108 A 50,50 0 1,1 128,108"></path>
-                <path class="abyss-dive-prog" id="abyssDiveProg" d="M 32,114 A 60,60 0 1,1 136,114"></path>
-                <path class="abyss-depth-ticks" d="M 32,114 L 38,110 M 84,24 L 84,32 M 136,114 L 130,110 M 42,56 L 47,60 M 126,56 L 121,60"></path>
+                <rect class="abyss-chassis-frame" x="18" y="16" width="132" height="136" rx="14"></rect>
+                <rect class="abyss-chassis-inner" x="22" y="20" width="124" height="128" rx="10"></rect>
+                <circle class="abyss-bolt" cx="24" cy="22" r="2.2"></circle>
+                <circle class="abyss-bolt" cx="144" cy="22" r="2.2"></circle>
+                <circle class="abyss-bolt" cx="144" cy="146" r="2.2"></circle>
+                <circle class="abyss-bolt" cx="24" cy="146" r="2.2"></circle>
+                <!-- 垂直深度バー（左右2本） -->
+                <rect class="abyss-depth-track-l" x="28" y="28" width="8" height="100" rx="3"></rect>
+                <rect class="abyss-dive-prog-l" id="abyssDiveProgL" x="28" y="28" width="8" height="0" rx="3"></rect>
+                <rect class="abyss-depth-track-r" x="132" y="28" width="8" height="100" rx="3"></rect>
+                <rect class="abyss-dive-prog-r" id="abyssDiveProgR" x="132" y="28" width="8" height="0" rx="3"></rect>
+                <path class="abyss-scale-lines" d="M 38,48 L 44,48 M 38,78 L 46,78 M 38,108 L 44,108 M 130,48 L 124,48 M 130,78 L 122,78 M 130,108 L 124,108"></path>
                 <text class="abyss-depth-display" id="abyssDepthDisplay" x="84" y="136" text-anchor="middle">DEPTH: 100m</text>
+                <!-- 互換用hidden要素 -->
+                <path class="abyss-dive-prog" id="abyssDiveProg" d="" style="display:none"></path>
               </g>
 
               <!-- ❄️ 8. Frost: 正六角形スノークリスタル＆六花氷結成長 -->
               <g class="theme-gauge-frost" id="gaugeFrostCore">
-                <polygon class="frost-hex-rim" points="84,18 141,51 141,117 84,150 27,117 27,51"></polygon>
-                <path class="frost-axes-lines" d="M 84,18 L 84,150 M 141,51 L 27,117 M 141,117 L 27,51"></path>
-                <polygon class="frost-freeze-prog" id="frostFreezeProg" points="84,18 141,51 141,117 84,150 27,117 27,51"></polygon>
-                <circle class="frost-vertex-node" cx="84" cy="18" r="3"></circle>
-                <circle class="frost-vertex-node" cx="141" cy="51" r="3"></circle>
-                <circle class="frost-vertex-node" cx="141" cy="117" r="3"></circle>
-                <circle class="frost-vertex-node" cx="84" cy="150" r="3"></circle>
-                <circle class="frost-vertex-node" cx="27" cy="117" r="3"></circle>
-                <circle class="frost-vertex-node" cx="27" cy="51" r="3"></circle>
+                <polygon class="frost-hex-rim" points="84,14 146,50 146,118 84,154 22,118 22,50"></polygon>
+                <polygon class="frost-hex-inner" points="84,22 138,53 138,115 84,146 30,115 30,53"></polygon>
+                <path class="frost-axes-lines" d="M 84,14 L 84,154 M 146,50 L 22,118 M 146,118 L 22,50"></path>
+                <polygon class="frost-freeze-prog" id="frostFreezeProg" points="84,14 146,50 146,118 84,154 22,118 22,50"></polygon>
+                <polygon class="frost-shard s0" points="84,10 87,18 84,22 81,18"></polygon>
+                <polygon class="frost-shard s1" points="150,48 144,53 141,47 146,43"></polygon>
+                <polygon class="frost-shard s2" points="150,120 146,125 141,121 144,115"></polygon>
+                <polygon class="frost-shard s3" points="84,158 81,150 84,146 87,150"></polygon>
+                <polygon class="frost-shard s4" points="18,120 24,115 27,121 22,125"></polygon>
+                <polygon class="frost-shard s5" points="18,48 22,43 27,47 24,53"></polygon>
               </g>
             </g>
             <circle class="gauge-trk"  cx="84" cy="84" r="54"></circle>
@@ -3764,7 +3945,7 @@ function _driveThemeGauge(pct, base, over, tier) {
     bNeedle.style.transform = 'rotate(' + bAngle.toFixed(1) + 'deg)';
   }
 
-  // 2. Cyber: 八角形16セグメント点灯
+  // 2. Cyber: 角型戦術HUD 16セグメント点灯
   const cGroup = document.getElementById('cyberSegments');
   if (cGroup && cGroup.children) {
     const cActive = Math.round((base / 100) * 16);
@@ -3775,23 +3956,30 @@ function _driveThemeGauge(pct, base, over, tier) {
     }
   }
 
-  // 3. Aurora: 菱形クリスタル垂直スペクトル液面充填 (h: 0 -> 132, y: 150 -> 18)
+  // 3. Aurora: 菱形クリスタル垂直スペクトル液面充填 (h: 0 -> 140, y: 154 -> 14)
   const aFill = document.getElementById('auroraPrismFill');
   if (aFill) {
-    const aH = (base / 100) * 132;
-    aFill.setAttribute('y', String(150 - aH));
+    const aH = (base / 100) * 140;
+    aFill.setAttribute('y', String(154 - aH));
     aFill.setAttribute('height', String(aH));
   }
 
-  // 4. Liquid: 耐圧バイアルシリンダー波打ち流体 (h: 0 -> 120, y: 146 -> 26)
-  const lFluid = document.getElementById('liquidFluidRect');
-  const lCap = document.getElementById('liquidWaveCap');
-  if (lFluid) {
-    const lH = (base / 100) * 120;
-    const lY = 146 - lH;
-    lFluid.setAttribute('y', String(lY));
-    lFluid.setAttribute('height', String(lH));
-    if (lCap) lCap.setAttribute('cy', String(lY));
+  // 4. Liquid: Lava Lamp（ラバランプ）フヨフヨ変形＆メインワックス塊の上昇・膨張
+  const lBlobMain = document.getElementById('lavaBlobMain');
+  const lWaxGroup = document.getElementById('lavaWaxGroup');
+  if (lBlobMain) {
+    // 進捗に応じて中央のワックス塊が下からせり上がり、大きく膨張する
+    const bCy = 120 - (base / 100) * 50; // 120 -> 70
+    const bRx = 36 + (base / 100) * 20;  // 36 -> 56
+    const bRy = 24 + (base / 100) * 22;  // 24 -> 46
+    lBlobMain.setAttribute('cy', String(bCy.toFixed(1)));
+    lBlobMain.setAttribute('rx', String(bRx.toFixed(1)));
+    lBlobMain.setAttribute('ry', String(bRy.toFixed(1)));
+  }
+  if (lWaxGroup) {
+    lWaxGroup.dataset.tier = String(tier);
+    if (over > 0) lWaxGroup.classList.add('overdrive');
+    else lWaxGroup.classList.remove('overdrive');
   }
 
   // 5. Kintsugi: 3段階黄金接合クラック (長さ約100ずつ)
@@ -3820,10 +4008,13 @@ function _driveThemeGauge(pct, base, over, tier) {
     }
   }
 
-  // 7. Abyss: 潜水艇扇形深度バー (全長約251.3) と深度テキスト
-  const aProg = document.getElementById('abyssDiveProg');
-  if (aProg) {
-    aProg.style.strokeDashoffset = String((251.3 * (1 - base / 100)).toFixed(1));
+  // 7. Abyss: 潜水艇垂直潜航深度バー (左右2本: h 0 -> 100) と深度テキスト
+  const aProgL = document.getElementById('abyssDiveProgL');
+  const aProgR = document.getElementById('abyssDiveProgR');
+  if (aProgL && aProgR) {
+    const h = (base / 100) * 100;
+    aProgL.setAttribute('height', String(h.toFixed(1)));
+    aProgR.setAttribute('height', String(h.toFixed(1)));
   }
   const dTx = document.getElementById('abyssDepthDisplay');
   if (dTx) {
