@@ -1,3 +1,11 @@
+// 2026-09-05j: 肝胆膵⑤——ch05 胆石・胆囊炎・胆管炎 NO.281〜286 の解説を4ブロック化（平均約2,640字・authored 286/418問、進捗68.4%・連問285〜286完結）。
+//   NO.281 PTGBDの経肝ルート（正答率24%超難問・胆汁漏出による腹膜炎防止のため肝実質を経由するルート②・非経肝禁忌機序、ans_label修復）／
+//   NO.282 Courvoisier徴候の疾患（黄疸＋無痛性緊満腫大胆嚢・胆嚢管合流部より遠位の悪性腫瘍・膵頭部癌と下部胆管癌、ans_label修復）／
+//   NO.283 急性胆管炎の二大起因菌（十二指腸からの上行性感染・大腸菌Escherichia coliと肺炎桿菌Klebsiella spp.のグラム陰性桿菌、ans_label修復）／
+//   NO.284 乳頭嵌頓結石と緊急EST（86歳男性Charcot3徴＋アミラーゼ2,436・乳頭結石嵌頓急性胆管炎/胆石性膵炎に対する緊急乳頭切開、ans_label修復）／
+//   NO.285 AOSCと初期輸液蘇生（2連問1/2・Reynolds5徴ショックJCSII-10・Surviving Sepsis推奨の生食急速輸液全開投与、ans_label修復）／
+//   NO.286 ショック重症度と乳酸値（2連問2/2正答率43%・敗血症性ショック微小循環不全嫌気性解糖評価のための動脈血乳酸値測定、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v341 → v342）。
 // 2026-09-05i: 肝胆膵⑤——ch05 胆石・胆囊炎・胆管炎 NO.275〜280 の解説を4ブロック化（平均約2,660字・authored 280/418問、進捗67.0%）。
 //   NO.275 急性胆囊炎の臨床診断（50歳女性焼肉後・CCK分泌胆石嵌頓・Murphy徴候陽性・CT壁肥厚と周囲脂肪織濃度上昇、ans_label修復）／
 //   NO.276 腹腔鏡下胆摘の適応禁忌（正答率27%難問・胆嚢癌疑いは気腹破綻による腹膜播種Port-site再発リスク大のため開腹が原則、ans_label修復）／
@@ -1013,7 +1021,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v341";
+const CACHE = "mec-v342";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
