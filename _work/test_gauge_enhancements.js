@@ -294,6 +294,33 @@ t('Cyber: カウントダウン画面から点線3重円cd-ringsが完全撤廃�
   assert.ok(studyCss.includes('.cd-rings{display:none!important;}'), 'study.cssに.cd-rings非表示が無い');
 });
 
+t('Frost: オーバードライブ装飾（frost-blizzard-ring）から点線が完全撤廃されている', () => {
+  assert.ok(HTML.includes('.od-frost .frost-blizzard-ring {\n  fill: none; stroke: rgba(160, 231, 229, .6); stroke-width: 1.5;\n  stroke-dasharray: none;'), 'od-frost frost-blizzard-ringに点線が残っている');
+});
+
+t('Frost: 正解・祝祭演出（frostCrystalShatter）から同心円rings/sonicWaveが完全撤廃されslashRibbonへ刷新されている', () => {
+  const fxJs = fs.readFileSync(path.join(__dirname, '..', 'fx_engine.js'), 'utf8');
+  const frostShatterBlock = fxJs.substring(fxJs.indexOf('function frostCrystalShatter('), fxJs.indexOf('function flashScreen('));
+  assert.ok(!frostShatterBlock.includes('rings('), 'frostCrystalShatterにringsが残っている');
+  assert.ok(!frostShatterBlock.includes('sonicWave('), 'frostCrystalShatterにsonicWaveが残っている');
+  assert.ok(frostShatterBlock.includes('slashRibbon('), 'frostCrystalShatterにslashRibbonが無い');
+});
+
+t('Frost: 試験演出（chapter_exam.js, study_exam.js）からringsが完全撤廃されている', () => {
+  const chapterJs = fs.readFileSync(path.join(__dirname, '..', 'chapter_exam.js'), 'utf8');
+  assert.ok(chapterJs.includes("if (curUi === 'frost') return; // Frostは同心円リング・点線円を完全撤廃"), 'chapter_exam.js の ceCorrectShockwave で frost ガードが無い');
+  
+  const ceStreakFrostBlock = chapterJs.substring(chapterJs.indexOf("curUi === 'frost'"), chapterJs.indexOf("curUi === 'aurora'"));
+  assert.ok(!ceStreakFrostBlock.includes('rings('), 'chapter_exam.js の frost streak に rings が残っている');
+
+  const studyJs = fs.readFileSync(path.join(__dirname, '..', 'study_exam.js'), 'utf8');
+  const seStreakFrostBlock = studyJs.substring(studyJs.indexOf("curUi === 'frost'"), studyJs.indexOf("curUi === 'aurora'"));
+  assert.ok(!seStreakFrostBlock.includes('rings('), 'study_exam.js の frost streak に rings が残っている');
+
+  const seScatterFrostBlock = studyJs.substring(studyJs.indexOf("curUi === 'frost'"), studyJs.indexOf("curUi === 'aurora'"));
+  assert.ok(!seScatterFrostBlock.includes('rings('), 'study_exam.js の frost celebration に rings が残っている');
+});
+
 console.log(`\nALL PASS (${pass}/${pass + fail})\n`);
 
 
