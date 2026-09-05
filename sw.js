@@ -1,3 +1,12 @@
+// 2026-09-05ad: 肝胆膵⑤——ch08 膵腫瘍 NO.412〜418 の解説を4ブロック化（平均約2,437字・authored 418/418問、進捗100%・第8章全35問＆肝胆膵全418問完走！🎉）。
+//   NO.412 嚢胞性膵疾患のCT診断（分枝型IPMN多房性嚢胞集簇・アミラーゼ軽度上昇・カテゴリー名選択肢、ans_label修復）／
+//   NO.413 膵管拡張疾患（膵体部癌による主膵管閉塞と上流尾側膵管拡張・AIP狭細化との対比、ans_label完全修復）／
+//   NO.414 膵癌の腫瘍マーカー（巨大膵体部癌CT読影・CA19-9最高感度とLewis陰性DUPAN-2、pNET誤記完全撤去・ans_label修復）／
+//   NO.415 膵仮性嚢胞の病態（非上皮性肉芽壁・高アミラーゼ膵液・6週間待機とEUS-CDドレナージ、ans_label修復）／
+//   NO.416 嚢胞性膵疾患の病理（仮性嚢胞の上皮欠如・MCN中年女性体尾部・SCN良性経過観察、ans_label完全修復）／
+//   NO.417 膵頭部癌のERCP像（総胆管＋主膵管の同時狭窄途絶double-duct sign・Courvoisier徴候対比、ans_label完全修復）／
+//   NO.418 膵頭部癌の総合問題（第8章完走総括！浸潤性膵管癌90%以上・門脈合併切除・体尾部癌との予後対比、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v362 → v363）。
 // 2026-09-05ac: 肝胆膵⑤——ch08 膵腫瘍 NO.405〜411 の解説を4ブロック化（平均約2,549字・authored 411/418問、進捗98.3%！残り7問！）。
 //   NO.405 分枝型IPMNの質的診断（微小壁在結節の同定におけるEUS第一選択とPEPリスクERCPの回避、ans_label完全修復）／
 //   NO.406 分枝型IPMNのMRCP読影（偶発発見無症候性膵嚢胞・ブドウ房状嚢胞集簇と主膵管交通・4大嚢胞腫瘍鑑別、ans_label修復）／
@@ -1184,7 +1193,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v362";
+const CACHE = "mec-v363";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
