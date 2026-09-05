@@ -1094,6 +1094,165 @@ html.ui-brass .brass-piston-layer{display:inline;}
 .gauge[data-tier="5"] .gauge-dot circle,.gauge[data-tier="5"] .gauge-dot .halo,
 .gauge[data-tier="6"] .gauge-dot circle,.gauge[data-tier="6"] .gauge-dot .halo{fill:var(--ord);}
 
+/* ═══════════════════════════════════════════════════════════════
+   🎯 Hero ゲージ演出強化（オーバードライブ・マイルストーン・ドクターケーシング）
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. ドクターランク連動ケーシング（第5位）── */
+.doctor-casing-layer{pointer-events:none;}
+.doctor-casing-layer > g{display:none;}
+html.ui-brass .casing-brass{display:inline;}
+html.ui-cyber .casing-cyber{display:inline;}
+html.ui-aurora .casing-aurora{display:inline;}
+html.ui-liquid .casing-liquid{display:inline;}
+html.ui-kintsugi .casing-kintsugi{display:inline;}
+html.ui-celestial .casing-celestial{display:inline;}
+html.ui-abyss .casing-abyss{display:inline;}
+html.ui-frost .casing-frost{display:inline;}
+
+/* ランク別アンロック（student -> resident -> specialist -> professor） */
+.casing-part{opacity:0;transition:opacity var(--dur-long) var(--ease-out),filter var(--dur-long) var(--ease-out);}
+.gauge[data-doctor-rank="student"] .rank-student,
+.gauge[data-doctor-rank="resident"] .rank-student,
+.gauge[data-doctor-rank="resident"] .rank-resident,
+.gauge[data-doctor-rank="specialist"] .rank-student,
+.gauge[data-doctor-rank="specialist"] .rank-resident,
+.gauge[data-doctor-rank="specialist"] .rank-specialist,
+.gauge[data-doctor-rank="professor"] .casing-part{opacity:1;}
+
+/* 各テーマごとのケーシング装飾スタイル */
+.casing-rim-base{fill:none;stroke:rgba(var(--glass-rgb),.14);stroke-width:1;}
+.casing-ticks{fill:none;stroke-linecap:round;}
+.casing-jewel{fill:#FF2D55;filter:drop-shadow(0 0 3px #FF2D55);}
+/* Brass */
+.casing-brass .ticks-brass{fill:none;stroke:var(--brass);stroke-width:1.4;stroke-dasharray:1.5 5.5;}
+.casing-brass .rim-spec{fill:none;stroke:var(--brass-hi);stroke-width:1.2;stroke-dasharray:6 3;}
+.casing-brass .astrolabe-ring{fill:none;stroke:var(--brass-hi);stroke-width:1.4;stroke-dasharray:2 2;animation:casingSpin 32s linear infinite;}
+/* Cyber */
+.casing-cyber .reticle-cyber{stroke:#00E5FF;stroke-width:1.2;stroke-dasharray:4 4;}
+.casing-cyber .tactical-arc{fill:none;stroke:#00FF9D;stroke-width:1.4;stroke-dasharray:12 8 4 8;}
+.casing-cyber .cockpit-frame{fill:none;stroke:#00E5FF;stroke-width:1.2;stroke-dasharray:2 4;animation:casingSpin 24s linear infinite reverse;}
+/* Aurora */
+.casing-aurora .bevel-edge{fill:none;stroke:rgba(255,255,255,.35);stroke-width:1.2;}
+.casing-aurora .prism-facet{fill:none;stroke:rgba(0,229,255,.45);stroke-width:1;stroke-dasharray:8 6;}
+.casing-aurora .crystal-crown{fill:none;stroke:rgba(121,40,202,.55);stroke-width:1.5;animation:casingSpin 28s linear infinite;}
+/* Liquid */
+.casing-liquid .marble-ring{fill:none;stroke:rgba(255,0,127,.35);stroke-width:1.4;stroke-dasharray:14 6;}
+.casing-liquid .vial-tube{fill:none;stroke:rgba(0,242,254,.45);stroke-width:1.8;}
+.casing-liquid .splash-gold{fill:none;stroke:#FFB830;stroke-width:1.2;stroke-dasharray:3 5;}
+/* Kintsugi */
+.casing-kintsugi .sometsuke-ring{fill:none;stroke:rgba(60,90,180,.4);stroke-width:1.2;stroke-dasharray:4 4;}
+.casing-kintsugi .gold-leaf-band{fill:none;stroke:#F5D061;stroke-width:1.5;stroke-dasharray:8 2;}
+.casing-kintsugi .raden-crest{fill:none;stroke:#D4AF37;stroke-width:1.8;stroke-dasharray:3 3;filter:drop-shadow(0 0 4px #F5D061);}
+/* Celestial */
+.casing-celestial .zodiac-ticks{fill:none;stroke:rgba(255,209,102,.4);stroke-width:1.2;stroke-dasharray:2 7;}
+.casing-celestial .galaxy-spiral{fill:none;stroke:#8A2BE2;stroke-width:1.4;stroke-dasharray:10 4;}
+.casing-celestial .grimoire-circle{fill:none;stroke:#FFD166;stroke-width:1.6;stroke-dasharray:4 2 1 2;animation:casingSpin 32s linear infinite;}
+/* Abyss */
+.casing-abyss .titanium-bolts circle{fill:#00B4D8;opacity:.65;}
+.casing-abyss .sub-fiber{fill:none;stroke:#00FFA3;stroke-width:1.4;stroke-dasharray:8 4;}
+.casing-abyss .leviathan-armor{fill:none;stroke:#64FFDA;stroke-width:2;stroke-dasharray:3 5;animation:casingSpin 26s linear infinite reverse;}
+/* Frost */
+.casing-frost .needle-ticks{fill:none;stroke:rgba(112,214,255,.45);stroke-width:1.2;stroke-dasharray:1 4;}
+.casing-frost .glacier-bezel{fill:none;stroke:#A0E7E5;stroke-width:1.4;stroke-dasharray:12 4;}
+.casing-frost .icicle-crown{fill:none;stroke:#FFF;stroke-width:1.6;stroke-dasharray:2 3;filter:drop-shadow(0 0 5px #70D6FF);}
+
+@keyframes casingSpin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+
+/* ── 2. マイルストーンノード＆流体サージ波（第3位）── */
+.gauge-surge-wave{fill:none;stroke:rgba(255,255,255,.45);stroke-width:10;stroke-linecap:round;
+  stroke-dasharray:339.29;stroke-dashoffset:339.29;pointer-events:none;opacity:0;
+  mix-blend-mode:overlay;transition:stroke-dashoffset 1.15s var(--ease-out) .25s;}
+.gauge[data-tier="2"] .gauge-surge-wave,
+.gauge[data-tier="3"] .gauge-surge-wave,
+.gauge[data-tier="4"] .gauge-surge-wave,
+.gauge[data-tier="5"] .gauge-surge-wave,
+.gauge[data-tier="6"] .gauge-surge-wave{opacity:.75;animation:surgeFlow 2s linear infinite;}
+@keyframes surgeFlow{0%{stroke-dasharray:12 28;}50%{stroke-dasharray:20 20;}100%{stroke-dasharray:12 28;}}
+
+.gauge-milestones{pointer-events:none;}
+.milestone-node{transition:transform .4s var(--ease-out),filter .4s;}
+.milestone-node .ms-base{fill:rgba(var(--glass-rgb),.25);stroke:rgba(var(--glass-rgb),.4);stroke-width:1;transition:fill .4s,stroke .4s;}
+.milestone-node .ms-glow{fill:transparent;transition:fill .4s,opacity .4s;opacity:0;}
+.milestone-node .ms-core{fill:rgba(var(--glass-rgb),.4);transition:fill .4s;}
+
+/* 到達時（active） */
+.milestone-node.active{filter:drop-shadow(0 0 6px var(--or));}
+.milestone-node.active .ms-base{fill:var(--or);stroke:#FFFDF0;}
+.milestone-node.active .ms-glow{fill:var(--or);opacity:.35;animation:nodePulse 1.8s ease-in-out infinite alternate;}
+.milestone-node.active .ms-core{fill:#FFF;}
+.gauge[data-tier="5"] .milestone-node.active,
+.gauge[data-tier="6"] .milestone-node.active{filter:drop-shadow(0 0 8px var(--gr));}
+.gauge[data-tier="5"] .milestone-node.active .ms-base,
+.gauge[data-tier="6"] .milestone-node.active .ms-base{fill:var(--gr);}
+.gauge[data-tier="5"] .milestone-node.active .ms-glow,
+.gauge[data-tier="6"] .milestone-node.active .ms-glow{fill:var(--gr);}
+
+@keyframes nodePulse{0%{r:4;opacity:.2;}100%{r:7.5;opacity:.6;}}
+
+/* ── 3. リミッター解除・オーバードライブ覚醒（第1位）── */
+.gauge-overdrive-fx{display:none;pointer-events:none;transform-origin:84px 84px;}
+.gauge[data-overdrive] .gauge-overdrive-fx{display:inline;}
+.od-layer{display:none;}
+html.ui-brass .od-brass{display:inline;}
+html.ui-cyber .od-cyber{display:inline;}
+html.ui-aurora .od-aurora{display:inline;}
+html.ui-liquid .od-liquid{display:inline;}
+html.ui-kintsugi .od-kintsugi{display:inline;}
+html.ui-celestial .od-celestial{display:inline;}
+html.ui-abyss .od-abyss{display:inline;}
+html.ui-frost .od-frost{display:inline;}
+
+/* 各テーマのオーバードライブ挙動 */
+/* Brass: メガリング高速回転、スチーム炎 */
+.gauge[data-overdrive] .megaring-teeth{stroke:#FFD700!important;animation:megaringSpin 2.4s linear infinite!important;}
+.gauge[data-overdrive="hyper"] .megaring-teeth{stroke:#FF4500!important;animation:megaringSpin 1.2s linear infinite!important;}
+.gauge[data-overdrive] .piston-left{animation-duration:.42s!important;}
+.gauge[data-overdrive] .piston-right{animation-duration:.42s!important;}
+.od-brass .steam-jet{fill:none;stroke:#FFF;stroke-width:2.5;filter:drop-shadow(0 0 6px #FFA040);animation:steamJetPulse .32s ease-in-out infinite alternate;}
+@keyframes steamJetPulse{0%{opacity:.4;stroke-width:2;}100%{opacity:1;stroke-width:4;}}
+
+/* Cyber: ホログラムHUDスキャナー高速周回 */
+.od-cyber .holo-scanner{fill:none;stroke:#00FF9D;stroke-width:2;stroke-dasharray:18 45;animation:casingSpin 1.8s linear infinite;}
+.od-cyber .hud-limiter-text{font-family:var(--font-display);font-size:7px;font-weight:800;fill:#00E5FF;letter-spacing:1px;text-anchor:middle;animation:textBlink .6s steps(2,start) infinite;}
+@keyframes textBlink{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+/* Aurora: プリズムスペクトル光彩リング */
+.od-aurora .chromatic-ring{fill:none;stroke:rgba(0,229,255,.6);stroke-width:2.4;stroke-dasharray:30 15;filter:drop-shadow(0 0 6px #7928CA);animation:casingSpin 3.2s linear infinite;}
+
+/* Liquid: 蛍光インク気泡激動 */
+.od-liquid .burst-droplets circle{animation:liquidBoil .8s ease-in-out infinite alternate;}
+@keyframes liquidBoil{0%{transform:scale(.8);opacity:.4;}100%{transform:scale(1.4);opacity:1;}}
+
+/* Kintsugi: 割れ目からの光条 */
+.od-kintsugi .gold-ray{stroke:#FFD700;stroke-width:1.5;filter:drop-shadow(0 0 6px #FFD700);animation:kintsugiRayPulse 1.2s ease-in-out infinite alternate;}
+@keyframes kintsugiRayPulse{0%{opacity:.3;stroke-width:1;}100%{opacity:1;stroke-width:2.5;}}
+
+/* Celestial: 天球儀多重ジャイロ回転 */
+.od-celestial .gyro-ring{fill:none;stroke:#FFD166;stroke-width:1.5;stroke-dasharray:24 12;animation:casingSpin 2s linear infinite reverse;}
+.od-celestial .supernova-star{fill:#FFF;filter:drop-shadow(0 0 8px #FFD166);animation:supernovaPulse .9s ease-in-out infinite alternate;}
+@keyframes supernovaPulse{0%{transform:scale(.8);}100%{transform:scale(1.3);}}
+
+/* Abyss: 水深MAX警告＆超高周波バイオフラッシュ */
+.od-abyss .bio-shockwave{fill:none;stroke:#00FFA3;stroke-width:2;animation:abyssShockwave 1.4s ease-out infinite;}
+@keyframes abyssShockwave{0%{r:45;opacity:1;}100%{r:78;opacity:0;}}
+
+/* Frost: 砕氷クリスタル */
+.od-frost .frost-shatter-needle{stroke:#FFF;stroke-width:1.8;filter:drop-shadow(0 0 6px #70D6FF);animation:frostShatter 1s ease-in-out infinite alternate;}
+@keyframes frostShatter{0%{opacity:.5;transform:scale(.95);}100%{opacity:1;transform:scale(1.06);}}
+
+/* オーバードライブ時の中央数字の覚醒パルス */
+.gauge[data-overdrive] .gauge-mid{
+  animation:overdriveMidPulse 1.2s ease-in-out infinite alternate!important;
+}
+.gauge[data-overdrive="hyper"] .gauge-mid{
+  animation:overdriveMidPulse .7s ease-in-out infinite alternate!important;
+}
+@keyframes overdriveMidPulse{
+  0%{transform:scale(1);filter:drop-shadow(0 0 4px var(--gr));}
+  100%{transform:scale(1.08);filter:drop-shadow(0 0 16px var(--gr)) drop-shadow(0 0 28px #FFF);}
+}
+
 /* ── XPの帯。着地でひと突き ── */
 .hero-xp.pop{animation:xpPop .42s var(--ease-out);}
 @keyframes xpPop{0%{transform:scale(1);}38%{transform:scale(1.09);}100%{transform:scale(1);}}
@@ -1146,8 +1305,10 @@ html.ui-brass .brass-piston-layer{display:inline;}
   .gauge-pulse-trk,.gauge-megaring,.piston-left,.piston-right,.gauge-aura,
   .submeter-needle,.ambient-nebula,
   .hero-shockwave-ring,.cta-tracer,.lv-fluid-wave,
-  .hero[data-streak-milestone]{animation:none!important;transition:none!important;}
-  .gauge-pulse-trk,.gauge-aura,.hero-shockwave-layer,.cta-tracer{display:none;}
+  .hero[data-streak-milestone],
+  .astrolabe-ring,.cockpit-frame,.crystal-crown,.grimoire-circle,.leviathan-armor,
+  .gauge-surge-wave,.milestone-node .ms-glow,.gauge-overdrive-fx,.gauge-overdrive-fx *{animation:none!important;transition:none!important;}
+  .gauge-pulse-trk,.gauge-aura,.hero-shockwave-layer,.cta-tracer,.gauge-overdrive-fx,.gauge-surge-wave{display:none;}
 }
 
 /* ── メニュー（旧ヘッダーのボタン群＋旧フッターのテーマ/効果音をここへ集約） ── */
@@ -1397,6 +1558,74 @@ html.ui-brass .brass-piston-layer{display:inline;}
             <g class="cyber-data-matrix" id="gaugeCyberMatrix">
               <circle class="cyber-matrix-orbit" cx="84" cy="84" r="66"></circle>
             </g>
+            <!-- 🩺 ドクターランク連動ケーシング（第5位: Student -> Resident -> Specialist -> Professor） -->
+            <g class="doctor-casing-layer" id="gaugeDoctorCasing">
+              <!-- 🕰️ Brass Casing -->
+              <g class="casing-brass">
+                <circle class="casing-part rank-student casing-rim-base" cx="84" cy="84" r="72"></circle>
+                <circle class="casing-part rank-resident ticks-brass" cx="84" cy="84" r="74"></circle>
+                <g class="casing-part rank-specialist">
+                  <circle class="rim-spec" cx="84" cy="84" r="76"></circle>
+                  <circle class="casing-jewel" cx="84" cy="8" r="1.8"></circle>
+                  <circle class="casing-jewel" cx="160" cy="84" r="1.8"></circle>
+                  <circle class="casing-jewel" cx="84" cy="160" r="1.8"></circle>
+                  <circle class="casing-jewel" cx="8" cy="84" r="1.8"></circle>
+                </g>
+                <circle class="casing-part rank-professor astrolabe-ring" cx="84" cy="84" r="78"></circle>
+              </g>
+              <!-- 🚀 Cyber Casing -->
+              <g class="casing-cyber">
+                <circle class="casing-part rank-student casing-rim-base" cx="84" cy="84" r="72"></circle>
+                <path class="casing-part rank-resident reticle-cyber" d="M 84,6 L 84,14 M 162,84 L 154,84 M 84,162 L 84,154 M 6,84 L 14,84"></path>
+                <circle class="casing-part rank-specialist tactical-arc" cx="84" cy="84" r="75"></circle>
+                <circle class="casing-part rank-professor cockpit-frame" cx="84" cy="84" r="78"></circle>
+              </g>
+              <!-- 🌟 Aurora Casing -->
+              <g class="casing-aurora">
+                <circle class="casing-part rank-student casing-rim-base" cx="84" cy="84" r="72"></circle>
+                <circle class="casing-part rank-resident bevel-edge" cx="84" cy="84" r="74"></circle>
+                <circle class="casing-part rank-specialist prism-facet" cx="84" cy="84" r="76"></circle>
+                <circle class="casing-part rank-professor crystal-crown" cx="84" cy="84" r="78"></circle>
+              </g>
+              <!-- 🌸 Liquid Casing -->
+              <g class="casing-liquid">
+                <circle class="casing-part rank-student casing-rim-base" cx="84" cy="84" r="72"></circle>
+                <circle class="casing-part rank-resident marble-ring" cx="84" cy="84" r="74"></circle>
+                <circle class="casing-part rank-specialist vial-tube" cx="84" cy="84" r="76"></circle>
+                <circle class="casing-part rank-professor splash-gold" cx="84" cy="84" r="78"></circle>
+              </g>
+              <!-- 🌑 Kintsugi Casing -->
+              <g class="casing-kintsugi">
+                <circle class="casing-part rank-student casing-rim-base" cx="84" cy="84" r="72"></circle>
+                <circle class="casing-part rank-resident sometsuke-ring" cx="84" cy="84" r="74"></circle>
+                <circle class="casing-part rank-specialist gold-leaf-band" cx="84" cy="84" r="76"></circle>
+                <circle class="casing-part rank-professor raden-crest" cx="84" cy="84" r="78"></circle>
+              </g>
+              <!-- 🌌 Celestial Casing -->
+              <g class="casing-celestial">
+                <circle class="casing-part rank-student casing-rim-base" cx="84" cy="84" r="72"></circle>
+                <circle class="casing-part rank-resident zodiac-ticks" cx="84" cy="84" r="74"></circle>
+                <circle class="casing-part rank-specialist galaxy-spiral" cx="84" cy="84" r="76"></circle>
+                <circle class="casing-part rank-professor grimoire-circle" cx="84" cy="84" r="78"></circle>
+              </g>
+              <!-- 🌊 Abyss Casing -->
+              <g class="casing-abyss">
+                <circle class="casing-part rank-student casing-rim-base" cx="84" cy="84" r="72"></circle>
+                <g class="casing-part rank-resident titanium-bolts">
+                  <circle cx="84" cy="10" r="1.5"></circle><circle cx="158" cy="84" r="1.5"></circle>
+                  <circle cx="84" cy="158" r="1.5"></circle><circle cx="10" cy="84" r="1.5"></circle>
+                </g>
+                <circle class="casing-part rank-specialist sub-fiber" cx="84" cy="84" r="75"></circle>
+                <circle class="casing-part rank-professor leviathan-armor" cx="84" cy="84" r="78"></circle>
+              </g>
+              <!-- ❄️ Frost Casing -->
+              <g class="casing-frost">
+                <circle class="casing-part rank-student casing-rim-base" cx="84" cy="84" r="72"></circle>
+                <circle class="casing-part rank-resident needle-ticks" cx="84" cy="84" r="74"></circle>
+                <circle class="casing-part rank-specialist glacier-bezel" cx="84" cy="84" r="76"></circle>
+                <circle class="casing-part rank-professor icicle-crown" cx="84" cy="84" r="78"></circle>
+              </g>
+            </g>
             <circle class="gauge-trk"  cx="84" cy="84" r="54"></circle>
             <!-- 👻 理想ペースのゴースト針（Pacer Ghost Indicator） -->
             <circle class="gauge-pacer-ghost" id="gaugePacerGhost" cx="84" cy="84" r="54"></circle>
@@ -1406,11 +1635,82 @@ html.ui-brass .brass-piston-layer{display:inline;}
             <!-- 100%を超えたぶんだけを1周目の上に重ねて描く2周目の弧。
                  100%までは長さ0＝見えない。200%超は満タンで頭打ち（数字は正しく出る） -->
             <circle class="gauge-ovf" id="gaugeOvf" cx="84" cy="84" r="54"></circle>
+            <!-- ⚡ 流体サージ波（第3位: 進捗の軌跡に沿うエネルギー波） -->
+            <circle class="gauge-surge-wave" id="gaugeSurgeWave" cx="84" cy="84" r="54"></circle>
+            <!-- 💎 マイルストーンノード（第3位: 25%, 50%, 75%, 100% チェックポイント） -->
+            <g class="gauge-milestones" id="gaugeMilestones">
+              <!-- 25% (右: 84, 138) -->
+              <g class="milestone-node node-25">
+                <circle class="ms-glow" cx="84" cy="138" r="7"></circle>
+                <circle class="ms-base" cx="84" cy="138" r="3.8"></circle>
+                <circle class="ms-core" cx="84" cy="138" r="1.8"></circle>
+              </g>
+              <!-- 50% (下: 30, 84) -->
+              <g class="milestone-node node-50">
+                <circle class="ms-glow" cx="30" cy="84" r="7"></circle>
+                <circle class="ms-base" cx="30" cy="84" r="3.8"></circle>
+                <circle class="ms-core" cx="30" cy="84" r="1.8"></circle>
+              </g>
+              <!-- 75% (左: 84, 30) -->
+              <g class="milestone-node node-75">
+                <circle class="ms-glow" cx="84" cy="30" r="7"></circle>
+                <circle class="ms-base" cx="84" cy="30" r="3.8"></circle>
+                <circle class="ms-core" cx="84" cy="30" r="1.8"></circle>
+              </g>
+              <!-- 100% (上: 138, 84) -->
+              <g class="milestone-node node-100">
+                <circle class="ms-glow" cx="138" cy="84" r="8"></circle>
+                <circle class="ms-base" cx="138" cy="84" r="4.2"></circle>
+                <circle class="ms-core" cx="138" cy="84" r="2.2"></circle>
+              </g>
+            </g>
             <!-- 円弧の先端に付く光点。SVG の既定 transform-box は view-box なので
                  transform-origin にユーザー単位の中心(84,84)をそのまま書ける -->
             <g class="gauge-dot" id="gaugeDot" style="transform-origin:84px 84px">
               <circle class="halo" cx="84" cy="30" r="10"></circle>
               <circle class="dot-core" cx="84" cy="30" r="5"></circle>
+            </g>
+            <!-- 🔥 オーバードライブ覚醒エフェクト（第1位: 100%達成＆超過リミッター解除） -->
+            <g class="gauge-overdrive-fx" id="gaugeOverdriveFx">
+              <!-- Brass -->
+              <g class="od-layer od-brass">
+                <path class="steam-jet" d="M 26,34 L 14,24 M 142,34 L 154,24"></path>
+              </g>
+              <!-- Cyber -->
+              <g class="od-layer od-cyber">
+                <circle cx="84" cy="84" r="81" class="holo-scanner"></circle>
+                <text x="84" y="60" class="hud-limiter-text">OVERDRIVE</text>
+              </g>
+              <!-- Aurora -->
+              <g class="od-layer od-aurora">
+                <circle cx="84" cy="84" r="80" class="chromatic-ring"></circle>
+              </g>
+              <!-- Liquid -->
+              <g class="od-layer od-liquid burst-droplets">
+                <circle cx="60" cy="60" r="3" fill="#FF007F"></circle>
+                <circle cx="108" cy="60" r="2.5" fill="#00F2FE"></circle>
+                <circle cx="84" cy="125" r="3.5" fill="#FF7A00"></circle>
+              </g>
+              <!-- Kintsugi -->
+              <g class="od-layer od-kintsugi">
+                <line x1="84" y1="84" x2="84" y2="10" class="gold-ray"></line>
+                <line x1="84" y1="84" x2="150" y2="40" class="gold-ray"></line>
+                <line x1="84" y1="84" x2="150" y2="128" class="gold-ray"></line>
+                <line x1="84" y1="84" x2="18" y2="128" class="gold-ray"></line>
+              </g>
+              <!-- Celestial -->
+              <g class="od-layer od-celestial">
+                <circle cx="84" cy="84" r="77" class="gyro-ring"></circle>
+                <circle cx="84" cy="84" r="5" class="supernova-star"></circle>
+              </g>
+              <!-- Abyss -->
+              <g class="od-layer od-abyss">
+                <circle cx="84" cy="84" r="60" class="bio-shockwave"></circle>
+              </g>
+              <!-- Frost -->
+              <g class="od-layer od-frost">
+                <path class="frost-shatter-needle" d="M 84,10 L 84,0 M 158,84 L 168,84 M 84,158 L 84,168 M 10,84 L 0,84"></path>
+              </g>
             </g>
           </svg>
           <span class="gauge-mid" id="gaugeMid"><span id="statPct">0</span><em>%</em></span>
@@ -2220,8 +2520,11 @@ function renderHero() {
     cdDaysEl.textContent = diffDays;
   }
 
-  // 🩺 ドクターランク・メディカルクレストの進化（累計解答数ベース）
+  // 🩺 ドクターランク・メディカルクレスト＆計器ケーシングの進化（累計解答数ベース）
   const crestEl = document.getElementById('doctorCrest');
+  const dRank = doneCount >= 5000 ? 'professor' : doneCount >= 2000 ? 'specialist' : doneCount >= 500 ? 'resident' : 'student';
+  const gBoxEl = document.getElementById('gaugeBox');
+  if (gBoxEl) gBoxEl.dataset.doctorRank = dRank;
   if (crestEl) {
     const crestIcon = doneCount >= 5000 ? '👑' : doneCount >= 2000 ? '🎖️' : doneCount >= 500 ? '⚕️' : '🩺';
     const crestTitle = doneCount >= 5000 ? '指導医・教授' : doneCount >= 2000 ? '専攻医・専門医' : doneCount >= 500 ? '初期研修医' : '医学生';
@@ -2855,6 +3158,42 @@ function _goalTier(pct) {
 // ⚠️ 「段が上がったときだけ」は祝砲（全画面を使う大きい方）の話。常時の演出は
 //    _startGaugeAmbient() が別に回している＝同期の再描画で大砲が連発することはない。
 let _gaugeTierShown = -1;
+let _milestoneShown = 0;
+
+// 第3位: マイルストーン（25%, 50%, 75%）突破時のテーマ別マイクロ祝砲
+function _checkpointFx(pct) {
+  if (typeof _fxOk === 'function' && !_fxOk()) return;
+  const targetMilestone = pct >= 75 ? 3 : pct >= 50 ? 2 : pct >= 25 ? 1 : 0;
+  if (targetMilestone <= _milestoneShown) return;
+  const passed = targetMilestone;
+  _milestoneShown = targetMilestone;
+
+  const box = document.getElementById('gaugeBox');
+  if (!box) return;
+  const ring = box.querySelector ? (box.querySelector('.gauge-ring') || box) : box;
+  const c = typeof _centerOf === 'function' ? _centerOf(ring) : null;
+  if (!c || !c.r) return;
+
+  // 画面上のノード位置: 25% = 右、50% = 下、75% = 左
+  let nx = c.x, ny = c.y;
+  const rad = c.r.width * (54 / 168);
+  if (passed === 1) { nx += rad; }
+  else if (passed === 2) { ny += rad; }
+  else if (passed === 3) { nx -= rad; }
+
+  const curTheme = window.MecUITheme ? MecUITheme.get() : (document.documentElement.classList.contains('ui-brass') ? 'brass' : 'aurora');
+  const cfg = (typeof GAUGE_AMBIENTS !== 'undefined' && GAUGE_AMBIENTS[curTheme]) ? GAUGE_AMBIENTS[curTheme] : { dust: ['#FFD700', '#FFF'] };
+  const cols = cfg.burst ? cfg.burst.colors : (cfg.dust || ['#FFD700', '#FFF']);
+
+  if (window.MecFX && MecFX.burst) {
+    MecFX.burst(nx, ny, {
+      count: 14, colors: cols,
+      shapes: cfg.burst ? cfg.burst.shapes : ['circle', 'shard'],
+      speed: 180, tier: 2, glow: true, additive: true
+    });
+  }
+}
+
 function _driveGauge(pct) {
   const box = document.getElementById('gaugeBox');
   const val = document.getElementById('gaugeVal');
@@ -2869,7 +3208,35 @@ function _driveGauge(pct) {
   if (ovf) ovf.style.strokeDashoffset = String(GAUGE_C * (1 - over / 100));
   // 光点は「いま描き終わった先端」に置く。2周目に入っていればそちらの先端
   if (dot) dot.style.transform = 'rotate(' + ((over > 0 ? over : base) * 3.6) + 'deg)';
-  if (box) box.dataset.tier = String(tier);
+  if (box) {
+    box.dataset.tier = String(tier);
+    // 第1位: オーバードライブ（100%以上で覚醒、150%以上でハイパー）
+    if (pct >= 150) box.dataset.overdrive = 'hyper';
+    else if (pct >= 100) box.dataset.overdrive = 'true';
+    else if (box.removeAttribute) box.removeAttribute('data-overdrive');
+  }
+
+  // 第3位: 流体サージ波（進捗の軌跡に沿うエネルギー波）
+  const surge = document.getElementById('gaugeSurgeWave');
+  if (surge) surge.style.strokeDashoffset = String(GAUGE_C * (1 - base / 100));
+
+  // 第3位: マイルストーンノード（25%, 50%, 75%, 100%）
+  const msGroup = document.getElementById('gaugeMilestones');
+  if (msGroup && msGroup.querySelector) {
+    const n25 = msGroup.querySelector('.node-25');
+    const n50 = msGroup.querySelector('.node-50');
+    const n75 = msGroup.querySelector('.node-75');
+    const n100 = msGroup.querySelector('.node-100');
+    if (n25) n25.classList.toggle('active', pct >= 25);
+    if (n50) n50.classList.toggle('active', pct >= 50);
+    if (n75) n75.classList.toggle('active', pct >= 75);
+    if (n100) n100.classList.toggle('active', pct >= 100);
+  }
+
+  // チェックポイント（25/50/75%）通過時のテーマ別マイクロ祝砲
+  if (typeof _checkpointFx === 'function' && pct > 0) {
+    _checkpointFx(pct);
+  }
 
   // 常時の演出（火花・蒸気・定期的な祝砲）はここから起動する。段が変われば強さも変わる
   _startGaugeAmbient(tier);
