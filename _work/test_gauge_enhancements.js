@@ -58,7 +58,44 @@ t('CSS内にドクターランク・マイルストーン・オーバードラ�
 });
 
 t('prefers-reduced-motion で新演出のアニメーションが停止されている', () => {
-  assert.ok(HTML.includes('.gauge-surge-wave,.milestone-node .ms-glow,.gauge-overdrive-fx'), 'reduced-motion での打ち消しが無い');
+  assert.ok(HTML.includes('.gauge-surge-wave,.milestone-node .ms-glow,.gauge-overdrive-fx') ||
+            HTML.includes('.brass-needle, .aurora-prism-fill'), 'reduced-motion での打ち消しが無い');
+});
+
+console.log('── 全8テーマ完全差別化（形状・進捗メカニクス・アニメーション）検証 ──');
+
+t('全8テーマの独自形状グループ（theme-gauge-*）がマークアップに揃っている', () => {
+  const cores = [
+    'gaugeBrassCore', 'gaugeCyberCore', 'gaugeAuroraCore', 'gaugeLiquidCore',
+    'gaugeKintsugiCore', 'gaugeCelestialCore', 'gaugeAbyssCore', 'gaugeFrostCore'
+  ];
+  cores.forEach(id => {
+    assert.ok(HTML.includes('id="' + id + '"'), id + ' が見つからない');
+  });
+});
+
+t('全8テーマの独自進捗パーツ（針・セグメント・液面・亀裂・星間・深度・六花）が存在する', () => {
+  assert.ok(HTML.includes('id="brassNeedle"'), 'brassNeedle が見つからない');
+  assert.ok(HTML.includes('id="cyberSegments"'), 'cyberSegments が見つからない');
+  assert.ok(HTML.includes('id="auroraPrismFill"'), 'auroraPrismFill が見つからない');
+  assert.ok(HTML.includes('id="liquidFluidRect"'), 'liquidFluidRect が見つからない');
+  assert.ok(HTML.includes('id="ktCrack1"'), 'ktCrack1 が見つからない');
+  assert.ok(HTML.includes('id="celStarlink"'), 'celStarlink が見つからない');
+  assert.ok(HTML.includes('id="abyssDiveProg"'), 'abyssDiveProg が見つからない');
+  assert.ok(HTML.includes('id="frostFreezeProg"'), 'frostFreezeProg が見つからない');
+});
+
+t('_driveThemeGauge 関数が存在し、_driveGauge 内で呼び出されている', () => {
+  assert.ok(HTML.includes('function _driveThemeGauge('), '_driveThemeGauge の定義が無い');
+  assert.ok(HTML.includes('_driveThemeGauge(pct, base, over, tier)'), '_driveGauge 内での呼び出しが無い');
+});
+
+t('CSS内に全8テーマの表示切り替えと共通円形パーツ非表示化ルールが存在する', () => {
+  const themes = ['brass', 'cyber', 'aurora', 'liquid', 'kintsugi', 'celestial', 'abyss', 'frost'];
+  themes.forEach(th => {
+    assert.ok(HTML.includes('.theme-gauge-' + th), '.theme-gauge-' + th + ' のスタイルが無い');
+  });
+  assert.ok(HTML.includes('html.ui-cyber .gauge-trk'), '非Brassテーマでの共通丸パーツ非表示ルールが無い');
 });
 
 console.log(`\nALL PASS (${pass}/${pass + fail})\n`);

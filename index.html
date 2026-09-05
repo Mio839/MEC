@@ -1254,6 +1254,310 @@ html.ui-frost .od-frost{display:inline;}
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   🌌 全8テーマ完全差別化：独自形状フレーム＆進捗描画スタイル
+   ═══════════════════════════════════════════════════════════════ */
+
+/* 基本: テーマ固有レイヤーは非表示 */
+.theme-gauge-layer > g { display: none; }
+
+/* ── テーマごとの共通円形パーツの非表示化 ──
+   Brass 以外は、共通の丸い gauge-trk / gauge-val / gauge-ovf / gauge-dot を非表示にして
+   各テーマの独自形状を主役にする */
+html.ui-cyber .gauge-trk, html.ui-cyber .gauge-val, html.ui-cyber .gauge-ovf, html.ui-cyber .gauge-dot,
+html.ui-aurora .gauge-trk, html.ui-aurora .gauge-val, html.ui-aurora .gauge-ovf, html.ui-aurora .gauge-dot,
+html.ui-liquid .gauge-trk, html.ui-liquid .gauge-val, html.ui-liquid .gauge-ovf, html.ui-liquid .gauge-dot,
+html.ui-kintsugi .gauge-trk, html.ui-kintsugi .gauge-val, html.ui-kintsugi .gauge-ovf, html.ui-kintsugi .gauge-dot,
+html.ui-celestial .gauge-trk, html.ui-celestial .gauge-val, html.ui-celestial .gauge-ovf, html.ui-celestial .gauge-dot,
+html.ui-abyss .gauge-trk, html.ui-abyss .gauge-val, html.ui-abyss .gauge-ovf, html.ui-abyss .gauge-dot,
+html.ui-frost .gauge-trk, html.ui-frost .gauge-val, html.ui-frost .gauge-ovf, html.ui-frost .gauge-dot {
+  display: none !important;
+}
+
+/* 1. Brass: 機械式圧力計＆メーター針 */
+html.ui-brass .theme-gauge-brass { display: inline; }
+.brass-dial-arc { stroke: var(--brass); opacity: .7; }
+.brass-needle {
+  transition: transform .9s cubic-bezier(.2, 1.3, .3, 1);
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,.6));
+}
+.gauge[data-overdrive] .brass-needle polygon { fill: #FFD700; filter: drop-shadow(0 0 6px #FFD700); }
+
+/* 2. Cyber: 八角形オクタゴンHUD＆16セグメントブロック */
+html.ui-cyber .theme-gauge-cyber { display: inline; }
+.cyber-octagon-frame {
+  fill: rgba(10, 25, 40, .65);
+  stroke: #00E5FF;
+  stroke-width: 1.8;
+  filter: drop-shadow(0 0 8px rgba(0,229,255,.4));
+}
+.cyber-octagon-inner {
+  fill: none;
+  stroke: rgba(0, 229, 255, .3);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+.cyber-reticle-center {
+  fill: none;
+  stroke: rgba(0, 255, 157, .25);
+  stroke-width: 1;
+  stroke-dasharray: 8 6;
+}
+.cyber-segments .c-seg {
+  fill: rgba(0, 229, 255, .12);
+  stroke: rgba(0, 229, 255, .3);
+  stroke-width: .8;
+  transition: fill .25s ease, filter .25s ease, stroke .25s ease;
+}
+.cyber-segments .c-seg.active {
+  fill: #00FF9D;
+  stroke: #FFF;
+  filter: drop-shadow(0 0 5px #00FF9D) drop-shadow(0 0 10px rgba(0,255,157,.8));
+}
+.cyber-segments .c-seg.overdrive {
+  fill: #FFD700;
+  stroke: #FFFDF0;
+  filter: drop-shadow(0 0 7px #FFD700) drop-shadow(0 0 14px #FF4500);
+  animation: cyberSegOverdrive .8s ease-in-out infinite alternate;
+}
+@keyframes cyberSegOverdrive {
+  0% { filter: drop-shadow(0 0 4px #FFD700); }
+  100% { filter: drop-shadow(0 0 12px #FF4500) brightness(1.2); }
+}
+
+/* 3. Aurora: 菱形クリスタル＆垂直スペクトルチャージ */
+html.ui-aurora .theme-gauge-aurora { display: inline; }
+.aurora-prism-frame {
+  fill: rgba(15, 10, 35, .6);
+  stroke: rgba(255, 255, 255, .8);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 12px rgba(0,223,216,.5)) drop-shadow(0 0 20px rgba(121,40,202,.4));
+}
+.aurora-prism-fill {
+  transition: height 1s cubic-bezier(.16, 1, .3, 1), y 1s cubic-bezier(.16, 1, .3, 1);
+  filter: drop-shadow(0 0 12px rgba(0,242,254,.7));
+}
+.aurora-prism-facet {
+  stroke: rgba(255, 255, 255, .4);
+  stroke-width: 1;
+}
+.aurora-prism-facet-inner {
+  fill: none;
+  stroke: rgba(0, 223, 216, .45);
+  stroke-width: 1.2;
+  stroke-dasharray: 6 4;
+}
+.gauge[data-tier="5"] .aurora-prism-frame,
+.gauge[data-tier="6"] .aurora-prism-frame {
+  stroke: #FFF;
+  filter: drop-shadow(0 0 16px #00DFD8) drop-shadow(0 0 28px #FF0080);
+}
+
+/* 4. Liquid: カプセル型バイアルシリンダー＆波打ち流体 */
+html.ui-liquid .theme-gauge-liquid { display: inline; }
+.liquid-vial-frame {
+  fill: rgba(20, 10, 35, .65);
+  stroke: rgba(255, 0, 127, .75);
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 12px rgba(255,0,127,.5)) drop-shadow(0 0 24px rgba(121,40,202,.35));
+}
+.liquid-fluid-rect {
+  transition: height 1s cubic-bezier(.16, 1, .3, 1), y 1s cubic-bezier(.16, 1, .3, 1);
+  filter: drop-shadow(0 0 10px rgba(255,0,127,.8));
+}
+.liquid-wave-cap {
+  fill: #00F2FE;
+  opacity: .75;
+  filter: drop-shadow(0 0 6px #00F2FE);
+  transition: cy 1s cubic-bezier(.16, 1, .3, 1);
+  animation: liquidCapBreathe 2s ease-in-out infinite alternate;
+}
+@keyframes liquidCapBreathe {
+  0% { rx: 40; opacity: .6; }
+  100% { rx: 43; opacity: .9; }
+}
+.liquid-scale-ticks {
+  stroke: rgba(255, 255, 255, .4);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+
+/* 5. Kintsugi: 割れた陶器皿＆3段階黄金接合クラック */
+html.ui-kintsugi .theme-gauge-kintsugi { display: inline; }
+.kt-vessel-rim {
+  fill: #0c0a08;
+  stroke: rgba(245, 208, 97, .5);
+  stroke-width: 2.2;
+  filter: drop-shadow(0 4px 14px rgba(0,0,0,.9)) drop-shadow(0 0 8px rgba(245,208,97,.3));
+}
+.kt-join-crack {
+  fill: none;
+  stroke: #F5D061;
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  filter: drop-shadow(0 0 6px #F5D061) drop-shadow(0 0 12px rgba(217,56,58,.6));
+  transition: stroke-dashoffset .9s cubic-bezier(.2, .9, .3, 1), stroke-width .5s;
+}
+.gauge[data-tier="5"] .kt-join-crack,
+.gauge[data-tier="6"] .kt-join-crack {
+  stroke: #FFFDF0;
+  stroke-width: 3.4;
+  filter: drop-shadow(0 0 10px #FFF8DC) drop-shadow(0 0 20px #F5D061) drop-shadow(0 0 30px rgba(245,208,97,.9));
+}
+.kt-gold-dust {
+  fill: #FFD700;
+  filter: drop-shadow(0 0 4px #FFD700);
+  animation: ktDustTwinkle 1.8s ease-in-out infinite alternate;
+}
+@keyframes ktDustTwinkle {
+  0% { opacity: .4; transform: scale(.8); }
+  100% { opacity: 1; transform: scale(1.3); }
+}
+
+/* 6. Celestial: 八芒星の魔法陣＆星座星間ビーム */
+html.ui-celestial .theme-gauge-celestial { display: inline; }
+.cel-magic-ring1 {
+  fill: none;
+  stroke: rgba(255, 209, 102, .5);
+  stroke-width: 1.6;
+  stroke-dasharray: 4 6;
+  animation: casingSpin 32s linear infinite;
+  transform-origin: 84px 84px;
+}
+.cel-magic-ring2 {
+  fill: rgba(8, 4, 25, .7);
+  stroke: rgba(138, 43, 226, .6);
+  stroke-width: 1.4;
+  stroke-dasharray: 8 4;
+  animation: casingSpin 24s linear infinite reverse;
+  transform-origin: 84px 84px;
+}
+.cel-starlink-beam {
+  fill: none;
+  stroke: #FFD166;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 340;
+  stroke-dashoffset: 340;
+  filter: drop-shadow(0 0 8px #FFD166) drop-shadow(0 0 16px rgba(138,43,226,.8));
+  transition: stroke-dashoffset 1s cubic-bezier(.2, .9, .3, 1);
+}
+.gauge[data-tier="5"] .cel-starlink-beam,
+.gauge[data-tier="6"] .cel-starlink-beam {
+  stroke: #FFFDF0;
+  stroke-width: 2.8;
+  filter: drop-shadow(0 0 12px #FFFDF0) drop-shadow(0 0 24px #FFD166) drop-shadow(0 0 36px rgba(138,43,226,.95));
+}
+.cel-star {
+  fill: rgba(255, 209, 102, .3);
+  stroke: rgba(255, 255, 255, .4);
+  stroke-width: 1;
+  transition: fill .4s, filter .4s, transform .4s;
+}
+.cel-star.active {
+  fill: #FFF;
+  stroke: #FFD166;
+  stroke-width: 1.4;
+  filter: drop-shadow(0 0 8px #FFD166) drop-shadow(0 0 14px rgba(138,43,226,1));
+  animation: starPulse 1.4s ease-in-out infinite alternate;
+}
+@keyframes starPulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.35); }
+}
+
+/* 7. Abyss: 扇形耐圧深度コンソール＆潜航インジケーター */
+html.ui-abyss .theme-gauge-abyss { display: inline; }
+.abyss-sector-bezel {
+  fill: rgba(2, 18, 32, .75);
+  stroke: #00FFA3;
+  stroke-width: 2.4;
+  filter: drop-shadow(0 0 14px rgba(0,255,163,.45));
+}
+.abyss-sector-inner {
+  fill: none;
+  stroke: rgba(0, 180, 216, .35);
+  stroke-width: 1.2;
+  stroke-dasharray: 4 4;
+}
+.abyss-dive-prog {
+  fill: none;
+  stroke: #00E5FF;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 251.3;
+  stroke-dashoffset: 251.3;
+  filter: drop-shadow(0 0 10px #00E5FF) drop-shadow(0 0 20px rgba(0,255,163,.7));
+  transition: stroke-dashoffset 1s cubic-bezier(.16, 1, .3, 1);
+}
+.abyss-depth-ticks {
+  stroke: rgba(255, 255, 255, .5);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+.abyss-depth-display {
+  font-family: var(--font-display);
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  fill: #00FFA3;
+  filter: drop-shadow(0 0 4px rgba(0,255,163,.8));
+}
+
+/* 8. Frost: 正六角形スノークリスタル＆六花氷結成長 */
+html.ui-frost .theme-gauge-frost { display: inline; }
+.frost-hex-rim {
+  fill: rgba(10, 20, 36, .7);
+  stroke: #A0E7E5;
+  stroke-width: 2;
+  filter: drop-shadow(0 0 12px rgba(112,214,255,.5));
+}
+.frost-axes-lines {
+  fill: none;
+  stroke: rgba(255, 255, 255, .3);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 4;
+}
+.frost-freeze-prog {
+  fill: none;
+  stroke: #FFF;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 360;
+  stroke-dashoffset: 360;
+  filter: drop-shadow(0 0 10px #FFF) drop-shadow(0 0 20px #70D6FF) drop-shadow(0 0 30px rgba(160,231,229,.9));
+  transition: stroke-dashoffset 1s cubic-bezier(.2, .9, .3, 1);
+}
+.frost-vertex-node {
+  fill: #70D6FF;
+  stroke: #FFF;
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 6px #70D6FF);
+}
+.gauge[data-tier="5"] .frost-freeze-prog,
+.gauge[data-tier="6"] .frost-freeze-prog {
+  stroke: #FFFDF0;
+  stroke-width: 4;
+  filter: drop-shadow(0 0 14px #FFF) drop-shadow(0 0 28px #70D6FF) drop-shadow(0 0 45px #A0E7E5);
+}
+
+/* prefers-reduced-motion での新演出の静止化 */
+@media(prefers-reduced-motion:reduce){
+  .brass-needle, .aurora-prism-fill, .liquid-fluid-rect, .liquid-wave-cap,
+  .kt-join-crack, .cel-starlink-beam, .abyss-dive-prog, .frost-freeze-prog {
+    transition: none !important;
+  }
+  .cyber-segments .c-seg.overdrive, .liquid-wave-cap, .kt-gold-dust,
+  .cel-magic-ring1, .cel-magic-ring2, .cel-star.active {
+    animation: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
    🌌 学習成果の帰還注入トランジション（Exam-to-Hub Absorber）
    ═══════════════════════════════════════════════════════════════ */
 .gauge.winding-up{--gear-t:.35s!important;}
@@ -1735,6 +2039,134 @@ html.ui-frost .od-frost{display:inline;}
                 <circle class="casing-part rank-resident needle-ticks" cx="84" cy="84" r="74"></circle>
                 <circle class="casing-part rank-specialist glacier-bezel" cx="84" cy="84" r="76"></circle>
                 <circle class="casing-part rank-professor icicle-crown" cx="84" cy="84" r="78"></circle>
+              </g>
+            </g>
+            <!-- ═══════════════════════════════════════════════════════════════
+                 🌌 全8テーマ完全差別化：独自形状フレーム＆進捗描画グループ
+                 ═══════════════════════════════════════════════════════════════ -->
+            <g class="theme-gauge-layer" id="themeGaugeLayer">
+              <!-- 🕰️ 1. Brass: 機械式圧力針＆真鍮スケール -->
+              <g class="theme-gauge-brass" id="gaugeBrassCore">
+                <path class="brass-dial-arc" d="M 45.8,122.2 A 54,54 0 1,1 122.2,122.2" fill="none" stroke="var(--brass)" stroke-width="2" stroke-dasharray="2 6"></path>
+                <g class="brass-needle" id="brassNeedle" style="transform-origin: 84px 84px; transform: rotate(-135deg);">
+                  <line x1="84" y1="84" x2="84" y2="34" stroke="var(--copper)" stroke-width="2.6" stroke-linecap="round"></line>
+                  <polygon points="84,28 80.5,36 87.5,36" fill="var(--brass-hi)"></polygon>
+                  <circle cx="84" cy="84" r="5.5" fill="var(--brass-hi)" stroke="var(--copper)" stroke-width="1.5"></circle>
+                  <circle cx="84" cy="84" r="2" fill="#FFF"></circle>
+                </g>
+              </g>
+
+              <!-- 🚀 2. Cyber: 八角形オクタゴンHUD＆16セグメントブロック -->
+              <g class="theme-gauge-cyber" id="gaugeCyberCore">
+                <polygon class="cyber-octagon-frame" points="52,18 116,18 150,52 150,116 116,150 52,150 18,116 18,52"></polygon>
+                <polygon class="cyber-octagon-inner" points="55,24 113,24 144,55 144,113 113,144 55,144 24,113 24,55"></polygon>
+                <g class="cyber-segments" id="cyberSegments">
+                  <rect class="c-seg seg-0" x="60" y="14" width="20" height="7" rx="1.5"></rect>
+                  <rect class="c-seg seg-1" x="88" y="14" width="20" height="7" rx="1.5"></rect>
+                  <rect class="c-seg seg-2" x="119" y="24" width="18" height="7" rx="1.5" transform="rotate(45 128 27.5)"></rect>
+                  <rect class="c-seg seg-3" x="138" y="43" width="18" height="7" rx="1.5" transform="rotate(45 147 46.5)"></rect>
+                  <rect class="c-seg seg-4" x="147" y="60" width="7" height="20" rx="1.5"></rect>
+                  <rect class="c-seg seg-5" x="147" y="88" width="7" height="20" rx="1.5"></rect>
+                  <rect class="c-seg seg-6" x="138" y="119" width="18" height="7" rx="1.5" transform="rotate(-45 147 122.5)"></rect>
+                  <rect class="c-seg seg-7" x="119" y="138" width="18" height="7" rx="1.5" transform="rotate(-45 128 141.5)"></rect>
+                  <rect class="c-seg seg-8" x="88" y="147" width="20" height="7" rx="1.5"></rect>
+                  <rect class="c-seg seg-9" x="60" y="147" width="20" height="7" rx="1.5"></rect>
+                  <rect class="c-seg seg-10" x="31" y="138" width="18" height="7" rx="1.5" transform="rotate(45 40 141.5)"></rect>
+                  <rect class="c-seg seg-11" x="12" y="119" width="18" height="7" rx="1.5" transform="rotate(45 21 122.5)"></rect>
+                  <rect class="c-seg seg-12" x="14" y="88" width="7" height="20" rx="1.5"></rect>
+                  <rect class="c-seg seg-13" x="14" y="60" width="7" height="20" rx="1.5"></rect>
+                  <rect class="c-seg seg-14" x="12" y="43" width="18" height="7" rx="1.5" transform="rotate(-45 21 46.5)"></rect>
+                  <rect class="c-seg seg-15" x="31" y="24" width="18" height="7" rx="1.5" transform="rotate(-45 40 27.5)"></rect>
+                </g>
+                <circle class="cyber-reticle-center" cx="84" cy="84" r="50"></circle>
+              </g>
+
+              <!-- 🌟 3. Aurora: 菱形クリスタル＆垂直スペクトルチャージ -->
+              <g class="theme-gauge-aurora" id="gaugeAuroraCore">
+                <defs>
+                  <clipPath id="auroraPrismClip">
+                    <polygon points="84,18 150,84 84,150 18,84"></polygon>
+                  </clipPath>
+                  <linearGradient id="auroraPrismGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                    <stop offset="0%" stop-color="#00DFD8"></stop>
+                    <stop offset="50%" stop-color="#7928CA"></stop>
+                    <stop offset="100%" stop-color="#FF0080"></stop>
+                  </linearGradient>
+                </defs>
+                <polygon class="aurora-prism-frame" points="84,14 154,84 84,154 14,84"></polygon>
+                <rect class="aurora-prism-fill" id="auroraPrismFill" x="14" y="154" width="140" height="0" clip-path="url(#auroraPrismClip)" fill="url(#auroraPrismGrad)"></rect>
+                <line class="aurora-prism-facet" x1="84" y1="14" x2="84" y2="154"></line>
+                <line class="aurora-prism-facet" x1="14" y1="84" x2="154" y2="84"></line>
+                <polygon class="aurora-prism-facet-inner" points="84,36 132,84 84,132 36,84"></polygon>
+              </g>
+
+              <!-- 🌸 4. Liquid: カプセル型バイアルシリンダー＆波打ち流体 -->
+              <g class="theme-gauge-liquid" id="gaugeLiquidCore">
+                <defs>
+                  <clipPath id="liquidVialClip">
+                    <rect x="42" y="20" width="84" height="128" rx="42"></rect>
+                  </clipPath>
+                  <linearGradient id="liquidFluidGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                    <stop offset="0%" stop-color="#7928CA"></stop>
+                    <stop offset="60%" stop-color="#FF007F"></stop>
+                    <stop offset="100%" stop-color="#00F2FE"></stop>
+                  </linearGradient>
+                </defs>
+                <rect class="liquid-vial-frame" x="40" y="18" width="88" height="132" rx="44"></rect>
+                <g clip-path="url(#liquidVialClip)">
+                  <rect class="liquid-fluid-rect" id="liquidFluidRect" x="40" y="150" width="88" height="0" fill="url(#liquidFluidGrad)"></rect>
+                  <ellipse class="liquid-wave-cap" id="liquidWaveCap" cx="84" cy="150" rx="42" ry="4"></ellipse>
+                </g>
+                <path class="liquid-scale-ticks" d="M 44,48 L 52,48 M 44,72 L 54,72 M 44,96 L 52,96 M 44,120 L 54,120 M 124,48 L 116,48 M 124,72 L 114,72 M 124,96 L 116,96 M 124,120 L 114,120"></path>
+              </g>
+
+              <!-- 🌑 5. Kintsugi: 割れた陶器皿＆3段階黄金接合クラック -->
+              <g class="theme-gauge-kintsugi" id="gaugeKintsugiCore">
+                <path class="kt-vessel-rim" d="M 84,16 C 128,15 156,44 154,84 C 152,126 126,154 84,153 C 40,152 14,124 16,84 C 18,42 42,17 84,16 Z"></path>
+                <path class="kt-join-crack kt-jc-1" id="ktCrack1" d="M 84,16 Q 78,42 66,56 T 46,74 Q 32,80 16,84"></path>
+                <path class="kt-join-crack kt-jc-2" id="ktCrack2" d="M 66,56 Q 74,72 84,88 T 98,118 Q 106,134 114,148"></path>
+                <path class="kt-join-crack kt-jc-3" id="ktCrack3" d="M 84,88 Q 106,84 126,76 T 154,68"></path>
+                <circle class="kt-gold-dust d-1" cx="66" cy="56" r="1.8"></circle>
+                <circle class="kt-gold-dust d-2" cx="84" cy="88" r="2.2"></circle>
+              </g>
+
+              <!-- 🌌 6. Celestial: 八芒星の魔法陣＆星座星間ビーム -->
+              <g class="theme-gauge-celestial" id="gaugeCelestialCore">
+                <circle class="cel-magic-ring1" cx="84" cy="84" r="70"></circle>
+                <circle class="cel-magic-ring2" cx="84" cy="84" r="62"></circle>
+                <path class="cel-starlink-beam" id="celStarlink" d="M 84,24 L 126,42 L 144,84 L 126,126 L 84,144 L 42,126 L 24,84 L 42,42 Z"></path>
+                <g class="cel-stars-group" id="celStarsGroup">
+                  <circle class="cel-star c-s0" cx="84" cy="24" r="3.2"></circle>
+                  <circle class="cel-star c-s1" cx="126" cy="42" r="3"></circle>
+                  <circle class="cel-star c-s2" cx="144" cy="84" r="3.4"></circle>
+                  <circle class="cel-star c-s3" cx="126" cy="126" r="3"></circle>
+                  <circle class="cel-star c-s4" cx="84" cy="144" r="3.2"></circle>
+                  <circle class="cel-star c-s5" cx="42" cy="126" r="3"></circle>
+                  <circle class="cel-star c-s6" cx="24" cy="84" r="3.4"></circle>
+                  <circle class="cel-star c-s7" cx="42" cy="42" r="3"></circle>
+                </g>
+              </g>
+
+              <!-- 🌊 7. Abyss: 扇形耐圧深度コンソール＆潜航インジケーター -->
+              <g class="theme-gauge-abyss" id="gaugeAbyssCore">
+                <path class="abyss-sector-bezel" d="M 32,114 A 60,60 0 1,1 136,114"></path>
+                <path class="abyss-sector-inner" d="M 40,108 A 50,50 0 1,1 128,108"></path>
+                <path class="abyss-dive-prog" id="abyssDiveProg" d="M 32,114 A 60,60 0 1,1 136,114"></path>
+                <path class="abyss-depth-ticks" d="M 32,114 L 38,110 M 84,24 L 84,32 M 136,114 L 130,110 M 42,56 L 47,60 M 126,56 L 121,60"></path>
+                <text class="abyss-depth-display" id="abyssDepthDisplay" x="84" y="136" text-anchor="middle">DEPTH: 100m</text>
+              </g>
+
+              <!-- ❄️ 8. Frost: 正六角形スノークリスタル＆六花氷結成長 -->
+              <g class="theme-gauge-frost" id="gaugeFrostCore">
+                <polygon class="frost-hex-rim" points="84,18 141,51 141,117 84,150 27,117 27,51"></polygon>
+                <path class="frost-axes-lines" d="M 84,18 L 84,150 M 141,51 L 27,117 M 141,117 L 27,51"></path>
+                <polygon class="frost-freeze-prog" id="frostFreezeProg" points="84,18 141,51 141,117 84,150 27,117 27,51"></polygon>
+                <circle class="frost-vertex-node" cx="84" cy="18" r="3"></circle>
+                <circle class="frost-vertex-node" cx="141" cy="51" r="3"></circle>
+                <circle class="frost-vertex-node" cx="141" cy="117" r="3"></circle>
+                <circle class="frost-vertex-node" cx="84" cy="150" r="3"></circle>
+                <circle class="frost-vertex-node" cx="27" cy="117" r="3"></circle>
+                <circle class="frost-vertex-node" cx="27" cy="51" r="3"></circle>
               </g>
             </g>
             <circle class="gauge-trk"  cx="84" cy="84" r="54"></circle>
@@ -3323,6 +3755,89 @@ function _checkpointFx(pct) {
   }
 }
 
+// ── 全8テーマ完全差別化：各テーマ固有の進捗描画ロジック ─────────────────────────
+function _driveThemeGauge(pct, base, over, tier) {
+  // 1. Brass: 機械式メーター針 (-135deg 〜 +135deg の270度アーク)
+  const bNeedle = document.getElementById('brassNeedle');
+  if (bNeedle) {
+    const bAngle = -135 + (base / 100) * 270;
+    bNeedle.style.transform = 'rotate(' + bAngle.toFixed(1) + 'deg)';
+  }
+
+  // 2. Cyber: 八角形16セグメント点灯
+  const cGroup = document.getElementById('cyberSegments');
+  if (cGroup && cGroup.children) {
+    const cActive = Math.round((base / 100) * 16);
+    const segs = cGroup.children;
+    for (let i = 0; i < segs.length; i++) {
+      segs[i].classList.toggle('active', i < cActive);
+      segs[i].classList.toggle('overdrive', over > 0);
+    }
+  }
+
+  // 3. Aurora: 菱形クリスタル垂直スペクトル液面充填 (h: 0 -> 132, y: 150 -> 18)
+  const aFill = document.getElementById('auroraPrismFill');
+  if (aFill) {
+    const aH = (base / 100) * 132;
+    aFill.setAttribute('y', String(150 - aH));
+    aFill.setAttribute('height', String(aH));
+  }
+
+  // 4. Liquid: 耐圧バイアルシリンダー波打ち流体 (h: 0 -> 120, y: 146 -> 26)
+  const lFluid = document.getElementById('liquidFluidRect');
+  const lCap = document.getElementById('liquidWaveCap');
+  if (lFluid) {
+    const lH = (base / 100) * 120;
+    const lY = 146 - lH;
+    lFluid.setAttribute('y', String(lY));
+    lFluid.setAttribute('height', String(lH));
+    if (lCap) lCap.setAttribute('cy', String(lY));
+  }
+
+  // 5. Kintsugi: 3段階黄金接合クラック (長さ約100ずつ)
+  const kc1 = document.getElementById('ktCrack1');
+  const kc2 = document.getElementById('ktCrack2');
+  const kc3 = document.getElementById('ktCrack3');
+  if (kc1 && kc2 && kc3) {
+    const p1 = Math.min(1, Math.max(0, base / 33.3));
+    const p2 = Math.min(1, Math.max(0, (base - 33.3) / 33.3));
+    const p3 = Math.min(1, Math.max(0, (base - 66.6) / 33.4));
+    kc1.style.strokeDashoffset = String((100 * (1 - p1)).toFixed(1));
+    kc2.style.strokeDashoffset = String((100 * (1 - p2)).toFixed(1));
+    kc3.style.strokeDashoffset = String((100 * (1 - p3)).toFixed(1));
+  }
+
+  // 6. Celestial: 星座星間ビーム (全長約340) と8つの星ノード
+  const celBeam = document.getElementById('celStarlink');
+  if (celBeam) {
+    celBeam.style.strokeDashoffset = String((340 * (1 - base / 100)).toFixed(1));
+  }
+  const celStars = document.getElementById('celStarsGroup');
+  if (celStars && celStars.children) {
+    const sActive = Math.round((base / 100) * 8);
+    for (let i = 0; i < celStars.children.length; i++) {
+      celStars.children[i].classList.toggle('active', i < sActive);
+    }
+  }
+
+  // 7. Abyss: 潜水艇扇形深度バー (全長約251.3) と深度テキスト
+  const aProg = document.getElementById('abyssDiveProg');
+  if (aProg) {
+    aProg.style.strokeDashoffset = String((251.3 * (1 - base / 100)).toFixed(1));
+  }
+  const dTx = document.getElementById('abyssDepthDisplay');
+  if (dTx) {
+    const dMeters = Math.round(100 + (base / 100) * 9900);
+    dTx.textContent = 'DEPTH: ' + dMeters + 'm';
+  }
+
+  // 8. Frost: 正六角形六花氷結成長 (外周長約360)
+  const fProg = document.getElementById('frostFreezeProg');
+  if (fProg) {
+    fProg.style.strokeDashoffset = String((360 * (1 - base / 100)).toFixed(1));
+  }
+}
+
 function _driveGauge(pct) {
   const box = document.getElementById('gaugeBox');
   const val = document.getElementById('gaugeVal');
@@ -3343,6 +3858,11 @@ function _driveGauge(pct) {
     if (pct >= 150) box.dataset.overdrive = 'hyper';
     else if (pct >= 100) box.dataset.overdrive = 'true';
     else if (box.removeAttribute) box.removeAttribute('data-overdrive');
+  }
+
+  // 全8テーマ完全差別化：各テーマ固有の進捗描画
+  if (typeof _driveThemeGauge === 'function') {
+    _driveThemeGauge(pct, base, over, tier);
   }
 
   // 第3位: 流体サージ波（進捗の軌跡に沿うエネルギー波）
