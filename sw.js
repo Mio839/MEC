@@ -1,3 +1,12 @@
+// 2026-09-05ac: 肝胆膵⑤——ch08 膵腫瘍 NO.405〜411 の解説を4ブロック化（平均約2,549字・authored 411/418問、進捗98.3%！残り7問！）。
+//   NO.405 分枝型IPMNの質的診断（微小壁在結節の同定におけるEUS第一選択とPEPリスクERCPの回避、ans_label完全修復）／
+//   NO.406 分枝型IPMNのMRCP読影（偶発発見無症候性膵嚢胞・ブドウ房状嚢胞集簇と主膵管交通・4大嚢胞腫瘍鑑別、ans_label修復）／
+//   NO.407 IPMNの病態と膵管変化（粘液産生による膵管拡張・AIP主膵管狭窄との決定打鑑別・fish mouth sign、ans_label修復）／
+//   NO.408 IPMNの画像・病理所見（厚い被膜を持たない膵管拡張病変・MCN厚膜卵巣様間質との厳格鑑別、ans_label完全修復）／
+//   NO.409 体重減少を来す疾患（うつ病食思不振と膵癌悪液質TNF-α/IL-6・ネフローゼ体重増加ひっかけ回避、ans_label修復）／
+//   NO.410 嚢胞性膵疾患のMRCP診断（分枝型IPMN典型像とカテゴリー名選択肢パターン・無症候時経過観察、ans_label修復）／
+//   NO.411 局所進行切除不能膵体部癌の治療戦略（腹腔動脈幹全周性巻き込みUR-LAのCT読影と切除非適応・CRT適応、ans_label修復）。
+//   questions_hbp.json を変えたので CACHE を bump（v361 → v362）。
 // 2026-09-05ab: 肝胆膵⑤——ch08 膵腫瘍 NO.398〜404 の解説を4ブロック化（平均約2,541字・authored 404/418問、進捗96.7%！連問402〜404完結！）。
 //   NO.398 膵仮性嚢胞の病態（非上皮性肉芽壁・外傷後続発・感染と仮性動脈瘤破裂・癌化しない・CT読影、ans_label修復）／
 //   NO.399 主膵管拡張を来す疾患（膵石症による物理的閉塞とIPMN粘液充満・pNET/輪状膵との鑑別対照表、ans_label修復）／
@@ -1175,7 +1184,7 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v361";
+const CACHE = "mec-v362";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
