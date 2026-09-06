@@ -5325,7 +5325,7 @@ html.ui-liquid .gauge .gauge-mid {
   font-family: 'Avenir Next', -apple-system, sans-serif !important;
   font-weight: 800 !important;
   font-size: clamp(32px, 8.5vw, 44px) !important;
-  text-shadow: 0 0 22px rgba(255, 0, 127, 1), 0 0 38px rgba(121, 40, 202, 0.95), 0 2px 4px rgba(0, 0, 0, 0.95) !important;
+  text-shadow: 0 0 20px rgba(255, 0, 127, 0.95), 0 0 38px rgba(0, 242, 254, 0.85) !important;
 }
 
 html.ui-liquid .gauge[data-tier="5"] .gauge-mid,
@@ -7162,14 +7162,27 @@ html.ui-cyber .gauge-pulse-trk {
   filter: drop-shadow(0 0 8px #00E5FF);
 }
 
-/* 3. Liquid: 有機的流体波打ち（フルイドモーフ） */
+/* 3. Liquid: 有機的流体波打ち（フルイドモーフ：ゆったりフヨフヨ伸縮） */
 html.ui-liquid .gauge .gauge-ring::before {
-  animation: liquidFluidMorph 6s ease-in-out infinite alternate !important;
+  animation: liquidFluidMorph 10s ease-in-out infinite alternate !important;
 }
 @keyframes liquidFluidMorph {
-  0% { border-radius: 50% 48% 52% 49% / 49% 51% 49% 51%; transform: rotate(0deg) scale(0.98); }
-  50% { border-radius: 48% 52% 49% 51% / 52% 48% 51% 49%; transform: rotate(180deg) scale(1.02); }
-  100% { border-radius: 51% 49% 50% 50% / 49% 50% 50% 51%; transform: rotate(360deg) scale(0.98); }
+  0% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    transform: rotate(0deg) scale(0.96, 1.04) translate(0, 0);
+  }
+  33% {
+    border-radius: 60% 40% 35% 65% / 58% 35% 65% 42%;
+    transform: rotate(120deg) scale(1.05, 0.95) translate(-3px, 2px);
+  }
+  66% {
+    border-radius: 35% 65% 58% 42% / 42% 65% 35% 58%;
+    transform: rotate(240deg) scale(0.97, 1.03) translate(3px, -2px);
+  }
+  100% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    transform: rotate(360deg) scale(0.96, 1.04) translate(0, 0);
+  }
 }
 
 /* 4. Abyss: 深度ソナー波紋の周期放射 */

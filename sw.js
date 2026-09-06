@@ -1,3 +1,5 @@
+// 2026-09-06b: Liquid（幻想リキッド・アート）のHeroゲージ演出改善——暗紫グラデーション・深淵プール・パーセント数字の黒影・点線円（.liquid-chamber-rim）を完全撤廃し、11秒周期のゆったり有機的なフヨフヨ浮遊・モーフィングアニメーションへ強化。ローカル即時確認用バッチ start_local.bat を追加。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-05s → 2026-09-06a）。
 // 2026-09-06a: 循環器のエラー報告対応——連問（次の文を読み〜）の兄弟設問に、その設問の qt が参照している図を
 //       行き渡らせた（28問）。ステムを全兄弟の qt へ展開する形式なのに imgs は1問にしか
 //       付いておらず、「心エコー図（A，B）を示す」と書いてあるのに図が無い問題が残っていた。
@@ -1238,7 +1240,7 @@ const CACHE = "mec-v370";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-05s";
+const SHELL_VERSION = "2026-09-06a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

@@ -1647,41 +1647,58 @@ html.ui-aurora .theme-gauge-aurora { display: inline; }
 html.ui-liquid .theme-gauge-liquid { display: inline; }
 html.ui-liquid .gauge-ring {
   border-radius: 42% 58% 70% 30% / 45% 45% 55% 55% !important;
-  animation: lavaContainerMorph 8s ease-in-out infinite alternate !important;
+  animation: lavaContainerMorph 11s ease-in-out infinite alternate !important;
   box-shadow: 0 0 32px rgba(255,0,127,.65), inset 0 0 22px rgba(0,242,254,.45) !important;
+  transform-origin: center center;
+  will-change: transform, border-radius;
 }
 @keyframes lavaContainerMorph {
-  0% { border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; }
-  50% { border-radius: 58% 42% 35% 65% / 55% 65% 35% 45%; }
-  100% { border-radius: 48% 52% 62% 38% / 38% 48% 52% 62%; }
+  0% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    transform: translate(0, 0) scale(1, 1) rotate(0deg);
+  }
+  25% {
+    border-radius: 58% 42% 38% 62% / 54% 60% 40% 46%;
+    transform: translate(-4px, -6px) scale(1.04, 0.96) rotate(1.8deg);
+  }
+  50% {
+    border-radius: 46% 54% 64% 36% / 38% 46% 54% 62%;
+    transform: translate(5px, 3px) scale(0.96, 1.05) rotate(-1.5deg);
+  }
+  75% {
+    border-radius: 62% 38% 46% 54% / 52% 38% 62% 48%;
+    transform: translate(-3px, 5px) scale(1.03, 0.97) rotate(1.2deg);
+  }
+  100% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    transform: translate(0, 0) scale(1, 1) rotate(0deg);
+  }
 }
 .lava-lamp-chamber {
-  fill: rgba(14, 4, 24, .92);
+  fill: none;
   stroke: rgba(255, 0, 127, .85);
   stroke-width: 2.2;
   filter: drop-shadow(0 0 16px rgba(255,0,127,.65)) drop-shadow(0 0 28px rgba(121,40,202,.5));
-  animation: lavaChamberMorph 9s ease-in-out infinite alternate;
+  animation: lavaChamberMorph 12s ease-in-out infinite alternate;
   transform-origin: 84px 84px;
 }
 @keyframes lavaChamberMorph {
-  0% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.02) rotate(2deg); }
-  100% { transform: scale(.98) rotate(-2deg); }
+  0% { transform: scale(1, 1) rotate(0deg); }
+  25% { transform: scale(1.06, 0.94) rotate(2.5deg) translate(-2px, 1px); }
+  50% { transform: scale(0.95, 1.05) rotate(-2deg) translate(2px, -2px); }
+  75% { transform: scale(1.04, 0.96) rotate(1.5deg) translate(-1px, -1px); }
+  100% { transform: scale(1, 1) rotate(0deg); }
 }
 .liquid-chamber-rim {
-  fill: none;
-  stroke: rgba(0, 242, 254, 0.45);
-  stroke-width: 1.4;
-  stroke-dasharray: 6 3;
-  filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.5));
+  display: none;
 }
 .liquid-glass-glare {
   filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
 }
 
-/* 🧪 深淵プール背景 */
+/* 🧪 深淵プール背景（透明化） */
 .liquid-chamber-pool {
-  fill: #0a0214;
+  fill: none;
 }
 
 /* 🧪 中央の有機的流体セル（ラバ・ジェルブロブ本体） */
@@ -1693,31 +1710,31 @@ html.ui-liquid .gauge-ring {
 /* 表面張力オーラ膜（マントル） */
 .lava-cell-mantle {
   fill: url(#lavaMembraneGrad);
-  filter: drop-shadow(0 0 16px rgba(255, 0, 127, 0.75)) drop-shadow(0 0 28px rgba(0, 242, 254, 0.55));
+  filter: drop-shadow(0 0 16px rgba(255, 0, 127, 0.65)) drop-shadow(0 0 24px rgba(0, 242, 254, 0.5));
   transform-origin: 84px 84px;
-  animation: lavaMantleMorph 7.5s ease-in-out infinite alternate;
+  animation: lavaMantleMorph 9.5s ease-in-out infinite alternate;
   opacity: 0.7;
   transition: opacity .8s;
 }
 @keyframes lavaMantleMorph {
-  0% { transform: scale(1.06, 0.95) rotate(0deg); }
-  35% { transform: scale(0.96, 1.05) rotate(4deg); }
-  70% { transform: scale(1.04, 0.98) rotate(-3deg); }
-  100% { transform: scale(0.98, 1.03) rotate(2deg); }
+  0% { transform: scale(1.06, 0.94) rotate(0deg); }
+  30% { transform: scale(0.93, 1.07) rotate(4.5deg); }
+  70% { transform: scale(1.07, 0.93) rotate(-3.5deg); }
+  100% { transform: scale(1.06, 0.94) rotate(0deg); }
 }
 
 /* ぷるぷる流体ジェルのメインボディ */
 .lava-cell-body {
   fill: url(#lavaBlobCoreGrad);
   transform-origin: 84px 84px;
-  animation: lavaCellMorph 6.2s ease-in-out infinite alternate;
-  filter: drop-shadow(0 0 12px rgba(255, 0, 127, 0.85)) drop-shadow(0 0 20px rgba(121, 40, 202, 0.6));
+  animation: lavaCellMorph 8.5s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 14px rgba(255, 0, 127, 0.75)) drop-shadow(0 0 24px rgba(0, 242, 254, 0.55));
 }
 @keyframes lavaCellMorph {
-  0% { transform: scale(1, 1) translate(0, 0); }
-  30% { transform: scale(1.05, 0.95) translate(-1px, 2px); }
-  65% { transform: scale(0.96, 1.04) translate(2px, -1px); }
-  100% { transform: scale(1.03, 0.97) translate(-1px, -1px); }
+  0% { transform: scale(1, 1) translate(0, 0) rotate(0deg); }
+  30% { transform: scale(1.08, 0.92) translate(-2px, 3px) rotate(3deg); }
+  65% { transform: scale(0.92, 1.08) translate(3px, -2px) rotate(-3deg); }
+  100% { transform: scale(1, 1) translate(0, 0) rotate(0deg); }
 }
 
 /* 内部発光核（エレクトリック・ニュークリアス） */
@@ -3036,19 +3053,19 @@ html.ui-frost .sec-h .ln{background:linear-gradient(90deg,#A0E7E5 0%,#70D6FF 40%
                   <clipPath id="liquidChamberClip">
                     <circle cx="84" cy="84" r="64"></circle>
                   </clipPath>
-                  <!-- ぷるぷる流体ジェルのメイングラデーション（ディープインディゴ〜マゼンタ〜シアン〜白光） -->
+                  <!-- ぷるぷる流体ジェルのメイングラデーション（ネオンマゼンタ〜シアン〜白光・完全透過） -->
                   <radialGradient id="lavaBlobCoreGrad" cx="45%" cy="40%" r="65%">
                     <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"></stop>
-                    <stop offset="25%" stop-color="#00F2FE" stop-opacity="0.9"></stop>
-                    <stop offset="60%" stop-color="#FF007F" stop-opacity="0.85"></stop>
-                    <stop offset="90%" stop-color="#7928CA" stop-opacity="0.9"></stop>
-                    <stop offset="100%" stop-color="#1B0436" stop-opacity="0.95"></stop>
+                    <stop offset="25%" stop-color="#00F2FE" stop-opacity="0.85"></stop>
+                    <stop offset="60%" stop-color="#FF007F" stop-opacity="0.75"></stop>
+                    <stop offset="85%" stop-color="#FF2A8D" stop-opacity="0.4"></stop>
+                    <stop offset="100%" stop-color="#00F2FE" stop-opacity="0"></stop>
                   </radialGradient>
                   <!-- 表面張力オーラ膜（マントル）グラデーション -->
                   <linearGradient id="lavaMembraneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#FF007F"></stop>
-                    <stop offset="50%" stop-color="#E100FF"></stop>
-                    <stop offset="100%" stop-color="#00F2FE"></stop>
+                    <stop offset="0%" stop-color="#FF007F" stop-opacity="0.65"></stop>
+                    <stop offset="50%" stop-color="#FF2A8D" stop-opacity="0.45"></stop>
+                    <stop offset="100%" stop-color="#00F2FE" stop-opacity="0.55"></stop>
                   </linearGradient>
                   <!-- 内部発光核（ニュークリアス）グラデーション -->
                   <radialGradient id="lavaNucleusGrad" cx="50%" cy="50%" r="50%">
