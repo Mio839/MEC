@@ -52,7 +52,17 @@ THEMES.forEach(t => {
   assert(html.includes(`html.ui-${t} .sec-h::before`), `${t}: .sec-h::before スタイルが定義されていること`);
   assert(html.includes(`html.ui-${t} .sec-h .ln`), `${t}: .sec-h .ln スタイルが定義されていること`);
 
-  console.log(`  ok  - ${t}: 全要素のテーマ差別化スタイルが完備`);
+  // 今日解いた問題の特大数字＆演出（可読性保証＆全8テーマ差別化）
+  assert(html.includes(`html.ui-${t} .hero-fig`), `${t}: .hero-fig 装飾プレートスタイルが定義されていること`);
+  assert(html.includes(`html.ui-${t} .hero-num`), `${t}: .hero-num 高可読性タイポグラフィが定義されていること`);
+  assert(html.includes(`html.ui-${t} .hero-unit`), `${t}: .hero-unit テーマカラー連携が定義されていること`);
+  assert(html.includes(`html.ui-${t} .hero-num[data-goal="1"]`), `${t}: .hero-num[data-goal="1"] テーマ別オーラが定義されていること`);
+  assert(html.includes(`html.ui-${t} .hero-num[data-goal="2"]`), `${t}: .hero-num[data-goal="2"] テーマ別オーバードライブが定義されていること`);
+
+  // カウントアップ着地時演出の設定
+  assert(html.includes(`${t}: {`), `${t}: THEME_LANDING_CONFIG に着地演出設定が存在すること`);
+
+  console.log(`  ok  - ${t}: 全要素のテーマ差別化スタイル（数字・プレート・目標オーラ含む）が完備`);
 });
 
 // 2. ボタン演出の不変条件
@@ -83,11 +93,15 @@ assert(prmBlocks.includes('.sonar-dot'), 'reduced-motion で .sonar-dot が停�
 assert(prmBlocks.includes('.tiles .tile:nth-child(odd)'), 'reduced-motion でタイルの浮遊が停止');
 assert(prmBlocks.includes('.sec-h::before'), 'reduced-motion で見出しビームが停止');
 assert(prmBlocks.includes('.sec-h .ln::after'), 'reduced-motion で見出し走査線が非表示');
-console.log('  ok  - prefers-reduced-motion で新規演出が安全に停止・抑制');
+THEMES.forEach(t => {
+  assert(prmBlocks.includes(`html.ui-${t} .hero-num[data-goal="1"]`), `reduced-motion で ${t} の data-goal="1" が停止`);
+  assert(prmBlocks.includes(`html.ui-${t} .hero-num[data-goal="2"]`), `reduced-motion で ${t} の data-goal="2" が停止`);
+});
+console.log('  ok  - prefers-reduced-motion で全8テーマの数字目標パルス含む新規演出が安全に停止・抑制');
 
 // 4. Service Worker SHELL_VERSION の整合性
 const shellVerMatch = swJs.match(/const SHELL_VERSION = "([^"]+)";/);
-assert.ok(shellVerMatch[1] >= '2026-09-05l', 'SHELL_VERSION が 2026-09-05l 以上に更新されていること');
+assert.ok(shellVerMatch[1] >= '2026-09-06g', 'SHELL_VERSION が 2026-09-06g 以上に更新されていること');
 console.log(`  ok  - sw.js: SHELL_VERSION = ${shellVerMatch[1]}`);
 
-console.log('\nALL PASS (全8テーマ各19項目 + 不変条件 + reduced-motion + SW整合性)\n');
+console.log('\nALL PASS (全8テーマ各25項目 + 不変条件 + reduced-motion + SW整合性)\n');

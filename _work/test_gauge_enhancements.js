@@ -134,14 +134,15 @@ t('Abyss: 超深海探査ポータル（耐圧舷窓・12ボルト・生体発�
   assert.ok(HTML.includes('aBioHead.style.transform'), '_driveThemeGauge 内の生体発光オーブ制御が無い');
 });
 
-t('Frost: 六角フロスト・インフィル、六花スノークリスタル（段階的フラクタル成長）、氷晶アイスコメット周回軌道が存在し、外周線画は撤廃されている', () => {
+t('Frost: 六角フロスト・インフィル、六花スノークリスタル（段階的フラクタル成長）、静寂のダイヤモンドダストが存在し、外周線画とコメットは撤廃されている', () => {
   assert.ok(HTML.includes('frost-hex-rim'), 'frost-hex-rim が無い');
   assert.ok(HTML.includes('frost-hex-inner'), 'frost-hex-inner が無い');
   assert.ok(HTML.includes('frost-snowflake-dendrite'), 'frost-snowflake-dendrite が無い');
   assert.ok(HTML.includes('frost-dendrite-tier'), 'frost-dendrite-tier が無い');
   assert.ok(HTML.includes('id="frostInfillFill"'), 'frostInfillFill が無い');
   assert.ok(HTML.includes('id="frostInfillClip"'), 'frostInfillClip が無い');
-  assert.ok(HTML.includes('id="frostCometOrbit"'), 'frostCometOrbit が無い');
+  assert.ok(HTML.includes('id="frostDiamondDust"'), 'frostDiamondDust が無い');
+  assert.ok(!HTML.includes('id="frostCometOrbit"'), 'frostCometOrbit（コメット）が残存している');
   assert.ok(!HTML.includes('id="frostFreezeProg"'), 'frostFreezeProg（外周線画）が残存している');
   assert.ok(!HTML.includes('class="frost-axes-lines"'), '旧来のターゲット照準軸線 frost-axes-lines が残存している');
   assert.ok(!HTML.includes('class="frost-shard'), '旧来のターゲット照準マーカー frost-shard が残存している');
