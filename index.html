@@ -173,7 +173,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   box-shadow:0 1px 4px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.08);
   transition:border-color .3s,box-shadow .3s;}
 .hero-date:hover{border-color:var(--hair-3);box-shadow:0 0 8px rgba(var(--glass-rgb),.2);}
-.hero-stat-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;max-width:100%;margin-top:var(--sp-3);}
+.hero-stat-row{display:flex;align-items:center;gap:clamp(10px,2.2vw,16px);flex-wrap:wrap;max-width:100%;margin-top:var(--sp-3);}
 .hero-stat-row .hero-fig{margin-top:0;}
 .hero-fig{display:inline-flex;align-items:baseline;gap:.16em;min-width:0;width:fit-content;max-width:100%;margin-top:var(--sp-3);
   font-family:var(--font-display);position:relative;transition:background .3s,border-color .3s,box-shadow .3s;}
@@ -194,12 +194,12 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
   filter:drop-shadow(0 2px 4px rgba(0,0,0,.8));transition:color .35s,filter .35s;}
 /* 🎯 本日の正解率バッジ。今日解いた問題数と完全に同一サイズ・同一マテリアルの特大プレート */
 .hero-acc-fig{cursor:default;}
-/* 今日のXP。クリスタルプレート調の立体バッジ */
-.hero-xp{display:inline-flex;align-items:baseline;gap:3px;margin-top:var(--sp-3);
+/* 今日のXP。クリスタルプレート調の立体バッジ（正解率バッジの右側に収容） */
+.hero-xp{display:inline-flex;align-items:baseline;gap:3px;margin-top:0;align-self:center;flex-shrink:0;
   padding:5px 12px;border-radius:var(--r-sm);
   background:linear-gradient(135deg,rgba(var(--or-rgb,255,154,60),.18),rgba(var(--or-rgb,255,154,60),.06));
   border:1px solid var(--or);
-  font-family:var(--font-display);font-size:clamp(15px,4.6vw,19px);font-weight:800;
+  font-family:var(--font-display);font-size:clamp(14px,3.8vw,18px);font-weight:800;
   color:var(--or);font-variant-numeric:tabular-nums;letter-spacing:-.01em;
   box-shadow:0 2px 10px rgba(0,0,0,.3),inset 0 1px 1px rgba(255,255,255,.3),0 0 12px var(--orl);
   position:relative;overflow:hidden;}
@@ -207,8 +207,8 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
   background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);
   animation:sheen 6s var(--ease-in-out) 1.5s infinite;}
 .hero-xp em{font-style:normal;font-size:.62em;font-weight:800;letter-spacing:.06em;}
-/* 内訳。アクセントの帯の下にインジケータ付きで配置 */
-.hero-xp-n{margin-top:6px;font-size:11.5px;font-weight:700;color:var(--ts);
+/* 内訳。計器行の下に配置 */
+.hero-xp-n{margin-top:8px;font-size:11.5px;font-weight:700;color:var(--ts);
   font-variant-numeric:tabular-nums;}
 .hero-xp-n:empty{display:none;}
 
@@ -3549,8 +3549,8 @@ html.ui-frost .srs-card-today b{color:#70D6FF;text-shadow:0 0 8px rgba(112,214,2
           <p class="hero-fig hero-acc-fig" id="heroAccBadge" title="本日の試験・復習問題の正解率">
             <span class="hero-num" id="heroAccVal">--</span><span class="hero-unit">%</span>
           </p>
+          <p class="hero-xp"><span id="heroXp">+0</span><em>XP</em></p>
         </div>
-        <p class="hero-xp"><span id="heroXp">+0</span><em>XP</em></p>
         <p class="hero-xp-n" id="heroXpNote"></p>
         <!-- レベルの進み。gamify.js の #gamifyPanel から移設した（あちらでは出さない）。
              数字は MecGamify.stats() ＝既存の同期データからの決定論算出 -->
