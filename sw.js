@@ -1,3 +1,5 @@
+// 2026-09-06k: 1日の目標解答数を40問から100問へ引き上げ——gamify.jsの日次ミッションans（100問 解答する・target:100・xp:100）、index.htmlのデイリー目標フォールバック、スパークライン目標ライン、週間達成クラウンビーズ判定を全連動。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-06j → 2026-09-06k）。
 // 2026-09-06j: ハブ画面のHeroゲージ下部スリム化＆情報重複整理——二重表示となっていたサブ針メーター（正答率＆ペース）および全体進捗率（.gauge-all）を完全撤廃。ゲージ下を「今日の目標（達成時: 🎉 目標達成）」および「○ / ○問」のシンプルかつ視認性の高い構成に統合。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-06h → 2026-09-06j）。
 // 2026-09-06i: Frost（絶対零度・フロスト氷晶）のHeroゲージ演出改善——外周枠線の線画走行（frost-hyper-rimの線画dash）および外周を周回する玉（frostCometOrbit）を完全撤廃。ソリッドな氷晶フレーム呼吸脈動（frostHyperBreath）、静寂のダイヤモンドダスト（微小氷晶スパークルfrostDiamondDust）、画面下から上への自然な氷結インフィルせり上がり（SVG回転補正）へ刷新。
@@ -1256,7 +1258,7 @@ const CACHE = "mec-v372";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-06j";
+const SHELL_VERSION = "2026-09-06k";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
