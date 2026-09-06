@@ -305,10 +305,11 @@ t('科目全体の試験（chPrefixなし）では chexam80 は増えない', ()
 // ── 達成とボーナスXP ──────────────────────────────────────────────────────
 console.log('達成とボーナスXP');
 
-// 日次 core（40問解答 / 試験セッション1本 / 試験で20問正解）を満たすところまで回す
+// 日次 core（100問解答 / 試験セッション1本 / 試験で20問正解）を満たすところまで回す
 function driveDailyCore(g) {
-  for (let i = 0; i < 40; i++) g.onAnswer('a_ch01_q' + i, true);
-  g.onExamFinish(40, 40, {});
+  for (let i = 0; i < 80; i++) g.onAnswer('a_ch01_q' + i, false);
+  for (let i = 80; i < 100; i++) g.onAnswer('a_ch01_q' + i, true);
+  g.onExamFinish(100, 20, {});
 }
 
 t('bonus未達でも core が揃えば日次のコンプリートXPが入る', () => {

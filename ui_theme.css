@@ -7294,14 +7294,7 @@ html.ui-frost .gauge-aura {
   background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, rgba(112, 214, 255, 0.35) 50%, rgba(0, 0, 0, 0) 74%) !important;
 }
 
-/* ── 🧭 サブ針メーターのテーマ別カラー ── */
-html.ui-aurora .submeter-needle { background: #00DFD8 !important; box-shadow: 0 0 6px #00DFD8 !important; }
-html.ui-brass .submeter-needle { background: #E0C25E !important; box-shadow: 0 0 6px #E0C25E !important; }
-html.ui-cyber .submeter-needle { background: #00E5FF !important; box-shadow: 0 0 6px #00E5FF !important; }
-html.ui-liquid .submeter-needle { background: #FF007F !important; box-shadow: 0 0 6px #FF007F !important; }
-html.ui-kintsugi .submeter-needle { background: #F5D061 !important; box-shadow: 0 0 6px #F5D061 !important; }
-html.ui-celestial .submeter-needle { background: #FFD166 !important; box-shadow: 0 0 6px #FFD166 !important; }
-html.ui-abyss .submeter-needle { background: #00FFA3 !important; box-shadow: 0 0 6px #00FFA3 !important; }
+
 /* ── 🌌 各テーマ超個性化レイヤー（Cyberマトリックス、Celestial月齢、Liquid気泡、Abyss深度、Frostクラスト） ── */
 .cyber-data-matrix, .cel-moon-phase, .liquid-bubble-layer { display: none !important; }
 
@@ -7392,7 +7385,6 @@ html.ui-frost .ascension-card { border-color: #70D6FF !important; box-shadow: 0 
 .gauge .gauge-val,
 .gauge .gauge-megaring,
 .gauge .gauge-aura,
-.gauge .submeter-needle,
 .gauge .crown-bead,
 .gauge .heatsink-vent,
 .gauge .plasma-arc,

@@ -799,7 +799,7 @@
     const quest = DAILY_QUEST_POOL[seed % DAILY_QUEST_POOL.length];
     const weak = _weakestSubject();
     return [
-      { id: 'ans',        tier: 'core',  xp: 40, icon: '📝', label: '40問 解答する',           target: 40, counter: 'ans' },
+      { id: 'ans',        tier: 'core',  xp: 100, icon: '📝', label: '100問 解答する',          target: 100, counter: 'ans' },
       { id: 'exam',       tier: 'core',  xp: 40, icon: '🎓', label: '試験セッション1本(10問+)', target: 1,  counter: 'exam' },
       { id: 'cor',        tier: 'core',  xp: 60, icon: '✅', label: '試験で20問 正解',          target: 20, counter: 'cor' },
       { id: 'srs',        tier: 'bonus', xp: 60, icon: '🔁', label: 'SRS復習を20問 こなす',     target: 20, counter: 'srs' },
@@ -972,7 +972,7 @@
   }
 
   // 「今日やるべき問題数のうち何問済んだか」の唯一の正本。ハブ(index.html)のゲージが読む。
-  // 目標も進捗も日次ミッション ans（40問 解答する）から借りる＝ゲージのすぐ下に並ぶ
+  // 目標も進捗も日次ミッション ans（100問 解答する）から借りる＝ゲージのすぐ下に並ぶ
   // ミッション行と必ず同じ数字になる。ここで独自の目標値を持つと二重管理になる。
   // ⚠️ pct は 100 で頭打ちにしない（目標を超えた日はそのまま 130% 等を返す）。
   function dailyGoal() {

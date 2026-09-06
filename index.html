@@ -272,32 +272,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 /* 3桁（100%以上）は素の字送りだと円からはみ出すので一段落とす */
 .gauge-mid.wide{font-size:clamp(21px,6vw,30px);}
 .gauge-mid em{font-style:normal;font-size:.5em;color:var(--ts);margin-left:1px;}
-.gauge-cap{margin-top:var(--sp-2);font-size:10.5px;font-weight:700;letter-spacing:.14em;
-  color:var(--ts);white-space:nowrap;}
-.gauge-goal{margin-top:3px;font-size:11.5px;font-weight:700;color:var(--ts);
+.gauge-cap{margin-top:var(--sp-2);font-size:11px;font-weight:700;letter-spacing:.12em;
+  color:var(--ts);white-space:nowrap;transition:color var(--dur-med) var(--ease-out);}
+.gauge-cap.is-done{color:var(--or, #F5D061);font-weight:800;}
+.gauge-goal{margin-top:2px;font-size:12px;font-weight:700;color:var(--ts);
   font-variant-numeric:tabular-nums;white-space:nowrap;}
-.gauge-goal b{color:var(--tx);font-size:13px;}
-/* 旧「全体進捗」。主役を今日の目標へ譲ったので、脚の細い一行として残す */
-.gauge-all{margin-top:2px;font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--ts);
-  font-variant-numeric:tabular-nums;white-space:nowrap;opacity:.72;}
-
-/* ── サブ針メーター（正解率 ＆ 解答ペース）── */
-.gauge-submeters{display:flex;align-items:center;justify-content:center;gap:var(--sp-2);
-  margin-top:var(--sp-2);padding-top:4px;border-top:1px solid rgba(var(--glass-rgb),.08);}
-.submeter{display:flex;flex-direction:column;align-items:center;min-width:54px;}
-.submeter-div{width:1px;height:20px;background:rgba(var(--glass-rgb),.12);}
-.submeter-dial{width:32px;height:16px;position:relative;overflow:hidden;}
-.submeter-arc{position:absolute;inset:0;border:2px solid rgba(var(--glass-rgb),.2);
-  border-bottom:0;border-radius:16px 16px 0 0;box-sizing:border-box;}
-.submeter-needle{position:absolute;bottom:0;left:50%;width:2px;height:14px;
-  background:var(--or);transform-origin:bottom center;margin-left:-1px;
-  border-radius:1px 1px 0 0;box-shadow:0 0 4px var(--or);
-  transition:transform 1.1s var(--ease-out);}
-.submeter-pivot{position:absolute;bottom:0;left:50%;width:4px;height:2px;
-  background:var(--tx);margin-left:-2px;border-radius:2px 2px 0 0;}
-.submeter-lbl{font-size:9.5px;font-weight:700;color:var(--ts);letter-spacing:.04em;
-  margin-top:2px;font-variant-numeric:tabular-nums;white-space:nowrap;}
-.submeter-lbl b{color:var(--tx);font-size:10px;}
+.gauge-goal b{color:var(--tx);font-size:14px;font-weight:800;}
 
 /* 狭い画面ではゲージを数字の下へ落とす。横に並べたままだと巨大な数字の幅が足りない。
    ⚠️ 閾値は 440px → 560px（2026-08-13）。盤面を 152px→208px に広げたぶん、
@@ -2449,33 +2429,50 @@ html.ui-frost .theme-gauge-frost { display: inline; }
 /* ── 1. 🌟 Aurora: プリズム極光スペクトル＆クリスタル ── */
 html.ui-aurora .hero-console{border-left:2px solid rgba(0,223,216,.4);padding-left:14px;}
 html.ui-aurora .hero-fig{
-  padding:2px 14px 4px 10px;border-radius:12px;
-  background:linear-gradient(135deg,rgba(0,223,216,.08) 0%,rgba(121,40,202,.06) 50%,rgba(255,0,128,.08) 100%);
-  border:1px solid rgba(0,223,216,.28);
-  box-shadow:0 4px 16px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.25);
-  backdrop-filter:blur(6px);
+  padding:4px 18px 6px 14px;border-radius:16px;
+  background:linear-gradient(135deg,rgba(0,223,216,.12) 0%,rgba(121,40,202,.09) 50%,rgba(255,0,128,.12) 100%);
+  border:1.5px solid rgba(0,223,216,.38);
+  box-shadow:0 6px 24px rgba(0,0,0,.35),0 0 16px rgba(0,223,216,.2),inset 0 1.5px 1px rgba(255,255,255,.5),inset 0 0 20px rgba(0,223,216,.1);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  position:relative;overflow:hidden;
 }
+html.ui-aurora .hero-fig::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.22) 50%,transparent 70%);
+  background-size:200% 100%;animation:auroraGlassSweep 6s ease-in-out infinite;
+}
+@keyframes auroraGlassSweep{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
 html.ui-aurora .hero-num{
-  background:linear-gradient(135deg,#FFFFFF 0%,#E0FCFF 35%,#00DFD8 70%,#FF5EA8 100%);
+  background:linear-gradient(135deg,#FFFFFF 0%,#E0FCFF 20%,#00DFD8 45%,#BD34FE 75%,#FF0080 100%);
+  background-size:200% 200%;animation:auroraNumFlow 6s ease-in-out infinite alternate;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 2px 4px rgba(0,0,0,.9)) drop-shadow(0 0 10px rgba(0,223,216,.45));
+  filter:drop-shadow(0 0 12px rgba(0,223,216,.65)) drop-shadow(0 0 24px rgba(189,52,254,.35));
+  font-weight:800;letter-spacing:-0.02em;
 }
-html.ui-aurora .hero-unit{color:#00DFD8;filter:drop-shadow(0 0 6px rgba(0,223,216,.6));}
+@keyframes auroraNumFlow{0%{background-position:0% 50%;}100%{background-position:100% 50%;}}
+html.ui-aurora .hero-num .dg{
+  background:inherit;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+html.ui-aurora .hero-unit{
+  color:#00DFD8;font-weight:800;
+  text-shadow:0 0 10px rgba(0,223,216,.8),0 0 20px rgba(255,0,128,.5);
+  filter:drop-shadow(0 0 6px rgba(0,223,216,.6));
+}
 html.ui-aurora .hero-num[data-goal="1"]{
-  filter:drop-shadow(0 2px 4px rgba(0,0,0,.9)) drop-shadow(0 0 14px rgba(0,223,216,.75)) drop-shadow(0 0 24px rgba(255,0,128,.4));
-  animation:auroraGoalPulse 2.4s var(--ease-in-out) infinite alternate;
+  filter:drop-shadow(0 0 16px rgba(0,223,216,.9)) drop-shadow(0 0 28px rgba(255,0,128,.6));
+  animation:auroraNumFlow 6s ease-in-out infinite alternate, auroraGoalPulse 2.4s var(--ease-in-out) infinite alternate;
 }
 html.ui-aurora .hero-num[data-goal="2"]{
-  filter:drop-shadow(0 2px 4px rgba(0,0,0,.95)) drop-shadow(0 0 20px #00DFD8) drop-shadow(0 0 36px #FF0080);
-  animation:auroraOverdrivePulse 1.5s var(--ease-in-out) infinite alternate;
+  filter:drop-shadow(0 0 24px #00DFD8) drop-shadow(0 0 42px #FF0080) drop-shadow(0 0 60px rgba(189,52,254,.6));
+  animation:auroraNumFlow 4s ease-in-out infinite alternate, auroraOverdrivePulse 1.5s var(--ease-in-out) infinite alternate;
 }
 @keyframes auroraGoalPulse{
-  0%{filter:drop-shadow(0 2px 4px rgba(0,0,0,.9)) drop-shadow(0 0 12px rgba(0,223,216,.6)) drop-shadow(0 0 20px rgba(255,0,128,.3));}
-  100%{filter:drop-shadow(0 2px 4px rgba(0,0,0,.9)) drop-shadow(0 0 18px rgba(0,223,216,.9)) drop-shadow(0 0 30px rgba(255,0,128,.6));}
+  0%{filter:drop-shadow(0 0 12px rgba(0,223,216,.7)) drop-shadow(0 0 20px rgba(255,0,128,.4));}
+  100%{filter:drop-shadow(0 0 20px rgba(0,223,216,1)) drop-shadow(0 0 32px rgba(255,0,128,.75));}
 }
 @keyframes auroraOverdrivePulse{
-  0%{filter:drop-shadow(0 2px 4px rgba(0,0,0,.95)) drop-shadow(0 0 18px #00DFD8) drop-shadow(0 0 30px #FF0080);}
-  100%{filter:drop-shadow(0 2px 4px rgba(0,0,0,.95)) drop-shadow(0 0 26px #00DFD8) drop-shadow(0 0 46px #FF0080) drop-shadow(0 0 60px rgba(121,40,202,.5));}
+  0%{filter:drop-shadow(0 0 18px #00DFD8) drop-shadow(0 0 32px #FF0080);}
+  100%{filter:drop-shadow(0 0 30px #00DFD8) drop-shadow(0 0 52px #FF0080) drop-shadow(0 0 70px rgba(189,52,254,.7));}
 }
 html.ui-aurora .strip-c{
   background:linear-gradient(145deg,rgba(0,223,216,.08),rgba(121,40,202,.06));
@@ -2511,33 +2508,59 @@ html.ui-aurora .sec-h .ln{background:linear-gradient(90deg,#00DFD8 0%,#7928CA 40
 /* ── 2. 🕰️ Brass: 真鍮アンティーク彫刻＆スチームボイラー ── */
 html.ui-brass .hero-console{border-left:2px solid var(--brass);padding-left:14px;}
 html.ui-brass .hero-fig{
-  padding:2px 14px 4px 12px;border-radius:4px;
-  background:linear-gradient(180deg,rgba(36,26,14,.92) 0%,rgba(18,13,6,.96) 100%);
-  border:1.5px solid #C9A227;
-  box-shadow:0 4px 14px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,243,176,.35),inset 0 -1px 0 #5A4310;
+  padding:4px 16px 6px 14px;border-radius:6px;
+  background:linear-gradient(180deg,#241B0E 0%,#181207 40%,#100C04 100%);
+  border:2px solid #C9A227;
+  box-shadow:0 6px 20px rgba(0,0,0,.85),0 0 12px rgba(201,162,39,.3),inset 0 3px 6px rgba(0,0,0,.9),inset 0 -2px 4px rgba(255,243,176,.2),inset 0 0 16px rgba(0,0,0,.9);
+  position:relative;
+}
+/* 機械式ドラムカウンターのビス＆リベット留め */
+html.ui-brass .hero-fig::before{
+  content:'';position:absolute;top:3px;left:4px;width:5px;height:5px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#FFF3B0 0%,#C9A227 60%,#4A330A 100%);
+  box-shadow:calc(100% + 22px) 0 0 0 #C9A227, 0 calc(100% + 24px) 0 0 #C9A227;pointer-events:none;
+}
+html.ui-brass .hero-fig::after{
+  content:'';position:absolute;top:3px;right:4px;width:5px;height:5px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#FFF3B0 0%,#C9A227 60%,#4A330A 100%);
+  pointer-events:none;
 }
 html.ui-brass .hero-num{
-  color:#FFF3B0;
-  text-shadow:0 1px 0 #FFFFFF,0 -1px 0 #78350F,0 3px 0 #5A320A,0 4px 6px rgba(0,0,0,.95),0 0 10px rgba(224,194,94,.5);
+  font-family:"Georgia","Times New Roman",serif;font-weight:700;
+  background:linear-gradient(180deg,#FFF8E1 0%,#FFE082 30%,#E0C25E 60%,#8D6E1C 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 2px 0 #3D2B0F) drop-shadow(0 0 10px rgba(224,194,94,.65));
+  letter-spacing:0.02em;
 }
-html.ui-brass .hero-unit{color:#E0C25E;filter:drop-shadow(0 0 6px rgba(201,162,39,.6));}
+html.ui-brass .hero-num .dg{
+  background:inherit;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  padding:0 2px;position:relative;
+}
+html.ui-brass .hero-unit{
+  color:#E0C25E;font-family:"Georgia",serif;font-weight:700;
+  border:1px solid #C9A227;background:rgba(201,162,39,.12);
+  padding:1px 6px;border-radius:3px;margin-left:4px;
+  filter:drop-shadow(0 0 6px rgba(201,162,39,.6));
+}
 html.ui-brass .hero-num[data-goal="1"]{
-  color:#FFEDB3;
-  text-shadow:0 1px 0 #FFFFFF,0 -1px 0 #8C4400,0 3px 0 #603000,0 4px 6px rgba(0,0,0,.95),0 0 16px #E0C25E,0 0 28px rgba(201,162,39,.6);
+  background:linear-gradient(180deg,#FFFFFF 0%,#FFF3B0 30%,#FFD700 65%,#A67C00 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 2px 0 #5A3500) drop-shadow(0 0 16px #E0C25E) drop-shadow(0 0 28px rgba(201,162,39,.7));
   animation:brassGoalPulse 2.4s var(--ease-in-out) infinite alternate;
 }
 html.ui-brass .hero-num[data-goal="2"]{
-  color:#FFF8DC;
-  text-shadow:0 1px 0 #FFFFFF,0 -1px 0 #A0522D,0 3px 0 #78350F,0 4px 8px rgba(0,0,0,.98),0 0 22px #FFD700,0 0 40px rgba(255,160,64,.7);
+  background:linear-gradient(180deg,#FFFFFF 0%,#FFF8DC 25%,#FFD700 55%,#FF8C00 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 2px 0 #662E00) drop-shadow(0 0 22px #FFD700) drop-shadow(0 0 42px rgba(255,160,64,.8));
   animation:brassOverdrivePulse 1.5s var(--ease-in-out) infinite alternate;
 }
 @keyframes brassGoalPulse{
-  0%{filter:drop-shadow(0 0 4px rgba(224,194,94,.4));}
-  100%{filter:drop-shadow(0 0 14px rgba(224,194,94,.85));}
+  0%{filter:drop-shadow(0 2px 0 #5A3500) drop-shadow(0 0 10px rgba(224,194,94,.5));}
+  100%{filter:drop-shadow(0 2px 0 #5A3500) drop-shadow(0 0 20px rgba(224,194,94,1)) drop-shadow(0 0 30px rgba(201,162,39,.6));}
 }
 @keyframes brassOverdrivePulse{
-  0%{filter:drop-shadow(0 0 8px #FFD700);}
-  100%{filter:drop-shadow(0 0 20px #FFD700) drop-shadow(0 0 35px #FF8C00);}
+  0%{filter:drop-shadow(0 2px 0 #662E00) drop-shadow(0 0 14px #FFD700);}
+  100%{filter:drop-shadow(0 2px 0 #662E00) drop-shadow(0 0 28px #FFD700) drop-shadow(0 0 48px #FF8C00);}
 }
 html.ui-brass .strip-c{
   background:linear-gradient(145deg,rgba(201,162,39,.10),rgba(184,115,51,.05));
@@ -2573,39 +2596,54 @@ html.ui-brass .sec-h .ln{background:linear-gradient(90deg,var(--brass-hi) 0%,var
 /* ── 3. 🚀 Cyber: 角型戦術HUDモニター＆ネオン走査線 ── */
 html.ui-cyber .hero-console{border-left:2px solid #00E5FF;padding-left:14px;}
 html.ui-cyber .hero-fig{
-  padding:2px 14px 4px 12px;border-radius:2px;
-  background:rgba(4,18,28,.88);border:1px solid rgba(0,229,255,.45);
-  box-shadow:0 0 14px rgba(0,229,255,.2),inset 0 0 10px rgba(0,255,157,.1);
+  padding:4px 18px 6px 14px;border-radius:3px;
+  background:linear-gradient(180deg,rgba(4,24,38,.88) 0%,rgba(2,14,24,.95) 100%);
+  border:1.5px solid rgba(0,229,255,.5);
+  box-shadow:0 0 18px rgba(0,229,255,.3),inset 0 0 14px rgba(0,255,157,.15);
+  position:relative;
+  background-image:repeating-linear-gradient(0deg,rgba(0,229,255,.05) 0px,transparent 2px,transparent 4px);
 }
+/* HUDコーナースコープブラケット */
 html.ui-cyber .hero-fig::after{
-  content:'';position:absolute;top:-1px;right:-1px;width:8px;height:8px;
-  border-top:2px solid #00FF9D;border-right:2px solid #00FF9D;pointer-events:none;
+  content:'';position:absolute;top:-2px;right:-2px;width:10px;height:10px;
+  border-top:2.5px solid #00FF9D;border-right:2.5px solid #00FF9D;pointer-events:none;
 }
 html.ui-cyber .hero-fig::before{
-  content:'';position:absolute;bottom:-1px;left:-1px;width:8px;height:8px;
-  border-bottom:2px solid #00E5FF;border-left:2px solid #00E5FF;pointer-events:none;
+  content:'';position:absolute;bottom:-2px;left:-2px;width:10px;height:10px;
+  border-bottom:2.5px solid #00E5FF;border-left:2.5px solid #00E5FF;pointer-events:none;
 }
 html.ui-cyber .hero-num{
-  color:#E6FFF5;
-  text-shadow:0 0 2px #000,0 2px 5px rgba(0,0,0,.95),0 0 8px #00FF9D,0 0 16px rgba(0,229,255,.65);
-  letter-spacing:-0.01em;
+  font-family:'Consolas','Monaco','Courier New',monospace;font-weight:700;
+  background:linear-gradient(180deg,#FFFFFF 0%,#E6FFF5 25%,#00FF9D 65%,#00E5FF 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 8px #00FF9D) drop-shadow(0 0 18px rgba(0,229,255,.8));
+  letter-spacing:0.04em;
 }
-html.ui-cyber .hero-unit{color:#00FF9D;filter:drop-shadow(0 0 6px #00FF9D);}
+html.ui-cyber .hero-num .dg{
+  background:inherit;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  padding:0 1px;
+}
+html.ui-cyber .hero-unit{
+  color:#00FF9D;font-family:monospace;font-weight:700;
+  border:1px solid rgba(0,255,157,.5);background:rgba(0,255,157,.1);
+  padding:1px 6px;border-radius:2px;margin-left:4px;
+  filter:drop-shadow(0 0 6px #00FF9D);letter-spacing:0.06em;
+}
 html.ui-cyber .hero-num[data-goal="1"]{
-  text-shadow:0 0 2px #000,0 2px 5px rgba(0,0,0,.95),0 0 12px #00FF9D,0 0 24px #00E5FF;
+  filter:drop-shadow(0 0 12px #00FF9D) drop-shadow(0 0 24px #00E5FF) drop-shadow(0 0 36px rgba(0,255,157,.6));
   animation:cyberGoalPulse 2.2s var(--ease-in-out) infinite alternate;
 }
 html.ui-cyber .hero-num[data-goal="2"]{
-  text-shadow:0 0 2px #000,0 2px 5px rgba(0,0,0,.98),0 0 16px #00FF9D,0 0 32px #00E5FF,0 0 50px rgba(0,255,157,.8);
+  filter:drop-shadow(0 0 16px #00FF9D) drop-shadow(0 0 32px #00E5FF) drop-shadow(0 0 54px rgba(0,255,157,.9));
   animation:cyberOverdrivePulse 1.4s var(--ease-in-out) infinite alternate;
 }
 @keyframes cyberGoalPulse{
-  0%{filter:drop-shadow(0 0 6px rgba(0,255,157,.4));}
-  100%{filter:drop-shadow(0 0 16px rgba(0,255,157,.85)) drop-shadow(0 0 24px rgba(0,229,255,.6));}
+  0%{filter:drop-shadow(0 0 8px rgba(0,255,157,.6)) drop-shadow(0 0 16px rgba(0,229,255,.4));}
+  100%{filter:drop-shadow(0 0 18px rgba(0,255,157,1)) drop-shadow(0 0 30px rgba(0,229,255,.8));}
 }
 @keyframes cyberOverdrivePulse{
-  0%{filter:drop-shadow(0 0 10px #00FF9D);}
-  100%{filter:drop-shadow(0 0 24px #00FF9D) drop-shadow(0 0 38px #00E5FF);}
+  0%{filter:drop-shadow(0 0 12px #00FF9D) drop-shadow(0 0 24px #00E5FF);}
+  100%{filter:drop-shadow(0 0 28px #00FF9D) drop-shadow(0 0 46px #00E5FF) drop-shadow(0 0 60px rgba(0,255,157,1));}
 }
 html.ui-cyber .strip-c{
   border-radius:2px;background:rgba(6,18,30,.75);
@@ -2645,32 +2683,49 @@ html.ui-cyber .sec-h .ln{background:linear-gradient(90deg,#00FF9D 0%,#00E5FF 40%
 /* ── 4. 🌸 Liquid: 蛍光Lavaランプ・グロス流体 ── */
 html.ui-liquid .hero-console{border-left:2px solid #FF007F;padding-left:14px;}
 html.ui-liquid .hero-fig{
-  padding:2px 16px 4px 14px;border-radius:20px;
-  background:linear-gradient(135deg,rgba(255,0,127,.12) 0%,rgba(0,242,254,.08) 100%);
-  border:1.5px solid rgba(255,0,127,.38);
-  box-shadow:0 4px 16px rgba(255,0,127,.18),inset 0 1px 1px rgba(255,255,255,.35);
+  padding:4px 20px 6px 16px;border-radius:26px;
+  background:linear-gradient(135deg,rgba(255,0,127,.18) 0%,rgba(121,40,202,.12) 50%,rgba(0,242,254,.14) 100%);
+  border:1.5px solid rgba(255,0,127,.45);
+  box-shadow:0 6px 24px rgba(255,0,127,.25),0 0 16px rgba(0,242,254,.2),inset 0 2px 2px rgba(255,255,255,.5),inset 0 -1px 2px rgba(0,0,0,.4);
+  position:relative;overflow:hidden;
+}
+/* カプセル内部のネオン流体光彩 */
+html.ui-liquid .hero-fig::after{
+  content:'';position:absolute;top:2px;left:10%;right:10%;height:35%;border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.35) 0%,transparent 100%);pointer-events:none;
 }
 html.ui-liquid .hero-num{
-  background:linear-gradient(135deg,#FFFFFF 0%,#FFE5F1 35%,#FF2A85 75%,#00F2FE 100%);
+  background:linear-gradient(135deg,#FFFFFF 0%,#FFE0EF 25%,#FF007F 65%,#00F2FE 100%);
+  background-size:200% 200%;animation:liquidInkFlow 5s ease-in-out infinite alternate;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 2px 4px rgba(0,0,0,.9)) drop-shadow(0 0 10px rgba(255,0,127,.5));
+  filter:drop-shadow(0 0 10px rgba(255,0,127,.7)) drop-shadow(0 0 22px rgba(0,242,254,.45));
+  font-weight:800;letter-spacing:-0.02em;
 }
-html.ui-liquid .hero-unit{color:#FF2A85;filter:drop-shadow(0 0 6px #FF007F);}
+@keyframes liquidInkFlow{0%{background-position:0% 50%;}100%{background-position:100% 50%;}}
+html.ui-liquid .hero-num .dg{
+  background:inherit;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+html.ui-liquid .hero-unit{
+  color:#FFF;background:linear-gradient(135deg,#FF007F,#FF52A0);
+  font-weight:800;padding:2px 8px;border-radius:12px;margin-left:4px;
+  box-shadow:0 2px 8px rgba(255,0,127,.4);
+  filter:drop-shadow(0 0 6px #FF007F);
+}
 html.ui-liquid .hero-num[data-goal="1"]{
-  filter:drop-shadow(0 2px 4px rgba(0,0,0,.9)) drop-shadow(0 0 14px rgba(255,0,127,.75)) drop-shadow(0 0 26px rgba(0,242,254,.45));
-  animation:liquidGoalPulse 2.4s var(--ease-in-out) infinite alternate;
+  filter:drop-shadow(0 0 16px rgba(255,0,127,.9)) drop-shadow(0 0 30px rgba(0,242,254,.65));
+  animation:liquidInkFlow 5s ease-in-out infinite alternate, liquidGoalPulse 2.4s var(--ease-in-out) infinite alternate;
 }
 html.ui-liquid .hero-num[data-goal="2"]{
-  filter:drop-shadow(0 2px 5px rgba(0,0,0,.95)) drop-shadow(0 0 20px #FF007F) drop-shadow(0 0 36px #00F2FE);
-  animation:liquidOverdrivePulse 1.5s var(--ease-in-out) infinite alternate;
+  filter:drop-shadow(0 0 22px #FF007F) drop-shadow(0 0 40px #00F2FE) drop-shadow(0 0 60px #FF52A0);
+  animation:liquidInkFlow 3.5s ease-in-out infinite alternate, liquidOverdrivePulse 1.5s var(--ease-in-out) infinite alternate;
 }
 @keyframes liquidGoalPulse{
-  0%{filter:drop-shadow(0 2px 4px rgba(0,0,0,.9)) drop-shadow(0 0 12px rgba(255,0,127,.55));}
-  100%{filter:drop-shadow(0 2px 4px rgba(0,0,0,.9)) drop-shadow(0 0 18px rgba(255,0,127,.9)) drop-shadow(0 0 30px rgba(0,242,254,.6));}
+  0%{filter:drop-shadow(0 0 10px rgba(255,0,127,.6)) drop-shadow(0 0 20px rgba(0,242,254,.4));}
+  100%{filter:drop-shadow(0 0 20px rgba(255,0,127,1)) drop-shadow(0 0 34px rgba(0,242,254,.8));}
 }
 @keyframes liquidOverdrivePulse{
-  0%{filter:drop-shadow(0 2px 5px rgba(0,0,0,.95)) drop-shadow(0 0 18px #FF007F) drop-shadow(0 0 30px #00F2FE);}
-  100%{filter:drop-shadow(0 2px 5px rgba(0,0,0,.95)) drop-shadow(0 0 28px #FF007F) drop-shadow(0 0 46px #00F2FE) drop-shadow(0 0 60px #FF52A0);}
+  0%{filter:drop-shadow(0 0 16px #FF007F) drop-shadow(0 0 28px #00F2FE);}
+  100%{filter:drop-shadow(0 0 30px #FF007F) drop-shadow(0 0 48px #00F2FE) drop-shadow(0 0 70px #FF52A0);}
 }
 html.ui-liquid .strip-c{
   border-radius:12px;background:linear-gradient(145deg,rgba(255,0,127,.09),rgba(0,242,254,.07));
@@ -2705,36 +2760,54 @@ html.ui-liquid .sec-h .ln{background:linear-gradient(90deg,#FF007F 0%,#00F2FE 40
 /* ── 5. 🌑 Kintsugi: 漆黒陶器＆純金箔蒔絵 ── */
 html.ui-kintsugi .hero-console{border-left:2px solid #F5D061;padding-left:14px;}
 html.ui-kintsugi .hero-fig{
-  padding:2px 14px 4px 12px;border-radius:4px;
-  background:rgba(16,12,8,.92);border:1px solid rgba(245,208,97,.4);
-  box-shadow:0 4px 18px rgba(0,0,0,.85),inset 0 0 12px rgba(245,208,97,.12);
+  padding:4px 18px 6px 14px;border-radius:4px;
+  background:#0D0A08;
+  border:1.5px solid #C9A227;
+  box-shadow:0 6px 24px rgba(0,0,0,.9),0 0 14px rgba(245,208,97,.25),inset 0 0 20px rgba(0,0,0,.95),inset 0 1px 0 rgba(245,208,97,.3);
+  position:relative;
 }
+/* 漆器に走る金継ぎの金の光脈クラック */
 html.ui-kintsugi .hero-fig::after{
-  content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;
-  background:linear-gradient(90deg,transparent,#F5D061,transparent);pointer-events:none;
+  content:'';position:absolute;bottom:0;left:8%;right:8%;height:1.5px;
+  background:linear-gradient(90deg,transparent,#D4AF37 20%,#FFF8DB 50%,#F5D061 80%,transparent);
+  box-shadow:0 0 8px #F5D061;pointer-events:none;
 }
 html.ui-kintsugi .hero-num{
-  color:#FFE699;
-  text-shadow:0 1px 0 #FFF9E6,0 2px 4px rgba(0,0,0,.95),0 0 10px rgba(245,208,97,.65),0 0 22px rgba(212,175,55,.4);
+  font-family:"Yu Mincho","Hiragino Mincho ProN","Songti SC",serif;font-weight:700;
+  background:linear-gradient(135deg,#FFF9E6 0%,#F5D061 35%,#D4AF37 70%,#AA820A 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 10px rgba(245,208,97,.75)) drop-shadow(0 0 22px rgba(212,175,55,.45));
+  letter-spacing:0.04em;
 }
-html.ui-kintsugi .hero-unit{color:#F5D061;filter:drop-shadow(0 0 6px rgba(245,208,97,.6));}
+html.ui-kintsugi .hero-num .dg{
+  background:inherit;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+html.ui-kintsugi .hero-unit{
+  color:#FFF;background:linear-gradient(135deg,#D9383A,#A61C1E);
+  font-family:"Yu Mincho",serif;font-weight:700;font-size:13px;
+  padding:2px 7px;border-radius:3px;margin-left:6px;
+  box-shadow:0 2px 6px rgba(217,56,58,.4),inset 0 1px 0 rgba(255,255,255,.3);
+  filter:drop-shadow(0 0 4px rgba(217,56,58,.5));
+}
 html.ui-kintsugi .hero-num[data-goal="1"]{
-  color:#FFF0C2;
-  text-shadow:0 1px 0 #FFF,0 2px 4px rgba(0,0,0,.98),0 0 16px #F5D061,0 0 30px rgba(212,175,55,.65);
+  background:linear-gradient(135deg,#FFFFFF 0%,#FFF0C2 30%,#F5D061 65%,#C9A227 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 16px #F5D061) drop-shadow(0 0 32px rgba(212,175,55,.7));
   animation:kintsugiGoalPulse 2.4s var(--ease-in-out) infinite alternate;
 }
 html.ui-kintsugi .hero-num[data-goal="2"]{
-  color:#FFFFEA;
-  text-shadow:0 1px 0 #FFF,0 2px 5px rgba(0,0,0,.98),0 0 22px #F5D061,0 0 42px #D4AF37,0 0 60px rgba(245,208,97,.5);
+  background:linear-gradient(135deg,#FFFFFF 0%,#FFFFEA 25%,#F5D061 60%,#FFB300 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 22px #F5D061) drop-shadow(0 0 44px #D4AF37) drop-shadow(0 0 65px rgba(245,208,97,.6));
   animation:kintsugiOverdrivePulse 1.5s var(--ease-in-out) infinite alternate;
 }
 @keyframes kintsugiGoalPulse{
-  0%{filter:drop-shadow(0 0 4px rgba(245,208,97,.4));}
-  100%{filter:drop-shadow(0 0 14px rgba(245,208,97,.85));}
+  0%{filter:drop-shadow(0 0 8px rgba(245,208,97,.5));}
+  100%{filter:drop-shadow(0 0 18px rgba(245,208,97,1)) drop-shadow(0 0 28px rgba(212,175,55,.75));}
 }
 @keyframes kintsugiOverdrivePulse{
-  0%{filter:drop-shadow(0 0 8px #F5D061);}
-  100%{filter:drop-shadow(0 0 22px #F5D061) drop-shadow(0 0 36px #D4AF37);}
+  0%{filter:drop-shadow(0 0 12px #F5D061) drop-shadow(0 0 24px #D4AF37);}
+  100%{filter:drop-shadow(0 0 26px #F5D061) drop-shadow(0 0 48px #D4AF37) drop-shadow(0 0 65px rgba(245,208,97,.8));}
 }
 html.ui-kintsugi .strip-c{
   background:rgba(18,14,10,.82);border:1px solid rgba(245,208,97,.35);
@@ -2769,32 +2842,48 @@ html.ui-kintsugi .sec-h .ln{background:linear-gradient(90deg,#F5D061 0%,#D4AF37 
 /* ── 6. 🌌 Celestial: 星座幾何学＆月齢星光 ── */
 html.ui-celestial .hero-console{border-left:2px solid #FFD166;padding-left:14px;}
 html.ui-celestial .hero-fig{
-  padding:2px 14px 4px 12px;border-radius:10px;
-  background:linear-gradient(135deg,rgba(24,10,46,.88) 0%,rgba(138,43,226,.14) 100%);
-  border:1px solid rgba(255,209,102,.4);
-  box-shadow:0 4px 16px rgba(138,43,226,.3),inset 0 0 12px rgba(255,209,102,.12);
+  padding:4px 18px 6px 14px;border-radius:12px;
+  background:linear-gradient(135deg,rgba(26,10,54,.92) 0%,rgba(138,43,226,.18) 50%,rgba(24,8,48,.95) 100%);
+  border:1.5px solid rgba(255,209,102,.5);
+  box-shadow:0 6px 24px rgba(0,0,0,.85),0 0 16px rgba(138,43,226,.4),inset 0 0 16px rgba(255,209,102,.15);
+  position:relative;
+}
+/* 天球儀・星図の幾何学サークル */
+html.ui-celestial .hero-fig::after{
+  content:'';position:absolute;top:2px;right:6px;width:16px;height:16px;border-radius:50%;
+  border:1px dashed rgba(255,209,102,.4);pointer-events:none;
 }
 html.ui-celestial .hero-num{
-  background:linear-gradient(135deg,#FFFFFF 0%,#FFF5D6 40%,#FFD166 75%,#D1B3FF 100%);
+  font-family:"Cinzel","Palatino","Georgia",serif;font-weight:700;
+  background:linear-gradient(135deg,#FFFFFF 0%,#FFF8E1 25%,#FFD166 60%,#C084FC 100%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 2px 5px rgba(0,0,0,.92)) drop-shadow(0 0 10px rgba(255,209,102,.55));
+  filter:drop-shadow(0 0 10px #FFD166) drop-shadow(0 0 22px rgba(138,43,226,.75)) drop-shadow(0 0 36px rgba(72,202,228,.4));
+  letter-spacing:0.04em;
 }
-html.ui-celestial .hero-unit{color:#FFD166;filter:drop-shadow(0 0 6px rgba(255,209,102,.7));}
+html.ui-celestial .hero-num .dg{
+  background:inherit;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+html.ui-celestial .hero-unit{
+  color:#FFD166;font-family:"Cinzel",serif;font-weight:700;
+  border:1px solid rgba(255,209,102,.5);background:rgba(255,209,102,.12);
+  padding:1px 7px;border-radius:4px;margin-left:5px;
+  filter:drop-shadow(0 0 8px rgba(255,209,102,.8));
+}
 html.ui-celestial .hero-num[data-goal="1"]{
-  filter:drop-shadow(0 2px 5px rgba(0,0,0,.95)) drop-shadow(0 0 14px rgba(255,209,102,.8)) drop-shadow(0 0 28px rgba(138,43,226,.5));
+  filter:drop-shadow(0 0 16px #FFD166) drop-shadow(0 0 30px rgba(138,43,226,.9)) drop-shadow(0 0 45px rgba(255,209,102,.6));
   animation:celestialGoalPulse 2.4s var(--ease-in-out) infinite alternate;
 }
 html.ui-celestial .hero-num[data-goal="2"]{
-  filter:drop-shadow(0 2px 5px rgba(0,0,0,.98)) drop-shadow(0 0 22px #FFD166) drop-shadow(0 0 38px #8A2BE2);
+  filter:drop-shadow(0 0 24px #FFD166) drop-shadow(0 0 46px #8A2BE2) drop-shadow(0 0 65px rgba(255,209,102,.8));
   animation:celestialOverdrivePulse 1.5s var(--ease-in-out) infinite alternate;
 }
 @keyframes celestialGoalPulse{
-  0%{filter:drop-shadow(0 2px 5px rgba(0,0,0,.95)) drop-shadow(0 0 12px rgba(255,209,102,.6));}
-  100%{filter:drop-shadow(0 2px 5px rgba(0,0,0,.95)) drop-shadow(0 0 20px rgba(255,209,102,.95)) drop-shadow(0 0 32px rgba(138,43,226,.7));}
+  0%{filter:drop-shadow(0 0 10px rgba(255,209,102,.7)) drop-shadow(0 0 20px rgba(138,43,226,.6));}
+  100%{filter:drop-shadow(0 0 22px rgba(255,209,102,1)) drop-shadow(0 0 36px rgba(138,43,226,1));}
 }
 @keyframes celestialOverdrivePulse{
-  0%{filter:drop-shadow(0 2px 5px rgba(0,0,0,.98)) drop-shadow(0 0 18px #FFD166) drop-shadow(0 0 32px #8A2BE2);}
-  100%{filter:drop-shadow(0 2px 5px rgba(0,0,0,.98)) drop-shadow(0 0 28px #FFD166) drop-shadow(0 0 48px #8A2BE2) drop-shadow(0 0 65px rgba(255,209,102,.6));}
+  0%{filter:drop-shadow(0 0 18px #FFD166) drop-shadow(0 0 32px #8A2BE2);}
+  100%{filter:drop-shadow(0 0 32px #FFD166) drop-shadow(0 0 54px #8A2BE2) drop-shadow(0 0 70px rgba(255,209,102,1));}
 }
 html.ui-celestial .strip-c{
   background:linear-gradient(145deg,rgba(26,11,46,.75),rgba(138,43,226,.08));
@@ -2829,30 +2918,49 @@ html.ui-celestial .sec-h .ln{background:linear-gradient(90deg,#FFD166 0%,#8A2BE2
 /* ── 7. 🌊 Abyss: 深海耐圧コンソール＆バイオエメラルド ── */
 html.ui-abyss .hero-console{border-left:2px solid #00FFA3;padding-left:14px;}
 html.ui-abyss .hero-fig{
-  padding:2px 14px 4px 12px;border-radius:8px;
-  background:rgba(2,14,28,.92);border:1.5px solid rgba(0,255,163,.45);
-  box-shadow:0 4px 16px rgba(0,0,0,.75),0 0 12px rgba(0,255,163,.18),inset 0 0 10px rgba(0,180,216,.15);
+  padding:4px 18px 6px 14px;border-radius:14px;
+  background:linear-gradient(180deg,rgba(2,18,34,.95) 0%,rgba(1,10,22,.98) 100%);
+  border:1.5px solid rgba(0,255,163,.5);
+  box-shadow:0 6px 24px rgba(0,0,0,.9),0 0 16px rgba(0,255,163,.25),inset 0 0 18px rgba(0,180,216,.2);
+  position:relative;overflow:hidden;
 }
+/* 潜航艇のバイオソナー光芒スリット */
+html.ui-abyss .hero-fig::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,#00FFA3 40%,#00B4D8 60%,transparent);
+  animation:abyssSonarWave 4s ease-in-out infinite;pointer-events:none;
+}
+@keyframes abyssSonarWave{0%{opacity:.3;transform:scaleX(.5);}50%{opacity:1;transform:scaleX(1);}100%{opacity:.3;transform:scaleX(.5);}}
 html.ui-abyss .hero-num{
-  color:#E2FFF5;
-  text-shadow:0 0 2px #000,0 2px 5px rgba(0,0,0,.95),0 0 8px #00FFA3,0 0 16px rgba(0,180,216,.65);
+  background:linear-gradient(180deg,#F0FFF9 0%,#E2FFF5 25%,#00FFA3 65%,#00B4D8 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 10px #00FFA3) drop-shadow(0 0 24px rgba(0,180,216,.8));
+  letter-spacing:-0.01em;font-weight:800;
 }
-html.ui-abyss .hero-unit{color:#00FFA3;filter:drop-shadow(0 0 6px #00FFA3);}
+html.ui-abyss .hero-num .dg{
+  background:inherit;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+html.ui-abyss .hero-unit{
+  color:#00FFA3;font-family:monospace;font-weight:700;letter-spacing:0.04em;
+  border:1px solid rgba(0,255,163,.5);background:rgba(0,255,163,.1);
+  padding:1px 6px;border-radius:4px;margin-left:4px;
+  filter:drop-shadow(0 0 6px #00FFA3);
+}
 html.ui-abyss .hero-num[data-goal="1"]{
-  text-shadow:0 0 2px #000,0 2px 5px rgba(0,0,0,.95),0 0 14px #00FFA3,0 0 26px rgba(0,180,216,.8);
+  filter:drop-shadow(0 0 16px #00FFA3) drop-shadow(0 0 30px rgba(0,180,216,.9)) drop-shadow(0 0 45px rgba(0,255,163,.6));
   animation:abyssGoalPulse 2.2s var(--ease-in-out) infinite alternate;
 }
 html.ui-abyss .hero-num[data-goal="2"]{
-  text-shadow:0 0 2px #000,0 2px 5px rgba(0,0,0,.98),0 0 20px #00FFA3,0 0 36px #00B4D8,0 0 54px rgba(0,255,163,.75);
+  filter:drop-shadow(0 0 22px #00FFA3) drop-shadow(0 0 42px #00B4D8) drop-shadow(0 0 65px rgba(0,255,163,.9));
   animation:abyssOverdrivePulse 1.4s var(--ease-in-out) infinite alternate;
 }
 @keyframes abyssGoalPulse{
-  0%{filter:drop-shadow(0 0 6px rgba(0,255,163,.4));}
-  100%{filter:drop-shadow(0 0 16px rgba(0,255,163,.85)) drop-shadow(0 0 26px rgba(0,180,216,.6));}
+  0%{filter:drop-shadow(0 0 8px rgba(0,255,163,.6)) drop-shadow(0 0 18px rgba(0,180,216,.5));}
+  100%{filter:drop-shadow(0 0 20px rgba(0,255,163,1)) drop-shadow(0 0 34px rgba(0,180,216,.9));}
 }
 @keyframes abyssOverdrivePulse{
-  0%{filter:drop-shadow(0 0 10px #00FFA3);}
-  100%{filter:drop-shadow(0 0 24px #00FFA3) drop-shadow(0 0 40px #00B4D8);}
+  0%{filter:drop-shadow(0 0 12px #00FFA3) drop-shadow(0 0 26px #00B4D8);}
+  100%{filter:drop-shadow(0 0 28px #00FFA3) drop-shadow(0 0 48px #00B4D8) drop-shadow(0 0 65px rgba(0,255,163,1));}
 }
 html.ui-abyss .strip-c{
   border-radius:8px;background:rgba(2,14,26,.82);
@@ -2888,31 +2996,51 @@ html.ui-abyss .sec-h .ln{background:linear-gradient(90deg,#00FFA3 0%,#00B4D8 40%
 /* ── 8. ❄️ Frost: 六花氷結クリスタル＆絶対零度 ── */
 html.ui-frost .hero-console{border-left:2px solid #A0E7E5;padding-left:14px;}
 html.ui-frost .hero-fig{
-  padding:2px 14px 4px 12px;border-radius:6px;
-  background:rgba(4,16,30,.9);border:1.5px solid rgba(160,231,229,.45);
-  box-shadow:0 4px 18px rgba(0,0,0,.75),0 0 14px rgba(112,214,255,.22),inset 0 1px 0 rgba(255,255,255,.35);
+  padding:4px 18px 6px 14px;border-radius:8px;
+  background:linear-gradient(135deg,rgba(4,20,38,.92) 0%,rgba(10,32,56,.88) 50%,rgba(6,24,44,.95) 100%);
+  border:1.5px solid rgba(160,231,229,.55);
+  box-shadow:0 6px 24px rgba(0,0,0,.85),0 0 16px rgba(112,214,255,.3),inset 0 1.5px 1px rgba(255,255,255,.5),inset 0 0 16px rgba(160,231,229,.15);
+  position:relative;
+}
+/* 氷晶の結晶コーナーハイライト */
+html.ui-frost .hero-fig::after{
+  content:'';position:absolute;top:3px;right:3px;width:6px;height:6px;
+  border-top:2px solid #FFF;border-right:2px solid #FFF;pointer-events:none;
+}
+html.ui-frost .hero-fig::before{
+  content:'';position:absolute;bottom:3px;left:3px;width:6px;height:6px;
+  border-bottom:2px solid #70D6FF;border-left:2px solid #70D6FF;pointer-events:none;
 }
 html.ui-frost .hero-num{
-  background:linear-gradient(135deg,#FFFFFF 0%,#EDFBFF 40%,#A0E7E5 75%,#70D6FF 100%);
+  background:linear-gradient(135deg,#FFFFFF 0%,#EDFBFF 25%,#A0E7E5 60%,#70D6FF 100%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 2px 5px rgba(2,12,24,.95)) drop-shadow(0 0 8px rgba(160,231,229,.65));
+  filter:drop-shadow(0 0 10px rgba(255,255,255,.9)) drop-shadow(0 0 20px #A0E7E5) drop-shadow(0 0 35px rgba(112,214,255,.75));
+  font-weight:800;letter-spacing:0.02em;
 }
-html.ui-frost .hero-unit{color:#A0E7E5;filter:drop-shadow(0 0 6px #70D6FF);}
+html.ui-frost .hero-num .dg{
+  background:inherit;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+html.ui-frost .hero-unit{
+  color:#FFF;background:linear-gradient(135deg,#70D6FF,#0284C7);
+  font-weight:800;padding:1px 7px;border-radius:4px;margin-left:4px;
+  box-shadow:0 2px 8px rgba(112,214,255,.4);
+  filter:drop-shadow(0 0 6px #70D6FF);
+}
 html.ui-frost .hero-num[data-goal="1"]{
-  filter:drop-shadow(0 2px 5px rgba(2,12,24,.98)) drop-shadow(0 0 14px #A0E7E5) drop-shadow(0 0 26px rgba(112,214,255,.6));
+  filter:drop-shadow(0 0 14px #FFFFFF) drop-shadow(0 0 26px #A0E7E5) drop-shadow(0 0 42px rgba(112,214,255,.8));
   animation:frostGoalPulse 2.4s var(--ease-in-out) infinite alternate;
 }
 html.ui-frost .hero-num[data-goal="2"]{
-  filter:drop-shadow(0 2px 5px rgba(2,12,24,1)) drop-shadow(0 0 20px #FFFFFF) drop-shadow(0 0 35px #A0E7E5) drop-shadow(0 0 52px #70D6FF);
+  filter:drop-shadow(0 0 20px #FFFFFF) drop-shadow(0 0 36px #A0E7E5) drop-shadow(0 0 60px #70D6FF);
   animation:frostOverdrivePulse 1.5s var(--ease-in-out) infinite alternate;
 }
 @keyframes frostGoalPulse{
-  0%{filter:drop-shadow(0 2px 5px rgba(2,12,24,.98)) drop-shadow(0 0 10px rgba(160,231,229,.6));}
-  100%{filter:drop-shadow(0 2px 5px rgba(2,12,24,.98)) drop-shadow(0 0 18px #A0E7E5) drop-shadow(0 0 30px rgba(112,214,255,.8));}
+  0%{filter:drop-shadow(0 0 8px rgba(255,255,255,.8)) drop-shadow(0 0 16px rgba(160,231,229,.7));}
+  100%{filter:drop-shadow(0 0 18px #FFFFFF) drop-shadow(0 0 28px #A0E7E5) drop-shadow(0 0 40px rgba(112,214,255,1));}
 }
 @keyframes frostOverdrivePulse{
-  0%{filter:drop-shadow(0 2px 5px rgba(2,12,24,1)) drop-shadow(0 0 16px #A0E7E5) drop-shadow(0 0 28px #70D6FF);}
-  100%{filter:drop-shadow(0 2px 5px rgba(2,12,24,1)) drop-shadow(0 0 26px #FFFFFF) drop-shadow(0 0 42px #A0E7E5) drop-shadow(0 0 60px #70D6FF);}
+  0%{filter:drop-shadow(0 0 16px #A0E7E5) drop-shadow(0 0 30px #70D6FF);}
+  100%{filter:drop-shadow(0 0 28px #FFFFFF) drop-shadow(0 0 48px #A0E7E5) drop-shadow(0 0 70px #70D6FF);}
 }
 html.ui-frost .strip-c{
   background:rgba(8,18,32,.78);border:1px solid rgba(160,231,229,.35);
@@ -2994,7 +3122,7 @@ html.ui-frost .sec-h .ln{background:linear-gradient(90deg,#A0E7E5 0%,#70D6FF 40%
   .cta-ic{animation:none;}
   /* 2026-08-30 追加分（Heroゲージ拡張・動的機構・総合演出） */
   .gauge-pulse-trk,.gauge-megaring,.piston-left,.piston-right,.gauge-aura,
-  .submeter-needle,.ambient-nebula,
+  .ambient-nebula,
   .hero-shockwave-ring,.cta-tracer,.lv-fluid-wave,
   .hero[data-streak-milestone],
   .astrolabe-ring,.cockpit-frame,.crystal-crown,.grimoire-circle,.leviathan-armor,
@@ -3921,29 +4049,7 @@ html.ui-frost .sec-h .ln{background:linear-gradient(90deg,#A0E7E5 0%,#70D6FF 40%
           <span class="gauge-mid" id="gaugeMid"><span id="statPct">0</span><em>%</em></span>
         </div>
         <p class="gauge-cap" id="gaugeCap">今日の目標</p>
-        <p class="gauge-goal"><b id="gaugeDoneN">0</b> / <span id="gaugeGoalN">40</span>問</p>
-        <!-- 旧「全体進捗」。ゲージの主役は今日の目標に譲り、こちらは脚の小さな一行に残す -->
-        <p class="gauge-all">全体 <b id="statAllPct">0</b>%</p>
-        <!-- 🧭 サブアナログ針メーター（正解率 ＆ 解答ペース） -->
-        <div class="gauge-submeters" id="gaugeSubmeters">
-          <div class="submeter submeter-acc" title="今日の正答率">
-            <div class="submeter-dial">
-              <span class="submeter-arc"></span>
-              <span class="submeter-needle" id="submeterNeedleAcc" style="transform:rotate(-45deg)"></span>
-              <span class="submeter-pivot"></span>
-            </div>
-            <span class="submeter-lbl">正答率 <b id="submeterAccVal">-%</b></span>
-          </div>
-          <div class="submeter-div"></div>
-          <div class="submeter submeter-pace" title="解答ペース">
-            <div class="submeter-dial">
-              <span class="submeter-arc"></span>
-              <span class="submeter-needle" id="submeterNeedlePace" style="transform:rotate(-45deg)"></span>
-              <span class="submeter-pivot"></span>
-            </div>
-            <span class="submeter-lbl">ペース <b id="submeterPaceVal">-問/分</b></span>
-          </div>
-        </div>
+        <p class="gauge-goal"><b id="gaugeDoneN">0</b> / <span id="gaugeGoalN">100</span>問</p>
       </div>
     </div>
 
@@ -4324,8 +4430,8 @@ let _heroSettled = false;
 const GAUGE_C = 339.29;
 
 // gamify.js が読めなかったときだけ使うゲージの分母。
-// 正本は gamify.js の MISSIONS_DAILY の ans（40問）で、通常はそちらが使われる。
-const DAILY_GOAL_FALLBACK = 40;
+// 正本は gamify.js の MISSIONS_DAILY の ans（100問）で、通常はそちらが使われる。
+const DAILY_GOAL_FALLBACK = 100;
 
 // 直近14日の学習量・ペース分析・連続学習トラック。素材は activity_v1（日→解答回数）。
 let _sparkRecordShown = false;
@@ -4432,8 +4538,8 @@ function _renderSpark() {
     paceBanner.hidden = false;
   }
 
-  // 3. デイリー目標ライン（既定40問）＆ オーバードライブ判定
-  const targetGoal = 40;
+  // 3. デイリー目標ライン（MecGamify.dailyGoal() と連動、既定100問）＆ オーバードライブ判定
+  const targetGoal = (window.MecGamify && MecGamify.dailyGoal) ? MecGamify.dailyGoal().target : DAILY_GOAL_FALLBACK;
   const scaleMax = Math.max(targetGoal * 1.15, mx);
   if (targetLine) {
     const targetPct = Math.min(88, Math.max(16, Math.round(targetGoal / scaleMax * 100)));
@@ -4441,7 +4547,7 @@ function _renderSpark() {
     const isTargetAchieved = todayCount >= targetGoal;
     targetLine.classList.toggle('achieved', isTargetAchieved);
     const targetLbl = targetLine.querySelector('.spark-target-lbl');
-    if (targetLbl) targetLbl.textContent = isTargetAchieved ? '目標 40 ✓' : '目標 40';
+    if (targetLbl) targetLbl.textContent = isTargetAchieved ? ('目標 ' + targetGoal + ' ✓') : ('目標 ' + targetGoal);
   }
 
   // 第1位: 前回の今日解答数との差分検知（リアルタイム伸長 & +N ポップアップ）
@@ -4788,8 +4894,11 @@ function renderHero() {
   document.getElementById('gaugeDoneN').textContent = _fmtN(goal.count);
   document.getElementById('gaugeGoalN').textContent = _fmtN(goal.target);
   document.getElementById('gaugeMid').classList.toggle('wide', goal.pct >= 100);
-  document.getElementById('gaugeCap').textContent   = goal.pct >= 100 ? '🎉 目標達成' : '今日の目標';
-  document.getElementById('statAllPct').textContent = pct;   // 旧「全体進捗」は脚の一行へ
+  const gCapEl = document.getElementById('gaugeCap');
+  if (gCapEl) {
+    gCapEl.textContent = goal.pct >= 100 ? '🎉 目標達成' : '今日の目標';
+    gCapEl.classList.toggle('is-done', goal.pct >= 100);
+  }
 
   // 帰還注入トランジション（Exam-to-Hub Absorber）のチェック
   let absorbPayload = null;
@@ -4810,32 +4919,6 @@ function renderHero() {
     _driveGauge(goal.pct);
   }
 
-  // 🧭 サブ針メーター（正解率 ＆ 今日の解答量/ペース）の更新
-  const needleAcc = document.getElementById('submeterNeedleAcc');
-  const valAcc = document.getElementById('submeterAccVal');
-  if (needleAcc && valAcc) {
-    if (td.exT > 0) {
-      const acc = Math.min(100, Math.max(0, td.accPct || 0));
-      needleAcc.style.transform = 'rotate(' + (-50 + (acc / 100) * 100) + 'deg)';
-      valAcc.textContent = acc + '%';
-    } else {
-      needleAcc.style.transform = 'rotate(-50deg)';
-      valAcc.textContent = '-%';
-    }
-  }
-  const needlePace = document.getElementById('submeterNeedlePace');
-  const valPace = document.getElementById('submeterPaceVal');
-  if (needlePace && valPace) {
-    if (td.solved > 0) {
-      const paceRatio = Math.min(1, td.solved / Math.max(1, goal.target));
-      needlePace.style.transform = 'rotate(' + (-50 + paceRatio * 100) + 'deg)';
-      valPace.textContent = _fmtN(td.solved) + '問';
-    } else {
-      needlePace.style.transform = 'rotate(-50deg)';
-      valPace.textContent = '0問';
-    }
-  }
-
   // 👑 週間達成クラウンビーズ（7-Day Crown Orbit）の更新
   const crownOrbit = document.getElementById('gaugeCrownOrbit');
   if (crownOrbit) {
@@ -4853,7 +4936,7 @@ function renderHero() {
       const devMap = dMap[tDate] || {};
       let ansSum = 0;
       Object.keys(devMap).forEach(k => { ansSum += (devMap[k] && devMap[k].ans) || 0; });
-      const isDone = (i === dayOfWeek) ? (goal.pct >= 100) : (ansSum >= 40);
+      const isDone = (i === dayOfWeek) ? (goal.pct >= 100) : (ansSum >= goal.target);
       bead.classList.toggle('done', isDone);
       if (!isDone && i <= dayOfWeek) weekAllDone = false;
     }

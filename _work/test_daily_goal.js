@@ -87,10 +87,11 @@ t('未着手は 0問 0%', () => {
 });
 
 t('達成率は 100% で頭打ちにしない（目標超過をそのまま返す）', () => {
-  const g = loadGamify(withAns({ devA: 100 }));
+  const target = loadGamify(withAns({}))._defs.daily.find(d => d.counter === 'ans').target;
+  const solved = Math.round(target * 1.3);
+  const g = loadGamify(withAns({ devA: solved }));
   const r = g.dailyGoal();
-  const target = g._defs.daily.find(d => d.counter === 'ans').target;
-  assert.strictEqual(r.pct, Math.round(100 / target * 100));
+  assert.strictEqual(r.pct, Math.round(solved / target * 100));
   assert.ok(r.pct > 100, '超過した日に pct が 100 に丸められている');
 });
 
