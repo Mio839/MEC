@@ -149,6 +149,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   font-size:12.5px;font-weight:800;letter-spacing:.14em;color:var(--tx);}
 /* 見出し語だけを詰める。先頭の点（.hero-live）まで巻き込まないよう限定する */
 .hero-label .lb{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+/* 🎯 正解率の見出しラベル。「今日解いた問題」の右隣に並び、下の特大バッジを指す */
+.hero-label-acc{display:inline-flex;align-items:center;gap:4px;
+  font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--ts);
+  margin-left:8px;padding-left:10px;border-left:1.5px solid var(--hair-2);
+  white-space:nowrap;}
+.hero-label-acc .acc-ic{font-size:12px;line-height:1;}
 /* 生体バイタルサイン調の鼓動ダブルパルス */
 .hero-live{width:8px;height:8px;flex-shrink:0;border-radius:50%;
   background:var(--or);box-shadow:0 0 0 3px var(--orl),0 0 10px var(--or);
@@ -186,15 +192,6 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
   filter:drop-shadow(0 2px 4px rgba(0,0,0,.8));transition:color .35s,filter .35s;}
 /* 🎯 本日の正解率バッジ。今日解いた問題数と完全に同一サイズ・同一マテリアルの特大プレート */
 .hero-acc-fig{cursor:default;}
-.hero-acc-lbl{
-  display:inline-flex;align-items:center;gap:3px;
-  font-size:clamp(11px,2.6vw,13px);font-weight:800;letter-spacing:.04em;color:var(--ts);
-  padding:2px 7px;border-radius:4px;
-  background:rgba(var(--glass-rgb),.08);border:1px solid var(--hair-2);
-  margin-right:6px;vertical-align:middle;align-self:center;white-space:nowrap;
-  box-shadow:0 1px 3px rgba(0,0,0,.2);
-}
-.hero-acc-lbl .acc-ic{font-size:11px;line-height:1;}
 /* 今日のXP。クリスタルプレート調の立体バッジ */
 .hero-xp{display:inline-flex;align-items:baseline;gap:3px;margin-top:var(--sp-3);
   padding:5px 12px;border-radius:var(--r-sm);
@@ -2679,9 +2676,9 @@ html.ui-aurora .strip-c{
   box-shadow:0 2px 10px rgba(0,0,0,.2),inset 0 0 12px rgba(0,223,216,.08);
 }
 html.ui-aurora .exam-countdown{border-color:rgba(0,223,216,.4);box-shadow:0 0 12px rgba(0,223,216,.25);}
-html.ui-aurora .hero-acc-lbl{
-  border-color:rgba(0,223,216,.4);background:rgba(0,223,216,.1);color:#00DFD8;
-  box-shadow:0 0 8px rgba(0,223,216,.2);
+html.ui-aurora .hero-label-acc{
+  border-left-color:rgba(0,223,216,.4);color:#00DFD8;
+  text-shadow:0 0 8px rgba(0,223,216,.3);
 }
 html.ui-aurora .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(0,223,216,.18) 0%,rgba(121,40,202,.14) 45%,transparent 70%);}
 html.ui-aurora .ambient-grid{opacity:.25;background-image:radial-gradient(rgba(0,223,216,.25) 1px,transparent 1px);background-size:20px 20px;}
@@ -2779,8 +2776,8 @@ html.ui-brass .strip-c{
   box-shadow:0 2px 10px rgba(0,0,0,.3),inset 0 1px 0 rgba(224,194,94,.2);
 }
 html.ui-brass .exam-countdown{border-color:rgba(201,162,39,.45);background:rgba(201,162,39,.08);box-shadow:0 0 10px rgba(201,162,39,.25);}
-html.ui-brass .hero-acc-lbl{
-  font-family:"Georgia",serif;border-color:rgba(201,162,39,.4);color:#E0C25E;background:rgba(201,162,39,.12);
+html.ui-brass .hero-label-acc{
+  font-family:"Georgia",serif;border-left-color:rgba(201,162,39,.4);color:#E0C25E;
 }
 html.ui-brass .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(201,162,39,.18) 0%,rgba(184,115,51,.12) 45%,transparent 70%);}
 html.ui-brass .ambient-grid{opacity:.28;background-image:repeating-linear-gradient(45deg,rgba(201,162,39,.08) 0 1px,transparent 1px 12px);}
@@ -2873,8 +2870,9 @@ html.ui-cyber .strip-c::after{
   border-top:1.5px solid #00FF9D;border-right:1.5px solid #00FF9D;
 }
 html.ui-cyber .exam-countdown{border-radius:2px;border:1px solid #00E5FF;background:rgba(0,229,255,.08);box-shadow:0 0 12px rgba(0,229,255,.3);}
-html.ui-cyber .hero-acc-lbl{
-  font-family:monospace;border-color:rgba(0,229,255,.45);color:#00E5FF;background:rgba(0,229,255,.1);border-radius:2px;
+html.ui-cyber .hero-label-acc{
+  font-family:monospace;border-left-color:rgba(0,229,255,.45);color:#00E5FF;
+  text-shadow:0 0 6px rgba(0,229,255,.4);
 }
 html.ui-cyber .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(0,229,255,.18) 0%,rgba(0,255,157,.10) 45%,transparent 70%);}
 html.ui-cyber .ambient-grid{opacity:.35;background-image:linear-gradient(rgba(0,229,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.12) 1px,transparent 1px);background-size:16px 16px;}
@@ -2959,8 +2957,8 @@ html.ui-liquid .strip-c{
   border-color:rgba(255,0,127,.35);box-shadow:0 4px 14px rgba(255,0,127,.15);
 }
 html.ui-liquid .exam-countdown{border-radius:14px;border-color:rgba(255,0,127,.45);background:rgba(255,0,127,.08);}
-html.ui-liquid .hero-acc-lbl{
-  border-radius:10px;border-color:rgba(255,0,127,.4);color:#FF52A0;background:rgba(255,0,127,.1);
+html.ui-liquid .hero-label-acc{
+  border-left-color:rgba(255,0,127,.4);color:#FF52A0;
 }
 html.ui-liquid .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(255,0,127,.18) 0%,rgba(0,242,254,.12) 45%,transparent 70%);}
 html.ui-liquid .ambient-grid{opacity:.2;background-image:radial-gradient(rgba(255,0,127,.25) 1.5px,transparent 1.5px);background-size:24px 24px;}
@@ -3050,8 +3048,8 @@ html.ui-kintsugi .strip-c{
   box-shadow:0 4px 14px rgba(0,0,0,.6),inset 0 0 10px rgba(245,208,97,.1);
 }
 html.ui-kintsugi .exam-countdown{border-color:rgba(245,208,97,.45);background:rgba(245,208,97,.08);box-shadow:0 0 12px rgba(245,208,97,.2);}
-html.ui-kintsugi .hero-acc-lbl{
-  font-family:"Yu Mincho",serif;border-color:rgba(245,208,97,.4);color:#F5D061;background:rgba(245,208,97,.1);
+html.ui-kintsugi .hero-label-acc{
+  font-family:"Yu Mincho",serif;border-left-color:rgba(245,208,97,.4);color:#F5D061;
 }
 html.ui-kintsugi .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(245,208,97,.14) 0%,rgba(212,175,55,.08) 45%,transparent 70%);}
 html.ui-kintsugi .ambient-grid{opacity:.18;background-image:repeating-linear-gradient(0deg,rgba(245,208,97,.08) 0 1px,transparent 1px 18px);}
@@ -3139,8 +3137,9 @@ html.ui-celestial .strip-c{
   border:1px solid rgba(255,209,102,.35);box-shadow:0 0 14px rgba(138,43,226,.25);
 }
 html.ui-celestial .exam-countdown{border-color:rgba(255,209,102,.45);background:rgba(138,43,226,.12);box-shadow:0 0 14px rgba(255,209,102,.3);}
-html.ui-celestial .hero-acc-lbl{
-  font-family:"Cinzel",serif;border-color:rgba(255,209,102,.45);color:#FFD166;background:rgba(255,209,102,.12);
+html.ui-celestial .hero-label-acc{
+  font-family:"Cinzel",serif;border-left-color:rgba(255,209,102,.45);color:#FFD166;
+  text-shadow:0 0 8px rgba(255,209,102,.4);
 }
 html.ui-celestial .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(255,209,102,.18) 0%,rgba(138,43,226,.15) 45%,transparent 70%);}
 html.ui-celestial .ambient-grid{opacity:.25;background-image:radial-gradient(rgba(255,209,102,.3) 1px,transparent 1px);background-size:28px 28px;}
@@ -3230,8 +3229,9 @@ html.ui-abyss .strip-c{
   box-shadow:0 0 14px rgba(0,255,163,.15),inset 0 0 8px rgba(0,180,216,.1);
 }
 html.ui-abyss .exam-countdown{border-radius:8px;border:1px solid #00FFA3;background:rgba(0,255,163,.08);box-shadow:0 0 12px rgba(0,255,163,.3);}
-html.ui-abyss .hero-acc-lbl{
-  font-family:monospace;border-color:rgba(0,255,163,.45);color:#00FFA3;background:rgba(0,255,163,.1);
+html.ui-abyss .hero-label-acc{
+  font-family:monospace;border-left-color:rgba(0,255,163,.45);color:#00FFA3;
+  text-shadow:0 0 8px rgba(0,255,163,.4);
 }
 html.ui-abyss .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(0,255,163,.18) 0%,rgba(0,180,216,.12) 45%,transparent 70%);}
 html.ui-abyss .ambient-grid{opacity:.22;background-image:repeating-linear-gradient(180deg,rgba(0,255,163,.06) 0 1px,transparent 1px 14px);}
@@ -3322,8 +3322,9 @@ html.ui-frost .strip-c{
   box-shadow:0 0 14px rgba(112,214,255,.25),inset 0 0 10px rgba(255,255,255,.08);
 }
 html.ui-frost .exam-countdown{border:1px solid #A0E7E5;background:rgba(160,231,229,.09);box-shadow:0 0 14px rgba(112,214,255,.35);}
-html.ui-frost .hero-acc-lbl{
-  border-color:rgba(160,231,229,.45);color:#A0E7E5;background:rgba(160,231,229,.1);
+html.ui-frost .hero-label-acc{
+  border-left-color:rgba(160,231,229,.45);color:#A0E7E5;
+  text-shadow:0 0 8px rgba(160,231,229,.4);
 }
 html.ui-frost .ambient-nebula{background:radial-gradient(circle at 75% 30%,rgba(160,231,229,.2) 0%,rgba(112,214,255,.14) 45%,transparent 70%);}
 html.ui-frost .ambient-grid{opacity:.28;background-image:radial-gradient(rgba(160,231,229,.35) 1px,transparent 1px);background-size:20px 20px;}
@@ -3524,6 +3525,7 @@ html.ui-frost .srs-card-today b{color:#70D6FF;text-shadow:0 0 8px rgba(112,214,2
         <p class="hero-label">
           <span class="hero-live" aria-hidden="true"></span>
           <span class="lb" id="heroLabelTx">読み込み中…</span>
+          <span class="hero-label-acc" id="heroLabelAcc"><span class="acc-ic" aria-hidden="true">🎯</span>正解率</span>
           <span class="hero-date" id="heroDate"></span>
           <!-- ⏳ 国試カウントダウン・クロノス -->
           <span class="exam-countdown" id="examCountdownChronos" title="第120回医師国家試験までの残り日数">
@@ -3533,7 +3535,6 @@ html.ui-frost .srs-card-today b{color:#70D6FF;text-shadow:0 0 8px rgba(112,214,2
         <div class="hero-stat-row">
           <p class="hero-fig"><span class="hero-num" id="heroNum">0</span><span class="hero-unit" id="heroUnit">問</span></p>
           <p class="hero-fig hero-acc-fig" id="heroAccBadge" title="本日の試験・復習問題の正解率">
-            <span class="hero-acc-lbl"><span class="acc-ic" aria-hidden="true">🎯</span>正解率</span>
             <span class="hero-num" id="heroAccVal">--</span><span class="hero-unit">%</span>
           </p>
         </div>

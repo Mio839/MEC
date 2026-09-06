@@ -1,3 +1,5 @@
+// 2026-09-07c: ハブ画面「🎯正解率」ラベルを見出し行（「今日解いた問題」の右隣）へ移設し、バッジ内を数字＋%のみの同一特大構造へ統一。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-07b → 2026-09-07c）。
 // 2026-09-07b: ハブ画面の正解率バッジ（.hero-acc-fig）を「今日解いた問題数」と完全に同一の特大プレート・同一文字サイズへ刷新。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-07a → 2026-09-07b）。
 // 2026-09-07a: ハブ画面「今日解いた問題数」の隣に本日の正解率バッジ（.hero-acc）を新設——今日解いた問題数の特大数字プレート（.hero-fig）と全8テーマ（Aurora, Brass, Cyber, Liquid, Kintsugi, Celestial, Abyss, Frost）およびデフォルトの質感を完全同期させたピル計器バッジを配置。未解答時は「--%」、試験・復習解答時はカウントアップ表示とツールチップ内訳を連携。
@@ -1270,7 +1272,7 @@ const CACHE = "mec-v373";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-07b";
+const SHELL_VERSION = "2026-09-07c";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
