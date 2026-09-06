@@ -1576,12 +1576,10 @@ html.ui-aurora .theme-gauge-aurora { display: inline; }
   stroke-width: 1;
 }
 .aurora-glass-glare {
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, .5));
-  pointer-events: none;
+  display: none !important;
 }
 .aurora-glass-glare-edge {
-  filter: drop-shadow(0 0 4px rgba(255, 255, 255, .8));
-  pointer-events: none;
+  display: none !important;
 }
 /* 🌊 内部オーロラカーテン */
 .aurora-curtain-group {
@@ -1717,7 +1715,7 @@ html.ui-liquid .gauge-ring {
   display: none;
 }
 .liquid-glass-glare {
-  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
+  display: none !important;
 }
 
 /* 🧪 深淵プール背景（透明化） */
@@ -1778,12 +1776,9 @@ html.ui-liquid .gauge-ring {
   100% { transform: scale(1.14); opacity: 1; filter: drop-shadow(0 0 14px #00F2FE) drop-shadow(0 0 22px #FF007F); }
 }
 
-/* ジェル表面のぷるぷる光沢ハイライト */
+/* ジェル表面のぷるぷる光沢ハイライト（左側一本線の原因となるため完全非表示） */
 .lava-cell-specular {
-  fill: rgba(255, 255, 255, 0.4);
-  filter: drop-shadow(0 0 4px #FFFFFF);
-  transform-origin: 84px 84px;
-  animation: lavaSpecularPulse 7.2s ease-in-out infinite alternate;
+  display: none !important;
 }
 @keyframes lavaSpecularPulse {
   0% { transform: scale(0.92) translate(-1px, -1px); opacity: 0.35; }
@@ -2134,12 +2129,9 @@ html.ui-abyss .theme-gauge-abyss { display: inline; }
   100% { transform: translateY(-24px); opacity: 0; }
 }
 
-/* 曲面斜光ハイライトグレア */
+/* 曲面斜光ハイライトグレア（左側一本線の原因となるため完全非表示） */
 .abyss-glass-glare {
-  stroke: rgba(224, 242, 254, 0.35);
-  stroke-width: 2.2;
-  stroke-linecap: round;
-  filter: drop-shadow(0 0 4px rgba(224, 242, 254, 0.5));
+  display: none !important;
 }
 
 /* 深度目盛りスケールリング */
