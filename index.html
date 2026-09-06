@@ -145,16 +145,16 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .hero-body{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--sp-5);align-items:center;}
 /* ── ヒーロー左列：計器コンソール＆情報ブロック ── */
 .hero-console{position:relative;min-width:0;z-index:2;}
-.hero-label{display:flex;align-items:center;gap:8px;min-width:0;flex-wrap:wrap;row-gap:6px;
-  font-size:12.5px;font-weight:800;letter-spacing:.14em;color:var(--tx);}
+.hero-label{display:flex;align-items:center;gap:6px;min-width:0;flex-wrap:nowrap;
+  font-size:12px;font-weight:800;letter-spacing:.04em;color:var(--tx);}
 /* 見出し語（今日解いた問題）は省略（...）させず全文字表示を死守 */
-.hero-label .lb{flex-shrink:0;white-space:nowrap;min-width:max-content;}
-/* 🎯 正解率の見出しラベル。「今日解いた問題」から右へ離れ、下の特大正解率バッジと整列 */
-.hero-label-acc{display:inline-flex;align-items:center;gap:4px;flex-shrink:0;
-  font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--ts);
-  margin-left:clamp(16px,3.6vw,26px);padding-left:12px;border-left:1.5px solid var(--hair-2);
+.hero-label .lb{flex-shrink:0;white-space:nowrap;min-width:max-content;letter-spacing:.04em;}
+/* 🎯 正解率の見出しラベル。「今日解いた問題」の右に程よく配置し、下の特大正解率バッジと整列 */
+.hero-label-acc{display:inline-flex;align-items:center;gap:3px;flex-shrink:0;
+  font-size:11.5px;font-weight:800;letter-spacing:.02em;color:var(--ts);
+  margin-left:clamp(10px,2vw,18px);padding-left:9px;border-left:1.5px solid var(--hair-2);
   white-space:nowrap;}
-.hero-label-acc .acc-ic{font-size:12px;line-height:1;}
+.hero-label-acc .acc-ic{font-size:11.5px;line-height:1;}
 /* 生体バイタルサイン調の鼓動ダブルパルス */
 .hero-live{width:8px;height:8px;flex-shrink:0;border-radius:50%;
   background:var(--or);box-shadow:0 0 0 3px var(--orl),0 0 10px var(--or);
@@ -163,12 +163,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   0%,100%{transform:scale(1);box-shadow:0 0 0 3px var(--orl),0 0 8px var(--or);}
   50%{transform:scale(1.25);box-shadow:0 0 0 6px var(--orl),0 0 16px var(--or),0 0 24px var(--or);}
 }
-/* 右側のメタ情報（日付＋国試カウントダウン）コンテナ */
-.hero-label-meta{display:inline-flex;align-items:center;gap:6px;margin-left:auto;flex-shrink:0;}
-/* 日付。磨かれたガラスプレート調ピルバッジ */
-.hero-date{flex-shrink:0;padding:3px 10px;border-radius:999px;
+/* 右側のメタ情報（日付＋国試カウントダウン）コンテナ：同一行の右端に固定収容 */
+.hero-label-meta{display:inline-flex;align-items:center;gap:6px;margin-left:auto;flex-shrink:0;white-space:nowrap;}
+/* 日付。磨かれたガラスプレート調ピルバッジ（今日解いた問題と同じ行に必ず収める） */
+.hero-date{flex-shrink:0;padding:2px 8px;border-radius:999px;
   border:1px solid var(--hair-2);background:rgba(var(--glass-rgb),.08);
-  font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ts);
+  font-size:10.5px;font-weight:700;letter-spacing:.03em;color:var(--ts);
   font-variant-numeric:tabular-nums;white-space:nowrap;
   box-shadow:0 1px 4px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.08);
   transition:border-color .3s,box-shadow .3s;}
@@ -324,6 +324,14 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 @media (max-width:560px){
   .hero-body{grid-template-columns:minmax(0,1fr);gap:var(--sp-4);}
   .gauge{width:min(172px,58vw);justify-self:end;}
+  .hero-label{gap:5px;}
+  .hero-label-acc{margin-left:8px;padding-left:8px;}
+  .hero-label-meta{gap:4px;}
+  .hero-date{padding:2px 6px;font-size:10px;}
+  .exam-countdown{padding:2px 6px;font-size:10px;}
+}
+@media (max-width:400px){
+  .exam-countdown .cd-lbl{display:none;} /* 幅400px未満の極小端末でも日付バッジと同一行を完全死守 */
 }
 
 .hero-body{position:relative;}
@@ -381,12 +389,12 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 @keyframes hazardFlash{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(.7);}}
 
 /* ── ⏳ 国試カウントダウン・クロノス（医師国家試験への計器バッジ） ── */
-.exam-countdown{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;
+.exam-countdown{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:700;
   background:linear-gradient(135deg,rgba(var(--glass-rgb),.12),rgba(var(--glass-rgb),.04));
-  padding:3px 10px;border-radius:var(--r-md);
-  border:1px solid rgba(var(--glass-rgb),.22);color:var(--ts);margin-left:var(--sp-2);vertical-align:middle;
+  padding:2px 8px;border-radius:var(--r-md);
+  border:1px solid rgba(var(--glass-rgb),.22);color:var(--ts);margin-left:0;vertical-align:middle;
   box-shadow:0 2px 10px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.14);
-  position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s;}
+  position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s;flex-shrink:0;white-space:nowrap;}
 .exam-countdown::before{content:'';position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(ellipse at 50% 0%,rgba(var(--or-rgb,255,154,60),.18),transparent 75%);
   animation:countdownPulse 3s ease-in-out infinite alternate;}
