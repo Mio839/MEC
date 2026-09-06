@@ -245,8 +245,9 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 .srs-tag{font-size:10px;font-weight:600;letter-spacing:.02em;padding:1px 6px;border-radius:10px;border:1px solid rgba(var(--glass-rgb),.2);background:rgba(var(--glass-rgb),.08);color:var(--ts);}
 .srs-tag-cross{border-color:rgba(59,130,246,.35);background:rgba(59,130,246,.12);color:#93c5fd;}
 .srs-tag-risk{border-color:rgba(249,115,22,.35);background:rgba(249,115,22,.12);color:#fdba74;}
-.srs-card-today{font-size:11px;color:var(--ts);white-space:nowrap;margin-left:auto;}
-.srs-card-today b{font-size:13px;font-weight:700;color:var(--t1,#fff);margin:0 2px;}
+.srs-card-today{font-size:11px;color:rgba(var(--glass-rgb),.85);white-space:nowrap;margin-left:auto;display:inline-flex;align-items:center;gap:1px;padding:2px 8px;border-radius:10px;background:rgba(var(--glass-rgb),.07);border:1px solid rgba(var(--glass-rgb),.18);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);font-feature-settings:"tnum";}
+.srs-card-today b{font-size:13px;font-weight:700;color:var(--or,#ff9a3c);margin:0 2px;}
+.srs-card-stat:last-child{margin-bottom:0;}
 .srs-card-stat{display:flex;align-items:center;gap:12px;margin-bottom:7px;padding:6px 12px;background:rgba(0,0,0,.22);border-radius:4px;border:1px solid rgba(var(--glass-rgb),.08);}
 .srs-stat-cell{display:flex;flex-direction:column;min-width:0;}
 .srs-stat-lbl{font-size:10px;color:var(--tm,#888);margin-bottom:1px;}
@@ -260,7 +261,7 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 /* 盤面そのものを大きく取る。viewBox は 168 で、進捗の弧(r=54)より外側の
    歯車列にゆとりを持たせてある＝機構が主役に見える寸法 */
 .gauge{width:clamp(148px,40vw,208px);flex-shrink:0;text-align:center;}
-.gauge-ring{position:relative;}
+.gauge-ring{position:relative;border-radius:50%;}
 .gauge-ring svg{display:block;width:100%;height:auto;transform:rotate(-90deg);}
 .gauge-ring circle{fill:none;}
 /* ── 歯車列（スチームパンクの意匠）──
@@ -1438,9 +1439,9 @@ html.ui-celestial .gauge-ring::after {
   display: none !important;
 }
 
-/* ── 非円形テーマ（Cyber, Frost, Abyss, Aurora）の丸型コンテナの完全解除 ── */
+/* ── 非円形テーマ（Cyber, Frost, Abyss, Aurora）の丸型コンテナの完全解除（四角形アーティファクト防止のため円形マスク50%を維持） ── */
 html.ui-cyber .gauge-ring, html.ui-frost .gauge-ring, html.ui-abyss .gauge-ring, html.ui-aurora .gauge-ring {
-  border-radius: 0 !important;
+  border-radius: 50% !important;
   background: none !important;
   box-shadow: none !important;
   filter: none !important;
@@ -2689,6 +2690,8 @@ html.ui-aurora #gmDaily .gm-mission{background:linear-gradient(135deg,rgba(0,223
 html.ui-aurora #gmDaily .gm-mission.done{background:linear-gradient(135deg,rgba(0,223,216,.18),rgba(61,214,140,.15));border-color:rgba(0,223,216,.5);box-shadow:0 0 16px rgba(0,223,216,.25);}
 html.ui-aurora .sec-h::before{background:linear-gradient(180deg,#00DFD8,#FF0080);box-shadow:0 0 10px #00DFD8;}
 html.ui-aurora .sec-h .ln{background:linear-gradient(90deg,#00DFD8 0%,#7928CA 40%,transparent 95%);}
+html.ui-aurora .srs-card-today{color:#99F6E4;background:linear-gradient(135deg,rgba(0,223,216,.14),rgba(121,40,202,.1));border-color:rgba(0,223,216,.38);box-shadow:0 0 8px rgba(0,223,216,.2);}
+html.ui-aurora .srs-card-today b{color:#00DFD8;text-shadow:0 0 8px rgba(0,223,216,.65);}
 
 /* ── 2. 🕰️ Brass: 真鍮アンティーク彫刻＆スチームボイラー ── */
 html.ui-brass .hero-console{border-left:2px solid var(--brass);padding-left:14px;}
@@ -2783,6 +2786,8 @@ html.ui-brass #gmDaily .gm-mission{background:linear-gradient(145deg,rgba(24,18,
 html.ui-brass #gmDaily .gm-mission.done{background:linear-gradient(145deg,rgba(30,38,20,.75),rgba(61,214,140,.12));border-color:rgba(201,162,39,.5);box-shadow:0 0 14px rgba(201,162,39,.25);}
 html.ui-brass .sec-h::before{background:var(--brass-hi);box-shadow:0 0 10px rgba(224,194,94,.8);}
 html.ui-brass .sec-h .ln{background:linear-gradient(90deg,var(--brass-hi) 0%,var(--brass) 40%,transparent 95%);}
+html.ui-brass .srs-card-today{color:#D4AF37;background:linear-gradient(145deg,rgba(28,22,14,.85),rgba(201,162,39,.12));border-color:rgba(201,162,39,.4);box-shadow:0 0 8px rgba(201,162,39,.18);border-radius:4px;}
+html.ui-brass .srs-card-today b{color:#E0C25E;text-shadow:0 0 6px rgba(224,194,94,.5);}
 
 /* ── 3. 🚀 Cyber: 角型戦術HUDモニター＆ネオン走査線 ── */
 html.ui-cyber .hero-console{border-left:2px solid #00E5FF;padding-left:14px;}
@@ -2872,6 +2877,8 @@ html.ui-cyber #gmDaily .gm-mission{border-radius:3px;background:rgba(5,16,28,.8)
 html.ui-cyber #gmDaily .gm-mission.done{background:rgba(8,28,24,.85);border-color:#00FF9D;box-shadow:0 0 16px rgba(0,255,157,.3);}
 html.ui-cyber .sec-h::before{background:#00FF9D;box-shadow:0 0 12px #00FF9D,0 0 20px #00E5FF;}
 html.ui-cyber .sec-h .ln{background:linear-gradient(90deg,#00FF9D 0%,#00E5FF 40%,transparent 95%);}
+html.ui-cyber .srs-card-today{font-family:'Consolas','Monaco','Courier New',monospace;color:#00E5FF;background:rgba(4,24,38,.9);border-color:rgba(0,229,255,.5);box-shadow:0 0 10px rgba(0,229,255,.25);border-radius:2px;letter-spacing:0.02em;}
+html.ui-cyber .srs-card-today b{color:#00FF9D;text-shadow:0 0 8px #00FF9D;}
 
 /* ── 4. 🌸 Liquid: 蛍光Lavaランプ・グロス流体 ── */
 html.ui-liquid .hero-console{border-left:2px solid #FF007F;padding-left:14px;}
@@ -2953,6 +2960,8 @@ html.ui-liquid #gmDaily .gm-mission{border-radius:14px;background:linear-gradien
 html.ui-liquid #gmDaily .gm-mission.done{background:linear-gradient(145deg,rgba(255,0,127,.16),rgba(61,214,140,.12));border-color:rgba(255,0,127,.45);box-shadow:0 0 16px rgba(255,0,127,.2);}
 html.ui-liquid .sec-h::before{background:#FF007F;box-shadow:0 0 10px #FF007F,0 0 18px #00F2FE;}
 html.ui-liquid .sec-h .ln{background:linear-gradient(90deg,#FF007F 0%,#00F2FE 40%,transparent 95%);}
+html.ui-liquid .srs-card-today{color:#FF85C0;background:linear-gradient(135deg,rgba(255,0,127,.14),rgba(0,242,254,.1));border-color:rgba(255,0,127,.4);box-shadow:0 0 10px rgba(255,0,127,.22);border-radius:14px;}
+html.ui-liquid .srs-card-today b{color:#FF007F;text-shadow:0 0 8px rgba(255,0,127,.6);}
 
 /* ── 5. 🌑 Kintsugi: 漆黒陶器＆純金箔蒔絵 ── */
 html.ui-kintsugi .hero-console{border-left:2px solid #F5D061;padding-left:14px;}
@@ -3039,6 +3048,8 @@ html.ui-kintsugi #gmDaily .gm-mission{background:rgba(18,14,10,.78);border-color
 html.ui-kintsugi #gmDaily .gm-mission.done{background:rgba(26,20,12,.85);border-color:#F5D061;box-shadow:0 0 14px rgba(245,208,97,.25);}
 html.ui-kintsugi .sec-h::before{background:#F5D061;box-shadow:0 0 10px rgba(245,208,97,.8);}
 html.ui-kintsugi .sec-h .ln{background:linear-gradient(90deg,#F5D061 0%,#D4AF37 40%,transparent 95%);}
+html.ui-kintsugi .srs-card-today{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;color:#E5B83A;background:rgba(18,14,10,.88);border-color:rgba(245,208,97,.4);box-shadow:0 0 8px rgba(245,208,97,.2);border-radius:3px;}
+html.ui-kintsugi .srs-card-today b{color:#F5D061;text-shadow:0 0 6px rgba(245,208,97,.6);}
 
 /* ── 6. 🌌 Celestial: 星座幾何学＆月齢星光 ── */
 html.ui-celestial .hero-console{border-left:2px solid #FFD166;padding-left:14px;}
@@ -3123,6 +3134,8 @@ html.ui-celestial #gmDaily .gm-mission{background:linear-gradient(145deg,rgba(22
 html.ui-celestial #gmDaily .gm-mission.done{background:linear-gradient(145deg,rgba(28,18,48,.82),rgba(61,214,140,.15));border-color:#FFD166;box-shadow:0 0 16px rgba(138,43,226,.25);}
 html.ui-celestial .sec-h::before{background:#FFD166;box-shadow:0 0 10px #FFD166,0 0 20px #8A2BE2;}
 html.ui-celestial .sec-h .ln{background:linear-gradient(90deg,#FFD166 0%,#8A2BE2 40%,transparent 95%);}
+html.ui-celestial .srs-card-today{font-family:"Cinzel","Palatino",serif;color:#E0AAFF;background:linear-gradient(145deg,rgba(26,11,46,.85),rgba(138,43,226,.15));border-color:rgba(255,209,102,.4);box-shadow:0 0 10px rgba(138,43,226,.3);border-radius:6px;}
+html.ui-celestial .srs-card-today b{color:#FFD166;text-shadow:0 0 8px rgba(255,209,102,.65);}
 
 /* ── 7. 🌊 Abyss: 深海耐圧コンソール＆バイオエメラルド ── */
 html.ui-abyss .hero-console{border-left:2px solid #00FFA3;padding-left:14px;}
@@ -3209,6 +3222,8 @@ html.ui-abyss #gmDaily .gm-mission{border-radius:8px;background:rgba(2,16,28,.78
 html.ui-abyss #gmDaily .gm-mission.done{background:rgba(2,24,28,.85);border-color:#00FFA3;box-shadow:0 0 16px rgba(0,255,163,.25);}
 html.ui-abyss .sec-h::before{background:#00FFA3;box-shadow:0 0 10px #00FFA3,0 0 18px #00B4D8;}
 html.ui-abyss .sec-h .ln{background:linear-gradient(90deg,#00FFA3 0%,#00B4D8 40%,transparent 95%);}
+html.ui-abyss .srs-card-today{color:#38BDF8;background:rgba(2,18,34,.9);border-color:rgba(0,255,163,.4);box-shadow:0 0 10px rgba(0,255,163,.2);border-radius:6px;}
+html.ui-abyss .srs-card-today b{color:#00FFA3;text-shadow:0 0 8px #00FFA3;}
 
 /* ── 8. ❄️ Frost: 六花氷結クリスタル＆絶対零度 ── */
 html.ui-frost .hero-console{border-left:2px solid #A0E7E5;padding-left:14px;}
@@ -3296,6 +3311,8 @@ html.ui-frost #gmDaily .gm-mission{background:rgba(8,18,32,.78);border-color:rgb
 html.ui-frost #gmDaily .gm-mission.done{background:rgba(10,28,40,.85);border-color:#A0E7E5;box-shadow:0 0 16px rgba(112,214,255,.3);}
 html.ui-frost .sec-h::before{background:#A0E7E5;box-shadow:0 0 10px #A0E7E5,0 0 18px #70D6FF;}
 html.ui-frost .sec-h .ln{background:linear-gradient(90deg,#A0E7E5 0%,#70D6FF 40%,transparent 95%);}
+html.ui-frost .srs-card-today{color:#A0E7E5;background:rgba(8,20,36,.9);border-color:rgba(160,231,229,.42);box-shadow:0 0 10px rgba(112,214,255,.25);border-radius:6px;}
+html.ui-frost .srs-card-today b{color:#70D6FF;text-shadow:0 0 8px rgba(112,214,255,.65);}
 
 /* ── XPの帯。着地でひと突き ── */
 .hero-xp.pop{animation:xpPop .42s var(--ease-out);}
@@ -5048,8 +5065,7 @@ function renderHero() {
           '<span class="srs-stat-lbl">今回の出題</span>' +
           '<span class="srs-stat-val"><b>優先 ' + _fmtN(sessionCount) + '</b><small>問</small></span>' +
         '</div>' +
-      '</div>' +
-      '<p class="srs-card-hint">忘却リスクが高い問題から優先出題されます。下の「復習をはじめる」から開始できます。</p>';
+      '</div>';
   } else {
     say.classList.add('is-clear');
     say.innerHTML =

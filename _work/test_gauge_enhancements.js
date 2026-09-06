@@ -118,7 +118,7 @@ t('Liquid: 外枠アメーバ変形と内部のオーガニック・ラバ・セ
 
 t('非円形テーマ（Cyber, Frost, Abyss, Aurora）で共通円盤・メガリングが完全に解除・非表示化されている', () => {
   assert.ok(HTML.includes('html.ui-cyber .gauge-ring,'), '非円形テーマの gauge-ring リセットセレクタが無い');
-  assert.ok(HTML.includes('border-radius: 0 !important'), 'gauge-ring の border-radius リセットが無い');
+  assert.ok(HTML.includes('border-radius: 50% !important'), 'gauge-ring の border-radius が円形（50%）に指定されていない');
   assert.ok(HTML.includes('background: none !important'), 'gauge-ring の background リセットが無い');
 });
 
