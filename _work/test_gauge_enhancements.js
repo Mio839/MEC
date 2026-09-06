@@ -148,18 +148,19 @@ t('Frost: 六角フロスト・インフィル、六花スノークリスタル�
   assert.ok(!HTML.includes('class="frost-shard'), '旧来のターゲット照準マーカー frost-shard が残存している');
 });
 
-console.log('── Celestial新演出（月齢ムーンフェイズ＆流星コメット）＆Brass歯車漏れ防止 検証 ──');
+console.log('── Celestial新演出（絢爛アストロラーベ・多重連動天球儀）＆Brass歯車漏れ防止 検証 ──');
 
-t('Celestial: 月齢ムーンフェイズ（新月→三日月→満月）と流星コメット周回が定義されている', () => {
-  assert.ok(HTML.includes('id="celMoonShadow"'), 'celMoonShadow が見つからない');
-  assert.ok(HTML.includes('id="celMoonLit"'), 'celMoonLit が見つからない');
-  assert.ok(HTML.includes('id="celMoonHalo"'), 'celMoonHalo が見つからない');
-  assert.ok(HTML.includes('id="celCometOrbit"'), 'celCometOrbit が見つからない');
-  assert.ok(HTML.includes('class="cel-comet-tail"'), 'cel-comet-tail が見つからない');
-  assert.ok(HTML.includes('class="cel-comet-head"'), 'cel-comet-head が見つからない');
-  assert.ok(HTML.includes('@keyframes cometCruise'), 'cometCruise アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes celHaloBreathe'), 'celHaloBreathe アニメーションが無い');
-  assert.ok(HTML.includes('mShadow.setAttribute(\'rx\''), '_driveThemeGauge 内の月齢計算が無い');
+t('Celestial: 絢爛アストロラーベ（立体傾斜軌道・黄道十二宮・天球レテ・太陽天体）が定義されている', () => {
+  assert.ok(HTML.includes('id="celEclipticArc"'), 'celEclipticArc が見つからない');
+  assert.ok(HTML.includes('id="celSunChronos"'), 'celSunChronos が見つからない');
+  assert.ok(HTML.includes('id="celReteGroup"'), 'celReteGroup が見つからない');
+  assert.ok(HTML.includes('id="celAspectTrine"'), 'celAspectTrine が見つからない');
+  assert.ok(HTML.includes('class="cel-meridian-ring"'), 'cel-meridian-ring が見つからない');
+  assert.ok(HTML.includes('class="cel-zodiac-notches"'), 'cel-zodiac-notches が見つからない');
+  assert.ok(HTML.includes('@keyframes astroReteSpin'), 'astroReteSpin アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes astroMeridianBreath'), 'astroMeridianBreath アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes astroSunPulse'), 'astroSunPulse アニメーションが無い');
+  assert.ok(HTML.includes('cArc.style.strokeDashoffset'), '_driveThemeGauge 内の黄道進捗計算が無い');
 });
 
 t('Celestial: 祝砲から外枠点線円（astrolabeRings）が撤廃されステラダストに統一されている', () => {

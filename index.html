@@ -232,10 +232,29 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
   0%,100%{box-shadow:0 0 6px 0 color-mix(in srgb,var(--or) 45%,transparent);}
   50%{box-shadow:0 0 14px 3px color-mix(in srgb,var(--or) 85%,transparent);}
 }
-/* 応援メッセージ：生体コンソール風微光インジケータ付き */
-.hero-say{margin-top:var(--sp-3);font-size:13px;line-height:1.75;color:var(--ts);max-width:34em;
-  padding-left:11px;border-left:2px solid var(--or);background:linear-gradient(90deg,rgba(var(--or-rgb,255,154,60),.06),transparent 85%);
-  border-radius:0 4px 4px 0;}
+/* ── SRS復習インサイトカード ── */
+.hero-say{margin-top:var(--sp-3);font-size:13px;line-height:1.6;color:var(--ts);max-width:38em;
+  padding:10px 14px;background:rgba(var(--glass-rgb),.05);border:1px solid rgba(var(--glass-rgb),.14);
+  border-left:3px solid var(--or);border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.15);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:border-color .3s,background .3s;}
+.hero-say.is-clear{border-left-color:var(--gr,#22c55e);background:linear-gradient(90deg,rgba(34,197,94,.08),rgba(var(--glass-rgb),.04) 90%);}
+.srs-card-hdr{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;flex-wrap:wrap;}
+.srs-card-title-grp{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.srs-card-ttl{font-weight:700;font-size:13px;color:var(--t1,#fff);display:inline-flex;align-items:center;gap:5px;}
+.hero-say.is-clear .srs-card-ttl{color:var(--gr,#22c55e);}
+.srs-tag{font-size:10px;font-weight:600;letter-spacing:.02em;padding:1px 6px;border-radius:10px;border:1px solid rgba(var(--glass-rgb),.2);background:rgba(var(--glass-rgb),.08);color:var(--ts);}
+.srs-tag-cross{border-color:rgba(59,130,246,.35);background:rgba(59,130,246,.12);color:#93c5fd;}
+.srs-tag-risk{border-color:rgba(249,115,22,.35);background:rgba(249,115,22,.12);color:#fdba74;}
+.srs-card-today{font-size:11px;color:var(--ts);white-space:nowrap;margin-left:auto;}
+.srs-card-today b{font-size:13px;font-weight:700;color:var(--t1,#fff);margin:0 2px;}
+.srs-card-stat{display:flex;align-items:center;gap:12px;margin-bottom:7px;padding:6px 12px;background:rgba(0,0,0,.22);border-radius:4px;border:1px solid rgba(var(--glass-rgb),.08);}
+.srs-stat-cell{display:flex;flex-direction:column;min-width:0;}
+.srs-stat-lbl{font-size:10px;color:var(--tm,#888);margin-bottom:1px;}
+.srs-stat-val{font-size:14px;font-weight:700;color:var(--t1,#fff);font-feature-settings:"tnum";}
+.srs-stat-val small{font-size:11px;font-weight:400;color:var(--ts);margin-left:2px;}
+.srs-stat-cell.highlight .srs-stat-val{color:var(--or,#f97316);}
+.srs-stat-sep{font-size:13px;color:var(--tm,#888);opacity:.7;flex-shrink:0;user-select:none;}
+.srs-card-hint{font-size:12px;color:var(--ts);margin:0;line-height:1.5;}
 
 /* ── ゲージ（全体進捗）。円弧は stroke-dashoffset だけを動かす ── */
 /* 盤面そのものを大きく取る。viewBox は 168 で、進捗の弧(r=54)より外側の
@@ -1275,10 +1294,42 @@ html.ui-frost .od-frost{display:inline;}
 .od-kintsugi .gold-ray{stroke:#FFD700;stroke-width:1.5;filter:drop-shadow(0 0 6px #FFD700);animation:kintsugiRayPulse 1.2s ease-in-out infinite alternate;}
 @keyframes kintsugiRayPulse{0%{opacity:.3;stroke-width:1;}100%{opacity:1;stroke-width:2.5;}}
 
-/* Celestial: 星光コロナリング ＆ 超新星パルス（点線は完全撤廃） */
-.od-celestial .gyro-ring{fill:none;stroke:url(#celMoonGrad);stroke-width:1.8;stroke-dasharray:none;opacity:.85;filter:drop-shadow(0 0 8px #FFD166);animation:celHaloBreathe 2s ease-in-out infinite alternate;}
-.od-celestial .supernova-star{fill:#FFFDF0;filter:drop-shadow(0 0 10px #FFD166) drop-shadow(0 0 20px rgba(138,43,226,.9));animation:supernovaPulse .9s ease-in-out infinite alternate;}
+/* Celestial: 絢爛アストロラーベ・惑星直列（シジジー）超新星覚醒（点線は完全撤廃） */
+.od-celestial .gyro-ring{
+  fill:none;stroke:url(#celAstroGoldGrad);stroke-width:2.2;stroke-dasharray:none;opacity:.95;
+  filter:drop-shadow(0 0 10px #FFD166) drop-shadow(0 0 20px #8A2BE2);
+  animation:celHaloBreathe 1.8s ease-in-out infinite alternate;
+}
+.od-celestial .cel-od-syzygy-ring{
+  fill:none;stroke:#00F2FE;stroke-width:1.6;opacity:.85;
+  filter:drop-shadow(0 0 8px #00F2FE) drop-shadow(0 0 16px #8A2BE2);
+  transform-origin:84px 84px;animation:celSyzygySpin 6s linear infinite;
+}
+.od-celestial .cel-od-octagram-a{
+  fill:none;stroke:url(#celAstroGoldGrad);stroke-width:1.5;opacity:.9;
+  filter:drop-shadow(0 0 12px #FFD166) drop-shadow(0 0 24px rgba(138,43,226,.8));
+  transform-origin:84px 84px;animation:celOctagramBreathe 2s ease-in-out infinite alternate;
+}
+.od-celestial .cel-od-octagram-b{
+  fill:none;stroke:#FFFDF0;stroke-width:1.2;opacity:.8;
+  filter:drop-shadow(0 0 8px #FFFDF0) drop-shadow(0 0 16px #FFD166);
+  transform-origin:84px 84px;animation:celOctagramBreathe 2s ease-in-out infinite alternate-reverse;
+}
+.od-celestial .cel-od-beams{
+  fill:none;stroke:#FFFDF0;stroke-width:1;opacity:.75;
+  filter:drop-shadow(0 0 8px #FFFDF0) drop-shadow(0 0 14px #00F2FE);
+  animation:celBeamPulse 1.2s ease-in-out infinite alternate;
+}
+.od-celestial .supernova-star{
+  fill:#FFFDF0;
+  filter:drop-shadow(0 0 12px #FFD166) drop-shadow(0 0 24px rgba(138,43,226,.95)) drop-shadow(0 0 36px #00F2FE);
+  animation:supernovaPulse .8s ease-in-out infinite alternate;
+}
+@keyframes celSyzygySpin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+@keyframes celOctagramBreathe{0%{transform:scale(.96) rotate(0deg);opacity:.6;}100%{transform:scale(1.04) rotate(4deg);opacity:1;}}
+@keyframes celBeamPulse{0%{opacity:.4;stroke-width:.8;}100%{opacity:.95;stroke-width:1.6;}}
 @keyframes supernovaPulse{0%{transform:scale(.8);}100%{transform:scale(1.3);}}
+@keyframes celHaloBreathe{0%{transform:scale(1);opacity:.8;}100%{transform:scale(1.06);opacity:1;filter:drop-shadow(0 0 16px #FFFDF0) drop-shadow(0 0 28px #FFD166);}}
 
 /* Abyss: 水深MAX警告＆超高周波バイオフラッシュ */
 .od-abyss .bio-shockwave{fill:none;stroke:#00FFA3;stroke-width:2;animation:abyssShockwave 1.4s ease-out infinite;}
@@ -1949,71 +2000,194 @@ html.ui-kintsugi .theme-gauge-kintsugi { display: inline; }
 }
 
 /* ─────────────────────────────────────────────────────────────
-   6. Celestial: 【月齢ムーンフェイズ ＆ 流星コメット周回】
+   6. Celestial: 【絢爛アストロラーベ・多重連動天球儀】
    ───────────────────────────────────────────────────────────── */
 html.ui-celestial .theme-gauge-celestial { display: inline; }
-.cel-orbit-rim {
+
+/* 1. 天球プレート地盤 */
+.cel-astral-plate {
+  filter: drop-shadow(0 0 16px rgba(138, 43, 226, 0.45));
+}
+
+/* 2. 子午環外枠 ＆ 黄道十二宮精密ノッチ */
+.cel-meridian-ring {
   fill: none;
-  stroke: rgba(255, 209, 102, .3);
-  stroke-width: 1.2;
+  stroke: url(#celAstroGoldGrad);
+  stroke-width: 1.8;
+  filter: drop-shadow(0 0 6px rgba(255, 209, 102, 0.6)) drop-shadow(0 0 14px rgba(138, 43, 226, 0.4));
+  animation: astroMeridianBreath 3.5s ease-in-out infinite alternate;
 }
-.cel-orbit-track {
-  fill: rgba(12, 6, 32, .55);
-  stroke: rgba(138, 43, 226, .35);
-  stroke-width: 1;
+@keyframes astroMeridianBreath {
+  0% { stroke-width: 1.6; opacity: 0.85; }
+  100% { stroke-width: 2.2; opacity: 1; filter: drop-shadow(0 0 10px #FFD166) drop-shadow(0 0 20px rgba(138, 43, 226, 0.6)); }
 }
-.cel-moon-base {
-  fill: #120924;
-  stroke: rgba(138, 43, 226, .4);
-  stroke-width: 1.2;
-  filter: drop-shadow(0 0 12px rgba(18, 9, 36, .8));
+
+.cel-meridian-inner {
+  fill: none;
+  stroke: rgba(255, 209, 102, 0.35);
+  stroke-width: 0.8;
 }
-.cel-moon-lit {
-  filter: drop-shadow(0 0 10px rgba(255, 209, 102, .6)) drop-shadow(0 0 20px rgba(138, 43, 226, .7));
-  transition: filter .5s;
-}
-.cel-moon-halo {
+
+.cel-zodiac-notches {
   fill: none;
   stroke: #FFD166;
-  stroke-width: 2;
-  opacity: 0;
-  filter: drop-shadow(0 0 12px #FFD166) drop-shadow(0 0 24px rgba(138,43,226,1));
-  transition: opacity .6s;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+.cel-meridian-diamond {
+  fill: #FFFDF0;
+  stroke: #FFD166;
+  stroke-width: 0.6;
+  filter: drop-shadow(0 0 4px #FFD166);
+  animation: astroDiamondGlow 2.4s ease-in-out infinite alternate;
+}
+.cel-meridian-diamond.d-e, .cel-meridian-diamond.d-w { animation-delay: 0.6s; }
+.cel-meridian-diamond.d-s { animation-delay: 1.2s; }
+@keyframes astroDiamondGlow {
+  0% { opacity: 0.6; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1.15); filter: drop-shadow(0 0 8px #FFFDF0) drop-shadow(0 0 14px #FFD166); }
+}
+
+/* 3. 八方位アストロラーベ照準軸 */
+.cel-aspect-axes {
+  fill: none;
+  stroke: rgba(255, 209, 102, 0.45);
+  stroke-width: 0.9;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 4px rgba(138, 43, 226, 0.5));
+}
+
+/* 4. 第1可動環：赤道儀ジンバル環 */
+.cel-equatorial-gimbal {
   transform-origin: 84px 84px;
+  animation: astroGimbalDrift 16s ease-in-out infinite alternate;
 }
-.gauge[data-tier="5"] .cel-moon-halo,
-.gauge[data-tier="6"] .cel-moon-halo {
-  opacity: .95;
-  animation: celHaloBreathe 2.4s ease-in-out infinite alternate;
+@keyframes astroGimbalDrift {
+  0% { transform: rotate(-14deg) scaleY(0.95); }
+  50% { transform: rotate(-8deg) scaleY(1.05); }
+  100% { transform: rotate(-14deg) scaleY(0.95); }
 }
-@keyframes celHaloBreathe {
-  0% { transform: scale(1); opacity: .75; }
-  100% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 18px #FFFDF0) drop-shadow(0 0 32px #FFD166); }
+.cel-gimbal-ring {
+  fill: none;
+  stroke: rgba(255, 209, 102, 0.5);
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 6px rgba(255, 209, 102, 0.3));
 }
-.cel-comet-orbit {
+.cel-gimbal-inner {
+  fill: none;
+  stroke: rgba(138, 43, 226, 0.35);
+  stroke-width: 0.8;
+}
+
+/* 5. アスペクト調和幾何学（トライン） */
+.cel-aspect-trine {
+  fill: rgba(138, 43, 226, 0.08);
+  stroke: rgba(72, 202, 228, 0.35);
+  stroke-width: 1;
+  opacity: 0.4;
   transform-origin: 84px 84px;
-  animation: cometCruise 8s cubic-bezier(.4, 0, .2, 1) infinite;
+  transition: stroke 0.6s, opacity 0.6s, filter 0.6s;
+}
+.gauge[data-tier="3"] .cel-aspect-trine,
+.gauge[data-tier="4"] .cel-aspect-trine {
+  opacity: 0.75;
+  stroke: #48CAE4;
+  filter: drop-shadow(0 0 6px #48CAE4);
+}
+.gauge[data-tier="5"] .cel-aspect-trine,
+.gauge[data-tier="6"] .cel-aspect-trine {
+  opacity: 0.95;
+  stroke: #FFD166;
+  fill: rgba(255, 209, 102, 0.12);
+  filter: drop-shadow(0 0 10px #FFD166) drop-shadow(0 0 18px #8A2BE2);
+  animation: astroTrinePulse 2.8s ease-in-out infinite alternate;
+}
+@keyframes astroTrinePulse {
+  0% { transform: scale(0.98); opacity: 0.8; }
+  100% { transform: scale(1.03); opacity: 1; }
+}
+
+/* 6. 第2可動環：黄道傾斜環 ＆ 進捗インジケーター */
+.cel-ecliptic-group {
+  transform-origin: 84px 84px;
+  transform: rotate(-32deg);
+}
+.cel-ecliptic-track {
+  fill: none;
+  stroke: rgba(138, 43, 226, 0.4);
+  stroke-width: 2.2;
+}
+.cel-ecliptic-arc {
+  fill: none;
+  stroke-width: 3.4;
+  stroke-linecap: round;
+  stroke-dasharray: 285;
+  stroke-dashoffset: 285;
+  filter: drop-shadow(0 0 8px #FFD166) drop-shadow(0 0 16px #00F2FE) drop-shadow(0 0 24px rgba(138, 43, 226, 0.8));
+  transition: stroke-dashoffset 0.85s cubic-bezier(0.2, 0.9, 0.3, 1), filter 0.5s;
+}
+.gauge[data-tier="5"] .cel-ecliptic-arc,
+.gauge[data-tier="6"] .cel-ecliptic-arc {
+  stroke-width: 4.2;
+  filter: drop-shadow(0 0 12px #FFFDF0) drop-shadow(0 0 24px #FFD166) drop-shadow(0 0 36px #00F2FE);
+}
+
+/* 太陽天体マーカー（Solar Chronos） */
+.cel-sun-chronos {
+  transform-origin: 84px 84px;
+  transition: transform 0.85s cubic-bezier(0.2, 0.9, 0.3, 1);
   pointer-events: none;
 }
-.gauge[data-tier="3"] .cel-comet-orbit { animation-duration: 5.5s; }
-.gauge[data-tier="4"] .cel-comet-orbit { animation-duration: 3.8s; }
-.gauge[data-tier="5"] .cel-comet-orbit,
-.gauge[data-tier="6"] .cel-comet-orbit { animation-duration: 2.2s; }
-.cel-comet-tail {
-  fill: none;
-  stroke-width: 3.2;
-  stroke-linecap: round;
-}
-.cel-comet-head {
+.cel-sun-burst {
   fill: #FFFDF0;
   filter: drop-shadow(0 0 6px #FFFDF0) drop-shadow(0 0 12px #FFD166);
+  animation: astroSunPulse 1.6s ease-in-out infinite alternate;
 }
-.cel-comet-spark {
-  fill: #FFF;
+.cel-sun-core {
+  fill: #FFD166;
 }
-@keyframes cometCruise {
+@keyframes astroSunPulse {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  100% { transform: scale(1.18); opacity: 1; filter: drop-shadow(0 0 10px #FFFDF0) drop-shadow(0 0 20px #FFD166); }
+}
+
+/* 7. 第3可動環：透かし彫り天球レテ ＆ 星針 */
+.cel-rete-group {
+  transform-origin: 84px 84px;
+  animation: astroReteSpin 36s linear infinite;
+  pointer-events: none;
+}
+.gauge[data-tier="3"] .cel-rete-group { animation-duration: 26s; }
+.gauge[data-tier="4"] .cel-rete-group { animation-duration: 18s; }
+.gauge[data-tier="5"] .cel-rete-group,
+.gauge[data-tier="6"] .cel-rete-group { animation-duration: 11s; }
+@keyframes astroReteSpin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.cel-rete-arms {
+  fill: none;
+  stroke: rgba(255, 209, 102, 0.45);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 4px rgba(138, 43, 226, 0.4));
+}
+.gauge[data-tier="5"] .cel-rete-arms,
+.gauge[data-tier="6"] .cel-rete-arms {
+  stroke: #FFE082;
+  filter: drop-shadow(0 0 8px #FFD166) drop-shadow(0 0 16px rgba(138, 43, 226, 0.7));
+}
+
+.cel-star-pt .sp-spark {
+  fill: #FFFDF0;
+  filter: drop-shadow(0 0 4px #FFFDF0) drop-shadow(0 0 8px #FFD166);
+}
+.cel-star-pt .sp-core {
+  fill: #00F2FE;
+  filter: drop-shadow(0 0 4px #00F2FE);
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -3314,7 +3488,7 @@ html.ui-frost .sec-h .ln{background:linear-gradient(90deg,#A0E7E5 0%,#70D6FF 40%
           </div>
           <span class="hero-lv-bar"><span id="heroLvFill"><i class="lv-fluid-wave"></i></span></span>
         </div>
-        <p class="hero-say" id="heroSay"></p>
+        <div class="hero-say srs-card" id="heroSay"></div>
       </div>
       <!-- ゲージ＝「今日やるべき問題数のうち何％まで来たか」。
            数字の出どころは MecGamify.dailyGoal()（日次ミッション ans が正本）で、
@@ -3779,9 +3953,32 @@ html.ui-frost .sec-h .ln{background:linear-gradient(90deg,#A0E7E5 0%,#70D6FF 40%
                 <circle class="kt-gold-dust d-2" cx="84" cy="88" r="2.2"></circle>
               </g>
 
-              <!-- 🌌 6. Celestial: 【月齢ムーンフェイズ ＆ 流星コメット周回】天体運行演出 -->
+              <!-- 🌌 6. Celestial: 【絢爛アストロラーベ・多重連動天球儀】古代魔導天体計器 -->
               <g class="theme-gauge-celestial" id="gaugeCelestialCore">
                 <defs>
+                  <!-- 真鍮ゴールド・メタリックグラデーション -->
+                  <linearGradient id="celAstroGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FFFDF0"></stop>
+                    <stop offset="25%" stop-color="#FFE082"></stop>
+                    <stop offset="60%" stop-color="#FFD166"></stop>
+                    <stop offset="85%" stop-color="#D4AF37"></stop>
+                    <stop offset="100%" stop-color="#996515"></stop>
+                  </linearGradient>
+                  <!-- 蒼光エーテルシアン・グラデーション（黄道進捗アーク用） -->
+                  <linearGradient id="celEtherEclipticGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FFFDF0"></stop>
+                    <stop offset="25%" stop-color="#FFD166"></stop>
+                    <stop offset="65%" stop-color="#00F2FE"></stop>
+                    <stop offset="100%" stop-color="#8A2BE2"></stop>
+                  </linearGradient>
+                  <!-- アメジスト深遠ネビュラ背景 -->
+                  <radialGradient id="celCoreNebulaGrad" cx="50%" cy="50%" r="72%">
+                    <stop offset="0%" stop-color="#240B48" stop-opacity="0.85"></stop>
+                    <stop offset="50%" stop-color="#14062B" stop-opacity="0.9"></stop>
+                    <stop offset="80%" stop-color="#0A031A" stop-opacity="0.96"></stop>
+                    <stop offset="100%" stop-color="#05010E" stop-opacity="0.98"></stop>
+                  </radialGradient>
+                  <!-- 旧互換用グラデーション -->
                   <linearGradient id="celMoonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stop-color="#FFFDF0"></stop>
                     <stop offset="45%" stop-color="#FFD166"></stop>
@@ -3795,26 +3992,81 @@ html.ui-frost .sec-h .ln{background:linear-gradient(90deg,#A0E7E5 0%,#70D6FF 40%
                   </linearGradient>
                   <mask id="celMoonMask">
                     <rect x="0" y="0" width="168" height="168" fill="#FFF"></rect>
-                    <ellipse id="celMoonShadow" cx="84" cy="84" rx="42" ry="42" fill="#000"></ellipse>
+                    <ellipse id="celMoonShadow" cx="84" cy="84" rx="0" ry="0" fill="#000"></ellipse>
                   </mask>
                 </defs>
-                <!-- 天体運行・円環フレーム -->
-                <circle class="cel-orbit-rim" cx="84" cy="84" r="70"></circle>
-                <circle class="cel-orbit-track" cx="84" cy="84" r="64"></circle>
 
-                <!-- 月齢ムーンフェイズ（中央の月球：進捗で新月→三日月→上弦→満月） -->
-                <circle class="cel-moon-base" id="celMoonBase" cx="84" cy="84" r="42"></circle>
-                <circle class="cel-moon-lit" id="celMoonLit" cx="84" cy="84" r="42" fill="url(#celMoonGrad)" mask="url(#celMoonMask)"></circle>
-                <circle class="cel-moon-halo" id="celMoonHalo" cx="84" cy="84" r="46"></circle>
+                <!-- 1. 天球プレート地盤（Astral Sphere Base） -->
+                <circle class="cel-astral-plate" cx="84" cy="84" r="74" fill="url(#celCoreNebulaGrad)"></circle>
 
-                <!-- 流星コメット周回軌道（外周を光の尾を引いて滑走） -->
-                <g class="cel-comet-orbit" id="celCometOrbit">
-                  <path class="cel-comet-tail" d="M 84,14 A 70,70 0 0,0 24,54" stroke="url(#celCometTailGrad)"></path>
-                  <circle class="cel-comet-head" cx="84" cy="14" r="3.6"></circle>
-                  <circle class="cel-comet-spark" cx="84" cy="14" r="1.8"></circle>
+                <!-- 2. 子午環外枠 ＆ 黄道十二宮精密ノッチ（Meridian Limb & Zodiac Ticks） -->
+                <circle class="cel-meridian-ring" cx="84" cy="84" r="72"></circle>
+                <circle class="cel-meridian-inner" cx="84" cy="84" r="67"></circle>
+                <path class="cel-zodiac-notches" d="M 84,12 L 84,17 M 114,20.1 L 111.5,24.4 M 136.3,42.4 L 132,44.9 M 156,84 L 151,84 M 136.3,125.6 L 132,123.1 M 114,147.9 L 111.5,143.6 M 84,156 L 84,151 M 54,147.9 L 56.5,143.6 M 31.7,125.6 L 36,123.1 M 12,84 L 17,84 M 31.7,42.4 L 36,44.9 M 54,20.1 L 56.5,24.4"></path>
+                <!-- 四方位アンカーダイヤモンド -->
+                <polygon class="cel-meridian-diamond d-n" points="84,9 86.5,12 84,15 81.5,12"></polygon>
+                <polygon class="cel-meridian-diamond d-e" points="153,84 156,81.5 159,84 156,86.5"></polygon>
+                <polygon class="cel-meridian-diamond d-s" points="84,153 86.5,156 84,159 81.5,156"></polygon>
+                <polygon class="cel-meridian-diamond d-w" points="9,84 12,81.5 15,84 12,86.5"></polygon>
+
+                <!-- 3. 八方位アストロラーベ照準軸（Cardinal & Octant Aspect Axes） -->
+                <path class="cel-aspect-axes" d="M 84,18 L 84,46 M 84,122 L 84,150 M 18,84 L 46,84 M 122,84 L 150,84 M 110.9,57.1 L 127.8,40.2 M 110.9,110.9 L 127.8,127.8 M 57.1,110.9 L 40.2,127.8 M 57.1,57.1 L 40.2,40.2"></path>
+
+                <!-- 4. 第1可動環：赤道儀ジンバル環（Equatorial Gimbal Ring） -->
+                <g class="cel-equatorial-gimbal">
+                  <ellipse class="cel-gimbal-ring" cx="84" cy="84" rx="64" ry="26"></ellipse>
+                  <ellipse class="cel-gimbal-inner" cx="84" cy="84" rx="60" ry="22"></ellipse>
                 </g>
 
-                <!-- 互換用要素 -->
+                <!-- 5. アスペクト調和幾何学（Aspect Harmonics Triangle） -->
+                <polygon class="cel-aspect-trine" id="celAspectTrine" points="84,44 118,102 50,102"></polygon>
+
+                <!-- 6. 第2可動環：黄道傾斜環（Ecliptic Zodiac Band）＆ 進捗インジケーター -->
+                <g class="cel-ecliptic-group">
+                  <!-- 黄道軌道ベース -->
+                  <ellipse class="cel-ecliptic-track" cx="84" cy="84" rx="63" ry="23"></ellipse>
+                  <!-- 黄道進捗光弧（0%〜100%） -->
+                  <ellipse class="cel-ecliptic-arc" id="celEclipticArc" cx="84" cy="84" rx="63" ry="23" stroke="url(#celEtherEclipticGrad)"></ellipse>
+                  <!-- 黄道を運行する太陽天体マーカー（Solar Chronos） -->
+                  <g class="cel-sun-chronos" id="celSunChronos">
+                    <polygon class="cel-sun-burst" points="84,54 85.5,58.5 90,60 85.5,61.5 84,66 82.5,61.5 78,60 82.5,58.5"></polygon>
+                    <circle class="cel-sun-core" cx="84" cy="60" r="2.8"></circle>
+                  </g>
+                </g>
+
+                <!-- 7. 第3可動環：透かし彫り天球レテ ＆ 星針（Rete & Star Pointers） -->
+                <g class="cel-rete-group" id="celReteGroup">
+                  <path class="cel-rete-arms" d="M 84,36 C 98,36 122,54 122,84 C 122,108 104,126 84,126 C 64,126 46,108 46,84 C 46,62 66,42 84,42 M 60,60 Q 84,72 108,60 M 60,108 Q 84,96 108,108"></path>
+                  <!-- 4大輝星ノード（Star Pointers） -->
+                  <g class="cel-star-pt sp-north">
+                    <polygon class="sp-spark" points="84,35 85.5,38 88,38 86,40 87,43 84,41 81,43 82,40 80,38 82.5,38"></polygon>
+                    <circle class="sp-core" cx="84" cy="39" r="1.5"></circle>
+                  </g>
+                  <g class="cel-star-pt sp-east">
+                    <polygon class="sp-spark" points="122,81 123.5,84 126,84 124,86 125,89 122,87 119,89 120,86 118,84 120.5,84"></polygon>
+                    <circle class="sp-core" cx="122" cy="85" r="1.5"></circle>
+                  </g>
+                  <g class="cel-star-pt sp-south">
+                    <polygon class="sp-spark" points="84,123 85.5,126 88,126 86,128 87,131 84,129 81,131 82,128 80,126 82.5,126"></polygon>
+                    <circle class="sp-core" cx="84" cy="127" r="1.5"></circle>
+                  </g>
+                  <g class="cel-star-pt sp-west">
+                    <polygon class="sp-spark" points="46,81 47.5,84 50,84 48,86 49,89 46,87 43,89 44,86 42,84 44.5,84"></polygon>
+                    <circle class="sp-core" cx="46" cy="85" r="1.5"></circle>
+                  </g>
+                </g>
+
+                <!-- 互換用hidden要素（外部スクリプト・過去仕様の安全ガード） -->
+                <circle class="cel-moon-base" id="celMoonBase" cx="84" cy="84" r="0" style="display:none"></circle>
+                <circle class="cel-moon-lit" id="celMoonLit" cx="84" cy="84" r="0" style="display:none"></circle>
+                <circle class="cel-moon-halo" id="celMoonHalo" cx="84" cy="84" r="0" style="display:none"></circle>
+                <g class="cel-comet-orbit" id="celCometOrbit" style="display:none">
+                  <path class="cel-comet-tail" d=""></path>
+                  <circle class="cel-comet-head" cx="0" cy="0" r="0"></circle>
+                  <circle class="cel-comet-spark" cx="0" cy="0" r="0"></circle>
+                </g>
+                <circle class="cel-orbit-rim" cx="84" cy="84" r="0" style="display:none"></circle>
+                <circle class="cel-orbit-track" cx="84" cy="84" r="0" style="display:none"></circle>
                 <path id="celStarlink" d="" style="display:none"></path>
                 <g id="celStarsGroup" style="display:none"></g>
               </g>
@@ -4072,9 +4324,15 @@ html.ui-frost .sec-h .ln{background:linear-gradient(90deg,#A0E7E5 0%,#70D6FF 40%
                 <line x1="84" y1="84" x2="150" y2="128" class="gold-ray"></line>
                 <line x1="84" y1="84" x2="18" y2="128" class="gold-ray"></line>
               </g>
-              <!-- Celestial -->
+              <!-- Celestial: 絢爛アストロラーベ・惑星直列（シジジー）超新星覚醒 -->
               <g class="od-layer od-celestial">
-                <circle cx="84" cy="84" r="77" class="gyro-ring"></circle>
+                <circle cx="84" cy="84" r="78" class="gyro-ring"></circle>
+                <ellipse cx="84" cy="84" rx="74" ry="24" class="cel-od-syzygy-ring"></ellipse>
+                <!-- 八芒星シジジー光芒（大・小の交差スターバースト） -->
+                <polygon class="cel-od-octagram-a" points="84,4 102,50 164,84 102,118 84,164 66,118 4,84 66,50"></polygon>
+                <polygon class="cel-od-octagram-b" points="84,16 118,34 152,84 118,134 84,152 50,134 16,84 50,34"></polygon>
+                <!-- 四方超光束アスペクトビーム -->
+                <path class="cel-od-beams" d="M 84,2 L 84,166 M 2,84 L 166,84"></path>
                 <circle cx="84" cy="84" r="5" class="supernova-star"></circle>
               </g>
               <!-- Abyss -->
@@ -4371,6 +4629,12 @@ function getSRSDueCount() {
 //   ・既知の誤差: 同一セッションで同じ問題を2回「済」にすると通常モードぶんが
 //     1問（10XP）少なく出る。無くすには日別台帳の新設＝同期キー追加が要る。
 const XP_LAP = 10, XP_EX_ANSWER = 4, XP_EX_CORRECT = 6;
+const SRS_DEFAULT_SESSION_LIMIT = 50;
+
+// 将来的に 10 / 25 / 50 問などのセッション選択に対応可能な拡張口
+function getSrsSessionLimit() {
+  return SRS_DEFAULT_SESSION_LIMIT;
+}
 
 function _jstDay(ms) { return new Date(ms + 9 * 3600000).toISOString().slice(0, 10); }
 
@@ -4379,7 +4643,7 @@ function getTodayLearning() {
   let att = [];
   try { att = JSON.parse(localStorage.getItem('mec_attempts_v1') || '[]'); } catch {}
 
-  let exT = 0, exC = 0;
+  let exT = 0, exC = 0, srsDone = 0;
   (Array.isArray(att) ? att : []).forEach(line => {
     if (typeof line !== 'string') return;
     const p = line.split('|');
@@ -4388,6 +4652,7 @@ function getTodayLearning() {
     if (!t || _jstDay(t * 60000) !== today) return;
     exT++;
     if (p[3] === '1') exC++;
+    if (p[5] === 's') srsDone++;
   });
 
   let act = 0;
@@ -4397,7 +4662,7 @@ function getTodayLearning() {
 
   return {
     solved: exT + normal,
-    exT, exC, normal,
+    exT, exC, normal, srsDone,
     accPct: exT > 0 ? Math.round(exC / exT * 100) : 0,
     xp: (exT + normal) * XP_LAP + exT * XP_EX_ANSWER + exC * XP_EX_CORRECT,
   };
@@ -4758,12 +5023,43 @@ function renderHero() {
   if (td.normal) parts.push('通常の済 ' + _fmtN(td.normal) + '問');
   document.getElementById('heroXpNote').textContent = parts.length ? parts.join(' ／ ') : '';
 
+  const srsDoneToday = td.srsDone || 0;
+  const sessionLimit = getSrsSessionLimit();
+  const sessionCount = Math.min(due, sessionLimit);
+
   if (due > 0) {
-    say.textContent = '復習の期限が来た問題が ' + _fmtN(due) + ' 問あります。科目をまたいで出題されます。';
-  } else if (td.solved > 0) {
-    say.textContent = '復習の期限が来た問題はありません。全 ' + _fmtN(totalQ) + ' 問から次を選べます。';
+    say.classList.remove('is-clear');
+    say.innerHTML =
+      '<div class="srs-card-hdr">' +
+        '<div class="srs-card-title-grp">' +
+          '<span class="srs-card-ttl">🔔 復習キュー</span>' +
+          '<span class="srs-tag srs-tag-cross">科目横断</span>' +
+          '<span class="srs-tag srs-tag-risk">忘却リスク順</span>' +
+        '</div>' +
+        '<div class="srs-card-today">本日消化 <b>' + _fmtN(srsDoneToday) + '</b>問</div>' +
+      '</div>' +
+      '<div class="srs-card-stat">' +
+        '<div class="srs-stat-cell">' +
+          '<span class="srs-stat-lbl">復習待ち</span>' +
+          '<span class="srs-stat-val"><b>' + _fmtN(due) + '</b><small>問</small></span>' +
+        '</div>' +
+        '<span class="srs-stat-sep" aria-hidden="true">➔</span>' +
+        '<div class="srs-stat-cell highlight">' +
+          '<span class="srs-stat-lbl">今回の出題</span>' +
+          '<span class="srs-stat-val"><b>優先 ' + _fmtN(sessionCount) + '</b><small>問</small></span>' +
+        '</div>' +
+      '</div>' +
+      '<p class="srs-card-hint">忘却リスクが高い問題から優先出題されます。下の「復習をはじめる」から開始できます。</p>';
   } else {
-    say.textContent = 'まだ今日の記録がありません。1問でも解くとここに積み上がります。';
+    say.classList.add('is-clear');
+    say.innerHTML =
+      '<div class="srs-card-hdr">' +
+        '<div class="srs-card-title-grp">' +
+          '<span class="srs-card-ttl">🎉 今日の復習はクリア済み</span>' +
+        '</div>' +
+        '<div class="srs-card-today">本日消化 <b>' + _fmtN(srsDoneToday) + '</b>問</div>' +
+      '</div>' +
+      '<p class="srs-card-hint">現在、復習期限を迎えた問題はありません。全 ' + _fmtN(totalQ) + '問から新しい問題を進めましょう！</p>';
   }
 
   // ボタンは3つとも席が固定: 主＝いま一番やるべきこと／副＝復習／3つ目＝今日の誤答。
@@ -5839,11 +6135,32 @@ function _driveThemeGauge(pct, base, over, tier) {
     kc3.style.strokeDashoffset = String((100 * (1 - p3)).toFixed(1));
   }
 
-  // 6. Celestial: 【月齢ムーンフェイズ】進捗に応じて新月(0%) → 三日月(25%) → 上弦(50%) → 満月(100%)
+  // 6. Celestial: 【絢爛アストロラーベ・多重連動天球儀】黄道進捗光弧 ＆ 太陽天体マーカー運行
+  const cArc = document.getElementById('celEclipticArc');
+  const cSun = document.getElementById('celSunChronos');
+  const cTrine = document.getElementById('celAspectTrine');
+  const cTotal = 285; // 黄道傾斜環（rx=63, ry=23）の外周長
+  const pCel = Math.min(100, Math.max(0, base));
+
+  if (cArc) {
+    // 0%で全周非表示(285)、100%で全周点灯(0)
+    const cOffset = cTotal * (1 - pCel / 100);
+    cArc.style.strokeDashoffset = String(cOffset.toFixed(1));
+  }
+  if (cSun) {
+    // 太陽天体マーカーが黄道楕円環の角度（0%〜100% で 0°〜360°）を運行
+    const sunAngle = (pCel / 100) * 360;
+    cSun.style.transform = 'rotate(' + sunAngle.toFixed(1) + 'deg)';
+  }
+  if (cTrine) {
+    // 進捗率に応じてアスペクト調和幾何学の角度が連動
+    const tRot = (pCel / 100) * 120;
+    cTrine.style.transform = 'rotate(' + tRot.toFixed(1) + 'deg)';
+  }
+  // 互換用フォールバック
   const mShadow = document.getElementById('celMoonShadow');
   if (mShadow) {
     const p = Math.min(1, Math.max(0, base / 100));
-    // 0%でrx=42(完全影), 100%でrx=0(影なし・完全満月)
     const sRx = Math.max(0, 42 * (1 - p));
     const sCx = 84 + (p * 42);
     mShadow.setAttribute('rx', String(sRx.toFixed(1)));
