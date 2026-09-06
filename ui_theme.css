@@ -5329,8 +5329,10 @@ html.ui-liquid .gauge .gauge-mid {
 }
 
 html.ui-liquid .gauge[data-tier="5"] .gauge-mid,
-html.ui-liquid .gauge[data-tier="6"] .gauge-mid {
-  text-shadow: 0 0 30px rgba(255, 255, 255, 1), 0 0 55px rgba(255, 0, 127, 1), 0 0 75px rgba(0, 242, 254, 1) !important;
+html.ui-liquid .gauge[data-tier="6"] .gauge-mid,
+html.ui-liquid .gauge.is-100 .gauge-mid,
+html.ui-liquid .gauge.overdrive .gauge-mid {
+  text-shadow: 0 0 24px rgba(255, 255, 255, 1), 0 0 42px rgba(0, 242, 254, 0.95), 0 0 60px rgba(255, 0, 127, 0.9), 0 0 78px rgba(255, 209, 102, 0.75) !important;
 }
 
 .kt-layer, .cel-layer, .abyss-layer, .frost-layer { display: none !important; }

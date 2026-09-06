@@ -294,8 +294,9 @@ t('Cyber: カウントダウン画面から点線3重円cd-ringsが完全撤廃�
   assert.ok(studyCss.includes('.cd-rings{display:none!important;}'), 'study.cssに.cd-rings非表示が無い');
 });
 
-t('Frost: オーバードライブ装飾（frost-blizzard-ring）から点線が完全撤廃されている', () => {
-  assert.ok(HTML.includes('.od-frost .frost-blizzard-ring {\n  fill: none; stroke: rgba(160, 231, 229, .6); stroke-width: 1.5;\n  stroke-dasharray: none;'), 'od-frost frost-blizzard-ringに点線が残っている');
+t('Frost: オーバードライブ装飾から同心円リング（frost-blizzard-ring）が完全撤廃されている', () => {
+  assert.ok(!HTML.includes('frost-blizzard-ring'), 'frost-blizzard-ring が残っている');
+  assert.ok(HTML.includes('frost-hyper-rim'), 'frost-hyper-rim が無い');
 });
 
 t('Frost: 正解・祝祭演出（frostCrystalShatter）から同心円rings/sonicWaveが完全撤廃されslashRibbonへ刷新されている', () => {

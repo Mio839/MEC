@@ -1308,11 +1308,6 @@ html.ui-frost .od-frost{display:inline;}
   0% { transform: scale(0.98); opacity: .7; }
   100% { transform: scale(1.04); opacity: 1; filter: drop-shadow(0 0 16px #FFFFFF) drop-shadow(0 0 30px #A0E7E5); }
 }
-.od-frost .frost-blizzard-ring {
-  fill: none; stroke: rgba(160, 231, 229, .6); stroke-width: 1.5;
-  stroke-dasharray: none;
-  animation: casingSpin 3.2s linear infinite;
-}
 
 /* オーバードライブ時の中央数字の覚醒パルス */
 .gauge[data-overdrive] .gauge-mid{
@@ -1352,6 +1347,7 @@ html.ui-abyss .gauge-trk, html.ui-abyss .gauge-val, html.ui-abyss .gauge-ovf, ht
 html.ui-abyss .gauge-crown-orbit, html.ui-abyss .gauge-megaring, html.ui-abyss .gauge-heatsink,
 html.ui-abyss .doctor-casing-layer, html.ui-abyss .gauge-milestones, html.ui-abyss .gauge-surge-wave,
 html.ui-abyss .gauge-pacer-ghost, html.ui-abyss .gauge-pulse-trk, html.ui-abyss .abyss-plate,
+html.ui-abyss .abyss-layer, html.ui-abyss #gaugeAbyssLayer,
 html.ui-aurora .gauge-trk, html.ui-aurora .gauge-val, html.ui-aurora .gauge-ovf, html.ui-aurora .gauge-dot,
 html.ui-aurora .gauge-crown-orbit, html.ui-aurora .gauge-megaring, html.ui-aurora .gauge-heatsink,
 html.ui-aurora .doctor-casing-layer, html.ui-aurora .gauge-milestones, html.ui-aurora .gauge-surge-wave,
@@ -1707,6 +1703,11 @@ html.ui-liquid .gauge-ring {
   transition: transform .8s cubic-bezier(.2, .9, .3, 1);
 }
 
+/* 🧪 メタボール流体層（Gooey粘性マージ） */
+.liquid-metaball-layer {
+  transform-origin: 84px 84px;
+}
+
 /* 表面張力オーラ膜（マントル） */
 .lava-cell-mantle {
   fill: url(#lavaMembraneGrad);
@@ -1769,6 +1770,13 @@ html.ui-liquid .gauge-ring {
 .lava-drop {
   fill: url(#lavaDropletGrad);
   filter: drop-shadow(0 0 6px #00F2FE) drop-shadow(0 0 10px #FF007F);
+  transition: opacity .8s ease, transform .9s cubic-bezier(.2, .9, .3, 1);
+  transform-origin: center center;
+}
+.lava-drop.absorbed {
+  opacity: 0 !important;
+  transform: scale(0.1) !important;
+  pointer-events: none;
 }
 .lava-drop.d1 {
   animation: lavaDropFloat1 5.4s ease-in-out infinite alternate;
@@ -1821,6 +1829,63 @@ html.ui-liquid .gauge-ring {
 @keyframes lavaNanoGlint {
   0% { opacity: 0.3; transform: scale(0.8); }
   100% { opacity: 1; transform: scale(1.3); }
+}
+
+/* 🌈 臨界オパール・プリズム虹彩化（案4：100%・オーバードライブ） */
+html.ui-liquid #gaugeLiquidCore.is-100 .lava-cell-body,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-cell-body {
+  animation: lavaCellMorph 8.5s ease-in-out infinite alternate, opalPrismCycle 6s linear infinite !important;
+}
+html.ui-liquid #gaugeLiquidCore.is-100 .lava-cell-mantle,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-cell-mantle {
+  animation: lavaMantleMorph 9.5s ease-in-out infinite alternate, opalPrismCycle 6s linear infinite !important;
+}
+html.ui-liquid #gaugeLiquidCore.is-100 .lava-lamp-chamber,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-lamp-chamber {
+  animation: lavaChamberMorph 12s ease-in-out infinite alternate, opalPrismChamber 6s linear infinite !important;
+}
+html.ui-liquid .gauge.is-100 .gauge-ring,
+html.ui-liquid .gauge.overdrive .gauge-ring {
+  box-shadow: 0 0 38px rgba(0, 242, 254, .8), 0 0 56px rgba(255, 0, 127, .7), inset 0 0 28px rgba(255, 209, 102, .6) !important;
+}
+@keyframes opalPrismCycle {
+  0% { filter: drop-shadow(0 0 16px rgba(255, 0, 127, 0.8)) drop-shadow(0 0 26px rgba(0, 242, 254, 0.6)) hue-rotate(0deg); }
+  50% { filter: drop-shadow(0 0 20px rgba(0, 242, 254, 0.9)) drop-shadow(0 0 32px rgba(255, 209, 102, 0.7)) hue-rotate(180deg); }
+  100% { filter: drop-shadow(0 0 16px rgba(255, 0, 127, 0.8)) drop-shadow(0 0 26px rgba(0, 242, 254, 0.6)) hue-rotate(360deg); }
+}
+@keyframes opalPrismChamber {
+  0% { stroke: #FF007F; filter: drop-shadow(0 0 16px rgba(255,0,127,.8)) drop-shadow(0 0 28px rgba(0,242,254,.6)); }
+  33% { stroke: #00F2FE; filter: drop-shadow(0 0 20px rgba(0,242,254,.9)) drop-shadow(0 0 30px rgba(255,209,102,.7)); }
+  66% { stroke: #FFD166; filter: drop-shadow(0 0 20px rgba(255,209,102,.9)) drop-shadow(0 0 30px rgba(255,0,127,.7)); }
+  100% { stroke: #FF007F; filter: drop-shadow(0 0 16px rgba(255,0,127,.8)) drop-shadow(0 0 28px rgba(0,242,254,.6)); }
+}
+
+/* 祝祭臨界スパークル気泡 */
+.liquid-critical-sparkles {
+  opacity: 0;
+  transition: opacity .8s ease;
+  pointer-events: none;
+}
+html.ui-liquid #gaugeLiquidCore.is-100 .liquid-critical-sparkles,
+html.ui-liquid #gaugeLiquidCore.overdrive .liquid-critical-sparkles {
+  opacity: 1;
+}
+.lava-sparkle {
+  fill: #FFFFFF;
+  filter: drop-shadow(0 0 4px #00F2FE) drop-shadow(0 0 8px #FF007F);
+  animation: lavaSparkleRise 4s ease-in-out infinite;
+}
+.lava-sparkle.sp1 { animation-delay: 0s; animation-duration: 3.4s; }
+.lava-sparkle.sp2 { animation-delay: 0.7s; animation-duration: 4.1s; }
+.lava-sparkle.sp3 { animation-delay: 1.3s; animation-duration: 3.8s; }
+.lava-sparkle.sp4 { animation-delay: 2.0s; animation-duration: 3.2s; }
+.lava-sparkle.sp5 { animation-delay: 2.6s; animation-duration: 4.4s; }
+.lava-sparkle.sp6 { animation-delay: 1.0s; animation-duration: 3.6s; }
+@keyframes lavaSparkleRise {
+  0% { transform: translateY(0) scale(0.5); opacity: 0; }
+  25% { opacity: 0.95; }
+  75% { opacity: 0.95; }
+  100% { transform: translateY(-36px) scale(1.3); opacity: 0; }
 }
 
 /* 🔥 オーバードライブ覚醒時（臨界ジェル発光・プルプル高密度パルス） */
@@ -1943,49 +2008,181 @@ html.ui-celestial .theme-gauge-celestial { display: inline; }
 }
 
 /* ─────────────────────────────────────────────────────────────
-   7. Abyss: 潜水艇角丸長方形コンソール＆垂直潜航深度バー（非円形）
+   7. Abyss: 超深海探査ポータル ＆ バイオルミネセンス深度インジケーター
    ───────────────────────────────────────────────────────────── */
 html.ui-abyss .theme-gauge-abyss { display: inline; }
-.abyss-chassis-frame {
-  fill: rgba(2, 14, 26, .88);
-  stroke: #00FFA3;
-  stroke-width: 2.5;
-  filter: drop-shadow(0 0 14px rgba(0,255,163,.5));
-}
-.abyss-chassis-inner {
+
+/* 耐圧舷窓チタンリム＆溝 */
+.abyss-porthole-rim {
   fill: none;
-  stroke: rgba(0, 180, 216, .35);
+  stroke: #071E2E;
+  stroke-width: 5;
+  filter: drop-shadow(0 0 16px rgba(0, 255, 163, 0.45)) drop-shadow(0 0 32px rgba(0, 180, 216, 0.3));
+}
+.abyss-porthole-groove {
+  fill: none;
+  stroke: rgba(0, 255, 163, 0.38);
   stroke-width: 1.2;
-  stroke-dasharray: 4 4;
 }
-.abyss-bolt {
-  fill: #64FFDA;
-  stroke: #020E1A;
-  stroke-width: .8;
-  filter: drop-shadow(0 0 4px #64FFDA);
+
+/* 12個のチタン耐圧リベットボルト */
+.abyss-porthole-bolts .abyss-bolt {
+  fill: #00FFA3;
+  stroke: #010E18;
+  stroke-width: 0.8;
+  filter: drop-shadow(0 0 4px #00FFA3);
+  animation: abyssBoltPulse 4s ease-in-out infinite alternate;
 }
-.abyss-depth-track-l, .abyss-depth-track-r {
-  fill: rgba(0, 255, 163, .12);
-  stroke: rgba(0, 255, 163, .35);
+@keyframes abyssBoltPulse {
+  0% { opacity: 0.75; filter: drop-shadow(0 0 2px #00FFA3); }
+  100% { opacity: 1; filter: drop-shadow(0 0 6px #00FFA3) drop-shadow(0 0 10px #00E5FF); }
+}
+
+/* 同心ソナーエコー波紋 */
+.abyss-sonar-ring {
+  fill: none;
+  stroke: rgba(0, 255, 163, 0.18);
   stroke-width: 1;
 }
-.abyss-dive-prog-l, .abyss-dive-prog-r {
-  fill: #00E5FF;
-  filter: drop-shadow(0 0 8px #00E5FF) drop-shadow(0 0 16px rgba(0,255,163,.8));
-  transition: height 1s cubic-bezier(.16, 1, .3, 1);
+.abyss-sonar-ring.sr-1 { animation: abyssSonarEcho 3.2s ease-out infinite; }
+.abyss-sonar-ring.sr-2 { animation: abyssSonarEcho 3.2s ease-out infinite 1.1s; }
+.abyss-sonar-ring.sr-3 { animation: abyssSonarEcho 3.2s ease-out infinite 2.2s; }
+@keyframes abyssSonarEcho {
+  0% { opacity: 0.1; transform: scale(0.88); transform-origin: 84px 84px; }
+  50% { opacity: 0.45; stroke: rgba(0, 229, 255, 0.4); }
+  100% { opacity: 0.05; transform: scale(1.08); transform-origin: 84px 84px; }
 }
-.abyss-scale-lines {
-  stroke: rgba(255, 255, 255, .45);
-  stroke-width: 1.4;
+
+/* 360度ソナースキャン走査 */
+.abyss-sonar-sweep {
+  animation: abyssSonarCruise 6s linear infinite;
+  pointer-events: none;
+}
+.gauge[data-tier="3"] .abyss-sonar-sweep { animation-duration: 4.5s; }
+.gauge[data-tier="4"] .abyss-sonar-sweep { animation-duration: 3.2s; }
+.gauge[data-tier="5"] .abyss-sonar-sweep,
+.gauge[data-tier="6"] .abyss-sonar-sweep { animation-duration: 2s; }
+@keyframes abyssSonarCruise {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.abyss-sonar-line {
+  stroke: #00FFA3;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 6px #00FFA3);
+}
+
+/* マリンスノー（微小発光粒子の穏やかな対流） */
+.abyss-snow {
+  fill: #64FFDA;
+  opacity: 0.6;
+  filter: drop-shadow(0 0 3px #00FFA3);
+  animation: abyssSnowDrift 5s ease-in-out infinite alternate;
+}
+.abyss-snow.sn-1 { animation-duration: 4.2s; }
+.abyss-snow.sn-2 { animation-duration: 6.1s; animation-delay: -1s; }
+.abyss-snow.sn-3 { animation-duration: 5.3s; animation-delay: -2s; }
+.abyss-snow.sn-4 { animation-duration: 4.8s; animation-delay: -0.5s; }
+@keyframes abyssSnowDrift {
+  0% { transform: translateY(0px) translateX(0px); opacity: 0.35; }
+  50% { opacity: 0.85; filter: drop-shadow(0 0 6px #00FFA3); }
+  100% { transform: translateY(-7px) translateX(3px); opacity: 0.25; }
+}
+
+/* 深海マイクロバブル */
+.abyss-bubble {
+  fill: rgba(0, 229, 255, 0.2);
+  stroke: rgba(0, 255, 163, 0.6);
+  stroke-width: 0.8;
+  animation: abyssBubbleRise 4s ease-in infinite;
+}
+.abyss-bubble.bb-1 { animation-duration: 3.5s; }
+.abyss-bubble.bb-2 { animation-duration: 4.8s; animation-delay: -1.5s; }
+.abyss-bubble.bb-3 { animation-duration: 4.2s; animation-delay: -0.8s; }
+@keyframes abyssBubbleRise {
+  0% { transform: translateY(6px); opacity: 0; }
+  30% { opacity: 0.7; }
+  80% { opacity: 0.5; }
+  100% { transform: translateY(-24px); opacity: 0; }
+}
+
+/* 曲面斜光ハイライトグレア */
+.abyss-glass-glare {
+  stroke: rgba(224, 242, 254, 0.35);
+  stroke-width: 2.2;
   stroke-linecap: round;
+  filter: drop-shadow(0 0 4px rgba(224, 242, 254, 0.5));
 }
+
+/* 深度目盛りスケールリング */
+.abyss-depth-scale {
+  fill: none;
+  stroke: rgba(0, 255, 163, 0.35);
+  stroke-width: 1.5;
+  stroke-dasharray: 1 5.28;
+}
+
+/* 生体発光アーク（Bioluminescent Arc） */
+.abyss-bio-track {
+  fill: none;
+  stroke: rgba(0, 255, 163, 0.12);
+  stroke-width: 4.5;
+}
+.abyss-bio-arc {
+  fill: none;
+  stroke: url(#abyssBioArcGrad);
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  stroke-dasharray: 402.12;
+  stroke-dashoffset: 402.12;
+  filter: drop-shadow(0 0 8px #00FFA3) drop-shadow(0 0 16px rgba(0, 229, 255, 0.85)) drop-shadow(0 0 28px rgba(0, 255, 163, 0.6));
+  transition: stroke-dashoffset 0.85s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.gauge[data-tier="5"] .abyss-bio-arc,
+.gauge[data-tier="6"] .abyss-bio-arc {
+  stroke: #E0F2FE;
+  filter: drop-shadow(0 0 12px #FFFFFF) drop-shadow(0 0 24px #00FFA3) drop-shadow(0 0 40px #00E5FF);
+}
+
+/* 先端生体発光オーブ */
+.abyss-bio-head {
+  transition: transform 0.85s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: none;
+}
+.abyss-orb-halo {
+  fill: rgba(0, 255, 163, 0.35);
+  filter: blur(3px);
+  animation: abyssOrbPulse 1.8s ease-in-out infinite alternate;
+}
+.abyss-orb-core {
+  fill: #E0F2FE;
+  filter: drop-shadow(0 0 6px #00FFA3) drop-shadow(0 0 12px #00E5FF);
+}
+.abyss-orb-spark {
+  fill: #FFFFFF;
+}
+@keyframes abyssOrbPulse {
+  0% { transform: scale(0.85); opacity: 0.6; transform-origin: 84px 20px; }
+  100% { transform: scale(1.3); opacity: 1; transform-origin: 84px 20px; filter: drop-shadow(0 0 8px #00FFA3); }
+}
+
+/* リアルタイム潜航深度計HUD */
 .abyss-depth-display {
   font-family: var(--font-display);
   font-size: 8.5px;
   font-weight: 800;
   letter-spacing: 1.2px;
   fill: #00FFA3;
-  filter: drop-shadow(0 0 4px rgba(0,255,163,.8));
+  filter: drop-shadow(0 0 6px rgba(0, 255, 163, 0.9));
+}
+.abyss-zone-display {
+  font-family: var(--font-display);
+  font-size: 6px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  fill: #00E5FF;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 4px rgba(0, 229, 255, 0.7));
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -3053,6 +3250,16 @@ html.ui-frost .sec-h .ln{background:linear-gradient(90deg,#A0E7E5 0%,#70D6FF 40%
                   <clipPath id="liquidChamberClip">
                     <circle cx="84" cy="84" r="64"></circle>
                   </clipPath>
+                  <!-- 🧪 SVGメタボール（Gooey / 粘性マージ）フィルター -->
+                  <filter id="liquidGooFilter" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"></feGaussianBlur>
+                    <feColorMatrix in="blur" mode="matrix" values="
+                      1 0 0 0 0
+                      0 1 0 0 0
+                      0 0 1 0 0
+                      0 0 0 19 -8" result="goo"></feColorMatrix>
+                    <feComposite in="SourceGraphic" in2="goo" operator="atop"></feComposite>
+                  </filter>
                   <!-- ぷるぷる流体ジェルのメイングラデーション（ネオンマゼンタ〜シアン〜白光・完全透過） -->
                   <radialGradient id="lavaBlobCoreGrad" cx="45%" cy="40%" r="65%">
                     <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"></stop>
@@ -3067,19 +3274,19 @@ html.ui-frost .sec-h .ln{background:linear-gradient(90deg,#A0E7E5 0%,#70D6FF 40%
                     <stop offset="50%" stop-color="#FF2A8D" stop-opacity="0.45"></stop>
                     <stop offset="100%" stop-color="#00F2FE" stop-opacity="0.55"></stop>
                   </linearGradient>
-                  <!-- 内部発光核（ニュークリアス）グラデーション -->
+                  <!-- 内部発光核（ニュークリアス）グラデーション：進捗率で色相覚醒 -->
                   <radialGradient id="lavaNucleusGrad" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stop-color="#FFFFFF"></stop>
-                    <stop offset="35%" stop-color="#00DFD8"></stop>
-                    <stop offset="70%" stop-color="#FF007F"></stop>
-                    <stop offset="100%" stop-color="#7928CA" stop-opacity="0"></stop>
+                    <stop id="lavaNucStop0" offset="0%" stop-color="#FFFFFF"></stop>
+                    <stop id="lavaNucStop1" offset="35%" stop-color="#00F2FE"></stop>
+                    <stop id="lavaNucStop2" offset="70%" stop-color="#FF007F"></stop>
+                    <stop id="lavaNucStop3" offset="100%" stop-color="#00F2FE" stop-opacity="0"></stop>
                   </radialGradient>
                   <!-- 浮遊サテライト液滴用グラデーション -->
                   <radialGradient id="lavaDropletGrad" cx="35%" cy="30%" r="70%">
                     <stop offset="0%" stop-color="#FFFFFF"></stop>
                     <stop offset="40%" stop-color="#00F2FE"></stop>
                     <stop offset="85%" stop-color="#FF007F"></stop>
-                    <stop offset="100%" stop-color="#7928CA"></stop>
+                    <stop offset="100%" stop-color="#00F2FE" stop-opacity="0.4"></stop>
                   </radialGradient>
                 </defs>
 
@@ -3092,29 +3299,46 @@ html.ui-frost .sec-h .ln{background:linear-gradient(90deg,#A0E7E5 0%,#70D6FF 40%
                   <!-- 深淵プール背景 -->
                   <circle class="liquid-chamber-pool" cx="84" cy="84" r="64"></circle>
 
-                  <!-- 🧪 中央の有機的流体セル（ラバ・ジェルブロブ本体） -->
-                  <g class="liquid-blob-core-group" id="liquidBlobCoreGroup">
-                    <!-- 外側オーラ膜（表面張力マントル） -->
-                    <path class="lava-cell-mantle" id="lavaCellMantle" d="M 84,36 C 114,34 136,58 134,84 C 132,112 110,134 84,132 C 56,130 34,110 36,84 C 38,56 56,38 84,36 Z"></path>
-                    <!-- メイン流体ボディ -->
-                    <path class="lava-cell-body" id="lavaCellBody" d="M 84,40 C 110,38 130,60 128,84 C 126,108 106,128 84,126 C 60,124 40,106 42,84 C 44,60 60,42 84,40 Z"></path>
-                    <!-- 内部コア発光核 -->
-                    <circle class="lava-cell-nucleus" id="lavaCellNucleus" cx="84" cy="84" r="20"></circle>
-                    <!-- ジェル光沢ハイライト -->
-                    <path class="lava-cell-specular" d="M 64,52 C 72,46 96,46 104,52 C 96,56 72,56 64,52 Z"></path>
+                  <!-- 🧪 メタボール流体層（Gooey粘性マージ：本体とサテライトがとろりと融合） -->
+                  <g class="liquid-metaball-layer" id="liquidMetaballLayer" filter="url(#liquidGooFilter)">
+                    <!-- 中央の有機的流体セル（ラバ・ジェルブロブ本体） -->
+                    <g class="liquid-blob-core-group" id="liquidBlobCoreGroup">
+                      <!-- 外側オーラ膜（表面張力マントル） -->
+                      <path class="lava-cell-mantle" id="lavaCellMantle" d="M 84,36 C 114,34 136,58 134,84 C 132,112 110,134 84,132 C 56,130 34,110 36,84 C 38,56 56,38 84,36 Z"></path>
+                      <!-- メイン流体ボディ -->
+                      <path class="lava-cell-body" id="lavaCellBody" d="M 84,40 C 110,38 130,60 128,84 C 126,108 106,128 84,126 C 60,124 40,106 42,84 C 44,60 60,42 84,40 Z"></path>
+                    </g>
+
+                    <!-- 🪐 周囲を浮遊・対流するサテライト液滴群（進捗率で本体へ引力融合） -->
+                    <g class="liquid-satellites-group" id="liquidSatellites">
+                      <circle class="lava-drop d1" id="lavaDrop1" cx="54" cy="60" r="7.5"></circle>
+                      <circle class="lava-drop d2" id="lavaDrop2" cx="114" cy="68" r="8.5"></circle>
+                      <circle class="lava-drop d3" id="lavaDrop3" cx="72" cy="116" r="6.5"></circle>
+                      <circle class="lava-drop d4" id="lavaDrop4" cx="106" cy="110" r="5.5"></circle>
+                      <circle class="lava-drop d5" id="lavaDrop5" cx="48" cy="98" r="5"></circle>
+                    </g>
                   </g>
 
-                  <!-- 🪐 周囲を浮遊・対流するサテライト液滴群 -->
-                  <g class="liquid-satellites-group" id="liquidSatellites">
-                    <circle class="lava-drop d1" cx="54" cy="60" r="7"></circle>
-                    <circle class="lava-drop d2" cx="114" cy="68" r="8.5"></circle>
-                    <circle class="lava-drop d3" cx="72" cy="116" r="6"></circle>
-                    <circle class="lava-drop d4" cx="106" cy="110" r="5"></circle>
-                    <circle class="lava-drop d5" cx="48" cy="98" r="4.5"></circle>
-                    <!-- 微小ネオングリント -->
+                  <!-- 内部コア発光核（Gooey外で鮮明発光・多段覚醒） -->
+                  <circle class="lava-cell-nucleus" id="lavaCellNucleus" cx="84" cy="84" r="20"></circle>
+                  <!-- ジェル光沢ハイライト -->
+                  <path class="lava-cell-specular" d="M 64,52 C 72,46 96,46 104,52 C 96,56 72,56 64,52 Z"></path>
+
+                  <!-- 微小ネオングリント -->
+                  <g class="liquid-nano-group">
                     <circle class="lava-nano n1" cx="84" cy="50" r="2.2"></circle>
                     <circle class="lava-nano n2" cx="118" cy="92" r="1.8"></circle>
                     <circle class="lava-nano n3" cx="50" cy="78" r="1.6"></circle>
+                  </g>
+
+                  <!-- 祝祭スパークル気泡（100%・オーバードライブ時に臨界上昇） -->
+                  <g class="liquid-critical-sparkles" id="liquidCriticalSparkles">
+                    <circle class="lava-sparkle sp1" cx="64" cy="120" r="1.8"></circle>
+                    <circle class="lava-sparkle sp2" cx="84" cy="128" r="2.4"></circle>
+                    <circle class="lava-sparkle sp3" cx="104" cy="116" r="1.6"></circle>
+                    <circle class="lava-sparkle sp4" cx="52" cy="84" r="2.0"></circle>
+                    <circle class="lava-sparkle sp5" cx="116" cy="80" r="2.2"></circle>
+                    <circle class="lava-sparkle sp6" cx="84" cy="44" r="1.8"></circle>
                   </g>
                 </g>
 
@@ -3181,23 +3405,115 @@ html.ui-frost .sec-h .ln{background:linear-gradient(90deg,#A0E7E5 0%,#70D6FF 40%
                 <g id="celStarsGroup" style="display:none"></g>
               </g>
 
-              <!-- 🌊 7. Abyss: 潜水艇角丸長方形コンソール＆垂直潜航深度バー -->
+              <!-- 🌊 7. Abyss: 超深海探査ポータル ＆ バイオルミネセンス深度インジケーター -->
               <g class="theme-gauge-abyss" id="gaugeAbyssCore">
-                <rect class="abyss-chassis-frame" x="18" y="16" width="132" height="136" rx="14"></rect>
-                <rect class="abyss-chassis-inner" x="22" y="20" width="124" height="128" rx="10"></rect>
-                <circle class="abyss-bolt" cx="24" cy="22" r="2.2"></circle>
-                <circle class="abyss-bolt" cx="144" cy="22" r="2.2"></circle>
-                <circle class="abyss-bolt" cx="144" cy="146" r="2.2"></circle>
-                <circle class="abyss-bolt" cx="24" cy="146" r="2.2"></circle>
-                <!-- 垂直深度バー（左右2本） -->
-                <rect class="abyss-depth-track-l" x="28" y="28" width="8" height="100" rx="3"></rect>
-                <rect class="abyss-dive-prog-l" id="abyssDiveProgL" x="28" y="28" width="8" height="0" rx="3"></rect>
-                <rect class="abyss-depth-track-r" x="132" y="28" width="8" height="100" rx="3"></rect>
-                <rect class="abyss-dive-prog-r" id="abyssDiveProgR" x="132" y="28" width="8" height="0" rx="3"></rect>
-                <path class="abyss-scale-lines" d="M 38,48 L 44,48 M 38,78 L 46,78 M 38,108 L 44,108 M 130,48 L 124,48 M 130,78 L 122,78 M 130,108 L 124,108"></path>
-                <text class="abyss-depth-display" id="abyssDepthDisplay" x="84" y="136" text-anchor="middle">DEPTH: 100m</text>
-                <!-- 互換用hidden要素 -->
+                <defs>
+                  <!-- 潜水球の深海背景グラデーション -->
+                  <radialGradient id="abyssOceanGrad" cx="50%" cy="50%" r="70%">
+                    <stop offset="0%" stop-color="#021C2C"></stop>
+                    <stop offset="55%" stop-color="#01101C"></stop>
+                    <stop offset="85%" stop-color="#000810"></stop>
+                    <stop offset="100%" stop-color="#000408"></stop>
+                  </radialGradient>
+                  <!-- 生体発光アーク用グラデーション -->
+                  <linearGradient id="abyssBioArcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#00FFA3"></stop>
+                    <stop offset="50%" stop-color="#00E5FF"></stop>
+                    <stop offset="100%" stop-color="#0077B6"></stop>
+                  </linearGradient>
+                  <!-- ソナースイープ用扇形グラデーション -->
+                  <linearGradient id="abyssSonarBeamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="rgba(0, 255, 163, 0)"></stop>
+                    <stop offset="80%" stop-color="rgba(0, 255, 163, 0.15)"></stop>
+                    <stop offset="100%" stop-color="rgba(0, 255, 163, 0.45)"></stop>
+                  </linearGradient>
+                  <!-- 舷窓クリップパス -->
+                  <clipPath id="abyssPortholeClip">
+                    <circle cx="84" cy="84" r="70"></circle>
+                  </clipPath>
+                </defs>
+
+                <!-- 重厚なチタン耐圧外枠（Bathyscaphe Porthole Rim） -->
+                <circle class="abyss-porthole-rim" cx="84" cy="84" r="76"></circle>
+                <circle class="abyss-porthole-groove" cx="84" cy="84" r="72"></circle>
+
+                <!-- 12個のチタン耐圧リベットボルト（円周 r=74 に30度刻みで均等配置） -->
+                <g class="abyss-porthole-bolts">
+                  <circle class="abyss-bolt" cx="84" cy="10" r="2"></circle>
+                  <circle class="abyss-bolt" cx="121" cy="20" r="2"></circle>
+                  <circle class="abyss-bolt" cx="148" cy="47" r="2"></circle>
+                  <circle class="abyss-bolt" cx="158" cy="84" r="2"></circle>
+                  <circle class="abyss-bolt" cx="148" cy="121" r="2"></circle>
+                  <circle class="abyss-bolt" cx="121" cy="148" r="2"></circle>
+                  <circle class="abyss-bolt" cx="84" cy="158" r="2"></circle>
+                  <circle class="abyss-bolt" cx="47" cy="148" r="2"></circle>
+                  <circle class="abyss-bolt" cx="20" cy="121" r="2"></circle>
+                  <circle class="abyss-bolt" cx="10" cy="84" r="2"></circle>
+                  <circle class="abyss-bolt" cx="20" cy="47" r="2"></circle>
+                  <circle class="abyss-bolt" cx="47" cy="20" r="2"></circle>
+                </g>
+
+                <!-- 舷窓ガラス内部（クリップ領域） -->
+                <g clip-path="url(#abyssPortholeClip)">
+                  <!-- 深海の漆黒〜深碧背景 -->
+                  <circle class="abyss-ocean-back" cx="84" cy="84" r="70" fill="url(#abyssOceanGrad)"></circle>
+
+                  <!-- 同心ソナーエコー波紋（探知音波リング） -->
+                  <circle class="abyss-sonar-ring sr-1" cx="84" cy="84" r="26"></circle>
+                  <circle class="abyss-sonar-ring sr-2" cx="84" cy="84" r="46"></circle>
+                  <circle class="abyss-sonar-ring sr-3" cx="84" cy="84" r="66"></circle>
+
+                  <!-- 360度回転ソナースイープ（Sonar Scan Sweep） -->
+                  <g class="abyss-sonar-sweep" id="abyssSonarSweep" style="transform-origin: 84px 84px;">
+                    <path class="abyss-sonar-beam" d="M 84,84 L 84,14 A 70,70 0 0,1 133,35 Z" fill="url(#abyssSonarBeamGrad)"></path>
+                    <line class="abyss-sonar-line" x1="84" y1="84" x2="133" y2="35"></line>
+                  </g>
+
+                  <!-- マリンスノー（微小発光粒子が穏やかに対流） -->
+                  <g class="abyss-marine-snow">
+                    <circle class="abyss-snow sn-1" cx="48" cy="56" r="1.4"></circle>
+                    <circle class="abyss-snow sn-2" cx="120" cy="62" r="1.8"></circle>
+                    <circle class="abyss-snow sn-3" cx="64" cy="116" r="1.2"></circle>
+                    <circle class="abyss-snow sn-4" cx="104" cy="110" r="1.6"></circle>
+                    <circle class="abyss-snow sn-5" cx="38" cy="92" r="1.0"></circle>
+                    <circle class="abyss-snow sn-6" cx="130" cy="96" r="1.3"></circle>
+                  </g>
+
+                  <!-- 深海マイクロバブル（かすかに立ち上る気泡） -->
+                  <g class="abyss-micro-bubbles">
+                    <circle class="abyss-bubble bb-1" cx="72" cy="120" r="2.0"></circle>
+                    <circle class="abyss-bubble bb-2" cx="96" cy="128" r="2.6"></circle>
+                    <circle class="abyss-bubble bb-3" cx="84" cy="106" r="1.6"></circle>
+                  </g>
+
+                  <!-- 舷窓の曲面斜光ハイライトグレア -->
+                  <path class="abyss-glass-glare" d="M 38,44 Q 84,24 130,44" fill="none"></path>
+                </g>
+
+                <!-- 外周深度目盛り（Bathymetric Scale Ring） -->
+                <circle class="abyss-depth-scale" cx="84" cy="84" r="67"></circle>
+
+                <!-- 360度生体発光アーク（円周 C = 2 * PI * 64 = 402.12） -->
+                <circle class="abyss-bio-track" cx="84" cy="84" r="64"></circle>
+                <circle class="abyss-bio-arc" id="abyssBioArc" cx="84" cy="84" r="64"></circle>
+
+                <!-- 先端生体発光オーブ（深海魚の発光器のように進捗先端を追従） -->
+                <g class="abyss-bio-head" id="abyssBioHead" style="transform-origin: 84px 84px;">
+                  <circle class="abyss-orb-halo" cx="84" cy="20" r="7"></circle>
+                  <circle class="abyss-orb-core" cx="84" cy="20" r="3"></circle>
+                  <circle class="abyss-orb-spark" cx="84" cy="20" r="1.4"></circle>
+                </g>
+
+                <!-- リアルタイム潜航深度計（正立補正: SVGの-90deg回転を打ち消し、画面下部に水平表示） -->
+                <g class="abyss-depth-hud">
+                  <text class="abyss-depth-display" id="abyssDepthDisplay" x="38" y="84" text-anchor="middle" transform="rotate(90, 38, 84)">DEPTH: 0m</text>
+                  <text class="abyss-zone-display" id="abyssZoneDisplay" x="28" y="84" text-anchor="middle" transform="rotate(90, 28, 84)">SURFACE</text>
+                </g>
+
+                <!-- 互換用hidden要素（既存テストや旧スクリプトとの整合性確保） -->
                 <path class="abyss-dive-prog" id="abyssDiveProg" d="" style="display:none"></path>
+                <rect class="abyss-dive-prog-l" id="abyssDiveProgL" x="0" y="0" width="0" height="0" style="display:none"></rect>
+                <rect class="abyss-dive-prog-r" id="abyssDiveProgR" x="0" y="0" width="0" height="0" style="display:none"></rect>
               </g>
 
               <!-- ❄️ 8. Frost: 【六花スノークリスタル ＆ 氷晶アイスコメット外周周回】 -->
@@ -3329,7 +3645,6 @@ html.ui-frost .sec-h .ln{background:linear-gradient(90deg,#A0E7E5 0%,#70D6FF 40%
               <!-- Frost -->
               <g class="od-layer od-frost">
                 <polygon points="84,8 152,47 152,121 84,160 16,121 16,47" class="frost-hyper-rim"></polygon>
-                <circle cx="84" cy="84" r="76" class="frost-blizzard-ring"></circle>
               </g>
             </g>
           </svg>
@@ -4897,6 +5212,7 @@ function _driveThemeGauge(pct, base, over, tier) {
   }
 
   // 4. Liquid: オーガニック・ラバ・セル（アメーバ流体ジェル＆浮遊液滴）
+  const lCore = document.getElementById('gaugeLiquidCore');
   const lBlobGroup = document.getElementById('liquidBlobCoreGroup');
   const lNucleus = document.getElementById('lavaCellNucleus');
   const lMantle = document.getElementById('lavaCellMantle');
@@ -4907,17 +5223,56 @@ function _driveThemeGauge(pct, base, over, tier) {
   const lWaveGroup = document.getElementById('liquidWaveGroup');
   const lBlobMain = document.getElementById('lavaBlobMain');
   const lWaxGroup = document.getElementById('lavaWaxGroup');
+
+  if (lCore) {
+    // 案4: 100%達成＆オーバードライブ時の臨界オパールプリズムクラス
+    lCore.classList.toggle('is-100', base >= 100);
+    lCore.classList.toggle('overdrive', over > 0);
+  }
+  const gBox = document.getElementById('heroGaugeBox');
+  if (gBox) {
+    gBox.classList.toggle('is-100', base >= 100);
+    gBox.classList.toggle('overdrive', over > 0);
+  }
+
   if (lBlobGroup) {
-    // 進捗率に応じて中央の流体セルがエネルギーを吸収し、豊かに膨張（スケール 0.84 -> 1.22）
-    const bScale = 0.84 + (base / 100) * 0.38 + (over > 0 ? 0.08 : 0);
+    // 進捗率に応じて中央の流体セルがエネルギーを吸収し、豊かに膨張（スケール 0.84 -> 1.26）
+    const bScale = 0.84 + (base / 100) * 0.42 + (over > 0 ? 0.08 : 0);
     lBlobGroup.style.transform = 'scale(' + bScale.toFixed(2) + ')';
   }
   if (lNucleus) {
-    // 中心の核が進捗とともに高密度化・発光拡大（半径 16 -> 26）
-    const nR = 16 + (base / 100) * 10 + (over > 0 ? 3 : 0);
+    // 中心の核が進捗とともに高密度化・発光拡大（半径 16 -> 27）
+    const nR = 16 + (base / 100) * 11 + (over > 0 ? 3 : 0);
     lNucleus.setAttribute('r', String(nR.toFixed(1)));
     const nOp = 0.6 + (base / 100) * 0.4;
     lNucleus.style.opacity = String(nOp.toFixed(2));
+
+    // 案2: コア多段覚醒（Stage 1〜5 の色相パレット）
+    const nStop1 = document.getElementById('lavaNucStop1');
+    const nStop2 = document.getElementById('lavaNucStop2');
+    if (nStop1 && nStop2) {
+      if (over > 0 || base >= 100) {
+        // Stage 5: Prismatic Awakening (オパールプリズム)
+        nStop1.setAttribute('stop-color', '#70D6FF');
+        nStop2.setAttribute('stop-color', '#FFD166');
+      } else if (base >= 75) {
+        // Stage 4: Solar Pulse (ゴールド×マゼンタ)
+        nStop1.setAttribute('stop-color', '#FFD166');
+        nStop2.setAttribute('stop-color', '#FF007F');
+      } else if (base >= 50) {
+        // Stage 3: Hyper Magenta (マゼンタ×ヴァイオレット)
+        nStop1.setAttribute('stop-color', '#FF007F');
+        nStop2.setAttribute('stop-color', '#E100FF');
+      } else if (base >= 25) {
+        // Stage 2: Vibrant Violet (シアン×マゼンタ)
+        nStop1.setAttribute('stop-color', '#38BDF8');
+        nStop2.setAttribute('stop-color', '#A78BFA');
+      } else {
+        // Stage 1: Genesis Cyan (アイスシアン)
+        nStop1.setAttribute('stop-color', '#00F2FE');
+        nStop2.setAttribute('stop-color', '#FF007F');
+      }
+    }
   }
   if (lMantle) {
     // 進捗とともにマントル（表面張力オーラ膜）の不透明度・グローが強化
@@ -4925,9 +5280,34 @@ function _driveThemeGauge(pct, base, over, tier) {
     lMantle.style.opacity = String(mOp.toFixed(2));
   }
   if (lSatellites) {
-    // 進捗に応じて周囲の液滴が中央のセルへ凝縮・合体するように引力を受ける（スケール 1.08 -> 0.90）
-    const sScale = 1.08 - (base / 100) * 0.18;
-    lSatellites.style.transform = 'scale(' + sScale.toFixed(2) + ')';
+    // 案2: サテライト液滴（d1〜d5）の段階的引力融合（進捗閾値で中心84,84へ吸い込まれメタボール融合）
+    const drops = [
+      { id: 'lavaDrop1', start: 20, end: 35, dx: 30, dy: 24 },
+      { id: 'lavaDrop2', start: 40, end: 55, dx: -30, dy: 16 },
+      { id: 'lavaDrop3', start: 60, end: 75, dx: 12, dy: -32 },
+      { id: 'lavaDrop4', start: 75, end: 90, dx: -22, dy: -26 },
+      { id: 'lavaDrop5', start: 90, end: 100, dx: 36, dy: -14 }
+    ];
+    drops.forEach(d => {
+      const el = document.getElementById(d.id);
+      if (!el) return;
+      if (base >= d.end) {
+        el.classList.add('absorbed');
+        el.style.transform = 'translate(' + d.dx + 'px, ' + d.dy + 'px) scale(0.15)';
+      } else if (base >= d.start) {
+        el.classList.remove('absorbed');
+        const ratio = (base - d.start) / (d.end - d.start);
+        const curX = d.dx * ratio;
+        const curY = d.dy * ratio;
+        const curScale = 1 - ratio * 0.65;
+        el.style.transform = 'translate(' + curX.toFixed(1) + 'px, ' + curY.toFixed(1) + 'px) scale(' + curScale.toFixed(2) + ')';
+        el.style.opacity = String((1 - ratio * 0.5).toFixed(2));
+      } else {
+        el.classList.remove('absorbed');
+        el.style.transform = '';
+        el.style.opacity = '';
+      }
+    });
   }
   if (lWaveGroup) {
     const waterY = Math.max(14, 146 - (base / 100) * 124 - (over > 0 ? 6 : 0));
@@ -4967,7 +5347,18 @@ function _driveThemeGauge(pct, base, over, tier) {
     mShadow.setAttribute('cx', String(sCx.toFixed(1)));
   }
 
-  // 7. Abyss: 潜水艇垂直潜航深度バー (左右2本: h 0 -> 100) と深度テキスト
+  // 7. Abyss: 超深海探査ポータル ＆ 生体発光アーク (C=402.12) & 潜航深度計
+  const aBioArc = document.getElementById('abyssBioArc');
+  const aBioHead = document.getElementById('abyssBioHead');
+  if (aBioArc) {
+    const cAbyss = 402.12; // 2 * PI * 64
+    const p = Math.min(100, Math.max(0, base));
+    aBioArc.style.strokeDashoffset = String((cAbyss * (1 - p / 100)).toFixed(2));
+    if (aBioHead) {
+      aBioHead.style.transform = 'rotate(' + (p * 3.6).toFixed(1) + 'deg)';
+    }
+  }
+  // 互換用hidden要素
   const aProgL = document.getElementById('abyssDiveProgL');
   const aProgR = document.getElementById('abyssDiveProgR');
   if (aProgL && aProgR) {
@@ -4976,9 +5367,19 @@ function _driveThemeGauge(pct, base, over, tier) {
     aProgR.setAttribute('height', String(h.toFixed(1)));
   }
   const dTx = document.getElementById('abyssDepthDisplay');
+  const zTx = document.getElementById('abyssZoneDisplay');
   if (dTx) {
-    const dMeters = Math.round(100 + (base / 100) * 9900);
-    dTx.textContent = 'DEPTH: ' + dMeters + 'm';
+    const dMeters = Math.round((base / 100) * 10928);
+    dTx.textContent = 'DEPTH: ' + dMeters.toLocaleString() + 'm';
+  }
+  if (zTx) {
+    let zone = 'SURFACE (0m)';
+    if (base >= 100) zone = 'HADAL TRENCH (MAX)';
+    else if (base >= 75) zone = 'ABYSSOPELAGIC';
+    else if (base >= 50) zone = 'BATHYPELAGIC';
+    else if (base >= 25) zone = 'MESOPELAGIC';
+    else if (base > 0) zone = 'EPIPELAGIC';
+    zTx.textContent = zone;
   }
 
   // 8. Frost: 正六角形六花氷結成長 (外周長約360)
