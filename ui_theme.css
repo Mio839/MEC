@@ -5881,14 +5881,21 @@ html.ui-abyss .gauge .gauge-dot .halo {
   filter: blur(4px);
 }
 
-html.ui-abyss .gauge.gauge-charge .gauge-val {
+html.ui-abyss .gauge.gauge-charge .gauge-val,
+html.ui-abyss .gauge.gauge-charge .abyss-bio-arc {
   animation: abyssSonarCharge 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
 }
 
 @keyframes abyssSonarCharge {
   0% { stroke: #FFFFFF; filter: drop-shadow(0 0 20px #E0F2FE) drop-shadow(0 0 40px #00FFA3) drop-shadow(0 0 60px rgba(0, 255, 163, 1)); }
   40% { stroke: #64FFDA; filter: drop-shadow(0 0 25px #00FFA3) drop-shadow(0 0 50px rgba(0, 180, 216, 0.9)); }
-  100% { stroke: #00FFA3; filter: drop-shadow(0 0 10px #00FFA3) drop-shadow(0 0 22px rgba(0, 255, 163, 0.9)); }
+  100% { stroke: url(#abyssBioArcGrad); filter: drop-shadow(0 0 10px #00FFA3) drop-shadow(0 0 22px rgba(0, 255, 163, 0.9)); }
+}
+
+html.ui-abyss .gauge.gauge-charge .abyss-porthole-rim {
+  stroke: #00FFA3 !important;
+  filter: drop-shadow(0 0 24px #00FFA3) drop-shadow(0 0 45px #00E5FF) !important;
+  transition: all 0.75s ease-out;
 }
 
 html.ui-abyss .gauge.gauge-charge .gauge-ring::before {
@@ -5901,8 +5908,16 @@ html.ui-abyss .gauge.gauge-charge .gauge-ring::before {
 }
 
 html.ui-abyss .gauge[data-tier="6"] .gauge-ring,
-html.ui-abyss .gauge.gauge-max .gauge-ring {
+html.ui-abyss .gauge.gauge-max .gauge-ring,
+html.ui-abyss .gauge[data-overdrive] .gauge-ring {
   animation: abyssMaxAuroraPulse 1.6s ease-in-out infinite alternate !important;
+}
+
+html.ui-abyss .gauge[data-tier="6"] .abyss-porthole-rim,
+html.ui-abyss .gauge.gauge-max .abyss-porthole-rim,
+html.ui-abyss .gauge[data-overdrive] .abyss-porthole-rim {
+  stroke: #00E5FF !important;
+  filter: drop-shadow(0 0 25px #00FFA3) drop-shadow(0 0 50px #00E5FF) drop-shadow(0 0 75px rgba(0, 255, 163, 0.8)) !important;
 }
 
 @keyframes abyssMaxAuroraPulse {

@@ -82,7 +82,7 @@ t('全8テーマの独自進捗パーツ（針・セグメント・液面・亀�
   assert.ok(HTML.includes('id="ktCrack1"'), 'ktCrack1 が見つからない');
   assert.ok(HTML.includes('id="celStarlink"'), 'celStarlink が見つからない');
   assert.ok(HTML.includes('id="abyssDiveProg"'), 'abyssDiveProg が見つからない');
-  assert.ok(HTML.includes('id="frostFreezeProg"'), 'frostFreezeProg が見つからない');
+  assert.ok(HTML.includes('id="frostInfillFill"'), 'frostInfillFill が見つからない');
 });
 
 t('_driveThemeGauge 関数が存在し、_driveGauge 内で呼び出されている', () => {
@@ -122,19 +122,27 @@ t('非円形テーマ（Cyber, Frost, Abyss, Aurora）で共通円盤・メガ�
   assert.ok(HTML.includes('background: none !important'), 'gauge-ring の background リセットが無い');
 });
 
-t('Abyss: 潜水艇角丸長方形コンソールと左右垂直深度バーがマークアップ＆制御ロジックに存在する', () => {
-  assert.ok(HTML.includes('id="abyssDiveProgL"'), 'abyssDiveProgL が無い');
-  assert.ok(HTML.includes('id="abyssDiveProgR"'), 'abyssDiveProgR が無い');
+t('Abyss: 超深海探査ポータル（耐圧舷窓・12ボルト・生体発光アーク・ソナースイープ・リアルタイム深度計）が実装されている', () => {
+  assert.ok(HTML.includes('id="abyssBioArc"'), 'abyssBioArc が無い');
+  assert.ok(HTML.includes('id="abyssBioHead"'), 'abyssBioHead が無い');
+  assert.ok(HTML.includes('id="abyssSonarSweep"'), 'abyssSonarSweep が無い');
+  assert.ok(HTML.includes('class="abyss-porthole-rim"'), 'abyss-porthole-rim が無い');
+  assert.ok(HTML.includes('class="abyss-porthole-bolts"'), 'abyss-porthole-bolts が無い');
   assert.ok(HTML.includes('id="abyssDepthDisplay"'), 'abyssDepthDisplay が無い');
-  assert.ok(HTML.includes('aProgL.setAttribute(\'height\''), '_driveThemeGauge 内の垂直深度バー制御が無い');
+  assert.ok(HTML.includes('id="abyssZoneDisplay"'), 'abyssZoneDisplay が無い');
+  assert.ok(HTML.includes('aBioArc.style.strokeDashoffset'), '_driveThemeGauge 内の生体発光アーク制御が無い');
+  assert.ok(HTML.includes('aBioHead.style.transform'), '_driveThemeGauge 内の生体発光オーブ制御が無い');
 });
 
-t('Frost: 六花スノークリスタル（樹枝状幾何学）と氷晶アイスコメット周回軌道が存在する', () => {
+t('Frost: 六角フロスト・インフィル、六花スノークリスタル（段階的フラクタル成長）、氷晶アイスコメット周回軌道が存在し、外周線画は撤廃されている', () => {
   assert.ok(HTML.includes('frost-hex-rim'), 'frost-hex-rim が無い');
   assert.ok(HTML.includes('frost-hex-inner'), 'frost-hex-inner が無い');
   assert.ok(HTML.includes('frost-snowflake-dendrite'), 'frost-snowflake-dendrite が無い');
+  assert.ok(HTML.includes('frost-dendrite-tier'), 'frost-dendrite-tier が無い');
+  assert.ok(HTML.includes('id="frostInfillFill"'), 'frostInfillFill が無い');
+  assert.ok(HTML.includes('id="frostInfillClip"'), 'frostInfillClip が無い');
   assert.ok(HTML.includes('id="frostCometOrbit"'), 'frostCometOrbit が無い');
-  assert.ok(HTML.includes('id="frostFreezeProg"'), 'frostFreezeProg が無い');
+  assert.ok(!HTML.includes('id="frostFreezeProg"'), 'frostFreezeProg（外周線画）が残存している');
   assert.ok(!HTML.includes('class="frost-axes-lines"'), '旧来のターゲット照準軸線 frost-axes-lines が残存している');
   assert.ok(!HTML.includes('class="frost-shard'), '旧来のターゲット照準マーカー frost-shard が残存している');
 });
@@ -294,9 +302,11 @@ t('Cyber: カウントダウン画面から点線3重円cd-ringsが完全撤廃�
   assert.ok(studyCss.includes('.cd-rings{display:none!important;}'), 'study.cssに.cd-rings非表示が無い');
 });
 
-t('Frost: オーバードライブ装飾から同心円リング（frost-blizzard-ring）が完全撤廃されている', () => {
+t('Frost: オーバードライブ装飾から同心円リング（frost-blizzard-ring）が完全撤廃され、極冷気ミストオーラ＆ダイヤモンドダストが実装されている', () => {
   assert.ok(!HTML.includes('frost-blizzard-ring'), 'frost-blizzard-ring が残っている');
   assert.ok(HTML.includes('frost-hyper-rim'), 'frost-hyper-rim が無い');
+  assert.ok(HTML.includes('frost-mist-aura'), 'frost-mist-aura が無い');
+  assert.ok(HTML.includes('frost-overdrive-diamonds'), 'frost-overdrive-diamonds が無い');
 });
 
 t('Frost: 正解・祝祭演出（frostCrystalShatter）から同心円rings/sonicWaveが完全撤廃されslashRibbonへ刷新されている', () => {
