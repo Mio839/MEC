@@ -34,6 +34,14 @@ EPISODE_RE = re.compile(r'(\d{2,3}[A-Z]-\d+)')
 # 画像ファイル名からepisodeコードを抽出 e.g. "循環器/images/118F-21_1.jpeg" -> "118F-21"
 IMG_CODE_RE = re.compile(r'(\d{2,3}[A-Z]-\d+)_\d+\.jpe?g$', re.IGNORECASE)
 
+# 連問（次の文を読み〜）の宣言。共通ステムを全兄弟の qt へ展開する形式（整形外科式）で、
+# ステムが宣言した図は兄弟全員の画面に出る。ファイル名は図を持ち込んだ設問の国試番号を
+# 名乗ったままなので、チェックA は**同じ連問グループの兄弟の番号なら通す**。
+# （誤帰属＝無関係な問題の図を掴んでいる場合の検出は残る）
+SERIES_RE = re.compile(r'<span class="kw">次の文を読み、(.+?)の問いに答えよ。</span>')
+# uid -> その設問が名乗ってよい国試番号の集合（load_all が埋める）
+SERIES_CODES = {}
+
 
 class _HTMLStripper(HTMLParser):
     def __init__(self):
@@ -63,9 +71,19 @@ def load_all(sid_filter=None):
         sid = data.get('sid', '')
         if sid_filter and sid != sid_filter:
             continue
+        groups = {}
         for chi, ch in enumerate(data.get('chapters', [])):
             for q in ch.get('qs', []):
                 results.append((sid, chi, ch.get('title', ''), q))
+                m = SERIES_RE.match(q.get('qt', ''))
+                if m:
+                    groups.setdefault(m.group(1), []).append(q)
+        for members in groups.values():
+            codes = set()
+            for q in members:
+                codes.update(get_episode_codes(q.get('episode', '')))
+            for q in members:
+                SERIES_CODES[q.get('uid')] = codes
     return results
 
 
@@ -94,10 +112,11 @@ def check_A(q):
     if not eps:
         return []
     ep = eps[0]
+    ok_codes = set(eps) | SERIES_CODES.get(q.get('uid'), set())
     issues = []
     for img in q.get('imgs', []):
         img_code = get_img_code(img)
-        if img_code and img_code != ep:
+        if img_code and img_code not in ok_codes:
             issues.append(f'episode={ep} だが img={os.path.basename(img)} (code={img_code})')
     return issues
 

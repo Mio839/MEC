@@ -73,6 +73,10 @@ VECTOR_RENDERED = {
 ANCHOR = re.compile(r'(\d{1,3})\s*[.．]\s*[（(]\s*(\d{2,3}[A-Z]-\d+)\s*[）)]')
 BLEED = re.compile(r'\d{1,3}\s*[.．]\s*[（(]\s*\d{2,3}[A-Z]-\d+\s*[）)]')
 FNAME_CODE = re.compile(r'^([0-9]+[A-Z]-[0-9]+)')
+# 連問（次の文を読み〜）は共通ステムを全兄弟の qt へ展開するので、ステムが宣言した図は
+# 兄弟全員の画面に出る。ファイル名は図を持ち込んだ設問の国試番号を名乗ったままなので、
+# 同じ連問グループの兄弟の番号なら不一致として挙げない（誤帰属の検出は残る）。
+SERIES_DECL = re.compile(r'<span class="kw">次の文を読み、(.+?)の問いに答えよ。</span>')
 MIN_AREA, MIN_LONG = 5000, 100
 # 入力型（桁入力）の計算問題の正解。calc_input.js の CANON と同じ規約に揃えてある
 CALC_ANS_RE = re.compile(r'^計算答[：:]\s*([0-9]+(?:\.[0-9]+)?)$')
@@ -238,6 +242,19 @@ def audit(sid, check_images=True):
 
     # ── 画像（存在・バッジ・命名） ──────────────────────────────
     used = set()
+    # uid -> 同じ連問グループの兄弟が名乗る国試番号（ファイル名の許容コード）
+    series_codes = {}
+    _groups = {}
+    for q in qs:
+        m = SERIES_DECL.match(q['qt'])
+        if m:
+            _groups.setdefault(m.group(1), []).append(q)
+    for members in _groups.values():
+        codes = set()
+        for q in members:
+            codes |= set(re.split(r'[・／/]', q['episode'].strip('()')))
+        for q in members:
+            series_codes[q['uid']] = codes
     for q in qs:
         imgs = q.get('imgs') or []
         badge = any(b['cls'] == 'bi' for b in q['badges'])
@@ -255,7 +272,8 @@ def audit(sid, check_images=True):
             # episode が複数の国試番号を持つ問題がある。ファイル名は代表の1つを名乗るので
             # 「・ または ／ 区切りのどれかに一致」で許す
             # （前方一致にすると 112D-3 が 112D-63 を通してしまうので使わない）。
-            if m and m.group(1) not in re.split(r'[・／/]', eid):
+            ok_codes = set(re.split(r'[・／/]', eid)) | series_codes.get(q['uid'], set())
+            if m and m.group(1) not in ok_codes:
                 add('画像', q, f'ファイル名の問題コード {m.group(1)} ≠ {eid}')
     if os.path.isdir(img_dir):
         for f in sorted(os.listdir(img_dir)):
