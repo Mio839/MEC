@@ -5202,7 +5202,7 @@ html.ui-cyber .gauge .gauge-all {
 
 html.ui-liquid .gauge .gauge-ring {
   position: relative;
-  filter: drop-shadow(0 0 26px rgba(255, 0, 127, 0.65)) drop-shadow(0 0 42px rgba(121, 40, 202, 0.45));
+  filter: drop-shadow(0 0 26px rgba(255, 0, 127, 0.65)) drop-shadow(0 0 36px rgba(0, 242, 254, 0.45));
 }
 
 html.ui-liquid .gauge .gauge-ring::before {
@@ -5211,11 +5211,11 @@ html.ui-liquid .gauge .gauge-ring::before {
   inset: -10px;
   border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
   background: linear-gradient(135deg, 
-    rgba(255, 0, 127, 0.55) 0%, 
-    rgba(121, 40, 202, 0.48) 50%, 
-    rgba(0, 242, 254, 0.52) 100%);
+    rgba(255, 0, 127, 0.45) 0%, 
+    rgba(255, 42, 141, 0.35) 50%, 
+    rgba(0, 242, 254, 0.45) 100%);
   filter: blur(12px);
-  animation: liquidFluidMorph var(--liquid-morph-t, 7s) ease-in-out infinite alternate;
+  animation: liquidFluidMorph var(--liquid-morph-t, 18s) ease-in-out infinite alternate;
   pointer-events: none;
 }
 
@@ -5226,29 +5226,30 @@ html.ui-liquid .gauge .gauge-ring::after {
   border-radius: 55% 45% 35% 65% / 60% 40% 60% 40%;
   border: 2px solid rgba(255, 0, 127, 0.85);
   box-shadow: inset 0 0 22px rgba(255, 0, 127, 0.55), 0 0 20px rgba(0, 242, 254, 0.6);
-  animation: liquidFluidMorph var(--liquid-gel-t, 10s) ease-in-out infinite alternate-reverse;
+  animation: liquidFluidMorph var(--liquid-gel-t, 22s) ease-in-out infinite alternate-reverse;
   pointer-events: none;
 }
 
-html.ui-liquid .gauge[data-tier="0"] { --liquid-morph-t: 12s; --liquid-gel-t: 16s; }
-html.ui-liquid .gauge[data-tier="1"] { --liquid-morph-t: 9s;  --liquid-gel-t: 13s; }
-html.ui-liquid .gauge[data-tier="2"] { --liquid-morph-t: 6.5s; --liquid-gel-t: 9.5s; }
-html.ui-liquid .gauge[data-tier="3"] { --liquid-morph-t: 4.5s; --liquid-gel-t: 6.5s; }
-html.ui-liquid .gauge[data-tier="4"] { --liquid-morph-t: 3.0s; --liquid-gel-t: 4.5s; }
-html.ui-liquid .gauge[data-tier="5"] { --liquid-morph-t: 1.8s; --liquid-gel-t: 2.8s; }
-html.ui-liquid .gauge[data-tier="6"] { --liquid-morph-t: 1.0s; --liquid-gel-t: 1.6s; }
+/* ゆったりとした有機的浮遊・呼吸サイクル（高速回転を完全排除） */
+html.ui-liquid .gauge[data-tier="0"] { --liquid-morph-t: 20s; --liquid-gel-t: 24s; }
+html.ui-liquid .gauge[data-tier="1"] { --liquid-morph-t: 19s; --liquid-gel-t: 23s; }
+html.ui-liquid .gauge[data-tier="2"] { --liquid-morph-t: 18s; --liquid-gel-t: 22s; }
+html.ui-liquid .gauge[data-tier="3"] { --liquid-morph-t: 17s; --liquid-gel-t: 21s; }
+html.ui-liquid .gauge[data-tier="4"] { --liquid-morph-t: 16s; --liquid-gel-t: 20s; }
+html.ui-liquid .gauge[data-tier="5"] { --liquid-morph-t: 15s; --liquid-gel-t: 19s; }
+html.ui-liquid .gauge[data-tier="6"] { --liquid-morph-t: 14s; --liquid-gel-t: 18s; }
 
 html.ui-liquid .gauge[data-tier="3"] .gauge-ring::before,
 html.ui-liquid .gauge[data-tier="4"] .gauge-ring::before {
-  background: linear-gradient(135deg, rgba(255, 0, 127, 0.6), rgba(121, 40, 202, 0.5), rgba(0, 242, 254, 0.55));
+  background: linear-gradient(135deg, rgba(255, 0, 127, 0.55), rgba(255, 42, 141, 0.4), rgba(0, 242, 254, 0.5));
   filter: blur(10px);
 }
 
 html.ui-liquid .gauge[data-tier="5"] .gauge-ring::before,
 html.ui-liquid .gauge[data-tier="6"] .gauge-ring::before {
-  background: linear-gradient(135deg, #FF007F, #7928CA, #00F2FE);
+  background: linear-gradient(135deg, rgba(255, 0, 127, 0.7), rgba(255, 42, 141, 0.5), rgba(0, 242, 254, 0.65));
   filter: blur(14px);
-  transform: scale(1.1);
+  transform: scale(1.06);
 }
 
 .qc, .ch2, .exam-self-btn, .mec-grade-btn, .mec-flag-btn, .mec-lap-btn, .mec-err-btn, .st-hdr, .gauge {
@@ -7179,26 +7180,30 @@ html.ui-cyber .gauge-pulse-trk {
   filter: drop-shadow(0 0 8px #00E5FF);
 }
 
-/* 3. Liquid: 有機的流体波打ち（フルイドモーフ：ゆったりフヨフヨ伸縮） */
+/* 3. Liquid: 有機的流体波打ち（フルイドモーフ：回転ゼロ・ゆったり無重力浮遊＆アメーバ伸縮） */
 html.ui-liquid .gauge .gauge-ring::before {
-  animation: liquidFluidMorph 10s ease-in-out infinite alternate !important;
+  animation: liquidFluidMorph var(--liquid-morph-t, 18s) ease-in-out infinite alternate !important;
 }
 @keyframes liquidFluidMorph {
   0% {
     border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
-    transform: rotate(0deg) scale(0.96, 1.04) translate(0, 0);
+    transform: translate(0, 0) scale(1, 1) rotate(0deg);
   }
-  33% {
-    border-radius: 60% 40% 35% 65% / 58% 35% 65% 42%;
-    transform: rotate(120deg) scale(1.05, 0.95) translate(-3px, 2px);
+  25% {
+    border-radius: 56% 44% 38% 62% / 52% 58% 42% 48%;
+    transform: translate(-3px, -5px) scale(1.03, 0.97) rotate(1.5deg);
   }
-  66% {
-    border-radius: 35% 65% 58% 42% / 42% 65% 35% 58%;
-    transform: rotate(240deg) scale(0.97, 1.03) translate(3px, -2px);
+  50% {
+    border-radius: 46% 54% 64% 36% / 40% 48% 52% 60%;
+    transform: translate(4px, 2px) scale(0.97, 1.04) rotate(-1.2deg);
+  }
+  75% {
+    border-radius: 60% 40% 48% 52% / 50% 38% 62% 50%;
+    transform: translate(-2px, 4px) scale(1.02, 0.98) rotate(1.0deg);
   }
   100% {
     border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
-    transform: rotate(360deg) scale(0.96, 1.04) translate(0, 0);
+    transform: translate(0, 0) scale(1, 1) rotate(0deg);
   }
 }
 

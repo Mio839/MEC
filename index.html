@@ -1671,7 +1671,7 @@ html.ui-aurora .theme-gauge-aurora { display: inline; }
 html.ui-liquid .theme-gauge-liquid { display: inline; }
 html.ui-liquid .gauge-ring {
   border-radius: 42% 58% 70% 30% / 45% 45% 55% 55% !important;
-  animation: lavaContainerMorph 11s ease-in-out infinite alternate !important;
+  animation: lavaContainerMorph 18s ease-in-out infinite alternate !important;
   box-shadow: 0 0 32px rgba(255,0,127,.65), inset 0 0 22px rgba(0,242,254,.45) !important;
   transform-origin: center center;
   will-change: transform, border-radius;
@@ -1682,16 +1682,16 @@ html.ui-liquid .gauge-ring {
     transform: translate(0, 0) scale(1, 1) rotate(0deg);
   }
   25% {
-    border-radius: 58% 42% 38% 62% / 54% 60% 40% 46%;
-    transform: translate(-4px, -6px) scale(1.04, 0.96) rotate(1.8deg);
+    border-radius: 56% 44% 38% 62% / 52% 58% 42% 48%;
+    transform: translate(-3px, -5px) scale(1.03, 0.97) rotate(1.2deg);
   }
   50% {
-    border-radius: 46% 54% 64% 36% / 38% 46% 54% 62%;
-    transform: translate(5px, 3px) scale(0.96, 1.05) rotate(-1.5deg);
+    border-radius: 46% 54% 64% 36% / 40% 48% 52% 60%;
+    transform: translate(4px, 2px) scale(0.97, 1.04) rotate(-1.0deg);
   }
   75% {
-    border-radius: 62% 38% 46% 54% / 52% 38% 62% 48%;
-    transform: translate(-3px, 5px) scale(1.03, 0.97) rotate(1.2deg);
+    border-radius: 60% 40% 48% 52% / 50% 38% 62% 50%;
+    transform: translate(-2px, 4px) scale(1.02, 0.98) rotate(0.8deg);
   }
   100% {
     border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
@@ -1702,15 +1702,15 @@ html.ui-liquid .gauge-ring {
   fill: none;
   stroke: rgba(255, 0, 127, .85);
   stroke-width: 2.2;
-  filter: drop-shadow(0 0 16px rgba(255,0,127,.65)) drop-shadow(0 0 28px rgba(121,40,202,.5));
-  animation: lavaChamberMorph 12s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 16px rgba(255,0,127,.65)) drop-shadow(0 0 28px rgba(0,242,254,.45));
+  animation: lavaChamberMorph 20s ease-in-out infinite alternate;
   transform-origin: 84px 84px;
 }
 @keyframes lavaChamberMorph {
   0% { transform: scale(1, 1) rotate(0deg); }
-  25% { transform: scale(1.06, 0.94) rotate(2.5deg) translate(-2px, 1px); }
-  50% { transform: scale(0.95, 1.05) rotate(-2deg) translate(2px, -2px); }
-  75% { transform: scale(1.04, 0.96) rotate(1.5deg) translate(-1px, -1px); }
+  25% { transform: scale(1.04, 0.96) rotate(1.5deg) translate(-2px, 1px); }
+  50% { transform: scale(0.97, 1.03) rotate(-1.2deg) translate(2px, -2px); }
+  75% { transform: scale(1.03, 0.97) rotate(1.0deg) translate(-1px, -1px); }
   100% { transform: scale(1, 1) rotate(0deg); }
 }
 .liquid-chamber-rim {
@@ -1741,28 +1741,28 @@ html.ui-liquid .gauge-ring {
   fill: url(#lavaMembraneGrad);
   filter: drop-shadow(0 0 16px rgba(255, 0, 127, 0.65)) drop-shadow(0 0 24px rgba(0, 242, 254, 0.5));
   transform-origin: 84px 84px;
-  animation: lavaMantleMorph 9.5s ease-in-out infinite alternate;
+  animation: lavaMantleMorph 16s ease-in-out infinite alternate;
   opacity: 0.7;
   transition: opacity .8s;
 }
 @keyframes lavaMantleMorph {
-  0% { transform: scale(1.06, 0.94) rotate(0deg); }
-  30% { transform: scale(0.93, 1.07) rotate(4.5deg); }
-  70% { transform: scale(1.07, 0.93) rotate(-3.5deg); }
-  100% { transform: scale(1.06, 0.94) rotate(0deg); }
+  0% { transform: scale(1.05, 0.95) rotate(0deg); }
+  30% { transform: scale(0.95, 1.05) rotate(2.5deg); }
+  70% { transform: scale(1.05, 0.95) rotate(-2.0deg); }
+  100% { transform: scale(1.05, 0.95) rotate(0deg); }
 }
 
 /* ぷるぷる流体ジェルのメインボディ */
 .lava-cell-body {
   fill: url(#lavaBlobCoreGrad);
   transform-origin: 84px 84px;
-  animation: lavaCellMorph 8.5s ease-in-out infinite alternate;
+  animation: lavaCellMorph 15s ease-in-out infinite alternate;
   filter: drop-shadow(0 0 14px rgba(255, 0, 127, 0.75)) drop-shadow(0 0 24px rgba(0, 242, 254, 0.55));
 }
 @keyframes lavaCellMorph {
   0% { transform: scale(1, 1) translate(0, 0) rotate(0deg); }
-  30% { transform: scale(1.08, 0.92) translate(-2px, 3px) rotate(3deg); }
-  65% { transform: scale(0.92, 1.08) translate(3px, -2px) rotate(-3deg); }
+  30% { transform: scale(1.06, 0.94) translate(-2px, 2px) rotate(1.8deg); }
+  65% { transform: scale(0.94, 1.06) translate(2px, -2px) rotate(-1.8deg); }
   100% { transform: scale(1, 1) translate(0, 0) rotate(0deg); }
 }
 
@@ -1770,7 +1770,7 @@ html.ui-liquid .gauge-ring {
 .lava-cell-nucleus {
   fill: url(#lavaNucleusGrad);
   transform-origin: 84px 84px;
-  animation: lavaNucleusGlow 3.6s ease-in-out infinite alternate;
+  animation: lavaNucleusGlow 5.8s ease-in-out infinite alternate;
   transition: r .8s cubic-bezier(.2, .9, .3, 1), opacity .8s;
 }
 @keyframes lavaNucleusGlow {
@@ -1783,7 +1783,7 @@ html.ui-liquid .gauge-ring {
   fill: rgba(255, 255, 255, 0.4);
   filter: drop-shadow(0 0 4px #FFFFFF);
   transform-origin: 84px 84px;
-  animation: lavaSpecularPulse 4.8s ease-in-out infinite alternate;
+  animation: lavaSpecularPulse 7.2s ease-in-out infinite alternate;
 }
 @keyframes lavaSpecularPulse {
   0% { transform: scale(0.92) translate(-1px, -1px); opacity: 0.35; }
@@ -1807,19 +1807,19 @@ html.ui-liquid .gauge-ring {
   pointer-events: none;
 }
 .lava-drop.d1 {
-  animation: lavaDropFloat1 5.4s ease-in-out infinite alternate;
+  animation: lavaDropFloat1 10.5s ease-in-out infinite alternate;
 }
 .lava-drop.d2 {
-  animation: lavaDropFloat2 6.3s ease-in-out infinite alternate;
+  animation: lavaDropFloat2 12.0s ease-in-out infinite alternate;
 }
 .lava-drop.d3 {
-  animation: lavaDropFloat3 4.9s ease-in-out infinite alternate;
+  animation: lavaDropFloat3 9.8s ease-in-out infinite alternate;
 }
 .lava-drop.d4 {
-  animation: lavaDropFloat4 5.8s ease-in-out infinite alternate;
+  animation: lavaDropFloat4 11.2s ease-in-out infinite alternate;
 }
 .lava-drop.d5 {
-  animation: lavaDropFloat5 7.0s ease-in-out infinite alternate;
+  animation: lavaDropFloat5 13.5s ease-in-out infinite alternate;
 }
 @keyframes lavaDropFloat1 {
   0% { transform: translate(0, 0) scale(1); }
