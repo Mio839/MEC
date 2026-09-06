@@ -298,7 +298,7 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
 
 ## デイリー／ウィークリーミッション（2026-07-30 拡張）
 
-定義は `gamify.js` の `MISSIONS_DAILY`（8個）・`MISSIONS_WEEKLY`（8個）。進捗は同期キー
+定義は `gamify.js` の `MISSIONS_DAILY`（9個）・`MISSIONS_WEEKLY`（8個）。進捗は同期キー
 `mec_missions_v1` の**端末別カウンタ**（表示・判定は端末横断で sum）。テスト: `node _work/test_missions.js`。
 
 ### tier（core / bonus）— 新しいミッションを足すときの基準
@@ -316,7 +316,7 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
 | counter | 意味 | 加算する場所 |
 |---|---|---|
 | `ans` / `cor` | 解答数／試験モードの正解数 | `onAnswer`（通常モードの「済」も `onLap` から `ans` に算入） |
-| `srs` | SRS復習セッションでの解答（正誤問わず消化数） | `onAnswer(..., {srs:true})`。`_recordMyRate` が `_srsReviewMode` を渡す |
+| `srs` | SRS復習セッションでの解答（正誤問わず消化数） | `onAnswer(..., {srs:true})`。`_recordMyRate` が `_srsReviewMode` を渡す。日次は20問(`srs`)と**50問(`srs50`)の2段**＝50は `SRS_SESSION_LIMIT`（復習キュー1セッションの上限）と同じ数で「復習を1本 完走する」の意味。⚠️上限を変えたら50も揃えること。⚠️どちらも `bonus` 固定（dueが50件に満たない日があり手を動かしても届かない） |
 | `redo` | 過去に落とした問題を正解し直した | `onAnswer(..., {wasWrong})`。**`myrate_v1` 加算前**の値で判定すること |
 | `hard` | 難問（正答率60%未満）に触った数 | `onAnswer`／`onLap` から `_isHardQ(uid)`。正誤は問わない（正解だけだと難問を避けるほど有利になる） |
 | `subj` | その日に触った科目数 | `_dailyFirstBumps`（`onAnswer`／`onLap` が同じ `_bumpMission` に合流させる）。同じ科目はその日1回だけ。**日次専用**（下記） |

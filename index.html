@@ -145,14 +145,14 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 .hero-body{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--sp-5);align-items:center;}
 /* ── ヒーロー左列：計器コンソール＆情報ブロック ── */
 .hero-console{position:relative;min-width:0;z-index:2;}
-.hero-label{display:flex;align-items:center;gap:8px;min-width:0;
+.hero-label{display:flex;align-items:center;gap:8px;min-width:0;flex-wrap:wrap;row-gap:6px;
   font-size:12.5px;font-weight:800;letter-spacing:.14em;color:var(--tx);}
-/* 見出し語だけを詰める。先頭の点（.hero-live）まで巻き込まないよう限定する */
-.hero-label .lb{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-/* 🎯 正解率の見出しラベル。「今日解いた問題」の右隣に並び、下の特大バッジを指す */
-.hero-label-acc{display:inline-flex;align-items:center;gap:4px;
+/* 見出し語（今日解いた問題）は省略（...）させず全文字表示を死守 */
+.hero-label .lb{flex-shrink:0;white-space:nowrap;min-width:max-content;}
+/* 🎯 正解率の見出しラベル。「今日解いた問題」から右へ離れ、下の特大正解率バッジと整列 */
+.hero-label-acc{display:inline-flex;align-items:center;gap:4px;flex-shrink:0;
   font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--ts);
-  margin-left:8px;padding-left:10px;border-left:1.5px solid var(--hair-2);
+  margin-left:clamp(16px,3.6vw,26px);padding-left:12px;border-left:1.5px solid var(--hair-2);
   white-space:nowrap;}
 .hero-label-acc .acc-ic{font-size:12px;line-height:1;}
 /* 生体バイタルサイン調の鼓動ダブルパルス */
@@ -163,8 +163,10 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   0%,100%{transform:scale(1);box-shadow:0 0 0 3px var(--orl),0 0 8px var(--or);}
   50%{transform:scale(1.25);box-shadow:0 0 0 6px var(--orl),0 0 16px var(--or),0 0 24px var(--or);}
 }
+/* 右側のメタ情報（日付＋国試カウントダウン）コンテナ */
+.hero-label-meta{display:inline-flex;align-items:center;gap:6px;margin-left:auto;flex-shrink:0;}
 /* 日付。磨かれたガラスプレート調ピルバッジ */
-.hero-date{margin-left:auto;flex-shrink:0;padding:3px 10px;border-radius:999px;
+.hero-date{flex-shrink:0;padding:3px 10px;border-radius:999px;
   border:1px solid var(--hair-2);background:rgba(var(--glass-rgb),.08);
   font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--ts);
   font-variant-numeric:tabular-nums;white-space:nowrap;
@@ -3526,10 +3528,12 @@ html.ui-frost .srs-card-today b{color:#70D6FF;text-shadow:0 0 8px rgba(112,214,2
           <span class="hero-live" aria-hidden="true"></span>
           <span class="lb" id="heroLabelTx">読み込み中…</span>
           <span class="hero-label-acc" id="heroLabelAcc"><span class="acc-ic" aria-hidden="true">🎯</span>正解率</span>
-          <span class="hero-date" id="heroDate"></span>
-          <!-- ⏳ 国試カウントダウン・クロノス -->
-          <span class="exam-countdown" id="examCountdownChronos" title="第120回医師国家試験までの残り日数">
-            <span class="cd-lbl">国試まで</span><b class="cd-num" id="examCountdownDays">--</b><span class="cd-unit">日</span>
+          <span class="hero-label-meta">
+            <span class="hero-date" id="heroDate"></span>
+            <!-- ⏳ 国試カウントダウン・クロノス -->
+            <span class="exam-countdown" id="examCountdownChronos" title="第120回医師国家試験までの残り日数">
+              <span class="cd-lbl">国試まで</span><b class="cd-num" id="examCountdownDays">--</b><span class="cd-unit">日</span>
+            </span>
           </span>
         </p>
         <div class="hero-stat-row">

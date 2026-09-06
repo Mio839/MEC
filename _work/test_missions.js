@@ -101,9 +101,9 @@ function t(name, fn) {
 // ── 定義そのものの不変条件 ────────────────────────────────────────────────
 console.log('ミッション定義');
 
-t('日次は8個・週次は8個', () => {
+t('日次は9個・週次は8個', () => {
   const d = G()._defs;
-  assert.strictEqual(d.daily.length, 8);
+  assert.strictEqual(d.daily.length, 9);
   assert.strictEqual(d.weekly.length, 8);
 });
 
@@ -379,16 +379,16 @@ t('同じミッションを何度満たしてもXPは1回だけ（台帳は値�
   assert.strictEqual(g.missionXp(), expect, '増分は新規達成ぶんちょうど');
 });
 
-t('missionSummary は8個ぶんの達成数と core の達成数を返す', () => {
+t('missionSummary は9個ぶんの達成数と core の達成数を返す', () => {
   const ctx = makeCtx();
   const g = ctx.window.MecGamify;
   driveDailyCore(g);
   const m = g.missionSummary();
-  assert.strictEqual(m.total, 8);
+  assert.strictEqual(m.total, 9);
   assert.strictEqual(m.coreTotal, 3);
   assert.strictEqual(m.coreDone, 3, 'core は全部達成している');
   // acc80 と perfect も 40/40 で満たされるので done は core3 + それら2
-  assert.ok(m.done >= 3 && m.done <= 8, 'core3件以上が達成されている: ' + m.done);
+  assert.ok(m.done >= 3 && m.done <= 9, 'core3件以上が達成されている: ' + m.done);
 });
 
 t('達成ボーナスXPを足してもレベルは単調（XPは負にならない）', () => {
@@ -409,12 +409,12 @@ function renderInto(g, opts) {
   return host.innerHTML;
 }
 
-t('ハブ用(only:daily)は必須とボーナスを分けて8行出す', () => {
+t('ハブ用(only:daily)は必須とボーナスを分けて9行出す', () => {
   const ctx = makeCtx();
   const html = renderInto(ctx.window.MecGamify, { only: 'daily' });
-  assert.strictEqual((html.match(/data-tier="/g) || []).length, 8, '8行');
+  assert.strictEqual((html.match(/data-tier="/g) || []).length, 9, '9行');
   assert.strictEqual((html.match(/data-tier="core"/g) || []).length, 3);
-  assert.strictEqual((html.match(/data-tier="bonus"/g) || []).length, 5);
+  assert.strictEqual((html.match(/data-tier="bonus"/g) || []).length, 6);
   assert.ok(html.indexOf('ボーナス') > 0, 'ボーナスの仕切りがある');
   assert.ok(html.indexOf('gm-mission-foot') > 0, '獲得XPの行がある');
 });
@@ -454,7 +454,7 @@ t('バーの割合は target を超えても100%を超えない', () => {
 console.log('新機能: 日替わり・弱点・金スタンプ');
 t('日替わりクエストと弱点フォーカスミッションが正しく含まれている', () => {
   const d = G()._defs;
-  assert.strictEqual(d.daily.length, 8);
+  assert.strictEqual(d.daily.length, 9);
   const focus = d.daily.find(m => m.counter === 'subj_focus');
   assert.ok(focus, '弱点科目フォーカスミッションが存在する');
   assert.ok(focus.label.indexOf('【弱点強化】') >= 0, '弱点強化のラベル');
@@ -506,7 +506,7 @@ t('日替わりクエストは日付だけで決まり、プールの全項目�
     const daily = makeCtx(null, now).window.MecGamify._defs.daily;
     const rnd = daily.filter(d => d.isRandom);
     assert.strictEqual(rnd.length, 1, '日替わりクエストは常にちょうど1つ');
-    assert.strictEqual(daily.length, 8, '日次は日替わりを含めて常に8個');
+    assert.strictEqual(daily.length, 9, '日次は日替わりを含めて常に9個');
     if (!seen.has(rnd[0].id)) seen.set(rnd[0].id, new Date(now).toISOString().slice(0, 10));
   }
   // プールの中身は gamify.js が正本なので、件数を書き写さず「出た種類 ≧ 2」ではなく

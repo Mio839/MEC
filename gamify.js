@@ -803,6 +803,10 @@
       { id: 'exam',       tier: 'core',  xp: 40, icon: '🎓', label: '試験セッション1本(10問+)', target: 1,  counter: 'exam' },
       { id: 'cor',        tier: 'core',  xp: 60, icon: '✅', label: '試験で20問 正解',          target: 20, counter: 'cor' },
       { id: 'srs',        tier: 'bonus', xp: 60, icon: '🔁', label: 'SRS復習を20問 こなす',     target: 20, counter: 'srs' },
+      // ⚠️ 50 は SRS_SESSION_LIMIT（復習キュー1セッションの上限）と同じ数＝「復習を1本 完走する」。
+      //    study.html の SRS_SESSION_LIMIT を変えたらここも合わせること（数字の意味が消える）。
+      //    tier は必ず 'bonus'。due が50件に満たない日があり、手を動かしても届かないため。
+      { id: 'srs50',      tier: 'bonus', xp: 120, icon: '🔁', label: 'SRS復習を50問 こなす',     target: 50, counter: 'srs' },
       { id: 'redo',       tier: 'bonus', xp: 70, icon: '♻️', label: '落とした問題を10問 奪回',  target: 10, counter: 'redo' },
       { id: 'subj',       tier: 'bonus', xp: 50, icon: '🧭', label: '科目を2つ以上またぐ',       target: 2,  counter: 'subj' },
       { id: quest.id,     tier: quest.tier, xp: quest.xp, icon: quest.icon, label: quest.label, target: quest.target, counter: quest.counter, isRandom: true },
