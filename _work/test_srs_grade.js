@@ -368,5 +368,18 @@ t('試験日を過ぎている場合は試験日ゲートを掛けない', () =>
   assert.strictEqual(c._srsExamCap(), Infinity);
 });
 
+t('試験日ゲートで上限に切られた成熟札にもゆらぎが適用される', () => {
+  const c = makeCtx();
+  c.setDay('2027-01-01');
+  c.MECSync = { examDate: () => '2027-02-06' }; // 残り 36 日 -> 上限 18 日
+  // 成熟札（前回 interval: 60）を予定どおり解いたとする
+  c._srsData[U] = { reps: 5, interval: 60, ef: 2.5, nextReview: '2027-01-01', lastSeen: '2026-11-02' };
+  c._updateSRS(U, 'ok');
+  // 60 から伸びようとするが上限 18 日で切られる。
+  // interval <= prev (18 <= 60) だが _capped により _srsFuzz が適用される
+  const fuzzed = c._srsFuzz(U, 18);
+  assert.strictEqual(c._srsData[U].interval, fuzzed);
+});
+
 console.log(`\n${fail ? 'FAILED' : 'all passed'}  (${pass}/${pass + fail})`);
 process.exit(fail ? 1 : 0);

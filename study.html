@@ -1579,14 +1579,20 @@ function _updateSRS(uid, grade) {
     // 早すぎる復習は伸びしろを按分する。ratio=1 では prev + (interval-prev)*1 = interval ＝ 従来値。
     if (prev > 0 && interval > prev) interval = Math.round(prev + (interval - prev) * ratio);
     // 試験日ゲート。⚠️ **ゆらぎより前に掛けること**。後に掛けると上限で切られた札が
-    //    全部きっかり同じ値になり、±5% のゆらぎで散らした効果が消えて同じ日に固まる。
-    //    先に掛ければ上限の ±5% に散る（ゆらぎは5%・上限は残り日数の半分なので、
-    //    散らした結果が試験日を越えることは構造的に起きない）。
-    interval = Math.min(interval, _srsExamCap());
+    //    全部きっかり同じ値になり、±5% のゆらぎで散らした効果が消える。
+    const _cap = _srsExamCap();
+    const _capped = interval > _cap;
+    interval = Math.min(interval, _cap);
     // ⚠️ ゆらぎは「伸びた時だけ」当てる。据え置きの回にも当てると、同じ日に何度も解くたびに
     //    ±5% の乱歩で間隔がじわじわ動く（_srsFuzz は uid と間隔から決まる値を返すので、
     //    同じ間隔に当て続ける限り必ず同じ方向へずれる）。
-    if (interval > prev) interval = _srsFuzz(uid, interval);
+    // ⚠️ ただし**上限で切られた回にも当てる**。直前期は成熟札が軒並み上限へ落ちるので、
+    //    ここを外すとその日に解いた札が全部きっかり同じ予定日に着地し、_srsFuzz を入れた
+    //    理由（塊で戻ってくるのを防ぐ）がそのまま再発する。切られた回は次も必ず上限で
+    //    切り直されるので、据え置き時のような一方向の乱歩にはならない。
+    //    ゆらぎ 5% に対し上限は残り日数の 50% なので、散らした結果が試験日を越えることは
+    //    構造的に起きない。
+    if (interval > prev || _capped) interval = _srsFuzz(uid, interval);
     // ef の伸びも同じ理屈で按分する（同日の解き直しでは ef が上がらない）。
     e.ef = easy ? Math.min(2.5, Math.max(1.3, round2(ef + 0.1 * ratio))) : Math.max(1.3, round2(ef));
     e.interval = Math.max(1, Math.min(interval, 90));
