@@ -263,6 +263,27 @@ t('Aurora: 多面体カッティンググラス＆揺らめくオーロラカー
   assert.ok(HTML.includes('aPrismArc.style.strokeDashoffset'), '_driveThemeGauge 内のauroraPrismArc制御が無い');
 });
 
+t('Aurora: 極限まで絢爛・神秘的なHeroゲージ意匠（最外周ベゼル、立体トラスリブ、分光ノッチ、8頂点ジュエル、鉛直光芒、16点ダイヤモンドスター、極光ジュエル、分光波長HUD、光冠放射）が実装されている', () => {
+  assert.ok(HTML.includes('class="aurora-outer-rim"'), 'aurora-outer-rim が見つからない');
+  assert.ok(HTML.includes('class="aurora-facet-trusses"'), 'aurora-facet-trusses が見つからない');
+  assert.ok(HTML.includes('class="aurora-spectral-ticks"'), 'aurora-spectral-ticks が見つからない');
+  assert.ok(HTML.includes('class="aurora-inner-rim"'), 'aurora-inner-rim が見つからない');
+  assert.ok(HTML.includes('class="aurora-core-rim"'), 'aurora-core-rim が見つからない');
+  assert.ok(HTML.includes('class="aurora-vertex-jewel'), 'aurora-vertex-jewel が見つからない');
+  assert.ok(HTML.includes('class="aurora-curtain-deep"'), 'aurora-curtain-deep が見つからない');
+  assert.ok(HTML.includes('class="aurora-curtain-rays"'), 'aurora-curtain-rays が見つからない');
+  assert.ok(HTML.includes('class="a-ion-ray'), 'a-ion-ray が見つからない');
+  assert.ok(HTML.includes('class="aurora-sparkle aurora-dstar'), 'aurora-dstar が見つからない');
+  assert.ok(HTML.includes('class="aurora-milestone-jewel'), 'aurora-milestone-jewel が見つからない');
+  assert.ok(HTML.includes('class="aurora-jewel-flare"'), 'aurora-jewel-flare が見つからない');
+  assert.ok(HTML.includes('id="auroraWaveDisplay"'), 'auroraWaveDisplay が見つからない');
+  assert.ok(HTML.includes('id="auroraStateDisplay"'), 'auroraStateDisplay が見つからない');
+  assert.ok(HTML.includes('id="auroraCoronaRays"'), 'auroraCoronaRays が見つからない');
+  assert.ok(HTML.includes('aWave.textContent'), '_driveThemeGauge 内のauroraWaveDisplay制御が無い');
+  assert.ok(HTML.includes('aState.textContent'), '_driveThemeGauge 内のauroraStateDisplay制御が無い');
+  assert.ok(HTML.includes('aCore.dataset.auroraStage'), '_driveThemeGauge 内のauroraStage制御が無い');
+});
+
 t('Aurora & Cyber: オーバードライブ装飾およびHeroゲージから点線円が完全撤廃されている', () => {
   // od-cyber
   assert.ok(HTML.includes('.od-cyber .holo-scanner{fill:none;stroke:#00FF9D;stroke-width:1.8;stroke-dasharray:none;'), 'od-cyber holo-scannerに点線が残っている');
