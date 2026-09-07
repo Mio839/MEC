@@ -367,6 +367,80 @@ t('Frost: 試験演出（chapter_exam.js, study_exam.js）からringsが完全�
   assert.ok(!seScatterFrostBlock.includes('rings('), 'study_exam.js の frost celebration に rings が残っている');
 });
 
+console.log('── Liquid新演出（ちぎれて戻る液滴分裂・再融合＆多層フヨフヨアメーバ流体＆他テーマ被り完全排除）検証 ──');
+
+t('Liquid: ちぎれて戻る液滴分裂・再融合ポッド群（liquidFissionPods）と各方位ポッド（NE, SW, NW, SE）が定義されている', () => {
+  assert.ok(HTML.includes('id="liquidFissionPods"'), 'liquidFissionPods が見つからない');
+  assert.ok(HTML.includes('id="fissionDropNE"'), 'fissionDropNE が見つからない');
+  assert.ok(HTML.includes('id="fissionDropSW"'), 'fissionDropSW が見つからない');
+  assert.ok(HTML.includes('id="fissionDropNW"'), 'fissionDropNW が見つからない');
+  assert.ok(HTML.includes('id="fissionDropSE"'), 'fissionDropSE が見つからない');
+  assert.ok(HTML.includes('@keyframes fissionPinchNE'), 'fissionPinchNE アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes fissionPinchSW'), 'fissionPinchSW アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes fissionPinchNW'), 'fissionPinchNW アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes fissionPinchSE'), 'fissionPinchSE アニメーションが無い');
+});
+
+t('Liquid: 粘性液橋フィラメント（liquidTendrils）と糸引きアニメーションが定義されている', () => {
+  assert.ok(HTML.includes('id="liquidTendrils"'), 'liquidTendrils が見つからない');
+  assert.ok(HTML.includes('id="lavaTendrilNE"'), 'lavaTendrilNE が見つからない');
+  assert.ok(HTML.includes('id="lavaTendrilSW"'), 'lavaTendrilSW が見つからない');
+  assert.ok(HTML.includes('id="lavaTendrilNW"'), 'lavaTendrilNW が見つからない');
+  assert.ok(HTML.includes('id="lavaTendrilSE"'), 'lavaTendrilSE が見つからない');
+  assert.ok(HTML.includes('@keyframes tendrilPulseNE'), 'tendrilPulseNE アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes tendrilPulseSW'), 'tendrilPulseSW アニメーションが無い');
+});
+
+t('Liquid: 多層アメーバ流体（中間層メソプラズム＆内層高密度エンドプラズム＆多層生体膜チャンバー）とフヨフヨ弾力キーフレームが定義されている', () => {
+  assert.ok(HTML.includes('id="lavaCellMesoplasm"'), 'lavaCellMesoplasm が見つからない');
+  assert.ok(HTML.includes('id="lavaCellEndoplasm"'), 'lavaCellEndoplasm が見つからない');
+  assert.ok(HTML.includes('id="lavaChamberOuter"'), 'lavaChamberOuter が見つからない');
+  assert.ok(HTML.includes('id="lavaChamberInner"'), 'lavaChamberInner が見つからない');
+  assert.ok(HTML.includes('@keyframes jellySquish'), 'jellySquish アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes jellyMicroJiggle'), 'jellyMicroJiggle アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes lavaMesoplasmFlow'), 'lavaMesoplasmFlow アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes lavaEndoplasmFlow'), 'lavaEndoplasmFlow アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes lavaChamberOuterMorph'), 'lavaChamberOuterMorph アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes lavaChamberInnerMorph'), 'lavaChamberInnerMorph アニメーションが無い');
+});
+
+t('Liquid: 内部生体小胞群（liquidVacuoles）と有機プルプルスペキュラ（liquidSpecularGroup）が定義されている', () => {
+  assert.ok(HTML.includes('id="liquidVacuoles"'), 'liquidVacuoles が見つからない');
+  assert.ok(HTML.includes('id="lavaVacuole1"'), 'lavaVacuole1 が見つからない');
+  assert.ok(HTML.includes('id="lavaVacuole2"'), 'lavaVacuole2 が見つからない');
+  assert.ok(HTML.includes('id="lavaVacuole3"'), 'lavaVacuole3 が見つからない');
+  assert.ok(HTML.includes('id="lavaVacuole4"'), 'lavaVacuole4 が見つからない');
+  assert.ok(HTML.includes('id="liquidSpecularGroup"'), 'liquidSpecularGroup が見つからない');
+  assert.ok(HTML.includes('class="lava-spec-wobble'), 'lava-spec-wobble が見つからない');
+  assert.ok(HTML.includes('class="lava-spec-glint"'), 'lava-spec-glint が見つからない');
+  assert.ok(HTML.includes('@keyframes vacuoleFloat1'), 'vacuoleFloat1 アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes specWobble'), 'specWobble アニメーションが無い');
+});
+
+t('Liquid: _driveThemeGauge内で新意匠（fissionPods, mesoplasm, endoplasm, vacuoles）の進捗連動制御が存在する', () => {
+  assert.ok(HTML.includes('const lFissionPods = document.getElementById(\'liquidFissionPods\');'), 'lFissionPods取得が無い');
+  assert.ok(HTML.includes('const lMesoplasm = document.getElementById(\'lavaCellMesoplasm\');'), 'lMesoplasm取得が無い');
+  assert.ok(HTML.includes('const lEndoplasm = document.getElementById(\'lavaCellEndoplasm\');'), 'lEndoplasm取得が無い');
+  assert.ok(HTML.includes('const lVacuoles = document.getElementById(\'liquidVacuoles\');'), 'lVacuoles取得が無い');
+  assert.ok(HTML.includes('lFissionPods.style.transform'), 'lFissionPodsの連動制御が無い');
+  assert.ok(HTML.includes('lVacuoles.style.transform'), 'lVacuolesの連動制御が無い');
+});
+
+t('Liquid: 他テーマの意匠（歯車・照準・金継ぎ・天体・舷窓・雪結晶・直線目盛り等）がLiquidゲージ内に一切混入していない', () => {
+  const liquidBlock = HTML.substring(HTML.indexOf('id="gaugeLiquidCore"'), HTML.indexOf('id="gaugeKintsugiCore"'));
+  assert.ok(!liquidBlock.includes('gear'), 'Liquidに歯車が混入している');
+  assert.ok(!liquidBlock.includes('crosshair'), 'Liquidに照準が混入している');
+  assert.ok(!liquidBlock.includes('bracket'), 'Liquidにブラケットが混入している');
+  assert.ok(!liquidBlock.includes('honeycomb'), 'Liquidにハニカムが混入している');
+  assert.ok(!liquidBlock.includes('crack'), 'Liquidにクラックが混入している');
+  assert.ok(!liquidBlock.includes('astrolabe'), 'Liquidにアストロラーベが混入している');
+  assert.ok(!liquidBlock.includes('zodiac'), 'Liquidに黄道十二宮が混入している');
+  assert.ok(!liquidBlock.includes('porthole'), 'Liquidに舷窓が混入している');
+  assert.ok(!liquidBlock.includes('snowflake'), 'Liquidに雪結晶が混入している');
+  assert.ok(!liquidBlock.includes('facet'), 'Liquidに多面体ファセットが混入している');
+  assert.ok(!liquidBlock.includes('kelvin'), 'Liquidにケルビン計が混入している');
+});
+
 console.log(`\nALL PASS (${pass}/${pass + fail})\n`);
 
 

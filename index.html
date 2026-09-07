@@ -1987,6 +1987,21 @@ html.ui-liquid .gauge-ring {
     transform: translate(0, 0) scale(1, 1) rotate(0deg);
   }
 }
+.lava-chamber-outer {
+  fill: none;
+  stroke: rgba(0, 242, 254, .4);
+  stroke-width: 1.4;
+  filter: drop-shadow(0 0 10px rgba(0, 242, 254, .35));
+  animation: lavaChamberOuterMorph 22s ease-in-out infinite alternate;
+  transform-origin: 84px 84px;
+}
+@keyframes lavaChamberOuterMorph {
+  0% { transform: scale(1, 1) rotate(0deg); }
+  33% { transform: scale(1.03, 0.97) rotate(-1.6deg) translate(2px, -1px); }
+  66% { transform: scale(0.97, 1.04) rotate(1.4deg) translate(-2px, 2px); }
+  100% { transform: scale(1, 1) rotate(0deg); }
+}
+
 .lava-lamp-chamber {
   fill: none;
   stroke: rgba(255, 0, 127, .85);
@@ -2002,6 +2017,21 @@ html.ui-liquid .gauge-ring {
   75% { transform: scale(1.03, 0.97) rotate(1.0deg) translate(-1px, -1px); }
   100% { transform: scale(1, 1) rotate(0deg); }
 }
+
+.lava-chamber-inner {
+  fill: none;
+  stroke: rgba(255, 0, 127, .5);
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 8px rgba(255, 0, 127, .3));
+  animation: lavaChamberInnerMorph 16s ease-in-out infinite alternate;
+  transform-origin: 84px 84px;
+}
+@keyframes lavaChamberInnerMorph {
+  0% { transform: scale(1, 1) rotate(0deg); }
+  50% { transform: scale(1.04, 0.96) rotate(2.2deg) translate(-1px, 2px); }
+  100% { transform: scale(1, 1) rotate(0deg); }
+}
+
 .liquid-chamber-rim {
   display: none;
 }
@@ -2025,12 +2055,12 @@ html.ui-liquid .gauge-ring {
   transform-origin: 84px 84px;
 }
 
-/* 表面張力オーラ膜（マントル） */
+/* 1. 最外層オーラ膜（表面張力マントル） */
 .lava-cell-mantle {
   fill: url(#lavaMembraneGrad);
   filter: drop-shadow(0 0 16px rgba(255, 0, 127, 0.65)) drop-shadow(0 0 24px rgba(0, 242, 254, 0.5));
   transform-origin: 84px 84px;
-  animation: lavaMantleMorph 16s ease-in-out infinite alternate;
+  animation: lavaMantleMorph 16s ease-in-out infinite alternate, jellySquish 4.8s ease-in-out infinite alternate;
   opacity: 0.7;
   transition: opacity .8s;
 }
@@ -2041,11 +2071,26 @@ html.ui-liquid .gauge-ring {
   100% { transform: scale(1.05, 0.95) rotate(0deg); }
 }
 
-/* ぷるぷる流体ジェルのメインボディ */
+/* 2. 中間流体層（メソプラズム：弾性ネオン流体） */
+.lava-cell-mesoplasm {
+  fill: url(#lavaMesoplasmGrad);
+  transform-origin: 84px 84px;
+  animation: lavaMesoplasmFlow 12s ease-in-out infinite alternate, jellySquish 3.8s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.6));
+  opacity: 0.85;
+}
+@keyframes lavaMesoplasmFlow {
+  0% { transform: scale(1, 1) rotate(0deg) translate(0, 0); }
+  35% { transform: scale(1.07, 0.93) rotate(-2.4deg) translate(2px, -1px); }
+  68% { transform: scale(0.93, 1.07) rotate(2.0deg) translate(-2px, 2px); }
+  100% { transform: scale(1, 1) rotate(0deg) translate(0, 0); }
+}
+
+/* 3. ぷるぷる流体ジェルのメインボディ */
 .lava-cell-body {
   fill: url(#lavaBlobCoreGrad);
   transform-origin: 84px 84px;
-  animation: lavaCellMorph 15s ease-in-out infinite alternate;
+  animation: lavaCellMorph 15s ease-in-out infinite alternate, jellySquish 3.2s ease-in-out infinite alternate;
   filter: drop-shadow(0 0 14px rgba(255, 0, 127, 0.75)) drop-shadow(0 0 24px rgba(0, 242, 254, 0.55));
 }
 @keyframes lavaCellMorph {
@@ -2053,6 +2098,159 @@ html.ui-liquid .gauge-ring {
   30% { transform: scale(1.06, 0.94) translate(-2px, 2px) rotate(1.8deg); }
   65% { transform: scale(0.94, 1.06) translate(2px, -2px) rotate(-1.8deg); }
   100% { transform: scale(1, 1) translate(0, 0) rotate(0deg); }
+}
+
+/* 4. 内層高密度ジェル（エンドプラズム：核周辺の粘性対流） */
+.lava-cell-endoplasm {
+  fill: url(#lavaEndoplasmGrad);
+  transform-origin: 84px 84px;
+  animation: lavaEndoplasmFlow 9.5s ease-in-out infinite alternate, jellyMicroJiggle 2.6s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 12px rgba(255, 0, 127, 0.8));
+  opacity: 0.9;
+}
+@keyframes lavaEndoplasmFlow {
+  0% { transform: scale(0.95) rotate(0deg); }
+  50% { transform: scale(1.06) rotate(3deg) translate(-1px, 1px); }
+  100% { transform: scale(0.95) rotate(0deg); }
+}
+
+/* 🍮 フヨフヨ感を極大化する多重周波数ゼリーキーフレーム */
+@keyframes jellySquish {
+  0% { transform: scale(1, 1) rotate(0deg); }
+  25% { transform: scale(1.07, 0.94) rotate(1.5deg); }
+  50% { transform: scale(0.94, 1.06) rotate(-1.8deg); }
+  75% { transform: scale(1.04, 0.97) rotate(1.0deg); }
+  100% { transform: scale(1, 1) rotate(0deg); }
+}
+@keyframes jellyMicroJiggle {
+  0% { transform: scale(1) translate(0, 0); }
+  25% { transform: scale(1.03, 0.97) translate(1px, -1px); }
+  50% { transform: scale(0.98, 1.02) translate(-1px, 1px); }
+  75% { transform: scale(1.02, 0.98) translate(1px, 1px); }
+  100% { transform: scale(1) translate(0, 0); }
+}
+
+/* 🧬 ─────────────────────────────────────────────────────────
+   【ちぎれて戻る】液滴分裂＆再融合ポッド（Pinch-and-Snap Droplets）
+   本体からビヨーンと伸びてプチッとちぎれ、フヨフヨ漂ってから戻る
+   ───────────────────────────────────────────────────────── */
+.liquid-fission-pods {
+  transform-origin: 84px 84px;
+}
+.fission-drop {
+  fill: url(#lavaFissionGrad);
+  filter: drop-shadow(0 0 8px #00F2FE) drop-shadow(0 0 14px #FF007F);
+  transform-origin: 84px 84px;
+  will-change: transform, opacity;
+}
+/* 北東ポッド（右斜め上、周期6.2s） */
+.fission-drop.f-ne {
+  animation: fissionPinchNE 6.2s cubic-bezier(.36, 0, .2, 1) infinite;
+}
+/* 南西ポッド（左斜め下、周期7.6s、位相ズレ1.5s） */
+.fission-drop.f-sw {
+  animation: fissionPinchSW 7.6s cubic-bezier(.36, 0, .2, 1) infinite 1.5s;
+}
+/* 北西ポッド（左斜め上、周期8.8s、位相ズレ2.8s） */
+.fission-drop.f-nw {
+  animation: fissionPinchNW 8.8s cubic-bezier(.36, 0, .2, 1) infinite 2.8s;
+}
+/* 南東ポッド（右斜め下、周期10.4s、位相ズレ0.8s） */
+.fission-drop.f-se {
+  animation: fissionPinchSE 10.4s cubic-bezier(.36, 0, .2, 1) infinite 0.8s;
+}
+
+@keyframes fissionPinchNE {
+  0% { transform: translate(0, 0) scale(0.62); opacity: 0.95; }
+  22% { transform: translate(18px, -15px) scale(0.95, 0.72) rotate(15deg); }
+  38% { transform: translate(30px, -26px) scale(0.72, 1.32) rotate(32deg); } /* 首が極限まで細くなりプチッとちぎれる */
+  54% { transform: translate(40px, -34px) scale(1.18, 0.84) rotate(14deg); } /* 独立して空間をフヨフヨ漂う */
+  68% { transform: translate(35px, -30px) scale(0.88, 1.14) rotate(-6deg); } /* 表面張力でブレーキがかかり戻り始める */
+  84% { transform: translate(18px, -15px) scale(0.78, 1.25) rotate(-18deg); } /* 加速して本体へ突入 */
+  93% { transform: translate(3px, -2px) scale(1.24, 0.84) rotate(0deg); } /* 衝突・ぬるっと融合・弾力で波打つ */
+  100% { transform: translate(0, 0) scale(0.62); opacity: 0.95; }
+}
+
+@keyframes fissionPinchSW {
+  0% { transform: translate(0, 0) scale(0.58); opacity: 0.92; }
+  24% { transform: translate(-16px, 18px) scale(0.9, 0.7) rotate(-12deg); }
+  40% { transform: translate(-28px, 30px) scale(0.68, 1.35) rotate(-28deg); } /* ちぎれ */
+  56% { transform: translate(-38px, 38px) scale(1.2, 0.82) rotate(-12deg); } /* フヨフヨ */
+  70% { transform: translate(-32px, 32px) scale(0.86, 1.16) rotate(8deg); } /* 戻り */
+  85% { transform: translate(-16px, 17px) scale(0.76, 1.24) rotate(18deg); } /* 突入 */
+  94% { transform: translate(-3px, 3px) scale(1.22, 0.82) rotate(0deg); } /* 融合 */
+  100% { transform: translate(0, 0) scale(0.58); opacity: 0.92; }
+}
+
+@keyframes fissionPinchNW {
+  0% { transform: translate(0, 0) scale(0.54); opacity: 0.88; }
+  25% { transform: translate(-17px, -17px) scale(0.88, 0.72) rotate(-20deg); }
+  42% { transform: translate(-29px, -29px) scale(0.7, 1.3) rotate(-35deg); } /* ちぎれ */
+  58% { transform: translate(-38px, -38px) scale(1.15, 0.86) rotate(-18deg); } /* フヨフヨ */
+  72% { transform: translate(-33px, -33px) scale(0.88, 1.12) rotate(0deg); } /* 戻り */
+  86% { transform: translate(-15px, -15px) scale(0.8, 1.22) rotate(16deg); } /* 突入 */
+  95% { transform: translate(-3px, -3px) scale(1.2, 0.84) rotate(0deg); } /* 融合 */
+  100% { transform: translate(0, 0) scale(0.54); opacity: 0.88; }
+}
+
+@keyframes fissionPinchSE {
+  0% { transform: translate(0, 0) scale(0.62); opacity: 0.92; }
+  23% { transform: translate(16px, 16px) scale(0.9, 0.72) rotate(18deg); }
+  40% { transform: translate(28px, 28px) scale(0.72, 1.3) rotate(26deg); } /* ちぎれ */
+  55% { transform: translate(38px, 38px) scale(1.16, 0.85) rotate(6deg); } /* フヨフヨ */
+  70% { transform: translate(33px, 33px) scale(0.88, 1.14) rotate(-12deg); } /* 戻り */
+  85% { transform: translate(17px, 17px) scale(0.78, 1.26) rotate(-22deg); } /* 突入 */
+  94% { transform: translate(3px, 3px) scale(1.22, 0.84) rotate(0deg); } /* 融合 */
+  100% { transform: translate(0, 0) scale(0.62); opacity: 0.92; }
+}
+
+/* 💧 粘性液橋フィラメント（ちぎれる瞬間に糸を引く有機ストランド） */
+.liquid-tendrils-group {
+  transform-origin: 84px 84px;
+}
+.lava-tendril {
+  fill: none;
+  stroke: url(#lavaTendrilGrad);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-dasharray: 45;
+  stroke-dashoffset: 45;
+  filter: drop-shadow(0 0 6px #00F2FE);
+  opacity: 0;
+  will-change: stroke-dashoffset, opacity;
+}
+.lava-tendril.t-ne { animation: tendrilPulseNE 6.2s ease-in-out infinite; }
+.lava-tendril.t-sw { animation: tendrilPulseSW 7.6s ease-in-out infinite 1.5s; }
+.lava-tendril.t-nw { animation: tendrilPulseNW 8.8s ease-in-out infinite 2.8s; }
+.lava-tendril.t-se { animation: tendrilPulseSE 10.4s ease-in-out infinite 0.8s; }
+
+@keyframes tendrilPulseNE {
+  0%, 15% { stroke-dashoffset: 45; opacity: 0; }
+  25% { opacity: 0.95; stroke-dashoffset: 12; stroke-width: 2.4; }
+  36% { opacity: 0.9; stroke-dashoffset: 0; stroke-width: 1.4; }
+  42% { opacity: 0; stroke-dashoffset: -20; stroke-width: 0.6; }
+  100% { stroke-dashoffset: 45; opacity: 0; }
+}
+@keyframes tendrilPulseSW {
+  0%, 16% { stroke-dashoffset: 45; opacity: 0; }
+  26% { opacity: 0.95; stroke-dashoffset: 14; stroke-width: 2.2; }
+  38% { opacity: 0.9; stroke-dashoffset: 0; stroke-width: 1.3; }
+  44% { opacity: 0; stroke-dashoffset: -20; stroke-width: 0.5; }
+  100% { stroke-dashoffset: 45; opacity: 0; }
+}
+@keyframes tendrilPulseNW {
+  0%, 18% { stroke-dashoffset: 45; opacity: 0; }
+  28% { opacity: 0.9; stroke-dashoffset: 14; stroke-width: 2.0; }
+  40% { opacity: 0.85; stroke-dashoffset: 0; stroke-width: 1.2; }
+  46% { opacity: 0; stroke-dashoffset: -20; stroke-width: 0.5; }
+  100% { stroke-dashoffset: 45; opacity: 0; }
+}
+@keyframes tendrilPulseSE {
+  0%, 16% { stroke-dashoffset: 45; opacity: 0; }
+  26% { opacity: 0.95; stroke-dashoffset: 12; stroke-width: 2.2; }
+  38% { opacity: 0.9; stroke-dashoffset: 0; stroke-width: 1.4; }
+  44% { opacity: 0; stroke-dashoffset: -20; stroke-width: 0.6; }
+  100% { stroke-dashoffset: 45; opacity: 0; }
 }
 
 /* 内部発光核（エレクトリック・ニュークリアス） */
@@ -2067,7 +2265,70 @@ html.ui-liquid .gauge-ring {
   100% { transform: scale(1.14); opacity: 1; filter: drop-shadow(0 0 14px #00F2FE) drop-shadow(0 0 22px #FF007F); }
 }
 
-/* ジェル表面のぷるぷる光沢ハイライト（左側一本線の原因となるため完全非表示） */
+/* 🫧 内部生体小胞群（Bio-Vacuoles：ジェル内部でフヨフヨ対流する半透明球） */
+.liquid-vacuoles-group {
+  transform-origin: 84px 84px;
+}
+.lava-vacuole {
+  fill: url(#lavaVacuoleGrad);
+  stroke: rgba(0, 242, 254, 0.45);
+  stroke-width: 0.8;
+  filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.4));
+  transform-origin: center center;
+  transition: transform .8s ease;
+}
+.lava-vacuole.v1 { animation: vacuoleFloat1 7.4s ease-in-out infinite alternate; }
+.lava-vacuole.v2 { animation: vacuoleFloat2 8.8s ease-in-out infinite alternate; }
+.lava-vacuole.v3 { animation: vacuoleFloat3 6.6s ease-in-out infinite alternate; }
+.lava-vacuole.v4 { animation: vacuoleFloat4 9.6s ease-in-out infinite alternate; }
+
+@keyframes vacuoleFloat1 {
+  0% { transform: translate(0, 0) scale(1, 1); }
+  50% { transform: translate(3px, -4px) scale(1.12, 0.9); }
+  100% { transform: translate(-3px, 3px) scale(0.9, 1.1); }
+}
+@keyframes vacuoleFloat2 {
+  0% { transform: translate(0, 0) scale(1, 1); }
+  50% { transform: translate(-4px, 3px) scale(0.92, 1.12); }
+  100% { transform: translate(3px, -3px) scale(1.1, 0.92); }
+}
+@keyframes vacuoleFloat3 {
+  0% { transform: translate(0, 0) scale(1, 1); }
+  50% { transform: translate(4px, 2px) scale(1.14, 0.88); }
+  100% { transform: translate(-2px, -4px) scale(0.92, 1.1); }
+}
+@keyframes vacuoleFloat4 {
+  0% { transform: translate(0, 0) scale(1, 1); }
+  50% { transform: translate(-3px, -3px) scale(0.9, 1.14); }
+  100% { transform: translate(2px, 4px) scale(1.12, 0.9); }
+}
+
+/* ✨ 有機プルプルハイライトスペキュラ（潤いと弾力のツヤ） */
+.liquid-specular-group {
+  transform-origin: 84px 84px;
+  pointer-events: none;
+}
+.lava-spec-wobble {
+  fill: url(#lavaSpecularGrad);
+  transform-origin: 84px 84px;
+  animation: specWobble 4.4s ease-in-out infinite alternate;
+}
+.lava-spec-glint {
+  fill: #FFFFFF;
+  filter: drop-shadow(0 0 5px #00F2FE);
+  animation: specGlint 3.4s ease-in-out infinite alternate;
+}
+@keyframes specWobble {
+  0% { transform: scale(1, 1) translate(0, 0); opacity: 0.65; }
+  50% { transform: scale(1.08, 0.94) translate(1px, -1px); opacity: 0.88; }
+  100% { transform: scale(0.95, 1.05) translate(-1px, 1px); opacity: 0.6; }
+}
+@keyframes specGlint {
+  0% { opacity: 0.4; transform: scale(0.85); }
+  100% { opacity: 1; transform: scale(1.25); filter: drop-shadow(0 0 8px #00F2FE) drop-shadow(0 0 12px #FF007F); }
+}
+
+/* ジェル表面のぷるぷる光沢ハイライト（旧一本線は完全非表示維持） */
 .lava-cell-specular {
   display: none !important;
 }
@@ -2148,15 +2409,52 @@ html.ui-liquid .gauge-ring {
 /* 🌈 臨界オパール・プリズム虹彩化（案4：100%・オーバードライブ） */
 html.ui-liquid #gaugeLiquidCore.is-100 .lava-cell-body,
 html.ui-liquid #gaugeLiquidCore.overdrive .lava-cell-body {
-  animation: lavaCellMorph 8.5s ease-in-out infinite alternate, opalPrismCycle 6s linear infinite !important;
+  animation: lavaCellMorph 8.5s ease-in-out infinite alternate, opalPrismCycle 6s linear infinite, jellySquish 2.2s ease-in-out infinite alternate !important;
 }
 html.ui-liquid #gaugeLiquidCore.is-100 .lava-cell-mantle,
 html.ui-liquid #gaugeLiquidCore.overdrive .lava-cell-mantle {
-  animation: lavaMantleMorph 9.5s ease-in-out infinite alternate, opalPrismCycle 6s linear infinite !important;
+  animation: lavaMantleMorph 9.5s ease-in-out infinite alternate, opalPrismCycle 6s linear infinite, jellySquish 2.5s ease-in-out infinite alternate !important;
+}
+html.ui-liquid #gaugeLiquidCore.is-100 .lava-cell-mesoplasm,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-cell-mesoplasm {
+  animation: lavaMesoplasmFlow 8.0s ease-in-out infinite alternate, opalPrismCycle 6s linear infinite, jellySquish 2.0s ease-in-out infinite alternate !important;
+}
+html.ui-liquid #gaugeLiquidCore.is-100 .lava-cell-endoplasm,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-cell-endoplasm {
+  animation: lavaEndoplasmFlow 6.5s ease-in-out infinite alternate, opalPrismCycle 6s linear infinite !important;
 }
 html.ui-liquid #gaugeLiquidCore.is-100 .lava-lamp-chamber,
 html.ui-liquid #gaugeLiquidCore.overdrive .lava-lamp-chamber {
   animation: lavaChamberMorph 12s ease-in-out infinite alternate, opalPrismChamber 6s linear infinite !important;
+}
+html.ui-liquid #gaugeLiquidCore.is-100 .lava-chamber-outer,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-chamber-outer {
+  animation: lavaChamberOuterMorph 14s ease-in-out infinite alternate, opalPrismChamber 6s linear infinite 1s !important;
+}
+html.ui-liquid #gaugeLiquidCore.is-100 .lava-chamber-inner,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-chamber-inner {
+  animation: lavaChamberInnerMorph 10s ease-in-out infinite alternate, opalPrismChamber 6s linear infinite 2s !important;
+}
+/* 100%/Overdrive時の分裂ポッド活性化（加速＆オパール化） */
+html.ui-liquid #gaugeLiquidCore.is-100 .fission-drop,
+html.ui-liquid #gaugeLiquidCore.overdrive .fission-drop {
+  filter: drop-shadow(0 0 12px #00F2FE) drop-shadow(0 0 20px #FF007F) drop-shadow(0 0 28px #FFD166) !important;
+}
+html.ui-liquid #gaugeLiquidCore.is-100 .fission-drop.f-ne,
+html.ui-liquid #gaugeLiquidCore.overdrive .fission-drop.f-ne {
+  animation-duration: 4.2s !important;
+}
+html.ui-liquid #gaugeLiquidCore.is-100 .fission-drop.f-sw,
+html.ui-liquid #gaugeLiquidCore.overdrive .fission-drop.f-sw {
+  animation-duration: 5.1s !important;
+}
+html.ui-liquid #gaugeLiquidCore.is-100 .fission-drop.f-nw,
+html.ui-liquid #gaugeLiquidCore.overdrive .fission-drop.f-nw {
+  animation-duration: 5.8s !important;
+}
+html.ui-liquid #gaugeLiquidCore.is-100 .fission-drop.f-se,
+html.ui-liquid #gaugeLiquidCore.overdrive .fission-drop.f-se {
+  animation-duration: 6.8s !important;
 }
 html.ui-liquid .gauge.is-100 .gauge-ring,
 html.ui-liquid .gauge.overdrive .gauge-ring {
@@ -2214,6 +2512,14 @@ html.ui-liquid #gaugeLiquidCore.overdrive .liquid-critical-sparkles {
 .gauge[data-overdrive] .lava-cell-nucleus {
   filter: drop-shadow(0 0 16px #FFF) drop-shadow(0 0 32px #00F2FE) drop-shadow(0 0 48px #FF007F) !important;
   transform: scale(1.35) !important;
+}
+.gauge[data-overdrive] .lava-chamber-outer {
+  stroke: #00F2FE !important;
+  stroke-width: 2.0 !important;
+  filter: drop-shadow(0 0 16px #00F2FE) drop-shadow(0 0 26px #FF007F) !important;
+}
+.gauge[data-overdrive] .liquid-fission-pods {
+  filter: drop-shadow(0 0 18px #00F2FE) drop-shadow(0 0 30px #FF007F) !important;
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -4362,7 +4668,7 @@ html.ui-frost .srs-card-today b{color:#70D6FF;text-shadow:0 0 8px rgba(112,214,2
                 <rect class="aurora-prism-fill" id="auroraPrismFill" x="0" y="0" width="0" height="0" style="display:none"></rect>
               </g>
 
-              <!-- 🌸 4. Liquid: オーガニック・ラバ・セル（アメーバ流体ジェル＆浮遊液滴） -->
+              <!-- 🌸 4. Liquid: オーガニック・ラバ・セル（アメーバ流体ジェル＆浮遊液滴＆分裂再融合ポッド） -->
               <g class="theme-gauge-liquid" id="gaugeLiquidCore">
                 <defs>
                   <!-- チャンバー用クリップパス -->
@@ -4370,13 +4676,13 @@ html.ui-frost .srs-card-today b{color:#70D6FF;text-shadow:0 0 8px rgba(112,214,2
                     <circle cx="84" cy="84" r="64"></circle>
                   </clipPath>
                   <!-- 🧪 SVGメタボール（Gooey / 粘性マージ）フィルター -->
-                  <filter id="liquidGooFilter" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"></feGaussianBlur>
+                  <filter id="liquidGooFilter" x="-35%" y="-35%" width="170%" height="170%" color-interpolation-filters="sRGB">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="5.2" result="blur"></feGaussianBlur>
                     <feColorMatrix in="blur" mode="matrix" values="
                       1 0 0 0 0
                       0 1 0 0 0
                       0 0 1 0 0
-                      0 0 0 19 -8" result="goo"></feColorMatrix>
+                      0 0 0 20 -8.5" result="goo"></feColorMatrix>
                     <feComposite in="SourceGraphic" in2="goo" operator="atop"></feComposite>
                   </filter>
                   <!-- ぷるぷる流体ジェルのメイングラデーション（ネオンマゼンタ〜シアン〜白光・完全透過） -->
@@ -4389,10 +4695,24 @@ html.ui-frost .srs-card-today b{color:#70D6FF;text-shadow:0 0 8px rgba(112,214,2
                   </radialGradient>
                   <!-- 表面張力オーラ膜（マントル）グラデーション -->
                   <linearGradient id="lavaMembraneGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#FF007F" stop-opacity="0.65"></stop>
-                    <stop offset="50%" stop-color="#FF2A8D" stop-opacity="0.45"></stop>
-                    <stop offset="100%" stop-color="#00F2FE" stop-opacity="0.55"></stop>
+                    <stop offset="0%" stop-color="#FF007F" stop-opacity="0.75"></stop>
+                    <stop offset="50%" stop-color="#FF2A8D" stop-opacity="0.5"></stop>
+                    <stop offset="100%" stop-color="#00F2FE" stop-opacity="0.65"></stop>
                   </linearGradient>
+                  <!-- 中間流体層（メソプラズム）グラデーション -->
+                  <radialGradient id="lavaMesoplasmGrad" cx="48%" cy="46%" r="60%">
+                    <stop offset="0%" stop-color="#00F2FE" stop-opacity="0.9"></stop>
+                    <stop offset="45%" stop-color="#7928CA" stop-opacity="0.8"></stop>
+                    <stop offset="85%" stop-color="#FF007F" stop-opacity="0.65"></stop>
+                    <stop offset="100%" stop-color="#00F2FE" stop-opacity="0.2"></stop>
+                  </radialGradient>
+                  <!-- 内層高密度ジェル（エンドプラズム）グラデーション -->
+                  <radialGradient id="lavaEndoplasmGrad" cx="50%" cy="50%" r="55%">
+                    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.98"></stop>
+                    <stop offset="30%" stop-color="#FF007F" stop-opacity="0.88"></stop>
+                    <stop offset="70%" stop-color="#7928CA" stop-opacity="0.75"></stop>
+                    <stop offset="100%" stop-color="#00F2FE" stop-opacity="0.3"></stop>
+                  </radialGradient>
                   <!-- 内部発光核（ニュークリアス）グラデーション：進捗率で色相覚醒 -->
                   <radialGradient id="lavaNucleusGrad" cx="50%" cy="50%" r="50%">
                     <stop id="lavaNucStop0" offset="0%" stop-color="#FFFFFF"></stop>
@@ -4407,10 +4727,39 @@ html.ui-frost .srs-card-today b{color:#70D6FF;text-shadow:0 0 8px rgba(112,214,2
                     <stop offset="85%" stop-color="#FF007F"></stop>
                     <stop offset="100%" stop-color="#00F2FE" stop-opacity="0.4"></stop>
                   </radialGradient>
+                  <!-- 🧬 ちぎれて戻る分裂液滴（Fission Droplet）超光輝グラデーション -->
+                  <radialGradient id="lavaFissionGrad" cx="38%" cy="32%" r="68%">
+                    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1"></stop>
+                    <stop offset="30%" stop-color="#00F2FE" stop-opacity="0.95"></stop>
+                    <stop offset="70%" stop-color="#FF007F" stop-opacity="0.85"></stop>
+                    <stop offset="95%" stop-color="#FF2A8D" stop-opacity="0.5"></stop>
+                    <stop offset="100%" stop-color="#00F2FE" stop-opacity="0.1"></stop>
+                  </radialGradient>
+                  <!-- 🫧 内部生体小胞（Vacuole）半透明ジェルグラデーション -->
+                  <radialGradient id="lavaVacuoleGrad" cx="35%" cy="30%" r="65%">
+                    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.85"></stop>
+                    <stop offset="45%" stop-color="#00F2FE" stop-opacity="0.45"></stop>
+                    <stop offset="80%" stop-color="#7928CA" stop-opacity="0.3"></stop>
+                    <stop offset="100%" stop-color="#FF007F" stop-opacity="0.05"></stop>
+                  </radialGradient>
+                  <!-- 💧 粘性液橋フィラメント用グラデーション -->
+                  <linearGradient id="lavaTendrilGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#00F2FE" stop-opacity="0.85"></stop>
+                    <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.9"></stop>
+                    <stop offset="100%" stop-color="#FF007F" stop-opacity="0.8"></stop>
+                  </linearGradient>
+                  <!-- ✨ 有機プルプルハイライトグラデーション -->
+                  <linearGradient id="lavaSpecularGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.85"></stop>
+                    <stop offset="60%" stop-color="#00F2FE" stop-opacity="0.45"></stop>
+                    <stop offset="100%" stop-color="#00F2FE" stop-opacity="0"></stop>
+                  </linearGradient>
                 </defs>
 
-                <!-- 有機的ガラスチャンバー背景・輪郭（アメーバ変形と調和） -->
+                <!-- 有機的ガラスチャンバー多重境界膜（アメーバ変形と呼吸脈動） -->
+                <path class="lava-chamber-outer" id="lavaChamberOuter" d="M 84,14 C 126,10 160,42 156,84 C 152,128 126,160 84,156 C 42,152 8,126 12,84 C 16,42 42,18 84,14 Z"></path>
                 <path class="lava-lamp-chamber" id="lavaChamber" d="M 84,18 C 122,14 154,46 150,84 C 146,124 122,154 84,150 C 46,146 14,122 18,84 C 22,46 46,22 84,18 Z"></path>
+                <path class="lava-chamber-inner" id="lavaChamberInner" d="M 84,22 C 118,18 148,50 144,84 C 140,120 118,148 84,144 C 50,140 20,118 24,84 C 28,50 50,26 84,22 Z"></path>
                 <circle class="liquid-chamber-rim" cx="84" cy="84" r="64"></circle>
 
                 <!-- 🧪 オーガニック流体コンテナ（クリップパス内） -->
@@ -4418,14 +4767,38 @@ html.ui-frost .srs-card-today b{color:#70D6FF;text-shadow:0 0 8px rgba(112,214,2
                   <!-- 深淵プール背景 -->
                   <circle class="liquid-chamber-pool" cx="84" cy="84" r="64"></circle>
 
-                  <!-- 🧪 メタボール流体層（Gooey粘性マージ：本体とサテライトがとろりと融合） -->
+                  <!-- 🧪 メタボール流体層（Gooey粘性マージ：本体・分裂ポッド・サテライトがとろりと融合） -->
                   <g class="liquid-metaball-layer" id="liquidMetaballLayer" filter="url(#liquidGooFilter)">
-                    <!-- 中央の有機的流体セル（ラバ・ジェルブロブ本体） -->
+                    <!-- 中央の有機的流体セル（ラバ・ジェルブロブ多層本体） -->
                     <g class="liquid-blob-core-group" id="liquidBlobCoreGroup">
-                      <!-- 外側オーラ膜（表面張力マントル） -->
+                      <!-- 1. 最外層オーラ膜（表面張力マントル） -->
                       <path class="lava-cell-mantle" id="lavaCellMantle" d="M 84,36 C 114,34 136,58 134,84 C 132,112 110,134 84,132 C 56,130 34,110 36,84 C 38,56 56,38 84,36 Z"></path>
-                      <!-- メイン流体ボディ -->
+                      <!-- 2. 中間流体層（メソプラズム：弾性ネオン流体） -->
+                      <path class="lava-cell-mesoplasm" id="lavaCellMesoplasm" d="M 84,38 C 112,36 133,59 131,84 C 129,110 108,131 84,129 C 58,127 37,108 39,84 C 41,58 58,40 84,38 Z"></path>
+                      <!-- 3. メイン流体ボディ -->
                       <path class="lava-cell-body" id="lavaCellBody" d="M 84,40 C 110,38 130,60 128,84 C 126,108 106,128 84,126 C 60,124 40,106 42,84 C 44,60 60,42 84,40 Z"></path>
+                      <!-- 4. 内層高密度ジェル（エンドプラズム：核周辺の粘性対流） -->
+                      <path class="lava-cell-endoplasm" id="lavaCellEndoplasm" d="M 84,48 C 104,46 120,64 118,84 C 116,104 100,120 84,118 C 64,116 48,102 50,84 C 52,66 64,50 84,48 Z"></path>
+                    </g>
+
+                    <!-- 🧬 【ちぎれて戻る】液滴分裂＆再融合ポッド群（Pinch-and-Snap Pods） -->
+                    <g class="liquid-fission-pods" id="liquidFissionPods">
+                      <!-- 北東ポッド：右斜め上へ伸びてちぎれ、フヨフヨ漂って戻る -->
+                      <circle class="fission-drop f-ne" id="fissionDropNE" cx="84" cy="84" r="9"></circle>
+                      <!-- 南西ポッド：左斜め下へ伸びてちぎれ、プルプル揺れて戻る -->
+                      <circle class="fission-drop f-sw" id="fissionDropSW" cx="84" cy="84" r="8"></circle>
+                      <!-- 北西ポッド：左斜め上へ伸びてちぎれ、戻る -->
+                      <circle class="fission-drop f-nw" id="fissionDropNW" cx="84" cy="84" r="7.2"></circle>
+                      <!-- 南東ポッド：右斜め下へ伸びてちぎれ、戻る -->
+                      <circle class="fission-drop f-se" id="fissionDropSE" cx="84" cy="84" r="8.2"></circle>
+                    </g>
+
+                    <!-- 💧 粘性液橋フィラメント（ちぎれる瞬間に糸を引く有機ストランド） -->
+                    <g class="liquid-tendrils-group" id="liquidTendrils">
+                      <path class="lava-tendril t-ne" id="lavaTendrilNE" d="M 84,84 Q 98,70 112,56"></path>
+                      <path class="lava-tendril t-sw" id="lavaTendrilSW" d="M 84,84 Q 70,98 56,112"></path>
+                      <path class="lava-tendril t-nw" id="lavaTendrilNW" d="M 84,84 Q 70,70 56,56"></path>
+                      <path class="lava-tendril t-se" id="lavaTendrilSE" d="M 84,84 Q 98,98 112,112"></path>
                     </g>
 
                     <!-- 🪐 周囲を浮遊・対流するサテライト液滴群（進捗率で本体へ引力融合） -->
@@ -4440,7 +4813,22 @@ html.ui-frost .srs-card-today b{color:#70D6FF;text-shadow:0 0 8px rgba(112,214,2
 
                   <!-- 内部コア発光核（Gooey外で鮮明発光・多段覚醒） -->
                   <circle class="lava-cell-nucleus" id="lavaCellNucleus" cx="84" cy="84" r="20"></circle>
-                  <!-- ジェル光沢ハイライト -->
+
+                  <!-- 🫧 内部生体小胞群（Bio-Vacuoles：ジェル内部でフヨフヨ対流する半透明球） -->
+                  <g class="liquid-vacuoles-group" id="liquidVacuoles">
+                    <ellipse class="lava-vacuole v1" id="lavaVacuole1" cx="72" cy="74" rx="5.5" ry="4.2"></ellipse>
+                    <ellipse class="lava-vacuole v2" id="lavaVacuole2" cx="96" cy="76" rx="4.8" ry="5.8"></ellipse>
+                    <ellipse class="lava-vacuole v3" id="lavaVacuole3" cx="88" cy="95" rx="6.2" ry="4.6"></ellipse>
+                    <ellipse class="lava-vacuole v4" id="lavaVacuole4" cx="68" cy="91" rx="4.2" ry="4.4"></ellipse>
+                  </g>
+
+                  <!-- ✨ 有機プルプルハイライトスペキュラ（潤いと弾力のツヤ） -->
+                  <g class="liquid-specular-group" id="liquidSpecularGroup">
+                    <path class="lava-spec-wobble sp-top" d="M 68,48 C 76,43 92,43 100,48 C 92,52 76,52 68,48 Z"></path>
+                    <path class="lava-spec-wobble sp-left" d="M 52,70 C 49,76 49,86 52,92 C 54,86 54,76 52,70 Z"></path>
+                    <circle class="lava-spec-glint" cx="74" cy="56" r="2"></circle>
+                  </g>
+                  <!-- 互換用旧ハイライト（非表示） -->
                   <path class="lava-cell-specular" d="M 64,52 C 72,46 96,46 104,52 C 96,56 72,56 64,52 Z"></path>
 
                   <!-- 微小ネオングリント -->
@@ -6664,11 +7052,15 @@ function _driveThemeGauge(pct, base, over, tier) {
     aFill.setAttribute('height', String(aH));
   }
 
-  // 4. Liquid: オーガニック・ラバ・セル（アメーバ流体ジェル＆浮遊液滴）
+  // 4. Liquid: オーガニック・ラバ・セル（アメーバ流体ジェル＆浮遊液滴＆分裂再融合ポッド）
   const lCore = document.getElementById('gaugeLiquidCore');
   const lBlobGroup = document.getElementById('liquidBlobCoreGroup');
   const lNucleus = document.getElementById('lavaCellNucleus');
   const lMantle = document.getElementById('lavaCellMantle');
+  const lMesoplasm = document.getElementById('lavaCellMesoplasm');
+  const lEndoplasm = document.getElementById('lavaCellEndoplasm');
+  const lFissionPods = document.getElementById('liquidFissionPods');
+  const lVacuoles = document.getElementById('liquidVacuoles');
   const lSatellites = document.getElementById('liquidSatellites');
   const vWorld = document.getElementById('vortexSwirlWorld');
   const vEye = document.getElementById('vortexEyeGroup');
@@ -6689,9 +7081,27 @@ function _driveThemeGauge(pct, base, over, tier) {
   }
 
   if (lBlobGroup) {
-    // 進捗率に応じて中央の流体セルがエネルギーを吸収し、豊かに膨張（スケール 0.84 -> 1.26）
-    const bScale = 0.84 + (base / 100) * 0.42 + (over > 0 ? 0.08 : 0);
+    // 進捗率に応じて中央の多層流体セルがエネルギーを吸収し、豊かに膨張（スケール 0.84 -> 1.28）
+    const bScale = 0.84 + (base / 100) * 0.44 + (over > 0 ? 0.08 : 0);
     lBlobGroup.style.transform = 'scale(' + bScale.toFixed(2) + ')';
+  }
+  if (lMesoplasm) {
+    const mesoOp = 0.65 + (base / 100) * 0.3;
+    lMesoplasm.style.opacity = String(mesoOp.toFixed(2));
+  }
+  if (lEndoplasm) {
+    const endoScale = 0.88 + (base / 100) * 0.28 + (over > 0 ? 0.06 : 0);
+    lEndoplasm.style.transform = 'scale(' + endoScale.toFixed(2) + ')';
+  }
+  if (lFissionPods) {
+    // 進捗が進むほど分裂ポッドの活動がダイナミックに活性化（スケール 0.85 -> 1.25）
+    const fScale = 0.85 + (base / 100) * 0.4 + (over > 0 ? 0.12 : 0);
+    lFissionPods.style.transform = 'scale(' + fScale.toFixed(2) + ')';
+  }
+  if (lVacuoles) {
+    // 内部生体小胞：進捗とともにジェル内部で膨張・発色
+    const vScale = 0.8 + (base / 100) * 0.35;
+    lVacuoles.style.transform = 'scale(' + vScale.toFixed(2) + ')';
   }
   if (lNucleus) {
     // 中心の核が進捗とともに高密度化・発光拡大（半径 16 -> 27）
