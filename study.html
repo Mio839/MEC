@@ -2118,12 +2118,19 @@ async function startSRSReview() {
   _srsUnloadedForReview = _srsUnloadedForReview || _hadLoaded;
   await _renderDueCardsForReview(dueUids);
 
+  // 上限50問の境目で連問が真っ二つになっていたら、切り落とされた側が今日 due なら拾い直す。
+  // ⚠️ 連問かどうかは描画済みのカードの qt からしか読めないので、判定はここ（描画の後）でしか
+  //    できない。拾ったぶんは追加で描く（_renderDueCardsForReview は「足す」関数）。
+  const _pulled = _srsSeriesPullIns(dueUids, allDue);
+  if (_pulled.length) await _renderDueCardsForReview(_pulled);
+  const sessionUids = dueUids.concat(_pulled);
+
   // 選抜（どの50問か）は上の決定論のまま、出す順だけを交ぜる。
   // ⚠️ ホストのDOM順も一緒に並べ替えること。examQueue は overrideUids の順で作られる
   //    （_buildExamQueue は .sg を持たないカードを入力順のまま返す＝ホストのカードは全部これ）
   //    ので uid の並びだけでも出題順は変わるが、DOM順が科目ブロックのままだと
   //    _scrollToNextCard がページを前後に飛び回る。
-  const shownUids = _srsInterleave(dueUids);
+  const shownUids = _srsInterleave(sessionUids);
   if (_host) shownUids.forEach(uid => {
     const el = _host.querySelector('.qc[data-uid="' + uid + '"]');
     if (el) _host.appendChild(el);
@@ -2147,8 +2154,9 @@ async function startSRSReview() {
   _examFilterLabel = 'SRS復習';
   document.body.classList.add('srs-review'); // フィルター類を隠し、ヘッダーを最小化する
   startExam(availableUids);
-  if (_dueTotal > dueUids.length) {
-    _mecNotify('復習 ' + availableUids.length + '問を出題します（残り ' + (_dueTotal - dueUids.length) + '問は完了後に続けられます）');
+  // 残り件数は「拾い直した連問の兄弟」を差し引いた数（sessionUids）で数える。
+  if (_dueTotal > sessionUids.length) {
+    _mecNotify('復習 ' + availableUids.length + '問を出題します（残り ' + (_dueTotal - sessionUids.length) + '問は完了後に続けられます）');
   }
 }
 
