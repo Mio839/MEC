@@ -1,3 +1,5 @@
+// 2026-09-07o: 全8テーマのHeroゲージに載っていた「四角形のエフェクト」を根絶——原因は装飾ではなく、ルート <svg>（viewBox 168×168・正方形）の既定 overflow:hidden による矩形クリップで、はみ出したグローや scale アニメがゲージの外接正方形で切り落とされ、さらに .gauge-ring の filter:drop-shadow がその「切られた後のアルファ」を種に四角い光暈を再放射して二重になっていた。.gauge-ring svg に overflow:visible + clip-path:circle(60%) を与え、境界を正方形から円へ置換（切れ目がリムと同じ形になり視認できず、滲みは r=100.8 で頭打ち）。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-07n → 2026-09-07o）。
 // 2026-09-07n: ハブ画面「今日解いた問題数」および正解率バッジ新設に伴い、XPバッジ下の不要となった内訳行（#heroXpNote: 「試験・復習 ○問（正答 ○%）」）を完全撤廃。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-07m → 2026-09-07n）。
 // 2026-09-07m: Liquid（幻想リキッド・アート）のHeroゲージ意匠を極限まで深化——他テーマとの被りを完全排除し、①ちぎれて戻る液滴分裂＆再融合ポッド群（liquidFissionPods：4方向へのビヨーンとした伸び、糸引き首細り、ちぎれ、無重力フヨフヨ浮遊、表面張力シュルン引き戻し、ぬるっと合体）、②粘性液橋フィラメント（liquidTendrils）、③多層アメーバ流体ジェル（最外層マントル・中間メソプラズム・内層高密度エンドプラズム・多層生体膜チャンバー）、④内部生体小胞群（liquidVacuoles：ジェル内を対流浮遊する半透明液胞）、⑤有機プルプルスペキュラ（潤いハイライト）、⑥多重周波数フヨフヨ弾力キーフレーム（jellySquish/jellyMicroJiggle）を実装。
@@ -1290,7 +1292,7 @@ const CACHE = "mec-v375";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-07n";
+const SHELL_VERSION = "2026-09-07o";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
