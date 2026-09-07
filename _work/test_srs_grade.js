@@ -64,9 +64,11 @@ function makeCtx(startMs) {
   vm.createContext(ctx);
   vm.runInContext(
     grabConst(HTML, 'SRS_FUZZ_PCT') + '\n' +
+    grabConst(HTML, 'SRS_EXAM_FRACTION') + '\n' +
     grabFn(HTML, '_today') + '\n' +
     grabFn(HTML, '_addDays') + '\n' +
     grabFn(HTML, '_daysDiff') + '\n' +
+    grabFn(HTML, '_srsExamCap') + '\n' +
     grabFn(HTML, '_srsFuzz') + '\n' +
     grabFn(HTML, '_srsUrgency') + '\n' +
     grabFn(HTML, '_srsInterleave') + '\n' +
@@ -336,6 +338,34 @@ t('出題順は同じ日なら何度開いても同じ（乱数ではない）',
   c.advance(1);
   const other = c._srsInterleave(uids);
   assert.deepStrictEqual([...other].sort(), [...uids].sort(), '日が変わっても中身は同じ');
+});
+
+t('試験日ゲートは残り日数の半分で間隔を頭打ちにする', () => {
+  const c = makeCtx();
+  // 今日を 2027-01-01 に設定。試験日 2027-02-06（残り 36 日）
+  c.setDay('2027-01-01');
+  c.MECSync = { examDate: () => '2027-02-06' };
+  // 初回 reps=1 (1日)
+  c._updateSRS(U, 'ok');
+  // 予定通り進めて reps=2 (6日)
+  c.advance(1);
+  c._updateSRS(U, 'ok');
+  // 6日後、通常なら 6 * 2.5 = 15日
+  c.advance(6);
+  c._updateSRS(U, 'ok');
+  // さらに進めて間隔が大きくなろうとするとき、上限 floor(残り日数 * 0.5) が効く
+  // 残り日数が 20 日なら上限は 10 日。±5% のゆらぎ込みでも 11 日を超えない
+  c.advance(10);
+  // 残り 36 - 1 - 6 - 10 = 19 日。上限 floor(19 * 0.5) = 9 日。
+  c._updateSRS(U, 'ok');
+  assert.ok(c._srsData[U].interval <= 10, '間隔が上限を超えている: ' + c._srsData[U].interval);
+});
+
+t('試験日を過ぎている場合は試験日ゲートを掛けない', () => {
+  const c = makeCtx();
+  c.setDay('2027-03-01');
+  c.MECSync = { examDate: () => '2027-02-06' };
+  assert.strictEqual(c._srsExamCap(), Infinity);
 });
 
 console.log(`\n${fail ? 'FAILED' : 'all passed'}  (${pass}/${pass + fail})`);

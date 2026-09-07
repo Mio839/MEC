@@ -25,6 +25,14 @@
   // ⚠️ 記録できるのは lsRaw を通る書き込みだけ。gamify.js の _s() は
   //    localStorage.setItem を直接呼ぶので、そこでの超過はここに残らない。
   const K_QUOTA_HITS = 'mec_quota_hits_v1';
+  // 試験日。stats.html の国試カウントダウンと、study.html の SRS 試験日ゲート
+  // （_srsExamCap）の**両方**が読むのでここが正本。ページ側に既定値を持たせないこと。
+  // ⚠️ このキーは同期対象ではない（_mergeRemote は文字列スカラの解決戦略を持たない）。
+  //    既定値のままなら全端末で一致するが、片方で変更すると端末間で SRS の予定日が
+  //    ずれる（_srsFuzz が守っている「どの端末でも同じ nextReview」が崩れる）。
+  //    同期させるなら更新時刻を添えて last-writer-wins を作る必要がある。
+  const K_EXAM_DATE = 'mec_exam_date_v1';
+  const EXAM_DATE_DEFAULT = '2027-02-06';
 
   let syncTimer = null;
   let syncInProgress = false;
@@ -1185,6 +1193,11 @@
     clearToken: () => localStorage.removeItem(K_TOKEN),
     getGistId: () => localStorage.getItem(K_GIST) || '',
     setGistId: id => localStorage.setItem(K_GIST, id),
+    examDate() {
+      try { return localStorage.getItem(K_EXAM_DATE) || EXAM_DATE_DEFAULT; } catch (e) { return EXAM_DATE_DEFAULT; }
+    },
+    setExamDate(v) { try { localStorage.setItem(K_EXAM_DATE, v); } catch (e) {} },
+    clearExamDate() { try { localStorage.removeItem(K_EXAM_DATE); } catch (e) {} },
     getStats() {
       const done = lsGet(KD), flags = lsGet(KF);
       return {

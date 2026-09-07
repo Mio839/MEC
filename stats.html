@@ -1620,11 +1620,10 @@ body {
   }
 
   // ── Hero & ペースシミュレーター ──
-  const EXAM_DATE_DEFAULT = '2027-02-06';
-  const K_EXAM_DATE = 'mec_exam_date_v1';
-  function examDate() {
-    try { return localStorage.getItem(K_EXAM_DATE) || EXAM_DATE_DEFAULT; } catch (e) { return EXAM_DATE_DEFAULT; }
-  }
+  // 試験日の正本は progress.js（MECSync.examDate）。study.html の SRS 試験日ゲート
+  // （_srsExamCap）も同じ値を読むので、ここに既定値を持たせないこと——片方だけ動かすと
+  // 「カウントダウンが指す日」と「復習予定を切り詰める日」が食い違う。
+  const examDate = () => window.MECSync.examDate();
 
   function renderHero() {
     const ed = examDate();
@@ -1709,13 +1708,13 @@ body {
       inp.value = ed;
       inp.onchange = () => {
         if (!inp.value) return;
-        try { localStorage.setItem(K_EXAM_DATE, inp.value); } catch (e) {}
+        window.MECSync.setExamDate(inp.value);
         renderHero();
       };
     }
     const rst = document.getElementById('examDateReset');
     if (rst) rst.onclick = () => {
-      try { localStorage.removeItem(K_EXAM_DATE); } catch (e) {}
+      window.MECSync.clearExamDate();
       renderHero();
     };
   }
