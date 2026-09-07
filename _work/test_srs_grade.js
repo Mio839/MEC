@@ -381,5 +381,47 @@ t('試験日ゲートで上限に切られた成熟札にもゆらぎが適用�
   assert.strictEqual(c._srsData[U].interval, fuzzed);
 });
 
+// ⚠️ このゲートの存在理由そのもの。上の2件は上限値を見ているだけで、
+//    「予定日が試験日を越えない」という肝心の不変条件を検査していない。
+t('直前期のどの日に解いても予定日が試験日を越えない', () => {
+  const EXAM = '2027-02-06';
+  // 残り 120日〜1日の各起点で、成熟札・育ちかけ・初回の3種を解いて予定日を確かめる。
+  for (let left = 120; left >= 1; left--) {
+    const c = makeCtx();
+    c.MECSync = { examDate: () => EXAM };
+    const start = new RealDate(RealDate.parse(EXAM + 'T00:00:00Z') - left * DAY)
+      .toISOString().slice(0, 10);
+    c.setDay(start);
+    const cases = [
+      { uid: 'mature_ch01_q1', e: { reps: 6, interval: 90, ef: 2.5, nextReview: start, lastSeen: '2026-01-01' } },
+      { uid: 'mid_ch01_q2', e: { reps: 3, interval: 15, ef: 2.5, nextReview: start, lastSeen: '2026-12-01' } },
+      { uid: 'fresh_ch01_q3', e: null },
+    ];
+    for (const { uid, e } of cases) {
+      if (e) c._srsData[uid] = e;
+      c._updateSRS(uid, 'ok');
+      const nr = c._srsData[uid].nextReview;
+      assert.ok(nr <= EXAM,
+        `残り${left}日（${start}）の ${uid}: 予定日 ${nr} が試験日 ${EXAM} を越えた`);
+      assert.ok(c._srsData[uid].interval >= 1, '間隔が1日を下回った');
+    }
+  }
+});
+
+// 逆方向の回帰ガード。ゲートは直前期のためのもので、余裕がある時期の挙動を
+// 1日も変えてはいけない（従来の 90 日上限・ゆらぎ・按分がそのまま残ること）。
+t('試験日が遠いうちはゲートが従来の予定日を1日も変えない', () => {
+  const withGate = makeCtx();                       // 既定 2027-02-06
+  const noGate = makeCtx();
+  noGate.MECSync = { examDate: () => '' };          // examDate が空 → cap = Infinity
+  // 2026-01-01 起点（残り 401日）。上限 200 日 > 90 日上限なのでゲートは効かないはず。
+  for (let i = 0; i < 6; i++) {
+    review(withGate, U, 'ok');
+    review(noGate, U, 'ok');
+  }
+  same(withGate._srsData[U], noGate._srsData[U], 'ゲートの有無で結果が変わっている');
+  assert.ok(withGate._srsData[U].interval > 1, '育っていない＝検査になっていない');
+});
+
 console.log(`\n${fail ? 'FAILED' : 'all passed'}  (${pass}/${pass + fail})`);
 process.exit(fail ? 1 : 0);
