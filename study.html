@@ -1919,16 +1919,153 @@ function _srsUrgency(e, today) {
   return (late + 1) / Math.max(1, e.interval || 1);
 }
 
+// ── 連問（1つの症例を複数の設問で追うもの）──────────────────────────────────
+// 全科目で 288グループ 726問。⚠️ データにも DOM にも「連問である」ことを示す印は無い
+// （_buildExamQueue が見る .sg は card_renderer.js が一度も出力しない＝実質デッドコード）。
+// qt の書式から復元するしかなく、書式は3つある:
+//   ① 宣言文（整形外科式＝作り直した科目）「次の文を読み、40 と41 の問いに答えよ。」
+//      番号は科目内で一意なので、そのまま群の識別子になる。⚠️ ただし番号が uid の連番と
+//      一致しない科目がある（imma は章ごとに振り直されていて、宣言文は PDF の NO.203-204
+//      なのに uid は _q6/_q7）。だから**自分の番号が範囲に入っているときだけ**番号による
+//      同定（lo/hi）を信用する。
+//   ② 共通ステム（旧コア12科目）<span class="qt-context"> に症例文が丸ごと入り、兄弟は
+//      同じ本文を持つ → 本文そのものを識別子にする。⚠️ 先頭の「連問 n/m」ラベルと、科目に
+//      よっては本文へ混ざる宣言文の両方を落とすこと（落とさないと1問目だけ別の群になる）。
+//      ⚠️ 空白の有無だけが違う兄弟が実在する（kansen NO.189/190）ので空白は全部落とす。
+//   ③ 産婦人科は兄弟が要約（「（19歳の女性。…）」）しか持たず手掛かりが無い。①の宣言文を
+//      持つ1問目から番号で引き寄せる（_seriesGroupsOf の後段）。
+// この3つで questions_*.json 全25科目を照合した結果、288群726問がすべて過不足なく復元でき、
+// 群の中の番号は例外なく連番、章をまたぐ群は1つも無かった（2026-09-07 に全数で検証）。
+// ⚠️ 番号による同定は必ず**同じ章の中だけ**で行うこと。imma と memo は同じ番号が複数の章に
+//    あるので、科目全体で引き当てると別の章の問題を巻き込む。
+const SERIES_DECL_RE = /次の文を読み[、,]?(?:Q\.|NO\.)?(\d+)[〜～~と・,、](?:Q\.|NO\.)?(\d+)/;
+const SERIES_LABEL_RE = /^(?:連問|シリーズ)[：:]?(\d+)[\/／\-](\d+)/;
+
+// uid → { ch:'endo_ch01', n:12 }。章と番号を分けて持つのは上の⚠️（番号は章の中でだけ一意）。
+function _uidSeq(uid) {
+  const m = /^(.*_ch\d+)_q(\d+)$/.exec(uid || '');
+  return m ? { ch: m[1], n: +m[2] } : null;
+}
+
+// カード1枚から連問の手掛かりを読む。key は群の識別子（空なら本文からは分からない）、
+// lo/hi は「この章の番号 lo〜hi が兄弟」と言い切れるときだけ入る（0 なら不明）。
+function _seriesInfoOf(uid) {
+  let qt = null;
+  try { qt = document.querySelector('.qc[data-uid="' + uid + '"] .qt'); } catch (e) { return null; }
+  if (!qt) return null;
+  const seq = _uidSeq(uid);
+  const nows = s => (s || '').replace(/[\s　]+/g, '');
+  let key = '', lo = 0, hi = 0;
+
+  const ctx = qt.querySelector('.qt-context');
+  if (ctx) {
+    const clone = ctx.cloneNode(true);
+    clone.querySelectorAll('.series-label').forEach(el => el.remove());
+    const stem = nows(clone.textContent)
+      .replace(/^.{0,40}?次の文を読み.{0,60}?問いに答えよ[。\]】]*/, '');
+    if (stem) key = 'c:' + stem.slice(0, 120);
+    const lab = SERIES_LABEL_RE.exec(nows(ctx.querySelector('.series-label') &&
+                                          ctx.querySelector('.series-label').textContent));
+    if (lab && seq) {
+      const i = +lab[1], m = +lab[2];   // 「連問 2/3」＝3問中の2問目
+      if (i >= 1 && i <= m && m <= 6) { lo = seq.n - (i - 1); hi = seq.n + (m - i); }
+    }
+  }
+
+  const m2 = SERIES_DECL_RE.exec(nows(qt.textContent).slice(0, 140));
+  if (m2) {
+    const a = +m2[1], b = +m2[2];
+    if (!key) key = 'r:' + a + '-' + b;
+    if (!hi && seq && a <= seq.n && seq.n <= b && b - a < 6) { lo = a; hi = b; }
+  }
+  return (key || hi) ? { key, lo, hi } : null;
+}
+
+// uid の集合を連問ごとにまとめる。返すのは uid → 群キー（連問でない uid は持たない）。
+// ⚠️ 群キーは必ず章で名前空間を切ること。①の番号キー（r:135-136）と③で引き寄せた側の
+//    キーが同じ形になっていないと、産婦人科の1問目と2問目が別々の群に落ちる。
+// infoOf を差し替えられるようにしてあるのは、DOM を持たないテストから回すため。
+function _seriesGroupsOf(uids, infoOf) {
+  const read = infoOf || _seriesInfoOf;
+  const info = new Map(), spans = [], out = new Map();
+  uids.forEach(u => {
+    const i = read(u) || null;
+    info.set(u, i);
+    const seq = _uidSeq(u);
+    if (i && i.hi && seq) spans.push({ ch: seq.ch, lo: i.lo, hi: i.hi });
+  });
+  uids.forEach(u => {
+    const i = info.get(u), seq = _uidSeq(u);
+    const scope = seq ? seq.ch : '';
+    if (i && i.key) { out.set(u, scope + '|' + i.key); return; }
+    if (!seq) return;
+    // ③ 手掛かりを持たない兄弟（産婦人科の要約だけの2問目・3問目）を番号で引き寄せる。
+    const s = spans.find(x => x.ch === seq.ch && x.lo <= seq.n && seq.n <= x.hi);
+    if (s) out.set(u, scope + '|r:' + s.lo + '-' + s.hi);
+  });
+  return out;
+}
+
 // 出題順を科目が交ざるように並べ替える。uid と日付から決まる値で並べるので、同じ日に
 // 開き直しても順序は同じ（乱数だと「さっき出た問題がまた先頭に来た」に見える）。
-function _srsInterleave(uids) {
+// ⚠️⚠️ 交ぜる単位は1問ではなく**連問の群**（2026-09-07〜）。1問ずつ交ぜていたので連問は
+//    必ずバラバラの順で出ており、「Q.107 → Q.106」のように症例の途中から始まるうえ、
+//    後の設問が前の設問の答え（診断名・実施した処置）を先に見せていた。とくに産婦人科は
+//    2問目以降が「（上記のFGR症例。）」と前を参照する書き方なので、逆順だと読めない。
+//    群の中は常に出題順（章 → 番号）に固定する。
+function _srsInterleave(uids, infoOf) {
   const day = _today();
   const key = u => {
     let h = 2166136261; const s = u + ':' + day;
     for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
     return h >>> 0;
   };
-  return uids.map(u => [key(u), u]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
+  const gkey = _seriesGroupsOf(uids, infoOf);
+  const groups = new Map();
+  uids.forEach(u => {
+    const k = gkey.get(u) || ('@' + u);      // 連問でなければ1問1群＝従来と同じ並びになる
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(u);
+  });
+  groups.forEach(list => list.sort((a, b) => {
+    const A = _uidSeq(a), B = _uidSeq(b);
+    if (!A || !B) return 0;
+    return A.ch === B.ch ? A.n - B.n : (A.ch < B.ch ? -1 : 1);
+  }));
+  // 群の代表は「並べ替えた後の1問目」＝連問でなければその問題自身。したがって連問を含まない
+  // セッションでは従来と1問も違わない並びになる。
+  return [...groups.values()]
+    .map(list => [key(list[0]), list])
+    .sort((a, b) => a[0] - b[0])
+    .reduce((acc, x) => acc.concat(x[1]), []);
+}
+
+// 上限50問で切ると連問が真っ二つになりうる（前半だけ今日・後半は次のセッション）。
+// 選抜そのもの（待たされ具合の降順）は動かさず、**切り落とされた側が今日 due なら拾い直す**。
+// ⚠️ 拾うのは due のものだけ。due でない兄弟まで出したら SRS の予定を先取りすることになる。
+// ⚠️ 兄弟は同じセッションで解かれる＝間隔も ef も揃うので待たされ具合も同じ値になり、実際に
+//    起きるのは上限の境目に跨ったときだけ。それでも歯止めとして上限を置く（0 で無効）。
+//    拾ったぶんセッションは50問を超える（最大60問）。
+const SRS_SERIES_PULL_MAX = 10;
+function _srsSeriesPullIns(picked, allDue, infoOf) {
+  if (!SRS_SERIES_PULL_MAX) return [];
+  const read = infoOf || _seriesInfoOf;
+  const inSession = new Set(picked);
+  const rest = allDue.filter(u => !inSession.has(u)).map(u => ({ uid: u, seq: _uidSeq(u) }));
+  if (!rest.length) return [];
+  const out = [];
+  for (const u of picked) {
+    const i = read(u), seq = _uidSeq(u);
+    if (!i || !i.hi || !seq) continue;
+    for (const r of rest) {
+      if (out.length >= SRS_SERIES_PULL_MAX) return out;
+      if (!r.seq || inSession.has(r.uid)) continue;
+      if (r.seq.ch === seq.ch && r.seq.n >= i.lo && r.seq.n <= i.hi) {
+        inSession.add(r.uid); out.push(r.uid);
+      }
+    }
+  }
+  return out;
 }
 
 async function startSRSReview() {

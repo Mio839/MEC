@@ -256,13 +256,30 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 .srs-card-today{font-size:11px;color:rgba(var(--glass-rgb),.85);white-space:nowrap;margin-left:auto;display:inline-flex;align-items:center;gap:1px;padding:2px 8px;border-radius:10px;background:rgba(var(--glass-rgb),.07);border:1px solid rgba(var(--glass-rgb),.18);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);font-feature-settings:"tnum";}
 .srs-card-today b{font-size:13px;font-weight:700;color:var(--or,#ff9a3c);margin:0 2px;}
 .srs-card-stat:last-child{margin-bottom:0;}
-.srs-card-stat{display:flex;align-items:center;gap:12px;margin-bottom:7px;padding:6px 12px;background:rgba(0,0,0,.22);border-radius:4px;border:1px solid rgba(var(--glass-rgb),.08);}
+.srs-card-stat{display:flex;align-items:center;gap:12px;margin-bottom:7px;padding:6px 12px;background:rgba(0,0,0,.22);border-radius:4px;border:1px solid rgba(var(--glass-rgb),.08);flex-wrap:wrap;}
 .srs-stat-cell{display:flex;flex-direction:column;min-width:0;}
 .srs-stat-lbl{font-size:10px;color:var(--tm,#888);margin-bottom:1px;}
 .srs-stat-val{font-size:14px;font-weight:700;color:var(--t1,#fff);font-feature-settings:"tnum";}
 .srs-stat-val small{font-size:11px;font-weight:400;color:var(--ts);margin-left:2px;}
 .srs-stat-cell.highlight .srs-stat-val{color:var(--or,#f97316);}
 .srs-stat-sep{font-size:13px;color:var(--tm,#888);opacity:.7;flex-shrink:0;user-select:none;}
+.srs-stat-divider{width:1px;height:24px;background:rgba(var(--glass-rgb),.15);margin:0 2px;flex-shrink:0;}
+.srs-risk-cell{margin-left:auto;}
+.srs-risk-pills{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.srs-risk-pill{font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:4px;display:inline-flex;align-items:center;gap:3px;border:1px solid transparent;line-height:1.25;white-space:nowrap;font-feature-settings:"tnum";backdrop-filter:blur(2px);}
+.srs-risk-pill b{font-size:11.5px;font-weight:700;}
+.srs-risk-pill.risk-high{background:rgba(239,68,68,.14);border-color:rgba(239,68,68,.3);color:#fca5a5;}
+.srs-risk-pill.risk-high b{color:#ef4444;}
+.srs-risk-pill.risk-mid{background:rgba(245,158,11,.14);border-color:rgba(245,158,11,.3);color:#fde047;}
+.srs-risk-pill.risk-mid b{color:#f59e0b;}
+.srs-risk-pill.risk-due{background:rgba(59,130,246,.14);border-color:rgba(59,130,246,.3);color:#93c5fd;}
+.srs-risk-pill.risk-due b{color:#3b82f6;}
+.srs-risk-pill.is-zero{opacity:.4;border-color:transparent;background:rgba(var(--glass-rgb),.04);color:var(--tm,#888);}
+.srs-risk-pill.is-zero b{color:var(--tm,#888);}
+@media(max-width:540px){
+  .srs-stat-divider{display:none;}
+  .srs-risk-cell{margin-left:0;width:100%;padding-top:4px;border-top:1px solid rgba(var(--glass-rgb),.08);}
+}
 .srs-card-hint{font-size:12px;color:var(--ts);margin:0;line-height:1.5;}
 
 /* ── ゲージ（全体進捗）。円弧は stroke-dashoffset だけを動かす ── */
@@ -5656,6 +5673,51 @@ function getSRSDueCount() {
   } catch { return 0; }
 }
 
+// ── SRS 忘却リスク内訳 ─────────────────────────────────────────
+function _diffDaysStr(a, b) {
+  return Math.round((Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / 86400000);
+}
+
+function _calcSrsUrgency(e, today) {
+  const late = _diffDaysStr(e.nextReview || today, today);
+  return (late + 1) / Math.max(1, e.interval || 1);
+}
+
+function getSrsRiskBreakdown(sessionLimit = 50) {
+  try {
+    const today = new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
+    const srs = JSON.parse(localStorage.getItem('mec_srs_v1') || '{}');
+    const allDue = Object.keys(srs).filter(uid => {
+      const e = srs[uid];
+      return e && e.nextReview && e.nextReview <= today;
+    });
+    if (!allDue.length) return { total: 0, high: 0, mid: 0, dueToday: 0 };
+
+    // study.html の startSRSReview と同様に待たされ具合（urgency）降順で並べる
+    allDue.sort((a, b) => {
+      const A = srs[a] || {}, B = srs[b] || {};
+      const ua = _calcSrsUrgency(A, today), ub = _calcSrsUrgency(B, today);
+      if (ua !== ub) return ub - ua;
+      return (A.ef == null ? 2.5 : A.ef) - (B.ef == null ? 2.5 : B.ef);
+    });
+
+    const target = allDue.slice(0, sessionLimit);
+    let high = 0, mid = 0, dueToday = 0;
+    target.forEach(uid => {
+      const e = srs[uid];
+      if (!e) return;
+      const late = _diffDaysStr(e.nextReview || today, today);
+      const urg = _calcSrsUrgency(e, today);
+      if (late <= 0) dueToday++;
+      else if (urg >= 2.0 || late >= 7) high++;
+      else mid++;
+    });
+    return { total: target.length, high, mid, dueToday };
+  } catch {
+    return { total: 0, high: 0, mid: 0, dueToday: 0 };
+  }
+}
+
 // ── 今日の学習量とXP ──────────────────────────────────────────
 // ⚠️ 数字の出どころ（ここを崩すと嘘の数字が出る）:
 //   ・試験/SRS/章別試験は mec_attempts_v1 に1解答=1行で時刻付きで残る＝今日ぶんは正確。
@@ -6062,6 +6124,7 @@ function renderHero() {
   const sessionCount = Math.min(due, sessionLimit);
 
   if (due > 0) {
+    const risk = getSrsRiskBreakdown(sessionLimit);
     say.classList.remove('is-clear');
     say.innerHTML =
       '<div class="srs-card-hdr">' +
@@ -6081,6 +6144,15 @@ function renderHero() {
         '<div class="srs-stat-cell highlight">' +
           '<span class="srs-stat-lbl">今回の出題</span>' +
           '<span class="srs-stat-val"><b>優先 ' + _fmtN(sessionCount) + '</b><small>問</small></span>' +
+        '</div>' +
+        '<span class="srs-stat-divider" aria-hidden="true"></span>' +
+        '<div class="srs-stat-cell srs-risk-cell">' +
+          '<span class="srs-stat-lbl">忘却リスク内訳</span>' +
+          '<div class="srs-risk-pills">' +
+            '<span class="srs-risk-pill risk-high' + (risk.high === 0 ? ' is-zero' : '') + '" title="予定の倍以上放置または1週間以上遅延（高リスク）">🔥 超危険 <b>' + _fmtN(risk.high) + '</b></span>' +
+            '<span class="srs-risk-pill risk-mid' + (risk.mid === 0 ? ' is-zero' : '') + '" title="予定期日を超過した問題">⚠️ 期限切れ <b>' + _fmtN(risk.mid) + '</b></span>' +
+            '<span class="srs-risk-pill risk-due' + (risk.dueToday === 0 ? ' is-zero' : '') + '" title="本日期日の問題">📅 本日 <b>' + _fmtN(risk.dueToday) + '</b></span>' +
+          '</div>' +
         '</div>' +
       '</div>';
   } else {
