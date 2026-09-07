@@ -15,10 +15,10 @@ assert(html.includes('<p class="hero-xp"><span id="heroXp">'), 'heroXp が hero-
 console.log('  ok  - DOM構造（hero-label-acc, hero-stat-row, hero-fig hero-acc-fig, hero-num, hero-xp）が完備');
 
 // 2. 基底CSSの検証
-assert(html.includes('.hero-stat-row{display:flex;align-items:center;gap:clamp(10px,2.2vw,16px);flex-wrap:wrap;max-width:100%;margin-top:var(--sp-3);}'), 'hero-stat-row 基底スタイルが存在すること');
+assert(html.includes('.hero-stat-row{display:flex;align-items:flex-end;gap:clamp(10px,2.2vw,16px);flex-wrap:wrap;max-width:100%;margin-top:var(--sp-3);}'), 'hero-stat-row 基底スタイルが存在すること');
 assert(html.includes('.hero-acc-fig{cursor:default;}'), 'hero-acc-fig スタイルが存在すること');
 assert(html.includes('.hero-label-acc{'), 'hero-label-acc スタイルが存在すること');
-assert(html.includes('.hero-xp{display:inline-flex;align-items:baseline;gap:3px;margin-top:0;align-self:center;'), 'hero-xp スタイルが存在すること');
+assert(html.includes('.hero-xp{display:inline-flex;align-items:baseline;gap:3px;margin-top:0;align-self:flex-end;'), 'hero-xp スタイルが存在すること');
 console.log('  ok  - 基底CSSスタイルが完備');
 
 // 3. 全8テーマでのスタイル差別化の検証

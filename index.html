@@ -173,7 +173,7 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   box-shadow:0 1px 4px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.08);
   transition:border-color .3s,box-shadow .3s;}
 .hero-date:hover{border-color:var(--hair-3);box-shadow:0 0 8px rgba(var(--glass-rgb),.2);}
-.hero-stat-row{display:flex;align-items:center;gap:clamp(10px,2.2vw,16px);flex-wrap:wrap;max-width:100%;margin-top:var(--sp-3);}
+.hero-stat-row{display:flex;align-items:flex-end;gap:clamp(10px,2.2vw,16px);flex-wrap:wrap;max-width:100%;margin-top:var(--sp-3);}
 .hero-stat-row .hero-fig{margin-top:0;}
 .hero-fig{display:inline-flex;align-items:baseline;gap:.16em;min-width:0;width:fit-content;max-width:100%;margin-top:var(--sp-3);
   font-family:var(--font-display);position:relative;transition:background .3s,border-color .3s,box-shadow .3s;}
@@ -194,8 +194,8 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
   filter:drop-shadow(0 2px 4px rgba(0,0,0,.8));transition:color .35s,filter .35s;}
 /* 🎯 本日の正解率バッジ。今日解いた問題数と完全に同一サイズ・同一マテリアルの特大プレート */
 .hero-acc-fig{cursor:default;}
-/* 今日のXP。クリスタルプレート調の立体バッジ（正解率バッジの右側に収容） */
-.hero-xp{display:inline-flex;align-items:baseline;gap:3px;margin-top:0;align-self:center;flex-shrink:0;
+/* 今日のXP。クリスタルプレート調の立体バッジ（正解率バッジの右側に下辺レベル揃えで収容） */
+.hero-xp{display:inline-flex;align-items:baseline;gap:3px;margin-top:0;align-self:flex-end;flex-shrink:0;
   padding:5px 12px;border-radius:var(--r-sm);
   background:linear-gradient(135deg,rgba(var(--or-rgb,255,154,60),.18),rgba(var(--or-rgb,255,154,60),.06));
   border:1px solid var(--or);

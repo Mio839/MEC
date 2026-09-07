@@ -1,3 +1,5 @@
+// 2026-09-07h: ハブ画面の「XPバッジ」（.hero-xp）の下辺レベルを正解率バッジ（.hero-acc-fig）の下辺と完全一致化（align-self: flex-end）。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-07g → 2026-09-07h）。
 // 2026-09-07g: ハブ画面の「XP表示」（.hero-xp）を正解率バッジのすぐ右隣（.hero-stat-row内）へ横並び収容（案A採用：クリスタル立体調バッジのアクセント配置・上下中央揃え・内訳下配置）。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-07f → 2026-09-07g）。
 // 2026-09-07f: ハブ画面見出し行の日付バッジを「今日解いた問題」と完全に同一行へ常時収容（flex-wrap: nowrap 固定・フォント/余白最適化・狭幅レスポンシブ最適化で全文字表示と同一行配置を死守）。
@@ -1280,7 +1282,7 @@ const CACHE = "mec-v373";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-07g";
+const SHELL_VERSION = "2026-09-07h";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
