@@ -2030,28 +2030,17 @@ html.ui-liquid .gauge-ring {
     transform: translate(0, 0) scale(1, 1) rotate(0deg);
   }
 }
-.lava-chamber-outer {
-  fill: none;
-  stroke: rgba(0, 242, 254, .4);
-  stroke-width: 1.4;
-  filter: drop-shadow(0 0 10px rgba(0, 242, 254, .35));
-  animation: lavaChamberOuterMorph 22s ease-in-out infinite alternate;
-  transform-origin: 84px 84px;
+.lava-chamber-outer,
+.lava-lamp-chamber,
+.lava-chamber-inner,
+.liquid-chamber-rim {
+  display: none !important;
 }
 @keyframes lavaChamberOuterMorph {
   0% { transform: scale(1, 1) rotate(0deg); }
   33% { transform: scale(1.03, 0.97) rotate(-1.6deg) translate(2px, -1px); }
   66% { transform: scale(0.97, 1.04) rotate(1.4deg) translate(-2px, 2px); }
   100% { transform: scale(1, 1) rotate(0deg); }
-}
-
-.lava-lamp-chamber {
-  fill: none;
-  stroke: rgba(255, 0, 127, .85);
-  stroke-width: 2.2;
-  filter: drop-shadow(0 0 16px rgba(255,0,127,.65)) drop-shadow(0 0 28px rgba(0,242,254,.45));
-  animation: lavaChamberMorph 20s ease-in-out infinite alternate;
-  transform-origin: 84px 84px;
 }
 @keyframes lavaChamberMorph {
   0% { transform: scale(1, 1) rotate(0deg); }
@@ -2060,23 +2049,10 @@ html.ui-liquid .gauge-ring {
   75% { transform: scale(1.03, 0.97) rotate(1.0deg) translate(-1px, -1px); }
   100% { transform: scale(1, 1) rotate(0deg); }
 }
-
-.lava-chamber-inner {
-  fill: none;
-  stroke: rgba(255, 0, 127, .5);
-  stroke-width: 1.2;
-  filter: drop-shadow(0 0 8px rgba(255, 0, 127, .3));
-  animation: lavaChamberInnerMorph 16s ease-in-out infinite alternate;
-  transform-origin: 84px 84px;
-}
 @keyframes lavaChamberInnerMorph {
   0% { transform: scale(1, 1) rotate(0deg); }
   50% { transform: scale(1.04, 0.96) rotate(2.2deg) translate(-1px, 2px); }
   100% { transform: scale(1, 1) rotate(0deg); }
-}
-
-.liquid-chamber-rim {
-  display: none;
 }
 .liquid-glass-glare {
   display: none !important;
