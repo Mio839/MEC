@@ -134,9 +134,18 @@ t('Abyss: 超深海探査ポータル（耐圧舷窓・12ボルト・生体発�
   assert.ok(HTML.includes('aBioHead.style.transform'), '_driveThemeGauge 内の生体発光オーブ制御が無い');
 });
 
-t('Frost: 六角フロスト・インフィル、六花スノークリスタル（段階的フラクタル成長）、静寂のダイヤモンドダストが存在し、外周線画とコメットは撤廃されている', () => {
+t('Frost: 絢爛多面体ファセット外枠、六角フロスト・インフィル、六花スノークリスタル（段階的フラクタル成長）、静寂のダイヤモンドダスト、絶対零度ケルビン計が存在し、外周線画とコメットは撤廃されている', () => {
   assert.ok(HTML.includes('frost-hex-rim'), 'frost-hex-rim が無い');
   assert.ok(HTML.includes('frost-hex-inner'), 'frost-hex-inner が無い');
+  assert.ok(HTML.includes('class="frost-outer-rim"'), 'frost-outer-rim が無い');
+  assert.ok(HTML.includes('class="frost-facet-ribs"'), 'frost-facet-ribs が無い');
+  assert.ok(HTML.includes('class="frost-calib-ticks"'), 'frost-calib-ticks が無い');
+  assert.ok(HTML.includes('class="frost-vertex-jewel'), 'frost-vertex-jewel が無い');
+  assert.ok(HTML.includes('id="frostKelvinDisplay"'), 'frostKelvinDisplay が無い');
+  assert.ok(HTML.includes('id="frostStateDisplay"'), 'frostStateDisplay が無い');
+  assert.ok(HTML.includes('class="frost-core-hex"'), 'frost-core-hex が無い');
+  assert.ok(HTML.includes('class="frost-apical-stars"'), 'frost-apical-stars が無い');
+  assert.ok(HTML.includes('class="frost-dust-star'), 'frost-dust-star が無い');
   assert.ok(HTML.includes('frost-snowflake-dendrite'), 'frost-snowflake-dendrite が無い');
   assert.ok(HTML.includes('frost-dendrite-tier'), 'frost-dendrite-tier が無い');
   assert.ok(HTML.includes('id="frostInfillFill"'), 'frostInfillFill が無い');
@@ -304,11 +313,12 @@ t('Cyber: カウントダウン画面から点線3重円cd-ringsが完全撤廃�
   assert.ok(studyCss.includes('.cd-rings{display:none!important;}'), 'study.cssに.cd-rings非表示が無い');
 });
 
-t('Frost: オーバードライブ装飾から同心円リング（frost-blizzard-ring）が完全撤廃され、極冷気ミストオーラ＆ダイヤモンドダストが実装されている', () => {
+t('Frost: オーバードライブ装飾から同心円リング（frost-blizzard-ring）が完全撤廃され、極冷気ミストオーラ＆ダイヤモンドダスト＆放射クリスタルレイが実装されている', () => {
   assert.ok(!HTML.includes('frost-blizzard-ring'), 'frost-blizzard-ring が残っている');
   assert.ok(HTML.includes('frost-hyper-rim'), 'frost-hyper-rim が無い');
   assert.ok(HTML.includes('frost-mist-aura'), 'frost-mist-aura が無い');
   assert.ok(HTML.includes('frost-overdrive-diamonds'), 'frost-overdrive-diamonds が無い');
+  assert.ok(HTML.includes('frost-od-rays'), 'frost-od-rays が無い');
 });
 
 t('Frost: 正解・祝祭演出（frostCrystalShatter）から同心円rings/sonicWaveが完全撤廃されslashRibbonへ刷新されている', () => {
