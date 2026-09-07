@@ -1,3 +1,5 @@
+// 2026-09-07p: Brass（真鍮クロックワークス）の四隅の歯車が歯ごと途切れる回帰を修正——2026-09-07o で入れた .gauge-ring svg の clip-path:circle(60%)（r=100.8）が Brass の gearA(17,17)/gearB(151,151) を切っていた。四隅の歯車は中心から 94.75 + 歯先 17 + stroke 0.55 + tier5/6 のグロー 14px ＝ 126.30 まで届くため 76%（r=127.68）へ拡大。下限は ①70.72%（viewBox 正方形の外接円＝これを割ると旧来見えていたものを切る）②75.18%（Brass 四隅の歯車）の2つで、index.html 側にも計算を残した。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-07o → 2026-09-07p）。
 // 2026-09-07o: 全8テーマのHeroゲージに載っていた「四角形のエフェクト」を根絶——原因は装飾ではなく、ルート <svg>（viewBox 168×168・正方形）の既定 overflow:hidden による矩形クリップで、はみ出したグローや scale アニメがゲージの外接正方形で切り落とされ、さらに .gauge-ring の filter:drop-shadow がその「切られた後のアルファ」を種に四角い光暈を再放射して二重になっていた。.gauge-ring svg に overflow:visible + clip-path:circle(60%) を与え、境界を正方形から円へ置換（切れ目がリムと同じ形になり視認できず、滲みは r=100.8 で頭打ち）。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-07n → 2026-09-07o）。
 // 2026-09-07n: ハブ画面「今日解いた問題数」および正解率バッジ新設に伴い、XPバッジ下の不要となった内訳行（#heroXpNote: 「試験・復習 ○問（正答 ○%）」）を完全撤廃。
@@ -1292,7 +1294,7 @@ const CACHE = "mec-v375";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-07o";
+const SHELL_VERSION = "2026-09-07p";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

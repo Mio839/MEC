@@ -277,14 +277,24 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
    しかも html.ui-* .gauge .gauge-ring の filter:drop-shadow が「切られた後のアルファ」を
    種に再放射するので、四角い光暈がもう一枚外側に描かれて二重になる。
    → 正方形のビューポートクリップを外し、代わりに円で囲う。切れ目が丸くなればゲージのリムと
-     同じ形なので視認できず、滲みは半径 60%（viewBox 換算 r=100.8）で頭打ちになる
+     同じ形なので視認できず、滲みは半径 76%（viewBox 換算 r=127.68）で頭打ちになる
      ＝ overflow:visible だけにしたときのような青天井の滲みにはならない。
-   ⚠️ 60% を下げるときは各テーマの最外要素＋グローの合計を下回らせないこと
-     （現状の最大は Celestial の .cel-astral-plate ＝ r74 + drop-shadow 16px ＝ 90）。
+   ⚠️⚠️ 76% を下げないこと。下限は2つあり、低い方から順に
+     ① 70.72%（= 84√2 / 168）… viewBox の正方形の外接円。ここを割ると
+        「旧来の正方形クリップでは見えていたもの」を切ることになる＝必ず回帰になる。
+     ② 75.18% … Brass の四隅の歯車が拘束条件。gearA(17,17) / gearB(151,151) は
+        中心から 94.75、歯先 tip 17 ＋ stroke 1.1 の半分 0.55、さらに tier5/6 の
+        drop-shadow 14px が乗って 126.30 まで届く（GEARS 定数は index.html の
+        _buildGears 付近、グローは ui_theme.css の html.ui-brass .gauge .gear-*）。
+     60% で入れた初版はここを割っており、四隅の歯車が歯ごと途切れた（実機で確認）。
+     GEARS の座標・tip・グロー半径を変えたらこの計算をやり直すこと。
+   ⚠️ 自前で clip-path を持つグループ（auroraGlassClip / liquidChamberClip /
+     abyssPortholeClip / frostInfillClip）は全部 r≦84 相当の多角形・円なので、
+     ここを広げても「隠れていたものが出てくる」ことはない。
    ⚠️ .gauge-ring::before / ::after（外環アストロラーベ等）は SVG の外の擬似要素なので
      このクリップの影響を受けない＝テーマの外環意匠はそのまま残る。 */
 .gauge-ring svg{display:block;width:100%;height:auto;transform:rotate(-90deg);
-  overflow:visible;clip-path:circle(60% at 50% 50%);}
+  overflow:visible;clip-path:circle(76% at 50% 50%);}
 .gauge-ring circle{fill:none;}
 /* ── 歯車列（スチームパンクの意匠）──
    真鍮・銅はテーマに振らない固定色。ゲージだけ質感を持たせたいので、
