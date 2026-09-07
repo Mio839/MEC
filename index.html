@@ -288,6 +288,54 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 }
 .srs-card-hint{font-size:12px;color:var(--ts);margin:0;line-height:1.5;}
 
+/* ── 意匠層（テーマ共通の骨格。材質・色・光は html.ui-* 側が塗る）──────────
+   ⚠️⚠️ .srs-card-stat の1行表示は死守すること（2026-09-07r で2行落ちを根絶した）。
+      したがってこの層は「横方向の寸法を1pxも増やさない」＝装飾は
+      position:absolute の疑似要素だけで置き、stat 行の中には何も足さない。
+   ⚠️ 使える層は5枚（.hero-say::before / ::after ／ .srs-deco と その ::before / ::after）。
+      分担は固定で、同じ層に2つ置くと後勝ちで片方が黙って死ぬ:
+        .hero-say::before … 地の模様（背面・z-index 0）
+        .hero-say::after  … 上に載る光沢・走査（前面・z-index 3）
+        .srs-deco         … 内枠・縁飾り（z-index 1）
+        .srs-deco::before … 左上のコーナー飾り
+        .srs-deco::after  … 右下のコーナー飾り
+   ⚠️ 既定は全部 opacity:0＝素の（テーマ未適用の）見た目を変えない。
+      テーマ側で opacity:1 にして初めて出る＝どのテーマでも「消し忘れ」が起きない。 */
+.hero-say.srs-card{position:relative;overflow:hidden;isolation:isolate;}
+.hero-say.srs-card>*{position:relative;z-index:2;}
+.hero-say.srs-card>.srs-deco{position:absolute;inset:0;z-index:1;pointer-events:none;
+  border-radius:inherit;opacity:0;}
+.srs-deco::before,.srs-deco::after{content:'';position:absolute;width:16px;height:16px;
+  pointer-events:none;opacity:0;}
+.srs-deco::before{top:5px;left:5px;}
+.srs-deco::after{bottom:5px;right:5px;}
+.hero-say.srs-card::before,.hero-say.srs-card::after{content:'';position:absolute;inset:0;
+  pointer-events:none;opacity:0;}
+.hero-say.srs-card::before{z-index:0;}
+.hero-say.srs-card::after{z-index:3;}
+/* 見出しの下に彫り込む罫。テーマは色と太さだけ差し替える */
+.srs-card-hdr{position:relative;padding-bottom:6px;}
+.srs-card-hdr::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:linear-gradient(90deg,rgba(var(--glass-rgb),.26),rgba(var(--glass-rgb),.05) 72%,transparent);}
+/* 見出しの絵文字だけを別レイヤーに切り出す口。
+   ⚠️ テーマが .srs-card-ttl に background-clip:text を掛けるので、
+      ここで -webkit-text-fill-color を戻さないと絵文字まで透明になる。 */
+.srs-ttl-ic{display:inline-block;-webkit-text-fill-color:initial;}
+.srs-pi{display:inline-block;-webkit-text-fill-color:initial;}
+@keyframes srsIcSway{
+  0%,68%,100%{transform:rotate(0);}
+  74%{transform:rotate(-13deg);}82%{transform:rotate(11deg);}
+  89%{transform:rotate(-6deg);}95%{transform:rotate(2deg);}
+}
+/* 忘却リスクの構成比を1本の帯で見せる（数字はピルが持つ＝帯は比率だけを担う）。
+   flex-grow に件数をそのまま入れるので 0件の区画は幅0で消える。 */
+.srs-risk-bar{display:flex;height:3px;margin:3px 18px 0;border-radius:2px;overflow:hidden;
+  background:rgba(var(--glass-rgb),.10);box-shadow:inset 0 0 3px rgba(0,0,0,.45);}
+.srs-risk-bar span{display:block;min-width:0;transition:flex-grow .45s var(--ease-out);}
+.srs-risk-bar .rb-high{background:linear-gradient(90deg,#ef4444,#f87171);}
+.srs-risk-bar .rb-mid{background:linear-gradient(90deg,#f59e0b,#fbbf24);}
+.srs-risk-bar .rb-due{background:linear-gradient(90deg,#3b82f6,#60a5fa);}
+
 /* ── ゲージ（全体進捗）。円弧は stroke-dashoffset だけを動かす ── */
 /* 盤面そのものを大きく取る。viewBox は 168 で、進捗の弧(r=54)より外側の
    歯車列にゆとりを持たせてある＝機構が主役に見える寸法 */
@@ -3400,6 +3448,56 @@ html.ui-aurora .sec-h::before{background:linear-gradient(180deg,#00DFD8,#FF0080)
 html.ui-aurora .sec-h .ln{background:linear-gradient(90deg,#00DFD8 0%,#7928CA 40%,transparent 95%);}
 html.ui-aurora .srs-card-today{color:#99F6E4;background:linear-gradient(135deg,rgba(0,223,216,.14),rgba(121,40,202,.1));border-color:rgba(0,223,216,.38);box-shadow:0 0 8px rgba(0,223,216,.2);}
 html.ui-aurora .srs-card-today b{color:#00DFD8;text-shadow:0 0 8px rgba(0,223,216,.65);}
+/* 復習キュー＝プリズムの結晶盤。極光のカーテンが背面を流れ、面をスペクトルの光沢が渡る */
+html.ui-aurora .hero-say.srs-card{
+  border:1px solid rgba(0,223,216,.34);border-left:3px solid #00DFD8;border-radius:8px;
+  background:linear-gradient(135deg,rgba(0,223,216,.11),rgba(121,40,202,.09) 48%,rgba(255,0,128,.07)),rgba(7,13,26,.5);
+  box-shadow:0 8px 28px rgba(0,0,0,.4),0 0 22px rgba(0,223,216,.18),inset 0 1px 0 rgba(255,255,255,.24);
+}
+html.ui-aurora .hero-say.srs-card::before{
+  opacity:1;background:
+    radial-gradient(130% 90% at 10% -20%,rgba(0,223,216,.26),transparent 62%),
+    radial-gradient(110% 80% at 92% 120%,rgba(255,0,128,.20),transparent 64%),
+    repeating-linear-gradient(72deg,rgba(189,52,254,.10) 0 2px,transparent 2px 13px);
+  background-size:auto,auto,200% 100%;animation:srsAuroraCurtain 11s ease-in-out infinite alternate;
+}
+@keyframes srsAuroraCurtain{0%{background-position:0 0,0 0,0% 0;}100%{background-position:0 0,0 0,100% 0;}}
+html.ui-aurora .hero-say.srs-card::after{
+  opacity:1;mix-blend-mode:screen;background:linear-gradient(112deg,transparent 36%,rgba(255,255,255,.22) 46%,rgba(0,223,216,.20) 50%,rgba(255,0,128,.14) 55%,transparent 64%);
+  background-size:280% 100%;animation:srsAuroraSheen 7.5s linear infinite;
+}
+@keyframes srsAuroraSheen{0%{background-position:210% 0;}100%{background-position:-130% 0;}}
+html.ui-aurora .hero-say.srs-card>.srs-deco{opacity:1;margin:4px;border:1px solid rgba(0,223,216,.18);border-radius:5px;}
+html.ui-aurora .srs-deco::before,html.ui-aurora .srs-deco::after{
+  opacity:1;border:1.5px solid rgba(0,223,216,.7);box-shadow:0 0 9px rgba(0,223,216,.45);}
+html.ui-aurora .srs-deco::before{top:-1px;left:-1px;border-width:1.5px 0 0 1.5px;border-radius:5px 0 0 0;}
+html.ui-aurora .srs-deco::after{bottom:-1px;right:-1px;border-width:0 1.5px 1.5px 0;border-radius:0 0 5px 0;border-color:rgba(255,0,128,.6);box-shadow:0 0 9px rgba(255,0,128,.4);}
+html.ui-aurora .srs-card-hdr::after{height:1.5px;background:linear-gradient(90deg,#00DFD8,#BD34FE 42%,rgba(255,0,128,.35) 72%,transparent);box-shadow:0 0 8px rgba(0,223,216,.45);}
+html.ui-aurora .srs-card-ttl{background:linear-gradient(100deg,#FFFFFF,#00DFD8 38%,#BD34FE 72%,#FF0080);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 8px rgba(0,223,216,.5));letter-spacing:.02em;}
+html.ui-aurora .srs-ttl-ic{filter:drop-shadow(0 0 7px rgba(0,223,216,.85));animation:srsIcSway 4s ease-in-out infinite;}
+html.ui-aurora .srs-tag-cross{border-color:rgba(0,223,216,.5);background:rgba(0,223,216,.14);color:#7FFFF5;box-shadow:0 0 8px rgba(0,223,216,.2);}
+html.ui-aurora .srs-tag-risk{border-color:rgba(255,0,128,.5);background:rgba(255,0,128,.13);color:#FFA8D2;box-shadow:0 0 8px rgba(255,0,128,.2);}
+html.ui-aurora .srs-card-stat{background:linear-gradient(180deg,rgba(4,10,22,.72),rgba(10,6,26,.72));border:1px solid rgba(0,223,216,.24);border-radius:6px;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 0 16px rgba(0,223,216,.09);}
+html.ui-aurora .srs-stat-lbl{color:#7FD9E8;letter-spacing:.04em;}
+html.ui-aurora .srs-stat-val{color:#E0FCFF;text-shadow:0 0 8px rgba(0,223,216,.4);}
+html.ui-aurora .srs-stat-cell.highlight .srs-stat-val{color:#FF6EB4;text-shadow:0 0 10px rgba(255,0,128,.6);}
+html.ui-aurora .srs-stat-val small{color:#6FBFCF;}
+html.ui-aurora .srs-stat-sep{color:#00DFD8;text-shadow:0 0 8px rgba(0,223,216,.7);opacity:1;}
+html.ui-aurora .srs-stat-divider{background:linear-gradient(180deg,transparent,rgba(0,223,216,.6),transparent);}
+html.ui-aurora .srs-risk-pill{border-radius:5px;}
+html.ui-aurora .srs-risk-pill.risk-high{background:rgba(255,0,128,.16);border-color:rgba(255,0,128,.5);color:#FFB3D6;box-shadow:0 0 8px rgba(255,0,128,.25);}
+html.ui-aurora .srs-risk-pill.risk-high b{color:#FF0080;text-shadow:0 0 7px rgba(255,0,128,.8);}
+html.ui-aurora .srs-risk-pill.risk-mid{background:rgba(189,52,254,.16);border-color:rgba(189,52,254,.5);color:#E4B8FF;box-shadow:0 0 8px rgba(189,52,254,.22);}
+html.ui-aurora .srs-risk-pill.risk-mid b{color:#BD34FE;text-shadow:0 0 7px rgba(189,52,254,.8);}
+html.ui-aurora .srs-risk-pill.risk-due{background:rgba(0,223,216,.15);border-color:rgba(0,223,216,.5);color:#9FF4EE;box-shadow:0 0 8px rgba(0,223,216,.22);}
+html.ui-aurora .srs-risk-pill.risk-due b{color:#00DFD8;text-shadow:0 0 7px rgba(0,223,216,.85);}
+html.ui-aurora .srs-risk-bar{box-shadow:inset 0 0 4px rgba(0,0,0,.6),0 0 10px rgba(0,223,216,.2);}
+html.ui-aurora .srs-risk-bar .rb-high{background:linear-gradient(90deg,#FF0080,#FF6EB4);}
+html.ui-aurora .srs-risk-bar .rb-mid{background:linear-gradient(90deg,#7928CA,#BD34FE);}
+html.ui-aurora .srs-risk-bar .rb-due{background:linear-gradient(90deg,#00DFD8,#7FFFF5);}
+html.ui-aurora .hero-say.srs-card.is-clear{border-left-color:#3DD68C;box-shadow:0 8px 28px rgba(0,0,0,.4),0 0 22px rgba(61,214,140,.2),inset 0 1px 0 rgba(255,255,255,.22);}
+html.ui-aurora .hero-say.is-clear .srs-card-ttl{background:linear-gradient(100deg,#FFFFFF,#3DD68C 45%,#00DFD8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+html.ui-aurora .srs-card-hint{color:#B6E9F0;}
 
 /* ── 2. 🕰️ Brass: 真鍮アンティーク彫刻＆スチームボイラー ── */
 html.ui-brass .hero-console{border-left:2px solid var(--brass);padding-left:14px;}
@@ -3499,6 +3597,66 @@ html.ui-brass .sec-h::before{background:var(--brass-hi);box-shadow:0 0 10px rgba
 html.ui-brass .sec-h .ln{background:linear-gradient(90deg,var(--brass-hi) 0%,var(--brass) 40%,transparent 95%);}
 html.ui-brass .srs-card-today{color:#D4AF37;background:linear-gradient(145deg,rgba(28,22,14,.85),rgba(201,162,39,.12));border-color:rgba(201,162,39,.4);box-shadow:0 0 8px rgba(201,162,39,.18);border-radius:4px;}
 html.ui-brass .srs-card-today b{color:#E0C25E;text-shadow:0 0 6px rgba(224,194,94,.5);}
+/* 復習キュー＝真鍮の銘板。ギヨシェ彫りの地に二重の彫り枠、四隅はマイナスビス留め */
+html.ui-brass .hero-say.srs-card{
+  border:2px solid #C9A227;border-left:4px solid #E0C25E;border-radius:5px;
+  background:linear-gradient(180deg,#241B0E 0%,#1A1308 45%,#120D05 100%);
+  box-shadow:0 8px 26px rgba(0,0,0,.8),0 0 14px rgba(201,162,39,.22),
+    inset 0 2px 5px rgba(0,0,0,.85),inset 0 -2px 4px rgba(255,243,176,.18),inset 0 0 22px rgba(0,0,0,.8);
+}
+html.ui-brass .hero-say.srs-card::before{
+  opacity:1;background:
+    repeating-linear-gradient(45deg,rgba(201,162,39,.075) 0 1px,transparent 1px 7px),
+    repeating-linear-gradient(-45deg,rgba(201,162,39,.075) 0 1px,transparent 1px 7px),
+    radial-gradient(120% 90% at 50% -25%,rgba(255,243,176,.10),transparent 62%);
+}
+html.ui-brass .hero-say.srs-card::after{
+  opacity:1;background:linear-gradient(100deg,transparent 40%,rgba(255,243,176,.13) 48%,transparent 57%);
+  background-size:300% 100%;animation:srsBrassGlass 13s linear infinite;
+}
+@keyframes srsBrassGlass{0%{background-position:200% 0;}100%{background-position:-140% 0;}}
+/* 二重の彫り枠（外＝明線／内＝暗線の対で金属の縁に見せる） */
+html.ui-brass .hero-say.srs-card>.srs-deco{opacity:1;margin:5px;border-radius:3px;
+  border:1px solid rgba(224,194,94,.42);box-shadow:inset 0 0 0 1px rgba(0,0,0,.6),0 0 0 1px rgba(0,0,0,.45);}
+html.ui-brass .srs-deco::before,html.ui-brass .srs-deco::after{
+  opacity:1;width:8px;height:8px;border-radius:50%;
+  background:radial-gradient(circle at 35% 32%,#FFF3B0 0%,#C9A227 58%,#4A330A 100%);
+  box-shadow:0 1px 2px rgba(0,0,0,.85),inset 0 -1px 1px rgba(0,0,0,.5);}
+html.ui-brass .srs-deco::before{top:8px;left:8px;}
+html.ui-brass .srs-deco::after{bottom:8px;right:8px;}
+html.ui-brass .srs-card-hdr::after{height:2px;background:linear-gradient(90deg,#C9A227,#8D6E1C 55%,transparent);
+  box-shadow:0 1px 0 rgba(0,0,0,.7);}
+html.ui-brass .srs-card-ttl{font-family:"Georgia","Times New Roman",serif;letter-spacing:.04em;
+  background:linear-gradient(180deg,#FFF8E1 0%,#FFE082 32%,#E0C25E 62%,#8D6E1C 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 1px 0 #3D2B0F) drop-shadow(0 0 7px rgba(224,194,94,.5));}
+html.ui-brass .srs-ttl-ic{filter:drop-shadow(0 1px 0 #3D2B0F) drop-shadow(0 0 6px rgba(224,194,94,.7));animation:srsIcSway 4.6s ease-in-out infinite;}
+html.ui-brass .srs-tag{font-family:"Georgia",serif;border-radius:2px;}
+html.ui-brass .srs-tag-cross{border-color:rgba(201,162,39,.55);background:linear-gradient(180deg,rgba(201,162,39,.16),rgba(0,0,0,.4));color:#E0C25E;box-shadow:inset 0 1px 0 rgba(255,243,176,.2);}
+html.ui-brass .srs-tag-risk{border-color:rgba(184,92,26,.6);background:linear-gradient(180deg,rgba(184,92,26,.2),rgba(0,0,0,.4));color:#E8A468;box-shadow:inset 0 1px 0 rgba(255,200,140,.16);}
+html.ui-brass .srs-card-stat{border-radius:3px;border:1px solid rgba(201,162,39,.4);
+  background:linear-gradient(180deg,#0E0A04,#1A1308 60%,#0B0803);
+  box-shadow:inset 0 3px 6px rgba(0,0,0,.9),inset 0 -1px 0 rgba(255,243,176,.14),0 0 8px rgba(201,162,39,.12);}
+html.ui-brass .srs-stat-lbl{color:#9A8248;font-family:"Georgia",serif;letter-spacing:.06em;}
+html.ui-brass .srs-stat-val{font-family:"Georgia",serif;color:#FFE082;text-shadow:0 0 7px rgba(224,194,94,.5),0 1px 0 #000;}
+html.ui-brass .srs-stat-cell.highlight .srs-stat-val{color:#FFF3B0;text-shadow:0 0 10px rgba(255,243,176,.75),0 1px 0 #000;}
+html.ui-brass .srs-stat-val small{color:#9A8248;font-family:"Georgia",serif;}
+html.ui-brass .srs-stat-sep{color:#C9A227;opacity:1;text-shadow:0 1px 0 #000;}
+html.ui-brass .srs-stat-divider{background:linear-gradient(180deg,transparent,#C9A227,transparent);box-shadow:1px 0 0 rgba(0,0,0,.7);}
+html.ui-brass .srs-risk-pill{border-radius:2px;font-family:"Georgia",serif;box-shadow:inset 0 1px 0 rgba(255,243,176,.14);}
+html.ui-brass .srs-risk-pill.risk-high{background:linear-gradient(180deg,rgba(178,34,34,.34),rgba(0,0,0,.45));border-color:rgba(205,92,60,.6);color:#F0A98C;}
+html.ui-brass .srs-risk-pill.risk-high b{color:#FF7A45;text-shadow:0 0 7px rgba(255,122,69,.7);}
+html.ui-brass .srs-risk-pill.risk-mid{background:linear-gradient(180deg,rgba(201,162,39,.3),rgba(0,0,0,.45));border-color:rgba(201,162,39,.6);color:#E8CE86;}
+html.ui-brass .srs-risk-pill.risk-mid b{color:#FFD54F;text-shadow:0 0 7px rgba(255,213,79,.7);}
+html.ui-brass .srs-risk-pill.risk-due{background:linear-gradient(180deg,rgba(80,120,140,.28),rgba(0,0,0,.45));border-color:rgba(122,170,190,.55);color:#AFD4E2;}
+html.ui-brass .srs-risk-pill.risk-due b{color:#8FD3EA;text-shadow:0 0 7px rgba(143,211,234,.6);}
+html.ui-brass .srs-risk-bar{border-radius:1px;background:#0B0803;box-shadow:inset 0 1px 3px rgba(0,0,0,.9),0 1px 0 rgba(255,243,176,.12);}
+html.ui-brass .srs-risk-bar .rb-high{background:linear-gradient(90deg,#8C2F12,#FF7A45);}
+html.ui-brass .srs-risk-bar .rb-mid{background:linear-gradient(90deg,#8D6E1C,#FFD54F);}
+html.ui-brass .srs-risk-bar .rb-due{background:linear-gradient(90deg,#33586B,#8FD3EA);}
+html.ui-brass .hero-say.srs-card.is-clear{border-left-color:#7FA850;}
+html.ui-brass .hero-say.is-clear .srs-card-ttl{background:linear-gradient(180deg,#F0FFE1,#C4E08A 40%,#7FA850 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+html.ui-brass .srs-card-hint{color:#C8B27A;font-family:"Georgia",serif;}
 
 /* ── 3. 🚀 Cyber: 角型戦術HUDモニター＆ネオン走査線 ── */
 html.ui-cyber .hero-console{border-left:2px solid #00E5FF;padding-left:14px;}
@@ -3594,6 +3752,68 @@ html.ui-cyber .sec-h::before{background:#00FF9D;box-shadow:0 0 12px #00FF9D,0 0 
 html.ui-cyber .sec-h .ln{background:linear-gradient(90deg,#00FF9D 0%,#00E5FF 40%,transparent 95%);}
 html.ui-cyber .srs-card-today{font-family:'Consolas','Monaco','Courier New',monospace;color:#00E5FF;background:rgba(4,24,38,.9);border-color:rgba(0,229,255,.5);box-shadow:0 0 10px rgba(0,229,255,.25);border-radius:2px;letter-spacing:0.02em;}
 html.ui-cyber .srs-card-today b{color:#00FF9D;text-shadow:0 0 8px #00FF9D;}
+/* 復習キュー＝戦術HUDのデータパネル。角を落とした筐体・走査線・コーナーブラケット
+   ⚠️ 縁は border ではなく「地の色 ＋ inset した ::before の暗面」で作る。
+      clip-path で角を落とすと border は斜辺で消えるので、この2枚重ねでないと縁が途切れる。 */
+html.ui-cyber .hero-say.srs-card{
+  border:0;border-radius:0;padding:11px 15px;
+  clip-path:polygon(0 0,calc(100% - 13px) 0,100% 13px,100% 100%,13px 100%,0 calc(100% - 13px));
+  background:linear-gradient(135deg,#00E5FF 0%,#0088AA 45%,#00FF9D 100%);
+  /* ⚠️ clip-path は box-shadow ごと切り落とすので、外側の光は filter で出すこと。
+     地の背景が不透明なので drop-shadow の輪郭は切り取った筐体の形だけを拾う
+     （中の文字には掛からない）。 */
+  filter:drop-shadow(0 6px 16px rgba(0,0,0,.6)) drop-shadow(0 0 12px rgba(0,229,255,.35));
+}
+html.ui-cyber .hero-say.srs-card::before{
+  opacity:1;inset:1.5px;
+  clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
+  background:
+    repeating-linear-gradient(0deg,rgba(0,229,255,.055) 0 1px,transparent 1px 3px),
+    linear-gradient(180deg,rgba(4,24,38,.97),rgba(2,14,24,.99));
+}
+html.ui-cyber .hero-say.srs-card::after{
+  opacity:1;mix-blend-mode:screen;
+  background:linear-gradient(180deg,transparent 42%,rgba(0,229,255,.16) 49%,rgba(0,255,157,.12) 51%,transparent 58%);
+  background-size:100% 240%;animation:srsCyberScan 4.2s linear infinite;
+}
+@keyframes srsCyberScan{0%{background-position:0 -140%;}100%{background-position:0 140%;}}
+html.ui-cyber .hero-say.srs-card>.srs-deco{opacity:1;}
+html.ui-cyber .srs-deco::before,html.ui-cyber .srs-deco::after{
+  opacity:1;width:14px;height:14px;border:2px solid #00FF9D;box-shadow:0 0 8px rgba(0,255,157,.6);}
+html.ui-cyber .srs-deco::before{top:7px;left:7px;border-width:2px 0 0 2px;}
+html.ui-cyber .srs-deco::after{bottom:7px;right:7px;border-width:0 2px 2px 0;border-color:#00E5FF;box-shadow:0 0 8px rgba(0,229,255,.6);}
+html.ui-cyber .srs-card-hdr::after{height:1px;
+  background:repeating-linear-gradient(90deg,#00E5FF 0 6px,transparent 6px 10px);
+  box-shadow:0 0 6px rgba(0,229,255,.55);opacity:.75;}
+html.ui-cyber .srs-card-ttl{font-family:'Consolas','Monaco','Courier New',monospace;letter-spacing:.08em;
+  color:#00E5FF;text-shadow:0 0 8px rgba(0,229,255,.8),0 0 18px rgba(0,229,255,.35);}
+html.ui-cyber .srs-ttl-ic{filter:drop-shadow(0 0 7px #00FF9D);animation:srsIcSway 3.6s ease-in-out infinite;}
+html.ui-cyber .srs-tag{font-family:'Consolas','Monaco','Courier New',monospace;border-radius:0;letter-spacing:.06em;text-transform:none;}
+html.ui-cyber .srs-tag-cross{border-color:#00E5FF;background:rgba(0,229,255,.13);color:#7FF3FF;box-shadow:inset 0 0 8px rgba(0,229,255,.2);}
+html.ui-cyber .srs-tag-risk{border-color:#FF3D71;background:rgba(255,61,113,.13);color:#FF9BB8;box-shadow:inset 0 0 8px rgba(255,61,113,.2);}
+html.ui-cyber .srs-card-stat{border-radius:0;border:1px solid rgba(0,229,255,.42);
+  background:linear-gradient(180deg,rgba(0,24,38,.95),rgba(0,12,20,.95));
+  box-shadow:inset 0 0 18px rgba(0,229,255,.1),0 0 10px rgba(0,229,255,.14);}
+html.ui-cyber .srs-stat-lbl{font-family:'Consolas','Monaco','Courier New',monospace;color:#4FA8BF;letter-spacing:.1em;}
+html.ui-cyber .srs-stat-val{font-family:'Consolas','Monaco','Courier New',monospace;color:#00E5FF;text-shadow:0 0 9px rgba(0,229,255,.7);}
+html.ui-cyber .srs-stat-cell.highlight .srs-stat-val{color:#00FF9D;text-shadow:0 0 11px #00FF9D;}
+html.ui-cyber .srs-stat-val small{color:#4FA8BF;font-family:'Consolas','Monaco','Courier New',monospace;}
+html.ui-cyber .srs-stat-sep{color:#00FF9D;opacity:1;text-shadow:0 0 8px #00FF9D;}
+html.ui-cyber .srs-stat-divider{background:linear-gradient(180deg,transparent,#00E5FF,transparent);box-shadow:0 0 6px rgba(0,229,255,.5);}
+html.ui-cyber .srs-risk-pill{border-radius:0;font-family:'Consolas','Monaco','Courier New',monospace;letter-spacing:.04em;}
+html.ui-cyber .srs-risk-pill.risk-high{background:rgba(255,61,113,.15);border-color:#FF3D71;color:#FFA6BE;box-shadow:inset 0 0 8px rgba(255,61,113,.22);}
+html.ui-cyber .srs-risk-pill.risk-high b{color:#FF3D71;text-shadow:0 0 8px #FF3D71;}
+html.ui-cyber .srs-risk-pill.risk-mid{background:rgba(255,214,0,.13);border-color:#FFD600;color:#FFE99B;box-shadow:inset 0 0 8px rgba(255,214,0,.2);}
+html.ui-cyber .srs-risk-pill.risk-mid b{color:#FFD600;text-shadow:0 0 8px #FFD600;}
+html.ui-cyber .srs-risk-pill.risk-due{background:rgba(0,229,255,.13);border-color:#00E5FF;color:#8CF0FF;box-shadow:inset 0 0 8px rgba(0,229,255,.2);}
+html.ui-cyber .srs-risk-pill.risk-due b{color:#00E5FF;text-shadow:0 0 8px #00E5FF;}
+html.ui-cyber .srs-risk-bar{border-radius:0;background:rgba(0,20,32,.9);box-shadow:inset 0 0 6px rgba(0,229,255,.2);}
+html.ui-cyber .srs-risk-bar .rb-high{background:linear-gradient(90deg,#8C0F33,#FF3D71);}
+html.ui-cyber .srs-risk-bar .rb-mid{background:linear-gradient(90deg,#8A7300,#FFD600);}
+html.ui-cyber .srs-risk-bar .rb-due{background:linear-gradient(90deg,#006E80,#00E5FF);}
+html.ui-cyber .hero-say.srs-card.is-clear{background:linear-gradient(135deg,#00FF9D 0%,#008855 55%,#00E5FF 100%);}
+html.ui-cyber .hero-say.is-clear .srs-card-ttl{color:#00FF9D;text-shadow:0 0 9px #00FF9D;}
+html.ui-cyber .srs-card-hint{font-family:'Consolas','Monaco','Courier New',monospace;color:#6FD7E8;}
 
 /* ── 4. 🌸 Liquid: 蛍光Lavaランプ・グロス流体 ── */
 html.ui-liquid .hero-console{border-left:2px solid #FF007F;padding-left:14px;}
@@ -3680,6 +3900,70 @@ html.ui-liquid .sec-h::before{background:#FF007F;box-shadow:0 0 10px #FF007F,0 0
 html.ui-liquid .sec-h .ln{background:linear-gradient(90deg,#FF007F 0%,#00F2FE 40%,transparent 95%);}
 html.ui-liquid .srs-card-today{color:#FF85C0;background:linear-gradient(135deg,rgba(255,0,127,.14),rgba(0,242,254,.1));border-color:rgba(255,0,127,.4);box-shadow:0 0 10px rgba(255,0,127,.22);border-radius:14px;}
 html.ui-liquid .srs-card-today b{color:#FF007F;text-shadow:0 0 8px rgba(255,0,127,.6);}
+/* 復習キュー＝ラバランプのガラスチャンバー。厚いグロス・ネオンの縁・立ちのぼる気泡 */
+html.ui-liquid .hero-say.srs-card{
+  border:1.5px solid rgba(255,0,127,.42);border-left:4px solid #FF007F;border-radius:18px;
+  background:linear-gradient(160deg,rgba(255,0,127,.13),rgba(120,0,90,.10) 45%,rgba(0,242,254,.10));
+  box-shadow:0 10px 30px rgba(0,0,0,.45),0 0 24px rgba(255,0,127,.22),
+    inset 0 2px 10px rgba(255,255,255,.20),inset 0 -8px 18px rgba(0,242,254,.10);
+}
+html.ui-liquid .hero-say.srs-card::before{
+  opacity:1;background:
+    radial-gradient(26px 30px at 18% 118%,rgba(255,133,192,.34),transparent 70%),
+    radial-gradient(16px 20px at 46% 128%,rgba(0,242,254,.30),transparent 70%),
+    radial-gradient(20px 24px at 76% 122%,rgba(255,0,127,.26),transparent 70%),
+    radial-gradient(120% 80% at 50% -20%,rgba(255,255,255,.12),transparent 60%);
+  animation:srsLiquidRise 9s ease-in-out infinite alternate;
+}
+@keyframes srsLiquidRise{
+  0%{background-position:0 0,0 0,0 0,0 0;}
+  100%{background-position:6px -46px,-8px -62px,4px -38px,0 0;}
+}
+html.ui-liquid .hero-say.srs-card::after{
+  opacity:1;border-radius:18px;
+  background:linear-gradient(180deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,.06) 22%,transparent 46%);
+  box-shadow:inset 0 0 22px rgba(255,0,127,.14);
+}
+html.ui-liquid .hero-say.srs-card>.srs-deco{opacity:1;margin:4px;border-radius:15px;
+  border:1px solid rgba(255,255,255,.14);}
+html.ui-liquid .srs-deco::before,html.ui-liquid .srs-deco::after{
+  opacity:1;width:11px;height:11px;border-radius:50%;
+  background:radial-gradient(circle at 32% 30%,rgba(255,255,255,.9),rgba(255,0,127,.5) 55%,transparent 72%);
+  box-shadow:0 0 10px rgba(255,0,127,.5);}
+html.ui-liquid .srs-deco::after{background:radial-gradient(circle at 32% 30%,rgba(255,255,255,.9),rgba(0,242,254,.5) 55%,transparent 72%);box-shadow:0 0 10px rgba(0,242,254,.5);}
+html.ui-liquid .srs-card-hdr::after{height:2px;border-radius:2px;
+  background:linear-gradient(90deg,#FF007F,#FF85C0 35%,#00F2FE 70%,transparent);
+  box-shadow:0 0 10px rgba(255,0,127,.5);}
+html.ui-liquid .srs-card-ttl{background:linear-gradient(100deg,#FFFFFF,#FF85C0 40%,#FF007F 70%,#00F2FE);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 9px rgba(255,0,127,.55));font-weight:800;}
+html.ui-liquid .srs-ttl-ic{filter:drop-shadow(0 0 8px rgba(255,0,127,.85));animation:srsIcSway 3.2s ease-in-out infinite;}
+html.ui-liquid .srs-tag{border-radius:12px;}
+html.ui-liquid .srs-tag-cross{border-color:rgba(0,242,254,.55);background:rgba(0,242,254,.15);color:#8DF6FF;box-shadow:0 0 10px rgba(0,242,254,.25),inset 0 1px 0 rgba(255,255,255,.3);}
+html.ui-liquid .srs-tag-risk{border-color:rgba(255,0,127,.55);background:rgba(255,0,127,.15);color:#FFA6D2;box-shadow:0 0 10px rgba(255,0,127,.25),inset 0 1px 0 rgba(255,255,255,.3);}
+html.ui-liquid .srs-card-stat{border-radius:14px;border:1px solid rgba(255,255,255,.18);
+  background:linear-gradient(180deg,rgba(30,4,22,.72),rgba(10,2,16,.78));
+  box-shadow:inset 0 2px 8px rgba(255,255,255,.16),inset 0 -6px 14px rgba(255,0,127,.10),0 0 12px rgba(255,0,127,.14);}
+html.ui-liquid .srs-stat-lbl{color:#C98BB0;}
+html.ui-liquid .srs-stat-val{color:#FFE7F4;text-shadow:0 0 9px rgba(255,0,127,.5);}
+html.ui-liquid .srs-stat-cell.highlight .srs-stat-val{color:#FF007F;text-shadow:0 0 12px rgba(255,0,127,.85);}
+html.ui-liquid .srs-stat-val small{color:#C98BB0;}
+html.ui-liquid .srs-stat-sep{color:#00F2FE;opacity:1;text-shadow:0 0 9px rgba(0,242,254,.7);}
+html.ui-liquid .srs-stat-divider{background:linear-gradient(180deg,transparent,rgba(255,133,192,.7),transparent);}
+html.ui-liquid .srs-risk-pill{border-radius:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.25);}
+html.ui-liquid .srs-risk-pill.risk-high{background:rgba(255,0,127,.18);border-color:rgba(255,0,127,.55);color:#FFAED6;}
+html.ui-liquid .srs-risk-pill.risk-high b{color:#FF007F;text-shadow:0 0 8px rgba(255,0,127,.85);}
+html.ui-liquid .srs-risk-pill.risk-mid{background:rgba(255,138,0,.18);border-color:rgba(255,138,0,.55);color:#FFCF9B;}
+html.ui-liquid .srs-risk-pill.risk-mid b{color:#FF8A00;text-shadow:0 0 8px rgba(255,138,0,.8);}
+html.ui-liquid .srs-risk-pill.risk-due{background:rgba(0,242,254,.16);border-color:rgba(0,242,254,.55);color:#9AF5FF;}
+html.ui-liquid .srs-risk-pill.risk-due b{color:#00F2FE;text-shadow:0 0 8px rgba(0,242,254,.85);}
+html.ui-liquid .srs-risk-bar{height:4px;border-radius:3px;background:rgba(255,255,255,.10);box-shadow:inset 0 1px 3px rgba(0,0,0,.5);}
+html.ui-liquid .srs-risk-bar .rb-high{background:linear-gradient(90deg,#B3005A,#FF85C0);}
+html.ui-liquid .srs-risk-bar .rb-mid{background:linear-gradient(90deg,#B35F00,#FFB864);}
+html.ui-liquid .srs-risk-bar .rb-due{background:linear-gradient(90deg,#00A9B3,#7CF5FF);}
+html.ui-liquid .hero-say.srs-card.is-clear{border-left-color:#3DFFB0;box-shadow:0 10px 30px rgba(0,0,0,.45),0 0 24px rgba(61,255,176,.22),inset 0 2px 10px rgba(255,255,255,.2);}
+html.ui-liquid .hero-say.is-clear .srs-card-ttl{background:linear-gradient(100deg,#FFFFFF,#3DFFB0 45%,#00F2FE);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+html.ui-liquid .srs-card-hint{color:#E7B8D4;}
 
 /* ── 5. 🌑 Kintsugi: 漆黒陶器＆純金箔蒔絵 ── */
 html.ui-kintsugi .hero-console{border-left:2px solid #F5D061;padding-left:14px;}
@@ -3771,6 +4055,75 @@ html.ui-kintsugi .sec-h::before{background:#F5D061;box-shadow:0 0 10px rgba(245,
 html.ui-kintsugi .sec-h .ln{background:linear-gradient(90deg,#F5D061 0%,#D4AF37 40%,transparent 95%);}
 html.ui-kintsugi .srs-card-today{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;color:#E5B83A;background:rgba(18,14,10,.88);border-color:rgba(245,208,97,.4);box-shadow:0 0 8px rgba(245,208,97,.2);border-radius:3px;}
 html.ui-kintsugi .srs-card-today b{color:#F5D061;text-shadow:0 0 6px rgba(245,208,97,.6);}
+/* 復習キュー＝漆黒の陶片。金継ぎの継ぎ目が走り、金砂子が散り、四隅に落款
+   ⚠️ 継ぎ目は ::before（本文の背面）に置くこと。::after（前面）へ置くと
+      金の線が文字の上を横切って設問の読解を邪魔する側に回る。 */
+html.ui-kintsugi .hero-say.srs-card{
+  border:1px solid rgba(245,208,97,.34);border-left:3px solid #F5D061;border-radius:3px;
+  background:radial-gradient(120% 100% at 30% -10%,#1C1610 0%,#120E0A 45%,#0A0806 100%);
+  box-shadow:0 10px 30px rgba(0,0,0,.85),0 0 14px rgba(245,208,97,.14),
+    inset 0 1px 0 rgba(245,208,97,.18),inset 0 0 30px rgba(0,0,0,.9);
+}
+html.ui-kintsugi .hero-say.srs-card::before{
+  opacity:1;
+  background:
+    linear-gradient(74deg,transparent 49.2%,rgba(245,208,97,.55) 49.6%,#F5D061 50%,rgba(245,208,97,.55) 50.4%,transparent 50.8%),
+    linear-gradient(-58deg,transparent 49.3%,rgba(229,184,58,.45) 49.7%,#E5B83A 50%,rgba(229,184,58,.45) 50.3%,transparent 50.7%),
+    radial-gradient(1.4px 1.4px at 22% 28%,rgba(245,208,97,.85),transparent),
+    radial-gradient(1.2px 1.2px at 63% 66%,rgba(245,208,97,.7),transparent),
+    radial-gradient(1.6px 1.6px at 84% 22%,rgba(245,208,97,.75),transparent),
+    radial-gradient(1.1px 1.1px at 41% 82%,rgba(245,208,97,.6),transparent);
+  background-size:58px 100%,46px 100%,auto,auto,auto,auto;
+  background-position:16% 0,74% 0,0 0,0 0,0 0,0 0;
+  background-repeat:no-repeat;
+  filter:drop-shadow(0 0 4px rgba(245,208,97,.4));
+  animation:srsKtGleam 8s ease-in-out infinite alternate;
+}
+@keyframes srsKtGleam{0%{filter:drop-shadow(0 0 3px rgba(245,208,97,.28));}100%{filter:drop-shadow(0 0 7px rgba(245,208,97,.6));}}
+html.ui-kintsugi .hero-say.srs-card::after{
+  opacity:1;background:linear-gradient(160deg,rgba(255,255,255,.055),transparent 34%);
+}
+html.ui-kintsugi .hero-say.srs-card>.srs-deco{opacity:1;margin:4px;border-radius:2px;
+  border:1px solid rgba(245,208,97,.16);}
+html.ui-kintsugi .srs-deco::before,html.ui-kintsugi .srs-deco::after{
+  opacity:1;width:10px;height:10px;border-radius:1px;
+  border:1.5px solid rgba(245,208,97,.75);box-shadow:0 0 7px rgba(245,208,97,.4),inset 0 0 4px rgba(245,208,97,.25);}
+html.ui-kintsugi .srs-deco::before{top:8px;left:8px;}
+html.ui-kintsugi .srs-deco::after{bottom:8px;right:8px;border-color:rgba(229,184,58,.6);}
+html.ui-kintsugi .srs-card-hdr::after{height:1px;
+  background:linear-gradient(90deg,#F5D061,rgba(229,184,58,.45) 50%,transparent);
+  box-shadow:0 0 6px rgba(245,208,97,.35);}
+html.ui-kintsugi .srs-card-ttl{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.1em;
+  background:linear-gradient(180deg,#FFF3C4 0%,#F5D061 40%,#B98A1E 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 6px rgba(245,208,97,.45));}
+html.ui-kintsugi .srs-ttl-ic{filter:drop-shadow(0 0 6px rgba(245,208,97,.75));animation:srsIcSway 5.2s ease-in-out infinite;}
+html.ui-kintsugi .srs-tag{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;border-radius:1px;letter-spacing:.08em;}
+html.ui-kintsugi .srs-tag-cross{border-color:rgba(245,208,97,.45);background:rgba(245,208,97,.08);color:#E5C87A;}
+html.ui-kintsugi .srs-tag-risk{border-color:rgba(196,74,52,.55);background:rgba(196,74,52,.12);color:#E29B84;}
+html.ui-kintsugi .srs-card-stat{border-radius:2px;border:1px solid rgba(245,208,97,.24);
+  background:linear-gradient(180deg,rgba(6,5,4,.95),rgba(14,11,8,.95));
+  box-shadow:inset 0 2px 6px rgba(0,0,0,.95),inset 0 -1px 0 rgba(245,208,97,.14);}
+html.ui-kintsugi .srs-stat-lbl{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;color:#A89464;letter-spacing:.1em;}
+html.ui-kintsugi .srs-stat-val{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;color:#F7E7B8;text-shadow:0 0 7px rgba(245,208,97,.4);}
+html.ui-kintsugi .srs-stat-cell.highlight .srs-stat-val{color:#F5D061;text-shadow:0 0 10px rgba(245,208,97,.7);}
+html.ui-kintsugi .srs-stat-val small{color:#A89464;font-family:"Yu Mincho","Hiragino Mincho ProN",serif;}
+html.ui-kintsugi .srs-stat-sep{color:#B98A1E;opacity:1;}
+html.ui-kintsugi .srs-stat-divider{background:linear-gradient(180deg,transparent,rgba(245,208,97,.55),transparent);}
+html.ui-kintsugi .srs-risk-pill{border-radius:1px;font-family:"Yu Mincho","Hiragino Mincho ProN",serif;letter-spacing:.04em;}
+html.ui-kintsugi .srs-risk-pill.risk-high{background:rgba(196,74,52,.16);border-color:rgba(196,74,52,.55);color:#E9A288;}
+html.ui-kintsugi .srs-risk-pill.risk-high b{color:#E2553A;text-shadow:0 0 7px rgba(226,85,58,.7);}
+html.ui-kintsugi .srs-risk-pill.risk-mid{background:rgba(245,208,97,.13);border-color:rgba(245,208,97,.45);color:#E8D093;}
+html.ui-kintsugi .srs-risk-pill.risk-mid b{color:#F5D061;text-shadow:0 0 7px rgba(245,208,97,.7);}
+html.ui-kintsugi .srs-risk-pill.risk-due{background:rgba(122,140,150,.14);border-color:rgba(160,180,190,.42);color:#BFD0D8;}
+html.ui-kintsugi .srs-risk-pill.risk-due b{color:#DCE9EF;text-shadow:0 0 7px rgba(220,233,239,.5);}
+html.ui-kintsugi .srs-risk-bar{border-radius:0;background:#060504;box-shadow:inset 0 1px 3px rgba(0,0,0,.95),0 1px 0 rgba(245,208,97,.1);}
+html.ui-kintsugi .srs-risk-bar .rb-high{background:linear-gradient(90deg,#6E2416,#E2553A);}
+html.ui-kintsugi .srs-risk-bar .rb-mid{background:linear-gradient(90deg,#8A6516,#F5D061);}
+html.ui-kintsugi .srs-risk-bar .rb-due{background:linear-gradient(90deg,#4A5A63,#BFD0D8);}
+html.ui-kintsugi .hero-say.srs-card.is-clear{border-left-color:#7FA36B;}
+html.ui-kintsugi .hero-say.is-clear .srs-card-ttl{background:linear-gradient(180deg,#E9F6DE,#9CC188 45%,#5C7A4C 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+html.ui-kintsugi .srs-card-hint{font-family:"Yu Mincho","Hiragino Mincho ProN",serif;color:#C3B183;letter-spacing:.05em;}
 
 /* ── 6. 🌌 Celestial: 星座幾何学＆月齢星光 ── */
 html.ui-celestial .hero-console{border-left:2px solid #FFD166;padding-left:14px;}
@@ -3861,6 +4214,78 @@ html.ui-celestial .sec-h::before{background:#FFD166;box-shadow:0 0 10px #FFD166,
 html.ui-celestial .sec-h .ln{background:linear-gradient(90deg,#FFD166 0%,#8A2BE2 40%,transparent 95%);}
 html.ui-celestial .srs-card-today{font-family:"Cinzel","Palatino",serif;color:#E0AAFF;background:linear-gradient(145deg,rgba(26,11,46,.85),rgba(138,43,226,.15));border-color:rgba(255,209,102,.4);box-shadow:0 0 10px rgba(138,43,226,.3);border-radius:6px;}
 html.ui-celestial .srs-card-today b{color:#FFD166;text-shadow:0 0 8px rgba(255,209,102,.65);}
+/* 復習キュー＝星図の羊皮紙盤。星座線が結ばれ、四隅に金の菱星、星々が明滅する */
+html.ui-celestial .hero-say.srs-card{
+  border:1px solid rgba(255,209,102,.34);border-left:3px solid #FFD166;border-radius:7px;
+  background:linear-gradient(155deg,rgba(26,11,46,.92),rgba(16,6,32,.94) 55%,rgba(38,14,62,.9));
+  box-shadow:0 10px 32px rgba(0,0,0,.6),0 0 22px rgba(138,43,226,.28),
+    inset 0 1px 0 rgba(255,209,102,.2),inset 0 0 26px rgba(138,43,226,.14);
+}
+html.ui-celestial .hero-say.srs-card::before{
+  opacity:1;
+  background:
+    linear-gradient(24deg,transparent 49.6%,rgba(224,170,255,.4) 49.9%,rgba(224,170,255,.4) 50.1%,transparent 50.4%),
+    linear-gradient(-38deg,transparent 49.6%,rgba(255,209,102,.32) 49.9%,rgba(255,209,102,.32) 50.1%,transparent 50.4%),
+    radial-gradient(1.6px 1.6px at 18% 26%,#FFF,transparent),
+    radial-gradient(1.2px 1.2px at 34% 72%,rgba(224,170,255,.9),transparent),
+    radial-gradient(1.8px 1.8px at 58% 34%,#FFD166,transparent),
+    radial-gradient(1.1px 1.1px at 79% 68%,rgba(255,255,255,.85),transparent),
+    radial-gradient(1.4px 1.4px at 90% 20%,rgba(224,170,255,.9),transparent),
+    radial-gradient(130% 90% at 78% -20%,rgba(138,43,226,.26),transparent 66%);
+  background-size:64px 100%,52px 100%,auto,auto,auto,auto,auto,auto;
+  background-position:20% 0,62% 0,0 0,0 0,0 0,0 0,0 0,0 0;
+  background-repeat:no-repeat,no-repeat,repeat,repeat,repeat,repeat,repeat,repeat;
+}
+html.ui-celestial .hero-say.srs-card::after{
+  opacity:1;mix-blend-mode:screen;
+  background:
+    radial-gradient(2px 2px at 26% 44%,rgba(255,255,255,.95),transparent),
+    radial-gradient(2.2px 2.2px at 70% 24%,rgba(255,209,102,.9),transparent),
+    radial-gradient(1.8px 1.8px at 88% 76%,rgba(224,170,255,.9),transparent);
+  animation:srsCelTwinkle 4.6s ease-in-out infinite alternate;
+}
+@keyframes srsCelTwinkle{0%{opacity:.25;}55%{opacity:.95;}100%{opacity:.4;}}
+html.ui-celestial .hero-say.srs-card>.srs-deco{opacity:1;margin:4px;border-radius:5px;
+  border:1px solid rgba(255,209,102,.2);box-shadow:inset 0 0 14px rgba(138,43,226,.16);}
+html.ui-celestial .srs-deco::before,html.ui-celestial .srs-deco::after{
+  opacity:1;width:9px;height:9px;rotate:45deg;
+  border:1.5px solid #FFD166;box-shadow:0 0 9px rgba(255,209,102,.6);}
+html.ui-celestial .srs-deco::before{top:9px;left:9px;}
+html.ui-celestial .srs-deco::after{bottom:9px;right:9px;border-color:#E0AAFF;box-shadow:0 0 9px rgba(224,170,255,.6);}
+html.ui-celestial .srs-card-hdr::after{height:1px;
+  background:linear-gradient(90deg,#FFD166,#E0AAFF 45%,rgba(138,43,226,.4) 72%,transparent);
+  box-shadow:0 0 8px rgba(255,209,102,.4);}
+html.ui-celestial .srs-card-ttl{font-family:"Cinzel","Palatino",serif;letter-spacing:.08em;
+  background:linear-gradient(180deg,#FFF6DA 0%,#FFD166 45%,#E0AAFF 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 8px rgba(255,209,102,.5));}
+html.ui-celestial .srs-ttl-ic{filter:drop-shadow(0 0 8px rgba(224,170,255,.85));animation:srsIcSway 4.8s ease-in-out infinite;}
+html.ui-celestial .srs-tag{font-family:"Cinzel","Palatino",serif;border-radius:8px;letter-spacing:.06em;}
+html.ui-celestial .srs-tag-cross{border-color:rgba(224,170,255,.5);background:rgba(138,43,226,.18);color:#E0AAFF;box-shadow:0 0 9px rgba(138,43,226,.22);}
+html.ui-celestial .srs-tag-risk{border-color:rgba(255,209,102,.5);background:rgba(255,209,102,.13);color:#FFD166;box-shadow:0 0 9px rgba(255,209,102,.2);}
+html.ui-celestial .srs-card-stat{border-radius:6px;border:1px solid rgba(255,209,102,.26);
+  background:linear-gradient(180deg,rgba(12,4,26,.9),rgba(22,8,40,.9));
+  box-shadow:inset 0 2px 8px rgba(0,0,0,.8),inset 0 0 18px rgba(138,43,226,.16),0 0 10px rgba(138,43,226,.14);}
+html.ui-celestial .srs-stat-lbl{font-family:"Cinzel","Palatino",serif;color:#9E7FC2;letter-spacing:.1em;}
+html.ui-celestial .srs-stat-val{font-family:"Cinzel","Palatino",serif;color:#F3E4FF;text-shadow:0 0 8px rgba(224,170,255,.5);}
+html.ui-celestial .srs-stat-cell.highlight .srs-stat-val{color:#FFD166;text-shadow:0 0 11px rgba(255,209,102,.8);}
+html.ui-celestial .srs-stat-val small{color:#9E7FC2;font-family:"Cinzel","Palatino",serif;}
+html.ui-celestial .srs-stat-sep{color:#E0AAFF;opacity:1;text-shadow:0 0 8px rgba(224,170,255,.7);}
+html.ui-celestial .srs-stat-divider{background:linear-gradient(180deg,transparent,rgba(255,209,102,.6),transparent);}
+html.ui-celestial .srs-risk-pill{border-radius:7px;font-family:"Cinzel","Palatino",serif;}
+html.ui-celestial .srs-risk-pill.risk-high{background:rgba(214,63,110,.17);border-color:rgba(214,63,110,.55);color:#F0A2BC;}
+html.ui-celestial .srs-risk-pill.risk-high b{color:#FF5C8A;text-shadow:0 0 8px rgba(255,92,138,.75);}
+html.ui-celestial .srs-risk-pill.risk-mid{background:rgba(255,209,102,.14);border-color:rgba(255,209,102,.5);color:#FFE1A5;}
+html.ui-celestial .srs-risk-pill.risk-mid b{color:#FFD166;text-shadow:0 0 8px rgba(255,209,102,.8);}
+html.ui-celestial .srs-risk-pill.risk-due{background:rgba(138,43,226,.2);border-color:rgba(224,170,255,.5);color:#DCC0F5;}
+html.ui-celestial .srs-risk-pill.risk-due b{color:#E0AAFF;text-shadow:0 0 8px rgba(224,170,255,.8);}
+html.ui-celestial .srs-risk-bar{border-radius:2px;background:rgba(10,4,22,.9);box-shadow:inset 0 0 6px rgba(138,43,226,.3);}
+html.ui-celestial .srs-risk-bar .rb-high{background:linear-gradient(90deg,#7A1F3D,#FF5C8A);}
+html.ui-celestial .srs-risk-bar .rb-mid{background:linear-gradient(90deg,#8A6A20,#FFD166);}
+html.ui-celestial .srs-risk-bar .rb-due{background:linear-gradient(90deg,#4B1F80,#E0AAFF);}
+html.ui-celestial .hero-say.srs-card.is-clear{border-left-color:#8AE6B0;}
+html.ui-celestial .hero-say.is-clear .srs-card-ttl{background:linear-gradient(180deg,#FFFFFF,#8AE6B0 45%,#E0AAFF 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+html.ui-celestial .srs-card-hint{font-family:"Cinzel","Palatino",serif;color:#C4A9E0;}
 
 /* ── 7. 🌊 Abyss: 深海耐圧コンソール＆バイオエメラルド ── */
 html.ui-abyss .hero-console{border-left:2px solid #00FFA3;padding-left:14px;}
@@ -3953,6 +4378,69 @@ html.ui-abyss .sec-h::before{background:#00FFA3;box-shadow:0 0 10px #00FFA3,0 0 
 html.ui-abyss .sec-h .ln{background:linear-gradient(90deg,#00FFA3 0%,#00B4D8 40%,transparent 95%);}
 html.ui-abyss .srs-card-today{color:#38BDF8;background:rgba(2,18,34,.9);border-color:rgba(0,255,163,.4);box-shadow:0 0 10px rgba(0,255,163,.2);border-radius:6px;}
 html.ui-abyss .srs-card-today b{color:#00FFA3;text-shadow:0 0 8px #00FFA3;}
+/* 復習キュー＝耐圧殻の計器窓。水中の光条が揺れ、ソナーが一定周期で走る */
+html.ui-abyss .hero-say.srs-card{
+  border:1px solid rgba(0,255,163,.3);border-left:3px solid #00FFA3;border-radius:7px;
+  background:linear-gradient(180deg,rgba(2,18,34,.94),rgba(1,10,20,.96));
+  box-shadow:0 10px 30px rgba(0,0,0,.75),0 0 20px rgba(0,255,163,.16),
+    inset 0 1px 0 rgba(160,231,229,.14),inset 0 0 30px rgba(0,60,90,.5);
+}
+html.ui-abyss .hero-say.srs-card::before{
+  opacity:1;
+  background:
+    repeating-linear-gradient(103deg,rgba(56,189,248,.10) 0 2px,transparent 2px 22px),
+    repeating-linear-gradient(77deg,rgba(0,255,163,.07) 0 1px,transparent 1px 17px),
+    radial-gradient(120% 90% at 50% -30%,rgba(56,189,248,.18),transparent 66%);
+  background-size:220% 100%,200% 100%,auto;
+  animation:srsAbyssCaustic 12s ease-in-out infinite alternate;
+}
+@keyframes srsAbyssCaustic{0%{background-position:0 0,0 0,0 0;}100%{background-position:60% 0,-45% 0,0 0;}}
+html.ui-abyss .hero-say.srs-card::after{
+  opacity:1;mix-blend-mode:screen;
+  background:linear-gradient(96deg,transparent 42%,rgba(0,255,163,.18) 49%,rgba(56,189,248,.12) 52%,transparent 60%);
+  background-size:300% 100%;animation:srsAbyssSonar 6.5s cubic-bezier(.4,0,.2,1) infinite;
+}
+@keyframes srsAbyssSonar{0%{background-position:220% 0;}70%,100%{background-position:-140% 0;}}
+html.ui-abyss .hero-say.srs-card>.srs-deco{opacity:1;margin:4px;border-radius:5px;
+  border:1px dashed rgba(56,189,248,.22);}
+html.ui-abyss .srs-deco::before,html.ui-abyss .srs-deco::after{
+  opacity:1;width:9px;height:9px;border-radius:50%;
+  background:radial-gradient(circle at 34% 32%,#8FE9FF 0%,#2E6E86 55%,#04202E 100%);
+  box-shadow:0 0 8px rgba(56,189,248,.5),inset 0 -1px 1px rgba(0,0,0,.6);}
+html.ui-abyss .srs-deco::before{top:8px;left:8px;}
+html.ui-abyss .srs-deco::after{bottom:8px;right:8px;
+  background:radial-gradient(circle at 34% 32%,#9BFFD8 0%,#1E7A5A 55%,#04241A 100%);box-shadow:0 0 8px rgba(0,255,163,.5);}
+html.ui-abyss .srs-card-hdr::after{height:1px;
+  background:linear-gradient(90deg,#00FFA3,#38BDF8 45%,transparent);box-shadow:0 0 8px rgba(0,255,163,.4);}
+html.ui-abyss .srs-card-ttl{letter-spacing:.06em;color:#8FF7D2;
+  text-shadow:0 0 9px rgba(0,255,163,.7),0 0 20px rgba(0,255,163,.28);}
+html.ui-abyss .srs-ttl-ic{filter:drop-shadow(0 0 8px rgba(0,255,163,.9));animation:srsIcSway 4.4s ease-in-out infinite;}
+html.ui-abyss .srs-tag{border-radius:4px;}
+html.ui-abyss .srs-tag-cross{border-color:rgba(56,189,248,.5);background:rgba(56,189,248,.13);color:#8ED6F8;box-shadow:0 0 9px rgba(56,189,248,.2);}
+html.ui-abyss .srs-tag-risk{border-color:rgba(0,255,163,.5);background:rgba(0,255,163,.11);color:#7EEBC3;box-shadow:0 0 9px rgba(0,255,163,.2);}
+html.ui-abyss .srs-card-stat{border-radius:5px;border:1px solid rgba(56,189,248,.3);
+  background:linear-gradient(180deg,rgba(0,12,22,.95),rgba(1,20,32,.95));
+  box-shadow:inset 0 2px 8px rgba(0,0,0,.9),inset 0 0 18px rgba(0,255,163,.08),0 0 10px rgba(0,255,163,.1);}
+html.ui-abyss .srs-stat-lbl{color:#4E8AA3;letter-spacing:.08em;}
+html.ui-abyss .srs-stat-val{color:#D6F7FF;text-shadow:0 0 8px rgba(56,189,248,.5);}
+html.ui-abyss .srs-stat-cell.highlight .srs-stat-val{color:#00FFA3;text-shadow:0 0 11px rgba(0,255,163,.85);}
+html.ui-abyss .srs-stat-val small{color:#4E8AA3;}
+html.ui-abyss .srs-stat-sep{color:#38BDF8;opacity:1;text-shadow:0 0 8px rgba(56,189,248,.7);}
+html.ui-abyss .srs-stat-divider{background:linear-gradient(180deg,transparent,rgba(0,255,163,.6),transparent);}
+html.ui-abyss .srs-risk-pill{border-radius:4px;}
+html.ui-abyss .srs-risk-pill.risk-high{background:rgba(255,90,110,.15);border-color:rgba(255,90,110,.5);color:#FFA3AF;box-shadow:inset 0 0 8px rgba(255,90,110,.16);}
+html.ui-abyss .srs-risk-pill.risk-high b{color:#FF5A6E;text-shadow:0 0 8px rgba(255,90,110,.8);}
+html.ui-abyss .srs-risk-pill.risk-mid{background:rgba(255,196,61,.14);border-color:rgba(255,196,61,.5);color:#FFDE9C;box-shadow:inset 0 0 8px rgba(255,196,61,.16);}
+html.ui-abyss .srs-risk-pill.risk-mid b{color:#FFC43D;text-shadow:0 0 8px rgba(255,196,61,.8);}
+html.ui-abyss .srs-risk-pill.risk-due{background:rgba(56,189,248,.14);border-color:rgba(56,189,248,.5);color:#A5DEF9;box-shadow:inset 0 0 8px rgba(56,189,248,.16);}
+html.ui-abyss .srs-risk-pill.risk-due b{color:#38BDF8;text-shadow:0 0 8px rgba(56,189,248,.85);}
+html.ui-abyss .srs-risk-bar{border-radius:2px;background:rgba(0,12,22,.95);box-shadow:inset 0 0 6px rgba(56,189,248,.24);}
+html.ui-abyss .srs-risk-bar .rb-high{background:linear-gradient(90deg,#7A1F2C,#FF5A6E);}
+html.ui-abyss .srs-risk-bar .rb-mid{background:linear-gradient(90deg,#8A6516,#FFC43D);}
+html.ui-abyss .srs-risk-bar .rb-due{background:linear-gradient(90deg,#0E5A80,#38BDF8);}
+html.ui-abyss .hero-say.srs-card.is-clear{border-left-color:#00FFA3;box-shadow:0 10px 30px rgba(0,0,0,.75),0 0 26px rgba(0,255,163,.28),inset 0 1px 0 rgba(160,231,229,.16);}
+html.ui-abyss .hero-say.is-clear .srs-card-ttl{color:#00FFA3;text-shadow:0 0 10px #00FFA3;}
+html.ui-abyss .srs-card-hint{color:#8EC4D8;}
 
 /* ── 8. ❄️ Frost: 六花氷結クリスタル＆絶対零度 ── */
 html.ui-frost .hero-console{border-left:2px solid #A0E7E5;padding-left:14px;}
@@ -4046,6 +4534,76 @@ html.ui-frost .sec-h::before{background:#A0E7E5;box-shadow:0 0 10px #A0E7E5,0 0 
 html.ui-frost .sec-h .ln{background:linear-gradient(90deg,#A0E7E5 0%,#70D6FF 40%,transparent 95%);}
 html.ui-frost .srs-card-today{color:#A0E7E5;background:rgba(8,20,36,.9);border-color:rgba(160,231,229,.42);box-shadow:0 0 10px rgba(112,214,255,.25);border-radius:6px;}
 html.ui-frost .srs-card-today b{color:#70D6FF;text-shadow:0 0 8px rgba(112,214,255,.65);}
+/* 復習キュー＝氷結したクリスタル板。六花の劈開線が走り、縁から霜が這い上がる */
+html.ui-frost .hero-say.srs-card{
+  border:1px solid rgba(160,231,229,.4);border-left:3px solid #A0E7E5;border-radius:7px;
+  background:linear-gradient(165deg,rgba(14,32,56,.9),rgba(6,16,30,.94) 60%,rgba(12,28,48,.9));
+  box-shadow:0 10px 30px rgba(0,0,0,.6),0 0 22px rgba(112,214,255,.2),
+    inset 0 1px 0 rgba(255,255,255,.28),inset 0 0 26px rgba(112,214,255,.1);
+}
+html.ui-frost .hero-say.srs-card::before{
+  opacity:1;
+  background:
+    repeating-linear-gradient(60deg,rgba(255,255,255,.055) 0 1px,transparent 1px 16px),
+    repeating-linear-gradient(-60deg,rgba(160,231,229,.05) 0 1px,transparent 1px 16px),
+    radial-gradient(70% 60% at 0% 0%,rgba(255,255,255,.16),transparent 62%),
+    radial-gradient(70% 60% at 100% 100%,rgba(112,214,255,.16),transparent 62%);
+}
+html.ui-frost .hero-say.srs-card::after{
+  opacity:1;mix-blend-mode:screen;
+  background:
+    linear-gradient(108deg,transparent 40%,rgba(255,255,255,.20) 48%,rgba(112,214,255,.14) 52%,transparent 60%),
+    radial-gradient(1.6px 1.6px at 30% 30%,rgba(255,255,255,.9),transparent),
+    radial-gradient(1.4px 1.4px at 68% 62%,rgba(160,231,229,.9),transparent),
+    radial-gradient(1.2px 1.2px at 86% 26%,rgba(255,255,255,.8),transparent);
+  background-size:300% 100%,auto,auto,auto;
+  animation:srsFrostGlint 9s linear infinite;
+}
+@keyframes srsFrostGlint{0%{background-position:210% 0,0 0,0 0,0 0;}100%{background-position:-130% 0,0 0,0 0,0 0;}}
+html.ui-frost .hero-say.srs-card>.srs-deco{opacity:1;margin:4px;border-radius:5px;
+  border:1px solid rgba(255,255,255,.14);}
+/* 四隅は六花（正六角形）。border では六角形にならないので clip-path で抜く */
+html.ui-frost .srs-deco::before,html.ui-frost .srs-deco::after{
+  opacity:1;width:12px;height:11px;
+  clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);
+  background:linear-gradient(160deg,#FFFFFF,#A0E7E5 55%,#70D6FF);
+  box-shadow:0 0 10px rgba(112,214,255,.7);}
+html.ui-frost .srs-deco::before{top:8px;left:8px;}
+html.ui-frost .srs-deco::after{bottom:8px;right:8px;}
+html.ui-frost .srs-card-hdr::after{height:1px;
+  background:linear-gradient(90deg,#FFFFFF,#A0E7E5 30%,rgba(112,214,255,.4) 65%,transparent);
+  box-shadow:0 0 9px rgba(160,231,229,.5);}
+html.ui-frost .srs-card-ttl{letter-spacing:.06em;
+  background:linear-gradient(180deg,#FFFFFF 0%,#DAF7FF 40%,#70D6FF 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 8px rgba(112,214,255,.6));}
+html.ui-frost .srs-ttl-ic{filter:drop-shadow(0 0 8px rgba(160,231,229,.9));animation:srsIcSway 4.2s ease-in-out infinite;}
+html.ui-frost .srs-tag{border-radius:3px;}
+html.ui-frost .srs-tag-cross{border-color:rgba(160,231,229,.55);background:rgba(160,231,229,.12);color:#CFF6F5;box-shadow:0 0 9px rgba(160,231,229,.22),inset 0 1px 0 rgba(255,255,255,.3);}
+html.ui-frost .srs-tag-risk{border-color:rgba(112,214,255,.55);background:rgba(112,214,255,.12);color:#B8E7FF;box-shadow:0 0 9px rgba(112,214,255,.22),inset 0 1px 0 rgba(255,255,255,.3);}
+html.ui-frost .srs-card-stat{border-radius:5px;border:1px solid rgba(160,231,229,.32);
+  background:linear-gradient(180deg,rgba(6,16,30,.92),rgba(10,24,42,.92));
+  box-shadow:inset 0 2px 8px rgba(0,0,0,.7),inset 0 -1px 0 rgba(255,255,255,.16),0 0 12px rgba(112,214,255,.12);}
+html.ui-frost .srs-stat-lbl{color:#6FA6BC;letter-spacing:.08em;}
+html.ui-frost .srs-stat-val{color:#FFFFFF;text-shadow:0 0 9px rgba(112,214,255,.55);}
+html.ui-frost .srs-stat-cell.highlight .srs-stat-val{color:#70D6FF;text-shadow:0 0 12px rgba(112,214,255,.85);}
+html.ui-frost .srs-stat-val small{color:#6FA6BC;}
+html.ui-frost .srs-stat-sep{color:#A0E7E5;opacity:1;text-shadow:0 0 8px rgba(160,231,229,.7);}
+html.ui-frost .srs-stat-divider{background:linear-gradient(180deg,transparent,rgba(255,255,255,.7),transparent);}
+html.ui-frost .srs-risk-pill{border-radius:3px;box-shadow:inset 0 1px 0 rgba(255,255,255,.18);}
+html.ui-frost .srs-risk-pill.risk-high{background:rgba(255,109,138,.15);border-color:rgba(255,109,138,.5);color:#FFB3C2;}
+html.ui-frost .srs-risk-pill.risk-high b{color:#FF6D8A;text-shadow:0 0 8px rgba(255,109,138,.8);}
+html.ui-frost .srs-risk-pill.risk-mid{background:rgba(255,209,128,.14);border-color:rgba(255,209,128,.5);color:#FFE3B5;}
+html.ui-frost .srs-risk-pill.risk-mid b{color:#FFD180;text-shadow:0 0 8px rgba(255,209,128,.8);}
+html.ui-frost .srs-risk-pill.risk-due{background:rgba(112,214,255,.14);border-color:rgba(112,214,255,.5);color:#C4ECFF;}
+html.ui-frost .srs-risk-pill.risk-due b{color:#70D6FF;text-shadow:0 0 8px rgba(112,214,255,.85);}
+html.ui-frost .srs-risk-bar{border-radius:2px;background:rgba(6,16,30,.9);box-shadow:inset 0 0 6px rgba(112,214,255,.28);}
+html.ui-frost .srs-risk-bar .rb-high{background:linear-gradient(90deg,#7A2D40,#FF6D8A);}
+html.ui-frost .srs-risk-bar .rb-mid{background:linear-gradient(90deg,#8A6A34,#FFD180);}
+html.ui-frost .srs-risk-bar .rb-due{background:linear-gradient(90deg,#1D6E93,#A0E7E5);}
+html.ui-frost .hero-say.srs-card.is-clear{border-left-color:#7DF5C9;box-shadow:0 10px 30px rgba(0,0,0,.6),0 0 24px rgba(125,245,201,.24),inset 0 1px 0 rgba(255,255,255,.28);}
+html.ui-frost .hero-say.is-clear .srs-card-ttl{background:linear-gradient(180deg,#FFFFFF,#7DF5C9 50%,#70D6FF 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+html.ui-frost .srs-card-hint{color:#A9D3E4;}
 
 /* ── XPの帯。着地でひと突き ── */
 .hero-xp.pop{animation:xpPop .42s var(--ease-out);}
@@ -4117,6 +4675,13 @@ html.ui-frost .srs-card-today b{color:#70D6FF;text-shadow:0 0 8px rgba(112,214,2
   html.ui-frost .hero-num[data-goal="1"],html.ui-frost .hero-num[data-goal="2"],
   .radar-sonar-sweep,.sonar-dot,.tiles .tile:nth-child(odd),.tiles .tile:nth-child(even){animation:none!important;}
   .exam-countdown::before,.hero-acc::after,.sec-h .ln::after,.radar-sonar-sweep{display:none!important;}
+  /* 2026-09-08 追加分（SRS復習キューの意匠）。
+     ⚠️ display:none にはしないこと——枠・彫り・コーナー飾り・リスク帯は
+        「動き」ではなく「情報と質感」で、消すと素の板に戻ってしまう。
+        止めるのは走査・光沢・明滅・ベルの揺れだけ。 */
+  .hero-say.srs-card::before,.hero-say.srs-card::after,
+  .srs-ttl-ic{animation:none!important;}
+  .srs-risk-bar span{transition:none!important;}
 }
 
 /* ── メニュー（旧ヘッダーのボタン群＋旧フッターのテーマ/効果音をここへ集約） ── */
@@ -6109,9 +6674,11 @@ function renderHero() {
     const risk = getSrsRiskBreakdown(sessionLimit);
     say.classList.remove('is-clear');
     say.innerHTML =
+      // 意匠の内枠。中身を持たない飾りなので aria からは外す（読み上げに乗せない）
+      '<span class="srs-deco" aria-hidden="true"></span>' +
       '<div class="srs-card-hdr">' +
         '<div class="srs-card-title-grp">' +
-          '<span class="srs-card-ttl">🔔 復習キュー</span>' +
+          '<span class="srs-card-ttl"><span class="srs-ttl-ic">🔔</span>復習キュー</span>' +
           '<span class="srs-tag srs-tag-cross">科目横断</span>' +
           '<span class="srs-tag srs-tag-risk">忘却リスク順</span>' +
         '</div>' +
@@ -6131,18 +6698,26 @@ function renderHero() {
         '<div class="srs-stat-cell srs-risk-cell">' +
           '<span class="srs-stat-lbl">忘却リスク内訳</span>' +
           '<div class="srs-risk-pills">' +
-            '<span class="srs-risk-pill risk-high' + (risk.high === 0 ? ' is-zero' : '') + '" title="予定の倍以上放置または1週間以上遅延（高リスク）">🔥 超危険 <b>' + _fmtN(risk.high) + '</b></span>' +
-            '<span class="srs-risk-pill risk-mid' + (risk.mid === 0 ? ' is-zero' : '') + '" title="予定期日を超過した問題">⚠️ 期限切れ <b>' + _fmtN(risk.mid) + '</b></span>' +
-            '<span class="srs-risk-pill risk-due' + (risk.dueToday === 0 ? ' is-zero' : '') + '" title="本日期日の問題">📅 本日 <b>' + _fmtN(risk.dueToday) + '</b></span>' +
+            '<span class="srs-risk-pill risk-high' + (risk.high === 0 ? ' is-zero' : '') + '" title="予定の倍以上放置または1週間以上遅延（高リスク）"><span class="srs-pi">🔥</span> 超危険 <b>' + _fmtN(risk.high) + '</b></span>' +
+            '<span class="srs-risk-pill risk-mid' + (risk.mid === 0 ? ' is-zero' : '') + '" title="予定期日を超過した問題"><span class="srs-pi">⚠️</span> 期限切れ <b>' + _fmtN(risk.mid) + '</b></span>' +
+            '<span class="srs-risk-pill risk-due' + (risk.dueToday === 0 ? ' is-zero' : '') + '" title="本日期日の問題"><span class="srs-pi">📅</span> 本日 <b>' + _fmtN(risk.dueToday) + '</b></span>' +
           '</div>' +
         '</div>' +
+      '</div>' +
+      // 内訳の構成比。数字はピルが持っているので、帯は比率だけを担う飾り。
+      // ⚠️ flex-grow に件数をそのまま渡す＝0件の区画は幅0で消える（合計は必ず risk.total）
+      '<div class="srs-risk-bar" aria-hidden="true">' +
+        '<span class="rb-high" style="flex:' + risk.high + '"></span>' +
+        '<span class="rb-mid" style="flex:' + risk.mid + '"></span>' +
+        '<span class="rb-due" style="flex:' + risk.dueToday + '"></span>' +
       '</div>';
   } else {
     say.classList.add('is-clear');
     say.innerHTML =
+      '<span class="srs-deco" aria-hidden="true"></span>' +
       '<div class="srs-card-hdr">' +
         '<div class="srs-card-title-grp">' +
-          '<span class="srs-card-ttl">🎉 今日の復習はクリア済み</span>' +
+          '<span class="srs-card-ttl"><span class="srs-ttl-ic">🎉</span>今日の復習はクリア済み</span>' +
         '</div>' +
         '<div class="srs-card-today">本日消化 <b>' + _fmtN(srsDoneToday) + '</b>問</div>' +
       '</div>' +
