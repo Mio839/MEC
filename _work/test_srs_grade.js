@@ -72,6 +72,13 @@ function makeCtx(startMs) {
     grabFn(HTML, '_srsFuzz') + '\n' +
     grabFn(HTML, '_srsUrgency') + '\n' +
     grabFn(HTML, '_srsInterleave') + '\n' +
+    grabConst(HTML, 'SERIES_DECL_RE') + '\n' +
+    grabConst(HTML, 'SERIES_LABEL_RE') + '\n' +
+    grabConst(HTML, 'SRS_SERIES_PULL_MAX') + '\n' +
+    grabFn(HTML, '_uidSeq') + '\n' +
+    grabFn(HTML, '_seriesInfoOf') + '\n' +
+    grabFn(HTML, '_seriesGroupsOf') + '\n' +
+    grabFn(HTML, '_srsSeriesPullIns') + '\n' +
     grabFn(HTML, '_updateSRS') + '\n', ctx);
   return ctx;
 }
@@ -421,6 +428,214 @@ t('試験日が遠いうちはゲートが従来の予定日を1日も変えな�
   }
   same(withGate._srsData[U], noGate._srsData[U], 'ゲートの有無で結果が変わっている');
   assert.ok(withGate._srsData[U].interval > 1, '育っていない＝検査になっていない');
+});
+
+// ── 連問（1つの症例を複数の設問で追うもの）─────────────────────────────────
+// 2026-09-07 まで復習キューは uid を1問ずつハッシュで交ぜており、連問は必ずバラバラの順で
+// 出ていた（「Q.107 → Q.106」のように症例の途中から始まり、後の設問が前の設問の答え＝
+// 診断名や実施した処置を先に見せていた）。ここで守りたい不変条件:
+//   - 連問の兄弟は必ず隣り合い、章 → 番号の昇順で出る
+//   - 連問を含まないセッションの並びは従来と1問も変わらない
+//   - 上限50問の境目で切れた兄弟は、今日 due なものだけ拾い直す（due でないものは出さない）
+//   - qt の3つの書式（宣言文・共通ステム・産婦人科の要約）すべてから群を復元できる
+//
+// ⚠️ 判定材料は qt だけ（データにも DOM にも「連問である」という印は無い）。だから
+//    questions_*.json の実データを全数流して復元できることを検査する。書式の追加・変更で
+//    ここが落ちたら study.html の SERIES_DECL_RE / SERIES_LABEL_RE / _seriesInfoOf を直す。
+
+// _seriesInfoOf は DOM から qt を読むので、qt の HTML から最小限のノードを組む。
+// textContent / querySelector('.qt-context') / cloneNode / querySelectorAll('.series-label')
+// と remove() だけを実装する（それ以外は使っていない＝使い始めたらここも足りなくなる）。
+class El {
+  constructor(cls) { this.cls = cls || []; this.kids = []; this.parent = null; }
+  get textContent() {
+    return this.kids.map(k => (typeof k === 'string' ? k : k.textContent)).join('');
+  }
+  _collect(cls, out) {
+    this.kids.forEach(k => {
+      if (typeof k === 'string') return;
+      if (k.cls.indexOf(cls) >= 0) out.push(k);
+      k._collect(cls, out);
+    });
+    return out;
+  }
+  querySelector(sel) { return this._collect(sel.slice(1), [])[0] || null; }
+  querySelectorAll(sel) { return this._collect(sel.slice(1), []); }
+  cloneNode() {
+    const c = new El(this.cls.slice());
+    this.kids.forEach(k => {
+      if (typeof k === 'string') { c.kids.push(k); return; }
+      const kc = k.cloneNode(true); kc.parent = c; c.kids.push(kc);
+    });
+    return c;
+  }
+  remove() {
+    const p = this.parent; if (!p) return;
+    const i = p.kids.indexOf(this); if (i >= 0) p.kids.splice(i, 1);
+  }
+}
+
+function parseQt(html) {
+  const root = new El([]);
+  const stack = [root];
+  const re = /<span([^>]*)>|<\/span>|<[^>]+>|[^<]+/g;
+  let m;
+  while ((m = re.exec(html)) !== null) {
+    const tok = m[0];
+    if (tok.indexOf('</span') === 0) { if (stack.length > 1) stack.pop(); }
+    else if (tok.indexOf('<span') === 0) {
+      const cm = /class="([^"]*)"/.exec(m[1] || '');
+      const node = new El(cm ? cm[1].trim().split(/\s+/) : []);
+      node.parent = stack[stack.length - 1];
+      stack[stack.length - 1].kids.push(node);
+      stack.push(node);
+    } else if (tok.charAt(0) !== '<') {
+      // <b> や <br/> は本文に影響しないので捨て、テキストだけを拾う
+      stack[stack.length - 1].kids.push(
+        tok.replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+           .replace(/&quot;/g, '"').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&'));
+    }
+  }
+  return root;
+}
+
+// uid → qt(HTML) の対応から、_seriesInfoOf が読める document を差した文脈を作る
+function withCards(c, qtByUid) {
+  const cache = new Map();
+  c.document = {
+    querySelector(sel) {
+      const m = /data-uid="([^"]+)"/.exec(sel);
+      if (!m || qtByUid[m[1]] == null) return null;
+      if (!cache.has(m[1])) cache.set(m[1], parseQt(qtByUid[m[1]]));
+      return cache.get(m[1]);
+    },
+    querySelectorAll: () => [],
+  };
+  return c;
+}
+
+const _seq = uid => { const m = /^(.*_ch\d+)_q(\d+)$/.exec(uid); return { ch: m[1], n: +m[2] }; };
+
+t('連問の兄弟は隣り合い、章→番号の昇順で出る', () => {
+  const c = makeCtx();
+  // infoOf を差し替えて DOM 無しで回す（qt からの復元は下の実データ版が検査する）
+  const fam = {
+    obg_ch03_q135: { key: 'r:135-136', lo: 135, hi: 136 },
+    obg_ch03_q136: { key: 'r:135-136', lo: 135, hi: 136 },
+    neur_ch02_q30: { key: 'c:stemA', lo: 30, hi: 32 },
+    neur_ch02_q31: { key: 'c:stemA', lo: 30, hi: 32 },
+    neur_ch02_q32: { key: 'c:stemA', lo: 30, hi: 32 },
+  };
+  const uids = ['neur_ch02_q32', 'resp_ch01_q5', 'obg_ch03_q136', 'neur_ch02_q30',
+                'circ_ch01_q9', 'obg_ch03_q135', 'neur_ch02_q31', 'hema_ch01_q2'];
+  const out = c._srsInterleave(uids, u => fam[u] || null);
+  assert.deepStrictEqual([...out].sort(), [...uids].sort(), '中身が変わった');
+  const at = u => out.indexOf(u);
+  assert.strictEqual(at('obg_ch03_q136') - at('obg_ch03_q135'), 1, '連問が離れた/逆順: ' + out.join(','));
+  assert.strictEqual(at('neur_ch02_q31') - at('neur_ch02_q30'), 1, '連問が離れた/逆順: ' + out.join(','));
+  assert.strictEqual(at('neur_ch02_q32') - at('neur_ch02_q31'), 1, '連問が離れた/逆順: ' + out.join(','));
+});
+
+t('連問を含まないセッションの並びは従来と1問も変わらない', () => {
+  const c = makeCtx();
+  const uids = [];
+  ['resp', 'circ', 'neur'].forEach(sid => {
+    for (let i = 1; i <= 20; i++) uids.push(sid + '_ch01_q' + i);
+  });
+  // 旧実装（1問ずつ uid+日付のハッシュで並べる）を書き下ろして突き合わせる
+  const day = c._today();
+  const h = u => {
+    let x = 2166136261; const s = u + ':' + day;
+    for (let i = 0; i < s.length; i++) { x ^= s.charCodeAt(i); x = Math.imul(x, 16777619); }
+    return x >>> 0;
+  };
+  const before = uids.map(u => [h(u), u]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
+  same(c._srsInterleave(uids, () => null), before, '単問だけの並びが変わった');
+});
+
+t('上限で切れた連問の兄弟は due なら拾い直す', () => {
+  const c = makeCtx();
+  const info = {
+    obg_ch06_q253: { key: 'r:253-255', lo: 253, hi: 255 },
+    obg_ch06_q254: { key: 'r:253-255', lo: 253, hi: 255 },
+    obg_ch06_q255: { key: 'r:253-255', lo: 253, hi: 255 },
+  };
+  const picked = ['obg_ch06_q253', 'resp_ch01_q1'];
+  const allDue = picked.concat(['obg_ch06_q254', 'obg_ch06_q255', 'resp_ch01_q9']);
+  const got = c._srsSeriesPullIns(picked, allDue, u => info[u] || null);
+  same(got.sort(), ['obg_ch06_q254', 'obg_ch06_q255'], '拾えていない: ' + got);
+});
+
+t('due でない兄弟は拾わない（SRSの予定を先取りしない）', () => {
+  const c = makeCtx();
+  const info = { obg_ch06_q253: { key: 'r:253-255', lo: 253, hi: 255 } };
+  const picked = ['obg_ch06_q253'];
+  const got = c._srsSeriesPullIns(picked, picked.slice(), u => info[u] || null);
+  assert.strictEqual(got.length, 0, 'due でないものを拾った: ' + got);
+});
+
+t('拾い直しは SRS_SERIES_PULL_MAX で頭打ちになる', () => {
+  const c = makeCtx();
+  const picked = [], allDue = [];
+  for (let g = 0; g < 30; g++) {
+    picked.push('obg_ch01_q' + (g * 10 + 1));
+    allDue.push('obg_ch01_q' + (g * 10 + 1), 'obg_ch01_q' + (g * 10 + 2));
+  }
+  const info = u => {
+    const n = _seq(u).n;
+    return n % 10 === 1 ? { key: 'r:' + n + '-' + (n + 1), lo: n, hi: n + 1 } : null;
+  };
+  const got = c._srsSeriesPullIns(picked, allDue, info);
+  // const は vm の文脈オブジェクトのプロパティにならないので、ソースから読む（数字を書き写さない）
+  const cap = +grabConst(HTML, 'SRS_SERIES_PULL_MAX').split('=')[1].replace(';', '').trim();
+  assert.strictEqual(got.length, cap, '上限を超えた/届かない: ' + got.length + ' / cap=' + cap);
+});
+
+t('番号が uid の連番と一致しない科目では宣言文の番号を信用しない（imma型）', () => {
+  const c = makeCtx();
+  withCards(c, {
+    // 宣言文は PDF の NO.203-204 だが uid は _q6/_q7（章ごとに番号が振り直されている）
+    imma_ch05_q6: '<span class="qt-context"><span class="series-label">連問 1/2</span>' +
+                  '次の文を読み、203 と204 の問いに答えよ。79 歳の女性。上腕から背中の痛み。</span>設問A',
+  });
+  const info = c._seriesInfoOf('imma_ch05_q6');
+  assert.ok(info && info.key, '手掛かりを読めていない');
+  // ラベル（連問 1/2）由来の範囲は uid の番号基準なので 6-7。宣言文の 203-204 を採ってはいけない
+  assert.strictEqual(info.lo, 6, '宣言文の番号を uid の番号として信用した: ' + JSON.stringify(info));
+  assert.strictEqual(info.hi, 7, JSON.stringify(info));
+});
+
+t('実データ全数：3つの書式から連問を復元できる（章をまたがず・番号は連番）', () => {
+  const files = fs.readdirSync(ROOT).filter(f => /^questions_.*\.json$/.test(f));
+  assert.ok(files.length >= 20, '科目データが見つからない: ' + files.length);
+  let groups = 0, cards = 0, pulledIn = 0;
+  files.forEach(f => {
+    const data = JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8'));
+    const qtByUid = {}, uids = [];
+    (data.chapters || []).forEach(ch => (ch.qs || []).forEach(q => {
+      if (!q.uid || !/^(.*_ch\d+)_q(\d+)$/.test(q.uid)) return;
+      qtByUid[q.uid] = q.qt || ''; uids.push(q.uid);
+    }));
+    if (!uids.length) return;
+    const c = withCards(makeCtx(), qtByUid);
+    const keyOf = c._seriesGroupsOf(uids);
+    const byKey = new Map();
+    keyOf.forEach((k, u) => { if (!byKey.has(k)) byKey.set(k, []); byKey.get(k).push(u); });
+    byKey.forEach((list, k) => {
+      groups++; cards += list.length;
+      assert.ok(list.length >= 2 && list.length <= 6,
+        f + ' の群 ' + k + ' が ' + list.length + '問（1問だけ＝兄弟を取り落としている）: ' + list);
+      const seqs = list.map(_seq).sort((a, b) => a.n - b.n);
+      assert.strictEqual(new Set(seqs.map(s => s.ch)).size, 1, f + ' の群が章をまたいだ: ' + list);
+      seqs.forEach((s, i) => assert.strictEqual(s.n, seqs[0].n + i,
+        f + ' の群の番号が連番でない: ' + list));
+    });
+    // ③ 手掛かりを持たない兄弟（産婦人科の要約だけの2問目）を番号で拾えているか
+    uids.forEach(u => { if (keyOf.has(u) && !c._seriesInfoOf(u)) pulledIn++; });
+  });
+  assert.ok(groups >= 250, '復元できた群が少なすぎる（書式の取りこぼし）: ' + groups);
+  assert.ok(cards >= 600, '復元できた問題が少なすぎる: ' + cards);
+  assert.ok(pulledIn >= 10, '手掛かりの無い兄弟を番号で拾えていない（産婦人科式）: ' + pulledIn);
 });
 
 console.log(`\n${fail ? 'FAILED' : 'all passed'}  (${pass}/${pass + fail})`);
