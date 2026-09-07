@@ -207,10 +207,6 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
   background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);
   animation:sheen 6s var(--ease-in-out) 1.5s infinite;}
 .hero-xp em{font-style:normal;font-size:.62em;font-weight:800;letter-spacing:.06em;}
-/* 内訳。計器行の下に配置 */
-.hero-xp-n{margin-top:8px;font-size:11.5px;font-weight:700;color:var(--ts);
-  font-variant-numeric:tabular-nums;}
-.hero-xp-n:empty{display:none;}
 
 /* ── レベルの進み（gamify パネルから移設） ── */
 .hero-lv{margin-top:var(--sp-4);max-width:34em;position:relative;}
@@ -4216,7 +4212,7 @@ html.ui-frost .srs-card-today b{color:#70D6FF;text-shadow:0 0 8px rgba(112,214,2
           </p>
           <p class="hero-xp"><span id="heroXp">+0</span><em>XP</em></p>
         </div>
-        <p class="hero-xp-n" id="heroXpNote"></p>
+
         <!-- レベルの進み。gamify.js の #gamifyPanel から移設した（あちらでは出さない）。
              数字は MecGamify.stats() ＝既存の同期データからの決定論算出 -->
         <div class="hero-lv" id="heroLv" hidden>
@@ -6036,11 +6032,6 @@ function renderHero() {
   document.getElementById('heroUnit').textContent = '問';
   document.getElementById('heroXp').textContent = '+' + _fmtN(td.xp);
 
-  // 内訳は実際に数えられたものだけを書く（通常モードは時刻が無いので「済」としか言えない）
-  const parts = [];
-  if (td.exT) parts.push('試験・復習 ' + _fmtN(td.exT) + '問（正答 ' + td.accPct + '%）');
-  if (td.normal) parts.push('通常の済 ' + _fmtN(td.normal) + '問');
-  document.getElementById('heroXpNote').textContent = parts.length ? parts.join(' ／ ') : '';
 
   const srsDoneToday = td.srsDone || 0;
   const sessionLimit = getSrsSessionLimit();
