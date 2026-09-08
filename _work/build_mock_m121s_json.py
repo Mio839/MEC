@@ -130,6 +130,11 @@ RE_ANS = re.compile(r'^正解[：:]\s*(.*)$')
 #    書き出し「74 歳の女性。」が設問番号 74 に見えて、その設問の中身が丸ごと入れ替わる
 #    （F73-75 で実際に起きた。build_mock_m121s.py が踏んだのと同じ罠）。
 RE_SUBNO = re.compile(r'^(\d+)　(.*)$')
+# ⚠️ 図が選択肢の問題では、選択肢の run の直後に図のパネル名だけの段落（「①②④⑤」
+#    「①④②⑤③B」）が続く。これを「折り返した肢の続き」として畳むと、最後の肢 ｅ が
+#    「ｅ　⑤①②④⑤」になる（A26・D25・D40・F58 の4問で実際にそうなっていた）。
+#    丸数字と図ラベル（A〜E）と空白だけでできた段落は本文ではないので run を打ち切る。
+RE_FIGLABEL = re.compile(r'^[' + CIRC + r'A-EＡ-Ｅ\s　]+$')
 RE_CP_TITLE = re.compile(r'^《(.+?)》$')
 RE_CALC_GRID = re.compile(r'^[' + CIRC + r'][　 ]*0[　 ]')     # マークシートの数字欄
 RE_SUBHEAD = re.compile(r'^([０-９0-9]+|[一二三四五六七八九十]+)[）)]\s')
@@ -634,7 +639,7 @@ def cut_choices(items):
             if m and labels.get(m.group(1)) == want:
                 got.append([m.group(1), m.group(2)])
                 want += 1
-            elif got and not m:
+            elif got and not m and not RE_FIGLABEL.match(items[j][1]):
                 got[-1][1] += items[j][1]              # 折り返した肢の続き
             else:
                 break
