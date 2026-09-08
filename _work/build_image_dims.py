@@ -19,6 +19,7 @@ width/height 属性を出せばブラウザが aspect-ratio を先に計算し�
 
     python _work/build_image_dims.py
 """
+import glob
 import json
 import os
 
@@ -28,16 +29,13 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'image_dims.json')
-SIDS = ['endo', 'resp', 'circ', 'dige', 'neur', 'hbp', 'jinzo_d', 'hema', 'imma',
-        'kansen', 'peds', 'obg', 'psy', 'derm', 'oph', 'ent', 'uro', 'ortho', 'anes', 'rad', 'tox', 'ph', 'jitsu1', 'custom', 'memo']
-
-
+# ⚠️ 科目名の一覧をここに書かないこと。2026-09-09 まで手書きの SIDS を持っていて、
+#    新設した m121s（夏メック模試・画像138枚）が丸ごと漏れた——**実寸が無い画像は
+#    width/height 属性が付かず、遅延読込でカードの高さが後からズレる**という、
+#    このファイルが存在する理由そのものが静かに戻る。questions_*.json を数えるのが正本。
 def main():
     paths = set()
-    for sid in SIDS:
-        p = os.path.join(ROOT, f'questions_{sid}.json')
-        if not os.path.exists(p):
-            continue
+    for p in sorted(glob.glob(os.path.join(ROOT, 'questions_*.json'))):
         with open(p, encoding='utf-8') as f:
             data = json.load(f)
         for ch in data.get('chapters', []):

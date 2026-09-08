@@ -106,6 +106,7 @@ if ('serviceWorker' in navigator) {
   <div class="filter-row" role="group" aria-label="絞り込みと学習モード">
     <button class="chip" data-sid="tox" onclick="toggleSubjectChip(this,'tox')" aria-pressed="false">☠️&nbsp;中毒・職業病</button>
     <button class="chip" data-sid="ph" onclick="toggleSubjectChip(this,'ph')" aria-pressed="false">🏛&nbsp;公衆衛生</button>
+    <button class="chip" data-sid="m121s" onclick="toggleSubjectChip(this,'m121s')" aria-pressed="false">🏁&nbsp;第121回 夏メック模試</button>
     <button class="chip" data-sid="custom" onclick="toggleSubjectChip(this,'custom')" aria-pressed="false">✏️&nbsp;自作問題</button>
     <button class="chip" data-sid="memo" onclick="toggleSubjectChip(this,'memo')" aria-pressed="false">📝&nbsp;暗記メモ</button>
     <span class="fsep"></span>
@@ -413,6 +414,10 @@ if ('serviceWorker' in navigator) {
 <div class="subj-hdr" style="background:#0891B2"><span class="subj-hdr-icon">🏛</span><span class="subj-hdr-name">公衆衛生</span><span class="subj-hdr-count">619問</span></div>
 <div class="subj-cards-loading" data-sid="ph">読み込み中…</div>
 </div>
+<div class="subj-section" data-sid="m121s" data-visible="true">
+<div class="subj-hdr" style="background:#F0ABFC"><span class="subj-hdr-icon">🏁</span><span class="subj-hdr-name">第121回 夏メック模試</span><span class="subj-hdr-count">400問</span></div>
+<div class="subj-cards-loading" data-sid="m121s">読み込み中…</div>
+</div>
 <div class="subj-section" data-sid="jitsu1" data-visible="true">
 <div class="subj-hdr" style="background:#728FC0"><span class="subj-hdr-icon">🎯</span><span class="subj-hdr-name">実力試験Ⅰ</span><span class="subj-hdr-count">160問</span></div>
 <div class="subj-cards-loading" data-sid="jitsu1">読み込み中…</div>
@@ -432,7 +437,7 @@ if ('serviceWorker' in navigator) {
 </div>
 
 <script>
-const STUDY_SUBJECTS = [{"id": "endo", "name": "内分泌", "icon": "⚗️", "color": "#169E9F"}, {"id": "resp", "name": "呼吸器", "icon": "🌬️", "color": "#4390EE"}, {"id": "circ", "name": "循環器", "icon": "❤️", "color": "#E16E33"}, {"id": "dige", "name": "消化器", "icon": "🌿", "color": "#8A81EF"}, {"id": "neur", "name": "神経", "icon": "🧠", "color": "#619E37"}, {"id": "hbp", "name": "肝胆膵", "icon": "🧪", "color": "#C0820E"}, {"id": "jinzo_d", "name": "腎臓", "icon": "💧", "color": "#7494A1"}, {"id": "hema", "name": "血液", "icon": "🩸", "color": "#E56574"}, {"id": "imma", "name": "免アレ膠", "icon": "🛡️", "color": "#B973D7"}, {"id": "kansen", "name": "感染症", "icon": "🦠", "color": "#9B920A"}, {"id": "peds", "name": "小児科", "icon": "🧸", "color": "#10A276"}, {"id": "obg", "name": "産婦人科", "icon": "🤰", "color": "#D36BAA"}, {"id": "psy", "name": "精神科", "icon": "💭", "color": "#5E60CE"}, {"id": "derm", "name": "皮膚科", "icon": "🩹", "color": "#B5654A"}, {"id": "oph", "name": "眼科", "icon": "👁️", "color": "#0E7490"}, {"id": "ent", "name": "耳鼻咽喉科", "icon": "👂", "color": "#0F766E"}, {"id": "uro", "name": "泌尿器科", "icon": "💦", "color": "#0891B2"}, {"id": "ortho", "name": "整形外科", "icon": "🦴", "color": "#A16207"}, {"id": "anes", "name": "麻酔科", "icon": "💉", "color": "#7C3AED"}, {"id": "rad", "name": "放射線科", "icon": "☢️", "color": "#475569"}, {"id": "tox", "name": "中毒・職業病", "icon": "☠️", "color": "#65A30D"}, {"id": "ph", "name": "公衆衛生", "icon": "🏛", "color": "#0891B2"}, {"id": "jitsu1", "name": "実力試験Ⅰ", "icon": "🎯", "color": "#728FC0"}, {"id": "custom", "name": "自作問題", "icon": "✏️", "color": "#CB9BC6"}, {"id": "memo", "name": "暗記メモ", "icon": "📝", "color": "#D0C7A6"}];
+const STUDY_SUBJECTS = [{"id": "endo", "name": "内分泌", "icon": "⚗️", "color": "#169E9F"}, {"id": "resp", "name": "呼吸器", "icon": "🌬️", "color": "#4390EE"}, {"id": "circ", "name": "循環器", "icon": "❤️", "color": "#E16E33"}, {"id": "dige", "name": "消化器", "icon": "🌿", "color": "#8A81EF"}, {"id": "neur", "name": "神経", "icon": "🧠", "color": "#619E37"}, {"id": "hbp", "name": "肝胆膵", "icon": "🧪", "color": "#C0820E"}, {"id": "jinzo_d", "name": "腎臓", "icon": "💧", "color": "#7494A1"}, {"id": "hema", "name": "血液", "icon": "🩸", "color": "#E56574"}, {"id": "imma", "name": "免アレ膠", "icon": "🛡️", "color": "#B973D7"}, {"id": "kansen", "name": "感染症", "icon": "🦠", "color": "#9B920A"}, {"id": "peds", "name": "小児科", "icon": "🧸", "color": "#10A276"}, {"id": "obg", "name": "産婦人科", "icon": "🤰", "color": "#D36BAA"}, {"id": "psy", "name": "精神科", "icon": "💭", "color": "#5E60CE"}, {"id": "derm", "name": "皮膚科", "icon": "🩹", "color": "#B5654A"}, {"id": "oph", "name": "眼科", "icon": "👁️", "color": "#0E7490"}, {"id": "ent", "name": "耳鼻咽喉科", "icon": "👂", "color": "#0F766E"}, {"id": "uro", "name": "泌尿器科", "icon": "💦", "color": "#0891B2"}, {"id": "ortho", "name": "整形外科", "icon": "🦴", "color": "#A16207"}, {"id": "anes", "name": "麻酔科", "icon": "💉", "color": "#7C3AED"}, {"id": "rad", "name": "放射線科", "icon": "☢️", "color": "#475569"}, {"id": "tox", "name": "中毒・職業病", "icon": "☠️", "color": "#65A30D"}, {"id": "ph", "name": "公衆衛生", "icon": "🏛", "color": "#0891B2"}, {"id": "m121s", "name": "第121回 夏メック模試", "icon": "🏁", "color": "#F0ABFC"}, {"id": "jitsu1", "name": "実力試験Ⅰ", "icon": "🎯", "color": "#728FC0"}, {"id": "custom", "name": "自作問題", "icon": "✏️", "color": "#CB9BC6"}, {"id": "memo", "name": "暗記メモ", "icon": "📝", "color": "#D0C7A6"}];
 // Study time tracking
 let _studyStartTime = Date.now();
 let _studyTimeSaved = false;
@@ -477,7 +482,10 @@ function _buildSectionCache(sid) {
       uid, el: card, sid,
       rate: r !== undefined && r !== '' ? +r : null,
       hasStar: !!card.querySelector('.bg.bs'),
-      hasImg: !!card.querySelector('.qimg'),
+      // ⚠️ `.qimg` だけで数えないこと。解説の図（画像診断・.exfig）も同じ class を
+      //    持つ（ライトボックスがその名前を掴むため）ので、設問の図が無い問題まで
+      //    「🖼️画像」フィルタに入る。数えるのは設問の図の行 `.qimg-row` の中だけ。
+      hasImg: !!card.querySelector('.qimg-row .qimg'),
       searchText: null,
       lapBtn: card.querySelector('.mec-lap-btn'),
       flagBtn: card.querySelector('.mec-flag-btn'),

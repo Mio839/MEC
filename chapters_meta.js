@@ -1303,6 +1303,50 @@ const MEC_CHAPTERS = [
         "count": 122
       }
     ]
+  },
+  {
+    "id": "m121s",
+    "name": "第121回 夏メック模試",
+    "icon": "🏁",
+    "color": "#F0ABFC",
+    "chapters": [
+      {
+        "prefix": "m121s_ch01",
+        "file": "study.html?sid=m121s",
+        "title": "第1章 A問題（各論）",
+        "count": 75
+      },
+      {
+        "prefix": "m121s_ch02",
+        "file": "study.html?sid=m121s",
+        "title": "第2章 B問題（必修）",
+        "count": 50
+      },
+      {
+        "prefix": "m121s_ch03",
+        "file": "study.html?sid=m121s",
+        "title": "第3章 C問題（総論）",
+        "count": 75
+      },
+      {
+        "prefix": "m121s_ch04",
+        "file": "study.html?sid=m121s",
+        "title": "第4章 D問題（各論）",
+        "count": 75
+      },
+      {
+        "prefix": "m121s_ch05",
+        "file": "study.html?sid=m121s",
+        "title": "第5章 E問題（必修）",
+        "count": 50
+      },
+      {
+        "prefix": "m121s_ch06",
+        "file": "study.html?sid=m121s",
+        "title": "第6章 F問題（総論）",
+        "count": 75
+      }
+    ]
   }
 ];
 const MEC_CHAPTER_META = {

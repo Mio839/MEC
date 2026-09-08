@@ -217,6 +217,25 @@
     return out;
   }
 
+  // ── 解説（questions_{examId}.json）側の uid ────────────────
+  // 採点ツールの uid（m121s_A_q17）と解説側の uid（m121s_ch01_q17）は**別物**。
+  // 前者はブロックごとに1から振り直された紙面の番号、後者は study.html の規約②
+  // 「Q.n は科目内で通し」に従う番号（引き継ぎ §6-0）。
+  // ⚠️⚠️ 対応を数式で2か所に書かないこと。ここが唯一の正本で、
+  //    _work/build_mock_m121s_json.py も同じ規則（ブロックの count を積む）で作る。
+  //    _work/test_mock_questions.js が両者の一致を見張る。
+  // ⚠️ 章の順は 'ABCDEF' のブロック順そのもの。ブロックを増やす模試が来たら
+  //    d.blocks のキーの順（＝解答表の並び）に従わせること。
+  function studyUid(examId, block, no) {
+    var d = exam(examId), ks = Object.keys(d.blocks), seq = 1, ch = 0;
+    for (var i = 0; i < ks.length; i++) {
+      if (ks[i] === block) { ch = i + 1; break; }
+      seq += d.blocks[ks[i]].count;
+    }
+    if (!ch) return '';
+    return examId + '_ch' + (ch < 10 ? '0' : '') + ch + '_q' + (seq + no - 1);
+  }
+
   // ── 周回 ─────────────────────────────────────────────────
   function rounds(examId) { return Object.keys(store(examId).exam.rounds).sort(); }
   function currentRound(examId) { return store(examId).exam.cur; }
@@ -244,7 +263,7 @@
     KEY: KEY, HISSHU_PCT: HISSHU_PCT, TABOO_MAX: TABOO_MAX,
     normPick: normPick, judge: judge, qkey: qkey,
     getAnswers: getAnswers, setAnswer: setAnswer, clearBlock: clearBlock,
-    score: score, bySubject: bySubject, weights: weights,
+    score: score, bySubject: bySubject, weights: weights, studyUid: studyUid,
     rounds: rounds, currentRound: currentRound, useRound: useRound,
     newRound: newRound, markGraded: markGraded, gradedAt: gradedAt, border: border,
     _read: _read

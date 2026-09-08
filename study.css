@@ -1192,6 +1192,12 @@ html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-bloc
    常にある属性＝メタ情報なので .bsub と同じ灰系で沈める。⚠️ 色を上げないこと。
    ⚠️ クラス名に bg は使えない（全バッジ共通の土台）／br も連問バッジが使用中。 */
 .bip,.brn{background:rgba(148,163,184,.12);color:#94A3B8;border:1px solid rgba(148,163,184,.28);}
+/* bb＝模試の問題番号（「A問題 17」）。表示番号 Q.n は科目内の通し番号なので、
+   マークシートと突き合わせるための紙面の番号をここで別に出す（引き継ぎ §6-0）。
+   ⚠️ クラス名は bg（土台）・br（連問）・bs/bc/bh/bi/bk/bm/bx/bsub/bip/brn と衝突しないこと。
+   ⚠️ 一般/臨床(bip/brn)と違って**これは識別子**なので灰系には沈めない。桃色は
+      ★(琥珀)・CBT(青)・必修(赤)・画像(菫)・計算(緑)・N択(橙)のどれとも被らない。 */
+.bb{background:rgba(244,114,182,.14);color:#F9A8D4;border:1px solid rgba(244,114,182,.35);}
 /* Accuracy rate badges */
 .cr{margin-left:auto;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;flex-shrink:0;}
 .ch{background:rgba(61,214,140,.12);color:var(--gr);border:1px solid rgba(61,214,140,.3);}
@@ -1246,6 +1252,14 @@ html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-bloc
    auto を外すと max-width:48% で横だけ縮んで縦が属性値のまま残り、画像が潰れる。
    auto にしておくと属性は「縦横比の先出し」だけに効き、デコード前から正しい高さの箱が
    確保される（＝画像の遅延読込によるスクロールずれが消える）。 */
+/* 解説の図（画像診断）。設問の図（.qimg-row）とは別の行に置く——「🖼️画像だけ」
+   フィルタは `.qimg-row .qimg` を数えるので、ここを .qimg-row にすると解説に図がある
+   だけで画像問題に化ける。⚠️ class から `qimg` は外さないこと（ライトボックスの名前）。
+   ⚠️ 1枚のときだけ横幅いっぱい。2枚並ぶ紙面（D20 の正面像＋断層像）は .qimg の 48% で
+   自然に並ぶ。注記の文字ごと写した図なので高さの上限は設問の図より高くとる。 */
+.exfig-row{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 4px;}
+.exfig-row .qimg.exfig{max-height:360px;background:#fff;}
+.exfig-row .qimg.exfig:only-child{max-width:100%;}
 .qimg{width:auto;height:auto;max-height:220px;max-width:48%;object-fit:contain;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,.12);cursor:zoom-in;transition:max-height .2s,max-width .2s;}
 /* Image lightbox (真鍮シャウカステン・読影灯演出) */
 #mecImgLb{display:none;position:fixed;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(14,20,32,.97) 0%,rgba(4,7,11,.98) 100%);z-index:var(--z-lightbox);align-items:center;justify-content:center;cursor:zoom-out;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}

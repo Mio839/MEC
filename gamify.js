@@ -49,6 +49,7 @@
     { id: 'tox',     name: '中毒・職業病', icon: '☠️', color: '#65A30D', total: 48 },
     { id: 'ph',      name: '公衆衛生',   icon: '🏛', color: '#0891B2', total: 619 },
     { id: 'jitsu1',  name: '実力試験Ⅰ', icon: '🎯', color: '#6366F1', total: 160 },
+    { id: 'm121s',   name: '第121回 夏メック模試', icon: '🏁', color: '#F0ABFC', total: 400 },
   ];
 
   const TITLES = [

@@ -1312,12 +1312,15 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
-const CACHE = "mec-v375";
+// v376: 夏メック模試（m121s）の解説を questions_m121s.json として新設し study.html へ統合。
+//       解説書PDFから全400問（A〜F を ch01〜ch06・番号は科目内で通し）を生成した。
+//       questions_*.json が1つ増えたので SHELL_VERSION だけでは足りず CACHE を bump。
+const CACHE = "mec-v376";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-08a";
+const SHELL_VERSION = "2026-09-09a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -1387,7 +1390,8 @@ const CARDS = [
   "questions_neur.json","questions_hbp.json","questions_jinzo_d.json","questions_hema.json",
   "questions_imma.json","questions_kansen.json","questions_jitsu1.json",
   "questions_peds.json","questions_obg.json","questions_psy.json",
-  "questions_derm.json","questions_oph.json","questions_ent.json","questions_uro.json","questions_ortho.json","questions_anes.json","questions_rad.json","questions_tox.json","questions_ph.json"
+  "questions_derm.json","questions_oph.json","questions_ent.json","questions_uro.json","questions_ortho.json","questions_anes.json","questions_rad.json","questions_tox.json","questions_ph.json",
+  "questions_m121s.json"
 ];
 
 self.addEventListener("install", e => {

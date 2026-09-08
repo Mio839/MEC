@@ -169,11 +169,13 @@ const other = rows.filter(r => !M.parse(r.al));
 // 52→56 になったのは、公衆衛生 第8章「疫学研究」NO.238（オッズ比）・NO.245（人口寄与
 // 危険度割合）・NO.259（リスク比）・NO.263（John Snowのコレラ調査のリスク比）の
 // 計算問題4問を追加したため（2026-08-26）。
-t('選択肢を持たない問題は計算問題56件だけ（選択肢欠落は0件）', () => {
-  assert.strictEqual(calc.length, 56, '計算問題が ' + calc.length + '件');
+// 56→59 になったのは、夏メック模試（m121s）を統合したため（2026-09-09）。桁入力は
+// A74（クレアチニンクリアランス）・A75（血漿浸透圧）・D75（尿中1日塩分排泄量）の3問。
+t('選択肢を持たない問題は計算問題59件だけ（選択肢欠落は0件）', () => {
+  assert.strictEqual(calc.length, 59, '計算問題が ' + calc.length + '件');
   assert.strictEqual(other.length, 0,
     '選択肢欠落: ' + other.map(r => r.uid).join(', '));
-  assert.strictEqual(rows.length, 56, '実際は ' + rows.length + '件');
+  assert.strictEqual(rows.length, 59, '実際は ' + rows.length + '件');
 });
 
 t('計算問題の ans_label は全件が正規形（旧カンマ形式の混入なし）', () => {
@@ -196,7 +198,14 @@ t('桁数が問題文の解答テンプレートと一致する', () => {
 
 t('同一問題が科目JSONと過去問HTMLの双方にある場合、正解が一致する', () => {
   const byEp = {};
-  calc.forEach(r => { const k = NORM.epKey(r.ep); (byEp[k] = byEp[k] || []).push(r); });
+  // ⚠️ episode が空の問題を1つのグループに畳まないこと。epKey('') は '' なので、
+  //    出典を持たない問題どうし（模試の桁入力3問）が「同じ問題」と見なされ、
+  //    互いに違う答えを持つのは当然なのに不一致として落ちる（2026-09-09）。
+  calc.forEach(r => {
+    const k = NORM.epKey(r.ep);
+    if (!k) return;
+    (byEp[k] = byEp[k] || []).push(r);
+  });
   const bad = [];
   for (const k of Object.keys(byEp)) {
     const g = byEp[k];
