@@ -1,3 +1,5 @@
+// 2026-09-09b: Frost（絶対零度・フロスト氷晶）のHeroゲージ意匠を全面刷新——①下部からのリニア蓄積を廃止し、中心(84,84)から外周へ拡大成長する六角氷結シールド＆鋭利な六角クレバス前線へ刷新、②進捗％に連動して中央からダイナミックに拡大（scale 0.35〜1.08）する超高精細・絢爛六花スノークリスタル（二重六角氷核コア・60度完全対称主軸・多段羊歯状羽枝・星型レースプレート・先端六芒星クラウン）を実装、③MeltingPointおよび〜K温度表示テキストを完全撤廃。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-09a → 2026-09-09b）。
 // 2026-09-09a: 夏メック模試（m121s）の誤答問題の解説を、循環器の作り直し水準で書き下ろし始めた。手書きは _work/mock_m121s_overrides.json に置き、_work/build_mock_m121s_json.py が PDF からの生成の最後に重ねる（questions_m121s.json は純粋な派生物＝直接編集しない）。
 //   あわせて、図が選択肢の4問（A26・D25・D40・F58）で最後の肢 ｅ が「ｅ　⑤①②④⑤」になっていた抽出の誤りを直した（選択肢の run の直後に来る「図のパネル名だけの段落」を、折り返した肢の続きとして畳んでいた）。
 //   questions_m121s.json を変えたので CACHE を bump（mec-v376 → mec-v377）。
@@ -1323,7 +1325,7 @@ const CACHE = "mec-v377";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-09a";
+const SHELL_VERSION = "2026-09-09b";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

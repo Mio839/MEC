@@ -134,15 +134,15 @@ t('Abyss: 超深海探査ポータル（耐圧舷窓・12ボルト・生体発�
   assert.ok(HTML.includes('aBioHead.style.transform'), '_driveThemeGauge 内の生体発光オーブ制御が無い');
 });
 
-t('Frost: 絢爛多面体ファセット外枠、六角フロスト・インフィル、六花スノークリスタル（段階的フラクタル成長）、静寂のダイヤモンドダスト、絶対零度ケルビン計が存在し、外周線画とコメットは撤廃されている', () => {
+t('Frost: 絢爛多面体ファセット外枠、中央成長六角氷結シールド、絢爛フラクタル雪結晶（段階的成長＆中央拡大）、ダイヤモンドダストが存在し、MeltingPoint/ケルビン表示・外周線画・コメットは撤廃されている', () => {
   assert.ok(HTML.includes('frost-hex-rim'), 'frost-hex-rim が無い');
   assert.ok(HTML.includes('frost-hex-inner'), 'frost-hex-inner が無い');
   assert.ok(HTML.includes('class="frost-outer-rim"'), 'frost-outer-rim が無い');
   assert.ok(HTML.includes('class="frost-facet-ribs"'), 'frost-facet-ribs が無い');
   assert.ok(HTML.includes('class="frost-calib-ticks"'), 'frost-calib-ticks が無い');
   assert.ok(HTML.includes('class="frost-vertex-jewel'), 'frost-vertex-jewel が無い');
-  assert.ok(HTML.includes('id="frostKelvinDisplay"'), 'frostKelvinDisplay が無い');
-  assert.ok(HTML.includes('id="frostStateDisplay"'), 'frostStateDisplay が無い');
+  assert.ok(!HTML.includes('id="frostKelvinDisplay"'), 'frostKelvinDisplay が残存している');
+  assert.ok(!HTML.includes('id="frostStateDisplay"'), 'frostStateDisplay が残存している');
   assert.ok(HTML.includes('class="frost-core-hex"'), 'frost-core-hex が無い');
   assert.ok(HTML.includes('class="frost-apical-stars"'), 'frost-apical-stars が無い');
   assert.ok(HTML.includes('class="frost-dust-star'), 'frost-dust-star が無い');
@@ -150,11 +150,13 @@ t('Frost: 絢爛多面体ファセット外枠、六角フロスト・インフ�
   assert.ok(HTML.includes('frost-dendrite-tier'), 'frost-dendrite-tier が無い');
   assert.ok(HTML.includes('id="frostInfillFill"'), 'frostInfillFill が無い');
   assert.ok(HTML.includes('id="frostInfillClip"'), 'frostInfillClip が無い');
+  assert.ok(HTML.includes('id="frostInfillCrevasse"'), 'frostInfillCrevasse が無い');
   assert.ok(HTML.includes('id="frostDiamondDust"'), 'frostDiamondDust が無い');
   assert.ok(!HTML.includes('id="frostCometOrbit"'), 'frostCometOrbit（コメット）が残存している');
   assert.ok(!HTML.includes('id="frostFreezeProg"'), 'frostFreezeProg（外周線画）が残存している');
   assert.ok(!HTML.includes('class="frost-axes-lines"'), '旧来のターゲット照準軸線 frost-axes-lines が残存している');
   assert.ok(!HTML.includes('class="frost-shard'), '旧来のターゲット照準マーカー frost-shard が残存している');
+  assert.ok(HTML.includes("fSnowflake.style.transform = 'scale('"), '雪の結晶の中央拡大スケール制御が無い');
 });
 
 console.log('── Celestial新演出（絢爛アストロラーベ・多重連動天球儀）＆Brass歯車漏れ防止 検証 ──');
