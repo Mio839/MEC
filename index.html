@@ -6210,6 +6210,7 @@ const JITSU1_CHAPTERS = [
 const HUB_TILES = [
   { id:'kakumon',   icon:'📝',  name:'国家試験 過去問',   kind:'expand', span:'lead' },
   { id:'jitsu1',    icon:'🎯',  name:'実力試験Ⅰ',        kind:'expand' },
+  { id:'mock',      icon:'🧮',  name:'模試 自己採点',     kind:'link', href:'mock.html' },
   { id:'knowledge', icon:'🔎',  name:'検索知識ノート',    kind:'link', href:'knowledge.html' },
   { id:'selfcheck', icon:'✏️',  name:'セルフチェック',    kind:'expand' },
   { id:'mindmap',   icon:'🗺️', name:'科目マインドマップ', kind:'expand', span:'wide' },
@@ -7015,6 +7016,23 @@ function renderHero() {
 // ── タイル（ヒーローに従属する行き先） ──────────────────────────
 let _tilesSettled = false;
 
+// 模試タイルの脚。⚠️ mock_data/*.js を読み込まないこと（1本80KB超で、ハブの起動が重くなる）。
+// 数えるのは mec_mock_v1 に入っている解答の件数だけ＝解答表が無くても数えられる。
+function _mockTileSub() {
+  try {
+    const all = JSON.parse(localStorage.getItem('mec_mock_v1') || '{}');
+    const ids = Object.keys(all);
+    if (!ids.length) return '未入力';
+    let n = 0, blocks = new Set();
+    ids.forEach(ex => {
+      const e = all[ex] || {}, r = (e.rounds || {})[e.cur] || {};
+      Object.keys(r.ans || {}).forEach(k => { n++; blocks.add(ex + k[0]); });
+    });
+    if (!n) return '未入力';
+    return n + ' 問入力（' + blocks.size + ' ブロック）';
+  } catch { return '未入力'; }
+}
+
 function _tileHtml(t) {
   let sub = '', pct = null;
   if (t.id === 'kakumon') {
@@ -7023,6 +7041,9 @@ function _tileHtml(t) {
   } else if (t.id === 'jitsu1') {
     const p = getJitsuProgress(); pct = p.pct;
     sub = _fmtN(p.doneCount) + ' / ' + _fmtN(p.total) + '問';
+  } else if (t.id === 'mock') {
+    // 模試データ本体（1本80KB超）はハブで読まない。入力件数だけを localStorage から数える。
+    sub = _mockTileSub();
   } else if (t.id === 'knowledge') {
     sub = (typeof KNOWLEDGE_NOTES !== 'undefined' ? KNOWLEDGE_NOTES.length : 0) + ' 件のノート';
   } else if (t.id === 'selfcheck') {

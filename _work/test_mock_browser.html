@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta charset="UTF-8"><title>mock.html 実ブラウザ検査</title></head>
+<body>
+<pre id="log">running…</pre>
+<iframe id="f" src="/mock.html" style="width:1100px;height:800px"></iframe>
+<script>
+/* mock.html を実ブラウザで読み込み、キーボード入力から採点・書き出しまで実際に操作して、
+   例外が出ないこと・数字が合うことを確かめる。node の DOM シムでは
+   「シムが通るだけ」になるのでここだけは本物のブラウザで回す。
+
+   実行（リポジトリのルートで）:
+     python -m http.server 8765 --bind 127.0.0.1 &
+     chrome --headless=new --disable-gpu --virtual-time-budget=15000 \
+       --dump-dom "http://127.0.0.1:8765/_work/test_mock_browser.html"
+   出力の <pre id="log"> に結果が入る（<title> が ALLPASS / FAILED になる）。
+
+   ⚠️ file:// では動かない（fetch も相対 script も落ちる）。必ず http で開くこと。
+   ⚠️ このページは localStorage の mec_mock_v1 を消してから走る。本番の記録が入っている
+      ブラウザのプロファイルで開かないこと（headless は使い捨てプロファイルなので安全）。 */
+var L = [], errs = [];
+function log(ok, msg) { L.push((ok ? 'ok   ' : 'FAIL ') + msg); if (!ok) errs.push(msg); }
+function done() {
+  document.getElementById('log').textContent =
+    L.join('\n') + '\n\n' + (errs.length ? errs.length + ' FAILED' : 'ALL PASS') + ' (' + L.length + ')';
+  document.title = errs.length ? 'FAILED' : 'ALLPASS';
+}
+
+var f = document.getElementById('f');
+f.onload = function () {
+  var w = f.contentWindow, d = f.contentDocument;
+  var uncaught = [];
+  w.addEventListener('error', function (e) { uncaught.push(String(e.message)); });
+  w.localStorage.removeItem('mec_mock_v1');
+
+  var tries = 0;
+  (function wait() {           // 模試データは後読みなので、グリッドが描かれるまで待つ
+    if (!d.querySelectorAll('#mkGrid .mk-cell').length && tries++ < 200) return setTimeout(wait, 50);
+    run(w, d, uncaught);
+  })();
+};
+
+function key(w, d, k) {
+  d.dispatchEvent(new w.KeyboardEvent('keydown', { key: k, bubbles: true, cancelable: true }));
+}
+function cur(d) { var c = d.querySelector('#mkGrid .mk-cell.cur'); return c && c.dataset.k; }
+
+function run(w, d, uncaught) {
+  var M = w.MecMock, D = w.MecMockData && w.MecMockData.m121s;
+  log(!!M && !!D, 'mock.js と模試データが読み込まれた');
+  log(d.querySelectorAll('#mkGrid .mk-cell').length === 75, 'A問題のグリッドが75セル');
+  log(d.querySelectorAll('#mkTabs .mk-tab').length === 6, 'ブロックタブが6つ');
+  log(!d.getElementById('mkPad').hidden, '入力パッドが出ている');
+  log(d.querySelectorAll('#mkKeys .mk-key').length === 8, 'a〜e＋⌫◀▶ の8キー');
+
+  // A1（1つ選べ）は入力したら自動で次へ
+  key(w, d, '2');
+  log(M.getAnswers('m121s').A1 === 'b', 'キー2 で b が入る');
+  log(cur(d) === 'A2', '1つ選ぶ問題は入力したら自動で次へ（現在 ' + cur(d) + '）');
+
+  // A10 は「2つ選べ」。⚠️ 自動送りの条件が正解数ではなく設問文の「Nつ選べ」であることの検査
+  d.querySelector('[data-k="A10"]').click();
+  key(w, d, '2');
+  log(cur(d) === 'A10', '2つ選ぶ問題は1つ目では送られない');
+  key(w, d, '5');
+  log(M.getAnswers('m121s').A10 === 'be', '2つ目で be になる');
+  log(cur(d) === 'A11', '2つ目で自動送り');
+
+  d.querySelector('[data-k="A10"]').click();
+  key(w, d, '5');
+  log(M.getAnswers('m121s').A10 === 'b', '同じキーをもう一度押すと外れる');
+  key(w, d, '5');
+
+  // 一括採点なので、押すまでは正誤を出さない
+  log(!d.querySelector('#mkGrid .mk-cell.g-correct'), '採点前は正誤の色が付かない');
+  log(d.getElementById('mkRes').innerHTML === '', '採点前は結果パネルが空');
+
+  D.questions.forEach(function (q) {
+    M.setAnswer('m121s', q.block + q.no, q.type === 'calc' ? q.ans[0] : q.ans.join(''));
+  });
+  d.getElementById('mkGrade').click();
+  var res = d.getElementById('mkRes').textContent;
+  log(/500/.test(res) && /100%/.test(res), '全問正解で 500点・100%');
+  log(d.querySelectorAll('#mkGrid .mk-cell.g-correct').length === 75, '75セル全部が正解色');
+  log(/必修 200/.test(res), '必修が 200/200');
+  log(/禁忌肢 0/.test(res), '禁忌肢 0');
+
+  var t = D.questions.filter(function (q) { return q.taboo; });
+  t.slice(0, 4).forEach(function (q) { M.setAnswer('m121s', q.block + q.no, q.taboo[0]); });
+  d.getElementById('mkGrade').click();
+  res = d.getElementById('mkRes').textContent;
+  log(/禁忌肢 4/.test(res), '禁忌肢4問が数えられる');
+  log(/4問以上/.test(res), '4問以上＝不合格の表示が出る');
+
+  d.getElementById('mkExpJson').click();
+  var out = d.getElementById('mkOut').value;
+  log(out.indexOf('m121s_A_q1') > 0 && out.indexOf('"weight"') > 0, 'JSON書き出しに uid と weight');
+  d.getElementById('mkExpMd').click();
+  log(d.getElementById('mkOut').value.indexOf('# 第121回') === 0, 'Markdown書き出しが見出しで始まる');
+
+  // 計算問題（A74・3桁）だけ 0〜9 のキーになる
+  d.querySelector('[data-k="A74"]').click();
+  log(d.querySelectorAll('#mkKeys .mk-key').length === 13, '計算問題は 0〜9＋3キー');
+  M.setAnswer('m121s', 'A74', '');
+  d.querySelector('[data-k="A74"]').click();
+  key(w, d, '1'); key(w, d, '0'); key(w, d, '4');
+  log(M.getAnswers('m121s').A74 === '104', '桁入力が数字で入る（先頭以外の0も落ちない）');
+
+  d.querySelectorAll('#mkTabs .mk-tab')[1].click();
+  log(d.querySelectorAll('#mkGrid .mk-cell').length === 50, 'Bへ切替で50セル');
+
+  // 横あふれはページ全体を壊す（iOS Safari は縮尺が動く）ので幅ごとに見る
+  log(d.documentElement.scrollWidth <= w.innerWidth + 1,
+      '横あふれが無い（scrollWidth ' + d.documentElement.scrollWidth + ' / ' + w.innerWidth + '）');
+
+  log(uncaught.length === 0, '未捕捉の例外が無い' + (uncaught.length ? ': ' + uncaught.join(' / ') : ''));
+  done();
+}
+</script>
+</body>
+</html>

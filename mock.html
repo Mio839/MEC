@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEC 模試 自己採点</title>
+<link rel="stylesheet" href="vars.css">
+<script src="theme.js"></script>
+<script src="ui_theme.js"></script>
+<link rel="stylesheet" href="ui_theme.css">
+<script src="progress.js"></script>
+<script src="mock.js"></script>
+<script src="mock_data/index.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:transparent;color:var(--tx);font-size:14px;line-height:1.7;padding-bottom:200px;}
+
+/* ── ヘッダー ── */
+.mk-hdr{background:rgba(var(--hdr-rgb),.97);border-bottom:1px solid rgba(255,255,255,.08);padding:10px 12px 8px;position:sticky;top:0;z-index:var(--z-hdr);box-shadow:0 2px 20px rgba(0,0,0,.45);}
+.mk-hdr-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.mk-title{font-family:var(--font-display);letter-spacing:var(--font-display-ls);font-size:15px;font-weight:800;flex:1;min-width:0;}
+.mk-title small{display:block;font-size:10.5px;font-weight:600;color:var(--ts);font-family:-apple-system,sans-serif;letter-spacing:0;}
+.hub-link{font-size:11px;color:rgba(255,255,255,.6);text-decoration:none;padding:3px 10px;border:1px solid rgba(255,255,255,.18);border-radius:20px;white-space:nowrap;}
+.hub-link:hover{background:rgba(var(--glass-rgb),.1);}
+
+/* ブロックタブ */
+.mk-tabs{display:flex;gap:5px;overflow-x:auto;margin-top:8px;padding-bottom:4px;scrollbar-width:none;}
+.mk-tabs::-webkit-scrollbar{display:none;}
+.mk-tab{flex-shrink:0;padding:5px 12px;border-radius:20px;border:1.5px solid rgba(255,255,255,.18);background:rgba(var(--glass-rgb),.04);color:rgba(255,255,255,.62);font-size:12px;font-weight:800;font-family:inherit;cursor:pointer;white-space:nowrap;line-height:1.35;transition:background .15s,border-color .15s,color .15s;}
+.mk-tab .tb-n{font-size:9.5px;font-weight:700;opacity:.75;display:block;font-variant-numeric:tabular-nums;}
+.mk-tab.on{color:var(--subj-ink);border-color:var(--or);background:var(--or);}
+.mk-tab.hisshu{border-style:dashed;}
+.mk-tab.done{border-color:var(--gr);}
+.mk-tab.on.done{background:var(--gr);border-color:var(--gr);}
+
+.mk-main{max-width:900px;margin:0 auto;padding:12px 12px 0;}
+
+/* ── 入力グリッド ── */
+.mk-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+.mk-bar-lab{font-size:12px;font-weight:700;color:var(--ts);}
+.mk-btn{padding:5px 12px;border-radius:18px;border:1.5px solid rgba(255,255,255,.2);background:rgba(var(--glass-rgb),.06);color:var(--tx);font-size:11.5px;font-weight:800;font-family:inherit;cursor:pointer;}
+.mk-btn:hover{background:rgba(var(--glass-rgb),.13);}
+.mk-btn.pri{background:var(--or);border-color:var(--or);color:var(--subj-ink);}
+.mk-btn.danger{border-color:rgba(255,107,107,.5);color:var(--rd);}
+.mk-btn:disabled{opacity:.4;cursor:default;}
+
+.mk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:6px;}
+.mk-cell{position:relative;background:var(--gb);border:1.5px solid var(--bd);border-radius:var(--r-sm,10px);padding:5px 6px 6px;cursor:pointer;text-align:left;font-family:inherit;color:var(--tx);min-height:52px;display:flex;flex-direction:column;gap:2px;transition:border-color .12s,background .12s;}
+.mk-cell:hover{background:rgba(var(--glass-rgb),.1);}
+.mk-cell .c-no{font-size:10px;font-weight:800;color:var(--ts);font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:3px;}
+.mk-cell .c-pick{font-size:16px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-variant-numeric:tabular-nums;line-height:1.15;min-height:20px;}
+.mk-cell .c-pick.empty{color:rgba(255,255,255,.2);}
+.mk-cell .c-ans{font-size:10px;font-weight:700;color:var(--ts);letter-spacing:.04em;text-transform:uppercase;}
+.mk-cell.cur{border-color:var(--or);background:rgba(255,154,60,.1);box-shadow:0 0 0 2px rgba(255,154,60,.25);}
+.mk-cell .c-tag{font-size:9px;font-weight:800;padding:0 4px;border-radius:6px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.7);}
+.mk-cell .c-tag.multi{background:rgba(96,165,250,.22);color:#9CC6FF;}
+.mk-cell .c-tag.calc{background:rgba(156,204,101,.22);color:#C3E39A;}
+.mk-cell .c-tag.kin{background:rgba(255,107,107,.25);color:#FFB1B1;}
+.mk-cell .c-tag.ren{background:rgba(167,139,250,.22);color:#CDBCFF;}
+/* 採点後 */
+.mk-cell.g-correct{border-color:rgba(61,214,140,.6);background:rgba(61,214,140,.1);}
+.mk-cell.g-wrong{border-color:rgba(255,107,107,.6);background:rgba(255,107,107,.1);}
+.mk-cell.g-blank{border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.03);}
+.mk-cell.g-correct .c-pick{color:var(--gr);}
+.mk-cell.g-wrong .c-pick{color:var(--rd);}
+.mk-cell.g-taboo{box-shadow:inset 0 0 0 2px rgba(255,107,107,.55);}
+
+/* ── 入力パッド（画面下・iPad用） ── */
+.mk-pad{position:fixed;left:0;right:0;bottom:0;z-index:var(--z-hdr);background:rgba(var(--hdr-rgb),.98);border-top:1px solid rgba(255,255,255,.1);box-shadow:0 -4px 24px rgba(0,0,0,.5);padding:8px 10px calc(8px + env(safe-area-inset-bottom));}
+.mk-pad-in{max-width:900px;margin:0 auto;}
+.mk-pad-head{display:flex;align-items:baseline;gap:8px;font-size:11.5px;color:var(--ts);margin-bottom:6px;flex-wrap:wrap;}
+.mk-pad-head b{color:var(--tx);font-size:14px;font-weight:800;}
+.mk-pad-head .th{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mk-keys{display:flex;gap:6px;flex-wrap:wrap;}
+.mk-key{flex:1 1 0;min-width:44px;padding:10px 0;border-radius:12px;border:1.5px solid rgba(255,255,255,.2);background:rgba(var(--glass-rgb),.07);color:var(--tx);font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;text-transform:uppercase;}
+.mk-key i{display:block;font-size:9px;font-style:normal;font-weight:700;color:var(--ts);}
+.mk-key.on{background:var(--or);border-color:var(--or);color:var(--subj-ink);}
+.mk-key.on i{color:rgba(0,0,0,.55);}
+.mk-key.util{flex:0 0 auto;min-width:52px;font-size:12px;padding:10px 10px;}
+
+/* ── 結果 ── */
+.mk-res{margin-top:16px;display:flex;flex-direction:column;gap:12px;}
+.mk-card{background:var(--gb);border:1px solid var(--bd);border-radius:var(--r-md,14px);padding:12px 13px;}
+.mk-card h3{font-size:12.5px;font-weight:800;color:var(--or);margin-bottom:8px;letter-spacing:.02em;}
+.mk-big{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+.mk-big .n{font-size:38px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;}
+.mk-big .d{font-size:15px;font-weight:700;color:var(--ts);}
+.mk-big .p{font-size:15px;font-weight:800;color:var(--or);}
+.mk-sub{font-size:11.5px;color:var(--ts);margin-top:4px;}
+.mk-judge{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.mk-pill{font-size:11.5px;font-weight:800;padding:4px 11px;border-radius:20px;border:1.5px solid;}
+.mk-pill.ok{color:var(--gr);border-color:rgba(61,214,140,.5);background:rgba(61,214,140,.1);}
+.mk-pill.ng{color:var(--rd);border-color:rgba(255,107,107,.5);background:rgba(255,107,107,.1);}
+.mk-pill.na{color:var(--ts);border-color:rgba(255,255,255,.18);}
+
+table.mk-t{width:100%;border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums;}
+table.mk-t th,table.mk-t td{padding:4px 6px;border-bottom:1px solid rgba(255,255,255,.07);text-align:right;white-space:nowrap;}
+table.mk-t th{color:var(--ts);font-size:10.5px;font-weight:700;}
+table.mk-t td:first-child,table.mk-t th:first-child{text-align:left;}
+table.mk-t tr.tot td{border-top:1.5px solid rgba(255,255,255,.2);border-bottom:none;font-weight:800;}
+.mk-scroll{overflow-x:auto;}
+
+.mk-bar2{height:5px;border-radius:3px;background:rgba(255,255,255,.1);overflow:hidden;min-width:52px;}
+.mk-bar2 span{display:block;height:100%;border-radius:3px;background:var(--or);}
+.mk-bar2 span.hi{background:var(--gr);}
+.mk-bar2 span.lo{background:var(--rd);}
+
+.mk-miss{display:flex;flex-direction:column;gap:4px;font-size:11.5px;}
+.mk-miss .row{display:flex;gap:7px;align-items:baseline;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.mk-miss .k{font-weight:800;color:var(--or);min-width:44px;font-variant-numeric:tabular-nums;}
+.mk-miss .yours{color:var(--rd);font-weight:800;text-transform:uppercase;min-width:28px;}
+.mk-miss .right{color:var(--gr);font-weight:800;text-transform:uppercase;min-width:28px;}
+.mk-miss .th{flex:1;min-width:0;color:var(--ts);}
+.mk-miss .row.kin{background:rgba(255,107,107,.08);}
+
+.mk-note{font-size:11px;color:var(--ts);line-height:1.6;}
+.mk-note b{color:var(--yl);}
+textarea.mk-out{width:100%;height:170px;background:rgba(0,0,0,.28);border:1px solid var(--bd);border-radius:10px;color:var(--tx);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10.5px;padding:8px;resize:vertical;}
+input.mk-num{width:78px;background:rgba(var(--glass-rgb),.07);border:1.5px solid rgba(255,255,255,.16);border-radius:8px;padding:3px 8px;color:var(--tx);font-family:inherit;font-size:12px;font-variant-numeric:tabular-nums;}
+
+@media (max-width:520px){
+  .mk-grid{grid-template-columns:repeat(auto-fill,minmax(72px,1fr));}
+  .mk-big .n{font-size:31px;}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+</style>
+</head>
+<body>
+
+<header class="mk-hdr">
+  <div class="mk-hdr-row">
+    <div class="mk-title">模試 自己採点<small id="mkSubtitle">読み込み中…</small></div>
+    <select id="mkExam" class="mk-btn" style="padding:4px 8px"></select>
+    <a class="hub-link" href="index.html">← ハブ</a>
+  </div>
+  <div class="mk-tabs" id="mkTabs"></div>
+</header>
+
+<main class="mk-main">
+  <div class="mk-bar">
+    <span class="mk-bar-lab" id="mkProgress"></span>
+    <span style="flex:1"></span>
+    <button class="mk-btn pri" id="mkGrade">■ 採点する</button>
+    <button class="mk-btn" id="mkToggle" hidden>正誤を隠す</button>
+    <button class="mk-btn danger" id="mkClear">このブロックを消去</button>
+  </div>
+  <div class="mk-grid" id="mkGrid"></div>
+  <div class="mk-res" id="mkRes"></div>
+</main>
+
+<div class="mk-pad" id="mkPad" hidden>
+  <div class="mk-pad-in">
+    <div class="mk-pad-head">
+      <b id="mkPadNo">—</b>
+      <span id="mkPadHint"></span>
+      <span class="th" id="mkPadTheme"></span>
+    </div>
+    <div class="mk-keys" id="mkKeys"></div>
+  </div>
+</div>
+
+<script>
+/* 模試 自己採点ツール（UI）。
+   採点の式は1つも持たない ── すべて mock.js（window.MecMock）に置く。
+   ここがやるのは「入力を受ける・結果を描く」だけ。 */
+(function () {
+  'use strict';
+
+  var M = window.MecMock;
+  var INDEX = window.MecMockIndex || [];
+  var examId = null, data = null, curBlock = 'A', curKey = null;
+  var showGrade = false;          // 一括採点なので、既定では正誤を出さない
+  var qmap = {};                  // "A10" -> question
+
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  };
+
+  // ── データ読み込み ────────────────────────────────────────
+  // 模試データは重い（1本80KB超）ので、選ばれたものだけを後から読む。
+  function loadExam(id, cb) {
+    var meta = INDEX.filter(function (x) { return x.id === id; })[0];
+    if (!meta) return;
+    if (window.MecMockData && window.MecMockData[id]) return cb(meta);
+    var s = document.createElement('script');
+    s.src = meta.file;
+    s.onload = function () { cb(meta); };
+    s.onerror = function () {
+      $('mkSubtitle').textContent = 'データを読み込めませんでした: ' + meta.file;
+    };
+    document.head.appendChild(s);
+  }
+
+  function boot() {
+    if (!INDEX.length) { $('mkSubtitle').textContent = '模試データがありません'; return; }
+    var sel = $('mkExam');
+    sel.innerHTML = INDEX.map(function (x) {
+      return '<option value="' + esc(x.id) + '">' + esc(x.name) + '</option>';
+    }).join('');
+    sel.onchange = function () { open(sel.value); };
+    open(INDEX[0].id);
+  }
+
+  function open(id) {
+    loadExam(id, function (meta) {
+      examId = id;
+      data = window.MecMockData[id];
+      qmap = {};
+      data.questions.forEach(function (q) { qmap[M.qkey(q)] = q; });
+      showGrade = M.gradedAt(examId) > 0;
+      curBlock = meta.blocks[0];
+      curKey = null;
+      $('mkSubtitle').textContent = meta.name + '　全' + data.questions.length + '問／' +
+        Object.keys(data.blocks).reduce(function (a, b) { return a + data.blocks[b].total; }, 0) + '点';
+      renderTabs(meta);
+      renderGrid();
+      renderResult();
+    });
+  }
+
+  // ── ブロックタブ ─────────────────────────────────────────
+  function renderTabs(meta) {
+    var ans = M.getAnswers(examId);
+    $('mkTabs').innerHTML = (meta || INDEX.filter(function (x) { return x.id === examId; })[0]).blocks.map(function (b) {
+      var bl = data.blocks[b];
+      var n = 0;
+      for (var k in ans) if (k.charAt(0) === b) n++;
+      var cls = 'mk-tab' + (b === curBlock ? ' on' : '') + (bl.hisshu ? ' hisshu' : '') +
+        (n === bl.count ? ' done' : '');
+      return '<button class="' + cls + '" data-b="' + b + '">' + b + (bl.hisshu ? ' 必修' : '') +
+        '<span class="tb-n">' + n + '/' + bl.count + '</span></button>';
+    }).join('');
+    Array.prototype.forEach.call($('mkTabs').children, function (el) {
+      el.onclick = function () { curBlock = el.dataset.b; curKey = null; renderTabs(); renderGrid(); };
+    });
+  }
+
+  // ── 入力グリッド ─────────────────────────────────────────
+  function cellHtml(q, ans) {
+    var k = M.qkey(q), picked = ans[k] || '';
+    var tags = '';
+    if (q.type === 'calc') tags += '<span class="c-tag calc">' + q.digits + '桁</span>';
+    else if (q.pick > 1) tags += '<span class="c-tag multi">' + q.pick + 'つ</span>';
+    if (q.series) tags += '<span class="c-tag ren">連</span>';
+    var cls = 'mk-cell' + (k === curKey ? ' cur' : '');
+    var right = '';
+    if (showGrade) {
+      var r = M.judge(q, picked);
+      cls += ' g-' + r.state + (r.taboo ? ' g-taboo' : '');
+      // 誤答・未解答のときだけ正解を出す。正解した問題に正解を並べても読むものが増えるだけ
+      if (r.state !== 'correct') {
+        right = '<span class="c-ans">→ ' + esc(q.type === 'calc' ? q.ans[0] : q.ans.join('')) +
+          (r.taboo ? ' 禁' : '') + '</span>';
+      }
+      if (q.taboo && !r.taboo && r.state !== 'blank') tags += '<span class="c-tag kin">禁</span>';
+    }
+    // ⚠️ 採点前は禁忌肢問題であることを出さない。「この問題は禁忌肢がある」と分かると
+    //    転記そのものが揺れる（自分が何を選んだかの記憶に影響する）。
+    return '<button class="' + cls + '" data-k="' + k + '">' +
+      '<span class="c-no">' + q.block + q.no + tags + '</span>' +
+      '<span class="c-pick' + (picked ? '' : ' empty') + '">' + esc(picked || '—') + '</span>' +
+      right + '</button>';
+  }
+
+  function renderGrid() {
+    var ans = M.getAnswers(examId);
+    var qs = data.questions.filter(function (q) { return q.block === curBlock; });
+    $('mkGrid').innerHTML = qs.map(function (q) { return cellHtml(q, ans); }).join('');
+    Array.prototype.forEach.call($('mkGrid').children, function (el) {
+      el.onclick = function () { focusKey(el.dataset.k); };
+    });
+    var n = qs.filter(function (q) { return ans[M.qkey(q)]; }).length;
+    $('mkProgress').textContent = curBlock + '問題　' + n + ' / ' + qs.length + ' 問 入力済み';
+    $('mkToggle').hidden = !M.gradedAt(examId);
+    $('mkToggle').textContent = showGrade ? '正誤を隠す' : '正誤を表示';
+    if (!curKey || qmap[curKey].block !== curBlock) focusKey(M.qkey(qs[0]), true);
+    else renderPad();
+  }
+
+  function focusKey(k, quiet) {
+    curKey = k;
+    Array.prototype.forEach.call($('mkGrid').children, function (el) {
+      el.classList.toggle('cur', el.dataset.k === k);
+    });
+    if (!quiet) {
+      var el = $('mkGrid').querySelector('[data-k="' + k + '"]');
+      if (el) el.scrollIntoView({ block: 'nearest' });
+    }
+    renderPad();
+  }
+
+  // ── 入力パッド ───────────────────────────────────────────
+  function renderPad() {
+    var q = qmap[curKey];
+    if (!q) { $('mkPad').hidden = true; return; }
+    $('mkPad').hidden = false;
+    var picked = M.getAnswers(examId)[curKey] || '';
+    $('mkPadNo').textContent = q.block + '問題 ' + q.no;
+    $('mkPadHint').textContent = q.type === 'calc'
+      ? '計算（' + q.digits + '桁）'
+      : (q.pick > 1 ? q.pick + 'つ選べ' : '1つ選べ');
+    // 出題テーマは採点後だけ出す。未採点で見せると答えの手がかりになる
+    $('mkPadTheme').textContent = showGrade ? (q.cat1 + '／' + q.cat2 + '　' + q.theme) : '';
+
+    var keys = [];
+    if (q.type === 'calc') {
+      for (var d = 0; d <= 9; d++) {
+        keys.push('<button class="mk-key" data-d="' + d + '">' + d + '</button>');
+      }
+    } else {
+      'abcde'.split('').forEach(function (c, i) {
+        keys.push('<button class="mk-key' + (picked.indexOf(c) >= 0 ? ' on' : '') +
+          '" data-c="' + c + '">' + c + '<i>' + (i + 1) + '</i></button>');
+      });
+    }
+    keys.push('<button class="mk-key util" data-act="del">⌫</button>');
+    keys.push('<button class="mk-key util" data-act="prev">◀</button>');
+    keys.push('<button class="mk-key util" data-act="next">▶</button>');
+    $('mkKeys').innerHTML = keys.join('');
+    Array.prototype.forEach.call($('mkKeys').children, function (el) {
+      el.onclick = function () {
+        if (el.dataset.c) toggleChoice(el.dataset.c);
+        else if (el.dataset.d) pushDigit(el.dataset.d);
+        else if (el.dataset.act === 'del') clearCur();
+        else move(el.dataset.act === 'next' ? 1 : -1);
+      };
+    });
+  }
+
+  function refreshCell(k) {
+    var el = $('mkGrid').querySelector('[data-k="' + k + '"]');
+    if (!el) return;
+    var tmp = document.createElement('div');
+    tmp.innerHTML = cellHtml(qmap[k], M.getAnswers(examId));
+    var fresh = tmp.firstChild;
+    fresh.onclick = function () { focusKey(k); };
+    el.replaceWith(fresh);
+  }
+
+  function afterEdit(k, autoNext) {
+    refreshCell(k);
+    renderPad();
+    renderTabs();
+    var ans = M.getAnswers(examId);
+    var qs = data.questions.filter(function (q) { return q.block === curBlock; });
+    $('mkProgress').textContent = curBlock + '問題　' +
+      qs.filter(function (q) { return ans[M.qkey(q)]; }).length + ' / ' + qs.length + ' 問 入力済み';
+    if (showGrade) renderResult();
+    if (autoNext) move(1);
+  }
+
+  // ⚠️ 自動で次へ送る条件に「正解の数」を使わないこと。使ってよいのは q.pick
+  //    （設問文の「Nつ選べ」）だけで、これは受験者が問題冊子で見ている情報。
+  //    正解数を使うと、入力しただけで正解の個数が漏れる。
+  function toggleChoice(c) {
+    var q = qmap[curKey], cur = M.getAnswers(examId)[curKey] || '';
+    var next = cur.indexOf(c) >= 0 ? cur.replace(c, '') : cur + c;
+    var p = M.setAnswer(examId, curKey, next);
+    afterEdit(curKey, p.length === q.pick && p.length > 0);
+  }
+  function pushDigit(d) {
+    var q = qmap[curKey], cur = M.getAnswers(examId)[curKey] || '';
+    var next = cur.length >= q.digits ? d : cur + d;   // 埋まっていたら打ち直し
+    var p = M.setAnswer(examId, curKey, next);
+    afterEdit(curKey, p.length === q.digits);
+  }
+  function clearCur() { M.setAnswer(examId, curKey, ''); afterEdit(curKey, false); }
+
+  function move(dir) {
+    var qs = data.questions.filter(function (q) { return q.block === curBlock; });
+    var i = qs.map(M.qkey).indexOf(curKey);
+    if (i < 0) return;
+    var j = i + dir;
+    if (j < 0 || j >= qs.length) return;
+    focusKey(M.qkey(qs[j]));
+  }
+
+  // ── キーボード ───────────────────────────────────────────
+  document.addEventListener('keydown', function (e) {
+    if (!data || !curKey) return;
+    if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var q = qmap[curKey], k = e.key;
+    if (q.type === 'calc' && /^[0-9]$/.test(k)) { pushDigit(k); e.preventDefault(); return; }
+    if (q.type !== 'calc' && /^[1-5]$/.test(k)) { toggleChoice('abcde'.charAt(+k - 1)); e.preventDefault(); return; }
+    if (q.type !== 'calc' && /^[a-eA-E]$/.test(k)) { toggleChoice(k.toLowerCase()); e.preventDefault(); return; }
+    if (k === 'Enter' || k === ' ' || k === 'ArrowRight') { move(1); e.preventDefault(); return; }
+    if (k === 'ArrowLeft') { move(-1); e.preventDefault(); return; }
+    if (k === 'Backspace' || k === 'Delete') { clearCur(); e.preventDefault(); return; }
+    if (k === 'ArrowDown' || k === 'ArrowUp') {
+      // グリッドの列数は画面幅で変わるので、実際の描画位置から求める
+      var cells = Array.prototype.slice.call($('mkGrid').children);
+      var top = cells[0].offsetTop, cols = cells.filter(function (c) { return c.offsetTop === top; }).length || 1;
+      var i = cells.map(function (c) { return c.dataset.k; }).indexOf(curKey);
+      var j = i + (k === 'ArrowDown' ? cols : -cols);
+      if (j >= 0 && j < cells.length) focusKey(cells[j].dataset.k);
+      e.preventDefault();
+    }
+  });
+
+  // ── 採点 ────────────────────────────────────────────────
+  $('mkGrade').onclick = function () {
+    M.markGraded(examId);
+    showGrade = true;
+    renderGrid(); renderResult();
+    $('mkRes').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  $('mkToggle').onclick = function () { showGrade = !showGrade; renderGrid(); renderResult(); };
+  $('mkClear').onclick = function () {
+    if (!window.confirm(curBlock + '問題の入力をすべて消します。よろしいですか？')) return;
+    M.clearBlock(examId, curBlock);
+    renderTabs(); renderGrid(); renderResult();
+  };
+
+  function pctBar(pct, good) {
+    var cls = pct >= (good || 80) ? 'hi' : (pct < 50 ? 'lo' : '');
+    return '<span class="mk-bar2"><span class="' + cls + '" style="width:' + Math.min(100, pct) + '%"></span></span>';
+  }
+
+  function renderResult() {
+    var host = $('mkRes');
+    if (!showGrade || !M.gradedAt(examId)) { host.innerHTML = ''; return; }
+    var s = M.score(examId);
+    if (!s.live.length) {
+      host.innerHTML = '<div class="mk-card"><div class="mk-note">まだ1問も入力されていません。</div></div>';
+      return;
+    }
+    var meta = INDEX.filter(function (x) { return x.id === examId; })[0];
+    var notLive = meta.blocks.filter(function (b) { return s.live.indexOf(b) < 0; });
+    var out = [];
+
+    // 総得点
+    var border = M.border(examId);
+    out.push('<div class="mk-card"><h3>総得点</h3><div class="mk-big">' +
+      '<span class="n">' + s.total.pts + '</span><span class="d">/ ' + s.total.max + ' 点</span>' +
+      '<span class="p">' + s.total.pct + '%</span></div>' +
+      '<div class="mk-sub">入力済み ' + s.live.join('・') + ' ブロック（' + s.answered + ' / ' + s.count + ' 問）' +
+      (notLive.length ? '　※ ' + notLive.join('・') + ' は未入力なので満点に含めていません' : '') + '</div>' +
+      '<div class="mk-judge">' + judgePills(s, border) + '</div>' +
+      '<div class="mk-sub" style="margin-top:8px">一般・臨床のボーダー（任意）: ' +
+      '<input class="mk-num" id="mkBorder" type="number" min="0" value="' + (border == null ? '' : border) + '" placeholder="未設定"> 点' +
+      '　<span class="mk-note">模試の推定ボーダーが出たら入れる。必修80%と禁忌肢4問は制度の値なので固定。</span></div>' +
+      '</div>');
+
+    // ブロック別
+    var rows = s.live.map(function (b) {
+      var x = s.blocks[b], pct = Math.round(x.pts / x.max * 1000) / 10;
+      return '<tr><td>' + b + (x.hisshu ? ' <span class="c-tag kin">必修</span>' : '') + '</td>' +
+        '<td>' + x.pts + ' / ' + x.max + '</td><td>' + pct + '%</td>' +
+        '<td>' + x.ippan.pts + ' / ' + x.ippan.max + '</td>' +
+        '<td>' + x.rinsho.pts + ' / ' + x.rinsho.max + '</td>' +
+        '<td>' + x.correct + '</td><td>' + x.wrong + '</td><td>' + x.blank + '</td>' +
+        '<td style="width:70px">' + pctBar(pct) + '</td></tr>';
+    }).join('');
+    out.push('<div class="mk-card"><h3>ブロック別</h3><div class="mk-scroll"><table class="mk-t">' +
+      '<tr><th>ブロック</th><th>得点</th><th>率</th><th>一般</th><th>臨床</th><th>正</th><th>誤</th><th>未</th><th></th></tr>' +
+      rows + '<tr class="tot"><td>合計</td><td>' + s.total.pts + ' / ' + s.total.max + '</td><td>' +
+      s.total.pct + '%</td><td colspan="6"></td></tr></table></div></div>');
+
+    // 科目別
+    var subj = M.bySubject(examId);
+    out.push('<div class="mk-card"><h3>科目別（低い順）</h3><div class="mk-scroll"><table class="mk-t">' +
+      '<tr><th>科目</th><th>得点</th><th>率</th><th>問</th><th>誤</th><th>未</th><th></th></tr>' +
+      subj.map(function (m) {
+        return '<tr><td>' + esc(m.cat1) + ' ' + esc(m.cat2) + '</td><td>' + m.pts + ' / ' + m.max + '</td>' +
+          '<td>' + m.pct + '%</td><td>' + m.n + '</td><td>' + m.wrong + '</td><td>' + m.blank + '</td>' +
+          '<td style="width:70px">' + pctBar(m.pct) + '</td></tr>';
+      }).join('') + '</table></div></div>');
+
+    // 落とした問題
+    var miss = s.rows.filter(function (r) { return s.blocks[r.q.block].entered && r.r.state !== 'correct'; });
+    out.push('<div class="mk-card"><h3>落とした問題（' + miss.length + '問）</h3><div class="mk-miss">' +
+      miss.map(function (r) {
+        return '<div class="row' + (r.r.taboo ? ' kin' : '') + '">' +
+          '<span class="k">' + r.key + '</span>' +
+          '<span class="yours">' + esc(r.r.picked || '未') + '</span>' +
+          '<span class="right">' + esc(r.q.type === 'calc' ? r.q.ans[0] : r.q.ans.join('')) + '</span>' +
+          (r.r.taboo ? '<span class="c-tag kin">禁忌肢</span>' : '') +
+          '<span class="th">' + esc(r.q.cat2) + '｜' + esc(r.q.theme) + '</span></div>';
+      }).join('') + '</div></div>');
+
+    // 書き出し
+    out.push('<div class="mk-card"><h3>書き出し</h3>' +
+      '<div class="mk-bar"><button class="mk-btn" id="mkExpMd">Markdown（AI相談用）</button>' +
+      '<button class="mk-btn" id="mkExpJson">JSON（解説HTML用の重み）</button>' +
+      '<button class="mk-btn" id="mkCopy">コピー</button></div>' +
+      '<textarea class="mk-out" id="mkOut" readonly placeholder="上のボタンで書き出します"></textarea>' +
+      '<div class="mk-note" style="margin-top:6px">JSON は <b>解説の重さ</b>（0=正解 / 1=誤答 / 2=未解答 / 3=禁忌肢）を uid ごとに持ちます。今後つくる解説HTMLはこれを読んで厚さを決めます。</div></div>');
+
+    host.innerHTML = out.join('');
+    bindResult(s);
+  }
+
+  function judgePills(s, border) {
+    var p = [];
+    if (s.hisshu.max) {
+      p.push('<span class="mk-pill ' + (s.hisshu.pass ? 'ok' : 'ng') + '">必修 ' + s.hisshu.pts + '/' +
+        s.hisshu.max + '（' + s.hisshu.pct + '%）' + (s.hisshu.pass ? '✔ 80%以上' : '✘ 80%未満') + '</span>');
+    } else {
+      p.push('<span class="mk-pill na">必修（B・E）未入力</span>');
+    }
+    p.push('<span class="mk-pill ' + (s.taboo.pass ? 'ok' : 'ng') + '">禁忌肢 ' + s.taboo.count + ' / ' +
+      s.taboo.of + '問中　' + (s.taboo.pass ? '✔ 3問以下' : '✘ 4問以上') + '</span>');
+    if (s.ippan.max) {
+      var lab = '一般・臨床 ' + s.ippan.pts + '/' + s.ippan.max + '（' + s.ippan.pct + '%）';
+      p.push(border == null
+        ? '<span class="mk-pill na">' + lab + '　ボーダー未設定</span>'
+        : '<span class="mk-pill ' + (s.ippan.pts >= border ? 'ok' : 'ng') + '">' + lab +
+          '　' + (s.ippan.pts >= border ? '✔' : '✘') + ' ボーダー' + border + '点</span>');
+    }
+    return p.join('');
+  }
+
+  function bindResult(s) {
+    var bd = $('mkBorder');
+    if (bd) bd.onchange = function () { M.border(examId, bd.value); renderResult(); };
+    var out = $('mkOut');
+    $('mkExpMd').onclick = function () { out.value = toMarkdown(s); out.select(); };
+    $('mkExpJson').onclick = function () { out.value = JSON.stringify(M.weights(examId), null, 1); };
+    $('mkCopy').onclick = function () {
+      if (!out.value) return;
+      out.select();
+      if (navigator.clipboard) navigator.clipboard.writeText(out.value);
+      else document.execCommand('copy');
+      $('mkCopy').textContent = 'コピーしました';
+      setTimeout(function () { $('mkCopy').textContent = 'コピー'; }, 1400);
+    };
+  }
+
+  function toMarkdown(s) {
+    var meta = INDEX.filter(function (x) { return x.id === examId; })[0];
+    var L = ['# ' + meta.name + ' 自己採点', ''];
+    L.push('- 総得点: **' + s.total.pts + ' / ' + s.total.max + '（' + s.total.pct + '%）**　入力ブロック: ' + s.live.join('・'));
+    if (s.hisshu.max) L.push('- 必修: ' + s.hisshu.pts + ' / ' + s.hisshu.max + '（' + s.hisshu.pct + '%）' + (s.hisshu.pass ? ' 合格基準クリア' : ' **80%未満**'));
+    L.push('- 一般・臨床: ' + s.ippan.pts + ' / ' + s.ippan.max + (s.ippan.pct == null ? '' : '（' + s.ippan.pct + '%）'));
+    L.push('- 禁忌肢: ' + s.taboo.count + ' / ' + s.taboo.of + ' 問中' + (s.taboo.pass ? '' : ' **4問以上＝不合格基準**'));
+    L.push('', '## 科目別', '', '| 科目 | 得点 | 率 | 問数 | 誤 | 未 |', '|---|---|---|---|---|---|');
+    M.bySubject(examId).forEach(function (m) {
+      L.push('| ' + m.cat1 + ' ' + m.cat2 + ' | ' + m.pts + '/' + m.max + ' | ' + m.pct + '% | ' + m.n + ' | ' + m.wrong + ' | ' + m.blank + ' |');
+    });
+    L.push('', '## 落とした問題', '', '| 問 | 自分 | 正解 | 科目 | 出題テーマ |', '|---|---|---|---|---|');
+    s.rows.filter(function (r) { return s.blocks[r.q.block].entered && r.r.state !== 'correct'; })
+      .forEach(function (r) {
+        L.push('| ' + r.key + ' | ' + (r.r.picked || '未') + ' | ' +
+          (r.q.type === 'calc' ? r.q.ans[0] : r.q.ans.join('')) + ' | ' + r.q.cat1 + ' ' + r.q.cat2 +
+          ' | ' + r.q.theme + (r.r.taboo ? '（禁忌肢）' : '') + ' |');
+      });
+    // 問題文・解説そのものは書き出さない（MEC教材の著作物・stats.html の方針と同じ）
+    return L.join('\n');
+  }
+
+  boot();
+})();
+</script>
+</body>
+</html>

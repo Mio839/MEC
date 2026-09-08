@@ -17,6 +17,11 @@
   const K_ATT = 'mec_attempts_v1';  // 解答イベントログ（attempts.js が追記・追記専用でunionマージ）
   const ATT_CAP = 5000;             // attempts.js の CAP と一致させること（2026-08-06に2000から引き上げ）
   const K_MISSIONS = 'mec_missions_v1'; // 日次/週次ミッション進捗（端末別G-counter・同一(期間,端末,カウンタ)はmax）＋達成ボーナスXP台帳
+  // 模試の自己採点（mock.js / mock.html）。{ examId: { cur, rounds:{ rN:{started,graded,ans:{"A10":{p,t}}} }, border } }。
+  // ⚠️ 保存されているのは「何を選んだか」だけで正誤は入っていない（正誤は mock.js が解答表と
+  //    突き合わせて毎回計算する）。したがってここで解決すべきは1問ぶんの解答の衝突だけで、
+  //    1件ごとに時刻 t を持たせてある＝per-entry の last-writer-wins が使える。
+  const K_MOCK = 'mec_mock_v1';
   // 容量超過の発火回数。2026-09-01 に IndexedDB 化を検討した際、「本当に枯渇しているのか」を
   // 事実で確かめるために入れた。実測は iPad で 24.6%(1261KB/5MB)・発火0回で、
   // 容量は当面の問題ではないと結論した（計測用の storage_perf.html はそこで役目を終えて削除）。
@@ -284,7 +289,7 @@
     }
 
     const payload = {};
-    [KD, KF, KA, KR, KT, KDT, KFT, K_SRS, 'mec_choice_v1', K_GAMIFY, K_MISSIONS].forEach(k => { try { payload[k] = JSON.parse(localStorage.getItem(k) || '{}'); } catch { payload[k] = {}; } });
+    [KD, KF, KA, KR, KT, KDT, KFT, K_SRS, 'mec_choice_v1', K_GAMIFY, K_MISSIONS, K_MOCK].forEach(k => { try { payload[k] = JSON.parse(localStorage.getItem(k) || '{}'); } catch { payload[k] = {}; } });
     try { payload[KE] = JSON.parse(localStorage.getItem(KE) || '[]'); } catch { payload[KE] = []; }
     try { payload[KRT] = JSON.parse(localStorage.getItem(KRT) || '[]'); } catch { payload[KRT] = []; }
     try { payload[KRK] = JSON.parse(localStorage.getItem(KRK) || '{}'); } catch { payload[KRK] = {}; }
@@ -509,6 +514,41 @@
         delete mmi.xp.ledger[k];
       });
       lsRaw(K_MISSIONS, mmi);
+    }
+    // mock: 模試の自己採点。解決の単位は「模試 → 周回 → 1問」で、1問ごとに時刻 t を持つので
+    // per-entry の last-writer-wins。周回(rounds)は id キーの object なので union でよい
+    // （配列だと2端末が同時に1周ぶん足したとき index が衝突して片方が消える）。
+    // ⚠️ border（一般・臨床のボーダー）は数値スカラなので衝突を解けない。ローカルを優先し、
+    //    ローカルが未設定のときだけリモートを採る＝自分で入れた値が同期で消えないようにする。
+    const rmk = remote[K_MOCK];
+    if (rmk && typeof rmk === 'object' && Object.keys(rmk).length) {
+      const lmk = lsGet(K_MOCK);
+      const mmk = { ...lmk };
+      Object.keys(rmk).forEach(ex => {
+        const r2 = rmk[ex] || {}, l = mmk[ex];
+        if (!l) { mmk[ex] = r2; return; }
+        const rounds = { ...(l.rounds || {}) };
+        Object.keys(r2.rounds || {}).forEach(rid => {
+          const rr = r2.rounds[rid] || {}, lr = rounds[rid];
+          if (!lr) { rounds[rid] = rr; return; }
+          const ans = { ...(lr.ans || {}) };
+          Object.keys(rr.ans || {}).forEach(k => {
+            const a = ans[k], b = rr.ans[k];
+            if (!a || (b && (b.t || 0) > (a.t || 0))) ans[k] = b;
+          });
+          rounds[rid] = {
+            started: Math.min(lr.started || Date.now(), rr.started || Date.now()),
+            graded: Math.max(lr.graded || 0, rr.graded || 0),
+            ans
+          };
+        });
+        mmk[ex] = {
+          cur: l.cur || r2.cur,
+          rounds,
+          border: (l.border == null ? (r2.border == null ? null : r2.border) : l.border)
+        };
+      });
+      lsRaw(K_MOCK, mmk);
     }
     // attempts: 解答イベントログ（attempts.js の mec_attempts_v1）。1件=パイプ区切り1文字列で
     // "uid|t|c|o|s|m|sess|n"。端末ごとに追記されるだけで書き換わらないため、sess+n を一意キーに

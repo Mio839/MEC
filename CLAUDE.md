@@ -24,6 +24,7 @@
 | `qmeta.json` | 設問メタ（全科目1ファイル・`_work/build_qmeta.py`が生成する**派生物**）。設問形式(診断/検査/治療/対応/知識)・否定形・複数選択・画像・症例・計算・採点除外を自動分類。stats.htmlの弱点カルテが使う。**questions_*.json は一切変更しない**（pdf_audit.pyの監査対象を汚さないため） |
 | `stats.html` | 学習統計ページ（30日チャート・SRS統計・AI相談Markdownエクスポート） |
 | `knowledge.html` | 検索知識ノート機能 |
+| `mock.html` / `mock.js` / `mock_data/` | **模試の自己採点**（2026-09-08新設）。`mock.js`＝採点エンジン（`window.MecMock`・UIは式を1つも持たない）／`mock_data/index.js`＝模試レジストリ／`mock_data/{id}.js`＝解答表（**派生物**・`_work/build_mock_m121s.py` が解説書PDFから生成）。記録は `mec_mock_v1`（Gist同期対象）。⚠️ **模試を1つ足す作業＝`mock_data/` にファイルを1つ書いて index.js に1行足すだけ**（エンジンは触らない・`sw.js` の SHELL への追記は必要）。⚠️ 下記「模試の自己採点」の不変条件を読んでから触ること |
 | `mindmap.html` / `mindmap.js` / `mindmap.css` | 疾患マインドマップ。**1枚のページで科目マップ（`?sid=hema`）とハブ（引数なし＝全科目）の両方を描く**。2026-08-21に、9科目ぶんの自前エンジンを内蔵した `{科目}/mindmap.html` ＋ `mindmap_integrated.html` から移行した（旧ファイルは `_archive/mindmap_src/`・旧URLにはリダイレクトstubを置いてある）。⚠️ 下記「疾患マインドマップ」の不変条件を読んでから触ること |
 | `mindmap_data/` | マインドマップのデータ。`index.js`（科目レジストリ22件＝**マップがあるのは `ready:true` の21件で、公衆衛生 `ph` だけ `ready:false`**・`gamify.js` の SUBJECTS から `_work/build_mindmap_index.js` が生成する**派生物**）／`{sid}.js`（科目1件ぶんの章・疾患・関連）／`_hub.js`（ハブの代表疾患。科目データの射影**ではなく**独立にキュレーションされたもの）。**新科目のマップを足す作業＝ここにファイルを1つ書くこと**（エンジンは触らない） |
 | `calc_input.js` | 計算問題の桁入力エンジン（`window.MecCalc`）。原文がマークシートの計算問題50問（科目33＋過去問17）は選択肢を持たないため試験モードで解答不能だった。正解は `.ac`（ans_label）の `計算答：<桁文字列>` が正本。**study.html と 国家試験過去問/*.html の両方が読む共有ファイル**（演出テーマのようなミラー乖離を作らないため）。CSSは自前で注入する |
@@ -97,6 +98,7 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
 - `studytime_v1` — YYYY-MM-DD → 学習分数
 - `mec_srs_v1` — SRS復習スケジュール ／ `mec_exam_resumes_v1` — 試験中断の再開データ ／ `mec_ch_exam_v1` — 章別試験履歴
 - `mec_attempts_v1` — 解答イベントログ（attempts.js）。`"uid|t|c|o|s|m|sess|n"` の文字列配列・上限5000件。追記専用なので同期は`sess+n`をキーにしたunion＋時刻昇順ソート＋上限切り詰め
+- `mec_mock_v1` — 模試の自己採点（mock.js）。`{examId:{cur,rounds:{rN:{started,graded,ans:{"A10":{p,t}}}},border}}`。**保存されるのは「何を選んだか」だけで正誤は入っていない**（正誤は解答表と突き合わせて毎回計算する）。マージは1問ごとの last-writer-wins（各エントリが時刻 `t` を持つ）
 - `error_reports_v1` — 問題エラー報告 ／ `mec_err_cleared_at` — 一括消去のタイムスタンプ
 - `mec_gist_token` — GitHub PAT（gistスコープ）／ `mec_gist_id` — Gist ID ／ `mec_last_sync_v1` — 最終同期時刻
 - UIローカル設定（非同期）: `mec_subjects_v1`（選択科目）/`mec_filter_v1`/`mec_state_v1`/`mec_correct_sound_v1`/`mec_select_sound_v1`/`mec_boot_sound_v1` 等
@@ -839,6 +841,82 @@ stats.html「🩺 弱点カルテ」     ← 科目×設問形式ヒートマッ
 - テスト: `node _work/test_attempts.js`（ログ）・`node _work/test_karte.js`（集計）・
   `node _work/test_merge_remote.js`（同期マージ）。いずれも実ソースを読み込むのでロジックの二重管理は無い。
 
+## 模試の自己採点（2026-09-08〜）
+
+`mock.html` ＋ `mock.js` ＋ `mock_data/`。解説書PDFから起こした解答表を持ち、マークシートから
+解答を転記して**一括採点**する。テスト: `node _work/test_mock_score.js`（41件）＋
+`_work/test_mock_browser.html`（実ブラウザで26件・下記）。
+章ごとの作業ノート・PDFの座標・解説HTML化の入口は **`_work/夏メック模試_引き継ぎ.md` が正本**。
+
+現在入っているのは **第121回 夏メック模試（`m121s`・A〜F 400問500点・禁忌肢17問・計算3問・連問20群）**。
+
+### ⚠️ 正誤を保存しないこと
+
+保存するのは **「何を選んだか」（`p`）だけ**で、正誤も得点も `mec_mock_v1` に入れない。
+正誤は `mock.js` の `judge()` が解答表と突き合わせて毎回計算する。
+
+- 狙いは**正誤の式がソースの1か所にしか無い状態を保つこと**。解答表を直せば過去の記録も
+  自動で正しくなる＝記録が黙って古いままにならない。
+- 同期のマージも軽くなる（解くべき衝突が「1問ぶんの解答」だけになる）。
+- ⚠️ 「速いから」「集計が楽だから」と正誤や得点を書き戻さないこと。
+
+### ⚠️ 自動送りの条件に「正解の数」を使わないこと
+
+肢を選ぶと自動で次の問題へ送るが、その条件に使ってよいのは **`q.pick`＝設問文の「Nつ選べ」**
+だけ。**正解数（`q.ans.length`）を使うと、入力しただけで正解の個数が漏れる**。
+`pick` は受験者が問題冊子で見ている情報なので漏洩にならない。
+
+- ⚠️ `pick` と `ans.length` は実データで全400問一致しているので、うっかり `ans.length` に
+  差し替えても**動作は変わらず気づけない**。だからここに書いてある。
+- 同じ理由で、**採点前は禁忌肢問題であることも出題テーマも出さない**（転記の記憶が揺れる）。
+
+### ⚠️ 未入力ブロックは満点にも母数にも入れない
+
+`score()` は**解答が1問でも入っているブロックだけ**を合計する。A〜Cしか解いていない日でも
+意味のある数字が出るのがこの設計の目的で、必修の母数も B だけなら100点満点になる。
+
+- ⚠️ 逆に言うと「1問も入れていないブロックは満点が減る」ので、**表示側は入力済みブロックを
+  必ず明示すること**（`mock.html` は総得点の直下に出している）。
+
+### ⚠️ 合否の基準は「制度の値」だけを既定値にする
+
+必修80%・禁忌肢4問で不合格は制度の値なので `mock.js` に定数で持つ。
+**一般・臨床のボーダーは持たない**（模試の推定ボーダーは配点表に載っていない）＝
+ユーザーが `border()` に入れたときだけ判定する。⚠️ 推測値を既定にしないこと。
+
+### ⚠️ 設問の図は解説書PDFに入っている（別冊は要らない）
+
+「別冊No.○を別に示す」と書かれていても、**解説書PDFでは設問文のすぐ後にその図が挿入されている**
+（2026-09-08にユーザーが指摘・実測で確認）。**画像問題の図は別冊を待たずにPDFから抽出でき、
+今後つくる解説HTMLではそうすること。** 対象は122問・131種で、在りかは各設問の `pdf[0]`
+（連問はグループ先頭ページ）。⚠️ 4問だけベクター描画なので `get_images()` では取れない。
+詳細と罠は `_work/夏メック模試_引き継ぎ.md` §3-3。
+
+### 解説の重さ ＝ `MecMock.weights()` が唯一の出口
+
+今後つくる解説HTMLはこれだけを読む（0=正解 / 1=誤答 / 2=未解答 / 3=禁忌肢を踏んだ）。
+⚠️ **段を増やすときは `weights()` とそのコメント表の両方を直し、HTML 側に閾値を書かないこと。**
+
+### ⚠️ データは3つの独立な検算を通っている
+
+`_work/build_mock_m121s.py` は解説書PDFの独立した3か所を突き合わせる:
+① 配点区分の合計＝解答表下の記載 ② 解答表の禁の印＝科目別一覧表の禁忌列（17問で一致）
+③ 設問文の「Nつ選べ」＝正解の個数（400問で一致）。
+**この一致は「読み取りが壊れていない」ことの証明**なので、通らなくなったら黙って通さず落とす。
+`test_mock_score.js` の §1〜§3 が生成物の側からも同じことを見張る。
+
+### ⚠️ UIの検査は実ブラウザで回す
+
+`_work/test_mock_browser.html` は mock.html を iframe で読み込み、**キーボード入力から採点・
+書き出しまで実際に操作する**。node の DOM シムだと「シムが通るだけ」になるのでここは本物を使う。
+
+```bash
+python -m http.server 8765 --bind 127.0.0.1 &
+chrome --headless=new --disable-gpu --virtual-time-budget=15000   --dump-dom "http://127.0.0.1:8765/_work/test_mock_browser.html"   # <title> が ALLPASS
+```
+
+⚠️ `file://` では動かない（相対 script が落ちる）。必ず http で開くこと。
+
 ## 疾患マインドマップ（2026-08-21 段A：1エンジン＋データ分離／2026-08-22 段C：全21科目のデータが揃った）
 
 設計の正本は `_work/マインドマップ_設計.md`。テスト: `node _work/test_mindmap_layout.js`（248件）。
@@ -978,6 +1056,7 @@ node _work/test_exam_brasswork.js  筐体の外へ広げた真鍮細工      (36
 node _work/test_mindmap_layout.js  マインドマップのレイアウト/データ (248)
 node _work/test_sounds.js          効果音の一覧・音量・ランダム起動音  (28)
 node _work/test_ui_theme.js        UIテーマ全8種（.qc への干渉・ネタバレ防止）(14)
+node _work/test_mock_score.js      模試の自己採点（データ検算・採点・同期）(41)
 node _work/test_body_containing_block.js  body/html を position:fixed の包含ブロックにしない
 node _work/test_glitch_bars.js     グリッチ帯の引数形・可視帯・幅（実ソースを回す）(14)
 node _work/test_theme_correct_fx.js  UIテーマ8種の正解演出・study/chapter の同期
