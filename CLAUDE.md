@@ -25,6 +25,7 @@
 | `stats.html` | 学習統計ページ（30日チャート・SRS統計・AI相談Markdownエクスポート） |
 | `knowledge.html` | 検索知識ノート機能 |
 | `mock.html` / `mock.js` / `mock_data/` | **模試の自己採点**（2026-09-08新設）。`mock.js`＝採点エンジン（`window.MecMock`・UIは式を1つも持たない）／`mock_data/index.js`＝模試レジストリ／`mock_data/{id}.js`＝解答表（**派生物**・`_work/build_mock_m121s.py` が解説書PDFから生成）。記録は `mec_mock_v1`（Gist同期対象）。⚠️ **模試を1つ足す作業＝`mock_data/` にファイルを1つ書いて index.js に1行足すだけ**（エンジンは触らない・`sw.js` の SHELL への追記は必要）。⚠️ 下記「模試の自己採点」の不変条件を読んでから触ること |
+| `夏メック模試/images/` | 第121回 夏メック模試の設問図**138枚**（**派生物**・`_work/mock_pdf.py` が解説書PDFから生成）。ファイル名は `{ブロック}{番号}_{n}.jpeg`（例 `A25_1.jpeg`）で、**連問の兄弟は群の先頭の名前を共有する**。⚠️ **xref をそのまま保存せず、ページを clip して 300dpi で描き直している**（1つの別冊No.が複数パネルの図・ベクター描画の4問を同じ経路で扱うため）。手順と罠は `_work/夏メック模試_引き継ぎ.md` §6-2 が正本。テスト: `node _work/test_mock_figs.js` |
 | `mindmap.html` / `mindmap.js` / `mindmap.css` | 疾患マインドマップ。**1枚のページで科目マップ（`?sid=hema`）とハブ（引数なし＝全科目）の両方を描く**。2026-08-21に、9科目ぶんの自前エンジンを内蔵した `{科目}/mindmap.html` ＋ `mindmap_integrated.html` から移行した（旧ファイルは `_archive/mindmap_src/`・旧URLにはリダイレクトstubを置いてある）。⚠️ 下記「疾患マインドマップ」の不変条件を読んでから触ること |
 | `mindmap_data/` | マインドマップのデータ。`index.js`（科目レジストリ22件＝**マップがあるのは `ready:true` の21件で、公衆衛生 `ph` だけ `ready:false`**・`gamify.js` の SUBJECTS から `_work/build_mindmap_index.js` が生成する**派生物**）／`{sid}.js`（科目1件ぶんの章・疾患・関連）／`_hub.js`（ハブの代表疾患。科目データの射影**ではなく**独立にキュレーションされたもの）。**新科目のマップを足す作業＝ここにファイルを1つ書くこと**（エンジンは触らない） |
 | `calc_input.js` | 計算問題の桁入力エンジン（`window.MecCalc`）。原文がマークシートの計算問題50問（科目33＋過去問17）は選択肢を持たないため試験モードで解答不能だった。正解は `.ac`（ans_label）の `計算答：<桁文字列>` が正本。**study.html と 国家試験過去問/*.html の両方が読む共有ファイル**（演出テーマのようなミラー乖離を作らないため）。CSSは自前で注入する |
@@ -1056,7 +1057,8 @@ node _work/test_exam_brasswork.js  筐体の外へ広げた真鍮細工      (36
 node _work/test_mindmap_layout.js  マインドマップのレイアウト/データ (248)
 node _work/test_sounds.js          効果音の一覧・音量・ランダム起動音  (28)
 node _work/test_ui_theme.js        UIテーマ全8種（.qc への干渉・ネタバレ防止）(14)
-node _work/test_mock_score.js      模試の自己採点（データ検算・採点・同期）(41)
+node _work/test_mock_score.js      模試の自己採点（データ検算・採点・同期）(42)
+node _work/test_mock_figs.js       模試の設問図が全部あるか（138枚）      (6)
 node _work/test_body_containing_block.js  body/html を position:fixed の包含ブロックにしない
 node _work/test_glitch_bars.js     グリッチ帯の引数形・可視帯・幅（実ソースを回す）(14)
 node _work/test_theme_correct_fx.js  UIテーマ8種の正解演出・study/chapter の同期

@@ -69,3 +69,4 @@ _work/screenshots/
 
 # msys/Git Bash のクラッシュダンプ（作業と無関係のゴミ）
 *.stackdump
+_work/_mock_tmp/

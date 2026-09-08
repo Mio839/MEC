@@ -49,7 +49,12 @@ META_CUTS = dict(cat1=(20, 70), cat2=(70, 130), blk=(135, 155), no=(155, 177),
 
 ZEN = 'ａｂｃｄｅ'
 NUM_JA = {'1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '一': 1, '二': 2, '三': 3}
-RE_BETSU = re.compile(r'別冊\s*No\.\s*(\d+)\s*([A-Z])?')   # 図が複数だと英字の枝番が付く
+RE_BETSU = re.compile(r'別冊\s*No\.\s*(\d+)\s*((?:[A-Z]\s*(?:、\s*)?)*)')
+# 図が複数だと英字の枝番が付く。⚠️ **枝番は「15 A、B」と1つの別冊No.にまとめて書かれる**
+#    紙面がある（実測7か所: A、B が6・B、C が1）。`([A-Z])?` で1文字だけ取ると B が
+#    丸ごと落ちて、図が1枚しか無いことになる（2026-09-08にこれで10問ぶん落ちていた）。
+# ⚠️ 「別冊No. 6 ①～⑤」の丸数字は**枝番ではなく1つの図の中のパネル**（図が選択肢の問題）。
+#    枝番として数えないこと＝別冊キーは `6` の1つ。
 RE_PICK = re.compile(r'([12345一二三])\s*つ\s*選\s*べ')     # 「2 つ選\nべ。」と割れる紙面がある
 STOP = re.compile(r'出題ポイント|鑑別診断への|選択肢考察|確\s*定\s*診\s*断|check point')
 
@@ -261,7 +266,9 @@ def build():
             # （study.html の 2026-09-06 規約「ステムの図はそれを表示する兄弟全員に付ける」と同じ）
             if pg['series']:
                 head += '\n' + series_stem(d, pg['pages'][0])
-            fig = sorted({mm[0] + mm[1] for mm in RE_BETSU.findall(head)},
+            fig = sorted({no_ + ln for mm in RE_BETSU.findall(head)
+                          for no_, lns in [(mm[0], re.findall(r'[A-Z]', mm[1]))]
+                          for ln in (lns or [''])},
                          key=lambda x: (int(re.match(r'\d+', x).group()), x))
             if fig:
                 q['fig'] = fig                 # 別冊No.（ブロックごとに1から振り直される）
