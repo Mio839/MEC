@@ -4247,11 +4247,15 @@ html.ui-celestial .hero-say.srs-card::after{
 @keyframes srsCelTwinkle{0%{opacity:.25;}55%{opacity:.95;}100%{opacity:.4;}}
 html.ui-celestial .hero-say.srs-card>.srs-deco{opacity:1;margin:4px;border-radius:5px;
   border:1px solid rgba(255,209,102,.2);box-shadow:inset 0 0 14px rgba(138,43,226,.16);}
+/* ⚠️ 菱星は 45° 回転で外接寸法が √2 倍（9px → 12.7px）になる。他テーマと同じ
+   top/left:8〜9px に置くと、左上は見出しのベル絵文字（x=14 / y=10 から始まる）へ、
+   右下は stat 行の角へ重なる。星は内枠の角へ「留める」位置（-1px）へ寄せ、
+   本文と干渉させない。寸法を変えるなら回転後の外接寸法で検算すること。 */
 html.ui-celestial .srs-deco::before,html.ui-celestial .srs-deco::after{
-  opacity:1;width:9px;height:9px;rotate:45deg;
+  opacity:1;width:8px;height:8px;rotate:45deg;
   border:1.5px solid #FFD166;box-shadow:0 0 9px rgba(255,209,102,.6);}
-html.ui-celestial .srs-deco::before{top:9px;left:9px;}
-html.ui-celestial .srs-deco::after{bottom:9px;right:9px;border-color:#E0AAFF;box-shadow:0 0 9px rgba(224,170,255,.6);}
+html.ui-celestial .srs-deco::before{top:-1px;left:-1px;}
+html.ui-celestial .srs-deco::after{bottom:-1px;right:-1px;border-color:#E0AAFF;box-shadow:0 0 9px rgba(224,170,255,.6);}
 html.ui-celestial .srs-card-hdr::after{height:1px;
   background:linear-gradient(90deg,#FFD166,#E0AAFF 45%,rgba(138,43,226,.4) 72%,transparent);
   box-shadow:0 0 8px rgba(255,209,102,.4);}

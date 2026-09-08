@@ -1,3 +1,6 @@
+// 2026-09-07v: Celestial の復習キューで四隅の菱星が本文に重なっていたのを修正。菱星は 45° 回転で外接寸法が √2 倍（9px → 12.7px）になるため、他テーマと同じ top/left:9px では左上が見出しのベル絵文字へ、右下が stat 行の角へ食い込んでいた。星を 8px へ縮めて内枠の角へ留める位置（-1px）へ寄せた。
+//   ⚠️ 寸法を戻すなら回転後の外接寸法で検算すること（中心から本文左上の角までの L1 距離 ≧ 半対角線）。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-07u → 2026-09-07v）。
 // 2026-09-07u: ハブの復習キュー（.hero-say.srs-card）に全8UIテーマぶんの意匠を新設——共通の骨格として内枠・四隅の飾り・見出しの彫り罫・忘却リスクの構成比帯を足し、その上に Aurora=プリズム結晶／Brass=ギヨシェ彫りの真鍮銘板＋ビス留め／Cyber=角を落とした戦術HUD＋走査線／Liquid=ラバランプのガラスチャンバー＋気泡／Kintsugi=漆黒陶器の金継ぎ／Celestial=星図と金の菱星／Abyss=耐圧殻＋ソナー／Frost=六花の氷結板 を塗り分けた。
 //   ⚠️ 意匠は position:absolute の疑似要素だけで置き、stat 行の1行表示（2026-09-07r）は1pxも触っていない。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-07t → 2026-09-07u）。
@@ -1305,7 +1308,7 @@ const CACHE = "mec-v375";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-07u";
+const SHELL_VERSION = "2026-09-07v";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
