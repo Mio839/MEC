@@ -908,6 +908,27 @@ stats.html「🩺 弱点カルテ」     ← 科目×設問形式ヒートマッ
 **この一致は「読み取りが壊れていない」ことの証明**なので、通らなくなったら黙って通さず落とす。
 `test_mock_score.js` の §1〜§3 が生成物の側からも同じことを見張る。
 
+### 模試の誤答だけを演習する（❌模試誤答フィルタ・2026-09-09〜）
+
+`study.html?sid={examId}&filter=mock_wrong`。**mock.html の結果画面の「❌ 間違えた N問を演習する」**が入口で、
+study.html のフィルタ行の `❌ 模試誤答`（`#fMockWrong`）は**模試を選んでいるときだけ出る**。
+テスト: `node _work/test_mock_wrong_filter.js`（21件）＋ `_work/test_mock_wrong_browser.html`（実ブラウザで16件）。
+
+- **絞るだけで演習になる**——`_examCandidateCards()`（study_exam.js）は**表示中のカードだけ**を拾うので、
+  フィルタで絞ったまま試験を開始すればその問題だけのセッションになる。専用の出題モードを作っていないのはこのため。
+- ⚠️⚠️ **誤答uidの一覧を localStorage へ書き出さないこと。** 対象は `MecMock.weights()` に**毎回計算させる**
+  （上の「正誤を保存しないこと」と同じ理由＝一覧を保存するとそれが2つ目の正本になり、解答表を直しても古いまま残る）。
+- ⚠️ **採点uid → 解説uid の対応は `MecMock.studyUid()` に任せる**。規則を study.html へ書き写さない。
+- ⚠️⚠️ **「1問も入力していないブロック」は丸ごと除く**（`score().live` が正本）。除かないと A〜C しか解いていない日に
+  D〜F の225問が「未解答」として全部対象に化ける。**mock.html のボタンの件数（`mockWrongCount`）と
+  study.html の集合（`_computeMockWrong`）は同じ規則で数えること**——ずれると「65問」と出したのに別の数が出題される。
+  テストが同じ入力で両方を回して一致を見張る。
+- ⚠️ **`mock.js`(14KB)と `mock_data/{id}.js`(107KB)は遅延読み込み**（`_loadScriptOnce`）。study.html が常時読むのは
+  レジストリ `mock_data/index.js`(737B)だけで、これが**「この科目は模試か」の判定の正本**になる。
+  科目idの正規表現で判定しないこと（模試を足すたびに2か所直すことになる）。
+- ⚠️ **模試以外の科目へ切り替えたら「全問」へ戻す**（`_syncMockFilterChip`）。`mec_filter_v1` に `mock_wrong` が
+  残ったまま内分泌を開くと**1問も出ない画面**になる。0件・読み込み失敗のときも同じく戻してトーストを出す。
+
 ### ⚠️ UIの検査は実ブラウザで回す
 
 `_work/test_mock_browser.html` は mock.html を iframe で読み込み、**キーボード入力から採点・
@@ -1135,6 +1156,7 @@ node _work/test_sounds.js          効果音の一覧・音量・ランダム起
 node _work/test_ui_theme.js        UIテーマ全8種（.qc への干渉・ネタバレ防止）(14)
 node _work/test_mock_score.js      模試の自己採点（データ検算・採点・同期）(42)
 node _work/test_mock_figs.js       模試の設問図が全部あるか（138枚）      (6)
+node _work/test_mock_wrong_filter.js  ❌模試誤答フィルタ（件数の一致・uid対応・配線）(21)
 node _work/test_body_containing_block.js  body/html を position:fixed の包含ブロックにしない
 node _work/test_glitch_bars.js     グリッチ帯の引数形・可視帯・幅（実ソースを回す）(14)
 node _work/test_theme_correct_fx.js  UIテーマ8種の正解演出・study/chapter の同期

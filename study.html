@@ -35,6 +35,10 @@
      study_exam.js が試験開始・採点から参照するので、それより前に置く -->
 <script src="calc_input.js"></script>
 <script src="sounds_index.js"></script>
+<!-- 模試のレジストリ（window.MecMockIndex・737B）。「この科目は模試か」の判定の正本で、
+     ❌模試誤答フィルタの表示条件に使う。⚠️ 採点エンジン(mock.js)と解答表(mock_data/{id}.js)は
+     ここには入れない——合わせて121KBあり、模試を選んだ人だけが要るので遅延読み込みにする -->
+<script src="mock_data/index.js"></script>
 <script src="study_exam.js"></script>
 <script src="gamify.js"></script>
 <link rel="stylesheet" href="vars.css">
@@ -116,6 +120,8 @@ if ('serviceWorker' in navigator) {
     <button class="nb" data-filter="easy" onclick="setFilter('easy')" aria-pressed="false">易問</button>
     <button class="nb" data-filter="star" onclick="setFilter('star')" aria-pressed="false" aria-label="★問題だけ">★</button>
     <button class="nb" data-filter="img" onclick="setFilter('img')" aria-pressed="false" aria-label="画像問題だけ">🖼</button>
+    <!-- 模試を選んでいるときだけ出る。表示・非表示は _syncMockFilterChip() が持つ -->
+    <button class="nb" id="fMockWrong" data-filter="mock_wrong" onclick="setFilter('mock_wrong')" aria-pressed="false" aria-label="模試で間違えた問題だけ" style="display:none">❌&nbsp;模試誤答</button>
     <span class="fsep"></span>
     <button class="nb2 fs-on" data-state="all" onclick="setState('all')" aria-pressed="false">全</button>
     <button class="nb2" data-state="flag" onclick="setState('flag')" aria-pressed="false" aria-label="赤旗を付けた問題だけ">🚩</button>
@@ -538,7 +544,7 @@ let currentFilter = 'all';
 let currentState = 'all';
 let currentSearch = '';
 let _searchTimer = null;
-const VALID_FILTERS = new Set(['all', 'hard', 'mid', 'easy', 'star', 'img']);
+const VALID_FILTERS = new Set(['all', 'hard', 'mid', 'easy', 'star', 'img', 'mock_wrong']);
 const VALID_STATES = new Set(['all', 'flag']);
 function _validFilter(f) { return VALID_FILTERS.has(f) ? f : 'all'; }
 function _validState(s) { return VALID_STATES.has(s) ? s : 'all'; }
@@ -579,6 +585,7 @@ function toggleSubjectChip(btn, id) {
 
   const _finish = () => {
     selectedSubjects.forEach(sid => _ensureSubjInit(sid));
+    _syncMockFilterChip();   // ❌模試誤答は模試を選んでいるときだけ出す
     applyFilters();
     // 解放で章見出し(divEl)が消える・ロードで増えるため、章マップとジャンプ候補を必ず再構築
     requestAnimationFrame(() => {
@@ -666,6 +673,8 @@ function setFilter(f) {
   currentFilter = _validFilter(f);
   _syncFilterBtns(currentFilter);
   localStorage.setItem('mec_filter_v1', currentFilter);
+  // 模試誤答だけは対象の読み込みが要るので専用の入口へ。0件・読み込み失敗は「全問」へ戻す。
+  if (currentFilter === MOCK_WRONG_FILTER) { _applyMockWrongFilter(); return; }
   applyFilters();
 }
 
@@ -694,12 +703,105 @@ function _updateEmptyState() {
   if (el) el.style.display = selectedSubjects.size === 0 ? '' : 'none';
 }
 
+// ── ❌ 模試誤答フィルタ ───────────────────────────────────────────────────────
+// 「模試本番で落とした問題だけを演習する」ための絞り込み。絞ったまま試験を始めれば
+// _examCandidateCards() が表示中のカードだけを拾うので、そのまま誤答だけのセッションになる。
+//
+// ⚠️⚠️ 正誤をここで持たないこと。対象は MecMock.weights() に毎回計算させる
+//    （CLAUDE.md「模試の自己採点」の不変条件＝mec_mock_v1 に入るのは「何を選んだか」だけで、
+//     正誤は解答表と突き合わせて毎回出す）。誤答uidの一覧を localStorage へ書き出すと
+//     それが2つ目の正本になり、解答表を直しても古いまま残る。
+// ⚠️ 採点uid（m121s_A_q17）→ 解説uid（m121s_ch01_q17）の対応は MecMock.studyUid() が唯一の正本。
+//    ブロックの count を積む規則をここに書き写さないこと。
+const MOCK_WRONG_FILTER = 'mock_wrong';
+let _mockWrongUids = null;   // Set<解説uid>｜null＝未計算
+let _mockWrongSid  = null;   // どの模試ぶんを計算したか
+let _mockLoadP     = null;   // 読み込み中の Promise（多重ロード防止）
+
+function _mockEntry(sid) { return (window.MecMockIndex || []).find(m => m.id === sid) || null; }
+function _isMockSid(sid) { return !!_mockEntry(sid); }
+function _curSid() { return [...selectedSubjects][0] || null; }
+
+function _loadScriptOnce(src) {
+  return new Promise((res, rej) => {
+    if (document.querySelector('script[data-lazy="' + src + '"]')) return res();
+    const el = document.createElement('script');
+    el.src = src; el.dataset.lazy = src;
+    el.onload = () => res();
+    el.onerror = () => rej(new Error(src));
+    document.head.appendChild(el);
+  });
+}
+
+// 誤答（weight>0＝誤答・禁忌肢・未解答）の解説uidを集める。
+// ⚠️ 段の意味は mock.js の weights() が正本。ここに閾値を書かない（0 以外＝直すべき問題）。
+// ⚠️⚠️ 1問も入力していないブロックは丸ごと除く（score().live が正本）。除かないと、A〜C しか
+//    解いていない日に D〜F の225問が「未解答」として全部対象に化ける。CLAUDE.md「模試の
+//    自己採点」の「未入力ブロックは満点にも母数にも入れない」と同じ規則で、mock.html の
+//    演習ボタンの件数もここと同じ live を見る（両者がずれると件数と出題数が食い違う）。
+function _computeMockWrong(sid) {
+  const out = new Set();
+  const live = new Set(window.MecMock.score(sid).live);
+  const w = window.MecMock.weights(sid);
+  Object.keys(w).forEach(k => {
+    const e = w[k];
+    if (!e.weight || !live.has(e.block)) return;
+    const u = window.MecMock.studyUid(sid, e.block, e.no);
+    if (u) out.add(u);
+  });
+  return out;
+}
+
+// 採点エンジンと解答表を遅延読み込みしてから対象を数え直す。
+// ⚠️ 毎回計算し直す（別タブで採点し直した直後でも正しい集合になる）。
+function _ensureMockWrong(sid) {
+  const e = _mockEntry(sid);
+  if (!e) return Promise.resolve(null);
+  if (_mockLoadP) return _mockLoadP;
+  _mockLoadP = Promise.all([_loadScriptOnce('mock.js'), _loadScriptOnce(e.file)])
+    .then(() => { _mockWrongUids = _computeMockWrong(sid); _mockWrongSid = sid; return _mockWrongUids; })
+    .catch(() => { _mockWrongUids = null; _mockWrongSid = null; return null; })
+    .then(v => { _mockLoadP = null; return v; });
+  return _mockLoadP;
+}
+
+// フィルタを押したときの入口。読み込み・計算に失敗したり0件なら「全問」へ戻す
+// （0件のまま絞ると画面からカードが消え、何が起きたのか分からなくなる）。
+function _applyMockWrongFilter() {
+  const sid = _curSid();
+  if (!_isMockSid(sid)) { setFilter('all'); return; }
+  _ensureMockWrong(sid).then(set => {
+    if (!set) { _mecNotify('模試の採点データを読み込めませんでした'); setFilter('all'); return; }
+    if (!set.size) { _mecNotify('この模試に誤答はありません（未採点かもしれません）'); setFilter('all'); return; }
+    applyFilters();
+  });
+}
+
+// 模試を選んでいるときだけチップを出す。模試以外へ切り替えたら「全問」へ戻す
+// （mec_filter_v1 に mock_wrong が残ったまま内分泌を開くと1問も出なくなる）。
+function _syncMockFilterChip() {
+  const btn = document.getElementById('fMockWrong');
+  const isMock = _isMockSid(_curSid());
+  if (btn) btn.style.display = isMock ? '' : 'none';
+  if (!isMock && currentFilter === MOCK_WRONG_FILTER) setFilter('all');
+}
+
 function applyFilters() {
   if (examMode) return;
   _updateEmptyState();
   if (!_cards.length) return;
   if (_cacheStale) _refreshCache();
   const f = currentFilter, st = currentState, search = currentSearch;
+  // ?filter=mock_wrong で開いた直後・科目を切り替えた直後は集合がまだ無い。ここで一度だけ
+  // 取りに行き、揃ったら自分で呼び直す（_mockLoadP が多重起動を防ぐ＝無限ループにならない）。
+  if (f === MOCK_WRONG_FILTER && !_mockLoadP && _mockWrongSid !== _curSid()) {
+    if (!_isMockSid(_curSid())) { _syncMockFilterChip(); return; }
+    _ensureMockWrong(_curSid()).then(set => {
+      if (!set) { _mecNotify('模試の採点データを読み込めませんでした'); setFilter('all'); return; }
+      if (!set.size) { _mecNotify('この模試に誤答はありません（未採点かもしれません）'); setFilter('all'); return; }
+      applyFilters();
+    });
+  }
   _sectionMap.forEach((section, sid) => {
     section.dataset.visible = String(selectedSubjects.has(sid));
   });
@@ -711,6 +813,7 @@ function applyFilters() {
     if (f === 'all') showDiff = true;
     else if (f === 'star') showDiff = m.hasStar;
     else if (f === 'img') showDiff = m.hasImg;
+    else if (f === MOCK_WRONG_FILTER) showDiff = _mockWrongUids ? _mockWrongUids.has(uid) : false;
     else if (r !== null) showDiff = (f === 'hard' && r < 60) || (f === 'mid' && r >= 60 && r < 80) || (f === 'easy' && r >= 80);
     else showDiff = false;
     let showState;
@@ -1066,6 +1169,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (rawFilter !== savedFilter) localStorage.setItem('mec_filter_v1', savedFilter);
   currentFilter = savedFilter;
   _syncFilterBtns(savedFilter);
+  _syncMockFilterChip();   // ?sid=m121s で開いた時点でチップを出す／模試以外なら全問へ戻す
   const rawState = localStorage.getItem('mec_state_v1');
   const savedState = _validState(rawState);
   if (rawState !== savedState) localStorage.setItem('mec_state_v1', savedState);

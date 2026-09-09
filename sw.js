@@ -1,3 +1,7 @@
+// 2026-09-09d: 模試本番で落とした問題だけを演習する導線を足した。study.html のフィルタ行に ❌模試誤答 を新設し（模試を選んでいるときだけ出る）、mock.html の結果画面に「❌ 間違えた N問を演習する」ボタンを置いて study.html?sid={examId}&filter=mock_wrong へ飛ばす。絞ったまま試験を始めれば誤答だけのセッションになる（_examCandidateCards() が表示中のカードだけを拾うため）。
+//   ⚠️ 誤答uidの一覧を localStorage へ書き出さない——対象は MecMock.weights() に毎回計算させる（正誤を保存しないという模試ツールの不変条件を守るため）。採点uid→解説uid は MecMock.studyUid() が正本。
+//   ⚠️ 採点エンジン(mock.js 14KB)と解答表(mock_data/m121s.js 107KB)は遅延読み込み。レジストリ(mock_data/index.js 737B)だけ study.html が常時読む＝「この科目は模試か」を同期で判定する。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-09c → 2026-09-09d）。
 // 2026-09-09c: 夏メック模試（m121s）の誤答解説を全65問ぶん書き終えた（E問題2問＋F問題18問を追加）。手書きは _work/mock_m121s_overrides.json が正本で、questions_m121s.json は派生物＝直接編集しない。
 //   questions_m121s.json を変えたので CACHE を bump（mec-v377 → mec-v378）。
 // 2026-09-09b: Frost（絶対零度・フロスト氷晶）のHeroゲージ意匠を全面刷新——①下部からのリニア蓄積を廃止し、中心(84,84)から外周へ拡大成長する六角氷結シールド＆鋭利な六角クレバス前線へ刷新、②進捗％に連動して中央からダイナミックに拡大（scale 0.35〜1.08）する超高精細・絢爛六花スノークリスタル（二重六角氷核コア・60度完全対称主軸・多段羊歯状羽枝・星型レースプレート・先端六芒星クラウン）を実装、③MeltingPointおよび〜K温度表示テキストを完全撤廃。
@@ -1327,7 +1331,7 @@ const CACHE = "mec-v378";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-09c";
+const SHELL_VERSION = "2026-09-09d";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

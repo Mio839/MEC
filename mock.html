@@ -445,6 +445,19 @@ input.mk-num{width:78px;background:rgba(var(--glass-rgb),.07);border:1.5px solid
       '　<span class="mk-note">模試の推定ボーダーが出たら入れる。必修80%と禁忌肢4問は制度の値なので固定。</span></div>' +
       '</div>');
 
+    // 誤答の演習へ。study.html の ❌模試誤答フィルタで絞った状態で開く。
+    // ⚠️ 件数は study.html の _computeMockWrong() とまったく同じ規則で数える
+    //    （weight>0 かつ入力済みブロック）。ずれると「65問」と出したのに別の数が出題される。
+    var wrongN = mockWrongCount(s);
+    out.push('<div class="mk-card"><h3>誤答の演習</h3>' +
+      (wrongN
+        ? '<a class="mk-btn pri" style="text-decoration:none;display:inline-block" href="study.html?sid=' +
+          encodeURIComponent(examId) + '&filter=mock_wrong">❌ 間違えた ' + wrongN + '問を演習する</a>' +
+          '<div class="mk-note" style="margin-top:6px">study.html が ❌模試誤答 で絞った状態で開きます。' +
+          'そのまま試験を開始すれば、この' + wrongN + '問だけのセッションになります。</div>'
+        : '<div class="mk-note">入力済みブロックに誤答はありません。</div>') +
+      '</div>');
+
     // ブロック別
     var rows = s.live.map(function (b) {
       var x = s.blocks[b], pct = Math.round(x.pts / x.max * 1000) / 10;
@@ -492,6 +505,18 @@ input.mk-num{width:78px;background:rgba(var(--glass-rgb),.07);border:1.5px solid
 
     host.innerHTML = out.join('');
     bindResult(s);
+  }
+
+  // 演習の対象になる件数。⚠️ study.html の _computeMockWrong() と同じ規則で数えること
+  //   （weight>0 ＝誤答・禁忌肢・未解答／ただし1問も入力していないブロックは丸ごと除く）。
+  function mockWrongCount(s) {
+    var live = {}, n = 0;
+    s.live.forEach(function (b) { live[b] = 1; });
+    var w = M.weights(examId);
+    Object.keys(w).forEach(function (k) {
+      if (w[k].weight && live[w[k].block]) n++;
+    });
+    return n;
   }
 
   function judgePills(s, border) {

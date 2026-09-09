@@ -1,0 +1,109 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>booting</title>
+<!--
+  ❌模試誤答フィルタを実ブラウザで検査する。node の DOM シムだと「シムが通るだけ」に
+  なるので、study.html を iframe で本当に読み込み、遅延ロード → 集合の計算 → 絞り込み →
+  試験の候補、までを実際に走らせる。
+
+    python -m http.server 8791 --bind 127.0.0.1 &
+    chrome --headless=new --disable-gpu --virtual-time-budget=30000 \
+           --dump-dom "http://127.0.0.1:8791/_work/test_mock_wrong_browser.html"
+    # <title> が ALLPASS
+
+  ⚠️ file:// では動かない（study.html が fetch を使うので origin が要る）。必ず http で開く。
+  ⚠️ ポートを変えたら ORIGIN も変えること（同一オリジンでないと iframe の中を読めない）。
+-->
+<script>
+const ORIGIN = location.origin;
+const LOG = [];
+let failed = 0;
+function ok(cond, name) { if (!cond) failed++; LOG.push((cond ? 'ok ' : 'NG ') + name); }
+function note(s) { LOG.push(s); }
+function done() { document.title = (failed ? 'FAIL(' + failed + ')' : 'ALLPASS') + ' :: ' + LOG.join(' | '); }
+
+// 採点データを仕込む。A3・C49・F66 の3問だけ誤答、全ブロック入力済み。
+// ⚠️ 正誤は保存しない（保存するのは「何を選んだか」だけ）＝本番と同じ形で置く。
+function seed(next) {
+  const s = document.createElement('script');
+  s.src = ORIGIN + '/mock_data/m121s.js';
+  s.onload = function () {
+    const d = window.MecMockData.m121s;
+    const wrong = new Set(['A3', 'C49', 'F66']);
+    const ans = {};
+    d.questions.forEach(function (q) {
+      const k = q.block + q.no;
+      let p;
+      if (wrong.has(k)) {
+        if (q.type === 'calc') p = String(q.ans[0]) + '9';
+        else { const set = new Set(q.ans); p = 'abcde'.split('').find(c => !set.has(c)) || ''; }
+      } else {
+        p = q.type === 'calc' ? q.ans[0] : q.ans.slice().sort().join('');
+      }
+      ans[k] = { p: p, t: 1 };
+    });
+    localStorage.setItem('mec_mock_v1', JSON.stringify({
+      m121s: { cur: 'r1', rounds: { r1: { started: 1, graded: 2, ans: ans } }, border: null }
+    }));
+    next();
+  };
+  s.onerror = function () { ok(false, 'mock_data/m121s.js を読めない'); done(); };
+  document.head.appendChild(s);
+}
+
+function openStudy(query, cb) {
+  const f = document.createElement('iframe');
+  f.style.cssText = 'width:1200px;height:900px';
+  f.src = ORIGIN + '/study.html' + query;
+  f.onload = function () { setTimeout(function () { cb(f); }, 6000); };
+  document.body.appendChild(f);
+}
+
+seed(function () {
+  openStudy('?sid=m121s&filter=mock_wrong', function (f) {
+    const w = f.contentWindow, d = f.contentDocument;
+
+    // ① チップが出て、押された状態になっている
+    const chip = d.getElementById('fMockWrong');
+    ok(!!chip, '❌模試誤答のチップが存在する');
+    ok(chip && chip.style.display !== 'none', '模試を選んでいるのでチップが見えている');
+    ok(chip && chip.getAttribute('aria-pressed') === 'true', 'チップが押された状態');
+    ok(w.eval('currentFilter') === 'mock_wrong', '?filter=mock_wrong が currentFilter に入っている');
+
+    // ② 誤答の3問だけが見えている（400問はDOMに載ったまま）
+    const all = [].slice.call(d.querySelectorAll('.qc[data-uid]'));
+    const vis = all.filter(function (c) { return c.style.display !== 'none'; });
+    note('dom=' + all.length + ' vis=' + vis.length);
+    ok(all.length === 400, '400問がDOMに載っている');
+    ok(vis.length === 3, '表示は誤答の3問だけ（実際 ' + vis.length + '）');
+    const uids = vis.map(function (c) { return c.dataset.uid; }).sort().join(',');
+    ok(uids === 'm121s_ch01_q3,m121s_ch03_q174,m121s_ch06_q391',
+      '採点uid A3/C49/F66 が解説uid ch01_q3 / ch03_q174 / ch06_q391 に対応する（実際 ' + uids + '）');
+
+    // ③ 絞ったまま試験を始めれば、その3問だけのセッションになる
+    ok(w.eval('_examCandidateCards().length') === 3, '試験の出題候補も3問（フィルタが出題範囲になる）');
+
+    // ④ 採点エンジンと解答表は「使ったときだけ」読まれている
+    ok(!!w.eval('typeof MecMock'), 'mock.js が遅延ロードされている');
+    ok(!!d.querySelector('script[data-lazy="mock.js"]'), 'mock.js は動的に足された <script>');
+    // ⚠️ 遅延ロードした <script> も head に入るので、data-lazy が付いていないものだけを見る
+    ok(!d.querySelector('script[src="mock.js"]:not([data-lazy])'), '静的な <script src="mock.js"> は無い');
+    ok(!d.querySelector('script[src^="mock_data/m121s"]:not([data-lazy])'), '解答表も静的には読んでいない');
+
+    // ⑤ 模試以外の科目へ切り替えたら「全問」へ戻る（1問も出ない画面を作らない）
+    const endo = d.querySelector('.chip[data-sid="endo"]');
+    ok(!!endo, '内分泌のチップがある');
+    endo.click();
+    setTimeout(function () {
+      ok(w.eval('currentFilter') === 'all', '模試以外へ切り替えると全問へ戻る（実際 ' + w.eval('currentFilter') + '）');
+      const chip2 = d.getElementById('fMockWrong');
+      ok(chip2 && chip2.style.display === 'none', '模試以外ではチップが隠れる');
+      const vis2 = [].slice.call(d.querySelectorAll('.qc[data-uid]'))
+        .filter(function (c) { return c.style.display !== 'none'; });
+      note('endo vis=' + vis2.length);
+      ok(vis2.length > 0, '切り替え後にカードが1問も出ない画面にならない（実際 ' + vis2.length + '問）');
+      done();
+    }, 7000);
+  });
+});
+</script>
