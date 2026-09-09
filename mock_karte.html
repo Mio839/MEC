@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEC 模試 成績カルテ</title>
+<link rel="stylesheet" href="vars.css">
+<script src="theme.js"></script>
+<script src="ui_theme.js"></script>
+<link rel="stylesheet" href="ui_theme.css">
+<script src="progress.js"></script>
+<script src="mock.js"></script>
+<script src="mock_data/index.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;background:transparent;
+  color:var(--tx);font-size:14px;line-height:1.75;padding-bottom:120px;}
+
+/* 一般／臨床の2系列だけは固定色。--or はテーマで色相が変わるので、
+   2系列の弁別（暖色 vs 寒色）をテーマに預けられない。暗い地の上で
+   CVD 分離 ΔE 21.6（protan）・コントラスト 3:1 以上を確認済み。 */
+:root{--k-ip:#D2732F; --k-ri:#3E97CF; --k-ipw:rgba(210,115,47,.16); --k-riw:rgba(62,151,207,.16);}
+
+/* ── ヘッダー ── */
+.kt-hdr{background:rgba(var(--hdr-rgb),.97);border-bottom:1px solid rgba(255,255,255,.08);
+  padding:10px 12px 9px;position:sticky;top:0;z-index:var(--z-hdr);box-shadow:0 2px 20px rgba(0,0,0,.45);}
+.kt-hdr-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.kt-title{font-family:var(--font-display);letter-spacing:var(--font-display-ls);font-size:15px;
+  font-weight:800;flex:1;min-width:0;}
+.kt-title small{display:block;font-size:10.5px;font-weight:600;color:var(--ts);
+  font-family:-apple-system,sans-serif;letter-spacing:0;}
+.hub-link{font-size:11px;color:rgba(255,255,255,.6);text-decoration:none;padding:3px 10px;
+  border:1px solid rgba(255,255,255,.18);border-radius:20px;white-space:nowrap;}
+.hub-link:hover{background:rgba(var(--glass-rgb),.1);}
+select,input[type="search"]{font-family:inherit;font-size:12px;padding:4px 8px;color:var(--tx);
+  background:rgba(var(--glass-rgb),.06);border:1px solid var(--bd);border-radius:var(--r-sm);min-width:0;}
+
+.kt-main{max-width:960px;margin:0 auto;padding:16px 12px 0;display:flex;flex-direction:column;gap:26px;}
+.num{font-variant-numeric:tabular-nums;}
+
+/* ── 計器帯 ── */
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:8px;}
+.ro{background:var(--cb);border:1px solid var(--bd);border-radius:var(--r-md);
+  padding:11px 13px 12px;display:flex;flex-direction:column;gap:6px;min-width:0;}
+.ro-k{font-size:10.5px;letter-spacing:.08em;color:var(--ts);font-weight:800;}
+.ro-v{font-family:var(--font-display);font-size:27px;font-weight:800;line-height:1;
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums;}
+.ro-v .u{font-size:13px;font-weight:700;color:var(--ts);margin-left:2px;}
+.ro-n{font-size:10.5px;color:var(--ts);font-variant-numeric:tabular-nums;}
+.ro.alarm{background:var(--rdl);border-color:rgba(255,107,107,.4);}
+.ro.alarm .ro-v{color:var(--rd);}
+.thr{position:relative;height:5px;background:rgba(var(--glass-rgb),.14);border-radius:3px;}
+.thr i{position:absolute;left:0;top:0;bottom:0;background:var(--or);border-radius:3px;display:block;}
+.thr b{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--tx);opacity:.65;}
+.taboo-g{display:flex;gap:4px;}
+.taboo-g span{flex:1;height:7px;border-radius:2px;background:rgba(var(--glass-rgb),.14);
+  border:1px solid var(--bd);}
+.taboo-g span.on{background:var(--rd);border-color:var(--rd);}
+
+/* ── セクション ── */
+section{display:flex;flex-direction:column;gap:12px;}
+.sec-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+  border-bottom:1px solid var(--bd);padding-bottom:7px;}
+.sec-h h2{font-family:var(--font-display);letter-spacing:var(--font-display-ls);
+  font-size:16px;font-weight:800;}
+.sec-h .tag{font-size:10.5px;letter-spacing:.06em;color:var(--ts);font-weight:700;}
+.lede{color:var(--ts);font-size:13px;max-width:74ch;}
+.lede b,.lede strong{color:var(--tx);}
+.card{background:var(--cb);border:1px solid var(--bd);border-radius:var(--r-lg);padding:16px;}
+
+/* ── データ待ちパネル ── */
+.pending{border:1px dashed var(--bd);background:var(--gb);border-radius:var(--r-lg);
+  padding:16px 18px;display:flex;flex-direction:column;gap:11px;}
+.pending .badge{align-self:flex-start;font-size:10.5px;font-weight:800;letter-spacing:.06em;
+  color:var(--yl);background:var(--yll);border:1px solid rgba(255,184,48,.45);
+  border-radius:var(--r-sm);padding:2px 8px;}
+.pending h3{font-family:var(--font-display);font-size:14px;font-weight:800;}
+.pending ol{margin:0;padding-left:1.4em;color:var(--ts);font-size:13px;
+  display:flex;flex-direction:column;gap:4px;}
+.pending li b{color:var(--tx);}
+.pending code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
+  background:rgba(var(--glass-rgb),.12);padding:1px 5px;border-radius:3px;}
+.pending .note{font-size:12px;color:var(--ts);}
+
+/* ── 横棒（一般 vs 臨床）── */
+.legend{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
+.lg{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ts);font-weight:700;}
+.lg i{width:11px;height:11px;border-radius:2px;display:block;}
+.grp{display:flex;flex-direction:column;gap:7px;margin-bottom:12px;}
+.grp:last-child{margin-bottom:0;}
+.grp-t{font-size:11px;font-weight:800;color:var(--ts);letter-spacing:.05em;}
+.row{display:grid;grid-template-columns:minmax(56px,auto) minmax(0,1fr) 52px;gap:10px;align-items:center;}
+.row-l{font-size:12.5px;color:var(--ts);font-weight:700;}
+.row-n{font-size:11px;color:var(--ts);text-align:right;font-variant-numeric:tabular-nums;}
+.track{position:relative;height:24px;background:rgba(var(--glass-rgb),.12);border-radius:var(--r-sm);}
+.track .fill{position:absolute;left:0;top:0;bottom:0;border-radius:var(--r-sm);}
+.track .ci{position:absolute;top:50%;height:9px;transform:translateY(-50%);
+  border-left:2px solid var(--tx);border-right:2px solid var(--tx);opacity:.42;}
+.track .ci::after{content:'';position:absolute;top:50%;left:0;right:0;height:2px;
+  background:var(--tx);transform:translateY(-50%);}
+.track .val{position:absolute;top:0;bottom:0;left:8px;display:flex;align-items:center;
+  font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--tx);}
+
+/* ── ブロック ── */
+.blocks{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;align-items:end;}
+.blk{display:flex;flex-direction:column;gap:6px;align-items:center;}
+.blk .col{width:100%;height:120px;background:rgba(var(--glass-rgb),.12);border-radius:var(--r-sm);
+  display:flex;align-items:flex-end;overflow:hidden;}
+.blk .col i{width:100%;background:var(--or);display:block;}
+.blk.hisshu .col i{background-image:repeating-linear-gradient(135deg,transparent 0 5px,rgba(0,0,0,.22) 5px 7px);}
+.blk .pct{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;}
+.blk .nm{font-size:11.5px;color:var(--ts);font-weight:800;}
+.blk .mk{font-size:10px;color:var(--ts);font-variant-numeric:tabular-nums;}
+
+/* ── 科目別 ── */
+.tbl-scroll{overflow-x:auto;}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:540px;}
+th{text-align:left;font-size:10.5px;letter-spacing:.06em;color:var(--ts);font-weight:800;
+  border-bottom:1px solid var(--bd);padding:0 9px 7px 0;white-space:nowrap;}
+td{padding:6px 9px 6px 0;border-bottom:1px solid rgba(var(--glass-rgb),.09);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+.t-name{font-weight:700;white-space:nowrap;}
+.t-n{color:var(--ts);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right;}
+.t-pct{font-weight:800;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap;}
+.t-bar{width:38%;min-width:130px;}
+.mini{position:relative;height:14px;background:rgba(var(--glass-rgb),.12);border-radius:2px;}
+.mini .fill{position:absolute;left:0;top:0;bottom:0;background:var(--or);border-radius:2px;}
+.mini .ci{position:absolute;top:50%;height:6px;transform:translateY(-50%);
+  border-left:2px solid var(--tx);border-right:2px solid var(--tx);opacity:.38;}
+.mini .ci::after{content:'';position:absolute;top:50%;left:0;right:0;height:2px;
+  background:var(--tx);transform:translateY(-50%);}
+
+/* ── チップ ── */
+.chip{display:inline-flex;align-items:center;font-size:10px;font-weight:800;letter-spacing:.03em;
+  padding:1px 6px;border-radius:var(--r-sm);border:1px solid;white-space:nowrap;}
+.c-crit{color:var(--rd);border-color:rgba(255,107,107,.5);background:var(--rdl);}
+.c-warn{color:var(--yl);border-color:rgba(255,184,48,.45);background:var(--yll);}
+.c-good{color:var(--gr);border-color:rgba(61,214,140,.45);background:var(--grl);}
+.c-ip{color:var(--k-ip);border-color:rgba(210,115,47,.5);background:var(--k-ipw);}
+.c-ri{color:var(--k-ri);border-color:rgba(62,151,207,.5);background:var(--k-riw);}
+.c-mute{color:var(--ts);border-color:var(--bd);background:transparent;}
+
+/* ── 禁忌カード ── */
+.risk{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:10px;}
+.risk .card{border-left:3px solid var(--rd);display:flex;flex-direction:column;gap:8px;}
+.risk .card.warn{border-left-color:var(--yl);}
+.risk .q{font-size:11px;color:var(--ts);font-weight:700;}
+.risk .th{font-family:var(--font-display);font-weight:800;font-size:14px;line-height:1.5;}
+.risk .why{font-size:12.5px;color:var(--ts);}
+.risk .why b{color:var(--tx);}
+
+/* ── マークシート ── */
+.marks{display:flex;gap:3px;}
+.mk{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--bd);display:grid;
+  place-items:center;font-size:10px;color:var(--ts);font-weight:800;flex-shrink:0;}
+.mk.picked{background:var(--k-ip);border-color:var(--k-ip);color:#12100E;}
+.mk.correct{border-color:var(--k-ri);border-width:2px;color:var(--k-ri);}
+.mk.both{background:var(--k-ri);border-color:var(--k-ri);color:#0B1520;}
+
+/* ── 操作列 ── */
+.ctrls{display:flex;flex-wrap:wrap;gap:7px;align-items:center;}
+.seg{display:inline-flex;border:1px solid var(--bd);border-radius:var(--r-sm);overflow:hidden;}
+.seg button{font-family:inherit;font-size:12px;font-weight:700;padding:4px 10px;border:0;
+  background:rgba(var(--glass-rgb),.05);color:var(--ts);cursor:pointer;
+  border-right:1px solid var(--bd);}
+.seg button:last-child{border-right:0;}
+.seg button[aria-pressed="true"]{background:var(--or);color:var(--subj-ink);}
+.count{font-size:11px;color:var(--ts);margin-left:auto;font-variant-numeric:tabular-nums;}
+
+/* ── 設問一覧 ── */
+.qlist{display:flex;flex-direction:column;border:1px solid var(--bd);border-radius:var(--r-lg);
+  background:var(--gb);overflow:hidden;}
+.qr{display:grid;grid-template-columns:50px minmax(0,1fr) auto auto;gap:11px;align-items:center;
+  padding:9px 13px;border-bottom:1px solid rgba(var(--glass-rgb),.09);}
+.qr:last-child{border-bottom:0;}
+.qr.ok{opacity:.55;}
+.qr.miss{background:var(--rdl);}
+.qr .no{font-size:12.5px;font-weight:800;font-variant-numeric:tabular-nums;}
+.qr.miss .no{color:var(--rd);}
+.qr .meta{display:flex;flex-direction:column;gap:2px;min-width:0;}
+.qr .th{font-size:13px;font-weight:600;line-height:1.5;}
+.qr .sub{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:10.5px;color:var(--ts);}
+.qr .rate{font-size:12.5px;font-weight:800;text-align:right;min-width:46px;
+  font-variant-numeric:tabular-nums;}
+.qr .rate.none{color:var(--ts);font-weight:600;}
+.empty{padding:22px 14px;text-align:center;color:var(--ts);font-size:13px;}
+
+/* ── 留保 ── */
+.caveats{display:flex;flex-direction:column;border-top:1px solid var(--bd);}
+.cv{display:grid;grid-template-columns:24px minmax(0,1fr);gap:12px;padding:12px 0;
+  border-bottom:1px solid rgba(var(--glass-rgb),.09);}
+.cv .i{font-size:11px;font-weight:800;color:var(--ts);padding-top:3px;font-variant-numeric:tabular-nums;}
+.cv h3{font-family:var(--font-display);font-size:13.5px;font-weight:800;margin-bottom:2px;}
+.cv p{font-size:12.5px;color:var(--ts);max-width:74ch;}
+.foot{color:var(--ts);font-size:11px;line-height:1.8;border-top:1px solid var(--bd);padding-top:12px;}
+
+@media (max-width:600px){
+  .qr{grid-template-columns:46px minmax(0,1fr);row-gap:7px;}
+  .qr .marks{grid-column:1/-1;}
+  .qr .rate{grid-column:2;text-align:left;}
+  .blocks{grid-template-columns:repeat(3,1fr);}
+  .row{grid-template-columns:minmax(0,1fr) 52px;gap:4px 8px;}
+  .row-l{grid-column:1/-1;}
+}
+</style>
+</head>
+<body>
+
+<div class="kt-hdr">
+  <div class="kt-hdr-row">
+    <div class="kt-title">🩺 成績カルテ<small id="ktSubtitle">読み込み中…</small></div>
+    <select id="ktExam" aria-label="模試" hidden></select>
+    <a class="hub-link" href="mock.html">🧮 自己採点</a>
+    <a class="hub-link" href="index.html">← ハブ</a>
+  </div>
+</div>
+
+<div class="kt-main" id="ktMain"></div>
+
+<script>
+/**
+ * 模試の成績カルテ — 自己採点の結果を「どこで差がついたか」に翻訳して読む画面。
+ *
+ * ⚠️ 採点の式をこのファイルに1つも持たないこと。正誤・得点・禁忌は必ず
+ *    window.MecMock（mock.js）に聞く＝mec_mock_v1 は「何を選んだか」しか持たず、
+ *    正誤は解答表と突き合わせて毎回計算される、という不変条件をここでも守る。
+ *    このファイルがやってよいのは「集計して並べること」だけ。
+ *
+ * ⚠️ 全国正答率は mock_data/{examId}_rates.js（window.MecMockRates[examId]）が正本。
+ *    成績表が届いたらそのファイルへ数字を書くだけで、
+ *    「取りこぼし検出」・科目別の全国比・設問一覧の列と並べ替えが自動で有効になる。
+ *    このHTMLにもロジックにも手を入れないこと。
+ */
+(function () {
+  'use strict';
+
+  var M = window.MecMock;
+  var INDEX = window.MecMockIndex || [];
+  var examId = null, data = null, S = null, RATES = null, RATED = false;
+
+  // 全国正答率の帯。easy 以上を落としたものが「取りこぼし」＝差がついた失点。
+  // ⚠️ 閾値を変えるときはここだけ。本文の説明文も同じ定数から作っている。
+  var TIER = { easy: 80, std: 60 };
+
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+  function f1(v) { return (Math.round(v * 10) / 10).toFixed(1); }
+  function pctOf(c, n) { return n ? (100 * c / n) : 0; }
+  function cleanTheme(t) { return String(t).replace(/^\d+【([^】]*)】/, '［$1］'); }
+
+  // 95% 信頼区間（Wilson）。n の小さい科目の順位を信用しないための道具で、
+  // 表とグラフの両方がこれを出す＝「差がある/ない」を色ではなく幅で語る。
+  function wilson(c, n) {
+    if (!n) return [0, 0];
+    var z = 1.96, p = c / n, d = 1 + z * z / n;
+    var ctr = (p + z * z / (2 * n)) / d;
+    var hw = z * Math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d;
+    return [100 * Math.max(0, ctr - hw), 100 * Math.min(1, ctr + hw)];
+  }
+
+  // ── データ読み込み（mock.html と同じ手順）──────────────────
+  function loadScript(src, cb) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = function () { cb(true); };
+    s.onerror = function () { cb(false); };
+    document.head.appendChild(s);
+  }
+  function loadExam(id, cb) {
+    var meta = INDEX.filter(function (x) { return x.id === id; })[0];
+    if (!meta) return;
+    var next = function () {
+      // 全国正答率は「まだ無いのが普通」なので、読めなくても黙って続ける
+      if (window.MecMockRates && window.MecMockRates[id]) return cb(meta);
+      loadScript('./mock_data/' + id + '_rates.js', function () { cb(meta); });
+    };
+    if (window.MecMockData && window.MecMockData[id]) return next();
+    loadScript(meta.file, function (ok) {
+      if (!ok) { $('ktSubtitle').textContent = 'データを読み込めませんでした: ' + meta.file; return; }
+      next();
+    });
+  }
+
+  var rateOf = function (q) {
+    var r = RATES && RATES[M.qkey(q)];
+    return (typeof r === 'number') ? r : null;
+  };
+
+  // ── 集計（判定は全部 S.rows ＝ mock.js の judge が付けたもの）──
+  function agg(sel) {
+    var n = 0, c = 0, pts = 0, got = 0;
+    S.rows.forEach(function (row) {
+      if (!S.blocks[row.q.block].entered) return;   // 未入力ブロックは母数に入れない
+      if (!sel(row.q, row.r)) return;
+      n++; pts += row.q.pts; got += row.r.pts;
+      if (row.r.state === 'correct') c++;
+    });
+    return { n: n, c: c, pts: pts, got: got, pct: pctOf(c, n), ci: wilson(c, n), lost: pts - got };
+  }
+  var isHisshu = function (q) { return !!(data.blocks[q.block] && data.blocks[q.block].hisshu); };
+
+  // ── 描画 ────────────────────────────────────────────────
+  function render() {
+    var A = {
+      all: agg(function () { return true; }),
+      ip: agg(function (q) { return q.cat === '一般'; }),
+      ri: agg(function (q) { return q.cat === '臨床'; }),
+      ipH: agg(function (q) { return q.cat === '一般' && isHisshu(q); }),
+      ipN: agg(function (q) { return q.cat === '一般' && !isHisshu(q); }),
+      riH: agg(function (q) { return q.cat === '臨床' && isHisshu(q); }),
+      riN: agg(function (q) { return q.cat === '臨床' && !isHisshu(q); })
+    };
+    var wrongRows = S.rows.filter(function (r) {
+      return S.blocks[r.q.block].entered && r.r.state !== 'correct';
+    });
+
+    $('ktMain').innerHTML =
+      readout(A) +
+      secMiss(wrongRows) +
+      secAxis(A) +
+      secTaboo() +
+      secBlocks() +
+      secSubjects() +
+      secList() +
+      secCaveats(A) +
+      foot();
+
+    bindControls();
+    renderList();
+  }
+
+  function readout(A) {
+    var hi = S.hisshu, need = Math.ceil(hi.max * M.HISSHU_PCT / 100);
+    var cells = [
+      { k: '総合得点', v: S.total.pts, u: '/' + S.total.max,
+        n: '得点率 ' + f1(S.total.pct) + '% · 正答 ' + A.all.c + '/' + A.all.n + '問',
+        bar: '<div class="thr"><i style="width:' + S.total.pct + '%"></i></div>' },
+      { k: '必修 ' + (hi.blocks.join('+') || '—'), v: hi.max ? hi.pts : '—', u: hi.max ? '/' + hi.max : '',
+        n: hi.max ? ('合格ライン' + need + '点 · ' + (hi.pts >= need ? '余裕 +' + (hi.pts - need) : '不足 ' + (hi.pts - need)) + '点') : '未入力',
+        alarm: hi.max ? !hi.pass : false,
+        bar: hi.max ? '<div class="thr"><i style="width:' + (100 * hi.pts / hi.max) + '%"></i><b style="left:' + M.HISSHU_PCT + '%"></b></div>' : '' },
+      { k: '一般問題', v: f1(A.ip.pct), u: '%', n: A.ip.c + ' / ' + A.ip.n + '問',
+        bar: '<div class="thr"><i style="width:' + A.ip.pct + '%;background:var(--k-ip)"></i></div>' },
+      { k: '臨床問題', v: f1(A.ri.pct), u: '%', n: A.ri.c + ' / ' + A.ri.n + '問',
+        bar: '<div class="thr"><i style="width:' + A.ri.pct + '%;background:var(--k-ri)"></i></div>' },
+      { k: '禁忌肢', v: S.taboo.count, u: '/' + (S.taboo.max + 1),
+        n: (S.taboo.max + 1) + '問で不合格 · 残り' + Math.max(0, S.taboo.max + 1 - S.taboo.count) + '問',
+        alarm: true,
+        bar: '<div class="taboo-g">' + [0, 1, 2, 3].map(function (i) {
+          return '<span class="' + (i < S.taboo.count ? 'on' : '') + '"></span>';
+        }).join('') + '</div>' }
+    ];
+    return '<div class="readout">' + cells.map(function (c) {
+      return '<div class="ro' + (c.alarm ? ' alarm' : '') + '">' +
+        '<div class="ro-k">' + c.k + '</div>' +
+        '<div class="ro-v">' + c.v + '<span class="u">' + c.u + '</span></div>' +
+        (c.bar || '') + '<div class="ro-n">' + c.n + '</div></div>';
+    }).join('') + '</div>';
+  }
+
+  // 取りこぼし＝全国が取れているのに自分が落とした問題。合否に効くのはここで、
+  // 難問での失点ではない。全国正答率が無い間は「何が有効になるか」を出しておく。
+  function secMiss(wrongRows) {
+    var head = '<section><div class="sec-h"><h2>取りこぼし検出</h2>' +
+      '<span class="tag">全国正答率 × 自分の誤答</span></div>' +
+      '<p class="lede">全国の正答率が高いのに落とした問題＝<b>他の受験生と差がついた失点</b>。' +
+      '合否に直結するのはここで、難問での失点ではありません。</p>';
+    if (!RATED) {
+      return head +
+        '<div class="pending"><span class="badge">データ待ち</span>' +
+        '<h3>全国正答率が入ると、誤答' + wrongRows.length + '問がここで3段に仕分けられます</h3>' +
+        '<ol>' +
+        '<li><b>取りこぼし（全国' + TIER.easy + '%以上）</b> — 差がついた失点。最優先で潰す</li>' +
+        '<li><b>標準（' + TIER.std + '〜' + TIER.easy + '%）</b> — 合否を分ける中間層</li>' +
+        '<li><b>難問（' + TIER.std + '%未満）</b> — 落としても差はつかない。深追いしない</li>' +
+        '</ol>' +
+        '<p class="note">同時に、科目別の「全国比」と、設問一覧の全国正答率列・並べ替えも有効になります。</p>' +
+        '<p class="note">入れ先は <code>mock_data/' + esc(examId) + '_rates.js</code> の1ファイルだけ' +
+        '（キーは <code>"A58"</code> のようにブロック＋番号）。画面側は何も書き換えません。</p>' +
+        '</div></section>';
+    }
+    var rated = S.rows.filter(function (r) { return S.blocks[r.q.block].entered && rateOf(r.q) !== null; });
+    var miss = rated.filter(function (r) { return r.r.state !== 'correct' && rateOf(r.q) >= TIER.easy; })
+      .sort(function (a, b) { return rateOf(b.q) - rateOf(a.q); });
+    var mid = rated.filter(function (r) {
+      return r.r.state !== 'correct' && rateOf(r.q) < TIER.easy && rateOf(r.q) >= TIER.std;
+    });
+    var hard = rated.filter(function (r) { return r.r.state !== 'correct' && rateOf(r.q) < TIER.std; });
+    var lost = miss.reduce(function (s, r) { return s + r.q.pts; }, 0);
+    var tiles = [
+      ['取りこぼし', miss.length, '全国' + TIER.easy + '%以上を落とした', true],
+      ['標準帯の失点', mid.length, TIER.std + '〜' + TIER.easy + '%', false],
+      ['難問での失点', hard.length, TIER.std + '%未満 · 深追い不要', false],
+      ['取りこぼしの失点', lost + '点', '総合' + S.total.max + '点中', false]
+    ];
+    return head + '<div class="readout">' + tiles.map(function (t) {
+      return '<div class="ro' + (t[3] ? ' alarm' : '') + '"><div class="ro-k">' + t[0] + '</div>' +
+        '<div class="ro-v">' + t[1] + '</div><div class="ro-n">' + t[2] + '</div></div>';
+    }).join('') + '</div>' +
+      (miss.length
+        ? '<div class="qlist">' + miss.map(function (r) { return qrow(r, true); }).join('') + '</div>'
+        : '<div class="qlist"><div class="empty">全国' + TIER.easy + '%以上の問題は1問も落としていません。</div></div>') +
+      '</section>';
+  }
+
+  // 一般 vs 臨床。必修の内外で割ると「基礎ができていない」のか
+  // 「基礎の一段上で落ちている」のかが分かれる＝対策の当て所が変わる。
+  function secAxis(A) {
+    var rows = [
+      ['必修ブロック', [['一般', A.ipH, 'var(--k-ip)'], ['臨床', A.riH, 'var(--k-ri)']]],
+      ['必修以外', [['一般', A.ipN, 'var(--k-ip)'], ['臨床', A.riN, 'var(--k-ri)']]]
+    ];
+    var gap = A.ri.pct - A.ip.pct;
+    var lede = A.ipH.n && A.ipN.n
+      ? '一般 ' + A.ip.c + '/' + A.ip.n + '（' + f1(A.ip.pct) + '%）に対し臨床 ' + A.ri.c + '/' + A.ri.n +
+        '（' + f1(A.ri.pct) + '%）。必修の内外で割ると、必修レベルの一般問題は <b>' + f1(A.ipH.pct) +
+        '%</b> なのに、その一段上の一般問題は <b>' + f1(A.ipN.pct) + '%</b>。' +
+        '横線は95%信頼区間で、これが重ならない差だけが確かなものです。'
+      : '一般 ' + f1(A.ip.pct) + '% / 臨床 ' + f1(A.ri.pct) + '%（差 ' + f1(Math.abs(gap)) + 'pt）。';
+    return '<section><div class="sec-h"><h2>一般 と 臨床</h2>' +
+      '<span class="tag">科目より大きい軸</span></div>' +
+      '<p class="lede">' + lede + '</p><div class="card">' +
+      '<div class="legend">' +
+      '<span class="lg"><i style="background:var(--k-ip)"></i>一般問題</span>' +
+      '<span class="lg"><i style="background:var(--k-ri)"></i>臨床問題</span>' +
+      '<span class="lg"><i style="background:var(--tx);opacity:.42;height:2px;width:16px;border-radius:0"></i>95% 信頼区間</span>' +
+      '</div>' +
+      rows.map(function (g) {
+        if (!g[1][0][1].n && !g[1][1][1].n) return '';
+        return '<div class="grp"><div class="grp-t">' + g[0] + '</div>' + g[1].map(function (it) {
+          var a = it[1];
+          return '<div class="row"><div class="row-l">' + it[0] + '</div>' +
+            '<div class="track">' +
+            '<div class="fill" style="width:' + a.pct + '%;background:' + it[2] + '"></div>' +
+            '<div class="ci" style="left:' + a.ci[0] + '%;width:' + (a.ci[1] - a.ci[0]) + '%"></div>' +
+            '<div class="val">' + f1(a.pct) + '%</div></div>' +
+            '<div class="row-n">' + a.c + '/' + a.n + '</div></div>';
+        }).join('') + '</div>';
+      }).join('') + '</div></section>';
+  }
+
+  // 禁忌肢。点数（1〜3点）ではなく「制度上4問で不合格」という性質のほうが重い。
+  function secTaboo() {
+    var hitRows = S.rows.filter(function (r) { return r.r.taboo; });
+    var tq = agg(function (q) { return !!q.taboo; });
+    var head = '<section><div class="sec-h"><h2>禁忌肢</h2>' +
+      '<span class="tag">' + (S.taboo.max + 1) + '問で不合格</span></div>';
+    if (!hitRows.length) {
+      return head + '<p class="lede">踏んだ禁忌肢は<b>0問</b>。禁忌肢を含む' + tq.n + '問での成績は ' +
+        tq.c + '/' + tq.n + '（' + f1(tq.pct) + '%）です。</p></section>';
+    }
+    // 踏んだ問題がどこに集まっているか（同じ科目で複数なら、点ではなく面の弱点）
+    var bySub = {};
+    hitRows.forEach(function (r) { bySub[r.q.cat2] = (bySub[r.q.cat2] || 0) + 1; });
+    var worst = Object.keys(bySub).sort(function (a, b) { return bySub[b] - bySub[a]; })[0];
+    var wa = agg(function (q) { return q.cat2 === worst; });
+    var lede = '踏んだのは' + hitRows.length + '問。' +
+      (bySub[worst] > 1
+        ? '<b>' + bySub[worst] + '問とも' + esc(worst) + '</b>で、この科目自体も ' + wa.c + '/' + wa.n +
+          '（' + f1(wa.pct) + '%）。1問の事故ではなく面の弱点として扱うべきです。'
+        : '') +
+      '禁忌肢を含む' + tq.n + '問での成績は ' + tq.c + '/' + tq.n + '（' + f1(tq.pct) + '%）。';
+    return head + '<p class="lede">' + lede + '</p><div class="risk">' +
+      hitRows.map(function (r) {
+        return '<div class="card"><div class="q">' + r.q.block + '問題 ' + r.q.no + ' · ' +
+          esc(r.q.cat2) + ' · ' + esc(r.q.cat) + '</div>' +
+          '<div class="th">' + esc(cleanTheme(r.q.theme)) + '</div>' +
+          '<div class="marks">' + markRow(r) + '</div>' +
+          '<div class="why">選んだ <b>' + esc(r.r.picked) + '</b> がそのまま禁忌肢。正解は <b>' +
+          esc(r.q.ans.slice().sort().join('')) + '</b>。</div></div>';
+      }).join('') + '</div></section>';
+  }
+
+  function secBlocks() {
+    var live = S.live;
+    if (!live.length) return '';
+    var cols = live.map(function (b) {
+      var a = agg(function (q) { return q.block === b; });
+      return '<div class="blk' + (S.blocks[b].hisshu ? ' hisshu' : '') + '">' +
+        '<div class="pct">' + f1(a.pct) + '%</div>' +
+        '<div class="col"><i style="height:' + a.pct + '%"></i></div>' +
+        '<div class="nm">' + b + '</div>' +
+        '<div class="mk">' + (S.blocks[b].hisshu ? '必修 ' : '') + a.c + '/' + a.n + '</div></div>';
+    }).join('');
+    // 前半に一般問題が固まる紙面なので、位置による低下は疲労とは限らない。
+    var e1 = agg(function (q) { return !isHisshu(q) && q.no <= 25; });
+    var e3 = agg(function (q) { return !isHisshu(q) && q.no >= 51; });
+    var ip1 = S.rows.filter(function (r) {
+      return S.blocks[r.q.block].entered && !isHisshu(r.q) && r.q.no <= 25 && r.q.cat === '一般';
+    }).length;
+    var note = (e1.n && e3.n)
+      ? '75問ブロックの前半（' + f1(e1.pct) + '%）と後半（' + f1(e3.pct) + '%）の差は疲労とは限りません。' +
+        '前半25問のうち' + ip1 + '問が一般問題で、<b>区分で層別すると位置による差はほぼ消えます</b>。'
+      : '斜線は必修ブロック。';
+    return '<section><div class="sec-h"><h2>ブロック別</h2>' +
+      '<span class="tag">入力済み ' + live.length + ' ブロック</span></div>' +
+      '<p class="lede">' + note + '</p>' +
+      '<div class="card"><div class="blocks">' + cols + '</div></div></section>';
+  }
+
+  var subjLevel = 'cat2';
+  function subjRows() {
+    var map = {};
+    S.rows.forEach(function (r) {
+      if (!S.blocks[r.q.block].entered) return;
+      var k = r.q[subjLevel];
+      var m = map[k] || (map[k] = { k: k, n: 0, c: 0, lost: 0, taboo: 0, rate: 0, rn: 0 });
+      m.n++;
+      if (r.r.state === 'correct') m.c++;
+      m.lost += r.q.pts - r.r.pts;
+      if (r.r.taboo) m.taboo++;
+      var nr = rateOf(r.q);
+      if (nr !== null) { m.rate += nr; m.rn++; }
+    });
+    return Object.keys(map).map(function (k) {
+      var m = map[k];
+      m.pct = pctOf(m.c, m.n);
+      m.ci = wilson(m.c, m.n);
+      m.diff = m.rn ? (pctOf(m.c, m.n) - m.rate / m.rn) : null;
+      return m;
+    }).sort(function (a, b) { return a.pct - b.pct || b.n - a.n; });
+  }
+  function secSubjects() {
+    return '<section><div class="sec-h"><h2>科目別</h2>' +
+      '<span class="tag">n が小さい＝順位は信用しない</span></div>' +
+      '<p class="lede">細い横線は 95% 信頼区間。<b>区間が広い科目の順位は偶然の範囲</b>で、' +
+      '弱点として扱えるのは区間が狭いもの、または禁忌肢のような別の証拠が重なるものだけです。</p>' +
+      '<div class="card"><div class="ctrls" style="margin-bottom:10px">' +
+      '<div class="seg" role="group" aria-label="集計単位">' +
+      '<button type="button" data-lv="cat2" aria-pressed="true">科目</button>' +
+      '<button type="button" data-lv="cat1" aria-pressed="false">系統</button></div>' +
+      '<span class="count" id="ktSubjCount"></span></div>' +
+      '<div class="tbl-scroll"><table><thead><tr><th>領域</th><th style="text-align:right">正答率</th>' +
+      '<th class="t-bar">分布と95%信頼区間</th><th style="text-align:right">正答/出題</th>' +
+      '<th style="text-align:right">失点</th><th>所見</th></tr></thead>' +
+      '<tbody id="ktSubjBody"></tbody></table></div></div></section>';
+  }
+  function renderSubjects() {
+    var rows = subjRows();
+    $('ktSubjBody').innerHTML = rows.map(function (r) {
+      var note = '';
+      if (r.taboo) note = '<span class="chip c-crit">禁忌</span>';
+      else if (r.n >= 10 && r.ci[1] < 80) note = '<span class="chip c-warn">要対策</span>';
+      else if (r.n >= 10 && r.ci[0] >= 85) note = '<span class="chip c-good">安定</span>';
+      else if (r.n < 6) note = '<span class="chip c-mute">n小</span>';
+      if (r.diff !== null) {
+        note += ' <span class="chip ' + (r.diff < -10 ? 'c-crit' : r.diff < 0 ? 'c-warn' : 'c-good') +
+          '">全国比 ' + (r.diff >= 0 ? '+' : '') + Math.round(r.diff) + 'pt</span>';
+      }
+      return '<tr><td class="t-name">' + esc(r.k) + '</td>' +
+        '<td class="t-pct">' + f1(r.pct) + '%</td>' +
+        '<td class="t-bar"><div class="mini"><div class="fill" style="width:' + r.pct + '%"></div>' +
+        '<div class="ci" style="left:' + r.ci[0] + '%;width:' + (r.ci[1] - r.ci[0]) + '%"></div></div></td>' +
+        '<td class="t-n">' + r.c + '/' + r.n + '</td>' +
+        '<td class="t-n">' + (r.lost || '—') + '</td><td>' + note + '</td></tr>';
+    }).join('');
+    $('ktSubjCount').textContent = rows.length + '領域 · 正答率の低い順';
+  }
+
+  function markRow(r) {
+    var picked = r.r.picked || '', ans = r.q.ans.join('');
+    if (r.q.type !== 'choice') {
+      return '<span class="mk ' + (r.r.state === 'correct' ? 'both' : 'picked') + '" style="width:auto;' +
+        'border-radius:9px;padding:0 7px">' + esc(picked || '—') + '</span>';
+    }
+    return 'abcde'.split('').map(function (L) {
+      var p = picked.indexOf(L) >= 0, ok = ans.indexOf(L) >= 0;
+      var cls = 'mk' + (p && ok ? ' both' : p ? ' picked' : ok ? ' correct' : '');
+      return '<span class="' + cls + '">' + L + '</span>';
+    }).join('');
+  }
+  function qrow(r, forceMiss) {
+    var nr = rateOf(r.q), q = r.q;
+    var chips = [
+      q.cat === '一般' ? '<span class="chip c-ip">一般</span>' : '<span class="chip c-ri">臨床</span>',
+      isHisshu(q) ? '<span class="chip c-mute">必修</span>' : '',
+      r.r.taboo ? '<span class="chip c-crit">禁忌肢</span>' : '',
+      r.r.state === 'blank' ? '<span class="chip c-warn">未解答</span>' : '',
+      q.fig ? '<span class="chip c-mute">図</span>' : '',
+      (q.pick >= 2) ? '<span class="chip c-mute">' + q.pick + 'つ選べ</span>' : ''
+    ].filter(Boolean).join('');
+    // 解説側の番号（study.html の Q.n）。対応は mock.js の studyUid が正本。
+    var su = M.studyUid(examId, q.block, q.no);
+    var qn = su ? su.replace(/^.*_q/, '') : '';
+    return '<div class="qr' + (r.r.state === 'correct' ? ' ok' : '') + (forceMiss ? ' miss' : '') + '">' +
+      '<div class="no">' + q.block + q.no + '</div>' +
+      '<div class="meta"><div class="th">' + esc(cleanTheme(q.theme)) + '</div>' +
+      '<div class="sub">' + esc(q.cat2) + ' · ' + esc(q.cat1) + (qn ? ' · 解説 Q.' + qn : '') +
+      ' ' + chips + '</div></div>' +
+      '<div class="marks">' + markRow(r) + '</div>' +
+      '<div class="rate' + (nr === null ? ' none' : '') + '">' + (nr === null ? '—' : f1(nr) + '%') + '</div></div>';
+  }
+
+  function secList() {
+    var blocks = S.live;
+    var subj = {};
+    S.rows.forEach(function (r) { if (S.blocks[r.q.block].entered) subj[r.q.cat2] = 1; });
+    return '<section><div class="sec-h"><h2>設問一覧</h2>' +
+      '<span class="tag">塗り＝選んだ肢 / 輪＝正解</span></div>' +
+      '<p class="lede">解説は学習ツールの模試科目にあります（行の「解説 Q.n」が向こうの問題番号）。' +
+      '<a href="study.html?sid=' + esc(examId) + '&amp;filter=mock_wrong" style="color:var(--or)">❌ 落とした問題だけを開く</a>' +
+      ' / <a href="study.html?sid=' + esc(examId) + '" style="color:var(--or)">全問を開く</a></p>' +
+      '<div class="ctrls">' +
+      '<div class="seg" role="group" aria-label="表示範囲">' +
+      '<button type="button" data-sc="wrong" aria-pressed="true">誤答のみ</button>' +
+      '<button type="button" data-sc="all" aria-pressed="false">全問</button></div>' +
+      '<div class="seg" role="group" aria-label="出題区分">' +
+      '<button type="button" data-cat="" aria-pressed="true">区分すべて</button>' +
+      '<button type="button" data-cat="一般" aria-pressed="false">一般</button>' +
+      '<button type="button" data-cat="臨床" aria-pressed="false">臨床</button></div>' +
+      '<select id="ktBlock" aria-label="ブロック"><option value="">全ブロック</option>' +
+      blocks.map(function (b) { return '<option value="' + b + '">' + b + '問題</option>'; }).join('') +
+      '</select>' +
+      '<select id="ktSubj" aria-label="科目"><option value="">全科目</option>' +
+      Object.keys(subj).sort(function (a, b) { return a.localeCompare(b, 'ja'); })
+        .map(function (s) { return '<option value="' + esc(s) + '">' + esc(s) + '</option>'; }).join('') +
+      '</select>' +
+      '<select id="ktSort" aria-label="並び順"><option value="order">出題順</option>' +
+      '<option value="subj">科目順</option>' +
+      '<option value="rate"' + (RATED ? '' : ' disabled') + '>全国正答率が高い順</option></select>' +
+      '<input type="search" id="ktText" placeholder="テーマを検索" aria-label="テーマを検索">' +
+      '<span class="count" id="ktCount"></span></div>' +
+      '<div class="qlist" id="ktList"></div></section>';
+  }
+
+  var F = { scope: 'wrong', cat: '', block: '', subj: '', sort: 'order', text: '' };
+  function renderList() {
+    var rows = S.rows.filter(function (r) {
+      if (!S.blocks[r.q.block].entered) return false;
+      if (F.scope === 'wrong' && r.r.state === 'correct') return false;
+      if (F.cat && r.q.cat !== F.cat) return false;
+      if (F.block && r.q.block !== F.block) return false;
+      if (F.subj && r.q.cat2 !== F.subj) return false;
+      if (F.text && (r.q.theme + r.q.cat2 + r.q.cat1).toLowerCase().indexOf(F.text.toLowerCase()) < 0) return false;
+      return true;
+    });
+    if (F.sort === 'subj') {
+      rows = rows.slice().sort(function (a, b) {
+        return a.q.cat1.localeCompare(b.q.cat1, 'ja') || a.q.cat2.localeCompare(b.q.cat2, 'ja') ||
+          a.q.block.localeCompare(b.q.block) || a.q.no - b.q.no;
+      });
+    } else if (F.sort === 'rate') {
+      rows = rows.slice().sort(function (a, b) {
+        var x = rateOf(a.q), y = rateOf(b.q);
+        return (y === null ? -1 : y) - (x === null ? -1 : x);
+      });
+    }
+    $('ktList').innerHTML = rows.length
+      ? rows.map(function (r) {
+          var nr = rateOf(r.q);
+          return qrow(r, RATED && r.r.state !== 'correct' && nr !== null && nr >= TIER.easy);
+        }).join('')
+      : '<div class="empty">条件に合う問題はありません。</div>';
+    var w = rows.filter(function (r) { return r.r.state !== 'correct'; }).length;
+    $('ktCount').textContent = rows.length + '問' + (F.scope === 'all' ? '（うち誤答' + w + '）' : '');
+  }
+
+  function bindControls() {
+    function seg(attr, fn) {
+      var bs = document.querySelectorAll('[' + attr + ']');
+      bs.forEach(function (b) {
+        b.addEventListener('click', function () {
+          bs.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+          fn(b.getAttribute(attr));
+        });
+      });
+    }
+    seg('data-sc', function (v) { F.scope = v; renderList(); });
+    seg('data-cat', function (v) { F.cat = v; renderList(); });
+    seg('data-lv', function (v) { subjLevel = v; renderSubjects(); });
+    $('ktBlock').onchange = function () { F.block = this.value; renderList(); };
+    $('ktSubj').onchange = function () { F.subj = this.value; renderList(); };
+    $('ktSort').onchange = function () { F.sort = this.value; renderList(); };
+    $('ktText').oninput = function () { F.text = this.value; renderList(); };
+    if (RATED) { $('ktSort').value = 'rate'; F.sort = 'rate'; }
+    renderSubjects();
+  }
+
+  // 数字を出したら、その数字をどこまで信用してよいかも一緒に出す。
+  // ここが無いと n=1 の科目が「弱点」として一人歩きする。
+  function secCaveats(A) {
+    var rows = subjRows().filter(function (r) { return r.n >= 3; });
+    var worst = rows[0], second = rows[1];
+    var multi = S.rows.filter(function (r) {
+      return S.blocks[r.q.block].entered && r.q.pick >= 2 && r.r.state === 'wrong';
+    });
+    var partial = multi.filter(function (r) {
+      return r.r.picked.split('').some(function (L) { return r.q.ans.indexOf(L) >= 0; });
+    }).length;
+    var fig = agg(function (q) { return !!q.fig; }), nofig = agg(function (q) { return !q.fig; });
+    var items = [];
+    if (worst) {
+      items.push(['科目別の順位はほとんど信用できない',
+        esc(worst.k) + ' ' + f1(worst.pct) + '% の95%信頼区間は [' + Math.round(worst.ci[0]) + ', ' +
+        Math.round(worst.ci[1]) + ']' +
+        (second ? '、' + esc(second.k) + ' ' + f1(second.pct) + '% は [' + Math.round(second.ci[0]) + ', ' +
+          Math.round(second.ci[1]) + ']' : '') +
+        '。n が数問の科目を弱点と読むのは無意味です。信頼できるのは一般' + A.ip.n + '問 vs 臨床' +
+        A.ri.n + '問のような太い軸だけ。']);
+    }
+    if (S.taboo.count) {
+      items.push(['禁忌肢だけは n を無視して扱う',
+        '統計的に弱くなくても、踏んだという事実そのものが情報です。制度上' + (S.taboo.max + 1) +
+        '問で不合格になる以上、頻度ではなく性質で優先度を上げるべき唯一の項目です。']);
+    }
+    if (fig.n && nofig.n) {
+      items.push(['「画像が得意」とまでは言えない',
+        '図あり ' + f1(fig.pct) + '% ／ 図なし ' + f1(nofig.pct) +
+        '% ですが、図がある問題＝症例問題＝文脈で絞れる、という交絡があります。' +
+        '読影そのものが得意なのかは、誤答の中身を見ないと判断できません。']);
+    }
+    if (multi.length) {
+      items.push(['複数選択の誤答は「惜しい」ではない',
+        '複数選択の誤答' + multi.length + '問のうち' + partial +
+        '問は1つだけ当たっています。国試に部分点は無いので、これは' + multi.length + '問まるごとの失点です。']);
+    }
+    items.push(['この点数から合否を推定しない',
+      '模試は回によって難度が違い、' + (RATED ? '' : 'この模試の解説書には正答率が載っていません。') +
+      '読み取れるのは絶対値ではなくプロファイルの形' +
+      (RATED ? 'と、全国正答率との相対位置' : '') + 'だけです。']);
+    return '<section><div class="sec-h"><h2>この数字の読み方</h2>' +
+      '<span class="tag">批判的留保</span></div><div class="caveats">' +
+      items.map(function (it, i) {
+        return '<div class="cv"><div class="i">' + (i < 9 ? '0' : '') + (i + 1) + '</div>' +
+          '<div><h3>' + it[0] + '</h3><p>' + it[1] + '</p></div></div>';
+      }).join('') + '</div></section>';
+  }
+
+  function foot() {
+    var g = M.gradedAt(examId);
+    return '<div class="foot">' +
+      '自己採点（' + M.KEY + ' / ' + M.currentRound(examId) + '周目' +
+      (g ? ' · 採点 ' + new Date(g).toLocaleDateString('ja-JP') : '') + '）× ' +
+      esc(data.source || (examId + ' の解答表')) + '<br>' +
+      '正誤は保存された解答から毎回計算しています（採点結果そのものは保持していません）。' +
+      '未入力のブロックは満点にも母数にも入りません。<br>' +
+      '全国正答率: ' + (RATED ? Object.keys(RATES).length + '問ぶん取込済み' : '未取込') +
+      '</div>';
+  }
+
+  // ── 起動 ────────────────────────────────────────────────
+  function open(id) {
+    loadExam(id, function (meta) {
+      examId = id;
+      data = window.MecMockData[id];
+      RATES = (window.MecMockRates && window.MecMockRates[id]) || null;
+      RATED = !!(RATES && Object.keys(RATES).length);
+      S = M.score(id);
+      if (!S.live.length) {
+        $('ktSubtitle').textContent = meta.name + ' · 未入力';
+        $('ktMain').innerHTML = '<div class="pending"><span class="badge">解答が未入力</span>' +
+          '<h3>まだ採点できる解答がありません</h3>' +
+          '<p class="note">🧮 自己採点でマークを入力すると、このページが成績カルテを作ります。</p></div>';
+        return;
+      }
+      $('ktSubtitle').textContent = meta.name + ' · ' + S.answered + '/' + S.count + '問 入力済み';
+      render();
+    });
+  }
+
+  function boot() {
+    if (!M) { $('ktSubtitle').textContent = 'mock.js が読み込まれていません'; return; }
+    if (!INDEX.length) { $('ktSubtitle').textContent = '模試データがありません'; return; }
+    var sel = $('ktExam');
+    if (INDEX.length > 1) {
+      sel.hidden = false;
+      sel.innerHTML = INDEX.map(function (x) {
+        return '<option value="' + esc(x.id) + '">' + esc(x.name) + '</option>';
+      }).join('');
+      sel.onchange = function () { open(sel.value); };
+    }
+    var want = new URLSearchParams(location.search).get('id');
+    open(INDEX.filter(function (x) { return x.id === want; })[0] ? want : INDEX[0].id);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
+</body>
+</html>

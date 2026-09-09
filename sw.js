@@ -1,3 +1,5 @@
+// 2026-09-09e: 模試の成績カルテ（mock_karte.html）を新設し、ハブのタイル（🩺 模試 成績カルテ）から開けるようにした。採点は mock.js に任せて集計と並べ替えだけを行う＝正誤の式はここにも1つも無い。全国正答率の受け口は mock_data/{id}_rates.js（window.MecMockRates）で、成績表が届いたらそのファイルへ数字を書くだけで「取りこぼし検出」・科目別の全国比・設問一覧の列と並べ替えが自動で有効になる。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-09d → 2026-09-09e）。
 // 2026-09-09d: 模試本番で落とした問題だけを演習する導線を足した。study.html のフィルタ行に ❌模試誤答 を新設し（模試を選んでいるときだけ出る）、mock.html の結果画面に「❌ 間違えた N問を演習する」ボタンを置いて study.html?sid={examId}&filter=mock_wrong へ飛ばす。絞ったまま試験を始めれば誤答だけのセッションになる（_examCandidateCards() が表示中のカードだけを拾うため）。
 //   ⚠️ 誤答uidの一覧を localStorage へ書き出さない——対象は MecMock.weights() に毎回計算させる（正誤を保存しないという模試ツールの不変条件を守るため）。採点uid→解説uid は MecMock.studyUid() が正本。
 //   ⚠️ 採点エンジン(mock.js 14KB)と解答表(mock_data/m121s.js 107KB)は遅延読み込み。レジストリ(mock_data/index.js 737B)だけ study.html が常時読む＝「この科目は模試か」を同期で判定する。
@@ -1331,7 +1333,7 @@ const CACHE = "mec-v378";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-09d";
+const SHELL_VERSION = "2026-09-09e";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -1368,6 +1370,10 @@ const SHELL = [
   "./mock.js",
   "./mock_data/index.js",
   "./mock_data/m121s.js",
+  // 成績カルテ（2026-09-09）。採点は mock.js に任せ、ここは集計して並べるだけ。
+  // ⚠️ {id}_rates.js は全国正答率の受け口で、中身が空でも必ず置く＝カルテが読みに行く。
+  "./mock_karte.html",
+  "./mock_data/m121s_rates.js",
   "./mindmap.html",
   "./mindmap.js",
   "./mindmap.css",

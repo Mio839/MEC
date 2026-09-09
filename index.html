@@ -6358,6 +6358,9 @@ const HUB_TILES = [
   { id:'mock',      icon:'🧮',  name:'模試 自己採点',     kind:'link', href:'mock.html' },
   { id:'knowledge', icon:'🔎',  name:'検索知識ノート',    kind:'link', href:'knowledge.html' },
   { id:'selfcheck', icon:'✏️',  name:'セルフチェック',    kind:'expand' },
+  // ⚠️ 成績カルテは wide にしてある。ここを1マスにすると mindmap（wide）が2列を取れず
+  //    4段目の右に穴が空く（2列グリッドの都合であって、重要度の主張ではない）。
+  { id:'karte',     icon:'🩺',  name:'模試 成績カルテ',   kind:'link', href:'mock_karte.html', span:'wide' },
   { id:'mindmap',   icon:'🗺️', name:'科目マインドマップ', kind:'expand', span:'wide' },
 ];
 
@@ -7163,19 +7166,28 @@ let _tilesSettled = false;
 
 // 模試タイルの脚。⚠️ mock_data/*.js を読み込まないこと（1本80KB超で、ハブの起動が重くなる）。
 // 数えるのは mec_mock_v1 に入っている解答の件数だけ＝解答表が無くても数えられる。
-function _mockTileSub() {
+function _mockEntered() {
   try {
     const all = JSON.parse(localStorage.getItem('mec_mock_v1') || '{}');
-    const ids = Object.keys(all);
-    if (!ids.length) return '未入力';
-    let n = 0, blocks = new Set();
-    ids.forEach(ex => {
+    let n = 0; const blocks = new Set();
+    Object.keys(all).forEach(ex => {
       const e = all[ex] || {}, r = (e.rounds || {})[e.cur] || {};
       Object.keys(r.ans || {}).forEach(k => { n++; blocks.add(ex + k[0]); });
     });
-    if (!n) return '未入力';
-    return n + ' 問入力（' + blocks.size + ' ブロック）';
-  } catch { return '未入力'; }
+    return { n, blocks: blocks.size };
+  } catch { return { n: 0, blocks: 0 }; }
+}
+
+function _mockTileSub() {
+  const m = _mockEntered();
+  return m.n ? m.n + ' 問入力（' + m.blocks + ' ブロック）' : '未入力';
+}
+
+// 成績カルテの脚。⚠️ ここに得点や正答率を出さないこと——正誤は解答表（107KB）と
+//    突き合わせないと分からず、それを読むのはカルテ側の仕事（ハブは軽いままにする）。
+function _karteTileSub() {
+  const m = _mockEntered();
+  return m.n ? m.blocks + ' ブロックぶんを分析' : '模試を入力すると見られます';
 }
 
 function _tileHtml(t) {
@@ -7189,6 +7201,8 @@ function _tileHtml(t) {
   } else if (t.id === 'mock') {
     // 模試データ本体（1本80KB超）はハブで読まない。入力件数だけを localStorage から数える。
     sub = _mockTileSub();
+  } else if (t.id === 'karte') {
+    sub = _karteTileSub();
   } else if (t.id === 'knowledge') {
     sub = (typeof KNOWLEDGE_NOTES !== 'undefined' ? KNOWLEDGE_NOTES.length : 0) + ' 件のノート';
   } else if (t.id === 'selfcheck') {
