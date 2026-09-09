@@ -1,3 +1,8 @@
+// 2026-09-09f: 後から足した9科目（anes derm ent oph ortho ph psy rad uro）の科目色を OKLCH で再導出した。Tailwind 700番台の暗色のまま入っていたためカード面に対して 1.95〜4.02:1 しかなく、check_themes.js の基準（4.5:1）を6テーマ全部で割っていた。色相は保ったまま明度だけ上げてある（移動は -4.9°〜+15.3°）。
+//   ⚠️ ph と uro は両方 #0891B2 の完全な重複だったので ph を +15.3° 回して分けた（公衆衛生_引き継ぎ.md が積んでいた宿題）。
+//   ⚠️ 色は4テーブルで同じ値にすること: chapters_meta.js / study.html の STUDY_SUBJECTS / gamify.js の SUBJECTS / mindmap_data/index.js（最後は build_mindmap_index.js で生成）。
+//   ⚠️ {科目}/ch*.html の --or は別トークン（章別ページ自身のアクセント色）なので古い色のまま。study.html からは参照されない。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-09e → 2026-09-09f）。
 // 2026-09-09e: 模試の成績カルテ（mock_karte.html）を新設し、ハブのタイル（🩺 模試 成績カルテ）から開けるようにした。採点は mock.js に任せて集計と並べ替えだけを行う＝正誤の式はここにも1つも無い。全国正答率の受け口は mock_data/{id}_rates.js（window.MecMockRates）で、成績表が届いたらそのファイルへ数字を書くだけで「取りこぼし検出」・科目別の全国比・設問一覧の列と並べ替えが自動で有効になる。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-09d → 2026-09-09e）。
 // 2026-09-09d: 模試本番で落とした問題だけを演習する導線を足した。study.html のフィルタ行に ❌模試誤答 を新設し（模試を選んでいるときだけ出る）、mock.html の結果画面に「❌ 間違えた N問を演習する」ボタンを置いて study.html?sid={examId}&filter=mock_wrong へ飛ばす。絞ったまま試験を始めれば誤答だけのセッションになる（_examCandidateCards() が表示中のカードだけを拾うため）。
@@ -1333,7 +1338,7 @@ const CACHE = "mec-v378";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-09e";
+const SHELL_VERSION = "2026-09-09f";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

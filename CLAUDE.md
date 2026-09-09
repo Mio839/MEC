@@ -45,16 +45,16 @@
 | `vars.css` | 共通CSSカスタムプロパティ（全ページ共通色変数） |
 | `ui_theme.css` / `ui_theme.js` | **UIテーマ（着せ替えスキン）全8種**（aurora／brass／cyber／liquid／kintsugi／celestial／abyss／frost）。`ui_theme.js` が `localStorage['mec_ui_theme_v1']` を読んで `<html>` に `ui-{id}` を付ける＝**必ず1つ適用される**（既定 `aurora`）。study/index/stats/knowledge の4ページと `sw.js` が読む。テスト: `node _work/test_ui_theme.js`。⚠️ **全8テーマが `.qc` に `animation: {id}CardEnter … both`（`from{opacity:0}`）と `overflow:hidden` を掛けている**。`.qc` を触るときは Phase 4/5/7 の「`.qc` の層は満杯」「`transform` は既存アニメに黙って殺される」がここと直接ぶつかることを思い出すこと。⚠️ `opacity:0` の backwards fill は**非表示タブではアニメが1frameも進まない**間そのまま残る（stats.html の `armReveal`・マインドマップと同型）。ここはアニメが自分で終わる形なのでタブを表に戻せば自力で復帰するが、**JSでクラスを外す形へ作り変えないこと**（落ちた日にカードが白紙になる）。⚠️ **iOS WebKit では `.qc` の `contain: layout` と `backdrop-filter` は必ず解除すること**（`study.css` 側で上書き）。残すと遅延ロード画像でカード高さが伸びた際に GPU 合成バッファが初期高さで固定され、装飾（`::before`/`::after`）が画像に被る。 |
 | `_work/` | ビルド・検証・マージ用スクリプト（`build.py`・`pdf_audit.py`・`build_qmeta.py`・`build_image_dims.py`・`compress_images.py`・`fix_missing_bi_badges.py`・各`test_*.js`等）。⚠️**PDFから新科目の章別HTMLを作るときは先に `_work/新科目HTML生成ガイド.md` を読む**（抽出フロー・産婦人科水準の解説品質基準・統合チェックリスト・着手プロンプト。参照実装は精神科psy=`build_psy_ch01.py`／`build_psy_json.py`） |
-| `精神科/` | マイナー講座・精神科（prefix `psy`・💭・#5E60CE）。章別HTML(`ch01_seishinka_kihon.html`〜`ch08_sonota.html`)＋`images/`＋`psy_questions.json`（章名メタ）。HTMLが`questions_psy.json`のソース＝`_work/build_psy_ch{NN}.py`→`_work/build_psy_json.py`で再生成。**全8章256問**。⚠️ **この科目の章を書く・直すときは `_work/精神科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・採点除外はそこが正本） |
-| `耳鼻咽喉科/` | マイナー講座・耳鼻咽喉科（prefix `ent`・👂・#0F766E）。章別HTML(`ch01_mimi_kihon.html`〜)＋`images/`＋`ent_questions.json`（章名メタ）。HTMLが`questions_ent.json`のソース＝`_work/build_ent_ch{NN}.py`→`_work/build_ent_json.py`で再生成。**全8章214問**。抽出・照合は `_work/ent_pdf.py`／`_work/verify_ent_ch.py`。⚠️ **この科目の章を書く・直すときは `_work/耳鼻咽喉科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・採点除外はそこが正本） |
-| `泌尿器科/` | マイナー講座・泌尿器科（prefix `uro`・💦・#0891B2）。章別HTML(`ch01_hinyokika_kihon.html`〜)＋`images/`＋`uro_questions.json`（章名メタ）。HTMLが`questions_uro.json`のソース＝`_work/build_uro_ch{NN}.py`→`_work/build_uro_json.py`で再生成。**全6章242問**。抽出・照合は `_work/uro_pdf.py`／`_work/verify_uro_ch.py`。⚠️ **この科目の章を書く・直すときは `_work/泌尿器科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・採点除外はそこが正本） |
-| `整形外科/` | マイナー講座・整形外科（prefix `ortho`・🦴・#A16207）。章別HTML(`ch01_seikeigeka_kihon.html`〜)＋`images/`＋`ortho_questions.json`（章名メタ）。HTMLが`questions_ortho.json`のソース＝`_work/build_ortho_ch{NN}.py`→`_work/build_ortho_json.py`で再生成。**全6章174問**。抽出・照合は `_work/ortho_pdf.py`／`_work/verify_ortho_ch.py`。⚠️ **この科目の章を書く・直すときは `_work/整形外科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・採点除外はそこが正本） |
-| `麻酔科/` | マイナー講座・麻酔科（prefix `anes`・💉・#7C3AED）。章別HTML(`ch01_shujutsuki.html`〜)＋`images/`＋`anes_questions.json`（章名メタ）。HTMLが`questions_anes.json`のソース＝`_work/build_anes_ch{NN}.py`→`_work/build_anes_json.py`で再生成。**全2章52問＝マイナー講座で最小**。抽出・照合は `_work/anes_pdf.py`／`_work/verify_anes_ch.py`。⚠️ **この科目の章を書く・直すときは `_work/麻酔科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・採点除外はそこが正本） |
-| `放射線科/` | マイナー講座・放射線科（prefix `rad`・☢️・#475569）。章別HTML(`ch01_josho.html`〜)＋`images/`＋`rad_questions.json`（章名メタ）。HTMLが`questions_rad.json`のソース＝`_work/build_rad_ch{NN}.py`→`_work/build_rad_json.py`で再生成。**全4章60問**。⚠️ **この科目だけPDFが2冊**（問題41p＋レジュメ43p）で**レジュメが解説の正本**。抽出・照合は `_work/rad_pdf.py`／`_work/verify_rad_ch.py`。⚠️ **この科目の章を書く・直すときは `_work/放射線科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・分割生成器はそこが正本） |
+| `精神科/` | マイナー講座・精神科（prefix `psy`・💭・#7386F2）。章別HTML(`ch01_seishinka_kihon.html`〜`ch08_sonota.html`)＋`images/`＋`psy_questions.json`（章名メタ）。HTMLが`questions_psy.json`のソース＝`_work/build_psy_ch{NN}.py`→`_work/build_psy_json.py`で再生成。**全8章256問**。⚠️ **この科目の章を書く・直すときは `_work/精神科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・採点除外はそこが正本） |
+| `耳鼻咽喉科/` | マイナー講座・耳鼻咽喉科（prefix `ent`・👂・#549C93）。章別HTML(`ch01_mimi_kihon.html`〜)＋`images/`＋`ent_questions.json`（章名メタ）。HTMLが`questions_ent.json`のソース＝`_work/build_ent_ch{NN}.py`→`_work/build_ent_json.py`で再生成。**全8章214問**。抽出・照合は `_work/ent_pdf.py`／`_work/verify_ent_ch.py`。⚠️ **この科目の章を書く・直すときは `_work/耳鼻咽喉科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・採点除外はそこが正本） |
+| `泌尿器科/` | マイナー講座・泌尿器科（prefix `uro`・💦・#0F9CC0）。章別HTML(`ch01_hinyokika_kihon.html`〜)＋`images/`＋`uro_questions.json`（章名メタ）。HTMLが`questions_uro.json`のソース＝`_work/build_uro_ch{NN}.py`→`_work/build_uro_json.py`で再生成。**全6章242問**。抽出・照合は `_work/uro_pdf.py`／`_work/verify_uro_ch.py`。⚠️ **この科目の章を書く・直すときは `_work/泌尿器科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・採点除外はそこが正本） |
+| `整形外科/` | マイナー講座・整形外科（prefix `ortho`・🦴・#C57E3A）。章別HTML(`ch01_seikeigeka_kihon.html`〜)＋`images/`＋`ortho_questions.json`（章名メタ）。HTMLが`questions_ortho.json`のソース＝`_work/build_ortho_ch{NN}.py`→`_work/build_ortho_json.py`で再生成。**全6章174問**。抽出・照合は `_work/ortho_pdf.py`／`_work/verify_ortho_ch.py`。⚠️ **この科目の章を書く・直すときは `_work/整形外科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・採点除外はそこが正本） |
+| `麻酔科/` | マイナー講座・麻酔科（prefix `anes`・💉・#A373FE）。章別HTML(`ch01_shujutsuki.html`〜)＋`images/`＋`anes_questions.json`（章名メタ）。HTMLが`questions_anes.json`のソース＝`_work/build_anes_ch{NN}.py`→`_work/build_anes_json.py`で再生成。**全2章52問＝マイナー講座で最小**。抽出・照合は `_work/anes_pdf.py`／`_work/verify_anes_ch.py`。⚠️ **この科目の章を書く・直すときは `_work/麻酔科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・採点除外はそこが正本） |
+| `放射線科/` | マイナー講座・放射線科（prefix `rad`・☢️・#8790A9）。章別HTML(`ch01_josho.html`〜)＋`images/`＋`rad_questions.json`（章名メタ）。HTMLが`questions_rad.json`のソース＝`_work/build_rad_ch{NN}.py`→`_work/build_rad_json.py`で再生成。**全4章60問**。⚠️ **この科目だけPDFが2冊**（問題41p＋レジュメ43p）で**レジュメが解説の正本**。抽出・照合は `_work/rad_pdf.py`／`_work/verify_rad_ch.py`。⚠️ **この科目の章を書く・直すときは `_work/放射線科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・分割生成器はそこが正本） |
 | `中毒・職業病/` | **マイナー講座ではなく横断テーマ**（prefix `tox`・☠️・#65A30D）。章別HTML(`ch01_kinzoku_chudoku.html`〜`ch07_butsuriteki_shikkan.html`)＋`tox_questions.json`（章名メタ）。HTMLが`questions_tox.json`のソース＝`_work/build_tox_ch{NN}.py`→`_work/build_tox_json.py`で再生成。**全7章48問・画像0枚**。⚠️ **版面が他科目と違う**（レジュメと問題が交互に並ぶ／解答表に★列・CBT列が無い）。抽出・照合は `_work/tox_pdf.py`／`_work/verify_tox_ch.py`。⚠️ **この科目の章を書く・直すときは `_work/中毒・職業病_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問はそこが正本） |
-| `公衆衛生/` | **マイナー講座ではなく独立した公衆衛生講座**（prefix `ph`・🏛・#0891B2）。章別HTML(`ch01_ishihou_to_iryouhou.html`〜`ch19_sonota_kihonjikou.html`)＋`ph_questions.json`（全19章の章名メタ）。HTMLが`questions_ph.json`のソース＝`_work/build_ph_ch{NN}.py`→`_work/build_ph_json.py`で再生成。**全19章619問が完成**（2026-08-28）。⚠️ **この科目もPDFが2冊**（問題283p＋レジュメ96p）で**レジュメが解説の正本**。抽出・照合は `_work/ph_pdf.py`／`_work/verify_ph_ch.py`。章ごとの軸・罠・座標の台帳は `_work/公衆衛生_引き継ぎ.md`（作業手順そのものは `_work/公衆衛生_章作業手順.md` に残してある——将来この科目に手を入れる際の参照実装として） |
-| `眼科/` | マイナー講座・眼科（prefix `oph`・👁️・#0E7490）。章別HTML(`ch01_ganka_kihon.html`〜)＋`images/`＋`oph_questions.json`（章名メタ）。HTMLが`questions_oph.json`のソース＝`_work/build_oph_ch{NN}.py`→`_work/build_oph_json.py`で再生成。**全8章213問**。抽出・照合は `_work/oph_pdf.py`／`_work/verify_oph_ch.py`（⚠️ 後者は長く**0バイト**で存在しないのと同じだった。2026-08-26に ent 版から復元＝全8章213問 errors=0。**`--dis` で解答一覧表の「疾患名」列を出せる**＝眼底写真の読みを裏取りする正本）。⚠️ **この科目の章を書く・直すときは `_work/眼科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・図が選択肢の問題はそこが正本） |
-| `皮膚科/` | マイナー講座・皮膚科（prefix `derm`・🩹・#B5654A）。章別HTML(`ch01_hifuka_kihon.html`〜)＋`images/`＋`derm_questions.json`（章名メタ）。HTMLが`questions_derm.json`のソース＝`_work/build_derm_ch{NN}.py`→`_work/build_derm_json.py`で再生成。**全9章249問**（画像問題が主体・PDF全体で埋め込みJPEG204枚）。⚠️ **この科目の章を書く・直すときは `_work/皮膚科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・章頭NO.はそこが正本） |
+| `公衆衛生/` | **マイナー講座ではなく独立した公衆衛生講座**（prefix `ph`・🏛・#3097CE）。章別HTML(`ch01_ishihou_to_iryouhou.html`〜`ch19_sonota_kihonjikou.html`)＋`ph_questions.json`（全19章の章名メタ）。HTMLが`questions_ph.json`のソース＝`_work/build_ph_ch{NN}.py`→`_work/build_ph_json.py`で再生成。**全19章619問が完成**（2026-08-28）。⚠️ **この科目もPDFが2冊**（問題283p＋レジュメ96p）で**レジュメが解説の正本**。抽出・照合は `_work/ph_pdf.py`／`_work/verify_ph_ch.py`。章ごとの軸・罠・座標の台帳は `_work/公衆衛生_引き継ぎ.md`（作業手順そのものは `_work/公衆衛生_章作業手順.md` に残してある——将来この科目に手を入れる際の参照実装として） |
+| `眼科/` | マイナー講座・眼科（prefix `oph`・👁️・#5197B7）。章別HTML(`ch01_ganka_kihon.html`〜)＋`images/`＋`oph_questions.json`（章名メタ）。HTMLが`questions_oph.json`のソース＝`_work/build_oph_ch{NN}.py`→`_work/build_oph_json.py`で再生成。**全8章213問**。抽出・照合は `_work/oph_pdf.py`／`_work/verify_oph_ch.py`（⚠️ 後者は長く**0バイト**で存在しないのと同じだった。2026-08-26に ent 版から復元＝全8章213問 errors=0。**`--dis` で解答一覧表の「疾患名」列を出せる**＝眼底写真の読みを裏取りする正本）。⚠️ **この科目の章を書く・直すときは `_work/眼科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・図が選択肢の問題はそこが正本） |
+| `皮膚科/` | マイナー講座・皮膚科（prefix `derm`・🩹・#BF7F60）。章別HTML(`ch01_hifuka_kihon.html`〜)＋`images/`＋`derm_questions.json`（章名メタ）。HTMLが`questions_derm.json`のソース＝`_work/build_derm_ch{NN}.py`→`_work/build_derm_json.py`で再生成。**全9章249問**（画像問題が主体・PDF全体で埋め込みJPEG204枚）。⚠️ **この科目の章を書く・直すときは `_work/皮膚科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・章頭NO.はそこが正本） |
 
 ⚠️ **科目フォルダの行には「何のフォルダで、どう再生成するか」だけを書く。**
 章の軸・PDF固有の罠・最難問・採点除外・図の抽出順といった**章単位の作業ノートは `_work/{科目名}_引き継ぎ.md` が正本**で、2026-08-26 に全10科目ぶんをこの表から移した（CLAUDE.md 全体で約135,000字 → 約88,000字）。表のセルに書くと、**二度と書かない完成科目のぶんまで毎セッション読み込まれる**うえ、セル内改行で表そのものが Markdown として壊れる。**新しい科目を足すときも同じ形にすること。**
@@ -1188,10 +1188,23 @@ node _work/test_next10_fx.js       (9)    node _work/test_dynamic_fx.js     (10)
 node _work/test_concentric_fx.js   (4)
 ```
 
-⚠️ **`node _work/check_themes.js`（ベース6テーマの配色検査）は 2026-08-26 時点で6テーマ全部が
-不合格**。原因はテーマ側ではなく**放射線科 `rad` の科目色 `#475569`** で、カード面に対する
-コントラストが 1.95〜2.03:1 と基準（2.5:1）に届かない。**科目色を足すときはこの検査を通すこと**
-——通っていれば全科目色が基準を満たす設計になっている。他の検査はすべて green。
+✅ **`node _work/check_themes.js`（ベース6テーマの配色検査）は 2026-09-09 に全テーマ合格へ戻した。**
+基準は**カード面に対して 4.5:1**（`--subj-ink #1A1206` を載せた側も 4.5:1）で、2.5:1 ではない。
+落ちていた原因はテーマ側ではなく**後から足した9科目の色**——`anes` `derm` `ent` `oph` `ortho`
+`ph` `psy` `rad` `uro` が Tailwind 700番台の暗色のまま入っており、1.95〜4.02:1 しかなかった。
+`3b258e9`（12科目を OKLCH で再導出した回）の方針に揃えて、**色相を保ったまま明度だけ上げて**
+再導出した（色相の移動は −4.9°〜+15.3°）。⚠️ **`ph` と `uro` は両方 `#0891B2` の完全な重複**
+だったので、`ph` を +15.3° 回して分けた。
+
+⚠️ **科目色を足すときはこの検査を通すこと。** 満たすべきは3つ:
+① カード面に 4.5:1 以上（最も明るいのは `th-teal` の L=0.0210）
+② `--subj-ink` を載せて 4.5:1 以上（科目色は**地**として使われ、暗インクが乗る）
+③ 既存の科目色と OKLab ΔE 3.0 以上（現在の最小は `neur`-`tox` の 3.0）
+⚠️ **色は4つのテーブルすべてで同じ値にすること**——`chapters_meta.js` /
+`study.html` の `STUDY_SUBJECTS` / `gamify.js` の `SUBJECTS` / `mindmap_data/index.js`
+（最後の1つは `node _work/build_mindmap_index.js` で `gamify.js` から生成する）。
+⚠️ `{科目}/ch*.html` の `--or` は**別のトークン**（章別ページ自身のアクセント色）で、
+この統一の対象ではない。study.html からは参照されないので古い色のまま残っている。
 
 `test_subject_totals.js` は questions_*.json / `gamify.js`の`SUBJECTS` / `chapters_meta.js`
 の3か所に散らばった問題数が一致しているかを見る。問題を増減したら必ずここが落ちる。

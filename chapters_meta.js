@@ -766,7 +766,7 @@ const MEC_CHAPTERS = [
     "id": "psy",
     "name": "精神科",
     "icon": "💭",
-    "color": "#5E60CE",
+    "color": "#7386F2",
     "chapters": [
       {
         "prefix": "psy_ch01",
@@ -822,7 +822,7 @@ const MEC_CHAPTERS = [
     "id": "derm",
     "name": "皮膚科",
     "icon": "🩹",
-    "color": "#B5654A",
+    "color": "#BF7F60",
     "chapters": [
       {
         "prefix": "derm_ch01",
@@ -884,7 +884,7 @@ const MEC_CHAPTERS = [
     "id": "oph",
     "name": "眼科",
     "icon": "👁️",
-    "color": "#0E7490",
+    "color": "#5197B7",
     "chapters": [
       {
         "prefix": "oph_ch01",
@@ -940,7 +940,7 @@ const MEC_CHAPTERS = [
     "id": "ent",
     "name": "耳鼻咽喉科",
     "icon": "👂",
-    "color": "#0F766E",
+    "color": "#549C93",
     "chapters": [
       {
         "prefix": "ent_ch01",
@@ -996,7 +996,7 @@ const MEC_CHAPTERS = [
     "id": "uro",
     "name": "泌尿器科",
     "icon": "💦",
-    "color": "#0891B2",
+    "color": "#0F9CC0",
     "chapters": [
       {
         "prefix": "uro_ch01",
@@ -1040,7 +1040,7 @@ const MEC_CHAPTERS = [
     "id": "ortho",
     "name": "整形外科",
     "icon": "🦴",
-    "color": "#A16207",
+    "color": "#C57E3A",
     "chapters": [
       {
         "prefix": "ortho_ch01",
@@ -1084,7 +1084,7 @@ const MEC_CHAPTERS = [
     "id": "anes",
     "name": "麻酔科",
     "icon": "💉",
-    "color": "#7C3AED",
+    "color": "#A373FE",
     "chapters": [
       {
         "prefix": "anes_ch01",
@@ -1104,7 +1104,7 @@ const MEC_CHAPTERS = [
     "id": "rad",
     "name": "放射線科",
     "icon": "☢️",
-    "color": "#475569",
+    "color": "#8790A9",
     "chapters": [
       {
         "prefix": "rad_ch01",
@@ -1186,7 +1186,7 @@ const MEC_CHAPTERS = [
     "id": "ph",
     "name": "公衆衛生",
     "icon": "🏛",
-    "color": "#0891B2",
+    "color": "#3097CE",
     "chapters": [
       {
         "prefix": "ph_ch01",
