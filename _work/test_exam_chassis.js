@@ -294,14 +294,30 @@ t('8. 筐体で animation を持つのは .st-hdr::after（D9 稼働灯）だけ
 });
 
 // ══ 9. iOS の既存禁則を初めて機械化する ═════════════════════════════════════
-t('9. .qc / .st-hdr / .sgh の宣言に backdrop-filter が無い（iOS WebKit の白wash）', () => {
+t('9. .qc / .st-hdr / .sgh に backdrop-filter を「掛けて」いない（iOS WebKit の白wash）', () => {
+  /* ⚠️ 2026-09-09 に判定を直した。旧実装は /backdrop-filter/ の有無だけを見ていたので、
+     `backdrop-filter:none!important`（＝テーマが掛けたものを剝がす**解除の側**）まで
+     違反として数え、24e36a2「iOS WebKitで問題カードに装飾エフェクトが被る不具合を修正」で
+     その解除が入った時点から落ちっぱなしになっていた。禁じたいのは「掛けること」であって
+     「剝がすこと」ではない。値が none 以外のものだけを違反とする。 */
   ['.qc', '.st-hdr', '.sgh'].forEach(sel => {
     rulesFor(sel).forEach(r => {
-      assert.ok(!/backdrop-filter/.test(r.body),
-        sel + ' に backdrop-filter が付いている → ' + r.sel.trim() +
+      const applied = (r.body.match(/(?:-webkit-)?backdrop-filter\s*:\s*([^;}]+)/g) || [])
+        .filter(d => !/:\s*none\b/.test(d));
+      assert.ok(applied.length === 0,
+        sel + ' に backdrop-filter を掛けている → ' + r.sel.trim() + ' { ' + applied.join('; ') + ' }' +
         '（iOS WebKit の合成が破綻して画面下が白くなる）');
     });
   });
+  /* ⚠️ 解除そのものが消えていないことも見る。8つのUIテーマは .qc に backdrop-filter を
+     掛けるので、study.css 側のこの打ち消しが無くなると iPad で装飾が画像に被る
+     （CLAUDE.md「iOS WebKit では .qc の contain: layout と backdrop-filter は必ず解除する」）。 */
+  const cancels = rulesFor('.qc').filter(r => /backdrop-filter\s*:\s*none\s*!important/.test(r.body));
+  assert.ok(cancels.length > 0,
+    'study.css から .qc の backdrop-filter 解除が消えている（iOS WebKit で装飾が画像に被る）');
+  const cancelsCv = rulesFor('.qc').filter(r => /contain\s*:\s*none\s*!important/.test(r.body));
+  assert.ok(cancelsCv.length > 0,
+    'study.css から .qc の contain 解除が消えている（遅延ロード画像でカード高さが伸びた時に崩れる）');
 });
 
 // ══ 10. .qc の層は満杯。3人目を入れない ════════════════════════════════════

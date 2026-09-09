@@ -65,7 +65,7 @@ window.MM_DATA["hbp"] = {
         keys: ["Klatskin腫瘍（肝門部）：最多；切除困難","閉塞性黄疸（直接Bil↑・ALP↑・CA19-9↑）","ERCP：不整な胆管狭窄像；細胞診で確定","切除可能なら拡大肝切除；不能なら胆管ドレナージ＋化学療法"] },
       { id: "d06c", label: "乳頭部癌", imgs: [],
         keys: ["Vater乳頭部に発生；比較的早期発見可能","黄疸を早期呈する；内視鏡で観察可能","膵頭十二指腸切除術（Whipple手術）","5年生存率40-60%（胆管癌・膵癌より良好）"] },
-      { id: "d06d", label: "IPMN", imgs: ["肝胆膵/images/117F-66_1.jpeg"],
+      { id: "d06d", label: "IPMN", imgs: ["肝胆膵/images/102D-38_1.jpeg"],
         keys: ["膵管内乳頭粘液性腫瘍：膵管内にムチン産生腫瘍","主膵管型（MD-IPMN）：悪性度高い（>60%）","分枝型（BD-IPMN）：大部分が良性（Worrisome feature評価）","高懸念：主膵管拡張>10mm・壁在結節・細胞診陽性"] },
     ] },
     { id: "ch07", label: "膵炎", diseases: [

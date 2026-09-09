@@ -102,17 +102,57 @@ test('study.css と study_exam.js に exam-slash-freeze がある', () => {
   assert(examSrc.includes('document.body.classList.add(\'exam-slash-freeze\')'), 'Missing slash freeze in study_exam.js');
 });
 
+/* 数値の上限を拾う。`count: 240` も `count: pct >= 100 ? 240 : 80` も同じ 240 を返す。
+   ⚠️ マジックナンバーそのものを assert に書かないための道具。演出の強さを調整しても
+      「大きく出している」という性質だけが守られ、テストが嘘をつかない。 */
+function maxNumAfter(body, key, re2) {
+  const rx = new RegExp(key + '\\s*:\\s*([^,}\\]]+)', 'g');
+  let m, best = 0;
+  while ((m = rx.exec(body))) {
+    if (re2 && !re2.test(m[0])) continue;
+    (m[1].match(/\d+/g) || []).forEach(n => { best = Math.max(best, Number(n)); });
+  }
+  return best;
+}
+
 console.log('── 5. リザルト大花火 & 紙吹雪キャノン (案5) ──');
-test('study_exam.js に超大規模花火と紙吹雪がある', () => {
-  assert(examSrc.includes('count: 16'), 'Missing 16 fireworks in study_exam.js');
-  assert(examSrc.includes('count: 240'), 'Missing 240 confetti in study_exam.js');
+test('結果画面の祝賀が生きた経路から出て、満点で大きく出る', () => {
+  // ⚠️ かつてここは includes('count: 240') だった。実装が
+  //    `count: pct >= 100 ? 240 : 80` の三項に変わった時点で文字列が消え、
+  //    演出は生きているのにテストだけが落ちた（2026-09-09 に構造検査へ書き換え）。
+  const sum = fnBodyOf(examSrc, 'showExamSummary');
+  assert(sum, 'showExamSummary が見つからない');
+  // 生きた経路：試験の終了処理から必ず呼ばれる
+  assert(/try\s*\{\s*showExamSummary\(\)/.test(examSrc),
+    'showExamSummary が試験終了の経路から呼ばれていない');
+  assert(/MecFX\.fireworks\(/.test(sum), '結果画面に花火が無い');
+  assert(/MecFX\.confetti\(/.test(sum), '結果画面に紙吹雪が無い');
+  // 満点（pct>=100）の枝だけ大きく出す。段の付け方が変わっても「大きい」ことは守る。
+  assert(sum.includes('pct >= 100'), '満点かどうかで段を分けていない');
+  assert(maxNumAfter(sum, 'count') >= 200,
+    '紙吹雪の最大数が小さすぎる（実際 ' + maxNumAfter(sum, 'count') + '）');
 });
 
 console.log('── 6. ハブ目標達成の全方位スチーム大爆発 & コイン噴火 (案7) ──');
-test('index.html に全方位スチーム・大量ギア・金貨がある', () => {
-  assert(indexSrc.includes('count: 24, spread: 380'), 'Missing 24 gears in index.html');
-  assert(indexSrc.includes('count: 120'), 'Missing 120 confetti in index.html');
-  assert(indexSrc.includes('rise: 180'), 'Missing large steam rise in index.html');
+test('目標達成の刻印が生きた経路から出て、全方位に大きく撒く', () => {
+  // ⚠️ ここも includes('count: 24, spread: 380') というマジックナンバーだった。
+  //    値が 28 / 400 に調整された時点で落ちた（演出は生きている）。
+  const seal = fnBodyOf(indexSrc, '_stampGoalSeal');
+  assert(seal, '_stampGoalSeal が見つからない');
+  // 生きた経路：ゲージが段5（目標100%）へ上がった一度きりで押される
+  const drive = fnBodyOf(indexSrc, '_driveGauge');
+  assert(drive.includes('_stampGoalSeal('), '_driveGauge から刻印が押されていない');
+  assert(/tier >= 5 && wasTier < 5/.test(drive), '段5へ上がった一度きり、という条件が消えている');
+  assert(/MecFX\.gears\(/.test(seal), '真鍮の歯車が撒かれていない');
+  assert(/MecFX\.confetti\(/.test(seal), '金貨（紙吹雪）が撒かれていない');
+  assert(/MecFX\.steam\(/.test(seal), '全方位スチームが無い');
+  assert(maxNumAfter(seal, 'count') >= 100,
+    '撒く量が小さすぎる（実際 ' + maxNumAfter(seal, 'count') + '）');
+  assert(maxNumAfter(seal, 'rise') >= 150,
+    'スチームの高さが足りない（実際 ' + maxNumAfter(seal, 'rise') + '）');
+  // 四方八方＝steam を複数点から呼ぶ（1点だと「全方位」にならない）
+  assert((seal.match(/MecFX\.steam\(/g) || []).length >= 3,
+    'スチームの発生点が3つ未満＝全方位になっていない');
 });
 
 console.log('── 7. 難問突破クラウン & 宝石バースト (案10) ──');
