@@ -1,5 +1,15 @@
 # -*- coding: utf-8 -*-
 """
+⚠️⚠️ **このスクリプトを流すと questions_obg.json の解説が 416問ぶん消える（2026-09-09 実測）。**
+   `🔍 選択肢解説`（cls=em）のブロックは**章別HTMLに1つも無く、JSON にしか存在しない**
+   （HTML 全13章で「選択肢解説」の出現は 0 件）。つまり産婦人科は
+   **もう「HTMLが正本・JSONは派生物」ではない**——JSON へ直接書かれた解説があり、
+   HTML はその時点で止まっている。CLAUDE.md のファイル構成表の記述はここだけ古い。
+
+   直す（＝HTML を正本に戻す）なら、先に JSON の em ブロック416件を HTML へ書き戻すこと。
+   それまでは **questions_obg.json を直接編集し、このスクリプトを流さない**。
+   図やバッジを HTML 側にも入れておくのは、将来その復元をするときのため。
+
 産婦人科の章別HTML（産婦人科/chNN_*.html）から questions_obg.json を生成する。
 build_peds_json.py と同構造（小児科と同じく data-uid / data-rate が無い形式）:
   - uid = obg_ch{nn}_{card_id}（例 obg_ch01_q1）
