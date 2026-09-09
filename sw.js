@@ -1,3 +1,13 @@
+// 2026-09-09k: エラー報告 jinzo_d_ch03_q106（✂️問題文不完全）の正体は正解表示だった——正解が2肢以上ある問題の ans_label は「ａ　NSAID / ｅ　ACE阻害薬」（間は改行）と改行で肢を区切る科目が7つ（401問。過去問HTMLにも218問）あるのに、`.ac` に white-space 指定が無く改行が空白に潰れて1行につながっていた。
+//   `.ac` に white-space:pre-line を入れた（study.css ＋ 過去問HTML 30枚のインライン規則）。実データの改行739個のうち738個は肢の頭の直前にあり、残る1個も改行されるのが正しい＝pre-line で困る箇所は無い。
+//   あわせて、区切りが1つも無く肢が地続きだった神経96問・感染症14問の ans_label を改行区切りへ揃えた（_work/split_ans_label_choices.py）。⚠️ 空白を区切りに数えないこと——MEC は2文字語を「散　瞳」と U+3000 で割って組むので、数えると肢の頭を取り落とす。
+//   questions_neur.json / questions_kansen.json を変えたので CACHE を bump（mec-v379 → mec-v380）。
+// 2026-09-09j: エラー報告5件を直した。①実力試験(jitsu1) の最後の肢に紛れ込んでいた「図ラベル＋ページ番号」を14問ぶん落とした（`ｅ　外科手術　：AB138C   D`）。
+//   ②神経の連問6群で、共通ステムが参照する図が1問目にしか付いていなかったのを兄弟10問へ配った（CLAUDE.md「連問の図」の 2026-09-06 規約）。
+//   ③夏メック模試で「別冊No.」が「別／冊」の間で行折れする紙面6か所を RE_BETSU が拾えず、A42・C14・C57・D66・E49・E50 の6問が図無しになっていたのを是正（設問図 138枚→143枚）。
+//   ④感染症 114E-46 に付いていた胸部CTを外した——解説書PDFのそのページには画像が1枚も無く、この絵は 114F-66_1.jpeg / 114F-68_1.jpeg（ニューモシスチス肺炎の連問）とバイト単位で同一だった＝誤帰属。
+//   ⑤あわせて pdf_audit.py の連問グループ判定を書式②（旧コア12科目の qt-context）にも効くようにした。ここが宣言文（書式①）しか見ていなかったので、ステムの図を兄弟へ配ると「ファイル名の問題コード ≠」が兄弟の数だけ誤検出になっていた。
+//   questions_jitsu1.json / questions_neur.json / questions_kansen.json / questions_m121s.json と画像を変えたので CACHE を bump（mec-v378 → mec-v379）。
 // 2026-09-09i: ans_sub（✅の下の一行）を qt / eg[].c と同じ生HTMLとして描くようにした。
 //   card_renderer.js だけが esc() を通していたため、執筆時に入れた <span class="kw3"> や <b> が
 //   タグの文字列そのものとして画面に出ていた（m121s 65問・resp 152問。ほかの科目は ans_sub に
@@ -27,12 +37,6 @@
 //   ⚠️ 色は4テーブルで同じ値にすること: chapters_meta.js / study.html の STUDY_SUBJECTS / gamify.js の SUBJECTS / mindmap_data/index.js（最後は build_mindmap_index.js で生成）。
 //   ⚠️ {科目}/ch*.html の --or は別トークン（章別ページ自身のアクセント色）なので古い色のまま。study.html からは参照されない。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-09e → 2026-09-09f）。
-// 2026-09-09f: エラー報告5件を直した。①実力試験(jitsu1) の最後の肢に紛れ込んでいた「図ラベル＋ページ番号」を14問ぶん落とした（`ｅ　外科手術　：AB138C   D`）。
-//   ②神経の連問6群で、共通ステムが参照する図が1問目にしか付いていなかったのを兄弟10問へ配った（CLAUDE.md「連問の図」の 2026-09-06 規約）。
-//   ③夏メック模試で「別冊No.」が「別／冊」の間で行折れする紙面6か所を RE_BETSU が拾えず、A42・C14・C57・D66・E49・E50 の6問が図無しになっていたのを是正（設問図 138枚→143枚）。
-//   ④感染症 114E-46 に付いていた胸部CTを外した——解説書PDFのそのページには画像が1枚も無く、この絵は 114F-66_1.jpeg / 114F-68_1.jpeg（ニューモシスチス肺炎の連問）とバイト単位で同一だった＝誤帰属。
-//   ⑤あわせて pdf_audit.py の連問グループ判定を書式②（旧コア12科目の qt-context）にも効くようにした。ここが宣言文（書式①）しか見ていなかったので、ステムの図を兄弟へ配ると「ファイル名の問題コード ≠」が兄弟の数だけ誤検出になっていた。
-//   questions_jitsu1.json / questions_neur.json / questions_kansen.json / questions_m121s.json と画像を変えたので CACHE を bump（mec-v378 → mec-v379）。
 // 2026-09-09e: 模試の成績カルテ（mock_karte.html）を新設し、ハブのタイル（🩺 模試 成績カルテ）から開けるようにした。採点は mock.js に任せて集計と並べ替えだけを行う＝正誤の式はここにも1つも無い。全国正答率の受け口は mock_data/{id}_rates.js（window.MecMockRates）で、成績表が届いたらそのファイルへ数字を書くだけで「取りこぼし検出」・科目別の全国比・設問一覧の列と並べ替えが自動で有効になる。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-09d → 2026-09-09e）。
 // 2026-09-09d: 模試本番で落とした問題だけを演習する導線を足した。study.html のフィルタ行に ❌模試誤答 を新設し（模試を選んでいるときだけ出る）、mock.html の結果画面に「❌ 間違えた N問を演習する」ボタンを置いて study.html?sid={examId}&filter=mock_wrong へ飛ばす。絞ったまま試験を始めれば誤答だけのセッションになる（_examCandidateCards() が表示中のカードだけを拾うため）。
@@ -1363,12 +1367,12 @@
 // v376: 夏メック模試（m121s）の解説を questions_m121s.json として新設し study.html へ統合。
 //       解説書PDFから全400問（A〜F を ch01〜ch06・番号は科目内で通し）を生成した。
 //       questions_*.json が1つ増えたので SHELL_VERSION だけでは足りず CACHE を bump。
-const CACHE = "mec-v379";
+const CACHE = "mec-v380";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-09j";
+const SHELL_VERSION = "2026-09-09k";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
