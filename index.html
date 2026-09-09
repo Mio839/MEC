@@ -227,9 +227,12 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 .hero-lv-bar{display:block;height:6px;margin-top:6px;border-radius:3px;overflow:hidden;
   background:rgba(0,0,0,.35);border:1px solid rgba(var(--glass-rgb),.15);
   box-shadow:inset 0 1px 2px rgba(0,0,0,.5);}
-/* barGrow はタイルの進捗バーと共用（backwards fill で0から伸びる） */
+/* barGrow はタイルの進捗バーと共用（backwards fill で0から伸びる）
+   ⚠️ transform-origin:left は必須。既定の center のままだと scaleX(0→1) が
+      「中央から左右へ」広がり、左端から溜まっていくバーに見えない
+      （.tile-bar span は最初から left を指定している＝こちらだけ抜けていた）。 */
 .hero-lv-bar span{display:block;height:100%;border-radius:2px;background:linear-gradient(90deg,var(--or),var(--ord,#E07A20));
-  box-shadow:0 0 8px var(--or);
+  box-shadow:0 0 8px var(--or);transform-origin:left center;
   animation:barGrow .95s var(--ease-out) .35s backwards;}
 .hero.settled .hero-lv-bar span{animation:none;}
 /* D3(2026-08-14): レベルアップ間近（残り10%）だけ脈打つ。常時光らせると意味を失う */
@@ -4634,6 +4637,141 @@ html.ui-frost .hero-say.srs-card.is-clear{border-left-color:#7DF5C9;box-shadow:0
 html.ui-frost .hero-say.is-clear .srs-card-ttl{background:linear-gradient(180deg,#FFFFFF,#7DF5C9 50%,#70D6FF 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
 html.ui-frost .srs-card-hint{color:#A9D3E4;}
 
+/* ══════════ レベルバーが伸び切った瞬間の一撃（2026-09-09）══════════
+   バーは左端から右へ伸びる（barGrow ＋ transform-origin:left）。伸び終わりの合図は
+   JS が barGrow の animationend で受け、この層に .on を付けて 1.8 秒後に外す。
+
+   ⚠️ 使える層は3枚で、分担は固定。同じ層に2つ置くと後勝ちで片方が黙って死ぬ:
+        .lv-burst         … 帯全体の余韻（残光・霜・うねり）
+        .lv-burst::before … 先端＝伸び切った位置（--lv-p は JS が入れる）
+        .lv-burst::after  … 帯の中を一度だけ抜ける走査
+   ⚠️ 既定は display:none。opacity:0 で置きっぱなしにすると、非表示タブで
+      アニメが1frameも進まないまま層だけが残る（stats.html の armReveal と同じ穴）。
+   ⚠️ テーマ側は色と形と keyframes だけを書く。位置と寸法の既定はここが持つ。
+   ⚠️ 動かすのは transform ではなく scale / rotate（独立プロパティ）。テーマの
+      keyframes と基底の keyframes が同じ transform を取り合うのを避ける。
+   ⚠️⚠️ テーマ側で `background:` のショートハンドを書かないこと（必ず `background-image:`）。
+      ショートハンドは基底が持つ `background-size:34% 100%` と `background-repeat:no-repeat`
+      を既定値へ戻すので、走査の光が帯いっぱいに広がって敷き詰められ、
+      background-position を動かしても**何も動かない**（実機で一度これを踏んだ）。 */
+/* ⚠️ 高さは .hero-lv-bar の外形と同じ 6px（box-sizing:border-box なので枠線込み）。
+      バーは .hero-lv の最後の要素なので bottom:0 で下端が揃う。 */
+.lv-burst{position:absolute;left:0;right:0;bottom:0;height:6px;border-radius:3px;
+  display:none;pointer-events:none;z-index:2;}
+.lv-burst.on{display:block;}
+.lv-burst::before,.lv-burst::after{content:'';position:absolute;pointer-events:none;}
+.lv-burst::before{left:var(--lv-p,100%);top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;
+  border-radius:50%;background-image:radial-gradient(circle,#FFF 0%,var(--or) 45%,transparent 72%);
+  animation:lvTipFlare .82s var(--ease-out) both;}
+.lv-burst::after{left:0;right:0;top:0;bottom:0;border-radius:inherit;
+  background-image:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);
+  background-size:34% 100%;background-repeat:no-repeat;
+  animation:lvSweep .78s var(--ease-out) both;}
+@keyframes lvTipFlare{0%{opacity:0;scale:.35;}30%{opacity:1;scale:2.2;}100%{opacity:0;scale:4;}}
+/* ⚠️ 光が右端へ届く前に消えないよう、不透明は終盤まで保つ。
+      ease-out は位置を前半で使い切るので、opacity を 18%→100% の直線にすると
+      帯の半ばで消えて「走った」に見えない。 */
+@keyframes lvSweep{0%{background-position:-45% 0;opacity:0;}
+  15%{opacity:1;}72%{opacity:.9;}100%{background-position:145% 0;opacity:0;}}
+
+/* aurora ── プリズムが割れて虹の閃光が抜ける */
+html.ui-aurora .lv-burst{animation:lvAuroraGlow .95s var(--ease-out) both;}
+@keyframes lvAuroraGlow{0%{box-shadow:0 0 0 0 rgba(0,223,216,0);}
+  30%{box-shadow:0 0 14px 3px rgba(0,223,216,.55),0 0 26px 7px rgba(255,0,128,.26);}
+  100%{box-shadow:0 0 0 0 rgba(0,223,216,0);}}
+html.ui-aurora .lv-burst::before{
+  background-image:radial-gradient(circle,#FFFFFF 0%,#00DFD8 38%,rgba(189,52,254,.55) 62%,transparent 76%);}
+html.ui-aurora .lv-burst::after{mix-blend-mode:screen;background-size:48% 100%;
+  background-image:linear-gradient(90deg,transparent,rgba(0,223,216,.85) 30%,rgba(255,255,255,.95) 50%,rgba(255,0,128,.75) 70%,transparent);}
+
+/* brass ── 弁が締まり、真鍮の刻印が一度光る */
+html.ui-brass .lv-burst{animation:lvBrassClank .9s var(--ease-out) both;}
+@keyframes lvBrassClank{0%{box-shadow:0 0 0 0 rgba(224,194,94,0);}
+  20%{box-shadow:0 0 12px 2px rgba(224,194,94,.6),inset 0 0 6px rgba(255,248,220,.65);}
+  100%{box-shadow:0 0 0 0 rgba(224,194,94,0);}}
+html.ui-brass .lv-burst::before{width:16px;height:16px;margin:-8px 0 0 -8px;
+  background-image:radial-gradient(circle,#FFF8DC 0%,#FFD700 34%,#C9A227 58%,transparent 74%);
+  animation:lvTipFlare .68s var(--ease-out) both;}
+html.ui-brass .lv-burst::after{
+  background-image:linear-gradient(90deg,transparent,rgba(224,194,94,.55) 30%,rgba(255,248,220,.95) 50%,rgba(201,162,39,.5) 70%,transparent);
+  animation:lvSweep .92s var(--ease-out) both;}
+
+/* cyber ── 照準がロックし、走査が段階的に抜ける（steps＝機械の刻み） */
+html.ui-cyber .lv-burst{animation:lvCyberFlicker .66s steps(6,end) both;}
+@keyframes lvCyberFlicker{0%,100%{box-shadow:0 0 0 0 rgba(0,255,157,0);}
+  20%{box-shadow:0 0 12px 2px rgba(0,255,157,.7);}
+  45%{box-shadow:0 0 4px 0 rgba(0,229,255,.35);}
+  70%{box-shadow:0 0 16px 3px rgba(0,255,157,.85);}}
+html.ui-cyber .lv-burst::before{width:10px;height:14px;margin:-7px 0 0 -5px;border-radius:1px;
+  background-image:linear-gradient(180deg,#00FF9D,#00E5FF);box-shadow:0 0 10px #00FF9D;
+  animation:lvCyberLock .62s steps(5,end) both;}
+@keyframes lvCyberLock{0%{opacity:0;scale:2.4 .2;}40%{opacity:1;scale:1 1.6;}100%{opacity:0;scale:.4 1;}}
+html.ui-cyber .lv-burst::after{background-image:linear-gradient(90deg,transparent,rgba(0,255,157,.9),transparent);
+  animation:lvSweep .54s steps(8,end) both;}
+
+/* liquid ── 液面が満ちて張力で膨らみ、雫が跳ねる */
+html.ui-liquid .lv-burst{transform-origin:left center;animation:lvLiquidSwell 1s var(--ease-out) both;}
+@keyframes lvLiquidSwell{0%{scale:1 1;box-shadow:0 0 0 0 rgba(255,0,127,0);}
+  35%{scale:1 1.85;box-shadow:0 0 16px 4px rgba(255,0,127,.42);}
+  70%{scale:1 .88;}100%{scale:1 1;box-shadow:0 0 0 0 rgba(255,0,127,0);}}
+html.ui-liquid .lv-burst::before{width:14px;height:14px;margin:-7px 0 0 -7px;
+  background-image:radial-gradient(circle,#FFFFFF 0%,#FF52A0 40%,rgba(0,242,254,.55) 66%,transparent 78%);
+  animation:lvLiquidDrop .9s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes lvLiquidDrop{0%{opacity:0;scale:.3 2.2;}35%{opacity:1;scale:2.4 1.5;}
+  70%{scale:2.9 2.5;}100%{opacity:0;scale:3.6 3.1;}}
+html.ui-liquid .lv-burst::after{background-image:linear-gradient(90deg,transparent,rgba(255,0,127,.7) 34%,rgba(255,255,255,.9) 50%,rgba(0,242,254,.7) 66%,transparent);}
+
+/* kintsugi ── 継ぎ目に金が流し込まれ、縁が金線で締まる */
+html.ui-kintsugi .lv-burst{animation:lvKinGild 1.05s var(--ease-out) both;}
+@keyframes lvKinGild{0%{box-shadow:0 0 0 0 rgba(245,208,97,0);}
+  28%{box-shadow:0 0 12px 2px rgba(245,208,97,.55),inset 0 0 0 1px rgba(255,242,168,.8);}
+  100%{box-shadow:0 0 0 0 rgba(245,208,97,0);}}
+html.ui-kintsugi .lv-burst::before{
+  background-image:radial-gradient(circle,#FFF2A8 0%,#F5D061 38%,#D4AF37 60%,transparent 76%);}
+html.ui-kintsugi .lv-burst::after{background-size:26% 100%;
+  background-image:linear-gradient(90deg,transparent,rgba(212,175,55,.45) 34%,rgba(255,242,168,.95) 50%,rgba(245,208,97,.55) 64%,transparent);
+  animation:lvSweep 1.05s cubic-bezier(.2,.8,.3,1) both;}
+
+/* celestial ── 星が一つ灯り、金と菫の暈が広がる */
+html.ui-celestial .lv-burst{animation:lvCelestialHalo 1.1s var(--ease-out) both;}
+@keyframes lvCelestialHalo{0%{box-shadow:0 0 0 0 rgba(255,209,102,0);}
+  30%{box-shadow:0 0 14px 3px rgba(255,209,102,.5),0 0 28px 8px rgba(138,43,226,.28);}
+  100%{box-shadow:0 0 0 0 rgba(255,209,102,0);}}
+html.ui-celestial .lv-burst::before{width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:0;
+  clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);
+  background-image:linear-gradient(180deg,#FFFFFF,#FFD166 55%,#8A2BE2);
+  animation:lvCelestialStar .98s var(--ease-out) both;}
+@keyframes lvCelestialStar{0%{opacity:0;scale:.2;rotate:-40deg;}
+  35%{opacity:1;scale:1.5;rotate:0deg;}100%{opacity:0;scale:2.2;rotate:25deg;}}
+html.ui-celestial .lv-burst::after{background-image:linear-gradient(90deg,transparent,rgba(72,202,228,.6) 32%,rgba(255,255,255,.9) 50%,rgba(255,209,102,.7) 68%,transparent);}
+
+/* abyss ── ソナーが一度ピングを打つ */
+html.ui-abyss .lv-burst{animation:lvAbyssWash 1.15s var(--ease-out) both;}
+@keyframes lvAbyssWash{0%{box-shadow:0 0 0 0 rgba(0,255,163,0);}
+  25%{box-shadow:0 0 14px 3px rgba(0,255,163,.5),0 0 26px 7px rgba(0,180,216,.28);}
+  100%{box-shadow:0 0 0 0 rgba(0,255,163,0);}}
+html.ui-abyss .lv-burst::before{width:14px;height:14px;margin:-7px 0 0 -7px;background:none;
+  border:1.5px solid #00FFA3;box-shadow:0 0 10px rgba(0,255,163,.75);
+  animation:lvAbyssPing 1.1s var(--ease-out) both;}
+@keyframes lvAbyssPing{0%{opacity:0;scale:.2;}18%{opacity:1;}100%{opacity:0;scale:4.4;}}
+html.ui-abyss .lv-burst::after{background-image:linear-gradient(90deg,transparent,rgba(0,255,163,.85),transparent);
+  animation:lvSweep 1s var(--ease-out) both;}
+
+/* frost ── 六花が結晶化し、霜が帯を渡る */
+html.ui-frost .lv-burst{animation:lvFrostRime 1.1s var(--ease-out) both;}
+@keyframes lvFrostRime{0%{box-shadow:0 0 0 0 rgba(112,214,255,0);}
+  30%{box-shadow:0 0 13px 3px rgba(112,214,255,.5),inset 0 0 0 1px rgba(255,255,255,.65);}
+  100%{box-shadow:0 0 0 0 rgba(112,214,255,0);}}
+html.ui-frost .lv-burst::before{width:16px;height:15px;margin:-7px 0 0 -8px;border-radius:0;
+  clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);
+  background-image:linear-gradient(160deg,#FFFFFF,#A0E7E5 55%,#70D6FF);
+  animation:lvFrostHex .95s var(--ease-out) both;}
+@keyframes lvFrostHex{0%{opacity:0;scale:.2;rotate:-30deg;}
+  40%{opacity:1;scale:1.4;rotate:0deg;}100%{opacity:0;scale:2.1;rotate:12deg;}}
+html.ui-frost .lv-burst::after{background-size:22% 100%;
+  background-image:linear-gradient(90deg,transparent,rgba(160,231,229,.7) 30%,rgba(255,255,255,.95) 50%,rgba(112,214,255,.7) 70%,transparent);
+  animation:lvSweep 1.15s cubic-bezier(.25,.7,.2,1) both;}
+
 /* ── XPの帯。着地でひと突き ── */
 .hero-xp.pop{animation:xpPop .42s var(--ease-out);}
 @keyframes xpPop{0%{transform:scale(1);}38%{transform:scale(1.09);}100%{transform:scale(1);}}
@@ -4691,6 +4829,9 @@ html.ui-frost .srs-card-hint{color:#A9D3E4;}
   .gauge-surge-wave,.milestone-node .ms-glow,.gauge-overdrive-fx,.gauge-overdrive-fx *,
   .absorber-orb,.gauge.winding-up *,.gauge.absorb-impact .gauge-ring{animation:none!important;transition:none!important;}
   .gauge-pulse-trk,.gauge-aura,.hero-shockwave-layer,.cta-tracer,.gauge-overdrive-fx,.gauge-surge-wave,.absorber-orb{display:none!important;}
+  /* 2026-09-09 追加分（レベルバーの充填完了）。JS 側も _reducedMotion() で張らないが、
+     CSS だけでも必ず止まるようにしておく＝片方だけ直されても動きが残らない */
+  .lv-burst,.lv-burst.on{display:none!important;}
   /* 2026-09-05 追加分（Heroゲージ以外の文字・表示・コンソール演出強化） */
   .hero-live,.exam-countdown::before,.hero-acc::after,.sec-h::before,.sec-h .ln::after,
   .hero-num[data-goal="1"],.hero-num[data-goal="2"],
@@ -4839,6 +4980,9 @@ html.ui-frost .srs-card-hint{color:#A9D3E4;}
             <span class="hero-lv-n">次のレベルまで <b id="heroLvNeed">0</b> XP</span>
           </div>
           <span class="hero-lv-bar"><span id="heroLvFill"><i class="lv-fluid-wave"></i></span></span>
+          <!-- 伸び切った瞬間の一撃。バーの外へはみ出す必要があるので .hero-lv-bar
+               （overflow:hidden）の中ではなく、その外に重ねる -->
+          <i class="lv-burst" id="heroLvBurst" aria-hidden="true"></i>
         </div>
         <div class="hero-say srs-card" id="heroSay"></div>
       </div>
@@ -7437,6 +7581,115 @@ function _driveLevelBar(progress) {
   const p = Math.max(0, Math.min(1, progress || 0));
   fill.style.width = Math.round(p * 100) + '%';
   fill.classList.toggle('near', p >= LV_NEAR && !_reducedMotion());
+  _armLvBurst(fill, p);
+}
+
+/* ══════════ レベルバーが伸び切った瞬間の一撃（2026-09-09）══════════
+   合図は barGrow の animationend で受ける。
+   ⚠️ setTimeout で「.35s の遅延 ＋ .95s の尺」を数え直さないこと——尺が CSS と JS の
+      2か所に散り、片方だけ直された日に必ずずれる。
+   ⚠️ 非表示タブでは CSS アニメーションが1frameも進まない＝合図も来ないが、これは
+      望ましい振る舞い（表に戻ってバーが実際に伸び切るその瞬間に鳴る）。裏で撒いても
+      誰も見ないまま消えるだけなので、rAF のような「落とし所」は要らない。
+   ⚠️ 1ページで1回だけ。renderHero は同期完了で何度も走り、2回目以降は
+      .hero.settled が barGrow ごと止めるので合図自体が来ないが、_lvBurstArmed でも閉じる。 */
+let _lvBurstArmed = false;
+const LV_BURST_MS = 1800;   // .on を外すまで（テーマ最長 1.15s ＋ 余韻）
+
+function _armLvBurst(fill, p) {
+  const fx = document.getElementById('heroLvBurst');
+  // p=0（まだ1XPも入っていない）は伸びるものが無い＝祝う対象が無い。
+  // ここで arm しないでおけば、値が入った日の初回描画で改めて張れる
+  if (!fx || _lvBurstArmed || p <= 0 || _reducedMotion()) return;
+  _lvBurstArmed = true;
+  // 先端＝伸び切った位置。CSS はこの1変数だけを見て飾りを置く
+  fx.style.setProperty('--lv-p', (p * 100).toFixed(1) + '%');
+  const onEnd = (ev) => {
+    // .near は lvNear（infinite）も持つ。終わらないので実害は無いが、名前で明示的に絞る
+    if (ev.animationName !== 'barGrow') return;
+    fill.removeEventListener('animationend', onEnd);
+    fx.classList.remove('on');
+    void fx.offsetWidth;              // アニメを頭から流すための強制リフロー
+    fx.classList.add('on');
+    setTimeout(() => fx.classList.remove('on'), LV_BURST_MS);
+    _lvBurstFx(fx, p);
+  };
+  fill.addEventListener('animationend', onEnd);
+}
+
+/* 先端で撒く粒。テーマごとに素材が違う。
+   ⚠️ THEME_LANDING_CONFIG の署名FX（auroraPrismSweep / kintsugiCrack 等）はここでは
+      使わない——あれは全画面フラッシュ付きで、ハブを開くたびに画面全体が光ることになる。
+      使ってよいのは座標を取る局所エミッタだけ（burst / rings / sparks / gears …）。 */
+const LV_BURST_FX = {
+  // プリズムが割れて虹の粒が散る
+  aurora: (x, y) => {
+    MecFX.diamondSparkle(x, y, { count: 12, colors: ['#00DFD8', '#BD34FE', '#FF0080', '#FFFFFF'], additive: true });
+    MecFX.glyphBurst(x, y, { glyphs: ['✦', '✧'], count: 3, spread: 46, w: 18 });
+  },
+  // 歯車が噛み、火花と蒸気が抜ける
+  brass: (x, y) => {
+    MecFX.gears(x, y, { count: 3, spread: 150, w: 10, min: 9, max: 16, up: true, upBias: 60 });
+    MecFX.sparks(x, y, { count: 12, colors: ['#FFD700', '#E0C25E', '#FFA040', '#FFF8DC'] });
+    MecFX.steam(x, y - 4, { count: 5, rise: 60, w: 14, min: 14, max: 30, alpha: .34 });
+  },
+  // 照準がロックし、データ片が飛ぶ
+  cyber: (x, y, r) => {
+    MecFX.glitchBars(x, y, {
+      count: 4, w: Math.min(300, r.width),
+      band: { top: r.top - 16, bottom: r.bottom + 16 },
+      colors: ['rgba(0,255,157,.42)', 'rgba(0,229,255,.35)']
+    });
+    MecFX.pixelPop(x, y, { count: 14, colors: ['#00FF9D', '#00E5FF', '#00FF66', '#FFFFFF'] });
+  },
+  // 液面が満ちて波紋が開く
+  liquid: (x, y) => {
+    MecFX.rings(x, y, { count: 2, maxR: 64, color: 'rgba(255,0,127,.75)', thickness: 2, additive: true, stagger: .12 });
+    MecFX.burst(x, y, {
+      tier: 1, count: 12, colors: ['#FF007F', '#00F2FE', '#FF52A0', '#FFFFFF'],
+      shapes: ['circle'], glow: true, additive: true, upBias: 90, gravity: 620
+    });
+  },
+  // 継ぎ目に流し込んだ金が跳ねる
+  kintsugi: (x, y) => {
+    MecFX.burst(x, y, {
+      tier: 1, count: 12, colors: ['#F5D061', '#FFF2A8', '#D4AF37'],
+      shapes: ['shard', 'square'], glow: false, additive: false, upBias: 70, gravity: 900
+    });
+    MecFX.glyphBurst(x, y, { glyphs: ['✨'], count: 3, spread: 40, w: 16 });
+  },
+  // 星が灯り、金と菫の粒が舞う
+  celestial: (x, y) => {
+    MecFX.burst(x, y, {
+      tier: 2, count: 12, colors: ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFFFF'],
+      shapes: ['star'], glow: true, additive: true, upBias: 80
+    });
+    MecFX.rings(x, y, { count: 1, maxR: 70, color: 'rgba(255,209,102,.7)', thickness: 1.6, additive: true });
+  },
+  // ソナーの輪が三重に広がる
+  abyss: (x, y) => {
+    MecFX.rings(x, y, { count: 3, maxR: 90, color: 'rgba(0,255,163,.65)', thickness: 1.6, additive: true, stagger: .14 });
+    MecFX.burst(x, y, {
+      tier: 1, count: 9, colors: ['#00FFA3', '#00B4D8', '#64FFDA'],
+      shapes: ['circle'], glow: true, additive: true, upBias: 120, gravity: 260
+    });
+  },
+  // 張った氷が砕けて粉になる
+  frost: (x, y, r) => {
+    MecFX.shatter(x, y, {
+      count: 12, w: Math.min(180, r.width * .5), h: 8, spread: 190, up: 70,
+      colors: ['#FFFFFF', '#A0E7E5', '#70D6FF']
+    });
+    MecFX.glyphBurst(x, y, { glyphs: ['❄'], count: 2, spread: 34, w: 14 });
+  }
+};
+
+function _lvBurstFx(fx, p) {
+  if (!_fxOk()) return;
+  const r = fx.getBoundingClientRect();
+  if (!r.width) return;
+  const theme = (window.MecUITheme && MecUITheme.get) ? MecUITheme.get() : 'aurora';
+  (LV_BURST_FX[theme] || LV_BURST_FX.aurora)(r.left + r.width * p, r.top + r.height / 2, r);
 }
 
 // 大きな読み値の着地。桁を span に組み直して順に立ち上げ、全8テーマ固有のシグネチャーFXを発生
