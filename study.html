@@ -839,8 +839,11 @@ function _ensureSubjInit(sid) {
   if (_initedSids.has(sid)) return;
   if (_cacheStale) _refreshCache();
   _buildSectionCache(sid);
+  // ⚠️ localStorage を直に読まないこと。mecGetErrorReports は本文を消したコメントの
+  // 墓標（type:'note' / text:''）を落として返すので、そこを通さないと報告が無い問題まで
+  // ⚠️ ボタンが赤くなる。
   const _errReportedSet = new Set(
-    JSON.parse(localStorage.getItem('error_reports_v1') || '[]').map(r => r.uid)
+    (window.mecGetErrorReports?.() || []).map(r => r.uid)
   );
   for (const m of _cards) {
     if (m.sid !== sid) continue;
@@ -1040,16 +1043,59 @@ function _getErrTypesForUid(uid) {
   return (window.mecGetErrorReports?.() || []).filter(r => r.uid === uid).map(r => r.type);
 }
 
+// 種別だけでは「どこを直したいのか」が伝わらないので、問題ごとに1つの自由記述コメントを
+// 添えられるようにしてある（2026-09-09）。保存先は progress.js の mecSetErrorNote
+// （type:'note' の1レコード）で、種別を1つも選ばずコメントだけでも報告として成立する。
+// ⚠️ コメントは試験モードの出題キューからカードを外さない——種別の報告と違って
+// 「この問題は壊れている」とは限らないため（外すのは err-type を押したときだけ）。
+const ERR_NOTE_MAXLEN = 1000; // progress.js の ERR_NOTE_MAX と揃えること
+let _errNoteTimer = null;
+
+function _errNoteAfterSave(panel, uid) {
+  const card = panel.closest('.qc');
+  const eb = card && card.querySelector('.mec-err-btn');
+  if (eb) eb.classList.toggle('mec-err-reported', _getErrTypesForUid(uid).length > 0);
+  _updateErrBadge();
+}
+
+// quiet=true は入力中の自動保存（打つたびに文字が出ると読みづらいので合図を出さない）
+function _saveErrNote(ta, quiet) {
+  const uid = ta.dataset.uid;
+  const val = ta.value;
+  if (val === ta.dataset.saved) return;   // 変化なしなら同期も起こさない
+  window.mecSetErrorNote?.(uid, val);
+  ta.dataset.saved = val;
+  const panel = ta.closest('.mec-err-panel');
+  if (panel) {
+    _errNoteAfterSave(panel, uid);
+    const msg = panel.querySelector('.mec-err-note-msg');
+    if (msg && !quiet) {
+      msg.textContent = val.trim() ? '✓ 保存しました' : '✓ コメントを消しました';
+      clearTimeout(msg._t);
+      msg._t = setTimeout(() => { msg.textContent = ''; }, 2000);
+    }
+  }
+}
+
 function _openErrPanel(card) {
   const uid = card.dataset.uid;
   let panel = card.querySelector('.mec-err-panel');
   if (panel) { panel.classList.toggle('open'); return; }
   panel = document.createElement('div');
   panel.className = 'mec-err-panel open';
-  panel.innerHTML = '<span class="mec-err-label">エラー種別：</span>' +
+  panel.innerHTML =
+    '<div class="mec-err-row"><span class="mec-err-label">エラー種別：</span>' +
     Object.entries(_ERR_TYPE_LABELS).map(([type, label]) =>
       '<button class="mec-err-type" data-type="' + type + '" data-uid="' + uid + '" data-action="err-type">' + label + '</button>'
-    ).join('');
+    ).join('') + '</div>' +
+    '<div class="mec-err-row mec-err-note-row">' +
+      '<textarea class="mec-err-note" data-uid="' + uid + '" rows="2" maxlength="' + ERR_NOTE_MAXLEN + '" ' +
+        'placeholder="コメント（任意）：どこをどう直したいか。例）図Bが別問題のもの／選択肢eが途中で切れている"></textarea>' +
+      '<div class="mec-err-note-foot">' +
+        '<span class="mec-err-note-msg" aria-live="polite"></span>' +
+        '<button class="mec-err-note-save" data-action="err-note-save" data-uid="' + uid + '">💾 保存</button>' +
+      '</div>' +
+    '</div>';
   const qh = card.querySelector('.qh');
   if (qh && qh.nextSibling) card.insertBefore(panel, qh.nextSibling);
   else card.appendChild(panel);
@@ -1057,6 +1103,19 @@ function _openErrPanel(card) {
   panel.querySelectorAll('.mec-err-type').forEach(btn => {
     btn.classList.toggle('selected', reported.has(btn.dataset.type));
   });
+  const ta = panel.querySelector('.mec-err-note');
+  if (ta) {
+    ta.value = window.mecGetErrorNote?.(uid) || '';
+    ta.dataset.saved = ta.value;
+    // 保存ボタンを押し忘れても消えないように、入力が止まったところと離れたところで保存する。
+    ta.addEventListener('input', () => {
+      clearTimeout(_errNoteTimer);
+      _errNoteTimer = setTimeout(() => _saveErrNote(ta, true), 900);
+    });
+    ta.addEventListener('blur', () => { clearTimeout(_errNoteTimer); _saveErrNote(ta, false); });
+    // カード上のキーボード操作（1/2/3・Enter＝自己採点）に入力が吸われないようにする
+    ta.addEventListener('keydown', e => e.stopPropagation());
+  }
 }
 
 // ビューアは progress.js の mecOpenErrReports（hubと共通）。旧 openErrReports 呼び出しの互換用。
@@ -1099,6 +1158,26 @@ document.addEventListener('click', function(e) {
       }
     }
     _updateErrBadge();
+    return;
+  }
+  // コメントの明示保存（自動保存もあるが、押した確証が欲しいときのため）
+  const noteSave = e.target.closest('[data-action="err-note-save"]');
+  if (noteSave) {
+    e.preventDefault();
+    const ta = noteSave.closest('.mec-err-panel')?.querySelector('.mec-err-note');
+    if (ta) {
+      clearTimeout(_errNoteTimer);
+      const unchanged = ta.value === ta.dataset.saved;
+      _saveErrNote(ta, false);
+      if (unchanged) {
+        const msg = noteSave.closest('.mec-err-panel').querySelector('.mec-err-note-msg');
+        if (msg) {
+          msg.textContent = '✓ 保存済み';
+          clearTimeout(msg._t);
+          msg._t = setTimeout(() => { msg.textContent = ''; }, 2000);
+        }
+      }
+    }
     return;
   }
   // 開いているパネルをパネル外クリックで閉じる

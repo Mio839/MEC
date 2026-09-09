@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head><meta charset="UTF-8"><title>err note 実ブラウザ検査</title></head>
+<body>
+<pre id="log">running…</pre>
+<iframe id="f" src="/study.html?sid=tox" style="width:1100px;height:800px"></iframe>
+<script>
+/* エラー報告の自由記述コメント（2026-09-09）を実ブラウザで検査する。study.html を iframe で
+   読み込み、カードの エラーパネルを開いて実際に入力・保存・削除まで操作する。
+   node の DOM シムだと「シムが通るだけ」になるのでここは本物を使う。
+
+   実行（リポジトリのルートで）:
+     python -m http.server 8765 --bind 127.0.0.1 &
+     chrome --headless=new --disable-gpu --virtual-time-budget=20000        --dump-dom "http://127.0.0.1:8765/_work/test_err_note_browser.html"
+   出力の <pre id="log"> に結果が入る（<title> が ALLPASS / FAILED になる）。
+
+   科目は tox（48問・画像0枚）＝一番軽い。
+   このページは localStorage の error_reports_v1 を消してから走る（headless は使い捨て
+   プロファイルなので安全）。file:// では動かない——必ず http で開くこと。 */
+var L = [], errs = [];
+function log(ok, msg) { L.push((ok ? 'ok   ' : 'FAIL ') + msg); if (!ok) errs.push(msg); }
+function done() {
+  document.getElementById('log').textContent =
+    L.join('\n') + '\n\n' + (errs.length ? errs.length + ' FAILED' : 'ALL PASS') + ' (' + L.length + ')';
+  document.title = errs.length ? 'FAILED' : 'ALLPASS';
+}
+var f = document.getElementById('f');
+f.onload = function () {
+  var w = f.contentWindow, d = f.contentDocument;
+  var uncaught = [];
+  w.addEventListener('error', function (e) { uncaught.push(String(e.message)); });
+  w.localStorage.removeItem('error_reports_v1');
+  var tries = 0;
+  (function wait() {
+    if (!d.querySelector('.qc[data-uid] .mec-err-btn') && tries++ < 300) return setTimeout(wait, 50);
+    try { run(w, d, uncaught); } catch (e) { log(false, 'threw: ' + e.message); done(); }
+  })();
+};
+function raw(w) { return JSON.parse(w.localStorage.getItem('error_reports_v1') || '[]'); }
+function click(w, el) { el.dispatchEvent(new w.MouseEvent('click', { bubbles: true })); }
+
+function run(w, d, uncaught) {
+  var card = d.querySelector('.qc[data-uid]');
+  var uid = card.dataset.uid;
+  log(!!card, 'カードが描かれた: ' + uid);
+
+  click(w, card.querySelector('.mec-err-btn'));
+  var panel = card.querySelector('.mec-err-panel.open');
+  log(!!panel, 'エラーパネルが開く');
+  var ta = panel && panel.querySelector('.mec-err-note');
+  log(!!ta, 'コメント欄がある');
+  log(panel.querySelectorAll('.mec-err-type').length === 6, '種別ボタンは6つのまま');
+  log(w.getComputedStyle(ta).fontSize === '16px', 'コメント欄は16px（iOSの自動ズーム対策）');
+
+  // 1) 入力 → 自動保存（900ms のデバウンス）
+  ta.value = '図Bが別問題のもの。心電図ではなく胸部Xpが入っている';
+  ta.dispatchEvent(new w.Event('input', { bubbles: true }));
+  setTimeout(function () { step2(w, d, uncaught, card, uid, panel, ta); }, 1200);
+}
+
+function step2(w, d, uncaught, card, uid, panel, ta) {
+  var r = raw(w);
+  var n = r.filter(function (x) { return x.uid === uid && x.type === 'note'; })[0];
+  log(!!n, '入力が止まると自動保存される');
+  log(n && n.text === '図Bが別問題のもの。心電図ではなく胸部Xpが入っている', '本文が保存されている');
+  log(r.length === 1, 'コメントだけでも報告1件として成立する（種別なし）');
+  log(card.querySelector('.mec-err-btn').classList.contains('mec-err-reported'), '⚠️ ボタンが報告済みの色になる');
+  var badge = d.getElementById('errCount');
+  log(badge && badge.textContent === '1', 'ヘッダーのバッジが1件になる: ' + (badge && badge.textContent));
+
+  // 2) 種別も押す → 共存する
+  click(w, panel.querySelector('.mec-err-type[data-type="wrong_image"]'));
+  var r2 = raw(w);
+  log(r2.length === 2, '種別の報告とコメントが共存する');
+
+  // 3) 一覧の表示にコメントが出る
+  w.mecOpenErrReports();
+  var list = d.getElementById('mecErrList');
+  log(list && list.textContent.indexOf('💬 図Bが別問題のもの') >= 0, '一覧にコメントが出る');
+  log(list && list.textContent.indexOf('🔀 画像違い') >= 0, '一覧に種別も出る');
+  log((list.textContent.match(new RegExp(uid, 'g')) || []).length === 1, '同じ問題は1エントリに畳まれる');
+  d.getElementById('mecErrOv').classList.remove('open');
+
+  // 4) 明示保存ボタン
+  ta.value = '選択肢eが途中で切れている';
+  click(w, panel.querySelector('.mec-err-note-save'));
+  var n2 = raw(w).filter(function (x) { return x.type === 'note'; })[0];
+  log(n2 && n2.text === '選択肢eが途中で切れている', '保存ボタンで即座に保存される');
+  log(panel.querySelector('.mec-err-note-msg').textContent.indexOf('保存') >= 0, '保存の合図が出る');
+
+  // 5) 空にすると墓標が残り、UIからは消える
+  ta.value = '';
+  ta.dispatchEvent(new w.FocusEvent('blur', { bubbles: false }));
+  var r3 = raw(w);
+  var tomb = r3.filter(function (x) { return x.type === 'note'; })[0];
+  log(tomb && tomb.text === '', '消したコメントは墓標として残る（同期で復活させないため）');
+  log(w.mecGetErrorReports().length === 1, '墓標は報告件数に数えない（種別の1件だけ）');
+  log(w.mecGetErrorNote(card.dataset.uid) === '', 'コメントは空として読み戻る');
+
+  // 6) 開き直すと本文が復元される
+  ta.value = 'あとで直す';
+  click(w, panel.querySelector('.mec-err-note-save'));
+  click(w, card.querySelector('.mec-err-btn'));  // 閉じる
+  click(w, card.querySelector('.mec-err-btn'));  // 開く
+  log(card.querySelector('.mec-err-note').value === 'あとで直す', '開き直すと本文が復元される');
+
+  log(uncaught.length === 0, '例外が出ていない: ' + uncaught.join(' / '));
+  done();
+}
+</script>
+</body>
+</html>

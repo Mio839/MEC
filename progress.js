@@ -12,6 +12,11 @@
   const KRK = 'mec_exam_resume_key_tombs_v1'; // 中断データのキー別墓標（key → 削除時刻ms）。savedAt墓標だけでは他端末の古いコピーが復活するため
   const KER = 'error_reports_v1';
   const K_ERR_CLEARED = 'mec_err_cleared_at';
+  // 自由記述コメントは「問題ごとに1つ」＝ type:'note' の1レコードとして KER に同居させる
+  // （2026-09-09）。別キーを新設しないのは、一覧・コピー・全消去・バッジ・同期マージが
+  // すべて KER の1本を見ているため。種別を1つも選ばずコメントだけでも報告として成立する。
+  const ERR_NOTE_TYPE = 'note';
+  const ERR_NOTE_MAX = 1000; // Gistのペイロードが肥大しない範囲。UI側の maxlength と揃えること
   const K_TOKEN = 'mec_gist_token', K_GIST = 'mec_gist_id', K_LAST_SYNC = 'mec_last_sync_v1';
   const K_GAMIFY = 'mec_gamify_v1'; // ゲーミフィケーション（bestStreak等の数値のみ・field-wise maxでマージ）
   const K_ATT = 'mec_attempts_v1';  // 解答イベントログ（attempts.js が追記・追記専用でunionマージ）
@@ -637,10 +642,19 @@
     const effectiveClearedAt = localClearedAt > remoteClearedAt ? localClearedAt : remoteClearedAt;
     if (effectiveClearedAt > localClearedAt) localStorage.setItem(K_ERR_CLEARED, effectiveClearedAt);
     if (remoteER.length) {
-      const keys = new Set(localER.map(r => r.uid + '|' + r.type));
+      const byKey = new Map(localER.map(r => [r.uid + '|' + r.type, r]));
       remoteER.forEach(r => {
         if (effectiveClearedAt && (r.reported_at || '') < effectiveClearedAt) return;
-        if (!keys.has(r.uid + '|' + r.type)) localER.push(r);
+        const k = r.uid + '|' + r.type;
+        const cur = byKey.get(k);
+        if (!cur) { localER.push(r); byKey.set(k, r); return; }
+        // ⚠️ 種別の報告は「在るか無いか」しか持たないので union のままでよいが、
+        // コメントだけは本文が書き換わる＝新しく書かれた方を採る（last-writer-wins）。
+        // ここを union のままにすると、別端末で直したコメントが黙って古い本文へ戻る。
+        if (r.type === ERR_NOTE_TYPE && (r.reported_at || '') > (cur.reported_at || '')) {
+          localER[localER.indexOf(cur)] = r;
+          byKey.set(k, r);
+        }
       });
       localStorage.setItem(KER, JSON.stringify(localER));
     } else if (effectiveClearedAt > localClearedAt) {
@@ -894,7 +908,34 @@
   };
 
   window.mecGetErrorReports = function() {
-    return JSON.parse(localStorage.getItem(KER) || '[]');
+    // 本文が空の note は「コメントを消した」墓標。UIからは無いものとして扱い、
+    // localStorage と同期ペイロードには残す（下記 mecSetErrorNote の理由を参照）。
+    return JSON.parse(localStorage.getItem(KER) || '[]')
+      .filter(r => !(r.type === ERR_NOTE_TYPE && !r.text));
+  };
+
+  // 自由記述コメント（問題ごとに1つ）。空文字を渡すと削除。
+  // ⚠️ 書くたびに reported_at を更新すること——同期のマージが「新しく書かれた方を採る」
+  // ための唯一の手掛かりで、据え置くと他端末の古い本文が勝ち続ける。
+  window.mecSetErrorNote = function(uid, text) {
+    const t = String(text || '').trim().slice(0, ERR_NOTE_MAX);
+    const reports = JSON.parse(localStorage.getItem(KER) || '[]');
+    const idx = reports.findIndex(r => r.uid === uid && r.type === ERR_NOTE_TYPE);
+    if (!t && idx < 0) return false;  // 元から無い＝保存も同期も要らない
+    // ⚠️ 消したときレコードごと捨てないこと。エラー報告のマージは union なので、
+    // 捨てると「まだ持っている端末」から次の同期で本文が復活する。本文を空にした
+    // レコードを新しい時刻で残せば、last-writer-wins がそのまま削除として働く。
+    const rec = { uid, type: ERR_NOTE_TYPE, text: t, reported_at: new Date().toISOString() };
+    if (idx >= 0) reports[idx] = rec; else reports.push(rec);
+    localStorage.setItem(KER, JSON.stringify(reports));
+    scheduleSync();
+    return !!t;
+  };
+
+  window.mecGetErrorNote = function(uid) {
+    const r = JSON.parse(localStorage.getItem(KER) || '[]')
+      .find(x => x.uid === uid && x.type === ERR_NOTE_TYPE);
+    return r ? (r.text || '') : '';   // 墓標（text:''）は空文字＝コメント無しとして返る
   };
 
   // ── クリップボードコピー（iOS対応） ──────────────────────────────
@@ -1098,14 +1139,30 @@
     return ov;
   }
 
+  // 一覧・コピーは「問題ごと」に畳む。コメントは type:'note' の1レコードとして同じ配列に
+  // 入っているので、種別の行に混ぜず本文として出す（種別が1つも無くコメントだけの報告もある）。
+  function _errGroups() {
+    const reports = window.mecGetErrorReports ? window.mecGetErrorReports() : [];
+    const map = new Map();
+    reports.forEach(r => {
+      let g = map.get(r.uid);
+      if (!g) { g = { uid: r.uid, types: [], note: '', at: '' }; map.set(r.uid, g); }
+      if (r.type === ERR_NOTE_TYPE) g.note = r.text || '';
+      else g.types.push(ERR_TYPE_LABELS[r.type] || r.type);
+      if ((r.reported_at || '') > g.at) g.at = r.reported_at || '';
+    });
+    return [...map.values()];
+  }
+
   function _errFormat(fmt) {
     const reports = window.mecGetErrorReports ? window.mecGetErrorReports() : [];
     if (fmt === 'json') return JSON.stringify(reports, null, 2);
-    return 'エラー報告一覧\n' + '='.repeat(40) + '\n' + reports.map(r => {
-      const sid = r.uid.replace(/_ch\d+.*$/, '');
-      return '科目: ' + (SID_NAMES[sid] || sid) + '\nUID: ' + r.uid +
-             '\n種別: ' + (ERR_TYPE_LABELS[r.type] || r.type) +
-             '\n日付: ' + (r.reported_at || '—').slice(0, 10);
+    return 'エラー報告一覧\n' + '='.repeat(40) + '\n' + _errGroups().map(g => {
+      const sid = g.uid.replace(/_ch\d+.*$/, '');
+      return '科目: ' + (SID_NAMES[sid] || sid) + '\nUID: ' + g.uid +
+             (g.types.length ? '\n種別: ' + g.types.join(' / ') : '') +
+             (g.note ? '\nコメント: ' + g.note : '') +
+             '\n日付: ' + (g.at || '—').slice(0, 10);
     }).join('\n---\n');
   }
 
@@ -1148,11 +1205,13 @@
     const reports = window.mecGetErrorReports ? window.mecGetErrorReports() : [];
     const listEl = document.getElementById('mecErrList');
     if (listEl) {
-      listEl.textContent = reports.length ? reports.map(r => {
-        const sid = r.uid.replace(/_ch\d+.*$/, '');
-        return '[' + (SID_NAMES[sid] || sid) + '] ' + r.uid +
-               '\n  種別: ' + (ERR_TYPE_LABELS[r.type] || r.type) +
-               '\n  日付: ' + (r.reported_at || '—').slice(0, 10);
+      const groups = _errGroups();
+      listEl.textContent = groups.length ? groups.map(g => {
+        const sid = g.uid.replace(/_ch\d+.*$/, '');
+        return '[' + (SID_NAMES[sid] || sid) + '] ' + g.uid +
+               (g.types.length ? '\n  種別: ' + g.types.join(' / ') : '') +
+               (g.note ? '\n  💬 ' + g.note : '') +
+               '\n  日付: ' + (g.at || '—').slice(0, 10);
       }).join('\n\n') : '（報告はまだありません）';
     }
     const msgEl = document.getElementById('mecErrMsg');

@@ -85,6 +85,7 @@ function makeEnv(initialStore) {
 
   return {
     mergeRemote,
+    win: windowObj,   // mecSetErrorNote / mecGetErrorNote / mecGetErrorReports を実物で叩くため
     store,
     // helpers to read parsed values back out of the (string) store
     getObj(k) { return JSON.parse(store[k] || '{}'); },
@@ -593,6 +594,68 @@ test('error reports: remote clearedAt newer than local is adopted', () => {
   const env = makeEnv({ [KER]: JSON.stringify([]), [K_ERR_CLEARED]: '2026-01-01T00:00:00.000Z' });
   env.mergeRemote({ _errClearedAt: '2026-05-01T00:00:00.000Z' });
   assert.strictEqual(env.getRaw(K_ERR_CLEARED), '2026-05-01T00:00:00.000Z');
+});
+
+// ── 自由記述コメント（type:'note'・問題ごとに1つ・2026-09-09） ───────────────
+// 種別の報告は「在るか無いか」しか持たないので union でよいが、コメントは本文が
+// 書き換わるので last-writer-wins でなければ別端末の編集が黙って巻き戻る。
+const note = (uid, text, at) => ({ uid, type: 'note', text, reported_at: at });
+
+test('note: newer remote text wins over older local text', () => {
+  const env = makeEnv({ [KER]: JSON.stringify([note('q1', '古い本文', '2026-01-01T00:00:00.000Z')]) });
+  env.mergeRemote({ [KER]: [note('q1', '新しい本文', '2026-02-01T00:00:00.000Z')] });
+  const arr = env.getArr(KER);
+  assert.strictEqual(arr.length, 1, 'コメントは問題ごとに1つ');
+  assert.strictEqual(arr[0].text, '新しい本文');
+});
+
+test('note: older remote text does not overwrite newer local text', () => {
+  const env = makeEnv({ [KER]: JSON.stringify([note('q1', '手元の最新', '2026-03-01T00:00:00.000Z')]) });
+  env.mergeRemote({ [KER]: [note('q1', '他端末の古い本文', '2026-02-01T00:00:00.000Z')] });
+  assert.strictEqual(env.getArr(KER)[0].text, '手元の最新');
+});
+
+test('note: emptied note (tombstone) wins and clears the remote text', () => {
+  const env = makeEnv({ [KER]: JSON.stringify([note('q1', '', '2026-03-01T00:00:00.000Z')]) });
+  env.mergeRemote({ [KER]: [note('q1', '他端末に残っていた本文', '2026-02-01T00:00:00.000Z')] });
+  assert.strictEqual(env.getArr(KER)[0].text, '', '消したコメントが同期で復活してはいけない');
+});
+
+test('note: a type report and a note on the same uid coexist', () => {
+  const env = makeEnv({ [KER]: JSON.stringify([note('q1', 'ここが変', '2026-03-01T00:00:00.000Z')]) });
+  env.mergeRemote({ [KER]: [{ uid: 'q1', type: 'wrong_image', reported_at: '2026-03-02T00:00:00.000Z' }] });
+  assert.strictEqual(env.getArr(KER).length, 2);
+});
+
+test('note: mecSetErrorNote trims, upserts, and keeps one record per uid', () => {
+  const env = makeEnv({ [KER]: JSON.stringify([]) });
+  env.win.mecSetErrorNote('q1', '  図Bが別問題のもの  ');
+  env.win.mecSetErrorNote('q1', '選択肢eが途中で切れている');
+  const arr = env.getArr(KER);
+  assert.strictEqual(arr.length, 1);
+  assert.strictEqual(arr[0].text, '選択肢eが途中で切れている');
+  assert.strictEqual(env.win.mecGetErrorNote('q1'), '選択肢eが途中で切れている');
+});
+
+test('note: clearing a note leaves a tombstone but hides it from the UI', () => {
+  const env = makeEnv({ [KER]: JSON.stringify([]) });
+  env.win.mecSetErrorNote('q1', 'ここが変');
+  env.win.mecSetErrorNote('q1', '');
+  assert.strictEqual(env.getArr(KER).length, 1, '同期のために墓標は残す');
+  assert.strictEqual(env.win.mecGetErrorReports().length, 0, 'バッジ件数・一覧には出さない');
+  assert.strictEqual(env.win.mecGetErrorNote('q1'), '');
+});
+
+test('note: never touched uid does not create a tombstone', () => {
+  const env = makeEnv({ [KER]: JSON.stringify([]) });
+  assert.strictEqual(env.win.mecSetErrorNote('q1', ''), false);
+  assert.strictEqual(env.getArr(KER).length, 0);
+});
+
+test('note: text longer than 1000 chars is capped', () => {
+  const env = makeEnv({ [KER]: JSON.stringify([]) });
+  env.win.mecSetErrorNote('q1', 'あ'.repeat(1500));
+  assert.strictEqual(env.getArr(KER)[0].text.length, 1000);
 });
 
 // ─────────────────────────────────────────────────────────────────────────

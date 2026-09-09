@@ -1,3 +1,9 @@
+// 2026-09-09g: エラー報告に自由記述コメントを足した（種別だけでは「どこを直したいのか」が伝わらないため）。カードの ⚠️ パネルにテキスト欄を1つ置き、問題ごとに1つのコメントとして保存する。種別を1つも選ばずコメントだけでも報告として成立する。
+//   ⚠️ 保存先は既存の error_reports_v1 に同居させた（type:'note' の1レコード）。一覧・コピー・全消去・バッジ・同期マージが全部この1本を見ているので、別キーを新設すると5か所を二重管理することになる。
+//   ⚠️ 種別の報告は union のままだが、コメントだけは reported_at の新しい方が勝つ（last-writer-wins）。本文が書き換わるものを union にすると別端末の編集が黙って巻き戻る。
+//   ⚠️ 消したコメントはレコードごと捨てず「本文が空の note」として残す（union で復活するため）。mecGetErrorReports がその墓標を落として返すので、UI・バッジ・一覧には出ない。
+//   ⚠️ コメントは試験モードの出題キューからカードを外さない（外すのは種別を押したときだけ）。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-09f → 2026-09-09g）。
 // 2026-09-09f: 後から足した9科目（anes derm ent oph ortho ph psy rad uro）の科目色を OKLCH で再導出した。Tailwind 700番台の暗色のまま入っていたためカード面に対して 1.95〜4.02:1 しかなく、check_themes.js の基準（4.5:1）を6テーマ全部で割っていた。色相は保ったまま明度だけ上げてある（移動は -4.9°〜+15.3°）。
 //   ⚠️ ph と uro は両方 #0891B2 の完全な重複だったので ph を +15.3° 回して分けた（公衆衛生_引き継ぎ.md が積んでいた宿題）。
 //   ⚠️ 色は4テーブルで同じ値にすること: chapters_meta.js / study.html の STUDY_SUBJECTS / gamify.js の SUBJECTS / mindmap_data/index.js（最後は build_mindmap_index.js で生成）。
@@ -1338,7 +1344,7 @@ const CACHE = "mec-v378";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-09f";
+const SHELL_VERSION = "2026-09-09g";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

@@ -102,7 +102,7 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
 - `mec_srs_v1` — SRS復習スケジュール ／ `mec_exam_resumes_v1` — 試験中断の再開データ ／ `mec_ch_exam_v1` — 章別試験履歴
 - `mec_attempts_v1` — 解答イベントログ（attempts.js）。`"uid|t|c|o|s|m|sess|n"` の文字列配列・上限5000件。追記専用なので同期は`sess+n`をキーにしたunion＋時刻昇順ソート＋上限切り詰め
 - `mec_mock_v1` — 模試の自己採点（mock.js）。`{examId:{cur,rounds:{rN:{started,graded,ans:{"A10":{p,t}}}},border}}`。**保存されるのは「何を選んだか」だけで正誤は入っていない**（正誤は解答表と突き合わせて毎回計算する）。マージは1問ごとの last-writer-wins（各エントリが時刻 `t` を持つ）
-- `error_reports_v1` — 問題エラー報告 ／ `mec_err_cleared_at` — 一括消去のタイムスタンプ
+- `error_reports_v1` — 問題エラー報告。1件＝`{uid, type, reported_at}`。**自由記述コメントも同じ配列に `type:'note'` の1レコードとして入る**（`text` を持つ・下記「エラー報告」） ／ `mec_err_cleared_at` — 一括消去のタイムスタンプ
 - `mec_gist_token` — GitHub PAT（gistスコープ）／ `mec_gist_id` — Gist ID ／ `mec_last_sync_v1` — 最終同期時刻
 - UIローカル設定（非同期）: `mec_subjects_v1`（選択科目）/`mec_filter_v1`/`mec_state_v1`/`mec_correct_sound_v1`/`mec_select_sound_v1`/`mec_boot_sound_v1` 等
 
@@ -843,6 +843,44 @@ stats.html「🩺 弱点カルテ」     ← 科目×設問形式ヒートマッ
   個別に深掘りする場合だけ対象を数問に絞って手で添付する。
 - テスト: `node _work/test_attempts.js`（ログ）・`node _work/test_karte.js`（集計）・
   `node _work/test_merge_remote.js`（同期マージ）。いずれも実ソースを読み込むのでロジックの二重管理は無い。
+
+## エラー報告（種別 ＋ 自由記述コメント・2026-09-09〜）
+
+カードの ⚠️ を押すと出るパネル（`.mec-err-panel`）で報告する。**種別6つのボタン**と、
+**問題ごとに1つの自由記述コメント**（`.mec-err-note`）。種別だけでは「どこを直したいのか」が
+伝わらなかったので 2026-09-09 にコメントを足した。実装は `progress.js`（保存・一覧・同期）と
+`study.html`（パネルUI）で、閲覧モーダルは hub と共通。
+テスト: `node _work/test_merge_remote.js` の note 8件 ＋ `_work/test_err_note_browser.html`（実ブラウザ21件）。
+
+```
+error_reports_v1 = [
+  { uid, type:'wrong_image', reported_at },          ← 種別の報告（在る／無いだけ）
+  { uid, type:'note', text:'図Bが別問題のもの', reported_at }   ← コメント（問題ごとに1つ）
+]
+```
+
+- ⚠️⚠️ **コメント用の localStorage キーを新設しないこと。** 一覧・テキスト/JSONコピー・全消去・
+  バッジ件数・同期マージが**全部この1本の配列**を見ている＝別キーにすると同じ配管を5か所で
+  二重管理することになる。書き口は `mecSetErrorNote(uid, text)` / 読み口は `mecGetErrorNote(uid)`。
+- **種別を1つも選ばずコメントだけでも報告として成立する**（バッジも1件と数える）。
+- ⚠️ **種別は union のまま・コメントだけ last-writer-wins**（`_mergeRemote`）。
+  種別は「在るか無いか」しか持たないので union でよいが、コメントは**本文が書き換わる**ので
+  union にすると別端末で直した本文が黙って巻き戻る。判定材料は `reported_at` だけなので、
+  **書くたびに必ず時刻を更新すること**。
+- ⚠️⚠️ **コメントを消したときレコードごと捨てないこと。** union なので、捨てると「まだ持っている
+  端末」から次の同期で本文が復活する。**本文を空にしたレコード（`text:''`）を新しい時刻で残す**＝
+  last-writer-wins がそのまま削除として働く。`mecGetErrorReports()` がその墓標を落として返すので、
+  UI・件数・一覧には出ない。⚠️ **localStorage を直に読む経路を作らないこと**（`study.html` の
+  `_errReportedSet` は共有APIを通す。直読みすると墓標だけの問題まで ⚠️ が赤くなる）。
+- ⚠️ **コメントは試験モードの出題キューからカードを外さない**（外すのは種別を押したときだけ）。
+  種別は「この問題は壊れている」だが、コメントは所感のこともあるため。
+- **保存は自動（入力停止900ms＋blur）＋ 💾保存ボタン**。押し忘れても消えないための二重化で、
+  ボタンは「押した確証」のために置いてある。⚠️ 上限は `ERR_NOTE_MAX = 1000` 文字
+  （`study.html` の `ERR_NOTE_MAXLEN`＝`maxlength` と揃えること）。
+- ⚠️ **コメント欄の `font-size` を16px未満にしないこと**——iOS がフォーカス時にページを自動ズームし、
+  カードの位置が飛んで書いている場所を見失う（`progress.js` の手動コピー枠と同じ理由）。
+- 一覧とコピーは **`_errGroups()` が問題ごとに畳む**（種別を `/` で連ね、コメントは本文として出す）。
+  JSONコピーだけは生の配列のまま＝機械に渡す側は畳まない。
 
 ## 模試の自己採点（2026-09-08〜）
 
