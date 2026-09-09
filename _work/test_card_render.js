@@ -110,6 +110,54 @@ t('実寸が無い画像では属性を省くだけで描画は壊れない', ()
   assert.ok(!/ width="/.test(html), '属性は付けない');
 });
 
+// -- ans_sub は生HTML（qt / eg[].c と同じ）／ans_label はエスケープのまま --------------
+// 2026-09-09: card_renderer.js だけが ans_sub を esc() しており、執筆時に入れた
+// <span class="kw3"> や <b> がタグの文字列として画面に出ていた（m121s 65問・resp 152問）。
+// ⚠️ ans_label（.ac）は計算問題の正解「計算答：<桁文字列>」を掴む正本なのでエスケープを外さない。
+t('ans_sub のマークアップがそのまま出る（kw3 / b / sub / sup / u）', () => {
+  const html = renderCard({
+    uid: 'x_ch01_q1', qn: 'Q.1', badges: [], qt: 't', choices: [{ t: 'a', ok: true }],
+    ans_label: 'a', ans_sub: '<span class="kw3"><b>核</b></span>と SpO<sub>2</sub>', imgs: [], eg: [],
+  });
+  const as = html.match(/<div class="as">([\s\S]*?)<\/div>/)[1];
+  assert.strictEqual(as, '<span class="kw3"><b>核</b></span>と SpO<sub>2</sub>',
+    'ans_sub がエスケープされている（タグが文字として出る）');
+});
+
+t('ans_label はエスケープされたまま（計算問題の正解を壊さない）', () => {
+  const html = renderCard({
+    uid: 'x_ch01_q1', qn: 'Q.1', badges: [], qt: 't', choices: [],
+    ans_label: '計算答：<b>2.0', ans_sub: '', imgs: [], eg: [],
+  });
+  assert.ok(html.includes('計算答：&lt;b&gt;2.0'), 'ans_label のエスケープを外さないこと');
+});
+
+// ans_sub を生HTMLにできる根拠は「意図したタグ以外に `<英字` が1つも無い」こと。
+// 数値比較（`<60/分`）は `<` の直後が英字でないので HTML でも素の文字として出る。
+const OK_TAGS = new Set(['span', 'b', 'sub', 'sup', 'u', 'i', 'br', 'strong', 'em']);
+const strayTags = [];
+for (const sid of SIDS.concat(['m121s'])) {
+  const p2 = path.join(ROOT, `questions_${sid}.json`);
+  if (!fs.existsSync(p2)) continue;
+  const data2 = JSON.parse(fs.readFileSync(p2, 'utf8'));
+  for (const ch of data2.chapters || []) {
+    for (const q of ch.qs || []) {
+      const a = q.ans_sub || '';
+      let m;
+      const re = /<\/?([A-Za-z][A-Za-z0-9]*)/g;
+      while ((m = re.exec(a))) {
+        if (!OK_TAGS.has(m[1].toLowerCase())) strayTags.push(q.uid + ' / <' + m[1]);
+      }
+      if (/&[A-Za-z#][A-Za-z0-9]*;/.test(a)) strayTags.push(q.uid + ' / HTML entity');
+    }
+  }
+}
+
+t('ans_sub に想定外のタグ・HTML実体が無い（生HTML描画の前提）', () => {
+  assert.strictEqual(strayTags.length, 0,
+    `${strayTags.length}件: ` + strayTags.slice(0, 5).join(', '));
+});
+
 console.log(`\n画像問題 ${stats.imgQs} 問 / 画像 ${stats.imgs} 枚を検証`);
 console.log(`${fail ? 'FAILED' : 'all passed'}  (${pass}/${pass + fail})`);
 process.exit(fail ? 1 : 0);
