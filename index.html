@@ -6388,11 +6388,11 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
     <div class="sound-label">結果音（結果画面表示時）</div>
     <div class="sound-grid" id="resultSoundGrid"></div>
 
-    <!-- 起動音は「どれを鳴らすか」を選ばせない＝試験開始のたびにランダムで1つ鳴る（2026-08-21）。 -->
+    <!-- 起動音は「どれを鳴らすか」を選ばせない＝試験開始のたびにランダムで1つ鳴る（2026-08-21）。
+         ⚠️ 2026-09-10 に「無音」を全スロットから外した＝ここは押すと抽選し直す試聴ボタンだけ。 -->
     <div class="sound-label">起動音（試験開始のカウントダウン中・毎回ランダム）</div>
     <div class="sound-grid" id="bootSoundGrid">
-      <button class="sound-btn" data-bsound="on" onclick="saveSoundPref('boot','on',this)">🎲 ランダム</button>
-      <button class="sound-btn" data-bsound="off" onclick="saveSoundPref('boot','off',this)">無音</button>
+      <button class="sound-btn sel" data-bsound="on" onclick="saveSoundPref('boot','on',this)">🎲 ランダム（タップで試聴）</button>
     </div>
 
     <div class="modal-actions" style="margin-top:20px;">
@@ -6889,12 +6889,11 @@ function _renderSpark() {
           MecFX.sparks(c.x, c.r.top, { count: 12, speed: 220 });
         }
       }
-      // サウンド再生（保存されている結果音があれば鳴らす）
+      // サウンド再生（設定の結果音。⚠️ 保存値をそのまま使わず _sndResolveHub を通すこと——
+      // 廃止した 'off' や消したファイルのキーが残っていても既定の音へ落ちる）
       try {
-        const rSound = localStorage.getItem('mec_result_sound_v1');
-        if (rSound && rSound !== 'off' && typeof _previewResultSound === 'function') {
-          _previewResultSound(rSound);
-        }
+        const rSound = _sndResolveHub('result', localStorage.getItem('mec_result_sound_v1'));
+        if (rSound && typeof _previewResultSound === 'function') _previewResultSound(rSound);
       } catch (e) {}
     }, 700);
   }
@@ -9805,11 +9804,12 @@ function _sndListHub(slot) {
   return Array.isArray(l) ? l : [];
 }
 function _sndFindHub(slot, key) { return _sndListHub(slot).find(s => s.key === key) || null; }
+/* ⚠️ 'off'（無音）は 2026-09-10 に廃止した。保存済みの 'off' は「見当たらないキー」と
+   同じ扱いで先頭＝既定へ落とす——localStorage は書き換えない（別端末の設定を壊さない）。 */
 function _sndResolveHub(slot, stored) {
-  if (stored === 'off') return 'off';
-  if (stored && _sndFindHub(slot, stored)) return stored;
+  if (stored && stored !== 'off' && _sndFindHub(slot, stored)) return stored;
   const first = _sndListHub(slot)[0];
-  return first ? first.key : 'off';
+  return first ? first.key : '';
 }
 
 function _renderHubSoundGrid(gridId, slot, attr, type) {
@@ -9831,7 +9831,6 @@ function _renderHubSoundGrid(gridId, slot, attr, type) {
     grid.appendChild(btn);
   };
   list.forEach(sp => add(sp.key, sp.label));
-  add('off', '無音');
 }
 
 function openSoundModal() {
@@ -9843,12 +9842,11 @@ function openSoundModal() {
   const sel = _sndResolveHub('select', localStorage.getItem('mec_select_sound_v1'));
   const cor = _sndResolveHub('correct', localStorage.getItem('mec_correct_sound_v1'));
   const res = _sndResolveHub('result', localStorage.getItem('mec_result_sound_v1'));
-  // 起動音は毎回ランダム＝保存されているのは鳴らす／鳴らさないだけ
-  const boot = (localStorage.getItem('mec_boot_sound_v1') === 'off') ? 'off' : 'on';
+  // 起動音は毎回ランダム＝選択肢が1つしかない（無音は廃止）
   document.querySelectorAll('#selectSoundGrid .sound-btn').forEach(b => b.classList.toggle('sel', b.dataset.ssound === sel));
   document.querySelectorAll('#correctSoundGrid .sound-btn').forEach(b => b.classList.toggle('sel', b.dataset.sound === cor));
   document.querySelectorAll('#resultSoundGrid .sound-btn').forEach(b => b.classList.toggle('sel', b.dataset.rsound === res));
-  document.querySelectorAll('#bootSoundGrid .sound-btn').forEach(b => b.classList.toggle('sel', b.dataset.bsound === boot));
+  document.querySelectorAll('#bootSoundGrid .sound-btn').forEach(b => b.classList.add('sel'));
   document.getElementById('soundModal').classList.add('open');
 }
 function closeSoundModal() {
@@ -9863,12 +9861,11 @@ function _previewWavFile(spec) {
     a.play().catch(() => {});
   } catch (e) {}
 }
-function _previewSelectSound(value) { if (value !== 'off') _previewWavFile(_sndFindHub('select', value)); }
-function _previewCorrectSound(value) { if (value !== 'off') _previewWavFile(_sndFindHub('correct', value)); }
-function _previewResultSound(value) { if (value !== 'off') _previewWavFile(_sndFindHub('result', value)); }
+function _previewSelectSound(value) { _previewWavFile(_sndFindHub('select', value)); }
+function _previewCorrectSound(value) { _previewWavFile(_sndFindHub('correct', value)); }
+function _previewResultSound(value) { _previewWavFile(_sndFindHub('result', value)); }
 /* 「ランダム」の試聴＝押すたびに抽選し直す（何が入っているかを耳で確かめられる） */
 function _previewBootSound(value) {
-  if (value === 'off') return;
   const l = _sndListHub('boot');
   if (l.length) _previewWavFile(l[(Math.random() * l.length) | 0]);
 }

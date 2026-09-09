@@ -45,7 +45,7 @@ t('key はフォルダ内で一意', () => {
     ok(new Set(keys).size === keys.length, k + ' に重複した key: ' + keys.join(','));
   });
 });
-t('key に off を使っていない（無音ボタンと衝突する）', () => {
+t('key に off を使っていない（廃止した無音の保存値と衝突する）', () => {
   SLOTS.forEach(k => S[k].forEach(s => ok(s.key !== 'off', k + ' に key:off がある')));
 });
 t('file が実在する', () => {
@@ -114,14 +114,35 @@ t('抽選は startExam のタップの中で行い prepare してある（iOS �
   ok(/function startExam[\s\S]*?_pendingBootSpec = _pickBootSpec\(\); _prepareWavSound\(_pendingBootSpec\)/.test(studyExam),
     'startExam の中で抽選＋prepare していない');
 });
-t('boot の設定は on/off だけ（ファイルのキーを保存しない）', () => {
-  ok(studyExam.includes("localStorage.getItem('mec_boot_sound_v1') === 'off'"), 'study_exam.js が on/off で読んでいない');
-  ok(studyHtml.includes('data-bsound="on"') && studyHtml.includes('data-bsound="off"'), 'study.html のボタンが on/off でない');
-  ok(indexHtml.includes('data-bsound="on"') && indexHtml.includes('data-bsound="off"'), 'index.html のボタンが on/off でない');
+t('boot はファイルのキーを保存しない（ボタンは試聴の1つだけ）', () => {
+  ok(studyHtml.includes('data-bsound="on"'), 'study.html に起動音のボタンが無い');
+  ok(indexHtml.includes('data-bsound="on"'), 'index.html に起動音のボタンが無い');
   ok(!(studyHtml + indexHtml).includes('data-bsound="ms"'), '旧 data-bsound="ms" が残っている');
 });
 t('chapter_exam.js も毎回抽選する', () => {
   ok(/function ceBootSound\(\)[\s\S]*?Math\.random\(\) \* l\.length/.test(chapterExam), 'ceBootSound が抽選していない');
+});
+
+console.log('\n[4b] 「無音」は全スロットから廃止（2026-09-10）');
+t('設定画面に無音のボタンが無い', () => {
+  ok(!studyHtml.includes("add('off'"), 'study.html が無音ボタンを生成している');
+  ok(!indexHtml.includes("add('off'"), 'index.html が無音ボタンを生成している');
+  ok(!(studyHtml + indexHtml).includes('data-bsound="off"'), '起動音に無音ボタンが残っている');
+  ok(!(studyHtml + indexHtml).includes('>無音<'), '無音のボタンが残っている');
+});
+t('保存済みの off は既定の音へ落ちる（二度と音を戻せなくならない）', () => {
+  // study_exam.js / index.html の解決関数を切り出して、'off' が先頭のキーになることを見る
+  const f = studyExam.match(/function _sndResolve\(slot, stored\)[\s\S]*?\n\}/)[0];
+  const resolve = new Function('_sndFind', '_sndList', f + '; return _sndResolve;')(
+    (slot, key) => S[slot].find(s => s.key === key) || null, slot => S[slot]);
+  SLOTS.forEach(k => ok(resolve(k, 'off') === S[k][0].key, k + ' の off が既定へ落ちない'));
+  ok(!/stored === 'off'\) return 'off'/.test(studyExam), "study_exam.js が 'off' を素通ししている");
+  ok(!/stored === 'off'\) return 'off'/.test(indexHtml), "index.html が 'off' を素通ししている");
+  ok(!/=== 'off'\) return null/.test(chapterExam), "chapter_exam.js が 'off' を素通ししている");
+});
+t('起動音は保存値を見ずに必ず鳴る', () => {
+  ok(!studyExam.includes("mec_boot_sound_v1"), 'study_exam.js がまだ起動音の on/off を読んでいる');
+  ok(!chapterExam.includes("localStorage.getItem('mec_boot_sound_v1') === 'off'"), 'chapter_exam.js がまだ on/off を読んでいる');
 });
 
 console.log('\n[5] 合成音は全廃（正解音・選択音・コンボ音すべて）');
@@ -163,8 +184,10 @@ t('台帳に載っていてファイルが無いものが無い', () => {
     ok(fs.existsSync(path.join(ROOT, 'sounds', d, f)), 'sounds/' + d + '/' + f + ' が無い')));
 });
 t('localStorage に刺さる旧キーが生きている', () => {
+  // ⚠️ ここに並べてよいのは「いま sounds/ にあるファイルの key」だけ。ファイルを消したら
+  //    その key も一緒に消す（2026-09-10 に msmove / saber / buppigan / deen を外した）。
   const cor = new Set(S.correct.map(s => s.key));
-  ['custom', 'msmove', 'saber', 'magnum', 'buppigan'].forEach(k =>
+  ['custom', 'magnum', 'zelda', 'kh', 'mhf', 'gomadare', 'twinbuster'].forEach(k =>
     ok(cor.has(k), '正解音の key ' + k + ' が消えた（その音を選んでいた端末の設定が落ちる）'));
   ok(new Set(S.select.map(s => s.key)).has('mp3'), '選択音の key mp3 が消えた');
   ok(new Set(S.result.map(s => s.key)).has('fanfare'), '結果音の key fanfare が消えた');

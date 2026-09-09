@@ -147,14 +147,15 @@ function _sndList(slot) {
   return Array.isArray(l) ? l : [];
 }
 function _sndFind(slot, key) { return _sndList(slot).find(s => s.key === key) || null; }
-/* 保存されている設定を実在するキーへ解決する。'off' はそのまま通し、見当たらないキー
-   （消したファイル／旧・合成音のキー）は先頭＝既定へ落とす。
-   ⚠️ localStorage は書き換えない——別端末の設定を同期で壊さないため、解決は読む側で行う。 */
+/* 保存されている設定を実在するキーへ解決する。見当たらないキー（消したファイル／
+   旧・合成音のキー／廃止した 'off'）は先頭＝既定へ落とす。
+   ⚠️ localStorage は書き換えない——別端末の設定を同期で壊さないため、解決は読む側で行う。
+   ⚠️ 2026-09-10 に「無音」を全スロットから廃止した。設定画面にボタンが無いので、
+      保存済みの 'off' をそのまま通すと二度と音を戻せない＝ここで必ず既定へ落とす。 */
 function _sndResolve(slot, stored) {
-  if (stored === 'off') return 'off';
-  if (stored && _sndFind(slot, stored)) return stored;
+  if (stored && stored !== 'off' && _sndFind(slot, stored)) return stored;
   const first = _sndList(slot)[0];
-  return first ? first.key : 'off';
+  return first ? first.key : '';
 }
 
 let _correctSound = _sndResolve('correct', localStorage.getItem('mec_correct_sound_v1'));
@@ -162,12 +163,10 @@ let _selectSound  = _sndResolve('select',  localStorage.getItem('mec_select_soun
 let _resultSound  = _sndResolve('result',  localStorage.getItem('mec_result_sound_v1'));
 
 /* 起動音は設定で1つに固定せず、**試験開始のたびにランダムで1つ**鳴る（2026-08-21〜）。
-   localStorage('mec_boot_sound_v1') が持つのは「鳴らす／鳴らさない」だけ。
-   ⚠️ 旧値（'ms' 等＝ファイルを指していた頃の設定）は 'off' 以外なので鳴らす側へ落ちる。
-   ⚠️ 起動音の尺（現在 4.73s / 4.85s）はカウントダウン演出（2.535〜2.745s）より長いが、
+   ⚠️ 2026-09-10 に「無音」を廃止した＝設定は残っていても常に鳴らす（保存値は見ない）。
+   ⚠️ 起動音の尺（現在 4.39〜6.36s）はカウントダウン演出（2.535〜2.745s）より長いが、
       **鳴らし切る**のが仕様（2026-08-21 にユーザーが選択）。カウントダウンが明けて1問目に
       入っても音だけ続く。_examCountdown の尺は1msも増やさないこと。 */
-let _bootSound = (localStorage.getItem('mec_boot_sound_v1') === 'off') ? 'off' : 'on';
 /* 「開始」を押したそのタップの中で1つ選んで prepare しておく＝iOS の自動再生制限を
    通せる唯一の機会。_playBootSound はここで選ばれたものを鳴らすだけ。 */
 let _pendingBootSpec = null;
@@ -178,12 +177,10 @@ function _pickBootSpec() {
 
 let _pendingResultSpec = null;
 function _prepareResultSound() {
-  if (_resultSound === 'off') { _pendingResultSpec = null; return; }
   _pendingResultSpec = _sndFind('result', _resultSound);
   if (_pendingResultSpec) _prepareWavSound(_pendingResultSpec);
 }
 function _playResultSound() {
-  if (_resultSound === 'off') return;
   const spec = _pendingResultSpec || _sndFind('result', _resultSound);
   if (spec) _playWavSound(spec);
 }
@@ -193,7 +190,6 @@ function _playResultSound() {
    new すると溜まる）。 */
 function _prepareSelectSound() { _prepareWavSound(_sndFind('select', _selectSound)); }
 function _playSelectSound() {
-  if (_selectSound === 'off') return;
   _playWavSound(_sndFind('select', _selectSound));
 }
 
@@ -278,12 +274,10 @@ function _playWavSound(spec) {
    _pendingBootSpec に入れてある（＝タップの中で選んで prepare 済み）。
    ⚠️ ここで選び直さないこと——prepare していないバッファは iOS で鳴らない。 */
 function _playBootSound() {
-  if (_bootSound === 'off') return;
   _playWavSound(_pendingBootSpec || _pickBootSpec());
 }
 
 function _playCorrectSound() {
-  if (_correctSound === 'off') return;
   _playWavSound(_sndFind('correct', _correctSound));
   if (!_fxOff() && window.MecFX && window.MecFX.sonicWave) {
     const b = _fxBand();
@@ -731,8 +725,7 @@ function startExam(overrideUids = null) {
   _prepareResultSound();
   // 起動音は「開始を押した」このタップの中で選んで用意する＝iOS の自動再生制限を通せる
   // 唯一の機会。⚠️ ランダムの抽選もここで済ませること（_playBootSound では遅い）。
-  _pendingBootSpec = null;
-  if (_bootSound !== 'off') { _pendingBootSpec = _pickBootSpec(); _prepareWavSound(_pendingBootSpec); }
+  _pendingBootSpec = _pickBootSpec(); _prepareWavSound(_pendingBootSpec);
   const chFilter = !overrideUids ? _examChPrefix : null;
   _examActiveChPrefix = chFilter;
   _examChPrefix = null;
@@ -2050,7 +2043,6 @@ let _examRecoverPending = false;
 let _lastAnswerPrior = { uid: '', fresh: false, wasWrong: false };
 
 function _playRecoverTone() {
-  if (_correctSound === 'off') return;
   try {
     const ctx = _getExamAudioCtx();
     if (!ctx) return;

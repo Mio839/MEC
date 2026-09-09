@@ -1419,7 +1419,6 @@
             Math.max(b.top, Math.min(b.bottom, cy))];
   }
   function ceTone(freqs, vol, dur, type) {
-    if (exam.sound === 'off') return;
     try {
       var ctx = getCtx(), now = ctx.currentTime;
       var master = ctx.createGain();
@@ -2599,10 +2598,12 @@
     for (var i = 0; i < l.length; i++) if (l[i].key === key) return l[i];
     return null;
   }
-  /* 保存値を実在するキーへ解決する。'off' はそのまま、見当たらないキー（消したファイル・
-     旧合成音のキー）は先頭＝既定へ落とす。 */
+  /* 保存値を実在するキーへ解決する。見当たらないキー（消したファイル・旧合成音のキー・
+     廃止した 'off'）は先頭＝既定へ落とす。
+     ⚠️ 2026-09-10 に「無音」を全スロットから廃止した。設定画面にボタンが無いので、
+        保存済みの 'off' をそのまま通すと二度と音を戻せない。 */
   function ceSndResolve(slot, stored) {
-    if (stored === 'off') return null;
+    if (stored === 'off') stored = null;
     return ceSndFind(slot, stored) || ceSndList(slot)[0] || null;
   }
 
@@ -2660,11 +2661,9 @@
 
   /* 試験開始のカウントダウン中に鳴る起動音。
      ⚠️ 2026-08-21 から**毎回ランダム**で1つ選ぶ（study 側の _playBootSound と同じ仕様）。
-        localStorage('mec_boot_sound_v1') が持つのは鳴らす／鳴らさないだけで、
-        'off' 以外の旧値（'ms' 等）は鳴らす側へ落ちる。 */
+     ⚠️ 2026-09-10 に「無音」を廃止した＝保存値は見ずに常に鳴らす。 */
   function ceBootSound() {
     try {
-      if (localStorage.getItem('mec_boot_sound_v1') === 'off') return;
       var l = ceSndList('boot');
       if (l.length) cePlayWav(l[(Math.random() * l.length) | 0]);
     } catch (e) {}

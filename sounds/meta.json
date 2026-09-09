@@ -31,15 +31,11 @@
 
   "正解音": {
     "correct.wav":                { "key": "custom",   "label": "正解音",         "vol": 1.0,  "peak": 0.491, "dur": 1.17 },
-    "ＭＳ動作.wav":                { "key": "msmove",   "label": "ＭＳ動作",       "vol": 0.5,  "peak": 0.962, "dur": 1.56 },
-    "ビームサーベル斬撃.wav":      { "key": "saber",    "label": "ビームサーベル", "vol": 0.5,  "peak": 1.000, "dur": 1.15 },
     "ビームマグナム.wav":          { "key": "magnum",   "label": "ビームマグナム", "vol": 1.5,  "peak": 0.338, "dur": 3.54 },
-    "ブッピガン.wav":              { "key": "buppigan", "label": "ブッピガン",     "vol": 0.5,  "peak": 0.997, "dur": 1.21 },
     "Zelda.mp3":                  { "key": "zelda",    "label": "ゼルダ",         "vol": 0.95, "peak": 0.534, "dur": 1.90 },
-    "キングダムハーツ項目選択.wav": { "key": "kh",       "label": "キングダムハーツ", "vol": 0.7, "peak": 0.701, "dur": 4.14 },
-    "MHF_クエスト開始BGM.wav":     { "key": "mhf",      "label": "MHFクエスト開始", "vol": 4.3, "peak": 0.117, "dur": 2.00 },
-    "ごまだれ【ゼルダの伝説】.wav": { "key": "gomadare", "label": "ごまだれ【ゼルダ】", "vol": 0.53, "peak": 0.948, "dur": 2.60 },
-    "デエエエエエエエエン.mp3":     { "key": "deen",     "label": "デエエエン",     "vol": 0.48, "peak": 1.035, "dur": 3.59 },
+    "キングダムハーツ.wav":        { "key": "kh",       "label": "キングダムハーツ", "vol": 0.7, "peak": 0.701, "dur": 4.14 },
+    "MHF.wav":                    { "key": "mhf",      "label": "MHF",            "vol": 4.3,  "peak": 0.117, "dur": 2.00 },
+    "ゼルダの伝説.wav":            { "key": "gomadare", "label": "ゼルダの伝説",   "vol": 0.53, "peak": 0.948, "dur": 2.60 },
     "ツインバスターライフル_B♭_major__bpm_131.wav": { "key": "twinbuster", "label": "ツインバスターライフル", "vol": 0.64, "peak": 0.777, "dur": 3.54 }
   },
 
@@ -48,7 +44,8 @@
     "アカツキ起動.wav":   { "key": "akatsuki", "label": "アカツキ起動", "vol": 1.0, "peak": 0.5, "dur": 4.85 },
     "巨大モーター起動.wav": { "key": "motor",  "label": "巨大モーター起動", "vol": 1.0, "peak": 0.502, "dur": 5.33 },
     "ゼロシステム.wav":   { "key": "zerosystem", "label": "ゼロシステム",  "vol": 1.31, "peak": 0.382, "dur": 5.54 },
-    "ホワイトベース.wav": { "key": "whitebase",  "label": "ホワイトベース", "vol": 0.69, "peak": 0.721, "dur": 4.39 }
+    "ホワイトベース.wav": { "key": "whitebase",  "label": "ホワイトベース", "vol": 0.69, "peak": 0.721, "dur": 4.39 },
+    "トップをねらえ!.wav": { "key": "gunbuster",  "label": "トップをねらえ!", "vol": 0.73, "peak": 0.683, "dur": 6.36 }
   },
 
   "選択音": {

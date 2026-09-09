@@ -12,15 +12,11 @@ window.MecSounds = {
   base: 'sounds/',
   correct: [
     {"key":"custom","file":"正解音/correct.wav","label":"正解音","vol":1,"peak":0.491,"dur":1.17},
-    {"key":"msmove","file":"正解音/ＭＳ動作.wav","label":"ＭＳ動作","vol":0.5,"peak":0.962,"dur":1.56},
-    {"key":"saber","file":"正解音/ビームサーベル斬撃.wav","label":"ビームサーベル","vol":0.5,"peak":1,"dur":1.15},
     {"key":"magnum","file":"正解音/ビームマグナム.wav","label":"ビームマグナム","vol":1.5,"peak":0.338,"dur":3.54},
-    {"key":"buppigan","file":"正解音/ブッピガン.wav","label":"ブッピガン","vol":0.5,"peak":0.997,"dur":1.21},
     {"key":"zelda","file":"正解音/Zelda.mp3","label":"ゼルダ","vol":0.95,"peak":0.534,"dur":1.9},
-    {"key":"kh","file":"正解音/キングダムハーツ項目選択.wav","label":"キングダムハーツ","vol":0.7,"peak":0.701,"dur":4.14},
-    {"key":"mhf","file":"正解音/MHF_クエスト開始BGM.wav","label":"MHFクエスト開始","vol":4.3,"peak":0.117,"dur":2},
-    {"key":"gomadare","file":"正解音/ごまだれ【ゼルダの伝説】.wav","label":"ごまだれ【ゼルダ】","vol":0.53,"peak":0.948,"dur":2.6},
-    {"key":"deen","file":"正解音/デエエエエエエエエン.mp3","label":"デエエエン","vol":0.48,"peak":1.035,"dur":3.59},
+    {"key":"kh","file":"正解音/キングダムハーツ.wav","label":"キングダムハーツ","vol":0.7,"peak":0.701,"dur":4.14},
+    {"key":"mhf","file":"正解音/MHF.wav","label":"MHF","vol":4.3,"peak":0.117,"dur":2},
+    {"key":"gomadare","file":"正解音/ゼルダの伝説.wav","label":"ゼルダの伝説","vol":0.53,"peak":0.948,"dur":2.6},
     {"key":"twinbuster","file":"正解音/ツインバスターライフル_B♭_major__bpm_131.wav","label":"ツインバスターライフル","vol":0.64,"peak":0.777,"dur":3.54}
   ],
   boot: [
@@ -28,7 +24,8 @@ window.MecSounds = {
     {"key":"akatsuki","file":"起動音/アカツキ起動.wav","label":"アカツキ起動","vol":1,"peak":0.5,"dur":4.85},
     {"key":"motor","file":"起動音/巨大モーター起動.wav","label":"巨大モーター起動","vol":1,"peak":0.502,"dur":5.33},
     {"key":"zerosystem","file":"起動音/ゼロシステム.wav","label":"ゼロシステム","vol":1.31,"peak":0.382,"dur":5.54},
-    {"key":"whitebase","file":"起動音/ホワイトベース.wav","label":"ホワイトベース","vol":0.69,"peak":0.721,"dur":4.39}
+    {"key":"whitebase","file":"起動音/ホワイトベース.wav","label":"ホワイトベース","vol":0.69,"peak":0.721,"dur":4.39},
+    {"key":"gunbuster","file":"起動音/トップをねらえ!.wav","label":"トップをねらえ!","vol":0.73,"peak":0.683,"dur":6.36}
   ],
   select: [
     {"key":"mp3","file":"選択音/選択.mp3","label":"選択","vol":0.7,"peak":0.996,"dur":1.07},
