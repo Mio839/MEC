@@ -4,6 +4,7 @@
 //    ここが守るのは「mock_data/m121s.js が参照する図が、実体として全部ある」という
 //    生成物どうしの整合だけ。抽出そのものの正しさは _work/mock_pdf.py のコメントと、
 //    2026-09-08 に全138枚を目視で突き合わせた事実（引き継ぎ §6-2）が根拠。
+//    2026-09-09 に5枚（A42/C14/C57/D66/E49）を足して143枚。
 //
 // 実行: node _work/test_mock_figs.js
 'use strict';
@@ -36,8 +37,10 @@ const withFig = D.questions.filter(q => q.fig);
 
 console.log('夏メック模試 設問図');
 
-test('図を参照する設問は122問（引き継ぎ §3-3 の実測）', () => {
-  assert.strictEqual(withFig.length, 122);
+test('図を参照する設問は128問（引き継ぎ §3-3 の実測）', () => {
+  // ⚠️ §3-3 の初出は122問だったが、RE_BETSU が「別/冊No.」の行折れを拾えず6問
+  //    （A42/C14/C57/D66/E49/E50）が落ちていた。2026-09-09 に是正して128問。
+  assert.strictEqual(withFig.length, 128);
 });
 
 test('参照される画像が1枚残らず実在する', () => {
@@ -65,13 +68,13 @@ test('images/ に参照されない余りファイルが無い', () => {
   assert.strictEqual(have.length, want.size);
 });
 
-test('画像は138枚（=(ブロック,別冊No)の種類と一致）', () => {
+test('画像は143枚（=(ブロック,別冊No)の種類と一致）', () => {
   const species = new Set();
   withFig.forEach(q => q.fig.forEach(f => species.add(q.block + '-' + f)));
   const have = fs.readdirSync(IMG).filter(f => f.endsWith('.jpeg'));
   // 枚数と種類が一致しなくなったら、枝番（「15 A、B」）かステムの図を取り落とした合図。
-  assert.strictEqual(species.size, 138, '(ブロック, 別冊No) の種類');
-  assert.strictEqual(have.length, 138, '画像の枚数');
+  assert.strictEqual(species.size, 143, '(ブロック, 別冊No) の種類');
+  assert.strictEqual(have.length, 143, '画像の枚数');
 });
 
 test('連問の兄弟は同じ画像を指す（重複保存していない）', () => {

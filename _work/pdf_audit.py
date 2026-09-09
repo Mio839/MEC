@@ -78,6 +78,29 @@ FNAME_CODE = re.compile(r'^([0-9]+[A-Z]-[0-9]+)')
 # 同じ連問グループの兄弟の番号なら不一致として挙げない（誤帰属の検出は残る）。
 SERIES_DECL = re.compile(r'<span class="kw">次の文を読み、(.+?)の問いに答えよ。</span>')
 MIN_AREA, MIN_LONG = 5000, 100
+
+
+def series_stem_of(qt):
+    """書式②（旧コア12科目）の共通ステム。無ければ None。
+
+    ⚠️ <span class="qt-context"> の中には <span class="kw"> が入れ子になるので、
+       非貪欲な正規表現では series-label の </span> で切れて全問が同じキーになる。
+    ⚠️ 連問の何問目かを示す series-label は群ごとに違うので落としてから比べる。"""
+    i = qt.find('<span class="qt-context">')
+    if i < 0:
+        return None
+    j = i + len('<span class="qt-context">')
+    depth, k = 1, len(qt)
+    for m in re.finditer(r'<span[^>]*>|</span>', qt[j:]):
+        if m.group(0) == '</span>':
+            depth -= 1
+            if depth == 0:
+                k = j + m.start()
+                break
+        else:
+            depth += 1
+    stem = re.sub(r'<span class="series-label">.*?</span>', '', qt[j:k])
+    return re.sub(r'\s+', '', re.sub(r'<[^>]+>', '', stem)) or None
 # 入力型（桁入力）の計算問題の正解。calc_input.js の CANON と同じ規約に揃えてある
 CALC_ANS_RE = re.compile(r'^計算答[：:]\s*([0-9]+(?:\.[0-9]+)?)$')
 CIRCLED = '①②③④⑤⑥⑦⑧⑨'
@@ -248,7 +271,14 @@ def audit(sid, check_images=True):
     for q in qs:
         m = SERIES_DECL.match(q['qt'])
         if m:
-            _groups.setdefault(m.group(1), []).append(q)
+            _groups.setdefault('decl:' + m.group(1), []).append(q)
+            continue
+        # ⚠️ 旧コア12科目は宣言文ではなく <span class="qt-context"> に共通ステムを
+        #    丸ごと入れる（書式②）。ここを見ないと、ステムの図を兄弟へ配った途端に
+        #    「ファイル名の問題コード ≠」が兄弟の数だけ挙がる（誤検出）。
+        ctx = series_stem_of(q['qt'])
+        if ctx:
+            _groups.setdefault('ctx:' + ctx, []).append(q)
     for members in _groups.values():
         codes = set()
         for q in members:

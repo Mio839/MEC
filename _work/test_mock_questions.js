@@ -110,7 +110,7 @@ t('必要選択数（Nつ選べ）が ok の数と一致する', () => {
   assert.deepStrictEqual(bad, [], bad.slice(0, 6).join(' / '));
 });
 
-t('図を参照する122問が、採点ツールと同じ枚数の画像を持つ', () => {
+t('図を参照する128問が、採点ツールと同じ枚数の画像を持つ', () => {
   const bad = [];
   let n = 0;
   D.questions.forEach(q => {
@@ -120,7 +120,7 @@ t('図を参照する122問が、採点ツールと同じ枚数の画像を持�
     if (c.imgs.length !== want) bad.push(c.uid + ': ' + c.imgs.length + ' != ' + want);
   });
   assert.deepStrictEqual(bad, [], bad.slice(0, 6).join(' / '));
-  assert.strictEqual(n, 122, '図を参照する設問が ' + n + '問');
+  assert.strictEqual(n, 128, '図を参照する設問が ' + n + '問');
 });
 
 t('参照される画像が1枚残らず実在する', () => {
@@ -336,7 +336,7 @@ t('sw.js の CARDS と SHELL に必要なファイルが入っている', () => 
   assert.ok(sw.includes('"questions_m121s.json"'), 'CARDS に questions_m121s.json が無い');
 });
 
-t('image_dims.json が模試の画像138枚の実寸を持つ', () => {
+t('image_dims.json が模試の画像143枚の実寸を持つ', () => {
   const dims = JSON.parse(fs.readFileSync(path.join(ROOT, 'image_dims.json'), 'utf8'));
   const bad = [];
   cards.forEach(c => c.imgs.forEach(src => {

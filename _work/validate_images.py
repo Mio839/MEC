@@ -39,8 +39,36 @@ IMG_CODE_RE = re.compile(r'(\d{2,3}[A-Z]-\d+)_\d+\.jpe?g$', re.IGNORECASE)
 # 名乗ったままなので、チェックA は**同じ連問グループの兄弟の番号なら通す**。
 # （誤帰属＝無関係な問題の図を掴んでいる場合の検出は残る）
 SERIES_RE = re.compile(r'<span class="kw">次の文を読み、(.+?)の問いに答えよ。</span>')
+# ⚠️ 旧コア12科目（書式②）は宣言文ではなく <span class="qt-context"> に共通ステムを
+#    丸ごと入れる。ここを見ないと、ステムの図を兄弟へ配った途端に「episode≠img」が
+#    兄弟の数だけ挙がる（2026-09-09 に神経で10件の誤検出になった）。
+CTX_OPEN = '<span class="qt-context">'
+SPAN_RE = re.compile(r'<span[ >][^>]*>|</span>')
+SERIES_LABEL_RE = re.compile(r'<span class="series-label">.*?</span>')
 # uid -> その設問が名乗ってよい国試番号の集合（load_all が埋める）
 SERIES_CODES = {}
+
+
+def series_stem(qt: str):
+    """書式②の共通ステム（タグと空白を落とした文字列）。無ければ None。
+
+    ⚠️ `(.*?)</span>` の非貪欲では series-label の閉じタグで切れて、全問が同じキーになる。
+       <span> の入れ子を数えて qt-context の閉じタグを見つけること。"""
+    i = qt.find(CTX_OPEN)
+    if i < 0:
+        return None
+    j = i + len(CTX_OPEN)
+    depth, k = 1, len(qt)
+    for m in SPAN_RE.finditer(qt[j:]):
+        if m.group(0) == '</span>':
+            depth -= 1
+            if depth == 0:
+                k = j + m.start()
+                break
+        else:
+            depth += 1
+    stem = SERIES_LABEL_RE.sub('', qt[j:k])
+    return re.sub(r'\s+', '', strip_html(stem)) or None
 
 
 class _HTMLStripper(HTMLParser):
@@ -77,7 +105,11 @@ def load_all(sid_filter=None):
                 results.append((sid, chi, ch.get('title', ''), q))
                 m = SERIES_RE.match(q.get('qt', ''))
                 if m:
-                    groups.setdefault(m.group(1), []).append(q)
+                    groups.setdefault('decl:' + m.group(1), []).append(q)
+                    continue
+                stem = series_stem(q.get('qt', ''))
+                if stem:
+                    groups.setdefault('ctx:' + stem, []).append(q)
         for members in groups.values():
             codes = set()
             for q in members:
