@@ -30,7 +30,8 @@ assert.ok(HM_MIN_N >= 1, 'HM_MIN_N not found');
 
 function makeKarte(myrate, RATE) {
   const fn = new Function('myrate', 'RATE', 'MEC_CHAPTERS', 'qmeta',
-    grab('subjIdOfUid') + '\n' + grab('buildKarte') + '\n return buildKarte(qmeta);');
+    grab('subjIdOfUid') + '\n' + grab('natRateOf') + '\n' + grab('kAdd') + '\n' + grab('kNew') + '\n' +
+    grab('buildKarte') + '\n return buildKarte(qmeta);');
   return fn(myrate, RATE, sandboxChapters, qmeta);
 }
 
@@ -100,6 +101,86 @@ test('questions with no myrate entry contribute nothing', () => {
   const k = makeKarte({}, {});
   assert.strictEqual(k.all.total, 0);
   assert.deepStrictEqual(k.rows, []);
+});
+
+// ── 全国比（同じ問題どうしの比較）と弱点TOP ──────────────────────────
+function constNum(name) {
+  const m = html.match(new RegExp('const ' + name + '\\s*=\\s*(\\d+)'));
+  assert.ok(m, 'const not found: ' + name);
+  return Number(m[1]);
+}
+const QTYPES_SRC = (html.match(/const QTYPES = (\[[\s\S]*?\]);/) || [])[1];
+function makeGapKit() {
+  return new Function('HM_MIN_N', 'QTYPES',
+    'const KARTE_TOP_MIN_N = ' + constNum('KARTE_TOP_MIN_N') + ', KARTE_TOP_GAP = ' + constNum('KARTE_TOP_GAP') +
+    ', KARTE_TOP_LIMIT = ' + constNum('KARTE_TOP_LIMIT') + ';\n' +
+    grab('karteGap') + '\n' + grab('karteWeakTop') + '\n' + grab('karteLv') + '\nreturn { karteGap, karteWeakTop, karteLv };'
+  )(HM_MIN_N, new Function('return ' + QTYPES_SRC)());
+}
+
+console.log('\n全国比');
+
+test('gap compares against the national rate of the SAME questions (not the subject average)', () => {
+  // 全国95%の易問を10回中5回・全国30%の難問を10回中5回＝どちらも自分50%。
+  // 科目平均で比べると差は同じに見えるが、同じ問題どうしなら易問だけが −45pt になる
+  const [easy, hard] = byType.dx;
+  const k = makeKarte({ [easy]: { correct: 5, total: 10 }, [hard]: { correct: 5, total: 10 } }, { [easy]: 95, [hard]: 30 });
+  const { karteGap } = makeGapKit();
+  const g = karteGap(k.cells.circ.dx);
+  assert.strictEqual(g.n, 20);
+  assert.ok(Math.abs(g.nat - 62.5) < 1e-9, 'national average must be weighted over my attempts: ' + g.nat);
+  assert.ok(Math.abs(g.gap + 12.5) < 1e-9, 'gap: ' + g.gap);
+  assert.ok(Math.abs(g.lost - 2.5) < 1e-9, 'lost = expected correct − actual correct: ' + g.lost);
+  const eb = k.bands.find(b => b.k === 'e'), xb = k.bands.find(b => b.k === 'x');
+  assert.strictEqual(Math.round(karteGap(eb).gap), -45);
+  assert.strictEqual(Math.round(karteGap(xb).gap), 20);
+});
+
+test('national rate falls back to qmeta.r when RATE lacks the question (minor subjects)', () => {
+  const uid = Object.keys(qmeta).find(u => u.startsWith('ortho_') && typeof qmeta[u].r === 'number' && qmeta[u].r >= 0);
+  assert.ok(uid, 'no ortho question with qmeta.r');
+  const k = makeKarte({ [uid]: { correct: 0, total: 4 } }, {});
+  assert.strictEqual(k.all.nt, 4, 'qmeta.r was not used');
+  assert.strictEqual(Math.round(k.all.ne / 4 * 100), qmeta[uid].r);
+  // RATE がある問題は RATE を優先する（既存の帯のテストと同じ前提）
+  const k2 = makeKarte({ [uid]: { correct: 0, total: 4 } }, { [uid]: 10 });
+  assert.strictEqual(Math.round(k2.all.ne / 4 * 100), 10);
+});
+
+test('questions without any national rate count in the raw % but not in the gap', () => {
+  const uid = Object.keys(qmeta).find(u => u.startsWith('m121s_'));
+  assert.ok(uid, 'no m121s question');
+  const k = makeKarte({ [uid]: { correct: 1, total: 5 } }, {});
+  assert.strictEqual(k.all.total, 5);
+  assert.strictEqual(k.all.nt, 0);
+  assert.strictEqual(makeGapKit().karteGap(k.all), null);
+});
+
+test('weak TOP ranks by questions lost, skips small cells and cells within the noise band', () => {
+  const minN = constNum('KARTE_TOP_MIN_N');
+  const myrate = {}, RATE = {};
+  // 治療: 全国80%の問題を 30回中10回（−47pt・失点14）
+  byType.tx.slice(0, 10).forEach(u => { myrate[u] = { correct: 1, total: 3 }; RATE[u] = 80; });
+  // 検査: 全国80%の問題を 10回中3回（−50pt・失点5）→ 率は悪いが失点は少ない
+  byType.ix.slice(0, 10).forEach((u, i) => { myrate[u] = { correct: i < 3 ? 1 : 0, total: 1 }; RATE[u] = 80; });
+  // 診断: 回数が足りない（下限未満）
+  byType.dx.slice(0, minN - 1).forEach(u => { myrate[u] = { correct: 0, total: 1 }; RATE[u] = 90; });
+  // 知識: 全国並み（±5pt以内）
+  (byType.know || []).slice(0, 10).forEach(u => { myrate[u] = { correct: 8, total: 10 }; RATE[u] = 82; });
+  const k = makeKarte(myrate, RATE);
+  const top = makeGapKit().karteWeakTop(k);
+  assert.deepStrictEqual(top.map(t => t.type), ['tx', 'ix'], 'order must follow questions lost: ' + JSON.stringify(top.map(t => [t.type, t.lost])));
+  assert.ok(top.every(t => t.gap <= -constNum('KARTE_TOP_GAP')));
+});
+
+test('karteLv: warm shades only below national, blue only above, nothing within ±5pt', () => {
+  const { karteLv } = makeGapKit();
+  assert.strictEqual(karteLv(-35), 'k-d4');
+  assert.strictEqual(karteLv(-6), 'k-d1');
+  assert.strictEqual(karteLv(-4), '');
+  assert.strictEqual(karteLv(4), '');
+  assert.strictEqual(karteLv(7), 'k-u1');
+  assert.strictEqual(karteLv(20), 'k-u2');
 });
 
 // ── 一問一答プロンプト生成 ──────────────────────────────────────────

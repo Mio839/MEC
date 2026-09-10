@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MEC 学習統計</title>
+<!-- 演出の許可は最初の描画より前に決める（後から付けると、描かれた本文が一度消えてから入場する）。
+     ⚠️ ここで付くのは「入場アニメを掛けてよい」という印だけ。本文を隠す規則は CSS に1つも無いので、
+        本体のスクリプトが落ちてもアニメは自分で終わり、白紙にはならない。 -->
+<script>try{if(!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))document.documentElement.classList.add('fx-on');}catch(e){}</script>
 <script src="chapters_meta.js"></script>
 <script src="rate_index.js?v=1"></script>
 <script src="progress.js?v=3"></script>
@@ -137,7 +141,9 @@ body {
 /* ── 1. タブナビゲーション ── */
 .tab-nav-wrap {
   position: sticky;
-  top: 58px;
+  /* ヘッダーの実寸（JS が --hdr-h に入れる）。固定の 58px だと4つの数字の行ぶん足りず、
+     スクロールした瞬間にタブがヘッダーの裏へ潜っていた */
+  top: var(--hdr-h, 58px);
   z-index: calc(var(--z-hdr) - 1);
   background: rgba(var(--hdr-rgb), 0.94);
   backdrop-filter: blur(10px);
@@ -707,59 +713,263 @@ body {
   color: var(--stat-bad);
 }
 
-.hm-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -4px; padding: 0 4px; }
-.hm { border-collapse: separate; border-spacing: 3px; width: 100%; min-width: 360px; }
-.hm th { font-size: 10px; font-weight: 700; color: var(--ts); padding: 2px 4px; text-align: center; }
-.hm th.hm-rh { text-align: left; font-size: 11px; color: var(--tx); padding-right: 6px; white-space: nowrap; }
-.hm td {
-  width: 14%;
-  height: 36px;
-  border-radius: var(--r-sm);
-  text-align: center;
+/* 読み方の1行。数字の意味（全国比）を最初に言っておかないと、−31 が「31%」に読まれる */
+.karte-howto {
+  font-size: 11px;
+  color: var(--ts);
+  line-height: 1.55;
+  margin-bottom: 10px;
+}
+.karte-howto b { color: var(--tx); }
+.k-sub-title {
   font-size: 11px;
   font-weight: 800;
   color: var(--tx);
-  border: 1px solid rgba(255,255,255,0.1);
-  background: transparent;
-  cursor: default;
-}
-.hm td.hm-nd { color: var(--ts); font-weight: 400; border-style: dashed; border-color: rgba(255,255,255,0.15); }
-.hm td.c-good { background: var(--stat-good-bg); color: var(--stat-good); border-color: var(--stat-good-bd); }
-.hm td.c-warn { background: var(--stat-warn-bg); color: var(--stat-warn); border-color: var(--stat-warn-bd); }
-.hm td.c-bad  { background: var(--stat-bad-bg); color: var(--stat-bad); border-color: var(--stat-bad-bd); }
-.hm td.dimmed { opacity: 0.25; }
-.hm-sub { display: block; font-size: 9px; font-weight: 400; opacity: 0.8; line-height: 1.1; }
-
-.karte-legend {
+  margin: 2px 0 8px;
   display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 10px;
-  color: var(--ts);
-  margin-top: 10px;
+  align-items: baseline;
+  gap: 6px;
   flex-wrap: wrap;
 }
-.k-lg-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
-.k-lg-dot.good { background: var(--stat-good); }
-.k-lg-dot.warn { background: var(--stat-warn); }
-.k-lg-dot.bad  { background: var(--stat-bad); }
+.k-sub-title small { font-size: 10px; font-weight: 400; color: var(--ts); }
+
+/* ── 弱点TOP（失点の大きい科目×形式）── */
+.kt-list { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+.kt-card {
+  --kt-c: var(--stat-warn);
+  position: relative;
+  display: grid;
+  grid-template-columns: 26px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px 9px 8px;
+  border-radius: var(--r-md);
+  background: linear-gradient(100deg, color-mix(in srgb, var(--kt-c) 16%, transparent) 0%, var(--card-bg) 55%);
+  border: 1px solid color-mix(in srgb, var(--kt-c) 34%, transparent);
+  color: var(--tx);
+  text-decoration: none;
+  overflow: hidden;
+  transition: border-color .18s, background-color .18s, translate .18s var(--ease-out);
+}
+.kt-card.lv3, .kt-card.lv4 { --kt-c: var(--stat-bad); }
+.kt-card:hover { translate: 0 -1px; border-color: color-mix(in srgb, var(--kt-c) 60%, transparent); }
+.kt-rank {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 12px; font-weight: 900;
+  color: #1A1206;
+  background: var(--kt-c);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--kt-c) 22%, transparent);
+}
+.kt-main { min-width: 0; }
+.kt-name { font-size: 12px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kt-name b { color: var(--kt-c); }
+.kt-meta { font-size: 10px; color: var(--ts); margin-top: 3px; line-height: 1.4; }
+.kt-meta b { color: var(--tx); }
+.kt-gap {
+  font-size: 22px; font-weight: 900; line-height: 1;
+  color: var(--kt-c);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 14px color-mix(in srgb, var(--kt-c) 45%, transparent);
+}
+.kt-gap small { font-size: 10px; font-weight: 800; margin-left: 1px; }
+.kt-go { display: block; font-size: 9px; font-weight: 700; color: var(--ts); margin-top: 4px; text-shadow: none; }
+.kt-empty {
+  font-size: 11px; color: var(--ts); line-height: 1.55;
+  padding: 10px 12px; margin-bottom: 16px;
+  border: 1px dashed rgba(255,255,255,0.16); border-radius: var(--r-md);
+}
+
+/* 自分⇔全国の2本を1本の目盛りに重ねる。斜線＝全国に届かなかった幅（＝取りこぼしの量） */
+.cmp-bar {
+  position: relative;
+  height: 8px;
+  margin-top: 5px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.07);
+}
+.cmp-you {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  border-radius: 4px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--cmp-c, var(--stat-warn)) 55%, transparent), var(--cmp-c, var(--stat-warn)));
+  transform-origin: left center;
+}
+.cmp-gap {
+  position: absolute; top: 0; bottom: 0;
+  background: repeating-linear-gradient(-45deg,
+    color-mix(in srgb, var(--cmp-c, var(--stat-warn)) 55%, transparent) 0 3px,
+    transparent 3px 6px);
+  background-size: 8.5px 8.5px;
+  border-radius: 0 4px 4px 0;
+}
+.cmp-gap.is-over {  /* 全国を上回った幅は青で塗る（上回りは斜線にしない＝「足りない」に見せない） */
+  background: color-mix(in srgb, var(--stat-neutral) 30%, transparent);
+  border-radius: 0;
+}
+.cmp-nat {
+  position: absolute; top: -4px; bottom: -4px;
+  width: 2px; margin-left: -1px;
+  border-radius: 1px;
+  background: var(--tx);
+  box-shadow: 0 0 6px rgba(255,255,255,.55);
+}
+
+/* ── 全国比の行列 ── */
+.karte-ctrl-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.karte-toggle-btn {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: transparent;
+  color: var(--ts);
+  cursor: pointer;
+  font-family: inherit;
+}
+.karte-toggle-btn.active {
+  background: var(--stat-warn-bg);
+  border-color: var(--stat-warn-bd);
+  color: var(--stat-warn);
+}
+/* 凡例＝色の意味をそのまま目盛りにする（下回る＝暖色／上回る＝青）。赤緑は使わない */
+.k-scale { display: flex; align-items: center; gap: 6px; font-size: 9px; color: var(--ts); }
+.k-scale-bar {
+  width: 150px; height: 8px; border-radius: 4px;
+  background: linear-gradient(90deg, rgba(255,95,95,.85), rgba(255,154,60,.55) 38%, rgba(255,255,255,.08) 62%, rgba(96,165,250,.55));
+}
+
+.hm-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -4px; padding: 2px 4px 4px; }
+.hm { border-collapse: separate; border-spacing: 3px; width: 100%; min-width: 360px; }
+.hm th { font-size: 10px; font-weight: 700; color: var(--ts); padding: 2px 4px; text-align: center; }
+.hm th.hm-rh { text-align: left; font-size: 11px; color: var(--tx); padding-right: 6px; white-space: nowrap; }
+/* スマホで横にスワイプしても、どの科目の行かが見えるように科目名を左に留める */
+@media (max-width: 560px) {
+  .hm th.hm-rh { position: sticky; left: 0; z-index: 2; background: rgba(var(--hdr-rgb), 0.88); border-radius: var(--r-sm); }
+}
+.hm tr.hm-foot th, .hm tr.hm-foot td { border-top-width: 2px; }
+.hm td {
+  position: relative;
+  width: 14%;
+  height: 38px;
+  border-radius: var(--r-sm);
+  text-align: center;
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--tx);
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.035);
+  cursor: pointer;
+  line-height: 1.15;
+  transition: opacity .25s, translate .15s var(--ease-out), box-shadow .15s;
+}
+.hm td:hover { translate: 0 -1px; box-shadow: 0 3px 10px rgba(0,0,0,.35); }
+.hm td.is-sel { box-shadow: 0 0 0 2px var(--tx); }
+.hm td.hm-nd { color: var(--ts); font-weight: 400; border-style: dashed; border-color: rgba(255,255,255,0.13); background: transparent; }
+.hm td.hm-raw { color: var(--ts); font-weight: 700; }
+/* 下回り 4段（暖色の濃淡）／上回り 2段（青の濃淡）／±5pt以内は無彩色 */
+.hm td.k-d1 { background: rgba(255,154,60,.13); border-color: rgba(255,154,60,.28); color: #FFC48A; }
+.hm td.k-d2 { background: rgba(255,140,60,.26); border-color: rgba(255,140,60,.42); color: #FFB070; }
+.hm td.k-d3 { background: rgba(255,110,80,.40); border-color: rgba(255,110,80,.60); color: #FFE2D6; }
+.hm td.k-d4 { background: rgba(255,90,90,.58); border-color: rgba(255,120,120,.85); color: #FFF; text-shadow: 0 1px 2px rgba(0,0,0,.45); }
+.hm td.k-u1 { background: rgba(96,165,250,.12); border-color: rgba(96,165,250,.26); color: #A9CCFB; }
+.hm td.k-u2 { background: rgba(96,165,250,.24); border-color: rgba(96,165,250,.44); color: #CFE2FD; }
+.hm-sub { display: block; font-size: 9px; font-weight: 500; opacity: 0.85; line-height: 1.1; margin-top: 1px; }
+.hm-rk {  /* 弱点TOPの順位を行列の中にも打つ（上のカードと下のマスを目で結ぶ） */
+  position: absolute; top: -5px; left: -5px;
+  width: 15px; height: 15px; border-radius: 50%;
+  font-size: 9px; font-weight: 900; line-height: 15px;
+  color: #1A1206; background: var(--stat-bad);
+  box-shadow: 0 0 0 2px rgba(0,0,0,.35);
+  text-shadow: none;
+}
+.hm.focus-weak td:not(.k-d1):not(.k-d2):not(.k-d3):not(.k-d4) { opacity: .22; }
+.k-readout {
+  margin-top: 8px;
+  min-height: 34px;
+  font-size: 11px;
+  color: var(--ts);
+  line-height: 1.5;
+  padding: 7px 10px;
+  border-radius: var(--r-sm);
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.k-readout b { color: var(--tx); }
+.k-readout .neg { color: var(--stat-warn); font-weight: 900; }
+.k-readout .pos { color: var(--stat-neutral); font-weight: 900; }
 
 /* 18. 本番正答率帯別 & 処方箋 */
 .band-wrap {
-  margin-top: 14px;
-  padding-top: 12px;
+  margin-top: 16px;
+  padding-top: 14px;
   border-top: 1px solid rgba(255,255,255,0.08);
 }
-.band-title { font-size: 11px; font-weight: 700; color: var(--tx); margin-bottom: 8px; }
-.band-rows { display: flex; flex-direction: column; gap: 6px; }
-.band-row { display: flex; align-items: center; gap: 8px; font-size: 11px; }
-.band-lbl { width: 80px; flex-shrink: 0; color: var(--ts); font-size: 10px; }
-.band-track { flex: 1; height: 8px; border-radius: 4px; background: rgba(255,255,255,.07); overflow: hidden; }
-.band-fill { height: 100%; border-radius: 4px; }
-.band-fill.good { background: var(--stat-good); }
-.band-fill.warn { background: var(--stat-warn); }
-.band-fill.bad  { background: var(--stat-bad); }
-.band-val { width: 70px; flex-shrink: 0; text-align: right; font-weight: 700; color: var(--tx); font-size: 10px; }
+.band-title { font-size: 11px; font-weight: 800; color: var(--tx); margin-bottom: 4px; }
+.band-lead { font-size: 10.5px; color: var(--ts); line-height: 1.5; margin-bottom: 10px; }
+.band-lead .lg-nat { display: inline-block; width: 2px; height: 11px; background: var(--tx); vertical-align: -1px; margin: 0 3px; box-shadow: 0 0 5px rgba(255,255,255,.6); }
+.band-lead .lg-gap {
+  display: inline-block; width: 16px; height: 8px; vertical-align: 0; margin: 0 3px; border-radius: 2px;
+  background: repeating-linear-gradient(-45deg, rgba(255,154,60,.7) 0 3px, transparent 3px 6px);
+}
+.band-axis {
+  display: grid;
+  grid-template-columns: 86px 1fr 74px;
+  gap: 8px;
+  font-size: 9px;
+  color: var(--ts);
+  margin-bottom: 2px;
+}
+.band-axis-ticks { position: relative; height: 12px; }
+.band-axis-ticks span { position: absolute; transform: translateX(-50%); }
+.band-axis-ticks span:first-child { transform: none; }
+.band-axis-ticks span:last-child { transform: translateX(-100%); }
+.band-rows { display: flex; flex-direction: column; gap: 9px; }
+.band-row {
+  --cmp-c: var(--stat-warn);
+  display: grid;
+  grid-template-columns: 86px 1fr 74px;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+}
+.band-row.is-up { --cmp-c: var(--stat-neutral); }
+.band-row.is-even { --cmp-c: rgba(255,255,255,.55); }
+.band-row.is-bad { --cmp-c: var(--stat-bad); }
+.band-lbl { color: var(--tx); font-size: 11px; font-weight: 800; line-height: 1.15; }
+.band-lbl small { display: block; font-size: 9px; font-weight: 400; color: var(--ts); }
+.band-track { position: relative; height: 16px; border-radius: 5px; background: rgba(255,255,255,.06); }
+/* その帯が本来いる位置（本番80%以上なら 80〜100 の区間）をうっすら敷く */
+.band-zone { position: absolute; top: 0; bottom: 0; background: rgba(255,255,255,.05); border-left: 1px dashed rgba(255,255,255,.14); border-right: 1px dashed rgba(255,255,255,.14); }
+.band-track .cmp-you, .band-track .cmp-gap { border-radius: 5px; }
+.band-track .cmp-gap { border-radius: 0 5px 5px 0; }
+.band-track .cmp-nat { top: -3px; bottom: -3px; }
+.band-track .cmp-nat i {
+  position: absolute; bottom: calc(100% + 1px); left: 50%; transform: translateX(-50%);
+  font-style: normal; font-size: 8.5px; font-weight: 800; color: var(--tx);
+  white-space: nowrap; text-shadow: 0 1px 2px rgba(0,0,0,.6);
+}
+.band-val { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.1; }
+.band-val b { font-size: 15px; font-weight: 900; color: var(--tx); }
+.band-val small { display: block; font-size: 9px; color: var(--ts); }
+.band-chip {
+  display: inline-block;
+  margin-top: 2px;
+  font-size: 10px; font-weight: 900;
+  padding: 0 6px; border-radius: 8px;
+  color: var(--cmp-c);
+  background: color-mix(in srgb, var(--cmp-c) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cmp-c) 40%, transparent);
+}
 
 .band-rx-box {
   margin-top: 10px;
@@ -1094,6 +1304,168 @@ body {
 .foot a { color: var(--ts); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.2); }
 .foot a:hover { color: var(--tx); }
 .foot .foot-sp { margin-left: auto; }
+
+/* ══════════ 演出（2026-09-11）══════════
+   ⚠️ すべて html.fx-on の下にだけ書く。fx-on は <head> の1行と本体のスクリプトが
+      reduced-motion でないときだけ付ける＝ reduced-motion では1つも動かない。
+   ⚠️ 本文を隠すのは @keyframes の from だけ（アニメが自分で終わる形）。CSS 単体で
+      opacity:0 に固定しない——JS が落ちた日にページが白紙になる（旧 armReveal の失敗）。
+   ⚠️ 移動・拡大は translate / scale（独立プロパティ）で書く。pace-bar-fill の scaleX や
+      band の目盛りの translateX が transform を使っているので、transform を上書きすると黙って死ぬ。
+   ⚠️ <body> / <html> に transform・filter を掛けない（MecFX の canvas の包含ブロックが壊れる）。
+   .fxb ＝「見えたら動く塊」。JS（fxArm / fxGo）が画面に入った瞬間に .fx-go を付け直す。 */
+@property --p { syntax: '<number>'; inherits: true; initial-value: 0; }
+
+@keyframes fxSecIn { from { opacity: 0; translate: 0 16px; scale: .985; } }
+@keyframes fxGrowX { from { scale: 0 1; } }
+@keyframes fxGrowY { from { scale: 1 0; } }
+@keyframes fxPop { 0% { opacity: 0; scale: .55; } 65% { opacity: 1; scale: 1.08; } 100% { scale: 1; } }
+@keyframes fxSlideIn { from { opacity: 0; translate: -18px 0; } }
+@keyframes fxRise { from { opacity: 0; translate: 0 8px; } }
+@keyframes fxDrop { 0% { opacity: 0; translate: 0 -12px; } 70% { opacity: 1; translate: 0 2px; } 100% { translate: 0 0; } }
+@keyframes fxFade { from { opacity: 0; } }
+@keyframes fxWipe { from { clip-path: inset(0 100% 0 0 round 7px); } }
+@keyframes fxRingFill { from { --p: 0; } }
+@keyframes fxStripe { to { background-position: 17px 0; } }
+@keyframes fxHalo { 0% { opacity: .85; scale: 1; } 100% { opacity: 0; scale: 1.12; } }
+@keyframes fxSpin { to { rotate: 360deg; } }
+@keyframes fxSheen { 0%, 62% { translate: -120% 0; } 100% { translate: 220% 0; } }
+@keyframes fxGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,107,107,0); } 50% { box-shadow: 0 0 12px 1px rgba(255,107,107,.55); } }
+@keyframes fxBadge { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,154,60,0); } 50% { box-shadow: 0 0 0 4px rgba(255,154,60,.18); } }
+@keyframes fxToday { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,209,102,.0); } 50% { box-shadow: 0 0 0 4px rgba(255,209,102,.35); } }
+@keyframes fxFlash { 0% { color: var(--yl); text-shadow: 0 0 10px rgba(255,209,102,.7); } 100% { } }
+
+/* セクションの入場。タブを開くたびに走る（display:none から戻るとアニメは最初からやり直しになる） */
+html.fx-on .tab-pane.active > .sec,
+html.fx-on .tab-pane.active > .diag-card,
+html.fx-on .tab-pane.active .ai-card {
+  animation: fxSecIn .6s var(--ease-out) both;
+  animation-delay: calc(var(--si, 0) * 80ms);
+}
+html.fx-on .sec { transition: box-shadow .25s, border-color .25s; }
+html.fx-on .sec:hover { border-color: rgba(255,255,255,0.18); }
+
+/* タブ：選択中の地が滑って移る */
+.tab-nav { position: relative; }
+.tab-btn { position: relative; z-index: 1; }
+.tab-ink {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+  border-radius: var(--r-md);
+  background: var(--stat-good-bg);
+  border: 1px solid var(--stat-good-bd);
+  box-shadow: 0 2px 10px rgba(0,0,0,.3), 0 0 14px rgba(61,214,140,.18);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: transform .42s cubic-bezier(.34,1.45,.64,1), width .42s cubic-bezier(.34,1.45,.64,1);
+}
+html.fx-on .tab-ink.is-ready { opacity: 1; }
+html.fx-on .tab-ink.is-ready ~ .tab-btn.active { background: transparent; border-color: transparent; box-shadow: none; }
+html.fx-on .tab-btn:active { scale: .96; }
+
+/* 見出しの4つの数字・診断カード */
+html.fx-on .sum-card, html.fx-on .diag-metric, html.fx-on .pace-item {
+  transition: translate .18s var(--ease-out), border-color .18s;
+}
+html.fx-on .sum-card:hover, html.fx-on .diag-metric:hover, html.fx-on .pace-item:hover { translate: 0 -2px; border-color: rgba(255,255,255,.2); }
+html.fx-on .fx-go .diag-metric, html.fx-on .fx-go .pace-item { animation: fxRise .5s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 90ms); }
+html.fx-on .diag-badge.is-warn { animation: fxBadge 2.4s ease-in-out infinite; }
+html.fx-on .quick-btn { position: relative; overflow: hidden; }
+html.fx-on .quick-btn:hover { translate: 0 -1px; }
+html.fx-on .quick-btn-pri::after {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.45), transparent);
+  animation: fxSheen 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* 国試カウントダウンのリング：満ちていく＋縁を光が回る */
+html.fx-on .fx-go .hero-ring { animation: fxRingFill 1.3s cubic-bezier(.22,1,.36,1) both; }
+html.fx-on .hero-ring { position: relative; }
+html.fx-on .hero-ring::after {
+  content: ''; position: absolute; inset: -3px; border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0 80%, rgba(255,255,255,.55) 92%, transparent 100%);
+  /* 光るのはリングの帯（内円 r38 〜 外縁 r48）だけ。closest-side で ::after の半径 51px を 100% に取る */
+  -webkit-mask: radial-gradient(circle closest-side, transparent 72%, #000 75%, #000 94%, transparent 97%);
+          mask: radial-gradient(circle closest-side, transparent 72%, #000 75%, #000 94%, transparent 97%);
+  animation: fxSpin 5s linear infinite;
+  pointer-events: none;
+}
+html.fx-on .fx-go .pace-bar-fill { animation: fxGrowX 1.1s cubic-bezier(.22,1,.36,1) both .25s; }
+html.fx-on .sim-result.is-flash strong { animation: fxFlash .6s ease-out; }
+
+/* 復習の見通し */
+html.fx-on .fx-go .fc-bar { animation: fxGrowY .75s cubic-bezier(.22,1,.36,1) both; animation-delay: calc(var(--i, 0) * 65ms); }
+html.fx-on .fx-go .fc-n { animation: fxFade .4s both; animation-delay: calc(var(--i, 0) * 65ms + 380ms); }
+html.fx-on .fc-col.is-over .fc-bar { animation: fxGrowY .75s cubic-bezier(.22,1,.36,1) both, fxGlow 2.2s ease-in-out 1s infinite; }
+html.fx-on .fc-popover:not([hidden]) { animation: fxRise .25s var(--ease-out); }
+
+/* 弱点カルテ */
+html.fx-on .fx-go .kt-card { animation: fxSlideIn .5s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 90ms); }
+html.fx-on .fx-go .kt-card .cmp-you { animation: fxGrowX .9s cubic-bezier(.22,1,.36,1) both; animation-delay: calc(var(--i, 0) * 90ms + 200ms); }
+html.fx-on .fx-go .kt-card .cmp-gap { animation: fxFade .4s both calc(var(--i, 0) * 90ms + 850ms), fxStripe 1.1s linear infinite; }
+html.fx-on .fx-go .kt-card .cmp-nat { animation: fxDrop .5s both; animation-delay: calc(var(--i, 0) * 90ms + 650ms); }
+html.fx-on .kt-card .kt-rank { transition: scale .2s; }
+html.fx-on .kt-card:hover .kt-rank { scale: 1.12; }
+html.fx-on .fx-go .hm td { animation: fxPop .45s var(--ease-out) both; animation-delay: calc(var(--d, 0) * 38ms); }
+html.fx-on .hm td.is-top::after {
+  content: ''; position: absolute; inset: -3px; border-radius: calc(var(--r-sm) + 3px);
+  border: 2px solid var(--stat-bad);
+  animation: fxHalo 2s ease-out infinite;
+  pointer-events: none;
+}
+html.fx-on .fx-go .hm .hm-rk { animation: fxPop .4s both; animation-delay: calc(var(--d, 0) * 38ms + 300ms); }
+html.fx-on .k-readout { transition: background-color .3s; }
+html.fx-on .k-readout.is-flash { animation: fxRise .3s var(--ease-out); }
+html.fx-on .fx-go .band-row { animation: fxRise .45s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 120ms); }
+html.fx-on .fx-go .band-track .cmp-you { animation: fxGrowX 1s cubic-bezier(.22,1,.36,1) both; animation-delay: calc(var(--i, 0) * 120ms + 150ms); }
+html.fx-on .fx-go .band-track .cmp-gap { animation: fxFade .4s both calc(var(--i, 0) * 120ms + 950ms), fxStripe 1.1s linear infinite; }
+html.fx-on .fx-go .band-track .cmp-gap.is-over { animation: fxFade .4s both calc(var(--i, 0) * 120ms + 950ms); }
+html.fx-on .fx-go .band-track .cmp-nat { animation: fxDrop .55s both; animation-delay: calc(var(--i, 0) * 120ms + 700ms); }
+html.fx-on .fx-go .band-chip { animation: fxPop .45s both; animation-delay: calc(var(--i, 0) * 120ms + 1050ms); }
+html.fx-on .fx-go .band-rx-box { animation: fxRise .5s var(--ease-out) both .9s; }
+
+/* 弱点問題リスト */
+html.fx-on .fx-go .wk-card { animation: fxSlideIn .45s var(--ease-out) both; animation-delay: calc(min(var(--i, 0), 12) * 40ms); }
+html.fx-on .wk-card { transition: border-color .15s, translate .15s var(--ease-out); }
+html.fx-on .wk-card:hover { translate: 3px 0; }
+html.fx-on .wk-card-detail:not([hidden]) { animation: fxRise .28s var(--ease-out); }
+html.fx-on .wk-card-detail:not([hidden]) .wk-cmp-fill { transform-origin: left center; animation: fxGrowX .7s cubic-bezier(.22,1,.36,1) both .1s; }
+html.fx-on .wk-card-toggle { transition: rotate .2s; }
+html.fx-on .wk-card.is-open .wk-card-toggle { rotate: 180deg; }
+
+/* 進捗・推移 */
+html.fx-on .subj-prog-fill { transform-origin: left center; }
+html.fx-on .fx-go .subj-row .subj-prog-fill { animation: fxGrowX .9s cubic-bezier(.22,1,.36,1) both; animation-delay: calc(var(--i, 0) * 45ms); }
+html.fx-on .subj-ch-detail .ch-row { animation: fxRise .3s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 30ms); }
+html.fx-on .subj-ch-detail .subj-prog-fill { animation: fxGrowX .7s cubic-bezier(.22,1,.36,1) both; animation-delay: calc(var(--i, 0) * 30ms + 120ms); }
+html.fx-on .fx-go .hm-subj-item { animation: fxPop .45s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 30ms); }
+html.fx-on .hm-subj-item { transition: translate .15s var(--ease-out), border-color .15s; }
+html.fx-on .hm-subj-item:hover { translate: 0 -2px; border-color: rgba(255,255,255,.2); }
+html.fx-on .hm-inline-chs:not([hidden]) .hm-in-ch { animation: fxRise .28s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 25ms); }
+html.fx-on .fx-go .hm-cell-dot:not(.none) { animation: fxPop .5s both; animation-delay: calc(var(--i, 0) * 30ms + 250ms); }
+html.fx-on .fx-go.level-stack-bar { animation: fxWipe 1.2s cubic-bezier(.22,1,.36,1) both; }
+html.fx-on .fx-go .level-lg-item { animation: fxRise .4s both; animation-delay: calc(var(--i, 0) * 60ms + 300ms); }
+html.fx-on .fx-go .cal-cell { animation: fxPop .35s var(--ease-out) both; animation-delay: calc(var(--c, 0) * 32ms + var(--r, 0) * 12ms); }
+/* 今日のセルは呼吸する（位置は outline で静的にも示してある＝止まっても分かる） */
+html.fx-on .cal-cell.is-today { animation: fxToday 2.4s ease-in-out infinite; }
+html.fx-on .fx-go .cal-cell.is-today { animation: fxPop .35s var(--ease-out) both calc(var(--c, 0) * 32ms), fxToday 2.4s ease-in-out 1s infinite; }
+html.fx-on .cal-cell { transition: scale .12s; }
+html.fx-on .cal-cell:hover { scale: 1.35; }
+html.fx-on .fx-go .dow-bar { animation: fxGrowY .7s cubic-bezier(.22,1,.36,1) both; animation-delay: calc(var(--i, 0) * 60ms); }
+html.fx-on .grid-readout.is-flash { animation: fxRise .25s var(--ease-out); }
+
+/* AIツール */
+html.fx-on .ai-card { transition: translate .18s var(--ease-out), border-color .18s; }
+html.fx-on .ai-card:hover { translate: 0 -2px; border-color: rgba(255,255,255,.18); }
+html.fx-on .ai-card-btn:active { scale: .98; }
+
+/* 念のための止め（fx-on は reduced-motion では付かないが、OS 設定が途中で変わった直後の1枚も止める） */
+@media (prefers-reduced-motion: reduce) {
+  html.fx-on *, html.fx-on *::before, html.fx-on *::after { animation: none !important; transition: none !important; }
+  .cal-cell.is-today { animation: none !important; }
+  .tab-ink { transition: none !important; }
+}
 </style>
 </head>
 <body>
@@ -1104,11 +1476,11 @@ body {
     <a class="hub-link" href="index.html">← ハブ</a>
     <span class="mec-sync-badge">⚙️ 未同期</span>
   </div>
-  <div class="summary-row" id="summaryRow">
-    <div class="sum-card"><span class="sum-val" id="sumDone">—</span><span class="sum-lbl">済み</span></div>
-    <div class="sum-card"><span class="sum-val" id="sumStreak">—</span><span class="sum-lbl">日連続🔥</span></div>
-    <div class="sum-card"><span class="sum-val flag" id="sumFlag">—</span><span class="sum-lbl">🚩赤旗</span></div>
-    <div class="sum-card"><span class="sum-val" id="sumTime">—</span><span class="sum-lbl">⏱今日(分)</span></div>
+  <div class="summary-row fxb" id="summaryRow">
+    <div class="sum-card"><span class="sum-val" data-cu id="sumDone">—</span><span class="sum-lbl">済み</span></div>
+    <div class="sum-card"><span class="sum-val" data-cu id="sumStreak">—</span><span class="sum-lbl">日連続🔥</span></div>
+    <div class="sum-card"><span class="sum-val flag" data-cu id="sumFlag">—</span><span class="sum-lbl">🚩赤旗</span></div>
+    <div class="sum-card"><span class="sum-val" data-cu id="sumTime">—</span><span class="sum-lbl">⏱今日(分)</span></div>
   </div>
 </header>
 
@@ -1131,18 +1503,18 @@ body {
         <h2 class="sec-title" style="margin:0;">🩺 今日の学習診断</h2>
         <span class="diag-badge" id="diagBadge">順調</span>
       </div>
-      <div class="diag-grid">
-        <div class="diag-metric">
+      <div class="diag-grid fxb">
+        <div class="diag-metric" style="--i:0">
           <div class="diag-lbl">総合達成率</div>
-          <div class="diag-val good" id="diagPct">—%</div>
+          <div class="diag-val good" data-cu id="diagPct">—%</div>
         </div>
-        <div class="diag-metric">
+        <div class="diag-metric" style="--i:1">
           <div class="diag-lbl">試験モード正解率</div>
-          <div class="diag-val" id="diagAcc">—%</div>
+          <div class="diag-val" data-cu id="diagAcc">—%</div>
         </div>
-        <div class="diag-metric">
+        <div class="diag-metric" style="--i:2">
           <div class="diag-lbl">今日の復習タスク</div>
-          <div class="diag-val warn" id="diagReview">—問</div>
+          <div class="diag-val warn" data-cu id="diagReview">—問</div>
         </div>
       </div>
       <div class="diag-msg" id="diagMsg">データを集計中...</div>
@@ -1160,23 +1532,23 @@ body {
         <button type="button" class="sec-toggle-btn" aria-label="開閉"><span class="sec-toggle-icon">▾</span></button>
       </div>
       <div class="sec-body">
-        <div class="hero-top">
+        <div class="hero-top fxb">
           <div class="hero-ring" id="heroRing"><div class="hero-ring-in">
-            <span class="hero-pct" id="heroPct">—</span><span class="hero-pct-lbl">達成</span>
+            <span class="hero-pct" data-cu id="heroPct">—</span><span class="hero-pct-lbl">達成</span>
           </div></div>
           <div class="hero-info">
             <h3 class="hero-cd-lbl">第121回 医師国家試験まで</h3>
-            <div class="hero-cd"><span id="heroDays">—</span><span class="hero-cd-u">日</span></div>
+            <div class="hero-cd"><span data-cu id="heroDays">—</span><span class="hero-cd-u">日</span></div>
             <div class="hero-date" id="heroDate">—</div>
           </div>
         </div>
-        <div class="pace-grid">
-          <div class="pace-item"><div class="pace-lbl">未着手</div><div class="pace-val" id="paceLeft">—</div></div>
-          <div class="pace-item"><div class="pace-lbl">必要ペース</div><div class="pace-val" id="paceNeed">—</div></div>
-          <div class="pace-item"><div class="pace-lbl">直近7日の実績</div><div class="pace-val" id="paceReal">—</div></div>
+        <div class="pace-grid fxb">
+          <div class="pace-item" style="--i:0"><div class="pace-lbl">未着手</div><div class="pace-val" data-cu id="paceLeft">—</div></div>
+          <div class="pace-item" style="--i:1"><div class="pace-lbl">必要ペース</div><div class="pace-val" data-cu id="paceNeed">—</div></div>
+          <div class="pace-item" style="--i:2"><div class="pace-lbl">直近7日の実績</div><div class="pace-val" data-cu id="paceReal">—</div></div>
         </div>
         <div class="pace-msg" id="paceMsg"></div>
-        <div class="pace-bar"><div class="pace-bar-fill" id="paceBarFill"></div><div class="pace-bar-mark" id="paceBarMark"></div></div>
+        <div class="pace-bar fxb"><div class="pace-bar-fill" id="paceBarFill"></div><div class="pace-bar-mark" id="paceBarMark"></div></div>
         
         <div class="sim-wrap">
           <div class="sim-title">
@@ -1203,8 +1575,8 @@ body {
         <button type="button" class="sec-toggle-btn" aria-label="開閉"><span class="sec-toggle-icon">▾</span></button>
       </div>
       <div class="sec-body">
-        <div class="fc-summary" id="fcSummary"></div>
-        <div class="fc-bars" id="fcBars"></div>
+        <div class="fc-summary fxb" id="fcSummary"></div>
+        <div class="fc-bars fxb" id="fcBars"></div>
         <div class="fc-note" id="fcNote"></div>
         <div class="fc-popover" id="fcPopover" hidden>
           <div class="fc-popover-hd">
@@ -1227,22 +1599,26 @@ body {
         <button type="button" class="sec-toggle-btn" aria-label="開閉"><span class="sec-toggle-icon">▾</span></button>
       </div>
       <div class="sec-body">
-        <div class="karte-ctrl-row">
-          <div class="karte-legend">
-            <span><i class="k-lg-dot good"></i> 良好(≧70%)</span>
-            <span><i class="k-lg-dot warn"></i> 注意(50-69%)</span>
-            <span><i class="k-lg-dot bad"></i> 苦手(&lt;50%)</span>
-          </div>
-          <button type="button" class="karte-toggle-btn" id="btnKarteFocus">🚨 苦手セルのみ強調</button>
-        </div>
         <div id="karteEmpty" class="sec-empty">試験モードで解くと、科目×形式（診断/検査/治療/対応/知識）のカルテが出ます。</div>
         <div id="karteBody" hidden>
-          <div class="hm-scroll">
+          <p class="karte-howto">あなたが解いた<b>同じ問題</b>の全国正答率と比べます。<b>−20</b> なら「全国より20ポイント取れていない」。問題の難しさの差は打ち消されるので、ここで沈んでいるのは本当の弱点です。</p>
+
+          <h3 class="k-sub-title">🚨 優先して潰す弱点 <small>全国並みなら取れていた問題数（失点）が多い順</small></h3>
+          <div class="kt-list fxb" id="karteTop"></div>
+
+          <div class="karte-ctrl-row">
+            <div class="k-scale"><span>全国より下</span><span class="k-scale-bar"></span><span>上</span></div>
+            <button type="button" class="karte-toggle-btn" id="btnKarteFocus">🎯 下回るマスだけ</button>
+          </div>
+          <div class="hm-scroll fxb">
             <table class="hm" id="hmTable"></table>
           </div>
-          
-          <div class="band-wrap" id="bandWrap">
-            <h3 class="band-title">📊 本番正答率帯ごとの自分の正答率</h3>
+          <div class="k-readout" id="kReadout">マスをタップすると、自分の正答率・全国平均・受験回数が出ます。</div>
+
+          <div class="band-wrap fxb" id="bandWrap">
+            <h3 class="band-title">📊 全国の正答率帯ごとの自分の正答率</h3>
+            <p class="band-lead">全国の受験生がよく解けた問題ほど、あなたも取れているか。<span class="lg-nat"></span>＝同じ問題の全国平均、<span class="lg-gap"></span>＝全国に届かなかった幅。</p>
+            <div class="band-axis"><span></span><div class="band-axis-ticks"><span style="left:0">0</span><span style="left:50%">50</span><span style="left:100%">100%</span></div><span></span></div>
             <div class="band-rows" id="bandRows"></div>
             <div class="band-rx-box" id="bandRxBox">分析中...</div>
           </div>
@@ -1257,7 +1633,7 @@ body {
       </div>
       <div class="sec-body">
         <div class="wk-filter" id="wkFilter"></div>
-        <div class="wk-cards" id="wkCards"></div>
+        <div class="wk-cards fxb" id="wkCards"></div>
         <div class="sec-note" id="wkFoot" style="margin-top: 10px;"></div>
       </div>
     </section>
@@ -1280,7 +1656,7 @@ body {
           <button class="sort-btn" data-sort="left-desc">未着手順 (残り問数↓)</button>
           <button class="sort-btn" data-sort="flag-desc">赤旗順 (🚩↓)</button>
         </div>
-        <div class="subj-scroll">
+        <div class="subj-scroll fxb">
           <table class="subj-table">
             <thead>
               <tr>
@@ -1307,7 +1683,7 @@ body {
           <button class="hm-mode-btn on" data-hm="acc">正答率で見る</button>
           <button class="hm-mode-btn" data-hm="prog">進捗で見る</button>
         </div>
-        <div class="hm-subj-grid" id="heatmapGrid"></div>
+        <div class="hm-subj-grid fxb" id="heatmapGrid"></div>
       </div>
     </section>
 
@@ -1335,8 +1711,8 @@ body {
         <button type="button" class="sec-toggle-btn" aria-label="開閉"><span class="sec-toggle-icon">▾</span></button>
       </div>
       <div class="sec-body">
-        <div class="level-stack-bar" id="levelStackBar"></div>
-        <div class="level-legend-grid" id="levelLegendGrid"></div>
+        <div class="level-stack-bar fxb" id="levelStackBar"></div>
+        <div class="level-legend-grid fxb" id="levelLegendGrid"></div>
       </div>
     </section>
 
@@ -1347,13 +1723,13 @@ body {
       </div>
       <div class="sec-body">
         <div class="cal-months" id="calMonths"></div>
-        <div class="cal-wrap">
+        <div class="cal-wrap fxb">
           <div class="cal-dow" id="calDow"></div>
           <div class="cal-grid" id="calGrid"></div>
         </div>
         <div class="grid-readout" id="calReadout">セルをタップすると、その日の問題数と学習時間が出ます。</div>
-        <div class="cal-figs" id="calFigs"></div>
-        <div class="dow-wrap" id="dowWrap"></div>
+        <div class="cal-figs fxb" id="calFigs"></div>
+        <div class="dow-wrap fxb" id="dowWrap"></div>
       </div>
     </section>
 
@@ -1408,6 +1784,103 @@ body {
   function cssVar(name, fallback) {
     const v = _cs.getPropertyValue(name).trim();
     return v || fallback || '#888';
+  }
+
+  /* ══════════ 演出（2026-09-11）══════════
+     .fxb（見えたら動く塊）が画面に入った瞬間に .fx-go を付け直し、中の [data-cu] を数え上げる。
+     ⚠️ 本文は最初から確定値で描く。数え上げはそれを一時的に書き換えるだけで、
+        終わると（または rAF が来なくても setTimeout で）必ず確定値へ戻す。
+     ⚠️ 非表示タブでは rAF が1フレームも来ない（ハブの _tweenNum で踏んだ）。落とし所を外さないこと。 */
+  const FX_RM = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+  let FX = !(FX_RM && FX_RM.matches);
+  function fxApply() {
+    document.documentElement.classList.toggle('fx-on', FX);
+    if (window.MecFX && window.MecFX.setEnabled) window.MecFX.setEnabled(FX);
+  }
+  fxApply();
+  if (FX_RM) {
+    const onRm = e => { FX = !e.matches; fxApply(); };
+    if (FX_RM.addEventListener) FX_RM.addEventListener('change', onRm);
+    else if (FX_RM.addListener) FX_RM.addListener(onRm);
+  }
+
+  const CU_RE = /^([^0-9]*?)(\d+(?:\.\d+)?)([\s\S]*)$/;
+  function countUp(el, dur) {
+    const txt = el.textContent;
+    const m = txt.match(CU_RE);
+    if (!m) return;
+    const to = parseFloat(m[2]);
+    if (!isFinite(to) || to === 0) return;
+    const dec = (m[2].split('.')[1] || '').length;
+    dur = dur || Math.min(1300, 600 + to * 4);
+    const tok = {}; el._cuTok = tok;
+    let last = null, done = false;
+    const finish = () => {
+      if (done) return; done = true;
+      // 途中で誰かが描き直していたら（last と違う）そちらを尊重して触らない
+      if (el._cuTok === tok && (last === null || el.textContent === last)) el.textContent = txt;
+    };
+    const t0 = performance.now();
+    const step = now => {
+      if (done || el._cuTok !== tok) return;
+      if (last !== null && el.textContent !== last) { done = true; return; }
+      const p = Math.min(1, (now - t0) / dur);
+      const e = 1 - Math.pow(1 - p, 3);
+      last = m[1] + (to * e).toFixed(dec) + m[3];
+      el.textContent = last;
+      if (p < 1) requestAnimationFrame(step); else finish();
+    };
+    requestAnimationFrame(step);
+    setTimeout(finish, dur + 400);
+  }
+
+  function fxGo(el) {
+    if (!FX || !el) return;
+    el.classList.remove('fx-go');
+    void el.offsetWidth;                       // アニメを頭からやり直させる
+    el.classList.add('fx-go');
+    el.querySelectorAll('[data-cu]').forEach(n => countUp(n));
+  }
+  // 画面より少し下（20%）まで来たら動かす＝スクロールで入ってくる頃には走り出している
+  const _fxIO = ('IntersectionObserver' in window) ? new IntersectionObserver(ents => {
+    ents.forEach(en => { if (en.isIntersecting) { _fxIO.unobserve(en.target); fxGo(en.target); } });
+  }, { rootMargin: '0px 0px 20% 0px' }) : null;
+
+  /* root の中の .fxb を「見えたら動く」状態に戻す。タブの切替・セクションを開いた時・描き直した直後に呼ぶ。
+     ⚠️ 画面内のものはこの場で同期的に動かす（IO は次のフレームで来るので、一度静止画が見えてから
+        消えて入場する＝ちらつく）。 */
+  function fxArm(root) {
+    if (!FX || !root) return;
+    const vh = window.innerHeight || 800;
+    const list = root.classList && root.classList.contains('fxb') ? [root] : [];
+    root.querySelectorAll('.fxb').forEach(el => list.push(el));
+    list.forEach(el => {
+      el.classList.remove('fx-go');
+      const r = el.getBoundingClientRect();
+      if (!r.width && !r.height) return;       // 非表示のタブの中＝タブを開いた時にもう一度呼ばれる
+      if (r.top < vh * 1.15 && r.bottom > -40) fxGo(el);
+      else if (_fxIO) _fxIO.observe(el);
+      else fxGo(el);
+    });
+  }
+  const fxRefresh = fxArm;
+
+  // 粒子（fx_engine.js）。要素の中心から小さく弾ける
+  function fxBurstAt(el, colors, n) {
+    if (!FX || !el || !window.MecFX || !window.MecFX.burst) return;
+    const r = el.getBoundingClientRect();
+    if (!r.width) return;
+    try {
+      window.MecFX.burst(r.left + r.width / 2, r.top + r.height / 2, {
+        tier: 2, count: n || 18, colors, shapes: ['circle', 'star'],
+        scale: .7, speed: 300, gravity: 420, upBias: 90,
+      });
+    } catch (e) {}
+  }
+  // 数字が変わった合図（読み取り行など）。クラスを付け直してアニメを頭から走らせる
+  function fxFlash(el) {
+    if (!FX || !el) return;
+    el.classList.remove('is-flash'); void el.offsetWidth; el.classList.add('is-flash');
   }
 
   const done = lsGet('done_v2');
@@ -1523,6 +1996,39 @@ body {
   const tabBtns = document.querySelectorAll('.tab-btn');
   const tabPanes = document.querySelectorAll('.tab-pane');
 
+  // 選択中のタブの地（.tab-ink）。ボタンの背景ではなく1枚の板を滑らせる
+  const TAB_FX_COLORS = {
+    summary: ['#3DD68C', '#A7F3D0', '#FFFFFF'],
+    weakness: ['#FF9A3C', '#FF6B6B', '#FFD166'],
+    progress: ['#60A5FA', '#93C5FD', '#FFFFFF'],
+    ai: ['#C084FC', '#60A5FA', '#FFFFFF'],
+  };
+  const tabNav = document.querySelector('.tab-nav');
+  const tabInk = document.createElement('span');
+  tabInk.className = 'tab-ink';
+  if (tabNav) tabNav.prepend(tabInk);
+  function moveTabInk() {
+    const b = document.querySelector('.tab-btn.active');
+    if (!b || !b.offsetWidth) return;
+    tabInk.style.width = b.offsetWidth + 'px';
+    tabInk.style.transform = `translateX(${b.offsetLeft}px)`;
+    tabInk.classList.add('is-ready');
+  }
+  window.addEventListener('resize', moveTabInk);
+
+  const hdrEl = document.querySelector('.hdr');
+  function syncHdrH() {
+    if (hdrEl) document.documentElement.style.setProperty('--hdr-h', Math.round(hdrEl.getBoundingClientRect().height) + 'px');
+  }
+  syncHdrH();
+  if (hdrEl && window.ResizeObserver) new ResizeObserver(syncHdrH).observe(hdrEl);
+  else window.addEventListener('resize', syncHdrH);
+
+  // セクションの入場の順番（タブの中で上から何番目か）
+  document.querySelectorAll('.tab-pane').forEach(p => {
+    p.querySelectorAll(':scope > .sec, :scope > .diag-card, .ai-card').forEach((s, i) => s.style.setProperty('--si', i));
+  });
+
   function switchTab(tabId) {
     tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === tabId));
     tabPanes.forEach(p => {
@@ -1535,10 +2041,16 @@ body {
     if (tabId === 'progress') {
       renderUnifiedChart();
     }
+    moveTabInk();
+    fxArm(document.getElementById('pane-' + tabId));
   }
 
   tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    btn.addEventListener('click', () => {
+      const was = btn.classList.contains('active');
+      switchTab(btn.dataset.tab);
+      if (!was) fxBurstAt(btn, TAB_FX_COLORS[btn.dataset.tab], 16);
+    });
   });
 
   const initHash = location.hash.replace('#', '');
@@ -1561,6 +2073,7 @@ body {
         e.stopPropagation();
         sec.classList.toggle('is-collapsed');
         collapsedMap[secId] = sec.classList.contains('is-collapsed') ? 1 : 0;
+        if (!sec.classList.contains('is-collapsed')) fxArm(sec);   // 開いた中身をもう一度入場させる
         try { localStorage.setItem(K_COLLAPSE, JSON.stringify(collapsedMap)); } catch(err) {}
       });
     }
@@ -1609,6 +2122,7 @@ body {
     if (missCount > 0) {
       msgs.push(`本番正答率80%以上の<strong>「取りこぼし問題」が ${missCount}問</strong> 検出されています。`);
       badgeEl.textContent = '要復習';
+      badgeEl.classList.add('is-warn');
       badgeEl.style.background = 'var(--stat-warn-bg)';
       badgeEl.style.color = 'var(--stat-warn)';
       badgeEl.style.borderColor = 'var(--stat-warn-bd)';
@@ -1699,7 +2213,7 @@ body {
         const canSolveByExam = Math.min(TOTAL_Q, doneCount + (val * left));
         res.innerHTML = `1日 <strong>${val}問</strong> 解くと、約 <strong>${daysReq}日後 (${finishDate})</strong> に完走予定です（本番までに計 <strong>${canSolveByExam}/${TOTAL_Q}問</strong> 走破）。`;
       };
-      slider.oninput = updateSim;
+      slider.oninput = () => { updateSim(); fxFlash(res); };
       updateSim();
     }
 
@@ -1749,9 +2263,9 @@ body {
     const sum = document.getElementById('fcSummary');
     if (sum) {
       sum.innerHTML =
-        `<span class="fc-stat over"><b class="v">${overdue}</b>期限切れ</span>` +
-        `<span class="fc-stat today"><b class="v">${todayN}</b>今日</span>` +
-        `<span class="fc-stat week"><b class="v">${week}</b>今後7日</span>`;
+        `<span class="fc-stat over"><b class="v" data-cu>${overdue}</b>期限切れ</span>` +
+        `<span class="fc-stat today"><b class="v" data-cu>${todayN}</b>今日</span>` +
+        `<span class="fc-stat week"><b class="v" data-cu>${week}</b>今後7日</span>`;
     }
 
     const todaySubjs = Object.assign({}, byDateSubjs['overdue'] || {}, byDateSubjs[today] || {});
@@ -1768,7 +2282,7 @@ body {
         const dd = new Date(Date.parse(c.d + 'T00:00:00Z'));
         const lbl = i === 0 ? '今日' : `${dd.getUTCMonth() + 1}/${dd.getUTCDate()}`;
         const cls = i === 0 ? (c.over ? ' is-over' : ' is-today') : '';
-        return `<div class="fc-col${cls}" data-idx="${i}">
+        return `<div class="fc-col${cls}" data-idx="${i}" style="--i:${i}">
           <span class="fc-n">${c.n}</span>
           <div class="fc-bar" style="height:${Math.max(4, Math.round(c.n / max * 100))}%;"></div>
           <span class="fc-d">${lbl}</span>
@@ -1843,9 +2357,10 @@ body {
     }
 
     tbody.innerHTML = '';
-    listData.forEach(({ subj, totalQ, doneQ, flagQ, pct, accTotal, accCorrect }) => {
+    listData.forEach(({ subj, totalQ, doneQ, flagQ, pct, accTotal, accCorrect }, rowIdx) => {
       const tr = document.createElement('tr');
       tr.className = 'subj-row';
+      tr.style.setProperty('--i', rowIdx);
       tr.tabIndex = 0;
       tr.innerHTML = `
         <td><div class="subj-name-cell">
@@ -1879,7 +2394,7 @@ body {
           const cAccT = cMr.reduce((s, [, v]) => s + (v.total || 0), 0);
           const cAccC = cMr.reduce((s, [, v]) => s + (v.correct || 0), 0);
           const cPct = cTotal ? Math.round(cDone / cTotal * 100) : 0;
-          return `<tr class="ch-row" data-href="${ch.file}">
+          return `<tr class="ch-row" data-href="${ch.file}" style="--i:${ci}">
             <td class="ch-num">第${ci+1}章</td>
             <td><div class="subj-prog-wrap"><div class="subj-prog-bar"><div class="subj-prog-fill" style="width:${cPct}%;background:${subj.color}"></div></div><span class="subj-prog-txt">${cDone}/${cTotal}</span></div></td>
             <td class="r ch-sm">${cPct}%</td>
@@ -1943,16 +2458,33 @@ body {
   let _karteDoc = null;
   let _focusWeakOnly = false;
 
+  /* 全国比の材料。「自分の正答率 − 全国正答率」を科目や形式の単位で引くと、左右で解いた問題が
+     違って意味が無くなる（廃止した「📐本番との差」がそれだった）。ここでは**解いた問題ごとに**
+     全国正答率を足し込み、同じ問題どうしで期待正解数（ne）と実際の正解数（nc）を比べる。
+       nt = 全国正答率のある問題の受験回数 / nc = そのうちの正解数 / ne = Σ 全国正答率 × 受験回数
+     ⚠️ 全国正答率は rate_index.js（RATE）を先に引き、無ければ qmeta の r に落とす。
+        RATE はマイナー講座の問題を1問も持っていない（2026-07-09 から再生成されていない）。 */
+  function natRateOf(uid, m) {
+    const r = RATE[uid];
+    if (typeof r === 'number' && r >= 0) return r;
+    return (m && typeof m.r === 'number' && m.r >= 0) ? m.r : null;
+  }
+  function kAdd(o, correct, total, nat) {
+    o.correct += correct; o.total += total;
+    if (nat !== null) { o.nt += total; o.nc += correct; o.ne += nat / 100 * total; }
+  }
+  function kNew() { return { correct: 0, total: 0, nt: 0, nc: 0, ne: 0 }; }
+
   function buildKarte(qmeta) {
     const subjects = (typeof MEC_CHAPTERS !== 'undefined') ? MEC_CHAPTERS : [];
     const cells = {}, colTot = {}, rowTot = {};
-    const all = { correct: 0, total: 0 };
+    const all = kNew();
     const bands = [
-      { k: 'e', label: '本番80%以上', min: 80, max: 101, correct: 0, total: 0 },
-      { k: 'm', label: '本番60-79%', min: 60, max: 80, correct: 0, total: 0 },
-      { k: 'h', label: '本番40-59%', min: 40, max: 60, correct: 0, total: 0 },
-      { k: 'x', label: '本番40%未満', min: 0, max: 40, correct: 0, total: 0 },
-    ];
+      { k: 'e', label: '易しい', sub: '全国80%以上', min: 80, max: 101 },
+      { k: 'm', label: '標準',   sub: '全国60〜79%', min: 60, max: 80 },
+      { k: 'h', label: 'やや難', sub: '全国40〜59%', min: 40, max: 60 },
+      { k: 'x', label: '難問',   sub: '全国40%未満', min: 0, max: 40 },
+    ].map(b => Object.assign(b, kNew()));
     const flagAgg = {};
 
     Object.entries(myrate).forEach(([uid, v]) => {
@@ -1962,26 +2494,23 @@ body {
       const m = qmeta[uid];
       if (m && m.f && m.f.indexOf('ungraded') !== -1) return;
       const sid = subjIdOfUid(uid);
-      all.correct += correct; all.total += total;
+      const nat = natRateOf(uid, m);
+      kAdd(all, correct, total, nat);
 
       if (sid && m) {
         cells[sid] = cells[sid] || {};
-        const c = cells[sid][m.ty] = cells[sid][m.ty] || { correct: 0, total: 0 };
-        c.correct += correct; c.total += total;
-        const ct = colTot[m.ty] = colTot[m.ty] || { correct: 0, total: 0 };
-        ct.correct += correct; ct.total += total;
-        const rt = rowTot[sid] = rowTot[sid] || { correct: 0, total: 0 };
-        rt.correct += correct; rt.total += total;
+        kAdd(cells[sid][m.ty] = cells[sid][m.ty] || kNew(), correct, total, nat);
+        kAdd(colTot[m.ty] = colTot[m.ty] || kNew(), correct, total, nat);
+        kAdd(rowTot[sid] = rowTot[sid] || kNew(), correct, total, nat);
         (m.f || []).forEach(f => {
           if (f === 'ungraded' || f === 'excl') return;
           const fa = flagAgg[f] = flagAgg[f] || { correct: 0, total: 0 };
           fa.correct += correct; fa.total += total;
         });
       }
-      const nat = RATE[uid];
-      if (typeof nat === 'number') {
+      if (nat !== null) {
         const b = bands.find(b2 => nat >= b2.min && nat < b2.max);
-        if (b) { b.correct += correct; b.total += total; }
+        if (b) kAdd(b, correct, total, nat);
       }
     });
 
@@ -1992,55 +2521,169 @@ body {
     return { cells, colTot, rowTot, all, bands, flagAgg, rows };
   }
 
+  /* 1マスぶんの全国比。全国正答率のある受験が HM_MIN_N 未満なら null（ノイズなので数字を出さない）。
+     lost ＝全国並みなら取れていた問題数との差（プラスほど多く落としている）＝弱点TOPの並び順 */
+  function karteGap(d) {
+    if (!d || d.nt < HM_MIN_N) return null;
+    const you = d.nc / d.nt * 100, nat = d.ne / d.nt * 100;
+    return { you, nat, gap: you - nat, n: d.nt, lost: d.ne - d.nc };
+  }
+  const KARTE_TOP_MIN_N = 8;    // 弱点TOPに挙げる最低の受験回数（行列の HM_MIN_N より厳しくする）
+  const KARTE_TOP_GAP   = 5;    // 全国をこれ以上下回ったマスだけを弱点に数える（±5pt は誤差の内）
+  const KARTE_TOP_LIMIT = 5;
+
+  // 弱点TOP。並びは「失点（全国並みとの正解数の差）」＝点数に効く順。率だけで並べると
+  // 3回中0回のような小さいマスが上に来るので、回数の多さも自然に効くこの指標にしている
+  function karteWeakTop(k) {
+    const out = [];
+    k.rows.forEach(s => QTYPES.forEach(t => {
+      const g = karteGap(k.cells[s.id] && k.cells[s.id][t.k]);
+      if (!g || g.n < KARTE_TOP_MIN_N || g.gap > -KARTE_TOP_GAP) return;
+      out.push(Object.assign({ sid: s.id, name: s.name, icon: s.icon, type: t.k, typeLabel: t.label }, g));
+    }));
+    return out.sort((a, b) => (b.lost - a.lost) || (a.gap - b.gap)).slice(0, KARTE_TOP_LIMIT);
+  }
+
+  // 全国比 → 色の段。下回りは d1〜d4（暖色の濃淡）、上回りは u1〜u2（青）、±5pt 以内は無彩色
+  function karteLv(gap) {
+    if (gap <= -30) return 'k-d4';
+    if (gap <= -20) return 'k-d3';
+    if (gap <= -10) return 'k-d2';
+    if (gap <= -5)  return 'k-d1';
+    if (gap >= 10)  return 'k-u2';
+    if (gap >= 5)   return 'k-u1';
+    return '';
+  }
+  const fmtGap = g => { const r = Math.round(g); return (r > 0 ? '+' : r < 0 ? '−' : '±') + Math.abs(r); };
+
   function renderKarte(k) {
     const table = document.getElementById('hmTable');
     if (!table || !k.rows.length) return;
     document.getElementById('karteEmpty').hidden = true;
     document.getElementById('karteBody').hidden = false;
 
-    const cell = (d) => {
-      if (!d || !d.total) return '<td class="hm-nd">—</td>';
-      if (d.total < HM_MIN_N) return `<td class="hm-nd">—<span class="hm-sub">${d.total}回</span></td>`;
-      const pct = Math.round(d.correct / d.total * 100);
-      const cls = pct >= 70 ? 'c-good' : pct >= 50 ? 'c-warn' : 'c-bad';
-      const mark = pct >= 70 ? '⭕' : pct >= 50 ? '⚠️' : '🚨';
-      const dim = (_focusWeakOnly && pct >= 70) ? ' dimmed' : '';
-      return `<td class="${cls}${dim}">${mark} ${pct}%<span class="hm-sub">${d.total}回</span></td>`;
+    // ── 弱点TOP ──
+    const top = karteWeakTop(k);
+    const rankOf = {};
+    top.forEach((w, i) => { rankOf[w.sid + '|' + w.type] = i + 1; });
+    const topEl = document.getElementById('karteTop');
+    if (topEl) {
+      topEl.innerHTML = top.length ? top.map((w, i) => {
+        const lv = karteLv(w.gap).replace('k-d', 'lv');
+        const you = Math.round(w.you), nat = Math.round(w.nat);
+        // ⚠️ study.html は filter=weak を受け付けない（VALID_FILTERS に無く「全問」へ落ちる）ので付けない
+        return `<a class="kt-card ${lv}" style="--i:${i}" href="study.html?sid=${w.sid}">
+          <span class="kt-rank">${i + 1}</span>
+          <div class="kt-main">
+            <div class="kt-name">${w.icon} ${w.name} × <b>${w.typeLabel}</b></div>
+            <div class="cmp-bar" style="--cmp-c:var(--kt-c)">
+              <span class="cmp-you" style="width:${you}%"></span>
+              <span class="cmp-gap" style="left:${you}%;width:${Math.max(0, nat - you)}%"></span>
+              <span class="cmp-nat" style="left:${nat}%"></span>
+            </div>
+            <div class="kt-meta">自分 <b>${you}%</b> ／ 全国 ${nat}% ・ ${w.n}回 ・ 全国並みより <b>${Math.round(w.lost)}問</b> 多く失点</div>
+          </div>
+          <span class="kt-gap"><span data-cu>${fmtGap(w.gap)}</span><small>pt</small><span class="kt-go">科目を開く ›</span></span>
+        </a>`;
+      }).join('') : `<div class="kt-empty">全国を${KARTE_TOP_GAP}pt以上下回るマスはありません（各マス${KARTE_TOP_MIN_N}回以上の受験で判定）。この調子で、下の行列の薄い暖色のマスを見張ってください。</div>`;
+    }
+
+    // ── 行列 ──
+    const cell = (d, key, r, c) => {
+      const pos = ` style="--d:${r + c}" data-k="${key}"`;
+      if (!d || !d.total) return `<td class="hm-nd"${pos}>·</td>`;
+      if (d.total < HM_MIN_N) return `<td class="hm-nd"${pos}>·<span class="hm-sub">${d.total}回</span></td>`;
+      const g = karteGap(d);
+      const you = Math.round(d.correct / d.total * 100);
+      if (!g) return `<td class="hm-raw"${pos}>—<span class="hm-sub">${you}%</span></td>`;
+      const rk = rankOf[key] ? `<span class="hm-rk">${rankOf[key]}</span>` : '';
+      return `<td class="${karteLv(g.gap)}${rankOf[key] ? ' is-top' : ''}"${pos}>${rk}${fmtGap(g.gap)}<span class="hm-sub">${Math.round(g.you)}%</span></td>`;
     };
 
     const head = '<tr><th class="hm-rh">科目</th>' + QTYPES.map(t => `<th>${t.label}</th>`).join('') + '<th>計</th></tr>';
-    const body = k.rows.map(s =>
+    const body = k.rows.map((s, r) =>
       `<tr><th class="hm-rh">${s.icon} ${s.name}</th>` +
-      QTYPES.map(t => cell(k.cells[s.id] && k.cells[s.id][t.k])).join('') +
-      cell(k.rowTot[s.id]) + '</tr>'
+      QTYPES.map((t, c) => cell(k.cells[s.id] && k.cells[s.id][t.k], s.id + '|' + t.k, r, c)).join('') +
+      cell(k.rowTot[s.id], s.id + '|*', r, QTYPES.length) + '</tr>'
     ).join('');
-    const foot = '<tr><th class="hm-rh">全科目</th>' +
-      QTYPES.map(t => cell(k.colTot[t.k])).join('') +
-      cell(k.all) + '</tr>';
+    const R = k.rows.length;
+    const foot = '<tr class="hm-foot"><th class="hm-rh">全科目</th>' +
+      QTYPES.map((t, c) => cell(k.colTot[t.k], '*|' + t.k, R, c)).join('') +
+      cell(k.all, '*|*', R, QTYPES.length) + '</tr>';
     table.innerHTML = head + body + foot;
+    table.classList.toggle('focus-weak', _focusWeakOnly);
 
+    // マスの読み取り。スマホではホバーが無いので、タップで下の1行に全部書き出す
+    const subjName = {}; k.rows.forEach(s => { subjName[s.id] = s.icon + ' ' + s.name; });
+    const typeName = {}; QTYPES.forEach(t => { typeName[t.k] = t.label; });
+    const pick = key => {
+      const [sid, ty] = key.split('|');
+      if (sid === '*' && ty === '*') return k.all;
+      if (sid === '*') return k.colTot[ty];
+      if (ty === '*') return k.rowTot[sid];
+      return k.cells[sid] && k.cells[sid][ty];
+    };
+    const ro = document.getElementById('kReadout');
+    table.onclick = e => {
+      const td = e.target.closest('td[data-k]');
+      if (!td || !ro) return;
+      table.querySelectorAll('td.is-sel').forEach(x => x.classList.remove('is-sel'));
+      td.classList.add('is-sel');
+      const [sid, ty] = td.dataset.k.split('|');
+      const title = (sid === '*' ? '全科目' : subjName[sid]) + ' × ' + (ty === '*' ? '全形式' : typeName[ty]);
+      const d = pick(td.dataset.k);
+      if (!d || !d.total) { ro.innerHTML = `<b>${title}</b>：まだ試験モードで解いていません。`; return; }
+      const g = karteGap(d);
+      const you = Math.round(d.correct / d.total * 100);
+      if (!g) {
+        ro.innerHTML = `<b>${title}</b>：自分 <b>${you}%</b>（${d.correct}/${d.total}回）。` +
+          (d.total < HM_MIN_N ? `${HM_MIN_N}回未満なので色は付けていません。` : '全国正答率のある問題が少ないので比べられません。');
+        return;
+      }
+      const cls = g.gap <= -KARTE_TOP_GAP ? 'neg' : g.gap >= KARTE_TOP_GAP ? 'pos' : '';
+      const lostTxt = g.lost >= 0.5 ? `全国並みなら あと <b>${Math.round(g.lost)}問</b> 取れていた計算です。`
+        : g.lost <= -0.5 ? `全国平均より <b>${Math.round(-g.lost)}問</b> 多く取れています。` : '全国並みです。';
+      ro.innerHTML = `<b>${title}</b>：自分 <b>${Math.round(g.you)}%</b>（${d.nc}/${d.nt}回）／ 同じ問題の全国平均 ${Math.round(g.nat)}% → <span class="${cls}">${fmtGap(g.gap)}pt</span>。${lostTxt}`;
+    };
+
+    // ── 全国の正答率帯 ──
     const bandRows = document.getElementById('bandRows');
     const rxBox = document.getElementById('bandRxBox');
-    const withData = k.bands.filter(b => b.total >= 3);
+    const withData = k.bands.filter(b => b.nt >= HM_MIN_N);
     if (bandRows && withData.length) {
-      bandRows.innerHTML = withData.map(b => {
-        const pct = Math.round(b.correct / b.total * 100);
-        const cls = pct >= 70 ? 'good' : pct >= 50 ? 'warn' : 'bad';
-        return `<div class="band-row">
-          <span class="band-lbl">${b.label}</span>
-          <span class="band-track"><span class="band-fill ${cls}" style="width:${pct}%"></span></span>
-          <span class="band-val">${pct}% <small>(${b.correct}/${b.total})</small></span>
+      bandRows.innerHTML = withData.map((b, i) => {
+        const g = karteGap(b);
+        const you = Math.round(g.you), nat = Math.round(g.nat);
+        const cls = g.gap <= -15 ? 'is-bad' : g.gap <= -KARTE_TOP_GAP ? '' : g.gap >= KARTE_TOP_GAP ? 'is-up' : 'is-even';
+        const lo = Math.min(you, nat), w = Math.abs(nat - you);
+        return `<div class="band-row ${cls}" style="--i:${i}">
+          <span class="band-lbl">${b.label}<small>${b.sub}</small></span>
+          <span class="band-track">
+            <span class="band-zone" style="left:${b.min}%;width:${Math.min(100, b.max) - b.min}%"></span>
+            <span class="cmp-you" style="width:${you}%"></span>
+            <span class="cmp-gap${you > nat ? ' is-over' : ''}" style="left:${lo}%;width:${w}%"></span>
+            <span class="cmp-nat" style="left:${nat}%"><i>全国${nat}</i></span>
+          </span>
+          <span class="band-val"><b data-cu>${you}%</b><span class="band-chip">${fmtGap(g.gap)}pt</span><small>${b.nc}/${b.nt}回</small></span>
         </div>`;
       }).join('');
 
-      const b80 = k.bands.find(b => b.k === 'e');
-      const b80Pct = (b80 && b80.total >= 3) ? Math.round(b80.correct / b80.total * 100) : null;
-      if (b80Pct !== null && b80Pct < 80) {
-        rxBox.innerHTML = `💡 <strong>診断処方箋</strong>: 本番80%以上の基本問題での正答率が <strong>${b80Pct}%</strong> とやや低めです。難問の暗記よりも、問題文の否定形（〜でないもの）や主訴の読み落とし対策を徹底しましょう。`;
+      // 処方箋。どの帯でどれだけ落としたかを「問題数」で言う（％だけだと重さが伝わらない）
+      const gb = key => { const b = k.bands.find(x => x.k === key); return b && b.nt >= HM_MIN_N ? Object.assign({ b }, karteGap(b)) : null; };
+      const easy = gb('e');
+      const worst = ['m', 'h', 'x'].map(gb).filter(Boolean).sort((a, b) => a.gap - b.gap)[0];
+      if (easy && easy.gap <= -KARTE_TOP_GAP) {
+        rxBox.innerHTML = `💡 <strong>診断処方箋</strong>：全国の8割以上が正解する<strong>易しい問題</strong>で全国を <strong>${Math.round(-easy.gap)}pt</strong> 下回り、全国並みなら あと <strong>${Math.round(easy.lost)}問</strong> 取れていました。難問の暗記より先に、否定形（〜でないのはどれか）・「2つ選べ」・主訴の読み落としを潰すのが一番安く点になります。下の「🎯 弱点問題リスト」の <strong>💡取りこぼし</strong> から解き直してください。`;
+      } else if (worst && worst.gap <= -KARTE_TOP_GAP) {
+        rxBox.innerHTML = `💡 <strong>診断処方箋</strong>：易しい問題は全国並みに取れています。差が一番大きいのは <strong>${worst.b.label}（${worst.b.sub}）</strong> の <strong>${fmtGap(worst.gap)}pt</strong>。合否を分けるのはこの帯なので、上の「優先して潰す弱点」の科目×形式から、鑑別と治療選択を重点的に補強しましょう。`;
       } else {
-        rxBox.innerHTML = `💡 <strong>診断処方箋</strong>: 基礎問題（本番80%以上）は安定しています。合格点を伸ばすために、正答率60〜79%の標準的鑑別問題・治療選択肢を重点補強しましょう。`;
+        rxBox.innerHTML = `💡 <strong>診断処方箋</strong>：どの帯でも全国並み以上に取れています。取りこぼしが少ない状態なので、演習量を増やして各マスの受験回数を積み、弱点の判定精度を上げていきましょう。`;
       }
+    } else if (bandRows) {
+      bandRows.innerHTML = '<div class="sec-empty">全国正答率のある問題を試験モードで解くと表示されます。</div>';
+      if (rxBox) rxBox.hidden = true;
     }
+    fxRefresh(document.getElementById('karteBody'));
   }
 
   const btnFocus = document.getElementById('btnKarteFocus');
@@ -2048,7 +2691,9 @@ body {
     btnFocus.addEventListener('click', () => {
       _focusWeakOnly = !_focusWeakOnly;
       btnFocus.classList.toggle('active', _focusWeakOnly);
-      if (_karteDoc) renderKarte(_karteDoc);
+      // 描き直さずクラスだけ切り替える（描き直すと入場演出がまた走る）
+      const t = document.getElementById('hmTable');
+      if (t) t.classList.toggle('focus-weak', _focusWeakOnly);
     });
   }
 
@@ -2145,7 +2790,7 @@ body {
 
         const picks = wkPicks(it.uid).map(x => [x.c, x.n]);
 
-        return `<div class="wk-card">
+        return `<div class="wk-card" style="--i:${idx}">
           <div class="wk-card-top">
             <span class="wk-card-rank">${idx + 1}</span>
             <span class="wk-card-badge" style="background:${color}">${label}</span>
@@ -2168,8 +2813,9 @@ body {
 
       cardsEl.querySelectorAll('.wk-card-toggle').forEach(btn => {
         btn.onclick = () => {
-          const det = btn.closest('.wk-card').querySelector('.wk-card-detail');
-          if (det) det.hidden = !det.hidden;
+          const card = btn.closest('.wk-card');
+          const det = card.querySelector('.wk-card-detail');
+          if (det) { det.hidden = !det.hidden; card.classList.toggle('is-open', !det.hidden); }
         };
       });
 
@@ -2184,6 +2830,7 @@ body {
         curFilter = btn.dataset.wk;
         filEl.querySelectorAll('.wk-fbtn').forEach(b => b.classList.toggle('on', b === btn));
         draw();
+        fxGo(cardsEl);
       };
     }
   }
@@ -2197,7 +2844,7 @@ body {
 
     /* ⚠️ 集計は hmStat に寄せること。章ごとに myrate / done を全件走査すると
        174章 × 全解答の二乗になり、しかもモード切替のたびに走る（実測で1回197ms）。 */
-    grid.innerHTML = MEC_CHAPTERS.map(subj => {
+    grid.innerHTML = MEC_CHAPTERS.map((subj, si) => {
       const st = hmStat(subj.chapters, _hmMode);
 
       let valTxt = '—', dotCls = 'none';
@@ -2214,13 +2861,13 @@ body {
       const chItems = subj.chapters.map((ch, i) => {
         const cst = hmStat([ch], _hmMode);
         const cTxt = (_hmMode === 'prog' || cst.has) ? Math.round(cst.pct) + '%' : '未';
-        return `<div class="hm-in-ch">
+        return `<div class="hm-in-ch" style="--i:${i}">
           <span class="hm-in-ch-nm">第${i+1}章 ${cleanChTitle(ch.title, subj.name)}</span>
           <span class="hm-in-ch-v">${cTxt}</span>
         </div>`;
       }).join('');
 
-      return `<div class="hm-subj-item">
+      return `<div class="hm-subj-item" style="--i:${si}">
         <button type="button" class="hm-subj-btn">
           <div class="hm-subj-top">
             <span class="hm-subj-ic">${subj.icon}</span>
@@ -2249,6 +2896,7 @@ body {
       btn.classList.add('on');
       _hmMode = btn.dataset.hm;
       renderChapterHeatmap();
+      fxGo(document.getElementById('heatmapGrid'));
     };
   });
 
@@ -2380,10 +3028,10 @@ body {
     }).join('');
 
     grid.innerHTML = LEVELS.map((l, i) => {
-      return `<div class="level-lg-item">
+      return `<div class="level-lg-item" style="--i:${i}">
         <span class="level-lg-dot" style="background:${l.color}"></span>
         <span>${l.label}</span>
-        <span class="level-lg-val">${counts[i]}</span>
+        <span class="level-lg-val" data-cu>${counts[i]}</span>
       </div>`;
     }).join('');
   }
@@ -2411,11 +3059,11 @@ body {
 
     const grid = document.getElementById('calGrid');
     if (grid) {
-      grid.innerHTML = vals.map(v => {
+      grid.innerHTML = vals.map((v, vi) => {
         const d = new Date(Date.parse(v.ds + 'T00:00:00Z'));
         const head = `${d.getUTCMonth() + 1}/${d.getUTCDate()}(${DOW[d.getUTCDay()]})`;
         const tip = v.future ? `${head} — 未来` : `${head} ${v.n}問 ${v.min ? '/ ' + v.min + '分' : ''}`;
-        return `<div class="cal-cell l${v.future ? 0 : lv(v.n)}${v.ds === today ? ' is-today' : ''}" data-tip="${tip}"></div>`;
+        return `<div class="cal-cell l${v.future ? 0 : lv(v.n)}${v.ds === today ? ' is-today' : ''}" style="--c:${Math.floor(vi / 7)};--r:${vi % 7}" data-tip="${tip}"></div>`;
       }).join('');
 
       grid.querySelectorAll('.cal-cell').forEach(c => {
@@ -2424,6 +3072,7 @@ body {
           if (ro) {
             ro.textContent = c.dataset.tip || '';
             ro.classList.add('has-val');
+            fxFlash(ro);
           }
         };
       });
@@ -2450,7 +3099,7 @@ body {
     if (dw) {
       dw.innerHTML = avgs.map((a, i) => {
         const cls = a > 0 && i === best ? ' best' : (i === worst ? ' worst' : '');
-        return `<div class="dow-col${cls}"><span class="dow-v">${a.toFixed(0)}</span><div class="dow-bar" style="height:${Math.max(4, Math.round(a / mx * 100))}%;"></div><span class="dow-l">${DOW[i]}</span></div>`;
+        return `<div class="dow-col${cls}" style="--i:${i}"><span class="dow-v">${a.toFixed(0)}</span><div class="dow-bar" style="height:${Math.max(4, Math.round(a / mx * 100))}%;"></div><span class="dow-l">${DOW[i]}</span></div>`;
       }).join('');
     }
 
@@ -2458,7 +3107,7 @@ body {
     const tot = vals.filter(v => !v.future).reduce((s, v) => s + v.n, 0);
     const figs = document.getElementById('calFigs');
     if (figs) {
-      figs.innerHTML = `<span>直近30日: <b>${f30}</b>問</span><span>12週合計: <b>${tot}</b>問</span>`;
+      figs.innerHTML = `<span>直近30日: <b data-cu>${f30}</b>問</span><span>12週合計: <b data-cu>${tot}</b>問</span>`;
     }
   }
 
@@ -2649,6 +3298,7 @@ body {
 
   function copyText(text, btn, msgEl, defaultLabel, successMsg) {
     const ok = () => {
+      fxBurstAt(btn, ['#3DD68C', '#FFD166', '#FFFFFF'], 26);
       btn.classList.add('copied');
       btn.textContent = '✅ コピー完了';
       if (msgEl) msgEl.textContent = successMsg;
@@ -2696,6 +3346,11 @@ body {
   if (footEl) {
     footEl.textContent = `集計日: ${today}`;
   }
+
+  // 描き終えてから入場させる（数え上げは確定値を読んで 0 から数えるので、描く前に呼ばない）
+  moveTabInk();
+  fxGo(document.getElementById('summaryRow'));
+  fxArm(document.querySelector('.tab-pane.active'));
 
 })();
 </script>

@@ -263,6 +263,25 @@ test('CSS だけで本文を隠さない（JS が落ちても白紙にならな�
   assert.ok(!/^\.sec\s*\{[^}]*opacity:\s*0/m.test(html), 'セクションを既定で透明にしている');
 });
 
+/* 2026-09-11 の演出は html.fx-on（reduced-motion でないときだけ付く）の下にだけ書く約束。
+   これが崩れると「動きを減らす」を選んだ人にもアニメが出る */
+test('fx* のアニメは html.fx-on の下でしか掛からない', () => {
+  const style = html.slice(html.indexOf('<style>') + 7, html.indexOf('</style>')).replace(/\/\*[\s\S]*?\*\//g, '');
+  const rules = style.replace(/@keyframes[^{]+\{(?:[^{}]*\{[^}]*\})*[^}]*\}/g, '')   // keyframes 本体は除く
+    .match(/[^{}]+\{[^}]*\banimation(?:-name)?\s*:[^}]*\bfx[A-Z]\w*[^}]*\}/g) || [];
+  assert.ok(rules.length > 10, '演出の規則が拾えていない: ' + rules.length);
+  rules.forEach(r => {
+    const sel = r.slice(0, r.indexOf('{')).trim();
+    sel.split(',').forEach(s => assert.ok(/^html\.fx-on\b/.test(s.trim()), 'fx-on の外でアニメしている: ' + s.trim()));
+  });
+});
+
+/* 旧実装はバーの塗りを <span>（インライン）で書いていて width が効かず、4本とも空だった */
+test('全国の正答率帯のバーはブロックとして描かれる（インラインの span に width を当てない）', () => {
+  assert.ok(!/class="band-fill/.test(html), '旧 band-fill が戻っている');
+  assert.ok(/\.cmp-you\s*\{[^}]*position:\s*absolute/.test(html), 'cmp-you が絶対配置でない（幅が効かない）');
+});
+
 test('reduced-motion で「今日」のセルの呼吸が止まる', () => {
   if (!/\.cal-cell\.is-today[^{]*\{[^}]*animation/.test(html)) return;   // 呼吸そのものが無い
   const rm = (html.match(/@media \(prefers-reduced-motion: reduce\)[\s\S]*?\n\}/g) || []).join('\n');
