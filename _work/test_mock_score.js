@@ -513,6 +513,47 @@ test('同期: ローカルが空でもリモートを取り込める（新しい
   assert.strictEqual(env.get().m121s.rounds.r1.ans.A1.p, 'b');
 });
 
+// ── §9 成績表（mock_data/m121s_rates.js・_work/build_mock_m121s_rates.js が生成）──
+// 全国正答率はカルテの取りこぼし検出の正本。転記の誤りと、生成物の手編集を見張る。
+{
+  const sb = { window: {} };
+  vm.createContext(sb);
+  vm.runInContext(fs.readFileSync(path.join(ROOT, 'mock_data/m121s_rates.js'), 'utf8'), sb);
+  const RATES = sb.window.MecMockRates && sb.window.MecMockRates[EXAM_ID];
+  const REP = sb.window.MecMockReport && sb.window.MecMockReport[EXAM_ID];
+
+  test('成績表: 全国正答率が全問ぶんあり、0〜100 の数値で、余分なキーが無い', () => {
+    const want = plain(D.questions.map(key)).sort(), got = plain(Object.keys(RATES || {})).sort();
+    assert.deepStrictEqual(got, want);
+    got.forEach(k => assert.ok(typeof RATES[k] === 'number' && RATES[k] >= 0 && RATES[k] <= 100, k + ': ' + RATES[k]));
+  });
+
+  test('成績表: MEC の読み取り解答を mock.js で採点すると、成績表の9区分の得点と一致する', () => {
+    const S = M.score(EXAM_ID, plain(REP.picks));
+    REP.sections.forEach(sec => {
+      let g = 0, m = 0;
+      S.rows.forEach(r => {
+        if (sec.blocks.indexOf(r.q.block) < 0 || (sec.cat && r.q.cat !== sec.cat)) return;
+        g += r.r.pts; m += r.q.pts;
+      });
+      assert.deepStrictEqual([g, m], [sec.got, sec.max], sec.label);
+    });
+    assert.strictEqual(S.taboo.count, REP.taboo);
+  });
+
+  test('成績表: 公開リポジトリに受験者IDを載せていない', () => {
+    const src = fs.readFileSync(path.join(ROOT, 'mock_data/m121s_rates.js'), 'utf8') +
+      fs.readFileSync(path.join(ROOT, '_work/m121s_report_2026-09-10.json'), 'utf8');
+    assert.ok(!/ID\s*\d{5,}/.test(src));
+  });
+
+  test('成績表: 生成物が材料（TSV・JSON）と一致する（手編集されていない）', () => {
+    const r = require('child_process').spawnSync(process.execPath,
+      [path.join(ROOT, '_work/build_mock_m121s_rates.js'), '--check'], { encoding: 'utf8' });
+    assert.strictEqual(r.status, 0, (r.stdout || '') + (r.stderr || ''));
+  });
+}
+
 // ─────────────────────────────────────────────────────────────
 console.log('\n' + (failures.length ? failures.length + ' FAILED' : 'all passed') +
             '  (' + passed + '/' + (passed + failures.length) + ')');

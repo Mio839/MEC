@@ -183,6 +183,25 @@ tr:last-child td{border-bottom:none;}
 .qr .rate{font-size:12.5px;font-weight:800;text-align:right;min-width:46px;
   font-variant-numeric:tabular-nums;}
 .qr .rate.none{color:var(--ts);font-weight:600;}
+.qr.diff{background:var(--yll);}
+.qr.diff .no{color:var(--yl);}
+
+/* ── 公式成績 ── */
+.off-tbl td,.off-tbl th{text-align:right;}
+.off-tbl td:first-child,.off-tbl th:first-child{text-align:left;}
+.off-tbl tr.sum td{font-weight:800;}
+.off-tbl .up{color:var(--gr);}
+.off-tbl .dn{color:var(--rd);}
+.grade{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 5px;border-radius:var(--r-sm);
+  font-family:var(--font-display);font-weight:800;font-size:13px;background:var(--or);color:var(--subj-ink);
+  margin-right:6px;vertical-align:1px;}
+.agree{font-size:12.5px;color:var(--ts);}
+.agree b{color:var(--tx);}
+
+/* ── 全国正答率の帯 ── */
+.track .nat{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--tx);opacity:.75;}
+.row.band{grid-template-columns:minmax(80px,auto) minmax(0,1fr) auto;}
+.row.band .row-n{white-space:nowrap;}
 .empty{padding:22px 14px;text-align:center;color:var(--ts);font-size:13px;}
 
 /* ── 留保 ── */
@@ -201,6 +220,7 @@ tr:last-child td{border-bottom:none;}
   .blocks{grid-template-columns:repeat(3,1fr);}
   .row{grid-template-columns:minmax(0,1fr) 52px;gap:4px 8px;}
   .row-l{grid-column:1/-1;}
+  .row.band{grid-template-columns:minmax(0,1fr) auto;}
 }
 </style>
 </head>
@@ -230,13 +250,17 @@ tr:last-child td{border-bottom:none;}
  *    成績表が届いたらそのファイルへ数字を書くだけで、
  *    「取りこぼし検出」・科目別の全国比・設問一覧の列と並べ替えが自動で有効になる。
  *    このHTMLにもロジックにも手を入れないこと。
+ *    同じファイルの window.MecMockReport[examId] があれば「公式成績」も出す
+ *    （順位・偏差値・全国平均と、MEC がマークシートから読み取った解答 picks）。
+ *    ⚠️ picks は「何を選んだか」だけ。公式の得点もここで足し算せず、picks を
+ *    MecMock.score() に渡して mock.js に採点させる（式を2つ持たない）。
  */
 (function () {
   'use strict';
 
   var M = window.MecMock;
   var INDEX = window.MecMockIndex || [];
-  var examId = null, data = null, S = null, RATES = null, RATED = false;
+  var examId = null, data = null, S = null, RATES = null, RATED = false, REPORT = null;
 
   // 全国正答率の帯。easy 以上を落としたものが「取りこぼし」＝差がついた失点。
   // ⚠️ 閾値を変えるときはここだけ。本文の説明文も同じ定数から作っている。
@@ -320,6 +344,7 @@ tr:last-child td{border-bottom:none;}
 
     $('ktMain').innerHTML =
       readout(A) +
+      secOfficial() +
       secMiss(wrongRows) +
       secAxis(A) +
       secTaboo() +
@@ -360,6 +385,138 @@ tr:last-child td{border-bottom:none;}
         '<div class="ro-v">' + c.v + '<span class="u">' + c.u + '</span></div>' +
         (c.bar || '') + '<div class="ro-n">' + c.n + '</div></div>';
     }).join('') + '</div>';
+  }
+
+  // 区分（成績表の列）ごとの自己採点。得点は mock.js の judge が付けた r.pts を足すだけ。
+  function secRows(rows, sec) {
+    var got = 0, max = 0;
+    rows.forEach(function (r) {
+      if (sec.blocks.indexOf(r.q.block) < 0) return;
+      if (sec.cat && r.q.cat !== sec.cat) return;
+      got += r.r.pts; max += r.q.pts;
+    });
+    return { got: got, max: max };
+  }
+
+  // 公式成績（MEC の成績表）。順位・偏差値・全国平均は受験者全体の分布が要るので
+  // 自己採点からは作れない＝成績表の数字をそのまま出す。そのうえで、
+  // 自己採点の入力が MEC の読み取りと食い違っていないかを1問ずつ突き合わせる。
+  function secOfficial() {
+    if (!REPORT || !REPORT.sections) return '';
+    var N = REPORT.examinees, by = {};
+    REPORT.sections.forEach(function (s) { by[s.id] = s; });
+    var topPct = function (s) { return f1(100 * s.rank / N); };
+    var gradeOf = function (g) {
+      if (!g) return '';
+      var lab = (g.scale || []).filter(function (x) { return x[0] === g.grade; })[0];
+      return '判定 <b>' + esc(g.grade) + '</b>' + (lab ? '（' + esc(lab[1]) + '）' : '');
+    };
+    var G = REPORT.grades || {};
+    var tiles = [];
+    if (by.total) tiles.push({ k: '総合成績', v: by.total.got, u: '/' + by.total.max,
+      n: '全国 ' + by.total.rank + '位 / ' + N + '人（上位' + topPct(by.total) + '%）· 偏差値 ' + f1(by.total.dev) });
+    if (by.main) tiles.push({ k: '総論/各論', v: by.main.rank, u: '位',
+      n: '上位' + topPct(by.main) + '% · ' + by.main.got + '/' + by.main.max + ' · 偏差値 ' + f1(by.main.dev) +
+        (G.main ? ' · ' + gradeOf(G.main) : '') });
+    if (by.hisshu) tiles.push({ k: '必修', v: by.hisshu.got, u: '/' + by.hisshu.max,
+      n: '全国 ' + by.hisshu.rank + '位（上位' + topPct(by.hisshu) + '%）· 偏差値 ' + f1(by.hisshu.dev) +
+        (G.hisshu ? ' · ' + gradeOf(G.hisshu) : '') });
+
+    // 自己採点との一致（区分ごと）
+    var off = [];
+    REPORT.sections.forEach(function (s) {
+      var me = secRows(S.rows.filter(function (r) { return S.blocks[r.q.block].entered; }), s);
+      if (me.max !== s.max || me.got !== s.got) off.push({ s: s, me: me });
+    });
+
+    var tbl = '<div class="tbl-scroll"><table class="off-tbl"><thead><tr>' +
+      '<th>区分</th><th>得点</th><th>得点率</th><th>全国平均</th><th>差</th>' +
+      '<th>全国順位</th><th>偏差値</th><th>学内順位</th><th>自己採点</th></tr></thead><tbody>' +
+      REPORT.sections.map(function (s) {
+        var pct = 100 * s.got / s.max, d = pct - s.natAvg;
+        var me = secRows(S.rows.filter(function (r) { return S.blocks[r.q.block].entered; }), s);
+        var same = me.max === s.max && me.got === s.got;
+        return '<tr class="' + (/合計|総合/.test(s.label) ? 'sum' : '') + '">' +
+          '<td class="t-name">' + esc(s.label) + '</td>' +
+          '<td class="num">' + s.got + '/' + s.max + '</td>' +
+          '<td class="num">' + f1(pct) + '%</td>' +
+          '<td class="num">' + f1(s.natAvg) + '%</td>' +
+          '<td class="num ' + (d >= 0 ? 'up' : 'dn') + '">' + (d >= 0 ? '+' : '') + f1(d) + '</td>' +
+          '<td class="num">' + s.rank + '位 <span style="color:var(--ts);font-weight:600">上位' + topPct(s) + '%</span></td>' +
+          '<td class="num">' + f1(s.dev) + '</td>' +
+          '<td class="num">' + (s.schoolRank ? s.schoolRank + '/' + REPORT.school : '—') + '</td>' +
+          '<td class="num">' + (same ? '<span class="chip c-good">一致</span>'
+            : '<span class="chip c-warn">' + (me.max === s.max ? me.got + '/' + me.max : '未入力あり') + '</span>') +
+          '</td></tr>';
+      }).join('') + '</tbody></table></div>';
+
+    // 1問ずつの突き合わせ（未入力ブロックは「入れていないだけ」なので数えない）
+    var P = REPORT.picks || {}, diffs = [];
+    S.rows.forEach(function (r) {
+      if (!S.blocks[r.q.block].entered || !(r.key in P)) return;
+      var o = M.judge(r.q, P[r.key]);
+      if (o.picked !== r.r.picked) diffs.push({ r: r, o: o });
+    });
+    var agree = !off.length
+      ? '<p class="agree">自己採点は成績表の' + REPORT.sections.length + '区分すべてと<b>一致</b>しています。</p>'
+      : '<p class="agree">自己採点と成績表の得点が<b>' + off.length + '区分で違います</b>' +
+        '（' + off.map(function (x) { return esc(x.s.label); }).join('・') + '）。</p>';
+    var diffHtml = diffs.length
+      ? '<div class="pending"><span class="badge">入力の食い違い ' + diffs.length + '問</span>' +
+        '<h3>自己採点の入力が、MEC のマークシート読み取りと違う問題があります</h3>' +
+        '<p class="note">このカルテ（取りこぼし・科目別・❌模試誤答）は自己採点の入力から作られます。' +
+        'マークシートの控えで確かめて、<a href="mock.html" style="color:var(--or)">🧮 自己採点</a>で直すと公式と揃い、この一覧も消えます。</p>' +
+        '<div class="qlist">' + diffs.map(function (x) {
+          var r = x.r, lab = function (j) { return j.state === 'correct' ? '正解' : j.state === 'blank' ? '未解答' : '誤答'; };
+          return '<div class="qr diff"><div class="no">' + r.q.block + r.q.no + '</div>' +
+            '<div class="meta"><div class="th">' + esc(cleanTheme(r.q.theme)) + '</div>' +
+            '<div class="sub">入力 <b>' + esc(r.r.picked || '—') + '</b>（' + lab(r.r) + '）→ 読み取り <b>' +
+            esc(x.o.picked || '—') + '</b>（' + lab(x.o) + '）· 正解 ' + esc(r.q.type === 'calc' ? r.q.ans[0] : r.q.ans.slice().sort().join('')) +
+            '</div></div><div></div>' +
+            '<div class="rate' + (rateOf(r.q) === null ? ' none' : '') + '">' +
+            (rateOf(r.q) === null ? '—' : f1(rateOf(r.q)) + '%') + '</div></div>';
+        }).join('') + '</div></div>'
+      : '';
+
+    return '<section><div class="sec-h"><h2>公式成績</h2>' +
+      '<span class="tag">MEC 成績表 · 受験者 ' + N + '人</span></div>' +
+      '<div class="readout">' + tiles.map(function (c) {
+        return '<div class="ro"><div class="ro-k">' + c.k + '</div>' +
+          '<div class="ro-v">' + c.v + '<span class="u">' + c.u + '</span></div>' +
+          '<div class="ro-n">' + c.n + '</div></div>';
+      }).join('') + '</div>' +
+      '<div class="card">' + tbl + '</div>' + agree + diffHtml + '</section>';
+  }
+
+  // 全国正答率の帯ごとの自分の正答率。縦線（その帯の全国平均）より右なら、
+  // その帯では他の受験生より取れている。帯の中の差が「どこで点を稼ぎ、どこで失ったか」。
+  var BANDS = [[80, 101, '全国80%以上'], [60, 80, '60〜80%'], [40, 60, '40〜60%'], [20, 40, '20〜40%'], [0, 20, '20%未満']];
+  function bandChart(rated) {
+    var bs = BANDS.map(function (b) {
+      var rs = rated.filter(function (r) { var x = rateOf(r.q); return x >= b[0] && x < b[1]; });
+      var c = rs.filter(function (r) { return r.r.state === 'correct'; }).length;
+      var nat = rs.length ? rs.reduce(function (s, r) { return s + rateOf(r.q); }, 0) / rs.length : 0;
+      return { l: b[2], hi: b[1], n: rs.length, c: c, me: pctOf(c, rs.length), nat: nat, miss: rs.length - c };
+    }).filter(function (b) { return b.n; });
+    var totalMiss = bs.reduce(function (s, b) { return s + b.miss; }, 0);
+    var hardMiss = bs.filter(function (b) { return b.hi <= TIER.std; })
+      .reduce(function (s, b) { return s + b.miss; }, 0);
+    var best = bs.slice().sort(function (a, b) { return (b.me - b.nat) - (a.me - a.nat); })[0];
+    return '<div class="card"><div class="legend">' +
+      '<span class="lg"><i style="background:var(--or)"></i>自分の正答率</span>' +
+      '<span class="lg"><i style="background:var(--tx);opacity:.75;width:2px;height:13px;border-radius:0"></i>その帯の全国平均</span>' +
+      '</div><div class="grp">' + bs.map(function (b) {
+        var d = b.me - b.nat;
+        return '<div class="row band"><div class="row-l">' + b.l + '</div>' +
+          '<div class="track"><div class="fill" style="width:' + b.me + '%;background:var(--or)"></div>' +
+          '<div class="nat" style="left:' + b.nat + '%"></div>' +
+          '<div class="val">' + f1(b.me) + '%</div></div>' +
+          '<div class="row-n">全国 ' + f1(b.nat) + '% · <b style="color:' + (d >= 0 ? 'var(--gr)' : 'var(--rd)') + '">' +
+          (d >= 0 ? '+' : '') + f1(d) + '</b> · ' + b.c + '/' + b.n + '</div></div>';
+      }).join('') + '</div>' +
+      '<p class="agree" style="margin-top:10px">誤答' + totalMiss + '問のうち' + hardMiss + '問は全国' + TIER.std +
+      '%未満の問題。全国との差がいちばん開いているのは<b>' + esc(best.l) + '</b>の帯（' +
+      (best.me - best.nat >= 0 ? '+' : '') + f1(best.me - best.nat) + 'pt）です。</p></div>';
   }
 
   // 取りこぼし＝全国が取れているのに自分が落とした問題。合否に効くのはここで、
@@ -404,6 +561,7 @@ tr:last-child td{border-bottom:none;}
       (miss.length
         ? '<div class="qlist">' + miss.map(function (r) { return qrow(r, true); }).join('') + '</div>'
         : '<div class="qlist"><div class="empty">全国' + TIER.easy + '%以上の問題は1問も落としていません。</div></div>') +
+      bandChart(rated) +
       '</section>';
   }
 
@@ -721,7 +879,10 @@ tr:last-child td{border-bottom:none;}
     items.push(['この点数から合否を推定しない',
       '模試は回によって難度が違い、' + (RATED ? '' : 'この模試の解説書には正答率が載っていません。') +
       '読み取れるのは絶対値ではなくプロファイルの形' +
-      (RATED ? 'と、全国正答率との相対位置' : '') + 'だけです。']);
+      (RATED ? 'と、全国正答率との相対位置' : '') + 'だけです。' +
+      (REPORT && REPORT.examinees
+        ? '順位と偏差値も、この模試を受けた' + REPORT.examinees + '人の中での位置であって、本番の合格ラインを示すものではありません。'
+        : '')]);
     return '<section><div class="sec-h"><h2>この数字の読み方</h2>' +
       '<span class="tag">批判的留保</span></div><div class="caveats">' +
       items.map(function (it, i) {
@@ -739,6 +900,7 @@ tr:last-child td{border-bottom:none;}
       '正誤は保存された解答から毎回計算しています（採点結果そのものは保持していません）。' +
       '未入力のブロックは満点にも母数にも入りません。<br>' +
       '全国正答率: ' + (RATED ? Object.keys(RATES).length + '問ぶん取込済み' : '未取込') +
+      (REPORT && REPORT.source ? ' · 公式成績: ' + esc(REPORT.source) : '') +
       '</div>';
   }
 
@@ -749,6 +911,7 @@ tr:last-child td{border-bottom:none;}
       data = window.MecMockData[id];
       RATES = (window.MecMockRates && window.MecMockRates[id]) || null;
       RATED = !!(RATES && Object.keys(RATES).length);
+      REPORT = (window.MecMockReport && window.MecMockReport[id]) || null;
       S = M.score(id);
       if (!S.live.length) {
         $('ktSubtitle').textContent = meta.name + ' · 未入力';

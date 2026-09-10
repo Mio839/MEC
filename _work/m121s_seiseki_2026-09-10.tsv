@@ -1,0 +1,405 @@
+# 第121回 夏メック模試 — MEC Net.「正誤一覧」の転記（2026-09-10 にユーザーが貼り付けたもの）
+# 列: key 正答 解答 全国正答率(%) 印
+#   印: 禁=禁忌肢を解答 / 外=外科 / 解=解剖生理 / 計=計算（MEC の「外解計」列）
+#   計算問題は桁ごとの行（74-1/74-2/74-3）を1つの桁文字列へ畳んだ（全国正答率は桁の行で同一だった）
+# ⚠️ ここは転記の記録。カルテが読む正本は mock_data/m121s_rates.js（_work/build_mock_m121s_rates.js が作る）
+A1	b	b	31.2
+A2	d	d	90.5
+A3	b	a	67.9
+A4	d	d	77.5
+A5	b	b	79.2
+A6	b	b	59.2
+A7	d	e	35.0
+A8	e	e	60.8
+A9	b	b	39.6
+A10	be	bc	22.2
+A11	ab	be	23.5
+A12	bd	bd	56.7
+A13	ae	ae	78.6
+A14	cd	cd	79.2
+A15	e	a	93.4
+A16	c	c	40.5
+A17	b	b	78.6
+A18	c	c	56.8
+A19	b	b	79.1
+A20	d	d	89.4
+A21	d	d	97.9
+A22	c	c	67.7
+A23	a	a	90.9	外
+A24	b	b	55.0
+A25	b	b	71.8	外
+A26	a	e	42.8
+A27	e	e	92.7
+A28	d	d	95.8
+A29	d	d	54.4
+A30	e	e	90.9
+A31	b	b	94.8
+A32	d	d	91.1
+A33	b	b	72.3
+A34	e	e	65.2	外
+A35	a	a	57.4
+A36	c	c	61.1
+A37	e	e	85.8
+A38	b	b	63.9
+A39	d	d	81.0
+A40	d	d	67.5
+A41	d	d	72.4
+A42	e	e	95.6
+A43	c	c	97.3
+A44	e	e	92.7
+A45	a	a	95.5
+A46	b	b	95.4
+A47	d	c	37.0
+A48	b	b	81.7
+A49	b	b	59.9
+A50	c	c	46.9
+A51	d	d	91.5
+A52	e	e	98.0
+A53	a	d	32.4
+A54	d	d	74.2
+A55	b	b	91.8	外
+A56	e	e	93.1
+A57	a	a	90.7
+A58	c	d	59.2	禁外
+A59	d	d	50.2
+A60	b	b	90.0
+A61	d	d	75.2
+A62	a	a	87.0
+A63	c	c	45.7
+A64	b	b	83.6
+A65	a	a	41.7
+A66	e	e	73.9
+A67	ce	ce	82.5
+A68	de	cd	35.2
+A69	ab	ab	75.1
+A70	bd	bd	58.0
+A71	ae	ae	32.2	外
+A72	bc	bc	31.7
+A73	abd	abd	78.4
+A74	104	104	72.7	計
+A75	243	243	68.1	計
+B1	c	c	70.1
+B2	c	c	76.8
+B3	d	d	90.3
+B4	c	c	98.6
+B5	b	b	32.8
+B6	d	d	91.3
+B7	b	c	49.8
+B8	b	b	94.8
+B9	e	e	72.1
+B10	c	c	78.4
+B11	c	c	95.3
+B12	c	c	98.8
+B13	c	c	68.4
+B14	e	e	98.8
+B15	b	b	92.6
+B16	c	c	63.1
+B17	e	e	98.4
+B18	c	d	42.4
+B19	b	b	70.2
+B20	b	b	65.1
+B21	b	b	78.6
+B22	b	b	89.4
+B23	a	a	81.5	解
+B24	e	e	88.3
+B25	c	c	97.5
+B26	a	a	68.9
+B27	e	d	56.0	計
+B28	c	c	93.2
+B29	a	a	88.4
+B30	d	d	75.1
+B31	d	d	95.5
+B32	e	e	94.6	外
+B33	d	e	75.1
+B34	a	a	97.1
+B35	d	d	87.6
+B36	d	d	98.9
+B37	e	e	52.7
+B38	d	d	98.8
+B39	e	e	87.1
+B40	c	c	97.3
+B41	c	c	71.0
+B42	a	a	65.5
+B43	c	c	97.9
+B44	e	e	98.9
+B45	a	a	99.0
+B46	a	a	98.5
+B47	a	a	87.0
+B48	e	b	57.0
+B49	b	b	82.9
+B50	e	e	97.4
+C1	e	d	34.2
+C2	b	b	92.4
+C3	e	e	26.6
+C4	b	b	72.6
+C5	e	d	42.2
+C6	a	a	87.7
+C7	a	a	54.3
+C8	d	d	65.1
+C9	e	e	51.2
+C10	a	b	86.0
+C11	d	d	55.7
+C12	d	d	86.7	外
+C13	c	c	66.3
+C14	b	d	23.5
+C15	c	c	75.2
+C16	a	d	46.0	解
+C17	d	d	76.5
+C18	e	e	79.2
+C19	a	e	33.8
+C20	b	b	57.2
+C21	d	d	38.8
+C22	d	d	91.7
+C23	d	d	50.0	解
+C24	e	c	46.2	解
+C25	a	a	73.9
+C26	c	c	29.0
+C27	de	de	93.4
+C28	ae	de	37.0
+C29	ad	ad	67.5
+C30	bd	bd	67.0	解
+C31	de	ce	61.0
+C32	cd	cd	86.8
+C33	bde	cde	6.3
+C34	abe	abe	69.6
+C35	bce	bce	48.8
+C36	a	c	51.7
+C37	a	a	76.5
+C38	d	d	65.5
+C39	d	d	92.3
+C40	e	e	93.7
+C41	a	a	82.7
+C42	e	d	53.7
+C43	c	b	31.8
+C44	b	b	54.6
+C45	d	d	78.1
+C46	c	d	53.3
+C47	d	d	46.7
+C48	e	e	92.7
+C49	e	b	22.0	禁
+C50	e	e	87.4
+C51	e	e	78.5
+C52	e	e	94.0
+C53	c	c	95.5
+C54	d	d	96.1
+C55	a	a	64.2
+C56	bd	bd	69.2
+C57	be	be	83.2
+C58	be	be	72.8
+C59	ae	ae	88.1
+C60	bde	bde	56.8
+C61	c	c	68.3	計
+C62	a	a	93.8
+C63	a	a	58.2	外
+C64	d	a	75.3
+C65	ae	ae	72.5
+C66	a	a	98.7
+C67	c	c	65.4
+C68	a	a	79.1
+C69	a	a	38.9
+C70	ace	ace	83.1
+C71	c	c	91.7
+C72	bc	bc	77.0
+C73	e	e	63.5	計
+C74	c	c	67.1
+C75	b	b	61.8
+D1	c	c	72.0	外
+D2	d	d	82.8
+D3	b	c	23.7
+D4	e	e	74.3
+D5	d	b	30.3
+D6	c	c	78.9
+D7	d	a	46.3
+D8	e	e	78.3
+D9	c	c	68.0
+D10	e	e	75.6
+D11	e	e	69.8
+D12	d	d	87.3
+D13	be	be	42.8
+D14	ce	ce	91.9
+D15	be	be	51.8
+D16	d	d	78.6
+D17	a	e	22.7
+D18	d	d	43.7	外
+D19	a	a	76.1
+D20	d	d	75.1
+D21	d	d	86.4
+D22	d	d	89.5	外
+D23	d	d	25.0
+D24	a	a	79.2	外
+D25	e	e	56.1
+D26	e	e	53.4
+D27	b	b	74.5
+D28	c	e	56.5
+D29	d	e	63.9
+D30	e	e	92.3
+D31	b	b	71.8
+D32	a	a	61.7
+D33	e	e	61.2
+D34	d	d	95.1
+D35	c	d	83.8
+D36	c	c	60.2
+D37	c	c	84.4
+D38	d	d	67.4
+D39	a	a	96.4
+D40	c	d	19.7
+D41	a	a	79.7
+D42	b	a	93.5
+D43	d	d	74.2
+D44	d	d	57.8
+D45	a	a	52.9
+D46	c	c	60.8
+D47	c	c	91.3
+D48	d	d	51.9
+D49	c	c	75.5
+D50	e	e	86.0
+D51	c	c	89.1
+D52	a	a	91.2
+D53	b	e	56.5
+D54	d	d	70.0
+D55	c	c	86.2
+D56	d	d	66.4	外
+D57	d	d	55.0
+D58	d	e	48.5
+D59	e	e	92.5
+D60	b	b	28.4
+D61	c	c	43.9
+D62	e	e	97.6
+D63	e	e	87.0
+D64	c	c	72.2
+D65	bd	bd	74.6
+D66	ce	ce	55.2
+D67	ce	ce	65.9
+D68	cd	cd	45.0
+D69	bc	bc	69.3
+D70	ae	be	30.6
+D71	ac	ac	70.1
+D72	bd	bd	78.7
+D73	bc	bc	84.5
+D74	acd	acd	97.9
+D75	15	15	88.9	計
+E1	c	c	90.7
+E2	b	b	65.7
+E3	a	a	69.4
+E4	c	a	14.0
+E5	d	d	95.7
+E6	b	b	93.1
+E7	c	c	87.4
+E8	b	b	98.9
+E9	c	c	59.3
+E10	e	e	86.0
+E11	a	a	82.1
+E12	d	d	97.7
+E13	d	d	95.1
+E14	a	a	91.5
+E15	e	e	98.9
+E16	d	d	54.5
+E17	d	d	91.2
+E18	e	e	89.9
+E19	e	e	89.7
+E20	e	e	95.5
+E21	e	e	87.5
+E22	b	b	67.3
+E23	e	e	71.6
+E24	b	b	98.8
+E25	e	b	84.0
+E26	e	e	91.8	外
+E27	d	d	95.5	外
+E28	a	a	80.5
+E29	d	d	86.7
+E30	a	a	96.2
+E31	d	d	94.5
+E32	b	b	74.5
+E33	e	e	75.6
+E34	d	d	86.4
+E35	b	b	94.9
+E36	d	d	95.0
+E37	a	a	91.1
+E38	e	e	96.3
+E39	b	b	91.8
+E40	a	a	97.8
+E41	c	c	91.9
+E42	c	e	87.7
+E43	e	e	99.0
+E44	c	c	96.9
+E45	e	e	72.0
+E46	c	d	53.5
+E47	e	e	75.5
+E48	b	b	83.3
+E49	b	b	97.1
+E50	d	d	98.1
+F1	e	e	47.8
+F2	b	b	49.6
+F3	e	e	45.4
+F4	e	e	83.9
+F5	c	e	2.0
+F6	a	d	18.4
+F7	a	a	63.4
+F8	c	c	99.0
+F9	d	d	92.5
+F10	e	e	71.6
+F11	d	d	64.7
+F12	a	e	66.2
+F13	d	d	84.4	解
+F14	c	c	90.9
+F15	e	e	98.5
+F16	e	e	51.0	解
+F17	d	c	20.7
+F18	e	e	96.8
+F19	e	e	95.6
+F20	b	a	18.7
+F21	d	d	60.1
+F22	cd	cd	56.9
+F23	ce	ce	64.2
+F24	bd	ad	21.8
+F25	cd	de	21.9
+F26	de	de	38.6
+F27	ad	ae	63.1
+F28	ce	ce	90.1
+F29	be	be	83.1
+F30	de	bd	38.6
+F31	ac	ac	61.4	解
+F32	ae	ae	37.8
+F33	abe	abe	24.8	解
+F34	cde	ade	30.6
+F35	ace	ace	35.5
+F36	b	c	41.5
+F37	d	d	90.6
+F38	c	c	85.1
+F39	d	d	56.6
+F40	c	c	63.8
+F41	a	a	65.5
+F42	e	e	98.1
+F43	b	c	39.8
+F44	d	d	57.4
+F45	d	d	80.4
+F46	d	d	64.5
+F47	d	d	82.7
+F48	d	e	46.3
+F49	d	d	30.4
+F50	d	d	98.6
+F51	c	d	26.4
+F52	b	c	15.1
+F53	d	d	57.9
+F54	c	e	61.1
+F55	b	b	73.5
+F56	d	c	60.0
+F57	d	d	82.1
+F58	ab	ab	95.9
+F59	be	be	62.1
+F60	acd	acd	63.1
+F61	ae	ae	76.1	外
+F62	abc	abc	34.2	外
+F63	cd	cd	66.6
+F64	e	e	64.9
+F65	ac	ac	73.0
+F66	ae	ce	31.9
+F67	a	a	76.6
+F68	d	d	96.1
+F69	e	e	87.1	外
+F70	de	de	55.7
+F71	c	c	49.3
+F72	a	a	64.7	外
+F73	d	d	92.8
+F74	e	e	89.0
+F75	e	e	82.7
