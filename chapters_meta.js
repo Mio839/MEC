@@ -1183,6 +1183,56 @@ const MEC_CHAPTERS = [
     ]
   },
   {
+    "id": "emg",
+    "name": "救急",
+    "icon": "🚑",
+    "color": "#FF8A5B",
+    "chapters": [
+      {
+        "prefix": "emg_ch01",
+        "file": "救急/ch01_shoshin_gairai.html",
+        "title": "第1章 初診外来",
+        "count": 3
+      },
+      {
+        "prefix": "emg_ch02",
+        "file": "救急/ch02_gaisho.html",
+        "title": "第2章 外傷（交通・骨盤・頭部・熱傷・創傷）",
+        "count": 16
+      },
+      {
+        "prefix": "emg_ch03",
+        "file": "救急/ch03_kagaku_bioterro_anaphylaxis.html",
+        "title": "第3章 化学損傷・バイオテロ・アナフィラキシー",
+        "count": 8
+      },
+      {
+        "prefix": "emg_ch04",
+        "file": "救急/ch04_zutsu_kansen_doubutsu_triage.html",
+        "title": "第4章 頭痛・重症感染症・動物咬傷・トリアージ",
+        "count": 9
+      },
+      {
+        "prefix": "emg_ch05",
+        "file": "救急/ch05_teitaion_kanbetsu_bls.html",
+        "title": "第5章 低体温症・致死的病態の鑑別・BLS",
+        "count": 12
+      },
+      {
+        "prefix": "emg_ch06",
+        "file": "救急/ch06_119kai_kyukyu.html",
+        "title": "第6章 第119回 救急",
+        "count": 3
+      },
+      {
+        "prefix": "emg_ch07",
+        "file": "救急/ch07_120kai_kyukyu.html",
+        "title": "第7章 第120回 救急",
+        "count": 17
+      }
+    ]
+  },
+  {
     "id": "ph",
     "name": "公衆衛生",
     "icon": "🏛",

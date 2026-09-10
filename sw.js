@@ -1197,6 +1197,11 @@
 // 2026-08-13c: ハブの「今日の目標」ゲージを拡大（viewBox 140→168・盤面 152→208px・
 // 歯車4枚）し、演出を常時化した（火花と蒸気が1.7秒ごと・22秒ごとに祝砲）。
 // 見出し行に日付も出す。シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
+// v382: 救急(emg)を新科目として追加（🚑・#FF8A5B）。questions_emg.json を CARDS に加え、
+// 救急/images/（19枚）を追加したので CACHE を bump。PDFは「現場でいきる救急（表紙2026）」全56ページ・
+// 全68問で、章は巻末「MEC講義収録内容」の7単位に合わせた（テーマ見出しは18個あるが
+// 1問だけの章ができるので採らない）。中毒・職業病と同じく**マイナー講座ではない横断テーマ**。
+// ⚠️ この科目の解答一覧表には ★列・CBT列が無い（必修／一般／臨床／正答率の4列だけ）。
 // v168: 中毒・職業病(tox)を新科目として追加（☠️・#65A30D・全7章48問）。
 // questions_tox.json を CARDS に加えたので CACHE を bump（画像は0枚）。
 // 金属中毒4／有機溶剤中毒5／農薬中毒6／その他の中毒6／自然毒3／ガス体中毒6／
@@ -1384,12 +1389,12 @@
 // v376: 夏メック模試（m121s）の解説を questions_m121s.json として新設し study.html へ統合。
 //       解説書PDFから全400問（A〜F を ch01〜ch06・番号は科目内で通し）を生成した。
 //       questions_*.json が1つ増えたので SHELL_VERSION だけでは足りず CACHE を bump。
-const CACHE = "mec-v381";
+const CACHE = "mec-v382";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-10a";
+const SHELL_VERSION = "2026-09-10b";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -1463,7 +1468,7 @@ const CARDS = [
   "questions_neur.json","questions_hbp.json","questions_jinzo_d.json","questions_hema.json",
   "questions_imma.json","questions_kansen.json","questions_jitsu1.json",
   "questions_peds.json","questions_obg.json","questions_psy.json",
-  "questions_derm.json","questions_oph.json","questions_ent.json","questions_uro.json","questions_ortho.json","questions_anes.json","questions_rad.json","questions_tox.json","questions_ph.json",
+  "questions_derm.json","questions_oph.json","questions_ent.json","questions_uro.json","questions_ortho.json","questions_anes.json","questions_rad.json","questions_tox.json","questions_emg.json","questions_ph.json",
   "questions_m121s.json"
 ];
 

@@ -23,6 +23,7 @@ window.MM_SUBJECTS = [
   { sid: "anes", label: "麻酔科", icon: "💉", color: "#A373FE", ready: true },
   { sid: "rad", label: "放射線科", icon: "☢️", color: "#8790A9", ready: true },
   { sid: "tox", label: "中毒・職業病", icon: "☠️", color: "#65A30D", ready: true },
+  { sid: "emg", label: "救急", icon: "🚑", color: "#FF8A5B", ready: false },
   { sid: "ph", label: "公衆衛生", icon: "🏛", color: "#3097CE", ready: false },
   { sid: "m121s", label: "第121回 夏メック模試", icon: "🏁", color: "#F0ABFC", ready: false },
 ];
