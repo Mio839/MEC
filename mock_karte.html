@@ -198,6 +198,24 @@ tr:last-child td{border-bottom:none;}
 .agree{font-size:12.5px;color:var(--ts);}
 .agree b{color:var(--tx);}
 
+/* ── 今後の学習方針 ── */
+.plan{display:flex;flex-direction:column;gap:10px;}
+.plan .card{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;}
+.plan .card > *{grid-column:2;}
+.plan .pn{grid-column:1 !important;grid-row:1;align-self:start;font-family:var(--font-display);font-weight:800;font-size:11px;
+  letter-spacing:.06em;color:var(--subj-ink);background:var(--or);border-radius:var(--r-sm);padding:3px 8px;
+  white-space:nowrap;}
+.plan .card.first .pn{background:transparent;color:var(--or);border:1px solid var(--or);}
+.plan .card.skip .pn{background:rgba(var(--glass-rgb),.14);color:var(--ts);}
+.plan h3{font-family:var(--font-display);font-size:14.5px;font-weight:800;line-height:1.5;}
+.plan .why{font-size:12.5px;color:var(--ts);max-width:78ch;}
+.plan .why b{color:var(--tx);}
+.plan ul{margin:4px 0 0;padding-left:1.2em;font-size:13px;display:flex;flex-direction:column;gap:3px;}
+.plan li .k{font-weight:800;font-variant-numeric:tabular-nums;margin-right:4px;}
+.plan li .r{color:var(--ts);font-size:11.5px;font-variant-numeric:tabular-nums;}
+.plan a{color:var(--or);}
+@media (max-width:600px){ .plan .card{grid-template-columns:minmax(0,1fr);} .plan .card > *{grid-column:1;} .plan .pn{justify-self:start;} }
+
 /* ── 全国正答率の帯 ── */
 .track .nat{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--tx);opacity:.75;}
 .row.band{grid-template-columns:minmax(80px,auto) minmax(0,1fr) auto;}
@@ -345,6 +363,7 @@ tr:last-child td{border-bottom:none;}
     $('ktMain').innerHTML =
       readout(A) +
       secOfficial() +
+      secPlan(A) +
       secMiss(wrongRows) +
       secAxis(A) +
       secTaboo() +
@@ -486,6 +505,191 @@ tr:last-child td{border-bottom:none;}
           '<div class="ro-n">' + c.n + '</div></div>';
       }).join('') + '</div>' +
       '<div class="card">' + tbl + '</div>' + agree + diffHtml + '</section>';
+  }
+
+  // 模試の分野 → 学習ツールの科目（リンク先を決めるだけ。採点にも集計にも使わない）。
+  // ⚠️ study.html に科目を足したら、ここに当てはまる分野が無いか見直すこと。
+  var STUDY_SID = {
+    '救急': ['emg', '救急'], '中毒': ['tox', '中毒・職業病'],
+    '産科': ['obg', '産婦人科'], '婦人科': ['obg', '産婦人科'],
+    '眼科': ['oph', '眼科'], '耳鼻咽喉科': ['ent', '耳鼻咽喉科'], '皮膚科': ['derm', '皮膚科'],
+    '整形外科': ['ortho', '整形外科'], '泌尿器科': ['uro', '泌尿器科'], '精神科': ['psy', '精神科'],
+    '麻酔科': ['anes', '麻酔科'], '放射線科': ['rad', '放射線科'],
+    '感染症': ['kansen', '感染症'], '血液': ['hema', '血液'], '循環器': ['circ', '循環器'],
+    '神経': ['neur', '神経'], '呼吸器': ['resp', '呼吸器'], '消化管': ['dige', '消化器'],
+    '肝胆膵': ['hbp', '肝胆膵'], '腎臓': ['jinzo_d', '腎臓'], '内・代': ['endo', '内分泌'],
+    'ア・膠・免': ['imma', '免アレ膠']
+  };
+  function sidOf(q) {
+    if (q.cat1 === '小児科') return ['peds', '小児科'];
+    if (q.cat1 === '公衆衛生') return ['ph', '公衆衛生'];
+    return STUDY_SID[q.cat2] || null;
+  }
+  function toolLink(s) {
+    return s ? '<a href="study.html?sid=' + s[0] + '">学習ツールの「' + esc(s[1]) + '」</a>' : '';
+  }
+  function qItem(r, extra) {
+    var nr = rateOf(r.q);
+    return '<li><span class="k">' + r.q.block + r.q.no + '</span>' + esc(cleanTheme(r.q.theme)) +
+      ' <span class="r">' + (nr === null ? '' : '全国' + f1(nr) + '%') + (extra ? ' · ' + extra : '') + '</span></li>';
+  }
+  function daysToExam() {
+    var d = window.MECSync && window.MECSync.examDate && window.MECSync.examDate();
+    if (!d) return null;
+    var t = Date.parse(d + 'T00:00:00+09:00');
+    return isNaN(t) ? null : { date: d, days: Math.ceil((t - Date.now()) / 86400000) };
+  }
+
+  // 今後の学習方針。数字は全部このページの集計（＝mock.js の判定）から毎回作る＝
+  // 解答を直したり周回を変えたりすれば方針も書き換わる。⚠️ ここに今回の数字を直書きしないこと。
+  // 並びは「合否に効く順」: 禁忌肢（点数に関係なく不合格）→ 必修（絶対評価）→
+  // 取りこぼし（知っていれば取れる）→ 全国と差がついていない系統（伸ばせば順位が動く）。
+  function secPlan(A) {
+    var live = S.rows.filter(function (r) { return S.blocks[r.q.block].entered; });
+    var wrong = live.filter(function (r) { return r.r.state !== 'correct'; });
+    if (!wrong.length) return '';
+    var steps = [];
+    var lostOf = function (rs) { return rs.reduce(function (s, r) { return s + r.q.pts - r.r.pts; }, 0); };
+
+    // 0. 誤答をまるごと復習の流れに乗せる（ツールの配管だけで済む一手）
+    steps.push({ cls: 'first', pn: 'まず', t: '誤答' + wrong.length + '問を学習ツールの試験モードで解き直す',
+      why: '<a href="study.html?sid=' + esc(examId) + '&amp;filter=mock_wrong">❌ 模試誤答</a> で絞ったまま試験を始めると、' +
+        'その' + wrong.length + '問だけのセッションになります。解いた問題は復習キュー（SRS）に入り、以後は間隔を空けて自動で出てきます。' +
+        '以下の優先順は、そのうえで<b>どこに時間を足すか</b>です。' });
+
+    // 1. 禁忌肢
+    var hits = live.filter(function (r) { return r.r.taboo; });
+    if (hits.length) {
+      var by = {};
+      hits.forEach(function (r) { by[r.q.cat2] = (by[r.q.cat2] || 0) + 1; });
+      var area = Object.keys(by).sort(function (a, b) { return by[b] - by[a]; })[0];
+      var wa = agg(function (q) { return q.cat2 === area; });
+      var act = hits.every(function (r) { return /対応|処置|治療|投与|指示/.test(r.q.theme); });
+      var left = S.taboo.max + 1 - S.taboo.count;
+      steps.push({ t: '禁忌肢を踏まない — ' + (by[area] > 1 ? esc(area) + 'の' + (act ? '「対応」' : '') + 'を固め直す' : '踏んだ場面を言葉にしておく'),
+        why: '禁忌肢は本番で' + (S.taboo.max + 1) + '問選ぶと、点数に関係なく不合格です。今回は<b>' + S.taboo.count + '問</b>で、' +
+          'あと' + left + '問でその水準に届きます。' +
+          (by[area] > 1 ? '<b>' + by[area] + '問とも' + esc(area) + '</b>で、' + esc(area) + '全体も ' + wa.c + '/' + wa.n +
+            '（' + f1(wa.pct) + '%）。1問の事故ではなく、この分野の「やってはいけない処置」があいまいなまま、と読むべきです。' : ''),
+        items: hits.map(function (r) { return qItem(r, '選んだ ' + esc(r.r.picked) + ' が禁忌肢 / 正解 ' + esc(r.q.ans.slice().sort().join(''))); }),
+        tail: '各場面について「禁忌の処置」を1行で言えるようにする。' + (sidOf(hits[0].q) ? ' → ' + toolLink(sidOf(hits[0].q)) : '') });
+    }
+
+    // 2. 必修
+    var hiW = wrong.filter(function (r) { return isHisshu(r.q); });
+    if (S.hisshu.max && hiW.length) {
+      var hi = S.hisshu, need = Math.ceil(hi.max * M.HISSHU_PCT / 100);
+      var riW = hiW.filter(function (r) { return r.q.cat === '臨床'; });
+      var areas = {};
+      hiW.forEach(function (r) { areas[r.q.cat2] = 1; });
+      var nArea = Object.keys(areas).length;
+      var why = '必修は ' + hi.pts + '/' + hi.max + '（ライン' + need + '点・' +
+        (hi.pts >= need ? '余裕 +' + (hi.pts - need) : '不足 ' + (hi.pts - need)) + '）。' +
+        '落とした' + hiW.length + '問・' + lostOf(hiW) + '点のうち、' +
+        (riW.length ? '<b>臨床の' + riW[0].q.pts + '点問題' + riW.length + '問で' + lostOf(riW) + '点</b>。' : '');
+      if (REPORT && REPORT.sections) {
+        var sec = {}; REPORT.sections.forEach(function (s) { sec[s.id] = s; });
+        var low = REPORT.sections.slice().sort(function (a, b) { return a.dev - b.dev; })[0];
+        if (sec.hisshu && sec.main && sec.hisshu.dev < sec.main.dev) {
+          why += '点数は安全圏でも、偏差値は必修 ' + f1(sec.hisshu.dev) + ' と総論/各論 ' + f1(sec.main.dev) +
+            ' より ' + f1(sec.main.dev - sec.hisshu.dev) + ' 低く、' +
+            (/^hisshu/.test(low.id) ? '<b>' + esc(low.label) + 'は ' + low.rank + '位（上位' + f1(100 * low.rank / REPORT.examinees) +
+              '%）で全区分のうち最も弱い</b>。' : '') +
+            '必修は皆が取る問題なので、1問の失点がそのまま順位差になります。';
+        }
+      }
+      if (nArea >= hiW.length - 1) {
+        why += '落とした問題は' + nArea + '分野に散っていて、特定の科目の穴ではありません。';
+      }
+      steps.push({ t: '必修を固める — ' + (riW.length ? '臨床の' + riW[0].q.pts + '点問題を落とさない' : '基本事項の取りこぼしを無くす'),
+        why: why,
+        items: hiW.map(function (r) { return qItem(r, esc(r.q.cat) + ' ' + r.q.pts + '点'); }),
+        tail: '散った失点を拾うのは分野別の復習ではなく、<b>国家試験過去問の必修ブロック（B・E）を通しで解くこと</b>。' +
+          'ラインは' + M.HISSHU_PCT + '%でも、当日の揺れを見込んで毎回9割前後を出せる状態を保ちます。' });
+    }
+
+    // 3. 取りこぼし
+    if (RATED) {
+      var miss = wrong.filter(function (r) { var x = rateOf(r.q); return x !== null && x >= TIER.easy; })
+        .sort(function (a, b) { return rateOf(b.q) - rateOf(a.q); });
+      if (miss.length) {
+        steps.push({ t: '取りこぼし' + miss.length + '問を潰す — 最短で点になる',
+          why: '全国の' + TIER.easy + '%以上が正解した問題＝<b>知っていれば取れる知識</b>です。' + lostOf(miss) +
+            '点ぶんで、ここは時間あたりの効果がいちばん大きい。解説を読んで要点を1行に書き、同じ分野の問題を2〜3問あわせて解きます。',
+          items: miss.map(function (r) { var s = sidOf(r.q); return qItem(r, esc(r.q.cat2) + (s ? ' → <a href="study.html?sid=' + s[0] + '">' + esc(s[1]) + '</a>' : '')); }) });
+      }
+    }
+
+    // 4. 全国と差がついていない系統（ほかの系統は全国を大きく上回っている＝ここを伸ばすと順位が動く）
+    if (RATED) {
+      var natAll = live.reduce(function (s, r) { return s + (rateOf(r.q) || 0); }, 0) / live.length;
+      var gAll = A.all.pct - natAll;
+      var c1 = {};
+      live.forEach(function (r) {
+        if (rateOf(r.q) === null) return;
+        var m = c1[r.q.cat1] || (c1[r.q.cat1] = { k: r.q.cat1, n: 0, c: 0, nat: 0, sub: {} });
+        m.n++; m.nat += rateOf(r.q); if (r.r.state === 'correct') m.c++;
+        var s = m.sub[r.q.cat2] || (m.sub[r.q.cat2] = { k: r.q.cat2, n: 0, c: 0, nat: 0, w: [], q: r.q });
+        s.n++; s.nat += rateOf(r.q); if (r.r.state === 'correct') s.c++; else s.w.push(r.q.block + r.q.no);
+      });
+      var gap = function (m) { return pctOf(m.c, m.n) - m.nat / m.n; };
+      var weakC1 = Object.keys(c1).map(function (k) { return c1[k]; })
+        .filter(function (m) { return m.n >= 10 && gap(m) < gAll * 0.75; })
+        .sort(function (a, b) { return gap(a) - gap(b); }).slice(0, 2);
+      if (weakC1.length) {
+        var lines = [], prevLink = '';
+        weakC1.forEach(function (m) {
+          Object.keys(m.sub).map(function (k) { return m.sub[k]; })
+            .filter(function (s) { return s.w.length; })
+            .sort(function (a, b) { return gap(a) - gap(b); }).slice(0, 4)
+            .forEach(function (s) {
+              var g = gap(s), tl = toolLink(sidOf(s.q));
+              if (tl === prevLink) tl = '';          // 同じ科目へのリンクを行ごとに繰り返さない
+              else prevLink = tl;
+              lines.push('<li><span class="k">' + esc(s.k) + '</span>' + s.c + '/' + s.n +
+                ' <span class="r">全国比 ' + (g >= 0 ? '+' : '') + Math.round(g) + 'pt · 誤答 ' + s.w.join('・') + '</span>' +
+                (tl ? ' → ' + tl : '') + '</li>');
+            });
+        });
+        steps.push({ t: '全国と差がついていない系統を底上げする — ' + weakC1.map(function (m) { return esc(m.k); }).join('・'),
+          why: '全体では全国平均を <b>+' + f1(gAll) + 'pt</b> 上回っているのに、' +
+            weakC1.map(function (m) {
+              return '<b>' + esc(m.k) + ' は ' + (gap(m) >= 0 ? '+' : '') + f1(gap(m)) + 'pt</b>（' + m.c + '/' + m.n + '）';
+            }).join('、') + '。ほかの系統で稼いだリードがここでは効いていない＝<b>伸ばせばそのまま順位が動く</b>場所です。',
+          items: lines });
+      }
+    }
+
+    // 5. 深追いしないこと
+    var skip = [];
+    if (RATED) {
+      var hard = wrong.filter(function (r) { var x = rateOf(r.q); return x !== null && x < TIER.std; });
+      if (hard.length) skip.push('誤答' + wrong.length + '問のうち<b>' + hard.length + '問は全国正答率' + TIER.std +
+        '%未満</b>。上の優先分野に入るもの以外は解説を一読するだけでよい（落としても他の受験生と差がつかない）。');
+    }
+    var full = {};
+    // 小児科の下にも「呼吸器」「神経」などの同名の分野があるので、系統と組にして数える
+    live.forEach(function (r) {
+      var k = (r.q.cat1 === '小児科' ? '小児' : '') + r.q.cat2;
+      var m = full[k] || (full[k] = { n: 0, c: 0 }); m.n++; if (r.r.state === 'correct') m.c++;
+    });
+    var strong = Object.keys(full).filter(function (k) { return full[k].n >= 10 && full[k].c === full[k].n; });
+    if (strong.length) skip.push('満点だった <b>' + strong.map(esc).join('・') + '</b> は、新しく手を広げず復習キューだけで維持する。');
+    if (skip.length) steps.push({ cls: 'skip', pn: 'やらない', t: '深追いしないこと', why: skip.join('') });
+
+    var ex = daysToExam();
+    var n = 0;
+    return '<section><div class="sec-h"><h2>今後の学習方針</h2>' +
+      '<span class="tag">' + (ex && ex.days > 0 ? '国試まで あと' + ex.days + '日' : '合否に効く順') + '</span></div>' +
+      '<p class="lede">この模試の結果から、<b>合否に効く順</b>に並べています。数字は今の自己採点から毎回計算するので、' +
+      '解答を直したり次の模試を入れたりすると方針も書き換わります。</p>' +
+      '<div class="plan">' + steps.map(function (s) {
+        var pn = s.pn || ('優先' + (++n));
+        return '<div class="card' + (s.cls ? ' ' + s.cls : '') + '"><span class="pn">' + pn + '</span>' +
+          '<h3>' + s.t + '</h3><p class="why">' + s.why + '</p>' +
+          (s.items && s.items.length ? '<ul>' + s.items.join('') + '</ul>' : '') +
+          (s.tail ? '<p class="why" style="margin-top:4px">' + s.tail + '</p>' : '') + '</div>';
+      }).join('') + '</div></section>';
   }
 
   // 全国正答率の帯ごとの自分の正答率。縦線（その帯の全国平均）より右なら、
