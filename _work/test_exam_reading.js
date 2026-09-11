@@ -140,7 +140,8 @@ t('3. R5 のクランプが .exam-key-focus:not(.exam-revealed)::before に限�
 
 t('4. C5 の傷は ::before のまま／R5 と同じカードに載らない前提が生きている', () => {
   assert.ok(/\.qc\.exam-scar::before\{/.test(FLAT), 'C5 の傷が ::before を使う前提が崩れている');
-  assert.ok(/\.qc\[data-recap\]::after\{/.test(FLAT), 'B5 の成績が ::after を使う前提が崩れている');
+  // B5 の成績は実要素 .qc-recap（2026-09-12〜）。::after は UIテーマの透かしが使う
+  assert.ok(/\.qc > \.qc-recap\{/.test(FLAT), 'B5 の成績の帯（.qc-recap）が無い');
   // 排他の担保は _getExamTargetCard() のフィルタにある。ここが消えると2つが同居する。
   const b = fnBody('_getExamTargetCard');
   assert.ok(b && /!c\.classList\.contains\('exam-revealed'\)/.test(b),

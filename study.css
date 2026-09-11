@@ -242,7 +242,7 @@ body.exam-mode .qc.exam-key-focus:not(.exam-revealed){
       !exam-revealed で絞った未解答カードにしか付かない」という**状態の排他**による。
       この排他を担保しているのは _getExamTargetCard() のフィルタなので、あそこを触るときは
       必ずここを思い出すこと。CSS 側も :not(.exam-revealed) を明示して二重に守っている。
-   ⚠️ .qc[data-recap]::after（B5 の成績）と .qc.exam-multi-correct::after は ::after 側＝無関係。
+   ⚠️ B5 の成績は実要素 .qc-recap（疑似要素を使わない）、.qc.exam-multi-correct は ::after 側＝無関係。
    ⚠️ クランプは筐体なので真鍮固定。tier にもテーマにも振らない（設計 §11-7 の条件2）。
    顎は上下 16px の塊・間は 3px の桟。太さを変えられないので background の3層で描いている。 */
 body.exam-mode .qc.exam-key-focus:not(.exam-revealed)::before{
@@ -840,14 +840,18 @@ body.exam-sprint .exam-prog{background:rgba(60,22,0,.62);animation:epSprint 2.6s
 /* B5: 戻った先で、今解いた問題が成績付きで並び直す（誤答が赤く残る）。
    ⚠️ C5 の .exam-scar（セッション中だけの傷）とは別物。あちらは持ち越さない、こちらは持ち越す。
    ⚠️ .qc の box-shadow を上書きしないこと（影と内側ハイライトを持っており、平らになる。
-      .qc:hover も box-shadow を書くので hover で消える）。帯は ::after で描く——
-      ::before は C5 の .exam-scar が使っているので空けておく。 */
+      .qc:hover も box-shadow を書くので hover で消える）。
+   ⚠️⚠️ 帯は疑似要素ではなく実要素 .qc-recap（_applyRecapChips が足す）で描く。
+      ::before は C5 の .exam-scar、::after は UIテーマ全8種の透かし模様が使っている。
+      2026-09-12 まで ::after で描いており、テーマ側の詳細度が勝って帯の left/top と
+      テーマの 170〜240px の円が合成され、Brass では緑の歯車の円がカード左上に居座った。 */
 .qc[data-recap]{position:relative;}
-.qc[data-recap]::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+.qc > .qc-recap{position:absolute;left:0;top:0;bottom:0;width:3px;z-index:3;
   border-radius:0 3px 3px 0;pointer-events:none;background:var(--recap-c,var(--gr));opacity:.85;}
+.qc:not([data-recap]) > .qc-recap{display:none;}
 .qc[data-recap="ok"]{--recap-c:var(--gr);}
 .qc[data-recap="ng"]{--recap-c:var(--rd);}
-.qc.qc-recap-in::after{animation:qcRecapIn .5s cubic-bezier(.16,1,.3,1) both;
+.qc.qc-recap-in > .qc-recap{animation:qcRecapIn .5s cubic-bezier(.16,1,.3,1) both;
   animation-delay:calc(var(--recap-i,0) * 42ms);}
 @keyframes qcRecapIn{from{opacity:0;transform:scaleY(.2);}to{opacity:.85;transform:none;}}
 /* Selfcheck modal */
@@ -1454,7 +1458,7 @@ html.mec-jumping .qc{content-visibility:visible!important;}
    ⚠️ 層は増えない。::before の background を差し替えるだけ。
    ⚠️ 幅 3px → 5px。3px ではリベットの頭が潰れて点にならない。5px は **R5 のクランプと同幅**で、
       これによりカード左端の語彙が
-        クランプ5px（いま読んでいる）／プレート5px（この回で落とした）／data-recap 3px（前回の成績）
+        クランプ5px（いま読んでいる）／プレート5px（この回で落とした）／.qc-recap 3px（前回の成績）
       と揃い、幅で3者を読み分けられる。
    ⚠️⚠️ 赤を完全に捨てないこと。傷の実用は「セッション中にどこで落としたかを後から目で探す」ことなので、
       真鍮一色にすると通過済みカードの中で埋もれる。**プレートを 3px にして左右 1px ずつ赤を覗かせ、

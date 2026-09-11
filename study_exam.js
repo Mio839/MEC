@@ -1917,11 +1917,18 @@ let _examHardStat = { total: 0, answered: 0, correct: 0 };
       持ち越さないが、こちらは持ち越すことが目的。混ぜないこと。 */
 const _examSessionResults = new Map();
 
+/* ⚠️⚠️ 帯は疑似要素ではなく実要素 `.qc-recap` で描く（2026-09-12）。
+   `.qc::after` は UIテーマ全8種が透かし模様（歯車・星図・ソナー等の170〜240pxの円）に使っており、
+   テーマ側の詳細度 (0,2,2) が `.qc[data-recap]::after` (0,2,1) に勝つ。帯の left/top と
+   テーマの width/height/border-radius が合成され、Brass では**緑の歯車の円がカード左上に居座った**
+   （背景色だけ帯から、形はテーマから来る）。Aurora/Liquid/Frost/Cyber では逆に帯の色が消えていた。
+   `.qc` の疑似要素はもう空いていない＝ここへ戻さないこと。 */
 function _clearRecapChips() {
   document.querySelectorAll('.qc[data-recap]').forEach(c => {
     c.classList.remove('qc-recap-in');
     delete c.dataset.recap;
   });
+  document.querySelectorAll('.qc > .qc-recap').forEach(el => el.remove());
 }
 function _applyRecapChips() {
   if (!_examSessionResults.size) return 0;
@@ -1929,9 +1936,20 @@ function _applyRecapChips() {
   _examSessionResults.forEach((ok, uid) => {
     const card = document.querySelector('.qc[data-uid="' + CSS.escape(uid) + '"]');
     if (!card) return;
-    card.dataset.recap = ok ? 'ok' : 'ng';
+    const val = ok ? 'ok' : 'ng';
+    let bar = card.querySelector(':scope > .qc-recap');
+    // _applyRecapChipsSoon が3回呼ぶので、既に同じ成績が付いているカードは入場をやり直さない
+    // （やり直すと帯が3回点滅する）
+    const fresh = !bar || card.dataset.recap !== val;
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.className = 'qc-recap';
+      bar.setAttribute('aria-hidden', 'true');
+      card.appendChild(bar);
+    }
+    card.dataset.recap = val;
     // 入場は最初の12枚だけ（画面外のカードまで一斉に動かす意味が無い）
-    if (found < 12 && !_fxOff()) {
+    if (fresh && found < 12 && !_fxOff()) {
       card.style.setProperty('--recap-i', String(found));
       card.classList.remove('qc-recap-in'); void card.offsetWidth;
       card.classList.add('qc-recap-in');

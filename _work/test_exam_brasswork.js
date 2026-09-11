@@ -171,10 +171,10 @@ t('3. S6 が .ch2 の padding / margin を変えていない', () => {
 });
 
 // ══ 段A: S5 補強プレート ═══════════════════════════════════════════════
-t('4. S5 のプレートが .exam-scar::before のまま（::after へ移していない＝data-recap と衝突しない）', () => {
+t('4. S5 のプレートが .exam-scar::before のまま（::after へ移していない＝UIテーマの透かしと衝突しない）', () => {
   assert.ok(/\.qc\.exam-scar[^{,]*::before/.test(CSS_NC), '.qc.exam-scar::before が無い');
   assert.ok(!/\.qc\.exam-scar[^{,]*::after/.test(CSS_NC),
-    '.exam-scar が ::after を使っている（B5 の data-recap と exam-multi-correct が使っている層）');
+    '.exam-scar が ::after を使っている（UIテーマの透かしと exam-multi-correct が使っている層）');
 });
 
 t('5. S5 が赤（リベット）を残している（真鍮一色にしていない）', () => {

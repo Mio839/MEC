@@ -1517,8 +1517,8 @@ diff = (自分が試験モードで解いた問題の正答率) − (その科�
   不要**（箱ごと `examBoxIn` でスケールインするので筐体も一緒に入る）。
   ⚠️ 2つのモーダルは**必ず1つのルールブロック**（`.exam-start-box,.exam-modal{...}`）で書くこと。
   分けると片方だけ直されて乖離する。面のグラデだけは各自の `--exam-face` に持たせてある。
-- ⚠️ **`.qc` には何も足さない。** 層が満杯（`::before`=`exam-scar` / `::after`=`data-recap` と
-  `exam-multi-correct` の2人）で、しかも最大594枚DOMに載る。カードは「問題」であって計器ではない。
+- ⚠️ **`.qc` には何も足さない。** 層が満杯（`::before`=`exam-scar` / `::after`=UIテーマ全8種の透かしと
+  `exam-multi-correct`）で、しかも最大594枚DOMに載る。カードは「問題」であって計器ではない。
 - ⚠️ **ヘッダの高さを1pxも増やさないこと。** `_fxBand()` が `.st-hdr` の下端を演出の焦点の基準に
   している。触ってよいのは `background` / `box-shadow` / `border-*color*` の3つだけ。
   ⚠️ **`test_fx_band.js` は `.st-hdr` の高さをスタブしていて CSS を1バイトも読まないのでこの不変
@@ -1618,7 +1618,7 @@ CLAUDE.md は長く「`.qc` の層は満杯」と書いてきたが、正確に�
 **`_getExamTargetCard()` が `!exam-revealed` で絞った未解答カード**にしか付かない。
 ⚠️ **この排他を担保しているのは `_getExamTargetCard()` のフィルタ**なので、あそこを触るときは
 必ずここを思い出すこと。CSS 側も `:not(.exam-revealed)` を明示して二重に守っている。
-`::after` は B5 の成績と `exam-multi-correct` が使ったままで、こちらは**依然として満杯**。
+`::after` は UIテーマ全8種の透かしと `exam-multi-correct` が使ったままで、こちらは**依然として満杯**。
 
 ### ⚠️ 試験開始直後に焦点が付かない穴は塞いだ（2026-08-19 に判断を覆した）
 
@@ -1870,8 +1870,16 @@ tier 演出とぶつかり画面が騒がしくなる。`test_exam_prog.js` が 
 
 ### ⚠️ B5 の成績表示は C5 の傷と別物
 
-`.qc[data-recap]`（結果画面を閉じた後もカードに残る成績）は **`::after`** で描く。
-`::before` は C5 の `.exam-scar`（セッション中だけの傷）が使っている。
+`.qc[data-recap]`（結果画面を閉じた後もカードに残る成績）の帯は **実要素 `.qc-recap`**
+（`_applyRecapChips` が足し、`_clearRecapChips` が外す）で描く。**疑似要素へ戻さないこと**——
+`::before` は C5 の `.exam-scar`、`::after` は **UIテーマ全8種の透かし模様**（170〜240px の円）が使っている。
+⚠️⚠️ 2026-09-12 まで `::after` で描いており、テーマ側の詳細度 (0,2,2) が `.qc[data-recap]::after`
+(0,2,1) に勝って帯の `left/top` とテーマの `width/height/border-radius` が合成され、
+**Brass では結果画面から戻るたびに緑の歯車の円がカード左上に居座った**（金継ぎ・天球・深海も同型。
+Aurora/Liquid/Frost/Cyber は逆に帯の色がテーマの `background` に消されていた）。
+テーマの `.qc::after` は `ui_theme.css` にしか現れないので、study.css だけを見ていると気づけない。
+⚠️ `_applyRecapChipsSoon` は 300/900/1800ms に3回呼ぶので、**既に同じ成績が付いたカードの入場は
+やり直さない**（やり直すと帯が3回点滅する）。
 `.qc` の `box-shadow` を上書きしないこと——影と内側ハイライトを持っており、上書きすると
 カードが平らになるうえ `.qc:hover` でも消える。
 

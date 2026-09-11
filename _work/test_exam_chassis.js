@@ -321,9 +321,12 @@ t('9. .qc / .st-hdr / .sgh に backdrop-filter を「掛けて」いない（iOS
 });
 
 // ══ 10. .qc の層は満杯。3人目を入れない ════════════════════════════════════
-t('10. .qc の疑似要素の前提が生きている（exam-scar=::before / data-recap=::after）', () => {
+t('10. .qc の疑似要素の前提が生きている（exam-scar=::before / B5 の成績は実要素 .qc-recap）', () => {
   assert.ok(/\.qc\.exam-scar::before\{/.test(FLAT), 'exam-scar が ::before を使う前提が崩れている');
-  assert.ok(/\.qc\[data-recap\]::after\{/.test(FLAT), 'data-recap が ::after を使う前提が崩れている');
+  /* 2026-09-12: B5 の成績を ::after から実要素へ移した。::after は UIテーマ全8種の透かし模様が
+     使っており、詳細度で負けて帯がテーマの円に化けていた（Brass の緑の歯車）。 */
+  assert.ok(/\.qc > \.qc-recap\{/.test(FLAT), 'B5 の成績の帯（.qc-recap）が無い');
+  assert.ok(!/\.qc\[data-recap[^\]]*\]::after/.test(FLAT), 'B5 の成績が ::after へ戻っている');
   /* ⚠️ 2026-08-19（Phase 5 段1）に条件を書き換えた。旧: 「.qc の疑似要素に真鍮が入っていない」。
      R5 が ::before を使えるのは《層が空いたから》ではなく《状態で排他だから》——
      .exam-scar は exam-revealed のカードにしか付かず、焦点は _getExamTargetCard() が

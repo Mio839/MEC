@@ -255,8 +255,15 @@ t('進捗バーの track が position:relative（印の絶対配置の土台）'
   assert.ok(m && /position:relative/.test(m[1]), '.exam-prog-track に position:relative が無い');
 });
 
-t('B5 の帯は ::after で描く（::before は C5 の exam-scar が使っている）', () => {
-  assert.ok(/\.qc\[data-recap\]::after\{/.test(CSS));
+t('B5 の帯は実要素 .qc-recap で描く（::before は C5 の exam-scar、::after は UIテーマの透かし）', () => {
+  /* 2026-09-12: ::after で描いていたところ、UIテーマ全8種の .qc::after（170〜240px の円）に
+     詳細度で負けて形を乗っ取られ、Brass では緑の歯車の円がカード左上に居座った。 */
+  assert.ok(/\.qc > \.qc-recap\{/.test(CSS), '.qc > .qc-recap の帯が無い');
+  assert.ok(!/\.qc\[data-recap[^\]]*\]::(after|before)/.test(CSS) && !/\.qc-recap-in::(after|before)/.test(CSS),
+    'B5 の帯が疑似要素へ戻っている（UIテーマの .qc::after と取り合う）');
+  const SRC = fs.readFileSync(path.join(ROOT, 'study_exam.js'), 'utf8');
+  assert.ok(/className = 'qc-recap'/.test(SRC), '_applyRecapChips が .qc-recap を足していない');
+  assert.ok(/\.qc > \.qc-recap'\)\.forEach\(el => el\.remove\(\)\)/.test(SRC), '_clearRecapChips が .qc-recap を外していない');
   assert.ok(/\.qc\.exam-scar::before\{/.test(CSS), 'exam-scar が ::before を使う前提が崩れている');
   // .qc の box-shadow を上書きしていないこと（影と内側ハイライトが消えて平らになる）
   assert.ok(!/\.qc\[data-recap\]\{[^}]*box-shadow/.test(CSS), '.qc[data-recap] が box-shadow を上書きしている');
