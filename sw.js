@@ -1197,6 +1197,11 @@
 // 2026-08-13c: ハブの「今日の目標」ゲージを拡大（viewBox 140→168・盤面 152→208px・
 // 歯車4枚）し、演出を常時化した（火花と蒸気が1.7秒ごと・22秒ごとに祝砲）。
 // 見出し行に日付も出す。シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
+// v383: 必修講座(hisshu)を新科目として追加（🏅・#D4AF37）。questions_hisshu.json を CARDS に加え、
+// 必修講座/images/（20枚）を追加したので CACHE を bump。PDFは「MEC必修講座Part1（表紙2026）」全266ページ・
+// 全17章327問。**解説は PDF に無いので書いていない**——同じ国試問題が既存の科目・過去問ビューアにある
+// 213問はその解説と正答率を生成時に借り、残り114問は解説なし（✅の下に出題テーマだけ）。
+// ⚠️ questions_hisshu.json は派生物。手書きの解説は _work/hisshu_overrides.json に置く。
 // v382: 救急(emg)を新科目として追加（🚑・#FF8A5B）。questions_emg.json を CARDS に加え、
 // 救急/images/（19枚）を追加したので CACHE を bump。PDFは「現場でいきる救急（表紙2026）」全56ページ・
 // 全68問で、章は巻末「MEC講義収録内容」の7単位に合わせた（テーマ見出しは18個あるが
@@ -1389,12 +1394,12 @@
 // v376: 夏メック模試（m121s）の解説を questions_m121s.json として新設し study.html へ統合。
 //       解説書PDFから全400問（A〜F を ch01〜ch06・番号は科目内で通し）を生成した。
 //       questions_*.json が1つ増えたので SHELL_VERSION だけでは足りず CACHE を bump。
-const CACHE = "mec-v382";
+const CACHE = "mec-v383";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-11b";
+const SHELL_VERSION = "2026-09-11c";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -1469,7 +1474,7 @@ const CARDS = [
   "questions_imma.json","questions_kansen.json","questions_jitsu1.json",
   "questions_peds.json","questions_obg.json","questions_psy.json",
   "questions_derm.json","questions_oph.json","questions_ent.json","questions_uro.json","questions_ortho.json","questions_anes.json","questions_rad.json","questions_tox.json","questions_emg.json","questions_ph.json",
-  "questions_m121s.json"
+  "questions_hisshu.json","questions_m121s.json"
 ];
 
 self.addEventListener("install", e => {

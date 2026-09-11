@@ -56,6 +56,7 @@
 | `公衆衛生/` | **マイナー講座ではなく独立した公衆衛生講座**（prefix `ph`・🏛・#3097CE）。章別HTML(`ch01_ishihou_to_iryouhou.html`〜`ch19_sonota_kihonjikou.html`)＋`ph_questions.json`（全19章の章名メタ）。HTMLが`questions_ph.json`のソース＝`_work/build_ph_ch{NN}.py`→`_work/build_ph_json.py`で再生成。**全19章619問が完成**（2026-08-28）。⚠️ **この科目もPDFが2冊**（問題283p＋レジュメ96p）で**レジュメが解説の正本**。抽出・照合は `_work/ph_pdf.py`／`_work/verify_ph_ch.py`。章ごとの軸・罠・座標の台帳は `_work/公衆衛生_引き継ぎ.md`（作業手順そのものは `_work/公衆衛生_章作業手順.md` に残してある——将来この科目に手を入れる際の参照実装として） |
 | `眼科/` | マイナー講座・眼科（prefix `oph`・👁️・#5197B7）。章別HTML(`ch01_ganka_kihon.html`〜)＋`images/`＋`oph_questions.json`（章名メタ）。HTMLが`questions_oph.json`のソース＝`_work/build_oph_ch{NN}.py`→`_work/build_oph_json.py`で再生成。**全8章213問**。抽出・照合は `_work/oph_pdf.py`／`_work/verify_oph_ch.py`（⚠️ 後者は長く**0バイト**で存在しないのと同じだった。2026-08-26に ent 版から復元＝全8章213問 errors=0。**`--dis` で解答一覧表の「疾患名」列を出せる**＝眼底写真の読みを裏取りする正本）。⚠️ **この科目の章を書く・直すときは `_work/眼科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・図が選択肢の問題はそこが正本） |
 | `皮膚科/` | マイナー講座・皮膚科（prefix `derm`・🩹・#BF7F60）。章別HTML(`ch01_hifuka_kihon.html`〜)＋`images/`＋`derm_questions.json`（章名メタ）。HTMLが`questions_derm.json`のソース＝`_work/build_derm_ch{NN}.py`→`_work/build_derm_json.py`で再生成。**全9章249問**（画像問題が主体・PDF全体で埋め込みJPEG204枚）。⚠️ **この科目の章を書く・直すときは `_work/皮膚科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・章頭NO.はそこが正本） |
+| `必修講座/` ＋ `questions_hisshu.json` | **必修講座**（prefix `hisshu`・🏅・#D4AF37・2026-09-11新設）。`MEC必修講座Part1（表紙2026）.pdf` の全17章327問。**章別HTMLは無く、`_work/build_hisshu_json.py` がPDFから直接JSONを作る**（`_work/hisshu_pdf.py anstable`→`parse`→生成器。`images/` は `--figs`・20枚）。**解説はPDFに無いので書いていない**——同じ国試問題が既存の科目・過去問ビューアにある213問は生成時にその解説と正答率を**借用**し、残り114問は解説なし。⚠️ **questions_hisshu.json を直接編集しないこと**（派生物）。後から足す解説は `_work/hisshu_overrides.json`（uid キー）へ。Part2 は同じ科目で章を続ける。⚠️ **この科目に手を入れるときは `_work/必修講座_引き継ぎ.md` を読む** |
 
 ⚠️ **科目フォルダの行には「何のフォルダで、どう再生成するか」だけを書く。**
 章の軸・PDF固有の罠・最難問・採点除外・図の抽出順といった**章単位の作業ノートは `_work/{科目名}_引き継ぎ.md` が正本**で、2026-08-26 に全10科目ぶんをこの表から移した（CLAUDE.md 全体で約135,000字 → 約88,000字）。表のセルに書くと、**二度と書かない完成科目のぶんまで毎セッション読み込まれる**うえ、セル内改行で表そのものが Markdown として壊れる。**新しい科目を足すときも同じ形にすること。**
@@ -78,6 +79,7 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
 | マイナー講座8科目 | `psy` `derm` `oph` `ent` `uro` `ortho` `anes` `rad`（**全科目完成済み**） |
 | 横断テーマ | `tox` `emg`（マイナー講座ではない・版面が違う） |
 | 公衆衛生講座 | `ph`（マイナー講座ではない・**全19章619問が完成**） |
+| 必修講座 | `hisshu`（解説は既存科目からの借用＋手書きの上書きだけ・Part2 は同じ科目で章を続ける） |
 | 模試 | `m121s`（第121回 夏メック模試・A〜F の6章400問）。⚠️ **模試は回ごとに1科目**（`m122w` 等）＝進捗と弱点が回ごとに独立して見える |
 | 非コア | `jitsu1`（実力試験Ⅰ）・`custom`（自作）・`memo`（暗記メモ） |
 
@@ -129,7 +131,7 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
 ## UID フォーマット
 
 - 各科目解説: `{prefix}_ch{nn}_q{n}` 例: `endo_ch01_q1`, `resp_ch02_q3`, `jinzo_d_ch03_q136`
-- 科目prefix（全27）: `endo` / `resp` / `circ` / `dige` / `neur` / `hbp` / `jinzo_d` / `hema` / `imma` / `kansen` / `peds` / `obg` / `psy` / `derm` / `oph` / `ent` / `uro` / `ortho` / `anes` / `rad` / `tox` / `emg` / `ph` / `m121s` / `jitsu1` / `custom` / `memo`
+- 科目prefix（全28）: `endo` / `resp` / `circ` / `dige` / `neur` / `hbp` / `jinzo_d` / `hema` / `imma` / `kansen` / `peds` / `obg` / `psy` / `derm` / `oph` / `ent` / `uro` / `ortho` / `anes` / `rad` / `tox` / `emg` / `ph` / `hisshu` / `m121s` / `jitsu1` / `custom` / `memo`
 
 ### ⚠️ 問題番号は科目内の通し番号（章ごとにQ.1へ振り直さない）
 

@@ -1,0 +1,14 @@
+{
+  "_README": "必修講座（hisshu）の手書き解説。キーは uid（hisshu_chNN_qN）、値は questions_hisshu.json の項目（ans_sub / eg など）を上書きする。_work/build_hisshu_json.py が生成の最後に重ねるので、PDF から作り直しても消えない。借用した解説より優先される。_ で始まるキーは読み飛ばす。",
+  "_example": {
+    "hisshu_ch01_q1": {
+      "ans_sub": "✅ の下に出す一行（生HTML可）",
+      "eg": [
+        {"cls": "ep", "h": "📖 病態・定義", "c": "本文（生HTML可。<span class=\"kw\">…</span> で強調）"},
+        {"cls": "ee", "h": "□ 選択肢の検討", "c": "<table class=\"tb\">…</table>"},
+        {"cls": "em", "h": "💡 深掘り", "c": "…"},
+        {"cls": "ept", "h": "🎯 国試ポイント", "c": "…"}
+      ]
+    }
+  }
+}

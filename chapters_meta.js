@@ -1355,6 +1355,116 @@ const MEC_CHAPTERS = [
     ]
   },
   {
+    "id": "hisshu",
+    "name": "必修講座",
+    "icon": "🏅",
+    "color": "#D4AF37",
+    "chapters": [
+      {
+        "prefix": "hisshu_ch01",
+        "file": "study.html?sid=hisshu",
+        "title": "第1章 医師のプロフェッショナリズム",
+        "count": 10
+      },
+      {
+        "prefix": "hisshu_ch02",
+        "file": "study.html?sid=hisshu",
+        "title": "第2章 社会と医療",
+        "count": 25
+      },
+      {
+        "prefix": "hisshu_ch03",
+        "file": "study.html?sid=hisshu",
+        "title": "第3章 診療情報と諸証明書",
+        "count": 5
+      },
+      {
+        "prefix": "hisshu_ch04",
+        "file": "study.html?sid=hisshu",
+        "title": "第4章 医療の質と安全の確保",
+        "count": 17
+      },
+      {
+        "prefix": "hisshu_ch05",
+        "file": "study.html?sid=hisshu",
+        "title": "第5章 人体の構造と機能",
+        "count": 9
+      },
+      {
+        "prefix": "hisshu_ch06",
+        "file": "study.html?sid=hisshu",
+        "title": "第6章 医療面接",
+        "count": 15
+      },
+      {
+        "prefix": "hisshu_ch07",
+        "file": "study.html?sid=hisshu",
+        "title": "第7章 主要症候",
+        "count": 83
+      },
+      {
+        "prefix": "hisshu_ch08",
+        "file": "study.html?sid=hisshu",
+        "title": "第8章 一般的な身体診察",
+        "count": 29
+      },
+      {
+        "prefix": "hisshu_ch09",
+        "file": "study.html?sid=hisshu",
+        "title": "第9章 検査の基本",
+        "count": 19
+      },
+      {
+        "prefix": "hisshu_ch10",
+        "file": "study.html?sid=hisshu",
+        "title": "第10章 臨床判断の基本",
+        "count": 20
+      },
+      {
+        "prefix": "hisshu_ch11",
+        "file": "study.html?sid=hisshu",
+        "title": "第11章 救急初期診療",
+        "count": 23
+      },
+      {
+        "prefix": "hisshu_ch12",
+        "file": "study.html?sid=hisshu",
+        "title": "第12章 治療の基本",
+        "count": 8
+      },
+      {
+        "prefix": "hisshu_ch13",
+        "file": "study.html?sid=hisshu",
+        "title": "第13章 基本的手技",
+        "count": 28
+      },
+      {
+        "prefix": "hisshu_ch14",
+        "file": "study.html?sid=hisshu",
+        "title": "第14章 死、緩和ケア、終末期ケア",
+        "count": 16
+      },
+      {
+        "prefix": "hisshu_ch15",
+        "file": "study.html?sid=hisshu",
+        "title": "第15章 チーム医療",
+        "count": 5
+      },
+      {
+        "prefix": "hisshu_ch16",
+        "file": "study.html?sid=hisshu",
+        "title": "第16章 生活習慣とリスク",
+        "count": 8
+      },
+      {
+        "prefix": "hisshu_ch17",
+        "file": "study.html?sid=hisshu",
+        "title": "第17章 一般教養的事項",
+        "count": 7
+      }
+    ]
+  },
+  {
     "id": "m121s",
     "name": "第121回 夏メック模試",
     "icon": "🏁",
