@@ -112,7 +112,9 @@ assert(html.includes('note-empty'), '所見0件の日も枠を残す（セクシ
 //    見るのは <script src> の一覧と fetch()。強制更新ボタンの再取得リストは対象外
 //    （あれは「読み込む」ではなく「HTTPキャッシュを捨てる」ためのファイル名）。
 const hubScripts = (html.match(/<script\s+src="[^"]+"/g) || []).join(' ');
-['qmeta.json', 'rate_index.js', 'mock_data/m121s'].forEach(heavy => {
+// ⚠️ rate_index.js（32KB・gzip 12KB）だけは 2026-09-12 から意図的に読み込む——
+//    実力レーダーが全国正答率を uid 単位で引くため。畳んだ形なので chapters_meta.js と同程度。
+['qmeta.json', 'mock_data/m121s'].forEach(heavy => {
   assert(!hubScripts.includes(heavy), `ハブが ${heavy} を <script> で読み込んでいないこと`);
   assert(!html.includes(`fetch('${heavy}`) && !html.includes(`fetch("${heavy}`),
     `ハブが ${heavy} を fetch していないこと`);
@@ -121,7 +123,7 @@ console.log('  ok  - 旧レーダーは撤去済み・所見フィードの配�
 
 // 4. Service Worker SHELL_VERSION の整合性
 const shellVerMatch = swJs.match(/const SHELL_VERSION = "([^"]+)";/);
-assert.ok(shellVerMatch[1] >= '2026-09-12b', 'SHELL_VERSION が 2026-09-06g 以上に更新されていること');
+assert.ok(shellVerMatch[1] >= '2026-09-12c', 'SHELL_VERSION が 2026-09-06g 以上に更新されていること');
 console.log(`  ok  - sw.js: SHELL_VERSION = ${shellVerMatch[1]}`);
 
 console.log('\nALL PASS (全8テーマ各25項目 + 不変条件 + reduced-motion + SW整合性)\n');

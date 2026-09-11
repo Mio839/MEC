@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MEC 医師国試 学習ハブ</title>
 <script src="chapters_meta.js"></script>
+<!-- 全国正答率の索引（uid → %・window.MEC_RATE）。実力レーダーが読む。
+     ⚠️ 派生物＝node _work/build_natrate_index.js で作り直す。32KB(gzip 12KB) -->
+<script src="rate_index.js"></script>
 <script src="mindmap_data/index.js"></script>
 <script src="knowledge_notes.js"></script>
 <script src="progress.js?v=4"></script>
@@ -511,10 +514,49 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 .stamp-certified{display:inline-block;font-size:9px;font-weight:800;color:var(--gr);border:1px solid var(--gr);
   border-radius:3px;padding:1px 4px;transform:rotate(-4deg);letter-spacing:.08em;margin-left:4px;}
 
+/* ── 🕸 実力の輪郭（8軸レーダー）── */
+/* ⚠️ 配色は緑赤ではなく 青＝上回り／琥珀＝下回り（弱点カルテと同じ言語）。
+      所見フィードの緑とは別の軸なので混ぜないこと。 */
+.hero-panels{display:flex;flex-wrap:wrap;gap:var(--sp-3);margin-top:var(--sp-4);align-items:flex-start;}
+.radar-box{flex:1 1 260px;min-width:0;max-width:320px;padding:var(--sp-3) var(--sp-3) var(--sp-2);
+  background:rgba(var(--glass-rgb),.04);border:1px solid var(--hair-2);border-radius:var(--r-md);}
+.rd-hdr{display:flex;justify-content:space-between;align-items:baseline;gap:8px;}
+.rd-title{font-size:11px;font-weight:700;color:var(--ts);letter-spacing:.06em;white-space:nowrap;}
+.rd-legend{font-size:9.5px;color:var(--ts);opacity:.7;white-space:nowrap;display:flex;align-items:center;gap:3px;}
+.rd-legend i{display:inline-block;width:12px;height:0;border-top:2px solid currentColor;margin-left:5px;}
+.rd-legend .rd-k-nat{border-top-style:dashed;opacity:.7;}
+.rd-svg{display:block;width:100%;height:auto;overflow:visible;}
+.rd-grid{fill:none;stroke:rgba(var(--glass-rgb),.13);stroke-width:1;}
+.rd-grid-out{stroke:rgba(var(--glass-rgb),.22);}
+.rd-axis{stroke:rgba(var(--glass-rgb),.13);stroke-width:1;stroke-dasharray:2 3;}
+.rd-nat{fill:none;stroke:rgba(255,255,255,.5);stroke-width:1.6;stroke-dasharray:5 4;stroke-linejoin:round;}
+.rd-ghost{fill:none;stroke:var(--or);stroke-width:1.2;stroke-dasharray:1.5 3;opacity:.45;stroke-linejoin:round;}
+.rd-self{fill:rgba(255,160,64,.16);stroke:var(--or);stroke-width:2.2;stroke-linejoin:round;}
+.rd-dot{stroke:rgba(0,0,0,.45);stroke-width:1;}
+.rd-dot.rd-u2{fill:#60A5FA;} .rd-dot.rd-u1{fill:#93C5FD;}
+.rd-dot.rd-n0{fill:#9CA3AF;}
+.rd-dot.rd-d1{fill:#FFB347;} .rd-dot.rd-d2{fill:#F97316;}
+/* ⚠️ 未測定は白抜き＝「平均だった」ではなく「測っていない」と読ませる */
+.rd-dot.rd-none{fill:none;stroke:rgba(var(--glass-rgb),.45);stroke-width:1.4;}
+.rd-lbl{font-size:10.5px;font-weight:700;fill:var(--ts);cursor:pointer;}
+.rd-lbl-off{opacity:.42;}
+.rd-lbl-sel{fill:var(--or);}
+.rd-hit{fill:transparent;cursor:pointer;}
+.rd-read{margin:4px 0 0;font-size:11px;line-height:1.55;color:var(--ts);min-height:2.2em;}
+.rd-read b{font-weight:800;color:var(--tx);}
+.rd-read.rd-u2 b,.rd-read.rd-u1 b{color:#93C5FD;}
+.rd-read.rd-d1 b,.rd-read.rd-d2 b{color:#FFB347;}
+.rd-read .rd-mv{font-style:normal;margin-left:5px;font-size:10px;font-weight:700;}
+.rd-read .rd-mv.up{color:#3DD68C;} .rd-read .rd-mv.dn{color:#FF9A9A;}
+.rd-go{display:inline-block;margin-left:6px;font-size:10px;font-weight:700;text-decoration:none;
+  color:var(--or);border:1px solid currentColor;border-radius:var(--r-sm);padding:1px 6px;opacity:.85;}
+.rd-go:hover{opacity:1;background:rgba(var(--glass-rgb),.08);}
+.rd-foot{margin:3px 0 0;font-size:9px;line-height:1.45;color:var(--ts);opacity:.55;}
+
 /* ── 📋 今日の所見（カルテの経過記録）── */
 /* ⚠️ 横方向に固定寸法を持たせないこと。旧レーダーが文字切れしていたのは 160px の箱に
       枠外へはみ出すラベルを置いていたから。ここは行を折り返せる形だけで組む。 */
-.note-box{margin-top:var(--sp-4);padding:var(--sp-3) var(--sp-4);background:rgba(var(--glass-rgb),.04);
+.note-box{flex:1 1 320px;min-width:0;padding:var(--sp-3) var(--sp-4);background:rgba(var(--glass-rgb),.04);
   border:1px solid var(--hair-2);border-radius:var(--r-md);}
 .note-hdr{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:7px;}
 .note-title{font-size:11px;font-weight:700;color:var(--ts);letter-spacing:.06em;white-space:nowrap;}
@@ -3479,6 +3521,12 @@ html.ui-aurora .cta-sub:hover{border-color:rgba(0,223,216,.6);box-shadow:0 0 14p
 html.ui-aurora .cta-redo{border-color:rgba(255,0,128,.45);}
 html.ui-aurora .note-box{background:linear-gradient(145deg,rgba(0,223,216,.05),rgba(121,40,202,.05));border-color:rgba(0,223,216,.3);box-shadow:0 4px 16px rgba(0,0,0,.25),inset 0 0 15px rgba(0,223,216,.06);}
 html.ui-aurora .note-title{color:#00DFD8;}
+html.ui-aurora .radar-box{background:linear-gradient(145deg,rgba(0,223,216,.05),rgba(121,40,202,.05));border-color:rgba(0,223,216,.3);box-shadow:0 4px 16px rgba(0,0,0,.25),inset 0 0 15px rgba(0,223,216,.06);}
+html.ui-aurora .rd-title{color:#00DFD8;}
+html.ui-aurora .rd-self{stroke:#00DFD8;fill:color-mix(in srgb,#00DFD8 16%,transparent);}
+html.ui-aurora .rd-ghost{stroke:#00DFD8;}
+html.ui-aurora .rd-lbl-sel{fill:#00DFD8;}
+html.ui-aurora .rd-go{color:#00DFD8;}
 html.ui-aurora .note-item{border-top-color:rgba(0,223,216,.25);border-right-color:rgba(0,223,216,.25);border-bottom-color:rgba(0,223,216,.25);}
 html.ui-aurora .note-basis{color:#00DFD8;opacity:.55;}
 html.ui-aurora .note-empty{border-color:rgba(121,40,202,.3);}
@@ -3628,6 +3676,12 @@ html.ui-brass .cta-sub:hover{border-color:var(--brass-hi);box-shadow:0 0 12px rg
 html.ui-brass .cta-redo{border-color:rgba(220,100,50,.5);color:#FFB347;}
 html.ui-brass .note-box{background:linear-gradient(145deg,rgba(26,20,12,.8),rgba(184,115,51,.08));border-color:rgba(201,162,39,.38);box-shadow:0 4px 16px rgba(0,0,0,.35),inset 0 1px 0 rgba(224,194,94,.2);}
 html.ui-brass .note-title{color:#E0C25E;}
+html.ui-brass .radar-box{background:linear-gradient(145deg,rgba(26,20,12,.8),rgba(184,115,51,.08));border-color:rgba(201,162,39,.38);box-shadow:0 4px 16px rgba(0,0,0,.35),inset 0 1px 0 rgba(224,194,94,.2);}
+html.ui-brass .rd-title{color:#E0C25E;}
+html.ui-brass .rd-self{stroke:#E0C25E;fill:color-mix(in srgb,#E0C25E 16%,transparent);}
+html.ui-brass .rd-ghost{stroke:#E0C25E;}
+html.ui-brass .rd-lbl-sel{fill:#E0C25E;}
+html.ui-brass .rd-go{color:#E0C25E;}
 html.ui-brass .note-item{border-top-color:rgba(201,162,39,.3);border-right-color:rgba(201,162,39,.3);border-bottom-color:rgba(201,162,39,.3);}
 html.ui-brass .note-basis{color:#E0C25E;opacity:.55;}
 html.ui-brass .note-empty{border-color:rgba(184,115,51,.4);}
@@ -3783,6 +3837,12 @@ html.ui-cyber .cta-sub:hover{border-color:#00FF9D;color:#00FF9D;box-shadow:0 0 1
 html.ui-cyber .cta-redo{border-color:rgba(255,69,58,.55);color:#FF453A;}
 html.ui-cyber .note-box{border-radius:4px;background:rgba(4,14,24,.85);border:1px solid rgba(0,229,255,.4);box-shadow:0 0 18px rgba(0,229,255,.18),inset 0 0 10px rgba(0,255,157,.08);}
 html.ui-cyber .note-title{color:#00FF9D;}
+html.ui-cyber .radar-box{border-radius:4px;background:rgba(4,14,24,.85);border:1px solid rgba(0,229,255,.4);box-shadow:0 0 18px rgba(0,229,255,.18),inset 0 0 10px rgba(0,255,157,.08);}
+html.ui-cyber .rd-title{color:#00FF9D;}
+html.ui-cyber .rd-self{stroke:#00FF9D;fill:color-mix(in srgb,#00FF9D 16%,transparent);}
+html.ui-cyber .rd-ghost{stroke:#00FF9D;}
+html.ui-cyber .rd-lbl-sel{fill:#00FF9D;}
+html.ui-cyber .rd-go{color:#00FF9D;}
 html.ui-cyber .note-item{border-top-color:rgba(0,229,255,.3);border-right-color:rgba(0,229,255,.3);border-bottom-color:rgba(0,229,255,.3);}
 html.ui-cyber .note-basis{color:#00FF9D;opacity:.55;}
 html.ui-cyber .note-empty{border-color:rgba(0,255,157,.35);}
@@ -3931,6 +3991,12 @@ html.ui-liquid .cta-sub:hover{border-color:rgba(255,0,127,.65);box-shadow:0 0 16
 html.ui-liquid .cta-redo{border-color:rgba(255,0,127,.55);}
 html.ui-liquid .note-box{border-radius:18px;background:linear-gradient(145deg,rgba(255,0,127,.06),rgba(0,242,254,.06));border-color:rgba(255,0,127,.3);box-shadow:0 4px 18px rgba(255,0,127,.15);}
 html.ui-liquid .note-title{color:#FF007F;}
+html.ui-liquid .radar-box{border-radius:18px;background:linear-gradient(145deg,rgba(255,0,127,.06),rgba(0,242,254,.06));border-color:rgba(255,0,127,.3);box-shadow:0 4px 18px rgba(255,0,127,.15);}
+html.ui-liquid .rd-title{color:#FF007F;}
+html.ui-liquid .rd-self{stroke:#FF007F;fill:color-mix(in srgb,#FF007F 16%,transparent);}
+html.ui-liquid .rd-ghost{stroke:#FF007F;}
+html.ui-liquid .rd-lbl-sel{fill:#FF007F;}
+html.ui-liquid .rd-go{color:#FF007F;}
 html.ui-liquid .note-item{border-top-color:rgba(255,0,127,.25);border-right-color:rgba(255,0,127,.25);border-bottom-color:rgba(255,0,127,.25);}
 html.ui-liquid .note-basis{color:#FF007F;opacity:.55;}
 html.ui-liquid .note-empty{border-color:rgba(0,242,254,.3);}
@@ -4086,6 +4152,12 @@ html.ui-kintsugi .cta-sub:hover{border-color:#F5D061;box-shadow:0 0 14px rgba(24
 html.ui-kintsugi .cta-redo{border-color:rgba(200,56,56,.5);color:#E57373;}
 html.ui-kintsugi .note-box{background:rgba(16,12,8,.88);border-color:rgba(245,208,97,.35);box-shadow:0 4px 16px rgba(0,0,0,.5),inset 0 0 12px rgba(245,208,97,.08);}
 html.ui-kintsugi .note-title{color:#F5D061;}
+html.ui-kintsugi .radar-box{background:rgba(16,12,8,.88);border-color:rgba(245,208,97,.35);box-shadow:0 4px 16px rgba(0,0,0,.5),inset 0 0 12px rgba(245,208,97,.08);}
+html.ui-kintsugi .rd-title{color:#F5D061;}
+html.ui-kintsugi .rd-self{stroke:#F5D061;fill:color-mix(in srgb,#F5D061 16%,transparent);}
+html.ui-kintsugi .rd-ghost{stroke:#F5D061;}
+html.ui-kintsugi .rd-lbl-sel{fill:#F5D061;}
+html.ui-kintsugi .rd-go{color:#F5D061;}
 html.ui-kintsugi .note-item{border-top-color:rgba(245,208,97,.28);border-right-color:rgba(245,208,97,.28);border-bottom-color:rgba(245,208,97,.28);}
 html.ui-kintsugi .note-basis{color:#F5D061;opacity:.55;}
 html.ui-kintsugi .note-empty{border-color:rgba(212,175,55,.35);}
@@ -4245,6 +4317,12 @@ html.ui-celestial .cta-sub:hover{border-color:#FFD166;box-shadow:0 0 16px rgba(2
 html.ui-celestial .cta-redo{border-color:rgba(255,100,100,.5);color:#FFA0A0;}
 html.ui-celestial .note-box{background:linear-gradient(145deg,rgba(22,9,40,.85),rgba(138,43,226,.1));border-color:rgba(255,209,102,.35);box-shadow:0 4px 18px rgba(138,43,226,.25);}
 html.ui-celestial .note-title{color:#FFD166;}
+html.ui-celestial .radar-box{background:linear-gradient(145deg,rgba(22,9,40,.85),rgba(138,43,226,.1));border-color:rgba(255,209,102,.35);box-shadow:0 4px 18px rgba(138,43,226,.25);}
+html.ui-celestial .rd-title{color:#FFD166;}
+html.ui-celestial .rd-self{stroke:#FFD166;fill:color-mix(in srgb,#FFD166 16%,transparent);}
+html.ui-celestial .rd-ghost{stroke:#FFD166;}
+html.ui-celestial .rd-lbl-sel{fill:#FFD166;}
+html.ui-celestial .rd-go{color:#FFD166;}
 html.ui-celestial .note-item{border-top-color:rgba(255,209,102,.28);border-right-color:rgba(255,209,102,.28);border-bottom-color:rgba(255,209,102,.28);}
 html.ui-celestial .note-basis{color:#FFD166;opacity:.55;}
 html.ui-celestial .note-empty{border-color:rgba(138,43,226,.4);}
@@ -4413,6 +4491,12 @@ html.ui-abyss .cta-sub:hover{border-color:#00FFA3;box-shadow:0 0 16px rgba(0,255
 html.ui-abyss .cta-redo{border-color:rgba(255,69,58,.5);color:#FF6B6B;}
 html.ui-abyss .note-box{border-radius:8px;background:rgba(2,14,26,.88);border-color:rgba(0,255,163,.35);box-shadow:0 4px 16px rgba(0,0,0,.4),inset 0 0 12px rgba(0,255,163,.08);}
 html.ui-abyss .note-title{color:#00FFA3;}
+html.ui-abyss .radar-box{border-radius:8px;background:rgba(2,14,26,.88);border-color:rgba(0,255,163,.35);box-shadow:0 4px 16px rgba(0,0,0,.4),inset 0 0 12px rgba(0,255,163,.08);}
+html.ui-abyss .rd-title{color:#00FFA3;}
+html.ui-abyss .rd-self{stroke:#00FFA3;fill:color-mix(in srgb,#00FFA3 16%,transparent);}
+html.ui-abyss .rd-ghost{stroke:#00FFA3;}
+html.ui-abyss .rd-lbl-sel{fill:#00FFA3;}
+html.ui-abyss .rd-go{color:#00FFA3;}
 html.ui-abyss .note-item{border-top-color:rgba(0,255,163,.28);border-right-color:rgba(0,255,163,.28);border-bottom-color:rgba(0,255,163,.28);}
 html.ui-abyss .note-basis{color:#00FFA3;opacity:.55;}
 html.ui-abyss .note-empty{border-color:rgba(0,180,216,.35);}
@@ -4569,6 +4653,12 @@ html.ui-frost .cta-sub:hover{border-color:#FFF;color:#FFF;box-shadow:0 0 16px rg
 html.ui-frost .cta-redo{border-color:rgba(255,120,120,.5);color:#FFB0B0;}
 html.ui-frost .note-box{background:rgba(8,18,34,.88);border-color:rgba(160,231,229,.38);box-shadow:0 4px 18px rgba(112,214,255,.2),inset 0 0 12px rgba(255,255,255,.06);}
 html.ui-frost .note-title{color:#A0E7E5;}
+html.ui-frost .radar-box{background:rgba(8,18,34,.88);border-color:rgba(160,231,229,.38);box-shadow:0 4px 18px rgba(112,214,255,.2),inset 0 0 12px rgba(255,255,255,.06);}
+html.ui-frost .rd-title{color:#A0E7E5;}
+html.ui-frost .rd-self{stroke:#A0E7E5;fill:color-mix(in srgb,#A0E7E5 16%,transparent);}
+html.ui-frost .rd-ghost{stroke:#A0E7E5;}
+html.ui-frost .rd-lbl-sel{fill:#A0E7E5;}
+html.ui-frost .rd-go{color:#A0E7E5;}
 html.ui-frost .note-item{border-top-color:rgba(160,231,229,.3);border-right-color:rgba(160,231,229,.3);border-bottom-color:rgba(160,231,229,.3);}
 html.ui-frost .note-basis{color:#A0E7E5;opacity:.55;}
 html.ui-frost .note-empty{border-color:rgba(112,214,255,.38);}
@@ -6317,6 +6407,24 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
         <div class="spark-streak-track" id="heroStreakTrack" aria-hidden="true"></div>
       </div>
 
+      <!-- ヒーロー下段の2枚。広い画面では横並び、狭い画面では縦積み（折り返しだけで作る） -->
+      <div class="hero-panels">
+
+      <!-- 🕸 実力の輪郭。旧「臨床スキルプロファイル」の席に、今度は実データで描くレーダー。
+           ⚠️ 中身は _renderHubRadar() が全部作る（幾何の正本を1か所に保つため、
+              グリッド・軸線・ラベルをマークアップへ書き写さないこと）。
+           ⚠️ viewBox にラベル用の余白を最初から取ってある。旧実装は 160×160 の枠に
+              枠外へ出るラベルを置いていたので文字が切れていた。 -->
+      <div class="radar-box" id="hubRadarBox">
+        <div class="rd-hdr">
+          <span class="rd-title">🕸 実力の輪郭</span>
+          <span class="rd-legend" aria-hidden="true"><i class="rd-k-self"></i>自分<i class="rd-k-nat"></i>全国</span>
+        </div>
+        <svg class="rd-svg" id="radarSvg" viewBox="0 0 300 260" role="img" aria-label="科目群別の実力"></svg>
+        <p class="rd-read" id="radarReadout"></p>
+        <p class="rd-foot" id="radarFoot"></p>
+      </div>
+
       <!-- 📋 今日の所見。カルテの経過記録にあたる層で、その日のデータから毎回作り直す。
            2026-09-12 に「🩺 臨床スキルプロファイル」（六角レーダー＋弱点探知ソナー）を置き換えた。
            旧実装は6軸すべてが「今日の正答率 × 固定係数 [1,1.06,.94,1.08,.92,1.04]」で、
@@ -6333,6 +6441,7 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
         </div>
         <ul class="note-list" id="hubNoteList"></ul>
       </div>
+      </div><!-- /.hero-panels -->
     </div>
   </section>
 
@@ -6910,6 +7019,290 @@ document.addEventListener('click', (e) => {
   if (_activeSparkTip && !e.target.closest('.spark-container')) {
     _activeSparkTip.remove();
     _activeSparkTip = null;
+  }
+});
+
+// ── 🕸 実力の輪郭（8軸レーダー）────────────────────────────────
+// 2026-09-12。旧「臨床スキルプロファイル」の席に、今度は本物のデータで描く。
+//
+// ⚠️⚠️ 半径に「自分の生の正答率」だけを使わないこと。弱点カルテで確立した理屈がそのまま
+//    効く——検査・治療のように全国的にも難しい問題が多い領域は、生の％で塗ると
+//    **問題の難しさが弱点に見える**。ここは実線＝自分／点線＝**同じ問題の**全国正答率の
+//    二重ポリゴンで描き、**面積の差**を実力として読ませる。
+// ⚠️ 全国正答率は uid 単位で引く（window.MEC_RATE）。**科目平均で代用しないこと**——
+//    stats.html が廃止した「📐本番との差」と同じ誤り（引き算の左右で分母が違う）になる。
+// ⚠️ 集計の式は stats.html の buildKarte / karteGap と同じ（解いた uid ごとに全国正答率を
+//    足し込み、自分 − 全国）。ハブのレーダーと統計のカルテが必ず同じ数字を言うため。
+// ⚠️ 配色は緑赤ではなく **青＝上回り／琥珀＝下回り**（カルテと同じ言語・色覚の都合）。
+//    所見フィードの緑とは別軸なので混ぜないこと。
+//
+// ⚠️ 過去問・実力試験Ⅰ・模試・必修講座・自作・暗記メモは**科目が付かない**ので軸に載らない
+//    （過去問1,825問には科目バッジが1つも無い）。対象外の件数は脚に必ず出すこと。
+
+const RADAR_CX = 150, RADAR_CY = 120, RADAR_R = 78;
+const RADAR_MIN_N = 20;                  // これ未満の軸は「未測定」＝測れたふりをしない
+const RADAR_SNAP_KEY = 'mec_radar_snap_v1';   // ⚠️ UIローカル（非同期）
+const RADAR_GHOST_DAYS = 30;             // 何日前の自分を点線で重ねるか
+const RADAR_GHOST_TOL = 12;              // ±この日数まではゴーストとして採る
+
+// 8つの科目群。⚠️ 科目を足したらここへ入れること（どの軸にも入らない科目は黙って落ちる）。
+//    実測（2026-09-12）で 735〜1,204問・全国正答率 88〜99% と均衡している。
+const RADAR_AXES = [
+  { id: 'cr', label: '循環・呼吸',   full: '循環器・呼吸器',           sids: ['circ', 'resp'] },
+  { id: 'gi', label: '消化・肝胆',   full: '消化器・肝胆膵',           sids: ['dige', 'hbp'] },
+  { id: 'en', label: '腎・内分泌',   full: '腎臓・内分泌',             sids: ['jinzo_d', 'endo'] },
+  { id: 'hm', label: '血液・免疫',   full: '血液・免アレ膠・感染症',   sids: ['hema', 'imma', 'kansen'] },
+  { id: 'ne', label: '神経・精神',   full: '神経・精神科',             sids: ['neur', 'psy'] },
+  { id: 'pd', label: '小児・産婦',   full: '小児科・産婦人科',         sids: ['peds', 'obg'] },
+  { id: 'sg', label: '外科系',       full: '整形・眼・耳鼻・泌尿・皮膚・麻酔・放射線',
+    sids: ['ortho', 'oph', 'ent', 'uro', 'derm', 'anes', 'rad'] },
+  { id: 'em', label: '救急・公衆',   full: '救急・中毒・公衆衛生',     sids: ['emg', 'tox', 'ph'] },
+];
+const _RADAR_SID2AX = (function () {
+  const m = {};
+  RADAR_AXES.forEach(a => a.sids.forEach(s => { m[s] = a.id; }));
+  return m;
+})();
+
+// ── 集計 ─────────────────────────────────────────────────────
+// 自分 = myrate_v1（試験モードの自己正答率・uid → {correct,total}）。
+// 全国 = 同じ uid の MEC_RATE を「その uid を解いた回数」で重み付けした平均。
+function _radarStats() {
+  const ax = {};
+  RADAR_AXES.forEach(a => { ax[a.id] = { t: 0, c: 0, nat: 0, uids: 0, bySid: {} }; });
+  let outside = 0, noRate = 0;
+
+  let mr = {};
+  try { mr = JSON.parse(localStorage.getItem('myrate_v1') || '{}'); } catch (e) {}
+  const RATE = window.MEC_RATE || {};
+
+  for (const uid in mr) {
+    const e = mr[uid]; if (!e) continue;
+    const t = e.total || 0; if (t <= 0) continue;
+    const id = _RADAR_SID2AX[_noteSid(uid)];
+    if (!id) { outside += t; continue; }          // 過去問・模試・必修講座・自作など
+    const r = RATE[uid];
+    if (typeof r !== 'number') { noRate += t; continue; }
+    const A = ax[id];
+    A.t += t; A.c += (e.correct || 0); A.nat += r * t; A.uids++;
+    const sid = _noteSid(uid);
+    const B = A.bySid[sid] || (A.bySid[sid] = { t: 0, c: 0, nat: 0 });
+    B.t += t; B.c += (e.correct || 0); B.nat += r * t;
+  }
+
+  const axes = RADAR_AXES.map(a => {
+    const A = ax[a.id];
+    const measured = A.t >= RADAR_MIN_N;
+    const self = A.t ? A.c / A.t * 100 : 0;
+    const nat = A.t ? A.nat / A.t : 0;
+    // その軸でいちばん下回っている科目（リンク先に使う）
+    let worst = null;
+    for (const sid in A.bySid) {
+      const B = A.bySid[sid];
+      if (B.t < 8) continue;
+      const g = (B.c / B.t * 100) - (B.nat / B.t);
+      if (!worst || g < worst.gap) worst = { sid: sid, gap: g, t: B.t };
+    }
+    return {
+      id: a.id, label: a.label, full: a.full, sids: a.sids,
+      t: A.t, c: A.c, uids: A.uids,
+      self: self, nat: nat, gap: self - nat, measured: measured, worst: worst,
+    };
+  });
+  return { axes: axes, outside: outside, noRate: noRate,
+           covered: axes.reduce((s, a) => s + a.t, 0) };
+}
+
+// ── 30日前の自分（ゴースト）─────────────────────────────────
+// ⚠️ 1日1回だけ書く。myrate_v1 は累積で履歴を持たないので、ここで薄い履歴を作る。
+// ⚠️ 同期対象にしないこと（端末ごとに履歴が違ってよい。同期させるなら日付キーの
+//    union マージを progress.js 側に足す必要がある）。
+function _radarSnapshot(stats) {
+  const today = _jstDay(Date.now());
+  let snap = {};
+  try { snap = JSON.parse(localStorage.getItem(RADAR_SNAP_KEY) || '{}'); } catch (e) {}
+
+  // ゴーストを先に選ぶ（今日ぶんを書く前に。初日に自分自身を重ねないため）
+  let ghost = null, best = 1e9;
+  for (const d in snap) {
+    const age = _noteDayDiff(d, today);
+    const off = Math.abs(age - RADAR_GHOST_DAYS);
+    if (age >= RADAR_GHOST_DAYS - RADAR_GHOST_TOL && off < best) { best = off; ghost = { day: d, v: snap[d], age: age }; }
+  }
+
+  if (!snap[today]) {
+    const row = {};
+    stats.axes.forEach(a => { if (a.t > 0) row[a.id] = [a.t, a.c, Math.round(a.nat * a.t)]; });
+    snap[today] = row;
+    // 100日より古いものは捨てる
+    Object.keys(snap).forEach(d => { if (_noteDayDiff(d, today) > 100) delete snap[d]; });
+    try { localStorage.setItem(RADAR_SNAP_KEY, JSON.stringify(snap)); } catch (e) {}
+  }
+
+  if (!ghost) return null;
+  const out = {};
+  RADAR_AXES.forEach(a => {
+    const v = ghost.v[a.id];
+    if (!v || !(v[0] >= RADAR_MIN_N)) return;
+    out[a.id] = { self: v[1] / v[0] * 100, nat: v[2] / v[0], t: v[0] };
+  });
+  return Object.keys(out).length ? { day: ghost.day, age: ghost.age, ax: out } : null;
+}
+
+// ── 幾何 ─────────────────────────────────────────────────────
+function _radarPt(i, frac) {
+  const a = (-90 + 45 * i) * Math.PI / 180;
+  const r = RADAR_R * Math.max(0, Math.min(1, frac));
+  return [RADAR_CX + r * Math.cos(a), RADAR_CY + r * Math.sin(a)];
+}
+function _radarPoly(fracs) {
+  return fracs.map((f, i) => _radarPt(i, f).map(v => Math.round(v * 10) / 10).join(',')).join(' ');
+}
+// ±5pt 以内は無彩色（カルテの karteLv と同じ帯）
+function _radarGapCls(gap) {
+  if (gap >= 12) return 'u2'; if (gap >= 5) return 'u1';
+  if (gap <= -12) return 'd2'; if (gap <= -5) return 'd1';
+  return 'n0';
+}
+
+// ── 描画 ─────────────────────────────────────────────────────
+let _radarSel = -1;      // 選択中の軸（-1 = 既定＝いちばん下回っている軸）
+let _radarLast = null;   // 直近の集計。軸をタップしたときに数え直さないため
+let _radarLastHtml = '';  // ⚠️ 中身が同じなら innerHTML を差し替えない
+                          //    （同期のたびに描き直すと選択中の軸の見た目が飛ぶ）
+function _renderHubRadar() {
+  const svg = document.getElementById('radarSvg');
+  if (!svg) return;
+  const S = _radarStats();
+  const ghost = _radarSnapshot(S);
+  _radarLast = { S: S, ghost: ghost };
+  const measured = S.axes.filter(a => a.measured);
+
+  const g = [];
+  // 目盛り（25 / 50 / 75 / 100%）
+  [0.25, 0.5, 0.75, 1].forEach((f, i) => {
+    g.push('<polygon class="rd-grid' + (i === 3 ? ' rd-grid-out' : '') + '" points="'
+      + _radarPoly(RADAR_AXES.map(() => f)) + '"></polygon>');
+  });
+  RADAR_AXES.forEach((a, i) => {
+    const p = _radarPt(i, 1);
+    g.push('<line class="rd-axis" x1="' + RADAR_CX + '" y1="' + RADAR_CY
+      + '" x2="' + p[0].toFixed(1) + '" y2="' + p[1].toFixed(1) + '"></line>');
+  });
+
+  // ⚠️⚠️ 未測定の軸を 0 に落とさないこと。落とすとその軸だけポリゴンが中心へ食い込み、
+  //    「実力ゼロ」に見える（測っていないことと、できないことは違う）。自分と全国の両方を
+  //    同じ中立値（測定済みの軸の全国平均）へ置き、頂点の白抜きとラベルの薄さで
+  //    「測っていない」と読ませる＝形に影響を与えない。
+  const natMid = measured.length ? measured.reduce((s2, a) => s2 + a.nat, 0) / measured.length : 60;
+  const selfFrac = a => (a.measured ? a.self : natMid) / 100;
+  const natFrac  = a => (a.measured ? a.nat  : natMid) / 100;
+
+  if (measured.length >= 3) {
+    // 全国（点線）→ ゴースト → 自分（実線）の順に描く。後に描いた方が上に載る
+    g.push('<polygon class="rd-nat" points="' + _radarPoly(S.axes.map(natFrac)) + '"></polygon>');
+    if (ghost) {
+      const gf = S.axes.map(a => {
+        const v = ghost.ax[a.id];
+        return (a.measured && v) ? v.self / 100 : selfFrac(a);
+      });
+      g.push('<polygon class="rd-ghost" points="' + _radarPoly(gf) + '"></polygon>');
+    }
+    g.push('<polygon class="rd-self" points="' + _radarPoly(S.axes.map(selfFrac)) + '"></polygon>');
+  }
+
+  // 頂点と当たり判定。⚠️ 未測定は塗らない（白抜き）＝「平均」ではなく「測っていない」
+  S.axes.forEach((a, i) => {
+    const p = _radarPt(i, selfFrac(a));   // 未測定はポリゴンと同じ中立位置へ（上のコメント参照）
+    g.push('<circle class="rd-dot ' + (a.measured ? 'rd-' + _radarGapCls(a.gap) : 'rd-none')
+      + '" cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="' + (a.measured ? 3.4 : 2.8) + '"></circle>');
+  });
+
+  // ラベル（盤面の外・viewBox に余白を取ってあるので切れない）
+  S.axes.forEach((a, i) => {
+    const p = _radarPt(i, 1);
+    const ang = (-90 + 45 * i) * Math.PI / 180;
+    const cx = Math.cos(ang), cy = Math.sin(ang);
+    const x = RADAR_CX + (RADAR_R + 15) * cx, y = RADAR_CY + (RADAR_R + 15) * cy;
+    const anchor = Math.abs(cx) < 0.2 ? 'middle' : (cx > 0 ? 'start' : 'end');
+    const dy = Math.abs(cy) < 0.2 ? 4 : (cy > 0 ? 10 : -2);
+    g.push('<text class="rd-lbl' + (a.measured ? '' : ' rd-lbl-off') + (i === _radarSel ? ' rd-lbl-sel' : '')
+      + '" x="' + x.toFixed(1) + '" y="' + (y + dy).toFixed(1) + '" text-anchor="' + anchor
+      + '" data-ax="' + i + '" role="button" tabindex="0">' + a.label + '</text>');
+    // 押しやすいように透明の当たり判定を重ねる（文字だけだと細すぎる）
+    g.push('<circle class="rd-hit" cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1)
+      + '" r="16" data-ax="' + i + '"></circle>');
+  });
+
+  const html = g.join('');
+  if (html !== _radarLastHtml) { svg.innerHTML = html; _radarLastHtml = html; }
+  svg.setAttribute('aria-label', '実力の輪郭。' + measured.length + '軸を測定済み。'
+    + measured.map(a => a.full + ' 自分' + Math.round(a.self) + '% 全国' + Math.round(a.nat) + '%').join('、'));
+
+  // 既定の選択＝いちばん下回っている軸（無ければ最も受験数が多い軸）
+  if (_radarSel < 0) {
+    let bi = -1, bg = 1e9;
+    S.axes.forEach((a, i) => { if (a.measured && a.gap < bg) { bg = a.gap; bi = i; } });
+    if (bi < 0) S.axes.forEach((a, i) => { if (a.t > (S.axes[bi] ? S.axes[bi].t : -1)) bi = i; });
+    _radarSel = bi < 0 ? 0 : bi;
+  }
+  _radarReadout(S, ghost);
+
+  const foot = document.getElementById('radarFoot');
+  if (foot) {
+    const parts = ['対象 ' + _fmtN(S.covered) + '問'];
+    if (S.outside) parts.push('過去問・模試・必修などは科目が付かないため対象外 ' + _fmtN(S.outside) + '問');
+    if (ghost) parts.push('点線は ' + ghost.age + '日前の自分');
+    foot.textContent = parts.join(' / ');
+  }
+}
+
+function _radarReadout(S, ghost) {
+  const el = document.getElementById('radarReadout');
+  if (!el) return;
+  const a = S.axes[_radarSel];
+  if (!a) { el.textContent = ''; return; }
+  if (!a.measured) {
+    el.className = 'rd-read rd-none';
+    el.innerHTML = '<b>' + _noteEsc(a.full) + '</b> 未測定（試験モードで ' + _fmtN(a.t) + '問 / '
+      + RADAR_MIN_N + '問から測ります）'
+      + '<a class="rd-go" href="study.html?sid=' + encodeURIComponent(a.sids[0]) + '">解きに行く →</a>';
+    return;
+  }
+  const gap = Math.round(a.gap);
+  const cls = _radarGapCls(a.gap);
+  let mv = '';
+  if (ghost && ghost.ax[a.id]) {
+    const d = Math.round(a.self - ghost.ax[a.id].self);
+    if (Math.abs(d) >= 1) mv = '<em class="rd-mv ' + (d > 0 ? 'up' : 'dn') + '">'
+      + ghost.age + '日前から ' + (d > 0 ? '+' : '') + d + 'pt</em>';
+  }
+  el.className = 'rd-read rd-' + cls;
+  el.innerHTML = '<b>' + _noteEsc(a.full) + '</b> 自分 <b>' + Math.round(a.self) + '%</b>'
+    + ' / 全国 ' + Math.round(a.nat) + '%'
+    + '（<b>' + (gap > 0 ? '+' : '') + gap + 'pt</b>・' + _fmtN(a.t) + '問）' + mv
+    + (a.worst ? '<a class="rd-go" href="study.html?sid=' + encodeURIComponent(a.worst.sid) + '">'
+        + _noteEsc(_noteSubj(a.worst.sid).label) + ' →</a>' : '');
+}
+
+// 軸のタップ。⚠️ 再描画はしない（選択を変えるだけ）——描き直すと入場アニメが走り直す
+function _radarPick(i) {
+  if (!(i >= 0 && i < RADAR_AXES.length)) return;
+  _radarSel = i;
+  const svg = document.getElementById('radarSvg');
+  if (svg) svg.querySelectorAll('.rd-lbl').forEach((t, k) => t.classList.toggle('rd-lbl-sel', k === i));
+  // ⚠️ ここで数え直さないこと（_radarSnapshot は書き込みも行う）。描画時の集計を使い回す
+  if (_radarLast) _radarReadout(_radarLast.S, _radarLast.ghost);
+}
+document.addEventListener('click', e => {
+  const t = e.target && e.target.closest ? e.target.closest('[data-ax]') : null;
+  if (t && t.ownerSVGElement && t.ownerSVGElement.id === 'radarSvg') _radarPick(+t.dataset.ax);
+});
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const t = document.activeElement;
+  if (t && t.dataset && t.dataset.ax && t.ownerSVGElement && t.ownerSVGElement.id === 'radarSvg') {
+    e.preventDefault(); _radarPick(+t.dataset.ax);
   }
 });
 
@@ -7647,6 +8040,7 @@ function renderHero() {
   // 📋 今日の所見。旧「臨床スキルレーダー」の席（座標を固定係数で作っていただけの図）を
   //    その日のデータから作り直す観察に置き換えた（2026-09-12）。
   _renderHubNotes(td, due, streak);
+  _renderHubRadar();
 
   // E6: 計器行も大きな読み値と同じくカウントアップさせる。
   // ⚠️ 連続日数だけ _fmtN を通さない（12日を「12」と出す桁区切りは要らないが、
