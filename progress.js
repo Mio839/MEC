@@ -1281,6 +1281,48 @@
     _updateChapterProgress();
   }
 
+  // ── 「済」と「全問題数」の正本（2026-09-11）──────────────────────
+  // ハブ「済 累計」・統合学習ツール「済／合計」・学習統計「済み」・Lvパネル「済」は必ずここを読む。
+  // 以前は4か所が別々に数えていて（全キー／自作・暗記メモを除く／周回数0を除く）、
+  // 統合学習ツールだけはページを開いた瞬間の値のまま更新もされなかった。
+  //   済   ＝ done_v2 のうち、自作問題(custom_)・暗記メモ(memo_) を除いたもの
+  //   全問 ＝ MEC_CHAPTERS（chapters_meta.js）＋ 国試過去問 ＋ 実力試験Ⅰ
+  // ⚠️ 分子と分母の範囲は必ず揃えること。自作・暗記メモは分母に無いので分子からも除く。
+  const DONE_OUT_OF_SCOPE = ['custom_', 'memo_'];
+  // 国試過去問のブロック別問題数（国家試験過去問/*.html の data-uid 件数と一致させること）
+  const KAKUMON_BLOCKS = {
+    '116A':75,'116B':50,'116C':75,'116D':75,'116E':50,'116F':75,
+    '117C':75,'117D':75,'117F':75,
+    '118A':75,'118B':50,'118C':75,'118D':75,'118E':50,'118F':75,
+    '119A':75,'119B':50,'119C':75,'119D':75,'119E':50,'119F':75,
+    '120A':75,'120B':50,'120C':75,'120D':75,'120E':50,'120F':75,
+  };
+  // 実力試験Ⅰ（chapters_meta.js には載らない）
+  const JITSU1_CHAPTERS = [
+    { label: 'A問題（一般40問 臨床40問）', prefix: 'jitsu1_ch01', count: 80 },
+    { label: 'B問題（一般40問 臨床40問）', prefix: 'jitsu1_ch02', count: 80 },
+  ];
+  window.MEC_KAKUMON_BLOCKS = KAKUMON_BLOCKS;
+  window.MEC_JITSU1_CHAPTERS = JITSU1_CHAPTERS;
+
+  function isDoneInScope(uid) { return !DONE_OUT_OF_SCOPE.some(p => uid.startsWith(p)); }
+  function doneInScope(done) {
+    done = done || lsGet(KD);
+    let n = 0;
+    for (const uid in done) if ((done[uid] || 0) > 0 && isDoneInScope(uid)) n++;
+    return n;
+  }
+  function totalInScope() {
+    let total = 0;
+    // ⚠️ MEC_CHAPTERS はトップレベルの const（window のプロパティではない）なので名前で引く
+    if (typeof MEC_CHAPTERS !== 'undefined') {
+      MEC_CHAPTERS.forEach(s => (s.chapters || []).forEach(ch => { total += ch.count || 0; }));
+    }
+    Object.keys(KAKUMON_BLOCKS).forEach(k => { total += KAKUMON_BLOCKS[k]; });
+    JITSU1_CHAPTERS.forEach(ch => { total += ch.count; });
+    return total;
+  }
+
   // ── Public API ───────────────────────────────────────────────────
   window.MECSync = {
     syncFromGist,
@@ -1300,11 +1342,15 @@
     getStats() {
       const done = lsGet(KD), flags = lsGet(KF);
       return {
-        doneCount: Object.keys(done).length,
+        doneCount: doneInScope(done),      // ⚠️ 全キー数ではない（上の「済」の正本を参照）
+        totalQ: totalInScope(),
         flagCount: Object.keys(flags).length,
         done, flags
       };
     },
+    doneInScope,
+    totalInScope,
+    isDoneInScope,
     getChapterDone(prefix) {
       const done = lsGet(KD);
       return Object.keys(done).filter(k => k.startsWith(prefix + '_q')).length;

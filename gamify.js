@@ -87,10 +87,14 @@
     const myrate = _g('myrate_v1', {});
     let laps = 0, doneCount = 0;
     const bySubj = {};
+    // 「済」の範囲はハブ・統合学習ツール・学習統計と同じ正本（progress.js の isDoneInScope）。
+    // ⚠️ XP の材料 laps は据え置き（範囲を狭めるとレベルが下がる）。揃えるのは表示と実績の「済 N問」だけ
+    const inScope = (window.MECSync && typeof MECSync.isDoneInScope === 'function') ? MECSync.isDoneInScope : null;
     for (const uid in done) {
       const v = done[uid] || 0;
       if (v <= 0) continue;
-      laps += v; doneCount++;
+      laps += v;
+      if (!inScope || inScope(uid)) doneCount++;
       const i = uid.indexOf('_ch');
       if (i > 0) { const sid = uid.slice(0, i); bySubj[sid] = (bySubj[sid] || 0) + 1; }
     }

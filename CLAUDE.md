@@ -15,11 +15,11 @@
 
 | ファイル/フォルダ | 役割 |
 |---|---|
-| `study.html` | 統合学習ツール（コア12科目5487問＋マイナー講座・実力試験・自作・フィルター）。試験モードUI等のマークアップ＋インラインJS |
+| `study.html` | 統合学習ツール（コア12科目＋マイナー講座・実力試験・自作・フィルター）。試験モードUI等のマークアップ＋インラインJS |
 | `study_exam.js` | study.htmlの試験モードロジック（state・効果音・演出エフェクト・SRS採点連携）。classic scriptでインライン<script>より前に読込み、共有グローバルスコープで相互参照 |
 | `study.css` | study.html専用のCSS（旧インライン<style>を2026-07-05に外出し）。⚠️ study.htmlはこれに依存＝両方一緒にcommit/push必須 |
 | `index.html` | ハブダッシュボード（全科目の進捗表示・ナビ・同期設定）。ヒーローのボタンは**席が固定の3つ**＝主（やるべきこと）・副（復習）・「🔁 今日の誤答を再履修」。0件の日も席を空けず `.is-off` で無効表示にする。⚠️ **統計への導線をここに置かないこと**（下記「ヒーローのボタン」） |
-| `progress.js` | 共有モジュール：localStorage + GitHub Gist 同期。localStorageキーは`K*`定数が正本 |
+| `progress.js` | 共有モジュール：localStorage + GitHub Gist 同期。localStorageキーは`K*`定数が正本。**「済」と全問題数の正本**（`MECSync.doneInScope`/`totalInScope`・下記「問題数」） |
 | `attempts.js` | 解答イベントログ（`mec_attempts_v1`・`window.MecAttempts`）。1解答=パイプ区切り1行の文字列で上限5000件のリングバッファ（2026-08-06に2000から引き上げ。1日1400解答の日があり2000件では約1.4日分しか持たず「昨日の誤答」がその日のうちに消えた。⚠️`attempts.js`の`CAP`と`progress.js`の`ATT_CAP`は一致必須）。集計値の`myrate_v1`と違い時刻・出題順・所要秒・選んだ肢を残す＝弱点分析の素材。study.html／stats.html／**index.html**が読込み。`todayWrongUids()`は「今日の誤答を再履修」の対象UIDの正本（ハブの件数表示と出題側が同じ関数を使う） |
 | `qmeta.json` | 設問メタ（全科目1ファイル・`_work/build_qmeta.py`が生成する**派生物**）。設問形式(診断/検査/治療/対応/知識)・否定形・複数選択・画像・症例・計算・採点除外を自動分類。stats.htmlの弱点カルテが使う。**questions_*.json は一切変更しない**（pdf_audit.pyの監査対象を汚さないため） |
 | `stats.html` | 学習統計ページ（30日チャート・SRS統計・AI相談Markdownエクスポート） |
@@ -85,8 +85,27 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
 実数へ更新し、`node _work/test_subject_totals.js` を通すこと。** テストが守るのは**この3者の一致だけ**で、
 文書に書いた数字は誰も守らない（だからここに書かない）。
 
-⚠️ `study.html` タイトルの「5487問」は**コア12科目の合計**（マイナー講座・実力試験・自作・暗記メモを含まない）。
-科目を足しても増えないので、増やすときは意図的に判断すること。
+### 「済」と「全問題数」は1か所で数える（2026-09-11〜）
+
+**正本は `progress.js` の `MECSync.doneInScope()` / `totalInScope()` / `isDoneInScope(uid)`**。
+ハブ「済 累計」・統合学習ツールのヘッダー「済／合計」とタイトル・学習統計「済み」・Lvパネル「済 N問」は全部これを読む。
+
+| | 数え方 |
+|---|---|
+| 済 | `done_v2` のうち **自作問題(`custom_`)・暗記メモ(`memo_`) を除いた**もの（周回数0も除く） |
+| 全問題数 | `chapters_meta.js` の全章 ＋ 国試過去問（`MEC_KAKUMON_BLOCKS`）＋ 実力試験Ⅰ（`MEC_JITSU1_CHAPTERS`） |
+
+- ⚠️⚠️ **ページ側で `done_v2` のキー数を数え直さないこと。** 2026-09-11 まで4か所が別々に数えていて
+  （全キー／自作・暗記メモを除く／周回数0を除く）、ハブと統合学習ツールの「済」が一致しなかった。
+  しかも統合学習ツールの「済」は**開いた瞬間に1回数えるだけ**で、×△○や試験モードで解いても増えなかった。
+- ⚠️ 過去問・実力試験Ⅰの問題数の表は `progress.js` に移した（index.html は `window.MEC_KAKUMON_BLOCKS` を読むだけ）。
+  `test_done_scope.js` が表と `国家試験過去問/*.html` の `data-uid` 件数の一致を見張る。
+- ⚠️ 統合学習ツールの「済」は `window.mecMarkStale` 経由で追従する。**`done_v2` を書く経路を足したら
+  `mecMarkStale()` を呼ぶこと**（現状は `mecIncrLap`・`mecUndoLap`・`_markExamDone` の3つ＋同期完了・他タブ）。
+- ⚠️ Lvパネルで揃えたのは「済 N問」と実績の件数だけ。**XP の材料 `laps` は自作・暗記メモも含めたまま**
+  （範囲を狭めるとレベルが下がるため）。
+- 統合学習ツールのタイトル・ヘッダーの「合計」は、以前はコア12科目の固定値「5487問」だった。
+  2026-09-11 にユーザーの判断でハブと同じ全問題数（JS で計算）へ変えた。
 
 各科目がいつどの章を追加したかの経緯は `_work/{科目名}_引き継ぎ.md` にある。
 
@@ -1242,6 +1261,7 @@ node _work/test_exam_brasswork.js  筐体の外へ広げた真鍮細工      (36
 node _work/test_mindmap_layout.js  マインドマップのレイアウト/データ (248)
 node _work/test_sounds.js          効果音の一覧・音量・ランダム起動音  (28)
 node _work/test_ui_theme.js        UIテーマ全8種（.qc への干渉・ネタバレ防止）(14)
+node _work/test_done_scope.js      「済」と全問題数の正本・全ページの一致 (5)
 node _work/test_mock_score.js      模試の自己採点（データ検算・採点・同期・成績表）(46)
 node _work/test_mock_figs.js       模試の設問図が全部あるか（138枚）      (6)
 node _work/test_mock_wrong_filter.js  ❌模試誤答フィルタ（件数の一致・uid対応・配線）(21)

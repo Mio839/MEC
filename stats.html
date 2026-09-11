@@ -10,7 +10,7 @@
 <script>try{if(!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))document.documentElement.classList.add('fx-on');}catch(e){}</script>
 <script src="chapters_meta.js"></script>
 <script src="rate_index.js?v=1"></script>
-<script src="progress.js?v=3"></script>
+<script src="progress.js?v=4"></script>
 <script src="attempts.js"></script>
 <script src="fx_engine.js"></script>
 <link rel="stylesheet" href="vars.css">
@@ -1970,7 +1970,9 @@ html.fx-on .ai-card-btn:active { scale: .98; }
   // 0 はデータ無し＝ランプの外。1〜5 は正答率なら弱さランプ(a*)、進捗なら網羅ランプ(p*)
   function hmCls(mode, s) { return s === 0 ? 'n0' : (mode === 'prog' ? 'p' : 'a') + s; }
 
-  const doneCount = Object.keys(done).length;
+  // 「済」と全問題数はハブ・統合学習ツールと同じ正本（progress.js）から取る。
+  // ⚠️ ここで done_v2 のキー数を数え直さないこと（自作・暗記メモまで入って食い違う）
+  const doneCount = window.MECSync ? window.MECSync.doneInScope(done) : Object.keys(done).length;
   const flagCount = Object.keys(flags).length;
   const todayTime = studytime[today] || 0;
 
@@ -1979,8 +1981,7 @@ html.fx-on .ai-card-btn:active { scale: .98; }
   document.getElementById('sumFlag').textContent = flagCount + '問';
   document.getElementById('sumTime').textContent = todayTime + '分';
 
-  const TOTAL_Q = (typeof MEC_CHAPTERS !== 'undefined')
-    ? MEC_CHAPTERS.reduce((s, x) => s + x.chapters.reduce((t, c) => t + c.count, 0), 0) : 0;
+  const TOTAL_Q = window.MECSync ? window.MECSync.totalInScope() : 0;
 
   function dstr(d) { return d.toISOString().slice(0, 10); }
   function jstNow() { return new Date(Date.now() + 9 * 3600000); }
@@ -3016,7 +3017,8 @@ html.fx-on .ai-card-btn:active { scale: .98; }
       { label: '済6+', color: 'var(--lv6)' },
     ];
     const counts = [0, 0, 0, 0, 0, 0, 0];
-    Object.values(done).forEach(lv => {
+    Object.entries(done).forEach(([uid, lv]) => {
+      if (window.MECSync && !window.MECSync.isDoneInScope(uid)) return;   // 「済」と同じ範囲で数える
       if (lv >= 1 && lv <= 5) counts[lv]++;
       else if (lv >= 6) counts[6]++;
     });

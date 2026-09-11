@@ -3845,6 +3845,7 @@ function _markExamDone(uid) {
     localStorage.setItem('done_v2', JSON.stringify(done));
   } catch {}
   if (window.mecSessionDone) window.mecSessionDone.add(uid);
+  try { window.mecMarkStale?.(); } catch {}   // ヘッダーの「済」を追従させる（study.html の updateStats）
   try { window.mecLogActivity?.(); } catch {}
   if (window.MECSync) window.MECSync.scheduleSync();
 }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MEC 統合学習ツール (5487問)</title>
+<title>MEC 統合学習ツール</title>
 <script>
 // iOS/iPadOS の WebKit は content-visibility:auto 自体に描画バグがあり、スクロールで
 // カードが空白化・背景裏にちらつく（2026-07-07 iPad Brave 実機確認。セクション側の
@@ -58,7 +58,7 @@ if ('serviceWorker' in navigator) {
 
 <div id="mecLoader">
   <div class="mec-loader-spinner"></div>
-  <div class="mec-loader-txt">読み込み中… (5487問)</div>
+  <div class="mec-loader-txt">読み込み中…</div>
 </div>
 
 <header class="st-hdr">
@@ -67,7 +67,7 @@ if ('serviceWorker' in navigator) {
       <span class="st-title">📚 統合学習ツール</span>
       <a class="hub-link" href="index.html">← ハブへ</a>
       <div class="st-stat">済 <span id="statDone">0</span>問</div>
-      <div class="st-stat">合計 <span>5487</span>問</div>
+      <div class="st-stat">合計 <span id="statTotal">–</span>問</div>
       <div class="st-stat"><span class="st-streak">🔥 <span id="studyStreak">0</span>日連続</span></div>
       <button type="button" class="st-stat gm-lv-chip" id="gmLvChip" title="タップでレベル・実績・ミッションを表示">Lv.<b id="gmLvNum">–</b><span class="gm-chip-bar"><span class="gm-chip-fill" id="gmChipFill" style="width:0%"></span></span></button>
       <button type="button" class="st-stat gm-mission-chip" id="gmMissionChip" title="今日のミッション（必須が揃うと緑）">🎯 –</button>
@@ -700,7 +700,7 @@ function _refreshCache() {
   _cacheStale = false;
 }
 
-window.mecMarkStale = function() { _cacheStale = true; };
+window.mecMarkStale = function() { _cacheStale = true; _scheduleStatsUpdate(); };
 
 function _updateEmptyState() {
   const el = document.getElementById('mecNoSubj');
@@ -904,12 +904,27 @@ function initCards() {
   ric(initBatch, { timeout: 100 });
 }
 
+// 「済」と「合計」はハブの「済 累計」・学習統計と同じ関数（progress.js の MECSync.doneInScope /
+// totalInScope）から出す。ここで数え方を持たないこと。
+// ⚠️ 以前は開いた瞬間に1回数えるだけで、×△○や試験モードで解いても増えなかった。
+//    done_v2 を書く経路（mecIncrLap / mecUndoLap / _markExamDone）は全部 mecMarkStale を呼ぶので、
+//    そこから _scheduleStatsUpdate で追従させる。同期の完了と他タブの書き込みも拾う。
 function updateStats() {
   if (!window.MECSync) return;
   const stats = MECSync.getStats();
   const d = document.getElementById('statDone');
-  if (d) d.textContent = stats.doneCount;
+  if (d) d.textContent = stats.doneCount.toLocaleString('ja-JP');
+  const t = document.getElementById('statTotal');
+  if (t && stats.totalQ) t.textContent = stats.totalQ.toLocaleString('ja-JP');
+  if (stats.totalQ) document.title = 'MEC 統合学習ツール (' + stats.totalQ.toLocaleString('ja-JP') + '問)';
 }
+let _statsTimer = 0;
+function _scheduleStatsUpdate() {
+  if (_statsTimer) return;
+  _statsTimer = setTimeout(() => { _statsTimer = 0; updateStats(); }, 60);   // rAF は裏タブで止まるので使わない
+}
+document.addEventListener('mecSyncComplete', _scheduleStatsUpdate);
+window.addEventListener('storage', e => { if (!e.key || e.key === 'done_v2') _scheduleStatsUpdate(); });
 
 // ── Image lightbox ───────────────────────────────────────────────────────────
 document.addEventListener('click', function(e) {

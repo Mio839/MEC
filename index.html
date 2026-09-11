@@ -7,7 +7,7 @@
 <script src="chapters_meta.js"></script>
 <script src="mindmap_data/index.js"></script>
 <script src="knowledge_notes.js"></script>
-<script src="progress.js?v=3"></script>
+<script src="progress.js?v=4"></script>
 <!-- 「今日の誤答を再履修」の件数を出すため。件数の正本を study.html と共有する
      （MecAttempts.todayWrongUids() ＝ 出題側が使うのと同じ関数）。 -->
 <script src="attempts.js"></script>
@@ -6470,13 +6470,8 @@ const MINDMAP_TOOL = {
 };
 
 // ── 過去問モード定義 ──────────────────────────────────────────
-const KAKUMON_BLOCKS = {
-  '116A':75,'116B':50,'116C':75,'116D':75,'116E':50,'116F':75,
-  '117C':75,'117D':75,'117F':75,
-  '118A':75,'118B':50,'118C':75,'118D':75,'118E':50,'118F':75,
-  '119A':75,'119B':50,'119C':75,'119D':75,'119E':50,'119F':75,
-  '120A':75,'120B':50,'120C':75,'120D':75,'120E':50,'120F':75,
-};
+// ⚠️ 表の正本は progress.js（統合学習ツール・学習統計と「全問題数」を揃えるため 2026-09-11 に移した）
+const KAKUMON_BLOCKS = window.MEC_KAKUMON_BLOCKS || {};
 
 const KAKUMON_YEARS = [
   { year:120, label:'第120回（2026年）', blocks:['A','B','C','D','E','F'] },
@@ -6487,10 +6482,7 @@ const KAKUMON_YEARS = [
 ];
 
 // ── 実力試験モード定義 ──────────────────────────────────────
-const JITSU1_CHAPTERS = [
-  { label: 'A問題（一般40問 臨床40問）', prefix: 'jitsu1_ch01', count: 80 },
-  { label: 'B問題（一般40問 臨床40問）', prefix: 'jitsu1_ch02', count: 80 },
-];
+const JITSU1_CHAPTERS = window.MEC_JITSU1_CHAPTERS || [];   // 正本は progress.js
 
 // ヒーローに載らない行き先。expand は #hubDetail に中身を出す・link はそのまま遷移する。
 // span は非対称ベントでの面の重さ:
@@ -6614,33 +6606,16 @@ function getTodayLearning() {
 }
 
 // ── 統計計算 ──────────────────────────────────────────────────
+// 全問題数と「済」は progress.js の MECSync.totalInScope / doneInScope が正本（2026-09-11）。
+// 統合学習ツール・学習統計も同じ関数を読むので、ここで数え方を書かないこと——
+// 以前は4か所が別々に数えていて、ハブの「済 累計」と統合学習ツールの「済」が食い違っていた。
+// ⚠️ MEC_CHAPTER_META（小児科・産婦人科だけの部分マップ）を合計しないこと。
+//    2026-07-23まで META を合計していたため「合計3043問」と過少表示されていた。
 function calcTotalQ() {
-  let total = 0;
-  // ⚠️ 正本は MEC_CHAPTERS（12科目5487問）。MEC_CHAPTER_META は
-  //    add_peds_to_meta.py / add_obg_to_meta.py が足した小児科・産婦人科だけの
-  //    部分マップ（26章1058問）で、全科目の合計ではない。
-  //    2026-07-23まで META を合計していたため「合計3043問」と過少表示されていた。
-  if (typeof MEC_CHAPTERS !== 'undefined') {
-    MEC_CHAPTERS.forEach(subj => { (subj.chapters || []).forEach(ch => { total += ch.count || 0; }); });
-  } else if (typeof MEC_CHAPTER_META !== 'undefined') {
-    Object.values(MEC_CHAPTER_META).forEach(m => { total += m.count; });
-  }
-  Object.values(KAKUMON_BLOCKS).forEach(count => { total += count; });
-  JITSU1_CHAPTERS.forEach(ch => { total += ch.count; });
-  return total;
+  return window.MECSync ? MECSync.totalInScope() : 0;
 }
-
-// calcTotalQ の分母に入っている範囲（コア12科目＋過去問＋実力試験Ⅰ）だけを数える。
-// MECSync.getStats().doneCount は done_v2 の全キー数で、分母に含まれない
-// 自作問題(custom_)と暗記メモ(memo_)まで足してしまうため、そのまま割ると達成率が
-// 実際より高く出る。分子と分母のスコープは必ず揃えること。
-const _OUT_OF_SCOPE_PREFIXES = ['custom_', 'memo_'];
 function calcDoneInScope() {
-  let done = {};
-  try { done = JSON.parse(localStorage.getItem('done_v2') || '{}'); } catch {}
-  return Object.keys(done)
-    .filter(k => !_OUT_OF_SCOPE_PREFIXES.some(p => k.startsWith(p)))
-    .length;
+  return window.MECSync ? MECSync.doneInScope() : 0;
 }
 
 function _fmtN(n) { return (n || 0).toLocaleString('ja-JP'); }
