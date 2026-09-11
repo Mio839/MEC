@@ -1,5 +1,5 @@
 /**
- * ハブ画面（Heroゲージ以外の全要素：アクションボタン群・臨床スキルレーダー＆探知ソナー・
+ * ハブ画面（Heroゲージ以外の全要素：アクションボタン群・今日の所見フィード・
  * 直近14日推移・タイル群・今日のミッション・アンビエント光彩・セクション見出し）
  * 全8テーマ完全差別化＆演出大幅強化 検証テスト
  * Run: node _work/test_hub_fx.js
@@ -23,11 +23,11 @@ THEMES.forEach(t => {
   assert(html.includes(`html.ui-${t} .cta-sub`), `${t}: .cta-sub スタイルが定義されていること`);
   assert(html.includes(`html.ui-${t} .cta-redo`), `${t}: .cta-redo スタイルが定義されていること`);
 
-  // 臨床スキルプロファイル ＆ 弱点探知ソナー
-  assert(html.includes(`html.ui-${t} .skill-radar-box`), `${t}: .skill-radar-box スタイルが定義されていること`);
-  assert(html.includes(`html.ui-${t} .radar-grid`), `${t}: .radar-grid スタイルが定義されていること`);
-  assert(html.includes(`html.ui-${t} .radar-val`), `${t}: .radar-val スタイルが定義されていること`);
-  assert(html.includes(`html.ui-${t} .radar-sonar-sweep`), `${t}: .radar-sonar-sweep スタイルが定義されていること`);
+  // 📋 今日の所見（2026-09-12 に「臨床スキルプロファイル」レーダーを置き換えた）
+  assert(html.includes(`html.ui-${t} .note-box`), `${t}: .note-box スタイルが定義されていること`);
+  assert(html.includes(`html.ui-${t} .note-title`), `${t}: .note-title スタイルが定義されていること`);
+  assert(html.includes(`html.ui-${t} .note-item`), `${t}: .note-item スタイルが定義されていること`);
+  assert(html.includes(`html.ui-${t} .note-basis`), `${t}: .note-basis スタイルが定義されていること`);
 
   // 直近14日推移
   assert(html.includes(`html.ui-${t} .bar.on`), `${t}: .bar.on スタイルが定義されていること`);
@@ -88,8 +88,7 @@ function getReducedMotionCss(src) {
   return combined;
 }
 const prmBlocks = getReducedMotionCss(html);
-assert(prmBlocks.includes('.radar-sonar-sweep'), 'reduced-motion で .radar-sonar-sweep が停止・非表示');
-assert(prmBlocks.includes('.sonar-dot'), 'reduced-motion で .sonar-dot が停止');
+assert(prmBlocks.includes('.note-item'), 'reduced-motion で所見の入場アニメが停止');
 assert(prmBlocks.includes('.tiles .tile:nth-child(odd)'), 'reduced-motion でタイルの浮遊が停止');
 assert(prmBlocks.includes('.sec-h::before'), 'reduced-motion で見出しビームが停止');
 assert(prmBlocks.includes('.sec-h .ln::after'), 'reduced-motion で見出し走査線が非表示');
@@ -99,9 +98,30 @@ THEMES.forEach(t => {
 });
 console.log('  ok  - prefers-reduced-motion で全8テーマの数字目標パルス含む新規演出が安全に停止・抑制');
 
+// 3b. 旧「臨床スキルプロファイル」レーダーの回帰ガード
+// ⚠️ あれは6軸すべてが「今日の正答率 × 固定係数」で、形が原理的に変わらず科目のデータを
+//    1ビットも読んでいなかった（ラベルも viewBox の外へ出て切れていた）。戻さないこと。
+['skill-radar-box', 'radarValPoly', 'radar-sonar-sweep', 'sonar-dot', 'radar-lbl']
+  .forEach(dead => assert(!html.includes(dead), `旧レーダーの残骸が復活していないこと: ${dead}`));
+// 所見フィードの不変条件
+assert(html.includes("const NOTE_KEY  = 'mec_hub_notes_v1'"), '所見の記帳キーが定義されていること');
+assert(html.includes('_renderHubNotes(td, due, streak)'), 'renderHero から所見が描かれること');
+assert(html.includes('id="hubNoteList"'), '所見の描画先が常設されていること');
+assert(html.includes('note-empty'), '所見0件の日も枠を残す（セクションごと消さない）');
+// ⚠️ ハブに重いデータを持ち込まない（全国正答率との比較は stats.html の担当）。
+//    見るのは <script src> の一覧と fetch()。強制更新ボタンの再取得リストは対象外
+//    （あれは「読み込む」ではなく「HTTPキャッシュを捨てる」ためのファイル名）。
+const hubScripts = (html.match(/<script\s+src="[^"]+"/g) || []).join(' ');
+['qmeta.json', 'rate_index.js', 'mock_data/m121s'].forEach(heavy => {
+  assert(!hubScripts.includes(heavy), `ハブが ${heavy} を <script> で読み込んでいないこと`);
+  assert(!html.includes(`fetch('${heavy}`) && !html.includes(`fetch("${heavy}`),
+    `ハブが ${heavy} を fetch していないこと`);
+});
+console.log('  ok  - 旧レーダーは撤去済み・所見フィードの配線と軽さの不変条件');
+
 // 4. Service Worker SHELL_VERSION の整合性
 const shellVerMatch = swJs.match(/const SHELL_VERSION = "([^"]+)";/);
-assert.ok(shellVerMatch[1] >= '2026-09-06g', 'SHELL_VERSION が 2026-09-06g 以上に更新されていること');
+assert.ok(shellVerMatch[1] >= '2026-09-12b', 'SHELL_VERSION が 2026-09-06g 以上に更新されていること');
 console.log(`  ok  - sw.js: SHELL_VERSION = ${shellVerMatch[1]}`);
 
 console.log('\nALL PASS (全8テーマ各25項目 + 不変条件 + reduced-motion + SW整合性)\n');

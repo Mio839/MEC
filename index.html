@@ -511,24 +511,37 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 .stamp-certified{display:inline-block;font-size:9px;font-weight:800;color:var(--gr);border:1px solid var(--gr);
   border-radius:3px;padding:1px 4px;transform:rotate(-4deg);letter-spacing:.08em;margin-left:4px;}
 
-/* ── 🩺 臨床スキルプロファイル ＆ 弱点探知ソナー ── */
-.skill-radar-box{margin-top:var(--sp-4);padding:var(--sp-3) var(--sp-4);background:rgba(var(--glass-rgb),.04);
+/* ── 📋 今日の所見（カルテの経過記録）── */
+/* ⚠️ 横方向に固定寸法を持たせないこと。旧レーダーが文字切れしていたのは 160px の箱に
+      枠外へはみ出すラベルを置いていたから。ここは行を折り返せる形だけで組む。 */
+.note-box{margin-top:var(--sp-4);padding:var(--sp-3) var(--sp-4);background:rgba(var(--glass-rgb),.04);
   border:1px solid var(--hair-2);border-radius:var(--r-md);}
-.radar-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-.radar-title{font-size:11px;font-weight:700;color:var(--ts);letter-spacing:.06em;}
-.radar-sonar-status{font-size:10px;color:var(--ts);display:flex;align-items:center;gap:4px;}
-.sonar-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--or);animation:sonarBlink 1.4s infinite;}
-@keyframes sonarBlink{0%,100%{opacity:.3;transform:scale(.8);}50%{opacity:1;transform:scale(1.3);box-shadow:0 0 6px var(--or);}}
-.radar-svg-wrap{position:relative;width:160px;height:160px;margin:0 auto;}
-.radar-grid{fill:none;stroke:rgba(var(--glass-rgb),.12);stroke-width:1;}
-.radar-axis{stroke:rgba(var(--glass-rgb),.12);stroke-width:1;stroke-dasharray:2 3;}
-.radar-val{fill:rgba(255,160,64,.25);stroke:var(--or);stroke-width:2;filter:drop-shadow(0 0 6px var(--or));
-  transition:points 1s ease-out;}
-.radar-lbl{font-size:8.5px;font-weight:700;fill:var(--ts);}
-.radar-sonar-sweep{position:absolute;inset:10px;border-radius:50%;
-  background:conic-gradient(from 0deg,transparent 70%,rgba(0,229,255,.25) 100%);
-  animation:sonarSweep 4s linear infinite;pointer-events:none;}
-@keyframes sonarSweep{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+.note-hdr{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:7px;}
+.note-title{font-size:11px;font-weight:700;color:var(--ts);letter-spacing:.06em;white-space:nowrap;}
+.note-basis{font-size:9.5px;color:var(--ts);opacity:.65;text-align:right;min-width:0;line-height:1.4;}
+.note-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;}
+.note-item{display:flex;flex-wrap:wrap;align-items:flex-start;gap:4px 8px;padding:7px 10px;
+  border-radius:var(--r-sm);background:rgba(var(--glass-rgb),.05);
+  border:1px solid var(--hair-2);border-left:3px solid var(--note-c,var(--hair-3));
+  font-size:11.5px;line-height:1.55;color:var(--ts);
+  animation:noteIn .42s var(--ease-out) backwards;animation-delay:calc(var(--i,0) * .07s);}
+@keyframes noteIn{0%{opacity:0;translate:0 6px;}100%{opacity:1;translate:0 0;}}
+.note-ic{flex-shrink:0;font-size:13px;line-height:1.35;}
+.note-tx{flex:1;min-width:0;}
+/* 数字だけ所見の色で立たせる。地の文はあくまで --ts（読み値と説明を描き分ける） */
+.note-tx b{color:var(--note-c,var(--tx));font-weight:800;font-variant-numeric:tabular-nums;}
+.note-tx i{font-style:normal;color:var(--ts);opacity:.85;}
+.note-go{margin-left:auto;flex-shrink:0;font-size:10.5px;font-weight:700;text-decoration:none;
+  color:var(--note-c,var(--or));border:1px solid currentColor;border-radius:var(--r-sm);
+  padding:2px 7px;opacity:.85;transition:opacity .2s,background-color .2s;}
+.note-go:hover{opacity:1;background:rgba(var(--glass-rgb),.08);}
+.note-item.tone-good{--note-c:#3DD68C;}
+.note-item.tone-warn{--note-c:#FFB347;}
+.note-item.tone-bad{--note-c:#FF7B7B;}
+.note-item.tone-info{--note-c:#93C5FD;}
+/* 所見が作れない日も枠は残す（中身だけ差し替える） */
+.note-empty{padding:8px 10px;border-radius:var(--r-sm);border:1px dashed var(--hair-2);
+  font-size:11px;line-height:1.6;color:var(--ts);opacity:.8;}
 
 /* ── 🏆 レベルアップ・アセンション（昇格）カットイン ── */
 .level-up-ascension-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:var(--z-modal);
@@ -3464,11 +3477,11 @@ html.ui-aurora .cta-main:hover{box-shadow:0 6px 24px rgba(0,223,216,.5),0 0 16px
 html.ui-aurora .cta-sub{background:linear-gradient(135deg,rgba(0,223,216,.08),rgba(121,40,202,.08));border-color:rgba(0,223,216,.35);box-shadow:0 2px 10px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.2);}
 html.ui-aurora .cta-sub:hover{border-color:rgba(0,223,216,.6);box-shadow:0 0 14px rgba(0,223,216,.3);}
 html.ui-aurora .cta-redo{border-color:rgba(255,0,128,.45);}
-html.ui-aurora .skill-radar-box{background:linear-gradient(145deg,rgba(0,223,216,.05),rgba(121,40,202,.05));border-color:rgba(0,223,216,.3);box-shadow:0 4px 16px rgba(0,0,0,.25),inset 0 0 15px rgba(0,223,216,.06);}
-html.ui-aurora .radar-grid{stroke:rgba(0,223,216,.25);}
-html.ui-aurora .radar-axis{stroke:rgba(121,40,202,.3);}
-html.ui-aurora .radar-val{fill:rgba(0,223,216,.28);stroke:#00DFD8;filter:drop-shadow(0 0 8px rgba(0,223,216,.7)) drop-shadow(0 0 14px rgba(255,0,128,.4));}
-html.ui-aurora .radar-sonar-sweep{background:conic-gradient(from 0deg,transparent 65%,rgba(0,223,216,.2) 85%,rgba(255,0,128,.35) 100%);}
+html.ui-aurora .note-box{background:linear-gradient(145deg,rgba(0,223,216,.05),rgba(121,40,202,.05));border-color:rgba(0,223,216,.3);box-shadow:0 4px 16px rgba(0,0,0,.25),inset 0 0 15px rgba(0,223,216,.06);}
+html.ui-aurora .note-title{color:#00DFD8;}
+html.ui-aurora .note-item{border-top-color:rgba(0,223,216,.25);border-right-color:rgba(0,223,216,.25);border-bottom-color:rgba(0,223,216,.25);}
+html.ui-aurora .note-basis{color:#00DFD8;opacity:.55;}
+html.ui-aurora .note-empty{border-color:rgba(121,40,202,.3);}
 html.ui-aurora .bar.on{background:linear-gradient(180deg,#00DFD8 0%,#7928CA 60%,#FF0080 100%);box-shadow:0 0 10px rgba(0,223,216,.5);border-radius:4px 4px 1px 1px;}
 html.ui-aurora .spark-target-line{border-top:1px dashed rgba(0,223,216,.45);}
 html.ui-aurora .spark-target-lbl{color:rgba(0,223,216,.8);}
@@ -3613,11 +3626,11 @@ html.ui-brass .cta-main:hover{box-shadow:0 6px 20px rgba(201,162,39,.5),inset 0 
 html.ui-brass .cta-sub{background:linear-gradient(180deg,rgba(201,162,39,.12),rgba(184,115,51,.08));border:1px solid rgba(201,162,39,.4);box-shadow:0 2px 8px rgba(0,0,0,.3),inset 0 1px 0 rgba(224,194,94,.2);color:#E0C25E;}
 html.ui-brass .cta-sub:hover{border-color:var(--brass-hi);box-shadow:0 0 12px rgba(201,162,39,.35);}
 html.ui-brass .cta-redo{border-color:rgba(220,100,50,.5);color:#FFB347;}
-html.ui-brass .skill-radar-box{background:linear-gradient(145deg,rgba(26,20,12,.8),rgba(184,115,51,.08));border-color:rgba(201,162,39,.38);box-shadow:0 4px 16px rgba(0,0,0,.35),inset 0 1px 0 rgba(224,194,94,.2);}
-html.ui-brass .radar-grid{stroke:rgba(201,162,39,.3);}
-html.ui-brass .radar-axis{stroke:rgba(184,115,51,.4);}
-html.ui-brass .radar-val{fill:rgba(201,162,39,.26);stroke:#E0C25E;stroke-width:2.2;filter:drop-shadow(0 0 8px rgba(224,194,94,.6));}
-html.ui-brass .radar-sonar-sweep{background:conic-gradient(from 0deg,transparent 65%,rgba(201,162,39,.18) 85%,rgba(224,194,94,.35) 100%);}
+html.ui-brass .note-box{background:linear-gradient(145deg,rgba(26,20,12,.8),rgba(184,115,51,.08));border-color:rgba(201,162,39,.38);box-shadow:0 4px 16px rgba(0,0,0,.35),inset 0 1px 0 rgba(224,194,94,.2);}
+html.ui-brass .note-title{color:#E0C25E;}
+html.ui-brass .note-item{border-top-color:rgba(201,162,39,.3);border-right-color:rgba(201,162,39,.3);border-bottom-color:rgba(201,162,39,.3);}
+html.ui-brass .note-basis{color:#E0C25E;opacity:.55;}
+html.ui-brass .note-empty{border-color:rgba(184,115,51,.4);}
 html.ui-brass .bar.on{background:linear-gradient(180deg,#E0C25E 0%,#C9A227 45%,#8A5A20 100%);box-shadow:0 0 8px rgba(201,162,39,.45);border:1px solid rgba(224,194,94,.4);}
 html.ui-brass .spark-target-line{border-top:1px dashed rgba(201,162,39,.5);}
 html.ui-brass .spark-target-lbl{color:#E0C25E;}
@@ -3768,11 +3781,11 @@ html.ui-cyber .cta-main:hover{box-shadow:0 0 28px rgba(0,255,157,.7),0 0 16px #0
 html.ui-cyber .cta-sub{border-radius:3px;background:rgba(6,18,30,.8);border:1px solid rgba(0,229,255,.45);box-shadow:0 0 10px rgba(0,229,255,.15),inset 0 0 6px rgba(0,229,255,.08);color:#00E5FF;}
 html.ui-cyber .cta-sub:hover{border-color:#00FF9D;color:#00FF9D;box-shadow:0 0 16px rgba(0,255,157,.35);}
 html.ui-cyber .cta-redo{border-color:rgba(255,69,58,.55);color:#FF453A;}
-html.ui-cyber .skill-radar-box{border-radius:4px;background:rgba(4,14,24,.85);border:1px solid rgba(0,229,255,.4);box-shadow:0 0 18px rgba(0,229,255,.18),inset 0 0 10px rgba(0,255,157,.08);}
-html.ui-cyber .radar-grid{stroke:rgba(0,229,255,.3);}
-html.ui-cyber .radar-axis{stroke:rgba(0,255,157,.35);}
-html.ui-cyber .radar-val{fill:rgba(0,255,157,.25);stroke:#00FF9D;stroke-width:2;filter:drop-shadow(0 0 8px #00FF9D) drop-shadow(0 0 16px #00E5FF);}
-html.ui-cyber .radar-sonar-sweep{background:conic-gradient(from 0deg,transparent 65%,rgba(0,229,255,.2) 85%,rgba(0,255,157,.45) 100%);}
+html.ui-cyber .note-box{border-radius:4px;background:rgba(4,14,24,.85);border:1px solid rgba(0,229,255,.4);box-shadow:0 0 18px rgba(0,229,255,.18),inset 0 0 10px rgba(0,255,157,.08);}
+html.ui-cyber .note-title{color:#00FF9D;}
+html.ui-cyber .note-item{border-top-color:rgba(0,229,255,.3);border-right-color:rgba(0,229,255,.3);border-bottom-color:rgba(0,229,255,.3);}
+html.ui-cyber .note-basis{color:#00FF9D;opacity:.55;}
+html.ui-cyber .note-empty{border-color:rgba(0,255,157,.35);}
 html.ui-cyber .bar.on{border-radius:2px;background:linear-gradient(180deg,#00FF9D 0%,#00DFD8 50%,#005F73 100%);box-shadow:0 0 10px rgba(0,255,157,.5);}
 html.ui-cyber .spark-target-line{border-top:1px solid #00E5FF;box-shadow:0 0 8px rgba(0,229,255,.5);}
 html.ui-cyber .spark-target-lbl{color:#00E5FF;font-weight:800;text-shadow:0 0 6px #00E5FF;}
@@ -3916,11 +3929,11 @@ html.ui-liquid .cta-main:hover{box-shadow:0 6px 26px rgba(255,0,127,.55),0 0 18p
 html.ui-liquid .cta-sub{border-radius:16px;background:linear-gradient(135deg,rgba(255,0,127,.08),rgba(0,242,254,.08));border-color:rgba(255,0,127,.35);box-shadow:0 2px 10px rgba(255,0,127,.12);}
 html.ui-liquid .cta-sub:hover{border-color:rgba(255,0,127,.65);box-shadow:0 0 16px rgba(255,0,127,.28);}
 html.ui-liquid .cta-redo{border-color:rgba(255,0,127,.55);}
-html.ui-liquid .skill-radar-box{border-radius:18px;background:linear-gradient(145deg,rgba(255,0,127,.06),rgba(0,242,254,.06));border-color:rgba(255,0,127,.3);box-shadow:0 4px 18px rgba(255,0,127,.15);}
-html.ui-liquid .radar-grid{stroke:rgba(255,0,127,.25);}
-html.ui-liquid .radar-axis{stroke:rgba(0,242,254,.3);}
-html.ui-liquid .radar-val{fill:rgba(255,0,127,.25);stroke:#FF007F;filter:drop-shadow(0 0 8px rgba(255,0,127,.6)) drop-shadow(0 0 16px rgba(0,242,254,.4));}
-html.ui-liquid .radar-sonar-sweep{background:conic-gradient(from 0deg,transparent 65%,rgba(0,242,254,.2) 85%,rgba(255,0,127,.4) 100%);}
+html.ui-liquid .note-box{border-radius:18px;background:linear-gradient(145deg,rgba(255,0,127,.06),rgba(0,242,254,.06));border-color:rgba(255,0,127,.3);box-shadow:0 4px 18px rgba(255,0,127,.15);}
+html.ui-liquid .note-title{color:#FF007F;}
+html.ui-liquid .note-item{border-top-color:rgba(255,0,127,.25);border-right-color:rgba(255,0,127,.25);border-bottom-color:rgba(255,0,127,.25);}
+html.ui-liquid .note-basis{color:#FF007F;opacity:.55;}
+html.ui-liquid .note-empty{border-color:rgba(0,242,254,.3);}
 html.ui-liquid .bar.on{border-radius:6px 6px 2px 2px;background:linear-gradient(180deg,#FF52A0 0%,#FF007F 50%,#00F2FE 100%);box-shadow:0 0 12px rgba(255,0,127,.45);}
 html.ui-liquid .spark-target-line{border-top:1px dashed rgba(255,0,127,.5);}
 html.ui-liquid .spark-target-lbl{color:#FF52A0;}
@@ -4071,11 +4084,11 @@ html.ui-kintsugi .cta-main:hover{box-shadow:0 6px 22px rgba(245,208,97,.45),inse
 html.ui-kintsugi .cta-sub{background:rgba(18,14,10,.85);border:1px solid rgba(245,208,97,.35);box-shadow:0 2px 8px rgba(0,0,0,.5),inset 0 0 8px rgba(245,208,97,.06);color:#F5D061;}
 html.ui-kintsugi .cta-sub:hover{border-color:#F5D061;box-shadow:0 0 14px rgba(245,208,97,.3);}
 html.ui-kintsugi .cta-redo{border-color:rgba(200,56,56,.5);color:#E57373;}
-html.ui-kintsugi .skill-radar-box{background:rgba(16,12,8,.88);border-color:rgba(245,208,97,.35);box-shadow:0 4px 16px rgba(0,0,0,.5),inset 0 0 12px rgba(245,208,97,.08);}
-html.ui-kintsugi .radar-grid{stroke:rgba(245,208,97,.28);}
-html.ui-kintsugi .radar-axis{stroke:rgba(212,175,55,.35);}
-html.ui-kintsugi .radar-val{fill:rgba(245,208,97,.24);stroke:#F5D061;stroke-width:2.2;filter:drop-shadow(0 0 8px rgba(245,208,97,.65));}
-html.ui-kintsugi .radar-sonar-sweep{background:conic-gradient(from 0deg,transparent 65%,rgba(245,208,97,.15) 85%,rgba(212,175,55,.35) 100%);}
+html.ui-kintsugi .note-box{background:rgba(16,12,8,.88);border-color:rgba(245,208,97,.35);box-shadow:0 4px 16px rgba(0,0,0,.5),inset 0 0 12px rgba(245,208,97,.08);}
+html.ui-kintsugi .note-title{color:#F5D061;}
+html.ui-kintsugi .note-item{border-top-color:rgba(245,208,97,.28);border-right-color:rgba(245,208,97,.28);border-bottom-color:rgba(245,208,97,.28);}
+html.ui-kintsugi .note-basis{color:#F5D061;opacity:.55;}
+html.ui-kintsugi .note-empty{border-color:rgba(212,175,55,.35);}
 html.ui-kintsugi .bar.on{background:linear-gradient(180deg,#F5D061 0%,#D4AF37 50%,#5A4310 100%);box-shadow:0 0 8px rgba(245,208,97,.4);border:1px solid rgba(245,208,97,.35);}
 html.ui-kintsugi .spark-target-line{border-top:1px dashed rgba(245,208,97,.45);}
 html.ui-kintsugi .spark-target-lbl{color:#F5D061;}
@@ -4230,11 +4243,11 @@ html.ui-celestial .cta-main:hover{box-shadow:0 6px 26px rgba(138,43,226,.6),0 0 
 html.ui-celestial .cta-sub{background:linear-gradient(135deg,rgba(26,11,46,.8),rgba(138,43,226,.1));border-color:rgba(255,209,102,.35);box-shadow:0 2px 10px rgba(0,0,0,.3),inset 0 0 10px rgba(138,43,226,.12);color:#FFD166;}
 html.ui-celestial .cta-sub:hover{border-color:#FFD166;box-shadow:0 0 16px rgba(255,209,102,.35);}
 html.ui-celestial .cta-redo{border-color:rgba(255,100,100,.5);color:#FFA0A0;}
-html.ui-celestial .skill-radar-box{background:linear-gradient(145deg,rgba(22,9,40,.85),rgba(138,43,226,.1));border-color:rgba(255,209,102,.35);box-shadow:0 4px 18px rgba(138,43,226,.25);}
-html.ui-celestial .radar-grid{stroke:rgba(255,209,102,.28);}
-html.ui-celestial .radar-axis{stroke:rgba(138,43,226,.4);}
-html.ui-celestial .radar-val{fill:rgba(255,209,102,.25);stroke:#FFD166;stroke-width:2.2;filter:drop-shadow(0 0 8px #FFD166) drop-shadow(0 0 18px #8A2BE2);}
-html.ui-celestial .radar-sonar-sweep{background:conic-gradient(from 0deg,transparent 65%,rgba(138,43,226,.25) 85%,rgba(255,209,102,.4) 100%);}
+html.ui-celestial .note-box{background:linear-gradient(145deg,rgba(22,9,40,.85),rgba(138,43,226,.1));border-color:rgba(255,209,102,.35);box-shadow:0 4px 18px rgba(138,43,226,.25);}
+html.ui-celestial .note-title{color:#FFD166;}
+html.ui-celestial .note-item{border-top-color:rgba(255,209,102,.28);border-right-color:rgba(255,209,102,.28);border-bottom-color:rgba(255,209,102,.28);}
+html.ui-celestial .note-basis{color:#FFD166;opacity:.55;}
+html.ui-celestial .note-empty{border-color:rgba(138,43,226,.4);}
 html.ui-celestial .bar.on{background:linear-gradient(180deg,#FFFDF0 0%,#FFD166 40%,#8A2BE2 100%);box-shadow:0 0 10px rgba(255,209,102,.5);}
 html.ui-celestial .spark-target-line{border-top:1px dashed rgba(255,209,102,.5);}
 html.ui-celestial .spark-target-lbl{color:#FFD166;}
@@ -4398,11 +4411,11 @@ html.ui-abyss .cta-main:hover{box-shadow:0 6px 24px rgba(0,255,163,.6),0 0 16px 
 html.ui-abyss .cta-sub{border-radius:8px;background:rgba(2,16,28,.85);border:1px solid rgba(0,255,163,.35);box-shadow:0 2px 10px rgba(0,0,0,.35),inset 0 0 8px rgba(0,180,216,.1);color:#00FFA3;}
 html.ui-abyss .cta-sub:hover{border-color:#00FFA3;box-shadow:0 0 16px rgba(0,255,163,.35);}
 html.ui-abyss .cta-redo{border-color:rgba(255,69,58,.5);color:#FF6B6B;}
-html.ui-abyss .skill-radar-box{border-radius:8px;background:rgba(2,14,26,.88);border-color:rgba(0,255,163,.35);box-shadow:0 4px 16px rgba(0,0,0,.4),inset 0 0 12px rgba(0,255,163,.08);}
-html.ui-abyss .radar-grid{stroke:rgba(0,255,163,.28);}
-html.ui-abyss .radar-axis{stroke:rgba(0,180,216,.35);}
-html.ui-abyss .radar-val{fill:rgba(0,255,163,.25);stroke:#00FFA3;stroke-width:2.2;filter:drop-shadow(0 0 8px #00FFA3) drop-shadow(0 0 18px #00B4D8);}
-html.ui-abyss .radar-sonar-sweep{background:conic-gradient(from 0deg,transparent 65%,rgba(0,180,216,.2) 85%,rgba(0,255,163,.4) 100%);}
+html.ui-abyss .note-box{border-radius:8px;background:rgba(2,14,26,.88);border-color:rgba(0,255,163,.35);box-shadow:0 4px 16px rgba(0,0,0,.4),inset 0 0 12px rgba(0,255,163,.08);}
+html.ui-abyss .note-title{color:#00FFA3;}
+html.ui-abyss .note-item{border-top-color:rgba(0,255,163,.28);border-right-color:rgba(0,255,163,.28);border-bottom-color:rgba(0,255,163,.28);}
+html.ui-abyss .note-basis{color:#00FFA3;opacity:.55;}
+html.ui-abyss .note-empty{border-color:rgba(0,180,216,.35);}
 html.ui-abyss .bar.on{border-radius:4px 4px 1px 1px;background:linear-gradient(180deg,#00FFA3 0%,#00B4D8 60%,#001428 100%);box-shadow:0 0 10px rgba(0,255,163,.45);}
 html.ui-abyss .spark-target-line{border-top:1px dashed rgba(0,255,163,.45);}
 html.ui-abyss .spark-target-lbl{color:#00FFA3;}
@@ -4554,11 +4567,11 @@ html.ui-frost .cta-main:hover{box-shadow:0 6px 26px rgba(112,214,255,.65),0 0 18
 html.ui-frost .cta-sub{background:rgba(8,20,36,.85);border:1px solid rgba(160,231,229,.38);box-shadow:0 2px 10px rgba(0,0,0,.3),inset 0 0 10px rgba(112,214,255,.08);color:#A0E7E5;}
 html.ui-frost .cta-sub:hover{border-color:#FFF;color:#FFF;box-shadow:0 0 16px rgba(160,231,229,.4);}
 html.ui-frost .cta-redo{border-color:rgba(255,120,120,.5);color:#FFB0B0;}
-html.ui-frost .skill-radar-box{background:rgba(8,18,34,.88);border-color:rgba(160,231,229,.38);box-shadow:0 4px 18px rgba(112,214,255,.2),inset 0 0 12px rgba(255,255,255,.06);}
-html.ui-frost .radar-grid{stroke:rgba(160,231,229,.3);}
-html.ui-frost .radar-axis{stroke:rgba(112,214,255,.38);}
-html.ui-frost .radar-val{fill:rgba(160,231,229,.26);stroke:#A0E7E5;stroke-width:2.2;filter:drop-shadow(0 0 8px #FFF) drop-shadow(0 0 18px #70D6FF);}
-html.ui-frost .radar-sonar-sweep{background:conic-gradient(from 0deg,transparent 65%,rgba(112,214,255,.2) 85%,rgba(160,231,229,.45) 100%);}
+html.ui-frost .note-box{background:rgba(8,18,34,.88);border-color:rgba(160,231,229,.38);box-shadow:0 4px 18px rgba(112,214,255,.2),inset 0 0 12px rgba(255,255,255,.06);}
+html.ui-frost .note-title{color:#A0E7E5;}
+html.ui-frost .note-item{border-top-color:rgba(160,231,229,.3);border-right-color:rgba(160,231,229,.3);border-bottom-color:rgba(160,231,229,.3);}
+html.ui-frost .note-basis{color:#A0E7E5;opacity:.55;}
+html.ui-frost .note-empty{border-color:rgba(112,214,255,.38);}
 html.ui-frost .bar.on{background:linear-gradient(180deg,#FFF 0%,#A0E7E5 45%,#70D6FF 100%);box-shadow:0 0 10px rgba(112,214,255,.5);}
 html.ui-frost .spark-target-line{border-top:1px dashed rgba(160,231,229,.5);}
 html.ui-frost .spark-target-lbl{color:#A0E7E5;}
@@ -4849,8 +4862,8 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
   html.ui-celestial .hero-num[data-goal="1"],html.ui-celestial .hero-num[data-goal="2"],
   html.ui-abyss .hero-num[data-goal="1"],html.ui-abyss .hero-num[data-goal="2"],
   html.ui-frost .hero-num[data-goal="1"],html.ui-frost .hero-num[data-goal="2"],
-  .radar-sonar-sweep,.sonar-dot,.tiles .tile:nth-child(odd),.tiles .tile:nth-child(even){animation:none!important;}
-  .exam-countdown::before,.hero-acc::after,.sec-h .ln::after,.radar-sonar-sweep{display:none!important;}
+  .note-item,.tiles .tile:nth-child(odd),.tiles .tile:nth-child(even){animation:none!important;}
+  .exam-countdown::before,.hero-acc::after,.sec-h .ln::after{display:none!important;}
   /* 2026-09-08 追加分（SRS復習キューの意匠）。
      ⚠️ display:none にはしないこと——枠・彫り・コーナー飾り・リスク帯は
         「動き」ではなく「情報と質感」で、消すと素の板に戻ってしまう。
@@ -6304,37 +6317,21 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
         <div class="spark-streak-track" id="heroStreakTrack" aria-hidden="true"></div>
       </div>
 
-      <!-- 🩺 臨床スキルプロファイル ＆ 弱点探知ソナー -->
-      <div class="skill-radar-box" id="skillRadarBox">
-        <div class="radar-hdr">
-          <span class="radar-title">🩺 臨床スキルプロファイル</span>
-          <span class="radar-sonar-status" id="radarSonarStatus"><i class="sonar-dot"></i>弱点スキャン中</span>
+      <!-- 📋 今日の所見。カルテの経過記録にあたる層で、その日のデータから毎回作り直す。
+           2026-09-12 に「🩺 臨床スキルプロファイル」（六角レーダー＋弱点探知ソナー）を置き換えた。
+           旧実装は6軸すべてが「今日の正答率 × 固定係数 [1,1.06,.94,1.08,.92,1.04]」で、
+           形が原理的に変わらず科目のデータを1ビットも読んでいなかった（「弱点スキャン中」も
+           一度も書き換わらない固定文字列だった）。ラベルが切れていたのは viewBox 160 に対し
+           x=142/anchor=start と x=18/anchor=end が枠外へ出ていたため。
+           ⚠️ 追加のファイル読み込みを1つも増やさないこと（下の _buildHubNotes のコメント参照）。
+           ⚠️ セクションは常設する。所見が0件の日も枠ごと消さず中身だけ差し替える
+              （「今日はデータが無いから消える」セクションを作らない＝統計ページと同じ規約）。 -->
+      <div class="note-box" id="hubNoteBox">
+        <div class="note-hdr">
+          <span class="note-title">📋 今日の所見</span>
+          <span class="note-basis" id="hubNoteBasis"></span>
         </div>
-        <div class="radar-svg-wrap">
-          <svg class="radar-svg" viewBox="0 0 160 160" id="skillRadarSvg" aria-label="臓器別スキルレーダー">
-            <!-- 背景の六角形グリッド -->
-            <polygon class="radar-grid grid-1" points="80,20 137,45 137,115 80,140 23,115 23,45"></polygon>
-            <polygon class="radar-grid grid-2" points="80,40 118,57 118,103 80,120 42,103 42,57"></polygon>
-            <polygon class="radar-grid grid-3" points="80,60 99,68 99,92 80,100 61,92 61,68"></polygon>
-            <!-- 軸線 -->
-            <line class="radar-axis" x1="80" y1="80" x2="80" y2="20"></line>
-            <line class="radar-axis" x1="80" y1="80" x2="137" y2="45"></line>
-            <line class="radar-axis" x1="80" y1="80" x2="137" y2="115"></line>
-            <line class="radar-axis" x1="80" y1="80" x2="80" y2="140"></line>
-            <line class="radar-axis" x1="80" y1="80" x2="23" y2="115"></line>
-            <line class="radar-axis" x1="80" y1="80" x2="23" y2="45"></line>
-            <!-- スキル値ポリゴン（JSで動的に更新） -->
-            <polygon class="radar-val" id="radarValPoly" points="80,45 120,55 110,100 80,115 45,95 50,55"></polygon>
-            <!-- ラベル -->
-            <text class="radar-lbl" x="80" y="14" text-anchor="middle">循環器</text>
-            <text class="radar-lbl" x="142" y="48" text-anchor="start">呼吸器</text>
-            <text class="radar-lbl" x="142" y="118" text-anchor="start">消化器</text>
-            <text class="radar-lbl" x="80" y="152" text-anchor="middle">救急/麻酔</text>
-            <text class="radar-lbl" x="18" y="118" text-anchor="end">小児/産婦</text>
-            <text class="radar-lbl" x="18" y="48" text-anchor="end">神経/腎</text>
-          </svg>
-          <div class="radar-sonar-sweep" aria-hidden="true"></div>
-        </div>
+        <ul class="note-list" id="hubNoteList"></ul>
       </div>
     </div>
   </section>
@@ -6916,6 +6913,506 @@ document.addEventListener('click', (e) => {
   }
 });
 
+// ── 📋 今日の所見 ─────────────────────────────────────────────
+// 2026-09-12 に「🩺 臨床スキルプロファイル」（六角レーダー＋弱点探知ソナー）を置き換えたもの。
+// 旧実装は6軸が全部「今日の正答率 × 固定係数 [1,1.06,.94,1.08,.92,1.04]」で、形が原理的に
+// 変わらず科目のデータを1ビットも読んでいなかった＝毎日まったく同じ絵が出ていた。
+// ここはその席に「その日のデータからしか作れない観察」を置く。
+//
+// ⚠️⚠️ 追加のファイル読み込みを1つも増やさないこと。材料は localStorage と、ハブが既に
+//    読んでいる chapters_meta.js（MEC_CHAPTERS）/ mindmap_data/index.js（MM_SUBJECTS）だけ。
+//    qmeta.json(564KB)・rate_index.js(98KB)・模試の解答表(107KB) をここへ持ち込むと
+//    ハブを開くたびにその重さを払うことになる（全国正答率との比較は stats.html の
+//    弱点カルテの担当で、ハブに劣化版を置かない）。
+// ⚠️ 日境界は必ず JST（_jstDay）。attempts・activity_v1・ミッションと同じ切り方にする。
+// ⚠️ 正誤が残るのは試験モード・SRS復習・章別試験だけ（通常モードの「済」は正誤を持たない）。
+//    したがって通常モードだけで解いた日は正答率系の所見が出ない。これは仕様。
+
+const NOTE_KEY  = 'mec_hub_notes_v1';  // ⚠️ UIローカル（非同期）。Gist の payload に足さないこと
+const NOTE_SHOW = 3;                   // 一度に出す件数
+const NOTE_KEEP = 30;                  // 「いつ出したか」を覚えておく日数
+
+// 科目の表示名。正本は gamify.js の SUBJECTS（→ mindmap_data/index.js）。
+// 過去問・実力試験Ⅰはそこに載らないのでここで補う。
+const _NOTE_SUBJ = (function () {
+  const m = {};
+  (window.MM_SUBJECTS || []).forEach(s => { m[s.sid] = { label: s.label, icon: s.icon }; });
+  m.kakumon = { label: '国試過去問', icon: '📖' };
+  m.jitsu1  = { label: '実力試験Ⅰ', icon: '📝' };
+  m.custom  = { label: '自作問題',   icon: '✏️' };
+  m.memo    = { label: '暗記メモ',   icon: '📌' };
+  return m;
+})();
+
+// uid → 科目id。jinzo_d_ch03_q136 のように prefix に '_' を含む科目があるので
+// '_ch' の前までを取る（kakumon_116A_q12 だけ '_ch' を持たないので先に弾く）
+function _noteSid(uid) {
+  if (!uid) return '';
+  if (uid.indexOf('kakumon_') === 0) return 'kakumon';
+  const i = uid.indexOf('_ch');
+  if (i > 0) return uid.slice(0, i);
+  const j = uid.indexOf('_q');
+  return j > 0 ? uid.slice(0, j) : uid;
+}
+function _noteSubj(sid) { return _NOTE_SUBJ[sid] || { label: sid, icon: '📘' }; }
+
+// 'MEC内分泌代謝 第1章 内分泌代謝の基本 解答解説' → '第1章 内分泌代謝の基本'
+// ⚠️ 末尾の「解答解説」を先に落とすこと（1つの正規表現に混ぜると章名の無い title で残る）
+function _noteChTitle(title) {
+  const t = String(title || '').replace(/\s*解答解説\s*$/, '').trim();
+  const m = t.match(/(第\d+章.*)$/);
+  return (m ? m[1] : t).trim();
+}
+function _noteEsc(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+function _noteDayDiff(a, b) {
+  return Math.round((Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / 86400000);
+}
+function _notePct(c, t) { return t > 0 ? Math.round(c / t * 100) : 0; }
+
+// ── 材料を1回のパスで作る ────────────────────────────────────
+function _noteFacts(td) {
+  const now = Date.now();
+  const today = _jstDay(now);
+  const att = (window.MecAttempts && MecAttempts.all) ? MecAttempts.all() : [];
+
+  const F = {
+    today: today, now: now, n: att.length, days: 0,
+    allT: 0, allC: 0, allPct: 0,
+    bySid: {},                         // sid → {t,c, r7t,r7c, p7t,p7c, last}
+    sess: {},                          // sess → {t,c,last,sid:{}}
+    half: { ft: 0, fc: 0, lt: 0, lc: 0 },
+    fast: { t: 0, c: 0 }, slowWrong: {},
+    night: { t: 0, c: 0 }, day: { t: 0, c: 0 },
+    redo: { t: 0, c: 0 },
+    byDay: {},
+  };
+  if (!att.length) return F;
+
+  const d7 = now - 7 * 86400000, d14 = now - 14 * 86400000;
+
+  // セッション長は「そのセッションの最大 n」。前半／後半の境目に要る
+  const sessLen = {};
+  att.forEach(a => {
+    if (!a.sess) return;
+    if (!sessLen[a.sess] || a.n > sessLen[a.sess]) sessLen[a.sess] = a.n;
+  });
+
+  const everWrong = Object.create(null);
+  att.forEach(a => {
+    const sid = _noteSid(a.uid);
+    const day = _jstDay(a.ms);
+    F.allT++; if (a.ok) F.allC++;
+
+    const D = F.byDay[day] || (F.byDay[day] = { t: 0, c: 0 });
+    D.t++; if (a.ok) D.c++;
+
+    const S = F.bySid[sid] || (F.bySid[sid] = { t: 0, c: 0, r7t: 0, r7c: 0, p7t: 0, p7c: 0, last: 0 });
+    S.t++; if (a.ok) S.c++;
+    if (a.ms > S.last) S.last = a.ms;
+    if (a.ms >= d7)       { S.r7t++; if (a.ok) S.r7c++; }
+    else if (a.ms >= d14) { S.p7t++; if (a.ok) S.p7c++; }
+
+    if (a.sess) {
+      const E = F.sess[a.sess] || (F.sess[a.sess] = { t: 0, c: 0, last: 0, sid: {} });
+      E.t++; if (a.ok) E.c++;
+      if (a.ms > E.last) E.last = a.ms;
+      E.sid[sid] = (E.sid[sid] || 0) + 1;
+      // 20問以上のセッションだけ「前半／後半」を測る（短いセッションでは意味を持たない）
+      const len = sessLen[a.sess] || 0;
+      if (len >= 20 && a.n > 0) {
+        if (a.n <= len / 2) { F.half.ft++; if (a.ok) F.half.fc++; }
+        else                { F.half.lt++; if (a.ok) F.half.lc++; }
+      }
+    }
+
+    if (a.sec !== null && a.sec !== undefined) {
+      if (a.sec < 5) { F.fast.t++; if (a.ok) F.fast.c++; }
+      if (a.sec >= 60 && !a.ok) F.slowWrong[sid] = (F.slowWrong[sid] || 0) + 1;
+    }
+
+    const h = new Date(a.ms + 9 * 3600000).getUTCHours();   // JSTの時刻
+    if (h >= 22 || h < 4)      { F.night.t++; if (a.ok) F.night.c++; }
+    else if (h >= 9 && h < 18) { F.day.t++;   if (a.ok) F.day.c++; }
+
+    // 一度落とした問題の解き直し（直近7日ぶんだけ数える）
+    if (everWrong[a.uid] && a.ms >= d7) { F.redo.t++; if (a.ok) F.redo.c++; }
+    if (!a.ok) everWrong[a.uid] = 1;
+  });
+
+  F.days = Object.keys(F.byDay).length;
+  F.allPct = _notePct(F.allC, F.allT);
+  return F;
+}
+
+// 章ごとの「あと何問」と科目ごとの済数。done_v2 は1回のパスで畳む
+// （218章それぞれで done_v2 を走査すると 218×|done| になる）
+function _noteChapterFacts() {
+  let done = {};
+  try { done = JSON.parse(localStorage.getItem('done_v2') || '{}'); } catch (e) {}
+  const byCh = Object.create(null), bySid = Object.create(null);
+  for (const uid in done) {
+    if (!(done[uid] > 0)) continue;
+    const j = uid.indexOf('_q');
+    if (j > 0) byCh[uid.slice(0, j)] = (byCh[uid.slice(0, j)] || 0) + 1;
+    const sid = _noteSid(uid);
+    bySid[sid] = (bySid[sid] || 0) + 1;
+  }
+  const near = [];
+  const sidTotal = Object.create(null);
+  (typeof MEC_CHAPTERS !== 'undefined' ? MEC_CHAPTERS : []).forEach(s => {
+    (s.chapters || []).forEach(ch => {
+      const cnt = ch.count || 0;
+      sidTotal[s.id] = (sidTotal[s.id] || 0) + cnt;
+      const dn = byCh[ch.prefix] || 0;
+      const left = cnt - dn;
+      // ⚠️ 「半分以上やった章」だけを候補にする。left <= 15 だけで拾うと、
+      //    1問も手を付けていない小さい章（count <= 15）が「あと N問で終わる」に化ける。
+      if (cnt > 0 && left >= 1 && left <= 15 && dn / cnt >= 0.5) {
+        near.push({ sid: s.id, subj: s.name, title: _noteChTitle(ch.title), left: left, cnt: cnt });
+      }
+    });
+  });
+  // 残りが少ない順。同数なら大きい章を先に（片付く量が多い方が嬉しい）
+  near.sort((a, b) => a.left - b.left || b.cnt - a.cnt);
+  return { near: near, doneBySid: bySid, totalBySid: sidTotal };
+}
+
+function _noteSrsFacts() {
+  const out = { overdue: 0, oldest: 0, tomorrow: 0, mature: 0 };
+  try {
+    const today = _jstDay(Date.now());
+    const tmr = _jstDay(Date.now() + 86400000);
+    const srs = JSON.parse(localStorage.getItem('mec_srs_v1') || '{}');
+    for (const uid in srs) {
+      const e = srs[uid]; if (!e || !e.nextReview) continue;
+      if (e.nextReview < today) {
+        out.overdue++;
+        const late = _noteDayDiff(e.nextReview, today);
+        if (late > out.oldest) out.oldest = late;
+      }
+      if (e.nextReview === tmr) out.tomorrow++;
+      if ((e.interval || 0) >= 30) out.mature++;
+    }
+  } catch (e) {}
+  return out;
+}
+
+// ── 所見の候補を作る ─────────────────────────────────────────
+// 1件 = { id, w(重み), tone, ic, tx(HTML), href, cta }
+// ⚠️ 出す条件には必ず最低件数（n）を置くこと。3回中0回のような小さい分母から「傾向」を
+//    名指しすると、偶然を指摘として読ませることになる。
+function _buildHubNotes(td, due, streak, F, CH, S) {
+  F  = F  || _noteFacts(td);
+  CH = CH || _noteChapterFacts();
+  S  = S  || _noteSrsFacts();
+  const out = [];
+  const add = (id, w, tone, ic, tx, href, cta) =>
+    out.push({ id: id, w: w, tone: tone, ic: ic, tx: tx, href: href || '', cta: cta || '' });
+
+  // 通算の正答率。attempts は直近5000件で切れるので、生涯値は myrate_v1 を使う
+  let baseT = F.allT, baseC = F.allC;
+  try {
+    const mr = JSON.parse(localStorage.getItem('myrate_v1') || '{}');
+    let t = 0, c = 0;
+    for (const uid in mr) { t += (mr[uid].total || 0); c += (mr[uid].correct || 0); }
+    if (t >= baseT) { baseT = t; baseC = c; }
+  } catch (e) {}
+  const basePct = _notePct(baseC, baseT);
+
+  // ① 今日まだ0問 — その日いちばん行動につながる1行なので重みを高くする
+  if ((td.solved || 0) === 0) {
+    add('zero', 40, 'info', '🕗',
+      due > 0
+        ? '今日はまだ0問。復習が <b>' + _fmtN(due) + '問</b>たまっている。<i>ここから始めるのがいちばん速い</i>'
+        : '今日はまだ0問。<i>1科目ひらくところから</i>',
+      due > 0 ? 'study.html?mode=srs_review' : 'study.html',
+      due > 0 ? '復習へ' : '科目を選ぶ');
+  }
+
+  // ② 今日の正答率（自己ベスト / 通算との差）
+  if (td.exT >= 20) {
+    const tp = td.accPct || 0;
+    let best = true, cmp = 0;
+    for (const d in F.byDay) {
+      if (d === F.today) continue;
+      if (_noteDayDiff(d, F.today) > 14) continue;
+      const x = F.byDay[d];
+      if (x.t >= 20) { cmp++; if (_notePct(x.c, x.t) >= tp) best = false; }
+    }
+    if (best && cmp >= 2) {
+      add('best', 32, 'good', '🏅',
+        '今日の正答率 <b>' + tp + '%</b> は直近14日で最も高い（' + td.exC + '/' + td.exT + '問）。<i>今日の解き方は合っている</i>');
+    } else if (basePct > 0 && tp - basePct >= 8) {
+      add('todayup', 24, 'good', '📈',
+        '今日の正答率 <b>' + tp + '%</b> は通算より <b>+' + (tp - basePct) + 'pt</b>。<i>調子がいい</i>');
+    } else if (basePct > 0 && basePct - tp >= 12) {
+      add('todaydown', 22, 'warn', '📉',
+        '今日の正答率 <b>' + tp + '%</b> は通算より <b>-' + (basePct - tp) + 'pt</b>。<i>難しい範囲に入っている合図でもある</i>');
+    }
+  }
+
+  // ③ 直近セッションの手応え
+  {
+    let key = '', bestMs = 0;
+    for (const k in F.sess) {
+      const e = F.sess[k];
+      if (e.t >= 10 && e.last > bestMs) { bestMs = e.last; key = k; }
+    }
+    if (key) {
+      const e = F.sess[key];
+      let sid = '', mx = 0;
+      for (const s in e.sid) if (e.sid[s] > mx) { mx = e.sid[s]; sid = s; }
+      const sj = _noteSubj(sid), p = _notePct(e.c, e.t), d = p - basePct;
+      const ago = _noteDayDiff(_jstDay(e.last), F.today);
+      const when = ago === 0 ? '今日' : ago === 1 ? '昨日' : ago + '日前';
+      add('lastsess', 18, d >= 5 ? 'good' : d <= -5 ? 'warn' : 'info', sj.icon,
+        when + 'の' + _noteEsc(sj.label) + 'のセッションは <b>' + e.t + '問</b>・正答率 <b>' + p + '%</b>'
+          + (basePct > 0 ? '（通算 ' + basePct + '% より ' + (d >= 0 ? '+' : '') + d + 'pt）' : ''),
+        'study.html?sid=' + encodeURIComponent(sid), _noteEsc(sj.label));
+    }
+  }
+
+  // ④ セッション後半の失速 ／ 持続
+  if (F.half.ft >= 40 && F.half.lt >= 40) {
+    const a = _notePct(F.half.fc, F.half.ft), b = _notePct(F.half.lc, F.half.lt), d = b - a;
+    if (d <= -8) {
+      add('fade', 28, 'warn', '⏳',
+        'セッション後半で正答率が <b>' + (-d) + 'pt</b> 落ちる（前半 ' + a + '% → 後半 ' + b + '%）。<i>25問前後で区切ると取りこぼしが減る</i>');
+    } else if (d >= 5) {
+      add('hold', 18, 'good', '🔋',
+        'セッション後半でも正答率が <b>+' + d + 'pt</b>（前半 ' + a + '% → 後半 ' + b + '%）。<i>最後まで集中が切れていない</i>');
+    }
+  }
+
+  // ⑤ 読み飛ばし（5秒未満の解答）
+  if (F.fast.t >= 10 && baseT > 0) {
+    const fp = _notePct(F.fast.c, F.fast.t), d = basePct - fp;
+    if (d >= 12) {
+      add('hasty', 26, 'warn', '⚡',
+        '5秒未満で答えた <b>' + F.fast.t + '問</b>のうち <b>' + (F.fast.t - F.fast.c) + '問</b>が誤答（全体より <b>' + d + 'pt</b> 低い）。<i>読み飛ばしのサイン</i>');
+    } else if (F.fast.t >= 20 && fp - basePct >= 5) {
+      add('quick', 16, 'good', '⚡',
+        '5秒未満で答えた <b>' + F.fast.t + '問</b>の正答率が <b>' + fp + '%</b>。<i>即答できる範囲が増えている</i>');
+    }
+  }
+
+  // ⑥ 長考しても落とす科目＝知識の穴
+  {
+    let sid = '', n = 0;
+    for (const s in F.slowWrong) if (F.slowWrong[s] > n) { n = F.slowWrong[s]; sid = s; }
+    if (n >= 5) {
+      const sj = _noteSubj(sid);
+      add('ponder', 22, 'warn', '🕰',
+        '60秒以上考えて落とした問題が' + _noteEsc(sj.label) + 'に <b>' + n + '問</b>。<i>迷いではなく知識の穴</i>',
+        'study.html?sid=' + encodeURIComponent(sid), _noteEsc(sj.label));
+    }
+  }
+
+  // ⑦ 科目の伸び／落ち（直近7日 vs その前の7日）
+  {
+    let up = null, down = null;
+    for (const sid in F.bySid) {
+      const X = F.bySid[sid];
+      if (X.r7t < 10 || X.p7t < 10) continue;
+      const a = _notePct(X.p7c, X.p7t), b = _notePct(X.r7c, X.r7t), d = b - a;
+      if (d >= 8 && (!up || d > up.d)) up = { sid: sid, a: a, b: b, d: d };
+      if (d <= -8 && (!down || d < down.d)) down = { sid: sid, a: a, b: b, d: d };
+    }
+    if (up) {
+      const sj = _noteSubj(up.sid);
+      add('subjup', 28, 'good', sj.icon,
+        _noteEsc(sj.label) + 'が直近7日で <b>+' + up.d + 'pt</b>（' + up.a + '% → ' + up.b + '%）。<i>効いている</i>',
+        'study.html?sid=' + encodeURIComponent(up.sid), _noteEsc(sj.label));
+    }
+    if (down) {
+      const sj = _noteSubj(down.sid);
+      add('subjdown', 28, 'warn', sj.icon,
+        _noteEsc(sj.label) + 'が直近7日で <b>-' + (-down.d) + 'pt</b>（' + down.a + '% → ' + down.b + '%）。<i>手を入れ直す価値がある</i>',
+        'study.html?sid=' + encodeURIComponent(down.sid), _noteEsc(sj.label));
+    }
+  }
+
+  // ⑧ あと少しで終わる章
+  if (CH.near.length) {
+    const c = CH.near[0];
+    add('chnear', 25, 'good', '🏁',
+      'あと <b>' + c.left + '問</b>で『' + _noteEsc(c.subj) + ' ' + _noteEsc(c.title) + '』が終わる',
+      'study.html?sid=' + encodeURIComponent(c.sid), _noteEsc(c.subj));
+  }
+
+  // ⑨ 復習の期限切れ
+  if (S.overdue >= 10) {
+    add('overdue', S.overdue >= 50 ? 30 : 20, S.overdue >= 50 ? 'bad' : 'warn', '⏰',
+      '復習の期限切れが <b>' + _fmtN(S.overdue) + '問</b>。最も古いのは <b>' + S.oldest + '日前</b>の予定。<i>待たされた順に出る</i>',
+      'study.html?mode=srs_review', '復習へ');
+  }
+
+  // ⑩ 明日の予告
+  if (S.tomorrow >= 1) {
+    add('tomorrow', 12, 'info', '📅', '明日は <b>' + _fmtN(S.tomorrow) + '問</b>が復習に戻ってくる');
+  }
+
+  // ⑪ 定着した札
+  if (S.mature >= 20) {
+    add('mature', 16, 'good', '🌱',
+      '復習間隔が30日以上に育った問題が <b>' + _fmtN(S.mature) + '問</b>。<i>ここはもう手が離れている</i>');
+  }
+
+  // ⑫ 解き直しの成否（一度落とした問題に戻れているか）
+  if (F.redo.t >= 8) {
+    const p = _notePct(F.redo.c, F.redo.t);
+    if (p >= 60) {
+      add('redoup', 24, 'good', '🔁',
+        '一度落とした問題の解き直しで <b>' + F.redo.c + '/' + F.redo.t + '</b>（' + p + '%）正解。<i>潰せている</i>');
+    } else if (p < 40) {
+      add('redodown', 26, 'warn', '🔁',
+        '一度落とした問題の解き直しが <b>' + F.redo.c + '/' + F.redo.t + '</b>（' + p + '%）。<i>同じところで止まっている</i>');
+    }
+  }
+
+  // ⑬ しばらく触っていない科目
+  {
+    let sid = '', oldest = 0;
+    for (const s in F.bySid) {
+      if (s === 'custom' || s === 'memo') continue;
+      const tot = CH.totalBySid[s] || 0, dn = CH.doneBySid[s] || 0;
+      if (tot > 0 && dn / tot >= 0.8) continue;      // ほぼ終わっている科目は「放置」ではない
+      const d = _noteDayDiff(_jstDay(F.bySid[s].last), F.today);
+      if (d >= 14 && d > oldest) { oldest = d; sid = s; }
+    }
+    if (sid) {
+      const sj = _noteSubj(sid), tot = CH.totalBySid[sid] || 0, dn = CH.doneBySid[sid] || 0;
+      add('stale', 20, 'info', sj.icon,
+        _noteEsc(sj.label) + 'を <b>' + oldest + '日</b>触っていない' + (tot ? '（済 ' + _notePct(dn, tot) + '%）' : ''),
+        'study.html?sid=' + encodeURIComponent(sid), _noteEsc(sj.label));
+    }
+  }
+
+  // ⑭ 時間帯
+  if (F.night.t >= 30 && F.day.t >= 30) {
+    const nn = _notePct(F.night.c, F.night.t), dd = _notePct(F.day.c, F.day.t);
+    if (dd - nn >= 8) {
+      add('night', 18, 'info', '🌙',
+        '22時以降の正答率は日中より <b>' + (dd - nn) + 'pt</b> 低い（夜 ' + nn + '% / 日中 ' + dd + '%）');
+    } else if (nn - dd >= 8) {
+      add('owl', 14, 'good', '🌙',
+        '22時以降の正答率が日中より <b>+' + (nn - dd) + 'pt</b>（夜 ' + nn + '% / 日中 ' + dd + '%）。<i>夜が合っている</i>');
+    }
+  }
+
+  // ⑮ 同じ誤答肢を繰り返している
+  try {
+    const ch = JSON.parse(localStorage.getItem('mec_choice_v1') || '{}');
+    let n = 0;
+    for (const uid in ch) {
+      const e = ch[uid]; if (!e) continue;
+      for (const k in e) { if (k === '_last') continue; if ((e[k] || 0) >= 2) { n++; break; } }
+    }
+    if (n >= 3) {
+      add('samepick', 22, 'warn', '🎯',
+        '同じ誤答肢を2回以上選んだ問題が <b>' + _fmtN(n) + '問</b>。<i>覚え違いが固定している</i>');
+    }
+  } catch (e) {}
+
+  // ⑯ 連続日数の節目
+  {
+    const MS = [7, 14, 30, 50, 100, 200, 365];
+    if (MS.indexOf(streak) >= 0) {
+      add('streakhit', 34, 'good', '🔥', '<b>' + streak + '日</b>連続を達成。<i>途切れさせない</i>');
+    } else if (streak > 0) {
+      let nx = 0;
+      for (let i = 0; i < MS.length; i++) if (MS[i] > streak) { nx = MS[i]; break; }
+      if (nx && nx - streak <= 2) {
+        add('streaknear', 26, 'good', '🔥', 'あと <b>' + (nx - streak) + '日</b>で <b>' + nx + '日</b>連続');
+      }
+    }
+  }
+
+  return out;
+}
+
+// ── 出す3件を選ぶ ────────────────────────────────────────────
+// ⚠️ 同じ日のうちは並びを動かさないこと。renderHero() は同期完了のたびに走るので、
+//    毎回選び直すと読んでいる途中で所見が入れ替わる。
+// ⚠️ 一度出した所見は数日ぶん重みを下げる＝日替わりはここで担保する（乱数は使わない。
+//    使うと同じ日に開き直すたびに並びが変わる）。
+function _pickHubNotes(cands, today) {
+  let memo = {};
+  try { memo = JSON.parse(localStorage.getItem(NOTE_KEY) || '{}'); } catch (e) {}
+  const seen = memo.seen || {};
+  const todays = (memo.day === today && Array.isArray(memo.ids)) ? memo.ids : [];
+
+  cands.forEach(c => {
+    let s = c.w;
+    if (todays.indexOf(c.id) >= 0) s += 30;
+    else if (seen[c.id]) {
+      const d = _noteDayDiff(seen[c.id], today);
+      if (d <= 1) s -= 40; else if (d <= 3) s -= 15;
+    }
+    c._s = s;
+  });
+  cands.sort((a, b) => b._s - a._s || (a.id < b.id ? -1 : 1));
+  const out = cands.slice(0, NOTE_SHOW);
+
+  // 明るい所見と指摘を必ず混ぜる（ユーザーの選択:「励ましも混ぜる」）。
+  // 片側しか候補が無い日はそのまま＝無い所見を作らない。
+  const isUp = n => n.tone === 'good';
+  const isDown = n => n.tone === 'warn' || n.tone === 'bad';
+  if (out.length >= 2) {
+    if (!out.some(isUp)) {
+      const up = cands.find(c => isUp(c) && out.indexOf(c) < 0);
+      if (up) out[out.length - 1] = up;
+    } else if (!out.some(isDown)) {
+      const dn = cands.find(c => isDown(c) && out.indexOf(c) < 0);
+      if (dn) out[out.length - 1] = dn;
+    }
+  }
+
+  const nseen = {};
+  for (const k in seen) if (_noteDayDiff(seen[k], today) <= NOTE_KEEP) nseen[k] = seen[k];
+  out.forEach(o => { nseen[o.id] = today; });
+  try {
+    localStorage.setItem(NOTE_KEY, JSON.stringify({ day: today, ids: out.map(o => o.id), seen: nseen }));
+  } catch (e) {}
+  return out;
+}
+
+let _noteLastHtml = '';
+function _renderHubNotes(td, due, streak) {
+  const host = document.getElementById('hubNoteList');
+  if (!host) return;
+  let picks = [], F = null;
+  try {
+    F = _noteFacts(td);
+    picks = _pickHubNotes(_buildHubNotes(td, due, streak, F), _jstDay(Date.now()));
+  } catch (e) { picks = []; }
+
+  let html;
+  if (picks.length) {
+    html = picks.map((p, i) =>
+      '<li class="note-item tone-' + p.tone + '" style="--i:' + i + '">'
+        + '<span class="note-ic" aria-hidden="true">' + p.ic + '</span>'
+        + '<span class="note-tx">' + p.tx + '</span>'
+        + (p.href ? '<a class="note-go" href="' + p.href + '">' + p.cta + ' →</a>' : '')
+      + '</li>').join('');
+  } else {
+    html = '<li class="note-empty">まだ所見が出せません。<b>試験モード</b>で解くと、'
+         + '所要時間・出題順・誤答の傾向が記録され、翌日からここに出ます。</li>';
+  }
+  // ⚠️ 中身が同じなら書き換えないこと。renderHero() は同期完了のたびに走るので、
+  //    毎回 innerHTML を差し替えると入場アニメが何度も走り直す。
+  if (html !== _noteLastHtml) { host.innerHTML = html; _noteLastHtml = html; }
+
+  const basis = document.getElementById('hubNoteBasis');
+  if (basis) {
+    basis.textContent = (F && F.n)
+      ? '直近 ' + _fmtN(F.n) + '解答 / ' + F.days + '日ぶんの記録から'
+      : '記録なし';
+  }
+}
+
 function renderHero() {
   // 分子は calcTotalQ と同じスコープで数える（custom_ / memo_ は分母に無いので除外）
   const doneCount = calcDoneInScope();
@@ -7147,24 +7644,9 @@ function renderHero() {
     crestEl.title = 'ドクターランク: ' + crestTitle + ' (累計 ' + _fmtN(doneCount) + '問)';
   }
 
-  // 🩺 臨床スキルレーダーの頂点座標更新（主要6領域の進捗プロファイルを反映）
-  const radarPoly = document.getElementById('radarValPoly');
-  if (radarPoly) {
-    const baseRate = Math.min(1, Math.max(0.28, (td.solved > 0 ? (td.accPct || 72) / 100 : 0.55)));
-    const r0 = 55 * baseRate;
-    const r1 = 55 * Math.min(1, baseRate * 1.06);
-    const r2 = 55 * Math.min(1, baseRate * 0.94);
-    const r3 = 55 * Math.min(1, baseRate * 1.08);
-    const r4 = 55 * Math.min(1, baseRate * 0.92);
-    const r5 = 55 * Math.min(1, baseRate * 1.04);
-    const p0 = '80,' + Math.round(80 - r0);
-    const p1 = Math.round(80 + r1 * 0.866) + ',' + Math.round(80 - r1 * 0.5);
-    const p2 = Math.round(80 + r2 * 0.866) + ',' + Math.round(80 + r2 * 0.5);
-    const p3 = '80,' + Math.round(80 + r3);
-    const p4 = Math.round(80 - r4 * 0.866) + ',' + Math.round(80 + r4 * 0.5);
-    const p5 = Math.round(80 - r5 * 0.866) + ',' + Math.round(80 - r5 * 0.5);
-    radarPoly.setAttribute('points', [p0, p1, p2, p3, p4, p5].join(' '));
-  }
+  // 📋 今日の所見。旧「臨床スキルレーダー」の席（座標を固定係数で作っていただけの図）を
+  //    その日のデータから作り直す観察に置き換えた（2026-09-12）。
+  _renderHubNotes(td, due, streak);
 
   // E6: 計器行も大きな読み値と同じくカウントアップさせる。
   // ⚠️ 連続日数だけ _fmtN を通さない（12日を「12」と出す桁区切りは要らないが、
