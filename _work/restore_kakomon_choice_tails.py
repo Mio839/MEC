@@ -48,6 +48,7 @@ BODY_PT = (8.7, 9.7)      # 本文の字の大きさ（9.2pt）。画像の注�
 PITCH = (11.5, 15.5)      # 行送り（13.4pt）
 WRAP_X1 = 400             # 直前の行がここより右まで詰まっていれば折り返し（行末の禁則で 428 で折れる行がある）
 FULL_X1 = 440             # 句点で終わる行は、ここまで詰まっているときだけ次の文が続きうる
+SMALL_PT = 7.0            # これより小さい字は上付き・下付き
 
 
 def pdf_lines(path):
@@ -71,14 +72,31 @@ def pdf_lines(path):
                         continue
                     if not (BODY_Y[0] < y0 < BODY_Y[1]):
                         continue
-                    spans.append(((y0 + y1) / 2, x0, x1, s['size'], s['text']))
+                    # 行の高さは字の下端で測る。字の枠の上端は書体で違い（χ の行は枠が 4.5pt 高い）、
+                    # 中心で測ると行送りが 15.7pt に化けて続きの行を取りこぼした（119F-9）。
+                    spans.append((y1 if s['size'] >= SMALL_PT else (y0 + y1) / 2 + 4.6,
+                                  x0, x1, s['size'], s['text']))
         spans.sort()
+        # 行は本文の字（7pt 以上）で作り、上付き・下付き（5.4pt。HCO₃⁻・¹²³I・⁹⁹ᵐTc・χ²）は
+        # 一番近い行へ吸収する。本文の中心から ±4pt ずれて並ぶので、高さだけで束ねると
+        # 「HCO3」の後ろで行が割れ、肢の文がそこで切れていた。
         rows = []
         for yc, x0, x1, pt, t in spans:
+            if pt < SMALL_PT:
+                continue
             if rows and abs(rows[-1][0] - yc) < 3.5:
                 rows[-1][1].append((x0, x1, pt, t))
             else:
                 rows.append([yc, [(x0, x1, pt, t)]])
+        for yc, x0, x1, pt, t in spans:
+            if pt >= SMALL_PT:
+                continue
+            near = min(rows, key=lambda r: abs(r[0] - yc)) if rows else None
+            if near and abs(near[0] - yc) <= 6:
+                near[1].append((x0, x1, 0, t))    # 字の大きさ 0＝行の大きさの判定に効かせない
+            else:
+                rows.append([yc, [(x0, x1, pt, t)]])
+        rows.sort(key=lambda r: r[0])
         for yc, sp in rows:
             sp.sort()
             out.append((pi, yc, sp[0][0], max(s[1] for s in sp), max(s[2] for s in sp),
@@ -132,6 +150,60 @@ ITEM = re.compile(r'(<div style="color:var\(--(?:ts|gr)\);margin-bottom:3px">)(.
 CARD = re.compile(r'<div class="qc"[^>]*>')
 
 
+# 紙面の文言で照合できない（肢そのものがビューアから落ちている・地の文が途中で切れている）ので、
+# ページを 300dpi で描画して目で読み、書き起こしたもの（2026-09-11）。
+# (カード, 選択肢考察の中の置き換え前, 置き換え後)。置き換え後が既にあれば何もしない（冪等）。
+_TS = '<div style="color:var(--ts);margin-bottom:3px">'
+_GR = '<div style="color:var(--gr);margin-bottom:3px">'
+MANUAL = [
+    # 117D-51 p544: 紙面は ×ｂ×ｃ を括弧でまとめて1文。ビューアは b・c ごと落としていた
+    ('kakumon_117D_q51', _GR + '○ｄ ',
+     _TS + '×ｂ　×ｃ　腎瘻や尿管カテーテルは、両側腎盂尿管移行部狭窄症などでの水腎症で腎不全'
+           'をきたしている場合に適応となる。</div>' + _GR + '○ｄ '),
+    # 118D-66 p576: 正解肢 ○ｂ が落ちていた
+    ('kakumon_118D_q66', _TS + '×ｃ ',
+     _GR + '○ｂ 〔鑑別診断へのプロセス〕の通り、Meckel 憩室と診断する。</div>' + _TS + '×ｃ '),
+    # 119D-1 p434: ×ｃ が落ちていた
+    ('kakumon_119D_q1', _GR + '○ｄ ',
+     _TS + '×ｃ 〔選択肢考察ａ〕に同じ。</div>' + _GR + '○ｄ '),
+    # 117F-42 p754: 選択肢考察の末尾の注記（除外の理由）が落ちていた
+    ('kakumon_117F_q42', 'ベースのオピオイド増量がより適切である。</div>',
+     'ベースのオピオイド増量がより適切である。</div>'
+     '<div>※本問は「問題として適切であるが、受験者レベルでは難しすぎるため」採点除外となった。</div>'),
+    # 117F-16 p711: 全肢を括弧でまとめた1段落。ビューアは5行目の途中「…大きい。」で切れていた
+    ('kakumon_117F_q16', re.compile(r'<div>選択肢は腫瘍径と腫瘍個数が同じであるので、.*?</div>', re.S),
+     '<div>選択肢は腫瘍径と腫瘍個数が同じであるので、Child-Pugh 分類、肝外転移の有無、門脈本幹閉塞'
+     '（門脈腫瘍塞栓）の3 点から判断する。肝動脈化学塞栓療法は肝細胞癌に対する局所療法であり、肝外転移が'
+     'あるものは適応外となる。また、門脈本幹に閉塞がある症例では肝動脈化学塞栓療法で肝予備能が急激に悪化する'
+     '可能性が大きいため施行は原則禁忌である。さらに、肝予備能が悪い症例（Child-Pugh 分類C）でも肝動脈化学'
+     '塞栓療法後に肝予備能の悪化が懸念されるため施行は慎重になされるべきで、今回は腫瘍が4 か所であるため広範な'
+     '領域での肝動脈化学塞栓療が必要になると思われ適応外となる。よって、〔選択肢ａ〕が正しい。</div>'),
+]
+
+
+def apply_manual(src, f, stats):
+    for uid, old, new in MANUAL:
+        i = src.find('data-uid="%s"' % uid)
+        if i < 0:
+            continue
+        i = src.rfind('<div class="qc"', 0, i)
+        j = src.find('<div class="qc"', i + 10)
+        j = j if j > 0 else len(src)
+        bm = BLOCK.search(src, i, j)
+        if not bm or bm.start() > j:
+            sys.exit('MANUAL: 選択肢考察が見つからない %s' % uid)
+        blk = bm.group(2)
+        if new in blk:
+            continue
+        n = len(old.findall(blk)) if hasattr(old, 'findall') else blk.count(old)
+        if n != 1:
+            sys.exit('MANUAL: %s の置き換え前が %d か所（1か所であること）' % (uid, n))
+        blk = old.sub(lambda m: new, blk) if hasattr(old, 'sub') else blk.replace(old, new)
+        src = src[:bm.start(2)] + blk + src[bm.end(2):]
+        stats['manual'] += 1
+    return src
+
+
 def card_name(tag, f):
     m = re.search(r'data-uid="([^"]+)"', tag)
     if m:
@@ -147,8 +219,8 @@ def main():
     ap.add_argument('--show', help='この uid の結果を表示する（例 kakumon_119B_q38）')
     a = ap.parse_args()
 
-    stats = dict(cards=0, items=0, fixed=0, already=0, single=0, cards_fixed=0, partial=0, skipped=0, unique_only=0)
-    unmatched, skipped = [], []
+    stats = dict(cards=0, items=0, fixed=0, already=0, single=0, cards_fixed=0, partial=0, skipped=0, unique_only=0, rewritten=0, manual=0)
+    unmatched, skipped, rewritten = [], [], []
     for year in ('116', '117', '118', '119', '120'):
         pdf = glob.glob('国家試験過去問/第%s回*MEC標準解説集*.pdf' % year)
         if len(pdf) != 1:
@@ -188,6 +260,15 @@ def main():
                 # 紙面の1行目と文言が合わない肢（ビューア側で複数の肢を1行に畳んだ・下付きで
                 # 切れた等）は読み飛ばして手を付けず、残りの肢で並びを決める。
                 cands = [[k for k in by_key.get(w, ())] for w in want]
+                # ビューアの文が紙面の1行目の途中で切れている肢（下付きの「HCO3」、行末の「「」の
+                # 手前「…一方、」、【禁忌】の手前）は、1行目の前方一致で引く。この肢は紙面の文で
+                # 書き直す（足すのではなく）。
+                pref = set()
+                for n, w in enumerate(want):
+                    if not cands[n] and len(w) > 2:
+                        cands[n] = [k for k, key in enumerate(keys) if key != w and key.startswith(w)]
+                        if cands[n]:
+                            pref.add(n)
                 live = [n for n, c in enumerate(cands) if c]
                 miss = [n for n, c in enumerate(cands) if not c]
                 chains = [[k] for k in cands[live[0]]] if live else []
@@ -199,7 +280,9 @@ def main():
                 else:
                     # 並びが決まらない（連問のカードに別の設問の考察が付いている破損カード等）。
                     # 年度のPDF全体で1行目の文言が1か所にしか無い肢だけは取り違えようがないので直す。
-                    chain = {n: cands[n][0] for n in live if len(cands[n]) == 1}
+                    # 前方一致の肢は、ビューアの文が短いと取り違えうるので10字以上のときだけ。
+                    chain = {n: cands[n][0] for n in live
+                             if len(cands[n]) == 1 and (n not in pref or len(want[n]) >= 10)}
                     if not chain:
                         unmatched.append('%s  一致 %d 通り  紙面に無い肢 %s  先頭「%s」' % (
                             uid, len(chains), ''.join(re.sub(r'<[^>]+>', '', its[n].group(2))[:2] for n in miss) or '-',
@@ -219,7 +302,13 @@ def main():
                         continue
                     _, t, tail = items[chain[n]]
                     inner = m.group(2)
-                    if not tail:
+                    if n in pref:
+                        body_ = re.sub(r'^[×○△]\s*[ａ-ｉ]\s*', '', re.sub(r'[\x00-\x1f]', '', t).strip())
+                        inner = inner.strip()[:2] + ' ' + html.escape(join_tail([body_] + tail), quote=False)
+                        stats['rewritten'] += 1
+                        rewritten.append('%s\n      前: %s\n      後: %s' % (uid, m.group(2), inner))
+                        changed = True
+                    elif not tail:
                         stats['single'] += 1
                     elif norm(inner) == norm(t + join_tail(tail)):
                         stats['already'] += 1
@@ -236,18 +325,23 @@ def main():
                     stats['cards_fixed'] += 1
                 return bm.group(1) + ''.join(out) + bm.group(3)
 
-            dst = BLOCK.sub(fix_block, src)
+            dst = apply_manual(BLOCK.sub(fix_block, src), f, stats)
             if dst != src and not a.dry_run:
                 io.open(f, 'w', encoding='utf-8', newline='').write(dst)
 
     print('選択肢考察 %(cards)d 枚・肢 %(items)d' % stats)
     print('  続きを足した肢 %(fixed)d（カード %(cards_fixed)d 枚）／既に完全 %(already)d／1行で完結 %(single)d' % stats)
+    print('  1行目の途中で切れていて紙面の文で書き直した肢 %(rewritten)d' % stats)
+    if a.list_skipped:
+        for s in rewritten:
+            print('    (書き直し) ' + s)
     print('  紙面と文言が合わず読み飛ばした肢 %(skipped)d（カード %(partial)d 枚・残りの肢は直した）' % stats)
     print('  並びが決まらず、文言が一意の肢だけ直したカード %(unique_only)d 枚' % stats)
     if a.list_skipped:
         for s in skipped:
             print('    (読み飛ばし) ' + s)
-    print('  PDFと並びが一致しなかったカード %d 枚（手を付けていない）' % len(unmatched))
+    print('  描画を読んで書き起こした箇所 %(manual)d（MANUAL）' % stats)
+    print('  PDFと並びが一致しなかったカード %d 枚（MANUAL で直したもの以外は手を付けていない）' % len(unmatched))
     for u in unmatched:
         print('   ', u)
     if a.dry_run:
