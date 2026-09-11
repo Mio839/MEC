@@ -1148,7 +1148,6 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
 .gauge-megaring{fill:none;stroke:var(--brass);opacity:0;transform-origin:84px 84px;
   transition:opacity var(--dur-long) var(--ease-out);}
 .megaring-rim{stroke-width:1.2;stroke-dasharray:4 4;}
-.megaring-teeth{stroke-width:2.4;stroke-dasharray:2 6;}
 .gauge[data-tier="5"] .gauge-megaring{opacity:.75;stroke:var(--brass-hi);
   animation:megaringSpin calc(var(--gear-t,18s)*1.4) linear infinite;}
 .gauge[data-tier="6"] .gauge-megaring{opacity:.95;stroke:var(--brass-hi);
@@ -1306,15 +1305,22 @@ html.ui-frost .casing-frost{display:inline;}
 /* Brass */
 .casing-brass .ticks-brass{fill:none;stroke:var(--brass);stroke-width:1.4;stroke-dasharray:1.5 5.5;}
 .casing-brass .rim-spec{fill:none;stroke:var(--brass-hi);stroke-width:1.2;stroke-dasharray:6 3;}
-.casing-brass .astrolabe-ring{fill:none;stroke:var(--brass-hi);stroke-width:1.6;filter:drop-shadow(0 0 5px var(--brass-hi));animation:casingSpin 32s linear infinite;}
+/* ⚠️ astrolabe-ring に回転アニメを戻さないこと（2026-09-11 撤去）。SVG 要素の transform-origin は
+   既定で view-box の 0 0 ＝ゲージの左上なので、casingSpin を掛けると輪が自分の中心ではなく
+   左上を軸に公転し、「左から現れて右下へ消える実線の円」になっていた（実測で中心が約208px振れる）。
+   しかも実線の円は自転させても見た目が変わらない＝回す意味が無い。静止した外環として残す。
+   同じ書き方だった他テーマの輪（cockpit-frame / crystal-crown / grimoire-circle / leviathan-armor）も
+   同時に止め、@keyframes casingSpin ごと撤去した。ケーシングの輪を回したくなったら、要素に
+   transform-origin:84px 84px を必ず添えること。 */
+.casing-brass .astrolabe-ring{fill:none;stroke:var(--brass-hi);stroke-width:1.6;filter:drop-shadow(0 0 5px var(--brass-hi));}
 /* Cyber */
 .casing-cyber .reticle-cyber{stroke:#00E5FF;stroke-width:1.2;stroke-dasharray:4 4;}
 .casing-cyber .tactical-arc{fill:none;stroke:#00FF9D;stroke-width:1.4;stroke-dasharray:12 8 4 8;}
-.casing-cyber .cockpit-frame{fill:none;stroke:#00E5FF;stroke-width:1.2;stroke-dasharray:2 4;animation:casingSpin 24s linear infinite reverse;}
+.casing-cyber .cockpit-frame{fill:none;stroke:#00E5FF;stroke-width:1.2;stroke-dasharray:2 4;}
 /* Aurora */
 .casing-aurora .bevel-edge{fill:none;stroke:rgba(255,255,255,.35);stroke-width:1.2;}
 .casing-aurora .prism-facet{fill:none;stroke:rgba(0,229,255,.45);stroke-width:1;stroke-dasharray:8 6;}
-.casing-aurora .crystal-crown{fill:none;stroke:rgba(121,40,202,.55);stroke-width:1.5;animation:casingSpin 28s linear infinite;}
+.casing-aurora .crystal-crown{fill:none;stroke:rgba(121,40,202,.55);stroke-width:1.5;}
 /* Liquid */
 .casing-liquid .marble-ring{fill:none;stroke:rgba(255,0,127,.35);stroke-width:1.4;stroke-dasharray:14 6;}
 .casing-liquid .vial-tube{fill:none;stroke:rgba(0,242,254,.45);stroke-width:1.8;}
@@ -1326,17 +1332,16 @@ html.ui-frost .casing-frost{display:inline;}
 /* Celestial */
 .casing-celestial .zodiac-ticks{fill:none;stroke:rgba(255,209,102,.4);stroke-width:1.2;stroke-dasharray:2 7;}
 .casing-celestial .galaxy-spiral{fill:none;stroke:#8A2BE2;stroke-width:1.4;stroke-dasharray:10 4;}
-.casing-celestial .grimoire-circle{fill:none;stroke:#FFD166;stroke-width:1.6;stroke-dasharray:4 2 1 2;animation:casingSpin 32s linear infinite;}
+.casing-celestial .grimoire-circle{fill:none;stroke:#FFD166;stroke-width:1.6;stroke-dasharray:4 2 1 2;}
 /* Abyss */
 .casing-abyss .titanium-bolts circle{fill:#00B4D8;opacity:.65;}
 .casing-abyss .sub-fiber{fill:none;stroke:#00FFA3;stroke-width:1.4;stroke-dasharray:8 4;}
-.casing-abyss .leviathan-armor{fill:none;stroke:#64FFDA;stroke-width:2;stroke-dasharray:3 5;animation:casingSpin 26s linear infinite reverse;}
+.casing-abyss .leviathan-armor{fill:none;stroke:#64FFDA;stroke-width:2;stroke-dasharray:3 5;}
 /* Frost */
 .casing-frost .needle-ticks{fill:none;stroke:rgba(112,214,255,.45);stroke-width:1.2;stroke-dasharray:1 4;}
 .casing-frost .glacier-bezel{fill:none;stroke:#A0E7E5;stroke-width:1.4;stroke-dasharray:12 4;}
 .casing-frost .icicle-crown{fill:none;stroke:#FFF;stroke-width:1.6;stroke-dasharray:2 3;filter:drop-shadow(0 0 5px #70D6FF);}
 
-@keyframes casingSpin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
 
 /* ── 2. マイルストーンノード＆流体サージ波（第3位）── */
 .gauge-surge-wave{fill:none;stroke:rgba(255,255,255,.45);stroke-width:10;stroke-linecap:round;
@@ -1383,9 +1388,11 @@ html.ui-abyss .od-abyss{display:inline;}
 html.ui-frost .od-frost{display:inline;}
 
 /* 各テーマのオーバードライブ挙動 */
-/* Brass: メガリング高速回転、スチーム炎 */
-.gauge[data-overdrive] .megaring-teeth{stroke:#FFD700!important;animation:megaringSpin 2.4s linear infinite!important;}
-.gauge[data-overdrive="hyper"] .megaring-teeth{stroke:#FF4500!important;animation:megaringSpin 1.2s linear infinite!important;}
+/* Brass: ピストン高速化、スチーム炎
+   ⚠️ 旧 .megaring-teeth（外周の点線目盛り輪）は 2026-09-11 に要素ごと撤去した。オーバードライブ時だけ
+   子の circle に megaringSpin を直に掛けていたが、transform-origin:84px 84px は親の .gauge-megaring に
+   しか無く、子は view-box の 0 0 を軸に公転していた（100%以上＝メガリングが見える段では常にこの状態で、
+   1.2〜2.4秒周期の橙の点線の弧が左に掠めるだけ＝ほとんど見えなかった）。 */
 .gauge[data-overdrive] .piston-left{animation-duration:.42s!important;}
 .gauge[data-overdrive] .piston-right{animation-duration:.42s!important;}
 .od-brass .steam-jet{fill:none;stroke:#FFF;stroke-width:2.5;filter:drop-shadow(0 0 6px #FFA040);animation:steamJetPulse .32s ease-in-out infinite alternate;}
@@ -4825,7 +4832,6 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
   .ambient-nebula,
   .hero-shockwave-ring,.cta-tracer,.lv-fluid-wave,
   .hero[data-streak-milestone],
-  .astrolabe-ring,.cockpit-frame,.crystal-crown,.grimoire-circle,.leviathan-armor,
   .gauge-surge-wave,.milestone-node .ms-glow,.gauge-overdrive-fx,.gauge-overdrive-fx *,
   .absorber-orb,.gauge.winding-up *,.gauge.absorb-impact .gauge-ring{animation:none!important;transition:none!important;}
   .gauge-pulse-trk,.gauge-aura,.hero-shockwave-layer,.cta-tracer,.gauge-overdrive-fx,.gauge-surge-wave,.absorber-orb{display:none!important;}
@@ -5009,7 +5015,6 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
             <!-- ⚡ リミッター解除メガリング（外周目盛り＆回転スリットリング） -->
             <g class="gauge-megaring" id="gaugeMegaRing">
               <circle class="megaring-rim" cx="84" cy="84" r="80"></circle>
-              <circle class="megaring-teeth" cx="84" cy="84" r="77"></circle>
             </g>
             <!-- 🌡️ 放熱スリット＆ヒートシンク（Overheat & Cooling Vent） -->
             <g class="gauge-heatsink" id="gaugeHeatsink">

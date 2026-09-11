@@ -242,6 +242,29 @@ t('全テーマ: 外枠疑似要素（::before / ::after）およびケーシン
   assert.ok(!HTML.includes('.casing-brass .astrolabe-ring{fill:none;stroke:var(--brass-hi);stroke-width:1.4;stroke-dasharray:2 2;'), 'casing-brass astrolabe-ringにdasharrayが残っている');
 });
 
+t('Brass: ケーシングの astrolabe-ring が回転しない（左上を軸に公転して「左から現れ右下へ消える円」になる）', () => {
+  // 点線を実線にしただけでは直らなかった（2026-09-11 に再報告）。SVG 要素の transform-origin は
+  // 既定で view-box の 0 0 なので、回転アニメを掛けると輪がゲージの左上を軸に公転する。
+  // 同じ書き方だった他テーマのケーシングの輪も一緒に止めてある。
+  for (const cls of ['astrolabe-ring', 'cockpit-frame', 'crystal-crown', 'grimoire-circle', 'leviathan-armor']) {
+    const rules = HTML.match(new RegExp('[^{}]*\\.' + cls + '[^{}]*\\{[^}]*\\}', 'g')) || [];
+    const live = rules.filter(r => !/animation\s*:\s*none/.test(r));
+    assert.ok(live.length > 0, '.' + cls + ' のルールが見つからない');
+    for (const r of live) {
+      assert.ok(!/animation(-name)?\s*:/.test(r), '.' + cls + ' に回転アニメが戻っている: ' + r.trim().slice(0, 120));
+    }
+  }
+});
+
+t('Brass: オーバードライブで公転していた点線の目盛り輪（.megaring-teeth）が撤去されている', () => {
+  // 子の circle に megaringSpin を直に掛け、transform-origin は親の .gauge-megaring にしか無かった
+  // ＝ 200%超で「左に掠める橙の点線の弧」になっていた。外周の破線リムとメガリングの回転は残す。
+  assert.ok(!HTML.includes('megaring-teeth"'), '.megaring-teeth の要素が残っている');
+  assert.ok(!/\.megaring-teeth\s*\{/.test(HTML), '.megaring-teeth のスタイルが残っている');
+  assert.ok(HTML.includes('class="megaring-rim"'), '外周の破線リム(.megaring-rim)まで消えている');
+  assert.ok(/\.gauge\[data-tier="6"\] \.gauge-megaring\{[^}]*animation:megaringSpin/.test(HTML), 'メガリング本体の回転まで消えている');
+});
+
 t('Cyber: 立体浮遊型タクティカルHUD（照準ブラケット・360度ホログラムレーザーゲージ・フォトンヘッド・ハニカムセル）が実装されている', () => {
   assert.ok(HTML.includes('id="cyberHoloGauge"'), 'cyberHoloGauge が見つからない');
   assert.ok(HTML.includes('id="cyberPhotonHead"'), 'cyberPhotonHead が見つからない');
