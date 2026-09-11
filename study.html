@@ -107,6 +107,11 @@ if ('serviceWorker' in navigator) {
     <button class="chip" data-sid="anes" onclick="toggleSubjectChip(this,'anes')" aria-pressed="false">💉&nbsp;麻酔科</button>
     <button class="chip" data-sid="rad" onclick="toggleSubjectChip(this,'rad')" aria-pressed="false">☢️&nbsp;放射線科</button>
   </div>
+  <!-- ⚠️ 検索欄と章ジャンプは .filter-row の外（.find-row）に置くこと。ボタンは縮まないので、同じ行に
+       入れると幅 980px 以下（iPhone・iPad 縦）で検索欄が 29px・章の選択欄が 12px まで潰れて画面外へ
+       押し出され、番号ジャンプも章ジャンプも使えなかった（2026-09-11 に実測）。
+       広い画面では同じ1行に並び、狭い画面では2行目に回る（study.css の .filter-line）。 -->
+  <div class="filter-line">
   <div class="filter-row" role="group" aria-label="絞り込みと学習モード">
     <button class="chip" data-sid="tox" onclick="toggleSubjectChip(this,'tox')" aria-pressed="false">☠️&nbsp;中毒・職業病</button>
     <button class="chip" data-sid="emg" onclick="toggleSubjectChip(this,'emg')" aria-pressed="false">🚑&nbsp;救急</button>
@@ -128,13 +133,16 @@ if ('serviceWorker' in navigator) {
     <button class="nb2 fs-on" data-state="all" onclick="setState('all')" aria-pressed="false">全</button>
     <button class="nb2" data-state="flag" onclick="setState('flag')" aria-pressed="false" aria-label="赤旗を付けた問題だけ">🚩</button>
     <span class="fsep"></span>
+  </div>
+  <div class="find-row">
     <div class="search-wrap">
-      <input class="search-input" type="search" id="searchInput" placeholder="検索/Q#" aria-label="問題文・解説の検索または問題番号" oninput="onSearchInput(this.value)" onkeydown="if(event.key==='Enter'){const d=this.value.trim().match(/^(?:q|#|問)?\s*(\d+)$/i);if(d){event.preventDefault();jumpToQnum(d[1]);}}">
+      <input class="search-input" type="search" id="searchInput" placeholder="検索/Q#" aria-label="問題文・解説の検索または問題番号" oninput="onSearchInput(this.value)" onkeydown="onSearchKeydown(event,this)">
     </div>
     <select class="jump-select" id="chJumpSel" aria-label="章へジャンプ" onchange="if(this.value){var _v=this.value;this.value='';this.blur();jumpToChapter(_v);}">
       <option value="">📍 章…</option>
     </select>
   </div>
+  </div><!-- /filter-line -->
   </div><!-- /st-filter-panel -->
   <div class="exam-prog" id="examProg">
     <span id="examProgTxt">0 / 0 問</span>
@@ -558,9 +566,38 @@ const VALID_STATES = new Set(['all', 'flag']);
 function _validFilter(f) { return VALID_FILTERS.has(f) ? f : 'all'; }
 function _validState(s) { return VALID_STATES.has(s) ? s : 'all'; }
 
+// 検索欄は「本文検索」と「問題番号ジャンプ」を兼ねる。数字だけ（q12 / #12 / 問12 も）の入力は
+// 問題番号として扱い、Enter でジャンプする。
+const QNUM_INPUT_RE = /^(?:q|#|問)\s*\d+$|^\d+$/i;
+
 function onSearchInput(val) {
   clearTimeout(_searchTimer);
-  _searchTimer = setTimeout(() => { currentSearch = val.trim().toLowerCase(); applyFilters(); }, 200);
+  // ⚠️⚠️ 問題番号の入力を本文検索のフィルターにしないこと（2026-09-11 に外した）。
+  //    旧実装は「22」と打った時点で「22 を含むカードだけ」に絞り込んでいたので、Enter で
+  //    ジャンプしても着地先は絞り込まれた数枚の中で、しかも入力の 200ms 後にフィルターが
+  //    遅れて掛かると、ジャンプの直後にカードが一斉に消えて目標が動いた（中毒・職業病で実測）。
+  //    数字だけの本文検索は「5」がほぼ全カードに当たるので、検索としても役に立たない。
+  const q = val.trim();
+  const next = QNUM_INPUT_RE.test(q) ? '' : q.toLowerCase();
+  _searchTimer = setTimeout(() => {
+    if (next === currentSearch) return;
+    currentSearch = next;
+    applyFilters();
+  }, 200);
+}
+
+function onSearchKeydown(ev, inp) {
+  if (ev.key !== 'Enter') return;
+  const q = inp.value.trim();
+  if (!QNUM_INPUT_RE.test(q)) return;
+  ev.preventDefault();
+  // ⚠️⚠️ stopPropagation を外さないこと（2026-09-11）。jumpToQnum は iOS 対策で入力欄を blur() する
+  //    ので、この Enter が document の keydown（通常モードのショートカット）へ伝わった時点では
+  //    フォーカスが本文に移っており「Enter＝画面上端のカードを ○ にして次へ」として処理されていた。
+  //    番号ジャンプのたびに**ジャンプ前に見ていた問題が勝手に済＋SRS「余裕」になり**、しかも
+  //    その「次のカードへ」のスクロールがジャンプを打ち消していた（スマホ幅で実測）。
+  ev.stopPropagation();
+  jumpToQnum(q.replace(/\D/g, ''));
 }
 
 function _syncChipStyles() {
@@ -2594,8 +2631,14 @@ function _buildChapterJumpOptions() {
   });
 }
 
+// 走っているジャンプの世代。新しいジャンプが始まったら古い settle/再アンカーは黙って降りる
+// （2本が交互に scrollTo して目標を取り合うのを防ぐ）。
+let _jumpToken = 0;
+
 function _jumpScrollToEl(el) {
   if (!el) return;
+  const token = ++_jumpToken;
+  const root = document.documentElement;
   const section = el.closest('.subj-section');
   if (section && section.dataset.visible === 'false') section.dataset.visible = 'true';
   if (el.style.display === 'none') el.style.display = '';
@@ -2603,32 +2646,49 @@ function _jumpScrollToEl(el) {
   // （contain-intrinsic-block-size）になり、スクロール中に上のカードが再スキップされて
   // 高さが変わり続け、目標が収束せず「章まで飛ばず先頭付近で止まる」。ジャンプ中だけ全カードの
   // スキップを止めて高さを確定させ（html.mec-jumping）、着地後に元へ戻す（iOSは元々visible）。
-  document.documentElement.classList.add('mec-jumping');
-  const hdrH = (document.querySelector('.st-hdr')?.offsetHeight || 112) + 8;
-  let tries = 0, lastY = -1, stable = 0;
+  // ⚠️ 外した後も高さが保たれるのは study.css の `contain-intrinsic-block-size: auto` が
+  //    ジャンプ中に描いた実寸を覚えるから（mec-jumping で none にしないこと）。
+  root.classList.add('mec-jumping');
+  // ⚠️⚠️ study.css の html{scroll-behavior:smooth} を、ジャンプの間だけ止めること。
+  //    scrollTo の behavior:'auto' は「CSS の scroll-behavior に従う」の意味なので、止めないと
+  //    1秒以上かけて滑らかに流れる。旧実装はその流れの途中で「着いた」と判定して mec-jumping を
+  //    外していたため、上のカードが推定高さへ縮んで目標が数千px先へ逃げ、見当違いの場所で止まって
+  //    いた（2026-09-11 に全科目を実ブラウザで測って判明＝麻酔科は章2本中1本・番号7本中3本が外れた）。
+  root.style.scrollBehavior = 'auto';
+  // ⚠️ ヘッダの高さは毎回測り直すこと。検索欄にフォーカスがある間はヘッダが高く、番号ジャンプ
+  //    直前の blur() で縮む。開始時に1回だけ測ると、縮んだぶん（131px）カードがヘッダの裏に潜った。
+  const hdrH = () => (document.querySelector('.st-hdr')?.offsetHeight || 112) + 8;
+  const drift = () => el.getBoundingClientRect().top - hdrH();
+  const pull = () => {
+    const d = drift();
+    if (Math.abs(d) > 1) window.scrollTo(0, Math.max(0, (window.scrollY || 0) + d));
+  };
+  // これ以上スクロールできない（先頭のカード・ページ末尾近くのカード）なら、ずれが残っていても着地
+  const pinned = () => {
+    const d = drift(), y = window.scrollY || 0;
+    return (d > 0 && y <= 0) || (d > 0 && y + window.innerHeight >= root.scrollHeight - 2);
+  };
+  let tries = 0, stable = 0;
   function settle() {
-    const y = Math.max(0, el.getBoundingClientRect().top + window.scrollY - hdrH);
-    window.scrollTo({ top: y, behavior: 'auto' });
+    if (token !== _jumpToken) return;
+    pull();
     tries++;
-    // 1フレームだけの偶然の一致で止まらないよう、±2px以内が2フレーム連続で安定とみなす
-    if (Math.abs(y - lastY) <= 2) stable++; else stable = 0;
-    lastY = y;
-    if (stable < 2 && tries < 24) { requestAnimationFrame(settle); return; }
+    // ⚠️ 着地の判定は「目標が実際にヘッダ直下にある」こと。旧実装は目標の絶対座標が
+    //    2フレーム変わらなければ着地としていたが、座標はスクロールしなくても変わらないので
+    //    1歩も進まないうちに着地扱いになっていた。±2px が2フレーム続いたら安定とみなす。
+    if (Math.abs(drift()) <= 2 || pinned()) stable++; else stable = 0;
+    if (stable < 2 && tries < 30) { requestAnimationFrame(settle); return; }
     _flashJumpTarget(el);
-    // mec-jumping を外すと画面外カードが推定高さ(300px)へ戻り目標位置がずれる。深い問題ほど
-    // ずれが大きく先頭(Q1)へ吹き飛ぶため、外した直後に数フレーム el をヘッダ直下へ再アンカー
-    // して固定する。
-    // 以前はここに 220ms / 520ms の遅延再アンカーも積んでいた。画像が width/height 無しで
-    // 遅延ロードされ、デコードのたびに上のカードの高さが変わり続けていたため。実寸属性を
-    // 出すようにして（card_renderer.js + image_dims.json）その原因が消えたので、
-    // content-visibility の切替ぶんだけを補正すれば足りる。
-    const reanchor = () => {
-      const drift = el.getBoundingClientRect().top - hdrH;
-      if (Math.abs(drift) > 2) window.scrollTo({ top: Math.max(0, (window.scrollY || 0) + drift), behavior: 'auto' });
-    };
-    document.documentElement.classList.remove('mec-jumping');
+    // mec-jumping を外した直後は、覚えた実寸と実際の高さのわずかな差（画像の読込など）で
+    // 目標が動くことがあるので、数フレーム el をヘッダ直下へ引き戻して固定する。
+    root.classList.remove('mec-jumping');
     let rn = 0;
-    const loop = () => { reanchor(); if (++rn < 12) requestAnimationFrame(loop); };
+    const loop = () => {
+      if (token !== _jumpToken) return;
+      pull();
+      if (++rn < 12) requestAnimationFrame(loop);
+      else root.style.scrollBehavior = '';
+    };
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(settle);

@@ -166,6 +166,32 @@ body.exam-mode.exam-idle-lit .st-hdr::after{opacity:.85;}
 .search-input::placeholder{color:rgba(255,255,255,.28);}
 .search-input:focus{border-color:rgba(255,255,255,.38);background:rgba(var(--glass-rgb),.1);}
 .search-input::-webkit-search-cancel-button{filter:invert(1);opacity:.5;}
+/* 検索欄＋章ジャンプの行（study.html の .find-row）。広い画面ではボタンの行と同じ1行に並べ、
+   ボタンが入りきらない幅（980px 以下＝iPhone・iPad 縦）では2行目に回して全幅を使う。
+   ⚠️⚠️ .find-row の中身を .filter-row へ戻さないこと。ボタンは縮まない（flex-shrink:0）ので、
+      同じ横スクロール行に入れると検索欄 29px・章の選択欄 12px まで潰れて画面外へ押し出され、
+      番号ジャンプも章ジャンプも使えなかった（2026-09-11 に 375〜820px の全幅で実測）。
+   ⚠️ 試験中（body.exam-mode）は狭い画面でも折り返さずに行ごと隠す。ヘッダの高さは試験演出の
+      焦点の基準（_fxBand）なので1pxも変えない約束で、試験中にこの2つを使う場面も無い。 */
+.filter-line{display:flex;align-items:center;gap:2px;}
+.filter-line>.filter-row{flex:0 1 auto;min-width:0;}
+/* padding の上下 2px は .filter-row と同じ。検索欄（22px）は元はその余白の内側にあり、行の高さ
+   26px を決めていた——外へ出して余白を落とすとヘッダが 4px 縮む（試験中も含めて）。 */
+.find-row{display:flex;align-items:center;gap:2px;flex:1 1 180px;min-width:0;padding:2px 0;}
+@media (max-width:980px){
+  body:not(.exam-mode) .filter-line{flex-wrap:wrap;row-gap:3px;}
+  body:not(.exam-mode) .filter-line>.filter-row{flex:1 1 100%;}
+  body:not(.exam-mode) .find-row{flex:1 1 100%;}
+  /* display:none にしないこと——行の高さの計算から抜けてヘッダが 6px 縮む。幅0の見えない箱で残す */
+  body.exam-mode .find-row{flex:0 0 0;width:0;overflow:hidden;visibility:hidden;}
+}
+/* iOS は 16px 未満の入力欄にフォーカスするとページを自動で拡大する（戻らない）。番号を打つたびに
+   拡大されては番号ジャンプにならないので、iOS だけ 16px にする（エラー報告のコメント欄と同じ理由）。 */
+@supports (-webkit-touch-callout: none){
+  body:not(.exam-mode) .find-row .search-input,
+  body:not(.exam-mode) .find-row .jump-select{font-size:16px!important;}
+  body:not(.exam-mode) .find-row .search-input{height:28px;}
+}
 
 /* ── Exam mode ── */
 .nb.exam-on{background:var(--rd);border-color:var(--rd);color:#fff;}
@@ -1167,8 +1193,14 @@ html.ios-no-cv html[class*="ui-"] .qc{
 }
 /* 章ジャンプ中は content-visibility:auto の画面外カード高さが推定値に変わって目標がずれ、
    章まで飛ばず先頭付近で止まる。ジャンプ中だけ全カードのスキップを止めて高さを確定させ、
-   着地後に元へ戻す（study.html _jumpScrollToEl が付与/除去。iOSは元々 visible なので影響なし）。 */
-html.mec-jumping .qc{content-visibility:visible!important;contain-intrinsic-block-size:none!important;}
+   着地後に元へ戻す（study.html _jumpScrollToEl が付与/除去。iOSは元々 visible なので影響なし）。
+   ⚠️⚠️ ここで contain-intrinsic-block-size を none にしないこと（2026-09-11 に外した）。
+   基本ルールの `auto 300px` の auto は「最後に描いた実寸を覚えておき、描画をスキップしている間も
+   その高さを使う」指定で、覚えるのは「描かれている間」だけ。ジャンプ中に none で打ち消すと
+   全カードを描いているのに1枚も実寸が記録されず、mec-jumping を外した瞬間に画面外のカードが
+   一斉に 300px へ戻る（中毒・職業病でページが 107,789px → 29,355px に縮んだ）。上のカードが
+   縮めば目標も上へずれ、ジャンプが数千px手前で止まる——章・番号ジャンプが効かない科目の正体。 */
+html.mec-jumping .qc{content-visibility:visible!important;}
 /* ジャンプ到達カードの一瞬のハイライト */
 @keyframes mecJumpFlash{0%{box-shadow:0 0 0 3px var(--yl),0 0 22px rgba(255,184,48,.5);}100%{box-shadow:0 4px 24px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.08);}}
 .qc.mec-jump-flash{animation:mecJumpFlash 1.2s ease forwards;}

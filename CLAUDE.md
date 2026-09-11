@@ -168,6 +168,42 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
   ⚠️ `.mec-lap-btn` というクラス名は変えないこと。`study_exam.js`・`progress.js`・
   キーボード操作・旧`selfcheck_intro.html`がこの名前で掴んでいる。
 
+### 章ジャンプ・問題番号ジャンプ（2026-09-11 に全科目で直した）
+
+ヘッダの「📍 章…」（`jumpToChapter`）と、検索欄に番号を打って Enter（`jumpToQnum`）。
+着地は両方とも `_jumpScrollToEl`（study.html）。テスト: `python _work/test_jumps_browser.py`
+（実 Chrome を DevTools Protocol で動かし、全科目の全章＋番号を測る。`--ios` `--size 390x844` `--all-q`）。
+⚠️ **node のテストでは再現しない種類の不具合**なので、ジャンプ・ヘッダ・`.qc` の高さまわりを触ったらこれを流すこと。
+
+2026-09-11 まで壊れていた理由は4つあった（どれも科目のデータではなく描画側）:
+
+1. ⚠️⚠️ **`html{scroll-behavior:smooth}`（study.css）で、ジャンプが滑らかに流れていた。**
+   `scrollTo({behavior:'auto'})` は「CSS に従う」の意味なので瞬時にならない。旧実装はその流れの途中で
+   「着いた」と判定して `mec-jumping` を外し、画面外のカードが推定高さへ縮んで目標が数千px先へ逃げた。
+   → ジャンプの間だけ `html.style.scrollBehavior='auto'`。着地の判定は「目標が実際にヘッダ直下にある」こと
+   （旧実装は目標の絶対座標が変わらなければ着地としており、1歩も進まないうちに終わっていた）。
+2. ⚠️⚠️ **`html.mec-jumping .qc` で `contain-intrinsic-block-size:none` にしないこと。** 基本ルールの
+   `auto 300px` の auto が「描いた実寸を覚える」指定で、ジャンプ中に打ち消すと1枚も記録されず、
+   外した瞬間に全カードが 300px へ戻る（中毒・職業病でページが 107,789px → 29,355px に縮んだ）。
+3. ⚠️⚠️ **検索欄の Enter は `stopPropagation` すること**（`onSearchKeydown`）。`jumpToQnum` は iOS 対策で
+   入力欄を `blur()` するので、同じ Enter が document の通常モードのショートカットへ伝わると
+   「Enter＝画面上端のカードを ○ にして次へ」として処理される。**番号ジャンプのたびにジャンプ前に
+   見ていた問題が勝手に済＋SRS「余裕」になり**、その「次へ」のスクロールがジャンプを打ち消していた。
+   あわせて**数字だけ（q12・#12・問12 も）の入力は本文検索のフィルターにしない**（`QNUM_INPUT_RE`）。
+   旧実装は「22」と打った時点で「22 を含むカードだけ」に絞り込んでいた。
+4. ⚠️⚠️ **検索欄と章の選択欄を `.filter-row` に戻さないこと**（`.find-row` に分けた）。ボタンは縮まないので、
+   同じ横スクロール行にあると幅 980px 以下（iPhone・iPad 縦）で検索欄 29px・章の選択欄 12px まで潰れて
+   画面外へ押し出されていた。広い画面では同じ1行、980px 以下では2行目（通常時のヘッダが 25px 伸びる）。
+   ⚠️ 試験中はヘッダの高さを変えない（`_fxBand` の基準）——狭い画面では幅0の見えない箱で残す
+   （`display:none` だと行の高さの計算から抜けて 6px 縮む）。`.find-row` の上下 2px の余白も同じ理由。
+   ⚠️ `ui_theme.css` の検索欄・章の選択欄の装飾は `.find-row` を掴んでいる（旧 `.filter-row` の中の
+   `flex-shrink:0` が潰れの共犯だった。`width:64px` は `flex:2` の基準幅0に負けて一度も効いていない）。
+
+- ヘッダの高さは**毎フレーム測り直す**。検索欄にフォーカスがある間はヘッダが高く、`blur()` で縮む
+  （1回だけ測ると縮んだ 131px ぶんカードがヘッダの裏に潜った）。
+- `_jumpToken` で世代を持ち、新しいジャンプが始まったら古い settle／再アンカーは降りる。
+- iOS は 16px 未満の入力欄にフォーカスするとページを拡大する → iOS だけ検索欄・章の選択欄を 16px。
+
 ### SRSの自己採点（2026-07-24〜）
 
 以前は「済」1つで、押すたびに**無条件で正解扱い**として SRS の間隔を伸ばしていた。
@@ -1247,6 +1283,7 @@ node _work/test_srs_grade.js       SRSの自己採点3段階・経過日数ゲ�
 node _work/test_subject_totals.js  科目別問題数の三者一致      (3)
 node _work/test_card_render.js     カード描画（画像実寸・採点ボタン）(7)
 node _work/test_calc_input.js      計算問題の桁入力・データ整合      (29)
+python _work/test_jumps_browser.py 章・番号ジャンプを全科目で実ブラウザ計測（要 Chrome＋websockets・約15分）
 node _work/test_missions.js        日次/週次ミッション          (39)
 node _work/test_gamify_ceremony.js セレモニー/授与トレイ/スキップ (28)
 node _work/test_exam_prog.js       試験の進捗バー・難問の可視化  (29)

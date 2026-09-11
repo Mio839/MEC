@@ -1197,6 +1197,10 @@
 // 2026-08-13c: ハブの「今日の目標」ゲージを拡大（viewBox 140→168・盤面 152→208px・
 // 歯車4枚）し、演出を常時化した（火花と蒸気が1.7秒ごと・22秒ごとに祝砲）。
 // 見出し行に日付も出す。シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
+// 2026-09-11d: 章ジャンプ・問題番号ジャンプを全科目で直した（study.html の _jumpScrollToEl・onSearchKeydown、
+//   study.css の mec-jumping と .find-row、ui_theme.css の .find-row）。詳細は CLAUDE.md「章ジャンプ・問題番号ジャンプ」。
+//   ⚠️ 番号ジャンプの Enter が「画面上端のカードを ○」にもなっていた不具合を含む。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-11c → 2026-09-11d）。
 // v383: 必修講座(hisshu)を新科目として追加（🏅・#D4AF37）。questions_hisshu.json を CARDS に加え、
 // 必修講座/images/（20枚）を追加したので CACHE を bump。PDFは「MEC必修講座Part1（表紙2026）」全266ページ・
 // 全17章327問。**解説は PDF に無いので書いていない**——同じ国試問題が既存の科目・過去問ビューアにある
@@ -1399,7 +1403,7 @@ const CACHE = "mec-v383";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-11c";
+const SHELL_VERSION = "2026-09-11d";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

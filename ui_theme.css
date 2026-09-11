@@ -4781,18 +4781,22 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
 }
 
 /* 讀懃ｴ｢ & 遶�繧ｸ繝｣繝ｳ繝� (filter-row 邨ｱ蜷�) 縺ｮ繧ｹ繝ｪ繝�蛹� & 繝輔か繝ｼ繧ｫ繧ｹ閾ｪ蜍墓僑螟ｧ */
-.filter-row .search-wrap {
+/* ⚠️ 検索欄と章ジャンプは 2026-09-11 に .filter-row から .find-row（study.html）へ移した。
+   以前ここは flex-shrink:0 で、study.css の flex:2（基準幅0）と組み合わさって検索欄が
+   内側の余白ぶん（約29px）しか幅を持てず、幅980px以下で潰れていた。width:64px は flex の
+   基準幅0に負けて一度も効いていない。幅は study.css の .find-row が決める。 */
+.find-row .search-wrap {
   position: relative;
-  flex-shrink: 0;
+  flex-shrink: 1;
   width: 64px;
   transition: width 0.26s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.filter-row .search-wrap:focus-within {
+.find-row .search-wrap:focus-within {
   width: 165px;
 }
 
-.filter-row .search-wrap::before {
+.find-row .search-wrap::before {
   content: '🔍';
   position: absolute;
   left: 7px;
@@ -4804,7 +4808,7 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   opacity: 0.75;
 }
 
-.filter-row .search-input {
+.find-row .search-input {
   width: 100%;
   padding: 3px 6px 3px 21px;
   font-size: 10.5px;
@@ -4817,14 +4821,14 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   transition: border-color 0.18s, background-color 0.18s, box-shadow 0.18s;
 }
 
-.filter-row .search-input:focus {
+.find-row .search-input:focus {
   outline: none;
   border-color: rgba(255, 255, 255, 0.65);
   background: rgba(var(--glass-rgb), 0.18);
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
 }
 
-.filter-row .jump-select {
+.find-row .jump-select {
   flex-shrink: 0;
   max-width: 92px;
   padding: 3px 5px;
