@@ -212,6 +212,30 @@ def _same_text(a, b):
     return len(short) >= 1 and long_.startswith(short)
 
 
+_DIV_TAG = re.compile(r'<div\b[^>]*>|</div>')
+
+
+def kakomon_blocks(body):
+    """過去問ビューアの <div class="eg"> の中身から解説ブロック (cls, h, c) を切り出す。
+
+    ⚠️ 閉じタグは入れ子の深さを数えて探すこと。正規表現の最短一致＋先読み（次の eb か
+    </div></div></div>）で切ると、中に <div> を持つ最後のブロック（選択肢考察）で内側の
+    </div> に当たって1つ手前で切れ、閉じない <div> が JSON に入る。study.html では
+    その後ろのカードが全部そのカードの中に入れ子になり、「選択数が282個」の1問に化けた
+    （2026-09-11・hisshu 17問）。
+    """
+    out = []
+    for m in re.finditer(r'<div class="eb (\w+)"><h4>(.*?)</h4>', body, re.S):
+        depth, start = 1, m.end()
+        for t in _DIV_TAG.finditer(body, start):
+            depth += -1 if t.group(0) == '</div>' else 1
+            if depth == 0:
+                out.append(dict(cls=m.group(1), h=re.sub('<[^>]+>', '', m.group(2)),
+                                c=body[start:t.start()]))
+                break
+    return out
+
+
 def subject_names():
     src = io.open('study.html', encoding='utf-8').read()
     m = re.search(r'const STUDY_SUBJECTS = (\[.*?\]);', src)
@@ -247,12 +271,7 @@ def load_sources():
             rate = re.search(r'data-rate="([\d.]+)"', card[:200])
             chs = re.findall(r'<div class="ch2( ok)?">(.*?)</div>', card)
             egm = card.find('<div class="eg">')
-            eg = []
-            if egm >= 0:
-                body = card[egm + len('<div class="eg">'):]
-                for bm in re.finditer(r'<div class="eb (\w+)"><h4>(.*?)</h4>(.*?)</div>(?=<div class="eb |</div></div></div>)',
-                                      body, re.S):
-                    eg.append(dict(cls=bm.group(1), h=re.sub('<[^>]+>', '', bm.group(2)), c=bm.group(3)))
+            eg = kakomon_blocks(card[egm + len('<div class="eg">'):]) if egm >= 0 else []
             as_ = re.search(r'<div class="as">(.*?)</div>', card, re.S)
             if not eg:
                 continue
@@ -515,6 +534,12 @@ def verify(chapters):
             for b in q['eg']:
                 if b['cls'] not in ('ep', 'ee', 'ept', 'em', 'ec', 'ei'):
                     err.append('%s: 未知の cls %s' % (u, b['cls']))
+            # ⚠️ 開閉が1つずれるだけで、後ろのカードが全部この1枚の中に入れ子になる
+            for name, html in [('qt', q['qt']), ('ans_sub', q.get('ans_sub', ''))] + \
+                    [('eg「%s」' % b.get('h', ''), b.get('c', '')) for b in q['eg']]:
+                for t in ('div', 'span', 'table', 'strong', 'b', 'u'):
+                    if len(re.findall(r'<%s\b[^>]*>' % t, html)) != html.count('</%s>' % t):
+                        err.append('%s: %s の <%s> の開閉が合わない' % (u, name, t))
             m = re.search(r'Q\.(\d+) (?:と|〜) Q\.(\d+)', q['qt'])
             if m and not (int(m.group(1)) <= int(u.split('_q')[1]) <= int(m.group(2))):
                 err.append('%s: 連問の宣言文と番号が噛み合わない' % u)

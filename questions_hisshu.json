@@ -2566,7 +2566,7 @@
             {
               "cls": "ep",
               "h": "📋 選択肢考察",
-              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 食事再開はむしろ栄養が摂取でき全身状態が改善したり、点滴加療が終了した</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 点滴加療が終了することで、点滴ボトルや管とともに移動しなくてよくなり、</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 離床センサーは、勝手に歩いて転倒してしまうのを防ぐために設置されている。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 看護師は転倒しないようにするために見守っている。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ スリッパは靴よりも脱げやすく、転倒リスクとなる。"
+              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 食事再開はむしろ栄養が摂取でき全身状態が改善したり、点滴加療が終了した</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 点滴加療が終了することで、点滴ボトルや管とともに移動しなくてよくなり、</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 離床センサーは、勝手に歩いて転倒してしまうのを防ぐために設置されている。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 看護師は転倒しないようにするために見守っている。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ スリッパは靴よりも脱げやすく、転倒リスクとなる。</div>"
             },
             {
               "cls": "ept",
@@ -3483,7 +3483,7 @@
             {
               "cls": "ep",
               "h": "📋 選択肢考察",
-              "c": "<div style=\"color:var(--gr);margin-bottom:3px\">○ｄ \u0001安静時の呼吸数の正常値は14～18/分である。20/分以上は頻呼吸である。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｅ \u0001成人の正常な安静時所見である。"
+              "c": "<div style=\"color:var(--gr);margin-bottom:3px\">○ｄ \u0001安静時の呼吸数の正常値は14～18/分である。20/分以上は頻呼吸である。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｅ \u0001成人の正常な安静時所見である。</div>"
             },
             {
               "cls": "ept",
@@ -3998,7 +3998,7 @@
             {
               "cls": "ep",
               "h": "📋 選択肢考察",
-              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 情報収集のための質問であり、共感的な言葉がけではない。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 励ましの言葉がけであり、共感的な言葉がけではない。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 治療の説明であり、共感的な言葉がけではない。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 医師主導の解決の姿勢を示しているが共感的な言葉がけではない。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ 患者の症状に対する共感的な言葉がけである。"
+              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 情報収集のための質問であり、共感的な言葉がけではない。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 励ましの言葉がけであり、共感的な言葉がけではない。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 治療の説明であり、共感的な言葉がけではない。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 医師主導の解決の姿勢を示しているが共感的な言葉がけではない。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ 患者の症状に対する共感的な言葉がけである。</div>"
             },
             {
               "cls": "ept",
@@ -4101,7 +4101,7 @@
             {
               "cls": "ep",
               "h": "📋 選択肢考察",
-              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 現在の自覚症状を質問しており、患者自身の解釈についての質問ではない。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｂ 治療に対する患者自身の考えを質問しており、解釈モデルを問う質問である。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｃ 治癒後の状態に対する患者自身の考えを質問しており、解釈モデルを問う質問</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｄ 疾病の原因についての患者自身の考えを質問しており、解釈モデルを問う質問</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ 病気による日常生活への影響や困りごとについての患者自身の考えを質問して"
+              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 現在の自覚症状を質問しており、患者自身の解釈についての質問ではない。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｂ 治療に対する患者自身の考えを質問しており、解釈モデルを問う質問である。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｃ 治癒後の状態に対する患者自身の考えを質問しており、解釈モデルを問う質問</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｄ 疾病の原因についての患者自身の考えを質問しており、解釈モデルを問う質問</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ 病気による日常生活への影響や困りごとについての患者自身の考えを質問して</div>"
             },
             {
               "cls": "ept",
@@ -4163,7 +4163,7 @@
             {
               "cls": "ep",
               "h": "📋 選択肢考察",
-              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 発熱の起点についてのclosed question であり、医師の意図する内容を問うて</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 血縁者に疾病を持つものがいるか否かのyes/no question であり、患者中心型</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 喫煙歴についてのfocused question であり、医師の意図する内容を問うている。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 薬を過去に内服したことがあるか否かのyes/no question であり、患者中心型</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ 生活の変化を患者に自由に話してもらうopen-ended question であり、患者中"
+              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 発熱の起点についてのclosed question であり、医師の意図する内容を問うて</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 血縁者に疾病を持つものがいるか否かのyes/no question であり、患者中心型</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 喫煙歴についてのfocused question であり、医師の意図する内容を問うている。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 薬を過去に内服したことがあるか否かのyes/no question であり、患者中心型</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ 生活の変化を患者に自由に話してもらうopen-ended question であり、患者中</div>"
             },
             {
               "cls": "ept",
@@ -4225,7 +4225,7 @@
             {
               "cls": "ep",
               "h": "📋 選択肢考察",
-              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 症状の時系列の聴取はfocused question であり、解釈モデルとは関連性がない。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 病態の適切な推定は診断に直結するものであり、解釈モデルとは関連性がない。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 患者の心理・社会的な情報は診断のためのツールであり解釈モデルとは関連性</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 診断名の説明は医師主導の説明であり、解釈モデルとは関連性がない。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ 症状が起きた原因を患者自身がどう捉えているかという、患者の解釈モデルを"
+              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 症状の時系列の聴取はfocused question であり、解釈モデルとは関連性がない。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 病態の適切な推定は診断に直結するものであり、解釈モデルとは関連性がない。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 患者の心理・社会的な情報は診断のためのツールであり解釈モデルとは関連性</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 診断名の説明は医師主導の説明であり、解釈モデルとは関連性がない。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ 症状が起きた原因を患者自身がどう捉えているかという、患者の解釈モデルを</div>"
             },
             {
               "cls": "ept",
@@ -4287,7 +4287,7 @@
             {
               "cls": "ep",
               "h": "📋 選択肢考察",
-              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 患者を責めるような表現は適切でない。患者の解釈モデルとその背景について</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 専門用語による説明は難解であり、患者が理解できない可能性が高く、適切で</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ まず患者本人の解釈モデルについて確認することが重要であり、家族への説明</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 患者の解釈モデルについて知ろうとしておらず、適切でない。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ 患者の解釈モデルを把握することで、今後のよりよい理解や、信頼関係をどの"
+              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 患者を責めるような表現は適切でない。患者の解釈モデルとその背景について</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 専門用語による説明は難解であり、患者が理解できない可能性が高く、適切で</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ まず患者本人の解釈モデルについて確認することが重要であり、家族への説明</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 患者の解釈モデルについて知ろうとしておらず、適切でない。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ 患者の解釈モデルを把握することで、今後のよりよい理解や、信頼関係をどの</div>"
             },
             {
               "cls": "ept",
@@ -5080,7 +5080,7 @@
             {
               "cls": "ep",
               "h": "📋 選択肢考察",
-              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 末梢循環不良のため、手足には冷感やチアノーゼを生じる。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 腎血流の減少などのため、尿量は減少する。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 肺における酸素化不良や低呼吸のため、酸素飽和度は低下する。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｄ 血圧低下を反映し、橈骨動脈は触知不良となる。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｅ 循環血液量の減少のため、毛細血管再充満時間は延長する。"
+              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 末梢循環不良のため、手足には冷感やチアノーゼを生じる。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 腎血流の減少などのため、尿量は減少する。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 肺における酸素化不良や低呼吸のため、酸素飽和度は低下する。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｄ 血圧低下を反映し、橈骨動脈は触知不良となる。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｅ 循環血液量の減少のため、毛細血管再充満時間は延長する。</div>"
             },
             {
               "cls": "ept",
@@ -5506,7 +5506,7 @@
             {
               "cls": "ep",
               "h": "📋 選択肢考察",
-              "c": "<div style=\"color:var(--gr);margin-bottom:3px\">○ｄ リンパ浮腫をきたした患者では浮腫の部分に感染をきたしやすく、蜂巣炎（蜂</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｅ 全身性に浮腫をきたす疾患である。"
+              "c": "<div style=\"color:var(--gr);margin-bottom:3px\">○ｄ リンパ浮腫をきたした患者では浮腫の部分に感染をきたしやすく、蜂巣炎（蜂</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｅ 全身性に浮腫をきたす疾患である。</div>"
             },
             {
               "cls": "ept",
@@ -10565,7 +10565,7 @@
             {
               "cls": "ep",
               "h": "📋 選択肢考察",
-              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 肝臓は双手診で底面を触知する。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 膵臓は通常、触知できない。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 腎臓は深呼気時に下極を触知する。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 膀胱は直腸指診で触知できない。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ 正しい。前立腺は直腸指診で腹側に触知する。"
+              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 肝臓は双手診で底面を触知する。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 膵臓は通常、触知できない。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 腎臓は深呼気時に下極を触知する。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 膀胱は直腸指診で触知できない。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ 正しい。前立腺は直腸指診で腹側に触知する。</div>"
             },
             {
               "cls": "ept",
@@ -14044,7 +14044,7 @@
             {
               "cls": "ep",
               "h": "📋 選択肢考察",
-              "c": "<div style=\"color:var(--gr);margin-bottom:3px\">○ａ 窒息で意識を消失した場合には直ちに胸骨圧迫を行う。この胸骨圧迫は気道異</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ まず行うべきことは胸骨圧迫である。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｅ 蘇生処置の最中に口腔内に異物が見えた場合には異物除去を行う。盲目的な掻"
+              "c": "<div style=\"color:var(--gr);margin-bottom:3px\">○ａ 窒息で意識を消失した場合には直ちに胸骨圧迫を行う。この胸骨圧迫は気道異</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ まず行うべきことは胸骨圧迫である。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｅ 蘇生処置の最中に口腔内に異物が見えた場合には異物除去を行う。盲目的な掻</div>"
             },
             {
               "cls": "ept",
@@ -15213,7 +15213,7 @@
             {
               "cls": "ep",
               "h": "📋 選択肢考察",
-              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ エタノールは粘膜や損傷皮膚に対して刺激性があるため使用しない。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ グルタールアルデヒドが皮膚に付着すると化学損傷を生じるため使用しない。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 次亜塩素酸ナトリウムは粘膜刺激作用があり、また高濃度では化学損傷を生じ</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｄ ポピドンヨードは手術野の皮膚、粘膜や創傷部位にも使用可能である。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｅ ホルマリンは皮膚、粘膜に刺激作用があるため使用しない。"
+              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ エタノールは粘膜や損傷皮膚に対して刺激性があるため使用しない。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ グルタールアルデヒドが皮膚に付着すると化学損傷を生じるため使用しない。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 次亜塩素酸ナトリウムは粘膜刺激作用があり、また高濃度では化学損傷を生じ</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｄ ポピドンヨードは手術野の皮膚、粘膜や創傷部位にも使用可能である。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｅ ホルマリンは皮膚、粘膜に刺激作用があるため使用しない。</div>"
             },
             {
               "cls": "ept",
@@ -16492,7 +16492,7 @@
             {
               "cls": "ep",
               "h": "📋 選択肢考察",
-              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 筋肉注射には23～25G 程度の針を使用する。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 接種後に筋肉を揉んではいけない種類の薬剤がある。通常は軽く圧迫するだけ</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 筋肉内に血管損傷が問題となるような太い血管はなく、また筋肉の挫滅が陰圧</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｄ 注射針は皮膚に対し90°の角度で刺入する。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｅ 接種後の観察時間は接種した薬剤により変わる。アナフィラキシーの有無など"
+              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ 筋肉注射には23～25G 程度の針を使用する。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 接種後に筋肉を揉んではいけない種類の薬剤がある。通常は軽く圧迫するだけ</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 筋肉内に血管損傷が問題となるような太い血管はなく、また筋肉の挫滅が陰圧</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｄ 注射針は皮膚に対し90°の角度で刺入する。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｅ 接種後の観察時間は接種した薬剤により変わる。アナフィラキシーの有無など</div>"
             },
             {
               "cls": "ept",
@@ -16646,7 +16646,7 @@
             {
               "cls": "ep",
               "h": "📖 解説",
-              "c": "<div style=\"margin-bottom:6px\"><strong style=\"color:var(--nv)\">《縫合法と抜糸》</strong><br>皮膚の縫合には、結節縫合、連続縫合、スキンステイプラー（医療用のホチキス）<br>を用いた方法がある。また、美容上、抜糸の必要がないように吸収糸を用いた埋没法<br>による結節縫合や連続縫合もある。<br>詳細な手技は成書に譲るが、創縁を互いに接合させて創面を被覆し、感染を防止し<br>て創の一次的治癒を図ることが基本である。切開された創面の各層を正しく互いに合<br>わせ、死腔を残さないようにする必要がある。<br>抜糸は、創が哆開（しかい）しない1 週間目以降で行うことが多く、清潔な外科剪<br>刀を用いて行う。抜糸を行う際は、皮下に埋没した部分を引き出したあと、その部分<br>を剪刀で切離することで、体表に存在して汚染されていた糸が、引き抜く際に皮下を<br>通過する量を最低限にできる。<br>check point"
+              "c": "<div style=\"margin-bottom:6px\"><strong style=\"color:var(--nv)\">《縫合法と抜糸》</strong><br>皮膚の縫合には、結節縫合、連続縫合、スキンステイプラー（医療用のホチキス）<br>を用いた方法がある。また、美容上、抜糸の必要がないように吸収糸を用いた埋没法<br>による結節縫合や連続縫合もある。<br>詳細な手技は成書に譲るが、創縁を互いに接合させて創面を被覆し、感染を防止し<br>て創の一次的治癒を図ることが基本である。切開された創面の各層を正しく互いに合<br>わせ、死腔を残さないようにする必要がある。<br>抜糸は、創が哆開（しかい）しない1 週間目以降で行うことが多く、清潔な外科剪<br>刀を用いて行う。抜糸を行う際は、皮下に埋没した部分を引き出したあと、その部分<br>を剪刀で切離することで、体表に存在して汚染されていた糸が、引き抜く際に皮下を<br>通過する量を最低限にできる。<br>check point</div>"
             },
             {
               "cls": "ept",
@@ -16868,7 +16868,7 @@
             {
               "cls": "ep",
               "h": "📋 選択肢考察",
-              "c": "<div style=\"color:var(--gr);margin-bottom:3px\">○ａ 舌根沈下しており、気道確保が最優先である。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ アドレナリン筋注はアナフィラキシーに対して行う。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ プレドニゾロンは炎症性疾患、アレルギー疾患、免疫疾患などに使用する。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ グルコン酸カルシウムの投与は高カリウム血症に対して行う。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｅ 電気的除細動は心室細動や心室頻拍に対して行う。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ａ 脳死判定基準に頭部MRI は含まれない。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｂ 脳波検査は脳死判定基準に含まれる。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 視覚誘発電位は含まれない。聴性脳幹反応の引っ掛け選択肢と考えられるが、</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 針筋電図検査は神経筋疾患などの精査のために行うものであり、脳死判定とは</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｅ 末梢神経伝導検査は脳死判定とは関係ない。"
+              "c": "<div style=\"color:var(--gr);margin-bottom:3px\">○ａ 舌根沈下しており、気道確保が最優先である。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ アドレナリン筋注はアナフィラキシーに対して行う。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ プレドニゾロンは炎症性疾患、アレルギー疾患、免疫疾患などに使用する。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ グルコン酸カルシウムの投与は高カリウム血症に対して行う。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｅ 電気的除細動は心室細動や心室頻拍に対して行う。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ａ 脳死判定基準に頭部MRI は含まれない。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｂ 脳波検査は脳死判定基準に含まれる。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 視覚誘発電位は含まれない。聴性脳幹反応の引っ掛け選択肢と考えられるが、</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 針筋電図検査は神経筋疾患などの精査のために行うものであり、脳死判定とは</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｅ 末梢神経伝導検査は脳死判定とは関係ない。</div>"
             },
             {
               "cls": "ept",
@@ -18368,7 +18368,7 @@
             {
               "cls": "ep",
               "h": "📋 選択肢考察",
-              "c": "<div style=\"color:var(--gr);margin-bottom:3px\">○ａ 飲酒習慣や喫煙は、乳癌のリスクファクターである。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｂ 速い摂食速度（早食い）は、肥満のリスクファクターである。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｃ 高温物は食道粘膜を障害するため、頻繁な摂取は食道癌のリスクファクターで</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 強い咀嚼力があれば十分に食事を摂取できるため、フレイルのリスクが減少する。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ 過度の食事制限により栄養が不足すると骨密度を十分に保つことができず、骨"
+              "c": "<div style=\"color:var(--gr);margin-bottom:3px\">○ａ 飲酒習慣や喫煙は、乳癌のリスクファクターである。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｂ 速い摂食速度（早食い）は、肥満のリスクファクターである。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｃ 高温物は食道粘膜を障害するため、頻繁な摂取は食道癌のリスクファクターで</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 強い咀嚼力があれば十分に食事を摂取できるため、フレイルのリスクが減少する。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ 過度の食事制限により栄養が不足すると骨密度を十分に保つことができず、骨</div>"
             },
             {
               "cls": "ept",
@@ -18685,7 +18685,7 @@
             {
               "cls": "ep",
               "h": "📋 選択肢考察",
-              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ アフリカでの医療活動に生涯を捧げた人物である。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 天然痘の予防における種痘法を開発した人物である。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 狂犬病などのワクチンを開発した人物である。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 細菌培養法の基礎を確立した人物である。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ William Osler の説明である。「感染性心内膜炎において指趾末端にみられる有"
+              "c": "<div style=\"color:var(--ts);margin-bottom:3px\">×ａ アフリカでの医療活動に生涯を捧げた人物である。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｂ 天然痘の予防における種痘法を開発した人物である。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｃ 狂犬病などのワクチンを開発した人物である。</div><div style=\"color:var(--ts);margin-bottom:3px\">×ｄ 細菌培養法の基礎を確立した人物である。</div><div style=\"color:var(--gr);margin-bottom:3px\">○ｅ William Osler の説明である。「感染性心内膜炎において指趾末端にみられる有</div>"
             },
             {
               "cls": "ept",
