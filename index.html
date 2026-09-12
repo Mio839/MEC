@@ -1778,7 +1778,7 @@ html.ui-cyber .theme-gauge-cyber { display: inline; }
 }
 
 /* ─────────────────────────────────────────────────────────────
-   3. Aurora: 地磁気プラズマアーチ ＆ 天頂極光コロナ ＆ 揺らめくオーロラ光彩カーテン
+   3. Aurora: 地磁気プラズマアーチ ＆ 天頂極光コロナ ＆ 絢爛重層オーロラヴェール
    ───────────────────────────────────────────────────────────── */
 html.ui-aurora .theme-gauge-aurora { display: inline; }
 /* PC環境（Chromium）でSVG境界（168x168）による四角いクリッピング枠が浮き出るのを防ぐため、
@@ -1828,6 +1828,23 @@ html.ui-aurora .theme-gauge-aurora { display: inline; }
   100% { opacity: .8; filter: drop-shadow(0 0 6px #7928CA); }
 }
 
+/* 磁力線沿いに流れるプラズマエネルギー・パルス */
+.a-mag-flux-pulse {
+  fill: none;
+  stroke: #FFFDF0;
+  stroke-linecap: round;
+  stroke-dasharray: 18 120;
+  animation: magStreamFlow 4s linear infinite;
+  opacity: .75;
+  filter: drop-shadow(0 0 6px #FFF) drop-shadow(0 0 12px #00DFD8);
+}
+@keyframes magStreamFlow {
+  0% { stroke-dashoffset: 138; opacity: 0; }
+  20% { opacity: .85; }
+  80% { opacity: .85; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
 .a-mag-equator {
   fill: none;
   stroke: rgba(0, 255, 178, .4);
@@ -1853,9 +1870,9 @@ html.ui-aurora .theme-gauge-aurora { display: inline; }
   100% { r: 4.0; opacity: 1; filter: drop-shadow(0 0 8px #FFF) drop-shadow(0 0 16px #FF0080); }
 }
 
-/* 🌌 2. 天頂極光コロナ・スパイラル光芒 */
+/* 🌌 2. 天頂極光コロナ・スパイラル光芒（進捗連動で多層覚醒） */
 .aurora-zenith-spirals {
-  opacity: .3;
+  opacity: .35;
   transition: opacity .8s ease;
   transform-origin: 84px 84px;
   animation: zenithSpiralRotate 32s linear infinite;
@@ -1867,6 +1884,7 @@ html.ui-aurora .theme-gauge-aurora { display: inline; }
   stroke-linecap: round;
   filter: drop-shadow(0 0 8px rgba(0, 223, 216, .65)) drop-shadow(0 0 16px rgba(121, 40, 202, .5));
   opacity: .55;
+  transition: opacity .7s ease, stroke-width .7s ease;
 }
 @keyframes zenithSpiralRotate {
   0% { transform: rotate(0deg); }
@@ -1922,52 +1940,59 @@ html.ui-aurora .theme-gauge-aurora { display: inline; }
   display: none !important;
 }
 
-/* 🌊 4. 内部重層オーロラカーテン ＆ 鉛直極光光芒 */
+/* 🌌 4. 内部重層オーロラヴェール ＆ 鉛直極光光芒（脱・液体水面：天頂から降り注ぐ光のドレープ） */
 .aurora-curtain-group {
-  transition: transform 1.1s cubic-bezier(.2, .9, .3, 1);
-  will-change: transform;
+  transition: opacity .8s ease, transform .95s cubic-bezier(.2, .9, .3, 1);
+  will-change: transform, opacity;
+  transform-origin: 84px 16px;
 }
 .aurora-curtain-deep {
-  animation: auroraCurtainDeepAnim 9s ease-in-out infinite alternate;
+  animation: auroraVeilDeepAnim 10s ease-in-out infinite alternate;
+  opacity: .75;
 }
 .aurora-curtain-back {
-  animation: auroraCurtainBackAnim 7s ease-in-out infinite alternate;
+  animation: auroraVeilBackAnim 8s ease-in-out infinite alternate;
+  opacity: .8;
 }
 .aurora-curtain-front {
-  animation: auroraCurtainAnim 5s ease-in-out infinite alternate;
+  animation: auroraVeilFrontAnim 6s ease-in-out infinite alternate;
   filter: drop-shadow(0 0 14px rgba(0, 223, 216, .9)) drop-shadow(0 0 28px rgba(121, 40, 202, .75));
 }
 .aurora-curtain-crest {
-  animation: auroraCurtainAnim 5s ease-in-out infinite alternate;
-  filter: drop-shadow(0 0 6px #FFFDF0) drop-shadow(0 0 12px #00FFB2);
-}
-@keyframes auroraCurtainAnim {
-  0% { transform: translateX(0) skewX(-2deg); }
-  50% { transform: translateX(-42px) skewX(2deg); filter: drop-shadow(0 0 18px #00DFD8) drop-shadow(0 0 32px #FF0080); }
-  100% { transform: translateX(-84px) skewX(-2deg); }
-}
-@keyframes auroraCurtainBackAnim {
-  0% { transform: translateX(-84px) skewX(2deg); }
-  50% { transform: translateX(-42px) skewX(-2deg); }
-  100% { transform: translateX(0) skewX(2deg); }
-}
-@keyframes auroraCurtainDeepAnim {
-  0% { transform: translateX(-20px) skewX(-1deg); }
-  50% { transform: translateX(-60px) skewX(1deg); }
-  100% { transform: translateX(-20px) skewX(-1deg); }
+  animation: auroraVeilFrontAnim 6s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 8px #FFFDF0) drop-shadow(0 0 14px #00FFB2);
 }
 
-/* 鉛直オーロラ光芒（Ion Pillars） */
+/* 天頂から吊り下がるオーガンジー極光ヴェールの優雅なドレープ呼吸（横スライド水流の完全撤廃） */
+@keyframes auroraVeilFrontAnim {
+  0% { transform: scaleX(0.97) skewX(-1.5deg) rotate(0deg); }
+  50% { transform: scaleX(1.03) skewX(1.8deg) rotate(0.6deg); filter: drop-shadow(0 0 18px #00DFD8) drop-shadow(0 0 32px #FF0080); }
+  100% { transform: scaleX(0.98) skewX(-1.2deg) rotate(-0.5deg); }
+}
+@keyframes auroraVeilBackAnim {
+  0% { transform: scaleX(1.02) skewX(1.5deg) rotate(-0.4deg); }
+  50% { transform: scaleX(0.96) skewX(-1.8deg) rotate(0.5deg); }
+  100% { transform: scaleX(1.01) skewX(1.2deg) rotate(-0.3deg); }
+}
+@keyframes auroraVeilDeepAnim {
+  0% { transform: scale(0.98) skewY(-0.8deg); }
+  50% { transform: scale(1.02) skewY(0.8deg); }
+  100% { transform: scale(0.98) skewY(-0.8deg); }
+}
+
+/* 鉛直オーロラ光芒（Ion Pillars / 天頂へ立ち昇る垂直プラズマ光柱群） */
 .aurora-curtain-rays {
-  animation: auroraRayClusterDrift 6s ease-in-out infinite alternate;
+  animation: auroraRayClusterDrift 7s ease-in-out infinite alternate;
+  transform-origin: 84px 84px;
 }
 @keyframes auroraRayClusterDrift {
-  0% { transform: translateX(0); opacity: .7; }
-  50% { transform: translateX(-15px); opacity: .95; }
-  100% { transform: translateX(-30px); opacity: .65; }
+  0% { transform: scaleX(0.96) rotate(-0.5deg); opacity: .75; }
+  50% { transform: scaleX(1.04) rotate(0.5deg); opacity: 1; filter: drop-shadow(0 0 8px #00DFD8); }
+  100% { transform: scaleX(0.98) rotate(-0.3deg); opacity: .75; }
 }
 .a-ion-ray {
   animation: auroraIonRayBreathe 3.4s ease-in-out infinite alternate;
+  transform-origin: center top;
 }
 .a-ion-ray.ir-1 { animation-delay: 0s; }
 .a-ion-ray.ir-2 { animation-delay: .4s; }
@@ -1978,70 +2003,91 @@ html.ui-aurora .theme-gauge-aurora { display: inline; }
 .a-ion-ray.ir-7 { animation-delay: 2.4s; }
 .a-ion-ray.ir-8 { animation-delay: 2.8s; }
 @keyframes auroraIonRayBreathe {
-  0% { transform: scaleY(.85); opacity: .4; }
-  100% { transform: scaleY(1.18); opacity: .9; }
+  0% { transform: scaleY(.85); opacity: .45; }
+  100% { transform: scaleY(1.22); opacity: .95; filter: drop-shadow(0 0 10px #FFF) drop-shadow(0 0 16px #00DFD8); }
 }
 
-/* ✨ 5. 極光星屑（16点） */
+/* ⚡ 5. 地磁気プラズマ・ストリーマー ＆ 光彩シマー（脱・フロスト点滅粒子：磁力線沿いの流光フォトン） */
+.aurora-sparkles {
+  pointer-events: none;
+}
 .aurora-sparkle {
-  fill: #FFF;
-  filter: drop-shadow(0 0 4px #00DFD8);
-  animation: auroraSparkleTwinkle 2.4s ease-in-out infinite alternate;
+  fill: #00DFD8;
+  filter: drop-shadow(0 0 5px #00DFD8) drop-shadow(0 0 10px #FF0080);
+  opacity: 0;
+  animation: auroraStreamerRush 3.4s cubic-bezier(.16, 1, .3, 1) infinite;
 }
-.aurora-sparkle.sp1 { animation-delay: 0s; }
-.aurora-sparkle.sp2 { animation-delay: .6s; animation-duration: 3s; }
-.aurora-sparkle.sp3 { animation-delay: 1.2s; animation-duration: 2.8s; }
-.aurora-sparkle.sp4 { animation-delay: 1.8s; animation-duration: 3.4s; }
-.aurora-sparkle.sp5 { animation-delay: .3s; animation-duration: 2.6s; }
-.aurora-sparkle.sp6 { animation-delay: .9s; animation-duration: 3.1s; }
-.aurora-sparkle.sp7 { animation-delay: 1.5s; animation-duration: 2.7s; }
-.aurora-sparkle.sp8 { animation-delay: 2.1s; animation-duration: 3.3s; }
-
 .aurora-dstar {
   fill: #FFFDF0;
-  filter: drop-shadow(0 0 5px #FFF) drop-shadow(0 0 10px #00DFD8);
-  animation: auroraDiamondStarTwinkle 2.2s ease-in-out infinite alternate;
-}
-.aurora-dstar.ds-1 { animation-delay: 0s; }
-.aurora-dstar.ds-2 { animation-delay: .5s; animation-duration: 2.8s; }
-.aurora-dstar.ds-3 { animation-delay: 1.0s; animation-duration: 2.4s; }
-.aurora-dstar.ds-4 { animation-delay: 1.5s; animation-duration: 3.0s; }
-.aurora-dstar.ds-5 { animation-delay: .25s; animation-duration: 2.7s; }
-.aurora-dstar.ds-6 { animation-delay: .75s; animation-duration: 2.5s; }
-.aurora-dstar.ds-7 { animation-delay: 1.25s; animation-duration: 2.9s; }
-.aurora-dstar.ds-8 { animation-delay: 1.75s; animation-duration: 3.2s; }
-
-@keyframes auroraSparkleTwinkle {
-  0% { opacity: .2; transform: scale(.7); }
-  100% { opacity: 1; transform: scale(1.3); filter: drop-shadow(0 0 8px #FFF) drop-shadow(0 0 14px #FF0080); }
-}
-@keyframes auroraDiamondStarTwinkle {
-  0% { opacity: .25; transform: scale(.75); }
-  50% { opacity: 1; transform: scale(1.35); filter: drop-shadow(0 0 10px #FFF) drop-shadow(0 0 16px #00FFB2); }
-  100% { opacity: .3; transform: scale(.8); }
+  filter: drop-shadow(0 0 6px #FFF) drop-shadow(0 0 12px #00FFB2);
+  opacity: 0;
+  animation: auroraDiamondStreak 3.0s cubic-bezier(.16, 1, .3, 1) infinite;
 }
 
-/* 🌈 6. 360度プリズム光帯アーク ＆ 極光プラズマオーブ */
+/* 点滅ではなく、磁力線沿いに尾を引いて光速疾走するプラズマストリーマー */
+.aurora-sparkle.sp1 { animation-delay: 0s; }
+.aurora-sparkle.sp2 { animation-delay: .7s; animation-duration: 3.8s; }
+.aurora-sparkle.sp3 { animation-delay: 1.4s; animation-duration: 3.2s; }
+.aurora-sparkle.sp4 { animation-delay: 2.1s; animation-duration: 4.0s; }
+.aurora-sparkle.sp5 { animation-delay: .35s; animation-duration: 3.6s; }
+.aurora-sparkle.sp6 { animation-delay: 1.05s; animation-duration: 3.3s; }
+.aurora-sparkle.sp7 { animation-delay: 1.75s; animation-duration: 3.7s; }
+.aurora-sparkle.sp8 { animation-delay: 2.45s; animation-duration: 4.2s; }
+
+.aurora-dstar.ds-1 { animation-delay: .2s; }
+.aurora-dstar.ds-2 { animation-delay: .9s; animation-duration: 3.5s; }
+.aurora-dstar.ds-3 { animation-delay: 1.6s; animation-duration: 2.8s; }
+.aurora-dstar.ds-4 { animation-delay: 2.3s; animation-duration: 3.6s; }
+.aurora-dstar.ds-5 { animation-delay: .5s; animation-duration: 3.3s; }
+.aurora-dstar.ds-6 { animation-delay: 1.2s; animation-duration: 3.1s; }
+.aurora-dstar.ds-7 { animation-delay: 1.9s; animation-duration: 3.7s; }
+.aurora-dstar.ds-8 { animation-delay: 2.6s; animation-duration: 3.4s; }
+
+@keyframes auroraStreamerRush {
+  0%   { opacity: 0; transform: translateY(-8px) scale(0.6); }
+  15%  { opacity: .9; transform: translateY(0) scale(1.1); filter: drop-shadow(0 0 8px #FFF) drop-shadow(0 0 14px #00DFD8); }
+  35%  { opacity: 1; transform: translateY(12px) scale(1.3); }
+  60%  { opacity: .4; transform: translateY(24px) scale(0.8); }
+  100% { opacity: 0; transform: translateY(36px) scale(0.4); }
+}
+@keyframes auroraDiamondStreak {
+  0%   { opacity: 0; transform: translateY(-12px) scale(0.7) rotate(0deg); }
+  20%  { opacity: 1; transform: translateY(0) scale(1.3) rotate(45deg); filter: drop-shadow(0 0 10px #FFF) drop-shadow(0 0 18px #FF0080); }
+  45%  { opacity: .85; transform: translateY(14px) scale(1.1) rotate(90deg); }
+  70%  { opacity: .3; transform: translateY(26px) scale(0.7) rotate(135deg); }
+  100% { opacity: 0; transform: translateY(38px) scale(0.4) rotate(180deg); }
+}
+
+/* 🌈 6. 左右対称バイラテラル極光光環（脱・右から液体：天頂から左右対称に満ちて結合する神聖光輪） */
 .aurora-prism-orbit {
   fill: none;
   stroke: rgba(0, 223, 216, .12);
-  stroke-width: 3.5;
+  stroke-width: 3.2;
 }
-.aurora-prism-arc {
+.aurora-prism-arc,
+.aurora-prism-arc-sym {
   fill: none;
   stroke: url(#auroraPrismArcGrad);
-  stroke-width: 3.5;
+  stroke-width: 3.2;
   stroke-linecap: round;
-  stroke-dasharray: 427.26;
-  stroke-dashoffset: 427.26;
+  stroke-dasharray: 213.63 427.26;
+  stroke-dashoffset: 213.63;
   transform-origin: 84px 84px;
-  transform: rotate(-90deg);
   transition: stroke-dashoffset .95s cubic-bezier(.2, .9, .3, 1);
   filter: drop-shadow(0 0 6px #00DFD8) drop-shadow(0 0 14px rgba(121, 40, 202, .8));
+}
+/* 右翼：12時から時計回り */
+.aurora-prism-arc {
+  transform: rotate(-90deg);
+}
+/* 左翼：12時から反時計回り（完全左右対称） */
+.aurora-prism-arc-sym {
+  transform: rotate(-90deg) scaleY(-1);
 }
 
 .aurora-prism-jewel-wrap {
   transition: transform .95s cubic-bezier(.2, .9, .3, 1);
+  transform-origin: 84px 84px;
 }
 .aurora-jewel-halo {
   fill: rgba(0, 223, 216, .35);
@@ -2077,7 +2123,19 @@ html.ui-aurora .theme-gauge-aurora { display: inline; }
   100% { r: 4.5; filter: drop-shadow(0 0 10px #FFF) drop-shadow(0 0 18px #FF0080); }
 }
 
-/* 🌟 7. オーバードライブ ＆ 高Tier覚醒演出 */
+/* 🌟 7. 多段覚醒 ＆ オーバードライブ（Substorm 磁気嵐爆発） */
+/* Stage 1〜4: 進捗連動でのコロナ覚醒 */
+[data-aurora-stage="1"] .aurora-zenith-spirals { opacity: .45; }
+[data-aurora-stage="2"] .aurora-zenith-spirals { opacity: .6; animation-duration: 26s; }
+[data-aurora-stage="3"] .aurora-zenith-spirals { opacity: .75; animation-duration: 22s; }
+[data-aurora-stage="4"] .aurora-zenith-spirals,
+[data-aurora-stage="5"] .aurora-zenith-spirals { opacity: .9; animation-duration: 18s; }
+
+[data-aurora-stage="4"] .aurora-prism-arc,
+[data-aurora-stage="4"] .aurora-prism-arc-sym {
+  filter: drop-shadow(0 0 10px #FFF) drop-shadow(0 0 20px #00DFD8) drop-shadow(0 0 32px #FF0080);
+}
+
 .gauge[data-tier="5"] .aurora-glass-bezel,
 .gauge[data-tier="6"] .aurora-glass-bezel {
   stroke: #FFF;
@@ -2093,6 +2151,8 @@ html.ui-aurora .theme-gauge-aurora { display: inline; }
   opacity: .75;
   animation-duration: 20s;
 }
+
+/* オーバードライブ: 磁気嵐サブストーム全開爆発 */
 .gauge[data-overdrive] .aurora-zenith-spirals {
   opacity: 1 !important;
   animation: zenithSpiralRotate 12s linear infinite, zenithSpiralPulse 2s ease-in-out infinite alternate !important;
@@ -2103,10 +2163,11 @@ html.ui-aurora .theme-gauge-aurora { display: inline; }
   filter: drop-shadow(0 0 12px #FFF) drop-shadow(0 0 24px #00DFD8) drop-shadow(0 0 40px #FF0080) !important;
 }
 .gauge[data-overdrive] .aurora-curtain-front {
-  animation-duration: 2.5s !important;
+  animation-duration: 3s !important;
   filter: drop-shadow(0 0 22px #00DFD8) drop-shadow(0 0 40px #FF0080) drop-shadow(0 0 60px #FFF) !important;
 }
-.gauge[data-overdrive] .aurora-prism-arc {
+.gauge[data-overdrive] .aurora-prism-arc,
+.gauge[data-overdrive] .aurora-prism-arc-sym {
   filter: drop-shadow(0 0 12px #FFFDF0) drop-shadow(0 0 24px #00DFD8) drop-shadow(0 0 38px #FF0080) !important;
 }
 
@@ -5356,7 +5417,7 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                 <g id="cyberSegments" style="display:none"></g>
               </g>
 
-              <!-- 🌟 3. Aurora: 地磁気プラズマアーチ ＆ 天頂極光コロナ ＆ 揺らめくオーロラ光彩カーテン -->
+              <!-- 🌟 3. Aurora: 地磁気プラズマアーチ ＆ 天頂極光コロナ ＆ 絢爛重層オーロラヴェール -->
               <g class="theme-gauge-aurora" id="gaugeAuroraCore" data-aurora-stage="0">
                 <defs>
                   <!-- 八角ファセットグラスのクリップパス -->
@@ -5365,30 +5426,32 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                   </clipPath>
                   <!-- 深層背景グラデーション -->
                   <linearGradient id="auroraGlassBackGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#050014" stop-opacity="0.92"></stop>
-                    <stop offset="50%" stop-color="#0F0326" stop-opacity="0.88"></stop>
-                    <stop offset="100%" stop-color="#060118" stop-opacity="0.95"></stop>
+                    <stop offset="0%" stop-color="#040012" stop-opacity="0.94"></stop>
+                    <stop offset="50%" stop-color="#0E0224" stop-opacity="0.90"></stop>
+                    <stop offset="100%" stop-color="#050116" stop-opacity="0.96"></stop>
                   </linearGradient>
-                  <!-- 深層オーロラ光幕グラデーション -->
-                  <linearGradient id="auroraCurtainDeepGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                    <stop offset="0%" stop-color="#060018" stop-opacity="0.9"></stop>
-                    <stop offset="40%" stop-color="#3B0764" stop-opacity="0.75"></stop>
-                    <stop offset="85%" stop-color="#7928CA" stop-opacity="0.65"></stop>
-                    <stop offset="100%" stop-color="#00DFD8" stop-opacity="0.75"></stop>
+                  <!-- 深層オーロラ光幕グラデーション（天頂から夜空へ降り注ぐ光彩） -->
+                  <linearGradient id="auroraCurtainDeepGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#00DFD8" stop-opacity="0.85"></stop>
+                    <stop offset="35%" stop-color="#7928CA" stop-opacity="0.65"></stop>
+                    <stop offset="70%" stop-color="#3B0764" stop-opacity="0.45"></stop>
+                    <stop offset="100%" stop-color="#060018" stop-opacity="0"></stop>
                   </linearGradient>
-                  <!-- 揺らめくオーロラ光彩カーテンのメイングラデーション -->
-                  <linearGradient id="auroraCurtainGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                    <stop offset="0%" stop-color="#00DFD8" stop-opacity="0.95"></stop>
-                    <stop offset="35%" stop-color="#00FFB2" stop-opacity="0.85"></stop>
-                    <stop offset="65%" stop-color="#7928CA" stop-opacity="0.85"></stop>
-                    <stop offset="88%" stop-color="#FF0080" stop-opacity="0.9"></stop>
-                    <stop offset="100%" stop-color="#FFFDF0" stop-opacity="0.98"></stop>
+                  <!-- 絢爛重層オーロラヴェールのメイングラデーション（天頂から下へ透過フェードアウト） -->
+                  <linearGradient id="auroraCurtainGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#FFFDF0" stop-opacity="0.98"></stop>
+                    <stop offset="15%" stop-color="#00FFB2" stop-opacity="0.92"></stop>
+                    <stop offset="42%" stop-color="#00DFD8" stop-opacity="0.88"></stop>
+                    <stop offset="68%" stop-color="#7928CA" stop-opacity="0.75"></stop>
+                    <stop offset="88%" stop-color="#FF0080" stop-opacity="0.45"></stop>
+                    <stop offset="100%" stop-color="#FF0080" stop-opacity="0"></stop>
                   </linearGradient>
                   <!-- 鉛直オーロラ光芒（Ion Pillars）グラデーション -->
                   <linearGradient id="auroraRayGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-                    <stop offset="0%" stop-color="#00DFD8" stop-opacity="0.7"></stop>
-                    <stop offset="50%" stop-color="#7928CA" stop-opacity="0.4"></stop>
-                    <stop offset="100%" stop-color="#FFFDF0" stop-opacity="0"></stop>
+                    <stop offset="0%" stop-color="#00DFD8" stop-opacity="0.1"></stop>
+                    <stop offset="45%" stop-color="#7928CA" stop-opacity="0.55"></stop>
+                    <stop offset="85%" stop-color="#00FFB2" stop-opacity="0.85"></stop>
+                    <stop offset="100%" stop-color="#FFFDF0" stop-opacity="0.95"></stop>
                   </linearGradient>
                   <!-- プリズムアーク用虹色グラデーション -->
                   <linearGradient id="auroraPrismArcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -5408,18 +5471,18 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                   </linearGradient>
                   <!-- オパール虹彩光輪グラデーション -->
                   <linearGradient id="auroraOpalRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#00DFD8" stop-opacity="0.4"></stop>
-                    <stop offset="30%" stop-color="#00FFB2" stop-opacity="0.25"></stop>
-                    <stop offset="60%" stop-color="#7928CA" stop-opacity="0.35"></stop>
-                    <stop offset="85%" stop-color="#FF0080" stop-opacity="0.3"></stop>
-                    <stop offset="100%" stop-color="#00DFD8" stop-opacity="0.4"></stop>
+                    <stop offset="0%" stop-color="#00DFD8" stop-opacity="0.45"></stop>
+                    <stop offset="30%" stop-color="#00FFB2" stop-opacity="0.3"></stop>
+                    <stop offset="60%" stop-color="#7928CA" stop-opacity="0.4"></stop>
+                    <stop offset="85%" stop-color="#FF0080" stop-opacity="0.35"></stop>
+                    <stop offset="100%" stop-color="#00DFD8" stop-opacity="0.45"></stop>
                   </linearGradient>
                 </defs>
 
                 <!-- グラス深層背景 -->
                 <polygon class="aurora-glass-back" points="84,16 132,36 152,84 132,132 84,152 36,132 16,84 36,36" fill="url(#auroraGlassBackGrad)"></polygon>
 
-                <!-- 🌌 1. 天頂極光コロナ・スパイラル光芒（100%/Overdrive/高Tierで優雅に旋回覚醒） -->
+                <!-- 🌌 1. 天頂極光コロナ・スパイラル光芒（進捗連動で多層覚醒・優雅に旋回） -->
                 <g class="aurora-zenith-spirals" id="auroraZenithSpirals" pointer-events="none">
                   <path class="a-spiral-ray sr-0" d="M 84,84 Q 74,44 84,8"></path>
                   <path class="a-spiral-ray sr-1" d="M 84,84 Q 110,48 138,28"></path>
@@ -5442,6 +5505,9 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                   <!-- 内側双極子磁力線 -->
                   <path class="a-mag-flux mf-inner-r" d="M 84,20 C 122,30 134,60 134,84 C 134,108 122,138 84,148"></path>
                   <path class="a-mag-flux mf-inner-l" d="M 84,20 C 46,30 34,60 34,84 C 34,108 46,138 84,148"></path>
+                  <!-- 力線沿いに走る流光プラズマパルス -->
+                  <path class="a-mag-flux-pulse" d="M 84,16 C 146,18 162,56 162,84 C 162,112 146,150 84,152"></path>
+                  <path class="a-mag-flux-pulse" d="M 84,16 C 22,18 6,56 6,84 C 6,112 22,150 84,152" style="animation-delay:2s;"></path>
                   <!-- 磁気赤道プラズマ環 -->
                   <ellipse class="a-mag-equator" cx="84" cy="84" rx="66" ry="18" transform="rotate(-12, 84, 84)"></ellipse>
                   <!-- 南北磁極ノード（プラズマ結節点） -->
@@ -5449,69 +5515,72 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                   <circle class="a-mag-pole south" cx="84" cy="152" r="3.2"></circle>
                 </g>
 
-                <!-- 内部オーロラカーテン（ガラス内部クリップ） -->
+                <!-- 内部オーロラヴェール（天頂から降り注ぐ光のドレープ・ガラス内部クリップ） -->
                 <g clip-path="url(#auroraGlassClip)">
-                  <g class="aurora-curtain-group" id="auroraCurtainGroup" style="transform: translateY(140px);">
-                    <!-- 最深層オーロラ光幕（大波） -->
-                    <path class="aurora-curtain-deep" d="M -168,0 Q -126,-12 -84,0 T 0,0 T 84,0 T 168,0 T 252,0 T 336,0 L 336,180 L -168,180 Z" fill="url(#auroraCurtainDeepGrad)"></path>
+                  <g class="aurora-curtain-group" id="auroraCurtainGroup">
+                    <!-- 最深層オーロラ光幕（天頂から優雅に広がる光のドレープ） -->
+                    <path class="aurora-curtain-deep" d="M 20,16 Q 52,24 84,18 T 148,16 L 152,138 Q 118,148 84,140 T 16,138 Z" fill="url(#auroraCurtainDeepGrad)"></path>
                     <!-- 中層オーロラ光幕 -->
-                    <path class="aurora-curtain-back" d="M -168,0 Q -126,-8 -84,0 T 0,0 T 84,0 T 168,0 T 252,0 T 336,0 L 336,180 L -168,180 Z" fill="url(#auroraCurtainGrad)" opacity="0.65"></path>
-                    <!-- 鉛直オーロラ光芒（Ion Pillars / 立ち昇る垂直光柱群） -->
+                    <path class="aurora-curtain-back" d="M 22,16 Q 54,22 84,17 T 146,16 L 150,132 Q 116,144 84,134 T 18,132 Z" fill="url(#auroraCurtainGrad)" opacity="0.75"></path>
+                    <!-- 鉛直オーロラ光芒（Ion Pillars / 天頂へ立ち昇る垂直光柱群） -->
                     <g class="aurora-curtain-rays">
-                      <rect class="a-ion-ray ir-1" x="36" y="-36" width="5" height="52" rx="2.5" fill="url(#auroraRayGrad)"></rect>
-                      <rect class="a-ion-ray ir-2" x="50" y="-42" width="4" height="58" rx="2" fill="url(#auroraRayGrad)"></rect>
-                      <rect class="a-ion-ray ir-3" x="64" y="-32" width="6" height="48" rx="3" fill="url(#auroraRayGrad)"></rect>
-                      <rect class="a-ion-ray ir-4" x="78" y="-48" width="5" height="64" rx="2.5" fill="url(#auroraRayGrad)"></rect>
-                      <rect class="a-ion-ray ir-5" x="92" y="-38" width="6" height="54" rx="3" fill="url(#auroraRayGrad)"></rect>
-                      <rect class="a-ion-ray ir-6" x="106" y="-44" width="4" height="60" rx="2" fill="url(#auroraRayGrad)"></rect>
-                      <rect class="a-ion-ray ir-7" x="118" y="-34" width="5" height="50" rx="2.5" fill="url(#auroraRayGrad)"></rect>
-                      <rect class="a-ion-ray ir-8" x="130" y="-40" width="4" height="56" rx="2" fill="url(#auroraRayGrad)"></rect>
+                      <rect class="a-ion-ray ir-1" x="36" y="24" width="5" height="70" rx="2.5" fill="url(#auroraRayGrad)"></rect>
+                      <rect class="a-ion-ray ir-2" x="50" y="18" width="4" height="82" rx="2" fill="url(#auroraRayGrad)"></rect>
+                      <rect class="a-ion-ray ir-3" x="64" y="22" width="6" height="74" rx="3" fill="url(#auroraRayGrad)"></rect>
+                      <rect class="a-ion-ray ir-4" x="78" y="14" width="5" height="92" rx="2.5" fill="url(#auroraRayGrad)"></rect>
+                      <rect class="a-ion-ray ir-5" x="92" y="18" width="6" height="80" rx="3" fill="url(#auroraRayGrad)"></rect>
+                      <rect class="a-ion-ray ir-6" x="106" y="20" width="4" height="86" rx="2" fill="url(#auroraRayGrad)"></rect>
+                      <rect class="a-ion-ray ir-7" x="118" y="26" width="5" height="72" rx="2.5" fill="url(#auroraRayGrad)"></rect>
+                      <rect class="a-ion-ray ir-8" x="130" y="22" width="4" height="76" rx="2" fill="url(#auroraRayGrad)"></rect>
                     </g>
                     <!-- 手前のオーロラメイン光幕 -->
-                    <path class="aurora-curtain-front" id="auroraCurtainFront" d="M -168,0 Q -126,8 -84,0 T 0,0 T 84,0 T 168,0 T 252,0 T 336,0 L 336,180 L -168,180 Z" fill="url(#auroraCurtainGrad)"></path>
-                    <!-- 光彩サージ波頭ライン -->
-                    <path class="aurora-curtain-crest" d="M -168,0 Q -126,8 -84,0 T 0,0 T 84,0 T 168,0 T 252,0 T 336,0" fill="none" stroke="#FFFDF0" stroke-width="2.2" stroke-linecap="round"></path>
+                    <path class="aurora-curtain-front" id="auroraCurtainFront" d="M 24,16 Q 52,26 84,19 T 144,16 L 148,126 Q 116,140 84,128 T 20,126 Z" fill="url(#auroraCurtainGrad)"></path>
+                    <!-- 天頂光彩サージ波頭ライン -->
+                    <path class="aurora-curtain-crest" d="M 24,16 Q 52,26 84,19 T 144,16" fill="none" stroke="#FFFDF0" stroke-width="2.2" stroke-linecap="round"></path>
                   </g>
 
-                  <!-- ✨ ガラス内部のダイヤモンドダスト ＆ プリズムスターダスト（16点） -->
+                  <!-- ⚡ 地磁気力線沿いに流れるプラズマ・ストリーマー群（脱・フロスト点滅粒子） -->
                   <g class="aurora-sparkles">
-                    <!-- 四芒星クリスタルスパークル（8点） -->
-                    <path class="aurora-sparkle aurora-dstar ds-1" d="M 52,64 L 53,67 L 56,68 L 53,69 L 52,72 L 51,69 L 48,68 L 51,67 Z"></path>
-                    <path class="aurora-sparkle aurora-dstar ds-2" d="M 116,58 L 117,62 L 121,63 L 117,64 L 116,68 L 115,64 L 111,63 L 115,62 Z"></path>
-                    <path class="aurora-sparkle aurora-dstar ds-3" d="M 72,112 L 73,115 L 76,116 L 73,117 L 72,120 L 71,117 L 68,116 L 71,115 Z"></path>
-                    <path class="aurora-sparkle aurora-dstar ds-4" d="M 104,106 L 105,109 L 108,110 L 105,111 L 104,114 L 103,111 L 100,110 L 103,109 Z"></path>
-                    <path class="aurora-sparkle aurora-dstar ds-5" d="M 84,48 L 85,51 L 88,52 L 85,53 L 84,56 L 83,53 L 80,52 L 83,51 Z"></path>
-                    <path class="aurora-sparkle aurora-dstar ds-6" d="M 42,92 L 43,94 L 45,95 L 43,96 L 42,98 L 41,96 L 39,95 L 41,94 Z"></path>
-                    <path class="aurora-sparkle aurora-dstar ds-7" d="M 126,90 L 127,92 L 129,93 L 127,94 L 126,96 L 125,94 L 123,93 L 125,92 Z"></path>
-                    <path class="aurora-sparkle aurora-dstar ds-8" d="M 84,124 L 85,126 L 87,127 L 85,128 L 84,130 L 83,128 L 81,127 L 83,126 Z"></path>
-                    <!-- 微小プリズムダスト（8点） -->
-                    <circle class="aurora-sparkle sp1" cx="54" cy="68" r="1.6"></circle>
-                    <circle class="aurora-sparkle sp2" cx="114" cy="60" r="2.2"></circle>
-                    <circle class="aurora-sparkle sp3" cx="70" cy="110" r="1.8"></circle>
-                    <circle class="aurora-sparkle sp4" cx="102" cy="104" r="1.4"></circle>
-                    <circle class="aurora-sparkle sp5" cx="62" cy="42" r="1.2"></circle>
-                    <circle class="aurora-sparkle sp6" cx="106" cy="44" r="1.5"></circle>
-                    <circle class="aurora-sparkle sp7" cx="48" cy="120" r="1.3"></circle>
-                    <circle class="aurora-sparkle sp8" cx="120" cy="118" r="1.4"></circle>
+                    <!-- プラズマ・ストリーマー光条（力線沿いに高速疾走） -->
+                    <path class="aurora-sparkle aurora-dstar ds-1" d="M 52,48 L 53,52 L 56,53 L 53,54 L 52,58 L 51,54 L 48,53 L 51,52 Z"></path>
+                    <path class="aurora-sparkle aurora-dstar ds-2" d="M 116,42 L 117,47 L 121,48 L 117,49 L 116,54 L 115,49 L 111,48 L 115,47 Z"></path>
+                    <path class="aurora-sparkle aurora-dstar ds-3" d="M 72,74 L 73,78 L 76,79 L 73,80 L 72,84 L 71,80 L 68,79 L 71,78 Z"></path>
+                    <path class="aurora-sparkle aurora-dstar ds-4" d="M 104,70 L 105,74 L 108,75 L 105,76 L 104,80 L 103,76 L 100,75 L 103,74 Z"></path>
+                    <path class="aurora-sparkle aurora-dstar ds-5" d="M 84,36 L 85,40 L 88,41 L 85,42 L 84,46 L 83,42 L 80,41 L 83,40 Z"></path>
+                    <path class="aurora-sparkle aurora-dstar ds-6" d="M 42,78 L 43,81 L 45,82 L 43,83 L 42,86 L 41,83 L 39,82 L 41,81 Z"></path>
+                    <path class="aurora-sparkle aurora-dstar ds-7" d="M 126,76 L 127,79 L 129,80 L 127,81 L 126,84 L 125,81 L 123,80 L 125,79 Z"></path>
+                    <path class="aurora-sparkle aurora-dstar ds-8" d="M 84,98 L 85,101 L 87,102 L 85,103 L 84,106 L 83,103 L 81,102 L 83,101 Z"></path>
+                    <!-- 微小プラズマフォトン -->
+                    <circle class="aurora-sparkle sp1" cx="54" cy="56" r="1.6"></circle>
+                    <circle class="aurora-sparkle sp2" cx="114" cy="50" r="2.0"></circle>
+                    <circle class="aurora-sparkle sp3" cx="70" cy="82" r="1.8"></circle>
+                    <circle class="aurora-sparkle sp4" cx="102" cy="78" r="1.5"></circle>
+                    <circle class="aurora-sparkle sp5" cx="62" cy="38" r="1.4"></circle>
+                    <circle class="aurora-sparkle sp6" cx="106" cy="40" r="1.6"></circle>
+                    <circle class="aurora-sparkle sp7" cx="48" cy="96" r="1.4"></circle>
+                    <circle class="aurora-sparkle sp8" cx="120" cy="94" r="1.5"></circle>
                   </g>
                 </g>
 
-                <!-- 🌈 3. オパール光彩リング ＆ 360度プリズム光帯アーク（円周 C = 427.26） -->
+                <!-- 🌈 3. オパール光彩リング ＆ 左右対称バイラテラル極光光環（天頂から左右均等に伸びる神聖光輪） -->
                 <circle class="aurora-opal-ring r-outer" cx="84" cy="84" r="70"></circle>
                 <circle class="aurora-opal-ring r-inner" cx="84" cy="84" r="62"></circle>
                 <circle class="aurora-prism-orbit" cx="84" cy="84" r="68"></circle>
+                <!-- 右翼光弧（12時→6時時計回り） -->
                 <circle class="aurora-prism-arc" id="auroraPrismArc" cx="84" cy="84" r="68"></circle>
+                <!-- 左翼光弧（12時→6時反時計回り・完全対称） -->
+                <circle class="aurora-prism-arc-sym" id="auroraPrismArcSym" cx="84" cy="84" r="68"></circle>
 
-                <!-- アーク先端 極光プラズマオーブ（四芒星光芒を曳航） -->
+                <!-- 天頂極光マスターオーブ ＆ ダイヤモンドフレア -->
                 <g class="aurora-prism-jewel-wrap" id="auroraPrismJewelWrap" style="transform-origin:84px 84px;">
                   <!-- オーラハロー -->
                   <circle class="aurora-jewel-halo" cx="84" cy="16" r="9"></circle>
                   <!-- 四芒星ダイヤモンドフレア -->
                   <path class="aurora-jewel-flare" d="M 84,7 L 86,14 L 93,16 L 86,18 L 84,25 L 82,18 L 75,16 L 82,14 Z"></path>
                   <!-- 主プリズムジュエル -->
-                  <circle class="aurora-prism-jewel" id="auroraPrismJewel" cx="84" cy="16" r="3.6"></circle>
+                  <circle class="aurora-prism-jewel" id="auroraPrismJewel" cx="84" cy="16" r="3.8"></circle>
                   <!-- ピュアホワイトコア -->
-                  <circle class="aurora-jewel-core" cx="84" cy="16" r="1.6"></circle>
+                  <circle class="aurora-jewel-core" cx="84" cy="16" r="1.8"></circle>
                 </g>
 
                 <!-- 💎 4. クリスタルグラス外郭ベゼル ＆ 屈折ライン（互換維持） -->
@@ -8958,24 +9027,34 @@ function _driveThemeGauge(pct, base, over, tier) {
     else cHudStatus.textContent = 'SYS: READY';
   }
 
-  // 3. Aurora: 地磁気プラズマアーチ ＆ 天頂極光コロナ ＆ 360度プリズムアーク
+  // 3. Aurora: 地磁気プラズマアーチ ＆ 天頂極光コロナ ＆ 左右対称バイラテラル極光光環
   const aCurtain = document.getElementById('auroraCurtainGroup');
   const aPrismArc = document.getElementById('auroraPrismArc');
+  const aPrismArcSym = document.getElementById('auroraPrismArcSym');
   const aPrismJewel = document.getElementById('auroraPrismJewelWrap');
   const aCore = document.getElementById('gaugeAuroraCore');
   if (aCurtain) {
-    // 0% で y=148（底部）、100% で y=18（満杯）、overdriveでさらに上昇
-    const curY = Math.max(12, 148 - (base / 100) * 130 - (over > 0 ? 6 : 0));
-    aCurtain.style.transform = 'translateY(' + curY.toFixed(1) + 'px)';
+    // 脱・液体水面：下から上への水位上昇を撤廃し、天頂から広がる極光ヴェールの光度・透明度・光芒スケールを進捗で深化
+    const curOp = 0.35 + (base / 100) * 0.65;
+    aCurtain.style.opacity = curOp.toFixed(2);
+    // 天頂からの優雅なドレープ呼吸（テスト互換のため aCurtain.style.transform を保持）
+    const vScale = 0.82 + (base / 100) * 0.22 + (over > 0 ? 0.06 : 0);
+    aCurtain.style.transform = 'scaleY(' + vScale.toFixed(3) + ') translateY(0px)';
   }
   if (aPrismArc) {
-    // 360度プリズム光帯アーク: C = 427.26
-    const aArcOffset = 427.26 * (1 - base / 100);
+    // 左右対称バイラテラル極光光環: 半周 C = 213.63
+    // 天頂（12時）から左右対称に両翼へ向かって均等に光が満ちていき、100%達成時に最下部（6時）で結合
+    const aArcOffset = 213.63 * (1 - Math.min(1, base / 100));
     aPrismArc.style.strokeDashoffset = String(aArcOffset.toFixed(1));
+    if (aPrismArcSym) {
+      aPrismArcSym.style.strokeDashoffset = String(aArcOffset.toFixed(1));
+    }
   }
   if (aPrismJewel) {
-    const aRot = (base / 100) * 360;
-    aPrismJewel.style.transform = 'rotate(' + aRot.toFixed(1) + 'deg)';
+    // 天頂のマスターオーロラジュエル：進捗およびオーバードライブで光彩パルスと微細スピン
+    const jScale = 1 + (base / 100) * 0.35 + (over > 0 ? 0.15 : 0);
+    const aRot = (base / 100) * 180;
+    aPrismJewel.style.transform = 'scale(' + jScale.toFixed(2) + ') rotate(' + aRot.toFixed(1) + 'deg)';
   }
   if (aCore) {
     const aStage = over > 0 ? '5' : base >= 100 ? '4' : base >= 75 ? '3' : base >= 50 ? '2' : base >= 25 ? '1' : '0';
