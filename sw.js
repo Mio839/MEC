@@ -1406,15 +1406,20 @@
 //       ui_theme.css の常時アニメと will-change 常設の是正／演出タイマーの登録簿）。
 //       あわせて a7ed312 が壊した study.css（.qimg / #mecImgLb / filmDropIn / .mec-controls）を復旧。
 //       シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump。
+// v387: 必修講座（hisshu）のエラー報告6問（109F-17・98E-19・102H-15・106H-3・105F-17・104F-8）へ
+//       循環器の作り直しと同水準の解説を書いた（ep→ee→em→ept の4枚・1問3,246〜3,909字・kw 78〜91）。
+//       書き先は _work/hisshu_overrides.json（questions_hisshu.json は派生物）。あわせて借用元の
+//       正答率が更新されていた34問に rate が入り、qmeta.json / rate_index.js を再生成。
+//       questions_hisshu.json が変わったので CACHE を bump（v386 → v387）。
 // v376: 夏メック模試（m121s）の解説を questions_m121s.json として新設し study.html へ統合。
 //       解説書PDFから全400問（A〜F を ch01〜ch06・番号は科目内で通し）を生成した。
 //       questions_*.json が1つ増えたので SHELL_VERSION だけでは足りず CACHE を bump。
-const CACHE = "mec-v386";
+const CACHE = "mec-v387";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-12e";
+const SHELL_VERSION = "2026-09-12f";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

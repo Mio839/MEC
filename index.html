@@ -2938,15 +2938,86 @@ html.ui-liquid #gaugeLiquidCore.overdrive .liquid-critical-sparkles {
   100% { transform: translateY(-36px) scale(1.3); opacity: 0; }
 }
 
-/* 🔥 オーバードライブ覚醒時（臨界ジェル発光・プルプル高密度パルス） */
-.gauge[data-overdrive] .liquid-metaball-layer {
+/* 🔥 オーバードライブ覚醒時（臨界ジェル発光・劇的有機変形・大粒液滴ちぎれ再融合） */
+.gauge[data-overdrive] .liquid-metaball-layer,
+html.ui-liquid #gaugeLiquidCore.overdrive .liquid-metaball-layer {
   filter: drop-shadow(0 0 20px rgba(255, 0, 127, 0.9)) drop-shadow(0 0 34px rgba(0, 242, 254, 0.8)) drop-shadow(0 0 44px rgba(255, 209, 102, 0.7)) !important;
 }
-.gauge[data-overdrive] .lava-cell-mantle {
+
+/* 🌊 100%超：劇的アメーバ有機変形（限界突破の激しいうねり・脈動・歪み） */
+.gauge[data-overdrive] .lava-cell-body,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-cell-body {
+  animation: overdriveAmoebaBodyMorph 3.6s ease-in-out infinite alternate, overdriveJellyQuake 1.1s ease-in-out infinite alternate !important;
+}
+.gauge[data-overdrive] .lava-cell-mantle,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-cell-mantle {
   stroke: #00F2FE !important;
   stroke-width: 1.5 !important;
   opacity: 1 !important;
+  animation: overdriveAmoebaMantleMorph 3.2s ease-in-out infinite alternate, overdriveJellyQuake 1.2s ease-in-out infinite alternate !important;
 }
+.gauge[data-overdrive] .lava-cell-mesoplasm,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-cell-mesoplasm {
+  animation: overdriveAmoebaMesoMorph 3.4s ease-in-out infinite alternate, overdriveJellyQuake 1.0s ease-in-out infinite alternate !important;
+}
+.gauge[data-overdrive] .lava-cell-endoplasm,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-cell-endoplasm {
+  animation: overdriveAmoebaEndoMorph 3.0s ease-in-out infinite alternate, overdriveJellyQuake 1.1s ease-in-out infinite alternate !important;
+}
+
+/* ガラスチャンバーの連動歪み脈動 */
+.gauge[data-overdrive] .lava-chamber-outer,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-chamber-outer {
+  stroke: #00F2FE !important;
+  stroke-width: 2.0 !important;
+  filter: drop-shadow(0 0 16px #00F2FE) drop-shadow(0 0 26px #FF007F) !important;
+  animation: overdriveChamberWobble 4.2s ease-in-out infinite alternate, opalPrismChamber 6s linear infinite 1s !important;
+}
+.gauge[data-overdrive] .lava-lamp-chamber,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-lamp-chamber {
+  animation: overdriveChamberWobble 3.8s ease-in-out infinite alternate, opalPrismChamber 6s linear infinite !important;
+}
+.gauge[data-overdrive] .lava-chamber-inner,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-chamber-inner {
+  animation: overdriveChamberWobble 3.4s ease-in-out infinite alternate, opalPrismChamber 6s linear infinite 2s !important;
+}
+
+/* 🧬 100%超：大粒液滴のちぎれ＆スナップバック再融合（Pinch-off & Snap-back） */
+.gauge[data-overdrive] .fission-drop.f-ne,
+html.ui-liquid #gaugeLiquidCore.overdrive .fission-drop.f-ne {
+  animation: overdrivePinchSnapNE 2.8s cubic-bezier(.34, 0, .2, 1) infinite !important;
+}
+.gauge[data-overdrive] .fission-drop.f-sw,
+html.ui-liquid #gaugeLiquidCore.overdrive .fission-drop.f-sw {
+  animation: overdrivePinchSnapSW 3.2s cubic-bezier(.34, 0, .2, 1) infinite 0.7s !important;
+}
+.gauge[data-overdrive] .fission-drop.f-nw,
+html.ui-liquid #gaugeLiquidCore.overdrive .fission-drop.f-nw {
+  animation: overdrivePinchSnapNW 3.6s cubic-bezier(.34, 0, .2, 1) infinite 1.4s !important;
+}
+.gauge[data-overdrive] .fission-drop.f-se,
+html.ui-liquid #gaugeLiquidCore.overdrive .fission-drop.f-se {
+  animation: overdrivePinchSnapSE 4.0s cubic-bezier(.34, 0, .2, 1) infinite 2.1s !important;
+}
+
+/* 粘性液橋フィラメントの Overdrive 糸引き強化 */
+.gauge[data-overdrive] .lava-tendril.t-ne,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-tendril.t-ne {
+  animation: overdriveTendrilNE 2.8s ease-in-out infinite !important;
+}
+.gauge[data-overdrive] .lava-tendril.t-sw,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-tendril.t-sw {
+  animation: overdriveTendrilSW 3.2s ease-in-out infinite 0.7s !important;
+}
+.gauge[data-overdrive] .lava-tendril.t-nw,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-tendril.t-nw {
+  animation: overdriveTendrilNW 3.6s ease-in-out infinite 1.4s !important;
+}
+.gauge[data-overdrive] .lava-tendril.t-se,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-tendril.t-se {
+  animation: overdriveTendrilSE 4.0s ease-in-out infinite 2.1s !important;
+}
+
 .gauge[data-overdrive] .lava-cell-nucleus {
   filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.85)) drop-shadow(0 0 14px rgba(255, 0, 127, 0.65)) drop-shadow(0 0 22px rgba(255, 209, 102, 0.5)) !important;
   transform: scale(1.1) !important;
@@ -2955,16 +3026,132 @@ html.ui-liquid .gauge-mid {
   text-shadow: 0 2px 10px rgba(0,0,0,0.95), 0 0 18px rgba(0,0,0,0.85), 0 0 4px #000 !important;
   z-index: 10 !important;
 }
-.gauge[data-overdrive] .lava-chamber-outer {
-  stroke: #00F2FE !important;
-  stroke-width: 2.0 !important;
-  filter: drop-shadow(0 0 16px #00F2FE) drop-shadow(0 0 26px #FF007F) !important;
-}
 .gauge[data-overdrive] .liquid-fluid-stream {
   filter: drop-shadow(0 0 12px #00F2FE) drop-shadow(0 0 22px #FF007F) drop-shadow(0 0 32px #FFD166) !important;
 }
 .gauge[data-overdrive] .lmh-droplet {
   filter: drop-shadow(0 0 10px #FFF) drop-shadow(0 0 18px #00F2FE) drop-shadow(0 0 26px #FF007F) !important;
+}
+
+/* 🌊 Overdrive専用キーフレーム群 */
+@keyframes overdriveAmoebaBodyMorph {
+  0% { transform: scale(1, 1) rotate(0deg) translate(0, 0); }
+  20% { transform: scale(1.18, 0.82) rotate(4deg) translate(-2px, 3px); }
+  40% { transform: scale(0.82, 1.18) rotate(-5deg) translate(3px, -2px); }
+  60% { transform: scale(1.15, 0.86) rotate(3deg) translate(-1px, -2px); }
+  80% { transform: scale(0.88, 1.14) rotate(-3deg) translate(2px, 1px); }
+  100% { transform: scale(1, 1) rotate(0deg) translate(0, 0); }
+}
+@keyframes overdriveAmoebaMantleMorph {
+  0% { transform: scale(1.06, 0.94) rotate(0deg); }
+  25% { transform: scale(0.88, 1.16) rotate(-5deg); }
+  50% { transform: scale(1.16, 0.86) rotate(6deg); }
+  75% { transform: scale(0.92, 1.12) rotate(-4deg); }
+  100% { transform: scale(1.06, 0.94) rotate(0deg); }
+}
+@keyframes overdriveAmoebaMesoMorph {
+  0% { transform: scale(1, 1) rotate(0deg); }
+  30% { transform: scale(1.14, 0.86) rotate(-4deg) translate(2px, -2px); }
+  70% { transform: scale(0.86, 1.14) rotate(5deg) translate(-2px, 2px); }
+  100% { transform: scale(1, 1) rotate(0deg); }
+}
+@keyframes overdriveAmoebaEndoMorph {
+  0% { transform: scale(0.92) rotate(0deg); }
+  35% { transform: scale(1.15, 0.9) rotate(5deg); }
+  65% { transform: scale(0.9, 1.12) rotate(-4deg); }
+  100% { transform: scale(0.92) rotate(0deg); }
+}
+@keyframes overdriveChamberWobble {
+  0% { transform: scale(1, 1) rotate(0deg); }
+  25% { transform: scale(1.04, 0.96) rotate(1.2deg); }
+  50% { transform: scale(0.96, 1.04) rotate(-1.5deg); }
+  75% { transform: scale(1.03, 0.97) rotate(1deg); }
+  100% { transform: scale(1, 1) rotate(0deg); }
+}
+@keyframes overdriveJellyQuake {
+  0% { transform: scale(1) translate(0, 0); }
+  20% { transform: scale(1.05, 0.95) translate(1px, -1px); }
+  40% { transform: scale(0.96, 1.04) translate(-1px, 1px); }
+  60% { transform: scale(1.04, 0.97) translate(1px, 1px); }
+  80% { transform: scale(0.97, 1.03) translate(-1px, -1px); }
+  100% { transform: scale(1) translate(0, 0); }
+}
+
+@keyframes overdrivePinchSnapNE {
+  0% { transform: translate(0, 0) scale(0.8); opacity: 0.95; }
+  16% { transform: translate(16px, -14px) scale(1.3, 0.9) rotate(15deg); }
+  32% { transform: translate(28px, -24px) scale(0.9, 1.6) rotate(32deg); }
+  44% { transform: translate(38px, -32px) scale(1.5, 1.1) rotate(15deg); }
+  58% { transform: translate(42px, -35px) scale(1.2, 1.4) rotate(0deg); }
+  72% { transform: translate(36px, -30px) scale(1.4, 1.1) rotate(-12deg); }
+  84% { transform: translate(20px, -16px) scale(1.1, 1.5) rotate(-22deg); }
+  93% { transform: translate(4px, -3px) scale(1.7, 0.9) rotate(0deg); }
+  100% { transform: translate(0, 0) scale(0.8); opacity: 0.95; }
+}
+
+@keyframes overdrivePinchSnapSW {
+  0% { transform: translate(0, 0) scale(0.8); opacity: 0.95; }
+  18% { transform: translate(-15px, 15px) scale(1.3, 0.9) rotate(-15deg); }
+  34% { transform: translate(-26px, 26px) scale(0.9, 1.6) rotate(-30deg); }
+  46% { transform: translate(-36px, 35px) scale(1.5, 1.1) rotate(-15deg); }
+  60% { transform: translate(-40px, 38px) scale(1.2, 1.4) rotate(0deg); }
+  74% { transform: translate(-34px, 32px) scale(1.4, 1.1) rotate(12deg); }
+  85% { transform: translate(-18px, 17px) scale(1.1, 1.5) rotate(22deg); }
+  94% { transform: translate(-4px, 3px) scale(1.7, 0.9) rotate(0deg); }
+  100% { transform: translate(0, 0) scale(0.8); opacity: 0.95; }
+}
+
+@keyframes overdrivePinchSnapNW {
+  0% { transform: translate(0, 0) scale(0.75); opacity: 0.92; }
+  17% { transform: translate(-15px, -15px) scale(1.25, 0.88) rotate(-20deg); }
+  33% { transform: translate(-26px, -26px) scale(0.88, 1.55) rotate(-35deg); }
+  45% { transform: translate(-36px, -35px) scale(1.45, 1.05) rotate(-18deg); }
+  59% { transform: translate(-40px, -38px) scale(1.15, 1.35) rotate(0deg); }
+  73% { transform: translate(-34px, -32px) scale(1.35, 1.05) rotate(15deg); }
+  85% { transform: translate(-17px, -16px) scale(1.05, 1.45) rotate(20deg); }
+  94% { transform: translate(-3px, -3px) scale(1.65, 0.85) rotate(0deg); }
+  100% { transform: translate(0, 0) scale(0.75); opacity: 0.92; }
+}
+
+@keyframes overdrivePinchSnapSE {
+  0% { transform: translate(0, 0) scale(0.8); opacity: 0.95; }
+  16% { transform: translate(15px, 15px) scale(1.28, 0.9) rotate(18deg); }
+  32% { transform: translate(26px, 26px) scale(0.9, 1.55) rotate(28deg); }
+  44% { transform: translate(36px, 35px) scale(1.48, 1.08) rotate(12deg); }
+  58% { transform: translate(40px, 38px) scale(1.18, 1.38) rotate(0deg); }
+  72% { transform: translate(34px, 32px) scale(1.38, 1.08) rotate(-15deg); }
+  84% { transform: translate(18px, 17px) scale(1.08, 1.48) rotate(-20deg); }
+  93% { transform: translate(4px, 3px) scale(1.68, 0.88) rotate(0deg); }
+  100% { transform: translate(0, 0) scale(0.8); opacity: 0.95; }
+}
+
+@keyframes overdriveTendrilNE {
+  0%, 12% { stroke-dashoffset: 45; opacity: 0; }
+  22% { opacity: 1; stroke-dashoffset: 10; stroke-width: 3.4; stroke: #FFFFFF; }
+  32% { opacity: 1; stroke-dashoffset: 0; stroke-width: 2.0; stroke: #00F2FE; }
+  40% { opacity: 0; stroke-dashoffset: -25; stroke-width: 0.8; stroke: #FF007F; }
+  100% { stroke-dashoffset: 45; opacity: 0; }
+}
+@keyframes overdriveTendrilSW {
+  0%, 14% { stroke-dashoffset: 45; opacity: 0; }
+  24% { opacity: 1; stroke-dashoffset: 10; stroke-width: 3.2; stroke: #FFFFFF; }
+  34% { opacity: 1; stroke-dashoffset: 0; stroke-width: 1.9; stroke: #00F2FE; }
+  42% { opacity: 0; stroke-dashoffset: -25; stroke-width: 0.8; stroke: #FF007F; }
+  100% { stroke-dashoffset: 45; opacity: 0; }
+}
+@keyframes overdriveTendrilNW {
+  0%, 13% { stroke-dashoffset: 45; opacity: 0; }
+  23% { opacity: 1; stroke-dashoffset: 10; stroke-width: 3.0; stroke: #FFFFFF; }
+  33% { opacity: 1; stroke-dashoffset: 0; stroke-width: 1.8; stroke: #00F2FE; }
+  41% { opacity: 0; stroke-dashoffset: -25; stroke-width: 0.7; stroke: #FF007F; }
+  100% { stroke-dashoffset: 45; opacity: 0; }
+}
+@keyframes overdriveTendrilSE {
+  0%, 12% { stroke-dashoffset: 45; opacity: 0; }
+  22% { opacity: 1; stroke-dashoffset: 10; stroke-width: 3.2; stroke: #FFFFFF; }
+  32% { opacity: 1; stroke-dashoffset: 0; stroke-width: 1.9; stroke: #00F2FE; }
+  40% { opacity: 0; stroke-dashoffset: -25; stroke-width: 0.8; stroke: #FF007F; }
+  100% { stroke-dashoffset: 45; opacity: 0; }
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -3646,6 +3833,7 @@ html.ui-frost .theme-gauge-frost { display: inline; }
   .aurora-prism-jewel,
   .liquid-wave-front, .liquid-wave-back, .liquid-wave-crest, .liquid-wave-glow, .liquid-sw-bubble,
   .lava-cell-mantle, .lava-cell-body, .lava-cell-nucleus, .lava-cell-specular, .lava-drop, .lava-nano,
+  .fission-drop, .lava-tendril, .lava-cell-mesoplasm, .lava-cell-endoplasm, .lava-chamber-outer, .lava-chamber-inner,
   .l-ripple, .lava-swirl, .liquid-pearl-sheen, .liquid-crown-splash, .eff-bubble, .ls-bubble, .lmh-halo, .lmh-droplet, .lmh-lead {
     animation: none !important;
   }
@@ -9530,8 +9718,8 @@ function _driveThemeGauge(pct, base, over, tier) {
     lEndoplasm.style.transform = 'scale(' + endoScale.toFixed(2) + ')';
   }
   if (lFissionPods) {
-    // 進捗が進むほど分裂ポッドの活動がダイナミックに活性化（スケール 0.85 -> 1.25）
-    const fScale = 0.85 + (base / 100) * 0.4 + (over > 0 ? 0.12 : 0);
+    // 進捗が進むほど分裂ポッドの活動がダイナミックに活性化（スケール 0.85 -> 1.25、Overdriveで最大1.55）
+    const fScale = 0.85 + (base / 100) * 0.4 + (over > 0 ? (0.16 + Math.min(0.2, (over / 100) * 0.2)) : 0);
     lFissionPods.style.transform = 'scale(' + fScale.toFixed(2) + ')';
   }
   if (lVacuoles) {
