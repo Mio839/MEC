@@ -466,6 +466,46 @@ t('Liquid: 他テーマの意匠（歯車・照準・金継ぎ・天体・舷窓
   assert.ok(!liquidBlock.includes('kelvin'), 'Liquidにケルビン計が混入している');
 });
 
+t('Liquid: 外周二重毛細管フルイディック・ネオンゲージ（liquidFluidStream, liquidMeniscusHead, liquidOverdriveStream）と先端メニスカス公転が定義されている', () => {
+  assert.ok(HTML.includes('id="liquidCapillaryGauge"'), 'liquidCapillaryGauge が見つからない');
+  assert.ok(HTML.includes('id="liquidFluidStream"'), 'liquidFluidStream が見つからない');
+  assert.ok(HTML.includes('id="liquidMeniscusHead"'), 'liquidMeniscusHead が見つからない');
+  assert.ok(HTML.includes('id="liquidOverdriveStream"'), 'liquidOverdriveStream が見つからない');
+  assert.ok(HTML.includes('id="liquidStreamBubbles"'), 'liquidStreamBubbles が見つからない');
+  assert.ok(HTML.includes('class="liquid-tube-bg"'), 'liquid-tube-bg が見つからない');
+  assert.ok(HTML.includes('class="lmh-droplet"'), 'lmh-droplet が見つからない');
+  assert.ok(HTML.includes('@keyframes meniscusPulse'), 'meniscusPulse アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes meniscusSquish'), 'meniscusSquish アニメーションが無い');
+});
+
+t('Liquid: 表面張力メニスカス波紋（liquidMeniscusRipples）、対流マーブルスワール（liquidMarbleSwirls）、薄膜真珠光沢が定義されている', () => {
+  assert.ok(HTML.includes('id="liquidMeniscusRipples"'), 'liquidMeniscusRipples が見つからない');
+  assert.ok(HTML.includes('class="l-ripple r1"'), 'l-ripple が見つからない');
+  assert.ok(HTML.includes('id="liquidMarbleSwirls"'), 'liquidMarbleSwirls が見つからない');
+  assert.ok(HTML.includes('class="liquid-pearl-sheen"'), 'liquid-pearl-sheen が見つからない');
+  assert.ok(HTML.includes('@keyframes meniscusRippleSpread'), 'meniscusRippleSpread アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes marbleSwirlCW'), 'marbleSwirlCW アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes pearlSheenDrift'), 'pearlSheenDrift アニメーションが無い');
+});
+
+t('Liquid: 100%達成・Overdrive時の絢爛ミルククラウン・スプラッシュ（liquidCrownSplash）と超臨界シャンパン発泡（liquidEffervescence）が定義されている', () => {
+  assert.ok(HTML.includes('id="liquidCrownSplash"'), 'liquidCrownSplash が見つからない');
+  assert.ok(HTML.includes('class="crown-wave"'), 'crown-wave が見つからない');
+  assert.ok(HTML.includes('class="crown-bead'), 'crown-bead が見つからない');
+  assert.ok(HTML.includes('id="liquidEffervescence"'), 'liquidEffervescence が見つからない');
+  assert.ok(HTML.includes('class="eff-bubble eb1"'), 'eff-bubble が見つからない');
+  assert.ok(HTML.includes('@keyframes crownMorphPulse'), 'crownMorphPulse アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes effRise'), 'effRise アニメーションが無い');
+});
+
+t('Liquid: _driveThemeGauge内で外周流体ストリーム、メニスカスヘッド、クラウンスプラッシュの進捗連動制御が存在する', () => {
+  assert.ok(HTML.includes('const lStream = document.getElementById(\'liquidFluidStream\');'), 'lStream取得が無い');
+  assert.ok(HTML.includes('const lMeniscus = document.getElementById(\'liquidMeniscusHead\');'), 'lMeniscus取得が無い');
+  assert.ok(HTML.includes('const lCrown = document.getElementById(\'liquidCrownSplash\');'), 'lCrown取得が無い');
+  assert.ok(HTML.includes('lStream.style.strokeDashoffset'), 'lStreamの連動制御が無い');
+  assert.ok(HTML.includes('lMeniscus.style.transform'), 'lMeniscusの連動制御が無い');
+});
+
 console.log(`\nALL PASS (${pass}/${pass + fail})\n`);
 
 
