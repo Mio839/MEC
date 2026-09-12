@@ -506,6 +506,23 @@ t('Liquid: _driveThemeGauge内で外周流体ストリーム、メニスカス�
   assert.ok(HTML.includes('lMeniscus.style.transform'), 'lMeniscusの連動制御が無い');
 });
 
+t('Liquid: 100%超（Overdrive）における劇的有機変形（アメーバモーフィング＆チャンバー歪み脈動）が定義されている', () => {
+  assert.ok(HTML.includes('@keyframes overdriveAmoebaBodyMorph'), 'overdriveAmoebaBodyMorph アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes overdriveAmoebaMantleMorph'), 'overdriveAmoebaMantleMorph アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes overdriveChamberWobble'), 'overdriveChamberWobble アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes overdriveJellyQuake'), 'overdriveJellyQuake アニメーションが無い');
+  assert.ok(HTML.includes('.gauge[data-overdrive] .lava-cell-body') || HTML.includes('html.ui-liquid #gaugeLiquidCore.overdrive .lava-cell-body'), 'Overdrive流体セル変形ルールが無い');
+});
+
+t('Liquid: 100%超（Overdrive）における大粒液滴のちぎれ＆スナップバック再融合（overdrivePinchSnap）が定義されている', () => {
+  assert.ok(HTML.includes('@keyframes overdrivePinchSnapNE'), 'overdrivePinchSnapNE アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes overdrivePinchSnapSW'), 'overdrivePinchSnapSW アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes overdrivePinchSnapNW'), 'overdrivePinchSnapNW アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes overdrivePinchSnapSE'), 'overdrivePinchSnapSE アニメーションが無い');
+  assert.ok(HTML.includes('@keyframes overdriveTendrilNE'), 'overdriveTendrilNE アニメーションが無い');
+  assert.ok(HTML.includes('.gauge[data-overdrive] .fission-drop.f-ne') || HTML.includes('html.ui-liquid #gaugeLiquidCore.overdrive .fission-drop.f-ne'), 'Overdrive液滴ちぎれ再融合ルールが無い');
+});
+
 console.log(`\nALL PASS (${pass}/${pass + fail})\n`);
 
 
