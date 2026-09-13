@@ -2341,21 +2341,30 @@ html.ui-liquid .gauge-ring {
   transform-origin: 84px 84px;
   will-change: transform, opacity;
 }
-/* 北東ポッド（右斜め上、周期6.2s） */
+/* 🫧 水疱は厳選した2〜3個のみ表示（うじゃうじゃ湧く余分な微細泡・小胞を完全非表示化） */
+.fission-drop.f-nw,
+.fission-drop.f-se,
+.lava-tendril.t-nw,
+.lava-tendril.t-se,
+.lava-drop.d2,
+.lava-drop.d3,
+.lava-drop.d4,
+.lava-drop.d5,
+#liquidVacuoles,
+#liquidEffervescence,
+#liquidCriticalSparkles,
+.liquid-nano-group,
+#liquidStreamBubbles {
+  display: none !important;
+}
+
+/* 北東水疱（水疱1：右斜め上、大粒ジェル、周期6.0s） */
 .fission-drop.f-ne {
-  animation: fissionPinchNE 6.2s cubic-bezier(.36, 0, .2, 1) infinite;
+  animation: fissionPinchNE 6.0s cubic-bezier(.36, 0, .2, 1) infinite;
 }
-/* 南西ポッド（左斜め下、周期7.6s、位相ズレ1.5s） */
+/* 南西水疱（水疱2：左斜め下、大粒ジェル、周期6.0s、位相ズレ3.0sで完全交互） */
 .fission-drop.f-sw {
-  animation: fissionPinchSW 7.6s cubic-bezier(.36, 0, .2, 1) infinite 1.5s;
-}
-/* 北西ポッド（左斜め上、周期8.8s、位相ズレ2.8s） */
-.fission-drop.f-nw {
-  animation: fissionPinchNW 8.8s cubic-bezier(.36, 0, .2, 1) infinite 2.8s;
-}
-/* 南東ポッド（右斜め下、周期10.4s、位相ズレ0.8s） */
-.fission-drop.f-se {
-  animation: fissionPinchSE 10.4s cubic-bezier(.36, 0, .2, 1) infinite 0.8s;
+  animation: fissionPinchSW 6.0s cubic-bezier(.36, 0, .2, 1) infinite 3.0s;
 }
 
 @keyframes fissionPinchNE {
@@ -2996,40 +3005,36 @@ html.ui-liquid #gaugeLiquidCore.overdrive .lava-chamber-inner {
   animation: overdriveChamberWobble 3.4s ease-in-out infinite alternate, opalPrismChamber 6s linear infinite 2s !important;
 }
 
-/* 🧬 100%超：大粒液滴のちぎれ＆スナップバック再融合（Pinch-off & Snap-back） */
+/* 🧬 100%超：Heroゲージの外枠（円環）を飛び越えて外側空間へちぎれ飛ぶ大粒水疱（Pinch-off & Snap-back） */
 .gauge[data-overdrive] .fission-drop.f-ne,
 html.ui-liquid #gaugeLiquidCore.overdrive .fission-drop.f-ne {
-  animation: overdrivePinchSnapNE 2.8s cubic-bezier(.34, 0, .2, 1) infinite !important;
+  animation: overdrivePinchSnapNE 4.4s cubic-bezier(.25, .85, .25, 1) infinite !important;
 }
 .gauge[data-overdrive] .fission-drop.f-sw,
 html.ui-liquid #gaugeLiquidCore.overdrive .fission-drop.f-sw {
-  animation: overdrivePinchSnapSW 3.2s cubic-bezier(.34, 0, .2, 1) infinite 0.7s !important;
+  animation: overdrivePinchSnapSW 4.4s cubic-bezier(.25, .85, .25, 1) infinite 2.2s !important;
 }
 .gauge[data-overdrive] .fission-drop.f-nw,
-html.ui-liquid #gaugeLiquidCore.overdrive .fission-drop.f-nw {
-  animation: overdrivePinchSnapNW 3.6s cubic-bezier(.34, 0, .2, 1) infinite 1.4s !important;
-}
 .gauge[data-overdrive] .fission-drop.f-se,
+html.ui-liquid #gaugeLiquidCore.overdrive .fission-drop.f-nw,
 html.ui-liquid #gaugeLiquidCore.overdrive .fission-drop.f-se {
-  animation: overdrivePinchSnapSE 4.0s cubic-bezier(.34, 0, .2, 1) infinite 2.1s !important;
+  display: none !important;
 }
 
-/* 粘性液橋フィラメントの Overdrive 糸引き強化 */
+/* 粘性液橋フィラメントの Overdrive 糸引き強化（外枠外への飛翔に合わせて長く伸びる） */
 .gauge[data-overdrive] .lava-tendril.t-ne,
 html.ui-liquid #gaugeLiquidCore.overdrive .lava-tendril.t-ne {
-  animation: overdriveTendrilNE 2.8s ease-in-out infinite !important;
+  animation: overdriveTendrilNE 4.4s ease-in-out infinite !important;
 }
 .gauge[data-overdrive] .lava-tendril.t-sw,
 html.ui-liquid #gaugeLiquidCore.overdrive .lava-tendril.t-sw {
-  animation: overdriveTendrilSW 3.2s ease-in-out infinite 0.7s !important;
+  animation: overdriveTendrilSW 4.4s ease-in-out infinite 2.2s !important;
 }
 .gauge[data-overdrive] .lava-tendril.t-nw,
-html.ui-liquid #gaugeLiquidCore.overdrive .lava-tendril.t-nw {
-  animation: overdriveTendrilNW 3.6s ease-in-out infinite 1.4s !important;
-}
 .gauge[data-overdrive] .lava-tendril.t-se,
+html.ui-liquid #gaugeLiquidCore.overdrive .lava-tendril.t-nw,
 html.ui-liquid #gaugeLiquidCore.overdrive .lava-tendril.t-se {
-  animation: overdriveTendrilSE 4.0s ease-in-out infinite 2.1s !important;
+  display: none !important;
 }
 
 .gauge[data-overdrive] .lava-cell-nucleus {
@@ -3093,25 +3098,25 @@ html.ui-liquid .gauge-mid {
 }
 
 @keyframes overdrivePinchSnapNE {
-  0% { transform: translate(0, 0) scale(0.4); opacity: 0; }
-  18% { transform: translate(24px, -20px) scale(1.4, 0.75) rotate(35deg); opacity: 1; }
-  32% { transform: translate(38px, -32px) scale(0.85, 1.3) rotate(45deg); opacity: 1; }
-  52% { transform: translate(50px, -40px) scale(1.18, 0.95) rotate(15deg); opacity: 1; }
-  66% { transform: translate(46px, -36px) scale(0.95, 1.15) rotate(-10deg); opacity: 1; }
-  80% { transform: translate(25px, -20px) scale(0.8, 1.45) rotate(-35deg); opacity: 1; }
-  90% { transform: translate(8px, -6px) scale(1.45, 0.8) rotate(0deg); opacity: 0.9; }
-  100% { transform: translate(0, 0) scale(0.4); opacity: 0; }
+  0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
+  16% { transform: translate(28px, -24px) scale(1.35, 0.8); opacity: 1; }
+  30% { transform: translate(54px, -46px) scale(0.9, 1.3); opacity: 1; }
+  48% { transform: translate(78px, -66px) scale(1.25); opacity: 1; }
+  65% { transform: translate(72px, -60px) scale(1.1); opacity: 1; }
+  80% { transform: translate(38px, -32px) scale(0.8, 1.4); opacity: 1; }
+  92% { transform: translate(10px, -8px) scale(1.4, 0.85); opacity: 0.95; }
+  100% { transform: translate(0, 0) scale(0.6); opacity: 0; }
 }
 
 @keyframes overdrivePinchSnapSW {
-  0% { transform: translate(0, 0) scale(0.4); opacity: 0; }
-  18% { transform: translate(-24px, 20px) scale(1.4, 0.75) rotate(-35deg); opacity: 1; }
-  32% { transform: translate(-38px, 32px) scale(0.85, 1.3) rotate(-45deg); opacity: 1; }
-  52% { transform: translate(-50px, 40px) scale(1.18, 0.95) rotate(-15deg); opacity: 1; }
-  66% { transform: translate(-46px, 36px) scale(0.95, 1.15) rotate(10deg); opacity: 1; }
-  80% { transform: translate(-25px, 20px) scale(0.8, 1.45) rotate(35deg); opacity: 1; }
-  90% { transform: translate(-8px, 6px) scale(1.45, 0.8) rotate(0deg); opacity: 0.9; }
-  100% { transform: translate(0, 0) scale(0.4); opacity: 0; }
+  0% { transform: translate(0, 0) scale(0.6); opacity: 0; }
+  16% { transform: translate(-28px, 24px) scale(1.35, 0.8); opacity: 1; }
+  30% { transform: translate(-54px, 46px) scale(0.9, 1.3); opacity: 1; }
+  48% { transform: translate(-78px, 66px) scale(1.25); opacity: 1; }
+  65% { transform: translate(-72px, 60px) scale(1.1); opacity: 1; }
+  80% { transform: translate(-38px, 32px) scale(0.8, 1.4); opacity: 1; }
+  92% { transform: translate(-10px, 8px) scale(1.4, 0.85); opacity: 0.95; }
+  100% { transform: translate(0, 0) scale(0.6); opacity: 0; }
 }
 
 @keyframes overdrivePinchSnapNW {
@@ -3137,18 +3142,18 @@ html.ui-liquid .gauge-mid {
 }
 
 @keyframes overdriveTendrilNE {
-  0%, 12% { stroke-dashoffset: 45; opacity: 0; }
-  22% { opacity: 1; stroke-dashoffset: 10; stroke-width: 3.4; stroke: #FFFFFF; }
-  32% { opacity: 1; stroke-dashoffset: 0; stroke-width: 2.0; stroke: #00F2FE; }
-  40% { opacity: 0; stroke-dashoffset: -25; stroke-width: 0.8; stroke: #FF007F; }
-  100% { stroke-dashoffset: 45; opacity: 0; }
+  0%, 10% { stroke-dashoffset: 65; opacity: 0; }
+  20% { opacity: 1; stroke-dashoffset: 20; stroke-width: 3.5; stroke: #FFFFFF; }
+  30% { opacity: 1; stroke-dashoffset: 0; stroke-width: 2.2; stroke: #00F2FE; }
+  38% { opacity: 0; stroke-dashoffset: -30; stroke-width: 0.8; stroke: #FF007F; }
+  100% { stroke-dashoffset: 65; opacity: 0; }
 }
 @keyframes overdriveTendrilSW {
-  0%, 14% { stroke-dashoffset: 45; opacity: 0; }
-  24% { opacity: 1; stroke-dashoffset: 10; stroke-width: 3.2; stroke: #FFFFFF; }
-  34% { opacity: 1; stroke-dashoffset: 0; stroke-width: 1.9; stroke: #00F2FE; }
-  42% { opacity: 0; stroke-dashoffset: -25; stroke-width: 0.8; stroke: #FF007F; }
-  100% { stroke-dashoffset: 45; opacity: 0; }
+  0%, 10% { stroke-dashoffset: 65; opacity: 0; }
+  20% { opacity: 1; stroke-dashoffset: 20; stroke-width: 3.5; stroke: #FFFFFF; }
+  30% { opacity: 1; stroke-dashoffset: 0; stroke-width: 2.2; stroke: #00F2FE; }
+  38% { opacity: 0; stroke-dashoffset: -30; stroke-width: 0.8; stroke: #FF007F; }
+  100% { stroke-dashoffset: 65; opacity: 0; }
 }
 @keyframes overdriveTendrilNW {
   0%, 13% { stroke-dashoffset: 45; opacity: 0; }
@@ -6058,12 +6063,12 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
               <!-- 🌸 4. Liquid: オーガニック・ラバ・セル（アメーバ流体ジェル＆浮遊液滴＆分裂再融合ポッド） -->
               <g class="theme-gauge-liquid" id="gaugeLiquidCore">
                 <defs>
-                  <!-- チャンバー用クリップパス -->
+                  <!-- チャンバー用クリップパス（Heroゲージ外への液滴飛翔を許容するため十分な広さに拡張） -->
                   <clipPath id="liquidChamberClip">
-                    <circle cx="84" cy="84" r="72"></circle>
+                    <circle cx="84" cy="84" r="140"></circle>
                   </clipPath>
-                  <!-- 🧪 SVGメタボール（Gooey / 粘性マージ）フィルター -->
-                  <filter id="liquidGooFilter" x="-35%" y="-35%" width="170%" height="170%" color-interpolation-filters="sRGB">
+                  <!-- 🧪 SVGメタボール（Gooey / 粘性マージ）フィルター（外側飛翔に対応する広域領域） -->
+                  <filter id="liquidGooFilter" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB">
                     <feGaussianBlur in="SourceGraphic" stdDeviation="5.2" result="blur"></feGaussianBlur>
                     <feColorMatrix in="blur" mode="matrix" values="
                       1 0 0 0 0
@@ -6232,26 +6237,27 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                     <!-- 🧬 【ちぎれて戻る】液滴分裂＆再融合ポッド群（Pinch-and-Snap Pods） -->
                     <g class="liquid-fission-pods" id="liquidFissionPods">
                       <!-- 北東ポッド：右斜め上へ伸びてちぎれ、フヨフヨ漂って戻る -->
-                      <circle class="fission-drop f-ne" id="fissionDropNE" cx="84" cy="84" r="9"></circle>
-                      <!-- 南西ポッド：左斜め下へ伸びてちぎれ、プルプル揺れて戻る -->
-                      <circle class="fission-drop f-sw" id="fissionDropSW" cx="84" cy="84" r="8"></circle>
-                      <!-- 北西ポッド：左斜め上へ伸びてちぎれ、戻る -->
+                      <!-- 北東ポッド：右斜め上へ伸びてゲージ外へちぎれ、戻る大粒水疱 -->
+                      <circle class="fission-drop f-ne" id="fissionDropNE" cx="84" cy="84" r="10"></circle>
+                      <!-- 南西ポッド：左斜め下へ伸びてゲージ外へちぎれ、戻る大粒水疱 -->
+                      <circle class="fission-drop f-sw" id="fissionDropSW" cx="84" cy="84" r="9.5"></circle>
+                      <!-- 北西ポッド：互換非表示 -->
                       <circle class="fission-drop f-nw" id="fissionDropNW" cx="84" cy="84" r="7.2"></circle>
-                      <!-- 南東ポッド：右斜め下へ伸びてちぎれ、戻る -->
+                      <!-- 南東ポッド：互換非表示 -->
                       <circle class="fission-drop f-se" id="fissionDropSE" cx="84" cy="84" r="8.2"></circle>
                     </g>
 
-                    <!-- 💧 粘性液橋フィラメント（ちぎれる瞬間に糸を引く有機ストランド） -->
+                    <!-- 💧 粘性液橋フィラメント（ちぎれる瞬間に外枠手前まで糸を引く有機ストランド） -->
                     <g class="liquid-tendrils-group" id="liquidTendrils">
-                      <path class="lava-tendril t-ne" id="lavaTendrilNE" d="M 84,84 Q 98,70 112,56"></path>
-                      <path class="lava-tendril t-sw" id="lavaTendrilSW" d="M 84,84 Q 70,98 56,112"></path>
+                      <path class="lava-tendril t-ne" id="lavaTendrilNE" d="M 84,84 Q 106,62 130,38"></path>
+                      <path class="lava-tendril t-sw" id="lavaTendrilSW" d="M 84,84 Q 62,106 38,130"></path>
                       <path class="lava-tendril t-nw" id="lavaTendrilNW" d="M 84,84 Q 70,70 56,56"></path>
                       <path class="lava-tendril t-se" id="lavaTendrilSE" d="M 84,84 Q 98,98 112,112"></path>
                     </g>
 
-                    <!-- 🪐 周囲を浮遊・対流するサテライト液滴群（進捗率で本体へ引力融合） -->
+                    <!-- 🪐 周囲を優雅に浮遊する厳選サテライト水疱（d1のみ表示、大粒8.5px） -->
                     <g class="liquid-satellites-group" id="liquidSatellites">
-                      <circle class="lava-drop d1" id="lavaDrop1" cx="54" cy="60" r="7.5"></circle>
+                      <circle class="lava-drop d1" id="lavaDrop1" cx="54" cy="60" r="8.5"></circle>
                       <circle class="lava-drop d2" id="lavaDrop2" cx="114" cy="68" r="8.5"></circle>
                       <circle class="lava-drop d3" id="lavaDrop3" cx="72" cy="116" r="6.5"></circle>
                       <circle class="lava-drop d4" id="lavaDrop4" cx="106" cy="110" r="5.5"></circle>
@@ -9729,9 +9735,8 @@ function _driveThemeGauge(pct, base, over, tier) {
     lEndoplasm.style.transform = 'scale(' + endoScale.toFixed(2) + ')';
   }
   if (lFissionPods) {
-    // 進捗が進むほど分裂ポッドの活動がダイナミックに活性化（スケール 0.85 -> 1.25、Overdriveで最大1.55）
-    const fScale = 0.85 + (base / 100) * 0.4 + (over > 0 ? (0.16 + Math.min(0.2, (over / 100) * 0.2)) : 0);
-    lFissionPods.style.transform = 'scale(' + fScale.toFixed(2) + ')';
+    // 飛翔座標はCSSキーフレーム側でHeroゲージ外への正確な飛翔距離（距離102px）を直接制御
+    lFissionPods.style.transform = '';
   }
   if (lVacuoles) {
     // 内部生体小胞：進捗とともにジェル内部で膨張・発色
