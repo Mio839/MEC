@@ -555,6 +555,52 @@ t('Liquid: 100%超（Overdrive）における劇的有機変形（アメーバ�
   assert.ok(HTML.includes('.gauge[data-overdrive] .lava-cell-body') || HTML.includes('html.ui-liquid #gaugeLiquidCore.overdrive .lava-cell-body'), 'Overdrive流体セル変形ルールが無い');
 });
 
+// ── 💎 Liquid 絢爛化（2026-09-14b） ─────────────────────────────
+t('Liquid絢爛: 弧の中を流れる光・雫・真珠の輪・水面の光のマークアップが揃っている', () => {
+  ['id="liquidFlowGlint"', 'mask="url(#liquidGlintMask)"', 'id="liquidGlintMaskArc"', 'id="liquidDrips"', 'id="liquidPearlRing"',
+   'class="lmh-splash-ring"', 'class="liquid-caustics"', 'id="liquidDepthLensGrad"', 'id="liquidPearlBeadGrad"', 'id="liquidDripGrad"']
+    .forEach(w => assert.ok(HTML.includes(w), w + ' が無い'));
+  const marks = [...HTML.matchAll(/<g class="ldrip" data-m="(\d+)"/g)].map(m => +m[1]);
+  assert.deepStrictEqual(marks, [25, 50, 75], '雫の節目が 25/50/75 でない');
+  assert.ok(/const LIQ_DRIP_MARKS = \[25, 50, 75\];/.test(HTML), 'LIQ_DRIP_MARKS とマークアップが食い違う');
+  // 光のマスクは流体の弧と同じ dashoffset を持つ（充填ぶんだけ光る）
+  assert.ok(/lGlintMask\.style\.strokeDashoffset = String\(sOffset\.toFixed\(2\)\)/.test(fnBody('_driveThemeGauge')), '光のマスクが弧の充填と連動していない');
+  // 光の模様の周期（dasharray の合計）は周の半分＝継ぎ目なく回る
+  const da = HTML.match(/\.liquid-flow-glint \{[^}]*stroke-dasharray: ([\d. ]+);/);
+  const sum = da[1].trim().split(/\s+/).map(Number).reduce((a, b) => a + b, 0);
+  assert.ok(Math.abs(sum - 179.07) < .01, '光の模様の周期が 179.07 でない: ' + sum);
+});
+
+t('Liquid絢爛: 進捗の演出は予定表1本・テーマ/reduced-motion/非表示タブの門を通る', () => {
+  const fx = fnBody('_liqProgressFx');
+  assert.ok(/!_liqTearOk\(\)/.test(fx), '_liqProgressFx が _liqTearOk の門を通っていない');
+  assert.ok(/if \(!\(base > prev\)/.test(fx), '進捗が伸びていないのに演出を出している（renderHero は同期のたびに走る）');
+  const later = fnBody('_liqFxLater');
+  assert.ok(/clearTimeout\(_liqFxTimer\)/.test(later), '_liqFxLater がタイマーを張り替える前に止めていない（多重発火）');
+  assert.ok(/try \{[^}]*\} catch/.test(fnBody('_liqFxPump')), '予定の1つが例外を投げると残りが止まる');
+});
+
+t('Liquid絢爛: 位置・大きさの演出は translate / scale で書く（transform は既存アニメが持つ）', () => {
+  ['liqSplashRing', 'liqSpray', 'liqDripFall', 'liqDripRing', 'liqDepthMid', 'liqDepthCore', 'liqCausticA', 'liqCausticB'].forEach(k => {
+    const m = HTML.match(new RegExp('@keyframes ' + k + ' \\{([\\s\\S]*?)\\n\\}'));
+    assert.ok(m, '@keyframes ' + k + ' が無い');
+    assert.ok(!/transform:/.test(m[1]), k + ' が transform を使っている');
+  });
+  const THEME = fs.readFileSync(path.join(__dirname, '..', 'ui_theme.css'), 'utf8');
+  const near = THEME.match(/@keyframes liquidDepthNear \{([\s\S]*?)\n\}/);
+  assert.ok(near && !/transform:/.test(near[1]), 'liquidDepthNear が transform を使っている（liquidFluidMorph を殺す）');
+  // 膜が translate で揺れるので、かけらの位置計算も translate を足している
+  const geom = fnBody('_liqMembraneGeom');
+  assert.ok(geom.includes('cs.translate') && geom.includes('borderTopColor'), '_liqMembraneGeom が膜の translate・辺の色を読んでいない');
+});
+
+t('Liquid絢爛: reduced-motion で新しい演出を止めている', () => {
+  const rm = HTML.match(/\.liquid-membrane-tear \{ display: none !important; \}([\s\S]{0,400})/);
+  assert.ok(rm, 'reduced-motion ブロックが見つからない');
+  ['.liquid-flow-glint', '.liquid-drips', '.lmh-splash-ring', '.lmh-spray', '.lpr-seal', '.liquid-caustics i', '.lpr-beads', '.liquid-metaball-layer']
+    .forEach(w => assert.ok(rm[1].includes(w), 'reduced-motion で ' + w + ' を止めていない'));
+});
+
 console.log(`\nALL PASS (${pass}/${pass + fail})\n`);
 
 
