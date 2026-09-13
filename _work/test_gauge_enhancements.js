@@ -394,7 +394,7 @@ t('Frost: 試験演出（chapter_exam.js, study_exam.js）からringsが完全�
 
 console.log('── Liquid新演出（ちぎれて戻る液滴分裂・再融合＆多層フヨフヨアメーバ流体＆他テーマ被り完全排除）検証 ──');
 
-// ── 🧬 弧の千切れ（2026-09-13g）──
+// ── 🧬 外膜の千切れ（2026-09-14）──
 function fnBody(name) {
   const i = HTML.indexOf('function ' + name + '(');
   assert.ok(i >= 0, name + ' が無い');
@@ -406,30 +406,44 @@ function fnBody(name) {
   throw new Error(name + ' の終端が見つからない');
 }
 
-t('Liquid: 中心から出入りする旧水疱（fission-drop / lava-tendril / PinchSnap）が復活していない', () => {
-  ['fission-drop', 'liquidFissionPods', 'lava-tendril', 'liquidTendrils', 'fissionPinch', 'overdrivePinchSnap', 'overdriveTendril', 'tendrilPulse']
-    .forEach(w => assert.ok(!HTML.includes(w), w + ' が残っている（ゲージの一部ではなく別の泡に見える＝2026-09-13f の失敗）'));
+t('Liquid: 旧演出（中心から出入りする水疱・内側の弧の千切れ）が復活していない', () => {
+  ['fission-drop', 'liquidFissionPods', 'lava-tendril', 'liquidTendrils', 'fissionPinch', 'overdrivePinchSnap', 'overdriveTendril', 'tendrilPulse',
+   'id="liquidTear"', '.liquid-tear', 'LIQ_TEAR_STOPS']
+    .forEach(w => assert.ok(!HTML.includes(w), w + ' が残っている'));
+  assert.ok(!/strokeDasharray\s*=/.test(fnBody('_liqTearPlay')), '_liqTearPlay が進捗の弧の dasharray を書いている');
 });
 
-t('Liquid: 弧の千切れの素材がゲージの弧（liquidFluidStream）と同じグループ・同じ回転にある', () => {
-  const cap = HTML.slice(HTML.indexOf('id="liquidCapillaryGauge"'), HTML.indexOf('id="liquidStreamBubbles"'));
-  ['id="liquidTear"', 'id="liquidTearNeck"', 'id="liquidTearDrop"', 'id="liquidTearRipple"', 'id="liquidTearGrad"']
-    .forEach(id => assert.ok(cap.includes(id), id + ' が #liquidCapillaryGauge の中に無い'));
-  assert.ok(cap.indexOf('id="liquidFluidStream"') < cap.indexOf('id="liquidTear"'), '千切れは弧より上に描くこと');
-  assert.ok(/\.liquid-tear \{\s*transform: rotate\(-90deg\);\s*transform-origin: 84px 84px;/.test(HTML), '.liquid-tear の回転が弧と揃っていない');
-  assert.ok(/\.liquid-fluid-stream \{[^}]*transform: rotate\(-90deg\);\s*transform-origin: 84px 84px;/.test(HTML), '.liquid-fluid-stream の回転が変わった（.liquid-tear も揃えること）');
-});
-
-t('Liquid: 弧の千切れは stroke-dasharray の4値で隙間を開け、dashoffset には触らない', () => {
+t('Liquid: 外膜（.gauge-ring::after）に conic-gradient の mask で切れ目を開ける', () => {
+  const THEME = fs.readFileSync(path.join(__dirname, '..', 'ui_theme.css'), 'utf8');
+  assert.ok(/html\.ui-liquid \.gauge \.gauge-ring::after \{[^}]*border: 2px solid/.test(THEME), '外膜（::after の border）の定義が変わった＝千切れの素材を見直すこと');
+  const m = HTML.match(/html\.ui-liquid \.gauge \.gauge-ring\.lt-on::after \{([^}]*)\}/);
+  assert.ok(m, '.lt-on::after の mask ルールが無い');
+  ['-webkit-mask-image: conic-gradient', 'mask-image: conic-gradient', 'var(--lt-a', 'var(--lt-w', 'var(--lt-f']
+    .forEach(w => assert.ok(m[1].includes(w), '.lt-on::after に ' + w + ' が無い'));
   const play = fnBody('_liqTearPlay');
-  assert.ok(/strokeDasharray = f2\(a\) \+ ' ' \+ f2\(g\) \+ ' ' \+ f2\(b\) \+ ' ' \+ f2\(C\)/.test(play), 'dasharray の4値パターンが無い');
-  assert.ok(!/strokeDashoffset\s*=/.test(play), '_liqTearPlay が dashoffset を書いている（_driveThemeGauge と transition の持ち物）');
-  assert.ok(/stream\.style\.strokeDasharray = ''/.test(play), '終了時に弧を元へ戻していない');
+  assert.ok(play.includes("ring.classList.add('lt-on')") && play.includes("setProperty('--lt-w'"), '_liqTearPlay が切れ目を開けていない');
+  assert.ok(play.includes("ring.classList.remove('lt-on')") && play.includes('removeProperty'), '終了時に膜を元へ戻していない');
   assert.ok(/setTimeout\(finish, dur \+ \d+\)/.test(play), '非表示タブ用の落とし所（setTimeout(finish)）が無い');
-  assert.ok(/Math\.random\(\)/.test(play.slice(play.indexOf('const lo ='))), 'ちぎれる位置がランダムになっていない');
+  assert.ok(/const phi0 = Math\.random\(\)/.test(play), '千切れる位置がランダムになっていない');
 });
 
-t('Liquid: 弧の千切れのタイマーは1本だけ（renderHero の多重呼び出しで増えない）・90%未満では張らない', () => {
+t('Liquid: かけらの svg は .gauge-ring 直下にあり、ゲージ svg の回転・円形クリップを打ち消している', () => {
+  const ring = HTML.slice(HTML.indexOf('<div class="gauge-ring">'), HTML.indexOf('<span class="gauge-mid" id="gaugeMid">'));
+  assert.ok(ring.includes('id="liquidMembraneTear"') && ring.includes('id="liquidMembranePiece"'), 'かけらの svg が .gauge-ring の中に無い');
+  const m = HTML.match(/\.gauge-ring svg\.liquid-membrane-tear \{([^}]*)\}/);
+  assert.ok(m && /transform: none/.test(m[1]) && /clip-path: none/.test(m[1]) && /position: absolute/.test(m[1]), '.gauge-ring svg の rotate(-90deg)/clip-path を打ち消していない');
+  assert.ok(/\.lmt-piece \{\s*fill: url\(#liquidMembraneGrad\);\s*stroke: none;/.test(HTML), 'かけらに縁取りがある（別の泡に見える）');
+});
+
+t('Liquid: 外膜の形は ::after の算出値（border-radius・transform）から毎フレーム求める', () => {
+  const geom = fnBody('_liqMembraneGeom');
+  assert.ok(geom.includes("getComputedStyle(ring, '::after')"), '::after の算出値を読んでいない');
+  ['borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomRightRadius', 'borderBottomLeftRadius', 'cs.transform']
+    .forEach(w => assert.ok(geom.includes(w), '_liqMembraneGeom が ' + w + ' を見ていない'));
+  assert.ok(/const g = _liqMembraneGeom\(ring\);/.test(fnBody('_liqTearPlay')), 'draw で膜の形を読み直していない');
+});
+
+t('Liquid: 千切れのタイマーは1本だけ・90%未満では張らない・reduced-motion で止まる', () => {
   const arm = fnBody('_liqTearArm');
   assert.ok(/if \(_liqTearTimer \|\| _liqTearBase < LIQ_TEAR_MIN\) return;/.test(arm), '_liqTearArm に多重防止・90%判定が無い');
   assert.ok(/const LIQ_TEAR_MIN = 90;/.test(HTML), 'LIQ_TEAR_MIN が 90 でない');
@@ -437,19 +451,7 @@ t('Liquid: 弧の千切れのタイマーは1本だけ（renderHero の多重呼
   assert.ok(/_liqTearBase = over > 0 \? 100 : base;\s*_liqTearArm\(\);/.test(drive), '_driveThemeGauge から千切れを張っていない（100%超も続ける）');
   const ok = fnBody('_liqTearOk');
   assert.ok(ok.includes("'ui-liquid'") && ok.includes('_reducedMotion()') && ok.includes('document.hidden'), '_liqTearOk がテーマ・reduced-motion・非表示タブを見ていない');
-  assert.ok(/@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?\.liquid-tear \{ display: none !important; \}/.test(HTML), 'reduced-motion で .liquid-tear を止めていない');
-});
-
-t('Liquid: ちぎれた滴は「その場所の弧の色」になり、白い縁取りを持たない', () => {
-  const src = fnBody('_liqTearColor');
-  const stops = HTML.match(/const LIQ_TEAR_STOPS = (\[[^;]+\]);/)[1];
-  const color = new Function('const LIQ_TEAR_STOPS = ' + stops + ';\n' + src + '\nreturn _liqTearColor;')();
-  assert.strictEqual(color(27, 27), 'rgb(0,242,254)', 'bbox 左上はシアン');
-  assert.strictEqual(color(141, 141), 'rgb(255,209,102)', 'bbox 右下はゴールド');
-  // 停止色が #liquidStreamGrad と一致
-  const grad = HTML.slice(HTML.indexOf('id="liquidStreamGrad"'), HTML.indexOf('</linearGradient>', HTML.indexOf('id="liquidStreamGrad"')));
-  ['#00F2FE', '#7928CA', '#FF007F', '#FFD166'].forEach(c => assert.ok(grad.includes(c), '#liquidStreamGrad の色が変わった（LIQ_TEAR_STOPS も直すこと）: ' + c));
-  assert.ok(/\.lt-drop \{ fill: url\(#liquidTearGrad\); stroke: none; \}/.test(HTML), '滴に縁取りがある（別の泡に見える）');
+  assert.ok(/@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?\.liquid-membrane-tear \{ display: none !important; \}/.test(HTML), 'reduced-motion でかけらを止めていない');
 });
 
 t('Liquid: チャンバーの clip は r≦84 に戻っている（.gauge-ring svg の円形クリップの前提）', () => {

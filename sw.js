@@ -1,3 +1,8 @@
+// 2026-09-14a: Liquid（幻想リキッド）の千切れを「内側の進捗の弧」から「いちばん外の桃色の膜」へ移した——
+//   90%以上（100%超も継続）で数秒おきに、外膜（.gauge-ring::after）のランダムな位置が外へ引っ張られて千切れ、
+//   丸まって漂ってから戻る（周の1/12ほど・ゲージ半径の1/4ほど外へ）。膜の切れ目は conic-gradient の mask、
+//   かけらは .gauge-ring 直下の #liquidMembraneTear に描く。弧の千切れ（2026-09-13g）は撤去。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-13g → 2026-09-14a）。
 // 2026-09-13g: Liquid（幻想リキッド）の「ちぎれて戻る」を、中心から出入りする別の水疱から「ゲージの弧そのものが千切れる」演出へ作り直し——
 //   今日の目標が90%以上（100%超も継続）のあいだ数秒おきに、塗られた弧（#liquidFluidStream）のランダムな位置が
 //   くびれてちぎれ、リングの外で漂ってから引き戻されて再融合する（100%に近いほど頻繁・大きい）。弧は stroke-dasharray で本当に欠ける。
@@ -1447,7 +1452,7 @@ const CACHE = "mec-v398";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-13g";
+const SHELL_VERSION = "2026-09-14a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

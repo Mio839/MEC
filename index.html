@@ -2552,19 +2552,38 @@ html.ui-liquid .gauge.overdrive .gauge-ring {
 .liquid-capillary-gauge-group {
   transform-origin: 84px 84px;
 }
-/* 🧬 弧の千切れ（2026-09-13g・形は全部 JS の _liqTearPlay が毎フレーム書く）
-   ⚠️ 回転は #liquidFluidStream と必ず同じにすること（弧長→角度の換算を共有している）。
-   ⚠️ 詳細度は .gauge-ring circle{fill:none}（0,1,1）に勝たせる＝ html.ui-liquid を前置する。 */
-.liquid-tear {
-  transform: rotate(-90deg);
-  transform-origin: 84px 84px;
-  pointer-events: none;
+/* 🧬 外膜の千切れ（2026-09-14・動きは JS の _liqTearPlay）
+   ① 膜（ui_theme.css の .gauge-ring::after）に conic-gradient の mask で切れ目を開ける。
+      角度 --lt-a・幅 --lt-w・縁のぼかし --lt-f は JS が .gauge-ring に毎フレーム書く。
+   ② ちぎれたかけらは .gauge-ring 直下の #liquidMembraneTear（px 座標の SVG）に描く。
+   ⚠️ .gauge-ring svg{transform:rotate(-90deg);clip-path:circle(76%)} は全 svg に掛かるので、
+      かけらの svg だけ打ち消す（回ると角度がずれ、clip されると外へ飛んだかけらが切れる）。
+   ⚠️ かけらに白い縁取りを付けないこと（膜のかけらではなく別の泡に見える）。 */
+html.ui-liquid .gauge .gauge-ring.lt-on::after {
+  -webkit-mask-image: conic-gradient(from calc(var(--lt-a, 0deg) - var(--lt-w, 0deg) / 2 - var(--lt-f, 0deg)),
+    #000 0deg, transparent var(--lt-f, 0deg), transparent calc(var(--lt-f, 0deg) + var(--lt-w, 0deg)),
+    #000 calc(var(--lt-f, 0deg) * 2 + var(--lt-w, 0deg)), #000 360deg);
+  mask-image: conic-gradient(from calc(var(--lt-a, 0deg) - var(--lt-w, 0deg) / 2 - var(--lt-f, 0deg)),
+    #000 0deg, transparent var(--lt-f, 0deg), transparent calc(var(--lt-f, 0deg) + var(--lt-w, 0deg)),
+    #000 calc(var(--lt-f, 0deg) * 2 + var(--lt-w, 0deg)), #000 360deg);
 }
-html.ui-liquid .liquid-tear .lt-neck { stroke: none; }
-html.ui-liquid .liquid-tear .lt-drop { fill: url(#liquidTearGrad); stroke: none; }
-/* ⚠️ 滴に白い縁取りを付けないこと。縁があると「弧のかけら」ではなく「別の泡」に見える（2026-09-13f の失敗の再発） */
-html.ui-liquid .liquid-tear .lt-glint { fill: #FFFFFF; stroke: none; }
-html.ui-liquid .liquid-tear .lt-ripple { fill: none; stroke-width: 1.3; }
+.gauge-ring svg.liquid-membrane-tear {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: none;
+  clip-path: none;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 2;
+}
+html.ui-liquid .liquid-membrane-tear .lmt-piece {
+  fill: url(#liquidMembraneGrad);
+  stroke: none;
+  filter: drop-shadow(0 0 5px rgba(255, 0, 127, .95)) drop-shadow(0 0 14px rgba(0, 242, 254, .6));
+}
 .liquid-tube-bg {
   fill: none;
   stroke: rgba(0, 242, 254, 0.12);
@@ -3606,7 +3625,7 @@ html.ui-frost .theme-gauge-frost { display: inline; }
   .liquid-fluid-stream, .liquid-overdrive-stream, .liquid-meniscus-head, .liquid-crown-splash {
     transition: none !important;
   }
-  .liquid-tear { display: none !important; }
+  .liquid-membrane-tear { display: none !important; }
   .cyber-segments .c-seg.overdrive, .liquid-wave-cap, .kt-gold-dust,
   .cel-magic-ring1, .cel-magic-ring2, .cel-star.active,
   .cyber-laser-beam, .lava-lamp-chamber, .lava-blob-base,
@@ -6093,23 +6112,6 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                   <circle class="liquid-overdrive-stream" id="liquidOverdriveStream" cx="84" cy="84" r="50"></circle>
                   <!-- 3. メイン毛細管ネオンフルード注入ストリーム (r=57, C=358.14) -->
                   <circle class="liquid-fluid-stream" id="liquidFluidStream" cx="84" cy="84" r="57"></circle>
-                  <!-- 3b. 🧬 弧の千切れ（90%以上）：塗られた弧のランダムな位置がちぎれ、リングの外で漂ってから
-                       引き戻されて再融合する。弧そのものに隙間を開けるので「ゲージの一部」が抜けて見える。
-                       描画は JS（_liqTearPlay）。座標系は #liquidFluidStream と同じ（rotate(-90deg)） -->
-                  <g class="liquid-tear" id="liquidTear" style="display:none">
-                    <defs>
-                      <!-- 滴の中身：白い芯 → ちぎれた場所の弧の色（停止色は JS が毎回書く） -->
-                      <radialGradient id="liquidTearGrad" cx="38%" cy="34%" r="70%">
-                        <stop offset="0%" stop-color="#FFFFFF" stop-opacity=".75"></stop>
-                        <stop id="liquidTearStop1" offset="38%" stop-color="#00F2FE"></stop>
-                        <stop id="liquidTearStop2" offset="100%" stop-color="#00F2FE"></stop>
-                      </radialGradient>
-                    </defs>
-                    <path class="lt-neck" id="liquidTearNeck" d=""></path>
-                    <ellipse class="lt-drop" id="liquidTearDrop" cx="84" cy="84" rx="0" ry="0"></ellipse>
-                    <circle class="lt-glint" id="liquidTearGlint" cx="84" cy="84" r="0"></circle>
-                    <circle class="lt-ripple" id="liquidTearRipple" cx="84" cy="84" r="0"></circle>
-                  </g>
                   <!-- 4. 流体チューブ内を流動する随伴マイクロ気泡列 -->
                   <g class="liquid-stream-bubbles" id="liquidStreamBubbles">
                     <circle class="ls-bubble b1" cx="84" cy="27" r="1.6"></circle>
@@ -6778,6 +6780,17 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                 </g>
               </g>
             </g>
+          </svg>
+          <!-- 🧬 Liquid：外膜（.gauge-ring::after）からちぎれたかけら。px 座標で JS（_liqTearPlay）が描く -->
+          <svg class="liquid-membrane-tear" id="liquidMembraneTear" aria-hidden="true">
+            <defs>
+              <radialGradient id="liquidMembraneGrad" cx="50%" cy="45%" r="60%">
+                <stop offset="0%" stop-color="#FFD1E8"></stop>
+                <stop offset="45%" stop-color="#FF2A8D"></stop>
+                <stop offset="100%" stop-color="#FF007F"></stop>
+              </radialGradient>
+            </defs>
+            <path class="lmt-piece" id="liquidMembranePiece" d=""></path>
           </svg>
           <span class="gauge-mid" id="gaugeMid"><span id="statPct">0</span><em>%</em></span>
         </div>
@@ -9339,34 +9352,26 @@ function _checkpointFx(pct) {
   }
 }
 
-// ── 🧬 Liquid：弧の千切れ（2026-09-13g） ──────────────────────────────────────
-// 今日の目標が 90% 以上（100%超も続ける）のあいだ、数秒おきに「塗られた弧」のランダムな位置が
-// くびれてちぎれ、リングの外でぷるぷる漂ってから引き戻されて再融合する。100% に近いほど頻繁・大きい。
-// ⚠️⚠️ 素材は弧そのもの（#liquidFluidStream）。stroke-dasharray に本当に隙間を開けて弧を欠けさせる。
-//   2026-09-13f までの「中心(84,84)から別の水疱が出入りする」形は、ゲージの一部がちぎれたように
-//   見えなかったので撤去した。別の円を足して代用しないこと。
-// ⚠️ stroke-dashoffset には触らない（_driveThemeGauge と CSS transition の持ち物）。隙間は
-//   dasharray の4値 [o+s0-g/2, g, C-o-s0-g/2, C] で作る＝周期 2C が元の [C] と同じなので
-//   offset の意味が変わらず、進捗の transition 中に千切れても弧の長さが狂わない。
+// ── 🧬 Liquid：外膜の千切れ（2026-09-14） ────────────────────────────────────
+// 今日の目標が 90% 以上（100%超も続ける）のあいだ、数秒おきに**いちばん外の桃色の膜**
+// （ui_theme.css の html.ui-liquid .gauge .gauge-ring::after）のランダムな位置が外へ引っ張られ、
+// 両端がくびれてぷつっと千切れ、丸まった滴としてリングの外を漂ってから引き戻されて再びなじむ。
+// 大きさは周の 1/12 ほど（100% で約30°）・飛ぶ距離はゲージ半径の約1/4。100% に近いほど頻繁・大きい。
+//
+// ⚠️⚠️ 膜は CSS の疑似要素なので JS から形を変えられない。そこで役割を2つに分けている:
+//   ① 膜の切れ目 … .gauge-ring に .lt-on と --lt-a/--lt-w/--lt-f を載せ、::after に conic-gradient の
+//      mask を掛けて**本当に膜を欠けさせる**（角度は ::after の変形前の座標＝conic と同じ基準）。
+//   ② ちぎれたかけら … .gauge-ring 直下の <svg id="liquidMembraneTear">（px 座標）に塗りの帯として描く。
+//      膜の上の位置は ::after の算出値（border-radius と transform）から毎フレーム求める＝膜が
+//      ゆらゆら形を変えていても、かけらの根元は膜の線から外れない。
+// ⚠️ 2026-09-13f の「中心から別の泡が出入りする」形、2026-09-13g の「内側の進捗の弧が千切れる」形は
+//   どちらも撤去した。かけらに白い縁取りを付けない（別の泡に見える）。
 // ⚠️ タイマーは常に1本（renderHero は同期のたびに走る）。rAF が来ない非表示タブのために
-//   setTimeout の落とし所で必ず弧を元に戻す（戻し忘れると弧が欠けたまま残る）。
+//   setTimeout の落とし所で必ず膜を元に戻す（戻し忘れると膜が欠けたまま残る）。
 const LIQ_TEAR_MIN = 90;                  // これ未満では千切れない
-const LIQ_TEAR_R = 57;                    // #liquidFluidStream の半径
-const LIQ_TEAR_C = 2 * Math.PI * LIQ_TEAR_R;
-const LIQ_TEAR_HALF = 2.6;                // 弧の線幅(5.2)の半分
-// #liquidStreamGrad（objectBoundingBox の左上→右下）と同じ色の並び。ちぎれた滴はその場所の色を持つ
-const LIQ_TEAR_STOPS = [[0, [0, 242, 254]], [.35, [121, 40, 202]], [.7, [255, 0, 127]], [1, [255, 209, 102]]];
+const LIQ_TEAR_FEATHER = 5;               // 切れ目の縁のぼかし（deg）
 let _liqTearBase = 0, _liqTearTimer = 0, _liqTearToken = 0;
 
-function _liqTearColor(x, y) {
-  // 円 r=57 の bbox は 27〜141。対角グラデの位置 t = (x' + y') / 2
-  const t = Math.max(0, Math.min(1, ((x - 27) + (y - 27)) / 228));
-  let i = 1;
-  while (i < LIQ_TEAR_STOPS.length - 1 && t > LIQ_TEAR_STOPS[i][0]) i++;
-  const [t0, c0] = LIQ_TEAR_STOPS[i - 1], [t1, c1] = LIQ_TEAR_STOPS[i];
-  const u = (t - t0) / (t1 - t0);
-  return 'rgb(' + c0.map((v, j) => Math.round(v + (c1[j] - v) * u)).join(',') + ')';
-}
 function _liqTearOk() {
   if (!document.documentElement.classList.contains('ui-liquid')) return false;
   if (_reducedMotion() || document.hidden) return false;
@@ -9385,132 +9390,158 @@ function _liqTearTick() {
   if (!_liqTearOk()) { _liqTearTimer = setTimeout(_liqTearTick, 1500); return; }
   const k = Math.min(1, (_liqTearBase - LIQ_TEAR_MIN) / (100 - LIQ_TEAR_MIN));
   const dur = _liqTearPlay(k);
-  // 90% で約5.2秒おき → 100% で約2秒おき（＋揺らぎ）
+  // 90% で約5.2秒おき → 100% で約2秒おき（＋揺らぎ）＝演出の長さを足して 8秒 → 5秒ほどの周期
   _liqTearTimer = setTimeout(_liqTearTick, dur + 5200 - 3200 * k + Math.random() * 900);
 }
 
+// 外膜（.gauge-ring::after の線の中心）の形。返す point(φ) は .gauge-ring の px 座標。
+// φ は画面の角度（0=真上・時計回り）＝ conic-gradient の角度と同じ基準。
+function _liqMembraneGeom(ring) {
+  const cs = getComputedStyle(ring, '::after');
+  const RW = ring.clientWidth, RH = ring.clientHeight;
+  const inset = parseFloat(cs.top) || 1;            // ::after は inset:1px
+  const bw = parseFloat(cs.borderTopWidth) || 2;
+  const W = RW - 2 * inset - bw, H = RH - 2 * inset - bw;   // 線の中心で測る
+  const rad = (v) => {
+    const p = String(v || '0').trim().split(/\s+/);
+    const one = (s, base) => s.endsWith('%') ? parseFloat(s) * base / 100 : (parseFloat(s) || 0);
+    return [one(p[0], RW - 2 * inset), one(p[1] || p[0], RH - 2 * inset)];
+  };
+  let c = [rad(cs.borderTopLeftRadius), rad(cs.borderTopRightRadius),
+           rad(cs.borderBottomRightRadius), rad(cs.borderBottomLeftRadius)];
+  // CSS の重なり規則：隣り合う半径の和が辺を超えたら全体を縮める
+  const f = Math.min(1, W / (c[0][0] + c[1][0] || 1), W / (c[3][0] + c[2][0] || 1),
+                        H / (c[0][1] + c[3][1] || 1), H / (c[1][1] + c[2][1] || 1));
+  c = c.map(([x, y]) => [Math.max(0, x * f - bw / 2), Math.max(0, y * f - bw / 2)]);
+  const hw = W / 2, hh = H / 2, poly = [];
+  const corner = (cx, cy, rx, ry, a0) => {
+    for (let i = 0; i <= 8; i++) {
+      const t = (a0 + 90 * i / 8) * Math.PI / 180;
+      poly.push([cx + rx * Math.cos(t), cy + ry * Math.sin(t)]);
+    }
+  };
+  corner(-hw + c[0][0], -hh + c[0][1], c[0][0], c[0][1], 180);
+  corner(hw - c[1][0], -hh + c[1][1], c[1][0], c[1][1], 270);
+  corner(hw - c[2][0], hh - c[2][1], c[2][0], c[2][1], 0);
+  corner(-hw + c[3][0], hh - c[3][1], c[3][0], c[3][1], 90);
+  let m = [1, 0, 0, 1, 0, 0];
+  const mt = cs.transform;
+  if (mt && mt !== 'none') {
+    const v = mt.slice(mt.indexOf('(') + 1, -1).split(',').map(parseFloat);
+    m = v.length === 16 ? [v[0], v[1], v[4], v[5], v[12], v[13]] : v;
+  }
+  const cx0 = RW / 2, cy0 = RH / 2;
+  const point = (phi) => {
+    const dx = Math.sin(phi), dy = -Math.cos(phi);
+    let best = Math.min(hw, hh);
+    for (let i = 0; i < poly.length; i++) {
+      const [x1, y1] = poly[i], [x2, y2] = poly[(i + 1) % poly.length];
+      const ex = x2 - x1, ey = y2 - y1, den = dx * ey - dy * ex;
+      if (Math.abs(den) < 1e-9) continue;
+      const t = (x1 * ey - y1 * ex) / den, u = (x1 * dy - y1 * dx) / den;
+      if (t > 0 && u >= 0 && u <= 1) { best = t; break; }
+    }
+    const px = dx * best, py = dy * best;
+    return [cx0 + m[0] * px + m[2] * py + m[4], cy0 + m[1] * px + m[3] * py + m[5]];
+  };
+  return { point, cx: cx0, cy: cy0, R: Math.min(hw, hh) };
+}
+
 function _liqTearPlay(k) {
-  const stream = document.getElementById('liquidFluidStream');
-  const grp = document.getElementById('liquidTear');
-  const neck = document.getElementById('liquidTearNeck');
-  const drop = document.getElementById('liquidTearDrop');
-  const glint = document.getElementById('liquidTearGlint');
-  const ripple = document.getElementById('liquidTearRipple');
-  if (!stream || !grp || !neck || !drop || !glint || !ripple) return 0;
+  const box = document.getElementById('gaugeBox');
+  const ring = box && box.querySelector('.gauge-ring');
+  const svg = document.getElementById('liquidMembraneTear');
+  const piece = document.getElementById('liquidMembranePiece');
+  if (!ring || !svg || !piece) return 0;
+  const g0 = _liqMembraneGeom(ring);
+  if (!(g0.R > 20)) return 0;
 
-  const C = LIQ_TEAR_C, R0 = LIQ_TEAR_R, HALF = LIQ_TEAR_HALF;
-  const offsetNow = () => parseFloat(getComputedStyle(stream).strokeDashoffset) || 0;
-  const L = 11 + 9 * k;                         // ちぎれる弧の長さ
-  const D = 9 + 8 * k;                          // リングの外へ漂う距離
-  const R = Math.sqrt(HALF * L / 2) * 1.55;      // 丸まった滴の半径（ちぎれた弧の面積をおおむね保つ）
-  const drift = (Math.random() < .5 ? -1 : 1) * (3 + 5 * Math.random());   // 漂う間の横ずれ（弧長）
-  const dur = Math.round(2600 - 300 * k);
-
-  // ちぎれる位置はランダム。塗られた範囲の中で、先端の液滴ヘッド（r=8）と始点には重ねない
-  const F = C - offsetNow();
-  const lo = L / 2 + 14, hi = F - L / 2 - 14;
-  if (hi <= lo) return 0;
-  const s0 = lo + Math.random() * (hi - lo);
-  const f0 = s0 / R0;
-  const pol = (r, f) => [84 + r * Math.cos(f), 84 + r * Math.sin(f)];
-  const [ax, ay] = pol(R0, f0);
-  const col = _liqTearColor(ax, ay);
+  const SPAN = (24 + 6 * k) * Math.PI / 180;        // 千切れる幅（100% で 30°＝周の1/12）
+  const D = g0.R * (.18 + .07 * k);                 // 外へ飛ぶ距離（100% でゲージ半径の1/4）
+  const TH = Math.max(3, g0.R * .045);             // 膜の帯の半分の太さ（px）
+  const phi0 = Math.random() * Math.PI * 2;         // 千切れる位置はランダム
+  const drift = (Math.random() < .5 ? -1 : 1) * (.04 + .06 * Math.random());   // 漂う間の横ずれ（rad）
+  const dur = Math.round(3000 - 300 * k);
+  const N = 16;
 
   const token = ++_liqTearToken;
-  neck.setAttribute('fill', col);
-  const st1 = document.getElementById('liquidTearStop1'), st2 = document.getElementById('liquidTearStop2');
-  if (st1) st1.setAttribute('stop-color', col);
-  if (st2) st2.setAttribute('stop-color', col);
-  ripple.setAttribute('stroke', col);
-  ripple.setAttribute('cx', ax.toFixed(2));
-  ripple.setAttribute('cy', ay.toFixed(2));
-  grp.style.filter = 'drop-shadow(0 0 2px #FFFFFF) drop-shadow(0 0 6px ' + col + ') drop-shadow(0 0 12px ' + col + ')';
-  grp.style.display = 'inline';
+  svg.setAttribute('viewBox', '0 0 ' + ring.clientWidth + ' ' + ring.clientHeight);
+  svg.style.display = 'block';
+  ring.style.setProperty('--lt-a', (phi0 * 180 / Math.PI).toFixed(2) + 'deg');
+  ring.style.setProperty('--lt-f', LIQ_TEAR_FEATHER + 'deg');
+  ring.style.setProperty('--lt-w', '0deg');
+  ring.classList.add('lt-on');
 
   const clamp01 = v => Math.max(0, Math.min(1, v));
   const ease = u => .5 - .5 * Math.cos(Math.PI * clamp01(u));
-  const f2 = v => v.toFixed(2);
+  const f1 = v => v.toFixed(1);
 
   const draw = (t) => {
     const seg = (a, b) => clamp01((t - a) / (b - a));
-    let g, rd, fd = f0, rx, ry, w, neckOp, dropOp = 1, rip = -1;
-    if (t < .24) {                              // ① 引き伸ばされてくびれる
-      const e = ease(seg(0, .24));
-      g = L * e; rd = R0 + D * .7 * e;
-      rx = HALF + (R * 1.1 - HALF) * e; ry = HALF + (R * .75 - HALF) * e;
-      w = L * .8 + (.8 - L * .8) * e; neckOp = 1;
-    } else if (t < .31) {                       // ② ぷつっと切れて、反動で潰れる
-      const e = ease(seg(.24, .31));
-      g = L; rd = R0 + D * (.7 - .05 * e);
-      rx = R * (1.1 - .35 * e); ry = R * (.75 + .5 * e);
-      w = .8 * (1 - e); neckOp = 1 - e;
-    } else if (t < .64) {                       // ③ リングの外でぷるぷる漂う
-      const u = seg(.31, .64);
-      const j = .25 * Math.cos(u * Math.PI * 3.5) * (1 - .7 * u);
-      g = L * (1 + .08 * Math.sin(u * Math.PI));
-      rd = R0 + D * (.65 + .35 * Math.sin(u * Math.PI / 2));
-      fd = f0 + drift * Math.sin(u * Math.PI) / rd;
-      rx = R * (1 - j); ry = R * (1 + j);
-      w = 0; neckOp = 0;
-    } else if (t < .84) {                       // ④ 表面張力で引き戻される（加速しながら縦に伸びる）
-      const u = seg(.64, .84);
-      g = L; rd = R0 + D * (1 - u * u * u);
-      rx = R * (1 + .3 * u); ry = R * (1 - .2 * u);
-      neckOp = clamp01((u - .55) / .45); w = neckOp * R * 1.1;
-    } else {                                    // ⑤ 弧に吸い込まれて閉じる＋波紋
-      const e = ease(seg(.84, 1));
-      g = L * (1 - e); rd = R0;
-      rx = R * 1.3 + (HALF - R * 1.3) * e; ry = R * .8 + (HALF - R * .8) * e;
-      w = R * 1.1 * (1 - e); neckOp = 1 - e; dropOp = 1 - e;
-      rip = seg(.84, 1);
+    let gap, len, d, att, op = 1, fa = 0;
+    if (t < .26) {                          // ① 膜が外へ引っ張られ、両端に首ができる
+      const e = ease(seg(0, .26));
+      gap = e; len = 1; d = D * .55 * e; att = 1;
+    } else if (t < .34) {                   // ② ぷつっと千切れ、両端が真ん中へ縮む
+      const e = ease(seg(.26, .34));
+      gap = 1; len = 1 - .45 * e; d = D * (.55 + .2 * e); att = 1 - e;
+    } else if (t < .66) {                   // ③ 丸まってリングの外をぷるぷる漂う
+      const u = seg(.34, .66);
+      gap = 1; len = .24 + .31 * Math.cos(u * Math.PI * 3) * (1 - .7 * u);
+      d = D * (.75 + .25 * Math.sin(u * Math.PI / 2)); att = 0;
+      fa = drift * Math.sin(u * Math.PI);
+    } else if (t < .87) {                   // ④ 表面張力で引き戻され、帯に伸びながら両端が膜に届く
+      const u = seg(.66, .87), e = ease(u);
+      gap = 1; len = .24 + .76 * e; d = D * (1 - .7 * e); att = clamp01((u - .45) / .55);
+    } else {                                // ⑤ 膜になじんで切れ目が閉じる
+      const e = ease(seg(.87, 1));
+      gap = 1 - e; len = 1; d = D * .3 * (1 - e); att = 1; op = 1 - e * e;
     }
 
-    // 弧に隙間を開ける（offset は読むだけ）
-    const o = offsetNow();
-    const a = Math.max(0, o + s0 - g / 2), b = Math.max(0, C - o - s0 - g / 2);
-    stream.style.strokeDasharray = f2(a) + ' ' + f2(g) + ' ' + f2(b) + ' ' + f2(C);
+    ring.style.setProperty('--lt-w', f1(SPAN * gap * 180 / Math.PI) + 'deg');
 
-    const [px, py] = pol(rd, fd);
-    const Tx = -Math.sin(fd), Ty = Math.cos(fd);
-    drop.setAttribute('cx', f2(px)); drop.setAttribute('cy', f2(py));
-    drop.setAttribute('rx', f2(Math.max(0, rx))); drop.setAttribute('ry', f2(Math.max(0, ry)));
-    drop.setAttribute('transform', 'rotate(' + f2(fd * 180 / Math.PI) + ' ' + f2(px) + ' ' + f2(py) + ')');
-    drop.setAttribute('opacity', f2(dropOp));
-    glint.setAttribute('cx', f2(px + Math.cos(fd) * rx * .3 - Tx * ry * .3));
-    glint.setAttribute('cy', f2(py + Math.sin(fd) * rx * .3 - Ty * ry * .3));
-    glint.setAttribute('r', f2(Math.max(0, Math.min(rx, ry) * .22)));
-    glint.setAttribute('opacity', f2(.7 * dropOp));
-
-    // 液橋：弧の切れ目の両端 → くびれ → 滴の両肩
-    if (neckOp > .01 && g > .5) {
-      const [Ax, Ay] = pol(R0, f0 - g / 2 / R0), [Bx, By] = pol(R0, f0 + g / 2 / R0);
-      const fm = (f0 + fd) / 2, [mx, my] = pol((R0 + rd) / 2, fm);
-      const Mx = -Math.sin(fm), My = Math.cos(fm), hw = ry * .9, hm = Math.max(0, w) / 2;
-      neck.setAttribute('d',
-        'M' + f2(Ax) + ',' + f2(Ay) +
-        ' Q' + f2(mx - Mx * hm) + ',' + f2(my - My * hm) + ' ' + f2(px - Tx * hw) + ',' + f2(py - Ty * hw) +
-        ' L' + f2(px + Tx * hw) + ',' + f2(py + Ty * hw) +
-        ' Q' + f2(mx + Mx * hm) + ',' + f2(my + My * hm) + ' ' + f2(Bx) + ',' + f2(By) + ' Z');
-      neck.setAttribute('opacity', f2(neckOp));
-    } else {
-      neck.setAttribute('d', '');
+    const g = _liqMembraneGeom(ring);
+    const hBody = TH * (1.1 / Math.sqrt(Math.max(.2, len)));   // 縮むほど太る（面積をおおむね保つ）
+    const hNeck = TH * .45 * att;
+    const P = [], H = [];
+    for (let i = 0; i <= N; i++) {
+      const s = i / N;
+      const phi = phi0 + fa + (s - .5) * SPAN * len;
+      const [bx, by] = g.point(phi);
+      let ux = bx - g.cx, uy = by - g.cy;
+      const ul = Math.hypot(ux, uy) || 1; ux /= ul; uy /= ul;
+      const bump = Math.pow(Math.sin(Math.PI * s), .7);
+      const off = d * (att * bump + (1 - att));
+      P.push([bx + ux * off, by + uy * off]);
+      const ell = Math.sqrt(Math.max(0, 1 - (2 * s - 1) * (2 * s - 1)));
+      H.push(Math.max(hNeck, hBody * ell));
     }
-
-    if (rip >= 0) {
-      ripple.setAttribute('r', f2(3 + 11 * ease(rip)));
-      ripple.setAttribute('opacity', f2(.85 * (1 - rip)));
-    } else {
-      ripple.setAttribute('r', '0');
+    const L = [], Rr = [];
+    for (let i = 0; i <= N; i++) {
+      const a = P[Math.max(0, i - 1)], b = P[Math.min(N, i + 1)];
+      let nx = -(b[1] - a[1]), ny = b[0] - a[0];
+      const nl = Math.hypot(nx, ny) || 1; nx /= nl; ny /= nl;
+      L.push([P[i][0] + nx * H[i], P[i][1] + ny * H[i]]);
+      Rr.push([P[i][0] - nx * H[i], P[i][1] - ny * H[i]]);
     }
+    const pts = L.concat(Rr.reverse());
+    const mid = (p, q) => [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2];
+    let dStr = 'M' + mid(pts[pts.length - 1], pts[0]).map(f1).join(',');
+    for (let i = 0; i < pts.length; i++) {
+      const q = pts[i], mq = mid(q, pts[(i + 1) % pts.length]);
+      dStr += ' Q' + f1(q[0]) + ',' + f1(q[1]) + ' ' + f1(mq[0]) + ',' + f1(mq[1]);
+    }
+    piece.setAttribute('d', dStr + ' Z');
+    piece.setAttribute('opacity', op.toFixed(2));
   };
 
   const finish = () => {
     if (token !== _liqTearToken) return;
     _liqTearToken++;
-    stream.style.strokeDasharray = '';
-    grp.style.display = 'none';
-    grp.style.filter = '';
-    neck.setAttribute('d', '');
+    ring.classList.remove('lt-on');
+    ['--lt-a', '--lt-w', '--lt-f'].forEach(p => ring.style.removeProperty(p));
+    svg.style.display = 'none';
+    piece.setAttribute('d', '');
   };
   const t0 = performance.now();
   const frame = (now) => {
@@ -9522,7 +9553,7 @@ function _liqTearPlay(k) {
   };
   draw(0);
   requestAnimationFrame(frame);
-  setTimeout(finish, dur + 400);              // 非表示タブで rAF が止まっても弧を必ず元に戻す
+  setTimeout(finish, dur + 400);              // 非表示タブで rAF が止まっても膜を必ず元に戻す
   return dur;
 }
 
@@ -9642,7 +9673,7 @@ function _driveThemeGauge(pct, base, over, tier) {
     const cLiquid = 358.14;
     const sOffset = cLiquid * (1 - base / 100);
     lStream.style.strokeDashoffset = String(sOffset.toFixed(2));
-    // 🧬 弧の千切れ（90%以上・100%超も続ける）。タイマーは _liqTearArm が1本だけ持つ
+    // 🧬 外膜の千切れ（90%以上・100%超も続ける）。タイマーは _liqTearArm が1本だけ持つ
     _liqTearBase = over > 0 ? 100 : base;
     _liqTearArm();
   }
