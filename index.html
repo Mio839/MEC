@@ -2334,6 +2334,8 @@ html.ui-liquid .gauge-ring {
 .gauge-ring circle.fission-drop,
 .fission-drop {
   fill: url(#lavaFissionGrad) !important;
+  stroke: rgba(255, 255, 255, 0.95) !important;
+  stroke-width: 1.5 !important;
   opacity: 1 !important;
   filter: drop-shadow(0 0 8px #00F2FE) drop-shadow(0 0 16px #FF007F);
   transform-origin: 84px 84px;
@@ -3031,11 +3033,12 @@ html.ui-liquid #gaugeLiquidCore.overdrive .lava-tendril.t-se {
 }
 
 .gauge[data-overdrive] .lava-cell-nucleus {
-  filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.85)) drop-shadow(0 0 14px rgba(255, 0, 127, 0.65)) drop-shadow(0 0 22px rgba(255, 209, 102, 0.5)) !important;
-  transform: scale(1.1) !important;
+  opacity: 0.45 !important;
+  filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.85)) drop-shadow(0 0 14px rgba(255, 0, 127, 0.65)) !important;
+  transform: scale(1.05) !important;
 }
 html.ui-liquid .gauge-mid {
-  text-shadow: 0 2px 10px rgba(0,0,0,0.95), 0 0 18px rgba(0,0,0,0.85), 0 0 4px #000 !important;
+  text-shadow: 0 0 14px #000, 0 0 28px #000, 0 2px 4px #000 !important;
   z-index: 10 !important;
 }
 .gauge[data-overdrive] .liquid-fluid-stream {
@@ -3090,51 +3093,47 @@ html.ui-liquid .gauge-mid {
 }
 
 @keyframes overdrivePinchSnapNE {
-  0% { transform: translate(0, 0) scale(0.8); opacity: 0.95; }
-  16% { transform: translate(16px, -14px) scale(1.3, 0.9) rotate(15deg); }
-  32% { transform: translate(28px, -24px) scale(0.9, 1.6) rotate(32deg); }
-  44% { transform: translate(38px, -32px) scale(1.5, 1.1) rotate(15deg); }
-  58% { transform: translate(42px, -35px) scale(1.2, 1.4) rotate(0deg); }
-  72% { transform: translate(36px, -30px) scale(1.4, 1.1) rotate(-12deg); }
-  84% { transform: translate(20px, -16px) scale(1.1, 1.5) rotate(-22deg); }
-  93% { transform: translate(4px, -3px) scale(1.7, 0.9) rotate(0deg); }
-  100% { transform: translate(0, 0) scale(0.8); opacity: 0.95; }
+  0% { transform: translate(0, 0) scale(0.4); opacity: 0; }
+  18% { transform: translate(24px, -20px) scale(1.4, 0.75) rotate(35deg); opacity: 1; }
+  32% { transform: translate(38px, -32px) scale(0.85, 1.3) rotate(45deg); opacity: 1; }
+  52% { transform: translate(50px, -40px) scale(1.18, 0.95) rotate(15deg); opacity: 1; }
+  66% { transform: translate(46px, -36px) scale(0.95, 1.15) rotate(-10deg); opacity: 1; }
+  80% { transform: translate(25px, -20px) scale(0.8, 1.45) rotate(-35deg); opacity: 1; }
+  90% { transform: translate(8px, -6px) scale(1.45, 0.8) rotate(0deg); opacity: 0.9; }
+  100% { transform: translate(0, 0) scale(0.4); opacity: 0; }
 }
 
 @keyframes overdrivePinchSnapSW {
-  0% { transform: translate(0, 0) scale(0.8); opacity: 0.95; }
-  18% { transform: translate(-15px, 15px) scale(1.3, 0.9) rotate(-15deg); }
-  34% { transform: translate(-26px, 26px) scale(0.9, 1.6) rotate(-30deg); }
-  46% { transform: translate(-36px, 35px) scale(1.5, 1.1) rotate(-15deg); }
-  60% { transform: translate(-40px, 38px) scale(1.2, 1.4) rotate(0deg); }
-  74% { transform: translate(-34px, 32px) scale(1.4, 1.1) rotate(12deg); }
-  85% { transform: translate(-18px, 17px) scale(1.1, 1.5) rotate(22deg); }
-  94% { transform: translate(-4px, 3px) scale(1.7, 0.9) rotate(0deg); }
-  100% { transform: translate(0, 0) scale(0.8); opacity: 0.95; }
+  0% { transform: translate(0, 0) scale(0.4); opacity: 0; }
+  18% { transform: translate(-24px, 20px) scale(1.4, 0.75) rotate(-35deg); opacity: 1; }
+  32% { transform: translate(-38px, 32px) scale(0.85, 1.3) rotate(-45deg); opacity: 1; }
+  52% { transform: translate(-50px, 40px) scale(1.18, 0.95) rotate(-15deg); opacity: 1; }
+  66% { transform: translate(-46px, 36px) scale(0.95, 1.15) rotate(10deg); opacity: 1; }
+  80% { transform: translate(-25px, 20px) scale(0.8, 1.45) rotate(35deg); opacity: 1; }
+  90% { transform: translate(-8px, 6px) scale(1.45, 0.8) rotate(0deg); opacity: 0.9; }
+  100% { transform: translate(0, 0) scale(0.4); opacity: 0; }
 }
 
 @keyframes overdrivePinchSnapNW {
-  0% { transform: translate(0, 0) scale(0.75); opacity: 0.92; }
-  17% { transform: translate(-15px, -15px) scale(1.25, 0.88) rotate(-20deg); }
-  33% { transform: translate(-26px, -26px) scale(0.88, 1.55) rotate(-35deg); }
-  45% { transform: translate(-36px, -35px) scale(1.45, 1.05) rotate(-18deg); }
-  59% { transform: translate(-40px, -38px) scale(1.15, 1.35) rotate(0deg); }
-  73% { transform: translate(-34px, -32px) scale(1.35, 1.05) rotate(15deg); }
-  85% { transform: translate(-17px, -16px) scale(1.05, 1.45) rotate(20deg); }
-  94% { transform: translate(-3px, -3px) scale(1.65, 0.85) rotate(0deg); }
-  100% { transform: translate(0, 0) scale(0.75); opacity: 0.92; }
+  0% { transform: translate(0, 0) scale(0.4); opacity: 0; }
+  18% { transform: translate(-22px, -22px) scale(1.35, 0.75) rotate(-45deg); opacity: 1; }
+  32% { transform: translate(-36px, -34px) scale(0.85, 1.3) rotate(-35deg); opacity: 1; }
+  52% { transform: translate(-48px, -42px) scale(1.15, 0.95) rotate(-15deg); opacity: 1; }
+  66% { transform: translate(-44px, -38px) scale(0.95, 1.15) rotate(10deg); opacity: 1; }
+  80% { transform: translate(-24px, -22px) scale(0.8, 1.4) rotate(35deg); opacity: 1; }
+  90% { transform: translate(-8px, -7px) scale(1.4, 0.8) rotate(0deg); opacity: 0.9; }
+  100% { transform: translate(0, 0) scale(0.4); opacity: 0; }
 }
 
 @keyframes overdrivePinchSnapSE {
-  0% { transform: translate(0, 0) scale(0.8); opacity: 0.95; }
-  16% { transform: translate(15px, 15px) scale(1.28, 0.9) rotate(18deg); }
-  32% { transform: translate(26px, 26px) scale(0.9, 1.55) rotate(28deg); }
-  44% { transform: translate(36px, 35px) scale(1.48, 1.08) rotate(12deg); }
-  58% { transform: translate(40px, 38px) scale(1.18, 1.38) rotate(0deg); }
-  72% { transform: translate(34px, 32px) scale(1.38, 1.08) rotate(-15deg); }
-  84% { transform: translate(18px, 17px) scale(1.08, 1.48) rotate(-20deg); }
-  93% { transform: translate(4px, 3px) scale(1.68, 0.88) rotate(0deg); }
-  100% { transform: translate(0, 0) scale(0.8); opacity: 0.95; }
+  0% { transform: translate(0, 0) scale(0.4); opacity: 0; }
+  18% { transform: translate(22px, 22px) scale(1.35, 0.75) rotate(45deg); opacity: 1; }
+  32% { transform: translate(36px, 34px) scale(0.85, 1.3) rotate(35deg); opacity: 1; }
+  52% { transform: translate(48px, 42px) scale(1.15, 0.95) rotate(15deg); opacity: 1; }
+  66% { transform: translate(44px, 38px) scale(0.95, 1.15) rotate(-10deg); opacity: 1; }
+  80% { transform: translate(24px, 22px) scale(0.8, 1.4) rotate(-35deg); opacity: 1; }
+  90% { transform: translate(8px, 7px) scale(1.4, 0.8) rotate(0deg); opacity: 0.9; }
+  100% { transform: translate(0, 0) scale(0.4); opacity: 0; }
 }
 
 @keyframes overdriveTendrilNE {
@@ -9717,8 +9716,8 @@ function _driveThemeGauge(pct, base, over, tier) {
   }
 
   if (lBlobGroup) {
-    // 進捗率に応じて中央の多層流体セルがエネルギーを吸収し、豊かに膨張（スケール 0.84 -> 1.28）
-    const bScale = 0.84 + (base / 100) * 0.44 + (over > 0 ? 0.08 : 0);
+    // 進捗率に応じて中央の多層流体セルがエネルギーを吸収し、適度に膨張（スケール 0.80 -> 0.98、Overdriveで最大1.02。チューブとの間に液滴分裂用のクリア空間を確保）
+    const bScale = 0.80 + (base / 100) * 0.18 + (over > 0 ? 0.04 : 0);
     lBlobGroup.style.transform = 'scale(' + bScale.toFixed(2) + ')';
   }
   if (lMesoplasm) {
@@ -9726,7 +9725,7 @@ function _driveThemeGauge(pct, base, over, tier) {
     lMesoplasm.style.opacity = String(mesoOp.toFixed(2));
   }
   if (lEndoplasm) {
-    const endoScale = 0.88 + (base / 100) * 0.28 + (over > 0 ? 0.06 : 0);
+    const endoScale = 0.82 + (base / 100) * 0.14 + (over > 0 ? 0.04 : 0);
     lEndoplasm.style.transform = 'scale(' + endoScale.toFixed(2) + ')';
   }
   if (lFissionPods) {

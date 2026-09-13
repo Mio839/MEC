@@ -1,3 +1,8 @@
+// 2026-09-13e: Liquid（幻想リキッド）の100%超液滴ちぎれ・独立浮遊・急加速スナップバック再融合を誰の目にも一目瞭然に強化——
+//   ①本体サイズ適正化：100%超で本体がチューブ全体を埋め尽くして液滴を飲み込んでいたスケール計算を適正化（bScale 0.80〜1.02）し、本体と外周チューブの間に約20pxのクリア空間を常時確保。
+//   ②完全離脱・浮遊・スナップバックキーフレーム（overdrivePinchSnapNE〜SE）：本体から角のように伸びた大粒液滴がプツンとちぎれ、本体の輪郭の外側へ完全離脱して浮遊し、猛スピードで急加速スナップバックして本体にドプンと再融合・一体化するドラマチックな動きを実現。
+//   ③液滴輪郭・文字コントラスト死守：液滴にクリアホワイトのストローク（stroke-width:1.5）を付与し、中央核の過剰な白光を抑え、中央の達成率数字（140%）の漆黒アウトラインを強化して視認性を死守。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-13d → 2026-09-13e）。
 // 2026-09-13d: Liquid（幻想リキッド）の100%超液滴ちぎれ＆メタボール粘性再融合の不具合を完全修正——
 //   ①ちぎれる液滴の可視化：基底スタイル（.gauge-ring circle { fill:none }）に詳細度で負けて液滴が不可視化（fill:none）していた問題を解消し、.gauge-ring circle.fission-drop に !important 付きでネオングラデーションを強制適用。
 //   ②SVGメタボールフィルターの保護：CSSの drop-shadow や opalPrismCycle が .liquid-metaball-layer の filter:url(#liquidGooFilter) を上書き破壊していたのを解消し、発光・虹彩エフェクトを外側コンテナへ移設して本物のGooey粘性ちぎれ・再融合を完全復元。
@@ -1433,7 +1438,7 @@ const CACHE = "mec-v395";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-13d";
+const SHELL_VERSION = "2026-09-13e";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
