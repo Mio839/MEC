@@ -1,3 +1,8 @@
+// 2026-09-13b: 必修講座のエラー報告2問（hisshu_ch08_q167 94D-6・hisshu_ch08_q176 110C-21）へ
+//   循環器水準の解説を追加（_work/hisshu_overrides.json）。questions_hisshu.json を作り直したので CACHE を bump（v387 → v388）。
+// 2026-09-13a: Liquid（幻想リキッド）のHeroゲージ外周に残存していた点線円（dashed / dotted）を完全撤廃——
+//   外周毛細管チューブの境界リム（.liquid-tube-rim-out / .liquid-tube-rim-in）およびケーシング（.casing-liquid .marble-ring / .splash-gold）から stroke-dasharray を削除し、0.8px の繊細で滑らかなガラス光沢リムへ統一。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-12g → 2026-09-13a）。
 // 2026-09-12g: Liquid（幻想リキッド）の100%超（Overdrive）演出をさらに激化・進化——
 //   ①100%超の劇的形の変形：中央アメーバ流体セル＆外枠ガラスチャンバーが限界突破の強大なエネルギーで大きく非対称に歪み、激しく有機的にうねり脈動する Overdrive 専用モーフィング（overdriveAmoebaMorph / overdriveChamberWobble）を実装。
 //   ②大粒液滴のちぎれ＆スナップバック再融合：本体から大粒ネオンジェル液滴（半径15〜20px相当）が斜め四方へグーッと伸びてプツンとちぎれ、外周毛細管ギリギリまで飛び出した後、表面張力で本体へ急加速スナップバックしてぬるりと融合一体化する連続アニメーション（overdrivePinchSnap）を実装。
@@ -1418,12 +1423,12 @@
 // v376: 夏メック模試（m121s）の解説を questions_m121s.json として新設し study.html へ統合。
 //       解説書PDFから全400問（A〜F を ch01〜ch06・番号は科目内で通し）を生成した。
 //       questions_*.json が1つ増えたので SHELL_VERSION だけでは足りず CACHE を bump。
-const CACHE = "mec-v387";
+const CACHE = "mec-v388";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-12g";
+const SHELL_VERSION = "2026-09-13a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
