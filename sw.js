@@ -1,3 +1,8 @@
+// 2026-09-13d: Liquid（幻想リキッド）の100%超液滴ちぎれ＆メタボール粘性再融合の不具合を完全修正——
+//   ①ちぎれる液滴の可視化：基底スタイル（.gauge-ring circle { fill:none }）に詳細度で負けて液滴が不可視化（fill:none）していた問題を解消し、.gauge-ring circle.fission-drop に !important 付きでネオングラデーションを強制適用。
+//   ②SVGメタボールフィルターの保護：CSSの drop-shadow や opalPrismCycle が .liquid-metaball-layer の filter:url(#liquidGooFilter) を上書き破壊していたのを解消し、発光・虹彩エフェクトを外側コンテナへ移設して本物のGooey粘性ちぎれ・再融合を完全復元。
+//   ③要素ID修正：_driveThemeGauge 内の heroGaugeBox を正しい gaugeBox に修正。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-13c → 2026-09-13d）。
 // 2026-09-13c: Liquid（幻想リキッド）のHeroゲージ外周に残存していた点線円（dashed / dotted）を完全撤廃——
 //   外周毛細管チューブの境界リム（.liquid-tube-rim-out / .liquid-tube-rim-in）およびケーシング（.casing-liquid .marble-ring / .splash-gold）から stroke-dasharray を削除し、0.8px の繊細で滑らかなガラス光沢リムへ統一。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-13a → 2026-09-13c）。
@@ -1428,7 +1433,7 @@ const CACHE = "mec-v395";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-13c";
+const SHELL_VERSION = "2026-09-13d";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [

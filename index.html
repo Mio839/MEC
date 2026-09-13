@@ -2246,6 +2246,7 @@ html.ui-liquid .gauge-ring {
 /* 🧪 メタボール流体層（Gooey粘性マージ） */
 .liquid-metaball-layer {
   transform-origin: 84px 84px;
+  filter: url(#liquidGooFilter) !important;
 }
 
 /* 1. 最外層オーラ膜（表面張力マントル） */
@@ -2330,9 +2331,11 @@ html.ui-liquid .gauge-ring {
 .liquid-fission-pods {
   transform-origin: 84px 84px;
 }
+.gauge-ring circle.fission-drop,
 .fission-drop {
-  fill: url(#lavaFissionGrad);
-  filter: drop-shadow(0 0 8px #00F2FE) drop-shadow(0 0 14px #FF007F);
+  fill: url(#lavaFissionGrad) !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 8px #00F2FE) drop-shadow(0 0 16px #FF007F);
   transform-origin: 84px 84px;
   will-change: transform, opacity;
 }
@@ -2447,8 +2450,9 @@ html.ui-liquid .gauge-ring {
 }
 
 /* 内部発光核（エレクトリック・ニュークリアス） */
+.gauge-ring circle.lava-cell-nucleus,
 .lava-cell-nucleus {
-  fill: url(#lavaNucleusGrad);
+  fill: url(#lavaNucleusGrad) !important;
   transform-origin: 84px 84px;
   animation: lavaNucleusGlow 5.8s ease-in-out infinite alternate;
   transition: r .8s cubic-bezier(.2, .9, .3, 1), opacity .8s;
@@ -2462,8 +2466,9 @@ html.ui-liquid .gauge-ring {
 .liquid-vacuoles-group {
   transform-origin: 84px 84px;
 }
+.gauge-ring circle.lava-vacuole,
 .lava-vacuole {
-  fill: url(#lavaVacuoleGrad);
+  fill: url(#lavaVacuoleGrad) !important;
   stroke: rgba(0, 242, 254, 0.45);
   stroke-width: 0.8;
   filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.4));
@@ -2535,8 +2540,9 @@ html.ui-liquid .gauge-ring {
   transform-origin: 84px 84px;
   transition: transform .8s cubic-bezier(.2, .9, .3, 1);
 }
+.gauge-ring circle.lava-drop,
 .lava-drop {
-  fill: url(#lavaDropletGrad);
+  fill: url(#lavaDropletGrad) !important;
   filter: drop-shadow(0 0 6px #00F2FE) drop-shadow(0 0 10px #FF007F);
   transition: opacity .8s ease, transform .9s cubic-bezier(.2, .9, .3, 1);
   transform-origin: center center;
@@ -2600,9 +2606,13 @@ html.ui-liquid .gauge-ring {
 }
 
 /* 🌈 臨界オパール・プリズム虹彩化（案4：100%・オーバードライブ） */
+html.ui-liquid #gaugeLiquidCore.is-100 .liquid-fluid-container,
+html.ui-liquid #gaugeLiquidCore.overdrive .liquid-fluid-container {
+  animation: opalPrismCycle 6s linear infinite !important;
+}
 html.ui-liquid #gaugeLiquidCore.is-100 .liquid-metaball-layer,
 html.ui-liquid #gaugeLiquidCore.overdrive .liquid-metaball-layer {
-  animation: opalPrismCycle 6s linear infinite !important;
+  filter: url(#liquidGooFilter) !important;
 }
 html.ui-liquid #gaugeLiquidCore.is-100 .lava-cell-body,
 html.ui-liquid #gaugeLiquidCore.overdrive .lava-cell-body {
@@ -2937,9 +2947,13 @@ html.ui-liquid #gaugeLiquidCore.overdrive .liquid-critical-sparkles {
 }
 
 /* 🔥 オーバードライブ覚醒時（臨界ジェル発光・劇的有機変形・大粒液滴ちぎれ再融合） */
+.gauge[data-overdrive] .liquid-fluid-container,
+html.ui-liquid #gaugeLiquidCore.overdrive .liquid-fluid-container {
+  filter: drop-shadow(0 0 20px rgba(255, 0, 127, 0.9)) drop-shadow(0 0 34px rgba(0, 242, 254, 0.8)) drop-shadow(0 0 44px rgba(255, 209, 102, 0.7)) !important;
+}
 .gauge[data-overdrive] .liquid-metaball-layer,
 html.ui-liquid #gaugeLiquidCore.overdrive .liquid-metaball-layer {
-  filter: drop-shadow(0 0 20px rgba(255, 0, 127, 0.9)) drop-shadow(0 0 34px rgba(0, 242, 254, 0.8)) drop-shadow(0 0 44px rgba(255, 209, 102, 0.7)) !important;
+  filter: url(#liquidGooFilter) !important;
 }
 
 /* 🌊 100%超：劇的アメーバ有機変形（限界突破の激しいうねり・脈動・歪み） */
@@ -6047,7 +6061,7 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                 <defs>
                   <!-- チャンバー用クリップパス -->
                   <clipPath id="liquidChamberClip">
-                    <circle cx="84" cy="84" r="64"></circle>
+                    <circle cx="84" cy="84" r="72"></circle>
                   </clipPath>
                   <!-- 🧪 SVGメタボール（Gooey / 粘性マージ）フィルター -->
                   <filter id="liquidGooFilter" x="-35%" y="-35%" width="170%" height="170%" color-interpolation-filters="sRGB">
@@ -9660,7 +9674,7 @@ function _driveThemeGauge(pct, base, over, tier) {
     lCore.classList.toggle('is-100', base >= 100);
     lCore.classList.toggle('overdrive', over > 0);
   }
-  const gBox = document.getElementById('heroGaugeBox');
+  const gBox = document.getElementById('gaugeBox');
   if (gBox) {
     gBox.classList.toggle('is-100', base >= 100);
     gBox.classList.toggle('overdrive', over > 0);
