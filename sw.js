@@ -1423,7 +1423,7 @@
 // v376: 夏メック模試（m121s）の解説を questions_m121s.json として新設し study.html へ統合。
 //       解説書PDFから全400問（A〜F を ch01〜ch06・番号は科目内で通し）を生成した。
 //       questions_*.json が1つ増えたので SHELL_VERSION だけでは足りず CACHE を bump。
-const CACHE = "mec-v389";
+const CACHE = "mec-v390";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
