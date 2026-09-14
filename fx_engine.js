@@ -2012,6 +2012,12 @@
     slashRibbon(cx + maxR * 0.9, cy + maxR * 0.5, cx - maxR * 0.85, cy - maxR * 0.65, { color: electricCyan, width: 4.0, ttl: 0.60, curveX: maxR * 0.4, curveY: -maxR * 0.35, delay: 0.04 });
     slashRibbon(cx - maxR * 0.65, cy + maxR * 0.85, cx + maxR * 0.55, cy - maxR * 0.85, { color: amethyst, width: 3.5, ttl: 0.65, curveX: maxR * 0.35, curveY: maxR * 0.25, delay: 0.07 });
     slashRibbon(cx, cy + maxR * 0.95, cx, cy - maxR * 0.95, { color: white, width: 3.0, ttl: 0.55, curveX: -maxR * 0.5, curveY: 0, delay: 0.05 });
+
+    // 7. 巨大深海神獣リヴァイアサン覚醒（画面深奥を横切る巨大遊泳光条 ＆ 全画面メガソナー超衝撃波）
+    slashRibbon(-W * 0.1, cy + rnd(-35, 35), W * 1.1, cy + rnd(-35, 35), { color: emerald, width: 7.5, ttl: 0.72, curveX: 0, curveY: rnd(-110, 110), delay: 0.06 });
+    slashRibbon(-W * 0.08, cy + rnd(-25, 25), W * 1.08, cy + rnd(-25, 25), { color: electricCyan, width: 5.2, ttl: 0.68, curveX: 0, curveY: rnd(-90, 90), delay: 0.10 });
+    rings(cx, cy, { count: 6, maxR: Math.max(W, H) * 0.72, color: emerald, additive: true, delay: 0.04 });
+    sonicWave(cx, cy, { count: 5, maxR: Math.max(W, H) * 0.62, color: electricCyan, thickness: 4.6, delay: 0.07 });
   }
 
   /** 【4テーマ特化】絶対零度・フロスト氷晶: 幾何学結晶急成長 ＆ ダイヤモンドダスト (絶対零度極寒爆発) */

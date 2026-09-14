@@ -3919,42 +3919,68 @@ html.ui-abyss body.ch-exam-mode .qc.ch-exam-revealed .ch2.ng {
   100% { transform: scale(1); filter: brightness(1); }
 }
 
-/* 🌊 解答解説ボックス: 深海耐圧ハッチ展開 ＆ 極光エメラルド */
+/* 🌊 解答解説ボックス: 深海耐圧エアロックハッチ展開 ＆ ホログラム海洋カルテ */
 html.ui-abyss .qc .ab {
-  background: linear-gradient(145deg, rgba(8, 36, 72, 0.98) 0%, rgba(2, 14, 34, 0.99) 100%) !important;
+  background: 
+    repeating-linear-gradient(0deg, rgba(0, 255, 163, 0.035) 0px, rgba(0, 255, 163, 0.035) 1px, transparent 1px, transparent 3px),
+    linear-gradient(145deg, rgba(8, 38, 76, 0.98) 0%, rgba(2, 14, 34, 0.99) 100%) !important;
   border: 1.5px solid #00FFA3 !important;
-  box-shadow: 0 18px 56px rgba(0, 0, 0, 0.94), 0 0 45px rgba(0, 255, 163, 0.5), 0 0 70px rgba(0, 229, 255, 0.25), inset 0 2px 1px rgba(240, 253, 250, 0.98) !important;
+  border-left: 6px solid #00FFA3 !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 50px rgba(0, 255, 163, 0.6), 0 0 75px rgba(0, 229, 255, 0.3), inset 0 2px 1.5px rgba(240, 253, 250, 0.98), inset 0 0 35px rgba(0, 229, 255, 0.15) !important;
   border-radius: 14px !important;
-  padding: 16px 20px !important;
-  backdrop-filter: blur(24px) !important;
-  animation: abyssAnswerBoxReveal 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+  padding: 18px 22px !important;
+  backdrop-filter: blur(28px) !important;
+  animation: abyssAnswerBoxReveal 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes abyssAnswerBoxReveal {
-  0% { opacity: 0; transform: translateY(8px) scale(0.98); border-color: rgba(0, 255, 163, 0.3); }
-  50% { border-color: #B4FBE2; box-shadow: 0 0 36px rgba(0, 255, 163, 0.9), 0 0 52px rgba(0, 229, 255, 0.65); }
-  100% { opacity: 1; transform: translateY(0) scale(1); border-color: #00FFA3; }
+  0% { opacity: 0; transform: translateY(10px) scale(0.97); border-left-color: rgba(0, 255, 163, 0.2); }
+  50% { border-left-color: #FFFFFF; box-shadow: 0 0 45px rgba(0, 255, 163, 1), 0 0 65px rgba(0, 229, 255, 0.8), inset 0 0 30px rgba(0, 255, 163, 0.4); }
+  100% { opacity: 1; transform: translateY(0) scale(1); border-left-color: #00FFA3; }
 }
 
 html.ui-abyss .qc .ab strong {
-  background: linear-gradient(135deg, #00FFA3 0%, #00E5FF 50%, #9D4EDD 100%) !important;
+  background: linear-gradient(135deg, #A7F3D0 0%, #00FFA3 30%, #00E5FF 70%, #9D4EDD 100%) !important;
   padding: 5px 14px !important;
   border-radius: 6px !important;
   border: 1.5px solid #FFFFFF !important;
   color: #011424 !important;
   font-weight: 900 !important;
   text-shadow: none !important;
-  box-shadow: 0 2px 18px rgba(0, 255, 163, 0.8), 0 0 10px #00E5FF !important;
+  box-shadow: 0 2px 18px rgba(0, 255, 163, 0.9), 0 0 12px #00E5FF !important;
+}
+
+/* 🌊 設問文: 深海生物発光インク ＆ 重要語句・下線部バイオグロー */
+html.ui-abyss .qc .qt {
+  color: #F0FDFA !important;
+  text-shadow: 0 0 1px rgba(0, 255, 163, 0.45), 0 0 10px rgba(0, 229, 255, 0.18) !important;
+  letter-spacing: 0.02em !important;
+}
+html.ui-abyss .qc .qt u,
+html.ui-abyss .qc .qt .highlight-keyword {
+  color: #FFFFFF !important;
+  text-decoration: none !important;
+  border-bottom: 2px solid #00FFA3 !important;
+  text-shadow: 0 0 8px rgba(0, 255, 163, 0.9), 0 0 16px rgba(0, 229, 255, 0.6) !important;
+  box-shadow: 0 2px 8px rgba(0, 255, 163, 0.35) !important;
+  padding-bottom: 1px !important;
+}
+html.ui-abyss .qc .qt strong,
+html.ui-abyss .qc .qt b {
+  color: #A7F3D0 !important;
+  text-shadow: 0 0 10px rgba(0, 255, 163, 0.85), 0 0 18px rgba(0, 229, 255, 0.5) !important;
 }
 
 /* 🌊 解説・エピソードボックス: 深海プレッシャーチャンバー・耐圧ハッチ展開 */
 html.ui-abyss .qc .eg {
-  background: linear-gradient(150deg, rgba(4, 24, 52, 0.98) 0%, rgba(1, 10, 26, 0.99) 100%) !important;
+  background: 
+    repeating-linear-gradient(0deg, rgba(0, 229, 255, 0.025) 0px, rgba(0, 229, 255, 0.025) 1px, transparent 1px, transparent 3px),
+    linear-gradient(150deg, rgba(4, 24, 52, 0.98) 0%, rgba(1, 10, 26, 0.99) 100%) !important;
   border: 1.5px solid rgba(0, 255, 163, 0.55) !important;
-  border-left: 5px solid #00FFA3 !important;
+  border-left: 6px solid #00FFA3 !important;
   border-radius: 14px !important;
-  backdrop-filter: blur(20px) !important;
-  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.92), inset 0 1.5px 0 rgba(240, 253, 250, 0.5), inset 0 0 28px rgba(0, 255, 163, 0.15) !important;
+  backdrop-filter: blur(24px) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.94), inset 0 1.5px 0 rgba(240, 253, 250, 0.6), inset 0 0 32px rgba(0, 255, 163, 0.18) !important;
   line-height: 1.85 !important;
   color: #F0FDF4 !important;
   padding: 18px 22px !important;
@@ -6706,6 +6732,18 @@ html.ui-abyss .ce-prog-track.exam-prog-complete .ce-prog-fill {
 @keyframes abyssProgPulse {
   0% { filter: brightness(1) drop-shadow(0 0 8px rgba(0,255,163,.6)); }
   100% { filter: brightness(1.4) drop-shadow(0 0 24px rgba(0,255,163,1)) drop-shadow(0 0 36px #00E5FF); }
+}
+
+/* 🌊 Abyss: 試験画面カウントダウン・超深度潜航マノメーターHUD */
+html.ui-abyss #chExamCountdown,
+html.ui-abyss #examCountdown,
+html.ui-abyss .exam-countdown {
+  background: linear-gradient(145deg, rgba(2, 18, 36, 0.95), rgba(1, 10, 24, 0.98)) !important;
+  border: 1.5px solid #00FFA3 !important;
+  box-shadow: 0 0 18px rgba(0, 255, 163, 0.45), 0 0 30px rgba(0, 229, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 0 14px rgba(0, 255, 163, 0.18) !important;
+  border-radius: 9px !important;
+  color: #00FFA3 !important;
+  text-shadow: 0 0 10px #00FFA3, 0 0 20px #00E5FF !important;
 }
 
 /* 笶ｸ Frost */
