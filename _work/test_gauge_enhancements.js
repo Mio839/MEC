@@ -413,34 +413,51 @@ t('Liquid: 旧演出（中心から出入りする水疱・内側の弧の千切
   assert.ok(!/strokeDasharray\s*=/.test(fnBody('_liqTearPlay')), '_liqTearPlay が進捗の弧の dasharray を書いている');
 });
 
-t('Liquid: 外膜（.gauge-ring::after）に conic-gradient の mask で切れ目を開ける', () => {
+t('Liquid: 外膜（.gauge-ring::after）に conic-gradient の mask で切れ目を開ける（最大2つ）', () => {
   const THEME = fs.readFileSync(path.join(__dirname, '..', 'ui_theme.css'), 'utf8');
   assert.ok(/html\.ui-liquid \.gauge \.gauge-ring::after \{[^}]*border: 2px solid/.test(THEME), '外膜（::after の border）の定義が変わった＝千切れの素材を見直すこと');
   const m = HTML.match(/html\.ui-liquid \.gauge \.gauge-ring\.lt-on::after \{([^}]*)\}/);
   assert.ok(m, '.lt-on::after の mask ルールが無い');
-  ['-webkit-mask-image: conic-gradient', 'mask-image: conic-gradient', 'var(--lt-a', 'var(--lt-w', 'var(--lt-f']
+  ['-webkit-mask-image: var(--lt-mask', 'mask-image: var(--lt-mask']
     .forEach(w => assert.ok(m[1].includes(w), '.lt-on::after に ' + w + ' が無い'));
-  const play = fnBody('_liqTearPlay');
-  assert.ok(play.includes("ring.classList.add('lt-on')") && play.includes("setProperty('--lt-w'"), '_liqTearPlay が切れ目を開けていない');
-  assert.ok(play.includes("ring.classList.remove('lt-on')") && play.includes('removeProperty'), '終了時に膜を元へ戻していない');
-  assert.ok(/setTimeout\(finish, dur \+ \d+\)/.test(play), '非表示タブ用の落とし所（setTimeout(finish)）が無い');
-  assert.ok(/const phi0 = Math\.random\(\)/.test(play), '千切れる位置がランダムになっていない');
+  assert.ok(fnBody('_liqConicMask').includes("'conic-gradient(from '"), '_liqConicMask が conic-gradient を組んでいない');
+  const play = fnBody('_liqTearPlay'), end = fnBody('_liqTearEnd'), render = fnBody('_liqTearRender');
+  assert.ok(play.includes("ring.classList.add('lt-on')") && render.includes("setProperty('--lt-mask'"), '切れ目を開けていない');
+  assert.ok(end.includes("ring.classList.remove('lt-on')") && end.includes("removeProperty('--lt-mask')"), '終了時に膜を元へ戻していない');
+  assert.ok(/setTimeout\(\(\) => _liqTearEnd\(o\), o\.dur \+ \d+\)/.test(play), '非表示タブ用の落とし所（setTimeout(_liqTearEnd)）が無い');
+  assert.ok(/Math\.random\(\)/.test(play) && /LIQ_TEAR_SEP/.test(play), '千切れる位置がランダム・互いに離れていない');
+  assert.ok(/const LIQ_TEAR_MAX = 2;/.test(HTML) && /const LIQ_TEAR_DUR = 12000;/.test(HTML), '最大2つ・12秒になっていない');
+});
+
+t('Liquid: 液体の弧も一緒に千切れる（svg の mask・満ちた区間だけ・dasharray は触らない）', () => {
+  assert.ok(/<mask id="liquidArcTearMask"[^>]*>[\s\S]*?id="liquidArcTearHole0"[\s\S]*?id="liquidArcTearHole1"[\s\S]*?<\/mask>/.test(HTML), '弧の穴の mask が無い');
+  const w = HTML.slice(HTML.indexOf('<g id="liquidArcTearWrap">'), HTML.indexOf('/#liquidArcTearWrap'));
+  assert.ok(w.includes('id="liquidFluidStream"') && w.includes('id="liquidFlowGlint"'), '#liquidArcTearWrap が弧と流れる光を包んでいない');
+  const play = fnBody('_liqTearPlay'), end = fnBody('_liqTearEnd');
+  assert.ok(play.includes("wrap.setAttribute('mask', 'url(#liquidArcTearMask)')") && end.includes("wrap.removeAttribute('mask')"), 'mask を千切れている間だけ付けていない');
+  assert.ok(/_liqTearBase >= 100 \? TAU : TAU \* _liqTearBase \/ 100/.test(play), '千切れる位置を満ちた区間に限っていない');
+  ['_liqTearPlay', '_liqTearRender', '_liqTearShape'].forEach(n => assert.ok(!/strokeDash(array|offset)\s*=/.test(fnBody(n)), n + ' が進捗の弧の dash を書いている'));
+  assert.ok(fnBody('_liqTearShape').includes('matrixTransform(inv)'), '弧の穴を getScreenCTM の逆行列で求めていない');
 });
 
 t('Liquid: かけらの svg は .gauge-ring 直下にあり、ゲージ svg の回転・円形クリップを打ち消している', () => {
   const ring = HTML.slice(HTML.indexOf('<div class="gauge-ring">'), HTML.indexOf('<span class="gauge-mid" id="gaugeMid">'));
-  assert.ok(ring.includes('id="liquidMembraneTear"') && ring.includes('id="liquidMembranePiece"'), 'かけらの svg が .gauge-ring の中に無い');
+  assert.ok(ring.includes('id="liquidMembraneTear"') && ring.includes('id="liquidMembranePiece0"') && ring.includes('id="liquidMembranePiece1"'), 'かけらの svg が .gauge-ring の中に無い');
   const m = HTML.match(/\.gauge-ring svg\.liquid-membrane-tear \{([^}]*)\}/);
   assert.ok(m && /transform: none/.test(m[1]) && /clip-path: none/.test(m[1]) && /position: absolute/.test(m[1]), '.gauge-ring svg の rotate(-90deg)/clip-path を打ち消していない');
-  assert.ok(/\.lmt-piece \{\s*fill: url\(#liquidMembraneGrad\);\s*stroke: none;/.test(HTML), 'かけらに縁取りがある（別の泡に見える）');
+  assert.ok(/\.lmt-piece \{\s*stroke: none;/.test(HTML), 'かけらに縁取りがある（別の泡に見える）');
 });
 
-t('Liquid: 外膜の形は ::after の算出値（border-radius・transform）から毎フレーム求める', () => {
+t('Liquid: 形は毎フレーム読み直し、読む→書くを1本の rAF にまとめる・横にはみ出さない', () => {
   const geom = fnBody('_liqMembraneGeom');
   assert.ok(geom.includes("getComputedStyle(ring, '::after')"), '::after の算出値を読んでいない');
   ['borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomRightRadius', 'borderBottomLeftRadius', 'cs.transform']
     .forEach(w => assert.ok(geom.includes(w), '_liqMembraneGeom が ' + w + ' を見ていない'));
-  assert.ok(/const g = _liqMembraneGeom\(ring\);/.test(fnBody('_liqTearPlay')), 'draw で膜の形を読み直していない');
+  const render = fnBody('_liqTearRender');
+  assert.ok(/const g = _liqMembraneGeom\(ring\);/.test(render), 'render で膜の形を読み直していない');
+  assert.ok(render.indexOf('_liqMembraneGeom(ring)') < render.indexOf("svg.setAttribute('viewBox'"), '読み（形）より先に書いている');
+  assert.ok(!/requestAnimationFrame/.test(fnBody('_liqTearShape')), '塊ごとに rAF を立てている');
+  assert.ok(/document\.documentElement\.clientWidth/.test(render) && /vw - 6 - rbA/.test(fnBody('_liqTearShape')), '塊が横にはみ出す（iOS の縮尺揺れ）');
 });
 
 t('Liquid: 千切れのタイマーは1本だけ・90%未満では張らない・reduced-motion で止まる', () => {
@@ -556,13 +573,12 @@ t('Liquid: 100%超（Overdrive）における劇的有機変形（アメーバ�
 });
 
 // ── 💎 Liquid 絢爛化（2026-09-14b） ─────────────────────────────
-t('Liquid絢爛: 弧の中を流れる光・雫・真珠の輪・水面の光のマークアップが揃っている', () => {
-  ['id="liquidFlowGlint"', 'mask="url(#liquidGlintMask)"', 'id="liquidGlintMaskArc"', 'id="liquidDrips"', 'id="liquidPearlRing"',
-   'class="lmh-splash-ring"', 'class="liquid-caustics"', 'id="liquidDepthLensGrad"', 'id="liquidPearlBeadGrad"', 'id="liquidDripGrad"']
+t('Liquid絢爛: 弧の中を流れる光・真珠の輪・水面の光のマークアップが揃っている（内側へ落ちる雫は撤去済み）', () => {
+  ['id="liquidFlowGlint"', 'mask="url(#liquidGlintMask)"', 'id="liquidGlintMaskArc"', 'id="liquidPearlRing"',
+   'class="lmh-splash-ring"', 'class="liquid-caustics"', 'id="liquidDepthLensGrad"', 'id="liquidPearlBeadGrad"']
     .forEach(w => assert.ok(HTML.includes(w), w + ' が無い'));
-  const marks = [...HTML.matchAll(/<g class="ldrip" data-m="(\d+)"/g)].map(m => +m[1]);
-  assert.deepStrictEqual(marks, [25, 50, 75], '雫の節目が 25/50/75 でない');
-  assert.ok(/const LIQ_DRIP_MARKS = \[25, 50, 75\];/.test(HTML), 'LIQ_DRIP_MARKS とマークアップが食い違う');
+  ['liquidDrips', 'ldrip', 'LIQ_DRIP_MARKS', 'liquidDripGrad', 'liqDripFall', 'liqDripRing']
+    .forEach(w => assert.ok(!HTML.includes(w), w + ' が残っている（内側へ落ちる雫はユーザーの判断で撤去）'));
   // 光のマスクは流体の弧と同じ dashoffset を持つ（充填ぶんだけ光る）
   assert.ok(/lGlintMask\.style\.strokeDashoffset = String\(sOffset\.toFixed\(2\)\)/.test(fnBody('_driveThemeGauge')), '光のマスクが弧の充填と連動していない');
   // 光の模様の周期（dasharray の合計）は周の半分＝継ぎ目なく回る
@@ -581,7 +597,7 @@ t('Liquid絢爛: 進捗の演出は予定表1本・テーマ/reduced-motion/非�
 });
 
 t('Liquid絢爛: 位置・大きさの演出は translate / scale で書く（transform は既存アニメが持つ）', () => {
-  ['liqSplashRing', 'liqSpray', 'liqDripFall', 'liqDripRing', 'liqDepthMid', 'liqDepthCore', 'liqCausticA', 'liqCausticB'].forEach(k => {
+  ['liqSplashRing', 'liqSpray', 'liqDepthMid', 'liqDepthCore', 'liqCausticA', 'liqCausticB'].forEach(k => {
     const m = HTML.match(new RegExp('@keyframes ' + k + ' \\{([\\s\\S]*?)\\n\\}'));
     assert.ok(m, '@keyframes ' + k + ' が無い');
     assert.ok(!/transform:/.test(m[1]), k + ' が transform を使っている');
