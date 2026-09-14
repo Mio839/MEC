@@ -3374,13 +3374,13 @@ html.ui-abyss .theme-gauge-abyss { display: inline; }
 .abyss-porthole-rim {
   fill: none;
   stroke: #071E2E;
-  stroke-width: 5;
-  filter: drop-shadow(0 0 16px rgba(0, 255, 163, 0.45)) drop-shadow(0 0 32px rgba(0, 180, 216, 0.3));
+  stroke-width: 5.5;
+  filter: drop-shadow(0 0 18px rgba(0, 255, 163, 0.65)) drop-shadow(0 0 35px rgba(0, 229, 255, 0.45)) drop-shadow(0 0 50px rgba(157, 78, 221, 0.25));
 }
 .abyss-porthole-groove {
   fill: none;
-  stroke: rgba(0, 255, 163, 0.38);
-  stroke-width: 1.2;
+  stroke: rgba(0, 255, 163, 0.48);
+  stroke-width: 1.4;
 }
 
 /* 12個のチタン耐圧リベットボルト */
@@ -3388,12 +3388,12 @@ html.ui-abyss .theme-gauge-abyss { display: inline; }
   fill: #00FFA3;
   stroke: #010E18;
   stroke-width: 0.8;
-  filter: drop-shadow(0 0 4px #00FFA3);
+  filter: drop-shadow(0 0 5px #00FFA3) drop-shadow(0 0 8px #00E5FF);
   animation: abyssBoltPulse 4s ease-in-out infinite alternate;
 }
 @keyframes abyssBoltPulse {
-  0% { opacity: 0.75; filter: drop-shadow(0 0 2px #00FFA3); }
-  100% { opacity: 1; filter: drop-shadow(0 0 6px #00FFA3) drop-shadow(0 0 10px #00E5FF); }
+  0% { opacity: 0.75; filter: drop-shadow(0 0 3px #00FFA3); }
+  100% { opacity: 1; filter: drop-shadow(0 0 8px #00FFA3) drop-shadow(0 0 14px #00E5FF) drop-shadow(0 0 10px #9D4EDD); }
 }
 
 /* 同心ソナーエコー波紋 */
@@ -6599,8 +6599,9 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                   <!-- 生体発光アーク用グラデーション -->
                   <linearGradient id="abyssBioArcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stop-color="#00FFA3"></stop>
-                    <stop offset="50%" stop-color="#00E5FF"></stop>
-                    <stop offset="100%" stop-color="#0077B6"></stop>
+                    <stop offset="35%" stop-color="#00E5FF"></stop>
+                    <stop offset="70%" stop-color="#9D4EDD"></stop>
+                    <stop offset="100%" stop-color="#00FFA3"></stop>
                   </linearGradient>
                   <!-- ソナースイープ用扇形グラデーション -->
                   <linearGradient id="abyssSonarBeamGrad" x1="0%" y1="0%" x2="100%" y2="0%">

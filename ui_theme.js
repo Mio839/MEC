@@ -60,9 +60,9 @@
       id: 'abyss',
       name: '🌊 深海アビス・発光生物',
       enName: 'Abyss Bioluminescence',
-      desc: '深海ブラック ＆ 生体発光エメラルド。超集中へ沈潜するディープオーシャン',
+      desc: '耐圧チタン装甲 ＆ 極彩色バイオルミネセンス。深海神殿の絢爛たる発光パノラマ',
       accent: '#00FFA3',
-      colors: ['#00FFA3', '#00B4D8', '#030914']
+      colors: ['#00FFA3', '#00E5FF', '#9D4EDD', '#F0FDFA']
     },
     {
       id: 'frost',
