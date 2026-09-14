@@ -2018,6 +2018,28 @@
     slashRibbon(-W * 0.08, cy + rnd(-25, 25), W * 1.08, cy + rnd(-25, 25), { color: electricCyan, width: 5.2, ttl: 0.68, curveX: 0, curveY: rnd(-90, 90), delay: 0.10 });
     rings(cx, cy, { count: 6, maxR: Math.max(W, H) * 0.72, color: emerald, additive: true, delay: 0.04 });
     sonicWave(cx, cy, { count: 5, maxR: Math.max(W, H) * 0.62, color: electricCyan, thickness: 4.6, delay: 0.07 });
+
+    // 8. 深海メガ熱水噴出孔（ブラックスモーカー）超臨界鉱物プルーム ＆ 金緑結晶スパーク
+    var hydrothermalCols = ['#76FF03', '#00FFA3', '#00E5FF', '#FFD600', '#64FFDA', '#FFFFFF'];
+    for (var hp = 0; hp < 32; hp++) {
+      var hpa = rnd(-0.55, 0.55) - Math.PI * 0.5;
+      var hpspd = rnd(280, 620);
+      addP({
+        x: cx + rnd(-30, 30),
+        y: H,
+        vx: Math.cos(hpa) * hpspd * 0.45,
+        vy: Math.sin(hpa) * hpspd,
+        gy: -180,
+        drag: 0.94,
+        size: rnd(2.5, 6.0),
+        color: pick(hydrothermalCols),
+        shape: 'shard',
+        glow: true,
+        blend: true,
+        ttl: rnd(0.55, 0.95),
+        delay: rnd(0.02, 0.08)
+      });
+    }
   }
 
   /** 【4テーマ特化】絶対零度・フロスト氷晶: 幾何学結晶急成長 ＆ ダイヤモンドダスト (絶対零度極寒爆発) */

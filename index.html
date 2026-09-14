@@ -3438,6 +3438,25 @@ html.ui-abyss .theme-gauge-abyss { display: inline; }
   100% { filter: drop-shadow(0 0 20px #00FFA3) drop-shadow(0 0 40px #00E5FF); }
 }
 
+/* 海洋等深線コンターマップ（Bathymetric Contours） */
+.abyss-bathymetric-contours {
+  opacity: 0.45;
+  filter: drop-shadow(0 0 5px rgba(0, 255, 163, 0.4));
+  animation: abyssContourDrift 16s ease-in-out infinite alternate;
+}
+.abyss-contour-line {
+  stroke-width: 0.9;
+  stroke: rgba(0, 229, 255, 0.35);
+}
+.abyss-contour-line.bc-1 { stroke: rgba(0, 255, 163, 0.4); stroke-dasharray: 6 3; }
+.abyss-contour-line.bc-2 { stroke: rgba(0, 229, 255, 0.5); stroke-dasharray: 8 4; }
+.abyss-contour-line.bc-3 { stroke: rgba(157, 78, 221, 0.45); }
+@keyframes abyssContourDrift {
+  0% { transform: scale(1) rotate(0deg); transform-origin: 84px 84px; }
+  50% { transform: scale(1.06) rotate(6deg); transform-origin: 84px 84px; }
+  100% { transform: scale(0.96) rotate(-4deg); transform-origin: 84px 84px; }
+}
+
 /* 同心ソナーエコー波紋 */
 .abyss-sonar-ring {
   fill: none;
@@ -6694,6 +6713,13 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                     <circle class="abyss-vortex-ring vr-2" cx="84" cy="84" r="22"></circle>
                     <path class="abyss-vortex-arm arm-1" d="M 84,84 Q 106,64 122,84 Q 106,106 84,122 Q 62,106 84,84" fill="none"></path>
                     <path class="abyss-vortex-arm arm-2" d="M 84,84 Q 64,62 84,46 Q 106,62 84,84" fill="none"></path>
+                  </g>
+
+                  <!-- 海洋等深線コンターマップ（マリアナ海淵地形ベクター） -->
+                  <g class="abyss-bathymetric-contours" pointer-events="none">
+                    <path class="abyss-contour-line bc-1" d="M 24,84 C 36,54 64,36 84,40 C 104,44 126,58 140,84 C 132,108 108,126 84,124 C 58,122 32,106 24,84 Z" fill="none"></path>
+                    <path class="abyss-contour-line bc-2" d="M 38,84 C 46,64 68,52 84,54 C 100,56 118,68 126,84 C 120,100 102,112 84,110 C 66,108 46,98 38,84 Z" fill="none"></path>
+                    <path class="abyss-contour-line bc-3" d="M 52,84 C 58,72 72,66 84,68 C 96,70 108,76 114,84 C 110,94 98,102 84,100 C 72,98 58,92 52,84 Z" fill="none"></path>
                   </g>
 
                   <!-- 360度回転ソナースイープ（Sonar Scan Sweep） -->

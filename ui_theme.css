@@ -3672,39 +3672,42 @@ html.ui-abyss .qc:hover {
               inset 0 0 40px rgba(0, 229, 255, 0.4) !important;
 }
 
-/* 🌊 カード上部: 深海波光ウェーブライン ＆ 極彩色バイオ発光グロー */
+/* 🌊 カード上部: 発光クシクラゲの櫛板繊毛レインボーシマー ＆ 極光バイオ発光 */
 html.ui-abyss .qc::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-  background: linear-gradient(90deg, #010814 0%, #00FFA3 20%, #00E5FF 38%, #FFFFFF 50%, #9D4EDD 68%, #00FFA3 85%, #010814 100%);
-  background-size: 300% 100%;
-  box-shadow: 0 0 18px rgba(0, 255, 163, 0.95), 0 0 8px #00E5FF, 0 0 14px rgba(157, 78, 221, 0.7);
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+  background: 
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.45) 0px, rgba(255, 255, 255, 0.45) 1.5px, transparent 1.5px, transparent 6px),
+    linear-gradient(90deg, #010814 0%, #00FFA3 18%, #76FF03 28%, #00E5FF 42%, #FFFFFF 52%, #9D4EDD 68%, #FF007F 78%, #00FFA3 88%, #010814 100%);
+  background-size: 100% 100%, 300% 100%;
+  box-shadow: 0 0 20px rgba(0, 255, 163, 1), 0 0 10px #00E5FF, 0 0 16px rgba(157, 78, 221, 0.75);
   pointer-events: none;
   opacity: 0.98;
   z-index: 2;
-  animation: abyssEdgeFlow 6s linear infinite;
+  animation: abyssCtenophoreShimmer 5s linear infinite;
 }
 
-@keyframes abyssEdgeFlow {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 300% 50%; }
+@keyframes abyssCtenophoreShimmer {
+  0% { background-position: 0 0, 0% 50%; }
+  100% { background-position: 120px 0, 300% 50%; }
 }
 
-/* 🌊 カード背景透かし: 超高精細ソナーコンパス ＆ 海図グリッド幾何学透かし */
+/* 🌊 カード背景透かし: 超高精細ソナーコンパス ＆ 古代海淵ルーン神代グリフ透かし */
 html.ui-abyss .qc::after {
-  content: ''; position: absolute; top: -60px; right: -60px; width: 270px; height: 270px;
+  content: ''; position: absolute; top: -60px; right: -60px; width: 280px; height: 280px;
   background-image: 
-    radial-gradient(circle at 50% 50%, rgba(0, 255, 163, 0.25) 0%, transparent 8%),
+    radial-gradient(circle at 50% 50%, rgba(0, 255, 163, 0.28) 0%, transparent 8%),
     radial-gradient(circle at 50% 50%, transparent 22%, rgba(0, 229, 255, 0.28) 23%, transparent 24%),
-    radial-gradient(circle at 50% 50%, transparent 42%, rgba(0, 255, 163, 0.32) 43%, transparent 44%),
-    radial-gradient(circle at 50% 50%, transparent 62%, rgba(157, 78, 221, 0.22) 63%, transparent 64%),
-    radial-gradient(circle at 50% 50%, transparent 80%, rgba(0, 255, 163, 0.25) 81%, transparent 82%),
-    repeating-conic-gradient(from 0deg, rgba(0, 255, 163, 0.14) 0deg 1deg, transparent 1deg 45deg),
-    repeating-conic-gradient(from 22.5deg, rgba(0, 229, 255, 0.1) 0deg 0.5deg, transparent 0.5deg 45deg),
-    conic-gradient(from 90deg, rgba(0, 255, 163, 0.18) 0deg 35deg, transparent 35deg 360deg);
-  border: 1.5px dashed rgba(0, 255, 163, 0.35);
+    radial-gradient(circle at 50% 50%, transparent 42%, rgba(0, 255, 163, 0.35) 43%, transparent 44%),
+    radial-gradient(circle at 50% 50%, transparent 62%, rgba(157, 78, 221, 0.25) 63%, transparent 64%),
+    radial-gradient(circle at 50% 50%, transparent 80%, rgba(0, 255, 163, 0.28) 81%, transparent 82%),
+    repeating-conic-gradient(from 0deg, rgba(0, 255, 163, 0.18) 0deg 1deg, transparent 1deg 30deg),
+    repeating-conic-gradient(from 15deg, rgba(0, 229, 255, 0.14) 0deg 0.8deg, transparent 0.8deg 30deg),
+    repeating-conic-gradient(from 7.5deg, rgba(157, 78, 221, 0.12) 0deg 1.2deg, transparent 1.2deg 15deg),
+    conic-gradient(from 90deg, rgba(0, 255, 163, 0.22) 0deg 40deg, transparent 40deg 360deg);
+  border: 1.5px dashed rgba(0, 255, 163, 0.4);
   pointer-events: none;
   border-radius: 50%;
-  filter: blur(1.5px) drop-shadow(0 0 16px rgba(0, 255, 163, 0.35));
+  filter: blur(1.5px) drop-shadow(0 0 18px rgba(0, 255, 163, 0.4));
   z-index: 0;
   animation: abyssSonarRipple 5s ease-in-out infinite alternate;
 }
@@ -3825,13 +3828,17 @@ html.ui-abyss .qc .mec-grade-btn.selected-ok {
   box-shadow: 0 0 32px rgba(0, 255, 163, 1), 0 0 20px #00E5FF, inset 0 2px 0 rgba(255, 255, 255, 0.98) !important;
 }
 
-/* 🌊 選択肢: バイオルミネセンス深海ポッド ＆ 極彩色エレクトリックベゼル */
+/* 🌊 選択肢: バイオルミネセンス深海ポッド ＆ 3段ピエゾ水圧インジケーターセル */
 html.ui-abyss .qc .ch2,
 html.ui-abyss body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected),
 html.ui-abyss body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
-  background: rgba(4, 22, 48, 0.8) !important;
+  background: 
+    radial-gradient(circle at 6px 25%, rgba(0, 255, 163, 0.8) 0px, rgba(1, 20, 36, 0.9) 2.5px, transparent 3.5px),
+    radial-gradient(circle at 6px 50%, rgba(0, 229, 255, 0.7) 0px, rgba(1, 20, 36, 0.9) 2.5px, transparent 3.5px),
+    radial-gradient(circle at 6px 75%, rgba(157, 78, 221, 0.6) 0px, rgba(1, 20, 36, 0.9) 2.5px, transparent 3.5px),
+    rgba(4, 22, 48, 0.82) !important;
   border: 1.5px solid rgba(0, 255, 163, 0.35) !important;
-  border-left: 5px solid rgba(0, 255, 163, 0.8) !important;
+  border-left: 5px solid rgba(0, 255, 163, 0.85) !important;
   border-radius: 14px !important;
   color: #F0FDFA !important;
   backdrop-filter: blur(14px) !important;
@@ -3844,8 +3851,12 @@ html.ui-abyss body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-sel
 html.ui-abyss .qc .ch2:hover,
 html.ui-abyss body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected):hover,
 html.ui-abyss body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected):hover {
-  background: linear-gradient(90deg, rgba(0, 255, 163, 0.28) 0%, rgba(0, 229, 255, 0.22) 35%, rgba(157, 78, 221, 0.18) 70%, rgba(4, 22, 48, 0.85) 100%) !important;
-  background-size: 200% 100% !important;
+  background: 
+    radial-gradient(circle at 6px 25%, #00FFA3 0px, rgba(1, 20, 36, 0.9) 3px, transparent 4px),
+    radial-gradient(circle at 6px 50%, #00E5FF 0px, rgba(1, 20, 36, 0.9) 3px, transparent 4px),
+    radial-gradient(circle at 6px 75%, #9D4EDD 0px, rgba(1, 20, 36, 0.9) 3px, transparent 4px),
+    linear-gradient(90deg, rgba(0, 255, 163, 0.28) 0%, rgba(0, 229, 255, 0.22) 35%, rgba(157, 78, 221, 0.18) 70%, rgba(4, 22, 48, 0.85) 100%) !important;
+  background-size: auto, auto, auto, 200% 100% !important;
   border-color: #00FFA3 !important;
   border-left: 5px solid #00E5FF !important;
   box-shadow: 0 0 32px rgba(0, 255, 163, 0.75), 0 0 20px rgba(0, 229, 255, 0.5), inset 0 0 24px rgba(0, 229, 255, 0.3) !important;
