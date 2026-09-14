@@ -426,7 +426,7 @@ t('Liquid: 外膜（.gauge-ring::after）に conic-gradient の mask で切れ�
   assert.ok(end.includes("ring.classList.remove('lt-on')") && end.includes("removeProperty('--lt-mask')"), '終了時に膜を元へ戻していない');
   assert.ok(/setTimeout\(\(\) => _liqTearEnd\(o\), o\.dur \+ \d+\)/.test(play), '非表示タブ用の落とし所（setTimeout(_liqTearEnd)）が無い');
   assert.ok(/Math\.random\(\)/.test(play) && /LIQ_TEAR_SEP/.test(play), '千切れる位置がランダム・互いに離れていない');
-  assert.ok(/const LIQ_TEAR_MAX = 2;/.test(HTML) && /const LIQ_TEAR_DUR = 12000;/.test(HTML), '最大2つ・12秒になっていない');
+  assert.ok(/const LIQ_TEAR_MAX = 2;/.test(HTML) && /const LIQ_TEAR_DUR = 14000;/.test(HTML), '最大2つ・14秒になっていない');
 });
 
 t('Liquid: 千切れるのは外膜と内側の空間だけ（液体の弧は欠けさせない・dash は触らない）', () => {
@@ -451,6 +451,37 @@ t('Liquid: 泡は内容物ごとちぎれる（内側の空間の見た目・口
   assert.ok(/const LIQ_TEAR_LAG = /.test(HTML) && /cflow:\s*\[\[0, 0\]/.test(HTML) && /\[1, 0\]\],\n  csize/.test(HTML), '中身は膜の内側から出て膜の内側へ戻る（cflow が 0 で始まり 0 で終わる）');
   const render = fnBody('_liqTearRender');
   ['o.core.setAttribute', 'o.glow.setAttribute', 'o.clip.setAttribute', "o.fade.setAttribute('x1'"].forEach(w => assert.ok(render.includes(w), 'render が ' + w + ' を書いていない'));
+});
+
+t('Liquid: ちぎれる時に首すじ（左右の膜の線）が入れ替わって交差しない', () => {
+  // 実ソースの形の関数を、時刻・位置・横ずれ・膜の形（円／楕円）を振って回す。
+  // 左の首すじが右の首すじより中心線の向こうへ 1px 以上はみ出したら交差（2026-09-14 に最大10pxの X 字が出ていた）。
+  const ks = HTML.slice(HTML.indexOf('const LIQ_TEAR_KEYS'), HTML.indexOf('};', HTML.indexOf('const LIQ_TEAR_KEYS')) + 2);
+  const lag = HTML.match(/const LIQ_TEAR_LAG = [^;]+;/)[0];
+  const shapeFn = new Function(fnBody('_liqKey') + '\n' + ks + '\n' + lag + '\n' + fnBody('_liqTearShape') + '\nreturn _liqTearShape;')();
+  const pts = (d) => { const n = (d.match(/-?[\d.]+/g) || []).map(Number); const p = []; for (let i = 0; i + 1 < n.length; i += 2) p.push([n[i], n[i + 1]]); return p; };
+  let frames = 0, worst = 0;
+  for (const [ax, ay] of [[1, 1], [1.12, .9]]) for (const phi0 of [-2.6, -.75, .9, 2.1]) for (const drift of [-.12, .12]) {
+    const R = 97, cx = 103, cy = 104;
+    const g = { R, cx, cy, point: (p) => [cx + Math.sin(p) * R * ax, cy - Math.cos(p) * R * ay], color: () => [1, 2, 3] };
+    const o = { phi0, SPAN: 38 * Math.PI / 180, D: R * .42, rb: R * .17, drift, wob: 1 };
+    for (let t = 0; t <= 1; t += .004) {
+      const s = shapeFn(o, t, g, { left: 400 }, 2000);
+      if (!s.film || /Z$/.test(s.film)) continue;
+      const p = pts(s.film), n = p.length, m = 34;
+      if (n < 2 * m) continue;
+      const L = p.slice(0, m), Rr = p.slice(n - m).reverse();
+      const Mm = [(p[0][0] + p[n - 1][0]) / 2, (p[0][1] + p[n - 1][1]) / 2], Nm = [(L[m - 1][0] + Rr[m - 1][0]) / 2, (L[m - 1][1] + Rr[m - 1][1]) / 2];
+      const al = Math.hypot(Nm[0] - Mm[0], Nm[1] - Mm[1]); if (al < 1) continue;
+      const nn = [-(Nm[1] - Mm[1]) / al, (Nm[0] - Mm[0]) / al];
+      const sd = (q) => (q[0] - Mm[0]) * nn[0] + (q[1] - Mm[1]) * nn[1];
+      const sign = sd(p[0]) < sd(p[n - 1]) ? 1 : -1;
+      frames++;
+      for (let k = 0; k < m; k++) worst = Math.max(worst, (sd(L[k]) - sd(Rr[k])) * sign);
+    }
+  }
+  assert.ok(frames > 1000, 'つながっている間のコマが少なすぎる: ' + frames);
+  assert.ok(worst <= 1, '首すじが入れ替わって交差している（最大 ' + worst.toFixed(2) + 'px）');
 });
 
 t('Liquid: かけらの svg は .gauge-ring 直下にあり、ゲージ svg の回転・円形クリップを打ち消している', () => {
