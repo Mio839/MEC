@@ -2058,6 +2058,10 @@
 
     // 10. 超低周波ハイドロフォン水中音響波（Infrasound Hydrophone Wavefront）
     sonicWave(cx, cy, { count: 3, maxR: maxR * 1.35, color: emerald, thickness: 2.2, delay: 0.12 });
+
+    // 11. 深海巨大生物クラーケン・バイオテンタクル有機カーブリボン光条（Bioluminescent Tentacle Tendrils）
+    slashRibbon(cx - maxR * 0.75, cy + maxR * 0.8, cx - maxR * 0.25, cy - maxR * 1.05, { color: emerald, width: 5.5, ttl: 0.62, curveX: -maxR * 0.55, curveY: 0, delay: 0.08 });
+    slashRibbon(cx + maxR * 0.75, cy + maxR * 0.8, cx + maxR * 0.25, cy - maxR * 1.05, { color: electricCyan, width: 5.5, ttl: 0.62, curveX: maxR * 0.55, curveY: 0, delay: 0.09 });
   }
 
   /** 【4テーマ特化】絶対零度・フロスト氷晶: 幾何学結晶急成長 ＆ ダイヤモンドダスト (絶対零度極寒爆発) */

@@ -3683,6 +3683,31 @@ html.ui-abyss .theme-gauge-abyss { display: inline; }
   100% { transform: scale(1.25); opacity: 1; filter: drop-shadow(0 0 6px #FF0055) drop-shadow(0 0 10px #00FFA3); }
 }
 
+/* 深海巨大生物フォトフォア（生物発光器列）アークHUD */
+.abyss-photophore {
+  fill: #00E5FF;
+  filter: drop-shadow(0 0 3px #00E5FF) drop-shadow(0 0 6px #00FFA3);
+  animation: abyssPhotophorePulse 3.2s ease-in-out infinite alternate;
+}
+.abyss-photophore.pp-2, .abyss-photophore.pp-7 {
+  fill: #00FFA3;
+  animation-delay: -0.8s;
+}
+.abyss-photophore.pp-3, .abyss-photophore.pp-6 {
+  fill: #9D4EDD;
+  animation-delay: -1.6s;
+}
+.abyss-photophore.pp-4, .abyss-photophore.pp-5 {
+  fill: #64FFDA;
+  animation-delay: -2.4s;
+}
+@keyframes abyssPhotophorePulse {
+  0% { transform: scale(0.85); opacity: 0.6; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.75; }
+}
+
+
 /* ─────────────────────────────────────────────────────────────
    8. Frost: 【六花スノークリスタル ＆ 氷晶アイスコメット外周周回】
    ───────────────────────────────────────────────────────────── */
@@ -5209,10 +5234,10 @@ html.ui-abyss .note-item{border-top-color:rgba(0,255,163,.28);border-right-color
 html.ui-abyss .note-basis{color:#00FFA3;opacity:.55;}
 html.ui-abyss .note-empty{border-color:rgba(0,180,216,.35);}
 html.ui-abyss .bar.on{border-radius:4px 4px 1px 1px;background:linear-gradient(180deg,#00FFA3 0%,#00B4D8 60%,#001428 100%);box-shadow:0 0 10px rgba(0,255,163,.45);}
-html.ui-abyss .spark-target-line{border-top:1px dashed rgba(0,255,163,.45);}
+html.ui-abyss .spark-target-line{border-top:1px solid rgba(0,255,163,.45);box-shadow:0 0 4px rgba(0,255,163,.35);}
 html.ui-abyss .spark-target-lbl{color:#00FFA3;}
 html.ui-abyss .streak-seg.active{background:linear-gradient(90deg,#00B4D8,#00FFA3);box-shadow:0 0 8px rgba(0,255,163,.7);}
-html.ui-abyss .tiles .tile{border-radius:8px;background:linear-gradient(180deg,rgba(2,18,36,.88),rgba(1,12,26,.94));border:1px solid rgba(0,255,163,.3);box-shadow:0 6px 18px rgba(0,0,0,.5),inset 0 0 12px rgba(0,229,255,.06);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;}
+html.ui-abyss .tiles .tile{border-radius:8px;background:radial-gradient(ellipse at 50% 0%,rgba(0,229,255,.08) 0%,transparent 65%),linear-gradient(180deg,rgba(2,18,36,.88),rgba(1,12,26,.94));border:1px solid rgba(0,255,163,.3);box-shadow:0 6px 18px rgba(0,0,0,.5),inset 0 0 12px rgba(0,229,255,.06);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;}
 html.ui-abyss .tiles .tile:hover{transform:translateY(-2px);border-color:#00FFA3;box-shadow:0 10px 28px rgba(0,0,0,.65),0 0 22px rgba(0,255,163,.35),inset 0 0 14px rgba(0,255,163,.12);}
 html.ui-abyss .tiles .tile.t-lead{background:linear-gradient(180deg,rgba(3,26,52,.92),rgba(2,16,36,.96));border-color:rgba(0,255,163,.55);box-shadow:0 6px 20px rgba(0,0,0,.6),0 0 16px rgba(0,255,163,.22);}
 html.ui-abyss .tile-bar span{border-radius:2px;background:linear-gradient(90deg,#00B4D8,#00FFA3);box-shadow:0 0 8px #00FFA3;}
@@ -6808,6 +6833,19 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                     <text class="abyss-contour-label cl-2" x="40" y="73">7K</text>
                     <text class="abyss-contour-label cl-3" x="54" y="77">10K</text>
                   </g>
+
+                  <!-- 深海巨大生物フォトフォア（生物発光器列）アークHUD -->
+                  <g class="abyss-photophore-arc" pointer-events="none">
+                    <circle class="abyss-photophore pp-1" cx="32" cy="84" r="1.6"></circle>
+                    <circle class="abyss-photophore pp-2" cx="36" cy="62" r="1.5"></circle>
+                    <circle class="abyss-photophore pp-3" cx="46" cy="44" r="1.4"></circle>
+                    <circle class="abyss-photophore pp-4" cx="62" cy="32" r="1.3"></circle>
+                    <circle class="abyss-photophore pp-5" cx="106" cy="32" r="1.3"></circle>
+                    <circle class="abyss-photophore pp-6" cx="122" cy="44" r="1.4"></circle>
+                    <circle class="abyss-photophore pp-7" cx="132" cy="62" r="1.5"></circle>
+                    <circle class="abyss-photophore pp-8" cx="136" cy="84" r="1.6"></circle>
+                  </g>
+
 
                   <!-- 深海熱水噴出孔チムニー ＆ 超臨界熱水ミネラルプルーム ＆ 生物コロニー -->
                   <g class="abyss-vent-group" id="abyssVentGroup" pointer-events="none">
