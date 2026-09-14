@@ -441,24 +441,41 @@ t('Liquid: 千切れるのは外膜と内側の空間だけ（液体の弧は欠
   assert.ok(/_liqTearBase >= 100 \? TAU : TAU \* _liqTearBase \/ 100/.test(fnBody('_liqTearPlay')), '位置を満ちた区間に面した膜に限っていない');
 });
 
-t('Liquid: 泡は内容物ごとちぎれる（内側の空間の見た目・口のなじみ・中身の液体）', () => {
+t('Liquid: 泡は内側の空間ごとちぎれる（見た目・口のなじみ）・中身の赤い球は撤去済み', () => {
   const ring = HTML.slice(HTML.indexOf('<div class="gauge-ring">'), HTML.indexOf('<span class="gauge-mid" id="gaugeMid">'));
-  [0, 1].forEach(i => ['liquidMembraneBud', 'liquidMembraneGlow', 'liquidMembraneCore', 'liquidMembraneClip', 'liquidMembraneMask', 'liquidMembraneFade']
+  [0, 1].forEach(i => ['liquidMembraneBud', 'liquidMembraneGlow', 'liquidMembraneClip', 'liquidMembraneMask', 'liquidMembraneFade']
     .forEach(w => assert.ok(ring.includes('id="' + w + i + '"'), w + i + ' が無い')));
   const shape = fnBody('_liqTearShape');
   assert.ok(/const normalAt = /.test(shape) && /vB = normalAt\(phiB\)/.test(shape), '泡の向きが膜の法線でない（膜は真円ではない＝放射方向だと傾く）');
-  assert.ok(/cflow/.test(shape) && /LIQ_TEAR_LAG/.test(shape), '中身の液体が膜の内側から泡へ流れていない／遅れてついてこない');
-  assert.ok(/const LIQ_TEAR_LAG = /.test(HTML) && /cflow:\s*\[\[0, 0\]/.test(HTML) && /\[1, 0\]\],\n  csize/.test(HTML), '中身は膜の内側から出て膜の内側へ戻る（cflow が 0 で始まり 0 で終わる）');
+  ['liquidMembraneCore', 'lmt-core', 'cflow', 'csize', 'LIQ_TEAR_LAG', 'corePts']
+    .forEach(w => assert.ok(!HTML.includes(w), w + ' が残っている（ちぎれる時の赤い球はユーザーの判断で撤去）'));
   const render = fnBody('_liqTearRender');
-  ['o.core.setAttribute', 'o.glow.setAttribute', 'o.clip.setAttribute', "o.fade.setAttribute('x1'"].forEach(w => assert.ok(render.includes(w), 'render が ' + w + ' を書いていない'));
+  ['o.glow.setAttribute', 'o.clip.setAttribute', "o.fade.setAttribute('x1'"].forEach(w => assert.ok(render.includes(w), 'render が ' + w + ' を書いていない'));
+});
+
+t('Liquid: 離れて漂う時間は泡ごとにランダム（時間割を頂点で止めて漂わせる）', () => {
+  assert.ok(/const LIQ_TEAR_HOLD_MIN = 6000;/.test(HTML) && /const LIQ_TEAR_HOLD_MAX = 16000;/.test(HTML), '漂う時間の範囲が 6〜16 秒でない');
+  const play = fnBody('_liqTearPlay');
+  assert.ok(/hold: LIQ_TEAR_HOLD_MIN \+ Math\.random\(\) \* \(LIQ_TEAR_HOLD_MAX - LIQ_TEAR_HOLD_MIN\)/.test(play), '漂う時間がランダムでない');
+  assert.ok(/o\.dur = LIQ_TEAR_DUR \+ o\.hold;/.test(play), '落とし所（o.dur）に漂う時間が入っていない＝漂っている途中で消える');
+  // 時計：頂点まで進む → 止まって漂う → 再開、が連続していること
+  const clock = new Function('const LIQ_TEAR_DUR = 14000, LIQ_TEAR_HOLD_AT = .70;\n' + fnBody('_liqTearClock') + '\nreturn _liqTearClock;')();
+  const o = { hold: 9000 }, at = .70 * 14000;
+  clock(o, at - 1); const a = o.t;
+  clock(o, at + 4500); const b = o.t, hs = o.hs;
+  clock(o, at + 9000 + 1); const c = o.t;
+  assert.ok(Math.abs(a - .70) < .001 && b === .70 && hs === 4500 && Math.abs(c - .70) < .001, '時計が頂点で止まって再開していない');
+  clock(o, 14000 + 9000);
+  assert.ok(o.t === 1, '最後に t=1 へ届かない');
+  const keys = HTML.slice(HTML.indexOf('const LIQ_TEAR_KEYS'), HTML.indexOf('};', HTML.indexOf('const LIQ_TEAR_KEYS')));
+  assert.ok(/dist:[^\n]*\[\.70, 1\]/.test(keys) && /sway:[^\n]*\[\.70, 1\]/.test(keys), '止める時刻（.70）が dist/sway の節目でない＝止めた瞬間に動きが飛ぶ');
 });
 
 t('Liquid: ちぎれる時に首すじ（左右の膜の線）が入れ替わって交差しない', () => {
   // 実ソースの形の関数を、時刻・位置・横ずれ・膜の形（円／楕円）を振って回す。
   // 左の首すじが右の首すじより中心線の向こうへ 1px 以上はみ出したら交差（2026-09-14 に最大10pxの X 字が出ていた）。
   const ks = HTML.slice(HTML.indexOf('const LIQ_TEAR_KEYS'), HTML.indexOf('};', HTML.indexOf('const LIQ_TEAR_KEYS')) + 2);
-  const lag = HTML.match(/const LIQ_TEAR_LAG = [^;]+;/)[0];
-  const shapeFn = new Function(fnBody('_liqKey') + '\n' + ks + '\n' + lag + '\n' + fnBody('_liqTearShape') + '\nreturn _liqTearShape;')();
+  const shapeFn = new Function(fnBody('_liqKey') + '\n' + ks + '\nconst LIQ_TEAR_DUR = 14000;\n' + fnBody('_liqTearShape') + '\nreturn _liqTearShape;')();
   const pts = (d) => { const n = (d.match(/-?[\d.]+/g) || []).map(Number); const p = []; for (let i = 0; i + 1 < n.length; i += 2) p.push([n[i], n[i + 1]]); return p; };
   let frames = 0, worst = 0;
   for (const [ax, ay] of [[1, 1], [1.12, .9]]) for (const phi0 of [-2.6, -.75, .9, 2.1]) for (const drift of [-.12, .12]) {
