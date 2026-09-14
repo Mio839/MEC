@@ -130,8 +130,10 @@
       if (MecFX.dust) MecFX.dust({ count: 28, colors: ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFDF0'] });
       if (MecFX.burst) MecFX.burst(cx, cy, { count: 24, colors: ['#FFFDF0', '#FFD166', '#8A2BE2'], shapes: ['star', 'gem'], speed: 380, glow: true });
     } else if (id === 'abyss') {
-      if (MecFX.abyssSonarPulse) MecFX.abyssSonarPulse(cx, cy, { maxR: 240 });
-      else if (MecFX.rippleInterference) MecFX.rippleInterference(cx, cy, { maxR: 240, color: '#00FFA3' });
+      if (MecFX.abyssSonarPulse) MecFX.abyssSonarPulse(cx, cy, { maxR: Math.max(window.innerWidth, window.innerHeight) * 0.55, marineSnowCount: 150, bubbleCount: 96, sparksCount: 64, flash: true });
+      if (MecFX.rings) MecFX.rings(cx, cy, { count: 5, maxR: Math.min(window.innerWidth, window.innerHeight) * 0.7, color: '#00FFA3', additive: true });
+      if (MecFX.sonicWave) MecFX.sonicWave(cx, cy, { count: 4, maxR: Math.min(window.innerWidth, window.innerHeight) * 0.6, color: '#00E5FF', thickness: 4.2 });
+      if (MecFX.bubbles) MecFX.bubbles(cx, cy, { count: 48, colors: ['#00FFA3', '#00E5FF', '#9D4EDD', '#FFFFFF'] });
     } else if (id === 'frost') {
       if (MecFX.frostCrystalShatter) MecFX.frostCrystalShatter(cx, cy, { maxR: 220 });
       else if (MecFX.shatter) MecFX.shatter(cx, cy, { count: 24, colors: ['#70D6FF', '#FFFFFF', '#A0E7E5'] });

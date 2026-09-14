@@ -2210,7 +2210,7 @@ function _triggerThemeHaptics() {
     else if (curUi === 'liquid') navigator.vibrate([25]);
     else if (curUi === 'kintsugi') navigator.vibrate([20]);
     else if (curUi === 'celestial') navigator.vibrate([12, 12, 12]);
-    else if (curUi === 'abyss') navigator.vibrate([40]);
+    else if (curUi === 'abyss') navigator.vibrate([18, 30, 20, 30, 65]);
     else if (curUi === 'frost') navigator.vibrate([18]);
     else navigator.vibrate([15]);
   } catch (e) {}
