@@ -441,6 +441,18 @@ t('Liquid: 千切れるのは外膜と内側の空間だけ（液体の弧は欠
   assert.ok(/_liqTearBase >= 100 \? TAU : TAU \* _liqTearBase \/ 100/.test(fnBody('_liqTearPlay')), '位置を満ちた区間に面した膜に限っていない');
 });
 
+t('Liquid: 泡は内容物ごとちぎれる（内側の空間の見た目・口のなじみ・中身の液体）', () => {
+  const ring = HTML.slice(HTML.indexOf('<div class="gauge-ring">'), HTML.indexOf('<span class="gauge-mid" id="gaugeMid">'));
+  [0, 1].forEach(i => ['liquidMembraneBud', 'liquidMembraneGlow', 'liquidMembraneCore', 'liquidMembraneClip', 'liquidMembraneMask', 'liquidMembraneFade']
+    .forEach(w => assert.ok(ring.includes('id="' + w + i + '"'), w + i + ' が無い')));
+  const shape = fnBody('_liqTearShape');
+  assert.ok(/const normalAt = /.test(shape) && /vB = normalAt\(phiB\)/.test(shape), '泡の向きが膜の法線でない（膜は真円ではない＝放射方向だと傾く）');
+  assert.ok(/cflow/.test(shape) && /LIQ_TEAR_LAG/.test(shape), '中身の液体が膜の内側から泡へ流れていない／遅れてついてこない');
+  assert.ok(/const LIQ_TEAR_LAG = /.test(HTML) && /cflow:\s*\[\[0, 0\]/.test(HTML) && /\[1, 0\]\],\n  csize/.test(HTML), '中身は膜の内側から出て膜の内側へ戻る（cflow が 0 で始まり 0 で終わる）');
+  const render = fnBody('_liqTearRender');
+  ['o.core.setAttribute', 'o.glow.setAttribute', 'o.clip.setAttribute', "o.fade.setAttribute('x1'"].forEach(w => assert.ok(render.includes(w), 'render が ' + w + ' を書いていない'));
+});
+
 t('Liquid: かけらの svg は .gauge-ring 直下にあり、ゲージ svg の回転・円形クリップを打ち消している', () => {
   const ring = HTML.slice(HTML.indexOf('<div class="gauge-ring">'), HTML.indexOf('<span class="gauge-mid" id="gaugeMid">'));
   assert.ok(ring.includes('id="liquidMembraneTear"') && ring.includes('id="liquidMembranePiece0"') && ring.includes('id="liquidMembranePiece1"'), 'かけらの svg が .gauge-ring の中に無い');

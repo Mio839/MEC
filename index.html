@@ -2577,6 +2577,15 @@ html.ui-liquid .gauge .gauge-ring.lt-on::after {
 html.ui-liquid .liquid-membrane-tear .lmt-piece {
   stroke: none;
 }
+html.ui-liquid .liquid-membrane-tear .lmt-glow {
+  fill: none;
+  stroke: url(#liquidMembraneGlowGrad);
+  stroke-width: 9;
+}
+html.ui-liquid .liquid-membrane-tear .lmt-core {
+  stroke: none;
+  filter: drop-shadow(0 0 5px rgba(255, 0, 127, .75));
+}
 html.ui-liquid .liquid-membrane-tear .lmt-film {
   fill: none;
   stroke-width: 2.2;
@@ -7130,19 +7139,59 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
               </g>
             </g>
           </svg>
-          <!-- 🧬 Liquid：外膜が内側の空間ごとくびれてできた泡（最大2つ）。px 座標で JS（_liqTearRender）が描く。
-               body＝内側の空間（塗り）／film＝膜（線・色は千切れた場所の膜の色を JS が入れる） -->
+          <!-- 🧬 Liquid：外膜が内容物ごとくびれてできた泡（最大2つ）。px 座標で JS（_liqTearRender）が描く。
+               piece＝内側の空間（塗り）／glow＝膜の内側の光（塗りで切り抜く）／core＝一緒に出ていく液体の塊／
+               film＝膜（線・色は千切れた場所の膜の色を JS が入れる）。口の近くは mask で膜の内側へ溶け込ませる -->
           <svg class="liquid-membrane-tear" id="liquidMembraneTear" aria-hidden="true">
             <defs>
+              <!-- 膜の内側（実測 ≈ RGB(120,60,125)）に合わせた赤紫。外側（≈ RGB(100,72,110)）より少しだけ濃い -->
               <radialGradient id="liquidMembraneGrad" cx="45%" cy="40%" r="62%">
-                <stop offset="0%" stop-color="#140A38" stop-opacity=".16"></stop>
-                <stop offset="70%" stop-color="#A86EFF" stop-opacity=".16"></stop>
-                <stop offset="100%" stop-color="#FF2A8D" stop-opacity=".34"></stop>
+                <stop offset="0%" stop-color="#8C2A9A" stop-opacity=".28"></stop>
+                <stop offset="70%" stop-color="#A33AA8" stop-opacity=".36"></stop>
+                <stop offset="100%" stop-color="#C0348F" stop-opacity=".5"></stop>
               </radialGradient>
+              <!-- 膜の内側の光（ui_theme.css の ::after の inset シャドウ：左上シアン・右下桃） -->
+              <linearGradient id="liquidMembraneGlowGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#00F2FE" stop-opacity=".55"></stop>
+                <stop offset=".5" stop-color="#A86EFF" stop-opacity=".25"></stop>
+                <stop offset="1" stop-color="#FF007F" stop-opacity=".6"></stop>
+              </linearGradient>
+              <!-- 中身の液体（内側の弧と同じ桃色の蝋） -->
+              <radialGradient id="liquidMembraneCoreGrad" cx="38%" cy="34%" r="70%">
+                <stop offset="0%" stop-color="#FFE3F1"></stop>
+                <stop offset="35%" stop-color="#FF4FA3"></stop>
+                <stop offset="100%" stop-color="#C8006A"></stop>
+              </radialGradient>
+              <clipPath id="liquidMembraneClip0"><path id="liquidMembraneClipPath0" d=""></path></clipPath>
+              <linearGradient id="liquidMembraneFade0" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#FFF" stop-opacity="0"></stop>
+                <stop offset="1" stop-color="#FFF" stop-opacity="1"></stop>
+              </linearGradient>
+              <mask id="liquidMembraneMask0" maskUnits="userSpaceOnUse" x="-400" y="-400" width="1200" height="1200">
+                <rect x="-400" y="-400" width="1200" height="1200" fill="url(#liquidMembraneFade0)"></rect>
+              </mask>
+              <clipPath id="liquidMembraneClip1"><path id="liquidMembraneClipPath1" d=""></path></clipPath>
+              <linearGradient id="liquidMembraneFade1" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#FFF" stop-opacity="0"></stop>
+                <stop offset="1" stop-color="#FFF" stop-opacity="1"></stop>
+              </linearGradient>
+              <mask id="liquidMembraneMask1" maskUnits="userSpaceOnUse" x="-400" y="-400" width="1200" height="1200">
+                <rect x="-400" y="-400" width="1200" height="1200" fill="url(#liquidMembraneFade1)"></rect>
+              </mask>
             </defs>
-            <path class="lmt-piece" id="liquidMembranePiece0" fill="url(#liquidMembraneGrad)" d=""></path>
+            <!-- 泡0：内側の空間（塗り＋内側の光・口は膜の内側へ溶け込む）→ 中身の液体 → 膜（線） -->
+            <g id="liquidMembraneBud0" mask="url(#liquidMembraneMask0)">
+              <path class="lmt-piece" id="liquidMembranePiece0" fill="url(#liquidMembraneGrad)" d=""></path>
+              <path class="lmt-glow" id="liquidMembraneGlow0" clip-path="url(#liquidMembraneClip0)" d=""></path>
+            </g>
+            <path class="lmt-core" id="liquidMembraneCore0" fill="url(#liquidMembraneCoreGrad)" d=""></path>
             <path class="lmt-film" id="liquidMembraneFilm0" d=""></path>
-            <path class="lmt-piece" id="liquidMembranePiece1" fill="url(#liquidMembraneGrad)" d=""></path>
+            <!-- 泡1：内側の空間（塗り＋内側の光・口は膜の内側へ溶け込む）→ 中身の液体 → 膜（線） -->
+            <g id="liquidMembraneBud1" mask="url(#liquidMembraneMask1)">
+              <path class="lmt-piece" id="liquidMembranePiece1" fill="url(#liquidMembraneGrad)" d=""></path>
+              <path class="lmt-glow" id="liquidMembraneGlow1" clip-path="url(#liquidMembraneClip1)" d=""></path>
+            </g>
+            <path class="lmt-core" id="liquidMembraneCore1" fill="url(#liquidMembraneCoreGrad)" d=""></path>
             <path class="lmt-film" id="liquidMembraneFilm1" d=""></path>
           </svg>
           <span class="gauge-mid" id="gaugeMid"><span id="statPct">0</span><em>%</em></span>
@@ -9862,8 +9911,13 @@ function _liqTearPlay(k) {
     t0: performance.now(), dur: LIQ_TEAR_DUR,
     body: document.getElementById('liquidMembranePiece' + slot),
     film: document.getElementById('liquidMembraneFilm' + slot),
+    glow: document.getElementById('liquidMembraneGlow' + slot),
+    clip: document.getElementById('liquidMembraneClipPath' + slot),
+    core: document.getElementById('liquidMembraneCore' + slot),
+    bud: document.getElementById('liquidMembraneBud' + slot),
+    fade: document.getElementById('liquidMembraneFade' + slot),
   };
-  if (!o.body || !o.film) return 0;
+  if (!o.body || !o.film || !o.glow || !o.clip || !o.core || !o.bud || !o.fade) return 0;
   _liqTears.push(o);
   o.kill = setTimeout(() => _liqTearEnd(o), o.dur + 400);   // 非表示タブで rAF が止まっても必ず戻す
   svg.style.display = 'block';
@@ -9878,8 +9932,7 @@ function _liqTearEnd(o) {
   if (i < 0) return;
   _liqTears.splice(i, 1);
   clearTimeout(o.kill);
-  o.body.setAttribute('d', '');
-  o.film.setAttribute('d', '');
+  ['body', 'film', 'glow', 'clip', 'core'].forEach((k) => o[k].setAttribute('d', ''));
   o.film.style.filter = '';
   const box = document.getElementById('gaugeBox');
   const ring = box && box.querySelector('.gauge-ring');
@@ -9948,7 +10001,13 @@ const LIQ_TEAR_KEYS = {
   sway:    [[0, 0], [.40, .3], [.64, 1], [.87, .35], [1, 0]],
   stretch: [[0, 0], [.30, .28], [.46, .06], [.52, 0], [.80, 0], [.86, .14], [.95, 0]],
   op:      [[0, 1], [.95, 1], [1, 0]],
+  // 中身の液体：膜の内側（0）→ 首を通って → 泡の中（1）→ 戻って膜の内側へ流れ込む（0）
+  cflow:   [[0, 0], [.14, .08], [.24, .35], [.36, .82], [.44, 1], [.78, 1], [.84, .75], [.90, .25], [1, 0]],
+  csize:   [[0, .3], [.20, .7], [.40, 1], [.84, 1], [1, .3]],
+  csq:     [[0, 0], [.20, 0], [.30, .55], [.40, .12], [.46, 0], [.80, 0], [.86, .45], [.92, 0]],   // 首で押しつぶされる
+  cop:     [[0, 0], [.08, 1], [.93, 1], [1, 0]],
 };
+const LIQ_TEAR_LAG = .035;                // 中身は膜より約0.4秒遅れてついてくる（t の割合）
 
 function _liqTearRender(now) {
   const box = document.getElementById('gaugeBox');
@@ -9976,9 +10035,15 @@ function _liqTearRender(now) {
     const s = shapes[i];
     o.gap = s.gap;
     o.body.setAttribute('d', s.body);
+    o.glow.setAttribute('d', s.body);
+    o.clip.setAttribute('d', s.body);
+    o.core.setAttribute('d', s.core);
     o.film.setAttribute('d', s.film);
-    o.body.setAttribute('opacity', s.op.toFixed(2));
+    o.bud.setAttribute('opacity', s.op.toFixed(2));
+    o.core.setAttribute('opacity', s.cop.toFixed(2));
     o.film.setAttribute('opacity', s.op.toFixed(2));
+    o.fade.setAttribute('x1', s.fade[0][0].toFixed(1)); o.fade.setAttribute('y1', s.fade[0][1].toFixed(1));
+    o.fade.setAttribute('x2', s.fade[1][0].toFixed(1)); o.fade.setAttribute('y2', s.fade[1][1].toFixed(1));
     o.film.setAttribute('stroke', 'rgb(' + s.col.join(',') + ')');
     o.film.style.filter = 'drop-shadow(0 0 4px rgba(' + s.col.join(',') + ',.75))';
   });
@@ -9997,6 +10062,8 @@ function _liqTearShape(o, t, g, rr, vw) {
   const C = [g.cx, g.cy];
   const M = (phi) => g.point(phi);                        // 膜の線の中心
   const TH = Math.max(3, g.R * .045);
+  // 膜の外向きの法線（⚠️ 中心からの放射方向を使わないこと。膜は真円ではないので、放射方向だと泡が口に対して傾く）
+  const normalAt = (phi) => { const t0 = unit(M(phi - .03), M(phi + .03)); return [t0[1], -t0[0]]; };
 
   const wobE = .07 * Math.sin(t * Math.PI * 2 * 1.3 + o.wob) * (1 - Math.min(1, gap * 3));   // 離れている間だけゆっくり揺らぐ
   const e = K('stretch') + wobE;
@@ -10004,7 +10071,7 @@ function _liqTearShape(o, t, g, rr, vw) {
 
   // 泡の中心：膜の線から dist·D 外（負なら膜の内側でふくらみ始めたところ）
   const phiB = o.phi0 + o.drift * sway;
-  const baseB = M(phiB), vB = unit(C, baseB);
+  const baseB = M(phiB), vB = normalAt(phiB);
   // ⚠️ 泡の後ろの端を膜の内側へ入れないこと（首すじが泡をくぐって交差する）。ふくらみ始めも平らに戻る時も、
   //   泡の中心は膜から長径ぶん外＝ふくらみの高さは grow（泡の大きさ）で決まる
   let reach = Math.max(K('dist') * o.D, rbA * 1.05);
@@ -10012,6 +10079,16 @@ function _liqTearShape(o, t, g, rr, vw) {
   if (vB[0] > .01) reach = Math.min(reach, (vw - 6 - rbA - bx) / vB[0]);       // 画面の横からはみ出さない
   if (vB[0] < -.01) reach = Math.min(reach, (6 + rbA - bx) / vB[0]);
   const Bc = add(baseB, vB, reach);
+  // 少し前の時刻の泡の中心（中身が遅れてついてくるのに使う）
+  const centerAt = (tt) => {
+    const phB = o.phi0 + o.drift * _liqKey(tt, LIQ_TEAR_KEYS.sway);
+    const bB = M(phB), v = normalAt(phB);
+    let r = Math.max(_liqKey(tt, LIQ_TEAR_KEYS.dist) * o.D, rbA * 1.05);
+    const x = rr.left + bB[0];
+    if (v[0] > .01) r = Math.min(r, (vw - 6 - rbA - x) / v[0]);
+    if (v[0] < -.01) r = Math.min(r, (6 + rbA - x) / v[0]);
+    return add(bB, v, r);
+  };
 
   // 形は3つの部品をつなぐ：膜の口の左端 → 左の首すじ → 泡の前側の楕円 → 右の首すじ → 膜の口の右端。
   // ⚠️⚠️ 首すじは「膜の接線に沿って出発し、泡の軸に沿って首へ入る」3次ベジェで引く。幅の関数で左右に
@@ -10062,9 +10139,6 @@ function _liqTearShape(o, t, g, rr, vw) {
     const tailR = cubic(NR, add(NR, dir, -l2), add(T, dir, l2 * .3), T, 10, true);
     rim = tailL.concat(arc, tailR.slice(0, -1));
   }
-  // 口の底（膜の線に沿って右端 → 左端）。塗りだけが通る
-  const lid = [];
-  if (rooted) for (let i = 1; i < 6; i++) lid.push(M(o.phi0 + hg - 2 * hg * i / 6));
 
   const mid = (p, q) => [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2];
   const smooth = (pts, closed) => {
@@ -10085,10 +10159,46 @@ function _liqTearShape(o, t, g, rr, vw) {
     return d;
   };
   const tiny = grow < .01;
+
+  // ── B 中身の液体：膜の内側から首を通って泡の中へ入り、膜より少し遅れてついてくる。首では押しつぶされる
+  const u0 = normalAt(o.phi0);
+  const inside = add(B0, u0, -g.R * .12);                          // 膜と液体の弧の間
+  const lagC = centerAt(Math.max(0, t - LIQ_TEAR_LAG));
+  const cflow = K('cflow');
+  let Pc = lerp(inside, lagC, cflow);
+  const rc = o.rb * .5 * K('csize');
+  if (cflow > .8 && rbC > 1) {                                     // 泡の中にとどめる
+    const vx = Pc[0] - Bc[0], vy = Pc[1] - Bc[1], vl = Math.hypot(vx, vy), lim = Math.max(0, Math.min(rbA, rbC) - rc * .9);
+    if (vl > lim) Pc = [Bc[0] + vx / vl * lim, Bc[1] + vy / vl * lim];
+  }
+  const sq = K('csq');
+  const cDir = Math.hypot(lagC[0] - inside[0], lagC[1] - inside[1]) > 1 ? unit(inside, lagC) : u0;
+  const cN = [-cDir[1], cDir[0]];
+  const cA = rc * (1 + sq), cC = rc / (1 + sq * .7);
+  const cw = .06 * Math.sin(t * Math.PI * 2 * 1.7 + o.wob * 1.3);
+  const corePts = [];
+  for (let i = 0; i < 20; i++) {
+    const th = Math.PI * 2 * i / 20;
+    const k2 = 1 + cw * Math.sin(th * 2 + o.wob);
+    corePts.push([Pc[0] + cDir[0] * cA * k2 * Math.cos(th) + cN[0] * cC * k2 * Math.sin(th),
+                  Pc[1] + cDir[1] * cA * k2 * Math.cos(th) + cN[1] * cC * k2 * Math.sin(th)]);
+  }
+
+  // ── A 口は膜の内側へ溶け込ませる：泡の塗りを膜の少し内側まで伸ばし、軸に沿った mask で消えていくようにする
+  const lidIn = [];
+  if (rooted) for (let i = 0; i <= 6; i++) { const ph = o.phi0 + hg - 2 * hg * i / 6; lidIn.push(add(M(ph), normalAt(ph), -4)); }
+  const sag = rooted ? Math.max(0, (B0[0] - mL[0]) * dir[0] + (B0[1] - mL[1]) * dir[1]) : 0;
+  const fade = rooted
+    ? [add(B0, dir, -sag), add(B0, dir, 7)]                        // 口の両端（膜の線）で透明 → 口の少し外で塗りきる
+    : [add(B0, dir, -1000), add(B0, dir, -999)];
+
   // 膜の切れ目は口より左右 1.5° ずつ狭くする＝膜と泡の線が重なって継ぎ目に隙間ができない
   const gapDeg = Math.max(0, (2 * hg * 180 / Math.PI) - 3);
   return {
-    body: tiny ? '' : smooth(rim.concat(lid), true),
+    body: tiny ? '' : smooth(rooted ? rim.concat(lidIn) : rim, true),
+    core: smooth(corePts, true),
+    cop: op * K('cop'),
+    fade,
     film: tiny ? '' : smooth(rim, !rooted),
     op,
     col: g.color(o.phi0),
