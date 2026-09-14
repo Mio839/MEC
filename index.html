@@ -1513,32 +1513,31 @@ html.ui-frost .od-frost{display:inline;}
 @keyframes abyssShockwave{0%{r:45;opacity:1;}100%{r:78;opacity:0;}}
 
 /* Frost: ヘキサゴナル・フロストコロナ ＆ ダイヤモンドダスト */
+/* ⚠️ 2026-09-14c: 100%超ではゲージが svg ごと回り続けるので、ここの発光は keyframes で動かさない
+   （filter を毎フレーム焼き直すと回転と合わせて iPad が重い）。明るさの揺れは opacity だけで出す。 */
 .od-frost .frost-hyper-rim {
-  fill: none; stroke: #FFFFFF; stroke-width: 2.2;
-  filter: drop-shadow(0 0 8px #70D6FF) drop-shadow(0 0 16px #A0E7E5) drop-shadow(0 0 24px rgba(112, 214, 255, 0.7));
-  animation: frostHyperBreath 2.2s ease-in-out infinite alternate;
+  fill: none; stroke: #FFFFFF; stroke-width: 1.6;
+  filter: drop-shadow(0 0 6px #70D6FF);
+  animation: frostHyperBreath 2.6s ease-in-out infinite alternate;
 }
 @keyframes frostHyperBreath {
-  0% { opacity: 0.55; stroke-width: 1.8; filter: drop-shadow(0 0 6px #70D6FF); }
-  100% { opacity: 1; stroke-width: 2.6; filter: drop-shadow(0 0 12px #FFFFFF) drop-shadow(0 0 24px #70D6FF) drop-shadow(0 0 36px rgba(160, 231, 229, 0.9)); }
+  0% { opacity: 0.45; }
+  100% { opacity: 0.95; }
 }
 .od-frost .frost-mist-aura {
   fill: none;
-  stroke: rgba(160, 231, 229, 0.45);
-  stroke-width: 4;
-  filter: drop-shadow(0 0 12px #70D6FF) drop-shadow(0 0 24px rgba(160, 231, 229, 0.7));
-  animation: frostMistDrift 2.6s ease-in-out infinite alternate;
+  stroke: rgba(160, 231, 229, 0.28);
+  stroke-width: 5;
+  animation: frostMistDrift 3.2s ease-in-out infinite alternate;
 }
 @keyframes frostMistDrift {
-  0% { opacity: 0.45; stroke-width: 3.5; transform: scale(0.98); }
-  50% { opacity: 0.9; stroke-width: 5; filter: drop-shadow(0 0 18px #FFFFFF) drop-shadow(0 0 32px #70D6FF); }
-  100% { opacity: 0.55; stroke-width: 4; transform: scale(1.02); }
+  0% { opacity: 0.4; }
+  100% { opacity: 0.85; }
 }
 .od-frost .frost-od-diamond {
   fill: #FFFFFF;
   stroke: #70D6FF;
   stroke-width: 0.8;
-  filter: drop-shadow(0 0 6px #FFFFFF) drop-shadow(0 0 12px #70D6FF);
   animation: frostGemTwinkle 1.8s ease-in-out infinite alternate;
   transform-origin: 84px 84px;
 }
@@ -1546,22 +1545,20 @@ html.ui-frost .od-frost{display:inline;}
 .od-frost .od-d-2, .od-frost .od-d-5 { animation-delay: 0.7s; }
 .od-frost .od-d-3 { animation-delay: 1.05s; }
 @keyframes frostGemTwinkle {
-  0% { opacity: 0.4; filter: drop-shadow(0 0 4px #70D6FF); }
-  50% { opacity: 1; filter: drop-shadow(0 0 10px #FFFFFF) drop-shadow(0 0 20px #A0E7E5); }
-  100% { opacity: 0.5; filter: drop-shadow(0 0 6px #70D6FF); }
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
 }
 .od-frost .frost-od-rays {
   fill: none;
-  stroke: #FFFFFF;
-  stroke-width: 1.4;
+  stroke: rgba(235, 250, 255, .85);
+  stroke-width: 1.1;
   stroke-linecap: round;
-  filter: drop-shadow(0 0 6px #70D6FF) drop-shadow(0 0 14px #FFFFFF);
-  animation: frostRayPulse 1.8s ease-in-out infinite alternate;
+  animation: frostRayPulse 2.2s ease-in-out infinite alternate;
 }
 @keyframes frostRayPulse {
-  0% { opacity: 0.35; stroke-width: 1; }
-  50% { opacity: 1; stroke-width: 2.2; filter: drop-shadow(0 0 10px #FFFFFF) drop-shadow(0 0 22px #70D6FF); }
-  100% { opacity: 0.55; stroke-width: 1.5; }
+  0% { opacity: 0.3; }
+  100% { opacity: 0.9; }
 }
 
 /* オーバードライブ時の中央数字の覚醒パルス */
@@ -3565,30 +3562,52 @@ html.ui-abyss .theme-gauge-abyss { display: inline; }
    8. Frost: 【六花スノークリスタル ＆ 氷晶アイスコメット外周周回】
    ───────────────────────────────────────────────────────────── */
 html.ui-frost .theme-gauge-frost { display: inline; }
+/* ⚠️ 2026-09-14c 光の引き算：drop-shadow を持ってよいのは
+     主軸（.frost-spine-main）・中心の宝石（.frost-core-diamond）・頂点の宝石（.frost-vertex-jewel）の3つだけ。
+     全部が同じ明るさで光るとネオン看板になり、氷の質感も 2〜5 の演出も埋もれる。
+     縁の立体感は発光ではなく「明線（.frost-hex-rim）と暗線（.frost-hex-bevel）の対」で出す。 */
 .frost-hex-rim {
   fill: rgba(6, 18, 32, .88);
-  stroke: #70D6FF;
-  stroke-width: 2.2;
-  filter: drop-shadow(0 0 14px rgba(112,214,255,.6));
+  stroke: url(#frostRimGrad);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+.frost-hex-bevel {
+  fill: none;
+  stroke: rgba(0, 8, 22, .78);
+  stroke-width: 1.3;
+  stroke-linejoin: round;
 }
 .frost-hex-inner {
   fill: none;
-  stroke: rgba(160, 231, 229, .35);
-  stroke-width: 1;
+  stroke: rgba(160, 231, 229, .28);
+  stroke-width: .8;
 }
 
 /* 💎 1. 多面体ファセット・クリスタル外枠 */
 .frost-outer-rim {
   fill: none;
-  stroke: rgba(112, 214, 255, 0.45);
-  stroke-width: 1.2;
-  filter: drop-shadow(0 0 6px rgba(112, 214, 255, 0.45));
-  animation: frostOuterBreath 4s ease-in-out infinite alternate;
+  stroke: rgba(170, 225, 255, 0.4);
+  stroke-width: .9;
+  animation: frostOuterBreath 5s ease-in-out infinite alternate;
 }
 @keyframes frostOuterBreath {
-  0% { opacity: 0.45; stroke-width: 1; }
-  100% { opacity: 0.85; stroke-width: 1.5; filter: drop-shadow(0 0 10px #70D6FF); }
+  0% { opacity: 0.45; }
+  100% { opacity: 0.85; }
 }
+
+/* 🌈 2. ダイヤのファイア：稜線を虹色の光の粒が走る（filter 不使用＝太い柔光と細い芯の2層で光らせる） */
+.frost-fire {
+  fill: none;
+  stroke: url(#frostFireGrad);
+  stroke-linecap: round;
+  stroke-dasharray: 16 284;
+  animation: frostFireRun 11s linear infinite;
+  pointer-events: none;
+}
+.frost-fire-soft { stroke-width: 5; opacity: .28; }
+.frost-fire-core { stroke-width: 1.8; opacity: .95; }
+@keyframes frostFireRun { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -600; } }
 .frost-facet-ribs {
   fill: none;
   stroke: rgba(160, 231, 229, 0.32);
@@ -3606,42 +3625,118 @@ html.ui-frost .theme-gauge-frost { display: inline; }
   fill: #FFFFFF;
   stroke: #70D6FF;
   stroke-width: 0.8;
-  filter: drop-shadow(0 0 4px #FFFFFF) drop-shadow(0 0 8px #70D6FF);
-  animation: frostJewelTwinkle 2.4s ease-in-out infinite alternate;
-  transform-origin: 84px 84px;
+  filter: drop-shadow(0 0 4px #9BE3FF);
+  /* 瞬き（scale）と、数秒に1回だけ虹色に燃えるファイア（fill） */
+  animation: frostJewelTwinkle 2.4s ease-in-out infinite alternate, frostJewelFire 7.2s linear infinite;
+  transform-box: fill-box;
+  transform-origin: center;
 }
-.vj-0, .vj-3 { animation-delay: 0s; }
-.vj-1, .vj-4 { animation-delay: 0.8s; }
-.vj-2, .vj-5 { animation-delay: 1.6s; }
+/* ファイアは頂点ごとにずらす＝1つずつ順に燃える（同時に燃えると点滅に見える） */
+.vj-0 { animation-delay: 0s, 0s; }
+.vj-1 { animation-delay: .8s, 1.2s; }
+.vj-2 { animation-delay: 1.6s, 2.4s; }
+.vj-3 { animation-delay: 0s, 3.6s; }
+.vj-4 { animation-delay: .8s, 4.8s; }
+.vj-5 { animation-delay: 1.6s, 6s; }
 @keyframes frostJewelTwinkle {
   0% { opacity: 0.6; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1.18); filter: drop-shadow(0 0 8px #FFFFFF) drop-shadow(0 0 14px #A0E7E5); }
+  50% { opacity: 1; transform: scale(1.18); }
   100% { opacity: 0.75; transform: scale(1); }
 }
+@keyframes frostJewelFire {
+  0%, 84%, 100% { fill: #FFFFFF; }
+  87% { fill: #FFC4EC; }
+  90% { fill: #FFF1A8; }
+  93% { fill: #B5FFE1; }
+  96% { fill: #A9DDFF; }
+}
 
-/* 🧊 2. 六角フロスト・インフィル（中央拡大・多面体氷結シールド ＆ 六角クレバス前線） */
+/* 🧊 3. 六角フロスト・インフィル（中央から伸びる氷 ＆ 羽状の霜の前線） */
 .frost-infill-fill {
   transform-origin: 84px 84px;
   transition: transform 0.75s cubic-bezier(.2, .9, .3, 1), opacity 0.5s ease;
-  filter: drop-shadow(0 0 10px rgba(112, 214, 255, 0.45));
 }
 .frost-infill-facets {
   pointer-events: none;
   opacity: 0.65;
 }
 .frost-infill-crevasse {
-  fill: none;
-  stroke: #FFFFFF;
-  stroke-width: 1.8;
-  stroke-linejoin: round;
+  fill: rgba(220, 245, 255, .06);
+  stroke: rgba(240, 252, 255, .92);
+  stroke-width: 1.1;
+  stroke-linejoin: miter;
+  vector-effect: non-scaling-stroke;   /* 小さい％でも前線の線が細りすぎない */
   transform-origin: 84px 84px;
-  filter: drop-shadow(0 0 6px #FFFFFF) drop-shadow(0 0 12px #70D6FF);
   transition: transform 0.75s cubic-bezier(.2, .9, .3, 1), opacity 0.4s ease;
 }
-.gauge[data-tier="5"] .frost-infill-fill,
-.gauge[data-tier="6"] .frost-infill-fill,
-.gauge[data-overdrive] .frost-infill-fill {
-  filter: drop-shadow(0 0 16px rgba(112, 214, 255, 0.75)) drop-shadow(0 0 28px rgba(160, 231, 229, 0.85));
+/* 氷の中の構造（静止・動かさない＝奥行きだけを出す） */
+.frost-ice-depth { pointer-events: none; }
+.frost-ice-veins {
+  fill: none;
+  stroke: rgba(225, 245, 255, .2);
+  stroke-width: .55;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.frost-ice-bubbles circle {
+  fill: rgba(235, 250, 255, .1);
+  stroke: rgba(235, 250, 255, .38);
+  stroke-width: .35;
+}
+/* ⚡ 段が上がった瞬間の霜の枝（.fr-go の間だけ見える一度きりの演出） */
+.frost-snap-branches { pointer-events: none; opacity: 0; }
+.frost-snap-branches path {
+  fill: none;
+  stroke: #F2FBFF;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+/* 伸びる感じは独立プロパティ scale で出す（中心から外へ押し出される）。inline の transform: scale() と掛け合わさる */
+.frost-snap-branches.fr-go { animation: frostSnap 1s cubic-bezier(.2, .9, .3, 1) both; }
+@keyframes frostSnap {
+  0% { opacity: 0; scale: .86; }
+  14% { opacity: 1; scale: 1.05; }
+  55% { opacity: .85; scale: 1.02; }
+  100% { opacity: 0; scale: 1.04; }
+}
+
+/* 🌸 4. 100% の開花：光芒（一度きり） */
+.frost-bloom-rays { pointer-events: none; opacity: 0; }
+/* ⚠️ 光芒は1本ずつ別の <line> にする。1本の path に6本を束ねると pathLength が全体に掛かり、
+   ダッシュが1本目から順に「巡回」してしまう（6本同時に抜けない） */
+.frost-bloom-rays line {
+  stroke: #FFFFFF;
+  stroke-linecap: round;
+  stroke-dasharray: .35 1.4;
+  stroke-dashoffset: .35;
+}
+.frost-bloom-rays .fbr-soft { stroke: #A9DDFF; stroke-width: 6; opacity: .3; }
+.frost-bloom-rays .fbr-core { stroke-width: 1.3; }
+.frost-bloom-rays.fr-go { animation: frostBloomRayFade 1.3s ease-out both; }
+.frost-bloom-rays.fr-go line { animation: frostBloomRayRun 1.3s cubic-bezier(.16, 1, .3, 1) both; }
+@keyframes frostBloomRayRun { from { stroke-dashoffset: .35; } to { stroke-dashoffset: -.75; } }
+@keyframes frostBloomRayFade { 0% { opacity: 0; } 10% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; } }
+/* 雪結晶が30°ひねりながら開く。⚠️ 大きさは JS が inline の transform: scale() で持つので、
+   ここは独立プロパティの rotate / scale だけで書く（transform を書くと進捗の拡大が消える）。
+   ⚠️ id で当てる＝.gauge[data-overdrive] .frost-snowflake-dendrite の animation より強くするため */
+#frostSnowflakeDendrite.fr-bloom {
+  animation: frostCrystalBreathe 2s ease-in-out infinite alternate, frostBloomTwist 1.4s cubic-bezier(.16, 1, .3, 1) both;
+}
+@keyframes frostBloomTwist {
+  0% { rotate: -30deg; scale: .8; }
+  65% { rotate: 3deg; scale: 1.07; }
+  100% { rotate: 0deg; scale: 1; }
+}
+
+/* 🔄 100% を超えている間、Hero ゲージ（svg ごと）が1周60秒でゆっくり回る。
+   ⚠️ svg 要素ごと回す（合成で済む・盤面とオーバードライブの六角枠が必ず揃う）。
+     svg は既に transform: rotate(-90deg) を持つので、独立プロパティの rotate で重ねる。
+   ⚠️ 中央の％（.gauge-mid）は svg の外なので回らない＝読める。
+   ⚠️ :not(.liquid-membrane-tear)：.gauge-ring 直下には Liquid のかけら用 svg もある。 */
+@keyframes frostGaugeSpin { from { rotate: 0deg; } to { rotate: 360deg; } }
+html.ui-frost .gauge[data-frost-spin] .gauge-ring > svg:not(.liquid-membrane-tear) {
+  animation: frostGaugeSpin 60s linear infinite;
 }
 
 /* ❄️ 3. 絢爛六花スノークリスタル（中央拡大 ＆ フラクタル幾何開花） */
@@ -3652,20 +3747,17 @@ html.ui-frost .theme-gauge-frost { display: inline; }
   stroke-linecap: round;
   stroke-linejoin: round;
   transform-origin: 84px 84px;
-  filter: drop-shadow(0 0 4px rgba(112,214,255,.5));
-  transition: transform 0.75s cubic-bezier(.16, 1, .3, 1), filter 0.6s ease;
+  transition: transform 0.75s cubic-bezier(.16, 1, .3, 1);
   animation: frostCrystalBreathe 3.6s ease-in-out infinite alternate;
 }
 .frost-snowflake-dendrite circle {
   fill: #FFFFFF;
   stroke: none;
-  filter: drop-shadow(0 0 4px #70D6FF);
 }
 .frost-core-hex {
   fill: rgba(112, 214, 255, 0.22);
   stroke: rgba(255, 255, 255, 0.9);
   stroke-width: 1.1;
-  filter: drop-shadow(0 0 4px #70D6FF);
 }
 .frost-core-hex-sub {
   fill: none;
@@ -3699,7 +3791,6 @@ html.ui-frost .theme-gauge-frost { display: inline; }
   fill: #FFFFFF;
   stroke: #70D6FF;
   stroke-width: 0.6;
-  filter: drop-shadow(0 0 3px #FFFFFF);
 }
 .frost-branch-path {
   fill: none;
@@ -3718,12 +3809,12 @@ html.ui-frost .theme-gauge-frost { display: inline; }
   stroke: #FFFFFF;
   stroke-width: 1.2;
   stroke-linecap: round;
-  filter: drop-shadow(0 0 5px #70D6FF) drop-shadow(0 0 10px #FFFFFF);
 }
 
+/* ⚠️ 呼吸は opacity だけ。filter を keyframes で動かすと雪結晶全体を毎フレーム焼き直す（iPad が重い） */
 @keyframes frostCrystalBreathe {
-  0% { opacity: .75; filter: drop-shadow(0 0 3px rgba(112,214,255,.4)); }
-  100% { opacity: 1; filter: drop-shadow(0 0 8px #FFFFFF) drop-shadow(0 0 16px #70D6FF); stroke: rgba(255,255,255,.9); }
+  0% { opacity: .78; }
+  100% { opacity: 1; }
 }
 
 .frost-dendrite-tier {
@@ -3748,32 +3839,27 @@ html.ui-frost .theme-gauge-frost { display: inline; }
 [data-frost-stage="3"] .frost-tier-4,
 [data-frost-stage="4"] .frost-tier-4 { opacity: 1; transform: scale(1); }
 
-/* Stage 4 (100%〜): 絶対零度満開結晶パルス */
-[data-frost-stage="4"] .frost-snowflake-dendrite {
-  filter: drop-shadow(0 0 10px #FFFFFF) drop-shadow(0 0 20px #70D6FF) drop-shadow(0 0 32px rgba(160, 231, 229, 0.95));
-}
+/* Stage 4 (100%〜): 満開の結晶は発光を足さず、枝を白く締めて呼吸を少し速める（光で埋めない） */
+[data-frost-stage="4"] .frost-branch-path { stroke: rgba(235, 250, 255, .92); }
 .gauge[data-overdrive] .frost-snowflake-dendrite {
-  filter: drop-shadow(0 0 14px #FFFFFF) drop-shadow(0 0 28px #70D6FF) drop-shadow(0 0 42px #A0E7E5);
   animation: frostCrystalBreathe 2s ease-in-out infinite alternate;
 }
 
-/* ❄️ 5. 静寂のダイヤモンドダスト（舞い散る微小氷晶スパークル 18点） */
+/* ❄️ 5. 静寂のダイヤモンドダスト（大小差のある6点に厳選） */
 .frost-diamond-dust {
   pointer-events: none;
 }
-.frost-dust {
+/* ⚠️ transform-box: fill-box が無いと scale が viewBox の原点(0,0)基準になり、粒が瞬きのたびに斜めへ動く */
+.frost-dust, .frost-dust-star, .frost-dust-gem {
   fill: #FFFFFF;
-  filter: drop-shadow(0 0 4px #70D6FF) drop-shadow(0 0 8px #A0E7E5);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.frost-dust {
   animation: frostDustTwinkle 3s ease-in-out infinite alternate;
 }
 .fd-1 { animation-delay: 0s; animation-duration: 2.8s; }
 .fd-2 { animation-delay: 0.5s; animation-duration: 3.2s; }
-.fd-3 { animation-delay: 1.1s; animation-duration: 2.4s; }
-.fd-4 { animation-delay: 1.7s; animation-duration: 3.5s; }
-.fd-5 { animation-delay: 0.8s; animation-duration: 2.9s; }
-.fd-6 { animation-delay: 2.2s; animation-duration: 3.1s; }
-.fd-7 { animation-delay: 1.4s; animation-duration: 2.6s; }
-.fd-8 { animation-delay: 2.0s; animation-duration: 3.4s; }
 
 @keyframes frostDustTwinkle {
   0% { opacity: 0.15; transform: scale(0.6); }
@@ -3783,37 +3869,17 @@ html.ui-frost .theme-gauge-frost { display: inline; }
 
 /* 四芒星スパークル ＆ 菱形クリスタルジェム */
 .frost-dust-star, .frost-dust-gem {
-  fill: #FFFFFF;
-  filter: drop-shadow(0 0 4px #FFFFFF) drop-shadow(0 0 8px #70D6FF);
   animation: frostDustStarTwinkle 3.2s ease-in-out infinite alternate;
 }
-.fd-9  { animation-delay: 0.3s; animation-duration: 2.7s; }
-.fd-10 { animation-delay: 1.2s; animation-duration: 3.3s; }
-.fd-11 { animation-delay: 0.7s; animation-duration: 2.9s; }
-.fd-12 { animation-delay: 1.9s; animation-duration: 3.5s; }
-.fd-13 { animation-delay: 2.4s; animation-duration: 3.0s; }
-.fd-14 { animation-delay: 1.5s; animation-duration: 2.6s; }
-.fd-15 { animation-delay: 0.4s; animation-duration: 3.1s; }
+.fd-9  { animation-delay: 0.3s; animation-duration: 3.6s; }
+.fd-10 { animation-delay: 1.2s; animation-duration: 3.1s; }
+.fd-15 { animation-delay: 0.4s; animation-duration: 3.3s; }
 .fd-16 { animation-delay: 2.1s; animation-duration: 2.8s; }
-.fd-17 { animation-delay: 1.0s; animation-duration: 3.4s; }
-.fd-18 { animation-delay: 2.7s; animation-duration: 3.2s; }
 
 @keyframes frostDustStarTwinkle {
   0% { opacity: 0.1; transform: scale(0.5); }
-  50% { opacity: 1; transform: scale(1.25); filter: drop-shadow(0 0 8px #FFFFFF) drop-shadow(0 0 14px #A0E7E5); }
+  50% { opacity: 1; transform: scale(1.2); }
   100% { opacity: 0.25; transform: scale(0.7); }
-}
-
-.gauge[data-tier="5"] .frost-dust,
-.gauge[data-tier="5"] .frost-dust-star,
-.gauge[data-tier="5"] .frost-dust-gem,
-.gauge[data-tier="6"] .frost-dust,
-.gauge[data-tier="6"] .frost-dust-star,
-.gauge[data-tier="6"] .frost-dust-gem,
-.gauge[data-overdrive] .frost-dust,
-.gauge[data-overdrive] .frost-dust-star,
-.gauge[data-overdrive] .frost-dust-gem {
-  filter: drop-shadow(0 0 8px #FFFFFF) drop-shadow(0 0 14px #70D6FF) drop-shadow(0 0 20px rgba(160, 231, 229, 0.95));
 }
 
 /* prefers-reduced-motion での新演出の静止化 */
@@ -3829,6 +3895,10 @@ html.ui-frost .theme-gauge-frost { display: inline; }
   .liquid-flow-glint, .liquid-drips, .lmh-splash-ring, .lmh-spray, .lpr-seal { display: none !important; }
   html.ui-liquid .liquid-caustics i, html.ui-liquid .lpr-beads, html.ui-liquid .liquid-metaball-layer,
   html.ui-liquid .gauge-ring circle.lava-cell-nucleus { animation: none !important; }
+  /* Frost（2026-09-14c）：稜線のファイア・霜の枝・開花の光芒は消し、ゲージの回転も止める。
+     縁のベベル・氷の中の構造・宝石は静止で残る（動きではなく質感なので） */
+  .frost-fire, .frost-snap-branches, .frost-bloom-rays { display: none !important; }
+  html.ui-frost .gauge .gauge-ring > svg, #frostSnowflakeDendrite.fr-bloom { animation: none !important; }
   .cyber-segments .c-seg.overdrive, .liquid-wave-cap, .kt-gold-dust,
   .cel-magic-ring1, .cel-magic-ring2, .cel-star.active,
   .cyber-laser-beam, .lava-lamp-chamber, .lava-blob-base,
@@ -6673,12 +6743,35 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                     <polygon points="84,14 146,50 146,118 84,154 22,118 22,50"></polygon>
                   </clipPath>
                   <radialGradient id="frostInfillGrad" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"></stop>
-                    <stop offset="28%" stop-color="#A0E7E5" stop-opacity="0.8"></stop>
-                    <stop offset="60%" stop-color="#70D6FF" stop-opacity="0.6"></stop>
-                    <stop offset="85%" stop-color="#0284C7" stop-opacity="0.75"></stop>
-                    <stop offset="100%" stop-color="#0369A1" stop-opacity="0.9"></stop>
+                    <!-- 2026-09-14c: 中心を白く光らせず、縁ほど深い青へ沈める＝氷の厚み -->
+                    <stop offset="0%" stop-color="#CFF4FF" stop-opacity="0.30"></stop>
+                    <stop offset="40%" stop-color="#5CC3EE" stop-opacity="0.26"></stop>
+                    <stop offset="78%" stop-color="#1C6FA8" stop-opacity="0.52"></stop>
+                    <stop offset="100%" stop-color="#0A3A6B" stop-opacity="0.82"></stop>
                   </radialGradient>
+                  <!-- 🔷 カットガラスの縁：左上から光が入り、右下が深い青に沈む -->
+                  <linearGradient id="frostRimGrad" gradientUnits="userSpaceOnUse" x1="22" y1="14" x2="146" y2="154">
+                    <stop offset="0%" stop-color="#FFFFFF"></stop>
+                    <stop offset="38%" stop-color="#9BE3FF"></stop>
+                    <stop offset="72%" stop-color="#3C9FD8"></stop>
+                    <stop offset="100%" stop-color="#1B4F80"></stop>
+                  </linearGradient>
+                  <!-- 🌈 ダイヤのファイア：稜線を走る光の粒の分光（位置で色が変わる） -->
+                  <linearGradient id="frostFireGrad" gradientUnits="userSpaceOnUse" x1="22" y1="14" x2="146" y2="154">
+                    <stop offset="0%" stop-color="#FFC4EC"></stop>
+                    <stop offset="22%" stop-color="#FFF1A8"></stop>
+                    <stop offset="44%" stop-color="#B5FFE1"></stop>
+                    <stop offset="66%" stop-color="#A9DDFF"></stop>
+                    <stop offset="88%" stop-color="#D8C2FF"></stop>
+                    <stop offset="100%" stop-color="#FFC4EC"></stop>
+                  </linearGradient>
+                  <!-- ✨ 氷の表面の斜めの光沢 -->
+                  <linearGradient id="frostSheenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"></stop>
+                    <stop offset="30%" stop-color="#FFFFFF" stop-opacity="0.16"></stop>
+                    <stop offset="46%" stop-color="#FFFFFF" stop-opacity="0.03"></stop>
+                    <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"></stop>
+                  </linearGradient>
                   <!-- 💎 氷晶ファセット・グラデーション（透光結晶反射） -->
                   <linearGradient id="frostFacetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.28"></stop>
@@ -6710,6 +6803,8 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
 
                 <!-- 外周六角形フレーム（主氷晶リム r=70） -->
                 <polygon class="frost-hex-rim" points="84,14 146,50 146,118 84,154 22,118 22,50"></polygon>
+                <!-- 🔷 ベベルの暗線：明るい縁（frost-hex-rim）と対にして初めてガラスの厚みに見える -->
+                <polygon class="frost-hex-bevel" points="84,17.2 143.2,51.5 143.2,116.5 84,150.8 24.8,116.5 24.8,51.5"></polygon>
 
                 <!-- 🧊 2. 六角フロスト・インフィル（中央成長・多面体氷結シールド ＆ 六角クレバス前線） -->
                 <g class="frost-infill-group" clip-path="url(#frostInfillClip)">
@@ -6717,9 +6812,27 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                   <polygon class="frost-infill-facets" points="84,22 138,53 138,115 84,146 30,115 30,53" fill="url(#frostFacetGrad)"></polygon>
                   <!-- 中央から拡大成長する六角氷結シールド -->
                   <polygon class="frost-infill-fill" id="frostInfillFill" points="84,14 146,50 146,118 84,154 22,118 22,50" fill="url(#frostInfillGrad)" style="transform-origin: 84px 84px; transform: scale(0); opacity: 0;"></polygon>
-                  <!-- 中央から外側へ広がる六角形の鋭利な氷結クレバス前線 -->
-                  <polygon class="frost-infill-crevasse" id="frostInfillCrevasse" points="84,14 146,50 146,118 84,154 22,118 22,50" style="transform-origin: 84px 84px; transform: scale(0); opacity: 0;"></polygon>
+                  <!-- 🧊 氷の中の構造（静止）：閉じ込められた気泡の列・細いひび・斜めの光沢 -->
+                  <g class="frost-ice-depth">
+                    <path class="frost-ice-veins" d="M 41,62 L 55,70 L 60,81 M 55,70 L 66,66 M 118,46 L 110,60 L 113,72 M 110,60 L 100,58 M 104,128 L 98,114 L 88,110 M 98,114 L 101,103"></path>
+                    <g class="frost-ice-bubbles">
+                      <circle cx="46" cy="96" r="1.1"></circle><circle cx="50" cy="100" r="0.7"></circle><circle cx="53" cy="105" r="0.9"></circle><circle cx="57" cy="108" r="0.5"></circle>
+                      <circle cx="116" cy="92" r="0.9"></circle><circle cx="121" cy="88" r="0.6"></circle><circle cx="125" cy="83" r="1.0"></circle>
+                    </g>
+                    <polygon class="frost-ice-sheen" points="30,53 84,22 104,33 50,64 30,76" fill="url(#frostSheenGrad)"></polygon>
+                  </g>
+                  <!-- 中央から外側へ広がる霜の前線（羽のようなギザギザの縁） -->
+                  <polygon class="frost-infill-crevasse" id="frostInfillCrevasse" points="84,9 91.4,15.5 95.9,22.1 104.2,22 108.4,29.1 115.8,30.6 120.6,36.6 128.8,36.8 133.3,43.3 140.8,44.8 150.4,47.6 148.4,56.8 145,63.6 149.2,70.4 145.2,77.2 147.6,84 144.8,90.8 148.8,97.6 145.4,104.4 147.9,111.2 150.4,120.4 141,123.7 133.1,124.3 129,131.6 120.8,131.7 115.8,137.4 108.2,138.6 104,145.6 96.1,146.3 91.2,152 84,159 76.6,152.5 72.1,145.9 63.8,146 59.6,138.9 52.2,137.4 47.4,131.4 39.2,131.2 34.7,124.7 27.2,123.2 17.6,120.4 19.6,111.2 23,104.4 18.8,97.6 22.8,90.8 20.4,84 23.2,77.2 19.2,70.4 22.6,63.6 20.1,56.8 17.6,47.6 27,44.3 34.9,43.7 39,36.4 47.2,36.3 52.2,30.6 59.8,29.4 64,22.4 71.9,21.7 76.8,16" style="transform-origin: 84px 84px; transform: scale(0); opacity: 0;"></polygon>
                 </g>
+
+                <!-- ⚡ 25/50/75% の段が上がった瞬間だけ、前線から霜の枝が「パキッ」と伸びる（JS が scale を置く） -->
+                <g class="frost-snap-branches" id="frostSnapBranches" style="transform-origin: 84px 84px; transform: scale(0.5);">
+                  <path d="M 84,18 L 84,2 M 84,12 L 79.5,7 M 84,12 L 88.5,7 M 84,7 L 81,3 M 84,7 L 87,3 M 142.5,51.9 L 156.5,44.2 M 147.8,49 L 150,42.7 M 147.8,49 L 154.3,50.6 M 152.1,46.6 L 154.2,42.1 M 152.1,46.6 L 157.1,47.3 M 142.5,116.1 L 156.5,123.8 M 147.8,119 L 154.3,117.4 M 147.8,119 L 150,125.3 M 152.1,121.4 L 157.1,120.7 M 152.1,121.4 L 154.2,125.9 M 84,150 L 84,166 M 84,156 L 88.5,161 M 84,156 L 79.5,161 M 84,161 L 87,165 M 84,161 L 81,165 M 25.5,116.1 L 11.5,123.8 M 20.2,119 L 18,125.3 M 20.2,119 L 13.7,117.4 M 15.9,121.4 L 13.8,125.9 M 15.9,121.4 L 10.9,120.7 M 25.5,51.9 L 11.5,44.2 M 20.2,49 L 13.7,50.6 M 20.2,49 L 18,42.7 M 15.9,46.6 L 10.9,47.3 M 15.9,46.6 L 13.8,42.1"></path>
+                </g>
+
+                <!-- 🌈 ダイヤのファイア：六角の稜線を虹色の光の粒が2つ走る（柔らかい光＋芯の2層・filter 不使用） -->
+                <polygon class="frost-fire frost-fire-soft" pathLength="600" points="84,14 146,50 146,118 84,154 22,118 22,50"></polygon>
+                <polygon class="frost-fire frost-fire-core" pathLength="600" points="84,14 146,50 146,118 84,154 22,118 22,50"></polygon>
 
                 <!-- 内周ファセットフレーム (r=62) -->
                 <polygon class="frost-hex-inner" points="84,22 138,53 138,115 84,146 30,115 30,53"></polygon>
@@ -6732,6 +6845,22 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                   <polygon class="frost-vertex-jewel vj-3" points="84,150 87,154 84,158 81,154"></polygon>
                   <polygon class="frost-vertex-jewel vj-4" points="22,114 25.5,118 22,122 18.5,118"></polygon>
                   <polygon class="frost-vertex-jewel vj-5" points="22,46 25.5,50 22,54 18.5,50"></polygon>
+                </g>
+
+                <!-- 🌸 100% に届いた瞬間だけ、6頂点の宝石から外へ抜ける光芒（.fr-go の間だけ見える） -->
+                <g class="frost-bloom-rays" id="frostBloomRays">
+                  <line class="fbr-soft" pathLength="1" x1="84" y1="10" x2="84" y2="-32"></line>
+                  <line class="fbr-soft" pathLength="1" x1="148.9" y1="48.4" x2="185.7" y2="28.2"></line>
+                  <line class="fbr-soft" pathLength="1" x1="148.9" y1="119.6" x2="185.7" y2="139.8"></line>
+                  <line class="fbr-soft" pathLength="1" x1="84" y1="158" x2="84" y2="200"></line>
+                  <line class="fbr-soft" pathLength="1" x1="19.1" y1="119.6" x2="-17.7" y2="139.8"></line>
+                  <line class="fbr-soft" pathLength="1" x1="19.1" y1="48.4" x2="-17.7" y2="28.2"></line>
+                  <line class="fbr-core" pathLength="1" x1="84" y1="10" x2="84" y2="-32"></line>
+                  <line class="fbr-core" pathLength="1" x1="148.9" y1="48.4" x2="185.7" y2="28.2"></line>
+                  <line class="fbr-core" pathLength="1" x1="148.9" y1="119.6" x2="185.7" y2="139.8"></line>
+                  <line class="fbr-core" pathLength="1" x1="84" y1="158" x2="84" y2="200"></line>
+                  <line class="fbr-core" pathLength="1" x1="19.1" y1="119.6" x2="-17.7" y2="139.8"></line>
+                  <line class="fbr-core" pathLength="1" x1="19.1" y1="48.4" x2="-17.7" y2="28.2"></line>
                 </g>
 
                 <!-- ❄️ 3. 超高精細 絢爛六花スノークリスタル（段階的フラクタル成長 ＆ 中央拡大） -->
@@ -6924,27 +7053,13 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
 
                 <!-- ❄️ 5. 静寂のダイヤモンドダスト（舞い散る微小氷晶スパークル 18点） -->
                 <g class="frost-diamond-dust" id="frostDiamondDust">
-                  <!-- 既存fd-1〜8（テスト互換完全維持） -->
-                  <circle class="frost-dust fd-1" cx="50" cy="50" r="1.4"></circle>
-                  <circle class="frost-dust fd-2" cx="118" cy="45" r="1.2"></circle>
-                  <circle class="frost-dust fd-3" cx="130" cy="90" r="1.6"></circle>
-                  <circle class="frost-dust fd-4" cx="100" cy="125" r="1.3"></circle>
-                  <circle class="frost-dust fd-5" cx="45" cy="115" r="1.5"></circle>
-                  <circle class="frost-dust fd-6" cx="65" cy="80" r="1.1"></circle>
-                  <circle class="frost-dust fd-7" cx="84" cy="40" r="1.5"></circle>
-                  <circle class="frost-dust fd-8" cx="84" cy="128" r="1.3"></circle>
-                  <!-- 四芒星スパークル（十字光彩） -->
-                  <polygon class="frost-dust-star fd-9" points="60,40 61.5,42.5 64,44 61.5,45.5 60,48 58.5,45.5 56,44 58.5,42.5"></polygon>
-                  <polygon class="frost-dust-star fd-10" points="112,60 113,62 115,63 113,64 112,66 111,64 109,63 111,62"></polygon>
-                  <polygon class="frost-dust-star fd-11" points="122,110 123.5,112.5 126,114 123.5,115.5 122,118 120.5,115.5 118,114 120.5,112.5"></polygon>
-                  <polygon class="frost-dust-star fd-12" points="56,128 57,130 59,131 57,132 56,134 55,132 53,131 55,130"></polygon>
-                  <polygon class="frost-dust-star fd-13" points="38,72 39.5,74.5 42,76 39.5,77.5 38,80 36.5,77.5 34,76 36.5,74.5"></polygon>
-                  <polygon class="frost-dust-star fd-14" points="74,104 75,106 77,107 75,108 74,110 73,108 71,107 73,106"></polygon>
-                  <!-- 菱形クリスタルジェム -->
-                  <polygon class="frost-dust-gem fd-15" points="98,34 100,37 98,40 96,37"></polygon>
-                  <polygon class="frost-dust-gem fd-16" points="134,74 136.5,77 134,80 131.5,77"></polygon>
-                  <polygon class="frost-dust-gem fd-17" points="78,138 80,141 78,144 76,141"></polygon>
-                  <polygon class="frost-dust-gem fd-18" points="36,98 38.5,101 36,104 33.5,101"></polygon>
+                  <!-- 2026-09-14c: 18点から「大小差のある6点」へ厳選（数で埋めない＝一粒ずつが宝飾に見える） -->
+                  <polygon class="frost-dust-star fd-9" points="118,37 119.4,42.6 125,44 119.4,45.4 118,51 116.6,45.4 111,44 116.6,42.6"></polygon>
+                  <polygon class="frost-dust-star fd-10" points="44,116 44.8,119.2 48,120 44.8,120.8 44,124 43.2,120.8 40,120 43.2,119.2"></polygon>
+                  <polygon class="frost-dust-gem fd-15" points="134,96 136.5,100 134,104 131.5,100"></polygon>
+                  <polygon class="frost-dust-gem fd-16" points="40,67.5 41.6,70 40,72.5 38.4,70"></polygon>
+                  <circle class="frost-dust fd-1" cx="54" cy="44" r="1.1"></circle>
+                  <circle class="frost-dust fd-2" cx="106" cy="132" r="0.8"></circle>
                 </g>
               </g>
             </g>
@@ -10270,6 +10385,63 @@ function _driveThemeGauge(pct, base, over, tier) {
   if (fCore) {
     const stage = base >= 100 ? '4' : base >= 75 ? '3' : base >= 50 ? '2' : base >= 25 ? '1' : '0';
     fCore.dataset.frostStage = stage;
+  }
+
+  // 100% を超えている間だけ Hero ゲージがゆっくり回る（CSS は html.ui-frost に閉じている＝他テーマでは無害）
+  const fBox = document.getElementById('gaugeBox');
+  if (fBox) {
+    if (pct > 100) fBox.dataset.frostSpin = '1';
+    else if (fBox.removeAttribute) fBox.removeAttribute('data-frost-spin');
+  }
+  _frostProgressFx(base);
+}
+
+// ── ❄️ Frost：段が上がった瞬間の演出（2026-09-14c）─────────────────────────
+// 25/50/75% … 前線の位置から霜の枝が「パキッ」と伸びる（#frostSnapBranches.fr-go）
+// 100%      … 雪結晶が30°ひねりながら開き（#frostSnowflakeDendrite.fr-bloom）、頂点から光芒（#frostBloomRays.fr-go）、
+//              白い氷の破片が飛ぶ（MecFX.burst・additive:false＝光の玉にしない）
+// ⚠️ 予定表は Liquid の _liqFxLater / _liqFxPulse を共用する（タイマー1本の約束をテーマごとに増やさない）。
+// ⚠️ 最初の描画は 0% から伸びたものとして扱う（Liquid の雫と同じ）。
+const FROST_SNAP_MARKS = [25, 50, 75];
+let _frostPrevBase = null;
+
+function _frostFxOk() {
+  if (!document.documentElement.classList.contains('ui-frost')) return false;
+  if (_reducedMotion() || document.hidden) return false;
+  const box = document.getElementById('gaugeBox');
+  if (!box) return false;
+  const r = box.getBoundingClientRect();
+  return r.width > 0 && r.bottom > 0 && r.top < innerHeight;
+}
+function _frostProgressFx(base) {
+  const prev = _frostPrevBase == null ? 0 : _frostPrevBase;
+  _frostPrevBase = base;
+  if (!(base > prev) || !_frostFxOk()) return;
+  // 氷は .75s の ease-out で伸びる＝割合 f に届くのはおおよそ 750·f² ms 後
+  const reach = (m) => 750 * Math.pow(Math.min(1, (m - prev) / (base - prev)), 2);
+  const snap = document.getElementById('frostSnapBranches');
+  let n = 0;
+  FROST_SNAP_MARKS.forEach((m) => {
+    if (!(prev < m && base >= m) || !snap) return;
+    // まとめて越えたときは1段ずつずらす（同じ要素を使い回すので、前の段を見せ切ってから次へ）
+    _liqFxLater(Math.max(reach(m), n++ * 520), () => {
+      snap.style.transform = 'scale(' + (m / 100).toFixed(2) + ')';
+      _liqFxPulse(snap, 'fr-go', 1000);
+    });
+  });
+  if (prev < 100 && base >= 100) {
+    _liqFxLater(Math.max(800, n * 520), () => {
+      _liqFxPulse(document.getElementById('frostSnowflakeDendrite'), 'fr-bloom', 1400);
+      _liqFxPulse(document.getElementById('frostBloomRays'), 'fr-go', 1300);
+      const box = document.getElementById('gaugeBox');
+      if (box && window.MecFX && MecFX.burst && _fxOk()) {
+        const r = box.getBoundingClientRect();
+        MecFX.burst(r.left + r.width / 2, r.top + r.height / 2, {
+          count: 22, tier: 3, shapes: ['shard', 'square'], gravity: 900, upBias: 140, additive: false,
+          colors: ['#FFFFFF', '#E6F7FF', '#A9DDFF', '#FFD9F2', '#FFF4C2']
+        });
+      }
+    });
   }
 }
 

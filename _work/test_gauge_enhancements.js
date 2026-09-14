@@ -601,6 +601,62 @@ t('Liquid絢爛: reduced-motion で新しい演出を止めている', () => {
     .forEach(w => assert.ok(rm[1].includes(w), 'reduced-motion で ' + w + ' を止めていない'));
 });
 
+// ── ❄️ Frost 絢爛化（2026-09-14c） ─────────────────────────────
+t('Frost絢爛: ベベル・ファイア・霜の前線・氷の中の構造・霜の枝・開花の光芒のマークアップが揃っている', () => {
+  ['class="frost-hex-bevel"', 'id="frostRimGrad"', 'id="frostFireGrad"', 'class="frost-fire frost-fire-core"',
+   'class="frost-ice-depth"', 'id="frostSnapBranches"', 'id="frostBloomRays"']
+    .forEach(w => assert.ok(HTML.includes(w), w + ' が無い'));
+  // 光芒を1本の path に束ねるとダッシュが巡回する＝6本同時に抜けない
+  const rays = HTML.substring(HTML.indexOf('id="frostBloomRays"'), HTML.indexOf('</g>', HTML.indexOf('id="frostBloomRays"')));
+  assert.strictEqual((rays.match(/<line class="fbr-core"/g) || []).length, 6, '開花の光芒（芯）が1本ずつの line 6本になっていない');
+  const dust = HTML.substring(HTML.indexOf('id="frostDiamondDust"'), HTML.indexOf('</g>', HTML.indexOf('id="frostDiamondDust"')));
+  assert.ok((dust.match(/class="frost-dust/g) || []).length <= 6, 'ダイヤモンドダストが6点を超えている（数で埋めない）');
+});
+
+t('Frost絢爛: 光の引き算——drop-shadow を持つのは主軸・中心の宝石・頂点の宝石・OD の縁だけ／keyframes で filter を動かさない', () => {
+  const css = HTML.substring(HTML.indexOf('8. Frost: 【六花スノークリスタル'), HTML.indexOf('/* prefers-reduced-motion での新演出の静止化 */'));
+  const allowed = ['.frost-vertex-jewel', '.frost-core-diamond', '.frost-spine-main'];
+  const rules = css.match(/([^{}]+)\{([^{}]*)\}/g) || [];
+  rules.forEach(r => {
+    const sel = r.slice(0, r.indexOf('{')).trim();
+    if (!/drop-shadow/.test(r) || /^\d+%|^from|^to/.test(sel)) return;
+    assert.ok(allowed.some(a => sel.includes(a)), sel + ' に drop-shadow が残っている');
+  });
+  ['frostCrystalBreathe', 'frostOuterBreath', 'frostJewelTwinkle', 'frostDustStarTwinkle', 'frostHyperBreath', 'frostMistDrift', 'frostGemTwinkle', 'frostRayPulse']
+    .forEach(k => {
+      const m = HTML.match(new RegExp('@keyframes ' + k + ' \\{([\\s\\S]*?)\\n\\}'));
+      assert.ok(m, '@keyframes ' + k + ' が無い');
+      assert.ok(!/filter:/.test(m[1]), k + ' が filter を動かしている（毎フレーム焼き直し）');
+    });
+});
+
+t('Frost絢爛: 雪結晶の開花は rotate / scale で書く（inline の transform: scale() を殺さない）', () => {
+  const m = HTML.match(/@keyframes frostBloomTwist \{([\s\S]*?)\n\}/);
+  assert.ok(m && /rotate:/.test(m[1]) && !/transform:/.test(m[1]), 'frostBloomTwist が transform を使っている');
+  const s = HTML.match(/@keyframes frostSnap \{([\s\S]*?)\n\}/);
+  assert.ok(s && !/transform:/.test(s[1]), 'frostSnap が transform を使っている（JS の scale を殺す）');
+});
+
+t('Frost絢爛: 100%超で svg ごと1周60秒で回る（Frost に閉じる・数字は回さない・reduced-motion で止まる）', () => {
+  assert.ok(/html\.ui-frost \.gauge\[data-frost-spin\] \.gauge-ring > svg:not\(\.liquid-membrane-tear\) \{\s*animation: frostGaugeSpin 60s linear infinite;/.test(HTML), '回転の規則が無い／Frost に閉じていない');
+  const k = HTML.match(/@keyframes frostGaugeSpin \{([^\n]*)\}/);
+  assert.ok(k && /rotate:/.test(k[1]) && !/transform:/.test(k[1]), 'frostGaugeSpin が transform を使っている（svg の rotate(-90deg) を消す）');
+  const fx = fnBody('_driveThemeGauge');
+  assert.ok(/if \(pct > 100\) fBox\.dataset\.frostSpin = '1';/.test(fx), '100% を超えたときだけ回す判定が無い');
+  assert.ok(/removeAttribute\('data-frost-spin'\)/.test(fx), '100% 以下に戻ったとき回転を止めていない');
+  assert.ok(/html\.ui-frost \.gauge \.gauge-ring > svg, #frostSnowflakeDendrite\.fr-bloom \{ animation: none !important; \}/.test(HTML), 'reduced-motion で回転を止めていない');
+});
+
+t('Frost絢爛: 段の演出は予定表1本（Liquid と共用）・テーマ/reduced-motion/非表示タブの門を通る', () => {
+  const fx = fnBody('_frostProgressFx');
+  assert.ok(/!_frostFxOk\(\)/.test(fx) && /if \(!\(base > prev\)/.test(fx), '門を通っていない／伸びていないのに演出を出す');
+  assert.ok(!/setTimeout/.test(fx), '_frostProgressFx が自前のタイマーを張っている（_liqFxLater を使う）');
+  assert.ok(/additive: false/.test(fx), '氷の破片が加算合成（光の玉）になっている');
+  const ok = fnBody('_frostFxOk');
+  assert.ok(ok.includes("'ui-frost'") && ok.includes('_reducedMotion()') && ok.includes('document.hidden'), '_frostFxOk がテーマ・reduced-motion・非表示タブを見ていない');
+  assert.ok(/\.frost-fire, \.frost-snap-branches, \.frost-bloom-rays \{ display: none !important; \}/.test(HTML), 'reduced-motion で新しい演出を消していない');
+});
+
 console.log(`\nALL PASS (${pass}/${pass + fail})\n`);
 
 
