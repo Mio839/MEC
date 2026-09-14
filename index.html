@@ -3396,6 +3396,48 @@ html.ui-abyss .theme-gauge-abyss { display: inline; }
   100% { opacity: 1; filter: drop-shadow(0 0 8px #00FFA3) drop-shadow(0 0 14px #00E5FF) drop-shadow(0 0 10px #9D4EDD); }
 }
 
+/* 超深度バイオプラズマ渦（Bio-Vortex） */
+.abyss-bio-vortex {
+  animation: abyssVortexCruise 14s linear infinite;
+  pointer-events: none;
+}
+@keyframes abyssVortexCruise {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.04); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+.abyss-vortex-ring {
+  fill: none;
+  stroke: url(#abyssBioArcGrad);
+  stroke-width: 1.2;
+  opacity: 0.45;
+  filter: drop-shadow(0 0 6px #00FFA3);
+}
+.abyss-vortex-ring.vr-1 { stroke-dasharray: 4 10; animation: abyssSonarCruise 10s linear infinite reverse; transform-origin: 84px 84px; }
+.abyss-vortex-ring.vr-2 { stroke-dasharray: 2 8; animation: abyssSonarCruise 8s linear infinite; transform-origin: 84px 84px; }
+.abyss-vortex-arm {
+  stroke: rgba(0, 229, 255, 0.4);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 8px rgba(0, 255, 163, 0.7));
+}
+.abyss-vortex-arm.arm-2 {
+  stroke: rgba(157, 78, 221, 0.4);
+}
+
+/* 100%超（Overdrive）における超臨界バイオアーク放電 */
+.gauge[data-tier="5"] .abyss-porthole-rim,
+.gauge[data-tier="6"] .abyss-porthole-rim {
+  stroke: #00FFA3 !important;
+  filter: drop-shadow(0 0 24px #00FFA3) drop-shadow(0 0 45px #00E5FF) drop-shadow(0 0 70px #9D4EDD) !important;
+  animation: abyssOverdriveArcPulse 2s ease-in-out infinite alternate !important;
+}
+@keyframes abyssOverdriveArcPulse {
+  0% { filter: drop-shadow(0 0 20px #00FFA3) drop-shadow(0 0 40px #00E5FF); }
+  50% { filter: drop-shadow(0 0 35px #00FFA3) drop-shadow(0 0 60px #00E5FF) drop-shadow(0 0 85px #9D4EDD) drop-shadow(0 0 110px #FFFFFF); }
+  100% { filter: drop-shadow(0 0 20px #00FFA3) drop-shadow(0 0 40px #00E5FF); }
+}
+
 /* 同心ソナーエコー波紋 */
 .abyss-sonar-ring {
   fill: none;
@@ -6644,6 +6686,14 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                   <circle class="abyss-sonar-ring sr-1" cx="84" cy="84" r="26"></circle>
                   <circle class="abyss-sonar-ring sr-2" cx="84" cy="84" r="46"></circle>
                   <circle class="abyss-sonar-ring sr-3" cx="84" cy="84" r="66"></circle>
+
+                  <!-- 超深度バイオプラズマ渦（Bio-Vortex） -->
+                  <g class="abyss-bio-vortex" id="abyssBioVortex" style="transform-origin: 84px 84px;">
+                    <circle class="abyss-vortex-ring vr-1" cx="84" cy="84" r="38"></circle>
+                    <circle class="abyss-vortex-ring vr-2" cx="84" cy="84" r="22"></circle>
+                    <path class="abyss-vortex-arm arm-1" d="M 84,84 Q 106,64 122,84 Q 106,106 84,122 Q 62,106 84,84" fill="none"></path>
+                    <path class="abyss-vortex-arm arm-2" d="M 84,84 Q 64,62 84,46 Q 106,62 84,84" fill="none"></path>
+                  </g>
 
                   <!-- 360度回転ソナースイープ（Sonar Scan Sweep） -->
                   <g class="abyss-sonar-sweep" id="abyssSonarSweep" style="transform-origin: 84px 84px;">

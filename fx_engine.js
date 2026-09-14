@@ -2000,6 +2000,18 @@
     rings(cx, cy, { count: 4, maxR: maxR * 0.82, color: electricCyan, additive: true });
     rings(cx, cy, { count: 3, maxR: maxR * 0.58, color: amethyst, additive: true });
     sonicWave(cx, cy, { count: 4, maxR: maxR * 0.92, color: bioGlow, thickness: 3.8 });
+
+    // 5. 深海超光柱バイオビーム（海底熱水孔から天頂へ突き抜けるヴォイド・アセンション）
+    slashRibbon(cx, H, cx, 0, { color: emerald, width: 6.8, ttl: 0.52 });
+    slashRibbon(cx - 9, H, cx - 9, 0, { color: electricCyan, width: 4.5, ttl: 0.48, delay: 0.02 });
+    slashRibbon(cx + 9, H, cx + 9, 0, { color: white, width: 3.8, ttl: 0.45, delay: 0.03 });
+    slashRibbon(cx, H, cx, 0, { color: bioGlow, width: 8.5, ttl: 0.38, delay: 0.01 });
+
+    // 6. リュウグウノツカイ極光リボン（深海を優雅にうねり舞うマルチカラーリボン）
+    slashRibbon(cx - maxR * 0.9, cy + maxR * 0.5, cx + maxR * 0.85, cy - maxR * 0.65, { color: emerald, width: 4.5, ttl: 0.58, curveX: -maxR * 0.4, curveY: -maxR * 0.35 });
+    slashRibbon(cx + maxR * 0.9, cy + maxR * 0.5, cx - maxR * 0.85, cy - maxR * 0.65, { color: electricCyan, width: 4.0, ttl: 0.60, curveX: maxR * 0.4, curveY: -maxR * 0.35, delay: 0.04 });
+    slashRibbon(cx - maxR * 0.65, cy + maxR * 0.85, cx + maxR * 0.55, cy - maxR * 0.85, { color: amethyst, width: 3.5, ttl: 0.65, curveX: maxR * 0.35, curveY: maxR * 0.25, delay: 0.07 });
+    slashRibbon(cx, cy + maxR * 0.95, cx, cy - maxR * 0.95, { color: white, width: 3.0, ttl: 0.55, curveX: -maxR * 0.5, curveY: 0, delay: 0.05 });
   }
 
   /** 【4テーマ特化】絶対零度・フロスト氷晶: 幾何学結晶急成長 ＆ ダイヤモンドダスト (絶対零度極寒爆発) */

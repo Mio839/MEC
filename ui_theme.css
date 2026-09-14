@@ -3534,7 +3534,15 @@ html.ui-abyss .ssov-box,
 html.ui-abyss .exam-start-box,
 html.ui-abyss .modal-box {
   background: 
-    linear-gradient(90deg, rgba(0, 255, 163, 0.25) 0px, transparent 3.5px, transparent calc(100% - 3.5px), rgba(0, 229, 255, 0.25) 100%),
+    radial-gradient(circle at 14px 14px, #A7F3D0 0px, #00FFA3 2px, #04241A 4px, transparent 6.5px),
+    radial-gradient(circle at calc(100% - 14px) 14px, #A7F3D0 0px, #00E5FF 2px, #04202E 4px, transparent 6.5px),
+    radial-gradient(circle at 14px calc(100% - 14px), #A7F3D0 0px, #00E5FF 2px, #04202E 4px, transparent 6.5px),
+    radial-gradient(circle at calc(100% - 14px) calc(100% - 14px), #A7F3D0 0px, #9D4EDD 2px, #1A0426 4px, transparent 6.5px),
+    radial-gradient(circle at 0 0, rgba(0, 255, 163, 0.4) 0px, rgba(0, 229, 255, 0.2) 20px, transparent 32px),
+    radial-gradient(circle at 100% 0, rgba(0, 229, 255, 0.4) 0px, rgba(157, 78, 221, 0.2) 20px, transparent 32px),
+    radial-gradient(circle at 0 100%, rgba(0, 229, 255, 0.4) 0px, rgba(0, 255, 163, 0.2) 20px, transparent 32px),
+    radial-gradient(circle at 100% 100%, rgba(157, 78, 221, 0.4) 0px, rgba(0, 255, 163, 0.2) 20px, transparent 32px),
+    linear-gradient(90deg, rgba(0, 255, 163, 0.35) 0px, transparent 4px, transparent calc(100% - 4px), rgba(0, 229, 255, 0.35) 100%),
     linear-gradient(135deg, rgba(6, 32, 64, 0.96) 0%, rgba(2, 14, 32, 0.98) 100%) !important;
   backdrop-filter: blur(28px) saturate(200%) !important;
   -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
@@ -3856,22 +3864,25 @@ html.ui-abyss body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok.exam-selected
 }
 
 html.ui-abyss .qc .ch2:active,
+html.ui-abyss .qc .ch2.ch2-pressing,
 html.ui-abyss body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected):active,
 html.ui-abyss body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected):active {
-  transform: translateX(2px) scale(0.99) !important;
+  transform: translateX(4px) scale(0.985) !important;
+  box-shadow: 0 0 28px rgba(0, 255, 163, 0.85), inset 0 0 20px rgba(0, 229, 255, 0.5), inset 0 2px 6px rgba(0, 0, 0, 0.8) !important;
 }
 
 html.ui-abyss .qc.fx-correct .ch2.correct,
 html.ui-abyss body:not(.exam-mode):not(.ch-exam-mode) .qc .ch2.ok,
 html.ui-abyss body.exam-mode .qc.exam-revealed .ch2.ok,
 html.ui-abyss body.ch-exam-mode .qc.ch-exam-revealed .ch2.ok {
-  background: linear-gradient(135deg, rgba(0, 255, 163, 0.55) 0%, rgba(0, 229, 255, 0.45) 50%, rgba(157, 78, 221, 0.35) 100%) !important;
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.6) 0%, rgba(0, 229, 255, 0.5) 45%, rgba(157, 78, 221, 0.4) 100%) !important;
   border-color: #00FFA3 !important;
-  border-left: 6px solid #00FFA3 !important;
-  box-shadow: 0 0 35px rgba(0, 255, 163, 0.9), 0 0 50px rgba(0, 229, 255, 0.65), 0 0 65px rgba(157, 78, 221, 0.4), inset 0 1.5px 0 #FFFFFF !important;
+  border-left: 6px solid #F0FDFA !important;
+  box-shadow: 0 0 40px rgba(0, 255, 163, 1), 0 0 60px rgba(0, 229, 255, 0.8), 0 0 80px rgba(157, 78, 221, 0.5), inset 0 2px 1px #FFFFFF, inset 0 -2px 0 rgba(0, 40, 60, 0.7), inset 0 0 25px rgba(0, 255, 163, 0.6) !important;
   color: #F0FDF4 !important;
+  text-shadow: 0 0 12px #00FFA3, 0 0 24px #00E5FF, 0 1px 2px rgba(0, 0, 0, 0.9) !important;
   font-weight: 700 !important;
-  animation: abyssChoiceBioPulseGlow 0.48s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+  animation: abyssChoiceBioPulseGlow 0.52s cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 html.ui-abyss .qc.fx-correct {
@@ -3885,9 +3896,9 @@ html.ui-abyss .qc.fx-correct {
 }
 
 @keyframes abyssChoiceBioPulseGlow {
-  0% { transform: scale(0.98); filter: brightness(1.55); border-color: #B4FBE2; box-shadow: 0 0 12px rgba(0, 229, 255, 0.4); }
-  45% { transform: scale(1.028); filter: brightness(1.35); border-color: #00FFA3; box-shadow: 0 0 48px rgba(0, 255, 163, 1), 0 0 32px rgba(0, 229, 255, 0.85), 0 0 24px rgba(157, 78, 221, 0.6); }
-  100% { transform: scale(1); filter: brightness(1); border-color: #00FFA3; box-shadow: 0 0 26px rgba(0, 255, 163, 0.6); }
+  0% { transform: scale(0.975); filter: brightness(1.7) saturate(140%); border-color: #FFFFFF; box-shadow: 0 0 16px rgba(0, 229, 255, 0.5); }
+  40% { transform: scale(1.032) translateY(-2px); filter: brightness(1.45); border-color: #00FFA3; box-shadow: 0 0 60px rgba(0, 255, 163, 1), 0 0 45px rgba(0, 229, 255, 0.95), 0 0 35px rgba(157, 78, 221, 0.75); }
+  100% { transform: scale(1) translateY(0); filter: brightness(1); border-color: #00FFA3; box-shadow: 0 0 30px rgba(0, 255, 163, 0.75); }
 }
 
 /* 🌊 試験モード未開示時: 正解肢であることを完全に隠蔽（ネタバレ完全防止）＆ 水圧警告RED ALERT */
@@ -6655,28 +6666,49 @@ html.ui-celestial .ce-prog-track.exam-prog-complete .ce-prog-fill {
   100% { filter: brightness(1.35) drop-shadow(0 0 20px rgba(255,209,102,1)); }
 }
 
-/* �穴 Abyss */
+/* 🌊 Abyss: 超耐圧水銀ネオンゲージ ＆ 発光メニスカス */
 html.ui-abyss .exam-prog-track, html.ui-abyss .ce-prog-track {
-  background: rgba(5, 16, 32, 0.95) !important;
-  border: 1px solid rgba(0, 255, 163, 0.5) !important;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8), 0 0 12px rgba(0, 255, 163, 0.25) !important;
+  background: linear-gradient(180deg, rgba(2, 12, 24, 0.95), rgba(1, 6, 16, 0.98)) !important;
+  border: 1.5px solid rgba(0, 255, 163, 0.6) !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.9), 0 0 16px rgba(0, 255, 163, 0.35), inset 0 0 8px rgba(0, 229, 255, 0.2) !important;
+  border-radius: 999px !important;
+  overflow: visible !important;
 }
 html.ui-abyss .exam-prog-fill, html.ui-abyss .ce-prog-fill {
-  background: linear-gradient(90deg, #00B4D8, #00FFA3 60%, #64FFDA) !important;
-  box-shadow: 0 0 14px rgba(0, 255, 163, 0.7) !important;
+  background: linear-gradient(90deg, #0077B6 0%, #00B4D8 30%, #00FFA3 70%, #F0FDFA 100%) !important;
+  box-shadow: 0 0 18px rgba(0, 255, 163, 0.9), 0 0 30px rgba(0, 229, 255, 0.6) !important;
+  border-radius: 999px !important;
+  position: relative !important;
+}
+html.ui-abyss .exam-prog-fill::after, html.ui-abyss .ce-prog-fill::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: -3px;
+  bottom: -3px;
+  width: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #FFFFFF 0%, #00FFA3 60%, transparent 100%);
+  box-shadow: 0 0 12px #FFFFFF, 0 0 20px #00FFA3, 0 0 30px #00E5FF;
+  animation: abyssMeniscusPulse 1.2s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes abyssMeniscusPulse {
+  0% { transform: scale(0.85); opacity: 0.8; }
+  100% { transform: scale(1.3); opacity: 1; filter: drop-shadow(0 0 10px #00FFA3) drop-shadow(0 0 18px #00E5FF); }
 }
 html.ui-abyss .exam-prog-track.exam-prog-complete .exam-prog-fill,
 html.ui-abyss .ce-prog-track.exam-prog-complete .ce-prog-fill {
-  background: linear-gradient(90deg, #00FFA3, #64FFDA, #00FFA3) !important;
-  box-shadow: 0 0 24px rgba(0, 255, 163, 0.95), inset 0 0 8px #fff !important;
+  background: linear-gradient(90deg, #00FFA3, #64FFDA, #FFFFFF) !important;
+  box-shadow: 0 0 32px rgba(0, 255, 163, 1), 0 0 45px rgba(0, 229, 255, 0.8), inset 0 0 12px #fff !important;
   animation: abyssProgPulse 1.5s ease-in-out infinite alternate !important;
 }
 @keyframes abyssProgPulse {
   0% { filter: brightness(1) drop-shadow(0 0 8px rgba(0,255,163,.6)); }
-  100% { filter: brightness(1.4) drop-shadow(0 0 20px rgba(0,255,163,1)); }
+  100% { filter: brightness(1.4) drop-shadow(0 0 24px rgba(0,255,163,1)) drop-shadow(0 0 36px #00E5FF); }
 }
 
-/* 笶�ｸ� Frost */
+/* 笶ｸ Frost */
 html.ui-frost .exam-prog-track, html.ui-frost .ce-prog-track {
   background: rgba(8, 22, 40, 0.95) !important;
   border: 1px solid rgba(112, 214, 255, 0.5) !important;
