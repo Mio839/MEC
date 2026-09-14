@@ -437,7 +437,10 @@ t('Liquid: 千切れるのは外膜と内側の空間だけ（液体の弧は欠
   assert.ok(/\.lmt-film \{\s*fill: none;/.test(HTML), '膜の線に塗りがある');
   const shape = fnBody('_liqTearShape');
   assert.ok(/rbA \* 1\.05/.test(shape), '泡の後ろの端が膜の内側へ潜る（首すじが交差する）');
-  assert.ok(/const tL = unit\(mL, M\(o\.phi0 - hg/.test(shape), '首すじが膜の接線から出発していない（折れて直線の腕になる）');
+  assert.ok(/const thCL = -Math\.PI \+ Math\.asin\(wc\)/.test(shape) && /const tanE = /.test(shape), '首すじが泡の輪郭の接線どおりに接続点へ入っていない（継ぎ目が「く」の字に折れる）');
+  // 口は狭く（100% で 14°）。広げると口の範囲の膜がまるごと持ち上がり、根元がテント状のこぶになる（2026-09-14 ユーザー指摘）
+  const sm = fnBody('_liqTearPlay').match(/const SPAN = \((\d+) \+ (\d+) \* k\)/);
+  assert.ok(sm && +sm[1] + +sm[2] <= 16, '膜の口が広すぎる（根元がテント状に持ち上がる）: ' + (sm && (+sm[1] + +sm[2]) + '°'));
   assert.ok(/_liqTearBase >= 100 \? TAU : TAU \* _liqTearBase \/ 100/.test(fnBody('_liqTearPlay')), '位置を満ちた区間に面した膜に限っていない');
 });
 

@@ -9766,7 +9766,7 @@ const LIQ_TEAR_HOLD_MIN = 6000;           // 離れて漂っている時間を�
 const LIQ_TEAR_HOLD_MAX = 16000;          //   上限＝泡ごとにこの間でランダム
 const LIQ_TEAR_MAX = 2;                   // 同時に動く塊の数
 const LIQ_TEAR_SEP = 100;                 // 2つ目は1つ目から最低これだけ離す（deg）
-const LIQ_TEAR_FEATHER = 2;               // 膜の切れ目の縁のぼかし（deg）
+const LIQ_TEAR_FEATHER = 1;               // 膜の切れ目の縁のぼかし（deg）
 let _liqTearBase = 0, _liqTearTimer = 0, _liqTearRaf = 0;
 let _liqTears = [];                       // 進行中の泡 { slot, phi0, SPAN, D, rb, t0, ... }
 
@@ -9881,7 +9881,10 @@ function _liqTearPlay(k) {
   if (!(g0.R > 20) || !a0) return 0;
 
   const TAU = Math.PI * 2;
-  const SPAN = (30 + 8 * k) * Math.PI / 180;        // くびれの根元の幅（100% で 38°）
+  // くびれの根元（膜の口）の幅。100% で 14°。
+  // ⚠️⚠️ 広げないこと。38° あった頃は口の範囲の膜がまるごと外へ持ち上がり、泡の根元に台形のこぶ（テント）が
+  //   できて「膜の一部が最外膜から膨らんでいる」と見えた（2026-09-14 ユーザー指摘）。泡は膜の一点からくびれ出る
+  const SPAN = (10 + 4 * k) * Math.PI / 180;
   // 位置：液体が満ちている区間に面した膜（端から少し離す）。もう1つの泡とは LIQ_TEAR_SEP 以上離す
   const fill = _liqTearBase >= 100 ? TAU : TAU * _liqTearBase / 100;
   const margin = SPAN / 2 + 12 * Math.PI / 180;
@@ -10085,9 +10088,8 @@ function _liqTearShape(o, t, g, rr, vw) {
   if (vB[0] < -.01) reach = Math.min(reach, (6 + rbA - bx) / vB[0]);
   const Bc = add(baseB, vB, reach);
 
-  // 形は3つの部品をつなぐ：膜の口の左端 → 左の首すじ → 泡の前側の楕円 → 右の首すじ → 膜の口の右端。
-  // ⚠️⚠️ 首すじは「膜の接線に沿って出発し、泡の軸に沿って首へ入る」3次ベジェで引く。幅の関数で左右に
-  //   押し広げる作りにすると、膜から離れる所で折れて直線の腕になり、袋が傾いて見える（2026-09-14e に踏んだ）。
+  // 形は3つの部品をつなぐ：膜の口の左端 → 左の首すじ → 泡の前半分の楕円 → 右の首すじ → 膜の口の右端。
+  // ⚠️ 幅の関数で左右に押し広げる作りにすると、膜から離れる所で折れて直線の腕になり、袋が傾いて見える（2026-09-14e に踏んだ）。
   const B0 = M(o.phi0);
   const dir = Math.hypot(Bc[0] - B0[0], Bc[1] - B0[1]) > 2 ? unit(B0, Bc) : vB;
   const nrm = [-dir[1], dir[0]];                                   // φ の大きい側
@@ -10110,39 +10112,46 @@ function _liqTearShape(o, t, g, rr, vw) {
     }
     return out;
   };
-  const arc = [];
-  for (let i = 1; i < 24; i++) arc.push(E(thL + (thR - thL) * i / 24));   // thL < 0 < thR ＝前側（外）を回る
-
   let rim;
   if (rooted) {
-    // 膜の接線（口の端から口の中心へ向かう向き）
-    const tL = unit(mL, M(o.phi0 - hg + .04)), tR = unit(mR, M(o.phi0 + hg - .04));
-    const lenL = Math.hypot(NL[0] - mL[0], NL[1] - mL[1]), lenR = Math.hypot(NR[0] - mR[0], NR[1] - mR[1]);
-    // 首すじは泡の輪郭の接線で首へ入る（⚠️ 軸の逆向きに制御点を置くと膜の内側へ潜ってから上がる）。少し外へ持ち上げて潜らせない
-    const tan = (th) => unit([0, 0], [-dir[0] * rbA * Math.sin(th) + nrm[0] * rbC * Math.cos(th), -dir[1] * rbA * Math.sin(th) + nrm[1] * rbC * Math.cos(th)]);
-    // ⚠️⚠️ 首が細いとき、輪郭の接線は泡の後ろで横を向く（左の首すじは右から、右は左から回り込む＝X 字に交差する）。
-    //   首が細いほど首の軸（dir）に沿って入るように混ぜ、さらに制御点が首の中心線を越えないように抑える。
-    //   3次ベジェは制御点の凸包の中に収まるので、左の4点が中心線の左にあれば左の線は右の線と交わらない。
-    const wT = Math.max(0, Math.min(1, hN / ((rbC || 1) * .6)));
-    const TL = unit([0, 0], lerp(dir, tan(thL), wT));
-    const TR = unit([0, 0], lerp([-dir[0], -dir[1]], tan(thR), wT));
-    // 中心線＝口の中点 → 首の中点（泡が横へ流れて首の軸が口からずれても、両端が必ずこの線の左右に分かれる）
-    const Nm = mid(NL, NR), Mm = mid(mL, mR);
-    const ax = Math.hypot(Nm[0] - Mm[0], Nm[1] - Mm[1]) > .5 ? unit(Mm, Nm) : dir;
-    const axN = [-ax[1], ax[0]];
-    const side = (q) => (q[0] - Mm[0]) * axN[0] + (q[1] - Mm[1]) * axN[1];
-    // 首が太い（wT=1）ときは輪郭の接線で入るので交差しない＝抑えない（抑えると根元に段差ができる）。細いほど強く抑える
-    const keepSide = (q, lim, sign) => { const d0 = side(q) - lim; return d0 * sign > 0 ? add(q, axN, -d0 * (1 - wT)) : q; };
-    const limL = Math.min(side(NL), side(mL), 0), limR = Math.max(side(NR), side(mR), 0);
-    const pL1 = keepSide(add(mL, tL, lenL * .45), limL, 1);
-    const pL2 = keepSide(add(add(NL, TL, -lenL * .35), dir, lenL * .15), limL, 1);
-    const pR1 = keepSide(add(add(NR, TR, lenR * .35), dir, lenR * .15), limR, -1);
-    const pR2 = keepSide(add(mR, tR, lenR * .45), limR, -1);
-    const left = cubic(mL, pL1, pL2, NL, 16, false);
-    const right = cubic(NR, pR1, pR2, mR, 16, false);
-    rim = left.concat(arc, right);
+    // ⚠️⚠️ 首すじは「口の端 → 首の細さまで絞る → 泡の輪郭上の接続点へ、その点の輪郭の接線どおりに入る」3次ベジェ1本。
+    //   ・接続点は首が太いほど赤道寄り、細いほど泡の後ろ寄り（輪郭の幅が max(首, 泡の0.55倍) になる所）。
+    //     赤道に固定すると、ちぎれた瞬間に「泡の下半分が逆三角形 → 丸い泡」と形が飛ぶ。
+    //   ・接線どおりに入らないと継ぎ目が「く」の字に折れる（2026-09-14 に踏んだ）。
+    //   ・制御点はすべて中心線（口の中点を通る軸）の片側に置く＝3次ベジェの凸包の性質で左右は交差しない
+    //     （泡の後ろの接線は横を向くので、そのまま伸ばすと中心線を越えて X 字に交差した）。
+    const Mm = mid(mL, mR);
+    const P = (along, lat) => [Mm[0] + dir[0] * along + nrm[0] * lat, Mm[1] + dir[1] * along + nrm[1] * lat];
+    const alongOf = (q) => (q[0] - Mm[0]) * dir[0] + (q[1] - Mm[1]) * dir[1];
+    const latOf = (q) => (q[0] - Mm[0]) * nrm[0] + (q[1] - Mm[1]) * nrm[1];
+    const tanE = (th) => unit([0, 0], [-dir[0] * rbA * Math.sin(th) + nrm[0] * rbC * Math.cos(th),
+                                       -dir[1] * rbA * Math.sin(th) + nrm[1] * rbC * Math.cos(th)]);
+    const wc = rbC > .5 ? Math.min(1, Math.max(hN, rbC * .55) / rbC) : 1;
+    const thCL = -Math.PI + Math.asin(wc), thCR = Math.PI - Math.asin(wc);   // 左右の接続点（泡の後ろ半分）
+    const flank = (m, th, sign) => {
+      // sign=+1 左（中心線の負の側）／-1 右。戻り値は「口の端から接続点へ向かう」順の4点
+      const ec = E(th), T = tanE(th);                                  // T＝輪郭が接続点から前へ回り始める向き
+      const Tin = sign > 0 ? T : [-T[0], -T[1]];                       // 口の端から来て接続点へ入る向き
+      const a0 = alongOf(m), a3 = alongOf(ec), La = Math.max(1.5, a3 - a0);
+      const hw = Math.min(hN, Math.abs(latOf(ec)));                    // 首の半分の太さ（接続点の幅を超えない）
+      const tl = -sign * latOf([Mm[0] + Tin[0], Mm[1] + Tin[1]]);      // 入る向きの「中心線へ寄る」成分（正なら寄る）
+      let bb = La * .5;
+      if (tl > 1e-3) bb = Math.min(bb, Math.max(0, (Math.abs(latOf(ec)) - hw * .8) / tl));
+      let p2 = add(ec, Tin, -bb);
+      if (latOf(p2) * sign > -hw * .6) p2 = P(alongOf(p2), -sign * hw * .6);   // 中心線を越えない
+      const lat0 = Math.min(0, latOf(m) * sign) * sign;
+      return [P(a0, lat0), P(a0 + La * .4, -sign * hw), p2, ec];
+    };
+    const fl = flank(mL, thCL, 1), fr = flank(mR, thCR, -1);
+    const left = cubic(mL, fl[1], fl[2], fl[3], 18, false);
+    const right = cubic(fr[3], fr[2], fr[1], mR, 18, false);
+    const front = [];
+    for (let i = 1; i < 28; i++) front.push(E(thCL + (thCR - thCL) * i / 28));   // 左の接続点 → 前 → 右の接続点
+    rim = left.concat(front, right);
   } else {
     // 離れた後：首の跡は尾になって泡へ吸い込まれる（retract=1 で尾は無くなり、ただの楕円）
+    const arc = [];
+    for (let i = 1; i < 24; i++) arc.push(E(thL + (thR - thL) * i / 24));   // thL < 0 < thR ＝前側（外）を回る
     const back = E(Math.PI);
     const tailLen = Math.max(0, Math.hypot(back[0] - B0[0], back[1] - B0[1])) * (1 - retract);
     const T = add(back, dir, -tailLen);
@@ -10179,8 +10188,9 @@ function _liqTearShape(o, t, g, rr, vw) {
     ? [add(B0, dir, -sag), add(B0, dir, 7)]                        // 口の両端（膜の線）で透明 → 口の少し外で塗りきる
     : [add(B0, dir, -1000), add(B0, dir, -999)];
 
-  // 膜の切れ目は口より左右 1.5° ずつ狭くする＝膜と泡の線が重なって継ぎ目に隙間ができない
-  const gapDeg = Math.max(0, (2 * hg * 180 / Math.PI) - 3);
+  // 膜の切れ目は口より左右 0.4° ずつ狭くする＝膜と泡の線が重なって継ぎ目に隙間ができない。
+  //   ⚠️ 重なりを大きくしないこと。口が狭い（14°）ので、1.5° も重ねると膜の端が首すじの外へ突き出てかぎ状に見える
+  const gapDeg = Math.max(0, (2 * hg * 180 / Math.PI) - .8);
   return {
     body: tiny ? '' : smooth(rooted ? rim.concat(lidIn) : rim, true),
     fade,
