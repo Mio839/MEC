@@ -2055,6 +2055,9 @@
         delay: rnd(0.04, 0.18)
       });
     }
+
+    // 10. 超低周波ハイドロフォン水中音響波（Infrasound Hydrophone Wavefront）
+    sonicWave(cx, cy, { count: 3, maxR: maxR * 1.35, color: emerald, thickness: 2.2, delay: 0.12 });
   }
 
   /** 【4テーマ特化】絶対零度・フロスト氷晶: 幾何学結晶急成長 ＆ ダイヤモンドダスト (絶対零度極寒爆発) */

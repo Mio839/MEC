@@ -3654,6 +3654,13 @@ html.ui-abyss .theme-gauge-abyss { display: inline; }
 .abyss-contour-line.bc-4 {
   stroke: rgba(100, 255, 218, 0.55);
 }
+.abyss-contour-label {
+  font-family: var(--font-display);
+  font-size: 4.8px;
+  font-weight: 700;
+  fill: rgba(0, 229, 255, 0.5);
+  letter-spacing: 0.5px;
+}
 
 /* 深海熱水生物コロニー（チューブワーム触手発光） */
 .abyss-tubeworm {
@@ -6791,12 +6798,15 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                     <path class="abyss-vortex-arm arm-2" d="M 84,84 Q 64,62 84,46 Q 106,62 84,84" fill="none"></path>
                   </g>
 
-                  <!-- 海洋等深線コンターマップ（マリアナ海淵3D地形ベクター） -->
+                  <!-- 海洋等深線コンターマップ（マリアナ海淵3D地形ベクター ＆ 深度ラベル） -->
                   <g class="abyss-bathymetric-contours" pointer-events="none">
                     <path class="abyss-contour-line bc-1" d="M 24,84 C 36,54 64,36 84,40 C 104,44 126,58 140,84 C 132,108 108,126 84,124 C 58,122 32,106 24,84 Z" fill="none"></path>
                     <path class="abyss-contour-line bc-2" d="M 38,84 C 46,64 68,52 84,54 C 100,56 118,68 126,84 C 120,100 102,112 84,110 C 66,108 46,98 38,84 Z" fill="none"></path>
                     <path class="abyss-contour-line bc-3" d="M 52,84 C 58,72 72,66 84,68 C 96,70 108,76 114,84 C 110,94 98,102 84,100 C 72,98 58,92 52,84 Z" fill="none"></path>
                     <path class="abyss-contour-line bc-4" d="M 64,84 C 68,78 76,74 84,75 C 92,76 98,80 102,84 C 100,90 94,94 84,93 C 76,92 68,88 64,84 Z" fill="none"></path>
+                    <text class="abyss-contour-label cl-1" x="26" y="70">4K</text>
+                    <text class="abyss-contour-label cl-2" x="40" y="73">7K</text>
+                    <text class="abyss-contour-label cl-3" x="54" y="77">10K</text>
                   </g>
 
                   <!-- 深海熱水噴出孔チムニー ＆ 超臨界熱水ミネラルプルーム ＆ 生物コロニー -->

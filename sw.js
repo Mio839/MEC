@@ -1,3 +1,5 @@
+// 2026-09-14l: Abyss（深海アビス）極限絢爛化第3弾——チャレンジャー海淵深度ラベル、探査艇チタン耐圧リブ、音響測深エコーグラム走査線、ハイドロフォン音響波。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-14k → 2026-09-14l）。
 // 2026-09-14k: Abyss（深海アビス）極限絢爛化第2弾——探査艇チタン耐圧ビューポートHUD、熱水生物チューブワーム・共生発光クラスタ、
 //   アトランティス神殿オリハルコン石板バッジ、等深線バシメトリー立体グリッド、アクティブ・ソナーPING音響エコー波。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-14j → 2026-09-14k）。
@@ -1482,7 +1484,7 @@ const CACHE = "mec-v405";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-14k";
+const SHELL_VERSION = "2026-09-14l";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
