@@ -429,15 +429,16 @@ t('Liquid: 外膜（.gauge-ring::after）に conic-gradient の mask で切れ�
   assert.ok(/const LIQ_TEAR_MAX = 2;/.test(HTML) && /const LIQ_TEAR_DUR = 12000;/.test(HTML), '最大2つ・12秒になっていない');
 });
 
-t('Liquid: 液体の弧も一緒に千切れる（svg の mask・満ちた区間だけ・dasharray は触らない）', () => {
-  assert.ok(/<mask id="liquidArcTearMask"[^>]*>[\s\S]*?id="liquidArcTearHole0"[\s\S]*?id="liquidArcTearHole1"[\s\S]*?<\/mask>/.test(HTML), '弧の穴の mask が無い');
-  const w = HTML.slice(HTML.indexOf('<g id="liquidArcTearWrap">'), HTML.indexOf('/#liquidArcTearWrap'));
-  assert.ok(w.includes('id="liquidFluidStream"') && w.includes('id="liquidFlowGlint"'), '#liquidArcTearWrap が弧と流れる光を包んでいない');
-  const play = fnBody('_liqTearPlay'), end = fnBody('_liqTearEnd');
-  assert.ok(play.includes("wrap.setAttribute('mask', 'url(#liquidArcTearMask)')") && end.includes("wrap.removeAttribute('mask')"), 'mask を千切れている間だけ付けていない');
-  assert.ok(/_liqTearBase >= 100 \? TAU : TAU \* _liqTearBase \/ 100/.test(play), '千切れる位置を満ちた区間に限っていない');
+t('Liquid: 千切れるのは外膜と内側の空間だけ（液体の弧は欠けさせない・dash は触らない）', () => {
+  ['liquidArcTearMask', 'liquidArcTearWrap', 'liquidArcTearHole'].forEach(w => assert.ok(!HTML.includes(w), w + ' が残っている（弧は千切らない）'));
   ['_liqTearPlay', '_liqTearRender', '_liqTearShape'].forEach(n => assert.ok(!/strokeDash(array|offset)\s*=/.test(fnBody(n)), n + ' が進捗の弧の dash を書いている'));
-  assert.ok(fnBody('_liqTearShape').includes('matrixTransform(inv)'), '弧の穴を getScreenCTM の逆行列で求めていない');
+  const ring = HTML.slice(HTML.indexOf('<div class="gauge-ring">'), HTML.indexOf('<span class="gauge-mid" id="gaugeMid">'));
+  [0, 1].forEach(i => assert.ok(ring.includes('id="liquidMembranePiece' + i + '"') && ring.includes('id="liquidMembraneFilm' + i + '"'), '泡' + i + ' の空間（塗り）と膜（線）が揃っていない'));
+  assert.ok(/\.lmt-film \{\s*fill: none;/.test(HTML), '膜の線に塗りがある');
+  const shape = fnBody('_liqTearShape');
+  assert.ok(/rbA \* 1\.05/.test(shape), '泡の後ろの端が膜の内側へ潜る（首すじが交差する）');
+  assert.ok(/const tL = unit\(mL, M\(o\.phi0 - hg/.test(shape), '首すじが膜の接線から出発していない（折れて直線の腕になる）');
+  assert.ok(/_liqTearBase >= 100 \? TAU : TAU \* _liqTearBase \/ 100/.test(fnBody('_liqTearPlay')), '位置を満ちた区間に面した膜に限っていない');
 });
 
 t('Liquid: かけらの svg は .gauge-ring 直下にあり、ゲージ svg の回転・円形クリップを打ち消している', () => {
