@@ -691,7 +691,7 @@
         ctx.moveTo(0, -rS * 1.1); ctx.lineTo(0, rS * 1.1);
         ctx.stroke();
 
-        // 2. 多重スペクトル同心ソナーリング（5重）
+        // 2. 多重スペクトル同心ソナーリング（5重実線・音響干渉波形）
         var ringColors = [emerald, electricCyan, pureWhite, amethyst, '#64FFDA'];
         for (var si = 0; si < 5; si++) {
           var curSR = rS * (1 - si * 0.18);
@@ -699,15 +699,9 @@
           ctx.beginPath();
           ctx.arc(0, 0, curSR, 0, 6.2832);
           ctx.strokeStyle = ringColors[si % ringColors.length];
-          ctx.lineWidth = Math.max(1, (3.5 - si * 0.6) * (1 - t * 0.35));
-          if (si === 1 || si === 3) {
-            ctx.setLineDash([6, 6]);
-          } else {
-            ctx.setLineDash([]);
-          }
+          ctx.lineWidth = Math.max(1, (3.2 - si * 0.5) * (1 - t * 0.35));
           ctx.stroke();
         }
-        ctx.setLineDash([]);
 
         // 3. ソナー走査扇形スイープ (Sonar Sweep Beam) ＆ 二重グラデーション
         var sweepA = t * 4.8;
@@ -2019,25 +2013,26 @@
     rings(cx, cy, { count: 6, maxR: Math.max(W, H) * 0.72, color: emerald, additive: true, delay: 0.04 });
     sonicWave(cx, cy, { count: 5, maxR: Math.max(W, H) * 0.62, color: electricCyan, thickness: 4.6, delay: 0.07 });
 
-    // 8. 深海メガ熱水噴出孔（ブラックスモーカー）超臨界鉱物プルーム ＆ 金緑結晶スパーク
-    var hydrothermalCols = ['#76FF03', '#00FFA3', '#00E5FF', '#FFD600', '#64FFDA', '#FFFFFF'];
-    for (var hp = 0; hp < 32; hp++) {
+    // 8. 深海メガ熱水噴出孔（ブラックスモーカー）超臨界鉱物プルーム ＆ パイライト黄金結晶スパーク
+    sparks(cx, cy, { count: o.pyriteCount || 42, colors: ['#D4AF37', '#FFD700', emerald, bioGlow, electricCyan] });
+    var hydrothermalCols = ['#D4AF37', '#FFD700', '#76FF03', '#00FFA3', '#00E5FF', '#64FFDA', '#FFFFFF'];
+    for (var hp = 0; hp < 48; hp++) {
       var hpa = rnd(-0.55, 0.55) - Math.PI * 0.5;
-      var hpspd = rnd(280, 620);
+      var hpspd = rnd(300, 680);
       addP({
-        x: cx + rnd(-30, 30),
+        x: cx + rnd(-35, 35),
         y: H,
         vx: Math.cos(hpa) * hpspd * 0.45,
         vy: Math.sin(hpa) * hpspd,
-        gy: -180,
+        gy: -190,
         drag: 0.94,
-        size: rnd(2.5, 6.0),
+        size: rnd(2.5, 6.5),
         color: pick(hydrothermalCols),
         shape: 'shard',
         glow: true,
         blend: true,
-        ttl: rnd(0.55, 0.95),
-        delay: rnd(0.02, 0.08)
+        ttl: rnd(0.6, 1.05),
+        delay: rnd(0.01, 0.08)
       });
     }
   }

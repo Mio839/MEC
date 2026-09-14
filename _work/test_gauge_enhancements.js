@@ -247,7 +247,7 @@ t('Brass: ケーシングの astrolabe-ring が回転しない（左上を軸に
   // 既定で view-box の 0 0 なので、回転アニメを掛けると輪がゲージの左上を軸に公転する。
   // 同じ書き方だった他テーマのケーシングの輪も一緒に止めてある。
   for (const cls of ['astrolabe-ring', 'cockpit-frame', 'crystal-crown', 'grimoire-circle', 'leviathan-armor']) {
-    const rules = HTML.match(new RegExp('[^{}]*\\.' + cls + '[^{}]*\\{[^}]*\\}', 'g')) || [];
+    const rules = HTML.match(new RegExp('[^{};\\n]*\\.' + cls + '[^{}]*\\{[^}]*\\}', 'g')) || [];
     const live = rules.filter(r => !/animation\s*:\s*none/.test(r));
     assert.ok(live.length > 0, '.' + cls + ' のルールが見つからない');
     for (const r of live) {

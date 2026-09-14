@@ -3582,7 +3582,7 @@ html.ui-abyss .theme-gauge-abyss { display: inline; }
   100% { transform: scale(1.3); opacity: 1; transform-origin: 84px 20px; filter: drop-shadow(0 0 8px #00FFA3); }
 }
 
-/* リアルタイム潜航深度計HUD */
+/* リアルタイム潜航深度計 ＆ 水圧HUD */
 .abyss-depth-display {
   font-family: var(--font-display);
   font-size: 8.5px;
@@ -3599,6 +3599,60 @@ html.ui-abyss .theme-gauge-abyss { display: inline; }
   fill: #00E5FF;
   opacity: 0.85;
   filter: drop-shadow(0 0 4px rgba(0, 229, 255, 0.7));
+}
+.abyss-atm-display {
+  font-family: var(--font-display);
+  font-size: 5.5px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  fill: #A7F3D0;
+  opacity: 0.8;
+  filter: drop-shadow(0 0 3px rgba(0, 255, 163, 0.6));
+}
+
+/* 🌋 深海熱水噴出孔チムニー ＆ 超臨界熱水ミネラルプルーム */
+.abyss-vent-chimney {
+  fill: #02121E;
+  stroke: #D4AF37;
+  stroke-width: 0.8;
+  filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.45));
+}
+.abyss-vent-orifice {
+  fill: #00FFA3;
+  filter: drop-shadow(0 0 8px #00FFA3) drop-shadow(0 0 14px #00E5FF);
+  animation: abyssVentGlow 2.5s ease-in-out infinite alternate;
+}
+@keyframes abyssVentGlow {
+  0% { opacity: 0.6; filter: drop-shadow(0 0 4px #00FFA3); }
+  100% { opacity: 1; filter: drop-shadow(0 0 10px #00FFA3) drop-shadow(0 0 16px #00E5FF) drop-shadow(0 0 8px #D4AF37); }
+}
+.abyss-plume-p {
+  fill: #00FFA3;
+  opacity: 0.7;
+  filter: drop-shadow(0 0 4px #00FFA3);
+  animation: abyssVentEruption 3.2s ease-out infinite;
+}
+.abyss-plume-p.vp-1 { fill: #00FFA3; animation-delay: 0s; }
+.abyss-plume-p.vp-2 { fill: #64FFDA; animation-delay: 0.6s; }
+.abyss-plume-p.vp-3 { fill: #00E5FF; animation-delay: 1.2s; }
+.abyss-plume-p.vp-4 { fill: #9D4EDD; animation-delay: 1.8s; }
+.abyss-plume-p.vp-5 { fill: #D4AF37; animation-delay: 2.4s; }
+
+@keyframes abyssVentEruption {
+  0% { transform: translateY(0px) scale(0.6); opacity: 0.85; }
+  50% { transform: translateY(-16px) scale(1.1); opacity: 0.6; }
+  100% { transform: translateY(-34px) scale(1.6); opacity: 0; }
+}
+
+/* 探査艇チタン耐圧殻マノメーター目盛り（1100気圧水圧ゲージ） */
+.abyss-pressure-manometer {
+  fill: none;
+  stroke: rgba(0, 229, 255, 0.35);
+  stroke-width: 1.2;
+  stroke-dasharray: 1 3.5;
+}
+.abyss-contour-line.bc-4 {
+  stroke: rgba(100, 255, 218, 0.55);
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -3942,6 +3996,7 @@ html.ui-frost .gauge[data-frost-spin] .gauge-ring > svg:not(.liquid-membrane-tea
      縁のベベル・氷の中の構造・宝石は静止で残る（動きではなく質感なので） */
   .frost-fire, .frost-snap-branches, .frost-bloom-rays { display: none !important; }
   html.ui-frost .gauge .gauge-ring > svg, #frostSnowflakeDendrite.fr-bloom { animation: none !important; }
+  .abyss-vent-orifice, .abyss-plume-p,
   .cyber-segments .c-seg.overdrive, .liquid-wave-cap, .kt-gold-dust,
   .cel-magic-ring1, .cel-magic-ring2, .cel-star.active,
   .cyber-laser-beam, .lava-lamp-chamber, .lava-blob-base,
@@ -6715,11 +6770,26 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                     <path class="abyss-vortex-arm arm-2" d="M 84,84 Q 64,62 84,46 Q 106,62 84,84" fill="none"></path>
                   </g>
 
-                  <!-- 海洋等深線コンターマップ（マリアナ海淵地形ベクター） -->
+                  <!-- 海洋等深線コンターマップ（マリアナ海淵3D地形ベクター） -->
                   <g class="abyss-bathymetric-contours" pointer-events="none">
                     <path class="abyss-contour-line bc-1" d="M 24,84 C 36,54 64,36 84,40 C 104,44 126,58 140,84 C 132,108 108,126 84,124 C 58,122 32,106 24,84 Z" fill="none"></path>
                     <path class="abyss-contour-line bc-2" d="M 38,84 C 46,64 68,52 84,54 C 100,56 118,68 126,84 C 120,100 102,112 84,110 C 66,108 46,98 38,84 Z" fill="none"></path>
                     <path class="abyss-contour-line bc-3" d="M 52,84 C 58,72 72,66 84,68 C 96,70 108,76 114,84 C 110,94 98,102 84,100 C 72,98 58,92 52,84 Z" fill="none"></path>
+                    <path class="abyss-contour-line bc-4" d="M 64,84 C 68,78 76,74 84,75 C 92,76 98,80 102,84 C 100,90 94,94 84,93 C 76,92 68,88 64,84 Z" fill="none"></path>
+                  </g>
+
+                  <!-- 深海熱水噴出孔チムニー ＆ 超臨界熱水ミネラルプルーム（Hydrothermal Vent Chimney） -->
+                  <g class="abyss-vent-group" id="abyssVentGroup" pointer-events="none">
+                    <path class="abyss-vent-chimney" d="M 74,154 L 78,138 L 81,135 L 87,135 L 90,138 L 94,154 Z"></path>
+                    <ellipse class="abyss-vent-orifice" cx="84" cy="135" rx="3.5" ry="1.2"></ellipse>
+                    <!-- 超臨界ミネラルプルーム粒子（ブラックスモーカー・パイライト結晶流） -->
+                    <g class="abyss-vent-plume" id="abyssVentPlume">
+                      <circle class="abyss-plume-p vp-1" cx="84" cy="131" r="2.0"></circle>
+                      <circle class="abyss-plume-p vp-2" cx="82" cy="124" r="2.5"></circle>
+                      <circle class="abyss-plume-p vp-3" cx="86" cy="117" r="3.0"></circle>
+                      <circle class="abyss-plume-p vp-4" cx="81" cy="110" r="3.4"></circle>
+                      <circle class="abyss-plume-p vp-5" cx="87" cy="103" r="3.8"></circle>
+                    </g>
                   </g>
 
                   <!-- 360度回転ソナースイープ（Sonar Scan Sweep） -->
@@ -6749,6 +6819,9 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                   <path class="abyss-glass-glare" d="M 38,44 Q 84,24 130,44" fill="none"></path>
                 </g>
 
+                <!-- 探査艇チタン耐圧殻マノメーター目盛り（1100気圧水圧ゲージ） -->
+                <circle class="abyss-pressure-manometer" cx="84" cy="84" r="69"></circle>
+
                 <!-- 外周深度目盛り（Bathymetric Scale Ring） -->
                 <circle class="abyss-depth-scale" cx="84" cy="84" r="67"></circle>
 
@@ -6763,10 +6836,11 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                   <circle class="abyss-orb-spark" cx="148" cy="84" r="1.4"></circle>
                 </g>
 
-                <!-- リアルタイム潜航深度計（正立補正: SVGの-90deg回転を打ち消し、画面下部に水平表示） -->
+                <!-- リアルタイム潜航深度計 ＆ 水圧HUD（正立補正: SVGの-90deg回転を打ち消し、画面下部に水平表示） -->
                 <g class="abyss-depth-hud">
                   <text class="abyss-depth-display" id="abyssDepthDisplay" x="35" y="84" text-anchor="middle" transform="rotate(90, 35, 84)">DEPTH: 0m</text>
                   <text class="abyss-zone-display" id="abyssZoneDisplay" x="25" y="84" text-anchor="middle" transform="rotate(90, 25, 84)">SURFACE</text>
+                  <text class="abyss-atm-display" id="abyssAtmDisplay" x="16" y="84" text-anchor="middle" transform="rotate(90, 16, 84)">1 ATM</text>
                 </g>
 
                 <!-- 互換用hidden要素（既存テストや旧スクリプトとの整合性確保） -->
@@ -10620,7 +10694,7 @@ function _driveThemeGauge(pct, base, over, tier) {
     mShadow.setAttribute('cx', String(sCx.toFixed(1)));
   }
 
-  // 7. Abyss: 超深海探査ポータル ＆ 生体発光アーク (C=402.12) & 潜航深度計
+  // 7. Abyss: 超深海探査ポータル ＆ 生体発光アーク (C=402.12) & 潜航深度計 ＆ 水圧HUD
   const aBioArc = document.getElementById('abyssBioArc');
   const aBioHead = document.getElementById('abyssBioHead');
   if (aBioArc) {
@@ -10641,8 +10715,9 @@ function _driveThemeGauge(pct, base, over, tier) {
   }
   const dTx = document.getElementById('abyssDepthDisplay');
   const zTx = document.getElementById('abyssZoneDisplay');
+  const aAtm = document.getElementById('abyssAtmDisplay');
+  const dMeters = Math.round((base / 100) * 10928);
   if (dTx) {
-    const dMeters = Math.round((base / 100) * 10928);
     dTx.textContent = 'DEPTH: ' + dMeters.toLocaleString() + 'm';
   }
   if (zTx) {
@@ -10653,6 +10728,16 @@ function _driveThemeGauge(pct, base, over, tier) {
     else if (base >= 25) zone = 'MESOPELAGIC';
     else if (base > 0) zone = 'EPIPELAGIC';
     zTx.textContent = zone;
+  }
+  if (aAtm) {
+    const atmVal = Math.max(1, Math.round(1 + dMeters / 10));
+    aAtm.textContent = atmVal.toLocaleString() + ' ATM';
+  }
+  // 熱水噴出孔チムニー活動性（進捗率・オーバードライブに応じた活性化）
+  const aVent = document.getElementById('abyssVentGroup');
+  if (aVent) {
+    const vOpacity = Math.min(1, 0.45 + (base / 100) * 0.55);
+    aVent.style.opacity = String(vOpacity.toFixed(2));
   }
 
   // 8. Frost: 【中央成長型六角フロスト・インフィル ＆ 拡大成長フラクタル雪結晶】
