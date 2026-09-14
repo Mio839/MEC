@@ -3538,6 +3538,8 @@ html.ui-abyss .modal-box {
     radial-gradient(circle at calc(100% - 14px) 14px, #A7F3D0 0px, #00E5FF 2px, #04202E 4px, transparent 6.5px),
     radial-gradient(circle at 14px calc(100% - 14px), #A7F3D0 0px, #00E5FF 2px, #04202E 4px, transparent 6.5px),
     radial-gradient(circle at calc(100% - 14px) calc(100% - 14px), #A7F3D0 0px, #9D4EDD 2px, #1A0426 4px, transparent 6.5px),
+    repeating-radial-gradient(ellipse 90% 70% at 85% 85%, transparent 0, transparent 48px, rgba(0, 229, 255, 0.025) 49px, transparent 50px),
+    repeating-radial-gradient(ellipse 80% 60% at 15% 15%, transparent 0, transparent 38px, rgba(0, 255, 163, 0.02) 39px, transparent 40px),
     radial-gradient(circle at 0 0, rgba(0, 255, 163, 0.4) 0px, rgba(0, 229, 255, 0.2) 20px, transparent 32px),
     radial-gradient(circle at 100% 0, rgba(0, 229, 255, 0.4) 0px, rgba(157, 78, 221, 0.2) 20px, transparent 32px),
     radial-gradient(circle at 0 100%, rgba(0, 229, 255, 0.4) 0px, rgba(0, 255, 163, 0.2) 20px, transparent 32px),
@@ -3717,9 +3719,10 @@ html.ui-abyss .qc::after {
   100% { transform: scale(1.08) rotate(15deg); opacity: 1; filter: blur(0.8px) drop-shadow(0 0 26px rgba(0, 229, 255, 0.7)); }
 }
 
-/* 🌊 問題番号バッジ: 深海エメラルドジュエルカット ＆ 極彩色光彩 */
+/* 🌊 問題番号バッジ: 古代アトランティス神殿オリハルコン・エメラルド石板 ＆ 極彩色光彩 */
 html.ui-abyss .qc .qn {
-  background: linear-gradient(135deg, rgba(0, 229, 255, 0.95) 0%, rgba(0, 160, 110, 0.95) 30%, rgba(4, 25, 48, 0.98) 70%, rgba(157, 78, 221, 0.9) 100%) !important;
+  background: 
+    linear-gradient(135deg, rgba(0, 229, 255, 0.95) 0%, rgba(0, 160, 110, 0.95) 30%, rgba(4, 25, 48, 0.98) 70%, rgba(157, 78, 221, 0.9) 100%) !important;
   border: 1.5px solid #00FFA3 !important;
   color: #FFFFFF !important;
   text-shadow: 0 0 14px rgba(0, 255, 163, 1), 0 0 8px #00E5FF, 0 1px 2px rgba(0, 0, 0, 0.9) !important;
@@ -3728,10 +3731,14 @@ html.ui-abyss .qc .qn {
   font-size: 11.5px !important;
   font-weight: 900 !important;
   letter-spacing: .9px !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.75), inset 0 2px 1px rgba(255, 255, 255, 0.98), 0 0 25px rgba(0, 255, 163, 0.75), 0 0 12px rgba(0, 229, 255, 0.5) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.75),
+              inset 0 2px 1px rgba(255, 255, 255, 0.98),
+              inset 0 -1px 0 rgba(212, 175, 55, 0.6),
+              0 0 25px rgba(0, 255, 163, 0.75),
+              0 0 12px rgba(0, 229, 255, 0.5) !important;
 }
 
-/* 🌊 メタバッジ・正答率: 螺鈿オパール偏光光沢 */
+/* 🌊 メタバッジ・正答率: 螺鈿オパール偏光光沢 ＆ 等深線コンターエッジ */
 html.ui-abyss .qc .qe,
 html.ui-abyss .qc .bg,
 html.ui-abyss .qc .cr {
@@ -3750,9 +3757,11 @@ html.ui-abyss .qc .cr {
 html.ui-abyss .qc .cr {
   color: #FFFFFF !important;
   border-color: #64FFDA !important;
-  background: linear-gradient(180deg, rgba(0, 255, 163, 0.45) 0%, rgba(0, 180, 216, 0.35) 45%, rgba(4, 40, 32, 0.85) 100%) !important;
+  background: 
+    radial-gradient(ellipse at 50% 0%, rgba(0, 255, 163, 0.3) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(0, 255, 163, 0.45) 0%, rgba(0, 180, 216, 0.35) 45%, rgba(4, 40, 32, 0.85) 100%) !important;
   text-shadow: 0 0 12px #00FFA3, 0 0 6px #00E5FF, 0 1px 2px rgba(0, 0, 0, 0.9) !important;
-  box-shadow: inset 0 1.5px 0.5px #FFFFFF, 0 0 16px rgba(0, 255, 163, 0.6) !important;
+  box-shadow: inset 0 1.5px 0.5px #FFFFFF, inset 0 0 10px rgba(0, 229, 255, 0.4), 0 0 16px rgba(0, 255, 163, 0.6) !important;
 }
 
 /* 🌊 ヘッダー境界ディバイダー: 古代海淵ルーン光帯 ＆ 極光プリズムライン */
@@ -3943,15 +3952,24 @@ html.ui-abyss body.ch-exam-mode .qc.ch-exam-revealed .ch2.ng {
   100% { transform: scale(1); filter: brightness(1); }
 }
 
-/* 🌊 解答解説ボックス: 深海耐圧エアロックハッチ ＆ 熱水鉱床パイライト結晶エッジ */
+/* 🌊 解答解説ボックス: 探査艇チタン耐圧ビューポートHUD ＆ 熱水鉱床パイライト結晶エッジ */
 html.ui-abyss .qc .ab {
   background: 
-    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0, 255, 163, 0.18) 0%, transparent 70%),
+    radial-gradient(circle at 10px 10px, rgba(0, 255, 163, 0.9) 0px, #04241A 2px, transparent 4px),
+    radial-gradient(circle at calc(100% - 10px) 10px, rgba(0, 229, 255, 0.9) 0px, #04202E 2px, transparent 4px),
+    radial-gradient(circle at 10px calc(100% - 10px), rgba(0, 229, 255, 0.9) 0px, #04202E 2px, transparent 4px),
+    radial-gradient(circle at calc(100% - 10px) calc(100% - 10px), rgba(157, 78, 221, 0.9) 0px, #1A0426 2px, transparent 4px),
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(0, 255, 163, 0.22) 0%, transparent 70%),
     repeating-linear-gradient(0deg, rgba(0, 255, 163, 0.035) 0px, rgba(0, 255, 163, 0.035) 1px, transparent 1px, transparent 3px),
     linear-gradient(145deg, rgba(8, 38, 76, 0.98) 0%, rgba(2, 14, 34, 0.99) 100%) !important;
   border: 1.5px solid #00FFA3 !important;
   border-left: 6px solid #00FFA3 !important;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 50px rgba(0, 255, 163, 0.6), 0 0 75px rgba(0, 229, 255, 0.3), inset 0 2px 1.5px rgba(240, 253, 250, 0.98), inset 0 0 35px rgba(0, 229, 255, 0.15), inset 0 -1px 0 rgba(212, 175, 55, 0.4) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95),
+              0 0 50px rgba(0, 255, 163, 0.6),
+              0 0 75px rgba(0, 229, 255, 0.3),
+              inset 0 2px 1.5px rgba(240, 253, 250, 0.98),
+              inset 0 0 35px rgba(0, 229, 255, 0.15),
+              inset 0 -1px 0 rgba(212, 175, 55, 0.45) !important;
   border-radius: 14px !important;
   padding: 18px 22px !important;
   backdrop-filter: blur(28px) !important;

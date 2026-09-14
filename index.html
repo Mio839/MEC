@@ -3655,6 +3655,27 @@ html.ui-abyss .theme-gauge-abyss { display: inline; }
   stroke: rgba(100, 255, 218, 0.55);
 }
 
+/* 深海熱水生物コロニー（チューブワーム触手発光） */
+.abyss-tubeworm {
+  stroke: #CBD5E1;
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 3px rgba(0, 255, 163, 0.4));
+}
+.abyss-plume-head {
+  fill: #FF0055;
+  filter: drop-shadow(0 0 4px #FF0055) drop-shadow(0 0 8px #00FFA3);
+  animation: abyssWormPulse 2.8s ease-in-out infinite alternate;
+}
+.abyss-plume-head.ph-2, .abyss-plume-head.ph-4 {
+  fill: #00FFA3;
+  animation-delay: -1.4s;
+}
+@keyframes abyssWormPulse {
+  0% { transform: scale(0.85); opacity: 0.7; }
+  100% { transform: scale(1.25); opacity: 1; filter: drop-shadow(0 0 6px #FF0055) drop-shadow(0 0 10px #00FFA3); }
+}
+
 /* ─────────────────────────────────────────────────────────────
    8. Frost: 【六花スノークリスタル ＆ 氷晶アイスコメット外周周回】
    ───────────────────────────────────────────────────────────── */
@@ -3996,7 +4017,7 @@ html.ui-frost .gauge[data-frost-spin] .gauge-ring > svg:not(.liquid-membrane-tea
      縁のベベル・氷の中の構造・宝石は静止で残る（動きではなく質感なので） */
   .frost-fire, .frost-snap-branches, .frost-bloom-rays { display: none !important; }
   html.ui-frost .gauge .gauge-ring > svg, #frostSnowflakeDendrite.fr-bloom { animation: none !important; }
-  .abyss-vent-orifice, .abyss-plume-p,
+  .abyss-vent-orifice, .abyss-plume-p, .abyss-plume-head,
   .cyber-segments .c-seg.overdrive, .liquid-wave-cap, .kt-gold-dust,
   .cel-magic-ring1, .cel-magic-ring2, .cel-star.active,
   .cyber-laser-beam, .lava-lamp-chamber, .lava-blob-base,
@@ -6778,8 +6799,19 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                     <path class="abyss-contour-line bc-4" d="M 64,84 C 68,78 76,74 84,75 C 92,76 98,80 102,84 C 100,90 94,94 84,93 C 76,92 68,88 64,84 Z" fill="none"></path>
                   </g>
 
-                  <!-- 深海熱水噴出孔チムニー ＆ 超臨界熱水ミネラルプルーム（Hydrothermal Vent Chimney） -->
+                  <!-- 深海熱水噴出孔チムニー ＆ 超臨界熱水ミネラルプルーム ＆ 生物コロニー -->
                   <g class="abyss-vent-group" id="abyssVentGroup" pointer-events="none">
+                    <!-- チューブワーム群生コロニー（左側＆右側） -->
+                    <g class="abyss-bio-cluster">
+                      <path class="abyss-tubeworm tw-1" d="M 73,154 Q 68,145 70,137 Q 72,133 74,135" fill="none"></path>
+                      <circle class="abyss-plume-head ph-1" cx="74" cy="135" r="1.5"></circle>
+                      <path class="abyss-tubeworm tw-2" d="M 70,154 Q 65,148 66,141 Q 67,138 69,139" fill="none"></path>
+                      <circle class="abyss-plume-head ph-2" cx="69" cy="139" r="1.3"></circle>
+                      <path class="abyss-tubeworm tw-3" d="M 95,154 Q 100,145 98,137 Q 96,133 94,135" fill="none"></path>
+                      <circle class="abyss-plume-head ph-3" cx="94" cy="135" r="1.5"></circle>
+                      <path class="abyss-tubeworm tw-4" d="M 98,154 Q 103,148 102,141 Q 101,138 99,139" fill="none"></path>
+                      <circle class="abyss-plume-head ph-4" cx="99" cy="139" r="1.3"></circle>
+                    </g>
                     <path class="abyss-vent-chimney" d="M 74,154 L 78,138 L 81,135 L 87,135 L 90,138 L 94,154 Z"></path>
                     <ellipse class="abyss-vent-orifice" cx="84" cy="135" rx="3.5" ry="1.2"></ellipse>
                     <!-- 超臨界ミネラルプルーム粒子（ブラックスモーカー・パイライト結晶流） -->

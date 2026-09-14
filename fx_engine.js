@@ -2035,6 +2035,26 @@
         delay: rnd(0.01, 0.08)
       });
     }
+
+    // 9. 超深海アクティブ・ソナーPING音響エコー波 ＆ 生物発光閃光パルス
+    var nPings = o.pingCount || 24;
+    for (var pi = 0; pi < nPings; pi++) {
+      var pa = rnd(0, Math.PI * 2);
+      var pdist = rnd(20, maxR * 1.15);
+      addP({
+        x: cx + Math.cos(pa) * pdist,
+        y: cy + Math.sin(pa) * pdist,
+        vx: rnd(-15, 15),
+        vy: rnd(-15, 15),
+        size: rnd(2.0, 5.0),
+        color: pick([emerald, electricCyan, bioGlow, '#FFFFFF']),
+        shape: 'sparkle',
+        glow: true,
+        blend: true,
+        ttl: rnd(0.35, 0.75),
+        delay: rnd(0.04, 0.18)
+      });
+    }
   }
 
   /** 【4テーマ特化】絶対零度・フロスト氷晶: 幾何学結晶急成長 ＆ ダイヤモンドダスト (絶対零度極寒爆発) */
