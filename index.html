@@ -1508,9 +1508,45 @@ html.ui-frost .od-frost{display:inline;}
 @keyframes supernovaPulse{0%{transform:scale(.8);}100%{transform:scale(1.3);}}
 @keyframes celHaloBreathe{0%{transform:scale(1);opacity:.8;}100%{transform:scale(1.06);opacity:1;filter:drop-shadow(0 0 16px #FFFDF0) drop-shadow(0 0 28px #FFD166);}}
 
-/* Abyss: 水深MAX警告＆超高周波バイオフラッシュ */
+/* Abyss: 水深MAX警告＆超高周波バイオフラッシュ＆古代アトランティス神殿オリハルコン全方位覚醒 */
 .od-abyss .bio-shockwave{fill:none;stroke:#00FFA3;stroke-width:2;animation:abyssShockwave 1.4s ease-out infinite;}
 @keyframes abyssShockwave{0%{r:45;opacity:1;}100%{r:78;opacity:0;}}
+
+.od-abyss .abyss-od-atlantis-ring {
+  fill: none;
+  stroke: #D4AF37;
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 4px #00FFA3) drop-shadow(0 0 8px #00E5FF);
+}
+.od-abyss .abyss-od-atlantis-ring.ring-2 {
+  stroke: #00FFA3;
+  stroke-width: 0.8;
+}
+.od-abyss .abyss-od-resonance-rays {
+  animation: abyssOdResonanceSpin 30s linear infinite;
+}
+@keyframes abyssOdResonanceSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.od-abyss .abyss-od-ray {
+  stroke: #00E5FF;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 3px #00FFA3);
+}
+.od-abyss .abyss-od-node {
+  fill: #D4AF37;
+  stroke: #00FFA3;
+  stroke-width: 0.8;
+  filter: drop-shadow(0 0 4px #D4AF37);
+  animation: abyssOdNodeGlow 2s ease-in-out infinite alternate;
+}
+@keyframes abyssOdNodeGlow {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  100% { transform: scale(1.2); opacity: 1; filter: drop-shadow(0 0 6px #00FFA3) drop-shadow(0 0 10px #D4AF37); }
+}
+
 
 /* Frost: ヘキサゴナル・フロストコロナ ＆ ダイヤモンドダスト */
 /* ⚠️ 2026-09-14c: 100%超ではゲージが svg ごと回り続けるので、ここの発光は keyframes で動かさない
@@ -7340,9 +7376,29 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
                 <path class="cel-od-beams" d="M 84,2 L 84,166 M 2,84 L 166,84"></path>
                 <circle cx="84" cy="84" r="5" class="supernova-star"></circle>
               </g>
-              <!-- Abyss -->
+              <!-- Abyss: アトランティス超古代神殿オリハルコン全方位覚醒 ＆ 深海バイオショックウェーブ -->
               <g class="od-layer od-abyss">
                 <circle cx="84" cy="84" r="60" class="bio-shockwave"></circle>
+                <circle cx="84" cy="84" r="72" class="abyss-od-atlantis-ring ring-1"></circle>
+                <circle cx="84" cy="84" r="78" class="abyss-od-atlantis-ring ring-2"></circle>
+                <!-- 古代アトランティス海神の音響共鳴光条（八方位放射） -->
+                <g class="abyss-od-resonance-rays" style="transform-origin: 84px 84px;">
+                  <line x1="84" y1="6" x2="84" y2="18" class="abyss-od-ray"></line>
+                  <line x1="84" y1="150" x2="84" y2="162" class="abyss-od-ray"></line>
+                  <line x1="6" y1="84" x2="18" y2="84" class="abyss-od-ray"></line>
+                  <line x1="150" y1="84" x2="162" y2="84" class="abyss-od-ray"></line>
+                  <line x1="28" y1="28" x2="37" y2="37" class="abyss-od-ray"></line>
+                  <line x1="131" y1="131" x2="140" y2="140" class="abyss-od-ray"></line>
+                  <line x1="140" y1="28" x2="131" y2="37" class="abyss-od-ray"></line>
+                  <line x1="37" y1="131" x2="28" y2="140" class="abyss-od-ray"></line>
+                </g>
+                <!-- アトランティス・オリハルコン幾何ルーンノード（4方位菱形） -->
+                <g class="abyss-od-nodes">
+                  <polygon points="84,12 86.5,15 84,18 81.5,15" class="abyss-od-node"></polygon>
+                  <polygon points="84,150 86.5,153 84,156 81.5,153" class="abyss-od-node"></polygon>
+                  <polygon points="12,84 15,86.5 18,84 15,81.5" class="abyss-od-node"></polygon>
+                  <polygon points="150,84 153,86.5 156,84 153,81.5" class="abyss-od-node"></polygon>
+                </g>
               </g>
               <!-- Frost: 【絶対零度・ヘキサゴナル光冠 ＆ 放射クリスタルレイ ＆ 極低温ミスト】 -->
               <g class="od-layer od-frost">

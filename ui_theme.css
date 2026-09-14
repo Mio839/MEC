@@ -3669,11 +3669,13 @@ html.ui-frost .modal-box {
 html.ui-abyss .qc:hover {
   border-color: #00FFA3 !important;
   box-shadow: 0 26px 72px rgba(0, 0, 0, 0.98),
-              0 0 65px rgba(0, 255, 163, 0.65),
-              0 0 95px rgba(0, 229, 255, 0.45),
-              0 0 120px rgba(157, 78, 221, 0.25),
+              0 0 75px rgba(0, 255, 163, 0.75),
+              0 0 110px rgba(0, 229, 255, 0.55),
+              0 0 140px rgba(157, 78, 221, 0.35),
               inset 0 2px 1px #FFFFFF,
-              inset 0 0 40px rgba(0, 229, 255, 0.4) !important;
+              inset 8px 0 18px -2px rgba(0, 255, 163, 0.55),
+              inset -8px 0 18px -2px rgba(0, 229, 255, 0.55),
+              inset 0 0 45px rgba(0, 229, 255, 0.45) !important;
 }
 
 /* 🌊 カード上部: 発光クシクラゲの櫛板繊毛レインボーシマー ＆ 極光バイオ発光 */
@@ -3721,11 +3723,14 @@ html.ui-abyss .qc::after {
   100% { transform: scale(1.08) rotate(15deg); opacity: 1; filter: blur(0.8px) drop-shadow(0 0 26px rgba(0, 229, 255, 0.7)); }
 }
 
-/* 🌊 問題番号バッジ: 古代アトランティス神殿オリハルコン・エメラルド石板 ＆ 極彩色光彩 */
+/* 🌊 問題番号バッジ: 海神トライデント・古代アトランティス神殿オリハルコン二重環エンブレム */
 html.ui-abyss .qc .qn {
   background: 
+    linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, transparent 40%),
     linear-gradient(135deg, rgba(0, 229, 255, 0.95) 0%, rgba(0, 160, 110, 0.95) 30%, rgba(4, 25, 48, 0.98) 70%, rgba(157, 78, 221, 0.9) 100%) !important;
   border: 1.5px solid #00FFA3 !important;
+  outline: 1px solid rgba(212, 175, 55, 0.65) !important;
+  outline-offset: -3px !important;
   color: #FFFFFF !important;
   text-shadow: 0 0 14px rgba(0, 255, 163, 1), 0 0 8px #00E5FF, 0 1px 2px rgba(0, 0, 0, 0.9) !important;
   border-radius: 7px !important;
@@ -3735,7 +3740,7 @@ html.ui-abyss .qc .qn {
   letter-spacing: .9px !important;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.75),
               inset 0 2px 1px rgba(255, 255, 255, 0.98),
-              inset 0 -1px 0 rgba(212, 175, 55, 0.6),
+              inset 0 -1px 0 rgba(212, 175, 55, 0.75),
               0 0 25px rgba(0, 255, 163, 0.75),
               0 0 12px rgba(0, 229, 255, 0.5) !important;
 }
@@ -3959,7 +3964,7 @@ html.ui-abyss body.ch-exam-mode .qc.ch-exam-revealed .ch2.ng {
   100% { transform: scale(1); filter: brightness(1); }
 }
 
-/* 🌊 解答解説ボックス: 探査艇チタン耐圧ビューポートHUD ＆ 音響測深エコーグラム ＆ パイライト結晶エッジ */
+/* 🌊 解答解説ボックス: 探査艇チタン耐圧ビューポートHUD ＆ 音響測深エコーグラム ＆ 減圧インジケーター */
 html.ui-abyss .qc .ab {
   background: 
     radial-gradient(circle at 10px 10px, rgba(0, 255, 163, 0.9) 0px, #04241A 2px, transparent 4px),
@@ -3972,11 +3977,13 @@ html.ui-abyss .qc .ab {
     linear-gradient(145deg, rgba(8, 38, 76, 0.98) 0%, rgba(2, 14, 34, 0.99) 100%) !important;
   border: 1.5px solid #00FFA3 !important;
   border-left: 6px solid #00FFA3 !important;
+  border-bottom: 3.5px solid #00E5FF !important;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95),
               0 0 50px rgba(0, 255, 163, 0.6),
               0 0 75px rgba(0, 229, 255, 0.3),
               inset 0 2px 1.5px rgba(240, 253, 250, 0.98),
               inset 0 0 35px rgba(0, 229, 255, 0.15),
+              inset 0 -2px 8px rgba(0, 255, 163, 0.45),
               inset 0 -1px 0 rgba(212, 175, 55, 0.45) !important;
   border-radius: 14px !important;
   padding: 18px 22px !important;

@@ -2062,6 +2062,10 @@
     // 11. 深海巨大生物クラーケン・バイオテンタクル有機カーブリボン光条（Bioluminescent Tentacle Tendrils）
     slashRibbon(cx - maxR * 0.75, cy + maxR * 0.8, cx - maxR * 0.25, cy - maxR * 1.05, { color: emerald, width: 5.5, ttl: 0.62, curveX: -maxR * 0.55, curveY: 0, delay: 0.08 });
     slashRibbon(cx + maxR * 0.75, cy + maxR * 0.8, cx + maxR * 0.25, cy - maxR * 1.05, { color: electricCyan, width: 5.5, ttl: 0.62, curveX: maxR * 0.55, curveY: 0, delay: 0.09 });
+
+    // 12. 古代アトランティス・オリハルコン超光柱 ＆ 全天プラズマバースト（Atlantis Orichalcum Zenith Pillar）
+    slashRibbon(cx, H, cx, 0, { color: '#D4AF37', width: 4.8, ttl: 0.48, delay: 0.05 });
+    sparks(cx, cy, { count: 32, colors: ['#D4AF37', '#FFD700', emerald, electricCyan] });
   }
 
   /** 【4テーマ特化】絶対零度・フロスト氷晶: 幾何学結晶急成長 ＆ ダイヤモンドダスト (絶対零度極寒爆発) */
