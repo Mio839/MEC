@@ -4220,6 +4220,63 @@ html.ui-abyss #gmRecentFindings {
 }
 
 /* ═════════════════════════════════════════════════════════════════════════
+   🌊 深海アビス極限絢爛化 第10弾（最終フィナーレ）: 超深海探査艇コクピット＆深海生体結晶 5大集大成
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* 1. 超深海探査艇チタン球殻コクピットHUD光彩 */
+html.ui-abyss .qc {
+  background: linear-gradient(135deg, rgba(2, 22, 38, 0.96) 0%, rgba(1, 10, 18, 0.98) 100%) !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.95),
+              0 0 35px rgba(0, 255, 163, 0.35),
+              inset 0 1.5px 1px rgba(0, 255, 163, 0.75),
+              inset 0 0 25px rgba(0, 229, 255, 0.18),
+              inset 0 0 0 1px rgba(0, 180, 216, 0.28) !important;
+}
+
+/* 2. 深海魚デメニギス（Barreleye）超感度ドーム緑色水晶体ボタン */
+html.ui-abyss .qc .mec-detail-btn,
+html.ui-abyss .qc .ans-toggle,
+html.ui-abyss .qc .mec-lap-btn {
+  background: linear-gradient(145deg, rgba(0, 255, 163, 0.22) 0%, rgba(2, 28, 44, 0.9) 100%) !important;
+  border: 1.5px solid rgba(0, 255, 163, 0.7) !important;
+  box-shadow: 0 0 12px rgba(0, 255, 163, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  color: #FFFFFF !important;
+  transition: all 0.2s ease !important;
+}
+html.ui-abyss .qc .mec-detail-btn:hover,
+html.ui-abyss .qc .ans-toggle:hover,
+html.ui-abyss .qc .mec-lap-btn:hover {
+  background: linear-gradient(145deg, rgba(0, 255, 163, 0.4) 0%, rgba(0, 229, 255, 0.3) 100%) !important;
+  box-shadow: 0 0 22px rgba(0, 255, 163, 0.8), inset 0 1px 0 #FFFFFF !important;
+  transform: translateY(-1px) !important;
+}
+
+/* 3. 深海発光生物カイレイツノナシオイ・ルシフェリン器官インジケーター */
+html.ui-abyss .qc .ab .note,
+html.ui-abyss .qc .ab p strong {
+  border-left: 3px solid #00FFA3 !important;
+  padding-left: 8px !important;
+  text-shadow: 0 0 10px rgba(0, 255, 163, 0.7) !important;
+}
+
+/* 4. 海底音響マッピング・チタン耐圧統計フレーム */
+html.ui-abyss #gmStats .stat-tile,
+html.ui-abyss .hub-card,
+html.ui-abyss .ssov-box {
+  border: 1.5px solid rgba(0, 255, 163, 0.55) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.88),
+              0 0 24px rgba(0, 255, 163, 0.25),
+              inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;
+}
+
+/* 5. 深海メガロドン古代歯化石・ブラックダイヤモンド光沢 */
+html.ui-abyss .qc .ch2.ok.correct {
+  background: linear-gradient(135deg, rgba(0, 255, 163, 0.38) 0%, rgba(2, 34, 52, 0.95) 100%) !important;
+  border-color: #00FFA3 !important;
+  box-shadow: 0 0 32px rgba(0, 255, 163, 0.8), 0 0 18px rgba(0, 229, 255, 0.6), inset 0 1px 1px #FFFFFF !important;
+}
+
+/* ═════════════════════════════════════════════════════════════════════════
    8. ❄️ 絶対零度・フロスト氷晶 (Glacial Absolute Zero)
    コンセプト: 氷河フロスト × 多面体クリスタル・絶対零度の冷徹な思考力
    ═════════════════════════════════════════════════════════════════════════ */
