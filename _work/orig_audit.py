@@ -124,7 +124,7 @@ def audit(sid):
             if r is not None:
                 if code != r['kid']:
                     rep['ans'].append('[番号] NO.%-4d JSON=%s 表=%s' % (no, code, r['kid']))
-                oks = ''.join(sorted(c['t'].strip()[0] for c in q['choices'] if c.get('ok')))
+                oks = ''.join(sorted(unicodedata.normalize('NFKC', c['t'].strip()[0]) for c in q['choices'] if c.get('ok')))  # 全角ラベル（circ・neur）も比べる
                 tbl = ''.join(sorted(c for c in r['ans'] if c in 'abcdefg'))
                 if q['choices'] and tbl and oks != tbl:
                     rep['ans'].append('[正解] NO.%-4d %-10s JSON=%-4s 表=%s'
