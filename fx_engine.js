@@ -2091,6 +2091,10 @@
         delay: rnd(0.02, 0.1)
       });
     }
+
+    // 15. 超海淵ヴォイド・アビス全天プラズマカーテン（Hadal Void Plasma Curtains）
+    rings(cx, cy, { count: 4, maxR: Math.max(W, H) * 0.85, color: '#D4AF37', additive: true, delay: 0.1 });
+    sonicWave(cx, cy, { count: 3, maxR: Math.max(W, H) * 0.78, color: emerald, thickness: 3.5, delay: 0.14 });
   }
 
   /** 【4テーマ特化】絶対零度・フロスト氷晶: 幾何学結晶急成長 ＆ ダイヤモンドダスト (絶対零度極寒爆発) */

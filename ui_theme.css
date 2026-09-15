@@ -3534,10 +3534,11 @@ html.ui-abyss .ssov-box,
 html.ui-abyss .exam-start-box,
 html.ui-abyss .modal-box {
   background: 
-    radial-gradient(circle at 14px 14px, #A7F3D0 0px, #00FFA3 2px, #04241A 4px, transparent 6.5px),
-    radial-gradient(circle at calc(100% - 14px) 14px, #A7F3D0 0px, #00E5FF 2px, #04202E 4px, transparent 6.5px),
-    radial-gradient(circle at 14px calc(100% - 14px), #A7F3D0 0px, #00E5FF 2px, #04202E 4px, transparent 6.5px),
-    radial-gradient(circle at calc(100% - 14px) calc(100% - 14px), #A7F3D0 0px, #9D4EDD 2px, #1A0426 4px, transparent 6.5px),
+    radial-gradient(circle at 14px 14px, #FFFFFF 0px, #D4AF37 1.5px, #00FFA3 3px, #04241A 4.5px, transparent 6.5px),
+    radial-gradient(circle at calc(100% - 14px) 14px, #FFFFFF 0px, #D4AF37 1.5px, #00E5FF 3px, #04202E 4.5px, transparent 6.5px),
+    radial-gradient(circle at 14px calc(100% - 14px), #FFFFFF 0px, #D4AF37 1.5px, #00E5FF 3px, #04202E 4.5px, transparent 6.5px),
+    radial-gradient(circle at calc(100% - 14px) calc(100% - 14px), #FFFFFF 0px, #D4AF37 1.5px, #9D4EDD 3px, #1A0426 4.5px, transparent 6.5px),
+
     repeating-radial-gradient(ellipse 90% 70% at 85% 85%, transparent 0, transparent 48px, rgba(0, 229, 255, 0.025) 49px, transparent 50px),
     repeating-radial-gradient(ellipse 80% 60% at 15% 15%, transparent 0, transparent 38px, rgba(0, 255, 163, 0.02) 39px, transparent 40px),
     radial-gradient(circle at 0 0, rgba(0, 255, 163, 0.4) 0px, rgba(0, 229, 255, 0.2) 20px, transparent 32px),
@@ -4017,14 +4018,14 @@ html.ui-abyss .qc .ab {
 }
 
 html.ui-abyss .qc .ab strong {
-  background: linear-gradient(135deg, #A7F3D0 0%, #00FFA3 30%, #00E5FF 70%, #9D4EDD 100%) !important;
+  background: linear-gradient(135deg, #FFFDF0 0%, #FFD700 20%, #00FFA3 50%, #00E5FF 75%, #9D4EDD 100%) !important;
   padding: 5px 14px !important;
   border-radius: 6px !important;
   border: 1.5px solid #FFFFFF !important;
   color: #011424 !important;
   font-weight: 900 !important;
   text-shadow: none !important;
-  box-shadow: 0 2px 18px rgba(0, 255, 163, 0.9), 0 0 12px #00E5FF !important;
+  box-shadow: 0 2px 18px rgba(0, 255, 163, 0.95), 0 0 14px #00E5FF, 0 0 8px #FFD700 !important;
 }
 
 /* 🌊 設問文: 深海生物発光インク ＆ 重要語句・下線部バイオグロー */

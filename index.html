@@ -3504,21 +3504,22 @@ html.ui-abyss .theme-gauge-abyss { display: inline; }
   100% { transform: translateY(-9px) translateX(4px); opacity: 0.3; }
 }
 
-/* 深海マイクロバブル */
+/* 深海マイクロバブル（超臨界シャンパン気泡＆真珠光沢） */
 .abyss-bubble {
-  fill: rgba(0, 229, 255, 0.2);
-  stroke: rgba(0, 255, 163, 0.6);
-  stroke-width: 0.8;
+  fill: rgba(0, 229, 255, 0.25);
+  stroke: rgba(0, 255, 163, 0.75);
+  stroke-width: 0.9;
+  filter: drop-shadow(0 0 3px #00FFA3);
   animation: abyssBubbleRise 4s ease-in infinite;
 }
-.abyss-bubble.bb-1 { animation-duration: 3.5s; }
-.abyss-bubble.bb-2 { animation-duration: 4.8s; animation-delay: -1.5s; }
-.abyss-bubble.bb-3 { animation-duration: 4.2s; animation-delay: -0.8s; }
+.abyss-bubble.bb-1 { animation-duration: 3.5s; stroke: #64FFDA; }
+.abyss-bubble.bb-2 { animation-duration: 4.8s; animation-delay: -1.5s; stroke: #00E5FF; filter: drop-shadow(0 0 4px #00E5FF); }
+.abyss-bubble.bb-3 { animation-duration: 4.2s; animation-delay: -0.8s; stroke: #D4AF37; }
 @keyframes abyssBubbleRise {
-  0% { transform: translateY(6px); opacity: 0; }
-  30% { opacity: 0.7; }
-  80% { opacity: 0.5; }
-  100% { transform: translateY(-24px); opacity: 0; }
+  0% { transform: translateY(6px) translateX(0) scale(0.8); opacity: 0; }
+  30% { opacity: 0.85; transform: translateY(-4px) translateX(1.5px) scale(1); }
+  70% { opacity: 0.65; transform: translateY(-16px) translateX(-1.5px) scale(1.1); }
+  100% { transform: translateY(-28px) translateX(2px) scale(1.25); opacity: 0; }
 }
 
 /* 曲面斜光ハイライトグレア（左側一本線の原因となるため完全非表示） */
@@ -5238,8 +5239,9 @@ html.ui-abyss #gmDaily .gm-mission{border-radius:8px;background:radial-gradient(
 
 html.ui-abyss #gmDaily .gm-mission.done{background:radial-gradient(ellipse at 0% 50%,rgba(0,255,163,.15) 0%,transparent 70%),linear-gradient(180deg,rgba(2,32,40,.92),rgba(1,20,28,.96));border-color:#00FFA3;border-left:3.5px solid #00FFA3;box-shadow:0 0 20px rgba(0,255,163,.35),inset 0 0 15px rgba(0,255,163,.15);}
 
-html.ui-abyss .sec-h::before{background:#00FFA3;box-shadow:0 0 10px #00FFA3,0 0 18px #00B4D8;}
-html.ui-abyss .sec-h .ln{background:linear-gradient(90deg,#00FFA3 0%,#00B4D8 40%,transparent 95%);}
+html.ui-abyss .sec-h::before{background:#00FFA3;box-shadow:0 0 12px #00FFA3,0 0 20px #00E5FF,0 0 6px #FFD700;}
+html.ui-abyss .sec-h .ln{background:linear-gradient(90deg,#00FFA3 0%,#00E5FF 30%,#00B4D8 60%,transparent 95%);}
+
 html.ui-abyss .srs-card-today{color:#38BDF8;background:rgba(2,18,34,.9);border-color:rgba(0,255,163,.4);box-shadow:0 0 10px rgba(0,255,163,.2);border-radius:6px;}
 html.ui-abyss .srs-card-today b{color:#00FFA3;text-shadow:0 0 8px #00FFA3;}
 /* 復習キュー＝深海神殿の重装甲チタン計器窓。水中の極光コースティクスが揺らめき、音響ソナービームが走る */
