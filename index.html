@@ -3604,12 +3604,18 @@ html.ui-abyss .theme-gauge-abyss { display: inline; }
   filter: drop-shadow(0 0 3px rgba(0, 255, 163, 0.6));
 }
 
-/* 🌋 深海熱水噴出孔チムニー ＆ 超臨界熱水ミネラルプルーム */
+/* 🌋 深海熱水噴出孔チムニー ＆ パイライト結晶鉱床 ＆ 超臨界熱水ミネラルプルーム */
 .abyss-vent-chimney {
   fill: #02121E;
   stroke: #D4AF37;
-  stroke-width: 0.8;
-  filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.45));
+  stroke-width: 0.9;
+  filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.55)) drop-shadow(0 0 10px rgba(0, 255, 163, 0.35));
+  animation: abyssPyritePulse 3.5s ease-in-out infinite alternate;
+}
+@keyframes abyssPyritePulse {
+  0% { stroke: #D4AF37; filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.4)); }
+  50% { stroke: #00FFA3; filter: drop-shadow(0 0 8px rgba(0, 255, 163, 0.6)) drop-shadow(0 0 12px rgba(212, 175, 55, 0.5)); }
+  100% { stroke: #FFD700; filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7)) drop-shadow(0 0 14px rgba(0, 229, 255, 0.4)); }
 }
 .abyss-vent-orifice {
   fill: #00FFA3;
@@ -5225,8 +5231,10 @@ html.ui-abyss .tiles .tile{border-radius:8px;background:radial-gradient(ellipse 
 html.ui-abyss .tiles .tile:hover{transform:translateY(-2px);border-color:#00FFA3;box-shadow:0 10px 28px rgba(0,0,0,.65),0 0 22px rgba(0,255,163,.35),inset 0 0 14px rgba(0,255,163,.12);}
 html.ui-abyss .tiles .tile.t-lead{background:linear-gradient(180deg,rgba(3,26,52,.92),rgba(2,16,36,.96));border-color:rgba(0,255,163,.55);box-shadow:0 6px 20px rgba(0,0,0,.6),0 0 16px rgba(0,255,163,.22);}
 html.ui-abyss .tile-bar span{border-radius:2px;background:linear-gradient(90deg,#00B4D8,#00FFA3);box-shadow:0 0 8px #00FFA3;}
-html.ui-abyss #gmDaily .gm-mission{border-radius:8px;background:linear-gradient(180deg,rgba(2,18,34,.85),rgba(1,10,22,.92));border:1px solid rgba(0,255,163,.28);box-shadow:0 4px 14px rgba(0,0,0,.4);}
-html.ui-abyss #gmDaily .gm-mission.done{background:linear-gradient(180deg,rgba(2,32,40,.92),rgba(1,20,28,.96));border-color:#00FFA3;box-shadow:0 0 20px rgba(0,255,163,.35),inset 0 0 15px rgba(0,255,163,.15);}
+html.ui-abyss #gmDaily .gm-mission{border-radius:8px;background:radial-gradient(ellipse at 0% 50%,rgba(0,255,163,.06) 0%,transparent 60%),linear-gradient(180deg,rgba(2,18,34,.85),rgba(1,10,22,.92));border:1px solid rgba(0,255,163,.28);border-left:3.5px solid rgba(0,229,255,.6);box-shadow:0 4px 14px rgba(0,0,0,.4),inset 0 0 10px rgba(0,229,255,.04);}
+
+html.ui-abyss #gmDaily .gm-mission.done{background:radial-gradient(ellipse at 0% 50%,rgba(0,255,163,.15) 0%,transparent 70%),linear-gradient(180deg,rgba(2,32,40,.92),rgba(1,20,28,.96));border-color:#00FFA3;border-left:3.5px solid #00FFA3;box-shadow:0 0 20px rgba(0,255,163,.35),inset 0 0 15px rgba(0,255,163,.15);}
+
 html.ui-abyss .sec-h::before{background:#00FFA3;box-shadow:0 0 10px #00FFA3,0 0 18px #00B4D8;}
 html.ui-abyss .sec-h .ln{background:linear-gradient(90deg,#00FFA3 0%,#00B4D8 40%,transparent 95%);}
 html.ui-abyss .srs-card-today{color:#38BDF8;background:rgba(2,18,34,.9);border-color:rgba(0,255,163,.4);box-shadow:0 0 10px rgba(0,255,163,.2);border-radius:6px;}

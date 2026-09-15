@@ -2066,6 +2066,11 @@
     // 12. 古代アトランティス・オリハルコン超光柱 ＆ 全天プラズマバースト（Atlantis Orichalcum Zenith Pillar）
     slashRibbon(cx, H, cx, 0, { color: '#D4AF37', width: 4.8, ttl: 0.48, delay: 0.05 });
     sparks(cx, cy, { count: 32, colors: ['#D4AF37', '#FFD700', emerald, electricCyan] });
+
+    // 13. マルチビーム音響測深立体グリッド投影（Multibeam Bathymetry Projection）
+    for (var mbi = -2; mbi <= 2; mbi++) {
+      slashRibbon(cx, cy, cx + mbi * maxR * 0.45, cy + maxR * 0.95, { color: emerald, width: 2.2, ttl: 0.45, delay: 0.03 + Math.abs(mbi) * 0.02 });
+    }
   }
 
   /** 【4テーマ特化】絶対零度・フロスト氷晶: 幾何学結晶急成長 ＆ ダイヤモンドダスト (絶対零度極寒爆発) */

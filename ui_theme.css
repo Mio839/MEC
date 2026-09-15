@@ -3779,6 +3779,23 @@ html.ui-abyss .qc .qh {
   position: relative;
 }
 
+html.ui-abyss .qc .qh::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 6px;
+  background: 
+    radial-gradient(circle at 4px 50%, #00FFA3 0px, transparent 2.5px),
+    radial-gradient(circle at 12px 50%, #00E5FF 0px, transparent 2.5px),
+    radial-gradient(circle at 20px 50%, #9D4EDD 0px, transparent 2.5px);
+  filter: drop-shadow(0 0 6px #00FFA3);
+  pointer-events: none;
+  opacity: 0.85;
+}
+
 html.ui-abyss .qc .qh::after {
   content: '';
   position: absolute;
@@ -3880,14 +3897,15 @@ html.ui-abyss .qc .ch2:hover,
 html.ui-abyss body.exam-mode .qc:not(.exam-revealed) .ch2.ok:not(.exam-selected):hover,
 html.ui-abyss body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected):hover {
   background: 
+    linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 35%),
     radial-gradient(circle at 6px 25%, #00FFA3 0px, rgba(1, 20, 36, 0.9) 3px, transparent 4px),
     radial-gradient(circle at 6px 50%, #00E5FF 0px, rgba(1, 20, 36, 0.9) 3px, transparent 4px),
     radial-gradient(circle at 6px 75%, #9D4EDD 0px, rgba(1, 20, 36, 0.9) 3px, transparent 4px),
-    linear-gradient(90deg, rgba(0, 255, 163, 0.32) 0%, rgba(0, 229, 255, 0.28) 35%, rgba(157, 78, 221, 0.24) 70%, rgba(4, 22, 48, 0.88) 100%) !important;
-  background-size: auto, auto, auto, 200% 100% !important;
+    linear-gradient(90deg, rgba(0, 255, 163, 0.35) 0%, rgba(0, 229, 255, 0.3) 35%, rgba(157, 78, 221, 0.26) 70%, rgba(4, 22, 48, 0.9) 100%) !important;
+  background-size: auto, auto, auto, auto, 200% 100% !important;
   border-color: #00FFA3 !important;
   border-left: 5px solid #00E5FF !important;
-  box-shadow: 0 0 32px rgba(0, 255, 163, 0.75), 0 0 20px rgba(0, 229, 255, 0.5), inset 0 0 24px rgba(0, 229, 255, 0.3) !important;
+  box-shadow: 0 0 32px rgba(0, 255, 163, 0.75), 0 0 20px rgba(0, 229, 255, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.6), inset 0 0 24px rgba(0, 229, 255, 0.3) !important;
   transform: translateX(5px) !important;
   animation: abyssBioCascade 3s ease-in-out infinite alternate !important;
 }
