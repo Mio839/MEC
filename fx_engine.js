@@ -2071,6 +2071,26 @@
     for (var mbi = -2; mbi <= 2; mbi++) {
       slashRibbon(cx, cy, cx + mbi * maxR * 0.45, cy + maxR * 0.95, { color: emerald, width: 2.2, ttl: 0.45, delay: 0.03 + Math.abs(mbi) * 0.02 });
     }
+
+    // 14. 超臨界ブラックチムニー噴煙ミネラルバースト（Supercritical Black Smoker Plume Burst）
+    var nSmoke = 24;
+    for (var si = 0; si < nSmoke; si++) {
+      var sAngle = -Math.PI * 0.5 + rnd(-0.55, 0.55);
+      var sSpeed = rnd(50, 160);
+      addP({
+        x: cx + rnd(-8, 8),
+        y: cy + maxR * 0.35,
+        vx: Math.cos(sAngle) * sSpeed,
+        vy: Math.sin(sAngle) * sSpeed,
+        size: rnd(3.0, 7.0),
+        color: pick(['#02121E', '#D4AF37', '#00FFA3', '#64FFDA', '#FFD700']),
+        shape: 'bubble',
+        glow: true,
+        blend: true,
+        ttl: rnd(0.5, 0.9),
+        delay: rnd(0.02, 0.1)
+      });
+    }
   }
 
   /** 【4テーマ特化】絶対零度・フロスト氷晶: 幾何学結晶急成長 ＆ ダイヤモンドダスト (絶対零度極寒爆発) */
