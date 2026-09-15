@@ -671,81 +671,85 @@
         return;
       }
       case 'abyss_sonar': {
-        // 【深海アビス】絢爛エメラルド＆エレクトリックシアン極彩色ソナーパルス ＆ 16連生体発光星陣 ＆ 十字照準スイープ
+        // 【深海アビス】深海発光生物（クダクラゲ）生体電気カスケード ＆ 有機的バイオルミネセンス
         var scS = easeOutCubic(t);
         var rS = p.maxR * scS;
         var emerald = p.color || '#00FFA3';
         var electricCyan = p.accentColor || '#00E5FF';
-        var amethyst = '#9D4EDD';
         var pureWhite = '#FFFFFF';
+        var bioGlow = '#64FFDA';
 
         ctx.save();
         ctx.translate(x, y);
 
-        // 1. 十字深海探査ソナー軸（クロスヘア・ガイドライン）
-        var crossAlpha = Math.max(0, 0.28 * (1 - t));
-        ctx.strokeStyle = 'rgba(0, 255, 163, ' + crossAlpha + ')';
-        ctx.lineWidth = 1;
+        // 1. 深海生体発光オーラ（同心円ではなく、柔らかな有機的ブルーム）
+        var auraGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, Math.max(1, rS * 0.85));
+        var auraAlpha = Math.sin(t * Math.PI) * 0.32;
+        auraGrad.addColorStop(0, 'rgba(0, 255, 163, ' + auraAlpha + ')');
+        auraGrad.addColorStop(0.5, 'rgba(0, 229, 255, ' + (auraAlpha * 0.6) + ')');
+        auraGrad.addColorStop(1, 'rgba(0, 180, 216, 0)');
+        ctx.fillStyle = auraGrad;
         ctx.beginPath();
-        ctx.moveTo(-rS * 1.1, 0); ctx.lineTo(rS * 1.1, 0);
-        ctx.moveTo(0, -rS * 1.1); ctx.lineTo(0, rS * 1.1);
-        ctx.stroke();
+        ctx.arc(0, 0, Math.max(1, rS * 0.85), 0, 6.2832);
+        ctx.fill();
 
-        // 2. 多重スペクトル同心ソナーリング（5重実線・音響干渉波形）
-        var ringColors = [emerald, electricCyan, pureWhite, amethyst, '#64FFDA'];
-        for (var si = 0; si < 5; si++) {
-          var curSR = rS * (1 - si * 0.18);
-          if (curSR <= 0) continue;
+        // 2. 生体電気カスケード触手（中心から有機的にうねり広がる触手ライン・5本）
+        var nTendrils = 5;
+        var progress = Math.min(1, t * 1.8);
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        for (var ti = 0; ti < nTendrils; ti++) {
+          var baseAngle = (ti / nTendrils) * 6.2832 + 0.35;
+          // 有機的な揺らぎを持つ曲線触手
+          var swayOffset = Math.sin(t * 4.5 + ti * 1.2) * (rS * 0.18);
+          var curLen = rS * progress;
+          var midR = curLen * 0.52;
+          var midAngle = baseAngle + Math.sin(ti * 1.7) * 0.35;
+          var endAngle = baseAngle + Math.cos(ti * 2.1) * 0.22;
+
+          var midX = Math.cos(midAngle) * midR + Math.cos(baseAngle + 1.57) * swayOffset;
+          var midY = Math.sin(midAngle) * midR + Math.sin(baseAngle + 1.57) * swayOffset;
+          var endX = Math.cos(endAngle) * curLen;
+          var endY = Math.sin(endAngle) * curLen;
+
+          // 触手本体ライン
           ctx.beginPath();
-          ctx.arc(0, 0, curSR, 0, 6.2832);
-          ctx.strokeStyle = ringColors[si % ringColors.length];
-          ctx.lineWidth = Math.max(1, (3.2 - si * 0.5) * (1 - t * 0.35));
+          ctx.moveTo(0, 0);
+          ctx.quadraticCurveTo(midX, midY, endX, endY);
+          ctx.strokeStyle = (ti % 2 === 0 ? emerald : electricCyan);
+          ctx.lineWidth = Math.max(0.8, (2.2 - ti * 0.2) * (1 - t * 0.4));
           ctx.stroke();
+
+          // 3. 生体発光器官（各触手に沿った発光ノードの順次パルス点灯）
+          var nNodes = 3;
+          for (var ni = 1; ni <= nNodes; ni++) {
+            var u = (ni / (nNodes + 0.5)) * progress;
+            var invU = 1 - u;
+            var nx = 2 * invU * u * midX + u * u * endX;
+            var ny = 2 * invU * u * midY + u * u * endY;
+
+            // パルスシグナル（中心から外側へ光が走る）
+            var pulsePhase = t * 2.8 - (ti * 0.15 + ni * 0.2);
+            var nodeIntensity = Math.max(0, Math.sin(Math.min(Math.PI, Math.max(0, pulsePhase * Math.PI))));
+
+            if (nodeIntensity > 0.05) {
+              var nodeR = (1.8 + nodeIntensity * 2.2);
+              ctx.beginPath();
+              ctx.arc(nx, ny, nodeR, 0, 6.2832);
+              ctx.fillStyle = (nodeIntensity > 0.65 ? pureWhite : (ti % 2 === 0 ? bioGlow : electricCyan));
+              ctx.fill();
+            }
+          }
         }
 
-        // 3. ソナー走査扇形スイープ (Sonar Sweep Beam) ＆ 二重グラデーション
-        var sweepA = t * 4.8;
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.arc(0, 0, rS, sweepA - 0.75, sweepA);
-        ctx.closePath();
-        var sweepGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, rS);
-        sweepGrad.addColorStop(0, 'rgba(0, 255, 163, ' + (0.35 * (1 - t * 0.4)) + ')');
-        sweepGrad.addColorStop(0.7, 'rgba(0, 229, 255, ' + (0.22 * (1 - t * 0.4)) + ')');
-        sweepGrad.addColorStop(1, 'rgba(157, 78, 221, ' + (0.12 * (1 - t * 0.5)) + ')');
-        ctx.fillStyle = sweepGrad;
-        ctx.fill();
-
-        // 4. ソナー走査メインライン ＆ リーディングヘッド
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        var sweepEndX = Math.cos(sweepA) * rS, sweepEndY = Math.sin(sweepA) * rS;
-        ctx.lineTo(sweepEndX, sweepEndY);
-        ctx.strokeStyle = emerald;
-        ctx.lineWidth = 2.6;
-        ctx.stroke();
-
-        // 走査先端の高輝度ヘッド
-        ctx.beginPath();
-        ctx.arc(sweepEndX, sweepEndY, 3.5, 0, 6.2832);
-        ctx.fillStyle = pureWhite;
-        ctx.shadowColor = electricCyan;
-        ctx.shadowBlur = 10;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-
-        // 5. 生体発光器官・16連星陣パルス (Dual-Orbit Bioluminescent Nodes)
-        var nodeCount = 16;
-        for (var ni = 0; ni < nodeCount; ni++) {
-          var isInner = (ni % 2 === 1);
-          var na = (ni / nodeCount) * 6.2832 + sweepA * 0.25;
-          var nr = rS * (isInner ? 0.48 : 0.82);
-          var nx = Math.cos(na) * nr, ny = Math.sin(na) * nr;
-          var nodeGlow = Math.sin((t * 10 + ni) * 0.9) * 0.5 + 0.5;
-          var nodeCol = isInner ? electricCyan : (ni % 4 === 0 ? amethyst : emerald);
-          ctx.fillStyle = (nodeGlow > 0.6 ? pureWhite : nodeCol);
+        // 4. 中心核の生体発光コア
+        var coreAlpha = Math.max(0, (1 - t * 1.5));
+        if (coreAlpha > 0) {
           ctx.beginPath();
-          ctx.arc(nx, ny, isInner ? 2.2 : 3.2, 0, 6.2832);
+          ctx.arc(0, 0, 4.5 * (1 + t), 0, 6.2832);
+          ctx.fillStyle = pureWhite;
+          ctx.globalAlpha *= coreAlpha;
           ctx.fill();
         }
 
@@ -1943,18 +1947,18 @@
     sparks(cx, cy, { count: o.sparksCount || 36, colors: [starGold, manaPurple, cyanGlow, white] });
   }
 
-  /** 【4テーマ特化】深海アビス・発光生物: 絢爛極彩色バイオソナー波紋 ＆ クラーケン・ソナーバースト (超深海神秘大爆発) */
+  /** 【4テーマ特化】深海アビス・生体発光生物: クダクラゲ生体電気カスケード ＆ 優美な深海マリンスノー (深海神秘バイオルミネセンス) */
   function abyssSonarPulse(cx, cy, o) {
     o = o || {};
     cx = cx == null ? W * .5 : cx;
     cy = cy == null ? H * .5 : cy;
-    var emerald = '#00FFA3', electricCyan = '#00E5FF', deepCyan = '#00B4D8', bioGlow = '#64FFDA', white = '#FFFFFF', amethyst = '#9D4EDD';
-    var maxR = o.maxR || Math.min(W, H) * 0.48;
+    var emerald = '#00FFA3', electricCyan = '#00E5FF', deepCyan = '#00B4D8', bioGlow = '#64FFDA', white = '#FFFFFF';
+    var maxR = Math.min(o.maxR || Math.min(W, H) * 0.45, Math.min(W, H) * 0.45);
 
-    // 全画面インパクト: 深海エメラルド＆エレクトリックシアン二重露光フラッシュ
-    if (o.flash !== false) flashScreen('rgba(0, 255, 163, 0.42)', 0.38);
+    // 全画面インパクト: 深海の闇に浮かぶ淡いエメラルド微光フラッシュ（低負荷・低刺激）
+    if (o.flash !== false) flashScreen('rgba(0, 255, 163, 0.16)', 0.26);
 
-    // 1. 深海メガソナーパルス ＆ 走査スイープ（全画面全域）
+    // 1. 深海発光生物（シフォノフォア）生体電気カスケード ＆ 有機バイオルミネセンス
     addP({
       type: 'abyss_sonar',
       x: cx,
@@ -1963,138 +1967,50 @@
       color: emerald,
       accentColor: electricCyan,
       blend: true,
-      ttl: o.ttl || 0.82
+      ttl: o.ttl || 0.75
     });
 
-    // 2. マリンスノー粒子（虹色クシクラゲ・極彩色発光プランクトン浮遊上昇・有機的うねり大乱舞）
-    var nMarineSnow = o.marineSnowCount || 110;
+    // 2. 優美な深海マリンスノー（厳選16〜20個: 海流に揺られながら静かに舞う・低負荷）
+    var nMarineSnow = Math.min(o.marineSnowCount || 18, 24);
     for (var m = 0; m < nMarineSnow; m++) {
       var ma = Math.random() * Math.PI * 2;
-      var mr = rnd(8, maxR * 1.25);
+      var mr = rnd(10, maxR * 0.95);
       addP({
         type: 'dust',
         x: cx + Math.cos(ma) * mr,
         y: cy + Math.sin(ma) * mr,
-        vx: rnd(-32, 32),
-        vy: rnd(-78, -25),
-        sway: { f: rnd(1.8, 4.2), ph: rnd(0, 6.28), amp: rnd(38, 95) },
-        size: rnd(2.5, 6.5),
-        color: pick([emerald, electricCyan, deepCyan, bioGlow, white, amethyst, '#A7F3D0']),
-        blend: true,
-        ttl: rnd(0.7, 1.3)
-      });
-    }
-
-    // 3. 生体発光微粒子バブル（画面全体を舞い上がる・弾け）
-    bubbles(cx, cy, { count: o.bubbleCount || 64, colors: [emerald, electricCyan, deepCyan, bioGlow, white, amethyst] });
-
-    // 4. 深海パルススパーク ＆ ソナー多層同心円衝撃波
-    sparks(cx, cy, { count: o.sparksCount || 48, colors: [emerald, bioGlow, white, electricCyan, amethyst] });
-    rings(cx, cy, { count: 5, maxR: maxR * 1.05, color: emerald, additive: true });
-    rings(cx, cy, { count: 4, maxR: maxR * 0.82, color: electricCyan, additive: true });
-    rings(cx, cy, { count: 3, maxR: maxR * 0.58, color: amethyst, additive: true });
-    sonicWave(cx, cy, { count: 4, maxR: maxR * 0.92, color: bioGlow, thickness: 3.8 });
-
-    // 5. 深海超光柱バイオビーム（海底熱水孔から天頂へ突き抜けるヴォイド・アセンション）
-    slashRibbon(cx, H, cx, 0, { color: emerald, width: 6.8, ttl: 0.52 });
-    slashRibbon(cx - 9, H, cx - 9, 0, { color: electricCyan, width: 4.5, ttl: 0.48, delay: 0.02 });
-    slashRibbon(cx + 9, H, cx + 9, 0, { color: white, width: 3.8, ttl: 0.45, delay: 0.03 });
-    slashRibbon(cx, H, cx, 0, { color: bioGlow, width: 8.5, ttl: 0.38, delay: 0.01 });
-
-    // 6. リュウグウノツカイ極光リボン（深海を優雅にうねり舞うマルチカラーリボン）
-    slashRibbon(cx - maxR * 0.9, cy + maxR * 0.5, cx + maxR * 0.85, cy - maxR * 0.65, { color: emerald, width: 4.5, ttl: 0.58, curveX: -maxR * 0.4, curveY: -maxR * 0.35 });
-    slashRibbon(cx + maxR * 0.9, cy + maxR * 0.5, cx - maxR * 0.85, cy - maxR * 0.65, { color: electricCyan, width: 4.0, ttl: 0.60, curveX: maxR * 0.4, curveY: -maxR * 0.35, delay: 0.04 });
-    slashRibbon(cx - maxR * 0.65, cy + maxR * 0.85, cx + maxR * 0.55, cy - maxR * 0.85, { color: amethyst, width: 3.5, ttl: 0.65, curveX: maxR * 0.35, curveY: maxR * 0.25, delay: 0.07 });
-    slashRibbon(cx, cy + maxR * 0.95, cx, cy - maxR * 0.95, { color: white, width: 3.0, ttl: 0.55, curveX: -maxR * 0.5, curveY: 0, delay: 0.05 });
-
-    // 7. 巨大深海神獣リヴァイアサン覚醒（画面深奥を横切る巨大遊泳光条 ＆ 全画面メガソナー超衝撃波）
-    slashRibbon(-W * 0.1, cy + rnd(-35, 35), W * 1.1, cy + rnd(-35, 35), { color: emerald, width: 7.5, ttl: 0.72, curveX: 0, curveY: rnd(-110, 110), delay: 0.06 });
-    slashRibbon(-W * 0.08, cy + rnd(-25, 25), W * 1.08, cy + rnd(-25, 25), { color: electricCyan, width: 5.2, ttl: 0.68, curveX: 0, curveY: rnd(-90, 90), delay: 0.10 });
-    rings(cx, cy, { count: 6, maxR: Math.max(W, H) * 0.72, color: emerald, additive: true, delay: 0.04 });
-    sonicWave(cx, cy, { count: 5, maxR: Math.max(W, H) * 0.62, color: electricCyan, thickness: 4.6, delay: 0.07 });
-
-    // 8. 深海メガ熱水噴出孔（ブラックスモーカー）超臨界鉱物プルーム ＆ パイライト黄金結晶スパーク
-    sparks(cx, cy, { count: o.pyriteCount || 42, colors: ['#D4AF37', '#FFD700', emerald, bioGlow, electricCyan] });
-    var hydrothermalCols = ['#D4AF37', '#FFD700', '#76FF03', '#00FFA3', '#00E5FF', '#64FFDA', '#FFFFFF'];
-    for (var hp = 0; hp < 48; hp++) {
-      var hpa = rnd(-0.55, 0.55) - Math.PI * 0.5;
-      var hpspd = rnd(300, 680);
-      addP({
-        x: cx + rnd(-35, 35),
-        y: H,
-        vx: Math.cos(hpa) * hpspd * 0.45,
-        vy: Math.sin(hpa) * hpspd,
-        gy: -190,
-        drag: 0.94,
-        size: rnd(2.5, 6.5),
-        color: pick(hydrothermalCols),
-        shape: 'shard',
-        glow: true,
-        blend: true,
-        ttl: rnd(0.6, 1.05),
-        delay: rnd(0.01, 0.08)
-      });
-    }
-
-    // 9. 超深海アクティブ・ソナーPING音響エコー波 ＆ 生物発光閃光パルス
-    var nPings = o.pingCount || 24;
-    for (var pi = 0; pi < nPings; pi++) {
-      var pa = rnd(0, Math.PI * 2);
-      var pdist = rnd(20, maxR * 1.15);
-      addP({
-        x: cx + Math.cos(pa) * pdist,
-        y: cy + Math.sin(pa) * pdist,
-        vx: rnd(-15, 15),
-        vy: rnd(-15, 15),
+        vx: rnd(-20, 20),
+        vy: rnd(-55, -18),
+        sway: { f: rnd(1.5, 3.2), ph: rnd(0, 6.28), amp: rnd(25, 60) },
         size: rnd(2.0, 5.0),
-        color: pick([emerald, electricCyan, bioGlow, '#FFFFFF']),
-        shape: 'sparkle',
-        glow: true,
+        color: pick([emerald, electricCyan, deepCyan, bioGlow, white]),
         blend: true,
-        ttl: rnd(0.35, 0.75),
-        delay: rnd(0.04, 0.18)
+        ttl: rnd(0.65, 1.1)
       });
     }
 
-    // 10. 超低周波ハイドロフォン水中音響波（Infrasound Hydrophone Wavefront）
-    sonicWave(cx, cy, { count: 3, maxR: maxR * 1.35, color: emerald, thickness: 2.2, delay: 0.12 });
+    // 3. 深海生体発光マイクロバブル（中心からわずかに湧き上がる・厳選10個）
+    bubbles(cx, cy, { count: Math.min(o.bubbleCount || 10, 14), colors: [emerald, electricCyan, bioGlow, white] });
 
-    // 11. 深海巨大生物クラーケン・バイオテンタクル有機カーブリボン光条（Bioluminescent Tentacle Tendrils）
-    slashRibbon(cx - maxR * 0.75, cy + maxR * 0.8, cx - maxR * 0.25, cy - maxR * 1.05, { color: emerald, width: 5.5, ttl: 0.62, curveX: -maxR * 0.55, curveY: 0, delay: 0.08 });
-    slashRibbon(cx + maxR * 0.75, cy + maxR * 0.8, cx + maxR * 0.25, cy - maxR * 1.05, { color: electricCyan, width: 5.5, ttl: 0.62, curveX: maxR * 0.55, curveY: 0, delay: 0.09 });
+    // 4. 生物発光器官の微光スパークル（12個）
+    sparks(cx, cy, { count: Math.min(o.sparksCount || 12, 16), colors: [emerald, bioGlow, white, electricCyan] });
 
-    // 12. 古代アトランティス・オリハルコン超光柱 ＆ 全天プラズマバースト（Atlantis Orichalcum Zenith Pillar）
-    slashRibbon(cx, H, cx, 0, { color: '#D4AF37', width: 4.8, ttl: 0.48, delay: 0.05 });
-    sparks(cx, cy, { count: 32, colors: ['#D4AF37', '#FFD700', emerald, electricCyan] });
-
-    // 13. マルチビーム音響測深立体グリッド投影（Multibeam Bathymetry Projection）
-    for (var mbi = -2; mbi <= 2; mbi++) {
-      slashRibbon(cx, cy, cx + mbi * maxR * 0.45, cy + maxR * 0.95, { color: emerald, width: 2.2, ttl: 0.45, delay: 0.03 + Math.abs(mbi) * 0.02 });
-    }
-
-    // 14. 超臨界ブラックチムニー噴煙ミネラルバースト（Supercritical Black Smoker Plume Burst）
-    var nSmoke = 24;
-    for (var si = 0; si < nSmoke; si++) {
-      var sAngle = -Math.PI * 0.5 + rnd(-0.55, 0.55);
-      var sSpeed = rnd(50, 160);
-      addP({
-        x: cx + rnd(-8, 8),
-        y: cy + maxR * 0.35,
-        vx: Math.cos(sAngle) * sSpeed,
-        vy: Math.sin(sAngle) * sSpeed,
-        size: rnd(3.0, 7.0),
-        color: pick(['#02121E', '#D4AF37', '#00FFA3', '#64FFDA', '#FFD700']),
-        shape: 'bubble',
-        glow: true,
-        blend: true,
-        ttl: rnd(0.5, 0.9),
-        delay: rnd(0.02, 0.1)
-      });
-    }
-
-    // 15. 超海淵ヴォイド・アビス全天プラズマカーテン（Hadal Void Plasma Curtains）
-    rings(cx, cy, { count: 4, maxR: Math.max(W, H) * 0.85, color: '#D4AF37', additive: true, delay: 0.1 });
-    sonicWave(cx, cy, { count: 3, maxR: Math.max(W, H) * 0.78, color: emerald, thickness: 3.5, delay: 0.14 });
+    // 5. 深海生物遊泳の優美な有機S字カーブ光条（わずか2本・羽衣のような滑らかな流線）
+    slashRibbon(cx - maxR * 0.7, cy + maxR * 0.35, cx + maxR * 0.7, cy - maxR * 0.35, {
+      color: emerald,
+      width: 3.8,
+      ttl: 0.55,
+      curveX: -maxR * 0.3,
+      curveY: -maxR * 0.25
+    });
+    slashRibbon(cx + maxR * 0.65, cy + maxR * 0.4, cx - maxR * 0.65, cy - maxR * 0.3, {
+      color: electricCyan,
+      width: 3.2,
+      ttl: 0.58,
+      curveX: maxR * 0.28,
+      curveY: maxR * 0.22,
+      delay: 0.04
+    });
   }
 
   /** 【4テーマ特化】絶対零度・フロスト氷晶: 幾何学結晶急成長 ＆ ダイヤモンドダスト (絶対零度極寒爆発) */
