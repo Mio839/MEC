@@ -1,0 +1,61 @@
+{
+  "_readme": "第121回 夏メック模試の公式成績表（個人成績表PDF「2026年度 夏メック模試」の 2026/09/14 全国集計版と、成績判定シートPDFを 2026-09-17 に転記）。_work/build_mock_m121s_rates.js が mock_data/m121s_rates.js の MecMockReport へ書き出す。受験者IDは載せないこと（リポジトリは公開）。grades は PDF に無いので 2026-09-10 版（MEC Net. 成績表タブ）から引き継いだ。blocks・systems・highRate は PDF の「ブロック別成績」「系統別成績（必修は含まず）」「正答率が高い問題の成績」で、build が mock.js の採点と突き合わせる。",
+  "source": "個人成績表 2026/09/14 全国集計・成績判定シート",
+  "asOf": "2026-09-14",
+  "examinees": 3032,
+  "school": 197,
+  "taboo": 2,
+  "grades": {
+    "main": { "grade": "A", "scale": [["A", "上位7%"], ["B", "24%"], ["C", "38%"], ["D", "24%"], ["E", "下位7%"]] },
+    "hisshu": { "grade": "B", "scale": [["A", "95%〜"], ["B", "90〜94%"], ["C", "85〜89%"], ["D", "80〜84%"], ["E", "0〜79%"]] }
+  },
+  "judge": {
+    "_note": "成績判定シート。ランクは学内の総論/各論の偏差値で決まる相対評価（全国の grades.main とは別物）。passRate は夏メック模試過去3年で同じ偏差値帯の受験者の国試合格率。",
+    "rank": "B", "basis": "学内偏差値（総論/各論）", "dev": 62.3, "passRate": 94.7,
+    "scale": [["A", "65.0〜"], ["B", "60.0〜64.9"], ["C", "50.0〜59.9"], ["D", "40.0〜49.9"], ["E", "〜39.9"]]
+  },
+  "sections": [
+    { "id": "main",       "label": "総論/各論 合計", "blocks": "ACDF", "got": 244, "max": 300, "rank": 125, "schoolRank": 11, "natAvg": 66.8, "schoolAvg": 73.7, "dev": 66.1, "schoolDev": 62.3 },
+    { "id": "soron_ip",   "label": "総論 一般",     "blocks": "CF",   "cat": "一般", "got": 50,  "max": 70,  "rank": 227, "schoolRank": 29, "natAvg": 58.5, "schoolAvg": 64.6, "dev": 63.6, "schoolDev": 58.7 },
+    { "id": "soron_ri",   "label": "総論 臨床",     "blocks": "CF",   "cat": "臨床", "got": 66,  "max": 80,  "rank": 168, "schoolRank": 16, "natAvg": 69.3, "schoolAvg": 74.9, "dev": 63.8, "schoolDev": 61.6 },
+    { "id": "kakuron_ip", "label": "各論 一般",     "blocks": "AD",   "cat": "一般", "got": 23,  "max": 30,  "rank": 299, "schoolRank": 46, "natAvg": 61.8, "schoolAvg": 70.1, "dev": 61.4, "schoolDev": 56.5 },
+    { "id": "kakuron_ri", "label": "各論 臨床",     "blocks": "AD",   "cat": "臨床", "got": 105, "max": 120, "rank": 101, "schoolRank": 10, "natAvg": 71.1, "schoolAvg": 79.1, "dev": 66.2, "schoolDev": 62.2 },
+    { "id": "hisshu",     "label": "必修 合計",     "blocks": "BE",   "got": 181, "max": 200, "rank": 603, "schoolRank": 43, "natAvg": 85.5, "schoolAvg": 87.6, "dev": 57.5, "schoolDev": 56.4 },
+    { "id": "hisshu_ip",  "label": "必修 一般",     "blocks": "BE",   "cat": "一般", "got": 46,  "max": 50,  "rank": 162, "schoolRank": 6,  "natAvg": 81.2, "schoolAvg": 83.5, "dev": 63.7, "schoolDev": 65.5 },
+    { "id": "hisshu_ri",  "label": "必修 臨床",     "blocks": "BE",   "cat": "臨床", "got": 135, "max": 150, "rank": 848, "schoolRank": 76, "natAvg": 86.9, "schoolAvg": 89.0, "dev": 54.3, "schoolDev": 52.0 },
+    { "id": "total",      "label": "総合成績",       "blocks": "ABCDEF", "got": 425, "max": 500, "rank": 191, "schoolRank": 16, "natAvg": 74.3, "schoolAvg": 79.3, "dev": 64.1, "schoolDev": 61.4 }
+  ],
+  "blocks": [
+    { "block": "A", "got": 65, "max": 75,  "rank": 119, "schoolRank": 12, "natAvg": 70.0, "schoolAvg": 78.0, "dev": 66.1, "schoolDev": 62.1 },
+    { "block": "B", "got": 89, "max": 100, "rank": 686, "schoolRank": 56, "natAvg": 83.9, "schoolAvg": 85.7, "dev": 56.6, "schoolDev": 55.8 },
+    { "block": "C", "got": 59, "max": 75,  "rank": 283, "schoolRank": 41, "natAvg": 66.5, "schoolAvg": 73.4, "dev": 62.3, "schoolDev": 57.3 },
+    { "block": "D", "got": 63, "max": 75,  "rank": 182, "schoolRank": 23, "natAvg": 68.6, "schoolAvg": 76.7, "dev": 63.9, "schoolDev": 59.3 },
+    { "block": "E", "got": 92, "max": 100, "rank": 717, "schoolRank": 60, "natAvg": 87.1, "schoolAvg": 89.6, "dev": 56.4, "schoolDev": 54.7 },
+    { "block": "F", "got": 57, "max": 75,  "rank": 138, "schoolRank": 9,  "natAvg": 62.1, "schoolAvg": 66.8, "dev": 65.0, "schoolDev": 63.5 }
+  ],
+  "systems": [
+    { "cat1": "内科系",   "cat": "一般", "got": 24,  "max": 33,  "natAvg": 57.4, "schoolAvg": 64.9 },
+    { "cat1": "小児科",   "cat": "一般", "got": 4,   "max": 6,   "natAvg": 71.1, "schoolAvg": 77.2 },
+    { "cat1": "産婦人科", "cat": "一般", "got": 2,   "max": 3,   "natAvg": 52.9, "schoolAvg": 61.6 },
+    { "cat1": "公衆衛生", "cat": "一般", "got": 23,  "max": 33,  "natAvg": 57.4, "schoolAvg": 63.7 },
+    { "cat1": "マイナー", "cat": "一般", "got": 17,  "max": 20,  "natAvg": 65.2, "schoolAvg": 72.6 },
+    { "cat1": "救急・他", "cat": "一般", "got": 3,   "max": 5,   "natAvg": 54.4, "schoolAvg": 56.0 },
+    { "cat1": "内科系",   "cat": "臨床", "got": 101, "max": 112, "natAvg": 73.4, "schoolAvg": 79.5 },
+    { "cat1": "小児科",   "cat": "臨床", "got": 18,  "max": 20,  "natAvg": 69.8, "schoolAvg": 83.4 },
+    { "cat1": "産婦人科", "cat": "臨床", "got": 14,  "max": 19,  "natAvg": 60.8, "schoolAvg": 68.6 },
+    { "cat1": "公衆衛生", "cat": "臨床", "got": 7,   "max": 8,   "natAvg": 76.6, "schoolAvg": 78.4 },
+    { "cat1": "マイナー", "cat": "臨床", "got": 27,  "max": 33,  "natAvg": 65.4, "schoolAvg": 74.5 },
+    { "cat1": "救急・他", "cat": "臨床", "got": 4,   "max": 8,   "natAvg": 66.6, "schoolAvg": 65.7 },
+    { "cat1": "内科系",   "got": 125, "max": 145, "natAvg": 69.8, "schoolAvg": 76.2 },
+    { "cat1": "小児科",   "got": 22,  "max": 26,  "natAvg": 70.1, "schoolAvg": 82.0 },
+    { "cat1": "産婦人科", "got": 16,  "max": 22,  "natAvg": 59.7, "schoolAvg": 67.7 },
+    { "cat1": "公衆衛生", "got": 30,  "max": 41,  "natAvg": 61.2, "schoolAvg": 66.5 },
+    { "cat1": "マイナー", "got": 44,  "max": 53,  "natAvg": 65.3, "schoolAvg": 73.8 },
+    { "cat1": "救急・他", "got": 7,   "max": 13,  "natAvg": 61.9, "schoolAvg": 62.0 }
+  ],
+  "highRate": [
+    { "label": "総論/各論 一般（全国60%以上）", "blocks": "ACDF", "cat": "一般", "min": 60, "got": 49,  "max": 54 },
+    { "label": "総論/各論 臨床（全国60%以上）", "blocks": "ACDF", "cat": "臨床", "min": 60, "got": 134, "max": 140 },
+    { "label": "必修（全国80%以上）",           "blocks": "BE",                 "min": 80, "got": 138, "max": 142 }
+  ]
+}

@@ -543,7 +543,7 @@ test('同期: ローカルが空でもリモートを取り込める（新しい
 
   test('成績表: 公開リポジトリに受験者IDを載せていない', () => {
     const src = fs.readFileSync(path.join(ROOT, 'mock_data/m121s_rates.js'), 'utf8') +
-      fs.readFileSync(path.join(ROOT, '_work/m121s_report_2026-09-10.json'), 'utf8');
+      fs.readFileSync(path.join(ROOT, '_work/m121s_report_2026-09-14.json'), 'utf8');
     assert.ok(!/ID\s*\d{5,}/.test(src));
   });
 

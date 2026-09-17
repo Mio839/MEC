@@ -2,8 +2,9 @@
  * 第121回 夏メック模試の「成績表」を mock_data/m121s_rates.js へ書き出す。
  *
  * 入力（どちらも手で転記したもの＝ここが唯一の手作業）:
- *   _work/m121s_seiseki_2026-09-10.tsv   正誤一覧（400問の正答・解答・全国正答率）
- *   _work/m121s_report_2026-09-10.json   成績表の総合成績タブ（得点・順位・平均・偏差値）
+ *   _work/m121s_seiseki_2026-09-14.tsv   正誤一覧（400問の正答・解答・全国正答率）
+ *   _work/m121s_report_2026-09-14.json   個人成績表（総合・ブロック別・系統別・高正答率問題）と成績判定シート
+ *   （2026-09-10 版の2ファイルは MEC Net. から転記した旧集計の記録として残してある＝読まない）
  *
  * 出力: mock_data/m121s_rates.js
  *   window.MecMockRates.m121s  = { "A1": 31.2, ... }   ← 成績カルテの全国正答率の正本
@@ -15,6 +16,9 @@
  *   ② 正誤一覧の「解答」列を mock.js の score() で採点した結果 ＝ 成績表の得点
  *      … 9つの区分すべてで一致すること（採点の式は mock.js のものを使う＝ここに式を書かない）
  *   ③ 「禁」の印の数 ＝ 成績表の禁忌肢選択数
+ *   ④ 同じ採点を「ブロック別」「系統別（必修は含まず）」で切った得点 ＝ 成績表のその欄
+ *   ⑤ 全国正答率 ≥ 閾値の問題だけで切った得点 ＝ 成績表の「正答率が高い問題の成績」
+ *      → 全国正答率の列の転記ずれ（隣の行の値を写した等）はここで落ちる
  *
  * 実行: node _work/build_mock_m121s_rates.js           書き出す
  *       node _work/build_mock_m121s_rates.js --check   現物と一致するかだけ見る
@@ -27,8 +31,8 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const EXAM_ID = 'm121s';
-const TSV = path.join(__dirname, 'm121s_seiseki_2026-09-10.tsv');
-const REPORT = path.join(__dirname, 'm121s_report_2026-09-10.json');
+const TSV = path.join(__dirname, 'm121s_seiseki_2026-09-14.tsv');
+const REPORT = path.join(__dirname, 'm121s_report_2026-09-14.json');
 const OUT = path.join(ROOT, 'mock_data', EXAM_ID + '_rates.js');
 
 function loadMock() {
@@ -95,6 +99,27 @@ function build() {
     errs.push(`禁忌肢: 印 [${marked}] / 採点 [${judged}] / 成績表 ${R.taboo}問`);
   }
 
+  // ④ ブロック別・系統別（系統別は必修ブロックを含まない＝成績表の注記どおり）
+  const hisshuBlock = b => !!(D.blocks[b] && D.blocks[b].hisshu);
+  const cut = sel => {
+    let got = 0, max = 0;
+    S.rows.forEach(row => { if (sel(row.q)) { got += row.r.pts; max += row.q.pts; } });
+    return [got, max];
+  };
+  (R.blocks || []).forEach(b => {
+    const [got, max] = cut(q => q.block === b.block);
+    if (got !== b.got || max !== b.max) errs.push(`ブロック${b.block}: 採点 ${got}/${max} ≠ 成績表 ${b.got}/${b.max}`);
+  });
+  (R.systems || []).forEach(s => {
+    const [got, max] = cut(q => !hisshuBlock(q.block) && q.cat1 === s.cat1 && (!s.cat || q.cat === s.cat));
+    if (got !== s.got || max !== s.max) errs.push(`系統 ${s.cat1}${s.cat ? ' ' + s.cat : ''}: 採点 ${got}/${max} ≠ 成績表 ${s.got}/${s.max}`);
+  });
+  // ⑤ 正答率が高い問題の成績（全国正答率の列を検算する）
+  (R.highRate || []).forEach(h => {
+    const [got, max] = cut(q => h.blocks.indexOf(q.block) >= 0 && (!h.cat || q.cat === h.cat) && T[M.qkey(q)].rate >= h.min);
+    if (got !== h.got || max !== h.max) errs.push(`${h.label}: 採点 ${got}/${max} ≠ 成績表 ${h.got}/${h.max}`);
+  });
+
   if (errs.length) {
     console.error('✗ 転記の検算に失敗（書き出さない）:\n  ' + errs.join('\n  '));
     process.exit(1);
@@ -103,8 +128,8 @@ function build() {
   const rates = {};
   keys.forEach(k => { rates[k] = T[k].rate; });
   const report = {
-    source: R.source, examinees: R.examinees, school: R.school, taboo: R.taboo,
-    grades: R.grades, sections: R.sections, picks
+    source: R.source, asOf: R.asOf, examinees: R.examinees, school: R.school, taboo: R.taboo,
+    grades: R.grades, judge: R.judge, sections: R.sections, blocks: R.blocks, systems: R.systems, picks
   };
   const lines = [];
   for (let i = 0; i < keys.length; i += 10) {
@@ -113,7 +138,7 @@ function build() {
   const js =
 `// 第121回 夏メック模試（m121s）の成績表 — 自動生成・編集しないこと
 //   生成: node _work/build_mock_m121s_rates.js
-//   材料: _work/m121s_seiseki_2026-09-10.tsv（正誤一覧）/ _work/m121s_report_2026-09-10.json（総合成績）
+//   材料: _work/m121s_seiseki_2026-09-14.tsv（正誤一覧）/ _work/m121s_report_2026-09-14.json（個人成績表・成績判定シート）
 //
 // ⚠️⚠️ ここが全国正答率の唯一の正本。mock_karte.html にも mock.js にも数字を書かないこと。
 //    MecMockRates が入るだけで、成績カルテの「取りこぼし検出」・科目別の「全国比 ±pt」・

@@ -111,6 +111,13 @@ section{display:flex;flex-direction:column;gap:12px;}
 .blk .pct{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;}
 .blk .nm{font-size:11.5px;color:var(--ts);font-weight:800;}
 .blk .mk{font-size:10px;color:var(--ts);font-variant-numeric:tabular-nums;}
+.blk .col{position:relative;}
+/* .mk はマークシートの丸（18px）と同じ名前なので、ブロックの件数では丸の見た目を打ち消す */
+.blk .mk{width:auto;height:auto;border:0;border-radius:0;display:block;font-weight:600;}
+.blk .col b{position:absolute;left:0;right:0;height:2px;background:var(--tx);opacity:.75;}
+.blk .dev{font-size:10px;color:var(--ts);font-variant-numeric:tabular-nums;text-align:center;line-height:1.45;}
+.blk .dev b{color:var(--tx);font-size:11.5px;}
+.blk.low .dev b{color:var(--yl);}
 
 /* ── 科目別 ── */
 .tbl-scroll{overflow-x:auto;}
@@ -192,6 +199,12 @@ tr:last-child td{border-bottom:none;}
 .off-tbl tr.sum td{font-weight:800;}
 .off-tbl .up{color:var(--gr);}
 .off-tbl .dn{color:var(--rd);}
+.sys-tbl td,.sys-tbl th{text-align:right;}
+.sys-tbl td:first-child,.sys-tbl th:first-child{text-align:left;}
+.sys-tbl .d{display:block;font-size:10.5px;font-weight:700;color:var(--ts);white-space:nowrap;}
+.sys-tbl .d .up{color:var(--gr);}
+.sys-tbl .d .dn{color:var(--rd);}
+.sys-tbl tr.below td:first-child{color:var(--rd);}
 .grade{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 5px;border-radius:var(--r-sm);
   font-family:var(--font-display);font-weight:800;font-size:13px;background:var(--or);color:var(--subj-ink);
   margin-right:6px;vertical-align:1px;}
@@ -368,6 +381,7 @@ tr:last-child td{border-bottom:none;}
       secAxis(A) +
       secTaboo() +
       secBlocks() +
+      secSystems() +
       secSubjects() +
       secList() +
       secCaveats(A) +
@@ -440,6 +454,12 @@ tr:last-child td{border-bottom:none;}
     if (by.hisshu) tiles.push({ k: '必修', v: by.hisshu.got, u: '/' + by.hisshu.max,
       n: '全国 ' + by.hisshu.rank + '位（上位' + topPct(by.hisshu) + '%）· 偏差値 ' + f1(by.hisshu.dev) +
         (G.hisshu ? ' · ' + gradeOf(G.hisshu) : '') });
+    // 成績判定シート（学内の相対評価）。全国の判定（grades.main）とは物差しが違うので、それと分かる形で並べる。
+    var J = REPORT.judge;
+    if (J) tiles.push({ k: '学内判定', v: esc(J.rank), u: '',
+      n: esc(J.basis) + ' ' + f1(J.dev) +
+        (J.passRate != null ? ' · 過去3年で同じ偏差値帯の国試合格率 <b>' + f1(J.passRate) + '%</b>' : '') +
+        (G.main && G.main.grade !== J.rank ? ' · 全国判定 ' + esc(G.main.grade) + ' とは別の物差し' : '') });
 
     // 自己採点との一致（区分ごと）
     var off = [];
@@ -498,7 +518,7 @@ tr:last-child td{border-bottom:none;}
       : '';
 
     return '<section><div class="sec-h"><h2>公式成績</h2>' +
-      '<span class="tag">MEC 成績表 · 受験者 ' + N + '人</span></div>' +
+      '<span class="tag">MEC 成績表 · ' + (REPORT.asOf ? esc(REPORT.asOf) + ' 集計 · ' : '') + '受験者 ' + N + '人</span></div>' +
       '<div class="readout">' + tiles.map(function (c) {
         return '<div class="ro"><div class="ro-k">' + c.k + '</div>' +
           '<div class="ro-v">' + c.v + '<span class="u">' + c.u + '</span></div>' +
@@ -655,7 +675,20 @@ tr:last-child td{border-bottom:none;}
           why: '全体では全国平均を <b>+' + f1(gAll) + 'pt</b> 上回っているのに、' +
             weakC1.map(function (m) {
               return '<b>' + esc(m.k) + ' は ' + (gap(m) >= 0 ? '+' : '') + f1(gap(m)) + 'pt</b>（' + m.c + '/' + m.n + '）';
-            }).join('、') + '。ほかの系統で稼いだリードがここでは効いていない＝<b>伸ばせばそのまま順位が動く</b>場所です。',
+            }).join('、') + '。ほかの系統で稼いだリードがここでは効いていない＝<b>伸ばせばそのまま順位が動く</b>場所です。' +
+            (function () {
+              // 成績表の系統別（必修ブロックを除く）を添える。学内平均は自己採点からは作れない証拠
+              var parts = weakC1.map(function (m) {
+                var o = REPORT && REPORT.systems && REPORT.systems.filter(function (s) { return s.cat1 === m.k && !s.cat; })[0];
+                if (!o) return '';
+                var p = 100 * o.got / o.max;
+                var lab = p < o.natAvg && p < o.schoolAvg ? '全国平均も学内平均も下回る'
+                  : p < o.natAvg ? '全国平均を下回る' : p < o.schoolAvg ? '学内平均を下回る' : '';
+                return esc(m.k) + ' ' + f1(p) + '%（全国 ' + f1(o.natAvg) + '%・学内 ' + f1(o.schoolAvg) + '%）' +
+                  (lab ? '＝<b>' + lab + '</b>' : '');
+              }).filter(Boolean);
+              return parts.length ? '成績表の系統別（必修ブロックを除く）では ' + parts.join('、') + '。' : '';
+            })(),
           items: lines });
       }
     }
@@ -840,13 +873,25 @@ tr:last-child td{border-bottom:none;}
   function secBlocks() {
     var live = S.live;
     if (!live.length) return '';
+    // 成績表のブロック別成績（偏差値・全国平均・順位）。成績表があるときは棒を「得点率」にして、
+    // 全国平均（得点率）の横線と同じ物差しで比べられるようにする（必修の臨床は1問3点なので正答率とずれる）。
+    var OB = {};
+    ((REPORT && REPORT.blocks) || []).forEach(function (o) { OB[o.block] = o; });
+    var obs = live.map(function (b) { return OB[b]; }).filter(Boolean);
+    var byDev = obs.slice().sort(function (x, y) { return x.dev - y.dev; });
+    var lowSet = {};
+    if (byDev.length >= 3) byDev.slice(0, 2).forEach(function (o) { lowSet[o.block] = 1; });
     var cols = live.map(function (b) {
       var a = agg(function (q) { return q.block === b; });
-      return '<div class="blk' + (S.blocks[b].hisshu ? ' hisshu' : '') + '">' +
-        '<div class="pct">' + f1(a.pct) + '%</div>' +
-        '<div class="col"><i style="height:' + a.pct + '%"></i></div>' +
+      var o = OB[b], h = o ? pctOf(a.got, a.pts) : a.pct;
+      return '<div class="blk' + (S.blocks[b].hisshu ? ' hisshu' : '') + (lowSet[b] ? ' low' : '') + '">' +
+        '<div class="pct">' + f1(h) + '%</div>' +
+        '<div class="col"><i style="height:' + h + '%"></i>' +
+        (o ? '<b style="bottom:' + o.natAvg + '%" title="全国平均 ' + f1(o.natAvg) + '%"></b>' : '') + '</div>' +
         '<div class="nm">' + b + '</div>' +
-        '<div class="mk">' + (S.blocks[b].hisshu ? '必修 ' : '') + a.c + '/' + a.n + '</div></div>';
+        '<div class="mk">' + (S.blocks[b].hisshu ? '必修 ' : '') + a.c + '/' + a.n + '</div>' +
+        (o ? '<div class="dev">偏差値 <b>' + f1(o.dev) + '</b><br>全国 ' + f1(o.natAvg) + '%<br>' + o.rank + '位</div>' : '') +
+        '</div>';
     }).join('');
     // 前半に一般問題が固まる紙面なので、位置による低下は疲労とは限らない。
     var e1 = agg(function (q) { return !isHisshu(q) && q.no <= 25; });
@@ -856,12 +901,76 @@ tr:last-child td{border-bottom:none;}
     }).length;
     var note = (e1.n && e3.n)
       ? '75問ブロックの前半（' + f1(e1.pct) + '%）と後半（' + f1(e3.pct) + '%）の差は疲労とは限りません。' +
-        '前半25問のうち' + ip1 + '問が一般問題で、<b>区分で層別すると位置による差はほぼ消えます</b>。'
+        '前半（各25問・計' + e1.n + '問）のうち' + ip1 + '問が一般問題で、<b>区分で層別すると位置による差はほぼ消えます</b>。'
       : '斜線は必修ブロック。';
+    if (byDev.length >= 3) {
+      var lo = byDev.slice(0, 2), top = byDev[byDev.length - 1];
+      var loHisshu = lo.every(function (o) { return S.blocks[o.block].hisshu; });
+      note = '棒は得点率、横線は成績表の全国平均。偏差値でみると最も低いのは <b>' +
+        lo.map(function (o) { return o.block + '（' + f1(o.dev) + '）'; }).join('・') + '</b>' +
+        (loHisshu ? '＝必修ブロック。得点率は高くても全国平均も高いので差がつかず、1問の失点がそのまま偏差値に響きます' : '') +
+        '。最も高いのは ' + top.block + '（' + f1(top.dev) + '）。' + note;
+    }
     return '<section><div class="sec-h"><h2>ブロック別</h2>' +
       '<span class="tag">入力済み ' + live.length + ' ブロック</span></div>' +
       '<p class="lede">' + note + '</p>' +
       '<div class="card"><div class="blocks">' + cols + '</div></div></section>';
+  }
+
+  // 系統別（成績表・必修ブロックは含まない）。学内平均との比較は自己採点からは作れない＝成績表の数字をそのまま出す。
+  // 自己採点（必修以外のブロック）が同じ得点になっているかだけを確かめる。
+  function secSystems() {
+    var SY = REPORT && REPORT.systems;
+    if (!SY || !SY.length) return '';
+    var names = [], cell = {};
+    SY.forEach(function (s) {
+      if (names.indexOf(s.cat1) < 0) names.push(s.cat1);
+      cell[s.cat1 + '|' + (s.cat || '')] = s;
+    });
+    var dTxt = function (v, lab) {
+      return '<span class="' + (v >= 0 ? 'up' : 'dn') + '">' + lab + ' ' + (v >= 0 ? '+' : '') + f1(v) + '</span>';
+    };
+    var off = 0;
+    var td = function (s) {
+      if (!s) return '<td>—</td>';
+      var pct = 100 * s.got / s.max, me = { got: 0, max: 0 }, entered = true;
+      S.rows.forEach(function (r) {
+        if (isHisshu(r.q) || r.q.cat1 !== s.cat1 || (s.cat && r.q.cat !== s.cat)) return;
+        if (!S.blocks[r.q.block].entered) entered = false;
+        me.got += r.r.pts; me.max += r.q.pts;
+      });
+      if (entered && (me.got !== s.got || me.max !== s.max)) off++;
+      return '<td>' + f1(pct) + '% <span style="color:var(--ts);font-weight:600">' + s.got + '/' + s.max + '</span>' +
+        '<span class="d">' + dTxt(pct - s.natAvg, '全国') + ' · ' + dTxt(pct - s.schoolAvg, '学内') + '</span></td>';
+    };
+    var tot = names.map(function (k) { return cell[k + '|']; }).filter(Boolean)
+      .map(function (s) { return { s: s, pct: 100 * s.got / s.max }; });
+    var belowNat = tot.filter(function (x) { return x.pct < x.s.natAvg; });
+    var belowSch = tot.filter(function (x) { return x.pct < x.s.schoolAvg; });
+    var thin = tot.filter(function (x) { return x.pct >= x.s.schoolAvg && x.pct - x.s.schoolAvg < 3; });
+    var nm = function (xs, nat) {
+      return xs.map(function (x) {
+        return '<b>' + esc(x.s.cat1) + '</b>（' + f1(x.pct) + '% / ' + (nat ? '全国 ' + f1(x.s.natAvg) : '学内 ' + f1(x.s.schoolAvg)) + '%）';
+      }).join('・');
+    };
+    var lede = (belowNat.length ? '合計で全国平均を下回ったのは ' + nm(belowNat, true) + '。'
+        : tot.length + '系統すべてで全国平均を上回っています。') +
+      (belowSch.length ? '学内平均まで下回ったのは ' + nm(belowSch, false) + '。' : '') +
+      (thin.length ? '学内平均との差が3pt未満＝同じ学校の受験者と差がついていないのは ' + nm(thin, false) + '。' : '') +
+      '学内平均は自己採点からは作れない物差しで、全国を大きく上回っていても学内では横並び、という系統がここで分かります。';
+    var isBelow = {};
+    belowNat.forEach(function (x) { isBelow[x.s.cat1] = 1; });
+    return '<section><div class="sec-h"><h2>系統別（成績表）</h2>' +
+      '<span class="tag">必修ブロックを除く · 全国/学内平均との差</span></div>' +
+      '<p class="lede">' + lede + '</p>' +
+      '<div class="card"><div class="tbl-scroll"><table class="sys-tbl"><thead><tr>' +
+      '<th>系統</th><th>合計</th><th>一般</th><th>臨床</th></tr></thead><tbody>' +
+      names.map(function (k) {
+        return '<tr class="' + (isBelow[k] ? 'below' : '') + '"><td class="t-name">' + esc(k) + '</td>' +
+          td(cell[k + '|']) + td(cell[k + '|一般']) + td(cell[k + '|臨床']) + '</tr>';
+      }).join('') + '</tbody></table></div>' +
+      (off ? '<p class="agree" style="margin-top:8px">自己採点と成績表の得点が<b>' + off + '欄で違います</b>（入力の食い違いは「公式成績」を参照）。</p>' : '') +
+      '</div></section>';
   }
 
   var subjLevel = 'cat2';
