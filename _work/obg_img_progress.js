@@ -3,8 +3,10 @@
 //   node _work/obg_img_progress.js --list   残り全部の uid
 const fs = require('fs');
 const j = JSON.parse(fs.readFileSync(__dirname + '/../questions_obg.json', 'utf8'));
-// 「画像を見ずに書いた」ことを自白している文言。これが0になったら A は完了
-const RE = /参照できない|参照できません|画像は示されて|画像が提示|写真は示され|確認できない|画像を直接|提示されていない/;
+// 「画像を見ずに書いた」ことを自白している文言。これが0になったら A は完了。
+// ⚠️ 「胎囊が確認できない」のような臨床記述を拾わないよう、必ず「実際の〜」等の
+//    言い訳の型に限定すること（素の「確認できない」だけで判定しない）。
+const RE = /実際の[^。<]{0,40}(参照|確認|提示|掲載)でき(ない|ません)|は参照できな|を参照できな|(画像|写真|像|グラフ|標本|記録)[^。<]{0,12}(示されていない|提示されていない)|画像を直接[^。<]{0,10}でき/;
 const A = [], B = [];
 for (const ch of j.chapters) for (const q of ch.qs) {
   if (!(q.imgs && q.imgs.length)) continue;
