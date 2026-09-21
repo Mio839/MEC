@@ -31,6 +31,7 @@ PDFS = {
     'resp': os.path.join('MEC問題文pdf', 'MEC臓器別講座・呼吸器_問題（表紙2026）.pdf'),
     'hbp': os.path.join('MEC問題文pdf', 'MEC臓器別講座・肝胆膵_問題（表紙2026）.pdf'),
     'neur': os.path.join('MEC問題文pdf', 'MEC臓器別講座・神経_問題（表紙2026）.pdf'),
+    'endo': os.path.join('MEC問題文pdf', 'MEC臓器別講座・内分泌代謝_問題（表紙2026）(1).pdf'),
 }
 
 COLS = [('no', 0), ('ans', 62), ('kid', 95), ('type', 145), ('cbt', 165),
@@ -44,8 +45,15 @@ def load(sid='circ', pdf=None):
     rows = {}
     for p in range(doc.page_count - 25, doc.page_count):
         words = [w for w in doc[p].get_text('words') if w[4].strip()]
+        # ⚠️ ページ番号（`266` 等）が NO列と同じ x 帯（x<66）の天地に刷られている科目がある。
+        #    内分泌代謝では y=26.4 / x=60.2 に出て**7行ぶんの実データを丸ごと上書きしていた**
+        #    （NO.266・268・270・272・274・276・278 が見出し文字「解答／出題テーマ」に化けた）。
+        #    表の見出し行（`NO.` と `出題テーマ`）がある面だけを読み、見出しより下だけを拾う。
+        hdr = [w[1] for w in words if w[4] == 'NO.' and w[0] < 66]
+        if not hdr or not any(w[4] == '出題テーマ' for w in words):
+            continue
         anchors = sorted((w[1], int(w[4])) for w in words
-                         if w[0] < 66 and re.fullmatch(r'\d{1,3}', w[4]))
+                         if w[0] < 66 and w[1] > hdr[0] and re.fullmatch(r'\d{1,3}', w[4]))
         if not anchors:
             continue
         # 章区切り行（「　9　〔 問題 〕末梢動静脈・リンパ」）が NO列に食い込むので、
