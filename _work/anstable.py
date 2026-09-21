@@ -78,7 +78,12 @@ def load(sid='circ', pdf=None):
             kids = re.findall(r'\d{2,3}[A-Z]-\d{1,3}?(?=(?:\d{2,3}[A-Z]-)|\D|$)', r['kid'])
             r['kid'] = kids[0] if kids else ''
             r['kids'] = kids
-            r['excluded'] = '採点除外' in r['kid_raw'] or '採点除外' in r['theme']
+            # ⚠️ 「※不正解者のみ採点除外」は**採点除外ではない**（正解が定まっており、
+            #    不正解者だけが救済された問題）。素朴に「採点除外」で部分一致すると拾ってしまい、
+            #    出題キューから外れて解けなくなる（neur NO.38＝111C-21 で実在）。
+            raw = r['kid_raw'] + r['theme']
+            r['excluded_partial'] = '不正解者のみ採点除外' in raw
+            r['excluded'] = '採点除外' in raw and not r['excluded_partial']
             r['star'] = '★' in r['type']
             r['cbt'] = '○' in r['cbt']
             for k in ('hisshu', 'ippan', 'rinsho'):

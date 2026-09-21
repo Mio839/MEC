@@ -1789,7 +1789,7 @@
      "qn": "Q.27",
      "episode": "(99D-98)",
      "rate": -1,
-     "rate_cls": "ch",
+     "rate_cls": "",
      "rate_text": "",
      "badges": [
       {
@@ -1855,7 +1855,7 @@
      "qn": "Q.28",
      "episode": "(96G-35)",
      "rate": -1,
-     "rate_cls": "ch",
+     "rate_cls": "",
      "rate_text": "",
      "badges": [
       {
@@ -5689,7 +5689,7 @@
      "qn": "Q.87",
      "episode": "(97H-20)",
      "rate": -1,
-     "rate_cls": "ch",
+     "rate_cls": "",
      "rate_text": "",
      "badges": [
       {
@@ -5755,7 +5755,7 @@
      "qn": "Q.88",
      "episode": "(78B-78)",
      "rate": -1,
-     "rate_cls": "ch",
+     "rate_cls": "",
      "rate_text": "",
      "badges": [
       {
@@ -22799,7 +22799,7 @@
      "qn": "Q.337",
      "episode": "(110D-43)",
      "rate": -1,
-     "rate_cls": "ch",
+     "rate_cls": "",
      "rate_text": "",
      "badges": [
       {
@@ -25681,7 +25681,7 @@
      "qn": "Q.379",
      "episode": "(97A-13)",
      "rate": -1,
-     "rate_cls": "ch",
+     "rate_cls": "",
      "rate_text": "",
      "badges": [
       {
@@ -25757,7 +25757,7 @@
      "qn": "Q.380",
      "episode": "(96A-14)",
      "rate": -1,
-     "rate_cls": "ch",
+     "rate_cls": "",
      "rate_text": "",
      "badges": [
       {
@@ -25831,7 +25831,7 @@
      "qn": "Q.381",
      "episode": "(96D-16)",
      "rate": -1,
-     "rate_cls": "ch",
+     "rate_cls": "",
      "rate_text": "",
      "badges": [
       {
@@ -29162,7 +29162,7 @@
      "qn": "Q.429",
      "episode": "(97D-12)",
      "rate": -1,
-     "rate_cls": "ch",
+     "rate_cls": "",
      "rate_text": "",
      "badges": [
       {
