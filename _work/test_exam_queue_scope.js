@@ -175,7 +175,7 @@ group('3. 実装の不変条件');
 const fnSrc = {};
 ['_getExamTargetCard', '_scrollToNextCard', 'revealAnswer', 'startExam',
  'resumeExam', '_removeCardFromExam', '_maybeShowFinishBtn',
- '_bindExamChoices', '_examChoiceClick', 'exitExam'].forEach(n => { fnSrc[n] = slice(n); });
+ '_bindExamChoices', '_examChoiceClick', 'exitExam', '_prepExamCard'].forEach(n => { fnSrc[n] = slice(n); });
 
 t('_getExamTargetCard / _scrollToNextCard は DOM を全走査しない', () => {
   ['_getExamTargetCard', '_scrollToNextCard'].forEach(n => {
@@ -210,9 +210,11 @@ t('選択肢の click リスナーを張るのは1か所だけ（二重定義を
   assert.strictEqual(n, 1, '_examChoiceClick を張る場所が ' + n + ' か所ある（1か所に寄せること）');
   assert.ok(!/\.ch2'\)\.forEach\([\s\S]{0,200}?addEventListener\('click', function/.test(SRC),
     'startExam / resumeExam に選択肢の click ハンドラが直書きで復活している');
-  ['startExam', 'resumeExam'].forEach(k => {
-    assert.ok(fnSrc[k].includes('_bindExamChoices(card)'), k + ' が _bindExamChoices を通っていない');
-  });
+  // 2026-09-23: startExam のカードの支度は _prepExamCard に切り出した（ボス戦の増援と共有）。
+  //   startExam は _prepExamCard を、_prepExamCard が _bindExamChoices を通れば同じこと。
+  assert.ok(fnSrc._prepExamCard.includes('_bindExamChoices(card)'), '_prepExamCard が _bindExamChoices を通っていない');
+  assert.ok(fnSrc.startExam.includes('_prepExamCard(card'), 'startExam が _prepExamCard を通っていない');
+  assert.ok(fnSrc.resumeExam.includes('_bindExamChoices(card)'), 'resumeExam が _bindExamChoices を通っていない');
 });
 
 /* 2026-08-25: exitExam は removeEventListener していないので、フラグだけ消すと

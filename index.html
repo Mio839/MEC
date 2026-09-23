@@ -16,6 +16,8 @@
 <script src="attempts.js"></script>
 <script src="fx_engine.js"></script>
 <script src="gamify.js"></script>
+<script src="hub_opening.js"></script>
+<script src="trophy.js"></script>
 <link rel="stylesheet" href="vars.css">
 <script src="sounds_index.js"></script>
 <script src="theme.js"></script>
@@ -5797,7 +5799,7 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
           <span class="lb" id="heroLabelTx">読み込み中…</span>
           <span class="hero-label-acc" id="heroLabelAcc"><span class="acc-ic" aria-hidden="true">🎯</span>正解率</span>
           <span class="hero-label-meta">
-            <span class="hero-date" id="heroDate"></span>
+            <span class="hero-date" id="heroDate" role="button" tabindex="0" title="タップで今日のブリーフィングを開く" style="cursor:pointer" onclick="window.MecOpening&&MecOpening.open({manual:true})" onkeydown="if(event.key==='Enter'){event.preventDefault();window.MecOpening&&MecOpening.open({manual:true});}"></span>
             <!-- ⏳ 国試カウントダウン・クロノス -->
             <span class="exam-countdown" id="examCountdownChronos" title="第120回医師国家試験までの残り日数">
               <span class="cd-lbl">国試まで</span><b class="cd-num" id="examCountdownDays">--</b><span class="cd-unit">日</span>
@@ -7662,6 +7664,9 @@ const HUB_TILES = [
   { id:'mock',      icon:'🧮',  name:'模試 自己採点',     kind:'link', href:'mock.html' },
   { id:'knowledge', icon:'🔎',  name:'検索知識ノート',    kind:'link', href:'knowledge.html' },
   { id:'selfcheck', icon:'✏️',  name:'セルフチェック',    kind:'expand' },
+  // 2026-09-23: トロフィー棚とボス戦を1マスずつ足した（2列グリッドで並んで穴を作らない）
+  { id:'trophy',    icon:'🏆',  name:'トロフィー棚',      kind:'expand' },
+  { id:'boss',      icon:'⚔️',  name:'ボス戦',            kind:'link', href:'study.html?mode=boss' },
   // ⚠️ 成績カルテは wide にしてある。ここを1マスにすると mindmap（wide）が2列を取れず
   //    4段目の右に穴が空く（2列グリッドの都合であって、重要度の主張ではない）。
   { id:'karte',     icon:'🩺',  name:'模試 成績カルテ',   kind:'link', href:'mock_karte.html', span:'wide' },
@@ -9263,6 +9268,10 @@ function _tileHtml(t) {
     sub = (typeof KNOWLEDGE_NOTES !== 'undefined' ? KNOWLEDGE_NOTES.length : 0) + ' 件のノート';
   } else if (t.id === 'selfcheck') {
     sub = '10 科目';
+  } else if (t.id === 'trophy') {
+    sub = _trophyTileSub();
+  } else if (t.id === 'boss') {
+    sub = _bossTileSub();
   } else if (t.id === 'mindmap') {
     sub = (MINDMAP_TOOL.maps.length - 1) + ' / ' + (MINDMAP_TOOL.maps.length - 1 + MINDMAP_TOOL.pending.length) + ' 科目';
   }
@@ -9321,6 +9330,7 @@ function toggleTile(btn) {
   btn.setAttribute('aria-expanded', 'true');
   host.innerHTML = tileDetailHtml(btn.dataset.tile);
   host.hidden = false;
+  if (btn.dataset.tile === 'trophy' && window.MecTrophy) requestAnimationFrame(() => MecTrophy.shelfFx(host));
 }
 
 function tileDetailHtml(id) {
@@ -9328,7 +9338,26 @@ function tileDetailHtml(id) {
   if (id === 'jitsu1')  return _jitsuDetailHtml();
   if (id === 'selfcheck') return _selfcheckDetailHtml();
   if (id === 'mindmap') return _mindmapDetailHtml();
+  if (id === 'trophy')  return window.MecTrophy ? MecTrophy.shelfHtml() : '';
   return '';
+}
+
+// ボス戦の脚。戦績 mec_boss_v1 は boss.js が書く（UIローカル）。ハブは boss.js を読まない。
+function _bossTileSub() {
+  try {
+    const r = JSON.parse(localStorage.getItem('mec_boss_v1') || '{}');
+    if (!r.fights) return '苦手10問のボスに挑む';
+    return '撃破 ' + (r.wins || 0) + ' / 挑戦 ' + r.fights + (r.last ? '　前回 ' + (r.last.won ? '勝利' : '撤退') : '');
+  } catch { return ''; }
+}
+
+// トロフィー棚の脚。集計は trophy.js（章の索引を1回作るだけなので同期のたびに走っても軽い）
+function _trophyTileSub() {
+  if (!window.MecTrophy) return '';
+  try {
+    const d = MecTrophy.collect();
+    return '💎' + _fmtN(d.gems) + '　🥇' + d.medals[3] + '　👑' + d.clears;
+  } catch { return ''; }
 }
 
 function _kakumonDetailHtml() {
@@ -12442,6 +12471,8 @@ document.addEventListener('DOMContentLoaded', () => {
   _initCtaExit();     // E10: 遷移直前のひと呼吸（⚠️ 内部で必ず遷移させる保険つき）
   _initSyncFx();
   _bootSequence();
+  // 1日の最初のブリーフィング（hub_opening.js）。起動の蒸気(1秒)が抜けてから出す。
+  if (window.MecOpening) MecOpening.maybeShow(1100);
   _startHeroDust();
   _initMissionTap();
   // gamify.js は <head> で読まれるので _init（＝#gmDaily の描画）はこの前に済んでいる。

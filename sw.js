@@ -1,3 +1,6 @@
+// 2026-09-23a: 演出強化——ハブの「1日の最初のブリーフィング／週の結果発表」(hub_opening.js)・トロフィー棚(trophy.js)・
+//   ボス戦(boss.js・study.html?mode=boss)・章/科目制覇の演出強化(gamify.js)。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-17a → 2026-09-23a）。
 // 2026-09-17a: 模試の成績カルテを 2026-09-14 集計の成績表へ更新——学内判定・ブロック別の偏差値と全国平均・
 //   系統別（成績表・全国/学内平均との差）を追加。mock_data/m121s_rates.js も再生成。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-15g → 2026-09-17a）。
@@ -1513,7 +1516,7 @@ const CACHE = "mec-v635";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-17a";
+const SHELL_VERSION = "2026-09-23a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -1539,6 +1542,12 @@ const SHELL = [
   "./image_dims.json",
   "./card_renderer.js",
   "./gamify.js",
+  // 1日の最初のブリーフィング／週の結果発表（2026-09-23）
+  "./hub_opening.js",
+  // トロフィー棚（定着コレクション・章メダル・科目制覇）
+  "./trophy.js",
+  // ボス戦（study.html?mode=boss）
+  "./boss.js",
   // 効果音の一覧（派生物）。⚠️ sounds/ の音そのものは入れていない（オフラインでは鳴らない）。
   "./sounds_index.js",
   // 疾患マインドマップ（2026-08-21・段A）。旧9本＋統合マップは1エンジン＋データ分離へ移行した。

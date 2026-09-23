@@ -41,6 +41,8 @@
 <script src="mock_data/index.js"></script>
 <script src="study_exam.js"></script>
 <script src="gamify.js"></script>
+<script src="trophy.js"></script>
+<script src="boss.js"></script>
 <link rel="stylesheet" href="vars.css">
 <script src="theme.js"></script>
 <script src="ui_theme.js"></script>
@@ -1344,6 +1346,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // TEMP（昨日の誤答）: mode=yesterday_wrong も同じ配管に乗せ、対象の日だけ差し替える
   const _yesterdayWrongLaunch = _launchMode === 'yesterday_wrong';
   const _todayWrongLaunch = _launchMode === 'today_wrong' || _yesterdayWrongLaunch;
+  const _bossLaunch = _launchMode === 'boss';   // ⚔️ ボス戦（ハブのタイルから）
 
   // 通常の全科目初期化（fetch→描画→キャッシュ→initCards→章メタ→自動復元）。
   // 復習起動時はこれを走らせず _runDeferredInit（復習を抜けたとき）で実行する。
@@ -1378,7 +1381,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (ov && ov.classList.contains('open')) _renderResumeList();
         });
         // 試験中リロードの自動復元（ホスト出題での起動でない通常ロード時のみ）
-        if (!_srsLaunch && !_todayWrongLaunch) {
+        if (!_srsLaunch && !_todayWrongLaunch && !_bossLaunch) {
           const _autoKey = localStorage.getItem('mec_exam_active_key');
           if (_autoKey) {
             const _autoResumes = _loadResumes();
@@ -1421,6 +1424,10 @@ document.addEventListener('DOMContentLoaded', () => {
     _loadSRS();
     Promise.resolve(startTodayWrongReview({ dayOffset: _yesterdayWrongLaunch ? 1 : 0 }))
       .catch(e => console.error('today-wrong start error:', e)).finally(_removeLoader);
+  } else if (_bossLaunch) {
+    // ボス戦も同じ配管（苦手の問題だけを先に決めてからホストへ描く）。SRSへ採点を返すので先に読む。
+    _loadSRS();
+    Promise.resolve(startBossBattle()).catch(e => console.error('boss start error:', e)).finally(_removeLoader);
   } else {
     _runFullInit();
   }
@@ -1807,6 +1814,7 @@ function _updateSRS(uid, grade) {
   else if (grade !== 'mid' && grade !== 'ng') grade = 'ok';
 
   const e = _srsData[uid] || { reps: 0, ef: 2.5, interval: 0 };
+  const _before = { reps: e.reps || 0, interval: e.interval || 0 };   // トロフィー棚の「定着」判定用
   const reps = e.reps || 0;
   const ef = e.ef ?? 2.5;
   const prev = e.interval || 0;
@@ -1856,6 +1864,7 @@ function _updateSRS(uid, grade) {
   _srsData[uid] = e;
   _saveSRS();
   _markGradeOn(uid, grade);
+  try { window.MecTrophy?.noteSrsChange?.(uid, _before, e); } catch {}
 }
 
 // カード上の × / △ / ○ に「直近どれを押したか」を反映する
@@ -2514,6 +2523,83 @@ async function startTodayWrongReview(opts = {}) {
   }
 }
 window.startTodayWrongReview = startTodayWrongReview;
+
+// ── ⚔️ ボス戦（study.html?mode=boss・体力の計算と演出は boss.js） ─────────────────
+// 苦手な問題を科目横断で集め、最初の BOSS_BASE 問で戦い、誤答のたびに控え（BOSS_RESERVE 問）から
+// 1問ずつ増援が足される。配管は今日の誤答の再履修と同じ（専用ホストに必要な問題だけを起こす）。
+// ⚠️ 選び方は決定論（uid と日付のハッシュ）。同じ日に開き直すと同じボス・同じ問題になる。
+const BOSS_BASE = 10, BOSS_RESERVE = 10, BOSS_MIN = 5;
+function _bossHash(str) { let h = 2166136261; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+// 苦手の度合い：自分の誤答率・🚩・直近30日の誤答回数。上位40問からその日のぶんを20問選ぶ。
+function _bossTargets() {
+  const flags = JSON.parse(localStorage.getItem('flag_v2') || '{}');
+  const my = JSON.parse(localStorage.getItem('myrate_v1') || '{}');
+  const recent = new Map();
+  const cut = Date.now() - 30 * 86400000;
+  try { (window.MecAttempts ? MecAttempts.all() : []).forEach(a => { if (!a.ok && a.ms >= cut) recent.set(a.uid, (recent.get(a.uid) || 0) + 1); }); } catch (e) {}
+  const usable = uid => { const sid = uid.split('_ch')[0]; return sid !== 'custom' && sid !== 'memo' && STUDY_SUBJECTS.some(s => s.id === sid); };
+  const cand = new Set(Object.keys(flags).concat([...recent.keys()]));
+  for (const uid in my) { const r = my[uid]; if (r && r.total > 0 && (r.correct || 0) < r.total) cand.add(uid); }
+  const day = _today();
+  const scored = [...cand].filter(usable).map(uid => {
+    const r = my[uid];
+    const miss = r && r.total ? 1 - (r.correct || 0) / r.total : 0;
+    let sc = miss * 4 + (flags[uid] ? 2 : 0) + Math.min(3, recent.get(uid) || 0);
+    if (r && r.total >= 3 && miss > 0.5) sc += 2;
+    return { uid, sc, h: _bossHash(uid + day) };
+  }).filter(x => x.sc > 0);
+  scored.sort((a, b) => (b.sc - a.sc) || (a.h - b.h));
+  return scored.slice(0, 40).sort((a, b) => a.h - b.h).slice(0, BOSS_BASE + BOSS_RESERVE).map(x => x.uid);
+}
+window._bossTargets = _bossTargets;
+
+async function startBossBattle() {
+  const picks = _bossTargets();
+  if (picks.length < BOSS_MIN) {
+    _mecNotify('ボス戦には苦手な問題が' + BOSS_MIN + '問以上必要です（試験モードで間違えるか🚩を付けると集まります）');
+    _runDeferredInit();
+    return;
+  }
+  _srsHostClear();
+  const _host = document.getElementById('srsReviewHost');
+  if (_host) picks.forEach(uid => {
+    const el = document.querySelector('.subj-section .qc[data-uid="' + uid + '"]');
+    if (el) _host.appendChild(el);
+  });
+  const _hadLoaded = _loadedSids.size > 0;
+  [..._loadedSids].forEach(sid => _unloadSubjectCards(sid));
+  _srsUnloadedForReview = _srsUnloadedForReview || _hadLoaded;  // ⚠️ 上書き禁止（startSRSReview 同様）
+  await _renderDueCardsForReview(picks);
+  const avail = picks.filter(uid => {
+    const card = document.querySelector('.qc[data-uid="' + uid + '"]');
+    return !!card && !_isScoreExcluded(card);
+  });
+  if (avail.length < BOSS_MIN) {
+    _srsHostClear();
+    _mecNotify('ボス戦に出せる問題が足りませんでした。ページを再読み込みしてください。');
+    document.body.classList.remove('srs-review');
+    _runDeferredInit();
+    _srsRestoreAfterReview();
+    return;
+  }
+  // ホストのDOM順を出題順に揃える（増援は boss.js が末尾へ足す）
+  if (_host) avail.forEach(uid => { const el = _host.querySelector('.qc[data-uid="' + uid + '"]'); if (el) _host.appendChild(el); });
+  const base = avail.slice(0, BOSS_BASE);
+  const reserve = avail.slice(BOSS_BASE).map(uid => _host.querySelector('.qc[data-uid="' + uid + '"]')).filter(Boolean);
+  // ボスの名前は最初の相手の中でいちばん多い科目から
+  const cnt = {};
+  base.forEach(uid => { const sid = uid.split('_ch')[0]; cnt[sid] = (cnt[sid] || 0) + 1; });
+  const topSid = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a])[0];
+  const subj = STUDY_SUBJECTS.find(s => s.id === topSid) || null;
+
+  _srsHostShow();
+  _bossMode = true;
+  _examFilterLabel = 'ボス戦';
+  document.body.classList.add('srs-review');
+  startExam(base);
+  if (window.MecBoss) MecBoss.start({ boss: MecBoss.makeBoss(subj, _today()), reserve, startN: base.length });
+}
+window.startBossBattle = startBossBattle;
 
 // ── Review Mode (post-exam wrong-answer review) ───────────────────────────────
 let _reviewUids = null;

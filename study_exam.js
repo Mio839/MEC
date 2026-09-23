@@ -129,11 +129,15 @@ let _todayWrongMode = false;
 // SRS復習と今日の誤答の再履修は、どちらも「専用ホストに必要な問題だけを起こして出す」
 // 同じ配管に乗る（中断データを持たない・科目フィルターを出さない・ホストを表示する）。
 // 配管側の判定は必ずこれを使い、モード固有の分岐だけ個別フラグで書くこと。
-function _isHostSession() { return _srsReviewMode || _todayWrongMode; }
+// ボス戦（study.html?mode=boss・boss.js）。true=本戦（体力の計算が走る）／'rematch'=結果画面からの
+// 誤答再試験（同じホストで出すが体力は無い）。どちらもホスト出題＝中断データを持たない。
+let _bossMode = false;
+function _isHostSession() { return _srsReviewMode || _todayWrongMode || !!_bossMode; }
 // 直前に終えたセッションが復習だったか。誤答再試験で復習モードへ戻すために使う
 // （exitExam が _srsReviewMode を false に戻すので、その前に控えておく必要がある）。
 let _lastSessionWasSrs = false;
 let _lastSessionWasTodayWrong = false;
+let _lastSessionWasBoss = false;
 const _examChoiceBackup = new Map();
 let _examAudioCtx = null;
 /* 効果音のファイル名・キー・音量は **sounds_index.js（window.MecSounds）が唯一の正本**。
@@ -681,9 +685,10 @@ function retryWrongExam() {
   _closeSummaryOverlayOnly();
   // 復習セッションの誤答再試験は復習モードのまま続ける。
   // ここで戻さないと通常試験として開始され、科目フィルターと科目セクションが復活する。
-  if (_lastSessionWasSrs || _lastSessionWasTodayWrong) {
+  if (_lastSessionWasSrs || _lastSessionWasTodayWrong || _lastSessionWasBoss) {
     _srsReviewMode = _lastSessionWasSrs;
     _todayWrongMode = _lastSessionWasTodayWrong;
+    _bossMode = _lastSessionWasBoss ? 'rematch' : false;
     document.body.classList.add('srs-review');
     window._srsHostShow?.();
   }
@@ -775,27 +780,8 @@ function startExam(overrideUids = null) {
   let _firstFlips = null;   // B6: 1問目だけ並べ替えの移動量を控える
   examQueue.forEach((card, qi) => {
     card.style.display = '';
-    { const f = _shuffleChoices(card, qi === 0); if (qi === 0) _firstFlips = f; }
-    const isCalc = _setupCalcCard(card);   // 計算問題は桁入力UIを起こす
-    const req = _getRequiredCount(card);
-    if (!isCalc && req > 1 && !card.querySelector('.exam-multi-info')) {
-      const info = document.createElement('div');
-      info.className = 'exam-multi-info';
-      info.textContent = '0 / ' + req + ' 選択中';
-      info.dataset.ready = '0';
-      const cs = card.querySelector('.cs');
-      if (cs) cs.before(info);
-    }
-    const qb = card.querySelector('.qb');
-    if (qb && !qb.querySelector('.exam-reveal-btn')) {
-      const btn = document.createElement('button');
-      btn.className = 'exam-reveal-btn';
-      btn.textContent = (isCalc || req > 1) ? '▶ 回答を確定する' : '▶ 解答を見る';
-      btn.onclick = () => revealAnswer(card);
-      const ab = qb.querySelector('.ab');
-      if (ab) ab.parentNode.insertBefore(btn, ab); else qb.appendChild(btn);
-    }
-    _bindExamChoices(card);
+    const f = _prepExamCard(card, qi === 0);
+    if (qi === 0) _firstFlips = f;
   });
   _updateExamProg();
   if (examTimerInt) clearInterval(examTimerInt);
@@ -828,6 +814,34 @@ function startExam(overrideUids = null) {
     _firstCardEntrance(examQueue[0]);
     setTimeout(() => { if (examMode) _revealShuffleFx(_firstFlips); }, 180);
   }, _cdEnd + 60);
+}
+
+/* 出題するカード1枚の支度（肢の並べ替え・計算問題の桁入力・複数選択の表示・確定ボタン・クリック）。
+   startExam と、ボス戦の増援（boss.js が試験の途中でキューへ足すカード）が共有する。
+   first=true の1問目だけ並べ替えの移動量を返す（B6）。 */
+function _prepExamCard(card, first) {
+  const flips = _shuffleChoices(card, !!first);
+  const isCalc = _setupCalcCard(card);   // 計算問題は桁入力UIを起こす
+  const req = _getRequiredCount(card);
+  if (!isCalc && req > 1 && !card.querySelector('.exam-multi-info')) {
+    const info = document.createElement('div');
+    info.className = 'exam-multi-info';
+    info.textContent = '0 / ' + req + ' 選択中';
+    info.dataset.ready = '0';
+    const cs = card.querySelector('.cs');
+    if (cs) cs.before(info);
+  }
+  const qb = card.querySelector('.qb');
+  if (qb && !qb.querySelector('.exam-reveal-btn')) {
+    const btn = document.createElement('button');
+    btn.className = 'exam-reveal-btn';
+    btn.textContent = (isCalc || req > 1) ? '▶ 回答を確定する' : '▶ 解答を見る';
+    btn.onclick = () => revealAnswer(card);
+    const ab = qb.querySelector('.ab');
+    if (ab) ab.parentNode.insertBefore(btn, ab); else qb.appendChild(btn);
+  }
+  _bindExamChoices(card);
+  return flips;
 }
 
 /* 選択肢のクリックは【ここ1か所】。2026-08-25 に startExam / resumeExam の二重定義を併合した。
@@ -1971,6 +1985,9 @@ function _tallyQuestion(card, isCorrect) {
   const uid = card && card.dataset ? card.dataset.uid : '';
   if (uid) _examSessionResults.set(uid, !!isCorrect);
   if (_isHardCard(card)) { _examHardStat.answered++; if (isCorrect) _examHardStat.correct++; }
+  // ボス戦の体力はここで動かす（3つの採点経路が必ず通る唯一の点。増援の追加もこの後の
+  // _updateExamProg / _maybeShowFinishBtn より前に済ませる必要がある）
+  if (_bossMode === true && window.MecBoss) { try { MecBoss.onAnswer(card, !!isCorrect); } catch (e) { console.error('[boss]', e); } }
 }
 
 // 目盛りと難問印をバーへ敷く（セッション開始時に一度だけ）
@@ -2798,6 +2815,7 @@ function _examCountdown() {
     if (_srsReviewMode) subjLabel = 'SRS REVIEW';
     // TEMP（昨日の誤答）: _wrongDayJa() は study.html 側が持つ（'今日' / '昨日'）
     if (_todayWrongMode) subjLabel = (window._wrongDayJa?.() === '昨日') ? "YESTERDAY'S MISSES" : "TODAY'S MISSES";
+    if (_bossMode === true) subjLabel = 'BOSS BATTLE';
     if (_examIsRematch) subjLabel = 'REMATCH ×' + qn;
   } catch (e) {}
 
@@ -4912,6 +4930,8 @@ function exitExam() {
   // 解除は通常閲覧へ戻る _srsRestoreAfterReview() に集約している。
   _lastSessionWasSrs = _srsReviewMode;
   _lastSessionWasTodayWrong = _todayWrongMode;
+  _lastSessionWasBoss = !!_bossMode;
+  try { window.MecBoss?.onExit?.(); } catch (e) {}
   // ⚠️ 稼働灯(D9)は点灯クラスとタイマーの両方を落とすこと。残ると通常閲覧のヘッダで光が走り続ける。
   document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink', 'exam-sprint', 'exam-idle-lit', 'exam-overdrive', 'exam-screen-shake', 'exam-red-flash', 'exam-slash-freeze', 'exam-streak-zone', 'exam-bullet-time');
   document.querySelector('.exam-prog-track')?.classList.remove('exam-prog-complete');
@@ -5016,6 +5036,7 @@ function exitExam() {
   try { showExamSummary(); } catch(e) { console.error('showExamSummary error:', e); document.getElementById('examOverlay')?.classList.add('open'); }
   _srsReviewMode = false;
   _todayWrongMode = false;
+  _bossMode = false;
   // キューの索引は通常閲覧へ持ち越さない（examQueue は結果画面が読むので触らない）
   _examSet = new Set(); _examOrder = [];
   try { applyFilters(); } catch(e) {}
@@ -5045,11 +5066,13 @@ function _bindOverlayVV(ov) {
 
 function showExamSummary() {
   // 前回セッションの残骸（ランクスタンプ・復習完了バナー）を消してから描き直す
-  document.querySelectorAll('#examOverlay .exam-rank-stamp, #examOverlay .exam-srs-done, #examOverlay .exam-srs-continue').forEach(el => el.remove());
+  document.querySelectorAll('#examOverlay .exam-rank-stamp, #examOverlay .exam-srs-done, #examOverlay .exam-srs-continue, #examOverlay .exam-boss-res').forEach(el => el.remove());
   const titleEl = document.querySelector('#examOverlay h2');
   if (titleEl) titleEl.innerHTML =
     _srsReviewMode  ? '🔔 <span class="grad-txt">復習セッション結果</span>' :
     _todayWrongMode ? '🔁 <span class="grad-txt">' + (window._wrongDayJa?.() || '今日') + 'の誤答 再履修の結果</span>' :
+    _bossMode === true ? '⚔️ <span class="grad-txt">ボス戦の結果</span>' :
+    _bossMode ? '⚔️ <span class="grad-txt">ボス戦 リベンジの結果</span>' :
                       '📊 <span class="grad-txt">セッション結果</span>';
   const elapsed = examStartTime ? Math.floor((_examActiveMs()) / 1000) : 0;
   const pct = examAnswered > 0 ? Math.round(examCorrect / examAnswered * 100) : 0;
@@ -5358,6 +5381,10 @@ function showExamSummary() {
     } catch(e) {}
     _examActiveChPrefix = null;
   }
+  // ボス戦の勝敗を結果画面の先頭に出す（boss.js）
+  if (_bossMode === true) { try { window.MecBoss?.decorateSummary?.(); } catch (e) {} }
+  // このセッションで新しく「定着」した問題を1件の通知にまとめて授与トレイへ（trophy.js）
+  try { window.MecTrophy?.flushSession?.(); } catch {}
   try { window.MecGamify?.onExamFinish?.(examAnswered, examCorrect, { chPrefix: _gmChPrefix }); } catch {}
   // Exam-to-Hub Absorber: 直前の学習成果をハブ帰還演出（Exam-to-Hub Absorber）用に記録
   if (examAnswered > 0) {

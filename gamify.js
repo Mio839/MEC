@@ -309,6 +309,12 @@
 .gm-cer-big{font-size:30px;font-weight:900;letter-spacing:2px;color:#FFD166;text-shadow:0 0 24px rgba(255,209,102,.9),0 2px 8px rgba(0,0,0,.6);margin-top:6px;}
 .gm-cer-sub{font-size:15px;font-weight:800;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.7);margin-top:6px;}
 .gm-cer-note{font-size:12px;font-weight:700;color:rgba(255,255,255,.8);text-shadow:0 2px 8px rgba(0,0,0,.7);margin-top:4px;}
+.gm-cer-medal{display:inline-block;}
+.gm-cer-medal.g3{filter:drop-shadow(0 0 22px rgba(255,209,102,.95));animation:gmMedalIn .7s cubic-bezier(.3,1.6,.5,1) both,gmCerFloat 1.6s .7s ease-in-out infinite;}
+.gm-cer-medal.g2,.gm-cer-medal.g1{filter:drop-shadow(0 0 16px rgba(255,255,255,.6));animation:gmMedalIn .7s cubic-bezier(.3,1.6,.5,1) both,gmCerFloat 1.6s .7s ease-in-out infinite;}
+@keyframes gmMedalIn{0%{transform:scale(3) rotate(-30deg);opacity:0}70%{transform:scale(.9) rotate(6deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+.gm-cer-crown{font-size:42px;line-height:1;margin-bottom:-6px;filter:drop-shadow(0 0 18px rgba(255,209,102,.95));animation:gmCrownDrop .8s cubic-bezier(.3,1.5,.5,1) both;}
+@keyframes gmCrownDrop{0%{transform:translateY(-120px) rotate(-20deg);opacity:0}100%{transform:none;opacity:1}}
 .gm-cer-stars{font-size:22px;letter-spacing:4px;color:#FFD166;text-shadow:0 0 16px rgba(255,209,102,.8);margin-top:4px;}
 /* ── 位置表示（あと何件来るか）── 併合キューが正本。総数<2 のときは出ない */
 .gm-ann-pos{display:flex;align-items:center;justify-content:center;gap:5px;}
@@ -702,6 +708,19 @@
     } catch {}
   }
 
+  // 章・科目制覇の追い打ち。g=0〜3 は章メダルの段、4 は科目制覇。
+  function _fxClear(g) {
+    _fxConfetti(g >= 3);
+    if (!window.MecFX || _reducedMotion()) return;
+    try {
+      const x = innerWidth / 2, y = innerHeight * .42;
+      const col = g >= 3 ? '#FFD166' : g === 2 ? '#E6ECF5' : g === 1 ? '#E0A070' : '#FFD166';
+      window.MecFX.rings && window.MecFX.rings(x, y, { count: g >= 3 ? 3 : 2, maxR: g >= 4 ? 360 : 260, color: col, thickness: 3, additive: true, stagger: .12 });
+      window.MecFX.burst(x, y, { tier: g >= 3 ? 6 : 4, count: g >= 4 ? 120 : g >= 3 ? 90 : 50, colors: [col, '#FFFFFF', '#FFF3C4'], shapes: ['star', 'circle'] });
+      if (g >= 4) setTimeout(() => window.MecFX.fireworks({ count: 6, tier: 6, colors: ['#FFD166', '#FF5E8A', '#60A5FA', '#3DD68C'] }), 700);
+    } catch {}
+  }
+
   // ── レベルアップ検知 ─────────────────────────────────────────────
   function _checkLevelUp(celebrate) {
     const s = stats();
@@ -1012,13 +1031,22 @@
     return i > 0 ? _chIndex.get(uid.slice(0, i)) : null;
   }
 
+  // 章の評価（★1〜3 ＝ トロフィー棚の銅・銀・金メダル）の唯一の式。trophy.js もこれを呼ぶ。
+  // t/c = 試験モードの延べ受験数・正解数、answered = 1回以上解いた問題数、count = 章の問題数。
+  function chapterGrade(t, c, answered, count) {
+    if (!t || answered < count * 0.5) return 0; // 章の半分以上を解答してから評価
+    const pct = c / t * 100;
+    return pct >= 90 ? 3 : pct >= 70 ? 2 : 1;
+  }
   function _chapterStars(entry) {
     const my = _g('myrate_v1', {});
     let t = 0, c = 0, answered = 0;
     entry.uids.forEach(u => { const r = my[u]; if (r && r.total > 0) { answered++; t += r.total; c += r.correct || 0; } });
-    if (!t || answered < entry.uids.length * 0.5) return 0; // 章の半分以上を解答してから評価
-    const pct = c / t * 100;
-    return pct >= 90 ? 3 : pct >= 70 ? 2 : 1;
+    return chapterGrade(t, c, answered, entry.uids.length);
+  }
+  const _MEDAL = ['', '🥉', '🥈', '🥇'], _MEDAL_NM = ['', '銅', '銀', '金'];
+  function _chTitleOf(entry) {
+    return ((entry.divEl && entry.divEl.childNodes[0] && entry.divEl.childNodes[0].textContent) || '').trim().replace(/[<>&]/g, '') || '章';
   }
 
   /* E5(2026-08-14): 星が「増えた瞬間」を演出する。
@@ -1043,6 +1071,13 @@
     el.innerHTML = '★'.repeat(n) + '<span class="off">' + '★'.repeat(3 - n) + '</span>';
     el.title = '試験モードの章正答率評価（★3=90%↑ ★2=70%↑）';
     if (animate && prev !== null && n > prev) _starGainFx(el, n);
+    // トロフィー棚の章メダルが上がった瞬間を通知する（試験中は保留され、結果画面の授与トレイに並ぶ）。
+    // ⚠️ animate は解答きっかけの経路だけ true。読み込み時の描き直し（refreshAllStars）では出さない。
+    if (animate && n > (prev || 0)) {
+      const title = _chTitleOf(entry);
+      toast(_MEDAL[n], _MEDAL_NM[n] + 'メダル獲得！', title + ' がトロフィー棚に並びました', SND.ach,
+        _MEDAL[n] + ' ' + title + '（' + _MEDAL_NM[n] + '）');
+    }
   }
 
   function _starGainFx(el, n) {
@@ -1096,15 +1131,18 @@
       dv.classList.remove('gm-ch-sweep'); void dv.offsetWidth; dv.classList.add('gm-ch-sweep');
       setTimeout(() => dv.classList.remove('gm-ch-sweep'), 1100);
     }
-    const title = (entry.divEl && entry.divEl.childNodes[0] && entry.divEl.childNodes[0].textContent || '').trim() || '章';
+    const title = _chTitleOf(entry);
     const n = _chapterStars(entry);
+    // #8(2026-09-23): 制覇の評価をメダルで見せ、トロフィー棚へ飾られたことを告げる。
+    //    金は花火まで上げる（章の評価は試験モードの正答率＝運ではなく実力の印なので強く祝う）。
     ceremony(
-      '<div class="gm-cer-ic">🏆</div><div class="gm-cer-big">章 制覇！</div>' +
-      '<div class="gm-cer-sub">' + title.replace(/[<>&]/g, '') + '</div>' +
-      (n ? '<div class="gm-cer-stars">' + '★'.repeat(n) + '<span style="opacity:.25">' + '★'.repeat(3 - n) + '</span></div>' : '') +
-      '<div class="gm-cer-note">全' + entry.uids.length + '問クリア</div>',
-      { fx: () => _fxConfetti(false), snd: SND.clear, dur: 2300,
-        icon: '🏆', label: title.replace(/[<>&]/g, '') + ' 制覇' + (n ? '　' + '★'.repeat(n) : '') }
+      '<div class="gm-cer-ic gm-cer-medal g' + n + '">' + (n ? _MEDAL[n] : '🏆') + '</div>' +
+      '<div class="gm-cer-big">章 制覇！</div>' +
+      '<div class="gm-cer-sub">' + title + '</div>' +
+      (n ? '<div class="gm-cer-stars">' + '★'.repeat(n) + '<span style="opacity:.25">' + '★'.repeat(3 - n) + '</span>　' + _MEDAL_NM[n] + 'メダル</div>' : '') +
+      '<div class="gm-cer-note">全' + entry.uids.length + '問クリア・トロフィー棚に飾られました</div>',
+      { fx: () => _fxClear(n), snd: SND.clear, dur: n === 3 ? 3000 : 2500,
+        icon: n ? _MEDAL[n] : '🏆', label: title + ' 制覇' + (n ? '　' + _MEDAL[n] : '') }
     );
   }
 
@@ -1118,11 +1156,12 @@
     if ((s.bySubj[sid] || 0) < sub.total) return;
     L.subjDone.push(sid); saveL();
     ceremony(
+      '<div class="gm-cer-crown">👑</div>' +
       '<div class="gm-cer-ic">' + sub.icon + '</div><div class="gm-cer-big">' + sub.name + ' 全問制覇！！</div>' +
       '<div class="gm-cer-sub">' + sub.total + '問 完全走破</div>' +
-      '<div class="gm-cer-note">「' + sub.name + 'マスター」の称号を獲得</div>',
-      { fx: () => _fxConfetti(true), snd: SND.subject, dur: 3000,
-        icon: sub.icon, label: sub.name + ' 全問制覇' }
+      '<div class="gm-cer-note">「' + sub.name + 'マスター」の称号と👑勲章をトロフィー棚に獲得</div>',
+      { fx: () => { _fxConfetti(true); _fxClear(4); }, snd: SND.subject, dur: 3600,
+        icon: '👑', label: sub.name + ' 全問制覇' }
     );
   }
 
@@ -1680,7 +1719,7 @@
   }
 
   window.MecGamify = {
-    onLap, onAnswer, onFlag, onExamFinish, stats, missionSummary, missionXp, dailyGoal,
+    onLap, onAnswer, onFlag, onExamFinish, stats, missionSummary, missionXp, dailyGoal, chapterGrade,
     renderPanel, openPanelModal, refreshAllStars, flushCeremonies, goldenDays, goldenStreak,
     // テスト用（_work/test_missions.js / test_gamify_ceremony.js）
     _defs: {
