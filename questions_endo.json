@@ -28249,22 +28249,27 @@
       }
      ],
      "ans_label": "ｂ　摂取エネルギー量 1,300kcal/ 日・塩分量 5 g/ 日・薬物治療 インスリン",
-     "ans_sub": "ミトコンドリア糖尿病（通常やせ型）→IBW約50kg×25〜30kcal≒1250〜1500kcal→1300kcal/日が適切",
+     "ans_sub": "3つの軸を別々に決めれば8択は1つに絞れる。① <b>エネルギー</b>——標準体重は 1.52²×22 ≒ <b>50.8kg</b>、×25〜30kcal ＝ <b>1,270〜1,525kcal</b> なので <b>1,300kcal/日</b>（1,700 は 33kcal/kg で重い労作の値）。② <b>塩分</b>——血圧 154/92mmHg の高血圧を伴うので <b>6g/日未満</b>＝<b>5g</b>（8g は基準を満たさない）。③ <b>薬</b>——ミトコンドリア糖尿病は<b>分泌不全</b>でやせ型、尿ケトン体も陽性、しかも<b>メトホルミンは乳酸アシドーシスの危険で避ける</b>ため<b>インスリン</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🍽️ ミトコンドリア糖尿病の食事療法",
-       "c": "<span class=\"kw\">1300kcal/日 b✓</span>：ミトコンドリア糖尿病は通常やせ型の患者（IBW約50kg程度）。<br>エネルギー計算：IBW ≒ 50kg → 50×25〜30kcal = 1250〜1500kcal → <span class=\"kw\">1300kcal/日が適切</span>。<br>合併症対応：腎症→蛋白制限（0.8g/IBW/日）。高血圧→塩分&lt;6g/日。<br><br><span class=\"kw\">インスリン療法必須</span>：ミトコンドリア糖尿病→β細胞機能障害→インスリン必須。ビグアナイドは<span class=\"kw\">絶対禁忌</span>（ミトコンドリア機能さらに阻害→乳酸アシドーシス）。<br><br><span class=\"kw4\">1700kcal以上 e,f×</span>：やせ型ミトコンドリアDM患者には過剰。</br></br></br></br></br></br>"
+       "h": "⚗️ 組合せの設問は、軸ごとに独立に決めて交差させる",
+       "c": "<span class=\"kw\"><b>① エネルギー——標準体重から計算する</b></span><br/><span class=\"kw4\"><b><b>標準体重 ＝ 身長（m）² × 22</b> ＝ 1.52² × 22 ≒ <b>50.8kg</b></b></span><br/><span class=\"kw4\"><b>この患者は主婦で義母の介護をしている＝<b>軽い労作〜普通の労作</b>。係数は <b>25〜30kcal/kg</b></b></span><br/><span class=\"kw3\"><b>50.8 × 25〜30 ＝ <b>1,270〜1,525kcal</b> → <b>1,300kcal/日</b>が入る。1,700kcal は 33kcal/kg で<b>重い労作</b>の値</b></span><br/><span class=\"kw4\"><b>⚠️ 実体重 42kg で計算すると 1,050〜1,260kcal になるが、<b>基準は標準体重</b>（Q.353・Q.405）</b></span><br/><span class=\"kw\"><b>② 塩分——血圧が決める</b></span><br/><span class=\"kw4\"><b>血圧 <b>154/92mmHg</b>＝高血圧。糖尿病に高血圧を伴えば<b>食塩 6g/日未満</b></b></span><br/><span class=\"kw3\"><b>したがって <b>5g</b> は適合し、<b>8g</b> は基準を満たさない。この1点で肢の半分が消える</b></span><br/><span class=\"kw\"><b>③ 薬——この患者に経口薬を選べない理由</b></span><br/><span class=\"kw4\"><b>ミトコンドリア糖尿病（Q.421）は <b>β細胞が ATP を作れず分泌できない</b>のが本態で、<b>やせ型・抵抗性なし</b></b></span><br/><span class=\"kw4\"><b><b>尿ケトン体 1＋</b>＝すでにインスリン作用が不足している</b></span><br/><span class=\"kw3\"><b>⚠️ さらに<b>メトホルミンは禁忌に近い</b>——mtDNA 異常そのものが乳酸を溜めやすく、<b>アルコール性肝障害と日本酒2合/日</b>が重なる（Q.375）</b></span><br/><span class=\"kw3\"><b>以上から<b>インスリン</b>。3つの軸が交わるのは <b>ｂ</b> ひとつ</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　1,300kcal・塩分5g・経口血糖降下薬</td><td><span class=\"kw4\">誤り。<b>薬が違う</b></span>。<span class=\"kw4\"><b>エネルギーと塩分は正しい</b></span>。<span class=\"kw3\"><b>しかし分泌不全が本態で尿ケトン体も陽性——<b>出させる薬では足りない</b></b></span>。<span class=\"kw2\"><b>SU 薬は当初効いても長続きしない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　1,300kcal・塩分5g・インスリン</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw4\"><b><b>1,300kcal</b>＝標準体重 50.8kg × 25〜30kcal に収まる</b></span>。<span class=\"kw4\"><b><b>食塩5g</b>＝高血圧を伴う糖尿病の目標 6g/日未満を満たす</b></span>。<span class=\"kw4\"><b><b>インスリン</b>＝分泌不全・やせ型・ケトン体陽性、そして<b>メトホルミンを避けたい</b>という3つの理由が同じ方向を指す</b></span>。<span class=\"kw3\"><b>ミトコンドリア糖尿病では進行して<b>結局インスリンが必要になる</b>ことが多く、早期の導入は理にかなう</b></span>。<span class=\"kw2\"><b>飲酒の是正も同時に指導する</b></span>。</td></tr><tr><td>ｃ　1,300kcal・塩分8g・経口血糖降下薬</td><td><span class=\"kw4\">誤り。<b>塩分も薬も違う</b></span>。<span class=\"kw4\"><b>8g/日 は<b>高血圧の目標 6g 未満</b>を満たさない</b></span>。<span class=\"kw2\"><b>エネルギーだけが正しい</b></span>。</td></tr><tr><td>ｄ　1,300kcal・塩分8g・インスリン</td><td><span class=\"kw4\">誤り。<b>塩分が違う</b></span>。<span class=\"kw4\"><b>薬とエネルギーは正しいが、血圧 154/92mmHg に対して 8g/日 は緩すぎる</b></span>。<span class=\"kw3\"><b>⚠️ この患者は<b>降圧薬をまだ使っていない</b>——まず減塩で下がるかを見る場面でもある</b></span>。<span class=\"kw2\"><b>家庭血圧の測定も勧める</b></span>。</td></tr><tr><td>ｅ　1,700kcal・塩分5g・経口血糖降下薬</td><td><span class=\"kw4\">誤り。<b>エネルギーも薬も違う</b></span>。<span class=\"kw4\"><b>1,700kcal は標準体重あたり <b>33kcal</b> で、重い労作の人の値</b></span>。<span class=\"kw2\"><b>やせているからといって増やす場面ではない</b></span>。</td></tr><tr><td>ｆ　1,700kcal・塩分5g・インスリン</td><td><span class=\"kw4\">誤り。<b>エネルギーが違う</b></span>。<span class=\"kw4\"><b>薬と塩分は正しい</b></span>。<span class=\"kw3\"><b>⚠️ 体重 42kg・BMI 18.2 と痩せているので「増やしたい」と考えたくなるが、<b>まず血糖を是正すれば体重は戻る</b>。過剰なエネルギーは血糖管理を難しくする</b></span>。<span class=\"kw2\"><b>計算の基準は標準体重</b></span>。</td></tr><tr><td>ｇ　1,700kcal・塩分8g・経口血糖降下薬</td><td><span class=\"kw4\">誤り。<b>3つとも違う</b></span>。<span class=\"kw2\"><b>消去の基準を確かめるための肢</b></span>。</td></tr><tr><td>ｈ　1,700kcal・塩分8g・インスリン</td><td><span class=\"kw4\">誤り。<b>エネルギーと塩分が違う</b></span>。<span class=\"kw4\"><b>薬だけが正しい</b></span>。<span class=\"kw2\"><b>8択でも軸ごとに切れば迷わない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 「食塩6g未満」を実際の食卓へ落とす",
+       "c": "<span class=\"kw\"><b>① 何にどれだけ入っているか</b></span><br/><span class=\"kw4\"><b><b>みそ汁1杯 ≒ 1.5g</b>／<b>しょうゆ小さじ1 ≒ 0.9g</b>／<b>梅干し1個 ≒ 2g</b>／<b>ラーメンの汁まで飲む ≒ 5〜6g</b>（1食で1日分）</b></span><br/><span class=\"kw3\"><b>日本人の平均摂取は <b>1日およそ10g</b>。6g 未満にするには「減らす」より<b>やめるものを決める</b>ほうが早い——汁を残す・漬物をやめる、の2つで 3〜4g 動く</b></span><br/><span class=\"kw\"><b>② どれだけ血圧が下がるか</b></span><br/><span class=\"kw4\"><b>おおむね<b>食塩1g の減少で収縮期血圧 1mmHg 前後</b>。10g→6g なら数 mmHg で、薬1剤に迫る</b></span><br/><span class=\"kw4\"><b><b>食塩感受性</b>が高い人（高齢者・肥満・糖尿病・腎障害・黒人）ではもっと下がる——本例は当てはまる</b></span><br/><span class=\"kw3\"><b>⚠️ <b>RAS 阻害薬は塩分が多いと効きが落ちる</b>。減塩は薬の効果も引き上げる（Q.419）</b></span><br/><span class=\"kw\"><b>③ 工夫と注意</b></span><br/><span class=\"kw4\"><b>だしの旨味・酸味（酢・レモン）・香辛料・香味野菜で置き換える。<b>カリウムの多い野菜・果物</b>は Na 排泄を促す</b></span><br/><span class=\"kw3\"><b>⚠️ ただし<b>腎機能が落ちていれば K は制限側</b>になる——減塩と K 制限は同時に成り立たないことがあるので、腎機能を見てから指導する</b></span><br/><span class=\"kw4\"><b>加工食品の表示は「食塩相当量」。<b>Na（mg）× 2.54 ÷ 1,000 ＝ 食塩相当量（g）</b></b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">ミトコンドリア糖尿病→ビグアナイド禁忌（乳酸アシドーシス誘発）</span>。<br>インスリン療法が治療の基本（β細胞機能障害→インスリン欠乏型）。<br/>エネルギー制限：IBW×25〜30kcal/日（やせ型→適切なエネルギー補給も重要）。</br>"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "ミトコンドリア糖尿病（やせ型・難聴）の治療の組合せ。<br/><b>a・c・d（1300kcal）／e〜h（1700・ビグアナイド等）</b>：エネルギー過不足やビグアナイドは乳酸アシドーシスのため不適。<br/><b>b 1300kcal＋インスリン</b>：<span class=\"kw\">ミトコンドリア糖尿病はインスリンで治療（ビグアナイドは禁忌）</span>。✓"
+       "c": "<span class=\"kw3\"><b>組合せの設問は<b>軸ごとに独立に判定</b>する。ここではエネルギー・塩分・薬の3軸</b></span><br/><span class=\"kw4\"><b>指示エネルギー＝<b>標準体重（身長 m²×22）× 25〜35kcal</b>。<b>実体重で計算しない</b></b></span><br/><span class=\"kw4\"><b>高血圧を伴う糖尿病の<b>食塩は6g/日未満</b></b></span><br/><span class=\"kw3\"><b>⚠️ ミトコンドリア糖尿病では<b>メトホルミンを避け</b>、早期にインスリンへ（Q.421）</b></span><br/><span class=\"kw2\"><b>正答率43%——8択だが軸で切れば難しくない</b></span>"
       }
      ],
      "imgs": []
@@ -28310,27 +28315,27 @@
       }
      ],
      "ans_label": "ｃ　血清カリウム値 ＋ ｄ　動脈血ガス分析",
-     "ans_sub": "DKA診断→①酸塩基平衡の確認（動脈血ガス）②インスリン治療前のK確認（インスリン→K低下→致死的不整脈）",
+     "ans_sub": "12歳・2週前の咽頭痛のあと口渇と倦怠感、尿糖 3＋・ケトン体 3＋、空腹時血糖 394、呼吸数 30/分＝<b>1型糖尿病の発症によるケトアシドーシス</b>。ここで治療方針を変えるのは2つ——<b>血清カリウム値</b>（総 K は枯渇していて、インスリンで細胞内へ移る。<b>3.3mEq/L 未満ならインスリンより K 補充が先</b>）と<b>動脈血ガス分析</b>（pH と HCO₃⁻、そして AG で重症度と回復を判定する）。FT4・抗核抗体・OGTT は、いま打つ手を1つも変えない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 DKA初期評価の優先検査",
-       "c": "<span class=\"kw\">血清カリウム値c✓</span>：DKAでインスリン投与開始前→K確認必須。<br>アシドーシス→K細胞外流出→血清K正常〜高値だが全身K欠乏。インスリン→K細胞内→急速なK低下→<span class=\"kw\">致死的不整脈リスク</span>。<br/>K&lt;3.5→インスリン前にK補充。K3.5〜5.5→インスリン＋K補充継続。K&gt;5.5→インスリン開始（K補充保留）。<br/><br/><span class=\"kw\">動脈血ガス分析d✓</span>：pH確認→DKAの重症度評価・重炭酸投与の適応判断（pH&lt;6.9のみ）。<br/>HCO₃-・PaCO₂→AG上昇型代謝性アシドーシスの確認。<br/><br/><span class=\"kw4\">FT4a×</span>：甲状腺機能→DKAの急性期管理では優先しない。<br/><span class=\"kw4\">抗核抗体b×</span>：自己免疫疾患の評価→DKAの急性期には不要。<br/><span class=\"kw4\">75g OGTTe×</span>：血糖394mg/dlですでに高血糖→さらにブドウ糖を負荷するのは危険（禁忌）。</br>"
+       "h": "⚗️ この2つは「調べる」検査ではなく「打つ前に確かめる」検査",
+       "c": "<span class=\"kw\"><b>① まず病態を確定する</b></span><br/><span class=\"kw4\"><b><b>2週前の咽頭痛と発熱</b>＝先行感染／<b>1週間の口渇と倦怠感</b>／<b>尿糖 3＋・尿ケトン体 3＋・空腹時血糖 394mg/dL</b></b></span><br/><span class=\"kw4\"><b><b>呼吸数 30/分</b>＝Kussmaul 呼吸、<b>脈拍 104/分</b>＝脱水。12歳・体重 33kg でやせている</b></span><br/><span class=\"kw3\"><b>⚠️ <b>HbA1c 7.2%</b>——血糖 394 に対して低い。<b>発症してまだ日が浅い</b>ことを示す（Q.411 と同じ読み方）</b></span><br/><span class=\"kw\"><b>② K を確かめないとインスリンを打てない</b></span><br/><span class=\"kw4\"><b>DKA では浸透圧利尿と嘔吐で<b>体内の総 K は大きく枯渇</b>している。それでも血清 K は<b>アシドーシスで細胞外へ出ているため正常〜高値に見える</b></b></span><br/><span class=\"kw3\"><b>インスリンを入れると K は一斉に細胞内へ移る。<b>3.3mEq/L 未満ならインスリンを待ち、まず K を補う</b>——この分岐があるから「治療方針の決定に有用」</b></span><br/><span class=\"kw\"><b>③ 血液ガスは重症度と回復の物差し</b></span><br/><span class=\"kw4\"><b>pH と HCO₃⁻ で<b>どれだけ酸が溜まっているか</b>、Na・Cl と合わせて <b>AG</b> を出す</b></span><br/><span class=\"kw3\"><b>治療の目標は血糖ではなく<b>AG が 12 以下に戻ること</b>（Q.345）。血糖が下がってもケトン体が残っていれば治療は続く</b></span><br/><span class=\"kw4\"><b>⚠️ <b>尿ケトン試験紙はアセト酢酸しか拾わない</b>ので、重症例ほど見かけ上弱く出る（Q.342）。だから血液ガスで裏を取る</b></span>"
       },
       {
        "cls": "ee",
-       "h": "📋 DKA初期評価・治療フロー",
-       "c": "<table class=\"tb\"><tr><th>時間</th><th>確認・治療</th></tr><tr><td>時間</td><td>確認・治療</td></tr><tr><td>即座（0分）</td><td><span class=\"kw\">血糖測定・血清K確認・動脈血ガス・血ガス</span></td></tr><tr><td>0〜30分</td><td><span class=\"kw\">0.9%NS 1〜2L/h（輸液開始）</span></td></tr><tr><td>循環回復後</td><td><span class=\"kw\">インスリン持続静注（0.1U/kg/h）＋K補充開始</span></td></tr><tr><td>血糖&lt;250</td><td>5%ブドウ糖液に変更（インスリン継続）</td></tr><tr><td>DKA解消後</td><td>インスリン皮下注へ移行</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　FT4</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\"><b><b>甲状腺の腫大を認めない</b>と明記されており、頻脈と体重減少は<b>脱水と高血糖</b>で説明がつく</b></span>。<span class=\"kw3\"><b>⚠️ 1型糖尿病は<b>橋本病・Basedow 病を合併しやすい</b>ので、落ち着いてから甲状腺機能と自己抗体を測る意義はある——ただし<b>今日の治療を変えない</b></b></span>。<span class=\"kw2\"><b>急性期は低 T3 症候群で値が読めない（Q.413）</b></span>。</td></tr><tr><td>ｂ　抗核抗体</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\"><b>SLE・強皮症・混合性結合組織病などを疑うときの検査</b></span>。<span class=\"kw3\"><b>1型糖尿病の診断に用いるのは<b>膵島自己抗体（抗 GAD・抗 IA-2・IAA・抗 ZnT8）</b>で、抗核抗体ではない（Q.416）</b></span>。<span class=\"kw4\"><b>関節痛・皮疹・発熱の持続といった所見もない</b></span>。<span class=\"kw2\"><b>健常者でも低力価で陽性になる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　血清カリウム値</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw4\"><b>DKA では<b>総 K が枯渇しているのに血清 K は正常〜高値</b>に見える——アシドーシスとインスリン欠乏で細胞外へ出ているため</b></span>。<span class=\"kw4\"><b>治療を始めると、<b>輸液による希釈・尿中排泄・インスリンによる細胞内移行・アシドーシス補正</b>の4つがすべて K を下げる方向に働く</b></span>。<span class=\"kw3\"><b>⚠️ <b>3.3mEq/L 未満ならインスリンを待って K を補う</b>。<b>5.2mEq/L 未満なら輸液に K を加える</b>——この分岐を決める1つの数字</b></span>。<span class=\"kw4\"><b>低 K は<b>致死的不整脈と呼吸筋麻痺</b>を起こす</b></span>。<span class=\"kw2\"><b>心電図も併せて監視する</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　動脈血ガス分析</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw4\"><b>pH・HCO₃⁻・PaCO₂ で<b>アシドーシスの程度と呼吸性代償</b>を評価する</b></span>。<span class=\"kw4\"><b>Na・Cl と合わせて <b>AG</b> を計算し、ケトン体の蓄積量を推定する。<b>治療の終点は AG 12 以下</b></b></span>。<span class=\"kw3\"><b>⚠️ pH が極端に低ければ（6.9 未満）重炭酸を考えるという分岐もある——使わない判断もまた、この検査があって初めてできる</b></span>。<span class=\"kw4\"><b>呼吸数 30/分 の Kussmaul 呼吸を数字で裏づける</b></span>。<span class=\"kw2\"><b>静脈血ガスでも代用しうる</b></span>。</td></tr><tr><td>ｅ　経口ブドウ糖負荷試験</td><td><span class=\"kw4\">誤り。<b>行ってはいけない</b></span>。<span class=\"kw4\"><b>空腹時血糖 394mg/dL＝<b>すでに糖尿病型が確定</b>しており、診断のために負荷する必要がない</b></span>。<span class=\"kw3\"><b>⚠️ 明らかな高血糖の患者にブドウ糖 75g を飲ませれば<b>高血糖とケトーシスをさらに悪化させる</b>——禁忌にあたる</b></span>。<span class=\"kw4\"><b>嘔気があれば飲めないし、この状況で2時間待つこと自体が危険</b></span>。<span class=\"kw2\"><b>OGTT は境界型の評価に使う検査（Q.331・Q.401）</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 DKA 治療中の K ——4つの力がすべて下げ方向に働く",
+       "c": "<span class=\"kw\"><b>① 治療開始前は「見かけ上 保たれている」</b></span><br/><span class=\"kw4\"><b>アシドーシスで <b>H⁺ が細胞内へ、K⁺ が細胞外へ</b>入れ替わる。インスリン欠乏そのものも K を細胞外へ出す</b></span><br/><span class=\"kw3\"><b>だから<b>血清 K が正常なら、実際にはすでに枯渇している</b>。高値であっても安心できない</b></span><br/><span class=\"kw\"><b>② 治療を始めた瞬間から下がる</b></span><br/><span class=\"kw4\"><b><b>輸液</b>で希釈され、<b>尿</b>から排泄され、<b>インスリン</b>で細胞内へ移り、<b>アシドーシスの補正</b>でさらに細胞内へ移る</b></span><br/><span class=\"kw3\"><b>4つが同じ向きに働くので、<b>数時間で危険域まで落ちうる</b>。だから<b>2〜4時間ごとに測る</b></b></span><br/><span class=\"kw\"><b>③ 具体的な分岐</b></span><br/><span class=\"kw4\"><b><b>K 3.3mEq/L 未満</b>——インスリンを開始せず、まず K を補う</b></span><br/><span class=\"kw4\"><b><b>K 3.3〜5.2mEq/L</b>——輸液1L あたり <b>20〜30mEq</b> の K を加えながらインスリンを開始</b></span><br/><span class=\"kw4\"><b><b>K 5.2mEq/L 以上</b>——K は加えず、2時間ごとに測り直す</b></span><br/><span class=\"kw\"><b>④ 心電図で見る</b></span><br/><span class=\"kw4\"><b><b>高 K</b>——テント状 T 波 → P 波の消失・PR 延長 → QRS の幅広化 → sine wave</b></span><br/><span class=\"kw4\"><b><b>低 K</b>——T 波の平低化・<b>U 波</b>の出現・ST 低下 → 心室性不整脈</b></span><br/><span class=\"kw3\"><b>数字が返るまでの間、心電図は<b>その場で K の向きを教えてくれる</b>唯一の手段</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">DKA必須検査：血清K値（インスリン前に必ず確認）＋動脈血ガス（重症度・重炭酸適応）</span>。<br/>K確認なしでインスリン→急性低K→致死的不整脈（QT延長→Torsades de pointes）。<br/>小児DKA：脳浮腫リスク高→血糖の急速な低下を避ける（1時間75mg/dL以内の低下を目安）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "咽頭痛・発熱後の口渇・頻呼吸＝1型糖尿病（DKA）でまず調べるものを2つ。<br/><b>a FT4／b 抗核抗体／e OGTT</b>：本病態の初期評価でない。<br/><b>c 血清カリウム値</b>：<span class=\"kw\">治療に伴うK変動を評価</span>。✓<br/><b>d 動脈血ガス分析</b>：<span class=\"kw\">ケトアシドーシスの評価</span>。✓"
+       "c": "<span class=\"kw3\"><b>DKA で治療方針を変える検査＝<b>血清 K</b>と<b>動脈血ガス</b></b></span><br/><span class=\"kw3\"><b>⚠️ <b>K 3.3mEq/L 未満ならインスリンより K 補充が先</b>。5.2 未満なら輸液に K を加える</b></span><br/><span class=\"kw4\"><b>治療の終点は血糖ではなく <b>AG 12 以下</b></b></span><br/><span class=\"kw4\"><b>⚠️ <b>明らかな高血糖の患者に OGTT を行ってはいけない</b>（診断に不要かつ危険）</b></span><br/><span class=\"kw4\"><b>血糖 394 に対し HbA1c 7.2%＝<b>発症が最近</b>であることを示す</b></span>"
       }
      ],
      "imgs": []
@@ -28385,22 +28390,27 @@
       }
      ],
      "ans_label": "ｅ　体内の水分量",
-     "ans_sub": "基礎代謝量は性別・年齢・筋肉量・体表面積に依存するが、体内水分量は直接影響しない",
+     "ans_sub": "基礎代謝量は<b>熱を産む組織の量</b>、すなわち<b>除脂肪体重（筋肉量）</b>でほぼ決まる。性別（男性は筋肉量が多い）・年齢（加齢で筋が減る）・筋肉量・体表面積（熱を逃がす面積）はいずれも<b>直接の規定因子</b>。一方<b>体内の水分量</b>は、除脂肪組織が多ければ一緒に増えるという<b>付随的な関係</b>があるだけで、<b>水そのものが熱を産むわけではない</b>。したがって誤っているのは ｅ。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔥 基礎代謝量（BMR）の決定因子",
-       "c": "<table class=\"tb\"><tr><td>因子</td><td>影響</td><td>備考</td></tr><tr><td>性別</td><td>男性＞女性</td><td>男性は筋肉量が多く約10〜15%高い</td></tr><tr><td>年齢</td><td>若い方が高い</td><td>加齢とともに筋肉量↓→BMR↓</td></tr><tr><td>筋肉量</td><td>多いほど高い</td><td>筋組織は脂肪組織より代謝活性が高い</td></tr><tr><td>体表面積</td><td>広いほど高い</td><td>体表面から熱放散量が多い</td></tr><tr><td>体内水分量</td><td>直接影響なし✗</td><td>水分量は体組成を反映するが独立した因子ではない</td></tr></table>"
+       "h": "⚗️ 基礎代謝量は「熱を産む組織の量」で決まる",
+       "c": "<span class=\"kw\"><b>① 定義</b></span><br/><span class=\"kw4\"><b><b>基礎代謝量（BMR）</b>＝覚醒した状態で、<b>早朝空腹時・快適な室温・安静仰臥位</b>で生命維持に最低限必要なエネルギー</b></span><br/><span class=\"kw4\"><b>成人でおよそ <b>1,200〜1,500kcal/日</b>、1日の総消費エネルギーの <b>約60%</b> を占める</b></span><br/><span class=\"kw\"><b>② 決めているのは除脂肪体重</b></span><br/><span class=\"kw3\"><b>エネルギーを使っているのは<b>細胞</b>で、脂肪組織の代謝は低い。だから <b>BMR ≒ 除脂肪体重（筋肉・内臓）に比例</b>する</b></span><br/><span class=\"kw4\"><b><b>筋肉量</b>——直接そのもの。<b>性別</b>——男性は筋肉量が多く、同じ体重でも BMR は約10% 高い</b></span><br/><span class=\"kw4\"><b><b>年齢</b>——加齢で筋が減り、体重あたりの BMR は低下する（<b>基礎代謝基準値</b>は1〜2歳が最も高い）</b></span><br/><span class=\"kw4\"><b><b>体表面積</b>——熱は体表から逃げるので、失う熱を補う分だけ産熱が要る。だから古典的に<b>体表面積あたり</b>で表す</b></span><br/><span class=\"kw\"><b>③ 体内の水分量はどこに位置するか</b></span><br/><span class=\"kw3\"><b>筋肉は約 75% が水、脂肪は約 10% ——<b>除脂肪体重が多い人は体水分も多い</b>。つまり<b>相関はするが、それは結果</b></b></span><br/><span class=\"kw3\"><b>⚠️ 水そのものは代謝してエネルギーを産まない。浮腫で体水分が 5kg 増えても BMR は増えない——<b>付随する変数を原因と取り違えさせる</b>のがこの設問</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　性　別</td><td><span class=\"kw4\">正しい</span>。<span class=\"kw4\"><b>同じ体重・年齢なら<b>男性のほうが約10% 高い</b></b></span>。<span class=\"kw3\"><b>理由は<b>除脂肪体重（筋肉量）の差</b>で、性ホルモンによる体組成の違いに由来する</b></span>。<span class=\"kw2\"><b>基礎代謝基準値の表も男女別</b></span>。</td></tr><tr><td>ｂ　年　齢</td><td><span class=\"kw4\">正しい</span>。<span class=\"kw4\"><b>体重あたりの基礎代謝基準値は<b>1〜2歳が最高</b>（男 61.0 kcal/kg/日）で、以後低下する</b></span>。<span class=\"kw4\"><b>成人以降は<b>加齢による筋量の減少</b>が主因</b></span>。<span class=\"kw3\"><b>だから高齢者では「食べる量は変わらないのに太る」ことが起こる</b></span>。<span class=\"kw2\"><b>成長期は成長そのものにもエネルギーが要る</b></span>。</td></tr><tr><td>ｃ　筋肉量</td><td><span class=\"kw4\">正しい。<b>最も直接の因子</b></span>。<span class=\"kw4\"><b>骨格筋は安静時でも持続的にエネルギーを消費し、<b>除脂肪体重が BMR の最大の規定因子</b></b></span>。<span class=\"kw3\"><b>減量で筋まで落とすと BMR が下がり、<b>リバウンドしやすくなる</b>——だから減量にレジスタンス運動を組み合わせる</b></span>。<span class=\"kw2\"><b>体組成計はこの原理で推定する</b></span>。</td></tr><tr><td>ｄ　体表面積</td><td><span class=\"kw4\">正しい</span>。<span class=\"kw4\"><b>体温を保つには<b>体表から逃げる熱</b>を補い続ける必要があり、産熱量は体表面積にほぼ比例する</b></span>。<span class=\"kw4\"><b>だから基礎代謝は古典的に <b>kcal/m²/時</b> で表される</b></span>。<span class=\"kw3\"><b>小児で体重あたりの基礎代謝が高いのは、<b>体重に対して体表面積が大きい</b>ことも一因（脱水しやすい理由と同じ）</b></span>。<span class=\"kw2\"><b>Du Bois の式で推定する</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　体内の水分量</span></td><td><span class=\"kw3\">これが正解（誤っている）</span>。<span class=\"kw4\"><b>筋肉は約75%、脂肪は約10% が水——<b>除脂肪体重が多ければ体水分も多い</b>という<b>相関</b>はある</b></span>。<span class=\"kw3\"><b>しかしそれは<b>結果として伴うもの</b>で、水そのものが熱を産むわけではない</b></span>。<span class=\"kw4\"><b>実際、<b>浮腫や脱水で体水分が動いても基礎代謝量は変わらない</b></b></span>。<span class=\"kw3\"><b>⚠️ 「相関する変数」と「規定する因子」を区別させるのがこの設問の狙い</b></span>。<span class=\"kw2\"><b>正答率67%——必修としては落とせない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 基礎代謝が実際に動く場面",
+       "c": "<span class=\"kw\"><b>① 上がる</b></span><br/><span class=\"kw4\"><b><b>甲状腺機能亢進症</b>——熱産生が増え、体重減少・暑がり・頻脈。かつては基礎代謝率の測定が甲状腺機能の検査だった</b></span><br/><span class=\"kw4\"><b><b>発熱</b>——体温 1℃ の上昇でおよそ <b>13%</b> 増える</b></span><br/><span class=\"kw4\"><b><b>熱傷・外傷・敗血症・手術後</b>——侵襲の大きさに応じて増える（ストレス係数）</b></span><br/><span class=\"kw4\"><b><b>成長期・妊娠・授乳</b>、寒冷曝露、喫煙、カフェイン</b></span><br/><span class=\"kw\"><b>② 下がる</b></span><br/><span class=\"kw4\"><b><b>甲状腺機能低下症</b>——寒がり・体重増加・徐脈。粘液水腫では低体温になる</b></span><br/><span class=\"kw4\"><b><b>飢餓・極端な減量</b>——<b>20〜30% 低下</b>することがあり、これが減量の停滞期（プラトー）の正体</b></span><br/><span class=\"kw4\"><b><b>加齢・るい痩・長期臥床</b>（筋の廃用）</b></span><br/><span class=\"kw\"><b>③ 熱を産む特別な組織</b></span><br/><span class=\"kw4\"><b><b>褐色脂肪組織</b>——ミトコンドリアの <b>UCP1</b> が酸化的リン酸化を脱共役させ、ATP ではなく<b>熱</b>を作る</b></span><br/><span class=\"kw3\"><b>新生児で多く、寒冷時の主要な産熱源（新生児は<b>ふるえ熱産生ができない</b>）。成人でも頸部・肩甲間・傍脊椎に残る</b></span><br/><span class=\"kw\"><b>④ 臨床での使い方</b></span><br/><span class=\"kw4\"><b>正確には<b>間接熱量測定</b>、簡便には <b>Harris-Benedict の式</b>、実務では<b>25〜30kcal/kg/日</b>と丸めて使う</b></span><br/><span class=\"kw3\"><b>1日の総消費 ＝ <b>基礎代謝量 × 身体活動レベル（PAL）</b>（Q.333）。BMR はその土台にあたる</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">BMR＝基礎代謝量</span>：安静覚醒時・絶食状態での最低エネルギー消費量。<br/>影響因子の覚え方：<span class=\"kw\">性・年・筋・面</span>（性別・年齢・筋肉量・体表面積）"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "基礎代謝量に直接影響を与える因子で「誤っている」もの。<br/><b>a 性別／b 年齢／c 筋肉量／d 体表面積</b>：基礎代謝に直接影響する。<br/><b>e 体内の水分量</b>：<span class=\"kw\">基礎代謝量を直接規定する因子でない</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw3\"><b>基礎代謝量を規定するのは<b>除脂肪体重（筋肉量）・性別・年齢・体表面積</b>。<b>体内水分量は直接の因子ではない</b></b></span><br/><span class=\"kw4\"><b>基礎代謝基準値は<b>1〜2歳が最高</b>。総消費エネルギーの約60%</b></span><br/><span class=\"kw4\"><b><b>体温1℃で約13% 増</b>／甲状腺機能亢進で増、低下で減／<b>飢餓で20〜30% 低下</b>（減量の停滞期）</b></span><br/><span class=\"kw4\"><b><b>褐色脂肪＝UCP1</b> で熱を作る（新生児の主要な産熱源）</b></span><br/><span class=\"kw2\"><b>正答率67%・必修</b></span>"
       }
      ],
      "imgs": []
@@ -28446,27 +28456,27 @@
       }
      ],
      "ans_label": "ａ　食事療法",
-     "ans_sub": "肥満の基本治療はまず食事療法・運動療法。外科的治療はBMI≥35かつ内科治療効果不十分の場合に検討",
+     "ans_sub": "身長 168cm・体重 100kg＝<b>BMI 35.4 の高度肥満</b>で、高血圧・脂質異常・変形性関節症（腰と両膝の痛み）を伴う。<b>肥満症の治療はまず食事療法</b>——エネルギー制限で体重を落とすことが、血圧・脂質・関節痛のすべてに同時に効く。外科治療は<b>BMI 35 以上かつ内科治療で十分な効果が得られない場合</b>に検討するもので最初ではなく、SGLT2 阻害薬・GLP-1 受容体作動薬は<b>HbA1c 5.4% で糖尿病ではない</b>本例の適応にならない。<b>長時間ジョギング</b>は 100kg の体重で膝と腰をさらに壊す。",
      "eg": [
       {
        "cls": "ep",
-       "h": "⚖️ 肥満治療の基本方針",
-       "c": "<span class=\"kw\">BMI=100/(1.68)²≒35.4</span>：高度肥満（BMI≥35）。<br>肥満治療のステップ：①生活習慣改善（<span class=\"kw\">食事療法・運動療法</span>）→②薬物療法→③外科療法。<br>運動療法は膝・腰痛があるため<span class=\"kw4\">長時間ジョギングは禁忌</span>（関節への負荷過大）。</br></br>"
+       "h": "⚗️ 5つの肢は「いつ使うか」の順番を問うている",
+       "c": "<span class=\"kw\"><b>① まずこの患者を数字で把握する</b></span><br/><span class=\"kw4\"><b><b>BMI ＝ 100 ÷ 1.68² ＝ 35.4</b>＝<b>肥満3度（高度肥満）</b></b></span><br/><span class=\"kw4\"><b>血圧 148/92mmHg、TG 235mg/dL、ALT 46U/L（脂肪肝が疑われる）、そして<b>腰と両膝の痛みが1年</b></b></span><br/><span class=\"kw3\"><b>HbA1c 5.4%・空腹時血糖 98mg/dL＝<b>糖尿病はない</b>。ここが薬の肢を落とす鍵</b></span><br/><span class=\"kw\"><b>② 肥満症の治療には順序がある</b></span><br/><span class=\"kw3\"><b><b>食事療法と運動療法（＋行動療法）が土台</b>。それでも目標に届かないときに<b>薬物療法</b>、さらに届かないときに<b>外科治療</b></b></span><br/><span class=\"kw4\"><b>目標はまず <b>3〜5% の減量</b>。100kg なら 3〜5kg で、血圧・TG・血糖・肝機能が改善する（Q.334・Q.362）</b></span><br/><span class=\"kw\"><b>③ 運動を「禁止」しているのではない</b></span><br/><span class=\"kw3\"><b>⚠️ 誤りなのは運動そのものではなく<b>「長時間ジョギング」という処方</b>。体重 100kg で走れば、膝には歩行時でも体重の3倍、走ればそれ以上の力が繰り返し掛かる</b></span><br/><span class=\"kw4\"><b>すでに<b>変形性関節症を思わせる痛みが1年</b>ある。荷重をかける運動は関節を壊し、痛みで動けなくなって<b>さらに太る</b></b></span><br/><span class=\"kw3\"><b>正しくは<b>水中歩行・自転車エルゴメータ</b>など<b>非荷重の有酸素運動</b>から始める。だから「まず行うべき」は<b>食事療法</b></b></span>"
       },
       {
        "cls": "ee",
-       "h": "□ 各選択肢の評価",
-       "c": "<table class=\"tb\"><tr><td>選択肢</td><td>判断</td></tr><tr><td>ａ 食事療法</td><td>◎ まず行う基本治療</td></tr><tr><td>ｂ スリーブ状胃切除術</td><td>× まずは内科治療；BMI≥35でも手術は二次選択</td></tr><tr><td>ｃ SGLT2阻害薬</td><td>× 糖尿病未診断（血糖98・HbA1c5.4→正常）</td></tr><tr><td>ｄ 長時間ジョギング</td><td>× 膝・腰への負荷で悪化リスク</td></tr><tr><td>ｅ GLP-1受容体作動薬</td><td>× 糖尿病の診断なし、一次治療ではない</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　食事療法</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw4\"><b>肥満症の治療の<b>土台であり最初の一手</b></b></span>。<span class=\"kw4\"><b>標準体重は 1.68²×22 ≒ <b>62kg</b>。まずは <b>20〜25kcal/kg</b> 程度から指示エネルギーを決める</b></span>。<span class=\"kw3\"><b>目標は<b>3〜5% の減量</b>——100kg なら 3〜5kg で、血圧・TG・肝機能・膝の痛みが同時に改善する</b></span>。<span class=\"kw4\"><b>記録（体重・食事）を続けさせることが成否を分ける（Q.362）</b></span>。<span class=\"kw2\"><b>非荷重の運動も並行して勧める</b></span>。</td></tr><tr><td>ｂ　スリーブ状胃切除術</td><td><span class=\"kw4\">誤り。<b>順序が飛んでいる</b></span>。<span class=\"kw4\"><b>保険適用は <b>BMI 35 以上</b>（または BMI 32 以上で糖尿病などの合併症）で、かつ<b>6か月以上の内科的治療で効果が不十分</b>な場合</b></span>。<span class=\"kw3\"><b>本例は BMI 35.4 で数字だけは該当するが、<b>内科治療をまだ何もしていない</b></b></span>。<span class=\"kw4\"><b>術後は<b>ビタミン B₁・B₁₂・鉄・葉酸・カルシウムの欠乏</b>を生涯フォローする必要がある</b></span>。<span class=\"kw2\"><b>減量効果と糖尿病の改善は大きい</b></span>。</td></tr><tr><td>ｃ　SGLT2 阻害薬の投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\"><b><b>糖尿病の薬</b>で、本例は HbA1c 5.4%・空腹時血糖 98mg/dL＝<b>糖尿病ではない</b></b></span>。<span class=\"kw3\"><b>尿から糖を捨てるので体重は減るが、<b>適応のない人に使えば低血糖・脱水・尿路感染・正常血糖ケトアシドーシス</b>の危険だけが残る（Q.330）</b></span>。<span class=\"kw2\"><b>心不全・CKD には別の適応がある</b></span>。</td></tr><tr><td>ｄ　長時間ジョギングの指導</td><td><span class=\"kw4\">誤り。<b>運動の種類が違う</b></span>。<span class=\"kw4\"><b>体重 100kg で<b>腰と両膝の痛みが1年</b>——変形性関節症が疑われる状態</b></span>。<span class=\"kw3\"><b>⚠️ 走れば膝には体重の数倍の力が繰り返し掛かり、<b>関節をさらに壊して結局動けなくなる</b></b></span>。<span class=\"kw4\"><b>勧めるべきは<b>水中歩行・自転車・大腿四頭筋の等尺性訓練</b>など<b>非荷重</b>のもの</b></span>。<span class=\"kw3\"><b>しかも運動単独の減量効果は食事療法より小さい——<b>まず食事</b></b></span>。<span class=\"kw2\"><b>運動は減量後の維持に効く</b></span>。</td></tr><tr><td>ｅ　GLP-1 受容体作動薬の投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\"><b>これも<b>糖尿病の薬</b>。肥満症に対する適応を持つ製剤もあるが、<b>食事・運動療法を行ったうえで</b>用いるもの</b></span>。<span class=\"kw3\"><b>本例は<b>まだ何も試していない</b>ので、いきなり薬から入る理由がない</b></span>。<span class=\"kw4\"><b>悪心・嘔吐などの消化器症状が多く、中止すれば体重は戻りやすい</b></span>。<span class=\"kw2\"><b>膵炎の既往では慎重に</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 体重を支えている関節の話",
+       "c": "<span class=\"kw\"><b>① 膝に掛かる力</b></span><br/><span class=\"kw4\"><b>平地歩行で<b>体重の約3倍</b>、階段の昇降で<b>4〜6倍</b>、走ると<b>さらに大きく</b>なる</b></span><br/><span class=\"kw3\"><b>つまり<b>体重1kg の減量は、歩行時の膝への負荷を3〜5kg 減らす</b>ことに相当する。減量が最も確実な「鎮痛」になる</b></span><br/><span class=\"kw\"><b>② 変形性膝関節症の治療</b></span><br/><span class=\"kw4\"><b>土台は<b>減量・大腿四頭筋の筋力訓練・杖や装具</b>。<b>10% の減量</b>で疼痛と機能が明らかに改善する</b></span><br/><span class=\"kw4\"><b>薬は NSAIDs の外用から。関節内注射（ヒアルロン酸・ステロイド）、最終的に人工膝関節置換術</b></span><br/><span class=\"kw3\"><b>⚠️ 肥満は<b>荷重だけでなく炎症でも関節を壊す</b>——脂肪組織が出す TNF-α・IL-6 などが軟骨代謝に影響し、<b>荷重のかからない手指の関節</b>にも変形性関節症が多い</b></span><br/><span class=\"kw\"><b>③ 悪循環を断つ順番</b></span><br/><span class=\"kw3\"><b><b>太る → 関節が痛む → 動けない → もっと太る</b>。この輪の中で、唯一<b>関節に負担をかけずに介入できるのが食事</b></b></span><br/><span class=\"kw4\"><b>だから「まず食事療法」は消去法の答えではなく、<b>この患者にとって最も理にかなった一手</b></b></span><br/><span class=\"kw4\"><b>動けるようになってから、非荷重の運動 → 荷重の運動へ段階を上げる</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "肥満治療は必ず<span class=\"kw\">食事・運動療法が第一</span>。<br>スリーブ状胃切除術の適応：BMI≥35かつ内科治療で効果不十分、合併症あり。</br>"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "高度肥満（BMI高値）＋脂質異常・膝腰痛への治療。<br/><b>b スリーブ状胃切除／c SGLT2阻害薬／e GLP-1受容体作動薬</b>：第一でない。<br/><b>d 長時間ジョギング</b>：膝関節痛を悪化させ不適。<br/><b>a 食事療法</b>：<span class=\"kw\">肥満治療の基本はまず食事療法</span>。✓"
+       "c": "<span class=\"kw3\"><b>肥満症の治療は<b>食事療法・運動療法が土台</b> → 薬物 → 外科の順。まず <b>3〜5% の減量</b></b></span><br/><span class=\"kw4\"><b>減量手術の適応は <b>BMI 35 以上</b>（合併症があれば 32 以上）で、<b>内科治療で効果不十分</b>な場合</b></span><br/><span class=\"kw3\"><b>⚠️ <b>膝痛・腰痛のある高度肥満に荷重運動を指示しない</b>。水中歩行・自転車から</b></span><br/><span class=\"kw4\"><b>SGLT2 阻害薬・GLP-1 受容体作動薬は糖尿病の薬——<b>糖尿病でなければ第一選択にならない</b></b></span><br/><span class=\"kw2\"><b>正答率99%——確実に取る</b></span>"
       }
      ],
      "imgs": []
@@ -28495,22 +28505,27 @@
      "qt": "40 歳の男性。健康診断で異常値を指摘され、精査を勧められ来院した。運動習慣はなく、外食が多い。喫煙歴はなく、<br/>降圧薬を服用している。身長173cm、体重84kg、腹囲90cm。血圧142/76mmHg。血液生化学所見（空腹時）：血糖115mg/dL、HbA1c 6.2％（基準4.9 ～6.0）、トリグリセリド146mg/dL、HDL コレステロール33mg/dL、LDL コレステロール110mg/dL。対応方針の検討にあたり肥満の評価が必要と判断し、Body Mass Index を計算することにした。<br/>Body Mass Index を求めよ。<br/>ただし、小数点以下の数値が得られた場合には、小数第1 位を四捨五入すること。<br/>解答：① ②（編註：選択肢を省略した。）",
      "choices": [],
      "ans_label": "計算答：28",
-     "ans_sub": "",
+     "ans_sub": "<b>BMI ＝ 体重（kg）÷ 身長（m）²</b> ＝ 84 ÷ 1.73² ＝ 84 ÷ 2.9929 ＝ <b>28.06…</b>。小数第1位を四捨五入して <b>28</b>。日本肥満学会の区分では <b>25以上30未満＝肥満（1度）</b>にあたる。腹囲 90cm（男性 85cm 以上）・血圧 142/76mmHg で降圧薬服用・TG 146／HDL 33mg/dL・空腹時血糖 115mg/dL と、この患者は<b>メタボリックシンドロームの基準もすべて満たしている</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "📐 BMI計算",
-       "c": "<span class=\"kw\">BMI = 体重(kg) ÷ 身長(m)²</span><br>= 84 ÷ (1.73)² = 84 ÷ 2.9929 ≒ <span class=\"kw\">28.07 → 28</span><br><br>この患者のメタボリックシンドローム評価：<br>腹囲90cm（男性基準≥85cm）✓、血圧142/76✓、血糖115mg/dL（≥110）✓、HDL33（&lt;40）✓<br/>→ 腹囲基準＋3項目該当 → <span class=\"kw\">メタボリックシンドローム確定</span></br></br></br></br>"
+       "h": "⚗️ BMI は何を測っている指標か",
+       "c": "<span class=\"kw\"><b>① 定義と単位</b></span><br/><span class=\"kw4\"><b><b>BMI ＝ 体重（kg）÷ 身長（m）の2乗</b>。単位は kg/m²</b></span><br/><span class=\"kw3\"><b>⚠️ <b>身長は cm ではなく m</b> で入れる。173cm を 1.73m に直し忘れるのが最も多い誤り</b></span><br/><span class=\"kw\"><b>② 日本肥満学会の区分</b></span><br/><span class=\"kw4\"><b><b>18.5 未満</b>＝低体重／<b>18.5〜25 未満</b>＝普通体重／<b>25〜30 未満</b>＝肥満1度／<b>30〜35 未満</b>＝肥満2度／<b>35〜40 未満</b>＝肥満3度／<b>40 以上</b>＝肥満4度</b></span><br/><span class=\"kw4\"><b><b>35 以上を「高度肥満」</b>と呼ぶ。⚠️ WHO の基準では 30 以上が obese で、<b>日本は 25 から肥満</b>と定義が異なる（日本人は低い BMI でも代謝異常を起こしやすいため）</b></span><br/><span class=\"kw3\"><b><b>標準体重は BMI 22</b> に相当する体重——最も疾病が少ない値として選ばれている</b></span><br/><span class=\"kw\"><b>③ BMI の限界</b></span><br/><span class=\"kw4\"><b>体組成を区別しないので、<b>筋肉質の人は高く出る</b>し、高齢者では筋が落ちて<b>実際より低く出る</b></b></span><br/><span class=\"kw3\"><b>だから<b>腹囲</b>を併せて測る——BMI が同じでも<b>内臓脂肪型（腹囲が大きい）</b>のほうが代謝異常を起こしやすい。本例は腹囲 90cm でこれに該当する</b></span>"
       },
       {
        "cls": "ee",
-       "h": "□ BMIによる肥満分類",
-       "c": "<table class=\"tb\"><tr><td>BMI</td><td>分類</td></tr><tr><td>&lt;18.5</td><td>低体重（痩せ）</td></tr><tr><td>18.5〜25未満</td><td>普通体重</td></tr><tr><td>25〜30未満</td><td>肥満（1度）← この患者</td></tr><tr><td>30〜35未満</td><td>肥満（2度）</td></tr><tr><td>35〜40未満</td><td>肥満（3度）</td></tr><tr><td>≥40</td><td>肥満（4度）</td></tr></table>"
+       "h": "□ 計算の手順と検算",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>① 式を書く</td><td><span class=\"kw3\"><b><b>BMI ＝ 体重（kg）÷ 身長（m）²</b></b></span>。<span class=\"kw4\"><b>体重 <b>84kg</b>、身長 <b>173cm</b></b></span>。<span class=\"kw2\"><b>単位に注意</b></span>。</td></tr><tr><td>② 身長を m に直す</td><td><span class=\"kw3\"><b>173cm ＝ <b>1.73m</b></b></span>。<span class=\"kw4\"><b>⚠️ cm のまま計算すると 84 ÷ 29,929 ＝ 0.0028 となり、桁が3つずれる</b></span>。<span class=\"kw2\"><b>ここが最大の失点箇所</b></span>。</td></tr><tr><td>③ 2乗する</td><td><span class=\"kw3\"><b><b>1.73 × 1.73 ＝ 2.9929</b></b></span>。<span class=\"kw4\"><b>概算なら 1.73² ≒ 3.0 と置いてよい</b></span>。<span class=\"kw2\"><b>筆算でも確実に出せる</b></span>。</td></tr><tr><td>④ 割る</td><td><span class=\"kw3\"><b><b>84 ÷ 2.9929 ＝ 28.06…</b></b></span>。<span class=\"kw4\"><b>概算の 84 ÷ 3 ＝ 28 とほぼ一致する——<b>概算で答えの当たりをつけてから精算する</b>と桁の誤りに気づける</b></span>。<span class=\"kw2\"><b>電卓がなくても解ける</b></span>。</td></tr><tr><td>⑤ 指示どおりに丸める</td><td><span class=\"kw3\"><b>「小数第1位を四捨五入」＝<b>28.06 → 28</b></b></span>。<span class=\"kw4\"><b>⚠️ 「小数第1位<b>まで</b>求める」なら 28.1 になる。<b>設問の指示を読み違えない</b></b></span>。<span class=\"kw2\"><b>解答欄は2桁</b></span>。</td></tr><tr><td>⑥ 検算——臨床的に妥当か</td><td><span class=\"kw3\"><b>BMI 28＝<b>肥満1度</b>。腹囲 90cm・TG 146・HDL 33・血糖 115・降圧薬服用と、メタボリックシンドロームの像に矛盾しない</b></span>。<span class=\"kw4\"><b>もし 0.0028 や 280 が出たら、②の単位を疑う</b></span>。<span class=\"kw2\"><b>数字が病態と合うかを最後に確かめる</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 メタボリックシンドロームの診断基準——この患者は全部満たす",
+       "c": "<span class=\"kw\"><b>① 必須項目（これが無ければ成立しない）</b></span><br/><span class=\"kw4\"><b><b>腹囲：男性 85cm 以上／女性 90cm 以上</b>。これは<b>内臓脂肪面積 100cm²</b> に相当する値として決められた</b></span><br/><span class=\"kw3\"><b>本例は<b>腹囲 90cm</b>＝該当。⚠️ 男女で数値が逆転して見えるのは、女性は皮下脂肪が多く、同じ内臓脂肪量でも腹囲が大きくなるため</b></span><br/><span class=\"kw\"><b>② 加えて、次の3つのうち2つ以上</b></span><br/><span class=\"kw4\"><b><b>脂質</b>：TG 150mg/dL 以上 <b>かつ/または</b> HDL-C 40mg/dL 未満 → 本例は <b>HDL 33</b> で該当</b></span><br/><span class=\"kw4\"><b><b>血圧</b>：収縮期 130mmHg 以上 かつ/または 拡張期 85mmHg 以上（<b>降圧薬服用中も該当</b>）→ 本例は <b>142/76 かつ服薬中</b>で該当</b></span><br/><span class=\"kw4\"><b><b>血糖</b>：空腹時血糖 110mg/dL 以上 → 本例は <b>115</b> で該当</b></span><br/><span class=\"kw3\"><b>3項目すべてを満たすので、<b>メタボリックシンドロームと診断できる</b></b></span><br/><span class=\"kw\"><b>③ 何が入っていないか</b></span><br/><span class=\"kw3\"><b>⚠️ <b>LDL コレステロールは基準に含まれない</b>（本例の 110mg/dL は診断に関係しない）。<b>HbA1c も含まれない</b>（Q.367）。<b>BMI も必須ではない</b></b></span><br/><span class=\"kw4\"><b>この基準が見ているのは「太っているか」ではなく<b>内臓脂肪の蓄積を起点とする代謝異常の集積</b>。だから腹囲が門番になっている</b></span><br/><span class=\"kw\"><b>④ 制度</b></span><br/><span class=\"kw4\"><b><b>特定健康診査・特定保健指導</b>（40〜74歳）の根拠。該当者は<b>動機づけ支援・積極的支援</b>に振り分けられる</b></span>"
       },
       {
        "cls": "ept",
-       "h": "🎯 計算ポイント",
-       "c": "1.73² = 2.9929 ≒ 3.00 と概算すると 84÷3≒28（簡便計算）。<br/>国試では <span class=\"kw\">BMI=22が標準体重</span>、BMI≥25が肥満の定義（日本肥満学会）。"
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b><b>BMI ＝ 体重(kg) ÷ 身長(m)²</b>。84 ÷ 1.73² ＝ <b>28</b>。⚠️ 身長は必ず <b>m</b> に直す</b></span><br/><span class=\"kw4\"><b>日本の区分：<b>25以上で肥満</b>（1度25〜30／2度30〜35／3度35〜40／4度40以上）、<b>35以上が高度肥満</b>。標準体重は BMI 22</b></span><br/><span class=\"kw3\"><b>メタボリックシンドローム＝<b>腹囲（男85/女90）が必須</b>＋<b>脂質・血圧・血糖のうち2つ以上</b></b></span><br/><span class=\"kw4\"><b>⚠️ 基準に<b>LDL も HbA1c も BMI も入らない</b></b></span><br/><span class=\"kw2\"><b>正答率94%——計算問題は単位と丸め方で落ちる</b></span>"
       }
      ],
      "imgs": []
@@ -28560,22 +28575,27 @@
       }
      ],
      "ans_label": "ｂ　Dyslipidemia",
-     "ans_sub": "メタボリックシンドロームの診断基準において最も顕著な異常は脂質異常症（TG高・HDL低）",
+     "ans_sub": "64歳男性、身長 170cm・体重 65kg＝<b>BMI 22.5</b>（obesity ではない）、腹囲 81cm（男性 85cm 未満なので metabolic syndrome の必須項目を満たさない）、血圧 128/74mmHg（hypertension ではない）、空腹時血糖 102mg/dL・HbA1c 5.5%（diabetes mellitus ではない）。残るのは<b>LDL コレステロール 183mg/dL</b>——<b>140mg/dL 以上＝高 LDL コレステロール血症</b>で、<b>dyslipidemia</b> が答え。HDL 58・TG 130 はいずれも基準内なので、異常は LDL 1つだけである。",
      "eg": [
       {
        "cls": "ep",
-       "h": "📋 Metabolic Syndrome Criteria（国際基準）",
-       "c": "<table class=\"tb\"><tr><td>Criterion</td><td>Value</td><td>This patient</td></tr><tr><td>Waist (male)</td><td>≥85cm (Japan)</td><td>88cm ✓</td></tr><tr><td>Blood pressure</td><td>≥130/85mmHg</td><td>134/82 (SBP ✓)</td></tr><tr><td>Fasting glucose</td><td>≥110mg/dL</td><td>100mg/dL ✗</td></tr><tr><td>TG</td><td>≥150mg/dL</td><td>205mg/dL ✓</td></tr><tr><td>HDL</td><td>&lt;40mg/dL (male)</td><td>35mg/dL ✓</td></tr></table>"
+       "h": "⚗️ 5つの診断名を、数字に1つずつ当てて消す",
+       "c": "<span class=\"kw\"><b>① Obesity（肥満）</b></span><br/><span class=\"kw4\"><b>BMI ＝ 65 ÷ 1.70² ＝ <b>22.5</b>。日本の基準（25以上）でも WHO の基準（30以上）でも<b>肥満ではない</b></b></span><br/><span class=\"kw\"><b>② Hypertension（高血圧）</b></span><br/><span class=\"kw4\"><b><b>128/74mmHg</b>。診察室血圧の高血圧は <b>140/90mmHg 以上</b>で、これを下回る。降圧薬も服用していない（not on any medication）</b></span><br/><span class=\"kw3\"><b>⚠️ 130〜139/80〜89 は「高値血圧」だが、この患者はそこにも入らない</b></span><br/><span class=\"kw\"><b>③ Diabetes mellitus（糖尿病）</b></span><br/><span class=\"kw4\"><b>空腹時血糖 <b>102mg/dL</b>（糖尿病型は 126 以上）、<b>HbA1c 5.5%</b>（糖尿病型は 6.5% 以上）</b></span><br/><span class=\"kw3\"><b>空腹時 100〜109 は「正常高値」で、糖尿病でも境界型（110〜125）でもない</b></span><br/><span class=\"kw\"><b>④ Metabolic syndrome</b></span><br/><span class=\"kw3\"><b>必須項目は<b>腹囲 男性 85cm 以上</b>。本例は <b>81cm</b> ——<b>この一点で成立しない</b>。ほかの項目（TG 130・HDL 58・血圧 128/74・血糖 102）もすべて基準内</b></span><br/><span class=\"kw\"><b>⑤ Dyslipidemia（脂質異常症）</b></span><br/><span class=\"kw3\"><b><b>LDL コレステロール 183mg/dL</b>。基準は <b>140mg/dL 以上で高 LDL コレステロール血症</b>——明らかに該当する</b></span><br/><span class=\"kw4\"><b>HDL 58mg/dL（40 以上で正常）、TG 130mg/dL（150 未満で正常）。<b>異常は LDL ただ1つ</b>で、だからこそ診断名も1つに決まる</b></span><br/><span class=\"kw3\"><b>⚠️ 英語の設問でも読むのは同じ数字。<b>waist circumference（腹囲）</b>と <b>fasting</b> の2語を落とさなければ解ける</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　Obesity</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\"><b><b>BMI 22.5</b>（65 ÷ 1.70²）＝普通体重</b></span>。<span class=\"kw3\"><b>日本肥満学会では 25 以上、WHO では 30 以上が肥満——どちらにも当たらない</b></span>。<span class=\"kw2\"><b>標準体重は BMI 22</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　Dyslipidemia</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw4\"><b><b>LDL-C 183mg/dL ≧ 140mg/dL</b>＝<b>高 LDL コレステロール血症</b></b></span>。<span class=\"kw4\"><b>HDL-C 58mg/dL・TG 130mg/dL はいずれも正常</b></span>。<span class=\"kw3\"><b>64歳男性で、脳卒中・冠動脈疾患・末梢動脈疾患の既往はなく、喫煙も3年前に中止＝<b>一次予防</b>の対象</b></span>。<span class=\"kw4\"><b>まずは<b>食事・運動・体重管理</b>を行い、リスク区分に応じて薬物療法を検討する</b></span>。<span class=\"kw2\"><b>家族歴の聴取も要る</b></span>。</td></tr><tr><td>ｃ　Hypertension</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\"><b><b>128/74mmHg</b>で、診察室血圧の基準 140/90mmHg 以上を満たさない</b></span>。<span class=\"kw3\"><b>服薬もしていないので「治療中の高血圧」でもない</b></span>。<span class=\"kw2\"><b>家庭血圧なら 135/85 以上が基準</b></span>。</td></tr><tr><td>ｄ　Diabetes mellitus</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw4\"><b><b>空腹時血糖 102mg/dL</b>（126 以上が糖尿病型）、<b>HbA1c 5.5%</b>（6.5% 以上が糖尿病型）</b></span>。<span class=\"kw3\"><b>空腹時 100〜109mg/dL は<b>正常高値</b>にあたり、境界型（110〜125）ですらない</b></span>。<span class=\"kw2\"><b>診断には型を2回そろえる（Q.331）</b></span>。</td></tr><tr><td>ｅ　Metabolic syndrome</td><td><span class=\"kw4\">誤り。<b>必須項目を満たさない</b></span>。<span class=\"kw4\"><b><b>腹囲 81cm</b>——男性の基準 85cm 以上に届かない。この時点で成立しない</b></span>。<span class=\"kw3\"><b>さらに脂質（TG 150 以上 かつ/または HDL 40 未満）・血圧（130/85 以上）・血糖（110 以上）の<b>いずれの項目にも当たらない</b></b></span>。<span class=\"kw4\"><b>⚠️ <b>LDL は診断基準に入らない</b>ので、LDL 183 はこの診断を後押ししない</b></span>。<span class=\"kw2\"><b>腹囲が門番になっている</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 脂質異常症の診断基準と、そこから治療へ",
+       "c": "<span class=\"kw\"><b>① 診断基準（空腹時採血）</b></span><br/><span class=\"kw4\"><b><b>高 LDL コレステロール血症</b>：LDL-C <b>140mg/dL 以上</b>（120〜139 は境界域）</b></span><br/><span class=\"kw4\"><b><b>低 HDL コレステロール血症</b>：HDL-C <b>40mg/dL 未満</b></b></span><br/><span class=\"kw4\"><b><b>高トリグリセライド血症</b>：TG <b>150mg/dL 以上</b>（空腹時）／<b>175mg/dL 以上</b>（随時）</b></span><br/><span class=\"kw4\"><b><b>高 non-HDL コレステロール血症</b>：non-HDL-C <b>170mg/dL 以上</b>（＝総コレステロール − HDL-C。TG が高いときに有用）</b></span><br/><span class=\"kw3\"><b>⚠️ <b>これは「診断」の基準であって「治療を始める値」ではない</b>。薬を出すかどうかは<b>絶対リスク</b>で決める</b></span><br/><span class=\"kw\"><b>② LDL の推定</b></span><br/><span class=\"kw4\"><b><b>Friedewald の式：LDL-C ＝ TC − HDL-C − TG/5</b>。⚠️ <b>TG が 400mg/dL 以上、または食後採血では使えない</b>（そのときは直接法か non-HDL）</b></span><br/><span class=\"kw\"><b>③ 一次予防のリスク区分</b></span><br/><span class=\"kw4\"><b><b>冠動脈疾患やアテローム血栓性脳梗塞の既往があれば二次予防</b>——最も厳しく LDL 100（高リスクなら 70）未満を目指す</b></span><br/><span class=\"kw4\"><b>既往がなければ、糖尿病・CKD・末梢動脈疾患があれば高リスク。それも無ければ<b>久山町スコア</b>（年齢・性・喫煙・血圧・血糖・LDL・HDL）で低・中・高リスクに分ける</b></span><br/><span class=\"kw3\"><b>本例は 64歳男性・非喫煙（3年前に禁煙）・血圧正常・血糖正常＝<b>危険因子が少ない</b>。まず<b>生活習慣の改善</b>から始め、達成できなければスタチンを検討する</b></span><br/><span class=\"kw\"><b>④ 二次性を忘れない</b></span><br/><span class=\"kw4\"><b>⚠️ 薬を始める前に<b>甲状腺機能低下症・ネフローゼ症候群・閉塞性黄疸・糖尿病・ステロイド・利尿薬・飲酒</b>を除外する（Q.174）</b></span><br/><span class=\"kw4\"><b>LDL が著明に高い・若年発症・アキレス腱肥厚・家族歴があれば<b>家族性高コレステロール血症</b>を疑う</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "Dyslipidemia（脂質異常症）: TG205↑＋HDL35↓ → 両方異常。<br/><span class=\"kw\">LDL148も高値</span>（基準&lt;140mg/dL）→ 動脈硬化リスク。<br/>Obesity（BMI未記載）、Hypertension（SBPのみ高値）より脂質異常が最も明確。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "健診で指摘された異常（英文）。<br/><b>a Obesity／c Hypertension／d Diabetes mellitus／e Metabolic syndrome</b>：本例で該当しない。<br/><b>b Dyslipidemia</b>：<span class=\"kw\">脂質異常症（LDL高値等）が唯一の異常</span>。✓"
+       "c": "<span class=\"kw3\"><b>脂質異常症＝<b>LDL 140以上／HDL 40未満／TG 150以上（空腹時）／non-HDL 170以上</b></b></span><br/><span class=\"kw3\"><b>メタボリックシンドロームは<b>腹囲（男85・女90）が必須</b>——満たさなければ他が揃っても成立しない</b></span><br/><span class=\"kw4\"><b>高血圧は 140/90 以上、糖尿病は空腹時 126 以上 または HbA1c 6.5% 以上</b></span><br/><span class=\"kw4\"><b><b>Friedewald の式は TG 400 以上・食後では使えない</b></b></span><br/><span class=\"kw4\"><b>⚠️ 診断基準は治療開始値ではない。治療は<b>一次予防か二次予防か</b>で目標が変わる</b></span><br/><span class=\"kw2\"><b>正答率89%・必修——英語でも読む数字は同じ</b></span>"
       }
      ],
      "imgs": []
