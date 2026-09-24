@@ -35245,22 +35245,27 @@
       }
      ],
      "ans_label": "ｂ　ALP\nｄ　副甲状腺ホルモン",
-     "ans_sub": "くる病（ビタミンD欠乏）：低Ca・低P→代償性PTH上昇＋骨形成障害→ALP高値",
+     "ans_sub": "ビタミンD 欠乏性くる病。Ca 吸収低下を代償して PTH が上がり、骨形成の障害を反映して骨型 ALP が高値になる",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 くる病の検査所見",
-       "c": "<table class=\"tb\"><tr><td>検査項目</td><td>予想</td><td>理由</td></tr><tr><td>リン（P）</td><td><span class=\"kw\">↓（低値）</span></td><td>VitD欠乏→腸管P吸収↓、PTH↑→腎P排泄↑</td></tr><tr><td><span class=\"kw\">ALP</span></td><td><span class=\"kw\">↑（高値）</span></td><td>くる病では骨形成不全→骨芽細胞が代償的にALP産生↑</td></tr><tr><td>25(OH)D3</td><td>↓（低値）</td><td>VitD欠乏そのもの</td></tr><tr><td><span class=\"kw\">PTH</span></td><td><span class=\"kw\">↑（高値）</span></td><td>低Ca→代償性PTH分泌↑（二次性副甲状腺機能亢進症）</td></tr><tr><td>CK</td><td>変化なし</td><td>骨・筋疾患（DMなど）で↑、くる病では通常正常</td></tr></table>"
+       "h": "🍼 この設問が読ませているのは検査値ではなく病歴である",
+       "c": "<span class=\"kw\"><b>写真に写っているもの</b></span>——<span class=\"kw3\"><b>両下肢の著明な内反変形（O脚）</b></span>。<span class=\"kw3\"><b>大腿骨と脛骨がともに外側へ弯曲</b></span>し、<span class=\"kw3\"><b>膝周囲の骨幹端は横に広がって杯状にくぼみ、辺縁がほつれている</b></span>。<span class=\"kw3\"><b>骨端線の透亮帯が広く、全体に骨の濃度が低い</b></span>。⚠️<span class=\"kw4\"><b>典型的なくる病</b></span>である。<br/><br/><span class=\"kw\"><b>そして病歴に原因がそのまま書いてある</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>生後12か月から、母親の友人の勧めで乳製品・卵・大豆・魚を除去</b></span>——<span class=\"kw3\"><b>医学的な診断に基づかない自己判断の除去食</b></span><br/>・<span class=\"kw3\"><b>乳製品と魚を同時に切ると、カルシウムとビタミンD の供給源が両方とも断たれる</b></span><br/>・⚠️<span class=\"kw4\"><b>アトピー性皮膚炎の児は日光を避けがち</b></span>で、<span class=\"kw3\"><b>皮膚での産生も減る</b></span><br/>・<span class=\"kw3\"><b>家族歴に低身長や骨変形はない</b></span>＝<span class=\"kw3\"><b>遺伝性を否定する一文</b></span><br/><br/>⚠️⚠️<span class=\"kw4\"><b>食物アレルギーの診断がないまま除去してはいけない</b></span>。<span class=\"kw3\"><b>現在の考え方は「必要最小限の除去」で、食べられる範囲をむしろ広げていく</b></span>。<span class=\"kw3\"><b>不要な除去は成長そのものを損なう</b></span>。<br/><br/><span class=\"kw\"><b>検査値の並び</b></span>——<span class=\"kw3\"><b>D 欠乏 → 腸からの Ca 吸収が落ちる → PTH が上がって Ca を支える → その代償で近位尿細管のリン再吸収が止まり低リン血症</b></span>。<span class=\"kw3\"><b>骨では石灰化できない類骨が増え、骨芽細胞が働き続けるので ALP が上がる</b></span>（Q.511）。<br/><br/>⚠️<span class=\"kw4\"><b>身長87cm という数字も所見である</b></span>——<span class=\"kw3\"><b>3歳9か月の平均は約97cm</b></span>なので、<span class=\"kw3\"><b>標準を大きく下回る</b></span>。<span class=\"kw3\"><b>体重13.4kg は身長に対しては保たれている</b></span>ので、<span class=\"kw3\"><b>エネルギーは足りていて質だけが偏っている</b></span>と読める。⚠️<span class=\"kw4\"><b>くる病は骨の病気であると同時に成長障害の病気</b></span>である。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　燐</td><td>⚠️<span class=\"kw3\">低値になる</span>。<span class=\"kw3\">上昇した PTH が近位尿細管でのリン再吸収を止める</span>ため</td></tr><tr><td><span class=\"kw3\">◯ ｂ　ALP</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">石灰化できない類骨に骨芽細胞が働き続ける</span>ので骨型 ALP が上がる。⚠️<span class=\"kw3\">くる病で最も鋭敏な指標</span></td></tr><tr><td>ｃ　25-（OH）D3</td><td>⚠️<span class=\"kw3\">低値になる</span>。<span class=\"kw3\">これが欠乏している当のもの</span>で、⚠️<span class=\"kw3\">ビタミンD の充足を測るのは活性型ではなくこちら</span></td></tr><tr><td><span class=\"kw3\">◯ ｄ　副甲状腺ホルモン</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">低Ca を支えるための二次性の上昇</span>。⚠️<span class=\"kw3\">だから血清 Ca は正常のこともある</span></td></tr><tr><td>ｅ　クレアチンキナーゼ</td><td><span class=\"kw3\">筋由来の酵素</span>。<span class=\"kw3\">くる病では上がらない</span>。⚠️<span class=\"kw3\">筋力低下があっても筋自体は壊れていない</span></td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "💡 くる病の検査の覚え方",
-       "c": "<span class=\"kw\">くる病の「高値」：ALP↑・PTH↑</span><br><span class=\"kw\">くる病の「低値」：25(OH)D↓・P↓・Ca↓</span><br>X線：骨端線の拡大・不規則・杯状変形（cupping）</br></br>"
+       "h": "🔍 「くる病」と言われたら、ビタミンD欠乏以外の型を数える",
+       "c": "⚠️<span class=\"kw4\"><b>見分ける材料は Ca・P・ALP・PTH・25(OH)D の5つの組合せ</b></span>だけである。<br/><br/>・<span class=\"kw3\"><b>ビタミンD 欠乏性（栄養性）</b></span>——<span class=\"kw3\"><b>Ca 正常〜低／P 低／ALP 高／PTH 高／25(OH)D 低</b></span>。<span class=\"kw3\"><b>本問</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>低リン血症性くる病（X連鎖性・FGF23 過剰）</b></span>——<span class=\"kw3\"><b>Ca 正常／P 低／ALP 高／PTH 正常／25(OH)D 正常</b></span>。⚠️<span class=\"kw4\"><b>PTH が上がらないのが決定的な違い</b></span>。<span class=\"kw3\"><b>家族歴があることが多く、通常のビタミンD では治らない</b></span><br/>・<span class=\"kw3\"><b>ビタミンD 依存性1型（1α水酸化酵素の欠損）</b></span>——<span class=\"kw3\"><b>25(OH)D は正常で活性型が低い</b></span><br/>・<span class=\"kw3\"><b>同2型（受容体の異常）</b></span>——<span class=\"kw3\"><b>活性型はむしろ高い</b></span>。⚠️<span class=\"kw3\"><b>脱毛を伴うことがある</b></span><br/>・<span class=\"kw3\"><b>腎性（CKD-MBD）</b></span>——<span class=\"kw3\"><b>P は高い</b></span>（腎から捨てられない）。⚠️<span class=\"kw4\"><b>低リンではなく高リンになるのが逆</b></span><br/>・⚠️<span class=\"kw4\"><b>低ホスファターゼ症</b></span>——<span class=\"kw3\"><b>くる病様の骨変化なのに ALP が低い</b></span>。⚠️<span class=\"kw4\"><b>ALP が低いという一点で区別できる</b></span>（Q.513）<br/><br/>⚠️<span class=\"kw4\"><b>治療はビタミンD とカルシウムの補充</b></span>だが、<span class=\"kw3\"><b>低リン血症性ではリン製剤と活性型D、あるいは抗FGF23 抗体</b></span>を用いる。<span class=\"kw3\"><b>型を決めずに治療を始めない</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">くる病診断の鍵：低P＋ALP↑＋PTH↑＋25(OH)D低下</span>。<br/>治療：ビタミンD補充＋Ca補充。食物アレルギーでの食物除去がくる病の原因になりうる（最近の問題）。"
+       "c": "<span class=\"kw3\"><b>くる病＝Ca 正常〜低・P 低・ALP 高・PTH 高・25(OH)D 低</b></span>。⚠️<span class=\"kw4\"><b>Ca が正常でもくる病を否定できない</b></span>。<br/>⚠️<span class=\"kw4\"><b>自己判断の除去食と日光回避が原因になる</b></span>——<span class=\"kw3\"><b>診断のない食物除去はしない</b></span>。<br/>⚠️<span class=\"kw4\"><b>PTH が上がらない低リン血症性くる病は別の病気</b></span>（FGF23 過剰）。"
       }
      ],
      "imgs": [
@@ -35308,27 +35313,27 @@
       }
      ],
      "ans_label": "ｃ　Wernicke 脳症",
-     "ans_sub": "アルコール依存＋食事摂取不良＋意識障害＋FLAIR（乳頭体・視床・中脳水道周囲の高信号）→Wernicke脳症",
+     "ans_sub": "FLAIR で乳頭体・中脳水道周囲・第三脳室周囲に左右対称の高信号。大量飲酒と摂食不良を背景とした Wernicke 脳症",
      "eg": [
       {
        "cls": "ep",
-       "h": "🖥️ Wernicke脳症のMRI所見と鑑別",
-       "c": "<span class=\"kw\">ウェルニッケ脳症のFLAIR特徴部位</span>：<br>① <span class=\"kw\">乳頭体（mammillary bodies）</span>←最も特徴的<br>② 視床内側（視床背内側核）<br/>③ 中脳水道周囲灰白質（PAG）<br/>④ 第3脳室周囲<br/><br/>アルコール依存者が食事摂取↓→B1欠乏が加速→急性発症</br></br>"
+       "h": "🖥️ 2枚の断面が、ちょうど Wernicke の好発部位を通っている",
+       "c": "<span class=\"kw\"><b>写真A（中脳のレベル）</b></span>——<span class=\"kw3\"><b>正中の前方、脚間窩に接する部分（乳頭体）に高信号</b></span>。<span class=\"kw3\"><b>後方には中脳水道を取り囲む高信号</b></span>。<span class=\"kw3\"><b>皮質も大脳基底核も正常</b></span>。<br/><span class=\"kw\"><b>写真B（第三脳室のレベル）</b></span>——<span class=\"kw3\"><b>第三脳室の左右を縁取るように、視床内側が左右対称に高信号</b></span>。<span class=\"kw3\"><b>被殻・淡蒼球は侵されていない</b></span>。<br/><br/>⚠️<span class=\"kw4\"><b>この3か所（乳頭体・中脳水道周囲・第三脳室周囲）はチアミンを最も消費する部位</b></span>で、<span class=\"kw3\"><b>欠乏で真っ先に浮腫を起こす</b></span>（Q.482）。<br/><br/><span class=\"kw\"><b>そして「建設作業に従事している」の一語</b></span>——⚠️<span class=\"kw4\"><b>これは肢 ｅ（シンナー中毒）を立てるために置かれている</b></span>。<span class=\"kw3\"><b>有機溶剤を扱う職業だから</b></span>である。<br/>⚠️⚠️<span class=\"kw4\"><b>トルエン中毒の画像はまったく違う</b></span>——<span class=\"kw3\"><b>大脳白質がびまん性に高信号となり、皮質と白質の境界が不明瞭になる</b></span>（<span class=\"kw3\"><b>白質脳症</b></span>）。<span class=\"kw3\"><b>本問のような正中・傍脳室の限局した分布にはならない</b></span>。<br/>⚠️<span class=\"kw4\"><b>トルエン中毒は代謝の顔も持つ</b></span>——<span class=\"kw3\"><b>遠位型（Ⅰ型）尿細管性アシドーシス</b></span>を起こし、<span class=\"kw3\"><b>アニオンギャップ正常の代謝性アシドーシスと著明な低カリウム血症、ときに低K性の四肢麻痺や横紋筋融解</b></span>をきたす。<span class=\"kw3\"><b>神経所見は小脳失調・認知機能低下・視神経症・難聴</b></span>。<br/><br/>⚠️<span class=\"kw4\"><b>飲酒量も数字で押さえる</b></span>——<span class=\"kw3\"><b>日本酒1升＝10合で、純アルコールに直すと約180g/日</b></span>。<span class=\"kw3\"><b>節度ある量とされる20g/日の9倍</b></span>である。<span class=\"kw3\"><b>しかも1年前から食事を十分にとっていない</b></span>＝⚠️<span class=\"kw4\"><b>摂取が減る・吸収が落ちる・貯蔵が減る・活性化が進まないの4つが同時に効く</b></span>（Q.519）。<span class=\"kw3\"><b>B1 の貯蔵は2〜3週間しかもたない</b></span>（Q.502）。"
       },
       {
        "cls": "ee",
-       "h": "□ 各疾患とFLAI所見の鑑別",
-       "c": "<table class=\"tb\"><tr><td>疾患</td><td>FLAIR特徴部位</td></tr><tr><td>ペラグラ</td><td>脊髄後索T2高信号（B3欠乏）</td></tr><tr><td>低血糖発作</td><td>広範な皮質・深部核の拡散制限</td></tr><tr><td><span class=\"kw\">Wernicke脳症</span></td><td><span class=\"kw\">乳頭体・視床・中脳水道周囲</span></td></tr><tr><td>CO中毒</td><td>淡蒼球の対称性FLAIR高信号</td></tr><tr><td>シンナー中毒</td><td>小脳・皮質白質・橋の高信号</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　ペラグラ</td><td><span class=\"kw3\">ナイアシン欠乏</span>。<span class=\"kw3\">皮膚炎・下痢・認知症の3つ</span>がそろう。⚠️<span class=\"kw3\">日光の当たる部位の皮膚炎が必発</span>で、本症例には記載がない</td></tr><tr><td>ｂ　低血糖発作</td><td>⚠️<span class=\"kw3\">画像ではなく血糖を測れば分かる</span>。<span class=\"kw3\">遷延した場合に侵されるのは皮質と海馬</span>で、<span class=\"kw3\">正中の傍脳室ではない</span></td></tr><tr><td><span class=\"kw3\">◯ ｃ　Wernicke 脳症</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">大量飲酒・1年前からの摂食不良・意識障害</span>に、<span class=\"kw3\">乳頭体と中脳水道周囲と第三脳室周囲の左右対称の高信号</span>がそろう</td></tr><tr><td>ｄ　一酸化炭素中毒</td><td>⚠️<span class=\"kw3\">淡蒼球の左右対称の病変</span>が典型。<span class=\"kw3\">本問では基底核は正常</span>。<span class=\"kw3\">数週後に遅発性脳症を起こしうる</span></td></tr><tr><td>ｅ　シンナー（トルエン）中毒</td><td>⚠️<span class=\"kw3\">大脳白質のびまん性病変</span>。<span class=\"kw3\">職業歴で誘っているが分布が合わない</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 職業と趣味を聞かないと辿り着けない中毒がある",
+       "c": "本問が職業を書いているように、⚠️<span class=\"kw4\"><b>中毒は問診でしか辿り着けない</b></span>。神経所見から逆算できるように並べておく。<br/><br/>・<span class=\"kw3\"><b>トルエン</b></span>（塗装・接着剤・意図的吸引）——<span class=\"kw3\"><b>白質脳症・小脳失調・視神経症</b></span>＋⚠️<span class=\"kw3\"><b>遠位型尿細管性アシドーシスと低K性麻痺</b></span><br/>・<span class=\"kw3\"><b>n-ヘキサン</b></span>（接着剤・洗浄）——<span class=\"kw3\"><b>遠位優位で左右対称の多発神経障害</b></span>。<span class=\"kw3\"><b>数か月かけて進む</b></span><br/>・<span class=\"kw3\"><b>鉛</b></span>（バッテリー・古い塗料・鉛管）——⚠️<span class=\"kw3\"><b>橈骨神経麻痺による下垂手</b></span>・<span class=\"kw3\"><b>腹部疝痛</b></span>・<span class=\"kw3\"><b>小球性貧血と好塩基性斑点</b></span><br/>・<span class=\"kw3\"><b>マンガン</b></span>（溶接・鉱山）——⚠️<span class=\"kw3\"><b>パーキンソニズム</b></span>。<span class=\"kw3\"><b>T1 強調で淡蒼球が高信号</b></span><br/>・<span class=\"kw3\"><b>水銀</b></span>（有機水銀）——<span class=\"kw3\"><b>求心性視野狭窄・小脳失調・感覚障害</b></span><br/>・<span class=\"kw3\"><b>有機リン</b></span>（農薬）——<span class=\"kw3\"><b>縮瞳・唾液分泌・徐脈</b></span>＝<span class=\"kw3\"><b>コリン作動性クリーゼ</b></span><br/>・<span class=\"kw3\"><b>一酸化炭素</b></span>（練炭・不完全燃焼）——<span class=\"kw3\"><b>淡蒼球</b></span>・<span class=\"kw3\"><b>間欠型</b></span><br/><br/>⚠️<span class=\"kw4\"><b>いずれも「どんな仕事か」「何を扱っているか」「同じ症状の人が周りにいないか」を聞かないと疑えない</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">アルコール依存＋FLAIR高信号</span>→乳頭体が最重要ポイント→Wernicke確定。<br/>治療：B1（チアミン）静注を即座に開始（MRI結果を待たずに）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "大酒家・食事不十分・意味不明な言動＝Wernicke脳症。<br/><b>a ペラグラ／b 低血糖発作／d 一酸化炭素中毒／e シンナー中毒</b>：合わない。<br/><b>c Wernicke脳症</b>：<span class=\"kw\">ビタミンB1欠乏による意識障害・失調・眼球運動障害</span>。✓"
+       "c": "<span class=\"kw3\"><b>Wernicke 脳症の MRI＝乳頭体・中脳水道周囲・第三脳室周囲・視床内側の左右対称の高信号</b></span>。<br/>⚠️<span class=\"kw4\"><b>MRI の感度は5割程度で、陰性でも否定できない</b></span>——<span class=\"kw3\"><b>治療は画像を待たずに始める</b></span>。<br/><span class=\"kw3\"><b>一酸化炭素＝淡蒼球／トルエン＝びまん性白質／低血糖＝皮質と海馬</b></span>。⚠️<span class=\"kw4\"><b>分布で区別する</b></span>。"
       }
      ],
      "imgs": [
@@ -35377,22 +35382,27 @@
       }
      ],
      "ans_label": "ａ　プリン体\nｂ　アルコール",
-     "ans_sub": "プリン体（核酸から尿酸産生）とアルコール（乳酸→尿酸排泄阻害＋VLDL産生）が痛風の栄養指導での制限対象",
+     "ans_sub": "プリン体の摂取は尿酸の材料を増やし、アルコールは産生増加と排泄低下の両方を起こす。水分・食物線維はむしろ推奨される",
      "eg": [
       {
        "cls": "ep",
-       "h": "🥩🍺 痛風の食事療法",
-       "c": "<table class=\"tb\"><tr><td>食品/栄養素</td><td>痛風との関係</td><td>制限</td></tr><tr><td><span class=\"kw\">プリン体</span></td><td>核酸代謝→尿酸産生↑</td><td><span class=\"kw\">◎ 制限</span></td></tr><tr><td><span class=\"kw\">アルコール</span></td><td>乳酸産生→尿酸排泄↓＋プリン体含有</td><td><span class=\"kw\">◎ 制限（特にビール）</span></td></tr><tr><td>水分</td><td><span class=\"kw\">尿酸排泄促進</span></td><td>× むしろ多く摂取（&gt;2L/日）</td></tr><tr><td>食塩</td><td>尿酸代謝との直接関連薄い</td><td>△ 高血圧合併時は制限</td></tr><tr><td>食物繊維</td><td>尿酸に影響なし</td><td>× むしろ腸内細菌叢改善で好影響</td></tr></table>"
+       "h": "💧 痛風の栄養指導は「減らすもの」より「増やすもの」が試験に出る",
+       "c": "制限すべきはプリン体とアルコールの2つだが、⚠️<span class=\"kw4\"><b>残りの3肢はいずれも制限してはいけないもの</b></span>である。そこに指導の本体がある。<br/><br/><span class=\"kw\"><b>水分——制限ではなく、積極的に摂らせる</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>尿量が1日2L 以上になるように</b></span>。<span class=\"kw3\"><b>尿が濃いほど尿酸は析出しやすい</b></span><br/>・<span class=\"kw3\"><b>高尿酸血症の患者は尿路結石を起こしやすく、その予防でもある</b></span><br/>・⚠️<span class=\"kw3\"><b>尿酸降下薬（とくに排泄促進薬）を使っているときはなおさら</b></span>（Q.508）<br/><br/><span class=\"kw\"><b>尿のアルカリ化——これも「足す」側の指導</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>尿酸は酸性尿で極端に溶けにくい</b></span>。<span class=\"kw3\"><b>尿 pH を6.0〜7.0 に保つ</b></span><br/>・<span class=\"kw3\"><b>野菜・海藻・クエン酸製剤</b></span>を用いる。⚠️<span class=\"kw3\"><b>アルカリ化しすぎるとリン酸カルシウム結石</b></span>ができる<br/><br/><span class=\"kw\"><b>食物線維——推奨される</b></span><br/>・<span class=\"kw3\"><b>肥満とインスリン抵抗性の改善を介して尿酸を下げる方向に働く</b></span><br/><br/><span class=\"kw\"><b>食塩</b></span><br/>・<span class=\"kw3\"><b>痛風そのものの指導項目ではない</b></span>。⚠️<span class=\"kw3\"><b>ただし高血圧の合併が多く、その観点では制限する</b></span><br/><br/>⚠️<span class=\"kw4\"><b>そして最も効くのは減量</b></span>——<span class=\"kw3\"><b>内臓脂肪が減ると尿酸は下がる</b></span>。<span class=\"kw3\"><b>ただし急激な減量やケトン食は逆に尿酸を上げる</b></span>（<span class=\"kw3\"><b>ケトン体が尿酸の排泄を競合的に阻害する</b></span>）。<br/><br/>⚠️<span class=\"kw4\"><b>そして「摂らせてよいもの」に低脂肪の乳製品がある</b></span>——<span class=\"kw3\"><b>カゼインやラクトアルブミンが尿酸の排泄を促し、痛風の発症を減らす方向に働く</b></span>。<span class=\"kw3\"><b>プリン体をほとんど含まない蛋白源</b></span>でもある。<br/>⚠️<span class=\"kw3\"><b>逆に、食事指導だけで下がる幅には限りがある</b></span>——<span class=\"kw3\"><b>食事由来は尿酸の2割</b></span>なので、<span class=\"kw3\"><b>生活指導で十分でなければ薬物療法へ移る</b></span>。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　プリン体</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">尿酸の材料そのもの</span>。⚠️<span class=\"kw3\">ただし食事由来は全体の2割</span>で、<span class=\"kw3\">内因性が8割</span>（Q.506）</td></tr><tr><td><span class=\"kw3\">◯ ｂ　アルコール</span></td><td><span class=\"kw3\">これが正解</span>。⚠️<span class=\"kw3\">三重に効く</span>——<span class=\"kw3\">代謝でATPを消費して尿酸を作り、乳酸が尿酸の排泄を阻害し、ビールはプリン体そのものを含む</span></td></tr><tr><td>ｃ　水　分</td><td>⚠️<span class=\"kw3\">逆に積極的に摂らせる</span>。<span class=\"kw3\">尿量2L/日以上</span>を目標に、<span class=\"kw3\">尿路結石を防ぐ</span></td></tr><tr><td>ｄ　食　塩</td><td><span class=\"kw3\">痛風そのものの指導項目ではない</span>。⚠️<span class=\"kw3\">高血圧を合併していれば別途制限する</span></td></tr><tr><td>ｅ　食物線維</td><td>⚠️<span class=\"kw3\">むしろ推奨される</span>。<span class=\"kw3\">肥満とインスリン抵抗性の改善を介して働く</span></td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "💡 痛風食の覚え方",
-       "c": "<span class=\"kw\">「プリン体＋アルコールは制限、水分は増やす」</span><br/>乳製品（低脂肪）は尿酸排泄を促進→積極的摂取が推奨される。"
+       "h": "🔍 併存疾患の薬で尿酸は動く——だから薬の選び方が指導の一部になる",
+       "c": "高尿酸血症は単独で存在することがまれで、⚠️<span class=\"kw4\"><b>高血圧・脂質異常症・肥満・CKD と一緒に来る</b></span>。<span class=\"kw3\"><b>その治療薬が尿酸を動かすので、同じ効果なら尿酸に有利なものを選べる</b></span>。<br/><br/><span class=\"kw\"><b>尿酸を下げる方向</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>ロサルタン</b></span>——<span class=\"kw3\"><b>ARB の中でこれだけが尿酸排泄を促す</b></span>。<span class=\"kw3\"><b>高血圧に高尿酸血症を合併していれば第一に考える</b></span><br/>・<span class=\"kw3\"><b>フェノフィブラート</b></span>——<span class=\"kw3\"><b>脂質異常症の治療と同時に尿酸が下がる</b></span><br/>・⚠️<span class=\"kw4\"><b>SGLT2 阻害薬</b></span>——<span class=\"kw3\"><b>糖と一緒に尿酸も尿へ出る</b></span><br/>・<span class=\"kw3\"><b>アトルバスタチン</b></span>・<span class=\"kw3\"><b>アムロジピン</b></span><br/><br/><span class=\"kw\"><b>尿酸を上げる方向</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>サイアザイド系・ループ利尿薬</b></span>——<span class=\"kw3\"><b>尿細管で尿酸と競合する</b></span>。<span class=\"kw3\"><b>高血圧の治療でよく使われるので実際に問題になる</b></span><br/>・⚠️<span class=\"kw4\"><b>低用量アスピリン</b></span>——<span class=\"kw3\"><b>少量では排泄を阻害して上げる</b></span>（Q.501）<br/>・<span class=\"kw3\"><b>シクロスポリン・タクロリムス</b></span>（<span class=\"kw3\"><b>移植後の高尿酸血症</b></span>）<br/>・<span class=\"kw3\"><b>ピラジナミド・エタンブトール</b></span>（<span class=\"kw3\"><b>結核治療中</b></span>）<br/>・<span class=\"kw3\"><b>テオフィリン</b></span><br/><br/>⚠️<span class=\"kw4\"><b>「食事を守っているのに尿酸が下がらない」ときは、まず薬を見直す</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw4\">水分は制限しない（むしろ増やす）</span>。<br/>フルクトース（果糖）も尿酸産生を促進するため、清涼飲料水（高フルクトースコーンシロップ）も注意。"
+       "c": "<span class=\"kw3\"><b>制限＝プリン体とアルコール</b></span>。⚠️<span class=\"kw4\"><b>水分は制限ではなく1日尿量2L 以上を目標に増やす</b></span>。<br/>⚠️<span class=\"kw4\"><b>尿をアルカリ化する（pH 6.0〜7.0）</b></span>——<span class=\"kw3\"><b>尿酸は酸性尿で溶けない</b></span>。<br/>⚠️<span class=\"kw4\"><b>利尿薬と低用量アスピリンは尿酸を上げ、ロサルタンとフェノフィブラートは下げる</b></span>。"
       }
      ],
      "imgs": []
@@ -35434,22 +35444,27 @@
       }
      ],
      "ans_label": "ｅ　ビタミンD",
-     "ans_sub": "胆汁排泄障害→脂溶性ビタミン（A・D・E・K）の腸管吸収↓→ビタミンD欠乏→骨軟化症→病的骨折",
+     "ans_sub": "胆汁うっ滞で脂溶性ビタミンの吸収が落ちる。ビタミンD 欠乏による骨軟化症・くる病が病的骨折の原因",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔑 胆汁と脂溶性ビタミン吸収",
-       "c": "<span class=\"kw\">脂溶性ビタミン（ADEK）</span>の吸収には胆汁が必要（ミセル形成）<br><br/>胆道閉鎖症・肝硬変 → 胆汁排泄↓ → 脂溶性ビタミン吸収不全<br/><br/><span class=\"kw\">病的骨折が出現</span>→ビタミンD欠乏による骨軟化症が最も考えやすい<br/><br/>欠乏する脂溶性ビタミン：<br/>・ビタミンA→夜盲症<br/>・<span class=\"kw\">ビタミンD→骨軟化症・くる病</span>← この患者（病的骨折）<br/>・ビタミンE→神経障害・溶血性貧血<br/>・ビタミンK→出血傾向（新生児メレナ・頭蓋内出血）</br>"
+       "h": "🧈 胆汁が出ないと、脂溶性ビタミン4つが同時に欠ける",
+       "c": "<span class=\"kw\"><b>吸収の仕組み</b></span>——⚠️<span class=\"kw4\"><b>脂溶性ビタミン（A・D・E・K）は脂肪と一緒に、胆汁酸が作るミセルに溶け込んで吸収される</b></span>。<span class=\"kw3\"><b>胆汁が腸へ出ないと、食べていても吸収されない</b></span>。<br/><br/><span class=\"kw\"><b>4つがそれぞれ欠ける</b></span><br/>・<span class=\"kw3\"><b>A</b></span>——<span class=\"kw3\"><b>夜盲・角膜乾燥</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>D</b></span>——<span class=\"kw3\"><b>骨軟化症・くる病 → 病的骨折</b></span>。<span class=\"kw3\"><b>本問がこれ</b></span><br/>・<span class=\"kw3\"><b>E</b></span>——⚠️<span class=\"kw4\"><b>小児では神経症状が前面に出る</b></span>。<span class=\"kw3\"><b>脊髄後索と末梢神経が侵され、失調・深部感覚障害・眼球運動障害・網膜症</b></span><br/>・<span class=\"kw3\"><b>K</b></span>——<span class=\"kw3\"><b>出血傾向とプロトロンビン時間の延長</b></span>。⚠️<span class=\"kw3\"><b>頭蓋内出血で発症することがある</b></span><br/>⚠️<span class=\"kw4\"><b>だから実際には D だけでなく ADEK をまとめて補充する</b></span>。<span class=\"kw3\"><b>水溶性製剤や注射を用いる</b></span>。<br/><br/>⚠️⚠️<span class=\"kw4\"><b>栄養の工夫＝中鎖脂肪酸（MCT）</b></span>——<span class=\"kw3\"><b>炭素数が短い脂肪酸は胆汁酸のミセルを必要とせず、腸管から直接門脈へ入る</b></span>。<span class=\"kw3\"><b>だから胆汁うっ滞の児には MCT を主体としたミルクを使う</b></span>。<br/><br/><span class=\"kw\"><b>同じことが起こる他の場面</b></span>——<span class=\"kw3\"><b>膵外分泌不全（慢性膵炎・囊胞性線維症）・短腸症候群・Crohn 病・セリアック病</b></span>、薬では<span class=\"kw3\"><b>コレスチラミン・オルリスタット</b></span>。⚠️<span class=\"kw3\"><b>脂肪便があれば脂溶性ビタミンを疑う</b></span>。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　亜　鉛</td><td><span class=\"kw3\">水溶性で、胆汁とは無関係</span>。<span class=\"kw3\">欠乏は皮膚炎・味覚障害・成長障害</span>。⚠️<span class=\"kw3\">骨折は説明できない</span></td></tr><tr><td>ｂ　セレン</td><td><span class=\"kw3\">欠乏は心筋症（克山病）</span>。<span class=\"kw3\">長期の経腸栄養で不足しうるが骨とは結びつかない</span></td></tr><tr><td>ｃ　ビオチン</td><td><span class=\"kw3\">水溶性ビタミン</span>。<span class=\"kw3\">欠乏は皮膚炎・脱毛・代謝性アシドーシス</span></td></tr><tr><td>ｄ　ビタミンC</td><td><span class=\"kw3\">水溶性</span>。<span class=\"kw3\">欠乏は出血傾向と骨膜下出血</span>。⚠️<span class=\"kw3\">小児の壊血病は偽麻痺で発症しうる</span>が、<span class=\"kw3\">胆汁うっ滞では欠乏しない</span></td></tr><tr><td><span class=\"kw3\">◯ ｅ　ビタミンD</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">脂溶性ゆえ胆汁うっ滞で吸収されず、骨の石灰化が進まない</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 胆道閉鎖症——早く見つけることだけが結果を変える",
+       "c": "<span class=\"kw\"><b>見つけ方</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>便色カード</b></span>——<span class=\"kw3\"><b>母子健康手帳に綴じ込まれている</b></span>。<span class=\"kw3\"><b>灰白色〜クリーム色の便</b></span>を家族に見てもらう<br/>・⚠️⚠️<span class=\"kw4\"><b>生後2週を過ぎても続く黄疸を「母乳性黄疸」で片付けない</b></span>——<span class=\"kw3\"><b>直接（抱合型）ビリルビンが優位なら生理的黄疸ではない</b></span><br/>・<span class=\"kw3\"><b>濃い黄色の尿</b></span>（<span class=\"kw3\"><b>新生児の尿は本来ほとんど色がつかない</b></span>）<br/><br/><span class=\"kw\"><b>治療</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>葛西手術（肝門部空腸吻合）は生後60日以内が目安</b></span>——<span class=\"kw3\"><b>遅れるほど胆汁の排泄が得られず、自己肝での生存率が下がる</b></span><br/>・<span class=\"kw3\"><b>術後も上行性胆管炎を繰り返す</b></span>。<span class=\"kw3\"><b>発熱のたびに胆管炎を疑う</b></span><br/>・⚠️<span class=\"kw4\"><b>それでも多くは肝硬変へ進み、最終的に肝移植が必要になる</b></span>。<span class=\"kw3\"><b>本症例は術後に胆汁排泄が不良で、すでに肝硬変</b></span><br/><br/><span class=\"kw\"><b>その間の管理が栄養</b></span><br/>・<span class=\"kw3\"><b>MCT ミルク</b></span>・<span class=\"kw3\"><b>脂溶性ビタミンの補充</b></span>・<span class=\"kw3\"><b>十分なエネルギー</b></span><br/>⚠️<span class=\"kw4\"><b>肝硬変の児が骨折したら、まず脂溶性ビタミンを測る</b></span>——<span class=\"kw3\"><b>虐待や骨形成不全症を疑う前に、説明のつく原因がここにある</b></span>。<br/><br/>⚠️⚠️<span class=\"kw4\"><b>そして最も急ぐのはビタミンK</b></span>——<span class=\"kw3\"><b>胆汁うっ滞の乳児は K 欠乏性出血症を起こし、頭蓋内出血で発症することがある</b></span>。<span class=\"kw3\"><b>「黄疸が続く乳児のけいれん」は胆道閉鎖症に伴う頭蓋内出血を疑う</b></span>。⚠️<span class=\"kw3\"><b>K2 シロップを飲ませていても、吸収されていなければ意味がない</b></span>（Q.522）。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "胆道系疾患・肝硬変 → <span class=\"kw\">脂溶性ビタミン欠乏</span>を必ず考慮。<br/>病的骨折→VitD欠乏が最優先（骨軟化症）。VitK欠乏なら出血傾向が先行する。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胆道閉鎖・肝硬変で病的骨折＝脂溶性ビタミン吸収障害。<br/><b>a 亜鉛／b セレン／c ビオチン／d ビタミンC</b>：主因でない。<br/><b>e ビタミンD</b>：<span class=\"kw\">胆汁うっ滞で脂溶性ビタミンDの吸収障害→骨病変</span>。✓"
+       "c": "<span class=\"kw3\"><b>胆汁うっ滞 → 脂溶性ビタミン A・D・E・K の吸収障害</b></span>。<span class=\"kw3\"><b>D 欠乏で骨軟化症・病的骨折、K 欠乏で出血</b></span>。<br/>⚠️<span class=\"kw4\"><b>中鎖脂肪酸（MCT）は胆汁酸を必要とせず吸収される</b></span>。<br/>⚠️<span class=\"kw4\"><b>生後2週以降の直接ビリルビン優位の黄疸と灰白色便は胆道閉鎖症</b></span>——<span class=\"kw3\"><b>葛西手術は生後60日以内</b></span>。"
       }
      ],
      "imgs": []
@@ -35495,22 +35510,27 @@
       }
      ],
      "ans_label": "ｃ　甲状腺機能亢進症\nｄ　性腺機能低下症",
-     "ans_sub": "甲状腺ホルモン過剰→骨代謝回転↑（骨吸収優位）→骨量↓。性腺機能低下→エストロゲン/テストステロン↓→骨保護喪失",
+     "ans_sub": "甲状腺ホルモン過剰は骨代謝回転を上げて骨吸収を優位にし、性腺機能低下はエストロゲン・テストステロンによる骨保護を失わせる",
      "eg": [
       {
        "cls": "ep",
-       "h": "🦴 二次性骨粗鬆症の原因",
-       "c": "<table class=\"tb\"><tr><td>疾患/状態</td><td>骨粗鬆症</td><td>機序</td></tr><tr><td>Addison病</td><td>× なし</td><td>コルチゾール↓→骨粗鬆症はステロイド過剰で起こる</td></tr><tr><td>原発性アルドステロン症</td><td>× なし</td><td>骨代謝への直接影響は弱い</td></tr><tr><td><span class=\"kw\">甲状腺機能亢進症</span></td><td><span class=\"kw\">◎ あり</span></td><td><span class=\"kw\">甲状腺ホルモン↑→破骨細胞活性↑→骨吸収優位→骨量↓</span></td></tr><tr><td><span class=\"kw\">性腺機能低下症</span></td><td><span class=\"kw\">◎ あり</span></td><td><span class=\"kw\">エストロゲン/テストステロン↓→破骨細胞制御↓→骨吸収↑</span></td></tr><tr><td>褐色細胞腫</td><td>× 直接は少ない</td><td>カテコールアミン↑の骨への直接作用は弱い</td></tr></table>"
+       "h": "🪤 正答率55%——Addison 病を選んでしまう反転",
+       "c": "⚠️<span class=\"kw4\"><b>「ステロイド過剰が骨を壊すなら、副腎不全は骨を守るはずだ」という反転が、この設問で最も多い誤り</b></span>である。<span class=\"kw3\"><b>しかしその向きには成り立たない</b></span>。<br/><br/>・<span class=\"kw3\"><b>Addison 病そのものが骨を強くするという関係はない</b></span><br/>・⚠️<span class=\"kw4\"><b>むしろ補充療法のグルココルチコイドが過量になれば骨は減る</b></span>——<span class=\"kw3\"><b>治療で作られる医原性の問題</b></span><br/>・⚠️<span class=\"kw3\"><b>副腎はアンドロゲン（DHEA）も作っており、その低下は骨に不利に働く</b></span><br/>⚠️<span class=\"kw4\"><b>つまり「骨粗鬆症の原因」として教科書的に挙がるのは ｃ と ｄ</b></span>で、<span class=\"kw3\"><b>Addison 病は原因の側に置かれない</b></span>。<br/><br/><span class=\"kw\"><b>残る2つ</b></span><br/>・<span class=\"kw3\"><b>原発性アルドステロン症</b></span>——<span class=\"kw3\"><b>尿中への Ca 排泄が増え、二次性に PTH が上がるという報告はある</b></span>が、⚠️<span class=\"kw3\"><b>国試で問われる「骨粗鬆症の原因」には入らない</b></span>。<span class=\"kw3\"><b>主役は高血圧と低K</b></span><br/>・<span class=\"kw3\"><b>褐色細胞腫</b></span>——<span class=\"kw3\"><b>高血圧発作・動悸・頭痛・発汗と高血糖</b></span>が中心で、<span class=\"kw3\"><b>骨とは結びつかない</b></span><br/><br/><span class=\"kw\"><b>正解の2つ</b></span><br/>・⚠️<span class=\"kw4\"><b>甲状腺機能亢進症</b></span>——<span class=\"kw3\"><b>骨代謝回転が速くなり、吸収が形成を上回る</b></span>。<span class=\"kw3\"><b>回転が速い＝作ってもいるが、差し引きで減る</b></span><br/>・⚠️<span class=\"kw4\"><b>性腺機能低下症</b></span>——<span class=\"kw3\"><b>骨を守っていたものが外れる</b></span>（次項）。<br/><br/>⚠️<span class=\"kw4\"><b>甲状腺と骨についてもう2つ</b></span>——<span class=\"kw3\"><b>治療して機能が正常に戻れば骨密度は部分的に回復するが、完全には戻らない</b></span>。そして⚠️⚠️<span class=\"kw4\"><b>亜臨床性甲状腺機能亢進症（TSH だけが低くFT4 は正常）でも骨折リスクは上がる</b></span>。<span class=\"kw3\"><b>「症状がないから様子を見る」で済ませない理由がここにある</b></span>（Q.527 の TSH 抑制療法も同じ話）。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　Addison 病</td><td>⚠️<span class=\"kw3\">「ステロイド不足だから骨が守られる」は成り立たない</span>が、<span class=\"kw3\">骨粗鬆症の原因としては挙がらない</span>。<span class=\"kw3\">補充が過量なら逆に骨は減る</span></td></tr><tr><td>ｂ　原発性アルドステロン症</td><td><span class=\"kw3\">高血圧と低カリウム血症</span>が主。⚠️<span class=\"kw3\">尿中Ca 排泄増加の報告はあるが、原因疾患としては問われない</span></td></tr><tr><td><span class=\"kw3\">◯ ｃ　甲状腺機能亢進症</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">骨代謝回転が亢進し吸収が優位</span>。⚠️<span class=\"kw3\">亜臨床性でも骨折リスクが上がる</span></td></tr><tr><td><span class=\"kw3\">◯ ｄ　性腺機能低下症</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">エストロゲン・テストステロンによる骨保護が失われる</span>。⚠️<span class=\"kw3\">男女とも</span></td></tr><tr><td>ｅ　褐色細胞腫</td><td><span class=\"kw3\">カテコラミン過剰＝発作性高血圧・動悸・頭痛・発汗・高血糖</span>。<span class=\"kw3\">骨とは結びつかない</span></td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "💡 二次性骨粗鬆症の原因の覚え方",
-       "c": "<span class=\"kw\">「SAVES」</span>：Steroid（ステロイド）・Alcohol（アルコール）・Vitamin D欠乏・Estrogen↓（閉経）・Secondary（各種疾患）<br/><span class=\"kw\">疾患では：甲状腺亢進症・性腺機能低下症・Cushing症候群・原発性副甲状腺機能亢進症</span>が代表"
+       "h": "🔍 男性の骨粗鬆症——エストロゲンは男性でも骨の主役である",
+       "c": "⚠️⚠️<span class=\"kw4\"><b>テストステロンはアロマターゼでエストロゲンに変換され、男性の骨もエストロゲンが守っている</b></span>。<span class=\"kw3\"><b>証拠は2つの稀な病態</b></span>——<br/>・<span class=\"kw3\"><b>アロマターゼ欠損の男性</b></span>——⚠️<span class=\"kw4\"><b>テストステロンは十分あるのに骨端線が閉じず、身長が伸び続けて骨粗鬆症になる</b></span><br/>・<span class=\"kw3\"><b>エストロゲン受容体の異常</b></span>でも同じことが起こる<br/>⚠️<span class=\"kw4\"><b>エストロゲン補充で骨端線が閉じ骨密度が回復する</b></span>。<span class=\"kw3\"><b>「エストロゲン＝女性ホルモン」という括りが骨では通用しない</b></span>。<br/><br/><span class=\"kw\"><b>男性の性腺機能低下の原因</b></span><br/>・<span class=\"kw3\"><b>Klinefelter 症候群</b></span>・<span class=\"kw3\"><b>下垂体腫瘍・高プロラクチン血症</b></span><br/>・⚠️<span class=\"kw4\"><b>前立腺癌のアンドロゲン遮断療法</b></span>（<span class=\"kw3\"><b>医原性で最も多い</b></span>）<br/>・<span class=\"kw3\"><b>長期のグルココルチコイド</b></span>（<span class=\"kw3\"><b>性腺も同時に抑える</b></span>）<br/>・<span class=\"kw3\"><b>オピオイドの長期使用</b></span>・<span class=\"kw3\"><b>慢性の大量飲酒</b></span><br/><br/>⚠️⚠️<span class=\"kw4\"><b>男性の骨粗鬆症は見逃されやすく、大腿骨近位部骨折後の死亡率は女性より高い</b></span>。<br/>⚠️<span class=\"kw4\"><b>男性や若年で骨粗鬆症を見たら、必ず二次性の原因を探す</b></span>（Q.281）——<span class=\"kw3\"><b>測るのはテストステロン・甲状腺機能・Ca・P・PTH・25(OH)D・血算と蛋白分画</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">甲状腺機能亢進症</span>（T3/T4↑）→骨代謝回転↑（吸収優位）→骨量↓。<br/><span class=\"kw\">性腺機能低下症</span>（閉経・Turner症候群・HH）→エストロゲン↓→骨粗鬆症。"
+       "c": "<span class=\"kw3\"><b>二次性骨粗鬆症＝甲状腺機能亢進症・性腺機能低下症・Cushing 症候群・原発性副甲状腺機能亢進症・糖尿病・CKD</b></span>。<br/>⚠️<span class=\"kw4\"><b>Addison 病は原因に入らない</b></span>——<span class=\"kw3\"><b>「ステロイド不足なら骨が守られる」は成り立たない</b></span>。<br/>⚠️<span class=\"kw4\"><b>男性の骨もエストロゲンが守っている</b></span>（<span class=\"kw3\"><b>テストステロン → アロマターゼ → エストロゲン</b></span>）。"
       }
      ],
      "imgs": []
@@ -35556,27 +35576,27 @@
       }
      ],
      "ans_label": "ｂ　ビタミンA\nｅ　ビタミンD",
-     "ans_sub": "脂溶性ビタミン（A・D）は体内に蓄積され過剰症（中毒）を起こす。水溶性ビタミン（B・C）は過剰分が尿中排泄されるため過剰症になりにくい",
+     "ans_sub": "脂溶性ビタミンA・D は体内に蓄積して過剰症を起こす。水溶性は尿へ排泄されるため中毒になりにくい",
      "eg": [
       {
        "cls": "ep",
-       "h": "⚠️ ビタミン過剰症",
-       "c": "<span class=\"kw\">脂溶性ビタミン（A・D・E・K）</span>：体内（脂肪組織・肝臓）に蓄積→過剰症を起こしやすい<br/><br/><span class=\"kw\">ビタミンA過剰症</span>：<br/>・頭蓋内圧上昇（頭痛・乳頭浮腫）<br/>・肝障害（肝硬変）<br/>・催奇形性（妊娠初期は特に危険）<br/>・皮膚乾燥・脱毛<br/><br/><span class=\"kw\">ビタミンD過剰症</span>：<br/>・高カルシウム血症（倦怠感・嘔吐・口渇・多尿）<br/>・腎石灰化・腎機能障害<br/>・血管石灰化"
+       "h": "⚠️ 「水溶性は尿に出るから安全」は正確ではない",
+       "c": "答えは A と D だが、⚠️<span class=\"kw4\"><b>水溶性ビタミンにも過剰症はある</b></span>。<span class=\"kw3\"><b>それを知ったうえで、なぜ答えが脂溶性の2つなのかを説明できることが大事</b></span>。<br/><br/><span class=\"kw\"><b>水溶性でも起こる過剰症</b></span><br/>・⚠️<span class=\"kw4\"><b>ナイアシン</b></span>——<span class=\"kw3\"><b>大量投与で顔面と上半身の紅潮（フラッシング）・掻痒</b></span>、<span class=\"kw3\"><b>さらに肝障害・耐糖能悪化</b></span>。<span class=\"kw3\"><b>脂質異常症の治療に大量投与された歴史がある</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>ビタミンB6</b></span>——<span class=\"kw3\"><b>大量の長期投与で感覚性の末梢神経障害</b></span>。<span class=\"kw3\"><b>欠乏でも過剰でも末梢神経が侵される</b></span>という珍しい例<br/>・<span class=\"kw3\"><b>ビタミンC</b></span>——<span class=\"kw3\"><b>大量でシュウ酸カルシウム結石・浸透圧性下痢</b></span>（Q.521）<br/>・<span class=\"kw3\"><b>葉酸</b></span>——⚠️<span class=\"kw3\"><b>大量投与はビタミンB12 欠乏の貧血を隠し、神経障害だけを進行させる</b></span>（Q.484）<br/><br/>⚠️⚠️<span class=\"kw4\"><b>それでも答えが A と D になる理由</b></span>——<span class=\"kw3\"><b>水溶性は余った分が尿へ出るので、中毒には「飲み続ける」ことが要る</b></span>。<span class=\"kw3\"><b>脂溶性は肝と脂肪組織に蓄積するので、やめた後も長く効き続ける</b></span>。<span class=\"kw3\"><b>臓器障害として問題になるのはこちら</b></span>。<br/><br/>⚠️<span class=\"kw4\"><b>ビタミンB1 だけは大量投与しても中毒を起こさない</b></span>——<span class=\"kw3\"><b>だから Wernicke 脳症では疑っただけで大量に打てる</b></span>（Q.525）。<br/><br/><span class=\"kw\"><b>脂溶性の残り2つ</b></span><br/>・<span class=\"kw3\"><b>ビタミンE</b></span>——⚠️<span class=\"kw3\"><b>大量投与で出血傾向</b></span>（<span class=\"kw3\"><b>ワルファリンの作用を強める</b></span>）<br/>・⚠️<span class=\"kw4\"><b>ビタミンK だけは脂溶性なのに過剰症をほとんど起こさない</b></span>——<span class=\"kw3\"><b>だから新生児に一律で投与できる</b></span>（Q.522）。<span class=\"kw3\"><b>ただしワルファリン服用中は話が別</b></span>"
       },
       {
        "cls": "ee",
-       "h": "□ 各ビタミンの過剰症リスク",
-       "c": "<table class=\"tb\"><tr><td>ビタミン</td><td>過剰症</td><td>特記事項</td></tr><tr><td>ナイアシン（B3）</td><td>顔紅潮・肝障害（大量時）</td><td>水溶性だが大量摂取で問題</td></tr><tr><td><span class=\"kw\">ビタミンA</span></td><td><span class=\"kw\">頭蓋内圧上昇・催奇形性</span></td><td><span class=\"kw\">◎ 特に妊婦に注意</span></td></tr><tr><td>ビタミンB1</td><td>ほぼなし</td><td>水溶性→尿中排泄</td></tr><tr><td>ビタミンC</td><td>腎結石（大量時）</td><td>通常は過剰症なし</td></tr><tr><td><span class=\"kw\">ビタミンD</span></td><td><span class=\"kw\">高カルシウム血症</span></td><td><span class=\"kw\">◎ 腎機能低下者は特に注意</span></td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　ナイアシン</td><td>⚠️<span class=\"kw3\">大量投与でフラッシングと肝障害を起こす</span>が、<span class=\"kw3\">通常の食事や一般的な製剤で中毒になるものとしては問われない</span></td></tr><tr><td><span class=\"kw3\">◯ ｂ　ビタミンA</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">急性では頭蓋内圧亢進、慢性では皮膚乾燥・脱毛・肝障害・骨痛</span>。⚠️<span class=\"kw3\">妊娠初期は催奇形性</span></td></tr><tr><td>ｃ　ビタミンB1</td><td>⚠️<span class=\"kw3\">大量に投与しても中毒を起こさない</span>。<span class=\"kw3\">だから Wernicke 脳症では十分量を打てる</span></td></tr><tr><td>ｄ　ビタミンC</td><td><span class=\"kw3\">大量でシュウ酸結石や下痢</span>は起こるが、<span class=\"kw3\">過剰症として問われるものではない</span></td></tr><tr><td><span class=\"kw3\">◯ ｅ　ビタミンD</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">高カルシウム血症・高カルシウム尿症・腎石灰化・腎不全</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 ビタミンD 中毒は「サプリメント＋活性型製剤」で実際に起こる",
+       "c": "<span class=\"kw\"><b>何が起こるか</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>高カルシウム血症</b></span>——<span class=\"kw3\"><b>口渇・多尿・食欲低下・嘔気・便秘・意識障害</b></span>（Q.512）<br/>・<span class=\"kw3\"><b>高カルシウム尿症 → 尿路結石・腎石灰化</b></span><br/>・⚠️<span class=\"kw4\"><b>進むと不可逆的な腎機能障害</b></span><br/>・<span class=\"kw3\"><b>血管や軟部組織の石灰化</b></span><br/><br/><span class=\"kw\"><b>なぜ起こるか</b></span><br/>・⚠️<span class=\"kw4\"><b>骨粗鬆症で処方された活性型ビタミンD 製剤に、市販のサプリメントを自己判断で重ねる</b></span><br/>・<span class=\"kw3\"><b>カルシウム製剤も一緒に飲んでいる</b></span><br/>・⚠️<span class=\"kw3\"><b>高齢者では腎機能が落ちており、同じ量でも高Ca になりやすい</b></span><br/><br/>⚠️⚠️<span class=\"kw4\"><b>日光浴では中毒にならない</b></span>——<span class=\"kw3\"><b>皮膚でできた前駆体は、紫外線が当たり続けると自ら不活性な物質へ分解される</b></span>。<span class=\"kw3\"><b>供給に上限が組み込まれている</b></span>。<br/><br/><span class=\"kw\"><b>見つけ方と対応</b></span><br/>・⚠️<span class=\"kw4\"><b>充足を見るのは 25(OH)D</b></span>（Q.471）。<span class=\"kw3\"><b>中毒でもこれが著明高値になる</b></span><br/>・<span class=\"kw3\"><b>中止・輸液・場合によりステロイドやビスホスホネート</b></span><br/>・⚠️<span class=\"kw4\"><b>脂肪に溜まっているので、中止しても数週から数か月は高Ca が続きうる</b></span><br/><br/>⚠️<span class=\"kw4\"><b>高カルシウム血症を見たら、悪性腫瘍と副甲状腺の前に「何を飲んでいるか」を聞く</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">脂溶性VitAとDが過剰症の代表</span>。E・Kも過剰症はあるが頻度が低い。<br/>妊婦：<span class=\"kw\">VitA過剰→催奇形性</span>（特に妊娠初期）→サプリメントに注意。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "過剰症を起こすことがあるものを2つ。<br/><b>a ナイアシン／c B1／d C</b>：水溶性で過剰症は起こしにくい。<br/><b>b ビタミンA</b>：<span class=\"kw\">脂溶性で蓄積し過剰症（頭蓋内圧亢進・肝障害）</span>。✓<br/><b>e ビタミンD</b>：<span class=\"kw\">脂溶性で高Ca血症等の過剰症</span>。✓"
+       "c": "<span class=\"kw3\"><b>過剰症を起こすのは脂溶性ビタミン（A・D・E・K）</b></span>——<span class=\"kw3\"><b>蓄積するから</b></span>。<br/><span class=\"kw3\"><b>A の過剰＝頭蓋内圧亢進・催奇形性／D の過剰＝高Ca血症・腎石灰化</b></span>。<br/>⚠️<span class=\"kw4\"><b>水溶性にも過剰症はある</b></span>（<span class=\"kw3\"><b>ナイアシンのフラッシング・B6 の神経障害・C の結石</b></span>）。⚠️<span class=\"kw4\"><b>B1 だけは中毒がない</b></span>。"
       }
      ],
      "imgs": []
