@@ -34455,27 +34455,27 @@
       }
      ],
      "ans_label": "ｂ　内因子と結合して吸収される。\nｃ　回腸末端部で吸収される。",
-     "ans_sub": "B12は内因子（胃壁細胞産生）と結合して回腸末端部で吸収される",
+     "ans_sub": "B12 は胃壁細胞の内因子と結合し、回腸末端で内因子受容体を介して吸収される。血中の運搬役はトランスコバラミンで、トランスフェリンは鉄の運搬蛋白",
      "eg": [
       {
        "cls": "ep",
-       "h": "🧫 ビタミンB12の吸収経路",
-       "c": "<span class=\"kw\">B12吸収のステップ</span>：<br/>① 食事のB12→胃内で蛋白から遊離<br/>② 胃壁細胞が産生する<span class=\"kw\">内因子（intrinsic factor, IF）</span>と結合✓<br/>③ <span class=\"kw\">回腸末端部</span>のIF受容体（cubilin）で吸収✓<br/>④ 血中：<span class=\"kw\">トランスコバラミン（TC-II）</span>と結合して輸送"
+       "h": "🦠 ヒトも動物も B12 を作れない——作れるのは微生物だけ",
+       "c": "⚠️<span class=\"kw4\"><b>B12 を合成できるのは細菌と古細菌だけ</b></span>である。動物は<span class=\"kw3\"><b>微生物が作ったものを食べて体に蓄えている</b></span>にすぎず、⚠️<span class=\"kw4\"><b>植物性食品には事実上含まれない</b></span>。<br/><br/><span class=\"kw\"><b>だから食品源は動物性に限られる</b></span>——<span class=\"kw3\"><b>肉・魚・卵・乳製品・貝類</b></span>。⚠️<span class=\"kw4\"><b>完全菜食（ヴィーガン）では必ず欠乏する</b></span>ので補充が要る。<br/>⚠️<span class=\"kw4\"><b>ヒトの腸内細菌も B12 を作るが役に立たない</b></span>——<span class=\"kw3\"><b>作られる場所が大腸で、吸収部位である回腸末端より下流</b></span>だから。<br/><br/><span class=\"kw\"><b>B12 が体内でする仕事は2つの酵素だけ</b></span><br/>①<span class=\"kw3\"><b>メチオニン合成酵素</b></span>——<span class=\"kw3\"><b>ホモシステイン→メチオニン</b></span>。葉酸回路と連結しており、<span class=\"kw3\"><b>DNA 合成</b></span>に効く。⚠️<span class=\"kw4\"><b>ここは葉酸で代償できる</b></span><br/>②<span class=\"kw3\"><b>メチルマロニルCoA ムターゼ</b></span>——<span class=\"kw3\"><b>奇数鎖脂肪酸とアミノ酸の代謝</b></span>。⚠️⚠️<span class=\"kw4\"><b>髄鞘の維持に関わるのはこちらで、葉酸では代償できない</b></span><br/><br/>⚠️<span class=\"kw4\"><b>「葉酸だけを補うと貧血は治って神経障害だけが進む」の正体がこの非対称</b></span>（Q.484）。<br/>⚠️ 早期診断には<span class=\"kw3\"><b>メチルマロン酸とホモシステイン</b></span>が使える——<span class=\"kw3\"><b>血清B12 が下限域でも、これらは先に上がる</b></span>。<br/><br/>⚠️⚠️<span class=\"kw4\"><b>B12 は肝に数年分が蓄えられている</b></span>——<span class=\"kw3\"><b>吸収が完全に止まっても、欠乏が現れるのは3〜5年後</b></span>。<span class=\"kw3\"><b>胃全摘の既往を何年も前のこととして聞き流すと診断を逃す</b></span>。⚠️<span class=\"kw4\"><b>葉酸の貯蔵は数か月しかない</b></span>ので、同じ吸収障害でも<span class=\"kw3\"><b>葉酸欠乏の方が先に出る</b></span>。"
       },
       {
        "cls": "ee",
-       "h": "□ 各選択肢の正誤",
-       "c": "<table class=\"tb\"><tr><td>選択肢</td><td>正誤</td><td>理由</td></tr><tr><td>ａ ヒトの体内で合成</td><td>✗</td><td><span class=\"kw4\">B12は動物性食品から摂取。ヒトは合成できない</span></td></tr><tr><td><span class=\"kw\">ｂ 内因子と結合</span></td><td><span class=\"kw\">✓</span></td><td><span class=\"kw\">胃壁細胞由来のIF</span></td></tr><tr><td><span class=\"kw\">ｃ 回腸末端部で吸収</span></td><td><span class=\"kw\">✓</span></td><td><span class=\"kw\">IF-B12複合体→回腸末端のcubilin受容体</span></td></tr><tr><td>ｄ トランスフェリンと輸送</td><td>✗</td><td><span class=\"kw4\">トランスフェリンは鉄輸送タンパク</span></td></tr><tr><td>ｅ RNA合成に利用</td><td>✗</td><td><span class=\"kw4\">B12はDNA合成（核酸合成）に関与</span></td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　ヒトの体内で合成される。</td><td>⚠️<span class=\"kw3\">合成できるのは微生物だけ</span>。ヒトも動物も食べて取り込んでいるにすぎない</td></tr><tr><td><span class=\"kw3\">◯ ｂ　内因子と結合して吸収される。</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">胃の壁細胞が作る内因子（IF）</span>と結合する。⚠️<span class=\"kw3\">壁細胞は胃酸も作る</span>ので、萎縮性胃炎では両方が同時に落ちる</td></tr><tr><td><span class=\"kw3\">◯ ｃ　回腸末端部で吸収される。</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">回腸末端の受容体（cubilin）</span>が IF-B12 複合体を取り込む。⚠️<span class=\"kw3\">Crohn 病や回腸切除で欠乏する</span></td></tr><tr><td>ｄ　トランスフェリンと結合して細胞に輸送される。</td><td>⚠️<span class=\"kw3\">トランスフェリンは鉄の運搬蛋白</span>。B12 を運ぶのは<span class=\"kw3\">トランスコバラミンⅡ</span></td></tr><tr><td>ｅ　RNA 合成に利用される。</td><td>⚠️<span class=\"kw3\">関わるのは DNA 合成</span>（葉酸回路を介したチミジン合成）。だから欠乏で<span class=\"kw3\">巨赤芽球性貧血</span>になる</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 名前の似た運搬蛋白を一度に片付ける",
+       "c": "この設問の ｄ は<span class=\"kw3\"><b>「トランス」で始まる蛋白の取り違え</b></span>を誘っている。まとめて覚え直しておく。<br/><br/>・<span class=\"kw3\"><b>トランスフェリン</b></span>——<span class=\"kw\"><b>鉄</b></span>。⚠️<span class=\"kw3\"><b>鉄欠乏では増える（TIBC 上昇）</b></span><br/>・<span class=\"kw3\"><b>トランスコバラミンⅡ</b></span>——<span class=\"kw\"><b>ビタミンB12</b></span>。血中で細胞へ渡す役<br/>・<span class=\"kw3\"><b>ハプトコリン</b></span>——<span class=\"kw\"><b>ビタミンB12</b></span>。⚠️<span class=\"kw3\"><b>唾液に出て、胃酸から B12 を守る</b></span>前半の運搬役。膵酵素が十二指腸で外して内因子へ受け渡す<br/>・<span class=\"kw3\"><b>レチノール結合蛋白</b></span>——<span class=\"kw\"><b>ビタミンA</b></span>。⚠️<span class=\"kw3\"><b>合成に亜鉛が要る</b></span>ので、亜鉛欠乏でも夜盲が出る（Q.505）<br/>・<span class=\"kw3\"><b>セルロプラスミン</b></span>——<span class=\"kw\"><b>銅</b></span>。⚠️<span class=\"kw3\"><b>Wilson 病で低下する</b></span>（Q.523）<br/>・<span class=\"kw3\"><b>ビタミンD 結合蛋白</b></span>——<span class=\"kw\"><b>ビタミンD</b></span><br/>・<span class=\"kw3\"><b>ハプトグロビン</b></span>——<span class=\"kw\"><b>遊離ヘモグロビン</b></span>。⚠️<span class=\"kw3\"><b>血管内溶血で消費されて下がる</b></span><br/>・<span class=\"kw3\"><b>アルブミン</b></span>——<span class=\"kw\"><b>Ca・ビリルビン・薬物</b></span>。⚠️<span class=\"kw3\"><b>低アルブミンでは総Ca が低く見える</b></span>（補正が要る・Q.471）<br/><br/>⚠️<span class=\"kw4\"><b>「何を運ぶか」を1対1で言えるようにしておくと、組合せ問題で確実に点になる</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw4\">トランスフェリン→鉄、トランスコバラミン→B12</span>（紛らわしい！）。<br/>悪性貧血：胃壁細胞の自己抗体→内因子産生↓→B12吸収不全→巨赤芽球性貧血。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "ビタミンB12の代謝について正しいものを2つ。<br/><b>a ヒト体内で合成／d トランスフェリンと結合／e RNA合成に利用</b>：誤り。<br/><b>b 内因子と結合して吸収される</b>：<span class=\"kw\">胃壁細胞の内因子と結合</span>。✓<br/><b>c 回腸末端部で吸収される</b>：<span class=\"kw\">回腸末端で吸収</span>。✓"
+       "c": "<span class=\"kw3\"><b>B12＝内因子（胃壁細胞）と結合 → 回腸末端で吸収 → トランスコバラミンⅡで輸送</b></span>。<br/>⚠️<span class=\"kw4\"><b>トランスフェリンは鉄</b></span>。⚠️<span class=\"kw4\"><b>B12 は DNA 合成（RNA ではない）</b></span>。<br/>⚠️ 欠乏の原因は<span class=\"kw3\"><b>胃（悪性貧血・胃切除・PPI）・膵・回腸末端（Crohn・切除）・薬（メトホルミン・亜酸化窒素）・菜食</b></span>（Q.484）。"
       }
      ],
      "imgs": []
@@ -34525,27 +34525,27 @@
       }
      ],
      "ans_label": "ｂ　Wernicke 脳症\nｃ　Korsakoﬀ症候群",
-     "ans_sub": "アルコール依存症→食事摂取不良＋B1吸収障害→ビタミンB1欠乏→ウェルニッケ脳症→コルサコフ症候群",
+     "ans_sub": "Wernicke 脳症と Korsakoff 症候群はどちらも B1 欠乏による、アルコール依存症の代表的な神経合併症",
      "eg": [
       {
        "cls": "ep",
-       "h": "🍺 アルコール依存症と神経合併症",
-       "c": "<span class=\"kw\">ウェルニッケ脳症</span>：B1欠乏による急性脳症（眼球運動障害・失調・意識障害）<br/><span class=\"kw\">コルサコフ症候群</span>：ウェルニッケの後遺症（記憶障害・作話）<br/><br/>これらはアルコール依存症の最も重要な神経合併症。"
+       "h": "🍺 アルコール依存症が体に作るものは B1 欠乏だけではない",
+       "c": "この設問の答えは2つとも B1 欠乏だが、⚠️<span class=\"kw4\"><b>アルコール依存症の合併症は臓器を横断して広がる</b></span>。一度に並べておく。<br/><br/><span class=\"kw\"><b>中枢神経</b></span>——<span class=\"kw3\"><b>Wernicke 脳症・Korsakoff 症候群</b></span>（B1）／<span class=\"kw3\"><b>小脳変性</b></span>（虫部・歩行失調）／⚠️<span class=\"kw3\"><b>橋中心髄鞘崩壊症</b></span>（低Na の急速補正・Q.515）／<span class=\"kw3\"><b>離脱せん妄</b></span><br/><span class=\"kw\"><b>末梢神経・筋</b></span>——<span class=\"kw3\"><b>多発神経炎</b></span>（遠位優位・Q.502）／<span class=\"kw3\"><b>横紋筋融解</b></span><br/><span class=\"kw\"><b>心</b></span>——<span class=\"kw3\"><b>拡張型心筋症</b></span>／⚠️<span class=\"kw4\"><b>holiday heart syndrome＝大量飲酒後の心房細動</b></span><br/><span class=\"kw\"><b>肝・膵</b></span>——脂肪肝→アルコール性肝炎→<span class=\"kw3\"><b>肝硬変</b></span>／<span class=\"kw3\"><b>急性および慢性膵炎</b></span><br/><span class=\"kw\"><b>消化管</b></span>——<span class=\"kw3\"><b>Mallory-Weiss 症候群</b></span>・食道静脈瘤・<span class=\"kw3\"><b>食道癌</b></span><br/><span class=\"kw\"><b>血液</b></span>——⚠️<span class=\"kw3\"><b>大球性貧血</b></span>（葉酸欠乏と骨髄への直接毒性）・血小板減少<br/><span class=\"kw\"><b>代謝</b></span>——⚠️<span class=\"kw3\"><b>アルコール性ケトアシドーシス</b></span>・<span class=\"kw3\"><b>低血糖</b></span>（糖新生の阻害）・<span class=\"kw3\"><b>高尿酸血症</b></span>（Q.503）・<span class=\"kw3\"><b>低Mg・低P・低K</b></span><br/><span class=\"kw\"><b>胎児</b></span>——<span class=\"kw3\"><b>胎児性アルコール症候群</b></span><br/><br/>⚠️<span class=\"kw4\"><b>B1 が欠乏するのは「飲むから」ではなく、飲んで食べず、吸収も活性化も落ちるから</b></span>（Q.507）。<br/><br/><span class=\"kw\"><b>なぜ飲むと B1 が欠乏するのか——理由は4つ重なっている</b></span><br/>①<span class=\"kw3\"><b>食べなくなる</b></span>（エネルギーをアルコールで取る）②<span class=\"kw3\"><b>空腸での吸収が落ちる</b></span>③<span class=\"kw3\"><b>肝での貯蔵と活性化が落ちる</b></span>④⚠️⚠️<span class=\"kw4\"><b>チアミンを補酵素型（チアミンピロリン酸）に変える反応にマグネシウムが要る</b></span>——<span class=\"kw3\"><b>低Mg のままでは B1 を入れても効かない</b></span>（Q.521）。<br/>⚠️<span class=\"kw4\"><b>「補充したのに良くならない」ときは Mg を測る</b></span>。"
       },
       {
        "cls": "ee",
-       "h": "□ 各疾患とアルコールの関連",
-       "c": "<table class=\"tb\"><tr><td>疾患</td><td>関連</td><td>備考</td></tr><tr><td>Leigh脳症</td><td>× なし</td><td>ミトコンドリア遺伝子変異（小児）</td></tr><tr><td><span class=\"kw\">Wernicke脳症</span></td><td><span class=\"kw\">◎ 直接関連</span></td><td><span class=\"kw\">B1欠乏（アルコール最大の原因）</span></td></tr><tr><td><span class=\"kw\">Korsakoff症候群</span></td><td><span class=\"kw\">◎ 直接関連</span></td><td><span class=\"kw\">Wernicke後遺症</span></td></tr><tr><td>Kartagener症候群</td><td>× なし</td><td>気管支拡張症＋内臓逆位（繊毛運動異常）</td></tr><tr><td>Lambert-Eaton症候群</td><td>× なし</td><td>小細胞肺癌関連（P/Q型VGCCに対する自己抗体）</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　Leigh 脳症</td><td>⚠️<span class=\"kw3\">遺伝性のミトコンドリア脳症</span>（乳児期発症・脳幹と基底核の対称性壊死）。<span class=\"kw3\">アルコールとは無関係</span></td></tr><tr><td><span class=\"kw3\">◯ ｂ　Wernicke 脳症</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">B1 欠乏の急性期</span>。<span class=\"kw3\">眼球運動障害・失調・意識障害</span></td></tr><tr><td><span class=\"kw3\">◯ ｃ　Korsakoff 症候群</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">Wernicke の慢性期</span>。<span class=\"kw3\">前向健忘・作話・失見当識</span></td></tr><tr><td>ｄ　Kartagener 症候群</td><td><span class=\"kw3\">線毛の運動障害</span>（内臓逆位＋慢性副鼻腔炎＋気管支拡張症）。<span class=\"kw3\">アルコールとは無関係</span></td></tr><tr><td>ｅ　Lambert-Eaton 症候群</td><td><span class=\"kw3\">小細胞肺癌に伴う傍腫瘍症候群</span>（P/Q型 Ca チャネル抗体）。⚠️<span class=\"kw3\">反復刺激で筋力が増す</span>のが特徴</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 離脱は「最後に飲んでから何時間か」で何が起きるかが決まる",
+       "c": "アルコール依存症の患者が入院すると、⚠️<span class=\"kw4\"><b>飲めなくなった時点から時計が動き出す</b></span>。時間で症状が入れ替わる。<br/><br/>・<span class=\"kw3\"><b>6〜12時間</b></span>——<span class=\"kw\"><b>自律神経症状</b></span>。<span class=\"kw3\"><b>振戦・発汗・頻脈・不安・不眠</b></span><br/>・<span class=\"kw3\"><b>12〜24時間</b></span>——<span class=\"kw\"><b>アルコール幻覚症</b></span>。⚠️<span class=\"kw4\"><b>意識は清明なまま幻視・幻聴が出る</b></span>（ここが振戦せん妄との違い）<br/>・<span class=\"kw3\"><b>24〜48時間</b></span>——⚠️<span class=\"kw4\"><b>離脱けいれん</b></span>。<span class=\"kw3\"><b>全般性強直間代発作</b></span>で、多くは群発する<br/>・<span class=\"kw3\"><b>48〜96時間</b></span>——⚠️⚠️<span class=\"kw4\"><b>振戦せん妄（DT）</b></span>。<span class=\"kw3\"><b>意識障害＋幻視＋著明な自律神経亢進（発熱・頻脈・発汗）</b></span>。<span class=\"kw3\"><b>治療しなければ死亡することがある</b></span><br/><br/><span class=\"kw\"><b>対応</b></span><br/>・<span class=\"kw3\"><b>ベンゾジアゼピン</b></span>が第一選択（GABA 受容体を介して離脱を覆う）<br/>・⚠️⚠️<span class=\"kw4\"><b>チアミンを先に、ブドウ糖より前に</b></span>——<span class=\"kw3\"><b>糖を入れると残った B1 を使い切って Wernicke を起こす</b></span><br/>・<span class=\"kw3\"><b>低Mg・低K・低P を補正</b></span>する<br/><br/>⚠️<span class=\"kw4\"><b>「入院してから2日後におかしくなった」は離脱を疑う合図</b></span>。入院時に<span class=\"kw3\"><b>最終飲酒の時刻</b></span>を聞いておく。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "アルコール関連疾患の覚え方：<br/><span class=\"kw\">WK → Wernicke（急性）→ Korsakoff（慢性）</span>→両方B1欠乏。<br/>脚気・アルコール性心筋症・末梢神経炎もB1欠乏による。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "アルコール依存症と関係があるものを2つ。<br/><b>a Leigh脳症／d Kartagener症候群／e Lambert-Eaton症候群</b>：無関係。<br/><b>b Wernicke脳症</b>：<span class=\"kw\">ビタミンB1欠乏（眼球運動障害・失調・意識障害）</span>。✓<br/><b>c Korsakoff症候群</b>：<span class=\"kw\">健忘・作話（Wernickeの慢性期）</span>。✓"
+       "c": "<span class=\"kw3\"><b>Wernicke（急性）→ Korsakoff（慢性）</b></span>はどちらも<span class=\"kw3\"><b>B1 欠乏</b></span>。<br/>⚠️<span class=\"kw4\"><b>離脱の時間軸＝振戦6〜12h／幻覚12〜24h／けいれん24〜48h／振戦せん妄48〜96h</b></span>。<br/>⚠️<span class=\"kw4\"><b>ブドウ糖より先にチアミン</b></span>。離脱そのものには<span class=\"kw3\"><b>ベンゾジアゼピン</b></span>。"
       }
      ],
      "imgs": []
@@ -34591,22 +34591,27 @@
       }
      ],
      "ans_label": "ｃ　鉄欠乏性貧血\nｅ　Ramsay Hunt 症候群",
-     "ans_sub": "鉄欠乏→味蕾の萎縮（鉄はDNA合成・細胞分裂に必要）。Ramsay Hunt→帯状疱疹で顔面神経＋鼓索神経（味覚線維）が障害",
+     "ans_sub": "鉄欠乏は味蕾の細胞回転を止め、Ramsay Hunt 症候群は顔面神経の枝である鼓索神経を侵して舌の前2/3 の味覚を落とす",
      "eg": [
       {
        "cls": "ep",
-       "h": "👅 味覚障害の原因",
-       "c": "<table class=\"tb\"><tr><td>原因</td><td>機序</td><td>関連</td></tr><tr><td><span class=\"kw\">鉄欠乏性貧血</span></td><td>味蕾の細胞更新↓（Fe→DNA合成）</td><td>◎</td></tr><tr><td>亜鉛欠乏</td><td>味蕾に必要な酵素の補因子</td><td>◎（最頻）</td></tr><tr><td><span class=\"kw\">Ramsay Hunt症候群</span></td><td>帯状疱疹→顔面神経→鼓索神経（味覚線維）障害</td><td>◎</td></tr><tr><td>急性扁桃炎</td><td>嚥下痛・炎症→直接的味覚障害は稀</td><td>×</td></tr><tr><td>急性副鼻腔炎</td><td>嗅覚障害（風味障害）が主</td><td>×</td></tr><tr><td>ビタミンC欠乏</td><td>壊血病（出血傾向）→直接の味覚障害なし</td><td>×</td></tr></table>"
+       "h": "👅 味覚障害は「どこで壊れたか」で4つに分かれる",
+       "c": "5つの肢はこの枠組みに当てはめると全部説明できる。<br/><br/>①<span class=\"kw\"><b>味蕾そのものが減る</b></span>——<span class=\"kw3\"><b>亜鉛欠乏</b></span>（最も有名）・⚠️<span class=\"kw4\"><b>鉄欠乏</b></span>・<span class=\"kw3\"><b>薬剤性</b></span>（原因の第1位）・放射線照射・<span class=\"kw3\"><b>口腔乾燥（Sjögren・薬剤）</b></span><br/>　⚠️<span class=\"kw4\"><b>味蕾の細胞は約10日で入れ替わる</b></span>ので、<span class=\"kw3\"><b>細胞分裂に要るものが欠けると真っ先に止まる</b></span>（Q.495）。鉄も DNA 合成に要る<br/><br/>②<span class=\"kw\"><b>味覚を運ぶ神経が切れる</b></span>——⚠️<span class=\"kw4\"><b>Ramsay Hunt 症候群</b></span>・中耳手術での<span class=\"kw3\"><b>鼓索神経損傷</b></span>・舌咽神経の障害<br/><br/>③<span class=\"kw\"><b>中枢の障害</b></span>——脳血管障害・腫瘍<br/><br/>④⚠️<span class=\"kw4\"><b>味覚ではなく嗅覚の問題</b></span>——<span class=\"kw3\"><b>風味障害</b></span>。⚠️<span class=\"kw4\"><b>急性副鼻腔炎の肢はここに置かれている</b></span>——<span class=\"kw3\"><b>「味がしない」と訴えるが、失われているのは嗅覚</b></span>。<span class=\"kw3\"><b>甘い・塩辛いは分かるのに「風味が分からない」</b></span>なら嗅覚を疑う<br/><br/>⚠️ <span class=\"kw3\"><b>急性扁桃炎</b></span>は痛みで食べにくいだけで、<span class=\"kw3\"><b>味覚そのものは保たれる</b></span>。<span class=\"kw3\"><b>ビタミンC 欠乏</b></span>は出血傾向が主体で味覚には来ない。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　急性扁桃炎</td><td><span class=\"kw3\">嚥下痛で食べにくい</span>が味覚そのものは保たれる。⚠️<span class=\"kw3\">「食べられない」と「味がしない」は別</span></td></tr><tr><td>ｂ　急性副鼻腔炎</td><td>⚠️<span class=\"kw3\">失われるのは嗅覚</span>（風味障害）。<span class=\"kw3\">味覚検査をすれば正常</span></td></tr><tr><td><span class=\"kw3\">◯ ｃ　鉄欠乏性貧血</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">鉄は DNA 合成に要る</span>ので味蕾の細胞回転が止まる。⚠️<span class=\"kw3\">Plummer-Vinson 症候群</span>では舌炎・嚥下困難も伴う</td></tr><tr><td>ｄ　ビタミンC 欠乏症</td><td>壊血病＝<span class=\"kw3\">歯肉出血・毛囊周囲出血</span>。⚠️<span class=\"kw3\">歯肉の炎症で食べにくくはなるが、味覚路の障害ではない</span></td></tr><tr><td><span class=\"kw3\">◯ ｅ　Ramsay Hunt 症候群</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">膝神経節の水痘帯状疱疹ウイルス再活性化</span>で顔面神経が侵され、その枝の<span class=\"kw3\">鼓索神経</span>が舌の<span class=\"kw3\">前2/3</span>の味覚を落とす</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "💡 味覚障害の覚え方",
-       "c": "<span class=\"kw\">「亜鉛（Zn）・鉄（Fe）・鼓索神経（Ramsay Hunt）」</span>が三大原因。<br/><span class=\"kw\">Ramsay Hunt症候群</span>：耳介・外耳道の帯状疱疹＋顔面神経麻痺＋味覚障害（前2/3）。"
+       "h": "🔍 味覚を運ぶ神経は3本ある——そして Ramsay Hunt の顔",
+       "c": "<span class=\"kw\"><b>舌と咽頭を3本の脳神経で分け合っている</b></span><br/>・<span class=\"kw3\"><b>舌の前2/3</b></span>——<span class=\"kw3\"><b>顔面神経（Ⅶ）の枝である鼓索神経</b></span><br/>・<span class=\"kw3\"><b>舌の後1/3</b></span>——<span class=\"kw3\"><b>舌咽神経（Ⅸ）</b></span><br/>・<span class=\"kw3\"><b>喉頭蓋・咽頭</b></span>——<span class=\"kw3\"><b>迷走神経（Ⅹ）</b></span><br/>⚠️<span class=\"kw4\"><b>触覚・痛覚は三叉神経（Ⅴ）が担う</b></span>ので、<span class=\"kw3\"><b>味覚だけが落ちて触覚は残る</b></span>という分離が起こりうる。<br/><br/><span class=\"kw\"><b>Ramsay Hunt 症候群</b></span>——<span class=\"kw3\"><b>膝神経節に潜んでいた水痘帯状疱疹ウイルスの再活性化</b></span>。<br/>・<span class=\"kw3\"><b>耳介と外耳道の疱疹</b></span>（⚠️<span class=\"kw3\"><b>疱疹が出ないことがある＝zoster sine herpete</b></span>）<br/>・<span class=\"kw3\"><b>末梢性の顔面神経麻痺</b></span>（⚠️<span class=\"kw3\"><b>額のしわ寄せもできない</b></span>のが中枢性との違い）<br/>・<span class=\"kw3\"><b>舌の前2/3 の味覚障害</b></span><br/>・⚠️<span class=\"kw3\"><b>聴覚過敏</b></span>（アブミ骨筋神経）・<span class=\"kw3\"><b>涙と唾液の分泌低下</b></span><br/>・<span class=\"kw3\"><b>めまい・難聴</b></span>（第Ⅷ脳神経に及ぶ）<br/><br/>⚠️⚠️<span class=\"kw4\"><b>Bell 麻痺より予後が悪い</b></span>——完全麻痺では回復率が明らかに低い。⚠️<span class=\"kw4\"><b>抗ウイルス薬と副腎皮質ステロイドを早期に</b></span>（発症から日数が経つほど不利）。<br/><br/><span class=\"kw\"><b>検査と治療</b></span><br/>・<span class=\"kw3\"><b>電気味覚検査</b></span>（部位ごとの閾値。⚠️<span class=\"kw3\"><b>神経の障害部位が分かる</b></span>）と<span class=\"kw3\"><b>濾紙ディスク法</b></span>（甘・塩・酸・苦の質ごと）<br/>・<span class=\"kw3\"><b>血清亜鉛・鉄・フェリチン</b></span>と<span class=\"kw3\"><b>服薬歴</b></span>を必ず取る<br/>・⚠️<span class=\"kw4\"><b>治療は原因の除去と補充だが、味蕾が入れ替わるまで待つので数か月かかる</b></span>——<span class=\"kw3\"><b>「すぐ治らない」と先に伝えておく</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">鉄欠乏=味覚障害</span>（Plummer-Vinson症候群：嚥下困難・鉄欠乏・舌炎・味覚障害）。<br/><span class=\"kw\">Ramsay Hunt</span>：耳鳴・顔面麻痺・耳介疱疹＋鼓索神経障害→味覚消失（前2/3）。"
+       "c": "<span class=\"kw3\"><b>味覚障害の三大原因＝亜鉛欠乏・鉄欠乏・薬剤性</b></span>。⚠️<span class=\"kw4\"><b>原因の第1位は薬剤性</b></span>。<br/><span class=\"kw3\"><b>舌の前2/3＝顔面神経（鼓索神経）／後1/3＝舌咽神経</b></span>。<br/>⚠️<span class=\"kw4\"><b>Ramsay Hunt＝耳介の疱疹＋末梢性顔面神経麻痺＋前2/3 の味覚障害</b></span>。<span class=\"kw3\"><b>Bell 麻痺より予後不良</b></span>。"
       }
      ],
      "imgs": []
@@ -34652,22 +34657,27 @@
       }
      ],
      "ans_label": "ｃ　ビタミンC  ―――――――――― 出血傾向",
-     "ans_sub": "ビタミンCは壊血病（出血傾向）を起こす。他の組み合わせはすべて誤り",
+     "ans_sub": "ビタミンC 欠乏＝壊血病でコラーゲンの架橋が作れず血管が脆くなる。他の4つは相手がすべて入れ替えられている",
      "eg": [
       {
        "cls": "ep",
-       "h": "📋 栄養素・欠乏症の対応表（必修）",
-       "c": "<table class=\"tb\"><tr><td>栄養素</td><td>欠乏症</td><td>選択肢の正誤</td></tr><tr><td>マグネシウム</td><td><span class=\"kw\">テタニー・筋痙攣</span></td><td>×（味覚障害は亜鉛）</td></tr><tr><td>ビタミンA</td><td><span class=\"kw\">夜盲症・乾燥性角結膜炎</span></td><td>×（ペラグラはB3）</td></tr><tr><td><span class=\"kw\">ビタミンC</span></td><td><span class=\"kw\">壊血病（出血傾向）</span></td><td><span class=\"kw\">✓</span></td></tr><tr><td>カルシウム</td><td><span class=\"kw\">骨粗鬆症・テタニー</span></td><td>×（貧血はFe/B12/葉酸）</td></tr><tr><td>亜鉛</td><td><span class=\"kw\">味覚障害・皮膚炎</span></td><td>×（夜盲はVitA）</td></tr></table>"
+       "h": "⚗️ 誤答肢の筆頭「マグネシウム」を正面から見る",
+       "c": "⚠️⚠️<span class=\"kw4\"><b>この設問は Q.505（111G-14）とまったく同じ問題</b></span>である（105G-8 → 111G-14 で再出題され、正答率は 76% → 88% に上がった）。だからここでは<span class=\"kw3\"><b>毎回すばやく切っている ａ の肢そのもの</b></span>を掘り下げる。<br/><br/><span class=\"kw\"><b>マグネシウムは「隠れた第3の電解質」</b></span>——Na と K の陰に隠れているが、⚠️<span class=\"kw4\"><b>低Mg は他の電解質異常を「治らなく」する</b></span>。<br/><br/>・⚠️⚠️<span class=\"kw4\"><b>治らない低カルシウム血症</b></span>——<span class=\"kw3\"><b>Mg が無いと PTH の分泌が落ち、しかも標的臓器での PTH の効きも悪くなる</b></span>。<span class=\"kw3\"><b>Ca を入れても戻らないときは Mg を測る</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>治らない低カリウム血症</b></span>——<span class=\"kw3\"><b>Mg が無いと集合管の ROMK チャネルが開いたままになり K が漏れ続ける</b></span>。<span class=\"kw3\"><b>K を入れても戻らないときも Mg</b></span><br/>・<span class=\"kw3\"><b>不整脈</b></span>——⚠️<span class=\"kw4\"><b>torsades de pointes には硫酸マグネシウム</b></span><br/>・<span class=\"kw3\"><b>テタニー・けいれん・振戦</b></span><br/><br/><span class=\"kw\"><b>欠乏する人</b></span>——<span class=\"kw3\"><b>慢性のアルコール摂取</b></span>・下痢や吸収不良・<span class=\"kw3\"><b>利尿薬</b></span>・⚠️<span class=\"kw4\"><b>プロトンポンプ阻害薬の長期投与</b></span>・<span class=\"kw3\"><b>シスプラチン</b></span>・refeeding（Q.500）。<br/><br/>⚠️<span class=\"kw4\"><b>味覚障害は亜鉛</b></span>であって Mg ではない（Q.495・Q.520）。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　マグネシウム ― 味覚障害</td><td>味覚障害は<span class=\"kw3\">亜鉛</span>。Mg 欠乏は<span class=\"kw3\">テタニー・不整脈</span>と、⚠️<span class=\"kw3\">治らない低Ca・低K</span></td></tr><tr><td>ｂ　ビタミンA ― ペラグラ</td><td>ペラグラは<span class=\"kw3\">ナイアシン（B3）</span>。A 欠乏は<span class=\"kw3\">夜盲・Bitot 斑・角膜軟化症</span>（Q.514）</td></tr><tr><td><span class=\"kw3\">◯ ｃ　ビタミンC ― 出血傾向</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">コラーゲンの水酸化ができず血管が脆くなる</span>。⚠️<span class=\"kw3\">PT も APTT も正常</span></td></tr><tr><td>ｄ　カルシウム ― 貧　血</td><td>貧血は<span class=\"kw3\">鉄・B12・葉酸</span>。Ca 欠乏は<span class=\"kw3\">テタニー・くる病・骨軟化症</span>。⚠️<span class=\"kw3\">鉄と Ca を同時に飲むと鉄の吸収が落ちる</span></td></tr><tr><td>ｅ　亜　鉛 ― 夜　盲</td><td>夜盲の代表は<span class=\"kw3\">ビタミンA</span>。⚠️<span class=\"kw3\">亜鉛欠乏でも夜盲は起こりうる</span>が最良の対応ではない（Q.505）</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 壊血病は過去の病気ではない——今も出会う人たち",
+       "c": "大航海時代の病気という印象が強いが、⚠️<span class=\"kw4\"><b>現在も一定の人たちに起こり、しかも診断が遅れやすい</b></span>。<br/><br/><span class=\"kw\"><b>起こる人</b></span><br/>・<span class=\"kw3\"><b>高齢の独居</b></span>——<span class=\"kw3\"><b>調理をやめて主食と缶詰だけになる</b></span><br/>・<span class=\"kw3\"><b>慢性アルコール依存</b></span><br/>・⚠️<span class=\"kw4\"><b>極端な偏食の小児</b></span>——<span class=\"kw3\"><b>自閉スペクトラム症などで食べられる物が数品に限られる</b></span>場合<br/>・<span class=\"kw3\"><b>経管栄養・血液透析</b></span>・消化管術後<br/>・⚠️<span class=\"kw3\"><b>喫煙者は必要量が多い</b></span>（酸化ストレスで消費が増える）<br/><br/><span class=\"kw\"><b>見逃されやすい出方</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>小児では骨膜下出血で下肢を動かさなくなる（偽麻痺）</b></span>——<span class=\"kw3\"><b>Möller-Barlow 病</b></span>。<span class=\"kw3\"><b>白血病・骨髄炎・虐待と間違われる</b></span><br/>・<span class=\"kw3\"><b>毛囊周囲出血とらせん状毛</b></span>が皮膚の署名。<span class=\"kw3\"><b>下腿に左右対称の点状出血</b></span><br/>・<span class=\"kw3\"><b>歯肉の腫脹と出血</b></span>（⚠️<span class=\"kw3\"><b>無歯顎では出ない</b></span>）<br/>・<span class=\"kw3\"><b>治らない創</b></span>・<span class=\"kw3\"><b>強い倦怠感</b></span>（カルニチン合成の障害）・<span class=\"kw3\"><b>貧血</b></span>（鉄吸収の障害）<br/><br/>⚠️<span class=\"kw4\"><b>補充すると数日で劇的に良くなる</b></span>ので、疑ったら測って入れる価値が高い。<br/><br/>⚠️<span class=\"kw4\"><b>補充しすぎにも注意</b></span>——<span class=\"kw3\"><b>ビタミンC の大量投与は尿中シュウ酸を増やしてシュウ酸カルシウム結石</b></span>を作りうる。<span class=\"kw3\"><b>水溶性だから安全とは限らない</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "繰り返し出題される重要問題。<br/><span class=\"kw\">VitC = 壊血病 = 出血傾向</span>の組み合わせは必ず正答できるようにする。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "栄養素欠乏と病態の組合せで正しいもの。<br/><b>a Mg→味覚障害／b ビタミンA→ペラグラ／d カルシウム→貧血／e 亜鉛→夜盲</b>：誤り。<br/><b>c ビタミンC→出血傾向</b>：<span class=\"kw\">壊血病</span>。✓"
+       "c": "<span class=\"kw3\"><b>C → 出血傾向（壊血病）</b></span>・<span class=\"kw3\"><b>亜鉛 → 味覚障害</b></span>・<span class=\"kw3\"><b>A → 夜盲</b></span>・<span class=\"kw3\"><b>B3 → ペラグラ</b></span>・<span class=\"kw3\"><b>Mg → テタニーと不整脈</b></span>。<br/>⚠️<span class=\"kw4\"><b>Ca を入れても治らない低Ca、K を入れても治らない低K を見たら Mg を測る</b></span>。<br/>⚠️<span class=\"kw4\"><b>壊血病は PT・APTT が正常</b></span>。小児では<span class=\"kw3\"><b>偽麻痺</b></span>で発症しうる。"
       }
      ],
      "imgs": []
@@ -34713,27 +34723,27 @@
       }
      ],
      "ans_label": "ｅ　ビタミンK",
-     "ans_sub": "ビタミンKはオステオカルシン（骨のGlaタンパク）のγカルボキシル化に必須→骨のカルシウム結合能↑→骨形成促進",
+     "ans_sub": "ビタミンK はオステオカルシンをγ-カルボキシル化して骨基質が Ca を結合できるようにする＝骨形成の側に働く",
      "eg": [
       {
        "cls": "ep",
-       "h": "🦴 ビタミンKと骨代謝",
-       "c": "<span class=\"kw\">ビタミンKの骨における役割</span>：<br/>・骨芽細胞が産生する<span class=\"kw\">オステオカルシン</span>のγ-カルボキシル化に必要<br/>→ γ-カルボキシル化されたオステオカルシン=Glaタンパク<br/>→ Ca²⁺結合能↑ → 骨基質のミネラル化促進<br/><br/>不足すると骨折リスク増加。ビタミンK₂（メナテトレノン）製剤が骨粗鬆症治療に使用"
+       "h": "🦴 ビタミンK の仕事は1つだけ——γ-カルボキシル化",
+       "c": "⚠️<span class=\"kw4\"><b>この設問の正答率は 8% で、この科目で最も低い</b></span>。理由ははっきりしている——<span class=\"kw3\"><b>「骨といえばビタミンD」と身構えるが、D は肢に無い</b></span>。そして<span class=\"kw3\"><b>「ビタミンK＝血を固める」しか知らないと選べない</b></span>。<br/><br/><span class=\"kw\"><b>K がしていることは、実は1種類の化学反応だけ</b></span>——<span class=\"kw3\"><b>特定の蛋白のグルタミン酸残基を γ-カルボキシル化して Gla 残基に変える</b></span>。Gla 残基は<span class=\"kw3\"><b>Ca²⁺ を強く結合できる</b></span>。K はその反応の補酵素である。<br/><br/><span class=\"kw\"><b>同じ反応が、場所によって別の意味を持つ</b></span><br/>・<span class=\"kw\"><b>肝</b></span>——<span class=\"kw3\"><b>凝固因子 Ⅱ・Ⅶ・Ⅸ・Ⅹ とプロテインC・S</b></span>。Ca を介して<span class=\"kw3\"><b>リン脂質膜に結合できるようになる</b></span>＝血が固まる<br/>・<span class=\"kw\"><b>骨</b></span>——<span class=\"kw3\"><b>骨芽細胞が作るオステオカルシン</b></span>。Ca を骨基質に結び付ける＝<span class=\"kw3\"><b>骨形成</b></span><br/>・<span class=\"kw\"><b>血管</b></span>——<span class=\"kw3\"><b>マトリックスGla 蛋白（MGP）</b></span>。⚠️<span class=\"kw4\"><b>血管の石灰化を抑えている</b></span><br/><br/>⚠️⚠️<span class=\"kw4\"><b>だからワルファリンは血だけに効くのではない</b></span>——K の再利用（ビタミンK エポキシド還元酵素）を止めるので、<span class=\"kw3\"><b>長期投与では骨密度の低下と血管の石灰化</b></span>が問題になる。<br/>⚠️<span class=\"kw4\"><b>納豆が禁止されるのは、K2 を大量に含むうえ、納豆菌が腸内で作り続ける</b></span>から。<br/><br/>⚠️<span class=\"kw4\"><b>新生児はビタミンK が足りない</b></span>——<span class=\"kw3\"><b>胎盤を通りにくく、母乳に少なく、腸内細菌叢がまだ未熟</b></span>。<span class=\"kw3\"><b>K2 シロップ</b></span>を投与しないと<span class=\"kw3\"><b>新生児メレナや頭蓋内出血</b></span>が起こる。"
       },
       {
        "cls": "ee",
-       "h": "□ 各ビタミンの骨への作用",
-       "c": "<table class=\"tb\"><tr><td>ビタミン</td><td>骨への作用</td></tr><tr><td>A</td><td>骨代謝に関与（過剰は骨密度低下）</td></tr><tr><td>B1</td><td>骨代謝への直接作用は少ない</td></tr><tr><td>B12</td><td>骨代謝への直接作用は少ない</td></tr><tr><td>E</td><td>抗酸化（骨への直接作用は少ない）</td></tr><tr><td><span class=\"kw\">K</span></td><td><span class=\"kw\">◎ オステオカルシンのGlaタンパク化→骨形成促進</span></td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　ビタミンA</td><td>⚠️<span class=\"kw3\">むしろ過剰で骨密度を下げる</span>——<span class=\"kw3\">レチノールの過剰摂取は骨吸収を促し骨折リスクを上げる</span>。欠乏症は夜盲</td></tr><tr><td>ｂ　ビタミンB1</td><td><span class=\"kw3\">糖代謝の補酵素</span>。<span class=\"kw3\">骨形成への直接の作用は知られていない</span></td></tr><tr><td>ｃ　ビタミンB12</td><td><span class=\"kw3\">DNA 合成と髄鞘</span>。⚠️<span class=\"kw3\">欠乏で高ホモシステイン血症となり骨折リスクは上がるが、骨形成を促す作用ではない</span></td></tr><tr><td>ｄ　ビタミンE</td><td><span class=\"kw3\">抗酸化</span>。<span class=\"kw3\">骨形成を促す作用は確立していない</span></td></tr><tr><td><span class=\"kw3\">◯ ｅ　ビタミンK</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">オステオカルシンをγ-カルボキシル化</span>して骨基質が Ca を結合できるようにする。<span class=\"kw3\">K2（メナテトレノン）は骨粗鬆症の治療薬</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 骨粗鬆症の薬を「どこに効くか」で並べ直す",
+       "c": "骨は<span class=\"kw3\"><b>壊す（破骨細胞）と作る（骨芽細胞）</b></span>が釣り合っている。薬はその天秤のどちらを動かすかで分かれる。<br/><br/><span class=\"kw\"><b>① 壊す側を止める（骨吸収抑制）</b></span><br/>・<span class=\"kw3\"><b>ビスホスホネート</b></span>——破骨細胞に取り込まれて働きを止める。⚠️<span class=\"kw3\"><b>顎骨壊死・非定型大腿骨骨折・食道炎</b></span>（Q.470・Q.497）<br/>・<span class=\"kw3\"><b>デノスマブ</b></span>——<span class=\"kw3\"><b>RANKL 抗体</b></span>。⚠️<span class=\"kw4\"><b>中止するとリバウンド骨折</b></span>が起こるのでやめ方に注意<br/>・<span class=\"kw3\"><b>SERM（ラロキシフェン）</b></span>——骨にはエストロゲン様、乳腺・子宮には拮抗。⚠️<span class=\"kw3\"><b>静脈血栓</b></span><br/>・<span class=\"kw3\"><b>カルシトニン</b></span>——即効性だが<span class=\"kw3\"><b>効果が減弱する</b></span>（Q.510）<br/><br/><span class=\"kw\"><b>② 作る側を押す（骨形成促進）</b></span><br/>・<span class=\"kw3\"><b>テリパラチド（PTH 製剤）</b></span>——⚠️<span class=\"kw4\"><b>1日1回の間欠投与でだけ骨を増やす</b></span>（持続高値なら逆に溶かす・Q.510）<br/>・<span class=\"kw3\"><b>ロモソズマブ</b></span>——<span class=\"kw3\"><b>スクレロスチン抗体</b></span>。⚠️<span class=\"kw4\"><b>作るのを増やしながら壊すのを減らす</b></span><br/><br/><span class=\"kw\"><b>③ 材料と補酵素を足す</b></span><br/>・<span class=\"kw3\"><b>カルシウム</b></span>・<span class=\"kw3\"><b>活性型ビタミンD</b></span>（腸からの吸収）・⚠️<span class=\"kw4\"><b>ビタミンK2（メナテトレノン）</b></span>——<span class=\"kw3\"><b>本問はここ</b></span><br/><br/>⚠️<span class=\"kw4\"><b>「骨を強くする」と言われる栄養素でも、働く場所が違う</b></span>——<span class=\"kw3\"><b>D は材料を入り口から入れ、K は入った Ca を骨に留める</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">ビタミンKの2大作用</span>：① 凝固因子（Ⅱ・Ⅶ・Ⅸ・Ⅹ）のγカルボキシル化 ② <span class=\"kw\">オステオカルシン→骨形成</span>。<br/>ビタミンK₂（メナテトレノン）：骨粗鬆症治療薬として承認されている。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "骨形成を促すもの。<br/><b>a A／b B1／c B12／d E</b>：骨形成促進作用でない。<br/><b>e ビタミンK</b>：<span class=\"kw\">オステオカルシンのγカルボキシル化を促し骨形成に関与</span>。✓"
+       "c": "<span class=\"kw3\"><b>ビタミンK の2つの顔＝凝固因子Ⅱ・Ⅶ・Ⅸ・Ⅹ（肝）とオステオカルシン（骨）</b></span>。どちらも<span class=\"kw3\"><b>γ-カルボキシル化</b></span>という同じ反応。<br/>⚠️<span class=\"kw4\"><b>ワルファリンは骨密度低下と血管石灰化も招く</b></span>。<span class=\"kw3\"><b>納豆は禁忌</b></span>。<br/>⚠️<span class=\"kw4\"><b>新生児には K2 シロップ</b></span>（胎盤を通りにくく母乳に少ない）——<span class=\"kw3\"><b>新生児メレナ・頭蓋内出血</b></span>の予防。"
       }
      ],
      "imgs": []
@@ -34775,22 +34785,27 @@
       }
      ],
      "ans_label": "ｄ　血清尿酸の高値",
-     "ans_sub": "Wilson病ではFanconi症候群（尿細管障害）により尿酸の再吸収↓→尿酸排泄↑→血清尿酸は低値（低尿酸血症）",
+     "ans_sub": "Wilson 病は近位尿細管にも銅が沈着して Fanconi 症候群を起こす＝尿酸は尿へ漏れるので血清尿酸はむしろ低くなる",
      "eg": [
       {
        "cls": "ep",
-       "h": "🧬 Wilson病の検査所見まとめ",
-       "c": "<table class=\"tb\"><tr><td>所見</td><td>Wilson病</td><td>理由</td></tr><tr><td>アミノ酸尿</td><td>◎ あり</td><td>Fanconi症候群→尿細管障害→アミノ酸排泄↑</td></tr><tr><td>溶血性貧血</td><td>◎ あり</td><td>銅の直接毒性→赤血球傷害</td></tr><tr><td>血清銅</td><td>◎ 低値</td><td>遊離銅↑だが総銅↓（セルロプラスミン↓）</td></tr><tr><td><span class=\"kw4\">血清尿酸の高値</span></td><td><span class=\"kw4\">× みられない</span></td><td><span class=\"kw4\">Fanconi症候群→尿酸排泄↑→低尿酸血症</span></td></tr><tr><td>血清セルロプラスミン低値</td><td>◎ あり</td><td>ATP7B変異→CP産生↓</td></tr></table>"
+       "h": "🧬 この設問は肝でも脳でもなく「腎」を聞いている",
+       "c": "⚠️<span class=\"kw4\"><b>正答率 21% と低いのは、Wilson 病を「肝と基底核と角膜の病気」として覚えているから</b></span>である。銅は<span class=\"kw3\"><b>近位尿細管にも溜まる</b></span>。<br/><br/><span class=\"kw\"><b>近位尿細管が壊れると Fanconi 症候群になる</b></span>——<span class=\"kw3\"><b>本来なら取り戻すはずのものが、そろって尿へ漏れる</b></span>。<br/>・<span class=\"kw3\"><b>アミノ酸尿</b></span>（本問の ａ）<br/>・⚠️<span class=\"kw4\"><b>腎性糖尿</b></span>——<span class=\"kw3\"><b>血糖は正常なのに尿糖が出る</b></span>のが特徴<br/>・<span class=\"kw3\"><b>リン尿</b></span>→⚠️<span class=\"kw4\"><b>低リン血症から骨軟化症・くる病</b></span>（Q.511）<br/>・⚠️⚠️<span class=\"kw4\"><b>尿酸尿</b></span>→<span class=\"kw3\"><b>血清尿酸は低下する</b></span><br/>・<span class=\"kw3\"><b>重炭酸尿</b></span>→<span class=\"kw3\"><b>近位型（Ⅱ型）尿細管性アシドーシス</b></span><br/>・<span class=\"kw3\"><b>低カリウム血症</b></span><br/><br/>⚠️<span class=\"kw4\"><b>つまり ｄ は「上がる」と書いてあるが、実際は下がる</b></span>。設問が「みられないのはどれか」と聞いているのは、<span class=\"kw3\"><b>向きが逆</b></span>だからである。<br/><br/><span class=\"kw\"><b>Fanconi 症候群を起こすもの</b></span>——<span class=\"kw3\"><b>Wilson 病</b></span>・シスチン症・<span class=\"kw3\"><b>Lowe 症候群</b></span>・⚠️<span class=\"kw3\"><b>多発性骨髄腫（軽鎖）</b></span>・重金属（<span class=\"kw3\"><b>鉛・カドミウム</b></span>）・薬剤（<span class=\"kw3\"><b>テノホビル・シスプラチン・バルプロ酸・期限切れのテトラサイクリン</b></span>）。<br/><br/>⚠️<span class=\"kw4\"><b>「血糖は正常なのに尿糖が出る」を見たら近位尿細管を疑う</b></span>——それが Fanconi への入口になる。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討（「みられない」ものを選ぶ）",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　アミノ酸尿</td><td>みられる。<span class=\"kw3\">近位尿細管への銅の沈着（Fanconi 症候群）</span>による</td></tr><tr><td>ｂ　溶血性貧血</td><td>みられる。⚠️<span class=\"kw3\">肝から遊離銅が一気に放出されると赤血球膜と酵素を直接傷める</span>。<span class=\"kw3\">Coombs 陰性</span>（下の検討を参照）</td></tr><tr><td>ｃ　血清銅の低値</td><td>みられる。⚠️<span class=\"kw3\">「溜まっているのに低い」</span>——<span class=\"kw3\">セルロプラスミンに載せられないため総銅は低く、遊離銅は増えて尿へ出る</span>（Q.468）</td></tr><tr><td><span class=\"kw3\">◯ ｄ　血清尿酸の高値</span></td><td><span class=\"kw3\">これが正解</span>（＝みられない）。⚠️<span class=\"kw3\">Fanconi 症候群で尿酸が尿へ漏れるので、血清尿酸はむしろ低値</span>になる</td></tr><tr><td>ｅ　血清セルロプラスミンの低値</td><td>みられる。<span class=\"kw3\">ATP7B の異常で銅をセルロプラスミンへ載せられない</span>ため。⚠️<span class=\"kw3\">診断の基本検査</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 溶血性貧血という手がかり——そして劇症肝炎の見分け方",
+       "c": "<span class=\"kw\"><b>なぜ溶血が起こるのか</b></span>——⚠️<span class=\"kw4\"><b>肝細胞に溜まっていた銅が壊死とともに一気に血中へ放出される</b></span>と、<span class=\"kw3\"><b>セルロプラスミンに載っていない遊離銅</b></span>が<span class=\"kw3\"><b>赤血球膜と細胞内酵素を直接酸化して壊す</b></span>。<br/>・<span class=\"kw3\"><b>Coombs 試験は陰性</b></span>（抗体を介さない）<br/>・⚠️⚠️<span class=\"kw4\"><b>若年者の Coombs 陰性溶血性貧血＋肝障害を見たら Wilson 病を疑う</b></span>——<span class=\"kw3\"><b>この組合せが最も実用的な入口</b></span><br/><br/><span class=\"kw\"><b>劇症肝炎として発症したときの見分け方</b></span>——⚠️<span class=\"kw4\"><b>Wilson 病による劇症肝炎は、他の原因と検査所見が違う</b></span>。<br/>・⚠️<span class=\"kw4\"><b>ALP が低い</b></span>——<span class=\"kw3\"><b>ALP は亜鉛酵素で、遊離銅に阻害される</b></span>。<span class=\"kw3\"><b>ALP（IU/L）／総ビリルビン（mg/dL）＜4</b></span><br/>・⚠️<span class=\"kw4\"><b>AST／ALT ＞2.2</b></span><br/>・<span class=\"kw3\"><b>Coombs 陰性の溶血</b></span>・<span class=\"kw3\"><b>腎障害</b></span>を伴う<br/>・<span class=\"kw3\"><b>肝逸脱酵素は意外に高くない</b></span>のに<span class=\"kw3\"><b>凝固能が悪い</b></span><br/><br/>⚠️<span class=\"kw4\"><b>急性肝不全としての Wilson 病は内科治療では救えないことが多く、肝移植の適応</b></span>になる。<span class=\"kw3\"><b>だから「疑う」ことが直接転帰に効く</b></span>。<br/><br/><span class=\"kw\"><b>診断の組み立て</b></span>——<span class=\"kw3\"><b>セルロプラスミン低値・尿中銅排泄増加・角膜の Kayser-Fleischer 輪・肝生検の銅定量・ATP7B の遺伝子検査</b></span>。⚠️<span class=\"kw3\"><b>セルロプラスミンは急性期反応物質なので、炎症があると正常に見える</b></span>ことに注意。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw4\">Wilson病では血清尿酸は低下</span>（Fanconi症候群による尿酸排泄亢進）。<br/>Fanconi症候群の5徴：アミノ酸尿・糖尿（血糖正常）・リン尿・尿酸尿・重炭酸尿（プロキシマルRTA）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "Wilson病でみられないもの。<br/><b>a アミノ酸尿／b 溶血性貧血／c 血清銅の低値／e セルロプラスミンの低値</b>：みられる。<br/><b>d 血清尿酸の高値</b>：<span class=\"kw\">近位尿細管障害（Fanconi様）でむしろ低尿酸となる</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw3\"><b>Wilson 病は近位尿細管にも銅が沈着して Fanconi 症候群</b></span>——<span class=\"kw3\"><b>アミノ酸尿・腎性糖尿・リン尿・尿酸尿・重炭酸尿</b></span>。⚠️<span class=\"kw4\"><b>だから血清尿酸は低下する</b></span>。<br/>⚠️<span class=\"kw4\"><b>Coombs 陰性の溶血性貧血＋若年の肝障害</b></span>で Wilson を疑う。<br/>⚠️<span class=\"kw4\"><b>劇症型では ALP が低く、ALP／総ビリルビン＜4・AST／ALT＞2.2</b></span>。<span class=\"kw3\"><b>肝移植の適応</b></span>。"
       }
      ],
      "imgs": []
