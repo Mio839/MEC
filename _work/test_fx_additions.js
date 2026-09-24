@@ -327,7 +327,10 @@ t('study 側は正解3経路・誤答2経路とも合流点を通っている', 
   // 呼び出しだけを数える（`function _afterCorrectFx(card, ...)` の定義行を除く）
   const c = (STUDY.match(/(?<!function )_afterCorrectFx\(card, /g) || []).length;
   const w = (STUDY.match(/(?<!function )_afterWrongFx\(card, /g) || []).length;
-  assert.strictEqual(c, 3, '_afterCorrectFx の呼び出しが3箇所でない（複数選択＋単一選択＋計算問題）');
+  // 2026-09-24: 新しい演出（試作・_rfCorrectFx）も合流点を通る＝4箇所。3経路の refined 分岐は
+  //   _rfCorrectFx を呼ぶので、どちらの演出スタイルでも全経路が合流点を通る。
+  assert.strictEqual(c, 4, '_afterCorrectFx の呼び出しが4箇所でない（複数選択＋単一選択＋計算問題＋_rfCorrectFx）');
+  assert.strictEqual((STUDY.match(/(?<!function )_rfCorrectFx\(card, /g) || []).length, 3, '_rfCorrectFx が3経路から呼ばれていない');
   assert.strictEqual(w, 2, '_afterWrongFx の呼び出しが2箇所でない');
 });
 

@@ -46,6 +46,22 @@
 <link rel="stylesheet" href="vars.css">
 <script src="theme.js"></script>
 <script src="ui_theme.js"></script>
+<script>
+/* 新しい演出（試作・2026-09-24）＝ mec_fx_style_v1 = 'refined' のときだけ。ハブで押したボタンが
+   このページのヘッダーへ伸びて変形する（View Transitions・対応ブラウザだけ）。
+   ⚠️ ヘッダーに名前を付けるのは遷移の間だけ（view-transition-name は重なり順の文脈を作るので常時は付けない）。 */
+(function(){
+  try { if (localStorage.getItem('mec_fx_style_v1') !== 'refined') return; } catch (e) { return; }
+  document.documentElement.classList.add('fx-refined');
+  var s = document.createElement('style'); s.textContent = '@view-transition{navigation:auto}'; document.head.appendChild(s);
+  window.addEventListener('pagereveal', function (e) {
+    if (!e.viewTransition) return;
+    var h = document.querySelector('.st-hdr'); if (!h) return;
+    h.style.viewTransitionName = 'mec-cta';
+    e.viewTransition.finished.finally(function () { h.style.viewTransitionName = ''; });
+  });
+})();
+</script>
 <link rel="stylesheet" href="ui_theme.css">
 <link rel="stylesheet" href="study.css">
 <script>
@@ -323,6 +339,13 @@ if ('serviceWorker' in navigator) {
     <div class="ssov-lbl">起動音（試験開始のカウントダウン中・毎回ランダム）</div>
     <div class="ssov-grid" id="ssovBootGrid">
       <button class="ssov-btn sel" data-bsound="on" onclick="saveStudySoundPref('boot','on',this)">🎲 ランダム（タップで試聴）</button>
+    </div>
+    <!-- 演出スタイル（試作・2026-09-24）。正本は study_exam.js 末尾の「新しい演出（試作）」。
+         UIローカル（mec_fx_style_v1・同期しない）。試験中は切り替えさせない（選び直し中のカードが二重採点になる）。 -->
+    <div class="ssov-lbl">演出スタイル（試作・この端末だけ）</div>
+    <div class="ssov-grid" id="ssovFxGrid">
+      <button class="ssov-btn" data-fxs="classic" onclick="setStudyFxStyle('classic')">従来の演出</button>
+      <button class="ssov-btn" data-fxs="refined" onclick="setStudyFxStyle('refined')">新しい演出（誤答は選び直し）</button>
     </div>
     <div id="studyDiag"></div>
     <div style="margin-top:16px">
@@ -2561,7 +2584,7 @@ window._bossTargets = _bossTargets;
 async function startBossBattle() {
   const picks = _bossTargets();
   if (picks.length < BOSS_MIN) {
-    _mecNotify('ボス戦には苦手な問題が' + BOSS_MIN + '問以上必要です（試験モードで間違えるか🚩を付けると集まります）');
+    _mecNotify('統合カンファレンスには苦手な問題が' + BOSS_MIN + '問以上必要です（試験モードで間違えるか🚩を付けると集まります）');
     _runDeferredInit();
     return;
   }
@@ -2581,7 +2604,7 @@ async function startBossBattle() {
   });
   if (avail.length < BOSS_MIN) {
     _srsHostClear();
-    _mecNotify('ボス戦に出せる問題が足りませんでした。ページを再読み込みしてください。');
+    _mecNotify('統合カンファレンスに出せる問題が足りませんでした。ページを再読み込みしてください。');
     document.body.classList.remove('srs-review');
     _runDeferredInit();
     _srsRestoreAfterReview();
@@ -2599,7 +2622,7 @@ async function startBossBattle() {
 
   _srsHostShow();
   _bossMode = true;
-  _examFilterLabel = 'ボス戦';
+  _examFilterLabel = '統合カンファレンス';
   document.body.classList.add('srs-review');
   startExam(base);
   if (window.MecBoss) MecBoss.start({ boss: MecBoss.makeBoss(subj, _today()), reserve, startN: base.length });
@@ -3008,12 +3031,24 @@ function openStudySoundOv() {
   document.querySelectorAll('#ssovResultGrid .ssov-btn').forEach(b => b.classList.toggle('sel', b.dataset.rsound === _resultSound));
   // 起動音は毎回ランダム＝選択肢が1つしかない（無音は廃止）
   document.querySelectorAll('#ssovBootGrid .ssov-btn').forEach(b => b.classList.add('sel'));
+  _syncStudyFxStyleBtns();
   document.getElementById('studySoundOv').classList.add('open');
   _renderStudyDiag();
 }
 
 function closeStudySoundOv() {
   document.getElementById('studySoundOv').classList.remove('open');
+}
+
+// 演出スタイル（試作）。キーと判定の正本は study_exam.js の FX_STYLE_KEY / _fxRefined()。
+function _syncStudyFxStyleBtns() {
+  const cur = (typeof _fxRefined === 'function' && _fxRefined()) ? 'refined' : 'classic';
+  document.querySelectorAll('#ssovFxGrid .ssov-btn').forEach(b => b.classList.toggle('sel', b.dataset.fxs === cur));
+}
+function setStudyFxStyle(v) {
+  if (typeof examMode !== 'undefined' && examMode) { _mecNotify('試験中は切り替えられません。終了してから選んでください。'); return; }
+  try { localStorage.setItem(FX_STYLE_KEY, v === 'refined' ? 'refined' : 'classic'); } catch (e) {}
+  _syncStudyFxStyleBtns();
 }
 
 // 演出が出ない等の切り分け用の自己診断。iPhone等の実機でも状態を目視できるようにする。

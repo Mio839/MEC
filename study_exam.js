@@ -594,8 +594,9 @@ function _saveExamResume() {
   if (!examQueue.length) return;
   // 開封済み（=対応済み）カード数。採点除外の中立開封も含むので、全問こなせば必ず total に達する。
   // examAnswered は採点除外を除くため、これで判定しないと除外問題がある章で 100% にならなかった。
+  // exam-retry（新しい演出の選び直し中）は採点済み＝開封済みとして扱う（再開すると答えが開いた状態で戻る）
   const seenCount = examQueue.filter(c =>
-    c.classList.contains('exam-revealed') ||
+    c.classList.contains('exam-revealed') || c.classList.contains('exam-retry') ||
     c.querySelector('.ch2.exam-instant-wrong, .ch2.exam-instant-correct')).length;
   // 全カード開封済みなら中断データは不要。終了ボタンを押さずに閉じても残らないよう自動削除する
   if (seenCount >= examQueue.length) { _clearExamResume(); return; }
@@ -610,7 +611,7 @@ function _saveExamResume() {
       const v = MecCalc.value(card);      // 未入力の桁は '_'。1桁でも入っていれば残す
       if (/[0-9]/.test(v)) calcEntered[uid] = v;
     }
-    if (card.classList.contains('exam-revealed')) {
+    if (card.classList.contains('exam-revealed') || card.classList.contains('exam-retry')) {
       revealedUids[uid] = { correct: !examWrong.includes(uid) };
       if (calc) revealedUids[uid].entered = MecCalc.value(card);
     } else {
@@ -883,6 +884,9 @@ function _examChoiceClick(e) {
     window.MecFX.sparks(e.clientX || (rect.left + 24), e.clientY || (rect.top + rect.height / 2), { count: 7 });
   }
 
+  // 新しい演出（試作）：誤答しても答えを見せず選び直させる。採点除外は従来どおり中立で開く。
+  if (_fxRefined() && !_isExamUngraded(c)) { _rfChoiceClick(c, this, r); return; }
+
   // 【案2】超集中バレットタイム
   if (!_fxOff()) document.body.classList.add('exam-bullet-time');
 
@@ -924,6 +928,8 @@ function revealAnswer(card) {
   //    1問でも通すと1科目で始めた試験が複数科目のセッションとして集計・表示される。
   if (examMode && !_examHas(card)) return;
   if (card.classList.contains('exam-revealed')) return;
+  // 新しい演出（試作）：選び直し中のカードは採点済み。「▶ 答えを見る」＝打ち切り（計算問題は再確定へ回す）
+  if (card.classList.contains('exam-retry') && !(window.MecCalc && MecCalc.isCalc(card))) { _rfGiveUp(card); return; }
   // 採点除外（正解肢なし）は採点対象外。分母・正誤・myrate・赤旗・再試験のどれにも入れない。
   if (_isExamUngraded(card)) { _revealExcludedNeutral(card); return; }
   const req = _getRequiredCount(card);
@@ -954,6 +960,10 @@ function revealAnswer(card) {
       examCorrect++;
       examStreak++;
       examBySubj[sid].correct++;
+      if (_fxRefined()) {
+        try { _playCorrectSound(); _rfCorrectFx(card, card.querySelector('.ch2.ok') || selected[0]); }
+        catch (err) { console.error('[ExamFx] Error in refined multi-correct fx:', err); }
+      } else
       try {
         _playCorrectSound();
         _applyCardThemeComboFx(card, true, examStreak);
@@ -1017,6 +1027,10 @@ function revealAnswer(card) {
     examCorrect++;
     examStreak++;
     examBySubj[sid].correct++;
+    if (_fxRefined()) {
+      try { _playCorrectSound(); _rfCorrectFx(card, sel); }
+      catch (err) { console.error('[ExamFx] Error in refined correct fx:', err); }
+    } else
     try {
       _playCorrectSound();
       _applyCardThemeComboFx(card, true, examStreak);
@@ -2241,6 +2255,7 @@ function _triggerThemeHaptics() {
 
 /* ── ⑤ 画面最外周ボーダーパルス (#examEdgePulse) ── */
 function _triggerEdgePulse() {
+  if (_fxRefined()) return;   // 新しい演出（試作）は画面の縁を毎解答では光らせない（光は肢から）
   let pulse = document.getElementById('examEdgePulse');
   if (!pulse) {
     pulse = document.createElement('div');
@@ -2317,7 +2332,9 @@ function _afterCorrectFx(card, fxEl) {
   }
 
   _sinkOtherChoices(card);
-  _fxTimeout(() => _traceToAnswer(card, fxEl), 260);
+  // 新しい演出（試作）は散らばった位置の粒子を出さない（テーマ演出は _rfCorrectFx が肢の位置で出す）
+  const _rf = _fxRefined();
+  if (!_rf) _fxTimeout(() => _traceToAnswer(card, fxEl), 260);
 
   const uid = card && card.dataset && card.dataset.uid;
   const prior = (_lastAnswerPrior.uid && _lastAnswerPrior.uid === uid) ? _lastAnswerPrior : null;
@@ -2381,7 +2398,7 @@ function _afterCorrectFx(card, fxEl) {
   }
 
   // 【UIテーマ固有演出】正解時のテーマ別リアクション（画面中央基準・黄金角巡回・短辺0〜90%動的スケーリング）
-  if (!_fxOff() && window.MecFX && card) {
+  if (!_rf && !_fxOff() && window.MecFX && card) {
     const curUi = window.MecUITheme ? MecUITheme.get() : 'aurora';
     const b = _fxBand();
     const shortSide = Math.min(b.width, b.height);
@@ -2821,7 +2838,7 @@ function _examCountdown() {
     if (_srsReviewMode) subjLabel = 'SRS REVIEW';
     // TEMP（昨日の誤答）: _wrongDayJa() は study.html 側が持つ（'今日' / '昨日'）
     if (_todayWrongMode) subjLabel = (window._wrongDayJa?.() === '昨日') ? "YESTERDAY'S MISSES" : "TODAY'S MISSES";
-    if (_bossMode === true) subjLabel = 'BOSS BATTLE';
+    if (_bossMode === true) subjLabel = 'GRAND CONFERENCE';
     if (_focusMode) subjLabel = 'WEAK POINT DRILL';
     if (_examIsRematch) subjLabel = 'REMATCH ×' + qn;
   } catch (e) {}
@@ -3495,13 +3512,14 @@ function _triggerBorderGlow(tier) {
 
 
 
-function _spawnStreakParticles(tier) {
+// at: 発火位置 {x,y}（新しい演出は正解の肢の位置で出す）。省略時は従来どおり可視帯の中で散らす。
+function _spawnStreakParticles(tier, at) {
   const toast = document.getElementById('examStreakToast');
   if (!toast) return;
   const b = _fxBand();
   const shortSide = Math.min(b.width, b.height);
   const maxR = shortSide * Math.min(0.48, 0.40 + tier * 0.012); // 短辺0〜90%動的スケーリング
-  const pos = _getDispersedFxPos(b.cx, b.cy, maxR);
+  const pos = at || _getDispersedFxPos(b.cx, b.cy, maxR);
   const cx = pos.x;
   const cy = pos.y;
   const curUi = window.MecUITheme ? MecUITheme.get() : null;
@@ -4014,6 +4032,8 @@ function _revealCalcAnswer(card, sid) {
   const g = MecCalc.grade(card);
   if (!g) return;
   if (!MecCalc.isComplete(card)) { MecCalc.shake(card); return; }   // 桁が埋まるまで確定させない
+  // 新しい演出（試作）：誤答なら入力し直させる（採点は1回目だけ）
+  if (_fxRefined() && _rfCalcSubmit(card, g)) return;
   const uid = card.dataset.uid;
   const isCorrect = g.correct;
   examAnswered++;
@@ -4036,6 +4056,10 @@ function _revealCalcAnswer(card, sid) {
     examCorrect++;
     examStreak++;
     examBySubj[sid].correct++;
+    if (_fxRefined()) {
+      try { _playCorrectSound(); _rfCorrectFx(card, fxEl); }
+      catch (err) { console.error('[ExamFx] Error in refined calc-correct fx:', err); }
+    } else
     try {
       _playCorrectSound();
       _showStreakEffect(examStreak);
@@ -4729,6 +4753,8 @@ function _examKeyHandler(e) {
     e.preventDefault();
     const choices = [...card.querySelectorAll('.ch2')];
     const n = parseInt(e.key) - 1;
+    // 新しい演出（試作）：数字キーもクリックと同じ経路（_examChoiceClick → 選び直し）へ流す
+    if (_fxRefined()) { if (choices[n] && !card.classList.contains('exam-revealed')) choices[n].click(); return; }
     if (choices[n]) {
       _playSelectSound();
       const req = _getRequiredCount(card);
@@ -4993,6 +5019,7 @@ function exitExam() {
   document.querySelectorAll('.ch2.exam-selected').forEach(c => c.classList.remove('exam-selected'));
   document.querySelectorAll('.ch2.exam-instant-correct').forEach(c => c.classList.remove('exam-instant-correct'));
   document.querySelectorAll('.ch2.exam-instant-wrong').forEach(c => c.classList.remove('exam-instant-wrong'));
+  _rfCleanup();   // 新しい演出（試作）の選び直しの印（× ・案内・縁の光・連続数）
   /* ⚠️ dataset.examInit を消さないこと（2026-08-25）。リスナーは removeEventListener していないので、
      フラグだけ消すと次の startExam が2本目を付ける。単一選択は revealAnswer の exam-revealed ガードが
      二重採点を弾くが、**複数選択は classList.toggle が2回走って選択が入らなくなる**（＝その問題が解けない）。
@@ -5080,8 +5107,8 @@ function showExamSummary() {
   if (titleEl) titleEl.innerHTML =
     _srsReviewMode  ? '🔔 <span class="grad-txt">復習セッション結果</span>' :
     _todayWrongMode ? '🔁 <span class="grad-txt">' + (window._wrongDayJa?.() || '今日') + 'の誤答 再履修の結果</span>' :
-    _bossMode === true ? '⚔️ <span class="grad-txt">ボス戦の結果</span>' :
-    _bossMode ? '⚔️ <span class="grad-txt">ボス戦 リベンジの結果</span>' :
+    _bossMode === true ? '🏛️ <span class="grad-txt">統合カンファレンスの結果</span>' :
+    _bossMode ? '🏛️ <span class="grad-txt">統合カンファレンス 再検討の結果</span>' :
     _focusMode ? '🎯 <span class="grad-txt">弱点強化の結果</span>' :
                       '📊 <span class="grad-txt">セッション結果</span>';
   const elapsed = examStartTime ? Math.floor((_examActiveMs()) / 1000) : 0;
@@ -5110,6 +5137,12 @@ function showExamSummary() {
         保険が無いと**裏で終わったセッションの管が永久に点かない**（_tweenNum・countUp と同じ穴）。 */
   const _modal = document.querySelector('#examOverlay .exam-modal');
   if (_modal) _modal.classList.remove('tubes-lit');
+  // 新しい演出（試作）：リングが伸びる間に4つの数字を順に出す（出そろった状態が静止画）
+  if (_modal && _fxRefined() && !_fxOff()) {
+    _modal.querySelectorAll('.exam-detail-item').forEach((it, i) => it.animate(
+      [{ opacity: 0, translate: '0 8px' }, { opacity: 1, translate: '0 0' }],
+      { duration: 420, delay: 360 + i * 60, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' }));
+  }
   let _countFinished = false;
   const _litTubes = () => {
     if (_countFinished) return;
@@ -5460,3 +5493,358 @@ function _applyEnvLighting() {
   else if (h >= 23 || h < 5) document.body.classList.add('env-nightshift');
 }
 try { _applyEnvLighting(); } catch (e) {}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   新しい演出（試作）＝ mec_fx_style_v1 = 'refined'（2026-09-24〜）
+   ══════════════════════════════════════════════════════════════════════════
+   既定は従来の演出のまま。効果音設定の「演出スタイル」で切り替える（UIローカル・同期しない）。
+   比べて良い方を残すための切り替えなので、従来の経路は1行も消していない。
+
+   正解：同じ量の演出を「正解の肢から、順番に」出す。
+     0ms   正解の肢の縁を光が1周（.rf-sweep）
+     80ms  光が肢から連続数の表示（1連続目は進捗バーの先端）へ走る（MecFX.ribbon）
+     200ms UIテーマ固有の演出（照準・金継ぎ・氷晶…）を**肢の位置で**出す
+     240ms 連続数が文字の組み方で出る（#examRfStreak・絵文字と「！」を使わない）
+   やめたもの：全画面フラッシュ・画面の揺れ・浮遊コンボ・外周パルス・散らばった位置の粒子。
+     その分をテーマ固有演出（肢の位置で・段に応じて大きく）へ振り替えた。
+
+   誤答：答えを見せずに選び直させる（2026-09-24 ユーザー判断）。
+     - 1回目の誤答で採点・記録を済ませる（不正解。myrate・SRS・attempts・今日の誤答）。
+       ⚠️ 2回目以降のクリックは採点経路に通さない＝記録は必ず1回目の結果。
+     - 外した肢は × が付いて押せなくなる（.exam-out）。何回でも選び直せる。
+     - カードの「▶ 答えを見る」で打ち切れる。計算問題は入力し直して再確定する。
+     - カードは .exam-retry の間 exam-revealed を持たない（焦点も次へ進まない）。
+     ⚠️ 選択肢に水平の線を作らないこと（下線部はこの教材で意味を持つ）。× は右端の文字だけ。 */
+const FX_STYLE_KEY = 'mec_fx_style_v1';
+function _fxRefined() {
+  try { return localStorage.getItem(FX_STYLE_KEY) === 'refined'; } catch (e) { return false; }
+}
+
+/* UIテーマごとの色と連続数の言葉。色は _traceCardBorder と同じ系統（テーマの主色）。 */
+const RF_THEME = {
+  aurora:    { col: '#00DFD8', lbl: 'STREAK' },
+  brass:     { col: '#FFD700', lbl: 'CONSECUTIVE' },
+  cyber:     { col: '#00FF66', lbl: 'SYNC' },
+  liquid:    { col: '#FF4FA3', lbl: 'FLOW' },
+  kintsugi:  { col: '#F5D061', lbl: '連続' },
+  celestial: { col: '#FFD166', lbl: 'ALIGNED' },
+  abyss:     { col: '#00FFA3', lbl: 'DEPTH' },
+  frost:     { col: '#9EE3FF', lbl: 'CRYSTAL' }
+};
+function _rfUi() { return (window.MecUITheme && MecUITheme.get()) || 'aurora'; }
+function _rfTheme() { return RF_THEME[_rfUi()] || RF_THEME.aurora; }
+function _rfCenter(el) {
+  const r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
+  if (!r || !r.width) { const b = _fxBand(); return { x: b.cx, y: b.cy }; }
+  const [x, y] = _examClampFxXY(r.left + r.width / 2, r.top + r.height / 2);
+  return { x, y };
+}
+
+/* 0ms：正解の肢の縁を光が1周する。肢の子要素として足す（.qc の疑似要素は満杯）。 */
+function _rfSweep(el) {
+  if (!el || _fxOff()) return;
+  el.querySelectorAll(':scope > .rf-sweep').forEach(s => s.remove());
+  if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
+  const s = document.createElement('span');
+  s.className = 'rf-sweep';
+  s.style.setProperty('--rf-c', _rfTheme().col);
+  el.appendChild(s);
+  _fxTimeout(() => s.remove(), 900);
+}
+
+/* 連続数の表示。トースト（#examStreakToast）はUIテーマ側の上書きが多いので別の要素を持つ。 */
+function _rfStreakEl() {
+  let el = document.getElementById('examRfStreak');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'examRfStreak';
+    el.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(el);
+  }
+  return el;
+}
+/* 桁が縦に回る数字。前の値の桁（--from）から今の値の桁（--to）へ回す。 */
+function _rfDigits(prev, n) {
+  const s = String(n), p = String(Math.max(0, prev)).padStart(s.length, ' ');
+  return [...s].map((d, i) => {
+    const from = p[i] === ' ' ? 0 : +p[i];
+    return '<span class="rf-d"><span class="rf-col" style="--from:' + from + ';--to:' + d + ';--i:' + (s.length - 1 - i) + '">' +
+      '0123456789'.split('').map(x => '<span>' + x + '</span>').join('') + '</span></span>';
+  }).join('');
+}
+function _rfShowStreak(n, tier, promoted) {
+  if (_fxOff()) return;
+  const el = _rfStreakEl();
+  const ui = _rfUi(), th = _rfTheme(), et = _examTheme();
+  el.getAnimations?.().forEach(a => a.cancel());
+  el.style.removeProperty('opacity');
+  el.dataset.ui = ui;
+  el.style.setProperty('--rf-c', th.col);
+  el.style.setProperty('--rf-tier', tier);
+  el.style.top = (_fxBand().top + 8) + 'px';
+  const ticks = Array.from({ length: 7 }, (_, i) => '<i class="' + (i < tier ? 'on' : '') + (i === tier - 1 && promoted ? ' up' : '') + '"></i>').join('');
+  let sub = '';
+  if (tier >= 2 && promoted) sub = 'TIER ' + tier + ((et.tierUpLabel && et.tierUpLabel(tier)) ? ' · ' + et.tierUpLabel(tier) : '');
+  else if (ui === 'abyss') sub = (n * 100) + ' m';
+  el.innerHTML =
+    '<span class="rf-n">' + _rfDigits(n - 1, n) + '</span>' +
+    '<span class="rf-side"><span class="rf-l">' + th.lbl + '</span><span class="rf-t">' + ticks + '</span></span>' +
+    (sub ? '<span class="rf-sub">' + sub.replace(/[<>&]/g, '') + '</span>' : '');
+  // 桁は描いた後に目標へ回す（入った瞬間の位置が --from）。rAF が止まる裏タブ用に setTimeout も張る。
+  const go = () => el.querySelectorAll('.rf-col').forEach(c => c.classList.add('go'));
+  requestAnimationFrame(go);
+  setTimeout(go, 60);
+  const hold = 1300 + tier * 180 + (promoted ? 600 : 0);
+  const total = hold + 520;
+  el.animate([
+    { opacity: 0, translate: '-50% -6px' },
+    { opacity: 1, translate: '-50% 0', offset: 240 / total },
+    { opacity: 1, translate: '-50% 0', offset: (hold + 240) / total },
+    { opacity: 0, translate: '-50% -4px' }
+  ], { duration: total, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'forwards' });
+  if (promoted) {
+    const n0 = el.querySelector('.rf-n');
+    if (n0) n0.animate([{ scale: '1.18' }, { scale: '1' }], { duration: 420, easing: 'cubic-bezier(.3,1.4,.5,1)' });
+  }
+}
+function _rfHideStreak() {
+  const el = document.getElementById('examRfStreak');
+  if (!el) return;
+  el.getAnimations?.().forEach(a => a.cancel());
+  el.style.opacity = '0';
+}
+
+/* 正解（初回で正解したとき）。3つの採点経路（複数選択・単一選択・計算）から呼ぶ。 */
+function _rfCorrectFx(card, el) {
+  const n = examStreak, tier = _examTier(n);
+  _applyCardThemeComboFx(card, true, n);   // カードの状態クラス・触覚（外周パルスは refined では出さない）
+  if (_fxOff()) { _updateComboMeter(n); return; }
+  _fsBudgetReset();
+  const prevTier = (n - 1) < 2 ? 0 : _examTier(n - 1);
+  const promoted = tier > prevTier;
+  if (tier >= 3) _zoneStart();
+  _setAwaken(n >= 14);
+  _setOverdrive(tier >= 5);
+  _updateComboMeter(n);
+
+  // 0ms：光は正解の肢から
+  _rfSweep(el);
+  if (el && el.animate) el.animate([{ filter: 'brightness(1.5)' }, { filter: 'brightness(1)' }], { duration: 420, easing: 'cubic-bezier(.16,1,.3,1)' });
+  _afterCorrectFx(card, el);   // 難問・初見・リベンジ・速答・克服・SRS刻印（意味を持つ印はそのまま）
+
+  // 80ms：肢から数字へ光が走る
+  _fxTimeout(() => {
+    if (!window.MecFX || !window.MecFX.ribbon) return;
+    const a = _rfCenter(el);
+    let tx, ty;
+    if (n >= 2) { const b = _fxBand(); tx = b.cx; ty = b.top + 30; }
+    else {
+      // 1連続目は進捗バーの先端へ（「1問進んだ」ことに光を運ぶ）
+      const t = document.getElementById('examProgFill');
+      const r = t && t.getBoundingClientRect();
+      if (!r || !r.height) return;
+      tx = r.right; ty = r.top + r.height / 2;
+    }
+    window.MecFX.ribbon(a.x, a.y, tx, ty, { color: _rfTheme().col, width: 2.4 + tier * .3, ttl: .5, tail: .4 });
+  }, 80);
+
+  // 200ms：UIテーマ固有の演出を肢の位置で（段に応じて大きく）
+  _fxTimeout(() => {
+    const p = _rfCenter(el);
+    // テーマ固有演出（照準・金継ぎ・氷晶・歯車…）＋粒子。_correctShockwave と同じ意匠が中に入っているので
+    // 両方呼ぶと同じ演出が2つ重なる＝こちらだけにする。1問目（tier0）も tier1 の規模で出す。
+    _spawnStreakParticles(Math.max(1, tier), p);
+    if (tier >= 2) _traceCardBorder(card);
+    if (tier >= 3) _triggerBorderGlow(tier);
+    if (tier >= 4 && _examTheme().useGlitch && window.MecFX && window.MecFX.glitchBars) {
+      window.MecFX.glitchBars({ count: Math.round(4 + tier * 1.7), thick: tier >= 6, band: _fxBand() });
+    }
+    if (tier >= 4 && _examTheme().useBrushSwipe) _inkBrushSwipe(tier);
+  }, 200);
+
+  // 240ms：連続数
+  if (n >= 2) _fxTimeout(() => _rfShowStreak(n, tier, promoted), 240);
+  // 段が上がった瞬間だけ暗転（全画面の予算1枚）。毎解答ではない。
+  if (tier >= 3 && promoted && _fsTake()) _fxTimeout(() => _triggerTimeStop(tier), 200);
+  _triggerBgBreath(tier);
+}
+
+/* ── 誤答 → 選び直し ── */
+function _rfRetryNote(card, tries, calc) {
+  let note = card.querySelector('.rf-retry');
+  if (!note) {
+    note = document.createElement('div');
+    note.className = 'rf-retry';
+    const btn = card.querySelector('.exam-reveal-btn');
+    const cs = card.querySelector('.cs');
+    if (btn && btn.parentNode) btn.parentNode.insertBefore(note, btn);
+    else if (cs) cs.after(note);
+    else card.appendChild(note);
+  }
+  note.innerHTML = '<span><b>' + tries + (calc ? '回外しました。' : 'つ外しました。') + '</b>' +
+    (calc ? '入力し直して確定してください。' : '残りの肢から選び直してください。') + '</span>' +
+    (calc ? '<button type="button" class="rf-give">答えを見る</button>' : '');
+  const g = note.querySelector('.rf-give');
+  if (g) g.onclick = (e) => { e.stopPropagation(); _rfGiveUp(card); };
+  if (!_fxOff()) note.animate([{ opacity: 0, translate: '0 4px' }, { opacity: 1, translate: '0 0' }], { duration: 240, easing: 'cubic-bezier(.16,1,.3,1)' });
+}
+
+/* 1回目の誤答の採点。revealAnswer の不正解の枝と同じ記録を行い、答えは開かない。 */
+function _rfScoreWrong(card, choiceStr, choiceEl) {
+  const uid = card.dataset.uid;
+  const sid = uid.split('_ch')[0];
+  if (!examBySubj[sid]) examBySubj[sid] = { correct: 0, total: 0 };
+  examAnswered++;
+  examBySubj[sid].total++;
+  _tallyChapter(uid, false);
+  _tallyQuestion(card, false);
+  _markExamDone(uid);
+  _recordMyRate(uid, false);
+  _logAttempt(card, false, choiceStr);
+  if (!_isScoreExcluded(card)) _updateSRS(uid, false);
+  if (choiceEl) {
+    const t = (choiceEl.textContent || '').trim();
+    if (typeof _recordWrongChoice === 'function') _recordWrongChoice(uid, t.charAt(0) || '?');
+    _examSessionWrongChoices.set(uid, t);
+  }
+  const broke = examStreak;
+  examStreak = 0;
+  try {
+    // _applyCardThemeComboFx(false) は赤い被弾アニメを伴うので、状態の後始末だけを行う
+    document.body.classList.remove('exam-streak-zone');
+    document.querySelectorAll('.qc.combo-streak-3,.qc.combo-streak-5,.qc.combo-streak-10')
+      .forEach(c => c.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10'));
+    card.classList.remove('fx-correct');
+    _resetComboMeter();
+    _clearDarkFx();
+    _zoneStop(true);
+    _examRecoverPending = true;
+    _markCardScar(card);
+    _shatterComboMeter(broke);
+    _setOverdrive(false);
+    _rfHideStreak();
+    if (_examTheme().useFlatline) _ecgFlatline();
+    if (choiceEl && _isRepeatWrongChoice(uid, choiceEl)) _fxTimeout(() => _triggerRepeatWrong(choiceEl), 260);
+  } catch (err) { console.error('[ExamFx] Error in refined wrong fx:', err); }
+  examWrong.push(uid);
+  card.classList.add('exam-retry');
+  card._rfTries = 0;
+  const revBtn = card.querySelector('.exam-reveal-btn');
+  if (revBtn && !(window.MecCalc && MecCalc.isCalc(card))) revBtn.textContent = '▶ 答えを見る';
+  try { _updateExamProg(); } catch (e) {}
+  try { _saveExamResume(); } catch (e) {}
+}
+
+/* 外した肢を消す（1回目なら採点も）。 */
+function _rfWrongPick(card, ch, choiceStr) {
+  ch.classList.remove('exam-selected');
+  ch.classList.add('exam-out');
+  ch.setAttribute('aria-disabled', 'true');
+  if (!ch.querySelector(':scope > .rf-x')) {
+    const x = document.createElement('span');
+    x.className = 'rf-x';
+    x.textContent = '×';
+    ch.appendChild(x);
+    if (!_fxOff()) x.animate([{ opacity: 0, scale: '.6' }, { opacity: 1, scale: '1' }], { duration: 240, easing: 'cubic-bezier(.3,1.4,.5,1)' });
+  }
+  if (!card.classList.contains('exam-retry')) _rfScoreWrong(card, choiceStr, ch);
+  card._rfTries = (card._rfTries || 0) + 1;
+  _rfRetryNote(card, card._rfTries, false);
+  if (_getRequiredCount(card) > 1) _updateMultiInfo(card);
+  if (!_fxOff()) {
+    ch.animate([{ translate: '0 0' }, { translate: '-3px 0' }, { translate: '2px 0' }, { translate: '0 0' }], { duration: 260, easing: 'cubic-bezier(.16,1,.3,1)' });
+    card.animate([{ filter: 'saturate(1) brightness(1)' }, { filter: 'saturate(.6) brightness(.95)', offset: .3 }, { filter: 'saturate(1) brightness(1)' }], { duration: 900, easing: 'cubic-bezier(.16,1,.3,1)' });
+  }
+}
+
+/* 選び直しの末に正解した／打ち切った。どちらも記録は1回目の不正解のまま。 */
+function _rfFinishRetry(card, msgHtml) {
+  card.classList.remove('exam-retry');
+  card.classList.add('exam-revealed', 'exam-rf-done');
+  const note = card.querySelector('.rf-retry');
+  if (note) { note.classList.add('is-done'); note.innerHTML = '<span>' + msgHtml + '</span>'; }
+  const revBtn = card.querySelector('.exam-reveal-btn');
+  if (revBtn) { revBtn.textContent = '▼ 解答を隠す'; revBtn.onclick = () => _toggleWrongAnswer(card, revBtn); }
+  try { _updateExamProg(); } catch (e) {}
+  try { _saveExamResume(); } catch (e) {}
+  requestAnimationFrame(_updateExamFocus);
+  _maybeShowFinishBtn();
+}
+function _rfLateCorrect(card, els) {
+  const tries = (card._rfTries || 1) + 1;
+  (els || []).forEach(e => e.classList.add('exam-selected', 'correct'));
+  const calc = window.MecCalc && MecCalc.isCalc(card);
+  if (calc) MecCalc.lock(card, true);
+  _rfSweep((els && els[0]) || (calc && MecCalc.anchor(card)) || null);
+  _rfFinishRetry(card, '<b>' + tries + '回目で正解。</b>記録は不正解のまま残ります（連続正解は途切れています）。');
+}
+function _rfGiveUp(card) {
+  if (!card.classList.contains('exam-retry')) return;
+  const calc = window.MecCalc && MecCalc.isCalc(card);
+  if (calc) MecCalc.lock(card, false);
+  // 最後に外した肢から正解の肢へ光が滑る（視線を答えへ運ぶ）
+  const outs = card.querySelectorAll('.ch2.exam-out');
+  const from = outs[outs.length - 1];
+  const to = card.querySelector('.ch2.ok');
+  if (!calc && from && to && !_fxOff() && window.MecFX && window.MecFX.ribbon) {
+    const a = _rfCenter(from), b = _rfCenter(to);
+    window.MecFX.ribbon(a.x - 40, a.y, b.x - 40, b.y, { color: '#3DD68C', width: 2.6, ttl: .55, bow: 30 });
+  }
+  _rfFinishRetry(card, '<b>答えを表示しました。</b>記録は不正解として残ります。');
+}
+
+/* 計算問題の refined 採点。_revealCalcAnswer から呼び、処理したら true を返す。 */
+function _rfCalcSubmit(card, g) {
+  if (card.classList.contains('exam-retry')) {
+    if (g.correct) _rfLateCorrect(card, []);
+    else { card._rfTries = (card._rfTries || 1) + 1; MecCalc.shake(card); _rfRetryNote(card, card._rfTries, true); }
+    return true;
+  }
+  if (g.correct) return false;   // 初回で正解＝従来の経路で採点する
+  _rfScoreWrong(card, g.entered, null);
+  _examSessionWrongChoices.set(card.dataset.uid, g.display);
+  card._rfTries = 1;
+  MecCalc.shake(card);
+  _rfRetryNote(card, 1, true);
+  if (!_fxOff()) card.animate([{ filter: 'saturate(1) brightness(1)' }, { filter: 'saturate(.6) brightness(.95)', offset: .3 }, { filter: 'saturate(1) brightness(1)' }], { duration: 900, easing: 'cubic-bezier(.16,1,.3,1)' });
+  return true;
+}
+
+/* 選択肢のクリック（refined のとき _examChoiceClick から渡される）。 */
+function _rfChoiceClick(card, ch, req) {
+  if (ch.classList.contains('exam-out')) return;
+  const inRetry = card.classList.contains('exam-retry');
+  if (req > 1) {
+    const wasSel = ch.classList.contains('exam-selected');
+    if (!wasSel && !ch.classList.contains('ok')) {
+      const sel = [...card.querySelectorAll('.ch2.exam-selected'), ch];
+      _rfWrongPick(card, ch, _selectedChoiceStr(sel));
+      return;
+    }
+    ch.classList.toggle('exam-selected');
+    _updateMultiInfo(card);
+    const sel = [...card.querySelectorAll('.ch2.exam-selected')];
+    if (sel.length === req && sel.every(c => c.classList.contains('ok'))) {
+      if (inRetry) { _rfLateCorrect(card, sel); return; }
+      sel.forEach(c => c.classList.add('exam-instant-correct'));
+      setTimeout(() => revealAnswer(card), 10);
+    }
+    return;
+  }
+  card.querySelectorAll('.ch2').forEach(x => x.classList.remove('exam-selected'));
+  if (ch.classList.contains('ok')) {
+    if (inRetry) { _rfLateCorrect(card, [ch]); return; }
+    ch.classList.add('exam-selected', 'exam-instant-correct');
+    setTimeout(() => revealAnswer(card), 10);
+  } else {
+    _rfWrongPick(card, ch, _selectedChoiceStr([ch]));
+  }
+}
+
+/* 試験の後始末（exitExam から呼ぶ）。セッション中だけの印を通常閲覧へ持ち越さない。 */
+function _rfCleanup() {
+  document.querySelectorAll('.qc.exam-retry,.qc.exam-rf-done').forEach(c => c.classList.remove('exam-retry', 'exam-rf-done'));
+  document.querySelectorAll('.ch2.exam-out').forEach(c => { c.classList.remove('exam-out'); c.removeAttribute('aria-disabled'); });
+  document.querySelectorAll('.rf-x,.rf-retry,.rf-sweep').forEach(el => el.remove());
+  _rfHideStreak();
+}

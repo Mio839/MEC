@@ -2058,3 +2058,106 @@ body.env-nightshift {
     animation: none!important;
   }
 }
+
+/* ══════════ 新しい演出（試作）＝ mec_fx_style_v1 = 'refined'（2026-09-24）══════════
+   JS 側の正本は study_exam.js 末尾の「新しい演出（試作）」。ここは見た目だけ。
+   ⚠️ 移動・拡大は translate / scale で書く（transform は既存アニメに黙って殺される）。
+   ⚠️ 選択肢に水平の線を作らない（下線部はこの教材で意味を持つ）。 */
+@property --rf-ang { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+
+/* ハブから来たときのヘッダーの変形（名前は study.html 冒頭のスクリプトが遷移の間だけ付ける） */
+::view-transition-group(mec-cta) { animation-duration: .42s; animation-timing-function: cubic-bezier(.16,1,.3,1); }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .24s; }
+
+/* 正解の肢の縁を光が1周する */
+.rf-sweep {
+  position: absolute; inset: -2px; border-radius: 8px; padding: 1.5px;
+  pointer-events: none; z-index: 2;
+  background: conic-gradient(from var(--rf-ang), transparent 0 58%,
+    color-mix(in srgb, var(--rf-c, #FFD700) 70%, transparent) 76%, #fff 85%,
+    color-mix(in srgb, var(--rf-c, #FFD700) 55%, transparent) 90%, transparent 97%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: rfSweep .78s cubic-bezier(.16,1,.3,1) forwards;
+}
+@keyframes rfSweep { 0% { --rf-ang: -60deg; opacity: 1; } 75% { opacity: 1; } 100% { --rf-ang: 300deg; opacity: 0; } }
+
+/* 外した肢：× が付いて押せなくなる（線は引かない） */
+body.exam-mode .qc .ch2.exam-out { opacity: .42; cursor: default; pointer-events: none; }
+.rf-x { display: inline-block; margin-left: .6em; color: #FF8A8A; font-weight: 800; }
+.rf-retry {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between;
+  margin: 10px 0 6px; padding: 8px 12px; border-radius: var(--r-md, 10px);
+  background: rgba(255,122,122,.08); border: 1px solid rgba(255,122,122,.24);
+  font-size: 13px; line-height: 1.6; color: var(--ts);
+}
+.rf-retry b { color: var(--tx); font-weight: 700; margin-right: .3em; }
+.rf-retry.is-done { background: rgba(var(--glass-rgb, 255,255,255), .05); border-color: rgba(var(--glass-rgb, 255,255,255), .14); }
+.rf-give {
+  border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.07); color: var(--tx);
+  border-radius: 8px; padding: 4px 12px; font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer;
+}
+
+/* 連続数（絵文字と「！」を使わず、数字の大きさと7本の目盛りで段を示す） */
+#examRfStreak {
+  position: fixed; top: 68px; left: 50%; translate: -50% 0; z-index: 9110;
+  display: flex; align-items: flex-end; gap: 10px;
+  padding: 8px 16px 9px; border-radius: 14px; pointer-events: none; opacity: 0;
+  background: rgba(8,4,28,.78);
+  border: 1px solid color-mix(in srgb, var(--rf-c, #FFD700) 45%, transparent);
+  box-shadow: 0 12px 30px -14px rgba(0,0,0,.7),
+              0 0 calc(var(--rf-tier, 1) * 7px) color-mix(in srgb, var(--rf-c, #FFD700) 38%, transparent);
+  color: #fff; white-space: nowrap; font-family: system-ui, -apple-system, 'Hiragino Sans', sans-serif;
+}
+#examRfStreak .rf-n {
+  display: inline-flex; font-size: calc(30px + var(--rf-tier, 1) * 3.5px); font-weight: 800; line-height: 1;
+  font-variant-numeric: tabular-nums; color: var(--rf-c, #FFD700);
+  text-shadow: 0 0 calc(var(--rf-tier, 1) * 3px) color-mix(in srgb, var(--rf-c, #FFD700) 60%, transparent);
+}
+#examRfStreak .rf-d { display: block; height: 1em; width: .62em; overflow: hidden; text-align: center; }
+#examRfStreak .rf-col { display: flex; flex-direction: column; translate: 0 calc(var(--from) * -1em); }
+#examRfStreak .rf-col.go { translate: 0 calc(var(--to) * -1em); transition: translate .42s cubic-bezier(.16,1,.3,1) calc(var(--i, 0) * 40ms); }
+#examRfStreak .rf-col span { display: block; height: 1em; line-height: 1em; }
+#examRfStreak .rf-side { display: flex; flex-direction: column; gap: 5px; padding-bottom: 3px; }
+#examRfStreak .rf-l { font: 600 10px/1 ui-monospace, Menlo, Consolas, monospace; letter-spacing: .3em; color: rgba(255,255,255,.74); }
+#examRfStreak .rf-t { display: flex; gap: 3px; }
+#examRfStreak .rf-t i { width: 4px; height: 9px; border-radius: 1px; background: rgba(255,255,255,.15); }
+#examRfStreak .rf-t i.on { background: var(--rf-c, #FFD700); box-shadow: 0 0 6px var(--rf-c, #FFD700); }
+#examRfStreak .rf-t i.up { animation: rfTickUp .42s cubic-bezier(.3,1.4,.5,1); }
+@keyframes rfTickUp { from { scale: 1 .2; opacity: .3; } to { scale: 1 1; opacity: 1; } }
+#examRfStreak .rf-sub {
+  position: absolute; top: 100%; left: 50%; translate: -50% 6px;
+  font: 700 11px/1.2 system-ui, -apple-system, sans-serif; letter-spacing: .12em;
+  color: var(--rf-c, #FFD700); white-space: nowrap; text-shadow: 0 1px 6px rgba(0,0,0,.85);
+}
+/* UIテーマごとの書体・枠 */
+#examRfStreak[data-ui="aurora"] { border-radius: 16px; background: linear-gradient(135deg, rgba(0,40,60,.82), rgba(40,10,70,.82)); }
+#examRfStreak[data-ui="brass"] {
+  border-radius: 6px; background: linear-gradient(180deg, rgba(48,34,12,.92), rgba(22,15,5,.92));
+  border-color: rgba(227,192,107,.65); font-family: 'Avenir Next Condensed', 'Arial Narrow', 'Roboto Condensed', sans-serif;
+}
+#examRfStreak[data-ui="brass"] .rf-n { font-weight: 600; font-stretch: condensed; color: #F3D98A; text-shadow: 0 1px 0 #6B4A12, 0 0 14px rgba(255,200,80,.45); }
+#examRfStreak[data-ui="brass"] .rf-l { color: #D8BD7A; letter-spacing: .22em; }
+#examRfStreak[data-ui="brass"] .rf-t i { width: 6px; height: 6px; rotate: 45deg; margin: 2px 1px; }
+#examRfStreak[data-ui="cyber"] { border-radius: 2px; background: rgba(0,18,8,.86); font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace; }
+#examRfStreak[data-ui="cyber"] .rf-n { font-weight: 700; letter-spacing: .02em; }
+#examRfStreak[data-ui="cyber"] .rf-n::before { content: '['; opacity: .55; margin-right: .08em; }
+#examRfStreak[data-ui="cyber"] .rf-n::after { content: ']'; opacity: .55; margin-left: .08em; }
+#examRfStreak[data-ui="cyber"] .rf-t i { height: 7px; border-radius: 0; }
+#examRfStreak[data-ui="liquid"] { border-radius: 999px; padding-inline: 20px; background: rgba(46,4,40,.8); font-family: 'Hiragino Maru Gothic ProN', 'Arial Rounded MT Bold', system-ui, sans-serif; }
+#examRfStreak[data-ui="liquid"] .rf-t i { width: 6px; height: 6px; border-radius: 50%; }
+#examRfStreak[data-ui="kintsugi"] { border-radius: 4px; background: rgba(12,10,8,.9); border-color: rgba(245,208,97,.4); font-family: 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', serif; }
+#examRfStreak[data-ui="kintsugi"] .rf-n { font-weight: 800; }
+#examRfStreak[data-ui="kintsugi"] .rf-side { flex-direction: row; align-items: center; align-self: stretch; gap: 8px; padding: 0 0 0 9px; border-left: 1px solid rgba(245,208,97,.55); }
+#examRfStreak[data-ui="kintsugi"] .rf-l { writing-mode: vertical-rl; font: 600 12px/1 'Hiragino Mincho ProN', 'Yu Mincho', serif; letter-spacing: .35em; color: #F2E6C4; }
+#examRfStreak[data-ui="kintsugi"] .rf-t { flex-direction: column; gap: 4px; }
+#examRfStreak[data-ui="kintsugi"] .rf-t i { width: 5px; height: 5px; border-radius: 50%; }
+#examRfStreak[data-ui="celestial"] { border-radius: 12px; background: rgba(10,6,42,.84); font-family: 'Didot', 'Bodoni 72', 'Times New Roman', serif; }
+#examRfStreak[data-ui="celestial"] .rf-n { font-weight: 400; }
+#examRfStreak[data-ui="celestial"] .rf-t i { width: 5px; height: 5px; rotate: 45deg; margin: 2px 1px; border-radius: 0; }
+#examRfStreak[data-ui="abyss"] { border-radius: 10px; background: rgba(0,16,22,.86); font-family: ui-monospace, Menlo, monospace; }
+#examRfStreak[data-ui="abyss"] .rf-n { font-weight: 300; }
+#examRfStreak[data-ui="frost"] { border-radius: 12px; background: rgba(8,22,40,.78); }
+#examRfStreak[data-ui="frost"] .rf-n { font-weight: 200; color: #EAF8FF; text-shadow: 0 0 calc(var(--rf-tier, 1) * 3px + 4px) rgba(158,227,255,.8); }
+#examRfStreak[data-ui="frost"] .rf-l { letter-spacing: .4em; font-weight: 400; }
