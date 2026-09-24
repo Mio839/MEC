@@ -35642,22 +35642,27 @@
       }
      ],
      "ans_label": "ｄ　ビタミンC\nｅ　ビタミンE",
-     "ans_sub": "ビタミンC（水溶性）とビタミンE（脂溶性）が主要な抗酸化ビタミン。細胞内外でラジカルを消去する",
+     "ans_sub": "ビタミンC は水相で、ビタミンE は脂質相で働く代表的な抗酸化ビタミンで、C は酸化された E を再生する",
      "eg": [
       {
        "cls": "ep",
-       "h": "🛡️ 抗酸化ビタミン",
-       "c": "<table class=\"tb\"><tr><td>ビタミン</td><td>抗酸化機序</td><td>作用する場所</td></tr><tr><td>A</td><td>弱い抗酸化</td><td>β-カロテンが活性酸素消去</td></tr><tr><td>B1</td><td>直接の抗酸化作用なし</td><td>補酵素機能</td></tr><tr><td>B2</td><td>直接の抗酸化作用なし</td><td>FADとしてGSH還元酵素の補酵素</td></tr><tr><td><span class=\"kw\">C（アスコルビン酸）</span></td><td><span class=\"kw\">強力な水溶性抗酸化</span></td><td><span class=\"kw\">細胞外・水相・Eを再活性化</span></td></tr><tr><td><span class=\"kw\">E（α-トコフェロール）</span></td><td><span class=\"kw\">強力な脂溶性抗酸化</span></td><td><span class=\"kw\">細胞膜の脂質過酸化連鎖を遮断</span></td></tr></table>"
+       "h": "🛡️ 抗酸化は「どこで働くか」で役割が分かれている",
+       "c": "<span class=\"kw\"><b>ビタミンE——脂の中</b></span><br/><span class=\"kw3\"><b>細胞膜やLDL 粒子の脂質の層に溶け込んでいる</b></span>。⚠️<span class=\"kw4\"><b>脂質過酸化は一度始まると連鎖反応で膜を壊していく</b></span>が、<span class=\"kw3\"><b>E はその連鎖を途中で断ち切る</b></span>。<br/><br/><span class=\"kw\"><b>ビタミンC——水の中</b></span><br/><span class=\"kw3\"><b>細胞質と血漿で働く</b></span>。そして⚠️⚠️<span class=\"kw4\"><b>ラジカルを消して酸化されたビタミンE を還元し、もう一度使えるようにする</b></span>。<br/>⚠️<span class=\"kw4\"><b>だから C と E は「2つで1組」</b></span>——<span class=\"kw3\"><b>E が膜で戦い、C が水側から E を立て直す</b></span>。この設問が2つ選ばせる理由がここにある。<br/><br/><span class=\"kw\"><b>抗酸化はビタミンだけではない</b></span><br/>・<span class=\"kw3\"><b>グルタチオン</b></span>——<span class=\"kw3\"><b>細胞内で最も量が多い還元剤</b></span><br/>・<span class=\"kw3\"><b>グルタチオンペルオキシダーゼ</b></span>——⚠️<span class=\"kw4\"><b>セレンが中心にある酵素</b></span>（Q.526）<br/>・<span class=\"kw3\"><b>スーパーオキシドジスムターゼ（SOD）</b></span>——<span class=\"kw3\"><b>銅・亜鉛・マンガン</b></span><br/>・<span class=\"kw3\"><b>カタラーゼ</b></span>——<span class=\"kw3\"><b>鉄</b></span><br/>⚠️<span class=\"kw4\"><b>微量元素が抗酸化酵素の心臓部に座っている</b></span>——<span class=\"kw3\"><b>セレンや銅の欠乏が問題になるのはこのため</b></span>。<br/><br/>⚠️<span class=\"kw4\"><b>ビタミンA（β-カロテン）にも抗酸化作用はある</b></span>が、<span class=\"kw3\"><b>代表として問われるのは C と E</b></span>。<span class=\"kw3\"><b>A の本来の役割は視覚と上皮の分化</b></span>である（Q.514）。<br/><br/><span class=\"kw\"><b>そもそも活性酸素はどこから来るのか</b></span><br/>・<span class=\"kw3\"><b>ミトコンドリアで酸素を使ってATPを作る過程の副産物</b></span>——⚠️<span class=\"kw4\"><b>好気呼吸をしている限り必ず生じる</b></span><br/>・⚠️<span class=\"kw4\"><b>好中球とマクロファージは殺菌のために意図的に作っている</b></span>（<span class=\"kw3\"><b>NADPH オキシダーゼ</b></span>）。<span class=\"kw3\"><b>この酵素が働かないのが慢性肉芽腫症</b></span>で、<span class=\"kw3\"><b>活性酸素が「悪者」だけではないことが分かる</b></span><br/>・<span class=\"kw3\"><b>放射線・紫外線・喫煙・虚血再灌流</b></span><br/>⚠️<span class=\"kw3\"><b>抗酸化系は、必要な分は残しつつ余りを消すという釣り合いの上に成り立っている</b></span>。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　ビタミンA</td><td><span class=\"kw3\">β-カロテンには抗酸化作用があるが、代表としては問われない</span>。⚠️<span class=\"kw3\">本来の役割は視覚（ロドプシン）と上皮の分化</span></td></tr><tr><td>ｂ　ビタミンB1</td><td><span class=\"kw3\">糖代謝の補酵素</span>（<span class=\"kw3\">ピルビン酸脱水素酵素など</span>）。<span class=\"kw3\">抗酸化作用はない</span></td></tr><tr><td>ｃ　ビタミンB2</td><td><span class=\"kw3\">FAD・FMN として酸化還元反応に関わる</span>が、⚠️<span class=\"kw3\">ラジカルを消去する抗酸化ビタミンとしては挙げない</span></td></tr><tr><td><span class=\"kw3\">◯ ｄ　ビタミンC</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">水相の抗酸化</span>。⚠️<span class=\"kw3\">酸化されたビタミンE を再生する</span></td></tr><tr><td><span class=\"kw3\">◯ ｅ　ビタミンE</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">脂質相の抗酸化</span>。<span class=\"kw3\">膜やLDL の脂質過酸化の連鎖を断つ</span></td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "💡 抗酸化ビタミンの覚え方",
-       "c": "<span class=\"kw\">「C（水）とE（脂）がタッグを組む抗酸化コンビ」</span><br/>・CがEをラジカル消去後に再活性化（C→E再生）<br/>・E→細胞膜脂質を守る（脂溶性）<br/>・C→血漿・細胞質の水相で活性酸素消去"
+       "h": "🔍 「抗酸化サプリは体に良い」は大規模試験で否定された",
+       "c": "酸化ストレスが動脈硬化や発癌に関わるという理屈から、⚠️<span class=\"kw4\"><b>抗酸化ビタミンを大量に補えば予防できるはずだと考えられ、実際に大規模な試験が組まれた</b></span>。<span class=\"kw3\"><b>結果はおおむね陰性で、いくつかは有害だった</b></span>。<br/><br/>・⚠️⚠️<span class=\"kw4\"><b>β-カロテンのサプリメントは、喫煙者の肺癌をむしろ増やした</b></span>——<span class=\"kw3\"><b>試験は途中で中止された</b></span><br/>・⚠️<span class=\"kw4\"><b>ビタミンE の大量投与は出血傾向を招き、総死亡を下げなかった</b></span><br/>・<span class=\"kw3\"><b>ビタミンC の大量投与も心血管イベントを減らさなかった</b></span><br/><br/>⚠️⚠️<span class=\"kw4\"><b>食品として摂ることと、単一成分を大量に摂ることは別</b></span>である。<span class=\"kw3\"><b>野菜や果物を食べている人で病気が少ないという観察が、その中の1成分を抜き出して飲むことを正当化しない</b></span>。<span class=\"kw3\"><b>観察研究と介入試験が食い違った代表例</b></span>として覚えておく（Q.459 の交絡）。<br/><br/><span class=\"kw\"><b>一方、抗酸化が本当に治療になる場面もある</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>N-アセチルシステイン</b></span>——<span class=\"kw3\"><b>アセトアミノフェン中毒</b></span>。<span class=\"kw3\"><b>肝でグルタチオンが枯渇して毒性代謝物を処理できなくなるので、その前駆体を補う</b></span>。⚠️<span class=\"kw4\"><b>早く投与するほど効く</b></span><br/>・<span class=\"kw3\"><b>ビタミンE</b></span>——<span class=\"kw3\"><b>無βリポ蛋白血症など、実際に欠乏している病態</b></span><br/>⚠️<span class=\"kw4\"><b>「足りない人に足す」のは治療で、「足りている人に足す」のは別の話</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">抗酸化ビタミン＝C＋E</span>のセット。<br/>ビタミンE欠乏：末梢神経障害（脊髄後索）・溶血性貧血（赤血球膜の脂質過酸化）。"
+       "c": "<span class=\"kw3\"><b>抗酸化ビタミン＝C（水相）と E（脂質相）</b></span>。⚠️<span class=\"kw4\"><b>C は酸化された E を再生する</b></span>。<br/><span class=\"kw3\"><b>抗酸化酵素の中心には微量元素</b></span>——<span class=\"kw3\"><b>セレン（GPx）・銅と亜鉛とマンガン（SOD）・鉄（カタラーゼ）</b></span>。<br/>⚠️<span class=\"kw4\"><b>β-カロテンのサプリは喫煙者の肺癌を増やした</b></span>——<span class=\"kw3\"><b>食品として摂ることと大量補充は別</b></span>。"
       }
      ],
      "imgs": []
@@ -35699,27 +35704,27 @@
       }
      ],
      "ans_label": "ａ　キレート薬",
-     "ans_sub": "Wilson病（若年性肝障害＋肝腫大）→D-ペニシラミン（キレート薬）による銅排泄促進が標準治療",
+     "ans_sub": "セルロプラスミン低値・血清銅低値・尿中銅排泄増加＋若年の肝障害＝Wilson 病。キレート薬で銅を尿へ捨てる",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 Wilson病の治療",
-       "c": "<span class=\"kw\">Wilson病の治療</span>：<br>① <span class=\"kw\">D-ペニシラミン（キレート薬）</span>：銅に結合→尿中銅排泄促進<br>　 副作用：タンパク尿・血小板減少・自己免疫症状<br>② トリエンチン（キレート薬）：D-ペニシラミン代替<br>③ 亜鉛製剤：腸管からの銅吸収阻害（軽症・維持療法）<br/><br/>D-ペニシラミンが第一選択（特に症候性Wilson病）</br></br></br></br>"
+       "h": "💊 D-ペニシラミンという薬の顔を知っておく",
+       "c": "<span class=\"kw\"><b>効く仕組み</b></span>——<span class=\"kw3\"><b>遊離した銅をつかまえて水に溶ける複合体にし、尿から捨てさせる</b></span>。<span class=\"kw3\"><b>同時に肝でメタロチオネインを誘導して銅を無害な形に留める</b></span>。<br/><br/>⚠️⚠️<span class=\"kw4\"><b>副作用が多く、使い続けることが難しい薬</b></span>である。<br/>・<span class=\"kw3\"><b>投与初期の発熱・皮疹・リンパ節腫脹</b></span><br/>・<span class=\"kw3\"><b>蛋白尿（膜性腎症）</b></span>——⚠️<span class=\"kw4\"><b>定期的な尿検査が要る</b></span><br/>・<span class=\"kw3\"><b>骨髄抑制</b></span><br/>・<span class=\"kw3\"><b>SLE 様症候群・天疱瘡様の皮疹・筋無力症様症状</b></span><br/>・⚠️<span class=\"kw4\"><b>味覚障害</b></span>——<span class=\"kw3\"><b>銅だけでなく亜鉛もキレートしてしまうため</b></span>（Q.495 の薬剤性味覚障害の代表）<br/>・⚠️<span class=\"kw4\"><b>ビタミンB6 を消費する</b></span>ので<span class=\"kw3\"><b>ピリドキシンを併用</b></span>する<br/><br/>⚠️⚠️<span class=\"kw4\"><b>神経型では投与開始後に神経症状が一時的に悪化することがある</b></span>——<span class=\"kw3\"><b>組織から動き出した遊離銅が脳へ回るため</b></span>。<span class=\"kw3\"><b>だから神経症状が主体の症例ではトリエンチンや亜鉛を選ぶことが多い</b></span>。<br/><br/>⚠️⚠️<span class=\"kw4\"><b>治療は生涯続ける</b></span>。<span class=\"kw3\"><b>症状が消えたからと自己判断で中断すると、劇症肝炎を起こして死亡することがある</b></span>。<span class=\"kw3\"><b>「治った」のではなく「抑えている」薬だと本人に伝える</b></span>のが治療の一部である。<br/><br/><span class=\"kw\"><b>薬と並んで食事の指導も要る</b></span>——⚠️<span class=\"kw4\"><b>銅を多く含む食品を控える</b></span>。<span class=\"kw3\"><b>貝類（とくにレバーと甲殻類）・レバー・きのこ・ナッツ・チョコレート・大豆</b></span>。<span class=\"kw3\"><b>ただし食事だけで進行は止められない</b></span>ので、<span class=\"kw3\"><b>薬をやめる理由にはならない</b></span>。"
       },
       {
        "cls": "ee",
-       "h": "□ 各選択肢の評価",
-       "c": "<table class=\"tb\"><tr><td>薬剤</td><td>評価</td><td>適応疾患</td></tr><tr><td><span class=\"kw\">キレート薬（D-ペニシラミン）</span></td><td><span class=\"kw\">◎</span></td><td><span class=\"kw\">Wilson病（銅キレート）</span></td></tr><tr><td>シクロスポリン</td><td>× Wilson</td><td>免疫抑制薬（臓器移植等）</td></tr><tr><td>インターフェロン</td><td>× Wilson</td><td>B型・C型肝炎</td></tr><tr><td>免疫グロブリン</td><td>× Wilson</td><td>ITP・GBS・川崎病</td></tr><tr><td>ステロイド</td><td>× Wilson</td><td>自己免疫性肝炎に有効（Wilsonでは禁忌ではないが第一選択ではない）</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　キレート薬</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">D-ペニシラミンやトリエンチンで銅をつかまえて尿へ捨てる</span>。<span class=\"kw3\">軽症や維持期には亜鉛も用いる</span></td></tr><tr><td>ｂ　シクロスポリン</td><td><span class=\"kw3\">カルシニューリン阻害薬</span>。<span class=\"kw3\">自己免疫疾患や移植に用いる</span>。<span class=\"kw3\">銅は動かせない</span></td></tr><tr><td>ｃ　インターフェロン</td><td><span class=\"kw3\">ウイルス性肝炎の薬</span>。⚠️<span class=\"kw3\">HBs 抗原も HCV 抗体も陰性</span>と書いてあり、<span class=\"kw3\">この肢を切るために測られている</span></td></tr><tr><td>ｄ　免疫グロブリン製剤</td><td><span class=\"kw3\">Guillain-Barré 症候群・川崎病など</span>。<span class=\"kw3\">適応がない</span></td></tr><tr><td>ｅ　副腎皮質ステロイド</td><td><span class=\"kw3\">自己免疫性肝炎なら選ぶ</span>が、<span class=\"kw3\">銅の蓄積は減らせない</span>。⚠️<span class=\"kw3\">若年の肝障害でまず自己免疫性肝炎を考える筋はあるが、この検査値は銅を指している</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 17歳の慢性肝炎——見つけ方と、家族をどうするか",
+       "c": "<span class=\"kw\"><b>この症例は「肝炎の顔」をしている</b></span><br/>・<span class=\"kw3\"><b>黄疸なし・脾を触れない・CRP 0.1</b></span><br/>・<span class=\"kw3\"><b>AST 120 ＜ ALT 265</b></span>＝<span class=\"kw3\"><b>肝細胞障害</b></span><br/>・<span class=\"kw3\"><b>肝を4cm 触知</b></span><br/>・<span class=\"kw3\"><b>肝炎ウイルスは両方とも陰性</b></span><br/>⚠️⚠️<span class=\"kw4\"><b>若年者の原因不明の肝障害では、必ずセルロプラスミンを測る</b></span>。<span class=\"kw3\"><b>測らなければ一生見つからない</b></span>。<br/><br/><span class=\"kw\"><b>3つの検査値の読み</b></span><br/>・<span class=\"kw3\"><b>セルロプラスミン 5.1（基準21〜37）</b></span>——<span class=\"kw3\"><b>銅を載せる蛋白が作れない</b></span><br/>・<span class=\"kw3\"><b>血清銅 30（基準68〜128）</b></span>——⚠️<span class=\"kw4\"><b>溜まっているのに低い</b></span>（Q.468）<br/>・<span class=\"kw3\"><b>尿中銅 500μg/日（基準100以下）</b></span>——<span class=\"kw3\"><b>載せられない遊離銅が尿へ</b></span><br/>⚠️<span class=\"kw3\"><b>セルロプラスミンは急性期反応物質なので、強い炎症があると正常に見える</b></span>ことに注意（Q.523）。<br/><br/><span class=\"kw\"><b>そして家族</b></span>——⚠️⚠️<span class=\"kw4\"><b>常染色体潜性遺伝なので、同胞の4分の1が同じ病気を持つ</b></span>。<br/>・<span class=\"kw3\"><b>同胞は症状がなくても必ず調べる</b></span>（<span class=\"kw3\"><b>セルロプラスミン・尿中銅・肝機能・眼科での Kayser-Fleischer 輪</b></span>）<br/>・⚠️<span class=\"kw4\"><b>無症候で見つかった同胞も治療の対象</b></span>——<span class=\"kw3\"><b>症状が出る前に始めれば、肝硬変も神経症状も防げる</b></span><br/>⚠️<span class=\"kw4\"><b>Wilson 病は「治せる遺伝性疾患」</b></span>で、そこが診断を急ぐ理由である。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">Wilson病 = D-ペニシラミン（キレート薬）</span>が標準治療。<br/>若年者の原因不明肝障害→Wilson病を鑑別（セルロプラスミン・KF輪・尿中銅を確認）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "若年・肝腫大＝Wilson病の治療。<br/><b>b シクロスポリン／c インターフェロン／d 免疫グロブリン／e 副腎皮質ステロイド</b>：本症の治療でない。<br/><b>a キレート薬</b>：<span class=\"kw\">D-ペニシラミン等で銅を排泄</span>。✓"
+       "c": "<span class=\"kw3\"><b>Wilson 病＝セルロプラスミン低値・血清銅低値・尿中銅排泄増加</b></span>。⚠️<span class=\"kw4\"><b>若年の原因不明の肝障害では必ず測る</b></span>。<br/><span class=\"kw3\"><b>治療はキレート薬（D-ペニシラミン・トリエンチン）と亜鉛、進行例は肝移植</b></span>。⚠️<span class=\"kw4\"><b>生涯継続</b></span>。<br/>⚠️<span class=\"kw4\"><b>同胞のスクリーニングが要る</b></span>——<span class=\"kw3\"><b>無症候でも治療対象</b></span>。"
       }
      ],
      "imgs": []
@@ -35765,22 +35770,27 @@
       }
      ],
      "ans_label": "ａ　喫　煙\nｄ　運動不足",
-     "ans_sub": "喫煙は骨芽細胞機能阻害＋エストロゲン代謝促進→骨密度↓。運動不足は骨への機械的刺激↓→骨形成↓",
+     "ans_sub": "喫煙は骨芽細胞を直接傷めエストロゲンを下げる。運動不足は骨への機械的刺激を失わせる。高血圧・脂質異常・脂肪肝は骨のリスクではない",
      "eg": [
       {
        "cls": "ep",
-       "h": "🦴 骨粗鬆症のリスク因子",
-       "c": "<table class=\"tb\"><tr><td>リスク因子</td><td>機序</td><td>この患者</td></tr><tr><td><span class=\"kw\">喫煙</span></td><td><span class=\"kw\">骨芽細胞機能阻害・エストロゲン↓</span></td><td><span class=\"kw\">◎ 20本/日40年</span></td></tr><tr><td>脂肪肝</td><td>直接の関連は弱い</td><td>× 記載なし</td></tr><tr><td>高血圧</td><td>直接の関連は弱い</td><td>× 血圧180/110だが骨粗鬆症との直接関係は薄い</td></tr><tr><td><span class=\"kw\">運動不足</span></td><td><span class=\"kw\">骨への機械的刺激↓→骨形成↓</span></td><td><span class=\"kw\">◎ 運動はしていない</span></td></tr><tr><td>脂質異常症</td><td>直接の関連は弱い</td><td>× 記載なし</td></tr></table>"
+       "h": "🔎 この患者の最大のリスクは選択肢に入っていない",
+       "c": "設問が聞いているのは「選択肢のうちどれか」なので答えは喫煙と運動不足だが、⚠️⚠️<span class=\"kw4\"><b>臨床で最初に目を留めるべきは「10年前に胃癌で胃亜全摘術」である</b></span>。<br/><br/><span class=\"kw\"><b>胃切除後骨症——4つの経路が同時に効く</b></span><br/>・⚠️<span class=\"kw4\"><b>胃酸が減り、カルシウム塩が溶けて吸収される形にならない</b></span><br/>・⚠️<span class=\"kw4\"><b>再建法によっては十二指腸を通らない</b></span>——<span class=\"kw3\"><b>Ca の主な吸収部位を素通りする</b></span><br/>・<span class=\"kw3\"><b>脂肪の吸収不良でビタミンD も失われる</b></span><br/>・<span class=\"kw3\"><b>体重減少と食事量の低下</b></span><br/>⚠️<span class=\"kw4\"><b>しかも胃切除後は3〜5年してビタミンB12 欠乏も出る</b></span>（Q.321）。<span class=\"kw3\"><b>「胃を切った」という一語は、何年経っても栄養の問題を含み続ける</b></span>。<br/><br/><span class=\"kw\"><b>もう一つ、病歴に書かれた徴候</b></span><br/>⚠️<span class=\"kw4\"><b>「若いころより身長が5cm 低くなっている」</b></span>——<span class=\"kw3\"><b>椎体骨折が積み重なった結果</b></span>である。<span class=\"kw3\"><b>椎体骨折の3分の2は痛みを伴わず、身長低下と円背だけが手がかりになる</b></span>（Q.470）。<br/><br/><span class=\"kw\"><b>検査値が正常であることにも意味がある</b></span><br/><span class=\"kw3\"><b>Ca 9.4・P 3.2・ALP 202（基準内）</b></span>——⚠️<span class=\"kw4\"><b>原発性副甲状腺機能亢進症でも骨軟化症でもない</b></span>。<span class=\"kw3\"><b>骨粗鬆症では血液生化学は基本的に正常</b></span>で、<span class=\"kw3\"><b>異常があれば他の病気を疑う</b></span>。<br/><br/>⚠️<span class=\"kw4\"><b>なお血圧180/110 は、この設問の答えではないが放置してよい数字ではない</b></span>——<span class=\"kw3\"><b>骨のリスクではないというだけで、治療の対象であることは変わらない</b></span>。<br/><span class=\"kw\"><b>この患者に足すべき検査</b></span>——<span class=\"kw3\"><b>骨密度（腰椎と大腿骨近位部）・胸腰椎のX線・25(OH)D・ビタミンB12</b></span>。⚠️<span class=\"kw4\"><b>胃切除の既往がある人では、骨と血液の両方を定期的に見る</b></span>。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　喫　煙</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">骨芽細胞への直接毒性、エストロゲンの分解促進、腸からの Ca 吸収低下</span>。<span class=\"kw3\">40年×20本</span></td></tr><tr><td>ｂ　脂肪肝</td><td><span class=\"kw3\">AST 40・ALT 46 と軽度上昇</span>があるが、⚠️<span class=\"kw3\">脂肪肝そのものは骨粗鬆症のリスク因子として確立していない</span></td></tr><tr><td>ｃ　高血圧</td><td><span class=\"kw3\">血圧180/110 は治療の対象</span>だが、⚠️<span class=\"kw3\">骨病変のリスクではない</span>。<span class=\"kw3\">脳心血管の問題</span></td></tr><tr><td><span class=\"kw3\">◯ ｄ　運動不足</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">荷重と筋の牽引という機械的刺激が骨を作る</span>ので、<span class=\"kw3\">刺激が減れば骨量も減る</span></td></tr><tr><td>ｅ　脂質異常症</td><td><span class=\"kw3\">総コレステロール240・TG 220</span>。⚠️<span class=\"kw3\">動脈硬化のリスクであって骨のリスクではない</span></td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "💡 骨粗鬆症リスクの覚え方",
-       "c": "<span class=\"kw\">「タバコ・酒・ステロイド・運動不足・閉経・やせ」</span>が主要リスク因子。<br>この患者の他のリスク：胃亜全摘→ビタミンD/Ca吸収障害（手術歴も重要）</br>"
+       "h": "🔍 喫煙と運動が骨に効く仕組みと、指導の中身",
+       "c": "<span class=\"kw\"><b>喫煙——4つの経路</b></span><br/>・<span class=\"kw3\"><b>ニコチンとカドミウムが骨芽細胞を直接傷める</b></span><br/>・⚠️<span class=\"kw4\"><b>エストロゲンの代謝を促進して血中濃度を下げる</b></span>——<span class=\"kw3\"><b>喫煙者は閉経が早い</b></span><br/>・<span class=\"kw3\"><b>腸からのカルシウム吸収が落ちる</b></span><br/>・<span class=\"kw3\"><b>やせ傾向</b></span>（<span class=\"kw3\"><b>体重が軽いほど骨は弱い</b></span>）<br/>⚠️<span class=\"kw4\"><b>禁煙すれば骨折リスクは下がるが、回復には年単位かかる</b></span>。<span class=\"kw3\"><b>それでも「もう遅い」ではない</b></span>。<br/><br/><span class=\"kw\"><b>運動——どう動けばよいか</b></span><br/>⚠️⚠️<span class=\"kw4\"><b>骨は荷重と筋の牽引という機械的刺激を受けたところだけが強くなる</b></span>。<br/>・⚠️<span class=\"kw4\"><b>水泳と自転車は荷重にならない</b></span>——<span class=\"kw3\"><b>心肺には良いが骨には効きにくい</b></span><br/>・<span class=\"kw3\"><b>歩行・軽い跳躍・階段・スクワットなどの抵抗運動</b></span>が要る<br/>・<span class=\"kw3\"><b>背筋を鍛えると椎体骨折後の姿勢が保たれる</b></span><br/>・⚠️<span class=\"kw4\"><b>バランス訓練は「転ばないこと」を通じて骨折を防ぐ</b></span>——<span class=\"kw3\"><b>骨折は骨の弱さと転倒の積</b></span>なので、<span class=\"kw3\"><b>転倒予防も骨折予防</b></span>である<br/>⚠️<span class=\"kw3\"><b>寝たきりでの他動運動だけでは荷重刺激にならない</b></span>（Q.512）。<br/><br/>⚠️<span class=\"kw4\"><b>この患者には加えて、胃切除後としての Ca とビタミンD の補充、そして骨密度測定が要る</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">喫煙</span>：骨芽細胞への直接毒性＋エストロゲン分解促進→骨密度低下。<br><span class=\"kw\">運動（特に荷重運動）</span>：骨への物理的刺激→骨形成促進（骨粗鬆症の予防・治療にも有効）。</br>"
+       "c": "<span class=\"kw3\"><b>骨粗鬆症のリスク＝加齢・閉経・やせ・喫煙・多量飲酒・運動不足・低Ca/低D・家族歴・ステロイド</b></span>。<br/>⚠️<span class=\"kw4\"><b>高血圧・脂質異常症はリスクではない</b></span>。<br/>⚠️<span class=\"kw4\"><b>胃切除後は Ca とビタミンD の吸収障害＋B12 欠乏</b></span>。<span class=\"kw3\"><b>身長低下と円背は無症候性椎体骨折の徴候</b></span>。"
       }
      ],
      "imgs": []
@@ -35822,27 +35832,27 @@
       }
      ],
      "ans_label": "ｄ　Wernicke 脳症",
-     "ans_sub": "妊娠悪阻→摂食不能→B1欠乏。その後グルコース投与→B1消費→ウェルニッケ脳症が誘発・顕在化",
+     "ans_sub": "妊娠悪阻で摂取が途絶えたところへ糖質輸液が行われ、残っていたチアミンを使い切って発症した Wernicke 脳症",
      "eg": [
       {
        "cls": "ep",
-       "h": "🤰 妊娠悪阻とWernicke脳症",
-       "c": "<span class=\"kw\">妊娠悪阻（Hyperemesis gravidarum）</span>：<br>・激しい嘔吐→食事摂取不能→B1（チアミン）不足<br>・グルコース輸液開始後にB1を消費→<span class=\"kw4\">ウェルニッケ脳症が誘発</span><br><br/><span class=\"kw\">三徴の確認</span>：<br/>① ふらつき（小脳性失調）<br/>② 複視（外転神経麻痺）<br/>③ 見当識障害（意識障害）<br/>→ ウェルニッケ脳症の典型三徴が揃う</br></br></br>"
+       "h": "🤰 妊娠中の神経症状を仕分ける",
+       "c": "<span class=\"kw\"><b>まず所見を確認</b></span>——<span class=\"kw3\"><b>眼振・眼球運動制限・歩行失調・意識混濁と見当識障害</b></span>。⚠️<span class=\"kw4\"><b>Wernicke 脳症の三徴</b></span>がそろっている。<span class=\"kw3\"><b>しかも「入院後3週目に急に」</b></span>＝⚠️⚠️<span class=\"kw4\"><b>絶食のまま糖質輸液を続けたことが引き金</b></span>である（Q.504）。<br/><br/><span class=\"kw\"><b>妊娠中に神経症状が出たら数えるもの</b></span><br/>・⚠️<span class=\"kw4\"><b>子癇・PRES</b></span>——<span class=\"kw3\"><b>高血圧と蛋白尿を伴い、けいれんと頭痛と視覚異常</b></span>。<span class=\"kw3\"><b>本例は血圧120/70 でけいれんもなく、切れる</b></span><br/>・<span class=\"kw3\"><b>脳静脈洞血栓症</b></span>——<span class=\"kw3\"><b>妊娠は凝固が亢進する</b></span>。<span class=\"kw3\"><b>頭痛・けいれん・局所症状</b></span><br/>・⚠️<span class=\"kw4\"><b>Wernicke 脳症</b></span>——<span class=\"kw3\"><b>悪阻で食べられない期間が長いとき</b></span>。<span class=\"kw3\"><b>本例</b></span><br/>・<span class=\"kw3\"><b>下垂体卒中・Sheehan 症候群</b></span>——<span class=\"kw3\"><b>分娩時の大量出血の後</b></span><br/>・<span class=\"kw3\"><b>低血糖・低Na血症</b></span><br/>・<span class=\"kw3\"><b>TTP・HELLP 症候群</b></span>——<span class=\"kw3\"><b>血小板減少と溶血を伴う</b></span><br/><br/>⚠️<span class=\"kw4\"><b>血圧・蛋白尿・血小板・けいれんの有無が仕分けの最初の4つ</b></span>。<span class=\"kw3\"><b>本例はそのどれも該当せず、栄養の問題だけが残る</b></span>。<br/><br/><span class=\"kw\"><b>そして体重39kg</b></span>——<span class=\"kw3\"><b>身長156cm で BMI 16.0</b></span>。⚠️<span class=\"kw4\"><b>著しい体重減少そのものが「食べられていない期間の長さ」を示している</b></span>。"
       },
       {
        "cls": "ee",
-       "h": "□ 各疾患との鑑別",
-       "c": "<table class=\"tb\"><tr><td>疾患</td><td>否定理由</td></tr><tr><td>子癇</td><td>痙攣・高血圧が前景（視覚症状・失調は非典型）</td></tr><tr><td>多発性硬化症</td><td>通常は単一神経症状から始まる（若い女性に多いが）</td></tr><tr><td>重症筋無力症</td><td>筋力低下・眼瞼下垂（失調・見当識障害ではない）</td></tr><tr><td><span class=\"kw\">Wernicke脳症</span></td><td><span class=\"kw\">◎ 三徴揃う＋悪阻後のB1欠乏コンテキスト</span></td></tr><tr><td>GBS</td><td>下行性麻痺・感覚障害（急性期は錯乱ではなく麻痺）</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　子　癇</td><td>⚠️<span class=\"kw3\">高血圧と蛋白尿を背景にけいれんを起こすもの</span>。<span class=\"kw3\">血圧120/70 でけいれんもなく、成り立たない</span></td></tr><tr><td>ｂ　多発性硬化症</td><td><span class=\"kw3\">時間的・空間的に多発する中枢神経の脱髄</span>。⚠️<span class=\"kw3\">急性の意識障害と見当識障害は典型的でなく、経過も合わない</span></td></tr><tr><td>ｃ　重症筋無力症</td><td><span class=\"kw3\">易疲労性の筋力低下と眼瞼下垂・複視</span>。⚠️<span class=\"kw3\">意識障害と失調は起こさない</span></td></tr><tr><td><span class=\"kw3\">◯ ｄ　Wernicke 脳症</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">悪阻による摂取不能＋絶食＋糖質輸液</span>に、<span class=\"kw3\">眼球運動障害・失調・意識障害</span>がそろう</td></tr><tr><td>ｅ　Guillain-Barré 症候群</td><td><span class=\"kw3\">先行感染の後の弛緩性麻痺と腱反射消失</span>。⚠️<span class=\"kw3\">四肢麻痺がないと明記されている</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 妊娠悪阻——内分泌の病気としての顔",
+       "c": "<span class=\"kw\"><b>なぜ起こるか</b></span>——⚠️<span class=\"kw4\"><b>hCG が主役</b></span>とされる。<span class=\"kw3\"><b>hCG が最も高くなる妊娠8〜12週に症状が強く、多胎妊娠や胞状奇胎では重くなる</b></span>。<br/><br/>⚠️⚠️<span class=\"kw4\"><b>そして hCG は TSH 受容体を弱く刺激する</b></span>——<span class=\"kw3\"><b>構造が TSH とよく似ているため</b></span>。<br/>・<span class=\"kw3\"><b>妊娠一過性甲状腺機能亢進症</b></span>——<span class=\"kw3\"><b>FT4 が上がり TSH が下がる</b></span><br/>・<span class=\"kw3\"><b>悪阻が重いほど甲状腺機能亢進の程度も強い</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>Basedow 病との鑑別</b></span>——<span class=\"kw3\"><b>抗TSH受容体抗体が陰性、甲状腺腫と眼症状がない、そして妊娠中期には自然に軽快する</b></span><br/>・⚠️<span class=\"kw4\"><b>治療は原則として不要</b></span>。<span class=\"kw3\"><b>抗甲状腺薬を出すと胎児が甲状腺機能低下になる</b></span><br/><br/><span class=\"kw\"><b>入院と治療の目安</b></span><br/>・<span class=\"kw3\"><b>体重が妊娠前の5%以上減少</b></span>・<span class=\"kw3\"><b>ケトン尿</b></span>・<span class=\"kw3\"><b>電解質異常</b></span><br/>・<span class=\"kw3\"><b>輸液と制吐薬</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>そしてチアミンを必ず投与する</b></span>——<span class=\"kw3\"><b>本症例が示すとおり、輸液だけでは Wernicke 脳症を作ってしまう</b></span><br/><br/>⚠️<span class=\"kw4\"><b>母体の Wernicke 脳症は流産や胎児死亡と結びつく</b></span>。<span class=\"kw3\"><b>「悪阻はそのうち治まる」で放置しない</b></span>。<br/><br/>⚠️<span class=\"kw4\"><b>「つわり」と「妊娠悪阻」は別物として扱う</b></span>——<span class=\"kw3\"><b>吐き気や嘔吐そのものは妊婦の半数以上に起こる生理的なもの</b></span>だが、<span class=\"kw3\"><b>体重が減り脱水と電解質異常をきたして治療が要る状態が妊娠悪阻</b></span>で、<span class=\"kw3\"><b>頻度は1%前後</b></span>。<span class=\"kw3\"><b>線を引くのは「食べられているか・体重が減っているか」</b></span>である。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "妊娠悪阻患者へのグルコース投与前には<span class=\"kw\">必ずB1補充</span>。<br/>Wernicke脳症は妊婦でも起きる（悪阻期間が長いほどリスク↑）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "妊娠悪阻・絶食＋糖輸液後の複視・失調＝Wernicke脳症。<br/><b>a 子癇／b 多発性硬化症／c 重症筋無力症／e Guillain-Barré症候群</b>：合わない。<br/><b>d Wernicke脳症</b>：<span class=\"kw\">B1欠乏に糖負荷が加わり発症</span>。✓"
+       "c": "⚠️<span class=\"kw4\"><b>絶食＋糖質輸液は Wernicke 脳症を作る</b></span>——<span class=\"kw3\"><b>チアミンを先に、または同時に</b></span>。<br/><span class=\"kw3\"><b>妊娠中の神経症状は血圧・蛋白尿・血小板・けいれんで仕分ける</b></span>（<span class=\"kw3\"><b>子癇／脳静脈洞血栓症／Wernicke／HELLP</b></span>）。<br/>⚠️<span class=\"kw4\"><b>重症妊娠悪阻では hCG により一過性の甲状腺機能亢進をきたす</b></span>——<span class=\"kw3\"><b>抗体陰性・眼症状なしで Basedow と区別し、治療しない</b></span>。"
       }
      ],
      "imgs": []
@@ -35884,22 +35894,27 @@
       }
      ],
      "ans_label": "ｂ　ニコチン酸  ―――――――――― 下　痢",
-     "ans_sub": "ニコチン酸（B3/ナイアシン）欠乏→ペラグラ（3D：Dermatitis皮膚炎・Diarrhea下痢・Dementia認知症）",
+     "ans_sub": "ニコチン酸（ナイアシン）欠乏＝ペラグラで、皮膚炎・下痢・認知症の3つが起こる",
      "eg": [
       {
        "cls": "ep",
-       "h": "📋 ビタミン・微量元素と欠乏症の組合せ（正誤確認）",
-       "c": "<table class=\"tb\"><tr><td>選択肢</td><td>正誤</td><td>正しい内容</td></tr><tr><td>アスコルビン酸→血栓症</td><td>✗</td><td><span class=\"kw4\">ビタミンC欠乏→壊血病（出血傾向）。血栓ではない</span></td></tr><tr><td><span class=\"kw\">ニコチン酸→下痢</span></td><td><span class=\"kw\">✓</span></td><td><span class=\"kw\">ペラグラの3D：皮膚炎・下痢・認知症</span></td></tr><tr><td>葉酸→赤血球増加症</td><td>✗</td><td><span class=\"kw4\">葉酸欠乏→巨赤芽球性貧血（赤血球減少）</span></td></tr><tr><td>マグネシウム→味覚障害</td><td>✗</td><td><span class=\"kw4\">Mg欠乏→テタニー・筋痙攣。味覚障害は亜鉛</span></td></tr><tr><td>リン→糖尿病</td><td>✗</td><td><span class=\"kw4\">リン欠乏→骨軟化症・筋力低下。糖尿病との関連なし</span></td></tr></table>"
+       "h": "🔁 組合せ問題の誤りには3つの型がある",
+       "c": "この設問の誤答を分類すると、<span class=\"kw3\"><b>組合せ問題の作られ方</b></span>がそのまま見えてくる。<br/><br/><span class=\"kw\"><b>① 相手違い——別の栄養素の症状を当てている</b></span><br/>・<span class=\"kw3\"><b>マグネシウム ― 味覚障害</b></span>　⚠️<span class=\"kw4\"><b>味覚障害は亜鉛</b></span>（Q.526）。<span class=\"kw3\"><b>Mg 欠乏はテタニー・不整脈</b></span><br/><br/><span class=\"kw\"><b>② 向き違い——増減が逆になっている</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>アスコルビン酸 ― 血栓症</b></span>　<span class=\"kw3\"><b>ビタミンC 欠乏は血管が脆くなる＝出血傾向</b></span>。<span class=\"kw3\"><b>血栓とは正反対</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>葉酸 ― 赤血球増加症</b></span>　<span class=\"kw3\"><b>葉酸欠乏は巨赤芽球性貧血＝赤血球は減る</b></span><br/>⚠️<span class=\"kw4\"><b>この型は一瞬「見たことがある語」に見えるので危ない</b></span>。<span class=\"kw3\"><b>語の組合せではなく、向きまで確かめる</b></span>。<br/><br/><span class=\"kw\"><b>③ 無関係——どこにも接点がない</b></span><br/>・<span class=\"kw3\"><b>燐 ― 糖尿病</b></span>　<span class=\"kw3\"><b>低リン血症は筋力低下や骨軟化症で、糖尿病とは結びつかない</b></span><br/><br/><span class=\"kw\"><b>正解——ニコチン酸 ― 下痢</b></span><br/>⚠️<span class=\"kw4\"><b>ペラグラの 3D</b></span>＝<span class=\"kw3\"><b>Dermatitis（日光露出部の皮膚炎）・Diarrhea（下痢）・Dementia（認知症）</b></span>。<span class=\"kw3\"><b>進めば死に至るので4つ目の D を加えることもある</b></span>。<br/>⚠️<span class=\"kw4\"><b>下痢は消化管粘膜の萎縮による</b></span>もので、<span class=\"kw3\"><b>3つのうち最初に出ることもある</b></span>。<span class=\"kw3\"><b>ニコチン酸＝ナイアシン＝ビタミンB3 は同じもの</b></span>を指す。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　アスコルビン酸 ― 血栓症</td><td>⚠️<span class=\"kw3\">向きが逆</span>。<span class=\"kw3\">ビタミンC 欠乏は壊血病＝出血傾向</span>（<span class=\"kw3\">コラーゲンの架橋ができない</span>）</td></tr><tr><td><span class=\"kw3\">◯ ｂ　ニコチン酸 ― 下　痢</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">ペラグラの 3D の1つ</span>。<span class=\"kw3\">消化管粘膜の萎縮による</span></td></tr><tr><td>ｃ　葉　酸 ― 赤血球増加症</td><td>⚠️<span class=\"kw3\">向きが逆</span>。<span class=\"kw3\">葉酸欠乏は巨赤芽球性貧血</span>。<span class=\"kw3\">DNA 合成が止まり赤血球は減る</span></td></tr><tr><td>ｄ　マグネシウム ― 味覚障害</td><td><span class=\"kw3\">相手違い</span>。<span class=\"kw3\">味覚障害は亜鉛</span>。⚠️<span class=\"kw3\">Mg 欠乏はテタニー・不整脈・治らない低Ca と低K</span></td></tr><tr><td>ｅ　燐 ― 糖尿病</td><td><span class=\"kw3\">無関係</span>。<span class=\"kw3\">低リン血症は筋力低下・横紋筋融解・骨軟化症</span>（下の検討を参照）</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "💡 ペラグラ（ニコチン酸欠乏）の3D",
-       "c": "<span class=\"kw\">Dermatitis（皮膚炎）・Diarrhea（下痢）・Dementia（認知症）</span><br/>光線過敏性皮膚炎が特徴（日光に当たる部位に対称性皮膚炎）。<br/>4つめのDとして Death（死亡）を加えて4Dとも言う。"
+       "h": "🔍 リンが足りないと何が起こるか——細胞のエネルギーが作れなくなる",
+       "c": "リンは⚠️<span class=\"kw4\"><b>ATP・核酸・細胞膜のリン脂質・骨</b></span>のすべてに要る。<span class=\"kw3\"><b>足りなくなると、エネルギーを使う組織から順に止まる</b></span>。<br/><br/><span class=\"kw\"><b>急性の低リン血症</b></span><br/>・⚠️<span class=\"kw4\"><b>筋力低下</b></span>——<span class=\"kw3\"><b>重症では呼吸筋が動かず、人工呼吸器から離脱できない</b></span><br/>・<span class=\"kw3\"><b>横紋筋融解症</b></span><br/>・<span class=\"kw3\"><b>心筋収縮力の低下による心不全</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>赤血球の 2,3-DPG が減る</b></span>——<span class=\"kw3\"><b>ヘモグロビンが酸素を手放しにくくなり、組織が低酸素になる</b></span><br/>・<span class=\"kw3\"><b>溶血</b></span>・<span class=\"kw3\"><b>白血球の貪食能低下</b></span><br/>・<span class=\"kw3\"><b>意識障害・けいれん・錯感覚</b></span><br/><br/><span class=\"kw\"><b>慢性の低リン血症</b></span><br/>・<span class=\"kw3\"><b>骨軟化症・くる病</b></span>（Q.530）<br/><br/><span class=\"kw\"><b>起こる場面</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>refeeding 症候群</b></span>——<span class=\"kw3\"><b>飢餓の後に栄養を入れると、リンが一斉に細胞内へ移動する</b></span>。<span class=\"kw3\"><b>低リン血症が主役</b></span>（Q.467）<br/>・<span class=\"kw3\"><b>糖尿病性ケトアシドーシスの治療中</b></span>（<span class=\"kw3\"><b>インスリンで細胞内へ</b></span>）<br/>・<span class=\"kw3\"><b>アルコール依存</b></span>・<span class=\"kw3\"><b>呼吸性アルカローシス</b></span><br/>・<span class=\"kw3\"><b>FGF23 過剰・Fanconi 症候群</b></span>（Q.523）<br/><br/>⚠️<span class=\"kw4\"><b>「栄養を入れ始めてから調子が悪くなった」ときは、まずリンを測る</b></span>。<br/><br/>⚠️<span class=\"kw4\"><b>補正は急がず静かに行う</b></span>——<span class=\"kw3\"><b>リン製剤の急速静注は、血中のカルシウムと結合して低カルシウム血症・不整脈・腎への沈着を起こす</b></span>。<span class=\"kw3\"><b>経口で足せるなら経口で、静注なら数時間かけて</b></span>。⚠️<span class=\"kw3\"><b>補正中はカルシウムとマグネシウムも一緒に測る</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">ニコチン酸（B3）欠乏=ペラグラ</span>：皮膚炎・下痢・認知症の三徴。<br/>B3の前駆体：トリプトファン（アミノ酸）→B3合成（ただし量は不十分）。"
+       "c": "<span class=\"kw3\"><b>ニコチン酸（ナイアシン・B3）欠乏＝ペラグラ</b></span>——<span class=\"kw3\"><b>皮膚炎・下痢・認知症の 3D</b></span>。<br/>⚠️<span class=\"kw4\"><b>組合せ問題の誤りは「相手違い」「向き違い」「無関係」の3型</b></span>。<span class=\"kw3\"><b>向き違いに注意</b></span>。<br/><span class=\"kw3\"><b>C 欠乏＝出血傾向／葉酸欠乏＝巨赤芽球性貧血／Mg 欠乏＝テタニー／低P＝筋力低下と骨軟化症</b></span>。"
       }
      ],
      "imgs": []
@@ -35941,27 +35956,27 @@
       }
      ],
      "ans_label": "ｂ　心拍出量の増加",
-     "ans_sub": "脚気心（Wet beriberi）：末梢血管拡張→前負荷↑→心拍出量代償的増加（高拍出性心不全）",
+     "ans_sub": "ビタミンB1 欠乏では末梢血管が拡張して血管抵抗が下がり、心拍出量が代償的に増える高拍出性心不全（脚気心）となる",
      "eg": [
       {
        "cls": "ep",
-       "h": "❤️ 脚気心（Wet beriberi）の病態",
-       "c": "<span class=\"kw\">B1欠乏→末梢神経・心臓への影響</span>：<br/>・PDH障害→エネルギー代謝↓→末梢血管拡張（血管平滑筋の代謝障害）<br/>・末梢血管抵抗↓→前負荷↑→<span class=\"kw\">心拍出量代償的増加</span><br/>→ 高拍出性心不全（うっ血性心不全）・浮腫<br/><br/><span class=\"kw\">血中乳酸値</span>：PDH障害→ピルビン酸→乳酸蓄積→乳酸<span class=\"kw4\">増加</span>（低下ではない）"
+       "h": "❤️ 脚気心の血行動態を順番に追う",
+       "c": "<span class=\"kw\"><b>1本の鎖でつながっている</b></span><br/>① <span class=\"kw3\"><b>B1 が足りない → ピルビン酸脱水素酵素が回らず、好気的な ATP 産生ができない</b></span><br/>② ⚠️<span class=\"kw4\"><b>エネルギーを得られない末梢の細動脈が拡張する</b></span>（<span class=\"kw3\"><b>代謝性の血管拡張</b></span>）<br/>③ <span class=\"kw3\"><b>末梢血管抵抗が下がる</b></span>＝⚠️<span class=\"kw4\"><b>肢 ｄ は逆</b></span><br/>④ <span class=\"kw3\"><b>静脈還流が増え、前負荷が上がる</b></span><br/>⑤ ⚠️<span class=\"kw4\"><b>心拍出量が増える</b></span>＝<span class=\"kw3\"><b>これが正解の肢</b></span><br/>⑥ <span class=\"kw3\"><b>それでも組織は酸素を使えないので、心臓は増やし続けて破綻する</b></span>＝⚠️<span class=\"kw4\"><b>高拍出性心不全</b></span><br/><br/><span class=\"kw\"><b>だから診察所見が普通の心不全と逆になる</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>手足が温かい</b></span>（<span class=\"kw3\"><b>通常の心不全は末梢が冷たい</b></span>）<br/>・<span class=\"kw3\"><b>脈圧が広い</b></span>・<span class=\"kw3\"><b>頻脈</b></span>・<span class=\"kw3\"><b>心尖拍動が亢進</b></span><br/>・<span class=\"kw3\"><b>下腿浮腫・頸静脈怒張</b></span>は同じように出る<br/><br/><span class=\"kw\"><b>そして乳酸</b></span>——⚠️⚠️<span class=\"kw4\"><b>肢 ｃ も逆で、血中乳酸は上昇する</b></span>。<span class=\"kw3\"><b>ピルビン酸がクエン酸回路へ入れず、行き場を失って乳酸へ流れる</b></span>。⚠️<span class=\"kw4\"><b>原因の分からない乳酸アシドーシスを見たら B1 を疑う</b></span>（Q.504）。<br/><br/>⚠️<span class=\"kw4\"><b>急激に心不全が進む型を衝心脚気と呼ぶ</b></span>——<span class=\"kw3\"><b>数日で死に至ることがあり、チアミンの静注で劇的に改善する</b></span>。<br/><br/>⚠️⚠️<span class=\"kw4\"><b>そして診断は治療への反応で確かめられる</b></span>——<span class=\"kw3\"><b>チアミンを静注すると、数時間から数日で心不全が目に見えて改善する</b></span>。<span class=\"kw3\"><b>これほど反応の速い心不全はほかにない</b></span>。<br/>⚠️⚠️<span class=\"kw4\"><b>逆に、心不全として利尿薬だけで治療すると悪化する</b></span>——<span class=\"kw3\"><b>ループ利尿薬はチアミンを尿へ排泄させる</b></span>ので、<span class=\"kw3\"><b>慢性心不全でループ利尿薬を長く使っている人自体が B1 欠乏のリスクを持つ</b></span>。<span class=\"kw3\"><b>「利尿薬を増やしても良くならない心不全」でも B1 を思い出す</b></span>。"
       },
       {
        "cls": "ee",
-       "h": "□ 各選択肢の正誤",
-       "c": "<table class=\"tb\"><tr><td>選択肢</td><td>正誤</td><td>理由</td></tr><tr><td>ａ 膝蓋腱反射の亢進</td><td>✗</td><td><span class=\"kw4\">B1欠乏→腱反射消失/低下（末梢神経障害）</span></td></tr><tr><td><span class=\"kw\">ｂ 心拍出量の増加</span></td><td><span class=\"kw\">✓</span></td><td><span class=\"kw\">高拍出性心不全：末梢血管拡張→代償性心拍出量↑</span></td></tr><tr><td>ｃ 血中乳酸値の低下</td><td>✗</td><td><span class=\"kw4\">B1欠乏→PDH障害→乳酸蓄積→乳酸増加</span></td></tr><tr><td>ｄ 末梢血管抵抗の上昇</td><td>✗</td><td><span class=\"kw4\">末梢血管拡張→抵抗低下</span></td></tr><tr><td>ｅ 疼痛を伴う舌腫大</td><td>✗</td><td><span class=\"kw4\">ペラグラ（B3欠乏）の症状</span></td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　膝蓋腱反射の亢進</td><td>⚠️<span class=\"kw3\">逆で、低下ないし消失する</span>。<span class=\"kw3\">末梢神経障害（乾性脚気）を合併するため</span>（Q.479）</td></tr><tr><td><span class=\"kw3\">◯ ｂ　心拍出量の増加</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">末梢血管拡張 → 血管抵抗低下 → 静脈還流増加 → 高拍出性心不全</span></td></tr><tr><td>ｃ　血中乳酸値の低下</td><td>⚠️<span class=\"kw3\">逆で上昇する</span>。<span class=\"kw3\">ピルビン酸がクエン酸回路へ入れず乳酸へ流れる</span></td></tr><tr><td>ｄ　末梢血管抵抗の上昇</td><td>⚠️<span class=\"kw3\">逆で低下する</span>。<span class=\"kw3\">これが高拍出になる出発点</span></td></tr><tr><td>ｅ　疼痛を伴う舌腫大</td><td><span class=\"kw3\">B1 では起こらない</span>。⚠️<span class=\"kw3\">疼痛を伴う平滑舌は B12 欠乏（Hunter 舌炎）</span>が代表（下の検討を参照）</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 舌を見れば足りないものが分かることがある",
+       "c": "⚠️<span class=\"kw4\"><b>舌の粘膜は入れ替わりが速いので、栄養の欠乏が早く現れる</b></span>。<span class=\"kw3\"><b>肢 ｅ はそこを突いている</b></span>。<br/><br/>・⚠️⚠️<span class=\"kw4\"><b>ビタミンB12</b></span>——<span class=\"kw3\"><b>Hunter 舌炎</b></span>。<span class=\"kw3\"><b>舌乳頭が消えて赤くつるつるになり、ひりひりと痛む</b></span>。<span class=\"kw3\"><b>巨赤芽球性貧血と深部感覚障害を伴う</b></span><br/>・<span class=\"kw3\"><b>葉酸</b></span>——<span class=\"kw3\"><b>同様の舌炎</b></span>（<span class=\"kw3\"><b>ただし神経症状は出ない</b></span>）<br/>・<span class=\"kw3\"><b>鉄</b></span>——<span class=\"kw3\"><b>舌乳頭萎縮・口角炎</b></span>。⚠️<span class=\"kw3\"><b>Plummer-Vinson 症候群では嚥下困難も</b></span>（Q.495）<br/>・<span class=\"kw3\"><b>ビタミンB2</b></span>——⚠️<span class=\"kw4\"><b>口角炎・口唇炎・舌炎</b></span>が最も典型的。<span class=\"kw3\"><b>脂漏性皮膚炎も</b></span><br/>・<span class=\"kw3\"><b>ビタミンB6</b></span>——<span class=\"kw3\"><b>舌炎・口角炎に加えて末梢神経炎とけいれん</b></span><br/>・<span class=\"kw3\"><b>ナイアシン</b></span>——<span class=\"kw3\"><b>ペラグラの赤く腫れた舌</b></span><br/>・<span class=\"kw3\"><b>ビタミンC</b></span>——<span class=\"kw3\"><b>歯肉の腫脹と出血</b></span>（<span class=\"kw3\"><b>舌ではなく歯肉</b></span>）<br/>・<span class=\"kw3\"><b>亜鉛</b></span>——<span class=\"kw3\"><b>味覚障害</b></span>（<span class=\"kw3\"><b>見た目の変化は乏しい</b></span>）<br/><br/>⚠️<span class=\"kw4\"><b>そして B1 だけは舌に来ない</b></span>——<span class=\"kw3\"><b>B1 の標的は神経と心臓で、粘膜ではない</b></span>。<span class=\"kw3\"><b>この一点でこの肢は切れる</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">脚気心は高拍出性心不全</span>（心拍出量が増加する数少ない心不全の一つ）。<br/>他に高拍出性心不全：甲状腺機能亢進症・重症貧血・AV瘻・Paget病・脚気。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "ビタミンB1欠乏症（脚気）でみられるもの。<br/><b>a 膝蓋腱反射の亢進</b>：反射は低下/消失。<br/><b>c 血中乳酸値の低下</b>：上昇する。<br/><b>d 末梢血管抵抗の上昇</b>：低下する。<br/><b>e 疼痛を伴う舌腫大</b>：ペラグラ/他のビタミン欠乏。<br/><b>b 心拍出量の増加</b>：<span class=\"kw\">末梢血管拡張による高拍出性心不全（脚気心）</span>。✓"
+       "c": "<span class=\"kw3\"><b>脚気心＝末梢血管拡張 → 血管抵抗低下 → 心拍出量増加 → 高拍出性心不全</b></span>。⚠️<span class=\"kw4\"><b>手足は温かく脈圧が広い</b></span>。<br/>⚠️<span class=\"kw4\"><b>B1 欠乏では乳酸が上がり、腱反射は低下する</b></span>（<span class=\"kw3\"><b>どちらも肢と逆</b></span>）。<br/>⚠️<span class=\"kw4\"><b>疼痛を伴う平滑舌は B12（Hunter 舌炎）</b></span>。<span class=\"kw3\"><b>B1 は舌に来ない</b></span>。"
       }
      ],
      "imgs": []
@@ -36007,27 +36022,27 @@
       }
      ],
      "ans_label": "ｄ　失見当識\nｅ　記銘障害",
-     "ans_sub": "Korsakoff症候群（Wernicke脳症の後遺症）：記銘障害（近時記憶障害）・失見当識・作話が三主徴。意識は清明",
+     "ans_sub": "Korsakoff 症候群は記銘障害（前向健忘）・失見当識・作話が三主徴で、意識は清明に保たれる",
      "eg": [
       {
        "cls": "ep",
-       "h": "🧠 Korsakoff症候群の特徴",
-       "c": "<span class=\"kw\">Korsakoff症候群</span>：ウェルニッケ脳症の慢性後遺症<br/>乳頭体・視床背内側核の不可逆的損傷→記憶回路の障害<br/><br/><span class=\"kw\">三主徴</span>：<br/>① <span class=\"kw\">記銘障害（Anterograde amnesia）</span>：新しい記憶が作れない（近時記憶の著しい障害）<br/>② <span class=\"kw\">失見当識（Disorientation）</span>：時間・場所の見当識が障害される<br/>③ <span class=\"kw\">作話（Confabulation）</span>：記憶の空白を無意識に埋める（自覚なし）<br/><br/>特徴：<span class=\"kw\">意識は清明</span>（意識障害はWernickeの症状）<br/>認知症との違い：人格・言語・知覚は比較的保たれる"
+       "h": "🧠 健忘を語る言葉を正確に使い分ける",
+       "c": "<span class=\"kw\"><b>記憶を保持時間で分ける</b></span><br/>・<span class=\"kw3\"><b>即時記憶</b></span>——<span class=\"kw3\"><b>数十秒</b></span>（<span class=\"kw3\"><b>数字の復唱</b></span>）<br/>・<span class=\"kw3\"><b>近時記憶</b></span>——<span class=\"kw3\"><b>数分から数日</b></span><br/>・<span class=\"kw3\"><b>遠隔記憶</b></span>——<span class=\"kw3\"><b>数年から一生</b></span><br/><br/><span class=\"kw\"><b>障害の向きで分ける</b></span><br/>・⚠️<span class=\"kw4\"><b>前向健忘</b></span>——<span class=\"kw3\"><b>発症した時点より後のことを新しく覚えられない</b></span><br/>・<span class=\"kw3\"><b>逆行健忘</b></span>——<span class=\"kw3\"><b>発症より前の記憶が失われる</b></span><br/><br/>⚠️⚠️<span class=\"kw4\"><b>Korsakoff 症候群は前向健忘（記銘障害）が主体</b></span>で、<span class=\"kw3\"><b>遠隔記憶は比較的よく保たれる</b></span>。<span class=\"kw3\"><b>昔のことは語れるのに、今朝のことを覚えていない</b></span>。<br/><br/><span class=\"kw\"><b>三主徴</b></span><br/>・<span class=\"kw3\"><b>記銘障害</b></span>——<span class=\"kw3\"><b>新しいことが入らない</b></span><br/>・<span class=\"kw3\"><b>失見当識</b></span>——⚠️<span class=\"kw4\"><b>「今がいつで、ここがどこか」を新しく覚えられない結果</b></span>。<span class=\"kw3\"><b>記銘障害から派生する</b></span><br/>・<span class=\"kw3\"><b>作話</b></span>——⚠️<span class=\"kw4\"><b>嘘ではなく、欠けた部分を無意識に埋めている</b></span>（Q.515）<br/><br/><span class=\"kw\"><b>認知症ではない理由</b></span><br/>⚠️⚠️<span class=\"kw4\"><b>知能・判断力・言語・人格は保たれる</b></span>。<span class=\"kw3\"><b>記憶だけが選択的に抜ける状態を健忘症候群と呼び、全般的な知的機能が落ちる認知症とは区別する</b></span>。<br/><span class=\"kw3\"><b>そして意識は清明</b></span>——⚠️<span class=\"kw4\"><b>意識障害があるのは急性期の Wernicke 脳症の段階</b></span>で、<span class=\"kw3\"><b>それが去った後に残るのが Korsakoff である</b></span>。<br/><br/><span class=\"kw\"><b>治療と予後</b></span>——<span class=\"kw3\"><b>チアミンを続けても、いったん完成した Korsakoff の回復は限られる</b></span>。<span class=\"kw3\"><b>おおよそ2割が完全に回復し、2割はほとんど改善せず、残りは部分的</b></span>とされる。⚠️<span class=\"kw4\"><b>だから治療の中心は、急性期に Wernicke を見逃さずに打つことと、その後の生活を支えること</b></span>になる。<span class=\"kw3\"><b>断酒・栄養・記憶を補う環境の調整</b></span>。"
       },
       {
        "cls": "ee",
-       "h": "□ 各選択肢の正誤",
-       "c": "<table class=\"tb\"><tr><td>選択肢</td><td>正誤</td><td>理由</td></tr><tr><td>ａ 妄想</td><td>✗</td><td>Korsakoff特有の症状ではない</td></tr><tr><td>ｂ 認知症</td><td>✗</td><td><span class=\"kw4\">前頭葉・人格は保たれる（全般的認知症とは異なる）</span></td></tr><tr><td>ｃ 意識障害</td><td>✗</td><td><span class=\"kw4\">Wernickeの症状。Korsakoffでは意識清明</span></td></tr><tr><td><span class=\"kw\">ｄ 失見当識</span></td><td><span class=\"kw\">✓</span></td><td><span class=\"kw\">時間・場所の認識障害</span></td></tr><tr><td><span class=\"kw\">ｅ 記銘障害</span></td><td><span class=\"kw\">✓</span></td><td><span class=\"kw\">近時記憶の著しい障害（新しいことが覚えられない）</span></td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　妄　想</td><td><span class=\"kw3\">訂正できない誤った確信</span>。⚠️<span class=\"kw3\">作話とは別物</span>——<span class=\"kw3\">作話は指摘されれば固執せず、内容も場面ごとに変わる</span></td></tr><tr><td>ｂ　認知症</td><td>⚠️<span class=\"kw3\">記憶だけが選択的に障害される健忘症候群</span>であり、<span class=\"kw3\">知能・判断・人格は保たれる</span>。<span class=\"kw3\">認知症とは区別する</span></td></tr><tr><td>ｃ　意識障害</td><td>⚠️<span class=\"kw3\">意識は清明</span>。<span class=\"kw3\">意識障害は急性期の Wernicke 脳症の症状</span>で、<span class=\"kw3\">Korsakoff はその後遺状態</span></td></tr><tr><td><span class=\"kw3\">◯ ｄ　失見当識</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">記銘障害の結果として、時・場所が分からなくなる</span></td></tr><tr><td><span class=\"kw3\">◯ ｅ　記銘障害</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">三主徴の中心</span>。<span class=\"kw3\">前向健忘で、遠隔記憶は比較的保たれる</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 記憶の回路のどこが切れても健忘症候群になる",
+       "c": "⚠️<span class=\"kw4\"><b>記憶を固定する経路（Papez 回路）は 海馬 → 脳弓 → 乳頭体 → 視床前核 → 帯状回 → 海馬 と一周する</b></span>。<span class=\"kw3\"><b>どこが切れても同じような健忘が出る</b></span>。<br/><br/>・<span class=\"kw3\"><b>両側の海馬</b></span>——<span class=\"kw3\"><b>単純ヘルペス脳炎</b></span>（⚠️<span class=\"kw3\"><b>側頭葉内側に病変</b></span>）・<span class=\"kw3\"><b>低酸素脳症</b></span>・<span class=\"kw3\"><b>辺縁系脳炎</b></span><br/>・<span class=\"kw3\"><b>脳弓</b></span>——<span class=\"kw3\"><b>第三脳室周囲の手術</b></span><br/>・⚠️<span class=\"kw4\"><b>乳頭体と視床背内側核</b></span>——<span class=\"kw3\"><b>Korsakoff 症候群</b></span>・<span class=\"kw3\"><b>視床梗塞</b></span>（Q.515）<br/>・<span class=\"kw3\"><b>前脳基底部</b></span>——⚠️<span class=\"kw4\"><b>前交通動脈瘤の破裂</b></span>。<span class=\"kw3\"><b>作話が目立つ</b></span><br/><br/><span class=\"kw\"><b>回復するものもある</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>一過性全健忘（TGA）</b></span>——<span class=\"kw3\"><b>突然始まり24時間以内に完全に回復する</b></span>。<span class=\"kw3\"><b>同じ質問を何度も繰り返すのが特徴</b></span>。<span class=\"kw3\"><b>入浴・運動・強い情動が誘因</b></span>。<span class=\"kw3\"><b>中年以降に多く、予後は良い</b></span><br/>・<span class=\"kw3\"><b>てんかん・頭部外傷後</b></span><br/><br/><span class=\"kw\"><b>器質性と心因性の違い</b></span><br/>⚠️⚠️<span class=\"kw4\"><b>解離性（心因性）健忘では、自分が誰かという情報そのものが失われる</b></span>。<span class=\"kw3\"><b>器質性の健忘では人物の同一性は保たれ、新しいことが覚えられないだけ</b></span>。⚠️<span class=\"kw4\"><b>この違いが最初の手がかりになる</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">Wernicke（急性・意識障害）→Korsakoff（慢性・意識清明・記憶障害）</span>の進展。<br/>作話（Confabulation）：実際には経験していないことを本人は確信して語る→Korsakoffの特徴。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "Korsakoff症候群の症状を2つ。<br/><b>a 妄想／b 認知症／c 意識障害</b>：中核症状でない。<br/><b>d 失見当識</b>：<span class=\"kw\">見当識障害（作話を伴う）</span>。✓<br/><b>e 記銘障害</b>：<span class=\"kw\">前向性健忘（新しい記憶が保持できない）</span>。✓"
+       "c": "<span class=\"kw3\"><b>Korsakoff 症候群の三主徴＝記銘障害・失見当識・作話</b></span>。⚠️<span class=\"kw4\"><b>意識は清明で、知能と人格は保たれる（認知症ではない）</b></span>。<br/><span class=\"kw3\"><b>前向健忘が主体で遠隔記憶は保たれる</b></span>。⚠️<span class=\"kw4\"><b>作話は嘘ではない</b></span>。<br/>⚠️<span class=\"kw4\"><b>健忘症候群は Papez 回路のどこが切れても起こる</b></span>——<span class=\"kw3\"><b>海馬・脳弓・乳頭体・視床・前脳基底部</b></span>。"
       }
      ],
      "imgs": []
