@@ -32859,22 +32859,27 @@
       }
      ],
      "ans_label": "ｂ　ビタミンB1〈チアミン〉\nｃ　ビタミンB3〈ナイアシン〉\nｄ　ビタミンB12〈コバラミン〉",
-     "ans_sub": "B1（Wernicke-Korsakoff）・B3（ペラグラの精神症状）・B12（亜急性脊髄変性・認知症）がいずれも認知障害をきたす",
+     "ans_sub": "B1・B3・B12 は中枢神経そのものを壊す＝認知障害が主症状になりうる。A（夜盲）と C（壊血病）は中枢の構造を壊さない",
      "eg": [
       {
        "cls": "ep",
-       "h": "🧠 認知障害をきたすビタミン欠乏",
-       "c": "<table class=\"tb\"><tr><td>ビタミン</td><td>欠乏症</td><td>認知障害機序</td></tr><tr><td><span class=\"kw\">B1（チアミン）</span></td><td><span class=\"kw\">Wernicke-Korsakoff症候群</span></td><td><span class=\"kw\">乳頭体・視床の壊死→記憶障害・失見当識・作話</span></td></tr><tr><td><span class=\"kw\">B3（ナイアシン）</span></td><td><span class=\"kw\">ペラグラ（3D）</span></td><td><span class=\"kw\">皮膚炎・下痢・認知症（Dementia）</span></td></tr><tr><td><span class=\"kw\">B12（コバラミン）</span></td><td><span class=\"kw\">亜急性連合性脊髄変性症</span></td><td><span class=\"kw\">脊髄後索・側索障害→認知機能低下・認知症</span></td></tr><tr><td>B6</td><td>末梢神経炎</td><td>認知障害は軽微</td></tr><tr><td>VA</td><td>夜盲</td><td>認知障害なし</td></tr><tr><td>VC</td><td>壊血病</td><td>認知障害なし（主に出血傾向）</td></tr></table>"
+       "h": "🧠 「可能性が高い」は、認知障害が主症状かどうかで線を引く",
+       "c": "欠乏で神経が関わるビタミンは多いが、<span class=\"kw3\"><b>認知障害そのものが前面に出る</b></span>のは3つだけ。<br/><br/><span class=\"kw\"><b>ｂ　B1（チアミン）</b></span>——侵されるのが<span class=\"kw3\"><b>乳頭体・視床内側・中脳水道周囲</b></span>＝<span class=\"kw3\"><b>記憶の回路そのもの</b></span>。急性期が Wernicke 脳症（意識障害・眼球運動障害・失調）、残るのが Korsakoff 症候群（<span class=\"kw3\"><b>前向健忘と作話</b></span>）。<br/><br/><span class=\"kw\"><b>ｃ　B3（ナイアシン）</b></span>——ペラグラの3D が <span class=\"kw3\"><b>Dermatitis（日光露出部・Casal 首飾り）・Diarrhea・Dementia</b></span>。<span class=\"kw3\"><b>認知症が病名の定義の中に入っている</b></span>。<br/><br/><span class=\"kw\"><b>ｄ　B12（コバラミン）</b></span>——後索・側索の脱髄と並んで<span class=\"kw3\"><b>大脳白質にも脱髄</b></span>が起こる。⚠️<span class=\"kw4\"><b>貧血が無いまま神経症状だけが先に出ることがある</b></span>（B12 の運ばれ方は Q.484）。<br/><br/><span class=\"kw\"><b>3つは出方の速さが違う</b></span>——B1 は<span class=\"kw3\"><b>数日から数週の急性</b></span>（だから救急で疑う）、B3 は<span class=\"kw3\"><b>皮膚炎と下痢が揃って数週</b></span>、B12 は<span class=\"kw3\"><b>数か月から年単位でゆっくり</b></span>進む。同じ「認知障害」でも<span class=\"kw3\"><b>時間軸を聞けば当たりがつく</b></span>。<br/><br/>⚠️ <span class=\"kw4\"><b>ｅ　C</b></span> はコラーゲンの架橋＝壊血病（出血傾向）、<span class=\"kw4\"><b>ａ　A</b></span> は網膜のロドプシン＝夜盲。どちらも<span class=\"kw3\"><b>中枢神経の構造を壊す機序を持たない</b></span>。<br/>⚠️ <span class=\"kw4\"><b>B6</b></span> も神経に来るが<span class=\"kw3\"><b>主体は末梢神経炎</b></span>で、認知障害は前面に出ない（Q.486）＝「関与しうる」まで広げずに<span class=\"kw3\"><b>「可能性が高い」で切る</b></span>のがこの設問の読み方。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　ビタミンA〈レチノール〉</td><td>夜盲・眼球乾燥・角膜軟化。<span class=\"kw3\">視覚の問題</span>であって認知機能ではない</td></tr><tr><td><span class=\"kw3\">◯ ｂ　ビタミンB1〈チアミン〉</span></td><td><span class=\"kw3\">これが正解</span>。Wernicke-Korsakoff 症候群。乳頭体と視床内側の壊死＝<span class=\"kw3\">記憶が作れなくなる</span></td></tr><tr><td><span class=\"kw3\">◯ ｃ　ビタミンB3〈ナイアシン〉</span></td><td><span class=\"kw3\">これが正解</span>。ペラグラの3D に<span class=\"kw3\">Dementia</span>が入っている。皮膚炎・下痢と揃って出る</td></tr><tr><td><span class=\"kw3\">◯ ｄ　ビタミンB12〈コバラミン〉</span></td><td><span class=\"kw3\">これが正解</span>。亜急性連合性脊髄変性症に加えて<span class=\"kw3\">大脳白質の脱髄</span>で認知機能が落ちる</td></tr><tr><td>ｅ　ビタミンC〈アスコルビン酸〉</td><td>壊血病＝歯肉出血・毛孔性出血・骨膜下出血。<span class=\"kw3\">出血傾向が主体</span>で認知障害は来さない</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "💡 認知障害ビタミン3兄弟",
-       "c": "<span class=\"kw\">B1（Wernicke）・B3（ペラグラ）・B12（亜急性脊髄変性）</span>→認知症を引き起こす3種。<br/>全てBビタミン群（水溶性）。"
+       "h": "🔍 ペラグラは「食べていない」だけでは起こらない",
+       "c": "ナイアシンは食事から摂るだけでなく<span class=\"kw3\"><b>トリプトファンから作られる</b></span>（60mg で 1mg）。だから欠乏には4つの入口がある。<br/><br/>①<span class=\"kw\"><b>摂らない</b></span>——精製トウモロコシ主食（結合型ナイアシンが遊離しない）・<span class=\"kw3\"><b>慢性アルコール</b></span><br/>②<span class=\"kw\"><b>吸収・輸送が壊れる</b></span>——<span class=\"kw3\"><b>Hartnup 病</b></span>（中性アミノ酸トランスポータの異常でトリプトファンが尿へ逃げる）<br/>③<span class=\"kw\"><b>使われてしまう</b></span>——<span class=\"kw3\"><b>カルチノイド症候群</b></span>（トリプトファンがセロトニン合成へ流れる）<br/>④<span class=\"kw\"><b>作れない</b></span>——変換に <span class=\"kw3\"><b>B6</b></span> が要る＝<span class=\"kw3\"><b>イソニアジド長期投与</b></span>（B6 を奪う薬・Q.486）<br/><br/><span class=\"kw\"><b>皮膚を見れば分かる</b></span>——<span class=\"kw3\"><b>日光露出部に左右対称・境界明瞭</b></span>の紅斑から色素沈着・角化へ進み、頸部を輪のように取り巻いたものを<span class=\"kw3\"><b>Casal 首飾り</b></span>と呼ぶ。⚠️<span class=\"kw4\"><b>「日焼けのような皮疹が左右対称で、境界がはっきりしている」</b></span>が署名。治療は<span class=\"kw3\"><b>ニコチン酸アミド</b></span>で、皮膚と消化器は数日で応じるが<span class=\"kw3\"><b>精神症状の戻りは遅い</b></span>。<br/><br/>⚠️<span class=\"kw4\"><b>ペラグラを見たら、食事だけでなく腫瘍と薬と遺伝を数える</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw4\">ビタミンA・C・Eは認知障害との関連が低い</span>。<br/><span class=\"kw\">B1・B3・B12</span>は神経系に重要な役割→欠乏で認知障害。"
+       "c": "<span class=\"kw3\"><b>認知障害を来すビタミンは B1・B3・B12</b></span>。いずれも<span class=\"kw3\"><b>水溶性ビタミンB群</b></span>で、A・C・D・E は該当しない。<br/>⚠️<span class=\"kw4\"><b>B12 欠乏で葉酸だけを補うと、貧血は治って神経障害だけが進む</b></span>（Q.484）。<br/>⚠️ Wernicke 脳症を疑ったら<span class=\"kw3\"><b>ブドウ糖より先にチアミン</b></span>（Q.492）。<br/>⚠️ ペラグラの3D は<span class=\"kw3\"><b>Dermatitis・Diarrhea・Dementia</b></span>、放置した先の4つ目が Death。"
       }
      ],
      "imgs": []
@@ -32920,22 +32925,27 @@
       }
      ],
      "ans_label": "ｂ　味覚異常  ――――――――――― 亜　鉛",
-     "ans_sub": "亜鉛は味蕾の細胞増殖・酵素機能に必須。欠乏→味蕾萎縮→味覚障害",
+     "ans_sub": "亜鉛は分裂の速い細胞に要る＝味蕾の入れ替わりが止まって味覚障害が出る",
      "eg": [
       {
        "cls": "ep",
-       "h": "🧪 微量元素・ビタミンと欠乏症の対応",
-       "c": "<table class=\"tb\"><tr><td>欠乏物質</td><td>症状</td><td>正誤</td></tr><tr><td>匙状爪（スプーン爪）</td><td><span class=\"kw\">鉄</span></td><td>◯ 鉄欠乏性貧血の所見（銅ではない）</td></tr><tr><td><span class=\"kw\">味覚異常</span></td><td><span class=\"kw\">亜鉛</span></td><td><span class=\"kw\">✓ 亜鉛欠乏の特徴的症状</span></td></tr><tr><td>出血傾向</td><td><span class=\"kw\">ビタミンK or C</span></td><td>×（Aではない）</td></tr><tr><td>ペラグラ</td><td><span class=\"kw\">ビタミンB3（ナイアシン）</span></td><td>×（B2ではない）</td></tr><tr><td>骨軟化症</td><td><span class=\"kw\">ビタミンD</span></td><td>×（Cではない）</td></tr></table>"
+       "h": "👅 味蕾は10日で入れ替わる——だから亜鉛が最初に効く",
+       "c": "味蕾の細胞は<span class=\"kw3\"><b>約10日で総入れ替え</b></span>になる。亜鉛は DNA 合成酵素をはじめ200以上の酵素の補因子なので、<span class=\"kw3\"><b>分裂の速い組織から順に壊れる</b></span>——味蕾・開口部の皮膚・腸管・毛。だから<span class=\"kw3\"><b>味覚障害が亜鉛欠乏の最も早い徴候</b></span>になる。<br/><br/><span class=\"kw\"><b>同じ理屈で並ぶ症状</b></span>——<span class=\"kw3\"><b>開口部と四肢末端の難治性皮膚炎</b></span>・<span class=\"kw3\"><b>脱毛</b></span>・下痢・<span class=\"kw3\"><b>創傷治癒の遅延</b></span>・易感染・小児の<span class=\"kw3\"><b>成長障害と性腺機能低下</b></span>。⚠️<span class=\"kw4\"><b>亜鉛欠乏でも夜盲が出る</b></span>——レチノール結合蛋白の合成と網膜での<span class=\"kw3\"><b>レチノール脱水素酵素</b></span>に亜鉛が要るため（この設問の ａ 肢と紛れる所）。<br/><br/><span class=\"kw\"><b>欠ける入口は4つ</b></span>——摂取不足（高齢者の偏食・菜食）／吸収障害（<span class=\"kw3\"><b>Crohn 病・短腸・腸性肢端皮膚炎</b></span>）／喪失（<span class=\"kw3\"><b>下痢・熱傷・透析・利尿薬</b></span>）／需要増（妊娠・成長期・重症外傷）。<br/><br/>⚠️ ただし<span class=\"kw4\"><b>味覚障害の原因の第1位は亜鉛欠乏ではなく薬剤性</b></span>。降圧薬・<span class=\"kw3\"><b>D-ペニシラミン</b></span>・抗甲状腺薬・抗菌薬・抗癌薬が、亜鉛をキレートするか味蕾を直接傷める。<span class=\"kw3\"><b>薬歴を先に確認する</b></span>。<br/><br/><span class=\"kw\"><b>測り方</b></span>——血清亜鉛は日内変動と食後低下が大きいので<span class=\"kw3\"><b>朝の空腹時</b></span>に採る。60μg/dL 未満で欠乏。⚠️<span class=\"kw4\"><b>ALP が低いのが傍証</b></span>（ALP は亜鉛酵素）。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　匙状爪 ― 銅</td><td>匙状爪は<span class=\"kw3\">鉄</span>欠乏。銅欠乏は<span class=\"kw3\">貧血と好中球減少と脊髄症</span>であって爪の変形ではない</td></tr><tr><td><span class=\"kw3\">◯ ｂ　味覚異常 ― 亜鉛</span></td><td><span class=\"kw3\">これが正解</span>。味蕾の細胞回転が止まる。<span class=\"kw3\">亜鉛欠乏の三徴＝味覚障害・皮膚炎・脱毛</span></td></tr><tr><td>ｃ　出血傾向 ― ビタミンA</td><td>出血傾向は<span class=\"kw3\">C（血管の脆弱性）と K（凝固因子）</span>。A は夜盲・眼球乾燥</td></tr><tr><td>ｄ　ペラグラ ― ビタミンB2</td><td>ペラグラは<span class=\"kw3\">B3（ナイアシン）</span>。⚠️<span class=\"kw3\">B2 欠乏は口角炎・舌炎・脂漏性皮膚炎</span>で、ペラグラとは別物</td></tr><tr><td>ｅ　骨軟化症 ― ビタミンC</td><td>骨軟化症は<span class=\"kw3\">ビタミンD</span>。C 欠乏は壊血病</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "💡 紛らわしい組合せの覚え方",
-       "c": "<span class=\"kw\">味覚障害→亜鉛（Zn）</span>。鉄（Fe）→貧血・匙状爪。<br/><span class=\"kw\">ペラグラ→ニコチン酸（B3）</span>（B2ではない！B2欠乏→口角炎・舌炎）。<br/><span class=\"kw\">骨軟化→ビタミンD</span>（Cではない！C→壊血病・出血傾向）。"
+       "h": "🔍 匙状爪が出るころには何が起きているか——鉄欠乏の4段階",
+       "c": "①<span class=\"kw\"><b>貯蔵鉄の枯渇</b></span>——フェリチン低下のみ。<span class=\"kw3\"><b>貧血はまだ無い</b></span><br/>②<span class=\"kw\"><b>鉄欠乏</b></span>——血清鉄↓・<span class=\"kw3\"><b>TIBC↑</b></span>・トランスフェリン飽和度↓<br/>③<span class=\"kw\"><b>鉄欠乏性貧血</b></span>——<span class=\"kw3\"><b>小球性低色素性</b></span>（MCV↓・MCHC↓）<br/>④<span class=\"kw\"><b>組織鉄の欠乏</b></span>——<span class=\"kw3\"><b>匙状爪（スプーンネイル）</b></span>・舌炎・口角炎・<span class=\"kw3\"><b>異食症</b></span>（氷をかじる pagophagia）・<span class=\"kw3\"><b>Plummer-Vinson 症候群</b></span>（嚥下困難＋鉄欠乏＋舌炎）<br/><br/>⚠️<span class=\"kw4\"><b>匙状爪は④＝かなり進んでからの所見</b></span>。見たら鉄を足すだけで終わらせず<span class=\"kw3\"><b>出血源を探す</b></span>（消化管・月経）。<br/>⚠️ 補充は<span class=\"kw3\"><b>フェリチンが戻るまで続ける</b></span>——Hb が正常化した時点でやめると貯蔵鉄が空のままで再発する。<br/>⚠️ 同じ小球性でも<span class=\"kw3\"><b>銅欠乏の貧血は好中球減少を伴い、鉄を足しても治らない</b></span>（Q.498）。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "頻出の誤り：ペラグラ=B2（×、正解はB3）、骨軟化=C（×、正解はD）。<br/><span class=\"kw\">亜鉛欠乏の三主徴</span>：味覚障害・皮膚炎・脱毛。"
+       "c": "頻出の入れ替え——<span class=\"kw3\"><b>ペラグラは B2 ではなく B3</b></span>・<span class=\"kw3\"><b>骨軟化症は C ではなく D</b></span>・<span class=\"kw3\"><b>匙状爪は銅ではなく鉄</b></span>・<span class=\"kw3\"><b>出血傾向は A ではなく C と K</b></span>。<br/><span class=\"kw3\"><b>亜鉛欠乏の三徴＝味覚障害・皮膚炎（開口部と末端）・脱毛</b></span>。<br/>⚠️<span class=\"kw4\"><b>亜鉛を長く補うと銅欠乏になる</b></span>（メタロチオネイン誘導・Q.466 の Wilson 病の亜鉛療法はこれを治療に使う）。"
       }
      ],
      "imgs": []
@@ -32977,27 +32987,27 @@
       }
      ],
      "ans_label": "ａ　関節液検査",
-     "ans_sub": "急性単関節炎（偽痛風・化膿性・痛風の鑑別）にはまず関節穿刺・関節液検査が必須",
+     "ans_sub": "渡された検査値のどれ1つとして化膿性関節炎を否定していない＝関節液を直接見るしかない",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 急性単関節炎のファーストステップ",
-       "c": "<span class=\"kw\">急性単関節炎のアプローチ</span>：<br>まず<span class=\"kw\">関節穿刺（関節液検査）</span>を行う<br>→ 白血球数・グラム染色・培養・結晶の確認<br><br/>鑑別すべき疾患：<br/>① 化膿性関節炎（緊急！）→グラム染色・培養<br/>② 偽痛風（CPPD）→偏光顕微鏡でCPPD結晶<br/>③ 痛風→MSU結晶<br/><br/><span class=\"kw4\">関節液検査より先に抗菌薬投与しない</span>（培養結果が影響を受ける）</br></br></br>"
+       "h": "🔬 この設問が渡してきた数字は、どれも診断を決めない",
+       "c": "78歳・2日前から誘因なく片膝が腫れて熱い。並んだ数字を1つずつ見ると、<span class=\"kw3\"><b>絞り込みに使えるものが1つも無い</b></span>ことが分かる。<br/><br/>・<span class=\"kw\"><b>尿酸 4.7mg/dL（正常）</b></span>→⚠️<span class=\"kw4\"><b>痛風を否定しない</b></span>。<span class=\"kw3\"><b>発作中は尿酸がむしろ下がる</b></span>（Q.488 は 7.9 でも根拠にならないと書いた＝<span class=\"kw3\"><b>高くても低くても決まらない</b></span>）<br/>・<span class=\"kw\"><b>X線で異常なし</b></span>→⚠️<span class=\"kw4\"><b>偽痛風を否定しない</b></span>。半月板の石灰化は写らないことがあり、化膿性は初期に骨変化が出ない<br/>・<span class=\"kw\"><b>CRP 8.6・白血球12,300・37.6℃</b></span>→<span class=\"kw3\"><b>化膿性でも結晶性でも同じように上がる</b></span><br/>・<span class=\"kw\"><b>尿所見すべて陰性</b></span>→尿路感染は外れたが、関節のことは何も言えない<br/><br/><span class=\"kw\"><b>年齢だけが少し情報を持つ</b></span>——78歳の急性単関節炎で頻度が高いのは<span class=\"kw3\"><b>偽痛風（CPPD）</b></span>。しかし⚠️<span class=\"kw4\"><b>化膿性関節炎も高齢ほど増える</b></span>ので、頻度の話は<span class=\"kw3\"><b>疑いを外す理由にはならない</b></span>。<br/><br/>⚠️<span class=\"kw4\"><b>除外できたものが1つも無い</b></span>。そして<span class=\"kw3\"><b>膝蓋跳動陽性＝穿刺できるだけの関節液がある</b></span>。だから侵襲の小さい<span class=\"kw3\"><b>関節穿刺で直接見る</b></span>のが次の一手になる。"
       },
       {
        "cls": "ee",
-       "h": "□ 各選択肢の評価",
-       "c": "<table class=\"tb\"><tr><td>選択肢</td><td>評価</td></tr><tr><td><span class=\"kw\">ａ 関節液検査</span></td><td><span class=\"kw\">◎ 確定診断・緊急の感染除外のため最優先</span></td></tr><tr><td>ｂ 膝関節造影CT</td><td>× 結晶や感染の直接診断にならない</td></tr><tr><td>ｃ 下肢ギプス包帯固定</td><td>× 急性炎症の固定は不要</td></tr><tr><td>ｄ 広域抗菌薬点滴</td><td>× 診断前の投与は不適切（関節液培養を先に）</td></tr><tr><td>ｅ ステロイド関節内投与</td><td>× 感染除外前にステロイドは危険</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　関節液検査</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">外観・細胞数・Gram 染色と培養・偏光顕微鏡での結晶</span>の4点で、化膿性と結晶性が1回で分かれる</td></tr><tr><td>ｂ　膝関節造影CT</td><td>滑膜の造影効果は見えても<span class=\"kw3\">菌も結晶も写らない</span>。時間と造影剤負荷を払って診断が進まない</td></tr><tr><td>ｃ　下肢ギプス包帯固定</td><td><span class=\"kw3\">感染を閉じ込めるだけ</span>。原因が決まっていない段階で固定する意味がなく、高齢者では<span class=\"kw3\">廃用も招く</span></td></tr><tr><td>ｄ　広域抗菌薬の点滴静注</td><td>⚠️<span class=\"kw3\">培養の前に入れると起因菌が分からなくなる</span>。しかも結晶性だった場合は無益な曝露</td></tr><tr><td>ｅ　副腎皮質ステロイドの関節内投与</td><td>⚠️<span class=\"kw3\">化膿性を否定する前のステロイドは危険</span>。感染を関節内で加速させる</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 化膿性関節炎——時間との勝負であり、起因菌で顔が変わる",
+       "c": "<span class=\"kw\"><b>なぜ急ぐのか</b></span>——細菌が入ると<span class=\"kw3\"><b>数日で軟骨が不可逆に壊れる</b></span>。だから「経過を見る」という選択肢が構造的に存在しない。<br/><br/><span class=\"kw\"><b>起因菌で臨床像が変わる</b></span><br/>・<span class=\"kw3\"><b>黄色ブドウ球菌が最多</b></span>（成人の単関節炎）<br/>・<span class=\"kw3\"><b>淋菌</b></span>——若年で性活動がある人。⚠️<span class=\"kw4\"><b>遊走性の多関節痛・腱鞘炎・皮疹の三徴</b></span>をとり、関節液の培養は陰性のことが多い<br/>・人工関節では<span class=\"kw3\"><b>表皮ブドウ球菌</b></span>（緩徐・低悪性度）<br/>・免疫抑制下ではグラム陰性桿菌も<br/><br/><span class=\"kw\"><b>起こりやすい人</b></span>——<span class=\"kw3\"><b>既存の関節疾患（関節リウマチ・変形性関節症）</b></span>・<span class=\"kw3\"><b>人工関節</b></span>・糖尿病・<span class=\"kw3\"><b>免疫抑制薬や生物学的製剤</b></span>・静注薬物使用・皮膚感染巣。⚠️<span class=\"kw4\"><b>もともと関節が悪い人ほど、痛みの悪化を持病のせいにされて遅れる</b></span>（Q.499）。<br/><br/><span class=\"kw\"><b>治療</b></span>——⚠️<span class=\"kw4\"><b>抗菌薬だけでは足りない</b></span>。関節内は薬が届きにくく膿が残るので<span class=\"kw3\"><b>洗浄・ドレナージを併せる</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "急性単関節炎 → <span class=\"kw\">まず関節穿刺</span>（感染性関節炎の見逃しは致命的）。<br/>化膿性関節炎を除外してから抗炎症治療を開始する。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "高齢者の急性膝関節炎（発熱）でまず行うべき検査。<br/><b>b 造影CT／c ギプス固定／d 広域抗菌薬／e ステロイド関節内注射</b>：診断確定前で不適。<br/><b>a 関節液検査</b>：<span class=\"kw\">化膿性関節炎と結晶性関節炎の鑑別</span>。✓"
+       "c": "<span class=\"kw3\"><b>急性単関節炎を見たら、まず関節穿刺</b></span>。理由は「診断のため」だけでなく<span class=\"kw3\"><b>化膿性の見逃しが関節を失わせるため</b></span>。<br/>⚠️<span class=\"kw4\"><b>穿刺より先に抗菌薬・ステロイドを入れない</b></span>。<br/>⚠️<span class=\"kw4\"><b>結晶が見つかっても化膿性を否定できない</b></span>（共存しうる・Q.472）。"
       }
      ],
      "imgs": []
@@ -33039,27 +33049,27 @@
       }
      ],
      "ans_label": "ｃ　経口ビスホスホネート製剤",
-     "ans_sub": "経口ビスホスホネートは食道に停滞すると食道炎・食道潰瘍を引き起こし嚥下困難の原因となる",
+     "ans_sub": "経口ビスホスホネートは食道に停滞すると粘膜を直接傷めて食道炎・食道潰瘍を作る＝休薬で改善が見込める",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 ビスホスホネートの副作用と服薬指導",
-       "c": "<span class=\"kw\">経口ビスホスホネートの食道障害</span>：<br>・食道粘膜に直接接触→上皮傷害→食道炎・食道潰瘍・嚥下困難<br/><br/><span class=\"kw\">正しい服薬方法</span>：<br/>① コップ1杯以上（180mL以上）の水で服用<br/>② 服用後<span class=\"kw\">30分は横にならない・食事しない</span><br/>③ 起床直後（空腹時）に服用<br/><br/>逆流性食道炎がある患者では特に注意（使用禁忌の場合も）</br>"
+       "h": "💊 PPI を出しても治らない——そこで診断を疑い直す",
+       "c": "3か月前に逆流性食道炎と診断されて内服が始まったのに、<span class=\"kw3\"><b>症状は持続し、2週前から食事摂取が困難</b></span>になった。⚠️<span class=\"kw4\"><b>治療に反応しないことが、診断を疑い直す合図</b></span>になる。<br/><br/><span class=\"kw\"><b>薬剤性食道炎は「接触時間」の病気</b></span>——錠剤が食道に停滞して<span class=\"kw3\"><b>その場で溶け、粘膜を直接傷める</b></span>。だから量ではなく飲み方で決まる。<br/>・<span class=\"kw3\"><b>180mL 以上の水</b></span>で飲む<br/>・<span class=\"kw3\"><b>服用後30分は横にならない・食事しない</b></span><br/>・<span class=\"kw3\"><b>起床直後の空腹時</b></span>に飲む<br/><br/><span class=\"kw\"><b>停滞しやすい場所</b></span>——生理的狭窄部、とくに<span class=\"kw3\"><b>大動脈弓との交叉部</b></span>。高齢・臥床・食道運動の低下でさらに停まりやすい。内視鏡では<span class=\"kw3\"><b>その高さに打ち抜き様の潰瘍</b></span>が見え、向かい合う壁に対になって出ることもある。<br/><br/><span class=\"kw\"><b>原因になる薬</b></span>——<span class=\"kw3\"><b>経口ビスホスホネート</b></span>・テトラサイクリン系（ドキシサイクリン）・NSAIDs・<span class=\"kw3\"><b>塩化カリウムの徐放錠</b></span>・鉄剤。<br/>⚠️<span class=\"kw4\"><b>ビスホスホネートは食道障害があれば慎重投与から禁忌</b></span>。この患者はそこへ重ねて出されている。<br/>⚠️<span class=\"kw4\"><b>立位を30分保てない患者には経口ビスホスホネートを選ばない</b></span>——注射剤やデノスマブという逃げ道がある（Q.470）。"
       },
       {
        "cls": "ee",
-       "h": "□ 各薬剤の副作用との関連",
-       "c": "<table class=\"tb\"><tr><td>薬剤</td><td>主な副作用</td></tr><tr><td>甲状腺ホルモン</td><td>心動悸・不整脈（過剰投与）</td></tr><tr><td>PPI（プロトンポンプ阻害薬）</td><td>胃腸症状（むしろ逆流性食道炎を治療）</td></tr><tr><td><span class=\"kw\">経口ビスホスホネート</span></td><td><span class=\"kw\">食道炎・食道潰瘍→嚥下困難</span></td></tr><tr><td>BDZ系睡眠薬</td><td>筋弛緩・転倒・依存</td></tr><tr><td>ACE阻害薬</td><td>ドライコフ（乾性咳嗽）</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　甲状腺ホルモン</td><td>過剰なら動悸・不整脈・体重減少。⚠️<span class=\"kw3\">橋本病で補充中であり、嚥下困難の原因にならない</span></td></tr><tr><td>ｂ　プロトンポンプ阻害薬</td><td>⚠️<span class=\"kw3\">むしろ食道炎を治す側</span>の薬。休薬すれば悪化する</td></tr><tr><td><span class=\"kw3\">◯ ｃ　経口ビスホスホネート製剤</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">食道に停滞して食道炎・食道潰瘍</span>を作る。<span class=\"kw3\">休薬で改善が見込める</span>唯一の薬</td></tr><tr><td>ｄ　ベンゾジアゼピン系睡眠薬</td><td>筋弛緩・転倒・依存・持ち越し。<span class=\"kw3\">食道粘膜を直接傷めない</span></td></tr><tr><td>ｅ　アンジオテンシン変換酵素〈ACE〉阻害薬</td><td><span class=\"kw3\">空咳（乾性咳嗽）と血管性浮腫</span>が代表的副作用。嚥下困難の説明にならない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 「薬のせい」で終わらせない——2週前から食事が摂れない74歳",
+       "c": "経過が<span class=\"kw3\"><b>6か月前は時々つかえる → 2週前から食事困難</b></span>＝<span class=\"kw3\"><b>進行性</b></span>。⚠️<span class=\"kw4\"><b>進行性の嚥下困難と高齢は、まず食道癌を外す文脈</b></span>である。<br/><br/>・3か月前の内視鏡で「逆流性食道炎」とされているが、⚠️<span class=\"kw4\"><b>その後に悪化しているなら内視鏡は再検する</b></span>。薬剤性潰瘍そのものも内視鏡でしか確かめられない<br/>・<span class=\"kw3\"><b>好酸球性食道炎</b></span>——若年・アレルギー歴・食物のつかえ<br/>・<span class=\"kw3\"><b>アカラシア</b></span>——⚠️<span class=\"kw3\"><b>固形だけでなく液体でもつかえる</b></span>・夜間の逆流と誤嚥<br/>・<span class=\"kw3\"><b>甲状腺腫による圧迫</b></span>——この患者は<span class=\"kw3\"><b>橋本病</b></span>がある<br/><br/><span class=\"kw\"><b>同時に評価すること</b></span>——身長156cm・体重45kg＝<span class=\"kw3\"><b>BMI 18.5</b></span>で、そこへ2週間の摂取不良が重なっている。<span class=\"kw3\"><b>脱水と低栄養の評価</b></span>を並行し、⚠️<span class=\"kw4\"><b>再開するときは refeeding 症候群に注意</b></span>（K・P・Mg を先に見る・Q.474）。<br/><br/>⚠️<span class=\"kw4\"><b>設問の答えは休薬すべき薬だが、それは癌を否定したことにはならない</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">ビスホスホネート服用後の嚥下困難</span>→食道炎が原因。<br/>嚥下困難・胸痛がある場合は投与中止して上部消化管内視鏡検査を行う。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "逆流性食道炎治療でも改善しない嚥下困難＝薬剤性食道炎の原因薬。<br/><b>a 甲状腺ホルモン／b PPI／d ベンゾジアゼピン／e ACE阻害薬</b>：主因でない。<br/><b>c 経口ビスホスホネート製剤</b>：<span class=\"kw\">食道潰瘍・食道炎の原因（服用後は坐位保持が必要）</span>。✓"
+       "c": "<span class=\"kw3\"><b>ビスホスホネート服用後の胸骨後部痛・嚥下困難＝薬剤性食道炎</b></span>。<span class=\"kw3\"><b>休薬して上部消化管内視鏡</b></span>。<br/>⚠️ 服薬指導は<span class=\"kw3\"><b>多めの水・30分は臥位を避ける・起床時</b></span>の3点。<br/>⚠️ ビスホスホネートの他の有害事象は<span class=\"kw3\"><b>顎骨壊死と非定型大腿骨骨折</b></span>（Q.470）。"
       }
      ],
      "imgs": []
@@ -33109,17 +33119,27 @@
       }
      ],
      "ans_label": "採点除外問題",
-     "ans_sub": "本問は国家試験において採点除外となりました。",
+     "ans_sub": "本問は国家試験において採点除外となった。⚠️ 暗所限定のふらつきと Romberg 陽性は深部感覚障害を指し、B12 とともに欠ける栄養素としては銅が最も整合する",
      "eg": [
       {
        "cls": "ep",
-       "h": "📋 参考：引きこもりと栄養欠乏",
-       "c": "引きこもり患者での栄養欠乏リスク：<br>・日光浴なし →<span class=\"kw\">ビタミンD欠乏</span>（骨軟化症）<br/>・偏食・摂食不足 → 複数のビタミン欠乏の可能性<br/>・暗所でのふらつき → ビタミンD欠乏による筋力低下/骨軟化症が考えられる</br>"
+       "h": "🕯️ 「暗いところだけ」が、どこの障害かを決める",
+       "c": "立っていられるのは<span class=\"kw3\"><b>視覚・前庭・深部感覚</b></span>の3本柱があるから。1本欠けても残り2本で代償できる。<br/><br/>⚠️<span class=\"kw4\"><b>暗いところでだけふらつく＝視覚が使えないときだけ崩れる＝深部感覚が落ちている</b></span>。設問の<span class=\"kw3\"><b>「起立閉眼で体幹の動揺が増強する」がそのまま Romberg 徴候陽性</b></span>で、同じことを2通りに書いてある。<br/><br/><span class=\"kw\"><b>外れるもの</b></span><br/>・<span class=\"kw3\"><b>眼球運動正常・眼振なし・指鼻試験と膝踵試験が正常</b></span>→<span class=\"kw3\"><b>小脳は外れる</b></span>（小脳性失調は目を開けていても崩れ、企図振戦や測定障害を伴う）<br/>・<span class=\"kw3\"><b>腱反射が全般に低下</b></span>→後索・末梢神経の側<br/>・<span class=\"kw3\"><b>立ちくらみはなく、日中は動けている</b></span>→起立性低血圧でも筋力低下でもない<br/>・⚠️<span class=\"kw4\"><b>夜盲（ビタミンA）ではない</b></span>。夜盲は「見えない」であって、<span class=\"kw3\"><b>歩行が左右に振れることの説明にならない</b></span><br/><br/>⚠️<span class=\"kw4\"><b>既存の解説はビタミンD欠乏による筋力低下としていたが、設問は「日中はふらつきはみられない」と明記している</b></span>——<span class=\"kw3\"><b>筋力は明るさで変わらない</b></span>ので説明が成り立たない。<br/><br/><span class=\"kw\"><b>背景</b></span>——高校中退から自室に引きこもり、<span class=\"kw3\"><b>カーテンを閉め切った生活</b></span>と<span class=\"kw3\"><b>激しい偏食</b></span>。⚠️<span class=\"kw4\"><b>日光を浴びない生活はビタミンD 欠乏を作るのも事実</b></span>で、この設問が採点除外になった一因はここにある（D でも一応の説明が付いてしまう）。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討（本問は採点除外）",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　鉄</td><td>小球性貧血・匙状爪・異食症。⚠️<span class=\"kw3\">眼瞼結膜に貧血はなく</span>、そもそも<span class=\"kw3\">鉄欠乏は深部感覚障害を作らない</span></td></tr><tr><td>ｂ　銅</td><td>⚠️<span class=\"kw3\">所見に最もよく合う</span>。銅欠乏は<span class=\"kw3\">B12 欠乏そっくりの後索・側索障害</span>を作り、汎血球減少を伴う。ただし<span class=\"kw3\">本問は採点除外</span></td></tr><tr><td>ｃ　葉　酸</td><td>巨赤芽球性貧血は作るが⚠️<span class=\"kw3\">神経症状は作らない</span>。これが B12 との最大の違い</td></tr><tr><td>ｄ　ビタミンD</td><td>日照不足で欠乏し骨軟化症・低Ca。⚠️<span class=\"kw3\">筋力低下は起こりうるが、明暗で変わらない</span></td></tr><tr><td>ｅ　マグネシウム</td><td>テタニー・不整脈・難治性低Ca。<span class=\"kw3\">深部感覚障害の原因にならない</span></td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "引きこもり・日光を浴びない生活＝ビタミンD欠乏（本問は<b>採点除外</b>）。<br/><b>a 鉄／b 銅／c 葉酸／e マグネシウム</b>：本病態の主体でない。<br/><b>d ビタミンD</b>：<span class=\"kw\">日照不足による欠乏で骨軟化・低Ca</span>。<br/>※採点除外問題。"
+       "h": "🔍 B12 を補っても治らないときは銅を測る",
+       "c": "<span class=\"kw3\"><b>銅欠乏性脊髄症</b></span>は、⚠️<span class=\"kw4\"><b>B12 欠乏による亜急性連合性脊髄変性症と臨床的に区別できない</b></span>（後索と側索・Romberg 陽性・腱反射は低下も亢進もありうる）。<br/><br/><span class=\"kw\"><b>原因</b></span><br/>・<span class=\"kw3\"><b>胃切除後</b></span>・長期の経腸栄養や静脈栄養・吸収不良<br/>・⚠️<span class=\"kw4\"><b>亜鉛の過剰摂取</b></span>（サプリメント・義歯安定剤）——<span class=\"kw3\"><b>亜鉛がメタロチオネインを誘導し、銅を腸管細胞に捕まえて便へ捨てる</b></span>。Q.466 の<span class=\"kw3\"><b>Wilson 病に対する亜鉛療法はこの仕組みを治療に使っている</b></span><br/><br/><span class=\"kw\"><b>手がかりになる血液所見</b></span>——<span class=\"kw3\"><b>貧血に好中球減少を伴い、鉄を足しても治らない</b></span>。骨髄では<span class=\"kw3\"><b>環状鉄芽球</b></span>が出ることがあり骨髄異形成症候群と紛れる。<br/>⚠️<span class=\"kw4\"><b>神経症状は補充しても戻らないことが多い</b></span>＝進む前に見つける病気である。"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント（採点除外だが所見の読み方は必修水準）",
+       "c": "<span class=\"kw3\"><b>暗いところでのふらつき＋Romberg 陽性＝深部感覚性（脊髄後索性）失調</b></span>。小脳性は<span class=\"kw3\"><b>開眼でも崩れ、眼振と協調運動障害を伴う</b></span>。<br/><span class=\"kw3\"><b>B12 と銅は同じ脊髄症を作る</b></span>。⚠️<span class=\"kw4\"><b>亜鉛の過剰は銅欠乏を招く</b></span>。<br/>⚠️ 引きこもり・極端な偏食では<span class=\"kw3\"><b>複数の欠乏が同時に起こる</b></span>ので、1つに決めきらず並べて確認する。"
       }
      ],
      "imgs": []
@@ -33161,22 +33181,27 @@
       }
      ],
      "ans_label": "ａ　関節穿刺",
-     "ans_sub": "RA患者で急性単関節炎が出現した場合、化膿性関節炎（免疫抑制下で起こりやすい）を除外するため関節穿刺が最優先",
+     "ans_sub": "抗IL-6 受容体抗体の下では CRP も発熱も抑えられる＝炎症の目盛りが使えない。急性単関節炎はまず関節穿刺で化膿性を外す",
      "eg": [
       {
        "cls": "ep",
-       "h": "⚠️ 免疫抑制中のRA患者における急性関節炎",
-       "c": "<span class=\"kw\">免疫抑制薬・生物学的製剤使用中のRA患者</span>：<br>→ 感染性関節炎のリスクが著増（生物学的製剤はTNF・IL-6阻害→感染防御↓）<br><br/>急性単関節炎 → まず<span class=\"kw\">感染性関節炎を除外</span>：<br/>① 関節穿刺で関節液を採取<br/>② グラム染色・細菌培養<br/>③ 白血球数（&gt;50000なら強く感染を示唆）<br/><br/><span class=\"kw4\">抗菌薬を関節穿刺前に投与しない</span>（培養結果が無効になる）</br></br>"
+       "h": "🩺 抗IL-6 は、炎症の目盛りそのものを外す",
+       "c": "CRP は<span class=\"kw3\"><b>IL-6 が肝細胞に作らせる</b></span>急性期蛋白。つまり<span class=\"kw3\"><b>抗IL-6 受容体抗体を使っている患者では、CRP は作られない</b></span>。<br/><br/>⚠️<span class=\"kw4\"><b>この患者の CRP 1.2mg/dL と体温 37.0℃ は「軽い」の意味ではなく、「測れていない」の意味</b></span>である。重症感染でも上がらず、発熱も出にくい。<br/><br/><span class=\"kw\"><b>それでも残る手がかりは2つ</b></span><br/>・<span class=\"kw3\"><b>局所所見</b></span>——発赤・腫脹・熱感のある<span class=\"kw3\"><b>単関節</b></span><br/>・⚠️<span class=\"kw4\"><b>桿状核球16％＝核の左方移動</b></span>。<span class=\"kw3\"><b>白血球分画は薬で抑えられにくい</b></span>ので、ここだけが炎症の大きさを語っている（白血球9,800 という総数も正常に見えるが、中身が動いている）<br/><br/><span class=\"kw\"><b>IL-6 を止めると他にも消える指標がある</b></span>——<span class=\"kw3\"><b>CRP・フィブリノゲン・血沈</b></span>はいずれも IL-6 が駆動する。⚠️<span class=\"kw4\"><b>ヘプシジンも下がるので、慢性炎症による貧血はむしろ改善する</b></span>（Hb 10.1 はそれでも残っている貧血）。<br/><br/>⚠️ 同じ理由で、この薬の下では<span class=\"kw3\"><b>消化管穿孔が腹膜刺激症状に乏しいまま進む</b></span>ことが知られている。<br/>そのうえ<span class=\"kw3\"><b>生物学的製剤（TNF・IL-6 阻害）は感染症そのもののリスクを上げる</b></span>。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　関節穿刺</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">Gram 染色・培養・細胞数・偏光顕微鏡</span>で化膿性と結晶性が一度に分かれる。免疫抑制下では最優先</td></tr><tr><td>ｂ　抗菌薬の投与</td><td>⚠️<span class=\"kw3\">培養の前に入れると起因菌が分からなくなる</span>。化膿性かどうかも決まっていない</td></tr><tr><td>ｃ　抗核抗体の測定</td><td>関節リウマチの診断は5年前に済んでいる。<span class=\"kw3\">今の単関節炎の原因を決めない</span></td></tr><tr><td>ｄ　関節MRI の撮影</td><td>滑膜炎や関節液は写るが⚠️<span class=\"kw3\">化膿性か結晶性かを区別できない</span>。待つ時間のぶん不利</td></tr><tr><td>ｅ　ステロイドパルス療法</td><td>⚠️<span class=\"kw3\">感染を否定する前の大量ステロイドは危険</span>。flare と決めつけた治療になっている</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 関節リウマチの再燃と化膿性関節炎をどう分けるか",
+       "c": "<span class=\"kw\"><b>flare（再燃）</b></span>——<span class=\"kw3\"><b>多関節・左右対称</b></span>・朝のこわばりが延びる・複数の関節が同時に悪くなる。<br/><span class=\"kw\"><b>化膿性</b></span>——<span class=\"kw3\"><b>単関節</b></span>・発赤と熱感が強い・<span class=\"kw3\"><b>他動でも動かすと激痛</b></span>。<br/><br/>⚠️ この患者は<span class=\"kw3\"><b>コントロール良好で、他の関節には腫脹も圧痛もない</b></span>＝<span class=\"kw3\"><b>1関節だけが不自然</b></span>で、flare では説明しにくい。<br/><br/>⚠️<span class=\"kw4\"><b>関節リウマチ患者の化膿性関節炎は死亡率が高い</b></span>。理由は3つ重なる——<span class=\"kw3\"><b>すでに関節が壊れている</b></span>・<span class=\"kw3\"><b>免疫抑制下にある</b></span>・そして⚠️<span class=\"kw4\"><b>flare と誤ってステロイドを増やされやすい</b></span>。<br/><br/><span class=\"kw\"><b>穿刺した後の読み方</b></span>——白血球が<span class=\"kw3\"><b>50,000／μL 以上</b></span>なら化膿性を強く示唆するが、⚠️<span class=\"kw4\"><b>培養が陰性でも否定できない</b></span>（抗菌薬の先行投与・淋菌・低悪性度菌）。⚠️ 結晶性（痛風・偽痛風）も同じ顔で来るので、<span class=\"kw3\"><b>どちらにしても穿刺しないと分かれない</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">生物学的製剤使用中の急性単関節炎 = 化膿性関節炎を第一に除外</span>。<br/>RAのflare（再燃）との鑑別：flareは多関節・左右対称・全身症状軽い。化膿は発熱＋単関節。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "生物学的製剤（抗IL-6）投与中のRUで新規膝関節痛＝感染/結晶を疑う。<br/><b>b 抗菌薬／c 抗核抗体／d MRI／e ステロイドパルス</b>：診断前で不適。<br/><b>a 関節穿刺</b>：<span class=\"kw\">IL-6阻害中は炎症所見がマスクされるため穿刺で化膿性/結晶性を確認</span>。✓"
+       "c": "<span class=\"kw3\"><b>生物学的製剤の使用中に急性単関節炎＝まず化膿性関節炎を除外</b></span>。<br/>⚠️<span class=\"kw4\"><b>抗IL-6 受容体抗体の下では CRP と発熱が当てにならない</b></span>——判断材料は<span class=\"kw3\"><b>局所所見と白血球分画</b></span>。<br/>⚠️ 生物学的製剤の導入前には<span class=\"kw3\"><b>結核（IGRA・胸部X線）と B型肝炎ウイルスのスクリーニング</b></span>が要る。"
       }
      ],
      "imgs": []
