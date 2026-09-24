@@ -33243,27 +33243,27 @@
       }
      ],
      "ans_label": "ｅ　甲状腺ホルモンを投与する。",
-     "ans_sub": "重症低栄養（神経性食欲不振症）では甲状腺ホルモン値低下は適応的変化であり、補充療法は禁忌",
+     "ans_sub": "飢餓による低T3 は代謝を落として生き延びるための適応であって、甲状腺の病気ではない＝補充は不要で、萎縮した心臓に需要を課すぶん有害",
      "eg": [
       {
        "cls": "ep",
-       "h": "🧠 神経性食欲不振症の代謝変化",
-       "c": "<span class=\"kw\">重症低栄養（神経性食欲不振症）</span>でのホルモン変化：<br>・甲状腺ホルモン（T3）低下→euthyroid sick syndrome（低T3症候群）<br>→これは<span class=\"kw\">飢餓への適応反応</span>（代謝を低下させてエネルギーを節約）<br>→<span class=\"kw4\">甲状腺ホルモンを補充すると代謝が亢進→心臓に過負荷</span><br/><br/>適切な対応：<br/><span class=\"kw\">ｂ 心電図</span>：心拍数48（徐脈）→不整脈・QT延長の確認<br/><span class=\"kw\">ｃ 微量元素測定</span>：Zn・Se・Cu・Mg等の欠乏確認<br/><span class=\"kw\">ｄ ビタミンB1投与</span>：リフィーディング前にB1補充（ウェルニッケ予防）</br></br></br>"
+       "h": "🦋 飢餓の甲状腺は「壊れて」いない——数字は適応の結果",
+       "c": "身長152cm・体重26kg＝<span class=\"kw3\"><b>BMI 11.3</b></span>。この状態で FT3 1.8（低値）・FT4 0.9（下限）・<span class=\"kw3\"><b>TSH 2.8＝正常</b></span>という組合せは、<span class=\"kw3\"><b>低T3症候群（non-thyroidal illness）</b></span>の典型。<br/><br/><span class=\"kw\"><b>なぜ下がるのか</b></span>——飢餓では末梢の<span class=\"kw3\"><b>Ⅰ型脱ヨード酵素が落ち、T4 が T3 ではなく rT3（不活性型）へ振り向けられる</b></span>。<span class=\"kw3\"><b>基礎代謝を落として蓄えを使い切らないための適応</b></span>であって、甲状腺そのものは働いている。<br/><br/>⚠️<span class=\"kw4\"><b>TSH が正常であることが「下垂体も甲状腺も異常なし」の証拠</b></span>。原発性なら TSH が上がり、中枢性なら TSH も FT4 も低い——<span class=\"kw3\"><b>どちらでもない</b></span>。<br/><br/>⚠️<span class=\"kw4\"><b>だから補充してはいけない</b></span>。入れれば基礎代謝が上がり、<span class=\"kw3\"><b>すでに萎縮した心筋に酸素需要を課す</b></span>。この患者はもともと<span class=\"kw3\"><b>心拍数48・血圧80/52</b></span>で、不整脈と心不全の側に傾いている。<br/><br/><span class=\"kw\"><b>他の数字も飢餓で説明が付く</b></span>——<span class=\"kw3\"><b>血糖45・HbA1c 4.4</b></span>（糖新生の基質が尽きている）・<span class=\"kw3\"><b>白血球3,300・血小板8万</b></span>（骨髄のゼラチン様変性）・<span class=\"kw3\"><b>体温35.1・うぶ毛の増生</b></span>（熱を逃がさないための反応）・3年続く無月経（視床下部性）。"
       },
       {
        "cls": "ee",
-       "h": "□ リフィーディング症候群に注意",
-       "c": "<table class=\"tb\"><tr><td>合併症</td><td>原因</td><td>対策</td></tr><tr><td>低リン血症</td><td>細胞内取り込み↑</td><td>血中P測定・リン補充</td></tr><tr><td>低カリウム血症</td><td>細胞内移行</td><td>K補充</td></tr><tr><td>低マグネシウム血症</td><td>細胞内移行</td><td>Mg補充</td></tr><tr><td>心不全・浮腫</td><td>急激な循環血液量増加</td><td>ゆっくり栄養補給</td></tr></table>"
+       "h": "□ 選択肢の検討（「適切でない」ものを選ぶ）",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　リンを投与する。</td><td>適切。<span class=\"kw3\">低リン血症は refeeding 症候群の中核</span>。呼吸困難・意識障害・肝逸脱酵素の上昇は低Pで説明できる</td></tr><tr><td>ｂ　心電図を施行する。</td><td>適切。<span class=\"kw3\">心拍数48 の徐脈・低K 3.0</span>＝<span class=\"kw3\">QT 延長と致死性不整脈</span>を確認する必要がある</td></tr><tr><td>ｃ　微量元素を測定する。</td><td>適切。長期の低栄養で<span class=\"kw3\">亜鉛・銅・セレン</span>が枯渇している。セレン欠乏は心筋症を起こす</td></tr><tr><td>ｄ　ビタミンB1 を投与する。</td><td>適切。⚠️<span class=\"kw3\">ブドウ糖を入れる前に補うのが原則</span>。糖負荷が B1 を一気に消費して Wernicke 脳症を起こす</td></tr><tr><td><span class=\"kw3\">◯ ｅ　甲状腺ホルモンを投与する。</span></td><td><span class=\"kw3\">これが正解</span>（＝適切でない）。<span class=\"kw3\">低T3 は飢餓への適応</span>であり、補うと<span class=\"kw3\">代謝亢進で心負荷が増す</span>だけ</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 入院2日目に何が起きたのか——refeeding 症候群の時刻表",
+       "c": "設問は<span class=\"kw3\"><b>「経静脈的にブドウ糖を含む輸液を開始したところ、入院2日目から」</b></span>と時刻を明記している。これが読み取りの鍵。<br/><br/>①<span class=\"kw\"><b>糖が入る</b></span>→<span class=\"kw3\"><b>インスリンが出る</b></span><br/>②<span class=\"kw3\"><b>P・K・Mg が一斉に細胞内へ移動</b></span>し、同時に ATP と 2,3-DPG の合成に P が消費される<br/>③<span class=\"kw\"><b>低リン血症</b></span>→<span class=\"kw3\"><b>呼吸筋が動かない（呼吸困難）</b></span>・<span class=\"kw3\"><b>意識障害</b></span>・横紋筋融解・<span class=\"kw3\"><b>肝逸脱酵素の上昇（AST 539・ALT 654）</b></span>・溶血<br/>④<span class=\"kw\"><b>Na と水の貯留</b></span>→<span class=\"kw3\"><b>全身の浮腫</b></span>・心不全<br/><br/>⚠️<span class=\"kw4\"><b>この患者の症状は全部ここに並んでいる</b></span>——呼吸困難・JCS Ⅱ-20・全身浮腫・肝障害。<span class=\"kw3\"><b>新しい病気が起きたのではなく、治療が起こした</b></span>。<br/><br/><span class=\"kw\"><b>予防</b></span>——<span class=\"kw3\"><b>最初は必要量の 1/4 程度から、数日かけて上げる</b></span>。⚠️ 開始前に<span class=\"kw3\"><b>K・P・Mg を測って補正し、B1 を先に入れる</b></span>。⚠️<span class=\"kw4\"><b>「元気がないから栄養を入れる」がそのまま危険になる</b></span>のがこの病態の怖さで、輸液の組成の選び方は Q.474 にある。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw4\">低栄養の低T3→ホルモン補充NG</span>（適応反応）。<br/>まず心電図・電解質・B1を確認。栄養補給は<span class=\"kw\">ゆっくり・少量から</span>（リフィーディング症候群予防）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "神経性やせ症（低栄養）の救急管理で「適切でない」もの。<br/><b>a リン投与／b 心電図／c 微量元素測定／d ビタミンB1投与</b>：リフィーディング症候群対策として適切。<br/><b>e 甲状腺ホルモンを投与する</b>：<span class=\"kw\">低T3症候群（適応反応）に補充は不要→不適切</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw3\"><b>重症低栄養の低T3（低T3症候群）にホルモン補充はしない</b></span>——<span class=\"kw3\"><b>TSH が正常</b></span>なのが見分けの決め手。<br/>⚠️<span class=\"kw4\"><b>refeeding 症候群＝低P・低K・低Mg</b></span>。栄養は<span class=\"kw3\"><b>少量からゆっくり</b></span>、<span class=\"kw3\"><b>ブドウ糖より先に B1</b></span>。<br/>⚠️ 神経性やせ症では<span class=\"kw3\"><b>徐脈・低体温・低血圧・うぶ毛・無月経</b></span>が揃う。入院の適応は BMI ではなく<span class=\"kw3\"><b>循環と電解質</b></span>で決める。"
       }
      ],
      "imgs": []
@@ -33313,22 +33313,27 @@
       }
      ],
      "ans_label": "ｅ　非ステロイド性抗炎症薬〈NSAIDs〉の投与",
-     "ans_sub": "急性痛風発作の第一選択はNSAIDs。ギプス・抗菌薬・免疫抑制薬・尿酸降下薬は急性期には不要",
+     "ans_sub": "急性痛風発作はまず炎症を止める＝NSAIDs（またはコルヒチン・ステロイド）。尿酸降下薬を発作中に始めない",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 急性痛風発作の治療原則",
-       "c": "<span class=\"kw\">急性発作期の治療</span>（炎症を速やかに鎮静させる）：<br>第一選択：<span class=\"kw\">NSAIDs（非ステロイド性抗炎症薬）</span><br/>代替：コルヒチン（微小管阻害→好中球遊走抑制）<br/>　　 グルコルチコイド（NSAIDs禁忌時）<br/><br/><span class=\"kw4\">急性期に使ってはいけない薬</span>：<br/>・尿酸合成阻害薬（アロプリノール等）→血清尿酸変動→発作悪化<br/>・尿酸排泄促進薬（ベンズブロマロン等）→同様に禁忌</br>"
+       "h": "💊 急性発作の治療は「短期間に十分量」——少量を長くではない",
+       "c": "43歳男性・2日前から<span class=\"kw3\"><b>左第1中足趾節関節</b></span>が急激に痛み、<span class=\"kw3\"><b>以前にも同じ場所</b></span>で同じことがあった。3年前から高尿酸血症を指摘され、1か月前の尿酸は 9.0mg/dL。典型的な<span class=\"kw3\"><b>急性痛風関節炎</b></span>。<br/><br/><span class=\"kw\"><b>3つの薬のどれでもよいが、使い方が違う</b></span><br/>・<span class=\"kw3\"><b>NSAIDs</b></span>——第一選択。⚠️<span class=\"kw4\"><b>少量を長く続けるのではなく、短期間に十分量を使って一気に止める</b></span><br/>・<span class=\"kw3\"><b>コルヒチン</b></span>——⚠️<span class=\"kw4\"><b>効くかどうかは「いつ飲むか」で決まる</b></span>。前兆期から発症12時間以内が最も効き、遅れるほど落ちる。微小管を止めて好中球の遊走と貪食を抑える<br/>・<span class=\"kw3\"><b>副腎皮質ステロイド</b></span>——NSAIDs が使えないとき（腎障害・消化管出血・心不全）や多関節に及ぶとき。単関節なら関節内注射も可（⚠️<span class=\"kw3\"><b>感染を否定してから</b></span>）<br/><br/>⚠️<span class=\"kw4\"><b>アスピリンは使わない</b></span>——低用量では尿酸の排泄を阻害して逆に不利（Q.491）。<br/><br/><span class=\"kw\"><b>尿酸9.0 は治療したくなる数字だが、いま手を付けない</b></span>——⚠️<span class=\"kw4\"><b>発作中に尿酸降下薬を始めると、尿酸が急に動いて発作が悪化・遷延する</b></span>。始めるのは<span class=\"kw3\"><b>炎症が完全に治まってから</b></span>（Q.489・Q.503）。⚠️<span class=\"kw4\"><b>すでに飲んでいる人は中断しない</b></span>——変動そのものが誘因だから。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　ギプス固定</td><td>炎症は止まらず<span class=\"kw3\">関節拘縮と廃用</span>を招くだけ。安静は必要だが固定は不要</td></tr><tr><td>ｂ　抗菌薬の投与</td><td><span class=\"kw3\">感染症ではない</span>。⚠️体温37.0℃ は痛風発作でも出る（Q.488）</td></tr><tr><td>ｃ　免疫抑制薬の投与</td><td>関節リウマチなどの治療薬。<span class=\"kw3\">結晶による急性炎症には使わない</span></td></tr><tr><td>ｄ　尿酸合成阻害薬の投与</td><td>⚠️<span class=\"kw3\">発作中に始めてはいけない</span>。尿酸が急に下がると<span class=\"kw3\">結晶の表面が動いて発作が悪化・遷延する</span></td></tr><tr><td><span class=\"kw3\">◯ ｅ　非ステロイド性抗炎症薬〈NSAIDs〉の投与</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">急性発作の第一選択</span>。短期間に十分量で炎症を止める</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 写真で何を見るか——そして間違えやすい足の痛み",
+       "c": "<span class=\"kw\"><b>写真の所見</b></span>——<span class=\"kw3\"><b>左第1中足趾節関節の内側の隆起部に、境界のやや不明瞭な暗赤色の発赤と腫脹</b></span>。表面は張って光沢がある。⚠️<span class=\"kw4\"><b>右足は同じ変形を持ちながら発赤も腫脹も無い</b></span>——<span class=\"kw3\"><b>左右を並べた写真そのものが「今炎症しているのはここだけ」の証拠</b></span>になっている。<br/><br/>⚠️<span class=\"kw4\"><b>両足にある外反母趾は痛風が作ったものではない</b></span>。変形は前からあり、そこへ発作が重なっただけ。<span class=\"kw3\"><b>変形を見て痛風の慢性化と決めつけない</b></span>。<br/><br/><span class=\"kw\"><b>同じ場所が痛くなる他の病気</b></span><br/>・<span class=\"kw3\"><b>蜂窩織炎</b></span>——⚠️発赤が<span class=\"kw3\"><b>関節を越えて広がりリンパ管炎の線条</b></span>を作る。発熱が強い<br/>・<span class=\"kw3\"><b>化膿性関節炎</b></span>——単関節で熱感。<span class=\"kw3\"><b>穿刺しないと分かれない</b></span>（Q.496）<br/>・<span class=\"kw3\"><b>外反母趾の滑液包炎</b></span>——隆起部の炎症だが急激ではない<br/>・偽痛風・付着部炎・疲労骨折<br/><br/>⚠️ 発作の回復期には<span class=\"kw3\"><b>発赤していた皮膚が落屑する</b></span>のが痛風らしい経過。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "痛風急性期：NSAIDs / コルヒチン → 寛解後3〜4週間後から尿酸降下薬を開始。<br/><span class=\"kw\">コルヒチンの少量早期投与</span>（発作開始1時間以内）が最も有効。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "高尿酸血症＋母趾MTP関節の急性痛＝痛風発作。<br/><b>a ギプス固定／b 抗菌薬／c 免疫抑制薬／d 尿酸合成阻害薬（発作中に開始しない）</b>：不適。<br/><b>e NSAIDsの投与</b>：<span class=\"kw\">急性発作の第一選択</span>。✓"
+       "c": "<span class=\"kw3\"><b>急性痛風発作＝NSAIDs・コルヒチン・ステロイドのいずれかで炎症を止める</b></span>。<br/>⚠️<span class=\"kw4\"><b>発作中に尿酸降下薬を「始めない」・すでに飲んでいるなら「やめない」</b></span>。<br/>⚠️<span class=\"kw4\"><b>コルヒチンは早いほど効く</b></span>（前兆期〜12時間以内）。<br/>⚠️ アスピリンは低用量で尿酸排泄を阻害するため選ばない。"
       }
      ],
      "imgs": [
@@ -33380,27 +33385,27 @@
       }
      ],
      "ans_label": "ｄ　ビタミンB1",
-     "ans_sub": "退職→引きこもり→偏食（コンビニ・炭水化物中心）→B1欠乏→Wernicke脳症（失調）",
+     "ans_sub": "菓子パンとおにぎり中心の偏食＝糖質ばかり摂ってB1を消費する食事。遠位優位の筋力低下・腱反射消失・振動覚低下＝乾性脚気（多発神経炎）",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏠 引きこもりと栄養欠乏",
-       "c": "<span class=\"kw\">引きこもり生活でのB1欠乏のリスク</span>：<br>・偏食（炭水化物・インスタント食品中心）→B1摂取↓<br>・アルコール摂取（ストレス対処）→B1需要↑＋吸収↓<br>・糖質過多の食事→B1消費↑（糖代謝にB1必要）<br/><br/><span class=\"kw\">症状</span>：ふらつき（失調）→ウェルニッケ脳症の初期症状<br/>→ 小脳性失調 / 末梢性ニューロパチー（脚気）</br></br></br>"
+       "h": "🍙 糖質ばかり食べると、摂取が減るのに需要が増える",
+       "c": "B1（チアミン）は<span class=\"kw3\"><b>ピルビン酸脱水素酵素・α-ケトグルタル酸脱水素酵素・トランスケトラーゼ</b></span>の補酵素＝<span class=\"kw3\"><b>糖を燃やすためだけに要る</b></span>ビタミン。だから<span class=\"kw3\"><b>糖質を多く食べるほど消費される</b></span>。<br/><br/>⚠️<span class=\"kw4\"><b>菓子パンとおにぎりは「B1 が少なく、糖質が多い」という最悪の組合せ</b></span>——摂取が減る側と需要が増える側が同時に働く。<br/><br/><span class=\"kw\"><b>貯蔵が少ないのが効く</b></span>——B1 の体内貯蔵は<span class=\"kw3\"><b>2〜3週間分</b></span>しかない。⚠️<span class=\"kw4\"><b>B12 の貯蔵が5年あるのと対照的</b></span>（Q.484）で、<span class=\"kw3\"><b>偏食が始まって数週間から数か月で症状が出る</b></span>。この患者は1年前から不規則な食事で、1週間前に症状が目立ってきた。<br/><br/><span class=\"kw\"><b>この患者の所見は乾性脚気（多発神経炎）</b></span><br/>・<span class=\"kw3\"><b>四肢筋力が遠位部優位に低下</b></span>・<span class=\"kw3\"><b>腱反射が上肢で減弱、膝蓋腱とアキレス腱で消失</b></span><br/>・<span class=\"kw3\"><b>両下肢の振動覚低下と痛覚過敏</b></span><br/>・<span class=\"kw3\"><b>Babinski 徴候は陰性</b></span>＝上位運動ニューロンは侵されていない<br/><br/>⚠️⚠️<span class=\"kw4\"><b>この患者は Wernicke 脳症ではない</b></span>。既存の解説は Wernicke・小脳性失調と書いていたが、<span class=\"kw3\"><b>意識は清明で、眼球運動障害の記載も眼振の記載も無い</b></span>。ふらつきの正体は<span class=\"kw3\"><b>深部感覚（振動覚）の低下と遠位筋力低下</b></span>であって、<span class=\"kw3\"><b>小脳性失調ではない</b></span>（小脳性なら指鼻・膝踵の異常と眼振が出る）。"
       },
       {
        "cls": "ee",
-       "h": "□ 各ビタミンと引きこもりでの欠乏リスク",
-       "c": "<table class=\"tb\"><tr><td>ビタミン</td><td>欠乏症状</td><td>リスク</td></tr><tr><td><span class=\"kw\">B1</span></td><td><span class=\"kw\">ウェルニッケ・脚気</span></td><td><span class=\"kw\">◎ 炭水化物偏食→消費↑</span></td></tr><tr><td>D</td><td>骨軟化症</td><td>○ 日光浴なし→合成↓</td></tr><tr><td>B12</td><td>神経障害・貧血</td><td>△ 菜食主義の場合</td></tr><tr><td>A</td><td>夜盲</td><td>△ 野菜摂取不足</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　亜　鉛</td><td>味覚障害・開口部と末端の皮膚炎・脱毛。<span class=\"kw3\">腱反射の消失や振動覚低下は作らない</span></td></tr><tr><td>ｂ　葉　酸</td><td>巨赤芽球性貧血。⚠️<span class=\"kw3\">神経症状は作らない</span>のが B12 との最大の違い</td></tr><tr><td>ｃ　ニコチン酸</td><td>ペラグラ＝<span class=\"kw3\">日光露出部の皮膚炎・下痢・認知症</span>。多発神経炎は主体でない</td></tr><tr><td><span class=\"kw3\">◯ ｄ　ビタミンB1</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">糖質偏重の偏食＋貯蔵2〜3週</span>で欠乏し、<span class=\"kw3\">遠位優位の多発神経炎（乾性脚気）</span>を起こす</td></tr><tr><td>ｅ　ビタミンB12</td><td>同じく深部感覚障害を作るが、⚠️<span class=\"kw3\">腱反射は亢進し Babinski が陽性になりうる</span>（側索も侵すため）。貧血の記載も無い</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 遠位優位・左右対称のニューロパチーを見たら数えるもの",
+       "c": "<span class=\"kw3\"><b>長さに依存して足先から始まり、左右対称に上がってくる</b></span>という形は、<span class=\"kw3\"><b>全身の代謝異常や中毒</b></span>に共通する。原因を数え上げて消していくのがこの設問の解き方。<br/><br/>・<span class=\"kw3\"><b>糖尿病</b></span>——最多。⚠️血糖の記載が無い<br/>・<span class=\"kw3\"><b>アルコール</b></span>——⚠️この患者に飲酒歴の記載は無い<br/>・<span class=\"kw3\"><b>ビタミン欠乏</b></span>——<span class=\"kw3\"><b>B1（乾性脚気）</b></span>・B6（⚠️欠乏でも過剰でも起こる・Q.486）・B12・E<br/>・<span class=\"kw3\"><b>尿毒症・甲状腺機能低下症</b></span><br/>・<span class=\"kw3\"><b>薬剤</b></span>——イソニアジド・ビンクリスチン・シスプラチン<br/>・<span class=\"kw3\"><b>Guillain-Barré 症候群</b></span>——⚠️<span class=\"kw3\"><b>急性（数日〜4週）で近位も侵し、先行感染がある</b></span>＝この経過とは違う<br/><br/><span class=\"kw\"><b>補うときの実際</b></span>——⚠️<span class=\"kw4\"><b>経口では吸収に上限があるので、症状が出ていれば静注</b></span>。反応は<span class=\"kw3\"><b>心臓が数時間〜数日で戻るのに対し、末梢神経は数か月</b></span>かかり、⚠️<span class=\"kw4\"><b>遅れると戻らないことがある</b></span>。⚠️<span class=\"kw4\"><b>ブドウ糖より先にチアミン</b></span>（糖負荷が残った B1 を使い切る・Q.492）。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">炭水化物中心・アルコール多飲・偏食</span>→B1欠乏（Wernicke脳症）のハイリスク。<br/>失調＋ふらつき→<span class=\"kw\">Wernicke三徴</span>を確認（眼・失調・意識）→B1静注。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "引きこもり・偏食（菓子パン中心）でのふらつき＝ビタミンB1欠乏。<br/><b>a 亜鉛／b 葉酸／c ニコチン酸／e B12</b>：本病態でない。<br/><b>d ビタミンB1</b>：<span class=\"kw\">炭水化物偏重でB1欠乏（Wernicke/脚気）</span>。✓"
+       "c": "<span class=\"kw3\"><b>糖質偏重の食事＋B1 の貯蔵は2〜3週間</b></span>＝<span class=\"kw3\"><b>数週で欠乏する</b></span>。<br/><span class=\"kw3\"><b>乾性脚気＝遠位優位の多発神経炎</b></span>（腱反射消失・振動覚低下）／<span class=\"kw3\"><b>湿性脚気＝高拍出性心不全</b></span>（Q.492）。<br/>⚠️<span class=\"kw4\"><b>B12 欠乏との見分けは腱反射と Babinski</b></span>——<span class=\"kw3\"><b>B1 は反射消失、B12 は側索も侵すので反射亢進と Babinski 陽性がありうる</b></span>。"
       }
      ],
      "imgs": []
@@ -33450,22 +33455,27 @@
       }
      ],
      "ans_label": "ｂ　ビールの大量摂取\nｃ　急激な激しい運動\nｅ　高尿酸血症治療薬の開始",
-     "ans_sub": "ビール（プリン体＋アルコール）・激しい運動（尿酸産生↑）・尿酸降下薬開始時（血清尿酸急変動）が痛風誘因",
+     "ans_sub": "ビール（プリン体とアルコール）・激しい運動・尿酸降下薬の開始。⚠️ 尿酸は上がっても下がっても発作の誘因になる",
      "eg": [
       {
        "cls": "ep",
-       "h": "⚡ 痛風発作の誘因",
-       "c": "<table class=\"tb\"><tr><td>誘因</td><td>機序</td><td>判定</td></tr><tr><td>禁煙</td><td>痛風と直接関連なし</td><td>× 誘因でない</td></tr><tr><td><span class=\"kw\">ビール大量摂取</span></td><td><span class=\"kw\">プリン体多＋アルコール→尿酸産生↑排泄↓</span></td><td><span class=\"kw\">✓</span></td></tr><tr><td><span class=\"kw\">急激な激しい運動</span></td><td><span class=\"kw\">筋肉のプリン体分解→尿酸産生↑</span></td><td><span class=\"kw\">✓</span></td></tr><tr><td>乳製品大量摂取</td><td>乳タンパクは尿酸排泄を促進（保護的）</td><td>× 誘因でない</td></tr><tr><td><span class=\"kw\">高尿酸血症治療薬の開始</span></td><td><span class=\"kw\">血清尿酸の急変動→結晶析出↑</span></td><td><span class=\"kw\">✓</span></td></tr></table>"
+       "h": "⚡ 尿酸が「動くこと」そのものが発作を起こす——上がっても下がっても",
+       "c": "痛風発作は<span class=\"kw3\"><b>血中の尿酸値が高いから起こる</b></span>のではない。結晶は<span class=\"kw3\"><b>発作の前から関節の中に溜まっている</b></span>。血中濃度が<span class=\"kw3\"><b>急に変わる</b></span>と、結晶の表面が溶けたり新しく析出したりして<span class=\"kw3\"><b>裸の結晶面が露出</b></span>し、そこへ好中球が来て NLRP3 インフラマソームが動く（Q.488）。<br/><br/>⚠️⚠️<span class=\"kw4\"><b>だから尿酸降下薬の開始が誘因になる</b></span>。これが本問の ｅ で、<span class=\"kw3\"><b>治療を始めた直後がいちばん発作が起きやすい</b></span>という逆説になっている。<br/>⚠️ 同じ理屈で、<span class=\"kw3\"><b>発作中は尿酸がむしろ下がっている</b></span>ことがある（Q.488・Q.496）。<br/><br/><span class=\"kw\"><b>対策は「ゆっくり始めて、しばらく覆う」</b></span>——<span class=\"kw3\"><b>少量から始めて時間をかけて増やす</b></span>＋<span class=\"kw3\"><b>開始から3〜6か月はコルヒチンを少量併用</b></span>してカバーする。⚠️<span class=\"kw4\"><b>発作が起きても薬は中断しない</b></span>——中断そのものがまた変動になる（Q.489）。<br/><br/><span class=\"kw\"><b>残る2つの誘因</b></span><br/>・<span class=\"kw3\"><b>ビールの大量摂取</b></span>——<span class=\"kw3\"><b>三重に効く</b></span>。プリン体そのもの／アルコール代謝が ATP を消費して尿酸産生を増やす／乳酸が尿細管で尿酸排泄と競合する<br/>・<span class=\"kw3\"><b>急激な激しい運動</b></span>——筋の ATP が分解されて<span class=\"kw3\"><b>プリン体から尿酸へ</b></span>。加えて<span class=\"kw3\"><b>脱水</b></span>で濃縮される"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　禁　煙</td><td><span class=\"kw3\">痛風の誘因にならない</span>。喫煙・禁煙と尿酸代謝に直接の関係はなく、禁煙は全般に有益</td></tr><tr><td><span class=\"kw3\">◯ ｂ　ビールの大量摂取</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">プリン体＋ATP 消費＋乳酸による排泄競合</span>の三重機序</td></tr><tr><td><span class=\"kw3\">◯ ｃ　急激な激しい運動</span></td><td><span class=\"kw3\">これが正解</span>。筋の<span class=\"kw3\">ATP 分解でプリン体が尿酸へ</span>＋発汗による<span class=\"kw3\">脱水で濃縮</span></td></tr><tr><td>ｄ　乳製品の大量摂取</td><td>⚠️<span class=\"kw3\">むしろ保護的</span>。低脂肪乳製品の摂取は痛風のリスクを下げることが示されている</td></tr><tr><td><span class=\"kw3\">◯ ｅ　高尿酸血症治療薬の開始</span></td><td><span class=\"kw3\">これが正解</span>。⚠️<span class=\"kw3\">尿酸が急に下がることが結晶面を露出させる</span>。開始直後が最も発作が起きやすい</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "💡 痛風の誘因の覚え方",
-       "c": "<span class=\"kw\">「飲・食・運・冷・薬・脱」</span>：飲酒・高プリン食・運動・冷え（局所）・薬物・脱水<br/><span class=\"kw\">乳製品は予防的</span>（尿酸排泄を促進→発作予防）"
+       "h": "🔍 食事は「プリン体の多さ」だけでは決まらない",
+       "c": "痛風の食事指導は長く<span class=\"kw3\"><b>プリン体の量</b></span>で語られてきたが、疫学が示したのは<span class=\"kw3\"><b>そう単純ではない</b></span>ということだった。<br/><br/>・⚠️<span class=\"kw4\"><b>野菜由来のプリン体はリスクを上げない</b></span>——<span class=\"kw3\"><b>ほうれん草・豆類・きのこ</b></span>は制限しなくてよい<br/>・⚠️<span class=\"kw4\"><b>果糖はリスクを上げる</b></span>——<span class=\"kw3\"><b>清涼飲料水・果汁</b></span>。果糖のリン酸化が <span class=\"kw3\"><b>ATP を消費</b></span>して AMP から尿酸が作られる（アルコールと同じ経路）<br/>・⚠️<span class=\"kw4\"><b>低脂肪乳製品は下げる</b></span>——カゼインとラクトアルブミンが<span class=\"kw3\"><b>尿酸の排泄を促す</b></span>。本問の ｄ はここに対応している<br/>・<span class=\"kw3\"><b>肉・内臓・魚卵・干物</b></span>は上げる。⚠️ただし<span class=\"kw3\"><b>総アルコール量の方が効く</b></span><br/>・<span class=\"kw3\"><b>水分を十分とる</b></span>——脱水が最も手軽な誘因（Q.491）<br/><br/>⚠️<span class=\"kw4\"><b>急激な減量も誘因</b></span>になる（ケトン体が尿酸排泄と競合する）。<span class=\"kw3\"><b>体重は落とすが、ゆっくり落とす</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw4\">尿酸降下薬の開始直後は痛風発作が起きやすい</span>。<br/>対策：開始初期にコルヒチン0.5mg/日を予防的に投与（発作予防）。"
+       "c": "<span class=\"kw3\"><b>尿酸降下薬の開始直後は発作が起きやすい</b></span>——<span class=\"kw3\"><b>少量から・コルヒチンで3〜6か月カバー</b></span>。<br/>⚠️<span class=\"kw4\"><b>発作中に始めない、飲んでいるならやめない</b></span>。<br/><span class=\"kw3\"><b>誘因＝飲酒・高プリン食・果糖・激しい運動・脱水・急激な減量・利尿薬</b></span>。<span class=\"kw3\"><b>乳製品と野菜のプリン体は誘因にならない</b></span>。"
       }
      ],
      "imgs": []
@@ -33515,27 +33525,27 @@
       }
      ],
      "ans_label": "ａ　脚　気",
-     "ans_sub": "糖質代謝にはB1が必須。糖質過剰摂取+激しい身体労働→B1需要増大→B1欠乏→脚気",
+     "ans_sub": "B1 は糖代謝の補酵素＝糖質を多く摂るほど、身体を使うほど消費される。摂取不足と需要増が重なって脚気になる",
      "eg": [
       {
        "cls": "ep",
-       "h": "🌾 脚気（ビタミンB1欠乏症）の発症機序",
-       "c": "<span class=\"kw\">ビタミンB1の役割</span>：ピルビン酸→アセチルCoAの変換（PDH）の補酵素<br/>→糖質を代謝するのに必須<br/><br/><span class=\"kw\">脚気の発症条件</span>：<br/>① <span class=\"kw\">B1摂取不足</span>（白米中心の食事、インスタント食品）<br/>② <span class=\"kw\">B1需要増大</span>：<br/>　・糖質の過剰摂取→B1消費↑<br/>　・激しい肉体労働→エネルギー消費↑→B1消費↑<br/><br/>歴史的背景：精白米食と脚気（海軍での集団発症→白米→B1欠乏）"
+       "h": "🌾 B1 が足りるかどうかは「量」ではなく「糖質に対する比」で決まる",
+       "c": "B1 はピルビン酸を<span class=\"kw3\"><b>アセチルCoA へ渡す酵素（PDH）</b></span>と<span class=\"kw3\"><b>α-ケトグルタル酸脱水素酵素</b></span>の補酵素。つまり<span class=\"kw3\"><b>糖を燃やすためだけに消費される</b></span>。<br/><br/>⚠️<span class=\"kw4\"><b>だから「どれだけ摂ったか」ではなく「摂った糖質に対して足りているか」で決まる</b></span>。設問の条件文はこれを2通りに書いている——<br/>・<span class=\"kw3\"><b>糖質の過剰摂取</b></span>＝分母が増える<br/>・<span class=\"kw3\"><b>肉体労働</b></span>＝エネルギー消費が増えて、さらに分母が増える<br/><br/><span class=\"kw\"><b>歴史</b></span>——<span class=\"kw3\"><b>精白米中心の食事</b></span>で起こった。白米は<span class=\"kw3\"><b>糖質が多く B1 が削られている</b></span>という、まさにこの比が崩れた食品。海軍で麦飯に替えて激減した一方、陸軍は白米を続けて多数の患者を出した。<br/><br/><span class=\"kw\"><b>同じことは今も起こる</b></span><br/>・⚠️<span class=\"kw4\"><b>高カロリー輸液に B1 を入れ忘れる</b></span>→<span class=\"kw3\"><b>重篤な乳酸アシドーシス</b></span><br/>・⚠️<span class=\"kw4\"><b>清涼飲料水の多飲</b></span>（いわゆるペットボトル症候群）<br/>・<span class=\"kw3\"><b>偏食・アルコール・妊娠悪阻・透析</b></span><br/>・⚠️<span class=\"kw4\"><b>低栄養の人に糖を入れた直後</b></span>（Q.500 の refeeding でも B1 を先に補う）"
       },
       {
        "cls": "ee",
-       "h": "□ 脚気の2型",
-       "c": "<table class=\"tb\"><tr><td>型</td><td>主症状</td><td>特徴</td></tr><tr><td><span class=\"kw\">末梢神経型（乾性脚気）</span></td><td>感覚障害・腱反射消失・筋力低下</td><td>末梢からの神経障害</td></tr><tr><td><span class=\"kw\">心臓型（湿性脚気）</span></td><td>高拍出性心不全・浮腫</td><td><span class=\"kw\">心拍出量↑（血管拡張）</span></td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　脚　気</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">糖質が増えるほど B1 が消費される</span>ので、糖質過剰と肉体労働がそのままリスクになる</td></tr><tr><td>ｂ　夜盲症</td><td><span class=\"kw3\">ビタミンA</span>欠乏。ロドプシンの材料であり、<span class=\"kw3\">糖質摂取量とは無関係</span></td></tr><tr><td>ｃ　悪性貧血</td><td><span class=\"kw3\">内因子</span>の欠乏による B12 吸収障害（自己免疫性胃炎）。食事の糖質量では起こらない</td></tr><tr><td>ｄ　出血傾向</td><td><span class=\"kw3\">ビタミンC（血管の脆弱性）や K（凝固因子）</span>の欠乏。糖質とは結び付かない</td></tr><tr><td>ｅ　ペラグラ</td><td><span class=\"kw3\">ナイアシン（B3）</span>欠乏。⚠️<span class=\"kw3\">トウモロコシ主食</span>が背景になるが、機序は糖質の消費ではない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 原因の分からない乳酸アシドーシスを見たら B1 を疑う",
+       "c": "B1 が無いとピルビン酸が<span class=\"kw3\"><b>アセチルCoA へ進めず、行き場を失って乳酸になる</b></span>。だから B1 欠乏は<span class=\"kw3\"><b>アニオンギャップの開いた代謝性アシドーシス</b></span>として現れることがある。<br/><br/>⚠️⚠️<span class=\"kw4\"><b>衝心（しょうしん）脚気</b></span>——<span class=\"kw3\"><b>数時間から数日で進む劇症型</b></span>。<span class=\"kw3\"><b>高拍出性心不全＋乳酸アシドーシス＋循環虚脱</b></span>で、ショックとして運ばれてくる。⚠️<span class=\"kw4\"><b>B1 を静注すると劇的に戻る</b></span>ので、<span class=\"kw3\"><b>疑って投与することが治療でもあり診断でもある</b></span>。<br/><br/><span class=\"kw\"><b>脚気の3つの顔</b></span><br/>・<span class=\"kw3\"><b>乾性脚気</b></span>——遠位優位の多発神経炎（Q.502）<br/>・<span class=\"kw3\"><b>湿性脚気（脚気心）</b></span>——<span class=\"kw3\"><b>高拍出性心不全</b></span>。⚠️<span class=\"kw3\"><b>末梢血管が開いて手足が温かいまま心不全になる</b></span>（Q.492）<br/>・<span class=\"kw3\"><b>Wernicke 脳症</b></span>——意識障害・眼球運動障害・失調<br/><br/>⚠️<span class=\"kw4\"><b>同じ欠乏が心臓にも末梢神経にも脳にも出る</b></span>ので、どれか1つを見たら残りも探す。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "白米（精白）はB1が少ない→<span class=\"kw\">糖質過剰＋B1不足</span>の組み合わせが脚気の典型的背景。<br/>心拍出量が「増加」するのが特徴（拡張期心不全・高出力性心不全）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "糖質過剰摂取＋肉体労働が発症リスクとなるもの。<br/><b>b 夜盲症（ビタミンA）／c 悪性貧血（B12）／d 出血傾向（ビタミンC/K）／e ペラグラ（ナイアシン）</b>：合わない。<br/><b>a 脚気</b>：<span class=\"kw\">ビタミンB1需要増大による欠乏（脚気）</span>。✓"
+       "c": "<span class=\"kw3\"><b>B1 は糖代謝の補酵素</b></span>＝<span class=\"kw3\"><b>糖質過剰・重労働・高カロリー輸液</b></span>で需要が増える。<br/>⚠️<span class=\"kw4\"><b>高カロリー輸液には B1 を必ず加える</b></span>（入れ忘れは乳酸アシドーシス）。<br/><span class=\"kw3\"><b>脚気心は高拍出性心不全</b></span>——心拍出量は<span class=\"kw3\"><b>増える</b></span>のであって減らない。"
       }
      ],
      "imgs": []
@@ -33581,27 +33591,27 @@
       }
      ],
      "ans_label": "ｃ　ビタミンC  ―――――――――― 出血傾向",
-     "ans_sub": "ビタミンC欠乏（壊血病）：コラーゲン合成障害→血管脆弱性→出血傾向（歯肉出血・点状出血）",
+     "ans_sub": "ビタミンC はコラーゲンのプロリン・リジンを水酸化する酵素の補因子＝欠乏で血管が脆くなり出血傾向（壊血病）",
      "eg": [
       {
        "cls": "ep",
-       "h": "🍋 ビタミンCと壊血病",
-       "c": "<span class=\"kw\">ビタミンC（アスコルビン酸）の役割</span>：<br/>・プロリンヒドロキシラーゼ・リシンヒドロキシラーゼの補酵素<br/>→コラーゲン前駆体のヒドロキシル化→成熟コラーゲン形成<br/><br/><span class=\"kw\">壊血病（Scurvy）の症状</span>：<br/>・歯肉出血（毛細血管の脆弱化）<br/>・点状出血・毛嚢周囲出血<br/>・皮下出血・骨膜下出血<br/>・コルクスクリュー毛（螺旋状毛）"
+       "h": "🍋 ビタミンC の仕事は出血を防ぐことだけではない",
+       "c": "C（アスコルビン酸）は<span class=\"kw3\"><b>プロリン水酸化酵素・リジン水酸化酵素</b></span>の補因子で、<span class=\"kw3\"><b>コラーゲンの三重らせんを架橋して強くする</b></span>。欠けるとコラーゲンが未熟なままになり、<span class=\"kw3\"><b>血管壁と結合組織が脆くなる</b></span>＝壊血病。<br/><br/><span class=\"kw\"><b>皮膚と粘膜の署名</b></span>——<span class=\"kw3\"><b>歯肉の腫脹と出血</b></span>・<span class=\"kw3\"><b>毛囊周囲の点状出血</b></span>・<span class=\"kw3\"><b>らせん状毛（corkscrew hair）</b></span>・皮下出血・<span class=\"kw3\"><b>骨膜下出血</b></span>・創が治らない。<br/>⚠️<span class=\"kw4\"><b>小児では Möller-Barlow 病</b></span>——骨膜下出血で下肢を動かさなくなり、<span class=\"kw3\"><b>麻痺と紛れる（偽麻痺）</b></span>。<br/><br/><span class=\"kw\"><b>出血以外の仕事も持っている</b></span><br/>・⚠️<span class=\"kw4\"><b>鉄の吸収を助ける</b></span>（三価→二価へ還元）＝壊血病では<span class=\"kw3\"><b>貧血も伴う</b></span><br/>・<span class=\"kw3\"><b>カルニチン合成</b></span>（脂肪酸をミトコンドリアへ運ぶ）＝<span class=\"kw3\"><b>強い倦怠感</b></span>の説明<br/>・<span class=\"kw3\"><b>ドパミンからノルアドレナリンへの変換</b></span><br/><br/>⚠️<span class=\"kw4\"><b>凝固因子は正常なので PT も APTT も延びない</b></span>——<span class=\"kw3\"><b>血管側の出血</b></span>である点が K 欠乏との決定的な違い（Q.493）。"
       },
       {
        "cls": "ee",
-       "h": "□ 各選択肢の正誤（同問の繰り返し確認）",
-       "c": "<table class=\"tb\"><tr><td>選択肢</td><td>正誤</td></tr><tr><td>マグネシウム→味覚障害</td><td>✗（亜鉛→味覚障害）</td></tr><tr><td>ビタミンA→ペラグラ</td><td>✗（B3ナイアシン→ペラグラ）</td></tr><tr><td><span class=\"kw\">ビタミンC→出血傾向</span></td><td><span class=\"kw\">✓（壊血病）</span></td></tr><tr><td>カルシウム→貧血</td><td>✗（Fe/B12/葉酸→貧血）</td></tr><tr><td>亜鉛→夜盲</td><td>✗（ビタミンA→夜盲）</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　マグネシウム ― 味覚障害</td><td>味覚障害は<span class=\"kw3\">亜鉛</span>。Mg 欠乏は<span class=\"kw3\">テタニー・不整脈・難治性の低Ca</span></td></tr><tr><td>ｂ　ビタミンA ― ペラグラ</td><td>ペラグラは<span class=\"kw3\">ナイアシン（B3）</span>。A 欠乏は<span class=\"kw3\">夜盲・眼球乾燥・角膜軟化</span></td></tr><tr><td><span class=\"kw3\">◯ ｃ　ビタミンC ― 出血傾向</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">コラーゲンの架橋が作れず血管が脆くなる</span>＝壊血病</td></tr><tr><td>ｄ　カルシウム ― 貧　血</td><td>貧血は<span class=\"kw3\">鉄・B12・葉酸</span>。Ca 欠乏は<span class=\"kw3\">テタニー・くる病・骨軟化症</span></td></tr><tr><td>ｅ　亜　鉛 ― 夜　盲</td><td>⚠️<span class=\"kw3\">全くの誤りとは言えないが最良ではない</span>（下の検討を参照）。夜盲の代表は<span class=\"kw3\">ビタミンA</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 「誤りとは言い切れない」肢をどう扱うか——ｅ 亜鉛と夜盲",
+       "c": "⚠️<span class=\"kw4\"><b>亜鉛が欠乏しても夜盲は起こりうる</b></span>。理由は2つ——<br/>・<span class=\"kw3\"><b>レチノール結合蛋白の合成に亜鉛が要る</b></span>（肝から A を運び出せない）<br/>・<span class=\"kw3\"><b>網膜のレチノール脱水素酵素が亜鉛酵素</b></span>（レチノールをレチナールへ変換できない）<br/>⚠️ 実際に<span class=\"kw3\"><b>A を補っても治らない夜盲</b></span>で亜鉛欠乏が見つかることがある。<br/><br/><span class=\"kw\"><b>それでもこの肢は選ばない</b></span>——組合せ問題が問うているのは<span class=\"kw3\"><b>最も代表的な対応</b></span>で、夜盲の代表は<span class=\"kw3\"><b>ビタミンA</b></span>。しかも本問には<span class=\"kw3\"><b>ｃ という、疑いようのない対応</b></span>が置いてある。<br/><br/>⚠️<span class=\"kw4\"><b>1つ選べの組合せ問題は「残り4つを断定的に否定できるか」で検算する</b></span>。ａ・ｂ・ｄ は<span class=\"kw3\"><b>別の物質の症状に完全に置き換わっている</b></span>ので即座に切れる。ｅ だけが<span class=\"kw3\"><b>灰色</b></span>で、その灰色を残したまま<span class=\"kw3\"><b>白（ｃ）を選ぶ</b></span>のが正しい読み方。<br/><br/>⚠️ 同じ構造は Q.490・Q.493・Q.495 にも出ている——<span class=\"kw3\"><b>作問側は「正しい相手」を1つずつずらして誤答肢を作る</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "この問題は繰り返し出題される頻出問題。<br/><span class=\"kw\">Zn→味覚障害、VitA→夜盲、VitC→出血（壊血病）、VitB3→ペラグラ、VitD→骨軟化症</span>を完全に暗記。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "栄養素欠乏と病態の組合せで正しいもの。<br/><b>a Mg→味覚障害／b ビタミンA→ペラグラ／d カルシウム→貧血／e 亜鉛→夜盲</b>：誤り。<br/><b>c ビタミンC→出血傾向</b>：<span class=\"kw\">壊血病</span>。✓"
+       "c": "<span class=\"kw3\"><b>C → 出血傾向（壊血病）</b></span>・<span class=\"kw3\"><b>亜鉛 → 味覚障害</b></span>・<span class=\"kw3\"><b>A → 夜盲</b></span>・<span class=\"kw3\"><b>B3 → ペラグラ</b></span>・<span class=\"kw3\"><b>D → 骨軟化症・くる病</b></span>・<span class=\"kw3\"><b>鉄 → 匙状爪</b></span>。<br/>⚠️<span class=\"kw4\"><b>壊血病では PT・APTT が正常</b></span>（血管側の出血）。K 欠乏は<span class=\"kw3\"><b>PT が先に延びる</b></span>（Q.493）。<br/>⚠️ 壊血病は<span class=\"kw3\"><b>貧血と強い倦怠感</b></span>も伴う（鉄吸収とカルニチン合成）。"
       }
      ],
      "imgs": []
