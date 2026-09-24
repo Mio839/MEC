@@ -34044,22 +34044,27 @@
       }
      ],
      "ans_label": "ｅ　血清Ca 濃度",
-     "ans_sub": "長期臥床→廃用性骨萎縮（骨吸収↑・骨形成↓）→骨からのカルシウム溶出→血清Ca上昇（高カルシウム血症）",
+     "ans_sub": "長期臥床では骨に荷重刺激が掛からず骨吸収が骨形成を上回る＝骨から Ca が溶け出して血清 Ca が上がる。他の4つはすべて減る",
      "eg": [
       {
        "cls": "ep",
-       "h": "🛏️ 廃用症候群（disuse syndrome）の変化",
-       "c": "<table class=\"tb\"><tr><td>項目</td><td>変化</td><td>理由</td></tr><tr><td>筋肉量</td><td><span class=\"kw\">↓（廃用性筋萎縮）</span></td><td>運動刺激がなく筋タンパク分解</td></tr><tr><td>肺活量</td><td><span class=\"kw\">↓</span></td><td>呼吸筋の廃用・肺拡張不全</td></tr><tr><td>心拍出量</td><td><span class=\"kw\">↓</span></td><td>起立耐容能低下（起立性低血圧）</td></tr><tr><td>関節可動域</td><td><span class=\"kw\">↓（拘縮）</span></td><td>関節包・靭帯の線維化</td></tr><tr><td><span class=\"kw\">血清Ca濃度</span></td><td><span class=\"kw\">↑（高Ca血症）</span></td><td><span class=\"kw\">骨吸収↑→骨からCa溶出</span></td></tr></table>"
+       "h": "🛏️ 廃用はすべてを減らす——ただ1つ、血清 Ca だけが上がる",
+       "c": "この設問は<span class=\"kw3\"><b>「増加するのはどれか」</b></span>と聞いている。廃用症候群の変化はほぼ全部が<span class=\"kw3\"><b>減る</b></span>側なので、<span class=\"kw3\"><b>増える例外を1つ知っているかどうか</b></span>で決まる。<br/><br/><span class=\"kw\"><b>なぜ Ca だけ上がるのか</b></span>——骨は<span class=\"kw3\"><b>荷重と筋の牽引という機械的な刺激</b></span>を受けて作り替えられている。寝たきりになると、<br/>①<span class=\"kw3\"><b>骨細胞が感じる刺激が消える</b></span>→ 骨形成が落ちる<br/>②<span class=\"kw3\"><b>骨吸収は続く</b></span>→ 差し引きで<span class=\"kw3\"><b>骨から Ca が溶け出す</b></span><br/>③ 血清 Ca が上がると<span class=\"kw3\"><b>PTH が抑えられ、活性型ビタミンD も下がる</b></span>ので腸からの吸収も減る<br/>④ それでも余った Ca は<span class=\"kw3\"><b>尿へ</b></span>——⚠️<span class=\"kw4\"><b>高カルシウム尿症から尿路結石</b></span>を作る<br/><br/>⚠️<span class=\"kw4\"><b>不動性高カルシウム血症は、骨の代謝回転が速い人ほど強く出る</b></span>——<span class=\"kw3\"><b>思春期の男子・Paget 病・多発骨折後</b></span>が典型。<span class=\"kw3\"><b>意識障害・多尿・便秘・悪心</b></span>で気づかれる。<br/><br/><span class=\"kw\"><b>予防</b></span>——<span class=\"kw3\"><b>臥床そのものを短くする</b></span>のが最善で、<span class=\"kw3\"><b>早期離床・立位・荷重</b></span>が薬より効く。⚠️ ベッド上の他動運動だけでは<span class=\"kw3\"><b>荷重刺激にならない</b></span>。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　筋肉量</td><td><span class=\"kw3\">減る</span>。⚠️<span class=\"kw3\">1週間の完全臥床で筋力は10〜15%落ちる</span>とされ、<span class=\"kw3\">抗重力筋（下肢・体幹）から先に</span>萎縮する</td></tr><tr><td>ｂ　肺活量</td><td><span class=\"kw3\">減る</span>。呼吸筋の廃用と<span class=\"kw3\">背側の無気肺</span>。⚠️<span class=\"kw3\">臥位そのもので機能的残気量が下がる</span></td></tr><tr><td>ｃ　心拍出量</td><td><span class=\"kw3\">減る</span>。循環血漿量が減り<span class=\"kw3\">1回拍出量が低下</span>。⚠️<span class=\"kw3\">起立性低血圧</span>が離床の障壁になる</td></tr><tr><td>ｄ　関節可動域</td><td><span class=\"kw3\">減る</span>。関節包と靱帯の<span class=\"kw3\">線維化・短縮による拘縮</span>。⚠️足関節は<span class=\"kw3\">尖足</span>になりやすい</td></tr><tr><td><span class=\"kw3\">◯ ｅ　血清Ca 濃度</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">荷重刺激が消えて骨吸収が上回り、骨から Ca が溶け出す</span>（不動性高カルシウム血症）</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "💡 廃用症候群の覚え方",
-       "c": "<span class=\"kw\">「廃用=全て減る」が基本</span>。<br/>例外：血清Ca↑（骨からの溶出）・尿中Ca↑（骨吸収→腎排泄）・血栓リスク↑"
+       "h": "🔍 高カルシウム血症を見たら数える順番",
+       "c": "血清 Ca が高いとき、頻度と緊急度で並べると次の順になる。<br/><br/>①<span class=\"kw\"><b>悪性腫瘍</b></span>——⚠️<span class=\"kw4\"><b>入院患者では最多</b></span>。<span class=\"kw3\"><b>PTHrP 産生（肺扁平上皮癌・成人T細胞白血病）</b></span>・<span class=\"kw3\"><b>溶骨性の骨転移</b></span>・⚠️<span class=\"kw3\"><b>多発性骨髄腫</b></span>。<span class=\"kw3\"><b>PTH は抑制されている</b></span><br/>②<span class=\"kw\"><b>原発性副甲状腺機能亢進症</b></span>——⚠️<span class=\"kw4\"><b>外来では最多</b></span>。<span class=\"kw3\"><b>高Ca なのに PTH が高いか正常</b></span>（これが決め手）・<span class=\"kw3\"><b>低P</b></span><br/>③<span class=\"kw\"><b>不動性高カルシウム血症</b></span>——本問<br/>④<span class=\"kw\"><b>ビタミンD 中毒・サプリメントの過剰</b></span><br/>⑤<span class=\"kw\"><b>サルコイドーシス・結核</b></span>——⚠️<span class=\"kw3\"><b>肉芽腫のマクロファージが活性型ビタミンD を作る</b></span><br/>⑥<span class=\"kw\"><b>薬剤</b></span>——<span class=\"kw3\"><b>サイアザイド</b></span>（尿細管で Ca 再吸収を増やす）・炭酸リチウム<br/><br/>⚠️<span class=\"kw4\"><b>最初の一手は必ず PTH を測ること</b></span>——<span class=\"kw3\"><b>高いか正常なら副甲状腺、抑制されていればそれ以外</b></span>という二分で、原因が半分に絞れる。<br/>⚠️ 治療の入口は<span class=\"kw3\"><b>生理食塩水による輸液</b></span>（脱水が高Ca をさらに上げる悪循環を断つ）。次いで<span class=\"kw3\"><b>ビスホスホネート</b></span>、速効性が要るときに<span class=\"kw3\"><b>カルシトニン</b></span>（Q.510）。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "長期臥床患者の高Ca血症 → <span class=\"kw\">廃用性骨萎縮</span>が原因の一つ。<br/>他に高Ca血症の原因：副甲状腺機能亢進症・悪性腫瘍（骨転移・PTHrP産生）。"
+       "c": "<span class=\"kw3\"><b>廃用症候群は「すべて減る」が基本、例外は血清Ca・尿中Ca・血栓リスク</b></span>。<br/>⚠️<span class=\"kw4\"><b>不動性高カルシウム血症は骨代謝が速い人ほど強い</b></span>（思春期・Paget 病・多発骨折後）。<br/>⚠️<span class=\"kw4\"><b>高Ca を見たらまず PTH</b></span>——<span class=\"kw3\"><b>抑制されていなければ副甲状腺、されていれば悪性腫瘍を探す</b></span>。"
       }
      ],
      "imgs": []
@@ -34105,27 +34110,27 @@
       }
      ],
      "ans_label": "ｄ　ピロリン酸カルシウム",
-     "ans_sub": "高齢者の急性膝関節炎、旅行後の脱水・疲労が誘因→偽痛風（CPPD結晶症）→ピロリン酸カルシウム二水和物",
+     "ans_sub": "高齢者の急性膝関節炎＋X線の軟骨石灰化＝CPPD 結晶沈着症。結晶はピロリン酸カルシウム二水和物",
      "eg": [
       {
        "cls": "ep",
-       "h": "💎 偽痛風の結晶の種類",
-       "c": "<span class=\"kw\">偽痛風（CPPD結晶症）</span>：<br>結晶：<span class=\"kw\">ピロリン酸カルシウム二水和物（CPPD: Calcium Pyrophosphate Dihydrate）</span><br/>偏光顕微鏡像：菱形（ロンボイド）型・弱陽性複屈折<br/><br/>誘因：高齢・手術・外傷・旅行（脱水・長時間座位）・急性疾患</br>"
+       "h": "💎 ピロリン酸カルシウムはどこから来るのか",
+       "c": "設問が聞いているのは診断名ではなく<span class=\"kw3\"><b>結晶の化学名</b></span>。だから「偽痛風」まで辿り着いた後に、<span class=\"kw3\"><b>その結晶が何でできているか</b></span>を答える必要がある。<br/><br/><span class=\"kw\"><b>できかた</b></span>——<span class=\"kw3\"><b>軟骨細胞が無機ピロリン酸（PPi）を作って細胞外へ出す</b></span>。PPi が Ca と結びつくと<span class=\"kw3\"><b>ピロリン酸カルシウム二水和物（CPPD）</b></span>になり、<span class=\"kw3\"><b>関節軟骨と線維軟骨（半月板）に沈着</b></span>する。<br/><br/><span class=\"kw\"><b>だから PPi の収支が崩れると起こる</b></span><br/>・⚠️<span class=\"kw4\"><b>ALP は PPi を分解する酵素</b></span>——<span class=\"kw3\"><b>低ホスファターゼ症（ALP 低値）では PPi が余って CPPD が起こる</b></span><br/>・<span class=\"kw3\"><b>ANKH</b></span>（PPi を細胞外へ出す輸送体）の変異で家族性に起こる<br/>・<span class=\"kw3\"><b>マグネシウムは PPi 分解酵素の補因子</b></span>——⚠️<span class=\"kw4\"><b>低Mg 血症が背景にあることがある</b></span><br/>・<span class=\"kw3\"><b>副甲状腺機能亢進症・ヘモクロマトーシス</b></span>でも増える<br/><br/><span class=\"kw\"><b>この患者の材料</b></span>——<span class=\"kw3\"><b>84歳</b></span>・<span class=\"kw3\"><b>日帰りバス旅行の翌日に発症</b></span>（⚠️<span class=\"kw3\"><b>長時間の座位と脱水</b></span>は CPPD 発作の古典的な誘因で、<span class=\"kw3\"><b>手術・外傷・急性疾患</b></span>も同じ働きをする）・<span class=\"kw3\"><b>尿酸 5.5 と正常</b></span>・エックス線で<span class=\"kw3\"><b>関節裂隙の中を走る線状の石灰化（半月板の軟骨石灰化）</b></span>。<br/>⚠️<span class=\"kw4\"><b>体温 37.7℃・CRP 8.7 は化膿性と区別できない</b></span>ので、実地では穿刺して確かめる（Q.472）。"
       },
       {
        "cls": "ee",
-       "h": "□ 各選択肢の結晶と疾患",
-       "c": "<table class=\"tb\"><tr><td>結晶</td><td>疾患</td><td>特徴</td></tr><tr><td>尿酸ナトリウム（MSU）</td><td>痛風</td><td>針状・強陰性複屈折</td></tr><tr><td>リン酸カルシウム</td><td>石灰沈着性腱炎</td><td>肩峰下に多い</td></tr><tr><td>シュウ酸カルシウム</td><td>尿路結石・腎石灰化</td><td>関節炎は稀</td></tr><tr><td><span class=\"kw\">ピロリン酸カルシウム（CPPD）</span></td><td><span class=\"kw\">偽痛風</span></td><td><span class=\"kw\">菱形・弱陽性複屈折</span></td></tr><tr><td>ハイドロキシアパタイト</td><td>石灰沈着性腱板炎</td><td>関節炎も起こしうる</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　尿酸ナトリウム</td><td><span class=\"kw3\">痛風</span>の結晶。<span class=\"kw3\">針状で強い陰性複屈折</span>。⚠️この患者は<span class=\"kw3\">尿酸 5.5 で正常</span>、年齢と部位も合わない</td></tr><tr><td>ｂ　リン酸カルシウム</td><td><span class=\"kw3\">石灰沈着性腱炎</span>（肩に多い）。⚠️<span class=\"kw3\">関節軟骨ではなく腱</span>に沈着する</td></tr><tr><td>ｃ　シュウ酸カルシウム</td><td><span class=\"kw3\">尿路結石</span>の主成分。⚠️関節炎を起こすのは<span class=\"kw3\">長期透析患者など特殊な状況</span>に限られる</td></tr><tr><td><span class=\"kw3\">◯ ｄ　ピロリン酸カルシウム</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">菱形（ロンボイド）で弱い陽性複屈折</span>。<span class=\"kw3\">半月板など線維軟骨に沈着</span>する</td></tr><tr><td>ｅ　ハイドロキシアパタイト</td><td><span class=\"kw3\">塩基性リン酸カルシウム</span>。⚠️<span class=\"kw3\">肩の腱板に沈着して Milwaukee shoulder</span>（高齢女性の破壊性肩関節症）を起こす</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 関節に沈着する結晶は1つではない——5つを病気で分ける",
+       "c": "この設問の5肢は<span class=\"kw3\"><b>どれも実在する結晶</b></span>で、<span class=\"kw3\"><b>それぞれ別の病気を持っている</b></span>。<br/><br/>・<span class=\"kw\"><b>尿酸ナトリウム（MSU）</b></span>——<span class=\"kw3\"><b>痛風</b></span>。<span class=\"kw3\"><b>針状・強い陰性複屈折</b></span>。⚠️<span class=\"kw3\"><b>偏光顕微鏡で決める</b></span><br/>・<span class=\"kw\"><b>ピロリン酸カルシウム（CPPD）</b></span>——<span class=\"kw3\"><b>偽痛風</b></span>。<span class=\"kw3\"><b>菱形・弱い陽性複屈折</b></span>。⚠️<span class=\"kw4\"><b>弱いので見落としやすい</b></span><br/>・<span class=\"kw\"><b>塩基性リン酸カルシウム（BCP・ハイドロキシアパタイト）</b></span>——⚠️<span class=\"kw4\"><b>光学顕微鏡では見えない</b></span>（小さすぎる）。<span class=\"kw3\"><b>石灰沈着性腱板炎</b></span>と<span class=\"kw3\"><b>Milwaukee shoulder</b></span><br/>・<span class=\"kw\"><b>シュウ酸カルシウム</b></span>——<span class=\"kw3\"><b>原発性高シュウ酸尿症</b></span>や<span class=\"kw3\"><b>長期透析</b></span>の関節炎。⚠️<span class=\"kw3\"><b>正の複屈折を持つ二錐形</b></span><br/>・<span class=\"kw\"><b>コレステロール</b></span>——慢性の関節液に出る<span class=\"kw3\"><b>板状の結晶</b></span>（切れ込みのある四角）<br/><br/>⚠️⚠️<span class=\"kw4\"><b>結晶が見つかっても化膿性関節炎を否定できない</b></span>——<span class=\"kw3\"><b>共存しうる</b></span>ので、<span class=\"kw3\"><b>Gram 染色と培養は必ず同時に出す</b></span>（Q.472・Q.496）。<br/>⚠️<span class=\"kw4\"><b>逆に結晶が見えなくても否定できない</b></span>——量が少ないときや、BCP のように<span class=\"kw3\"><b>そもそも見えない結晶</b></span>があるため。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">高齢者+急性膝関節炎+旅行後</span>→偽痛風（CPPD）。<br/>結晶を聞かれたら<span class=\"kw\">ピロリン酸カルシウム</span>。顕微鏡像は菱形・弱陽性複屈折。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "高齢者の急性膝関節炎の結晶。<br/><b>a 尿酸ナトリウム（痛風）／b リン酸カルシウム／c シュウ酸カルシウム／e ハイドロキシアパタイト</b>：合わない。<br/><b>d ピロリン酸カルシウム</b>：<span class=\"kw\">偽痛風（CPPD）の原因結晶</span>。✓"
+       "c": "<span class=\"kw3\"><b>偽痛風＝ピロリン酸カルシウム二水和物（CPPD）</b></span>・<span class=\"kw3\"><b>菱形・弱い陽性複屈折</b></span>／<span class=\"kw3\"><b>痛風＝尿酸ナトリウム・針状・強い陰性複屈折</b></span>。<br/>⚠️<span class=\"kw4\"><b>誘因は脱水・長時間の座位・手術・外傷・急性疾患</b></span>。<br/>⚠️ 背景に<span class=\"kw3\"><b>副甲状腺機能亢進症・ヘモクロマトーシス・低Mg・低ホスファターゼ症</b></span>を探す。"
       }
      ],
      "imgs": [
@@ -34173,27 +34178,27 @@
       }
      ],
      "ans_label": "ａ　ビタミンA 欠乏  ―――――――― 夜尿症",
-     "ans_sub": "ビタミンA欠乏→夜盲症（暗所での視力低下）。夜尿症（夜間尿失禁）はビタミンAとは無関係",
+     "ans_sub": "ビタミンA 欠乏で起こるのは夜盲症（暗順応の障害）。夜尿症は抗利尿ホルモンや膀胱容量の問題でビタミンA とは無関係",
      "eg": [
       {
        "cls": "ep",
-       "h": "🌙 ビタミンA欠乏症の正しい症状",
-       "c": "<span class=\"kw\">ビタミンA欠乏症状</span>：<br/>① <span class=\"kw\">夜盲症（night blindness）</span>：ロドプシン合成↓→暗適応障害<br/>② 乾燥性角結膜炎（dry eye）<br/>③ ビトー斑（Bitot斑）：結膜の白色泡状斑<br/>④ 上皮の角化→皮膚乾燥<br/>⑤ 免疫低下<br/><br/><span class=\"kw4\">夜尿症（夜間尿失禁）</span>はビタミンAとは無関係！<br/>夜尿症の原因：ADH分泌↓（夜間）・膀胱容量↓・睡眠障害・心因性"
+       "h": "🌙 ビタミンA 欠乏の眼症状は段階的に進み、最後は不可逆になる",
+       "c": "この設問の誤りは<span class=\"kw3\"><b>病態のすり替えではなく、「夜盲」と「夜尿」という1文字違いの語の入れ替え</b></span>で作られている。<br/><br/><span class=\"kw\"><b>なぜ夜盲が最初に出るのか</b></span>——ビタミンA（レチノール）は<span class=\"kw3\"><b>網膜の桿体細胞でロドプシンの材料</b></span>になる。⚠️<span class=\"kw4\"><b>桿体は暗所視を担う</b></span>ので、足りなくなると<span class=\"kw3\"><b>暗いところでの見えにくさ（暗順応の障害）</b></span>が真っ先に出る。<br/><br/><span class=\"kw\"><b>放っておくと進む順番</b></span><br/>①<span class=\"kw3\"><b>夜盲</b></span>（可逆）<br/>②<span class=\"kw3\"><b>結膜乾燥</b></span><br/>③<span class=\"kw3\"><b>Bitot 斑</b></span>——結膜にできる<span class=\"kw3\"><b>白色泡沫状の斑</b></span><br/>④<span class=\"kw3\"><b>角膜乾燥</b></span><br/>⑤⚠️<span class=\"kw4\"><b>角膜軟化症（keratomalacia）</b></span>——<span class=\"kw3\"><b>角膜が融解して穿孔し、失明する</b></span>。ここまで来ると<span class=\"kw3\"><b>不可逆</b></span><br/><br/>⚠️⚠️<span class=\"kw4\"><b>ビタミンA 欠乏は世界の小児失明の主要な原因</b></span>で、WHO が補給プログラムを行っている。⚠️<span class=\"kw4\"><b>麻疹の重症化とも結び付いており、ビタミンA の投与が死亡率を下げる</b></span>。<br/><br/><span class=\"kw\"><b>眼以外</b></span>——<span class=\"kw3\"><b>上皮の角化</b></span>（皮膚の乾燥・毛孔性角化）と<span class=\"kw3\"><b>感染防御能の低下</b></span>。<br/>⚠️<span class=\"kw4\"><b>過剰症もある</b></span>——<span class=\"kw3\"><b>急性は頭蓋内圧亢進、慢性は肝障害と骨痛</b></span>。⚠️<span class=\"kw3\"><b>妊娠初期の過剰摂取は催奇形性</b></span>があるので、<span class=\"kw3\"><b>レバーとサプリメントの摂りすぎに注意</b></span>する。"
       },
       {
        "cls": "ee",
-       "h": "□ 各選択肢の正誤",
-       "c": "<table class=\"tb\"><tr><td>選択肢</td><td>正誤</td></tr><tr><td><span class=\"kw4\">ビタミンA欠乏→夜尿症</span></td><td><span class=\"kw4\">✗ 正しくは夜盲症</span></td></tr><tr><td>ビタミンB1欠乏→Wernicke脳症</td><td>✓</td></tr><tr><td>ビタミンB12欠乏→巨赤芽球性貧血</td><td>✓</td></tr><tr><td>カルシウム欠乏→骨粗鬆症</td><td>✓</td></tr><tr><td>亜鉛欠乏→味覚障害</td><td>✓</td></tr></table>"
+       "h": "□ 選択肢の検討（「誤っている」ものを選ぶ）",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　ビタミンA 欠乏 ― 夜尿症</span></td><td><span class=\"kw3\">これが正解</span>（＝誤り）。正しくは<span class=\"kw3\">夜盲症</span>。⚠️<span class=\"kw3\">「夜盲」と「夜尿」は1文字違いだが全く別のもの</span></td></tr><tr><td>ｂ　ビタミンB1 欠乏 ― Wernicke 脳症</td><td>正しい。<span class=\"kw3\">乳頭体・視床内側・中脳水道周囲</span>が侵される。後遺症が<span class=\"kw3\">Korsakoff 症候群</span></td></tr><tr><td>ｃ　ビタミンB12 欠乏 ― 巨赤芽球性貧血</td><td>正しい。⚠️<span class=\"kw3\">葉酸欠乏でも同じ貧血が出るが、神経症状を伴うのは B12 だけ</span></td></tr><tr><td>ｄ　カルシウム欠乏 ― 骨粗鬆症</td><td>正しい。⚠️<span class=\"kw3\">Ca 単独より、ビタミンD と荷重運動を含めて考える</span></td></tr><tr><td>ｅ　亜鉛欠乏 ― 味覚障害</td><td>正しい。<span class=\"kw3\">味蕾の細胞回転が止まる</span>。⚠️ただし<span class=\"kw3\">味覚障害の原因の第1位は薬剤性</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 誤答肢の「夜尿症」を正面から見る",
+       "c": "<span class=\"kw3\"><b>夜尿症＝5〜6歳を過ぎても続く睡眠中の尿失禁</b></span>。⚠️<span class=\"kw4\"><b>ビタミンとは一切関係がない</b></span>。<br/><br/><span class=\"kw\"><b>一次性と二次性を分けるのが最初の仕事</b></span><br/>・<span class=\"kw3\"><b>一次性</b></span>——<span class=\"kw3\"><b>一度も乾いた時期がない</b></span>。大多数はこちら<br/>・⚠️<span class=\"kw4\"><b>二次性</b></span>——<span class=\"kw3\"><b>6か月以上乾いていた後に再び始まった</b></span>。<span class=\"kw3\"><b>糖尿病・尿崩症・尿路感染・便秘・睡眠時無呼吸・心理的ストレスや虐待</b></span>を探す必要がある<br/><br/><span class=\"kw\"><b>一次性の成り立ちは3つの要素</b></span><br/>①<span class=\"kw3\"><b>夜間の抗利尿ホルモン分泌が不十分で夜間尿量が多い</b></span><br/>②<span class=\"kw3\"><b>膀胱の容量が小さい・過活動</b></span><br/>③<span class=\"kw3\"><b>尿意で目覚めない</b></span><br/><br/><span class=\"kw\"><b>治療</b></span>——<span class=\"kw3\"><b>生活指導が土台</b></span>（夕方以降の水分と塩分を控える・就寝前に排尿・便秘を治す）。⚠️<span class=\"kw4\"><b>叱らない・起こさない・焦らない</b></span>。<br/>薬物と器具では<span class=\"kw3\"><b>アラーム療法</b></span>と<span class=\"kw3\"><b>デスモプレシン（DDAVP）</b></span>が二本柱で、⚠️<span class=\"kw4\"><b>DDAVP を使う夜は飲水を制限する</b></span>——<span class=\"kw3\"><b>水中毒による低ナトリウム血症</b></span>が最大の副作用だから（Q.510）。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw4\">「夜盲」と「夜尿」の区別</span>：夜盲=ビタミンA欠乏。夜尿=ADH/膀胱/心因性。<br/>他は全て正しい組み合わせ（B1/B12/Ca/Zn欠乏）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "栄養障害と病態の組合せで「誤っている」もの。<br/><b>b B1欠乏→Wernicke脳症／c B12欠乏→巨赤芽球性貧血／d カルシウム欠乏→骨粗鬆症／e 亜鉛欠乏→味覚障害</b>：正しい。<br/><b>a ビタミンA欠乏→夜尿症</b>：<span class=\"kw\">ビタミンA欠乏は夜盲（夜尿症は誤り）</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw3\"><b>ビタミンA 欠乏＝夜盲・Bitot 斑・角膜軟化症</b></span>。<span class=\"kw3\"><b>夜尿症とは無関係</b></span>。<br/>⚠️<span class=\"kw4\"><b>角膜軟化症まで進むと失明する</b></span>——世界の小児失明の主要原因。<br/>⚠️<span class=\"kw4\"><b>ビタミンA は過剰症にも注意</b></span>（頭蓋内圧亢進・肝障害・<span class=\"kw3\"><b>妊娠初期の催奇形性</b></span>）。"
       }
      ],
      "imgs": []
@@ -34239,27 +34244,27 @@
       }
      ],
      "ans_label": "ｃ　Korsakoﬀ症候群",
-     "ans_sub": "Korsakoff症候群はウェルニッケ脳症（B1欠乏）の慢性後遺症。記憶障害・作話・失見当識が特徴",
+     "ans_sub": "Korsakoff 症候群は Wernicke 脳症（B1 欠乏）の慢性期の姿。乳頭体と視床背内側核の不可逆な損傷が残ったもの",
      "eg": [
       {
        "cls": "ep",
-       "h": "🧠 B1欠乏症候群の進展",
-       "c": "<span class=\"kw\">急性期</span>：<span class=\"kw\">ウェルニッケ脳症</span>（可逆性）<br/>→ 眼球運動障害・小脳失調・意識障害<br/>→ B1早期投与で改善<br/><br/><span class=\"kw\">慢性期</span>：<span class=\"kw\">Korsakoff症候群</span>（多くは不可逆性）<br/>→ <span class=\"kw\">記憶障害（近時記憶↓）・作話（Confabulation）・失見当識</span><br/>→ 乳頭体・海馬の不可逆的損傷による"
+       "h": "🧠 Wernicke から Korsakoff へ——何が可逆で、何が残るのか",
+       "c": "同じ B1 欠乏でも、<span class=\"kw3\"><b>急性期の姿が Wernicke 脳症、慢性期に残った姿が Korsakoff 症候群</b></span>。1つの病気の2つの時相である。<br/><br/><span class=\"kw\"><b>急性期（Wernicke 脳症）</b></span>——<span class=\"kw3\"><b>乳頭体・視床内側・中脳水道周囲</b></span>に浮腫と点状出血が起こる。<span class=\"kw3\"><b>眼球運動障害・失調・意識障害</b></span>。⚠️<span class=\"kw4\"><b>ここで B1 を入れれば戻る</b></span>。<br/><br/><span class=\"kw\"><b>慢性期（Korsakoff 症候群）</b></span>——治療が遅れると<span class=\"kw3\"><b>乳頭体が萎縮し、視床背内側核が不可逆に壊れる</b></span>。⚠️<span class=\"kw4\"><b>Papez 回路が断たれる</b></span>ので<span class=\"kw3\"><b>新しい記憶が作れなくなる</b></span>。<br/><br/><span class=\"kw\"><b>Korsakoff の特徴は「記憶だけが抜ける」こと</b></span><br/>・<span class=\"kw3\"><b>意識は清明</b></span>・<span class=\"kw3\"><b>知能も人格も保たれる</b></span><br/>・⚠️<span class=\"kw4\"><b>近時記憶（前向健忘）が障害される</b></span>。昔の記憶は比較的保たれる<br/>・<span class=\"kw3\"><b>失見当識</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>作話（confabulation）は嘘ではない</b></span>——<span class=\"kw3\"><b>記憶の欠損を本人が意識せずに埋めてしまう</b></span>もので、<span class=\"kw3\"><b>本人は困っている様子に見えない</b></span>のがこの病気の難しさ<br/><br/>⚠️<span class=\"kw4\"><b>だから治療は「疑ったら投与する」しかない</b></span>。Wernicke の三徴が揃うのを待つと、待った時間のぶんだけ Korsakoff が残る（Q.507）。"
       },
       {
        "cls": "ee",
-       "h": "□ 各選択肢との鑑別",
-       "c": "<table class=\"tb\"><tr><td>疾患</td><td>B1欠乏との関連</td></tr><tr><td>ペラグラ</td><td>× ナイアシン（B3）欠乏</td></tr><tr><td>Leigh脳症</td><td>× ミトコンドリア機能障害（PDH欠損等、B1とは別）</td></tr><tr><td><span class=\"kw\">Korsakoff症候群</span></td><td><span class=\"kw\">◎ ウェルニッケ脳症の後遺症（B1欠乏）</span></td></tr><tr><td>橋中心髄鞘崩壊症（CPM）</td><td>× 急速な低Na補正が原因</td></tr><tr><td>亜急性脊髄連合変性症</td><td>× ビタミンB12欠乏</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　ペラグラ</td><td><span class=\"kw3\">ナイアシン（B3）</span>欠乏。<span class=\"kw3\">皮膚炎・下痢・認知症の3D</span>。⚠️認知障害は出るが<span class=\"kw3\">B1 ではない</span></td></tr><tr><td>ｂ　Leigh 脳症</td><td><span class=\"kw3\">遺伝性のミトコンドリア脳症</span>。⚠️<span class=\"kw3\">PDH 複合体などの酵素そのものの欠損</span>で、<span class=\"kw3\">B1 が足りないのではない</span>（下の検討を参照）</td></tr><tr><td><span class=\"kw3\">◯ ｃ　Korsakoff 症候群</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">Wernicke 脳症の慢性期</span>。<span class=\"kw3\">乳頭体と視床背内側核の不可逆な損傷</span></td></tr><tr><td>ｄ　橋中心髄鞘崩壊症</td><td>⚠️<span class=\"kw3\">低ナトリウム血症の急速な補正</span>が原因。<span class=\"kw3\">B1 欠乏ではない</span>が、⚠️<span class=\"kw3\">同じ低栄養・アルコールの患者に起こる</span></td></tr><tr><td>ｅ　亜急性脊髄連合変性症</td><td><span class=\"kw3\">ビタミンB12</span>欠乏。<span class=\"kw3\">後索と側索</span>が侵される。⚠️<span class=\"kw3\">銅欠乏でも同じ像になる</span>（Q.498）</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 並んでいる5つは全部「代謝で脳が壊れる」病気",
+       "c": "この設問が <span class=\"kw3\"><b>95%</b></span> と高い正答率なのは Korsakoff が有名だからだが、⚠️<span class=\"kw4\"><b>残りの4つが「なぜここに置かれているか」まで読むと格段に実になる</b></span>。どれも<span class=\"kw3\"><b>感染でも腫瘍でも血管でもない、代謝性の脳症</b></span>である。<br/><br/>・<span class=\"kw\"><b>Leigh 脳症</b></span>——⚠️⚠️<span class=\"kw4\"><b>B1 と最も紛らわしい</b></span>。<span class=\"kw3\"><b>PDH 複合体やチトクロム c 酸化酵素の欠損</b></span>で、<span class=\"kw3\"><b>B1 が補酵素として働く場所そのものが壊れている</b></span>。<span class=\"kw3\"><b>乳児期に発症し、脳幹と基底核に左右対称の壊死</b></span>、<span class=\"kw3\"><b>乳酸高値</b></span>。⚠️<span class=\"kw4\"><b>一部はチアミン大量投与に反応する</b></span>ので、鑑別はいっそう紛らわしい<br/>・<span class=\"kw\"><b>橋中心髄鞘崩壊症</b></span>——<span class=\"kw3\"><b>低Na を速く上げすぎると橋の髄鞘が壊れる</b></span>。⚠️<span class=\"kw4\"><b>補正は24時間で 8〜10mEq/L 以内</b></span>。<span class=\"kw3\"><b>数日遅れて構音障害・四肢麻痺・閉じ込め症候群</b></span>が出る。⚠️<span class=\"kw3\"><b>アルコール依存・低栄養・低K がリスク</b></span>＝<span class=\"kw3\"><b>Wernicke と同じ患者層</b></span>に起こる<br/>・<span class=\"kw\"><b>亜急性脊髄連合変性症</b></span>——<span class=\"kw3\"><b>B12</b></span>。<span class=\"kw3\"><b>後索（深部感覚）と側索（錐体路）</b></span>なので、⚠️<span class=\"kw3\"><b>腱反射は亢進し Babinski が陽性になりうる</b></span><br/>・<span class=\"kw\"><b>ペラグラ</b></span>——<span class=\"kw3\"><b>B3</b></span>。⚠️<span class=\"kw3\"><b>皮膚と消化器の症状が一緒に出る</b></span>のが手がかり<br/><br/>⚠️<span class=\"kw4\"><b>アルコール依存の患者では、これらが同時に起こりうる</b></span>——<span class=\"kw3\"><b>Wernicke・橋中心髄鞘崩壊症・低栄養による多発神経炎</b></span>を一人の中で数える。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">Wernicke→Korsakoff</span>はB1欠乏症候群の急性→慢性の流れ。<br/>Korsakoffの3主徴：<span class=\"kw\">記憶障害・作話・失見当識</span>（人格は保たれる）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "ビタミンB1欠乏と関連が深いもの。<br/><b>a ペラグラ（ナイアシン）／b Leigh脳症／d 橋中心髄鞘崩壊症／e 亜急性脊髄連合変性症（B12）</b>：合わない。<br/><b>c Korsakoff症候群</b>：<span class=\"kw\">B1欠乏によるWernicke-Korsakoff（健忘・作話）</span>。✓"
+       "c": "<span class=\"kw3\"><b>Wernicke 脳症（急性・可逆）→ Korsakoff 症候群（慢性・多くは不可逆）</b></span>。<br/><span class=\"kw3\"><b>Korsakoff の三徴＝前向健忘・作話・失見当識</b></span>。⚠️<span class=\"kw4\"><b>意識も知能も人格も保たれる</b></span>。<br/>⚠️<span class=\"kw4\"><b>橋中心髄鞘崩壊症は低Na の急速補正</b></span>（24時間で 8〜10mEq/L 以内）、<span class=\"kw3\"><b>亜急性脊髄連合変性症は B12</b></span>。"
       }
      ],
      "imgs": []
@@ -34309,22 +34314,27 @@
       }
      ],
      "ans_label": "ａ　コルヒチン\nｅ　非ステロイド性抗炎症薬〈NSAIDs〉",
-     "ans_sub": "急性痛風発作の治療薬はコルヒチンとNSAIDs（炎症を抑える薬）。免疫抑制薬・生物学的製剤は不適切",
+     "ans_sub": "急性痛風発作で今使えるのは炎症を止める薬だけ＝コルヒチンと NSAIDs。免疫抑制薬・生物学的製剤・尿酸降下薬はこの時点では使わない",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 急性痛風発作の治療薬",
-       "c": "<table class=\"tb\"><tr><td>薬剤</td><td>評価</td><td>備考</td></tr><tr><td><span class=\"kw\">コルヒチン</span></td><td><span class=\"kw\">◎ 使用</span></td><td>微小管阻害→好中球遊走抑制。早期投与が重要</td></tr><tr><td>アザチオプリン</td><td>× 使用しない</td><td>免疫抑制薬（臓器移植・RA等）</td></tr><tr><td>アロプリノール</td><td>× 急性期禁忌</td><td>尿酸合成阻害薬（長期管理用）</td></tr><tr><td>インフリキシマブ</td><td>× 使用しない</td><td>抗TNF-α（関節リウマチ等）</td></tr><tr><td><span class=\"kw\">NSAIDs</span></td><td><span class=\"kw\">◎ 使用</span></td><td>COX阻害→プロスタグランジン↓→炎症鎮静</td></tr></table>"
+       "h": "💊 「2つ選べ」——急性期に置ける薬は3群しかなく、肢にあるのは2つ",
+       "c": "急性痛風発作で使える薬は<span class=\"kw3\"><b>NSAIDs・コルヒチン・副腎皮質ステロイド</b></span>の3群だけ。この設問の5肢のうち、<span class=\"kw3\"><b>そこに入るのは ａ と ｅ の2つ</b></span>である。<br/><br/><span class=\"kw\"><b>残り3つが置かれている意味</b></span><br/>・<span class=\"kw3\"><b>アザチオプリン</b></span>と<span class=\"kw3\"><b>インフリキシマブ</b></span>は<span class=\"kw3\"><b>関節リウマチの薬</b></span>。⚠️<span class=\"kw4\"><b>「関節が痛い＝リウマチの薬」という短絡を誘うために置かれている</b></span><br/>・<span class=\"kw3\"><b>アロプリノール</b></span>は長期管理の薬。⚠️<span class=\"kw4\"><b>発作中に始めると尿酸が急に動いて発作が悪化・遷延する</b></span>（Q.503）<br/><br/>⚠️⚠️<span class=\"kw4\"><b>アロプリノールとアザチオプリンが同じ設問に並んでいるのは偶然ではない</b></span>——<span class=\"kw3\"><b>アザチオプリンは 6-メルカプトプリンへ変わり、キサンチンオキシダーゼで分解される</b></span>。<span class=\"kw3\"><b>アロプリノールはその酵素を止める</b></span>ので、<span class=\"kw3\"><b>併用すると 6-MP が蓄積して重篤な骨髄抑制</b></span>を起こす。<span class=\"kw3\"><b>併用は避けるか、大幅に減量する</b></span>。<br/><br/><span class=\"kw\"><b>この患者の材料</b></span>——<span class=\"kw3\"><b>本日未明に突然、右第1趾</b></span>・<span class=\"kw3\"><b>半年前に同じ場所が3日で自然軽快</b></span>（⚠️<span class=\"kw3\"><b>反復と自然寛解が結晶性の署名</b></span>）・<span class=\"kw3\"><b>尿酸 8.2</b></span>・<span class=\"kw3\"><b>BMI 27.3</b></span>。写真では<span class=\"kw3\"><b>右の第1中足趾節関節から母趾にかけて発赤と腫脹があり、左足は正常</b></span>——⚠️<span class=\"kw4\"><b>左右を並べた写真そのものが所見の証拠</b></span>になっている。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　コルヒチン</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">微小管を止めて好中球の遊走と貪食を抑える</span>。⚠️<span class=\"kw3\">早いほど効く</span>（前兆期〜12時間以内）</td></tr><tr><td>ｂ　アザチオプリン</td><td><span class=\"kw3\">免疫抑制薬</span>。⚠️<span class=\"kw3\">結晶による急性炎症には効かない</span>うえ、<span class=\"kw3\">アロプリノールとの併用で骨髄抑制</span>を起こす</td></tr><tr><td>ｃ　アロプリノール</td><td><span class=\"kw3\">尿酸合成阻害薬</span>＝<span class=\"kw3\">長期管理の薬</span>。⚠️<span class=\"kw3\">発作中に始めてはいけない</span></td></tr><tr><td>ｄ　インフリキシマブ</td><td><span class=\"kw3\">抗TNF-α 抗体</span>。関節リウマチなどの薬で、<span class=\"kw3\">痛風発作には用いない</span></td></tr><tr><td><span class=\"kw3\">◯ ｅ　非ステロイド性抗炎症薬〈NSAIDs〉</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">短期間に十分量</span>で炎症を止める。⚠️<span class=\"kw3\">Cr 1.2・BUN 28 なので漫然と続けない</span></td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "💡 急性痛風の治療薬記憶法",
-       "c": "<span class=\"kw\">「コルヒチン（Col）とNSAIDs」が急性期の双璧</span><br>グルコルチコイド（副腎皮質ステロイド）は両者禁忌時の代替。</br>"
+       "h": "🔍 32歳で痛風——若い発症の背景を数える",
+       "c": "痛風の発症年齢の中心は<span class=\"kw3\"><b>40〜50歳代</b></span>なので、<span class=\"kw3\"><b>32歳はやや早い</b></span>。若年発症では背景を意識して探す。<br/><br/>・<span class=\"kw3\"><b>肥満</b></span>——<span class=\"kw3\"><b>身長160cm・体重70kg ＝ BMI 27.3</b></span>。内臓脂肪はインスリン抵抗性を介して<span class=\"kw3\"><b>腎からの尿酸排泄を落とす</b></span><br/>・<span class=\"kw3\"><b>大量飲酒と果糖飲料</b></span>——どちらも<span class=\"kw3\"><b>ATP を消費して尿酸を作る</b></span>（Q.503）<br/>・⚠️<span class=\"kw4\"><b>赤血球580万・Hb 16.0・Ht 50%</b></span>——<span class=\"kw3\"><b>細胞の代謝回転が多いと核酸由来の尿酸が増える</b></span>。<span class=\"kw3\"><b>脱水による濃縮</b></span>か、<span class=\"kw3\"><b>多血症</b></span>か、どちらにせよ見逃さない数字<br/>・<span class=\"kw3\"><b>利尿薬</b></span>・<span class=\"kw3\"><b>家族歴</b></span>（URAT1・ABCG2 の遺伝子多型）<br/>・⚠️<span class=\"kw3\"><b>小児から高尿酸血症なら Lesch-Nyhan 症候群</b></span>（HPRT 欠損・自傷行為）を考える<br/><br/>⚠️⚠️<span class=\"kw4\"><b>尿素窒素28・クレアチニン1.2 で、すでに腎機能が落ちかけている</b></span>。⚠️<span class=\"kw4\"><b>32歳でこれは早い</b></span>——<span class=\"kw3\"><b>痛風腎（尿酸塩の髄質沈着）</b></span>や<span class=\"kw3\"><b>尿酸結石</b></span>を疑い、<span class=\"kw3\"><b>発作が治まったら尿酸降下薬を始めて 6.0mg/dL 以下を目指す</b></span>（Q.508）。<br/>⚠️<span class=\"kw4\"><b>痛風は「痛い発作の病気」ではなく「腎と血管を削る病気」</b></span>として管理する。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw4\">アロプリノールは急性期には使わない</span>（血清尿酸変動→発作悪化）。<br>コルヒチンは胃腸症状（下痢・悪心）が多いため少量から開始。</br>"
+       "c": "<span class=\"kw3\"><b>急性発作＝NSAIDs・コルヒチン・ステロイドの3群</b></span>。⚠️<span class=\"kw4\"><b>尿酸降下薬は発作中に始めない</b></span>。<br/>⚠️<span class=\"kw4\"><b>アロプリノール＋アザチオプリンは骨髄抑制</b></span>（6-MP の分解が止まる）。<br/>⚠️ 若年発症では<span class=\"kw3\"><b>肥満・飲酒・多血・利尿薬・家族歴</b></span>を探し、<span class=\"kw3\"><b>腎機能を必ず見る</b></span>。"
       }
      ],
      "imgs": [
@@ -34372,27 +34382,27 @@
       }
      ],
      "ans_label": "ａ　痛　風",
-     "ans_sub": "アルコール多飲→乳酸↑→尿酸排泄低下＋プリン体摂取→高尿酸血症→多関節性痛風発作",
+     "ans_sub": "無染色の顕微鏡写真に細長い針状の結晶が多数あり、一部は白血球に取り込まれている＝尿酸ナトリウム結晶＝痛風",
      "eg": [
       {
        "cls": "ep",
-       "h": "🍺 アルコールと痛風",
-       "c": "<span class=\"kw\">アルコール→痛風のリスク</span>：<br>① アルコール代謝産物（乳酸）が尿酸の腎排泄を競合的に阻害<br>② ビール：プリン体が豊富（特にビール）<br>③ アルコール自体のプリン体代謝促進<br/><br/>アルコール性肝障害 → 乳酸（LAC）産生↑ → さらに尿酸排泄低下<br/><br/>本問：足関節＋膝関節の複数関節 → <span class=\"kw\">多関節性痛風</span>（典型は第一MTP単関節だが多関節もある）</br></br></br>"
+       "h": "🔬 偏光顕微鏡ではない——だから「形」だけで決める",
+       "c": "この設問の正答率が <span class=\"kw3\"><b>44%</b></span> と低いのは、<span class=\"kw3\"><b>背景（58歳・アルコール性肝障害・多関節）だけでは痛風と偽痛風を分けられない</b></span>からである。分けているのは<span class=\"kw3\"><b>写真そのもの</b></span>。<br/><br/><span class=\"kw\"><b>写真A（関節液の肉眼像）</b></span>——<span class=\"kw3\"><b>黄色で混濁</b></span>している。<span class=\"kw3\"><b>正常の関節液は淡黄色で透明</b></span>（新聞の字が透けて読める）なので、<span class=\"kw3\"><b>混濁＝細胞が増えた炎症性の関節液</b></span>。⚠️<span class=\"kw4\"><b>膿のようにどろりと白濁してはいない</b></span>。<br/><br/><span class=\"kw\"><b>写真B（無染色の顕微鏡像）</b></span>——⚠️⚠️<span class=\"kw4\"><b>細長くまっすぐで先の尖った針状の結晶</b></span>が多数あり、<span class=\"kw3\"><b>白血球の径を何倍も超える長さ</b></span>のものが目立つ。<span class=\"kw3\"><b>一部は細胞に刺さる・細胞内にある</b></span>ように見える（<span class=\"kw3\"><b>貪食像</b></span>）。<br/>⚠️<span class=\"kw4\"><b>「無染色」と明記されているので偏光は使えない</b></span>——<span class=\"kw3\"><b>複屈折の符号ではなく、形で決めるしかない</b></span>。<span class=\"kw3\"><b>針状なら尿酸ナトリウム、菱形（ロンボイド）なら CPPD</b></span>。ここは明らかに針状。<br/><br/><span class=\"kw\"><b>残りの数字</b></span>——<span class=\"kw3\"><b>関節液の白血球 2,125/μL</b></span>＝<span class=\"kw3\"><b>炎症性の下限あたり</b></span>で、⚠️<span class=\"kw4\"><b>化膿性（しばしば 50,000 以上）には遠い</b></span>。<span class=\"kw3\"><b>Gram 染色で細菌を認めない</b></span>。<br/>⚠️ ただし<span class=\"kw4\"><b>結晶が見えても化膿性を否定できない</b></span>ので、<span class=\"kw3\"><b>培養の結果は最後まで待つ</b></span>（Q.472・Q.496）。"
       },
       {
        "cls": "ee",
-       "h": "□ 各診断の評価",
-       "c": "<table class=\"tb\"><tr><td>疾患</td><td>特徴</td><td>この患者との関連</td></tr><tr><td><span class=\"kw\">痛風</span></td><td><span class=\"kw\">高尿酸血症・アルコール関連</span></td><td><span class=\"kw\">◎</span></td></tr><tr><td>偽痛風</td><td>高齢者・膝単関節</td><td>△ 多関節には合わない</td></tr><tr><td>化膿性関節炎</td><td>発熱・全身症状強い</td><td>△ 多関節は稀</td></tr><tr><td>変形性関節炎</td><td>慢性・高齢・X線</td><td>△ 急性ではない</td></tr><tr><td>反応性関節炎</td><td>感染先行・下肢大関節</td><td>× 感染歴なし</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　痛　風</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">針状の結晶と貪食像</span>が決め手。<span class=\"kw3\">アルコール性肝障害という背景</span>も尿酸を押し上げる方向に働く</td></tr><tr><td>ｂ　偽痛風</td><td>⚠️<span class=\"kw3\">結晶が菱形（ロンボイド）でなければならない</span>。写真は細長い針状で合わない</td></tr><tr><td>ｃ　化膿性関節炎</td><td>⚠️<span class=\"kw3\">関節液の白血球 2,125 は低すぎ、Gram 染色も陰性</span>。⚠️ただし<span class=\"kw3\">培養の結果が出るまで完全には否定しない</span></td></tr><tr><td>ｄ　変形性関節炎</td><td><span class=\"kw3\">慢性・荷重時痛</span>で、関節液は<span class=\"kw3\">非炎症性（白血球 2,000 未満・透明）</span>。⚠️<span class=\"kw3\">2日で発赤熱感が出る病気ではない</span></td></tr><tr><td>ｅ　反応性関節炎</td><td><span class=\"kw3\">先行する腸管・尿路感染の1〜4週後</span>に起こる。⚠️<span class=\"kw3\">感染の記載が無く、結晶も説明できない</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 痛風は単関節とは限らない——多関節で来る痛風",
+       "c": "この患者は<span class=\"kw3\"><b>左膝関節と両足関節</b></span>＝<span class=\"kw3\"><b>3関節</b></span>。「痛風＝母趾の単関節」で覚えていると、ここで迷う。<br/><br/>⚠️<span class=\"kw4\"><b>多関節性の痛風は実在する</b></span>。起こりやすいのは——<br/>・<span class=\"kw3\"><b>発作を何度も繰り返してきた人</b></span>（結晶が複数の関節に溜まっている）<br/>・<span class=\"kw3\"><b>長期にわたる高尿酸血症</b></span><br/>・<span class=\"kw3\"><b>高齢者</b></span>・<span class=\"kw3\"><b>利尿薬の内服中</b></span>・<span class=\"kw3\"><b>臓器移植後</b></span><br/>・⚠️<span class=\"kw3\"><b>女性の閉経後</b></span>（それまではエストロゲンが尿酸排泄を促している）<br/><br/><span class=\"kw\"><b>それでも結晶性を疑える理由</b></span><br/>・<span class=\"kw3\"><b>2日という急な立ち上がり</b></span>——<span class=\"kw3\"><b>関節リウマチは数週から数か月</b></span>かけて出る<br/>・<span class=\"kw3\"><b>熱感・腫脹・圧痛が強い</b></span>——<span class=\"kw3\"><b>変形性関節症では出ない</b></span><br/>・<span class=\"kw3\"><b>左右非対称</b></span>——<span class=\"kw3\"><b>関節リウマチは左右対称で小関節から</b></span><br/><br/><span class=\"kw\"><b>背景の読み方</b></span>——⚠️<span class=\"kw4\"><b>アルコール性肝障害は尿酸を三方向から押し上げる</b></span>。<span class=\"kw3\"><b>プリン体そのもの</b></span>・<span class=\"kw3\"><b>アルコール代謝が ATP を消費して尿酸を作る</b></span>・<span class=\"kw3\"><b>乳酸が尿細管で尿酸の排泄と競合する</b></span>（Q.503）。<br/>⚠️<span class=\"kw4\"><b>そして発作中の血清尿酸は正常〜低値のことがある</b></span>ので、<span class=\"kw3\"><b>尿酸値で痛風を否定しない</b></span>（Q.488・Q.496）。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "アルコール+急性関節炎 → <span class=\"kw\">痛風</span>が最頻。<br/>血清尿酸値は急性発作時に正常〜低値のことがある（フラッシュ現象）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "アルコール性肝障害＋急性多関節炎＝痛風。<br/><b>b 偽痛風／c 化膿性関節炎／d 変形性関節炎／e 反応性関節炎</b>：合わない。<br/><b>a 痛風</b>：<span class=\"kw\">飲酒による高尿酸血症の急性関節炎</span>。✓"
+       "c": "<span class=\"kw3\"><b>針状の結晶＝尿酸ナトリウム（痛風）／菱形＝CPPD（偽痛風）</b></span>。<span class=\"kw3\"><b>白血球に貪食された結晶</b></span>が見えれば確実。<br/>⚠️<span class=\"kw4\"><b>関節液の白血球は 2,000 未満＝非炎症性、2,000〜50,000＝炎症性、50,000 以上＝化膿性を強く示唆</b></span>。<br/>⚠️<span class=\"kw4\"><b>痛風は多関節でも来る</b></span>——<span class=\"kw3\"><b>反復例・高齢・利尿薬・閉経後</b></span>。"
       }
      ],
      "imgs": [
