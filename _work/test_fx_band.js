@@ -171,7 +171,10 @@ t('演出の焦点に window.innerHeight の割合が残っていない', () => 
 
 t('試験終了時の opacity:0!important を次の試験で外している', () => {
   // !important は WAAPI アニメより強い。外さないと2回目の試験でトースト・特大×nが出ない。
-  ['examStreakToast', 'streakFullscreen', 'examStreakBorder'].forEach(id => {
+  // 2026-09-24: 旧トースト・特大×n は廃止。連続数 #examRfStreak は _rfShowStreak が毎回外す（下）。
+  const rf = STUDY.slice(STUDY.indexOf('function _rfShowStreak('), STUDY.indexOf('function _rfHideStreak('));
+  assert.ok(/removeProperty\('opacity'\)/.test(rf), '#examRfStreak で opacity を外していない');
+  ['examStreakBorder'].forEach(id => {
     const i = STUDY.indexOf("getElementById('" + id + "')");
     assert.ok(i > 0, id + ' の取得箇所が見つからない');
     const near = STUDY.slice(i, i + 700);

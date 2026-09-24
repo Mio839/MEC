@@ -30,10 +30,11 @@ test('study.css と study_exam.js に card-heat と heatHaze がある', () => {
 });
 
 console.log('── 2. 超集中バレットタイム (案2) ──');
-test('study.css と study_exam.js に exam-bullet-time がある', () => {
-  assert(cssSrc.includes('body.exam-bullet-time'), 'Missing exam-bullet-time in study.css');
-  assert(examSrc.includes('document.body.classList.add(\'exam-bullet-time\')'), 'Missing bullet time add in study_exam.js');
-  assert(examSrc.includes('document.body.classList.remove(\'exam-bullet-time\')'), 'Missing bullet time remove in study_exam.js');
+// 2026-09-24 に廃止：肢を押した瞬間に他のカードを暈す演出は、誤答後に選び直す流れと相容れない
+//   （選び直しの間ずっと他のカードが暈けたまま残る）。
+test('バレットタイム（exam-bullet-time）は廃止されている', () => {
+  assert(!cssSrc.includes('body.exam-bullet-time'), 'study.css に exam-bullet-time が残っている');
+  assert(!examSrc.includes('document.body.classList.add(\'exam-bullet-time\')'), 'study_exam.js が exam-bullet-time を付けている');
 });
 
 console.log('── 3. 3Dジャイロ・リアル光沢ティルトの完全削除 (案3削除) ──');

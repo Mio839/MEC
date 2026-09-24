@@ -219,11 +219,12 @@ t('出題候補の数え方は1本（startExam と B4 の予告が同じ関数�
   assert.strictEqual(calls, 2, '_examCandidateCards の呼び出しが2箇所でない');
 });
 
-t('3つの採点経路すべてが _tallyQuestion を通る（複数選択・単一選択・計算問題）', () => {
-  // ⚠️ _afterCorrectFx は複数選択の経路を通らないので、集計をそこに載せてはいけない
-  const calls = (SRC.match(/(?<!function )_tallyQuestion\(card, isCorrect\)/g) || []).length;
+// 2026-09-24〜 採点の口は3つ＝初回正解（選択肢・revealAnswer）／初回正解（計算・_revealCalcAnswer）／
+//   1回目の誤答（_rfScoreWrong）。選び直しの2回目以降は採点しないので、ここに口を足してはいけない。
+t('3つの採点口すべてが _tallyQuestion を通る（選択肢の正解・計算の正解・1回目の誤答）', () => {
+  const calls = (SRC.match(/(?<!function )_tallyQuestion\(card, (?:true|false)\)/g) || []).length;
   assert.strictEqual(calls, 3, '_tallyQuestion の呼び出しが3箇所でない');
-  const tally = (SRC.match(/(?<!function )_tallyChapter\((?:card\.dataset\.)?uid, isCorrect\)/g) || []).length;
+  const tally = (SRC.match(/(?<!function )_tallyChapter\(uid, (?:true|false)\)/g) || []).length;
   assert.strictEqual(tally, 3, '_tallyChapter と同じ数だけ呼ばれていない');
 });
 

@@ -884,51 +884,22 @@ function _examChoiceClick(e) {
     window.MecFX.sparks(e.clientX || (rect.left + 24), e.clientY || (rect.top + rect.height / 2), { count: 7 });
   }
 
-  // 新しい演出（試作）：誤答しても答えを見せず選び直させる。採点除外は従来どおり中立で開く。
-  if (_fxRefined() && !_isExamUngraded(c)) { _rfChoiceClick(c, this, r); return; }
-
-  // 【案2】超集中バレットタイム
-  if (!_fxOff()) document.body.classList.add('exam-bullet-time');
-
-  if (_isExamUngraded(c)) { // 採点除外＝赤フラッシュ無しでそのまま中立表示へ
+  if (_isExamUngraded(c)) { // 採点除外＝そのまま中立表示へ
     this.closest('.cs').querySelectorAll('.ch2').forEach(x => x.classList.remove('exam-selected'));
     this.classList.add('exam-selected');
     setTimeout(() => revealAnswer(c), 10);
     return;
   }
-  if (r > 1) {
-    this.classList.toggle('exam-selected');
-    if (this.classList.contains('exam-selected') && !this.classList.contains('ok')) {
-      this.classList.add('exam-instant-wrong');
-      setTimeout(() => revealAnswer(c), 400);
-    } else {
-      _updateMultiInfo(c);
-      const sel = [...c.querySelectorAll('.ch2.exam-selected')];
-      if (sel.length === r && sel.every(ch => ch.classList.contains('ok'))) {
-        sel.forEach(ch => ch.classList.add('exam-instant-correct'));
-        setTimeout(() => revealAnswer(c), 10);
-      }
-    }
-  } else {
-    this.closest('.cs').querySelectorAll('.ch2').forEach(x => x.classList.remove('exam-selected'));
-    this.classList.add('exam-selected');
-    if (this.classList.contains('ok')) {
-      this.classList.add('exam-instant-correct');
-      setTimeout(() => revealAnswer(c), 10);
-    } else {
-      this.classList.add('exam-instant-wrong');
-      setTimeout(() => revealAnswer(c), 400);
-    }
-  }
+  // 誤答しても答えを見せず選び直させる（2026-09-24）。単一・複数選択の判定は _rfChoiceClick が持つ。
+  _rfChoiceClick(c, this, r);
 }
 
 function revealAnswer(card) {
-  document.body.classList.remove('exam-bullet-time');
   // ⚠️ キュー外のカードを採点しないこと。下で examBySubj[sid] を無条件に作るので、
   //    1問でも通すと1科目で始めた試験が複数科目のセッションとして集計・表示される。
   if (examMode && !_examHas(card)) return;
   if (card.classList.contains('exam-revealed')) return;
-  // 新しい演出（試作）：選び直し中のカードは採点済み。「▶ 答えを見る」＝打ち切り（計算問題は再確定へ回す）
+  // 選び直し中のカードは採点済み。「▶ 答えを見る」＝打ち切り（計算問題は再確定へ回す）
   if (card.classList.contains('exam-retry') && !(window.MecCalc && MecCalc.isCalc(card))) { _rfGiveUp(card); return; }
   // 採点除外（正解肢なし）は採点対象外。分母・正誤・myrate・赤旗・再試験のどれにも入れない。
   if (_isExamUngraded(card)) { _revealExcludedNeutral(card); return; }
@@ -939,139 +910,50 @@ function revealAnswer(card) {
   // 入力型（計算問題）は選択肢が無いので専用の採点へ回す
   if (window.MecCalc && MecCalc.isCalc(card)) { _revealCalcAnswer(card, sid); return; }
 
+  /* ここへ来るのは「初回で正解した」ときだけ（2026-09-24〜）。
+     誤答はクリックの時点で _rfChoiceClick → _rfWrongPick が採点して選び直しへ回すので、
+     このあとの記録は正解の記録になる。念のため、誤った肢が選ばれた状態で呼ばれたら（旧データの再開など）
+     同じ選び直しの経路へ渡す＝誤答の記録口を2つにしない。 */
+  let els;
   if (req > 1) {
-    const selected = [...card.querySelectorAll('.ch2.exam-selected')];
-    if (selected.length < req) {
+    els = [...card.querySelectorAll('.ch2.exam-selected')];
+    if (els.length < req) {
       const info = card.querySelector('.exam-multi-info');
       if (info) { info.style.animation = 'none'; void info.offsetHeight; info.style.animation = 'examShake .3s'; }
       return;
     }
-    const isCorrect = selected.length === req && selected.every(ch => ch.classList.contains('ok'));
-    examAnswered++;
-    examBySubj[sid].total++;
-    _tallyChapter(card.dataset.uid, isCorrect);
-    _tallyQuestion(card, isCorrect);          // B3/B5: 難問の成績とセッションの正誤
-    _markExamDone(card.dataset.uid);
-    _recordMyRate(card.dataset.uid, isCorrect);
-    _logAttempt(card, isCorrect, _selectedChoiceStr(selected));
-    if (!_isScoreExcluded(card)) _updateSRS(card.dataset.uid, isCorrect);
-    const revBtn = card.querySelector('.exam-reveal-btn');
-    if (isCorrect) {
-      examCorrect++;
-      examStreak++;
-      examBySubj[sid].correct++;
-      if (_fxRefined()) {
-        try { _playCorrectSound(); _rfCorrectFx(card, card.querySelector('.ch2.ok') || selected[0]); }
-        catch (err) { console.error('[ExamFx] Error in refined multi-correct fx:', err); }
-      } else
-      try {
-        _playCorrectSound();
-        _applyCardThemeComboFx(card, true, examStreak);
-        _showStreakEffect(examStreak);
-        const _t = _examTier(examStreak);
-        card.querySelectorAll('.ch2.ok').forEach(c => _triggerChoiceCorrectPop(c));
-        _spawnFloatingCombo(card, examStreak, _t);
-        // A2/A3/A1: ショックウェーブ・ボーダートレース・速答ボーナス
-        const _ok = card.querySelector('.ch2.ok');
-        _correctShockwave(_ok);
-        // ⚠️ 速答ボーナスは _afterCorrectFx が段（_fastGrade）付きで出す。ここで出すと二重に飛ぶ。
-        _traceCardBorder(card);
-        _afterCorrectFx(card, card.querySelector('.ch2.ok') || selected[0]);
-      } catch (err) {
-        console.error('[ExamFx] Error in multi-correct fx:', err);
-      }
-      card.classList.add('exam-revealed', 'exam-multi-correct');
-      if (revBtn) { revBtn.textContent = '▶ 解説を見る'; revBtn.onclick = () => _toggleCorrectAnswer(card, revBtn); }
-    } else {
-      const _broke = examStreak;
-      examStreak = 0;
-      try {
-        _applyCardThemeComboFx(card, false, 0);
-        _resetComboMeter();
-        _clearDarkFx();
-        _zoneStop(true);   // B5: ゾーン崩壊（漂う粒子が一点に吸い込まれて消える）
-        _setOverdrive(false);
-        _wrongDamageFx();
-      } catch (err) {
-        console.error('[ExamFx] Error in multi-wrong fx:', err);
-      }
-      examWrong.push(card.dataset.uid);
-      card.classList.add('exam-revealed');
-      if (revBtn) { revBtn.textContent = '▼ 解答を隠す'; revBtn.onclick = () => _toggleWrongAnswer(card, revBtn); }
-    }
-    try { _updateExamProg(isCorrect); } catch (e) {}
-    try { _saveExamResume(); } catch (e) {}
-    requestAnimationFrame(_updateExamFocus);
-    if (isCorrect) setTimeout(() => _scrollToNextCard(card), 400);
-    else _maybeShowFinishBtn();
-    return;
+  } else {
+    // 肢を選ばずに「▶ 解答を見る」を押した＝答えを見た。正解扱いにせず、誤答と同じく選び直しの外で開く
+    const sel = card.querySelector('.ch2.exam-selected') || card.querySelector('.ch2.exam-instant-correct');
+    if (!sel) { _rfRevealUnanswered(card); return; }
+    els = [sel];
   }
+  const bad = els.find(ch => !ch.classList.contains('ok'));
+  if (bad) { _rfWrongPick(card, bad, _selectedChoiceStr(els)); return; }
 
-  const revBtn = card.querySelector('.exam-reveal-btn');
-  const sel = card.querySelector('.ch2.exam-selected') || card.querySelector('.ch2.exam-instant-correct') || card.querySelector('.ch2.ok') || card.querySelector('.ch2');
-  if (!sel) return;
-  const isCorrect = sel.classList.contains('ok');
+  const uid = card.dataset.uid;
   examAnswered++;
   examBySubj[sid].total++;
-  _tallyChapter(card.dataset.uid, isCorrect);
-  _tallyQuestion(card, isCorrect);            // B3/B5: 難問の成績とセッションの正誤
-  _markExamDone(card.dataset.uid);
-  _recordMyRate(card.dataset.uid, isCorrect);
-  _logAttempt(card, isCorrect, _selectedChoiceStr([sel]));
-  if (!_isScoreExcluded(card)) _updateSRS(card.dataset.uid, isCorrect);
-  if (!isCorrect) {
-    _recordWrongChoice(card.dataset.uid, (sel?.textContent?.trim() || '').charAt(0) || '?');
-    _examSessionWrongChoices.set(card.dataset.uid, sel?.textContent?.trim() || '');
-  }
-  if (isCorrect) {
-    examCorrect++;
-    examStreak++;
-    examBySubj[sid].correct++;
-    if (_fxRefined()) {
-      try { _playCorrectSound(); _rfCorrectFx(card, sel); }
-      catch (err) { console.error('[ExamFx] Error in refined correct fx:', err); }
-    } else
-    try {
-      _playCorrectSound();
-      _applyCardThemeComboFx(card, true, examStreak);
-      _showStreakEffect(examStreak);
-      const _t = _examTier(examStreak);
-      _triggerChoiceCorrectPop(sel);
-      _spawnFloatingCombo(card, examStreak, _t);
-      // A2/A3/A1: ショックウェーブ・ボーダートレース・速答ボーナス
-      _correctShockwave(sel);
-      _traceCardBorder(card);
-      _afterCorrectFx(card, sel);
-    } catch (err) {
-      console.error('[ExamFx] Error in correct fx:', err);
-    }
-    card.classList.add('exam-revealed', 'exam-multi-correct');
-    if (revBtn) { revBtn.textContent = '▶ 解説を見る'; revBtn.onclick = () => _toggleCorrectAnswer(card, revBtn); }
-    try { _updateExamProg(true); } catch (e) {}
-    try { _saveExamResume(); } catch (e) {}
-    requestAnimationFrame(_updateExamFocus);
-    setTimeout(() => _scrollToNextCard(card), 350);
-  } else {
-    const _broke = examStreak;   // C1: 崩落の規模は「途切れた時点の連続数」で決まる（0 にする前に控える）
-    examStreak = 0;
-    try {
-      _applyCardThemeComboFx(card, false, 0);
-      _resetComboMeter();
-      _clearDarkFx();
-      _zoneStop(true);   // B5: ゾーン崩壊
-      _afterWrongFx(card, sel, _broke);
-    } catch (err) {
-      console.error('[ExamFx] Error in wrong fx:', err);
-    }
-    examWrong.push(card.dataset.uid);
-    card.classList.add('exam-revealed');
-    if (revBtn) { revBtn.textContent = '▼ 解答を隠す'; revBtn.onclick = () => _toggleWrongAnswer(card, revBtn); }
-    try { _updateExamProg(); } catch (e) {}
-    try { _saveExamResume(); } catch (e) {}
-    requestAnimationFrame(_updateExamFocus);
-    _maybeShowFinishBtn();
-  }
+  _tallyChapter(uid, true);
+  _tallyQuestion(card, true);            // B3/B5: 難問の成績とセッションの正誤
+  _markExamDone(uid);
+  _recordMyRate(uid, true);
+  _logAttempt(card, true, _selectedChoiceStr(els));
+  if (!_isScoreExcluded(card)) _updateSRS(uid, true);
+  examCorrect++;
+  examStreak++;
+  examBySubj[sid].correct++;
+  try { _playCorrectSound(); _rfCorrectFx(card, card.querySelector('.ch2.ok') || els[0]); }
+  catch (err) { console.error('[ExamFx] Error in correct fx:', err); }
+  card.classList.add('exam-revealed', 'exam-multi-correct');
+  const revBtn = card.querySelector('.exam-reveal-btn');
+  if (revBtn) { revBtn.textContent = '▶ 解説を見る'; revBtn.onclick = () => _toggleCorrectAnswer(card, revBtn); }
+  try { _updateExamProg(true); } catch (e) {}
+  try { _saveExamResume(); } catch (e) {}
+  requestAnimationFrame(_updateExamFocus);
+  setTimeout(() => _scrollToNextCard(card), req > 1 ? 400 : 350);
 }
+
 
 function _toggleWrongAnswer(card, btn) {
   const hidden = card.classList.toggle('exam-ans-hidden');
@@ -1118,114 +1000,6 @@ function _triggerTimeStop(tier) {
   const _hide = () => { ov.style.display = 'none'; };
   anim.onfinish = _hide;
   anim.oncancel = _hide;
-}
-
-function _triggerFullscreenCombo(n, tier) {
-  const el = document.getElementById('streakFullscreen');
-  if (!el) return;
-  el.getAnimations?.().forEach(a => a.cancel());
-  el.style.removeProperty('opacity');   // 前回の試験終了時に張られた opacity:0!important を外す（下記⚠️）
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const curUi = window.MecUITheme ? MecUITheme.get() : null;
-  const cols = theme.fullscreenCols;
-  const glowR = theme.fullscreenGlow;
-  let col = cols[_tIdx(tier, cols)];
-  let g = glowR[_tIdx(tier, glowR)];
-
-  // テーマ別の文字列・フォント・装飾の差別化
-  let str = '×' + n;
-  let fontFam = 'system-ui, -apple-system, sans-serif';
-  let fontRatio = str.length >= 3 ? (str.length >= 4 ? 0.24 : 0.29) : 0.40;
-  let themeCls = '';
-
-  if (curUi === 'cyber') {
-    str = '[SYNC x' + n + ']';
-    fontFam = "'Consolas', 'SFMono-Regular', monospace";
-    col = '#00FF66';
-    g = '0,255,102';
-    fontRatio = 0.22;
-    themeCls = 'fs-combo-cyber';
-  } else if (curUi === 'kintsugi') {
-    const kanjiNums = ['','壱','弐','参','四','伍','六','七','八','九','拾',
-      '拾壱','拾弐','拾参','拾四','拾伍','拾六','拾七','拾八','拾九','弐拾'];
-    str = (kanjiNums[n] || (n + '')) + '連';
-    fontFam = "'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', serif";
-    col = '#F5D061';
-    g = '245,208,97';
-    fontRatio = 0.32;
-    themeCls = 'fs-combo-kintsugi';
-  } else if (curUi === 'abyss') {
-    str = 'DEPTH ' + (n * 100) + 'm';
-    fontFam = "'DIN Alternate', 'Avenir Next', 'Trebuchet MS', sans-serif";
-    col = '#00FFA3';
-    g = '0,255,163';
-    fontRatio = 0.21;
-    themeCls = 'fs-combo-abyss';
-  } else if (curUi === 'brass') {
-    const roman = ['','I','II','III','IV','V','VI','VII','VIII','IX','X',
-      'XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX'];
-    str = (roman[n] || ('⚙' + n)) + ' COMBO';
-    fontFam = "'Georgia', 'Playfair Display', 'Times New Roman', serif";
-    col = '#E0C25E';
-    g = '224,194,94';
-    fontRatio = 0.22;
-    themeCls = 'fs-combo-brass';
-  } else if (curUi === 'celestial') {
-    str = '✦ ' + n + ' CONSTELLATION ✦';
-    fontFam = "'Cinzel', 'Palatino', 'Baskerville', serif";
-    col = '#FFD166';
-    g = '255,209,102';
-    fontRatio = 0.17;
-    themeCls = 'fs-combo-celestial';
-  } else if (curUi === 'frost') {
-    str = '❄ ' + n + ' GLACIAL';
-    fontFam = "'Avenir Next', 'Futura', sans-serif";
-    col = '#70D6FF';
-    g = '112,214,255';
-    fontRatio = 0.22;
-    themeCls = 'fs-combo-frost';
-  } else if (curUi === 'liquid') {
-    str = '★ ' + n + ' SPLASH';
-    fontFam = "'Futura', 'Trebuchet MS', sans-serif";
-    col = '#FF007F';
-    g = '255,0,127';
-    fontRatio = 0.23;
-    themeCls = 'fs-combo-liquid';
-  } else if (curUi === 'aurora') {
-    str = '✧ ' + n + ' AURORA';
-    fontFam = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
-    col = '#00DFD8';
-    g = '0,223,216';
-    fontRatio = 0.22;
-    themeCls = 'fs-combo-aurora';
-  }
-
-  el.className = themeCls;
-  el.textContent = str;
-  el.style.fontFamily = fontFam;
-  // 全画面レイヤーを可視帯へ合わせる（CSSの inset:0 は画面全体＝ヘッダーぶん中心が上にずれる）。
-  // 文字も帯に収まる大きさへ抑える（2桁時は文字幅に応じてフォント係数を縮小して画面突き破りを防ぐ）。
-  const b = _fxBand();
-  const shortSide = Math.min(b.width, b.height);
-  el.style.left = b.left + 'px';
-  el.style.top = b.top + 'px';
-  el.style.right = 'auto';
-  el.style.bottom = 'auto';
-  el.style.width = b.width + 'px';
-  el.style.height = b.height + 'px';
-  el.style.fontSize = Math.round(shortSide * fontRatio) + 'px';
-  el.style.color = col;
-  const spread = Math.min(40 + tier * 16, 95);
-  el.style.textShadow = `0 0 ${spread}px rgba(${g},.65), 0 0 ${spread*2}px rgba(${g},.35), 0 0 ${spread*3}px rgba(${g},.15)`;
-  const dur = tier >= 7 ? 1120 : tier >= 6 ? 980 : tier >= 5 ? 820 : tier >= 4 ? 680 : 560;
-  el.animate([
-    {opacity:0,  transform:'scale(.28) rotate(-10deg)'},
-    {opacity:.9, transform:'scale(1.14) rotate(1.8deg)',  offset:.17},
-    {opacity:.82,transform:'scale(.93) rotate(-.6deg)',   offset:.33},
-    {opacity:.78,transform:'scale(1.02) rotate(.3deg)',   offset:.48},
-    {opacity:.75,transform:'scale(1) rotate(0deg)',       offset:.58},
-    {opacity:0,  transform:'scale(1.06) rotate(.5deg)'}
-  ], {duration: dur, easing:'cubic-bezier(.22,.68,0,1.25)'});
 }
 
 /* B1(2026-08-14): 天井を tier6（20連続〜）から tier7（30連続〜）へ。
@@ -1568,7 +1342,6 @@ const FAST_ANSWER_MS = 3000;          // これ以内の正解を「速答」と
 /* 2026-08-25: 「昇格フレームだけフル演出・同ティア内はあえて軽く」という山谷設計を撤回した。
    同ティア継続でもフル演出を出す（ユーザーの判断）。false へ戻せば旧挙動に戻る。
    ⚠️ TIER UP スタンプだけは promoted のまま——昇格していないのに TIER UP は嘘になる。 */
-const STREAK_FULL_EVERY_TIME = true;
 const _examCardSeenAt = new Map();    // uid → 最初に画面フォーカスされた時刻ms
 let _zoneTimer = null;                // ゾーン（tier4+の常駐環境演出）のemitインターバル
 let _zoneActive = false;
@@ -1795,52 +1568,6 @@ function _triggerFastBonus(el, grade) {
 }
 
 // A2: 正解した肢の位置から広がるショックウェーブ（UIテーマ連動）
-function _correctShockwave(el) {
-  if (!window.MecFX || !el || !el.getBoundingClientRect) return;
-  const r = el.getBoundingClientRect();
-  if (!r.width) return;
-  const curUi = window.MecUITheme ? MecUITheme.get() : null;
-  const theme = _examTheme();
-  const t = Math.max(1, Math.min(_examTier(examStreak) || 1, 7));
-  const [sx, sy] = _examClampFxXY(r.left + r.width / 2, r.top + r.height / 2);
-
-  const b = _fxBand();
-  const shortSide = Math.min(b.width, b.height);
-  const ringMaxR = shortSide * Math.min(0.48, 0.35 + t * 0.02);
-
-  try {
-    if (curUi === 'cyber' && window.MecFX.cyberTargetLock) {
-      window.MecFX.cyberTargetLock(sx, sy, { maxR: ringMaxR * 0.82, glitchCount: 4 + t });
-    } else if (curUi === 'kintsugi' && window.MecFX.kintsugiCrack) {
-      window.MecFX.kintsugiCrack(sx, sy, { maxR: ringMaxR * 0.88, branches: 3 + t });
-    } else if (curUi === 'frost' && window.MecFX.frostCrystalShatter) {
-      window.MecFX.frostCrystalShatter(sx, sy, { maxR: ringMaxR * 0.82, dendriteCount: 4 + t });
-    } else if (curUi === 'brass' && window.MecFX.chronosDial) {
-      window.MecFX.chronosDial(sx, sy, { maxR: ringMaxR * 0.82, ticks: 12 });
-    } else if (curUi === 'celestial') {
-      if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(sx, sy, { count: 18 + t * 4, colors: ['#FFD166', '#FFFDF0', '#8A2BE2'], additive: true });
-      if (window.MecFX.stars) window.MecFX.stars(sx, sy, { count: 12 + t * 2, colors: ['#FFD166', '#8A2BE2', '#48CAE4'] });
-    } else if (curUi === 'abyss' && window.MecFX.abyssSonarPulse) {
-      window.MecFX.abyssSonarPulse(sx, sy, { maxR: ringMaxR * 0.88, marineSnowCount: 6 + t * 2 });
-    } else if (curUi === 'liquid' && window.MecFX.liquidBloomRipple) {
-      window.MecFX.liquidBloomRipple(sx, sy, { maxR: ringMaxR * 0.82, bubbleCount: 6 + t });
-    } else if (curUi === 'aurora' && window.MecFX.auroraPrismSweep) {
-      window.MecFX.auroraPrismSweep(sx, sy, { maxR: ringMaxR * 0.85, sparkleCount: 8 + t * 2 });
-    } else {
-      let ringColor = theme.ringColor(t);
-      let isAdditive = examEffectSet !== 'ink';
-      window.MecFX.rings(sx, sy, {
-        count: t >= 4 ? 3 : 2,
-        color: ringColor,
-        thickness: t >= 4 ? 3 : 2,
-        maxR: ringMaxR,
-        additive: isAdditive,
-        stagger: .075
-      });
-    }
-  } catch (e) {}
-}
-
 // A3: カード外周を光が一周するボーダートレース（UIテーマ連動）
 function _traceCardBorder(card) {
   if (!card || _fxOff()) return;
@@ -2202,37 +1929,6 @@ function _triggerAnswerMark(el, kind) {
 
 /* A4(2026-08-26 改訂): 正解時の画面中央基準・短辺0〜90%黄金角巡回ダイナミック光彩パルス
    黄金角（137.5°）＋均等面積サンプリング＋重なり最大60%制御で画面全体に心地よく散乱。 */
-function _traceToAnswer(card, fxEl) {
-  if (_fxOff() || !window.MecFX || !card) return;
-  const b = _fxBand();
-  const shortSide = Math.min(b.width, b.height);
-  const maxR = shortSide * 0.45; // 短辺の90%（半径45%）
-  const curUi = window.MecUITheme ? MecUITheme.get() : null;
-  const pos = _getDispersedFxPos(b.cx, b.cy, maxR);
-  const tx = pos.x;
-  const ty = pos.y;
-
-  try {
-    if (curUi === 'brass' && window.MecFX.sparks) {
-      window.MecFX.sparks(tx, ty, { count: 8, colors: ['#FFD700', '#FFA040', '#FFFFFF'] });
-    } else if (curUi === 'cyber' && window.MecFX.glitchBars) {
-      window.MecFX.glitchBars(tx, ty, { count: 4, color: '#00FF66', w: maxR * 2, band: b });
-    } else if (curUi === 'liquid' && window.MecFX.bubbles) {
-      window.MecFX.bubbles(tx, ty, { count: 6, colors: ['#FF007F', '#7928CA'] });
-    } else if (curUi === 'kintsugi' && window.MecFX.dust) {
-      window.MecFX.dust({ count: 12, colors: ['#F5D061', '#D4AF37', '#FFFFFF'] });
-    } else if (curUi === 'celestial' && window.MecFX.diamondSparkle) {
-      window.MecFX.diamondSparkle(tx, ty, { count: 8, color: '#FFD166' });
-    } else if (curUi === 'abyss' && window.MecFX.bubbles) {
-      window.MecFX.bubbles(tx, ty, { count: 6, colors: ['#00FFA3', '#00B4D8'] });
-    } else if (curUi === 'frost' && window.MecFX.diamondSparkle) {
-      window.MecFX.diamondSparkle(tx, ty, { count: 8, color: '#FFFFFF' });
-    } else if (window.MecFX.diamondSparkle) {
-      window.MecFX.diamondSparkle(tx, ty, { count: 8, color: '#00DFD8' });
-    }
-  } catch (e) {}
-}
-
 /* ── ⑦ 触覚フィードバック（Web Haptics: テーマ固有振動パターン） ── */
 /* ⚠️ iOS Safari は `navigator.vibrate` を実装していないので、**主環境の iPad では常に no-op**。
    壊れているのではなく「その端末には無い機能」で、Android Chrome では実際に振動する。
@@ -2253,57 +1949,23 @@ function _triggerThemeHaptics() {
   } catch (e) {}
 }
 
-/* ── ⑤ 画面最外周ボーダーパルス (#examEdgePulse) ── */
-function _triggerEdgePulse() {
-  if (_fxRefined()) return;   // 新しい演出（試作）は画面の縁を毎解答では光らせない（光は肢から）
-  let pulse = document.getElementById('examEdgePulse');
-  if (!pulse) {
-    pulse = document.createElement('div');
-    pulse.id = 'examEdgePulse';
-    document.body.appendChild(pulse);
-  }
-  pulse.classList.add('active');
-  clearTimeout(pulse._pulseTimer);
-  pulse._pulseTimer = setTimeout(() => { if (pulse) pulse.classList.remove('active'); }, 300);
-}
-
-/* UIテーマ固有の正解・連続正解（コンボ）カード装飾（2026-08-26 改訂: バッジ完全撤廃 ＆ 12要素統合） */
-function _applyCardThemeComboFx(card, isCorrect, streak) {
+/* UIテーマ固有の正解・連続正解（コンボ）カード装飾。正解のときだけ呼ぶ（誤答の後始末は _rfScoreWrong）。 */
+function _applyCardThemeComboFx(card, streak) {
   if (!card) return;
-  if (isCorrect) {
-    card.classList.remove('exam-wrong-hit');
-    card.classList.add('fx-correct');
-    card.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10');
-    if (streak >= 10) card.classList.add('combo-streak-10');
-    else if (streak >= 5) card.classList.add('combo-streak-5');
-    else if (streak >= 3) card.classList.add('combo-streak-3');
-
-    // 正解選択肢に .correct クラス付与
-    card.querySelectorAll('.ch2.ok, .ch2.exam-selected').forEach(c => {
-      if (c.classList.contains('ok')) {
-        c.classList.add('correct');
-      }
-    });
-
-    // ⑫ 10連勝以上のゾーン状態（アンビエント呼吸）制御
-    if (streak >= 10) {
-      _ensureZoneBreath();
-      document.body.classList.add('exam-streak-zone');
-    }
-
-    // ⑤ 画面最外周パルス ＆ ⑦ 触覚フィードバック
-    _triggerEdgePulse();
-    _triggerThemeHaptics();
-  } else {
-    // 誤答時はコンボリセット & ゾーン解除 & ダメージ付与
-    document.body.classList.remove('exam-streak-zone');
-    document.querySelectorAll('.qc').forEach(c => {
-      c.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10');
-    });
-    card.classList.remove('fx-correct');
-    card.classList.add('exam-wrong-hit');
-    _fxTimeout(() => card.classList.remove('exam-wrong-hit'), 500);
+  card.classList.add('fx-correct');
+  card.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10');
+  if (streak >= 10) card.classList.add('combo-streak-10');
+  else if (streak >= 5) card.classList.add('combo-streak-5');
+  else if (streak >= 3) card.classList.add('combo-streak-3');
+  // 正解選択肢に .correct クラス付与
+  card.querySelectorAll('.ch2.ok').forEach(c => c.classList.add('correct'));
+  // ⑫ 10連勝以上のゾーン状態（アンビエント呼吸）制御
+  if (streak >= 10) {
+    _ensureZoneBreath();
+    document.body.classList.add('exam-streak-zone');
   }
+  // ⑦ 触覚フィードバック
+  _triggerThemeHaptics();
 }
 
 /* A5: 選ばなかった肢が沈む。⚠️ 1.1秒で必ずクラスを外すこと（解説が読めなくなる）。
@@ -2332,9 +1994,7 @@ function _afterCorrectFx(card, fxEl) {
   }
 
   _sinkOtherChoices(card);
-  // 新しい演出（試作）は散らばった位置の粒子を出さない（テーマ演出は _rfCorrectFx が肢の位置で出す）
-  const _rf = _fxRefined();
-  if (!_rf) _fxTimeout(() => _traceToAnswer(card, fxEl), 260);
+  // UIテーマ固有の演出は _rfCorrectFx が「正解の肢の位置で」出す。ここでは意味を持つ印だけを出す。
 
   const uid = card && card.dataset && card.dataset.uid;
   const prior = (_lastAnswerPrior.uid && _lastAnswerPrior.uid === uid) ? _lastAnswerPrior : null;
@@ -2395,44 +2055,6 @@ function _afterCorrectFx(card, fxEl) {
       ticks: 12,
       delay: .12
     });
-  }
-
-  // 【UIテーマ固有演出】正解時のテーマ別リアクション（画面中央基準・黄金角巡回・短辺0〜90%動的スケーリング）
-  if (!_rf && !_fxOff() && window.MecFX && card) {
-    const curUi = window.MecUITheme ? MecUITheme.get() : 'aurora';
-    const b = _fxBand();
-    const shortSide = Math.min(b.width, b.height);
-    const maxR = shortSide * 0.45; // 短辺の90%（半径45%）
-    // 黄金角巡回＋均等面積サンプリング（重なり最大60%保証）でバラけさせて発火
-    const pos = _getDispersedFxPos(b.cx, b.cy, maxR);
-    const cx = pos.x;
-    const cy = pos.y;
-
-    if (curUi === 'aurora') {
-      if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(cx, cy, { maxR: maxR, sparkleCount: 16 });
-      else if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 12, color: '#00DFD8' });
-    } else if (curUi === 'brass') {
-      if (window.MecFX.brassClockworkBurst) window.MecFX.brassClockworkBurst(cx, cy, { maxR: maxR, gearCount: 6 });
-      else if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 10, colors: ['#FFD700', '#FFA040', '#FFFFFF'] });
-    } else if (curUi === 'cyber') {
-      if (window.MecFX.cyberTargetLock) window.MecFX.cyberTargetLock(cx, cy, { maxR: maxR, glitchCount: 8 });
-      else if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 6, color: '#00E5FF', w: maxR * 2, band: b });
-    } else if (curUi === 'liquid') {
-      if (window.MecFX.liquidBloomRipple) window.MecFX.liquidBloomRipple(cx, cy, { maxR: maxR, bubbleCount: 12 });
-      else if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 8, colors: ['#FF007F', '#7928CA'] });
-    } else if (curUi === 'kintsugi') {
-      if (window.MecFX.kintsugiCrack) window.MecFX.kintsugiCrack(cx, cy, { maxR: maxR });
-      else if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 12, colors: ['#F5D061', '#D9383A', '#FFFFFF'] });
-    } else if (curUi === 'celestial') {
-      if (window.MecFX.celestialAstrolabe) window.MecFX.celestialAstrolabe(cx, cy, { maxR: maxR });
-      else if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 12, color: '#FFD166' });
-    } else if (curUi === 'abyss') {
-      if (window.MecFX.abyssSonarPulse) window.MecFX.abyssSonarPulse(cx, cy, { maxR: maxR });
-      else if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 10, colors: ['#00FFA3', '#00B4D8'] });
-    } else if (curUi === 'frost') {
-      if (window.MecFX.frostCrystalShatter) window.MecFX.frostCrystalShatter(cx, cy, { maxR: maxR });
-      else if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 12, color: '#FFFFFF' });
-    }
   }
 
   if (_examRecoverPending) {
@@ -2544,54 +2166,7 @@ function _markCardScar(card) {
   if (card) card.classList.add('exam-scar');
 }
 
-function _afterWrongFx(card, fxEl, brokeStreak) {
-  _examRecoverPending = true;   // 次の1問を正解したら「立て直し」を出す
-  _markCardScar(card);
-  _shatterComboMeter(brokeStreak || 0);
-  _setOverdrive(false);
-  _wrongDamageFx();
-  if (_examTheme().useFlatline) _ecgFlatline();
-  const uid = card && card.dataset && card.dataset.uid;
-  if (uid && _isRepeatWrongChoice(uid, fxEl)) _fxTimeout(() => _triggerRepeatWrong(fxEl), 260);
-}
-
 // B4: ティア昇格スタンプ。昇格した瞬間だけ「TIER UP」を叩き込む
-function _triggerTierUpStamp(tier, n) {
-  if (_fxOff()) return;
-  const theme = _examTheme();
-  const el = document.createElement('div');
-  el.className = 'exam-tierup';
-  const col = (theme.fullscreenCols && theme.fullscreenCols[_tIdx(tier, theme.fullscreenCols)]) || '#FFD700';
-  const glow = (theme.fullscreenGlow && theme.fullscreenGlow[_tIdx(tier, theme.fullscreenGlow)]) || '255,215,0';
-  el.innerHTML = '<span class="tu-lbl">TIER UP</span>' +
-    '<span class="tu-main">' + ((theme.tierUpLabel && theme.tierUpLabel(tier)) || ('TIER ' + tier)) + '</span>';
-  el.style.setProperty('--tu-col', col);
-  el.style.setProperty('--tu-glow', glow);
-  el.style.top = _fxBand().cy + 'px';   // CSSの top:38% は画面基準＝ヘッダーの高い端末で上に寄る
-  document.body.appendChild(el);
-  el.animate([
-    { opacity: 0, transform: 'translate(-50%,-50%) scale(3.2) rotate(-16deg)' },
-    { opacity: 1, transform: 'translate(-50%,-50%) scale(.92) rotate(-6deg)', offset: .22 },
-    { transform: 'translate(-50%,-50%) scale(1.06) rotate(-6deg)', offset: .34 },
-    { opacity: 1, transform: 'translate(-50%,-50%) scale(1) rotate(-6deg)', offset: .46 },
-    { opacity: 1, offset: .74 },
-    { opacity: 0, transform: 'translate(-50%,-50%) scale(1.12) rotate(-6deg)' }
-  ], { duration: 1250, easing: 'cubic-bezier(.2,1.3,.35,1)', fill: 'forwards' }).onfinish = () => el.remove();
-  // メーター位置からの祝砲（B6と連動）
-  if (window.MecFX) {
-    try {
-      // 祝砲はコンボメーター(画面最上端)ではなく可視帯の上端から上げる。
-      // 画面最上端だと上半分が画面外へ抜けて切れる（iPad実機・2026-08-04）。
-      const _mb = _fxBand();
-      window.MecFX.burst(_mb.cx, _mb.top, {
-        count: 40 + tier * 14,
-        colors: (theme.burstPalettes && theme.burstPalettes[_tIdx(tier, theme.burstPalettes)]) || ['#FFD700'],
-        shapes: theme.shapes(tier), tier: tier, glow: examEffectSet !== 'ink', additive: examEffectSet !== 'ink'
-      });
-    } catch (e) {}
-  }
-}
-
 // B5: ゾーン（tier4以上の間だけ画面に薄く漂う環境演出）
 function _zoneStart() {
   if (_zoneActive || _fxOff() || !window.MecFX) return;
@@ -3167,8 +2742,8 @@ function _srsRenderNextPlan(anchorEl) {
 
    ⚠️⚠️ **この上限を上げて派手さを出そうとしないこと。** 段が上がったときに増やすのは
       「枚数」ではなく「1枚の強さ」（色・持続・スケール）。枚数を増やすと必ず読解を潰す。
-   ⚠️ 予算を消費するのは **面を覆って下を読みにくくするもの**だけ＝
-      暗転(_triggerTimeStop) / 特大×n(_triggerFullscreenCombo) / CRT(_spawnCRTOverlay)。
+   ⚠️ 予算を消費するのは **面を覆って下を読みにくくするもの**だけ＝暗転(_triggerTimeStop)。
+      2026-09-24 に全画面フラッシュ・特大×n・CRT を演出ごと廃止し、暗転も「段が上がった瞬間だけ」になった。
       次の3つは意図的に予算の外に置いてある:
         ・_triggerBorderGlow … 画面の「縁」だけ（inset box-shadow）で本文に被らない
         ・_triggerBgBreath  … 最大 alpha .12 の環境光で、覆うのではなく色が乗るだけ
@@ -3186,7 +2761,7 @@ function _fsTake() { if (_fsBudgetLeft <= 0) return false; _fsBudgetLeft--; retu
       study.html の #examOverdriveGlow も丸ごと死んでいた）。
    ⚠️ 1解答ごとのフラッシュとして復活させないこと——持続状態なので全画面予算を消費しない
       （毎フレーム新しく被さるものではなく、入るときに1回だけ点く）。
-   ⚠️ 解除は誤答（revealAnswer の2経路）と exitExam が既に行っている。 */
+   ⚠️ 解除は誤答（_rfScoreWrong）と exitExam が行っている。 */
 let _overdriveOn = false;
 function _setOverdrive(on) {
   on = !!on && !_fxOff();
@@ -3208,206 +2783,6 @@ function _setOverdrive(on) {
   }
 }
 
-function _showStreakEffect(n) {
-  if (n < 2) return;
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const tier = _examTier(n);
-  /* ⚠️⚠️ 2026-08-31: reduced-motion のガードをここへ置いた。以前この関数には
-     `_fxOff()` が無く、MecFX（粒子）は study.html 側で no-op 化されるので止まる一方、
-     **全画面フラッシュ・特大×n・全画面暗転・シェイク・外周ボーダー・背景ブレス・
-     浮遊コンボは素通りしていた**＝「動きを減らす」を選んでいるユーザーに、いちばん
-     強い層だけが残るという逆転が起きていた。
-     ⚠️ コンボメーターだけは残す——あれは演出ではなく「今何連続か」という情報で、
-        止めると読める情報が減る（動きは width の遷移のみ）。 */
-  if (_fxOff()) { _updateComboMeter(n); return; }
-  _fsBudgetReset();
-  // B4: 昇格フレーム（tierが上がった瞬間）の判定。2026-08-25 以降これが分けるのは TIER UP スタンプだけ。
-  const prevTier = (n - 1) < 2 ? 0 : _examTier(n - 1);
-  const promoted = tier > prevTier;
-  // 2026-08-25: 同ティア継続でもフル演出（promoted は TIER UP スタンプ専用に縮小）
-  const full = promoted || STREAK_FULL_EVERY_TIME;
-  const labels = theme.labels(n);
-  // ⚠️ index は tier と対応させ、必ず **7 まで** 埋めること（梯子は 3/5/7/10/14/20 の6段＋tier7）。
-  // 6 で止めると durs[7] が undefined → duration が NaN になり toast.animate が
-  // 「duration must be non-negative or auto」で TypeError を投げ、20連続で
-  // _showStreakEffect の以降（打撃・フラッシュ・粒子・シェイク・ボーダー・フローター・
-  // 背景ブレス・コンボメーター更新）が丸ごと落ちる（§13-3 P2）。
-  // 引くときは範囲外にならない _tIdx() を通すこと（`Math.min(tier,6)` を書かない）。
-  const durs   = [0, 1.0, 1.25, 1.6, 2.1, 2.6, 2.9, 3.2];
-
-  // B5/B7: tier3以上でゾーン突入、tier6 の入口（14連続）で覚醒モード
-  if (tier >= 3) _zoneStart();
-  _setAwaken(n >= 14);   // tier6 の入口に合わせる
-  if (promoted) _triggerTierUpStamp(tier, n);
-
-  /* §演出予算 ＋ §情報設計（2026-08-31）。
-     旧: CRT / 暗転 / 特大×n を **無条件に全部**出していた（そこへ後段のフラッシュ・
-         ボーダー・背景ブレスが重なって全画面5枚）。
-     新: 予算1枚を **意味の重い順**に取り合う。
-     ⚠️ 特大×n を先頭に置かないこと。あれが伝えるのは「連続数」だけで、同じ数字を
-        コンボメーターとトーストが既に持っている＝画面全体を使う価値がいちばん低い。
-        難問突破・リベンジといった「何が偉かったか」はカード脇のマークが担当で、
-        そちらを全画面が塗り潰さないようにするのがこの順序の狙い。
-     ⚠️ 特大×n は tier6（14連続）以上に格下げした。毎回出ていた頃は「稀だから効く」
-        という前提そのものが無く、2連続でも画面が覆われていた。 */
-  if (full) {
-    if (tier >= 3 && _fsTake()) _triggerTimeStop(tier);        // 暗転＝「今そこに入った」
-    else if (tier >= 6 && _fsTake()) _triggerFullscreenCombo(n, tier);
-    else if (theme.useCRT && _fsTake()) _spawnCRTOverlay(tier);
-  }
-  // 高tierは持続状態として点す（面を1枚占有しないので予算の外）
-  _setOverdrive(tier >= 5);
-
-  const toast = document.getElementById('examStreakToast');
-  if (!toast) return;
-  toast.getAnimations?.().forEach(a => a.cancel());
-  // ⚠️ 試験終了時(_exitExamMode)に opacity:0!important を張るが、!important は WAAPI アニメより
-  // 強いため、外さないと同じページで2回目以降の試験ではトーストが一度も出ない。
-  toast.style.removeProperty('opacity');
-  // 縦位置は固定値(旧 top:68px)ではなく可視帯の上端＝ヘッダー下端に置く。
-  // iPadはヘッダーが高く、68px だとヘッダーに重なって上端で切れていた（実機報告・2026-08-04）。
-  toast.style.top = _fxBand().top + 'px';
-  toast.className = 't' + tier + (full ? '' : ' quiet');
-  toast.textContent = labels[tier];
-  _showStreakSignature(n, tier, full);
-  toast.animate([
-    {opacity:0, transform:'translateX(-50%) translateY(-22px) scale(.65) rotate(-4deg)', offset:0},
-    {opacity:1, transform:'translateX(-50%) translateY(5px) scale(1.18) rotate(1.5deg)', offset:.12},
-    {transform:'translateX(-50%) translateY(-3px) scale(.95) rotate(-.5deg)', offset:.20},
-    {transform:'translateX(-50%) translateY(1px) scale(1.05)', offset:.30},
-    {transform:'translateX(-50%) translateY(0) scale(.99)', offset:.40},
-    {transform:'translateX(-50%) translateY(0) scale(1)', offset:.50},
-    {opacity:1, offset:.68},
-    {opacity:0, transform:'translateX(-50%) translateY(-16px) scale(.88)', offset:1}
-  ], {duration: durs[_tIdx(tier, durs)] * (full ? 1000 : 520), easing:'ease'});
-  /* S13(2026-08-21): 打撃の1フレーム。着地の瞬間に一度だけ沈んで戻る（1文字ずつのタイプはしない
-     ——ラベルは一瞬で読めることに価値があり、演出のために情報を遅らせてはいけない）。
-     ⚠️ translate プロパティで書くこと。入場アニメが transform を占有している。 */
-  {
-    const _dur = durs[_tIdx(tier, durs)] * (full ? 1000 : 520);
-    toast.animate([
-      {translate:'0 0'}, {translate:'0 1.6px', offset:.35}, {translate:'0 0'}
-    ], {duration: 200, delay: _dur * .12, easing:'cubic-bezier(.3,1.5,.5,1)'});
-  }
-
-  /* ══════════ 全画面フラッシュ（2026-08-31 に明滅周波数を落とした）══════════
-     ⚠️⚠️ **1周期を FLASH_CYCLE_MS 未満にしないこと。** 旧実装は 85ms 刻みで
-     0.95 ↔ 0.06 を往復しており、明→暗→明の1周期が 170ms ＝ **約5.9Hz**。
-     `#examStreakFlash` は `inset:0` の全画面なので、これは WCAG 2.3.1 の
-     「1秒に3回まで」を超える。しかも ecg の tier5 は rgba(255,23,68,.65) ＝
-     飽和した赤で、赤色フラッシュはさらに厳しい基準の対象になる。
-     いまは 1周期 360ms ＝ **2.8Hz**（基準の3Hzを下回る）に固定し、
-     暗側も 0.06 → 0.42 に上げて輝度の振れ幅そのものを半分以下にしてある。
-     段の派手さは **明滅の速さではなく、色と持続と回数**で出すこと。 */
-  const FLASH_CYCLE_MS = 360;              // 1周期（明→暗→明）。2.8Hz
-  const flash = document.getElementById('examStreakFlash');
-  if (flash && full && tier >= 1) {
-    flash.getAnimations?.().forEach(a => a.cancel());
-    const fc = theme.flashColors;
-    flash.style.background = fc[tier];
-    flash.style.opacity = '0';
-    if (tier >= 4) {
-      const cycles = tier >= 7 ? 3 : tier >= 6 ? 3 : tier >= 5 ? 2 : 2;
-      const kf = [{opacity: 0}];
-      for (let p = 0; p < cycles; p++) kf.push({opacity: .88}, {opacity: .42});
-      kf.push({opacity: 0});
-      flash.animate(kf, {duration: FLASH_CYCLE_MS * cycles, easing:'ease-in-out'});
-    } else {
-      flash.animate([
-        { opacity: 1, offset: 0 },
-        { opacity: 0.25, offset: 0.35 },
-        { opacity: 0.75, offset: 0.55 },
-        { opacity: 0, offset: 1 }
-      ], { duration: 750, easing: 'ease', fill: 'forwards' });
-    }
-  }
-
-  if (full) {
-    if (tier >= 1) _spawnStreakParticles(tier);
-    if (tier >= 2) _triggerScreenShake(tier);
-    if (tier >= 3) _triggerBorderGlow(tier);
-    /* ⚠️ 2026-08-31: ここにあった `_spawnEmojiFloaters(tier)` を削除した。
-       あの関数は先頭が `if (curUi) return;` で、MecUITheme は常に8種のどれかを
-       返すので **一度も絵文字を出していなかった**（関数ごと削除済み）。 */
-    if (tier >= 4) {
-      if (theme.useGlitch) _triggerGlitch(tier);
-      else if (theme.useBrushSwipe) _inkBrushSwipe(tier);
-    }
-  }
-  // UIテーマ連動の軽量エフェクト。旧実装では昇格しないフレームの「代わり」だったが、
-  // フル演出が毎回出るようになったので上乗せとして残す（テーマ固有の粒が失われないため）。
-  if (!promoted) _spawnLightStreakFx(tier);
-  _triggerBgBreath(tier);
-  _updateComboMeter(n);
-}
-
-// B4: 同ティア継続のフレームへ上乗せする軽量エフェクト（UIテーマ完全連動）
-function _spawnLightStreakFx(tier) {
-  if (!window.MecFX) return;
-  const b = _fxBand();
-  const { cx, cy } = b;
-  const curUi = window.MecUITheme ? MecUITheme.get() : null;
-  if (curUi === 'kintsugi') {
-    if (window.MecFX.dust) window.MecFX.dust({ count: 14 + tier * 4, colors: ['#F5D061', '#D4AF37', '#FFFFFF'] });
-    return;
-  } else if (curUi === 'celestial') {
-    if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 12 + tier * 3, color: '#FFD166' });
-    return;
-  } else if (curUi === 'abyss') {
-    if (window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 1, color: '#00FFA3', thickness: 2, maxR: 120 + tier * 15, additive: true });
-    return;
-  } else if (curUi === 'frost') {
-    if (window.MecFX.dust) window.MecFX.dust({ count: 14 + tier * 4, colors: ['#70D6FF', '#FFFFFF'] });
-    return;
-  } else if (curUi === 'aurora') {
-    if (window.MecFX.diamondSparkle) window.MecFX.diamondSparkle(cx, cy, { count: 12 + tier * 3, color: '#00DFD8' });
-    return;
-  } else if (curUi === 'brass') {
-    if (window.MecFX.sparks) window.MecFX.sparks(cx, cy, { count: 10 + tier * 3, colors: ['#FFD700', '#FFA040'] });
-    return;
-  } else if (curUi === 'cyber') {
-    if (window.MecFX.glitchBars) window.MecFX.glitchBars(cx, cy, { count: 5 + tier * 2, color: '#00FF66', w: Math.min(b.width, b.height) * 0.9, band: b });
-    return;
-  } else if (curUi === 'liquid') {
-    if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 8 + tier * 2, colors: ['#FF007F', '#7928CA'] });
-    return;
-  }
-  /* ⚠️ ここに legacy の fallback を書かないこと（2026-08-31）。上の8分岐は
-     MecUITheme.get() の全戻り値を網羅していて必ず return するので、下は到達しない。 */
-}
-
-// B8: テーマ固有のシグネチャー表示（ecg=心拍数 / retro=スコア / space=ワープ速度 等）
-function _showStreakSignature(n, tier, promoted) {
-  if (_fxOff()) return;
-  const theme = _examTheme();
-  if (!theme.signature) return;
-  let el = document.getElementById('examStreakSig');
-  if (!el) {
-    el = document.createElement('div');
-    el.id = 'examStreakSig';
-    document.body.appendChild(el);
-  }
-  el.getAnimations?.().forEach(a => a.cancel());
-  el.textContent = theme.signature(n);
-  el.style.top = (_fxBand().top + 44) + 'px';   // トーストの直下（CSSの top:112px は画面基準）
-  el.style.color = (theme.comboColors && theme.comboColors[_tIdx(tier, theme.comboColors)]) || '#FFD700';
-  el.animate([
-    { opacity: 0, transform: 'translateX(-50%) translateY(-6px)' },
-    { opacity: 1, transform: 'translateX(-50%) translateY(0)', offset: .18 },
-    { opacity: 1, offset: promoted ? .72 : .5 },
-    { opacity: 0, transform: 'translateX(-50%) translateY(-8px)' }
-  ], { duration: promoted ? 2200 : 1200, easing: 'ease-out', fill: 'forwards' });
-}
-
-// 演出レイヤーだけを揺らす。body を transform すると body が position:fixed の包含ブロックになり、
-// 揺れている間だけ全ての演出（トースト・特大×n・粒子canvas）がページ先頭基準になって画面外へ飛ぶ。
-function _shakeFxLayers(frames, timing) {
-  const fxCanvas = document.getElementById('mecFxCanvas');
-  if (fxCanvas) fxCanvas.animate(frames, timing);
-  const ov = document.getElementById('examShakeOverlay');
-  if (ov) ov.animate(frames, timing);
-}
-
 // §13 Z1: ゾーン状態（10連続正解）の色被り用レイヤー。
 // 旧実装は ui_theme.css が `<body>` に filter:brightness() を掛けており、body が
 // position:fixed の包含ブロックになるため #mecFxCanvas（fixed/inset:0/100%）が
@@ -3426,68 +2801,7 @@ function _ensureZoneBreath() {
   return el;
 }
 
-// §13 Z3: 誤答のダメージ演出（赤フラッシュ＋揺れ）。
-// ⚠️⚠️ 揺れを `body.exam-screen-shake`（CSS の @keyframes screenShakeAnim が
-// `<body>` を translate3d する）へ戻さないこと。body を transform すると body が
-// position:fixed の包含ブロックになり、揺れている 420ms のあいだ全演出
-// （トースト・特大×n・粒子canvas）がページ先頭基準になって画面外へ飛ぶ。
-// 揺れること自体は禁じていない（§13-5）——揺らすのは演出レイヤーだけにする。
-// 赤フラッシュは body::after の疑似要素なのでクラスのままでよい（filter も transform も無い）。
-function _wrongDamageFx() {
-  if (_fxOff()) return;
-  document.body.classList.add('exam-red-flash');
-  clearTimeout(_wrongDamageFx._timer);
-  _wrongDamageFx._timer = _fxTimeout(() => document.body.classList.remove('exam-red-flash'), 420);
-  _ensureShakeOverlay();
-  _shakeFxLayers([
-    { transform: 'translate(0,0)' },
-    { transform: 'translate(-3px,2px)' },
-    { transform: 'translate(4px,-3px)' },
-    { transform: 'translate(-6px,4px)' },
-    { transform: 'translate(6px,-4px)' },
-    { transform: 'translate(-3px,2px)' },
-    { transform: 'translate(0,0)' }
-  ], { duration: 380, easing: 'cubic-bezier(.36,.07,.19,.97)' });
-}
-
-// 演出用の固定オーバーレイ（周縁ヴィネット）。body を揺らさないための受け皿。
-function _ensureShakeOverlay() {
-  let el = document.getElementById('examShakeOverlay');
-  if (!el) {
-    el = document.createElement('div');
-    el.id = 'examShakeOverlay';
-    el.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9040;opacity:0;';
-    document.body.appendChild(el);
-  }
-  return el;
-}
-
-function _triggerScreenShake(tier) {
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const si = tier >= 7 ? 17 : tier >= 6 ? 13 : tier >= 5 ? 8 : tier >= 4 ? 5 : 3;
-  const dur = tier >= 5 ? 480 : tier >= 4 ? 340 : 210;
-  const easing = theme.chunkyShake ? `steps(${tier >= 5 ? 8 : 5})` : 'ease-in-out';
-  const kf = [
-    {transform:'translate(0,0)'},
-    {transform:`translate(-${si}px,-${si*.5}px)`},
-    {transform:`translate(${si}px,${si*.6}px)`},
-    {transform:`translate(-${si*.6}px,${si}px)`},
-    {transform:`translate(${si*.4}px,-${si*.8}px)`},
-    {transform:`translate(-${si*.3}px,${si*.4}px)`},
-    {transform:'translate(0,0)'}
-  ];
-  // body 全体（最大約5000カード）を transform すると iPad WebKit が巨大レイヤーを再合成し、
-  // 重さ・白タイル化を招く。代わりに fixed な演出レイヤー（パーティクルcanvas＋周縁ヴィネット）
-  // だけを揺らす。問題カード本体は静止＝安全なまま「画面枠が揺れる」印象を出す。
-  const fxCanvas = document.getElementById('mecFxCanvas');
-  if (fxCanvas) fxCanvas.animate(kf, {duration: dur, easing});
-  const ov = _ensureShakeOverlay();
-  const vig = tier >= 7 ? .58 : tier >= 6 ? .5 : tier >= 5 ? .42 : .3;
-  ov.style.boxShadow = `inset 0 0 ${tier >= 5 ? 160 : 110}px ${tier >= 5 ? 30 : 18}px rgba(0,0,0,${vig})`;
-  ov.animate([{opacity:0},{opacity:1,offset:.15},{opacity:1,offset:.7},{opacity:0}], {duration: dur, easing:'ease-out'});
-  ov.animate(kf, {duration: dur, easing});
-}
-
+// 画面の縁の光（tier3 以上）。縁だけなので全画面予算の外。
 function _triggerBorderGlow(tier) {
   const el = document.getElementById('examStreakBorder');
   if (!el) return;
@@ -3510,12 +2824,8 @@ function _triggerBorderGlow(tier) {
 }
 
 
-
-
-// at: 発火位置 {x,y}（新しい演出は正解の肢の位置で出す）。省略時は従来どおり可視帯の中で散らす。
+// UIテーマ固有演出＋粒子。at: 発火位置 {x,y}（_rfCorrectFx は正解の肢の位置を渡す）。省略時は可視帯の中で散らす。
 function _spawnStreakParticles(tier, at) {
-  const toast = document.getElementById('examStreakToast');
-  if (!toast) return;
   const b = _fxBand();
   const shortSide = Math.min(b.width, b.height);
   const maxR = shortSide * Math.min(0.48, 0.40 + tier * 0.012); // 短辺0〜90%動的スケーリング
@@ -3605,194 +2915,8 @@ function _inkBrushSwipe(tier) {
 
 
 
-function _spawnCRTOverlay(tier) {
-  const el = document.createElement('div');
-  el.className = 'exam-fx-temp';
-  el.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9075;mix-blend-mode:multiply;background:repeating-linear-gradient(0deg,rgba(0,0,0,.25) 0px,rgba(0,0,0,.25) 1px,transparent 2px,transparent 4px);';
-  document.body.appendChild(el);
-  el.animate([{opacity:0},{opacity:.8},{opacity:.8},{opacity:0}], {duration: tier >= 6 ? 900 : 600, easing:'ease-in-out'}).onfinish = () => el.remove();
-}
-
-
-
-
-
 // 旧実装は body 全体への filter で iPad では最重量級だったため、
 // 軽い transform ジッター + Canvas のグリッチ帯に置き換え
-function _triggerGlitch(tier) {
-  // ⚠️ ここに `if (tier < 5) return;` を戻さないこと（§13-2）。呼び出し側が既に tier>=4 で
-  // 絞っているので二重ゲートであり、**ちょうど10連続（tier5）でグリッチが急にデビューする**
-  // 段差を作っていた（梯子は 3/5/7/10/14/20）。本数を tier で連続に増やして段差を均す。
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const heavy = !!theme.useHeavyGlitch;
-  if (window.MecFX) {
-    // ⚠️ 帯は全幅のまま（「画面全体が乱れる」意匠）。ただし band を渡して
-    // 可視帯の中だけに描く＝iPad で約180px あるヘッダの裏に帯を描かない。
-    window.MecFX.glitchBars({
-      count: Math.round(4 + tier * 1.7) + (heavy ? 5 : 0),
-      thick: tier >= 6,
-      long: heavy,
-      band: _fxBand()
-    });
-  }
-  const amp = tier >= 7 ? 9 : tier >= 6 ? 7 : 4;
-  const pulses = tier >= 7 ? 9 : tier >= 6 ? 7 : 5;
-  const frames = [{transform:'translate(0,0)'}];
-  for (let p = 0; p < pulses; p++) {
-    frames.push({transform:`translate(${((Math.random()-.5)*amp*2).toFixed(1)}px,${((Math.random()-.5)*amp).toFixed(1)}px)`});
-  }
-  frames.push({transform:'translate(0,0)'});
-  // ⚠️ body を transform してはいけない。transform された要素は position:fixed の包含ブロックに
-  // なるため、揺れている間だけ全ての演出レイヤー（トースト・×n・canvas）がページ先頭を基準に
-  // 描かれ、画面上部へ飛んで見切れる。_triggerScreenShake と同じく演出レイヤーだけを揺らす。
-  _shakeFxLayers(frames, {duration: tier >= 6 ? 480 : 330, easing:`steps(${pulses})`});
-}
-
-function _spawnChoiceRipple(el) {
-  if (!el) return;
-  const _fxTheme = (typeof EXAM_EFFECT_THEMES !== 'undefined' && typeof examEffectSet !== 'undefined') ? EXAM_EFFECT_THEMES[examEffectSet] : null;
-  const _fxRgb = (_fxTheme && _fxTheme.fx && _fxTheme.fx.rgb) || '61,214,140';
-  const r = el.getBoundingClientRect();
-  if (r.width === 0) return;
-  if (r.top < _examFxHeaderBottom() - 4) return; // スクロール途中で肢がヘッダー下に潜っている＝位置が不正
-  const x = r.left, y = r.top, w = r.width, h = r.height;
-  [0, 100, 200].forEach((delay, i) => {
-    const ring = document.createElement('div');
-    ring.style.cssText = `position:fixed;left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;width:${w.toFixed(0)}px;height:${h.toFixed(0)}px;border-radius:6px;border:${2 - i * .3}px solid rgba(${_fxRgb},${.9 - i * .22});box-shadow:0 0 ${10 + i*4}px rgba(${_fxRgb},.45),inset 0 0 6px rgba(${_fxRgb},.15);pointer-events:none;z-index:8000;transform-origin:center;`;
-    document.body.appendChild(ring);
-    ring.animate([
-      {opacity: 1, transform: 'scale(1)'},
-      {opacity: 0, transform: `scale(${3.4 + i * .55})`}
-    ], {duration: 560 + i * 70, delay, easing: 'ease-out', fill: 'forwards'}).onfinish = () => ring.remove();
-  });
-}
-
-function _triggerChoiceCorrectPop(el) {
-  if (!el) return;
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  /* UIテーマのCSSキーフレーム（auroraChoicePrismFlash 等）が肢の見た目を持つので、
-     ここは瞬間的な露光だけを足す。
-     ⚠️ 2026-08-31 まで `if (!curUi || curUi === 'classic')` の分岐があり、そちらの
-        リッチなポップ（scale + brightness）は **MecUITheme が常に8種のどれかを返すため
-        一度も走っていなかった**。分岐ごと削除した（`curUi` はここでは不要）。 */
-  el.animate([
-    {filter:'brightness(1.8)'},
-    {filter:'brightness(1)', offset: 1}
-  ], {duration:320, easing:'ease-out'});
-  const card = el.closest('.qc');
-  if (card) {
-    card.classList.remove('card-3d-pop');
-    card.classList.add('card-3d-pop');
-    _fxTimeout(() => card.classList.remove('card-3d-pop'), 600);
-
-    const ov = document.createElement('div');
-    ov.style.cssText = `position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:${theme.popOverlay};`;
-    card.style.position = 'relative';
-    // ≤2秒の速答（神速）時は画面フリーズ演出のみ支援（エフェクト本体は _triggerFastBonus の godSpeedBurst が担当）
-    if (!_fxOff() && _fastGrade(card) === 3) {
-      document.body.classList.add('exam-slash-freeze');
-      _fxTimeout(() => document.body.classList.remove('exam-slash-freeze'), 220);
-    }
-  }
-  _spawnScatteredCelebration(theme);
-}
-
-
-function _spawnScatteredCelebration(theme) {
-  if (!window.MecFX) return;
-  const curUi = window.MecUITheme ? MecUITheme.get() : null;
-  const t = Math.max(2, Math.min(_examTier(examStreak) || 2, 7));
-  const _sb = _fxBand();
-
-  // ── UIテーマ固有の祝祭エフェクト（2026-08-23） ──
-  if (curUi) {
-    if (curUi === 'kintsugi') {
-      window.MecFX.dust({ count: 28 + t * 6, colors: ['#F5D061', '#D4AF37', '#FFFFFF'] });
-      if (t >= 4 && window.MecFX.rings) window.MecFX.rings(_sb.cx, _sb.cy, { count: 1, color: '#F5D061', thickness: 3, maxR: 180 + t * 20, additive: true });
-      return;
-    } else if (curUi === 'celestial') {
-      window.MecFX.diamondSparkle(_sb.cx, _sb.cy, { count: 24 + t * 6, color: '#FFD166' });
-      if (t >= 4 && window.MecFX.rings) window.MecFX.rings(_sb.cx, _sb.cy, { count: 1, color: '#8A2BE2', thickness: 3, maxR: 200 + t * 20, additive: true });
-      return;
-    } else if (curUi === 'abyss') {
-      window.MecFX.bubbles(_sb.cx, _sb.cy, { count: 18 + t * 4, colors: ['#00FFA3', '#00B4D8'] });
-      if (t >= 4 && window.MecFX.rings) window.MecFX.rings(_sb.cx, _sb.cy, { count: 2, color: '#00FFA3', thickness: 2.5, maxR: 180 + t * 20, additive: true });
-      return;
-    } else if (curUi === 'frost') {
-      window.MecFX.dust({ count: 24 + t * 6, colors: ['#70D6FF', '#FFFFFF'] });
-      return;
-    } else if (curUi === 'aurora') {
-      window.MecFX.diamondSparkle(_sb.cx, _sb.cy, { count: 22 + t * 5, color: '#00DFD8' });
-      return;
-    } else if (curUi === 'brass') {
-      window.MecFX.sparks(_sb.cx, _sb.cy, { count: 18 + t * 4, colors: ['#FFD700', '#FFA040'] });
-      return;
-    } else if (curUi === 'cyber') {
-      window.MecFX.glitchBars(_sb.cx, _sb.cy, { count: 6 + t * 2, color: '#00FF66', w: Math.min(_sb.width, _sb.height) * 0.9, band: _sb });
-      return;
-    } else if (curUi === 'liquid') {
-      window.MecFX.bubbles(_sb.cx, _sb.cy, { count: 18 + t * 4, colors: ['#FF007F', '#7928CA'] });
-      return;
-    }
-  }
-  /* ⚠️ ここに legacy の fallback を書かないこと（2026-08-31）。上の8分岐は必ず return する。
-     2026-08-31 まで、この下に「散開する祝祭（5〜9箇所へ 0.045 秒ずつ）」と
-     **【案1】全画面オーバードライブ＋稲妻**、テーマ固有シグネチャ（defibShock /
-     brushDust / pixelPop / diamondSparkle）が約35行あったが一度も走っていなかった。
-     ⚠️ `exam-overdrive` を **body へ付ける唯一の場所がここだった** ため、
-        study.css の `overdrivePulse … infinite` も study.html の `#examOverdriveGlow` も
-        丸ごと死んでいた。オーバードライブは「1解答の演出」ではなく
-        **高tierの持続状態**として `_setOverdrive()` に移設してある（§演出予算）。 */
-}
-
-function _spawnFloatingCombo(card, n, tier) {
-  const curUi = window.MecUITheme ? MecUITheme.get() : null;
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const el = document.createElement('div');
-  const sz = 18 + Math.min(tier, 7) * 4;
-  let col = '#FFD700';
-  let font = 'system-ui, -apple-system, sans-serif';
-  let txt = n + ' COMBO!';
-  if (curUi === 'kintsugi') {
-    col = '#F5D061';
-    txt = n + ' 連続正解 (禅)';
-  } else if (curUi === 'celestial') {
-    col = '#FFD166';
-    txt = '✦ ' + n + ' COMBO ✦';
-  } else if (curUi === 'abyss') {
-    col = '#00FFA3';
-    txt = 'DEPTH ' + (n * 100) + 'm';
-  } else if (curUi === 'frost') {
-    col = '#70D6FF';
-    txt = '❄ ' + n + ' COMBO';
-  } else if (curUi === 'cyber') {
-    col = '#00FF66';
-    font = 'Consolas, monospace';
-    txt = '[SYNC x' + n + ']';
-  } else if (curUi === 'brass') {
-    col = '#FFD700';
-    txt = '⚙ ' + n + ' COMBO';
-  } else if (curUi === 'liquid') {
-    col = '#FF007F';
-    txt = '★ ' + n + ' SPLASH';
-  } else if (curUi === 'aurora') {
-    col = '#00DFD8';
-    txt = '✧ ' + n + ' COMBO';
-  } else {
-    const cols = theme.comboColors;
-    col = cols[_tIdx(tier, cols)];
-    txt = theme.comboLabel(n);
-  }
-  el.textContent = txt;
-  const { cx, cy } = _fxBand();
-  el.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;font-family:${font};font-weight:900;font-size:${sz}px;color:${col};pointer-events:none;z-index:9200;text-shadow:0 2px 14px rgba(0,0,0,.85), 0 0 20px ${col};transform:translateX(-50%);white-space:nowrap;`;
-  document.body.appendChild(el);
-  el.animate([
-    {opacity:1,transform:'translateX(-50%) translateY(0) scale(1)'},
-    {opacity:0,transform:'translateX(-50%) translateY(-70px) scale(1.25)'}
-  ], {duration:850, easing:'cubic-bezier(.22,.68,0,1.2)', fill:'forwards'}).onfinish = () => el.remove();
-}
-
 function _triggerBgBreath(tier) {
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
   const rgbs = theme.bgRgbs;
@@ -3879,6 +3003,25 @@ function _resetComboMeter() {
   if (!meter || !fill || !parseFloat(fill.style.width)) return;
   fill.animate([{width:fill.style.width},{width:'0%'}],{duration:280,easing:'ease-in',fill:'forwards'})
     .onfinish = () => { meter.style.opacity='0'; fill.style.width='0%'; };
+}
+
+function _spawnChoiceRipple(el) {
+  if (!el) return;
+  const _fxTheme = (typeof EXAM_EFFECT_THEMES !== 'undefined' && typeof examEffectSet !== 'undefined') ? EXAM_EFFECT_THEMES[examEffectSet] : null;
+  const _fxRgb = (_fxTheme && _fxTheme.fx && _fxTheme.fx.rgb) || '61,214,140';
+  const r = el.getBoundingClientRect();
+  if (r.width === 0) return;
+  if (r.top < _examFxHeaderBottom() - 4) return; // スクロール途中で肢がヘッダー下に潜っている＝位置が不正
+  const x = r.left, y = r.top, w = r.width, h = r.height;
+  [0, 100, 200].forEach((delay, i) => {
+    const ring = document.createElement('div');
+    ring.style.cssText = `position:fixed;left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;width:${w.toFixed(0)}px;height:${h.toFixed(0)}px;border-radius:6px;border:${2 - i * .3}px solid rgba(${_fxRgb},${.9 - i * .22});box-shadow:0 0 ${10 + i*4}px rgba(${_fxRgb},.45),inset 0 0 6px rgba(${_fxRgb},.15);pointer-events:none;z-index:8000;transform-origin:center;`;
+    document.body.appendChild(ring);
+    ring.animate([
+      {opacity: 1, transform: 'scale(1)'},
+      {opacity: 0, transform: `scale(${3.4 + i * .55})`}
+    ], {duration: 560 + i * 70, delay, easing: 'ease-out', fill: 'forwards'}).onfinish = () => ring.remove();
+  });
 }
 
 function _applyChoiceShimmer(card) {
@@ -4032,72 +3175,38 @@ function _revealCalcAnswer(card, sid) {
   const g = MecCalc.grade(card);
   if (!g) return;
   if (!MecCalc.isComplete(card)) { MecCalc.shake(card); return; }   // 桁が埋まるまで確定させない
-  // 新しい演出（試作）：誤答なら入力し直させる（採点は1回目だけ）
-  if (_fxRefined() && _rfCalcSubmit(card, g)) return;
+  // 誤答なら入力し直させる（採点は1回目だけ）。選び直し中の再確定もここで捌く。
+  if (_rfCalcSubmit(card, g)) return;
+  // ここへ来るのは「初回で正解した」ときだけ
   const uid = card.dataset.uid;
-  const isCorrect = g.correct;
   examAnswered++;
   examBySubj[sid].total++;
-  _tallyChapter(uid, isCorrect);
-  _tallyQuestion(card, isCorrect);            // B3/B5: 難問の成績とセッションの正誤
+  _tallyChapter(uid, true);
+  _tallyQuestion(card, true);            // B3/B5: 難問の成績とセッションの正誤
   _markExamDone(uid);
-  _recordMyRate(uid, isCorrect);
+  _recordMyRate(uid, true);
   // 計算問題は「何と答えたか」が誤りの構造を示す（BSAで割り忘れれば 36 が出る等）ので
   // 入力値をそのまま解答ログに残す。肢の概念が無いため mec_choice_v1 には書かない。
-  _logAttempt(card, isCorrect, g.entered);
-  if (!_isScoreExcluded(card)) _updateSRS(uid, isCorrect);
-  MecCalc.lock(card, isCorrect);
-  if (!isCorrect) _examSessionWrongChoices.set(uid, g.display);
+  _logAttempt(card, true, g.entered);
+  if (!_isScoreExcluded(card)) _updateSRS(uid, true);
+  MecCalc.lock(card, true);
   const revBtn = card.querySelector('.exam-reveal-btn');
   if (revBtn) delete revBtn.dataset.ready;
   // 演出は選択肢要素を掴む前提なので、入力型では桁の枠をアンカーにする
   const fxEl = MecCalc.anchor(card) || card;
-  if (isCorrect) {
-    examCorrect++;
-    examStreak++;
-    examBySubj[sid].correct++;
-    if (_fxRefined()) {
-      try { _playCorrectSound(); _rfCorrectFx(card, fxEl); }
-      catch (err) { console.error('[ExamFx] Error in refined calc-correct fx:', err); }
-    } else
-    try {
-      _playCorrectSound();
-      _showStreakEffect(examStreak);
-      const _t = _examTier(examStreak);
-      _triggerChoiceCorrectPop(fxEl);
-      _spawnFloatingCombo(card, examStreak, _t);
-      _correctShockwave(fxEl);
-      _traceCardBorder(card);
-      _afterCorrectFx(card, fxEl);
-    } catch (err) {
-      console.error('[ExamFx] Error in calc-correct fx:', err);
-    }
-    card.classList.add('exam-revealed', 'exam-multi-correct');
-    if (revBtn) { revBtn.textContent = '▶ 解説を見る'; revBtn.onclick = () => _toggleCorrectAnswer(card, revBtn); }
-    try { _updateExamProg(true); } catch (e) {}
-    try { _saveExamResume(); } catch (e) {}
-    requestAnimationFrame(_updateExamFocus);
-    setTimeout(() => _scrollToNextCard(card), 300);
-  } else {
-    const _broke = examStreak;   // C1: 0 にする前に控える
-    examStreak = 0;
-    try {
-      _resetComboMeter();
-      _clearDarkFx();
-      _zoneStop(true);
-      _afterWrongFx(card, fxEl, _broke);
-    } catch (err) {
-      console.error('[ExamFx] Error in calc-wrong fx:', err);
-    }
-    examWrong.push(uid);
-    card.classList.add('exam-revealed');
-    if (revBtn) { revBtn.textContent = '▼ 解答を隠す'; revBtn.onclick = () => _toggleWrongAnswer(card, revBtn); }
-    try { _updateExamProg(); } catch (e) {}
-    try { _saveExamResume(); } catch (e) {}
-    requestAnimationFrame(_updateExamFocus);
-    _maybeShowFinishBtn();
-  }
+  examCorrect++;
+  examStreak++;
+  examBySubj[sid].correct++;
+  try { _playCorrectSound(); _rfCorrectFx(card, fxEl); }
+  catch (err) { console.error('[ExamFx] Error in calc-correct fx:', err); }
+  card.classList.add('exam-revealed', 'exam-multi-correct');
+  if (revBtn) { revBtn.textContent = '▶ 解説を見る'; revBtn.onclick = () => _toggleCorrectAnswer(card, revBtn); }
+  try { _updateExamProg(true); } catch (e) {}
+  try { _saveExamResume(); } catch (e) {}
+  requestAnimationFrame(_updateExamFocus);
+  setTimeout(() => _scrollToNextCard(card), 300);
 }
+
 function _recountExcluded() {
   try { _examExcludedCount = examQueue.filter(c => _isExamUngraded(c)).length; }
   catch { _examExcludedCount = 0; }
@@ -4753,36 +3862,8 @@ function _examKeyHandler(e) {
     e.preventDefault();
     const choices = [...card.querySelectorAll('.ch2')];
     const n = parseInt(e.key) - 1;
-    // 新しい演出（試作）：数字キーもクリックと同じ経路（_examChoiceClick → 選び直し）へ流す
-    if (_fxRefined()) { if (choices[n] && !card.classList.contains('exam-revealed')) choices[n].click(); return; }
-    if (choices[n]) {
-      _playSelectSound();
-      const req = _getRequiredCount(card);
-      if (req > 1) {
-        choices[n].classList.toggle('exam-selected');
-        if (choices[n].classList.contains('exam-selected') && !choices[n].classList.contains('ok')) {
-          choices[n].classList.add('exam-instant-wrong');
-          setTimeout(() => revealAnswer(card), 400);
-        } else {
-          _updateMultiInfo(card);
-          const sel = [...card.querySelectorAll('.ch2.exam-selected')];
-          if (sel.length === req && sel.every(ch => ch.classList.contains('ok'))) {
-            sel.forEach(ch => ch.classList.add('exam-instant-correct'));
-            setTimeout(() => revealAnswer(card), 10);
-          }
-        }
-      } else {
-        choices.forEach(c => c.classList.remove('exam-selected'));
-        choices[n].classList.add('exam-selected');
-        if (choices[n].classList.contains('ok')) {
-          choices[n].classList.add('exam-instant-correct');
-          setTimeout(() => revealAnswer(card), 10);
-        } else {
-          choices[n].classList.add('exam-instant-wrong');
-          setTimeout(() => revealAnswer(card), 400);
-        }
-      }
-    }
+    // 数字キーはクリックと同じ経路（_examChoiceClick → 選び直し）へ流す。分岐をここに複製しないこと。
+    if (choices[n] && !card.classList.contains('exam-revealed')) choices[n].click();
   } else if (e.key === 'Enter' || e.key === ' ') {
     e.preventDefault();
     const hdr2 = document.querySelector('.st-hdr');
@@ -5019,7 +4100,7 @@ function exitExam() {
   document.querySelectorAll('.ch2.exam-selected').forEach(c => c.classList.remove('exam-selected'));
   document.querySelectorAll('.ch2.exam-instant-correct').forEach(c => c.classList.remove('exam-instant-correct'));
   document.querySelectorAll('.ch2.exam-instant-wrong').forEach(c => c.classList.remove('exam-instant-wrong'));
-  _rfCleanup();   // 新しい演出（試作）の選び直しの印（× ・案内・縁の光・連続数）
+  _rfCleanup();   // 選び直しの印（× ・案内・縁の光・連続数）
   /* ⚠️ dataset.examInit を消さないこと（2026-08-25）。リスナーは removeEventListener していないので、
      フラグだけ消すと次の startExam が2本目を付ける。単一選択は revealAnswer の exam-revealed ガードが
      二重採点を弾くが、**複数選択は classList.toggle が2回走って選択が入らなくなる**（＝その問題が解けない）。
@@ -5033,7 +4114,7 @@ function exitExam() {
   const modeBtn = document.getElementById('examModeBtn');
   if (modeBtn) { modeBtn.textContent = '🎓 試験モード'; modeBtn.classList.remove('exam-on'); modeBtn.onclick = openExamStart; }
   // ストリーク演出を即座にリセット（サマリーモーダルを隠さないよう）
-  ['examTimestopOv','examStreakToast','examStreakFlash','examStreakBorder','streakFullscreen'].forEach(id => {
+  ['examTimestopOv','examStreakBorder'].forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
     el.getAnimations?.().forEach(a => a.cancel());
@@ -5058,7 +4139,6 @@ function exitExam() {
   { const _n = document.getElementById('epNeedle');
     if (_n) { _n.getAnimations?.().forEach(a => a.cancel()); } }
   { const _cd = document.getElementById('examCountdown'); if (_cd) { _cd.style.display = 'none'; _cd.innerHTML = ''; } }
-  { const _sig = document.getElementById('examStreakSig'); if (_sig) { _sig.getAnimations?.().forEach(a => a.cancel()); _sig.style.opacity = '0'; } }
   { const _lbl = document.getElementById('examComboMeterLbl'); if (_lbl) { _lbl.getAnimations?.().forEach(a => a.cancel()); _lbl.style.opacity = '0'; } }
   if (window.MecFX) window.MecFX.clear();
   const _cmFill = document.getElementById('examComboMeterFill');
@@ -5137,8 +4217,8 @@ function showExamSummary() {
         保険が無いと**裏で終わったセッションの管が永久に点かない**（_tweenNum・countUp と同じ穴）。 */
   const _modal = document.querySelector('#examOverlay .exam-modal');
   if (_modal) _modal.classList.remove('tubes-lit');
-  // 新しい演出（試作）：リングが伸びる間に4つの数字を順に出す（出そろった状態が静止画）
-  if (_modal && _fxRefined() && !_fxOff()) {
+  // リングが伸びる間に4つの数字を順に出す（出そろった状態が静止画）
+  if (_modal && !_fxOff()) {
     _modal.querySelectorAll('.exam-detail-item').forEach((it, i) => it.animate(
       [{ opacity: 0, translate: '0 8px' }, { opacity: 1, translate: '0 0' }],
       { duration: 420, delay: 360 + i * 60, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' }));
@@ -5495,10 +4575,9 @@ function _applyEnvLighting() {
 try { _applyEnvLighting(); } catch (e) {}
 
 /* ══════════════════════════════════════════════════════════════════════════
-   新しい演出（試作）＝ mec_fx_style_v1 = 'refined'（2026-09-24〜）
+   正解・誤答の演出（2026-09-24 に旧演出から置き換え）
    ══════════════════════════════════════════════════════════════════════════
-   既定は従来の演出のまま。効果音設定の「演出スタイル」で切り替える（UIローカル・同期しない）。
-   比べて良い方を残すための切り替えなので、従来の経路は1行も消していない。
+   2026-09-24 に切り替えスイッチ（mec_fx_style_v1）で旧演出と実機比較し、こちらを採用して旧経路を削除した。
 
    正解：同じ量の演出を「正解の肢から、順番に」出す。
      0ms   正解の肢の縁を光が1周（.rf-sweep）
@@ -5515,10 +4594,6 @@ try { _applyEnvLighting(); } catch (e) {}
      - カードの「▶ 答えを見る」で打ち切れる。計算問題は入力し直して再確定する。
      - カードは .exam-retry の間 exam-revealed を持たない（焦点も次へ進まない）。
      ⚠️ 選択肢に水平の線を作らないこと（下線部はこの教材で意味を持つ）。× は右端の文字だけ。 */
-const FX_STYLE_KEY = 'mec_fx_style_v1';
-function _fxRefined() {
-  try { return localStorage.getItem(FX_STYLE_KEY) === 'refined'; } catch (e) { return false; }
-}
 
 /* UIテーマごとの色と連続数の言葉。色は _traceCardBorder と同じ系統（テーマの主色）。 */
 const RF_THEME = {
@@ -5552,7 +4627,7 @@ function _rfSweep(el) {
   _fxTimeout(() => s.remove(), 900);
 }
 
-/* 連続数の表示。トースト（#examStreakToast）はUIテーマ側の上書きが多いので別の要素を持つ。 */
+/* 連続数の表示（旧 #examStreakToast の後継）。UIテーマ8種ぶんの書体・枠は study.css の #examRfStreak。 */
 function _rfStreakEl() {
   let el = document.getElementById('examRfStreak');
   if (!el) {
@@ -5614,10 +4689,10 @@ function _rfHideStreak() {
   el.style.opacity = '0';
 }
 
-/* 正解（初回で正解したとき）。3つの採点経路（複数選択・単一選択・計算）から呼ぶ。 */
+/* 正解（初回で正解したとき）。revealAnswer（単一・複数選択）と _revealCalcAnswer から呼ぶ。 */
 function _rfCorrectFx(card, el) {
   const n = examStreak, tier = _examTier(n);
-  _applyCardThemeComboFx(card, true, n);   // カードの状態クラス・触覚（外周パルスは refined では出さない）
+  _applyCardThemeComboFx(card, n);   // カードの状態クラス・触覚
   if (_fxOff()) { _updateComboMeter(n); return; }
   _fsBudgetReset();
   const prevTier = (n - 1) < 2 ? 0 : _examTier(n - 1);
@@ -5707,10 +4782,10 @@ function _rfScoreWrong(card, choiceStr, choiceEl) {
     if (typeof _recordWrongChoice === 'function') _recordWrongChoice(uid, t.charAt(0) || '?');
     _examSessionWrongChoices.set(uid, t);
   }
-  const broke = examStreak;
+  const _broke = examStreak;   // C1: 崩落の規模は「途切れた時点の連続数」（0 にする前に控える）
   examStreak = 0;
   try {
-    // _applyCardThemeComboFx(false) は赤い被弾アニメを伴うので、状態の後始末だけを行う
+    // 誤答は静かに：赤いフラッシュも揺れも出さず、連続の状態だけを畳む
     document.body.classList.remove('exam-streak-zone');
     document.querySelectorAll('.qc.combo-streak-3,.qc.combo-streak-5,.qc.combo-streak-10')
       .forEach(c => c.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10'));
@@ -5720,7 +4795,7 @@ function _rfScoreWrong(card, choiceStr, choiceEl) {
     _zoneStop(true);
     _examRecoverPending = true;
     _markCardScar(card);
-    _shatterComboMeter(broke);
+    _shatterComboMeter(_broke);
     _setOverdrive(false);
     _rfHideStreak();
     if (_examTheme().useFlatline) _ecgFlatline();
@@ -5761,6 +4836,7 @@ function _rfWrongPick(card, ch, choiceStr) {
 function _rfFinishRetry(card, msgHtml) {
   card.classList.remove('exam-retry');
   card.classList.add('exam-revealed', 'exam-rf-done');
+  if (!card.querySelector('.rf-retry')) _rfRetryNote(card, 0, false);
   const note = card.querySelector('.rf-retry');
   if (note) { note.classList.add('is-done'); note.innerHTML = '<span>' + msgHtml + '</span>'; }
   const revBtn = card.querySelector('.exam-reveal-btn');
@@ -5793,7 +4869,16 @@ function _rfGiveUp(card) {
   _rfFinishRetry(card, '<b>答えを表示しました。</b>記録は不正解として残ります。');
 }
 
-/* 計算問題の refined 採点。_revealCalcAnswer から呼び、処理したら true を返す。 */
+/* 肢を選ばずに「▶ 解答を見る」（または Enter）で開いた＝答えを見た。不正解として記録して開く。
+   ⚠️ 2026-09-24 まではこの操作が「正解の肢を選んだ」扱いになり、正解として記録されていた
+      （revealAnswer が選択の無いカードで .ch2.ok を拾っていた）。 */
+function _rfRevealUnanswered(card) {
+  if (card.classList.contains('exam-revealed') || card.classList.contains('exam-retry')) return;
+  _rfScoreWrong(card, '', null);
+  _rfFinishRetry(card, '<b>答えを表示しました。</b>記録は不正解として残ります。');
+}
+
+/* 計算問題の採点（誤答・選び直し）。_revealCalcAnswer から呼び、処理したら true を返す。 */
 function _rfCalcSubmit(card, g) {
   if (card.classList.contains('exam-retry')) {
     if (g.correct) _rfLateCorrect(card, []);
@@ -5810,7 +4895,7 @@ function _rfCalcSubmit(card, g) {
   return true;
 }
 
-/* 選択肢のクリック（refined のとき _examChoiceClick から渡される）。 */
+/* 選択肢のクリック（_examChoiceClick から渡される。数字キーもここを通る）。 */
 function _rfChoiceClick(card, ch, req) {
   if (ch.classList.contains('exam-out')) return;
   const inRetry = card.classList.contains('exam-retry');

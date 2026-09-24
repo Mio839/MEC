@@ -480,37 +480,6 @@ body.exam-mode .qc:has(.exam-instant-wrong){animation:cardWrongGlow .8s ease for
 .exam-finish-btn:disabled{opacity:.6;cursor:default;}
 @keyframes examFinishIn{0%{opacity:0;transform:translateY(12px) scale(.96);}100%{opacity:1;transform:none;}}
 /* ── Streak effects ── */
-@keyframes streakToastIn{
-  0%  {opacity:0;transform:translateX(-50%) translateY(-22px) scale(.65) rotate(-4deg);}
-  12% {opacity:1;transform:translateX(-50%) translateY(5px) scale(1.18) rotate(1.5deg);}
-  20% {transform:translateX(-50%) translateY(-3px) scale(.95) rotate(-.5deg);}
-  30% {transform:translateX(-50%) translateY(1px) scale(1.05);}
-  40% {transform:translateX(-50%) translateY(0) scale(.99);}
-  50% {transform:translateX(-50%) translateY(0) scale(1);}
-  68% {opacity:1;}
-  100%{opacity:0;transform:translateX(-50%) translateY(-16px) scale(.88);}
-}
-@keyframes streakFlashIn{
-  0%  {opacity:1;}
-  35% {opacity:.25;}
-  55% {opacity:.75;}
-  100%{opacity:0;}
-}
-#examStreakToast{
-  position:fixed;top:68px;left:50%;transform:translateX(-50%);
-  padding:9px 24px;border-radius:28px;font-weight:900;pointer-events:none;
-  z-index:9100;opacity:0;white-space:nowrap;letter-spacing:.05em;
-  text-shadow:0 2px 10px rgba(0,0,0,.55);
-  max-width:90vw;overflow:hidden;text-overflow:ellipsis;
-}
-#examStreakToast.show{animation:streakToastIn var(--sd,2s) ease forwards;}
-#examStreakToast.t1{background:rgba(61,214,140,.22);color:var(--gr);border:2px solid rgba(61,214,140,.55);font-size:24px;}
-#examStreakToast.t2{background:rgba(255,160,64,.24);color:#FFA040;border:2px solid rgba(255,160,64,.65);font-size:28px;box-shadow:0 0 30px rgba(255,160,64,.35),0 0 60px rgba(255,160,64,.12);}
-#examStreakToast.t3{background:rgba(255,80,40,.24);color:#FF5820;border:2px solid rgba(255,100,40,.7);font-size:34px;box-shadow:0 0 45px rgba(255,80,40,.5),0 0 90px rgba(255,80,40,.2);}
-#examStreakToast.t4{background:rgba(255,200,0,.28);color:#FFD700;border:2.5px solid rgba(255,210,0,.8);font-size:clamp(20px,4.5vw,36px);box-shadow:0 0 70px rgba(255,200,0,.65),0 0 140px rgba(255,200,0,.3),0 0 220px rgba(255,180,0,.12);}
-#examStreakToast.t5{background:rgba(255,220,0,.32);color:#FFE840;border:3px solid rgba(255,240,0,.9);font-size:clamp(22px,5vw,38px);box-shadow:0 0 100px rgba(255,220,0,.8),0 0 200px rgba(255,200,0,.4),0 0 300px rgba(255,180,0,.18);}
-#examStreakFlash{position:fixed;inset:0;pointer-events:none;z-index:9050;opacity:0;}
-#examStreakFlash.flash{animation:streakFlashIn .75s ease forwards;}
 #examStreakBorder{position:fixed;inset:0;pointer-events:none;z-index:9045;opacity:0;}
 
 /* ── テーマ別 外周ボーダーグロー装飾 ── */
@@ -586,69 +555,7 @@ body.exam-streak-zone #examZoneBreath{animation:zoneBreathe var(--zone-beat,3.2s
    これがないと backdrop-filter を持つ全画面要素が常時重なり、一部端末（iPad/WebKit）で
    画面が暗いまま残る不具合につながる。 */
 #examTimestopOv{position:fixed;inset:0;z-index:9000;backdrop-filter:grayscale(.9) blur(1.8px) brightness(.72);-webkit-backdrop-filter:grayscale(.9) blur(1.8px) brightness(.72);pointer-events:none;opacity:0;display:none;}
-#streakFullscreen{position:fixed;inset:0;z-index:9080;display:flex;align-items:center;justify-content:center;pointer-events:none;font-weight:900;line-height:1;font-size:42vmin;letter-spacing:-.04em;opacity:0;}
-
-/* ── 全画面特大コンボ テーマ別タイポグラフィ ── */
-#streakFullscreen.fs-combo-cyber {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  text-shadow: 0 0 25px #00FF66, 0 0 50px rgba(0,255,102,.5), 0 0 80px rgba(0,229,255,.3);
-}
-#streakFullscreen.fs-combo-kintsugi {
-  letter-spacing: 0.16em;
-  text-shadow: 0 3px 14px rgba(0,0,0,.95), 0 0 30px rgba(245,208,97,.9), 0 0 60px rgba(212,175,55,.45);
-}
-#streakFullscreen.fs-combo-abyss {
-  letter-spacing: 0.06em;
-  text-shadow: 0 0 25px #00FFA3, 0 0 55px rgba(0,180,216,.65);
-}
-#streakFullscreen.fs-combo-brass {
-  letter-spacing: 0.10em;
-  text-shadow: 0 4px 12px rgba(0,0,0,.9), 0 0 25px rgba(224,194,94,.8), 0 0 50px rgba(201,162,39,.4);
-}
-#streakFullscreen.fs-combo-celestial {
-  letter-spacing: 0.12em;
-  text-shadow: 0 0 30px #FFD166, 0 0 70px rgba(138,43,226,.6), 0 0 100px rgba(72,202,228,.4);
-}
-#streakFullscreen.fs-combo-frost {
-  letter-spacing: 0.08em;
-  text-shadow: 0 0 25px #70D6FF, 0 0 50px rgba(255,255,255,.9), 0 0 90px rgba(56,189,248,.4);
-}
-#streakFullscreen.fs-combo-liquid {
-  letter-spacing: 0.04em;
-  text-shadow: 0 0 30px #FF007F, 0 0 60px rgba(121,40,202,.6);
-}
-#streakFullscreen.fs-combo-aurora {
-  letter-spacing: 0.08em;
-  background: linear-gradient(135deg, #00DFD8 0%, #0070F3 50%, #7928CA 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 24px rgba(0,223,216,.75));
-}
-
 .streak-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:9055;}
-@keyframes rainbowHue{0%{filter:hue-rotate(0deg);}100%{filter:hue-rotate(360deg);}}
-#examStreakToast.t6{background:rgba(160,0,255,.35);color:#EE88FF;border:3px solid rgba(210,80,255,.97);font-size:clamp(24px,5.5vw,42px);box-shadow:0 0 120px rgba(160,0,255,.9),0 0 260px rgba(100,0,220,.5),0 0 420px rgba(60,0,180,.2);}
-/* ── 演出セット別: トースト配色（ネオン/和風） ── */
-body.exam-effect-neon #examStreakToast{font-family:'Courier New',monospace;border-radius:var(--r-sm);letter-spacing:.02em;}
-body.exam-effect-neon #examStreakToast.t1{background:rgba(0,229,255,.18);color:#00E5FF;border:2px solid rgba(0,229,255,.55);}
-body.exam-effect-neon #examStreakToast.t2{background:rgba(122,92,255,.22);color:#7A5CFF;border:2px solid rgba(122,92,255,.6);box-shadow:0 0 30px rgba(122,92,255,.35),0 0 60px rgba(122,92,255,.12);}
-body.exam-effect-neon #examStreakToast.t3{background:rgba(255,43,214,.22);color:#FF2BD6;border:2px solid rgba(255,43,214,.65);box-shadow:0 0 45px rgba(255,43,214,.5),0 0 90px rgba(255,43,214,.2);}
-body.exam-effect-neon #examStreakToast.t4{background:rgba(0,229,255,.26);color:#00E5FF;border:2.5px solid rgba(0,229,255,.8);box-shadow:0 0 70px rgba(0,229,255,.6),0 0 140px rgba(0,229,255,.28);}
-body.exam-effect-neon #examStreakToast.t5{background:rgba(57,255,136,.28);color:#39FF88;border:3px solid rgba(57,255,136,.85);box-shadow:0 0 100px rgba(57,255,136,.7),0 0 200px rgba(57,255,136,.35);}
-body.exam-effect-neon #examStreakToast.t6{background:rgba(255,43,214,.32);color:#FF2BD6;border:3px solid rgba(255,43,214,.9);box-shadow:0 0 120px rgba(255,43,214,.85),0 0 260px rgba(0,229,255,.4);}
-body.exam-effect-ink #examStreakToast{font-family:'Hiragino Mincho ProN','Yu Mincho',serif;border-radius:4px;letter-spacing:.08em;}
-body.exam-effect-ink #examStreakToast.t1{background:rgba(201,162,75,.22);color:#C9A24B;border:2px solid rgba(201,162,75,.55);}
-body.exam-effect-ink #examStreakToast.t2{background:rgba(201,58,58,.20);color:#C93A3A;border:2px solid rgba(201,58,58,.55);box-shadow:0 0 24px rgba(201,58,58,.3);}
-body.exam-effect-ink #examStreakToast.t3{background:rgba(139,30,30,.24);color:#E8925C;border:2px solid rgba(139,30,30,.6);box-shadow:0 0 35px rgba(139,30,30,.35);}
-body.exam-effect-ink #examStreakToast.t4{background:rgba(26,26,26,.4);color:#C9A24B;border:2.5px solid rgba(201,162,75,.7);box-shadow:0 0 50px rgba(201,162,75,.4);}
-body.exam-effect-ink #examStreakToast.t5{background:rgba(26,26,26,.5);color:#E8C468;border:3px solid rgba(232,196,104,.85);box-shadow:0 0 70px rgba(232,196,104,.5);}
-body.exam-effect-ink #examStreakToast.t6{background:rgba(201,58,58,.4);color:#FFD9D9;border:3px solid rgba(201,58,58,.95);box-shadow:0 0 100px rgba(201,58,58,.7),0 0 200px rgba(26,26,26,.4);}
-#examStreakToast.t6.show{animation:streakToastIn var(--sd,2s) ease forwards,rainbowHue var(--sd,2s) linear;}
-/* §13-3 P3: t7（20連続＝梯子の天井）。これが無いと最高段だけ font-size 14px・背景も枠も無い
-   素の見た目になっていた。⚠️ 段を足したらここも足すこと（t1〜t7 で漏れなく）。 */
-#examStreakToast.t7{background:rgba(255,255,255,.34);color:#FFFFFF;border:3.5px solid rgba(255,255,255,.98);font-size:clamp(26px,6vw,46px);box-shadow:0 0 140px rgba(255,240,180,.95),0 0 300px rgba(255,180,0,.55),0 0 480px rgba(160,0,255,.28);}
-#examStreakToast.t7.show{animation:streakToastIn var(--sd,2s) ease forwards,rainbowHue calc(var(--sd,2s) / 2) linear infinite;}
 /* ── New combo effects ── */
 #examComboMeter{position:fixed;top:0;left:0;right:0;height:3px;z-index:9300;pointer-events:none;opacity:0;transition:opacity .3s;}
 #examComboMeterFill{height:100%;width:0%;transition:width .35s cubic-bezier(.22,.68,0,1),background .4s;}
@@ -1414,7 +1321,7 @@ html.mec-jumping .qc{content-visibility:visible!important;}
 /* ══════════ 追加演出（2026-07-20 拡張）══════════
    z-index は試験ストリーク演出の内部ラダー(9000-9400)に属する即値。
    常設UIではなく発火して消える演出レイヤーのため、vars.css のトークンではなく
-   既存の #examStreakToast(9100) / #streakFullscreen(9080) と同じ序列で管理する。
+   連続数 #examRfStreak(9110) / 縁の光 #examStreakBorder(9045) と同じ序列で管理する。
    動きを減らす設定では vars.css が全アニメを止めるうえ、JS側も _fxOff() で抑止する。 */
 
 /* A1: 速答ボーナスのラベル */
@@ -1565,18 +1472,6 @@ body{
 /* B7: 覚醒モード（20連続〜・ミスで解除）。粒子の彩度を上げメーターを太くする */
 body.exam-awaken #mecFxCanvas{filter:saturate(1.45) brightness(1.1);}
 body.exam-awaken #examComboMeter{height:5px;}
-
-/* B8: テーマ固有シグネチャー（心拍数・スコア・ワープ速度など） */
-#examStreakSig{position:fixed;top:112px;left:50%;transform:translateX(-50%);z-index:9150;
-  pointer-events:none;opacity:0;font-size:13px;font-weight:800;letter-spacing:.1em;white-space:nowrap;
-  font-variant-numeric:tabular-nums;text-shadow:0 2px 10px rgba(0,0,0,.75);}
-
-/* B4: 昇格しなかったフレームのトーストは控えめに（山谷をつける） */
-/* ⚠️ ここで opacity を指定してはいけない。トーストは #examStreakToast{opacity:0} を「消えた状態」とし、
-   JS側は fill 指定なしの WAAPI で一時的に見せている。opacity を上書きするとアニメ終了後に
-   その値へ戻り、トーストが画面に残り続ける（2026-07-20 実機報告の原因）。
-   キーフレームが触らない filter で控えめさを表現する。 */
-#examStreakToast.quiet{filter:saturate(.7) brightness(.9);}
 
 /* ══ C9: 開始ブートシーケンス ══
    mecha=メカ起動 / cyber=電脳ダイブ の2様式。様式はレイアウトと動きで作り、
@@ -1823,7 +1718,7 @@ body.exam-awaken #examComboMeter{height:5px;}
 @media (prefers-reduced-motion: reduce){
   .exam-fast-pop,.exam-trace-svg,.exam-tierup,.exam-zone-collapse,
   .exam-hard-pop,.exam-recover-pop,.exam-mark-pop,
-  #examCountdown,#examStreakSig,.exam-rank-stamp{display:none!important;}
+  #examCountdown,.exam-rank-stamp{display:none!important;}
   .exam-modal.exam-modal-impact{animation:none!important;}
   .qc.exam-sink .ch2{transition:none;transform:none;opacity:1;filter:none;}
   .ch-divider.gm-ch-sweep::after{display:none!important;}
@@ -1906,43 +1801,6 @@ body.exam-overdrive #examOverdriveGlow {
   100% { opacity: 1; filter: hue-rotate(25deg); }
 }
 
-/* 【案2】正解カードの立体浮遊（3D Pop & Gold Aura） */
-.qc.card-3d-pop {
-  animation: card3dPopAnim .55s cubic-bezier(.22,.8,.36,1.25);
-  z-index: 10;
-}
-@keyframes card3dPopAnim {
-  0% { transform: scale(1) translateY(0); box-shadow: var(--shadow-card); }
-  40% { transform: scale(1.03) translateY(-14px); box-shadow: 0 20px 48px rgba(0,0,0,.55), 0 0 35px rgba(255,215,0,.65); }
-  75% { transform: scale(.99) translateY(-2px); }
-  100% { transform: scale(1) translateY(0); box-shadow: var(--shadow-card); }
-}
-
-/* 【案3】不正解スクリーンシェイク ＆ 警告レッドフラッシュ */
-/* ⚠️⚠️ 揺れの実装をここ（CSS で body を transform する形）へ戻さないこと（§13-1 ③）。
-   body を transform すると body が position:fixed の包含ブロックになり、揺れている間だけ
-   全演出（トースト・特大×n・粒子canvas）がページ先頭基準になって画面外へ飛ぶ。
-   誤答時に揺れること自体は禁止していない（§13-5）——揺らすのは演出レイヤーだけ＝
-   _shakeFxLayers() / ceShakeFxLayers() を使う。body.exam-screen-shake はもう何も描かない。 */
-body.exam-red-flash::after {
-  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
-  background: radial-gradient(ellipse at 50% 50%, rgba(255,0,0,.25) 0%, rgba(255,0,0,.65) 100%);
-  animation: redFlashAnim .42s ease-out forwards;
-}
-@keyframes redFlashAnim {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-/* 【案6】神速スラッシュ残像フリーズ */
-/* ⚠️ filter は body ではなくカード側に掛ける（§13-1 ②／Z2）。body に掛けると
-   #mecFxCanvas が文書全体の高さへ引き伸ばされる。
-   バレットタイム（案2）が既に `.qc` 側へ掛けているのでそれに倣う。 */
-body.exam-slash-freeze .qc {
-  filter: contrast(1.3) brightness(1.2);
-  transition: filter .12s ease-out;
-}
-
 /* 【案8】読影X線ビーム走査 */
 .qimg.xray-scanned {
   position: relative;
@@ -1965,7 +1823,7 @@ body.exam-slash-freeze .qc {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body.exam-overdrive #examOverdriveGlow, .qc.card-3d-pop, body.exam-red-flash::after, .exam-hard-pop {
+  body.exam-overdrive #examOverdriveGlow, .exam-hard-pop {
     animation: none;
   }
 }
@@ -1987,13 +1845,6 @@ body.exam-slash-freeze .qc {
 @keyframes heatHaze {
   0% { filter: brightness(1) drop-shadow(0 0 2px rgba(255,100,50,.3)); }
   100% { filter: brightness(1.15) drop-shadow(0 0 8px rgba(255,200,80,.6)); }
-}
-
-/* 【案2】超集中バレットタイム */
-body.exam-bullet-time .qc:not(.exam-deciding) {
-  filter: grayscale(0.65) blur(1.8px) contrast(0.85);
-  opacity: 0.45;
-  transition: filter .14s ease-out, opacity .14s ease-out;
 }
 
 /* 【案4】チェックポイント・光のワープゲート突破 */
@@ -2059,8 +1910,8 @@ body.env-nightshift {
   }
 }
 
-/* ══════════ 新しい演出（試作）＝ mec_fx_style_v1 = 'refined'（2026-09-24）══════════
-   JS 側の正本は study_exam.js 末尾の「新しい演出（試作）」。ここは見た目だけ。
+/* ══════════ 正解・誤答の演出（2026-09-24 に旧演出から置き換え）══════════
+   JS 側の正本は study_exam.js 末尾の「正解・誤答の演出」。ここは見た目だけ。
    ⚠️ 移動・拡大は translate / scale で書く（transform は既存アニメに黙って殺される）。
    ⚠️ 選択肢に水平の線を作らない（下線部はこの教材で意味を持つ）。 */
 @property --rf-ang { syntax: '<angle>'; inherits: false; initial-value: 0deg; }

@@ -65,7 +65,8 @@ console.log('\n[3] JS演出ハンドラ & 同期検証');
 assert(studyExamJs.includes('_triggerThemeHaptics'), 'Missing _triggerThemeHaptics in study_exam.js');
 assert(chapterExamJs.includes('ceTriggerThemeHaptics'), 'Missing ceTriggerThemeHaptics in chapter_exam.js');
 
-assert(studyExamJs.includes('_triggerEdgePulse'), 'Missing _triggerEdgePulse in study_exam.js');
+// 2026-09-24: study は画面の縁を毎解答では光らせない（光は正解の肢から）。過去問ビューアは旧演出のまま。
+assert(!/function _triggerEdgePulse\(/.test(studyExamJs), '_triggerEdgePulse が study_exam.js に復活している');
 assert(chapterExamJs.includes('ceTriggerEdgePulse'), 'Missing ceTriggerEdgePulse in chapter_exam.js');
 
 assert(studyExamJs.includes('exam-streak-zone'), 'Missing exam-streak-zone in study_exam.js');
@@ -78,7 +79,8 @@ assert(studyExamJs.includes('ch2-pressing'), 'Missing ch2-pressing in study_exam
 assert(chapterExamJs.includes('ch2-pressing'), 'Missing ch2-pressing in chapter_exam.js');
 
 assert(studyExamJs.includes('exam-fast-hit'), 'Missing exam-fast-hit in study_exam.js');
-assert(studyExamJs.includes('exam-wrong-hit'), 'Missing exam-wrong-hit in study_exam.js');
+// 2026-09-24: study の誤答は静か（被弾アニメ exam-wrong-hit を付けない）。過去問ビューアは旧演出のまま。
+assert(!studyExamJs.includes("classList.add('exam-wrong-hit')"), 'study_exam.js が誤答で exam-wrong-hit を付けている');
 assert(chapterExamJs.includes('exam-wrong-hit'), 'Missing exam-wrong-hit in chapter_exam.js');
 
 console.log('  ✅ study_exam.js と chapter_exam.js の完全同期を確認');

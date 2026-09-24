@@ -273,15 +273,15 @@ t('A1/A2/C2 のテーマキーが7テーマ全部に揃っている', () => {
 /* 2026-08-25: 「昇格フレームだけフル演出」の山谷設計を撤回した。
    ここが promoted に戻ると、同ティア継続が再び quiet（尺52%・軽量バーストのみ）になる。 */
 t('同ティア継続でもフル演出が出る（山谷設計は撤回済み）', () => {
-  assert.ok(/const STREAK_FULL_EVERY_TIME = true;/.test(STUDY), 'study の撤回フラグが無い');
+  // chapter（過去問ビューア）は旧演出のまま
   assert.ok(/var CE_STREAK_FULL_EVERY_TIME = true;/.test(CHAP), 'chapter の撤回フラグが無い');
-  [[STUDY, 'study'], [CHAP, 'chapter']].forEach(([src, name]) => {
-    assert.ok(/full = promoted \|\| \w*STREAK_FULL_EVERY_TIME;/.test(src), name + ': full の合成が無い');
-    assert.ok(!/if \(promoted && tier >= /.test(src), name + ': promoted && tier >= のゲートが残っている');
-  });
-  // TIER UP スタンプだけは昇格フレーム限定のまま（昇格していないのに TIER UP は嘘になる）
-  assert.ok(/if \(promoted\) _triggerTierUpStamp\(/.test(STUDY), 'study: TIER UP が promoted 限定でない');
+  assert.ok(/full = promoted \|\| \w*STREAK_FULL_EVERY_TIME;/.test(CHAP), 'chapter: full の合成が無い');
+  assert.ok(!/if \(promoted && tier >= /.test(CHAP), 'chapter: promoted && tier >= のゲートが残っている');
   assert.ok(/if \(promoted\) ceTierUpStamp\(/.test(CHAP), 'chapter: TIER UP が promoted 限定でない');
+  // study（2026-09-24〜 _rfCorrectFx）：テーマ固有演出は毎回出す。promoted で変えるのは暗転と TIER の表示だけ
+  const rf = STUDY.slice(STUDY.indexOf('function _rfCorrectFx('), STUDY.indexOf('/* ── 誤答 → 選び直し ── */'));
+  assert.ok(/\n    _spawnStreakParticles\(Math\.max\(1, tier\), p\);/.test(rf), 'study: テーマ固有演出が毎回出ていない');
+  assert.ok(!/if \(promoted && tier >= /.test(STUDY), 'study: promoted && tier >= のゲートが残っている');
 });
 
 /* 2026-08-25: 「ラベルは1つに絞る」排他と「初見は易問では出さない」制限を撤廃した。
@@ -306,14 +306,13 @@ t('新しい演出はどちらのファイルにも入っている', () => {
     ['_triggerHardClear', 'ceHardClear'],
     ['_triggerRecover',   'ceRecover'],
     ['_triggerAnswerMark', 'ceAnswerMark'],
-    ['_traceToAnswer',    'ceTraceToAnswer'],
     ['_sinkOtherChoices', 'ceSinkOthers'],
     ['_shatterComboMeter', 'ceShatterMeter'],
     ['_triggerRepeatWrong', 'ceRepeatWrong'],
     ['_ecgFlatline',      'ceFlatline'],
     ['_ecgBeatBack',      'ceBeatBack'],
     ['_afterCorrectFx',   'ceAfterCorrectFx'],
-    ['_afterWrongFx',     'ceAfterWrongFx'],
+    ['_rfScoreWrong',     'ceAfterWrongFx'],   // study の誤答の合流点は 2026-09-24〜 _rfScoreWrong
   ];
   pairs.forEach(([s, c]) => {
     assert.ok(STUDY.includes('function ' + s + '('), 'study に ' + s + ' が無い');
@@ -322,16 +321,15 @@ t('新しい演出はどちらのファイルにも入っている', () => {
 });
 
 // 正解／誤答の追加演出は全経路から必ず同じ口を通す。片方に直接書くと、その経路だけ演出が抜ける。
-// 正解は3経路（複数選択・単一選択・計算問題の桁入力）、誤答は2経路。
-t('study 側は正解3経路・誤答2経路とも合流点を通っている', () => {
-  // 呼び出しだけを数える（`function _afterCorrectFx(card, ...)` の定義行を除く）
+// 2026-09-24〜 正解は2経路（選択肢＝revealAnswer・計算問題＝_revealCalcAnswer）がどちらも _rfCorrectFx を呼び、
+// _rfCorrectFx だけが _afterCorrectFx を呼ぶ。誤答は3経路（単一・複数選択＝_rfWrongPick、計算＝_rfCalcSubmit、
+// 答えを選ばずに開く＝_rfRevealUnanswered）がどれも _rfScoreWrong を通る。
+t('study 側は正解・誤答とも合流点を通っている', () => {
   const c = (STUDY.match(/(?<!function )_afterCorrectFx\(card, /g) || []).length;
-  const w = (STUDY.match(/(?<!function )_afterWrongFx\(card, /g) || []).length;
-  // 2026-09-24: 新しい演出（試作・_rfCorrectFx）も合流点を通る＝4箇所。3経路の refined 分岐は
-  //   _rfCorrectFx を呼ぶので、どちらの演出スタイルでも全経路が合流点を通る。
-  assert.strictEqual(c, 4, '_afterCorrectFx の呼び出しが4箇所でない（複数選択＋単一選択＋計算問題＋_rfCorrectFx）');
-  assert.strictEqual((STUDY.match(/(?<!function )_rfCorrectFx\(card, /g) || []).length, 3, '_rfCorrectFx が3経路から呼ばれていない');
-  assert.strictEqual(w, 2, '_afterWrongFx の呼び出しが2箇所でない');
+  assert.strictEqual(c, 1, '_afterCorrectFx の呼び出しが _rfCorrectFx の1箇所でない');
+  assert.strictEqual((STUDY.match(/(?<!function )_rfCorrectFx\(card, /g) || []).length, 2, '_rfCorrectFx が2経路から呼ばれていない');
+  const w = (STUDY.match(/(?<!function )_rfScoreWrong\(card, /g) || []).length;
+  assert.strictEqual(w, 3, '_rfScoreWrong の呼び出しが3箇所でない');
 });
 
 // 合流点が出すものを経路側でも出すと、同じラベルが同じ位置へ二重に飛ぶ

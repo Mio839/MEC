@@ -56,50 +56,45 @@ test('オーバードライブは生きた経路から点り、稲妻は正し�
   assert(setOd.includes("classList.toggle('exam-overdrive'"), '_setOverdrive が exam-overdrive を切り替えていない');
   assert(/MecFX\.lightning\(\s*[^{)]/.test(setOd),
     '稲妻が _setOverdrive から座標付きで呼ばれていない（オブジェクトを x に渡す旧形に戻っている）');
-  // _setOverdrive は連続正解の判定（_showStreakEffect）から実際に呼ばれること
-  assert(fnBodyOf(examSrc, '_showStreakEffect').includes('_setOverdrive('),
-    '_showStreakEffect から _setOverdrive が呼ばれていない＝また誰も点けない状態');
+  // _setOverdrive は正解の演出（_rfCorrectFx・2026-09-24〜）から実際に呼ばれること
+  assert(fnBodyOf(examSrc, '_rfCorrectFx').includes('_setOverdrive('),
+    '_rfCorrectFx から _setOverdrive が呼ばれていない＝また誰も点けない状態');
   // 解除の経路（誤答・終了）が残っていること
   assert((examSrc.match(/_setOverdrive\(false\)/g) || []).length >= 2,
     'オーバードライブの解除（誤答・exitExam）が足りない');
 });
 
-console.log('── 2. 正解カード3D浮遊 & 大爆発スターバースト (案2) ──');
-test('card-3d-pop が生きていて、祝祭バーストがUIテーマ経路から出る', () => {
-  assert(cssSrc.includes('.qc.card-3d-pop'), 'Missing .qc.card-3d-pop in study.css');
-  assert(examSrc.includes('card.classList.add(\'card-3d-pop\')'), 'Missing card-3d-pop in study_exam.js');
-  /* ⚠️ 旧: `count: 32 + t * 8` というマジックナンバーの存在を見ていたが、その行は
-     到達不能な尾部にあった。いまは「祝祭が UIテーマ8種すべてに用意されているか」を見る
-     ——ここが実際に走る唯一の経路なので、1つ欠けるとそのテーマだけ無音になる。 */
-  const cel = fnBodyOf(examSrc, '_spawnScatteredCelebration');
-  ['aurora', 'brass', 'cyber', 'liquid', 'kintsugi', 'celestial', 'abyss', 'frost'].forEach(id => {
-    assert(cel.includes("'" + id + "'"), '_spawnScatteredCelebration に ' + id + ' の分岐が無い');
-  });
-  assert(/_spawnScatteredCelebration\(/.test(fnBodyOf(examSrc, '_triggerChoiceCorrectPop')),
-    '_triggerChoiceCorrectPop から祝祭が呼ばれていない');
+/* 2026-09-24: 案2（正解カードの3D浮遊・散らばった祝祭）・案3（誤答の赤フラッシュ＋揺れ）・
+   案6（神速スラッシュのフリーズ）は、正解・誤答の演出の置き換えで廃止した。
+   正解は「正解の肢から順番に」（_rfCorrectFx）、誤答は「答えを見せずに選び直し・静かに」（_rfScoreWrong）。
+   ここでは廃止したものが戻っていないこと、置き換え先が生きた経路から呼ばれていることを見る。 */
+console.log('── 2. 正解の演出は正解の肢から順番に（2026-09-24〜） ──');
+test('正解は _rfCorrectFx に一本化され、UIテーマ固有演出を肢の位置で出す', () => {
+  const rf = fnBodyOf(examSrc, '_rfCorrectFx');
+  assert(rf.includes('_rfSweep(el)'), '肢の縁の光（_rfSweep）が無い');
+  assert(/_spawnStreakParticles\(Math\.max\(1, tier\), p\)/.test(rf), 'テーマ固有演出を肢の位置で出していない');
+  assert(fnBodyOf(examSrc, 'revealAnswer').includes('_rfCorrectFx('), 'revealAnswer から _rfCorrectFx が呼ばれていない');
+  assert(fnBodyOf(examSrc, '_revealCalcAnswer').includes('_rfCorrectFx('), '_revealCalcAnswer から _rfCorrectFx が呼ばれていない');
+  ['_triggerChoiceCorrectPop', '_spawnScatteredCelebration', '_showStreakEffect', '_spawnFloatingCombo', '_triggerFullscreenCombo']
+    .forEach(n => assert(!new RegExp('function ' + n + '\\(').test(examSrc), n + ' が復活している'));
+  assert(!cssSrc.includes('.qc.card-3d-pop'), 'card-3d-pop（カードを transform で浮かせる）が復活している');
 });
 
-console.log('── 3. 誤答スクリーンシェイク & 警告赤フラッシュ (案3) ──');
-// §13 Z3: 揺れは `<body>` を transform する CSS ではなく
-// _shakeFxLayers()（演出レイヤーだけ）で出す。body を transform すると body が
-// position:fixed の包含ブロックになり、揺れている間だけ全演出がページ先頭基準へ飛ぶ。
-// 赤フラッシュは body::after の疑似要素なのでクラスのままでよい。
-test('誤答ダメージは赤フラッシュ＋_shakeFxLayers で、body を transform しない', () => {
-  assert(cssSrc.includes('body.exam-red-flash::after'), 'Missing exam-red-flash in study.css');
+console.log('── 3. 誤答は静かに（2026-09-24〜） ──');
+test('誤答で赤フラッシュも揺れも出さず、body を transform しない', () => {
   assert(!/@keyframes\s+screenShakeAnim/.test(cssSrc), 'body を transform する screenShakeAnim が復活している（§13-1 ③）');
   assert(!/(?:^|[;}\s])body\.exam-screen-shake\s*\{/m.test(cssSrc), 'body.exam-screen-shake のルールが復活している（§13-1 ③）');
-  assert(examSrc.includes('function _wrongDamageFx()'), 'Missing _wrongDamageFx in study_exam.js');
-  assert(examSrc.includes('_wrongDamageFx();'), 'Missing _wrongDamageFx call in study_exam.js');
-  const fnBody = examSrc.slice(examSrc.indexOf('function _wrongDamageFx()'), examSrc.indexOf('function _wrongDamageFx()') + 1200);
-  assert(fnBody.includes('_shakeFxLayers('), '_wrongDamageFx が _shakeFxLayers を使っていない');
+  assert(!/function _wrongDamageFx\(/.test(examSrc), '_wrongDamageFx（赤フラッシュ＋揺れ）が復活している');
+  assert(!cssSrc.includes('body.exam-red-flash::after'), '赤フラッシュのCSSが復活している');
+  const w = fnBodyOf(examSrc, '_rfScoreWrong');
+  assert(w.includes("card.classList.add('exam-retry')"), '誤答が選び直し（exam-retry）へ回っていない');
+  assert(!/exam-red-flash|_triggerScreenShake|_shakeFxLayers/.test(w), '誤答が赤フラッシュ／揺れを出している');
 });
 
-console.log('── 4. 神速スラッシュ残像フリーズ (案6) ──');
-test('study.css と study_exam.js に exam-slash-freeze がある', () => {
-  // §13 Z2: filter は body ではなくカード側（.qc）に掛ける。
-  assert(cssSrc.includes('body.exam-slash-freeze .qc'), 'Missing exam-slash-freeze .qc in study.css');
+console.log('── 4. 神速スラッシュのフリーズは廃止 ──');
+test('exam-slash-freeze が戻っていない（body の filter も無い）', () => {
   assert(!/(?:^|[;}\s])body\.exam-slash-freeze\s*\{/m.test(cssSrc), 'filter が body へ戻っている（§13-1 ②）');
-  assert(examSrc.includes('document.body.classList.add(\'exam-slash-freeze\')'), 'Missing slash freeze in study_exam.js');
+  assert(!examSrc.includes("document.body.classList.add('exam-slash-freeze')"), 'exam-slash-freeze を付けている');
 });
 
 /* 数値の上限を拾う。`count: 240` も `count: pct >= 100 ? 240 : 80` も同じ 240 を返す。

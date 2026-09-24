@@ -36,11 +36,16 @@ test('2. 既存のエミッタが全て保持されている（純増ルール�
 });
 
 console.log('── Step 1: study_exam.js テーマシグネチャ & 克服火花 & 神速一閃 ──');
-test('3. _spawnScatteredCelebration にテーマ別シグネチャエミッタ呼び出しがある', () => {
-  assert(examSrc.includes('defibShock'), 'Missing defibShock in examSrc');
-  assert(examSrc.includes('brushDust'), 'Missing brushDust in examSrc');
-  assert(examSrc.includes('pixelPop'), 'Missing pixelPop in examSrc');
-  assert(examSrc.includes('diamondSparkle'), 'Missing diamondSparkle in examSrc');
+// 2026-09-24: 正解の演出は _rfCorrectFx に一本化し、UIテーマ固有の意匠は _spawnStreakParticles が
+//   「正解の肢の位置で」出す（_spawnScatteredCelebration は旧演出ごと削除した）。
+test('3. UIテーマ8種の固有演出が正解の肢の位置から出る', () => {
+  const a = examSrc.indexOf('function _spawnStreakParticles('), b = examSrc.indexOf('\n}\n', a);
+  const body = examSrc.slice(a, b);
+  ['kintsugiCrack', 'celestialAstrolabe', 'abyssSonarPulse', 'frostCrystalShatter', 'auroraPrismSweep',
+   'brassClockworkBurst', 'cyberTargetLock', 'liquidBloomRipple'].forEach(k =>
+    assert(body.includes(k), 'Missing ' + k + ' in _spawnStreakParticles'));
+  assert(/const pos = at \|\| /.test(body), '発火位置 at を受け取っていない');
+  assert(/_spawnStreakParticles\(Math\.max\(1, tier\), p\)/.test(examSrc), '_rfCorrectFx が肢の位置を渡していない');
 });
 
 test('4. 克服時に金床火花 (burst) が発火する', () => {

@@ -529,12 +529,12 @@ t('30. S12 / S13 が足すアニメは scale / translate の独立プロパテ�
   assert.ok(!/transform:/.test(b), 'S12 が transform を使っている（将来入場アニメを足した瞬間に黙って死ぬ）');
 });
 
-t('32. S13 の沈み込みが translate プロパティである', () => {
-  const i = JS.indexOf("getElementById('examStreakToast')");
-  assert.ok(i > 0, 'トーストが見つからない');
-  const seg = JS.slice(i, i + 3000);
-  assert.ok(/translate:'0 [\d.]+px'/.test(seg),
-    'トーストの打撃が translate プロパティで書かれていない（入場アニメが transform を占有している）');
+// 2026-09-24: 旧トースト（S13 の打撃）は連続数 #examRfStreak に置き換えた。動かすのは translate / scale だけ。
+t('32. 連続数の表示は translate / scale で動かし、transform を使わない', () => {
+  const b = fnBody('_rfShowStreak');
+  assert.ok(b, '_rfShowStreak が見つからない');
+  assert.ok(/translate: '-50% /.test(b), '連続数の入場が translate プロパティで書かれていない');
+  assert.ok(!/transform/.test(b), '連続数の表示が transform を使っている（既存アニメに黙って殺される）');
 });
 
 // ══ 全段共通 ═══════════════════════════════════════════════════════════
