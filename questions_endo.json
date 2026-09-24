@@ -32459,27 +32459,27 @@
       }
      ],
      "ans_label": "ａ　痛　風",
-     "ans_sub": "男性・飲酒後の第一中足趾節関節急性炎症→痛風（尿酸一ナトリウム結晶による急性関節炎）",
+     "ans_sub": "反復する母趾基部の自然寛解＋急性単関節炎＋関節液の<span class=\"kw3\"><b>針状結晶の貪食像</b></span>＋<span class=\"kw3\"><b>Gram 染色に菌なし</b></span>＝痛風。⚠️<span class=\"kw\"><b>尿酸 7.9 は診断の根拠にならない</b></span>（発作中はむしろ下がる）。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💎 痛風の特徴",
-       "c": "<span class=\"kw\">痛風の典型像</span>：<br>・中年男性（男女比20:1）<br>・<span class=\"kw\">第一中足趾節（MTP）関節</span>への急性炎症（足趾の付け根）<br>・飲酒・脱水・外傷・過激な運動が誘因<br>・発赤・腫脹・熱感・激痛<br>・血清尿酸値↑（&gt;7mg/dL）<br><br><span class=\"kw\">確定診断</span>：関節液偏光顕微鏡で<span class=\"kw\">針状・強陰性複屈折MSU結晶</span></br></br></br></br></br></br></br>"
+       "h": "💎 診断の材料が4段階で積んである",
+       "c": "この長い症例文は、<span class=\"kw3\"><b>痛風と書くための材料を順に置いているだけ</b></span>で、余分な数字は鑑別を切るために置かれている。<br/><br/>①<span class=\"kw3\"><b>2年前から母趾の基部に腫脹が出ては数日で寛解</b></span>——<span class=\"kw\"><b>出て、自然に治まって、また出る</b></span>。これは結晶性関節炎の署名で、感染でも変形性関節症でもこの経過は取らない<br/>②<span class=\"kw3\"><b>今回は右足関節の急性単関節炎</b></span>——昨夕違和感→深夜に痛み→今朝歩行不能という<span class=\"kw\"><b>半日で完成する立ち上がり</b></span><br/>③関節液に<span class=\"kw3\"><b>白血球による針状結晶の貪食像</b></span>——<span class=\"kw\"><b>針状＝MSU（尿酸一ナトリウム）</b></span>。しかも貪食されている＝いま炎症を起こしている張本人である<br/>④<span class=\"kw3\"><b>Gram 染色で菌体を認めない</b></span>——化膿性を一段下げる<br/><br/>⚠️<span class=\"kw3\"><b>尿酸 7.9mg/dL は診断の根拠にならない</b></span>。7.0 をわずかに超えるだけで、しかも<span class=\"kw\"><b>発作中の血清尿酸はむしろ正常〜低下する</b></span>ことがよく知られている（炎症でサイトカインが排泄を促すため）。<span class=\"kw\"><b>正常値でも痛風は否定できない</b></span>——ここを逆に覚えていると引っかかる。<br/><br/>⚠️<span class=\"kw3\"><b>体温37.2℃・白血球12,300・CRP 10mg/dL は化膿性と区別できない</b></span>。結晶性でもこの程度は普通に出る。分けたのは③と④であって炎症反応ではない。<br/><br/>⚠️「妹が関節リウマチ」は<span class=\"kw\"><b>鑑別を誘うために置かれた家族歴</b></span>。RA は多関節・対称性・朝のこわばりで、半日で完成する単関節炎にはならない。"
       },
       {
        "cls": "ee",
-       "h": "□ 痛風 vs 偽痛風の比較",
-       "c": "<table class=\"tb\"><tr><td></td><td>痛風</td><td>偽痛風</td></tr><tr><td>結晶</td><td><span class=\"kw\">MSU（尿酸一ナトリウム）</span></td><td><span class=\"kw\">CPPD（ピロリン酸Ca）</span></td></tr><tr><td>顕微鏡像</td><td>針状・強陰性複屈折</td><td>菱形・弱陽性複屈折</td></tr><tr><td>好発部位</td><td>第一MTP（足趾）</td><td>膝関節・手関節</td></tr><tr><td>性別</td><td>男性優位</td><td>高齢者（男女差少ない）</td></tr><tr><td>誘因</td><td>飲酒・脱水・プリン体</td><td>手術・外傷・急性疾患</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　痛　風</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw\"><b>母趾基部の反復と自然寛解</b></span>という既往に、<span class=\"kw\"><b>針状結晶の貪食像</b></span>という直接証拠が加わった。中年男性・肥満・飲酒・高血圧・糖尿病という背景もすべて一致する</td></tr><tr><td>✗ ｂ　偽痛風</td><td>結晶が<span class=\"kw\"><b>菱形（斜方形）</b></span>で、好発は<span class=\"kw\"><b>膝・手関節</b></span>。高齢者に多く、母趾基部の反復という既往を作らない。⚠️<span class=\"kw\"><b>針状か菱形か</b></span>がこの2つを分ける唯一の所見</td></tr><tr><td>✗ ｃ　脊椎関節炎</td><td>体軸（仙腸関節・脊椎）の炎症性腰背部痛が主で、<span class=\"kw\"><b>付着部炎・ぶどう膜炎・乾癬・炎症性腸疾患</b></span>を伴う。単発の足関節炎だけで診断はしない</td></tr><tr><td>✗ ｄ　関節リウマチ</td><td><span class=\"kw\"><b>多関節・左右対称・手指の小関節・1時間以上の朝のこわばり</b></span>が原型。⚠️家族歴があっても、<span class=\"kw\"><b>半日で完成する単関節炎</b></span>という経過が合わない</td></tr><tr><td>✗ ｅ　変形性関節症</td><td><span class=\"kw\"><b>慢性・使うと痛い・進行性</b></span>で、熱感を伴う激烈な急性炎症にはならない。関節液も非炎症性（細胞数 2,000/μL 未満）</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 なぜ足の親指から始まるのか",
+       "c": "痛風が<span class=\"kw3\"><b>第一中足趾節関節（母趾の付け根）</b></span>から始まるのには、はっきりした理由が3つある。<br/><br/>①<span class=\"kw3\"><b>温度が低い</b></span>——MSU の溶解度は温度に依存し、末梢ほど冷えて析出しやすい。手より足、足の中でも最も遠い母趾が最初になる<br/>②<span class=\"kw3\"><b>体重がかかり、微小外傷を受け続ける</b></span>——結晶が剥がれて関節腔へ放たれる引き金になる<br/>③<span class=\"kw\"><b>夜間から明け方に発症する</b></span>——就眠中は体温が下がり、水分も摂らないので脱水へ傾く。「深夜に痛みが出現した」という経過はこの性質そのもの<br/><br/>⚠️<span class=\"kw3\"><b>高尿酸血症があっても、その大半は生涯発作を起こさない</b></span>。つまり<span class=\"kw\"><b>結晶ができること</b></span>と<span class=\"kw\"><b>炎症が起きること</b></span>は別の段階である。関節に沈着した MSU をマクロファージが貪食すると<span class=\"kw3\"><b>NLRP3 インフラマソーム</b></span>が活性化して <span class=\"kw\"><b>IL-1β</b></span> が放出され、好中球が殺到する——これが激痛の正体で、だからこそ IL-1 阻害薬が難治例の治療になる。<br/><br/>⚠️痛風<span class=\"kw\"><b>結節</b></span>（耳介・肘・手指の無痛性の隆起）ができるのは<span class=\"kw\"><b>高尿酸血症が10年単位で続いた後</b></span>。この患者に「明らかな結節はない」と書かれていても、痛風の否定にはならない。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">痛風第一選択部位：第一中足趾節関節</span>（他に足首・膝・手首）。<br>血清尿酸値は急性発作時に正常または低下することがある（フラッシュ）。</br>"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "母趾基部の反復＋急性単関節炎＝痛風。<br/><b>b 偽痛風／c 脊椎関節炎／d 関節リウマチ／e 変形性関節症</b>：合わない。<br/><b>a 痛風</b>：<span class=\"kw\">尿酸塩結晶による急性関節炎（第1中足趾節関節に好発）</span>。✓"
+       "c": "⚠️<span class=\"kw3\"><b>関節液の針状結晶＝痛風／菱形＝偽痛風</b></span>。偏光顕微鏡では<span class=\"kw\"><b>痛風が負（陰性）の複屈折</b></span>。<br/>⚠️<span class=\"kw3\"><b>発作中の血清尿酸は正常〜低下しうる</b></span>——<span class=\"kw\"><b>正常値は痛風を否定しない</b></span>。診断は結晶で決める。<br/>⚠️<span class=\"kw\"><b>発熱・白血球増多・CRP 高値は化膿性と区別できない</b></span>。Gram 染色と培養は必ず出す。<br/>⚠️<span class=\"kw\"><b>出て、自然に治まって、また出る</b></span>という既往が結晶性関節炎の署名。"
       }
      ],
      "imgs": []
@@ -32529,27 +32529,27 @@
       }
      ],
      "ans_label": "ａ　NSAID",
-     "ans_sub": "痛風急性発作の第一選択はNSAIDs。コルヒチン（発作開始から24時間以内が最も有効）も選択肢",
+     "ans_sub": "痛風発作で<span class=\"kw\"><b>まず</b></span>投与するのは炎症を止める薬＝<span class=\"kw3\"><b>NSAIDs</b></span>。⚠️<span class=\"kw3\"><b>尿酸降下薬を発作中に新規開始しない</b></span>（尿酸が急に動くと発作が遷延する）。⚠️この人は<span class=\"kw\"><b>血糖328・HbA1c 9.2%</b></span>＝グルココルチコイドは不利。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 痛風急性発作の治療",
-       "c": "<span class=\"kw\">急性発作の治療（急性期）</span>：炎症を鎮静させる<br>第一選択：<span class=\"kw\">NSAIDs</span>（インドメタシン・ジクロフェナクなど）<br>代替：<span class=\"kw\">コルヒチン</span>（発作開始後24時間以内に使用で最大効果）<br><br><span class=\"kw4\">尿酸降下薬（アロプリノール・ベンズブロマロン）は急性期には使用しない</span><br>→急性期に血清尿酸を急激に変動させると発作が遷延・増悪する</br></br></br></br></br>"
+       "h": "💊 「まず投与すべき」＝今の炎症を止める薬",
+       "c": "急性発作の治療目標は<span class=\"kw3\"><b>尿酸を下げることではなく、いま起きている炎症を鎮めること</b></span>。この区別がついていれば ｃ は即座に外れる。<br/><br/>急性期に使える薬は3つあり、<span class=\"kw\"><b>効果に大きな優劣はなく、患者の背景で選ぶ</b></span>：<br/>・<span class=\"kw3\"><b>NSAIDs</b></span>——最も一般的。⚠️腎機能低下・消化管潰瘍・心不全では避ける<br/>・<span class=\"kw\"><b>コルヒチン</b></span>——微小管を阻害して好中球の遊走を止める。⚠️<span class=\"kw3\"><b>発症から24時間以内</b></span>でないと効きにくい<br/>・<span class=\"kw\"><b>グルココルチコイド</b></span>——全身投与または関節内注射。NSAIDs が使えないときの主力<br/><br/><b>この患者で NSAIDs を採る理由</b>：<span class=\"kw3\"><b>クレアチニン 0.6</b></span>で腎機能は保たれ、消化管の既往もない。一方で<span class=\"kw3\"><b>血糖 328mg/dL・HbA1c 9.2%・尿ケトン 1＋</b></span>——<span class=\"kw\"><b>血糖コントロールが大きく崩れている</b></span>。ここへグルココルチコイドを全身投与すれば、<span class=\"kw3\"><b>血糖はさらに確実に上がる</b></span>。ｄ が「間違い」なのではなく、<span class=\"kw\"><b>この人ではNSAIDs より不利</b></span>という順序の問題である。<br/><br/>コルヒチンも「昨夕から違和感、深夜に痛み、今朝悪化」なら24時間以内に入りうるが、<span class=\"kw\"><b>第一選択として問われればNSAIDs</b></span>。"
       },
       {
        "cls": "ee",
-       "h": "□ 各治療薬の評価",
-       "c": "<table class=\"tb\"><tr><td>薬剤</td><td>評価</td><td>備考</td></tr><tr><td><span class=\"kw\">NSAIDs</span></td><td><span class=\"kw\">◎ 第一選択</span></td><td>急性炎症を鎮静</td></tr><tr><td>コルヒチン</td><td>◎ 代替（早期投与必須）</td><td>微小管阻害→好中球遊走抑制</td></tr><tr><td>麻薬性鎮痛薬</td><td>× 不適切</td><td></td></tr><tr><td><span class=\"kw4\">尿酸合成阻害薬</span></td><td><span class=\"kw4\">× 急性期禁忌</span></td><td><span class=\"kw4\">急性期は使用しない</span></td></tr><tr><td>グルココルチコイド</td><td>△ NSAIDs禁忌時</td><td>全身投与または関節内注射</td></tr><tr><td>DMARDs</td><td>× 関節リウマチの薬</td><td></td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　NSAID</span></td><td><span class=\"kw3\">これが正解</span>。急性発作の炎症を最も速やかに鎮める。⚠️<span class=\"kw\"><b>十分量を短期間</b></span>使い、症状が治まれば速やかにやめる。Cr 0.6・消化管既往なしなのでこの患者では安全側</td></tr><tr><td>✗ ｂ　麻薬性鎮痛薬</td><td>痛みは取れても<span class=\"kw\"><b>炎症そのものは止まらない</b></span>。依存・便秘・呼吸抑制のリスクを負ってまで使う場面ではない</td></tr><tr><td>✗ ｃ　尿酸合成阻害薬</td><td>⚠️<span class=\"kw3\"><b>発作中に新規開始してはいけない</b></span>。血清尿酸が急に動くと、沈着していた結晶の表面が溶けて剥がれ、<span class=\"kw\"><b>かえって発作が長引く・悪化する</b></span>。⚠️ただし<span class=\"kw3\"><b>すでに服用している人は発作中でも中断しない</b></span>（同じ理由で、止めても尿酸が動く）</td></tr><tr><td>✗ ｄ　グルココルチコイド</td><td>薬としては有効で、NSAIDs が使えないときの主力。⚠️しかしこの患者は<span class=\"kw3\"><b>血糖328・HbA1c 9.2%</b></span>——<span class=\"kw\"><b>血糖をさらに押し上げる</b></span>ので「まず」選ぶ薬ではない</td></tr><tr><td>✗ ｅ　疾患修飾性抗リウマチ薬〈DMARD〉</td><td><span class=\"kw\"><b>関節リウマチ</b></span>の薬で、効果が出るまで数週から数か月かかる。急性発作にはまったく無関係</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 発作が治まった後に何をするか",
+       "c": "この患者は<span class=\"kw\"><b>BMI 29.7・高血圧・糖尿病・飲酒・肝酵素上昇</b></span>を抱えている。<span class=\"kw3\"><b>痛風は単独の関節の病気ではなく、メタボリックシンドロームの一症状</b></span>として現れている。<br/><br/><b>尿酸降下療法の始め方</b>：<br/>・発作が完全に治まってから<span class=\"kw3\"><b>約2週間後</b></span>に、<span class=\"kw\"><b>少量から</b></span>開始して数か月かけて増量する<br/>・目標は<span class=\"kw3\"><b>血清尿酸 6.0mg/dL 未満</b></span>（結晶が溶け出す濃度）<br/>・⚠️<span class=\"kw3\"><b>開始後3〜6か月はコルヒチン少量を併用</b></span>して発作を予防する。<span class=\"kw\"><b>下げ始めた時期がいちばん発作を起こしやすい</b></span>ため<br/>・薬は尿酸<span class=\"kw\"><b>産生</b></span>を抑える（アロプリノール・フェブキソスタット）か、<span class=\"kw\"><b>排泄</b></span>を促す（ベンズブロマロン）。⚠️<span class=\"kw\"><b>尿路結石や腎障害があれば産生抑制を選ぶ</b></span>（排泄促進は尿中尿酸を増やして結石を作る）<br/><br/><b>生活の側</b>：<br/>・⚠️<span class=\"kw3\"><b>アルコールは種類ではなく総量</b></span>。ビールのプリン体が話題になるが、<span class=\"kw\"><b>エタノール自体が乳酸を介して尿酸の排泄を妨げ、ATP 分解で産生も増やす</b></span>ので、焼酎に替えても効果は限られる<br/>・<span class=\"kw\"><b>果糖</b></span>（清涼飲料）は ATP を消費して尿酸を上げる<br/>・減量そのものが尿酸を下げる。⚠️ただし<span class=\"kw\"><b>急激な減量・絶食はケトン体が尿酸排泄を妨げて発作を誘発</b></span>する<br/><br/>⚠️高血圧の薬を選ぶ余地もある——この点は Q.491 で扱う。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw4\">急性期に尿酸降下薬を開始しない</span>（発作が遷延）。発作鎮静後3〜4週間して開始。<br>コルヒチンは<span class=\"kw\">先制投与</span>（発作初期・予兆期）が最も効果的。</br>"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "痛風発作（急性期）の治療。<br/><b>b 麻薬性鎮痛薬／c 尿酸合成阻害薬（発作中に開始しない）／e DMARD</b>：不適。<br/><b>d グルココルチコイド</b>：NSAID無効例の選択肢。<br/><b>a NSAID</b>：<span class=\"kw\">急性発作の第一選択（消炎鎮痛）</span>。✓"
+       "c": "⚠️<span class=\"kw3\"><b>急性発作＝NSAIDs・コルヒチン・グルココルチコイドのいずれか</b></span>。まず炎症を止める。<br/>⚠️<span class=\"kw3\"><b>尿酸降下薬は発作中に新規開始しない</b></span>。⚠️<span class=\"kw\"><b>すでに飲んでいるなら中断もしない</b></span>。<br/>⚠️コルヒチンは<span class=\"kw\"><b>発症24時間以内</b></span>でないと効きにくい。<br/>⚠️開始は発作後2週間、目標<span class=\"kw\"><b>6.0mg/dL 未満</b></span>、最初の3〜6か月はコルヒチンでカバーする。"
       }
      ],
      "imgs": []
@@ -32595,27 +32595,27 @@
       }
      ],
      "ans_label": "ｃ　ビタミンA  ―――――――――― 夜　盲",
-     "ans_sub": "ビタミンA欠乏→ロドプシン（視覚色素）の材料不足→夜盲症（暗所での視力低下）",
+     "ans_sub": "<span class=\"kw3\"><b>ビタミンA 欠乏＝夜盲</b></span>（ロドプシンの材料が尽きる）。誤りの4肢はいずれも<span class=\"kw\"><b>正しい相手</b></span>を持つ——葉酸は大球性、ニコチン酸はペラグラ、B1 は腱反射<span class=\"kw3\"><b>低下</b></span>、B12 は貧血と神経症状。",
      "eg": [
       {
        "cls": "ep",
-       "h": "👁️ ビタミンA（レチノール）の機能",
-       "c": "<span class=\"kw\">ビタミンAの主な役割</span>：<br>・<span class=\"kw\">ロドプシン合成</span>（11-cis-レチナール）→夜間視力<br>・上皮細胞の分化維持<br>・免疫機能<br><br/><span class=\"kw\">欠乏症状</span>：夜盲症（暗所での視力低下）・乾燥性角膜炎（ビトー斑）・上皮の角化</br></br></br></br>"
+       "h": "👁️ 誤りの4肢はそれぞれ「正しい相手」を持っている",
+       "c": "組合せ問題は正解を1つ選んで終わりにすると<span class=\"kw\"><b>5肢のうち1つしか使っていない</b></span>ことになる。<span class=\"kw3\"><b>誤りの肢を「正しい組合せ」に直す</b></span>と、1問から10個の知識が取れる。<br/><br/><span class=\"kw3\"><b>ａ 葉酸 → 大球性（巨赤芽球性）貧血</b></span>。小球性は<span class=\"kw\"><b>鉄欠乏・サラセミア・慢性炎症</b></span>。⚠️DNA 合成が止まる欠乏（葉酸・B12）では<span class=\"kw\"><b>細胞が分裂できずに大きくなる</b></span>ので、必ず大球性になる<br/><span class=\"kw3\"><b>ｂ ニコチン酸（ナイアシン・B3） → ペラグラ</b></span>。<span class=\"kw\"><b>皮膚炎・下痢・認知症</b></span>の3D（3つの D：dermatitis・diarrhea・dementia）。心不全は B1<br/><span class=\"kw3\"><b>ｃ ビタミンA → 夜盲</b></span>＝正解<br/><span class=\"kw3\"><b>ｄ ビタミンB1 → 腱反射の低下・消失</b></span>。<span class=\"kw\"><b>亢進ではない</b></span>。脚気は末梢神経が侵される病気で、末梢神経が壊れれば反射弓が切れる＝<span class=\"kw\"><b>反射は落ちるほかない</b></span><br/><span class=\"kw3\"><b>ｅ ビタミンB12 → 巨赤芽球性貧血と亜急性連合性脊髄変性症</b></span>。皮膚炎はナイアシンやビオチン、亜鉛<br/><br/><b>なぜ A で夜盲なのか</b>：網膜の杆体細胞は<span class=\"kw3\"><b>11-cis-レチナール</b></span>（ビタミンA の誘導体）とオプシンから<span class=\"kw\"><b>ロドプシン</b></span>を作り、わずかな光を捉えている。A が尽きればロドプシンが作れず、<span class=\"kw\"><b>まず暗いところが見えなくなる</b></span>。⚠️進めば<span class=\"kw\"><b>眼球乾燥・Bitot 斑・角膜軟化</b></span>へ至り、世界的には<span class=\"kw\"><b>小児の失明の主要な原因</b></span>である。"
       },
       {
        "cls": "ee",
-       "h": "□ 各選択肢の正誤",
-       "c": "<table class=\"tb\"><tr><td>選択肢</td><td>正誤</td><td>正しい組合せ</td></tr><tr><td>ａ 葉酸→小球性貧血</td><td>✗</td><td><span class=\"kw4\">葉酸欠乏→巨赤芽球性貧血（大球性）</span></td></tr><tr><td>ｂ ニコチン酸→心不全</td><td>✗</td><td><span class=\"kw4\">ニコチン酸（B3）欠乏→ペラグラ（3D：皮膚炎・下痢・認知症）</span></td></tr><tr><td><span class=\"kw\">ｃ ビタミンA→夜盲</span></td><td><span class=\"kw\">✓</span></td><td><span class=\"kw\">ロドプシン合成↓</span></td></tr><tr><td>ｄ B1→腱反射亢進</td><td>✗</td><td><span class=\"kw4\">B1欠乏→腱反射消失・低下（脚気）</span></td></tr><tr><td>ｅ B12→皮膚炎</td><td>✗</td><td><span class=\"kw4\">B12欠乏→亜急性脊髄変性・巨赤芽球性貧血</span></td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>✗ ａ　葉酸 ― 小球性貧血</td><td><span class=\"kw3\"><b>大球性（巨赤芽球性）貧血</b></span>。⚠️葉酸欠乏では<span class=\"kw\"><b>神経症状は出ない</b></span>——ここが B12 との決定的な違いで、鑑別の要になる</td></tr><tr><td>✗ ｂ　ニコチン酸 ― 心不全</td><td><span class=\"kw3\"><b>ペラグラ</b></span>（皮膚炎・下痢・認知症）。⚠️<span class=\"kw\"><b>日光の当たる部位に左右対称の皮膚炎</b></span>が出る。心不全を来すのは<span class=\"kw\"><b>B1（脚気心）</b></span></td></tr><tr><td><span class=\"kw3\">◯ ｃ　ビタミンA ― 夜盲</span></td><td><span class=\"kw3\">これが正解</span>。11-cis-レチナールが不足しロドプシンを作れない。⚠️過剰症もあり、<span class=\"kw\"><b>頭蓋内圧亢進と催奇形性</b></span>が問題になる（妊娠初期のレチノール大量摂取）</td></tr><tr><td>✗ ｄ　ビタミンB1 ― 腱反射亢進</td><td><span class=\"kw3\"><b>低下・消失</b></span>。末梢神経が侵されるので反射は落ちる。⚠️<span class=\"kw\"><b>亢進</b></span>するのは上位運動ニューロン障害（錐体路）で、ビタミン欠乏では起こらない</td></tr><tr><td>✗ ｅ　ビタミンB12 ― 皮膚炎</td><td><span class=\"kw3\"><b>巨赤芽球性貧血と神経症状</b></span>（深部感覚障害・痙性）。皮膚炎を来すのは<span class=\"kw\"><b>ナイアシン・ビオチン・亜鉛・必須脂肪酸</b></span></td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "💡 脂溶性ビタミン欠乏の覚え方",
-       "c": "<span class=\"kw\">A（夜盲・乾燥肌）・D（くる病・骨軟化）・E（神経・溶血）・K（出血傾向）</span><br/>\"ADEK\"で全て脂溶性ビタミン。過剰症も起こしやすい（特にA・D）"
+       "h": "🔍 水溶性ビタミンの欠乏症を1枚に",
+       "c": "水溶性は<span class=\"kw3\"><b>貯まらないので数週から数か月で欠乏する</b></span>（例外が B12＝肝に数年分）。一方<span class=\"kw\"><b>過剰症はほとんど作らない</b></span>（余れば尿へ出る）。<br/><br/>・<span class=\"kw\"><b>B1（チアミン）</b></span>＝脚気（末梢神経＋高拍出性心不全）、Wernicke 脳症<br/>・<span class=\"kw\"><b>B2（リボフラビン）</b></span>＝口角炎・口唇炎・舌炎・脂漏性皮膚炎<br/>・<span class=\"kw\"><b>B3（ナイアシン・ニコチン酸）</b></span>＝ペラグラ（皮膚炎・下痢・認知症）<br/>・<span class=\"kw\"><b>B6（ピリドキシン）</b></span>＝末梢神経炎・脂漏性皮膚炎・鉄芽球性貧血。⚠️イソニアジドが消費する<br/>・<span class=\"kw\"><b>B12（コバラミン）</b></span>＝巨赤芽球性貧血＋神経症状<br/>・<span class=\"kw\"><b>葉酸</b></span>＝巨赤芽球性貧血（神経症状なし）、⚠️妊娠初期の欠乏で神経管閉鎖障害<br/>・<span class=\"kw\"><b>C（アスコルビン酸）</b></span>＝壊血病（出血傾向・創傷治癒遅延）<br/>・<span class=\"kw\"><b>ビオチン</b></span>＝皮膚炎・脱毛。⚠️生卵白の大量摂取（アビジン）で欠乏しうる<br/><br/>⚠️これに対し<span class=\"kw3\"><b>脂溶性は ADEK の4つ</b></span>で、<span class=\"kw\"><b>肝に貯まるため過剰症が問題になる</b></span>——A（頭蓋内圧亢進・催奇形性）、D（高 Ca 血症）。⚠️<span class=\"kw\"><b>E と K は過剰症をほとんど作らない</b></span>。<br/>⚠️脂溶性は<span class=\"kw3\"><b>脂肪の吸収が落ちると4つまとめて欠乏する</b></span>（胆汁うっ滞・膵外分泌不全・短腸症候群）——これは水溶性には起こらない壊れ方である。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw4\">B1欠乏の腱反射は低下・消失</span>（亢進ではない）。<br/><span class=\"kw4\">ニコチン酸欠乏=ペラグラ（皮膚炎）</span>（心不全はB1欠乏）。"
+       "c": "⚠️<span class=\"kw3\"><b>A＝夜盲／B1＝脚気（腱反射は低下）／B3＝ペラグラ／C＝壊血病／D＝くる病・骨軟化症／K＝出血傾向</b></span>。<br/>⚠️<span class=\"kw3\"><b>葉酸と B12 はどちらも大球性</b></span>。⚠️<span class=\"kw\"><b>神経症状が出るのは B12 だけ</b></span>。<br/>⚠️<span class=\"kw\"><b>B1 欠乏で腱反射が亢進することはない</b></span>——この設問の主要な引っかけ。<br/>⚠️過剰症は<span class=\"kw\"><b>脂溶性（とくに A と D）</b></span>で問題になる。"
       }
      ],
      "imgs": []
@@ -32657,22 +32657,27 @@
       }
      ],
      "ans_label": "ｄ　スタチンの開始",
-     "ans_sub": "スタチン（HMG-CoA還元酵素阻害薬）はコレステロール合成を阻害するが、尿酸産生・排泄には直接影響しない",
+     "ans_sub": "痛風発作の誘因は<span class=\"kw\"><b>尿酸を動かすもの</b></span>。飲酒・運動・脱水・<span class=\"kw3\"><b>サイアザイド</b></span>はいずれも尿酸を上げるが、<span class=\"kw3\"><b>スタチンは尿酸に触らない</b></span>。⚠️同時に始まった2剤のうち片方だけが犯人という作り。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🎯 痛風発作の誘因",
-       "c": "<table class=\"tb\"><tr><td>誘因</td><td>機序</td><td>痛風との関連</td></tr><tr><td><span class=\"kw\">飲酒</span></td><td>乳酸↑→尿酸排泄阻害＋プリン体摂取</td><td>◎ 誘因</td></tr><tr><td><span class=\"kw\">激しい運動</span></td><td>筋肉のプリン体分解→尿酸産生↑</td><td>◎ 誘因</td></tr><tr><td><span class=\"kw\">脱水</span></td><td>尿酸の尿中濃度↑→析出しやすい</td><td>◎ 誘因</td></tr><tr><td><span class=\"kw\">利尿薬（サイアザイド）</span></td><td>腎での尿酸排泄競合的阻害</td><td>◎ 誘因</td></tr><tr><td><span class=\"kw4\">スタチン</span></td><td><span class=\"kw4\">コレステロール合成阻害のみ</span></td><td><span class=\"kw4\">× 誘因にならない</span></td></tr></table>"
+       "h": "🎯 「誘因とならない」＝残り4つが全部尿酸を動かす",
+       "c": "否定形の設問なので、<span class=\"kw3\"><b>4つが誘因である理由を言えること</b></span>が先で、残った1つが答えになる。しかもこの症例は<span class=\"kw\"><b>先月から高血圧症と脂質異常症に対して投薬治療</b></span>＝<span class=\"kw3\"><b>薬が2つ始まっていて、片方だけが犯人</b></span>という形に作られている。<br/><br/><span class=\"kw3\"><b>飲酒</b></span>——三重に効く。①エタノールの代謝で<span class=\"kw\"><b>乳酸</b></span>が増え、乳酸は尿細管で尿酸の排泄と競合する ②分解時に ATP を大量消費し、<span class=\"kw\"><b>アデニンヌクレオチドの分解＝尿酸の産生</b></span>が増える ③ビールにはプリン体そのものが含まれる<br/><span class=\"kw3\"><b>運動</b></span>——激しい運動で筋の ATP が分解され尿酸が増え、加えて<span class=\"kw\"><b>乳酸</b></span>と<span class=\"kw\"><b>発汗による脱水</b></span>が排泄を妨げる。⚠️ゴルフは「軽い運動」に見えるが、<span class=\"kw\"><b>数時間の炎天下＋飲酒</b></span>という組合せで誘因を3つ同時に満たす<br/><span class=\"kw3\"><b>脱水</b></span>——尿が濃縮され、関節でも血中でも尿酸の濃度が上がって析出しやすくなる<br/><span class=\"kw3\"><b>サイアザイド系利尿薬</b></span>——近位尿細管で<span class=\"kw\"><b>URAT1 を介した尿酸の再吸収</b></span>を促し、さらに循環血漿量を減らすので二重に上げる。⚠️<span class=\"kw\"><b>降圧薬の中で最も痛風を誘発する</b></span><br/><br/><span class=\"kw3\"><b>スタチン</b></span>——HMG-CoA 還元酵素を阻害してコレステロール合成を抑えるだけで、<span class=\"kw\"><b>プリン代謝にも尿酸の排泄にも関与しない</b></span>。<br/><br/>⚠️むしろ<span class=\"kw\"><b>スタチンはわずかに尿酸を下げる</b></span>という報告もあるが、いずれにせよ<span class=\"kw3\"><b>発作の誘因にはならない</b></span>。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>✗ ａ　飲　酒</td><td>⚠️<span class=\"kw\"><b>乳酸が尿酸排泄と競合</b></span>＋<span class=\"kw\"><b>ATP 分解で産生増加</b></span>＋プリン体。⚠️<span class=\"kw3\"><b>種類ではなく総量</b></span>が効くので、ビールを焼酎に替えても発作は防げない</td></tr><tr><td>✗ ｂ　運　動</td><td>激しい運動で<span class=\"kw\"><b>筋の ATP が分解</b></span>され尿酸が増え、乳酸と脱水が排泄を妨げる。⚠️「2日前に友人とゴルフ」は誘因の記述として置かれている</td></tr><tr><td>✗ ｃ　脱　水</td><td>尿酸の濃度が上がり<span class=\"kw\"><b>結晶が析出しやすくなる</b></span>。⚠️発作が夜間から明け方に多いのも、就眠中の脱水と体温低下による</td></tr><tr><td><span class=\"kw3\">◯ ｄ　スタチンの開始</span></td><td><span class=\"kw3\">これが正解</span>（誘因とならない）。コレステロール合成を阻害するだけで、<span class=\"kw\"><b>尿酸の産生にも排泄にも関わらない</b></span></td></tr><tr><td>✗ ｅ　降圧利尿薬の開始</td><td>サイアザイド系は<span class=\"kw\"><b>尿酸の再吸収を促し、循環血漿量を減らす</b></span>。⚠️<span class=\"kw3\"><b>降圧薬の中で最も痛風を起こしやすい</b></span>。「先月から高血圧症に投薬」という一文がここへ繋がる</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 高尿酸血症の人に、どの薬を選ぶか",
+       "c": "痛風の人は<span class=\"kw\"><b>高血圧・脂質異常症・糖尿病を併せ持つことが多い</b></span>。同じ効き目なら<span class=\"kw3\"><b>尿酸を上げない薬</b></span>を選べる場面がある。<br/><br/><b>降圧薬</b>：<br/>・⚠️<span class=\"kw3\"><b>ロサルタン</b></span>——<span class=\"kw\"><b>URAT1 を阻害して尿酸を下げる</b></span>。<span class=\"kw\"><b>ARB の中でこの作用を持つのは事実上これだけ</b></span>で、高血圧＋高尿酸血症では合理的な選択になる<br/>・Ca 拮抗薬（アムロジピンなど）——中立〜わずかに下げる<br/>・⚠️<span class=\"kw\"><b>サイアザイド・ループ利尿薬</b></span>——上げる。痛風の既往があれば避ける<br/>・⚠️<span class=\"kw\"><b>β遮断薬</b></span>——やや上げる<br/><br/><b>そのほかの薬</b>：<br/>・⚠️<span class=\"kw3\"><b>アスピリンは用量で向きが変わる</b></span>——<span class=\"kw\"><b>低用量（心血管予防量）は尿酸を上げ、高用量は下げる</b></span>。ただし低用量アスピリンを痛風のために中止することはしない（心血管の利益が上回る）<br/>・<span class=\"kw\"><b>ピラジナミド・エタンブトール</b></span>（抗結核薬）、シクロスポリン、テオフィリンも上げる<br/>・<span class=\"kw3\"><b>SGLT2 阻害薬</b></span>は尿酸を下げる（尿糖とともに尿酸の排泄が増える）——糖尿病を併存する痛風では一石二鳥になる<br/><br/>⚠️<span class=\"kw\"><b>無症候性高尿酸血症をすべて薬で下げるわけではない</b></span>。発作の既往・痛風結節・尿酸結石・腎障害があるかどうかで判断する。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw4\">スタチンは尿酸に関与しない</span>（痛風発作の誘因にならない）。<br>降圧利尿薬（サイアザイド系）→尿酸排泄↓→痛風の誘因になる。<br>ARB（ロサルタン）は例外的に尿酸降下作用あり→高血圧＋痛風に有利。</br></br>"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "痛風発作の誘因と「ならない」もの。<br/><b>a 飲酒／b 運動／c 脱水／e 降圧利尿薬の開始</b>：いずれも尿酸上昇・発作の誘因。<br/><b>d スタチンの開始</b>：<span class=\"kw\">スタチンは尿酸に大きく影響せず発作の誘因になりにくい</span>。✓（これが正解肢）"
+       "c": "⚠️<span class=\"kw3\"><b>サイアザイド系利尿薬は尿酸を上げる</b></span>（URAT1 で再吸収↑）。降圧薬で最も痛風を誘発する。<br/>⚠️<span class=\"kw3\"><b>ロサルタンは尿酸を下げる唯一の ARB</b></span>。高血圧＋高尿酸血症で有利。<br/>⚠️<span class=\"kw\"><b>スタチンは尿酸に関与しない</b></span>＝誘因にならない。<br/>⚠️飲酒は<span class=\"kw\"><b>種類ではなく総量</b></span>。乳酸による排泄阻害と ATP 分解による産生増加の両方で効く。"
       }
      ],
      "imgs": []
@@ -32722,22 +32727,27 @@
       }
      ],
      "ans_label": "ｂ　Vitamin B1",
-     "ans_sub": "アルコール依存+末梢神経障害（感覚障害・筋力低下）→ビタミンB1（チアミン）欠乏",
+     "ans_sub": "感覚障害・筋力低下（dry beriberi）＋<span class=\"kw3\"><b>nystagmus</b></span>（Wernicke）＋<span class=\"kw3\"><b>heart failure</b></span>（wet beriberi）——<span class=\"kw\"><b>3つを同時に説明できるのはビタミンB1 だけ</b></span>。連日60g 超の飲酒が背景。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🍺 Alcoholic peripheral neuropathy",
-       "c": "<span class=\"kw\">Alcoholic neuropathy</span>：アルコール性末梢神経障害の原因<br/>① 直接的なアルコール毒性（脱髄・神経毒性）<br/>② <span class=\"kw\">ビタミンB1欠乏</span>（食事摂取不足＋吸収障害）<br/><br/>症状：<br/>・<span class=\"kw\">手袋・靴下型の感覚障害</span>（末梢からの分布）<br/>・筋力低下<br/>・腱反射消失<br/>・灼熱感（burning feet）<br/><br/>治療：禁酒＋<span class=\"kw\">ビタミンB1補充</span>"
+       "h": "🍺 3つの手がかりが同時に成り立つのは1つだけ",
+       "c": "英文だが、<span class=\"kw3\"><b>拾うべき所見は3組しかない</b></span>。<br/><br/>①<span class=\"kw3\"><b>sensory disturbance of his fingers and toes／muscle weakness／burning sensation</b></span>——手足の末梢から始まる感覚・運動障害と灼熱感＝<span class=\"kw\"><b>dry beriberi（脚気の末梢神経型）</b></span><br/>②<span class=\"kw3\"><b>nystagmus</b></span>（眼振）——眼球運動の異常＝<span class=\"kw\"><b>Wernicke 脳症</b></span>の三徴の一角<br/>③<span class=\"kw3\"><b>heart failure</b></span>（心不全）——<span class=\"kw\"><b>wet beriberi（脚気心）</b></span>。高拍出性心不全<br/><br/>背景は<span class=\"kw\"><b>alcohol intake over 60g/day・lived alone</b></span>＝慢性の大量飲酒と独居による偏った食事。<br/><br/>⚠️ここが設問の作りで、<span class=\"kw3\"><b>①だけなら B6 や B12 でも説明できる</b></span>。しかし<span class=\"kw\"><b>眼振と心不全を同時に説明できるのは B1 しかない</b></span>。<br/>・B6 欠乏——末梢神経炎は起こすが、<span class=\"kw\"><b>眼振も心不全も来さない</b></span><br/>・B12 欠乏——神経症状は後索・側索型で、<span class=\"kw\"><b>眼振も心不全も来さない</b></span><br/>・ビタミンA・C・D——どれも神経症状の主役にならない<br/><br/><span class=\"kw\"><b>3つ並べてあるのは偶然ではなく、1つに絞らせるため</b></span>である。<br/><br/>B1 がなぜこの3か所を壊すのか：<span class=\"kw3\"><b>チアミンはピルビン酸脱水素酵素・α-ケトグルタル酸脱水素酵素・トランスケトラーゼの補酵素</b></span>で、<span class=\"kw\"><b>糖を燃やす経路そのもの</b></span>に必要。だから<span class=\"kw\"><b>糖しかエネルギー源にできない、あるいは代謝回転の速い組織</b></span>——神経、心筋——から先に壊れる。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>✗ ａ　Vitamin A</td><td>欠乏は<span class=\"kw\"><b>夜盲・眼球乾燥・Bitot 斑・角膜軟化</b></span>。⚠️同じ「目」でも<span class=\"kw\"><b>見えにくさ</b></span>であって<span class=\"kw\"><b>眼振</b></span>ではない。末梢神経障害も心不全も来さない</td></tr><tr><td><span class=\"kw3\">◯ ｂ　Vitamin B1</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw\"><b>dry beriberi（末梢神経）・wet beriberi（心不全）・Wernicke 脳症（眼振）</b></span>の3つを1つで説明できる。⚠️慢性アルコール症は摂取不足・吸収低下・利用障害の3つが重なる最大の原因</td></tr><tr><td>✗ ｃ　Vitamin B6</td><td>末梢神経炎は起こす（イソニアジドが有名）が、<span class=\"kw\"><b>眼振も心不全も説明できない</b></span>。⚠️この設問で①だけを見て飛びつくとここに落ちる</td></tr><tr><td>✗ ｄ　Vitamin C</td><td><span class=\"kw\"><b>壊血病</b></span>＝出血傾向・創傷治癒遅延・毛包性角化。神経障害も心不全も来さない</td></tr><tr><td>✗ ｅ　Vitamin D</td><td><span class=\"kw\"><b>くる病・骨軟化症</b></span>と低 Ca 血症。⚠️低 Ca ではテタニーが出るが、それは眼振でも末梢の感覚障害でもない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 温かい心不全——高拍出性心不全という別の形",
+       "c": "心不全と聞けば<span class=\"kw\"><b>拍出量が減って四肢が冷たく、末梢が締まる</b></span>絵を思い浮かべるが、脚気心はその正反対である。<br/><br/><span class=\"kw3\"><b>高拍出性心不全</b></span>では、<span class=\"kw\"><b>末梢血管抵抗が下がる</b></span>ことが先に起きる。心臓は必要量を送るために拍出量を増やし続け、やがて容量負荷で破綻する。所見は<span class=\"kw3\"><b>四肢が温かい・脈圧が広い・心拍数が速い・全身の血管雑音</b></span>で、<span class=\"kw\"><b>低拍出性とは手触りが逆</b></span>になる。<br/><br/>原因（末梢抵抗が下がる病気）：<br/>・<span class=\"kw3\"><b>脚気心（B1 欠乏）</b></span>——⚠️<span class=\"kw\"><b>衝心脚気</b></span>は急速に心不全とアシドーシスで死に至りうる。チアミン静注で劇的に戻る<br/>・<span class=\"kw3\"><b>甲状腺機能亢進症</b></span>——血管拡張と代謝亢進<br/>・<span class=\"kw3\"><b>高度の貧血</b></span>——粘度低下と酸素運搬の代償<br/>・<span class=\"kw\"><b>動静脈瘻</b></span>（透析シャントを含む）——血液が抵抗を通らずに戻る<br/>・<span class=\"kw\"><b>敗血症</b></span>——末梢血管の開大<br/>・<span class=\"kw\"><b>Paget 病</b></span>（骨の血流増加）、妊娠、肝硬変<br/><br/>⚠️<span class=\"kw3\"><b>治療は心不全そのものではなく原因を直すこと</b></span>。利尿薬とβ遮断薬で押さえにいくと、代償のための高拍出を削ることになり悪化しうる。<br/>⚠️<span class=\"kw3\"><b>B1 欠乏を疑ったらブドウ糖より先にチアミンを</b></span>。糖を入れると残り少ないチアミンが一気に消費され、Wernicke 脳症を誘発する。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "アルコール依存+末梢神経症状 → <span class=\"kw\">B1欠乏</span>が原因の主軸（直接毒性もある）。<br/>脚気（B1欠乏）：末梢型（足から上行する感覚・運動障害）＋心臓型（高拍出性心不全）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "独居・飲酒者の手足の感覚障害（英文）＝ビタミンB1欠乏。<br/><b>a A／c B6／d C／e D</b>：本病態でない。<br/><b>b Vitamin B1</b>：<span class=\"kw\">アルコール多飲による末梢神経障害（脚気）</span>。✓"
+       "c": "⚠️<span class=\"kw3\"><b>B1 欠乏は3つの顔を持つ</b></span>——<span class=\"kw\"><b>dry beriberi（末梢神経）／wet beriberi（高拍出性心不全）／Wernicke 脳症（眼球運動障害・失調・意識障害）</b></span>。<br/>⚠️末梢神経障害だけなら B6・B12 でも起こる。<span class=\"kw\"><b>眼振と心不全が加わった時点で B1 に決まる</b></span>。<br/>⚠️高拍出性心不全は<span class=\"kw\"><b>四肢が温かく脈圧が広い</b></span>。脚気心・甲状腺機能亢進症・高度貧血・動静脈瘻。<br/>⚠️<span class=\"kw\"><b>ブドウ糖より先にチアミン</b></span>。"
       }
      ],
      "imgs": []
@@ -32783,27 +32793,27 @@
       }
      ],
      "ans_label": "ｃ　ビタミンC  ―――――――――― 出血傾向",
-     "ans_sub": "ビタミンC欠乏（壊血病）：コラーゲン合成障害→血管・組織の脆弱化→出血傾向",
+     "ans_sub": "<span class=\"kw3\"><b>ビタミンC 欠乏＝壊血病＝出血傾向</b></span>（コラーゲンが作れず血管が脆くなる）。⚠️誤りの4肢は<span class=\"kw\"><b>正解以外がすべてペアで入れ替えてある</b></span>——亜鉛↔ビタミンA、ビタミンA↔ニコチン酸。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🍊 ビタミンC（アスコルビン酸）の機能",
-       "c": "<span class=\"kw\">ビタミンCの役割</span>：<br/>・プロリン・リシンの水酸化（コラーゲン合成の必須段階）<br/>・強力な抗酸化作用（ラジカル消去）<br/>・鉄の吸収促進（Fe³⁺→Fe²⁺への還元）<br/><br/><span class=\"kw\">壊血病（Scurvy）：ビタミンC欠乏</span><br/>→コラーゲン合成障害→血管・皮膚・歯茎の脆弱化<br/>→<span class=\"kw\">出血傾向</span>（歯肉出血・点状出血・毛嚢周囲出血）"
+       "h": "🍊 「入れ替え」の作り方を見抜く",
+       "c": "この形式の問題は、<span class=\"kw3\"><b>誤りの肢が出鱈目ではなく、正しいペアを入れ替えて作られている</b></span>。入れ替えの相手を復元できれば全部つながる。<br/><br/><span class=\"kw3\"><b>ａ マグネシウム ― 味覚障害</b></span>　→　味覚障害は<span class=\"kw3\"><b>亜鉛</b></span>（肢ｅ と入れ替わっている）。Mg の欠乏は<span class=\"kw\"><b>テタニー・不整脈・低 Ca と低 K が治らない</b></span><br/><span class=\"kw3\"><b>ｂ ビタミンA ― ペラグラ</b></span>　→　ペラグラは<span class=\"kw3\"><b>ニコチン酸（B3）</b></span>、ビタミンA は<span class=\"kw\"><b>夜盲</b></span><br/><span class=\"kw3\"><b>ｃ ビタミンC ― 出血傾向</b></span>　→　正しい<br/><span class=\"kw3\"><b>ｄ カルシウム ― 貧血</b></span>　→　貧血は<span class=\"kw\"><b>鉄・B12・葉酸</b></span>。Ca の欠乏は<span class=\"kw\"><b>テタニー・骨軟化</b></span><br/><span class=\"kw3\"><b>ｅ 亜鉛 ― 夜盲</b></span>　→　夜盲は<span class=\"kw3\"><b>ビタミンA</b></span>（肢ａ と入れ替わっている）。亜鉛は<span class=\"kw\"><b>味覚障害・皮膚炎・脱毛・創傷治癒遅延</b></span><br/><br/>⚠️<span class=\"kw3\"><b>ａ と ｅ が対になって入れ替えてある</b></span>ことに気づけば、その2つを同時に切れる。組合せ問題を解くときに使える一般的な読み方である。<br/><br/><b>なぜ C の欠乏で出血するのか</b>：ビタミンC は<span class=\"kw3\"><b>プロリンとリシンの水酸化</b></span>に必要な補因子で、これがないと<span class=\"kw\"><b>コラーゲンの三重らせんが安定しない</b></span>。血管壁・皮膚・歯肉・骨が脆くなり、<span class=\"kw\"><b>歯肉出血・点状出血・毛包周囲出血・創傷治癒遅延・関節内出血</b></span>が起こる。⚠️<span class=\"kw\"><b>凝固因子には何の異常もない</b></span>——出血するが<span class=\"kw3\"><b>PT も APTT も正常</b></span>である。"
       },
       {
        "cls": "ee",
-       "h": "□ 各選択肢の正誤",
-       "c": "<table class=\"tb\"><tr><td>選択肢</td><td>正誤</td><td>正しい内容</td></tr><tr><td>ａ マグネシウム→味覚障害</td><td>✗</td><td><span class=\"kw4\">亜鉛→味覚障害</span></td></tr><tr><td>ｂ ビタミンA→ペラグラ</td><td>✗</td><td><span class=\"kw4\">ニコチン酸（B3）→ペラグラ；A→夜盲</span></td></tr><tr><td><span class=\"kw\">ｃ ビタミンC→出血傾向</span></td><td><span class=\"kw\">✓</span></td><td><span class=\"kw\">壊血病（Scurvy）</span></td></tr><tr><td>ｄ カルシウム→貧血</td><td>✗</td><td><span class=\"kw4\">鉄・B12・葉酸→貧血</span></td></tr><tr><td>ｅ 亜鉛→夜盲</td><td>✗</td><td><span class=\"kw4\">ビタミンA→夜盲；亜鉛→味覚障害・皮膚炎</span></td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>✗ ａ　マグネシウム ― 味覚障害</td><td>味覚障害は<span class=\"kw3\"><b>亜鉛</b></span>。⚠️Mg 欠乏は<span class=\"kw\"><b>テタニー・不整脈</b></span>、そして<span class=\"kw3\"><b>低 Ca 血症と低 K 血症が補正しても治らない</b></span>という形で現れる（PTH の分泌と作用が落ちるため）</td></tr><tr><td>✗ ｂ　ビタミンA ― ペラグラ</td><td>ペラグラは<span class=\"kw3\"><b>ニコチン酸（ナイアシン・B3）</b></span>で、<span class=\"kw\"><b>皮膚炎・下痢・認知症</b></span>の3D。ビタミンA 欠乏は<span class=\"kw\"><b>夜盲</b></span></td></tr><tr><td><span class=\"kw3\">◯ ｃ　ビタミンC ― 出血傾向</span></td><td><span class=\"kw3\">これが正解</span>。壊血病。⚠️<span class=\"kw\"><b>コラーゲンが作れない</b></span>ことによる血管と組織の脆弱化で、<span class=\"kw3\"><b>凝固系は正常</b></span></td></tr><tr><td>✗ ｄ　カルシウム ― 貧　血</td><td>貧血は<span class=\"kw\"><b>鉄・B12・葉酸</b></span>。Ca 欠乏は<span class=\"kw\"><b>テタニー・しびれ・Chvostek 徴候・Trousseau 徴候</b></span>と、慢性では骨軟化症</td></tr><tr><td>✗ ｅ　亜　鉛 ― 夜　盲</td><td>夜盲は<span class=\"kw3\"><b>ビタミンA</b></span>。亜鉛欠乏は<span class=\"kw\"><b>味覚障害・皮膚炎・脱毛・創傷治癒遅延・易感染</b></span>。⚠️ａ と入れ替えられている</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 出血傾向を来すビタミンは2つあり、機序がまったく違う",
+       "c": "<span class=\"kw3\"><b>ビタミンC</b></span>と<span class=\"kw3\"><b>ビタミンK</b></span>はどちらも「欠乏で出血」と覚えられるが、<span class=\"kw\"><b>壊れている場所が違う</b></span>。<br/><br/><b>ビタミンC（壊血病）＝血管の壁が弱い</b><br/>・コラーゲンの水酸化ができず、血管壁と支持組織が脆くなる<br/>・<span class=\"kw\"><b>歯肉の腫脹と出血・毛包周囲の点状出血・らせん状の体毛・創傷治癒遅延</b></span>。小児では骨膜下出血で下肢を動かさなくなる<br/>・⚠️<span class=\"kw3\"><b>PT も APTT も正常</b></span>。凝固検査では捕まえられない<br/><br/><b>ビタミンK＝凝固因子が作れない</b><br/>・<span class=\"kw3\"><b>Ⅱ・Ⅶ・Ⅸ・Ⅹ</b></span>と<span class=\"kw\"><b>プロテインC・S</b></span>のγ-カルボキシル化に必要（「肉・納豆」ではなく<span class=\"kw\"><b>2・7・9・10</b></span>で覚える）<br/>・⚠️<span class=\"kw3\"><b>PT が先に延びる</b></span>（Ⅶ の半減期が最も短いため）。進めば APTT も延びる<br/>・欠乏する場面：<span class=\"kw\"><b>新生児</b></span>（胎盤通過が悪く母乳に少ない＝新生児メレナ・<span class=\"kw3\"><b>頭蓋内出血</b></span>。だから K2 シロップを予防投与する）／<span class=\"kw\"><b>抗菌薬の長期使用</b></span>（腸内細菌が作れなくなる）／<span class=\"kw\"><b>閉塞性黄疸・脂肪吸収障害</b></span>（脂溶性だから）／ワルファリン<br/><br/>⚠️<span class=\"kw3\"><b>出血傾向を見たら PT/APTT を測る</b></span>。延びていれば K や肝、正常なら血小板か血管（壊血病・血管性紫斑病）という順に切り分ける。<br/>⚠️ビタミンC には鉄の吸収を助ける働き（<span class=\"kw\"><b>Fe³⁺→Fe²⁺ の還元</b></span>）もあり、鉄欠乏性貧血の治療で一緒に語られる。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">混同しやすい組合せ</span>：<br/>亜鉛→味覚障害（Mg→筋肉・テタニー）<br/>ニコチン酸→ペラグラ（VA→夜盲）<br/>VC→出血傾向（VK→出血傾向…VKとVCの違いに注意：VCはコラーゲン由来、VKは凝固因子）"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "栄養素と欠乏による病態の組合せで正しいもの。<br/><b>a マグネシウム→味覚障害（亜鉛）／b ビタミンA→ペラグラ（ナイアシン）／d カルシウム→貧血／e 亜鉛→夜盲（ビタミンA）</b>：誤り。<br/><b>c ビタミンC→出血傾向</b>：<span class=\"kw\">壊血病（血管脆弱・出血傾向）</span>。✓"
+       "c": "⚠️<span class=\"kw3\"><b>C＝壊血病（出血傾向・PT/APTT は正常）／K＝凝固因子Ⅱ Ⅶ Ⅸ Ⅹ（PT が延びる）</b></span>。<br/>⚠️<span class=\"kw3\"><b>味覚障害＝亜鉛／夜盲＝ビタミンA／ペラグラ＝ニコチン酸</b></span>。この3つの入れ替えが頻出。<br/>⚠️<span class=\"kw\"><b>Mg 欠乏では低 Ca・低 K が補正しても治らない</b></span>。<br/>⚠️新生児のビタミンK 欠乏は<span class=\"kw\"><b>頭蓋内出血</b></span>を起こす＝K2 シロップの予防投与。"
       }
      ],
      "imgs": []
