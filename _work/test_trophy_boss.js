@@ -94,7 +94,7 @@ console.log('[4] 配線（ソース検査）');
 {
   const tally = EXAM.slice(EXAM.indexOf('function _tallyQuestion('), EXAM.indexOf('function _renderExamProgMarks('));
   ok(/_bossMode === true && window\.MecBoss/.test(tally) && /MecBoss\.onAnswer\(/.test(tally), '体力は _tallyQuestion（3つの採点経路の合流点）で動かす');
-  ok(/function _isHostSession\(\)\s*\{\s*return _srsReviewMode \|\| _todayWrongMode \|\| !!_bossMode;/.test(EXAM), 'ボス戦はホスト出題（中断データを持たない）');
+  ok(/function _isHostSession\(\)\s*\{\s*return _srsReviewMode \|\| _todayWrongMode \|\| !!_bossMode\b/.test(EXAM), 'ボス戦はホスト出題（中断データを持たない）');
   ok((EXAM.match(/_prepExamCard\(/g) || []).length >= 2 && /_prepExamCard\(card, false\)/.test(BOSS), '増援は startExam と同じカードの支度を通る');
   ok(/_examSyncQueue\(\)/.test(BOSS.slice(BOSS.indexOf('function _reinforce'))), '増援のあと出題範囲の索引を作り直す');
   ok(/MecBoss\?\.onExit/.test(EXAM) && /_bossMode = false;/.test(EXAM), 'exitExam で片付ける');

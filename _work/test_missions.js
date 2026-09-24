@@ -126,7 +126,7 @@ t('idは日次・週次を通して一意（XP台帳のキーに使うため）'
 
 t('counter は実際に加算される名前だけ（typo検出）', () => {
   // 'unflag' は 2026-07-30 に廃止（在庫依存＋弱点リストを畳む動機になるため）。復活させないこと。
-  const known = new Set(['ans', 'cor', 'exam', 'srs', 'redo', 'subj', 'day', 'hard', 'chexam80', 'acc80', 'perfect', 'subj_focus']);
+  const known = new Set(['ans', 'cor', 'exam', 'srs', 'redo', 'subj', 'day', 'hard', 'chexam80', 'acc80', 'perfect', 'focus']);
   const d = G()._defs;
   [].concat(d.daily, d.weekly).forEach(m => assert.ok(known.has(m.counter), '未知のcounter: ' + m.counter));
 });
@@ -455,10 +455,11 @@ console.log('新機能: 日替わり・弱点・金スタンプ');
 t('日替わりクエストと弱点フォーカスミッションが正しく含まれている', () => {
   const d = G()._defs;
   assert.strictEqual(d.daily.length, 9);
-  const focus = d.daily.find(m => m.counter === 'subj_focus');
-  assert.ok(focus, '弱点科目フォーカスミッションが存在する');
-  assert.ok(focus.label.indexOf('【弱点強化】') >= 0, '弱点強化のラベル');
+  const focus = d.daily.find(m => m.counter === 'focus');
+  assert.ok(focus, '弱点強化ミッションが存在する');
+  assert.ok(/【弱点(強化|を測る)】/.test(focus.label), '弱点強化のラベル: ' + focus.label);
   assert.strictEqual(focus.tier, 'bonus');
+  assert.strictEqual(focus.id, 'd_focus', 'id は軸を含めない固定値（XPの二重取りを防ぐ）');
 
   const randQuest = d.daily.find(m => m.isRandom);
   assert.ok(randQuest, '日替わりランダムクエストが存在する');
@@ -517,6 +518,74 @@ t('日替わりクエストは日付だけで決まり、プールの全項目�
   const at = t0 => makeCtx(null, t0).window.MecGamify._defs.daily.find(d => d.isRandom).id;
   const t0 = Date.UTC(2026, 4, 17, 3, 0, 0);
   assert.strictEqual(at(t0), at(t0), '同じ日付なら同じクエスト');
+});
+
+
+// ── 🎯 弱点強化（2026-09-24 に作り直し）──────────────────────────────────
+console.log('弱点強化（8軸レーダーの科目群）');
+const NOW_FX = Date.parse('2026-09-24T03:00:00Z');   // JST 12:00
+function fxCtx(seed) {
+  const ctx = makeCtx({}, NOW_FX);
+  // makeCtx は読み込み時点で MISSIONS_DAILY を作るので、ストアを入れてから読み直す
+  delete ctx._store.mec_focus_axis_v1;   // 空のストアで読み込んだ時点の決定を捨てる
+  Object.assign(ctx._store, seed || {});
+  vm.runInContext(SRC, ctx);
+  return ctx;
+}
+t('軸の定義が index.html の RADAR_AXES と一致する（id・科目）', () => {
+  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const m = /const RADAR_AXES = (\[[\s\S]*?\n\]);/.exec(html);
+  assert.ok(m, 'index.html に RADAR_AXES が見つからない');
+  const radar = vm.runInNewContext(m[1]);
+  const mine = G()._defs.focusAxes;
+  assert.strictEqual(JSON.stringify(mine.map(a => a.id + ':' + a.sids.join(','))), JSON.stringify(radar.map(a => a.id + ':' + a.sids.join(','))));
+});
+t('前日までのスナップショットで全国をいちばん下回る軸が選ばれる', () => {
+  const snap = {
+    '2026-09-23': { cr: [100, 80, 7000], hm: [50, 20, 3500], ne: [40, 30, 2800] },   // hm = 40% vs 70%
+    '2026-09-24': { cr: [100, 10, 9000] },                                             // 今日ぶんは見ない
+  };
+  const ctx = fxCtx({ mec_radar_snap_v1: JSON.stringify(snap) });
+  const f = ctx.window.MecGamify._defs.daily.find(m => m.counter === 'focus');
+  assert.strictEqual(f.axis, 'hm');
+  assert.ok(f.label.indexOf('【弱点強化】血液・免疫') === 0, f.label);
+  assert.ok(f.launch && f.launch.indexOf('mode=focus') > 0);
+});
+t('全国を下回る軸が無ければ未測定の軸を「測る」', () => {
+  const snap = { '2026-09-20': { cr: [100, 90, 7000] } };
+  const ctx = fxCtx({ mec_radar_snap_v1: JSON.stringify(snap) });
+  const f = ctx.window.MecGamify._defs.daily.find(m => m.counter === 'focus');
+  assert.notStrictEqual(f.axis, 'cr');
+  assert.ok(f.label.indexOf('【弱点を測る】') === 0, f.label);
+});
+t('その日の軸は保存され、途中でデータが変わっても動かない', () => {
+  const ctx = fxCtx({ mec_radar_snap_v1: JSON.stringify({ '2026-09-23': { hm: [50, 20, 3500] } }) });
+  const g = ctx.window.MecGamify;
+  assert.strictEqual(g.focusMission().axis, 'hm');
+  ctx._store.mec_radar_snap_v1 = JSON.stringify({ '2026-09-23': { cr: [50, 5, 3500] } });
+  assert.strictEqual(g.focusMission().axis, 'hm');
+});
+t('試験モードの解答だけを・正誤を問わず数える（通常モードの済は数えない）', () => {
+  const ctx = fxCtx({ mec_radar_snap_v1: JSON.stringify({ '2026-09-23': { hm: [50, 20, 3500] } }) });
+  const g = ctx.window.MecGamify;
+  g.onAnswer('hema_ch01_q1', false);
+  g.onAnswer('kansen_ch02_q9', true);
+  g.onAnswer('circ_ch01_q1', true);       // 軸の外
+  g.onLap('imma_ch01_q3', null);           // 通常モードの済
+  assert.strictEqual(sum(ctx, 'd', 'focus'), 2);
+  const fm = g.focusMission();
+  assert.strictEqual(fm.done, 2); assert.strictEqual(fm.remaining, 8);
+  assert.strictEqual(fm.sids.join(','), 'hema,imma,kansen');
+});
+t('未達成の弱点強化の行はリンク、達成後は普通の行', () => {
+  const ctx = fxCtx({ mec_radar_snap_v1: JSON.stringify({ '2026-09-23': { hm: [50, 20, 3500] } }) });
+  const g = ctx.window.MecGamify;
+  let html = renderInto(g, { only: 'daily' });
+  assert.ok(/<a href="study\.html\?mode=focus"[^>]*class="gm-mission[^"]*is-launch/.test(html), 'リンクになっている');
+  for (let i = 0; i < 10; i++) g.onAnswer('hema_ch01_q' + i, true);
+  html = renderInto(g, { only: 'daily' });
+  assert.ok(html.indexOf('is-launch') < 0, '達成後はリンクを外す');
+  assert.strictEqual(g.focusMission().remaining, 0);
 });
 
 console.log('\n' + (fail ? 'FAILED ' : 'all passed ') + ' (' + pass + '/' + (pass + fail) + ')');

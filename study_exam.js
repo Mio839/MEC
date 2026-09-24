@@ -132,12 +132,17 @@ let _todayWrongMode = false;
 // ボス戦（study.html?mode=boss・boss.js）。true=本戦（体力の計算が走る）／'rematch'=結果画面からの
 // 誤答再試験（同じホストで出すが体力は無い）。どちらもホスト出題＝中断データを持たない。
 let _bossMode = false;
-function _isHostSession() { return _srsReviewMode || _todayWrongMode || !!_bossMode; }
+// 🎯 弱点強化ミッション（study.html?mode=focus）。ハブの8軸レーダーでその日いちばん下回っている
+// 科目群から、ミッション達成に必要な問題数だけを出す。配管は今日の誤答の再履修と同じホスト出題。
+// ⚠️ _srsReviewMode とは混ぜない（ミッションの srs カウンタと attempts の m=s が水増しされる）。
+let _focusMode = false;
+function _isHostSession() { return _srsReviewMode || _todayWrongMode || !!_bossMode || _focusMode; }
 // 直前に終えたセッションが復習だったか。誤答再試験で復習モードへ戻すために使う
 // （exitExam が _srsReviewMode を false に戻すので、その前に控えておく必要がある）。
 let _lastSessionWasSrs = false;
 let _lastSessionWasTodayWrong = false;
 let _lastSessionWasBoss = false;
+let _lastSessionWasFocus = false;
 const _examChoiceBackup = new Map();
 let _examAudioCtx = null;
 /* 効果音のファイル名・キー・音量は **sounds_index.js（window.MecSounds）が唯一の正本**。
@@ -685,10 +690,11 @@ function retryWrongExam() {
   _closeSummaryOverlayOnly();
   // 復習セッションの誤答再試験は復習モードのまま続ける。
   // ここで戻さないと通常試験として開始され、科目フィルターと科目セクションが復活する。
-  if (_lastSessionWasSrs || _lastSessionWasTodayWrong || _lastSessionWasBoss) {
+  if (_lastSessionWasSrs || _lastSessionWasTodayWrong || _lastSessionWasBoss || _lastSessionWasFocus) {
     _srsReviewMode = _lastSessionWasSrs;
     _todayWrongMode = _lastSessionWasTodayWrong;
     _bossMode = _lastSessionWasBoss ? 'rematch' : false;
+    _focusMode = _lastSessionWasFocus;
     document.body.classList.add('srs-review');
     window._srsHostShow?.();
   }
@@ -2816,6 +2822,7 @@ function _examCountdown() {
     // TEMP（昨日の誤答）: _wrongDayJa() は study.html 側が持つ（'今日' / '昨日'）
     if (_todayWrongMode) subjLabel = (window._wrongDayJa?.() === '昨日') ? "YESTERDAY'S MISSES" : "TODAY'S MISSES";
     if (_bossMode === true) subjLabel = 'BOSS BATTLE';
+    if (_focusMode) subjLabel = 'WEAK POINT DRILL';
     if (_examIsRematch) subjLabel = 'REMATCH ×' + qn;
   } catch (e) {}
 
@@ -4931,6 +4938,7 @@ function exitExam() {
   _lastSessionWasSrs = _srsReviewMode;
   _lastSessionWasTodayWrong = _todayWrongMode;
   _lastSessionWasBoss = !!_bossMode;
+  _lastSessionWasFocus = _focusMode;
   try { window.MecBoss?.onExit?.(); } catch (e) {}
   // ⚠️ 稼働灯(D9)は点灯クラスとタイマーの両方を落とすこと。残ると通常閲覧のヘッダで光が走り続ける。
   document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink', 'exam-sprint', 'exam-idle-lit', 'exam-overdrive', 'exam-screen-shake', 'exam-red-flash', 'exam-slash-freeze', 'exam-streak-zone', 'exam-bullet-time');
@@ -5037,6 +5045,7 @@ function exitExam() {
   _srsReviewMode = false;
   _todayWrongMode = false;
   _bossMode = false;
+  _focusMode = false;
   // キューの索引は通常閲覧へ持ち越さない（examQueue は結果画面が読むので触らない）
   _examSet = new Set(); _examOrder = [];
   try { applyFilters(); } catch(e) {}
@@ -5073,6 +5082,7 @@ function showExamSummary() {
     _todayWrongMode ? '🔁 <span class="grad-txt">' + (window._wrongDayJa?.() || '今日') + 'の誤答 再履修の結果</span>' :
     _bossMode === true ? '⚔️ <span class="grad-txt">ボス戦の結果</span>' :
     _bossMode ? '⚔️ <span class="grad-txt">ボス戦 リベンジの結果</span>' :
+    _focusMode ? '🎯 <span class="grad-txt">弱点強化の結果</span>' :
                       '📊 <span class="grad-txt">セッション結果</span>';
   const elapsed = examStartTime ? Math.floor((_examActiveMs()) / 1000) : 0;
   const pct = examAnswered > 0 ? Math.round(examCorrect / examAnswered * 100) : 0;

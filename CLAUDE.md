@@ -461,6 +461,7 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
 | `hard` | 難問（正答率60%未満）に触った数 | `onAnswer`／`onLap` から `_isHardQ(uid)`。正誤は問わない（正解だけだと難問を避けるほど有利になる） |
 | `subj` | その日に触った科目数 | `_dailyFirstBumps`（`onAnswer`／`onLap` が同じ `_bumpMission` に合流させる）。同じ科目はその日1回だけ。**日次専用**（下記） |
 | `day` | 学習した日 | `_dailyFirstBumps`（`onAnswer`／`onLap` が同じ `_bumpMission` に合流させる）。その日1回だけ＝週次バケットが「今週の学習日数」になる |
+| `focus` | 🎯弱点強化：その日の対象の科目群（ハブの8軸レーダー）の問題を試験モードで解いた数（正誤問わず・通常モードの済は数えない） | `onAnswer` の `_focusBump`。対象の軸は `_focusAxis()`（gamify.js）が `mec_radar_snap_v1` の**前日まで**の最新日から1日1回決めて `mec_focus_axis_v1`（UIローカル）に固定＝途中で変わらない。id は固定の `d_focus`。⚠️ `FOCUS_AXES` は index.html の `RADAR_AXES` と一致必須（`test_missions.js` が見張る）。行を押すと `study.html?mode=focus`（`startFocusDrill`・ホスト出題・`_focusMode`）で**残り問数ぶん**の試験が始まる |
 | `exam`/`acc80`/`perfect` | セッション完了／80%以上／全問正解 | `onExamFinish`（10問以上のセッションのみ） |
 | `chexam80` | 章別試験で80%以上 | `onExamFinish(..., {chPrefix})`。同じ章は週1回だけ |
 

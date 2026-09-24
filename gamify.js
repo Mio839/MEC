@@ -229,6 +229,10 @@
 .gm-missions{display:flex;flex-direction:column;gap:6px;}
 .gm-mission{display:flex;align-items:center;gap:8px;background:rgba(var(--glass-rgb),.05);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:6px 10px;}
 .gm-mission.done{background:rgba(61,214,140,.1);border-color:rgba(61,214,140,.35);}
+a.gm-mission.is-launch{text-decoration:none;color:inherit;cursor:pointer;border-color:rgba(245,158,11,.45);}
+a.gm-mission.is-launch:hover{background:rgba(245,158,11,.1);}
+a.gm-mission.is-launch:active{scale:.98;}
+.gm-mission-go{flex-shrink:0;font-size:10px;font-weight:900;color:#FBBF24;}
 .gm-mission-ic{font-size:16px;flex-shrink:0;}
 .gm-mission-lbl{flex:1;font-size:12px;font-weight:700;color:#EAF0FA;display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
 .gm-mission.done .gm-mission-lbl{color:#7CEFB2;}
@@ -798,32 +802,86 @@
     return Math.abs(h);
   }
 
-  // ユーザーの学習履歴から最も強化すべき弱点科目を決定論的に抽出
-  function _weakestSubject() {
-    const my = _g('myrate_v1', {});
-    let worst = null, minScore = 999;
-    SUBJECTS.forEach(sub => {
-      let t = 0, c = 0;
+  // ── 🎯 弱点強化（2026-09-24 に作り直し）────────────────────────────────
+  // 対象は「科目」ではなくハブの8軸レーダー（実力の輪郭）の**科目群**。ハブで琥珀に光っている
+  // 軸とミッションが同じものを指す。
+  // ⚠️ 軸の定義は index.html の RADAR_AXES と同じであること（id・sids）。
+  //    test_missions.js が index.html のソースと突き合わせる。科目を足したら両方へ入れる。
+  //
+  // 旧「【弱点強化】◯◯を10問 解答」（_weakestSubject）は次の理由で廃止した:
+  //   ① 受験5回未満の科目を正答率0.5とみなし進捗を30%混ぜていたため、弱点ではなく
+  //      「手を付けていない科目」（模試 m121s まで）がほぼ必ず選ばれた
+  //   ② 生の正答率＝全国的に難しい科目が弱点に見える（カルテ・レーダーの方針と逆）
+  //   ③ 解答のたびに選び直すので1日の途中で科目が変わり、id が d_focus_{科目} だったため
+  //      切り替わった瞬間に共有カウンタで達成済みになりボーナスXPが二重に入った
+  //   ④ 通常モードの「済」でも数えられた（想起テストの証拠にならない）
+  const FOCUS_AXES = [
+    { id: 'cr', label: '循環・呼吸', icon: '❤️', sids: ['circ', 'resp'] },
+    { id: 'gi', label: '消化・肝胆', icon: '🌿', sids: ['dige', 'hbp'] },
+    { id: 'en', label: '腎・内分泌', icon: '⚗️', sids: ['jinzo_d', 'endo'] },
+    { id: 'hm', label: '血液・免疫', icon: '🩸', sids: ['hema', 'imma', 'kansen'] },
+    { id: 'ne', label: '神経・精神', icon: '🧠', sids: ['neur', 'psy'] },
+    { id: 'pd', label: '小児・産婦', icon: '🧸', sids: ['peds', 'obg'] },
+    { id: 'sg', label: '外科系',     icon: '🦴', sids: ['ortho', 'oph', 'ent', 'uro', 'derm', 'anes', 'rad'] },
+    { id: 'em', label: '救急・公衆', icon: '🚑', sids: ['emg', 'tox', 'ph'] },
+  ];
+  const FOCUS_MIN_N = 20;                 // = index.html の RADAR_MIN_N（未満は「未測定」）
+  const FOCUS_TARGET = 10;
+  const K_FOCUS = 'mec_focus_axis_v1';    // ⚠️ UIローカル（非同期）。{day, ax, mode}
+  function _uidSid(uid) { const i = uid ? uid.indexOf('_ch') : -1; return i > 0 ? uid.slice(0, i) : ''; }
+  function _axisOfSid(sid) { return FOCUS_AXES.find(a => a.sids.indexOf(sid) >= 0) || null; }
+
+  // その日の対象の軸を決める。**1日1回だけ決めて保存し、その日のうちは動かさない**
+  // （旧実装の③＝途中で対象が変わってXPが二重に入る穴を塞ぐ）。
+  // 材料はハブが1日1回書く mec_radar_snap_v1 の「今日より前の最新の日」＝前日までの実力。
+  //   ① 全国を下回る測定済みの軸があれば、差がいちばんマイナスの軸（mode 'weak'）
+  //   ② 無ければ未測定（受験20問未満）の軸のうち受験がいちばん少ない軸（mode 'measure'）
+  //   ③ それも無ければ（全軸が測定済みで全国以上）差がいちばん小さい軸（mode 'weak'）
+  // スナップショットが無い端末（ハブを開いたことがない）は myrate_v1 の受験数だけで②を行う。
+  function _focusAxis(dateKey) {
+    const dk = dateKey || _todayJST();
+    const saved = _g(K_FOCUS, null);
+    if (saved && saved.day === dk && _axisById(saved.ax)) return { axis: _axisById(saved.ax), mode: saved.mode };
+
+    const snap = _g('mec_radar_snap_v1', {});
+    const prev = Object.keys(snap || {}).filter(d => d < dk).sort().pop();
+    const row = prev ? snap[prev] : null;
+    const t = {}, gap = {};
+    FOCUS_AXES.forEach(a => { t[a.id] = 0; });
+    if (row) {
+      FOCUS_AXES.forEach(a => {
+        const v = row[a.id];
+        if (!v || !(v[0] > 0)) return;
+        t[a.id] = v[0];
+        if (v[0] >= FOCUS_MIN_N) gap[a.id] = v[1] / v[0] * 100 - v[2] / v[0];
+      });
+    } else {
+      const my = _g('myrate_v1', {});
       for (const uid in my) {
-        if (uid.indexOf(sub.id + '_') === 0 || uid.indexOf(sub.id + 'ch') === 0) {
-          const r = my[uid]; if (r && r.total > 0) { t += r.total; c += (r.correct || 0); }
-        }
+        const a = _axisOfSid(_uidSid(uid)); const r = my[uid];
+        if (a && r && r.total > 0) t[a.id] += r.total;
       }
-      const rate = t >= 5 ? (c / t) : 0.5;
-      const s = stats();
-      const doneCount = (s.bySubj && s.bySubj[sub.id]) || 0;
-      const prog = doneCount / Math.max(1, sub.total);
-      const score = rate * 0.7 + prog * 0.3;
-      if (score < minScore) { minScore = score; worst = sub; }
-    });
-    return worst || SUBJECTS[0];
+    }
+    const measured = FOCUS_AXES.filter(a => a.id in gap);
+    const unmeasured = FOCUS_AXES.filter(a => !(a.id in gap));
+    // 同点は日付のハッシュで割る（毎日同じ軸に固定されないように）
+    const tie = a => _dateSeed(dk + a.id);
+    const byGap = measured.slice().sort((x, y) => (gap[x.id] - gap[y.id]) || (tie(x) - tie(y)));
+    const byT = unmeasured.slice().sort((x, y) => (t[x.id] - t[y.id]) || (tie(x) - tie(y)));
+    let pick, mode;
+    if (byGap.length && gap[byGap[0].id] < 0) { pick = byGap[0]; mode = 'weak'; }
+    else if (byT.length) { pick = byT[0]; mode = 'measure'; }
+    else { pick = byGap[0]; mode = 'weak'; }
+    try { localStorage.setItem(K_FOCUS, JSON.stringify({ day: dk, ax: pick.id, mode: mode })); } catch (e) {}
+    return { axis: pick, mode: mode };
   }
+  function _axisById(id) { return FOCUS_AXES.find(a => a.id === id) || null; }
 
   function _getDailyMissions(dateKey) {
     const dk = dateKey || _todayJST();
     const seed = _dateSeed(dk);
     const quest = DAILY_QUEST_POOL[seed % DAILY_QUEST_POOL.length];
-    const weak = _weakestSubject();
+    const fx = _focusAxis(dk);
     return [
       { id: 'ans',        tier: 'core',  xp: 100, icon: '📝', label: '100問 解答する',          target: 100, counter: 'ans' },
       { id: 'exam',       tier: 'core',  xp: 40, icon: '🎓', label: '試験セッション1本(10問+)', target: 1,  counter: 'exam' },
@@ -836,7 +894,13 @@
       { id: 'redo',       tier: 'bonus', xp: 70, icon: '♻️', label: '落とした問題を10問 奪回',  target: 10, counter: 'redo' },
       { id: 'subj',       tier: 'bonus', xp: 50, icon: '🧭', label: '科目を2つ以上またぐ',       target: 2,  counter: 'subj' },
       { id: quest.id,     tier: quest.tier, xp: quest.xp, icon: quest.icon, label: quest.label, target: quest.target, counter: quest.counter, isRandom: true },
-      { id: 'd_focus_' + weak.id, tier: 'bonus', xp: 70, icon: weak.icon, label: '【弱点強化】' + weak.name + 'を10問 解答', target: 10, counter: 'subj_focus' },
+      // ⚠️ id は軸を含めない固定の 'd_focus'（軸が端末ごとに違っても台帳は1件＝XPは1回だけ）。
+      //    counter 'focus' は試験モード（onAnswer）の解答だけ・正誤を問わず数える
+      //    （正解だけにすると苦手な問題を避けるほど有利になる＝hard と同じ理由）。
+      //    launch … 行を押すと study.html?mode=focus で残り問数ぶんの試験が始まる。
+      { id: 'd_focus', tier: 'bonus', xp: 70, icon: fx.axis.icon,
+        label: (fx.mode === 'measure' ? '【弱点を測る】' : '【弱点強化】') + fx.axis.label + 'を試験で' + FOCUS_TARGET + '問',
+        target: FOCUS_TARGET, counter: 'focus', axis: fx.axis.id, launch: 'study.html?mode=focus' },
     ];
   }
 
@@ -1305,15 +1369,21 @@
       const ratio = cur / d.target;
       const behind = !done && pace != null && ratio < pace;
       const isRand = !!d.isRandom;
+      // launch を持つ行（🎯 弱点強化）は未達成のあいだだけ押せる＝押すと残り問数の試験が始まる。
+      // ⚠️ 達成後は普通の行に戻す（「達成に必要なぶん」が0問なので押しても何も起きない）。
+      const tag = (d.launch && !done) ? 'a' : 'div';
+      const href = tag === 'a' ? ' href="' + d.launch + '" title="押すと残り ' + (d.target - cur) + '問の試験を始めます"' : '';
       // data-tier は index.html（ハブ）が「必須だけ揃ったか」を判定するのに使う
-      return '<div class="gm-mission' + (done ? ' done' : '') + (behind ? ' behind' : '') + (isRand ? ' is-random' : '') +
+      return '<' + tag + href + ' class="gm-mission' + (done ? ' done' : '') + (behind ? ' behind' : '') + (isRand ? ' is-random' : '') +
+        (tag === 'a' ? ' is-launch' : '') +
         '" data-tier="' + d.tier + '"' + (isRand ? ' data-random="true"' : '') + '>' +
         '<span class="gm-mission-ic">' + (done ? '✅' : d.icon) + '</span>' +
         '<span class="gm-mission-lbl">' + (isRand ? '<span class="gm-mission-tag">🎲 日替わり</span>' : '') + d.label + '</span>' +
         '<span class="gm-mission-bar"><span class="gm-mission-fill" style="width:' + Math.round(ratio * 100) + '%"></span>' +
           (pace != null && !done ? '<i class="gm-pace" style="left:' + (pace * 100).toFixed(1) + '%"></i>' : '') +
         '</span>' +
-        '<span class="gm-mission-num">' + cur + '/' + d.target + '</span></div>';
+        '<span class="gm-mission-num">' + cur + '/' + d.target + '</span>' +
+        (tag === 'a' ? '<span class="gm-mission-go">▶</span>' : '') + '</' + tag + '>';
     }).join('');
   }
 
@@ -1516,18 +1586,27 @@
     return bumps;
   }
 
+  // 🎯 弱点強化：その日の軸に属する科目の問題なら 'focus'。⚠️ onAnswer（試験モード）からだけ呼ぶ。
   function _focusBump(uid) {
     if (!uid) return [];
-    const weak = _weakestSubject();
-    const i = uid.indexOf('_ch');
-    const sid = i > 0 ? uid.slice(0, i) : '';
-    return (sid === weak.id) ? ['subj_focus'] : [];
+    const a = _axisOfSid(_uidSid(uid));
+    return (a && a.id === _focusAxis().axis.id) ? ['focus'] : [];
+  }
+
+  // study.html?mode=focus が読む。残り問数は「達成に必要なぶん」＝target − 端末横断の進捗。
+  function focusMission() {
+    const fx = _focusAxis();
+    const done = _missionSum('d', 'focus', _todayJST());
+    return { axis: fx.axis.id, label: fx.axis.label, sids: fx.axis.sids.slice(), mode: fx.mode,
+             target: FOCUS_TARGET, done: Math.min(done, FOCUS_TARGET),
+             remaining: Math.max(0, FOCUS_TARGET - done) };
   }
 
   function onLap(uid, btn) {
     const bumps = ['ans']; // 「済」も解答数ミッションに算入
     if (_isHardQ(uid)) bumps.push('hard');
-    _bumpMission(bumps.concat(_dailyFirstBumps(uid)).concat(_focusBump(uid)));
+    // ⚠️ 通常モードの「済」は弱点強化（focus）に数えない（想起テストを経ていないため）
+    _bumpMission(bumps.concat(_dailyFirstBumps(uid)));
     _microLapFx(btn);
     _lapMilestoneFx(uid, btn);
     _afterEvent(uid);
@@ -1719,11 +1798,11 @@
   }
 
   window.MecGamify = {
-    onLap, onAnswer, onFlag, onExamFinish, stats, missionSummary, missionXp, dailyGoal, chapterGrade,
+    onLap, onAnswer, onFlag, onExamFinish, stats, missionSummary, missionXp, dailyGoal, chapterGrade, focusMission,
     renderPanel, openPanelModal, refreshAllStars, flushCeremonies, goldenDays, goldenStreak,
     // テスト用（_work/test_missions.js / test_gamify_ceremony.js）
     _defs: {
-      daily: MISSIONS_DAILY, weekly: MISSIONS_WEEKLY, allXp: MISSION_ALL_XP,
+      daily: MISSIONS_DAILY, weekly: MISSIONS_WEEKLY, allXp: MISSION_ALL_XP, focusAxes: FOCUS_AXES,
       ceremony, toast,
       // 併合キューの内訳（旧 _cerQ / _toastQ 相当。未再生ぶんだけを数える）
       cerPending: () => _annQ.filter(x => x.kind === 'cer').length,

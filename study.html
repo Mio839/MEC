@@ -1347,6 +1347,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const _yesterdayWrongLaunch = _launchMode === 'yesterday_wrong';
   const _todayWrongLaunch = _launchMode === 'today_wrong' || _yesterdayWrongLaunch;
   const _bossLaunch = _launchMode === 'boss';   // ⚔️ ボス戦（ハブのタイルから）
+  const _focusLaunch = _launchMode === 'focus'; // 🎯 弱点強化ミッション（ミッション行から）
 
   // 通常の全科目初期化（fetch→描画→キャッシュ→initCards→章メタ→自動復元）。
   // 復習起動時はこれを走らせず _runDeferredInit（復習を抜けたとき）で実行する。
@@ -1381,7 +1382,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (ov && ov.classList.contains('open')) _renderResumeList();
         });
         // 試験中リロードの自動復元（ホスト出題での起動でない通常ロード時のみ）
-        if (!_srsLaunch && !_todayWrongLaunch && !_bossLaunch) {
+        if (!_srsLaunch && !_todayWrongLaunch && !_bossLaunch && !_focusLaunch) {
           const _autoKey = localStorage.getItem('mec_exam_active_key');
           if (_autoKey) {
             const _autoResumes = _loadResumes();
@@ -1428,6 +1429,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // ボス戦も同じ配管（苦手の問題だけを先に決めてからホストへ描く）。SRSへ採点を返すので先に読む。
     _loadSRS();
     Promise.resolve(startBossBattle()).catch(e => console.error('boss start error:', e)).finally(_removeLoader);
+  } else if (_focusLaunch) {
+    // 弱点強化も同じ配管（対象の軸から残り問数ぶんを先に決めてからホストへ描く）。
+    _loadSRS();
+    Promise.resolve(startFocusDrill()).catch(e => console.error('focus start error:', e)).finally(_removeLoader);
   } else {
     _runFullInit();
   }
@@ -2600,6 +2605,90 @@ async function startBossBattle() {
   if (window.MecBoss) MecBoss.start({ boss: MecBoss.makeBoss(subj, _today()), reserve, startN: base.length });
 }
 window.startBossBattle = startBossBattle;
+
+// ── 🎯 弱点強化ミッション（study.html?mode=focus・ハブ／学習ツールのミッション行から） ─────────
+// その日の対象の軸（科目群）と残り問数の正本は MecGamify.focusMission()（gamify.js）。
+// 残り問数＝ミッション達成に必要なぶん（target − 端末横断の進捗）だけを出題する。
+// ⚠️ 問題を選ぶのに軸の科目の questions_*.json を読む（IndexedDB キャッシュ経由）。外科系は7科目ある。
+// 選び方（決定論・同じ日に開き直すと同じ問題）:
+//   ① 解いて落としたことのある問題（自分の誤答率が高く、全国正答率が高い＝取りこぼしほど先）
+//   ② 未受験の問題（全国正答率が高いほど先）
+//   ③ 毎回正解している問題（最後）
+//   mode 'measure'（まだ測れていない軸）のときは②を最優先にして測定を進める。
+const FOCUS_SPARE = 5;   // 採点除外で出せない問題のぶんの余り
+function _focusScore(q, my, mode) {
+  const r = my[q.uid];
+  const nat = (typeof q.rate === 'number' && q.rate >= 0) ? q.rate : 50;
+  if (r && r.total > 0) {
+    const miss = 1 - (r.correct || 0) / r.total;
+    return miss > 0 ? 100 + miss * 100 + nat * 0.5 : nat * 0.1;
+  }
+  return (mode === 'measure' ? 300 : 40) + nat * 0.5;
+}
+async function _focusTargets(info) {
+  const sids = info.sids.filter(sid => STUDY_SUBJECTS.some(s => s.id === sid));
+  const datas = await Promise.all(sids.map(sid => _getSubjectData(sid)));
+  const my = JSON.parse(localStorage.getItem('myrate_v1') || '{}');
+  const day = _today();
+  const cand = [];
+  datas.forEach(d => (d && d.chapters || []).forEach(ch => (ch.qs || []).forEach(q => {
+    if (q && q.uid) cand.push({ uid: q.uid, sc: _focusScore(q, my, info.mode), h: _bossHash(q.uid + day) });
+  })));
+  cand.sort((a, b) => (b.sc - a.sc) || (a.h - b.h));
+  return cand.slice(0, info.remaining + FOCUS_SPARE).map(x => x.uid);
+}
+
+async function startFocusDrill() {
+  const info = window.MecGamify && MecGamify.focusMission ? MecGamify.focusMission() : null;
+  if (!info) { _mecNotify('ミッションの情報を読めませんでした。'); _runDeferredInit(); return; }
+  if (info.remaining <= 0) {
+    _mecNotify('今日の弱点強化（' + info.label + '）は達成済みです。');
+    _runDeferredInit();
+    return;
+  }
+  const picks = await _focusTargets(info);
+  if (!picks.length) { _mecNotify('出題できる問題が見つかりませんでした。'); _runDeferredInit(); return; }
+  _srsHostClear();
+  const _host = document.getElementById('srsReviewHost');
+  if (_host) picks.forEach(uid => {
+    const el = document.querySelector('.subj-section .qc[data-uid="' + uid + '"]');
+    if (el) _host.appendChild(el);
+  });
+  const _hadLoaded = _loadedSids.size > 0;
+  [..._loadedSids].forEach(sid => _unloadSubjectCards(sid));
+  _srsUnloadedForReview = _srsUnloadedForReview || _hadLoaded;  // ⚠️ 上書き禁止（startSRSReview 同様）
+  await _renderDueCardsForReview(picks);
+  const avail = picks.filter(uid => {
+    const card = document.querySelector('.qc[data-uid="' + uid + '"]');
+    return !!card && !_isScoreExcluded(card);
+  }).slice(0, info.remaining);
+  if (!avail.length) {
+    _srsHostClear();
+    _mecNotify('問題が見つかりませんでした。ページを再読み込みしてください。');
+    document.body.classList.remove('srs-review');
+    _runDeferredInit();
+    _srsRestoreAfterReview();
+    return;
+  }
+  // 使わなかった余りはホストから外し、DOM順を出題順に揃える
+  if (_host) {
+    const keep = new Set(avail);
+    _host.querySelectorAll('.qc[data-uid]').forEach(el => { if (!keep.has(el.dataset.uid)) el.remove(); });
+    avail.forEach(uid => { const el = _host.querySelector('.qc[data-uid="' + uid + '"]'); if (el) _host.appendChild(el); });
+  }
+  _srsHostShow();
+  _focusMode = true;
+  _examFilterLabel = '弱点強化：' + info.label;
+  document.body.classList.add('srs-review');
+  startExam(avail);
+  _mecNotify('🎯 ' + (info.mode === 'measure' ? '弱点を測る' : '弱点強化') + '：' + info.label + ' ' + avail.length + '問');
+}
+window.startFocusDrill = startFocusDrill;
+// 試験中にミッション行（リンク）を押しても遷移させない（解答中のセッションを捨てることになる）
+document.addEventListener('click', e => {
+  const a = e.target && e.target.closest && e.target.closest('a.gm-mission.is-launch');
+  if (a && typeof examMode !== 'undefined' && examMode) { e.preventDefault(); _mecNotify('試験を終えてから始めてください。'); }
+}, true);
 
 // ── Review Mode (post-exam wrong-answer review) ───────────────────────────────
 let _reviewUids = null;

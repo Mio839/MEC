@@ -1,3 +1,6 @@
+// 2026-09-24a: 🎯 弱点強化ミッションを8軸レーダーの科目群ベースへ作り直し（gamify.js）・
+//   ミッション行から study.html?mode=focus で残り問数の試験を始める（study.html / study_exam.js）。
+//   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-23a → 2026-09-24a）。
 // 2026-09-23a: 演出強化——ハブの「1日の最初のブリーフィング／週の結果発表」(hub_opening.js)・トロフィー棚(trophy.js)・
 //   ボス戦(boss.js・study.html?mode=boss)・章/科目制覇の演出強化(gamify.js)。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-17a → 2026-09-23a）。
@@ -1516,7 +1519,7 @@ const CACHE = "mec-v646";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-23a";
+const SHELL_VERSION = "2026-09-24a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
