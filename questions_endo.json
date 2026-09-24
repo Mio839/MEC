@@ -34851,27 +34851,27 @@
       }
      ],
      "ans_label": "ｂ　偽痛風",
-     "ans_sub": "高齢女性の反復性急性膝関節炎＋X線での軟骨石灰化（chondrocalcinosis）→偽痛風（CPPD結晶症）",
+     "ans_sub": "X線で関節裂隙の中を走る線状の石灰化（半月板の軟骨石灰化）が写っており、高齢女性の反復する急性膝関節炎＝偽痛風（CPPD結晶沈着症）",
      "eg": [
       {
        "cls": "ep",
-       "h": "📸 X線での軟骨石灰化→偽痛風",
-       "c": "<span class=\"kw\">偽痛風の診断</span>：<br>① <span class=\"kw\">軟骨石灰化（chondrocalcinosis）</span>：X線での半月板・関節軟骨の石灰化<br>② 関節液でCPPD結晶確認（偏光顕微鏡）<br/>③ 急性膝関節炎（腫脹・発赤・熱感）<br/><br/>反復性経過（以前から時々→今回は重症化）は偽痛風の特徴</br></br>"
+       "h": "📸 X線で軟骨石灰化を探す場所は4つ決まっている",
+       "c": "<span class=\"kw\"><b>この写真に写っているもの</b></span>——<span class=\"kw3\"><b>両側の関節裂隙の中を走る、薄い線状の高吸収域</b></span>。<span class=\"kw3\"><b>脛骨プラトーの上に乗るように前額断で横に伸びており、骨とは連続していない</b></span>。⚠️<span class=\"kw4\"><b>これが半月板の石灰化</b></span>である。<span class=\"kw3\"><b>関節裂隙は保たれ、大きな骨棘も、軟骨下骨の陥没もない</b></span>。<br/><br/><span class=\"kw\"><b>探す場所は決まっている</b></span><br/>・⚠️<span class=\"kw4\"><b>膝の半月板</b></span>（本問）——<span class=\"kw3\"><b>最も見つけやすい</b></span><br/>・<span class=\"kw3\"><b>手関節の三角線維軟骨（TFCC）</b></span>——<span class=\"kw3\"><b>尺骨頭と三角骨の間の薄い線</b></span><br/>・<span class=\"kw3\"><b>恥骨結合</b></span><br/>・<span class=\"kw3\"><b>股関節の関節唇</b></span><br/>⚠️<span class=\"kw4\"><b>いずれも線維軟骨</b></span>である。<span class=\"kw3\"><b>硝子軟骨（関節軟骨）にも沈着し、その場合は関節面に平行な細い線</b></span>として写る。<br/><br/>⚠️⚠️<span class=\"kw4\"><b>X線の石灰化は「今の炎症」ではなく「沈着の蓄積」を写している</b></span>。だから<br/>・<span class=\"kw3\"><b>発作がなくても写る</b></span>（無症状の高齢者に高頻度）<br/>・⚠️<span class=\"kw4\"><b>発作中でも写らないことがある</b></span>——<span class=\"kw3\"><b>X線が正常でも偽痛風は否定できない</b></span>（Q.496）<br/><br/><span class=\"kw\"><b>決め手は画像ではなく病歴</b></span>——<span class=\"kw3\"><b>「以前から時々腫れて1週間で治まっていた」＝反復と自然寛解</b></span>。⚠️<span class=\"kw4\"><b>結晶性関節炎の署名</b></span>である（Q.477）。"
       },
       {
        "cls": "ee",
-       "h": "□ 各疾患との鑑別",
-       "c": "<table class=\"tb\"><tr><td>疾患</td><td>特徴</td><td>この症例</td></tr><tr><td>痛風</td><td>男性・第一MTP・尿酸高値</td><td>× 高齢女性・膝</td></tr><tr><td><span class=\"kw\">偽痛風</span></td><td><span class=\"kw\">高齢・膝・X線石灰化・反復性</span></td><td><span class=\"kw\">◎</span></td></tr><tr><td>特発性骨壊死</td><td>MRI：骨壊死所見</td><td>× X線で石灰化</td></tr><tr><td>変形性膝関節症</td><td>慢性・体重負荷で悪化</td><td>× 急性炎症（発赤・熱感）</td></tr><tr><td>化膿性膝関節炎</td><td>発熱・白血球著増・関節液培養+</td><td>△ 除外が必要</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　痛　風</td><td>⚠️<span class=\"kw3\">76歳の女性で膝という組合せは痛風らしくない</span>（閉経前の女性にはまず起こらず、好発は第1中足趾節関節）。<span class=\"kw3\">X線の軟骨石灰化は痛風では説明できない</span></td></tr><tr><td><span class=\"kw3\">◯ ｂ　偽痛風</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">高齢女性・反復する急性膝関節炎・自然寛解・X線の半月板石灰化</span>がそろう</td></tr><tr><td>ｃ　特発性骨壊死</td><td><span class=\"kw3\">高齢女性の内側大腿骨顆に突然の疼痛</span>で起こるが、⚠️<span class=\"kw3\">発赤・熱感・発熱を伴わない</span>。<span class=\"kw3\">早期のX線は正常</span>で MRI が要る</td></tr><tr><td>ｄ　変形性膝関節症</td><td><span class=\"kw3\">関節裂隙狭小化・骨棘・軟骨下骨硬化</span>が所見だが、⚠️<span class=\"kw3\">この写真では裂隙が保たれている</span>。<span class=\"kw3\">38.7℃の発熱と発赤も説明できない</span></td></tr><tr><td>ｅ　化膿性膝関節炎</td><td>⚠️<span class=\"kw3\">最後まで否定しきれず、実際に穿刺で否定する</span>。ただし<span class=\"kw3\">関節液が黄色半透明</span>＝<span class=\"kw3\">膿性ではない</span>ことと<span class=\"kw3\">反復して自然に治まってきた経過</span>が合わない</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 CPPD は「変形性関節症の顔」もする——出る場所が違う",
+       "c": "この設問が ｃ・ｄ を並べているのは偶然ではない。⚠️<span class=\"kw4\"><b>CPPD は長い経過で関節を壊し、変形性関節症とよく似た X線になる</b></span>（<span class=\"kw3\"><b>ピロリン酸関節症</b></span>）。<br/><br/>⚠️⚠️<span class=\"kw4\"><b>見分ける鍵は「場所」</b></span>——<span class=\"kw3\"><b>通常の変形性関節症では侵されないはずの関節に、変形性関節症様の変化がある</b></span>なら CPPD を疑う。<br/>・<span class=\"kw3\"><b>手の第2・第3中手指節関節</b></span>（⚠️<span class=\"kw3\"><b>フック状の骨棘</b></span>）<br/>・<span class=\"kw3\"><b>手関節の橈骨手根関節</b></span><br/>・<span class=\"kw3\"><b>肩・肘</b></span><br/>・<span class=\"kw3\"><b>膝の大腿膝蓋関節が内側・外側より強く傷む</b></span><br/><br/><span class=\"kw\"><b>臨床の顔も何通りもある</b></span><br/>・<span class=\"kw3\"><b>急性発作型（偽痛風）</b></span>——本問<br/>・<span class=\"kw3\"><b>慢性の変形性関節症型</b></span><br/>・<span class=\"kw3\"><b>多関節の炎症型</b></span>——⚠️<span class=\"kw3\"><b>関節リウマチと間違われる</b></span><br/>・<span class=\"kw3\"><b>crowned dens 症候群</b></span>——<span class=\"kw3\"><b>頸部痛と発熱</b></span>（Q.477）<br/><br/>⚠️<span class=\"kw4\"><b>若年で CPPD なら二次性を探す</b></span>——<span class=\"kw3\"><b>副甲状腺機能亢進症・ヘモクロマトーシス・低マグネシウム血症・低ホスファターゼ症</b></span>（Q.513）。<span class=\"kw3\"><b>Ca・P・PTH・フェリチン・Mg・ALP を測る</b></span>。<br/><br/>⚠️⚠️<span class=\"kw4\"><b>そして偽痛風には「結晶を溶かす薬」が無い</b></span>——<span class=\"kw3\"><b>痛風における尿酸降下薬にあたるものが存在しない</b></span>。<span class=\"kw3\"><b>できるのは発作ごとに炎症を抑えることと、二次性の原因があればそれを治すことだけ</b></span>。<span class=\"kw3\"><b>NSAIDs・関節内ステロイド注入（感染を否定してから）・コルヒチンの予防投与</b></span>が実際の手札になる。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">X線の軟骨石灰化（半月板）</span>→偽痛風の特徴的所見（chondrocalcinosis）。<br/>偽痛風＋高齢＋膝関節→この組み合わせは頻出。発熱があっても感染より偽痛風を疑う場合が多い。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "反復性の膝腫脹＋急性発熱＝偽痛風。<br/><b>a 痛風／c 特発性骨壊死／d 変形性膝関節症／e 化膿性膝関節炎</b>：合わない。<br/><b>b 偽痛風</b>：<span class=\"kw\">ピロリン酸カルシウム結晶による急性関節炎</span>。✓"
+       "c": "<span class=\"kw3\"><b>軟骨石灰化を探す4か所＝膝半月板・手関節TFCC・恥骨結合・股関節唇</b></span>（いずれも線維軟骨）。<br/>⚠️<span class=\"kw4\"><b>X線の石灰化は沈着の蓄積であって発作の指標ではない</b></span>——<span class=\"kw3\"><b>写らなくても否定できない</b></span>。<br/>⚠️<span class=\"kw4\"><b>通常は侵されない関節（MCP・肩・大腿膝蓋関節）の変形性関節症様変化は CPPD を疑う</b></span>。"
       }
      ],
      "imgs": [
@@ -34915,27 +34915,27 @@
       }
      ],
      "ans_label": "ｃ　ビタミンB1 静注",
-     "ans_sub": "ウェルニッケ脳症（B1欠乏：眼球運動障害＋失調＋意識障害＋FLAIR乳頭体高信号）→即座にB1静注",
+     "ans_sub": "眼球運動障害・失調・意識障害の三徴＋大量飲酒歴＝Wernicke 脳症。ビタミンB1 をブドウ糖より先に静注する",
      "eg": [
       {
        "cls": "ep",
-       "h": "🚨 ウェルニッケ脳症の治療",
-       "c": "<span class=\"kw\">ウェルニッケ脳症の確認ポイント</span>：<br>三徴：①眼球運動障害（外転神経麻痺・眼振）②小脳性失調③意識障害<br>MRI FLAIR：乳頭体・視床内側・中脳水道周囲の高信号<br/><br/><span class=\"kw\">治療</span>：<span class=\"kw\">ビタミンB1（チアミン）静注</span>（500〜1000mg/回）<br/><br/><span class=\"kw4\">ブドウ糖液を先に投与してはいけない</span>：<br/>グルコース代謝にB1を消費→残存B1を枯渇→脳症悪化<br/><br/>血漿交換・免疫グロブリン・ステロイド→ウェルニッケの治療でない</br></br>"
+       "h": "💉 「B1 静注」と答えられても、実際の投与でつまずく点が4つある",
+       "c": "⚠️<span class=\"kw4\"><b>正答率99%——答えは全員が知っている</b></span>。だから覚えるべきはその先、<span class=\"kw3\"><b>実際にどう投与するか</b></span>である。<br/><br/>①⚠️⚠️<span class=\"kw4\"><b>量が足りない</b></span>——<span class=\"kw3\"><b>一般的なビタミン剤に入っている数mg〜数十mgでは治療にならない</b></span>。<span class=\"kw3\"><b>急性期は1回数百mgを1日3回、静注</b></span>で始める（施設の基準に従う）。<span class=\"kw3\"><b>改善を確認しながら数日かけて減らす</b></span>。<br/><br/>②⚠️<span class=\"kw4\"><b>経口では間に合わない</b></span>——<span class=\"kw3\"><b>チアミンの腸管吸収には上限があり、しかもアルコール依存では吸収そのものが落ちている</b></span>（Q.519）。<span class=\"kw3\"><b>急性期は必ず注射</b></span>。<br/><br/>③⚠️⚠️<span class=\"kw4\"><b>ブドウ糖を先に入れない</b></span>——<span class=\"kw3\"><b>糖をチアミン非存在下で代謝させると、残っていたわずかなチアミンを消費して症状が一気に悪化する</b></span>。<span class=\"kw3\"><b>低血糖があってもチアミンを同時かそれより先に</b></span>。<br/><br/>④⚠️<span class=\"kw4\"><b>マグネシウムを一緒に補正する</b></span>——<span class=\"kw3\"><b>チアミンを補酵素型（チアミンピロリン酸）に変える反応に Mg が要る</b></span>ので、<span class=\"kw3\"><b>低Mg のままでは投与しても効かない</b></span>（Q.521）。<br/><br/>⚠️<span class=\"kw4\"><b>アナフィラキシーはまれで、それを恐れて投与を遅らせる方がはるかに有害</b></span>。<span class=\"kw3\"><b>疑ったら検査の結果を待たずに打つ</b></span>（血中チアミンの結果は数日かかる・Q.507）。<br/><br/><span class=\"kw\"><b>投与すると、症状は決まった順に戻る</b></span>——⚠️<span class=\"kw4\"><b>眼球運動障害は数時間〜数日</b></span>／<span class=\"kw3\"><b>失調は週から月の単位</b></span>／⚠️⚠️<span class=\"kw4\"><b>記銘力障害は戻らないことが多い</b></span>。<span class=\"kw3\"><b>最後に残るものが Korsakoff 症候群</b></span>である（Q.515）。<span class=\"kw3\"><b>だから「早く打つ」ことだけが結果を変える</b></span>。"
       },
       {
        "cls": "ee",
-       "h": "□ 各治療の評価",
-       "c": "<table class=\"tb\"><tr><td>選択肢</td><td>評価</td></tr><tr><td>血漿交換</td><td>× TTP/HUS・重症GBSなどに使用</td></tr><tr><td><span class=\"kw4\">ブドウ糖液静注</span></td><td><span class=\"kw4\">× グルコースを先に投与すると悪化</span></td></tr><tr><td><span class=\"kw\">ビタミンB1静注</span></td><td><span class=\"kw\">◎ 第一選択・即座に投与</span></td></tr><tr><td>免疫グロブリン</td><td>× GBS・ITPなどに使用</td></tr><tr><td>ステロイドパルス</td><td>× 多発性硬化症などに使用</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　血漿交換</td><td><span class=\"kw3\">Guillain-Barré 症候群・TTP・重症筋無力症クリーゼ</span>などに用いる。<span class=\"kw3\">本症例に適応はない</span></td></tr><tr><td>ｂ　ブドウ糖液静注</td><td>⚠️⚠️<span class=\"kw3\">単独で先に入れると Wernicke 脳症を増悪させる</span>。<span class=\"kw3\">必要なら必ずチアミンと同時か、その後に</span></td></tr><tr><td><span class=\"kw3\">◯ ｃ　ビタミンB1 静注</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">診断的治療でもある</span>——<span class=\"kw3\">疑った時点で開始し、検査結果を待たない</span></td></tr><tr><td>ｄ　免疫グロブリン大量静注療法</td><td><span class=\"kw3\">Guillain-Barré 症候群・川崎病・自己免疫性脳炎</span>など。<span class=\"kw3\">本症例に適応はない</span></td></tr><tr><td>ｅ　副腎皮質ステロイドのパルス療法</td><td><span class=\"kw3\">自己免疫性・炎症性疾患</span>に用いる。⚠️<span class=\"kw3\">栄養欠乏には無効で、感染と高血糖を招く</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 この症例文には Wernicke 以外の手がかりが埋めてある",
+       "c": "<span class=\"kw\"><b>書かれているのに読み飛ばしやすい3つ</b></span><br/>・<span class=\"kw3\"><b>両下腿浮腫</b></span>——<span class=\"kw3\"><b>低アルブミン血症（肝硬変・低栄養）</b></span>、あるいは⚠️<span class=\"kw3\"><b>脚気心（湿性脚気）による高拍出性心不全</b></span>（Q.492）<br/>・<span class=\"kw3\"><b>脈拍104</b></span>——同上<br/>・⚠️<span class=\"kw4\"><b>両下肢の腱反射低下</b></span>——<span class=\"kw3\"><b>Wernicke 脳症そのものでは説明できない</b></span>。<span class=\"kw3\"><b>乾性脚気の多発神経炎</b></span>が併存している（Q.502）<br/>⚠️<span class=\"kw4\"><b>つまりこの人は中枢と末梢と心臓で同時に B1 が足りない</b></span>。<br/><br/><span class=\"kw\"><b>そして「項部硬直を認めない」と書いてある理由</b></span>——<span class=\"kw3\"><b>髄膜炎を外すため</b></span>。⚠️<span class=\"kw4\"><b>アルコールを飲む人の意識障害を「酔っている」で片付けない</b></span>。同時に外すものを数える。<br/>・⚠️<span class=\"kw3\"><b>頭部外傷——慢性硬膜下血腫</b></span>（転倒を繰り返す・<span class=\"kw3\"><b>CT の閾値を下げる</b></span>）<br/>・<span class=\"kw3\"><b>低血糖</b></span>（糖新生が止まる）<br/>・<span class=\"kw3\"><b>肝性脳症</b></span><br/>・<span class=\"kw3\"><b>アルコール性ケトアシドーシス</b></span><br/>・<span class=\"kw3\"><b>低ナトリウム血症</b></span>と⚠️<span class=\"kw3\"><b>その急速補正による浸透圧性脱髄</b></span><br/>・<span class=\"kw3\"><b>感染症（髄膜炎・肺炎）</b></span><br/>・<span class=\"kw3\"><b>離脱（振戦せん妄）</b></span>（Q.519）<br/><br/>⚠️<span class=\"kw4\"><b>血糖・電解質・アンモニア・頭部CT を並行して進めながら、チアミンだけは先に打つ</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "Wernicke脳症 → <span class=\"kw\">B1を先に、グルコースはその後</span>（順序が大切）。<br/>早期B1投与で回復可能→遅れるとKorsakoff症候群（不可逆）へ移行。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "大酒家（日本酒8合/日）の意識障害。<br/><b>a 血漿交換／d 免疫グロブリン／e ステロイドパルス</b>：不適。<br/><b>b ブドウ糖液静注</b>：単独ではWernickeを誘発する恐れ。<br/><b>c ビタミンB1静注</b>：<span class=\"kw\">Wernicke脳症にはB1をブドウ糖より先に投与</span>。✓"
+       "c": "<span class=\"kw3\"><b>眼球運動障害＋失調＋意識障害＋大量飲酒＝Wernicke 脳症</b></span>。<span class=\"kw3\"><b>疑ったらチアミン静注</b></span>。<br/>⚠️⚠️<span class=\"kw4\"><b>ブドウ糖より先にチアミン</b></span>。⚠️<span class=\"kw4\"><b>量は十分に、経路は静注、Mg も補正</b></span>。<br/>⚠️<span class=\"kw4\"><b>腱反射低下は脚気の合併</b></span>——<span class=\"kw3\"><b>Wernicke だけでは説明できない所見にも意味がある</b></span>。"
       }
      ],
      "imgs": []
@@ -34981,22 +34981,27 @@
       }
      ],
      "ans_label": "ａ　鉄\nｃ　亜　鉛",
-     "ans_sub": "鉄欠乏（味蕾の細胞分裂障害）と亜鉛欠乏（味蕾の酵素機能障害）がともに味覚障害を引き起こす",
+     "ans_sub": "鉄と亜鉛はいずれも味蕾の細胞回転に必要で、欠乏すると味覚障害をきたす",
      "eg": [
       {
        "cls": "ep",
-       "h": "👅 味覚障害の微量元素",
-       "c": "<table class=\"tb\"><tr><td>微量元素</td><td>味覚障害機序</td><td>判定</td></tr><tr><td><span class=\"kw\">鉄（Fe）</span></td><td><span class=\"kw\">DNA合成・細胞分裂に必要→味蕾細胞の更新↓</span></td><td><span class=\"kw\">◎</span></td></tr><tr><td>銅（Cu）</td><td>直接の味覚障害との関連は薄い</td><td>×</td></tr><tr><td><span class=\"kw\">亜鉛（Zn）</span></td><td><span class=\"kw\">炭酸脱水酵素等の補因子→味蕾機能↓</span></td><td><span class=\"kw\">◎</span></td></tr><tr><td>ヨウ素（I）</td><td>甲状腺ホルモン合成に必要（味覚障害は直接関連なし）</td><td>×</td></tr><tr><td>セレン（Se）</td><td>抗酸化酵素（グルタチオンペルオキシダーゼ）補因子</td><td>×</td></tr></table>"
+       "h": "⚙️ 味覚障害を起こさない3つが、代わりに何を起こすか",
+       "c": "鉄と亜鉛が味覚障害を起こすことは Q.495・Q.520 で扱った。ここでは⚠️<span class=\"kw4\"><b>残る3つ（銅・ヨウ素・セレン）の欠乏症</b></span>を正面から押さえる。<span class=\"kw3\"><b>どれも内分泌・代謝の問題として出る</b></span>。<br/><br/><span class=\"kw\"><b>銅</b></span><br/>・<span class=\"kw3\"><b>小球性貧血と好中球減少</b></span>——⚠️<span class=\"kw4\"><b>鉄を投与しても治らない貧血</b></span><br/>・⚠️<span class=\"kw4\"><b>銅欠乏性脊髄症</b></span>——<span class=\"kw3\"><b>後索の障害でふらつく</b></span>。<span class=\"kw3\"><b>ビタミンB12 欠乏とほぼ同じ絵</b></span>になる（Q.498）<br/>・<span class=\"kw3\"><b>原因は胃切除後・長期の経腸栄養・亜鉛の過剰摂取</b></span><br/><br/><span class=\"kw\"><b>ヨウ素</b></span><br/>・<span class=\"kw3\"><b>甲状腺腫と甲状腺機能低下症</b></span>。⚠️<span class=\"kw4\"><b>胎児期〜乳児期の欠乏はクレチン症</b></span>（<span class=\"kw3\"><b>精神発達遅滞・難聴</b></span>）<br/>・⚠️<span class=\"kw3\"><b>日本では海藻の摂取が多く欠乏はまれ</b></span>——<span class=\"kw3\"><b>むしろ過剰による機能低下が問題になる</b></span><br/><br/><span class=\"kw\"><b>セレン</b></span><br/>・⚠️<span class=\"kw4\"><b>克山病</b></span>——<span class=\"kw3\"><b>中国東北部の風土病として知られる心筋症</b></span><br/>・<span class=\"kw3\"><b>Kashin-Beck 病</b></span>（骨関節症）・<span class=\"kw3\"><b>筋痛・心不全</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>セレンは脱ヨード酵素の補因子</b></span>——<span class=\"kw3\"><b>T4 から T3 への変換にセレンが要る</b></span>。<span class=\"kw3\"><b>欠乏すると T4 は正常でも T3 が上がらない</b></span><br/><br/>⚠️<span class=\"kw4\"><b>長期の中心静脈栄養・経腸栄養で足りなくなるのは、セレン・亜鉛・銅・カルニチン</b></span>。<span class=\"kw3\"><b>「何か月も同じ栄養剤だけ」という病歴を見たら微量元素を疑う</b></span>。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　鉄</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">鉄は DNA 合成に要る</span>ので味蕾の細胞回転が止まる。⚠️<span class=\"kw3\">Plummer-Vinson 症候群では舌炎・嚥下困難</span>も伴う</td></tr><tr><td>ｂ　銅</td><td><span class=\"kw3\">小球性貧血・好中球減少・脊髄症</span>。⚠️<span class=\"kw3\">味覚障害は起こさない</span></td></tr><tr><td><span class=\"kw3\">◯ ｃ　亜　鉛</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">味覚障害の代表</span>。⚠️<span class=\"kw3\">味蕾は約10日で入れ替わる</span>ため分裂に要る亜鉛が最初に効く</td></tr><tr><td>ｄ　ヨウ素</td><td><span class=\"kw3\">甲状腺腫・甲状腺機能低下症・クレチン症</span>。<span class=\"kw3\">味覚には関与しない</span></td></tr><tr><td>ｅ　セレン</td><td><span class=\"kw3\">克山病（心筋症）・Kashin-Beck 病</span>。⚠️<span class=\"kw3\">T4→T3 変換の障害</span>。<span class=\"kw3\">味覚障害は起こさない</span></td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "💡 味覚障害の覚え方",
-       "c": "<span class=\"kw\">「亜鉛（Zn）・鉄（Fe）・鼓索神経障害」</span>が主な味覚障害の原因。<br/>Plummer-Vinson症候群：鉄欠乏性貧血＋嚥下困難（Paterson-Kelly）＋舌炎＋味覚障害。"
+       "h": "🔍 亜鉛を補充するということ——効くまで数か月、そして銅に注意",
+       "c": "<span class=\"kw\"><b>使う薬</b></span>——<span class=\"kw3\"><b>酢酸亜鉛</b></span>（低亜鉛血症の適応がある）、<span class=\"kw3\"><b>ポラプレジンク</b></span>（胃潰瘍薬だが亜鉛を含む）。<br/><br/>⚠️⚠️<span class=\"kw4\"><b>効果判定は最低3か月</b></span>——<span class=\"kw3\"><b>味蕾が入れ替わるのを待つ</b></span>ので、<span class=\"kw3\"><b>「2週間飲んだが効かない」は無効の根拠にならない</b></span>。<span class=\"kw3\"><b>患者に先に伝えておく</b></span>。<br/><br/>⚠️⚠️<span class=\"kw4\"><b>長期投与で銅欠乏を起こす</b></span>——<span class=\"kw3\"><b>亜鉛は腸管上皮のメタロチオネインを誘導し、そこに銅が捕まって便へ捨てられる</b></span>。<br/>・<span class=\"kw3\"><b>汎血球減少</b></span>（とくに好中球減少）<br/>・<span class=\"kw3\"><b>銅欠乏性脊髄症</b></span>（歩行障害）<br/>⚠️<span class=\"kw4\"><b>亜鉛を長く使うなら血清銅も定期的に測る</b></span>。<br/>⚠️<span class=\"kw4\"><b>この機序を逆手に取ったのが Wilson 病の亜鉛療法</b></span>である（Q.468）——<span class=\"kw3\"><b>同じ作用を、片方では副作用、片方では治療として使っている</b></span>。<br/><br/><span class=\"kw\"><b>測り方の注意</b></span><br/>・⚠️<span class=\"kw3\"><b>血清亜鉛には日内変動があり、朝の空腹時に測る</b></span>（食後は低く出る）<br/>・<span class=\"kw3\"><b>低アルブミン血症では低く出る</b></span><br/>・⚠️<span class=\"kw3\"><b>ALP は亜鉛酵素なので、ALP 低値が亜鉛欠乏の傍証</b></span>になる<br/><br/><span class=\"kw\"><b>鉄と亜鉛は同じ場面で一緒に欠乏する</b></span>——<span class=\"kw3\"><b>胃切除後・炎症性腸疾患・完全菜食・高齢者の粗食</b></span>。⚠️<span class=\"kw3\"><b>どちらも主な供給源が赤身肉や貝類</b></span>だから、<span class=\"kw3\"><b>片方が欠けていればもう片方も測る</b></span>。<br/>⚠️<span class=\"kw4\"><b>ただし同時に飲ませない</b></span>——<span class=\"kw3\"><b>鉄と亜鉛は腸管で同じ輸送系を取り合い、互いの吸収を下げる</b></span>。<span class=\"kw3\"><b>服用の時間をずらす</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">亜鉛が最も多い</span>味覚障害の原因（透析患者・TPN患者・老人に多い）。<br/>鉄欠乏（Plummer-Vinson症候群）でも味覚障害が起きることがある。"
+       "c": "<span class=\"kw3\"><b>味覚障害＝亜鉛・鉄（と薬剤性）</b></span>。⚠️<span class=\"kw4\"><b>銅・ヨウ素・セレンは起こさない</b></span>。<br/><span class=\"kw3\"><b>銅＝貧血と脊髄症／ヨウ素＝甲状腺／セレン＝克山病と T4→T3 変換</b></span>。<br/>⚠️<span class=\"kw4\"><b>亜鉛補充は効果判定に3か月、長期では銅欠乏に注意</b></span>。"
       }
      ],
      "imgs": []
@@ -35042,22 +35047,27 @@
       }
      ],
      "ans_label": "ｄ　副甲状腺ホルモン\nｅ　副腎皮質ホルモン",
-     "ans_sub": "PTH過剰→骨吸収↑（繊維性骨炎）。副腎皮質ホルモン（ステロイド）過剰→骨形成↓・骨吸収↑→ステロイド性骨粗鬆症",
+     "ans_sub": "副甲状腺ホルモンの持続的過剰は骨吸収を、糖質コルチコイドの過剰は骨形成の抑制と骨吸収の促進を介して骨密度を下げる",
      "eg": [
       {
        "cls": "ep",
-       "h": "🦴 骨密度を低下させるホルモン",
-       "c": "<table class=\"tb\"><tr><td>ホルモン</td><td>骨への作用</td><td>判定</td></tr><tr><td>エストロゲン</td><td>骨保護（破骨細胞抑制）</td><td>× 低下すると骨密度↓</td></tr><tr><td>カルシトニン</td><td>骨吸収抑制（破骨細胞阻害）</td><td>× 過剰は骨を保護</td></tr><tr><td>抗利尿ホルモン（ADH）</td><td>骨代謝への直接作用は弱い</td><td>×</td></tr><tr><td><span class=\"kw\">副甲状腺ホルモン（PTH）</span></td><td><span class=\"kw\">過剰→破骨細胞↑→骨吸収↑→骨密度↓</span></td><td><span class=\"kw\">◎</span></td></tr><tr><td><span class=\"kw\">副腎皮質ホルモン（ステロイド）</span></td><td><span class=\"kw\">骨芽細胞↓・骨吸収↑→ステロイド性骨粗鬆症</span></td><td><span class=\"kw\">◎</span></td></tr></table>"
+       "h": "🦴 ホルモンを「骨を壊す側」と「守る側」に並べ直す",
+       "c": "<span class=\"kw\"><b>壊す側</b></span><br/>・⚠️<span class=\"kw4\"><b>副甲状腺ホルモン（持続的過剰）</b></span>——<span class=\"kw3\"><b>破骨細胞を介して骨吸収を進める</b></span>。<span class=\"kw3\"><b>原発性副甲状腺機能亢進症では線維性骨炎</b></span>（<span class=\"kw3\"><b>骨膜下吸収像・囲まれた骨嚢胞</b></span>）<br/>・⚠️<span class=\"kw4\"><b>糖質コルチコイド</b></span>——<span class=\"kw3\"><b>骨芽細胞のアポトーシスを促して骨形成を止め、腸管からの Ca 吸収を減らし、尿中 Ca 排泄を増やす</b></span>。⚠️<span class=\"kw3\"><b>「作る側を止める」のが主</b></span>なのが他と違う<br/>・<span class=\"kw3\"><b>甲状腺ホルモン過剰</b></span>——<span class=\"kw3\"><b>骨回転が速くなり、吸収が形成を上回る</b></span>。<span class=\"kw3\"><b>Basedow 病・甲状腺癌術後の TSH 抑制療法</b></span><br/>・<span class=\"kw3\"><b>プロラクチン過剰</b></span>——⚠️<span class=\"kw3\"><b>直接ではなく、性腺を抑えることを介して</b></span><br/><br/><span class=\"kw\"><b>守る側</b></span><br/>・⚠️<span class=\"kw4\"><b>エストロゲン</b></span>——<span class=\"kw3\"><b>破骨細胞のアポトーシスを促して働きを止めている</b></span>。<span class=\"kw3\"><b>閉経でこの制動が外れ骨吸収が加速する</b></span><br/>・<span class=\"kw3\"><b>アンドロゲン</b></span>——<span class=\"kw3\"><b>男性の骨も守っている</b></span><br/>・<span class=\"kw3\"><b>カルシトニン</b></span>——<span class=\"kw3\"><b>破骨細胞を直接抑える</b></span>（⚠️<span class=\"kw3\"><b>生理的な寄与は小さい</b></span>）<br/>・<span class=\"kw3\"><b>成長ホルモン・IGF-1</b></span>——<span class=\"kw3\"><b>骨形成を促す</b></span><br/>・<span class=\"kw3\"><b>活性型ビタミンD</b></span>——<span class=\"kw3\"><b>腸管から Ca を入れる</b></span><br/><br/>⚠️⚠️<span class=\"kw4\"><b>PTH は持続なら壊し、1日1回の間欠投与なら作る</b></span>——<span class=\"kw3\"><b>同じホルモンが与え方で真逆に働く</b></span>（Q.510）。<span class=\"kw3\"><b>テリパラチドはこれを利用した薬</b></span>である。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　エストロゲン</td><td>⚠️<span class=\"kw3\">守る側</span>。<span class=\"kw3\">破骨細胞のアポトーシスを促す</span>。<span class=\"kw3\">欠乏（閉経）で骨密度が下がる</span></td></tr><tr><td>ｂ　カルシトニン</td><td><span class=\"kw3\">守る側</span>。<span class=\"kw3\">破骨細胞を抑える</span>。⚠️<span class=\"kw3\">過剰（髄様癌）でも骨は目立って侵されない</span></td></tr><tr><td>ｃ　抗利尿ホルモン</td><td><span class=\"kw3\">水の再吸収を担う</span>。⚠️<span class=\"kw3\">骨代謝には関与しない</span>。過剰は SIADH（低Na）</td></tr><tr><td><span class=\"kw3\">◯ ｄ　副甲状腺ホルモン</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">持続的過剰で骨吸収が進み、線維性骨炎</span>となる</td></tr><tr><td><span class=\"kw3\">◯ ｅ　副腎皮質ホルモン</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">骨形成の抑制が主</span>で、Cushing 症候群・ステロイド治療の双方で起こる</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "💡 骨保護ホルモン vs 骨破壊ホルモン",
-       "c": "<span class=\"kw\">保護：エストロゲン・カルシトニン・テストステロン・インスリン</span><br/><span class=\"kw\">破壊（過剰で骨粗鬆症）：PTH・ステロイド・甲状腺ホルモン（過剰）</span><br/>注：生理量のPTHは間欠投与で骨形成促進（テリパラチドの原理）"
+       "h": "🔍 治療そのものが骨を壊す場面を数える",
+       "c": "この設問で問われているのは生理だが、⚠️<span class=\"kw4\"><b>臨床で実際に困るのは「治療によって起こる骨粗鬆症」</b></span>である。<span class=\"kw3\"><b>いずれも予測できるので、始める時点で対策を立てる</b></span>。<br/><br/>・⚠️⚠️<span class=\"kw4\"><b>乳癌のアロマターゼ阻害薬</b></span>——<span class=\"kw3\"><b>エストロゲンを作らせない</b></span>＝守る側を外す<br/>・⚠️⚠️<span class=\"kw4\"><b>前立腺癌のアンドロゲン遮断療法</b></span>——<span class=\"kw3\"><b>男性の骨を守っていたものを外す</b></span><br/>・<span class=\"kw3\"><b>子宮内膜症・子宮筋腫の GnRH アゴニスト</b></span>——<span class=\"kw3\"><b>人工的に閉経を作る</b></span>ので<span class=\"kw3\"><b>投与期間に上限がある</b></span><br/>・<span class=\"kw3\"><b>化学療法による卵巣機能不全</b></span><br/>・⚠️<span class=\"kw4\"><b>甲状腺癌術後の TSH 抑制療法</b></span>——<span class=\"kw3\"><b>意図的に甲状腺ホルモンを過剰にしている</b></span><br/>・⚠️<span class=\"kw4\"><b>ステロイド全身投与</b></span>——<span class=\"kw3\"><b>3か月以上の見込みなら開始時から評価する</b></span>（Q.263）<br/>⚠️<span class=\"kw4\"><b>これらをまとめて「がん治療関連骨減少」と呼ぶ</b></span>。<br/><br/><span class=\"kw\"><b>もう一群、内分泌以外の薬でも起こる</b></span><br/>・<span class=\"kw3\"><b>抗てんかん薬</b></span>（<span class=\"kw3\"><b>ビタミンD の代謝を進める</b></span>）・<span class=\"kw3\"><b>ヘパリン長期</b></span>・<span class=\"kw3\"><b>プロトンポンプ阻害薬</b></span>・<span class=\"kw3\"><b>SGLT2 阻害薬とチアゾリジン</b></span><br/><br/>⚠️<span class=\"kw4\"><b>「骨密度が低い」を見たら、年齢と閉経の前に服薬歴を聞く</b></span>——<span class=\"kw3\"><b>止められる原因が混じっていることがある</b></span>（Q.281）。<br/><br/>⚠️<span class=\"kw4\"><b>対策は治療の開始と同時に決める</b></span>——<span class=\"kw3\"><b>ベースラインの骨密度を測り、カルシウムとビタミンD を足し、骨折リスクが高ければ最初からビスホスホネートやデノスマブを併用する</b></span>。<span class=\"kw3\"><b>骨折してから考えるのでは遅い</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">ステロイド性骨粗鬆症</span>：骨形成↓（骨芽細胞抑制）＋骨吸収↑→脆弱性骨折（椎体骨折が多い）。<br/>ビスホスホネートが第一予防薬（ステロイド開始時から）。"
+       "c": "<span class=\"kw3\"><b>骨を壊す＝PTH（持続）・糖質コルチコイド・甲状腺ホルモン過剰</b></span>。<span class=\"kw3\"><b>守る＝エストロゲン・アンドロゲン・カルシトニン・GH・活性型D</b></span>。<br/>⚠️<span class=\"kw4\"><b>ステロイドは「作る側を止める」のが主</b></span>——<span class=\"kw3\"><b>骨密度の割に折れやすい</b></span>。<br/>⚠️<span class=\"kw4\"><b>PTH は持続で壊し、間欠投与で作る</b></span>。"
       }
      ],
      "imgs": []
@@ -35103,22 +35113,27 @@
       }
      ],
      "ans_label": "ａ　コルヒチン\nｃ　インドメタシン",
-     "ans_sub": "急性痛風発作：コルヒチン（微小管阻害）とNSAIDs（インドメタシン）が急性期の治療薬。尿酸降下薬は急性期禁忌",
+     "ans_sub": "急性痛風発作にはコルヒチンと NSAIDs（インドメタシン）。尿酸降下薬は尿酸値を動かして発作を長引かせるため急性期には開始しない",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 痛風治療薬の選択",
-       "c": "<table class=\"tb\"><tr><td>薬剤</td><td>機序</td><td>急性期使用</td><td>備考</td></tr><tr><td><span class=\"kw\">コルヒチン</span></td><td>微小管阻害→白血球遊走抑制</td><td><span class=\"kw\">◎</span></td><td>早期（24時間以内）が最も有効</td></tr><tr><td>プロベネシド</td><td>URAT1阻害→尿酸排泄促進</td><td><span class=\"kw4\">× 急性期禁忌</span></td><td>血清尿酸変動→悪化</td></tr><tr><td><span class=\"kw\">インドメタシン（NSAIDs）</span></td><td>COX阻害→プロスタグランジン↓</td><td><span class=\"kw\">◎</span></td><td>インドメタシンが代表的NSAIDs</td></tr><tr><td>アロプリノール</td><td>XO阻害→尿酸合成抑制</td><td><span class=\"kw4\">× 急性期禁忌</span></td><td>血清尿酸変動→悪化</td></tr><tr><td>ベンズブロマロン</td><td>URAT1阻害→尿酸排泄促進</td><td><span class=\"kw4\">× 急性期禁忌</span></td><td>尿酸降下薬</td></tr></table>"
+       "h": "💊 コルヒチンという薬を正確に知る",
+       "c": "<span class=\"kw\"><b>作用機序</b></span>——⚠️<span class=\"kw4\"><b>微小管の重合を阻害する</b></span>。<span class=\"kw3\"><b>好中球は微小管を使って遊走し、結晶を貪食し、脱顆粒する</b></span>ので、<span class=\"kw3\"><b>その動きそのものを止める</b></span>。⚠️<span class=\"kw4\"><b>尿酸値は1ミリグラムも動かさない</b></span>——<span class=\"kw3\"><b>炎症だけを切る薬</b></span>である。<br/><br/>⚠️⚠️<span class=\"kw4\"><b>使い方は昔と変わった</b></span>——<span class=\"kw3\"><b>かつては「1時間おきに、下痢をするまで飲ませる」という方法があったが、今はしない</b></span>。<span class=\"kw3\"><b>低用量でも効果は同等で、消化器症状だけが減る</b></span>ことが分かったため。<br/><br/>⚠️<span class=\"kw4\"><b>治療域が狭い</b></span><br/>・<span class=\"kw3\"><b>下痢・嘔吐・腹痛</b></span>が最も多く、<span class=\"kw3\"><b>用量を決める毒性</b></span>になる<br/>・<span class=\"kw3\"><b>高用量や蓄積では骨髄抑制・横紋筋融解・末梢神経障害</b></span><br/>・<span class=\"kw3\"><b>腎障害・肝障害では減量</b></span>する<br/><br/>⚠️⚠️<span class=\"kw4\"><b>相互作用が実害を出す</b></span>——<span class=\"kw3\"><b>コルヒチンは CYP3A4 と P-糖蛋白の基質</b></span>なので、これを止める薬と併用すると血中濃度が跳ね上がる。<br/>・<span class=\"kw3\"><b>クラリスロマイシン</b></span>・<span class=\"kw3\"><b>シクロスポリン</b></span>・<span class=\"kw3\"><b>ベラパミル・ジルチアゼム</b></span>・<span class=\"kw3\"><b>アゾール系抗真菌薬</b></span>・<span class=\"kw3\"><b>グレープフルーツジュース</b></span><br/>⚠️<span class=\"kw4\"><b>とくに腎障害のある患者にマクロライドを足した場合、汎血球減少や多臓器不全に至った報告がある</b></span>。<span class=\"kw3\"><b>「痛風の薬だから」と軽く見ない</b></span>。<br/><br/>⚠️<span class=\"kw4\"><b>発作の前兆期〜12時間以内に飲むほど効く</b></span>（Q.501）。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　コルヒチン</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">微小管阻害で好中球の遊走・貪食を止める</span>。⚠️<span class=\"kw3\">尿酸値は動かさない</span></td></tr><tr><td>ｂ　プロベネシド</td><td><span class=\"kw3\">尿酸排泄促進薬</span>。⚠️<span class=\"kw3\">急性期に始めると尿酸が動いて発作が長引く</span></td></tr><tr><td><span class=\"kw3\">◯ ｃ　インドメタシン</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">NSAIDs は急性期の第一選択の一つ</span>。⚠️<span class=\"kw3\">短期間に十分量</span>を使う</td></tr><tr><td>ｄ　アロプリノール</td><td><span class=\"kw3\">尿酸生成抑制薬（キサンチンオキシダーゼ阻害）</span>。⚠️<span class=\"kw3\">発作が治まって2週間ほど経ってから、少量で開始</span></td></tr><tr><td>ｅ　ベンズブロマロン</td><td><span class=\"kw3\">尿酸排泄促進薬</span>。⚠️<span class=\"kw3\">急性期には用いない</span>。<span class=\"kw3\">劇症肝炎の報告があり定期的な肝機能検査が要る</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 コルヒチンは痛風だけの薬ではない——「好中球の薬」として使われる",
+       "c": "微小管を止めて好中球の動きを抑えるという作用は、<span class=\"kw3\"><b>好中球が主役の炎症</b></span>すべてに効きうる。実際に適応が広がっている。<br/><br/>・⚠️⚠️<span class=\"kw4\"><b>家族性地中海熱</b></span>——<span class=\"kw3\"><b>発熱と漿膜炎の発作を予防する</b></span>。さらに⚠️<span class=\"kw4\"><b>続発する AA アミロイドーシス（腎不全）を防ぐ</b></span>ので、<span class=\"kw3\"><b>生命予後を変える薬</b></span>である<br/>・⚠️<span class=\"kw4\"><b>再発性心膜炎・心膜切開後症候群</b></span>——<span class=\"kw3\"><b>NSAIDs に併用して再発を減らす</b></span><br/>・<span class=\"kw3\"><b>Behçet 病</b></span>——<span class=\"kw3\"><b>結節性紅斑・口腔内アフタ・関節炎</b></span>に用いる<br/>・<span class=\"kw3\"><b>冠動脈疾患の二次予防</b></span>——<span class=\"kw3\"><b>残余炎症を標的にする試みとして研究されている</b></span><br/><br/><span class=\"kw\"><b>NSAIDs の側も「どれでもよい」わけではない</b></span><br/>・⚠️<span class=\"kw4\"><b>痛風発作に対する効果はどの NSAIDs でもほぼ同等</b></span>——<span class=\"kw3\"><b>選ぶ根拠は薬ではなく患者側</b></span>にある<br/>・<span class=\"kw3\"><b>腎機能低下</b></span>なら避ける（Q.508）／<span class=\"kw3\"><b>消化管出血の既往</b></span>なら避けるか PPI を併用／<span class=\"kw3\"><b>心血管リスク</b></span>も考える<br/>・⚠️⚠️<span class=\"kw4\"><b>アスピリンは使わない</b></span>——<span class=\"kw3\"><b>低用量では尿酸の排泄を阻害して逆効果</b></span>（Q.501）<br/>・<span class=\"kw3\"><b>NSAIDs もコルヒチンも使えないときは副腎皮質ステロイド</b></span>（Q.489）<br/><br/><span class=\"kw\"><b>NSAIDs の使い方でつまずく点</b></span><br/>・⚠️<span class=\"kw4\"><b>「痛いときだけ頓用」ではなく、発作が治まるまで定時で投与する</b></span>（<span class=\"kw3\"><b>通常3〜7日</b></span>）<br/>・⚠️<span class=\"kw3\"><b>効き始めるまで24時間ほどかかることがある</b></span>——<span class=\"kw3\"><b>翌日効いていないというだけで無効と判断しない</b></span><br/>・<span class=\"kw3\"><b>症状が消えたら速やかにやめる</b></span>（<span class=\"kw3\"><b>漫然と続けない</b></span>）"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "急性期：<span class=\"kw\">コルヒチン + NSAIDs（インドメタシン等）</span>。<br/><span class=\"kw4\">プロベネシド・アロプリノール・ベンズブロマロン（尿酸降下薬）は急性期NG</span>。<br/>寛解後3〜4週間経ってから尿酸降下薬を開始。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "痛風発作初期に用いる薬剤を2つ。<br/><b>b プロベネシド／d アロプリノール／e ベンズブロマロン</b>：尿酸降下薬で発作中に開始しない。<br/><b>a コルヒチン</b>：<span class=\"kw\">発作の極初期に有効</span>。✓<br/><b>c インドメタシン</b>：<span class=\"kw\">NSAIDで消炎鎮痛</span>。✓"
+       "c": "<span class=\"kw3\"><b>急性発作＝コルヒチン・NSAIDs・ステロイドの3群</b></span>。⚠️<span class=\"kw4\"><b>尿酸降下薬は急性期に開始しない</b></span>。<br/>⚠️<span class=\"kw4\"><b>コルヒチンは微小管阻害＝尿酸値を動かさない</b></span>。<span class=\"kw3\"><b>前兆期〜12時間以内</b></span>。<br/>⚠️<span class=\"kw4\"><b>CYP3A4／P-糖蛋白の阻害薬（クラリスロマイシン等）との併用に注意</b></span>。<span class=\"kw3\"><b>家族性地中海熱にも使う</b></span>。"
       }
      ],
      "imgs": []
@@ -35160,27 +35175,27 @@
       }
      ],
      "ans_label": "ａ　褐色細胞腫",
-     "ans_sub": "褐色細胞腫：アドレナリン↑→グリコーゲン分解↑・インスリン分泌抑制→高血糖（低血糖ではない）",
+     "ans_sub": "褐色細胞腫はカテコラミン過剰でグリコーゲン分解と糖新生が進みインスリン分泌も抑えられるため、低血糖ではなく高血糖をきたす",
      "eg": [
       {
        "cls": "ep",
-       "h": "📈 褐色細胞腫と血糖",
-       "c": "<span class=\"kw\">褐色細胞腫</span>：副腎髄質（または傍神経節）からカテコールアミン過剰産生<br/>アドレナリン→β作用：グリコーゲン分解促進、糖新生↑<br/>アドレナリン→α作用：インスリン分泌抑制<br/>→ <span class=\"kw\">高血糖</span>（低血糖は起きない）<br/><br/>他の選択肢は低血糖をきたす：<br/>・低出生体重児：肝グリコーゲン蓄積少・インスリン代謝未熟<br/>・糖尿病母体児：胎児期の高インスリン状態→出生後も高インスリン<br/>・下垂体前葉機能低下症：GH・コルチゾール欠乏→糖新生↓<br/>・糖原病Ⅰ型：G6Pase欠損→グルコース放出不可"
+       "h": "👶 新生児の低血糖は「貯えが無い」か「インスリンが多い」かの二択",
+       "c": "5肢のうち2つが新生児であることに注意する。⚠️<span class=\"kw4\"><b>新生児低血糖の原因は大きく2つに分かれ、選択肢はその両方を並べている</b></span>。<br/><br/><span class=\"kw\"><b>① 貯えが無い——低出生体重児・早産児・SGA 児</b></span><br/>⚠️<span class=\"kw4\"><b>肝グリコーゲンと皮下脂肪が蓄えられるのは妊娠後期</b></span>である。<span class=\"kw3\"><b>そこに到達する前に生まれるか、子宮内で発育が抑えられていると、出生時点で燃料を持っていない</b></span>。<br/><br/><span class=\"kw\"><b>② インスリンが多い——糖尿病母体児</b></span><br/>⚠️⚠️<span class=\"kw4\"><b>母体の高血糖は胎盤を通るが、母体のインスリンは通らない</b></span>。<span class=\"kw3\"><b>胎児は自分の膵β細胞を増やして対応する</b></span>（Pedersen の仮説）。<span class=\"kw3\"><b>出生で糖の供給が絶たれても、過形成した膵はインスリンを出し続ける</b></span>＝⚠️<span class=\"kw4\"><b>生後数時間の低血糖</b></span>。<br/><span class=\"kw3\"><b>同時に見られるもの</b></span>——<span class=\"kw3\"><b>巨大児（インスリンは成長因子）・呼吸窮迫症候群（サーファクタント産生の遅れ）・低Ca血症・多血症と高ビリルビン血症</b></span>。<br/><br/>⚠️⚠️<span class=\"kw4\"><b>新生児低血糖は無症状のことが多い</b></span>。症状が出ても<span class=\"kw3\"><b>哺乳不良・易刺激性・振戦・筋緊張低下・無呼吸・けいれん</b></span>と非特異的で、<span class=\"kw3\"><b>「元気がない」で見過ごされる</b></span>。⚠️<span class=\"kw4\"><b>だからハイリスク児は症状を待たずに血糖を測る</b></span>。<br/><br/><span class=\"kw\"><b>対応</b></span>——<span class=\"kw3\"><b>早期授乳、経口ブドウ糖ゲル、それでも上がらなければ10%ブドウ糖の静注</b></span>。⚠️<span class=\"kw4\"><b>多くは数日で自然に落ち着く</b></span>。<br/>⚠️⚠️<span class=\"kw4\"><b>それでも遷延するなら別の病気を考える</b></span>——<span class=\"kw3\"><b>先天性高インスリン血症性低血糖症</b></span>（<span class=\"kw3\"><b>ジアゾキシドを用いる</b></span>）・<span class=\"kw3\"><b>副腎不全・下垂体機能低下症・先天代謝異常</b></span>。<span class=\"kw3\"><b>「日数が経っても続く低血糖」が切り替えの合図</b></span>になる。"
       },
       {
        "cls": "ee",
-       "h": "□ 低血糖をきたす疾患",
-       "c": "<table class=\"tb\"><tr><td>疾患/状態</td><td>低血糖の機序</td></tr><tr><td>低出生体重児</td><td>グリコーゲン貯蔵少・哺乳不足</td></tr><tr><td>糖尿病母体児</td><td>高インスリン状態→出生後の低血糖</td></tr><tr><td>下垂体前葉機能低下症</td><td>GH・コルチゾール欠乏→糖新生↓</td></tr><tr><td>糖原病Ⅰ型</td><td>G6Pase欠損→グルコース放出障害</td></tr><tr><td><span class=\"kw4\">褐色細胞腫</span></td><td><span class=\"kw4\">カテコールアミン↑→高血糖（低血糖をきたさない）</span></td></tr></table>"
+       "h": "□ 選択肢の検討（低血糖をきたさないものを選ぶ）",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　褐色細胞腫</span></td><td><span class=\"kw3\">これが正解</span>（＝きたさない）。⚠️<span class=\"kw3\">カテコラミンはグリコーゲン分解と糖新生を進め、さらにα2 作用でインスリン分泌を抑える</span>＝<span class=\"kw3\">高血糖になる</span></td></tr><tr><td>ｂ　低出生体重児</td><td>きたす。<span class=\"kw3\">肝グリコーゲンと皮下脂肪の蓄積が足りない</span>＝燃料が無い</td></tr><tr><td>ｃ　糖尿病母体児</td><td>きたす。⚠️<span class=\"kw3\">胎児の膵β細胞が過形成し、出生後もインスリンを出し続ける</span></td></tr><tr><td>ｄ　下垂体前葉機能低下症</td><td>きたす。<span class=\"kw3\">ACTH → コルチゾール</span>と<span class=\"kw3\">成長ホルモン</span>という<span class=\"kw3\">インスリン拮抗ホルモンが2つとも落ちる</span></td></tr><tr><td>ｅ　糖原病Ⅰ型</td><td>きたす。<span class=\"kw3\">グルコース6-ホスファターゼの欠損</span>で<span class=\"kw3\">グリコーゲンを分解しても糖を血中へ出せない</span>（Q.485）</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 成人の低血糖は「インスリンが出ているか」で二分する",
+       "c": "⚠️⚠️<span class=\"kw4\"><b>低血糖を見たら、その場で血中インスリンと C ペプチドを同時に採る</b></span>。<span class=\"kw3\"><b>血糖が戻ってしまってからでは二度と測れない</b></span>。<br/><br/><span class=\"kw\"><b>インスリン高値・C ペプチド高値</b></span>——<span class=\"kw3\"><b>自分の膵臓が出している</b></span><br/>・<span class=\"kw3\"><b>インスリノーマ</b></span>（⚠️<span class=\"kw3\"><b>絶食試験で誘発する</b></span>）<br/>・<span class=\"kw3\"><b>スルホニル尿素薬</b></span>（⚠️<span class=\"kw4\"><b>薬物スクリーニングで区別する</b></span>・<span class=\"kw3\"><b>低血糖が遷延する</b></span>・Q.414）<br/>・<span class=\"kw3\"><b>インスリン自己免疫症候群</b></span>（⚠️<span class=\"kw3\"><b>抗インスリン抗体・チアマゾール等が契機</b></span>）<br/><br/><span class=\"kw\"><b>インスリン高値・C ペプチド低値</b></span>——⚠️⚠️<span class=\"kw4\"><b>外から入れている</b></span><br/>・<span class=\"kw3\"><b>インスリンの自己注射</b></span>（詐病・誤投与・虐待）<br/>・<span class=\"kw3\"><b>C ペプチドはインスリンと 1 対 1 で作られる</b></span>ので、<span class=\"kw3\"><b>内因性なら必ず一緒に上がる</b></span>。⚠️<span class=\"kw4\"><b>この乖離が外因性を見抜く唯一の手がかり</b></span><br/><br/><span class=\"kw\"><b>インスリン低値・C ペプチド低値</b></span>——<span class=\"kw3\"><b>インスリン以外の原因</b></span><br/>・<span class=\"kw3\"><b>下垂体前葉機能低下症・副腎不全</b></span>（本問の ｄ）<br/>・<span class=\"kw3\"><b>肝不全・腎不全・敗血症・飢餓</b></span><br/>・⚠️<span class=\"kw3\"><b>非膵島細胞性腫瘍による低血糖</b></span>（<span class=\"kw3\"><b>巨大な間葉系腫瘍が IGF-Ⅱ を出す</b></span>）<br/><br/>⚠️<span class=\"kw4\"><b>Whipple の三徴</b></span>——<span class=\"kw3\"><b>①低血糖症状 ②その時の血糖が低い ③糖の投与で改善する</b></span>。<span class=\"kw3\"><b>3つそろって初めて「低血糖」と言う</b></span>。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">褐色細胞腫 = 高血糖</span>（カテコールアミン過剰によるインスリン拮抗）。<br/>術中低血糖もあり得るが（tumor removal後のカテコールアミン急減）、腫瘍の作用自体は高血糖方向。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "低血糖をきたさないもの。<br/><b>b 低出生体重児／c 糖尿病母体児／d 下垂体前葉機能低下症／e 糖原病Ⅰ型</b>：低血糖をきたす。<br/><b>a 褐色細胞腫</b>：<span class=\"kw\">カテコラミン過剰でむしろ高血糖</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw3\"><b>褐色細胞腫は高血糖</b></span>（⚠️<span class=\"kw4\"><b>摘出直後は逆に低血糖になりうる</b></span>・Q.254）。<br/><span class=\"kw3\"><b>新生児低血糖＝貯えが無い（低出生体重児）か、インスリンが多い（糖尿病母体児）か</b></span>。<br/>⚠️<span class=\"kw4\"><b>低血糖の原因検索はインスリンと C ペプチドを同時に</b></span>——<span class=\"kw3\"><b>インスリン高値で C ペプチド低値なら外因性</b></span>。"
       }
      ],
      "imgs": []
