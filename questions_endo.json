@@ -33657,27 +33657,27 @@
       }
      ],
      "ans_label": "ｃ　レバー",
-     "ans_sub": "レバー（肝臓）はプリン体含有量が非常に多い食品の代表。痛風患者はプリン体制限が必要",
+     "ans_sub": "レバーはプリン体が飛び抜けて多い食品（100g で 200〜300mg 超）。胡椒・食塩・コーヒー・マーガリンはプリン体をほとんど含まない",
      "eg": [
       {
        "cls": "ep",
-       "h": "🥩 プリン体含有量と痛風",
-       "c": "<span class=\"kw\">プリン体が多い食品</span>（制限が必要）：<br/>・<span class=\"kw\">レバー（鶏・豚・牛）</span>：300mg/100g以上（最多）<br/>・白子（魚の精巣）・イワシ・干物・エビ・カツオ節<br/>・ビール（アルコール自体の効果も加わる）<br/><br/><span class=\"kw\">プリン体が少ない食品</span>（制限不要）：<br/>・野菜・果物・乳製品（乳製品は尿酸排泄促進）<br/>・卵・穀物・芋類<br/><br/>胡椒・食塩・コーヒー・マーガリン→プリン体ほぼなし→制限不要"
+       "h": "🥩 尿酸はどこから来て、どこへ行くのか",
+       "c": "食事指導を考える前に、収支を押さえておく。<br/><br/><span class=\"kw\"><b>入ってくる側</b></span><br/>・<span class=\"kw3\"><b>内因性が約8割</b></span>——自分の細胞が入れ替わるときの核酸の分解と、<span class=\"kw3\"><b>de novo 合成</b></span><br/>・<span class=\"kw3\"><b>食事由来は約2割</b></span><br/><br/><span class=\"kw\"><b>出ていく側</b></span><br/>・<span class=\"kw3\"><b>腎から約2/3、腸管から約1/3</b></span><br/>・⚠️<span class=\"kw4\"><b>日本人の痛風の約6割は「排泄低下型」</b></span>＝入る量より<span class=\"kw3\"><b>捨てられないこと</b></span>が主因（Q.508）<br/><br/>⚠️<span class=\"kw4\"><b>だから食事のプリン体だけを極端に減らしても、尿酸は思ったほど下がらない</b></span>。効くのは<span class=\"kw3\"><b>総エネルギー・アルコール・果糖・体重・水分</b></span>の方（Q.503）。<br/><br/><span class=\"kw\"><b>それでも極端に多い食品は避ける</b></span>——<span class=\"kw3\"><b>レバー</b></span>は 100g あたり 200〜300mg 超で食品中の最上位。同じ帯にいるのが<span class=\"kw3\"><b>白子・煮干し・干物・鰹節・あん肝</b></span>で、いずれも<span class=\"kw3\"><b>細胞が密に詰まった組織</b></span>か<span class=\"kw3\"><b>水分を抜いて濃縮された食品</b></span>という共通点を持つ。<br/>⚠️ ビールは 100mL あたりでは 5〜10mg と少ないが、<span class=\"kw3\"><b>飲む量が桁違いに多く、アルコールの作用も重なる</b></span>（Q.503）。"
       },
       {
        "cls": "ee",
-       "h": "□ 各選択肢の評価",
-       "c": "<table class=\"tb\"><tr><td>食品</td><td>プリン体含有</td><td>痛風での制限</td></tr><tr><td>胡椒</td><td>微量</td><td>不要</td></tr><tr><td>食塩</td><td>なし</td><td>不要（むしろ水分+塩で尿酸排泄促進）</td></tr><tr><td><span class=\"kw\">レバー</span></td><td><span class=\"kw\">非常に多い（300mg/100g超）</span></td><td><span class=\"kw\">◎ 必ず制限</span></td></tr><tr><td>コーヒー</td><td>少量</td><td>不要（むしろ痛風予防の可能性）</td></tr><tr><td>マーガリン</td><td>なし</td><td>不要</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胡　椒</td><td>香辛料。<span class=\"kw3\">プリン体は微量</span>で、一度に摂る量もごくわずか</td></tr><tr><td>ｂ　食　塩</td><td><span class=\"kw3\">プリン体を含まない</span>。⚠️高血圧と腎保護の観点では減塩すべきだが、<span class=\"kw3\">尿酸そのものは動かさない</span></td></tr><tr><td><span class=\"kw3\">◯ ｃ　レバー</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">100g で 200〜300mg 超</span>＝食品中で最上位。細胞が密に詰まった臓器だから核酸が多い</td></tr><tr><td>ｄ　コーヒー</td><td>⚠️<span class=\"kw3\">むしろ痛風のリスクを下げる</span>側の飲み物（下の検討を参照）</td></tr><tr><td>ｅ　マーガリン</td><td>油脂でありプリン体を含まない。⚠️<span class=\"kw3\">トランス脂肪酸という別の問題</span>はあるが尿酸とは無関係</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 「体に悪そう」では選べない——コーヒーはむしろ下げる",
+       "c": "この設問が 77% に留まるのは、<span class=\"kw3\"><b>健康に悪そうなものを選びたくなる</b></span>からである。しかし問われているのは<span class=\"kw3\"><b>尿酸を上げるかどうか</b></span>の一点。<br/><br/>・⚠️<span class=\"kw4\"><b>コーヒーは痛風のリスクを下げる</b></span>——用量依存性に下がることが大規模コホートで示され、⚠️<span class=\"kw4\"><b>カフェインレスでも下がる</b></span>ので、カフェイン以外の成分（クロロゲン酸など）の関与が考えられている。<span class=\"kw3\"><b>制限する理由が無い</b></span><br/>・<span class=\"kw3\"><b>食塩</b></span>——血圧と腎には重要だが<span class=\"kw3\"><b>尿酸には効かない</b></span>。⚠️むしろ<span class=\"kw3\"><b>水分を十分とること</b></span>が尿酸排泄には効く<br/>・<span class=\"kw3\"><b>マーガリン</b></span>——心血管の観点では議論があるが<span class=\"kw3\"><b>プリン体ゼロ</b></span><br/>・<span class=\"kw3\"><b>胡椒</b></span>——量が少なすぎて問題にならない<br/><br/>⚠️<span class=\"kw4\"><b>組合せ問題や「制限すべきものは」の設問では、印象ではなく機序で切る</b></span>。ここでは「<span class=\"kw3\"><b>核酸を多く含む細胞の塊かどうか</b></span>」という1本の物差しだけでレバーが決まる。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">レバー・白子・干物・エビ</span>がプリン体の多い食品の代表。<br/>水分を多く摂取（&gt;2L/日）→尿酸排泄促進→痛風発作予防。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "痛風で制限すべきもの。<br/><b>a 胡椒／b 食塩／d コーヒー／e マーガリン</b>：プリン体が少なく制限対象でない。<br/><b>c レバー</b>：<span class=\"kw\">プリン体が多く尿酸を増やす</span>。✓"
+       "c": "<span class=\"kw3\"><b>プリン体が多い＝レバー・白子・干物・煮干し・鰹節・あん肝</b></span>。<br/>⚠️<span class=\"kw4\"><b>野菜と乳製品は制限しない</b></span>——<span class=\"kw3\"><b>野菜由来のプリン体はリスクを上げず、低脂肪乳製品はむしろ下げる</b></span>（Q.503）。<br/>⚠️<span class=\"kw4\"><b>コーヒーは制限不要</b></span>。水分は<span class=\"kw3\"><b>1日 2L 以上</b></span>を目安に。"
       }
      ],
      "imgs": []
@@ -33723,22 +33723,27 @@
       }
      ],
      "ans_label": "ｂ　摂食の状況",
-     "ans_sub": "ウェルニッケ脳症（複視＋意識障害）を疑う→B1欠乏の原因（摂食不良・アルコール・絶食）を確認",
+     "ans_sub": "Wernicke 脳症は「飲むから」ではなく「飲んで食べないから」起こる＝血液検査では確定できないので、食べているかを聞いて診断し治療を先に始める",
      "eg": [
       {
        "cls": "ep",
-       "h": "🩺 ウェルニッケ脳症の問診ポイント",
-       "c": "<span class=\"kw\">複視＋意識障害</span>→ウェルニッケ脳症を疑う<br>→ B1欠乏の原因を問診で確認：<br>① <span class=\"kw\">摂食の状況</span>（食事が摂れているか、何を食べているか、偏食の有無）<br>② アルコール摂取状況<br>③ 嘔吐・下痢などの消化器症状（吸収不良）<br/>④ 体重変化・絶食期間<br/><br/>喫煙・胆嚢手術・甲状腺疾患・抗精神病薬はウェルニッケとの関連が薄い</br></br></br></br>"
+       "h": "🩺 「昨日は複視、今日は歩けない」——1日で完成する速さ",
+       "c": "<span class=\"kw3\"><b>昨日：物が二重に見える → 今日：歩行がふらつき、意識がおかしい</b></span>。この<span class=\"kw3\"><b>1日単位の進行</b></span>が Wernicke 脳症の時間経過そのもの。<br/><br/><span class=\"kw\"><b>三徴</b></span>——<span class=\"kw3\"><b>眼球運動障害・失調・意識障害</b></span>。⚠️<span class=\"kw4\"><b>3つ揃うのは症例の3割程度</b></span>なので、<span class=\"kw3\"><b>揃うのを待ってはいけない</b></span>。この患者はたまたま全部揃っている。<br/><br/>⚠️⚠️<span class=\"kw4\"><b>なぜ「検査」ではなく「問診」を聞いているのか</b></span>——<span class=\"kw3\"><b>血中チアミンは外注検査で結果が出るまで数日かかる</b></span>。頭部MRI（Q.482）も感度が高いわけではない。<span class=\"kw3\"><b>診断は病歴で付け、治療を先に始める</b></span>のがこの病気の作法。<br/><br/><span class=\"kw\"><b>そして「再度確認すべき」が意味すること</b></span>——<span class=\"kw3\"><b>飲酒は日本酒3合/日を40年</b></span>とすでに書いてある。だから聞き足りないのは<span class=\"kw3\"><b>食べているか</b></span>。⚠️⚠️<span class=\"kw4\"><b>アルコール性の Wernicke は「飲むから」ではなく「飲んで食べないから」起こる</b></span>——アルコールは①<span class=\"kw3\"><b>食事量を減らし</b></span>②<span class=\"kw3\"><b>腸からの吸収を阻害し</b></span>③<span class=\"kw3\"><b>肝での活性型（TPP）への変換を落とし</b></span>④<span class=\"kw3\"><b>尿への喪失を増やす</b></span>。<br/><br/><span class=\"kw\"><b>裏づけの数字</b></span>——<span class=\"kw3\"><b>MCV 125.7 の大球性貧血</b></span>（葉酸欠乏とアルコールの直接作用）・<span class=\"kw3\"><b>γ-GTP 102</b></span>・低アルブミン＝<span class=\"kw3\"><b>慢性の低栄養</b></span>が背景にある。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　喫煙の状況</td><td>心血管・呼吸器のリスクだが、<span class=\"kw3\">B1 欠乏とも今回の神経症状とも結び付かない</span></td></tr><tr><td><span class=\"kw3\">◯ ｂ　摂食の状況</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">B1 の貯蔵は2〜3週間分しかない</span>ので、食べていない期間が分かれば診断が決まる</td></tr><tr><td>ｃ　胆囊摘出の手術歴</td><td>脂肪の消化に影響するが、<span class=\"kw3\">B1 は水溶性</span>で胆汁を必要としない。⚠️胃切除なら意味がある</td></tr><tr><td>ｄ　甲状腺疾患の治療歴</td><td>甲状腺機能低下症でも失調は出るが、⚠️<span class=\"kw3\">1日で完成する経過に合わない</span></td></tr><tr><td>ｅ　抗精神病薬の服薬の有無</td><td>⚠️<span class=\"kw3\">薬剤性パーキンソニズムや悪性症候群</span>を考える問いだが、<span class=\"kw3\">複視は説明できない</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 眼球運動の所見を読む——「左方視で右眼の内転が不良」",
+       "c": "設問はわざわざ<span class=\"kw3\"><b>どちらを見たとき、どちらの眼が、どう動かないか</b></span>まで書いている。<br/><br/><span class=\"kw3\"><b>左を見ようとすると右眼が内転しない。そして眼振がある</b></span>——これは<span class=\"kw3\"><b>右の内側縦束（MLF）の障害＝核間性眼筋麻痺（INO）</b></span>の書き方である。MLF は<span class=\"kw3\"><b>外転神経核と反対側の動眼神経核をつなぐ</b></span>線維で、<span class=\"kw3\"><b>第4脳室底から中脳水道の周囲</b></span>を走る。<br/><br/>⚠️<span class=\"kw4\"><b>Wernicke 脳症が侵すのは、まさにその場所</b></span>——<span class=\"kw3\"><b>乳頭体・視床内側・中脳水道周囲・第3および第4脳室周囲</b></span>。だから同じ範囲に入る<span class=\"kw3\"><b>外転神経核・動眼神経核・MLF・前庭神経核</b></span>のどれが出てもおかしくない。<br/>・<span class=\"kw3\"><b>外転神経麻痺</b></span>（最多）・<span class=\"kw3\"><b>注視麻痺</b></span>・<span class=\"kw3\"><b>眼振</b></span>・<span class=\"kw3\"><b>INO</b></span><br/><br/>⚠️ 若年で<span class=\"kw3\"><b>両側の INO</b></span>なら多発性硬化症が有名だが、ここは<span class=\"kw3\"><b>代謝性</b></span>。⚠️<span class=\"kw4\"><b>「複視」の一語を「ただの見えにくさ」として流さない</b></span>——<span class=\"kw3\"><b>脳幹の局在を教えている</b></span>。<br/><br/><span class=\"kw\"><b>治療</b></span>——⚠️<span class=\"kw4\"><b>ブドウ糖より先にチアミンを静注する</b></span>。糖を先に入れると残った B1 を使い切って悪化させる（Q.492）。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "Wernicke脳症の問診で最重要：<span class=\"kw\">食事の状況（摂食の有無・内容）とアルコール摂取量</span>。<br/>問診後すぐに<span class=\"kw\">B1静注</span>（検査結果を待たずに）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "複視→歩行失調・意識障害の大酒家＝Wernicke脳症。問診で確認すべきこと。<br/><b>a 喫煙／c 胆囊摘出歴／d 甲状腺疾患／e 抗精神病薬</b>：本病態の主眼でない。<br/><b>b 摂食の状況</b>：<span class=\"kw\">ビタミンB1欠乏の背景となる栄養状態を確認</span>。✓"
+       "c": "<span class=\"kw3\"><b>Wernicke 脳症の三徴＝眼球運動障害・失調・意識障害</b></span>。⚠️<span class=\"kw4\"><b>揃わないことの方が多いので、疑ったら投与する</b></span>。<br/>⚠️<span class=\"kw4\"><b>診断は病歴（食べていない期間・飲酒）で付ける</b></span>——血中チアミンの結果は待たない。<br/>⚠️<span class=\"kw4\"><b>ブドウ糖より先にチアミン</b></span>。後遺症が<span class=\"kw3\"><b>Korsakoff 症候群（前向健忘と作話）</b></span>。"
       }
      ],
      "imgs": []
@@ -33780,27 +33785,27 @@
       }
      ],
      "ans_label": "ａ　コルヒチン  ―――――――――― 尿酸合成阻害薬",
-     "ans_sub": "急性発作期はコルヒチン（発作鎮静）→寛解後、尿酸合成阻害薬（アロプリノール）で長期管理",
+     "ans_sub": "急性期はコルヒチン（Cr 1.5 で NSAIDs は不利）、長期は尿酸合成阻害薬（FEUA 18%＝産生過剰型で、腎機能低下下では排泄促進薬を使えない）",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 痛風の治療フロー",
-       "c": "<span class=\"kw\">急性発作期</span>：コルヒチン / NSAIDs / ステロイド<br>（<span class=\"kw4\">尿酸降下薬は急性期に始めない</span>）<br><br>発作終了後3〜4週経って安定後：<br><span class=\"kw\">尿酸降下薬を開始</span>：<br/>① <span class=\"kw\">尿酸合成阻害薬</span>（アロプリノール・フェブキソスタット）<br/>　 →プリン代謝の最終段階（キサンチンオキシダーゼ）を阻害<br/>② 尿酸排泄促進薬（ベンズブロマロン・プロベネシド）<br/>　 →腎臓からの尿酸排泄↑（腎機能低下時は使いにくい）</br></br></br></br>"
+       "h": "🎯 腎機能がこの症例の薬の選択を2か所で縛っている",
+       "c": "この設問は「急性期」と「長期」を同時に問うが、⚠️<span class=\"kw4\"><b>両方を決めているのは同じ1つの数字——クレアチニン 1.5</b></span>である。<br/><br/><span class=\"kw\"><b>急性期：なぜ NSAIDs ではなくコルヒチンか</b></span><br/>・すでに夜間診療所で<span class=\"kw3\"><b>NSAIDs を投与されたが改善していない</b></span><br/>・⚠️<span class=\"kw4\"><b>Cr 1.5・BUN 30 で NSAIDs を続けるのは不利</b></span>——輸入細動脈のプロスタグランジンを止めて<span class=\"kw3\"><b>腎血流を落とす</b></span><br/>・<span class=\"kw3\"><b>コルヒチン</b></span>は好中球の遊走を止める薬で、腎機能の制約が NSAIDs より緩い（⚠️<span class=\"kw3\"><b>それでも腎障害では減量が要る</b></span>）<br/><br/><span class=\"kw\"><b>長期：なぜ排泄促進薬ではなく合成阻害薬か</b></span><br/>・⚠️⚠️<span class=\"kw4\"><b>FEUA 18%（基準7〜14）＝尿酸の排泄はむしろ亢進している</b></span>。つまり<span class=\"kw3\"><b>排泄低下型ではなく産生過剰型</b></span>で、<span class=\"kw3\"><b>排泄をさらに促す薬は筋が通らない</b></span><br/>・⚠️<span class=\"kw4\"><b>尿中へ尿酸を増やせば尿路結石と腎障害が進む</b></span>。<span class=\"kw3\"><b>尿潜血（±）</b></span>がすでにその気配<br/>・<span class=\"kw3\"><b>腎機能低下では排泄促進薬の効果自体が落ちる</b></span><br/>・⚠️ ベンズブロマロンには<span class=\"kw3\"><b>劇症肝炎</b></span>の警告もある<br/><br/>→ <span class=\"kw3\"><b>キサンチンオキシダーゼを止めて、作る量を減らす</b></span>（アロプリノール・フェブキソスタット）。"
       },
       {
        "cls": "ee",
-       "h": "□ 痛風治療薬の使い分け",
-       "c": "<table class=\"tb\"><tr><td>薬剤</td><td>使用時期</td><td>機序</td></tr><tr><td>コルヒチン</td><td><span class=\"kw\">急性期（早期投与！）</span></td><td>微小管阻害→白血球遊走抑制</td></tr><tr><td>NSAIDs</td><td>急性期</td><td>COX阻害→プロスタグランジン↓</td></tr><tr><td><span class=\"kw\">尿酸合成阻害薬</span></td><td><span class=\"kw\">寛解後の長期管理</span></td><td>キサンチンオキシダーゼ阻害</td></tr><tr><td>尿酸排泄促進薬</td><td>寛解後の長期管理（腎機能正常）</td><td>URAT1阻害</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　コルヒチン ― 尿酸合成阻害薬</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">急性期は炎症を止め、寛解後に産生を減らす</span>。腎機能低下と FEUA 高値の両方に合う</td></tr><tr><td>ｂ　コルヒチン ― 尿酸排泄促進薬</td><td>急性期は正しいが長期が誤り。⚠️<span class=\"kw3\">FEUA 18% で排泄をさらに促す意味がなく、腎機能低下で結石を招く</span></td></tr><tr><td>ｃ　尿酸合成阻害薬 ― 尿酸合成阻害薬</td><td>⚠️<span class=\"kw3\">発作中に尿酸降下薬を始めてはいけない</span>。尿酸が急に動いて発作が悪化・遷延する</td></tr><tr><td>ｄ　尿酸合成阻害薬 ― 尿酸排泄促進薬</td><td>急性期・長期とも誤り。<span class=\"kw3\">順序も薬の向きも逆</span></td></tr><tr><td>ｅ　尿酸排泄促進薬 ― 尿酸合成阻害薬</td><td>長期は正しいが、⚠️<span class=\"kw3\">急性期に尿酸降下薬を始めている</span>時点で誤り</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 痛風の病型分類——FEUA という数字の読み方",
+       "c": "<span class=\"kw3\"><b>FEUA（尿酸排泄率）＝濾過された尿酸のうち何％が尿へ出たか</b></span>。基準は 7〜14% で、<span class=\"kw3\"><b>健常者でも9割以上が再吸収されている</b></span>。<br/><br/><span class=\"kw\"><b>3つの病型</b></span><br/>・<span class=\"kw3\"><b>排泄低下型</b></span>（日本人の約6割）——<span class=\"kw3\"><b>FEUA 低下</b></span>。腎からの排泄が追いつかない<br/>・<span class=\"kw3\"><b>産生過剰型</b></span>（約1割）——<span class=\"kw3\"><b>FEUA は正常〜高値</b></span>で、尿中尿酸排泄量が多い。本問はここ<br/>・<span class=\"kw3\"><b>混合型</b></span>（約3割）<br/><br/>⚠️ 産生過剰型の背景には<span class=\"kw3\"><b>血液疾患・悪性腫瘍・腫瘍崩壊症候群・肥満・過食</b></span>があり、⚠️<span class=\"kw4\"><b>小児や若年発症なら Lesch-Nyhan 症候群（HPRT 欠損）</b></span>も考える。<br/><br/>⚠️<span class=\"kw4\"><b>ただし現在は病型によらず合成阻害薬を第一選択にすることが多い</b></span>——尿中尿酸を増やさないぶん<span class=\"kw3\"><b>腎に優しい</b></span>ため。この設問の答えは病型からも腎機能からも同じ方向を向いている。<br/><br/><span class=\"kw\"><b>目標値</b></span>——<span class=\"kw3\"><b>血清尿酸 6.0mg/dL 以下</b></span>（尿酸塩が析出しない濃度）。⚠️<span class=\"kw3\"><b>少量から始めて3〜6か月コルヒチンでカバー</b></span>（Q.503）。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "急性→コルヒチン / NSAIDs。寛解後→<span class=\"kw\">尿酸降下薬</span>の順序を必ず守る。<br/>尿酸目標値：6mg/dL以下（尿酸塩が析出しない濃度）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "痛風の急性発作と間欠期の薬剤の組合せ。<br/><b>b〜e</b>：組合せが誤り。<br/><b>a コルヒチン（発作）＋尿酸合成阻害薬（間欠期）</b>：<span class=\"kw\">急性期はコルヒチン、その後アロプリノール等で尿酸を下げる</span>。✓"
+       "c": "<span class=\"kw3\"><b>急性期＝コルヒチン・NSAIDs・ステロイド／寛解後＝尿酸降下薬</b></span>。順序を逆にしない。<br/>⚠️<span class=\"kw4\"><b>腎機能低下では NSAIDs も尿酸排泄促進薬も選びにくい</b></span>——<span class=\"kw3\"><b>コルヒチン＋合成阻害薬</b></span>に寄る。<br/><span class=\"kw3\"><b>FEUA 低下＝排泄低下型／正常〜高値＝産生過剰型</b></span>。目標は<span class=\"kw3\"><b>尿酸 6.0mg/dL 以下</b></span>。"
       }
      ],
      "imgs": []
@@ -33846,27 +33851,27 @@
       }
      ],
      "ans_label": "ｂ　ビタミンB1",
-     "ans_sub": "引きこもり→偏食（炭水化物中心）→B1欠乏→ウェルニッケ/末梢神経障害によるふらつき",
+     "ans_sub": "即席麺・おにぎり・菓子・スポーツドリンク・ビール＝糖質とアルコールだけの食生活。MMSE 30 点で中枢は無傷、手袋靴下型の感覚障害＋腱反射減弱＝末梢だけの乾性脚気",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏠 引きこもりとビタミンB1欠乏",
-       "c": "引きこもり者のリスク因子：<br>・コンビニ・インスタント食品中心（B1が少ない）<br>・炭水化物過多の食事（B1消費↑）<br>・運動量↓でも代謝は持続→B1が不足<br><br/><span class=\"kw\">症状のふらつき</span>：<br/>→ ウェルニッケ脳症（小脳性失調）<br/>→ または脚気による末梢神経障害（感覚性失調）</br></br></br></br>"
+       "h": "🍜 MMSE 30 点満点が書いてあるのは「中枢は無傷」と言うため",
+       "c": "B1 欠乏は<span class=\"kw3\"><b>中枢（Wernicke 脳症）</b></span>にも<span class=\"kw3\"><b>末梢（脚気）</b></span>にも出るが、この患者は<span class=\"kw3\"><b>末梢だけ</b></span>である。<br/><br/>・<span class=\"kw3\"><b>意識は清明</b></span>・<span class=\"kw3\"><b>MMSE 30 点（30点満点）</b></span>＝⚠️<span class=\"kw4\"><b>認知機能に1点の欠けもない</b></span><br/>・<span class=\"kw3\"><b>四肢の腱反射は左右差なく減弱</b></span><br/>・<span class=\"kw3\"><b>手袋靴下型の表在覚と振動覚の低下</b></span><br/>・<span class=\"kw3\"><b>2か月かけて徐々に増強</b></span><br/><br/>⚠️⚠️<span class=\"kw4\"><b>既存の解説は「Wernicke 脳症（小脳性失調）」と書いていたが、設問自身が MMSE 満点と明記している</b></span>。ふらつきの正体は<span class=\"kw3\"><b>深部感覚（振動覚）の低下</b></span>であって小脳性失調ではない——<span class=\"kw3\"><b>小脳性なら眼振と協調運動障害が出て、MMSE では拾えない別の所見になる</b></span>。<br/><br/><span class=\"kw\"><b>食べているものが全部 B1 を削る側にある</b></span><br/>・<span class=\"kw3\"><b>即席麺・おにぎり・スナック菓子</b></span>——<span class=\"kw3\"><b>糖質が多く B1 が少ない</b></span><br/>・⚠️<span class=\"kw4\"><b>スポーツドリンク</b></span>——<span class=\"kw3\"><b>糖質の入った飲料</b></span>。飲むほど B1 を消費する（清涼飲料水の多飲による欠乏は実際に報告がある）<br/>・<span class=\"kw3\"><b>ビール</b></span>——アルコールが<span class=\"kw3\"><b>吸収・活性化・貯留のすべてを妨げる</b></span><br/><br/>⚠️<span class=\"kw4\"><b>摂取が減る側と需要が増える側が同時に働く</b></span>のが糖質偏重の怖さ（Q.504）。B1 の貯蔵は<span class=\"kw3\"><b>2〜3週間分</b></span>しかないので、半年の偏食で十分に欠乏する。<br/>⚠️ 血圧 148/86 は<span class=\"kw3\"><b>この病態と関係のない撹乱</b></span>。"
       },
       {
        "cls": "ee",
-       "h": "□ 鑑別との比較",
-       "c": "<table class=\"tb\"><tr><td>ビタミン</td><td>欠乏症状</td><td>ふらつきとの関連</td></tr><tr><td><span class=\"kw\">B1</span></td><td><span class=\"kw\">Wernicke/脚気</span></td><td><span class=\"kw\">◎ 小脳失調・感覚性失調</span></td></tr><tr><td>B12</td><td>亜急性脊髄変性症</td><td>○ 深部感覚↓→感覚性失調</td></tr><tr><td>D</td><td>骨軟化症・筋力低下</td><td>△ 筋力低下によるふらつき</td></tr><tr><td>A</td><td>夜盲</td><td>△ 暗所での視覚障害</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　ビタミンA</td><td>夜盲・眼球乾燥。⚠️<span class=\"kw3\">「暗いところで見えない」であって、手袋靴下型の感覚障害は作らない</span></td></tr><tr><td><span class=\"kw3\">◯ ｂ　ビタミンB1</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">糖質偏重＋アルコール</span>で欠乏し、<span class=\"kw3\">遠位優位・左右対称の多発神経炎（乾性脚気）</span>を起こす</td></tr><tr><td>ｃ　ビタミンB12</td><td>同じく深部感覚が落ちるが、⚠️<span class=\"kw3\">側索も侵すので腱反射は亢進し Babinski が陽性になりうる</span>。貧血の記載も無い</td></tr><tr><td>ｄ　ビタミンC</td><td>壊血病＝<span class=\"kw3\">歯肉出血・毛囊周囲出血</span>。⚠️神経症状は主体でない</td></tr><tr><td>ｅ　ビタミンD</td><td>骨軟化症・低Ca。⚠️<span class=\"kw3\">筋力低下は起こりうるが、感覚障害と腱反射消失は説明できない</span></td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 同じ「引きこもり＋ふらつき」の3問——所見のどこで答えが変わるか",
+       "c": "この科目には<span class=\"kw3\"><b>引きこもり・偏食・ふらつき</b></span>という同じ枠組みの設問が3つある。⚠️<span class=\"kw4\"><b>背景が同じなので、答えを分けているのは神経所見だけ</b></span>である。<br/><br/>・<span class=\"kw\"><b>Q.498（採点除外）</b></span>——⚠️<span class=\"kw3\"><b>暗いところでだけふらつく</b></span>・<span class=\"kw3\"><b>Romberg 陽性</b></span>・腱反射低下→<span class=\"kw3\"><b>後索の深部感覚障害</b></span>＝<span class=\"kw3\"><b>B12 と銅</b></span><br/>・<span class=\"kw\"><b>Q.502</b></span>——<span class=\"kw3\"><b>遠位優位の筋力低下</b></span>・腱反射消失・<span class=\"kw3\"><b>痛覚過敏</b></span>・Babinski 陰性→<span class=\"kw3\"><b>乾性脚気</b></span>＝<span class=\"kw3\"><b>B1</b></span><br/>・<span class=\"kw\"><b>Q.509（本問）</b></span>——<span class=\"kw3\"><b>手袋靴下型の表在覚と振動覚の低下</b></span>・腱反射減弱・<span class=\"kw3\"><b>MMSE 満点</b></span>→<span class=\"kw3\"><b>乾性脚気</b></span>＝<span class=\"kw3\"><b>B1</b></span><br/><br/><span class=\"kw\"><b>読み分けの物差しは3つ</b></span><br/>①<span class=\"kw3\"><b>腱反射</b></span>——<span class=\"kw3\"><b>減弱・消失なら末梢（B1）、亢進や Babinski 陽性なら側索も侵す B12</b></span><br/>②<span class=\"kw3\"><b>明暗で変わるか</b></span>——<span class=\"kw3\"><b>変わるなら深部感覚</b></span>（視覚で代償していた）<br/>③<span class=\"kw3\"><b>認知機能</b></span>——<span class=\"kw3\"><b>落ちていれば中枢（Wernicke・B12・B3）</b></span><br/><br/>⚠️<span class=\"kw4\"><b>背景の「引きこもり」は答えを決めない</b></span>。偏食の中身（<span class=\"kw3\"><b>糖質ばかりか、動物性食品を摂らないか、日光を浴びないか</b></span>）と神経所見の組合せで決める。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "引きこもり＋偏食＋ふらつき → <span class=\"kw\">B1欠乏</span>（Wernicke脳症）を想起。<br/>治療：B1静注（500mg/日以上）を速やかに開始。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "引きこもり・偏食（即席麺中心）のふらつき＝ビタミンB1欠乏。<br/><b>a A／c B12／d C／e D</b>：本病態でない。<br/><b>b ビタミンB1</b>：<span class=\"kw\">炭水化物偏重・飲酒でB1欠乏</span>。✓"
+       "c": "<span class=\"kw3\"><b>乾性脚気＝遠位優位・左右対称の多発神経炎</b></span>（手袋靴下型・腱反射減弱）。<br/>⚠️<span class=\"kw4\"><b>B1 と B12 の見分けは腱反射</b></span>——<span class=\"kw3\"><b>B1 は減弱、B12 は亢進と Babinski 陽性がありうる</b></span>。<br/>⚠️ 治療は<span class=\"kw3\"><b>チアミンの静注</b></span>。心臓は数日で戻るが<span class=\"kw3\"><b>末梢神経は数か月、遅れると戻らない</b></span>。"
       }
      ],
      "imgs": []
@@ -33908,27 +33913,27 @@
       }
      ],
      "ans_label": "ｄ　デスモプレシン〈DDAVP〉製剤  ―――――――― 高血圧症",
-     "ans_sub": "デスモプレシン（DDAVP）は抗利尿ホルモン（ADH/バソプレシン）類似薬で、適応は尿崩症・夜尿症・血友病/vWD。高血圧症は適応外",
+     "ans_sub": "デスモプレシンは V2 選択的なバソプレシン類似体＝中枢性尿崩症・夜尿症・血友病A/von Willebrand 病に使う。昇圧作用はほとんど持たない",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 デスモプレシン（DDAVP）の適応",
-       "c": "<span class=\"kw\">デスモプレシン（DDAVP）</span>：合成AVP（バソプレシン）アナログ<br/><br/><span class=\"kw\">正しい適応</span>：<br/>① <span class=\"kw\">中枢性尿崩症</span>（ADH欠乏による多尿）<br/>② 夜尿症（夜間多尿）<br/>③ 血友病A・von Willebrand病（第VIII因子・vWFの放出誘発）<br/><br/><span class=\"kw4\">高血圧症はDDAVPの適応外</span><br/>DDVAPは腎集合管でのV2受容体を刺激→水の再吸収↑→尿量↓。<br/>高血圧に対しては降圧薬（ACE阻害薬・ARB・Ca拮抗薬等）を使用"
+       "h": "💊 ホルモンを薬にするとき、生理と同じ効き方をするとは限らない",
+       "c": "5つの肢はすべて<span class=\"kw3\"><b>ホルモンまたはその類似体を薬にした例</b></span>だが、使い方は3通りに分かれる。⚠️<span class=\"kw4\"><b>そのうち2つは「生理と逆の効果」を狙っている</b></span>のが面白いところ。<br/><br/>①<span class=\"kw\"><b>足りないものを補う</b></span>——GLP-1 受容体作動薬（糖尿病）<br/><br/>②<span class=\"kw\"><b>わざと持続刺激して、受容体を下ろして止める</b></span>——⚠️<span class=\"kw4\"><b>GnRH アゴニスト</b></span>。GnRH は本来<span class=\"kw3\"><b>パルス状</b></span>に出て下垂体を刺激するが、<span class=\"kw3\"><b>持続的に与えるとダウンレギュレーションで LH・FSH が止まり、エストロゲンが下がる</b></span>。子宮筋腫・子宮内膜症・前立腺癌に使う。⚠️<span class=\"kw4\"><b>投与初期は一過性に上がる（flare-up）</b></span><br/><br/>③<span class=\"kw\"><b>間欠的に与えて、逆の向きに働かせる</b></span>——⚠️<span class=\"kw4\"><b>PTH 製剤（テリパラチド）</b></span>。PTH は<span class=\"kw3\"><b>持続的に高いと骨を溶かす</b></span>（原発性副甲状腺機能亢進症）のに、<span class=\"kw3\"><b>1日1回の間欠投与では骨形成が骨吸収を上回って骨量が増える</b></span>。<br/><br/>④<span class=\"kw\"><b>生理的でない作用を引き出す</b></span>——<span class=\"kw3\"><b>デスモプレシン</b></span>が血管内皮から第Ⅷ因子と von Willebrand 因子を放出させる用法。<br/><br/>⚠️<span class=\"kw4\"><b>「同じホルモンでも、出し方（パルスか持続か）で効果が逆転する」</b></span>——GnRH と PTH がその2例で、本問はそこを並べて出している。"
       },
       {
        "cls": "ee",
-       "h": "□ 各選択肢の評価",
-       "c": "<table class=\"tb\"><tr><td>選択肢</td><td>正誤</td></tr><tr><td>GnRHアゴニスト→子宮筋腫</td><td>✓（LH-RHアナログ→ダウンレギュレーション→エストロゲン↓）</td></tr><tr><td>カルシトニン→高Ca血症</td><td>✓（カルシトニン→破骨細胞抑制→Ca↓）</td></tr><tr><td>PTH製剤→骨粗鬆症</td><td>✓（テリパラチドは骨粗鬆症治療薬）</td></tr><tr><td><span class=\"kw4\">DDAVP→高血圧症</span></td><td><span class=\"kw4\">✗（DDVAPは尿崩症・夜尿症）</span></td></tr><tr><td>GLP-1製剤→糖尿病</td><td>✓（GLP-1受容体作動薬は2型糖尿病治療薬）</td></tr></table>"
+       "h": "□ 選択肢の検討（「誤っている」ものを選ぶ）",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　GnRH アゴニスト ― 子宮筋腫</td><td>正しい。⚠️<span class=\"kw3\">持続投与でダウンレギュレーション</span>→<span class=\"kw3\">エストロゲンが下がって筋腫が縮む</span>。術前の減量や閉経までの逃げ切りに使う</td></tr><tr><td>ｂ　カルシトニン製剤 ― 高カルシウム血症</td><td>正しい。<span class=\"kw3\">破骨細胞を直接抑えて速やかに Ca を下げる</span>。⚠️<span class=\"kw3\">効果は数日で減弱する（エスケープ）</span>のでビスホスホネートと併用する</td></tr><tr><td>ｃ　副甲状腺ホルモン〈PTH〉製剤 ― 骨粗鬆症</td><td>正しい。<span class=\"kw3\">テリパラチドは1日1回の間欠投与で骨形成を促す</span>。⚠️<span class=\"kw3\">骨折リスクの高い例に期間を限って使う</span></td></tr><tr><td><span class=\"kw3\">◯ ｄ　デスモプレシン〈DDAVP〉製剤 ― 高血圧症</span></td><td><span class=\"kw3\">これが正解</span>（＝誤り）。適応は<span class=\"kw3\">中枢性尿崩症・夜尿症・血友病A・von Willebrand 病</span>。⚠️<span class=\"kw3\">V2 選択的なので昇圧作用をほとんど持たない</span></td></tr><tr><td>ｅ　グルカゴン類似ペプチド1〈GLP-1〉製剤 ― 糖尿病</td><td>正しい。<span class=\"kw3\">血糖依存性にインスリン分泌を促す</span>ので単独では低血糖を起こしにくい。食欲抑制と体重減少も伴う</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 デスモプレシンの3つの顔と、なぜ昇圧に使わないのか",
+       "c": "<span class=\"kw\"><b>受容体が2種類ある</b></span><br/>・<span class=\"kw3\"><b>V1 受容体</b></span>——<span class=\"kw3\"><b>血管平滑筋</b></span>。収縮させて<span class=\"kw3\"><b>血圧を上げる</b></span><br/>・<span class=\"kw3\"><b>V2 受容体</b></span>——<span class=\"kw3\"><b>腎集合管</b></span>。アクアポリン2 を膜へ出して<span class=\"kw3\"><b>水を再吸収</b></span>する。血管内皮の Weibel-Palade 小体からの<span class=\"kw3\"><b>第Ⅷ因子・vWF 放出</b></span>も V2 を介する<br/><br/>⚠️⚠️<span class=\"kw4\"><b>デスモプレシンは V2 選択的に作られた誘導体</b></span>。だから<span class=\"kw3\"><b>抗利尿作用と凝固因子放出は持つが、昇圧作用はほとんど無い</b></span>。<span class=\"kw3\"><b>「DDAVP と高血圧」は適応外というだけでなく、薬理学的にもそもそも働かない</b></span>。<br/>⚠️<span class=\"kw4\"><b>昇圧に使うのは V1 作用を持つバソプレシンそのもの</b></span>——<span class=\"kw3\"><b>敗血症性ショックでカテコラミンに追加する</b></span>。<br/><br/><span class=\"kw\"><b>3つの適応</b></span><br/>・<span class=\"kw3\"><b>中枢性尿崩症</b></span>——点鼻・経口。⚠️<span class=\"kw3\"><b>腎性尿崩症には効かない</b></span>（受容体から下流の障害だから）<br/>・<span class=\"kw3\"><b>夜尿症</b></span>——就寝前に投与して夜間尿量を減らす<br/>・<span class=\"kw3\"><b>血友病A・von Willebrand 病</b></span>——軽症の出血や小手術の前<br/><br/>⚠️⚠️<span class=\"kw4\"><b>最大の副作用は水中毒による低ナトリウム血症</b></span>。<span class=\"kw3\"><b>水を飲ませたまま使うと希釈性低Na で痙攣</b></span>を起こす——とくに夜尿症の小児では<span class=\"kw3\"><b>就寝前の飲水制限</b></span>が必須。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">DDAVP = デスモプレシン = AVP類似体</span>→適応は尿崩症・夜尿症・vWD。<br/>副作用：<span class=\"kw\">低ナトリウム血症</span>（水過剰貯留）に注意。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "治療薬と疾患の組合せで「誤っている」もの。<br/><b>a GnRHアゴニスト→子宮筋腫／b カルシトニン→高Ca血症／c PTH製剤→骨粗鬆症／e GLP-1製剤→糖尿病</b>：正しい。<br/><b>d デスモプレシン→高血圧症</b>：<span class=\"kw\">DDAVPは尿崩症/夜尿症に用い高血圧の治療でない</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw3\"><b>DDAVP＝V2 選択的バソプレシン類似体</b></span>→<span class=\"kw3\"><b>中枢性尿崩症・夜尿症・血友病A・von Willebrand 病</b></span>。<br/>⚠️<span class=\"kw4\"><b>副作用は低ナトリウム血症（水中毒）</b></span>。<br/>⚠️<span class=\"kw4\"><b>GnRH は持続投与で止まる（flare-up の後）／PTH は間欠投与で骨を増やす</b></span>——<span class=\"kw3\"><b>どちらも生理と逆向き</b></span>。"
       }
      ],
      "imgs": []
@@ -33974,22 +33979,27 @@
       }
      ],
      "ans_label": "ｅ　ビタミンD 製剤",
-     "ans_sub": "乳製品・魚の除去→ビタミンD欠乏→くる病（骨端線の骨化障害→下肢弓状変形）",
+     "ans_sub": "肉・魚・牛乳・卵をすべて除去＝ビタミンD の食品源が絶たれてくる病。腸からの吸収を戻さないと Ca を足しても骨は石灰化しない",
      "eg": [
       {
        "cls": "ep",
-       "h": "☀️ くる病（rickets）とビタミンD",
-       "c": "<span class=\"kw\">くる病</span>：成長期（骨端線開放中）のビタミンD欠乏による骨軟化症<br><br><span class=\"kw\">原因（この患者）</span>：<br>・アトピー性皮膚炎の食物除去（乳製品・魚を排除）<br>→ビタミンDの食事源が激減<br/>・日光浴が少ない可能性（室内活動↑）<br/><br/><span class=\"kw\">症状</span>：<br/>・骨端線の不規則な拡大（X線でbristle sign）<br/>・O脚/X脚（下肢の弓状変形）<br/>・串状肋骨（ロザリー）・方形頭<br/>・低Ca血症→テタニー<br/><br/><span class=\"kw\">検査</span>：ALP↑、25(OH)D↓、PTH↑、Ca↓、P↓</br></br></br></br>"
+       "h": "☀️ ALP 3,305 が最大の手がかり——そして Ca 8.6 に騙されない",
+       "c": "<span class=\"kw3\"><b>ALP 3,305（基準296〜909）</b></span>＝基準上限の約3.6倍。小児の ALP はもともと骨型が高いが、この値は別格。<br/><br/>⚠️<span class=\"kw4\"><b>ALP は「骨を作ろうとしている量」を表す</b></span>。ビタミンD が足りないと<span class=\"kw3\"><b>類骨（石灰化していない骨基質）が石灰化できずに溜まり</b></span>、骨芽細胞がいっそう働くので ALP が跳ね上がる。<br/><br/><span class=\"kw\"><b>Ca 8.6（正常下限）・P 2.3（低値）という組合せの意味</b></span><br/>① D が足りない → <span class=\"kw3\"><b>腸管からの Ca 吸収が落ちる</b></span><br/>② 血清 Ca が下がりかける → <span class=\"kw3\"><b>PTH が上がる（二次性副甲状腺機能亢進症）</b></span><br/>③ PTH が<span class=\"kw3\"><b>骨から Ca を出し、腎で Ca を再吸収する</b></span>→ ⚠️<span class=\"kw4\"><b>Ca はかろうじて正常に保たれる</b></span><br/>④ その代償の副産物として、PTH が<span class=\"kw3\"><b>近位尿細管でのリン再吸収を止める</b></span>→ ⚠️<span class=\"kw4\"><b>低リン血症</b></span><br/><br/>⚠️⚠️<span class=\"kw4\"><b>だから「Ca が正常だからビタミンD は足りている」と読んではいけない</b></span>。<span class=\"kw3\"><b>低P と ALP 著明高値の組合せこそが、代償が働いている証拠</b></span>である。Ca と P の読み方の一覧は Q.471 にある。<br/><br/><span class=\"kw\"><b>なぜ「くる病」で「骨軟化症」ではないのか</b></span>——<span class=\"kw3\"><b>骨端線（成長板）が開いている間に起これば くる病、閉じた後なら骨軟化症</b></span>。4歳なのでくる病。"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　鉄　剤</td><td>肉を除去しているので鉄も不足しやすいが、<span class=\"kw3\">Hb 12.0 で貧血は無い</span>。⚠️<span class=\"kw3\">下肢変形とALP 高値を説明できない</span></td></tr><tr><td>ｂ　亜鉛製剤</td><td>同じく不足しうるが、<span class=\"kw3\">味覚障害・皮膚炎・成長障害</span>が主症状。⚠️<span class=\"kw3\">骨端の変化は作らない</span></td></tr><tr><td>ｃ　リン製剤</td><td>⚠️<span class=\"kw3\">低P はこの病態の原因ではなく結果</span>（PTH による尿中喪失）。⚠️<span class=\"kw3\">P だけ足すと PTH がさらに上がる</span>。⚠️P が原因なのは<span class=\"kw3\">低リン血症性くる病（FGF23 関連）</span>で、そちらでは<span class=\"kw3\">ALP 高値・低P だが Ca と PTH は正常</span></td></tr><tr><td>ｄ　カルシウム製剤</td><td>⚠️<span class=\"kw3\">D が無ければ腸から吸収できない</span>。補助にはなるが<span class=\"kw3\">単独では石灰化が進まない</span></td></tr><tr><td><span class=\"kw3\">◯ ｅ　ビタミンD 製剤</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\">腸管からの Ca・P 吸収を回復させて、類骨を石灰化させる</span>。ALP と PTH が下がることで効果を確認する</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 2枚のエックス線写真が示しているもの",
+       "c": "<span class=\"kw\"><b>写真A（両膝正面）</b></span>——<span class=\"kw3\"><b>大腿骨遠位と脛骨近位の骨幹端が横に広がり（杯状陥凹＝cupping）、辺縁が毛羽立って不鮮明（fraying）</b></span>。<span class=\"kw3\"><b>骨端線（成長板）の透亮帯が開大</b></span>し、骨端核の輪郭もぼやけている。全体に<span class=\"kw3\"><b>骨濃度が低い</b></span>。⚠️<span class=\"kw4\"><b>石灰化できない類骨が成長板の直下に厚く溜まった状態</b></span>が、そのまま像になっている。<br/><br/><span class=\"kw\"><b>写真B（両下肢全長・中央に目盛り）</b></span>——<span class=\"kw3\"><b>大腿骨も脛骨も外側へ弓なりに曲がり、左右対称の著明なO脚（内反膝）</b></span>。膝の間が大きく開いている。⚠️<span class=\"kw4\"><b>目盛りが写し込まれているのは変形の程度を計測して追うため</b></span>。<br/><br/>⚠️<span class=\"kw4\"><b>変形は「柔らかい骨に体重がかかった結果」</b></span>——<span class=\"kw3\"><b>歩行開始が1歳3か月で、そこから3年近く荷重し続けている</b></span>。だから<span class=\"kw3\"><b>歩き始める前は変形が出ない</b></span>。<br/><br/><span class=\"kw\"><b>他に探す身体所見</b></span>——<span class=\"kw3\"><b>肋骨と肋軟骨の境の数珠状の膨隆（rachitic rosary）</b></span>・<span class=\"kw3\"><b>手関節の腫大</b></span>・<span class=\"kw3\"><b>前頭部の突出と大泉門閉鎖の遅れ</b></span>・<span class=\"kw3\"><b>Harrison 溝</b></span>。⚠️<span class=\"kw4\"><b>低Ca が進めばテタニーや痙攣</b></span>で発症することもある。"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">食物除去（アレルギー治療）によるくる病</span>は増加中。<br/>治療：<span class=\"kw\">ビタミンD補充</span>（活性型または天然型）＋カルシウム。<br/>ALP・25(OH)D・PTHのモニタリングが重要。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "食物アレルギー（乳製品除去）による下肢変形＝ビタミンD欠乏性くる病。<br/><b>a 鉄剤／b 亜鉛／c リン製剤／d カルシウム製剤</b>：主治療でない。<br/><b>e ビタミンD製剤</b>：<span class=\"kw\">くる病にはビタミンDを補充</span>。✓"
+       "c": "<span class=\"kw3\"><b>くる病＝成長板が開いている時期のビタミンD 欠乏</b></span>。<span class=\"kw3\"><b>ALP 著明高値・低P・Ca は正常下限・PTH 高値</b></span>。<br/>⚠️<span class=\"kw4\"><b>Ca が正常でも否定できない</b></span>——<span class=\"kw3\"><b>二次性副甲状腺機能亢進症が支えている</b></span>。<br/>⚠️<span class=\"kw4\"><b>自己判断の広範な除去食は栄養失調を作る</b></span>——<span class=\"kw3\"><b>ビタミンD の食品源は魚ときのこがほぼすべて</b></span>で、加えて<span class=\"kw3\"><b>日光</b></span>が要る。除去は<span class=\"kw3\"><b>必要最小限に、代替食品と併せて</b></span>。"
       }
      ],
      "imgs": [
