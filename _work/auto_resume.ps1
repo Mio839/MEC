@@ -50,6 +50,11 @@ MEC自動再開ツール（auto_resume.ps1）
        レジストリはフォールバックにすぎない。
      → 再開後の接続確認もこの形（key有り・json無し）を手がかりにしているが、**非公開の挙動なので
        形が変われば黙って外れる**。外れても再開は止めず、ログに1行残すだけにすること。
+  8) 3分ガードを transcript の**更新時刻**で判定すると、止まったまま生きている旧プロセス等が
+     timestamp を持たないメタ行（cost-state 等）を書き直すたびに「人が操作中」と誤判定する
+     （2026-09-22〜24、予約4回中3回が見送られリセット後に一度も再開しなかった）。
+     → Get-LastActivity で「timestamp を持つ最後の行」の時刻を見る。見送ったら10分後に取り直す
+       （旧実装は見送ったら二度と再開しなかった）。
 
 ⚠️ トークンを食っているのはこのスクリプトではなく再開先のセッション（実測 341ターン×
    平均326kトークンで $25.92／1回）。自動再開が通常セッションより多く食っている事実は無い
@@ -66,7 +71,9 @@ param(
     [string]$At,
     # 罠6: 上限で止まったまま生きている claude.exe。起動時刻(FileTime)とセットでのみ信用する。
     [int]$OldPid = 0,
-    [string]$OldStart
+    [string]$OldStart,
+    # 罠8: 「人が操作中」で見送った回数。10分おきに取り直し、$MaxRetry 回で諦める。
+    [int]$Retry = 0
 )
 
 $ErrorActionPreference = 'Stop'
@@ -74,6 +81,7 @@ $RepoRoot  = Split-Path -Parent $PSScriptRoot
 $LogFile   = Join-Path $PSScriptRoot 'auto_resume.log'
 $TaskName  = 'MEC_AutoResume'
 $ClaudeExe = 'claude'
+$MaxRetry  = 6
 # ⚠️ 2026-08-28 導入・試用中。継続するかは `python _work/autocompact_review.py` で判断する。
 #   既定の 'auto' は contextWindow=1M のため341ターン回しても一度も圧縮せず、文脈が
 #   195k→444k と伸び続けていた（実測）。400k で1回だけ畳む見込み＝推定 -28%。
@@ -104,6 +112,23 @@ function Parse-ResetTime {
         $dt = [datetime]::Parse("$($Matches[1]) $($Matches[2])")
         if ($Matches[3] -eq 'UTC') { $dt = [datetime]::SpecifyKind($dt, [DateTimeKind]::Utc).ToLocalTime() }
         return $dt
+    }
+
+    # 例: "resets Sep 26, 7pm"（週次上限・2026-09-22 実測。月名＋日＋時刻）
+    #   ⚠️ 曜日パターン（下）より先に判定すること。"Sep" が曜日3文字として食われ、日付が失われる。
+    $months = @('jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec')
+    if ($Text -match "resets\s+([A-Za-z]{3})[a-z]*\.?\s+(\d{1,2}),?\s+$timeToken") {
+        $mi = [array]::IndexOf($months, $Matches[1].ToLower())
+        if ($mi -ge 0) {
+            $day  = [int]$Matches[2]
+            $hour = [int]$Matches[3]
+            $min  = if ($Matches[4]) { [int]$Matches[4] } else { 0 }
+            if ($Matches[5] -eq 'pm' -and $hour -ne 12) { $hour += 12 }
+            if ($Matches[5] -eq 'am' -and $hour -eq 12) { $hour = 0 }
+            $result = (Get-Date -Year $now.Year -Month ($mi + 1) -Day $day).Date.AddHours($hour).AddMinutes($min)
+            if ($result -le $now.AddDays(-1)) { $result = $result.AddYears(1) }  # 年またぎ
+            return $result
+        }
     }
 
     # 例: "resets Mon 12:00am" / "resets Mon 7pm"（週次・分省略あり）
@@ -144,11 +169,12 @@ function Remove-Task {
 }
 
 function Register-Task {
-    param([datetime]$When, [string]$SessId, [int]$OldPid = 0, [string]$OldStart)
+    param([datetime]$When, [string]$SessId, [int]$OldPid = 0, [string]$OldStart, [int]$Retry = 0)
     Remove-Task
     $argLine = "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$PSCommandPath`" -Resume -SessionId $SessId"
     # 罠6: 旧プロセスの素性もコマンドラインに埋める（状態ファイルは持たない＝罠1）。
     if ($OldPid -gt 0 -and $OldStart) { $argLine += " -OldPid $OldPid -OldStart $OldStart" }
+    if ($Retry -gt 0) { $argLine += " -Retry $Retry" }
     try {
         # ⚠️ 罠2: StartWhenAvailable=取りこぼし復帰 / WakeToRun=スリープ解除。
         #   -AtLogOn は -User を必ず付ける（無しだと管理者権限が要り Access is denied で全体が失敗する）。
@@ -303,13 +329,48 @@ function Confirm-Resumed {
     Write-Log '⚠️ Remote Control の接続を確認できませんでした（レジストリに痕跡なし）。'
 }
 
+function Get-LastActivity {
+    # transcript の末尾から、timestamp を持つ最後の行の時刻（ローカル時刻）を返す。無ければ $null。
+    param([string]$Path)
+    if (-not (Test-Path $Path)) { return $null }
+    $fs = [System.IO.File]::Open($Path, 'Open', 'Read', 'ReadWrite')
+    try {
+        $len = [Math]::Min($fs.Length, 512KB)
+        $fs.Seek(-$len, 'End') | Out-Null
+        $buf = New-Object byte[] $len
+        $n = $fs.Read($buf, 0, $len)
+        $text = [System.Text.Encoding]::UTF8.GetString($buf, 0, $n)
+    } finally { $fs.Close() }
+    $best = $null
+    foreach ($m in [regex]::Matches($text, '"timestamp"\s*:\s*"(\d{4}-\d{2}-\d{2}T[0-9:.]+Z)"')) {
+        $t = [datetime]::Parse($m.Groups[1].Value, [Globalization.CultureInfo]::InvariantCulture,
+                               [Globalization.DateTimeStyles]::AdjustToUniversal).ToLocalTime()
+        if (-not $best -or $t -gt $best) { $best = $t }
+    }
+    return $best
+}
+
 function Start-Resume {
-    param([string]$SessId, [int]$OldPid = 0, [string]$OldStart)
+    param([string]$SessId, [int]$OldPid = 0, [string]$OldStart, [int]$Retry = 0)
     # ⚠️ 人が同じセッションを触っている最中に開くと、同じtranscriptを2つのClaudeが書く。
     #   Claudeのプロジェクトディレクトリ名はパスの非英数字を '-' に潰したもの。
     $tp = Join-Path $env:USERPROFILE (".claude\projects\" + ($RepoRoot -replace '[:\\/_.]', '-') + "\$SessId.jsonl")
-    if ((Test-Path $tp) -and (((Get-Date) - (Get-Item $tp).LastWriteTime).TotalMinutes -lt 3)) {
-        Write-Log '会話が3分以内に動いています（人が操作中）。再開を見送ります。'
+    # ⚠️ 罠8: ファイルの更新時刻(LastWriteTime)で判定しないこと。上限で止まったまま生きている
+    #   claude.exe（罠6）や別セッションの起動が、会話と無関係なメタ行（cost-state / last-prompt /
+    #   bridge-session など timestamp を持たない行）を書き直すので、誰も触っていなくても
+    #   更新時刻が新しくなる。2026-09-22〜24 に予約4回中3回がこれで「人が操作中」と誤判定され、
+    #   リセット後に一度も再開しなかった。→ 最後に timestamp を持つ行（＝会話の実イベント）で見る。
+    $last = Get-LastActivity $tp
+    if ($last -and (((Get-Date) - $last).TotalMinutes -lt 3)) {
+        # 本当に人が触っているなら、見送ったまま終わると二度と再開しない（旧実装の穴）。
+        # 10分後に取り直す。上限 $MaxRetry 回＝約1時間で諦める。
+        if ($Retry -lt $MaxRetry) {
+            Write-Log "会話が3分以内に動いています（最終イベント $last）。10分後に再判定します（$($Retry + 1)/$MaxRetry）。"
+            Register-Task (Get-Date).AddMinutes(10) $SessId $OldPid $OldStart ($Retry + 1)
+        } else {
+            Write-Log "会話が3分以内に動いています（最終イベント $last）。再判定の上限に達したので再開を諦めます。"
+            Remove-Task
+        }
         return
     }
     Remove-Task
@@ -417,7 +478,7 @@ try {
 
     if ($Resume) {
         if (-not $SessionId) { Write-Log '❌ -Resume には -SessionId が必要です。'; exit 1 }
-        Start-Resume $SessionId $OldPid $OldStart
+        Start-Resume $SessionId $OldPid $OldStart $Retry
         exit 0
     }
 
