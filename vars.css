@@ -253,6 +253,13 @@ html::before {
   --ease-out:cubic-bezier(.16,1,.3,1);
   --ease-in:cubic-bezier(.7,0,.84,0);
   --ease-in-out:cubic-bezier(.65,0,.35,1);
+  /* 押した手応え用の行き過ぎ戻り（押す・段が上がる・印が付く、の3つだけに使う）。
+     ⚠️ 入退場には使わない（跳ねる入場は2回目から邪魔になる）。 */
+  --ease-spring:cubic-bezier(.3,1.4,.5,1);
+  /* 時間3段。イージング4種と対で使う（2026-09-24 に index.html から移した）。
+     ⚠️ JS 側の写しは study_exam.js の MO（WAAPI は var() を読めない）。値を変えたら両方直す
+        （_work/test_rf_polish.js が一致を見張る）。 */
+  --dur-micro:120ms; --dur-short:220ms; --dur-long:420ms;
 
   /* 明るい面に載せる暗インク。科目色（chapters_meta.js の color）と
      ブランドアクセント（--or）の両方に使う。

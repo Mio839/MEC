@@ -50,7 +50,6 @@
 /* ハブで押したボタンがこのページのヘッダーへ伸びて変形する（View Transitions・対応ブラウザだけ・2026-09-24）。
    ⚠️ ヘッダーに名前を付けるのは遷移の間だけ（view-transition-name は重なり順の文脈を作るので常時は付けない）。 */
 (function(){
-  var s = document.createElement('style'); s.textContent = '@view-transition{navigation:auto}'; document.head.appendChild(s);
   window.addEventListener('pagereveal', function (e) {
     if (!e.viewTransition) return;
     var h = document.querySelector('.st-hdr'); if (!h) return;

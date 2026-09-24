@@ -275,7 +275,7 @@ t('onExamFinish の直後は静粛時間ぶん待ってから再生が始まる'
   G.onExamFinish(20, 18, {});
   clock.tick(D.settleMs - 200);
   assert.strictEqual(ctx._onScreen(), null,
-    '結果画面のランクスタンプ(950ms)・祝賀花火(980ms)の上に被せないこと');
+    '結果画面のランクスタンプ(1250ms)・祝賀花火(1550ms)の上に被せないこと');
   clock.tick(1200);
   assert.match(ctx._onScreen(), /A/);
 });

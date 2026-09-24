@@ -1507,6 +1507,7 @@ node _work/test_mock_wrong_filter.js  ❌模試誤答フィルタ（件数の一
 node _work/test_body_containing_block.js  body/html を position:fixed の包含ブロックにしない
 node _work/test_glitch_bars.js     グリッチ帯の引数形・可視帯・幅（実ソースを回す）(14)
 node _work/test_theme_correct_fx.js  UIテーマ8種の正解演出・study/chapter の同期
+node _work/test_rf_polish.js       正解・誤答の演出の仕上げ（連続数の置き場・進捗の桁・動きの規則・選び直しの意匠）(13)
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
 
 # UIテーマの「自律進化ループ」（2026-08-23〜24）が置いていった検査。粒度が細かく
@@ -2215,7 +2216,19 @@ study_exam.js の setTimeout 64本のうち `clearTimeout` されていたのは
 - **ハブ**：押したヒーローのボタンが学習画面のヘッダーへ変形（cross-document View Transitions。
   `view-transition-name` はハブ＝押した1つだけ・学習画面＝遷移の間だけ）、ボタンの光沢が指の位置を追う
   （F1 の `::after` の中身を差し替え・層は増やしていない）。
-- 結果画面は4つの数字が順に出る。
+- 結果画面は4つの数字が順に出る。リングは線が描き進み（先端に光・毎フレーム更新・箱の入場後 280ms から 1100ms）、
+  ランクスタンプ 1250ms・祝賀 1550ms（gamify の静粛時間 2000ms より前）。
+- 仕上げ（2026-09-24 午後・テスト `node _work/test_rf_polish.js`）:
+  - ⚠️ **連続数 `#examRfStreak` はヘッダーの下端に下から重ねる**（`_rfStreakTop`）。問題文の側へ出すと、自動スクロールで
+    ヘッダー直下に来た次の問題の番号行と1行目に被る（iPad 縦で実測）。添え書き（TIER n）も箱の中の3列目＝下へはみ出さない。
+  - ヘッダーの進捗の数字は桁が回る（`_rfDigits` を共用）。比較は `dataset.v`（桁の列は 0〜9 を全部持つので textContent は読めない）。
+    ⚠️ 桁の窓は `overflow:clip`——`hidden` だと基線が箱の下端になり数字だけ沈む。ヘッダーの高さは1pxも変わっていない（実測）。
+  - 動きの規則：加減速は `--ease-out` / `--ease-in` / `--ease-spring`、長さは `--dur-micro/short/long`（vars.css が正本）。
+    JS は `MO` に写しを持つ（WAAPI は var() を読めない）。演出の節に cubic-bezier を直に書かない。
+  - 外した肢は**本文の色と面だけ落とし、× はテーマの色で立てる**（opacity で肢ごと薄めると × まで読めなくなった）。
+    UIテーマ8種の本文色が `!important` なので、落とす側も `!important`。帯（`.rf-retry`）もテーマ8種ぶんの意匠。
+  - 選び直して正解したら肢に「N回目で正解」と小さな輪（`_rfReachFx`）。記録は触らない。
+  - 「答えを見る」の光は肢の左端（番号の列）どうしを結ぶ（`_rfEdge`）。
 
 ## 試験モードの演出エフェクト仕様
 

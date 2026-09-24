@@ -28,7 +28,6 @@
    ② ヒーローのボタンの光沢が指・マウスの位置を追う（CSS は「質感」の節）。
    ⚠️ view-transition-name は押した1つにだけ付ける（同じ名前が2つあると遷移ごと飛ばされる）。 */
 (function(){
-  var s = document.createElement('style'); s.textContent = '@view-transition{navigation:auto}'; document.head.appendChild(s);
   function cta(t) { return t && t.closest ? t.closest('.hero-cta a') : null; }
   function mv(e) {
     var a = cta(e.target); if (!a) return;
@@ -70,8 +69,7 @@
   --hair-2:rgba(255,255,255,.16);
   --hair-3:rgba(255,255,255,.26);
   --hub-max:760px;   /* 読みやすい測り幅。iPad/PCで全幅に広がるのを止める */
-  /* 時間3段（vars.css のイージング3種と対で使う） */
-  --dur-micro:120ms; --dur-short:220ms; --dur-long:420ms;
+  /* 時間3段（--dur-micro/short/long）は vars.css へ移した（2026-09-24） */
 }
 
 /* ── 入場: 1回だけのオーケストレーション。--i の順に 70ms ずつずらす ──
@@ -1084,14 +1082,15 @@ a.tile:hover .tile-ar{transform:translateX(3px);}
   background:
     radial-gradient(150px circle at var(--cta-mx,50%) var(--cta-my,30%),rgba(255,255,255,calc(var(--cta-spec) * .75)),transparent 62%),
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .22 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  transition:--cta-spec .24s cubic-bezier(.16,1,.3,1);}
+  transition:--cta-spec var(--dur-short) var(--ease-out);}
 @media (hover:hover){
   .cta-main:hover::after,.cta-sub:not(.is-off):hover::after{--cta-spec:1;animation:none;}
 }
 .cta-main.cta-lit::after,.cta-sub.cta-lit:not(.is-off)::after{--cta-spec:1;}
 /* ページ間の変形（View Transitions）の加減速は「入る」の規則にそろえる */
-::view-transition-group(mec-cta){animation-duration:.42s;animation-timing-function:cubic-bezier(.16,1,.3,1);}
-::view-transition-old(root),::view-transition-new(root){animation-duration:.24s;}
+@view-transition{navigation:auto;}   /* ページ間の変形を許す（2026-09-24。旧実装は JS で <style> を差し込んでいた） */
+::view-transition-group(mec-cta){animation-duration:var(--dur-long);animation-timing-function:var(--ease-out);}
+::view-transition-old(root),::view-transition-new(root){animation-duration:var(--dur-short);}
 
 /* E5: 0件のボタンは「片付いた」印。薄いだけだと壊れているように見える */
 .cta-sub.is-off.is-clear{opacity:.62;border-color:rgba(61,214,140,.34);}

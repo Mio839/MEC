@@ -3410,14 +3410,26 @@ function _updateExamProg(isCorrect = false) {
   if (fill) fill.style.width = total > 0 ? (examAnswered / total * 100) + '%' : '0%';
   _syncExamProgMarks();   // B2: 目盛り・難問印・ラストスパート（祝わない）
   if (txt) {
-    const before = txt.textContent;
+    // A(2026-09-24): 動く数字だけを桁が縦に回る表示にする（_rfDigits・連続数と同じ部品）。
+    //   比較は表示文字列（dataset.v）で行う——桁の列は 0〜9 を全部持つので textContent は読めない。
+    const before = txt.dataset.v || '';
+    let head, num, tail;
     if (_isHostSession()) {
       const remaining = total - examAnswered;
       const streakPart = examStreak >= 2 ? `  🔥×${examStreak}` : '';
-      txt.textContent = '残り ' + remaining + ' 問' + streakPart;
+      head = '残り '; num = remaining; tail = ' 問' + streakPart;
     } else {
-      txt.textContent = examAnswered + ' / ' + total + ' 問';
+      head = ''; num = examAnswered; tail = ' / ' + total + ' 問';
     }
+    const shown = head + num + tail;
+    const prevN = (txt.dataset.n === undefined || examAnswered === 0) ? num : +txt.dataset.n;   // 開始時は回さない（前のセッションの値から回らないように）
+    txt.dataset.v = shown;
+    txt.dataset.n = num;
+    txt.setAttribute('aria-label', shown);
+    txt.innerHTML = head + '<span class="rf-odo" aria-hidden="true">' + _rfDigits(prevN, num) + '</span>' + tail;
+    const roll = () => txt.querySelectorAll('.rf-col').forEach(c => c.classList.add('go'));
+    requestAnimationFrame(roll);
+    setTimeout(roll, 60);   // rAF が止まる裏タブの落とし所
     /* S12(2026-08-21): 管は**数字が変わるたびに**ともる。この数字が量っているのは正誤ではなく
        「進んだこと」だから（R1 の放出を正誤で変えないのと同じ理屈）。
        ⚠️ ただし現在ある報酬信号を消さないため **2段**にした（2026-08-21・ユーザー判断）——
@@ -3431,7 +3443,7 @@ function _updateExamProg(isCorrect = false) {
         {scale:'1.45',color:'var(--gr)',textShadow:'0 0 12px rgba(61,214,140,.8)'},
         {scale:'1',color:'currentColor',textShadow:'0 0 8px rgba(255,196,90,.35)'}
       ], {duration:400, easing:'cubic-bezier(.34,1.56,.64,1)'});
-    } else if (txt.textContent !== before) {
+    } else if (shown !== before) {
       txt.getAnimations?.().forEach(a => a.cancel());
       txt.animate([
         {scale:'1.12',textShadow:'0 0 14px rgba(255,196,90,.85)'},
@@ -4244,17 +4256,22 @@ function showExamSummary() {
   if (timEl) timEl.textContent = '0分0秒';
 
   if (pctEl || corEl || ansEl) {
-    const t0 = performance.now(), dur = 900;
-    let _lastRingP = -1;
+    /* B(2026-09-24): リングは「線が描き進む」。先端に光る点（.exam-pct-tip）が付き、数字は同じ速さで数え上がる。
+       箱の入場（examBoxIn .32s）が終わってから描き始める＝入ってくる途中で線が伸びて見えないように。
+       ⚠️ 線は毎フレーム更新する（旧実装は3%刻みで、線がカクついて先端の点と合わなかった）。 */
+    const delay = _fxOff() ? 0 : 280, dur = 1100;
+    const t0 = performance.now() + delay;
+    if (pctRing) {
+      let tip = pctRing.querySelector('.exam-pct-tip');
+      if (!tip) { tip = document.createElement('i'); tip.className = 'exam-pct-tip'; tip.setAttribute('aria-hidden', 'true'); pctRing.insertBefore(tip, pctRing.firstChild); }
+      tip.style.opacity = pct > 0 ? '' : '0';
+    }
     const tick = now => {
-      const k = Math.min(1, (now - t0) / dur);
+      const k = Math.max(0, Math.min(1, (now - t0) / dur));
       const ease = 1 - Math.pow(1 - k, 3);
       const curPct = Math.round(pct * ease);
       if (pctEl) pctEl.textContent = curPct + '%';
-      if (pctRing && (Math.abs(curPct - _lastRingP) >= 3 || k >= 1)) {
-        _lastRingP = curPct;
-        pctRing.style.setProperty('--p', curPct);
-      }
+      if (pctRing) pctRing.style.setProperty('--p', (pct * ease).toFixed(2));
       if (corEl) corEl.textContent = Math.round(targetCorrect * ease);
       if (wrnEl) wrnEl.textContent = Math.round(targetWrong * ease);
       if (ansEl) ansEl.textContent = Math.round(targetAnswered * ease);
@@ -4265,7 +4282,7 @@ function showExamSummary() {
       if (k < 1) requestAnimationFrame(tick); else _litTubes();
     };
     requestAnimationFrame(tick);
-    setTimeout(_litTubes, dur + 400);
+    setTimeout(_litTubes, delay + dur + 400);
   } else {
     _litTubes();
   }
@@ -4337,7 +4354,8 @@ function showExamSummary() {
   requestAnimationFrame(() => _fitOverlayToVV(_ov));
   // C10: スコアのカウントアップ完了後にランクスタンプを「ドン」と押す（S/A/B/C・100%はPERFECT）
   if (examAnswered > 0) {
-    setTimeout(() => _stampRank(pct), 950);
+    // B(2026-09-24): リングを描き終えて（280+1100ms）から押す。旧 950ms は描いている途中に落ちていた。
+    setTimeout(() => _stampRank(pct), 1250);
   }
   /* スコアに応じた祝賀エフェクト（FXキャンバスはz9070＝モーダルより上に描画される）
      案3: スタンプ着地（約1205ms）の余韻後に発火させて負荷スパイクを分散。
@@ -4399,7 +4417,7 @@ function showExamSummary() {
             window.MecFX.fireworks({ count: pct >= 100 ? 16 : 5, colors: ['#FFD700', '#FFF3C4', '#3DD68C', '#60A5FA'], tier: 7 });
             window.MecFX.confetti({ count: pct >= 100 ? 240 : 80, colors: ['#FFD700', '#FFF3C4', '#3DD68C', '#60A5FA'], big: true });
           }
-        }, 1350);
+        }, 1550);   // スタンプ（1250ms）の後。gamify の静粛時間 CER_SETTLE_MS(2000) より前に収める
       } else if (pct >= 60) {
         setTimeout(() => {
           if (curUi === 'brass' && window.MecFX.steam) {
@@ -4411,11 +4429,11 @@ function showExamSummary() {
           } else {
             window.MecFX.confetti({ count: 40, colors: ['#60A5FA', '#FFB830', '#3DD68C'] });
           }
-        }, 1350);
+        }, 1550);   // スタンプ（1250ms）の後。gamify の静粛時間 CER_SETTLE_MS(2000) より前に収める
       } else {
         setTimeout(() => {
           window.MecFX.rings(_rb.cx, _rb.cy, { count: 2, color: 'rgba(96,165,250,.85)', thickness: 3, maxR: 150, additive: true });
-        }, 1350);
+        }, 1550);   // スタンプ（1250ms）の後。gamify の静粛時間 CER_SETTLE_MS(2000) より前に収める
       }
     } catch (e) {}
   }
@@ -4595,6 +4613,19 @@ try { _applyEnvLighting(); } catch (e) {}
      - カードは .exam-retry の間 exam-revealed を持たない（焦点も次へ進まない）。
      ⚠️ 選択肢に水平の線を作らないこと（下線部はこの教材で意味を持つ）。× は右端の文字だけ。 */
 
+/* 動きの規則（2026-09-24・案1）。加減速は「入る・出る・押す」の3つ、長さは3段だけ。
+   ⚠️ 正本は vars.css の --ease-out / --ease-in / --ease-spring と --dur-micro / --dur-short / --dur-long。
+      WAAPI（element.animate）は var() を読めないのでここに写しを持つ。値を変えたら両方直すこと
+      （_work/test_rf_polish.js が一致を見張る）。
+   ⚠️ この節（正解・誤答の演出）に cubic-bezier を直に書かないこと。長い振り付け（縁の光の1周・
+      連続数の滞在）だけは名前付きの定数で持つ。 */
+const MO = {
+  out: 'cubic-bezier(.16,1,.3,1)',     // 入る（既定）
+  in: 'cubic-bezier(.7,0,.84,0)',       // 出る
+  spring: 'cubic-bezier(.3,1.4,.5,1)',  // 押す・段が上がる・印が付く
+  d1: 120, d2: 220, d3: 420
+};
+const RF_DESAT_MS = 900;   // 誤答でカードの彩度が一瞬落ちて戻る長さ
 /* UIテーマごとの色と連続数の言葉。色は _traceCardBorder と同じ系統（テーマの主色）。 */
 const RF_THEME = {
   aurora:    { col: '#00DFD8', lbl: 'STREAK' },
@@ -4612,6 +4643,13 @@ function _rfCenter(el) {
   const r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
   if (!r || !r.width) { const b = _fxBand(); return { x: b.cx, y: b.cy }; }
   const [x, y] = _examClampFxXY(r.left + r.width / 2, r.top + r.height / 2);
+  return { x, y };
+}
+
+/* 肢の左端（番号の列の中）。本文の上を光が横切らないように、ここを通り道にする。 */
+function _rfEdge(el) {
+  const r = el.getBoundingClientRect();
+  const [x, y] = _examClampFxXY(r.left + Math.min(22, r.width * .08), r.top + r.height / 2);
   return { x, y };
 }
 
@@ -4656,15 +4694,19 @@ function _rfShowStreak(n, tier, promoted) {
   el.dataset.ui = ui;
   el.style.setProperty('--rf-c', th.col);
   el.style.setProperty('--rf-tier', tier);
-  el.style.top = (_fxBand().top + 8) + 'px';
   const ticks = Array.from({ length: 7 }, (_, i) => '<i class="' + (i < tier ? 'on' : '') + (i === tier - 1 && promoted ? ' up' : '') + '"></i>').join('');
+  // 段が上がった瞬間だけ右に「TIER n / テーマの言葉」を2行で添える（箱の外へ出さない＝問題文に掛からない）
+  const esc = t => String(t).replace(/[<>&]/g, '');
   let sub = '';
-  if (tier >= 2 && promoted) sub = 'TIER ' + tier + ((et.tierUpLabel && et.tierUpLabel(tier)) ? ' · ' + et.tierUpLabel(tier) : '');
-  else if (ui === 'abyss') sub = (n * 100) + ' m';
+  if (tier >= 2 && promoted) {
+    const w = et.tierUpLabel && et.tierUpLabel(tier);
+    sub = '<b>TIER ' + tier + '</b>' + (w ? '<span>' + esc(w) + '</span>' : '');
+  } else if (ui === 'abyss') sub = '<b>' + (n * 100) + ' m</b>';
   el.innerHTML =
     '<span class="rf-n">' + _rfDigits(n - 1, n) + '</span>' +
     '<span class="rf-side"><span class="rf-l">' + th.lbl + '</span><span class="rf-t">' + ticks + '</span></span>' +
-    (sub ? '<span class="rf-sub">' + sub.replace(/[<>&]/g, '') + '</span>' : '');
+    (sub ? '<span class="rf-sub">' + sub + '</span>' : '');
+  el.style.top = _rfStreakTop(el.offsetHeight) + 'px';
   // 桁は描いた後に目標へ回す（入った瞬間の位置が --from）。rAF が止まる裏タブ用に setTimeout も張る。
   const go = () => el.querySelectorAll('.rf-col').forEach(c => c.classList.add('go'));
   requestAnimationFrame(go);
@@ -4676,11 +4718,21 @@ function _rfShowStreak(n, tier, promoted) {
     { opacity: 1, translate: '-50% 0', offset: 240 / total },
     { opacity: 1, translate: '-50% 0', offset: (hold + 240) / total },
     { opacity: 0, translate: '-50% -4px' }
-  ], { duration: total, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'forwards' });
+  ], { duration: total, easing: MO.out, fill: 'forwards' });
   if (promoted) {
     const n0 = el.querySelector('.rf-n');
-    if (n0) n0.animate([{ scale: '1.18' }, { scale: '1' }], { duration: 420, easing: 'cubic-bezier(.3,1.4,.5,1)' });
+    if (n0) n0.animate([{ scale: '1.18' }, { scale: '1' }], { duration: MO.d3, easing: MO.spring });
   }
+}
+/* 連続数の置き場（G・2026-09-24）。ヘッダーの下端に**下から重ねる**。
+   ⚠️ 問題文の側（_fxBand().top より下）へ出さないこと。正解すると次のカードがヘッダー直下へ
+      自動スクロールされるので、そこに1.3〜2.8秒居座ると次の問題の番号行と1行目に被る
+      （iPad 縦で実測）。ヘッダーの帯（科目チップ・進捗バー）は読んでいる本文ではないので隠してよい。
+   ヘッダーが箱より低い（横向きの iPhone 等）ときだけ可視域の上端へ寄せる。 */
+function _rfStreakTop(h) {
+  const hb = _examFxHeaderBottom();
+  const vTop = window.visualViewport ? window.visualViewport.offsetTop : 0;
+  return Math.max(vTop + 4, Math.round(hb - (h || 58) - 4));
 }
 function _rfHideStreak() {
   const el = document.getElementById('examRfStreak');
@@ -4704,7 +4756,7 @@ function _rfCorrectFx(card, el) {
 
   // 0ms：光は正解の肢から
   _rfSweep(el);
-  if (el && el.animate) el.animate([{ filter: 'brightness(1.5)' }, { filter: 'brightness(1)' }], { duration: 420, easing: 'cubic-bezier(.16,1,.3,1)' });
+  if (el && el.animate) el.animate([{ filter: 'brightness(1.5)' }, { filter: 'brightness(1)' }], { duration: MO.d3, easing: MO.out });
   _afterCorrectFx(card, el);   // 難問・初見・リベンジ・速答・克服・SRS刻印（意味を持つ印はそのまま）
 
   // 80ms：肢から数字へ光が走る
@@ -4712,7 +4764,7 @@ function _rfCorrectFx(card, el) {
     if (!window.MecFX || !window.MecFX.ribbon) return;
     const a = _rfCenter(el);
     let tx, ty;
-    if (n >= 2) { const b = _fxBand(); tx = b.cx; ty = b.top + 30; }
+    if (n >= 2) { const b = _fxBand(), h = 58; tx = b.cx; ty = _rfStreakTop(h) + h / 2; }   // 連続数の置き場へ
     else {
       // 1連続目は進捗バーの先端へ（「1問進んだ」ことに光を運ぶ）
       const t = document.getElementById('examProgFill');
@@ -4761,7 +4813,7 @@ function _rfRetryNote(card, tries, calc) {
     (calc ? '<button type="button" class="rf-give">答えを見る</button>' : '');
   const g = note.querySelector('.rf-give');
   if (g) g.onclick = (e) => { e.stopPropagation(); _rfGiveUp(card); };
-  if (!_fxOff()) note.animate([{ opacity: 0, translate: '0 4px' }, { opacity: 1, translate: '0 0' }], { duration: 240, easing: 'cubic-bezier(.16,1,.3,1)' });
+  if (!_fxOff()) note.animate([{ opacity: 0, translate: '0 4px' }, { opacity: 1, translate: '0 0' }], { duration: MO.d2, easing: MO.out });
 }
 
 /* 1回目の誤答の採点。revealAnswer の不正解の枝と同じ記録を行い、答えは開かない。 */
@@ -4820,15 +4872,15 @@ function _rfWrongPick(card, ch, choiceStr) {
     x.className = 'rf-x';
     x.textContent = '×';
     ch.appendChild(x);
-    if (!_fxOff()) x.animate([{ opacity: 0, scale: '.6' }, { opacity: 1, scale: '1' }], { duration: 240, easing: 'cubic-bezier(.3,1.4,.5,1)' });
+    if (!_fxOff()) x.animate([{ opacity: 0, scale: '.6' }, { opacity: 1, scale: '1' }], { duration: MO.d2, easing: MO.spring });
   }
   if (!card.classList.contains('exam-retry')) _rfScoreWrong(card, choiceStr, ch);
   card._rfTries = (card._rfTries || 0) + 1;
   _rfRetryNote(card, card._rfTries, false);
   if (_getRequiredCount(card) > 1) _updateMultiInfo(card);
   if (!_fxOff()) {
-    ch.animate([{ translate: '0 0' }, { translate: '-3px 0' }, { translate: '2px 0' }, { translate: '0 0' }], { duration: 260, easing: 'cubic-bezier(.16,1,.3,1)' });
-    card.animate([{ filter: 'saturate(1) brightness(1)' }, { filter: 'saturate(.6) brightness(.95)', offset: .3 }, { filter: 'saturate(1) brightness(1)' }], { duration: 900, easing: 'cubic-bezier(.16,1,.3,1)' });
+    ch.animate([{ translate: '0 0' }, { translate: '-3px 0' }, { translate: '2px 0' }, { translate: '0 0' }], { duration: MO.d2, easing: MO.out });
+    card.animate([{ filter: 'saturate(1) brightness(1)' }, { filter: 'saturate(.6) brightness(.95)', offset: .3 }, { filter: 'saturate(1) brightness(1)' }], { duration: RF_DESAT_MS, easing: MO.out });
   }
 }
 
@@ -4851,8 +4903,29 @@ function _rfLateCorrect(card, els) {
   (els || []).forEach(e => e.classList.add('exam-selected', 'correct'));
   const calc = window.MecCalc && MecCalc.isCalc(card);
   if (calc) MecCalc.lock(card, true);
-  _rfSweep((els && els[0]) || (calc && MecCalc.anchor(card)) || null);
+  const at = (els && els[0]) || (calc && MecCalc.anchor(card)) || null;
+  _rfSweep(at);
+  _rfReachFx(at, tries, !calc);
   _rfFinishRetry(card, '<b>' + tries + '回目で正解。</b>記録は不正解のまま残ります（連続正解は途切れています）。');
+}
+/* F(2026-09-24): 選び直してたどり着いた手応え。祝わない（音・粒子の雨・連続数は出さない）が、
+   縁の光だけだと「押したのに何も起きない」に見えたので、肢の右端に「N回目」の印と小さな輪を1つ足す。
+   ⚠️ 記録は触らない（1回目の不正解のまま）。印は × と同じ右端の文字＝水平の線は作らない。 */
+function _rfReachFx(at, tries, mark) {
+  if (!at || _fxOff()) return;
+  if (mark && !at.querySelector(':scope > .rf-reach')) {
+    const k = document.createElement('span');
+    k.className = 'rf-reach';
+    k.textContent = tries + '回目で正解';
+    at.appendChild(k);
+    k.animate([{ opacity: 0, translate: '6px 0' }, { opacity: 1, translate: '0 0' }], { duration: MO.d3, easing: MO.out });
+  }
+  at.animate([{ scale: '1' }, { scale: '1.012' }, { scale: '1' }], { duration: MO.d3, easing: MO.spring });
+  if (window.MecFX && window.MecFX.rings) {
+    const r = (at.querySelector(':scope > .rf-reach') || at).getBoundingClientRect();   // 印があれば印から
+    const [x, y] = _examClampFxXY(r.left + r.width / 2, r.top + r.height / 2);
+    window.MecFX.rings(x, y, { count: 1, color: _rfTheme().col, thickness: 2, maxR: 64, additive: true });
+  }
 }
 function _rfGiveUp(card) {
   if (!card.classList.contains('exam-retry')) return;
@@ -4863,8 +4936,10 @@ function _rfGiveUp(card) {
   const from = outs[outs.length - 1];
   const to = card.querySelector('.ch2.ok');
   if (!calc && from && to && !_fxOff() && window.MecFX && window.MecFX.ribbon) {
-    const a = _rfCenter(from), b = _rfCenter(to);
-    window.MecFX.ribbon(a.x - 40, a.y, b.x - 40, b.y, { color: '#3DD68C', width: 2.6, ttl: .55, bow: 30 });
+    // H(2026-09-24): 肢の左端（番号の列）どうしを結ぶ。旧実装は「中心から左へ40px」固定で、
+    //   幅の広い画面では肢の本文の上を横切っていた。
+    const a = _rfEdge(from), b = _rfEdge(to);
+    window.MecFX.ribbon(a.x, a.y, b.x, b.y, { color: '#3DD68C', width: 2.6, ttl: .55, bow: 26 });
   }
   _rfFinishRetry(card, '<b>答えを表示しました。</b>記録は不正解として残ります。');
 }
@@ -4891,7 +4966,7 @@ function _rfCalcSubmit(card, g) {
   card._rfTries = 1;
   MecCalc.shake(card);
   _rfRetryNote(card, 1, true);
-  if (!_fxOff()) card.animate([{ filter: 'saturate(1) brightness(1)' }, { filter: 'saturate(.6) brightness(.95)', offset: .3 }, { filter: 'saturate(1) brightness(1)' }], { duration: 900, easing: 'cubic-bezier(.16,1,.3,1)' });
+  if (!_fxOff()) card.animate([{ filter: 'saturate(1) brightness(1)' }, { filter: 'saturate(.6) brightness(.95)', offset: .3 }, { filter: 'saturate(1) brightness(1)' }], { duration: RF_DESAT_MS, easing: MO.out });
   return true;
 }
 
@@ -4930,6 +5005,6 @@ function _rfChoiceClick(card, ch, req) {
 function _rfCleanup() {
   document.querySelectorAll('.qc.exam-retry,.qc.exam-rf-done').forEach(c => c.classList.remove('exam-retry', 'exam-rf-done'));
   document.querySelectorAll('.ch2.exam-out').forEach(c => { c.classList.remove('exam-out'); c.removeAttribute('aria-disabled'); });
-  document.querySelectorAll('.rf-x,.rf-retry,.rf-sweep').forEach(el => el.remove());
+  document.querySelectorAll('.rf-x,.rf-reach,.rf-retry,.rf-sweep').forEach(el => el.remove());
   _rfHideStreak();
 }

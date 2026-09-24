@@ -519,7 +519,8 @@ t('29. S12 の点灯フックが _updateExamProg の中にあり、更新口を2
   const writes = (JS_NC.match(/examProgTxt/g) || []).length;
   assert.ok(writes <= 2, '#examProgTxt を触る場所が増えている（更新の口は1つ）');
   // 2段（正解＝強／それ以外＝弱）になっていること
-  assert.ok(/if \(isCorrect\)/.test(b) && /else if \(txt\.textContent !== before\)/.test(b),
+  // 2026-09-24: 数字を桁が回る表示にしたので、比較は表示文字列 shown（dataset.v）で行う
+  assert.ok(/if \(isCorrect\)/.test(b) && /else if \(shown !== before\)/.test(b),
     '2段（正解＝強／数字が変わったら弱）になっていない');
 });
 
