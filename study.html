@@ -19,8 +19,16 @@
   var isIPadDesktop = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
   var isWebKit = /AppleWebKit/.test(ua) && !/(Chrome|CriOS|Chromium|Firefox|FxiOS|Edg|OPR|SamsungBrowser)/.test(ua);
   var isTouch = navigator.maxTouchPoints > 1 || (window.matchMedia && matchMedia('(pointer:coarse)').matches);
-  if (isIOS || isIPadDesktop || (isWebKit && isTouch)) {
+  var isAppleTouch = isIOS || isIPadDesktop || (isWebKit && isTouch);
+  if (isAppleTouch) {
     document.documentElement.classList.add('ios-no-cv');
+  }
+  // 省電力（2026-09-25）: iPad・スマホだけ常時アニメを減らす。PCはフル演出のまま。
+  // 判定は「Apple のタッチ端末」か「ホバーできない粗いポインタ（＝指が主入力）」か Android/Mobile。
+  // タッチ付きの Windows ノートは主ポインタがマウス(fine/hover)なので PC 扱いになる。
+  var isHandheld = (window.matchMedia && matchMedia('(hover:none) and (pointer:coarse)').matches) || /Android|Mobi/.test(ua);
+  if (isAppleTouch || isHandheld) {
+    document.documentElement.classList.add('mec-lite');
   }
 })();
 </script>

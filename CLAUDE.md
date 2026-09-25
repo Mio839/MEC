@@ -2199,6 +2199,30 @@ study_exam.js の setTimeout 64本のうち `clearTimeout` されていたのは
 実装は死んでいても文字列はソースに在るので、ずっと green のままだった。
 `fnBodyOf(src, name)` で関数本体を切り出してから検査すること。
 
+## 省電力＝iPad・スマホだけ常時アニメを減らす（2026-09-25〜）
+
+`html.mec-lite` を **study.html 冒頭のスクリプト**が付ける（`ios-no-cv` と同じ判定＋`(hover:none) and (pointer:coarse)`＋Android/Mobi）。
+**PCでは一切変えない**（ユーザー判断＝PCはフル演出）。タッチ付き Windows ノートは主ポインタが fine/hover なので PC 扱い。
+`infinite` が1本でも動いていると、読んでいるだけの時間も画面が毎秒60〜120回描き直される——それが電池を食う主因だった。
+
+| 対象 | lite での扱い | 実装 |
+|---|---|---|
+| 背景の環境光（`html.ui-* body::before`／Abyss の `body::after`）・試験チップの脈 | **開いたときに1往復だけ動いて止まる**（`iteration-count:2`＋`forwards`＝0% の絵に着地して跳ねない） | study.css 末尾 |
+| カードの模様（`.qc::before/::after`・Abyss の `.qh::after`） | いま解いているカード（`exam-key-focus`）だけ動く。正解済み `.fx-correct` と iOS に残る `:hover` は止める | study.css 末尾 |
+| liquid の正解肢の揺らぎ（.35s） | 4往復で止める | study.css 末尾 |
+| 稼働灯・歯車・熾火（`exam-idle-lit`） | 各問の読み始めから `LITE_IDLE_LIT_MS`(6秒) で消える | `_updateExamFocus` |
+| 読書中の蒸気（`_examSteamTick`） | 出さない（解答の瞬間の放出は残す） | study_exam.js |
+| ゾーンの粒子 | 1.1秒→`LITE_ZONE_EVERY_MS`(3.3秒)ごと | `_zoneStart` |
+
+- 判定は `_fxLite()`（study_exam.js）。**解答の瞬間の演出（正解・誤答・蒸気の放出）は減らさない**。
+- ⚠️ `animation:none` にしないこと（`from{opacity:0}` の入場アニメごと消えてカードが白紙になる）。
+- ⚠️ 熾火（`body.exam-mode::after`）は①の「1往復」から外してある（`body:not(.exam-mode)::after`）。含めると2周で止まったまま点き直らない。
+- ⚠️ カードの模様の除外は `:not([class~="exam-key-focus"])` と属性で書く。`test_exam_reading.js` が
+  `.exam-key-focus …::before` を R5 のクランプとして1本だけ数えるため。
+- ⚠️ 消灯の予約は `_updateExamFocus` の中の局所関数 `_liteIdleOffIn`＝`_examIdleTimer` の1本を使い回す
+  （点灯クラスを触るのは `_updateExamFocus` と cleanup だけ＝`test_exam_chassis.js` 13）。
+- 実測（headless Chrome・麻酔科52問）: Abyss で常時アニメ PC 58本 → lite 0本（残る2本は1往復で止まる）。
+
 ## 正解・誤答の演出（2026-09-24 に置き換え）
 
 2026-09-24 に切り替えスイッチ（`mec_fx_style_v1`）で旧演出と実機比較し、**こちらを採用して旧経路を削除した**。

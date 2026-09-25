@@ -2071,3 +2071,33 @@ html[class*="ui-"] .rf-retry.is-done { background: rgba(var(--glass-rgb, 255,255
 #examRfStreak[data-ui="frost"] { border-radius: 12px; background: rgba(8,22,40,.78); }
 #examRfStreak[data-ui="frost"] .rf-n { font-weight: 200; color: #EAF8FF; text-shadow: 0 0 calc(var(--rf-tier, 1) * 3px + 4px) rgba(158,227,255,.8); }
 #examRfStreak[data-ui="frost"] .rf-l { letter-spacing: .4em; font-weight: 400; }
+
+/* ══════════ 省電力（iPad・スマホだけ・2026-09-25）══════════
+   `html.mec-lite` は study.html 冒頭のスクリプトが iPad・スマホにだけ付ける。PCはフル演出のまま。
+   `infinite` のアニメが1本でも動いていると、何もしていない間も画面を毎秒60〜120回描き直し続ける
+   （問題を読んでいるだけの時間も GPU が休めない）。ここで常時動くものを止める。
+   ⚠️ `animation: none` にしないこと。止め方は2つだけ:
+     ① 開いたときに1往復だけ動いて止まる（背景の環境光・試験チップ）
+        alternate ×2 は 0%→100%→0% と戻るので、`forwards` で 0% の絵に着地して跳ねない。
+     ② カードの模様は「いま解いているカード」だけ動かす（正解済み・:hover は止める）
+   ⚠️ 試験中の熾火（body.exam-mode::after）は稼働灯に連動するので①から外す（止まったまま戻れなくなる）。 */
+html.mec-lite[class*="ui-"] body::before,
+html.mec-lite[class*="ui-"] body:not(.exam-mode)::after,
+html.mec-lite[class*="ui-"] .st-stat.exam-mode-chip {
+  animation-iteration-count: 2 !important;
+  animation-fill-mode: forwards !important;
+}
+/* ② 正解したカードは試験が終わるまで .fx-correct を持ち続けるので、既定（ui_theme.css）では
+      50問なら最大50枚の模様が動き続ける。iOS はタップ後も :hover が残るのでこれも止める。
+      詳細度 (0,4,2) で ui_theme.css の running 側 (0,3,2) に勝つ。
+   ⚠️ `:not(.exam-key-focus)` ではなく属性で書いているのは、test_exam_reading.js が
+      「.exam-key-focus …::before」を R5 のクランプとして1本だけ数えるため。 */
+html.mec-lite[class*="ui-"] .qc:not([class~="exam-key-focus"])::before,
+html.mec-lite[class*="ui-"] .qc:not([class~="exam-key-focus"])::after,
+html.mec-lite[class*="ui-"] .qc:not([class~="exam-key-focus"]) .qh::after {
+  animation-play-state: paused;
+}
+/* 正解肢の揺らぎ（liquid・.35s 周期）は正解済みの全カードで回り続けるので、4往復で止める。 */
+html.mec-lite.ui-liquid .qc .ch2.correct::before {
+  animation-iteration-count: 4 !important;
+}

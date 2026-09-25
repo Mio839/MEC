@@ -1349,6 +1349,14 @@ let _zoneActive = false;
 function _fxOff() {
   return typeof _mecReducedMotion === 'function' && _mecReducedMotion();
 }
+/* 省電力（iPad・スマホだけ・2026-09-25）。`html.mec-lite` は study.html 冒頭のスクリプトが付ける。
+   PCでは常に false＝演出はフルのまま。止めるのは「読んでいる間ずっと動くもの」だけで、
+   解答の瞬間の演出（正解・誤答・蒸気の放出）は減らさない。 */
+function _fxLite() {
+  return document.documentElement.classList.contains('mec-lite');
+}
+const LITE_ZONE_EVERY_MS = 3300;   // ゾーンの粒子（PCは1100ms）
+const LITE_IDLE_LIT_MS   = 6000;   // 稼働灯・歯車・熾火は各問の読み始めから6秒で消す
 
 /* ══════════ 演出タイマーの登録簿（2026-08-31・§cleanup）══════════
    演出は「クラスを付ける → N ミリ秒後に外す」「少し遅らせて粒子を撒く」の形が多く、
@@ -2185,7 +2193,7 @@ function _zoneStart() {
     } catch (e) {}
   };
   emit();
-  _zoneTimer = setInterval(emit, 1100);
+  _zoneTimer = setInterval(emit, _fxLite() ? LITE_ZONE_EVERY_MS : 1100);
 }
 
 // B5: ゾーン崩壊。ミスで途切れた瞬間、漂う粒子を一点に吸い込んで消す（喪失の演出）
@@ -3528,6 +3536,12 @@ function _updateExamFocus() {
 
   // ── D9 稼働灯 ───────────────────────────────────────────────────────────
   clearTimeout(_examIdleTimer); _examIdleTimer = null;  // ★張り直す前に必ず落とす
+  // 省電力の消灯予約（iPad・スマホだけ）。⚠️ 点灯クラスを触るのはこの関数と cleanup だけ（D9）
+  // なので、ここに局所関数として置く。タイマーは上の _examIdleTimer の1本を使い回す。
+  const _liteIdleOffIn = ms => {
+    clearTimeout(_examIdleTimer);
+    _examIdleTimer = setTimeout(() => { _examIdleTimer = null; document.body.classList.remove('exam-idle-lit'); }, ms);
+  };
   if (_fxOff()) { document.body.classList.remove('exam-idle-lit'); return; }
   // 直前まで焦点だったカードが解答済みになった＝「答えた瞬間」。ここで止めるのが D9 の要。
   if (prevFocus && prevFocus !== card && prevFocus.classList.contains('exam-revealed')) {
@@ -3543,12 +3557,26 @@ function _updateExamFocus() {
   const uid = card.dataset.uid || null;
   if (uid !== _examIdleFocusUid) { _examIdleFocusUid = uid; _examIdleFocusAt = Date.now(); }
   // 遅延は「焦点になった時刻」から測る。呼ばれた時刻から測るとスクロールのたびに延び続ける。
-  const wait = Math.max(_examIdleFocusAt + EXAM_IDLE_DELAY_MS, _examIdleHoldUntil) - Date.now();
+  const litAt = Math.max(_examIdleFocusAt + EXAM_IDLE_DELAY_MS, _examIdleHoldUntil);
+  const wait = litAt - Date.now();
+  if (_fxLite()) {
+    // 省電力: 点灯している窓を「読み始めから LITE_IDLE_LIT_MS」に限る。窓は焦点になった時刻から
+    // 測るので、スクロールで _updateExamFocus が何度呼ばれても延びない＝点き直らない。
+    // ⚠️ タイマーは _examIdleTimer の1本だけを使う（冒頭で必ず clearTimeout される）。
+    const offIn = litAt + LITE_IDLE_LIT_MS - Date.now();
+    if (offIn <= 0) { document.body.classList.remove('exam-idle-lit'); return; }
+    if (wait <= 0) {
+      document.body.classList.add('exam-idle-lit');
+      _liteIdleOffIn(offIn);
+      return;
+    }
+  }
   if (wait <= 0) { document.body.classList.add('exam-idle-lit'); return; }
   document.body.classList.remove('exam-idle-lit');
   _examIdleTimer = setTimeout(() => {
     _examIdleTimer = null;
     if (examMode && !_fxOff() && _getExamTargetCard()) document.body.classList.add('exam-idle-lit');
+    if (_fxLite()) _liteIdleOffIn(LITE_IDLE_LIT_MS);
   }, wait);
 }
 /* ══ Phase 5 段2(2026-08-19): 稼働灯まわり ═══════════════════════════════════
@@ -3700,7 +3728,8 @@ function _examGearBlow() {
   }, GEAR_BLOW_MS);
 }
 function _examSteamTick() {
-  if (!examMode || _fxOff() || document.hidden) return;
+  // 省電力: 読書中の噴気は出さない（解答の瞬間の放出 _examPuffSteam(true) は残る）。
+  if (!examMode || _fxOff() || _fxLite() || document.hidden) return;
   if (document.body.classList.contains('exam-asleep')) return;
   const card = _getExamTargetCard();
   if (card && _examPressureBuilt(card)) _examPuffSteam(false);
