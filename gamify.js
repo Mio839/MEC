@@ -637,7 +637,7 @@ html.ui-frost .gm-ach-emblem span{filter:drop-shadow(0 1px 0 #fff);}
   // ⚠️ UIテーマを増やしたらここと CSS の両方に足すこと（無いテーマは aurora の意匠で出る）。
   const ACH_THEME = {
     aurora:    { kicker: 'PRISM RECORD',           title: 'ACHIEVEMENTS', em: '💎', cols: ['#9BFFE0', '#B9A6FF', '#FFB3E6', '#FFFFFF'], shapes: ['gem', 'star'] },
-    brass:     { kicker: '— COMMENDATION —',       title: '功 績 録',      em: '⚙',  cols: ['#F3D98B', '#D9A441', '#9C7424', '#FFF1C0'], shapes: ['shard', 'square'], gears: true, matte: true },
+    brass:     { kicker: '— COMMENDATION —',       title: 'HONOURS',       em: '⚙',  cols: ['#F3D98B', '#D9A441', '#9C7424', '#FFF1C0'], shapes: ['shard', 'square'], gears: true, matte: true },
     cyber:     { kicker: '> SYSTEM://ACHIEVEMENT', title: 'UNLOCKED',      em: '◆',  cols: ['#00F0FF', '#FF2E88', '#7A5CFF', '#FFFFFF'], shapes: ['square', 'plus'] },
     liquid:    { kicker: 'FLOW STATE',             title: 'ACHIEVEMENTS', em: '🫧', cols: ['#FFB36B', '#FF5FA2', '#7CD8FF', '#FFFFFF'], shapes: ['circle', 'blob'], rise: true },
     kintsugi:  { kicker: '金 継 ぎ の 記',          title: '功 績',        em: '継',  cols: ['#FFF1C1', '#D4A93B', '#8A6420'], shapes: ['shard'], matte: true },
