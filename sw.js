@@ -1,3 +1,5 @@
+// 2026-09-25a: 今日の復習を「病棟回診」に（ward.js）。朝の申し送り・病棟ボード・確信度（確実/たぶん/勘）の宣言。
+//   勘で当てた問題は SRS へ 'mid'。シェルのみ＝SHELL_VERSION だけ bump（2026-09-24e → 2026-09-25a）。
 // 2026-09-24a: 🎯 弱点強化ミッションを8軸レーダーの科目群ベースへ作り直し（gamify.js）・
 //   ミッション行から study.html?mode=focus で残り問数の試験を始める（study.html / study_exam.js）。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-23a → 2026-09-24a）。
@@ -1519,7 +1521,7 @@ const CACHE = "mec-v656";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-24e";
+const SHELL_VERSION = "2026-09-25a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -1551,6 +1553,8 @@ const SHELL = [
   "./trophy.js",
   // ボス戦（study.html?mode=boss）
   "./boss.js",
+  // 病棟回診（SRS復習の見せ方）＋確信度の宣言
+  "./ward.js",
   // 効果音の一覧（派生物）。⚠️ sounds/ の音そのものは入れていない（オフラインでは鳴らない）。
   "./sounds_index.js",
   // 疾患マインドマップ（2026-08-21・段A）。旧9本＋統合マップは1エンジン＋データ分離へ移行した。

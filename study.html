@@ -43,6 +43,7 @@
 <script src="gamify.js"></script>
 <script src="trophy.js"></script>
 <script src="boss.js"></script>
+<script src="ward.js"></script>
 <link rel="stylesheet" href="vars.css">
 <script src="theme.js"></script>
 <script src="ui_theme.js"></script>
@@ -2427,10 +2428,17 @@ async function startSRSReview() {
   _srsReviewMode = true;
   _examFilterLabel = 'SRS復習';
   document.body.classList.add('srs-review'); // フィルター類を隠し、ヘッダーを最小化する
-  startExam(availableUids);
+  // 🏥 病棟回診（ward.js）：朝の申し送りを見せてから、「回診を始める」のタップで試験を始める。
+  // ⚠️ startExam はタップの中で呼ぶ＝起動音の自動再生制限（iOS）を通せる。
   // 残り件数は「拾い直した連問の兄弟」を差し引いた数（sessionUids）で数える。
-  if (_dueTotal > sessionUids.length) {
-    _mecNotify('復習 ' + availableUids.length + '問を出題します（残り ' + (_dueTotal - sessionUids.length) + '問は完了後に続けられます）');
+  const _remain = Math.max(0, _dueTotal - sessionUids.length);
+  if (window.MecWard) {
+    MecWard.briefing(availableUids, _remain, () => { startExam(availableUids); MecWard.start(availableUids); });
+    return;
+  }
+  startExam(availableUids);
+  if (_remain > 0) {
+    _mecNotify('復習 ' + availableUids.length + '問を出題します（残り ' + _remain + '問は完了後に続けられます）');
   }
 }
 

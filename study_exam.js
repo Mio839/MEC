@@ -939,7 +939,7 @@ function revealAnswer(card) {
   _markExamDone(uid);
   _recordMyRate(uid, true);
   _logAttempt(card, true, _selectedChoiceStr(els));
-  if (!_isScoreExcluded(card)) _updateSRS(uid, true);
+  if (!_isScoreExcluded(card)) _updateSRS(uid, _examSrsGrade(true));
   examCorrect++;
   examStreak++;
   examBySubj[sid].correct++;
@@ -1735,6 +1735,16 @@ function _tallyQuestion(card, isCorrect) {
   // ボス戦の体力はここで動かす（3つの採点経路が必ず通る唯一の点。増援の追加もこの後の
   // _updateExamProg / _maybeShowFinishBtn より前に済ませる必要がある）
   if (_bossMode === true && window.MecBoss) { try { MecBoss.onAnswer(card, !!isCorrect); } catch (e) { console.error('[boss]', e); } }
+  // 病棟回診（SRS復習の見せ方・ward.js）。退院／経過観察／入院継続と確信度をここで記帳する
+  if (_srsReviewMode && window.MecWard) { try { MecWard.onAnswer(card, !!isCorrect); } catch (e) { console.error('[ward]', e); } }
+}
+
+/* 正解時に SRS へ渡す段。病棟回診で「勘」と宣言して当てた問題だけ 'mid'（△）に落とす。
+   ⚠️ _tallyQuestion（→ MecWard.onAnswer）の後に呼ぶこと。宣言はそこで確定する。
+   誤答は従来どおり false を直接渡している（確信度に関わらず ng）。 */
+function _examSrsGrade(isCorrect) {
+  try { if (_srsReviewMode && window.MecWard && MecWard.active()) return MecWard.srsGrade(isCorrect); } catch (e) {}
+  return isCorrect;
 }
 
 // 目盛りと難問印をバーへ敷く（セッション開始時に一度だけ）
@@ -3188,7 +3198,7 @@ function _revealCalcAnswer(card, sid) {
   // 計算問題は「何と答えたか」が誤りの構造を示す（BSAで割り忘れれば 36 が出る等）ので
   // 入力値をそのまま解答ログに残す。肢の概念が無いため mec_choice_v1 には書かない。
   _logAttempt(card, true, g.entered);
-  if (!_isScoreExcluded(card)) _updateSRS(uid, true);
+  if (!_isScoreExcluded(card)) _updateSRS(uid, _examSrsGrade(true));
   MecCalc.lock(card, true);
   const revBtn = card.querySelector('.exam-reveal-btn');
   if (revBtn) delete revBtn.dataset.ready;
@@ -4059,6 +4069,7 @@ function exitExam() {
   _lastSessionWasBoss = !!_bossMode;
   _lastSessionWasFocus = _focusMode;
   try { window.MecBoss?.onExit?.(); } catch (e) {}
+  try { window.MecWard?.onExit?.(); } catch (e) {}
   // ⚠️ 稼働灯(D9)は点灯クラスとタイマーの両方を落とすこと。残ると通常閲覧のヘッダで光が走り続ける。
   document.body.classList.remove('exam-mode', 'exam-effect-neon', 'exam-effect-ink', 'exam-sprint', 'exam-idle-lit', 'exam-overdrive', 'exam-screen-shake', 'exam-red-flash', 'exam-slash-freeze', 'exam-streak-zone', 'exam-bullet-time');
   document.querySelector('.exam-prog-track')?.classList.remove('exam-prog-complete');
@@ -4194,7 +4205,7 @@ function _bindOverlayVV(ov) {
 
 function showExamSummary() {
   // 前回セッションの残骸（ランクスタンプ・復習完了バナー）を消してから描き直す
-  document.querySelectorAll('#examOverlay .exam-rank-stamp, #examOverlay .exam-srs-done, #examOverlay .exam-srs-continue, #examOverlay .exam-boss-res').forEach(el => el.remove());
+  document.querySelectorAll('#examOverlay .exam-rank-stamp, #examOverlay .exam-srs-done, #examOverlay .exam-srs-continue, #examOverlay .exam-boss-res, #examOverlay .exam-ward-res').forEach(el => el.remove());
   const titleEl = document.querySelector('#examOverlay h2');
   if (titleEl) titleEl.innerHTML =
     _srsReviewMode  ? '🔔 <span class="grad-txt">復習セッション結果</span>' :
@@ -4524,6 +4535,8 @@ function showExamSummary() {
   }
   // ボス戦の勝敗を結果画面の先頭に出す（boss.js）
   if (_bossMode === true) { try { window.MecBoss?.decorateSummary?.(); } catch (e) {} }
+  // 病棟回診の転帰と確信度の的中（ward.js）
+  if (_srsReviewMode) { try { window.MecWard?.decorateSummary?.(); } catch (e) {} }
   // このセッションで新しく「定着」した問題を1件の通知にまとめて授与トレイへ（trophy.js）
   try { window.MecTrophy?.flushSession?.(); } catch {}
   try { window.MecGamify?.onExamFinish?.(examAnswered, examCorrect, { chPrefix: _gmChPrefix }); } catch {}

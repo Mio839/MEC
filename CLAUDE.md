@@ -25,6 +25,7 @@
 | `hub_opening.js` | **1日の最初のブリーフィング**（2026-09-23新設・`window.MecOpening`）。その日はじめてハブを開いたときに全画面で ①前回のリザルト ②週の結果発表（**その週はじめて開いた日**・ランクS〜C） ③今日のブリーフィング を出す。ヒーローの日付をタップで開き直せる。材料は既存の同期済みデータだけ（fetch を足さない）。⚠️ 前回の結果は「昨日」固定ではなく今日より前の最後の学習日。既視 `mec_hub_opening_v1` は UIローカル。テスト: `node _work/test_hub_opening.js` |
 | `trophy.js` | **トロフィー棚**（2026-09-23新設・`window.MecTrophy`・ハブのタイル 🏆）。定着コレクション（科目ごとの宝石）・章メダル（金銀銅＝`gamify.js` の `chapterGrade`＝章の星と同じ式）・科目制覇の👑。**新しいキーを持たず** `mec_srs_v1`/`myrate_v1`/`done_v2` から毎回計算。⚠️ **「定着」＝reps≥3 かつ 間隔≥min(21日, 試験日ゲートの上限)**。固定の「30日以上」にすると試験日ゲートで直前期に誰も届かず宝石が消えていく。study.html の `_updateSRS` が増分を拾い、試験の結果画面で1件の通知にまとめる。index.html と study.html が読む |
 | `boss.js` | **ボス戦**（2026-09-23新設・`window.MecBoss`・`study.html?mode=boss`・ハブのタイル ⚔️）。苦手（誤答率・🚩・直近30日の誤答）から決定論で20問を選び、10問で開戦・10問は控え。正解でダメージ（難問18・通常12・3連続ごとに会心×1.5）、**誤答でボスが回復(+8)し控えから1問増援**。体力0で撃破＝その場で結果画面へ。問題が尽きれば撤退。配管は今日の誤答の再履修と同じホスト出題（`_bossMode`・`_isHostSession()` に含まれる）。体力は `_tallyQuestion`（3採点経路の合流点）で動かす。⚠️ こちらの体力・敗北は作らない（ユーザー判断）。戦績 `mec_boss_v1` は UIローカル。テスト: `node _work/test_trophy_boss.js` |
+| `ward.js` | **病棟回診**（2026-09-25新設・`window.MecWard`）。**今日の復習（SRS復習）の見せ方**。開始前に「朝の申し送り」（科目＝病棟ごとのベッド・病状 重症/要注意/安定＝期限切れの日数と待たされ具合）→「回診を始める」のタップで `startExam`。画面下の病棟ボードで**確信度（確実/たぶん/勘・キー Q/W/E）**を宣言でき、**勘で正解した問題だけ SRS へ `'mid'`**（`_examSrsGrade`・正解の2経路が通す）。転帰（退院/経過観察/入院継続）は `_tallyQuestion` で記帳、結果画面に病棟別の転帰・確信度の的中・「思い込み（確実で誤答）」を出す。⚠️ SRS復習だけ（今日の誤答・統合カンファレンス・弱点強化・誤答再試験には出さない）。⚠️ 新しい localStorage キーを持たない。テスト: `node _work/test_ward.js` |
 | `stats.html` | 学習統計ページ（30日チャート・SRS統計・AI相談Markdownエクスポート） |
 | `knowledge.html` | 検索知識ノート機能 |
 | `mock.html` / `mock.js` / `mock_data/` / `mock_karte.html` | **模試の自己採点**（2026-09-08新設）。`mock.js`＝採点エンジン（`window.MecMock`・UIは式を1つも持たない）／`mock_data/index.js`＝模試レジストリ／`mock_data/{id}.js`＝解答表（**派生物**・`_work/build_mock_m121s.py` が解説書PDFから生成）。記録は `mec_mock_v1`（Gist同期対象）。⚠️ **模試を1つ足す作業＝`mock_data/` にファイルを1つ書いて index.js に1行足すだけ**（エンジンは触らない・`sw.js` の SHELL への追記は必要）。⚠️ 下記「模試の自己採点」の不変条件を読んでから触ること。`mock_karte.html`＝**成績カルテ**（2026-09-09新設・ハブのタイル 🩺 から開く）。採点は `mock.js` に任せ、集計して並べるだけ＝**式を1つも持たない**。全国正答率の受け口は `mock_data/{id}_rates.js`（`window.MecMockRates`・空でも必ず置く） |
@@ -1501,6 +1502,7 @@ node _work/test_hub_notes.js      ハブ「今日の所見」の集計と選抜 
 node _work/test_hub_radar.js      ハブ「実力の輪郭」8軸レーダー・全国正答率の索引 (20)
 node _work/test_hub_opening.js    1日の最初のブリーフィング／週の結果発表 (37)
 node _work/test_trophy_boss.js    トロフィー棚（定着・章メダル）とボス戦 (40)
+node _work/test_ward.js           病棟回診・確信度の宣言（SRSの段・配線）(21)
 node _work/test_mock_score.js      模試の自己採点（データ検算・採点・同期・成績表）(46)
 node _work/test_mock_figs.js       模試の設問図が全部あるか（138枚）      (6)
 node _work/test_mock_wrong_filter.js  ❌模試誤答フィルタ（件数の一致・uid対応・配線）(21)
