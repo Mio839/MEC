@@ -1,4 +1,4 @@
-// 病棟回診（ward.js）と確信度の宣言のテスト。実ソースを vm で読み込む。
+// 病棟回診（ward.js）のテスト。実ソースを vm で読み込む。
 //   node _work/test_ward.js
 const fs = require('fs');
 const path = require('path');
@@ -23,23 +23,18 @@ ok(W.severityOf({ nextReview: '2026-09-18', interval: 30 }, T) === 'crit', '7日
 ok(W.severityOf({ nextReview: '2026-09-23', interval: 1 }, T) === 'crit', '間隔1日が2日遅れ（待たされ具合3）＝重症');
 ok(W.severityOf(null, T) === 'stable', 'エントリなし＝安定（落ちない）');
 
-// [2] 確信度 → SRS の段と転帰
-ok(W.gradeFor(true, 'sure') === true && W.gradeFor(true, 'maybe') === true, '確実・たぶんで正解＝従来どおり true（ok）');
-ok(W.gradeFor(true, 'guess') === 'mid', '勘で正解＝mid（間隔を控えめに）');
-ok(W.gradeFor(false, 'sure') === false && W.gradeFor(false, 'guess') === false, '誤答は確信度に関わらず false（ng）');
-ok(W.outcomeOf(true, 'sure') === 'discharge' && W.outcomeOf(true, 'guess') === 'watch' && W.outcomeOf(false, 'maybe') === 'stay', '転帰：退院／経過観察／入院継続');
+// [2] 転帰
+ok(W.outcomeOf(true) === 'discharge' && W.outcomeOf(false) === 'stay', '転帰：正解＝退院／誤答＝入院継続');
+// 確信度の宣言は 2026-09-25 に撤去（キー操作が面倒＝ユーザー判断）。戻っていないこと
+const WARD = read('ward.js');
+ok(!/wh-cb|setConf|gradeFor|srsGrade|keydown/.test(WARD), '確信度の宣言（ボタン・キー・SRSの段）が残っていない');
+ok(/#wardHud\{[^}]*pointer-events:none/.test(WARD), '病棟ボードは表示だけ（押せる物を置かない）');
 
-// [3] 的中の集計
-const c = W.calib([{ conf: 'sure', ok: true }, { conf: 'sure', ok: false }, { conf: 'guess', ok: true }, { conf: 'x', ok: true }]);
-ok(c.sure.n === 2 && c.sure.ok === 1, '確実 2問中1問');
-ok(c.guess.n === 1 && c.maybe.n === 1, '未知の値は「たぶん」へ寄せる');
-
-// [4] 配線
+// [3] 配線
 const EXAM = read('study_exam.js');
 const tally = EXAM.slice(EXAM.indexOf('function _tallyQuestion('), EXAM.indexOf('function _renderExamProgMarks('));
 ok(/_srsReviewMode && window\.MecWard/.test(tally) && /MecWard\.onAnswer\(/.test(tally), '転帰は _tallyQuestion（3つの採点経路の合流点）で記帳');
-ok((EXAM.match(/_updateSRS\(uid, _examSrsGrade\(true\)\)/g) || []).length === 2, '正解の2経路（選択肢・計算）が _examSrsGrade を通す');
-ok(!/_updateSRS\(uid, true\)/.test(EXAM), '素の _updateSRS(uid, true) が残っていない');
+ok(!/_examSrsGrade/.test(EXAM), 'SRS の採点は従来どおり（確信度で段を変えない）');
 ok(/MecWard\?\.onExit/.test(EXAM.slice(EXAM.indexOf('function exitExam('))), 'exitExam で onExit');
 const HTML = read('study.html');
 ok(/<script src="ward\.js"><\/script>/.test(HTML), 'study.html が ward.js を読む');

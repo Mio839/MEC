@@ -939,7 +939,7 @@ function revealAnswer(card) {
   _markExamDone(uid);
   _recordMyRate(uid, true);
   _logAttempt(card, true, _selectedChoiceStr(els));
-  if (!_isScoreExcluded(card)) _updateSRS(uid, _examSrsGrade(true));
+  if (!_isScoreExcluded(card)) _updateSRS(uid, true);
   examCorrect++;
   examStreak++;
   examBySubj[sid].correct++;
@@ -1735,16 +1735,8 @@ function _tallyQuestion(card, isCorrect) {
   // ボス戦の体力はここで動かす（3つの採点経路が必ず通る唯一の点。増援の追加もこの後の
   // _updateExamProg / _maybeShowFinishBtn より前に済ませる必要がある）
   if (_bossMode === true && window.MecBoss) { try { MecBoss.onAnswer(card, !!isCorrect); } catch (e) { console.error('[boss]', e); } }
-  // 病棟回診（SRS復習の見せ方・ward.js）。退院／経過観察／入院継続と確信度をここで記帳する
+  // 病棟回診（SRS復習の見せ方・ward.js）。退院／入院継続をここで記帳する
   if (_srsReviewMode && window.MecWard) { try { MecWard.onAnswer(card, !!isCorrect); } catch (e) { console.error('[ward]', e); } }
-}
-
-/* 正解時に SRS へ渡す段。病棟回診で「勘」と宣言して当てた問題だけ 'mid'（△）に落とす。
-   ⚠️ _tallyQuestion（→ MecWard.onAnswer）の後に呼ぶこと。宣言はそこで確定する。
-   誤答は従来どおり false を直接渡している（確信度に関わらず ng）。 */
-function _examSrsGrade(isCorrect) {
-  try { if (_srsReviewMode && window.MecWard && MecWard.active()) return MecWard.srsGrade(isCorrect); } catch (e) {}
-  return isCorrect;
 }
 
 // 目盛りと難問印をバーへ敷く（セッション開始時に一度だけ）
@@ -3198,7 +3190,7 @@ function _revealCalcAnswer(card, sid) {
   // 計算問題は「何と答えたか」が誤りの構造を示す（BSAで割り忘れれば 36 が出る等）ので
   // 入力値をそのまま解答ログに残す。肢の概念が無いため mec_choice_v1 には書かない。
   _logAttempt(card, true, g.entered);
-  if (!_isScoreExcluded(card)) _updateSRS(uid, _examSrsGrade(true));
+  if (!_isScoreExcluded(card)) _updateSRS(uid, true);
   MecCalc.lock(card, true);
   const revBtn = card.querySelector('.exam-reveal-btn');
   if (revBtn) delete revBtn.dataset.ready;

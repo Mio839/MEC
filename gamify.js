@@ -301,6 +301,144 @@ a.gm-mission.is-launch:active{scale:.98;}
 .gm-batch-info{flex:1;min-width:0;}
 .gm-batch-tt{font-size:12.5px;font-weight:800;color:#FFD166;line-height:1.3;}
 .gm-batch-sub{font-size:11px;font-weight:700;color:rgba(255,255,255,.82);line-height:1.3;margin-top:1px;}
+/* ── ACHIEVEMENTS（統合セレモニー）の意匠はUIテーマ8種ぶん（2026-09-25） ──
+   カードの骨格は共通で、色・地模様・縁・書体だけをテーマが変数で差し替える。
+   縁は padding-box / border-box の2枚重ね（グラデーションの縁）。
+   ::before＝地模様（テーマ固有）／::after＝一度だけ走る光沢。⚠️ infinite を置かない（数秒で消える画面）。
+   ⚠️ 意匠のために変数を足すときは --ach- 接頭辞（vars.css のトークンを継承で拾わないため）。 */
+.gm-cer.gm-ach{animation:none;}
+.gm-cer.gm-ach.out{animation:gmCerOut .4s ease both;}
+.gm-ach-card{--ach-bg:linear-gradient(155deg,#1A1440,#0B1830 75%);--ach-edge:linear-gradient(120deg,#7CFFCB,#8A7CFF 50%,#FF8AD8);
+  --ach-ink:#EEF2FF;--ach-acc:#D9CCFF;--ach-acc2:#8FF5D6;--ach-sub:rgba(226,232,255,.74);
+  --ach-title:linear-gradient(90deg,#9BFFE0,#B9A6FF 50%,#FFB3E6);--ach-glow:0 0 18px rgba(170,150,255,.55);
+  --ach-row:rgba(255,255,255,.06);--ach-row-edge:rgba(185,166,255,.28);--ach-ic-bg:rgba(155,255,224,.1);
+  --ach-em-bg:radial-gradient(circle at 35% 30%,#3B2F7A,#140F33 75%);--ach-em-sh:0 0 0 2px rgba(185,166,255,.8),0 0 24px rgba(155,255,224,.45);
+  --ach-rule:linear-gradient(90deg,transparent,#9BFFE0 30%,#FFB3E6 70%,transparent);--ach-sheen:rgba(255,255,255,.16);
+  position:relative;isolation:isolate;width:min(92vw,440px);box-sizing:border-box;margin:0 auto;padding:26px 20px 14px;
+  border-radius:var(--ach-r,22px);overflow:hidden;text-align:center;color:var(--ach-ink);font-family:var(--ach-font,inherit);
+  background:var(--ach-bg) padding-box,var(--ach-edge) border-box;border:var(--ach-bw,1.5px) solid transparent;
+  box-shadow:var(--ach-shadow,0 24px 60px rgba(0,0,0,.55),0 0 40px rgba(140,120,255,.25));
+  animation:gmAchIn .6s cubic-bezier(.2,1.25,.3,1) both;}
+.gm-ach-card::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(70% 55% at 12% 0%,rgba(124,255,203,.28),transparent 70%),radial-gradient(60% 60% at 95% 8%,rgba(160,120,255,.32),transparent 70%),radial-gradient(80% 50% at 50% 110%,rgba(255,138,216,.18),transparent 70%);}
+.gm-ach-card::after{content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 40%,var(--ach-sheen) 50%,transparent 60%) 0 0/250% 100% no-repeat;
+  animation:gmAchSheen 1.6s .35s ease-out both;}
+.gm-ach-emblem{position:relative;width:64px;height:64px;margin:0 auto 10px;display:grid;place-items:center;border-radius:var(--ach-er,50%);
+  font-size:30px;line-height:1;background:var(--ach-em-bg);box-shadow:var(--ach-em-sh);color:var(--ach-acc);
+  animation:gmAchEmblem .8s .08s cubic-bezier(.3,1.6,.5,1) both;}
+.gm-ach-emblem::after{content:'';position:absolute;inset:-4px;border-radius:inherit;border:2px solid var(--ach-acc2);opacity:0;animation:gmAchRing 1.1s .45s ease-out both;}
+.gm-ach-emblem span{display:inline-block;}
+.gm-ach-kicker{font-size:10px;font-weight:800;letter-spacing:.34em;color:var(--ach-acc2);animation:gmAchFade .5s .2s both;}
+.gm-ach-title{margin:4px 0 0;font-size:clamp(21px,7.2vw,34px);white-space:nowrap;font-weight:900;letter-spacing:var(--ach-ls,.05em);line-height:1.15;
+  color:transparent;background:var(--ach-title);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(var(--ach-glow));
+  animation:gmAchTitle .7s .15s cubic-bezier(.2,1.2,.3,1) both;}
+.gm-ach-rule{height:1px;width:72%;margin:11px auto 8px;background:var(--ach-rule);animation:gmAchRule .6s .35s ease-out both;}
+.gm-ach-count{font-size:12px;font-weight:800;color:var(--ach-sub);animation:gmAchFade .5s .4s both;}
+.gm-ach-count b{font-size:16px;color:var(--ach-acc);margin:0 2px;font-variant-numeric:tabular-nums;}
+.gm-ach-list{display:flex;flex-direction:column;gap:7px;margin:12px 0 4px;max-height:44vh;overflow-y:auto;-webkit-overflow-scrolling:touch;text-align:left;padding:2px;}
+.gm-ach-row{position:relative;display:flex;align-items:center;gap:10px;padding:8px 12px 8px 10px;border-radius:var(--ach-rr,12px);
+  background:var(--ach-row);border:1px solid var(--ach-row-edge);animation:gmAchRow .45s calc(.45s + var(--i,0) * .09s) cubic-bezier(.2,1.2,.3,1) both;}
+.gm-ach-no{flex-shrink:0;width:18px;font-size:10px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--ach-acc2);opacity:.8;}
+.gm-ach-ic{flex-shrink:0;width:34px;height:34px;display:grid;place-items:center;font-size:20px;line-height:1;border-radius:var(--ach-ir,10px);background:var(--ach-ic-bg);}
+.gm-ach-info{flex:1;min-width:0;}
+.gm-ach-tt{font-size:13px;font-weight:800;color:var(--ach-acc);line-height:1.3;}
+.gm-ach-sub{font-size:11px;font-weight:700;color:var(--ach-sub);line-height:1.35;margin-top:1px;}
+.gm-ach-note{margin-top:8px;font-size:10.5px;font-weight:700;letter-spacing:.12em;color:var(--ach-sub);opacity:.75;animation:gmAchFade .5s 1s both;}
+@keyframes gmAchIn{0%{opacity:0;scale:.7;translate:0 30px}60%{opacity:1;scale:1.03}100%{opacity:1;scale:1;translate:0 0}}
+@keyframes gmAchSheen{from{background-position:130% 0}to{background-position:-30% 0}}
+@keyframes gmAchEmblem{0%{opacity:0;scale:2.2;rotate:-25deg}70%{opacity:1;scale:.92;rotate:4deg}100%{opacity:1;scale:1;rotate:0deg}}
+@keyframes gmAchRing{0%{opacity:.9;scale:.8}100%{opacity:0;scale:1.9}}
+@keyframes gmAchTitle{0%{opacity:0;letter-spacing:.6em}100%{opacity:1}}
+@keyframes gmAchRule{from{scale:0 1}to{scale:1 1}}
+@keyframes gmAchFade{from{opacity:0}to{opacity:1}}
+@keyframes gmAchRow{from{opacity:0;translate:-14px 0}to{opacity:1;translate:0 0}}
+/* Brass — ギヨシェ彫りの真鍮銘板・四隅のビス */
+html.ui-brass .gm-ach-card{--ach-bg:linear-gradient(165deg,#3A2A14,#1C140A 72%);--ach-edge:linear-gradient(180deg,#F6DE92,#9C7424 45%,#E9C46E 70%,#6B4E16);
+  --ach-ink:#F6E7C1;--ach-acc:#F3D27A;--ach-acc2:#D9A441;--ach-sub:rgba(246,231,193,.72);--ach-font:Georgia,"Times New Roman","Hiragino Mincho ProN","BIZ UDPMincho",serif;
+  --ach-title:linear-gradient(180deg,#FFF6D2,#EBC15A 55%,#9C6B1E);--ach-glow:0 2px 0 rgba(0,0,0,.6);--ach-ls:.28em;--ach-r:10px;--ach-bw:3px;--ach-rr:5px;--ach-ir:50%;
+  --ach-row:rgba(0,0,0,.28);--ach-row-edge:rgba(232,196,110,.35);--ach-ic-bg:radial-gradient(circle at 35% 30%,#6B5324,#2A1F0C);
+  --ach-em-bg:radial-gradient(circle at 35% 30%,#F3D98B,#9C7424 60%,#4A3610);--ach-em-sh:0 0 0 2px #2A1F0C,0 0 0 4px #D9A441,0 6px 18px rgba(0,0,0,.6);
+  --ach-rule:linear-gradient(90deg,transparent,#D9A441 20%,#FFF1C0 50%,#D9A441 80%,transparent);--ach-sheen:rgba(255,236,180,.22);
+  --ach-shadow:inset 0 0 0 1px rgba(0,0,0,.6),0 24px 60px rgba(0,0,0,.6),0 0 30px rgba(217,164,65,.3);}
+html.ui-brass .gm-ach-card::before{background:
+  radial-gradient(circle at 12px 12px,#F3D98B 0 3px,#6B4E16 3.5px 4.5px,transparent 5px),radial-gradient(circle at calc(100% - 12px) 12px,#F3D98B 0 3px,#6B4E16 3.5px 4.5px,transparent 5px),
+  radial-gradient(circle at 12px calc(100% - 12px),#F3D98B 0 3px,#6B4E16 3.5px 4.5px,transparent 5px),radial-gradient(circle at calc(100% - 12px) calc(100% - 12px),#F3D98B 0 3px,#6B4E16 3.5px 4.5px,transparent 5px),
+  repeating-radial-gradient(circle at 50% 18%,rgba(243,217,139,.07) 0 1px,transparent 1px 7px),
+  repeating-conic-gradient(from 0deg at 50% 18%,rgba(243,217,139,.05) 0 3deg,transparent 3deg 9deg);}
+html.ui-brass .gm-ach-emblem span{color:#2A1F0C;text-shadow:0 1px 0 rgba(255,240,190,.6);font-size:32px;}
+/* Cyber — 角を落とした戦術HUD・走査線 */
+html.ui-cyber .gm-cer.gm-ach{filter:drop-shadow(0 0 18px rgba(0,240,255,.35));}
+html.ui-cyber .gm-ach-card{--ach-bg:linear-gradient(180deg,#060B18,#03050C);--ach-edge:linear-gradient(90deg,#00F0FF,#7A5CFF 50%,#FF2E88);
+  --ach-ink:#D8F6FF;--ach-acc:#5CF6FF;--ach-acc2:#FF4FA3;--ach-sub:rgba(180,230,255,.72);--ach-font:"SFMono-Regular",Menlo,Consolas,monospace;
+  --ach-title:linear-gradient(90deg,#00F0FF,#FF2E88);--ach-glow:0 0 10px rgba(0,240,255,.7);--ach-ls:.08em;--ach-r:0;--ach-rr:0;--ach-ir:0;--ach-er:6px;
+  --ach-row:linear-gradient(90deg,rgba(0,240,255,.1),rgba(0,240,255,.02));--ach-row-edge:#00F0FF;--ach-ic-bg:rgba(255,46,136,.12);
+  --ach-em-bg:linear-gradient(135deg,#0A1A2E,#140726);--ach-em-sh:0 0 0 1px #00F0FF,0 0 18px rgba(0,240,255,.6),inset 0 0 12px rgba(255,46,136,.35);
+  --ach-rule:linear-gradient(90deg,#00F0FF,transparent 45%,transparent 55%,#FF2E88);--ach-sheen:rgba(0,240,255,.18);
+  clip-path:polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px);}
+html.ui-cyber .gm-ach-card::before{background:repeating-linear-gradient(0deg,rgba(0,240,255,.05) 0 1px,transparent 1px 3px),
+  linear-gradient(rgba(0,240,255,.07) 1px,transparent 1px) 0 0/22px 22px,linear-gradient(90deg,rgba(0,240,255,.07) 1px,transparent 1px) 0 0/22px 22px;}
+html.ui-cyber .gm-ach-emblem{rotate:45deg;width:50px;height:50px;margin-top:4px;margin-bottom:18px;}
+html.ui-cyber .gm-ach-emblem span{rotate:-45deg;font-size:22px;color:#FF4FA3;text-shadow:0 0 10px #FF2E88;}
+html.ui-cyber .gm-ach-row{border-width:0 0 0 3px;}
+html.ui-cyber .gm-ach-no{width:30px;}
+html.ui-cyber .gm-ach-no::before{content:'0x';opacity:.6;}
+/* Liquid — ラバランプのガラス・浮かぶ気泡 */
+html.ui-liquid .gm-ach-card{--ach-bg:linear-gradient(165deg,rgba(46,14,78,.96),rgba(12,38,82,.96));--ach-edge:linear-gradient(140deg,rgba(255,255,255,.75),rgba(255,160,120,.5) 40%,rgba(120,210,255,.65));
+  --ach-ink:#FFF3FA;--ach-acc:#FFD6E8;--ach-acc2:#8DE3FF;--ach-sub:rgba(255,236,246,.74);--ach-font:"Avenir Next",-apple-system,sans-serif;
+  --ach-title:linear-gradient(90deg,#FFB36B,#FF5FA2 50%,#7CD8FF);--ach-glow:0 0 16px rgba(255,95,162,.5);--ach-r:32px;--ach-rr:20px;--ach-ir:50%;
+  --ach-row:rgba(255,255,255,.08);--ach-row-edge:rgba(255,255,255,.2);--ach-ic-bg:radial-gradient(circle at 30% 30%,rgba(255,255,255,.45),rgba(255,255,255,.06) 55%);
+  --ach-em-bg:radial-gradient(circle at 30% 28%,rgba(255,255,255,.75),rgba(255,255,255,.12) 38%,rgba(255,95,162,.25) 70%);--ach-em-sh:0 0 0 1px rgba(255,255,255,.5),0 0 30px rgba(255,120,180,.5);
+  --ach-rule:linear-gradient(90deg,transparent,#FFB36B,#FF5FA2,#7CD8FF,transparent);}
+html.ui-liquid .gm-ach-card::before{filter:blur(22px);background:radial-gradient(40% 32% at 18% 22%,rgba(255,120,80,.6),transparent 70%),radial-gradient(38% 34% at 85% 30%,rgba(255,70,160,.55),transparent 70%),radial-gradient(45% 36% at 55% 95%,rgba(80,190,255,.55),transparent 70%);}
+html.ui-liquid .gm-ach-emblem::before{content:'';position:absolute;width:9px;height:9px;left:-12px;top:42px;border-radius:50%;background:rgba(255,255,255,.35);box-shadow:66px -32px 0 -2px rgba(255,255,255,.3),74px 8px 0 -3px rgba(255,255,255,.25);}
+/* Kintsugi — 漆黒の器を走る金の継ぎ目 */
+html.ui-kintsugi .gm-ach-card{--ach-bg:radial-gradient(120% 80% at 50% 0%,#221B17,#0B0908 70%);--ach-edge:linear-gradient(135deg,#8A6420,#E9C46A 30%,#6B4E16 60%,#D4A93B);
+  --ach-ink:#F3E9D2;--ach-acc:#EBCB7A;--ach-acc2:#C39A42;--ach-sub:rgba(243,233,210,.66);--ach-font:"Hiragino Mincho ProN","BIZ UDPMincho","Yu Mincho",Georgia,serif;
+  --ach-title:linear-gradient(180deg,#FFF1C1,#D4A93B 55%,#8A6420);--ach-glow:0 0 12px rgba(212,169,59,.45);--ach-ls:.45em;--ach-r:6px;--ach-rr:3px;--ach-ir:50%;--ach-bw:1px;
+  --ach-row:transparent;--ach-row-edge:rgba(201,162,74,.26);--ach-ic-bg:radial-gradient(circle,#1A1512,#0B0908);
+  --ach-em-bg:radial-gradient(circle at 40% 35%,#2A221D,#0B0908 70%);--ach-em-sh:0 0 0 1px #D4A93B,0 0 0 5px rgba(11,9,8,.9),0 0 0 6px rgba(212,169,59,.45);
+  --ach-rule:linear-gradient(90deg,transparent,#D4A93B 25%,transparent 45%,#D4A93B 60%,transparent);--ach-sheen:rgba(255,226,150,.12);}
+html.ui-kintsugi .gm-ach-card::before{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 440 520' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='%23D4A93B' stroke-linecap='round' stroke-linejoin='round' opacity='.38'%3E%3Cpath d='M0 92 L58 110 L96 96 L150 140 L188 128 L232 170' stroke-width='1.6'/%3E%3Cpath d='M440 300 L392 318 L360 296 L318 344 L276 352 L250 404 L214 420' stroke-width='1.4'/%3E%3Cpath d='M96 96 L104 60 L128 34' stroke-width='1'/%3E%3Cpath d='M318 344 L338 392 L330 440 L352 520' stroke-width='1.1'/%3E%3C/g%3E%3C/svg%3E") 0 0/100% 100% no-repeat;}
+html.ui-kintsugi .gm-ach-emblem span{font-size:28px;font-weight:700;color:transparent;background:linear-gradient(180deg,#FFF1C1,#D4A93B 60%,#8A6420);-webkit-background-clip:text;background-clip:text;}
+html.ui-kintsugi .gm-ach-row{border-width:0 0 1px;}
+/* Celestial — 星図と金の菱星 */
+html.ui-celestial .gm-ach-card{--ach-bg:radial-gradient(130% 90% at 50% 0%,#1E2760,#070A1F 72%);--ach-edge:linear-gradient(180deg,#F5DC96,#8C7440 50%,#F5DC96);
+  --ach-ink:#EEF0FF;--ach-acc:#F2D58B;--ach-acc2:#B3C1FF;--ach-sub:rgba(220,226,255,.72);--ach-font:"Cinzel",Georgia,"Hiragino Mincho ProN",serif;
+  --ach-title:linear-gradient(180deg,#FFF8DE,#E9C46A 70%,#B08B3C);--ach-glow:0 0 14px rgba(233,196,106,.55);--ach-ls:.1em;--ach-r:18px;--ach-rr:10px;
+  --ach-row:rgba(169,184,255,.07);--ach-row-edge:rgba(233,196,106,.28);--ach-ic-bg:radial-gradient(circle,rgba(233,196,106,.18),transparent 70%);
+  --ach-em-bg:radial-gradient(circle at 50% 45%,#2A3478,#0B0F2E 70%);--ach-em-sh:0 0 0 1px rgba(242,213,139,.8),0 0 0 7px rgba(11,15,46,.8),0 0 0 8px rgba(242,213,139,.35),0 0 28px rgba(169,184,255,.45);
+  --ach-rule:linear-gradient(90deg,transparent,#E9C46A 40%,#FFF8DE 50%,#E9C46A 60%,transparent);--ach-sheen:rgba(255,248,222,.14);}
+html.ui-celestial .gm-ach-card::before{background:
+  radial-gradient(1.2px 1.2px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 28% 72%,#fff,transparent),radial-gradient(1.4px 1.4px at 44% 10%,#FFF3C4,transparent),
+  radial-gradient(1px 1px at 63% 58%,#fff,transparent),radial-gradient(1.3px 1.3px at 82% 24%,#fff,transparent),radial-gradient(1px 1px at 91% 80%,#FFF3C4,transparent),
+  radial-gradient(1px 1px at 7% 88%,#fff,transparent),radial-gradient(1.2px 1.2px at 55% 92%,#fff,transparent),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 440 520' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='%23A9B8FF' stroke-width='.8' opacity='.35'%3E%3Cpath d='M30 60 L110 40 L150 90 L230 70'/%3E%3Cpath d='M320 470 L370 420 L420 440'/%3E%3Ccircle cx='220' cy='130' r='120' stroke-dasharray='2 6'/%3E%3C/g%3E%3C/svg%3E") 0 0/100% 100% no-repeat;}
+html.ui-celestial .gm-ach-emblem span{font-size:30px;color:#F2D58B;text-shadow:0 0 14px rgba(242,213,139,.9);}
+/* Abyss — 耐圧殻とソナー */
+html.ui-abyss .gm-ach-card{--ach-bg:linear-gradient(180deg,#05303B,#021018 70%);--ach-edge:linear-gradient(180deg,#34F5C5,#0B5563 50%,#0E3A45);
+  --ach-ink:#DDFBFF;--ach-acc:#8FFFE8;--ach-acc2:#3FD2E8;--ach-sub:rgba(200,240,248,.7);
+  --ach-title:linear-gradient(180deg,#C9FFF4,#34F5C5 50%,#00A8C6);--ach-glow:0 0 16px rgba(52,245,197,.5);--ach-ls:.12em;--ach-r:26px;--ach-bw:2px;--ach-rr:14px;--ach-ir:50%;
+  --ach-row:rgba(52,245,197,.06);--ach-row-edge:rgba(52,245,197,.22);--ach-ic-bg:radial-gradient(circle,rgba(46,200,224,.2),transparent 70%);
+  --ach-em-bg:radial-gradient(circle at 50% 50%,#0B4A57,#021018 70%);--ach-em-sh:0 0 0 2px #0E3A45,0 0 0 4px rgba(52,245,197,.6),0 0 30px rgba(52,245,197,.45);
+  --ach-rule:linear-gradient(90deg,transparent,#34F5C5 50%,transparent);--ach-sheen:rgba(127,255,228,.14);
+  --ach-shadow:inset 0 0 40px rgba(0,0,0,.6),0 24px 60px rgba(0,0,0,.6),0 0 36px rgba(52,245,197,.22);}
+html.ui-abyss .gm-ach-card::before{background:repeating-radial-gradient(circle at 50% 58px,rgba(52,245,197,.10) 0 1px,transparent 1px 26px),
+  radial-gradient(1.5px 1.5px at 18% 80%,rgba(200,255,245,.6),transparent),radial-gradient(2px 2px at 84% 66%,rgba(200,255,245,.5),transparent),radial-gradient(1.2px 1.2px at 70% 90%,rgba(200,255,245,.5),transparent);}
+html.ui-abyss .gm-ach-emblem::before{content:'';position:absolute;inset:-60px;border-radius:50%;pointer-events:none;
+  background:conic-gradient(from 0deg,rgba(52,245,197,.45),transparent 22%);-webkit-mask:radial-gradient(circle,#000 30%,transparent 70%);mask:radial-gradient(circle,#000 30%,transparent 70%);
+  animation:gmAchSonar 1.8s .3s ease-out both;}
+@keyframes gmAchSonar{0%{opacity:0;rotate:0deg}20%{opacity:1}100%{opacity:0;rotate:360deg}}
+/* Frost — 六花の氷結板（明るい面） */
+html.ui-frost .gm-ach-card{--ach-bg:linear-gradient(165deg,#F4FAFF,#D6EBFB 60%,#C3E0F7);--ach-edge:linear-gradient(135deg,#FFFFFF,#8EC9F2 50%,#FFFFFF);
+  --ach-ink:#12304F;--ach-acc:#17497F;--ach-acc2:#2F7FC0;--ach-sub:#40627F;--ach-font:"SF Pro Display",-apple-system,"Segoe UI",sans-serif;
+  --ach-title:linear-gradient(180deg,#2C73B8,#123E6E);--ach-glow:0 1px 0 rgba(255,255,255,.9);--ach-ls:.12em;--ach-r:20px;--ach-bw:2px;--ach-rr:12px;
+  --ach-row:rgba(255,255,255,.62);--ach-row-edge:rgba(99,170,230,.38);--ach-ic-bg:linear-gradient(160deg,#FFFFFF,#DCEEFC);
+  --ach-em-bg:radial-gradient(circle at 35% 30%,#FFFFFF,#CFE7FA 65%,#A7D2F2);--ach-em-sh:0 0 0 2px #FFFFFF,0 0 0 4px rgba(99,170,230,.55),0 8px 22px rgba(40,100,160,.3);
+  --ach-rule:linear-gradient(90deg,transparent,#8EC9F2 30%,#3F8FD0 50%,#8EC9F2 70%,transparent);--ach-sheen:rgba(255,255,255,.75);
+  --ach-shadow:inset 0 1px 0 #fff,0 24px 60px rgba(8,30,60,.45),0 0 40px rgba(170,215,250,.55);}
+html.ui-frost .gm-ach-card::before{opacity:.5;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Cg stroke='%238EC9F2' stroke-width='1' fill='none' stroke-linecap='round'%3E%3Cpath d='M30 12v36M14.4 21l31.2 18M14.4 39l31.2-18'/%3E%3Cpath d='M30 18l-4-4M30 18l4-4M30 42l-4 4M30 42l4 4'/%3E%3C/g%3E%3C/svg%3E") 0 0/60px 60px;}
+html.ui-frost .gm-ach-emblem span{filter:drop-shadow(0 1px 0 #fff);}
 /* ── セレモニー（レベルアップ・章/科目制覇・ミッション） ── */
 #gmCerOv{position:fixed;top:0;left:0;right:0;height:100vh;height:100dvh;z-index:var(--z-gm-cer,9550);display:none;align-items:center;justify-content:center;background:rgba(var(--ov-rgb),.55);pointer-events:none;}
 #gmCerOv.show{display:flex;pointer-events:auto;cursor:pointer;}
@@ -495,6 +633,38 @@ a.gm-mission.is-launch:active{scale:.98;}
     if (item.kind === 'cer') _playCer(item); else _playToast(item);
   }
 
+  // ACHIEVEMENTS の文言と粒子はUIテーマごと（カードの意匠は CSS の html.ui-{id} .gm-ach-card）。
+  // ⚠️ UIテーマを増やしたらここと CSS の両方に足すこと（無いテーマは aurora の意匠で出る）。
+  const ACH_THEME = {
+    aurora:    { kicker: 'PRISM RECORD',           title: 'ACHIEVEMENTS', em: '💎', cols: ['#9BFFE0', '#B9A6FF', '#FFB3E6', '#FFFFFF'], shapes: ['gem', 'star'] },
+    brass:     { kicker: '— COMMENDATION —',       title: '功 績 録',      em: '⚙',  cols: ['#F3D98B', '#D9A441', '#9C7424', '#FFF1C0'], shapes: ['shard', 'square'], gears: true, matte: true },
+    cyber:     { kicker: '> SYSTEM://ACHIEVEMENT', title: 'UNLOCKED',      em: '◆',  cols: ['#00F0FF', '#FF2E88', '#7A5CFF', '#FFFFFF'], shapes: ['square', 'plus'] },
+    liquid:    { kicker: 'FLOW STATE',             title: 'ACHIEVEMENTS', em: '🫧', cols: ['#FFB36B', '#FF5FA2', '#7CD8FF', '#FFFFFF'], shapes: ['circle', 'blob'], rise: true },
+    kintsugi:  { kicker: '金 継 ぎ の 記',          title: '功 績',        em: '継',  cols: ['#FFF1C1', '#D4A93B', '#8A6420'], shapes: ['shard'], matte: true },
+    celestial: { kicker: '✦ CONSTELLATION ✦',      title: 'ACHIEVEMENTS', em: '✦',  cols: ['#FFF8DE', '#E9C46A', '#A9B8FF', '#FFFFFF'], shapes: ['star'], rings: '#E9C46A' },
+    abyss:     { kicker: 'DEPTH LOG · SONAR',      title: 'DISCOVERIES',  em: '🔱', cols: ['#7FFFE4', '#34F5C5', '#2EC8E0', '#C9FFF4'], shapes: ['circle'], rise: true, rings: '#34F5C5' },
+    frost:     { kicker: '六 花 · FROST SEAL',      title: 'ACHIEVEMENTS', em: '❄️', cols: ['#FFFFFF', '#CFE7FA', '#8EC9F2', '#3F8FD0'], shapes: ['shard', 'star'] },
+  };
+  function _achTheme() {
+    const m = /\bui-([a-z]+)/.exec((document.documentElement && document.documentElement.className) || '');
+    return (m && ACH_THEME[m[1]]) ? m[1] : 'aurora';
+  }
+  function _achFx(t) {
+    const fx = window.MecFX;
+    if (!fx || _reducedMotion()) return;
+    const T = ACH_THEME[t];
+    try {
+      const x = innerWidth / 2, y = innerHeight * .3;
+      if (T.gears && fx.gearRain) fx.gearRain({ count: 34 });
+      else if (!T.rise && fx.confetti) fx.confetti({ count: 80, colors: T.cols, big: true });
+      const o = { tier: 5, count: 70, colors: T.cols, shapes: T.shapes, additive: !T.matte };
+      if (T.rise) { o.gravity = -260; o.upBias = 0; }   // 泡は上へ昇る
+      fx.burst(x, y, o);
+      if (T.rings && fx.rings) fx.rings(x, y, { count: 3, maxR: 320, color: T.rings, thickness: 2, additive: true, stagger: .16 });
+      if (!T.rise && fx.fireworks) setTimeout(() => fx.fireworks({ count: 3, colors: T.cols, tier: 5 }), 450);
+    } catch {}
+  }
+
   function _playBatchCer(batch) {
     const items = batch.items || [];
     let ov = document.getElementById('gmCerOv');
@@ -503,34 +673,40 @@ a.gm-mission.is-launch:active{scale:.98;}
     const hasLv = items.some(x => (x.html || '').includes('LEVEL UP') || (x.label || '').includes('LEVEL UP'));
     const hasClear = items.some(x => (x.html || '').includes('制覇') || (x.label || '').includes('制覇') || (x.html || '').includes('MISSION COMPLETE'));
     const snd = hasLv ? SND.levelup : (hasClear ? SND.clear : SND.mission);
+    const t = _achTheme(), T = ACH_THEME[t];
 
-    const rowsHtml = items.map(it => {
+    const rowsHtml = items.map((it, i) => {
       const icon = it.icon || '🎖️';
       const label = _annLabel(it);
       const sub = it.sub || (it.opts && it.opts.label) || '';
-      return '<div class="gm-batch-row">' +
-        '<span class="gm-batch-ic">' + _esc(icon) + '</span>' +
-        '<div class="gm-batch-info">' +
-          '<div class="gm-batch-tt">' + _esc(label) + '</div>' +
-          (sub && sub !== label ? '<div class="gm-batch-sub">' + _esc(sub) + '</div>' : '') +
+      return '<div class="gm-ach-row" style="--i:' + i + '">' +
+        '<span class="gm-ach-no">' + String(i + 1).padStart(2, '0') + '</span>' +
+        '<span class="gm-ach-ic">' + _esc(icon) + '</span>' +
+        '<div class="gm-ach-info">' +
+          '<div class="gm-ach-tt">' + _esc(label) + '</div>' +
+          (sub && sub !== label ? '<div class="gm-ach-sub">' + _esc(sub) + '</div>' : '') +
         '</div>' +
       '</div>';
     }).join('');
 
+    // ⚠️ 見出しの下の「今回の獲得・達成（N件）」は授与トレイと同じ言葉（テストが見る）
     ov.innerHTML =
-      '<div class="gm-cer">' +
-        '<div class="gm-cer-ic">🎉</div>' +
-        '<div class="gm-cer-big">ACHIEVEMENTS!</div>' +
-        '<div class="gm-cer-sub">今回の獲得・達成（' + items.length + '件）</div>' +
-        '<div class="gm-batch-list">' + rowsHtml + '</div>' +
-        '<div class="gm-cer-note">タップで閉じる</div>' +
-      '</div>' + _annPosHtml(false);
+      '<div class="gm-cer gm-ach" data-ach="' + t + '"><div class="gm-ach-card">' +
+        '<div class="gm-ach-emblem"><span>' + _esc(T.em) + '</span></div>' +
+        '<div class="gm-ach-kicker">' + _esc(T.kicker) + '</div>' +
+        '<div class="gm-ach-title">' + _esc(T.title) + '</div>' +
+        '<div class="gm-ach-rule"></div>' +
+        '<div class="gm-ach-count">今回の獲得・達成（<b>' + items.length + '</b>件）</div>' +
+        '<div class="gm-ach-list">' + rowsHtml + '</div>' +
+        '<div class="gm-ach-note">タップで閉じる</div>' +
+      '</div></div>' + _annPosHtml(false);
     ov.classList.add('show');
     _annBindTap(ov);
-    _fxConfetti(true);
+    _achFx(t);
     try { snd && snd(); } catch {}
 
-    const dur = 3200;
+    // 行が多い日は読める時間を足す（4行目から1行 +0.35秒・上限 5.2秒）
+    const dur = Math.min(5200, 3200 + Math.max(0, items.length - 3) * 350);
     _annTimers.push(setTimeout(() => {
       const c = ov.querySelector('.gm-cer');
       if (c) c.classList.add('out');
