@@ -2141,3 +2141,40 @@ html.mec-lite[class*="ui-"] .qc:not([class~="exam-key-focus"]) .qh::after {
 html.mec-lite.ui-liquid .qc .ch2.correct::before {
   animation-iteration-count: 4 !important;
 }
+
+/* ══════════ Liquid の正解演出：油膜の虹彩＋メッシュグラデーション（2026-09-25）══════════
+   JS 側は study_exam.js の _lqFluidFx（_spawnStreakParticles の liquid 分岐から呼ぶ）。
+   どちらも正解の肢の**文字の裏**（.lq-layer・z-index:-1）に描く＝本文には何も重ねない。
+   ⚠️ 過去問ビューア（chapter_exam.js・body.ch-exam-mode）は旧演出のまま。ここは body.exam-mode に閉じる。 */
+@property --lqfx-r { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@property --lqfx-a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+.lq-host { isolation: isolate; }   /* z-index:-1 の層を「肢の地の上・文字の下」に置くため */
+.lq-layer { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; border-radius: inherit; }
+.lq-mesh { position: absolute; left: -20px; top: -20px; right: -20px; bottom: -20px; filter: blur(16px); }
+.lq-layer.lq-card .lq-mesh { left: -40px; right: -40px; filter: blur(30px); }   /* top/height は JS（肢のまわりだけ） */
+.lq-mesh b { position: absolute; left: 0; top: 0; border-radius: 50%; mix-blend-mode: screen; }
+/* 薄膜の虹色。--lqfx-r の輪で渡っていく（.full は輪ではなく面で光沢を残す） */
+.lq-film {
+  position: absolute; inset: 0; mix-blend-mode: screen;
+  background: conic-gradient(from var(--lqfx-a) at var(--lqfx-x) var(--lqfx-y), #ff6ec7, #ffd36e, #6effc0, #6ecbff, #b66eff, #ff6ec7);
+  -webkit-mask: radial-gradient(circle at var(--lqfx-x) var(--lqfx-y), transparent calc(var(--lqfx-r) - 30px), #000 calc(var(--lqfx-r) - 10px), #000 var(--lqfx-r), transparent calc(var(--lqfx-r) + 16px));
+  mask: radial-gradient(circle at var(--lqfx-x) var(--lqfx-y), transparent calc(var(--lqfx-r) - 30px), #000 calc(var(--lqfx-r) - 10px), #000 var(--lqfx-r), transparent calc(var(--lqfx-r) + 16px));
+}
+.lq-film.full { -webkit-mask: none; mask: none; }
+/* TIER3〜：カードの縁が油膜の色で回る（縁の内側 2.5px だけ。本文の余白に収まる） */
+.lq-ring {
+  position: absolute; inset: 0; z-index: 3; pointer-events: none; border-radius: inherit; padding: 2.5px;
+  background: conic-gradient(from var(--lqfx-a), #ff6ec7, #ffd36e, #6effc0, #6ecbff, #b66eff, #ff6ec7);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+/* 旧演出の層（正解肢のオーラ・波紋・ぷるんと跳ねる）は試験モードでは出さない＝新しい演出と重ねない。
+   ⚠️ ui_theme.css 側の定義は過去問ビューアが使うので消さないこと。 */
+html.ui-liquid body.exam-mode .qc.fx-correct .ch2.correct::before,
+html.ui-liquid body.exam-mode .qc.fx-correct .ch2.correct::after,
+html.ui-liquid body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.correct::before,
+html.ui-liquid body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.correct::after { content: none !important; }
+html.ui-liquid body.exam-mode .qc.fx-correct .ch2.correct,
+html.ui-liquid body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.correct,
+html.ui-liquid body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.ok { animation: none !important; }

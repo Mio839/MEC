@@ -280,7 +280,7 @@ t('同ティア継続でもフル演出が出る（山谷設計は撤回済み�
   assert.ok(/if \(promoted\) ceTierUpStamp\(/.test(CHAP), 'chapter: TIER UP が promoted 限定でない');
   // study（2026-09-24〜 _rfCorrectFx）：テーマ固有演出は毎回出す。promoted で変えるのは暗転と TIER の表示だけ
   const rf = STUDY.slice(STUDY.indexOf('function _rfCorrectFx('), STUDY.indexOf('/* ── 誤答 → 選び直し ── */'));
-  assert.ok(/\n    _spawnStreakParticles\(Math\.max\(1, tier\), p\);/.test(rf), 'study: テーマ固有演出が毎回出ていない');
+  assert.ok(/\n    _spawnStreakParticles\(Math\.max\(1, tier\), p[,)]/.test(rf), 'study: テーマ固有演出が毎回出ていない');
   assert.ok(!/if \(promoted && tier >= /.test(STUDY), 'study: promoted && tier >= のゲートが残っている');
 });
 

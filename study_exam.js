@@ -2835,7 +2835,8 @@ function _triggerBorderGlow(tier) {
 
 
 // UIテーマ固有演出＋粒子。at: 発火位置 {x,y}（_rfCorrectFx は正解の肢の位置を渡す）。省略時は可視帯の中で散らす。
-function _spawnStreakParticles(tier, at) {
+/* ctx = { el: 正解の肢, card, promoted }。肢そのものに描くテーマ（liquid）だけが使う。 */
+function _spawnStreakParticles(tier, at, ctx) {
   const b = _fxBand();
   const shortSide = Math.min(b.width, b.height);
   const maxR = shortSide * Math.min(0.48, 0.40 + tier * 0.012); // 短辺0〜90%動的スケーリング
@@ -2890,9 +2891,9 @@ function _spawnStreakParticles(tier, at) {
       if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#00FF66', thickness: 2.5, maxR: maxR * 1.05, additive: true });
       return;
     } else if (curUi === 'liquid') {
-      if (window.MecFX.liquidBloomRipple) window.MecFX.liquidBloomRipple(cx, cy, { maxR: maxR, bubbleCount: 14 + tier * 4 });
-      if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 18 + tier * 6, colors: ['#FF007F', '#7928CA', '#00DFD8', '#FF7A00'] });
-      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#FF007F', thickness: 3, maxR: maxR * 1.05, additive: true });
+      // 2026-09-25：油膜の虹彩＋メッシュグラデーション（_lqFluidFx）。ここ（200ms）ではなく
+      // _rfCorrectFx の 0ms で出している——正解の 300〜400ms 後に次のカードへ自動スクロールするので、
+      // 200ms 待つと肢が画面から去ってから咲く。粒子・全画面の閃光は出さない。
       return;
     }
   }
@@ -2901,6 +2902,111 @@ function _spawnStreakParticles(tier, at) {
 
 
 
+
+/* ══════════ Liquid：油膜の虹彩＋メッシュグラデーション（2026-09-25）══════════
+   デモ（案G・案J）でユーザーが採用。旧 liquidBloomRipple（全画面の閃光・絞り羽根・画面の下から昇る泡・
+   画面全体の粉・火花の5色同時）を置き換えた。
+   - 正解の肢の**文字の裏**で、ぼかした色の塊4つが咲いて混ざり（メッシュ）、薄膜の虹色が輪になって渡る。
+   - TIER3〜：色がカードの裏にも広がり、カードの縁が油膜の色で回る。
+   - 段が上がった瞬間：虹色の輪がカード全体を渡り、色の塊がカードの中をひと回りする。
+   ⚠️ 層は肢／カードの子要素 .lq-layer（z-index:-1）＝.qc と .ch2 の疑似要素は使わない（満杯）。
+   ⚠️ 片付け（クラス・要素の除去）は素の setTimeout。_fxTimeout だと試験を抜けた瞬間に止まり、
+      .lq-host が付いたまま残る。 */
+/* 最後にタップした肢と、肢の中の位置（割合）。波の起点にする。キーボードで答えたときは肢の中央。
+   ⚠️ 画面座標で持たないこと——正解の直後に次のカードへ自動スクロールするので、演出を出す時点では
+      肢が動いていて座標が合わない。 */
+let _lqPtr = null;
+document.addEventListener('pointerdown', e => {
+  const ch = e.target && e.target.closest && e.target.closest('.ch2');
+  if (!ch) return;
+  const r = ch.getBoundingClientRect();
+  _lqPtr = { el: ch, fx: (e.clientX - r.left) / r.width, fy: (e.clientY - r.top) / r.height, t: performance.now() };
+}, { passive: true, capture: true });
+const LQ_COLS = ['#FF007F', '#7928CA', '#FF7A00', '#2FE0D5'];
+function _lqLayer(host, cls) {
+  if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
+  host.classList.add('lq-host');
+  host._lqN = (host._lqN || 0) + 1;
+  const L = document.createElement('span');
+  L.className = 'lq-layer' + (cls ? ' ' + cls : '');
+  host.prepend(L);
+  return L;
+}
+function _lqDrop(host, L, ms) {
+  setTimeout(() => {
+    L.remove();
+    if (--host._lqN <= 0) { host._lqN = 0; host.classList.remove('lq-host'); }
+  }, ms);
+}
+function _lqMesh(L, ox, oy, spread, size, dur, op, orbit, pad, top) {
+  const box = document.createElement('span');
+  box.className = 'lq-mesh';
+  if (top != null) { box.style.top = top + 'px'; box.style.bottom = 'auto'; box.style.height = (size * 2 + 80) + 'px'; }
+  L.appendChild(box);
+  const ty0 = top != null ? top : -pad;
+  LQ_COLS.forEach((col, i) => {
+    const b = document.createElement('b'), s = size * (.8 + Math.random() * .4);
+    b.style.width = b.style.height = s + 'px';
+    b.style.background = 'radial-gradient(circle, ' + col + ' 0%, ' + col + '00 70%)';
+    box.appendChild(b);
+    const a = i / 4 * Math.PI * 2 + (Math.random() - .5) * .8;
+    const at = (x, y) => (x + pad - s / 2) + 'px ' + (y - ty0 - s / 2) + 'px';
+    const tx = ox + Math.cos(a) * spread, ty = oy + Math.sin(a) * spread * .6;
+    const kf = [{ translate: at(ox, oy), scale: .15, opacity: 0 }, { translate: at(tx, ty), scale: 1, opacity: op, offset: orbit ? .4 : .3 }];
+    if (orbit) { const a2 = a + 1.6; kf.push({ translate: at(ox + Math.cos(a2) * spread, oy + Math.sin(a2) * spread * .6), scale: 1.1, opacity: op * .8, offset: .75 }); }
+    kf.push({ translate: at(tx + (Math.random() - .5) * 40, ty + (Math.random() - .5) * 20), scale: 1.2, opacity: 0 });
+    // ⚠️ 加減速は区間ごとに掛ける（全体に MO.out を掛けると、咲く→消えるが最初の1/4に潰れて見えない）
+    kf.forEach(k => { k.easing = MO.out; });
+    b.animate(kf, { duration: dur, fill: 'forwards' });
+  });
+}
+function _lqFilm(L, x, y, R, dur, op, full) {
+  const f = document.createElement('span');
+  f.className = 'lq-film' + (full ? ' full' : '');
+  f.style.setProperty('--lqfx-x', x + 'px');
+  f.style.setProperty('--lqfx-y', y + 'px');
+  L.appendChild(f);
+  const a0 = Math.random() * 360;
+  const kf = full
+    ? [{ opacity: 0, '--lqfx-a': a0 + 'deg' }, { opacity: op, offset: .35 }, { opacity: 0, '--lqfx-a': (a0 + 120) + 'deg' }]
+    : [{ '--lqfx-r': '0px', '--lqfx-a': a0 + 'deg', opacity: op }, { opacity: op, offset: .6 }, { '--lqfx-r': R + 'px', '--lqfx-a': (a0 + 200) + 'deg', opacity: 0 }];
+  kf.forEach(k => { k.easing = MO.out; });
+  f.animate(kf, { duration: dur, fill: 'forwards' });
+}
+function _lqFluidFx(el, card, tier, promoted) {
+  if (!el || _fxOff()) return;
+  const er = el.getBoundingClientRect();
+  if (!er.width || !er.height) return;
+  let ox = er.width / 2, oy = er.height / 2;
+  const pt = _lqPtr;
+  if (pt && pt.el === el && performance.now() - pt.t < 2000) { ox = er.width * pt.fx; oy = er.height * pt.fy; }
+  const t = Math.max(1, tier);
+  // 肢：メッシュ＋虹色の輪＋あとに残る光沢
+  const L = _lqLayer(el);
+  _lqMesh(L, ox, oy, er.width * (.22 + t * .02), er.height * 1.8, 1300, .9, false, 20, null);
+  _lqFilm(L, ox, oy, Math.max(ox, er.width - ox) + 40, 750, .95, false);
+  setTimeout(() => _lqFilm(L, ox, oy, 0, 1100, .3 + t * .03, true), 150);
+  _lqDrop(el, L, 1450);
+  if (!card) return;
+  const big = t >= 3, up = promoted && tier >= 2;
+  if (!big && !up) return;
+  const cr = card.getBoundingClientRect();
+  const cx = er.left - cr.left + ox, cy = er.top - cr.top + oy;
+  const C = _lqLayer(card, 'lq-card');
+  // 色の塊はカードの「肢のまわり」だけ（長い解説まで含めた全面をぼかすと重い）
+  const size = Math.min(cr.width, 460) * (.5 + t * .03);
+  _lqMesh(C, cx, cy, cr.width * .32, size, 2200, .32 + t * .02, up, 40, Math.max(-40, cy - size - 40));
+  if (up) _lqFilm(C, cx, cy, Math.hypot(cr.width, Math.min(cr.height, 900)), 1500, .5, false);
+  _lqDrop(card, C, 2400);
+  if (big) {
+    const r = document.createElement('span');
+    r.className = 'lq-ring';
+    card.appendChild(r);
+    r.animate([{ opacity: 0, '--lqfx-a': '0deg' }, { opacity: .95, offset: .2 }, { opacity: .95, offset: .7 }, { opacity: 0, '--lqfx-a': (240 + t * 30) + 'deg' }],
+      { duration: 1500 + t * 100, easing: 'ease-in-out', fill: 'forwards' });
+    setTimeout(() => r.remove(), 1600 + t * 100 + 50);
+  }
+}
 
 function _inkBrushSwipe(tier) {
   const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
@@ -4790,6 +4896,7 @@ function _rfCorrectFx(card, el) {
 
   // 0ms：光は正解の肢から
   _rfSweep(el);
+  if (_rfUi() === 'liquid') _lqFluidFx(el, card, tier, promoted);   // 肢の裏で色が咲く（_spawnStreakParticles の liquid 分岐を参照）
   if (el && el.animate) el.animate([{ filter: 'brightness(1.5)' }, { filter: 'brightness(1)' }], { duration: MO.d3, easing: MO.out });
   _afterCorrectFx(card, el);   // 難問・初見・リベンジ・速答・克服・SRS刻印（意味を持つ印はそのまま）
 
@@ -4814,8 +4921,9 @@ function _rfCorrectFx(card, el) {
     const p = _rfCenter(el);
     // テーマ固有演出（照準・金継ぎ・氷晶・歯車…）＋粒子。_correctShockwave と同じ意匠が中に入っているので
     // 両方呼ぶと同じ演出が2つ重なる＝こちらだけにする。1問目（tier0）も tier1 の規模で出す。
-    _spawnStreakParticles(Math.max(1, tier), p);
-    if (tier >= 2) _traceCardBorder(card);
+    _spawnStreakParticles(Math.max(1, tier), p, { el, card, promoted });
+    // liquid はカードの縁を油膜の虹色が回る（_lqFluidFx）ので、縁を1周する光は重ねない
+    if (tier >= 2 && _rfUi() !== 'liquid') _traceCardBorder(card);
     if (tier >= 3) _triggerBorderGlow(tier);
     if (tier >= 4 && _examTheme().useGlitch && window.MecFX && window.MecFX.glitchBars) {
       window.MecFX.glitchBars({ count: Math.round(4 + tier * 1.7), thick: tier >= 6, band: _fxBand() });
