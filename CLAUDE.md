@@ -2207,7 +2207,7 @@ study_exam.js の setTimeout 64本のうち `clearTimeout` されていたのは
 
 | 対象 | lite での扱い | 実装 |
 |---|---|---|
-| 背景の環境光（`html.ui-* body::before`／Abyss の `body::after`）・試験チップの脈 | **開いたときに1往復だけ動いて止まる**（`iteration-count:2`＋`forwards`＝0% の絵に着地して跳ねない） | study.css 末尾 |
+| 背景の環境光（`html.ui-* body::before`／Abyss の `body::after`） | **開いたときに1往復だけ動いて止まる**（`iteration-count:2`＋`forwards`＝0% の絵に着地して跳ねない）。試験チップは下の「GPUだけで動く脈動」で合成だけになったので止めない | study.css 末尾 |
 | カードの模様（`.qc::before/::after`・Abyss の `.qh::after`） | いま解いているカード（`exam-key-focus`）だけ動く。正解済み `.fx-correct` と iOS に残る `:hover` は止める | study.css 末尾 |
 | liquid の正解肢の揺らぎ（.35s） | 4往復で止める | study.css 末尾 |
 | 稼働灯・歯車・熾火（`exam-idle-lit`） | 各問の読み始めから `LITE_IDLE_LIT_MS`(6秒) で消える | `_updateExamFocus` |
@@ -2222,6 +2222,22 @@ study_exam.js の setTimeout 64本のうち `clearTimeout` されていたのは
 - ⚠️ 消灯の予約は `_updateExamFocus` の中の局所関数 `_liteIdleOffIn`＝`_examIdleTimer` の1本を使い回す
   （点灯クラスを触るのは `_updateExamFocus` と cleanup だけ＝`test_exam_chassis.js` 13）。
 - 実測（headless Chrome・麻酔科52問）: Abyss で常時アニメ PC 58本 → lite 0本（残る2本は1往復で止まる）。
+
+### 見た目を変えずに描画を軽くする（全端末・2026-09-25〜）
+
+- **GPUだけで動く脈動**（study.css「GPUだけで動く脈動」）: `box-shadow` / `border-color` / `background-position` を
+  動かすアニメは毎フレーム描き直しになるので、一度だけ描いた層の `opacity` / `translate` を動かす形へ置き換えた。
+  - 試験チップ（aurora/brass/cyber/liquid）: 光を `::after` に分けて `chipGlowPulse`（opacity）で脈打たせる。
+    ⚠️⚠️ **旧実装は画面に一度も出ていなかった**——チップ本体の `box-shadow`／`border` が `!important` で、
+    `!important` はアニメより強い（headless Chrome で実測・値が動かない）。計算だけ毎フレーム走っていた。
+    **テーマ側で `animation` の値に色や影を書いても、本体に `!important` があれば効かない**ことを覚えておくこと。
+  - Abyss の泡（`body::after`）: `background-position` → `translate`（`abyssBubbleDriftGpu`）。
+  - ⚠️ まだ描き直し型で残っているもの: 稼働灯 `examIdleRun`（`background-position`）は iOS のページ縮尺の振動を
+    避けるため**わざと**この形（Phase 4 D9・`test_exam_chassis.js` 15b）＝変えないこと。進捗バーの完了時の `filter`、
+    Abyss の `.qc` 模様、liquid の正解肢の `border-radius` は出る場面が限られるので据え置き。
+- **粒子の描画は最大でほぼ 60fps**（`fx_engine.js` の `MIN_FRAME_MS = 10`）: 120Hz/144Hz の画面では1コマおきに描く
+  （仮想時計で 60Hz→60・90Hz→90・120Hz→60・144Hz→72 回/秒）。`dt` は前回描いた時刻から測るので物理の速さは変わらない。
+  ⚠️ 間引いたコマでも rAF は必ず張り直すこと（張らないとループが止まる）。
 
 ## 正解・誤答の演出（2026-09-24 に置き換え）
 

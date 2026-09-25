@@ -2072,18 +2072,58 @@ html[class*="ui-"] .rf-retry.is-done { background: rgba(var(--glass-rgb, 255,255
 #examRfStreak[data-ui="frost"] .rf-n { font-weight: 200; color: #EAF8FF; text-shadow: 0 0 calc(var(--rf-tier, 1) * 3px + 4px) rgba(158,227,255,.8); }
 #examRfStreak[data-ui="frost"] .rf-l { letter-spacing: .4em; font-weight: 400; }
 
+/* ══════════ GPUだけで動く脈動（全端末・2026-09-25）══════════
+   `box-shadow` / `border-color` / `background-position` を動かすアニメは**毎フレーム描き直し**になる。
+   同じ見た目を「一度だけ描いた層の opacity / translate を動かす」形に置き換え、合成だけで済ませる。
+
+   ① 試験チップの脈動（aurora / brass / cyber / liquid）
+      ⚠️ 旧実装は画面に一度も出ていなかった——チップ本体の box-shadow と border が `!important` で、
+         CSS の仕様上 `!important` はアニメより強い（2026-09-25 に headless Chrome で実測：値が1ミリも動かない）。
+         それでもアニメの計算は毎フレーム走っていた。光を ::after に分け、その opacity だけを脈打たせる。
+      ⚠️ チップの ::before / ::after は他に誰も使っていない（使うならここと衝突する）。
+      ⚠️ 本体の animation を消すのではなく、見えていた唯一の動き（liquid の拡大）だけを残した keyframes に差し替える。 */
+html[class*="ui-"] .st-stat.exam-mode-chip { position: relative; isolation: isolate; }
+html.ui-aurora .st-stat.exam-mode-chip,
+html.ui-brass  .st-stat.exam-mode-chip,
+html.ui-cyber  .st-stat.exam-mode-chip { animation: none !important; }
+html.ui-liquid .st-stat.exam-mode-chip { animation: chipBreatheScale 4s ease-in-out infinite alternate !important; }
+@keyframes chipBreatheScale { from { scale: 1; } to { scale: 1.03; } }
+html.ui-aurora .st-stat.exam-mode-chip::after,
+html.ui-brass  .st-stat.exam-mode-chip::after,
+html.ui-cyber  .st-stat.exam-mode-chip::after,
+html.ui-liquid .st-stat.exam-mode-chip::after {
+  content: ''; position: absolute; inset: -1.5px; border-radius: inherit; pointer-events: none; z-index: -1;
+  opacity: 0; box-shadow: var(--chip-glow);
+  animation: chipGlowPulse var(--chip-glow-t, 4s) ease-in-out infinite alternate;
+}
+/* 光の中身は旧 keyframes の 100% をそのまま写した（brass / cyber の border-color の変化は外周の細い輪で出す）。 */
+html.ui-aurora .st-stat.exam-mode-chip { --chip-glow: 0 0 22px rgba(0,223,216,.6), 0 0 32px rgba(121,40,202,.4); --chip-glow-t: 4s; }
+html.ui-brass  .st-stat.exam-mode-chip { --chip-glow: 0 0 22px rgba(255,215,0,.7), 0 0 0 1.5px #FFD700; --chip-glow-t: 5s; }
+html.ui-cyber  .st-stat.exam-mode-chip { --chip-glow: 0 0 24px rgba(0,229,255,.8), 0 0 0 1.5px #00E5FF; --chip-glow-t: 3s; }
+html.ui-liquid .st-stat.exam-mode-chip { --chip-glow: 0 0 24px rgba(255,0,128,.7), 0 0 34px rgba(255,122,0,.45); --chip-glow-t: 4s; }
+@keyframes chipGlowPulse { from { opacity: 0; } to { opacity: 1; } }
+
+/* ② Abyss の泡（画面全体の層）。background-position の移動を translate へ置き換える。
+      背景は背景色を持たない点の集まりなので、層ごと動かしても端に切れ目は見えない（移動量は最大 40px）。 */
+html.ui-abyss body::after { animation-name: abyssBubbleDriftGpu; }
+@keyframes abyssBubbleDriftGpu {
+  0%   { opacity: .65; translate: 0 0; }
+  50%  { opacity: .95; translate: -8px -20px; }
+  100% { opacity: .7;  translate: 10px -40px; }
+}
+
 /* ══════════ 省電力（iPad・スマホだけ・2026-09-25）══════════
    `html.mec-lite` は study.html 冒頭のスクリプトが iPad・スマホにだけ付ける。PCはフル演出のまま。
    `infinite` のアニメが1本でも動いていると、何もしていない間も画面を毎秒60〜120回描き直し続ける
    （問題を読んでいるだけの時間も GPU が休めない）。ここで常時動くものを止める。
    ⚠️ `animation: none` にしないこと。止め方は2つだけ:
-     ① 開いたときに1往復だけ動いて止まる（背景の環境光・試験チップ）
+     ① 開いたときに1往復だけ動いて止まる（背景の環境光）
+        ※ 試験チップは上の「GPUだけで動く脈動」で合成だけになったので、iPad・スマホでも動き続ける。
         alternate ×2 は 0%→100%→0% と戻るので、`forwards` で 0% の絵に着地して跳ねない。
      ② カードの模様は「いま解いているカード」だけ動かす（正解済み・:hover は止める）
    ⚠️ 試験中の熾火（body.exam-mode::after）は稼働灯に連動するので①から外す（止まったまま戻れなくなる）。 */
 html.mec-lite[class*="ui-"] body::before,
-html.mec-lite[class*="ui-"] body:not(.exam-mode)::after,
-html.mec-lite[class*="ui-"] .st-stat.exam-mode-chip {
+html.mec-lite[class*="ui-"] body:not(.exam-mode)::after {
   animation-iteration-count: 2 !important;
   animation-fill-mode: forwards !important;
 }

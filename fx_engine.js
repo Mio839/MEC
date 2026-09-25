@@ -163,8 +163,15 @@
   }
 
   // ── メインループ ────────────────────────────────────────────
+  // 120Hz 以上の画面（ProMotion の iPad 等）では描画を1コマおきに間引く（2026-09-25・省電力）。
+  // 粒子は 60fps と 120fps で見分けがつかないので、見た目を変えずに描画コストがほぼ半分になる。
+  // 閾値 10ms: 120Hz(8.3ms) と 144Hz(6.9ms) は間引かれ、60Hz(16.7ms)・90Hz(11.1ms) は全コマ描く。
+  // ⚠️ 間引いたコマでも rAF は必ず張り直すこと（張らないとループが止まって粒子が固まる）。
+  //    dt は step() が前回描いた時刻から測るので、間引いても物理の速さは変わらない。
+  var MIN_FRAME_MS = 10;
   function tick(now) {
     if (!running) return;
+    if (now - lastT < MIN_FRAME_MS && now >= lastT) { rafId = requestAnimationFrame(tick); return; }
     // 描画中の例外で rAF チェーンが切れると running=true のまま恒久停止し、
     // 以降の全エフェクトが無音で消えるため、例外時はプールを捨てて自己回復する
     try {
