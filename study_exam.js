@@ -2872,8 +2872,8 @@ function _spawnStreakParticles(tier, at, ctx) {
       if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 3, color: '#00FFA3', thickness: 3, maxR: maxR * 1.05, additive: true });
       return;
     } else if (curUi === 'frost') {
-      if (window.MecFX.frostCrystalShatter) window.MecFX.frostCrystalShatter(cx, cy, { maxR: maxR, dendriteCount: Math.min(10, 4 + tier) });
-      if (window.MecFX.dust) window.MecFX.dust({ count: 20 + tier * 12, colors: ['#70D6FF', '#FFFFFF', '#A0E7E5'] });
+      // 2026-09-25：六花＋霜華＋ダイヤモンドダスト（_frFrostFx）。liquid と同じく _rfCorrectFx の 0ms で
+      // 肢の位置に出している。旧 frostCrystalShatter（全画面の閃光・破片・約300粒）は正解演出から外した。
       return;
     } else if (curUi === 'aurora') {
       if (window.MecFX.auroraPrismSweep) window.MecFX.auroraPrismSweep(cx, cy, { maxR: maxR, sparkleCount: 18 + tier * 5 });
@@ -3006,6 +3006,255 @@ function _lqFluidFx(el, card, tier, promoted) {
       { duration: 1500 + t * 100, easing: 'ease-in-out', fill: 'forwards' });
     setTimeout(() => r.remove(), 1600 + t * 100 + 50);
   }
+}
+
+/* ══════════ Frost：六花＋霜華＋ダイヤモンドダスト（2026-09-25）══════════
+   デモ（frost 正解演出ラボの案A・B・F）でユーザーが採用。旧 frostCrystalShatter（全画面の閃光・回る六角形・
+   破片68・菱形の光138・十字の斬撃4本・画面全体の粉 85〜170粒）を置き換えた。
+   - 霜華：正解の肢が縁から凍り（霜の樹枝が上下の縁から内側へ這う）、タップ位置から丸く溶ける。
+   - 六花：タップ位置の**カードの裏**に雪の結晶が線で描き上がる。枝ぶりは毎回ちがい、
+           **段が上がるほど枝が複雑になる**（孫枝・六角板）。TIER3〜は小さな結晶がまわりに咲く。
+   - ダイヤモンドダスト：肢の上で細かな光の粒がゆっくり舞い降りて瞬く。TIER3〜はカード全体。
+   - 段が上がった瞬間：カードの縁が一周凍ってから溶け、カードの裏に大きな結晶が描かれ、粒が左から右へ瞬く。
+   ⚠️ 霜と結晶は肢／カードの**文字の裏**（.lq-layer・z-index:-1）。粒だけは文字の上（.fr-dust・z-index:3）だが
+      小さく疎らで 2秒以内に消える。
+   ⚠️ カードの canvas は肢のまわり最大 FR_BAND px に限る（解説まで開いた長いカードの全面を描くと数十MBになる）。
+   ⚠️ 層の出し入れは liquid の _lqLayer / _lqDrop を共用（片付けは素の setTimeout。理由は liquid と同じ）。 */
+const FR_SNOW = '#EAF8FF', FR_BAND = 1000;
+function _frCtx(L, w, h, top) {
+  const d = Math.min(2, window.devicePixelRatio || 1);
+  const c = document.createElement('canvas');
+  c.width = Math.max(1, Math.ceil(w * d)); c.height = Math.max(1, Math.ceil(h * d));
+  c.style.cssText = `position:absolute;left:0;top:${top || 0}px;width:${w}px;height:${h}px;pointer-events:none;`;
+  L.appendChild(c);
+  const x = c.getContext('2d'); x.setTransform(d, 0, 0, d, 0, 0);
+  return x;
+}
+function _frRun(ctx, w, h, dur, draw) {
+  const t0 = performance.now();
+  (function f(now) {
+    if (!ctx.canvas.isConnected) return;
+    const e = now - t0;
+    ctx.clearRect(0, 0, w, h);
+    if (e < dur) { draw(ctx, e); requestAnimationFrame(f); }
+  })(t0);
+}
+const _frR = (a, b) => a + Math.random() * (b - a);
+const _frC = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const _frE = t => 1 - Math.pow(1 - t, 3);
+/* 4本の光条のきらめき */
+function _frGlint(c, x, y, s, a, rot) {
+  if (!(a > 0) || !(s > 0)) return;
+  c.save(); c.translate(x, y); c.rotate(rot || 0); c.globalAlpha = Math.min(1, a); c.globalCompositeOperation = 'lighter';
+  const g = c.createRadialGradient(0, 0, 0, 0, 0, s * 1.3);
+  g.addColorStop(0, 'rgba(255,255,255,.9)'); g.addColorStop(.3, 'rgba(158,227,255,.35)'); g.addColorStop(1, 'rgba(112,214,255,0)');
+  c.fillStyle = g; c.beginPath(); c.arc(0, 0, s * 1.3, 0, 7); c.fill();
+  c.fillStyle = '#fff';
+  for (const [w, h] of [[s * .11, s * 2.3], [s * 2.3, s * .11]]) { c.beginPath(); c.moveTo(0, -h); c.lineTo(w, 0); c.lineTo(0, h); c.lineTo(-w, 0); c.closePath(); c.fill(); }
+  c.restore();
+}
+/* 六花：腕1本ぶんの線分（6回回して描く）。gens 1〜4 で枝の複雑さが上がる */
+function _frFlake(gens) {
+  const segs = [], push = (x1, y1, x2, y2, d0) => segs.push({ x1, y1, x2, y2, d0, len: Math.hypot(x2 - x1, y2 - y1) });
+  push(0, 0, 1, 0, 0);
+  const nb = 1 + gens;
+  for (let i = 0; i < nb; i++) {
+    const p = .2 + (i + .15 + Math.random() * .6) / nb * .68;
+    const l = (1 - p) * (.4 + Math.random() * .35) * (gens === 1 ? .8 : 1);
+    for (const sg of [1, -1]) {
+      push(p, 0, p + l * .5, sg * l * .866, p);
+      if (gens >= 2 && l > .14) { const bx = p + l * .25, by = sg * l * .433; push(bx, by, bx + l * .38, by, p + l * .5); }
+      if (gens >= 4 && l > .2) { const bx = p + l * .39, by = sg * l * .675; push(bx, by, bx - l * .12, by + sg * l * .2, p + l * .78); }
+    }
+  }
+  if (gens >= 3) {
+    const rr = .18 + Math.random() * .08;
+    push(rr, 0, rr * .5, rr * .866, rr); push(rr * 1.35, 0, rr * .675, rr * 1.169, rr * 1.35);   // 六角板（6回回すと六角形になる）
+    push(.88, 0, .97, .08, .88); push(.88, 0, .97, -.08, .88);
+  }
+  return { segs, maxD: Math.max(...segs.map(g => g.d0 + g.len)) };
+}
+function _frDrawFlake(c, f, x, y, R, rot, k, alpha, lw) {
+  if (alpha <= 0 || k <= 0) return;
+  const D = k * f.maxD;
+  c.save(); c.translate(x, y); c.rotate(rot); c.globalAlpha = Math.min(1, alpha); c.globalCompositeOperation = 'lighter'; c.lineCap = 'round';
+  const path = () => {
+    c.beginPath();
+    for (let a = 0; a < 6; a++) {
+      const ca = Math.cos(a * Math.PI / 3), sa = Math.sin(a * Math.PI / 3);
+      for (const g of f.segs) {
+        const m = D - g.d0; if (m <= 0) continue;
+        const u = Math.min(1, m / g.len), x2 = g.x1 + (g.x2 - g.x1) * u, y2 = g.y1 + (g.y2 - g.y1) * u;
+        c.moveTo((g.x1 * ca - g.y1 * sa) * R, (g.x1 * sa + g.y1 * ca) * R);
+        c.lineTo((x2 * ca - y2 * sa) * R, (x2 * sa + y2 * ca) * R);
+      }
+    }
+  };
+  path(); c.strokeStyle = 'rgba(112,214,255,.45)'; c.lineWidth = lw * 3.2; c.stroke();
+  path(); c.strokeStyle = FR_SNOW; c.lineWidth = lw; c.stroke();
+  c.restore();
+}
+/* 霜華：縁の種から霜の樹枝を伸ばす（60°で枝分かれ） */
+function _frFrost(seeds, maxLen) {
+  const segs = [];
+  function grow(x, y, ang, len, d0, depth) {
+    let d = d0, left = len;
+    while (left > 0) {
+      const st = _frR(2.5, 4.5); ang += _frR(-.16, .16);
+      const nx = x + Math.cos(ang) * st, ny = y + Math.sin(ang) * st;
+      segs.push({ x1: x, y1: y, x2: nx, y2: ny, d0: d, len: st });
+      x = nx; y = ny; d += st; left -= st;
+      if (depth < 2 && Math.random() < .2) grow(x, y, ang + (Math.random() < .5 ? 1 : -1) * Math.PI / 3, left * _frR(.35, .6), d, depth + 1);
+    }
+  }
+  seeds.forEach(s => grow(s.x, s.y, s.a, maxLen * _frR(.55, 1), 0, 0));
+  return { segs, maxD: Math.max(1, ...segs.map(g => g.d0 + g.len)) };
+}
+function _frDrawFrost(c, fr, k, alpha) {
+  if (k <= 0 || alpha <= 0) return;
+  const D = k * fr.maxD;
+  c.save(); c.globalCompositeOperation = 'lighter'; c.lineCap = 'round'; c.globalAlpha = alpha;
+  for (const pass of [0, 1]) {
+    c.beginPath();
+    for (const g of fr.segs) {
+      const m = D - g.d0; if (m <= 0) continue;
+      const u = Math.min(1, m / g.len);
+      c.moveTo(g.x1, g.y1); c.lineTo(g.x1 + (g.x2 - g.x1) * u, g.y1 + (g.y2 - g.y1) * u);
+    }
+    c.strokeStyle = pass ? 'rgba(234,248,255,.85)' : 'rgba(112,214,255,.35)'; c.lineWidth = pass ? .9 : 3; c.stroke();
+  }
+  c.restore();
+}
+/* タップ位置から丸く溶かす（溶けた縁が一瞬光る） */
+function _frMelt(c, x, y, r, w, h, rim) {
+  c.save(); c.globalCompositeOperation = 'destination-out';
+  const g = c.createRadialGradient(x, y, Math.max(0, r - 14), x, y, r + 4);
+  g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+  c.fillStyle = g; c.fillRect(0, 0, w, h);
+  c.beginPath(); c.arc(x, y, Math.max(0, r - 14), 0, 7); c.fillStyle = '#000'; c.fill();
+  c.restore();
+  if (rim > 0) { c.save(); c.globalCompositeOperation = 'lighter'; c.beginPath(); c.arc(x, y, r, 0, 7); c.strokeStyle = `rgba(234,248,255,${rim})`; c.lineWidth = 1.4; c.shadowColor = '#70D6FF'; c.shadowBlur = 8; c.stroke(); c.restore(); }
+}
+function _frFrostFx(el, card, tier, promoted) {
+  if (!el || _fxOff()) return;
+  const er = el.getBoundingClientRect();
+  if (!er.width || !er.height) return;
+  const w = er.width, h = er.height;
+  let lx = w / 2, ly = h / 2;
+  const pt = _lqPtr;
+  if (pt && pt.el === el && performance.now() - pt.t < 2000) { lx = w * pt.fx; ly = h * pt.fy; }
+  const T = Math.max(1, tier), up = promoted && tier >= 2;
+  // 六花は肢の層とカードの層に**同じ位置・同じ角度で2回**描く。肢の地は不透明（.75）なので、カードの裏だけに
+  // 描くと肢に重なる部分が隠れる。肢の中はくっきり、はみ出した先はカードの裏へ続いて見える。
+  const gens = Math.min(4, 1 + Math.floor(T / 2));
+  const f = _frFlake(gens), R = 24 + T * 3.5, rot0 = _frR(0, Math.PI);
+  const flakeAt = (c, e, x, y) => {
+    const fade = e < 1000 ? 1 : _frC(1 - (e - 1000) / 600);
+    _frDrawFlake(c, f, x, y, R, rot0 + e / 4000, _frE(_frC(e / 520)), fade, 1.35);
+    if (e > 380 && e < 900) _frGlint(c, x, y, 9 * Math.sin(Math.PI * (e - 380) / 520), .9);
+  };
+
+  // ── 霜華（肢の裏） ──
+  const seeds = [];
+  for (let i = 0; i < 10 + T * 3; i++) { const top = i % 2 === 0; seeds.push({ x: _frR(4, w - 4), y: top ? 0 : h, a: (top ? 1 : -1) * Math.PI / 2 + _frR(-.5, .5) }); }
+  seeds.push({ x: 0, y: h / 2, a: _frR(-.3, .3) }, { x: w, y: h / 2, a: Math.PI + _frR(-.3, .3) });
+  const fr = _frFrost(seeds, h * (.42 + T * .035));
+  const reach = Math.hypot(Math.max(lx, w - lx), h) + 20;
+  const L = _lqLayer(el);
+  const c1 = _frCtx(L, w, h);
+  _frRun(c1, w, h, 1650, (c, e) => {
+    const k = _frE(_frC(e / 480));
+    const hz = c.createLinearGradient(0, 0, 0, h), a = .22 * k;
+    hz.addColorStop(0, `rgba(214,238,255,${a})`); hz.addColorStop(.35, 'rgba(214,238,255,0)'); hz.addColorStop(.65, 'rgba(214,238,255,0)'); hz.addColorStop(1, `rgba(214,238,255,${a})`);
+    c.fillStyle = hz; c.fillRect(0, 0, w, h);
+    _frDrawFrost(c, fr, k, 1);
+    if (e > 560) { const km = _frE(_frC((e - 560) / 800)); _frMelt(c, lx, ly, km * reach, w, h, (1 - km) * .95); }
+    flakeAt(c, e, lx, ly);
+  });
+  _lqDrop(el, L, 1700);
+  if (!card) return;
+
+  // ── カードの座標（肢のまわり最大 FR_BAND px の帯） ──
+  const cr = card.getBoundingClientRect();
+  const CW = card.clientWidth, CHf = card.clientHeight;
+  if (!CW || !CHf) return;
+  const chL = er.left - cr.left - card.clientLeft, chT = er.top - cr.top - card.clientTop;
+  const top = CHf <= FR_BAND ? 0 : _frC(chT + ly - FR_BAND / 2, 0, CHf - FR_BAND);
+  const CH = Math.min(CHf, FR_BAND);
+  const px = chL + lx, py = chT + ly - top, bT = chT - top;
+
+  // ── 六花（カードの裏）＋ TIER3〜の四隅の霜 ＋ 段が上がった瞬間の縁の霜と大きな結晶 ──
+  const extras = T >= 3 ? Array.from({ length: Math.min(4, T - 1) }, (_, i) => {
+    const a = _frR(0, 6.28), d = R * _frR(1.5, 2.3);
+    return { f: _frFlake(Math.max(1, gens - 2)), x: px + Math.cos(a) * d * 1.4, y: py + Math.sin(a) * d * .7, R: R * _frR(.3, .45), dl: 150 + i * 110, rot: _frR(0, 3) };
+  }) : null;
+  const big = up ? { f: _frFlake(4), R: Math.min(CW, 440) * .46 } : null;
+  let corner = null, rim = null;
+  if (T >= 3) {
+    const cs = [], pts = [[0, 0, Math.PI / 4], [CW, 0, Math.PI * 3 / 4], [0, CH, -Math.PI / 4], [CW, CH, -Math.PI * 3 / 4]];
+    pts.forEach(([x, y, a], i) => {
+      if (i < 2 && top > 0) return;                    // 帯の上端がカードの上端でなければ上の隅は無い
+      if (i >= 2 && top + CH < CHf) return;             // 同じく下
+      for (let j = 0; j < 4 + T; j++) cs.push({ x: x + _frR(-6, 6), y: y + _frR(-6, 6), a: a + _frR(-.6, .6) });
+    });
+    if (cs.length) corner = _frFrost(cs, 45 + T * 14);
+  }
+  if (up) {
+    const bs = [];
+    for (let x = 0; x < CW; x += 14) { if (top === 0) bs.push({ x, y: 0, a: Math.PI / 2 + _frR(-.5, .5) }); if (top + CH >= CHf) bs.push({ x, y: CH, a: -Math.PI / 2 + _frR(-.5, .5) }); }
+    for (let y = 0; y < CH; y += 14) bs.push({ x: 0, y, a: _frR(-.5, .5) }, { x: CW, y, a: Math.PI + _frR(-.5, .5) });
+    rim = _frFrost(bs, 26);
+  }
+  const dur2 = up ? 2600 : T >= 3 ? 2100 : 1700;
+  const C = _lqLayer(card, 'fr-card');
+  const c2 = _frCtx(C, CW, CH, top);
+  const diag = Math.hypot(CW, CH);
+  _frRun(c2, CW, CH, dur2, (c, e) => {
+    // 霜（四隅・縁）は先に描いて溶かし、その上に結晶を描く
+    if (corner) {
+      _frDrawFrost(c, corner, _frE(_frC(e / 700)), .7);
+      if (e > 1000) { const km = _frE(_frC((e - 1000) / 900)); _frMelt(c, px, py, km * diag, CW, CH, 0); }
+    }
+    if (rim) {
+      _frDrawFrost(c, rim, _frE(_frC(e / 650)), .8);
+      if (e > 900) { const km = _frE(_frC((e - 900) / 1100)); _frMelt(c, px, py, km * diag, CW, CH, (1 - km) * .8); }
+    }
+    if (big) {
+      const fb = e < 1800 ? 1 : _frC(1 - (e - 1800) / 800);
+      _frDrawFlake(c, big.f, CW / 2, py, big.R, rot0 + e / 9000, _frE(_frC(e / 1500)), .32 * fb, 1);
+    }
+    flakeAt(c, e, px, py);
+    if (extras) extras.forEach(x => {
+      const ff = e < 1100 ? 1 : _frC(1 - (e - 1100) / 500);
+      _frDrawFlake(c, x.f, x.x, x.y, x.R, x.rot + e / 3000, _frE(_frC((e - x.dl) / 480)), ff * .85, 1);
+    });
+  });
+  _lqDrop(card, C, dur2 + 50);
+
+  // ── ダイヤモンドダスト（文字の上・小さく疎ら） ──
+  const ps = [];
+  const dustIn = (l, t, rw, rh, count, lm) => {
+    for (let i = 0; i < count; i++) ps.push({ x: _frR(l - 6, l + rw + 6), y: _frR(t - 40, t + rh), dl: _frR(0, 500), L: _frR(1300, 2200) * lm,
+      vy: _frR(8, 22), sw: _frR(4, 12), ph: _frR(0, 6), s: _frR(1.8, 4.2), om: _frR(6, 11), rot: _frR(0, .8) });
+  };
+  dustIn(chL, bT, w, h, 12 + T * 4, 1);
+  if (T >= 3) dustIn(0, 0, CW, CH, 14 + T * 4, 1.1);
+  const wave = up ? Array.from({ length: 26 }, (_, i) => ({ x: (i + .5) / 26 * CW, y: _frR(20, Math.max(21, CH - 20)), s: _frR(3, 6), dl: i * 35 })) : null;
+  const D = document.createElement('span');
+  D.className = 'fr-dust';
+  card.appendChild(D);
+  const durD = up ? 2900 : T >= 3 ? 2900 : 2700;
+  const c3 = _frCtx(D, CW, CH, top);
+  _frRun(c3, CW, CH, durD, (c, e) => {
+    if (e < 600) { const k = e / 600; _frGlint(c, chL + w - 10, bT + 8, 9 * Math.sin(Math.PI * k), 1, k * .6); }
+    ps.forEach(q => {
+      const life = (e - q.dl) / 1000; if (life < 0 || life * 1000 > q.L) return;
+      const Ls = q.L / 1000, env = Math.sin(Math.PI * _frC(life / Ls)), tw = .45 + .55 * Math.max(0, Math.sin(life * q.om + q.ph));
+      _frGlint(c, q.x + Math.sin(life * 1.6 + q.ph) * q.sw, q.y + q.vy * life, q.s, env * tw, q.rot);
+    });
+    if (wave) wave.forEach(q => { const k = (e - q.dl) / 550; if (k > 0 && k < 1) _frGlint(c, q.x, q.y, q.s * Math.sin(Math.PI * k), 1); });
+  });
+  setTimeout(() => D.remove(), durD + 50);
 }
 
 function _inkBrushSwipe(tier) {
@@ -4897,6 +5146,7 @@ function _rfCorrectFx(card, el) {
   // 0ms：光は正解の肢から
   _rfSweep(el);
   if (_rfUi() === 'liquid') _lqFluidFx(el, card, tier, promoted);   // 肢の裏で色が咲く（_spawnStreakParticles の liquid 分岐を参照）
+  else if (_rfUi() === 'frost') _frFrostFx(el, card, tier, promoted);   // 雪の結晶・霜・ダイヤモンドダスト（同上の frost 分岐を参照）
   if (el && el.animate) el.animate([{ filter: 'brightness(1.5)' }, { filter: 'brightness(1)' }], { duration: MO.d3, easing: MO.out });
   _afterCorrectFx(card, el);   // 難問・初見・リベンジ・速答・克服・SRS刻印（意味を持つ印はそのまま）
 

@@ -2169,6 +2169,10 @@ html.mec-lite.ui-liquid .qc .ch2.correct::before {
   -webkit-mask-composite: xor;
   mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
 }
+/* ══════════ Frost の正解演出：六花＋霜華＋ダイヤモンドダスト（2026-09-25）══════════
+   JS 側は study_exam.js の _frFrostFx。霜と結晶は .lq-layer（文字の裏）を共用し、
+   ダイヤモンドダストの粒だけ .fr-dust（文字の上・小さく疎ら・2.9秒以内に消える）に描く。 */
+.fr-dust { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; border-radius: inherit; }
 /* 旧演出の層（正解肢のオーラ・波紋・ぷるんと跳ねる）は試験モードでは出さない＝新しい演出と重ねない。
    ⚠️ ui_theme.css 側の定義は過去問ビューアが使うので消さないこと。 */
 html.ui-liquid body.exam-mode .qc.fx-correct .ch2.correct::before,
