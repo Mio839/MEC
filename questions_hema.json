@@ -10127,7 +10127,7 @@
             {
               "cls": "ep",
               "h": "🩸 CLLと免疫異常",
-              "c": "<span class=\"kw\">CLL</span> ：腫瘍B細胞が正常B細胞・形質細胞の機能を圧排→①<span class=\"kw\">低γグロブリン血症（免疫グロブリン産生↓）→繰り返す感染症</span> ②<span class=\"kw\">自己免疫性溶血性貧血（AIHA）合併（約20%）</span> ③ITP合併（Richterの自己免疫現象）。"
+              "c": "<span class=\"kw\">CLL</span> ：腫瘍B細胞が正常B細胞・形質細胞の機能を圧排→①<span class=\"kw\">低γグロブリン血症（免疫グロブリン産生↓）→繰り返す感染症</span> ②<span class=\"kw\">自己免疫性溶血性貧血（AIHA）合併（約20%）</span> ③ITP合併。"
             },
             {
               "cls": "em",
@@ -10346,17 +10346,17 @@
             }
           ],
           "ans_label": "a　抗癌化学療法　＋　b　生理食塩液輸液　＋　d　ビスホスホネート製剤投与",
-          "ans_sub": "骨髄腫の治療：化学療法＋高Ca血症への補液（生食）＋骨病変へビスホスホネート",
+          "ans_sub": "父が血液疾患で死亡＋全身の紅斑（A：皮膚浸潤）＋リンパ節腫大＋花弁状核の異常リンパ球（B）＋LD↑・高Ca血症（12.3）→急性型ATL→化学療法＋高Ca血症に生食輸液・ビスホスホネート",
           "eg": [
             {
               "cls": "ep",
-              "h": "🩸 多発性骨髄腫の治療",
-              "c": "①<span class=\"kw\">抗癌化学療法</span> （ボルテゾミブ・レナリドマイド・デキサメタゾン等）②<span class=\"kw\">補液（生理食塩液）</span> ：高Ca血症の治療（尿中Ca排泄↑）③<span class=\"kw\">ビスホスホネート製剤</span> ：破骨細胞抑制→骨溶解抑制→骨折・骨痛予防。"
+              "h": "🩸 急性型ATLの治療",
+              "c": "<span class=\"kw\">ATL（成人T細胞白血病）</span>：HTLV-1感染CD4陽性T細胞の腫瘍。急性型：<span class=\"kw\">花弁状核（flower cell）</span>の異常リンパ球・リンパ節腫大・<span class=\"kw\">皮膚浸潤（紅斑・丘疹）</span>・LD↑・<span class=\"kw\">高Ca血症</span>（腫瘍のPTHrP産生）。治療：①<span class=\"kw\">多剤併用化学療法</span>（mLSG15＝VCAP-AMP-VECP）±モガムリズマブ（抗CCR4抗体）→若年なら同種移植②高Ca血症には<span class=\"kw\">生理食塩液の大量輸液</span>＋<span class=\"kw\">ビスホスホネート</span>（±カルシトニン）。"
             },
             {
               "cls": "ee",
               "h": "📋 各選択肢の評価",
-              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>○×</th><th>解説</th></tr><tr><td><span class=\"kw3\">a：抗癌化学療法</span></td><td>✅</td><td>MM根本治療（VRd等のレジメン）</td></tr><tr><td><span class=\"kw3\">b：生理食塩液輸液</span></td><td>✅</td><td>高Ca血症→補液で強制利尿・Ca排泄↑</td></tr><tr><td>c：抗ウイルス薬</td><td>❌</td><td>ウイルス感染症でない（MMは形質細胞腫瘍）</td></tr><tr><td><span class=\"kw3\">d：ビスホスホネート</span></td><td>✅</td><td>骨溶解抑制→骨折・骨痛予防</td></tr><tr><td>e：活性型VD3</td><td>❌</td><td><span class=\"kw4\">活性型VD3は腸管Ca吸収↑→高Ca血症を悪化させる</span></td></tr></table>"
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>○×</th><th>解説</th></tr><tr><td>a：抗癌化学療法</td><td>✅</td><td>急性型ATLは化学療法の適応（mLSG15など）</td></tr><tr><td>b：生理食塩液輸液</td><td>✅</td><td>高Ca血症・脱水→補液でCa排泄↑</td></tr><tr><td>c：抗ウイルス薬</td><td>❌</td><td>発症したATLに抗HTLV-1薬の効果はない</td></tr><tr><td>d：ビスホスホネート</td><td>✅</td><td>骨吸収抑制で高Ca血症を下げる</td></tr><tr><td>e：活性型VD3</td><td>❌</td><td>腸管Ca吸収↑→高Ca血症を悪化させる</td></tr></table>"
             },
             {
               "cls": "em",
@@ -10366,7 +10366,7 @@
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">高Ca血症の緊急治療：大量補液（生食）＋ビスホスホネート（ゾレドロン酸）</span> 。<span class=\"kw4\">活性型ビタミンD3は高Ca血症を悪化させる→禁忌</span> 。骨髄腫へのビスホスホネートは骨関連イベント予防のための長期投与。"
+              "c": "<span class=\"kw\">ATL＝HTLV-1・花弁状核・高Ca血症・皮膚浸潤・sIL-2R↑</span>。九州・沖縄に多く、母乳感染が主。高Ca血症の緊急治療：大量補液（生食）＋ビスホスホネート（ゾレドロン酸）。活性型ビタミンD3は禁忌。"
             }
           ],
           "imgs": [
