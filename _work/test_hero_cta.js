@@ -355,8 +355,8 @@ t('overflow:hidden を付けたフレックス項目に最小幅を明示して�
     'リップルを隠す overflow:hidden が .cta-sub に無い');
 });
 
-t('4つのボタンに入場の順番（--i）が入っている', () => {
-  ['heroPrimary', 'heroSecondary', 'heroTertiary', 'heroYesterday'].forEach((id, i) => {
+t('3つのボタンに入場の順番（--i）が入っている', () => {
+  ['heroPrimary', 'heroSecondary', 'heroTertiary'].forEach((id, i) => {
     const re = new RegExp('id="' + id + '"[^>]*style="--i:' + i + '"');
     assert.ok(re.test(HTML), id + ' の --i:' + i + ' が無い');
   });
@@ -480,11 +480,12 @@ t('renderHero の文言は全部 _setCtaLabel を通っている', () => {
   // ⚠️ textContent へ直接入れた席だけ絵文字が動かなくなる（黙って1つだけ死ぬ型のバグ）
   const hero = HTML.slice(HTML.indexOf('function renderHero('),
                           HTML.indexOf('// ── タイル（ヒーローに従属する行き先）'));
-  ['p1', 'p2', 'p3', 'p4'].forEach(v => {
+  ['p1', 'p2', 'p3'].forEach(v => {
     assert.ok(!new RegExp('\\b' + v + '\\.textContent\\s*=').test(hero),
       v + ' が textContent へ直接代入している（_setCtaLabel を通すこと）');
   });
-  assert.ok((hero.match(/_setCtaLabel\(/g) || []).length >= 6,
+  // 主・副は due の有無で2通り＝4、3つ目は三項演算で1（2026-09-27 に仮設の4つ目を撤去して 6→5）
+  assert.ok((hero.match(/_setCtaLabel\(/g) || []).length >= 5,
     '_setCtaLabel の呼び出しが足りない（席ごとに due の有無で2通りある）');
 });
 

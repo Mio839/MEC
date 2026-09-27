@@ -10,7 +10,7 @@
 <script src="rate_index.js"></script>
 <script src="mindmap_data/index.js"></script>
 <script src="knowledge_notes.js"></script>
-<script src="progress.js?v=4"></script>
+<script src="progress.js?v=5"></script>
 <!-- 「今日の誤答を再履修」の件数を出すため。件数の正本を study.html と共有する
      （MecAttempts.todayWrongUids() ＝ 出題側が使うのと同じ関数）。 -->
 <script src="attempts.js"></script>
@@ -7515,9 +7515,6 @@ html.ui-frost .lv-burst::after{background-size:22% 100%;
       <!-- 今日の誤答の再履修。誤答0の日も並びを動かさないよう常に置き、押せないことを色で示す。
            件数・遷移先は renderHero() が入れる（0問のときは href を外す） -->
       <a class="cta-sub cta-redo is-off" id="heroTertiary" style="--i:2" aria-disabled="true">🔁 今日の誤答なし</a>
-      <!-- TEMP（昨日の誤答）: 一時的な4つ目。席は固定の3つという原則の外にある“仮設”なので、
-           不要になったらこの行と renderHero 内の同名ブロックを消せば元の3席に戻る -->
-      <a class="cta-sub cta-redo is-off" id="heroYesterday" style="--i:3" aria-disabled="true">🔁 昨日の誤答なし</a>
     </div>
 
     <!-- 計器ベイ: 読み値のブロックより一段沈めた面に、細かい数字だけをまとめる -->
@@ -9081,28 +9078,6 @@ function renderHero() {
     else    p3.removeAttribute('href');
   }
 
-  // ── TEMP（昨日の誤答）: 4つ目の仮設ボタン。件数の正本は今日ぶんと同じ考え方で
-  //    MecAttempts.yesterdayWrongUids()（attempts.js）。消すときは attempts.js の
-  //    yesterdayWrongUids に書いた手順どおり4か所まとめて。
-  // ⚠️ 存在確認を関数まで下ろすこと。attempts.js は sw.js の SHELL キャッシュに載っているので、
-  //    デプロイ直後は「新しい index.html ＋ 古い attempts.js」の組み合わせが起こり得る。
-  //    素で呼ぶと TypeError でここから下（大きな読み値・XP・ゲージ）が丸ごと描画されず、
-  //    ボタンはマークアップ既定の「🔁 昨日の誤答なし」のまま固まる（実際にこれが出た）。
-  //    仮設の機能がハブ本体を壊さないよう try でも囲む。
-  const p4 = document.getElementById('heroYesterday');
-  if (p4) try {
-    const yWrongN = (window.MecAttempts && MecAttempts.yesterdayWrongUids)
-      ? MecAttempts.yesterdayWrongUids().length : 0;
-    const yOn = yWrongN > 0;
-    _setCtaLabel(p4, yOn ? ('🔁 昨日の誤答 ' + _fmtN(yWrongN) + '問を再履修') : '🔁 昨日の誤答なし');
-    p4.classList.toggle('is-off', !yOn);
-    p4.classList.toggle('is-clear', !yOn);
-    p4.setAttribute('aria-disabled', yOn ? 'false' : 'true');
-    p4.dataset.fx = 'redo';
-    _setRedoLoad(p4, yWrongN);
-    if (yOn) p4.href = 'study.html?mode=yesterday_wrong';
-    else     p4.removeAttribute('href');
-  } catch (e) { console.error('MEC heroYesterday error:', e); }
   // F4: 主ボタンから立ち上る粒子。撒く色が変わる時（＝主ボタンの中身が入れ替わる時）だけ
   //     タイマーを張り替える（同期の再描画で多重起動しない）
   _startCtaAmbient(p1.dataset.fx || '');

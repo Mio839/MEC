@@ -34,19 +34,43 @@ function test(n, f) { try { f(); passed++; console.log('  ok  - ' + n); } catch 
 
 // ══════════ 弱点リスト（統合）══════════
 
-const WK_GAP_PT = constNum('WK_GAP_PT');
+// 判定式（タグの付け方）の正本は progress.js の MECSync.weakTags（2026-09-27〜）。
+// study.html の「🎯苦手」も同じ関数を呼ぶので、ここでは progress.js の実ソースを切り出して渡す。
+const prog = fs.readFileSync(path.join(ROOT, 'progress.js'), 'utf8');
+function grabFrom(src, name) {
+  const start = src.indexOf('function ' + name + '(');
+  assert.ok(start > 0, 'not found: ' + name);
+  let i = src.indexOf('{', start), depth = 0;
+  for (let j = i; j < src.length; j++) {
+    if (src[j] === '{') depth++;
+    else if (src[j] === '}') { depth--; if (!depth) return src.slice(start, j + 1); }
+  }
+  throw new Error('unbalanced: ' + name);
+}
+const WK_GAP_PT = Number((prog.match(/const WK_GAP_PT = (\d+)/) || [])[1]);
+assert.ok(WK_GAP_PT > 0, 'progress.js に WK_GAP_PT が無い');
+const MECSync = new Function('const WK_GAP_PT = ' + WK_GAP_PT + ';\n' + grabFrom(prog, 'weakTags') +
+  '\nreturn { weakTags, WK_GAP_PT };')();
 const WK_LIMIT  = constNum('WK_LIMIT');
 
-// weakUnified は myrate / RATE / uidInfo / WK_TAGS に依存する。uidInfo は章メタを
+// weakUnified は myrate / RATE / uidInfo / WK_TAGS / MECSync に依存する。uidInfo は章メタを
 // 引くだけなので、ここでは素通しのスタブを渡して判定とタグ付けだけを見る
 function makeWeak(myrate, RATE) {
   const wkTags = html.match(/const WK_TAGS = \{[\s\S]*?\n  \};/);
   assert.ok(wkTags, 'WK_TAGS not found');
-  const fn = new Function('myrate', 'RATE', 'uidInfo',
-    wkTags[0] + '\nconst WK_GAP_PT = ' + WK_GAP_PT + ';\n' +
-    grab('weakUnified') + '\nreturn weakUnified();');
-  return fn(myrate, RATE, uid => ({ qNum: uid.split('_q')[1], prefix: uid.split('_q')[0], info: null }));
+  const fn = new Function('myrate', 'RATE', 'uidInfo', 'MECSync',
+    wkTags[0] + '\n' + grab('weakUnified') + '\nreturn weakUnified();');
+  return fn(myrate, RATE, uid => ({ qNum: uid.split('_q')[1], prefix: uid.split('_q')[0], info: null }), MECSync);
 }
+
+test('「苦手」の判定式は progress.js の1か所だけ（stats も study も MECSync.weakTags を呼ぶ）', () => {
+  assert.ok(/MECSync\.weakTags\(/.test(grab('weakUnified')), 'stats の weakUnified が weakTags を呼んでいない');
+  assert.ok(!/nat >= 80/.test(html), 'stats.html に取りこぼしの判定式が残っている');
+  const study = fs.readFileSync(path.join(ROOT, 'study.html'), 'utf8');
+  assert.ok(/VALID_STATES = new Set\(\[[^\]]*'weak'/.test(study), 'study.html の VALID_STATES に weak が無い');
+  assert.ok(/S\.weakTags\(/.test(study), 'study.html の 🎯苦手 が weakTags を呼んでいない');
+  assert.ok(!/filter=(weak|flag)/.test(html), 'stats.html に壊れたリンク filter=weak / filter=flag が残っている');
+});
 
 test('本番80%以上を50%未満で落とすと 💡取りこぼし が付く', () => {
   const r = makeWeak({ circ_ch01_q1: { correct: 1, total: 4 } }, { circ_ch01_q1: 92 });

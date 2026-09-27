@@ -728,6 +728,32 @@ test('attempts: absent remote key leaves local untouched', () => {
   assert.strictEqual(env.getArr(KAT).length, 1);
 });
 
+// ── 試験日（last-writer-wins・2026-09-27）──────────────────────────────────
+test('examDate: newer remote date wins', () => {
+  const env = makeEnv({ mec_exam_date_v1: '2027-02-06', mec_exam_date_at_v1: '1000' });
+  env.mergeRemote({ _examDate: { d: '2027-02-13', t: 2000 } });
+  assert.strictEqual(env.store.mec_exam_date_v1, '2027-02-13');
+  assert.strictEqual(env.store.mec_exam_date_at_v1, '2000');
+});
+
+test('examDate: older remote date does not overwrite a newer local one', () => {
+  const env = makeEnv({ mec_exam_date_v1: '2027-02-06', mec_exam_date_at_v1: '3000' });
+  env.mergeRemote({ _examDate: { d: '2027-02-13', t: 2000 } });
+  assert.strictEqual(env.store.mec_exam_date_v1, '2027-02-06');
+});
+
+test('examDate: newer "reset to default" (d="") removes the local override', () => {
+  const env = makeEnv({ mec_exam_date_v1: '2027-02-13', mec_exam_date_at_v1: '1000' });
+  env.mergeRemote({ _examDate: { d: '', t: 2000 } });
+  assert.ok(!('mec_exam_date_v1' in env.store), 'override must be removed');
+});
+
+test('examDate: remote without _examDate (old device) leaves local untouched', () => {
+  const env = makeEnv({ mec_exam_date_v1: '2027-02-13' });
+  env.mergeRemote({});
+  assert.strictEqual(env.store.mec_exam_date_v1, '2027-02-13');
+});
+
 // ─────────────────────────────────────────────────────────────────────────
 console.log('\n' + (failures.length ? failures.length + ' FAILED' : 'all passed') +
             '  (' + passed + '/' + (passed + failures.length) + ')');

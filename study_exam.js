@@ -2421,8 +2421,7 @@ function _examCountdown() {
     const names = ids.map(id => (STUDY_SUBJECTS.find(x => x.id === id) || {}).name || id);
     subjLabel = names.length > 1 ? (names[0] + ' 他' + (names.length - 1)) : (names[0] || '—');
     if (_srsReviewMode) subjLabel = 'SRS REVIEW';
-    // TEMP（昨日の誤答）: _wrongDayJa() は study.html 側が持つ（'今日' / '昨日'）
-    if (_todayWrongMode) subjLabel = (window._wrongDayJa?.() === '昨日') ? "YESTERDAY'S MISSES" : "TODAY'S MISSES";
+    if (_todayWrongMode) subjLabel = "TODAY'S MISSES";
     if (_bossMode === true) subjLabel = 'GRAND CONFERENCE';
     if (_focusMode) subjLabel = 'WEAK POINT DRILL';
     if (_examIsRematch) subjLabel = 'REMATCH ×' + qn;
@@ -5206,7 +5205,7 @@ function showExamSummary() {
   const titleEl = document.querySelector('#examOverlay h2');
   if (titleEl) titleEl.innerHTML =
     _srsReviewMode  ? '🔔 <span class="grad-txt">復習セッション結果</span>' :
-    _todayWrongMode ? '🔁 <span class="grad-txt">' + (window._wrongDayJa?.() || '今日') + 'の誤答 再履修の結果</span>' :
+    _todayWrongMode ? '🔁 <span class="grad-txt">今日の誤答 再履修の結果</span>' :
     _bossMode === true ? '🏛️ <span class="grad-txt">統合カンファレンスの結果</span>' :
     _bossMode ? '🏛️ <span class="grad-txt">統合カンファレンス 再検討の結果</span>' :
     _focusMode ? '🎯 <span class="grad-txt">弱点強化の結果</span>' :
@@ -5480,7 +5479,7 @@ function showExamSummary() {
     const note = document.getElementById('sumFlagNote');
     if (note) {
       note.insertAdjacentHTML('beforebegin',
-        '<div class="exam-srs-done">🔁 ' + (window._wrongDayJa?.() || '今日') + 'の取りこぼし、やり直し完了！' +
+        '<div class="exam-srs-done">🔁 今日の取りこぼし、やり直し完了！' +
         '<span>' + examAnswered + '問中 ' + examCorrect + '問を正解しました' +
         (_rest > 0 ? ' ／ 未出題 残り ' + _rest + '問' : '') + '</span></div>');
     }

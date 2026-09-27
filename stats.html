@@ -10,7 +10,7 @@
 <script>try{if(!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))document.documentElement.classList.add('fx-on');}catch(e){}</script>
 <script src="chapters_meta.js"></script>
 <script src="rate_index.js?v=1"></script>
-<script src="progress.js?v=4"></script>
+<script src="progress.js?v=5"></script>
 <script src="attempts.js"></script>
 <script src="fx_engine.js"></script>
 <link rel="stylesheet" href="vars.css">
@@ -1521,8 +1521,8 @@ html.fx-on .ai-card-btn:active { scale: .98; }
       
       <div class="quick-act-row">
         <a class="quick-btn quick-btn-pri" id="btnQuickReview" href="study.html?mode=srs_review">🔔 復習を始める</a>
-        <a class="quick-btn quick-btn-bad" id="btnQuickWeak" href="study.html?filter=weak">🚨 苦手問題を解く</a>
-        <a class="quick-btn quick-btn-warn" id="btnQuickFlag" href="study.html?filter=flag">🚩 赤旗問題を解く</a>
+        <a class="quick-btn quick-btn-bad" id="btnQuickWeak" href="study.html?state=weak">🚨 苦手問題を解く</a>
+        <a class="quick-btn quick-btn-warn" id="btnQuickFlag" href="study.html?state=flag">🚩 赤旗問題を解く</a>
       </div>
     </div>
 
@@ -2117,7 +2117,7 @@ html.fx-on .ai-card-btn:active { scale: .98; }
 
     const missCount = Object.entries(myrate).filter(([uid, v]) => {
       const nat = RATE[uid];
-      return nat >= 80 && v.total >= 1 && (v.correct / v.total < 0.5);
+      return MECSync.weakTags(v, nat === undefined ? null : nat).includes('miss');
     }).length;
 
     if (missCount > 0) {
@@ -2572,7 +2572,7 @@ html.fx-on .ai-card-btn:active { scale: .98; }
       topEl.innerHTML = top.length ? top.map((w, i) => {
         const lv = karteLv(w.gap).replace('k-d', 'lv');
         const you = Math.round(w.you), nat = Math.round(w.nat);
-        // ⚠️ study.html は filter=weak を受け付けない（VALID_FILTERS に無く「全問」へ落ちる）ので付けない
+        // ⚠️ ここは「科目×設問形式」のマスなので state=weak（弱点リストの問題）は付けない＝別の集合になる
         return `<a class="kt-card ${lv}" style="--i:${i}" href="study.html?sid=${w.sid}">
           <span class="kt-rank">${i + 1}</span>
           <div class="kt-main">
@@ -2707,7 +2707,6 @@ html.fx-on .ai-card-btn:active { scale: .98; }
     }).catch(() => {});
 
   // ── 15. 弱点リスト（カード型UI） ──
-  const WK_GAP_PT = 40;   // 本番正答率をこれ以上下回ったら「🔻本番差」
   const WK_LIMIT  = 30;   // 一度に見せる行数（残りは件数だけ下に出す）
   const WK_TAGS = {
     miss: { label: '💡取りこぼし', cls: 't-miss' },
@@ -2727,10 +2726,8 @@ html.fx-on .ai-card-btn:active { scale: .98; }
       const you = Math.round(correct / total * 100);
       const nat = RATE[uid];
       const gap = (nat === undefined) ? null : nat - you;
-      const tags = [];
-      if (nat !== undefined && nat >= 80 && you < 50) tags.push('miss');
-      if (gap !== null && gap >= WK_GAP_PT) tags.push('gap');
-      if (total >= 3 && you < 50) tags.push('rep');
+      // ⚠️ 判定式は progress.js の MECSync.weakTags が正本（study.html の「🎯苦手」も同じ関数を呼ぶ）
+      const tags = MECSync.weakTags(v, nat === undefined ? null : nat);
       if (!tags.length) return;
       out.push({ uid, you, nat, gap, tags, correct, total, ...uidInfo(uid) });
     });
@@ -2785,7 +2782,7 @@ html.fx-on .ai-card-btn:active { scale: .98; }
         const label = it.info ? `${it.info.subjIcon} ${it.info.subjName}` : (it.prefix || '');
         const color = it.info ? it.info.subjColor : '#666';
         const chName = it.info ? `第${it.info.chNum}章` : '';
-        const href = it.info ? `study.html?sid=${it.info.subjId}&filter=weak` : `study.html?filter=weak`;
+        const href = it.info ? `study.html?sid=${it.info.subjId}&state=weak` : `study.html?state=weak`;
         const accCls = it.you < 35 ? 'bad' : 'poor';
         const tagBadges = it.tags.map(t => `<span class="wk-tag ${WK_TAGS[t].cls}">${WK_TAGS[t].label}</span>`).join('');
 
@@ -3146,7 +3143,7 @@ html.fx-on .ai-card-btn:active { scale: .98; }
     const miss = [];
     Object.entries(myrate).forEach(([uid, v]) => {
       const nat = RATE[uid];
-      if (nat !== undefined && nat >= 80 && v.total >= 1 && (v.correct / v.total < 0.5)) {
+      if (MECSync.weakTags(v, nat === undefined ? null : nat).includes('miss')) {
         miss.push({ uid, nat, you: Math.round(v.correct / v.total * 100), correct: v.correct, total: v.total, ...uidInfo(uid) });
       }
     });

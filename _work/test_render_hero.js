@@ -129,7 +129,7 @@ vm.runInContext(fxJs, ctx);
 vm.runInContext(`
   var chapters_meta = [];
   var KNOWLEDGE_NOTES = [];
-  var MecAttempts = { todayWrongUids: () => [], yesterdayWrongUids: () => [] };
+  var MecAttempts = { todayWrongUids: () => [] };
   var MecGamify = { stats: () => ({ level: 1, title: '医学生', lvNeedXp: 100, lvCurXp: 0, lvProgress: 0 }), dailyGoal: () => ({ count: 20, target: 40, pct: 50 }) };
   var MECSync = { calcStreak: () => 2 };
 `, ctx);

@@ -42,6 +42,7 @@
   //    ずれる（_srsFuzz が守っている「どの端末でも同じ nextReview」が崩れる）。
   //    同期させるなら更新時刻を添えて last-writer-wins を作る必要がある。
   const K_EXAM_DATE = 'mec_exam_date_v1';
+const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変えた時刻ms（同期の last-writer-wins 用）
   const EXAM_DATE_DEFAULT = '2027-02-06';
 
   let syncTimer = null;
@@ -302,6 +303,7 @@
     try { payload[K_ATT] = JSON.parse(localStorage.getItem(K_ATT) || '[]'); } catch { payload[K_ATT] = []; }
     try { payload['mec_ch_exam_v1'] = JSON.parse(localStorage.getItem('mec_ch_exam_v1') || '{}'); } catch { payload['mec_ch_exam_v1'] = {}; }
     payload._errClearedAt = localStorage.getItem(K_ERR_CLEARED) || '';
+    payload._examDate = { d: localStorage.getItem(K_EXAM_DATE) || '', t: _examDateAt() };
     payload._ts = new Date().toISOString();
 
     const headers = {
@@ -661,6 +663,20 @@
       const filtered = localER.filter(r => (r.reported_at || '') >= effectiveClearedAt);
       localStorage.setItem(KER, JSON.stringify(filtered));
     }
+    // 試験日: 更新時刻つきの last-writer-wins（2026-09-27〜）。SRS の試験日ゲートと
+    // _srsFuzz は「どの端末でも同じ nextReview」を前提にしているので、端末ごとに違う試験日を
+    // 持たせない。d='' は「既定に戻した」の意味（既定に戻す操作も新しい方が勝つ）。
+    const rx = remote._examDate;
+    if (rx && typeof rx.t === 'number' && rx.t > _examDateAt()) {
+      try {
+        if (rx.d) localStorage.setItem(K_EXAM_DATE, rx.d); else localStorage.removeItem(K_EXAM_DATE);
+        localStorage.setItem(K_EXAM_DATE_AT, String(rx.t));
+      } catch (e) {}
+    }
+  }
+
+  function _examDateAt() {
+    try { return +(localStorage.getItem(K_EXAM_DATE_AT) || 0) || 0; } catch (e) { return 0; }
   }
 
   function _setSyncBadge(status, detail) {
@@ -1323,8 +1339,27 @@
     return total;
   }
 
+  /* 「苦手」の判定の正本（2026-09-27）。学習統計の弱点リストと、study.html の状態フィルタ
+     「🎯苦手」（stats の「🚨 苦手問題を解く」の飛び先）が同じこの関数を呼ぶ＝件数が食い違わない。
+       entry = myrate_v1 の1件 {correct,total} / nat = その問題の全国正答率（整数%・無ければ null）
+     ⚠️ nat は rate_index.js と同じく整数へ丸めた値を渡すこと（境目の 80% / 40pt で判定が揺れる）。 */
+  const WK_GAP_PT = 40;   // 本番正答率をこれ以上下回ったら「🔻本番差」
+  function weakTags(entry, nat) {
+    const total = (entry && entry.total) || 0;
+    if (!total) return [];
+    const you = Math.round(((entry.correct || 0) / total) * 100);
+    const hasNat = typeof nat === 'number' && nat >= 0;
+    const tags = [];
+    if (hasNat && nat >= 80 && you < 50) tags.push('miss');   // 💡取りこぼし
+    if (hasNat && nat - you >= WK_GAP_PT) tags.push('gap');   // 🔻本番差（同じ uid どうし）
+    if (total >= 3 && you < 50) tags.push('rep');             // 🔁反復ミス
+    return tags;
+  }
+
   // ── Public API ───────────────────────────────────────────────────
   window.MECSync = {
+    weakTags,
+    WK_GAP_PT,
     syncFromGist,
     pushToGist,
     scheduleSync,
@@ -1337,8 +1372,9 @@
     examDate() {
       try { return localStorage.getItem(K_EXAM_DATE) || EXAM_DATE_DEFAULT; } catch (e) { return EXAM_DATE_DEFAULT; }
     },
-    setExamDate(v) { try { localStorage.setItem(K_EXAM_DATE, v); } catch (e) {} },
-    clearExamDate() { try { localStorage.removeItem(K_EXAM_DATE); } catch (e) {} },
+    // ⚠️ 書くたびに更新時刻を残す（同期は時刻の新しい方が勝つ）。既定に戻すのも1回の変更として扱う
+    setExamDate(v) { try { localStorage.setItem(K_EXAM_DATE, v); localStorage.setItem(K_EXAM_DATE_AT, String(Date.now())); } catch (e) {} },
+    clearExamDate() { try { localStorage.removeItem(K_EXAM_DATE); localStorage.setItem(K_EXAM_DATE_AT, String(Date.now())); } catch (e) {} },
     getStats() {
       const done = lsGet(KD), flags = lsGet(KF);
       return {

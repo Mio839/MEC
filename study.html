@@ -156,6 +156,7 @@ if ('serviceWorker' in navigator) {
     <span class="fsep"></span>
     <button class="nb2 fs-on" data-state="all" onclick="setState('all')" aria-pressed="false">全</button>
     <button class="nb2" data-state="flag" onclick="setState('flag')" aria-pressed="false" aria-label="赤旗を付けた問題だけ">🚩</button>
+    <button class="nb2" data-state="weak" onclick="setState('weak')" aria-pressed="false" aria-label="苦手な問題だけ（学習統計の弱点リストと同じ基準）" title="苦手（学習統計の弱点リストと同じ基準）">🎯</button>
     <span class="fsep"></span>
   </div>
   <div class="find-row">
@@ -586,7 +587,8 @@ let currentState = 'all';
 let currentSearch = '';
 let _searchTimer = null;
 const VALID_FILTERS = new Set(['all', 'hard', 'mid', 'easy', 'star', 'img', 'mock_wrong']);
-const VALID_STATES = new Set(['all', 'flag']);
+// weak＝学習統計の弱点リストと同じ判定（progress.js の MECSync.weakTags が正本）
+const VALID_STATES = new Set(['all', 'flag', 'weak']);
 function _validFilter(f) { return VALID_FILTERS.has(f) ? f : 'all'; }
 function _validState(s) { return VALID_STATES.has(s) ? s : 'all'; }
 
@@ -856,6 +858,14 @@ function _syncMockFilterChip() {
   if (!isMock && currentFilter === MOCK_WRONG_FILTER) setFilter('all');
 }
 
+// 🎯苦手：学習統計の弱点リストに載る問題（💡取りこぼし／🔻本番差／🔁反復ミスのどれか）。
+// ⚠️ 全国正答率は rate_index.js と同じく整数へ丸めて渡す（境目 80% / 40pt の判定を揃えるため）。
+function _isWeakUid(uid, rate) {
+  const S = window.MECSync;
+  if (!S || !S.weakTags) return false;
+  return S.weakTags(_myrate[uid], rate === null || rate === undefined ? null : Math.round(rate)).length > 0;
+}
+
 function applyFilters() {
   if (examMode) return;
   _updateEmptyState();
@@ -889,6 +899,7 @@ function applyFilters() {
     let showState;
     if (st === 'all') showState = true;
     else if (st === 'flag') showState = !!_flags[uid];
+    else if (st === 'weak') showState = _isWeakUid(uid, r);
     else showState = true;
     if (search && m.searchText === null) m.searchText = (m.el.querySelector('.qb') || m.el).textContent.toLowerCase();
     const showSearch = !search || m.searchText.includes(search);
@@ -1334,6 +1345,11 @@ document.addEventListener('DOMContentLoaded', () => {
   currentFilter = savedFilter;
   _syncFilterBtns(savedFilter);
   _syncMockFilterChip();   // ?sid=m121s で開いた時点でチップを出す／模試以外なら全問へ戻す
+  // 学習統計の「🚨 苦手問題を解く」「🚩 赤旗問題を解く」は ?state=weak / ?state=flag で来る。
+  // 旧リンクの ?filter=weak / ?filter=flag も状態として受ける（難易度の VALID_FILTERS には無い）。
+  const _qp = new URLSearchParams(location.search);
+  const stateParam = _qp.get('state') || (/^(weak|flag)$/.test(filterParam || '') ? filterParam : null);
+  if (stateParam) localStorage.setItem('mec_state_v1', _validState(stateParam));
   const rawState = localStorage.getItem('mec_state_v1');
   const savedState = _validState(rawState);
   if (rawState !== savedState) localStorage.setItem('mec_state_v1', savedState);
@@ -1365,9 +1381,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ホスト出題での起動（必要な問題だけを専用ホストへ描き、全科目の初期化を後回しにする）
   const _launchMode = new URLSearchParams(location.search).get('mode');
   const _srsLaunch = _launchMode === 'srs_review';
-  // TEMP（昨日の誤答）: mode=yesterday_wrong も同じ配管に乗せ、対象の日だけ差し替える
-  const _yesterdayWrongLaunch = _launchMode === 'yesterday_wrong';
-  const _todayWrongLaunch = _launchMode === 'today_wrong' || _yesterdayWrongLaunch;
+  const _todayWrongLaunch = _launchMode === 'today_wrong';
   const _bossLaunch = _launchMode === 'boss';   // ⚔️ ボス戦（ハブのタイルから）
   const _focusLaunch = _launchMode === 'focus'; // 🎯 弱点強化ミッション（ミッション行から）
 
@@ -1445,7 +1459,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 今日の誤答の再履修も同じ配管（対象uidを先に決めてからホストへ描く）に乗る。
     // 採点結果をSRSへ返すので _loadSRS() は復習と同じく先に済ませておく。
     _loadSRS();
-    Promise.resolve(startTodayWrongReview({ dayOffset: _yesterdayWrongLaunch ? 1 : 0 }))
+    Promise.resolve(startTodayWrongReview())
       .catch(e => console.error('today-wrong start error:', e)).finally(_removeLoader);
   } else if (_bossLaunch) {
     // ボス戦も同じ配管（苦手の問題だけを先に決めてからホストへ描く）。SRSへ採点を返すので先に読む。
@@ -2471,17 +2485,12 @@ const TODAY_WRONG_LIMIT = 50;
 //    位置を覚えないと「続けて次の50問」が同じ50問を出し直すことになる。
 let _todayWrongDone = 0;
 
-// TEMP（昨日の誤答）: 0=今日 / 1=昨日。起動時に一度だけ決まる。画面の文言もこれで振り分ける。
-// 消すときは attempts.js の yesterdayWrongUids に書いた手順どおり4か所まとめて。
-let _wrongDayOffset = 0;
-window._wrongDayJa = () => (_wrongDayOffset === 1 ? '昨日' : '今日');
-
-// 出題対象のUID（順序込み）。正本は MecAttempts.todayWrongUids() / yesterdayWrongUids()。
+// 出題対象のUID（順序込み）。正本は MecAttempts.todayWrongUids()。
 // 並びは「最初に落とした順」＝時系列で、後から落ちた問題は末尾に足されるだけなので、
 // セッションをまたいでも _todayWrongDone の位置は同じ問題を指し続ける。
 function _todayWrongTargets() {
   const A = window.MecAttempts;
-  const src = !A ? [] : (_wrongDayOffset === 1 ? A.yesterdayWrongUids() : A.todayWrongUids());
+  const src = !A ? [] : A.todayWrongUids();
   return src.filter(uid => STUDY_SUBJECTS.find(s => s.id === uid.split('_ch')[0]));
 }
 
@@ -2495,11 +2504,8 @@ window._todayWrongRemaining = function () {
 // 引数なし（ハブからの起動）は常に先頭から。
 async function startTodayWrongReview(opts = {}) {
   const isCont = !!opts.continue;
-  if (!isCont) {
-    _todayWrongDone = 0;
-    if (opts.dayOffset != null) _wrongDayOffset = opts.dayOffset;  // TEMP（昨日の誤答）
-  }
-  const _ja = window._wrongDayJa();
+  if (!isCont) _todayWrongDone = 0;
+  const _ja = '今日';
   const allWrong = _todayWrongTargets();
   const _wrongTotal = allWrong.length;
   // 上限で切る理由はSRS復習と同じ（DOMへ起こす量が端末の限界を決める）。
@@ -2508,7 +2514,7 @@ async function startTodayWrongReview(opts = {}) {
 
   if (!wrongUids.length) {
     _mecNotify(isCont ? (_ja + 'の誤答はすべて出題しました。')
-                      : (_wrongDayOffset === 1 ? '昨日の誤答はありません。' : '今日はまだ誤答がありません。'));
+                      : '今日はまだ誤答がありません。');
     _runDeferredInit();
     return;
   }
