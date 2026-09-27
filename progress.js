@@ -459,6 +459,7 @@ const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変え�
       const remDate = rem.lastSeen || '0000-00-00', locDate = loc.lastSeen || '0000-00-00';
       if (locDate >= remDate) ms[uid] = loc;
     });
+    srsUnifyDups(ms);     // 重複コピーの予定を揃え直す（旧版の端末が片方だけ更新して持ち込んでも直る）
     lsRaw(K_SRS, ms);
     // gamify: 数値フィールドは max（bestStreak等の単調増加カウンタ）、その他はローカル優先
     const lgm = lsGet(K_GAMIFY), rgm = remote[K_GAMIFY] || {};
@@ -1356,8 +1357,87 @@ const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変え�
     return tags;
   }
 
+  // ── 同じ国試問題の重複コピー（dup_index.js・2026-09-27〜） ─────────
+  // 同じ問題が科目と必修講座などに別の uid で入っている。組（window.MEC_DUP_GROUPS・先頭が代表）の
+  // 中では**復習予定を常に同じ値に揃え**、件数と出題は**代表だけ**を数える。
+  // ⚠️ 「済」(done_v2) と正答率 (myrate_v1) は uid ごとのまま（ユーザー判断）。ここで揃えるのは SRS だけ。
+  // ⚠️ dup_index.js を読んでいないページでは組が空＝何もしない（従来どおり）。
+  let _dupMap = null;
+  function _dups() {
+    if (_dupMap) return _dupMap;
+    const groups = window.MEC_DUP_GROUPS;
+    const m = new Map();
+    if (Array.isArray(groups)) groups.forEach(g => g.forEach(u => m.set(u, g)));
+    if (Array.isArray(groups)) _dupMap = m;     // 未読込の間はキャッシュしない
+    return m;
+  }
+  function srsSiblings(uid) { return _dups().get(uid) || null; }
+  // 代表でないコピーか（件数・出題から外すもの）
+  function srsIsShadow(uid) { const g = _dups().get(uid); return !!g && g[0] !== uid; }
+  // 組の中で「いちばん最近の復習」を全員へ写す。書き換えたら true。
+  // ⚠️ 同期のマージ直後とページ読み込み時に呼ぶ。旧版の端末が片方だけ更新したエントリを持ち込んでも
+  //    ここで揃い直る（lastSeen の新しい方が勝つ＝_mergeRemote の SRS の規則と同じ）。
+  function srsUnifyDups(srs) {
+    if (!srs || typeof srs !== 'object') return false;
+    const groups = window.MEC_DUP_GROUPS;
+    if (!Array.isArray(groups)) return false;
+    let changed = false;
+    for (const g of groups) {
+      let best = null;
+      for (const u of g) {
+        const e = srs[u];
+        if (!e || typeof e !== 'object') continue;
+        if (!best) { best = e; continue; }
+        const a = e.lastSeen || '', b = best.lastSeen || '';
+        if (a > b || (a === b && ((e.reps || 0) > (best.reps || 0) || ((e.reps || 0) === (best.reps || 0) && (e.interval || 0) > (best.interval || 0))))) best = e;
+      }
+      if (!best) continue;
+      const js = JSON.stringify(best);
+      for (const u of g) {
+        if (srs[u] === best) continue;
+        if (!srs[u] || JSON.stringify(srs[u]) !== js) { srs[u] = JSON.parse(js); changed = true; }
+      }
+    }
+    return changed;
+  }
+  // ── 新しく覚える問題の上限（2026-09-27〜） ─────────────────────────
+  // 初めて SRS に入る問題（＝新規）は、その日のうちに翌日の復習を1件ずつ生む。復習の滞留が多い日に
+  // 新規を無制限に入れると、処理できる量（1日の復習目標 200）を新規が食いつぶして滞留が減らない。
+  // そこで**復習待ちの件数に応じて新規の上限を下げる**:
+  //   待ち ≤ NEW_CAP_LOW_DUE → NEW_CAP_MAX／待ち ≥ NEW_CAP_HIGH_DUE → NEW_CAP_MIN／その間は直線で下げる。
+  // 上限を超えて初めて解いた問題は**正解・あやふやなら復習予定に入れない**（次にどこかで解いたとき改めて
+  // 判定する＝学習は止めない）。**誤答は上限を超えても入れる**——落とした問題こそ復習すべきものなので。
+  // ⚠️ 数える材料は mec_srs_v1 の born（初めて登録された日・同期対象）だけ＝端末をまたいでも同じ数になる。
+  // ⚠️ 件数は重複コピーの代表だけ（srsIsShadow）＝ハブ・復習キューと同じ数え方。
+  const NEW_CAP_MAX = 100, NEW_CAP_MIN = 20, NEW_CAP_LOW_DUE = 200, NEW_CAP_HIGH_DUE = 1200;
+  function _jstToday() { return new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10); }
+  function srsNewBudget(srs, today) {
+    srs = srs || lsGet(K_SRS);
+    today = today || _jstToday();
+    let due = 0, newToday = 0;
+    for (const uid in srs) {
+      const e = srs[uid];
+      if (!e || srsIsShadow(uid)) continue;
+      if (e.nextReview && e.nextReview <= today) due++;
+      if (e.born === today) newToday++;
+    }
+    let cap;
+    if (due <= NEW_CAP_LOW_DUE) cap = NEW_CAP_MAX;
+    else if (due >= NEW_CAP_HIGH_DUE) cap = NEW_CAP_MIN;
+    else cap = Math.round(NEW_CAP_MAX - (NEW_CAP_MAX - NEW_CAP_MIN) * (due - NEW_CAP_LOW_DUE) / (NEW_CAP_HIGH_DUE - NEW_CAP_LOW_DUE));
+    return { cap, newToday, due, left: Math.max(0, cap - newToday) };
+  }
+
+  // 読み込み時に一度揃える（同期を待たずに、既に分かれている予定を1つにする）
+  try { const s0 = lsGet(K_SRS); if (srsUnifyDups(s0)) lsRaw(K_SRS, s0); } catch (e) {}
+
   // ── Public API ───────────────────────────────────────────────────
   window.MECSync = {
+    srsSiblings,
+    srsIsShadow,
+    srsUnifyDups,
+    srsNewBudget,
+    NEW_CAP: { max: NEW_CAP_MAX, min: NEW_CAP_MIN, lowDue: NEW_CAP_LOW_DUE, highDue: NEW_CAP_HIGH_DUE },
     weakTags,
     WK_GAP_PT,
     syncFromGist,

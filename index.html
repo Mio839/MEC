@@ -10,6 +10,7 @@
 <script src="rate_index.js"></script>
 <script src="mindmap_data/index.js"></script>
 <script src="knowledge_notes.js"></script>
+<script src="dup_index.js"></script>
 <script src="progress.js?v=5"></script>
 <!-- 「今日の誤答を再履修」の件数を出すため。件数の正本を study.html と共有する
      （MecAttempts.todayWrongUids() ＝ 出題側が使うのと同じ関数）。 -->
@@ -289,6 +290,12 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 .srs-card-today{font-size:11px;color:rgba(var(--glass-rgb),.85);white-space:nowrap;margin-left:auto;display:inline-flex;align-items:center;gap:1px;padding:2px 8px;border-radius:10px;background:rgba(var(--glass-rgb),.07);border:1px solid rgba(var(--glass-rgb),.18);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);font-feature-settings:"tnum";}
 .srs-card-today b{font-size:13px;font-weight:700;color:var(--or,#ff9a3c);margin:0 2px;}
 .srs-card-today .srs-goal{font-size:10px;opacity:.7;margin-right:2px;}
+.srs-card-counts{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:3px;}
+.srs-card-counts .srs-card-today{margin-left:0;}
+.srs-card-new{font-size:10.5px;white-space:nowrap;color:rgba(var(--glass-rgb),.75);font-feature-settings:"tnum";padding:0 8px;}
+.srs-card-new b{font-size:12px;font-weight:700;margin:0 2px;color:rgba(var(--glass-rgb),.95);}
+.srs-card-new .srs-goal{font-size:10px;opacity:.7;margin-right:2px;}
+.srs-card-new.is-full b{color:var(--yl,#FFB830);}
 .srs-card-today .srs-goal-ok{font-size:11px;font-weight:700;color:var(--gr,#22c55e);margin-right:3px;}
 .srs-card-stat:last-child{margin-bottom:0;}
 .srs-card-stat{display:flex;align-items:center;gap:4px;margin-bottom:7px;padding:6px 7px;background:rgba(0,0,0,.22);border-radius:4px;border:1px solid rgba(var(--glass-rgb),.08);flex-wrap:nowrap;white-space:nowrap;overflow-x:auto;scrollbar-width:none;}
@@ -7760,7 +7767,8 @@ function getSRSDueCount() {
   try {
     const today = new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
     const srs = JSON.parse(localStorage.getItem('mec_srs_v1') || '{}');
-    return Object.values(srs).filter(e => e.nextReview && e.nextReview <= today).length;
+    // ⚠️ 同じ国試問題の重複コピーは代表だけを数える（study.html の出題と同じ数え方）
+    return Object.keys(srs).filter(uid => { const e = srs[uid]; return e && e.nextReview && e.nextReview <= today && !(window.MECSync && MECSync.srsIsShadow && MECSync.srsIsShadow(uid)); }).length;
   } catch { return 0; }
 }
 
@@ -7780,7 +7788,7 @@ function getSrsRiskBreakdown(sessionLimit = 50) {
     const srs = JSON.parse(localStorage.getItem('mec_srs_v1') || '{}');
     const allDue = Object.keys(srs).filter(uid => {
       const e = srs[uid];
-      return e && e.nextReview && e.nextReview <= today;
+      return e && e.nextReview && e.nextReview <= today && !(window.MECSync && MECSync.srsIsShadow && MECSync.srsIsShadow(uid));
     });
     if (!allDue.length) return { total: 0, high: 0, mid: 0, dueToday: 0 };
 
@@ -8625,6 +8633,7 @@ function _noteSrsFacts() {
     const srs = JSON.parse(localStorage.getItem('mec_srs_v1') || '{}');
     for (const uid in srs) {
       const e = srs[uid]; if (!e || !e.nextReview) continue;
+      if ((window.MECSync && MECSync.srsIsShadow && MECSync.srsIsShadow(uid))) continue;   // 重複コピーは代表だけ
       if (e.nextReview < today) {
         out.overdue++;
         const late = _noteDayDiff(e.nextReview, today);
@@ -8988,6 +8997,12 @@ function renderHero() {
     : '';
   const sessionLimit = getSrsSessionLimit();
   const sessionCount = Math.min(due, sessionLimit);
+  // 新しく覚える問題の上限（正本は progress.js の MECSync.srsNewBudget・study.html の _updateSRS と同じ値）
+  let newBudgetHtml = '';
+  try {
+    const nb = window.MECSync && MECSync.srsNewBudget ? MECSync.srsNewBudget() : null;
+    if (nb) newBudgetHtml = '<div class="srs-card-new' + (nb.left <= 0 ? ' is-full' : '') + '" title="復習待ちが多い日は新しく覚える問題の上限が下がる（上限を超えた新規は誤答だけ復習予定に入る）">新規 <b>' + _fmtN(nb.newToday) + '</b><span class="srs-goal">/ ' + _fmtN(nb.cap) + '</span>問</div>';
+  } catch (e) {}
 
   if (due > 0) {
     const risk = getSrsRiskBreakdown(sessionLimit);
@@ -9001,7 +9016,10 @@ function renderHero() {
           '<span class="srs-tag srs-tag-cross">科目横断</span>' +
           '<span class="srs-tag srs-tag-risk">忘却リスク順</span>' +
         '</div>' +
-        '<div class="srs-card-today">本日消化 <b>' + _fmtN(srsDoneToday) + '</b>' + srsGoalHtml + '問</div>' +
+        '<div class="srs-card-counts">' +
+          '<div class="srs-card-today">本日消化 <b>' + _fmtN(srsDoneToday) + '</b>' + srsGoalHtml + '問</div>' +
+          newBudgetHtml +
+        '</div>' +
       '</div>' +
       '<div class="srs-card-stat">' +
         '<div class="srs-stat-cell">' +
@@ -9038,7 +9056,10 @@ function renderHero() {
         '<div class="srs-card-title-grp">' +
           '<span class="srs-card-ttl"><span class="srs-ttl-ic">🎉</span>今日の復習はクリア済み</span>' +
         '</div>' +
-        '<div class="srs-card-today">本日消化 <b>' + _fmtN(srsDoneToday) + '</b>' + srsGoalHtml + '問</div>' +
+        '<div class="srs-card-counts">' +
+          '<div class="srs-card-today">本日消化 <b>' + _fmtN(srsDoneToday) + '</b>' + srsGoalHtml + '問</div>' +
+          newBudgetHtml +
+        '</div>' +
       '</div>' +
       '<p class="srs-card-hint">現在、復習期限を迎えた問題はありません。全 ' + _fmtN(totalQ) + '問から新しい問題を進めましょう！</p>';
   }

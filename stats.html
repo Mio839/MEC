@@ -10,6 +10,7 @@
 <script>try{if(!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))document.documentElement.classList.add('fx-on');}catch(e){}</script>
 <script src="chapters_meta.js"></script>
 <script src="rate_index.js?v=1"></script>
+<script src="dup_index.js"></script>
 <script src="progress.js?v=5"></script>
 <script src="attempts.js"></script>
 <script src="fx_engine.js"></script>
@@ -2100,8 +2101,8 @@ html.fx-on .ai-card-btn:active { scale: .98; }
 
     const srs = lsGet('mec_srs_v1');
     let reviewCount = 0;
-    Object.values(srs).forEach(e => {
-      if (e && e.nextReview && e.nextReview <= today) reviewCount++;
+    Object.entries(srs).forEach(([uid, e]) => {
+      if (e && e.nextReview && e.nextReview <= today && !(window.MECSync && MECSync.srsIsShadow && MECSync.srsIsShadow(uid))) reviewCount++;
     });
     document.getElementById('diagReview').textContent = reviewCount + '問';
 
@@ -2243,6 +2244,7 @@ html.fx-on .ai-card-btn:active { scale: .98; }
 
     Object.entries(srs).forEach(([uid, e]) => {
       if (!e || !e.nextReview) return;
+      if ((window.MECSync && MECSync.srsIsShadow && MECSync.srsIsShadow(uid))) return;   // 重複コピーは代表だけ（ハブ・復習キューと同じ数え方）
       const targetDate = (e.nextReview < today) ? 'overdue' : e.nextReview;
       if (e.nextReview < today) overdue++;
       else if (e.nextReview === today) todayN++;

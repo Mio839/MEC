@@ -168,7 +168,7 @@
 
   function calcToday(src, today) {
     let due = 0;
-    for (const uid in src.srs) { const e = src.srs[uid]; if (e && e.nextReview && e.nextReview <= today) due++; }
+    for (const uid in src.srs) { const e = src.srs[uid]; if (e && e.nextReview && e.nextReview <= today && !(window.MECSync && MECSync.srsIsShadow && MECSync.srsIsShadow(uid))) due++; }
     const ex = (window.MECSync && MECSync.examDate) ? MECSync.examDate() : '';
     const daysLeft = /^\d{4}-\d{2}-\d{2}$/.test(ex) ? diffDays(today, ex) : null;
     const G = window.MecGamify;

@@ -1,3 +1,4 @@
+// 2026-09-27e: 同じ国試問題の重複コピー443組の復習予定を1つに揃える dup_index.js（派生物）を SHELL に追加、新しく覚える問題の上限（復習待ちに連動）。シェルのみ＝SHELL_VERSION だけ bump。
 // 2026-09-27d: SRS の試験日ゲート SRS_EXAM_FRACTION 0.5→0.8（study.html・trophy.js）、ハブの復習キューに1日の目標 200 を表示。シェルのみ＝SHELL_VERSION だけ bump。
 // 2026-09-27c: 学習統計の苦手/赤旗リンクを修理（study.html に🎯苦手の状態フィルタ・?state=）、仮設の「昨日の誤答」を撤去、試験日を同期対象に。シェルのみ＝SHELL_VERSION だけ bump（過去問HTMLの連問作り直しは network-first なので CACHE 据え置き）。
 // 2026-09-26a: Brass の正解演出を歯車列＋刻印＋鋳込みの唐草へ置き換え。シェルのみ＝SHELL_VERSION だけ bump。
@@ -1537,7 +1538,7 @@ const CACHE = "mec-v658";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-27d";
+const SHELL_VERSION = "2026-09-27e";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -1546,6 +1547,7 @@ const SHELL = [
   "./stats.html",
   "./knowledge.html",
   "./knowledge_notes.js",
+  "./dup_index.js",
   "./progress.js",
   "./attempts.js",
   "./fx_engine.js",

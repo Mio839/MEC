@@ -32,6 +32,7 @@
   }
 })();
 </script>
+<script src="dup_index.js"></script>
 <script src="progress.js"></script>
 <script src="attempts.js"></script>
 <script src="fx_engine.js"></script>
@@ -1856,7 +1857,14 @@ function _updateSRS(uid, grade) {
   else if (grade === false) grade = 'ng';
   else if (grade !== 'mid' && grade !== 'ng') grade = 'ok';
 
-  const e = _srsData[uid] || { reps: 0, ef: 2.5, interval: 0 };
+  // 新しく覚える問題の上限（正本は progress.js の MECSync.srsNewBudget）。
+  // ⚠️ 上限を超えた新規は、正解・あやふやなら登録しない（次にどこかで解いたとき改めて判定）。誤答は入れる。
+  const _isNew = !_srsData[uid];
+  if (_isNew && grade !== 'ng' && window.MECSync && MECSync.srsNewBudget) {
+    const b = MECSync.srsNewBudget(_srsData, _today());
+    if (b.left <= 0) { _noteNewCapHit(b); return; }
+  }
+  const e = _srsData[uid] || { reps: 0, ef: 2.5, interval: 0, born: _today() };
   const _before = { reps: e.reps || 0, interval: e.interval || 0 };   // トロフィー棚の「定着」判定用
   const reps = e.reps || 0;
   const ef = e.ef ?? 2.5;
@@ -1905,9 +1913,22 @@ function _updateSRS(uid, grade) {
   e.nextReview = _addDays(_today(), e.interval);
   e.lastSeen = _today();
   _srsData[uid] = e;
+  // 同じ国試問題の重複コピー（dup_index.js）にも同じ予定を写す＝どれを解いても予定は1つ。
+  // ⚠️ 写すのは SRS だけ（「済」と正答率は uid ごと）。件数・出題は代表だけを数える（MECSync.srsIsShadow）。
+  const _sib = window.MECSync && MECSync.srsSiblings ? MECSync.srsSiblings(uid) : null;
+  if (_sib) _sib.forEach(u => { if (u !== uid) { _srsData[u] = JSON.parse(JSON.stringify(e)); _markGradeOn(u, grade); } });
   _saveSRS();
   _markGradeOn(uid, grade);
   try { window.MecTrophy?.noteSrsChange?.(uid, _before, e); } catch {}
+}
+
+// 新規の上限に当たったことを1日1回だけ知らせる（端末ローカル・非同期）
+function _noteNewCapHit(b) {
+  const k = 'mec_newcap_noted_v1';
+  try { if (localStorage.getItem(k) === _today()) return; localStorage.setItem(k, _today()); } catch (e) {}
+  try {
+    _mecNotify('新規は今日 ' + b.cap + '問まで（復習待ち ' + b.due + '問）。ここから先の新しい問題は、誤答だけ復習予定に入れます');
+  } catch (e) {}
 }
 
 // カード上の × / △ / ○ に「直近どれを押したか」を反映する
@@ -2204,6 +2225,11 @@ async function _srsRestoreAfterReview() {
 }
 window._srsRestoreAfterReview = _srsRestoreAfterReview;
 
+// 同じ国試問題の重複コピーのうち、代表でない方か（件数・出題から外す）。正本は progress.js
+function _srsShadow(uid) {
+  try { return !!(window.MECSync && MECSync.srsIsShadow && MECSync.srsIsShadow(uid)); } catch (e) { return false; }
+}
+
 // 残りdue件数（結果画面の「続けてもう50問」判定に使う）
 window._srsDueRemaining = function () {
   try {
@@ -2211,7 +2237,7 @@ window._srsDueRemaining = function () {
     const srs = JSON.parse(localStorage.getItem('mec_srs_v1') || '{}');
     return Object.keys(srs).filter(uid => {
       const e = srs[uid];
-      return e && e.nextReview && e.nextReview <= today;
+      return e && e.nextReview && e.nextReview <= today && !_srsShadow(uid);
     }).length;
   } catch (e) { return 0; }
 };
@@ -2377,7 +2403,8 @@ async function startSRSReview() {
   const srs = JSON.parse(localStorage.getItem('mec_srs_v1') || '{}');
   const allDue = Object.keys(srs).filter(uid => {
     const e = srs[uid];
-    return e && e.nextReview && e.nextReview <= today;
+    // ⚠️ 重複コピーの代表でない方は出さない（同じ問題が同じセッションに2回並んでいた）
+    return e && e.nextReview && e.nextReview <= today && !_srsShadow(uid);
   });
   // 上限で切るので「どの50問か」が学習効果を決める。
   // ⚠️ 2026-09-06 まで nextReview の昇順（＝古い順）だった。遅れが溜まると純粋なFIFOになり、

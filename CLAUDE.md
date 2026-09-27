@@ -22,6 +22,7 @@
 | `progress.js` | 共有モジュール：localStorage + GitHub Gist 同期。localStorageキーは`K*`定数が正本。**「済」と全問題数の正本**（`MECSync.doneInScope`/`totalInScope`・下記「問題数」） |
 | `attempts.js` | 解答イベントログ（`mec_attempts_v1`・`window.MecAttempts`）。1解答=パイプ区切り1行の文字列で上限5000件のリングバッファ（2026-08-06に2000から引き上げ。1日1400解答の日があり2000件では約1.4日分しか持たず「昨日の誤答」がその日のうちに消えた。⚠️`attempts.js`の`CAP`と`progress.js`の`ATT_CAP`は一致必須）。集計値の`myrate_v1`と違い時刻・出題順・所要秒・選んだ肢を残す＝弱点分析の素材。study.html／stats.html／**index.html**が読込み。`todayWrongUids()`は「今日の誤答を再履修」の対象UIDの正本（ハブの件数表示と出題側が同じ関数を使う） |
 | `qmeta.json` | 設問メタ（全科目1ファイル・`_work/build_qmeta.py`が生成する**派生物**）。設問形式(診断/検査/治療/対応/知識)・否定形・複数選択・画像・症例・計算・採点除外を自動分類。stats.htmlの弱点カルテが使う。**questions_*.json は一切変更しない**（pdf_audit.pyの監査対象を汚さないため） |
+| `dup_index.js` | **同じ国試問題の重複コピーの組**（2026-09-27新設・**派生物**・`node _work/build_dup_index.js`）。国試番号・選択肢の集合・正解がすべて一致する uid の組（443組892問・先頭が代表）。progress.js の `MECSync.srsSiblings`/`srsIsShadow`/`srsUnifyDups` が使う＝**SRS の予定だけ組で共有し、件数・出題は代表だけ**（下記「重複コピーと新規の上限」）。study/index/stats が progress.js より**前に**読む。**questions_*.json を変えたら作り直すこと** |
 | `hub_opening.js` | **1日の最初のブリーフィング**（2026-09-23新設・`window.MecOpening`）。その日はじめてハブを開いたときに全画面で ①前回のリザルト ②週の結果発表（**その週はじめて開いた日**・ランクS〜C） ③今日のブリーフィング を出す。ヒーローの日付をタップで開き直せる。材料は既存の同期済みデータだけ（fetch を足さない）。⚠️ 前回の結果は「昨日」固定ではなく今日より前の最後の学習日。既視 `mec_hub_opening_v1` は UIローカル。テスト: `node _work/test_hub_opening.js` |
 | `trophy.js` | **トロフィー棚**（2026-09-23新設・`window.MecTrophy`・ハブのタイル 🏆）。定着コレクション（科目ごとの宝石）・章メダル（金銀銅＝`gamify.js` の `chapterGrade`＝章の星と同じ式）・科目制覇の👑。**新しいキーを持たず** `mec_srs_v1`/`myrate_v1`/`done_v2` から毎回計算。⚠️ **「定着」＝reps≥3 かつ 間隔≥min(21日, 試験日ゲートの上限)**。固定の「30日以上」にすると試験日ゲートで直前期に誰も届かず宝石が消えていく。study.html の `_updateSRS` が増分を拾い、試験の結果画面で1件の通知にまとめる。index.html と study.html が読む |
 | `boss.js` | **ボス戦**（2026-09-23新設・`window.MecBoss`・`study.html?mode=boss`・ハブのタイル ⚔️）。苦手（誤答率・🚩・直近30日の誤答）から決定論で20問を選び、10問で開戦・10問は控え。正解でダメージ（難問18・通常12・3連続ごとに会心×1.5）、**誤答でボスが回復(+8)し控えから1問増援**。体力0で撃破＝その場で結果画面へ。問題が尽きれば撤退。配管は今日の誤答の再履修と同じホスト出題（`_bossMode`・`_isHostSession()` に含まれる）。体力は `_tallyQuestion`（3採点経路の合流点）で動かす。⚠️ こちらの体力・敗北は作らない（ユーザー判断）。戦績 `mec_boss_v1` は UIローカル。テスト: `node _work/test_trophy_boss.js` |
@@ -229,6 +230,7 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
   `_isScoreExcluded` で `_updateSRS` を回避しているのに、通常モードの ×△○ だけが素通しで、
   出題されない問題が due として残りハブの件数だけを水増ししていた（2026-09-06に修正・該当32問）。
 - テスト: `node _work/test_srs_grade.js`（**仮想時計で日付を進める**。同じ日に連続で呼ぶのは
+node _work/test_srs_dups_newcap.js 重複コピーの予定共有・新規の上限 (20)
   「同日の解き直し」であって「2回目の復習」ではない＝予定どおりの復習は `review()` を使う）
 
 ### ⚠️ 間隔の伸びは経過日数で按分する（2026-09-06〜）
@@ -307,6 +309,29 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
   **時刻の新しい方が勝つ**（last-writer-wins）。端末ごとに試験日が違うと `_srsFuzz` が守っている
   「どの端末でも同じ予定日」が崩れるため。⚠️ 試験日を書く経路を足すなら必ずこの2関数を通すこと
   （localStorage を直に書くと時刻が残らず、次の同期で古い値に戻される）。
+
+### ⚠️ 同じ国試問題の重複コピーと、新しく覚える問題の上限（2026-09-27〜）
+
+テスト: `node _work/test_srs_dups_newcap.js`（20件）。
+
+**重複コピー** — 同じ国試問題が科目と必修講座などに別 uid で入っており（study.html 内で443組）、
+復習キューに同じ問題が2回並び件数も水増しされていた。`dup_index.js` の組の中では
+**SRS の予定だけを常に同じ値に揃え**（`_updateSRS` が全員へ写す／読み込み時とマージ後に
+`srsUnifyDups` が lastSeen の新しい方へ揃える）、**件数と出題は代表だけ**を数える（`srsIsShadow`）。
+- ⚠️ 「済」と正答率（done_v2・myrate_v1）は uid ごとのまま（ユーザー判断）。
+- ⚠️ **SRS の due を数える経路を足したら `MECSync.srsIsShadow(uid)` で影を外すこと**
+  （現在: study の `startSRSReview`/`_srsDueRemaining`、index の `getSRSDueCount`/`getSrsRiskBreakdown`/`_noteSrsFacts`、
+  stats の診断と見通し、hub_opening の `calcToday`）。
+- 組の条件は「国試番号（類題を除く）＋選択肢の文面の集合＋正解の文面」の一致。
+  ⚠️ 実力試験Ⅰは番号が同じでも MEC が改変しているので②③で弾かれる（約200組）。過去問ビューア（kakumon_）は対象外。
+
+**新規の上限** — 正本は `progress.js` の `MECSync.srsNewBudget()`。復習待ち（代表のみ）が
+`NEW_CAP_LOW_DUE`(200) 以下なら1日 `NEW_CAP_MAX`(100)、`NEW_CAP_HIGH_DUE`(1200) 以上なら `NEW_CAP_MIN`(20)、
+その間は直線。新規＝`mec_srs_v1` の **`born`（初めて登録された日・同期対象）が今日**のエントリ。
+- 上限を超えて初めて解いた問題は、**正解・あやふやなら登録しない**（次に解いたとき改めて判定＝学習は止めない）。
+  **誤答は上限を超えても登録する**（落とした問題こそ復習すべきもの）。知らせは1日1回（`mec_newcap_noted_v1`・UIローカル）。
+- ハブの復習キューの見出しに「新規 N / 上限」を出す（`.srs-card-new`）。
+- ⚠️ 定数をページ側に書き写さないこと（テストが見張る）。`born` を持たない既存エントリは新規に数えない。
 
 ### ⚠️ 復習キューの並びは「待たされ具合」の降順（2026-09-06〜）
 
