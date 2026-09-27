@@ -1,3 +1,4 @@
+// 2026-09-27 v659: 血液 ch01 の ans_sub 点検（Q.30 の正解表記・解説、Q.2/Q.3 の qt 混入）。questions_hema.json を更新したので CACHE を bump。
 // 2026-09-27e: 同じ国試問題の重複コピー443組の復習予定を1つに揃える dup_index.js（派生物）を SHELL に追加、新しく覚える問題の上限（復習待ちに連動）。シェルのみ＝SHELL_VERSION だけ bump。
 // 2026-09-27d: SRS の試験日ゲート SRS_EXAM_FRACTION 0.5→0.8（study.html・trophy.js）、ハブの復習キューに1日の目標 200 を表示。シェルのみ＝SHELL_VERSION だけ bump。
 // 2026-09-27c: 学習統計の苦手/赤旗リンクを修理（study.html に🎯苦手の状態フィルタ・?state=）、仮設の「昨日の誤答」を撤去、試験日を同期対象に。シェルのみ＝SHELL_VERSION だけ bump（過去問HTMLの連問作り直しは network-first なので CACHE 据え置き）。
@@ -1533,7 +1534,7 @@
 // v376: 夏メック模試（m121s）の解説を questions_m121s.json として新設し study.html へ統合。
 //       解説書PDFから全400問（A〜F を ch01〜ch06・番号は科目内で通し）を生成した。
 //       questions_*.json が1つ増えたので SHELL_VERSION だけでは足りず CACHE を bump。
-const CACHE = "mec-v658";
+const CACHE = "mec-v659";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
