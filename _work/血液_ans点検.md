@@ -50,10 +50,11 @@
 | 13 | Q.70〜Q.72 | ans_sub 誤りなし。**第2章 完了**（33問中13問を直した：Q.40・45・50・52・55・57・58・61〜65）。pdf_audit 0件・CACHE v660・push | — |
 | 14 | Q.73〜Q.78 | **Q.73・Q.76・Q.77・Q.78 を直した** | ans_label が肢と別物（Q.73「ビタミンB₁₂欠乏症」→b Folic acid／Q.76「EPO産生低下による」→c MCHC正常／Q.77「B₁₂欠乏＋葉酸欠乏」→c MDS＋d アルコール／Q.78 記号と肢の組合せが逆）。Q.76・Q.77 は ans_sub も肢に合わせて書き直した |
 | 15 | Q.79〜Q.84 | **Q.80・Q.81・Q.83・Q.84 を直した** | Q.80 ans_label「（誤った組み合わせ）」→e、ans_sub が中身なし、ept が無関係な組合せの話。Q.81 ans_label・ans_sub が**肢に無い文**（Fe²⁺で十二指腸・フェリチン）→c ビタミンC・e 能動的排泄なし。Q.83 ans_label「（黄疸）」・ans_sub・ee・ept が黄疸の話→肢は e 知覚障害（VB₁₂欠乏）。Q.84 ans_label・ans_sub・ept が**鉄欠乏性貧血**の話→症例は CKD の腎性貧血（MCH・MCV・白血球 正常） |
+| 16 | Q.85〜Q.90 | **6問すべて直した** | ans_label が6問とも肢と別物。Q.85（RA の貧血）ans_sub も肢に合わせた。Q.86 ec・em が**表に無い感度・特異度**で計算→表の 24/50・190/240 で LR+≒2.3（b 0.7 は LR−）。Q.87 em の肢が設問と逆向き（「網赤血球数増加」「UIBC高値」）→肢どおりに。Q.88（画像を確認＝匙状爪）ans_sub・ep・ept が**悪性貧血・胃全摘**の話→鉄欠乏性貧血へ。Q.89 ans_label の d が「sTfR」→TIBC。Q.90 ans_label の e が「MDS」→blind loop 症候群、ept も差し替え |
 
 ## 再開のしかた（新しいセッション向け）
 
-- 次は **Q.85 から**（第3章の途中）。
+- 次は **Q.91 から**（第3章の途中）。
 - 第2章までは push 済み（CACHE v660）。章の途中の修正は commit だけして、章を終えたら `pdf_audit.py hema --no-image` → CACHE bump → push。
 - 自走させるなら新しいセッションで次をそのまま打つ:
   `/loop 血液（hema）の正解の解説（ans_sub）点検を _work/血液_ans点検.md の手順どおり、進捗表の次の6問ぶん進める（画像のある問題は必ず画像を開いて見る・迷ったらPDFを描画して確認）。進捗表に1行足す。1章終わるごとに pdf_audit.py hema --no-image → sw.js の CACHE bump → commit → push（push前に fetch して ahead/behind を確認）。Q.378 まで終わったらループを止めて、直した件数をまとめて報告する。`
