@@ -347,7 +347,10 @@ t('出題順は同じ日なら何度開いても同じ（乱数ではない）',
   assert.deepStrictEqual([...other].sort(), [...uids].sort(), '日が変わっても中身は同じ');
 });
 
-t('試験日ゲートは残り日数の半分で間隔を頭打ちにする', () => {
+// 係数は study.html の定数を読む（2026-09-27 に 0.5 → 0.8。数字を書き写さない）
+const FRAC = Number(/^const SRS_EXAM_FRACTION = ([\d.]+);$/m.exec(HTML)[1]);
+
+t('試験日ゲートは残り日数 × SRS_EXAM_FRACTION で間隔を頭打ちにする', () => {
   const c = makeCtx();
   // 今日を 2027-01-01 に設定。試験日 2027-02-06（残り 36 日）
   c.setDay('2027-01-01');
@@ -360,12 +363,14 @@ t('試験日ゲートは残り日数の半分で間隔を頭打ちにする', ()
   // 6日後、通常なら 6 * 2.5 = 15日
   c.advance(6);
   c._updateSRS(U, 'ok');
-  // さらに進めて間隔が大きくなろうとするとき、上限 floor(残り日数 * 0.5) が効く
-  // 残り日数が 20 日なら上限は 10 日。±5% のゆらぎ込みでも 11 日を超えない
+  // さらに進めて間隔が大きくなろうとするとき、上限 floor(残り日数 * FRAC) が効く
   c.advance(10);
-  // 残り 36 - 1 - 6 - 10 = 19 日。上限 floor(19 * 0.5) = 9 日。
+  // 残り 36 - 1 - 6 - 10 = 19 日。上限 floor(19 * FRAC)（±5%・最低±1日のゆらぎ込み）
   c._updateSRS(U, 'ok');
-  assert.ok(c._srsData[U].interval <= 10, '間隔が上限を超えている: ' + c._srsData[U].interval);
+  const cap = Math.floor(19 * FRAC);
+  assert.ok(c._srsData[U].interval <= cap + Math.max(1, Math.round(cap * 0.05)),
+    '間隔が上限を超えている: ' + c._srsData[U].interval + ' > ' + cap);
+  assert.ok(c._srsData[U].interval < 30, '上限が効いていない（ゲートなしなら約37日）');
 });
 
 t('試験日を過ぎている場合は試験日ゲートを掛けない', () => {
@@ -378,13 +383,13 @@ t('試験日を過ぎている場合は試験日ゲートを掛けない', () =>
 t('試験日ゲートで上限に切られた成熟札にもゆらぎが適用される', () => {
   const c = makeCtx();
   c.setDay('2027-01-01');
-  c.MECSync = { examDate: () => '2027-02-06' }; // 残り 36 日 -> 上限 18 日
+  c.MECSync = { examDate: () => '2027-02-06' }; // 残り 36 日 -> 上限 floor(36 * FRAC)
   // 成熟札（前回 interval: 60）を予定どおり解いたとする
   c._srsData[U] = { reps: 5, interval: 60, ef: 2.5, nextReview: '2027-01-01', lastSeen: '2026-11-02' };
   c._updateSRS(U, 'ok');
-  // 60 から伸びようとするが上限 18 日で切られる。
-  // interval <= prev (18 <= 60) だが _capped により _srsFuzz が適用される
-  const fuzzed = c._srsFuzz(U, 18);
+  // 60 から伸びようとするが上限で切られる。
+  // interval <= prev（上限 < 60）だが _capped により _srsFuzz が適用される
+  const fuzzed = c._srsFuzz(U, Math.floor(36 * FRAC));
   assert.strictEqual(c._srsData[U].interval, fuzzed);
 });
 

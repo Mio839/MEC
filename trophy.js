@@ -19,7 +19,7 @@
 
   const MASTER_REPS = 3;
   const MASTER_DAYS = 21;
-  const SRS_EXAM_FRACTION = 0.5;   // ⚠️ study.html の SRS_EXAM_FRACTION と同じ値にすること（テストが見張る）
+  const SRS_EXAM_FRACTION = 0.8;   // ⚠️ study.html の SRS_EXAM_FRACTION と同じ値にすること（テストが見張る）
 
   // 宝石の段（科目の問題数に対する定着の割合）
   const GEMS = [

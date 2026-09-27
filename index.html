@@ -288,6 +288,8 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 .srs-tag-risk{border-color:rgba(249,115,22,.35);background:rgba(249,115,22,.12);color:#fdba74;}
 .srs-card-today{font-size:11px;color:rgba(var(--glass-rgb),.85);white-space:nowrap;margin-left:auto;display:inline-flex;align-items:center;gap:1px;padding:2px 8px;border-radius:10px;background:rgba(var(--glass-rgb),.07);border:1px solid rgba(var(--glass-rgb),.18);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);font-feature-settings:"tnum";}
 .srs-card-today b{font-size:13px;font-weight:700;color:var(--or,#ff9a3c);margin:0 2px;}
+.srs-card-today .srs-goal{font-size:10px;opacity:.7;margin-right:2px;}
+.srs-card-today .srs-goal-ok{font-size:11px;font-weight:700;color:var(--gr,#22c55e);margin-right:3px;}
 .srs-card-stat:last-child{margin-bottom:0;}
 .srs-card-stat{display:flex;align-items:center;gap:4px;margin-bottom:7px;padding:6px 7px;background:rgba(0,0,0,.22);border-radius:4px;border:1px solid rgba(var(--glass-rgb),.08);flex-wrap:nowrap;white-space:nowrap;overflow-x:auto;scrollbar-width:none;}
 .srs-card-stat::-webkit-scrollbar{display:none;}
@@ -7820,6 +7822,7 @@ function getSrsRiskBreakdown(sessionLimit = 50) {
 //     1問（10XP）少なく出る。無くすには日別台帳の新設＝同期キー追加が要る。
 const XP_LAP = 10, XP_EX_ANSWER = 4, XP_EX_CORRECT = 6;
 const SRS_DEFAULT_SESSION_LIMIT = 50;
+const SRS_DAILY_TARGET = 200;   // 1日の復習目標（根拠は renderHero の srsGoal のコメント）
 
 // 将来的に 10 / 25 / 50 問などのセッション選択に対応可能な拡張口
 function getSrsSessionLimit() {
@@ -8975,6 +8978,14 @@ function renderHero() {
 
 
   const srsDoneToday = td.srsDone || 0;
+  // 1日の復習目標。2026-09-27 に実データ（SRS 6,555件）で study.html の _updateSRS を仮想時計で
+  // 試験日まで回して決めた: 1日150件ではどの設定でも試験日の平均想起が80%に届かず、200件＋
+  // SRS_EXAM_FRACTION 0.8 で約86%（想起80%未満0件）。⚠️ 残りの復習待ちより大きい目標は出さない
+  // （待ちが30件の日に「/ 200」と出すと、終わっているのに未達に見える）。
+  const srsGoal = Math.min(SRS_DAILY_TARGET, srsDoneToday + due);
+  const srsGoalHtml = srsGoal > 0
+    ? '<span class="srs-goal">/ ' + _fmtN(srsGoal) + '</span>' + (srsDoneToday >= srsGoal ? '<span class="srs-goal-ok" aria-label="目標達成">✓</span>' : '')
+    : '';
   const sessionLimit = getSrsSessionLimit();
   const sessionCount = Math.min(due, sessionLimit);
 
@@ -8990,7 +9001,7 @@ function renderHero() {
           '<span class="srs-tag srs-tag-cross">科目横断</span>' +
           '<span class="srs-tag srs-tag-risk">忘却リスク順</span>' +
         '</div>' +
-        '<div class="srs-card-today">本日消化 <b>' + _fmtN(srsDoneToday) + '</b>問</div>' +
+        '<div class="srs-card-today">本日消化 <b>' + _fmtN(srsDoneToday) + '</b>' + srsGoalHtml + '問</div>' +
       '</div>' +
       '<div class="srs-card-stat">' +
         '<div class="srs-stat-cell">' +
@@ -9027,7 +9038,7 @@ function renderHero() {
         '<div class="srs-card-title-grp">' +
           '<span class="srs-card-ttl"><span class="srs-ttl-ic">🎉</span>今日の復習はクリア済み</span>' +
         '</div>' +
-        '<div class="srs-card-today">本日消化 <b>' + _fmtN(srsDoneToday) + '</b>問</div>' +
+        '<div class="srs-card-today">本日消化 <b>' + _fmtN(srsDoneToday) + '</b>' + srsGoalHtml + '問</div>' +
       '</div>' +
       '<p class="srs-card-hint">現在、復習期限を迎えた問題はありません。全 ' + _fmtN(totalQ) + '問から新しい問題を進めましょう！</p>';
   }

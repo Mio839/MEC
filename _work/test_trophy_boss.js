@@ -29,7 +29,8 @@ console.log('[1] 定着の判定（試験日ゲートで閾値も下がる）');
   const c = ctx(); vm.runInContext(TROPHY, c);
   const T = c.MecTrophy;
   ok(T.masteryDays('2026-09-23', '2027-02-06') === 21, '残り136日 → 21日');
-  ok(T.masteryDays('2027-01-17', '2027-02-06') === 10, '残り20日 → 上限と同じ10日（直前期でも届く）');
+  ok(T.masteryDays('2027-01-17', '2027-02-06') === Math.floor(20 * T._consts.SRS_EXAM_FRACTION),
+     '残り20日 → SRS の上限と同じ日数（直前期でも届く）');
   ok(T.masteryDays('2027-02-10', '2027-02-06') === 21, '試験日を過ぎたらゲートなし');
   ok(T.isMastered({ reps: 3, interval: 21 }, 21), 'reps3・間隔21 は定着');
   ok(!T.isMastered({ reps: 2, interval: 40 }, 21), '連続正解が2回では定着しない');
