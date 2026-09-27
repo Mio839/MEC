@@ -1320,6 +1320,9 @@
 //   study.css の mec-jumping と .find-row、ui_theme.css の .find-row）。詳細は CLAUDE.md「章ジャンプ・問題番号ジャンプ」。
 //   ⚠️ 番号ジャンプの Enter が「画面上端のカードを ○」にもなっていた不具合を含む。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-11c → 2026-09-11d）。
+// v658: 感染症 Q.183（116E-47）の解説が設問にない「事前確率10%・感度80%/特異度90%」で計算していたのを、
+//       表の3項目＝35%・陰性尤度比0.2 → 約10% に書き直した。Q.184 の選択肢解説が別の問い（迅速抗原検査の検体）の
+//       話になっていたのも直した。借用している questions_hisshu2.json（A55・A56）も作り直したので CACHE を bump。
 // v657: 必修講座Part2(hisshu2)を新科目として追加（🎖️・#B8A14A）。questions_hisshu2.json を CARDS に加え、
 // 必修講座Part2/images/（27枚）を追加したので CACHE を bump。PDFは「MEC必修講座Part2（表紙2026）」全99ページ・
 // A/B/C問題 各60問＝180問（章＝ブロック・表示番号は通し Q.1〜180・紙面番号はバッジ bb）。解説は書かず、
@@ -1527,12 +1530,12 @@
 // v376: 夏メック模試（m121s）の解説を questions_m121s.json として新設し study.html へ統合。
 //       解説書PDFから全400問（A〜F を ch01〜ch06・番号は科目内で通し）を生成した。
 //       questions_*.json が1つ増えたので SHELL_VERSION だけでは足りず CACHE を bump。
-const CACHE = "mec-v657";
+const CACHE = "mec-v658";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-27a";
+const SHELL_VERSION = "2026-09-27b";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
