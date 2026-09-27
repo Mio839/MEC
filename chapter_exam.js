@@ -1338,9 +1338,6 @@
     var uid = card.dataset && card.dataset.uid;
     if (uid && !_ceSeenAt[uid]) _ceSeenAt[uid] = Date.now();
   }
-  function ceIsFast(card) {
-    return ceFastGrade(card) > 0;
-  }
   /* A3(2026-08-14・study_exam.js のミラー): 速答を3段に割る。
      3=一閃 / 2=速答 / 1=まずまず / 0=速答ではない。theme.fastLabels は強い順 [3,2,1]。 */
   var CE_FAST_TIER_MS = [3000, 6000, 12000];   // 2026-08-25 に 2/4/7 秒から緩和（study 側と対）
@@ -2276,17 +2273,6 @@
        上の8分岐が MecUITheme.get() の全戻り値を網羅して必ず return するため
        **一度も実行されていなかった**（2026-08-31 に関連17関数ごと削除）。
        burstCounts=[…,1300] も rainWaves も同様。書き戻さないこと。 */
-  }
-
-
-  function spawnConfetti(tier) {
-    if (!window.MecFX) return;
-    var cols = ceTheme().rainCols || ['#FFD700','#FF9800','#FF5722','#4FC3F7','#81C784','#BA68C8','#F06292','#FFFFFF','#FFE082','#AED581','#EE88FF','#CC44FF'];
-    window.MecFX.confetti({
-      count: tier >= 6 ? 120 : tier >= 5 ? 85 : tier >= 4 ? 55 : 40,
-      colors: cols,
-      big: tier >= 5
-    });
   }
 
 

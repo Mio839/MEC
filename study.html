@@ -216,26 +216,6 @@ if ('serviceWorker' in navigator) {
   </div>
 </div>
 
-<!-- Selfcheck modal -->
-<div class="sc-ov" id="scOv" onclick="closeSelfcheck()">
-  <div class="sc-box" onclick="event.stopPropagation()">
-    <h3>✏️ セルフチェック</h3>
-    <div class="sc-links">
-      <a class="sc-link" href="内分泌/selfcheck_intro.html">⚗️ 内分泌</a>
-      <a class="sc-link" href="呼吸器/selfcheck_intro.html">🌬️ 呼吸器</a>
-      <a class="sc-link" href="循環器/selfcheck_intro.html">❤️ 循環器</a>
-      <a class="sc-link" href="消化器/selfcheck_intro.html">🌿 消化器</a>
-      <a class="sc-link" href="神経/selfcheck_intro.html">🧠 神経</a>
-      <a class="sc-link" href="肝胆膵/selfcheck_intro.html">🧪 肝胆膵</a>
-      <a class="sc-link" href="腎臓/selfcheck_intro.html">💧 腎臓</a>
-      <a class="sc-link" href="血液/selfcheck_intro.html">🩸 血液</a>
-      <a class="sc-link" href="免アレ膠/selfcheck_intro.html">🛡️ 免アレ膠</a>
-      <a class="sc-link" href="感染症/selfcheck_intro.html">🦠 感染症</a>
-    </div>
-    <button onclick="closeSelfcheck()" style="width:100%;padding:8px;border-radius:var(--r-md);border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:var(--ts);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;">閉じる</button>
-  </div>
-</div>
-
 <!-- Streak effects（連続数の表示 #examRfStreak は study_exam.js が作る） -->
 <div id="examStreakBorder"></div>
 <!-- §13-3 P4: 試験の筐体（S11 の稜線・オーバードライブのグロー）は body::before に置けない。

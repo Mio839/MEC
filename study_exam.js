@@ -361,8 +361,6 @@ function _renderResumeList() {
     sec.style.display = 'none';
   }
 }
-function openSelfcheck(){document.getElementById('scOv').classList.add('open');}
-function closeSelfcheck(){document.getElementById('scOv').classList.remove('open');}
 let _chipRetryInt = null;
 function openExamStart() {
   _lastPredictTotal = -1;   // 開いた最初の描画では脈打たせない
@@ -1393,10 +1391,6 @@ function _markCardSeen(card) {
   if (!card || !examMode) return;
   const uid = card.dataset && card.dataset.uid;
   if (uid && !_examCardSeenAt.has(uid)) _examCardSeenAt.set(uid, Date.now());
-}
-
-function _isFastAnswer(card) {
-  return _fastGrade(card) > 0;
 }
 
 /* A3(2026-08-14): 速答を3段に割る。
