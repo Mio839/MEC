@@ -128,7 +128,8 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
 - `myrate_v1` — UID → `{correct,total}`（試験モードの自己正答率。マージは各フィールドmax）
 - `studytime_v1` — YYYY-MM-DD → 学習分数
 - `mec_srs_v1` — SRS復習スケジュール ／ `mec_exam_resumes_v1` — 試験中断の再開データ ／ `mec_ch_exam_v1` — 章別試験履歴
-- `mec_attempts_v1` — 解答イベントログ（attempts.js）。`"uid|t|c|o|s|m|sess|n"` の文字列配列・上限5000件。追記専用なので同期は`sess+n`をキーにしたunion＋時刻昇順ソート＋上限切り詰め
+- `mec_attempts_v1` — 解答イベントログ（attempts.js）。`"uid|t|c|o|s|m|sess|n[|r]"` の文字列配列・上限5000件（9番目 `r`＝全国正答率は任意・2026-09-28〜）。追記専用なので同期は`sess+n`をキーにしたunion＋時刻昇順ソート
+- `mec_attempts_roll_v1` — 生ログの上限から**あふれた行をセッション単位に畳んだ集計**（2026-09-28〜・同期対象・Gist では `mec_attempts.json` に同居）。`{sess:{u,br,tr,l,d:{日:{sid:[解答,正解,難問,難問の正解]}}}}`。**試験日まで1件も捨てない**。規則の正本は `progress.js` の `attCompact`／`attMerge`／`attStore`（下記「解答ログの集計」）
 - `mec_mock_v1` — 模試の自己採点（mock.js）。`{examId:{cur,rounds:{rN:{started,graded,ans:{"A10":{p,t}}}},border}}`。**保存されるのは「何を選んだか」だけで正誤は入っていない**（正誤は解答表と突き合わせて毎回計算する）。マージは1問ごとの last-writer-wins（各エントリが時刻 `t` を持つ）
 - `error_reports_v1` — 問題エラー報告。1件＝`{uid, type, reported_at}`。**自由記述コメントも同じ配列に `type:'note'` の1レコードとして入る**（`text` を持つ・下記「エラー報告」） ／ `mec_err_cleared_at` — 一括消去のタイムスタンプ
 - `mec_gist_token` — GitHub PAT（gistスコープ）／ `mec_gist_id` — Gist ID ／ `mec_last_sync_v1` — 最終同期時刻
@@ -1114,6 +1115,28 @@ study.html からも引ける。
 既存の `_work/audit_image_mismatch.py` はファイル名しか見ないため、ページのスクリーンショットが
 正しい名前で貼られているケースを見逃す。`pdf_audit.py` はこれを知覚ハッシュで検出する。
 
+## 解答ログの集計（`mec_attempts_roll_v1`・2026-09-28〜）
+
+生ログ `mec_attempts_v1` は上限5,000件で、1日1,400問解く日があるので**3〜4日分しか残らない**。
+そのため「週の結果発表」（今週と先週）と「今日の所見」（直近14日の比較）が、よく解いた週ほど古い日を
+黙って取りこぼしていた。上限からあふれた行は**捨てずにセッション単位の集計へ畳む**。
+テスト: `node _work/test_attempts_roll.js`（15件）。
+
+- ⚠️⚠️ **生ログを書く経路は全部 `MECSync.attStore` を通すこと**（attempts.js の追記・`_mergeRemote`・
+  ハブのバックアップ復元・容量超過の処理）。`slice(-N)` で切り詰める書き方を足すと、そこで行が消える。
+  旧実装はバックアップ復元だけ上限 2000 のまま取り残されていた。
+- ⚠️⚠️ **二重に数えない約束は2つ**：① 1つのセッションは1台の端末でしか生まれないので、同じ sess なら
+  ウォーターマーク `u` の大きい集計が必ず上位集合＝マージは `u` の大きい方を採る
+  ② 生ログ側は「sess が一致し n ≤ u の行」を必ず落とす。畳む単位は**同じ sess の n ≤ u 全部**
+  （時刻は分単位なので、同じ分の行を途中で切ると①が崩れる）。
+- 集計に入るのは**解答数・正解数・難問・最長連続だけ**。所要秒・時刻帯・前半後半・解き直しは
+  生ログからしか出せない＝「今日の所見」のその4つは生ログに残る数日分で判定する。
+- 難問の判定は行の9番目（全国正答率）→ `window.MEC_RATE` の順。**study.html は rate_index.js を
+  読まない**ので、行に持たせておかないと畳んだ時点で難問が数えられない。
+- ⚠️ **期間の集計を出す側は `MecAttempts.all()` と `MecAttempts.roll()` の両方を読むこと**
+  （現在: `hub_opening.js` の `attemptStats`、index.html の `_noteFacts`）。
+- 読む側の科目の切り出しは `MECSync.attSid`（index.html の `_noteSid` と同じ規則）。
+
 ## 弱点分析（2026-07-23〜）
 
 「事実の抽出はJS、解釈だけAI」が方針。指標はローカルの決定論コードで計算し、AIには数字の解釈だけ聞く。
@@ -1522,6 +1545,7 @@ R1   = max(250, N*(2*CH_R+CH_GAP)/2π)     親リング半径（Nから決まる
 
 ```
 node _work/test_attempts.js        解答イベントログ・今日の誤答 (18)
+node _work/test_attempts_roll.js   解答ログの集計（畳む・同期で二重に数えない・週の結果発表）(15)
 node _work/test_karte.js           弱点カルテの集計・全国比    (19)
 node _work/test_merge_remote.js    Gist同期のマージ戦略        (64)
 node _work/test_streak.js          連続日数と activity_v1      (9)

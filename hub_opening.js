@@ -52,6 +52,9 @@
       missions: _g('mec_missions_v1', {}),
       srs: _g('mec_srs_v1', {}),
       attempts: (window.MecAttempts && MecAttempts.all) ? MecAttempts.all() : [],
+      // 生ログの上限からあふれて畳まれた分（progress.js の attCompact）。生ログは3〜4日分しか
+      // 残らない日があるので、これを足さないと先週・今週の前半が欠ける
+      roll: (window.MecAttempts && MecAttempts.roll) ? MecAttempts.roll() : {},
       rate: window.MEC_RATE || {},
       subjects: window.MM_SUBJECTS || [],
     };
@@ -69,8 +72,27 @@
   // 解答ログ（試験モード・SRS復習・章別試験）を日付の範囲 [from, to] で集計する
   function attemptStats(src, from, to) {
     const rows = src.attempts.filter(a => { const d = dayStr(a.ms); return d >= from && d <= to; });
-    let ok = 0, hardOk = 0;
+    let ok = 0, hardOk = 0, total = rows.length;
     const bySess = {}, bySubj = {};
+    // 畳まれた分（セッション × 日 × 科目の [解答数, 正解数, 難問数, 難問の正解数]）
+    const rolled = {};
+    const roll = src.roll || {};
+    for (const k in roll) {
+      const R = roll[k]; let hit = false;
+      for (const d in (R && R.d) || {}) {
+        if (d < from || d > to) continue;
+        hit = true;
+        for (const sid in R.d[d]) {
+          const c = R.d[d][sid] || [];
+          total += c[0] || 0; ok += c[1] || 0; hardOk += c[3] || 0;
+          if (sid && sid !== 'kakumon') {
+            const b = bySubj[sid] = bySubj[sid] || { t: 0, c: 0 };
+            b.t += c[0] || 0; b.c += c[1] || 0;
+          }
+        }
+      }
+      if (hit) { rolled[k] = R; bySess[k] = bySess[k] || []; }
+    }
     rows.forEach(a => {
       if (a.ok) ok++;
       const r = src.rate[a.uid];
@@ -82,13 +104,16 @@
     // 最長連続正解はセッションの中だけで数える（別のセッションをまたいで繋げない）
     let bestRun = 0;
     Object.keys(bySess).forEach(k => {
-      let run = 0;
+      // 畳まれた前半があれば、その最長連続と末尾から続く連続を引き継ぐ
+      const R = rolled[k];
+      let run = R ? (R.tr || 0) : 0;
+      if (R && (R.br || 0) > bestRun) bestRun = R.br;
       bySess[k].sort((x, y) => (x.n - y.n) || (x.t - y.t)).forEach(a => {
         run = a.ok ? run + 1 : 0; if (run > bestRun) bestRun = run;
       });
     });
     return {
-      total: rows.length, ok, acc: rows.length ? Math.round(ok / rows.length * 100) : null,
+      total, ok, acc: total ? Math.round(ok / total * 100) : null,
       hardOk, bestRun, sessions: Object.keys(bySess).length, bySubj,
     };
   }

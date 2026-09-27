@@ -4094,6 +4094,8 @@ function _logAttempt(card, isCorrect, choiceStr) {
       mode: _srsReviewMode ? 's' : (_examActiveChPrefix ? 'c' : 'e'),
       sess: _attemptSessionId,
       n: examAnswered,
+      // 上限からあふれて集計へ畳むときの難問判定に使う（study.html は rate_index.js を読まないため）
+      rate: _cardRate(card),
     });
   } catch {}
 }

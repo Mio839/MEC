@@ -8522,6 +8522,8 @@ function _noteFacts(td) {
   const now = Date.now();
   const today = _jstDay(now);
   const att = (window.MecAttempts && MecAttempts.all) ? MecAttempts.all() : [];
+  // 生ログの上限からあふれて畳まれた分（progress.js の attCompact）。日別・科目別の解答数と正解数だけを持つ
+  const roll = (window.MecAttempts && MecAttempts.roll) ? MecAttempts.roll() : {};
 
   const F = {
     today: today, now: now, n: att.length, days: 0,
@@ -8534,7 +8536,7 @@ function _noteFacts(td) {
     redo: { t: 0, c: 0 },
     byDay: {},
   };
-  if (!att.length) return F;
+  if (!att.length && !Object.keys(roll).length) return F;
 
   const d7 = now - 7 * 86400000, d14 = now - 14 * 86400000;
 
@@ -8586,6 +8588,33 @@ function _noteFacts(td) {
     if (everWrong[a.uid] && a.ms >= d7) { F.redo.t++; if (a.ok) F.redo.c++; }
     if (!a.ok) everWrong[a.uid] = 1;
   });
+
+  // 畳まれた分を日別・科目別（直近7日／その前7日）・セッションへ足す。
+  // ⚠️ 前半後半・5秒未満・60秒以上・時刻帯・解き直しは集計に無い＝生ログに残る数日分だけで判定する。
+  const d7day = _jstDay(d7), d14day = _jstDay(d14);
+  for (const k in roll) {
+    const R = roll[k];
+    if (!R || !R.d) continue;
+    const E = (k.charAt(0) !== '~') ? (F.sess[k] || (F.sess[k] = { t: 0, c: 0, last: 0, sid: {} })) : null;
+    if (E && (R.l || 0) * 60000 > E.last) E.last = (R.l || 0) * 60000;
+    for (const day in R.d) {
+      for (const sid in R.d[day]) {
+        const c = R.d[day][sid] || [], t = c[0] || 0, ok = c[1] || 0;
+        if (!t) continue;
+        F.n += t;
+        F.allT += t; F.allC += ok;
+        const D = F.byDay[day] || (F.byDay[day] = { t: 0, c: 0 });
+        D.t += t; D.c += ok;
+        const S = F.bySid[sid] || (F.bySid[sid] = { t: 0, c: 0, r7t: 0, r7c: 0, p7t: 0, p7c: 0, last: 0 });
+        S.t += t; S.c += ok;
+        const dayMs = Date.parse(day + 'T00:00:00Z') - 9 * 3600000;
+        if (dayMs > S.last) S.last = dayMs;
+        if (day >= d7day)       { S.r7t += t; S.r7c += ok; }
+        else if (day >= d14day) { S.p7t += t; S.p7c += ok; }
+        if (E) { E.t += t; E.c += ok; E.sid[sid] = (E.sid[sid] || 0) + t; }
+      }
+    }
+  }
 
   F.days = Object.keys(F.byDay).length;
   F.allPct = _notePct(F.allC, F.allT);
@@ -12293,6 +12322,8 @@ function exportBackup() {
   keys.forEach(k => { try { payload[k] = JSON.parse(localStorage.getItem(k) || '{}'); } catch { payload[k] = {}; } });
   // 解答イベントログは配列（{}ではなく[]で初期化する）
   try { payload['mec_attempts_v1'] = JSON.parse(localStorage.getItem('mec_attempts_v1') || '[]'); } catch { payload['mec_attempts_v1'] = []; }
+  // 上限からあふれて畳まれた分（progress.js の attCompact）。生ログだけでは古い日が欠ける
+  try { payload['mec_attempts_roll_v1'] = JSON.parse(localStorage.getItem('mec_attempts_roll_v1') || '{}'); } catch { payload['mec_attempts_roll_v1'] = {}; }
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -12331,22 +12362,15 @@ function _applyBackupData(data) {
     });
     localStorage.setItem('myrate_v1', JSON.stringify(lr));
   }
-  // attempts: 追記専用ログなので sess+n をキーに union（progress.js の _mergeRemote と同一方針）
-  if (Array.isArray(data.mec_attempts_v1)) {
+  // attempts: 生ログは sess+n の union、畳んだ集計は sess ごとに上位集合を採る。
+  // ⚠️ 規則は progress.js の attMerge / attStore が正本（同期と同じ関数を通す。旧実装はここに
+  //    規則を書き写しており、上限が 2000 のまま取り残されて復元のたびに3,000件を捨てていた）。
+  if ((Array.isArray(data.mec_attempts_v1) || data.mec_attempts_roll_v1) && window.MECSync && MECSync.attMerge) {
     let la = [];
     try { la = JSON.parse(localStorage.getItem('mec_attempts_v1') || '[]'); } catch {}
-    const seen = new Set(), merged = [];
-    (Array.isArray(la) ? la : []).concat(data.mec_attempts_v1).forEach(line => {
-      if (typeof line !== 'string') return;
-      const p = line.split('|');
-      if (p.length < 8 || !p[0]) return;
-      const key = p[6] + '|' + p[7];
-      if (seen.has(key)) return;
-      seen.add(key);
-      merged.push(line);
-    });
-    merged.sort((a, b) => (Number(a.split('|')[1]) || 0) - (Number(b.split('|')[1]) || 0));
-    localStorage.setItem('mec_attempts_v1', JSON.stringify(merged.slice(-2000)));
+    const m = MECSync.attMerge(la, MECSync.attReadRoll(),
+      Array.isArray(data.mec_attempts_v1) ? data.mec_attempts_v1 : [], data.mec_attempts_roll_v1 || {});
+    MECSync.attStore(m.lines, m.roll);
   }
   showSyncResult('ok', `✅ 復元完了。ページを再読み込みします…`);
   setTimeout(() => location.reload(), 1200);

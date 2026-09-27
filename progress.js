@@ -21,6 +21,8 @@
   const K_GAMIFY = 'mec_gamify_v1'; // ゲーミフィケーション（bestStreak等の数値のみ・field-wise maxでマージ）
   const K_ATT = 'mec_attempts_v1';  // 解答イベントログ（attempts.js が追記・追記専用でunionマージ）
   const ATT_CAP = 5000;             // attempts.js の CAP と一致させること（2026-08-06に2000から引き上げ）
+  const K_ATT_ROLL = 'mec_attempts_roll_v1'; // 生ログからあふれた分のセッション単位の集計（attCompact・下の「解答ログの集計」）
+  const ATT_HARD_RATE = 60;         // 集計で数える難問の境目。study_exam.js の EXAM_HARD_RATE・gamify.js の HARD_RATE と一致させること
   const K_MISSIONS = 'mec_missions_v1'; // 日次/週次ミッション進捗（端末別G-counter・同一(期間,端末,カウンタ)はmax）＋達成ボーナスXP台帳
   // 模試の自己採点（mock.js / mock.html）。{ examId: { cur, rounds:{ rN:{started,graded,ans:{"A10":{p,t}}} }, border } }。
   // ⚠️ 保存されているのは「何を選んだか」だけで正誤は入っていない（正誤は mock.js が解答表と
@@ -81,9 +83,12 @@ const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変え�
       el.title = 'localStorageの空き容量が不足しています。古い解答ログ・学習記録を削除して容量を確保しました。';
     });
     try {
+      // 半分にするが捨てはしない＝あふれた分はセッション単位の集計（K_ATT_ROLL）へ畳む
       const att = JSON.parse(localStorage.getItem(K_ATT) || '[]');
       if (Array.isArray(att) && att.length > 200) {
-        localStorage.setItem(K_ATT, JSON.stringify(att.slice(-Math.floor(att.length / 2))));
+        const r = attCompact(att, attReadRoll(), Math.floor(att.length / 2), _attRateOf);
+        localStorage.setItem(K_ATT_ROLL, JSON.stringify(r.roll));
+        localStorage.setItem(K_ATT, JSON.stringify(r.lines));
       }
     } catch {}
     try {
@@ -172,6 +177,7 @@ const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変え�
   const GIST_SHARDS = {
     [K_SRS]: 'mec_srs.json',
     [K_ATT]: 'mec_attempts.json',
+    [K_ATT_ROLL]: 'mec_attempts.json',
     [KR]: 'mec_rate.json',
     'mec_choice_v1': 'mec_rate.json'
   };
@@ -301,6 +307,7 @@ const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変え�
     try { payload[KRK] = JSON.parse(localStorage.getItem(KRK) || '{}'); } catch { payload[KRK] = {}; }
     try { payload[KER] = JSON.parse(localStorage.getItem(KER) || '[]'); } catch { payload[KER] = []; }
     try { payload[K_ATT] = JSON.parse(localStorage.getItem(K_ATT) || '[]'); } catch { payload[K_ATT] = []; }
+    payload[K_ATT_ROLL] = attReadRoll();
     try { payload['mec_ch_exam_v1'] = JSON.parse(localStorage.getItem('mec_ch_exam_v1') || '{}'); } catch { payload['mec_ch_exam_v1'] = {}; }
     payload._errClearedAt = localStorage.getItem(K_ERR_CLEARED) || '';
     payload._examDate = { d: localStorage.getItem(K_EXAM_DATE) || '', t: _examDateAt() };
@@ -561,22 +568,13 @@ const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変え�
     // attempts: 解答イベントログ（attempts.js の mec_attempts_v1）。1件=パイプ区切り1文字列で
     // "uid|t|c|o|s|m|sess|n"。端末ごとに追記されるだけで書き換わらないため、sess+n を一意キーに
     // した union で衝突なくマージできる。時刻(t・分単位epoch)の昇順に並べて上限件数で打ち切る。
+    // 上限からあふれた古い行は捨てずにセッション単位の集計（K_ATT_ROLL）へ畳む（attCompact）。
     const latt = JSON.parse(localStorage.getItem(K_ATT) || '[]');
     const ratt = remote[K_ATT] || [];
-    if (Array.isArray(ratt) && ratt.length) {
-      const seen = new Set();
-      const merged = [];
-      (Array.isArray(latt) ? latt : []).concat(ratt).forEach(line => {
-        if (typeof line !== 'string') return;
-        const p = line.split('|');
-        if (p.length < 8 || !p[0]) return;
-        const key = p[6] + '|' + p[7];   // sess + セッション内の出題順
-        if (seen.has(key)) return;
-        seen.add(key);
-        merged.push(line);
-      });
-      merged.sort((a, b) => (Number(a.split('|')[1]) || 0) - (Number(b.split('|')[1]) || 0));
-      localStorage.setItem(K_ATT, JSON.stringify(merged.slice(-ATT_CAP)));
+    const rroll = remote[K_ATT_ROLL];
+    if ((Array.isArray(ratt) && ratt.length) || (rroll && typeof rroll === 'object' && Object.keys(rroll).length)) {
+      const m = attMerge(latt, attReadRoll(), Array.isArray(ratt) ? ratt : [], rroll || {});
+      attStore(m.lines, m.roll);
     }
     // chapter exam history: 章ごとに bestScore の最大値を保持、sessions は最大値、日付は新しい方
     const lch = JSON.parse(localStorage.getItem('mec_ch_exam_v1') || '{}');
@@ -1400,6 +1398,162 @@ const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変え�
     }
     return changed;
   }
+  // ── 解答ログの集計（mec_attempts_roll_v1・2026-09-28〜） ─────────────────
+  // 生ログ mec_attempts_v1 は上限 ATT_CAP 件で古い方から捨てる。1日1,400問解く日があるので
+  // 生ログは3〜4日分しか残らず、「週の結果発表」（今週と先週）や「今日の所見」（直近14日の比較）が
+  // たくさん解いた週ほど古い日を取りこぼしていた。捨てる前にセッション単位の集計へ畳んでここに残す。
+  //
+  //   { sess: { u, br, tr, l, d: { 'YYYY-MM-DD': { sid: [解答数, 正解数, 難問数, 難問の正解数] } } } }
+  //     u  … このセッションの出題順 n が u 以下の行は全部ここへ畳んである（ウォーターマーク）
+  //     br … 畳んだ範囲での最長連続正解 ／ tr … 畳んだ範囲の末尾から続いている連続正解
+  //          （生ログに残った続きの行は tr から数え継ぐ＝セッションをまたがずに最長連続が出る）
+  //     l  … 畳んだ行の最後の時刻（分単位epoch）
+  //   sess を持たない古い行は '~YYYY-MM-DD' のキーに u=0 で入れる。
+  //
+  // ⚠️ 同期しても二重に数えないための約束が2つある:
+  //   ① 1つのセッションの行は1台の端末でしか生まれないので、どの端末で畳んでも「n が u 以下の行」は
+  //      同じ集合になる＝同じ sess なら u の大きい方が必ず上位集合。マージは u の大きい方を採る。
+  //   ② 生ログ側は「集計に畳まれた行（sess が一致し n ≤ u）」を必ず落とす（attCompact の入口）。
+  // ⚠️ 畳む単位は「同じ sess の n ≤ u 全部」。時刻は分単位なので、同じ分の行を途中で切ると
+  //    u より小さい n が生ログに残って①が崩れる。
+  // ⚠️ 試験日（2027-02-06）までは1件も捨てない（2026-09-28 ユーザー判断）。1日約1.5KB。
+  // ⚠️ 集計に入るのは解答数・正解数・難問・最長連続だけ。所要秒・時刻帯・前半後半・解き直しは
+  //    生ログからしか出せない（「今日の所見」のその4つは生ログに残る数日分で判定する）。
+  // （K_ATT_ROLL・ATT_HARD_RATE は冒頭の定数群にある＝読み込み途中の容量超過処理からも引けるように）
+
+  function attSid(uid) {
+    if (!uid) return '';
+    if (uid.indexOf('kakumon_') === 0) return 'kakumon';
+    const i = uid.indexOf('_ch');
+    if (i > 0) return uid.slice(0, i);
+    const j = uid.indexOf('_q');
+    return j > 0 ? uid.slice(0, j) : uid;
+  }
+  function _attDay(tMin) { return new Date(tMin * 60000 + 9 * 3600000).toISOString().slice(0, 10); }
+  function _attParse(line) {
+    if (typeof line !== 'string') return null;
+    const p = line.split('|');
+    if (p.length < 8 || !p[0]) return null;
+    return { line, uid: p[0], t: Number(p[1]) || 0, ok: p[3] === '1', sess: p[6] || '', n: Number(p[7]) || 0,
+             r: (p.length > 8 && p[8] !== '') ? Number(p[8]) : null };
+  }
+  function _attCovered(roll, a) {
+    const R = a.sess && roll[a.sess];
+    return !!(R && a.n > 0 && a.n <= (R.u || 0));
+  }
+  function _rollTotal(R) {
+    let n = 0;
+    for (const d in (R && R.d) || {}) for (const s in R.d[d]) n += R.d[d][s][0] || 0;
+    return n;
+  }
+
+  // 2つの集計を合わせる（どちらも書き換えない）。同じ sess は u の大きい方、
+  // sess を持たない日別の '~' キーは件数の多い方を採る（どちらも「上位集合の方」を選ぶ規則）。
+  function attMergeRoll(a, b) {
+    const out = {};
+    [a || {}, b || {}].forEach(src => {
+      for (const k in src) {
+        const R = src[k];
+        if (!R || typeof R !== 'object' || !R.d) continue;
+        const cur = out[k];
+        if (!cur) { out[k] = R; continue; }
+        const better = k.charAt(0) === '~' ? _rollTotal(R) > _rollTotal(cur) : (R.u || 0) > (cur.u || 0);
+        if (better) out[k] = R;
+      }
+    });
+    return out;
+  }
+
+  // 生ログを上限 cap 件へ収める。あふれた古い行はセッション単位で集計へ畳む（roll は書き換えない）。
+  // rateOf(uid) は行に全国正答率が無い古い行のための代用（無ければ難問に数えない）。
+  function attCompact(lines, roll, cap, rateOf) {
+    roll = roll || {};
+    cap = cap || ATT_CAP;
+    const rows = [];
+    (Array.isArray(lines) ? lines : []).forEach(line => {
+      const a = _attParse(line);
+      if (a && !_attCovered(roll, a)) rows.push(a);
+    });
+    rows.sort((x, y) => x.t - y.t);   // 安定ソート＝同じ分の中は元の並び
+    if (rows.length <= cap) return { lines: rows.map(a => a.line), roll };
+
+    // ① あふれた分のウォーターマークを決める ② 同じ sess の n ≤ u を全部畳む
+    const over = rows.length - cap;
+    const wm = {}, evict = new Set();
+    for (let i = 0; i < over; i++) {
+      const a = rows[i];
+      if (a.sess && a.n > 0) { if (!(wm[a.sess] >= a.n)) wm[a.sess] = a.n; }
+      else evict.add(a);
+    }
+    rows.forEach(a => { if (a.sess && a.n > 0 && wm[a.sess] >= a.n) evict.add(a); });
+
+    const out = Object.assign({}, roll);
+    const bySess = {};
+    evict.forEach(a => {
+      const key = (a.sess && a.n > 0) ? a.sess : '~' + _attDay(a.t);
+      (bySess[key] = bySess[key] || []).push(a);
+    });
+    for (const key in bySess) {
+      const prev = out[key];
+      const R = prev ? { u: prev.u || 0, br: prev.br || 0, tr: prev.tr || 0, l: prev.l || 0, d: JSON.parse(JSON.stringify(prev.d || {})) }
+                     : { u: 0, br: 0, tr: 0, l: 0, d: {} };
+      bySess[key].sort((x, y) => (x.n - y.n) || (x.t - y.t)).forEach(a => {
+        const day = _attDay(a.t), sid = attSid(a.uid);
+        const D = R.d[day] || (R.d[day] = {});
+        const c = D[sid] || (D[sid] = [0, 0, 0, 0]);
+        let r = a.r;
+        if (r === null && rateOf) { const v = rateOf(a.uid); if (typeof v === 'number') r = v; }
+        const hard = typeof r === 'number' && r >= 0 && r < ATT_HARD_RATE;
+        c[0]++; if (a.ok) c[1]++;
+        if (hard) { c[2]++; if (a.ok) c[3]++; }
+        R.tr = a.ok ? R.tr + 1 : 0;
+        if (R.tr > R.br) R.br = R.tr;
+        if (a.t > R.l) R.l = a.t;
+        if (a.n > R.u && key.charAt(0) !== '~') R.u = a.n;
+      });
+      out[key] = R;
+    }
+    return { lines: rows.filter(a => !evict.has(a)).map(a => a.line), roll: out };
+  }
+
+  function _attRateOf(uid) {
+    const m = (typeof window !== 'undefined' && window.MEC_RATE) || null;
+    return m ? m[uid] : undefined;
+  }
+  function attReadRoll() { try { const v = JSON.parse(localStorage.getItem(K_ATT_ROLL) || '{}'); return (v && typeof v === 'object' && !Array.isArray(v)) ? v : {}; } catch { return {}; } }
+
+  // 生ログ＋集計を localStorage へ書く唯一の口（attempts.js の追記・同期のマージ・バックアップの復元が通る）。
+  // 集計を先に書く＝途中で容量が尽きても「畳んだのに生ログからも消えた」行が出ない。
+  function attStore(lines, roll) {
+    const r = attCompact(lines, roll || attReadRoll(), ATT_CAP, _attRateOf);
+    try { localStorage.setItem(K_ATT_ROLL, JSON.stringify(r.roll)); } catch (e) {}
+    try { localStorage.setItem(K_ATT, JSON.stringify(r.lines)); }
+    catch (e) {
+      // 容量超過：生ログを半分まで畳み直して一度だけ再試行する（捨てずに集計へ回す）
+      const r2 = attCompact(r.lines, r.roll, Math.floor(ATT_CAP / 2), _attRateOf);
+      try { localStorage.setItem(K_ATT_ROLL, JSON.stringify(r2.roll)); } catch (e2) {}
+      try { localStorage.setItem(K_ATT, JSON.stringify(r2.lines)); } catch (e2) {}
+      return r2;
+    }
+    return r;
+  }
+
+  // 2つの生ログ＋集計を合わせる（同期・バックアップの復元が共有する）。
+  // 生ログは sess+n をキーにした union。
+  function attMerge(lLines, lRoll, rLines, rRoll) {
+    const roll = attMergeRoll(lRoll, rRoll);
+    const seen = new Set(), merged = [];
+    (Array.isArray(lLines) ? lLines : []).concat(Array.isArray(rLines) ? rLines : []).forEach(line => {
+      const a = _attParse(line);
+      if (!a) return;
+      const key = a.sess + '|' + a.n;
+      if (seen.has(key)) return;
+      seen.add(key);
+      merged.push(line);
+    });
+    return { lines: merged, roll };
+  }
+
   // ── 新しく覚える問題の上限（2026-09-27〜） ─────────────────────────
   // 初めて SRS に入る問題（＝新規）は、その日のうちに翌日の復習を1件ずつ生む。復習の滞留が多い日に
   // 新規を無制限に入れると、処理できる量（1日の復習目標 200）を新規が食いつぶして滞留が減らない。
@@ -1437,6 +1591,13 @@ const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変え�
     srsIsShadow,
     srsUnifyDups,
     srsNewBudget,
+    attSid,
+    attCompact,
+    attMerge,
+    attMergeRoll,
+    attStore,
+    attReadRoll,
+    ATT_ROLL_KEY: K_ATT_ROLL,
     NEW_CAP: { max: NEW_CAP_MAX, min: NEW_CAP_MIN, lowDue: NEW_CAP_LOW_DUE, highDue: NEW_CAP_HIGH_DUE },
     weakTags,
     WK_GAP_PT,

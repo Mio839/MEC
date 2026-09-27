@@ -20,6 +20,15 @@
 //   m    : モード e=試験 / s=SRS復習 / c=章別試験
 //   sess : セッションID（起動ごとに生成）
 //   n    : そのセッションで何問目か（1始まり）
+//   r    : （任意・9番目・2026-09-28〜）その問題の全国正答率（整数%）。無ければ付けない。
+//          上限からあふれて集計へ畳むときの「難問（<60%）」の判定材料。study.html は
+//          rate_index.js を読まないので、行に持たせておかないと畳んだ時点で難問が数えられない。
+//          ⚠️ 8項目の古い行と混在してよい（読む側は9番目を任意として扱う）。
+//
+// ■ 上限からあふれた行（2026-09-28〜）
+// 捨てずにセッション単位の集計 mec_attempts_roll_v1 へ畳む。本体は progress.js の attCompact /
+// attStore（同期の規則と同じ場所に置く）。ここは追記のたびに attStore を通すだけ。
+// 期間の集計を出す側は all()（生ログ）と roll()（畳んだ分）の両方を読むこと。
 //
 // オブジェクトのままJSONに載せるとGist同期のpayloadが pretty-print で桁違いに膨らむ
 // （payloadは JSON.stringify(payload, null, 2)）。文字列1行なら5000件でも約215KBに収まる。
@@ -32,6 +41,7 @@
   'use strict';
 
   const K_ATT = 'mec_attempts_v1';
+  const K_ROLL = 'mec_attempts_roll_v1';   // progress.js の K_ATT_ROLL と一致させること
   // 上限件数。1行≒43B なので 5000件で約215KB（localStorage・Gist payload とも余裕がある）。
   // ⚠️ 2026-08-06に 2000 → 5000 へ引き上げた。実データで1日1434解答の日があり、2000件では
   //    バッファが約1.4日分しか持たない＝今日たくさん解くと「昨日の誤答」がその日のうちに
@@ -67,6 +77,12 @@
   }
 
   function write(arr) {
+    // progress.js があれば、あふれた分を集計へ畳んでから書く（全ページで progress.js が先に読まれる）
+    // ⚠️ 上限以下の追記は素通しでよい（新しく足した行が集計に畳まれ済みのことは無い）。
+    //    毎回 attStore を通すと5,000行の分解と並べ替えが1解答ごとに走る（実測 約4ms）。
+    if (arr.length > CAP && window.MECSync && window.MECSync.attStore) {
+      try { window.MECSync.attStore(arr); return; } catch (e) {}
+    }
     try {
       localStorage.setItem(K_ATT, JSON.stringify(arr.slice(-CAP)));
     } catch (e) {
@@ -95,6 +111,7 @@
   }
 
   function encode(a) {
+    const r = (typeof a.rate === 'number' && isFinite(a.rate) && a.rate >= 0) ? '|' + Math.round(a.rate) : '';
     return [
       a.uid,
       Math.floor(Date.now() / 60000),
@@ -104,7 +121,7 @@
       a.mode || 'e',
       a.sess || '',
       a.n || 0,
-    ].join('|');
+    ].join('|') + r;
   }
 
   const MecAttempts = {
@@ -135,6 +152,7 @@
         mode: a.mode || 'e',
         sess: a.sess || '',
         n: a.n || 0,
+        rate: a.rate,
       }));
       write(arr);
       if (window.MECSync && window.MECSync.scheduleSync) window.MECSync.scheduleSync();
@@ -146,6 +164,15 @@
     // デコード済みオブジェクト配列（古い順）。分析側はこれを使う
     all() {
       return read().map(decode).filter(Boolean).sort((x, y) => x.t - y.t);
+    },
+
+    // 上限からあふれて畳まれた分（progress.js の attCompact が書く）。
+    // { sess: { u, br, tr, l, d: { 'YYYY-MM-DD': { sid: [解答数, 正解数, 難問数, 難問の正解数] } } } }
+    roll() {
+      try {
+        const v = JSON.parse(localStorage.getItem(K_ROLL) || '{}');
+        return (v && typeof v === 'object' && !Array.isArray(v)) ? v : {};
+      } catch { return {}; }
     },
 
     // 直近 n 件
@@ -182,7 +209,7 @@
     },
 
     clear() {
-      try { localStorage.removeItem(K_ATT); } catch {}
+      try { localStorage.removeItem(K_ATT); localStorage.removeItem(K_ROLL); } catch {}
     },
   };
 
