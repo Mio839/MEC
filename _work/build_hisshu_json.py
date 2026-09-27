@@ -32,7 +32,7 @@ FW = 'ａｂｃｄｅｆｇｈｉ'
 HW = 'abcdefghi'
 
 # 借用しない科目（国試問題ではない・ユーザー自作・模試）
-NO_BORROW = {'custom', 'memo', 'm121s', SID}
+NO_BORROW = {'custom', 'memo', 'm121s', 'hisshu2', SID}   # hisshu2 も借用した解説しか持たない
 
 
 def die(msg):

@@ -50,6 +50,7 @@
     { id: 'emg',     name: '救急',       icon: '🚑', color: '#FF8A5B', total: 68 },
     { id: 'ph',      name: '公衆衛生',   icon: '🏛', color: '#3097CE', total: 619 },
     { id: 'hisshu',  name: '必修講座',   icon: '🏅', color: '#D4AF37', total: 327 },
+    { id: 'hisshu2', name: '必修講座Part2', icon: '🎖️', color: '#B8A14A', total: 180 },
     { id: 'jitsu1',  name: '実力試験Ⅰ', icon: '🎯', color: '#6366F1', total: 160 },
     { id: 'm121s',   name: '第121回 夏メック模試', icon: '🏁', color: '#F0ABFC', total: 400 },
   ];

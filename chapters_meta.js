@@ -1465,6 +1465,32 @@ const MEC_CHAPTERS = [
     ]
   },
   {
+    "id": "hisshu2",
+    "name": "必修講座Part2",
+    "icon": "🎖️",
+    "color": "#B8A14A",
+    "chapters": [
+      {
+        "prefix": "hisshu2_ch01",
+        "file": "study.html?sid=hisshu2",
+        "title": "A問題",
+        "count": 60
+      },
+      {
+        "prefix": "hisshu2_ch02",
+        "file": "study.html?sid=hisshu2",
+        "title": "B問題",
+        "count": 60
+      },
+      {
+        "prefix": "hisshu2_ch03",
+        "file": "study.html?sid=hisshu2",
+        "title": "C問題",
+        "count": 60
+      }
+    ]
+  },
+  {
     "id": "m121s",
     "name": "第121回 夏メック模試",
     "icon": "🏁",

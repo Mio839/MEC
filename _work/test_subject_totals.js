@@ -36,7 +36,7 @@ const GROUPS = [
   ['マイナー講座',  ['psy','derm','oph','ent','uro','ortho','anes','rad']],
   ['横断テーマ',    ['tox','emg']],
   ['公衆衛生講座',  ['ph']],
-  ['必修講座',      ['hisshu']],
+  ['必修講座',      ['hisshu','hisshu2']],
   ['非コア',        ['jitsu1','custom','memo']],
 ];
 function printTable() {

@@ -1320,6 +1320,11 @@
 //   study.css の mec-jumping と .find-row、ui_theme.css の .find-row）。詳細は CLAUDE.md「章ジャンプ・問題番号ジャンプ」。
 //   ⚠️ 番号ジャンプの Enter が「画面上端のカードを ○」にもなっていた不具合を含む。
 //   シェルのみの変更なので CACHE は据え置き＝SHELL_VERSION だけ bump（2026-09-11c → 2026-09-11d）。
+// v657: 必修講座Part2(hisshu2)を新科目として追加（🎖️・#B8A14A）。questions_hisshu2.json を CARDS に加え、
+// 必修講座Part2/images/（27枚）を追加したので CACHE を bump。PDFは「MEC必修講座Part2（表紙2026）」全99ページ・
+// A/B/C問題 各60問＝180問（章＝ブロック・表示番号は通し Q.1〜180・紙面番号はバッジ bb）。解説は書かず、
+// 同じ国試問題が既存科目・過去問ビューアにある134問だけ借用（選択肢の並びが違う117問は記号の対応表付き）。
+// ⚠️ questions_hisshu2.json は派生物（_work/build_hisshu2_json.py）。
 // v383: 必修講座(hisshu)を新科目として追加（🏅・#D4AF37）。questions_hisshu.json を CARDS に加え、
 // 必修講座/images/（20枚）を追加したので CACHE を bump。PDFは「MEC必修講座Part1（表紙2026）」全266ページ・
 // 全17章327問。**解説は PDF に無いので書いていない**——同じ国試問題が既存の科目・過去問ビューアにある
@@ -1522,12 +1527,12 @@
 // v376: 夏メック模試（m121s）の解説を questions_m121s.json として新設し study.html へ統合。
 //       解説書PDFから全400問（A〜F を ch01〜ch06・番号は科目内で通し）を生成した。
 //       questions_*.json が1つ増えたので SHELL_VERSION だけでは足りず CACHE を bump。
-const CACHE = "mec-v656";
+const CACHE = "mec-v657";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-26a";
+const SHELL_VERSION = "2026-09-27a";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -1610,7 +1615,7 @@ const CARDS = [
   "questions_imma.json","questions_kansen.json","questions_jitsu1.json",
   "questions_peds.json","questions_obg.json","questions_psy.json",
   "questions_derm.json","questions_oph.json","questions_ent.json","questions_uro.json","questions_ortho.json","questions_anes.json","questions_rad.json","questions_tox.json","questions_emg.json","questions_ph.json",
-  "questions_hisshu.json","questions_m121s.json"
+  "questions_hisshu.json","questions_hisshu2.json","questions_m121s.json"
 ];
 
 self.addEventListener("install", e => {

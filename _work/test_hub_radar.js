@@ -69,7 +69,7 @@ assert.strictEqual(AXES.length, 8, '8軸');
   // ⚠️ 科目を足したら RADAR_AXES にも入れること。どの軸にも入らない科目は黙って落ちる。
   const known = new Set(S.window.MM_SUBJECTS.map(x => x.sid));
   // 模試・必修講座は回ごと／横断で臓器別の軸に載らない（意図的な除外）
-  ['m121s', 'hisshu'].forEach(x => known.delete(x));
+  ['m121s', 'hisshu', 'hisshu2'].forEach(x => known.delete(x));
   const missing = [...known].filter(s => !seen.has(s));
   assert.deepStrictEqual(missing, [], '軸に入っていない科目: ' + missing.join(','));
   ok(true, '模試・必修講座を除く全科目がどれかの軸に属している');
