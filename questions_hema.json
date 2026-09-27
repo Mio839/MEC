@@ -8150,7 +8150,7 @@
               "ok": false
             }
           ],
-          "ans_label": "a　間接ビリルビン上昇（溶血性黄疸）",
+          "ans_label": "a　溶血",
           "ans_sub": "溶血→Hb分解→間接Bil↑→肝前性黄疸（直接Bilは正常）",
           "eg": [
             {
@@ -8202,8 +8202,8 @@
               "ok": false
             }
           ],
-          "ans_label": "c　PNH（発作性夜間ヘモグロビン尿症）",
-          "ans_sub": "CD55/CD59陰性＋Hb尿＋血栓症→PNH診断確定",
+          "ans_label": "c　遺伝性球状赤血球症",
+          "ans_sub": "小児の溶血（網赤血球16%・間接Bil↑・ハプトグロビン0）＋脾腫＋Coombs陰性＋塗抹で中央の淡明部を欠く小型の球状赤血球→遺伝性球状赤血球症",
           "eg": [
             {
               "cls": "em",
@@ -8213,7 +8213,7 @@
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "PNHの確定診断：<span class=\"kw\">フローサイトメトリーでCD55/CD59陰性細胞群（GPI欠損細胞）の確認</span>。Hb尿：早朝尿が赤〜茶色（夜間就寝中に補体活性化→朝の尿に出現）。"
+              "c": "<span class=\"kw\">Coombs陰性の溶血＋球状赤血球＋脾腫</span>→遺伝性球状赤血球症。確認：浸透圧抵抗試験（抵抗減弱）・EMA結合能低下・家族歴。MCHC↑も特徴。AIHAでも球状赤血球は出るがCoombs陽性で区別する。治療：脾摘（原則5歳以降）。"
             }
           ],
           "imgs": [
@@ -8256,8 +8256,8 @@
               "ok": true
             }
           ],
-          "ans_label": "e　ハプトグロビン低下",
-          "ans_sub": "血管内溶血→遊離HbがHpと結合→消費されて血清ハプトグロビン↓",
+          "ans_label": "e　直接Coombs 試験陽性",
+          "ans_sub": "冬季に悪化する溶血＋指尖の冷感・痛み＋塗抹で赤血球の凝集塊→寒冷凝集素症（IgM）→補体C3が赤血球に残り直接Coombs陽性",
           "eg": [
             {
               "cls": "em",
@@ -8267,7 +8267,7 @@
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">血管内溶血の指標：ハプトグロビン↓</span>（遊離HbとHpが複合体形成→肝臓で代謝→Hp消費）。PNHは典型的な血管内溶血。血漿遊離Hb↑・Hb尿↑・LDH↑・ハプトグロビン↓が揃う。"
+              "c": "<span class=\"kw\">寒冷凝集素症</span>：IgM型寒冷凝集素→低温で赤血球凝集（塗抹で<span class=\"kw\">凝集塊</span>・先端チアノーゼ）→補体活性化で溶血。直接Coombs試験は<span class=\"kw\">抗補体（C3d）で陽性</span>・抗IgGでは陰性。寒冷凝集素価↑。二次性（マイコプラズマ・EBV・リンパ腫）を検索。治療：保温・リツキシマブ（ステロイドは無効）。"
             }
           ],
           "imgs": [
@@ -8305,13 +8305,13 @@
               "ok": false
             }
           ],
-          "ans_label": "b　G6PD欠損症",
-          "ans_sub": "G6PD欠損症は溶血性貧血→血栓傾向ではない。PNH・AT欠乏症等が血栓傾向",
+          "ans_label": "b　大球性貧血",
+          "ans_sub": "血栓傾向：長期臥床（うっ滞）・経口避妊薬（エストロゲン）・真性赤血球増加症（粘稠度↑）・抗リン脂質抗体症候群。大球性貧血そのものは血栓傾向をきたさない",
           "eg": [
             {
               "cls": "ee",
               "h": "📋 血栓傾向 vs 出血傾向をきたす疾患",
-              "c": "<table class=\"tb\"><tr><th>疾患</th><th>傾向</th><th>機序</th></tr><tr><td>PNH</td><td><span class=\"kw\">血栓</span></td><td>NO消費→血管収縮・血小板活性化</td></tr><tr><td>AT・PC・PS欠乏症</td><td><span class=\"kw\">血栓</span></td><td>抗凝固因子↓</td></tr><tr><td>抗リン脂質抗体症候群</td><td><span class=\"kw\">血栓</span></td><td>抗体→凝固活性化</td></tr><tr><td>骨髄増殖性腫瘍（PV・ET）</td><td><span class=\"kw\">血栓</span></td><td>血球↑→粘稠度↑</td></tr><tr><td><span class=\"kw4\">G6PD欠損症</span></td><td><span class=\"kw4\">溶血（血栓傾向なし）</span></td><td>酸化ストレスで溶血発作</td></tr></table>"
+              "c": "<table class=\"tb\"><tr><th>疾患</th><th>傾向</th><th>機序</th></tr><tr><td>PNH</td><td><span class=\"kw\">血栓</span></td><td>NO消費→血管収縮・血小板活性化</td></tr><tr><td>AT・PC・PS欠乏症</td><td><span class=\"kw\">血栓</span></td><td>抗凝固因子↓</td></tr><tr><td>抗リン脂質抗体症候群</td><td><span class=\"kw\">血栓</span></td><td>抗体→凝固活性化</td></tr><tr><td>骨髄増殖性腫瘍（PV・ET）</td><td><span class=\"kw\">血栓</span></td><td>血球↑→粘稠度↑</td></tr><tr><td><span class=\"kw4\">大球性貧血</span></td><td><span class=\"kw4\">溶血（血栓傾向なし）</span></td><td>貧血自体は血栓の原因にならない</td></tr></table>"
             },
             {
               "cls": "em",
@@ -8321,7 +8321,7 @@
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "G6PD欠損症は<span class=\"kw4\">血栓傾向はない</span>→溶血発作（出血側）。血栓傾向をきたす先天性疾患：AT欠乏症・プロテインC欠乏症・プロテインS欠乏症・PNH。"
+              "c": "血栓傾向（Virchowの3要素：<span class=\"kw\">血流うっ滞・血管内皮障害・凝固能亢進</span>）：長期臥床・手術・経口避妊薬・妊娠・悪性腫瘍・真性赤血球増加症・本態性血小板血症・抗リン脂質抗体症候群・PNH・AT/PC/PS欠乏症。<span class=\"kw4\">大球性貧血</span>は該当しない。"
             }
           ],
           "imgs": []
@@ -8362,8 +8362,8 @@
               "ok": true
             }
           ],
-          "ans_label": "e　自己抗体によって溶血が起こる（誤り）",
-          "ans_sub": "PNHの溶血は抗体ではなく補体C5b-9（MAC）によるもの",
+          "ans_label": "e　分化誘導療法の有効性が高い",
+          "ans_sub": "汎血球減少＋LD↑＋骨髄で核が分離した異形成巨核球→MDS。分化誘導療法（ATRA）が著効するのはAPLで、MDSではない",
           "eg": [
             {
               "cls": "em",
@@ -8373,7 +8373,7 @@
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw4\">PNHは自己抗体による溶血ではない</span>（自己免疫性溶血=AIHAとの違い）。PNH：GPI欠損→CD55・CD59欠損→補体末端経路（C5b-9 MAC）が赤血球膜を直接穿孔→溶血。Coombs試験陰性。AIHAはCoombs陽性で機序が全く異なる。"
+              "c": "<span class=\"kw\">MDS</span>：高齢者に多い・<span class=\"kw\">無効造血</span>（骨髄は正〜過形成なのに汎血球減少）・異形成（巨核球の核の分離＝多核巨核球・微小巨核球、偽Pelger核異常）・染色体異常（約半数）・AMLへ移行。<span class=\"kw4\">分化誘導療法（ATRA）はAPL［t(15;17)］</span>の治療。"
             }
           ],
           "imgs": [
