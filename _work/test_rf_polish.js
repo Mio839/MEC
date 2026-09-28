@@ -129,5 +129,15 @@ t('H1. 「答えを見る」の光は肢の左端どうしを結ぶ', () => {
   assert.ok(!/- 40/.test(b), '中心から40px の固定ずらしが残っている');
 });
 
+t('I1. 連続正解の猶予：誤答1回は連続数を保ち、2問続けて外したときだけ0（猶予は次の正解で復活）', () => {
+  const w = fnBody('_rfScoreWrong');
+  assert.ok(/const saved = examStreak > 0 && examStreakGrace;/.test(w), '猶予の判定が無い');
+  assert.ok(/if \(saved\) examStreakGrace = false;\s*else examStreak = 0;/.test(w), '猶予を使わずに0へ戻している');
+  assert.ok(!/^\s*examStreak = 0;/m.test(w), '無条件の examStreak = 0 が残っている');
+  // 正解の経路（選択肢・計算問題）の両方で猶予を戻す
+  assert.strictEqual((JS.match(/examStreak\+\+;\s*examStreakGrace = true;/g) || []).length, 2, '正解の経路で猶予を戻していない');
+  assert.ok(/examStreak = 0; examStreakGrace = true;/.test(JS), '試験開始で猶予を戻していない');
+});
+
 console.log('\n' + (fail ? 'FAILED' : 'all passed') + '  (' + pass + '/' + (pass + fail) + ')');
 process.exit(fail ? 1 : 0);

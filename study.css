@@ -1649,6 +1649,9 @@ html[class*="ui-"] .rf-retry.is-done { background: rgba(var(--glass-rgb, 255,255
   color: color-mix(in srgb, var(--rf-c, #FFD700) 70%, #fff); white-space: nowrap;
 }
 #examRfStreak .rf-sub b { font-size: 12px; font-weight: 800; letter-spacing: .14em; color: var(--rf-c, #FFD700); }
+/* 誤答で猶予を使ったとき（_rfShowStreak の saved）。色を落として「保たれたが余裕は無い」を示す。 */
+#examRfStreak.is-saved .rf-n { opacity: .6; }
+#examRfStreak.is-saved .rf-sub b { letter-spacing: .06em; }
 /* UIテーマごとの書体・枠 */
 #examRfStreak[data-ui="aurora"] { border-radius: 16px; background: linear-gradient(135deg, rgba(0,40,60,.82), rgba(40,10,70,.82)); }
 #examRfStreak[data-ui="brass"] {

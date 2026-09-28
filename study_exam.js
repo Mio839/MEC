@@ -33,6 +33,9 @@ window._examHas = _examHas;
 let examAnswered = 0;
 let examCorrect = 0;
 let examStreak = 0;
+/* 連続正解の猶予（2026-09-28・ユーザー判断）。誤答1回までは連続数を保ち（その問題は数に足さない）、
+   2問続けて外したときだけ0に戻す。猶予は次に正解した時点で復活する＝判定は _rfScoreWrong の1か所。 */
+let examStreakGrace = true;
 const EXAM_EFFECT_SETS = ['classic', 'neon', 'ink', 'ecg', 'space', 'retro', 'luxury'];
 /* ⚠️⚠️ 2026-08-31: 試験開始ごとのランダム選択を廃止し、UIテーマから決定論的に引く形にした。
    理由は2つ。① 演出テーマ7種が持っていた「粒子の署名」（花火・雷・レイン・メダル・ブラックホール・
@@ -759,7 +762,7 @@ function startExam(overrideUids = null) {
   if (!_isHostSession()) _clearExamResume();
   document.querySelectorAll('.ch2.correct').forEach(c => c.classList.remove('correct'));
   document.querySelectorAll('.qc.fx-correct').forEach(c => c.classList.remove('fx-correct'));
-  examMode = true; examAnswered = 0; examCorrect = 0; examStreak = 0; examBySubj = {}; examByChapter = {}; examWrong = []; _examSessionWrongChoices.clear(); examStartTime = Date.now(); _examPausedMs = 0; _examPauseStart = null;
+  examMode = true; examAnswered = 0; examCorrect = 0; examStreak = 0; examStreakGrace = true; examBySubj = {}; examByChapter = {}; examWrong = []; _examSessionWrongChoices.clear(); examStartTime = Date.now(); _examPausedMs = 0; _examPauseStart = null;
   _attemptSessionId = window.MecAttempts ? MecAttempts.newSession() : '';
   _examCardSeenAt.clear();
   _examIsRematch = _rematchPending > 0; _rematchPending = 0;   // B8
@@ -931,6 +934,7 @@ function revealAnswer(card) {
   if (!_isScoreExcluded(card)) _updateSRS(uid, true);
   examCorrect++;
   examStreak++;
+  examStreakGrace = true;
   examBySubj[sid].correct++;
   const advMs = req > 1 ? RF_ADVANCE_MS.multi : RF_ADVANCE_MS.one;
   try { _playCorrectSound(); _rfCorrectFx(card, card.querySelector('.ch2.ok') || els[0], advMs); }
@@ -3500,6 +3504,7 @@ function _revealCalcAnswer(card, sid) {
   const fxEl = MecCalc.anchor(card) || card;
   examCorrect++;
   examStreak++;
+  examStreakGrace = true;
   examBySubj[sid].correct++;
   try { _playCorrectSound(); _rfCorrectFx(card, fxEl, RF_ADVANCE_MS.calc); }
   catch (err) { console.error('[ExamFx] Error in calc-correct fx:', err); }
@@ -4690,25 +4695,28 @@ function _rfDigits(prev, n) {
       '0123456789'.split('').map(x => '<span>' + x + '</span>').join('') + '</span></span>';
   }).join('');
 }
-function _rfShowStreak(n, tier, promoted) {
+/* saved＝誤答で猶予を使った表示（数は回さず据え置き・「次も外すと0」を添える）。 */
+function _rfShowStreak(n, tier, promoted, saved) {
   if (_fxOff()) return;
   const el = _rfStreakEl();
   const ui = _rfUi(), th = _rfTheme(), et = _examTheme();
   el.getAnimations?.().forEach(a => a.cancel());
   el.style.removeProperty('opacity');
   el.dataset.ui = ui;
+  el.classList.toggle('is-saved', !!saved);
   el.style.setProperty('--rf-c', th.col);
   el.style.setProperty('--rf-tier', tier);
   const ticks = Array.from({ length: 7 }, (_, i) => '<i class="' + (i < tier ? 'on' : '') + (i === tier - 1 && promoted ? ' up' : '') + '"></i>').join('');
   // 段が上がった瞬間だけ右に「TIER n / テーマの言葉」を2行で添える（箱の外へ出さない＝問題文に掛からない）
   const esc = t => String(t).replace(/[<>&]/g, '');
   let sub = '';
-  if (tier >= 2 && promoted) {
+  if (saved) sub = '<b>猶予を使用</b><span>次も外すと0に</span>';
+  else if (tier >= 2 && promoted) {
     const w = et.tierUpLabel && et.tierUpLabel(tier);
     sub = '<b>TIER ' + tier + '</b>' + (w ? '<span>' + esc(w) + '</span>' : '');
   } else if (ui === 'abyss') sub = '<b>' + (n * 100) + ' m</b>';
   el.innerHTML =
-    '<span class="rf-n">' + _rfDigits(n - 1, n) + '</span>' +
+    '<span class="rf-n">' + _rfDigits(saved ? n : n - 1, n) + '</span>' +
     '<span class="rf-side"><span class="rf-l">' + th.lbl + '</span><span class="rf-t">' + ticks + '</span></span>' +
     (sub ? '<span class="rf-sub">' + sub + '</span>' : '');
   el.style.top = _rfStreakTop(el.offsetHeight) + 'px';
@@ -4823,14 +4831,22 @@ function _rfScoreWrong(card, choiceStr, choiceEl) {
     if (typeof _recordWrongChoice === 'function') _recordWrongChoice(uid, t.charAt(0) || '?');
     _examSessionWrongChoices.set(uid, t);
   }
-  examStreak = 0;
+  // 猶予が残っていれば連続数を保つ（猶予を使い切った状態でもう一度外したら0）
+  const saved = examStreak > 0 && examStreakGrace;
+  if (saved) examStreakGrace = false;
+  else examStreak = 0;
   try {
     // 誤答は静かに：赤いフラッシュも揺れも出さず、連続の状態だけを畳む
-    document.querySelectorAll('.qc.combo-streak-3,.qc.combo-streak-5,.qc.combo-streak-10')
-      .forEach(c => c.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10'));
     card.classList.remove('fx-correct');
     _clearDarkFx();
-    _rfHideStreak();
+    if (saved) {
+      if (examStreak >= 2) _rfShowStreak(examStreak, _examTier(examStreak), false, true);
+      else _rfHideStreak();
+    } else {
+      document.querySelectorAll('.qc.combo-streak-3,.qc.combo-streak-5,.qc.combo-streak-10')
+        .forEach(c => c.classList.remove('combo-streak-3', 'combo-streak-5', 'combo-streak-10'));
+      _rfHideStreak();
+    }
     if (choiceEl && _isRepeatWrongChoice(uid, choiceEl)) _fxTimeout(() => _triggerRepeatWrong(choiceEl), 260);
   } catch (err) { console.error('[ExamFx] Error in refined wrong fx:', err); }
   examWrong.push(uid);
