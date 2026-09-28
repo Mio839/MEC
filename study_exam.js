@@ -2402,7 +2402,8 @@ function _lqBlow(cx, cy, t) {
 }
 /* 段が上がった瞬間の大きな玉：画面の中央まで昇って割れ、細かな玉が散る */
 function _lqGiantBubble(cx, cy, VW, VH) {
-  return { x: cx, y: cy, x0: cx, y0: cy, giant: true, r: Math.min(VW, VH) * .2, born: 120, life: 1950, rot: 0, wf: 2.4, wp: 0 };
+  // 2026-09-28：膨らむ・昇る・割れるまでの尺を半分に（ユーザー判断・320→160／1200→600／1950→975ms）
+  return { x: cx, y: cy, x0: cx, y0: cy, giant: true, r: Math.min(VW, VH) * .2, born: 120, life: 975, grow: 160, rise: 600, rot: 0, wf: 2.4, wp: 0 };
 }
 function _lqSoapFx(el, card, tier, promoted, budget) {
   if (!el || _fxOff()) return;
@@ -2441,9 +2442,9 @@ function _lqSoapFx(el, card, tier, promoted, budget) {
         if (b.giant) for (let j = 0; j < 7; j++) bs.push({ x: b.x, y: b.y, vx: _frR(-260, 260), vy: _frR(-260, 80), r: _frR(8, 15), born: e, life: _frR(500, 800), rot: _frR(0, 7), wf: 4, wp: _frR(0, 7) });
         continue;
       }
-      const grow = _frE(_frC(le / 320));
+      const grow = _frE(_frC(le / (b.grow || 320)));
       if (b.giant) {
-        const p = _frC(le / 1200), q = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        const p = _frC(le / b.rise), q = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
         b.x = b.x0 + (VW / 2 - b.x0) * q; b.y = b.y0 + (VH * .45 - b.y0) * q;
       } else {
         b.vy -= 60 * dt; b.vx *= Math.exp(-dt * 1.2); b.vy *= Math.exp(-dt * .9);
@@ -2488,6 +2489,8 @@ function _lqLiquidFx(el, card, tier, promoted, budget) {
   _lqJelly(el, card, tier, promoted, budget);
   _lqSoapFx(el, card, tier, promoted, budget);
   _lqGlassWave(el, card, tier, promoted);
+  _lqChroma(el, card, tier, promoted, budget);
+  _lqNeon(el, card, tier, promoted, budget);
 }
 /* つやのある液体の玉（ぷるんの飛び散り） */
 function _lqGlossBall(c, x, y, r, sx, sy, a) {
@@ -2585,6 +2588,82 @@ function _lqGlassWave(el, card, tier, promoted) {
     H.append(lens, rim);
     [lens, rim].forEach(x => x.animate(kf, { duration: dur, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'forwards' }));
   }, i * 200);
+}
+
+/* ══════════ Liquid：色収差＋ネオン管（2026-09-28）══════════
+   デモページ（fx_all_demo.html「Liquid の新しい案 第4弾」の案BC・案BI）でユーザーが採用し、今の3つ（ぷるん・シャボン玉・
+   ガラスの衝撃波）に足した。どちらも**肢の層**（送りの前に終える）。
+   - 色収差（_lqChroma）：肢の文字が一瞬マゼンタとシアンに左右へ分かれて、すっと重なる。段3〜はカードの輪郭も分かれて戻る。
+   - ネオン管（_lqNeon）：肢の縁がネオンサインのように2回瞬いてから点灯する。段3〜はカードの縁も点灯し、段が上がった瞬間はシアン。
+   ⚠️ Liquid の正解の肢は text-shadow / box-shadow が !important（ui_theme.css）＝el.animate では上書きできず何も出ない
+      （デモで実際に踏んだ）。だから肢の中に重ねた要素（.lq-clone・.lq-tube）で見せる。 */
+/* 肢の文字だけを写した重ね（位置・字詰めは元の肢と同じ）。演出の層（.lq-*・.rf-*・svg）は写さない。色は --lqfx-c */
+function _lqTextClone(el, col) {
+  if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
+  const cs = getComputedStyle(el);
+  const cl = document.createElement('div');
+  cl.className = 'lq-clone';
+  cl.setAttribute('aria-hidden', 'true');
+  cl.style.setProperty('--lqfx-c', col);
+  ['display', 'alignItems', 'justifyContent', 'gap', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'fontSize', 'fontWeight', 'fontFamily', 'lineHeight', 'letterSpacing', 'textAlign',
+    'borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth', 'borderStyle', 'flexDirection', 'flexWrap'].forEach(p => { cl.style[p] = cs[p]; });
+  cl.style.left = -parseFloat(cs.borderLeftWidth) + 'px'; cl.style.top = -parseFloat(cs.borderTopWidth) + 'px';
+  cl.style.right = -parseFloat(cs.borderRightWidth) + 'px'; cl.style.bottom = -parseFloat(cs.borderBottomWidth) + 'px';
+  [...el.childNodes].forEach(n => {
+    if (n.nodeType === 3) cl.appendChild(n.cloneNode(true));
+    else if (n.nodeType === 1 && typeof n.className === 'string' && !/\blq-|\brf-/.test(n.className)) cl.appendChild(n.cloneNode(true));
+  });
+  cl.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
+  el.appendChild(cl);
+  return cl;
+}
+function _lqChroma(el, card, tier, promoted, budget) {
+  if (!el || _fxOff()) return;
+  const er = el.getBoundingClientRect();
+  if (!er.width || !er.height) return;
+  const t = Math.max(1, tier), up = promoted && tier >= 2;
+  const D = 340 * _rfFit(budget, 340), d = up ? 5 : 3.5;
+  [['#FF007F', -1], ['#2FE0D5', 1]].forEach(([col, sg]) => {
+    const cl = _lqTextClone(el, col);
+    const kf = up
+      ? [{ translate: '0 0', opacity: 0 }, { translate: `${sg * d}px 0`, opacity: .95, offset: .15 }, { translate: `${sg}px 0`, opacity: .6, offset: .4 }, { translate: `${sg * d * .7}px 0`, opacity: .85, offset: .6 }, { translate: '0 0', opacity: 0 }]
+      : [{ translate: '0 0', opacity: 0 }, { translate: `${sg * d}px 0`, opacity: .9, offset: .2 }, { translate: `${sg}px 0`, opacity: .5, offset: .55 }, { translate: '0 0', opacity: 0 }];
+    cl.animate(kf, { duration: D, easing: 'ease-out', fill: 'forwards' });
+    setTimeout(() => cl.remove(), D + 30);
+  });
+  if (card && (t >= 3 || up)) {
+    const f = (x, a) => `drop-shadow(${-x}px 0 0 rgba(255,0,127,${a})) drop-shadow(${x}px 0 0 rgba(47,224,213,${a}))`;
+    card.animate([{ filter: f(0, 0) }, { filter: f(up ? 6 : 3, .7), offset: .25 }, { filter: f(0, 0) }], { duration: 420, easing: 'ease-out' });
+  }
+}
+function _lqNeon(el, card, tier, promoted, budget) {
+  if (!el || _fxOff()) return;
+  const er = el.getBoundingClientRect();
+  if (!er.width || !er.height) return;
+  const t = Math.max(1, tier), up = promoted && tier >= 2;
+  const D = 360 * _rfFit(budget, 360);
+  if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
+  const col = up ? '47,224,213' : '255,0,127';
+  const tube = document.createElement('span');
+  tube.className = 'lq-tube';
+  tube.setAttribute('aria-hidden', 'true');
+  tube.style.boxShadow = `0 0 0 1.5px rgba(${col},1), inset 0 0 0 2px rgba(${col},.9), inset 0 0 16px 2px rgba(${col},.7), inset 0 0 40px rgba(${col},.35)`;
+  el.appendChild(tube);
+  tube.animate([{ opacity: 0 }, { opacity: 1, offset: .1 }, { opacity: .1, offset: .17 }, { opacity: 1, offset: .27 }, { opacity: .2, offset: .32 }, { opacity: 1, offset: .45 }, { opacity: 1, offset: .82 }, { opacity: 0 }],
+    { duration: D, easing: 'linear', fill: 'forwards' });
+  setTimeout(() => tube.remove(), D + 30);
+  if (card && (t >= 3 || up)) {   // カードの縁も（カードの box-shadow も !important なので、同じく重ねた要素で）
+    if (getComputedStyle(card).position === 'static') card.style.position = 'relative';
+    const ct = document.createElement('span');
+    ct.className = 'lq-tube';
+    ct.setAttribute('aria-hidden', 'true');
+    ct.style.boxShadow = `inset 0 0 0 2px rgba(${col},.95), inset 0 0 26px 4px rgba(${col},.5)`;
+    ct.style.opacity = '0';
+    card.appendChild(ct);
+    ct.animate([{ opacity: 0 }, { opacity: 1, offset: .1 }, { opacity: 0, offset: .16 }, { opacity: 1, offset: .26 }, { opacity: 1, offset: .7 }, { opacity: 0 }],
+      { duration: 1200, delay: 120, easing: 'linear', fill: 'forwards' });
+    setTimeout(() => ct.remove(), 1360);
+  }
 }
 
 /* ══════════ Frost：六花＋霜華＋ダイヤモンドダスト（2026-09-25）══════════
@@ -4969,7 +5048,7 @@ function _rfCorrectFx(card, el, budget) {
 
   // 0ms：光は正解の肢から
   _rfSweep(el, inCardMs);
-  if (_rfUi() === 'liquid') _lqLiquidFx(el, card, tier, promoted, budget);   // ぷるん＋シャボン玉＋ガラスの衝撃波（_spawnStreakParticles の liquid 分岐を参照）
+  if (_rfUi() === 'liquid') _lqLiquidFx(el, card, tier, promoted, budget);   // ぷるん＋シャボン玉＋ガラスの衝撃波＋色収差＋ネオン管（_spawnStreakParticles の liquid 分岐を参照）
   else if (_rfUi() === 'frost') _frFrostFx(el, card, tier, promoted, budget);   // 雪の結晶・霜・ダイヤモンドダスト（同上の frost 分岐を参照）
   else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted, budget);   // 金環＋星座／惑星直列／星の軌跡（同上の celestial 分岐を参照）
   else if (_rfUi() === 'brass') _brsBrassFx(el, card, tier, promoted, budget);   // 歯車列＋刻印＋鋳込みの唐草（同上の brass 分岐を参照）

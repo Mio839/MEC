@@ -8,10 +8,10 @@
      第3弾 U ガラスの衝撃波・V 液体の○・W 垂れる絵の具・X 液体の額縁・Y ホログラム・Z 跳ねる玉・AA 波形・
            AB ブロブ・AC ドットの波紋・AD ぷるん → U と AD を採用（シャボン玉と3つ重ねて _lqLiquidFx）
      第4弾（このファイル）「もうちょっとおしゃれに」＝映画・雑誌・最近のUIの語彙で10案。今の3つに**足す**前提。
+           → BC 色収差・BI ネオン管を採用（_lqChroma / _lqNeon）。ここに残っているのは残りの8案。
    構造は実物と同じ:
      ① 肢の層（肢の中・文字の裏）…… _rfFit で送り（403ms）の 50ms 手前までに終える
      ② 全画面の層（_rfFullHost）……… 元の尺のまま（_rfK = 1）最後まで
-   ⚠️ 肢の文字の色・影を一時的に変える案（BB・BC）は el.animate で戻す＝後に何も残さない。
    ⚠️ 選択肢に水平の線を作らない（下線部はこの教材で意味を持つ記号）。 */
 (() => {
   const P = window.__LQP = {};
@@ -150,33 +150,6 @@
       cl.animate([{ backgroundPosition: '0% 0', opacity: 1 }, { backgroundPosition: '100% 0', opacity: 1, offset: .7 }, { backgroundPosition: '100% 0', opacity: 0 }], { duration: 1400, fill: 'forwards' });
       setTimeout(() => cl.remove(), 1450);
     } else setTimeout(() => cl.remove(), D + 30);
-  };
-
-  /* ══════════ BC 色収差（CHROMATIC SPLIT）══════════
-     正解の肢の文字が一瞬だけマゼンタとシアンに左右へ分かれ、すっと重なって戻る（ファッション誌の写真のような）。
-     段3〜はカード全体の輪郭も分かれて戻り、段が上がった瞬間は2回、幅も大きく。 */
-  P.BC = function (el, card, tier, promoted, budget) {
-    if (!el || _fxOff()) return;
-    const t = Math.max(1, tier), up = promoted && tier >= 2;
-    const k = _rfFit(budget, 340);
-    const d = up ? 5 : 3.5, D = 340 * k;
-    [['#FF007F', -1], ['#2FE0D5', 1]].forEach(([col, sg]) => {
-      const cl = textClone(el);
-      cl.style.setProperty('-webkit-text-fill-color', 'initial', 'important');
-      cl.querySelectorAll('*').forEach(n => n.style.setProperty('-webkit-text-fill-color', col, 'important'));
-      cl.style.setProperty('color', col, 'important'); cl.style.setProperty('-webkit-text-fill-color', col, 'important');
-      cl.style.mixBlendMode = 'screen';
-      el.appendChild(cl);
-      const kf = up
-        ? [{ translate: '0 0', opacity: 0 }, { translate: `${sg * d}px 0`, opacity: .95, offset: .15 }, { translate: `${sg}px 0`, opacity: .6, offset: .4 }, { translate: `${sg * d * .7}px 0`, opacity: .85, offset: .6 }, { translate: '0 0', opacity: 0 }]
-        : [{ translate: '0 0', opacity: 0 }, { translate: `${sg * d}px 0`, opacity: .9, offset: .2 }, { translate: `${sg}px 0`, opacity: .5, offset: .55 }, { translate: '0 0', opacity: 0 }];
-      cl.animate(kf, { duration: D, easing: 'ease-out', fill: 'forwards' });
-      setTimeout(() => cl.remove(), D + 30);
-    });
-    if (card && (t >= 3 || up)) {
-      const f = (x, a) => `drop-shadow(${-x}px 0 0 rgba(255,0,127,${a})) drop-shadow(${x}px 0 0 rgba(47,224,213,${a}))`;
-      card.animate([{ filter: f(0, 0) }, { filter: f(up ? 6 : 3, .7), offset: .25 }, { filter: f(0, 0) }], { duration: 420, easing: 'ease-out' });
-    }
   };
 
   /* ══════════ BD ボケ（BOKEH）══════════
@@ -361,32 +334,6 @@
         }
       });
     });
-  };
-
-  /* ══════════ BI ネオン管（NEON SIGN）══════════
-     正解の肢の縁が、夜の街のネオン管のように「パチッ、パッ」と2回瞬いてから点灯する（マゼンタの管と滲む光）。
-     段3〜はカードの縁も続けて点灯し、段が上がった瞬間は色がマゼンタ→シアンへ切り替わる。 */
-  P.BI = function (el, card, tier, promoted, budget) {
-    if (!el || _fxOff()) return;
-    css();
-    const t = Math.max(1, tier), up = promoted && tier >= 2;
-    const k = _rfFit(budget, 360);
-    if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
-    const col = up ? '47,224,213' : '255,0,127';
-    const tube = document.createElement('span');
-    tube.className = 'lqp-glass';
-    tube.setAttribute('aria-hidden', 'true');
-    tube.style.cssText += `border:2px solid rgba(255,235,245,.95); box-shadow: 0 0 0 1.5px rgba(${col},1), inset 0 0 0 2px rgba(${col},.9), inset 0 0 16px 2px rgba(${col},.7), inset 0 0 40px rgba(${col},.35);`;
-    el.appendChild(tube);
-    const D = 360 * k;
-    tube.animate([{ opacity: 0 }, { opacity: 1, offset: .1 }, { opacity: .1, offset: .17 }, { opacity: 1, offset: .27 }, { opacity: .2, offset: .32 }, { opacity: 1, offset: .45 }, { opacity: 1, offset: .82 }, { opacity: 0 }],
-      { duration: D, easing: 'linear', fill: 'forwards' });
-    setTimeout(() => tube.remove(), D + 30);
-    if (card && (t >= 3 || up)) {
-      const on2 = `0 0 0 2px rgba(${col},.95), 0 0 26px 6px rgba(${col},.55)`, off2 = `0 0 0 2px rgba(${col},0), 0 0 0 0 rgba(${col},0)`;
-      card.animate([{ boxShadow: off2 }, { boxShadow: on2, offset: .1 }, { boxShadow: off2, offset: .16 }, { boxShadow: on2, offset: .26 }, { boxShadow: on2, offset: .7 }, { boxShadow: off2 }],
-        { duration: 1200, delay: 120, easing: 'linear' });
-    }
   };
 
   /* ══════════ BJ リキッドグラスの縁（LIQUID GLASS BEZEL）══════════

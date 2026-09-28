@@ -180,7 +180,7 @@ const RANDCTL = `
    window.__P が Set のとき、その中にある部品だけを描く（null＝全部）。本物の study_exam.js は書き換えない。
    - brass・celestial：部品ごとの関数（_brsGearTrain 等）を包み、外した部品は draw を空にする（火花・押し込みも止める）。
      celestial の「星座／惑星直列／星の軌跡」は毎回1つをランダムに選ぶので、残した部品から選ぶよう次の乱数を決めておく。
-   - liquid：_lqSoapFilm（肢の膜）・_lqGlassWave・_lqCardJelly・_lqJellyDrops を空にし、_lqBlow（玉）は空の配列・
+   - liquid：_lqSoapFilm（肢の膜）・_lqGlassWave・_lqChroma・_lqNeon・_lqCardJelly・_lqJellyDrops を空にし、_lqBlow（玉）は空の配列・
      _lqGiantBubble（大きな玉）は null を返させる。_lqJelly は肢の弾みだけを外せるよう包み直す。
    - frost：canvas に「どの層か」と「その時の __P」を貼っておき、描画の小関数（_frDrawFrost・_frDrawFlake・
      _frGlint・_frMelt）を種類で見分ける。霞は肢の層の fillRect（destination-out 以外）を止めて消す。
@@ -211,6 +211,8 @@ const PARTCTL = `
   wrap('_lqBlow', o => function () { return on('lq.blow', window.__P) ? o.apply(this, arguments) : []; });
   wrap('_lqGiantBubble', o => function () { return on('lq.giant', window.__P) ? o.apply(this, arguments) : null; });
   wrap('_lqGlassWave', o => function () { return on('lq.glass', window.__P) ? o.apply(this, arguments) : undefined; });
+  wrap('_lqChroma', o => function () { return on('lq.chroma', window.__P) ? o.apply(this, arguments) : undefined; });
+  wrap('_lqNeon', o => function () { return on('lq.neon', window.__P) ? o.apply(this, arguments) : undefined; });
   wrap('_lqCardJelly', o => function () { return on('lq.cjelly', window.__P) ? o.apply(this, arguments) : undefined; });
   wrap('_lqJellyDrops', o => function () { return on('lq.jdrops', window.__P) ? o.apply(this, arguments) : undefined; });
   wrap('_lqJelly', o => function (el, card, tier, promoted) {   // 肢の弾みを外しても、カードの揺れと玉は部品の指定どおりに出す
@@ -285,6 +287,8 @@ const PARTS = {
     ['lq.jelly', 'ぷるん（肢）', '正解の肢がゼリーのように弾み、文字の裏をつやが走る', 1, false],
     ['lq.jdrops', 'はじける玉', '肢の両端から液体の玉が飛ぶ（段が上がった瞬間は上の縁からも）', 1, false],
     ['lq.cjelly', 'ぷるん（カード）', '段3〜：カード全体も揺れる', 3, false],
+    ['lq.chroma', '色収差', '肢の文字が一瞬マゼンタとシアンに分かれて重なる（段3〜はカードの輪郭も）', 1, false],
+    ['lq.neon', 'ネオン管', '肢の縁がネオンのように2回瞬いてから点灯（段3〜はカードの縁も・段が上がった瞬間はシアン）', 1, false],
     ['lq.glass', 'ガラスの衝撃波', 'レンズの輪が広がり、通る所だけ画面がにじんで色がずれる（段3〜2重・段5〜3重・段が上がった瞬間は4重）', 1, false],
   ],
   frost: [
@@ -410,18 +414,17 @@ function run(code, o) {
 
 /* ── Liquid の新しい案（2026-09-28 第4弾）。_lqLiquidFx を一時的に案へ差し替えて、本物の _rfCorrectFx を通す。
    第1弾 M シャボン玉・第3弾 U ガラスの衝撃波／AD ぷるん を採用＝本番の _lqLiquidFx（3つ重ね）。
-   第4弾は「もうちょっとおしゃれに」＝映画・雑誌・最近のUIの語彙で10案。今の3つに**足す**前提なので「現行と重ねる」が既定で入。 ── */
+   第4弾は「もうちょっとおしゃれに」＝映画・雑誌・最近のUIの語彙で10案。今の3つに**足す**前提なので「現行と重ねる」が既定で入。
+   → BC 色収差・BI ネオン管を採用（本番の _lqLiquidFx に足した）。一覧に残っているのは第4弾の残り8案。 ── */
 const LQ_PROPS = [
-  ['cur', '今', '現行：ぷるん＋シャボン玉＋ガラスの衝撃波', '比較用（本番の _lqLiquidFx）'],
+  ['cur', '今', '現行：ぷるん＋シャボン玉＋ガラスの衝撃波＋色収差＋ネオン管', '比較用（本番の _lqLiquidFx）'],
   ['AE', 'AE', '✓の一筆', '肢の右端に細いグラデーションの「✓」がペン先で一筆書きされる（肢と一緒に流れる）。段3〜は光がもう一度なぞり、段が上がった瞬間は✓のまわりに輪'],
   ['BB', 'BB', '文字の虹色ワイプ', '正解の肢の文字そのものを、虹色のグラデーションが左から右へ撫でていく。飾りを足さない、いちばん静かな案'],
-  ['BC', 'BC', '色収差', '肢の文字が一瞬だけマゼンタとシアンに左右へ分かれて、すっと重なる（ファッション誌の写真のような）。段3〜はカードの輪郭も'],
   ['BD', 'BD', 'ボケ', 'ピントの外れた光の玉（縁が少し明るい柔らかい円）がふわりと浮かんで昇る。段が上がった瞬間は画面いっぱいに大きなボケ'],
   ['BE', 'BE', 'アナモルフィック・フレア', 'タップ位置で光が弾け、映画のレンズのような横に長い光の筋が画面の端まで伸びる。反対側にレンズのゴースト。段が上がった瞬間は十字の光'],
   ['BF', 'BF', 'ライトリーク', 'フィルムカメラの光漏れのように、画面の角から暖かいオレンジとマゼンタの光が差し込んで流れる（うっすらフィルムの粒子）'],
   ['BG', 'BG', 'セリフ体の一語', '画面の上に細いイタリックのセリフ体で「Correct.」→ 段で Nice. / Great. / Brilliant. / Superb. / Flawless. / Sublime. と変わる。字間が詰まって溶ける'],
   ['BH', 'BH', 'シルクのリボン', '半透明の絹のリボンがひらりと舞い上がり、ねじれながら画面の外へ流れる。段が上がった瞬間は2本が絡み合う'],
-  ['BI', 'BI', 'ネオン管', '肢の縁が夜のネオンのように「パチッ、パッ」と瞬いてから点灯。段3〜はカードの縁も、段が上がった瞬間はシアンに'],
   ['BJ', 'BJ', 'リキッドグラスの縁', '肢が一瞬ガラスのカプセルになり、縁の反射光がぐるりと回る（iOS のリキッドグラスのような質感）。段が上がった瞬間は縁が虹色に'],
 ];
 function runLq(key) {
@@ -438,12 +441,12 @@ function runLq(key) {
 }
 const lqBox = document.createElement('div');
 (() => {
-  const h = document.createElement('h2'); h.textContent = 'Liquid の新しい案 第4弾（おしゃれ路線・正解1回ぶんを通しで）'; lqBox.appendChild(h);
+  const h = document.createElement('h2'); h.textContent = 'Liquid の案 第4弾の残り（おしゃれ路線・正解1回ぶんを通しで）'; lqBox.appendChild(h);
   const note = document.createElement('div'); note.style.cssText = 'font-size:11px;color:var(--sub);margin:0 8px 6px;line-height:1.55';
   note.innerHTML = '押すと UIテーマを liquid にして、本物の <code>_rfCorrectFx</code> の中の Liquid の演出だけを案に差し替えて再生する（肢の縁の光・沈む肢・連続数・画面の縁の光は実物のまま）。'
     + '段が上がった瞬間を見るには、連続正解を 3/5/7/10/14/20 にする。どの案も「肢の層」は送り（403ms）の前に終わり、「全画面の層」は元の尺で最後まで出る。';
   lqBox.appendChild(note);
-  [['lqAdv', true, '正解の 403ms 後に次のカードへ送る（実物と同じ）'], ['lqMix', true, '現行（ぷるん＋シャボン玉＋ガラスの衝撃波）と重ねて再生する']].forEach(([id, on, txt]) => {
+  [['lqAdv', true, '正解の 403ms 後に次のカードへ送る（実物と同じ）'], ['lqMix', true, '現行（本番の Liquid の演出）と重ねて再生する']].forEach(([id, on, txt]) => {
     const row = document.createElement('label'); row.className = 'row'; row.style.margin = '0 8px 4px';
     row.innerHTML = '<input type="checkbox" id="' + id + '"' + (on ? ' checked' : '') + ' style="width:16px;height:16px;accent-color:var(--acc)"> ' + txt;
     lqBox.appendChild(row);

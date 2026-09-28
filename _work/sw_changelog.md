@@ -9,6 +9,7 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-09-28z: Liquid の正解演出に色収差（_lqChroma）とネオン管（_lqNeon）を足す・大きなシャボン玉の尺を半分に。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-28y: Frost の六花を1〜3個に（2・3個目は画面のランダムな位置・中心は重ねず重なり20%まで・_frFlakeSpots）。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-28x: Frost の六花とまわりの小さな結晶の尺を2倍（全画面の層）・小さな結晶の数を2倍（最大8個）。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-28w: Liquid の正解演出にぷるん（肢とカードが弾む・玉が飛ぶ）とガラスの衝撃波（backdrop-filter の輪）を足し、シャボン玉と3つ重ねる（_lqLiquidFx）。シェルのみ＝SHELL_VERSION だけ bump。
