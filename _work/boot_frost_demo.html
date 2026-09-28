@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frost 起動画面の5案</title>
+<!--
+  試験開始の起動画面（study_exam.js の _examCountdown・#examCountdown）を、UIテーマ Frost 向けに作り直す案を
+  5つ並べて見比べるページ（2026-09-29）。本物の関数は呼ばず、このページの中だけで再生する（何も保存しない）。
+  ⚠️ 5案とも尺は現行と1msも変えていない（ブートログ 60+i×105ms → 3・2・1 を 420ms 間隔 → 起動語 780ms で消える）。
+     起動演出は待ち時間なので、案を採るときもこの尺のまま移すこと（_work/仕様/演出.md「起動オーバーレイ」）。
+  ⚠️ ブートログには出題数と科目名を必ず入れてある（実用を兼ねているので落とさない）。
+  テストの対象ではない。
+-->
+<style>
+  :root{--k:1;--bg:#061426;--card:rgba(14,38,66,.78);--line:rgba(112,214,255,.3);--tx:#E6F4FF;--sub:#9DB8CF;--ice:#9EE3FF;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{min-height:100vh;padding:16px;color:var(--tx);font-family:-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif;
+    background:radial-gradient(ellipse 90% 60% at 50% -18%,rgba(112,214,255,.42) 0%,transparent 65%),
+               radial-gradient(circle at 82% 68%,rgba(112,214,255,.25) 0%,transparent 56%),
+               linear-gradient(180deg,#061426 0%,#020914 100%);background-attachment:fixed;}
+  h1{font-size:17px;margin:0 0 4px;}
+  p.note{font-size:12.5px;color:var(--sub);margin:0 0 12px;line-height:1.65;max-width:900px;}
+  .ctl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:13px;margin-bottom:14px;
+    padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.04);max-width:900px;}
+  .ctl label{white-space:nowrap;display:flex;align-items:center;gap:5px;}
+  select,input[type=number]{font-size:16px;padding:4px 6px;border-radius:8px;border:1px solid var(--line);background:#0E2238;color:var(--tx);}
+  input[type=number]{width:72px;}
+  input[type=checkbox]{width:18px;height:18px;accent-color:#70D6FF;}
+  .btns{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-bottom:18px;max-width:1100px;}
+  .btns button{padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:#0F2A45;color:var(--tx);
+    font-weight:800;font-size:14.5px;text-align:left;line-height:1.45;cursor:pointer;}
+  .btns button small{display:block;font-weight:500;color:var(--sub);font-size:12px;margin-top:4px;line-height:1.55;}
+  .btns button:active{background:#17406A;}
+  .btns button.cur{border-style:dashed;opacity:.85;}
+  .btns button.all{background:#133A5E;border-color:#70D6FF;}
+  .mock{max-width:760px;}
+  .qc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:12px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 10px 30px rgba(0,0,0,.35);}
+  .qn{font-weight:800;color:#70D6FF;margin-bottom:6px;font-size:14px;}
+  .qt{font-size:14px;line-height:1.75;margin-bottom:10px;}
+  .ch2{padding:9px 12px;border-radius:10px;border:1px solid var(--line);margin-bottom:7px;font-size:14px;background:rgba(255,255,255,.04);}
+
+  /* ════════ 起動オーバーレイ（共通） ════════ */
+  #cd{position:fixed;inset:0;z-index:9400;display:none;align-items:center;justify-content:center;
+    pointer-events:none;overflow:hidden;}
+  #cd .cd-log{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:5;
+    font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:clamp(13px,3.4vmin,20px);line-height:2;
+    letter-spacing:.02em;white-space:nowrap;text-align:left;
+    transition:top calc(var(--k)*.45s) cubic-bezier(.16,1,.3,1),font-size calc(var(--k)*.45s) cubic-bezier(.16,1,.3,1),opacity calc(var(--k)*.45s);}
+  #cd.p2 .cd-log{top:17%;font-size:clamp(10px,2vmin,13px);opacity:.6;}
+  #cd .cd-line{overflow:hidden;}
+  #cd .cd-num{position:relative;z-index:6;font-size:24vmin;font-weight:900;line-height:1;letter-spacing:-.04em;opacity:0;}
+  #cd .cd-num.go{font-size:11vmin;letter-spacing:.14em;}
+  #cd .cd-sub{position:absolute;bottom:22%;z-index:6;font-size:12px;font-weight:800;letter-spacing:.3em;text-indent:.3em;opacity:0;
+    font-family:'SFMono-Regular',Menlo,Consolas,monospace;white-space:nowrap;}
+  #cd canvas.full{position:absolute;inset:0;width:100%;height:100%;}
+  #cd .dash{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset calc(var(--k)*.38s) cubic-bezier(.3,.7,.3,1);}
+  #cd .dash.on{stroke-dashoffset:0;}
+
+  /* ── 現行（study.css の frost 様式を写したもの。色は演出テーマ space の紫が入る） ── */
+  #cd.sNow{background:rgba(2,5,12,.72);--c:#7C4DFF;--g:124,77,255;}
+  .sNow .scan{position:absolute;inset:0;opacity:.5;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.045) 0 1px,transparent 1px 3px);}
+  .sNow .br{position:absolute;width:26px;height:26px;border:2px solid var(--c);opacity:.85;}
+  .sNow .br.tl{top:14px;left:14px;border-right:none;border-bottom:none;}
+  .sNow .br.tr{top:14px;right:14px;border-left:none;border-bottom:none;}
+  .sNow .br.bl{bottom:14px;left:14px;border-right:none;border-top:none;}
+  .sNow .br.bb{bottom:14px;right:14px;border-left:none;border-top:none;}
+  .sNow .xl{position:absolute;width:40px;height:40px;border:2px solid var(--c);opacity:.75;}
+  .sNow .xl.tl{top:20px;left:20px;clip-path:polygon(0 0,100% 0,0 100%);background:linear-gradient(135deg,rgba(112,214,255,.25),transparent);}
+  .sNow .xl.tr{top:20px;right:20px;clip-path:polygon(0 0,100% 0,100% 100%);background:linear-gradient(225deg,rgba(112,214,255,.25),transparent);}
+  .sNow .xl.bl{bottom:20px;left:20px;clip-path:polygon(0 0,0 100%,100% 100%);background:linear-gradient(45deg,rgba(112,214,255,.25),transparent);}
+  .sNow .xl.bb{bottom:20px;right:20px;clip-path:polygon(100% 0,0 100%,100% 100%);background:linear-gradient(315deg,rgba(112,214,255,.25),transparent);}
+  .sNow .bar{position:absolute;bottom:14%;left:25%;right:25%;height:4px;border-radius:2px;background:rgba(255,255,255,.12);overflow:hidden;}
+  .sNow .bar i{display:block;width:0;height:100%;background:linear-gradient(90deg,#70D6FF,#FFFFFF);}
+  .sNow .cd-log,.sNow .cd-num,.sNow .cd-sub{color:var(--c);}
+  .sNow .cd-log{text-shadow:0 0 12px rgba(var(--g),.65);}
+  .sNow .cd-num{text-shadow:0 0 28px rgba(var(--g),.85),0 0 70px rgba(var(--g),.4),0 6px 24px rgba(0,0,0,.75);}
+  .sNow .sweep{position:absolute;left:0;right:0;top:calc(50% - 2px);height:4px;
+    background:linear-gradient(90deg,transparent,var(--c),transparent);box-shadow:0 0 24px rgba(var(--g),.9);}
+
+  /* ── A 結露の窓：窓が曇って縁から霜が這い、ログと数字は指でなぞった跡。起動で一拭きに晴れる ── */
+  #cd.sA{background:rgba(3,12,26,.3);}
+  .sA .pane{position:absolute;inset:0;}
+  .sA .fog{position:absolute;inset:0;opacity:0;-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);
+    background:radial-gradient(ellipse 75% 65% at 50% 50%,rgba(206,232,248,.52),rgba(222,240,252,.68) 68%,rgba(240,249,255,.84));}
+  .sA .cd-log{color:rgba(5,22,42,.9);font-weight:700;text-shadow:0 1px 0 rgba(255,255,255,.5);}
+  .sA .cd-num{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:800;color:rgba(6,26,48,.8);
+    text-shadow:0 0 2px rgba(255,255,255,.55),0 2px 0 rgba(255,255,255,.4);}
+  .sA .cd-num.go{color:#fff;font-weight:300;text-shadow:0 0 26px rgba(158,227,255,.95),0 4px 22px rgba(0,0,0,.55);}
+  .sA .cd-sub{color:#EAF8FF;text-shadow:0 0 12px rgba(158,227,255,.9),0 2px 10px rgba(0,0,0,.6);}
+  .sA .drip{position:absolute;z-index:6;width:7px;height:11px;border-radius:50% 50% 50% 50%/62% 62% 38% 38%;
+    background:rgba(6,26,48,.62);box-shadow:inset -1px -2px 0 rgba(255,255,255,.35);}
+  .sA .blade{position:absolute;top:0;bottom:0;left:0;width:18px;z-index:4;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.95) 45%,rgba(158,227,255,.6) 60%,transparent);
+    box-shadow:0 0 34px 8px rgba(200,240,255,.7);}
+
+  /* ── B 六花：中央で雪の結晶が 3・2・1 で1段ずつ枝を伸ばし、起動でダイヤモンドダストに解ける ── */
+  #cd.sB{background:radial-gradient(ellipse at 50% 50%,rgba(10,34,62,.82),rgba(2,9,20,.9));}
+  .sB .flake{position:absolute;width:min(64vmin,520px);height:min(64vmin,520px);left:50%;top:50%;
+    translate:-50% -50%;filter:drop-shadow(0 0 6px rgba(158,227,255,.85));}
+  .sB .flake path{fill:none;stroke:#DDF4FF;stroke-linecap:round;stroke-linejoin:round;}
+  .sB .flake .s0 path{stroke-width:1.1;}
+  .sB .flake .s1 path{stroke-width:2.1;}
+  .sB .flake .s2 path{stroke-width:1.5;}
+  .sB .flake .s3 path{stroke-width:1;}
+  .sB .cd-log{color:#CFEFFF;text-shadow:0 0 12px rgba(112,214,255,.7);}
+  .sB .cd-num{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:300;color:#F4FBFF;letter-spacing:0;
+    text-shadow:0 0 6px rgba(2,9,20,.9),0 0 24px rgba(158,227,255,.95),0 0 60px rgba(112,214,255,.5),0 4px 20px rgba(0,0,0,.6);}
+  .sB .cd-num.go{letter-spacing:.3em;text-indent:.3em;}
+  .sB .cd-sub{color:#BEEBFF;text-shadow:0 0 10px rgba(112,214,255,.8);}
+
+  /* ── C 絶対零度：冷却計器。体温 36.5℃ から N₂→H₂→He と下がり、起動で 0 K ── */
+  #cd.sC{background:rgba(2,10,22,.8);}
+  .sC .grid{position:absolute;inset:0;opacity:.35;
+    background:linear-gradient(rgba(112,214,255,.08) 1px,transparent 1px) 0 0/40px 40px,
+               linear-gradient(90deg,rgba(112,214,255,.08) 1px,transparent 1px) 0 0/40px 40px;}
+  .sC .vig{position:absolute;inset:0;opacity:0;
+    background:radial-gradient(circle at 0 0,rgba(235,248,255,.55),transparent 32%),radial-gradient(circle at 100% 0,rgba(235,248,255,.55),transparent 32%),
+               radial-gradient(circle at 0 100%,rgba(235,248,255,.55),transparent 32%),radial-gradient(circle at 100% 100%,rgba(235,248,255,.55),transparent 32%);}
+  .sC .gauge{position:absolute;width:56vmin;height:56vmin;left:50%;top:50%;translate:-50% -50%;opacity:.16;
+    transition:opacity calc(var(--k)*.4s);}
+  .sC.p2 .gauge{opacity:1;}
+  .sC .gauge .trk{fill:none;stroke:rgba(112,214,255,.16);stroke-width:5;}
+  .sC .gauge .arc{fill:none;stroke:url(#crG);stroke-width:5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;}
+  .sC .gauge .tk{stroke:rgba(158,227,255,.45);stroke-width:1;}
+  .sC .gauge .tk.m{stroke:rgba(158,227,255,.8);stroke-width:1.6;}
+  .sC .temp{position:absolute;bottom:9%;left:50%;translate:-50% 0;z-index:6;text-align:center;
+    font-family:'SFMono-Regular',Menlo,Consolas,monospace;color:#EAF8FF;white-space:nowrap;}
+  .sC .temp b{display:block;font-size:clamp(22px,6vmin,40px);font-weight:600;letter-spacing:.04em;text-shadow:0 0 16px rgba(112,214,255,.8);}
+  .sC .temp span{display:block;font-size:12px;letter-spacing:.24em;color:#9EE3FF;min-height:1.4em;margin-top:2px;}
+  .sC .cd-log{color:#9EE3FF;text-shadow:0 0 10px rgba(112,214,255,.6);}
+  .sC .cd-num{font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-weight:600;font-size:17vmin;color:#EAF8FF;letter-spacing:0;
+    text-shadow:0 0 22px rgba(112,214,255,.9),0 0 50px rgba(112,214,255,.4);}
+  .sC .cd-num.go{font-size:12vmin;letter-spacing:.08em;color:#fff;}
+  .sC .cd-sub{bottom:26%;color:#BEEBFF;}
+
+  /* ── D 氷盤：画面が厚い氷に閉ざされ、3・2・1 で亀裂が走り、起動で割れ落ちる ── */
+  #cd.sD{background:rgba(2,8,18,.35);}
+  .sD .ice{position:absolute;inset:0;
+    background:radial-gradient(circle at 21% 31%,rgba(255,255,255,.5) 0 2px,transparent 3px),
+               radial-gradient(circle at 73% 22%,rgba(255,255,255,.45) 0 1.5px,transparent 2.5px),
+               radial-gradient(circle at 64% 77%,rgba(255,255,255,.5) 0 2.5px,transparent 3.5px),
+               radial-gradient(circle at 33% 70%,rgba(255,255,255,.4) 0 1.5px,transparent 2.5px),
+               radial-gradient(circle at 86% 55%,rgba(255,255,255,.4) 0 2px,transparent 3px),
+               repeating-linear-gradient(118deg,rgba(255,255,255,.07) 0 2px,transparent 2px 26px),
+               linear-gradient(160deg,rgba(206,238,255,.8),rgba(120,180,222,.7) 46%,rgba(214,242,255,.8));}
+  .sD .slab{position:absolute;inset:0;box-shadow:inset 0 0 120px rgba(230,248,255,.55),inset 0 0 16px rgba(255,255,255,.75);}
+  .sD .cracks{position:absolute;inset:0;width:100%;height:100%;z-index:4;}
+  .sD .cracks .d{fill:none;stroke:rgba(14,52,92,.4);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;}
+  .sD .cracks .w{fill:none;stroke:rgba(255,255,255,.95);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;}
+  .sD .cd-log{color:rgba(8,32,60,.88);font-weight:700;text-shadow:0 0 3px rgba(8,32,60,.25),0 1px 0 rgba(255,255,255,.55);}
+  .sD .cd-num{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:800;color:rgba(10,48,88,.82);
+    text-shadow:0 1px 0 rgba(255,255,255,.75),0 0 20px rgba(255,255,255,.55);}
+  .sD .cd-num.go{color:#fff;text-shadow:0 0 26px rgba(158,227,255,.95),0 4px 24px rgba(0,0,0,.7);}
+  .sD .cd-sub{color:#EAF8FF;text-shadow:0 0 10px rgba(158,227,255,.9),0 2px 10px rgba(0,0,0,.7);}
+  .sD .shard{position:absolute;inset:0;}
+  .sD .flash{position:absolute;left:50%;top:50%;width:40vmin;height:40vmin;translate:-50% -50%;border-radius:50%;z-index:5;
+    background:radial-gradient(circle,rgba(255,255,255,.95),rgba(190,235,255,.4) 40%,transparent 70%);opacity:0;}
+
+  /* ── E 日暈：夜の雪原の空にダイヤモンドダストが舞い、3・2・1 で暈・幻日・上端接弧が現れ、起動で光が満ちる ── */
+  #cd.sE{background:radial-gradient(ellipse 80% 70% at 50% 55%,rgba(16,40,72,.86),rgba(2,8,20,.94));}
+  .sE .sky{position:absolute;width:min(84vmin,700px);height:min(84vmin,700px);left:50%;top:50%;translate:-50% -50%;}
+  .sE .sky .h22a{fill:none;stroke:rgba(255,186,150,.6);stroke-width:1.2;}
+  .sE .sky .h22b{fill:none;stroke:rgba(226,244,255,.75);stroke-width:2.6;filter:drop-shadow(0 0 3px rgba(190,235,255,.9));}
+  .sE .sky .pc{fill:none;stroke:rgba(230,246,255,.32);stroke-width:.8;}
+  .sE .sky .uta{fill:none;stroke:rgba(236,248,255,.7);stroke-width:1.6;filter:drop-shadow(0 0 3px rgba(190,235,255,.9));}
+  .sE .sky .h46{fill:none;stroke:rgba(226,244,255,.25);stroke-width:1.4;}
+  .sE .sky .pd,.sE .sky .sun{opacity:0;transition:opacity calc(var(--k)*.38s);}
+  .sE .sky .on{opacity:1;}
+  .sE .bloom{position:absolute;left:50%;top:50%;width:70vmin;height:70vmin;translate:-50% -50%;border-radius:50%;z-index:4;opacity:0;
+    background:radial-gradient(circle,rgba(255,255,255,1),rgba(255,244,220,.55) 25%,rgba(190,235,255,.18) 50%,transparent 70%);}
+  .sE .cd-log{color:#DDF1FF;text-shadow:0 0 10px rgba(158,227,255,.6);}
+  .sE .cd-num{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:300;color:#fff;letter-spacing:0;
+    text-shadow:0 0 6px rgba(2,8,20,.9),0 0 22px rgba(255,248,230,.9),0 0 60px rgba(158,227,255,.55);}
+  .sE .cd-num.go{letter-spacing:.34em;text-indent:.34em;}
+  .sE .cd-sub{color:#EAF6FF;text-shadow:0 0 10px rgba(158,227,255,.8);}
+
+  /* 再戦（前回の誤答だけ）の回は数字の光を暖色へ寄せる（現行と同じく「取り返しに来た」と読ませる） */
+  #cd.rem .cd-num:not(.go){text-shadow:0 0 22px rgba(255,160,140,.9),0 0 56px rgba(255,138,128,.45);}
+</style>
+</head>
+<body>
+<h1>❄️ Frost の起動画面 ― 5案</h1>
+<p class="note">
+  試験モードを始めたときに出る起動画面（ブートログ → 3・2・1 → 起動語）の作り直し案です。押すと全画面で再生します（約2.7秒）。<br>
+  5案とも<b>尺は現行とまったく同じ</b>で、ブートログには<b>出題数と科目名</b>を残しています。いまの Frost は色が演出テーマ（space）の紫になり、起動語も「DIVE／GHOST LINK」（電脳ダイブの流用）のままです。
+</p>
+<div class="ctl">
+  <label>出題数 <input type="number" id="qn" value="50" min="1" max="999"></label>
+  <label>科目 <select id="subj">
+    <option>麻酔科</option><option>呼吸器</option><option>神経 他2</option><option>SRS REVIEW</option><option>TODAY'S MISSES</option>
+  </select></label>
+  <label><input type="checkbox" id="rem"> 再戦（前回の誤答）</label>
+  <label>速さ <select id="spd"><option value="1">等速</option><option value="2">1/2</option><option value="4">1/4</option></select></label>
+  <label><input type="checkbox" id="snd"> 起動音も鳴らす</label>
+</div>
+<div class="btns" id="btns"></div>
+<div class="mock">
+  <div class="qc"><div class="qn">Q.12　<span style="color:#9DB8CF;font-weight:600">麻酔科・周術期管理</span></div>
+    <div class="qt">68歳の男性。胃癌に対する幽門側胃切除術の術前評価のため来院した。<strong>術前に中止すべき薬剤はどれか。1つ選べ。</strong></div>
+    <div class="ch2">a　アムロジピン</div><div class="ch2">b　アトルバスタチン</div><div class="ch2">c　クロピドグレル</div><div class="ch2">d　ランソプラゾール</div><div class="ch2">e　レボチロキシン</div></div>
+  <div class="qc"><div class="qn">Q.13</div><div class="qt">起動画面が消えたあと、この問題カードがそのまま見えるのが本物の流れです（背景の透け具合の確認用）。</div></div>
+</div>
+<div id="cd"></div>
+
+<script>
+'use strict';
+/* ══════════ 共通の再生器（尺は study_exam.js の _examCountdown と同じ式） ══════════ */
+const host = document.getElementById('cd');
+let K = 1, timers = [], run = 0;
+const ms = x => x * K;
+function at(t, fn) { const tok = run; timers.push(setTimeout(() => { if (tok === run) fn(); }, ms(t))); }
+function anim(el, kf, o) {
+  return el.animate(kf, Object.assign({}, o, { duration: ms(o.duration), delay: ms(o.delay || 0) }));
+}
+// rAF ループ。fn(論理ms) が false を返すか、次の再生が始まったら止まる
+function loop(fn) {
+  const tok = run, st = performance.now();
+  const tick = now => { if (tok !== run) return; if (fn((now - st) / K) === false) return; requestAnimationFrame(tick); };
+  requestAnimationFrame(tick);
+}
+function kill() {
+  run++; timers.forEach(clearTimeout); timers = [];
+  host.getAnimations({ subtree: true }).forEach(a => a.cancel());
+  host.style.display = 'none'; host.innerHTML = ''; host.className = '';
+}
+function canvasFull(parent, dmax) {
+  const c = document.createElement('canvas'); c.className = 'full';
+  const d = Math.min(dmax || 1.5, window.devicePixelRatio || 1), w = innerWidth, h = innerHeight;
+  c.width = Math.ceil(w * d); c.height = Math.ceil(h * d);
+  parent.appendChild(c);
+  const x = c.getContext('2d'); x.setTransform(d, 0, 0, d, 0, 0);
+  return x;
+}
+const R = (a, b) => a + Math.random() * (b - a);
+const SVGNS = 'http://www.w3.org/2000/svg';
+
+// きらめきのスプライト（4本の光条＋芯）。粒ごとにグラデーションを作らない
+let _glint = null;
+function glintSprite() {
+  if (_glint) return _glint;
+  const s = 32, c = document.createElement('canvas'); c.width = c.height = s;
+  const x = c.getContext('2d'), m = s / 2;
+  const g = x.createRadialGradient(m, m, 0, m, m, m);
+  g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(.18, 'rgba(220,244,255,.8)'); g.addColorStop(1, 'rgba(158,227,255,0)');
+  x.fillStyle = g; x.beginPath(); x.arc(m, m, m * .5, 0, 7); x.fill();
+  x.strokeStyle = 'rgba(255,255,255,.9)'; x.lineWidth = 1;
+  x.beginPath(); x.moveTo(m, 1); x.lineTo(m, s - 1); x.moveTo(1, m); x.lineTo(s - 1, m); x.stroke();
+  return (_glint = c);
+}
+
+// 既定の数字の出し方（現行と同じ）
+function numDefault(el) {
+  anim(el, [
+    { opacity: 0, transform: 'scale(2.1)', filter: 'blur(6px)' },
+    { opacity: 1, transform: 'scale(1)', filter: 'blur(0)', offset: .32 },
+    { opacity: 1, transform: 'scale(1)', offset: .72 },
+    { opacity: 0, transform: 'scale(.88)' }
+  ], { duration: 400, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
+}
+function goDefault(num, sub) {
+  anim(num, [
+    { opacity: 0, transform: 'scale(1.5) translateY(6px)' },
+    { opacity: 1, transform: 'scale(1)', offset: .3 }, { opacity: 1, offset: .72 },
+    { opacity: 0, transform: 'scale(1.06)' }
+  ], { duration: 760, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
+  anim(sub, [{ opacity: 0 }, { opacity: 1, offset: .35 }, { opacity: 1, offset: .7 }, { opacity: 0 }],
+    { duration: 760, easing: 'ease-out', fill: 'forwards' });
+}
+function lineDefault(d) {
+  anim(d, [{ opacity: 0, transform: 'translateX(-8px)' }, { opacity: 1, transform: 'none' }], { duration: 200, easing: 'ease-out' });
+}
+// 左から拭われて現れる（A・D の「なぞった跡」「氷の中の文字」）
+function lineWipe(d) {
+  anim(d, [{ clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0 0 0)' }], { duration: 240, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'backwards' });
+}
+
+/* ══════════ 現行（比較用） ══════════ */
+const S_NOW = {
+  key: 'now', cls: 'sNow', title: '現行', desc: '比較用。紫の文字・四隅の三角・冷却バー。起動語は DIVE／GHOST LINK — ONLINE（本物はここで輪と粒子も出る）。',
+  prefix: '// ',
+  lines: (qn, s) => ['CRYOGENIC CORE SEQUENCE', 'CORE TEMP .............. ABSOLUTE ZERO', 'CRYSTAL MATRIX ......... ' + qn + ' UNITS', 'SUBJECT ................ ' + s, 'INTELLECT FROZEN PURE'],
+  rematch: qn => ['THERMAL RESET PROTOCOL', 'FROZEN ANOMALIES ....... ' + qn + ' TARGETS', 'CRYSTALLINE RECOVERY ... STANDBY', '凍てついた ' + qn + ' 問を砕き直す'],
+  html: '<div class="scan"></div><i class="br tl"></i><i class="br tr"></i><i class="br bl"></i><i class="br bb"></i>'
+      + '<i class="xl tl"></i><i class="xl tr"></i><i class="xl bl"></i><i class="xl bb"></i><div class="bar"><i></i></div>',
+  build(c) { anim(c.host.querySelector('.bar i'), [{ width: '0%' }, { width: '100%' }], { duration: 2200, easing: 'ease-out', fill: 'forwards' }); },
+  goWord: 'DIVE', goSub: 'GHOST LINK — ONLINE',
+  go(c) {
+    const sw = document.createElement('div'); sw.className = 'sweep'; c.host.appendChild(sw);
+    anim(sw, [{ transform: 'translateX(-110%)' }, { transform: 'translateX(110%)' }], { duration: 520, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' });
+  }
+};
+
+/* ══════════ A 結露の窓 ══════════ */
+const S_A = {
+  key: 'A', cls: 'sA', title: 'A　結露の窓',
+  desc: '画面が曇りガラスになり、縁から霜の羽が這い込む。ログと 3・2・1 は指でなぞった跡として現れ、しずくが垂れる。起動でワイパーが一拭きして視界が晴れる。',
+  prefix: '',
+  lines: (qn, s) => ['FROSTED GLASS  //  結露の窓', '外 気 温 ............ −18 °C', '出 題 数 ............ ' + qn + ' 問', '科    目 ............ ' + s, '窓を拭う'],
+  rematch: qn => ['FROSTED GLASS  //  再 走', '曇った跡 ............ 前回の誤答 ' + qn + ' 問', '指 で 拭 う ......... 準備完了', 'この ' + qn + ' 問をはっきり見る'],
+  html: '<div class="pane"><div class="fog"></div></div>',
+  lineFx: lineWipe,
+  build(c) {
+    const pane = c.host.querySelector('.pane');
+    anim(pane.querySelector('.fog'), [{ opacity: 0 }, { opacity: 1 }], { duration: 650, easing: 'ease-out', fill: 'forwards' });
+    // 縁から内へ伸びる霜の羽。点列を先に作り、伸びた分だけ描き足す（毎フレーム描き直さない）
+    const x = canvasFull(pane), w = innerWidth, h = innerHeight, depth = Math.min(w, h) * .3;
+    const paths = [];
+    const grow = (x0, y0, a, len, wd, lvl) => {
+      const pts = [[x0, y0, 0]]; let px = x0, py = y0, d = 0, ang = a;
+      while (d < len) {
+        ang += R(-.22, .22); px += Math.cos(ang) * 6; py += Math.sin(ang) * 6; d += 6; pts.push([px, py, d]);
+        if (lvl < 2 && Math.random() < .2 && d > 10) {
+          const s = Math.random() < .5 ? -1 : 1;
+          grow(px, py, ang + s * R(.8, 1.1), (len - d) * R(.3, .55), wd * .6, lvl + 1);
+        }
+      }
+      paths.push({ pts, i: 1 });
+    };
+    const seedsOn = (n, fx) => { for (let i = 0; i < n; i++) fx(i / n + R(0, 1 / n)); };
+    const step = 30;
+    seedsOn(Math.ceil(w / step), t => grow(t * w, 0, Math.PI / 2, depth * R(.35, 1), 1.3, 0));
+    seedsOn(Math.ceil(w / step), t => grow(t * w, h, -Math.PI / 2, depth * R(.35, 1), 1.3, 0));
+    seedsOn(Math.ceil(h / step), t => grow(0, t * h, 0, depth * R(.35, 1), 1.3, 0));
+    seedsOn(Math.ceil(h / step), t => grow(w, t * h, Math.PI, depth * R(.35, 1), 1.3, 0));
+    // 枝の「根元からの距離」を幹の位置で補正する代わりに、全点を画面の縁からの距離で伸ばす
+    paths.forEach(p => p.pts.forEach(q => { q[2] = Math.min(q[0], w - q[0], q[1], h - q[1]); }));
+    x.strokeStyle = 'rgba(240,250,255,.62)'; x.lineCap = 'round';
+    const T = c.goAt;
+    loop(t => {
+      const G = depth * Math.min(1, Math.pow(t / T, .7));
+      x.beginPath();
+      paths.forEach(p => {
+        while (p.i < p.pts.length && p.pts[p.i][2] <= G) {
+          const a = p.pts[p.i - 1], b = p.pts[p.i]; x.moveTo(a[0], a[1]); x.lineTo(b[0], b[1]); p.i++;
+        }
+      });
+      x.lineWidth = 1.1; x.stroke();
+      return t < T;
+    });
+  },
+  num(c, i, n) {
+    const el = c.num;
+    anim(el, [
+      { opacity: 0, clipPath: 'inset(0 100% 0 0)' },
+      { opacity: 1, clipPath: 'inset(0 0 0 0)', offset: .35 },
+      { opacity: 1, clipPath: 'inset(0 0 0 0)', filter: 'blur(0)', offset: .7 },
+      { opacity: 0, clipPath: 'inset(0 0 0 0)', filter: 'blur(5px)' }
+    ], { duration: 400, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' });
+    // なぞった跡の下端からしずくが1〜2粒垂れる
+    const r = el.getBoundingClientRect();
+    const k = 1 + (Math.random() < .5 ? 1 : 0);
+    for (let j = 0; j < k; j++) {
+      const d = document.createElement('i'); d.className = 'drip';
+      d.style.left = (r.left + r.width * R(.25, .75)) + 'px'; d.style.top = (r.bottom - r.height * .12) + 'px';
+      c.host.appendChild(d);
+      anim(d, [{ opacity: 0, transform: 'translateY(0) scaleY(.6)' }, { opacity: 1, offset: .2 },
+               { opacity: .9, transform: 'translateY(' + (innerHeight * R(.05, .09)) + 'px) scaleY(1.25)' }],
+        { duration: 400, delay: 120 + j * 60, easing: 'cubic-bezier(.5,0,.8,.6)', fill: 'forwards' });
+    }
+  },
+  goWord: 'CLEAR', goSub: '視 界 良 好 — VISIBILITY CLEAR',
+  go(c) {
+    const pane = c.host.querySelector('.pane');
+    c.host.querySelectorAll('.drip').forEach(d => d.remove());
+    anim(pane, [{ clipPath: 'inset(0 0 0 0)' }, { clipPath: 'inset(0 0 0 100%)' }], { duration: 560, easing: 'cubic-bezier(.45,0,.25,1)', fill: 'forwards' });
+    const b = document.createElement('div'); b.className = 'blade'; c.host.appendChild(b);
+    anim(b, [{ transform: 'translateX(-20px)', opacity: 1 }, { transform: 'translateX(' + innerWidth + 'px)', opacity: 1, offset: .96 }, { transform: 'translateX(' + innerWidth + 'px)', opacity: 0 }],
+      { duration: 560, easing: 'cubic-bezier(.45,0,.25,1)', fill: 'forwards' });
+    anim(c.log, [{ opacity: .6 }, { opacity: 0 }], { duration: 300, fill: 'forwards' });
+    goDefault(c.num, c.sub);
+  }
+};
+
+/* ══════════ B 六花 ══════════ */
+function hexPath(cx, cy, r, rot) {
+  let d = '';
+  for (let i = 0; i < 6; i++) { const a = rot + i * Math.PI / 3; d += (i ? 'L' : 'M') + (cx + r * Math.cos(a)).toFixed(2) + ' ' + (cy + r * Math.sin(a)).toFixed(2); }
+  return d + 'Z';
+}
+function flakeSvg() {
+  // 上向きの腕を1本だけ作り、60°ずつ回して6本にする＝本物の雪片と同じく完全な6回対称。枝ぶりは毎回ちがう
+  const L = 90, s = [[], [], [], []];
+  s[0].push(hexPath(100, 100, 10, Math.PI / 6), hexPath(100, 100, 5, Math.PI / 6));
+  s[1].push('M100 90 L100 ' + (100 - L));
+  const nb = 2 + (Math.random() * 2 | 0), ts = [];
+  for (let i = 0; i < nb; i++) ts.push(R(.28, .8));
+  ts.sort((a, b) => a - b);
+  const sin = Math.sin(Math.PI / 3), cos = Math.cos(Math.PI / 3);
+  ts.forEach(t => {
+    const y = 100 - L * t, bl = L * (1 - t) * R(.35, .62);
+    [-1, 1].forEach(sg => {
+      const ex = 100 + sg * bl * sin, ey = y - bl * cos;
+      s[2].push('M100 ' + y.toFixed(2) + ' L' + ex.toFixed(2) + ' ' + ey.toFixed(2));
+      // 孫枝：枝の中ほどから腕と平行に
+      const mx = 100 + sg * bl * .55 * sin, my = y - bl * .55 * cos, tl = bl * R(.25, .4);
+      s[3].push('M' + mx.toFixed(2) + ' ' + my.toFixed(2) + ' L' + mx.toFixed(2) + ' ' + (my - tl).toFixed(2));
+    });
+  });
+  s[3].push(hexPath(100, 100 - L, 4.5, Math.PI / 6));
+  s[3].push('M100 ' + (100 - L * .16) + ' L' + (100 - 7) + ' ' + (100 - L * .16 - 4) + ' M100 ' + (100 - L * .16) + ' L' + (100 + 7) + ' ' + (100 - L * .16 - 4));
+  let g = '';
+  s.forEach((ps, k) => {
+    g += '<g class="s' + k + '">';
+    const arms = k === 0 ? [0] : [0, 60, 120, 180, 240, 300];
+    arms.forEach(a => ps.forEach(d => { g += '<path class="dash" pathLength="1" transform="rotate(' + a + ' 100 100)" d="' + d + '"/>'; }));
+    g += '</g>';
+  });
+  return '<svg class="flake" viewBox="0 0 200 200">' + g + '</svg>';
+}
+const S_B = {
+  key: 'B', cls: 'sB', title: 'B　六花（りっか）',
+  desc: '中央に雪の結晶の核ができ、3で6本の腕・2で枝・1で孫枝と先端の六角板が伸びて完成する。枝ぶりは毎回ちがう。起動で結晶がほどけてダイヤモンドダストになり舞い落ちる。',
+  prefix: '· ',
+  lines: (qn, s) => ['SIX-FOLD CRYSTAL GROWTH', '過 冷 却 ............ −15 °C', '結 晶 核 ............ ' + qn + ' 問', '科    目 ............ ' + s, '六花、成長開始'],
+  rematch: qn => ['RE-CRYSTALLIZATION', '欠けた枝 ............ 前回の誤答 ' + qn + ' 問', '再 結 晶 ............ 準備完了', 'この ' + qn + ' 問で結晶を完成させる'],
+  html: '',
+  build(c) {
+    c.host.insertAdjacentHTML('afterbegin', flakeSvg());
+    const f = c.host.querySelector('.flake');
+    anim(f, [{ rotate: '-8deg', opacity: .8 }, { rotate: '14deg', opacity: .8 }], { duration: c.endAt, easing: 'linear', fill: 'forwards' });
+    at(80, () => f.querySelectorAll('.s0 .dash').forEach(p => p.classList.add('on')));
+  },
+  num(c, i) {
+    const f = c.host.querySelector('.flake');
+    f.querySelectorAll('.s' + (i + 1) + ' .dash').forEach(p => p.classList.add('on'));
+    numDefault(c.num);
+  },
+  goWord: 'CRYSTAL', goSub: '六 花 — 結 晶 完 了',
+  go(c) {
+    const f = c.host.querySelector('.flake');
+    anim(f, [{ scale: '1', opacity: 1, filter: 'drop-shadow(0 0 6px rgba(158,227,255,.85)) brightness(1)' },
+             { scale: '1.06', opacity: 1, filter: 'drop-shadow(0 0 14px rgba(255,255,255,1)) brightness(1.8)', offset: .18 },
+             { scale: '1.4', opacity: 0, filter: 'drop-shadow(0 0 6px rgba(158,227,255,.5)) brightness(1)' }],
+      { duration: 700, easing: 'cubic-bezier(.3,.6,.3,1)', fill: 'forwards' });
+    // ダイヤモンドダスト：結晶のあった円の中から生まれて、ゆっくり舞い落ちて瞬く
+    const x = canvasFull(c.host), w = innerWidth, h = innerHeight, cx = w / 2, cy = h / 2;
+    const rad = Math.min(Math.min(w, h) * .39, 310), spr = glintSprite(), P = [];
+    const n = Math.round(Math.min(160, 60 + w * h / 12000));
+    for (let i = 0; i < n; i++) {
+      const a = R(0, 6.283), r = rad * Math.sqrt(Math.random());
+      P.push({ x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r, vx: Math.cos(a) * R(10, 50), vy: R(20, 70), s: R(4, 13), ph: R(0, 6.28), f: R(8, 16) });
+    }
+    const dur = 780;
+    loop(t => {
+      x.clearRect(0, 0, w, h);
+      const life = Math.min(1, t / dur);
+      P.forEach(p => {
+        const sec = t / 1000, a = (1 - life) * (.55 + .45 * Math.sin(p.ph + sec * p.f));
+        if (a <= .02) return;
+        x.globalAlpha = a;
+        const px = p.x + p.vx * sec + Math.sin(p.ph + sec * 3) * 6, py = p.y + p.vy * sec;
+        x.drawImage(spr, px - p.s / 2, py - p.s / 2, p.s, p.s);
+      });
+      x.globalAlpha = 1;
+      return t < dur;
+    });
+    goDefault(c.num, c.sub);
+  }
+};
+
+/* ══════════ C 絶対零度 ══════════ */
+const S_C = {
+  key: 'C', cls: 'sC', title: 'C　絶対零度',
+  desc: '冷却装置の計器。下の温度計が体温 36.5 ℃ から下がり続け、3＝N₂（−196 ℃）・2＝H₂（−253 ℃）・1＝He（−269 ℃）と冷媒の沸点を通過し、起動で 0 K。円い計器が凍り、四隅から霜が寄る。',
+  prefix: '> ',
+  lines: (qn, s) => ['CRYOGENIC SEQUENCE', '冷 却 材 ............ LN₂ 充填', '試 料 数 ............ ' + qn + ' 問', '科    目 ............ ' + s, '絶対零度へ'],
+  rematch: qn => ['CRYO RE-SCAN', '解凍した標本 ........ 前回の誤答 ' + qn + ' 問', '再 凍 結 ............ STANDBY', 'この ' + qn + ' 問を凍結し直す'],
+  html: '<div class="grid"></div><div class="vig"></div>',
+  build(c) {
+    let tk = '';
+    for (let i = 0; i < 60; i++) {
+      const a = i * 6 * Math.PI / 180, m = i % 5 === 0, r1 = m ? 86 : 88;
+      tk += '<line class="tk' + (m ? ' m' : '') + '" x1="' + (100 + r1 * Math.sin(a)).toFixed(2) + '" y1="' + (100 - r1 * Math.cos(a)).toFixed(2)
+          + '" x2="' + (100 + 94 * Math.sin(a)).toFixed(2) + '" y2="' + (100 - 94 * Math.cos(a)).toFixed(2) + '"/>';
+    }
+    c.host.insertAdjacentHTML('afterbegin',
+      '<svg class="gauge" viewBox="0 0 200 200"><defs><linearGradient id="crG" x1="0" y1="0" x2="1" y2="1">'
+      + '<stop offset="0" stop-color="#70D6FF"/><stop offset="1" stop-color="#FFFFFF"/></linearGradient></defs>'
+      + tk + '<circle class="trk" cx="100" cy="100" r="78"/>'
+      + '<circle class="arc" pathLength="1" cx="100" cy="100" r="78" transform="rotate(-90 100 100)"/></svg>');
+    c.host.insertAdjacentHTML('beforeend', '<div class="temp"><b>+36.5 °C</b><span>BODY TEMP</span></div>');
+    const arc = c.host.querySelector('.arc'), tb = c.host.querySelector('.temp b'), sp = c.host.querySelector('.temp span'), vig = c.host.querySelector('.vig');
+    const t0 = c.t0, KF = [[0, 36.5], [t0, -196], [t0 + 420, -253], [t0 + 840, -269], [c.goAt, -273.15]];
+    const fmt = v => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(1) + ' °C';
+    loop(t => {
+      let v = KF[KF.length - 1][1];
+      for (let i = 1; i < KF.length; i++) if (t < KF[i][0]) {
+        const [ta, va] = KF[i - 1], [tb2, vb] = KF[i], u = (t - ta) / (tb2 - ta);
+        v = va + (vb - va) * (1 - Math.pow(1 - u, 2)); break;
+      }
+      const fr = Math.min(1, (36.5 - v) / 309.65);
+      arc.style.strokeDashoffset = String(1 - fr);
+      vig.style.opacity = String(Math.pow(fr, 3) * .9);
+      if (t < c.goAt) tb.textContent = fmt(v);
+      if (t < c.t0) sp.textContent = v > 30 ? 'BODY TEMP' : 'COOLING';
+      return t < c.goAt;
+    });
+  },
+  num(c, i) {
+    const sp = c.host.querySelector('.temp span');
+    sp.textContent = ['N₂ 沸点 −196 °C', 'H₂ 沸点 −253 °C', 'He 沸点 −269 °C'][i];
+    anim(c.host.querySelector('.gauge'), [{ scale: '1.035' }, { scale: '1' }], { duration: 300, easing: 'cubic-bezier(.2,1,.3,1)' });
+    numDefault(c.num);
+  },
+  goWord: '0 K', goSub: 'ABSOLUTE ZERO — 雑 念 停 止',
+  go(c) {
+    c.host.querySelector('.temp b').textContent = '−273.15 °C';
+    c.host.querySelector('.temp span').textContent = '0 KELVIN';
+    const g = c.host.querySelector('.gauge');
+    anim(g, [{ scale: '1', opacity: 1, filter: 'brightness(1)' }, { scale: '1.04', opacity: 1, filter: 'brightness(2.2)', offset: .15 }, { scale: '1.22', opacity: 0, filter: 'brightness(1)' }],
+      { duration: 700, easing: 'cubic-bezier(.3,.6,.3,1)', fill: 'forwards' });
+    anim(c.host.querySelector('.vig'), [{ opacity: .9 }, { opacity: 1, offset: .15 }, { opacity: 0 }], { duration: 760, fill: 'forwards' });
+    anim(c.host.querySelector('.temp'), [{ opacity: 1 }, { opacity: 1, offset: .6 }, { opacity: 0 }], { duration: 760, fill: 'forwards' });
+    goDefault(c.num, c.sub);
+  }
+};
+
+/* ══════════ D 氷盤 ══════════ */
+const S_D = {
+  key: 'D', cls: 'sD', title: 'D　氷盤',
+  desc: '画面が厚い氷に閉ざされ、ログと数字は氷の中に封じられた文字として見える。3・2・1 のたびに中心から亀裂が走って蜘蛛の巣状に広がり、起動で氷盤が割れて破片が落ち、問題が現れる。',
+  prefix: '— ',
+  lines: (qn, s) => ['ICE SHEET  //  氷盤', '氷    厚 ............ 1.2 m', '封じた問題 .......... ' + qn + ' 問', '科    目 ............ ' + s, '亀裂、走る'],
+  rematch: qn => ['ICE SHEET  //  再 凍 結', '閉じ込めた誤答 ...... ' + qn + ' 問', '砕    氷 ............ 準備完了', 'この ' + qn + ' 問を割り出す'],
+  html: '<div class="slab ice"></div>',
+  lineFx: lineWipe,
+  build(c) {
+    const w = innerWidth, h = innerHeight, cx = w / 2, cy = h / 2, diag = Math.hypot(w, h);
+    anim(c.host.querySelector('.slab'), [{ opacity: 0, scale: '1.03' }, { opacity: 1, scale: '1' }], { duration: 480, easing: 'cubic-bezier(.2,.8,.3,1)', fill: 'forwards' });
+    // 放射状の割れ目7本（割れる破片もこの角度で切る＝亀裂と破片の形が揃う）
+    const N = 7, base = R(0, 6.283), ang = [];
+    for (let i = 0; i < N; i++) ang.push(base + i * 6.283 / N + R(-.22, .22));
+    const r1 = Math.min(w, h) * R(.13, .17), r2 = Math.min(w, h) * R(.32, .38);
+    c.ice = { cx, cy, ang, r1, r2, diag };
+    const P = (a, r) => [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
+    const jag = (a, rA, rB) => {
+      let d = '', n = Math.max(2, Math.round((rB - rA) / 26));
+      for (let i = 0; i <= n; i++) {
+        const r = rA + (rB - rA) * i / n, j = (i === 0 || i === n) ? 0 : R(-.035, .035);
+        const [x, y] = P(a + j, r); d += (i ? 'L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1);
+      }
+      return d;
+    };
+    const st = [[], [], []];
+    // 3：最初の3本が中心から r2 まで／2：残り4本＋最初の3本が画面の外まで／1：蜘蛛の巣（r1・r2 の輪）
+    [0, 3, 5].forEach(i => st[0].push(jag(ang[i], 0, r2)));
+    [1, 2, 4, 6].forEach(i => st[1].push(jag(ang[i], 0, diag * .75)));
+    [0, 3, 5].forEach(i => st[1].push(jag(ang[i], r2, diag * .75)));
+    [r1, r2].forEach(r => { for (let i = 0; i < N; i++) {
+      const [x1, y1] = P(ang[i], r), [x2, y2] = P(ang[(i + 1) % N], r), [mx, my] = P((ang[i] + ang[(i + 1) % N] + (i === N - 1 ? 6.283 : 0)) / 2, r * R(.9, .97));
+      st[2].push('M' + x1.toFixed(1) + ' ' + y1.toFixed(1) + ' L' + mx.toFixed(1) + ' ' + my.toFixed(1) + ' L' + x2.toFixed(1) + ' ' + y2.toFixed(1));
+    } });
+    let svg = '<svg class="cracks" viewBox="0 0 ' + w + ' ' + h + '">';
+    st.forEach((ps, k) => { svg += '<g class="k' + k + '">'; ps.forEach(d => {
+      svg += '<path class="d dash" pathLength="1" d="' + d + '"/><path class="w dash" pathLength="1" d="' + d + '"/>';
+    }); svg += '</g>'; });
+    c.host.insertAdjacentHTML('beforeend', svg + '</svg>');
+  },
+  num(c, i) {
+    c.host.querySelectorAll('.cracks .k' + i + ' .dash').forEach(p => p.classList.add('on'));
+    anim(c.host.querySelector('.slab'), [{ translate: '0 0' }, { translate: (i % 2 ? 3 : -3) + 'px 2px' }, { translate: '0 0' }], { duration: 120, easing: 'ease-out' });
+    anim(c.num, [
+      { opacity: 0, filter: 'blur(8px)', transform: 'scale(1.08)' },
+      { opacity: 1, filter: 'blur(0)', transform: 'scale(1)', offset: .3 },
+      { opacity: 1, offset: .72 },
+      { opacity: 0, filter: 'blur(4px)' }
+    ], { duration: 400, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
+  },
+  goWord: 'BREAK', goSub: '氷 解 — THE ICE BREAKS',
+  go(c) {
+    const { cx, cy, ang, r1, r2, diag } = c.ice, N = ang.length;
+    c.host.querySelector('.slab').remove();
+    anim(c.host.querySelector('.cracks'), [{ opacity: 1 }, { opacity: 0 }], { duration: 160, fill: 'forwards' });
+    anim(c.log, [{ opacity: .6 }, { opacity: 0 }], { duration: 160, fill: 'forwards' });
+    const P = (a, r) => (cx + Math.cos(a) * r).toFixed(1) + 'px ' + (cy + Math.sin(a) * r).toFixed(1) + 'px';
+    const Rb = diag * 1.2;
+    for (let i = 0; i < N; i++) {
+      const a1 = ang[i], a2 = ang[(i + 1) % N] + (i === N - 1 ? 6.283 : 0), am = (a1 + a2) / 2;
+      const pieces = [
+        [[cx + 'px ' + cy + 'px', P(a1, r1), P(a2, r1)], 30, 0],
+        [[P(a1, r1), P(a1, r2), P(a2, r2), P(a2, r1)], 90, 30],
+        [[P(a1, r2), P(a1, Rb), P(a2, Rb), P(a2, r2)], 170, 60]
+      ];
+      pieces.forEach(([poly, dist, dl]) => {
+        const s = document.createElement('div'); s.className = 'shard ice';
+        s.style.clipPath = 'polygon(' + poly.join(',') + ')';
+        s.style.transformOrigin = P(am, dist < 50 ? r1 * .6 : dist < 120 ? (r1 + r2) / 2 : r2 * 1.4);
+        c.host.appendChild(s);
+        const dx = Math.cos(am) * dist * R(.8, 1.2), dy = Math.sin(am) * dist * R(.8, 1.2);
+        anim(s, [{ translate: '0 0', rotate: '0deg', opacity: 1 },
+                 { translate: dx + 'px ' + (dy + innerHeight * .28) + 'px', rotate: R(-16, 16) + 'deg', opacity: 0 }],
+          { duration: 680, delay: dl, easing: 'cubic-bezier(.35,.1,.6,1)', fill: 'both' });
+      });
+    }
+    const fl = document.createElement('div'); fl.className = 'flash'; c.host.appendChild(fl);
+    anim(fl, [{ opacity: 0, scale: '.4' }, { opacity: 1, scale: '1', offset: .15 }, { opacity: 0, scale: '2.2' }], { duration: 520, easing: 'ease-out', fill: 'forwards' });
+    goDefault(c.num, c.sub);
+  }
+};
+
+/* ══════════ E 日暈 ══════════ */
+const S_E = {
+  key: 'E', cls: 'sE', title: 'E　日暈（ハロ）',
+  desc: '極寒の空で大気の氷晶が光を曲げる現象。ダイヤモンドダストが舞う夜空に、3で22°の暈（内側がほのかに赤い輪）・2で左右の幻日と水平の光の帯・1で上端接弧と外暈が現れ、起動で中心の太陽から光が満ちる。',
+  prefix: '· ',
+  lines: (qn, s) => ['HALO  //  日暈', '大気中の氷晶 ........ 飽和', '観 測 数 ............ ' + qn + ' 問', '科    目 ............ ' + s, '光、屈折する'],
+  rematch: qn => ['HALO  //  再 観 測', '見落とした光 ........ 前回の誤答 ' + qn + ' 問', '観 測 準 備 ......... 完了', 'この ' + qn + ' 問を照らし直す'],
+  html: '',
+  build(c) {
+    const pd = sg => '<g class="pd">'
+      + '<ellipse cx="' + (sg * 61) + '" cy="0" rx="3.2" ry="6.5" fill="url(#eP)"/>'
+      + '<path d="M' + (sg * 64) + ' 0 L' + (sg * 88) + ' 0" stroke="url(#eT' + (sg > 0 ? 'r' : 'l') + ')" stroke-width="2.2"/></g>';
+    c.host.insertAdjacentHTML('afterbegin',
+      '<svg class="sky" viewBox="-100 -100 200 200"><defs>'
+      + '<radialGradient id="eS"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#FFF6E0" stop-opacity=".85"/><stop offset="1" stop-color="#BEEBFF" stop-opacity="0"/></radialGradient>'
+      + '<radialGradient id="eP"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#FFE3C8" stop-opacity=".8"/><stop offset="1" stop-color="#FFB38F" stop-opacity="0"/></radialGradient>'
+      + '<linearGradient id="eTr" gradientUnits="userSpaceOnUse" x1="64" y1="0" x2="88" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'
+      + '<linearGradient id="eTl" gradientUnits="userSpaceOnUse" x1="-64" y1="0" x2="-88" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'
+      + '</defs>'
+      + '<circle class="sun" cx="0" cy="0" r="13" fill="url(#eS)"/>'
+      + '<g class="k0"><circle class="h22a dash" pathLength="1" r="57.6" transform="rotate(-90)"/><circle class="h22b dash" pathLength="1" r="60" transform="rotate(-90)"/></g>'
+      + '<g class="k1"><path class="pc dash" pathLength="1" d="M0 0 L100 0"/><path class="pc dash" pathLength="1" d="M0 0 L-100 0"/>' + pd(1) + pd(-1) + '</g>'
+      + '<g class="k2"><path class="uta dash" pathLength="1" d="M0 -60 Q-20 -60 -44 -76"/><path class="uta dash" pathLength="1" d="M0 -60 Q20 -60 44 -76"/>'
+      + '<circle class="h46 dash" pathLength="1" r="95" transform="rotate(-90)"/></g>'
+      + '</svg>');
+    // ダイヤモンドダスト（全尺）
+    const x = canvasFull(c.host), w = innerWidth, h = innerHeight, spr = glintSprite(), P = [];
+    const n = Math.round(Math.min(150, 50 + w * h / 14000));
+    for (let i = 0; i < n; i++) P.push({ x: R(0, w), y: R(0, h), vy: R(8, 26), am: R(4, 14), ph: R(0, 6.28), s: R(3, 11), f: R(1.5, 5) });
+    const end = c.endAt;
+    loop(t => {
+      x.clearRect(0, 0, w, h);
+      const sec = t / 1000, fade = t < 300 ? t / 300 : t > end - 350 ? Math.max(0, (end - t) / 350) : 1;
+      P.forEach(p => {
+        const a = fade * Math.max(0, Math.sin(p.ph + sec * p.f));
+        if (a < .04) return;
+        x.globalAlpha = a;
+        const px = p.x + Math.sin(p.ph + sec) * p.am, py = (p.y + p.vy * sec) % h;
+        x.drawImage(spr, px - p.s / 2, py - p.s / 2, p.s, p.s);
+      });
+      x.globalAlpha = 1;
+      return t < end;
+    });
+  },
+  num(c, i) {
+    c.host.querySelector('.sun').classList.add('on');
+    const g = c.host.querySelector('.sky .k' + i);
+    g.querySelectorAll('.dash').forEach(p => p.classList.add('on'));
+    g.querySelectorAll('.pd').forEach(p => p.classList.add('on'));
+    numDefault(c.num);
+  },
+  goWord: 'HALO', goSub: '日 暈 — 光 が 満 ち る',
+  go(c) {
+    const b = document.createElement('div'); b.className = 'bloom'; c.host.appendChild(b);
+    anim(b, [{ opacity: 0, scale: '.15' }, { opacity: .95, scale: '1', offset: .22 }, { opacity: 0, scale: '2.6' }], { duration: 760, easing: 'cubic-bezier(.2,.8,.3,1)', fill: 'forwards' });
+    anim(c.host.querySelector('.sky'), [{ opacity: 1, filter: 'brightness(1)' }, { opacity: 1, filter: 'brightness(1.9)', offset: .2 }, { opacity: 0, filter: 'brightness(1)' }],
+      { duration: 760, easing: 'ease-out', fill: 'forwards' });
+    anim(c.log, [{ opacity: .6 }, { opacity: 0 }], { duration: 300, fill: 'forwards' });
+    goDefault(c.num, c.sub);
+  }
+};
+
+const STYLES = [S_A, S_B, S_C, S_D, S_E, S_NOW];
+
+/* ══════════ 再生 ══════════ */
+const BOOT_SOUNDS = ['MS起動.wav', 'アカツキ起動.wav', 'ゼロシステム.wav', 'トップをねらえ!.wav', 'ホワイトベース.wav', '巨大モーター起動.wav'];
+let _audio = null;
+function play(S) {
+  kill();
+  K = +document.getElementById('spd').value || 1;
+  const qn = Math.max(1, +document.getElementById('qn').value || 50);
+  const subj = document.getElementById('subj').value;
+  const rem = document.getElementById('rem').checked;
+  const lines = rem ? S.rematch(qn) : S.lines(qn, subj);
+  const t0 = 60 + lines.length * 105 + 120, goAt = t0 + 3 * 420, endAt = goAt + 780;
+
+  host.className = S.cls + (rem ? ' rem' : '');
+  host.style.setProperty('--k', K);
+  host.style.display = 'flex';
+  host.innerHTML = S.html + '<div class="cd-log"></div><div class="cd-num"></div><div class="cd-sub"></div>';
+  const c = { host, log: host.querySelector('.cd-log'), num: host.querySelector('.cd-num'), sub: host.querySelector('.cd-sub'), t0, goAt, endAt };
+  if (S.build) S.build(c);
+
+  if (document.getElementById('snd').checked) {
+    try {
+      if (_audio) _audio.pause();
+      _audio = new Audio('../sounds/起動音/' + encodeURIComponent(BOOT_SOUNDS[(Math.random() * BOOT_SOUNDS.length) | 0]));
+      _audio.volume = .6; _audio.play().catch(() => {});
+    } catch (e) {}
+  }
+
+  lines.forEach((ln, i) => at(60 + i * 105, () => {
+    const d = document.createElement('div'); d.className = 'cd-line'; d.textContent = S.prefix + ln;
+    c.log.appendChild(d); (S.lineFx || lineDefault)(d);
+  }));
+  ['3', '2', '1'].forEach((n, i) => at(t0 + i * 420, () => {
+    host.classList.add('p2');
+    c.num.textContent = n; c.num.className = 'cd-num';
+    if (S.num) S.num(c, i, n); else numDefault(c.num);
+  }));
+  at(goAt, () => {
+    c.num.textContent = S.goWord; c.num.className = 'cd-num go'; c.sub.textContent = S.goSub;
+    if (S.go) S.go(c); else goDefault(c.num, c.sub);
+  });
+  at(endAt, kill);
+  return endAt;
+}
+
+const btns = document.getElementById('btns');
+STYLES.forEach(S => {
+  const b = document.createElement('button');
+  if (S.key === 'now') b.className = 'cur';
+  b.innerHTML = S.title + '<small>' + S.desc + '</small>';
+  b.onclick = () => { chain++; play(S); };
+  btns.appendChild(b);
+});
+const all = document.createElement('button');
+all.className = 'all';
+all.innerHTML = '▶ A〜E を順に再生<small>1案ごとに約1秒あけて5案を続けて流します。</small>';
+let chain = 0;
+all.onclick = () => {
+  const my = ++chain; let i = 0;
+  const next = () => { if (my !== chain || i >= 5) return; const end = play(STYLES[i++]); setTimeout(next, ms(end) + 1000); };
+  next();
+};
+btns.insertBefore(all, btns.firstChild);
+// Esc で止める（デモだけの都合）
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { chain++; kill(); } });
+</script>
+</body>
+</html>
