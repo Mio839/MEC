@@ -549,10 +549,6 @@ body.exam-streak-zone #examZoneBreath{animation:zoneBreathe var(--zone-beat,3.2s
 @media (prefers-reduced-motion: reduce){
   body.exam-streak-zone #examZoneBreath{animation:none;opacity:0;}
 }
-/* display:none を既定に。JSがタイムストップ演出中だけ display を空にして表示する。
-   これがないと backdrop-filter を持つ全画面要素が常時重なり、一部端末（iPad/WebKit）で
-   画面が暗いまま残る不具合につながる。 */
-#examTimestopOv{position:fixed;inset:0;z-index:9000;backdrop-filter:grayscale(.9) blur(1.8px) brightness(.72);-webkit-backdrop-filter:grayscale(.9) blur(1.8px) brightness(.72);pointer-events:none;opacity:0;display:none;}
 .streak-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:9055;}
 /* ── New combo effects ── */
 #examComboMeter{position:fixed;top:0;left:0;right:0;height:3px;z-index:9300;pointer-events:none;opacity:0;transition:opacity .3s;}
@@ -1427,10 +1423,6 @@ body{
   color:var(--tu-col,#FFD700);
   text-shadow:0 0 22px rgba(var(--tu-glow,255,215,0),.85),0 0 52px rgba(var(--tu-glow,255,215,0),.45),0 3px 12px rgba(0,0,0,.75);}
 
-/* B5: ゾーン崩壊の暗転フラッシュ */
-.exam-zone-collapse{position:fixed;inset:0;z-index:9060;pointer-events:none;opacity:0;
-  background:radial-gradient(ellipse at 50% 44%,rgba(255,60,60,.20) 0%,rgba(0,0,0,.45) 70%);}
-
 /* B6: コンボメーターの「次ティアまで残りN」ラベル */
 #examComboMeterLbl{position:fixed;top:7px;right:10px;z-index:9310;pointer-events:none;opacity:0;
   font-size:10px;font-weight:800;letter-spacing:.04em;white-space:nowrap;
@@ -1683,7 +1675,7 @@ body.exam-awaken #examComboMeter{height:5px;}
 
 /* 動きを減らす設定では新演出のレイヤーごと出さない（JS側 _fxOff とあわせて二重に抑止） */
 @media (prefers-reduced-motion: reduce){
-  .exam-fast-pop,.exam-trace-svg,.exam-tierup,.exam-zone-collapse,
+  .exam-fast-pop,.exam-trace-svg,.exam-tierup,
   .exam-hard-pop,.exam-recover-pop,.exam-mark-pop,
   #examCountdown,.exam-rank-stamp{display:none!important;}
   .exam-modal.exam-modal-impact{animation:none!important;}
@@ -2124,12 +2116,43 @@ html.mec-lite.ui-liquid .qc .ch2.correct::before {
    JS は study_exam.js の _rfDetachFx。カードが流れても演出はその場に残る。ヘッダ（--z-hdr）の下に置く。
    isolation は .lq-host と同じ理由（z-index:-1 の層を台の中に閉じ込める）。 */
 .rf-stage { position: fixed; z-index: calc(var(--z-hdr) - 1); pointer-events: none; isolation: isolate; }
-/* 旧演出の層（正解肢のオーラ・波紋・ぷるんと跳ねる）は試験モードでは出さない＝新しい演出と重ねない。
-   ⚠️ ui_theme.css 側の定義は過去問ビューアが使うので消さないこと。 */
+/* 旧演出の層（正解肢のオーラ・波紋・跳ね・カードの発光・真鍮の歯車と光沢）は試験モードでは出さない＝
+   新しい演出（_lqFluidFx / _frFrostFx / _clxCelestialFx / _brsBrassFx）と重ねない（2026-09-28 に4テーマへ拡張）。
+   ⚠️ ui_theme.css 側の定義は過去問ビューアが使うので消さないこと。
+   ⚠️ ::before は正解の印（⚙ ✦ 等の content）を兼ねるテーマがあるので、liquid 以外は動きと装飾だけ止める。 */
 html.ui-liquid body.exam-mode .qc.fx-correct .ch2.correct::before,
+html.ui-liquid body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.correct::before { content: none !important; }
 html.ui-liquid body.exam-mode .qc.fx-correct .ch2.correct::after,
-html.ui-liquid body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.correct::before,
-html.ui-liquid body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.correct::after { content: none !important; }
+html.ui-liquid body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.correct::after,
+html.ui-frost body.exam-mode .qc.fx-correct .ch2.correct::after,
+html.ui-frost body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.correct::after,
+html.ui-celestial body.exam-mode .qc.fx-correct .ch2.correct::after,
+html.ui-celestial body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.correct::after,
+html.ui-brass body.exam-mode .qc.fx-correct .ch2.correct::after,
+html.ui-brass body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.correct::after { content: none !important; }
+html.ui-frost body.exam-mode .qc.fx-correct .ch2.correct::before,
+html.ui-frost body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.correct::before,
+html.ui-celestial body.exam-mode .qc.fx-correct .ch2.correct::before,
+html.ui-celestial body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.correct::before,
+html.ui-brass body.exam-mode .qc.fx-correct .ch2.correct::before,
+html.ui-brass body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.correct::before { animation: none !important; background-image: none !important; filter: none !important; }
+html.ui-liquid body.exam-mode .qc.fx-correct,
+html.ui-liquid body.exam-mode .qc.exam-revealed.exam-multi-correct,
 html.ui-liquid body.exam-mode .qc.fx-correct .ch2.correct,
 html.ui-liquid body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.correct,
-html.ui-liquid body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.ok { animation: none !important; }
+html.ui-liquid body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.ok,
+html.ui-frost body.exam-mode .qc.fx-correct,
+html.ui-frost body.exam-mode .qc.exam-revealed.exam-multi-correct,
+html.ui-frost body.exam-mode .qc.fx-correct .ch2.correct,
+html.ui-frost body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.correct,
+html.ui-frost body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.ok,
+html.ui-celestial body.exam-mode .qc.fx-correct,
+html.ui-celestial body.exam-mode .qc.exam-revealed.exam-multi-correct,
+html.ui-celestial body.exam-mode .qc.fx-correct .ch2.correct,
+html.ui-celestial body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.correct,
+html.ui-celestial body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.ok,
+html.ui-brass body.exam-mode .qc.fx-correct,
+html.ui-brass body.exam-mode .qc.exam-revealed.exam-multi-correct,
+html.ui-brass body.exam-mode .qc.fx-correct .ch2.correct,
+html.ui-brass body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.correct,
+html.ui-brass body.exam-mode .qc.exam-revealed.exam-multi-correct .ch2.ok { animation: none !important; }

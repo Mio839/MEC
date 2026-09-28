@@ -516,7 +516,8 @@ study_exam.js / study.css / fx_engine.js / chapter_exam.js / ui_theme.css / gami
 **テーマと効果音**
 - 演出セットは UIテーマから `UI_TO_EXAM_SET` で決定論的に引く（ランダムに戻さない）。粒子の fallback を書き戻さない（UIテーマを増やしたら各分岐に足す）。
   `EXAM_EFFECT_THEMES` と `CE_EFFECT_THEMES` の乖離は `check_effect_themes_sync.js`、誰も読まないキーは `test_dead_fx.js` が見張る。
-- 全画面レイヤーは1解答につき `FULLSCREEN_BUDGET` まで。全画面フラッシュは 2.8Hz 以下。
+- 全画面を覆う層（暗転など）は study 側では出さない（2026-09-28 に `FULLSCREEN_BUDGET` ごと撤去）。全画面フラッシュは 2.8Hz 以下。
+- ⚠️ 2026-09-28 に全テーマ共通の正解演出（明るさフラッシュ・ゾーン・グリッチ／墨・背景の呼吸・暗転・神速の稲妻）と、liquid/frost/celestial/brass の ui_theme.css 旧正解層（試験モードのみ）を外した。戻さない（詳細は `_work/仕様/演出.md`）。
 - 効果音の正本は `sounds_index.js`（足す手順は「フォルダに置く → `sounds/meta.json` に1行 → `node _work/build_sounds_index.js`」）。
   ⚠️ ファイル名の表を2本目に書かない／「無音」と合成音を戻さない／キーを改名しない。起動音は毎回ランダム（抽選は `startExam` の中）。`vol>1` は GainNode でしか効かない。
 - 過去問ビューア（`chapter_exam.js`）は意図的に旧演出のまま。

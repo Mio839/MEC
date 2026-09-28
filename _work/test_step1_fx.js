@@ -54,8 +54,8 @@ test('4. 克服時に金床火花 (burst) が発火する', () => {
   assert(examSrc.includes('shapes: [\'shard\', \'square\']'), 'Missing spark burst in prior.wasWrong');
 });
 
-test('5. 超速答時に神速ライトニングバースト (godSpeedBurst) が発火する', () => {
-  assert(examSrc.includes('godSpeedBurst'), 'Missing godSpeedBurst in examSrc');
+test('5. 神速ライトニングバースト (godSpeedBurst) は 2026-09-28 に撤去した（速答は小さな⚡だけ）', () => {
+  assert(!examSrc.includes('godSpeedBurst'), 'godSpeedBurst が study_exam.js に戻っている');
   assert(examSrc.includes('_fastGrade'), 'Missing _fastGrade check');
 });
 
