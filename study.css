@@ -828,11 +828,12 @@ body.exam-mode.exam-waking .st-hdr::before{animation:examRailWake .9s ease-out;}
 .exam-review-btn:active,.exam-retry-btn:active{box-shadow:0 1px 5px -2px rgba(0,0,0,.5);}
 #studySoundOv, #studyThemeOv{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:var(--z-ov);align-items:center;justify-content:center;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);}
 #studySoundOv.open, #studyThemeOv.open{display:flex;}
-.ssov-box{background:var(--surf-1);border:1px solid rgba(255,255,255,.12);border-radius:var(--r-lg);padding:20px 22px;max-width:380px;width:90%;max-height:82vh;overflow-y:auto;}
-.ssov-title{font-size:15px;font-weight:800;margin-bottom:14px;color:var(--tx);}
-.ssov-lbl{font-size:11px;font-weight:700;color:var(--ts);margin:14px 0 6px;}
-.ssov-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:3px;}
-.ssov-btn{padding:8px 4px;border-radius:var(--r-sm);border:1.5px solid rgba(255,255,255,.14);background:rgba(var(--glass-rgb),.06);font-size:12px;font-weight:700;cursor:pointer;color:var(--tx);transition:background .15s,border-color .15s,color .15s;font-family:inherit;}
+.ssov-box{background:var(--surf-1);border:1px solid rgba(255,255,255,.12);border-radius:var(--r-lg);padding:16px 18px;max-width:420px;width:92%;max-height:92vh;max-height:92dvh;overflow-y:auto;}
+.ssov-title{font-size:15px;font-weight:800;margin-bottom:6px;color:var(--tx);}
+.ssov-lbl{font-size:11px;font-weight:700;color:var(--ts);margin:10px 0 5px;}
+.ssov-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;}
+.ssov-btn{padding:6px 3px;line-height:1.25;border-radius:var(--r-sm);border:1.5px solid rgba(255,255,255,.14);background:rgba(var(--glass-rgb),.06);font-size:11px;font-weight:700;cursor:pointer;color:var(--tx);transition:background .15s,border-color .15s,color .15s;font-family:inherit;}
+#ssovBootGrid .ssov-btn{grid-column:1/-1;}
 .ssov-btn:hover,.ssov-btn.sel{background:rgba(61,214,140,.14);border-color:rgba(61,214,140,.42);color:var(--gr);}
 mark.sh{background:rgba(255,215,0,.28);color:inherit;border-radius:2px;padding:0 1px;-webkit-box-decoration-break:clone;box-decoration-break:clone;}
 .st-streak{font-size:11px;font-weight:800;color:var(--or);}
@@ -1401,10 +1402,6 @@ html.mec-jumping .qc{content-visibility:visible!important;}
   .exam-detail-item .val,.exam-pct{transition:none;}   /* 点灯は残す。ふわりと点くのをやめるだけ */
 }
 
-/* 自己診断（🔊設定内・演出が出ない時の切り分け用） */
-.diag-row{font-size:11.5px;color:var(--ts);padding:3px 0;border-bottom:1px solid rgba(255,255,255,.06);line-height:1.6;}
-.diag-row:last-of-type{border-bottom:none;}
-.diag-row b{color:var(--tx);}
 
 /* ヘッダー右端の小要素も縦組みに潰さない（狭い画面で "b-" / "0720h" と2行に割れていた） */
 #mecBuildVer{white-space:nowrap;flex-shrink:0;}
