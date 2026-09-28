@@ -735,6 +735,7 @@ function startExam(overrideUids = null) {
   // 起動音は「開始を押した」このタップの中で選んで用意する＝iOS の自動再生制限を通せる
   // 唯一の機会。⚠️ ランダムの抽選もここで済ませること（_playBootSound では遅い）。
   _pendingBootSpec = _pickBootSpec(); _prepareWavSound(_pendingBootSpec);
+  _clxSessionPick = Math.random() < .5 ? 'nova' : 'galaxy';   // Celestial の正解演出（セッションごとに超新星か銀河の渦）
   const chFilter = !overrideUids ? _examChPrefix : null;
   _examActiveChPrefix = chFilter;
   _examChPrefix = null;
@@ -2228,7 +2229,7 @@ function _spawnStreakParticles(tier, at, ctx) {
       if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#F5D061', thickness: 3, maxR: maxR * 1.05, additive: true });
       return;
     } else if (curUi === 'celestial') {
-      // 2026-09-29：超新星（肢の左端）＋星の軌跡（タップ位置）（_clxCelestialFx）。liquid・frost と同じく
+      // 2026-09-29：超新星か銀河の渦（セッションごとに抽選・肢の左端）＋星の軌跡（タップ位置）（_clxCelestialFx）。liquid・frost と同じく
       // _rfCorrectFx の 0ms で肢の位置に出している。旧 celestialAstrolabe（全画面の紫の閃光・約250粒）は正解演出から外した。
       return;
     } else if (curUi === 'abyss') {
@@ -3010,12 +3011,15 @@ function _frFrostFx(el, card, tier, promoted, budget) {
   setTimeout(() => D.remove(), durC + 50);
 }
 
-/* ══════════ Celestial：超新星＋星の軌跡（2026-09-29）══════════
+/* ══════════ Celestial：（超新星 または 銀河の渦）＋星の軌跡（2026-09-29）══════════
    試験演出一覧（_work/fx_all_demo.html）の新案5つ（一等星の点灯・流れ星の ✓・超新星・天球儀のロック・満月）から
    ユーザーが「超新星」だけを採用し、2026-09-25〜の「星座／惑星直列／星の軌跡から毎回ランダムで1つ」を置き換えた
    （旧3案は「おしゃれだが正解時のエフェクトっぽくない」＝ゆっくり描き上がるだけで山場が無かった）。
    - 同日、旧案の「星の軌跡」だけを戻し、**毎回超新星と重ねる**ことにした（ユーザー判断）。
    - 発火位置は超新星が**正解の肢の左端**（縦は肢の中央）、星の軌跡は**タップ位置**（旧のまま）。どちらもユーザー指定。
+   - さらに同日、第2弾の新案から「銀河の渦」を採用し、**試験のセッションごとに超新星か銀河の渦のどちらかを抽選**する
+     （startExam で _clxSessionPick を決め、そのセッション中は同じもの・星の軌跡はどちらにも重ねる・ユーザー判断）。
+     ⚠️ 1問ごとに抽選しないこと（セッションで揃える、がユーザーの指定）。銀河の渦も肢の左端・縦は中央から出る。
    - 0〜0.18秒：まわりの星屑が左端へ吸い込まれる → 弾けて金の衝撃波とシアンの衝撃波・放射する光の筋・紫の残光、
      星が外へ飛ぶ。1.5秒（段が上がった瞬間は1.8秒）で消える。
    - 段が上がるほど衝撃波が大きく（画面の短辺×0.3→最大0.62）・星と光の筋が増える。段が上がった瞬間は1.3倍＋3本目の輪。
@@ -3113,6 +3117,31 @@ function _clxNova(T, up, px, py, CW, CH, M, S) {
   } };
 }
 
+/* 銀河の渦。星屑が渦を巻いて px/py へ集まり、傾いた渦巻き銀河になる。中心が光り、腕が回りながら広がって消える。
+   粒が多い（60〜150）ので、粒は放射グラデーションを作らない塗りの円で描く（_clxDot は使わない）。 */
+function _clxGalaxy(T, up, px, py, M, S) {
+  const Rg = M * Math.min(.34, .14 + .03 * T) * (up ? 1.3 : 1), arms = up ? 3 : 2;
+  const P = Array.from({ length: Math.min(150, 60 + 12 * T) }, (_, i) => ({ arm: i % arms, u: Math.pow(Math.random(), .7), j: _frR(-.25, .25),
+    r: _frR(.8, 1.8), col: CLX_STARCOL[i % CLX_STARCOL.length] }));
+  const tilt = _frR(.45, .6);   // 傾けて楕円に見せる
+  return { dur: up ? 1800 : 1550, draw(c, e) {
+    const fade = e < 1000 ? 1 : _frC(1 - (e - 1000) / 550);
+    const kin = _frE(_frC(e / 380)), spin = e / 900 + (1 - kin) * 2.2, grow = 1 + .35 * _frC((e - 400) / 1100);
+    c.save(); c.globalCompositeOperation = 'lighter';
+    P.forEach(p => {
+      const a = (.35 + .65 * (1 - p.u)) * fade * (.3 + .7 * kin); if (!(a > 0)) return;
+      const th = p.arm * 6.28 / arms + p.u * 3.4 + p.j + spin, r = Rg * p.u * grow * (1 + 1.4 * (1 - kin));
+      c.globalAlpha = Math.min(1, a); c.fillStyle = p.col;
+      c.beginPath(); c.arc(px + Math.cos(th) * r, py + Math.sin(th) * r * tilt, p.r * S, 0, 7); c.fill();
+    });
+    c.restore();
+    const kf = _frC((e - 300) / 600);
+    _clxGlow(c, px, py, Rg * (.35 + .25 * kin), (.5 + .5 * Math.sin(Math.PI * kf)) * fade, CLX_GOLD, .2);
+    _clxStar(c, px, py, 9 * S * (.6 + .6 * Math.sin(Math.PI * kf)), fade, spin * .3);
+    if (kf > 0 && kf < 1) _clxRing(c, px, py, Rg * 1.3 * _frE(kf), (1 - kf) * .9, CLX_PALE, 1.4 * S);
+  } };
+}
+
 /* 星の軌跡（長時間露光）。弧の色は星の色温度。2026-09-29 に超新星と重ねる形で復活（ユーザー判断）。発火位置はタップ位置のまま */
 function _clxArcs(n, rMax, rMin) {
   return Array.from({ length: n }, () => ({
@@ -3142,6 +3171,7 @@ function _clxTrails(T, up, px, py, rMax, CW, CH, bigY) {
   } };
 }
 
+let _clxSessionPick = null;   // 'nova' | 'galaxy'。startExam で抽選し、そのセッション中は変えない
 function _clxCelestialFx(el, card, tier, promoted, budget) {
   if (!el || !card || _fxOff()) return;
   const er = el.getBoundingClientRect();
@@ -3151,14 +3181,16 @@ function _clxCelestialFx(el, card, tier, promoted, budget) {
   if (!CW || !CH) return;
   const T = Math.max(1, tier), up = promoted && tier >= 2;
   const M = Math.min(CW, CH), S = _frC(M / 480, 1, 2), D = Math.hypot(CW, CH);
-  // 星の軌跡はタップ位置（無ければ肢の左寄り）・超新星は肢の左端（縦は中央）。毎回両方を重ねる
+  // 星の軌跡はタップ位置（無ければ肢の左寄り）・超新星／銀河の渦は肢の左端（縦は中央）。星の軌跡は毎回重ねる
   let lx = w * .42, ly = h / 2;
   const pt = _lqPtr;
   if (pt && pt.el === el && performance.now() - pt.t < 2000) { lx = w * pt.fx; ly = h * pt.fy; }
   const tx = er.left + lx, ty = er.top + ly;
   const parts = [
     _clxTrails(T, up, tx, ty, Math.min(D * .75, D * (.3 + .06 * T)), CW, CH, _frC(ty, CH * .3, CH * .7)),
-    _clxNova(T, up, er.left, er.top + h / 2, CW, CH, M, S),
+    (_clxSessionPick || (_clxSessionPick = Math.random() < .5 ? 'nova' : 'galaxy')) === 'galaxy'
+      ? _clxGalaxy(T, up, er.left, er.top + h / 2, M, S)
+      : _clxNova(T, up, er.left, er.top + h / 2, CW, CH, M, S),
   ];
   const dur = Math.max(...parts.map(p => p.dur));
   const drawAll = (c, e) => parts.forEach(p => p.draw(c, e));
@@ -4232,6 +4264,7 @@ function resumeExam(savedAt) {
   examByChapter = saved.byChapter || {};
   examWrong = saved.wrongUids || [];
 
+  _clxSessionPick = Math.random() < .5 ? 'nova' : 'galaxy';   // 再開も1つのセッション＝抽選し直す（startExam と同じ）
   examMode = true;
   examStartTime = Date.now(); _examPausedMs = 0; _examPauseStart = null;
   // 再開は別セッション扱い（n は examAnswered の続きなので中断前後で連番が繋がる）
@@ -5020,7 +5053,7 @@ function _rfCorrectFx(card, el, budget) {
   _rfSweep(el, inCardMs);
   if (_rfUi() === 'liquid') _lqLiquidFx(el, card, tier, promoted, budget);   // ぷるん＋シャボン玉＋ガラスの衝撃波＋色収差＋ネオン管（_spawnStreakParticles の liquid 分岐を参照）
   else if (_rfUi() === 'frost') _frFrostFx(el, card, tier, promoted, budget);   // 雪の結晶・霜・ダイヤモンドダスト（同上の frost 分岐を参照）
-  else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted, budget);   // 超新星（肢の左端）＋星の軌跡（タップ位置）・2026-09-29
+  else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted, budget);   // 超新星か銀河の渦（セッションごと・肢の左端）＋星の軌跡（タップ位置）
   else if (_rfUi() === 'brass') _brsBrassFx(el, card, tier, promoted, budget);   // 歯車列＋刻印＋鋳込みの唐草（同上の brass 分岐を参照）
   _afterCorrectFx(card, el);
 
