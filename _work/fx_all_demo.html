@@ -212,14 +212,14 @@ const PARTCTL = `
   wrap('_lqGiantBubble', o => function () { return on('lq.giant', window.__P) ? o.apply(this, arguments) : null; });
   // frost
   let inFrost = false, flakes = null;
-  wrap('_frFlake', o => function () { const f = o.apply(this, arguments); if (flakes) flakes.push(f); return f; });
+  wrap('_frFlake', o => function (gens) { const f = o.apply(this, arguments); f.__g = gens; if (flakes) flakes.push(f); return f; });
   wrap('_frFrostFx', o => function (el, card, tier, promoted) {
     inFrost = true; flakes = [];
     const fl = flakes, up = promoted && tier >= 2;
     try { return o.apply(this, arguments); }
     finally {
-      // 作られる順番：六花 → まわりの小さな結晶（段3〜）→ 大きな結晶（段が上がった瞬間）
-      fl.forEach((f, i) => { f.__k = i === 0 ? 'fr.flake' : (up && i === fl.length - 1) ? 'fr.big' : 'fr.extra'; });
+      // 作られる順番：六花 → まわりの小さな結晶（段3〜・枝の世代は2以下）→ 大きな結晶（段が上がった瞬間・1〜3個・世代4）
+      fl.forEach((f, i) => { f.__k = i === 0 ? 'fr.flake' : (up && f.__g === 4) ? 'fr.big' : 'fr.extra'; });
       inFrost = false; flakes = null;
     }
   });
@@ -278,9 +278,9 @@ const PARTS = {
     ['fr.dust', 'ダイヤモンドダスト', '細かな光の粒が舞い降りて瞬く（段3〜は画面全体）', 1, false],
     ['fr.cglint', '肢の右上のきらめき', '最初の0.6秒だけ、肢の右上の角で光る', 1, false],
     ['fr.extra', 'まわりの小さな結晶', '段3〜：六花のまわりに小さな結晶が順に咲く', 3, false],
-    ['fr.corner', '画面の四隅の霜', '段3〜：四隅から霜が伸びて溶ける', 3, false],
-    ['fr.rim', '画面の縁の霜', '段が上がった瞬間：画面の縁が一周凍ってから溶ける', 2, true],
-    ['fr.big', '大きな結晶', '段が上がった瞬間：画面の中央に大きな結晶', 2, true],
+    ['fr.corner', '画面の四隅の霜', '段3〜：四隅から霜が画面の内側まで伸び、ゆっくり溶ける', 3, false],
+    ['fr.rim', '画面の縁の霜', '段が上がった瞬間：画面の縁が一周、内側へ凍ってからゆっくり溶ける', 2, true],
+    ['fr.big', '大きな結晶', '段が上がった瞬間：画面のランダムな位置に1〜3個（中心は重ならず、重なりは20%まで）', 2, true],
     ['fr.wave', '左から右へ瞬く粒', '段が上がった瞬間：粒が左から右へ順に瞬く', 2, true],
   ],
   celestial: [

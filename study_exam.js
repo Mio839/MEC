@@ -2623,6 +2623,34 @@ function _frMelt(c, x, y, r, w, h, rim) {
   c.restore();
   if (rim > 0) { c.save(); c.globalCompositeOperation = 'lighter'; c.beginPath(); c.arc(x, y, r, 0, 7); c.strokeStyle = `rgba(234,248,255,${rim})`; c.lineWidth = 1.4; c.shadowColor = '#70D6FF'; c.shadowBlur = 8; c.stroke(); c.restore(); }
 }
+/* 大きな結晶の置き場所：1〜3個をランダムに。結晶は中心から半径 R の円に収まるので、円どうしの重なりの面積が
+   小さい方の円の20%以下になるように置く（＝発火点の中心も重ならない）。置けなければ個数を減らす。 */
+const FR_BIG_OVERLAP = .2;
+function _frOverlap(x1, y1, r1, x2, y2, r2) {   // 2円の重なりの面積 ÷ 小さい方の円の面積
+  const d = Math.hypot(x2 - x1, y2 - y1), rs = Math.min(r1, r2);
+  if (d >= r1 + r2) return 0;
+  if (d <= Math.abs(r1 - r2)) return 1;
+  const A = r1 * r1 * Math.acos((d * d + r1 * r1 - r2 * r2) / (2 * d * r1)) + r2 * r2 * Math.acos((d * d + r2 * r2 - r1 * r1) / (2 * d * r2))
+    - .5 * Math.sqrt((-d + r1 + r2) * (d + r1 - r2) * (d - r1 + r2) * (d + r1 + r2));
+  return A / (Math.PI * rs * rs);
+}
+function _frBigSpots(CW, CH) {
+  const base = Math.min(CW, CH, 440);
+  for (let n = 1 + Math.floor(Math.random() * 3); n >= 1; n--) {
+    const R0 = base * (n === 1 ? .46 : n === 2 ? .36 : .3);
+    for (let tries = 0; tries < 40; tries++) {
+      const out = [];
+      for (let i = 0; i < n; i++) {
+        for (let k = 0; k < 30 && out.length === i; k++) {
+          const r = R0 * _frR(.85, 1.1), x = _frR(CW * .08, CW * .92), y = _frR(CH * .1, CH * .9);
+          if (out.every(o => _frOverlap(o.x, o.y, o.R, x, y, r) <= FR_BIG_OVERLAP)) out.push({ x, y, R: r });
+        }
+      }
+      if (out.length === n) return out;
+    }
+  }
+  return [{ x: CW / 2, y: CH / 2, R: base * .3 }];
+}
 function _frFrostFx(el, card, tier, promoted, budget) {
   if (!el || _fxOff()) return;
   const er = el.getBoundingClientRect();
@@ -2664,48 +2692,58 @@ function _frFrostFx(el, card, tier, promoted, budget) {
   if (!CW || !CHf) return;
   const chL = er.left, chT = er.top, top = 0, CH = CHf;
   const px = chL + lx, py = chT + ly, bT = chT;
-  const H = _rfFullHost(2950);
+  // 画面の外周（四隅の霜・縁の霜）はラボの尺の3倍でゆっくり伸び・長く残る（2026-09-28・ユーザー判断：2倍→さらに延長）。
+  // 伸びる長さも画面の短辺から決めて、画面の内側まで届かせる（旧：四隅 45＋段×14px・縁 26px）。結晶と粒は元の尺のまま。
+  const FR_EDGE_K = 3;
+  const Mf = Math.min(CW, CH);
+  const dur2 = up ? Math.round(2000 * FR_EDGE_K) : T >= 3 ? Math.round(1900 * FR_EDGE_K) : 1700;
+  const H = _rfFullHost(Math.max(2950, dur2 + 100));
 
   // ── 六花（カードの裏）＋ TIER3〜の四隅の霜 ＋ 段が上がった瞬間の縁の霜と大きな結晶 ──
   const extras = T >= 3 ? Array.from({ length: Math.min(4, T - 1) }, (_, i) => {
     const a = _frR(0, 6.28), d = R * _frR(1.5, 2.3);
     return { f: _frFlake(Math.max(1, gens - 2)), x: px + Math.cos(a) * d * 1.4, y: py + Math.sin(a) * d * .7, R: R * _frR(.3, .45), dl: 150 + i * 110, rot: _frR(0, 3) };
   }) : null;
-  const big = up ? { f: _frFlake(4), R: Math.min(CW, 440) * .46 } : null;
+  // 大きな結晶：画面のランダムな位置に1〜3個（2026-09-28・ユーザー判断）。発火点（中心）は重ねず、結晶どうしの重なりは
+  // 小さい方の面積の20%まで（_frBigSpots）。少しずつずらして咲かせる。
+  const bigs = up ? _frBigSpots(CW, CH).map((b, i) => ({ ...b, f: _frFlake(4), rot: _frR(0, Math.PI), dl: i * 180 })) : null;
   let corner = null, rim = null;
   if (T >= 3) {
     const cs = [], pts = [[0, 0, Math.PI / 4], [CW, 0, Math.PI * 3 / 4], [0, CH, -Math.PI / 4], [CW, CH, -Math.PI * 3 / 4]];
     pts.forEach(([x, y, a], i) => {
       if (i < 2 && top > 0) return;                    // 帯の上端がカードの上端でなければ上の隅は無い
       if (i >= 2 && top + CH < CHf) return;             // 同じく下
-      for (let j = 0; j < 4 + T; j++) cs.push({ x: x + _frR(-6, 6), y: y + _frR(-6, 6), a: a + _frR(-.6, .6) });
+      for (let j = 0; j < 6 + T; j++) cs.push({ x: x + _frR(-6, 6), y: y + _frR(-6, 6), a: a + _frR(-.7, .7) });
     });
-    if (cs.length) corner = _frFrost(cs, 45 + T * 14);
+    if (cs.length) corner = _frFrost(cs, Mf * Math.min(.34, .2 + T * .02));
   }
   if (up) {
+    // 種の間隔は 14→22px（1本が長くなった分、線分の総数が増えすぎないように）
     const bs = [];
-    for (let x = 0; x < CW; x += 14) { if (top === 0) bs.push({ x, y: 0, a: Math.PI / 2 + _frR(-.5, .5) }); if (top + CH >= CHf) bs.push({ x, y: CH, a: -Math.PI / 2 + _frR(-.5, .5) }); }
-    for (let y = 0; y < CH; y += 14) bs.push({ x: 0, y, a: _frR(-.5, .5) }, { x: CW, y, a: Math.PI + _frR(-.5, .5) });
-    rim = _frFrost(bs, 26);
+    for (let x = 0; x < CW; x += 22) { if (top === 0) bs.push({ x, y: 0, a: Math.PI / 2 + _frR(-.5, .5) }); if (top + CH >= CHf) bs.push({ x, y: CH, a: -Math.PI / 2 + _frR(-.5, .5) }); }
+    for (let y = 0; y < CH; y += 22) bs.push({ x: 0, y, a: _frR(-.5, .5) }, { x: CW, y, a: Math.PI + _frR(-.5, .5) });
+    rim = _frFrost(bs, Mf * .08);
   }
-  const dur2 = up ? 2600 : T >= 3 ? 2100 : 1700;
   const C = _lqLayer(H, 'fr-card');
   const c2 = _frCtx(C, CW, CH, top, 1.5);
   const diag = Math.hypot(CW, CH);
   _frRun(c2, CW, CH, dur2, (c, e) => {
     // 霜（四隅・縁）は先に描いて溶かし、その上に結晶を描く
     if (corner) {
-      _frDrawFrost(c, corner, _frE(_frC(e / 700)), .7);
-      if (e > 1000) { const km = _frE(_frC((e - 1000) / 900)); _frMelt(c, px, py, km * diag, CW, CH, 0); }
+      const ec = e / FR_EDGE_K;
+      _frDrawFrost(c, corner, _frE(_frC(ec / 700)), .7);
+      if (ec > 1000) { const km = _frE(_frC((ec - 1000) / 900)); _frMelt(c, px, py, km * diag, CW, CH, 0); }
     }
     if (rim) {
-      _frDrawFrost(c, rim, _frE(_frC(e / 650)), .8);
-      if (e > 900) { const km = _frE(_frC((e - 900) / 1100)); _frMelt(c, px, py, km * diag, CW, CH, (1 - km) * .8); }
+      const er2 = e / FR_EDGE_K;
+      _frDrawFrost(c, rim, _frE(_frC(er2 / 650)), .8);
+      if (er2 > 900) { const km = _frE(_frC((er2 - 900) / 1100)); _frMelt(c, px, py, km * diag, CW, CH, (1 - km) * .8); }
     }
-    if (big) {
-      const fb = e < 1800 ? 1 : _frC(1 - (e - 1800) / 800);
-      _frDrawFlake(c, big.f, CW / 2, py, big.R, rot0 + e / 9000, _frE(_frC(e / 1500)), .32 * fb, 1);
-    }
+    if (bigs) bigs.forEach(b => {
+      const eb = e - b.dl; if (eb <= 0) return;
+      const fb = eb < 1800 ? 1 : _frC(1 - (eb - 1800) / 800);
+      _frDrawFlake(c, b.f, b.x, b.y, b.R, b.rot + eb / 9000, _frE(_frC(eb / 1500)), .32 * fb, 1);
+    });
     flakeAt(c, e, px, py);
     if (extras) extras.forEach(x => {
       const ff = e < 1100 ? 1 : _frC(1 - (e - 1100) / 500);
