@@ -1541,9 +1541,31 @@ R1   = max(250, N*(2*CH_R+CH_GAP)/2π)     親リング半径（Nから決まる
 
 ## テスト一覧
 
-いずれも実ソースを読み込む（ロジックの二重管理をしない）。コミット前に全部通すこと。
+いずれも実ソースを読み込む（ロジックの二重管理をしない）。
+
+### 一括実行とフック・CI（2026-09-28〜）
+
+```bash
+node _work/run_all.js            # テスト全部＋生成物の --check（約15秒）
+node _work/run_all.js --quick    # テストだけ
+node _work/run_all.js --browser  # 実ブラウザのテストも（章ジャンプの計測で約15分）
+```
+
+- ⚠️⚠️ **合否は終了コードで決めること。出力の最後の行を信用しない。** 2026-09-28 まで8本のテストが、
+  失敗しても合格数だけを「全 N 件 ok」と最後に出していた（直した）。`run_all.js` は終了コードだけを見る。
+- **生成物の食い違い**も見る（rate_index / dup_index / sounds_index / mindmap の index / 模試の成績表 /
+  qmeta / image_dims / 模試の解説 / 必修講座 Part1・Part2 / 画像の整合性）。⚠️ **生成物は連鎖する**——
+  `questions_*.json` を変えると qmeta と rate_index も作り直しが要り、**元の科目の解説を直すと
+  必修講座（解説を借りている）も作り直しが要る**。2026-09-28 に qmeta（血液5問）と必修講座（4問）が
+  古いまま残っていたのをこれで見つけた。
+- **フックは Git 管理下 `_work/hooks/`**（pre-commit＝今までどおりの軽い検査／pre-push＝`run_all.js`）。
+  ⚠️ **マシンごとに一度だけ `git config core.hooksPath _work/hooks`** が要る（`run_all.js` が未設定を知らせる）。
+  旧 `.git/hooks/` の Git LFS の残りのフックは使わない（LFS はもう使っていない）。
+- **GitHub Actions**（`.github/workflows/test.yml`）が push のたびに `run_all.js --ci` を流す。落ちると
+  メールが来るだけで Pages の反映は止めない。PDF（Git 管理外）が要る検査はそこではスキップになる。
 
 ```
+node _work/run_all.js              ↓ 全部まとめて（終了コードで判定・生成物の食い違いも見る）
 node _work/test_attempts.js        解答イベントログ・今日の誤答 (18)
 node _work/test_attempts_roll.js   解答ログの集計（畳む・同期で二重に数えない・週の結果発表）(15)
 node _work/test_karte.js           弱点カルテの集計・全国比    (19)
@@ -2649,7 +2671,7 @@ study.html(study_exam.js) ／ index.html ／ chapter_exam.js  ← 3つとも「�
 - 個別フラグで花火・雷・紙吹雪・CRT・ECGスイープ・ブラックホール等がテーマごとに追加（`use*`）。
 
 ### 章別（chapter_exam.js）との関係
-過去問ビューア側は `CE_EFFECT_THEMES` / `CE_EFFECT_POOL` として同一配色をミラー実装。片方の配色・ラベルを変えたら**もう片方も合わせる**こと。乖離は `node _work/check_effect_themes_sync.js` で自動検出でき、pre-commitフックが study_exam.js / chapter_exam.js のステージ時に自動実行する（study側のみの `fx` キーは除外。フックはGit管理外＝別マシンでは要再設定）。
+過去問ビューア側は `CE_EFFECT_THEMES` / `CE_EFFECT_POOL` として同一配色をミラー実装。片方の配色・ラベルを変えたら**もう片方も合わせる**こと。乖離は `node _work/check_effect_themes_sync.js` で自動検出でき、pre-commitフックが study_exam.js / chapter_exam.js のステージ時に自動実行する（study側のみの `fx` キーは除外。フックは `_work/hooks/`＝Git 管理下。マシンごとに `git config core.hooksPath _work/hooks` が要る）。
 
 ## 科目選択は単一選択（2026-07-20〜）
 
@@ -2855,5 +2877,5 @@ GitHub Gist API で進捗を保存。`index.html` の「同期設定」から PA
 - `questions_*.json` の整形はファイルごとにバラバラ（compact＝jitsu1 / indent=1+CRLF＝resp / 手書き混在＝custom）。**書き戻しで整形を変えないこと**。1問直しただけで全行が差分になりレビュー不能になる。`_work/fix_missing_bi_badges.py` が「往復で再現できるならjson.dumps、できなければ行単位パッチ」の実装例。
 - 画像を追加・差し替えたら `python _work/build_image_dims.py` で `image_dims.json` を作り直す（`<img width height>` の材料。忘れるとその画像だけレイアウトシフトが戻る）。
 - 画像は `python _work/compress_images.py`（長辺1200px・JPEG q85・**ファイル名は不変**）を通す。2026-07-24に全2544枚で461MB→228MBにした。パスが変わらないのでJSON/HTML/sw.jsの書き換えは不要。
-- ⚠️ pre-commitフックは`.git/hooks/pre-commit`にありGit管理外（マシンローカル）。別マシンでcloneした際は再設定が必要。現在は「演出テーマ乖離チェック」と「画像整合性チェック」の2本。
+- ⚠️ フックは `_work/hooks/`（Git 管理下・2026-09-28〜）。別マシンで clone したら `git config core.hooksPath _work/hooks` を一度だけ。pre-commit は「演出テーマ乖離チェック」と「画像整合性チェック」、pre-push は `node _work/run_all.js`。
 - 章別HTMLをJSONへ完全移行し終えた科目から `_archive/{科目}/` へ`git mv`する。移行未完了（HTML側にのみ存在する解説がある）科目は先にJSONへマージしてから移動する。

@@ -1,0 +1,23 @@
+# push のたびにテスト全部と生成物の食い違い検査を流す（node _work/run_all.js --ci）。
+# 落ちると GitHub からメールが来る。GitHub Pages の反映は止めない（Pages はブランチから別に配信される）。
+# PDF（Git 管理外）が要る検査（必修講座・模試の解説の作り直し）はここではスキップになる＝手元の run_all で見る。
+name: tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+jobs:
+  run-all:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pillow
+      - run: node _work/run_all.js --ci

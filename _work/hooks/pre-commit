@@ -1,0 +1,43 @@
+#!/bin/sh
+# Pre-commit hook（Git 管理下: _work/hooks/。有効にするには一度だけ git config core.hooksPath _work/hooks）
+#   commit 時は軽い検査だけ。テスト全部と生成物の食い違いは pre-push（node _work/run_all.js）が見る。
+#
+#   0) study_exam.js / chapter_exam.js がステージされていれば演出テーマの乖離を検証
+#      （EXAM_EFFECT_THEMES と CE_EFFECT_THEMES はミラー実装＝片方だけの変更を検出）
+#   1) questions_*.json がステージされていれば画像整合性を検証
+#
+# 2026-07-24: questions_*.js（file:// 用コピー）を廃止したため、.js 自動再生成と
+# check_json_js_sync.js の呼び出しを削除した。gen_js_from_json.js も同時に撤去済み。
+
+STAGED_ALL=$(git diff --cached --name-only)
+
+# ── 0) 演出テーマ乖離チェック ───────────────────────────────────────────────
+if echo "$STAGED_ALL" | grep -qE '^(study_exam|chapter_exam)\.js$'; then
+  echo "[pre-commit] exam effect themes changed - checking parity..."
+  if ! node _work/check_effect_themes_sync.js; then
+    echo "[pre-commit] 演出テーマが乖離しています。両ファイルを揃えてからコミットしてください。"
+    echo "  To skip: git commit --no-verify"
+    exit 1
+  fi
+fi
+
+STAGED_JSON=$(echo "$STAGED_ALL" | grep -E '^questions_.*\.json$')
+
+if [ -z "$STAGED_JSON" ]; then
+  exit 0
+fi
+
+# ── 1) 画像整合性チェック ───────────────────────────────────────────────────
+echo "[pre-commit] checking image integrity..."
+OUTPUT=$(python _work/validate_images.py --only A D 2>&1)
+echo "$OUTPUT"
+
+if echo "$OUTPUT" | grep -qE '! \['; then
+  echo ""
+  echo "[pre-commit] Fix the above errors before committing."
+  echo "  To skip: git commit --no-verify"
+  exit 1
+fi
+
+echo "[pre-commit] OK"
+exit 0
