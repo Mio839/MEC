@@ -171,50 +171,9 @@ t('3. S6 が .ch2 の padding / margin を変えていない', () => {
 });
 
 // ══ 段A: S5 補強プレート ═══════════════════════════════════════════════
-t('4. S5 のプレートが .exam-scar::before のまま（::after へ移していない＝UIテーマの透かしと衝突しない）', () => {
-  assert.ok(/\.qc\.exam-scar[^{,]*::before/.test(CSS_NC), '.qc.exam-scar::before が無い');
-  assert.ok(!/\.qc\.exam-scar[^{,]*::after/.test(CSS_NC),
-    '.exam-scar が ::after を使っている（UIテーマの透かしと exam-multi-correct が使っている層）');
-});
 
-t('5. S5 が赤（リベット）を残している（真鍮一色にしていない）', () => {
-  const rs = ruleFor(/\.qc\.exam-scar::before/);
-  assert.ok(rs.length, '.qc.exam-scar::before の規則が無い');
-  const body = rs.map(r => r.body).join('');
-  assert.ok(/--exam-plate-rivet/.test(body), 'リベットの層が無い');
-  assert.ok(/--exam-plate-red/.test(body), '赤の層が無い（真鍮一色だと通過済みカードの中で埋もれる）');
-  // トークン名だけ真似て中身が真鍮になっていないか、実体まで見る
-  const rivet = /--exam-plate-rivet\s*:([^;]+);/.exec(CSS_NC);
-  const red   = /--exam-plate-red\s*:([^;]+);/.exec(CSS_NC);
-  assert.ok(rivet && /#F2A07B|rgba\(176,\s*58,\s*40/i.test(rivet[1]), 'リベットが銅赤になっていない');
-  assert.ok(red && /255,\s*107,\s*107/.test(red[1]), '赤の層が赤でない');
-});
 
-t('6. S5 の幅が R5 のクランプと同値（カード左端の語彙が幅で読み分けられる）', () => {
-  const clamp = ruleFor(/exam-key-focus:not\(\.exam-revealed\)::before/);
-  const plate = ruleFor(/\.qc\.exam-scar::before/);
-  assert.ok(clamp.length && plate.length, 'クランプまたはプレートの規則が無い');
-  const w = b => (/width\s*:\s*(\d+)px/.exec(b) || [])[1];
-  assert.strictEqual(w(plate[0].body), w(clamp[0].body),
-    'プレートとクランプの幅が違う（3px ではリベットの頭が潰れて点にならない）');
-  assert.strictEqual(w(plate[0].body), '5', 'プレートの幅が 5px でない');
-});
 
-t('7. S5 の克服光が _afterCorrectFx にある（正解の2経路の合流点。片方だけだと計算問題で抜ける）', () => {
-  const b = fnBody('_afterCorrectFx');
-  assert.ok(b, '_afterCorrectFx が見つからない');
-  assert.ok(/_polishPlate\s*\(/.test(b), '_afterCorrectFx から _polishPlate を呼んでいない');
-  ['revealAnswer', '_revealCalcAnswer'].forEach(fn => {
-    const s = fnBody(fn);
-    if (!s) return;
-    assert.ok(!/_polishPlate\s*\(/.test(s), fn + ' が _polishPlate を直接呼んでいる（合流点を通すこと）');
-  });
-  const p = fnBody('_polishPlate');
-  assert.ok(p, '_polishPlate が見つからない');
-  assert.ok(/_fxOff\(\)/.test(p), '_polishPlate が reduced-motion を尊重していない');
-  assert.ok(/classList\.remove\('exam-plate-fix'\)/.test(p),
-    '克服光の当て板を消していない（残ると exam-scar と同じ絵が並んで見分けられなくなる）');
-});
 
 // ══ 段B: S10 結果画面を計器盤にする ════════════════════════════════════
 t('19. S10 が .gm- で始まるセレクタを1つも書いていない（gamify.js 注入＝ハブと共有の CSS を上書きしない）', () => {
@@ -331,13 +290,6 @@ t('10. S9 のレールが明線と暗線の対になっている（--exam-bevel-
   assert.ok(/--exam-brass/.test(body), 'レールに真鍮の明側が無い');
 });
 
-t('11. S9 の稼働灯（::after）が 1px のままである（太くすると光が帯になり流体に見えない）', () => {
-  const rs = ruleFor(/\.st-hdr::after/);
-  assert.ok(rs.length, '.st-hdr::after が無い');
-  const h = /height\s*:\s*(\d+)px/.exec(rs[0].body);
-  assert.ok(h, '稼働灯の height が読めない');
-  assert.strictEqual(h[1], '1', '稼働灯が 1px でなくなっている');
-});
 
 // ══ 段D: S11 炉のヴィネット ══════════════════════════════════════════
 /** S11 の2層＝**body 自身の**疑似要素だけを拾う。
@@ -353,9 +305,9 @@ function forgeRules() {
 
 t('23. S11 が exam-mode 前提で書かれている（body::before ではない）', () => {
   const rs = forgeRules();
-  assert.ok(rs.length >= 2, 'S11 の2層（縁と熾火）が見つからない');
   assert.ok(rs.some(r => /#examChrome/.test(r.sel)), '縁（#examChrome）が無い');
-  assert.ok(rs.some(r => /::after/.test(r.sel)), '熾火（::after）が無い');
+  // 熾火（body.exam-mode::after の呼吸）は 2026-09-28 に撤去した
+  assert.ok(!rs.some(r => /body\.exam-mode::after/.test(r.sel)), '熾火（body.exam-mode::after）が戻っている');
   // ⚠️ body::before / body::after（exam-mode 抜き）を書くと通常閲覧へ持ち越す
   RULES.forEach(r => {
     r.sel.split(',').forEach(one => {
@@ -376,42 +328,7 @@ t('24. S11 が width / height / transform を1つも使っていない（iOS の
   });
 });
 
-t('25. S11 の呼吸が .exam-idle-lit に連動している（フリーランのアニメを作らない）', () => {
-  const animated = forgeRules().filter(r => /(^|;|\s)animation\s*:/.test(r.body));
-  assert.ok(animated.length >= 1, '熾火の呼吸が無い');
-  animated.forEach(r => {
-    assert.ok(/\.exam-idle-lit/.test(r.sel),
-      '縁が稼働灯の状態と無関係に動いている → ' + r.sel.trim() +
-      '（筐体で常時動けるのは .exam-idle-lit に連動するものだけ・§5-6）');
-  });
-  // 連動していない素の ::after に infinite が無いこと
-  forgeRules().filter(r => !/\.exam-idle-lit/.test(r.sel)).forEach(r => {
-    assert.ok(!/infinite/.test(r.body), '素の縁に常時アニメがある → ' + r.sel.trim());
-  });
-});
 
-t('26. S11 の熾火のピーク不透明度が 0.06 以下・到達距離が 8vmin 以下', () => {
-  const after = forgeRules().filter(r => /::after/.test(r.sel));
-  assert.ok(after.length, '熾火の規則が無い');
-  const body = after.map(r => r.body).join('');
-  // 到達距離
-  const radii = (body.match(/circle\s+([\d.]+)vmin/g) || []).map(x => parseFloat(/([\d.]+)/.exec(x)[1]));
-  assert.ok(radii.length, '熾火の到達距離（circle Nvmin）が読めない');
-  radii.forEach(v => assert.ok(v <= 8, '熾火の到達距離が 8vmin を超えている: ' + v + 'vmin'));
-  // ピーク不透明度（素の opacity と keyframes の両方）
-  const peaks = [];
-  const base = /(^|;|\s)opacity\s*:\s*([\d.]+)/.exec(body);
-  if (base) peaks.push(parseFloat(base[2]));
-  const kf = /@keyframes\s+examForgeBreath\s*\{([\s\S]*?)\}\s*\n/.exec(CSS_NC);
-  assert.ok(kf, 'examForgeBreath の keyframes が無い');
-  (kf[1].match(/opacity\s*:\s*([\d.]+)/g) || []).forEach(x => peaks.push(parseFloat(/([\d.]+)/.exec(x)[1])));
-  assert.ok(peaks.length >= 2, '熾火の不透明度が読めない');
-  const hi = Math.max(...peaks), lo = Math.min(...peaks);
-  assert.ok(hi <= 0.06, '熾火のピーク不透明度が 0.06 を超えている: ' + hi);
-  // 振幅はピークの ±50% 以内
-  assert.ok((hi - lo) <= hi * 0.5 + 1e-9,
-    '呼吸の振幅がピークの50%を超えている（' + lo + '→' + hi + '）＝カード面のコントラストが動く');
-});
 
 t('27. S11 の z-index が --z-hdr より上・モーダル(5000)と #examStreakBorder(9045)より下', () => {
   forgeRules().forEach(r => {
@@ -425,80 +342,11 @@ t('27. S11 の z-index が --z-hdr より上・モーダル(5000)と #examStreak
 });
 
 // ══ 段E: S4 軸光 ／ S1+S1' 排圧計 ／ S12 ヘッダの管 ／ S13 トーストの打撃 ══
-t('12. S4 の軸光が .exam-idle-lit に連動し、tier 色ではなく琥珀固定である', () => {
-  const lit = RULES.filter(r => /\.exam-idle-lit[^,]*\.ep-gear/.test(r.sel));
-  assert.ok(lit.length, '軸光が .exam-idle-lit に連動していない（新しい軸を作らない・§5-6）');
-  const all = RULES.filter(r => /\.ep-gear/.test(r.sel));
-  all.forEach(r => {
-    assert.ok(!/--exam-focus-c|--exam-focus-glow/.test(r.body),
-      '軸光に tier 色が入っている → ' + r.sel.trim() + '（筐体は真鍮固定・tier で変えてよいのは明るさだけ）');
-  });
-  // 明るさだけが段で変わる＝--exam-axle は数（0〜7）としてしか使われない
-  assert.ok(lit.some(r => /--exam-axle\b/.test(r.body)), '明るさが tier（--exam-axle）に載っていない');
-  const js = fnBody('_syncFocusStreakColor');
-  assert.ok(js && /--exam-axle/.test(js), 'JS が --exam-axle を渡していない');
-  assert.ok(!/setProperty\('--exam-axle',\s*[^)]*#/.test(js), 'JS が --exam-axle に色を渡している（段だけを渡すこと）');
-});
 
-t('13. S4 が歯車の実装を3本目にしていない（<circle> を足していない）', () => {
-  const gearSvgs = (HTML.match(/class="ep-gear[^"]*"/g) || []).length;
-  assert.strictEqual(gearSvgs, 2, '計器ベイの歯車が2枚でなくなっている');
-  // .ep-gear の SVG の中に <circle> が増えていないこと（軸光は background で作る）
-  const svgs = HTML.match(/<svg class="ep-gear[\s\S]*?<\/svg>/g) || [];
-  svgs.forEach(x => assert.ok(!/<circle/.test(x), '歯車の SVG に <circle> を足している（実装が3本目になる）'));
-  const lit = RULES.filter(r => /\.ep-gear/.test(r.sel)).map(r => r.body).join('');
-  assert.ok(/background\s*:\s*radial-gradient/.test(lit), '軸光が background の radial-gradient で作られていない');
-});
 
-t('14. S1 の針が rotate で描かれ、箱の外へ出る要素を作らない（iOS の縮尺振動の再発防止）', () => {
-  const dial = ruleFor(/\.ep-relief/);
-  const needle = ruleFor(/\.ep-needle/);
-  assert.ok(dial.length && needle.length, '排圧計の盤面／針が無い');
-  const nb = needle.map(r => r.body).join('');
-  assert.ok(/rotate\s*:/.test(nb), '針が rotate プロパティで描かれていない');
-  assert.ok(!/[^-]transform\s*:/.test(nb), '針が transform を使っている（走行中のアニメに殺される）');
-  // 針は盤面（13px＝半径 6.5px）に収まること
-  const dw = parseFloat(/width\s*:\s*([\d.]+)px/.exec(dial[0].body)[1]);
-  const nh = parseFloat(/height\s*:\s*([\d.]+)px/.exec(nb)[1]);
-  assert.ok(nh <= dw / 2, '針が盤面からはみ出す（' + nh + 'px > 半径 ' + (dw / 2) + 'px）');
-  // JS 側も rotate で書くこと
-  const k = fnBody('_reliefKick');
-  assert.ok(k, '_reliefKick が見つからない');
-  assert.ok(/rotate:/.test(k) && !/transform:/.test(k), '_reliefKick が transform を使っている');
-});
 
-t('15. S1 の振れ幅が _examCardSeenAt を正本にしている（帳簿を新設していない）', () => {
-  const k = fnBody('_reliefKick');
-  assert.ok(/_examCardSeenAt\.get\(/.test(k),
-    '_reliefKick が _examCardSeenAt を見ていない（経過時刻の帳簿を新設しないこと＝R1 と同じ正本）');
-  // 針は「読書中は1度も動かない」＝解答検出の1か所からしか呼ばれない
-  const calls = (JS_NC.match(/_reliefKick\(/g) || []).length;
-  assert.strictEqual(calls, 2, '_reliefKick の呼び出しが1か所でない（定義1＋呼び出し1＝2）');
-  const focus = fnBody('_updateExamFocus');
-  assert.ok(/_reliefKick\(/.test(focus),
-    '_reliefKick が _updateExamFocus（解答の全経路を捉える唯一の場所）から呼ばれていない');
-});
 
-t('16. S1 が正誤で色も振れ幅も変えない', () => {
-  const k = fnBody('_reliefKick');
-  assert.ok(!/isCorrect|correct|wrong/i.test(k),
-    '_reliefKick が正誤を見ている（量っているのは正誤ではなく費やした思考＝誤答を罰しない）');
-  // 呼び出し側も正誤を渡していない
-  const focus = fnBody('_updateExamFocus');
-  const m = /_reliefKick\(([^)]*)\)/.exec(focus);
-  assert.ok(m && !/true|false|isCorrect/.test(m[1]), '_reliefKick に正誤が渡されている: ' + (m && m[1]));
-});
 
-t("31. S1' のオーバーシュートが rotate プロパティで、箱の外へ出る要素を作らない", () => {
-  const k = fnBody('_reliefKick');
-  const frames = (k.match(/rotate:\s*[^,}]+/g) || []);
-  assert.ok(frames.length >= 4, '針のキーフレームが少なすぎる（オーバーシュートが無い）');
-  assert.ok(/over/.test(k), 'オーバーシュートの値が無い');
-  // 常時の微振動を入れていないこと（iterations / infinite）
-  assert.ok(!/infinite|iterations/.test(k), '針に常時の微振動が入っている（読書中に周辺視野で動き続ける）');
-  // レッドゾーンを入れていないこと
-  assert.ok(!/#F{0,2}[0-9A-F]{0,2}0000|red/i.test(k), '針にレッドゾーンが入っている（誤答を罰しない方針と噛み合わない）');
-});
 
 t('28. S12 が font-family を差し替えていない（等幅化は font-variant-numeric）', () => {
   const rs = RULES.filter(r => /#examProgTxt|#examTimer/.test(r.sel));
@@ -539,10 +387,13 @@ t('32. 連続数の表示は translate / scale で動かし、transform を使�
 });
 
 // ══ 全段共通 ═══════════════════════════════════════════════════════════
-t('17. exitExam が Phase 7 で足したクラス・タイマーを全部落とす', () => {
-  const b = fnBody('exitExam');
-  assert.ok(b, 'exitExam が見つからない');
-  assert.ok(/exam-plate-fix/.test(b), 'exitExam が exam-plate-fix を落としていない');
+// 2026-09-28: S1 排圧計・S4 軸光・S5 当て板・S9 稼働灯・S11 熾火の呼吸を撤去した（ユーザー判断）
+t('17. Phase 7 で撤去した演出が戻っていない', () => {
+  assert.ok(!/function _reliefKick\(|function _polishPlate\(|function _markCardScar\(/.test(JS),
+    '排圧計・当て板・傷の関数が study_exam.js に戻っている');
+  assert.ok(!/\.ep-needle|\.ep-relief|\.qc\.exam-scar|\.qc\.exam-plate-fix|--exam-axle/.test(CSS_NC),
+    '排圧計・当て板・傷・軸光の CSS が戻っている');
+  assert.ok(!/id="epNeedle"/.test(HTML), '排圧計の要素が study.html に戻っている');
 });
 
 t('33. vars.css / index.html / gamify.js / chapter_exam.js に Phase 7 の痕跡が無い', () => {

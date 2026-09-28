@@ -28,10 +28,10 @@ console.log('── 1. 章完走メダル封印 (案1) ──');
 //    一度も表示されない CSS だったため（test_dead_fx.js が参照されない @keyframes を見張る）。
 
 console.log('── 2. コンボメーターのオーバーヒート & 蒸気 (案3) ──');
-test('study.css と study_exam.js に tier-overheat と蒸気放出がある', () => {
-  assert(cssSrc.includes('#examComboMeter.tier-overheat'), 'Missing tier-overheat in study.css');
-  assert(examSrc.includes('meter.classList.toggle(\'tier-overheat\', tier >= 7)'), 'Missing tier-overheat toggle in study_exam.js');
-  assert(examSrc.includes('window.MecFX.steam(window.innerWidth - 60'), 'Missing steam in study_exam.js');
+// 2026-09-28 に撤去した（ユーザー判断）。戻っていないことを見る
+test('コンボメーターのオーバーヒートと蒸気は撤去したまま', () => {
+  assert(!cssSrc.includes('#examComboMeter'), 'コンボメーターの CSS が戻っている');
+  assert(!examSrc.includes("classList.toggle('tier-overheat'"), 'tier-overheat の切り替えが戻っている');
 });
 
 console.log('── 3. 赤旗ピン打刻 & 警戒光彩 (案4) ──');
@@ -73,7 +73,6 @@ test('mindmap.css に .mm-panel::before バインダークリップがある', (
 
 console.log('── 10. prefers-reduced-motion 整合性 ──');
 test('全アニメーションで prefers-reduced-motion による安全な停止がある', () => {
-  assert(cssSrc.includes('#examComboMeter.tier-overheat{animation:none;}'), 'Missing reduced-motion in study.css');
   assert(knSrc.includes('.kn-danger::after{animation:none;}'), 'Missing reduced-motion in knowledge.html');
   // stats.html は動くものが1つも無いので対象外（上の注記を参照）
 });

@@ -251,7 +251,7 @@ t('7. --exam-bevel-hi を使うルールには --exam-bevel-lo が必ず対で�
 });
 
 // ══ 8. 動くのは稼働灯ただ1つ ════════════════════════════════════════════════
-t('8. 筐体で animation を持つのは .st-hdr::after（D9 稼働灯）だけ', () => {
+t('8. 筐体に常時アニメが無い（稼働灯・歯車の回転は 2026-09-28 に撤去）', () => {
   const chassis = ['.st-hdr::before', '.st-hdr::after', '.exam-prog-track', '.exam-start-box', '.exam-modal'];
   const animated = [];
   RULES.forEach(r => {
@@ -272,16 +272,17 @@ t('8. 筐体で animation を持つのは .st-hdr::after（D9 稼働灯）だけ
      **筐体（ずっと画面に居るもの）ではない**。既存の cyber 様式のリング（.cd-rings）も
      同じく infinite で回っており、真鍮を使っていないから検査に掛かっていなかっただけ。
      ⚠️ この例外を「.cd- で始まる」以上に広げないこと。広げると本物の筐体が素通りする。 */
-  const INFINITE_OK = ['.st-hdr::after', '.ep-gear', '.cd-'];
+  const INFINITE_OK = ['.cd-'];
   animated.forEach(sel => {
     const r = RULES.find(x => x.sel.trim() === sel);
     if (r && !/infinite/.test(r.body)) return;            // 一度きりのアニメは対象外
     assert.ok(INFINITE_OK.some(ok => sel.includes(ok)),
       '筐体に理由のない常時アニメが増えている → ' + sel + '（動くのは稼働灯1つだけ・5-6）');
   });
-  // 常時アニメを持つ筐体は、稼働灯の状態で止まること＝勝手に回り続けない
-  assert.ok(/exam-idle-lit[^{]*\.ep-gear\{[^}]*animation-play-state\s*:\s*running/.test(FLAT),
-    '歯車(R2)が .exam-idle-lit に連動していない（読書中だけ回り、答えた瞬間に1拍止まる約束）');
+  // 2026-09-28: 稼働灯・歯車の回転・熾火（.exam-idle-lit）は撤去した（ユーザー判断）
+  assert.ok(!/exam-idle-lit/.test(FLAT), '.exam-idle-lit が study.css に戻っている');
+  rulesFor('.ep-gear').forEach(r => assert.ok(!/(^|;|\s)animation\s*:/.test(r.body),
+    '歯車が回っている → ' + r.sel.trim() + '（2026-09-28 から静止した意匠）'));
   // 一度きりのアニメが infinite に化けていないこと
   ['.exam-key-focus', '.exam-waking'].forEach(k => {
     RULES.forEach(r => {
@@ -321,8 +322,9 @@ t('9. .qc / .st-hdr / .sgh に backdrop-filter を「掛けて」いない（iOS
 });
 
 // ══ 10. .qc の層は満杯。3人目を入れない ════════════════════════════════════
-t('10. .qc の疑似要素の前提が生きている（exam-scar=::before / B5 の成績は実要素 .qc-recap）', () => {
-  assert.ok(/\.qc\.exam-scar::before\{/.test(FLAT), 'exam-scar が ::before を使う前提が崩れている');
+t('10. .qc の疑似要素の前提が生きている（B5 の成績は実要素 .qc-recap）', () => {
+  // C5 の誤答の傷（.qc.exam-scar::before）・S5 の当て板は 2026-09-28 に撤去した
+  assert.ok(!/\.qc\.exam-scar::before\{/.test(FLAT), '誤答の傷が戻っている');
   /* 2026-09-12: B5 の成績を ::after から実要素へ移した。::after は UIテーマ全8種の透かし模様が
      使っており、詳細度で負けて帯がテーマの円に化けていた（Brass の緑の歯車）。 */
   assert.ok(/\.qc > \.qc-recap\{/.test(FLAT), 'B5 の成績の帯（.qc-recap）が無い');
@@ -366,131 +368,22 @@ t('12. .st-hdr::before / ::after が body.exam-mode でゲートされている�
   });
 });
 
-// ══ 13〜15. D9 稼働灯（唯一 JS を触る項） ═══════════════════════════════════
-t('13. 点灯クラスの付け外しは _updateExamFocus と cleanup の2か所だけ', () => {
-  const cls = 'exam-idle-lit';
-  const n = (JS.match(new RegExp("'" + cls + "'", 'g')) || []).length;
-  assert.ok(n >= 2, '点灯クラス ' + cls + ' が study_exam.js に見当たらない');
-  // 出現位置が _updateExamFocus 本体と exitExam 本体の中に収まっていること
-  function bodyOf(name) {
-    const m = new RegExp('function ' + name + '\\(').exec(JS);
-    assert.ok(m, name + ' が見つからない');
-    let i = JS.indexOf('{', m.index), depth = 0, end = -1;
-    for (let j = i; j < JS.length; j++) {
-      if (JS[j] === '{') depth++;
-      else if (JS[j] === '}') { depth--; if (!depth) { end = j + 1; break; } }
-    }
-    return { s: m.index, e: end };
-  }
-  const focus = bodyOf('_updateExamFocus'), exit = bodyOf('exitExam');
-  const re = new RegExp("'" + cls + "'", 'g');
-  let m2, outside = [];
-  while ((m2 = re.exec(JS))) {
-    const i = m2.index;
-    const inFocus = i >= focus.s && i < focus.e, inExit = i >= exit.s && i < exit.e;
-    if (!inFocus && !inExit) outside.push(JS.slice(Math.max(0, i - 40), i + 20).replace(/\n/g, ' '));
-  }
-  assert.deepStrictEqual(outside, [],
-    '_updateExamFocus / exitExam の外で点灯クラスを触っている:\n        ' + outside.join('\n        '));
-  // cleanup（exitExam）で点灯クラスとタイマーの両方が落ちること
-  const exitBody = JS.slice(exit.s, exit.e);
-  assert.ok(new RegExp(cls).test(exitBody), 'cleanup で点灯クラスを落としていない（通常閲覧で光が走り続ける）');
-  assert.ok(/clearTimeout\(\s*_examIdleTimer\s*\)/.test(exitBody), 'cleanup でタイマーを落としていない');
+// ══ 13〜15. D9 稼働灯は 2026-09-28 に撤去した（ユーザー判断） ═════════════════
+t('13. 稼働灯（D9）は撤去したまま', () => {
+  assert.ok(!/exam-idle-lit/.test(JS), '点灯クラス exam-idle-lit が study_exam.js に戻っている');
+  assert.ok(!/_examIdleTimer|EXAM_IDLE_DELAY_MS|EXAM_IDLE_BEAT_MS/.test(JS), '稼働灯のタイマー・定数が戻っている');
+  assert.ok(!RULES.some(r => /\.st-hdr::after/.test(r.sel)), '稼働灯（.st-hdr::after）が study.css に戻っている');
+  assert.ok(!/@keyframes\s+examIdleRun/.test(CSS), '@keyframes examIdleRun が戻っている');
 });
 
-t('13b. 稼働灯のタイマーは1本（張り直す前に必ず clearTimeout する）', () => {
-  const set = (JS.match(/_examIdleTimer\s*=\s*setTimeout\(/g) || []).length;
-  const clr = (JS.match(/clearTimeout\(\s*_examIdleTimer\s*\)/g) || []).length;
-  assert.ok(set >= 1, '_examIdleTimer に setTimeout を代入する箇所が無い');
-  assert.ok(clr >= set, 'clearTimeout(' + clr + ') が setTimeout(' + set + ') に足りない（多重発火の前科2件）');
-  assert.ok(/let\s+_examIdleTimer\s*=\s*null/.test(JS), '_examIdleTimer の宣言が無い');
-});
-
-t('13c. 稼働灯は _fxOff() を通している（reduced-motion で一度も点けない）', () => {
-  const m = /function _updateExamFocus\(/.exec(JS);
-  let i = JS.indexOf('{', m.index), depth = 0, end = -1;
-  for (let j = i; j < JS.length; j++) {
-    if (JS[j] === '{') depth++;
-    else if (JS[j] === '}') { depth--; if (!depth) { end = j + 1; break; } }
-  }
-  const body = JS.slice(m.index, end);
-  assert.ok(/_fxOff\(\)/.test(body), '_updateExamFocus が _fxOff() を見ていない');
-});
-
-t('14. EXAM_IDLE_DELAY_MS の既定が 0（実測前に勝手な値を入れない）', () => {
-  const m = /const\s+EXAM_IDLE_DELAY_MS\s*=\s*(\d+)/.exec(JS);
-  assert.ok(m, 'EXAM_IDLE_DELAY_MS が定数として存在しない（値だけで挙動が変わる形にすること）');
-  assert.strictEqual(m[1], '0',
-    'EXAM_IDLE_DELAY_MS の既定が ' + m[1] + '（ユーザー決定は 0。倒すなら FAST_TIER_MS[2]=7000 を再利用する）');
-  assert.ok(/const\s+EXAM_IDLE_BEAT_MS\s*=\s*\d+/.test(JS), 'EXAM_IDLE_BEAT_MS が無い');
-});
-
-t('15. レール=::before / 稼働灯=::after／稼働灯は animation-play-state を使わない', () => {
-  const before = RULES.find(r => /\.st-hdr::before/.test(r.sel));
-  const after  = RULES.find(r => /\.st-hdr::after/.test(r.sel));
-  assert.ok(before && after, '.st-hdr の ::before / ::after が揃っていない');
-  /* レール（::before）は静止。⚠️ 2026-08-19（Phase 5）の例外は R10 の起動シーケンスだけで、
-     これは離席から戻った時に一度きり走る。常時アニメを持たせないことで担保する。 */
+t('15. レール（.st-hdr::before）は静止（許されるのは .exam-waking の一度きりの起動だけ）', () => {
+  assert.ok(RULES.some(r => /\.st-hdr::before/.test(r.sel)), '.st-hdr::before（レール）が無い');
   RULES.forEach(r => {
     if (!/\.st-hdr::before/.test(r.sel) || !/(^|;|\s)animation\s*:/.test(r.body)) return;
     assert.ok(/\.exam-waking/.test(r.sel) && !/infinite/.test(r.body),
       'レール（::before）が動いている → ' + r.sel.trim() +
       '（許されるのは .exam-waking の一度きりの起動シーケンスだけ）');
   });
-  // 稼働灯（::after）が走る光であること
-  assert.ok(/(^|;|\s)animation\s*:/.test(after.body),
-    '稼働灯（::after）に animation が無い（レールと ::before/::after を取り違えると光がレールの下に隠れる）');
-  // animation-play-state / animation の付け外しで消さない（途中で凍って「固まった」に見える）
-  RULES.forEach(r => {
-    if (!/\.st-hdr::after/.test(r.sel)) return;
-    assert.ok(!/animation-play-state/.test(r.body),
-      '稼働灯に animation-play-state が使われている → ' + r.sel.trim());
-  });
-  /* 消灯は opacity で受ける。
-     ⚠️ 2026-08-19（Phase 5）に対象を「稼働灯そのもののルール」へ絞った。歯車(R2)も
-        .exam-idle-lit に連動するが、あちらは animation-play-state で止めるのが正しい
-        ——光は途中で凍ると「固まった」に見えるが、歯車は途中で止まるのが正しい絵だから。 */
-  const lit = RULES.filter(r => /exam-idle-lit/.test(r.sel) && /\.st-hdr::after/.test(r.sel));
-  assert.ok(lit.length >= 1, '点灯クラス .exam-idle-lit の稼働灯ルールが無い');
-  lit.forEach(r => {
-    const props = (r.body.match(/(^|;)\s*([a-z-]+)\s*:/g) || [])
-      .map(s => s.replace(/[;:\s]/g, ''));
-    assert.deepStrictEqual([...new Set(props)], ['opacity'],
-      '点灯クラスが opacity 以外を切り替えている（' + props.join(',') + '）' +
-      '＝animation ごと外すと transform が基準値へ戻って光が始点へ飛ぶ');
-  });
-  // body.exam-sprint で1行で消せる逃げ道があること（＝稼働灯が単独セレクタで指せる）
-  assert.ok(/\.st-hdr::after/.test(after.sel),
-    '稼働灯が単独セレクタで指せない（body.exam-sprint .st-hdr::after{opacity:0} の逃げ道が書けない）');
-});
-
-t('15b. 稼働灯は箱の外へ1pxも出ない（iOS でページの縮尺が振動した回帰のガード）', () => {
-  const after = RULES.find(r => /\.st-hdr::after/.test(r.sel));
-  assert.ok(after, '.st-hdr::after が無い');
-  // 箱いっぱいに広げて固定する＝はみ出しようがない形にすること
-  assert.ok(/(^|;)\s*left:\s*0/.test(after.body) && /(^|;)\s*right:\s*0/.test(after.body),
-    '稼働灯が left:0 / right:0 で箱に固定されていない（width:N% + translateX で走らせると右へあふれる）');
-  assert.ok(!/(^|;)\s*width\s*:/.test(after.body),
-    '稼働灯に width が指定されている（left/right で決めること）');
-  // 動かすのは background-position だけ。transform で走らせない
-  assert.ok(!/transform/.test(after.body), '稼働灯の宣言に transform がある');
-  const kf = /@keyframes\s+examIdleRun\s*\{([\s\S]*?)\}\s*\n/.exec(CSS);
-  assert.ok(kf, '@keyframes examIdleRun が無い');
-  assert.ok(!/translate/i.test(kf[1]),
-    'examIdleRun が translate で走っている＝箱の外へ出る。' +
-    'iOS Safari は右へあふれた内容でレイアウトビューポートを広げ、ページの縮尺が周期的に振動する');
-  assert.ok(/background-position/.test(kf[1]), 'examIdleRun が background-position を動かしていない');
-  // 端で光が見切れないだけの振り幅があること（background-size:26% なら基準は 74%）
-  const nums = (kf[1].match(/-?\d+(?:\.\d+)?%/g) || []).map(parseFloat);
-  assert.ok(nums.length >= 2, 'examIdleRun の位置指定が読めない');
-  const sizeM = /background-size:\s*(\d+(?:\.\d+)?)%/.exec(after.body);
-  assert.ok(sizeM, '稼働灯に background-size の % 指定が無い');
-  const imgW = parseFloat(sizeM[1]) / 100, basis = 1 - imgW;
-  const from = Math.min(...nums) / 100, to = Math.max(...nums) / 100;
-  assert.ok(from * basis + imgW <= 0.001,
-    '開始位置で光が右端にはみ出して見えている（' + (from * basis + imgW).toFixed(3) + ' > 0）');
-  assert.ok(to * basis >= 0.999,
-    '終了位置で光が左端に残る（' + (to * basis).toFixed(3) + ' < 1）');
 });
 
 // ══ 16. モーダルの筐体を疑似要素で描かない ═════════════════════════════════
@@ -533,11 +426,10 @@ t('17b. .exam-prog-track が筐体化され、.exam-prog-fill は盤面のまま
   const fill = soleBody('.exam-prog-fill');
   assert.ok(fill && !BRASS_RE.test(fill), '.exam-prog-fill に真鍮が入っている（進捗の塗りは盤面）');
   assert.ok(/background:var\(--yl\)/.test(fill), '.exam-prog-fill の塗りが --yl でなくなっている');
-  // ::after は ep-sweep 専用のまま
+  // ::after は ep-sweep（節目の光）が使っていたが 2026-09-28 に撤去した
   const after = RULES.filter(r => /\.exam-prog-track[^,]*::after/.test(r.sel));
-  assert.strictEqual(after.length, 1,
-    '.exam-prog-track の ::after が ' + after.length + ' 本ある（ep-sweep が使用中・1本のまま）');
-  assert.ok(/epSweep/.test(after[0].body), '.exam-prog-track::after が ep-sweep でなくなっている');
+  assert.strictEqual(after.length, 0,
+    '.exam-prog-track の ::after が ' + after.length + ' 本ある（ep-sweep は撤去済み）');
 });
 
 // ══ 18〜19. 折りたたんでも筐体が消えない ═══════════════════════════════════

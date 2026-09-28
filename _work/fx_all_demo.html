@@ -91,11 +91,6 @@ const FX = [
       `ok.classList.remove('exam-instant-correct'); void ok.offsetWidth; ok.classList.add('exam-instant-correct'); setTimeout(() => ok.classList.remove('exam-instant-correct'), 50)`],
     ['c-card', 't', 'カードの正解表示', '毎回：カードと正解の肢の色・発光（UIテーマの CSS）。3/5/10連続でカードの段が上がる', `_applyCardThemeComboFx(c, n)`],
     ['c-sweep', 'c', '正解の肢の縁を光が1周', '毎回・0.3秒（_rfSweep）', `_rfSweep(ok, RF_ADVANCE_MS.one - RF_FX_END_MARGIN)`],
-    ['c-ribbon', 'c', '肢から光が走る', '毎回：1問目は進捗バーの先端へ、2連続〜は連続数の位置へ（_rfCorrectFx の中の MecFX.ribbon）',
-      `const a = _rfCenter(ok); let tx, ty;
-       if (n >= 2) { const b = _fxBand(), h = 58; tx = b.cx; ty = _rfStreakTop(h) + h / 2; }
-       else { const r = document.getElementById('examProgFill').getBoundingClientRect(); tx = r.right; ty = r.top + r.height / 2; }
-       MecFX.ribbon(a.x, a.y, tx, ty, { color: _rfTheme().col, width: 2.4 + t * .3, ttl: .5, tail: .4 })`],
     ['c-particles', 't', 'UIテーマの粒子', '毎回・肢の位置：照準・金継ぎ・氷晶・歯車など（_spawnStreakParticles）', `_spawnStreakParticles(Math.max(1, t), _rfCenter(ok), { el: ok, card: c, promoted: false })`],
     ['c-theme', 't', 'UIテーマ固有の正解演出', 'liquid・frost・celestial・brass だけ：肢とカードの裏（0.3秒で終わる）',
       `const u = _rfUi(), B = RF_ADVANCE_MS.one;
@@ -103,28 +98,13 @@ const FX = [
        else if (u === 'celestial') _clxCelestialFx(ok, c, t, false, B); else if (u === 'brass') _brsBrassFx(ok, c, t, false, B);
        else throw new Error('このUIテーマには固有の正解演出が無い（liquid / frost / celestial / brass で試す）')`],
     ['c-sink', 'c', '選ばなかった肢が沈む', '毎回・1.1秒（_sinkOtherChoices）', `_sinkOtherChoices(c)`],
-    ['c-wave', 'c', '正解音と一緒に画面中央へ広がる輪', '毎回（_playCorrectSound の MecFX.sonicWave）。⚠️ fx_engine.js の不具合で本番でも何も描かれない', `MecFX.sonicWave(_fxBand().cx, _fxBand().cy, { color: _examTheme().ringColor(Math.max(2, Math.min(t || 2, 7))), count: 3, maxR: 260 + Math.max(2, t) * 20 })`],
   ]],
   ['連続正解で出る', [
-    ['s-border', 'c', 'カードの外周を光が1周', '2連続〜（liquid 以外）（_traceCardBorder）', `_traceCardBorder(c, RF_ADVANCE_MS.one - RF_FX_END_MARGIN)`],
     ['s-streak', 'c', '連続数の表示', '2連続〜・ヘッダーの下（_rfShowStreak）', `_rfShowStreak(Math.max(2, n), _examTier(Math.max(2, n)), false)`],
     ['s-streak-up', 'c', '連続数の表示（段が上がった瞬間）', '3/5/7/10/14/20連続に届いたとき', `_rfShowStreak(Math.max(3, n), _examTier(Math.max(3, n)), true)`],
-    ['s-meter', 'c', 'コンボメーター', '2連続〜・画面上端の細い帯と「次の段まで」（_updateComboMeter）', `_updateComboMeter(Math.max(2, n))`],
     ['s-glow', 'c', '画面の縁が光る', '5連続〜（_triggerBorderGlow）', `_triggerBorderGlow(Math.max(3, t))`],
-    ['s-zone', 'c', 'ゾーンの呼吸（切り替え）', '10連続〜・画面全体がゆっくり明滅（exam-streak-zone）', `_ensureZoneBreath(); document.body.classList.toggle('exam-streak-zone')`],
-    ['s-overdrive', 'c', 'オーバードライブ（切り替え）', '10連続〜・入った瞬間に稲妻、以後は縁が光り続ける（_setOverdrive）', `_setOverdrive(!document.body.classList.contains('exam-overdrive'))`],
-    ['s-awaken', 'c', '覚醒（切り替え）', '14連続〜・粒子の彩度が上がりメーターが太くなる（_setAwaken）', `_setAwaken(!document.body.classList.contains('exam-awaken'))`],
   ]],
   ['条件つきの正解', [
-    ['p-fast3', 'c', '速答ボーナス（一閃）', '読み始めから速く正解したとき・3段のいちばん上（_triggerFastBonus）', `c.classList.add('exam-fast-hit'); setTimeout(() => c.classList.remove('exam-fast-hit'), 800); _triggerFastBonus(ok, 3)`],
-    ['p-fast1', 'c', '速答ボーナス（まずまず）', '3段のいちばん下', `_triggerFastBonus(ok, 1)`],
-    ['p-fresh', 'c', '初見突破', '初めて解いた問題を正解（_triggerAnswerMark）', `_triggerAnswerMark(ok, 'fresh')`],
-    ['p-revenge', 'c', 'リベンジ達成', '前に間違えた問題を正解（_triggerAnswerMark）', `_triggerAnswerMark(ok, 'revenge')`],
-    ['p-plate', 'c', '克服の当て板＋火花', '前に間違えた問題を正解：カードに板が打たれて磨かれ、左端から火花（_polishPlate）',
-      `_polishPlate(c); const cr = c.getBoundingClientRect(), b = _fxBand();
-       MecFX.burst(Math.max(b.left + 20, Math.min(b.right - 20, cr.left + 4)), Math.max(b.top + 20, Math.min(b.bottom - 20, cr.top + Math.min(cr.height / 2, 80))),
-         { count: 24, shapes: ['shard', 'square'], colors: ['#FFD700', '#FFA040', '#FFFFFF', '#C9A227', '#FF5722'], gravity: 1600, speed: 760, additive: false, upBias: 80 })`],
-    ['p-recover', 'c', '立て直し', '誤答の直後の正解：粒が輪を巻き直す（abyss は心電図の拍が戻る）（_triggerRecover）', `_triggerRecover(ok)`],
     ['p-reach', 'c', '選び直して正解', '1回外してから正解：「2回目で正解」の印＋小さな輪（_rfReachFx）', `_rfSweep(ok); _rfReachFx(ok, 2, true)`],
   ]],
   ['間違えたとき', [
@@ -133,25 +113,13 @@ const FX = [
        c.classList.add('exam-retry'); c._rfTries = (c._rfTries || 0) + 1; _rfRetryNote(c, c._rfTries, false);
        ng.animate([{ translate: '0 0' }, { translate: '-3px 0' }, { translate: '2px 0' }, { translate: '0 0' }], { duration: MO.d2, easing: MO.out });
        c.animate([{ filter: 'saturate(1) brightness(1)' }, { filter: 'saturate(.6) brightness(.95)', offset: .3 }, { filter: 'saturate(1) brightness(1)' }], { duration: RF_DESAT_MS, easing: MO.out })`],
-    ['w-shatter', 'c', 'コンボメーターが割れて落ちる', '4連続以上が途切れたとき（_shatterComboMeter）', `_updateComboMeter(8); setTimeout(() => { _shatterComboMeter(8); _resetComboMeter(); }, 350)`],
-    ['w-scar', 'c', '誤答の傷', 'その回で落としたカードに印が残る（_markCardScar）', `_markCardScar(c)`],
     ['w-repeat', 'c', '前にも同じ肢を選んだ', '以前と同じ誤答の肢を選んだとき（_triggerRepeatWrong）', `_triggerRepeatWrong(ng)`],
-    ['w-flat', 'c', '心電図が平坦になる', 'abyss（心電図の演出セット）で連続が途切れたとき（_ecgFlatline）', `_ecgFlatline()`],
   ]],
   ['読んでいる間・次へ進むとき', [
-    ['r-idle', 'c', '稼働灯・歯車・熾火（切り替え）', '各問の読み始め（exam-idle-lit）。iPad・スマホは6秒で消える', `document.body.classList.toggle('exam-idle-lit')`],
-    ['r-puff', 'c', '読書中の噴気', 'ヘッダーの両端から薄い蒸気（_examPuffSteam）', `_examPuffSteam(false)`],
-    ['r-release', 'c', '蒸気の放出＋歯車の膨張', '長く考えた問題から次へ進んだとき（_examPuffSteam(true)・_examGearBlow）', `_examPuffSteam(true)`],
-    ['r-needle', 'c', '排圧計の針', '次へ進んだとき・考えた時間だけ振れる（_reliefKick）', `_examCardSeenAt.set(c.dataset.uid, Date.now() - 25000); _reliefKick(c)`],
     ['r-shimmer', 'c', '次のカードの肢が順に光る', '次のカードへ送った直後（_applyChoiceShimmer）', `_applyChoiceShimmer(c)`],
-    ['r-sweep', 'c', '進捗バーを光が走る', '節目（1/4・半分・3/4 など）を越えたとき（ep-sweep）',
-      `const tr = document.querySelector('.exam-prog-track'); tr.classList.remove('ep-sweep'); void tr.offsetWidth; tr.classList.add('ep-sweep'); setTimeout(() => tr.classList.remove('ep-sweep'), 800)`],
-    ['r-sprint', 'c', 'ラストスパート（切り替え）', '終盤の数問（ep-sprint）', `const tr = document.querySelector('.exam-prog-track'); const on = !tr.classList.contains('ep-sprint'); tr.classList.toggle('ep-sprint', on); document.body.classList.toggle('exam-sprint', on)`],
-    ['r-warp', 'c', '10問ごとのワープゲート', '10・20・30問目を解いた直後（_triggerWarpGate）', `_triggerWarpGate(10)`],
   ]],
   ['始まりと終わり', [
     ['b-count', 'c', '起動カウントダウン', '試験を始めたとき・3・2・1（起動音が鳴る）（_examCountdown）', `_examCountdown()`],
-    ['b-enter', 'c', '1問目の入場', 'カウントダウンの後（_firstCardEntrance）', `_firstCardEntrance(c)`],
     ['b-shuffle', 'c', '選択肢の並べ替えを見せる', '1問目だけ・肢が元の位置から滑る（_revealShuffleFx）',
       `_revealShuffleFx([...c.querySelectorAll('.ch2')].map((el, i) => ({ el, dy: (i % 2 ? -1 : 1) * 48 })))`],
     ['b-resume', 'c', '続きから再開', '中断した試験を再開したとき（_playResumeIntroFx）', `_playResumeIntroFx()`],
@@ -178,14 +146,12 @@ window.__D = {
   },
   reset() {
     const c = this.card();
-    ['fx-correct','combo-streak-3','combo-streak-5','combo-streak-10','exam-sink','exam-fast-hit','exam-scar','exam-retry','exam-plate-fix','exam-first-in']
+    ['fx-correct','combo-streak-3','combo-streak-5','combo-streak-10','exam-sink','exam-retry']
       .forEach(k => c.classList.remove(k));
     c.querySelectorAll('.ch2').forEach(ch => { ch.classList.remove('correct','exam-out','exam-selected','exam-instant-correct'); ch.removeAttribute('aria-disabled'); });
     c.querySelectorAll('.rf-x,.rf-retry,.rf-reach,.rf-sweep,.lq-layer,.lq-ring,.fr-dust').forEach(e => e.remove());
     c._rfTries = 0;
-    document.body.classList.remove('exam-streak-zone','exam-awaken','exam-idle-lit','exam-sprint');
-    _setOverdrive(false); _resetComboMeter(); _rfHideStreak();
-    const tr = document.querySelector('.exam-prog-track'); if (tr) tr.classList.remove('ep-sprint','ep-sweep');
+    _rfHideStreak();
   },
   next() {
     const c = this.card(), i = examQueue.indexOf(c), nx = examQueue[i + 1];

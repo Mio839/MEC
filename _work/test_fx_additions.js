@@ -219,8 +219,10 @@ t('_tIdx / ceTIdx は配列でもマップでも範囲外を返さない', () =>
   });
 });
 
-t('コンボメーターの目盛りが tier7 まで伸びている', () => {
-  [STUDY, CHAP].forEach(src => {
+// 2026-09-28: study のコンボメーターは撤去した（ユーザー判断）。過去問ビューアは旧演出のまま。
+t('コンボメーターの目盛りが tier7 まで伸びている（過去問ビューア）', () => {
+  assert.ok(!/starts=\[[\d,]+\], ends=/.test(STUDY), 'study にコンボメーターが戻っている');
+  [CHAP].forEach(src => {
     const m = src.match(/starts=\[([\d,]+)\], ends=\[([\d,]+)\];/);
     assert.ok(m, 'starts/ends が見つからない');
     const starts = m[1].split(',').map(Number), ends = m[2].split(',').map(Number);
@@ -231,7 +233,6 @@ t('コンボメーターの目盛りが tier7 まで伸びている', () => {
     // 各段は必ず前の段の終わりから始まる（隙間や重なりがあると「あと N」が嘘になる）
     for (let i = 2; i <= 7; i++) assert.strictEqual(starts[i], ends[i - 1], 'tier' + i + ' の目盛りが不連続');
   });
-  assert.ok(/tier >= 7 \? '⚡ MAX'/.test(STUDY), 'MAX 判定が tier7 になっていない(study)');
   assert.ok(/tier >= 7 \? '⚡ MAX'/.test(CHAP), 'MAX 判定が tier7 になっていない(chapter)');
 });
 
@@ -245,14 +246,12 @@ t('難問の閾値は 60（study.html のフィルタ・gamify.js の hard と�
     'gamify.js の HARD_RATE と食い違っている');
 });
 
-t('速答は3段で、閾値が両ファイルで一致する', () => {
-  const grab = src => {
-    const m = src.match(/FAST_TIER_MS = \[([\d, ]+)\]/);
-    assert.ok(m, '速答の閾値が見つからない');
-    return m[1].split(',').map(s => Number(s.trim()));
-  };
-  const a = grab(STUDY), b = grab(CHAP);
-  assert.deepStrictEqual(a, b, 'study と chapter で速答の閾値が違う');
+// 2026-09-28: study の速答ボーナスは撤去した（ユーザー判断）。過去問ビューアは旧演出のまま。
+t('速答は3段（過去問ビューア）・study には無い', () => {
+  assert.ok(!/FAST_TIER_MS = \[/.test(STUDY), 'study に速答の閾値が戻っている');
+  const m = CHAP.match(/FAST_TIER_MS = \[([\d, ]+)\]/);
+  assert.ok(m, '速答の閾値が見つからない');
+  const a = m[1].split(',').map(s => Number(s.trim()));
   assert.strictEqual(a.length, 3, '3段になっていない');
   assert.ok(a[0] < a[1] && a[1] < a[2], '閾値が昇順でない');
 });
@@ -303,13 +302,8 @@ sec('study_exam.js ⇔ chapter_exam.js のミラー');
 
 t('新しい演出はどちらのファイルにも入っている', () => {
   const pairs = [
-    ['_triggerRecover',   'ceRecover'],
-    ['_triggerAnswerMark', 'ceAnswerMark'],
     ['_sinkOtherChoices', 'ceSinkOthers'],
-    ['_shatterComboMeter', 'ceShatterMeter'],
     ['_triggerRepeatWrong', 'ceRepeatWrong'],
-    ['_ecgFlatline',      'ceFlatline'],
-    ['_ecgBeatBack',      'ceBeatBack'],
     ['_afterCorrectFx',   'ceAfterCorrectFx'],
     ['_rfScoreWrong',     'ceAfterWrongFx'],   // study の誤答の合流点は 2026-09-24〜 _rfScoreWrong
   ];
@@ -317,6 +311,13 @@ t('新しい演出はどちらのファイルにも入っている', () => {
     assert.ok(STUDY.includes('function ' + s + '('), 'study に ' + s + ' が無い');
     assert.ok(CHAP.includes('function ' + c + '('), 'chapter に ' + c + ' が無い');
   });
+  // 2026-09-28 に study から撤去した（ユーザー判断）。過去問ビューア側は旧演出のまま残す
+  [['_triggerRecover', 'ceRecover'], ['_triggerAnswerMark', 'ceAnswerMark'],
+   ['_shatterComboMeter', 'ceShatterMeter'], ['_ecgFlatline', 'ceFlatline'], ['_ecgBeatBack', 'ceBeatBack']]
+    .forEach(([s, c]) => {
+      assert.ok(!STUDY.includes('function ' + s + '('), 'study に ' + s + ' が戻っている');
+      assert.ok(CHAP.includes('function ' + c + '('), 'chapter に ' + c + ' が無い');
+    });
 });
 
 // 正解／誤答の追加演出は全経路から必ず同じ口を通す。片方に直接書くと、その経路だけ演出が抜ける。
@@ -332,22 +333,21 @@ t('study 側は正解・誤答とも合流点を通っている', () => {
 });
 
 // 合流点が出すものを経路側でも出すと、同じラベルが同じ位置へ二重に飛ぶ
-t('速答ボーナスは合流点だけが出す（経路側の二重呼び出しが無い）', () => {
-  const outside = (STUDY.match(/_triggerFastBonus\(/g) || []).length;
-  assert.strictEqual(outside, 2, '_triggerFastBonus は定義と _afterCorrectFx からの1回だけであるべき');
+t('study に速答ボーナスが戻っていない（2026-09-28 撤去）', () => {
+  assert.strictEqual((STUDY.match(/_triggerFastBonus\(/g) || []).length, 0, '_triggerFastBonus が study に戻っている');
 });
 
 // C1 は「途切れた時点の連続数」で規模を決めるので、0 にする前に控えていないと常に 0 になる
 t('崩落の規模は examStreak を 0 にする前に控えている', () => {
-  assert.ok(/const _broke = examStreak;[\s\S]{0,80}examStreak = 0;/.test(STUDY),
-    'study: examStreak を控える前に 0 にしている');
+  // study のコンボメーターの崩落は 2026-09-28 に撤去した
+  assert.ok(!/_shatterComboMeter\(/.test(STUDY), 'study に崩落が戻っている');
   assert.ok(/var _ceBroke = exam\.streak;[\s\S]{0,80}exam\.streak = 0;/.test(CHAP),
     'chapter: exam.streak を控える前に 0 にしている');
 });
 
 t('新しいラベルは reduced-motion で消える', () => {
   const rm = CSS.slice(CSS.indexOf('prefers-reduced-motion'));
-  ['.exam-recover-pop', '.exam-mark-pop'].forEach(sel =>
+  ['.exam-mark-pop'].forEach(sel =>
     assert.ok(rm.includes(sel), sel + ' が reduced-motion で消えない'));
   assert.ok(/\.qc\.exam-sink \.ch2\{transition:none/.test(CSS), 'A5 が reduced-motion で止まらない');
 });

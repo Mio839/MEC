@@ -23,10 +23,10 @@ const gmSrc = fs.readFileSync(path.join(__dirname, '../gamify.js'), 'utf8');
 
 console.log('── 1. 溶鉄ヒートチャージ & 陽炎 (案1) ──');
 // heatHaze（陽炎の @keyframes）は 2026-08-31 に .qc の常時アニメごと外し、2026-09-28 に定義も消した
-test('study.css と study_exam.js に card-heat がある', () => {
-  assert(cssSrc.includes('.qc.card-heat-low'), 'Missing .qc.card-heat-low in study.css');
-  assert(cssSrc.includes('.qc.card-heat-max'), 'Missing .qc.card-heat-max in study.css');
-  assert(examSrc.includes('card-heat-max'), 'Missing card-heat toggle in study_exam.js');
+// 2026-09-28 に撤去した（ユーザー判断）。戻っていないことを見る
+test('カード赤熱（card-heat）は撤去したまま', () => {
+  assert(!cssSrc.includes('.qc.card-heat-'), 'card-heat の CSS が戻っている');
+  assert(!examSrc.includes("'card-heat-max'"), 'card-heat の切り替えが戻っている');
 });
 
 console.log('── 2. 超集中バレットタイム (案2) ──');
@@ -44,10 +44,10 @@ test('study.css と study_exam.js から qc-3d-tilt と _initTiltEffect が完�
 });
 
 console.log('── 4. チェックポイント・光のワープゲート (案4) ──');
-test('study.css と study_exam.js に warp-gate-overlay と _triggerWarpGate がある', () => {
-  assert(cssSrc.includes('.warp-gate-overlay'), 'Missing .warp-gate-overlay in study.css');
-  assert(cssSrc.includes('@keyframes warpGateRing'), 'Missing warpGateRing in study.css');
-  assert(examSrc.includes('function _triggerWarpGate(n)'), 'Missing _triggerWarpGate in study_exam.js');
+// 2026-09-28 に撤去した（ユーザー判断）。戻っていないことを見る
+test('10問ごとのワープゲートは撤去したまま', () => {
+  assert(!cssSrc.includes('.warp-gate-overlay'), '.warp-gate-overlay が戻っている');
+  assert(!/function _triggerWarpGate\(/.test(examSrc), '_triggerWarpGate が戻っている');
 });
 
 console.log('── 5. 活版インク染み込み (案5) ──');
@@ -57,9 +57,10 @@ test('study.css に .ans.open と inkBleedIn がある', () => {
 });
 
 console.log('── 6. 全画面オーディオビジュアライザー音波 (案6) ──');
-test('fx_engine.js と study_exam.js に sonicWave がある', () => {
+// 2026-09-28 に撤去した（ユーザー判断）。戻っていないことを見る
+test('study 側は正解音で sonicWave を出さない（エミッタは fx_engine.js に残す）', () => {
   assert(fxSrc.includes('sonicWave: sonicWave'), 'Missing sonicWave export in fx_engine.js');
-  assert(examSrc.includes('window.MecFX.sonicWave'), 'Missing sonicWave call in study_exam.js');
+  assert(!examSrc.includes('window.MecFX.sonicWave('), 'study_exam.js に正解音の輪が戻っている');
 });
 
 console.log('── 7. ダイナミック環境ライティング (案7) ──');

@@ -183,24 +183,11 @@ t('セッションが短すぎる（総数 <= PROG_SPRINT_LEFT）ときは出さ
 
 group('「祝わない」の担保');
 
-// 目盛りを跨いだときの処理は _syncExamProgMarks に閉じている。ここに音・粒子の
-// 呼び出しが混ざっていないことをソースで検査する（混ぜると tier 演出とぶつかる）。
-const SYNC = slice('_syncExamProgMarks');
-
-t('節目の処理で音のAPIを呼んでいない', () => {
-  assert.ok(!/_play|SND\.|Audio|\.play\(/.test(SYNC), '_syncExamProgMarks に音の呼び出しがある');
-});
-
-t('節目の処理で粒子（MecFX）を呼んでいない', () => {
-  assert.ok(!/MecFX/.test(SYNC), '_syncExamProgMarks に MecFX の呼び出しがある');
-});
-
-t('節目の処理でストリーク演出を呼んでいない', () => {
-  assert.ok(!/_showStreakEffect|_triggerFullscreenCombo|_triggerScreenShake|_spawnFloatingCombo/.test(SYNC));
-});
-
-t('節目の処理は reduced-motion を通している', () => {
-  assert.ok(/_fxOff\(\)/.test(SYNC), '_syncExamProgMarks が _fxOff() を見ていない');
+// 2026-09-28: 節目で進捗バーを光が走る演出・ラストスパートは撤去した（ユーザー判断）。
+//   節目で何も祝わない（音も粒子も出さない）ことは、そもそも節目の処理が無いことで担保される。
+t('節目の処理（_syncExamProgMarks）は撤去したまま', () => {
+  assert.ok(!/function _syncExamProgMarks\(/.test(SRC), '_syncExamProgMarks が戻っている');
+  assert.ok(!/classList\.add\('ep-sweep'\)|'exam-sprint'/.test(SRC), '節目の光・ラストスパートが戻っている');
 });
 
 group('閾値の三者一致・配線');
@@ -246,9 +233,9 @@ t('結果画面に難問の器がある（B3）', () => {
 });
 
 // ⚠️ 目盛り（.ep-tick）と難問印（.ep-hard）は 2026-08-23g に撤去し、CSS も 2026-09-28 に消した。
-t('進捗バーの節目の光・ラストスパートのCSSがある（B2）', () => {
-  ['.ep-sweep', '.ep-sprint'].forEach(sel => {
-    assert.ok(CSS.includes(sel), 'study.css に ' + sel + ' が無い');
+t('進捗バーの節目の光・ラストスパートのCSSは撤去したまま（2026-09-28）', () => {
+  ['.exam-prog-track.ep-sweep', '.exam-prog-track.ep-sprint', 'body.exam-sprint'].forEach(sel => {
+    assert.ok(!CSS.includes(sel), 'study.css に ' + sel + ' が戻っている');
   });
 });
 
@@ -257,7 +244,7 @@ t('進捗バーの track が position:relative（印の絶対配置の土台）'
   assert.ok(m && /position:relative/.test(m[1]), '.exam-prog-track に position:relative が無い');
 });
 
-t('B5 の帯は実要素 .qc-recap で描く（::before は C5 の exam-scar、::after は UIテーマの透かし）', () => {
+t('B5 の帯は実要素 .qc-recap で描く（::after は UIテーマの透かし）', () => {
   /* 2026-09-12: ::after で描いていたところ、UIテーマ全8種の .qc::after（170〜240px の円）に
      詳細度で負けて形を乗っ取られ、Brass では緑の歯車の円がカード左上に居座った。 */
   assert.ok(/\.qc > \.qc-recap\{/.test(CSS), '.qc > .qc-recap の帯が無い');
@@ -266,7 +253,8 @@ t('B5 の帯は実要素 .qc-recap で描く（::before は C5 の exam-scar、:
   const SRC = fs.readFileSync(path.join(ROOT, 'study_exam.js'), 'utf8');
   assert.ok(/className = 'qc-recap'/.test(SRC), '_applyRecapChips が .qc-recap を足していない');
   assert.ok(/\.qc > \.qc-recap'\)\.forEach\(el => el\.remove\(\)\)/.test(SRC), '_clearRecapChips が .qc-recap を外していない');
-  assert.ok(/\.qc\.exam-scar::before\{/.test(CSS), 'exam-scar が ::before を使う前提が崩れている');
+  // C5 の誤答の傷（.qc.exam-scar::before）は 2026-09-28 に撤去した
+  assert.ok(!/\.qc\.exam-scar::before\{/.test(CSS), '誤答の傷が戻っている');
   // .qc の box-shadow を上書きしていないこと（影と内側ハイライトが消えて平らになる）
   assert.ok(!/\.qc\[data-recap\]\{[^}]*box-shadow/.test(CSS), '.qc[data-recap] が box-shadow を上書きしている');
 });

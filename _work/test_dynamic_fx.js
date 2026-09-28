@@ -46,22 +46,11 @@ function fnBodyOf(src, name) {
       マジックナンバー（count: 240 のような）を assert に書くと、実装を動かすたびに
       テストが嘘をつくか、意味の無い数字を守るためにコードが歪む。 */
 console.log('── 1. 全画面オーバードライブ & 稲妻 (案1) ──');
-test('オーバードライブは生きた経路から点り、稲妻は正しい引数で呼ばれる', () => {
-  // §13-3 P4: テーマの html.ui-* body::before に z-index を奪われるので専用レイヤーへ移した。
-  assert(cssSrc.includes('body.exam-overdrive #examOverdriveGlow'), 'Missing body.exam-overdrive layer in study.css');
+// 2026-09-28 に study 側のオーバードライブ（_setOverdrive・#examOverdriveGlow）を撤去した（ユーザー判断）
+test('study 側のオーバードライブは撤去したまま', () => {
+  assert(!/function _setOverdrive\(/.test(examSrc), '_setOverdrive が study_exam.js に戻っている');
+  assert(!cssSrc.includes('body.exam-overdrive #examOverdriveGlow'), 'オーバードライブのグローが study.css に戻っている');
   assert(!cssSrc.includes('body.exam-overdrive::before {'), 'グローが body::before へ戻っている（§13-3 P4）');
-  // 点灯の口は _setOverdrive の1本だけ（散らすと消し忘れが必ず出る）
-  assert(/function _setOverdrive\(/.test(examSrc), 'Missing _setOverdrive in study_exam.js');
-  const setOd = fnBodyOf(examSrc, '_setOverdrive');
-  assert(setOd.includes("classList.toggle('exam-overdrive'"), '_setOverdrive が exam-overdrive を切り替えていない');
-  assert(/MecFX\.lightning\(\s*[^{)]/.test(setOd),
-    '稲妻が _setOverdrive から座標付きで呼ばれていない（オブジェクトを x に渡す旧形に戻っている）');
-  // _setOverdrive は正解の演出（_rfCorrectFx・2026-09-24〜）から実際に呼ばれること
-  assert(fnBodyOf(examSrc, '_rfCorrectFx').includes('_setOverdrive('),
-    '_rfCorrectFx から _setOverdrive が呼ばれていない＝また誰も点けない状態');
-  // 解除の経路（誤答・終了）が残っていること
-  assert((examSrc.match(/_setOverdrive\(false\)/g) || []).length >= 2,
-    'オーバードライブの解除（誤答・exitExam）が足りない');
 });
 
 /* 2026-09-24: 案2（正解カードの3D浮遊・散らばった祝祭）・案3（誤答の赤フラッシュ＋揺れ）・
@@ -167,8 +156,8 @@ test('mindmap.js に親から子への連鎖パルスがある', () => {
 });
 
 console.log('── 10. exitExam での完全クリーンアップ ──');
-test('exitExam でオーバードライブとシェイクが解除される', () => {
-  assert(examSrc.includes('exam-overdrive\', \'exam-screen-shake\', \'exam-red-flash\', \'exam-slash-freeze\''), 'Missing exitExam cleanup in study_exam.js');
+test('exitExam でシェイクが解除される', () => {
+  assert(examSrc.includes('exam-screen-shake\', \'exam-red-flash\', \'exam-slash-freeze\''), 'Missing exitExam cleanup in study_exam.js');
 });
 
 // ⚠️ 失敗があるときは件数を先に出す（以前は合格数だけを「全 N 件 ok」と出していて、

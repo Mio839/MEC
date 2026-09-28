@@ -18,7 +18,6 @@ body{
   --exam-bevel-hi : rgba(224,194,94,.34);    /* 稜線の明側（--exam-brass-hi の RGB） */
   --exam-bevel-lo : rgba(0,0,0,.45);         /* 稜線の暗側。無彩色＝どのテーマでも中立 */
   --exam-rivet    : rgba(224,194,94,.42);    /* リベットの頭 */
-  --exam-idle-cycle: 1.4s;                   /* D9 稼働灯：光が1本走り切る尺 */
 }
 /* ⚠️ --exam-bevel-lo を「見えないから」と省かないこと。明線だけだと「地が少し明るい帯」に
    見えるだけで、明線＋暗線の対になって初めて「縁」＝金属に見える。黒は6テーマすべてで
@@ -77,40 +76,7 @@ body.exam-mode .st-hdr::before{content:'';position:absolute;left:0;right:0;botto
   background-repeat:no-repeat;
   background-size:100% 1px,100% 1px;
   background-position:0 100%,0 0;}
-/* D9(2026-08-19): 稼働灯。カードに向かっている間だけレールの上を光が走り、答えた瞬間に消える。
-   筐体で唯一「時間」を持つ演出＝「機械があなたを待っている」。50問セッションでは動く／止まるが
-   50回繰り返され、ユーザー自身の解答が刻む拍になる。
-   ⚠️ 周期を長くしないこと。問題文を読んでいる空白は8〜15秒しかないので、4〜6秒の「呼吸」だと
-      1周も回りきらずに毎回途中で止まる＝ちらつきに見える。短い側（1.4s）に倒す。
-   ⚠️ 消灯は opacity だけで受けること。クラスで animation ごと外すと transform が基準値へ戻って
-      光が始点へ飛ぶ（.ep-sweep で「fill を付けない animation は終わると基準値へ戻る」を実機で
-      踏んでいる）。animation-play-state:paused も使わない——光がレールの途中で凍りつき、
-      「止まった」ではなく「固まった」に見える。animation は掛けっぱなしにする。
-   ⚠️ reduced-motion では JS(_fxOff) が点灯クラスを一度も付けず、加えて vars.css の
-      @media (prefers-reduced-motion:reduce) が *::after の animation-duration を潰す＝二重に止まる。
-      光が消えてもレール(D3)・稜線・リベット・チャネルは残るので「消えるだけ」にはならない。
-   ⚠️ 非表示タブの停止条件は要らない。CSS アニメーションなのでブラウザが間引く（rAF が止まって
-      数字が0のまま凍った _tweenNum 型の事故はここでは起きない）。
-   逃げ道: 実機でラストスパートと重なって「うるさい」と感じたら
-   `body.exam-mode.exam-sprint .st-hdr::after{opacity:0;}` の1行で消せる（稼働灯が単独セレクタで
-   指せる形にしてあるのはこのため）。 */
-/* ⚠️ 光は「箱の外へ出る要素」ではなく「箱いっぱいの要素の中を動く background」で作ること。
-   ⚠️⚠️ 2026-08-19 の実害: 初版は width:26% の疑似要素を translateX(-110%→395%) で走らせていた。
-      これだと右端が包含ブロックの 128%（1905px 幅で右へ約 547px）まではみ出す。デスクトップ
-      Chrome は文書のスクロール領域を広げないので気づけないが、**iOS Safari は右へあふれた内容に
-      合わせてレイアウトビューポートを広げる**ため、width=device-width の下でページの縮尺が
-      1.4秒周期で勝手に伸び縮みし続けた（「試験中に勝手にピンチアウトして元に戻るのが終わらない」）。
-      left:0/right:0 で箱に固定し、background-position を動かせば geometry は1pxも動かない＝
-      あふれようがない。position:sticky の疑似要素に無限の transform を掛けない、という意味でも安全。
-   background-size:26% なので % 指定の background-position は (幅 - 画像幅)=74% を基準にする。
-   完全に画面外へ出すには -40% ／ 140% が要る（-30%/130% では端で光が見切れて残る）。 */
-body.exam-mode .st-hdr::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;
-  pointer-events:none;opacity:0;transition:opacity 180ms linear;
-  background-image:linear-gradient(90deg,transparent,var(--exam-brass-hi),transparent);
-  background-repeat:no-repeat;background-size:26% 100%;
-  animation:examIdleRun var(--exam-idle-cycle) linear infinite;}
-body.exam-mode.exam-idle-lit .st-hdr::after{opacity:.85;}
-@keyframes examIdleRun{from{background-position:-40% 0;}to{background-position:140% 0;}}
+/* D9 稼働灯（ヘッダ下端を光が走る .st-hdr::after）は 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。 */
 .st-title{font-family:var(--font-display);letter-spacing:var(--font-display-ls);font-size:10px;font-weight:800;white-space:nowrap;flex-shrink:0;}
 .hub-link{font-size:9px;color:#FFFFFF;font-weight:750;text-decoration:none;padding:2px 7px;border:1px solid rgba(255,255,255,.45);border-radius:8px;white-space:nowrap;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);box-shadow:0 1px 4px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.35);transition:all .16s ease-out;display:inline-flex;align-items:center;gap:2px;flex-shrink:0;}
 .hub-link:hover{background:rgba(255,255,255,.28);border-color:#FFFFFF;box-shadow:0 0 8px rgba(255,255,255,.45);transform:translateY(-1px);}
@@ -278,10 +244,6 @@ body.exam-mode .qc.exam-key-focus:not(.exam-revealed)::before{
    ⚠️ body に transform を掛けてはいけないという既存の禁則（_fxBand の項）もここで守る。
    ⚠️ セレクタは body.exam-mode::before / ::after であること（body::before にしない）。
       exitExam で exam-mode が外れれば縁も消える＝通常閲覧へ持ち越さない。
-   ⚠️ 呼吸をフリーランのタイマーにしないこと。.exam-idle-lit に連動させる＝
-      「読んでいる間は炉が呼吸し、答えた瞬間に息を止める」。D9（稼働灯）・R2（歯車）と
-      **まったく同じ1つの状態**が、ベイの歯車・レールの光・画面の縁の3箇所で表現される形になる。
-      軸は増えない（§5-6・§11-7）。
    ⚠️ 進捗で赤くしないこと。それは R11「セッションが進むと筐体が温まる」で、採るには
       「筐体は真鍮固定」という約束を明示的に緩める判断が要る（§11-2・§12-7）。
    ⚠️ z-index は --z-hdr + 1（＝201）。カードとヘッダの上・**すべてのモーダル（5000〜）と
@@ -305,19 +267,7 @@ body.exam-mode #examChrome{position:fixed;inset:0;pointer-events:none;
                    radial-gradient(circle 8vmin at 100% 0,   rgba(0,0,0,.34),transparent 72%),
                    radial-gradient(circle 8vmin at 0    100%,rgba(0,0,0,.34),transparent 72%),
                    radial-gradient(circle 8vmin at 100% 100%,rgba(0,0,0,.34),transparent 72%);}
-/* 熾火。⚠️ 動かすのは opacity だけ（合成のみ＝再レイアウトも再描画も起こさない）。
-   ⚠️ ピーク不透明度 .06 / 到達距離 8vmin / 呼吸の振幅はピークの ±50% 以内（§12-3 のゲート5）。
-      iPhone 幅ではカードの角が隅に入るので、この上限を超えないこと。 */
-body.exam-mode::after{content:'';position:fixed;inset:0;pointer-events:none;
-  z-index:calc(var(--z-hdr) + 1);opacity:.03;
-  background-image:radial-gradient(circle 8vmin at 0    0,   rgba(224,194,94,1),transparent 70%),
-                   radial-gradient(circle 8vmin at 100% 0,   rgba(224,194,94,1),transparent 70%),
-                   radial-gradient(circle 8vmin at 0    100%,rgba(224,194,94,1),transparent 70%),
-                   radial-gradient(circle 8vmin at 100% 100%,rgba(224,194,94,1),transparent 70%);
-  transition:opacity .6s ease;}
-/* ⚠️ 周期 5.6s は R2 の歯車（epGearSpin 5.6s）と同値。同じ機関の同じ拍にしてある。 */
-body.exam-mode.exam-idle-lit::after{animation:examForgeBreath 5.6s ease-in-out infinite;}
-@keyframes examForgeBreath{0%,100%{opacity:.03;}50%{opacity:.06;}}
+/* 熾火（四隅が呼吸する body.exam-mode::after）は 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。 */
 
 /* ══ Phase 5 段3(2026-08-19): R7 読影灯 ／ R9 相転移 ／ R6 キーキャップ ═══════
    ⚠️ セレクタに .qc を含めるかどうかで意味が変わる。画像の枠は「掛ける台」＝カードの装飾では
@@ -334,10 +284,7 @@ body.exam-mode .qimg{border-color:rgba(201,162,39,.5);
   42% {filter:brightness(1.22) saturate(1.06);}
   100%{filter:none;}
 }
-/* R9: 選択肢が視野に入ったら「読む」から「決める」へ相転移する。稼働灯を止め、肢の側を生かす。
-   ⚠️ 稼働灯を消す経路は R10（スリープ）と分けること＝専用クラスで表し、どちらが消したのか追える
-      ようにしておく。両方が同じ exam-idle-lit を落とすと切り分けができなくなる。 */
-body.exam-mode.exam-phase-decide .st-hdr::after{opacity:0;}
+/* R9: 選択肢が視野に入ったら「読む」から「決める」へ相転移する。肢の側を生かす。 */
 /* R6: 決断フェーズで選択肢がわずかに起き上がる。
    ⚠️ R9 と必ずセット。単体では静的で弱く、意味も持たない。
    ⚠️ .ch2 の padding/margin を変えないこと（負マージンで詰めてあり、.exam-selected と
@@ -533,29 +480,11 @@ body.exam-mode .qc:has(.exam-instant-wrong){animation:cardWrongGlow .8s ease for
               linear-gradient(0deg, rgba(121,40,202,.2) 0%, transparent 40px);
 }
 
-/* §13-3 P4: 試験の筐体を載せる2枚。クラスが付くまでは箱があるだけで何も描かない。 */
-#examChrome,#examOverdriveGlow{position:fixed;inset:0;pointer-events:none;z-index:-1;}
-/* §13 Z1: ゾーン状態（10連続正解）のアンビエント呼吸。
-   ⚠️⚠️ これを `body { filter: brightness(...) }` へ戻さないこと。filter が none でない要素は
-   position:fixed の子孫の包含ブロックになり、#mecFxCanvas（fixed/inset:0/100%）が
-   文書全体の高さへ引き伸ばされる＝全演出が縦に伸びる（実測17〜28倍・§13-1）。
-   色と周期は ui_theme.css の ⑫ が --zone-col / --zone-beat / --zone-a で差す（8テーマ）。
-   z-index は #mecFxCanvas(9070)・#examShakeOverlay(9040)・#examStreakBorder(9045) より下＝
-   粒子と外周グローは常にこの色被りの上に出る。 */
-#examZoneBreath{position:fixed;inset:0;pointer-events:none;z-index:9035;opacity:0;
-  background:rgba(var(--zone-col,255,215,0),var(--zone-a,.05));}
-body.exam-streak-zone #examZoneBreath{animation:zoneBreathe var(--zone-beat,3.2s) ease-in-out infinite alternate;}
-@keyframes zoneBreathe{0%{opacity:.12}100%{opacity:1}}
-@media (prefers-reduced-motion: reduce){
-  body.exam-streak-zone #examZoneBreath{animation:none;opacity:0;}
-}
+/* §13-3 P4: 試験の筐体を載せる1枚。クラスが付くまでは箱があるだけで何も描かない。 */
+#examChrome{position:fixed;inset:0;pointer-events:none;z-index:-1;}
+/* ゾーンの呼吸（10連続〜の画面全体の明滅）は 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。 */
 .streak-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:9055;}
-/* ── New combo effects ── */
-#examComboMeter{position:fixed;top:0;left:0;right:0;height:3px;z-index:9300;pointer-events:none;opacity:0;transition:opacity .3s;}
-#examComboMeterFill{height:100%;width:0%;transition:width .35s cubic-bezier(.22,.68,0,1),background .4s;}
-#examComboMeter.tier-overheat{box-shadow:0 0 14px rgba(255,100,50,.85), 0 0 28px rgba(255,200,80,.5);animation:meterOverheatPulse 1.2s infinite alternate ease-in-out;}
-@keyframes meterOverheatPulse{0%{filter:brightness(1);}100%{filter:brightness(1.4);}}
-
+/* コンボメーター（画面上端の帯）は 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。 */
 
 /* 赤旗ピン打刻 ＆ 警戒光彩（案4） */
 .qc.flag-pinned{animation:cardFlagGlow .75s ease-out;}
@@ -563,7 +492,6 @@ body.exam-streak-zone #examZoneBreath{animation:zoneBreathe var(--zone-beat,3.2s
 
 
 @media (prefers-reduced-motion: reduce){
-  #examComboMeter.tier-overheat{animation:none;}
   .qc.flag-pinned{animation:none;}
 }
 .mec-myrate{font-size:10px;font-weight:700;padding:1px 6px;border-radius:var(--r-md);border:1.5px solid rgba(255,255,255,.14);white-space:nowrap;margin-left:2px;display:inline-block;color:var(--ts);}
@@ -588,8 +516,7 @@ body.exam-mode .st-hdr.hdr-collapsed .exam-prog{padding:0 10px;}
    容れ物なので筐体側。上に暗線・下に明線＝凹んで見える（ボタンの逆）。塗りが伸びるにつれて
    樋が埋まっていく構図になる。
    ⚠️ height:7px / border-radius:4px / overflow:hidden を変えないこと。高さを変えるとヘッダが
-      伸びて _fxBand() の焦点が動く。overflow:hidden は ep-sweep がトラックの外へはみ出さない
-      ための既存の担保。
+      伸びて _fxBand() の焦点が動く。
    ⚠️ バーの上に印を載せるなら真鍮にしないこと。真鍮 #E0C25E(L=.5525) は --yl #FFB830(L=.5575)
       と輝度がほぼ同一＝1.008:1 で、通過済み区間で完全に消える（旧 .ep-tick は白 .85＋黒縁だった。
       目盛り・難問印は 2026-08-23g に撤去済み）。
@@ -605,14 +532,7 @@ body.exam-mode .st-hdr.hdr-collapsed .exam-prog{padding:0 10px;}
       .exam-prog は padding:4px と 11px×1.7 の文字＋終了ボタン（約23px）を含むので歯車は行を伸ばさない。
       ⚠️ 寸法を変えるときは必ず .exam-prog の実測高さを before/after で比べること。
    ⚠️ 歯車は筐体なので真鍮固定。tier にもテーマにも振らない（設計 §11-7 の条件2）。
-   ⚠️ 回転の開始／停止は animation-play-state で行い、animation ごと外さないこと。
-      外すと角度が 0 に戻って歯車がワープする。稼働灯(D9)で paused を禁じたのは「光が途中で
-      凍ると"固まった"に見える」からだが、歯車は逆で **途中で止まるのが正しい絵**（1拍止まる）。
-   ⚠️ 左右で逆回り＝噛み合って見える条件。歯数が同じなので速さも同じでなければならない。 */
-/* ⚠️⚠️ 拡大は scale プロパティで行うこと。transform:scale() は使えない——下の
-      animation:epGearSpin が transform を占有しており、transform を別途宣言しても走行中の
-      アニメーションに上書きされて何も起きない（黙って死ぬ型の失敗）。scale は独立プロパティ
-      なので回転と合成される。scale はレイアウトに影響しないのでヘッダの高さも変わらない。 */
+   ⚠️ 歯車は 2026-09-28 から回らない（静止した意匠）。 */
 /* S12(2026-08-21 / Phase 7 段E): ヘッダの数字をニキシー管にする。
    意匠だけを採る＝**フリッカーは入れない**（不規則な輝度変化は周辺視野で最も視線を引き、
    §11-1 原則3「周期を一定にする」に正面から反する。ニキシー管の意匠は光り方ではなく
@@ -625,85 +545,21 @@ body.exam-mode .st-hdr.hdr-collapsed .exam-prog{padding:0 10px;}
 #examProgTxt,#examTimer{color:#FFD98A;font-variant-numeric:tabular-nums;
   text-shadow:0 0 8px rgba(255,196,90,.35),0 1px 2px rgba(0,0,0,.7);}
 
-/* S1 / S1'(2026-08-21 / Phase 7 段E): 排圧計。読書中は完全に静止し、解答した瞬間だけ跳ねて戻る。
-   ⚠️⚠️ 針は rotate プロパティで描くこと。箱の外へ出る要素を作らないこと——2026-08-19 に
-      稼働灯が包含ブロックの 128% まではみ出し、iOS Safari でページの縮尺が1.4秒周期で
-      伸び縮みし続けた事故がある。針は 4.6px で盤面（半径 6.5px）の中に完全に収まる。
-   ⚠️ S1'（2巡目 案2 から採った「針の物理」）＝目標値でピタリと止まらず、わずかに行き過ぎて戻る。
-      ⚠️ 常時の微振動と「レッドゾーン」は入れない。振動は読書中に周辺視野で動き続けるし、
-         赤は「誤答を罰しない」という既定方針と噛み合わない（§12-1【2巡目】）。
-   ⚠️ 盤面は真鍮固定（筐体）。tier にもテーマにも振らない。 */
-.ep-relief{position:relative;flex:none;width:7.8px;height:7.8px;border-radius:50%;
-  border:1px solid var(--exam-brass);
-  background:radial-gradient(circle at 50% 36%,rgba(224,194,94,.18),rgba(0,0,0,.55) 76%);
-  box-shadow:0 0 0 1px var(--exam-bevel-lo);}
-.ep-needle{position:absolute;left:50%;bottom:50%;width:1px;height:2.8px;margin-left:-.5px;
-  border-radius:1px;background:var(--exam-brass-hi);
-  transform-origin:50% 100%;rotate:-72deg;}
-
-/* ══ Phase 7 段E(2026-08-21): S4 軸光（アクスル・グロウ）══════════════════════
-   提案4 の真空管は、①時間連動を外すと点灯理由が無くなり ②計器ベイに7つ目の要素が増える。
-   両方を回避するため、**既存の歯車の「軸穴」を灯にする**。path は fill-rule:evenodd で
-   中心に半径 5.2/20 の穴が開いており、いま背景が透けているだけ＝**要素0増・幅0増**で
-   「熱を持って稼働する機械」が得られる。
-   ⚠️ SVG 要素の background は path の**後ろ**に描かれるので、見えるのは軸穴の中だけになる。
-      グラデの外周（46%）は歯車の不透明な本体（13%〜35%）の下に隠れる寸法にしてある。
-      半径を広げると歯の外の四隅に琥珀が滲むので触らないこと。
-   ⚠️ <circle> を足して歯車の実装を3本目にしないこと（Phase 4 の判断）。
-   ⚠️ 点灯条件は時間ではなく .exam-idle-lit ＝ D9・R2・S11 とまったく同じ状態。
-      これで「筐体で動くのは稼働灯の状態1つだけ」（§5-6）が保たれる。
-   ⚠️⚠️ 色は琥珀固定。tier 色（--exam-focus-c）を入れてはいけない——筐体は真鍮固定という
-      Phase 4 の約束を破る。tier で変えてよいのは**明るさだけ**（--exam-axle は 0〜7）。
-      R3（焦点枠の色＝盤面）との二重表示は意図的に許す（ハブのゲージが「機械の動き」と
-      「読み値の色」で同じ事実を2通りに出しているのと同型）。
-   ⚠️ .ep-gear-blow（膨張 520ms）中は scale:3.2 が掛かるので軸光も3.2倍になる。
-      ここは抑えない＝放出の瞬間に炉が開く絵として使う（読解はもう終わっている）。 */
-.ep-gear{width:7.8px;height:7.8px;flex:none;fill:var(--exam-brass);opacity:.72;scale:1;
-  background:radial-gradient(circle at 50% 50%,rgba(255,214,120,var(--exam-axle-a,0)) 0 18%,rgba(255,214,120,0) 46%);
-  transition:scale .5s cubic-bezier(.22,1,.36,1),opacity .5s ease,background .5s ease;
-  animation:epGearSpin 5.6s linear infinite;animation-play-state:paused;}
-/* 灯るのは稼働灯が点いている間だけ。tier（--exam-axle 0〜7）で明るさだけが上がる。 */
-body.exam-mode.exam-idle-lit .ep-gear{--exam-axle-a:calc(.30 + var(--exam-axle,0) * .09);}
-/* 蒸気の放出に合わせて歯車が膨らみ、噛み合いから火花が飛ぶ（JS が .ep-gear-blow を 520ms 付ける）。
-   ⚠️ フィードからはみ出すのは意図どおり（.st-hdr / .exam-prog は overflow:visible）。
-   ⚠️ 倍率を上げるときは右の歯車から画面右端までの約110px（タイマーと終了ボタンのぶん・画面幅に
-      依らない）を超えないこと。超えると iOS Safari がレイアウトビューポートを広げ、
-      2026-08-19 のページ縮尺の振動が再発する。13px×3.2＝41.6px＝中心から20.8px なので余裕がある。 */
-/* ⚠️ 膨らんでいる間は animation-play-state:running を強制すること。解答した瞬間は D9 が
-      exam-idle-lit を外して歯車を止める（1拍止まる）ので、これが無いと**膨らんだ歯車は
-      停止したまま**で、回転を速くしても1frameも見えない。圧を抜いた瞬間に弾み車が回り上がる、
-      という絵にする（速さ自体は JS が playbackRate で付ける＝位相が飛ばない）。 */
-body.exam-mode .ep-gear.ep-gear-blow{scale:3.2;opacity:.95;animation-play-state:running;
-  transition:scale .16s cubic-bezier(.34,1.8,.64,1),opacity .16s ease;}
-.ep-gear-b{animation-direction:reverse;}
-body.exam-mode.exam-idle-lit .ep-gear{animation-play-state:running;}
-@keyframes epGearSpin{to{transform:rotate(360deg);}}
+/* S1 排圧計（.ep-relief / .ep-needle）は 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。 */
+/* 歯車（.ep-gear）は静止した筐体の意匠として残す。回転（R2）・膨張・軸光（S4）は 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。 */
+.ep-gear{width:7.8px;height:7.8px;flex:none;fill:var(--exam-brass);opacity:.72;}
 /* R10: 離席（60秒）で機械が休む。⚠️「叱られている」に見せないこと＝暗くするだけで印は消さない。 */
-body.exam-mode.exam-asleep .st-hdr::after{opacity:0;}
 body.exam-mode.exam-asleep .st-hdr::before{opacity:.3;}
-body.exam-mode.exam-asleep .ep-gear{animation-play-state:paused;opacity:.28;}
+body.exam-mode.exam-asleep .ep-gear{opacity:.28;}
 /* ⚠️ .st-hdr::before は必ず body.exam-mode でゲートすること（通常閲覧のヘッダを1pxも変えない）。 */
 body.exam-mode .st-hdr::before,body.exam-mode .ep-gear{transition:opacity .5s ease;}
-/* 起動シーケンス（一度きり）。⚠️ 常時アニメではないので §5-6「動くのは稼働灯1つ」に反しない。 */
+/* 起動シーケンス（一度きり）。 */
 body.exam-mode.exam-waking .st-hdr::before{animation:examRailWake .9s ease-out;}
 @keyframes examRailWake{0%{opacity:.3;}35%{opacity:1;filter:brightness(1.7);}100%{opacity:1;}}
-/* B2(2026-08-18): 節目は「祝わない」。跨いだ瞬間に光が走るだけで音も粒子も出さない
-   （連続正解 tier と別軸で祝うと画面がぶつかる）。
+/* B2(2026-08-18): 節目は「祝わない」。
    ⚠️ 目盛り（.ep-tick）と難問印（.ep-hard）は 2026-08-23g に撤去した（study_exam.js の
       _renderExamProgMarks は掃除だけをする）。CSS も 2026-09-28 に削除済み。 */
-/* 節目を跨いだ合図。バーの上を光が一度だけ走る */
-/* ⚠️ 静止位置（transform）を必ず書くこと。fill を付けない animation は終わると基準値へ戻るので、
-   基準が translateX(0) だとバーの真ん中に明るい帯が居座る（実機で確認した）。 */
-.exam-prog-track.ep-sweep::after{content:'';position:absolute;inset:0;pointer-events:none;
-  transform:translateX(100%);
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);
-  animation:epSweep .75s cubic-bezier(.4,0,.2,1);}
-@keyframes epSweep{from{transform:translateX(-100%);}to{transform:translateX(100%);}}
-/* ラストスパート: 残り5問から色温度を上げる。連続正解と独立した軸なので tier と競合しない */
-.exam-prog-track.ep-sprint .exam-prog-fill{background:linear-gradient(90deg,var(--yl),var(--or));}
-body.exam-sprint .exam-prog{background:rgba(60,22,0,.62);animation:epSprint 2.6s ease-in-out infinite;}
-@keyframes epSprint{0%,100%{box-shadow:inset 0 0 0 0 rgba(255,154,60,0);}
-  50%{box-shadow:inset 0 -2px 14px -4px rgba(255,154,60,.55);}}
+/* 節目で進捗バーを光が走る・残り5問のラストスパートは 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。 */
 /* B3(2026-08-18): 難問の成績。B4の予告 → B2の道中の印 → ここ、と data-rate 1本が経路を貫く */
 .exam-hard-note{font-size:12px;font-weight:700;color:var(--ts);margin:-4px 0 12px;
   padding:6px 10px;border-radius:var(--r-md);background:rgba(255,154,60,.08);
@@ -1287,11 +1143,8 @@ html.mec-jumping .qc{content-visibility:visible!important;}
    連続数 #examRfStreak(9110) / 縁の光 #examStreakBorder(9045) と同じ序列で管理する。
    動きを減らす設定では vars.css が全アニメを止めるうえ、JS側も _fxOff() で抑止する。 */
 
-/* A1: 速答ボーナスのラベル */
-.exam-fast-pop{position:fixed;z-index:9220;pointer-events:none;font-size:18px;font-weight:900;
-  letter-spacing:.06em;white-space:nowrap;text-shadow:0 2px 10px rgba(0,0,0,.7);transform:translate(-50%,0);}
-
-/* A2(2026-08-14): 初見突破 / リベンジ達成。肢の右下から小さく立ち上がる */
+/* 肢の右下から小さく立ち上がるラベル。いま使っているのは C3（前にも同じ肢）の .warn だけ
+   （初見突破・リベンジ達成は 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。） */
 /* ⚠️ 2026-08-31（§情報設計）: 12.5px → 15px へ上げた。全画面の特大×n を tier6 以上へ
    格下げした代わりに、**「何が偉かったか」を伝える側**（難問突破・リベンジ・初見突破）を
    読める大きさにする。旧構成は「連続数」だけが画面いっぱいで、行動に効く情報のほうが
@@ -1304,106 +1157,20 @@ html.mec-jumping .qc{content-visibility:visible!important;}
   background:color-mix(in srgb,var(--mk-col,#3DD68C) 16%,rgba(0,0,0,.55));
   border:1px solid color-mix(in srgb,var(--mk-col,#3DD68C) 42%,transparent);
   text-shadow:0 1px 6px rgba(0,0,0,.75);}
-.exam-mark-pop.rev{font-size:15px;font-weight:900;padding:3px 11px;
-  box-shadow:0 0 16px color-mix(in srgb,var(--mk-col,#FFD700) 42%,transparent);}
 /* C3(2026-08-14): 同じ肢を繰り返し選んだときの注意（責めずに事実だけ出す） */
 .exam-mark-pop.warn{font-size:12px;}
 
-/* C5(2026-08-14) → S5(2026-08-21): 落とした問題に残る印。セッション中だけの印で cleanup が外す。
-   ══ Phase 7 S5: 「傷」ではなく「真鍮のプレートをリベットで打ち付けた補強痕」にする ══
-   旧実装は 3px の赤い縦線で、Phase 4 が筐体に敷いた語彙（真鍮・リベット・稜線）と噛み合って
-   いない唯一のカード側要素だった。意味の面でも合っていない——このプロジェクトは **誤答を罰しない**
-   方針を繰り返し採ってきた（A2 リベンジ／C2 立て直し／R1 の放出を正誤で変えない）のに、印だけが
-   「傷」という損傷の比喩に留まっていた。当て板にすると「ここは前に壊れたので補強してある」という
-   履歴になり、**弱点リストを畳む動機ではなく戻ってくる動機**になる。
-   ⚠️ 層は増えない。::before の background を差し替えるだけ。
-   ⚠️ 幅 3px → 5px。3px ではリベットの頭が潰れて点にならない。5px は **R5 のクランプと同幅**で、
-      これによりカード左端の語彙が
-        クランプ5px（いま読んでいる）／プレート5px（この回で落とした）／.qc-recap 3px（前回の成績）
-      と揃い、幅で3者を読み分けられる。
-   ⚠️⚠️ 赤を完全に捨てないこと。傷の実用は「セッション中にどこで落としたかを後から目で探す」ことなので、
-      真鍮一色にすると通過済みカードの中で埋もれる。**プレートを 3px にして左右 1px ずつ赤を覗かせ、
-      リベットの頭を銅赤にする**＝真鍮の中で赤が2点だけ光る。
-   ⚠️ .qc の box-shadow を上書きしないこと（B5・R13 と同じ注意）。
-   ⚠️ exam-revealed のカードにしか付かないという R5 との状態排他を壊さないこと（§11-4-2）。
-      S5 は ::before の**中身**を変えるだけで、付く条件には一切触れない。 */
-body{
-  /* プレートの「絵」は S5（履歴として残る当て板）と S5 の克服光（一度だけ光って消える当て板）で
-     共有する。⚠️ 色と層をこのトークンの外に書き写さないこと——片方だけ直すと「同じ板なのに絵が違う」
-        になる。⚠️ 幾何（width / background-size / position）だけは2つの規則に重複して書いてある。
-        セレクタをカンマでまとめると `.qc.exam-scar::before{` の**文字列そのもの**を前提にしている
-        既存テスト3本（test_exam_prog / test_exam_reading / test_exam_chassis）が落ちるため。 */
-  --exam-plate-rivet:radial-gradient(circle at 50% 50%,#F2A07B 0 30%,rgba(176,58,40,.95) 44%,rgba(0,0,0,.5) 58%,transparent 72%);
-  --exam-plate-face :linear-gradient(180deg,var(--exam-brass-hi),var(--exam-brass) 46%,var(--exam-copper));
-  --exam-plate-red  :linear-gradient(180deg,transparent,rgba(255,107,107,.75) 18%,rgba(255,107,107,.75) 82%,transparent);
-}
-.qc.exam-scar{position:relative;}
-.qc.exam-scar::before{content:'';position:absolute;left:0;top:10px;bottom:10px;width:5px;
-  border-radius:0 3px 3px 0;pointer-events:none;
-  background-image:var(--exam-plate-rivet),var(--exam-plate-rivet),var(--exam-plate-face),var(--exam-plate-red);
-  background-repeat:no-repeat;
-  background-size:5px 5px,5px 5px,3px 100%,5px 100%;
-  background-position:0 7px,0 calc(100% - 7px),1px 0,0 0;
-  box-shadow:1px 0 0 var(--exam-bevel-lo);}
-/* S5 の克服光: 前に落とした問題を正解し直した瞬間、当て板が打たれて一度だけ磨かれ、消える。
-   ⚠️ 付ける場所は _afterCorrectFx（正解の2経路の合流点）。片方に書くと計算問題50問で抜ける。
-   ⚠️ 残さず消すのは exam-scar（この回で落とした）との意味の衝突を避けるため——
-      板が居座ると「落とした印」と「克服した印」が同じ絵で並ぶ。
-   ⚠️ 付くのは exam-revealed のカードなので R5 のクランプとは状態で排他になる（§11-4-2）。 */
-.qc.exam-plate-fix{position:relative;}
-.qc.exam-plate-fix::before{content:'';position:absolute;left:0;top:10px;bottom:10px;width:5px;
-  border-radius:0 3px 3px 0;pointer-events:none;
-  background-image:var(--exam-plate-rivet),var(--exam-plate-rivet),var(--exam-plate-face),var(--exam-plate-red);
-  background-repeat:no-repeat;
-  background-size:5px 5px,5px 5px,3px 100%,5px 100%;
-  background-position:0 7px,0 calc(100% - 7px),1px 0,0 0;
-  box-shadow:1px 0 0 var(--exam-bevel-lo);
-  animation:examPlateFix 1.05s ease both;}
-@keyframes examPlateFix{
-  0%  {opacity:0;filter:brightness(.7);}
-  22% {opacity:1;filter:brightness(1);}
-  46% {opacity:1;filter:brightness(2.2) saturate(1.2);}
-  74% {opacity:1;filter:brightness(1);}
-  100%{opacity:0;filter:brightness(1);}}
-
-/* B7(2026-08-18): 1問目だけの入場。カウントダウンが明けた直後の1枚に「幕が上がった」を作る */
-.qc.exam-first-in{animation:examFirstIn .9s cubic-bezier(.16,1,.3,1) both;}
-@keyframes examFirstIn{
-  0%{opacity:0;transform:translateY(20px) scale(.985);filter:blur(3px);}
-  55%{opacity:1;filter:blur(0);}
-  100%{opacity:1;transform:none;filter:blur(0);}}
+/* 誤答の傷（.qc.exam-scar）・克服の当て板（.qc.exam-plate-fix）・1問目の入場（.qc.exam-first-in）は
+   2026-09-28 に撤去した（ユーザー判断）。戻さないこと。 */
 /* B8(2026-08-18): 誤答再試験＝リマッチ。同じカウントダウンでも「取り返しに来た」と読める色にする。
    ⚠️ --cd-col / --cd-glow は _examCountdown がインライン style で入れるのでここでは上書きできない
       （インラインの方が強い）。色は JS 側で選び、ここは字の色だけを担当する。 */
 #examCountdown.cd-rematch .cd-line{color:rgba(255,180,170,.92);}
 
-/* A3(2026-08-14): 速答の3段。1段目（まずまず）は控えめ、3段目（神速・一閃）は超ド派手黄金発光 */
-.exam-fast-pop.fast-g1{font-size:14px;opacity:.78;}
-.exam-fast-pop.fast-g3{
-  font-size: 24px;
-  font-weight: 900;
-  letter-spacing: .12em;
-  color: #FFFDF0 !important;
-  text-shadow: 0 0 20px #FFD700, 0 0 40px #FFA040, 0 2px 10px rgba(0,0,0,.9);
-  padding: 4px 16px;
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.35) 0%, rgba(255, 69, 0, 0.4) 100%);
-  border: 2px solid #FFD700;
-  border-radius: 30px;
-  box-shadow: 0 0 30px rgba(255, 215, 0, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.6);
-}
-
-/* C2(2026-08-14): 立て直し。誤答の次を正解した1回だけ出る */
-.exam-recover-pop{position:fixed;z-index:9225;pointer-events:none;white-space:nowrap;
-  font-size:19px;font-weight:900;letter-spacing:.05em;color:var(--rc-col,#3DD68C);
-  text-shadow:0 0 16px color-mix(in srgb,var(--rc-col,#3DD68C) 65%,transparent),0 2px 10px rgba(0,0,0,.7);}
-
 /* A5: 正解時も選ばなかった肢の視認性を維持 */
 .qc.exam-sink .ch2{transition:none;opacity:1;filter:none;transform:none;}
 .qc.exam-sink .ch2:not(.exam-selected):not(.exam-instant-correct):not(.ok){
   transform:none;opacity:1;filter:none;}
-
-/* A3: カード外周を一周するボーダートレース */
-.exam-trace-svg{position:fixed;z-index:8500;pointer-events:none;overflow:visible;}
 
 /* B4: ティア昇格スタンプ */
 .exam-tierup{position:fixed;left:50%;top:38%;z-index:9350;pointer-events:none;text-align:center;
@@ -1413,15 +1180,6 @@ body{
 .exam-tierup .tu-main{font-size:38px;font-weight:900;letter-spacing:.04em;white-space:nowrap;
   color:var(--tu-col,#FFD700);
   text-shadow:0 0 22px rgba(var(--tu-glow,255,215,0),.85),0 0 52px rgba(var(--tu-glow,255,215,0),.45),0 3px 12px rgba(0,0,0,.75);}
-
-/* B6: コンボメーターの「次ティアまで残りN」ラベル */
-#examComboMeterLbl{position:fixed;top:7px;right:10px;z-index:9310;pointer-events:none;opacity:0;
-  font-size:10px;font-weight:800;letter-spacing:.04em;white-space:nowrap;
-  font-variant-numeric:tabular-nums;text-shadow:0 1px 6px rgba(0,0,0,.8);}
-
-/* B7: 覚醒モード（20連続〜・ミスで解除）。粒子の彩度を上げメーターを太くする */
-body.exam-awaken #mecFxCanvas{filter:saturate(1.45) brightness(1.1);}
-body.exam-awaken #examComboMeter{height:5px;}
 
 /* ══ C9: 開始ブートシーケンス ══
    mecha=メカ起動 / cyber=電脳ダイブ の2様式。様式はレイアウトと動きで作り、
@@ -1666,8 +1424,7 @@ body.exam-awaken #examComboMeter{height:5px;}
 
 /* 動きを減らす設定では新演出のレイヤーごと出さない（JS側 _fxOff とあわせて二重に抑止） */
 @media (prefers-reduced-motion: reduce){
-  .exam-fast-pop,.exam-trace-svg,.exam-tierup,
-  .exam-recover-pop,.exam-mark-pop,
+  .exam-tierup,.exam-mark-pop,
   #examCountdown,.exam-rank-stamp{display:none!important;}
   .exam-modal.exam-modal-impact{animation:none!important;}
   .qc.exam-sink .ch2{transition:none;transform:none;opacity:1;filter:none;}
@@ -1675,8 +1432,7 @@ body.exam-awaken #examComboMeter{height:5px;}
   /* Phase 5: 動きだけ止め、意匠は残す（設計 §11-7 の条件3＝静止画に戻るだけで情報は失われない）。
      クランプ・焦点枠・持ち上げは静的なので消さない。閉じる動きだけを消す。 */
   body.exam-mode .qc.exam-key-focus:not(.exam-revealed)::before{animation:none!important;}
-  /* 段2/段3も同様に「動きだけ止めて意匠は残す」。歯車は止まって見えるのが正しい（絵は残る）。 */
-  .ep-gear{animation:none!important;}
+  /* 段3も同様に「動きだけ止めて意匠は残す」。 */
   .qimg.qimg-lit{animation:none!important;}
   body.exam-mode .qc.exam-deciding .ch2{animation:none!important;transform:none!important;}
   body.exam-mode.exam-waking .st-hdr::before{animation:none!important;}
@@ -1688,12 +1444,6 @@ body.exam-awaken #examComboMeter{height:5px;}
   .exam-review-btn:active,.exam-retry-btn:active,
   .exam-close-btn:active,.exam-fresh-btn:active{translate:none;}
   .exam-detail-item .val,.exam-pct{transition:none;}   /* 点灯は残す。ふわりと点くのをやめるだけ */
-  .qc.exam-plate-fix::before{animation:none!important;display:none;}  /* 一瞬の光は出さない（残すと当て板が居座る） */
-  /* S11: 呼吸だけ止め、縁と排気口は残す（意匠は消さない＝Phase 4 の作法）。 */
-  body.exam-mode.exam-idle-lit::after{animation:none!important;}
-  body.exam-mode::after{transition:none;}
-  /* S4: 軸光は静止した意匠なので消さない。ふわりと点くのをやめるだけ。 */
-  .ep-gear{transition:none;}
 }
 
 /* 自己診断（🔊設定内・演出が出ない時の切り分け用） */
@@ -1738,71 +1488,10 @@ body.srs-review #mecNoSubj{display:none!important;}
 }
 
 /* ══ ダイナミック演出強化 ══ */
-/* 【案1】全画面オーバードライブ（連続正解時の覚醒モード） */
-/* ⚠️ body.exam-overdrive::before へ戻さないこと（§13-3 P4）。テーマの body::before に
-   z-index を奪われてカードの下敷きになる。 */
-body.exam-overdrive #examOverdriveGlow {
-  position: fixed; inset: 0; pointer-events: none; z-index: 8990;
-  box-shadow: inset 0 0 80px rgba(255,184,48,.35), inset 0 0 160px rgba(255,94,138,.2);
-  animation: overdrivePulse 1.4s infinite alternate ease-in-out;
-}
-@keyframes overdrivePulse {
-  0% { opacity: .6; filter: hue-rotate(0deg); }
-  100% { opacity: 1; filter: hue-rotate(25deg); }
-}
-
-
-@media (prefers-reduced-motion: reduce) {
-  body.exam-overdrive #examOverdriveGlow {
-    animation: none;
-  }
-}
+/* オーバードライブ（全画面の縁のグロー）は 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。 */
 
 /* ══ 新・演出特化10選 ══ */
-/* 【案1】溶鉄ヒートチャージ ＆ 陽炎エフェクト */
-.qc.card-heat-low {
-  box-shadow: 0 0 16px rgba(255,160,64,.4), var(--shadow-card);
-  border-color: rgba(255,160,64,.6);
-}
-.qc.card-heat-mid {
-  box-shadow: 0 0 28px rgba(255,80,40,.65), 0 0 50px rgba(255,160,64,.35), var(--shadow-card);
-  border-color: rgba(255,80,40,.85);
-}
-.qc.card-heat-max {
-  box-shadow: 0 0 35px #FFF, 0 0 60px #FFA040, 0 0 95px #FF3B30, var(--shadow-card);
-  border-color: #FFF;
-}
-
-/* 【案4】チェックポイント・光のワープゲート突破 */
-.warp-gate-overlay {
-  position: fixed; inset: 0; pointer-events: none; z-index: 9500;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  overflow: hidden;
-}
-.warp-ring {
-  position: absolute; border-radius: 50%;
-  border: 4px solid var(--or, #FFD700);
-  box-shadow: 0 0 35px rgba(255,215,0,.85), inset 0 0 35px rgba(255,215,0,.6);
-  animation: warpGateRing .75s cubic-bezier(.16,1,.3,1) forwards;
-}
-@keyframes warpGateRing {
-  0% { width: 40px; height: 40px; opacity: 0; transform: scale(0.2); }
-  30% { opacity: 1; }
-  100% { width: 140vmax; height: 140vmax; opacity: 0; transform: scale(1.5); }
-}
-.warp-gate-title {
-  font-family: 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: clamp(20px, 5vmin, 36px); font-weight: 900;
-  color: #FFD700; text-shadow: 0 0 24px rgba(255,215,0,.9), 0 4px 16px rgba(0,0,0,.8);
-  letter-spacing: .15em; z-index: 2;
-  animation: warpGateTxt .85s cubic-bezier(.16,1,.3,1) forwards;
-}
-@keyframes warpGateTxt {
-  0% { transform: scale(0.4) translateY(40px); opacity: 0; }
-  40% { transform: scale(1.15) translateY(0); opacity: 1; }
-  75% { transform: scale(1); opacity: 1; }
-  100% { transform: scale(1.2) translateY(-20px); opacity: 0; }
-}
+/* カード赤熱・10問ごとのワープゲートは 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。 */
 
 /* 【案5】解説活版インク染み込み */
 .ans.open {
@@ -1831,7 +1520,7 @@ body.env-nightshift {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .qc.card-heat-mid, .qc.card-heat-max, .warp-ring, .warp-gate-title, .ans.open {
+  .ans.open {
     animation: none!important;
   }
 }

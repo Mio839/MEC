@@ -49,14 +49,15 @@ test('3. UIテーマ8種の固有演出が正解の肢の位置から出る', ()
   assert(/_spawnStreakParticles\(Math\.max\(1, tier\), p[,)]/.test(examSrc), '_rfCorrectFx が肢の位置を渡していない');
 });
 
-test('4. 克服時に金床火花 (burst) が発火する', () => {
-  assert(examSrc.includes('prior && prior.wasWrong'), 'Missing prior.wasWrong check');
-  assert(examSrc.includes('shapes: [\'shard\', \'square\']'), 'Missing spark burst in prior.wasWrong');
+// 2026-09-28 に撤去した（ユーザー判断）。戻っていないことを見る
+test('4. 克服の当て板と金床火花は撤去したまま', () => {
+  assert(!examSrc.includes('prior && prior.wasWrong'), '克服の演出（prior.wasWrong）が戻っている');
+  assert(!/function _polishPlate\(/.test(examSrc), '_polishPlate が戻っている');
 });
 
 test('5. 神速ライトニングバースト (godSpeedBurst) は 2026-09-28 に撤去した（速答は小さな⚡だけ）', () => {
   assert(!examSrc.includes('godSpeedBurst'), 'godSpeedBurst が study_exam.js に戻っている');
-  assert(examSrc.includes('_fastGrade'), 'Missing _fastGrade check');
+  assert(!/function _fastGrade\(/.test(examSrc), '速答（_fastGrade）が戻っている（2026-09-28 撤去）');
 });
 
 console.log('── Step 1: 複数選択の装填状態 (exam-target-loaded) ──');

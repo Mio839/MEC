@@ -69,7 +69,8 @@ assert(chapterExamJs.includes('ceTriggerThemeHaptics'), 'Missing ceTriggerThemeH
 assert(!/function _triggerEdgePulse\(/.test(studyExamJs), '_triggerEdgePulse が study_exam.js に復活している');
 assert(chapterExamJs.includes('ceTriggerEdgePulse'), 'Missing ceTriggerEdgePulse in chapter_exam.js');
 
-assert(studyExamJs.includes('exam-streak-zone'), 'Missing exam-streak-zone in study_exam.js');
+// 2026-09-28: study のゾーンの呼吸と速答は撤去した（ユーザー判断）。過去問ビューアは旧演出のまま。
+assert(!studyExamJs.includes("classList.add('exam-streak-zone')"), 'study_exam.js にゾーンの呼吸が戻っている');
 assert(chapterExamJs.includes('exam-streak-zone'), 'Missing exam-streak-zone in chapter_exam.js');
 
 assert(studyExamJs.includes('exam-next-entering'), 'Missing exam-next-entering in study_exam.js');
@@ -78,7 +79,7 @@ assert(chapterExamJs.includes('exam-next-entering'), 'Missing exam-next-entering
 assert(studyExamJs.includes('ch2-pressing'), 'Missing ch2-pressing in study_exam.js');
 assert(chapterExamJs.includes('ch2-pressing'), 'Missing ch2-pressing in chapter_exam.js');
 
-assert(studyExamJs.includes('exam-fast-hit'), 'Missing exam-fast-hit in study_exam.js');
+assert(!studyExamJs.includes("classList.add('exam-fast-hit')"), 'study_exam.js に速答の印が戻っている');
 // 2026-09-24: study の誤答は静か（被弾アニメ exam-wrong-hit を付けない）。過去問ビューアは旧演出のまま。
 assert(!studyExamJs.includes("classList.add('exam-wrong-hit')"), 'study_exam.js が誤答で exam-wrong-hit を付けている');
 assert(chapterExamJs.includes('exam-wrong-hit'), 'Missing exam-wrong-hit in chapter_exam.js');
