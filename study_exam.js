@@ -2262,7 +2262,7 @@ function _spawnStreakParticles(tier, at, ctx) {
       return;
     } else if (curUi === 'abyss') {
       if (window.MecFX.abyssSonarPulse) window.MecFX.abyssSonarPulse(cx, cy, { maxR: maxR, marineSnowCount: 18 + tier * 6 });
-      if (window.MecFX.bubbles) window.MecFX.bubbles(cx, cy, { count: 14 + tier * 4, colors: ['#00FFA3', '#00B4D8', '#64FFDA'] });
+      // 泡（MecFX.bubbles）は 2026-09-28 にデモページで部品ごとに見て撤去した（ユーザー判断）。戻さないこと。
       if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 3, color: '#00FFA3', thickness: 3, maxR: maxR * 1.05, additive: true });
       return;
     } else if (curUi === 'frost') {
@@ -2300,7 +2300,7 @@ function _spawnStreakParticles(tier, at, ctx) {
 /* ══════════ Liquid：油膜の虹彩＋メッシュグラデーション（2026-09-25）══════════
    デモ（案G・案J）でユーザーが採用。旧 liquidBloomRipple（全画面の閃光・絞り羽根・画面の下から昇る泡・
    画面全体の粉・火花の5色同時）を置き換えた。
-   - 正解の肢の**文字の裏**で、ぼかした色の塊4つが咲いて混ざり（メッシュ）、薄膜の虹色が輪になって渡る。
+   - （2026-09-28 にデモページで部品ごとに見て撤去した（ユーザー判断）。戻さないこと。）正解の肢の**文字の裏**で、ぼかした色の塊4つが咲いて混ざり（メッシュ）、薄膜の虹色が輪になって渡る。
    - TIER3〜：色がカードの裏にも広がり、カードの縁が油膜の色で回る。
    - 段が上がった瞬間：虹色の輪がカード全体を渡り、色の塊がカードの中をひと回りする。
    ⚠️ 層は肢／カードの子要素 .lq-layer（z-index:-1）＝.qc と .ch2 の疑似要素は使わない（満杯）。
@@ -2406,13 +2406,8 @@ function _lqFluidFx(el, card, tier, promoted, budget) {
   if (pt && pt.el === el && performance.now() - pt.t < 2000) { ox = er.width * pt.fx; oy = er.height * pt.fy; }
   const t = Math.max(1, tier);
   const big = t >= 3, up = promoted && tier >= 2;
-  // ① 肢：メッシュ＋虹色の輪＋あとに残る光沢（送りまでに終える）
-  const kL = _rfFit(budget, 1450);
-  const L = _lqLayer(el);
-  _lqMesh(L, ox, oy, er.width * (.22 + t * .02), er.height * 1.8, 1300, .9, false, 20, null);
-  _lqFilm(L, ox, oy, Math.max(ox, er.width - ox) + 40, 750, .95, false);
-  setTimeout(() => _rfWithK(kL, () => _lqFilm(L, ox, oy, 0, 1100, .3 + t * .03, true)), 150 * kL);
-  _lqDrop(el, L, 1450);
+  // ① 肢の層（肢の色の塊・肢を渡る虹色の輪・肢に残る光沢）は 2026-09-28 にデモページで部品ごとに見て撤去した（ユーザー判断）。戻さないこと。
+  //    ＝TIER1〜2（段が上がった瞬間を除く）の liquid にはテーマ固有の正解演出が出ない。
   if (!card) return;
   if (!big && !up) return;
   // ② 全画面（ラボの尺のまま）
@@ -2439,7 +2434,7 @@ function _lqFluidFx(el, card, tier, promoted, budget) {
 /* ══════════ Frost：六花＋霜華＋ダイヤモンドダスト（2026-09-25）══════════
    デモ（frost 正解演出ラボの案A・B・F）でユーザーが採用。旧 frostCrystalShatter（全画面の閃光・回る六角形・
    破片68・菱形の光138・十字の斬撃4本・画面全体の粉 85〜170粒）を置き換えた。
-   - 霜華：正解の肢が縁から凍り（霜の樹枝が上下の縁から内側へ這う）、タップ位置から丸く溶ける。
+   - 霜華（2026-09-28 にデモページで部品ごとに見て撤去した（ユーザー判断）。戻さないこと。）：正解の肢が縁から凍り（霜の樹枝が上下の縁から内側へ這う）、タップ位置から丸く溶ける。
    - 六花：タップ位置の**カードの裏**に雪の結晶が線で描き上がる。枝ぶりは毎回ちがい、
            **段が上がるほど枝が複雑になる**（孫枝・六角板）。TIER3〜は小さな結晶がまわりに咲く。
    - ダイヤモンドダスト：肢の上で細かな光の粒がゆっくり舞い降りて瞬く。TIER3〜はカード全体。
@@ -2585,11 +2580,7 @@ function _frFrostFx(el, card, tier, promoted, budget) {
     if (e > 380 && e < 900) _frGlint(c, x, y, 9 * Math.sin(Math.PI * (e - 380) / 520), .9);
   };
 
-  // ── 霜華（肢の裏） ──
-  const seeds = [];
-  for (let i = 0; i < 10 + T * 3; i++) { const top = i % 2 === 0; seeds.push({ x: _frR(4, w - 4), y: top ? 0 : h, a: (top ? 1 : -1) * Math.PI / 2 + _frR(-.5, .5) }); }
-  seeds.push({ x: 0, y: h / 2, a: _frR(-.3, .3) }, { x: w, y: h / 2, a: Math.PI + _frR(-.3, .3) });
-  const fr = _frFrost(seeds, h * (.42 + T * .035));
+  // ── 肢の裏：霞＋六花。霜華（肢の縁から這う霜と、溶けた縁の光）は 2026-09-28 にデモページで部品ごとに見て撤去した（ユーザー判断）。戻さないこと。 ──
   const reach = Math.hypot(Math.max(lx, w - lx), h) + 20;
   const L = _lqLayer(el);
   const c1 = _frCtx(L, w, h);
@@ -2598,8 +2589,7 @@ function _frFrostFx(el, card, tier, promoted, budget) {
     const hz = c.createLinearGradient(0, 0, 0, h), a = .22 * k;
     hz.addColorStop(0, `rgba(214,238,255,${a})`); hz.addColorStop(.35, 'rgba(214,238,255,0)'); hz.addColorStop(.65, 'rgba(214,238,255,0)'); hz.addColorStop(1, `rgba(214,238,255,${a})`);
     c.fillStyle = hz; c.fillRect(0, 0, w, h);
-    _frDrawFrost(c, fr, k, 1);
-    if (e > 560) { const km = _frE(_frC((e - 560) / 800)); _frMelt(c, lx, ly, km * reach, w, h, (1 - km) * .95); }
+    if (e > 560) { const km = _frE(_frC((e - 560) / 800)); _frMelt(c, lx, ly, km * reach, w, h, 0); }   // 霞をタップ位置から溶かす
     flakeAt(c, e, lx, ly);
   });
   _lqDrop(el, L, 1700);
@@ -2691,7 +2681,7 @@ function _frFrostFx(el, card, tier, promoted, budget) {
    デモ（celestial 正解演出ラボ）でユーザーが指定：「C 金環は必ず出し、A 星座・B 惑星直列・E 星の軌跡から
    ランダムで1つを重ねる」。旧 celestialAstrolabe（全画面の紫の閃光・回る天球儀・光の線21本・菱形の光 約130・
    粉46・輪7・火花36、しかも diamondSparkle を二重に呼んでいた）を正解演出から外した（結果画面では今も使う）。
-   - 金環：タップ位置の金の太陽に月が重なって金環になり、月が抜ける瞬間にダイヤモンドリングが光る。
+   - 金環（2026-09-28 にデモページで部品ごとに見て撤去した（ユーザー判断）。戻さないこと。）：タップ位置の金の太陽に月が重なって金環になり、月が抜ける瞬間にダイヤモンドリングが光る。
            段が上がるほどコロナが長く・多くなり、TIER3〜はカードの裏まで届く。段が上がった瞬間は光条が十字にカードの端まで。
    - 星座：タップ位置の一等星から星がひとつずつ灯り、金の線で結ばれる（TIER1＝4つ → 10）。
            段が上がった瞬間はカードの裏に本物の星座が大きく描かれて名前が出る（段ごとに違う星座）。
@@ -2733,57 +2723,7 @@ function _clxLine(c, x1, y1, x2, y2, a, w) {
 }
 
 /* 金環（必ず出る）。R はタップした肢の高さから決める */
-function _clxCorona(c, x, y, r, len, rays, a, rot) {
-  c.save(); c.globalCompositeOperation = 'lighter'; c.lineCap = 'round'; c.lineWidth = .8;
-  for (let i = 0; i < rays; i++) {
-    const an = rot + i / rays * 6.2832 + Math.sin(i * 7.3) * .08;
-    const l = len * (.45 + .55 * Math.abs(Math.sin(i * 2.17 + 1)));
-    const x1 = x + Math.cos(an) * r, y1 = y + Math.sin(an) * r, x2 = x + Math.cos(an) * (r + l), y2 = y + Math.sin(an) * (r + l);
-    const g = c.createLinearGradient(x1, y1, x2, y2);
-    g.addColorStop(0, `rgba(255,243,196,${.7 * a})`); g.addColorStop(1, 'rgba(255,209,102,0)');
-    c.strokeStyle = g; c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke();
-  }
-  const g = c.createRadialGradient(x, y, r * .9, x, y, r + len * .6);
-  g.addColorStop(0, `rgba(255,209,102,${.35 * a})`); g.addColorStop(.4, `rgba(157,78,221,${.14 * a})`); g.addColorStop(1, 'rgba(138,43,226,0)');
-  c.fillStyle = g; c.beginPath(); c.arc(x, y, r + len * .6, 0, 7); c.fill();
-  c.restore();
-}
-function _clxEclipse(T, up, px, py, R, CW, CH) {
-  const len = R * (1.4 + T * .45), rays = 32 + T * 10, rot = _frR(0, 6.28);   // 2026-09-28 画面いっぱいへ：コロナは太陽の大きさに比例
-  const ang = -2.3 + _frR(-.3, .3);   // ダイヤモンドの位置（左上寄り）。月は左下から入って右上へ抜ける
-  const dur = up ? 2300 : 1600;
-  return { dur, draw(c, e) {
-    const kin = _frE(_frC(e / 260)), fade = e < 1150 ? 1 : _frC(1 - (e - 1150) / 450);
-    if (fade <= 0) return;
-    const sg = c.createRadialGradient(px, py, 0, px, py, R * 1.25);
-    sg.addColorStop(0, `rgba(255,248,220,${kin * fade})`); sg.addColorStop(.75, `rgba(255,209,102,${kin * fade})`); sg.addColorStop(1, 'rgba(255,209,102,0)');
-    c.save(); c.globalCompositeOperation = 'lighter'; c.fillStyle = sg; c.beginPath(); c.arc(px, py, R * 1.25, 0, 7); c.fill(); c.restore();
-    const kin2 = _clxEio(_frC((e - 160) / 460)), kout = _clxEio(_frC((e - 900) / 500));
-    const off = (1 - kin2) * R * 2.6 - kout * R * 2.6;
-    const mx = px - Math.cos(ang) * off, my = py - Math.sin(ang) * off;
-    const ann = _frC((e - 520) / 200) * (1 - _frC((e - 900) / 150));
-    _clxCorona(c, px, py, R, len * (.6 + .4 * ann), rays, (.35 + .65 * ann) * kin * fade, rot + e / 5000);
-    // 月：この層の太陽とコロナを抜く＝下の地の色が月になる
-    c.save(); c.globalCompositeOperation = 'destination-out'; c.beginPath(); c.arc(mx, my, R * .98, 0, 7); c.fill(); c.restore();
-    if (ann > 0) { c.save(); c.globalCompositeOperation = 'lighter'; c.strokeStyle = `rgba(255,243,196,${.9 * ann * fade})`; c.lineWidth = 1.4; c.beginPath(); c.arc(px, py, R * .99, 0, 7); c.stroke(); c.restore(); }
-    const kd = _frC((e - 870) / 420);
-    if (kd > 0 && kd < 1) {
-      const s = Math.sin(Math.PI * kd), dx = px + Math.cos(ang) * R, dy = py + Math.sin(ang) * R;
-      _clxStar(c, dx, dy, (R * .55 + T * 2) * s, s * fade, 0);
-      if (up) {
-        c.save(); c.globalCompositeOperation = 'lighter'; c.lineWidth = 1.2;
-        [[1, 0], [0, 1], [-1, 0], [0, -1]].forEach(([ux, uy]) => {
-          const ex = dx + ux * CW, ey = dy + uy * CH;
-          const g = c.createLinearGradient(dx, dy, ex, ey);
-          g.addColorStop(0, `rgba(255,255,255,${.9 * s})`); g.addColorStop(.35, `rgba(255,209,102,${.3 * s})`); g.addColorStop(1, 'rgba(255,209,102,0)');
-          c.strokeStyle = g; c.beginPath(); c.moveTo(dx, dy); c.lineTo(ex, ey); c.stroke();
-        });
-        c.restore();
-      }
-    }
-    if (up) { const kb = _frC((e - 600) / 1500); if (kb > 0 && kb < 1) _clxCorona(c, px, py, R, Math.hypot(CW, CH) * .5 * _frE(kb), 70, Math.sin(Math.PI * kb) * .5, rot); }
-  } };
-}
+/* 金環（_clxEclipse・コロナの _clxCorona）は 2026-09-28 にデモページで部品ごとに見て撤去した（ユーザー判断）。戻さないこと。 */
 
 /* 星座。rx/ry は星の散らばる範囲（TIER3〜はカードへはみ出す） */
 const CLX_CONSTS = [
@@ -2947,7 +2887,7 @@ function _clxCelestialFx(el, card, tier, promoted, budget) {
   // 2026-09-28 ユーザー要望「もっと画面いっぱいに」：大きさは肢ではなく画面の寸法から決める（M＝短辺・D＝対角）。
   // TIER1 から画面の半分ほどに広がり、段が上がるほど画面の端まで届く。起点はタップした肢のまま。
   const M = Math.min(CW, CH), D = Math.hypot(CW, CH), S = _frC(M / 480, 1, 2);
-  const parts = [_clxEclipse(T, up, px, py, M * (.04 + .006 * Math.min(T, 7)), CW, CH)];
+  const parts = [];   // 金環は 2026-09-28 にデモページで部品ごとに見て撤去した（ユーザー判断）。戻さないこと。
   const pick = Math.floor(Math.random() * 3);   // 0 星座 / 1 惑星直列 / 2 星の軌跡（毎回ランダム）
   if (pick === 0) {
     parts.push(_clxConstellation(T, up, px, py, CW * Math.min(.5, .32 + .03 * T), CH * Math.min(.46, .26 + .03 * T), CW, CH, S));

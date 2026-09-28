@@ -196,13 +196,13 @@ const PARTCTL = `
     return Object.assign({}, p, { draw() {} });
   });
   [['_brsGearTrain', 'brs.gear'], ['_brsHallmark', 'brs.hall'], ['_brsFiligree', 'brs.fil'], ['_brsBigTrain', 'brs.bigtrain'],
-   ['_brsMedallion', 'brs.medal'], ['_brsCornerCast', 'brs.corner'], ['_clxEclipse', 'clx.eclipse'],
+   ['_brsMedallion', 'brs.medal'], ['_brsCornerCast', 'brs.corner'],
    ['_clxConstellation', 'clx.const'], ['_clxSyzygy', 'clx.syzygy'], ['_clxTrails', 'clx.trails']].forEach(([n, k]) => part(n, k));
   const PICK = ['clx.const', 'clx.syzygy', 'clx.trails'];
-  wrap('_clxEclipse', o => function () {
-    const p = o.apply(this, arguments), P = window.__P;   // この直後の Math.random() が「どれを重ねるか」の抽選
+  wrap('_clxCelestialFx', o => function () {
+    const P = window.__P;   // 中で最初に呼ぶ Math.random() が「どれを出すか」の抽選（金環は 2026-09-28 に撤去）
     if (P) { const ok = [0, 1, 2].filter(i => P.has(PICK[i])); if (ok.length && ok.length < 3) window.__nextRand = (ok[Math.floor(Math.random() * ok.length)] + .5) / 3; }
-    return p;
+    return o.apply(this, arguments);
   });
   // liquid
   wrap('_lqMesh', o => function (L) { return on(L.classList.contains('lq-card') ? 'lq.fmesh' : 'lq.mesh', window.__P) ? o.apply(this, arguments) : undefined; });
@@ -273,16 +273,12 @@ const PARTCTL = `
 /* 部品の台帳：[キー, 名前, 説明, 要る段, 段が上がった瞬間が要るか] */
 const PARTS = {
   liquid: [
-    ['lq.mesh', '肢の色の塊', '肢の文字の裏で4色がぼけて咲き、混ざる（メッシュ）', 1, false],
-    ['lq.film', '肢を渡る虹色の輪', 'タップ位置から油膜の虹色が輪になって広がる', 1, false],
-    ['lq.gloss', '肢に残る光沢', '0.15秒後から肢全体にうっすら虹色が残る', 1, false],
     ['lq.fmesh', '全画面の色の塊', '段3〜（または段が上がった瞬間）：肢のまわりに大きな色の塊', 3, false],
     ['lq.ring', '虹色のリング', '段3〜：画面の縁を油膜の色が回る', 3, false],
     ['lq.ffilm', '全画面を渡る虹色の輪', '段が上がった瞬間：画面いっぱいに輪が広がる', 2, true],
   ],
   frost: [
     ['fr.haze', '肢の霞', '肢の上下の縁がうっすら白む', 1, false],
-    ['fr.frost', '霜華', '肢の縁から霜の枝が這い、タップ位置から丸く溶ける（溶けた縁が光る）', 1, false],
     ['fr.flake', '六花', 'タップ位置に雪の結晶が線で描き上がる＋中心のきらめき（肢と画面の両方の層）', 1, false],
     ['fr.dust', 'ダイヤモンドダスト', '細かな光の粒が舞い降りて瞬く（段3〜は画面全体）', 1, false],
     ['fr.cglint', '肢の右上のきらめき', '最初の0.6秒だけ、肢の右上の角で光る', 1, false],
@@ -293,8 +289,7 @@ const PARTS = {
     ['fr.wave', '左から右へ瞬く粒', '段が上がった瞬間：粒が左から右へ順に瞬く', 2, true],
   ],
   celestial: [
-    ['clx.eclipse', '金環', '毎回：金の太陽に月が重なって金環になり、ダイヤモンドリングが光る', 1, false],
-    ['clx.const', '星座', '3つから1つ：一等星から星が灯って金の線で結ばれる（段が上がった瞬間は本物の星座と名前）', 1, false],
+    ['clx.const', '星座', '3つから1つ（毎回ランダム）：一等星から星が灯って金の線で結ばれる（段が上がった瞬間は本物の星座と名前）', 1, false],
     ['clx.syzygy', '惑星直列', '3つから1つ：軌道を回った惑星が一直線に並び、光が貫く', 1, false],
     ['clx.trails', '星の軌跡', '3つから1つ：長時間露光のように同心円の光の弧が伸びる', 1, false],
   ],
@@ -313,7 +308,6 @@ const PARTS = {
   ],
   abyss: [
     ['abyss.abyssSonarPulse', 'ソナー', 'ソナーの波紋＋マリンスノー', 1, false],
-    ['abyss.bubbles', '泡', '緑・青の泡が昇る', 1, false],
     ['abyss.rings', '輪', '段4〜：輪が3本広がる', 4, false],
   ],
   aurora: [
