@@ -42,6 +42,9 @@
   .tag.x{background:rgba(255,155,107,.18);color:#FFB895;}
   .foot{padding:10px 12px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
   .foot span{font-size:12px;color:var(--sub);}
+  #bClear.armed{border-color:var(--warn);color:var(--warn);}
+  /* コピーに失敗したときの受け皿。iOS がフォーカス時に自動ズームしないよう 16px 以上 */
+  #copyBox{width:100%;height:120px;font-size:16px;border-radius:8px;border:1px solid var(--warn);background:#0B111B;color:var(--tx);padding:6px;}
   .tbtn.sm{font-size:12px;padding:4px 8px;}
   .stage{flex:1;position:relative;min-width:0;}
   iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000;}
@@ -76,7 +79,9 @@
     <div class="list" id="list"></div>
     <div class="foot">
       <button class="tbtn" id="bCopy">削除候補をコピー</button>
+      <button class="tbtn" id="bClear">削除候補をクリア</button>
       <span id="markCount">0件</span>
+      <textarea id="copyBox" readonly hidden></textarea>
     </div>
   </div>
   <div class="stage"><iframe id="fr" src="../study.html?sid=anes"></iframe></div>
@@ -486,9 +491,48 @@ document.getElementById('bCopy').onclick = async () => {
   Object.keys(PARTS).filter(ui => ui !== curUi).forEach(ui => PARTS[ui].forEach(([key, name]) => {
     if (marks['part-' + key]) names.push('- UIテーマ固有の正解演出（' + ui + '）／' + name + '（' + key + '）');
   }));
-  const text = names.length ? '削除したい演出:\n' + names.join('\n') : '（削除候補なし）';
-  try { await navigator.clipboard.writeText(text); say('コピーしました（' + names.length + '件）'); }
-  catch (e) { prompt('コピーしてください', text); }
+  if (!names.length) { say('削除候補がありません', true); return; }
+  const text = '削除したい演出:\n' + names.join('\n');
+  const box = document.getElementById('copyBox');
+  box.hidden = true;
+  // ① execCommand を先に（タップの処理の中で同期に走るので、http で開いたとき・枠にフォーカスがあるとき・iOS でも通る）
+  // ② だめなら Clipboard API ③ それもだめなら全文を選択した欄を出す（旧 prompt() は1行欄で改行が消えていた）
+  if (execCopy(text)) { say('コピーしました（' + names.length + '件）'); return; }
+  try { await navigator.clipboard.writeText(text); say('コピーしました（' + names.length + '件）'); return; } catch (e) {}
+  box.value = text; box.hidden = false; box.focus(); box.select(); box.setSelectionRange(0, text.length);
+  say('自動でコピーできませんでした。下の欄を長押し／Ctrl+C でコピーしてください', true);
+};
+function execCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.setAttribute('readonly', '');
+  ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;font-size:16px;';
+  document.body.appendChild(ta);
+  ta.focus(); ta.select(); ta.setSelectionRange(0, text.length);
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch (e) {}
+  ta.remove();
+  return ok;
+}
+
+/* クリアは2段階タップ（1回目で構え、3秒以内にもう1回で消す）。iOS の confirm() は使わない */
+let clearTimer = 0;
+const bClear = document.getElementById('bClear');
+bClear.onclick = () => {
+  if (!Object.keys(marks).some(k => marks[k])) { say('削除候補はありません'); return; }
+  if (!bClear.classList.contains('armed')) {
+    bClear.classList.add('armed'); bClear.textContent = 'もう一度押すとクリア';
+    clearTimeout(clearTimer);
+    clearTimer = setTimeout(() => { bClear.classList.remove('armed'); bClear.textContent = '削除候補をクリア'; }, 3000);
+    return;
+  }
+  clearTimeout(clearTimer);
+  bClear.classList.remove('armed'); bClear.textContent = '削除候補をクリア';
+  const n = Object.keys(marks).filter(k => marks[k]).length;
+  marks = {};
+  list.querySelectorAll('.it').forEach(r => { r.classList.remove('marked'); const cb = r.querySelector('input'); if (cb) cb.checked = false; });
+  document.getElementById('copyBox').hidden = true;
+  saveMarks();
+  say('削除候補をクリアしました（' + n + '件・ほかのテーマの部品の印も含む）');
 };
 </script>
 </body>
