@@ -2748,7 +2748,7 @@ function _clxCorona(c, x, y, r, len, rays, a, rot) {
   c.restore();
 }
 function _clxEclipse(T, up, px, py, R, CW, CH) {
-  const len = T >= 3 ? 40 + T * 16 : 16 + T * 6, rays = 28 + T * 8, rot = _frR(0, 6.28);
+  const len = R * (1.4 + T * .45), rays = 32 + T * 10, rot = _frR(0, 6.28);   // 2026-09-28 画面いっぱいへ：コロナは太陽の大きさに比例
   const ang = -2.3 + _frR(-.3, .3);   // ダイヤモンドの位置（左上寄り）。月は左下から入って右上へ抜ける
   const dur = up ? 2300 : 1600;
   return { dur, draw(c, e) {
@@ -2768,7 +2768,7 @@ function _clxEclipse(T, up, px, py, R, CW, CH) {
     const kd = _frC((e - 870) / 420);
     if (kd > 0 && kd < 1) {
       const s = Math.sin(Math.PI * kd), dx = px + Math.cos(ang) * R, dy = py + Math.sin(ang) * R;
-      _clxStar(c, dx, dy, (9 + T * 1.2) * s, s * fade, 0);
+      _clxStar(c, dx, dy, (R * .55 + T * 2) * s, s * fade, 0);
       if (up) {
         c.save(); c.globalCompositeOperation = 'lighter'; c.lineWidth = 1.2;
         [[1, 0], [0, 1], [-1, 0], [0, -1]].forEach(([ux, uy]) => {
@@ -2794,9 +2794,10 @@ const CLX_CONSTS = [
   { name: 'SCORPIUS', jp: 'さそり', p: [[.05, .05], [.12, .22], [.24, .3], [.34, .44], [.4, .62], [.5, .78], [.66, .86], [.82, .8], [.9, .64], [.84, .52]], e: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9]] },
 ];
 let _clxPromo = 0;   // 段が上がるたびに次の星座へ（ページ内だけ）
-function _clxConstellation(T, up, px, py, rx, ry, CW, CH) {
-  const k = Math.min(10, 3 + T);
-  const pts = [{ x: px, y: py, s: 5.5, col: CLX_GOLD }];
+function _clxConstellation(T, up, px, py, rx, ry, CW, CH, S) {
+  S = S || 1;
+  const k = Math.min(13, 6 + T);
+  const pts = [{ x: px, y: py, s: 5.5 * S, col: CLX_GOLD }];
   for (let i = 1; i < k; i++) {
     let best = null;
     for (let tr = 0; tr < 24; tr++) {
@@ -2804,9 +2805,9 @@ function _clxConstellation(T, up, px, py, rx, ry, CW, CH) {
       const q = { x: _frC(px + Math.cos(a) * rx * d, 10, CW - 10), y: _frC(py + Math.sin(a) * ry * d, 10, CH - 10) };
       q.md = Math.min(...pts.map(o => Math.hypot(o.x - q.x, o.y - q.y)));
       if (!best || q.md > best.md) best = q;
-      if (q.md > 28) break;
+      if (q.md > 28 * S) break;
     }
-    pts.push({ x: best.x, y: best.y, s: _frR(1.6, 3.6), col: CLX_STARCOL[i % CLX_STARCOL.length] });
+    pts.push({ x: best.x, y: best.y, s: _frR(1.6, 3.6) * S, col: CLX_STARCOL[i % CLX_STARCOL.length] });
   }
   const order = [pts[0]], rest = pts.slice(1);   // 最寄りの星へ順にたどる
   while (rest.length) { const l = order[order.length - 1]; rest.sort((a, b) => Math.hypot(a.x - l.x, a.y - l.y) - Math.hypot(b.x - l.x, b.y - l.y)); order.push(rest.shift()); }
@@ -2814,7 +2815,7 @@ function _clxConstellation(T, up, px, py, rx, ry, CW, CH) {
   let big = null;
   if (up) {
     const cn = CLX_CONSTS[_clxPromo++ % CLX_CONSTS.length];
-    const bw = Math.min(CW * .74, 300), bh = Math.min(CH * .52, 210), x0 = (CW - bw) / 2;
+    const bw = CW * .82, bh = CH * .62, x0 = (CW - bw) / 2;
     const y0 = _frC(py - bh / 2, 10, Math.max(10, CH - bh - 50));
     const P = cn.p.map(([x, y]) => ({ x: x0 + x * bw, y: y0 + y * bh }));
     big = { cn, P, ymax: Math.max(...P.map(q => q.y)) };
@@ -2826,15 +2827,15 @@ function _clxConstellation(T, up, px, py, rx, ry, CW, CH) {
         const ks = _frE(_frC((e - 220 - m * 150) / 300)); if (ks <= 0) return;
         _clxLine(c, P[i].x, P[i].y, P[i].x + (P[j].x - P[i].x) * ks, P[i].y + (P[j].y - P[i].y) * ks, .55 * f, 1.1);
       });
-      P.forEach((q, i) => { const ki = _frC((e - i * 110) / 260); _clxStar(c, q.x, q.y, (3.5 + (i % 3)) * (1 + .5 * Math.sin(Math.PI * ki)), _frE(ki) * .8 * f, i); });
+      P.forEach((q, i) => { const ki = _frC((e - i * 110) / 260); _clxStar(c, q.x, q.y, (3.5 + (i % 3)) * S * (1 + .5 * Math.sin(Math.PI * ki)), _frE(ki) * .8 * f, i); });
       const kt = _frC((e - 1100) / 700);
       if (kt > 0 && f > 0) {
-        const ty = Math.min(CH - 40, big.ymax + 14 - 6 * (1 - _frE(kt)));
+        const ty = Math.min(CH - 40 * S, big.ymax + 14 - 6 * (1 - _frE(kt)));
         c.save(); c.globalAlpha = _frE(kt) * f * .9; c.textAlign = 'center'; c.textBaseline = 'top';
-        c.fillStyle = CLX_GOLD; c.font = `italic 500 17px ${CLX_SERIF}`;
+        c.fillStyle = CLX_GOLD; c.font = `italic 500 ${Math.round(17 * S)}px ${CLX_SERIF}`;
         c.fillText(big.cn.name.split('').join(' '), CW / 2, ty);
-        c.fillStyle = 'rgba(236,230,255,.75)'; c.font = '500 11px sans-serif';
-        c.fillText(big.cn.jp, CW / 2, ty + 22);
+        c.fillStyle = 'rgba(236,230,255,.75)'; c.font = `500 ${Math.round(11 * S)}px sans-serif`;
+        c.fillText(big.cn.jp, CW / 2, ty + 22 * S);
         c.restore();
       }
     }
@@ -2890,7 +2891,7 @@ function _clxSysDraw(c, e, cx, cy, s, fade) {
 }
 function _clxSyzygy(T, up, px, py, base, CW, CH, bigY) {
   const s = _clxSys(Math.min(6, 1 + T), base, 720, false);
-  const b = up ? _clxSys(6, CW * .48, 1050, true) : null;
+  const b = up ? _clxSys(6, Math.hypot(CW, CH) * .5, 1050, true) : null;
   return { dur: up ? 2500 : 1700, draw(c, e) {
     _clxSysDraw(c, e, px, py, s, e < 1250 ? 1 : _frC(1 - (e - 1250) / 450));
     if (b) _clxSysDraw(c, e - 150, CW / 2, bigY, b, e < 1950 ? .8 : _frC(1 - (e - 1950) / 550) * .8);
@@ -2942,16 +2943,17 @@ function _clxCelestialFx(el, card, tier, promoted, budget) {
   const px = chL + lx, py = chT + ly, bT = chT;
   const bigY = _frC(py, CH * .3, CH * .7);
 
-  const parts = [_clxEclipse(T, up, px, py, Math.min(h * .36, 13) + T * .6, CW, CH)];
+  // 2026-09-28 ユーザー要望「もっと画面いっぱいに」：大きさは肢ではなく画面の寸法から決める（M＝短辺・D＝対角）。
+  // TIER1 から画面の半分ほどに広がり、段が上がるほど画面の端まで届く。起点はタップした肢のまま。
+  const M = Math.min(CW, CH), D = Math.hypot(CW, CH), S = _frC(M / 480, 1, 2);
+  const parts = [_clxEclipse(T, up, px, py, M * (.04 + .006 * Math.min(T, 7)), CW, CH)];
   const pick = Math.floor(Math.random() * 3);   // 0 星座 / 1 惑星直列 / 2 星の軌跡（毎回ランダム）
   if (pick === 0) {
-    const rx = T >= 3 ? Math.min(CW * .44, 90 + T * 14) : Math.min(w * .42, 70 + T * 14);
-    const ry = T >= 3 ? 34 + T * 9 : h * .36;
-    parts.push(_clxConstellation(T, up, px, py, rx, ry, CW, CH));
+    parts.push(_clxConstellation(T, up, px, py, CW * Math.min(.5, .32 + .03 * T), CH * Math.min(.46, .26 + .03 * T), CW, CH, S));
   } else if (pick === 1) {
-    parts.push(_clxSyzygy(T, up, px, py, T >= 3 ? Math.min(CW * .42, 70 + T * 14) : Math.min(w * .4, 56 + T * 10), CW, CH, bigY));
+    parts.push(_clxSyzygy(T, up, px, py, Math.min(D * .5, M * (.3 + .05 * T)), CW, CH, bigY));
   } else {
-    parts.push(_clxTrails(T, up, px, py, T >= 3 ? Math.min(Math.hypot(CW, CH) * .45, 60 + T * 22) : Math.min(w * .45, 28 + T * 10), CW, CH, bigY));
+    parts.push(_clxTrails(T, up, px, py, Math.min(D * .75, D * (.3 + .06 * T)), CW, CH, bigY));
   }
   const dur = Math.max(...parts.map(p => p.dur));
   _rfFit(budget, dur + 50);
