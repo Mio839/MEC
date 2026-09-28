@@ -2220,7 +2220,7 @@ function _triggerBorderGlow(tier) {
   const sz = sizes[_tIdx(tier, sizes)];
   el.style.boxShadow = `inset 0 0 0 ${sz} ${color}`;
   el.className = curUi ? 'theme-border-' + curUi : '';
-  const dur = tier >= 5 ? 1300 : 750;
+  const dur = (tier >= 5 ? 1300 : 750) * (curUi === 'frost' ? 2 : 1);   // frost は2倍（2026-09-28・ユーザー判断）
   if (theme.pulseBeat) {
     el.animate([{opacity:.95},{opacity:.2},{opacity:.85},{opacity:.15},{opacity:.9},{opacity:0}], {duration: dur, easing:'ease-out'});
   } else {
