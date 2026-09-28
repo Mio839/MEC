@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金色の刻印デモ</title>
+<!-- 正解時・同期完了時に出る「真鍮色の目盛り付きの輪（MecFX.stamp）」を1つずつ再生して見比べるためのページ（2026-09-28）。
+     呼び出しの引数は本物（study_exam.js の SRS 定着刻印・_triggerHardClear、index.js の旧 _syncFxDone）を写してある。
+     ⚠️ 本物を直したらここは古くなる。削除するかどうかを決めるための確認用で、テストの対象ではない。 -->
+<style>
+  :root{--bg:#0B1B2E;--card:#12283F;--line:rgba(112,214,255,.28);--tx:#E6F4FF;--sub:#9DB8CF;}
+  *{box-sizing:border-box;}
+  body{margin:0;padding:16px;background:var(--bg);color:var(--tx);font-family:-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif;}
+  h1{font-size:17px;margin:0 0 4px;}
+  p.note{font-size:12.5px;color:var(--sub);margin:0 0 14px;line-height:1.6;}
+  .bar{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+  .badge{font-size:12px;font-weight:700;padding:4px 11px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.06);}
+  select{font-size:14px;padding:6px 8px;border-radius:8px;}
+  .btns{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:16px;}
+  button{padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:#173552;color:var(--tx);font-weight:700;font-size:14px;text-align:left;line-height:1.45;cursor:pointer;}
+  button small{display:block;font-weight:500;color:var(--sub);font-size:11.5px;margin-top:3px;}
+  button:active{background:#1F4468;}
+  .qc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;max-width:760px;}
+  .qn{font-weight:800;color:#70D6FF;margin-bottom:6px;}
+  .qt{font-size:14px;line-height:1.7;margin-bottom:12px;}
+  .ch2{padding:10px 12px;border-radius:10px;border:1px solid var(--line);margin-bottom:8px;font-size:14px;background:rgba(255,255,255,.04);}
+  .ch2.ok{border-color:#3DD68C;background:rgba(61,214,140,.16);}
+  .exam-hard-pop{position:fixed;z-index:9230;pointer-events:none;text-align:center;
+    display:flex;flex-direction:column;align-items:center;gap:1px;white-space:nowrap;
+    animation:hardCrownPop .95s cubic-bezier(.17,.89,.32,1.28) forwards;}
+  .exam-hard-pop .hc-lbl{font-size:23px;font-weight:900;letter-spacing:.04em;color:var(--hc-col,#FF5722);
+    text-shadow:0 0 18px color-mix(in srgb,var(--hc-col,#FF5722) 70%,transparent),0 2px 10px rgba(0,0,0,.75);}
+  .exam-hard-pop .hc-rate{font-size:11px;font-weight:800;letter-spacing:.08em;color:rgba(255,255,255,.82);text-shadow:0 1px 6px rgba(0,0,0,.85);}
+  @keyframes hardCrownPop{
+    0%{transform:translate(-50%,-50%) scale(0) rotate(-15deg);opacity:0;}
+    50%{transform:translate(-50%,-50%) scale(1.25) rotate(5deg);opacity:1;}
+    80%{transform:translate(-50%,-50%) scale(.95) rotate(-2deg);}
+    100%{transform:translate(-50%,-50%) scale(1) rotate(0deg);opacity:1;}
+  }
+</style>
+</head>
+<body>
+<h1>金色の刻印デモ</h1>
+<p class="note">ボタンを押すと、その演出だけを本物と同じ引数で再生します。実機で見た演出と見比べてください。</p>
+<div class="bar">
+  <span class="badge" id="syncBadge">☁️ 同期済</span>
+  <label style="font-size:13px;">UIテーマ（難問突破の色が変わる）
+    <select id="ui">
+      <option value="frost" selected>frost</option><option value="celestial">celestial</option>
+      <option value="brass">brass</option><option value="aurora">aurora</option>
+      <option value="cyber">cyber</option><option value="liquid">liquid</option>
+      <option value="kintsugi">kintsugi</option><option value="abyss">abyss</option>
+    </select>
+  </label>
+</div>
+<div class="btns">
+  <button id="bSrs">① SRS 復習の「定着の刻印」<small>復習モードで正解するたび毎回・カード右上・小さい輪だけ（文字なし）</small></button>
+  <button id="bHard">② 難問突破<small>正答率60%未満を正解したとき・正解の肢の位置・大きな輪＋金の輪2本＋粒＋文字</small></button>
+  <button id="bSync">③ 同期完了（撤去済み・比較用）<small>上の「同期済」の位置・輪＋金の輪1本</small></button>
+</div>
+<div class="qc" id="card">
+  <div class="qn">Q.214</div>
+  <div class="qt">ダミーの問題文です。演出が出る位置を実物と揃えるためのカードです。最も適切なのはどれか。</div>
+  <div class="ch2">a　選択肢A</div>
+  <div class="ch2 ok" id="okCh">b　選択肢B（正解）</div>
+  <div class="ch2">c　選択肢C</div>
+  <div class="ch2">d　選択肢D</div>
+  <div class="ch2">e　選択肢E</div>
+</div>
+<script src="../fx_engine.js"></script>
+<script>
+// study_exam.js の UI_TO_EXAM_SET と、各演出セットの hardLabel / hardColors の先頭色
+const SET = { aurora:'neon', brass:'luxury', cyber:'retro', liquid:'classic', kintsugi:'ink', celestial:'space', abyss:'ecg', frost:'space' };
+const HARD = {
+  classic:['💪 難問突破！','#FF5722'], neon:['💠 HARD CLEAR','#FF2BD6'], ink:['🖌️ 難所を制す','#C93A3A'],
+  ecg:['🩺 重症例クリア','#FF1744'], space:['☄️ 難関突破','#E040FB'], retro:['👾 BOSS DOWN','#FF1053'], luxury:['💎 高難度クリア','#FFD700']
+};
+const HARD_COLS = {
+  classic:['#FF5722','#FFD700','#FFFFFF','#FF8A50','#FFB300'], neon:['#FF2BD6','#00E5FF','#FFFFFF','#7A5CFF','#FFE600'],
+  ink:['#C93A3A','#1a1a1a','#C9A24B','#F5EFE0','#8B1E1E'], ecg:['#FF1744','#FFEA00','#FFFFFF','#FF9100','#00E676'],
+  space:['#E040FB','#FFD54F','#FFFFFF','#7C4DFF','#40C4FF'], retro:['#FF1053','#FFD400','#FFFFFF','#B026FF','#FF7A00'],
+  luxury:['#FFD700','#C9A227','#FFF3C4','#FFFFFF','#E5C158']
+};
+const $ = id => document.getElementById(id);
+
+// ① study_exam.js _afterCorrectFx「【案3】SRS復習モードでの定着刻印（STABLE）」
+$('bSrs').onclick = () => {
+  const cr = $('card').getBoundingClientRect();
+  MecFX.stamp(cr.right - 35, cr.top + 25, { color: '#C9A227', size: 44, thick: 2.2, ticks: 12, delay: .12 });
+};
+
+// ② study_exam.js _triggerHardClear
+$('bHard').onclick = () => {
+  const set = SET[$('ui').value], [label, col] = HARD[set];
+  const r = $('okCh').getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  const lab = document.createElement('div');
+  lab.className = 'exam-hard-pop';
+  lab.innerHTML = '<span class="hc-lbl"></span><span class="hc-rate"></span>';
+  lab.firstChild.textContent = '👑 ' + label.replace(/^[^\s]+\s*/, '');
+  lab.lastChild.textContent = '正答率 42%';
+  lab.style.setProperty('--hc-col', col);
+  lab.style.left = cx + 'px'; lab.style.top = cy + 'px';
+  document.body.appendChild(lab);
+  lab.animate([
+    { opacity: 0, transform: 'translate(-50%,-50%) scale(.4) rotate(-15deg)' },
+    { opacity: 1, transform: 'translate(-50%,-50%) scale(1.3) rotate(6deg)', offset: .22 },
+    { opacity: 1, transform: 'translate(-50%,-50%) scale(1) rotate(-2deg)', offset: .38 },
+    { opacity: 1, transform: 'translate(-50%,-62%) scale(1) rotate(0deg)', offset: .72 },
+    { opacity: 0, transform: 'translate(-50%,-86%) scale(.96) rotate(0deg)' }
+  ], { duration: 1400, easing: 'cubic-bezier(.2,1.3,.35,1)', fill: 'forwards' }).onfinish = () => lab.remove();
+  MecFX.burst(cx, cy, { count: 48, colors: ['#FFD700', '#FFA040', '#FFD166', '#FFFFFF', '#FF5722'],
+    shapes: ['gem', 'star', 'shard'], tier: 5, scale: 1.8, speed: 620, glow: true, additive: true });
+  MecFX.rings(cx, cy, { count: 2, color: '#FFD700', thickness: 5, maxR: 160, additive: true });
+  MecFX.stamp(cx, cy, { color: HARD_COLS[set][0], size: 148, thick: 4, ticks: 12, rot: -8, ttl: 1.0 });
+};
+
+// ③ index.js の旧 _syncFxDone（2026-09-28 撤去）
+$('bSync').onclick = () => {
+  const r = $('syncBadge').getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+  MecFX.stamp(x, y, { color: '#E0C25E', size: 62, thick: 2.5, ticks: 8, ttl: .72, dust: false });
+  MecFX.rings(x, y, { count: 1, color: 'rgba(224,194,94,.85)', thickness: 2, maxR: 78 });
+};
+</script>
+</body>
+</html>
