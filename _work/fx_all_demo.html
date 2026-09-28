@@ -19,14 +19,25 @@
   html,body{height:100%;margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif;}
   .wrap{display:flex;height:100%;}
   .side{width:360px;flex:none;display:flex;flex-direction:column;border-right:1px solid var(--line);background:var(--panel);}
-  .top{padding:10px 12px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:8px;}
-  .top h1{font-size:15px;margin:0;}
-  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px;}
+  .top{padding:6px 10px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:4px;}
+  .top h1{font-size:12px;margin:0;color:var(--sub);font-weight:700;}
+  .row{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:12.5px;}
+  .top .row{font-size:11px;gap:4px 6px;}
   select,.tbtn{font-size:13px;padding:5px 8px;border-radius:8px;border:1px solid var(--line);background:#1D2738;color:var(--tx);}
+  .top select,.top .tbtn{font-size:11px;padding:2px 5px;border-radius:6px;}
+  .top label{white-space:nowrap;}
   .tbtn{cursor:pointer;font-weight:700;}
-  #status{font-size:11.5px;color:var(--sub);min-height:1.2em;}
+  #status{font-size:10.5px;color:var(--sub);min-height:1.2em;line-height:1.3;}
+  /* タブ（上部と下部の削除候補の欄は全タブ共通） */
+  .tabs{display:flex;border-bottom:1px solid var(--line);flex:none;}
+  .tabs button{flex:1;min-width:0;padding:7px 2px 6px;border:0;border-bottom:2px solid transparent;background:none;color:var(--sub);
+    font-size:12px;font-weight:700;cursor:pointer;line-height:1.25;}
+  .tabs button.on{color:var(--tx);border-bottom-color:var(--acc);background:rgba(110,168,255,.07);}
+  .tabs button i{display:block;font-style:normal;font-size:10px;font-weight:600;color:var(--warn);min-height:1.1em;}
+  .pane[hidden]{display:none;}
+  .pane > h2:first-child{margin-top:8px;}
   #status.err{color:var(--warn);}
-  .list{overflow-y:auto;padding:4px 10px 40px;-webkit-overflow-scrolling:touch;}
+  .list{flex:1;min-height:0;overflow-y:auto;padding:4px 10px 40px;-webkit-overflow-scrolling:touch;}
   h2{font-size:12.5px;color:var(--acc);margin:14px 2px 6px;letter-spacing:.04em;}
   .it{display:flex;gap:8px;align-items:flex-start;padding:7px 6px;border-radius:10px;}
   .it:hover{background:rgba(255,255,255,.03);}
@@ -59,23 +70,21 @@
 <div class="wrap">
   <div class="side">
     <div class="top">
-      <h1>試験演出の一覧（本物を1つずつ再生）</h1>
       <div class="row">
-        <label>UIテーマ <select id="ui">
+        <label>テーマ <select id="ui">
           <option value="aurora">aurora</option><option value="brass">brass</option><option value="cyber">cyber</option>
           <option value="liquid">liquid</option><option value="kintsugi">kintsugi</option><option value="celestial">celestial</option>
           <option value="abyss">abyss</option><option value="frost" selected>frost</option></select></label>
-        <label>連続正解 <select id="streak">
+        <label>連続 <select id="streak">
           <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="5">5</option>
           <option value="7">7</option><option value="10">10</option><option value="14">14</option><option value="20">20</option></select></label>
-      </div>
-      <div class="row">
-        <button class="tbtn" id="bReset">カードを元に戻す</button>
-        <button class="tbtn" id="bNext">次のカードへ</button>
-        <button class="tbtn" id="bReload">枠を読み直す</button>
+        <button class="tbtn" id="bReset" title="カードを元に戻す">元に戻す</button>
+        <button class="tbtn" id="bNext" title="次のカードへ">次へ</button>
+        <button class="tbtn" id="bReload" title="枠を読み直す">再読込</button>
       </div>
       <div id="status">読み込み中…</div>
     </div>
+    <div class="tabs" id="tabs"></div>
     <div class="list" id="list"></div>
     <div class="foot">
       <button class="tbtn" id="bCopy">削除候補をコピー</button>
@@ -90,6 +99,10 @@
 /* ── 演出の台帳。code は枠の中（study.html のグローバル）で実行する。
    使える名前: c＝いま画面にあるカード / ok＝正解の肢 / ng＝不正解の肢 / n＝連続正解 / t＝その段（_examTier(n)） ── */
 const TAG = { c: '共通', t: 'テーマ別', x: '旧・study.html' };
+/* 左側のタブ。台帳の各欄をどのタブに入れるかは placeOf が決める（「正解のたびに出る」はタグで テーマ別／共通 に分ける） */
+const TABS = [['theme', 'テーマ固有'], ['common', '共通'], ['wrong', '誤答・その他'], ['begin', '開始・結果']];
+const placeOf = (sec, tag) => sec === '正解のたびに出る' ? (tag === 't' ? 'theme' : 'common')
+  : sec === '連続正解で出る' ? 'common' : sec === '始まりと終わり' ? 'begin' : 'wrong';
 const FX = [
   ['正解のたびに出る', [
     ['c-all', 't', '正解1回ぶんを通しで', '下の演出がまとめて順に出る（_rfCorrectFx）。記録はしない。段が上がった瞬間かどうかは連続数（3/5/7/10/14/20 ちょうど）で自動で決まる', `_rfCorrectFx(c, ok, RF_ADVANCE_MS.one)`],
@@ -422,12 +435,39 @@ const KEY = 'mec_fxdemo_marks_v1';
 let marks = {};
 try { marks = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) {}
 const saveMarks = () => { try { localStorage.setItem(KEY, JSON.stringify(marks)); } catch (e) {} updCount(); };
-const updCount = () => { document.getElementById('markCount').textContent = Object.keys(marks).filter(k => marks[k]).length + '件'; };
+const updCount = () => {
+  document.getElementById('markCount').textContent = Object.keys(marks).filter(k => marks[k]).length + '件';
+  if (typeof updTabCounts === 'function' && tabBtns.theme) updTabCounts();
+};
 
-const list = document.getElementById('list');
+const list = document.getElementById('list'), tabsEl = document.getElementById('tabs');
+const panes = {}, tabBtns = {};
+TABS.forEach(([k, label]) => {
+  const p = document.createElement('div'); p.className = 'pane'; p.dataset.tab = k; panes[k] = p; list.appendChild(p);
+  const b = document.createElement('button'); b.type = 'button'; b.innerHTML = label + '<i></i>';
+  b.onclick = () => showTab(k); tabBtns[k] = b; tabsEl.appendChild(b);
+});
+const TAB_KEY = 'mec_fxdemo_tab_v1';
+function showTab(k) {
+  if (!panes[k]) k = 'theme';
+  Object.keys(panes).forEach(t => { panes[t].hidden = t !== k; tabBtns[t].classList.toggle('on', t === k); });
+  list.scrollTop = 0;
+  try { localStorage.setItem(TAB_KEY, k); } catch (e) {}
+}
+/* 各タブに付いている削除候補の印の数（部品は表示中のテーマの分） */
+function updTabCounts() {
+  Object.keys(panes).forEach(k => {
+    const n = [...panes[k].querySelectorAll('.it input')].filter(cb => cb.checked).length;
+    tabBtns[k].querySelector('i').textContent = n ? '印 ' + n : '';
+  });
+}
+const secHead = {};
 FX.forEach(([sec, items]) => {
-  const h = document.createElement('h2'); h.textContent = sec; list.appendChild(h);
   items.forEach(([id, tag, name, when, code]) => {
+    const pane = panes[placeOf(sec, tag)];
+    if (!secHead[sec + '|' + pane.dataset.tab]) {
+      const h = document.createElement('h2'); h.textContent = sec; pane.appendChild(h); secHead[sec + '|' + pane.dataset.tab] = 1;
+    }
     const row = document.createElement('div'); row.className = 'it' + (marks[id] ? ' marked' : '');
     const cb = document.createElement('input'); cb.type = 'checkbox'; cb.title = '削除候補'; cb.checked = !!marks[id];
     cb.onchange = () => { marks[id] = cb.checked; row.classList.toggle('marked', cb.checked); saveMarks(); };
@@ -437,15 +477,13 @@ FX.forEach(([sec, items]) => {
     if (when) { const s = document.createElement('small'); s.textContent = when; b.appendChild(s); }
     b.onclick = () => run(code);
     row.dataset.name = sec + '／' + name + '（' + id + '）';
-    row.append(cb, b); list.appendChild(row);
+    row.append(cb, b); pane.appendChild(row);
     if (id === 'b-close') cb.remove();
   });
 });
-updCount();
-
 /* ── UIテーマ固有の正解演出を部品ごとに（テーマを切り替えると作り直す） ── */
 const partsBox = document.createElement('div');
-list.prepend(partsBox);
+panes.theme.prepend(partsBox);
 function renderParts() {
   const ui = document.getElementById('ui').value, P = PARTS[ui] || [];
   partsBox.innerHTML = '';
@@ -479,8 +517,11 @@ function renderParts() {
   });
 }
 renderParts();
+let tab0 = 'theme'; try { tab0 = localStorage.getItem(TAB_KEY) || 'theme'; } catch (e) {}
+showTab(tab0);
+updCount();
 
-document.getElementById('ui').onchange = () => { applyTheme(); renderParts(); say('UIテーマを切り替えました（保存はしていません）'); };
+document.getElementById('ui').onchange = () => { applyTheme(); renderParts(); updCount(); say('UIテーマを切り替えました（保存はしていません）'); };
 document.getElementById('bReset').onclick = () => { if (ready) { try { W.eval('__D.reset()'); say('カードを元に戻しました'); } catch (e) { say('エラー: ' + e.message, true); } } };
 document.getElementById('bNext').onclick = () => { if (ready) { W.eval('__D.reset(); __D.next()'); say('次のカードへ'); } };
 document.getElementById('bReload').onclick = () => { ready = false; fr.contentWindow.location.reload(); };
