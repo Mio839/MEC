@@ -2228,7 +2228,7 @@ function _spawnStreakParticles(tier, at, ctx) {
       if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#F5D061', thickness: 3, maxR: maxR * 1.05, additive: true });
       return;
     } else if (curUi === 'celestial') {
-      // 2026-09-29：超新星（_clxCelestialFx・正解の肢の左端で発火）。liquid・frost と同じく
+      // 2026-09-29：超新星（肢の左端）＋星の軌跡（タップ位置）（_clxCelestialFx）。liquid・frost と同じく
       // _rfCorrectFx の 0ms で肢の位置に出している。旧 celestialAstrolabe（全画面の紫の閃光・約250粒）は正解演出から外した。
       return;
     } else if (curUi === 'abyss') {
@@ -3010,15 +3010,16 @@ function _frFrostFx(el, card, tier, promoted, budget) {
   setTimeout(() => D.remove(), durC + 50);
 }
 
-/* ══════════ Celestial：超新星（2026-09-29）══════════
+/* ══════════ Celestial：超新星＋星の軌跡（2026-09-29）══════════
    試験演出一覧（_work/fx_all_demo.html）の新案5つ（一等星の点灯・流れ星の ✓・超新星・天球儀のロック・満月）から
    ユーザーが「超新星」だけを採用し、2026-09-25〜の「星座／惑星直列／星の軌跡から毎回ランダムで1つ」を置き換えた
    （旧3案は「おしゃれだが正解時のエフェクトっぽくない」＝ゆっくり描き上がるだけで山場が無かった）。
-   - 発火位置は**正解の肢の左端**（縦は肢の中央・ユーザー指定）。タップ位置（_lqPtr）は使わない。
+   - 同日、旧案の「星の軌跡」だけを戻し、**毎回超新星と重ねる**ことにした（ユーザー判断）。
+   - 発火位置は超新星が**正解の肢の左端**（縦は肢の中央）、星の軌跡は**タップ位置**（旧のまま）。どちらもユーザー指定。
    - 0〜0.18秒：まわりの星屑が左端へ吸い込まれる → 弾けて金の衝撃波とシアンの衝撃波・放射する光の筋・紫の残光、
      星が外へ飛ぶ。1.5秒（段が上がった瞬間は1.8秒）で消える。
    - 段が上がるほど衝撃波が大きく（画面の短辺×0.3→最大0.62）・星と光の筋が増える。段が上がった瞬間は1.3倍＋3本目の輪。
-   ⚠️ 金環（2026-09-28）と星座・惑星直列・星の軌跡（2026-09-29）はデモページで見て撤去した（ユーザー判断）。戻さないこと。
+   ⚠️ 金環（2026-09-28）と星座・惑星直列（2026-09-29）はデモページで見て撤去した（ユーザー判断）。戻さないこと。
    ⚠️ 全部を**同じ絵として肢の層と全画面の層の両方に**描く（座標は画面）。肢の地は不透明（.75）なので、
       全画面の層だけだと肢に重なる部分が隠れる（六花と同じ理由）。 */
 const CLX_GOLD = '#FFD166', CLX_PALE = '#FFF3C4', CLX_CYAN = '#48CAE4';
@@ -3112,6 +3113,35 @@ function _clxNova(T, up, px, py, CW, CH, M, S) {
   } };
 }
 
+/* 星の軌跡（長時間露光）。弧の色は星の色温度。2026-09-29 に超新星と重ねる形で復活（ユーザー判断）。発火位置はタップ位置のまま */
+function _clxArcs(n, rMax, rMin) {
+  return Array.from({ length: n }, () => ({
+    r: rMin + Math.pow(Math.random(), .8) * (rMax - rMin), a0: _frR(0, 6.28), sp: _frR(.92, 1.05),
+    col: CLX_STARCOL[Math.floor(Math.random() * CLX_STARCOL.length)], al: _frR(.65, 1), w: _frR(.7, 1.6) * CLX_BOLD.line }));
+}
+function _clxArcsDraw(c, e, x, y, arcs, sweep, dur, fadeAt, fadeLen) {
+  if (e < 0) return;
+  const k = _frE(_frC(e / dur)), fade = e < fadeAt ? 1 : _frC(1 - (e - fadeAt) / fadeLen);
+  if (fade <= 0) return;
+  c.save(); c.globalCompositeOperation = 'lighter'; c.lineCap = 'round';
+  arcs.forEach(a => {
+    const a1 = a.a0 + sweep * k * a.sp;
+    c.globalAlpha = a.al * fade; c.strokeStyle = a.col; c.lineWidth = a.w;
+    c.beginPath(); c.arc(x, y, a.r, a.a0, a1); c.stroke();
+  });
+  c.restore();
+  arcs.forEach(a => { const a1 = a.a0 + sweep * k * a.sp; _clxDot(c, x + Math.cos(a1) * a.r, y + Math.sin(a1) * a.r, a.w * .7, a.al * fade * .9, a.col); });
+}
+function _clxTrails(T, up, px, py, rMax, CW, CH, bigY) {
+  const arcs = _clxArcs(Math.min(40, 12 + T * 4), rMax, 6), sweep = Math.min(1.9, .7 + T * .16);
+  const big = up ? _clxArcs(70, Math.hypot(CW, CH) * .95, 14) : null;
+  return { dur: up ? 2700 : 1600, draw(c, e) {
+    if (big) _clxArcsDraw(c, e - 120, CW / 2, bigY, big, 1.3, 1700, 2000, 700);
+    _clxArcsDraw(c, e, px, py, arcs, sweep, 950, 1050, 550);
+    _clxStar(c, px, py, 6 * Math.sin(Math.PI * _frC(e / 700)), 1);
+  } };
+}
+
 function _clxCelestialFx(el, card, tier, promoted, budget) {
   if (!el || !card || _fxOff()) return;
   const er = el.getBoundingClientRect();
@@ -3120,22 +3150,31 @@ function _clxCelestialFx(el, card, tier, promoted, budget) {
   const CW = window.innerWidth, CH = window.innerHeight;
   if (!CW || !CH) return;
   const T = Math.max(1, tier), up = promoted && tier >= 2;
-  const M = Math.min(CW, CH), S = _frC(M / 480, 1, 2);
-  const nova = _clxNova(T, up, er.left, er.top + h / 2, CW, CH, M, S);   // 肢の左端・縦は中央
-  const dur = nova.dur;
+  const M = Math.min(CW, CH), S = _frC(M / 480, 1, 2), D = Math.hypot(CW, CH);
+  // 星の軌跡はタップ位置（無ければ肢の左寄り）・超新星は肢の左端（縦は中央）。毎回両方を重ねる
+  let lx = w * .42, ly = h / 2;
+  const pt = _lqPtr;
+  if (pt && pt.el === el && performance.now() - pt.t < 2000) { lx = w * pt.fx; ly = h * pt.fy; }
+  const tx = er.left + lx, ty = er.top + ly;
+  const parts = [
+    _clxTrails(T, up, tx, ty, Math.min(D * .75, D * (.3 + .06 * T)), CW, CH, _frC(ty, CH * .3, CH * .7)),
+    _clxNova(T, up, er.left, er.top + h / 2, CW, CH, M, S),
+  ];
+  const dur = Math.max(...parts.map(p => p.dur));
+  const drawAll = (c, e) => parts.forEach(p => p.draw(c, e));
   _rfFit(budget, dur + 50);
 
   // ① 肢の層（画面の座標をずらして同じ絵を描く・送りまでに終える）
   const L = _lqLayer(el);
   const c1 = _frCtx(L, w, h);
-  _frRun(c1, w, h, dur, (c, e) => { c.save(); c.translate(-er.left, -er.top); nova.draw(c, e); c.restore(); });
+  _frRun(c1, w, h, dur, (c, e) => { c.save(); c.translate(-er.left, -er.top); drawAll(c, e); c.restore(); });
   _lqDrop(el, L, dur + 50);
   // ② 全画面の層（ラボの尺のまま）
   _rfK = 1;
   const H = _rfFullHost(dur + 50);
   const C = _lqLayer(H, 'fr-card');
   const c2 = _frCtx(C, CW, CH, 0, 1.5);
-  _frRun(c2, CW, CH, dur, nova.draw);
+  _frRun(c2, CW, CH, dur, drawAll);
   _lqDrop(H, C, dur + 50);
 }
 
@@ -4981,7 +5020,7 @@ function _rfCorrectFx(card, el, budget) {
   _rfSweep(el, inCardMs);
   if (_rfUi() === 'liquid') _lqLiquidFx(el, card, tier, promoted, budget);   // ぷるん＋シャボン玉＋ガラスの衝撃波＋色収差＋ネオン管（_spawnStreakParticles の liquid 分岐を参照）
   else if (_rfUi() === 'frost') _frFrostFx(el, card, tier, promoted, budget);   // 雪の結晶・霜・ダイヤモンドダスト（同上の frost 分岐を参照）
-  else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted, budget);   // 超新星（肢の左端・2026-09-29）
+  else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted, budget);   // 超新星（肢の左端）＋星の軌跡（タップ位置）・2026-09-29
   else if (_rfUi() === 'brass') _brsBrassFx(el, card, tier, promoted, budget);   // 歯車列＋刻印＋鋳込みの唐草（同上の brass 分岐を参照）
   _afterCorrectFx(card, el);
 

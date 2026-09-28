@@ -204,7 +204,7 @@ const PARTCTL = `
   });
   [['_brsGearTrain', 'brs.gear'], ['_brsHallmark', 'brs.hall'], ['_brsFiligree', 'brs.fil'], ['_brsBigTrain', 'brs.bigtrain'],
    ['_brsMedallion', 'brs.medal'], ['_brsCornerCast', 'brs.corner'],
-   ['_clxNova', 'clx.nova']].forEach(([n, k]) => part(n, k));
+   ['_clxNova', 'clx.nova'], ['_clxTrails', 'clx.trails']].forEach(([n, k]) => part(n, k));
   // liquid
   wrap('_lqSoapFilm', o => function () { return on('lq.film', window.__P) ? o.apply(this, arguments) : undefined; });
   wrap('_lqBlow', o => function () { return on('lq.blow', window.__P) ? o.apply(this, arguments) : []; });
@@ -309,6 +309,7 @@ const PARTS = {
   ],
   celestial: [
     ['clx.nova', '超新星', '正解の肢の左端へ星屑が一瞬吸い込まれ、弾けて金とシアンの衝撃波・放射する光の筋・紫の残光。星が外へ飛ぶ（段で衝撃波が大きく／段が上がった瞬間は3本目の輪）', 1, false],
+    ['clx.trails', '星の軌跡', 'タップ位置を中心に、長時間露光のように同心円の光の弧が伸びる（毎回超新星と重なる・段が上がった瞬間は画面全体にもう一組）', 1, false],
   ],
   brass: [
     ['brs.gear', '歯車列', '駆動歯車がはまり、左右へ噛み合って回る（接点の火花）', 1, false],
