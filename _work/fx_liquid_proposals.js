@@ -3,7 +3,8 @@
    本物の _rfCorrectFx から呼ぶ＝送りの時間・連続数・段の判定は実物と同じ。
    study.html からは読まれない（本番には入っていない）。採用が決まったら study_exam.js へ移す。
    第1弾（2026-09-28）：K 窓ガラスの雫・L 水銀・M シャボン玉・N 満ちる・O 渦 → M だけ採用（本番の _lqSoapFx）。
-   第2弾（2026-09-28）：P 噴水・Q 炭酸・R 霧の虹・S 水中の光・T 金魚（このファイル）。
+   第2弾（2026-09-28）：P 噴水・Q 炭酸・R 霧の虹・S 水中の光・T 金魚 → 全部不採用。
+   第3弾（2026-09-28・このファイル）：U〜AD の10案。水の「物」を描く案が続けて外れたので、抽象・グラフィックの方向へ振った。
    構造は実物と同じ2層:
      ① 肢の層（_lqLayer＝文字の裏）…… _rfFit で送り（403ms）の 50ms 手前までに縮めて終える
      ② 全画面の層（_rfFullHost）……… ラボの尺のまま（_rfK = 1）最後まで。カードが送られても画面に残る
@@ -14,8 +15,16 @@
   const C = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
   const EO = t => 1 - Math.pow(1 - t, 3);
   const EIO = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const BACK = t => { const s = 1.9; t = t - 1; return t * t * ((s + 1) * t + s) + 1; };   // 行き過ぎて戻る
   const SS = (a, b, x) => { const t = C((x - a) / (b - a)); return t * t * (3 - 2 * t); };
-  const RAINBOW = ['#ff3b5c', '#ff9a3b', '#ffe23b', '#4be38b', '#3bb7ff', '#5b6bff', '#b04bff'];
+  const PAL = ['#FF007F', '#B03CFF', '#FF7A00', '#2FE0D5'];
+  const IRI = ['#ff6ec7', '#ffd36e', '#6effc0', '#6ecbff', '#b66eff', '#ff6ec7'];
+  const hex = h => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+  const PALRGB = PAL.map(hex);
+  const palAt = u => {   // 0..1 で4色を巡る
+    u = ((u % 1) + 1) % 1; const f = u * 4, i = Math.floor(f) % 4, k = f - Math.floor(f), a = PALRGB[i], b = PALRGB[(i + 1) % 4];
+    return `rgb(${a[0] + (b[0] - a[0]) * k | 0},${a[1] + (b[1] - a[1]) * k | 0},${a[2] + (b[2] - a[2]) * k | 0})`;
+  };
 
   function org(el) {
     const er = el.getBoundingClientRect();
@@ -32,16 +41,17 @@
       if (!cv.isConnected) return;
       const e = (now - t0) / k, dt = Math.min(.05, (e - last) / 1000); last = e;
       wipe();
-      if (e < dur) { draw(c, e, dt); requestAnimationFrame(f); }
+      if (e < dur) { c.save(); draw(c, e, dt); c.restore(); requestAnimationFrame(f); }
     })(t0);
   }
   function choiceLayer(el, budget, nominal, draw) {
-    _rfFit(budget, nominal);
+    const k = _rfFit(budget, nominal);
     const L = _lqLayer(el);
     const w = el.clientWidth, h = el.clientHeight;
     const c = _frCtx(L, w, h, 0, 2);
     run(c, nominal, (c, e, dt) => draw(c, e, w, h, dt));
     _lqDrop(el, L, nominal);
+    return k;
   }
   function fullLayer(ms) {
     _rfK = 1;
@@ -50,318 +60,473 @@
     return { H, c: _frCtx(H, VW, VH, 0, 1.5), VW, VH };
   }
   const hdrBottom = () => { const h = document.querySelector('.st-hdr'); return h ? Math.max(0, h.getBoundingClientRect().bottom) : 0; };
+  const iri = (c, x, y, rot, fb) => {
+    if (!c.createConicGradient) return fb;
+    const g = c.createConicGradient(rot, x, y); IRI.forEach((col, i) => g.addColorStop(i / (IRI.length - 1), col)); return g;
+  };
   function glint(c, x, y, s, a) {
     if (a <= 0 || s <= 0) return;
     c.save(); c.globalAlpha = Math.min(1, a); c.translate(x, y);
-    const g = c.createRadialGradient(0, 0, 0, 0, 0, s * 1.4);
-    g.addColorStop(0, 'rgba(255,255,255,.9)'); g.addColorStop(1, 'rgba(255,200,235,0)');
-    c.fillStyle = g; c.beginPath(); c.arc(0, 0, s * 1.4, 0, 7); c.fill();
     c.fillStyle = '#fff';
-    for (const [w, h] of [[s * .12, s * 2.2], [s * 2.2, s * .12]]) { c.beginPath(); c.moveTo(0, -h); c.lineTo(w, 0); c.lineTo(0, h); c.lineTo(-w, 0); c.closePath(); c.fill(); }
+    for (const [w, h] of [[s * .14, s * 2], [s * 2, s * .14]]) { c.beginPath(); c.moveTo(0, -h); c.lineTo(w, 0); c.lineTo(0, h); c.lineTo(-w, 0); c.closePath(); c.fill(); }
     c.restore();
   }
-  function ripples(c, x, y, e, n, gap, R0, dur, col) {
-    for (let i = 0; i < n; i++) {
-      const p = C((e - i * gap) / dur);
-      if (p <= 0 || p >= 1) continue;
-      c.strokeStyle = col(i); c.globalAlpha = (1 - p) * .9; c.lineWidth = 2 * (1 - p) + .6;
-      c.beginPath(); c.ellipse(x, y, EO(p) * R0, EO(p) * R0 * .55, 0, 0, 7); c.stroke();
-    }
-    c.globalAlpha = 1;
+  /* つやのある液体の玉（Z・AD で使う） */
+  function ball(c, x, y, r, sx, sy, a) {
+    if (r < .5 || a <= 0) return;
+    c.save(); c.translate(x, y); c.scale(sx, sy); c.globalAlpha = a;
+    const g = c.createRadialGradient(-r * .35, -r * .4, r * .05, 0, 0, r);
+    g.addColorStop(0, '#FFFFFF'); g.addColorStop(.25, '#FF7CC0'); g.addColorStop(.65, '#FF007F'); g.addColorStop(1, '#6A1FB8');
+    c.fillStyle = g; c.beginPath(); c.arc(0, 0, r, 0, 7); c.fill();
+    c.strokeStyle = 'rgba(47,224,213,.7)'; c.lineWidth = Math.max(1, r * .12); c.beginPath(); c.arc(0, 0, r * .9, .35, Math.PI - .35); c.stroke();
+    c.fillStyle = 'rgba(255,255,255,.9)'; c.beginPath(); c.ellipse(-r * .35, -r * .45, r * .28, r * .14, -.5, 0, 7); c.fill();
+    c.restore();
   }
 
-  /* ══════════ P 噴水（FOUNTAIN）══════════
-     肢：タップ位置から水面の波紋が広がる。
-     全画面：タップ位置から水柱が弧を描いて噴き上がり、しぶきが光りながら落ちる。頂点のあたりで粒がきらめく。
-     段で水柱の本数と高さが増え、段が上がった瞬間は扇形に5本。 */
-  P.P = function (el, card, tier, promoted, budget) {
+  /* ══════════ U ガラスの衝撃波（GLASS SHOCKWAVE）══════════
+     肢：ガラスの反射光が斜めに走り、虹色の輪が広がる。
+     全画面：タップ位置から「リキッドグラスのレンズ」の輪が広がり、輪が通る所だけ画面がにじんで色が転ぶ
+     （本物の backdrop-filter。その下のカードの文字が一瞬ゆがんで見える）。縁は虹色。段で輪が増え、段が上がった瞬間は4重。
+     ⚠️ 重さ：backdrop-filter を画面いっぱいの要素に掛ける＝iPad での実測が要る。 */
+  P.U = function (el, card, tier, promoted, budget) {
     if (!el || _fxOff()) return;
     const o = org(el); if (!o.er.width) return;
     const t = Math.max(1, tier), up = promoted && tier >= 2;
-    choiceLayer(el, budget, 750, (c, e, w, h) => {
-      const gl = 1 - C(e / 300);
-      if (gl > 0) { const g = c.createRadialGradient(o.ox, o.oy, 0, o.ox, o.oy, 40); g.addColorStop(0, `rgba(255,255,255,${.6 * gl})`); g.addColorStop(1, 'rgba(47,224,213,0)'); c.fillStyle = g; c.fillRect(0, 0, w, h); }
-      ripples(c, o.ox, o.oy, e, 3, 110, Math.max(w, 120) * .6, 520, i => i % 2 ? '#2FE0D5' : '#FF6FB5');
+    choiceLayer(el, budget, 700, (c, e, w, h) => {
+      const p = EIO(C(e / 600)), x = -w * .3 + w * 1.6 * p, a = 1 - SS(450, 700, e);
+      c.save(); c.globalAlpha = a * .6; c.translate(x, 0); c.transform(1, 0, -.5, 1, 0, 0);
+      const g = c.createLinearGradient(-40, 0, 40, 0); g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(.5, 'rgba(255,255,255,.95)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+      c.fillStyle = g; c.fillRect(-40, 0, 80, h); c.restore();
+      const rr = EO(C(e / 500)) * w * .5; c.globalAlpha = (1 - C(e / 500)) * .9; c.strokeStyle = iri(c, o.ox, o.oy, e * .004, '#fff'); c.lineWidth = 3;
+      c.beginPath(); c.arc(o.ox, o.oy, rr, 0, 7); c.stroke();
     });
     if (!card) return;
-    const DUR = 2600 + (up ? 300 : 0);
-    const F = fullLayer(DUR + 100), VW = F.VW, VH = F.VH;
-    const g = 2000, Hh = Math.min(o.cy - hdrBottom() - 20, VH * (.26 + t * .03)) * (up ? 1.15 : 1);
-    const v0 = Math.sqrt(2 * g * Math.max(120, Hh));
-    const nj = up ? 5 : 1 + Math.floor(t / 2), spread = up ? .8 : .22 + t * .03;
-    const jets = Array.from({ length: nj }, (_, i) => -Math.PI / 2 + (nj === 1 ? R(-.08, .08) : (i / (nj - 1) - .5) * 2 * spread));
-    const drops = [];
-    let acc = 0;
-    run(F.c, DUR, (c, e, dt) => {
-      if (e < 700) {   // 水柱を噴く
-        acc += dt * (110 + t * 10);
-        while (acc >= 1) {
-          acc--;
-          jets.forEach(a => {
-            const aa = a + R(-.035, .035), sp = v0 * R(.9, 1.03);
-            drops.push({ x: o.cx + R(-2, 2), y: o.cy, vx: Math.cos(aa) * sp, vy: Math.sin(aa) * sp, t0: e, w: R(1.4, 2.8), col: ['#ffffff', '#bff6ff', '#ffc3e3', '#2FE0D5'][drops.length % 4] });
-          });
+    const DUR = 1900 + (up ? 500 : 0);
+    _rfK = 1;
+    const H = _rfFullHost(DUR + 100), VW = window.innerWidth, VH = window.innerHeight;
+    const far = Math.hypot(Math.max(o.cx, VW - o.cx), Math.max(o.cy, VH - o.cy));
+    const n = up ? 4 : 1 + (t >= 3) + (t >= 5);
+    const D = far * 2.1;
+    for (let i = 0; i < n; i++) setTimeout(() => {
+      if (!H.isConnected) return;
+      const base = `position:absolute;left:${o.cx - D / 2}px;top:${o.cy - D / 2}px;width:${D}px;height:${D}px;border-radius:50%;pointer-events:none;`;
+      const lens = document.createElement('div');
+      const bf = `blur(${up ? 4 : 2.5}px) saturate(2.4) brightness(1.3) hue-rotate(${up ? 70 : 40}deg) contrast(1.1)`;
+      const m = 'radial-gradient(closest-side, transparent 80%, #000 88%, #000 95%, transparent 100%)';
+      lens.style.cssText = base + `backdrop-filter:${bf};-webkit-backdrop-filter:${bf};-webkit-mask:${m};mask:${m};`;
+      const rim = document.createElement('div');
+      const m2 = 'radial-gradient(closest-side, transparent 94.5%, #000 96.5%, transparent 99%)';
+      rim.style.cssText = base + `background:conic-gradient(${IRI.join(',')});mix-blend-mode:screen;-webkit-mask:${m2};mask:${m2};`;
+      H.append(lens, rim);
+      const kf = [{ scale: .03, opacity: 1 }, { scale: .55, opacity: 1, offset: .5 }, { scale: 1, opacity: 0 }];
+      const dur = 1300 + (up ? 300 : 0);
+      lens.animate(kf, { duration: dur, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'forwards' });
+      rim.animate(kf, { duration: dur, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'forwards' });
+    }, i * 200);
+  };
+
+  /* ══════════ V 液体の○（LIQUID MARU）══════════
+     肢：タップ位置に小さな○がすっと描かれる。
+     全画面：タップ位置に、太い液体の筆で大きな「○」が一筆で描かれ、下半分から絵の具が垂れる。
+     筆の色はマゼンタ→紫→オレンジ→シアンへ流れ、筆の中に白いつやが走る。段で○が大きくなって垂れが増え、
+     段が上がった瞬間は「◎」（内側にもう一つ）と飛び散り。 */
+  P.V = function (el, card, tier, promoted, budget) {
+    if (!el || _fxOff()) return;
+    const o = org(el); if (!o.er.width) return;
+    const t = Math.max(1, tier), up = promoted && tier >= 2;
+    choiceLayer(el, budget, 650, (c, e, w, h) => {
+      const p = EO(C(e / 320)), a = 1 - SS(420, 650, e), r = h * .38;
+      c.globalAlpha = a; c.lineCap = 'round'; c.lineWidth = 3.5; c.strokeStyle = '#FF4FA3';
+      c.beginPath(); c.arc(o.ox, o.oy, r, -2.2, -2.2 + Math.PI * 2.05 * p); c.stroke();
+    });
+    if (!card) return;
+    const DUR = 2700 + (up ? 400 : 0);
+    const F = fullLayer(DUR + 100), VW = F.VW, VH = F.VH, top = hdrBottom();
+    const Rc = Math.min(VW, VH) * .19 * (1 + t * .05) * (up ? 1.2 : 1);
+    const X = C(o.cx, Rc + 20, VW - Rc - 20), Y = C(o.cy, top + Rc + 20, VH - Rc - 20);
+    const W = 14 + t * 2 + (up ? 6 : 0);
+    const rings = [{ R: Rc, t0: 0, a0: -2.2 }];
+    if (up) rings.push({ R: Rc * .6, t0: 380, a0: -2.5 });
+    const drips = [];
+    rings.forEach(rg => { for (let i = 0; i < 3 + t + (up ? 3 : 0); i++) { const a = R(.15, .85) * Math.PI; drips.push({ rg, a, L: R(25, 70) * (1 + t * .08), w: R(.35, .6), t0: rg.t0 + 380 + R(0, 350) }); } });
+    const splat = up ? Array.from({ length: 26 }, () => ({ a: R(0, 7), d: R(1.15, 1.7), r: R(2, 7), col: PAL[(Math.random() * 4) | 0] })) : [];
+    run(F.c, DUR, (c, e) => {
+      const fade = 1 - SS(DUR - 600, DUR, e);
+      c.globalAlpha = fade; c.lineCap = 'round';
+      rings.forEach(rg => {
+        const p = EO(C((e - rg.t0) / 520)); if (p <= 0) return;
+        const span = Math.PI * 2.06 * p, N = Math.max(2, Math.ceil(span / .05));
+        for (let i = 0; i < N; i++) {   // 太さは筆の入りと抜きで細く、色は弧に沿って流れる
+          const s0 = i / N, s1 = (i + 1) / N, u = s0 * p;
+          c.strokeStyle = palAt(u * .9 + .02); c.lineWidth = W * (.35 + .65 * Math.sin(Math.PI * Math.min(1, .15 + u * .95)));
+          c.beginPath(); c.arc(X, Y, rg.R, rg.a0 + span * s0, rg.a0 + span * s1 + .01); c.stroke();
         }
-      }
-      // 噴き出し口の光
-      const gl = 1 - SS(500, 900, e);
-      if (gl > 0) { const gg = c.createRadialGradient(o.cx, o.cy, 0, o.cx, o.cy, 30); gg.addColorStop(0, `rgba(255,255,255,${.8 * gl})`); gg.addColorStop(1, 'rgba(255,111,181,0)'); c.fillStyle = gg; c.beginPath(); c.arc(o.cx, o.cy, 30, 0, 7); c.fill(); }
-      c.globalCompositeOperation = 'lighter'; c.lineCap = 'round';
-      const fade = 1 - SS(DUR - 500, DUR, e);
-      for (const d of drops) {
-        d.vy += g * dt; d.x += d.vx * dt; d.y += d.vy * dt;
-        const age = e - d.t0;
-        if (d.y > VH + 20 || age > 2000) continue;
-        const a = fade * (1 - C((age - 1300) / 700));
-        if (a <= 0) continue;
-        c.globalAlpha = a * .85; c.strokeStyle = d.col; c.lineWidth = d.w;
-        c.beginPath(); c.moveTo(d.x - d.vx * .018, d.y - d.vy * .018); c.lineTo(d.x, d.y); c.stroke();
-        if (Math.abs(d.vy) < 90 && ((d.t0 * 7) | 0) % 5 === 0) { c.globalCompositeOperation = 'source-over'; glint(c, d.x, d.y, 5, a); c.globalCompositeOperation = 'lighter'; }
-      }
-      c.globalAlpha = 1; c.globalCompositeOperation = 'source-over';
+        c.strokeStyle = 'rgba(255,255,255,.55)'; c.lineWidth = Math.max(1.5, W * .14);
+        c.beginPath(); c.arc(X, Y, rg.R - W * .18, rg.a0 + .3, rg.a0 + .3 + span * .55); c.stroke();
+      });
+      drips.forEach(d => {
+        const p = EO(C((e - d.t0) / 900)); if (p <= 0) return;
+        const x = X + Math.cos(d.a) * d.rg.R, y = Y + Math.sin(d.a) * d.rg.R, w = W * d.w, L = d.L * p;
+        c.fillStyle = palAt((d.a / Math.PI) * .5 + .3);
+        c.beginPath(); c.moveTo(x - w / 2, y); c.lineTo(x - w * .35, y + L); c.arc(x, y + L, w * .5, Math.PI, 0, true); c.lineTo(x + w / 2, y); c.fill();
+        c.fillStyle = 'rgba(255,255,255,.45)'; c.fillRect(x - w * .25, y, Math.max(1, w * .12), L * .8);
+      });
+      splat.forEach(s => { const p = EO(C((e - 450) / 300)); if (p <= 0) return; c.fillStyle = s.col; c.beginPath(); c.arc(X + Math.cos(s.a) * Rc * s.d * p, Y + Math.sin(s.a) * Rc * s.d * p, s.r, 0, 7); c.fill(); });
     });
   };
 
-  /* ══════════ Q 炭酸（FIZZ）══════════
-     肢：文字の裏で、下の縁から細かな泡が立ち昇る。
-     全画面：肢の上の縁から細かな泡が何本もの列になって昇り、加速しながら少しずつ大きくなって、画面の上で弾ける。
-     段で列の数が増え、段が上がった瞬間は瓶を振ったように泡がタップ位置から噴き上がる。 */
-  function fizzBubble(c, x, y, r, a) {
-    c.globalAlpha = a;
-    c.fillStyle = 'rgba(255,190,230,.18)'; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill();
-    c.strokeStyle = 'rgba(255,255,255,.85)'; c.lineWidth = Math.max(.7, r * .28); c.stroke();
-    if (r > 2) { c.fillStyle = '#fff'; c.beginPath(); c.arc(x - r * .35, y - r * .35, r * .25, 0, 7); c.fill(); }
+  /* ══════════ W 垂れる絵の具（PAINT DRIP）══════════
+     肢：文字の裏を絵の具が左から塗り、下の縁から小さく垂れる。
+     全画面：ヘッダーの下の縁から4色の絵の具がとろりと垂れてきて、つやを光らせながら伸び、消える。
+     段で垂れの本数と長さが増え、段が上がった瞬間は画面の半分まで一斉に垂れる。 */
+  P.W = function (el, card, tier, promoted, budget) {
+    if (!el || _fxOff()) return;
+    const o = org(el); if (!o.er.width) return;
+    const t = Math.max(1, tier), up = promoted && tier >= 2;
+    const cd = Array.from({ length: 6 }, (_, i) => ({ x: R(.05, .95), L: R(4, 10), w: R(4, 8), col: PAL[i % 4] }));
+    choiceLayer(el, budget, 700, (c, e, w, h) => {
+      const p = EO(C(e / 280)), a = 1 - SS(470, 700, e);
+      c.globalAlpha = .55 * a;
+      const g = c.createLinearGradient(0, 0, w, 0); PAL.forEach((col, i) => g.addColorStop(i / 3, col));
+      c.fillStyle = g; c.beginPath(); c.moveTo(0, 0); c.lineTo(w * p, 0);
+      for (let y = 0; y <= h; y += 4) c.lineTo(w * p + Math.sin(y * .4 + e * .02) * 5, y);
+      c.lineTo(0, h); c.fill();
+      cd.forEach(d => { if (d.x > p) return; const L = d.L * EO(C((e - 150) / 300)); c.fillStyle = d.col; c.fillRect(d.x * w - d.w / 2, h - 3, d.w, L); c.beginPath(); c.arc(d.x * w, h - 3 + L, d.w * .6, 0, 7); c.fill(); });
+    });
+    if (!card) return;
+    const DUR = 2700 + (up ? 300 : 0);
+    const F = fullLayer(DUR + 100), VW = F.VW, VH = F.VH, top = hdrBottom();
+    const n = up ? 34 : 8 + t * 3;
+    const drips = Array.from({ length: n }, (_, i) => ({ x: R(0, VW), w: R(8, 24), L: R(.12, .4) * (VH - top) * (up ? 1.5 : .7 + t * .06), t0: R(0, 500), col: PAL[i % 4], sp: R(900, 1500) }));
+    run(F.c, DUR, (c, e) => {
+      const fade = 1 - SS(DUR - 600, DUR, e);
+      c.globalAlpha = fade;
+      // 上の縁に溜まる帯
+      const hb = (8 + t * 2) * EO(C(e / 300));
+      const g = c.createLinearGradient(0, 0, VW, 0); PAL.forEach((col, i) => g.addColorStop(i / 3, col));
+      c.fillStyle = g; c.beginPath(); c.moveTo(0, top);
+      for (let x = 0; x <= VW; x += 12) c.lineTo(x, top + hb + Math.sin(x * .03 + e * .003) * hb * .35);
+      c.lineTo(VW, top); c.fill();
+      drips.forEach(d => {
+        const p = EO(C((e - d.t0) / d.sp)); if (p <= 0) return;
+        const L = d.L * p, y0 = top + hb * .5, w = d.w;
+        const gg = c.createLinearGradient(0, y0, 0, y0 + L); gg.addColorStop(0, d.col); gg.addColorStop(1, palAt(PAL.indexOf(d.col) / 4 + .2));
+        c.fillStyle = gg;
+        c.beginPath(); c.moveTo(d.x - w / 2, y0); c.bezierCurveTo(d.x - w / 2, y0 + L * .5, d.x - w * .32, y0 + L * .8, d.x - w * .32, y0 + L);
+        c.arc(d.x, y0 + L, w * .5, Math.PI, 0, true); c.bezierCurveTo(d.x + w * .32, y0 + L * .8, d.x + w / 2, y0 + L * .5, d.x + w / 2, y0); c.fill();
+        c.fillStyle = 'rgba(255,255,255,.5)'; c.fillRect(d.x - w * .28, y0, Math.max(1.2, w * .13), L * .85);
+        c.beginPath(); c.arc(d.x - w * .18, y0 + L - w * .12, w * .12, 0, 7); c.fill();
+      });
+    });
+  };
+
+  /* ══════════ X 液体の額縁（LIQUID FRAME）══════════
+     肢：肢の縁の内側が液体のように波打って光る。
+     全画面：画面の四辺から液体がうねりながら内側へ満ちて額縁になり、波打ってから引いていく（内側の縁に白いつや）。
+     段で額縁が厚くなり、段が上がった瞬間は波が速く大きくなって、上の縁から垂れる。 */
+  function frame(c, x0, y0, W, H, base, e, sp, amp) {
+    const pts = [];
+    const per = 2 * (W + H), step = 10;
+    for (let s = 0; s < per; s += step) {
+      let x, y, nx, ny;
+      if (s < W) { x = x0 + s; y = y0; nx = 0; ny = 1; }
+      else if (s < W + H) { x = x0 + W; y = y0 + s - W; nx = -1; ny = 0; }
+      else if (s < 2 * W + H) { x = x0 + W - (s - W - H); y = y0 + H; nx = 0; ny = -1; }
+      else { x = x0; y = y0 + H - (s - 2 * W - H); nx = 1; ny = 0; }
+      const d = base * (1 + amp * .45 * Math.sin(s * .018 + e * .006 * sp) + amp * .25 * Math.sin(s * .047 - e * .009 * sp));
+      pts.push([x + nx * d, y + ny * d]);
+    }
+    return pts;
   }
-  P.Q = function (el, card, tier, promoted, budget) {
+  function framePath(c, x0, y0, W, H, pts) {
+    c.beginPath(); c.rect(x0, y0, W, H);
+    c.moveTo(pts[0][0], pts[0][1]);
+    for (let i = 1; i <= pts.length; i++) { const a = pts[i % pts.length], b = pts[(i + 1) % pts.length]; c.quadraticCurveTo(a[0], a[1], (a[0] + b[0]) / 2, (a[1] + b[1]) / 2); }
+    c.closePath();
+  }
+  P.X = function (el, card, tier, promoted, budget) {
     if (!el || _fxOff()) return;
     const o = org(el); if (!o.er.width) return;
     const t = Math.max(1, tier), up = promoted && tier >= 2;
-    const cb = Array.from({ length: 34 }, () => ({ x: R(4, o.er.width - 4), t0: R(0, 380), r: R(.9, 2.2), v: R(.7, 1.3) }));
-    choiceLayer(el, budget, 850, (c, e, w, h) => {
-      const fade = 1 - SS(600, 850, e);
-      cb.forEach(b => {
-        const le = (e - b.t0) / 1000; if (le < 0) return;
-        const y = h + 3 - (60 * le + 260 * le * le) * b.v;
-        if (y < -4) return;
-        fizzBubble(c, b.x + Math.sin(le * 20 + b.x) * 1.5, y, b.r * (1 + le), fade);
-      });
-      c.globalAlpha = 1;
+    choiceLayer(el, budget, 700, (c, e, w, h) => {
+      const g0 = EO(C(e / 250)) * (1 - SS(450, 700, e));
+      const pts = frame(c, 0, 0, w, h, 6 * g0, e, 1.6, 1);
+      const g = c.createLinearGradient(0, 0, w, h); PAL.forEach((col, i) => g.addColorStop(i / 3, col));
+      c.fillStyle = g; c.globalAlpha = .8; framePath(c, 0, 0, w, h, pts); c.fill('evenodd');
     });
     if (!card) return;
-    const DUR = 2600 + (up ? 300 : 0);
-    const F = fullLayer(DUR + 100);
-    const top = hdrBottom() + 4;
-    const cols = Array.from({ length: 8 + t * 3 }, () => ({ x: o.er.left + R(6, o.er.width - 6), next: R(0, 200), gap: R(60, 130) }));
-    const bs = [], pops = [];
-    if (up) for (let i = 0; i < 140; i++) { const a = -Math.PI / 2 + R(-.55, .55), sp = R(500, 1100); bs.push({ x: o.cx, y: o.cy, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, r: R(1, 3.4), t0: R(0, 160), spray: true }); }
-    run(F.c, DUR, (c, e, dt) => {
-      if (e < 1500) cols.forEach(col => { while (e >= col.next) { bs.push({ x: col.x, y: o.er.top, vx: 0, vy: -R(40, 90), r: R(.9, 1.6), t0: col.next, ph: R(0, 7) }); col.next += col.gap; } });
-      const fade = 1 - SS(DUR - 400, DUR, e);
-      for (const b of bs) {
-        if (b.gone || e < b.t0) continue;
-        const le = (e - b.t0) / 1000;
-        if (b.spray) { b.vx *= Math.exp(-dt * 2.4); b.vy = b.vy * Math.exp(-dt * 1.6) - 200 * dt; }
-        else b.vy = Math.max(-780, b.vy - 700 * dt);
-        b.x += (b.vx + (b.spray ? 0 : Math.sin(le * 16 + b.ph) * 12)) * dt; b.y += b.vy * dt;
-        const r = b.r * (1 + le * .9);
-        if (b.y < top + r) { b.gone = true; pops.push({ x: b.x, y: top + r, t0: e, r }); continue; }
-        fizzBubble(c, b.x, b.y, r, fade);
-      }
-      c.lineWidth = 1; c.strokeStyle = '#fff';
-      for (const p of pops) {
-        const q = C((e - p.t0) / 140); if (q >= 1) continue;
-        c.globalAlpha = (1 - q) * fade;
-        for (let k = 0; k < 4; k++) { const a = k * Math.PI / 2 + .6, r1 = p.r + 2 + q * 5, r2 = r1 + 3; c.beginPath(); c.moveTo(p.x + Math.cos(a) * r1, p.y + Math.sin(a) * r1); c.lineTo(p.x + Math.cos(a) * r2, p.y + Math.sin(a) * r2); c.stroke(); }
-      }
-      c.globalAlpha = 1;
+    const DUR = 2500 + (up ? 400 : 0);
+    const F = fullLayer(DUR + 100), VW = F.VW, VH = F.VH, top = hdrBottom();
+    const base = Math.min(VW, VH) * (.035 + t * .008) * (up ? 1.7 : 1);
+    const drips = up ? Array.from({ length: 10 }, () => ({ x: R(0, VW), w: R(8, 18), L: R(40, 140), t0: R(500, 900) })) : [];
+    run(F.c, DUR, (c, e) => {
+      const grow = EO(C(e / 450)) * (1 - EIO(C((e - (DUR - 800)) / 800)));
+      if (grow <= 0) return;
+      const pts = frame(c, 0, top, VW, VH - top, base * grow, e, up ? 1.8 : 1, 1);
+      const g = c.createLinearGradient(0, top, VW, VH);
+      PAL.forEach((col, i) => g.addColorStop(i / 3, col));
+      c.globalAlpha = .88; c.fillStyle = g; framePath(c, 0, top, VW, VH - top, pts); c.fill('evenodd');
+      c.globalAlpha = .6 * grow; c.strokeStyle = '#fff'; c.lineWidth = 2;
+      c.beginPath(); pts.forEach(([x, y], i) => i ? c.lineTo(x, y) : c.moveTo(x, y)); c.closePath(); c.stroke();
+      c.globalAlpha = .88 * grow;
+      drips.forEach(d => { const p = EO(C((e - d.t0) / 900)); if (p <= 0) return; const y0 = top + base * grow * .8, L = d.L * p; c.fillStyle = palAt(d.x / VW); c.fillRect(d.x - d.w / 2, y0, d.w, L); c.beginPath(); c.arc(d.x, y0 + L, d.w * .55, 0, 7); c.fill(); });
     });
   };
 
-  /* ══════════ R 霧の虹（MIST RAINBOW）══════════
-     肢：文字の裏を虹色の光が霧のように横切る。
-     全画面：タップ位置から霧がふわっと広がり、その上に虹の弧が左から右へ描かれて、しばらく架かってから消える。
-     段で弧が大きくなり、段4〜は外側に色の順が逆の薄い副虹。段が上がった瞬間は画面いっぱいの虹と、弧に沿ったきらめき。 */
-  P.R = function (el, card, tier, promoted, budget) {
+  /* ══════════ Y ホログラム（HOLO FOIL）══════════
+     肢：文字の裏をホログラムの帯が斜めに走る。
+     全画面：ホログラムのシールを傾けたように、虹色の帯が画面を斜めに横切る。帯の中には細い回折の線と、瞬くラメ。
+     段3〜は帯が2本、段が上がった瞬間は画面全体がホログラムに染まってラメが舞う。 */
+  function holoBand(c, VW, VH, p, BW, a, glit) {
+    const D = Math.hypot(VW, VH) / 2 + BW;
+    c.save(); c.translate(VW / 2, VH / 2); c.rotate(-.55);
+    const x = -D + 2 * D * p;
+    const g = c.createLinearGradient(x - BW / 2, 0, x + BW / 2, 0);
+    g.addColorStop(0, 'rgba(255,255,255,0)');
+    IRI.forEach((col, i) => g.addColorStop(.1 + i * .8 / (IRI.length - 1), col));
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    c.globalCompositeOperation = 'screen'; c.globalAlpha = .42 * a; c.fillStyle = g; c.fillRect(x - BW / 2, -D, BW, 2 * D);
+    c.globalAlpha = .14 * a; c.fillStyle = '#fff';
+    for (let xx = x - BW / 2; xx < x + BW / 2; xx += 5) c.fillRect(xx, -D, 1, 2 * D);
+    c.globalCompositeOperation = 'source-over';
+    glit.forEach(s => { const tw = Math.sin(p * 40 + s.ph); if (tw > .3) glint(c, x + s.u * BW / 2, s.v * D, s.s, (tw - .3) * a); });
+    c.restore();
+  }
+  P.Y = function (el, card, tier, promoted, budget) {
     if (!el || _fxOff()) return;
     const o = org(el); if (!o.er.width) return;
     const t = Math.max(1, tier), up = promoted && tier >= 2;
-    choiceLayer(el, budget, 800, (c, e, w, h) => {
-      const p = EIO(C(e / 700)), x = -w * .5 + w * 2 * p, a = 1 - SS(550, 800, e);
-      const g = c.createLinearGradient(x - w * .45, 0, x + w * .45, 0);
-      g.addColorStop(0, 'rgba(255,255,255,0)');
-      RAINBOW.forEach((col, i) => g.addColorStop(.12 + i * .76 / 6, col));
-      g.addColorStop(1, 'rgba(255,255,255,0)');
-      c.globalAlpha = .42 * a; c.fillStyle = g; c.fillRect(0, 0, w, h); c.globalAlpha = 1;
-    });
+    const cg = Array.from({ length: 10 }, () => ({ u: R(-1, 1), v: R(-.5, .5), s: R(2, 4), ph: R(0, 7) }));
+    choiceLayer(el, budget, 650, (c, e, w, h) => holoBand(c, w, h, EIO(C(e / 620)), 90, 1, cg));
     if (!card) return;
-    const DUR = 2900 + (up ? 300 : 0);
+    const DUR = 2000 + (up ? 800 : 0);
     const F = fullLayer(DUR + 100), VW = F.VW, VH = F.VH;
-    const Rr = up ? Math.hypot(VW, VH) * .42 : Math.min(VW * .42, 360) * (.8 + t * .06);
-    const X = up ? VW / 2 : o.cx, Y = up ? VH * .92 : o.cy + Rr * .55;
-    const band = Math.max(5, Rr * .032);
-    const mist = Array.from({ length: 34 }, () => ({ a: R(0, 7), d: R(0, 1), s: R(40, 110), t0: R(0, 300) }));
-    const sparks = up ? Array.from({ length: 26 }, () => ({ a: Math.PI + R(.05, .95) * Math.PI, t0: R(600, 1900), s: R(4, 9) })) : [];
-    const arc = (c, r0, cols, alpha, sweep) => {
-      cols.forEach((col, i) => {
-        c.strokeStyle = col; c.globalAlpha = alpha; c.lineWidth = band + 1;
-        c.beginPath(); c.arc(X, Y, r0 - i * band, Math.PI, Math.PI + sweep); c.stroke();
-      });
-    };
+    const mk = n => Array.from({ length: n }, () => ({ u: R(-1, 1), v: R(-1, 1), s: R(2.5, 6), ph: R(0, 7) }));
+    const bands = [{ t0: 0, BW: 220 + t * 20, g: mk(40) }];
+    if (t >= 3 || up) bands.push({ t0: 330, BW: 140, g: mk(24) });
+    const dust = up ? Array.from({ length: 90 }, () => ({ x: R(0, VW), y: R(0, VH), s: R(2, 5), ph: R(0, 7) })) : [];
     run(F.c, DUR, (c, e) => {
-      const fade = 1 - SS(DUR - 800, DUR, e);
-      // 霧
-      mist.forEach(m => {
-        const p = C((e - m.t0) / 1400); if (p <= 0) return;
-        const r = m.s * (.4 + EO(p) * .9), d = m.d * 90 * EO(p);
-        const x = o.cx + Math.cos(m.a) * d, y = o.cy + Math.sin(m.a) * d * .6;
-        const a = .16 * Math.sin(Math.PI * Math.min(1, p * 1.3)) * fade;
-        if (a <= 0) return;
-        const g = c.createRadialGradient(x, y, 0, x, y, r);
-        g.addColorStop(0, `rgba(255,240,250,${a})`); g.addColorStop(1, 'rgba(255,240,250,0)');
-        c.fillStyle = g; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill();
-      });
-      // 虹（左から描かれる）
-      const sweep = Math.PI * EIO(C((e - 250) / 1000));
-      if (sweep > 0) {
-        c.save(); c.filter = 'blur(2px)';
-        arc(c, Rr, RAINBOW, .36 * fade, sweep);
-        if (t >= 4 || up) arc(c, Rr * 1.28, [...RAINBOW].reverse(), .15 * fade, sweep);
-        c.restore();
+      bands.forEach(b => { const p = C((e - b.t0) / 1300); if (p > 0 && p < 1) holoBand(c, VW, VH, EIO(p), b.BW, 1, b.g); });
+      if (up) {
+        const a = SS(300, 700, e) * (1 - SS(DUR - 700, DUR, e));
+        c.globalCompositeOperation = 'screen'; c.globalAlpha = .2 * a; c.fillStyle = iri(c, VW / 2, VH / 2, e * .002, '#ff9fd6'); c.fillRect(0, 0, VW, VH);
+        c.globalCompositeOperation = 'source-over';
+        dust.forEach(d => { const tw = Math.sin(e * .012 + d.ph); if (tw > .4) glint(c, d.x, d.y - e * .02, d.s, (tw - .4) * 1.6 * a); });
       }
-      sparks.forEach(s => {
-        const p = C((e - s.t0) / 500); if (p <= 0 || p >= 1 || s.a > Math.PI + sweep) return;
-        glint(c, X + Math.cos(s.a) * (Rr - band * 3), Y + Math.sin(s.a) * (Rr - band * 3), s.s, Math.sin(Math.PI * p) * fade);
-      });
-      c.globalAlpha = 1;
     });
   };
 
-  /* ══════════ S 水中の光（LIGHT SHAFTS）══════════
-     肢：文字の裏で水底のきらめきが瞬く。
-     全画面：画面の上（水面）から揺らめく光の筋が何本も差し込み、正解の肢の位置へ集まる。光の中を小さな粒が漂う。
-     段で筋が増えて明るくなり、段が上がった瞬間は光の筋が左から右へ画面を掃く。 */
-  P.S = function (el, card, tier, promoted, budget) {
+  /* ══════════ Z 跳ねる液体の玉（BOUNCING DROP）══════════
+     肢：タップ位置で雫が跳ねる。
+     全画面：タップ位置からつやのある液体の玉が飛び出し、肢の下の線を床にしてぽよん、ぽよんと横へ跳ねていく
+     （着地でつぶれて伸びる・しぶき）。最後は水たまりになって消える。段で玉が増え、段が上がった瞬間は大きな玉と小さな玉が扇形に。 */
+  P.Z = function (el, card, tier, promoted, budget) {
     if (!el || _fxOff()) return;
     const o = org(el); if (!o.er.width) return;
     const t = Math.max(1, tier), up = promoted && tier >= 2;
-    const sp = Array.from({ length: 18 }, () => ({ x: R(0, o.er.width), y: R(0, o.er.height), t0: R(0, 450), s: R(3, 6) }));
-    choiceLayer(el, budget, 800, (c, e, w, h) => {
-      const a = 1 - SS(550, 800, e);
-      const g = c.createRadialGradient(o.ox, o.oy, 0, o.ox, o.oy, w * .6);
-      g.addColorStop(0, `rgba(47,224,213,${.28 * a})`); g.addColorStop(1, 'rgba(47,224,213,0)');
-      c.fillStyle = g; c.fillRect(0, 0, w, h);
-      sp.forEach(s => { const p = C((e - s.t0) / 320); if (p > 0 && p < 1) glint(c, s.x, s.y, s.s, Math.sin(Math.PI * p) * a); });
+    choiceLayer(el, budget, 600, (c, e, w, h) => {
+      const q = e / 1000, a = 1 - SS(350, 600, e);
+      for (let i = 0; i < 8; i++) { const an = -Math.PI / 2 + (i - 3.5) * .3; c.fillStyle = PAL[i % 4]; c.globalAlpha = a; c.beginPath(); c.arc(o.ox + Math.cos(an) * 160 * q, o.oy + Math.sin(an) * 160 * q + 500 * q * q, 2.4, 0, 7); c.fill(); }
+      c.globalAlpha = a * .8; c.strokeStyle = '#fff'; c.lineWidth = 1.5; c.beginPath(); c.ellipse(o.ox, o.oy, 60 * EO(C(e / 400)), 16 * EO(C(e / 400)), 0, 0, 7); c.stroke();
     });
     if (!card) return;
-    const DUR = 2900 + (up ? 300 : 0);
+    const DUR = 2700;
     const F = fullLayer(DUR + 100), VW = F.VW;
-    const top = hdrBottom();
-    const n = 4 + t + (up ? 4 : 0);
-    const rays = Array.from({ length: n }, (_, i) => ({ x: (i + R(.1, .9)) / n * VW, w: R(30, 80), ph: R(0, 7), br: R(.6, 1) }));
-    const motes = Array.from({ length: 70 }, () => ({ r: rays[(Math.random() * n) | 0], k: R(.05, .95), j: R(-.4, .4), s: R(.8, 2), ph: R(0, 7) }));
-    const T = { x: o.cx, y: o.cy };
-    run(F.c, DUR, (c, e) => {
-      const env = SS(0, 450, e) * (1 - SS(DUR - 900, DUR, e)) * (.75 + t * .04);
-      if (env <= 0) return;
-      const sweep = up ? (EIO(C((e - 200) / 1800)) - .5) * VW * .9 : 0;
-      c.globalCompositeOperation = 'lighter';
-      rays.forEach(r => {
-        const x0 = r.x + Math.sin(e * .0011 + r.ph) * 34 + sweep, hw = r.w / 2 * (.8 + .2 * Math.sin(e * .002 + r.ph));
-        const bx = T.x + (x0 - T.x) * .12;   // 下の端は肢の少し手前で細くなる
-        const g = c.createLinearGradient(x0, top, T.x, T.y);
-        g.addColorStop(0, `rgba(255,236,250,${.5 * env * r.br})`); g.addColorStop(.6, `rgba(255,111,181,${.22 * env * r.br})`); g.addColorStop(1, 'rgba(47,224,213,0)');
-        c.fillStyle = g; c.beginPath(); c.moveTo(x0 - hw, top); c.lineTo(x0 + hw, top); c.lineTo(bx + 3, T.y); c.lineTo(bx - 3, T.y); c.closePath(); c.fill();
+    const floor = o.er.bottom;
+    const nb = up ? 5 : 1 + (t >= 4) + (t >= 6);
+    const balls = Array.from({ length: nb }, (_, i) => {
+      const dir = (o.cx < VW / 2 ? 1 : -1) * (i % 2 ? -1 : 1) * (up ? R(.6, 1.4) : 1);
+      const r = (13 + t * .8) * (up && i === 0 ? 1.8 : up ? .8 : 1);
+      const hops = [], hs = [140 + t * 12, .5, .26, .12], ds = [560, 420, 320, 240];
+      let x = o.cx, tt = i * 140;
+      hs.forEach((h, k) => { const H = k ? hs[0] * h : h, dx = dir * VW * (k ? .12 : .1); hops.push({ x0: x, x1: x + dx, H, t0: tt, d: ds[k], y0: k ? floor - r : o.cy }); x += dx; tt += ds[k]; });
+      return { r, hops, end: tt, x, spl: [] };
+    });
+    run(F.c, DUR, (c, e, dt) => {
+      const fade = 1 - SS(DUR - 400, DUR, e);
+      balls.forEach(b => {
+        const hp = b.hops.find(h => e >= h.t0 && e < h.t0 + h.d);
+        if (hp) {
+          const p = (e - hp.t0) / hp.d, x = hp.x0 + (hp.x1 - hp.x0) * p;
+          const yEnd = floor - b.r, y = hp.y0 + (yEnd - hp.y0) * p - 4 * hp.H * p * (1 - p);
+          const land = p > .9 ? (p - .9) / .1 : 0, lift = p < .12 ? 1 - p / .12 : 0;
+          const sq = Math.max(land, lift) * (hp.H / 140) * .35;
+          ball(c, x, y + sq * b.r * .5, b.r, 1 + sq, 1 - sq, fade);
+          if (p > .96 && !hp.sp) { hp.sp = 1; for (let i = 0; i < 8; i++) { const a = -Math.PI / 2 + R(-1.2, 1.2); b.spl.push({ x, y: floor, vx: Math.cos(a) * R(60, 200), vy: Math.sin(a) * R(120, 300), t0: e, col: PAL[i % 4] }); } b.spl.push({ ring: 1, x, y: floor, t0: e }); }
+        } else if (e >= b.end) {   // 水たまり
+          const p = C((e - b.end) / 600);
+          c.globalAlpha = (1 - p) * fade; c.fillStyle = '#FF007F';
+          c.beginPath(); c.ellipse(b.x, floor - 2, b.r * (1 + p * 1.6), b.r * .3 * (1 - p * .5), 0, 0, 7); c.fill(); c.globalAlpha = 1;
+        }
+        b.spl.forEach(s => {
+          const le = (e - s.t0) / 1000;
+          if (s.ring) { const q = C(le / .4); if (q < 1) { c.globalAlpha = (1 - q) * .8 * fade; c.strokeStyle = '#fff'; c.lineWidth = 1.5; c.beginPath(); c.ellipse(s.x, s.y, b.r * (1 + q * 2.5), b.r * .35 * (1 + q * 2.5), 0, 0, 7); c.stroke(); } return; }
+          const a = 1 - C(le / .5); if (a <= 0) return;
+          c.globalAlpha = a * fade; c.fillStyle = s.col; c.beginPath(); c.arc(s.x + s.vx * le, s.y + s.vy * le + 900 * le * le, 2.2, 0, 7); c.fill();
+        });
+        c.globalAlpha = 1;
       });
-      // 水面のゆらぎ
-      c.strokeStyle = `rgba(255,255,255,${.35 * env})`; c.lineWidth = 1.5; c.beginPath();
-      for (let x = 0; x <= VW; x += 10) { const y = top + 3 + Math.sin(x * .03 + e * .004) * 2 + Math.sin(x * .011 - e * .003) * 2; x ? c.lineTo(x, y) : c.moveTo(x, y); }
-      c.stroke();
-      // 漂う粒
-      motes.forEach(m => {
-        const x0 = m.r.x + Math.sin(e * .0011 + m.r.ph) * 34 + sweep, k = (m.k + e * .00004) % 1;
-        const x = x0 + (T.x - x0) * k + m.j * m.r.w * (1 - k) + Math.sin(e * .002 + m.ph) * 4, y = top + (T.y - top) * k;
-        c.fillStyle = `rgba(255,255,255,${.7 * env * (.5 + .5 * Math.sin(e * .006 + m.ph))})`;
-        c.beginPath(); c.arc(x, y, m.s, 0, 7); c.fill();
+    });
+  };
+
+  /* ══════════ AA 液体の波形（LIQUID WAVEFORM）══════════
+     肢：文字の裏に細い波形が走る。
+     全画面：正解の肢の高さに、画面の端から端まで光る波形が数本重なって立ち上がり、うねって静まる（音声アシスタントの波形のような）。
+     段で波の本数と振れ幅が増え、段が上がった瞬間は画面いっぱいの大きな振れ幅に。 */
+  P.AA = function (el, card, tier, promoted, budget) {
+    if (!el || _fxOff()) return;
+    const o = org(el); if (!o.er.width) return;
+    const t = Math.max(1, tier), up = promoted && tier >= 2;
+    choiceLayer(el, budget, 650, (c, e, w, h) => {
+      const env = SS(0, 150, e) * (1 - SS(420, 650, e));
+      c.globalCompositeOperation = 'lighter'; c.lineWidth = 2;
+      PAL.forEach((col, i) => { c.strokeStyle = col; c.globalAlpha = .8 * env; c.beginPath(); for (let x = 0; x <= w; x += 4) { const g = Math.exp(-Math.pow((x - o.ox) / (w * .35), 2)); const y = h / 2 + Math.sin(x * (.05 + i * .012) - e * .02 + i) * h * .35 * g; x ? c.lineTo(x, y) : c.moveTo(x, y); } c.stroke(); });
+    });
+    if (!card) return;
+    const DUR = 2300 + (up ? 400 : 0);
+    const F = fullLayer(DUR + 100), VW = F.VW, VH = F.VH;
+    const nw = 3 + (t >= 3) + (t >= 5) + (up ? 1 : 0);
+    const waves = Array.from({ length: nw }, (_, i) => ({ k: R(.007, .016), w: R(.004, .009) * (i % 2 ? 1 : -1), ph: R(0, 7), amp: R(.55, 1), col: ['#FF007F', '#2FE0D5', '#B03CFF', '#FF7A00', '#FFFFFF', '#FF6FB5'][i] }));
+    const Amax = (up ? Math.min(VH * .28, 220) : 38 + t * 8), spread = VW * (up ? .6 : .22 + t * .025);
+    const Y0 = up ? VH / 2 : o.cy;
+    run(F.c, DUR, (c, e) => {
+      const env = SS(0, 350, e) * (1 - SS(DUR - 800, DUR, e)) * (1 + .15 * Math.sin(e * .01));
+      if (env <= 0) return;
+      c.globalCompositeOperation = 'lighter';
+      waves.forEach(wv => {
+        const pts = [];
+        for (let x = 0; x <= VW; x += 6) { const g = Math.exp(-Math.pow((x - o.cx) / spread, 2)); pts.push([x, Y0 + Math.sin(x * wv.k + e * wv.w + wv.ph) * Amax * wv.amp * g * env]); }
+        // 波と中心線の間を薄く塗る
+        c.globalAlpha = .12; c.fillStyle = wv.col; c.beginPath(); c.moveTo(0, Y0); pts.forEach(([x, y]) => c.lineTo(x, y)); c.lineTo(VW, Y0); c.fill();
+        c.globalAlpha = .25; c.strokeStyle = wv.col; c.lineWidth = 7; c.beginPath(); pts.forEach(([x, y], i) => i ? c.lineTo(x, y) : c.moveTo(x, y)); c.stroke();
+        c.globalAlpha = .95; c.lineWidth = 2; c.stroke();
       });
       c.globalCompositeOperation = 'source-over';
     });
   };
 
-  /* ══════════ T 金魚（GOLDFISH）══════════
-     肢：金魚が跳ねた水の輪としぶき。
-     全画面：タップ位置から金魚が尾を振って泳ぎ出し、曲線を描いて画面の外へ去る。泳いだ跡に水の輪が残る。
-     段で匹数が増え、段が上がった瞬間は大きな金魚が画面の中央を1周してから去る。 */
-  function fish(c, x, y, ang, L, e, ph, kind, a) {
-    if (L < 1) return;
-    c.save(); c.translate(x, y); c.rotate(ang); c.globalAlpha = a;
-    const wag = Math.sin(e * .022 + ph) * .45;
-    // 尾びれ（半透明の2枚）
-    c.save(); c.translate(-L * .38, 0); c.rotate(wag);
-    c.fillStyle = kind.fin; c.globalAlpha = a * .75;
-    c.beginPath(); c.moveTo(0, 0); c.quadraticCurveTo(-L * .25, -L * .34, -L * .5, -L * .3); c.quadraticCurveTo(-L * .3, 0, -L * .5, L * .3); c.quadraticCurveTo(-L * .25, L * .34, 0, 0); c.fill();
-    c.strokeStyle = 'rgba(255,255,255,.35)'; c.lineWidth = .8;
-    for (let k = -2; k <= 2; k++) { c.beginPath(); c.moveTo(0, 0); c.lineTo(-L * .45, k * L * .12); c.stroke(); }
-    c.restore();
-    // 胸びれ
-    c.fillStyle = kind.fin; c.globalAlpha = a * .6;
-    [-1, 1].forEach(s => { c.beginPath(); c.ellipse(L * .12, s * L * .17, L * .12, L * .05, s * (.6 + Math.sin(e * .03 + ph) * .3), 0, 7); c.fill(); });
-    // 体（尾に向かって少し曲がる）
-    c.globalAlpha = a; c.rotate(-wag * .15);
-    const g = c.createLinearGradient(L * .5, 0, -L * .4, 0);
-    kind.body.forEach((col, i) => g.addColorStop(i / (kind.body.length - 1), col));
-    c.fillStyle = g;
-    c.beginPath(); c.moveTo(L * .55, 0); c.bezierCurveTo(L * .45, -L * .26, -L * .2, -L * .22, -L * .42, 0); c.bezierCurveTo(-L * .2, L * .22, L * .45, L * .26, L * .55, 0); c.fill();
-    if (kind.patch) { c.fillStyle = kind.patch; c.beginPath(); c.ellipse(L * .02, -L * .04, L * .16, L * .09, .3, 0, 7); c.fill(); }
-    c.fillStyle = 'rgba(255,255,255,.35)'; c.beginPath(); c.ellipse(L * .12, -L * .1, L * .22, L * .04, -.08, 0, 7); c.fill();
-    c.fillStyle = '#1a0612'; c.beginPath(); c.arc(L * .36, -L * .08, L * .045, 0, 7); c.fill();
-    c.fillStyle = '#fff'; c.beginPath(); c.arc(L * .375, -L * .095, L * .015, 0, 7); c.fill();
+  /* ══════════ AB 液体のブロブ（MORPHING BLOB）══════════
+     肢：文字の裏に小さな液体のかたまりがぷくっと膨らんで消える。
+     全画面：タップ位置に輪郭のくっきりした液体のかたまりがぷるんと膨らみ、形を変えながら色が回り、
+     最後に3つにちぎれて飛んでいく。段でかたまりが大きくなり、段が上がった瞬間は大きく膨らんで6つにちぎれる。 */
+  function blob(c, x, y, Rb, e, ph, a, rot) {
+    if (Rb < 1 || a <= 0) return;
+    const N = 48, pts = [];
+    for (let i = 0; i < N; i++) {
+      const th = i / N * Math.PI * 2;
+      const r = Rb * (1 + .13 * Math.sin(3 * th + e * .004 + ph) + .08 * Math.sin(5 * th - e * .006 + ph * 2) + .05 * Math.sin(2 * th + e * .003));
+      pts.push([x + Math.cos(th) * r, y + Math.sin(th) * r]);
+    }
+    const path = () => { c.beginPath(); c.moveTo((pts[0][0] + pts[N - 1][0]) / 2, (pts[0][1] + pts[N - 1][1]) / 2); for (let i = 0; i < N; i++) { const p = pts[i], q = pts[(i + 1) % N]; c.quadraticCurveTo(p[0], p[1], (p[0] + q[0]) / 2, (p[1] + q[1]) / 2); } c.closePath(); };
+    c.save(); c.globalAlpha = a;
+    const g = c.createLinearGradient(x + Math.cos(rot) * Rb, y + Math.sin(rot) * Rb, x - Math.cos(rot) * Rb, y - Math.sin(rot) * Rb);
+    PAL.forEach((col, i) => g.addColorStop(i / 3, col));
+    c.fillStyle = g; path(); c.fill();
+    c.strokeStyle = 'rgba(255,255,255,.35)'; c.lineWidth = 1.5; c.stroke();
+    c.fillStyle = 'rgba(255,255,255,.4)'; c.beginPath(); c.ellipse(x - Rb * .3, y - Rb * .38, Rb * .32, Rb * .16, -.5, 0, 7); c.fill();
     c.restore();
   }
-  const KINDS = [
-    { body: ['#FF7A00', '#FF4F3A', '#FF4FA3'], fin: '#FF8A5C', patch: null },
-    { body: ['#FFF4F0', '#FF4F3A', '#FFE8E0'], fin: '#FFB0A0', patch: '#FF3B2F' },
-    { body: ['#FF4FA3', '#B34BFF', '#7928CA'], fin: '#D58CFF', patch: null },
-    { body: ['#FFD36E', '#FF9A3B', '#FF6FB5'], fin: '#FFC08A', patch: '#FFFFFF' },
-  ];
-  P.T = function (el, card, tier, promoted, budget) {
+  P.AB = function (el, card, tier, promoted, budget) {
     if (!el || _fxOff()) return;
     const o = org(el); if (!o.er.width) return;
     const t = Math.max(1, tier), up = promoted && tier >= 2;
-    const spl = Array.from({ length: 9 }, () => ({ a: -Math.PI / 2 + R(-1.1, 1.1), v: R(40, 90) }));
-    choiceLayer(el, budget, 750, (c, e) => {
-      ripples(c, o.ox, o.oy, e, 3, 120, 70, 560, i => i % 2 ? '#FFD36E' : '#FF6FB5');
-      const q = e / 1000, a = 1 - C(e / 520);
-      if (a > 0) spl.forEach(s => { c.fillStyle = `rgba(255,230,245,${a})`; c.beginPath(); c.arc(o.ox + Math.cos(s.a) * s.v * q * 2.2, o.oy + Math.sin(s.a) * s.v * q * 2.2 + 400 * q * q, 1.8, 0, 7); c.fill(); });
+    choiceLayer(el, budget, 650, (c, e, w, h) => {
+      const s = BACK(C(e / 300)) * (1 - SS(420, 650, e));
+      blob(c, o.ox, o.oy, h * .75 * s, e, 0, .8, e * .005);
     });
     if (!card) return;
-    const DUR = 3000 + (up ? 700 : 0);
+    const DUR = 2500 + (up ? 400 : 0);
     const F = fullLayer(DUR + 100), VW = F.VW, VH = F.VH;
-    const edge = () => { const s = (Math.random() * 4) | 0; return s === 0 ? [-120, R(0, VH)] : s === 1 ? [VW + 120, R(0, VH)] : s === 2 ? [R(0, VW), VH + 120] : [R(0, VW), hdrBottom() - 120]; };
-    const nf = 1 + Math.floor(t / 2);
-    const fishes = Array.from({ length: nf }, (_, i) => {
-      const [ex, ey] = edge();
-      return { t0: i * 180, dur: R(2000, 2600), L: R(38, 52) * (1 + t * .04), ph: R(0, 7), kind: KINDS[i % KINDS.length],
-        p: [[o.cx, o.cy], [o.cx + R(-260, 260), o.cy + R(-220, 120)], [R(VW * .15, VW * .85), R(VH * .2, VH * .8)], [ex, ey]], rip: [] };
-    });
-    if (up) {
-      const cx = VW / 2, cy = VH * .5, rr = Math.min(VW, VH) * .3, a0 = Math.atan2(o.cy - cy, o.cx - cx);
-      fishes.push({ t0: 100, dur: 3300, L: Math.min(170, Math.min(VW, VH) * .2), ph: 0, kind: KINDS[1], giant: true, rip: [],
-        at: p => {
-          if (p < .72) { const q = EIO(p / .72), a = a0 + q * Math.PI * 2, r = rr * (.4 + .6 * Math.min(1, p / .15)); return [cx + Math.cos(a) * r * 1.2, cy + Math.sin(a) * r]; }
-          const q = (p - .72) / .28, a = a0 + Math.PI * 2; return [cx + Math.cos(a) * rr * 1.2 - Math.sin(a) * q * VW, cy + Math.sin(a) * rr + Math.cos(a) * q * VW];
-        } });
-    }
-    const bez = (P4, u) => { const v = 1 - u; return [0, 1].map(k => v * v * v * P4[0][k] + 3 * v * v * u * P4[1][k] + 3 * v * u * u * P4[2][k] + u * u * u * P4[3][k]); };
+    const R0 = up ? Math.min(VW, VH) * .2 : 46 + t * 8;
+    const X = C(o.cx, R0 + 10, VW - R0 - 10), Y = C(o.cy, hdrBottom() + R0 + 10, VH - R0 - 10);
+    const tSplit = 1500 + (up ? 300 : 0);
+    const nk = up ? 6 : 3;
+    const kids = Array.from({ length: nk }, (_, i) => ({ a: i / nk * Math.PI * 2 + R(-.3, .3) - Math.PI / 2, v: R(.8, 1.2), ph: R(0, 7) }));
     run(F.c, DUR, (c, e) => {
-      const fade = 1 - SS(DUR - 300, DUR, e);
-      fishes.forEach(f => {
-        const p = C((e - f.t0) / f.dur); if (p <= 0) return;
-        const u = f.giant ? p : p * p * (1.6 - .6 * p);   // 泳ぎ出しはゆっくり
-        const pos = f.giant ? f.at(u) : bez(f.p, u), nx = f.giant ? f.at(Math.min(1, u + .004)) : bez(f.p, Math.min(1, u + .01));
-        const ang = Math.atan2(nx[1] - pos[1], nx[0] - pos[0]);
-        if (!f.lastRip || e - f.lastRip > (f.giant ? 260 : 380)) { f.lastRip = e; f.rip.push({ x: pos[0], y: pos[1], t0: e }); }
-        f.rip.forEach(r => { const q = C((e - r.t0) / 900); if (q < 1) { const rr = 6 + q * f.L * .6; c.strokeStyle = `rgba(255,255,255,${.3 * (1 - q) * fade})`; c.lineWidth = 1.2; c.beginPath(); c.ellipse(r.x, r.y, rr, rr * .5, 0, 0, 7); c.stroke(); } });
-        if (p < 1) fish(c, pos[0], pos[1], ang, f.L * SS(0, .08, p), e, f.ph, f.kind, fade);
+      if (e < tSplit + 120) {
+        const s = BACK(C(e / 520)) * (e > tSplit - 250 ? 1 - .45 * EIO(C((e - (tSplit - 250)) / 370)) : 1);
+        blob(c, X, Y, R0 * s, e, 0, 1, e * .003);
+      }
+      if (e > tSplit - 50) {
+        const p = C((e - tSplit + 50) / (DUR - tSplit)), q = EO(p);
+        kids.forEach(k => blob(c, X + Math.cos(k.a) * R0 * 2.2 * q * k.v, Y + Math.sin(k.a) * R0 * 2.2 * q * k.v, R0 * .38 * (1 - p * .7), e, k.ph, 1 - SS(.6, 1, p), e * .004 + k.ph));
+      }
+    });
+  };
+
+  /* ══════════ AC ドットの波紋（DOT RIPPLE）══════════
+     肢：文字の裏に並んだ細かな点が、タップ位置から波打って光る。
+     全画面：画面いっぱいに見えない点の格子があり、タップ位置から波が広がると、波の通る所だけ点が光って外へ押し出される
+     （点の色は方角で4色に変わる）。段で波の数が増え、段が上がった瞬間は波が強く、通ったあとに点がしばらく光り続ける。 */
+  function dotField(c, W, H, x0, y0, ox, oy, step, waves, e, amp, mul, keep) {
+    for (let y = y0 + step / 2; y < y0 + H; y += step) for (let x = x0 + step / 2; x < x0 + W; x += step) {
+      const dx = x - ox, dy = y - oy, d = Math.hypot(dx, dy) + .01;
+      let I = 0;
+      for (const wv of waves) { const rho = (e - wv.t0) * wv.v; if (rho <= 0) continue; const q = (d - rho) / wv.w; I = Math.max(I, Math.exp(-q * q) * wv.s * Math.exp(-rho / wv.fall)); }
+      if (keep) { const key = (x | 0) + ',' + (y | 0); if (I > .3) keep[key] = e; const k0 = keep[key]; if (k0 != null) I = Math.max(I, .35 * Math.exp(-(e - k0) / 700)); }
+      if (I < .03) continue;
+      const push = amp * I, px = x + dx / d * push, py = y + dy / d * push;
+      c.globalAlpha = Math.min(1, I) * mul; c.fillStyle = palAt((Math.atan2(dy, dx) / (Math.PI * 2)) + .5);
+      c.beginPath(); c.arc(px, py, .8 + 2.4 * I, 0, 7); c.fill();
+    }
+    c.globalAlpha = 1;
+  }
+  P.AC = function (el, card, tier, promoted, budget) {
+    if (!el || _fxOff()) return;
+    const o = org(el); if (!o.er.width) return;
+    const t = Math.max(1, tier), up = promoted && tier >= 2;
+    choiceLayer(el, budget, 650, (c, e, w, h) => dotField(c, w, h, 0, 0, o.ox, o.oy, 9, [{ t0: 0, v: .9, w: 16, s: 1, fall: 400 }], e, 4, 1 - SS(450, 650, e)));
+    if (!card) return;
+    const DUR = 2300 + (up ? 500 : 0);
+    const F = fullLayer(DUR + 100), VW = F.VW, VH = F.VH, top = hdrBottom();
+    const far = Math.hypot(Math.max(o.cx, VW - o.cx), Math.max(o.cy - top, VH - o.cy));
+    const n = (up ? 3 : 0) + 1 + Math.floor(t / 2);
+    const waves = Array.from({ length: n }, (_, i) => ({ t0: i * 200, v: up ? 1.2 : .95, w: up ? 46 : 34, s: up ? 1.2 : 1, fall: far * (.7 + t * .06) }));
+    const keep = up ? {} : null;
+    run(F.c, DUR, (c, e) => {
+      dotField(c, VW, VH - top, 0, top, o.cx, o.cy, 22, waves, e, up ? 14 : 9, 1 - SS(DUR - 400, DUR, e), keep);
+    });
+  };
+
+  /* ══════════ AD ぷるん（JELLY）══════════
+     肢：正解の肢そのものがゼリーのようにぷるんと弾み（横に伸びて縦に縮み、戻る）、つやが走る。
+     全画面：肢の両端から小さな液体の玉がはじけ飛ぶ。段3〜はカード全体もぷるんと揺れ、段が上がった瞬間は大きく揺れて玉がたくさん飛ぶ。
+     ⚠️ 肢とカードを scale（独立プロパティ）で動かす＝文字も一瞬ゆがむ。transform は使わない（既存アニメに殺される）。 */
+  P.AD = function (el, card, tier, promoted, budget) {
+    if (!el || _fxOff()) return;
+    const o = org(el); if (!o.er.width) return;
+    const t = Math.max(1, tier), up = promoted && tier >= 2;
+    const k = choiceLayer(el, budget, 420, (c, e, w, h) => {
+      const p = C(e / 420), x = -w * .2 + w * 1.4 * EIO(p);
+      const g = c.createRadialGradient(x, h * .25, 0, x, h * .25, w * .3);
+      g.addColorStop(0, `rgba(255,255,255,${.55 * (1 - p)})`); g.addColorStop(1, 'rgba(255,255,255,0)');
+      c.fillStyle = g; c.fillRect(0, 0, w, h);
+    });
+    const J = up ? 1.6 : 1;
+    el.animate([{ scale: '1 1' }, { scale: `${1 + .06 * J} ${1 - .12 * J}`, offset: .2 }, { scale: `${1 - .03 * J} ${1 + .07 * J}`, offset: .45 }, { scale: `${1 + .015 * J} ${1 - .03 * J}`, offset: .7 }, { scale: '1 1' }],
+      { duration: 420 * k, easing: 'ease-out' });
+    if (!card) return;
+    if (t >= 3 || up) {
+      const s = up ? .035 : .014;
+      card.animate([{ scale: '1 1' }, { scale: `${1 + s} ${1 - s}`, offset: .25 }, { scale: `${1 - s * .5} ${1 + s * .5}`, offset: .55 }, { scale: '1 1' }], { duration: 650, easing: 'ease-out' });
+    }
+    const DUR = 1400 + (up ? 300 : 0);
+    const F = fullLayer(DUR + 100);
+    const er = o.er, n = up ? 36 : 8 + t * 2;
+    const drops = Array.from({ length: n }, (_, i) => {
+      const side = up ? (i % 3) : i % 2;   // 0＝左端・1＝右端・2＝上の縁
+      const x = side === 0 ? er.left : side === 1 ? er.right : R(er.left, er.right), y = side === 2 ? er.top : er.top + er.height / 2;
+      const a = side === 0 ? Math.PI + R(-.5, .9) : side === 1 ? R(-.9, .5) : -Math.PI / 2 + R(-.8, .8);
+      const sp = R(220, 480) * (up ? 1.3 : 1);
+      return { x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 120, r: R(3, 7) * (up ? 1.2 : 1), t0: R(0, 80) };
+    });
+    run(F.c, DUR, (c, e) => {
+      drops.forEach(d => {
+        const le = (e - d.t0) / 1000; if (le < 0) return;
+        const vy = d.vy + 1200 * le, sq = Math.min(.35, Math.hypot(d.vx, vy) / 2400);
+        c.save(); c.translate(d.x + d.vx * le, d.y + d.vy * le + 600 * le * le); c.rotate(Math.atan2(vy, d.vx));
+        ball(c, 0, 0, d.r * (1 - C((e - 900) / 500) * .6), 1 + sq, 1 - sq, 1 - SS(DUR - 400, DUR, e));
+        c.restore();
       });
     });
   };
