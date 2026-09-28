@@ -12,6 +12,8 @@
   ⚠️ 本物の関数を名前で呼んでいるので、study_exam.js で関数名や引数を変えるとここのボタンが黙って壊れる
      （押すと下にエラーが出る）。テストの対象ではない。
   「削除候補」の印は、このページの localStorage（mec_fxdemo_marks_v1）にだけ保存する（同期しない）。
+  「Liquid の新しい案」は _work/fx_liquid_proposals.js を枠へ差し込み、_lqFluidFx を一時的に案へ差し替えて
+  本物の _rfCorrectFx を通す（本番の study.html は読まない＝採用が決まったら study_exam.js へ移す）。
 -->
 <style>
   :root{--bg:#0E1420;--panel:#151D2C;--line:#2A3650;--tx:#E8EEF8;--sub:#93A3BD;--acc:#6EA8FF;--warn:#FF9B6B;--ok:#58D39A;}
@@ -345,6 +347,10 @@ function prepFrame() {
   W.eval(HELPER);
   W.eval(RANDCTL);
   W.eval(PARTCTL);
+  // Liquid の新しい案（_work/fx_liquid_proposals.js・本番には入っていない）
+  const ps = W.document.createElement('script'); ps.src = '_work/fx_liquid_proposals.js?' + Date.now();
+  ps.onerror = () => say('Liquid の案（fx_liquid_proposals.js）を読めませんでした', true);
+  W.document.head.appendChild(ps);
   applyTheme();
   W.eval('startExam()');
   ready = true;
@@ -394,6 +400,47 @@ function run(code, o) {
   } catch (e) { say('エラー: ' + (e && e.message || e), true); }
 }
 
+/* ── Liquid の新しい案（2026-09-28）。_lqFluidFx を一時的に案へ差し替えて、本物の _rfCorrectFx を通す ── */
+const LQ_PROPS = [
+  ['cur', '今', '現行：油膜の虹彩＋メッシュ', '比較用。肢の裏で色の塊が咲き、虹色の輪が渡る。全画面の層は段3〜（5連続〜）だけ'],
+  ['K', 'K', '窓ガラスの雫', '肢：結露の粒が輪になって広がる／全画面：雫が画面のガラスへ飛び散って貼り付き、筋を残して垂れる。段が上がった瞬間は水の膜がワイパーのように横切る'],
+  ['L', 'L', '水銀', '肢：クロムの映り込みの帯が走る／全画面：水銀の玉が飛び散り、くっつき合いながら連続数の表示へ集まって一粒になって吸い込まれる。段が上がった瞬間は大きな玉のまわりを1周してから合流'],
+  ['M', 'M', 'シャボン玉', '肢：虹色の膜が張ってタップ位置から割れる／全画面：シャボン玉が吹き出して揺れながら昇り、1つずつ割れて雫が散る。段が上がった瞬間は大きな玉が中央まで昇って割れる'],
+  ['N', 'N', '満ちる', '肢：下から液体が満ちて引く／全画面：流れが画面の下へ注がれ、底から水位が上がって揺れ、引いていく（水位＝段）。段が上がった瞬間は大きな波頭が横切る'],
+  ['O', 'O', '渦', '肢：色の糸が渦を巻く／全画面：4色のインクの糸が水の中へ吹き出したように広がって渦を巻き、尾を引いて消える。段が上がった瞬間は左右一対の渦が巻き上がる'],
+];
+function runLq(key) {
+  const uiSel = document.getElementById('ui');
+  if (uiSel.value !== 'liquid') { uiSel.value = 'liquid'; applyTheme(); renderParts(); }
+  if (key !== 'cur') { try { if (!W.eval('!!window.__LQP')) { say('案のスクリプトがまだ読めていません（枠を読み直す）', true); return; } } catch (e) {} }
+  const adv = document.getElementById('lqAdv').checked;
+  run(`__D.reset(); _lqPtr = { el: ok, fx: .3, fy: .55, t: performance.now() };
+    ok.classList.add('exam-selected', 'correct');
+    const o0 = window._lqFluidFx; ${key === 'cur' ? '' : `window._lqFluidFx = __LQP.${key};`}
+    try { _rfCorrectFx(c, ok, RF_ADVANCE_MS.one); } finally { window._lqFluidFx = o0; }
+    ${adv ? 'setTimeout(() => __LQP.adv(c), RF_ADVANCE_MS.one);' : ''}`);
+}
+const lqBox = document.createElement('div');
+(() => {
+  const h = document.createElement('h2'); h.textContent = 'Liquid の新しい案（正解1回ぶんを通しで）'; lqBox.appendChild(h);
+  const note = document.createElement('div'); note.style.cssText = 'font-size:11px;color:var(--sub);margin:0 8px 6px;line-height:1.55';
+  note.innerHTML = '押すと UIテーマを liquid にして、本物の <code>_rfCorrectFx</code> の中の Liquid の演出だけを案に差し替えて再生する（肢の縁の光・沈む肢・連続数・画面の縁の光は実物のまま）。'
+    + '段が上がった瞬間を見るには、連続正解を 3/5/7/10/14/20 にする。どの案も「肢の層」は送り（403ms）の前に終わり、「全画面の層」は元の尺で最後まで出る。';
+  lqBox.appendChild(note);
+  const row = document.createElement('label'); row.className = 'row'; row.style.margin = '0 8px 4px';
+  row.innerHTML = '<input type="checkbox" id="lqAdv" checked style="width:16px;height:16px;accent-color:var(--acc)"> 正解の 403ms 後に次のカードへ送る（実物と同じ）';
+  lqBox.appendChild(row);
+  LQ_PROPS.forEach(([key, id, name, desc]) => {
+    const r = document.createElement('div'); r.className = 'it';
+    const b = document.createElement('button');
+    b.innerHTML = '<span class="tag ' + (key === 'cur' ? 'x' : 't') + '">' + (key === 'cur' ? '現行' : '案' + id) + '</span>';
+    b.appendChild(document.createTextNode(name));
+    const s = document.createElement('small'); s.textContent = desc; b.appendChild(s);
+    b.onclick = () => runLq(key);
+    r.append(b); lqBox.appendChild(r);
+  });
+})();
+
 /* ── ボタンと削除候補の印 ── */
 const KEY = 'mec_fxdemo_marks_v1';
 let marks = {};
@@ -423,6 +470,7 @@ updCount();
 /* ── UIテーマ固有の正解演出を部品ごとに（テーマを切り替えると作り直す） ── */
 const partsBox = document.createElement('div');
 list.prepend(partsBox);
+list.prepend(lqBox);
 function renderParts() {
   const ui = document.getElementById('ui').value, P = PARTS[ui] || [];
   partsBox.innerHTML = '';
