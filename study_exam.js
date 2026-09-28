@@ -2317,7 +2317,7 @@ const LQ_COLS = ['#FF007F', '#7928CA', '#FF7A00', '#2FE0D5'];
       始める前に _rfFit(予算, 肢の層の全長) で係数 _rfK を決め、送りの RF_FX_END_MARGIN 手前で終わるよう縮める。
       尺を決めている口（_lqMesh / _lqFilm の duration・_lqDrop の片付け・_frRun の経過時間・各演出の遅延）は
       全部 _rfK を掛ける。
-   ② **カードの中で出していた層**は、全画面の層（_rfFullHost・文字の上に薄く重ねる）へ移し、ラボの尺のまま
+   ② **カードの中で出していた層**は、全画面の層（_rfFullHost・文字の上にデモと同じ濃さで重ねる）へ移し、ラボの尺のまま
       （_rfK = 1）最後まで再生する。0.3秒に縮めるとほとんど見えなかったため。全画面なのでカードと一緒に流れない
       （カードの位置に貼り付けた台 .rf-stage を残す案は「中に浮いておかしな演出」と却下されている）。
    ⚠️ _rfK は大域変数。①の遅延呼び出し（setTimeout の中で _lqFilm 等を呼ぶもの）は、②で _rfK を 1 に
@@ -2332,7 +2332,7 @@ function _rfFit(budget, nominal) {
   return _rfK;
 }
 function _rfWithK(k, fn) { const k0 = _rfK; _rfK = k; try { fn(); } finally { _rfK = k0; } }
-/* 全画面の層（②）。固定配置で画面いっぱい・クリックは通す・文字の上に薄く重ねる（.rf-full）。
+/* 全画面の層（②）。固定配置で画面いっぱい・クリックは通す・デモと同じ濃さで重ねる（.rf-full）。
    ms 後に自分で消える。試験を終えたら exitExam が残りを掃除する。 */
 function _rfFullHost(ms) {
   const H = document.createElement('div');

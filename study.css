@@ -1782,10 +1782,11 @@ html.mec-lite.ui-liquid .qc .ch2.correct::before {
    ダイヤモンドダストの粒だけ .fr-dust（文字の上・小さく疎ら・2.9秒以内に消える）に描く。 */
 .fr-dust { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; border-radius: inherit; }
 /* UIテーマ固有の正解演出の全画面の層（2026-09-28・ユーザー判断）。カードの中で出していた層をここへ移し、
-   ラボの尺のまま再生する。文字の上に薄く重ねる（クリックは通す）。ヘッダー（--z-hdr）の下・カードの上。
+   ラボの尺のまま再生する。文字の上にデモと同じ濃さで重ねる（不透明度は掛けない・2026-09-28 に .6 は「薄すぎる」と却下）。
+   クリックは通す。ヘッダー（--z-hdr）の下・カードの上。
    ⚠️ body / html には何も掛けない（position:fixed の包含ブロックを変えない）。これは body の子の1枚の div。 */
 .rf-full { position: fixed; inset: 0; z-index: calc(var(--z-hdr) - 1); pointer-events: none; overflow: hidden;
-  isolation: isolate; opacity: .6; }
+  isolation: isolate; }
 /* 旧演出の層（正解肢のオーラ・波紋・跳ね・カードの発光・真鍮の歯車と光沢）は試験モードでは出さない＝
    新しい演出（_lqFluidFx / _frFrostFx / _clxCelestialFx / _brsBrassFx）と重ねない（2026-09-28 に4テーマへ拡張）。
    ⚠️ ui_theme.css 側の定義は過去問ビューアが使うので消さないこと。
