@@ -302,7 +302,6 @@ sec('study_exam.js ⇔ chapter_exam.js のミラー');
 
 t('新しい演出はどちらのファイルにも入っている', () => {
   const pairs = [
-    ['_sinkOtherChoices', 'ceSinkOthers'],
     ['_triggerRepeatWrong', 'ceRepeatWrong'],
     ['_afterCorrectFx',   'ceAfterCorrectFx'],
     ['_rfScoreWrong',     'ceAfterWrongFx'],   // study の誤答の合流点は 2026-09-24〜 _rfScoreWrong
@@ -313,7 +312,7 @@ t('新しい演出はどちらのファイルにも入っている', () => {
   });
   // 2026-09-28 に study から撤去した（ユーザー判断）。過去問ビューア側は旧演出のまま残す
   [['_triggerRecover', 'ceRecover'], ['_triggerAnswerMark', 'ceAnswerMark'],
-   ['_shatterComboMeter', 'ceShatterMeter'], ['_ecgFlatline', 'ceFlatline'], ['_ecgBeatBack', 'ceBeatBack']]
+   ['_shatterComboMeter', 'ceShatterMeter'], ['_sinkOtherChoices', 'ceSinkOthers'], ['_ecgFlatline', 'ceFlatline'], ['_ecgBeatBack', 'ceBeatBack']]
     .forEach(([s, c]) => {
       assert.ok(!STUDY.includes('function ' + s + '('), 'study に ' + s + ' が戻っている');
       assert.ok(CHAP.includes('function ' + c + '('), 'chapter に ' + c + ' が無い');
@@ -349,7 +348,7 @@ t('新しいラベルは reduced-motion で消える', () => {
   const rm = CSS.slice(CSS.indexOf('prefers-reduced-motion'));
   ['.exam-mark-pop'].forEach(sel =>
     assert.ok(rm.includes(sel), sel + ' が reduced-motion で消えない'));
-  assert.ok(/\.qc\.exam-sink \.ch2\{transition:none/.test(CSS), 'A5 が reduced-motion で止まらない');
+  assert.ok(!/exam-sink/.test(CSS), 'A5（選ばなかった肢が沈む）の CSS が戻っている');
 });
 
 // ── 出力 ──────────────────────────────────────────────────────

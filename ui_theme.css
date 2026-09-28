@@ -4994,32 +4994,11 @@ body.ch-exam-mode .qc.ch-exam-revealed {
 }
 
 /* 3. 豁｣隗｣遒ｺ螳壽凾: 驕ｸ縺ｰ繧後↑縺九▲縺滄∈謚櫁い縺ｮ縺ｿ縺梧囓縺丞･･縺ｸ豐医∩霎ｼ繧繧ｨ繝輔ぉ繧ｯ繝� */
-.qc.exam-sink .ch2:not(.ok):not(.exam-selected),
 .qc.ce-sink .ch2:not(.ok):not(.ch-exam-selected):not(.ch-exam-instant-correct) {
   opacity: 1 !important;
   filter: none !important;
   transform: none !important;
   transition: none !important;
-}
-
-html.ui-aurora .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
-  background: inherit;
-  border-color: inherit;
-}
-
-html.ui-brass .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
-  background: inherit;
-  border-color: inherit;
-}
-
-html.ui-cyber .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
-  background: inherit;
-  border-color: inherit;
-}
-
-html.ui-liquid .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
-  background: inherit;
-  border-color: inherit;
 }
 
 /* 笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊絶武笊�

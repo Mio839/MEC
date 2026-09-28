@@ -1620,21 +1620,12 @@ function _applyCardThemeComboFx(card, streak) {
   _triggerThemeHaptics();
 }
 
-/* A5: 選ばなかった肢が沈む。⚠️ 1.1秒で必ずクラスを外すこと（解説が読めなくなる）。
-   ⚠️ 2026-08-25 に復旧した—— 5ca577f でこの定義だけが消え、呼び出しが残っていたため
-   _afterCorrectFx が2行目で ReferenceError を投げ、以降の演出（A4 リボン・A1/A2 ラベル・
-   S5 当て板・UIテーマ固有演出・C2 立て直し）が丸ごと死んでいた（try/catch に飲まれていた）。 */
-function _sinkOtherChoices(card) {
-  if (!card || _fxOff()) return;
-  card.classList.add('exam-sink');
-  _fxTimeout(() => card.classList.remove('exam-sink'), 1100);
-}
-
 /* ══ 正解／誤答の追加演出の合流点（2026-08-14）══
    revealAnswer（選択肢）と _revealCalcAnswer（計算問題の桁入力）の2経路があるので、
    新しい演出は必ずこの2関数へ足すこと。片方だけに書くと計算問題50問で演出が抜ける。 */
 function _afterCorrectFx(card, fxEl) {
-  _sinkOtherChoices(card);
+  // A5「選ばなかった肢が沈む」（_sinkOtherChoices・.exam-sink）は 2026-09-29 に撤去した（ユーザー判断）。
+  // 2026-08-31（4f4a607）に CSS 側で見た目を打ち消して以来、クラスを付け外しするだけで何も見えていなかった。戻さないこと。
   // UIテーマ固有の演出は _rfCorrectFx が「正解の肢の位置で」出す。
   // 速答・初見突破・リベンジ・克服の当て板・立て直しは 2026-09-28 に撤去した（ユーザー判断）。
 }
@@ -5106,7 +5097,7 @@ function _rfCorrectFx(card, el, budget) {
   else if (_rfUi() === 'frost') _frFrostFx(el, card, tier, promoted, budget);   // 雪の結晶・霜・ダイヤモンドダスト（同上の frost 分岐を参照）
   else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted, budget);   // 金環＋星座／惑星直列／星の軌跡（同上の celestial 分岐を参照）
   else if (_rfUi() === 'brass') _brsBrassFx(el, card, tier, promoted, budget);   // 歯車列＋刻印＋鋳込みの唐草（同上の brass 分岐を参照）
-  _afterCorrectFx(card, el);   // 選ばなかった肢が沈む
+  _afterCorrectFx(card, el);
 
   // 肢から連続数へ光が走る演出（80ms・MecFX.ribbon）は 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。
 

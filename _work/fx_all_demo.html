@@ -116,7 +116,6 @@ const FX = [
        if (u === 'liquid') _lqLiquidFx(ok, c, t, up, B); else if (u === 'frost') _frFrostFx(ok, c, t, up, B);
        else if (u === 'celestial') _clxCelestialFx(ok, c, t, up, B); else if (u === 'brass') _brsBrassFx(ok, c, t, up, B);
        else throw new Error('このUIテーマには固有の正解演出が無い（liquid / frost / celestial / brass で試す）')`],
-    ['c-sink', 'c', '選ばなかった肢が沈む', '毎回・1.1秒（_sinkOtherChoices）', `_sinkOtherChoices(c)`],
   ]],
   ['連続正解で出る', [
     ['s-streak', 'c', '連続数の表示', '2連続〜・ヘッダーの下（_rfShowStreak）', `_rfShowStreak(Math.max(2, n), _examTier(Math.max(2, n)), false)`],
@@ -164,7 +163,7 @@ window.__D = {
   },
   reset() {
     const c = this.card();
-    ['fx-correct','combo-streak-3','combo-streak-5','combo-streak-10','exam-sink','exam-retry']
+    ['fx-correct','combo-streak-3','combo-streak-5','combo-streak-10','exam-retry']
       .forEach(k => c.classList.remove(k));
     c.querySelectorAll('.ch2').forEach(ch => { ch.classList.remove('correct','exam-out','exam-selected','exam-instant-correct'); ch.removeAttribute('aria-disabled'); });
     c.querySelectorAll('.rf-x,.rf-retry,.rf-reach,.rf-sweep,.lq-layer,.fr-dust').forEach(e => e.remove());

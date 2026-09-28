@@ -1123,11 +1123,6 @@ html.mec-jumping .qc{content-visibility:visible!important;}
       （インラインの方が強い）。色は JS 側で選び、ここは字の色だけを担当する。 */
 #examCountdown.cd-rematch .cd-line{color:rgba(255,180,170,.92);}
 
-/* A5: 正解時も選ばなかった肢の視認性を維持 */
-.qc.exam-sink .ch2{transition:none;opacity:1;filter:none;transform:none;}
-.qc.exam-sink .ch2:not(.exam-selected):not(.exam-instant-correct):not(.ok){
-  transform:none;opacity:1;filter:none;}
-
 /* B4: ティア昇格スタンプ */
 .exam-tierup{position:fixed;left:50%;top:38%;z-index:9350;pointer-events:none;text-align:center;
   display:flex;flex-direction:column;align-items:center;gap:2px;}
@@ -1383,7 +1378,6 @@ html.mec-jumping .qc{content-visibility:visible!important;}
   .exam-tierup,.exam-mark-pop,
   #examCountdown,.exam-rank-stamp{display:none!important;}
   .exam-modal.exam-modal-impact{animation:none!important;}
-  .qc.exam-sink .ch2{transition:none;transform:none;opacity:1;filter:none;}
   .ch-divider.gm-ch-sweep::after{display:none!important;}
   /* Phase 5: 動きだけ止め、意匠は残す（設計 §11-7 の条件3＝静止画に戻るだけで情報は失われない）。
      クランプ・焦点枠・持ち上げは静的なので消さない。閉じる動きだけを消す。 */

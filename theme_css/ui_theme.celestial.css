@@ -683,7 +683,6 @@ body.ch-exam-mode .qc.ch-exam-revealed {
   opacity: 1 !important;
   filter: none !important;
 }
-.qc.exam-sink .ch2:not(.ok):not(.exam-selected),
 .qc.ce-sink .ch2:not(.ok):not(.ch-exam-selected):not(.ch-exam-instant-correct) {
   opacity: 1 !important;
   filter: none !important;

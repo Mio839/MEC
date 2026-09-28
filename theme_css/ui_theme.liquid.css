@@ -884,16 +884,11 @@ body.ch-exam-mode .qc.ch-exam-revealed {
   opacity: 1 !important;
   filter: none !important;
 }
-.qc.exam-sink .ch2:not(.ok):not(.exam-selected),
 .qc.ce-sink .ch2:not(.ok):not(.ch-exam-selected):not(.ch-exam-instant-correct) {
   opacity: 1 !important;
   filter: none !important;
   transform: none !important;
   transition: none !important;
-}
-html.ui-liquid .qc.exam-sink .ch2:not(.ok):not(.exam-selected) {
-  background: inherit;
-  border-color: inherit;
 }
 html:not(.ui-brass) .gauge .gear { display: none !important; }
 html.ui-liquid .gauge .gauge-trk { stroke: rgba(255, 0, 127, 0.2); stroke-width: 10; }
