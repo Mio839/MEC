@@ -9,6 +9,7 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-09-28v: 画面の縁が光る演出（_triggerBorderGlow・#examStreakBorder・テーマ別の外周装飾）を全テーマで撤去。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-28u: Frost の画面の縁の光（_triggerBorderGlow・5連続〜）の尺を2倍に。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-28t: Frost の画面の四隅の霜・縁の霜を画面の内側まで伸ばし尺を3倍に。大きな結晶を画面のランダムな位置に1〜3個（中心は重ねず・重なり20%まで）。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-28s: Liquid の正解演出を油膜の虹彩＋メッシュからシャボン玉（_lqSoapFx）へ置き換え。シェルのみ＝SHELL_VERSION だけ bump。

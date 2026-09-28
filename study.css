@@ -247,7 +247,7 @@ body.exam-mode .qc.exam-key-focus:not(.exam-revealed)::before{
    ⚠️ 進捗で赤くしないこと。それは R11「セッションが進むと筐体が温まる」で、採るには
       「筐体は真鍮固定」という約束を明示的に緩める判断が要る（§11-2・§12-7）。
    ⚠️ z-index は --z-hdr + 1（＝201）。カードとヘッダの上・**すべてのモーダル（5000〜）と
-      #examStreakBorder（9045）の下**。tier の外周グローは常にこの縁の上に光る＝
+      #examStreakBorder（9045・2026-09-28 撤去）の下**。tier の外周グローは常にこの縁の上に光る＝
       「常時＝静止した筐体の縁／tier＝その上で光る盤面」という Phase 4 の役割分担が縁でも保たれる。 */
 /* ⚠️⚠️ セレクタを body.exam-mode::before へ戻さないこと（§13-3 P4）。
    html.ui-* body::before（8テーマの環境光・詳細度 0,1,3）が body.exam-mode::before（0,1,2）に
@@ -433,60 +433,7 @@ body.exam-mode .qc:has(.exam-instant-wrong){animation:cardWrongGlow .8s ease for
 .exam-pending-band:active{translate:0 1px;}
 @keyframes examFinishIn{0%{opacity:0;transform:translateY(12px) scale(.96);}100%{opacity:1;transform:none;}}
 /* ── Streak effects ── */
-#examStreakBorder{position:fixed;inset:0;pointer-events:none;z-index:9045;opacity:0;}
-
-/* ── テーマ別 外周ボーダーグロー装飾 ── */
-#examStreakBorder.theme-border-cyber::before,
-#examStreakBorder.theme-border-cyber::after {
-  content: ''; position: absolute; width: 36px; height: 36px;
-  border: 2.5px solid #00FF66; pointer-events: none;
-}
-#examStreakBorder.theme-border-cyber::before { top: 12px; left: 12px; border-right: none; border-bottom: none; }
-#examStreakBorder.theme-border-cyber::after { bottom: 12px; right: 12px; border-left: none; border-top: none; }
-
-#examStreakBorder.theme-border-brass::before,
-#examStreakBorder.theme-border-brass::after {
-  content: ''; position: absolute; width: 12px; height: 12px; border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #FFF0A0, #C9A227 60%, #5A4010 100%);
-  box-shadow: 0 0 6px rgba(201,162,39,.8), inset 0 1px 1px rgba(255,255,255,.8);
-  pointer-events: none;
-}
-#examStreakBorder.theme-border-brass::before { top: 12px; left: 12px; }
-#examStreakBorder.theme-border-brass::after { bottom: 12px; right: 12px; }
-
-#examStreakBorder.theme-border-celestial::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background:
-    radial-gradient(circle at 0 0, rgba(255,209,102,.35) 0%, transparent 48px),
-    radial-gradient(circle at 100% 0, rgba(138,43,226,.35) 0%, transparent 48px),
-    radial-gradient(circle at 0 100%, rgba(72,202,228,.35) 0%, transparent 48px),
-    radial-gradient(circle at 100% 100%, rgba(255,209,102,.35) 0%, transparent 48px);
-}
-
-#examStreakBorder.theme-border-kintsugi::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(245,208,97,.4) 0%, transparent 25%, transparent 75%, rgba(245,208,97,.4) 100%),
-    linear-gradient(180deg, rgba(245,208,97,.4) 0%, transparent 25%, transparent 75%, rgba(245,208,97,.4) 100%);
-}
-
-#examStreakBorder.theme-border-frost::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background:
-    radial-gradient(circle at 0 0, rgba(112,214,255,.45) 0%, rgba(255,255,255,.2) 28px, transparent 65px),
-    radial-gradient(circle at 100% 100%, rgba(112,214,255,.45) 0%, rgba(255,255,255,.2) 28px, transparent 65px);
-}
-
-#examStreakBorder.theme-border-abyss::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  box-shadow: inset 0 0 45px rgba(0,255,163,.25), inset 0 0 90px rgba(0,180,216,.15);
-}
-
-#examStreakBorder.theme-border-aurora::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, rgba(0,223,216,.2) 0%, transparent 40px),
-              linear-gradient(0deg, rgba(121,40,202,.2) 0%, transparent 40px);
-}
+/* 画面の縁の光（#examStreakBorder とテーマ別の外周装飾）は 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。 */
 
 /* §13-3 P4: 試験の筐体を載せる1枚。クラスが付くまでは箱があるだけで何も描かない。 */
 #examChrome{position:fixed;inset:0;pointer-events:none;z-index:-1;}
@@ -1148,7 +1095,7 @@ html.mec-jumping .qc{content-visibility:visible!important;}
 /* ══════════ 追加演出（2026-07-20 拡張）══════════
    z-index は試験ストリーク演出の内部ラダー(9000-9400)に属する即値。
    常設UIではなく発火して消える演出レイヤーのため、vars.css のトークンではなく
-   連続数 #examRfStreak(9110) / 縁の光 #examStreakBorder(9045) と同じ序列で管理する。
+   連続数 #examRfStreak(9110) / 縁の光 #examStreakBorder(9045・2026-09-28 撤去) と同じ序列で管理する。
    動きを減らす設定では vars.css が全アニメを止めるうえ、JS側も _fxOff() で抑止する。 */
 
 /* 肢の右下から小さく立ち上がるラベル。いま使っているのは C3（前にも同じ肢）の .warn だけ

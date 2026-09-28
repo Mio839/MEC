@@ -174,13 +174,7 @@ t('試験終了時の opacity:0!important を次の試験で外している', ()
   // 2026-09-24: 旧トースト・特大×n は廃止。連続数 #examRfStreak は _rfShowStreak が毎回外す（下）。
   const rf = STUDY.slice(STUDY.indexOf('function _rfShowStreak('), STUDY.indexOf('function _rfHideStreak('));
   assert.ok(/removeProperty\('opacity'\)/.test(rf), '#examRfStreak で opacity を外していない');
-  ['examStreakBorder'].forEach(id => {
-    const i = STUDY.indexOf("getElementById('" + id + "')");
-    assert.ok(i > 0, id + ' の取得箇所が見つからない');
-    const near = STUDY.slice(i, i + 700);
-    assert.ok(/removeProperty\('opacity'\)/.test(near),
-      id + ' で opacity:0!important を外していない（2回目の試験で演出が出なくなる）');
-  });
+  // 画面の縁の光 #examStreakBorder は 2026-09-28 に撤去した（要素ごと無い）ので、ここで見るのは連続数だけ。
 });
 
 console.log('\n' + (fail ? 'FAILED  ' : 'all passed  ') + '(' + pass + '/' + (pass + fail) + ')');

@@ -2206,27 +2206,7 @@ function _srsRenderNextPlan(anchorEl) {
 /* オーバードライブ（_setOverdrive）・ゾーンの呼吸（_ensureZoneBreath）は 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。 */
 
 
-// 画面の縁の光（tier3 以上）。縁だけなので全画面予算の外。
-function _triggerBorderGlow(tier) {
-  const el = document.getElementById('examStreakBorder');
-  if (!el) return;
-  el.getAnimations?.().forEach(a => a.cancel());
-  el.style.removeProperty('opacity');   // 前回の試験終了時の opacity:0!important を外す
-  const theme = EXAM_EFFECT_THEMES[examEffectSet] || EXAM_EFFECT_THEMES.classic;
-  const curUi = window.MecUITheme ? MecUITheme.get() : null;
-  const colors = theme.borderColors;
-  const sizes  = {4:'6px',5:'9px',6:'13px',7:'17px'};
-  const color = colors[_tIdx(tier, colors)];
-  const sz = sizes[_tIdx(tier, sizes)];
-  el.style.boxShadow = `inset 0 0 0 ${sz} ${color}`;
-  el.className = curUi ? 'theme-border-' + curUi : '';
-  const dur = (tier >= 5 ? 1300 : 750) * (curUi === 'frost' ? 2 : 1);   // frost は2倍（2026-09-28・ユーザー判断）
-  if (theme.pulseBeat) {
-    el.animate([{opacity:.95},{opacity:.2},{opacity:.85},{opacity:.15},{opacity:.9},{opacity:0}], {duration: dur, easing:'ease-out'});
-  } else {
-    el.animate([{opacity:.9},{opacity:.45},{opacity:.9},{opacity:0}], {duration: dur, easing:'ease-out'});
-  }
-}
+/* 画面の縁の光（_triggerBorderGlow・5連続〜・#examStreakBorder）は 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。 */
 
 
 // UIテーマ固有演出＋粒子。at: 発火位置 {x,y}（_rfCorrectFx は正解の肢の位置を渡す）。省略時は可視帯の中で散らす。
@@ -4268,12 +4248,6 @@ function exitExam() {
   const modeBtn = document.getElementById('examModeBtn');
   if (modeBtn) { modeBtn.textContent = '🎓 試験モード'; modeBtn.classList.remove('exam-on'); modeBtn.onclick = openExamStart; }
   // ストリーク演出を即座にリセット（サマリーモーダルを隠さないよう）
-  ['examStreakBorder'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.getAnimations?.().forEach(a => a.cancel());
-    el.style.setProperty('opacity', '0', 'important');
-  });
   document.body.getAnimations?.().forEach(a => a.cancel());
   document.querySelectorAll('.streak-particle,.streak-ring,.exam-fx-temp,.mec-cfx,.exam-tierup,.exam-mark-pop,.rf-full').forEach(el => el.remove());
   { const _cd = document.getElementById('examCountdown'); if (_cd) { _cd.style.display = 'none'; _cd.innerHTML = ''; } }
@@ -4875,7 +4849,6 @@ function _rfCorrectFx(card, el, budget) {
     // テーマ固有演出（照準・金継ぎ・氷晶・歯車…）＋粒子。_correctShockwave と同じ意匠が中に入っているので
     // 両方呼ぶと同じ演出が2つ重なる＝こちらだけにする。1問目（tier0）も tier1 の規模で出す。
     _spawnStreakParticles(Math.max(1, tier), p, { el, card, promoted });
-    if (tier >= 3) _triggerBorderGlow(tier);
   }, 200);
 
   // 240ms：連続数

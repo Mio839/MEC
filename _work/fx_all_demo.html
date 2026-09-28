@@ -105,7 +105,6 @@ const FX = [
   ['連続正解で出る', [
     ['s-streak', 'c', '連続数の表示', '2連続〜・ヘッダーの下（_rfShowStreak）', `_rfShowStreak(Math.max(2, n), _examTier(Math.max(2, n)), false)`],
     ['s-streak-up', 'c', '連続数の表示（段が上がった瞬間）', '3/5/7/10/14/20連続に届いたとき', `_rfShowStreak(Math.max(3, n), _examTier(Math.max(3, n)), true)`],
-    ['s-glow', 'c', '画面の縁が光る', '5連続〜（_triggerBorderGlow）', `_triggerBorderGlow(Math.max(3, t))`],
   ]],
   ['条件つきの正解', [
     ['p-reach', 'c', '選び直して正解', '1回外してから正解：「2回目で正解」の印＋小さな輪（_rfReachFx）', `_rfSweep(ok); _rfReachFx(ok, 2, true)`],
