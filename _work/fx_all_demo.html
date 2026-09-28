@@ -256,11 +256,17 @@ const PARTCTL = `
     if (c.__fr && c.__fk && !on(c.__fk, c.__P)) rim = 0;
     return o.call(this, c, x, y, r, w, h, rim);
   });
-  wrap('_frDrawFlake', o => function (c, f) { return (c.__fr && f.__k && !on(f.__k, c.__P)) ? undefined : o.apply(this, arguments); });
+  // 結晶の中心のきらめきは、直前に描いた結晶と同じ座標で呼ばれる（flakeAt）＝その結晶の部品として扱う。
+  // 2026-09-28 から全画面の結晶はダストと同じ canvas（'dust'）に描くので、座標で見分けないと「左から右へ瞬く粒」と混ざる。
+  wrap('_frDrawFlake', o => function (c, f, x, y) {
+    if (c.__fr) c.__lf = { x, y, k: f.__k || 'fr.flake' };
+    return (c.__fr && f.__k && !on(f.__k, c.__P)) ? undefined : o.apply(this, arguments);
+  });
   wrap('_frGlint', o => function (c, x, y, s, a, rot) {
     if (!c.__fr) return o.apply(this, arguments);
     let k = 'fr.flake';
-    if (c.__fr === 'dust') { const i = c.__gi++; k = (i === 0 && c.__e < 600) ? 'fr.cglint' : rot === undefined ? 'fr.wave' : 'fr.dust'; }
+    if (c.__lf && c.__lf.x === x && c.__lf.y === y) k = c.__lf.k;
+    else if (c.__fr === 'dust') { const i = c.__gi++; k = (i === 0 && c.__e < 600) ? 'fr.cglint' : rot === undefined ? 'fr.wave' : 'fr.dust'; }
     return on(k, c.__P) ? o.apply(this, arguments) : undefined;
   });
   // kintsugi・abyss・aurora・cyber（MecFX）
@@ -295,8 +301,8 @@ const PARTS = {
     ['fr.dust', 'ダイヤモンドダスト', '細かな光の粒が舞い降りて瞬く（段3〜は画面全体）', 1, false],
     ['fr.cglint', '肢の右上のきらめき', '最初の0.6秒だけ、肢の右上の角で光る', 1, false],
     ['fr.extra', 'まわりの小さな結晶', '段3〜：六花のまわりに小さな結晶が順に咲く', 3, false],
-    ['fr.corner', '画面の四隅の霜', '段3〜：四隅から霜が画面の内側まで伸び、ゆっくり溶ける', 3, false],
-    ['fr.rim', '画面の縁の霜', '段が上がった瞬間：画面の縁が一周、内側へ凍ってからゆっくり溶ける', 2, true],
+    ['fr.corner', '画面の四隅の霜', '段3〜：四隅から霜が画面の内側まで伸びて止まり、ゆっくり薄れて消える', 3, false],
+    ['fr.rim', '画面の縁の霜', '段が上がった瞬間：画面の縁が一周、内側へ凍って止まり、ゆっくり薄れて消える', 2, true],
     ['fr.big', '大きな結晶', '段が上がった瞬間：画面のランダムな位置に1〜3個（中心は重ならず、重なりは20%まで）', 2, true],
     ['fr.wave', '左から右へ瞬く粒', '段が上がった瞬間：粒が左から右へ順に瞬く', 2, true],
   ],

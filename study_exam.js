@@ -2674,8 +2674,12 @@ function _lqNeon(el, card, tier, promoted, budget) {
            **段が上がるほど枝が複雑になる**（孫枝・六角板）。TIER3〜は小さな結晶がまわりに咲く。
    - ダイヤモンドダスト：肢の上で細かな光の粒がゆっくり舞い降りて瞬く。TIER3〜はカード全体。
    - 段が上がった瞬間：カードの縁が一周凍ってから溶け、カードの裏に大きな結晶が描かれ、粒が左から右へ瞬く。
-   ⚠️ 霜と結晶は肢／カードの**文字の裏**（.lq-layer・z-index:-1）。粒だけは文字の上（.fr-dust・z-index:3）だが
-      小さく疎らで 2秒以内に消える。
+   ⚠️ 肢の層は肢の**文字の裏**（.lq-layer・z-index:-1）。全画面の層は2枚＝霜（四隅・縁）だけの .fr-card と、
+      結晶＋ダイヤモンドダストの .fr-dust（2026-09-28・負荷軽減で組み替え）。
+   ⚠️ 全画面の霜は**描き足して静止させる**（_frKeep・_frDrawFrost の k0）。毎フレーム描き直す形・
+      destination-out で溶かす形に戻さないこと——画面 1920×1080 で四隅の霜は約1.6万〜2.8万本・縁の霜は約1.2万本あり、
+      それを毎フレーム2回ずつ描き直していたのが重さの大半だった。消えるのは canvas の opacity（描き直し無し）。
+   ⚠️ きらめきはスプライトを貼る（_frGlintSprite）。粒ごとに放射グラデーションを作る形に戻さない。
    ⚠️ カードの canvas は肢のまわり最大 FR_BAND px に限る（解説まで開いた長いカードの全面を描くと数十MBになる）。
    ⚠️ 層の出し入れは liquid の _lqLayer / _lqDrop を共用（片付けは素の setTimeout。理由は liquid と同じ）。 */
 const FR_SNOW = '#EAF8FF', FR_BAND = 1000;
@@ -2690,11 +2694,14 @@ function _frCtx(L, w, h, top, dmax) {
   return x;
 }
 // ⚠️ 経過時間を _rfK で割って渡す＝描画側の ms（dur・各区間の開始）は書き換えずに全体が縮む。
+// ctx._frKeep が立っていれば**消さずに描き足す**（伸びる一方の霜用・2026-09-28）。dur で最後に1回描いて止まり、
+// 描いた絵はそのまま残る（消すのは呼んだ側＝CSS の opacity）。
 function _frRun(ctx, w, h, dur, draw) {
-  const t0 = performance.now(), k = _rfK;
+  const t0 = performance.now(), k = _rfK, keep = ctx._frKeep;
   (function f(now) {
     if (!ctx.canvas.isConnected) return;
     const e = (now - t0) / k;
+    if (keep) { draw(ctx, Math.min(e, dur)); if (e < dur) requestAnimationFrame(f); return; }
     ctx.clearRect(0, 0, w, h);
     if (e < dur) { draw(ctx, e); requestAnimationFrame(f); }
   })(t0);
@@ -2702,15 +2709,29 @@ function _frRun(ctx, w, h, dur, draw) {
 const _frR = (a, b) => a + Math.random() * (b - a);
 const _frC = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
 const _frE = t => 1 - Math.pow(1 - t, 3);
-/* 4本の光条のきらめき */
-function _frGlint(c, x, y, s, a, rot) {
-  if (!(a > 0) || !(s > 0)) return;
-  c.save(); c.translate(x, y); c.rotate(rot || 0); c.globalAlpha = Math.min(1, a); c.globalCompositeOperation = 'lighter';
+/* 4本の光条のきらめき。絵は最初に1枚だけ描いたスプライト（_frGlintSprite）を拡大縮小して貼る
+   （2026-09-28・負荷軽減：粒1つごとに毎フレーム放射グラデーションを作っていた）。 */
+const FR_GLINT_S = 48;   // スプライトの中の s（px）。表示の s は最大でも 9 前後なので縮めて貼るだけになる
+let _frGlintImg = null;
+function _frGlintSprite() {
+  if (_frGlintImg) return _frGlintImg;
+  const s = FR_GLINT_S, E = Math.ceil(s * 2.3) + 2;
+  const cv = document.createElement('canvas');
+  cv.width = cv.height = E * 2;
+  const c = cv.getContext('2d');
+  c.translate(E, E); c.globalCompositeOperation = 'lighter';
   const g = c.createRadialGradient(0, 0, 0, 0, 0, s * 1.3);
   g.addColorStop(0, 'rgba(255,255,255,.9)'); g.addColorStop(.3, 'rgba(158,227,255,.35)'); g.addColorStop(1, 'rgba(112,214,255,0)');
   c.fillStyle = g; c.beginPath(); c.arc(0, 0, s * 1.3, 0, 7); c.fill();
   c.fillStyle = '#fff';
   for (const [w, h] of [[s * .11, s * 2.3], [s * 2.3, s * .11]]) { c.beginPath(); c.moveTo(0, -h); c.lineTo(w, 0); c.lineTo(0, h); c.lineTo(-w, 0); c.closePath(); c.fill(); }
+  return (_frGlintImg = { img: cv, E });
+}
+function _frGlint(c, x, y, s, a, rot) {
+  if (!(a > 0) || !(s > 0)) return;
+  const sp = _frGlintSprite(), r = sp.E * s / FR_GLINT_S;
+  c.save(); c.translate(x, y); if (rot) c.rotate(rot); c.globalAlpha = Math.min(1, a); c.globalCompositeOperation = 'lighter';
+  c.drawImage(sp.img, -r, -r, r * 2, r * 2);
   c.restore();
 }
 /* 六花：腕1本ぶんの線分（6回回して描く）。gens 1〜4 で枝の複雑さが上がる */
@@ -2770,16 +2791,21 @@ function _frFrost(seeds, maxLen) {
   seeds.forEach(s => grow(s.x, s.y, s.a, maxLen * _frR(.55, 1), 0, 0));
   return { segs, maxD: Math.max(1, ...segs.map(g => g.d0 + g.len)) };
 }
-function _frDrawFrost(c, fr, k, alpha) {
+/* k0 を渡すと「k0 から k まで伸びた分」だけを描く（消さずに描き足す層用・_frRun の _frKeep）。
+   合成は lighter（足し算）なので、光の層と芯の層がフレームをまたいで前後しても絵は同じ。
+   つなぎ目が二重に光らないよう、描き足しのときは線端を butt にする。 */
+function _frDrawFrost(c, fr, k, alpha, k0) {
   if (k <= 0 || alpha <= 0) return;
-  const D = k * fr.maxD;
-  c.save(); c.globalCompositeOperation = 'lighter'; c.lineCap = 'round'; c.globalAlpha = alpha;
+  const D = k * fr.maxD, inc = k0 !== undefined, D0 = inc ? k0 * fr.maxD : 0;
+  if (D <= D0) return;
+  c.save(); c.globalCompositeOperation = 'lighter'; c.lineCap = inc ? 'butt' : 'round'; c.globalAlpha = alpha;
   for (const pass of [0, 1]) {
     c.beginPath();
     for (const g of fr.segs) {
       const m = D - g.d0; if (m <= 0) continue;
-      const u = Math.min(1, m / g.len);
-      c.moveTo(g.x1, g.y1); c.lineTo(g.x1 + (g.x2 - g.x1) * u, g.y1 + (g.y2 - g.y1) * u);
+      const m0 = D0 - g.d0; if (m0 >= g.len) continue;
+      const u0 = Math.max(0, m0 / g.len), u = Math.min(1, m / g.len), dx = g.x2 - g.x1, dy = g.y2 - g.y1;
+      c.moveTo(g.x1 + dx * u0, g.y1 + dy * u0); c.lineTo(g.x1 + dx * u, g.y1 + dy * u);
     }
     c.strokeStyle = pass ? 'rgba(234,248,255,.85)' : 'rgba(112,214,255,.35)'; c.lineWidth = pass ? .9 : 3; c.stroke();
   }
@@ -2883,8 +2909,13 @@ function _frFrostFx(el, card, tier, promoted, budget) {
   // 肢の層の六花は送りまでに終える約束のまま（_rfFit）。
   const FR_FLAKE_K = 2;
   const Mf = Math.min(CW, CH);
-  const dur2 = up ? Math.round(2000 * FR_EDGE_K) : T >= 3 ? Math.round(1900 * FR_EDGE_K) : Math.round(1950 * FR_FLAKE_K);
-  const H = _rfFullHost(Math.max(2950, dur2 + 100));
+  // 層は2枚（2026-09-28・負荷軽減）：霜（四隅・縁）だけの canvas と、結晶＋ダイヤモンドダストの canvas。
+  // 霜は伸びた分だけ描き足し、伸びきったら描くのをやめて静止させ、canvas ごと opacity で薄れて消える
+  // （旧：毎フレーム数万本を描き直し、タップ位置から destination-out で溶かしていた＝ユーザー判断で溶かすのをやめた）。
+  const durF = up ? Math.round(2000 * FR_EDGE_K) : T >= 3 ? Math.round(1900 * FR_EDGE_K) : 0;
+  const durD = up ? 2900 : T >= 3 ? 2900 : 2700;
+  const durC = Math.max(durD, Math.round(1950 * FR_FLAKE_K));
+  const H = _rfFullHost(Math.max(durF, durC) + 100);
 
   // ── 六花（カードの裏）＋ TIER3〜の四隅の霜 ＋ 段が上がった瞬間の縁の霜と大きな結晶 ──
   // まわりの小さな結晶の数は 2026-09-28 に2倍へ（ユーザー判断・旧 min(4, T-1)）
@@ -2915,20 +2946,48 @@ function _frFrostFx(el, card, tier, promoted, budget) {
     for (let y = 0; y < CH; y += 22) bs.push({ x: 0, y, a: _frR(-.5, .5) }, { x: CW, y, a: Math.PI + _frR(-.5, .5) });
     rim = _frFrost(bs, Mf * .08);
   }
-  const C = _lqLayer(H, 'fr-card');
-  const c2 = _frCtx(C, CW, CH, top, 1.5);
-  const diag = Math.hypot(CW, CH);
-  _frRun(c2, CW, CH, dur2, (c, e) => {
-    // 霜（四隅・縁）は先に描いて溶かし、その上に結晶を描く
-    if (corner) {
-      const ec = e / FR_EDGE_K;
-      _frDrawFrost(c, corner, _frE(_frC(ec / 700)), .7);
-      if (ec > 1000) { const km = _frE(_frC((ec - 1000) / 900)); _frMelt(c, px, py, km * diag, CW, CH, 0); }
-    }
-    if (rim) {
-      const er2 = e / FR_EDGE_K;
-      _frDrawFrost(c, rim, _frE(_frC(er2 / 650)), .8);
-      if (er2 > 900) { const km = _frE(_frC((er2 - 900) / 1100)); _frMelt(c, px, py, km * diag, CW, CH, (1 - km) * .8); }
+  if (corner || rim) {
+    const C = _lqLayer(H, 'fr-card');
+    const c2 = _frCtx(C, CW, CH, top, 1.5);
+    c2._frKeep = true;
+    // 伸びる区間（四隅 700・縁 650 をラボの尺の FR_EDGE_K 倍）だけ描き足し、あとは静止
+    const growEnd = Math.max(corner ? 700 : 0, rim ? 650 : 0) * FR_EDGE_K;
+    let kc = 0, kr = 0;
+    _frRun(c2, CW, CH, growEnd, (c, e) => {
+      const ek = e / FR_EDGE_K;
+      if (corner) { const k = _frE(_frC(ek / 700)); _frDrawFrost(c, corner, k, .7, kc); kc = k; }
+      if (rim) { const k = _frE(_frC(ek / 650)); _frDrawFrost(c, rim, k, .8, kr); kr = k; }
+    });
+    // 旧：溶け始め（縁 900・四隅 1000 × FR_EDGE_K）から終わりまで。薄れるのは合成だけで描き直しは無い
+    const fadeAt = (rim ? 900 : 1000) * FR_EDGE_K;
+    if (c2.canvas.animate) c2.canvas.animate([{ opacity: 1 }, { opacity: 0 }], { duration: Math.max(1, durF - fadeAt), delay: fadeAt, easing: 'ease-in-out', fill: 'forwards' });
+    _lqDrop(H, C, durF + 50);
+  }
+
+  // ── ダイヤモンドダスト（小さく疎ら） ──
+  const ps = [];
+  const dustIn = (l, t, rw, rh, count, lm) => {
+    for (let i = 0; i < count; i++) ps.push({ x: _frR(l - 6, l + rw + 6), y: _frR(t - 40, t + rh), dl: _frR(0, 500), L: _frR(1300, 2200) * lm,
+      vy: _frR(8, 22), sw: _frR(4, 12), ph: _frR(0, 6), s: _frR(1.8, 4.2), om: _frR(6, 11), rot: _frR(0, .8) });
+  };
+  dustIn(chL, bT, w, h, 12 + T * 4, 1);
+  if (T >= 3) dustIn(0, 0, CW, CH, 14 + T * 4, 1.1);
+  const wave = up ? Array.from({ length: 26 }, (_, i) => ({ x: (i + .5) / 26 * CW, y: _frR(20, Math.max(21, CH - 20)), s: _frR(3, 6), dl: i * 35 })) : null;
+  const D = document.createElement('span');
+  D.className = 'fr-dust';
+  H.appendChild(D);
+  const c3 = _frCtx(D, CW, CH, top, 1.5);
+  // 粒と結晶を同じ canvas に描く（どちらも lighter＝描く順は絵に効かない）。粒を先に描くのは、デモページが
+  // この canvas の最初のきらめきを「肢の右上のきらめき」と見分けているため。
+  _frRun(c3, CW, CH, durC, (c, e) => {
+    if (e < durD) {
+      if (e < 600) { const k = e / 600; _frGlint(c, chL + w - 10, bT + 8, 9 * Math.sin(Math.PI * k), 1, k * .6); }
+      ps.forEach(q => {
+        const life = (e - q.dl) / 1000; if (life < 0 || life * 1000 > q.L) return;
+        const Ls = q.L / 1000, env = Math.sin(Math.PI * _frC(life / Ls)), tw = .45 + .55 * Math.max(0, Math.sin(life * q.om + q.ph));
+        _frGlint(c, q.x + Math.sin(life * 1.6 + q.ph) * q.sw, q.y + q.vy * life, q.s, env * tw, q.rot);
+      });
+      if (wave) wave.forEach(q => { const k = (e - q.dl) / 550; if (k > 0 && k < 1) _frGlint(c, q.x, q.y, q.s * Math.sin(Math.PI * k), 1); });
     }
     if (bigs) bigs.forEach(b => {
       const eb = e - b.dl; if (eb <= 0) return;
@@ -2943,32 +3002,7 @@ function _frFrostFx(el, card, tier, promoted, budget) {
       _frDrawFlake(c, x.f, x.x, x.y, x.R, x.rot + ef / 3000, _frE(_frC((ef - x.dl) / 480)), ff * .85, 1);
     });
   });
-  _lqDrop(H, C, dur2 + 50);
-
-  // ── ダイヤモンドダスト（小さく疎ら） ──
-  const ps = [];
-  const dustIn = (l, t, rw, rh, count, lm) => {
-    for (let i = 0; i < count; i++) ps.push({ x: _frR(l - 6, l + rw + 6), y: _frR(t - 40, t + rh), dl: _frR(0, 500), L: _frR(1300, 2200) * lm,
-      vy: _frR(8, 22), sw: _frR(4, 12), ph: _frR(0, 6), s: _frR(1.8, 4.2), om: _frR(6, 11), rot: _frR(0, .8) });
-  };
-  dustIn(chL, bT, w, h, 12 + T * 4, 1);
-  if (T >= 3) dustIn(0, 0, CW, CH, 14 + T * 4, 1.1);
-  const wave = up ? Array.from({ length: 26 }, (_, i) => ({ x: (i + .5) / 26 * CW, y: _frR(20, Math.max(21, CH - 20)), s: _frR(3, 6), dl: i * 35 })) : null;
-  const D = document.createElement('span');
-  D.className = 'fr-dust';
-  H.appendChild(D);
-  const durD = up ? 2900 : T >= 3 ? 2900 : 2700;
-  const c3 = _frCtx(D, CW, CH, top, 1.5);
-  _frRun(c3, CW, CH, durD, (c, e) => {
-    if (e < 600) { const k = e / 600; _frGlint(c, chL + w - 10, bT + 8, 9 * Math.sin(Math.PI * k), 1, k * .6); }
-    ps.forEach(q => {
-      const life = (e - q.dl) / 1000; if (life < 0 || life * 1000 > q.L) return;
-      const Ls = q.L / 1000, env = Math.sin(Math.PI * _frC(life / Ls)), tw = .45 + .55 * Math.max(0, Math.sin(life * q.om + q.ph));
-      _frGlint(c, q.x + Math.sin(life * 1.6 + q.ph) * q.sw, q.y + q.vy * life, q.s, env * tw, q.rot);
-    });
-    if (wave) wave.forEach(q => { const k = (e - q.dl) / 550; if (k > 0 && k < 1) _frGlint(c, q.x, q.y, q.s * Math.sin(Math.PI * k), 1); });
-  });
-  setTimeout(() => D.remove(), (durD + 50) * _rfK);
+  setTimeout(() => D.remove(), durC + 50);
 }
 
 /* ══════════ Celestial：金環＋（星座／惑星直列／星の軌跡 のどれか1つ）（2026-09-25）══════════

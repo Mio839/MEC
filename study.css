@@ -1724,8 +1724,8 @@ html.mec-lite.ui-liquid .qc .ch2.correct::before {
 .lq-clone::before, .lq-clone::after, .lq-clone *::before, .lq-clone *::after { display: none !important; }
 .lq-tube { position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: inherit; border: 2px solid rgba(255,235,245,.95); }
 /* ══════════ Frost の正解演出：六花＋霜華＋ダイヤモンドダスト（2026-09-25）══════════
-   JS 側は study_exam.js の _frFrostFx。霜と結晶は .lq-layer（文字の裏）を共用し、
-   ダイヤモンドダストの粒だけ .fr-dust（文字の上・小さく疎ら・2.9秒以内に消える）に描く。 */
+   JS 側は study_exam.js の _frFrostFx。肢の霞と六花は .lq-layer（文字の裏）を共用する。
+   全画面の層（.rf-full）の中では、霜は .lq-layer.fr-card、結晶とダイヤモンドダストは .fr-dust に描く（2026-09-28〜）。 */
 .fr-dust { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; border-radius: inherit; }
 /* UIテーマ固有の正解演出の全画面の層（2026-09-28・ユーザー判断）。カードの中で出していた層をここへ移し、
    ラボの尺のまま再生する。文字の上にデモと同じ濃さで重ねる（不透明度は掛けない・2026-09-28 に .6 は「薄すぎる」と却下）。
