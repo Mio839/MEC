@@ -2673,7 +2673,8 @@ function _lqNeon(el, card, tier, promoted, budget) {
    - 六花：タップ位置の**カードの裏**に雪の結晶が線で描き上がる。枝ぶりは毎回ちがい、
            **段が上がるほど枝が複雑になる**（孫枝・六角板）。TIER3〜は小さな結晶がまわりに咲く。
    - ダイヤモンドダスト：肢の上で細かな光の粒がゆっくり舞い降りて瞬く。TIER3〜はカード全体。
-   - 段が上がった瞬間：カードの縁が一周凍ってから溶け、カードの裏に大きな結晶が描かれ、粒が左から右へ瞬く。
+   - 大きな結晶：正解のたびに画面のランダムな位置に1〜3個（2026-09-28〜・旧：段が上がった瞬間だけ）。
+   - 段が上がった瞬間：画面の縁が一周凍り、粒が左から右へ瞬く。
    ⚠️ 肢の層は肢の**文字の裏**（.lq-layer・z-index:-1）。全画面の層は2枚＝霜（四隅・縁）だけの .fr-card と、
       結晶＋ダイヤモンドダストの .fr-dust（2026-09-28・負荷軽減で組み替え）。
    ⚠️ 全画面の霜は**描き足して静止させる**（_frKeep・_frDrawFrost の k0）。毎フレーム描き直す形・
@@ -2832,7 +2833,7 @@ function _frOverlap(x1, y1, r1, x2, y2, r2) {   // 2円の重なりの面積 ÷ 
     - .5 * Math.sqrt((-d + r1 + r2) * (d + r1 - r2) * (d - r1 + r2) * (d + r1 + r2));
   return A / (Math.PI * rs * rs);
 }
-/* 六花の2・3個目の置き場所：画面のランダムな位置に n 個。1個目（タップ位置・半径 r0）とも、互いとも、
+/* 六花の2個目以降の置き場所：画面のランダムな位置に n 個。1個目（タップ位置・半径 r0）とも、互いとも、
    重なりは小さい方の面積の20%まで（＝発火点の中心は重ならない）。置けなかった分は出さない。 */
 function _frFlakeSpots(n, R, CW, CH, x0, y0) {
   const out = [], all = [{ x: x0, y: y0, R }];
@@ -2925,10 +2926,11 @@ function _frFrostFx(el, card, tier, promoted, budget) {
   }) : null;
   // 大きな結晶：画面のランダムな位置に1〜3個（2026-09-28・ユーザー判断）。発火点（中心）は重ねず、結晶どうしの重なりは
   // 小さい方の面積の20%まで（_frBigSpots）。少しずつずらして咲かせる。
-  // 六花は1〜3個（2026-09-28・ユーザー判断）。1個目はタップ位置、2・3個目は画面のランダムな位置に 0.15秒ずつ遅れて咲く。
-  const flakes2 = _frFlakeSpots(Math.floor(Math.random() * 3), R, CW, CH, px, py)
+  // 正解のたびに毎回出す・不透明度 .32→.6・線 1→1.5（2026-09-28・ユーザー判断：段が上がった瞬間だけ・薄い線では「まったく出ない」と見えた）。
+  // 六花は2〜4個（2026-09-28・ユーザー判断・旧1〜3個）。1個目はタップ位置、2個目以降は画面のランダムな位置に 0.15秒ずつ遅れて咲く。
+  const flakes2 = _frFlakeSpots(1 + Math.floor(Math.random() * 3), R, CW, CH, px, py)
     .map((q, i) => ({ ...q, f: _frFlake(gens), rot: _frR(0, Math.PI), dl: 150 * (i + 1) }));
-  const bigs = up ? _frBigSpots(CW, CH).map((b, i) => ({ ...b, f: _frFlake(4), rot: _frR(0, Math.PI), dl: i * 180 })) : null;
+  const bigs = _frBigSpots(CW, CH).map((b, i) => ({ ...b, f: _frFlake(4), rot: _frR(0, Math.PI), dl: i * 180 }));
   let corner = null, rim = null;
   if (T >= 3) {
     const cs = [], pts = [[0, 0, Math.PI / 4], [CW, 0, Math.PI * 3 / 4], [0, CH, -Math.PI / 4], [CW, CH, -Math.PI * 3 / 4]];
@@ -2989,10 +2991,10 @@ function _frFrostFx(el, card, tier, promoted, budget) {
       });
       if (wave) wave.forEach(q => { const k = (e - q.dl) / 550; if (k > 0 && k < 1) _frGlint(c, q.x, q.y, q.s * Math.sin(Math.PI * k), 1); });
     }
-    if (bigs) bigs.forEach(b => {
+    bigs.forEach(b => {
       const eb = e - b.dl; if (eb <= 0) return;
       const fb = eb < 1800 ? 1 : _frC(1 - (eb - 1800) / 800);
-      _frDrawFlake(c, b.f, b.x, b.y, b.R, b.rot + eb / 9000, _frE(_frC(eb / 1500)), .32 * fb, 1);
+      _frDrawFlake(c, b.f, b.x, b.y, b.R, b.rot + eb / 9000, _frE(_frC(eb / 1500)), .6 * fb, 1.5);
     });
     const ef = e / FR_FLAKE_K;
     flakeAt(c, ef, px, py);
