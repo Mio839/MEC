@@ -182,19 +182,9 @@ window.__D = {
   }
 };`;
 
-/* ── celestial の組み合わせを決める乱数の差し込み（部品の再生で使う） ── */
-const RANDCTL = `
-(() => {
-  const rRand = Math.random;
-  Math.random = () => {
-    if (window.__nextRand != null) { const v = window.__nextRand; window.__nextRand = null; return v; }
-    return rRand();
-  };
-})();`;
 /* ── UIテーマ固有の正解演出を部品に分ける（枠の中の関数を包む）──
    window.__P が Set のとき、その中にある部品だけを描く（null＝全部）。本物の study_exam.js は書き換えない。
-   - brass・celestial：部品ごとの関数（_brsGearTrain 等）を包み、外した部品は draw を空にする（火花・押し込みも止める）。
-     celestial の「星座／惑星直列／星の軌跡」は毎回1つをランダムに選ぶので、残した部品から選ぶよう次の乱数を決めておく。
+   - brass・celestial：部品ごとの関数（_brsGearTrain・_clxNova 等）を包み、外した部品は draw を空にする（火花・押し込みも止める）。
    - liquid：_lqSoapFilm（肢の膜）・_lqGlassWave・_lqChroma・_lqNeon・_lqCardJelly・_lqJellyDrops を空にし、_lqBlow（玉）は空の配列・
      _lqGiantBubble（大きな玉）は null を返させる。_lqJelly は肢の弾みだけを外せるよう包み直す。
    - frost：canvas に「どの層か」と「その時の __P」を貼っておき、描画の小関数（_frDrawFrost・_frDrawFlake・
@@ -214,13 +204,7 @@ const PARTCTL = `
   });
   [['_brsGearTrain', 'brs.gear'], ['_brsHallmark', 'brs.hall'], ['_brsFiligree', 'brs.fil'], ['_brsBigTrain', 'brs.bigtrain'],
    ['_brsMedallion', 'brs.medal'], ['_brsCornerCast', 'brs.corner'],
-   ['_clxConstellation', 'clx.const'], ['_clxSyzygy', 'clx.syzygy'], ['_clxTrails', 'clx.trails']].forEach(([n, k]) => part(n, k));
-  const PICK = ['clx.const', 'clx.syzygy', 'clx.trails'];
-  wrap('_clxCelestialFx', o => function () {
-    const P = window.__P;   // 中で最初に呼ぶ Math.random() が「どれを出すか」の抽選（金環は 2026-09-28 に撤去）
-    if (P) { const ok = [0, 1, 2].filter(i => P.has(PICK[i])); if (ok.length && ok.length < 3) window.__nextRand = (ok[Math.floor(Math.random() * ok.length)] + .5) / 3; }
-    return o.apply(this, arguments);
-  });
+   ['_clxNova', 'clx.nova']].forEach(([n, k]) => part(n, k));
   // liquid
   wrap('_lqSoapFilm', o => function () { return on('lq.film', window.__P) ? o.apply(this, arguments) : undefined; });
   wrap('_lqBlow', o => function () { return on('lq.blow', window.__P) ? o.apply(this, arguments) : []; });
@@ -324,9 +308,7 @@ const PARTS = {
     ['fr.wave', '左から右へ瞬く粒', '段が上がった瞬間：粒が左から右へ順に瞬く', 2, true],
   ],
   celestial: [
-    ['clx.const', '星座', '3つから1つ（毎回ランダム）：一等星から星が灯って金の線で結ばれる（段が上がった瞬間は本物の星座と名前）', 1, false],
-    ['clx.syzygy', '惑星直列', '3つから1つ：軌道を回った惑星が一直線に並び、光が貫く', 1, false],
-    ['clx.trails', '星の軌跡', '3つから1つ：長時間露光のように同心円の光の弧が伸びる', 1, false],
+    ['clx.nova', '超新星', '正解の肢の左端へ星屑が一瞬吸い込まれ、弾けて金とシアンの衝撃波・放射する光の筋・紫の残光。星が外へ飛ぶ（段で衝撃波が大きく／段が上がった瞬間は3本目の輪）', 1, false],
   ],
   brass: [
     ['brs.gear', '歯車列', '駆動歯車がはまり、左右へ噛み合って回る（接点の火花）', 1, false],
@@ -378,7 +360,6 @@ function prepFrame() {
     if (e.target.closest && e.target.closest('.ch2, .exam-reveal-btn, .calc-input')) { e.stopPropagation(); e.preventDefault(); }
   }, true);
   W.eval(HELPER);
-  W.eval(RANDCTL);
   W.eval(PARTCTL);
   applyTheme();
   W.eval('startExam()');

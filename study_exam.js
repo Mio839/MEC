@@ -2228,7 +2228,7 @@ function _spawnStreakParticles(tier, at, ctx) {
       if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#F5D061', thickness: 3, maxR: maxR * 1.05, additive: true });
       return;
     } else if (curUi === 'celestial') {
-      // 2026-09-25：金環＋（星座／惑星直列／星の軌跡のどれか1つ）（_clxCelestialFx）。liquid・frost と同じく
+      // 2026-09-29：超新星（_clxCelestialFx・正解の肢の左端で発火）。liquid・frost と同じく
       // _rfCorrectFx の 0ms で肢の位置に出している。旧 celestialAstrolabe（全画面の紫の閃光・約250粒）は正解演出から外した。
       return;
     } else if (curUi === 'abyss') {
@@ -3010,25 +3010,21 @@ function _frFrostFx(el, card, tier, promoted, budget) {
   setTimeout(() => D.remove(), durC + 50);
 }
 
-/* ══════════ Celestial：金環＋（星座／惑星直列／星の軌跡 のどれか1つ）（2026-09-25）══════════
-   デモ（celestial 正解演出ラボ）でユーザーが指定：「C 金環は必ず出し、A 星座・B 惑星直列・E 星の軌跡から
-   ランダムで1つを重ねる」。旧 celestialAstrolabe（全画面の紫の閃光・回る天球儀・光の線21本・菱形の光 約130・
-   粉46・輪7・火花36、しかも diamondSparkle を二重に呼んでいた）を正解演出から外した（結果画面では今も使う）。
-   - 金環（2026-09-28 にデモページで部品ごとに見て撤去した（ユーザー判断）。戻さないこと。）：タップ位置の金の太陽に月が重なって金環になり、月が抜ける瞬間にダイヤモンドリングが光る。
-           段が上がるほどコロナが長く・多くなり、TIER3〜はカードの裏まで届く。段が上がった瞬間は光条が十字にカードの端まで。
-   - 星座：タップ位置の一等星から星がひとつずつ灯り、金の線で結ばれる（TIER1＝4つ → 10）。
-           段が上がった瞬間はカードの裏に本物の星座が大きく描かれて名前が出る（段ごとに違う星座）。
-   - 惑星直列：傾いた楕円の軌道を回ってきた惑星が一直線に並び、光の線が貫く（2 → 6）。段が上がった瞬間は大きな太陽系がもう一組。
-   - 星の軌跡：長時間露光のように同心円の光の弧が伸びる。段が上がった瞬間はカードの上寄りに極を置いて全面に。
-   ⚠️ 全部を**同じ絵として肢の層とカードの層の両方に**描く（座標はカードの帯の座標）。肢の地は不透明（.75）なので、
-      カードの裏だけだと肢に重なる部分が隠れる（六花と同じ理由）。
-   ⚠️ 月は色で塗らず destination-out で「その層の太陽とコロナを消す」＝どちらの層でも下の地の色がそのまま月になる。
-   ⚠️ 文字の上には何も描かない（層は .lq-layer・z-index:-1 だけ）。カードの帯は FR_BAND を共用。 */
+/* ══════════ Celestial：超新星（2026-09-29）══════════
+   試験演出一覧（_work/fx_all_demo.html）の新案5つ（一等星の点灯・流れ星の ✓・超新星・天球儀のロック・満月）から
+   ユーザーが「超新星」だけを採用し、2026-09-25〜の「星座／惑星直列／星の軌跡から毎回ランダムで1つ」を置き換えた
+   （旧3案は「おしゃれだが正解時のエフェクトっぽくない」＝ゆっくり描き上がるだけで山場が無かった）。
+   - 発火位置は**正解の肢の左端**（縦は肢の中央・ユーザー指定）。タップ位置（_lqPtr）は使わない。
+   - 0〜0.18秒：まわりの星屑が左端へ吸い込まれる → 弾けて金の衝撃波とシアンの衝撃波・放射する光の筋・紫の残光、
+     星が外へ飛ぶ。1.5秒（段が上がった瞬間は1.8秒）で消える。
+   - 段が上がるほど衝撃波が大きく（画面の短辺×0.3→最大0.62）・星と光の筋が増える。段が上がった瞬間は1.3倍＋3本目の輪。
+   ⚠️ 金環（2026-09-28）と星座・惑星直列・星の軌跡（2026-09-29）はデモページで見て撤去した（ユーザー判断）。戻さないこと。
+   ⚠️ 全部を**同じ絵として肢の層と全画面の層の両方に**描く（座標は画面）。肢の地は不透明（.75）なので、
+      全画面の層だけだと肢に重なる部分が隠れる（六花と同じ理由）。 */
 const CLX_GOLD = '#FFD166', CLX_PALE = '#FFF3C4', CLX_CYAN = '#48CAE4';
 const CLX_STARCOL = ['#FFF3C4', '#FFD166', '#CFE6FF', '#A8DDF2', '#FFD9A8', '#E4D2FF'];
 /* 2026-09-28 ユーザー要望「もっとはっきり」：線・星・点を太く明るく（尺・構図・ランダムの選び方は変えていない）。 */
 const CLX_BOLD = { line: 2, star: 1.45, dot: 1.5, alpha: 1.3 };
-const CLX_SERIF = '"Cormorant Garamond","Didot","Bodoni 72","Times New Roman",serif';
 const _clxEio = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 function _clxRgba(h, a) { const n = parseInt(h.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; }
 function _clxStar(c, x, y, s, a, rot, col) {
@@ -3061,149 +3057,58 @@ function _clxLine(c, x1, y1, x2, y2, a, w) {
   c.restore();
 }
 
-/* 金環（必ず出る）。R はタップした肢の高さから決める */
-/* 金環（_clxEclipse・コロナの _clxCorona）は 2026-09-28 にデモページで部品ごとに見て撤去した（ユーザー判断）。戻さないこと。 */
-
-/* 星座。rx/ry は星の散らばる範囲（TIER3〜はカードへはみ出す） */
-const CLX_CONSTS = [
-  { name: 'URSA MAJOR', jp: '北斗七星', p: [[0, .2], [.18, .18], [.33, .28], [.48, .35], [.55, .64], [.82, .72], [.88, .42]], e: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 3]] },
-  { name: 'CASSIOPEIA', jp: 'カシオペヤ', p: [[0, .22], [.24, .78], [.48, .46], [.74, .84], [1, .3]], e: [[0, 1], [1, 2], [2, 3], [3, 4]] },
-  { name: 'ORION', jp: 'オリオン', p: [[.2, 0], [.8, .1], [.4, .5], [.5, .47], [.6, .44], [.24, .98], [.84, .9]], e: [[0, 1], [0, 2], [1, 4], [2, 3], [3, 4], [2, 5], [4, 6]] },
-  { name: 'CYGNUS', jp: 'はくちょう', p: [[.5, 0], [.5, .22], [.5, .45], [.52, 1], [0, .3], [1, .58]], e: [[0, 1], [1, 2], [2, 3], [4, 2], [2, 5]] },
-  { name: 'LYRA', jp: 'こと', p: [[.45, 0], [.3, .38], [.62, .44], [.26, .98], [.58, 1]], e: [[0, 1], [0, 2], [1, 2], [1, 3], [2, 4], [3, 4]] },
-  { name: 'SCORPIUS', jp: 'さそり', p: [[.05, .05], [.12, .22], [.24, .3], [.34, .44], [.4, .62], [.5, .78], [.66, .86], [.82, .8], [.9, .64], [.84, .52]], e: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9]] },
-];
-let _clxPromo = 0;   // 段が上がるたびに次の星座へ（ページ内だけ）
-function _clxConstellation(T, up, px, py, rx, ry, CW, CH, S) {
-  S = S || 1;
-  const k = Math.min(13, 6 + T);
-  const pts = [{ x: px, y: py, s: 5.5 * S, col: CLX_GOLD }];
-  for (let i = 1; i < k; i++) {
-    let best = null;
-    for (let tr = 0; tr < 24; tr++) {
-      const a = _frR(0, 6.28), d = _frR(.35, 1);
-      const q = { x: _frC(px + Math.cos(a) * rx * d, 10, CW - 10), y: _frC(py + Math.sin(a) * ry * d, 10, CH - 10) };
-      q.md = Math.min(...pts.map(o => Math.hypot(o.x - q.x, o.y - q.y)));
-      if (!best || q.md > best.md) best = q;
-      if (q.md > 28 * S) break;
-    }
-    pts.push({ x: best.x, y: best.y, s: _frR(1.6, 3.6) * S, col: CLX_STARCOL[i % CLX_STARCOL.length] });
-  }
-  const order = [pts[0]], rest = pts.slice(1);   // 最寄りの星へ順にたどる
-  while (rest.length) { const l = order[order.length - 1]; rest.sort((a, b) => Math.hypot(a.x - l.x, a.y - l.y) - Math.hypot(b.x - l.x, b.y - l.y)); order.push(rest.shift()); }
-  const STEP = 85, hold = k * STEP + 700;
-  let big = null;
-  if (up) {
-    const cn = CLX_CONSTS[_clxPromo++ % CLX_CONSTS.length];
-    const bw = CW * .82, bh = CH * .62, x0 = (CW - bw) / 2;
-    const y0 = _frC(py - bh / 2, 10, Math.max(10, CH - bh - 50));
-    const P = cn.p.map(([x, y]) => ({ x: x0 + x * bw, y: y0 + y * bh }));
-    big = { cn, P, ymax: Math.max(...P.map(q => q.y)) };
-  }
-  return { dur: up ? 3000 : hold + 500, draw(c, e) {
-    if (big) {
-      const f = e < 2300 ? 1 : _frC(1 - (e - 2300) / 700), P = big.P;
-      big.cn.e.forEach(([i, j], m) => {
-        const ks = _frE(_frC((e - 220 - m * 150) / 300)); if (ks <= 0) return;
-        _clxLine(c, P[i].x, P[i].y, P[i].x + (P[j].x - P[i].x) * ks, P[i].y + (P[j].y - P[i].y) * ks, .85 * f, 1.1);
-      });
-      P.forEach((q, i) => { const ki = _frC((e - i * 110) / 260); _clxStar(c, q.x, q.y, (3.5 + (i % 3)) * S * (1 + .5 * Math.sin(Math.PI * ki)), _frE(ki) * .8 * f, i); });
-      const kt = _frC((e - 1100) / 700);
-      if (kt > 0 && f > 0) {
-        const ty = Math.min(CH - 40 * S, big.ymax + 14 - 6 * (1 - _frE(kt)));
-        c.save(); c.globalAlpha = _frE(kt) * f * .9; c.textAlign = 'center'; c.textBaseline = 'top';
-        c.fillStyle = CLX_GOLD; c.font = `italic 500 ${Math.round(17 * S)}px ${CLX_SERIF}`;
-        c.fillText(big.cn.name.split('').join(' '), CW / 2, ty);
-        c.fillStyle = 'rgba(236,230,255,.75)'; c.font = `500 ${Math.round(11 * S)}px sans-serif`;
-        c.fillText(big.cn.jp, CW / 2, ty + 22 * S);
-        c.restore();
-      }
-    }
-    const fade = e < hold ? 1 : _frC(1 - (e - hold) / 500);
-    if (fade <= 0) return;
-    for (let i = 1; i < order.length; i++) {
-      const ks = _frE(_frC((e - (i - 1) * STEP - 30) / 160)); if (ks <= 0) continue;
-      const a = order[i - 1], b = order[i];
-      _clxLine(c, a.x, a.y, a.x + (b.x - a.x) * ks, a.y + (b.y - a.y) * ks, fade);
-    }
-    order.forEach((s, i) => {
-      const ki = _frC((e - i * STEP) / 180); if (ki <= 0) return;
-      const tw = .75 + .25 * Math.sin(e / 140 + i * 1.7);
-      const pop = i === 0 ? 1 + .6 * Math.sin(Math.PI * _frC(e / 380)) : 1 + .4 * Math.sin(Math.PI * ki);
-      _clxStar(c, s.x, s.y, s.s * pop, _frE(ki) * tw * fade, i * .4, s.col);
-    });
-  } };
+function _clxGlow(c, x, y, r, a, col, mid) {
+  if (!(a > 0) || !(r > 0)) return;
+  c.save(); c.globalCompositeOperation = 'lighter'; c.globalAlpha = Math.min(1, a);
+  const g = c.createRadialGradient(x, y, 0, x, y, r);
+  g.addColorStop(0, '#fff'); g.addColorStop(mid || .25, _clxRgba(col, .75)); g.addColorStop(1, _clxRgba(col, 0));
+  c.fillStyle = g; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill(); c.restore();
 }
-
-/* 惑星直列。同じ軸比・同じ傾きの楕円なら、同じ角度の点は中心を通る一直線に並ぶ */
-function _clxSys(m, base, dur, big) {
-  return { m, base, dur, big, ratio: _frR(.3, .4), tilt: _frR(-.45, -.15), th: _frR(0, 6.28),
-    offs: Array.from({ length: m }, (_, i) => (1.2 + i * .55 + _frR(0, .6)) * Math.PI * (i % 2 ? 1 : 1.3)),
-    cols: Array.from({ length: m }, (_, i) => ['#FFF3C4', '#48CAE4', '#FFD166', '#E4D2FF', '#FFB38A', '#A8DDF2'][i % 6]) };
-}
-function _clxSysDraw(c, e, cx, cy, s, fade) {
-  if (e < 0 || fade <= 0) return;
-  const ko = _frE(_frC(e / 380)), kk = _clxEio(_frC(e / s.dur));
-  const radius = i => s.base * (.34 + .66 * i / Math.max(1, s.m - 1));
-  c.save(); c.globalCompositeOperation = 'lighter'; c.lineWidth = (s.big ? .9 : .7) * CLX_BOLD.line;
-  for (let i = 0; i < s.m; i++) {
-    const a = radius(i);
-    c.globalAlpha = .7 * fade; c.strokeStyle = i % 2 ? CLX_CYAN : CLX_GOLD;
-    c.beginPath(); c.ellipse(cx, cy, a, a * s.ratio, s.tilt, -Math.PI / 2, -Math.PI / 2 + ko * Math.PI * 2); c.stroke();
-  }
+function _clxRing(c, x, y, r, a, col, lw) {
+  if (!(a > 0) || !(r > 0)) return;
+  c.save(); c.globalCompositeOperation = 'lighter'; c.strokeStyle = col;
+  c.globalAlpha = Math.min(1, a) * .3; c.lineWidth = lw * 4; c.beginPath(); c.arc(x, y, r, 0, 7); c.stroke();
+  c.globalAlpha = Math.min(1, a); c.lineWidth = lw; c.beginPath(); c.arc(x, y, r, 0, 7); c.stroke();
   c.restore();
-  _clxDot(c, cx, cy, s.big ? 5 : 3.5, (.6 + .4 * ko) * fade, CLX_GOLD);
-  const P = [];
-  for (let i = 0; i < s.m; i++) {
-    const a = radius(i), b = a * s.ratio, an = s.th - s.offs[i] * (1 - kk);
-    const ex = a * Math.cos(an), ey = b * Math.sin(an);
-    const x = cx + ex * Math.cos(s.tilt) - ey * Math.sin(s.tilt), y = cy + ex * Math.sin(s.tilt) + ey * Math.cos(s.tilt);
-    P.push({ x, y });
-    _clxDot(c, x, y, (s.big ? 2.4 : 1.8) + (i % 3) * .5, ko * fade, s.cols[i]);
-  }
-  const ka = _frC((e - s.dur) / 650);
-  if (ka > 0 && ka < 1) {
-    const far = P[P.length - 1], dx = far.x - cx, dy = far.y - cy, sn = Math.sin(Math.PI * ka), ext = s.big ? 1.5 : 1.35;
-    _clxLine(c, cx - dx * .15, cy - dy * .15, cx + dx * ext, cy + dy * ext, sn * .9 * fade, s.big ? 1.3 : 1);
-    P.forEach((q, i) => _clxStar(c, q.x, q.y, (s.big ? 5 : 3.5) * sn, sn * fade, 0, s.cols[i]));
-    _clxStar(c, cx, cy, (s.big ? 9 : 7) * sn, sn * fade);
-  }
 }
-function _clxSyzygy(T, up, px, py, base, CW, CH, bigY) {
-  const s = _clxSys(Math.min(6, 1 + T), base, 720, false);
-  const b = up ? _clxSys(6, Math.hypot(CW, CH) * .5, 1050, true) : null;
-  return { dur: up ? 2500 : 1700, draw(c, e) {
-    _clxSysDraw(c, e, px, py, s, e < 1250 ? 1 : _frC(1 - (e - 1250) / 450));
-    if (b) _clxSysDraw(c, e - 150, CW / 2, bigY, b, e < 1950 ? .8 : _frC(1 - (e - 1950) / 550) * .8);
-  } };
-}
-
-/* 星の軌跡（長時間露光）。弧の色は星の色温度 */
-function _clxArcs(n, rMax, rMin) {
-  return Array.from({ length: n }, () => ({
-    r: rMin + Math.pow(Math.random(), .8) * (rMax - rMin), a0: _frR(0, 6.28), sp: _frR(.92, 1.05),
-    col: CLX_STARCOL[Math.floor(Math.random() * CLX_STARCOL.length)], al: _frR(.65, 1), w: _frR(.7, 1.6) * CLX_BOLD.line }));
-}
-function _clxArcsDraw(c, e, x, y, arcs, sweep, dur, fadeAt, fadeLen) {
-  if (e < 0) return;
-  const k = _frE(_frC(e / dur)), fade = e < fadeAt ? 1 : _frC(1 - (e - fadeAt) / fadeLen);
-  if (fade <= 0) return;
-  c.save(); c.globalCompositeOperation = 'lighter'; c.lineCap = 'round';
-  arcs.forEach(a => {
-    const a1 = a.a0 + sweep * k * a.sp;
-    c.globalAlpha = a.al * fade; c.strokeStyle = a.col; c.lineWidth = a.w;
-    c.beginPath(); c.arc(x, y, a.r, a.a0, a1); c.stroke();
+/* 中心のまわりに n 個の星（画面の内側に収める） */
+function _clxAround(n, px, py, rMin, rMax, CW, CH) {
+  return Array.from({ length: n }, (_, i) => {
+    const a = i / n * 6.28 + _frR(-.3, .3), d = _frR(rMin, rMax);
+    return { x: _frC(px + Math.cos(a) * d, 8, CW - 8), y: _frC(py + Math.sin(a) * d, 8, CH - 8),
+      s: _frR(1.8, 3.6), col: CLX_STARCOL[i % CLX_STARCOL.length], rot: _frR(0, 1) };
   });
-  c.restore();
-  arcs.forEach(a => { const a1 = a.a0 + sweep * k * a.sp; _clxDot(c, x + Math.cos(a1) * a.r, y + Math.sin(a1) * a.r, a.w * .7, a.al * fade * .9, a.col); });
 }
-function _clxTrails(T, up, px, py, rMax, CW, CH, bigY) {
-  const arcs = _clxArcs(Math.min(40, 12 + T * 4), rMax, 6), sweep = Math.min(1.9, .7 + T * .16);
-  const big = up ? _clxArcs(70, Math.hypot(CW, CH) * .95, 14) : null;
-  return { dur: up ? 2700 : 1600, draw(c, e) {
-    if (big) _clxArcsDraw(c, e - 120, CW / 2, bigY, big, 1.3, 1700, 2000, 700);
-    _clxArcsDraw(c, e, px, py, arcs, sweep, 950, 1050, 550);
-    _clxStar(c, px, py, 6 * Math.sin(Math.PI * _frC(e / 700)), 1);
+/* 超新星。px/py＝発火位置（画面の座標）・M＝画面の短辺・S＝線と星の倍率 */
+function _clxNova(T, up, px, py, CW, CH, M, S) {
+  const R = M * Math.min(.62, .3 + .05 * T) * (up ? 1.3 : 1);
+  const inn = _clxAround(Math.min(28, 12 + 3 * T), px, py, R * .35, R * .7, CW, CH);
+  const out = _clxAround(Math.min(30, 10 + 4 * T), px, py, R * .5, R * 1.05, CW, CH);
+  const nr = 12 + 2 * Math.min(T, 4);
+  const rays = Array.from({ length: nr }, (_, i) => ({ a: i / nr * 6.28 + _frR(-.12, .12), l: _frR(.45, .9) }));
+  const B = 180;   // 吸い込みの尺
+  return { dur: up ? 1800 : 1500, draw(c, e) {
+    if (e < B) {
+      const k = _clxEio(e / B);
+      inn.forEach(q => _clxDot(c, px + (q.x - px) * (1 - k), py + (q.y - py) * (1 - k), 1.2, .4 + .6 * k, q.col));
+      _clxGlow(c, px, py, 14 * S * (1 - .5 * k), .5 + .5 * k, CLX_PALE);
+      return;
+    }
+    const t = e - B, fade = t < 750 ? 1 : _frC(1 - (t - 750) / 550), kf = _frC(t / 120);
+    _clxGlow(c, px, py, R * .55 * _frE(_frC(t / 500)), (1 - _frC(t / 1100)) * .55, '#B89CFF', .1);   // 残光の星雲
+    _clxGlow(c, px, py, 46 * S * (1 - .6 * _frC(t / 600)), (1 - .5 * kf) * fade, CLX_GOLD);
+    const k1 = _frE(_frC(t / 600)), k2 = _frE(_frC((t - 90) / 700));
+    _clxRing(c, px, py, R * k1, (1 - k1) * 1.2, CLX_GOLD, 2.6 * S * (1 - .6 * k1));
+    _clxRing(c, px, py, R * .78 * k2, 1 - k2, CLX_CYAN, 1.8 * S * (1 - .5 * k2));
+    if (up) { const k3 = _frE(_frC((t - 200) / 850)); _clxRing(c, px, py, R * 1.35 * k3, (1 - k3) * .9, CLX_PALE, 1.4 * S); }
+    const kr = _frE(_frC(t / 380)), ra = (1 - _frC(t / 700)) * .9;
+    rays.forEach(r => {
+      const r0 = 20 * S + R * .1 * kr, r1 = r0 + R * r.l * .55 * kr;
+      _clxLine(c, px + Math.cos(r.a) * r0, py + Math.sin(r.a) * r0, px + Math.cos(r.a) * r1, py + Math.sin(r.a) * r1, ra, .7);
+    });
+    const ko = _frE(_frC((t - 20) / 520));
+    out.forEach((q, i) => _clxStar(c, px + (q.x - px) * ko, py + (q.y - py) * ko, q.s * S * (1.3 - .5 * ko), fade * (.75 + .25 * Math.sin(e / 70 + i)), q.rot, q.col));
+    _clxStar(c, px, py, 10 * S * (1 - .4 * _frC(t / 600)), fade, t / 900);
   } };
 }
 
@@ -3212,44 +3117,25 @@ function _clxCelestialFx(el, card, tier, promoted, budget) {
   const er = el.getBoundingClientRect();
   if (!er.width || !er.height) return;
   const w = er.width, h = er.height;
-  let lx = w * .42, ly = h / 2;
-  const pt = _lqPtr;
-  if (pt && pt.el === el && performance.now() - pt.t < 2000) { lx = w * pt.fx; ly = h * pt.fy; }
-  const T = Math.max(1, tier), up = promoted && tier >= 2;
-  // 座標は画面（② 全画面の層）。肢の層は同じ絵を肢の位置だけずらして描く
   const CW = window.innerWidth, CH = window.innerHeight;
   if (!CW || !CH) return;
-  const chL = er.left, chT = er.top, top = 0;
-  const px = chL + lx, py = chT + ly, bT = chT;
-  const bigY = _frC(py, CH * .3, CH * .7);
-
-  // 2026-09-28 ユーザー要望「もっと画面いっぱいに」：大きさは肢ではなく画面の寸法から決める（M＝短辺・D＝対角）。
-  // TIER1 から画面の半分ほどに広がり、段が上がるほど画面の端まで届く。起点はタップした肢のまま。
-  const M = Math.min(CW, CH), D = Math.hypot(CW, CH), S = _frC(M / 480, 1, 2);
-  const parts = [];   // 金環は 2026-09-28 にデモページで部品ごとに見て撤去した（ユーザー判断）。戻さないこと。
-  const pick = Math.floor(Math.random() * 3);   // 0 星座 / 1 惑星直列 / 2 星の軌跡（毎回ランダム）
-  if (pick === 0) {
-    parts.push(_clxConstellation(T, up, px, py, CW * Math.min(.5, .32 + .03 * T), CH * Math.min(.46, .26 + .03 * T), CW, CH, S));
-  } else if (pick === 1) {
-    parts.push(_clxSyzygy(T, up, px, py, Math.min(D * .5, M * (.3 + .05 * T)), CW, CH, bigY));
-  } else {
-    parts.push(_clxTrails(T, up, px, py, Math.min(D * .75, D * (.3 + .06 * T)), CW, CH, bigY));
-  }
-  const dur = Math.max(...parts.map(p => p.dur));
+  const T = Math.max(1, tier), up = promoted && tier >= 2;
+  const M = Math.min(CW, CH), S = _frC(M / 480, 1, 2);
+  const nova = _clxNova(T, up, er.left, er.top + h / 2, CW, CH, M, S);   // 肢の左端・縦は中央
+  const dur = nova.dur;
   _rfFit(budget, dur + 50);
-  const drawAll = (c, e) => parts.forEach(p => p.draw(c, e));
 
   // ① 肢の層（画面の座標をずらして同じ絵を描く・送りまでに終える）
   const L = _lqLayer(el);
   const c1 = _frCtx(L, w, h);
-  _frRun(c1, w, h, dur, (c, e) => { c.save(); c.translate(-chL, -bT); drawAll(c, e); c.restore(); });
+  _frRun(c1, w, h, dur, (c, e) => { c.save(); c.translate(-er.left, -er.top); nova.draw(c, e); c.restore(); });
   _lqDrop(el, L, dur + 50);
   // ② 全画面の層（ラボの尺のまま）
   _rfK = 1;
   const H = _rfFullHost(dur + 50);
   const C = _lqLayer(H, 'fr-card');
-  const c2 = _frCtx(C, CW, CH, top, 1.5);
-  _frRun(c2, CW, CH, dur, drawAll);
+  const c2 = _frCtx(C, CW, CH, 0, 1.5);
+  _frRun(c2, CW, CH, dur, nova.draw);
   _lqDrop(H, C, dur + 50);
 }
 
@@ -5095,7 +4981,7 @@ function _rfCorrectFx(card, el, budget) {
   _rfSweep(el, inCardMs);
   if (_rfUi() === 'liquid') _lqLiquidFx(el, card, tier, promoted, budget);   // ぷるん＋シャボン玉＋ガラスの衝撃波＋色収差＋ネオン管（_spawnStreakParticles の liquid 分岐を参照）
   else if (_rfUi() === 'frost') _frFrostFx(el, card, tier, promoted, budget);   // 雪の結晶・霜・ダイヤモンドダスト（同上の frost 分岐を参照）
-  else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted, budget);   // 金環＋星座／惑星直列／星の軌跡（同上の celestial 分岐を参照）
+  else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted, budget);   // 超新星（肢の左端・2026-09-29）
   else if (_rfUi() === 'brass') _brsBrassFx(el, card, tier, promoted, budget);   // 歯車列＋刻印＋鋳込みの唐草（同上の brass 分岐を参照）
   _afterCorrectFx(card, el);
 
