@@ -2788,12 +2788,16 @@ function _frFrostFx(el, card, tier, promoted, budget) {
   // 画面の外周（四隅の霜・縁の霜）はラボの尺の3倍でゆっくり伸び・長く残る（2026-09-28・ユーザー判断：2倍→さらに延長）。
   // 伸びる長さも画面の短辺から決めて、画面の内側まで届かせる（旧：四隅 45＋段×14px・縁 26px）。結晶と粒は元の尺のまま。
   const FR_EDGE_K = 3;
+  // 全画面の六花とまわりの小さな結晶はラボの尺の2倍（描き上がる・残る・消えるを同じ比で延ばす。2026-09-28・ユーザー判断）。
+  // 肢の層の六花は送りまでに終える約束のまま（_rfFit）。
+  const FR_FLAKE_K = 2;
   const Mf = Math.min(CW, CH);
-  const dur2 = up ? Math.round(2000 * FR_EDGE_K) : T >= 3 ? Math.round(1900 * FR_EDGE_K) : 1700;
+  const dur2 = up ? Math.round(2000 * FR_EDGE_K) : T >= 3 ? Math.round(1900 * FR_EDGE_K) : Math.round(1650 * FR_FLAKE_K);
   const H = _rfFullHost(Math.max(2950, dur2 + 100));
 
   // ── 六花（カードの裏）＋ TIER3〜の四隅の霜 ＋ 段が上がった瞬間の縁の霜と大きな結晶 ──
-  const extras = T >= 3 ? Array.from({ length: Math.min(4, T - 1) }, (_, i) => {
+  // まわりの小さな結晶の数は 2026-09-28 に2倍へ（ユーザー判断・旧 min(4, T-1)）
+  const extras = T >= 3 ? Array.from({ length: Math.min(8, (T - 1) * 2) }, (_, i) => {
     const a = _frR(0, 6.28), d = R * _frR(1.5, 2.3);
     return { f: _frFlake(Math.max(1, gens - 2)), x: px + Math.cos(a) * d * 1.4, y: py + Math.sin(a) * d * .7, R: R * _frR(.3, .45), dl: 150 + i * 110, rot: _frR(0, 3) };
   }) : null;
@@ -2837,10 +2841,11 @@ function _frFrostFx(el, card, tier, promoted, budget) {
       const fb = eb < 1800 ? 1 : _frC(1 - (eb - 1800) / 800);
       _frDrawFlake(c, b.f, b.x, b.y, b.R, b.rot + eb / 9000, _frE(_frC(eb / 1500)), .32 * fb, 1);
     });
-    flakeAt(c, e, px, py);
+    const ef = e / FR_FLAKE_K;
+    flakeAt(c, ef, px, py);
     if (extras) extras.forEach(x => {
-      const ff = e < 1100 ? 1 : _frC(1 - (e - 1100) / 500);
-      _frDrawFlake(c, x.f, x.x, x.y, x.R, x.rot + e / 3000, _frE(_frC((e - x.dl) / 480)), ff * .85, 1);
+      const ff = ef < 1100 ? 1 : _frC(1 - (ef - 1100) / 500);
+      _frDrawFlake(c, x.f, x.x, x.y, x.R, x.rot + ef / 3000, _frE(_frC((ef - x.dl) / 480)), ff * .85, 1);
     });
   });
   _lqDrop(H, C, dur2 + 50);
