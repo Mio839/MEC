@@ -2312,20 +2312,35 @@ document.addEventListener('pointerdown', e => {
   _lqPtr = { el: ch, fx: (e.clientX - r.left) / r.width, fy: (e.clientY - r.top) / r.height, t: performance.now() };
 }, { passive: true, capture: true });
 const LQ_COLS = ['#FF007F', '#7928CA', '#FF7A00', '#2FE0D5'];
-/* カードの中で出す正解演出は、次のカードへ送る前に終わらせる（2026-09-28・ユーザー判断）。
-   送りの時間（RF_ADVANCE_MS）は変えない＝「送りが遅い」と一度却下されている。代わりに、UIテーマ固有の
-   正解演出（liquid / frost / celestial / brass）の尺をまるごと縮めて、送りの RF_FX_END_MARGIN 手前で終わらせる。
-   各演出はラボで決めた尺（ms）のまま書いてあり、始める前に _rfFit(予算, その演出の全長) で係数 _rfK を決める。
-   尺を決めている口（_lqMesh / _lqFilm の duration・_lqDrop の片付け・_frRun の経過時間・各演出の遅延）は
-   全部 _rfK を掛ける。⚠️ 係数を1より大きくしないこと——伸ばすとカードと一緒に流れて宙に浮いて見える
-   （画面固定の台へ移して残す案は「中に浮いておかしな演出」と却下された）。 */
-const RF_ADVANCE_MS = { one: 350, multi: 400, calc: 300 };
+/* UIテーマ固有の正解演出（liquid / frost / celestial / brass）の尺（2026-09-28・ユーザー判断）。
+   ① **肢の中で出す層**は、次のカードへ送る前に終わらせる。各演出はラボで決めた尺（ms）のまま書いてあり、
+      始める前に _rfFit(予算, 肢の層の全長) で係数 _rfK を決め、送りの RF_FX_END_MARGIN 手前で終わるよう縮める。
+      尺を決めている口（_lqMesh / _lqFilm の duration・_lqDrop の片付け・_frRun の経過時間・各演出の遅延）は
+      全部 _rfK を掛ける。
+   ② **カードの中で出していた層**は、全画面の層（_rfFullHost・文字の上に薄く重ねる）へ移し、ラボの尺のまま
+      （_rfK = 1）最後まで再生する。0.3秒に縮めるとほとんど見えなかったため。全画面なのでカードと一緒に流れない
+      （カードの位置に貼り付けた台 .rf-stage を残す案は「中に浮いておかしな演出」と却下されている）。
+   ⚠️ _rfK は大域変数。①の遅延呼び出し（setTimeout の中で _lqFilm 等を呼ぶもの）は、②で _rfK を 1 に
+      戻した後に走るので、①の係数を控えて呼ぶ直前に入れ直すこと（_rfWithK）。
+   送りの時間は 2026-09-28 に 15% 延ばした（ユーザー判断・単一 350→403・複数 400→460・計算 300→345ms）。 */
+const RF_ADVANCE_MS = { one: 403, multi: 460, calc: 345 };
 const RF_FX_END_MARGIN = 50;
 let _rfK = 1;
 function _rfFit(budget, nominal) {
   const b = Math.max(60, (budget || RF_ADVANCE_MS.one) - RF_FX_END_MARGIN);
   _rfK = Math.min(1, b / Math.max(1, nominal));
   return _rfK;
+}
+function _rfWithK(k, fn) { const k0 = _rfK; _rfK = k; try { fn(); } finally { _rfK = k0; } }
+/* 全画面の層（②）。固定配置で画面いっぱい・クリックは通す・文字の上に薄く重ねる（.rf-full）。
+   ms 後に自分で消える。試験を終えたら exitExam が残りを掃除する。 */
+function _rfFullHost(ms) {
+  const H = document.createElement('div');
+  H.className = 'rf-full';
+  H.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(H);
+  setTimeout(() => H.remove(), ms + 100);
+  return H;
 }
 function _lqLayer(host, cls) {
   if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
@@ -2386,27 +2401,30 @@ function _lqFluidFx(el, card, tier, promoted, budget) {
   if (pt && pt.el === el && performance.now() - pt.t < 2000) { ox = er.width * pt.fx; oy = er.height * pt.fy; }
   const t = Math.max(1, tier);
   const big = t >= 3, up = promoted && tier >= 2;
-  _rfFit(budget, !card || (!big && !up) ? 1450 : big ? Math.max(2400, 1650 + t * 100) : 2400);
-  // 肢：メッシュ＋虹色の輪＋あとに残る光沢
+  // ① 肢：メッシュ＋虹色の輪＋あとに残る光沢（送りまでに終える）
+  const kL = _rfFit(budget, 1450);
   const L = _lqLayer(el);
   _lqMesh(L, ox, oy, er.width * (.22 + t * .02), er.height * 1.8, 1300, .9, false, 20, null);
   _lqFilm(L, ox, oy, Math.max(ox, er.width - ox) + 40, 750, .95, false);
-  setTimeout(() => _lqFilm(L, ox, oy, 0, 1100, .3 + t * .03, true), 150 * _rfK);
+  setTimeout(() => _rfWithK(kL, () => _lqFilm(L, ox, oy, 0, 1100, .3 + t * .03, true)), 150 * kL);
   _lqDrop(el, L, 1450);
   if (!card) return;
   if (!big && !up) return;
-  const cr = card.getBoundingClientRect();
-  const cx = er.left - cr.left + ox, cy = er.top - cr.top + oy;
-  const C = _lqLayer(card, 'lq-card');
-  // 色の塊はカードの「肢のまわり」だけ（長い解説まで含めた全面をぼかすと重い）
-  const size = Math.min(cr.width, 460) * (.5 + t * .03);
-  _lqMesh(C, cx, cy, cr.width * .32, size, 2200, .32 + t * .02, up, 40, Math.max(-40, cy - size - 40));
-  if (up) _lqFilm(C, cx, cy, Math.hypot(cr.width, Math.min(cr.height, 900)), 1500, .5, false);
-  _lqDrop(card, C, 2400);
+  // ② 全画面（ラボの尺のまま）
+  _rfK = 1;
+  const VW = window.innerWidth, VH = window.innerHeight;
+  const cx = er.left + ox, cy = er.top + oy;
+  const H = _rfFullHost(Math.max(2450, 1650 + t * 100));
+  const C = _lqLayer(H, 'lq-card');
+  // 色の塊は肢のまわり（画面全面をぼかすと重い）
+  const size = Math.min(VW, 460) * (.5 + t * .03);
+  _lqMesh(C, cx, cy, VW * .32, size, 2200, .32 + t * .02, up, 40, Math.max(-40, cy - size - 40));
+  if (up) _lqFilm(C, cx, cy, Math.hypot(VW, VH), 1500, .5, false);
+  _lqDrop(H, C, 2400);
   if (big) {
     const r = document.createElement('span');
     r.className = 'lq-ring';
-    card.appendChild(r);
+    H.appendChild(r);
     r.animate([{ opacity: 0, '--lqfx-a': '0deg' }, { opacity: .95, offset: .2 }, { opacity: .95, offset: .7 }, { opacity: 0, '--lqfx-a': (240 + t * 30) + 'deg' }],
       { duration: (1500 + t * 100) * _rfK, easing: 'ease-in-out', fill: 'forwards' });
     setTimeout(() => r.remove(), (1600 + t * 100 + 50) * _rfK);
@@ -2426,8 +2444,9 @@ function _lqFluidFx(el, card, tier, promoted, budget) {
    ⚠️ カードの canvas は肢のまわり最大 FR_BAND px に限る（解説まで開いた長いカードの全面を描くと数十MBになる）。
    ⚠️ 層の出し入れは liquid の _lqLayer / _lqDrop を共用（片付けは素の setTimeout。理由は liquid と同じ）。 */
 const FR_SNOW = '#EAF8FF', FR_BAND = 1000;
-function _frCtx(L, w, h, top) {
-  const d = Math.min(2, window.devicePixelRatio || 1);
+function _frCtx(L, w, h, top, dmax) {
+  // 全画面の層は dmax=1.5（画面いっぱいを 2倍で描くと 1枚で数十MB になる）
+  const d = Math.min(dmax || 2, window.devicePixelRatio || 1);
   const c = document.createElement('canvas');
   c.width = Math.max(1, Math.ceil(w * d)); c.height = Math.max(1, Math.ceil(h * d));
   c.style.cssText = `position:absolute;left:0;top:${top || 0}px;width:${w}px;height:${h}px;pointer-events:none;`;
@@ -2550,7 +2569,7 @@ function _frFrostFx(el, card, tier, promoted, budget) {
   const pt = _lqPtr;
   if (pt && pt.el === el && performance.now() - pt.t < 2000) { lx = w * pt.fx; ly = h * pt.fy; }
   const T = Math.max(1, tier), up = promoted && tier >= 2;
-  _rfFit(budget, card ? 2950 : 1700);   // 最長はダイヤモンドダスト（durD 2900 ＋ 片付け 50）
+  _rfFit(budget, 1700);   // ① 肢の層（霜華 1650 ＋ 片付け 50）を送りまでに終える
   // 六花は肢の層とカードの層に**同じ位置・同じ角度で2回**描く。肢の地は不透明（.75）なので、カードの裏だけに
   // 描くと肢に重なる部分が隠れる。肢の中はくっきり、はみ出した先はカードの裏へ続いて見える。
   const gens = Math.min(4, 1 + Math.floor(T / 2));
@@ -2581,14 +2600,13 @@ function _frFrostFx(el, card, tier, promoted, budget) {
   _lqDrop(el, L, 1700);
   if (!card) return;
 
-  // ── カードの座標（肢のまわり最大 FR_BAND px の帯） ──
-  const cr = card.getBoundingClientRect();
-  const CW = card.clientWidth, CHf = card.clientHeight;
+  // ── ② 全画面の座標（ラボの尺のまま）。画面の四隅・四辺がカードの四隅・縁の代わりになる ──
+  _rfK = 1;
+  const CW = window.innerWidth, CHf = window.innerHeight;
   if (!CW || !CHf) return;
-  const chL = er.left - cr.left - card.clientLeft, chT = er.top - cr.top - card.clientTop;
-  const top = CHf <= FR_BAND ? 0 : _frC(chT + ly - FR_BAND / 2, 0, CHf - FR_BAND);
-  const CH = Math.min(CHf, FR_BAND);
-  const px = chL + lx, py = chT + ly - top, bT = chT - top;
+  const chL = er.left, chT = er.top, top = 0, CH = CHf;
+  const px = chL + lx, py = chT + ly, bT = chT;
+  const H = _rfFullHost(2950);
 
   // ── 六花（カードの裏）＋ TIER3〜の四隅の霜 ＋ 段が上がった瞬間の縁の霜と大きな結晶 ──
   const extras = T >= 3 ? Array.from({ length: Math.min(4, T - 1) }, (_, i) => {
@@ -2613,8 +2631,8 @@ function _frFrostFx(el, card, tier, promoted, budget) {
     rim = _frFrost(bs, 26);
   }
   const dur2 = up ? 2600 : T >= 3 ? 2100 : 1700;
-  const C = _lqLayer(card, 'fr-card');
-  const c2 = _frCtx(C, CW, CH, top);
+  const C = _lqLayer(H, 'fr-card');
+  const c2 = _frCtx(C, CW, CH, top, 1.5);
   const diag = Math.hypot(CW, CH);
   _frRun(c2, CW, CH, dur2, (c, e) => {
     // 霜（四隅・縁）は先に描いて溶かし、その上に結晶を描く
@@ -2636,9 +2654,9 @@ function _frFrostFx(el, card, tier, promoted, budget) {
       _frDrawFlake(c, x.f, x.x, x.y, x.R, x.rot + e / 3000, _frE(_frC((e - x.dl) / 480)), ff * .85, 1);
     });
   });
-  _lqDrop(card, C, dur2 + 50);
+  _lqDrop(H, C, dur2 + 50);
 
-  // ── ダイヤモンドダスト（文字の上・小さく疎ら） ──
+  // ── ダイヤモンドダスト（小さく疎ら） ──
   const ps = [];
   const dustIn = (l, t, rw, rh, count, lm) => {
     for (let i = 0; i < count; i++) ps.push({ x: _frR(l - 6, l + rw + 6), y: _frR(t - 40, t + rh), dl: _frR(0, 500), L: _frR(1300, 2200) * lm,
@@ -2649,9 +2667,9 @@ function _frFrostFx(el, card, tier, promoted, budget) {
   const wave = up ? Array.from({ length: 26 }, (_, i) => ({ x: (i + .5) / 26 * CW, y: _frR(20, Math.max(21, CH - 20)), s: _frR(3, 6), dl: i * 35 })) : null;
   const D = document.createElement('span');
   D.className = 'fr-dust';
-  card.appendChild(D);
+  H.appendChild(D);
   const durD = up ? 2900 : T >= 3 ? 2900 : 2700;
-  const c3 = _frCtx(D, CW, CH, top);
+  const c3 = _frCtx(D, CW, CH, top, 1.5);
   _frRun(c3, CW, CH, durD, (c, e) => {
     if (e < 600) { const k = e / 600; _frGlint(c, chL + w - 10, bT + 8, 9 * Math.sin(Math.PI * k), 1, k * .6); }
     ps.forEach(q => {
@@ -2913,13 +2931,11 @@ function _clxCelestialFx(el, card, tier, promoted, budget) {
   const pt = _lqPtr;
   if (pt && pt.el === el && performance.now() - pt.t < 2000) { lx = w * pt.fx; ly = h * pt.fy; }
   const T = Math.max(1, tier), up = promoted && tier >= 2;
-  const cr = card.getBoundingClientRect();
-  const CW = card.clientWidth, CHf = card.clientHeight;
-  if (!CW || !CHf) return;
-  const chL = er.left - cr.left - card.clientLeft, chT = er.top - cr.top - card.clientTop;
-  const top = CHf <= FR_BAND ? 0 : _frC(chT + ly - FR_BAND / 2, 0, CHf - FR_BAND);
-  const CH = Math.min(CHf, FR_BAND);
-  const px = chL + lx, py = chT + ly - top, bT = chT - top;
+  // 座標は画面（② 全画面の層）。肢の層は同じ絵を肢の位置だけずらして描く
+  const CW = window.innerWidth, CH = window.innerHeight;
+  if (!CW || !CH) return;
+  const chL = er.left, chT = er.top, top = 0;
+  const px = chL + lx, py = chT + ly, bT = chT;
   const bigY = _frC(py, CH * .3, CH * .7);
 
   const parts = [_clxEclipse(T, up, px, py, Math.min(h * .36, 13) + T * .6, CW, CH)];
@@ -2937,16 +2953,18 @@ function _clxCelestialFx(el, card, tier, promoted, budget) {
   _rfFit(budget, dur + 50);
   const drawAll = (c, e) => parts.forEach(p => p.draw(c, e));
 
-  // 肢の層（カードの座標をずらして同じ絵を描く）
+  // ① 肢の層（画面の座標をずらして同じ絵を描く・送りまでに終える）
   const L = _lqLayer(el);
   const c1 = _frCtx(L, w, h);
   _frRun(c1, w, h, dur, (c, e) => { c.save(); c.translate(-chL, -bT); drawAll(c, e); c.restore(); });
   _lqDrop(el, L, dur + 50);
-  // カードの層
-  const C = _lqLayer(card, 'fr-card');
-  const c2 = _frCtx(C, CW, CH, top);
+  // ② 全画面の層（ラボの尺のまま）
+  _rfK = 1;
+  const H = _rfFullHost(dur + 50);
+  const C = _lqLayer(H, 'fr-card');
+  const c2 = _frCtx(C, CW, CH, top, 1.5);
   _frRun(c2, CW, CH, dur, drawAll);
-  _lqDrop(card, C, dur + 50);
+  _lqDrop(H, C, dur + 50);
 }
 
 /* ══════════ Brass：歯車列＋刻印＋鋳込みの唐草（2026-09-26）══════════
@@ -3252,29 +3270,26 @@ function _brsBrassFx(el, card, tier, promoted, budget) {
   const pt = _lqPtr;
   if (pt && pt.el === el && performance.now() - pt.t < 2000) { lx = w * pt.fx; ly = h * pt.fy; }
   const T = Math.max(1, tier), up = promoted && tier >= 2;
-  const cr = card.getBoundingClientRect();
-  const CW = card.clientWidth, CHf = card.clientHeight;
+  // brass は肢の層を持たず、全部が全画面の層（ラボの尺のまま）。座標は画面
+  const CW = window.innerWidth, CHf = window.innerHeight;
   if (!CW || !CHf) return;
-  const chL = er.left - cr.left - card.clientLeft, chT = er.top - cr.top - card.clientTop;
-  const top = CHf <= FR_BAND ? 0 : _frC(chT + ly - FR_BAND / 2, 0, CHf - FR_BAND);
-  const CH = Math.min(CHf, FR_BAND);
-  const px = chL + lx, py = chT + ly - top;
+  const chL = er.left, chT = er.top, top = 0, CH = CHf;
+  const px = chL + lx, py = chT + ly;
   // 大きさの基準は肢の高さ（最低 BRS_MIN_H）。実物の肢は1行だと約28pxしかなく、そのまま測ると
   // TIER1〜2 の歯車・刻印・唐草が豆粒になる（デモの肢は46px）。肢と同じ中心で高さだけ足した箱で測る。
   const hs = Math.max(h, BRS_MIN_H), lo = { l: chL, t: chT - top + h / 2 - hs / 2, w, h: hs };
   const bigY = _frC(py, CH * .3, CH * .7);
   // 火花と押し込みは部品を組む間に予約だけ集め、全長が決まって _rfFit した後に時刻を縮めて打つ
   const later = [];
-  // 火花（文字の上・数粒）。位置は発火の瞬間にカードから測り直す
+  // 火花（数粒）。全画面の層と同じ画面座標で打つ
   const spark = (x, y, n, ms) => later.push([ms, () => {
-    if (!examMode || !card.isConnected || !window.MecFX || !window.MecFX.sparks) return;
-    const r = card.getBoundingClientRect();
-    window.MecFX.sparks(r.left + card.clientLeft + x, r.top + card.clientTop + top + y, { count: n, colors: [BRS_PALE, '#FFD700', BRS_AMBER, '#FFFFFF'] });
+    if (!examMode || !window.MecFX || !window.MecFX.sparks) return;
+    window.MecFX.sparks(x, y, { count: n, colors: [BRS_PALE, '#FFD700', BRS_AMBER, '#FFFFFF'] });
   }]);
   // 刻印を打った手応え（肢／カードが一瞬沈む）。transform は既存アニメに殺されるので translate で
   const press = (ms, whole) => later.push([ms, () => {
     const t = whole ? card : el;
-    if (t.isConnected && t.animate) t.animate([{ translate: '0 0' }, { translate: whole ? '0 2px' : '0 1.5px', offset: .25 }, { translate: '0 0' }], { duration: Math.max(60, (whole ? 260 : 200) * _rfK), easing: MO.spring });
+    if (t.isConnected && t.animate) t.animate([{ translate: '0 0' }, { translate: whole ? '0 2px' : '0 1.5px', offset: .25 }, { translate: '0 0' }], { duration: whole ? 260 : 200, easing: MO.spring });
   }]);
   const qn = card.querySelector('.qn'), num = qn && (qn.textContent.match(/\d+/) || [])[0];
   const serial = 'No.' + String(num || examAnswered || 0).padStart(4, '0');
@@ -3283,12 +3298,13 @@ function _brsBrassFx(el, card, tier, promoted, budget) {
   if (up) parts.push(_brsMedallion(tier, CW, CH, bigY, spark, press), _brsCornerCast(CW, CH, top === 0, top + CH >= CHf), _brsBigTrain(CW, bigY));
   parts.push(_brsFiligree(T, px, lo), _brsGearTrain(T, px, py, lo, CW, spark), _brsHallmark(T, lo, serial, spark, press));
   const dur = Math.max(...parts.map(p => p.dur));
-  const k = _rfFit(budget, dur + 50);
-  later.forEach(([ms, f]) => setTimeout(f, ms * k));
-  const C = _lqLayer(card, 'fr-card');
-  const c2 = _frCtx(C, CW, CH, top);
+  _rfK = 1;
+  later.forEach(([ms, f]) => setTimeout(f, ms));
+  const H = _rfFullHost(dur + 50);
+  const C = _lqLayer(H, 'fr-card');
+  const c2 = _frCtx(C, CW, CH, top, 1.5);
   _frRun(c2, CW, CH, dur, (c, e) => parts.forEach(p => p.draw(c, e)));
-  _lqDrop(card, C, dur + 50);
+  _lqDrop(H, C, dur + 50);
 }
 
 /* コンボメーター（画面上端の帯・「次の段まで」のラベル・カード赤熱＝_updateComboMeter / _resetComboMeter）は
@@ -3576,9 +3592,10 @@ function _showFinishAndScroll() {
   });
 }
 
-/* 正解の後、次のカードへ送る。送りの時間は RF_ADVANCE_MS（単一 350ms・複数 400ms・計算 300ms）。
-   カードの中の正解演出は _rfCorrectFx が同じ時間を予算にして、送る前に終わらせている。
-   ⚠️ 送りを遅らせて見せる案は「カードの送りが遅い」、層を画面固定の台へ移して残す案は
+/* 正解の後、次のカードへ送る。送りの時間は RF_ADVANCE_MS（単一 403ms・複数 460ms・計算 345ms）。
+   肢の中の正解演出は _rfCorrectFx が同じ時間を予算にして、送る前に終わらせている。
+   カードの中で出していた UIテーマ固有の演出は全画面の層でラボの尺のまま再生する（_rfFullHost）。
+   ⚠️ 送りを大きく遅らせる案（1.0〜1.7秒）は「カードの送りが遅い」、層をカードの位置の台へ移して残す案は
       「中に浮いておかしな演出」と、どちらも却下された（2026-09-28）。 */
 function _rfScrollAfterCorrect(card, ms) {
   setTimeout(() => _scrollToNextCard(card), ms);
@@ -4159,7 +4176,7 @@ function exitExam() {
     el.style.setProperty('opacity', '0', 'important');
   });
   document.body.getAnimations?.().forEach(a => a.cancel());
-  document.querySelectorAll('.streak-particle,.streak-ring,.exam-fx-temp,.mec-cfx,.exam-tierup,.exam-mark-pop').forEach(el => el.remove());
+  document.querySelectorAll('.streak-particle,.streak-ring,.exam-fx-temp,.mec-cfx,.exam-tierup,.exam-mark-pop,.rf-full').forEach(el => el.remove());
   { const _cd = document.getElementById('examCountdown'); if (_cd) { _cd.style.display = 'none'; _cd.innerHTML = ''; } }
   if (window.MecFX) window.MecFX.clear();
   // SRS復習ホストを隠す（誤答復習/再試験で再表示される。通常閲覧への漏れを防ぐ）
@@ -4730,8 +4747,8 @@ function _rfHideStreak() {
 }
 
 /* 正解（初回で正解したとき）。revealAnswer（単一・複数選択）と _revealCalcAnswer から呼ぶ。
-   budget＝次のカードへ送るまでの ms（RF_ADVANCE_MS）。カードの中で出す演出（肢の縁の光・カード外周の光・
-   UIテーマ固有の演出）はこの時間内に終える。 */
+   budget＝次のカードへ送るまでの ms（RF_ADVANCE_MS）。肢の中で出す演出（肢の縁の光・UIテーマ固有の演出の肢の層）は
+   この時間内に終える。UIテーマ固有の演出のうちカードの中で出していた層は全画面でラボの尺のまま（_rfFullHost）。 */
 function _rfCorrectFx(card, el, budget) {
   const inCardMs = Math.max(60, (budget || RF_ADVANCE_MS.one) - RF_FX_END_MARGIN);
   const n = examStreak, tier = _examTier(n);

@@ -92,7 +92,7 @@ const FX = [
     ['c-card', 't', 'カードの正解表示', '毎回：カードと正解の肢の色・発光（UIテーマの CSS）。3/5/10連続でカードの段が上がる', `_applyCardThemeComboFx(c, n)`],
     ['c-sweep', 'c', '正解の肢の縁を光が1周', '毎回・0.3秒（_rfSweep）', `_rfSweep(ok, RF_ADVANCE_MS.one - RF_FX_END_MARGIN)`],
     ['c-particles', 't', 'UIテーマの粒子', '毎回・肢の位置：照準・金継ぎ・氷晶・歯車など（_spawnStreakParticles）', `_spawnStreakParticles(Math.max(1, t), _rfCenter(ok), { el: ok, card: c, promoted: false })`],
-    ['c-theme', 't', 'UIテーマ固有の正解演出', 'liquid・frost・celestial・brass だけ：肢とカードの裏（0.3秒で終わる）',
+    ['c-theme', 't', 'UIテーマ固有の正解演出', 'liquid・frost・celestial・brass だけ：肢の層は送る前に終わり、全画面の層は元の尺（2〜3秒）で薄く重なる',
       `const u = _rfUi(), B = RF_ADVANCE_MS.one;
        if (u === 'liquid') _lqFluidFx(ok, c, t, false, B); else if (u === 'frost') _frFrostFx(ok, c, t, false, B);
        else if (u === 'celestial') _clxCelestialFx(ok, c, t, false, B); else if (u === 'brass') _brsBrassFx(ok, c, t, false, B);
