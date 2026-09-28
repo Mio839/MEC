@@ -1696,51 +1696,8 @@ function _syncExamProgMarks() {
   }
 }
 
-/* ⚠️ 難問突破の低い「ドン」は 2026-08-18 に廃止した（ユーザー判断・不快）。
-   正解音（mec_correct_sound_v1）に重なって鳴り、しかも設定から切れなかった。
-   演出（刻印＋粒子）だけを残す。音を戻さないこと。chapter_exam.js の
-   ceHardClear からも同じ理由で ceTone を外してある（ミラー）。 */
-
-function _triggerHardClear(el, card) {
-  const theme = _examTheme();
-  const rate = _cardRate(card);
-  if (_fxOff()) return;
-  const r = el && el.getBoundingClientRect ? el.getBoundingClientRect() : null;
-  const b = _fxBand();
-  const [cx, cy] = _examClampFxXY(
-    r && r.width ? r.left + r.width / 2 : b.cx,
-    r && r.width ? r.top + r.height / 2 : b.cy);
-  const cols = theme.hardColors || ['#FF5722', '#FFD700', '#FFFFFF'];
-  const col = cols[0];
-
-  const lab = document.createElement('div');
-  lab.className = 'exam-hard-pop';
-  lab.innerHTML = '<span class="hc-lbl"></span><span class="hc-rate"></span>';
-  lab.firstChild.textContent = '👑 ' + (theme.hardLabel ? theme.hardLabel.replace(/^[^\s]+\s*/, '') : '難問突破！');
-  lab.lastChild.textContent = rate != null ? '正答率 ' + rate + '%' : '';
-  lab.style.setProperty('--hc-col', col);
-  lab.style.left = cx + 'px';
-  lab.style.top = cy + 'px';
-  document.body.appendChild(lab);
-  lab.animate([
-    { opacity: 0, transform: 'translate(-50%,-50%) scale(.4) rotate(-15deg)' },
-    { opacity: 1, transform: 'translate(-50%,-50%) scale(1.3) rotate(6deg)', offset: .22 },
-    { opacity: 1, transform: 'translate(-50%,-50%) scale(1) rotate(-2deg)', offset: .38 },
-    { opacity: 1, transform: 'translate(-50%,-62%) scale(1) rotate(0deg)', offset: .72 },
-    { opacity: 0, transform: 'translate(-50%,-86%) scale(.96) rotate(0deg)' }
-  ], { duration: 1400, easing: 'cubic-bezier(.2,1.3,.35,1)', fill: 'forwards' }).onfinish = () => lab.remove();
-
-  if (window.MecFX) {
-    try {
-      window.MecFX.burst(cx, cy, {
-        count: 48, colors: ['#FFD700', '#FFA040', '#FFD166', '#FFFFFF', '#FF5722'],
-        shapes: ['gem', 'star', 'shard'], tier: 5, scale: 1.8, speed: 620, glow: true, additive: true
-      });
-      window.MecFX.rings(cx, cy, { count: 2, color: '#FFD700', thickness: 5, maxR: 160, additive: true });
-      window.MecFX.stamp(cx, cy, { color: col, size: 148, thick: 4, ticks: 12, rot: -8, ttl: 1.0 });
-    } catch (e) {}
-  }
-}
+/* 難問突破（👑 ラベル・大きな刻印・金の輪・粒＝_triggerHardClear）は 2026-09-28 に撤去した（ユーザー判断）。
+   過去問ビューアの ceHardClear（chapter_exam.js）は旧演出のまま残してある。戻さないこと。 */
 
 /* ══════════ C2: 立て直し（2026-08-14）══════════
    誤答の次の1問を正解したときだけ出す。連続正解が0に戻った直後は演出が何も無く、
@@ -1930,12 +1887,9 @@ function _afterCorrectFx(card, fxEl) {
      難問は肢の中央・リベンジ／初見は肢の右下と発火位置が違うので重ならない。
      ⚠️ リベンジ（wasWrong）と初見（fresh）は定義上どちらか一方しか立たない（fresh は total=0）
         ので、この2つだけは else-if のままにしてある。
-     ⚠️ 難問と同時に出るときはラベルが2つ立て続けに飛ぶので、マーク側を後ろへずらす。
-     2026-08-25: 初見ラベルの「易問(>=80%)では出さない」制限も撤廃した。 */
-  const _markDelay = _isHardCard(card) ? 420 : 150;
-  if (_isHardCard(card)) {
-    _fxTimeout(() => _triggerHardClear(fxEl, card), 150);
-  }
+     2026-08-25: 初見ラベルの「易問(>=80%)では出さない」制限も撤廃した。
+     2026-09-28: 難問突破のラベルを撤去したので、マークを後ろへずらす必要も無くなった。 */
+  const _markDelay = 150;
   if (prior && prior.wasWrong) {
     _fxTimeout(() => _triggerAnswerMark(fxEl, 'revenge'), _markDelay);
   } else if (prior && prior.fresh) {
@@ -1968,22 +1922,7 @@ function _afterCorrectFx(card, fxEl) {
     }
   }
 
-  // 【案3】SRS復習モードでの定着刻印（STABLE）
-  if (_srsReviewMode && !_fxOff() && window.MecFX && card) {
-    const cr = card.getBoundingClientRect();
-    const b = _fxBand();
-    const rawX = cr.right - 35;
-    const rawY = cr.top + 25;
-    const sx = Math.max(b.left + 30, Math.min(b.right - 30, rawX));
-    const sy = Math.max(b.top + 30, Math.min(b.bottom - 30, rawY));
-    window.MecFX.stamp(sx, sy, {
-      color: '#C9A227',
-      size: 44,
-      thick: 2.2,
-      ticks: 12,
-      delay: .12
-    });
-  }
+  // SRS復習モードの定着刻印（カード右上の真鍮色の輪）は 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。
 
   if (_examRecoverPending) {
     _examRecoverPending = false;
@@ -4990,7 +4929,7 @@ function exitExam() {
     el.style.setProperty('opacity', '0', 'important');
   });
   document.body.getAnimations?.().forEach(a => a.cancel());
-  document.querySelectorAll('.streak-particle,.streak-ring,.exam-fx-temp,.mec-cfx,.exam-tierup,.exam-fast-pop,.exam-trace-svg,.exam-hard-pop,.exam-recover-pop,.exam-mark-pop').forEach(el => el.remove());
+  document.querySelectorAll('.streak-particle,.streak-ring,.exam-fx-temp,.mec-cfx,.exam-tierup,.exam-fast-pop,.exam-trace-svg,.exam-recover-pop,.exam-mark-pop').forEach(el => el.remove());
   // C5: 誤答の傷はセッション中だけの印。通常閲覧に持ち越さない
   document.querySelectorAll('.qc.exam-scar').forEach(el => el.classList.remove('exam-scar'));
   // S5(2026-08-21): 克服光の当て板も同じく持ち越さない（1.15秒で自分で消えるが、

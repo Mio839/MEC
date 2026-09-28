@@ -303,7 +303,6 @@ sec('study_exam.js ⇔ chapter_exam.js のミラー');
 
 t('新しい演出はどちらのファイルにも入っている', () => {
   const pairs = [
-    ['_triggerHardClear', 'ceHardClear'],
     ['_triggerRecover',   'ceRecover'],
     ['_triggerAnswerMark', 'ceAnswerMark'],
     ['_sinkOtherChoices', 'ceSinkOthers'],
@@ -348,7 +347,7 @@ t('崩落の規模は examStreak を 0 にする前に控えている', () => {
 
 t('新しいラベルは reduced-motion で消える', () => {
   const rm = CSS.slice(CSS.indexOf('prefers-reduced-motion'));
-  ['.exam-hard-pop', '.exam-recover-pop', '.exam-mark-pop'].forEach(sel =>
+  ['.exam-recover-pop', '.exam-mark-pop'].forEach(sel =>
     assert.ok(rm.includes(sel), sel + ' が reduced-motion で消えない'));
   assert.ok(/\.qc\.exam-sink \.ch2\{transition:none/.test(CSS), 'A5 が reduced-motion で止まらない');
 });

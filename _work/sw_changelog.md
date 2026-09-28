@@ -9,6 +9,7 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-09-28i: 正解時の難問突破（_triggerHardClear）と SRS 復習の定着刻印を撤去。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-28h: ハブの同期完了の演出（刻印の輪・金の輪・brass の歯車＝_syncFxDone）を撤去。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-28g: カードの中の正解演出（肢の縁の光・カード外周の光・liquid/frost/celestial/brass）を送り（350/400/300ms）の前に終わるよう尺を縮める（_rfFit）。画面固定の台 .rf-stage と RF_FX_SLOW を撤去。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-28f: 全テーマ共通の正解演出を整理（明るさフラッシュ・ゾーン・グリッチ／墨スワイプ・背景の呼吸・暗転・神速の稲妻を撤去、liquid/frost/celestial/brass の旧 ui_theme 正解層を試験モードで停止）。シェルのみ＝SHELL_VERSION だけ bump。

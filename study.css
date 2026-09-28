@@ -1291,15 +1291,6 @@ html.mec-jumping .qc{content-visibility:visible!important;}
 .exam-fast-pop{position:fixed;z-index:9220;pointer-events:none;font-size:18px;font-weight:900;
   letter-spacing:.06em;white-space:nowrap;text-shadow:0 2px 10px rgba(0,0,0,.7);transform:translate(-50%,0);}
 
-/* A1(2026-08-14): 難問クリア。易問と同じ祝い方をしないための専用ラベル */
-.exam-hard-pop{position:fixed;z-index:9230;pointer-events:none;text-align:center;
-  display:flex;flex-direction:column;align-items:center;gap:1px;white-space:nowrap;}
-.exam-hard-pop .hc-lbl{font-size:23px;font-weight:900;letter-spacing:.04em;
-  color:var(--hc-col,#FF5722);
-  text-shadow:0 0 18px color-mix(in srgb,var(--hc-col,#FF5722) 70%,transparent),0 2px 10px rgba(0,0,0,.75);}
-.exam-hard-pop .hc-rate{font-size:11px;font-weight:800;letter-spacing:.08em;
-  font-variant-numeric:tabular-nums;color:rgba(255,255,255,.82);text-shadow:0 1px 6px rgba(0,0,0,.85);}
-
 /* A2(2026-08-14): 初見突破 / リベンジ達成。肢の右下から小さく立ち上がる */
 /* ⚠️ 2026-08-31（§情報設計）: 12.5px → 15px へ上げた。全画面の特大×n を tier6 以上へ
    格下げした代わりに、**「何が偉かったか」を伝える側**（難問突破・リベンジ・初見突破）を
@@ -1676,7 +1667,7 @@ body.exam-awaken #examComboMeter{height:5px;}
 /* 動きを減らす設定では新演出のレイヤーごと出さない（JS側 _fxOff とあわせて二重に抑止） */
 @media (prefers-reduced-motion: reduce){
   .exam-fast-pop,.exam-trace-svg,.exam-tierup,
-  .exam-hard-pop,.exam-recover-pop,.exam-mark-pop,
+  .exam-recover-pop,.exam-mark-pop,
   #examCountdown,.exam-rank-stamp{display:none!important;}
   .exam-modal.exam-modal-impact{animation:none!important;}
   .qc.exam-sink .ch2{transition:none;transform:none;opacity:1;filter:none;}
@@ -1761,19 +1752,8 @@ body.exam-overdrive #examOverdriveGlow {
 }
 
 
-/* 【案10】難問突破の巨大ゴールドクラウン（王冠） */
-.exam-hard-pop {
-  animation: hardCrownPop .95s cubic-bezier(.17,.89,.32,1.28) forwards;
-}
-@keyframes hardCrownPop {
-  0% { transform: translate(-50%, -50%) scale(0) rotate(-15deg); opacity: 0; }
-  50% { transform: translate(-50%, -50%) scale(1.25) rotate(5deg); opacity: 1; box-shadow: 0 0 50px rgba(255,215,0,.8); }
-  80% { transform: translate(-50%, -50%) scale(.95) rotate(-2deg); }
-  100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  body.exam-overdrive #examOverdriveGlow, .exam-hard-pop {
+  body.exam-overdrive #examOverdriveGlow {
     animation: none;
   }
 }

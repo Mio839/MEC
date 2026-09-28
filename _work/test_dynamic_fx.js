@@ -151,10 +151,10 @@ test('目標達成の刻印が生きた経路から出て、全方位に大き�
 });
 
 console.log('── 7. 難問突破クラウン & 宝石バースト (案10) ──');
-test('study_exam.js と study.css に 👑 クラウンと宝石バーストがある', () => {
-  assert(examSrc.includes('👑 '), 'Missing crown in study_exam.js');
-  assert(examSrc.includes('count: 48'), 'Missing 48 gem burst in study_exam.js');
-  assert(cssSrc.includes('@keyframes hardCrownPop'), 'Missing hardCrownPop in study.css');
+// 2026-09-28 に study 側の難問突破（_triggerHardClear）を撤去した（ユーザー判断）
+test('study 側の難問突破クラウンは撤去したまま', () => {
+  assert(!examSrc.includes('function _triggerHardClear('), '_triggerHardClear が study_exam.js に戻っている');
+  assert(!cssSrc.includes('@keyframes hardCrownPop'), 'hardCrownPop が study.css に戻っている');
 });
 
 console.log('── 8. 読影X線ビーム走査 (案8) ──');
