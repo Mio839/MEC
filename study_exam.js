@@ -2920,10 +2920,22 @@ function _frFrostFx(el, card, tier, promoted, budget) {
 
   // ── 六花（カードの裏）＋ TIER3〜の四隅の霜 ＋ 段が上がった瞬間の縁の霜と大きな結晶 ──
   // まわりの小さな結晶の数は 2026-09-28 に2倍へ（ユーザー判断・旧 min(4, T-1)）
-  const extras = T >= 3 ? Array.from({ length: Math.min(8, (T - 1) * 2) }, (_, i) => {
-    const a = _frR(0, 6.28), d = R * _frR(1.5, 2.3);
-    return { f: _frFlake(Math.max(1, gens - 2)), x: px + Math.cos(a) * d * 1.4, y: py + Math.sin(a) * d * .7, R: R * _frR(.3, .45), dl: 150 + i * 110, rot: _frR(0, 3) };
-  }) : null;
+  // 小さな結晶どうしは重ねない（2026-09-28・ユーザー判断）：半径の円が互いに離れる位置を探し、見つからなければ少しずつ外へ広げる。
+  // ⚠️ 数は減らさない（デモページが _frFlake を呼んだ数で部品を見分けている）。
+  const extras = T >= 3 ? (() => {
+    const out = [];
+    for (let i = 0, n = Math.min(8, (T - 1) * 2); i < n; i++) {
+      const r = R * _frR(.3, .45);
+      let x = 0, y = 0;
+      for (let k = 0; k < 80; k++) {
+        const a = _frR(0, 6.28), d = R * _frR(1.5, 2.3) * (1 + k / 40);
+        x = px + Math.cos(a) * d * 1.4; y = py + Math.sin(a) * d * .7;
+        if (out.every(o => Math.hypot(o.x - x, o.y - y) >= o.R + r + 2)) break;
+      }
+      out.push({ f: _frFlake(Math.max(1, gens - 2)), x, y, R: r, dl: 150 + i * 110, rot: _frR(0, 3) });
+    }
+    return out;
+  })() : null;
   // 大きな結晶：画面のランダムな位置に1〜3個（2026-09-28・ユーザー判断）。発火点（中心）は重ねず、結晶どうしの重なりは
   // 小さい方の面積の20%まで（_frBigSpots）。少しずつずらして咲かせる。
   // 正解のたびに毎回出す・不透明度 .32→.6・線 1→1.5（2026-09-28・ユーザー判断：段が上がった瞬間だけ・薄い線では「まったく出ない」と見えた）。
