@@ -35,6 +35,7 @@
   .btns button:active{background:#17406A;}
   .btns button.cur{border-style:dashed;opacity:.85;}
   .btns button.all{background:#133A5E;border-color:#70D6FF;}
+  h2.sec{font-size:15px;margin:6px 0 4px;color:#BEEBFF;}
   .mock{max-width:760px;}
   .qc{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:12px;
     box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 10px 30px rgba(0,0,0,.35);}
@@ -95,6 +96,13 @@
   .sA .blade{position:absolute;top:0;bottom:0;left:0;width:18px;z-index:4;
     background:linear-gradient(90deg,transparent,rgba(255,255,255,.95) 45%,rgba(158,227,255,.6) 60%,transparent);
     box-shadow:0 0 34px 8px rgba(200,240,255,.7);}
+
+  .sA .runlet{position:absolute;z-index:4;width:3px;border-radius:2px;
+    background:linear-gradient(to bottom,rgba(230,246,255,0),rgba(230,246,255,.55) 75%,rgba(255,255,255,.95));
+    box-shadow:0 0 6px rgba(200,240,255,.6);}
+  .sA .sash{box-shadow:inset 0 0 0 3px rgba(235,248,255,.55);}
+  .sA .seam{position:absolute;top:0;bottom:0;left:calc(50% - 2px);width:4px;z-index:4;
+    background:linear-gradient(to bottom,transparent,#fff 20%,#fff 80%,transparent);box-shadow:0 0 30px 6px rgba(200,240,255,.8);}
 
   /* ── B 六花：中央で雪の結晶が 3・2・1 で1段ずつ枝を伸ばし、起動でダイヤモンドダストに解ける ── */
   #cd.sB{background:radial-gradient(ellipse at 50% 50%,rgba(10,34,62,.82),rgba(2,9,20,.9));}
@@ -197,6 +205,9 @@
   <label><input type="checkbox" id="snd"> 起動音も鳴らす</label>
 </div>
 <div class="btns" id="btns"></div>
+<h2 class="sec">A 結露の窓 ― 最後の一拭きの差し替え案</h2>
+<p class="note">A の最後（起動語「CLEAR」が出る 780ms）だけを入れ替えて再生します。上の「A 結露の窓」ボタンは、ここで最後に選んだ締めくくりで再生されます。</p>
+<div class="btns" id="aEnds"></div>
 <div class="mock">
   <div class="qc"><div class="qn">Q.12　<span style="color:#9DB8CF;font-weight:600">麻酔科・周術期管理</span></div>
     <div class="qt">68歳の男性。胃癌に対する幽門側胃切除術の術前評価のため来院した。<strong>術前に中止すべき薬剤はどれか。1つ選べ。</strong></div>
@@ -363,16 +374,114 @@ const S_A = {
   },
   goWord: 'CLEAR', goSub: '視 界 良 好 — VISIBILITY CLEAR',
   go(c) {
-    const pane = c.host.querySelector('.pane');
     c.host.querySelectorAll('.drip').forEach(d => d.remove());
-    anim(pane, [{ clipPath: 'inset(0 0 0 0)' }, { clipPath: 'inset(0 0 0 100%)' }], { duration: 560, easing: 'cubic-bezier(.45,0,.25,1)', fill: 'forwards' });
-    const b = document.createElement('div'); b.className = 'blade'; c.host.appendChild(b);
-    anim(b, [{ transform: 'translateX(-20px)', opacity: 1 }, { transform: 'translateX(' + innerWidth + 'px)', opacity: 1, offset: .96 }, { transform: 'translateX(' + innerWidth + 'px)', opacity: 0 }],
-      { duration: 560, easing: 'cubic-bezier(.45,0,.25,1)', fill: 'forwards' });
     anim(c.log, [{ opacity: .6 }, { opacity: 0 }], { duration: 300, fill: 'forwards' });
+    (A_ENDS[aEnd] || A_ENDS[0]).fx(c, c.host.querySelector('.pane'));
     goDefault(c.num, c.sub);
   }
 };
+
+/* ── A の締めくくり（起動語の 780ms の中で曇りを晴らす）。どれを採るか決めるための比較用 ── */
+let aEnd = 0;
+try { CSS.registerProperty({ name: '--r', syntax: '<length>', inherits: false, initialValue: '0px' }); } catch (e) {}
+function setMask(el, v) {
+  el.style.webkitMaskImage = v; el.style.maskImage = v;
+  el.style.webkitMaskSize = '100% 100%'; el.style.maskSize = '100% 100%';
+}
+const A_ENDS = [
+  { title: '⓪ ワイパー（元の案）', desc: '左から右へ一拭き。',
+    fx(c, pane) {
+      anim(pane, [{ clipPath: 'inset(0 0 0 0)' }, { clipPath: 'inset(0 0 0 100%)' }], { duration: 560, easing: 'cubic-bezier(.45,0,.25,1)', fill: 'forwards' });
+      const b = document.createElement('div'); b.className = 'blade'; c.host.appendChild(b);
+      anim(b, [{ transform: 'translateX(-20px)', opacity: 1 }, { transform: 'translateX(' + innerWidth + 'px)', opacity: 1, offset: .96 }, { transform: 'translateX(' + innerWidth + 'px)', opacity: 0 }],
+        { duration: 560, easing: 'cubic-bezier(.45,0,.25,1)', fill: 'forwards' });
+    } },
+  { title: '① 息で溶ける', desc: '中央から曇りが丸く引いていく。縁の霜は少し遅れて溶ける。',
+    fx(c, pane) {
+      const fog = pane.querySelector('.fog'), cv = pane.querySelector('canvas');
+      setMask(fog, 'radial-gradient(circle at 50% 50%, transparent var(--r), #000 calc(var(--r) + 110px))');
+      anim(fog, [{ '--r': '0px' }, { '--r': (Math.hypot(innerWidth, innerHeight) / 2 + 40) + 'px' }], { duration: 620, easing: 'cubic-bezier(.3,.1,.3,1)', fill: 'forwards' });
+      if (cv) anim(cv, [{ opacity: 1, filter: 'blur(0)' }, { opacity: 0, filter: 'blur(3px)' }], { duration: 480, delay: 260, easing: 'ease-in', fill: 'forwards' });
+    } },
+  { title: '② 結露が流れ落ちる', desc: '曇りが水滴になって上から下へ筋を引いて流れ、流れた跡から晴れていく。',
+    fx(c, pane) {
+      const H = innerHeight, W = innerWidth;
+      setMask(pane, 'linear-gradient(to bottom, transparent var(--r), #000 calc(var(--r) + ' + (H * .3) + 'px))');
+      anim(pane, [{ '--r': (-H * .3) + 'px' }, { '--r': H + 'px' }], { duration: 640, delay: 60, easing: 'cubic-bezier(.55,0,.6,1)', fill: 'both' });
+      const n = Math.round(Math.min(26, 10 + W / 70));
+      for (let i = 0; i < n; i++) {
+        const d = document.createElement('i'); d.className = 'runlet';
+        const len = H * R(.12, .26);
+        d.style.left = ((i + R(.15, .85)) / n * W) + 'px'; d.style.height = len + 'px'; d.style.top = (-len + H * R(0, .25)) + 'px';
+        c.host.appendChild(d);
+        anim(d, [{ translate: '0 0', opacity: 0 }, { opacity: 1, offset: .12 }, { translate: '0 ' + (H * 1.05) + 'px', opacity: .9 }],
+          { duration: R(460, 640), delay: R(0, 140), easing: 'cubic-bezier(.55,0,.7,.9)', fill: 'both' });
+      }
+    } },
+  { title: '③ なぞった跡が広がる', desc: '「CLEAR」を指でなぞった跡がにじんで太り、つながって全面が晴れる。',
+    fx(c, pane) {
+      const W = innerWidth, H = innerHeight, fs = Math.min(W, H) * .11, big = Math.hypot(W, H) * 1.1;
+      loop(t => {
+        const u = Math.min(1, t / 640), sw = fs * .22 + Math.pow(u, 2.4) * big;
+        const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='" + W + "' height='" + H + "'><defs>"
+          + "<filter id='b' filterUnits='userSpaceOnUse' x='0' y='0' width='" + W + "' height='" + H + "'><feGaussianBlur stdDeviation='" + (4 + u * 26).toFixed(1) + "'/></filter>"
+          + "<mask id='m'><rect width='100%' height='100%' fill='white'/>"
+          + "<text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-family='Helvetica Neue,Arial,sans-serif' font-weight='700' font-size='" + fs.toFixed(1)
+          + "' letter-spacing='" + (fs * .14).toFixed(1) + "' fill='black' stroke='black' stroke-linejoin='round' stroke-width='" + sw.toFixed(1) + "' filter='url(#b)'>CLEAR</text>"
+          + "</mask></defs><rect width='100%' height='100%' fill='white' mask='url(#m)'/></svg>";
+        setMask(pane, 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")');
+        return t < 700;
+      });
+    } },
+  { title: '④ 窓を開ける', desc: '曇りガラスが左右2枚の窓になって外へ開き、その向こうに問題が見える。',
+    fx(c, pane) {
+      const src = pane.querySelector('canvas');
+      [['l', 'inset(0 50% 0 0)', 'left center', -1], ['r', 'inset(0 0 0 50%)', 'right center', 1]].forEach(([k, clip, org, sg]) => {
+        const w = document.createElement('div'); w.className = 'pane sash ' + k;
+        w.innerHTML = '<div class="fog" style="opacity:1"></div>';
+        if (src) {
+          const cv = document.createElement('canvas'); cv.className = 'full'; cv.width = src.width; cv.height = src.height;
+          cv.getContext('2d').drawImage(src, 0, 0); w.appendChild(cv);
+        }
+        w.style.clipPath = clip; w.style.transformOrigin = org;
+        c.host.insertBefore(w, pane);
+        anim(w, [{ transform: 'perspective(1400px) rotateY(0deg)', opacity: 1 },
+                 { transform: 'perspective(1400px) rotateY(' + (sg * 8) + 'deg)', opacity: 1, offset: .12 },
+                 { transform: 'perspective(1400px) rotateY(' + (sg * 84) + 'deg)', opacity: 0 }],
+          { duration: 660, easing: 'cubic-bezier(.5,0,.3,1)', fill: 'forwards' });
+      });
+      pane.remove();
+      const seam = document.createElement('div'); seam.className = 'seam'; c.host.appendChild(seam);
+      anim(seam, [{ opacity: 0, scale: '1 .2' }, { opacity: 1, scale: '1 1', offset: .12 }, { opacity: 0, scale: '6 1' }], { duration: 420, easing: 'ease-out', fill: 'forwards' });
+    } },
+  { title: '⑤ 霜が昇華する', desc: '曇りと縁の霜がきらめく粒になって上へ舞い上がり、消える。',
+    fx(c, pane) {
+      const W = innerWidth, H = innerHeight;
+      anim(pane.querySelector('.fog'), [{ opacity: 1 }, { opacity: 0 }], { duration: 560, easing: 'ease-in', fill: 'forwards' });
+      const cv = pane.querySelector('canvas');
+      if (cv) anim(cv, [{ opacity: 1, translate: '0 0' }, { opacity: 0, translate: '0 -24px' }], { duration: 520, easing: 'ease-in', fill: 'forwards' });
+      const x = canvasFull(c.host), spr = glintSprite(), P = [], n = Math.round(Math.min(220, 90 + W * H / 9000));
+      for (let i = 0; i < n; i++) {
+        // 縁（霜のあった場所）に寄せて生まれる
+        const e = Math.random(), m = Math.min(W, H) * .28 * Math.pow(Math.random(), 1.6);
+        const px = e < .25 ? m : e < .5 ? W - m : R(0, W);
+        const py = e < .5 ? R(0, H) : e < .75 ? m : H - m;
+        P.push({ x: px, y: py, vx: R(-20, 20), vy: -R(60, 190), s: R(5, 15), ph: R(0, 6.28), f: R(10, 20), d: R(0, 180) });
+      }
+      loop(t => {
+        x.clearRect(0, 0, W, H);
+        P.forEach(p => {
+          const tt = t - p.d; if (tt < 0) return;
+          const sec = tt / 1000, life = Math.min(1, tt / 600), a = Math.sin(life * Math.PI) * (.6 + .4 * Math.sin(p.ph + sec * p.f));
+          if (a <= .02) return;
+          x.globalAlpha = a;
+          x.drawImage(spr, p.x + p.vx * sec - p.s / 2, p.y + p.vy * sec - p.s / 2, p.s, p.s);
+        });
+        x.globalAlpha = 1;
+        return t < 780;
+      });
+    } }
+];
 
 /* ══════════ B 六花 ══════════ */
 function hexPath(cx, cy, r, rot) {
@@ -727,6 +836,23 @@ all.onclick = () => {
   next();
 };
 btns.insertBefore(all, btns.firstChild);
+const ends = document.getElementById('aEnds');
+A_ENDS.forEach((E, i) => {
+  const b = document.createElement('button');
+  if (i === 0) b.className = 'cur';
+  b.innerHTML = E.title + '<small>' + E.desc + '</small>';
+  b.onclick = () => { chain++; aEnd = i; play(S_A); };
+  ends.appendChild(b);
+});
+const allE = document.createElement('button');
+allE.className = 'all';
+allE.innerHTML = '▶ ①〜⑤ を順に再生<small>A を5回、締めくくりだけ替えて続けて流します。</small>';
+allE.onclick = () => {
+  const my = ++chain; let i = 1;
+  const next = () => { if (my !== chain || i > 5) return; aEnd = i++; const end = play(S_A); setTimeout(next, ms(end) + 1000); };
+  next();
+};
+ends.insertBefore(allE, ends.firstChild);
 // Esc で止める（デモだけの都合）
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { chain++; kill(); } });
 </script>
