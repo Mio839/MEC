@@ -235,6 +235,7 @@ window.__T = (() => {
   // 乱数の固定（毎回同じ形で）。押すたびに同じ種から始める
   const rRand = Math.random; let seedOn = false, st = 1;
   Math.random = () => {
+    if (window.__nextRand != null) { const v = window.__nextRand; window.__nextRand = null; return v; }   // 部品の再生で celestial の組み合わせを決める
     if (!seedOn) return rRand();
     st = st + 0x6D2B79F5 | 0; let t = Math.imul(st ^ st >>> 15, 1 | st);
     t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296;
@@ -251,6 +252,163 @@ window.__T = (() => {
     seed(on) { seedOn = on; st = 20260928; },
   };
 })();`;
+/* ── UIテーマ固有の正解演出を部品に分ける（枠の中の関数を包む）──
+   window.__P が Set のとき、その中にある部品だけを描く（null＝全部）。本物の study_exam.js は書き換えない。
+   - brass・celestial：部品ごとの関数（_brsGearTrain 等）を包み、外した部品は draw を空にする（火花・押し込みも止める）。
+     celestial の「星座／惑星直列／星の軌跡」は毎回1つをランダムに選ぶので、残した部品から選ぶよう次の乱数を決めておく。
+   - liquid：_lqMesh / _lqFilm を層（肢／全画面）と種類で見分ける。虹色のリング（.lq-ring）は作った直後に隠す。
+   - frost：canvas に「どの層か」と「その時の __P」を貼っておき、描画の小関数（_frDrawFrost・_frDrawFlake・
+     _frGlint・_frMelt）を種類で見分ける。霞は肢の層の fillRect（destination-out 以外）を止めて消す。
+   - kintsugi・abyss・aurora・cyber：_spawnStreakParticles が呼ぶ MecFX の関数を包む。
+   ⚠️ 見分け方は本物の引数（霜の不透明度 .7／.8、_frFlake を呼ぶ順番など）に寄りかかっている。
+      study_exam.js の演出を作り直したら、ここも合わせて直すこと。 */
+const PARTCTL = `
+(() => {
+  const on = (k, P) => !P || P.has(k);
+  const wrap = (name, mk) => { const o = window[name]; if (typeof o === 'function') window[name] = mk(o); };
+  // brass・celestial：部品の関数
+  const part = (name, key) => wrap(name, o => function () {
+    if (on(key, window.__P)) return o.apply(this, arguments);
+    const p = o.apply(this, [...arguments].map(a => typeof a === 'function' ? () => {} : a));
+    return Object.assign({}, p, { draw() {} });
+  });
+  [['_brsGearTrain', 'brs.gear'], ['_brsHallmark', 'brs.hall'], ['_brsFiligree', 'brs.fil'], ['_brsBigTrain', 'brs.bigtrain'],
+   ['_brsMedallion', 'brs.medal'], ['_brsCornerCast', 'brs.corner'], ['_clxEclipse', 'clx.eclipse'],
+   ['_clxConstellation', 'clx.const'], ['_clxSyzygy', 'clx.syzygy'], ['_clxTrails', 'clx.trails']].forEach(([n, k]) => part(n, k));
+  const PICK = ['clx.const', 'clx.syzygy', 'clx.trails'];
+  wrap('_clxEclipse', o => function () {
+    const p = o.apply(this, arguments), P = window.__P;   // この直後の Math.random() が「どれを重ねるか」の抽選
+    if (P) { const ok = [0, 1, 2].filter(i => P.has(PICK[i])); if (ok.length && ok.length < 3) window.__nextRand = (ok[Math.floor(Math.random() * ok.length)] + .5) / 3; }
+    return p;
+  });
+  // liquid
+  wrap('_lqMesh', o => function (L) { return on(L.classList.contains('lq-card') ? 'lq.fmesh' : 'lq.mesh', window.__P) ? o.apply(this, arguments) : undefined; });
+  wrap('_lqFilm', o => function (L, x, y, R, dur, op, full) {
+    const k = full ? 'lq.gloss' : L.classList.contains('lq-card') ? 'lq.ffilm' : 'lq.film';
+    return on(k, window.__P) ? o.apply(this, arguments) : undefined;
+  });
+  wrap('_lqFluidFx', o => function () {
+    const r = o.apply(this, arguments);
+    if (!on('lq.ring', window.__P)) document.querySelectorAll('.lq-ring').forEach(e => { e.style.visibility = 'hidden'; });
+    return r;
+  });
+  // frost
+  let inFrost = false, flakes = null;
+  wrap('_frFlake', o => function () { const f = o.apply(this, arguments); if (flakes) flakes.push(f); return f; });
+  wrap('_frFrostFx', o => function (el, card, tier, promoted) {
+    inFrost = true; flakes = [];
+    const fl = flakes, up = promoted && tier >= 2;
+    try { return o.apply(this, arguments); }
+    finally {
+      // 作られる順番：六花 → まわりの小さな結晶（段3〜）→ 大きな結晶（段が上がった瞬間）
+      fl.forEach((f, i) => { f.__k = i === 0 ? 'fr.flake' : (up && i === fl.length - 1) ? 'fr.big' : 'fr.extra'; });
+      inFrost = false; flakes = null;
+    }
+  });
+  wrap('_frRun', o => function (ctx, w, h, dur, draw) {
+    if (!inFrost) return o.apply(this, arguments);
+    const p = ctx.canvas.parentNode;
+    const zone = p.classList.contains('fr-dust') ? 'dust' : p.classList.contains('fr-card') ? 'full' : 'choice';
+    ctx.__fr = zone; ctx.__P = window.__P ? new Set(window.__P) : null;
+    const fill = ctx.fillRect;
+    return o.call(this, ctx, w, h, dur, (c, e) => {
+      c.__e = e; c.__gi = 0;
+      if (zone !== 'choice' || on('fr.haze', c.__P)) return draw(c, e);
+      c.fillRect = function () { if (c.globalCompositeOperation === 'destination-out') return fill.apply(c, arguments); };
+      try { draw(c, e); } finally { c.fillRect = fill; }
+    });
+  });
+  wrap('_frDrawFrost', o => function (c, fr, k, alpha) {
+    if (!c.__fr) return o.apply(this, arguments);
+    c.__fk = alpha === .7 ? 'fr.corner' : alpha === .8 ? 'fr.rim' : 'fr.frost';
+    return on(c.__fk, c.__P) ? o.apply(this, arguments) : undefined;
+  });
+  wrap('_frMelt', o => function (c, x, y, r, w, h, rim) {   // 溶かす処理は残し、溶けた縁の光だけ部品に合わせる
+    if (c.__fr && c.__fk && !on(c.__fk, c.__P)) rim = 0;
+    return o.call(this, c, x, y, r, w, h, rim);
+  });
+  wrap('_frDrawFlake', o => function (c, f) { return (c.__fr && f.__k && !on(f.__k, c.__P)) ? undefined : o.apply(this, arguments); });
+  wrap('_frGlint', o => function (c, x, y, s, a, rot) {
+    if (!c.__fr) return o.apply(this, arguments);
+    let k = 'fr.flake';
+    if (c.__fr === 'dust') { const i = c.__gi++; k = (i === 0 && c.__e < 600) ? 'fr.cglint' : rot === undefined ? 'fr.wave' : 'fr.dust'; }
+    return on(k, c.__P) ? o.apply(this, arguments) : undefined;
+  });
+  // kintsugi・abyss・aurora・cyber（MecFX）
+  const FXK = { kintsugi: ['kintsugiCrack', 'dust', 'rings'], abyss: ['abyssSonarPulse', 'bubbles', 'rings'],
+                aurora: ['auroraPrismSweep', 'diamondSparkle', 'rings'], cyber: ['cyberTargetLock', 'glitchBars', 'rings'] };
+  const names = new Set(Object.values(FXK).flat());
+  names.forEach(m => {
+    const o = window.MecFX && window.MecFX[m]; if (typeof o !== 'function') return;
+    window.MecFX[m] = function () {
+      const P = window.__P, ui = MecUITheme.get();
+      if (P && FXK[ui] && FXK[ui].includes(m) && !P.has(ui + '.' + m)) return;
+      return o.apply(this, arguments);
+    };
+  });
+})();`;
+/* 部品の台帳：[キー, 名前, 説明, 要る段, 段が上がった瞬間が要るか] */
+const PARTS = {
+  liquid: [
+    ['lq.mesh', '肢の色の塊', '肢の文字の裏で4色がぼけて咲き、混ざる（メッシュ）', 1, false],
+    ['lq.film', '肢を渡る虹色の輪', 'タップ位置から油膜の虹色が輪になって広がる', 1, false],
+    ['lq.gloss', '肢に残る光沢', '0.15秒後から肢全体にうっすら虹色が残る', 1, false],
+    ['lq.fmesh', '全画面の色の塊', '段3〜（または段が上がった瞬間）：肢のまわりに大きな色の塊', 3, false],
+    ['lq.ring', '虹色のリング', '段3〜：画面の縁を油膜の色が回る', 3, false],
+    ['lq.ffilm', '全画面を渡る虹色の輪', '段が上がった瞬間：画面いっぱいに輪が広がる', 2, true],
+  ],
+  frost: [
+    ['fr.haze', '肢の霞', '肢の上下の縁がうっすら白む', 1, false],
+    ['fr.frost', '霜華', '肢の縁から霜の枝が這い、タップ位置から丸く溶ける（溶けた縁が光る）', 1, false],
+    ['fr.flake', '六花', 'タップ位置に雪の結晶が線で描き上がる＋中心のきらめき（肢と画面の両方の層）', 1, false],
+    ['fr.dust', 'ダイヤモンドダスト', '細かな光の粒が舞い降りて瞬く（段3〜は画面全体）', 1, false],
+    ['fr.cglint', '肢の右上のきらめき', '最初の0.6秒だけ、肢の右上の角で光る', 1, false],
+    ['fr.extra', 'まわりの小さな結晶', '段3〜：六花のまわりに小さな結晶が順に咲く', 3, false],
+    ['fr.corner', '画面の四隅の霜', '段3〜：四隅から霜が伸びて溶ける', 3, false],
+    ['fr.rim', '画面の縁の霜', '段が上がった瞬間：画面の縁が一周凍ってから溶ける', 2, true],
+    ['fr.big', '大きな結晶', '段が上がった瞬間：画面の中央に大きな結晶', 2, true],
+    ['fr.wave', '左から右へ瞬く粒', '段が上がった瞬間：粒が左から右へ順に瞬く', 2, true],
+  ],
+  celestial: [
+    ['clx.eclipse', '金環', '毎回：金の太陽に月が重なって金環になり、ダイヤモンドリングが光る', 1, false],
+    ['clx.const', '星座', '3つから1つ：一等星から星が灯って金の線で結ばれる（段が上がった瞬間は本物の星座と名前）', 1, false],
+    ['clx.syzygy', '惑星直列', '3つから1つ：軌道を回った惑星が一直線に並び、光が貫く', 1, false],
+    ['clx.trails', '星の軌跡', '3つから1つ：長時間露光のように同心円の光の弧が伸びる', 1, false],
+  ],
+  brass: [
+    ['brs.gear', '歯車列', '駆動歯車がはまり、左右へ噛み合って回る（接点の火花）', 1, false],
+    ['brs.hall', '刻印', '肢の右端に MEC の刻印が打たれ白熱→真鍮色へ冷える（問題番号・星・月桂樹）', 1, false],
+    ['brs.fil', '唐草', 'タップ位置から溶けた真鍮の蔓が斜め4方向へ伸びて渦を巻く', 1, false],
+    ['brs.bigtrain', '大きな歯車列', '段が上がった瞬間：大きな歯車列が画面を横切る', 2, true],
+    ['brs.medal', 'ローマ数字のメダル', '段が上がった瞬間：中央にメダルが打刻される', 2, true],
+    ['brs.corner', '四隅の飾り金具', '段が上がった瞬間：四隅から唐草の金具が鋳込まれ、斜めの光沢が走る', 2, true],
+  ],
+  kintsugi: [
+    ['kintsugi.kintsugiCrack', '金継ぎのひび', '肢の位置から金のひびが枝分かれして走る', 1, false],
+    ['kintsugi.dust', '金の粉', '金・白・朱の粉が舞う', 1, false],
+    ['kintsugi.rings', '金の輪', '段4〜：金の輪が2本広がる', 4, false],
+  ],
+  abyss: [
+    ['abyss.abyssSonarPulse', 'ソナー', 'ソナーの波紋＋マリンスノー', 1, false],
+    ['abyss.bubbles', '泡', '緑・青の泡が昇る', 1, false],
+    ['abyss.rings', '輪', '段4〜：輪が3本広がる', 4, false],
+  ],
+  aurora: [
+    ['aurora.auroraPrismSweep', 'プリズムの帯', 'プリズムの光が掃いてきらめく', 1, false],
+    ['aurora.diamondSparkle', '菱形の光', '菱形の光が散る', 1, false],
+    ['aurora.rings', '輪', '段4〜：輪が2本広がる', 4, false],
+  ],
+  cyber: [
+    ['cyber.cyberTargetLock', '照準', '照準が肢に合ってロックする（グリッチ）', 1, false],
+    ['cyber.glitchBars', 'グリッチ帯', '緑のグリッチの帯', 1, false],
+    ['cyber.rings', '輪', '段4〜：輪が2本広がる', 4, false],
+  ],
+};
+const THEME_FX_CODE = `const u = _rfUi(), B = RF_ADVANCE_MS.one;
+  if (u === 'liquid') _lqFluidFx(ok, c, t, up, B); else if (u === 'frost') _frFrostFx(ok, c, t, up, B);
+  else if (u === 'celestial') _clxCelestialFx(ok, c, t, up, B); else if (u === 'brass') _brsBrassFx(ok, c, t, up, B);
+  else _spawnStreakParticles(Math.max(1, t), _rfCenter(ok), { el: ok, card: c, promoted: up });`;
+
 const LAYER_CSS = {
   choice: '.ch2 > .lq-layer', full: '.rf-full', particles: '#mecFxCanvas', sweep: '.rf-sweep', streak: '#examRfStreak',
 };
@@ -280,6 +438,7 @@ function prepFrame() {
   }, true);
   W.eval(HELPER);
   W.eval(TIMECTL);
+  W.eval(PARTCTL);
   paused = false; updPauseBtn(); W.__T.setSpeed(curSpeed);
   applyLayers();
   applyTheme();
@@ -314,19 +473,23 @@ function waitFrame() {
 }
 fr.addEventListener('load', waitFrame);
 
-function run(code) {
+/* o.parts：描く部品のキー（無ければ全部）／o.minT・o.needUp：その部品が出る段まで引き上げる */
+function run(code, o) {
+  o = o || {};
   if (!ready) { say('まだ準備中です', true); return; }
-  const n = +document.getElementById('streak').value, up = document.getElementById('up').checked;
+  const n = +document.getElementById('streak').value, up = document.getElementById('up').checked || !!o.needUp;
   try {
     W.__T.seed(document.getElementById('seed').checked);
     if (document.getElementById('autoPause').checked && !paused) { paused = true; W.__T.setSpeed(0); updPauseBtn(); }
     W.__T.mark();
-    W.eval(`(() => { const n = ${n}, t = _examTier(n), up = ${up}; examStreak = n;
+    const info = W.eval(`(() => { const n = ${n}, t = Math.max(_examTier(n), ${o.minT || 0}), up = ${up}; examStreak = n;
+      window.__P = ${o.parts ? 'new Set(' + JSON.stringify(o.parts) + ')' : 'null'};
       const c = __D.card(); if (!c) throw new Error('カードが見つからない');
       const ok = c.querySelector('.ch2.ok'), ng = c.querySelector('.ch2:not(.ok)');
       ${code}
+      return '段 ' + t + (up ? '・段が上がった瞬間' : '');
     })()`);
-    say(paused ? '再生しました（止まっています。+1コマ／+100ms／再開で進みます）' : '再生しました');
+    say((o.parts ? '再生しました（' + info + '）' : '再生しました') + (paused ? '。止まっています：+1コマ／+100ms／再開で進みます' : ''));
   } catch (e) { say('エラー: ' + (e && e.message || e), true); }
 }
 
@@ -355,6 +518,43 @@ FX.forEach(([sec, items]) => {
   });
 });
 updCount();
+
+/* ── UIテーマ固有の正解演出を部品ごとに（テーマを切り替えると作り直す） ── */
+const partsBox = document.createElement('div');
+list.prepend(partsBox);
+function renderParts() {
+  const ui = document.getElementById('ui').value, P = PARTS[ui] || [];
+  partsBox.innerHTML = '';
+  const h = document.createElement('h2'); h.textContent = 'UIテーマ固有の正解演出を部品ごとに（' + ui + '）'; partsBox.appendChild(h);
+  const top = document.createElement('div'); top.className = 'row'; top.style.margin = '0 6px 4px';
+  const all = document.createElement('button'); all.className = 'tbtn sm'; all.textContent = '全部を再生';
+  all.onclick = () => run(THEME_FX_CODE);
+  const rest = document.createElement('button'); rest.className = 'tbtn sm'; rest.textContent = '削除候補を外して再生';
+  rest.title = '印を付けた部品を消したらどう見えるか';
+  rest.onclick = () => {
+    const keep = P.filter(p => !marks['part-' + p[0]]);
+    if (!keep.length) { say('全部に削除候補の印が付いています', true); return; }
+    run(THEME_FX_CODE, { parts: keep.map(p => p[0]), minT: Math.max(...keep.map(p => p[3])), needUp: keep.some(p => p[4]) });
+  };
+  top.append(all, rest); partsBox.appendChild(top);
+  const note = document.createElement('div'); note.style.cssText = 'font-size:11px;color:var(--sub);margin:0 8px 4px;line-height:1.5';
+  note.textContent = '部品のボタンはその部品だけを出す。段が足りない部品は、その部品が出る段まで上げて再生する（連続数の設定より優先）。';
+  partsBox.appendChild(note);
+  P.forEach(([key, name, desc, minT, needUp]) => {
+    const id = 'part-' + key;
+    const row = document.createElement('div'); row.className = 'it' + (marks[id] ? ' marked' : '');
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.title = '削除候補'; cb.checked = !!marks[id];
+    cb.onchange = () => { marks[id] = cb.checked; row.classList.toggle('marked', cb.checked); saveMarks(); };
+    const b = document.createElement('button');
+    b.innerHTML = '<span class="tag t">部品</span>';
+    b.appendChild(document.createTextNode(name));
+    const s = document.createElement('small'); s.textContent = desc; b.appendChild(s);
+    b.onclick = () => run(THEME_FX_CODE, { parts: [key], minT, needUp });
+    row.dataset.name = 'UIテーマ固有の正解演出（' + ui + '）／' + name + '（' + key + '）';
+    row.append(cb, b); partsBox.appendChild(row);
+  });
+}
+renderParts();
 
 /* ── 再生の細かさ ── */
 let curSpeed = 1, paused = false;
@@ -392,12 +592,17 @@ const tierInfo = () => {
 };
 document.getElementById('streak').addEventListener('change', tierInfo); tierInfo();
 
-document.getElementById('ui').onchange = () => { applyTheme(); say('UIテーマを切り替えました（保存はしていません）'); };
+document.getElementById('ui').onchange = () => { applyTheme(); renderParts(); say('UIテーマを切り替えました（保存はしていません）'); };
 document.getElementById('bReset').onclick = () => { if (ready) { try { W.eval('__D.reset()'); say('カードを元に戻しました'); } catch (e) { say('エラー: ' + e.message, true); } } };
 document.getElementById('bNext').onclick = () => { if (ready) { W.eval('__D.reset(); __D.next()'); say('次のカードへ'); } };
 document.getElementById('bReload').onclick = () => { ready = false; fr.contentWindow.location.reload(); };
 document.getElementById('bCopy').onclick = async () => {
   const names = [...list.querySelectorAll('.it')].filter(r => r.querySelector('input') && r.querySelector('input').checked).map(r => '- ' + r.dataset.name);
+  // 部品の一覧は表示中のテーマの分しか画面に無いので、ほかのテーマで付けた印は台帳から足す
+  const curUi = document.getElementById('ui').value;
+  Object.keys(PARTS).filter(ui => ui !== curUi).forEach(ui => PARTS[ui].forEach(([key, name]) => {
+    if (marks['part-' + key]) names.push('- UIテーマ固有の正解演出（' + ui + '）／' + name + '（' + key + '）');
+  }));
   const text = names.length ? '削除したい演出:\n' + names.join('\n') : '（削除候補なし）';
   try { await navigator.clipboard.writeText(text); say('コピーしました（' + names.length + '件）'); }
   catch (e) { prompt('コピーしてください', text); }
