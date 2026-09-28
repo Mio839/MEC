@@ -2987,32 +2987,38 @@ function _frFrostFx(el, card, tier, promoted, budget) {
    ⚠️ 文字の上には何も描かない（層は .lq-layer・z-index:-1 だけ）。カードの帯は FR_BAND を共用。 */
 const CLX_GOLD = '#FFD166', CLX_PALE = '#FFF3C4', CLX_CYAN = '#48CAE4';
 const CLX_STARCOL = ['#FFF3C4', '#FFD166', '#CFE6FF', '#A8DDF2', '#FFD9A8', '#E4D2FF'];
+/* 2026-09-28 ユーザー要望「もっとはっきり」：線・星・点を太く明るく（尺・構図・ランダムの選び方は変えていない）。 */
+const CLX_BOLD = { line: 2, star: 1.45, dot: 1.5, alpha: 1.3 };
 const CLX_SERIF = '"Cormorant Garamond","Didot","Bodoni 72","Times New Roman",serif';
 const _clxEio = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 function _clxRgba(h, a) { const n = parseInt(h.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; }
 function _clxStar(c, x, y, s, a, rot, col) {
   if (!(a > 0) || !(s > 0)) return;
   col = col || CLX_GOLD;
+  s *= CLX_BOLD.star;
   c.save(); c.translate(x, y); c.rotate(rot || 0); c.globalAlpha = Math.min(1, a); c.globalCompositeOperation = 'lighter';
-  const g = c.createRadialGradient(0, 0, 0, 0, 0, s * 1.4);
-  g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(.28, _clxRgba(col, .45)); g.addColorStop(1, _clxRgba(col, 0));
-  c.fillStyle = g; c.beginPath(); c.arc(0, 0, s * 1.4, 0, 7); c.fill();
+  const g = c.createRadialGradient(0, 0, 0, 0, 0, s * 2);
+  g.addColorStop(0, '#fff'); g.addColorStop(.22, _clxRgba(col, .8)); g.addColorStop(1, _clxRgba(col, 0));
+  c.fillStyle = g; c.beginPath(); c.arc(0, 0, s * 2, 0, 7); c.fill();
   c.fillStyle = '#fff';
-  for (const [w, h] of [[s * .1, s * 2.4], [s * 2.4, s * .1]]) { c.beginPath(); c.moveTo(0, -h); c.lineTo(w, 0); c.lineTo(0, h); c.lineTo(-w, 0); c.closePath(); c.fill(); }
+  for (const [w, h] of [[s * .16, s * 2.6], [s * 2.6, s * .16]]) { c.beginPath(); c.moveTo(0, -h); c.lineTo(w, 0); c.lineTo(0, h); c.lineTo(-w, 0); c.closePath(); c.fill(); }
   c.restore();
 }
 function _clxDot(c, x, y, r, a, col) {
   if (!(a > 0)) return;
+  r *= CLX_BOLD.dot;
   c.save(); c.globalCompositeOperation = 'lighter'; c.globalAlpha = Math.min(1, a);
   const g = c.createRadialGradient(x, y, 0, x, y, r * 3);
-  g.addColorStop(0, '#fff'); g.addColorStop(.3, _clxRgba(col || CLX_PALE, .7)); g.addColorStop(1, _clxRgba(col || CLX_PALE, 0));
+  g.addColorStop(0, '#fff'); g.addColorStop(.3, _clxRgba(col || CLX_PALE, .95)); g.addColorStop(1, _clxRgba(col || CLX_PALE, 0));
   c.fillStyle = g; c.beginPath(); c.arc(x, y, r * 3, 0, 7); c.fill(); c.restore();
 }
 function _clxLine(c, x1, y1, x2, y2, a, w) {
   if (!(a > 0)) return;
   c.save(); c.globalCompositeOperation = 'lighter'; c.lineCap = 'round';
-  c.globalAlpha = Math.min(1, a) * .35; c.strokeStyle = CLX_GOLD; c.lineWidth = (w || .9) * 4; c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke();
-  c.globalAlpha = Math.min(1, a); c.strokeStyle = CLX_PALE; c.lineWidth = w || .9; c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke();
+  const lw = (w || .9) * CLX_BOLD.line, al = Math.min(1, a * CLX_BOLD.alpha);
+  c.globalAlpha = al * .3; c.strokeStyle = CLX_GOLD; c.lineWidth = lw * 6; c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke();
+  c.globalAlpha = al * .8; c.strokeStyle = CLX_GOLD; c.lineWidth = lw * 2.2; c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke();
+  c.globalAlpha = al; c.strokeStyle = CLX_PALE; c.lineWidth = lw; c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.stroke();
   c.restore();
 }
 
@@ -3060,7 +3066,7 @@ function _clxConstellation(T, up, px, py, rx, ry, CW, CH, S) {
       const f = e < 2300 ? 1 : _frC(1 - (e - 2300) / 700), P = big.P;
       big.cn.e.forEach(([i, j], m) => {
         const ks = _frE(_frC((e - 220 - m * 150) / 300)); if (ks <= 0) return;
-        _clxLine(c, P[i].x, P[i].y, P[i].x + (P[j].x - P[i].x) * ks, P[i].y + (P[j].y - P[i].y) * ks, .55 * f, 1.1);
+        _clxLine(c, P[i].x, P[i].y, P[i].x + (P[j].x - P[i].x) * ks, P[i].y + (P[j].y - P[i].y) * ks, .85 * f, 1.1);
       });
       P.forEach((q, i) => { const ki = _frC((e - i * 110) / 260); _clxStar(c, q.x, q.y, (3.5 + (i % 3)) * S * (1 + .5 * Math.sin(Math.PI * ki)), _frE(ki) * .8 * f, i); });
       const kt = _frC((e - 1100) / 700);
@@ -3079,7 +3085,7 @@ function _clxConstellation(T, up, px, py, rx, ry, CW, CH, S) {
     for (let i = 1; i < order.length; i++) {
       const ks = _frE(_frC((e - (i - 1) * STEP - 30) / 160)); if (ks <= 0) continue;
       const a = order[i - 1], b = order[i];
-      _clxLine(c, a.x, a.y, a.x + (b.x - a.x) * ks, a.y + (b.y - a.y) * ks, .75 * fade);
+      _clxLine(c, a.x, a.y, a.x + (b.x - a.x) * ks, a.y + (b.y - a.y) * ks, fade);
     }
     order.forEach((s, i) => {
       const ki = _frC((e - i * STEP) / 180); if (ki <= 0) return;
@@ -3100,10 +3106,10 @@ function _clxSysDraw(c, e, cx, cy, s, fade) {
   if (e < 0 || fade <= 0) return;
   const ko = _frE(_frC(e / 380)), kk = _clxEio(_frC(e / s.dur));
   const radius = i => s.base * (.34 + .66 * i / Math.max(1, s.m - 1));
-  c.save(); c.globalCompositeOperation = 'lighter'; c.lineWidth = s.big ? .9 : .7;
+  c.save(); c.globalCompositeOperation = 'lighter'; c.lineWidth = (s.big ? .9 : .7) * CLX_BOLD.line;
   for (let i = 0; i < s.m; i++) {
     const a = radius(i);
-    c.globalAlpha = .38 * fade; c.strokeStyle = i % 2 ? CLX_CYAN : CLX_GOLD;
+    c.globalAlpha = .7 * fade; c.strokeStyle = i % 2 ? CLX_CYAN : CLX_GOLD;
     c.beginPath(); c.ellipse(cx, cy, a, a * s.ratio, s.tilt, -Math.PI / 2, -Math.PI / 2 + ko * Math.PI * 2); c.stroke();
   }
   c.restore();
@@ -3137,7 +3143,7 @@ function _clxSyzygy(T, up, px, py, base, CW, CH, bigY) {
 function _clxArcs(n, rMax, rMin) {
   return Array.from({ length: n }, () => ({
     r: rMin + Math.pow(Math.random(), .8) * (rMax - rMin), a0: _frR(0, 6.28), sp: _frR(.92, 1.05),
-    col: CLX_STARCOL[Math.floor(Math.random() * CLX_STARCOL.length)], al: _frR(.35, .95), w: _frR(.7, 1.6) }));
+    col: CLX_STARCOL[Math.floor(Math.random() * CLX_STARCOL.length)], al: _frR(.65, 1), w: _frR(.7, 1.6) * CLX_BOLD.line }));
 }
 function _clxArcsDraw(c, e, x, y, arcs, sweep, dur, fadeAt, fadeLen) {
   if (e < 0) return;

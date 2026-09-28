@@ -9,10 +9,12 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-09-28za: Celestial の正解演出（星座・惑星直列・星の軌跡）の線・星・点を太く明るく（CLX_BOLD・尺と構図は据え置き）。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-28z: Liquid の正解演出に色収差（_lqChroma）とネオン管（_lqNeon）を足す・大きなシャボン玉の尺を半分に。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-28y: Frost の六花を1〜3個に（2・3個目は画面のランダムな位置・中心は重ねず重なり20%まで・_frFlakeSpots）。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-28x: Frost の六花とまわりの小さな結晶の尺を2倍（全画面の層）・小さな結晶の数を2倍（最大8個）。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-28w: Liquid の正解演出にぷるん（肢とカードが弾む・玉が飛ぶ）とガラスの衝撃波（backdrop-filter の輪）を足し、シャボン玉と3つ重ねる（_lqLiquidFx）。シェルのみ＝SHELL_VERSION だけ bump。
+2026-09-28 v668: 自作問題に腎臓の国試6問（111I-57・111I-62・113F-51・112A-3・114A-13・118D-12）を Q.29〜Q.34 として追加（循環器の作り直しと同じ4ブロックの解説）。questions_custom.json を更新したので CACHE を bump。
 2026-09-28v: 画面の縁が光る演出（_triggerBorderGlow・#examStreakBorder・テーマ別の外周装飾）を全テーマで撤去。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-28u: Frost の画面の縁の光（_triggerBorderGlow・5連続〜）の尺を2倍に。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-28t: Frost の画面の四隅の霜・縁の霜を画面の内側まで伸ばし尺を3倍に。大きな結晶を画面のランダムな位置に1〜3個（中心は重ねず・重なり20%まで）。シェルのみ＝SHELL_VERSION だけ bump。
