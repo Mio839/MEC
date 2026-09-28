@@ -2727,6 +2727,18 @@ function _frOverlap(x1, y1, r1, x2, y2, r2) {   // 2円の重なりの面積 ÷ 
     - .5 * Math.sqrt((-d + r1 + r2) * (d + r1 - r2) * (d - r1 + r2) * (d + r1 + r2));
   return A / (Math.PI * rs * rs);
 }
+/* 六花の2・3個目の置き場所：画面のランダムな位置に n 個。1個目（タップ位置・半径 r0）とも、互いとも、
+   重なりは小さい方の面積の20%まで（＝発火点の中心は重ならない）。置けなかった分は出さない。 */
+function _frFlakeSpots(n, R, CW, CH, x0, y0) {
+  const out = [], all = [{ x: x0, y: y0, R }];
+  for (let i = 0; i < n; i++) {
+    for (let k = 0; k < 60; k++) {
+      const r = R * _frR(.85, 1.1), x = _frR(CW * .08, CW * .92), y = _frR(CH * .12, CH * .88);
+      if (all.every(o => _frOverlap(o.x, o.y, o.R, x, y, r) <= FR_BIG_OVERLAP)) { const q = { x, y, R: r }; out.push(q); all.push(q); break; }
+    }
+  }
+  return out;
+}
 function _frBigSpots(CW, CH) {
   const base = Math.min(CW, CH, 440);
   for (let n = 1 + Math.floor(Math.random() * 3); n >= 1; n--) {
@@ -2758,9 +2770,9 @@ function _frFrostFx(el, card, tier, promoted, budget) {
   // 描くと肢に重なる部分が隠れる。肢の中はくっきり、はみ出した先はカードの裏へ続いて見える。
   const gens = Math.min(4, 1 + Math.floor(T / 2));
   const f = _frFlake(gens), R = 24 + T * 3.5, rot0 = _frR(0, Math.PI);
-  const flakeAt = (c, e, x, y) => {
+  const flakeAt = (c, e, x, y, fl = f, rr = R, rot = rot0) => {
     const fade = e < 1000 ? 1 : _frC(1 - (e - 1000) / 600);
-    _frDrawFlake(c, f, x, y, R, rot0 + e / 4000, _frE(_frC(e / 520)), fade, 1.35);
+    _frDrawFlake(c, fl, x, y, rr, rot + e / 4000, _frE(_frC(e / 520)), fade, 1.35);
     if (e > 380 && e < 900) _frGlint(c, x, y, 9 * Math.sin(Math.PI * (e - 380) / 520), .9);
   };
 
@@ -2792,7 +2804,7 @@ function _frFrostFx(el, card, tier, promoted, budget) {
   // 肢の層の六花は送りまでに終える約束のまま（_rfFit）。
   const FR_FLAKE_K = 2;
   const Mf = Math.min(CW, CH);
-  const dur2 = up ? Math.round(2000 * FR_EDGE_K) : T >= 3 ? Math.round(1900 * FR_EDGE_K) : Math.round(1650 * FR_FLAKE_K);
+  const dur2 = up ? Math.round(2000 * FR_EDGE_K) : T >= 3 ? Math.round(1900 * FR_EDGE_K) : Math.round(1950 * FR_FLAKE_K);
   const H = _rfFullHost(Math.max(2950, dur2 + 100));
 
   // ── 六花（カードの裏）＋ TIER3〜の四隅の霜 ＋ 段が上がった瞬間の縁の霜と大きな結晶 ──
@@ -2803,6 +2815,9 @@ function _frFrostFx(el, card, tier, promoted, budget) {
   }) : null;
   // 大きな結晶：画面のランダムな位置に1〜3個（2026-09-28・ユーザー判断）。発火点（中心）は重ねず、結晶どうしの重なりは
   // 小さい方の面積の20%まで（_frBigSpots）。少しずつずらして咲かせる。
+  // 六花は1〜3個（2026-09-28・ユーザー判断）。1個目はタップ位置、2・3個目は画面のランダムな位置に 0.15秒ずつ遅れて咲く。
+  const flakes2 = _frFlakeSpots(Math.floor(Math.random() * 3), R, CW, CH, px, py)
+    .map((q, i) => ({ ...q, f: _frFlake(gens), rot: _frR(0, Math.PI), dl: 150 * (i + 1) }));
   const bigs = up ? _frBigSpots(CW, CH).map((b, i) => ({ ...b, f: _frFlake(4), rot: _frR(0, Math.PI), dl: i * 180 })) : null;
   let corner = null, rim = null;
   if (T >= 3) {
@@ -2843,6 +2858,7 @@ function _frFrostFx(el, card, tier, promoted, budget) {
     });
     const ef = e / FR_FLAKE_K;
     flakeAt(c, ef, px, py);
+    flakes2.forEach(q => { const eq = ef - q.dl; if (eq > 0) flakeAt(c, eq, q.x, q.y, q.f, q.R, q.rot); });
     if (extras) extras.forEach(x => {
       const ff = ef < 1100 ? 1 : _frC(1 - (ef - 1100) / 500);
       _frDrawFlake(c, x.f, x.x, x.y, x.R, x.rot + ef / 3000, _frE(_frC((ef - x.dl) / 480)), ff * .85, 1);
