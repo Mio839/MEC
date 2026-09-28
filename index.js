@@ -4076,20 +4076,6 @@ function _startSyncFx() {
   _syncFxTimer = setInterval(puff, 1100);
 }
 
-// 完了：カチッと噛み合う。刻印＋歯車が数枚こぼれる
-function _syncFxDone() {
-  _stopSyncFx();
-  if (!_fxOk()) return;
-  const c = _centerOf(_syncBadgeEl());
-  if (!c) return;
-  const isBrass = document.documentElement.classList.contains('ui-brass');
-  MecFX.stamp(c.x, c.y, { color: SYNC_BRASS[1], size: 62, thick: 2.5, ticks: 8, ttl: .72, dust: false });
-  if (isBrass && MecFX.gears) {
-    MecFX.gears(c.x, c.y, { count: 6, spread: 210, min: 8, max: 15, gravity: 620, w: 10 });
-  }
-  MecFX.rings(c.x, c.y, { count: 1, color: 'rgba(224,194,94,.85)', thickness: 2, maxR: 78 });
-}
-
 // 失敗：噛み合わずに蒸気が抜け、破片がこぼれる（赤は使わない＝盤面の色で語る）
 function _syncFxFail() {
   _stopSyncFx();
@@ -4130,8 +4116,7 @@ function _initSyncFx() {
     const was = _syncFxState;
     _syncFxState = st;
     if (st === 'syncing') { _startSyncFx(); return; }
-    // 「同期中」を経由していない synced（ページ読み込み直後の状態表示）では祝わない
-    if (st === 'synced' && was === 'syncing') { _syncFxDone(); return; }
+    // 完了の演出（刻印の輪＋金の輪＋歯車）は 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。
     if (st === 'error' && was === 'syncing') { _syncFxFail(); return; }
     _stopSyncFx();
   });
