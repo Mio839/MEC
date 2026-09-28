@@ -62,6 +62,14 @@ rows.forEach(r => {
   L.push(`  { sid: ${JSON.stringify(r.sid)}, label: ${JSON.stringify(r.label)}, icon: ${JSON.stringify(r.icon)}, color: ${JSON.stringify(r.color)}, ready: ${r.ready} },`);
 });
 L.push('];');
+// --check: 書き出さず、現物と一致するかだけ見る
+if (process.argv.includes('--check')) {
+  const cur = fs.existsSync(OUT) ? fs.readFileSync(OUT, 'utf8') : '';
+  if (cur === L.join('\n') + '\n') { console.log('mindmap_data/index.js OK: 現物と一致'); process.exit(0); }
+  console.log('*** mindmap_data/index.js が gamify.js の SUBJECTS・mindmap_data/ と食い違っている');
+  console.log('    直すには: node _work/build_mindmap_index.js');
+  process.exit(1);
+}
 fs.writeFileSync(OUT, L.join('\n') + '\n', 'utf8');
 
 const ready = rows.filter(r => r.ready).length;

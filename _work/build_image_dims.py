@@ -22,6 +22,7 @@ width/height 属性を出せばブラウザが aspect-ratio を先に計算し�
 import glob
 import json
 import os
+import sys
 
 from PIL import Image, ImageFile
 
@@ -55,6 +56,21 @@ def main():
         except Exception as e:
             failed.append(f'{src}: {e}')
 
+    # --check: 書き出さず、現物（image_dims.json）と一致するかだけ見る
+    if '--check' in sys.argv:
+        try:
+            with open(OUT, encoding='utf-8') as f:
+                cur = json.load(f)
+        except Exception:
+            cur = None
+        if cur == dims:
+            print(f'image_dims.json OK: 現物と一致（{len(dims)} 件）')
+            return
+        cur = cur or {}
+        diff = sorted(k for k in set(cur) | set(dims) if cur.get(k) != dims.get(k))
+        print(f'*** image_dims.json が画像と食い違っている（{len(diff)} 件）: {diff[:6]}')
+        print('    直すには: python _work/build_image_dims.py')
+        sys.exit(1)
     with open(OUT, 'w', encoding='utf-8', newline='') as f:
         json.dump(dims, f, ensure_ascii=False, separators=(',', ':'), sort_keys=True)
 

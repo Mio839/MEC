@@ -169,7 +169,9 @@ def build(prefix):
 
 
 def main():
-    args = sys.argv[1:]
+    # --check: 書き出さず、現物（qmeta.json）と中身が一致するかだけ見る（生成日 generated は比べない）
+    check = '--check' in sys.argv
+    args = [a for a in sys.argv[1:] if a != '--check']
     prefixes = sorted(
         fn[len('questions_'):-len('.json')]
         for fn in os.listdir(ROOT)
@@ -217,6 +219,20 @@ def main():
         for p in prefixes:
             doc['q'].update(build(p))
     dst = os.path.join(ROOT, 'qmeta.json')
+    if check:
+        try:
+            with open(dst, encoding='utf-8') as f:
+                cur = json.load(f)
+        except Exception:
+            cur = None
+        strip = lambda d: {k: v for k, v in (d or {}).items() if k != 'generated'}
+        if strip(cur) == strip(doc):
+            print('qmeta.json OK: 現物と一致（%d問）' % len(doc['q']))
+            return
+        diff = [u for u in set((cur or {}).get('q', {})) | set(doc['q']) if (cur or {}).get('q', {}).get(u) != doc['q'].get(u)]
+        print('*** qmeta.json が questions_*.json と食い違っている（%d問）: %s' % (len(diff), ' '.join(sorted(diff)[:8])))
+        print('    直すには: python _work/build_qmeta.py')
+        sys.exit(1)
     with open(dst, 'w', encoding='utf-8') as f:
         json.dump(doc, f, ensure_ascii=False, separators=(',', ':'))
 
