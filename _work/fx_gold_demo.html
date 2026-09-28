@@ -52,10 +52,17 @@
       <option value="kintsugi">kintsugi</option><option value="abyss">abyss</option>
     </select>
   </label>
+  <label style="font-size:13px;">連続正解
+    <select id="streak">
+      <option value="1">1〜2連続</option><option value="3">3連続〜</option><option value="5">5連続〜</option>
+      <option value="7">7連続〜</option><option value="10">10連続〜</option><option value="14" selected>14連続〜</option><option value="20">20連続〜</option>
+    </select>
+  </label>
 </div>
 <div class="btns">
   <button id="bSrs">① SRS 復習の「定着の刻印」<small>復習モードで正解するたび毎回・カード右上・小さい輪だけ（文字なし）</small></button>
   <button id="bHard">② 難問突破<small>正答率60%未満を正解したとき・正解の肢の位置・大きな輪＋金の輪2本＋粒＋文字</small></button>
+  <button id="bWave">④ 正解音と一緒に出る輪<small>正解するたび毎回・画面中央から3重の輪が広がる・色は連続正解の段で変わる</small></button>
   <button id="bSync">③ 同期完了（撤去済み・比較用）<small>上の「同期済」の位置・輪＋金の輪1本</small></button>
 </div>
 <div class="qc" id="card">
@@ -112,6 +119,22 @@ $('bHard').onclick = () => {
     shapes: ['gem', 'star', 'shard'], tier: 5, scale: 1.8, speed: 620, glow: true, additive: true });
   MecFX.rings(cx, cy, { count: 2, color: '#FFD700', thickness: 5, maxR: 160, additive: true });
   MecFX.stamp(cx, cy, { color: HARD_COLS[set][0], size: 148, thick: 4, ticks: 12, rot: -8, ttl: 1.0 });
+};
+
+// ④ study_exam.js _playCorrectSound の sonicWave（段は _examTier：3/5/7/10/14/20 連続で 2〜7）
+const RING = {
+  classic: t => t >= 7 ? 'rgba(255,61,127,.92)' : t >= 6 ? 'rgba(210,80,255,.85)' : t >= 4 ? 'rgba(255,210,0,.85)' : t >= 3 ? 'rgba(255,88,32,.85)' : 'rgba(255,160,64,.75)',
+  neon:    t => t >= 7 ? 'rgba(255,49,49,.92)' : t >= 6 ? 'rgba(255,43,214,.9)' : t >= 4 ? 'rgba(0,229,255,.9)' : 'rgba(122,92,255,.8)',
+  ink:     t => t >= 7 ? 'rgba(212,175,55,.85)' : t >= 5 ? 'rgba(26,26,26,.75)' : 'rgba(201,58,58,.75)',
+  ecg:     t => t >= 7 ? 'rgba(213,0,249,.92)' : t >= 6 ? 'rgba(0,229,255,.9)' : t >= 4 ? 'rgba(255,23,68,.85)' : 'rgba(0,230,118,.8)',
+  space:   t => t >= 7 ? 'rgba(100,255,218,.92)' : t >= 6 ? 'rgba(255,213,79,.9)' : t >= 4 ? 'rgba(124,77,255,.85)' : 'rgba(68,138,255,.75)',
+  retro:   t => t >= 7 ? 'rgba(57,255,20,.92)' : t >= 6 ? 'rgba(176,38,255,.9)' : t >= 4 ? 'rgba(255,16,83,.85)' : 'rgba(0,168,232,.75)',
+  luxury:  t => t >= 7 ? 'rgba(229,228,226,.95)' : t >= 6 ? 'rgba(255,215,0,.95)' : t >= 4 ? 'rgba(201,162,39,.85)' : 'rgba(255,215,0,.7)'
+};
+const tierOf = n => n >= 20 ? 7 : n >= 14 ? 6 : n >= 10 ? 5 : n >= 7 ? 4 : n >= 5 ? 3 : n >= 3 ? 2 : 1;
+$('bWave').onclick = () => {
+  const t = Math.max(2, Math.min(tierOf(+$('streak').value) || 2, 7));
+  MecFX.sonicWave(innerWidth / 2, innerHeight / 2, { color: RING[SET[$('ui').value]](t), count: 3, maxR: 260 + t * 20 });
 };
 
 // ③ index.js の旧 _syncFxDone（2026-09-28 撤去）
