@@ -158,9 +158,8 @@ test('study_exam.js と study.css に 👑 クラウンと宝石バーストが�
 });
 
 console.log('── 8. 読影X線ビーム走査 (案8) ──');
-test('study.css に .qimg.xray-scanned がある', () => {
-  assert(cssSrc.includes('.qimg.xray-scanned'), 'Missing xray-scanned in study.css');
-});
+// ⚠️ 2026-09-28: .qimg.xray-scanned を削除した。xray-scanned を付けるコードがどこにも無く
+//    一度も表示されない CSS だったため。
 
 console.log('── 9. マインドマップ連鎖発光ビッグバン (案9) ──');
 test('mindmap.js に親から子への連鎖パルスがある', () => {

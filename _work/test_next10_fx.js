@@ -24,10 +24,8 @@ const mmCss = fs.readFileSync(path.join(__dirname, '../mindmap.css'), 'utf8');
 const statsSrc = fs.readFileSync(path.join(__dirname, '../stats.html'), 'utf8');
 
 console.log('── 1. 章完走メダル封印 (案1) ──');
-test('study.css に .sgh.ch-sealed と chSealIn がある', () => {
-  assert(cssSrc.includes('.sgh.ch-sealed::after'), 'Missing .sgh.ch-sealed in study.css');
-  assert(cssSrc.includes('@keyframes chSealIn'), 'Missing chSealIn in study.css');
-});
+// ⚠️ 2026-09-28: .sgh.ch-sealed と chSealIn を削除した。ch-sealed を付けるコードがどこにも無く
+//    一度も表示されない CSS だったため（test_dead_fx.js が参照されない @keyframes を見張る）。
 
 console.log('── 2. コンボメーターのオーバーヒート & 蒸気 (案3) ──');
 test('study.css と study_exam.js に tier-overheat と蒸気放出がある', () => {

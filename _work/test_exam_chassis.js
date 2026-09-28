@@ -523,11 +523,8 @@ t('17. .ep-tick / .ep-last / .exam-prog の宣言に真鍮が現れない（2026
   assert.ok(prog && !BRASS_RE.test(prog),
     '.exam-prog の床が真鍮化されている（黒のままの方が真鍮のレールとチャネルが立つ）');
   assert.ok(/background:rgba\(0,0,0,\.5\)/.test(prog), '.exam-prog の床 rgba(0,0,0,.5) が変わっている');
-  // 目盛りの黒縁が残っていること（明暗の対で塗りの上でも読める）
-  const tick = soleBody('.exam-prog-track .ep-tick');
-  assert.ok(tick && /box-shadow:0 0 0 1px rgba\(0,0,0,\.5\)/.test(tick),
-    '.ep-tick の黒縁が消えている（塗りの上で目盛りが読めなくなる）');
-  assert.ok(/background:rgba\(255,255,255,\.85\)/.test(tick), '.ep-tick の白い芯が変わっている');
+  // ⚠️ 目盛り（.ep-tick）は 2026-08-23g に撤去し、CSS も 2026-09-28 に消した。
+  //    印を戻すなら上の「真鍮にしない」はそのまま効く。
 });
 
 t('17b. .exam-prog-track が筐体化され、.exam-prog-fill は盤面のまま', () => {

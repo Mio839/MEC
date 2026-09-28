@@ -155,8 +155,6 @@ body.exam-mode.exam-idle-lit .st-hdr::after{opacity:.85;}
 .fsep{width:1px;height:10px;background:rgba(var(--glass-rgb),.15);margin:0 1px;flex-shrink:0;align-self:center;}
 .vis-count{font-size:8.5px;font-weight:700;color:rgba(255,255,255,.45);white-space:nowrap;flex-shrink:0;}
 
-.filter-row2{display:flex;align-items:center;gap:2px;overflow-x:auto;scrollbar-width:none;margin-top:3px;}
-.filter-row2::-webkit-scrollbar{display:none;}
 .nb2{flex-shrink:0;background:rgba(var(--glass-rgb),.04);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:2px 6px;font-size:8.5px;font-weight:700;font-family:inherit;cursor:pointer;color:rgba(255,255,255,.58);transition:background .15s,border-color .15s,color .15s;white-space:nowrap;}
 .nb2.fs-on{background:rgba(var(--glass-rgb),.15);border-color:rgba(255,255,255,.5);color:#fff;}
 .nb2[data-state="flag"].fs-on{background:var(--rd);border-color:var(--rd);color:#fff;}
@@ -562,23 +560,15 @@ body.exam-streak-zone #examZoneBreath{animation:zoneBreathe var(--zone-beat,3.2s
 #examComboMeter.tier-overheat{box-shadow:0 0 14px rgba(255,100,50,.85), 0 0 28px rgba(255,200,80,.5);animation:meterOverheatPulse 1.2s infinite alternate ease-in-out;}
 @keyframes meterOverheatPulse{0%{filter:brightness(1);}100%{filter:brightness(1.4);}}
 
-/* 章完走メダル封印（案1） */
-.sgh.ch-sealed::after{content:'🏅 完走';font-size:11px;font-weight:800;color:#000;background:linear-gradient(135deg,#FFE082,#FFD54F,#FFA000);padding:2px 8px;border-radius:12px;margin-left:auto;box-shadow:0 0 10px rgba(255,213,79,.6);animation:chSealIn .4s cubic-bezier(.17,.89,.32,1.25);}
-@keyframes chSealIn{0%{scale:0;rotate:-20deg;}100%{scale:1;rotate:0deg;}}
 
 /* 赤旗ピン打刻 ＆ 警戒光彩（案4） */
 .qc.flag-pinned{animation:cardFlagGlow .75s ease-out;}
 @keyframes cardFlagGlow{0%{box-shadow:0 0 0 0 rgba(239,68,68,.7);}50%{box-shadow:0 0 0 6px rgba(239,68,68,.4),0 8px 30px rgba(239,68,68,.25);}100%{box-shadow:none;}}
 
-/* キーワードタイプライター走光（案7） */
-.kw.type-glow{animation:kwTypeGlow .8s ease-out;}
-@keyframes kwTypeGlow{0%{background:rgba(255,215,0,.6);color:#000;}100%{background:transparent;color:inherit;}}
 
 @media (prefers-reduced-motion: reduce){
   #examComboMeter.tier-overheat{animation:none;}
-  .sgh.ch-sealed::after{animation:none;}
   .qc.flag-pinned{animation:none;}
-  .kw.type-glow{animation:none;}
 }
 .mec-myrate{font-size:10px;font-weight:700;padding:1px 6px;border-radius:var(--r-md);border:1.5px solid rgba(255,255,255,.14);white-space:nowrap;margin-left:2px;display:inline-block;color:var(--ts);}
 .mec-myrate[data-ok="true"]{background:rgba(61,214,140,.14);color:var(--gr);border-color:rgba(61,214,140,.32);}
@@ -604,11 +594,9 @@ body.exam-mode .st-hdr.hdr-collapsed .exam-prog{padding:0 10px;}
    ⚠️ height:7px / border-radius:4px / overflow:hidden を変えないこと。高さを変えるとヘッダが
       伸びて _fxBand() の焦点が動く。overflow:hidden は ep-sweep がトラックの外へはみ出さない
       ための既存の担保。
-   ⚠️ 刻みは横方向だけ。縦のハッチ（ルーバー）を打たないこと——.ep-tick が縦2pxの線なので
-      目盛りが読めなくなる。
-   ⚠️ .ep-tick / .ep-last の色には一切触らない（白のまま）。真鍮 #E0C25E(L=.5525) は
-      --yl #FFB830(L=.5575) と輝度がほぼ同一＝1.008:1 で、通過済み区間で芯が完全に消える。
-      白 .85 なら同じ塗りの上で 1.59:1 あり、黒縁と合わせて現に読めている＝この組は完成品。
+   ⚠️ バーの上に印を載せるなら真鍮にしないこと。真鍮 #E0C25E(L=.5525) は --yl #FFB830(L=.5575)
+      と輝度がほぼ同一＝1.008:1 で、通過済み区間で完全に消える（旧 .ep-tick は白 .85＋黒縁だった。
+      目盛り・難問印は 2026-08-23g に撤去済み）。
    ⚠️ --exam-copper は「レイヤー」ではなく background ショートハンド最終位置の地の色（＝
       background-color）として効く。色は最終レイヤーにしか置けないので、暗いグラデを上に敷いて
       銅を沈めるこの書き方が正しい。レイヤーのつもりで前へ動かすと none になって銅が消える。 */
@@ -704,21 +692,10 @@ body.exam-mode .st-hdr::before,body.exam-mode .ep-gear{transition:opacity .5s ea
 body.exam-mode.exam-waking .st-hdr::before{animation:examRailWake .9s ease-out;}
 @keyframes examRailWake{0%{opacity:.3;}35%{opacity:1;filter:brightness(1.7);}100%{opacity:1;}}
 /* B2(2026-08-18): 節目は「祝わない」。跨いだ瞬間に光が走るだけで音も粒子も出さない
-   （連続正解 tier と別軸で祝うと画面がぶつかる）。印は距離感のためだけにある。 */
-/* ⚠️ 印は「進んだ側（アンバーの塗り）」と「まだの側（暗いトラック）」の両方の上に載る。
-   片方だけを見て色を決めると、もう片方で消える。芯と縁で明暗を必ず対にすること。 */
-.exam-prog-track .ep-tick{position:absolute;top:0;bottom:0;width:2px;margin-left:-1px;
-  background:rgba(255,255,255,.85);box-shadow:0 0 0 1px rgba(0,0,0,.5);pointer-events:none;}
-.exam-prog-track .ep-last{background:#fff;}
-.exam-prog-track .ep-tick.lit{animation:epTickLit .9s ease-out;}
-@keyframes epTickLit{0%{box-shadow:0 0 0 0 rgba(255,255,255,.9);background:#fff;}
-  100%{box-shadow:0 0 0 7px rgba(255,255,255,0);}}
-/* 難問の位置＝残りに何が待っているか。通過すると芯が埋まる */
-.exam-prog-track .ep-hard{position:absolute;top:50%;width:3px;height:3px;margin:-1.5px 0 0 -1.5px;
-  border-radius:50%;border:1.5px solid var(--or);background:rgba(0,0,0,.6);pointer-events:none;}
-/* 通過した難問は芯が白く埋まる（アンバーで埋めると塗りと同化して見えない） */
-.exam-prog-track .ep-hard.done{background:#fff;border-color:rgba(0,0,0,.5);}
-/* 目盛りを跨いだ合図。バーの上を光が一度だけ走る */
+   （連続正解 tier と別軸で祝うと画面がぶつかる）。
+   ⚠️ 目盛り（.ep-tick）と難問印（.ep-hard）は 2026-08-23g に撤去した（study_exam.js の
+      _renderExamProgMarks は掃除だけをする）。CSS も 2026-09-28 に削除済み。 */
+/* 節目を跨いだ合図。バーの上を光が一度だけ走る */
 /* ⚠️ 静止位置（transform）を必ず書くこと。fill を付けない animation は終わると基準値へ戻るので、
    基準が translateX(0) だとバーの真ん中に明るい帯が居座る（実機で確認した）。 */
 .exam-prog-track.ep-sweep::after{content:'';position:absolute;inset:0;pointer-events:none;
@@ -761,14 +738,6 @@ body.exam-sprint .exam-prog{background:rgba(60,22,0,.62);animation:epSprint 2.6s
 .qc.qc-recap-in > .qc-recap{animation:qcRecapIn .5s cubic-bezier(.16,1,.3,1) both;
   animation-delay:calc(var(--recap-i,0) * 42ms);}
 @keyframes qcRecapIn{from{opacity:0;transform:scaleY(.2);}to{opacity:.85;transform:none;}}
-/* Selfcheck modal */
-.sc-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:var(--z-modal);align-items:center;justify-content:center;backdrop-filter:blur(4px);}
-.sc-ov.open{display:flex;}
-.sc-box{background:var(--surf-1);border:1px solid rgba(255,255,255,.12);border-radius:var(--r-lg);padding:20px;max-width:280px;width:90%;}
-.sc-box h3{font-size:15px;font-weight:800;color:var(--tx);margin-bottom:14px;text-align:center;}
-.sc-links{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;}
-.sc-link{display:block;padding:8px 10px;border-radius:var(--r-md);border:1.5px solid rgba(255,255,255,.12);background:rgba(var(--glass-rgb),.05);color:var(--tx);text-decoration:none;font-size:12px;font-weight:700;text-align:center;transition:background .15s,border-color .15s,color .15s;}
-.sc-link:hover{background:rgba(var(--glass-rgb),.12);border-color:rgba(255,255,255,.3);}
 /* Start modal */
 /* ⚠️ iOS WebKit対策: backdrop-filterの入れ子(オーバーレイ＋ボックス)や、backdrop-filter付き
    要素のアニメーションはカクつき・チラつき・ぼかし欠落を起こす。ぼかしはオーバーレイ1枚だけに
@@ -973,13 +942,8 @@ body.exam-sprint .exam-prog{background:rgba(60,22,0,.62);animation:epSprint 2.6s
 .ch-divider{font-family:var(--font-display);letter-spacing:var(--font-display-ls);font-size:11px;font-weight:700;color:var(--ts);padding:6px 6px 4px;margin-top:4px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:6px;}
 .ch-div-prog{float:right;font-size:10px;font-weight:700;padding:1px 7px;border-radius:var(--r-md);background:rgba(var(--glass-rgb),.07);color:var(--ts);border:1px solid rgba(255,255,255,.1);transition:background .3s,border-color .3s,color .3s;font-variant-numeric:tabular-nums;}
 .ch-div-prog.all-done{background:rgba(61,214,140,.18);color:var(--gr);border-color:rgba(61,214,140,.4);}
-.jump-row{display:flex;align-items:center;gap:5px;padding:3px 0 2px;margin-top:3px;}
 .jump-select{flex:1;min-width:0;background:rgba(var(--glass-rgb),.07);border:1.5px solid rgba(255,255,255,.14);border-radius:20px;padding:4px 10px 4px 12px;font-size:11px;color:rgba(255,255,255,.75);font-family:inherit;cursor:pointer;-webkit-appearance:none;appearance:none;}
 .jump-select option{background:var(--surf-4);color:#fff;}
-.jump-qnum{width:62px;background:rgba(var(--glass-rgb),.07);border:1.5px solid rgba(255,255,255,.14);border-radius:20px;padding:4px 8px;font-size:11px;color:rgba(255,255,255,.75);font-family:inherit;text-align:center;flex-shrink:0;}
-.jump-qnum::-webkit-outer-spin-button,.jump-qnum::-webkit-inner-spin-button{-webkit-appearance:none;}
-.jump-go{flex-shrink:0;background:rgba(var(--glass-rgb),.09);border:1.5px solid rgba(255,255,255,.16);border-radius:20px;padding:4px 11px;font-size:11px;font-weight:700;color:rgba(255,255,255,.8);cursor:pointer;font-family:inherit;transition:background .15s;}
-.jump-go:hover{background:rgba(var(--glass-rgb),.2);}
 #reviewBanner{margin:6px 12px -2px;padding:7px 14px;background:rgba(255,107,107,.1);border:1.5px solid rgba(255,107,107,.28);border-radius:var(--r-md);font-size:12px;font-weight:700;color:var(--rd);display:none;align-items:center;justify-content:space-between;gap:8px;}
 #reviewBanner.show{display:flex;}
 .review-close-btn{background:none;border:1px solid rgba(255,107,107,.35);border-radius:var(--r-sm);color:var(--rd);font-size:11px;padding:2px 9px;cursor:pointer;font-family:inherit;white-space:nowrap;}
@@ -1259,10 +1223,6 @@ html.mec-jumping .qc{content-visibility:visible!important;}
 .mec-flag-btn{background:none;border:none;font-size:11px;cursor:pointer;opacity:.3;padding:0 1px;line-height:1;transition:opacity .2s;}
 .mec-fixed-badge{display:inline-flex;align-items:center;font-size:8.5px;font-weight:800;background:rgba(255,165,0,.15);color:#FFA040;border:1px solid rgba(255,165,0,.45);border-radius:3px;padding:1px 4px;letter-spacing:.04em;cursor:default;white-space:nowrap;}
 .mec-flag-btn.mec-flagged{opacity:1;}
-.mec-done-btns{display:flex;gap:2px;}
-.mec-done-btn{padding:1px 5px;border-radius:var(--r-sm);font-size:9.5px;font-weight:700;border:1px solid rgba(255,255,255,.14);color:var(--ts);background:rgba(var(--glass-rgb),.05);cursor:pointer;font-family:inherit;transition:background .2s,border-color .2s,color .2s;white-space:nowrap;}
-.mec-done-btn.passed{background:rgba(61,214,140,.18);border-color:rgba(61,214,140,.38);color:var(--gr);}
-.mec-done-btn.active{background:var(--gr);border-color:var(--gr);color:#061a0f;}
 
 /* ── Undo toast ── */
 #mecUndoToast{position:fixed;bottom:20px;right:16px;z-index:var(--z-toast);background:rgba(var(--toast-rgb),.97);border:1px solid rgba(255,255,255,.12);color:#fff;border-radius:var(--r-md);padding:10px 14px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;box-shadow:0 8px 32px rgba(0,0,0,.5);transform:translateY(80px);opacity:0;transition:transform .25s,opacity .25s;pointer-events:none;overflow:hidden;}
@@ -1808,15 +1768,6 @@ body.exam-overdrive #examOverdriveGlow {
   100% { opacity: 1; filter: hue-rotate(25deg); }
 }
 
-/* 【案8】読影X線ビーム走査 */
-.qimg.xray-scanned {
-  position: relative;
-  animation: xrayGlow .75s ease-out;
-}
-@keyframes xrayGlow {
-  0% { filter: brightness(1.8) drop-shadow(0 0 20px rgba(0,229,255,.9)); }
-  100% { filter: brightness(1) drop-shadow(none); }
-}
 
 /* 【案10】難問突破の巨大ゴールドクラウン（王冠） */
 .exam-hard-pop {

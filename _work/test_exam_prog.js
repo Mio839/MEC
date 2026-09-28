@@ -245,8 +245,9 @@ t('結果画面に難問の器がある（B3）', () => {
   assert.ok(/\.exam-hard-note\{/.test(CSS));
 });
 
-t('進捗バーの目盛り・難問印・ラストスパートのCSSがある（B2）', () => {
-  ['.ep-tick', '.ep-hard', '.ep-sweep', '.ep-sprint'].forEach(sel => {
+// ⚠️ 目盛り（.ep-tick）と難問印（.ep-hard）は 2026-08-23g に撤去し、CSS も 2026-09-28 に消した。
+t('進捗バーの節目の光・ラストスパートのCSSがある（B2）', () => {
+  ['.ep-sweep', '.ep-sprint'].forEach(sel => {
     assert.ok(CSS.includes(sel), 'study.css に ' + sel + ' が無い');
   });
 });
