@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 
-let passed = 0;
+let passed = 0, failed = 0;
 function test(name, fn) {
   try {
     fn();
@@ -11,7 +11,7 @@ function test(name, fn) {
     passed++;
   } catch (e) {
     console.error('  FAIL - ' + name + '\n    ' + e.message);
-    process.exitCode = 1;
+    failed++; process.exitCode = 1;
   }
 }
 
@@ -43,4 +43,6 @@ test('5. prefers-reduced-motion でアニメーションが停止する', () => 
   assert(knSrc.includes('.kn-card:hover{translate:none;}'), 'Missing reduced-motion in knowledge.html');
 });
 
-console.log('\n全 ' + passed + ' 件 ok\n');
+// ⚠️ 失敗があるときは件数を先に出す（以前は合格数だけを「全 N 件 ok」と出していて、
+//    失敗しても最後の行が ok に見えた。合否は終了コードで判定すること）
+console.log('\n' + (failed ? 'FAILED ' + failed + ' 件（全 ' + (passed + failed) + ' 件中 ' + passed + ' 件 ok）' : '全 ' + passed + ' 件 ok') + '\n');

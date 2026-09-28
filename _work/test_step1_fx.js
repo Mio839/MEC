@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 
-let passed = 0;
+let passed = 0, failed = 0;
 function test(name, fn) {
   try {
     fn();
@@ -11,7 +11,7 @@ function test(name, fn) {
     passed++;
   } catch (e) {
     console.error('  FAIL - ' + name + '\n    ' + e.message);
-    process.exitCode = 1;
+    failed++; process.exitCode = 1;
   }
 }
 
@@ -45,7 +45,8 @@ test('3. UIテーマ8種の固有演出が正解の肢の位置から出る', ()
    'brassClockworkBurst', 'cyberTargetLock', 'liquidBloomRipple'].forEach(k =>
     assert(body.includes(k), 'Missing ' + k + ' in _spawnStreakParticles'));
   assert(/const pos = at \|\| /.test(body), '発火位置 at を受け取っていない');
-  assert(/_spawnStreakParticles\(Math\.max\(1, tier\), p\)/.test(examSrc), '_rfCorrectFx が肢の位置を渡していない');
+  // 3つ目の引数（{ el, card, promoted }）が後から足されたので、2つ目が p であることだけを見る
+  assert(/_spawnStreakParticles\(Math\.max\(1, tier\), p[,)]/.test(examSrc), '_rfCorrectFx が肢の位置を渡していない');
 });
 
 test('4. 克服時に金床火花 (burst) が発火する', () => {
@@ -83,4 +84,6 @@ test('10. prefers-reduced-motion で calc_input.js のアニメーションが�
   assert(calcSrc.includes('.calc-box.calc-spin{animation:none;}'), 'Missing reduced-motion disable for calc-spin');
 });
 
-console.log('\n全 ' + passed + ' 件 ok\n');
+// ⚠️ 失敗があるときは件数を先に出す（以前は合格数だけを「全 N 件 ok」と出していて、
+//    失敗しても最後の行が ok に見えた。合否は終了コードで判定すること）
+console.log('\n' + (failed ? 'FAILED ' + failed + ' 件（全 ' + (passed + failed) + ' 件中 ' + passed + ' 件 ok）' : '全 ' + passed + ' 件 ok') + '\n');
