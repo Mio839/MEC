@@ -12,8 +12,6 @@
   ⚠️ 本物の関数を名前で呼んでいるので、study_exam.js で関数名や引数を変えるとここのボタンが黙って壊れる
      （押すと下にエラーが出る）。テストの対象ではない。
   「削除候補」の印は、このページの localStorage（mec_fxdemo_marks_v1）にだけ保存する（同期しない）。
-  「Liquid の新しい案」は _work/fx_liquid_proposals.js を枠へ差し込み、_lqLiquidFx を一時的に案へ差し替えて
-  本物の _rfCorrectFx を通す（本番の study.html は読まない＝採用が決まったら study_exam.js へ移す）。
 -->
 <style>
   :root{--bg:#0E1420;--panel:#151D2C;--line:#2A3650;--tx:#E8EEF8;--sub:#93A3BD;--acc:#6EA8FF;--warn:#FF9B6B;--ok:#58D39A;}
@@ -359,10 +357,6 @@ function prepFrame() {
   W.eval(HELPER);
   W.eval(RANDCTL);
   W.eval(PARTCTL);
-  // Liquid の新しい案（_work/fx_liquid_proposals.js・本番には入っていない）
-  const ps = W.document.createElement('script'); ps.src = '_work/fx_liquid_proposals.js?' + Date.now();
-  ps.onerror = () => say('Liquid の案（fx_liquid_proposals.js）を読めませんでした', true);
-  W.document.head.appendChild(ps);
   applyTheme();
   W.eval('startExam()');
   ready = true;
@@ -412,56 +406,6 @@ function run(code, o) {
   } catch (e) { say('エラー: ' + (e && e.message || e), true); }
 }
 
-/* ── Liquid の新しい案（2026-09-28 第4弾）。_lqLiquidFx を一時的に案へ差し替えて、本物の _rfCorrectFx を通す。
-   第1弾 M シャボン玉・第3弾 U ガラスの衝撃波／AD ぷるん を採用＝本番の _lqLiquidFx（3つ重ね）。
-   第4弾は「もうちょっとおしゃれに」＝映画・雑誌・最近のUIの語彙で10案。今の3つに**足す**前提なので「現行と重ねる」が既定で入。
-   → BC 色収差・BI ネオン管を採用（本番の _lqLiquidFx に足した）。一覧に残っているのは第4弾の残り8案。 ── */
-const LQ_PROPS = [
-  ['cur', '今', '現行：ぷるん＋シャボン玉＋ガラスの衝撃波＋色収差＋ネオン管', '比較用（本番の _lqLiquidFx）'],
-  ['AE', 'AE', '✓の一筆', '肢の右端に細いグラデーションの「✓」がペン先で一筆書きされる（肢と一緒に流れる）。段3〜は光がもう一度なぞり、段が上がった瞬間は✓のまわりに輪'],
-  ['BB', 'BB', '文字の虹色ワイプ', '正解の肢の文字そのものを、虹色のグラデーションが左から右へ撫でていく。飾りを足さない、いちばん静かな案'],
-  ['BD', 'BD', 'ボケ', 'ピントの外れた光の玉（縁が少し明るい柔らかい円）がふわりと浮かんで昇る。段が上がった瞬間は画面いっぱいに大きなボケ'],
-  ['BE', 'BE', 'アナモルフィック・フレア', 'タップ位置で光が弾け、映画のレンズのような横に長い光の筋が画面の端まで伸びる。反対側にレンズのゴースト。段が上がった瞬間は十字の光'],
-  ['BF', 'BF', 'ライトリーク', 'フィルムカメラの光漏れのように、画面の角から暖かいオレンジとマゼンタの光が差し込んで流れる（うっすらフィルムの粒子）'],
-  ['BG', 'BG', 'セリフ体の一語', '画面の上に細いイタリックのセリフ体で「Correct.」→ 段で Nice. / Great. / Brilliant. / Superb. / Flawless. / Sublime. と変わる。字間が詰まって溶ける'],
-  ['BH', 'BH', 'シルクのリボン', '半透明の絹のリボンがひらりと舞い上がり、ねじれながら画面の外へ流れる。段が上がった瞬間は2本が絡み合う'],
-  ['BJ', 'BJ', 'リキッドグラスの縁', '肢が一瞬ガラスのカプセルになり、縁の反射光がぐるりと回る（iOS のリキッドグラスのような質感）。段が上がった瞬間は縁が虹色に'],
-];
-function runLq(key) {
-  const uiSel = document.getElementById('ui');
-  if (uiSel.value !== 'liquid') { uiSel.value = 'liquid'; applyTheme(); renderParts(); }
-  if (key !== 'cur') { try { if (!W.eval('!!window.__LQP')) { say('案のスクリプトがまだ読めていません（枠を読み直す）', true); return; } } catch (e) {} }
-  const adv = document.getElementById('lqAdv').checked, mix = document.getElementById('lqMix').checked && key !== 'cur';
-  const fn = key === 'cur' ? 'o0' : mix ? `function () { o0.apply(this, arguments); __LQP.${key}.apply(this, arguments); }` : `__LQP.${key}`;
-  run(`__D.reset(); _lqPtr = { el: ok, fx: .3, fy: .55, t: performance.now() };
-    ok.classList.add('exam-selected', 'correct');
-    const o0 = window._lqLiquidFx; window._lqLiquidFx = ${fn};
-    try { _rfCorrectFx(c, ok, RF_ADVANCE_MS.one); } finally { window._lqLiquidFx = o0; }
-    ${adv ? 'setTimeout(() => __LQP.adv(c), RF_ADVANCE_MS.one);' : ''}`);
-}
-const lqBox = document.createElement('div');
-(() => {
-  const h = document.createElement('h2'); h.textContent = 'Liquid の案 第4弾の残り（おしゃれ路線・正解1回ぶんを通しで）'; lqBox.appendChild(h);
-  const note = document.createElement('div'); note.style.cssText = 'font-size:11px;color:var(--sub);margin:0 8px 6px;line-height:1.55';
-  note.innerHTML = '押すと UIテーマを liquid にして、本物の <code>_rfCorrectFx</code> の中の Liquid の演出だけを案に差し替えて再生する（肢の縁の光・沈む肢・連続数・画面の縁の光は実物のまま）。'
-    + '段が上がった瞬間を見るには、連続正解を 3/5/7/10/14/20 にする。どの案も「肢の層」は送り（403ms）の前に終わり、「全画面の層」は元の尺で最後まで出る。';
-  lqBox.appendChild(note);
-  [['lqAdv', true, '正解の 403ms 後に次のカードへ送る（実物と同じ）'], ['lqMix', true, '現行（本番の Liquid の演出）と重ねて再生する']].forEach(([id, on, txt]) => {
-    const row = document.createElement('label'); row.className = 'row'; row.style.margin = '0 8px 4px';
-    row.innerHTML = '<input type="checkbox" id="' + id + '"' + (on ? ' checked' : '') + ' style="width:16px;height:16px;accent-color:var(--acc)"> ' + txt;
-    lqBox.appendChild(row);
-  });
-  LQ_PROPS.forEach(([key, id, name, desc]) => {
-    const r = document.createElement('div'); r.className = 'it';
-    const b = document.createElement('button');
-    b.innerHTML = '<span class="tag ' + (key === 'cur' ? 'x' : 't') + '">' + (key === 'cur' ? '現行' : '案' + id) + '</span>';
-    b.appendChild(document.createTextNode(name));
-    const s = document.createElement('small'); s.textContent = desc; b.appendChild(s);
-    b.onclick = () => runLq(key);
-    r.append(b); lqBox.appendChild(r);
-  });
-})();
-
 /* ── ボタンと削除候補の印 ── */
 const KEY = 'mec_fxdemo_marks_v1';
 let marks = {};
@@ -491,7 +435,6 @@ updCount();
 /* ── UIテーマ固有の正解演出を部品ごとに（テーマを切り替えると作り直す） ── */
 const partsBox = document.createElement('div');
 list.prepend(partsBox);
-list.prepend(lqBox);
 function renderParts() {
   const ui = document.getElementById('ui').value, P = PARTS[ui] || [];
   partsBox.innerHTML = '';
