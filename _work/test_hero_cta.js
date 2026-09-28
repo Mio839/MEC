@@ -16,7 +16,7 @@
 'use strict';
 const fs = require('fs'), path = require('path'), vm = require('vm'), assert = require('assert');
 const ROOT = path.join(__dirname, '..');
-const HTML = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+const HTML = require('./lib_hub_source')();
 
 let pass = 0, fail = 0;
 function t(name, fn) {

@@ -16,7 +16,7 @@ function test(name, fn) {
 }
 
 const fxSrc = fs.readFileSync(path.join(__dirname, '../fx_engine.js'), 'utf8');
-const indexSrc = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
+const indexSrc = require('./lib_hub_source')();
 
 console.log('── 1. fx_engine.js: STATIC_TYPES への登録 ──');
 test('新5エミッタが STATIC_TYPES に登録されている', () => {

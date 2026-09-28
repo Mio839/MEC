@@ -1800,10 +1800,6 @@ body.exam-overdrive #examOverdriveGlow {
   box-shadow: 0 0 35px #FFF, 0 0 60px #FFA040, 0 0 95px #FF3B30, var(--shadow-card);
   border-color: #FFF;
 }
-@keyframes heatHaze {
-  0% { filter: brightness(1) drop-shadow(0 0 2px rgba(255,100,50,.3)); }
-  100% { filter: brightness(1.15) drop-shadow(0 0 8px rgba(255,200,80,.6)); }
-}
 
 /* 【案4】チェックポイント・光のワープゲート突破 */
 .warp-gate-overlay {

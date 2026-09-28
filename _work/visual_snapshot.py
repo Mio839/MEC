@@ -8,6 +8,7 @@
 
 撮るもの（UIテーマ8種 × 場面3つ）:
   hub   … index.html（ブリーフィングは既読にして閉じた状態）
+  stats / knowledge / mock / karte … それぞれのページを開いただけの状態
   study … study.html?sid=anes の通常モード
   exam  … 同じ科目で試験を開始し、1問目を正解・2問目を誤答にした状態
 
@@ -34,7 +35,9 @@ import websockets
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, '_work', '_visual')
 THEMES = ['aurora', 'brass', 'cyber', 'liquid', 'kintsugi', 'celestial', 'abyss', 'frost']
-SCENES = ['hub', 'study', 'exam']
+SCENES = ['hub', 'study', 'exam', 'stats', 'knowledge', 'mock', 'karte']
+# ui_theme.css を読む残りのページ（2026-09-28 テーマ別 CSS の分割で追加）。開いて落ち着くのを待つだけ
+PLAIN = {'stats': 'stats.html', 'knowledge': 'knowledge.html', 'mock': 'mock.html', 'karte': 'mock_karte.html'}
 SID = 'anes'
 W, H = 1280, 1000
 CHROME = [r'C:/Program Files/Google/Chrome/Application/chrome.exe',
@@ -169,6 +172,11 @@ async def open_scene(pg, base, theme, scene):
       const d = %s; const w = new Date(Date.parse(d+'T00:00:00Z') - ((new Date(d+'T00:00:00Z').getUTCDay()+6)%%7)*86400000).toISOString().slice(0,10);
       localStorage.setItem('mec_hub_opening_v1', JSON.stringify({day: d, week: w}));
     })()""" % (json.dumps(theme), jst))
+    if scene in PLAIN:
+        await pg.send('Page.navigate', url=base + PLAIN[scene])
+        await pg.wait("document.readyState==='complete'")
+        await asyncio.sleep(2.5)
+        return
     if scene == 'hub':
         await pg.send('Page.navigate', url=base + 'index.html')
         await pg.wait("document.readyState==='complete'")

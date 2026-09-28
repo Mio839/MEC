@@ -17,7 +17,7 @@ function test(name, fn) {
 
 const cssSrc = fs.readFileSync(path.join(__dirname, '../study.css'), 'utf8');
 const examSrc = fs.readFileSync(path.join(__dirname, '../study_exam.js'), 'utf8');
-const indexSrc = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
+const indexSrc = require('./lib_hub_source')();
 const mmSrc = fs.readFileSync(path.join(__dirname, '../mindmap.js'), 'utf8');
 
 /* トップレベル `function NAME(...)` の本体を波括弧の対応で切り出す。

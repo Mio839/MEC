@@ -21,7 +21,8 @@ const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 const SRC_FILES = fs.readdirSync(ROOT)
   .filter(f => /\.(js|html)$/.test(f) && !/^(questions_|rate_index|dup_index|chapters_meta|sounds_index|image_dims)/.test(f));
 const KAKO = fs.readdirSync(path.join(ROOT, '国家試験過去問')).filter(f => f.endsWith('.html')).map(f => '国家試験過去問/' + f);
-const SRC = SRC_FILES.concat(KAKO).map(read).join('\n');
+// index.css はハブの CSS（2026-09-28 に index.html から外出し）。ほかの CSS の @keyframes を名前で使う
+const SRC = SRC_FILES.concat(KAKO, ['index.css']).map(read).join('\n');
 const CSS_FILES = ['study.css', 'ui_theme.css', 'vars.css'];
 const CSS = CSS_FILES.map(read).join('\n');
 

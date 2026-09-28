@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 
-const html = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
+const html = require('./lib_hub_source')();
 const swJs = fs.readFileSync(path.join(__dirname, '../sw.js'), 'utf8');
 
 console.log('── ハブ画面（Heroゲージ以外）演出強化＆全8テーマ完全差別化 検証 ──');

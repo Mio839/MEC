@@ -4149,16 +4149,10 @@ html.ui-frost body {
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased !important;
 }
-  -webkit-font-smoothing: antialiased !important;
-}
 
-html.ui-frost body::before {
-  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background: radial-gradient(circle at 65% 25%, rgba(112, 214, 255, 0.2) 0%, transparent 45%),
-              radial-gradient(circle at 35% 75%, rgba(255, 255, 255, 0.15) 0%, transparent 48%),
-              radial-gradient(circle at 80% 80%, rgba(160, 231, 229, 0.18) 0%, transparent 40%);
-  animation: frostAmbientBreeze 14s ease-in-out infinite alternate;
-}
+/* 2026-09-28: ここにあった html.ui-frost body::before は、直前に余っていた `}` のせいでブラウザが
+   セレクタごと捨てており一度も効いていなかった（効いているのは前にある同名のルール）。
+   書き損じを直すと後ろのこちらが勝って見た目が変わるので、ルールごと消した。 */
 
 @keyframes frostAmbientBreeze {
   0% { transform: scale(1) translate(0, 0); opacity: 0.75; }

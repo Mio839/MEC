@@ -19,7 +19,7 @@ const ROOT = path.join(__dirname, '..');
 const P_SRC = fs.readFileSync(path.join(ROOT, 'progress.js'), 'utf8');
 const A_SRC = fs.readFileSync(path.join(ROOT, 'attempts.js'), 'utf8');
 const H_SRC = fs.readFileSync(path.join(ROOT, 'hub_opening.js'), 'utf8');
-const INDEX = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+const INDEX = require('./lib_hub_source')();
 
 const KAT = 'mec_attempts_v1', KROLL = 'mec_attempts_roll_v1';
 

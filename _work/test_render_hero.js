@@ -8,7 +8,7 @@ const vm = require('vm');
 const path = require('path');
 const assert = require('assert');
 
-const html = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
+const html = require('./lib_hub_source')();
 const fxJs = fs.readFileSync(path.join(__dirname, '../fx_engine.js'), 'utf8');
 const inlineScripts = [...html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi)].map(m => m[1]);
 

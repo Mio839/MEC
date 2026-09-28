@@ -2,7 +2,7 @@
 // 実行: node _work/test_today_acc.js
 const fs = require('fs'), path = require('path'), assert = require('assert');
 
-const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const html = require('./lib_hub_source')();
 
 console.log('── 今日解いた問題数・正解率バッジ（.hero-acc-fig）検証 ──');
 

@@ -18,14 +18,14 @@ function test(name, fn) {
 const cssSrc = fs.readFileSync(path.join(__dirname, '../study.css'), 'utf8');
 const examSrc = fs.readFileSync(path.join(__dirname, '../study_exam.js'), 'utf8');
 const fxSrc = fs.readFileSync(path.join(__dirname, '../fx_engine.js'), 'utf8');
-const indexSrc = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
+const indexSrc = require('./lib_hub_source')();
 const gmSrc = fs.readFileSync(path.join(__dirname, '../gamify.js'), 'utf8');
 
 console.log('── 1. 溶鉄ヒートチャージ & 陽炎 (案1) ──');
-test('study.css と study_exam.js に card-heat と heatHaze がある', () => {
+// heatHaze（陽炎の @keyframes）は 2026-08-31 に .qc の常時アニメごと外し、2026-09-28 に定義も消した
+test('study.css と study_exam.js に card-heat がある', () => {
   assert(cssSrc.includes('.qc.card-heat-low'), 'Missing .qc.card-heat-low in study.css');
   assert(cssSrc.includes('.qc.card-heat-max'), 'Missing .qc.card-heat-max in study.css');
-  assert(cssSrc.includes('@keyframes heatHaze'), 'Missing @keyframes heatHaze in study.css');
   assert(examSrc.includes('card-heat-max'), 'Missing card-heat toggle in study_exam.js');
 });
 

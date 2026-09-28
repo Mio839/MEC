@@ -48,6 +48,7 @@ if (!QUICK) {
   gen('rate_index.js（全国正答率の索引）', 'node', ['_work/build_natrate_index.js', '--check']);
   gen('dup_index.js（重複コピーの組）', 'node', ['_work/build_dup_index.js', '--check']);
   gen('sounds_index.js（効果音の一覧）', 'node', ['_work/build_sounds_index.js', '--check']);
+  gen('theme_css/（テーマ別の CSS）', 'node', ['_work/build_theme_css.js', '--check']);
   gen('mindmap_data/index.js（マインドマップのレジストリ）', 'node', ['_work/build_mindmap_index.js', '--check']);
   gen('mock_data/m121s_rates.js（模試の成績表）', 'node', ['_work/build_mock_m121s_rates.js', '--check']);
   gen('qmeta.json（設問形式）', PY, ['_work/build_qmeta.py', '--check']);

@@ -15,7 +15,7 @@ function test(name, fn) {
   }
 }
 
-const indexSrc = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
+const indexSrc = require('./lib_hub_source')();
 const knSrc = fs.readFileSync(path.join(__dirname, '../knowledge.html'), 'utf8');
 
 console.log('── Step 4: ハブの全弁開放スチーム (案4) ──');

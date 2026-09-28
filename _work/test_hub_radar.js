@@ -13,7 +13,7 @@ const vm = require('vm');
 const assert = require('assert');
 
 const R = f => fs.readFileSync(path.join(__dirname, '..', f), 'utf8');
-const html = R('index.html');
+const html = require('./lib_hub_source')();
 
 const i0 = html.indexOf('// ── 🕸 実力の輪郭');
 const i1 = html.indexOf('function renderHero() {');

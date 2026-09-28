@@ -13,7 +13,7 @@ const vm = require('vm');
 const assert = require('assert');
 
 const R = f => fs.readFileSync(path.join(__dirname, '..', f), 'utf8');
-const html = R('index.html');
+const html = require('./lib_hub_source')();
 
 // ── 実ソースの切り出し ────────────────────────────────────────
 const START = '// ── 📋 今日の所見 ';

@@ -20,7 +20,7 @@ const themeCss = fs.readFileSync(path.join(__dirname, '../ui_theme.css'), 'utf8'
 const studyExamJs = fs.readFileSync(path.join(__dirname, '../study_exam.js'), 'utf8');
 const chapterExamJs = fs.readFileSync(path.join(__dirname, '../chapter_exam.js'), 'utf8');
 const studyHtml = fs.readFileSync(path.join(__dirname, '../study.html'), 'utf8');
-const indexHtml = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
+const indexHtml = require('./lib_hub_source')();
 const swJs = fs.readFileSync(path.join(__dirname, '../sw.js'), 'utf8');
 
 console.log('── 1. ui_theme.js: 8大テーマ定義と動的演出トリガー ──');
@@ -143,11 +143,12 @@ test('正解処理で UI テーマに応じたエフェクトが発火する', (
 console.log('── 4. HTML と Service Worker の整合性 ──');
 test('study.html, index.html, sw.js が正しく設定されている', () => {
   assert(studyHtml.includes('src="ui_theme.js"'), 'Missing ui_theme.js in study.html');
-  assert(studyHtml.includes('href="ui_theme.css"'), 'Missing ui_theme.css in study.html');
+  // 2026-09-28〜 ui_theme.css は直接読まず、テーマ別の生成物を1つだけ読む（詳細は test_theme_css.js）
+  assert(studyHtml.includes("MecUITheme.css('ui_theme')"), 'Missing theme css loader in study.html');
   assert(indexHtml.includes('src="ui_theme.js"'), 'Missing ui_theme.js in index.html');
-  assert(indexHtml.includes('href="ui_theme.css"'), 'Missing ui_theme.css in index.html');
+  assert(indexHtml.includes("MecUITheme.css('ui_theme')"), 'Missing theme css loader in index.html');
   assert(swJs.includes('"./ui_theme.js"'), 'Missing ui_theme.js in sw.js');
-  assert(swJs.includes('"./ui_theme.css"'), 'Missing ui_theme.css in sw.js');
+  assert(swJs.includes('"./theme_css/ui_theme.aurora.css"'), 'Missing theme css in sw.js');
 });
 
 console.log('── 5. 試験モード中の正解エフェクト完全抑止（ネタバレ防止） ──');

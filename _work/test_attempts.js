@@ -166,7 +166,7 @@ test('仮設の「昨日の誤答」は残っていない（attempts.js / index.
   const fs = require('fs'), path = require('path');
   const ROOT = path.join(__dirname, '..');
   ['attempts.js', 'index.html', 'study.html', 'study_exam.js'].forEach(f => {
-    const s = fs.readFileSync(path.join(ROOT, f), 'utf8');
+    const s = f === 'index.html' ? require('./lib_hub_source')() : fs.readFileSync(path.join(ROOT, f), 'utf8');
     assert.ok(!/yesterdayWrongUids|yesterday_wrong|_wrongDayJa|_wrongDayOffset|heroYesterday/.test(s), f + ' に残骸がある');
   });
 });

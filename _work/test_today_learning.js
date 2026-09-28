@@ -1,7 +1,7 @@
 // index.html の getTodayLearning() を実ソースから切り出して検算する（ロジックは二重管理しない）。
 // 実行: node _work/test_today_learning.js
 const fs = require('fs'), vm = require('vm');
-const h = fs.readFileSync(require('path').join(__dirname,'..','index.html'), 'utf8');
+const h = require('./lib_hub_source')();
 const src = [...h.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m => m[1]).sort((a, b) => b.length - a.length)[0];
 
 // 対象の関数群だけを取り出す（DOM に触らない部分）

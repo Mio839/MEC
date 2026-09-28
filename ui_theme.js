@@ -85,13 +85,64 @@
     }
   }
 
-  function apply(id) {
-    var validId = (VALID_IDS.indexOf(id) >= 0) ? id : 'aurora';
+  // テーマ別の CSS（2026-09-28〜）。theme_css/{name}.{テーマ}.css は node _work/build_theme_css.js が
+  // ui_theme.css / index.css から作る派生物で、8テーマぶん全部ではなく使うテーマの1つだけを読む。
+  // ページは <link> を直接書かず、元の <link> の位置に <script>MecUITheme.css('ui_theme')</script> を置く
+  // （document.write なのでパーサが止まって待つ＝元の <link> と同じく描画前に効く・読み込み順も変わらない）。
+  function cssHref(name, id) { return 'theme_css/' + name + '.' + id + '.css'; }
+  function css(name) {
+    document.write('<link rel="stylesheet" data-mec-css="' + name + '" href="' + cssHref(name, get()) + '">');
+  }
+
+  function setClass(validId) {
     var el = document.documentElement;
     UI_THEMES.forEach(function (t) {
       el.classList.remove('ui-' + t.id);
     });
     el.classList.add('ui-' + validId);
+  }
+
+  // テーマを切り替えたら、新しいテーマの CSS を読み終えてからクラスを付け替える
+  // （先に付け替えると、読み終えるまでの一瞬テーマ無しの画面が見える）。
+  // ⚠️ 読み込みに失敗しても・遅くても、3秒で必ず付け替える（オフラインで SW に無い等）。
+  var swapSeq = 0;
+  function apply(id) {
+    var validId = (VALID_IDS.indexOf(id) >= 0) ? id : 'aurora';
+    var links = [].slice.call(document.querySelectorAll('link[data-mec-css]'));
+    var names = [];
+    links.forEach(function (l) { var n = l.getAttribute('data-mec-css'); if (names.indexOf(n) < 0) names.push(n); });
+    var seq = ++swapSeq, left = 1, done = false, stale = [];
+    function finish() {
+      if (done || seq !== swapSeq) return;
+      done = true;
+      setClass(validId);
+      stale.forEach(function (l) { if (l.parentNode) l.parentNode.removeChild(l); });
+    }
+    function wait(l) {
+      left++;
+      var once = function () { l.removeEventListener('load', once); l.removeEventListener('error', once); if (--left === 0) finish(); };
+      l.addEventListener('load', once); l.addEventListener('error', once);
+    }
+    // 名前ごとに「目的のテーマの <link>」を1本だけ残す（素早く2回切り替えても重複させない）
+    names.forEach(function (name) {
+      var same = links.filter(function (l) { return l.getAttribute('data-mec-css') === name; });
+      var href = cssHref(name, validId);
+      var keep = same.filter(function (l) { return l.getAttribute('href') === href; })[0];
+      if (!keep) {
+        keep = document.createElement('link');
+        keep.rel = 'stylesheet';
+        keep.setAttribute('data-mec-css', name);
+        keep.href = href;
+        wait(keep);
+        var last = same[same.length - 1];
+        last.parentNode.insertBefore(keep, last.nextSibling);   // 同じ位置＝読み込み順を変えない
+      } else if (!keep.sheet) {
+        wait(keep);                                             // 前の切り替えで読み込み中
+      }
+      same.forEach(function (l) { if (l !== keep) stale.push(l); });
+    });
+    if (--left === 0) finish();
+    else setTimeout(finish, 3000);
   }
 
   function triggerThemeChangeFx(id) {
@@ -161,6 +212,7 @@
     get: get,
     set: set,
     apply: apply,
+    css: css,
     triggerFx: triggerThemeChangeFx
   };
 })();

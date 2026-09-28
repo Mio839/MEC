@@ -118,7 +118,7 @@ t('昨日ぶんは今日のゲージに入らない', () => {
 // インラインJS全体は他のグローバルに依存するので、ゲージを描く3つの関数だけを切り出す。
 sec('index.html のゲージ描画（_goalTier / _driveGauge）');
 
-const HTML = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+const HTML = require('./lib_hub_source')();
 function extract(name) {
   const i = HTML.indexOf('function ' + name + '(');
   assert.ok(i > 0, name + ' が index.html に無い（名前を変えたらこのテストも直すこと）');

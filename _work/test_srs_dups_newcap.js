@@ -13,7 +13,7 @@
 const fs = require('fs'), path = require('path'), vm = require('vm'), assert = require('assert');
 const { execFileSync } = require('child_process');
 const ROOT = path.join(__dirname, '..');
-const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
+const read = f => f === 'index.html' ? require('./lib_hub_source')() : fs.readFileSync(path.join(ROOT, f), 'utf8');
 
 let pass = 0, fail = 0;
 function t(name, fn) {
@@ -217,7 +217,7 @@ t('study.html: 残り件数と復習キューが影を外す', () => {
   assert.ok(/_srsDueRemaining[\s\S]{0,400}_srsShadow\(uid\)/.test(HTML), '_srsDueRemaining');
 });
 t('index.html: 件数・リスク内訳・所見が影を外す', () => {
-  const idx = read('index.html');
+  const idx = require('./lib_hub_source')();
   ['getSRSDueCount', 'getSrsRiskBreakdown', '_noteSrsFacts'].forEach(n => assert.ok(grabFn(idx, n).includes(SH), n));
 });
 t('stats.html と hub_opening.js が影を外す', () => {

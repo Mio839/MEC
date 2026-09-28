@@ -27,7 +27,7 @@ const meta = JSON.parse(R('sounds/meta.json'));
 
 const studyExam = R('study_exam.js');
 const studyHtml = R('study.html');
-const indexHtml = R('index.html');
+const indexHtml = require('./lib_hub_source')();
 const chapterExam = R('chapter_exam.js');
 const SLOTS = ['correct', 'boot', 'select', 'result'];
 const DIRS = ['正解音', '起動音', '選択音', '結果画面'];

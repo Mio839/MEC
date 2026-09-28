@@ -131,7 +131,7 @@ console.log('[7] 約束ごと（ソース検査）');
   ok(!/fetch\(/.test(SRC), 'fetch を足さない（ハブを重くしない）');
   const prog = fs.readFileSync(path.join(ROOT, 'progress.js'), 'utf8');
   ok(prog.indexOf('mec_hub_opening_v1') === -1, '既視の記録を同期対象に入れない');
-  const hub = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const hub = require('./lib_hub_source')();
   ok(/<script src="hub_opening\.js"><\/script>/.test(hub), 'ハブが読み込む');
   ok(/MecOpening\.maybeShow\(/.test(hub), 'ハブが起動時に呼ぶ');
   const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');

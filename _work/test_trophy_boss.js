@@ -8,7 +8,7 @@ const vm = require('vm');
 const ROOT = path.join(__dirname, '..');
 const rd = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 const TROPHY = rd('trophy.js'), BOSS = rd('boss.js'), GAMIFY = rd('gamify.js');
-const STUDY = rd('study.html'), EXAM = rd('study_exam.js'), HUB = rd('index.html'), SW = rd('sw.js'), PROG = rd('progress.js');
+const STUDY = rd('study.html'), EXAM = rd('study_exam.js'), HUB = require('./lib_hub_source')(), SW = rd('sw.js'), PROG = rd('progress.js');
 let pass = 0, fail = 0;
 function ok(c, m) { if (c) pass++; else { fail++; console.log('  ✗ ' + m); } }
 

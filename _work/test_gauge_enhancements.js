@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 
-const HTML = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const HTML = require('./lib_hub_source')();
 
 let pass = 0, fail = 0;
 function t(name, fn) {

@@ -549,7 +549,7 @@ t('33. vars.css / index.html / gamify.js / chapter_exam.js に Phase 7 の痕跡
   const files = ['vars.css', 'index.html', 'gamify.js', 'chapter_exam.js'];
   const marks = ['exam-plate', 'exam-relief', 'exam-forge', 'exam-nixie'];
   files.forEach(f => {
-    const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
+    const src = f === 'index.html' ? require('./lib_hub_source')() : fs.readFileSync(path.join(ROOT, f), 'utf8');
     marks.forEach(m => assert.ok(!src.includes(m), f + ' に Phase 7 の識別子 ' + m + ' が入り込んでいる'));
   });
 });

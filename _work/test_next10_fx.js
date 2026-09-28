@@ -18,7 +18,7 @@ function test(name, fn) {
 const cssSrc = fs.readFileSync(path.join(__dirname, '../study.css'), 'utf8');
 const examSrc = fs.readFileSync(path.join(__dirname, '../study_exam.js'), 'utf8');
 const progSrc = fs.readFileSync(path.join(__dirname, '../progress.js'), 'utf8');
-const indexSrc = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
+const indexSrc = require('./lib_hub_source')();
 const knSrc = fs.readFileSync(path.join(__dirname, '../knowledge.html'), 'utf8');
 const mmCss = fs.readFileSync(path.join(__dirname, '../mindmap.css'), 'utf8');
 const statsSrc = fs.readFileSync(path.join(__dirname, '../stats.html'), 'utf8');

@@ -14,7 +14,7 @@
 const fs = require('fs'), path = require('path'), assert = require('assert');
 const ROOT = path.join(__dirname, '..');
 const rd = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
-const JS = rd('study_exam.js'), CSS = rd('study.css'), VARS = rd('vars.css'), HUB = rd('index.html'), STUDY = rd('study.html');
+const JS = rd('study_exam.js'), CSS = rd('study.css'), VARS = rd('vars.css'), HUB = require('./lib_hub_source')(), STUDY = rd('study.html');
 
 let pass = 0, fail = 0;
 function t(name, fn) {

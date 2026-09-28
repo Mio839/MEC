@@ -74,7 +74,7 @@ test('過去問の表は 国家試験過去問/*.html の問題数と一致す�
 });
 
 test('各ページは done_v2 のキー数を自前で数え直さない（正本の関数を読む）', () => {
-  const idx = read('index.html'), st = read('study.html'), stats = read('stats.html');
+  const idx = require('./lib_hub_source')(), st = read('study.html'), stats = read('stats.html');
   assert.ok(/function calcDoneInScope\(\)\s*\{\s*return window\.MECSync \? MECSync\.doneInScope\(\)/.test(idx), 'ハブが自前で数えている');
   assert.ok(/function calcTotalQ\(\)\s*\{\s*return window\.MECSync \? MECSync\.totalInScope\(\)/.test(idx), 'ハブが自前で全問題数を数えている');
   assert.ok(!/const KAKUMON_BLOCKS = \{/.test(idx), 'ハブに過去問の表の複製が戻っている');

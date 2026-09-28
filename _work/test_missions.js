@@ -533,7 +533,7 @@ function fxCtx(seed) {
   return ctx;
 }
 t('軸の定義が index.html の RADAR_AXES と一致する（id・科目）', () => {
-  const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  const html = require('./lib_hub_source')();
   const m = /const RADAR_AXES = (\[[\s\S]*?\n\]);/.exec(html);
   assert.ok(m, 'index.html に RADAR_AXES が見つからない');
   const radar = vm.runInNewContext(m[1]);
