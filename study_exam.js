@@ -949,7 +949,7 @@ function revealAnswer(card) {
   try { _updateExamProg(true); } catch (e) {}
   try { _saveExamResume(); } catch (e) {}
   requestAnimationFrame(_updateExamFocus);
-  setTimeout(() => _scrollToNextCard(card), req > 1 ? 400 : 350);
+  _rfScrollAfterCorrect(card);
 }
 
 
@@ -2884,6 +2884,11 @@ document.addEventListener('pointerdown', e => {
   _lqPtr = { el: ch, fx: (e.clientX - r.left) / r.width, fy: (e.clientY - r.top) / r.height, t: performance.now() };
 }, { passive: true, capture: true });
 const LQ_COLS = ['#FF007F', '#7928CA', '#FF7A00', '#2FE0D5'];
+/* UIテーマ固有の正解演出（liquid / frost / celestial / brass）の時間の倍率（2026-09-28）。
+   ラボで決めた尺のままだと実機では「発火してから消えるまでが早すぎる」と指摘された。
+   尺を決めている口（_lqMesh / _lqFilm の duration・_lqDrop の片付け・_frRun の経過時間・
+   各演出の遅延）は全部これを掛ける＝値を1つ変えれば4テーマが揃って伸び縮みする。 */
+const RF_FX_SLOW = 1.5;
 function _lqLayer(host, cls) {
   if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
   host.classList.add('lq-host');
@@ -2897,7 +2902,7 @@ function _lqDrop(host, L, ms) {
   setTimeout(() => {
     L.remove();
     if (--host._lqN <= 0) { host._lqN = 0; host.classList.remove('lq-host'); }
-  }, ms);
+  }, ms * RF_FX_SLOW);
 }
 function _lqMesh(L, ox, oy, spread, size, dur, op, orbit, pad, top) {
   const box = document.createElement('span');
@@ -2918,7 +2923,7 @@ function _lqMesh(L, ox, oy, spread, size, dur, op, orbit, pad, top) {
     kf.push({ translate: at(tx + (Math.random() - .5) * 40, ty + (Math.random() - .5) * 20), scale: 1.2, opacity: 0 });
     // ⚠️ 加減速は区間ごとに掛ける（全体に MO.out を掛けると、咲く→消えるが最初の1/4に潰れて見えない）
     kf.forEach(k => { k.easing = MO.out; });
-    b.animate(kf, { duration: dur, fill: 'forwards' });
+    b.animate(kf, { duration: dur * RF_FX_SLOW, fill: 'forwards' });
   });
 }
 function _lqFilm(L, x, y, R, dur, op, full) {
@@ -2932,7 +2937,7 @@ function _lqFilm(L, x, y, R, dur, op, full) {
     ? [{ opacity: 0, '--lqfx-a': a0 + 'deg' }, { opacity: op, offset: .35 }, { opacity: 0, '--lqfx-a': (a0 + 120) + 'deg' }]
     : [{ '--lqfx-r': '0px', '--lqfx-a': a0 + 'deg', opacity: op }, { opacity: op, offset: .6 }, { '--lqfx-r': R + 'px', '--lqfx-a': (a0 + 200) + 'deg', opacity: 0 }];
   kf.forEach(k => { k.easing = MO.out; });
-  f.animate(kf, { duration: dur, fill: 'forwards' });
+  f.animate(kf, { duration: dur * RF_FX_SLOW, fill: 'forwards' });
 }
 function _lqFluidFx(el, card, tier, promoted) {
   if (!el || _fxOff()) return;
@@ -2946,7 +2951,7 @@ function _lqFluidFx(el, card, tier, promoted) {
   const L = _lqLayer(el);
   _lqMesh(L, ox, oy, er.width * (.22 + t * .02), er.height * 1.8, 1300, .9, false, 20, null);
   _lqFilm(L, ox, oy, Math.max(ox, er.width - ox) + 40, 750, .95, false);
-  setTimeout(() => _lqFilm(L, ox, oy, 0, 1100, .3 + t * .03, true), 150);
+  setTimeout(() => _lqFilm(L, ox, oy, 0, 1100, .3 + t * .03, true), 150 * RF_FX_SLOW);
   _lqDrop(el, L, 1450);
   if (!card) return;
   const big = t >= 3, up = promoted && tier >= 2;
@@ -2964,8 +2969,8 @@ function _lqFluidFx(el, card, tier, promoted) {
     r.className = 'lq-ring';
     card.appendChild(r);
     r.animate([{ opacity: 0, '--lqfx-a': '0deg' }, { opacity: .95, offset: .2 }, { opacity: .95, offset: .7 }, { opacity: 0, '--lqfx-a': (240 + t * 30) + 'deg' }],
-      { duration: 1500 + t * 100, easing: 'ease-in-out', fill: 'forwards' });
-    setTimeout(() => r.remove(), 1600 + t * 100 + 50);
+      { duration: (1500 + t * 100) * RF_FX_SLOW, easing: 'ease-in-out', fill: 'forwards' });
+    setTimeout(() => r.remove(), (1600 + t * 100 + 50) * RF_FX_SLOW);
   }
 }
 
@@ -2991,11 +2996,12 @@ function _frCtx(L, w, h, top) {
   const x = c.getContext('2d'); x.setTransform(d, 0, 0, d, 0, 0);
   return x;
 }
+// ⚠️ 経過時間を RF_FX_SLOW で割って渡す＝描画側の ms（dur・各区間の開始）は書き換えずに全体が伸びる。
 function _frRun(ctx, w, h, dur, draw) {
   const t0 = performance.now();
   (function f(now) {
     if (!ctx.canvas.isConnected) return;
-    const e = now - t0;
+    const e = (now - t0) / RF_FX_SLOW;
     ctx.clearRect(0, 0, w, h);
     if (e < dur) { draw(ctx, e); requestAnimationFrame(f); }
   })(t0);
@@ -3215,7 +3221,7 @@ function _frFrostFx(el, card, tier, promoted) {
     });
     if (wave) wave.forEach(q => { const k = (e - q.dl) / 550; if (k > 0 && k < 1) _frGlint(c, q.x, q.y, q.s * Math.sin(Math.PI * k), 1); });
   });
-  setTimeout(() => D.remove(), durD + 50);
+  setTimeout(() => D.remove(), (durD + 50) * RF_FX_SLOW);
 }
 
 /* ══════════ Celestial：金環＋（星座／惑星直列／星の軌跡 のどれか1つ）（2026-09-25）══════════
@@ -3821,12 +3827,12 @@ function _brsBrassFx(el, card, tier, promoted) {
     if (!examMode || !card.isConnected || !window.MecFX || !window.MecFX.sparks) return;
     const r = card.getBoundingClientRect();
     window.MecFX.sparks(r.left + card.clientLeft + x, r.top + card.clientTop + top + y, { count: n, colors: [BRS_PALE, '#FFD700', BRS_AMBER, '#FFFFFF'] });
-  }, ms);
+  }, ms * RF_FX_SLOW);
   // 刻印を打った手応え（肢／カードが一瞬沈む）。transform は既存アニメに殺されるので translate で
   const press = (ms, whole) => setTimeout(() => {
     const t = whole ? card : el;
     if (t.isConnected && t.animate) t.animate([{ translate: '0 0' }, { translate: whole ? '0 2px' : '0 1.5px', offset: .25 }, { translate: '0 0' }], { duration: whole ? 260 : 200, easing: MO.spring });
-  }, ms);
+  }, ms * RF_FX_SLOW);
   const qn = card.querySelector('.qn'), num = qn && (qn.textContent.match(/\d+/) || [])[0];
   const serial = 'No.' + String(num || examAnswered || 0).padStart(4, '0');
 
@@ -4154,7 +4160,7 @@ function _revealCalcAnswer(card, sid) {
   try { _updateExamProg(true); } catch (e) {}
   try { _saveExamResume(); } catch (e) {}
   requestAnimationFrame(_updateExamFocus);
-  setTimeout(() => _scrollToNextCard(card), 300);
+  _rfScrollAfterCorrect(card);
 }
 
 function _recountExcluded() {
@@ -4238,6 +4244,26 @@ function _showFinishAndScroll() {
   });
 }
 
+/* 正解の後、次のカードへ送るまでの待ち（2026-09-28）。
+   正解の演出は正解の肢の位置に出る（UIテーマ固有の演出は肢／カードの裏の層）ので、以前の 300〜400ms で
+   送ると山場の前に画面外へ流れ、実機で「演出がほとんど見えない」と指摘された。段が上がるほど演出が
+   大きく長いので少しずつ長く待つ。
+   ⚠️ 待っている間に自分でスクロールした（wheel / touchmove）ら送らない＝速く進みたいときは指で送れる。
+   ⚠️ 演出を出さない設定（_fxOff）のときは従来どおりすぐ送る。 */
+const RF_NEXT_HOLD_MS = [1000, 1000, 1150, 1300, 1400, 1500, 1600, 1700];   // index = tier
+let _rfUserMovedAt = 0;
+['wheel', 'touchmove'].forEach(t => document.addEventListener(t, () => { _rfUserMovedAt = performance.now(); }, { passive: true, capture: true }));
+function _rfScrollAfterCorrect(card) {
+  const ms = _fxOff() ? 350 : RF_NEXT_HOLD_MS[_tIdx(_examTier(examStreak), RF_NEXT_HOLD_MS)];
+  const t0 = performance.now();
+  setTimeout(() => {
+    if (!examMode) return;
+    // 自分で動かしていたら譲る。ただし最後の1問なら結果への導線（終了ボタン）は必ず出す
+    const left = _examOrder.some(c => c.style.display !== 'none' && !c.classList.contains('exam-revealed'));
+    if (_rfUserMovedAt > t0 && left) return;
+    _scrollToNextCard(card);
+  }, ms);
+}
 function _scrollToNextCard(fromCard) {
   // ⚠️ キュー(_examOrder)から選ぶこと。DOM 全走査に戻すとキュー外のカードへ送り込む。
   const allShown = _examOrder.filter(c => c.style.display !== 'none');

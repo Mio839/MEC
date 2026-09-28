@@ -9,6 +9,7 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-09-28d: 正解後の自動スクロールを演出が見えるまで待たせる（_rfScrollAfterCorrect・段に応じて1.0〜1.7秒・自分でスクロールしたら譲る）、UIテーマ固有の正解演出の尺を1.5倍（RF_FX_SLOW）。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-27 v659: 血液 ch01 の ans_sub 点検（Q.30 の正解表記・解説、Q.2/Q.3 の qt 混入）。questions_hema.json を更新したので CACHE を bump。
 2026-09-27e: 同じ国試問題の重複コピー443組の復習予定を1つに揃える dup_index.js（派生物）を SHELL に追加、新しく覚える問題の上限（復習待ちに連動）。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-27d: SRS の試験日ゲート SRS_EXAM_FRACTION 0.5→0.8（study.html・trophy.js）、ハブの復習キューに1日の目標 200 を表示。シェルのみ＝SHELL_VERSION だけ bump。
