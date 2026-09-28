@@ -12,7 +12,7 @@
   ⚠️ 本物の関数を名前で呼んでいるので、study_exam.js で関数名や引数を変えるとここのボタンが黙って壊れる
      （押すと下にエラーが出る）。テストの対象ではない。
   「削除候補」の印は、このページの localStorage（mec_fxdemo_marks_v1）にだけ保存する（同期しない）。
-  「Liquid の新しい案」は _work/fx_liquid_proposals.js を枠へ差し込み、_lqFluidFx を一時的に案へ差し替えて
+  「Liquid の新しい案」は _work/fx_liquid_proposals.js を枠へ差し込み、_lqSoapFx を一時的に案へ差し替えて
   本物の _rfCorrectFx を通す（本番の study.html は読まない＝採用が決まったら study_exam.js へ移す）。
 -->
 <style>
@@ -97,7 +97,7 @@ const FX = [
     ['c-particles', 't', 'UIテーマの粒子', '毎回・肢の位置：照準・金継ぎ・氷晶・歯車など（_spawnStreakParticles）', `_spawnStreakParticles(Math.max(1, t), _rfCenter(ok), { el: ok, card: c, promoted: up })`],
     ['c-theme', 't', 'UIテーマ固有の正解演出', 'liquid・frost・celestial・brass だけ：肢の層は送る前に終わり、全画面の層は元の尺（2〜3秒）で重なる',
       `const u = _rfUi(), B = RF_ADVANCE_MS.one;
-       if (u === 'liquid') _lqFluidFx(ok, c, t, up, B); else if (u === 'frost') _frFrostFx(ok, c, t, up, B);
+       if (u === 'liquid') _lqSoapFx(ok, c, t, up, B); else if (u === 'frost') _frFrostFx(ok, c, t, up, B);
        else if (u === 'celestial') _clxCelestialFx(ok, c, t, up, B); else if (u === 'brass') _brsBrassFx(ok, c, t, up, B);
        else throw new Error('このUIテーマには固有の正解演出が無い（liquid / frost / celestial / brass で試す）')`],
     ['c-sink', 'c', '選ばなかった肢が沈む', '毎回・1.1秒（_sinkOtherChoices）', `_sinkOtherChoices(c)`],
@@ -152,7 +152,7 @@ window.__D = {
     ['fx-correct','combo-streak-3','combo-streak-5','combo-streak-10','exam-sink','exam-retry']
       .forEach(k => c.classList.remove(k));
     c.querySelectorAll('.ch2').forEach(ch => { ch.classList.remove('correct','exam-out','exam-selected','exam-instant-correct'); ch.removeAttribute('aria-disabled'); });
-    c.querySelectorAll('.rf-x,.rf-retry,.rf-reach,.rf-sweep,.lq-layer,.lq-ring,.fr-dust').forEach(e => e.remove());
+    c.querySelectorAll('.rf-x,.rf-retry,.rf-reach,.rf-sweep,.lq-layer,.fr-dust').forEach(e => e.remove());
     c._rfTries = 0;
     _rfHideStreak();
   },
@@ -181,7 +181,7 @@ const RANDCTL = `
    window.__P が Set のとき、その中にある部品だけを描く（null＝全部）。本物の study_exam.js は書き換えない。
    - brass・celestial：部品ごとの関数（_brsGearTrain 等）を包み、外した部品は draw を空にする（火花・押し込みも止める）。
      celestial の「星座／惑星直列／星の軌跡」は毎回1つをランダムに選ぶので、残した部品から選ぶよう次の乱数を決めておく。
-   - liquid：_lqMesh / _lqFilm を層（肢／全画面）と種類で見分ける。虹色のリング（.lq-ring）は作った直後に隠す。
+   - liquid：_lqSoapFilm（肢の膜）を空にし、_lqBlow（玉）は空の配列・_lqGiantBubble（大きな玉）は null を返させる。
    - frost：canvas に「どの層か」と「その時の __P」を貼っておき、描画の小関数（_frDrawFrost・_frDrawFlake・
      _frGlint・_frMelt）を種類で見分ける。霞は肢の層の fillRect（destination-out 以外）を止めて消す。
    - kintsugi・abyss・aurora・cyber：_spawnStreakParticles が呼ぶ MecFX の関数を包む。
@@ -207,16 +207,9 @@ const PARTCTL = `
     return o.apply(this, arguments);
   });
   // liquid
-  wrap('_lqMesh', o => function (L) { return on(L.classList.contains('lq-card') ? 'lq.fmesh' : 'lq.mesh', window.__P) ? o.apply(this, arguments) : undefined; });
-  wrap('_lqFilm', o => function (L, x, y, R, dur, op, full) {
-    const k = full ? 'lq.gloss' : L.classList.contains('lq-card') ? 'lq.ffilm' : 'lq.film';
-    return on(k, window.__P) ? o.apply(this, arguments) : undefined;
-  });
-  wrap('_lqFluidFx', o => function () {
-    const r = o.apply(this, arguments);
-    if (!on('lq.ring', window.__P)) document.querySelectorAll('.lq-ring').forEach(e => { e.style.visibility = 'hidden'; });
-    return r;
-  });
+  wrap('_lqSoapFilm', o => function () { return on('lq.film', window.__P) ? o.apply(this, arguments) : undefined; });
+  wrap('_lqBlow', o => function () { return on('lq.blow', window.__P) ? o.apply(this, arguments) : []; });
+  wrap('_lqGiantBubble', o => function () { return on('lq.giant', window.__P) ? o.apply(this, arguments) : null; });
   // frost
   let inFrost = false, flakes = null;
   wrap('_frFlake', o => function () { const f = o.apply(this, arguments); if (flakes) flakes.push(f); return f; });
@@ -275,9 +268,9 @@ const PARTCTL = `
 /* 部品の台帳：[キー, 名前, 説明, 要る段, 段が上がった瞬間が要るか] */
 const PARTS = {
   liquid: [
-    ['lq.fmesh', '全画面の色の塊', '段3〜（または段が上がった瞬間）：肢のまわりに大きな色の塊', 3, false],
-    ['lq.ring', '虹色のリング', '段3〜：画面の縁を油膜の色が回る', 3, false],
-    ['lq.ffilm', '全画面を渡る虹色の輪', '段が上がった瞬間：画面いっぱいに輪が広がる', 2, true],
+    ['lq.film', 'シャボンの膜', '肢の文字の裏に虹色の膜が張り、タップ位置から丸く割れて雫が散る', 1, false],
+    ['lq.blow', 'シャボン玉', 'タップ位置から吹き出し、揺れながら昇って1つずつ割れる（段で数と大きさが増える）', 1, false],
+    ['lq.giant', '大きなシャボン玉', '段が上がった瞬間：画面の中央まで昇って割れ、細かな玉が散る', 2, true],
   ],
   frost: [
     ['fr.haze', '肢の霞', '肢の上下の縁がうっすら白む', 1, false],
@@ -324,7 +317,7 @@ const PARTS = {
   ],
 };
 const THEME_FX_CODE = `const u = _rfUi(), B = RF_ADVANCE_MS.one;
-  if (u === 'liquid') _lqFluidFx(ok, c, t, up, B); else if (u === 'frost') _frFrostFx(ok, c, t, up, B);
+  if (u === 'liquid') _lqSoapFx(ok, c, t, up, B); else if (u === 'frost') _frFrostFx(ok, c, t, up, B);
   else if (u === 'celestial') _clxCelestialFx(ok, c, t, up, B); else if (u === 'brass') _brsBrassFx(ok, c, t, up, B);
   else _spawnStreakParticles(Math.max(1, t), _rfCenter(ok), { el: ok, card: c, promoted: up });`;
 
@@ -400,36 +393,40 @@ function run(code, o) {
   } catch (e) { say('エラー: ' + (e && e.message || e), true); }
 }
 
-/* ── Liquid の新しい案（2026-09-28）。_lqFluidFx を一時的に案へ差し替えて、本物の _rfCorrectFx を通す ── */
+/* ── Liquid の新しい案（2026-09-28 第2弾）。_lqSoapFx を一時的に案へ差し替えて、本物の _rfCorrectFx を通す。
+   第1弾（K 窓ガラスの雫・L 水銀・M シャボン玉・N 満ちる・O 渦）からは M だけ採用＝本番の _lqSoapFx になった。 ── */
 const LQ_PROPS = [
-  ['cur', '今', '現行：油膜の虹彩＋メッシュ', '比較用。肢の裏で色の塊が咲き、虹色の輪が渡る。全画面の層は段3〜（5連続〜）だけ'],
-  ['K', 'K', '窓ガラスの雫', '肢：結露の粒が輪になって広がる／全画面：雫が画面のガラスへ飛び散って貼り付き、筋を残して垂れる。段が上がった瞬間は水の膜がワイパーのように横切る'],
-  ['L', 'L', '水銀', '肢：クロムの映り込みの帯が走る／全画面：水銀の玉が飛び散り、くっつき合いながら連続数の表示へ集まって一粒になって吸い込まれる。段が上がった瞬間は大きな玉のまわりを1周してから合流'],
-  ['M', 'M', 'シャボン玉', '肢：虹色の膜が張ってタップ位置から割れる／全画面：シャボン玉が吹き出して揺れながら昇り、1つずつ割れて雫が散る。段が上がった瞬間は大きな玉が中央まで昇って割れる'],
-  ['N', 'N', '満ちる', '肢：下から液体が満ちて引く／全画面：流れが画面の下へ注がれ、底から水位が上がって揺れ、引いていく（水位＝段）。段が上がった瞬間は大きな波頭が横切る'],
-  ['O', 'O', '渦', '肢：色の糸が渦を巻く／全画面：4色のインクの糸が水の中へ吹き出したように広がって渦を巻き、尾を引いて消える。段が上がった瞬間は左右一対の渦が巻き上がる'],
+  ['cur', '今', '現行：シャボン玉', '比較用（本番の _lqSoapFx）。肢の膜が割れ、毎回シャボン玉が昇って割れる'],
+  ['P', 'P', '噴水', '肢：水面の波紋が広がる／全画面：タップ位置から水柱が弧を描いて噴き上がり、しぶきが光りながら落ちる（段で水柱が増える）。段が上がった瞬間は扇形に5本'],
+  ['Q', 'Q', '炭酸', '肢：下の縁から細かな泡が立ち昇る／全画面：肢の上の縁から細かな泡が何本もの列になって昇り、加速しながら大きくなって上で弾ける。段が上がった瞬間は瓶を振ったように泡が噴き上がる'],
+  ['R', 'R', '霧の虹', '肢：虹色の光が霧のように横切る／全画面：タップ位置から霧がふわっと広がり、その上に虹の弧が左から描かれる。段4〜は外側に薄い副虹。段が上がった瞬間は画面いっぱいの虹ときらめき'],
+  ['S', 'S', '水中の光', '肢：水底のきらめきが瞬く／全画面：画面の上から揺らめく光の筋が差し込み、正解の肢へ集まる。光の中を小さな粒が漂う（段で筋が増える）。段が上がった瞬間は光の筋が画面を掃く'],
+  ['T', 'T', '金魚', '肢：金魚が跳ねた水の輪／全画面：タップ位置から金魚が尾を振って泳ぎ出し、曲線を描いて画面の外へ（段で匹数が増える）。段が上がった瞬間は大きな金魚が画面を1周して去る'],
 ];
 function runLq(key) {
   const uiSel = document.getElementById('ui');
   if (uiSel.value !== 'liquid') { uiSel.value = 'liquid'; applyTheme(); renderParts(); }
   if (key !== 'cur') { try { if (!W.eval('!!window.__LQP')) { say('案のスクリプトがまだ読めていません（枠を読み直す）', true); return; } } catch (e) {} }
-  const adv = document.getElementById('lqAdv').checked;
+  const adv = document.getElementById('lqAdv').checked, mix = document.getElementById('lqMix').checked && key !== 'cur';
+  const fn = key === 'cur' ? 'o0' : mix ? `function () { o0.apply(this, arguments); __LQP.${key}.apply(this, arguments); }` : `__LQP.${key}`;
   run(`__D.reset(); _lqPtr = { el: ok, fx: .3, fy: .55, t: performance.now() };
     ok.classList.add('exam-selected', 'correct');
-    const o0 = window._lqFluidFx; ${key === 'cur' ? '' : `window._lqFluidFx = __LQP.${key};`}
-    try { _rfCorrectFx(c, ok, RF_ADVANCE_MS.one); } finally { window._lqFluidFx = o0; }
+    const o0 = window._lqSoapFx; window._lqSoapFx = ${fn};
+    try { _rfCorrectFx(c, ok, RF_ADVANCE_MS.one); } finally { window._lqSoapFx = o0; }
     ${adv ? 'setTimeout(() => __LQP.adv(c), RF_ADVANCE_MS.one);' : ''}`);
 }
 const lqBox = document.createElement('div');
 (() => {
-  const h = document.createElement('h2'); h.textContent = 'Liquid の新しい案（正解1回ぶんを通しで）'; lqBox.appendChild(h);
+  const h = document.createElement('h2'); h.textContent = 'Liquid の新しい案 第2弾（正解1回ぶんを通しで）'; lqBox.appendChild(h);
   const note = document.createElement('div'); note.style.cssText = 'font-size:11px;color:var(--sub);margin:0 8px 6px;line-height:1.55';
   note.innerHTML = '押すと UIテーマを liquid にして、本物の <code>_rfCorrectFx</code> の中の Liquid の演出だけを案に差し替えて再生する（肢の縁の光・沈む肢・連続数・画面の縁の光は実物のまま）。'
     + '段が上がった瞬間を見るには、連続正解を 3/5/7/10/14/20 にする。どの案も「肢の層」は送り（403ms）の前に終わり、「全画面の層」は元の尺で最後まで出る。';
   lqBox.appendChild(note);
-  const row = document.createElement('label'); row.className = 'row'; row.style.margin = '0 8px 4px';
-  row.innerHTML = '<input type="checkbox" id="lqAdv" checked style="width:16px;height:16px;accent-color:var(--acc)"> 正解の 403ms 後に次のカードへ送る（実物と同じ）';
-  lqBox.appendChild(row);
+  [['lqAdv', true, '正解の 403ms 後に次のカードへ送る（実物と同じ）'], ['lqMix', false, 'シャボン玉（現行）と重ねて再生する']].forEach(([id, on, txt]) => {
+    const row = document.createElement('label'); row.className = 'row'; row.style.margin = '0 8px 4px';
+    row.innerHTML = '<input type="checkbox" id="' + id + '"' + (on ? ' checked' : '') + ' style="width:16px;height:16px;accent-color:var(--acc)"> ' + txt;
+    lqBox.appendChild(row);
+  });
   LQ_PROPS.forEach(([key, id, name, desc]) => {
     const r = document.createElement('div'); r.className = 'it';
     const b = document.createElement('button');

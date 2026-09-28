@@ -2285,7 +2285,7 @@ function _spawnStreakParticles(tier, at, ctx) {
       if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#00FF66', thickness: 2.5, maxR: maxR * 1.05, additive: true });
       return;
     } else if (curUi === 'liquid') {
-      // 2026-09-25：油膜の虹彩＋メッシュグラデーション（_lqFluidFx）。ここ（200ms）ではなく
+      // 2026-09-28：シャボン玉（_lqSoapFx）。ここ（200ms）ではなく
       // _rfCorrectFx の 0ms で出している——正解の 300〜400ms 後に次のカードへ自動スクロールするので、
       // 200ms 待つと肢が画面から去ってから咲く。粒子・全画面の閃光は出さない。
       return;
@@ -2297,13 +2297,14 @@ function _spawnStreakParticles(tier, at, ctx) {
 
 
 
-/* ══════════ Liquid：油膜の虹彩＋メッシュグラデーション（2026-09-25）══════════
-   デモ（案G・案J）でユーザーが採用。旧 liquidBloomRipple（全画面の閃光・絞り羽根・画面の下から昇る泡・
-   画面全体の粉・火花の5色同時）を置き換えた。
-   - （2026-09-28 にデモページで部品ごとに見て撤去した（ユーザー判断）。戻さないこと。）正解の肢の**文字の裏**で、ぼかした色の塊4つが咲いて混ざり（メッシュ）、薄膜の虹色が輪になって渡る。
-   - TIER3〜：色がカードの裏にも広がり、カードの縁が油膜の色で回る。
-   - 段が上がった瞬間：虹色の輪がカード全体を渡り、色の塊がカードの中をひと回りする。
-   ⚠️ 層は肢／カードの子要素 .lq-layer（z-index:-1）＝.qc と .ch2 の疑似要素は使わない（満杯）。
+/* ══════════ Liquid：シャボン玉（2026-09-28）══════════
+   デモページ（fx_all_demo.html「Liquid の新しい案」の案M）でユーザーが採用。油膜の虹彩＋メッシュグラデーション
+   （2026-09-25・_lqFluidFx／_lqMesh／_lqFilm／.lq-ring）を置き換えた。旧 liquidBloomRipple は結果画面だけで使う。
+   - ① 肢の層：正解の肢の**文字の裏**に虹色のシャボンの膜が張り、タップ位置から丸く割れて雫が散る（_lqSoapFilm）。
+   - ② 全画面の層（毎回）：タップ位置からシャボン玉が吹き出し、揺れながら昇って1つずつ割れる（_lqBlow）。
+        段で玉の数と大きさが増える。段が上がった瞬間は大きな玉が画面の中央まで昇って割れ、細かな玉が散る（_lqGiantBubble）。
+   ⚠️ 肢の層は .lq-layer（z-index:-1）＝.qc と .ch2 の疑似要素は使わない（満杯）。canvas と描画ループは frost の
+      _frCtx / _frRun を共用（関数宣言なので後ろにあっても呼べる）。
    ⚠️ 片付け（クラス・要素の除去）は素の setTimeout。_fxTimeout だと試験を抜けた瞬間に止まり、
       .lq-host が付いたまま残る。 */
 /* 最後にタップした肢と、肢の中の位置（割合）。波の起点にする。キーボードで答えたときは肢の中央。
@@ -2316,16 +2317,15 @@ document.addEventListener('pointerdown', e => {
   const r = ch.getBoundingClientRect();
   _lqPtr = { el: ch, fx: (e.clientX - r.left) / r.width, fy: (e.clientY - r.top) / r.height, t: performance.now() };
 }, { passive: true, capture: true });
-const LQ_COLS = ['#FF007F', '#7928CA', '#FF7A00', '#2FE0D5'];
 /* UIテーマ固有の正解演出（liquid / frost / celestial / brass）の尺（2026-09-28・ユーザー判断）。
    ① **肢の中で出す層**は、次のカードへ送る前に終わらせる。各演出はラボで決めた尺（ms）のまま書いてあり、
       始める前に _rfFit(予算, 肢の層の全長) で係数 _rfK を決め、送りの RF_FX_END_MARGIN 手前で終わるよう縮める。
-      尺を決めている口（_lqMesh / _lqFilm の duration・_lqDrop の片付け・_frRun の経過時間・各演出の遅延）は
+      尺を決めている口（_lqDrop の片付け・_frRun の経過時間・各演出の遅延）は
       全部 _rfK を掛ける。
    ② **カードの中で出していた層**は、全画面の層（_rfFullHost・文字の上にデモと同じ濃さで重ねる）へ移し、ラボの尺のまま
       （_rfK = 1）最後まで再生する。0.3秒に縮めるとほとんど見えなかったため。全画面なのでカードと一緒に流れない
       （カードの位置に貼り付けた台 .rf-stage を残す案は「中に浮いておかしな演出」と却下されている）。
-   ⚠️ _rfK は大域変数。①の遅延呼び出し（setTimeout の中で _lqFilm 等を呼ぶもの）は、②で _rfK を 1 に
+   ⚠️ _rfK は大域変数。①の遅延呼び出し（setTimeout の中で肢の層を描くもの）は、②で _rfK を 1 に
       戻した後に走るので、①の係数を控えて呼ぶ直前に入れ直すこと（_rfWithK）。
    送りの時間は 2026-09-28 に 15% 延ばした（ユーザー判断・単一 350→403・複数 400→460・計算 300→345ms）。 */
 const RF_ADVANCE_MS = { one: 403, multi: 460, calc: 345 };
@@ -2362,73 +2362,136 @@ function _lqDrop(host, L, ms) {
     if (--host._lqN <= 0) { host._lqN = 0; host.classList.remove('lq-host'); }
   }, ms * _rfK);
 }
-function _lqMesh(L, ox, oy, spread, size, dur, op, orbit, pad, top) {
-  const box = document.createElement('span');
-  box.className = 'lq-mesh';
-  if (top != null) { box.style.top = top + 'px'; box.style.bottom = 'auto'; box.style.height = (size * 2 + 80) + 'px'; }
-  L.appendChild(box);
-  const ty0 = top != null ? top : -pad;
-  LQ_COLS.forEach((col, i) => {
-    const b = document.createElement('b'), s = size * (.8 + Math.random() * .4);
-    b.style.width = b.style.height = s + 'px';
-    b.style.background = 'radial-gradient(circle, ' + col + ' 0%, ' + col + '00 70%)';
-    box.appendChild(b);
-    const a = i / 4 * Math.PI * 2 + (Math.random() - .5) * .8;
-    const at = (x, y) => (x + pad - s / 2) + 'px ' + (y - ty0 - s / 2) + 'px';
-    const tx = ox + Math.cos(a) * spread, ty = oy + Math.sin(a) * spread * .6;
-    const kf = [{ translate: at(ox, oy), scale: .15, opacity: 0 }, { translate: at(tx, ty), scale: 1, opacity: op, offset: orbit ? .4 : .3 }];
-    if (orbit) { const a2 = a + 1.6; kf.push({ translate: at(ox + Math.cos(a2) * spread, oy + Math.sin(a2) * spread * .6), scale: 1.1, opacity: op * .8, offset: .75 }); }
-    kf.push({ translate: at(tx + (Math.random() - .5) * 40, ty + (Math.random() - .5) * 20), scale: 1.2, opacity: 0 });
-    // ⚠️ 加減速は区間ごとに掛ける（全体に MO.out を掛けると、咲く→消えるが最初の1/4に潰れて見えない）
-    kf.forEach(k => { k.easing = MO.out; });
-    b.animate(kf, { duration: dur * _rfK, fill: 'forwards' });
+/* シャボンの膜・玉の縁の虹色（薄膜干渉）。createConicGradient が無い環境は単色 */
+const LQ_IRI = ['#ff6ec7', '#ffd36e', '#6effc0', '#6ecbff', '#b66eff', '#ff6ec7'];
+function _lqIri(c, x, y, rot, fb) {
+  if (!c.createConicGradient) return fb;
+  const g = c.createConicGradient(rot, x, y);
+  LQ_IRI.forEach((col, i) => g.addColorStop(i / (LQ_IRI.length - 1), col));
+  return g;
+}
+/* シャボン玉1つ。縁は虹色・中はほぼ透明・左上に窓の映り込み。wob で揺れて楕円になる */
+function _lqBubble(c, x, y, r, rot, wob, a) {
+  if (r < 1 || a <= 0) return;
+  c.save(); c.translate(x, y); c.rotate(wob * .3); c.scale(1 + wob, 1 - wob);
+  c.globalAlpha = a;
+  const g = c.createRadialGradient(0, 0, r * .55, 0, 0, r);
+  g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(1, 'rgba(255,255,255,.16)');
+  c.fillStyle = g; c.beginPath(); c.arc(0, 0, r, 0, 7); c.fill();
+  c.strokeStyle = _lqIri(c, 0, 0, rot, '#ff9fd6');
+  c.globalAlpha = a * .9; c.lineWidth = Math.max(1.2, r * .085); c.beginPath(); c.arc(0, 0, r * .95, 0, 7); c.stroke();
+  c.globalAlpha = a * .38; c.lineWidth = Math.max(.8, r * .05);
+  c.beginPath(); c.arc(0, 0, r * .72, rot, rot + 1.9); c.stroke();
+  c.beginPath(); c.arc(0, 0, r * .5, rot + 3, rot + 4.3); c.stroke();
+  c.globalAlpha = a * .95; c.fillStyle = 'rgba(255,255,255,.9)';
+  c.beginPath(); c.ellipse(-r * .42, -r * .42, r * .2, r * .11, -.75, 0, 7); c.fill();
+  c.globalAlpha = a * .55; c.beginPath(); c.arc(r * .44, r * .4, r * .075, 0, 7); c.fill();
+  c.restore();
+}
+/* ① 肢の層：文字の裏に虹色の膜が張り、タップ位置から丸く割れて雫が散る（ラボの尺 820ms を送りまでに縮める） */
+function _lqSoapFilm(el, ox, oy, budget) {
+  const NOM = 820;
+  _rfFit(budget, NOM);
+  const L = _lqLayer(el);
+  const w = el.clientWidth, h = el.clientHeight;
+  const c = _frCtx(L, w, h, 0, 2);
+  const diag = Math.hypot(Math.max(ox, w - ox), Math.max(oy, h - oy));
+  const drops = Array.from({ length: 12 }, (_, i) => ({ a: i / 12 * Math.PI * 2 + _frR(-.2, .2), v: _frR(.5, 1) }));
+  _frRun(c, w, h, NOM, (c, e) => {
+    const film = _frC(e / 180), hole = _frE(_frC((e - 260) / 480)) * diag * 1.05;
+    c.globalAlpha = .38 * film; c.fillStyle = _lqIri(c, ox, oy, e * .004, 'rgba(255,110,199,.8)'); c.fillRect(0, 0, w, h);
+    c.globalAlpha = .22 * film; c.strokeStyle = '#fff'; c.lineWidth = 1.2;
+    for (let k = 0; k < 4; k++) { c.beginPath(); c.arc(ox, oy, 14 + k * 22 + e * .02, k + e * .005, k + e * .005 + 2.2); c.stroke(); }
+    c.globalAlpha = 1;
+    if (hole > 0) { c.globalCompositeOperation = 'destination-out'; c.beginPath(); c.arc(ox, oy, hole, 0, 7); c.fill(); c.globalCompositeOperation = 'source-over'; }
+    if (hole > 0 && hole < diag) drops.forEach(d => {
+      const rr = hole + 6 * d.v;
+      c.fillStyle = `rgba(255,235,248,${.9 * (1 - hole / diag)})`;
+      c.beginPath(); c.arc(ox + Math.cos(d.a) * rr, oy + Math.sin(d.a) * rr * .7, 1.8, 0, 7); c.fill();
+    });
   });
+  _lqDrop(el, L, NOM);
 }
-function _lqFilm(L, x, y, R, dur, op, full) {
-  const f = document.createElement('span');
-  f.className = 'lq-film' + (full ? ' full' : '');
-  f.style.setProperty('--lqfx-x', x + 'px');
-  f.style.setProperty('--lqfx-y', y + 'px');
-  L.appendChild(f);
-  const a0 = Math.random() * 360;
-  const kf = full
-    ? [{ opacity: 0, '--lqfx-a': a0 + 'deg' }, { opacity: op, offset: .35 }, { opacity: 0, '--lqfx-a': (a0 + 120) + 'deg' }]
-    : [{ '--lqfx-r': '0px', '--lqfx-a': a0 + 'deg', opacity: op }, { opacity: op, offset: .6 }, { '--lqfx-r': R + 'px', '--lqfx-a': (a0 + 200) + 'deg', opacity: 0 }];
-  kf.forEach(k => { k.easing = MO.out; });
-  f.animate(kf, { duration: dur * _rfK, fill: 'forwards' });
+/* ② 全画面の層のシャボン玉（段で数と大きさが増える）。born＝吹き出す時刻・life＝割れるまで */
+function _lqBlow(cx, cy, t) {
+  const n = 4 + t + (t >= 3 ? 2 : 0);
+  return Array.from({ length: n }, (_, i) => ({
+    x: cx, y: cy, vx: _frR(-160, 160), vy: _frR(-260, -120), r: _frR(13, 26) * (1 + t * .07), born: i * 70 + _frR(0, 60),
+    life: _frR(1300, 2300), rot: _frR(0, 7), wf: _frR(3, 5), wp: _frR(0, 7)
+  }));
 }
-function _lqFluidFx(el, card, tier, promoted, budget) {
+/* 段が上がった瞬間の大きな玉：画面の中央まで昇って割れ、細かな玉が散る */
+function _lqGiantBubble(cx, cy, VW, VH) {
+  return { x: cx, y: cy, x0: cx, y0: cy, giant: true, r: Math.min(VW, VH) * .2, born: 120, life: 1950, rot: 0, wf: 2.4, wp: 0 };
+}
+function _lqSoapFx(el, card, tier, promoted, budget) {
   if (!el || _fxOff()) return;
   const er = el.getBoundingClientRect();
   if (!er.width || !er.height) return;
   let ox = er.width / 2, oy = er.height / 2;
   const pt = _lqPtr;
   if (pt && pt.el === el && performance.now() - pt.t < 2000) { ox = er.width * pt.fx; oy = er.height * pt.fy; }
-  const t = Math.max(1, tier);
-  const big = t >= 3, up = promoted && tier >= 2;
-  // ① 肢の層（肢の色の塊・肢を渡る虹色の輪・肢に残る光沢）は 2026-09-28 にデモページで部品ごとに見て撤去した（ユーザー判断）。戻さないこと。
-  //    ＝TIER1〜2（段が上がった瞬間を除く）の liquid にはテーマ固有の正解演出が出ない。
+  const t = Math.max(1, tier), up = promoted && tier >= 2;
+  _lqSoapFilm(el, ox, oy, budget);
   if (!card) return;
-  if (!big && !up) return;
-  // ② 全画面（ラボの尺のまま）
+  // ② 全画面（ラボの尺のまま・毎回）
   _rfK = 1;
   const VW = window.innerWidth, VH = window.innerHeight;
   const cx = er.left + ox, cy = er.top + oy;
-  const H = _rfFullHost(Math.max(2450, 1650 + t * 100));
-  const C = _lqLayer(H, 'lq-card');
-  // 色の塊は肢のまわり（画面全面をぼかすと重い）
-  const size = Math.min(VW, 460) * (.5 + t * .03);
-  _lqMesh(C, cx, cy, VW * .32, size, 2200, .32 + t * .02, up, 40, Math.max(-40, cy - size - 40));
-  if (up) _lqFilm(C, cx, cy, Math.hypot(VW, VH), 1500, .5, false);
-  _lqDrop(H, C, 2400);
-  if (big) {
-    const r = document.createElement('span');
-    r.className = 'lq-ring';
-    H.appendChild(r);
-    r.animate([{ opacity: 0, '--lqfx-a': '0deg' }, { opacity: .95, offset: .2 }, { opacity: .95, offset: .7 }, { opacity: 0, '--lqfx-a': (240 + t * 30) + 'deg' }],
-      { duration: (1500 + t * 100) * _rfK, easing: 'ease-in-out', fill: 'forwards' });
-    setTimeout(() => r.remove(), (1600 + t * 100 + 50) * _rfK);
-  }
+  const DUR = 2800 + (up ? 300 : 0);
+  const H = _rfFullHost(DUR + 100);
+  const c0 = _frCtx(H, VW, VH, 0, 1.5);
+  const bs = _lqBlow(cx, cy, t);
+  if (up) { const g = _lqGiantBubble(cx, cy, VW, VH); if (g) bs.push(g); }
+  const pops = [];
+  let lastE = 0;
+  _frRun(c0, VW, VH, DUR, (c, e) => {
+    const dt = Math.min(.05, (e - lastE) / 1000); lastE = e;
+    for (let i = 0; i < bs.length; i++) {
+      const b = bs[i], le = e - b.born;
+      if (le < 0 || b.gone) continue;
+      if (le > b.life) {   // 割れる：雫が散り、輪が一瞬広がる
+        b.gone = true;
+        const k = b.giant ? 42 : 10;
+        for (let j = 0; j < k; j++) {
+          const a = _frR(0, 7), sp = _frR(80, b.giant ? 520 : 240);
+          pops.push({ x: b.x + Math.cos(a) * b.r, y: b.y + Math.sin(a) * b.r, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, t0: e, r: _frR(1, 2.4), col: LQ_IRI[j % 5] });
+        }
+        pops.push({ ring: true, x: b.x, y: b.y, r: b.r, t0: e });
+        if (b.giant) for (let j = 0; j < 7; j++) bs.push({ x: b.x, y: b.y, vx: _frR(-260, 260), vy: _frR(-260, 80), r: _frR(8, 15), born: e, life: _frR(500, 800), rot: _frR(0, 7), wf: 4, wp: _frR(0, 7) });
+        continue;
+      }
+      const grow = _frE(_frC(le / 320));
+      if (b.giant) {
+        const p = _frC(le / 1200), q = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        b.x = b.x0 + (VW / 2 - b.x0) * q; b.y = b.y0 + (VH * .45 - b.y0) * q;
+      } else {
+        b.vy -= 60 * dt; b.vx *= Math.exp(-dt * 1.2); b.vy *= Math.exp(-dt * .9);
+        b.x += (b.vx + Math.sin(le * .004 + b.wp) * 30) * dt; b.y += b.vy * dt;
+      }
+      b.rot += dt * (b.giant ? 1.4 : 2.2);
+      const wob = Math.sin(le * .002 * b.wf + b.wp) * .06 * (b.giant ? 1.2 : 1);
+      _lqBubble(c, b.x, b.y, b.r * grow, b.rot, wob, 1);
+      if (b.giant) {   // 大きな玉は膜の渦を多く
+        c.save(); c.globalAlpha = .28; c.lineWidth = 2;
+        for (let k = 0; k < 5; k++) { c.strokeStyle = LQ_IRI[k]; c.beginPath(); c.arc(b.x, b.y, b.r * grow * (.2 + k * .14), b.rot * (k % 2 ? -1 : 1) + k, b.rot + k + 1.6); c.stroke(); }
+        c.restore();
+      }
+    }
+    for (const p of pops) {
+      const le = (e - p.t0) / 1000;
+      if (p.ring) {
+        const q = _frC(le / .16);
+        if (q < 1) { c.strokeStyle = `rgba(255,255,255,${.7 * (1 - q)})`; c.lineWidth = 1.5; c.beginPath(); c.arc(p.x, p.y, p.r * (1 + q * .35), 0, 7); c.stroke(); }
+        continue;
+      }
+      const a = 1 - _frC(le / .45);
+      if (a <= 0) continue;
+      c.globalAlpha = a; c.fillStyle = p.col;
+      c.beginPath(); c.arc(p.x + p.vx * le, p.y + p.vy * le + 300 * le * le, p.r, 0, 7); c.fill();
+    }
+    c.globalAlpha = 1;
+  });
 }
 
 /* ══════════ Frost：六花＋霜華＋ダイヤモンドダスト（2026-09-25）══════════
@@ -4760,7 +4823,7 @@ function _rfCorrectFx(card, el, budget) {
 
   // 0ms：光は正解の肢から
   _rfSweep(el, inCardMs);
-  if (_rfUi() === 'liquid') _lqFluidFx(el, card, tier, promoted, budget);   // 肢の裏で色が咲く（_spawnStreakParticles の liquid 分岐を参照）
+  if (_rfUi() === 'liquid') _lqSoapFx(el, card, tier, promoted, budget);   // シャボンの膜が割れ、玉が昇る（_spawnStreakParticles の liquid 分岐を参照）
   else if (_rfUi() === 'frost') _frFrostFx(el, card, tier, promoted, budget);   // 雪の結晶・霜・ダイヤモンドダスト（同上の frost 分岐を参照）
   else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted, budget);   // 金環＋星座／惑星直列／星の軌跡（同上の celestial 分岐を参照）
   else if (_rfUi() === 'brass') _brsBrassFx(el, card, tier, promoted, budget);   // 歯車列＋刻印＋鋳込みの唐草（同上の brass 分岐を参照）
