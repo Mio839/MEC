@@ -9,6 +9,7 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-09-28 v670: 必修講座 hisshu_ch12_q258（95E-45・脱水で循環不全の乳児に入れてはならない輸液成分＝カリウム）に解説を追加（エラー報告「解説ついか」・_work/hisshu_overrides.json）。questions_hisshu.json を変えた＝CACHE を bump。
 2026-09-28zc: ハブの「2週間の最多記録」の演出から結果音（sounds/結果画面/）の再生を撤去（index.js）。表示済みフラグがページを読むたびに戻るので、最多記録の日はハブを再読み込みするたびにファンファーレが鳴っていた。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-28zb: Frost の正解演出の負荷軽減。全画面の霜（四隅・縁）は描き足して静止→canvas の opacity で消す（毎フレーム数万本の描き直しと destination-out の溶かしを廃止）。結晶はダストの canvas へ移して全画面 canvas を2枚のまま、きらめきはスプライト化。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-28 v669: 自作問題に肝胆膵の国試1問（112C-39・肝門部領域胆管癌のERCP）を Q.35 として追加（画像は 肝胆膵/images/112C-39_1.jpeg を共用）。questions_custom.json を変えた＝CACHE を bump。qmeta.json・rate_index.js を再生成。
