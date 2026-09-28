@@ -51,7 +51,7 @@ test('🕰️ 真鍮クロックワーク (ui-brass) の問題カード固有装
   assert(themeCss.includes('html.ui-brass .qc'), 'Missing html.ui-brass .qc');
   assert(themeCss.includes('html.ui-brass .qc::before'), 'Missing brass gold stripe');
   assert(themeCss.includes('html.ui-brass .qc::after'), 'Missing skeleton gear watermark');
-  assert(themeCss.includes('@keyframes brassGearSlowSpin'), 'Missing gear spin animation');
+  // ⚠️ @keyframes brassGearSlowSpin は 2026-09-28 に削除した（どのルールからも使われていなかった）。
   assert(themeCss.includes('html.ui-brass .qc .qn'), 'Missing engraved medallion num badge in brass');
   assert(themeCss.includes('html.ui-brass .qc .ch2:hover'), 'Missing brass plate hover in brass');
   assert(themeCss.includes('html.ui-brass .qc .ab'), 'Missing brass letterpress answer box in brass');
@@ -61,7 +61,7 @@ test('🚀 サイバー・ホログラム (ui-cyber) の問題カード固有装
   assert(themeCss.includes('html.ui-cyber .qc'), 'Missing html.ui-cyber .qc');
   assert(themeCss.includes('html.ui-cyber .qc::before'), 'Missing HUD target corner brackets');
   assert(themeCss.includes('html.ui-cyber .qc::after'), 'Missing cyber scanline overlay');
-  assert(themeCss.includes('@keyframes cyberScanline'), 'Missing scanline animation');
+  // ⚠️ @keyframes cyberScanline は 2026-09-28 に削除した（どのルールからも使われていなかった）。
   assert(themeCss.includes('html.ui-cyber .qc .qn'), 'Missing hexagon target badge in cyber');
   assert(themeCss.includes('html.ui-cyber .qc .ch2:hover'), 'Missing laser lock-on hover in cyber');
   assert(themeCss.includes('html.ui-cyber .qc .ab'), 'Missing cyber terminal answer box in cyber');
@@ -71,7 +71,7 @@ test('🌸 幻想リキッド・アート (ui-liquid) の問題カード固有�
   assert(themeCss.includes('html.ui-liquid .qc'), 'Missing html.ui-liquid .qc');
   assert(themeCss.includes('html.ui-liquid .qc::before'), 'Missing liquid edge flow');
   assert(themeCss.includes('html.ui-liquid .qc::after'), 'Missing liquid marble blob watermark');
-  assert(themeCss.includes('@keyframes liquidBlobMorph'), 'Missing blob morph animation');
+  // ⚠️ @keyframes liquidBlobMorph は 2026-09-28 に削除した（どのルールからも使われていなかった）。
   assert(themeCss.includes('html.ui-liquid .qc .qn'), 'Missing liquid droplet num badge in liquid');
   assert(themeCss.includes('html.ui-liquid .qc .ch2:hover'), 'Missing neon fluid choice hover in liquid');
   assert(themeCss.includes('html.ui-liquid .qc .ab'), 'Missing fluid bloom answer box in liquid');
@@ -81,7 +81,7 @@ test('🌑 漆黒金継ぎ・禅 (ui-kintsugi) の問題カード固有装飾', 
   assert(themeCss.includes('html.ui-kintsugi .qc'), 'Missing html.ui-kintsugi .qc');
   assert(themeCss.includes('html.ui-kintsugi .qc::before'), 'Missing kintsugi edge flow');
   assert(themeCss.includes('html.ui-kintsugi .qc::after'), 'Missing kintsugi enso watermark');
-  assert(themeCss.includes('@keyframes kintsugiEnsoPulse'), 'Missing enso pulse animation');
+  // ⚠️ @keyframes kintsugiEnsoPulse は 2026-09-28 に削除した（どのルールからも使われていなかった）。
   assert(themeCss.includes('html.ui-kintsugi .qc .qn'), 'Missing kintsugi num badge in kintsugi');
   assert(themeCss.includes('html.ui-kintsugi .qc .ch2:hover'), 'Missing brush choice hover in kintsugi');
   assert(themeCss.includes('html.ui-kintsugi .qc .ab'), 'Missing inkstone answer box in kintsugi');
@@ -91,7 +91,7 @@ test('🌌 賢者の星図・魔導書 (ui-celestial) の問題カード固有�
   assert(themeCss.includes('html.ui-celestial .qc'), 'Missing html.ui-celestial .qc');
   assert(themeCss.includes('html.ui-celestial .qc::before'), 'Missing celestial edge flow');
   assert(themeCss.includes('html.ui-celestial .qc::after'), 'Missing celestial astrolabe watermark');
-  assert(themeCss.includes('@keyframes celestialAstrolabeSpin'), 'Missing astrolabe spin animation');
+  // ⚠️ @keyframes celestialAstrolabeSpin は 2026-09-28 に削除した（どのルールからも使われていなかった）。
   assert(themeCss.includes('html.ui-celestial .qc .qn'), 'Missing compass num badge in celestial');
   assert(themeCss.includes('html.ui-celestial .qc .ch2:hover'), 'Missing starlight choice hover in celestial');
   assert(themeCss.includes('html.ui-celestial .qc .ab'), 'Missing grimoire answer box in celestial');
