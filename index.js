@@ -428,12 +428,9 @@ function _renderSpark() {
           MecFX.sparks(c.x, c.r.top, { count: 12, speed: 220 });
         }
       }
-      // サウンド再生（設定の結果音。⚠️ 保存値をそのまま使わず _sndResolveHub を通すこと——
-      // 廃止した 'off' や消したファイルのキーが残っていても既定の音へ落ちる）
-      try {
-        const rSound = _sndResolveHub('result', localStorage.getItem('mec_result_sound_v1'));
-        if (rSound && typeof _previewResultSound === 'function') _previewResultSound(rSound);
-      } catch (e) {}
+      // ⚠️ ここで結果音（sounds/結果画面/）を鳴らさないこと（2026-09-28 撤去）。
+      // _sparkRecordShown はページを読むたびに戻るので、今日が最多記録の日は
+      // ハブを再読み込みするたびに試験の結果画面のファンファーレが鳴っていた。
     }, 700);
   }
 }
