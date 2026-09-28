@@ -949,7 +949,7 @@ function revealAnswer(card) {
   try { _updateExamProg(true); } catch (e) {}
   try { _saveExamResume(); } catch (e) {}
   requestAnimationFrame(_updateExamFocus);
-  _rfScrollAfterCorrect(card);
+  _rfScrollAfterCorrect(card, req > 1 ? 400 : 350);
 }
 
 
@@ -2900,7 +2900,7 @@ function _lqLayer(host, cls) {
 }
 function _lqDrop(host, L, ms) {
   setTimeout(() => {
-    L.remove();
+    _rfRemove(L);
     if (--host._lqN <= 0) { host._lqN = 0; host.classList.remove('lq-host'); }
   }, ms * RF_FX_SLOW);
 }
@@ -2970,7 +2970,7 @@ function _lqFluidFx(el, card, tier, promoted) {
     card.appendChild(r);
     r.animate([{ opacity: 0, '--lqfx-a': '0deg' }, { opacity: .95, offset: .2 }, { opacity: .95, offset: .7 }, { opacity: 0, '--lqfx-a': (240 + t * 30) + 'deg' }],
       { duration: (1500 + t * 100) * RF_FX_SLOW, easing: 'ease-in-out', fill: 'forwards' });
-    setTimeout(() => r.remove(), (1600 + t * 100 + 50) * RF_FX_SLOW);
+    setTimeout(() => _rfRemove(r), (1600 + t * 100 + 50) * RF_FX_SLOW);
   }
 }
 
@@ -3221,7 +3221,7 @@ function _frFrostFx(el, card, tier, promoted) {
     });
     if (wave) wave.forEach(q => { const k = (e - q.dl) / 550; if (k > 0 && k < 1) _frGlint(c, q.x, q.y, q.s * Math.sin(Math.PI * k), 1); });
   });
-  setTimeout(() => D.remove(), (durD + 50) * RF_FX_SLOW);
+  setTimeout(() => _rfRemove(D), (durD + 50) * RF_FX_SLOW);
 }
 
 /* ══════════ Celestial：金環＋（星座／惑星直列／星の軌跡 のどれか1つ）（2026-09-25）══════════
@@ -4160,7 +4160,7 @@ function _revealCalcAnswer(card, sid) {
   try { _updateExamProg(true); } catch (e) {}
   try { _saveExamResume(); } catch (e) {}
   requestAnimationFrame(_updateExamFocus);
-  _rfScrollAfterCorrect(card);
+  _rfScrollAfterCorrect(card, 300);
 }
 
 function _recountExcluded() {
@@ -4244,25 +4244,37 @@ function _showFinishAndScroll() {
   });
 }
 
-/* 正解の後、次のカードへ送るまでの待ち（2026-09-28）。
-   正解の演出は正解の肢の位置に出る（UIテーマ固有の演出は肢／カードの裏の層）ので、以前の 300〜400ms で
-   送ると山場の前に画面外へ流れ、実機で「演出がほとんど見えない」と指摘された。段が上がるほど演出が
-   大きく長いので少しずつ長く待つ。
-   ⚠️ 待っている間に自分でスクロールした（wheel / touchmove）ら送らない＝速く進みたいときは指で送れる。
-   ⚠️ 演出を出さない設定（_fxOff）のときは従来どおりすぐ送る。 */
-const RF_NEXT_HOLD_MS = [1000, 1000, 1150, 1300, 1400, 1500, 1600, 1700];   // index = tier
-let _rfUserMovedAt = 0;
-['wheel', 'touchmove'].forEach(t => document.addEventListener(t, () => { _rfUserMovedAt = performance.now(); }, { passive: true, capture: true }));
-function _rfScrollAfterCorrect(card) {
-  const ms = _fxOff() ? 350 : RF_NEXT_HOLD_MS[_tIdx(_examTier(examStreak), RF_NEXT_HOLD_MS)];
-  const t0 = performance.now();
+/* 正解の後、次のカードへ送る（2026-09-28）。送りの時間は従来どおり（単一 350ms・複数 400ms・計算 300ms）。
+   UIテーマ固有の正解演出（liquid / frost / celestial / brass）は正解の肢・カードの子要素の層に描くので、
+   そのまま送るとカードと一緒に画面外へ流れて見えなかった（実機で指摘）。送る直前に層を画面固定の台
+   （.rf-stage）へ移し替える＝カードが流れても演出はその場に残って最後まで見える。
+   ⚠️ 送りを遅らせて見せる案は「カードの送りが遅い」と却下された（2026-09-28）。待ちを足さないこと。 */
+function _rfScrollAfterCorrect(card, ms) {
   setTimeout(() => {
-    if (!examMode) return;
-    // 自分で動かしていたら譲る。ただし最後の1問なら結果への導線（終了ボタン）は必ず出す
-    const left = _examOrder.some(c => c.style.display !== 'none' && !c.classList.contains('exam-revealed'));
-    if (_rfUserMovedAt > t0 && left) return;
+    try { _rfDetachFx(card); } catch (e) {}
     _scrollToNextCard(card);
   }, ms);
+}
+function _rfDetachFx(card) {
+  if (!card) return;
+  card.querySelectorAll('.lq-layer, .lq-ring, .fr-dust').forEach(n => {
+    const host = n.parentElement;
+    if (!host || n._rfStage) return;
+    const r = host.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    const st = document.createElement('div');
+    st.className = 'rf-stage';
+    st.style.cssText = `left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px;border-radius:${getComputedStyle(host).borderRadius};`;
+    document.body.appendChild(st);
+    st.appendChild(n);   // ⚠️ WAAPI のアニメと canvas の描画ループ（isConnected を見る）は移し替えても続く
+    n._rfStage = st;
+    setTimeout(() => st.remove(), 8000);   // 保険（片付けは _rfRemove が先にやる）
+  });
+}
+/* 演出の層を片付ける。台へ移し替えていれば台ごと消す。 */
+function _rfRemove(n) {
+  n.remove();
+  if (n._rfStage) n._rfStage.remove();
 }
 function _scrollToNextCard(fromCard) {
   // ⚠️ キュー(_examOrder)から選ぶこと。DOM 全走査に戻すとキュー外のカードへ送り込む。
@@ -5048,6 +5060,7 @@ function exitExam() {
      「いま画面に出ているもの」を消すだけなので、先に止めないと掃除の直後に
      遅延ぶんが新しい演出を生やす（正解直後に「終了」を押すと再現する）。 */
   _fxClearTimers();
+  document.querySelectorAll('.rf-stage').forEach(n => n.remove());   // 画面固定へ移した正解演出
   _zoneStop(false); _setAwaken(false); _setOverdrive(false); _clearCardHeat();
   // srs-review クラスはここでは外さない。結果画面〜誤答再試験の間も復習の最小表示を保つため、
   // 解除は通常閲覧へ戻る _srsRestoreAfterReview() に集約している。
