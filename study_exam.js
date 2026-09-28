@@ -2265,7 +2265,7 @@ function _spawnStreakParticles(tier, at, ctx) {
       if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#00FF66', thickness: 2.5, maxR: maxR * 1.05, additive: true });
       return;
     } else if (curUi === 'liquid') {
-      // 2026-09-28：シャボン玉（_lqSoapFx）。ここ（200ms）ではなく
+      // 2026-09-28：ぷるん＋シャボン玉＋ガラスの衝撃波（_lqLiquidFx）。ここ（200ms）ではなく
       // _rfCorrectFx の 0ms で出している——正解の 300〜400ms 後に次のカードへ自動スクロールするので、
       // 200ms 待つと肢が画面から去ってから咲く。粒子・全画面の閃光は出さない。
       return;
@@ -2472,6 +2472,119 @@ function _lqSoapFx(el, card, tier, promoted, budget) {
     }
     c.globalAlpha = 1;
   });
+}
+
+/* ══════════ Liquid：ぷるん＋ガラスの衝撃波（2026-09-28）══════════
+   デモページ（fx_all_demo.html「Liquid の新しい案 第3弾」の案AD・案U）でユーザーが採用し、シャボン玉（_lqSoapFx）と
+   3つとも重ねて出す（ユーザー判断）。入口は _lqLiquidFx の1本。
+   - ぷるん（_lqJelly）：正解の肢そのものがゼリーのように弾み（横に伸びて縦に縮み、戻る）、文字の裏をつやが走る。
+       肢の両端から液体の玉がはじけ飛ぶ（_lqJellyDrops・全画面の層）。段3〜はカード全体も揺れる（_lqCardJelly）。
+   - ガラスの衝撃波（_lqGlassWave）：タップ位置からリキッドグラスのレンズの輪が広がり、輪が通る所だけ下の画面が
+       にじんで色がずれる（本物の backdrop-filter）。縁は虹色。段3〜で2重・段5〜で3重・段が上がった瞬間は4重。
+   ⚠️ 肢とカードは scale（独立プロパティ）で動かす。transform を使うと既存のアニメーションに黙って殺される。
+   ⚠️ 肢の弾みは送り（_rfFit）の前に終える。カードの揺れと玉・輪は全画面の層と同じく元の尺のまま。
+   ⚠️ backdrop-filter を画面より大きい要素に掛けている＝重くなったらまず輪の本数（段）を疑う。 */
+function _lqLiquidFx(el, card, tier, promoted, budget) {
+  _lqJelly(el, card, tier, promoted, budget);
+  _lqSoapFx(el, card, tier, promoted, budget);
+  _lqGlassWave(el, card, tier, promoted);
+}
+/* つやのある液体の玉（ぷるんの飛び散り） */
+function _lqGlossBall(c, x, y, r, sx, sy, a) {
+  if (r < .5 || a <= 0) return;
+  c.save(); c.translate(x, y); c.scale(sx, sy); c.globalAlpha = a;
+  const g = c.createRadialGradient(-r * .35, -r * .4, r * .05, 0, 0, r);
+  g.addColorStop(0, '#FFFFFF'); g.addColorStop(.25, '#FF7CC0'); g.addColorStop(.65, '#FF007F'); g.addColorStop(1, '#6A1FB8');
+  c.fillStyle = g; c.beginPath(); c.arc(0, 0, r, 0, 7); c.fill();
+  c.strokeStyle = 'rgba(47,224,213,.7)'; c.lineWidth = Math.max(1, r * .12); c.beginPath(); c.arc(0, 0, r * .9, .35, Math.PI - .35); c.stroke();
+  c.fillStyle = 'rgba(255,255,255,.9)'; c.beginPath(); c.ellipse(-r * .35, -r * .45, r * .28, r * .14, -.5, 0, 7); c.fill();
+  c.restore();
+}
+function _lqJelly(el, card, tier, promoted, budget) {
+  if (!el || _fxOff()) return;
+  const er = el.getBoundingClientRect();
+  if (!er.width || !er.height) return;
+  const t = Math.max(1, tier), up = promoted && tier >= 2;
+  // ① 肢：弾み＋文字の裏のつや（送りまでに終える）
+  const NOM = 420, k = _rfFit(budget, NOM);
+  const L = _lqLayer(el);
+  const w = el.clientWidth, h = el.clientHeight;
+  _frRun(_frCtx(L, w, h, 0, 2), w, h, NOM, (c, e) => {
+    const p = _frC(e / NOM), x = -w * .2 + w * 1.4 * (p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+    const g = c.createRadialGradient(x, h * .25, 0, x, h * .25, w * .3);
+    g.addColorStop(0, `rgba(255,255,255,${.55 * (1 - p)})`); g.addColorStop(1, 'rgba(255,255,255,0)');
+    c.fillStyle = g; c.fillRect(0, 0, w, h);
+  });
+  _lqDrop(el, L, NOM);
+  const J = up ? 1.6 : 1;
+  el.animate([{ scale: '1 1' }, { scale: `${1 + .06 * J} ${1 - .12 * J}`, offset: .2 }, { scale: `${1 - .03 * J} ${1 + .07 * J}`, offset: .45 },
+    { scale: `${1 + .015 * J} ${1 - .03 * J}`, offset: .7 }, { scale: '1 1' }], { duration: NOM * k, easing: 'ease-out' });
+  if (!card) return;
+  _rfK = 1;
+  if (t >= 3 || up) _lqCardJelly(card, up);
+  _lqJellyDrops(er, t, up);
+}
+/* 段3〜：カード全体もぷるんと揺れる */
+function _lqCardJelly(card, up) {
+  const s = up ? .035 : .014;
+  card.animate([{ scale: '1 1' }, { scale: `${1 + s} ${1 - s}`, offset: .25 }, { scale: `${1 - s * .5} ${1 + s * .5}`, offset: .55 }, { scale: '1 1' }],
+    { duration: 650, easing: 'ease-out' });
+}
+/* 全画面の層：肢の両端（段が上がった瞬間は上の縁からも）から液体の玉がはじけ飛ぶ */
+function _lqJellyDrops(er, t, up) {
+  const DUR = 1400 + (up ? 300 : 0);
+  _rfK = 1;
+  const H = _rfFullHost(DUR + 100);
+  const VW = window.innerWidth, VH = window.innerHeight;
+  const c0 = _frCtx(H, VW, VH, 0, 1.5);
+  const n = up ? 36 : 8 + t * 2;
+  const drops = Array.from({ length: n }, (_, i) => {
+    const side = up ? i % 3 : i % 2;   // 0＝左端・1＝右端・2＝上の縁
+    const x = side === 0 ? er.left : side === 1 ? er.right : _frR(er.left, er.right), y = side === 2 ? er.top : er.top + er.height / 2;
+    const a = side === 0 ? Math.PI + _frR(-.5, .9) : side === 1 ? _frR(-.9, .5) : -Math.PI / 2 + _frR(-.8, .8);
+    const sp = _frR(220, 480) * (up ? 1.3 : 1);
+    return { x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 120, r: _frR(3, 7) * (up ? 1.2 : 1), t0: _frR(0, 80) };
+  });
+  _frRun(c0, VW, VH, DUR, (c, e) => {
+    const fade = 1 - _frC((e - (DUR - 400)) / 400);
+    drops.forEach(d => {
+      const le = (e - d.t0) / 1000;
+      if (le < 0) return;
+      const vy = d.vy + 1200 * le, sq = Math.min(.35, Math.hypot(d.vx, vy) / 2400);
+      c.save(); c.translate(d.x + d.vx * le, d.y + d.vy * le + 600 * le * le); c.rotate(Math.atan2(vy, d.vx));
+      _lqGlossBall(c, 0, 0, d.r * (1 - _frC((e - 900) / 500) * .6), 1 + sq, 1 - sq, fade);
+      c.restore();
+    });
+  });
+}
+/* ガラスの衝撃波：レンズの輪（backdrop-filter）と虹色の縁を、タップ位置から画面の端まで広げる */
+function _lqGlassWave(el, card, tier, promoted) {
+  if (!el || !card || _fxOff()) return;
+  const er = el.getBoundingClientRect();
+  if (!er.width || !er.height) return;
+  let ox = er.width / 2, oy = er.height / 2;
+  const pt = _lqPtr;
+  if (pt && pt.el === el && performance.now() - pt.t < 2000) { ox = er.width * pt.fx; oy = er.height * pt.fy; }
+  const t = Math.max(1, tier), up = promoted && tier >= 2;
+  const cx = er.left + ox, cy = er.top + oy;
+  const VW = window.innerWidth, VH = window.innerHeight;
+  const n = up ? 4 : 1 + (t >= 3) + (t >= 5);
+  const dur = 1300 + (up ? 300 : 0);
+  const H = _rfFullHost((n - 1) * 200 + dur + 100);
+  const D = Math.hypot(Math.max(cx, VW - cx), Math.max(cy, VH - cy)) * 2.1;
+  const base = `position:absolute;left:${cx - D / 2}px;top:${cy - D / 2}px;width:${D}px;height:${D}px;border-radius:50%;pointer-events:none;`;
+  const bf = `blur(${up ? 4 : 2.5}px) saturate(2.4) brightness(1.3) hue-rotate(${up ? 70 : 40}deg) contrast(1.1)`;
+  const m = 'radial-gradient(closest-side, transparent 80%, #000 88%, #000 95%, transparent 100%)';
+  const m2 = 'radial-gradient(closest-side, transparent 94.5%, #000 96.5%, transparent 99%)';
+  const kf = [{ scale: .03, opacity: 1 }, { scale: .55, opacity: 1, offset: .5 }, { scale: 1, opacity: 0 }];
+  for (let i = 0; i < n; i++) setTimeout(() => {
+    if (!H.isConnected) return;
+    const lens = document.createElement('div'), rim = document.createElement('div');
+    lens.style.cssText = base + `backdrop-filter:${bf};-webkit-backdrop-filter:${bf};-webkit-mask:${m};mask:${m};`;
+    rim.style.cssText = base + `background:conic-gradient(${LQ_IRI.join(',')});mix-blend-mode:screen;-webkit-mask:${m2};mask:${m2};`;
+    H.append(lens, rim);
+    [lens, rim].forEach(x => x.animate(kf, { duration: dur, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'forwards' }));
+  }, i * 200);
 }
 
 /* ══════════ Frost：六花＋霜華＋ダイヤモンドダスト（2026-09-25）══════════
@@ -4835,7 +4948,7 @@ function _rfCorrectFx(card, el, budget) {
 
   // 0ms：光は正解の肢から
   _rfSweep(el, inCardMs);
-  if (_rfUi() === 'liquid') _lqSoapFx(el, card, tier, promoted, budget);   // シャボンの膜が割れ、玉が昇る（_spawnStreakParticles の liquid 分岐を参照）
+  if (_rfUi() === 'liquid') _lqLiquidFx(el, card, tier, promoted, budget);   // ぷるん＋シャボン玉＋ガラスの衝撃波（_spawnStreakParticles の liquid 分岐を参照）
   else if (_rfUi() === 'frost') _frFrostFx(el, card, tier, promoted, budget);   // 雪の結晶・霜・ダイヤモンドダスト（同上の frost 分岐を参照）
   else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted, budget);   // 金環＋星座／惑星直列／星の軌跡（同上の celestial 分岐を参照）
   else if (_rfUi() === 'brass') _brsBrassFx(el, card, tier, promoted, budget);   // 歯車列＋刻印＋鋳込みの唐草（同上の brass 分岐を参照）

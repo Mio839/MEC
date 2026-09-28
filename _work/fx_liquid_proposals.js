@@ -1,10 +1,11 @@
 /* Liquid の正解演出の新しい案（デモページ専用）。
-   _work/fx_all_demo.html が枠（study.html）の中へ <script> で差し込み、_lqSoapFx を一時的に差し替えて
+   _work/fx_all_demo.html が枠（study.html）の中へ <script> で差し込み、_lqLiquidFx を一時的に差し替えて
    本物の _rfCorrectFx から呼ぶ＝送りの時間・連続数・段の判定は実物と同じ。
    study.html からは読まれない（本番には入っていない）。採用が決まったら study_exam.js へ移す。
    第1弾（2026-09-28）：K 窓ガラスの雫・L 水銀・M シャボン玉・N 満ちる・O 渦 → M だけ採用（本番の _lqSoapFx）。
    第2弾（2026-09-28）：P 噴水・Q 炭酸・R 霧の虹・S 水中の光・T 金魚 → 全部不採用。
    第3弾（2026-09-28・このファイル）：U〜AD の10案。水の「物」を描く案が続けて外れたので、抽象・グラフィックの方向へ振った。
+   → U ガラスの衝撃波と AD ぷるんを採用（シャボン玉と3つ重ねて本番の _lqLiquidFx）。ここに残っているのは残りの8案。
    構造は実物と同じ2層:
      ① 肢の層（_lqLayer＝文字の裏）…… _rfFit で送り（403ms）の 50ms 手前までに縮めて終える
      ② 全画面の層（_rfFullHost）……… ラボの尺のまま（_rfK = 1）最後まで。カードが送られても画面に残る
@@ -82,48 +83,6 @@
     c.fillStyle = 'rgba(255,255,255,.9)'; c.beginPath(); c.ellipse(-r * .35, -r * .45, r * .28, r * .14, -.5, 0, 7); c.fill();
     c.restore();
   }
-
-  /* ══════════ U ガラスの衝撃波（GLASS SHOCKWAVE）══════════
-     肢：ガラスの反射光が斜めに走り、虹色の輪が広がる。
-     全画面：タップ位置から「リキッドグラスのレンズ」の輪が広がり、輪が通る所だけ画面がにじんで色が転ぶ
-     （本物の backdrop-filter。その下のカードの文字が一瞬ゆがんで見える）。縁は虹色。段で輪が増え、段が上がった瞬間は4重。
-     ⚠️ 重さ：backdrop-filter を画面いっぱいの要素に掛ける＝iPad での実測が要る。 */
-  P.U = function (el, card, tier, promoted, budget) {
-    if (!el || _fxOff()) return;
-    const o = org(el); if (!o.er.width) return;
-    const t = Math.max(1, tier), up = promoted && tier >= 2;
-    choiceLayer(el, budget, 700, (c, e, w, h) => {
-      const p = EIO(C(e / 600)), x = -w * .3 + w * 1.6 * p, a = 1 - SS(450, 700, e);
-      c.save(); c.globalAlpha = a * .6; c.translate(x, 0); c.transform(1, 0, -.5, 1, 0, 0);
-      const g = c.createLinearGradient(-40, 0, 40, 0); g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(.5, 'rgba(255,255,255,.95)'); g.addColorStop(1, 'rgba(255,255,255,0)');
-      c.fillStyle = g; c.fillRect(-40, 0, 80, h); c.restore();
-      const rr = EO(C(e / 500)) * w * .5; c.globalAlpha = (1 - C(e / 500)) * .9; c.strokeStyle = iri(c, o.ox, o.oy, e * .004, '#fff'); c.lineWidth = 3;
-      c.beginPath(); c.arc(o.ox, o.oy, rr, 0, 7); c.stroke();
-    });
-    if (!card) return;
-    const DUR = 1900 + (up ? 500 : 0);
-    _rfK = 1;
-    const H = _rfFullHost(DUR + 100), VW = window.innerWidth, VH = window.innerHeight;
-    const far = Math.hypot(Math.max(o.cx, VW - o.cx), Math.max(o.cy, VH - o.cy));
-    const n = up ? 4 : 1 + (t >= 3) + (t >= 5);
-    const D = far * 2.1;
-    for (let i = 0; i < n; i++) setTimeout(() => {
-      if (!H.isConnected) return;
-      const base = `position:absolute;left:${o.cx - D / 2}px;top:${o.cy - D / 2}px;width:${D}px;height:${D}px;border-radius:50%;pointer-events:none;`;
-      const lens = document.createElement('div');
-      const bf = `blur(${up ? 4 : 2.5}px) saturate(2.4) brightness(1.3) hue-rotate(${up ? 70 : 40}deg) contrast(1.1)`;
-      const m = 'radial-gradient(closest-side, transparent 80%, #000 88%, #000 95%, transparent 100%)';
-      lens.style.cssText = base + `backdrop-filter:${bf};-webkit-backdrop-filter:${bf};-webkit-mask:${m};mask:${m};`;
-      const rim = document.createElement('div');
-      const m2 = 'radial-gradient(closest-side, transparent 94.5%, #000 96.5%, transparent 99%)';
-      rim.style.cssText = base + `background:conic-gradient(${IRI.join(',')});mix-blend-mode:screen;-webkit-mask:${m2};mask:${m2};`;
-      H.append(lens, rim);
-      const kf = [{ scale: .03, opacity: 1 }, { scale: .55, opacity: 1, offset: .5 }, { scale: 1, opacity: 0 }];
-      const dur = 1300 + (up ? 300 : 0);
-      lens.animate(kf, { duration: dur, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'forwards' });
-      rim.animate(kf, { duration: dur, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'forwards' });
-    }, i * 200);
-  };
 
   /* ══════════ V 液体の○（LIQUID MARU）══════════
      肢：タップ位置に小さな○がすっと描かれる。
@@ -485,49 +444,6 @@
     const keep = up ? {} : null;
     run(F.c, DUR, (c, e) => {
       dotField(c, VW, VH - top, 0, top, o.cx, o.cy, 22, waves, e, up ? 14 : 9, 1 - SS(DUR - 400, DUR, e), keep);
-    });
-  };
-
-  /* ══════════ AD ぷるん（JELLY）══════════
-     肢：正解の肢そのものがゼリーのようにぷるんと弾み（横に伸びて縦に縮み、戻る）、つやが走る。
-     全画面：肢の両端から小さな液体の玉がはじけ飛ぶ。段3〜はカード全体もぷるんと揺れ、段が上がった瞬間は大きく揺れて玉がたくさん飛ぶ。
-     ⚠️ 肢とカードを scale（独立プロパティ）で動かす＝文字も一瞬ゆがむ。transform は使わない（既存アニメに殺される）。 */
-  P.AD = function (el, card, tier, promoted, budget) {
-    if (!el || _fxOff()) return;
-    const o = org(el); if (!o.er.width) return;
-    const t = Math.max(1, tier), up = promoted && tier >= 2;
-    const k = choiceLayer(el, budget, 420, (c, e, w, h) => {
-      const p = C(e / 420), x = -w * .2 + w * 1.4 * EIO(p);
-      const g = c.createRadialGradient(x, h * .25, 0, x, h * .25, w * .3);
-      g.addColorStop(0, `rgba(255,255,255,${.55 * (1 - p)})`); g.addColorStop(1, 'rgba(255,255,255,0)');
-      c.fillStyle = g; c.fillRect(0, 0, w, h);
-    });
-    const J = up ? 1.6 : 1;
-    el.animate([{ scale: '1 1' }, { scale: `${1 + .06 * J} ${1 - .12 * J}`, offset: .2 }, { scale: `${1 - .03 * J} ${1 + .07 * J}`, offset: .45 }, { scale: `${1 + .015 * J} ${1 - .03 * J}`, offset: .7 }, { scale: '1 1' }],
-      { duration: 420 * k, easing: 'ease-out' });
-    if (!card) return;
-    if (t >= 3 || up) {
-      const s = up ? .035 : .014;
-      card.animate([{ scale: '1 1' }, { scale: `${1 + s} ${1 - s}`, offset: .25 }, { scale: `${1 - s * .5} ${1 + s * .5}`, offset: .55 }, { scale: '1 1' }], { duration: 650, easing: 'ease-out' });
-    }
-    const DUR = 1400 + (up ? 300 : 0);
-    const F = fullLayer(DUR + 100);
-    const er = o.er, n = up ? 36 : 8 + t * 2;
-    const drops = Array.from({ length: n }, (_, i) => {
-      const side = up ? (i % 3) : i % 2;   // 0＝左端・1＝右端・2＝上の縁
-      const x = side === 0 ? er.left : side === 1 ? er.right : R(er.left, er.right), y = side === 2 ? er.top : er.top + er.height / 2;
-      const a = side === 0 ? Math.PI + R(-.5, .9) : side === 1 ? R(-.9, .5) : -Math.PI / 2 + R(-.8, .8);
-      const sp = R(220, 480) * (up ? 1.3 : 1);
-      return { x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 120, r: R(3, 7) * (up ? 1.2 : 1), t0: R(0, 80) };
-    });
-    run(F.c, DUR, (c, e) => {
-      drops.forEach(d => {
-        const le = (e - d.t0) / 1000; if (le < 0) return;
-        const vy = d.vy + 1200 * le, sq = Math.min(.35, Math.hypot(d.vx, vy) / 2400);
-        c.save(); c.translate(d.x + d.vx * le, d.y + d.vy * le + 600 * le * le); c.rotate(Math.atan2(vy, d.vx));
-        ball(c, 0, 0, d.r * (1 - C((e - 900) / 500) * .6), 1 + sq, 1 - sq, 1 - SS(DUR - 400, DUR, e));
-        c.restore();
-      });
     });
   };
 
