@@ -728,6 +728,7 @@ function startExam(overrideUids = null) {
   // キュー外のカードは直後に display:none にされるため無害。
   window._srsHostShow?.();
   document.getElementById('examFinishBtn')?.remove(); // 前回の結果ボタンが残っていれば除去
+  document.getElementById('examPendingBand')?.remove();
   _prepareSelectSound();
   _prepareWavSound(_sndFind('correct', _correctSound));
   _prepareResultSound();
@@ -3575,7 +3576,8 @@ function _maybeShowFinishBtn() {
   if (!examMode || !examQueue.length) return null;
   const remaining = examQueue.filter(c => !c.classList.contains('exam-revealed'));
   let btn = document.getElementById('examFinishBtn');
-  if (remaining.length) { if (btn) btn.remove(); return null; } // まだ未回答が残る
+  if (remaining.length) { if (btn) btn.remove(); _syncPendingBand(remaining); return null; } // まだ未回答が残る
+  document.getElementById('examPendingBand')?.remove();
   if (btn) return btn;
   btn = document.createElement('button');
   btn.id = 'examFinishBtn';
@@ -3587,6 +3589,50 @@ function _maybeShowFinishBtn() {
   if (lastCard && lastCard.parentNode) lastCard.after(btn);
   else (document.querySelector('.ct') || document.body).appendChild(btn);
   return btn;
+}
+
+// 未解答の案内の帯（2026-09-28・ユーザー要望「最後まで解いた後、未解答のカードを探すのが大変」）。
+// 最後のカードまで手を付けた（開封済み・選び直し中）のに未解答が残っているとき、結果ボタンと同じ場所に出す。
+// 押すたびに次の未解答カードへ送る＝画面の上端より下にある最初の未解答、無ければ先頭の未解答。
+// ⚠️ 「未解答」は exam-revealed でないカード＝選び直し中（exam-retry）も含む（答えを開くまで結果へ進めないため）。
+// 更新は _updateExamProg（解答のたびに必ず通る）→ _maybeShowFinishBtn から。
+function _syncPendingBand(remaining) {
+  let band = document.getElementById('examPendingBand');
+  const shown = _examOrder.filter(c => c.style.display !== 'none');
+  const last = shown[shown.length - 1];
+  const reached = last && (last.classList.contains('exam-revealed') || last.classList.contains('exam-retry'));
+  if (!remaining.length || !reached) { if (band) band.remove(); return null; }
+  if (!band) {
+    band = document.createElement('button');
+    band.id = 'examPendingBand';
+    band.className = 'exam-pending-band';
+    band.onclick = _jumpToPendingCard;
+    last.after(band);
+  } else if (band.previousElementSibling !== last) last.after(band);
+  const retry = remaining.filter(c => c.classList.contains('exam-retry')).length;
+  band.innerHTML = '<span class="epb-n">未解答 <b>' + remaining.length + '</b> 問</span>'
+    + (retry ? '<span class="epb-sub">（選び直し中 ' + retry + '問を含む）</span>' : '')
+    + '<span class="epb-go">▶ 次の未解答へ</span>';
+  return band;
+}
+function _jumpToPendingCard() {
+  const pend = _examOrder.filter(c => c.style.display !== 'none' && !c.classList.contains('exam-revealed'));
+  if (!pend.length) { _showFinishAndScroll(); return; }
+  const hdr = document.querySelector('.st-hdr');
+  const edge = (hdr ? hdr.getBoundingClientRect().bottom : 0) + 12;
+  const next = pend.find(c => c.getBoundingClientRect().top > edge) || pend[0];
+  next.classList.remove('exam-next-entering');
+  next.classList.add('exam-next-entering');
+  setTimeout(() => next.classList.remove('exam-next-entering'), 500);
+  const y = next.getBoundingClientRect().top + window.scrollY - (hdr ? hdr.offsetHeight + 8 : 0);
+  window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+}
+function _scrollToPendingBand() {
+  const band = _maybeShowFinishBtn() || document.getElementById('examPendingBand');
+  if (!band) return;
+  const hdr = document.querySelector('.st-hdr');
+  const y = band.getBoundingClientRect().top + window.scrollY - (hdr ? hdr.offsetHeight + 20 : 20);
+  window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
 }
 
 function _showFinishAndScroll() {
@@ -3617,6 +3663,9 @@ function _scrollToNextCard(fromCard) {
     const idx = allShown.indexOf(fromCard);
     next = allShown.slice(idx + 1).find(c => !c.classList.contains('exam-revealed'));
   }
+  // 後ろに未解答が無い（前に飛ばしたカードだけが残る）ときは、最後の案内の帯へ送る。
+  // ⚠️ 以前はここで next が未定義のまま下の getBoundingClientRect に進み、例外で止まっていた。
+  if (!next) { _scrollToPendingBand(); return; }
   if (next) {
     next.classList.remove('exam-next-entering');
     next.classList.add('exam-next-entering');
@@ -3763,6 +3812,7 @@ function _updateExamProg(isCorrect = false) {
     }
   }
   // 10問ごとのワープゲート（_triggerWarpGate）は 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。
+  if (examMode) { try { _maybeShowFinishBtn(); } catch (e) {} }   // 未解答の案内の帯を最新にする
 }
 
 let _examScrollRaf = null;
@@ -4156,6 +4206,7 @@ function exitExam() {
   _restoreChoices();
   document.querySelectorAll('.exam-reveal-btn').forEach(b => b.remove());
   document.getElementById('examFinishBtn')?.remove();
+  document.getElementById('examPendingBand')?.remove();
   document.querySelectorAll('.qc.exam-revealed').forEach(c => c.classList.remove('exam-revealed', 'exam-multi-correct', 'exam-answer-opened'));
   document.querySelectorAll('.qc.fx-correct').forEach(c => c.classList.remove('fx-correct'));
   document.querySelectorAll('.ch2.correct').forEach(c => c.classList.remove('correct'));

@@ -423,6 +423,14 @@ body.exam-mode .qc:has(.exam-instant-wrong){animation:cardWrongGlow .8s ease for
 .exam-finish-btn:hover{filter:brightness(1.06);}
 .exam-finish-btn:active{transform:translateY(1px);}
 .exam-finish-btn:disabled{opacity:.6;cursor:default;}
+/* 未解答の案内の帯（_syncPendingBand）。結果ボタンと同じ場所・同じ寸法で、琥珀＝まだ残っている */
+.exam-pending-band{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 12px;width:calc(100% - 24px);max-width:440px;margin:14px auto 48px;padding:14px 18px;border:1.5px solid rgba(255,184,48,.75);border-radius:var(--r-lg);background:linear-gradient(135deg,rgba(255,184,48,.22),rgba(255,140,40,.14));color:inherit;font-size:15px;font-family:inherit;cursor:pointer;box-shadow:0 6px 22px rgba(255,170,40,.25);animation:examFinishIn .38s ease;}
+.exam-pending-band b{font-size:19px;color:#FFB830;}
+.exam-pending-band .epb-n{font-weight:800;}
+.exam-pending-band .epb-sub{font-size:12px;opacity:.8;}
+.exam-pending-band .epb-go{font-weight:800;color:#FFB830;}
+.exam-pending-band:hover{filter:brightness(1.1);}
+.exam-pending-band:active{translate:0 1px;}
 @keyframes examFinishIn{0%{opacity:0;transform:translateY(12px) scale(.96);}100%{opacity:1;transform:none;}}
 /* ── Streak effects ── */
 #examStreakBorder{position:fixed;inset:0;pointer-events:none;z-index:9045;opacity:0;}
