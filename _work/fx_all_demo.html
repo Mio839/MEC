@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>試験演出の一覧</title>
+<!--
+  試験モードの演出を1つずつ再生して、要る・要らないを決めるためのページ（2026-09-28）。
+  右（下）の枠は本物の study.html（麻酔科）で、演出はその中の本物の関数を呼んで出す＝見た目・テーマ・CSS は実物と同じ。
+  ⚠️ 枠の中では localStorage / sessionStorage への書き込みと GitHub への通信を止めてから試験を始める。
+     演出を出すだけで、解答の記録・SRS・XP・中断データは1つも書かない（選択肢のタップも止めてある）。
+  ⚠️ 本物の関数を名前で呼んでいるので、study_exam.js で関数名や引数を変えるとここのボタンが黙って壊れる
+     （押すと下にエラーが出る）。テストの対象ではない。
+  「削除候補」の印は、このページの localStorage（mec_fxdemo_marks_v1）にだけ保存する（同期しない）。
+-->
+<style>
+  :root{--bg:#0E1420;--panel:#151D2C;--line:#2A3650;--tx:#E8EEF8;--sub:#93A3BD;--acc:#6EA8FF;--warn:#FF9B6B;--ok:#58D39A;}
+  *{box-sizing:border-box;}
+  html,body{height:100%;margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif;}
+  .wrap{display:flex;height:100%;}
+  .side{width:360px;flex:none;display:flex;flex-direction:column;border-right:1px solid var(--line);background:var(--panel);}
+  .top{padding:10px 12px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:8px;}
+  .top h1{font-size:15px;margin:0;}
+  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px;}
+  select,.tbtn{font-size:13px;padding:5px 8px;border-radius:8px;border:1px solid var(--line);background:#1D2738;color:var(--tx);}
+  .tbtn{cursor:pointer;font-weight:700;}
+  #status{font-size:11.5px;color:var(--sub);min-height:1.2em;}
+  #status.err{color:var(--warn);}
+  .list{overflow-y:auto;padding:4px 10px 40px;-webkit-overflow-scrolling:touch;}
+  h2{font-size:12.5px;color:var(--acc);margin:14px 2px 6px;letter-spacing:.04em;}
+  .it{display:flex;gap:8px;align-items:flex-start;padding:7px 6px;border-radius:10px;}
+  .it:hover{background:rgba(255,255,255,.03);}
+  .it input{width:18px;height:18px;margin-top:5px;flex:none;accent-color:var(--warn);}
+  .it button{flex:1;text-align:left;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:#1B2435;color:var(--tx);
+    font-size:13px;font-weight:700;line-height:1.4;cursor:pointer;}
+  .it button:active{background:#243049;}
+  .it.marked button{border-color:var(--warn);opacity:.75;}
+  .it small{display:block;font-weight:500;color:var(--sub);font-size:11px;margin-top:2px;}
+  .tag{display:inline-block;font-size:10px;font-weight:700;padding:1px 6px;border-radius:6px;margin-right:4px;vertical-align:1px;}
+  .tag.c{background:rgba(110,168,255,.18);color:#9CC2FF;}
+  .tag.t{background:rgba(88,211,154,.16);color:#8CE3BA;}
+  .tag.x{background:rgba(255,155,107,.18);color:#FFB895;}
+  .foot{padding:10px 12px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+  .foot span{font-size:12px;color:var(--sub);}
+  .stage{flex:1;position:relative;min-width:0;}
+  iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000;}
+  @media (max-width: 820px){
+    .wrap{flex-direction:column-reverse;}
+    .side{width:auto;height:48%;border-right:0;border-top:1px solid var(--line);}
+    .stage{height:52%;flex:none;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="side">
+    <div class="top">
+      <h1>試験演出の一覧（本物を1つずつ再生）</h1>
+      <div class="row">
+        <label>UIテーマ <select id="ui">
+          <option value="aurora">aurora</option><option value="brass">brass</option><option value="cyber">cyber</option>
+          <option value="liquid">liquid</option><option value="kintsugi">kintsugi</option><option value="celestial">celestial</option>
+          <option value="abyss">abyss</option><option value="frost" selected>frost</option></select></label>
+        <label>連続正解 <select id="streak">
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="5">5</option>
+          <option value="7">7</option><option value="10">10</option><option value="14">14</option><option value="20">20</option></select></label>
+      </div>
+      <div class="row">
+        <button class="tbtn" id="bReset">カードを元に戻す</button>
+        <button class="tbtn" id="bNext">次のカードへ</button>
+        <button class="tbtn" id="bReload">枠を読み直す</button>
+      </div>
+      <div id="status">読み込み中…</div>
+    </div>
+    <div class="list" id="list"></div>
+    <div class="foot">
+      <button class="tbtn" id="bCopy">削除候補をコピー</button>
+      <span id="markCount">0件</span>
+    </div>
+  </div>
+  <div class="stage"><iframe id="fr" src="../study.html?sid=anes"></iframe></div>
+</div>
+<script>
+/* ── 演出の台帳。code は枠の中（study.html のグローバル）で実行する。
+   使える名前: c＝いま画面にあるカード / ok＝正解の肢 / ng＝不正解の肢 / n＝連続正解 / t＝その段（_examTier(n)） ── */
+const TAG = { c: '共通', t: 'テーマ別', x: '旧・study.html' };
+const FX = [
+  ['正解のたびに出る', [
+    ['c-all', 't', '正解1回ぶんを通しで', '下の演出がまとめて順に出る（_rfCorrectFx）。記録はしない', `_rfCorrectFx(c, ok, RF_ADVANCE_MS.one)`],
+    ['c-legacy', 'x', 'タップした肢の旧演出', '毎回・肢の左端：画面全体の薄いフラッシュ＋3重の輪＋浮かぶ記号（✓◆など）＋粒2回＋肢の枠の波紋（study.html の mecFireCorrect・_spawnChoiceRipple）',
+      `ok.classList.remove('exam-instant-correct'); void ok.offsetWidth; ok.classList.add('exam-instant-correct'); setTimeout(() => ok.classList.remove('exam-instant-correct'), 50)`],
+    ['c-card', 't', 'カードの正解表示', '毎回：カードと正解の肢の色・発光（UIテーマの CSS）。3/5/10連続でカードの段が上がる', `_applyCardThemeComboFx(c, n)`],
+    ['c-sweep', 'c', '正解の肢の縁を光が1周', '毎回・0.3秒（_rfSweep）', `_rfSweep(ok, RF_ADVANCE_MS.one - RF_FX_END_MARGIN)`],
+    ['c-ribbon', 'c', '肢から光が走る', '毎回：1問目は進捗バーの先端へ、2連続〜は連続数の位置へ（_rfCorrectFx の中の MecFX.ribbon）',
+      `const a = _rfCenter(ok); let tx, ty;
+       if (n >= 2) { const b = _fxBand(), h = 58; tx = b.cx; ty = _rfStreakTop(h) + h / 2; }
+       else { const r = document.getElementById('examProgFill').getBoundingClientRect(); tx = r.right; ty = r.top + r.height / 2; }
+       MecFX.ribbon(a.x, a.y, tx, ty, { color: _rfTheme().col, width: 2.4 + t * .3, ttl: .5, tail: .4 })`],
+    ['c-particles', 't', 'UIテーマの粒子', '毎回・肢の位置：照準・金継ぎ・氷晶・歯車など（_spawnStreakParticles）', `_spawnStreakParticles(Math.max(1, t), _rfCenter(ok), { el: ok, card: c, promoted: false })`],
+    ['c-theme', 't', 'UIテーマ固有の正解演出', 'liquid・frost・celestial・brass だけ：肢とカードの裏（0.3秒で終わる）',
+      `const u = _rfUi(), B = RF_ADVANCE_MS.one;
+       if (u === 'liquid') _lqFluidFx(ok, c, t, false, B); else if (u === 'frost') _frFrostFx(ok, c, t, false, B);
+       else if (u === 'celestial') _clxCelestialFx(ok, c, t, false, B); else if (u === 'brass') _brsBrassFx(ok, c, t, false, B);
+       else throw new Error('このUIテーマには固有の正解演出が無い（liquid / frost / celestial / brass で試す）')`],
+    ['c-sink', 'c', '選ばなかった肢が沈む', '毎回・1.1秒（_sinkOtherChoices）', `_sinkOtherChoices(c)`],
+    ['c-wave', 'c', '正解音と一緒に画面中央へ広がる輪', '毎回（_playCorrectSound の MecFX.sonicWave）。⚠️ fx_engine.js の不具合で本番でも何も描かれない', `MecFX.sonicWave(_fxBand().cx, _fxBand().cy, { color: _examTheme().ringColor(Math.max(2, Math.min(t || 2, 7))), count: 3, maxR: 260 + Math.max(2, t) * 20 })`],
+  ]],
+  ['連続正解で出る', [
+    ['s-border', 'c', 'カードの外周を光が1周', '2連続〜（liquid 以外）（_traceCardBorder）', `_traceCardBorder(c, RF_ADVANCE_MS.one - RF_FX_END_MARGIN)`],
+    ['s-streak', 'c', '連続数の表示', '2連続〜・ヘッダーの下（_rfShowStreak）', `_rfShowStreak(Math.max(2, n), _examTier(Math.max(2, n)), false)`],
+    ['s-streak-up', 'c', '連続数の表示（段が上がった瞬間）', '3/5/7/10/14/20連続に届いたとき', `_rfShowStreak(Math.max(3, n), _examTier(Math.max(3, n)), true)`],
+    ['s-meter', 'c', 'コンボメーター', '2連続〜・画面上端の細い帯と「次の段まで」（_updateComboMeter）', `_updateComboMeter(Math.max(2, n))`],
+    ['s-glow', 'c', '画面の縁が光る', '5連続〜（_triggerBorderGlow）', `_triggerBorderGlow(Math.max(3, t))`],
+    ['s-zone', 'c', 'ゾーンの呼吸（切り替え）', '10連続〜・画面全体がゆっくり明滅（exam-streak-zone）', `_ensureZoneBreath(); document.body.classList.toggle('exam-streak-zone')`],
+    ['s-overdrive', 'c', 'オーバードライブ（切り替え）', '10連続〜・入った瞬間に稲妻、以後は縁が光り続ける（_setOverdrive）', `_setOverdrive(!document.body.classList.contains('exam-overdrive'))`],
+    ['s-awaken', 'c', '覚醒（切り替え）', '14連続〜・粒子の彩度が上がりメーターが太くなる（_setAwaken）', `_setAwaken(!document.body.classList.contains('exam-awaken'))`],
+  ]],
+  ['条件つきの正解', [
+    ['p-fast3', 'c', '速答ボーナス（一閃）', '読み始めから速く正解したとき・3段のいちばん上（_triggerFastBonus）', `c.classList.add('exam-fast-hit'); setTimeout(() => c.classList.remove('exam-fast-hit'), 800); _triggerFastBonus(ok, 3)`],
+    ['p-fast1', 'c', '速答ボーナス（まずまず）', '3段のいちばん下', `_triggerFastBonus(ok, 1)`],
+    ['p-fresh', 'c', '初見突破', '初めて解いた問題を正解（_triggerAnswerMark）', `_triggerAnswerMark(ok, 'fresh')`],
+    ['p-revenge', 'c', 'リベンジ達成', '前に間違えた問題を正解（_triggerAnswerMark）', `_triggerAnswerMark(ok, 'revenge')`],
+    ['p-plate', 'c', '克服の当て板＋火花', '前に間違えた問題を正解：カードに板が打たれて磨かれ、左端から火花（_polishPlate）',
+      `_polishPlate(c); const cr = c.getBoundingClientRect(), b = _fxBand();
+       MecFX.burst(Math.max(b.left + 20, Math.min(b.right - 20, cr.left + 4)), Math.max(b.top + 20, Math.min(b.bottom - 20, cr.top + Math.min(cr.height / 2, 80))),
+         { count: 24, shapes: ['shard', 'square'], colors: ['#FFD700', '#FFA040', '#FFFFFF', '#C9A227', '#FF5722'], gravity: 1600, speed: 760, additive: false, upBias: 80 })`],
+    ['p-recover', 'c', '立て直し', '誤答の直後の正解：粒が輪を巻き直す（abyss は心電図の拍が戻る）（_triggerRecover）', `_triggerRecover(ok)`],
+    ['p-reach', 'c', '選び直して正解', '1回外してから正解：「2回目で正解」の印＋小さな輪（_rfReachFx）', `_rfSweep(ok); _rfReachFx(ok, 2, true)`],
+  ]],
+  ['間違えたとき', [
+    ['w-out', 'c', '外した肢に × と選び直しの案内', '毎回：肢が揺れ、カードの色が一瞬抜ける（_rfWrongPick の見た目だけ）',
+      `ng.classList.add('exam-out'); if (!ng.querySelector(':scope > .rf-x')) { const x = document.createElement('span'); x.className = 'rf-x'; x.textContent = '×'; ng.appendChild(x); x.animate([{ opacity: 0, scale: '.6' }, { opacity: 1, scale: '1' }], { duration: MO.d2, easing: MO.spring }); }
+       c.classList.add('exam-retry'); c._rfTries = (c._rfTries || 0) + 1; _rfRetryNote(c, c._rfTries, false);
+       ng.animate([{ translate: '0 0' }, { translate: '-3px 0' }, { translate: '2px 0' }, { translate: '0 0' }], { duration: MO.d2, easing: MO.out });
+       c.animate([{ filter: 'saturate(1) brightness(1)' }, { filter: 'saturate(.6) brightness(.95)', offset: .3 }, { filter: 'saturate(1) brightness(1)' }], { duration: RF_DESAT_MS, easing: MO.out })`],
+    ['w-shatter', 'c', 'コンボメーターが割れて落ちる', '4連続以上が途切れたとき（_shatterComboMeter）', `_updateComboMeter(8); setTimeout(() => { _shatterComboMeter(8); _resetComboMeter(); }, 350)`],
+    ['w-scar', 'c', '誤答の傷', 'その回で落としたカードに印が残る（_markCardScar）', `_markCardScar(c)`],
+    ['w-repeat', 'c', '前にも同じ肢を選んだ', '以前と同じ誤答の肢を選んだとき（_triggerRepeatWrong）', `_triggerRepeatWrong(ng)`],
+    ['w-flat', 'c', '心電図が平坦になる', 'abyss（心電図の演出セット）で連続が途切れたとき（_ecgFlatline）', `_ecgFlatline()`],
+  ]],
+  ['読んでいる間・次へ進むとき', [
+    ['r-idle', 'c', '稼働灯・歯車・熾火（切り替え）', '各問の読み始め（exam-idle-lit）。iPad・スマホは6秒で消える', `document.body.classList.toggle('exam-idle-lit')`],
+    ['r-puff', 'c', '読書中の噴気', 'ヘッダーの両端から薄い蒸気（_examPuffSteam）', `_examPuffSteam(false)`],
+    ['r-release', 'c', '蒸気の放出＋歯車の膨張', '長く考えた問題から次へ進んだとき（_examPuffSteam(true)・_examGearBlow）', `_examPuffSteam(true)`],
+    ['r-needle', 'c', '排圧計の針', '次へ進んだとき・考えた時間だけ振れる（_reliefKick）', `_examCardSeenAt.set(c.dataset.uid, Date.now() - 25000); _reliefKick(c)`],
+    ['r-shimmer', 'c', '次のカードの肢が順に光る', '次のカードへ送った直後（_applyChoiceShimmer）', `_applyChoiceShimmer(c)`],
+    ['r-sweep', 'c', '進捗バーを光が走る', '節目（1/4・半分・3/4 など）を越えたとき（ep-sweep）',
+      `const tr = document.querySelector('.exam-prog-track'); tr.classList.remove('ep-sweep'); void tr.offsetWidth; tr.classList.add('ep-sweep'); setTimeout(() => tr.classList.remove('ep-sweep'), 800)`],
+    ['r-sprint', 'c', 'ラストスパート（切り替え）', '終盤の数問（ep-sprint）', `const tr = document.querySelector('.exam-prog-track'); const on = !tr.classList.contains('ep-sprint'); tr.classList.toggle('ep-sprint', on); document.body.classList.toggle('exam-sprint', on)`],
+    ['r-warp', 'c', '10問ごとのワープゲート', '10・20・30問目を解いた直後（_triggerWarpGate）', `_triggerWarpGate(10)`],
+  ]],
+  ['始まりと終わり', [
+    ['b-count', 'c', '起動カウントダウン', '試験を始めたとき・3・2・1（起動音が鳴る）（_examCountdown）', `_examCountdown()`],
+    ['b-enter', 'c', '1問目の入場', 'カウントダウンの後（_firstCardEntrance）', `_firstCardEntrance(c)`],
+    ['b-shuffle', 'c', '選択肢の並べ替えを見せる', '1問目だけ・肢が元の位置から滑る（_revealShuffleFx）',
+      `_revealShuffleFx([...c.querySelectorAll('.ch2')].map((el, i) => ({ el, dy: (i % 2 ? -1 : 1) * 48 })))`],
+    ['b-resume', 'c', '続きから再開', '中断した試験を再開したとき（_playResumeIntroFx）', `_playResumeIntroFx()`],
+    ['b-res100', 't', '結果画面（100%）', 'ランク刻印 PERFECT＋テーマの祝賀（showExamSummary）', `__D.summary(100)`],
+    ['b-res85', 't', '結果画面（85%）', 'ランク A＋テーマの祝賀', `__D.summary(85)`],
+    ['b-res70', 'c', '結果画面（70%）', 'ランク B＋小さな祝賀', `__D.summary(70)`],
+    ['b-res40', 'c', '結果画面（40%）', 'ランク C＋輪2本', `__D.summary(40)`],
+    ['b-srs', 'c', '復習を完走', 'SRS 復習・今日の誤答を最後まで解いたとき：🔔🎉 の雨と紙吹雪（_srsCompleteCelebration）', `_srsCompleteCelebration()`],
+    ['b-close', 'c', '（結果画面を閉じる）', '', `_closeSummaryOverlayOnly()`],
+  ]],
+];
+
+/* ── 枠の中の準備 ── */
+const fr = document.getElementById('fr'), statusEl = document.getElementById('status');
+const say = (m, err) => { statusEl.textContent = m; statusEl.classList.toggle('err', !!err); };
+let W = null, ready = false;
+
+const HELPER = `
+window.__D = {
+  card() {
+    const t = _getExamTargetCard();
+    if (t) return t;
+    return examQueue.find(c => c.style.display !== 'none') || examQueue[0];
+  },
+  reset() {
+    const c = this.card();
+    ['fx-correct','combo-streak-3','combo-streak-5','combo-streak-10','exam-sink','exam-fast-hit','exam-scar','exam-retry','exam-plate-fix','exam-first-in']
+      .forEach(k => c.classList.remove(k));
+    c.querySelectorAll('.ch2').forEach(ch => { ch.classList.remove('correct','exam-out','exam-selected','exam-instant-correct'); ch.removeAttribute('aria-disabled'); });
+    c.querySelectorAll('.rf-x,.rf-retry,.rf-reach,.rf-sweep,.lq-layer,.lq-ring,.fr-dust').forEach(e => e.remove());
+    c._rfTries = 0;
+    document.body.classList.remove('exam-streak-zone','exam-awaken','exam-idle-lit','exam-sprint');
+    _setOverdrive(false); _resetComboMeter(); _rfHideStreak();
+    const tr = document.querySelector('.exam-prog-track'); if (tr) tr.classList.remove('ep-sprint','ep-sweep');
+  },
+  next() {
+    const c = this.card(), i = examQueue.indexOf(c), nx = examQueue[i + 1];
+    if (nx) { const hdr = document.querySelector('.st-hdr'); window.scrollTo({ top: nx.getBoundingClientRect().top + scrollY - (hdr ? hdr.offsetHeight + 12 : 12) }); }
+  },
+  summary(pct) {
+    const total = 20, cor = Math.round(total * pct / 100);
+    examAnswered = total; examCorrect = cor; examWrong = []; examByChapter = {};
+    examBySubj = { anes: { correct: cor, total } }; _examActiveChPrefix = null;
+    showExamSummary();
+  }
+};`;
+
+function prepFrame() {
+  W = fr.contentWindow;
+  // ① 書き込みを止める（localStorage / sessionStorage / GitHub）。演出を出すだけで記録は残さない
+  const SP = W.Storage.prototype;
+  SP.setItem = function () {}; SP.removeItem = function () {}; SP.clear = function () {};
+  const f0 = W.fetch.bind(W);
+  W.fetch = (u, o) => /github/.test(String(u && u.url || u)) ? Promise.reject(new Error('fx demo: 通信を止めています')) : f0(u, o);
+  // ② 記録系の関数を空にしておく（念のため。上の①だけでも書き込みは起きない）
+  W.eval(`['_markExamDone','_recordMyRate','_logAttempt','_updateSRS','_saveExamResume','_clearExamResume','_tallyChapter','_tallyQuestion']
+    .forEach(k => { try { if (typeof window[k] === 'function') window[k] = function () {}; } catch (e) {} });
+    try { if (window.MecGamify) MecGamify.onExamFinish = function () {}; } catch (e) {}
+    try { if (window.MecTrophy) MecTrophy.flushSession = function () {}; } catch (e) {}`);
+  // ③ 選択肢のタップを止める（押しても採点しない）
+  W.document.addEventListener('click', e => {
+    if (e.target.closest && e.target.closest('.ch2, .exam-reveal-btn, .calc-input')) { e.stopPropagation(); e.preventDefault(); }
+  }, true);
+  W.eval(HELPER);
+  applyTheme();
+  W.eval('startExam()');
+  ready = true;
+  say('準備できました。ボタンを押すと枠の中で再生します。');
+}
+
+function applyTheme() {
+  if (!W) return;
+  const ui = document.getElementById('ui').value;
+  W.MecUITheme.get = () => ui;           // 保存はしない（本物のテーマ設定を書き換えない）
+  W.MecUITheme.apply(ui);
+  W.eval(`examEffectSet = _examSetForUi(); document.body.classList.remove('exam-effect-neon','exam-effect-ink');
+    if (examEffectSet !== 'classic') document.body.classList.add('exam-effect-' + examEffectSet);`);
+}
+
+function waitFrame() {
+  ready = false; say('枠を読み込んでいます…');
+  let tries = 0;
+  const tick = () => {
+    tries++;
+    try {
+      const w = fr.contentWindow;
+      const n = w.document.querySelectorAll('.qc[data-uid] .ch2.ok').length;
+      if (w.MecUITheme && typeof w.startExam === 'function' && n > 10) { setTimeout(prepFrame, 400); return; }
+    } catch (e) {}
+    if (tries > 150) { say('枠の読み込みに失敗しました（http で開いていますか？）', true); return; }
+    setTimeout(tick, 200);
+  };
+  tick();
+}
+fr.addEventListener('load', waitFrame);
+
+function run(code) {
+  if (!ready) { say('まだ準備中です', true); return; }
+  const n = +document.getElementById('streak').value;
+  try {
+    W.eval(`(() => { const n = ${n}, t = _examTier(n); examStreak = n;
+      const c = __D.card(); if (!c) throw new Error('カードが見つからない');
+      const ok = c.querySelector('.ch2.ok'), ng = c.querySelector('.ch2:not(.ok)');
+      ${code}
+    })()`);
+    say('再生しました');
+  } catch (e) { say('エラー: ' + (e && e.message || e), true); }
+}
+
+/* ── ボタンと削除候補の印 ── */
+const KEY = 'mec_fxdemo_marks_v1';
+let marks = {};
+try { marks = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) {}
+const saveMarks = () => { try { localStorage.setItem(KEY, JSON.stringify(marks)); } catch (e) {} updCount(); };
+const updCount = () => { document.getElementById('markCount').textContent = Object.keys(marks).filter(k => marks[k]).length + '件'; };
+
+const list = document.getElementById('list');
+FX.forEach(([sec, items]) => {
+  const h = document.createElement('h2'); h.textContent = sec; list.appendChild(h);
+  items.forEach(([id, tag, name, when, code]) => {
+    const row = document.createElement('div'); row.className = 'it' + (marks[id] ? ' marked' : '');
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.title = '削除候補'; cb.checked = !!marks[id];
+    cb.onchange = () => { marks[id] = cb.checked; row.classList.toggle('marked', cb.checked); saveMarks(); };
+    const b = document.createElement('button');
+    b.innerHTML = '<span class="tag ' + tag + '">' + TAG[tag] + '</span>';
+    b.appendChild(document.createTextNode(name));
+    if (when) { const s = document.createElement('small'); s.textContent = when; b.appendChild(s); }
+    b.onclick = () => run(code);
+    row.dataset.name = sec + '／' + name + '（' + id + '）';
+    row.append(cb, b); list.appendChild(row);
+    if (id === 'b-close') cb.remove();
+  });
+});
+updCount();
+
+document.getElementById('ui').onchange = () => { applyTheme(); say('UIテーマを切り替えました（保存はしていません）'); };
+document.getElementById('bReset').onclick = () => { if (ready) { try { W.eval('__D.reset()'); say('カードを元に戻しました'); } catch (e) { say('エラー: ' + e.message, true); } } };
+document.getElementById('bNext').onclick = () => { if (ready) { W.eval('__D.reset(); __D.next()'); say('次のカードへ'); } };
+document.getElementById('bReload').onclick = () => { ready = false; fr.contentWindow.location.reload(); };
+document.getElementById('bCopy').onclick = async () => {
+  const names = [...list.querySelectorAll('.it')].filter(r => r.querySelector('input') && r.querySelector('input').checked).map(r => '- ' + r.dataset.name);
+  const text = names.length ? '削除したい演出:\n' + names.join('\n') : '（削除候補なし）';
+  try { await navigator.clipboard.writeText(text); say('コピーしました（' + names.length + '件）'); }
+  catch (e) { prompt('コピーしてください', text); }
+};
+</script>
+</body>
+</html>
