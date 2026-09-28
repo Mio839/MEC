@@ -1587,6 +1587,8 @@ node _work/test_glitch_bars.js     グリッチ帯の引数形・可視帯・幅
 node _work/test_theme_correct_fx.js  UIテーマ8種の正解演出・study/chapter の同期
 node _work/test_rf_polish.js       正解・誤答の演出の仕上げ（連続数の置き場・進捗の桁・動きの規則・選び直しの意匠）(13)
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
+node _work/test_dead_fx.js         演出の死んだコード（読まれない設定値・呼ばれない関数・参照されない @keyframes）(4)
+python _work/visual_snapshot.py    見た目が変わっていないかを実ブラウザで比べる（CSS の削除・分割のとき。下記）
 
 # UIテーマの「自律進化ループ」（2026-08-23〜24）が置いていった検査。粒度が細かく
 # 個別の @keyframes 名を名指しするので、演出を作り直すとここが落ちる
@@ -2111,7 +2113,7 @@ S1 の針のぶん縮む（148.84→121.35 / 578.84→551.35 / 1678.84→1651.35
 | 記号 | 演出 | 実装 |
 |---|---|---|
 | B1 | 科目の読み込み（チップの脈・カードの波状着地・完了の走査） | `_subjLoadStart` / `_subjLoadDone`（study.html） |
-| B2 | 進捗バーの目盛り・難問印・ラストスパート | `_examProgLayout` / `_renderExamProgMarks` / `_syncExamProgMarks` |
+| B2 | 進捗バーの節目の光・ラストスパート（⚠️ 目盛りと難問印は 2026-08-23g に撤去・CSS は 2026-09-28 に削除） | `_examProgLayout` / `_renderExamProgMarks`（掃除だけ）/ `_syncExamProgMarks` |
 | B3 | 結果画面の「難問 N問中 M問正解」 | `_examHardStat` ／ `#sumHardNote` |
 | B4 | 開始モーダルの「この条件で N問（うち難問 M問）」 | `_renderExamPredict` ／ `#examPredict` |
 | B5 | 閉じる時の幕＋戻った先に成績が残る | `closeExamSummary` / `_applyRecapChips` |
@@ -2126,15 +2128,14 @@ tier 演出とぶつかり画面が騒がしくなる。`test_exam_prog.js` が 
 音・`MecFX`・ストリーク演出の呼び出しが無いことを検査する。ラストスパート（残り5問からの
 色温度）は連続正解と独立した軸なので tier と競合しない。
 
-- **難問の判定は `_isHardCard`（`data-rate < EXAM_HARD_RATE = 60`）1本**。B4の予告 → B2の道中の印
-  → B3の結果、が同じ関数を共有する。⚠️ `data-rate` が無い問題は難問に数えない。
+- **難問の判定は `_isHardCard`（`data-rate < EXAM_HARD_RATE = 60`）1本**。B4の予告 → B3の結果、
+  が同じ関数を共有する（B2の道中の印は撤去済み）。⚠️ `data-rate` が無い問題は難問に数えない。
   閾値は study.html のフィルタ「難問(<60%)」・`gamify.js` の `HARD_RATE` と**3か所で一致**させる。
-- ⚠️ **採点除外にはバーの印を置かない**。バーが進まない区間なので、置くと以降の位置が全部ずれる。
+- ⚠️ 印を戻すなら**採点除外には置かない**こと。バーが進まない区間なので、置くと以降の位置が全部ずれる。
 - ⚠️ **出題数を数える式を2つ書かないこと**。`_examCandidateCards()` が正本で、`startExam` と
   B4の予告が共有する。別々に書くと「開始を押したら予告と違う問題数だった」が起きる。
-- ⚠️ **バーの印は「進んだ側（アンバーの塗り）」と「まだの側（暗いトラック）」の両方に載る**。
-  片方だけ見て色を決めるともう片方で消える。芯と縁で明暗を対にすること（通過した難問は芯が白、
-  未通過は芯が暗くアンバーの縁）。
+- ⚠️ 印を戻すなら、**「進んだ側（アンバーの塗り）」と「まだの側（暗いトラック）」の両方に載る**ことに
+  注意。片方だけ見て色を決めるともう片方で消える。芯と縁で明暗を対にすること。
 - ⚠️ **`fill` を付けない `animation` は終わると基準値へ戻る**。`.ep-sweep::after` は静止位置
   （`transform:translateX(100%)`）を明示しないと、走り終えた光の帯がバーの真ん中に居座る
   （実機で確認して直した）。
@@ -2372,6 +2373,30 @@ study_exam.js の setTimeout 64本のうち `clearTimeout` されていたのは
   - 選び直して正解したら肢に「N回目で正解」と小さな輪（`_rfReachFx`）。記録は触らない。
   - 「答えを見る」の光は肢の左端（番号の列）どうしを結ぶ（`_rfEdge`）。
 
+## 演出の死んだコードと、見た目の前後比較（2026-09-28〜）
+
+演出は置き換えを重ねてきたので、**古い側の設定値・関数・CSS が「画面に一度も出ないまま」残りやすい**。
+2026-09-28 に、動いている演出を1つも削らずに次を消した: 呼ばれない関数4つ・開く手段の無い
+セルフチェック画面・演出テーマの表の読まれない設定値16種・一度も付かないクラスの CSS
+（進捗バーの目盛りと難問印・`.hub-card`・`.hero-tile`・`.gauge-max` など）・参照されない @keyframes 36個。
+
+- **再発防止は `node _work/test_dead_fx.js`**。テーマの表の誰も読まないキー・呼ばれない関数・
+  参照されない @keyframes が増えると落ちる。例外が要るなら ALLOW に理由つきで書くこと。
+- ⚠️ **クラス名は実行時に組み立てられることがある**（`'theme-border-' + UIテーマ`・`th-*`）。
+  「文字列として見つからない＝死んでいる」と決めつけないこと。
+- ⚠️ **`:not(.死んだクラス)` の中にだけ現れるセレクタは生きている**（常に真）。消してはいけない。
+- **見た目の前後比較は `_work/visual_snapshot.py`**（UIテーマ8種 × ハブ／通常モード／試験中）。
+  全要素の計算済みスタイルと画素を比べる。**「前」を3回撮り、2回目・3回目を揺れの見本にする**
+  （演出の canvas や JS のアニメが止まる瞬間で画素が揺れるため）:
+  ```
+  python _work/visual_snapshot.py shoot before; python _work/visual_snapshot.py shoot before2
+  python _work/visual_snapshot.py shoot before3
+  # ここで変更を入れてから
+  python _work/visual_snapshot.py shoot after
+  python _work/visual_snapshot.py compare before after --noise before2,before3
+  ```
+  ⚠️ 撮影中は配信中のファイルを書き換えないこと（作業ツリーをそのまま撮る）。出力は `_work/_visual/`（Git 管理外）。
+
 ## 試験モードの演出エフェクト仕様
 
 試験モード（🎓）で選択肢を選んだ瞬間に発火する視覚エフェクトの仕様。実装は `study_exam.js`（統合study.html用）と `chapter_exam.js`（章別過去問用・同一配色をミラー）。CSSアニメの一部は `study.css`。パーティクル描画は `fx_engine.js`（`window.MecFX`）。
@@ -2528,12 +2553,13 @@ study.html(study_exam.js) ／ index.html ／ chapter_exam.js  ← 3つとも「�
   `fullscreenCols/Glow` `flashColors` `borderColors` `meterGrads` `bgRgbs` `signature`
   `tierUpLabel` `hardLabel`/`freshLabel`/`revengeLabel`/`fastLabels`、および
   `useCRT` / `useBrushSwipe` / `useFlatline` の3フラグ。
-  ⚠️ `useFireworks` `useLightning` `lightningCols` `rainType` `useConfetti` `useMedalDrop`
-     `useBlackHole` `useDefib` `useECGSweep` `useStampBurst` `useCircuitPulse` `useBrushCircle`
-     `useSpotlight` `floaterGlyphs` `burstPalettes` `shapes` `ringColor` は
-     **study 側では誰も読まないデータ**として残っている（chapter 側の
-     `ceSpawnScatteredCelebration` はまだ `burstPalettes`/`ringColor`/`correctEmoji` を読む）。
+  ⚠️ 両方のファイルで誰も読まなかった16種（`useFireworks` `useLightning` `lightningCols` `rainType`
+     `rainGlyphs` `rainCols` `useConfetti` `useMedalDrop` `useBlackHole` `useDefib` `useECGSweep`
+     `useStampBurst` `stampColor` `useCircuitPulse` `useBrushCircle` `useSpotlight`）は 2026-09-28 に削除した。
+     `floaterGlyphs` `burstPalettes` `shapes` `ringColor` などは study 側では読まれないが、
+     過去問ビューア（chapter 側の旧演出）が今も読むので残っている。
      `check_effect_themes_sync.js` が両者の一致を守るので、消すなら必ず対で消すこと。
+     **誰も読まないキーが増えると `test_dead_fx.js` が落ちる**（下記「演出の死んだコード」）。
 - ⚠️ `body.exam-effect-*` クラスのCSS定義は `neon`/`ink` のみ（`study.css`）。他セット（ecg/space/retro/luxury）はJS（`EXAM_EFFECT_THEMES` + `MecFX`）だけで描画される。classicは `body` クラス無し。
 
 ### 正解／誤答の追加演出は「合流点」を通す（2026-08-14〜）
