@@ -111,7 +111,7 @@ test('❄️ 絶対零度・フロスト氷晶 (ui-frost) の問題カード固�
   assert(themeCss.includes('html.ui-frost .qc'), 'Missing html.ui-frost .qc');
   assert(themeCss.includes('html.ui-frost .qc::before'), 'Missing frost edge flow');
   assert(themeCss.includes('html.ui-frost .qc::after'), 'Missing frost crystal watermark');
-  assert(themeCss.includes('@keyframes frostCrystalPulse'), 'Missing crystal pulse animation');
+  // ⚠️ @keyframes frostCrystalPulse は 2026-09-28 に削除した（どのルールからも使われていなかった）。
   assert(themeCss.includes('html.ui-frost .qc .qn'), 'Missing crystal num badge in frost');
   assert(themeCss.includes('html.ui-frost .qc .ch2:hover'), 'Missing frost mist choice hover in frost');
   assert(themeCss.includes('html.ui-frost .qc .ab'), 'Missing crystal answer box in frost');

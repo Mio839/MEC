@@ -53,9 +53,8 @@ test('index.html に .cylinder-loaded と呼吸アニメーションがある', 
 });
 
 console.log('── 6. キーワードタイプライター走光 (案7) ──');
-test('study.css に kwTypeGlow がある', () => {
-  assert(cssSrc.includes('@keyframes kwTypeGlow'), 'Missing kwTypeGlow in study.css');
-});
+// ⚠️ 2026-09-28: .kw.type-glow と kwTypeGlow を削除した。type-glow を付けるコードがどこにも無く
+//    一度も表示されない CSS だったため。
 
 console.log('── 7. 知識ノート禁忌バイオハザード走査光 (案8) ──');
 test('knowledge.html に .kn-danger::after と hazardSweep がある', () => {
