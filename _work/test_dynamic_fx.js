@@ -71,7 +71,7 @@ test('オーバードライブは生きた経路から点り、稲妻は正し�
 console.log('── 2. 正解の演出は正解の肢から順番に（2026-09-24〜） ──');
 test('正解は _rfCorrectFx に一本化され、UIテーマ固有演出を肢の位置で出す', () => {
   const rf = fnBodyOf(examSrc, '_rfCorrectFx');
-  assert(rf.includes('_rfSweep(el)'), '肢の縁の光（_rfSweep）が無い');
+  assert(rf.includes('_rfSweep(el'), '肢の縁の光（_rfSweep）が無い');
   assert(/_spawnStreakParticles\(Math\.max\(1, tier\), p[,)]/.test(rf), 'テーマ固有演出を肢の位置で出していない');
   assert(fnBodyOf(examSrc, 'revealAnswer').includes('_rfCorrectFx('), 'revealAnswer から _rfCorrectFx が呼ばれていない');
   assert(fnBodyOf(examSrc, '_revealCalcAnswer').includes('_rfCorrectFx('), '_revealCalcAnswer から _rfCorrectFx が呼ばれていない');

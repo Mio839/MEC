@@ -941,7 +941,8 @@ function revealAnswer(card) {
   examCorrect++;
   examStreak++;
   examBySubj[sid].correct++;
-  try { _playCorrectSound(); _rfCorrectFx(card, card.querySelector('.ch2.ok') || els[0]); }
+  const advMs = req > 1 ? RF_ADVANCE_MS.multi : RF_ADVANCE_MS.one;
+  try { _playCorrectSound(); _rfCorrectFx(card, card.querySelector('.ch2.ok') || els[0], advMs); }
   catch (err) { console.error('[ExamFx] Error in correct fx:', err); }
   card.classList.add('exam-revealed', 'exam-multi-correct');
   const revBtn = card.querySelector('.exam-reveal-btn');
@@ -949,7 +950,7 @@ function revealAnswer(card) {
   try { _updateExamProg(true); } catch (e) {}
   try { _saveExamResume(); } catch (e) {}
   requestAnimationFrame(_updateExamFocus);
-  _rfScrollAfterCorrect(card, req > 1 ? 400 : 350);
+  _rfScrollAfterCorrect(card, advMs);
 }
 
 
@@ -1494,7 +1495,7 @@ function _triggerFastBonus(el, grade) {
 
 // A2: 正解した肢の位置から広がるショックウェーブ（UIテーマ連動）
 // A3: カード外周を光が一周するボーダートレース（UIテーマ連動）
-function _traceCardBorder(card) {
+function _traceCardBorder(card, ms) {
   if (!card || _fxOff()) return;
   const r = card.getBoundingClientRect();
   if (!r.width || !r.height) return;
@@ -1531,7 +1532,7 @@ function _traceCardBorder(card) {
   rect.animate([
     { strokeDashoffset: String(seg), opacity: 1 },
     { strokeDashoffset: String(-per), opacity: .35 }
-  ], { duration: 640, easing: 'cubic-bezier(.3,.7,.4,1)', fill: 'forwards' }).onfinish = () => svg.remove();
+  ], { duration: ms || 640, easing: 'cubic-bezier(.3,.7,.4,1)', fill: 'forwards' }).onfinish = () => svg.remove();
 }
 
 /* ══════════ A1: 難問クリア（2026-08-14）══════════
@@ -2777,11 +2778,21 @@ document.addEventListener('pointerdown', e => {
   _lqPtr = { el: ch, fx: (e.clientX - r.left) / r.width, fy: (e.clientY - r.top) / r.height, t: performance.now() };
 }, { passive: true, capture: true });
 const LQ_COLS = ['#FF007F', '#7928CA', '#FF7A00', '#2FE0D5'];
-/* UIテーマ固有の正解演出（liquid / frost / celestial / brass）の時間の倍率（2026-09-28）。
-   ラボで決めた尺のままだと実機では「発火してから消えるまでが早すぎる」と指摘された。
-   尺を決めている口（_lqMesh / _lqFilm の duration・_lqDrop の片付け・_frRun の経過時間・
-   各演出の遅延）は全部これを掛ける＝値を1つ変えれば4テーマが揃って伸び縮みする。 */
-const RF_FX_SLOW = 1.5;
+/* カードの中で出す正解演出は、次のカードへ送る前に終わらせる（2026-09-28・ユーザー判断）。
+   送りの時間（RF_ADVANCE_MS）は変えない＝「送りが遅い」と一度却下されている。代わりに、UIテーマ固有の
+   正解演出（liquid / frost / celestial / brass）の尺をまるごと縮めて、送りの RF_FX_END_MARGIN 手前で終わらせる。
+   各演出はラボで決めた尺（ms）のまま書いてあり、始める前に _rfFit(予算, その演出の全長) で係数 _rfK を決める。
+   尺を決めている口（_lqMesh / _lqFilm の duration・_lqDrop の片付け・_frRun の経過時間・各演出の遅延）は
+   全部 _rfK を掛ける。⚠️ 係数を1より大きくしないこと——伸ばすとカードと一緒に流れて宙に浮いて見える
+   （画面固定の台へ移して残す案は「中に浮いておかしな演出」と却下された）。 */
+const RF_ADVANCE_MS = { one: 350, multi: 400, calc: 300 };
+const RF_FX_END_MARGIN = 50;
+let _rfK = 1;
+function _rfFit(budget, nominal) {
+  const b = Math.max(60, (budget || RF_ADVANCE_MS.one) - RF_FX_END_MARGIN);
+  _rfK = Math.min(1, b / Math.max(1, nominal));
+  return _rfK;
+}
 function _lqLayer(host, cls) {
   if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
   host.classList.add('lq-host');
@@ -2793,9 +2804,9 @@ function _lqLayer(host, cls) {
 }
 function _lqDrop(host, L, ms) {
   setTimeout(() => {
-    _rfRemove(L);
+    L.remove();
     if (--host._lqN <= 0) { host._lqN = 0; host.classList.remove('lq-host'); }
-  }, ms * RF_FX_SLOW);
+  }, ms * _rfK);
 }
 function _lqMesh(L, ox, oy, spread, size, dur, op, orbit, pad, top) {
   const box = document.createElement('span');
@@ -2816,7 +2827,7 @@ function _lqMesh(L, ox, oy, spread, size, dur, op, orbit, pad, top) {
     kf.push({ translate: at(tx + (Math.random() - .5) * 40, ty + (Math.random() - .5) * 20), scale: 1.2, opacity: 0 });
     // ⚠️ 加減速は区間ごとに掛ける（全体に MO.out を掛けると、咲く→消えるが最初の1/4に潰れて見えない）
     kf.forEach(k => { k.easing = MO.out; });
-    b.animate(kf, { duration: dur * RF_FX_SLOW, fill: 'forwards' });
+    b.animate(kf, { duration: dur * _rfK, fill: 'forwards' });
   });
 }
 function _lqFilm(L, x, y, R, dur, op, full) {
@@ -2830,9 +2841,9 @@ function _lqFilm(L, x, y, R, dur, op, full) {
     ? [{ opacity: 0, '--lqfx-a': a0 + 'deg' }, { opacity: op, offset: .35 }, { opacity: 0, '--lqfx-a': (a0 + 120) + 'deg' }]
     : [{ '--lqfx-r': '0px', '--lqfx-a': a0 + 'deg', opacity: op }, { opacity: op, offset: .6 }, { '--lqfx-r': R + 'px', '--lqfx-a': (a0 + 200) + 'deg', opacity: 0 }];
   kf.forEach(k => { k.easing = MO.out; });
-  f.animate(kf, { duration: dur * RF_FX_SLOW, fill: 'forwards' });
+  f.animate(kf, { duration: dur * _rfK, fill: 'forwards' });
 }
-function _lqFluidFx(el, card, tier, promoted) {
+function _lqFluidFx(el, card, tier, promoted, budget) {
   if (!el || _fxOff()) return;
   const er = el.getBoundingClientRect();
   if (!er.width || !er.height) return;
@@ -2840,14 +2851,15 @@ function _lqFluidFx(el, card, tier, promoted) {
   const pt = _lqPtr;
   if (pt && pt.el === el && performance.now() - pt.t < 2000) { ox = er.width * pt.fx; oy = er.height * pt.fy; }
   const t = Math.max(1, tier);
+  const big = t >= 3, up = promoted && tier >= 2;
+  _rfFit(budget, !card || (!big && !up) ? 1450 : big ? Math.max(2400, 1650 + t * 100) : 2400);
   // 肢：メッシュ＋虹色の輪＋あとに残る光沢
   const L = _lqLayer(el);
   _lqMesh(L, ox, oy, er.width * (.22 + t * .02), er.height * 1.8, 1300, .9, false, 20, null);
   _lqFilm(L, ox, oy, Math.max(ox, er.width - ox) + 40, 750, .95, false);
-  setTimeout(() => _lqFilm(L, ox, oy, 0, 1100, .3 + t * .03, true), 150 * RF_FX_SLOW);
+  setTimeout(() => _lqFilm(L, ox, oy, 0, 1100, .3 + t * .03, true), 150 * _rfK);
   _lqDrop(el, L, 1450);
   if (!card) return;
-  const big = t >= 3, up = promoted && tier >= 2;
   if (!big && !up) return;
   const cr = card.getBoundingClientRect();
   const cx = er.left - cr.left + ox, cy = er.top - cr.top + oy;
@@ -2862,8 +2874,8 @@ function _lqFluidFx(el, card, tier, promoted) {
     r.className = 'lq-ring';
     card.appendChild(r);
     r.animate([{ opacity: 0, '--lqfx-a': '0deg' }, { opacity: .95, offset: .2 }, { opacity: .95, offset: .7 }, { opacity: 0, '--lqfx-a': (240 + t * 30) + 'deg' }],
-      { duration: (1500 + t * 100) * RF_FX_SLOW, easing: 'ease-in-out', fill: 'forwards' });
-    setTimeout(() => _rfRemove(r), (1600 + t * 100 + 50) * RF_FX_SLOW);
+      { duration: (1500 + t * 100) * _rfK, easing: 'ease-in-out', fill: 'forwards' });
+    setTimeout(() => r.remove(), (1600 + t * 100 + 50) * _rfK);
   }
 }
 
@@ -2889,12 +2901,12 @@ function _frCtx(L, w, h, top) {
   const x = c.getContext('2d'); x.setTransform(d, 0, 0, d, 0, 0);
   return x;
 }
-// ⚠️ 経過時間を RF_FX_SLOW で割って渡す＝描画側の ms（dur・各区間の開始）は書き換えずに全体が伸びる。
+// ⚠️ 経過時間を _rfK で割って渡す＝描画側の ms（dur・各区間の開始）は書き換えずに全体が縮む。
 function _frRun(ctx, w, h, dur, draw) {
-  const t0 = performance.now();
+  const t0 = performance.now(), k = _rfK;
   (function f(now) {
     if (!ctx.canvas.isConnected) return;
-    const e = (now - t0) / RF_FX_SLOW;
+    const e = (now - t0) / k;
     ctx.clearRect(0, 0, w, h);
     if (e < dur) { draw(ctx, e); requestAnimationFrame(f); }
   })(t0);
@@ -2995,7 +3007,7 @@ function _frMelt(c, x, y, r, w, h, rim) {
   c.restore();
   if (rim > 0) { c.save(); c.globalCompositeOperation = 'lighter'; c.beginPath(); c.arc(x, y, r, 0, 7); c.strokeStyle = `rgba(234,248,255,${rim})`; c.lineWidth = 1.4; c.shadowColor = '#70D6FF'; c.shadowBlur = 8; c.stroke(); c.restore(); }
 }
-function _frFrostFx(el, card, tier, promoted) {
+function _frFrostFx(el, card, tier, promoted, budget) {
   if (!el || _fxOff()) return;
   const er = el.getBoundingClientRect();
   if (!er.width || !er.height) return;
@@ -3004,6 +3016,7 @@ function _frFrostFx(el, card, tier, promoted) {
   const pt = _lqPtr;
   if (pt && pt.el === el && performance.now() - pt.t < 2000) { lx = w * pt.fx; ly = h * pt.fy; }
   const T = Math.max(1, tier), up = promoted && tier >= 2;
+  _rfFit(budget, card ? 2950 : 1700);   // 最長はダイヤモンドダスト（durD 2900 ＋ 片付け 50）
   // 六花は肢の層とカードの層に**同じ位置・同じ角度で2回**描く。肢の地は不透明（.75）なので、カードの裏だけに
   // 描くと肢に重なる部分が隠れる。肢の中はくっきり、はみ出した先はカードの裏へ続いて見える。
   const gens = Math.min(4, 1 + Math.floor(T / 2));
@@ -3114,7 +3127,7 @@ function _frFrostFx(el, card, tier, promoted) {
     });
     if (wave) wave.forEach(q => { const k = (e - q.dl) / 550; if (k > 0 && k < 1) _frGlint(c, q.x, q.y, q.s * Math.sin(Math.PI * k), 1); });
   });
-  setTimeout(() => _rfRemove(D), (durD + 50) * RF_FX_SLOW);
+  setTimeout(() => D.remove(), (durD + 50) * _rfK);
 }
 
 /* ══════════ Celestial：金環＋（星座／惑星直列／星の軌跡 のどれか1つ）（2026-09-25）══════════
@@ -3357,7 +3370,7 @@ function _clxTrails(T, up, px, py, rMax, CW, CH, bigY) {
   } };
 }
 
-function _clxCelestialFx(el, card, tier, promoted) {
+function _clxCelestialFx(el, card, tier, promoted, budget) {
   if (!el || !card || _fxOff()) return;
   const er = el.getBoundingClientRect();
   if (!er.width || !er.height) return;
@@ -3387,6 +3400,7 @@ function _clxCelestialFx(el, card, tier, promoted) {
     parts.push(_clxTrails(T, up, px, py, T >= 3 ? Math.min(Math.hypot(CW, CH) * .45, 60 + T * 22) : Math.min(w * .45, 28 + T * 10), CW, CH, bigY));
   }
   const dur = Math.max(...parts.map(p => p.dur));
+  _rfFit(budget, dur + 50);
   const drawAll = (c, e) => parts.forEach(p => p.draw(c, e));
 
   // 肢の層（カードの座標をずらして同じ絵を描く）
@@ -3695,7 +3709,7 @@ function _brsCornerCast(CW, CH, hasTop, hasBot) {
   } };
 }
 
-function _brsBrassFx(el, card, tier, promoted) {
+function _brsBrassFx(el, card, tier, promoted, budget) {
   if (!el || !card || _fxOff()) return;
   const er = el.getBoundingClientRect();
   if (!er.width || !er.height) return;
@@ -3715,17 +3729,19 @@ function _brsBrassFx(el, card, tier, promoted) {
   // TIER1〜2 の歯車・刻印・唐草が豆粒になる（デモの肢は46px）。肢と同じ中心で高さだけ足した箱で測る。
   const hs = Math.max(h, BRS_MIN_H), lo = { l: chL, t: chT - top + h / 2 - hs / 2, w, h: hs };
   const bigY = _frC(py, CH * .3, CH * .7);
+  // 火花と押し込みは部品を組む間に予約だけ集め、全長が決まって _rfFit した後に時刻を縮めて打つ
+  const later = [];
   // 火花（文字の上・数粒）。位置は発火の瞬間にカードから測り直す
-  const spark = (x, y, n, ms) => setTimeout(() => {
+  const spark = (x, y, n, ms) => later.push([ms, () => {
     if (!examMode || !card.isConnected || !window.MecFX || !window.MecFX.sparks) return;
     const r = card.getBoundingClientRect();
     window.MecFX.sparks(r.left + card.clientLeft + x, r.top + card.clientTop + top + y, { count: n, colors: [BRS_PALE, '#FFD700', BRS_AMBER, '#FFFFFF'] });
-  }, ms * RF_FX_SLOW);
+  }]);
   // 刻印を打った手応え（肢／カードが一瞬沈む）。transform は既存アニメに殺されるので translate で
-  const press = (ms, whole) => setTimeout(() => {
+  const press = (ms, whole) => later.push([ms, () => {
     const t = whole ? card : el;
-    if (t.isConnected && t.animate) t.animate([{ translate: '0 0' }, { translate: whole ? '0 2px' : '0 1.5px', offset: .25 }, { translate: '0 0' }], { duration: whole ? 260 : 200, easing: MO.spring });
-  }, ms * RF_FX_SLOW);
+    if (t.isConnected && t.animate) t.animate([{ translate: '0 0' }, { translate: whole ? '0 2px' : '0 1.5px', offset: .25 }, { translate: '0 0' }], { duration: Math.max(60, (whole ? 260 : 200) * _rfK), easing: MO.spring });
+  }]);
   const qn = card.querySelector('.qn'), num = qn && (qn.textContent.match(/\d+/) || [])[0];
   const serial = 'No.' + String(num || examAnswered || 0).padStart(4, '0');
 
@@ -3733,6 +3749,8 @@ function _brsBrassFx(el, card, tier, promoted) {
   if (up) parts.push(_brsMedallion(tier, CW, CH, bigY, spark, press), _brsCornerCast(CW, CH, top === 0, top + CH >= CHf), _brsBigTrain(CW, bigY));
   parts.push(_brsFiligree(T, px, lo), _brsGearTrain(T, px, py, lo, CW, spark), _brsHallmark(T, lo, serial, spark, press));
   const dur = Math.max(...parts.map(p => p.dur));
+  const k = _rfFit(budget, dur + 50);
+  later.forEach(([ms, f]) => setTimeout(f, ms * k));
   const C = _lqLayer(card, 'fr-card');
   const c2 = _frCtx(C, CW, CH, top);
   _frRun(c2, CW, CH, dur, (c, e) => parts.forEach(p => p.draw(c, e)));
@@ -4007,14 +4025,14 @@ function _revealCalcAnswer(card, sid) {
   examCorrect++;
   examStreak++;
   examBySubj[sid].correct++;
-  try { _playCorrectSound(); _rfCorrectFx(card, fxEl); }
+  try { _playCorrectSound(); _rfCorrectFx(card, fxEl, RF_ADVANCE_MS.calc); }
   catch (err) { console.error('[ExamFx] Error in calc-correct fx:', err); }
   card.classList.add('exam-revealed', 'exam-multi-correct');
   if (revBtn) { revBtn.textContent = '▶ 解説を見る'; revBtn.onclick = () => _toggleCorrectAnswer(card, revBtn); }
   try { _updateExamProg(true); } catch (e) {}
   try { _saveExamResume(); } catch (e) {}
   requestAnimationFrame(_updateExamFocus);
-  _rfScrollAfterCorrect(card, 300);
+  _rfScrollAfterCorrect(card, RF_ADVANCE_MS.calc);
 }
 
 function _recountExcluded() {
@@ -4098,37 +4116,12 @@ function _showFinishAndScroll() {
   });
 }
 
-/* 正解の後、次のカードへ送る（2026-09-28）。送りの時間は従来どおり（単一 350ms・複数 400ms・計算 300ms）。
-   UIテーマ固有の正解演出（liquid / frost / celestial / brass）は正解の肢・カードの子要素の層に描くので、
-   そのまま送るとカードと一緒に画面外へ流れて見えなかった（実機で指摘）。送る直前に層を画面固定の台
-   （.rf-stage）へ移し替える＝カードが流れても演出はその場に残って最後まで見える。
-   ⚠️ 送りを遅らせて見せる案は「カードの送りが遅い」と却下された（2026-09-28）。待ちを足さないこと。 */
+/* 正解の後、次のカードへ送る。送りの時間は RF_ADVANCE_MS（単一 350ms・複数 400ms・計算 300ms）。
+   カードの中の正解演出は _rfCorrectFx が同じ時間を予算にして、送る前に終わらせている。
+   ⚠️ 送りを遅らせて見せる案は「カードの送りが遅い」、層を画面固定の台へ移して残す案は
+      「中に浮いておかしな演出」と、どちらも却下された（2026-09-28）。 */
 function _rfScrollAfterCorrect(card, ms) {
-  setTimeout(() => {
-    try { _rfDetachFx(card); } catch (e) {}
-    _scrollToNextCard(card);
-  }, ms);
-}
-function _rfDetachFx(card) {
-  if (!card) return;
-  card.querySelectorAll('.lq-layer, .lq-ring, .fr-dust').forEach(n => {
-    const host = n.parentElement;
-    if (!host || n._rfStage) return;
-    const r = host.getBoundingClientRect();
-    if (!r.width || !r.height) return;
-    const st = document.createElement('div');
-    st.className = 'rf-stage';
-    st.style.cssText = `left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px;border-radius:${getComputedStyle(host).borderRadius};`;
-    document.body.appendChild(st);
-    st.appendChild(n);   // ⚠️ WAAPI のアニメと canvas の描画ループ（isConnected を見る）は移し替えても続く
-    n._rfStage = st;
-    setTimeout(() => st.remove(), 8000);   // 保険（片付けは _rfRemove が先にやる）
-  });
-}
-/* 演出の層を片付ける。台へ移し替えていれば台ごと消す。 */
-function _rfRemove(n) {
-  n.remove();
-  if (n._rfStage) n._rfStage.remove();
+  setTimeout(() => _scrollToNextCard(card), ms);
 }
 function _scrollToNextCard(fromCard) {
   // ⚠️ キュー(_examOrder)から選ぶこと。DOM 全走査に戻すとキュー外のカードへ送り込む。
@@ -4914,7 +4907,6 @@ function exitExam() {
      「いま画面に出ているもの」を消すだけなので、先に止めないと掃除の直後に
      遅延ぶんが新しい演出を生やす（正解直後に「終了」を押すと再現する）。 */
   _fxClearTimers();
-  document.querySelectorAll('.rf-stage').forEach(n => n.remove());   // 画面固定へ移した正解演出
   _setAwaken(false); _setOverdrive(false); _clearCardHeat();
   // srs-review クラスはここでは外さない。結果画面〜誤答再試験の間も復習の最小表示を保つため、
   // 解除は通常閲覧へ戻る _srsRestoreAfterReview() に集約している。
@@ -5516,15 +5508,16 @@ function _rfEdge(el) {
 }
 
 /* 0ms：正解の肢の縁を光が1周する。肢の子要素として足す（.qc の疑似要素は満杯）。 */
-function _rfSweep(el) {
+function _rfSweep(el, ms) {
   if (!el || _fxOff()) return;
   el.querySelectorAll(':scope > .rf-sweep').forEach(s => s.remove());
   if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
   const s = document.createElement('span');
   s.className = 'rf-sweep';
   s.style.setProperty('--rf-c', _rfTheme().col);
+  if (ms) s.style.setProperty('--rf-sweep-t', ms + 'ms');   // 正解の直後はカードを送る前に1周を終える（_rfCorrectFx）
   el.appendChild(s);
-  _fxTimeout(() => s.remove(), 900);
+  _fxTimeout(() => s.remove(), ms ? ms + 20 : 900);
 }
 
 /* 連続数の表示（旧 #examStreakToast の後継）。UIテーマ8種ぶんの書体・枠は study.css の #examRfStreak。 */
@@ -5603,8 +5596,11 @@ function _rfHideStreak() {
   el.style.opacity = '0';
 }
 
-/* 正解（初回で正解したとき）。revealAnswer（単一・複数選択）と _revealCalcAnswer から呼ぶ。 */
-function _rfCorrectFx(card, el) {
+/* 正解（初回で正解したとき）。revealAnswer（単一・複数選択）と _revealCalcAnswer から呼ぶ。
+   budget＝次のカードへ送るまでの ms（RF_ADVANCE_MS）。カードの中で出す演出（肢の縁の光・カード外周の光・
+   UIテーマ固有の演出）はこの時間内に終える。 */
+function _rfCorrectFx(card, el, budget) {
+  const inCardMs = Math.max(60, (budget || RF_ADVANCE_MS.one) - RF_FX_END_MARGIN);
   const n = examStreak, tier = _examTier(n);
   _applyCardThemeComboFx(card, n);   // カードの状態クラス・触覚
   if (_fxOff()) { _updateComboMeter(n); return; }
@@ -5615,11 +5611,13 @@ function _rfCorrectFx(card, el) {
   _updateComboMeter(n);
 
   // 0ms：光は正解の肢から
-  _rfSweep(el);
-  if (_rfUi() === 'liquid') _lqFluidFx(el, card, tier, promoted);   // 肢の裏で色が咲く（_spawnStreakParticles の liquid 分岐を参照）
-  else if (_rfUi() === 'frost') _frFrostFx(el, card, tier, promoted);   // 雪の結晶・霜・ダイヤモンドダスト（同上の frost 分岐を参照）
-  else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted);   // 金環＋星座／惑星直列／星の軌跡（同上の celestial 分岐を参照）
-  else if (_rfUi() === 'brass') _brsBrassFx(el, card, tier, promoted);   // 歯車列＋刻印＋鋳込みの唐草（同上の brass 分岐を参照）
+  _rfSweep(el, inCardMs);
+  // カード外周を光が1周（liquid は油膜の虹色が縁を回るので重ねない）。送る前に終わるよう 0ms から
+  if (tier >= 2 && _rfUi() !== 'liquid') _traceCardBorder(card, inCardMs);
+  if (_rfUi() === 'liquid') _lqFluidFx(el, card, tier, promoted, budget);   // 肢の裏で色が咲く（_spawnStreakParticles の liquid 分岐を参照）
+  else if (_rfUi() === 'frost') _frFrostFx(el, card, tier, promoted, budget);   // 雪の結晶・霜・ダイヤモンドダスト（同上の frost 分岐を参照）
+  else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted, budget);   // 金環＋星座／惑星直列／星の軌跡（同上の celestial 分岐を参照）
+  else if (_rfUi() === 'brass') _brsBrassFx(el, card, tier, promoted, budget);   // 歯車列＋刻印＋鋳込みの唐草（同上の brass 分岐を参照）
   _afterCorrectFx(card, el);   // 難問・初見・リベンジ・速答・克服・SRS刻印（意味を持つ印はそのまま）
 
   // 80ms：肢から数字へ光が走る
@@ -5644,8 +5642,6 @@ function _rfCorrectFx(card, el) {
     // テーマ固有演出（照準・金継ぎ・氷晶・歯車…）＋粒子。_correctShockwave と同じ意匠が中に入っているので
     // 両方呼ぶと同じ演出が2つ重なる＝こちらだけにする。1問目（tier0）も tier1 の規模で出す。
     _spawnStreakParticles(Math.max(1, tier), p, { el, card, promoted });
-    // liquid はカードの縁を油膜の虹色が回る（_lqFluidFx）ので、縁を1周する光は重ねない
-    if (tier >= 2 && _rfUi() !== 'liquid') _traceCardBorder(card);
     if (tier >= 3) _triggerBorderGlow(tier);
   }, 200);
 
