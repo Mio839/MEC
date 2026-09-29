@@ -3,25 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Liquid ゲージ A案の調整</title>
+<title>Liquid ゲージの描き方比較</title>
 <!--
-  ハブのヒーローゲージ（index.html #gaugeBox）を UIテーマ Liquid 向けに作り直す案（2026-09-29・第4版）。
-  第3版の5案から「A. ひとかけらずつ」が採用された（ユーザー判断）。このページはその調整版と前回版を並べる。
-  調整（ユーザー指示）：
-    ① 離れたかけらはもっと動く（塊のまわりを曲がりくねって泳ぐ・動く向きへ少し伸びる）
-    ② 分裂はもっとゆっくり（ふくらむ 4.2秒・糸を引いて離れる 5.6秒）
-    ③ ちぎれ始めるのは一度に1つだけ（ふくらむ〜糸が切れるまでの間は次を出さない。段・到達の演出も順番待ち）
-    ③' 見えているかけらは合計5つまで（0%で1つ・25%ごとに1つ増え、100%以上で5つ）。段・到達の演出もこの上限を越えない
-    ④ 中央の塊をもっと大きく
-    ⑤ 塊の色を Liquid の配色（マゼンタ #FF007F・シアン #00F2FE・バイオレット #7928CA）に合わせる
-       ＝縁はネオンのマゼンタ、内へ向かうほどバイオレット、芯は深い藍、縁にシアンの光。数字が読めるよう芯は暗く保つ
-  動きは「ゆっくり・ねっとり」（index.js「膜のくびれ」の注記＝「ぷつっと切れる・ぷるぷる震える」形は求められていない）。
-  描き方：canvas にメタボール（場 f = Σ (r²/d²)²。f ≥ 1 が塊）を毎フレーム描く。
-    中央の塊＝芯の球＋ゆっくり巡る5つの球。ちぎれる一部＝頭の球＋尾の球（尾は切れるまで塊の縁に残ってくびれを作り、
-    切れたら塊へゆっくり吸い戻る）。離れている間は芯が少し痩せる（重さが外へ移っている）。
+  ハブのヒーローゲージ（index.html #gaugeBox）を UIテーマ Liquid 向けに作り直す案（2026-09-29・第5版）。
+  採用は「A. ひとかけらずつ」（中央の丸い塊がフヨフヨ揺れ、一部が外へちぎれて泳ぎ、また戻る）。
+  第4版の調整（ユーザー指示）：かけらは泳ぐ／分裂はゆっくり／ちぎれ始めるのは一度に1つ／見えるかけらは合計5つまで／
+    塊を大きく／色は Liquid の配色（縁はネオンのマゼンタ→バイオレット、数字の下だけ深い藍、縁にシアンの照り返し）。
+  第5版：「塊がいまいち滑らかに見えない」（ユーザー）ので、描き方を3つ並べて比べる。動き（シミュレーション）は3つとも同じ
+    （同じ種・同じ時間で同じ Blob を動かしている）で、違うのは描き方だけ。
+    ① WebGL  … GPU のシェーダで画面の画素ごとに場を計算する。勾配は解析的に出し、縁は勾配で1画素ぶんだけぼかす。
+    ② 輪郭    … 粗い格子で場を計算し、等高線（f=1）を拾って曲線でつなぎ、canvas のベクター描画で塗る。
+    ③ 今の版  … JavaScript で1画素ずつ計算して画像として貼る（第4版のまま）。
+  各カードに描画1回あたりの時間、上部にページのコマ数を出す。「動かす版」で1つだけ描かせると、その版だけの重さが測れる。
   本物の index.js は呼ばず、このページの中だけで再生する（何も保存しない）。テストの対象ではない。
   ⚠️ 本番へ移すとき：本番の svg は transform: rotate(-90deg) を持つ。canvas は回さずに重ねる。
-  ⚠️ 本番へ移すとき：canvas の描画は rAF で良いが、画面外・非表示では止める。iPad・スマホでは解像度か fps を落とす。
+  ⚠️ 本番へ移すとき（① を選んだ場合）：WebGL が無い・文脈を失ったときは ③ に落とす。画面外・非表示では描かない。
 -->
 <style>
   :root{--tx:#F4ECFF;--sub:#B7A6D6;--line:rgba(255,0,127,.3);--gw:260px;}
@@ -45,18 +41,17 @@
     font-weight:700;font-size:13px;cursor:pointer;}
   .ctl button:active{background:#321858;}
   .ctl button.hi{border-color:#FF007F;background:#34104A;}
+  .ctl select{font-size:13px;padding:5px 8px;border-radius:10px;background:#1C0E36;color:var(--tx);border:1.5px solid var(--line);}
+  .ctl .fps{font-variant-numeric:tabular-nums;color:#7EF3FF;font-weight:700;}
   input[type=checkbox]{width:18px;height:18px;accent-color:#FF007F;}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,400px),1fr));gap:14px;max-width:1300px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:14px;max-width:1300px;}
   .card{background:linear-gradient(160deg,rgba(70,20,90,.5),rgba(14,8,32,.9));border:1px solid var(--line);border-radius:20px;
     padding:14px 14px 16px;box-shadow:inset 0 1px 0 rgba(255,120,190,.16),0 10px 30px rgba(0,0,0,.35);}
-  .card.old{border-style:dashed;opacity:.9;}
+  .card.paused{opacity:.45;}
   .card h2{font-size:15.5px;margin:0 0 2px;color:#FF7AB8;}
-  .card .tag{font-size:12px;color:var(--sub);line-height:1.5;}
+  .card .tag{font-size:12px;color:var(--sub);line-height:1.55;}
   .card .cnt{font-size:12px;color:#7EF3FF;font-variant-numeric:tabular-nums;margin-top:4px;}
   .stage{display:flex;justify-content:center;padding:14px 0 6px;}
-  dl.how{font-size:12px;line-height:1.6;margin:8px 0 0;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;}
-  dl.how dt{color:#7EF3FF;font-weight:700;white-space:nowrap;}
-  dl.how dd{margin:0;color:#E4D6F5;}
 
   /* ── 本番のゲージの外形（index.css の .gauge / .gauge-mid と同じ組み方） ── */
   .gauge{position:relative;width:var(--gw);text-align:center;}
@@ -82,27 +77,24 @@
 </style>
 </head>
 <body>
-<h1>🫧 Liquid のヒーローゲージ — A「ひとかけらずつ」の調整</h1>
+<h1>🫧 Liquid のヒーローゲージ — 塊の描き方を比べる</h1>
 <p class="note">
-  採用された A 案の調整版です（左）。右は比較用の前回版。
-  ① 離れたかけらは<b>塊のまわりを曲がりくねって泳ぎ</b>、動く向きへ少し伸びます。
-  ② 分裂は<b>もっとゆっくり</b>（ふくらむのに約4秒、糸を引いて離れるのに約6秒）。
-  ③ <b>ちぎれ始めるのは一度に1つだけ</b>、見えているかけらは<b>合計5つまで</b>（0%で1つ、25%ごとに1つ増え、100%以上で5つ）。段や到達の演出もこの上限を越えません。
-  ④ 中央の塊を<b>大きく</b>しました。
-  ⑤ 塊の色を <b>Liquid の配色</b>（縁はネオンのマゼンタ、内へ向かうほどバイオレット、芯は深い藍、縁にシアンの光）に合わせました。
-  ⑥ 縁の<b>ギザつきを直しました</b>（計算を画面の画素数に合わせ、縁を1画素ぶんなめらかにぼかす）。
-  カードの下に、いま見えているかけらの数を出しています。
+  採用した「ひとかけらずつ」を、<b>3つの描き方</b>で並べています。動きは3つとも<b>まったく同じ</b>で、違うのは塊の描き方だけです。
+  <b>① WebGL</b>＝GPU で画面の画素ごとに直接描く／<b>② 輪郭を線で描く</b>＝塊の輪郭を曲線にして塗る／<b>③ 今の版</b>＝比較用。
+  縁の滑らかさと、動きのなめらかさ（カクつき）を見比べてください。
+  3つ同時に動かすと互いに重さを奪い合うので、動きのなめらかさは「動かす版」で1つだけにして見るのがおすすめです。カードの「描画」は1回描くのにかかった時間（16ms 以下なら60コマ/秒に間に合う）。
 </p>
 <div class="ctl">
   <label>達成率 <input type="range" id="rg" min="0" max="160" step="1" value="0"> <output id="out">0%</output></label>
   <button id="bSeq" class="hi">▶ 0→130% を順に</button>
   <button data-add="10">＋10%</button>
-  <button data-add="5">＋5%（2問）</button>
   <button data-add="-10">−10%</button>
   <button id="bBloom">90→100%（到達だけ）</button>
   <button data-set="130">130%（超過）</button>
   <button data-set="0">0%へ</button>
+  <label>動かす版 <select id="selRun"><option value="all">3つとも</option><option value="0">① だけ</option><option value="1">② だけ</option><option value="2">③ だけ</option></select></label>
   <label><input type="checkbox" id="cbBig"> 大きく表示</label>
+  <span class="fps" id="fps">— コマ/秒</span>
 </div>
 <div class="grid" id="grid"></div>
 
@@ -118,6 +110,7 @@ const ease = (k) => { k = clamp(k, 0, 1); return k < 0.5 ? 4 * k * k * k : 1 - M
 const soft = (k) => { k = clamp(k, 0, 1); return k * k * (3 - 2 * k); };
 const polar = (r, a) => [84 + r * Math.sin(a), 84 - r * Math.cos(a)];   // a はラジアン・0＝真上・時計回り
 const wrap = (a) => ((a % TAU) + TAU) % TAU;
+const rgba = (c, a) => `rgba(${c[0] | 0},${c[1] | 0},${c[2] | 0},${a})`;
 function rng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
 function dash(el, v) {
   v = clamp(v, 0, 100);
@@ -142,30 +135,190 @@ const TICKS = () => [0.25, 0.5, 0.75].map((k) => {
 const ARC = (r, cls) => `<circle class="${cls}" cx="84" cy="84" r="${r}" pathLength="100" transform="rotate(-90 84 84)"/>`;
 const SVG_FG = () => `${SVG_DEFS}${TICKS()}${ARC(ARC_R, 'trk')}${ARC(ARC_R, 'val')}${ARC(80, 'ovf')}<g class="fxl"></g>`;
 
-/* ══════════════════════ 配色 ══════════════════════
-   liquid … 調整後。場の深さ t（0＝縁・1＝芯）で色を決める：縁＝ネオンのマゼンタ → バイオレット → 芯（数字の下だけ）＝深い藍。縁にシアンの光。
-   old    … 前回。縦の位置で色を決め、芯は同じ色を暗くするだけ（＝赤茶っぽく沈んでいた）。 */
-const PAL = {
-  liquid: { edgeT: [255, 60, 175], edgeB: [255, 0, 127], mid: [121, 40, 202], core: [18, 8, 46], rim: [0, 242, 254], halo: [255, 0, 127] },
-  liquidGold: { edgeT: [255, 226, 140], edgeB: [255, 196, 80], mid: [214, 140, 40], core: [52, 28, 8], rim: [255, 250, 220], halo: [255, 209, 102] },
-  old: { top: [255, 40, 150], bot: [120, 50, 235], rim: [0, 242, 254], dark: 0.62 },
-  oldGold: { top: [255, 214, 110], bot: [255, 160, 40], rim: [255, 255, 225] }
-};
+/* ══════════════════════ 配色（Liquid） ══════════════════════
+   場の深さで色を決める：縁＝ネオンのマゼンタ → バイオレット。深い藍は塊の中心のまわり（数字の下）だけ。縁にシアンの照り返し。 */
+const PAL = { edgeT: [255, 60, 175], edgeB: [255, 0, 127], mid: [121, 40, 202], core: [18, 8, 46], rim: [0, 242, 254], halo: [255, 0, 127] };
+const PALG = { edgeT: [255, 226, 140], edgeB: [255, 196, 80], mid: [214, 140, 40], core: [52, 28, 8], rim: [255, 250, 220], halo: [255, 209, 102] };
+function palette(gk) { const o = {}; for (const k in PAL) o[k] = lerp3(PAL[k], PALG[k], gk); return o; }
+const LIGHT = (() => { const L = [-0.45, -0.65, 0.62], l = Math.hypot(...L), Ln = L.map((v) => v / l); const H = [Ln[0], Ln[1], Ln[2] + 1], h = Math.hypot(...H); return { L: Ln, H: H.map((v) => v / h) }; })();
 
-/* ══════════════════════ メタボールの描画器 ══════════════════════
-   場 f = Σ (r²/d²)²。f ≥ 1 が塊（2乗して遠くへ届かないようにした＝離れたかけらが塊とつながったままにならない）。
-   陰影は場の勾配から法線を作って光を当てる。 */
-class Goo {
-  constructor(canvas, mode) {
-    this.cv = canvas; this.ctx = canvas.getContext('2d'); this.mode = mode;
-    this.N = 0; this.off = document.createElement('canvas'); this.octx = this.off.getContext('2d');
-    this.gold = 0; this.hot = 0;
-    const L = [-0.45, -0.65, 0.62], l = Math.hypot(...L); this.L = L.map((v) => v / l);
-    const H = [this.L[0], this.L[1], this.L[2] + 1], h = Math.hypot(...H); this.H = H.map((v) => v / h);
-    this.resize();
+/* ══════════════════════ ① WebGL ══════════════════════
+   場 f = Σ (r²/d²)² と、その勾配を解析的に出す（差分で近似しない＝法線がなめらか）。
+   縁までの距離 ≒ (f−1)/|∇f| を画素に直して、ちょうど1画素でぼかす。 */
+const MAXB = 48;
+const FRAG = `
+precision highp float;
+uniform vec2 uRes; uniform vec3 uB[${MAXB}]; uniform int uNB;
+uniform vec3 uEdgeT, uEdgeB, uMid, uCore, uRim, uHalo, uL, uH; uniform float uHot; uniform vec2 uC;
+void main() {
+  float ppu = uRes.y / 168.0;
+  vec2 p = vec2(gl_FragCoord.x, uRes.y - gl_FragCoord.y) / ppu;
+  float rho = length(p - vec2(84.0));
+  if (rho > 72.0) { gl_FragColor = vec4(0.0); return; }
+  float f = 0.0; vec2 g = vec2(0.0);
+  for (int k = 0; k < ${MAXB}; k++) {
+    if (k >= uNB) break;
+    vec2 d = p - uB[k].xy; float den = dot(d, d) + 0.4; float q = uB[k].z / den;
+    f += q * q; g += -4.0 * q * q * d / den;
   }
-  // 計算の解像度は画面の画素数に合わせる（以前は 184 マスを拡大していて、縁が階段状に見えた）。
-  // ⚠️ 本番では iPad・スマホの負荷を測ってから上限（ここでは 380）を決めること
+  if (f < 0.4) { gl_FragColor = vec4(0.0); return; }
+  float gl = length(g) + 1e-6;
+  float body = clamp(0.5 + (f - 1.0) / gl * ppu, 0.0, 1.0);
+  float halo = f < 1.0 ? pow((f - 0.4) / 0.6, 3.0) * (0.3 + uHot * 0.25) : 0.0;
+  vec3 edge = mix(uEdgeT, uEdgeB, p.y / 168.0);
+  vec3 haloC = min(uHalo * 1.1, vec3(1.0));
+  float u = sqrt(sqrt(max(f, 1.0)));
+  float tt = smoothstep(0.0, 1.0, (u - 1.0) / 0.9);
+  float t = smoothstep(0.0, 1.0, (u - 1.0) / 0.45);
+  float tilt = 1.0 - t * t * (3.0 - 2.0 * t);
+  vec3 n = vec3(-g / gl * tilt, sqrt(max(0.0, 1.0 - tilt * tilt)));
+  float diff = max(0.0, dot(n, uL));
+  float sp = pow(max(0.0, dot(n, uH)), 30.0);
+  float rim = tilt * tilt * tilt;
+  float dc = smoothstep(0.0, 1.0, (36.0 - length(p - uC)) / 20.0) * 0.9;
+  vec3 c = mix(mix(edge, uMid, tt), uCore, dc);
+  float rimK = rim * 0.75 + pow(max(0.0, -n.x * 0.6 - n.y * 0.8), 2.0) * rim * 0.5;
+  vec3 col = min(c * (0.62 + 0.5 * diff) + uRim * rimK * 0.55 + vec3(sp * 0.92), vec3(1.0));
+  float mask = clamp((71.0 - rho) * ppu, 0.0, 1.0);
+  float a = max(halo, body * 0.97) * mask;
+  gl_FragColor = vec4(mix(haloC, col, body) * a, a);
+}`;
+class GLGoo {
+  constructor(canvas) {
+    this.cv = canvas; this.gold = 0; this.hot = 0; this.ok = false;
+    const gl = this.gl = canvas.getContext('webgl', { premultipliedAlpha: true, antialias: false, alpha: true });
+    if (!gl) return;
+    const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; };
+    const pr = this.pr = gl.createProgram();
+    gl.attachShader(pr, sh(gl.VERTEX_SHADER, 'attribute vec2 a; void main(){ gl_Position = vec4(a, 0.0, 1.0); }'));
+    gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FRAG));
+    gl.linkProgram(pr); gl.useProgram(pr);
+    const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(pr, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    this.u = {}; for (const n of ['uRes', 'uB', 'uNB', 'uEdgeT', 'uEdgeB', 'uMid', 'uCore', 'uRim', 'uHalo', 'uL', 'uH', 'uHot', 'uC']) this.u[n] = gl.getUniformLocation(pr, n);
+    gl.uniform3fv(this.u.uL, LIGHT.L); gl.uniform3fv(this.u.uH, LIGHT.H);
+    this.balls = new Float32Array(MAXB * 3);
+    canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); this.ok = false; });
+    this.ok = true; this.resize();
+  }
+  resize() {
+    const r = this.cv.getBoundingClientRect(), d = Math.min(2, window.devicePixelRatio || 1);
+    this.cv.width = Math.max(1, Math.round(r.width * d)); this.cv.height = Math.max(1, Math.round(r.height * d));
+    if (this.gl) this.gl.viewport(0, 0, this.cv.width, this.cv.height);
+  }
+  render(B, cx, cy) {
+    if (!this.ok) return;
+    const gl = this.gl, u = this.u, n = Math.min(MAXB, B.length / 3), P = palette(this.gold);
+    this.balls.fill(0); this.balls.set(B.slice(0, n * 3));
+    gl.uniform2f(u.uRes, this.cv.width, this.cv.height);
+    gl.uniform3fv(u.uB, this.balls); gl.uniform1i(u.uNB, n);
+    for (const [k, nm] of [['edgeT', 'uEdgeT'], ['edgeB', 'uEdgeB'], ['mid', 'uMid'], ['core', 'uCore'], ['rim', 'uRim'], ['halo', 'uHalo']]) gl.uniform3f(u[nm], P[k][0] / 255, P[k][1] / 255, P[k][2] / 255);
+    gl.uniform1f(u.uHot, this.hot); gl.uniform2f(u.uC, cx, cy);
+    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+}
+
+/* ══════════════════════ ② 輪郭を線で描く ══════════════════════
+   1.5 単位の格子で場を計算し、マーチングスクエアで f=1 の等高線を拾う。点をつないで閉じた輪にし、
+   Catmull-Rom の曲線でなめらかにして canvas のパスで塗る（どの大きさでも縁が鋭くなめらか）。
+   塗りは塊の中心からの放射グラデーション（中心＝藍 → バイオレット → 縁＝マゼンタ）。縁の照り・光沢・にじみはパスで描き足す。 */
+const CG = 1.5, CM = Math.round(168 / CG) + 1;
+const MS = { 1: [[3, 2]], 2: [[2, 1]], 3: [[3, 1]], 4: [[0, 1]], 6: [[0, 2]], 7: [[3, 0]], 8: [[3, 0]], 9: [[0, 2]], 11: [[0, 1]], 12: [[3, 1]], 13: [[2, 1]], 14: [[3, 2]] };
+class PathGoo {
+  constructor(canvas) { this.cv = canvas; this.ctx = canvas.getContext('2d'); this.gold = 0; this.hot = 0; this.F = new Float32Array(CM * CM); this.resize(); }
+  resize() {
+    const r = this.cv.getBoundingClientRect(), d = Math.min(2, window.devicePixelRatio || 1);
+    this.cv.width = Math.max(1, Math.round(r.width * d)); this.cv.height = Math.max(1, Math.round(r.height * d));
+  }
+  loops(B) {
+    const F = this.F, nb = B.length;
+    for (let j = 0; j < CM; j++) for (let i = 0; i < CM; i++) {
+      const x = i * CG, y = j * CG; let v = 0;
+      for (let k = 0; k < nb; k += 3) { const dx = x - B[k], dy = y - B[k + 1], q = B[k + 2] / (dx * dx + dy * dy + 0.4); v += q * q; }
+      F[j * CM + i] = v;
+    }
+    const pt = new Map(), adj = new Map();
+    const ep = (i, j, e) => {   // 辺の番号（上0・右1・下2・左3）→ 点の鍵と位置
+      let a, b, key;
+      if (e === 0) { a = [i, j]; b = [i + 1, j]; key = (j * CM + i) * 2; }
+      else if (e === 2) { a = [i, j + 1]; b = [i + 1, j + 1]; key = ((j + 1) * CM + i) * 2; }
+      else if (e === 3) { a = [i, j]; b = [i, j + 1]; key = (j * CM + i) * 2 + 1; }
+      else { a = [i + 1, j]; b = [i + 1, j + 1]; key = (j * CM + i + 1) * 2 + 1; }
+      if (!pt.has(key)) {
+        const va = F[a[1] * CM + a[0]], vb = F[b[1] * CM + b[0]], k = clamp((1 - va) / (vb - va), 0, 1);
+        pt.set(key, [lerp(a[0], b[0], k) * CG, lerp(a[1], b[1], k) * CG]);
+      }
+      return key;
+    };
+    const link = (p, q) => { (adj.get(p) || adj.set(p, []).get(p)).push(q); (adj.get(q) || adj.set(q, []).get(q)).push(p); };
+    for (let j = 0; j < CM - 1; j++) for (let i = 0; i < CM - 1; i++) {
+      const v0 = F[j * CM + i], v1 = F[j * CM + i + 1], v2 = F[(j + 1) * CM + i + 1], v3 = F[(j + 1) * CM + i];
+      const c = (v0 >= 1 ? 8 : 0) | (v1 >= 1 ? 4 : 0) | (v2 >= 1 ? 2 : 0) | (v3 >= 1 ? 1 : 0);
+      if (c === 0 || c === 15) continue;
+      let segs = MS[c];
+      if (c === 5 || c === 10) {   // 鞍点：中心の値でつなぎ方を決める
+        const mid = (v0 + v1 + v2 + v3) / 4 >= 1;
+        segs = (c === 5) === mid ? [[3, 0], [2, 1]] : [[3, 2], [0, 1]];
+      }
+      for (const [e1, e2] of segs) link(ep(i, j, e1), ep(i, j, e2));
+    }
+    const seen = new Set(), out = [];
+    for (const start of adj.keys()) {
+      if (seen.has(start)) continue;
+      const loop = []; let prev = -1, cur = start;
+      while (cur != null && !seen.has(cur)) {
+        seen.add(cur); loop.push(pt.get(cur));
+        const nb2 = adj.get(cur); const nx = nb2[0] !== prev ? nb2[0] : nb2[1];
+        prev = cur; cur = nx;
+      }
+      if (loop.length >= 4) out.push(loop);
+    }
+    return out;
+  }
+  render(B, cx, cy, heads) {
+    const c = this.ctx, W = this.cv.width, s = W / 168, P = palette(this.gold);
+    c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, W, this.cv.height);
+    c.setTransform(s, 0, 0, s, 0, 0);
+    const path = new Path2D();
+    for (const L of this.loops(B)) {
+      const n = L.length;
+      path.moveTo(L[0][0], L[0][1]);
+      for (let i = 0; i < n; i++) {
+        const p0 = L[(i - 1 + n) % n], p1 = L[i], p2 = L[(i + 1) % n], p3 = L[(i + 2) % n];
+        path.bezierCurveTo(p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6, p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6, p2[0], p2[1]);
+      }
+      path.closePath();
+    }
+    const gr = c.createRadialGradient(cx, cy, 0, cx, cy, 64);
+    gr.addColorStop(0, rgba(P.core, 1)); gr.addColorStop(0.3, rgba(P.core, 1)); gr.addColorStop(0.5, rgba(P.mid, 1));
+    gr.addColorStop(0.64, rgba(P.edgeB, 1)); gr.addColorStop(1, rgba(P.edgeT, 1));
+    // にじみ（外の光）と塗り
+    c.save(); c.shadowColor = rgba(P.halo, 0.5 + this.hot * 0.25); c.shadowBlur = 10 * s; c.fillStyle = gr; c.fill(path); c.restore();
+    c.save(); c.clip(path);
+    // 縁の照り（内側にだけ）：太く淡いシアン＋細く明るい線
+    c.lineJoin = 'round';
+    c.strokeStyle = rgba(P.rim, 0.14); c.lineWidth = 9; c.stroke(path);
+    c.strokeStyle = rgba(P.rim, 0.45); c.lineWidth = 2.6; c.stroke(path);
+    c.strokeStyle = rgba(P.edgeT, 0.55); c.lineWidth = 1.2; c.stroke(path);
+    // 光沢：塊とかけらの左上に白い照り
+    for (const [x, y, r] of heads) {
+      const hx = x - r * 0.32, hy = y - r * 0.42, hg = c.createRadialGradient(hx, hy, 0, hx, hy, r * 0.55);
+      hg.addColorStop(0, 'rgba(255,255,255,.55)'); hg.addColorStop(1, 'rgba(255,255,255,0)');
+      c.fillStyle = hg; c.fillRect(hx - r, hy - r, r * 2, r * 2);
+    }
+    c.restore();
+  }
+}
+
+/* ══════════════════════ ③ 今の版（1画素ずつ JavaScript で計算） ══════════════════════ */
+class CpuGoo {
+  constructor(canvas) {
+    this.cv = canvas; this.ctx = canvas.getContext('2d');
+    this.N = 0; this.off = document.createElement('canvas'); this.octx = this.off.getContext('2d');
+    this.gold = 0; this.hot = 0; this.resize();
+  }
   resize() {
     const r = this.cv.getBoundingClientRect(), d = Math.min(2, window.devicePixelRatio || 1);
     this.cv.width = Math.max(1, Math.round(r.width * d)); this.cv.height = Math.max(1, Math.round(r.height * d));
@@ -175,9 +328,9 @@ class Goo {
     this.off.width = this.off.height = N; this.img = this.octx.createImageData(N, N);
     this.f = new Float32Array(N * N); this.mask = new Uint8Array(N * N);
     for (let py = 0; py < N; py++) for (let px = 0; px < N; px++)
-      this.mask[py * N + px] = Math.hypot((px + 0.5) * this.s - 84, (py + 0.5) * this.s - 84) < 71 ? 1 : 0;   // 弧の内側だけ
+      this.mask[py * N + px] = Math.hypot((px + 0.5) * this.s - 84, (py + 0.5) * this.s - 84) < 71 ? 1 : 0;
   }
-  render(B, cx = 84, cy = 84) {   // B = [x, y, r², …]・cx,cy＝塊の中心（数字の下だけ芯を暗くする）
+  render(B, cx, cy) {
     const N = this.N, s = this.s, f = this.f, mask = this.mask, nb = B.length;
     for (let py = 0; py < N; py++) {
       const y = (py + 0.5) * s;
@@ -189,16 +342,9 @@ class Goo {
         f[i] = v;
       }
     }
-    const D = this.img.data, gk = this.gold, Lg = this.L, Hh = this.H, hot = this.hot, liquid = this.mode === 'liquid';
-    const P = liquid ? PAL.liquid : PAL.old, G = liquid ? PAL.liquidGold : PAL.oldGold;
-    const rimC = lerp3(P.rim, G.rim, gk);
+    const D = this.img.data, P = palette(this.gold), Lg = LIGHT.L, Hh = LIGHT.H, hot = this.hot;
     for (let py = 0; py < N; py++) {
-      const ty = py / (N - 1);
-      // 縁の色（liquid は上ほど桃・下ほど濃いマゼンタ）／ old は縦のグラデーション
-      const edge = liquid ? lerp3(lerp3(P.edgeT, P.edgeB, ty), lerp3(G.edgeT, G.edgeB, ty), gk)
-                          : lerp3(lerp3(P.top, P.bot, ty), lerp3(G.top, G.bot, ty), gk);
-      const mid = liquid ? lerp3(P.mid, G.mid, gk) : null, core = liquid ? lerp3(P.core, G.core, gk) : null;
-      const halo0 = liquid ? lerp3(P.halo, G.halo, gk) : edge;
+      const edge = lerp3(P.edgeT, P.edgeB, py / (N - 1)), mid = P.mid, core = P.core, halo0 = P.halo, rimC = P.rim;
       for (let px = 0; px < N; px++) {
         const i = py * N + px, o = i * 4, v = f[i];
         if (v < 0.4) { D[o + 3] = 0; continue; }
@@ -206,30 +352,19 @@ class Goo {
         const gx = (px < N - 1 ? f[i + 1] : v) - (px > 0 ? f[i - 1] : v);
         const gy = (py < N - 1 ? f[i + N] : v) - (py > 0 ? f[i - N] : v);
         const g = Math.hypot(gx, gy) + 1e-6;
-        // 縁（v=1）までの距離をおよそ (v-1)/(1画素あたりの勾配) で見積もり、ちょうど1画素でぼかす＝ギザつかない
         const body = clamp(0.5 + (v - 1) / (g * 0.5), 0, 1);
         if (body <= 0) { D[o] = Math.min(255, halo0[0] * 1.1); D[o + 1] = Math.min(255, halo0[1] * 1.1); D[o + 2] = Math.min(255, halo0[2] * 1.1); D[o + 3] = halo * 255; continue; }
-        // 面の傾きは場の4乗根（球なら r/d）で測る＝縁の照りが細い線にならず、なだらかに回り込む
-        const u4 = Math.sqrt(Math.sqrt(Math.max(v, 1))), t = liquid ? soft((u4 - 1) / 0.45) : clamp((v - 1) / 1.6, 0, 1), tilt = 1 - t * t * (3 - 2 * t);
+        const u4 = Math.sqrt(Math.sqrt(Math.max(v, 1))), t = soft((u4 - 1) / 0.45), tilt = 1 - t * t * (3 - 2 * t);
         const nx = -gx / g * tilt, ny = -gy / g * tilt, nz = Math.sqrt(Math.max(0, 1 - tilt * tilt));
         const diff = Math.max(0, nx * Lg[0] + ny * Lg[1] + nz * Lg[2]);
         const sp = Math.pow(Math.max(0, nx * Hh[0] + ny * Hh[1] + nz * Hh[2]), 30);
         const rim = Math.pow(tilt, 3);
-        let cr, cg, cb;
-        if (liquid) {
-          // 深さで色を決める（縁→バイオレット→藍）。暗くするのは色を藍へ寄せることで行い、赤茶に沈めない
-          // 縁からの深さ（u＝場の4乗根＝球なら r/d）でマゼンタ→バイオレット。芯の藍は塊の中心のまわり（数字の下）だけに掛ける
-          //   ＝かけらは中までジェルの色で、中空の泡に見えない
-          const u = Math.sqrt(Math.sqrt(v)), tt = soft((u - 1) / 0.9);
-          const dc = soft((36 - Math.hypot((px + 0.5) * s - cx, (py + 0.5) * s - cy)) / 20) * 0.9;
-          const c = lerp3(lerp3(edge, mid, tt), core, dc);
-          const sh = 0.62 + 0.5 * diff;
-          const rimK = rim * 0.75 + Math.pow(Math.max(0, -nx * 0.6 - ny * 0.8), 2) * rim * 0.5;   // 右下からのシアンの照り返し
-          cr = c[0] * sh + rimC[0] * rimK * 0.55 + sp * 235; cg = c[1] * sh + rimC[1] * rimK * 0.55 + sp * 235; cb = c[2] * sh + rimC[2] * rimK * 0.55 + sp * 235;
-        } else {
-          const shade = (0.42 + 0.7 * diff + gk * 0.12) * (1 - P.dark * t);
-          cr = edge[0] * shade + rimC[0] * rim * 0.5 + sp * 210; cg = edge[1] * shade + rimC[1] * rim * 0.5 + sp * 210; cb = edge[2] * shade + rimC[2] * rim * 0.5 + sp * 210;
-        }
+        const tt = soft((u4 - 1) / 0.9);
+        const dc = soft((36 - Math.hypot((px + 0.5) * s - cx, (py + 0.5) * s - cy)) / 20) * 0.9;
+        const c = lerp3(lerp3(edge, mid, tt), core, dc);
+        const sh = 0.62 + 0.5 * diff;
+        const rimK = rim * 0.75 + Math.pow(Math.max(0, -nx * 0.6 - ny * 0.8), 2) * rim * 0.5;
+        const cr = c[0] * sh + rimC[0] * rimK * 0.55 + sp * 235, cg = c[1] * sh + rimC[1] * rimK * 0.55 + sp * 235, cb = c[2] * sh + rimC[2] * rimK * 0.55 + sp * 235;
         D[o] = Math.min(255, lerp(halo0[0] * 1.1, cr, body)); D[o + 1] = Math.min(255, lerp(halo0[1] * 1.1, cg, body)); D[o + 2] = Math.min(255, lerp(halo0[2] * 1.1, cb, body));
         D[o + 3] = 255 * Math.max(halo, body * 0.97);
       }
@@ -241,18 +376,12 @@ class Goo {
   }
 }
 
-/* ══════════════════════ 設定（調整後／前回） ══════════════════════ */
-const CFG_NEW = {
-  mode: 'liquid', core0: 28, E: 41, wobD: 17, wobA: 5, wobR: 20,
+/* ══════════════════════ 設定 ══════════════════════ */
+const CFG = {
+  core0: 28, E: 41, wobD: 17, wobA: 5, wobR: 20,
   bud: 4.2, tOut: 5.6, tBack: 4.6, melt: 3.2, hold: [7, 12], rT: [6, 8], out: [54, 60],
-  swim: true, cap: (v) => Math.min(5, 1 + Math.floor(Math.min(100, v) / 25)),
+  cap: (v) => Math.min(5, 1 + Math.floor(Math.min(100, v) / 25)),   // 見えるかけらは 0%で1つ → 25%ごとに1つ → 100%以上で5つ
   rate: (heat) => 0.08 + heat * 0.13
-};
-const CFG_OLD = {
-  mode: 'old', core0: 27, E: 36, wobD: 12, wobA: 3.4, wobR: 17,
-  bud: 2.4, tOut: 3.4, tBack: 3.4, melt: 2.4, hold: [4, 8], rT: [6.5, 8.5], out: [54, 58],
-  swim: false, cap: (v, heat) => 1 + Math.floor(Math.min(1.25, heat) * 1.7),
-  rate: (heat) => 0.1 + heat * 0.16
 };
 
 /* ══════════════════════ 中央の塊 ══════════════════════
@@ -283,7 +412,7 @@ class Blob {
       if (l.st === 'bud') {
         const k = ease(l.t / C.bud);
         [l.x, l.y] = this.P(E - 6 + l.rT * 0.95 * k, l.a0); l.r = l.rT * k;
-        if (l.t >= C.bud) { l.st = 'out'; l.t = 0; l.sx = l.x; l.sy = l.y; [l.tx, l.ty] = this.P(l.rmid, l.a0 + l.dir * (C.swim ? 0.25 : 0)); l.tl = { x: l.x, y: l.y, r: l.rT * 0.84, on: 1 }; }
+        if (l.t >= C.bud) { l.st = 'out'; l.t = 0; l.sx = l.x; l.sy = l.y; [l.tx, l.ty] = this.P(l.rmid, l.a0 + l.dir * 0.25); l.tl = { x: l.x, y: l.y, r: l.rT * 0.84, on: 1 }; }
       } else if (l.st === 'out') {
         const k = ease(l.t / C.tOut);
         l.x = lerp(l.sx, l.tx, k); l.y = lerp(l.sy, l.ty, k);
@@ -294,18 +423,13 @@ class Blob {
         }
         if (l.t >= C.tOut) { l.st = 'float'; l.t = 0; l.a = Math.atan2(l.x - this.cx, this.cy - l.y); l.fr = Math.hypot(l.x - this.cx, l.y - this.cy); }
       } else if (l.st === 'float') {
-        if (C.swim) {
-          // 塊のまわりを曲がりくねって泳ぐ：回る速さも半径も、それぞれの揺れで変わり続ける
-          const w = l.dir * (l.spd + 0.12 * Math.sin(l.t * 0.55 + l.s)) + 0.08 * Math.sin(l.t * 1.1 + l.s2);
-          l.a += w * dt;
-          const want = l.rmid + 4 * Math.sin(l.t * 0.6 + l.s) + 2 * Math.sin(l.t * 1.3 + l.s2);
-          l.fr += (clamp(want, 52, 62) - l.fr) * Math.min(1, dt * 1.2);
-          [l.x, l.y] = this.P(l.fr, l.a);
-        } else {
-          l.a +=(l.drift ?? (l.drift = (this.R() * 2 - 1) * 0.06)) * dt;
-          const rr = l.fr + Math.sin(l.t * 0.5 + l.s) * 1.3; [l.x, l.y] = this.P(rr, l.a);
-        }
-        if (l.t >= l.hold) { l.st = 'back'; l.t = 0; l.sx = l.x; l.sy = l.y; l.a1 = wrap(Math.atan2(l.x - this.cx, this.cy - l.y) + (C.swim ? l.dir * 0.2 : 0)); }
+        // 塊のまわりを曲がりくねって泳ぐ：回る速さも半径も、それぞれの揺れで変わり続ける
+        const w = l.dir * (l.spd + 0.12 * Math.sin(l.t * 0.55 + l.s)) + 0.08 * Math.sin(l.t * 1.1 + l.s2);
+        l.a += w * dt;
+        const want = l.rmid + 4 * Math.sin(l.t * 0.6 + l.s) + 2 * Math.sin(l.t * 1.3 + l.s2);
+        l.fr += (clamp(want, 52, 62) - l.fr) * Math.min(1, dt * 1.2);
+        [l.x, l.y] = this.P(l.fr, l.a);
+        if (l.t >= l.hold) { l.st = 'back'; l.t = 0; l.sx = l.x; l.sy = l.y; l.a1 = wrap(Math.atan2(l.x - this.cx, this.cy - l.y) + l.dir * 0.2); }
       } else if (l.st === 'back') {
         const [ex, ey] = this.P(E + l.rT * 0.25, l.a1), k = ease(l.t / C.tBack);
         l.x = lerp(l.sx, ex, k); l.y = lerp(l.sy, ey, k);
@@ -317,7 +441,7 @@ class Blob {
         if (l.t >= C.melt) l.st = 'gone';
       }
       // 動く向きへ少し伸びる（泳いでいる間だけ・後ろに小さな球を引く）
-      if (C.swim && px != null && dt > 0) {
+      if (px != null && dt > 0) {
         const vx = (l.x - px) / dt, vy = (l.y - py) / dt, sp = Math.hypot(vx, vy);
         const k = clamp(sp / 9, 0, 1) * (l.st === 'float' || l.st === 'back' ? 1 : 0);
         l.trail = k > 0.05 ? { x: l.x - vx / sp * l.rT * 0.6 * k, y: l.y - vy / sp * l.rT * 0.6 * k, r: l.r * 0.7 } : null;
@@ -347,18 +471,23 @@ class Blob {
       if (l.bulge > 0.2 && l.st === 'melt') { const [bx, by] = this.P(this.E - 3, l.a1); S.push(bx, by, l.bulge * l.bulge); }
     }
   }
+  heads() {   // ② の光沢を置く場所（塊とかけらの頭）
+    const h = [[this.cx, this.cy, this.E * 0.95]];
+    for (const l of this.lobes) if (l.st !== 'gone' && l.r > 1.5) h.push([l.x, l.y, l.r]);
+    return h;
+  }
 }
 
 /* ══════════════════════ ゲージ（A. ひとかけらずつ） ══════════════════════ */
-function makeGauge(key, name, tag, how, C, seed, old) {
+function makeGauge(key, name, tag, Rend) {
   return {
-    key, name, tag, how, C, old,
-    init() { this.blob = new Blob(seed, C); this.cd = 0.8; this.queue = []; },
-    // ちぎれ始めるのは一度に1つだけ（ふくらむ〜糸が切れるまでの間は次を出さない）。old は前回のまま
-    tearing() { return !old && this.blob.lobes.some((l) => l.st === 'bud' || l.st === 'out'); },
+    key, name, tag, Rend,
+    init() { this.blob = new Blob(11, CFG); this.cd = 0.8; this.queue = []; this.ms = 0; },
+    // ちぎれ始めるのは一度に1つだけ（ふくらむ〜糸が切れるまでの間は次を出さない）
+    tearing() { return this.blob.lobes.some((l) => l.st === 'bud' || l.st === 'out'); },
     lobe(a0, o = {}) { if (this.blob.count() >= this.cap() || this.tearing()) return false; this.blob.add(Object.assign({ a0 }, o)); return true; },
-    cap() { return C.cap(this.v, this.heat); },
-    tick(dt) {
+    cap() { return CFG.cap(this.v); },
+    tick(dt, draw) {
       const tgt = this.v > 100 ? 1.25 : 0.15 + 0.85 * Math.min(1, this.v / 100);
       this.heat += (tgt - this.heat) * Math.min(1, dt * 0.8);
       this.goo.gold += ((this.v > 100 ? 1 : 0) - this.goo.gold) * Math.min(1, dt * 0.9);
@@ -369,59 +498,50 @@ function makeGauge(key, name, tag, how, C, seed, old) {
         if (this.blob.count() >= this.cap()) this.queue.length = 0;
         else if (this.lobe(q.a0, q.o)) { this.queue.shift(); if (q.glow) spawn(this.fxl, q.glow, 2800); }
       } else {
-        this.cd -= dt * C.rate(this.heat);
+        this.cd -= dt * CFG.rate(this.heat);
         if (this.cd <= 0) { this.lobe(R() * TAU); this.cd = 1 + R() * 1.4; }
       }
       this.blob.step(dt, this.heat);
-      const S = []; this.blob.sources(S); this.goo.render(S, this.blob.cx, this.blob.cy);
+      if (draw) {
+        const t0 = performance.now();
+        const S = []; this.blob.sources(S); this.goo.render(S, this.blob.cx, this.blob.cy, this.blob.heads());
+        if (this.goo.gl) this.goo.gl.finish();   // GPU の仕事も時間に含める
+        this.ms = this.ms * 0.9 + (performance.now() - t0) * 0.1;
+      }
       const n = this.blob.count();
-      if (n !== this.lastN) { this.lastN = n; this.cntEl.textContent = `見えているかけら ${n} ／ 上限 ${this.cap()}`; }
+      this.cntEl.textContent = `見えているかけら ${n} ／ 上限 ${this.cap()}　・　描画 ${draw ? this.ms.toFixed(1) + ' ms' : '停止中'}`;
     },
-    stage(m) {
-      const a = m / 100 * TAU;
-      if (old) { if (this.lobe(a, { rT: C.rT[1] + 1.5, hold: 4 })) spawn(this.fxl, GLOW(...polar(58, a)), 2800); return; }
-      this.queue.push({ a0: a, o: { rT: C.rT[1] + 1.5, hold: 6 }, glow: GLOW(...polar(58, a)) });
-    },
-    bloom() {
-      spawn(this.fxl, GLOW(84, 84, 46, 400), 3000);
-      if (old) { for (const q of [0, 0.25, 0.5, 0.75]) this.lobe(q * TAU, { hold: 5 }); return; }
-      // 100%：上下左右へ1つずつ順にちぎれる（上限5つの内側で）
-      this.queue = [0, 0.25, 0.5, 0.75].map((q) => ({ a0: q * TAU, o: { hold: 9 } }));
-    }
+    stage(m) { const a = m / 100 * TAU; this.queue.push({ a0: a, o: { rT: CFG.rT[1] + 1.5, hold: 6 }, glow: GLOW(...polar(58, a)) }); },
+    bloom() { spawn(this.fxl, GLOW(84, 84, 46, 400), 3000); this.queue = [0, 0.25, 0.5, 0.75].map((q) => ({ a0: q * TAU, o: { hold: 9 } })); }
   };
 }
-const HOW_NEW = [['常時', '塊が揺れながら、縁の一点がゆっくりふくらみ（約4秒）、糸を引いて外へ離れる（約6秒）。ちぎれ始めるのは一度に1つだけ。離れたかけらは塊のまわりを曲がりくねって泳ぎ（7〜12秒）、少し先で塊へ戻って溶け込む'],
-  ['進むとき', '外周の弧が伸び、ちぎれる間隔が短くなる。見えているかけらの上限が 0%で1つ → 25%ごとに1つ増え → 100%以上で5つ'],
-  ['25・50・75%', 'その目盛りの方向へ大きめのかけらが1つちぎれる（前のかけらが離れ終わるのを待ってから・上限の内側で）'],
-  ['100%', '上下左右へ1つずつ順にちぎれる（ちぎれ始めるのは一度に1つ・合計5つを越えない数だけ）'],
-  ['100%超', '塊とかけらが金に変わる。外周に金の2周目']];
-const HOW_OLD = [['常時', '縁の一点がふくらみ（約2.4秒）、ひとかけらが離れ（約3.4秒）、4〜8秒漂って横へ流れ、塊へ戻る'],
-  ['進むとき', '同時に離れるかけらは 0%で1つ・100%で2つ・超過で3つ'],
-  ['25・50・75%', 'その目盛りの方向へ大きなかけらが1つちぎれる'],
-  ['100%', '上下左右の4方向へ同時にちぎれる'],
-  ['100%超', '塊が金に変わる']];
 const GAUGES = [
-  makeGauge('A', '調整後', '採用された「ひとかけらずつ」に ①〜⑥ の調整を入れたもの', HOW_NEW, CFG_NEW, 11, false),
-  makeGauge('A', '前回（比較用）', '第3版の「ひとかけらずつ」そのまま', HOW_OLD, CFG_OLD, 11, true)
+  makeGauge('①', 'WebGL（GPU で画素ごとに描く）', 'GPU のシェーダが画面の画素ごとに直接計算する。縁は場の勾配から1画素ぶんだけぼかす。拡大しないので縁が最も滑らかで、GPU なので iPad でも速い見込み', GLGoo),
+  makeGauge('②', '輪郭を線で描く', '塊の輪郭を曲線にして canvas のベクター描画で塗る。縁はどの大きさでも鋭く滑らかで、計算も軽い。立体感は塗りと照りの重ね塗りで出すので①より平板', PathGoo),
+  makeGauge('③', '今の版（比較用）', 'JavaScript で1画素ずつ計算して画像として貼る。画素数が多いと重い', CpuGoo)
 ];
 
 /* ══════════════════════ 再生器 ══════════════════════ */
 const grid = document.getElementById('grid');
 GAUGES.forEach((g) => {
   const c = document.createElement('section');
-  c.className = 'card' + (g.old ? ' old' : '');
-  c.innerHTML = `<h2>${g.key}. ひとかけらずつ — ${g.name}</h2><div class="tag">${g.tag}</div>
+  c.className = 'card';
+  c.innerHTML = `<h2>${g.key} ${g.name}</h2><div class="tag">${g.tag}</div>
     <div class="stage"><div class="gauge"><div class="gauge-ring">
       <canvas></canvas>
       <svg viewBox="0 0 168 168" aria-hidden="true">${SVG_FG()}</svg>
       <span class="gauge-mid"><span class="pct">0</span><em>%</em></span></div>
-    <p class="gauge-cap">今日の目標</p><p class="gauge-goal"><b class="n">0</b> / 40問</p><div class="cnt"></div></div></div>
-    <dl class="how">${g.how.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl>`;
+    <p class="gauge-cap">今日の目標</p><p class="gauge-goal"><b class="n">0</b> / 40問</p><div class="cnt"></div></div></div>`;
   grid.appendChild(c);
-  g.el = c.querySelector('.gauge'); g.mid = c.querySelector('.gauge-mid'); g.pct = c.querySelector('.pct'); g.n = c.querySelector('.n');
+  g.card = c; g.mid = c.querySelector('.gauge-mid'); g.pct = c.querySelector('.pct'); g.n = c.querySelector('.n');
   g.root = c.querySelector('.gauge-ring'); g.fxl = c.querySelector('.fxl'); g.cntEl = c.querySelector('.cnt');
   g.valEl = c.querySelector('.val'); g.ovfEl = c.querySelector('.ovf');
-  g.goo = new Goo(c.querySelector('canvas'), g.C.mode);
+  const cv = c.querySelector('canvas');
+  try { g.goo = new g.Rend(cv); } catch (e) { console.error(e); g.goo = null; }
+  if (!g.goo || (g.goo.gl !== undefined && !g.goo.ok)) {   // WebGL が使えない環境では ③ に落とす
+    const nc = document.createElement('canvas'); cv.replaceWith(nc); g.goo = new CpuGoo(nc);
+    c.querySelector('.tag').textContent += '（⚠️ この端末では WebGL が使えないため ③ の描き方で表示しています）';
+  }
   g.v = 0; g.heat = 0.15;
   g.init();
   dash(g.valEl, 0); dash(g.ovfEl, 0);
@@ -471,18 +591,26 @@ document.getElementById('bSeq').addEventListener('click', () => {
 document.getElementById('bBloom').addEventListener('click', () => { seq([[90, 1200, 700], [100, 0, 1000]]); });
 document.getElementById('cbBig').addEventListener('change', (e) => { document.body.classList.toggle('big', e.target.checked); GAUGES.forEach((g) => g.goo.resize()); });
 window.addEventListener('resize', () => GAUGES.forEach((g) => g.goo.resize()));
+let run = 'all';
+document.getElementById('selRun').addEventListener('change', (e) => {
+  run = e.target.value;
+  GAUGES.forEach((g, i) => g.card.classList.toggle('paused', run !== 'all' && +run !== i));
+});
 
-// 常時の動き（非表示タブでは rAF が来ない＝そのまま止まる）
-let last = performance.now();
+// 常時の動き（非表示タブでは rAF が来ない＝そのまま止まる）。動きは3つとも同じ dt で進める
+let last = performance.now(), fAcc = 0, fN = 0;
+const fpsEl = document.getElementById('fps');
 function loop(now) {
-  const dt = Math.min(0.05, (now - last) / 1000); last = now;
-  GAUGES.forEach((g) => g.tick(dt));
+  const raw = (now - last) / 1000, dt = Math.min(0.05, raw); last = now;
+  fAcc += raw; fN++;
+  if (fAcc >= 0.5) { fpsEl.textContent = Math.round(fN / fAcc) + ' コマ/秒'; fAcc = 0; fN = 0; }
+  GAUGES.forEach((g, i) => g.tick(dt, run === 'all' || +run === i));
   requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
 // ?v=70&ff=8 はその達成率にして 8 秒ぶん時間を先送りする（ヘッドレスでの検査用）
 const qs = new URLSearchParams(location.search), qv = +qs.get('v'), qff = +qs.get('ff');
-if (qv && qff) { cur = qv; apply(qv); for (let i = 0; i < qff * 60; i++) GAUGES.forEach((g) => g.tick(1 / 60)); }
+if (qv && qff) { cur = qv; apply(qv); for (let i = 0; i < qff * 60; i++) GAUGES.forEach((g) => g.tick(1 / 60, i === qff * 60 - 1)); }
 else if (qv) go(qv, 1500);
 </script>
 </body>
