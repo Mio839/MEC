@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Celestial ゲージ 改善5案</title>
+<!--
+  ハブのヒーローゲージ（Celestial）を「現行ベース」で改善する案を5つ並べるページ（2026-09-29・第2弾）。
+  新しい基準＝現行の絢爛アストロラーベ から ①子午環の菱形4つ（とその明滅）を削除し、
+  ②_work/gauge_celestial_demo.html の D 案「天の川と夏の大三角」から天の川の帯だけ（星の川・暗黒帯・流れの先頭の星）を移植したもの。
+  5案はすべてこの基準の上に「足す」形で作ってある（基準の部品は消さない）。
+  本物の index.js は呼ばず、このページの中だけで再生する（何も保存しない）。テストの対象ではない。
+  ⚠️ 現行の部品は本番と同じ向き（svg を -90° 回した座標）で描いている。天の川と5案の追加部品は rotate(90) で包んで「上が 0%」にそろえてある。
+  ⚠️ 天の川のマスクはカードごとに id を分けている（url(#id) は文書で最初の要素に解決される＝共有すると全カードが1枚目の進捗で切られる）。
+  ⚠️ 移動・回転・拡大は独立プロパティ（rotate / scale）で書いてある（transform は既存アニメに黙って殺される）。
+-->
+<style>
+  :root{--tx:#EDE7FF;--sub:#A9A0CC;--line:rgba(255,209,102,.28);--gw:208px;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{min-height:100vh;padding:16px;color:var(--tx);font-family:-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif;
+    background:radial-gradient(ellipse 95% 65% at 50% -15%,rgba(138,43,226,.55) 0%,transparent 68%),
+               radial-gradient(circle at 82% 24%,rgba(72,202,228,.3) 0%,transparent 56%),
+               radial-gradient(circle at 16% 76%,rgba(255,209,102,.25) 0%,transparent 62%),
+               linear-gradient(180deg,#0A0818 0%,#05040D 100%);background-attachment:fixed;}
+  body.big{--gw:320px;}
+  h1{font-size:17px;margin:0 0 4px;}
+  p.note{font-size:12.5px;color:var(--sub);margin:0 0 12px;line-height:1.65;max-width:980px;}
+  .ctl{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:13px;margin:0 0 14px;
+    padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(14,10,32,.94);max-width:1300px;}
+  .ctl label{white-space:nowrap;display:flex;align-items:center;gap:6px;}
+  .ctl input[type=range]{width:min(320px,70vw);accent-color:#FFD166;}
+  .ctl output{font-variant-numeric:tabular-nums;font-weight:800;color:#FFD166;min-width:3.5em;display:inline-block;}
+  .ctl button{padding:7px 11px;border-radius:10px;border:1.5px solid var(--line);background:#1A1336;color:var(--tx);
+    font-weight:700;font-size:13px;cursor:pointer;}
+  .ctl button:active{background:#2A1E55;}
+  .ctl button.hi{border-color:#FFD166;background:#2A1D52;}
+  input[type=checkbox]{width:18px;height:18px;accent-color:#FFD166;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:14px;max-width:1300px;}
+  .card{background:linear-gradient(160deg,rgba(46,28,96,.55),rgba(14,10,34,.88));border:1px solid var(--line);border-radius:18px;
+    padding:14px 14px 16px;box-shadow:inset 0 1px 0 rgba(255,209,102,.16),0 10px 30px rgba(0,0,0,.35);}
+  .card.cur{border-style:dashed;}
+  .card h2{font-size:15.5px;margin:0 0 2px;color:#FFD166;}
+  .card .tag{font-size:12px;color:var(--sub);line-height:1.5;}
+  .stage{display:flex;justify-content:center;padding:14px 0 6px;}
+  dl.how{font-size:12px;line-height:1.6;margin:8px 0 0;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;}
+  dl.how dt{color:#FFD166;font-weight:700;white-space:nowrap;}
+  dl.how dd{margin:0;color:#DCD4F5;}
+
+  /* ── 本番のゲージの外形（index.css の .gauge / .gauge-mid と同じ組み方） ── */
+  .gauge{position:relative;width:var(--gw);text-align:center;}
+  .gauge-ring{position:relative;}
+  .gauge-ring svg{display:block;width:100%;height:auto;overflow:visible;}
+  .gauge-mid{position:absolute;inset:0;display:grid;grid-auto-flow:column;align-content:center;justify-content:center;align-items:baseline;
+    font-size:calc(var(--gw)*.183);font-weight:800;letter-spacing:-.03em;color:#F6F0FF;font-variant-numeric:tabular-nums;line-height:1;
+    text-shadow:0 0 8px rgba(8,4,24,.95),0 0 2px rgba(8,4,24,.9);pointer-events:none;}
+  .gauge-mid.wide{font-size:calc(var(--gw)*.144);}
+  .gauge-mid em{font-style:normal;font-size:.5em;color:#C9BFEA;margin-left:1px;}
+  .gauge-cap{margin:8px 0 0;font-size:11px;font-weight:700;letter-spacing:.12em;color:#B9AEDD;}
+  .gauge-goal{margin:2px 0 0;font-size:12px;font-weight:700;color:#B9AEDD;}
+  .gauge-goal b{color:#F6F0FF;}
+
+  @keyframes spin{to{rotate:360deg;}}
+  @keyframes tw{from{opacity:.12;}to{opacity:.9;}}
+  @keyframes rip{from{scale:1;opacity:.95;}to{scale:4.2;opacity:0;}}
+  @keyframes flash{from{opacity:.42;}to{opacity:0;}}
+  .ray{stroke:#FFFFFF;stroke-width:1.1;stroke-linecap:round;stroke-dasharray:.35 1.4;stroke-dashoffset:.35;
+    animation:rayRun 1.3s cubic-bezier(.16,1,.3,1) forwards;}
+  @keyframes rayRun{from{stroke-dashoffset:.35;opacity:1;}70%{opacity:1;}to{stroke-dashoffset:-.75;opacity:0;}}
+
+  /* ════════ 基準：天の川（D 案から移植・半径だけ現行の子午環の内側へ合わせた） ════════ */
+  .mw-band0{fill:none;stroke:rgba(190,180,255,.07);stroke-width:13;}
+  .mw-lit{opacity:.9;transform-origin:84px 84px;}
+  .mw-neb{fill:none;stroke:url(#mwNeb);stroke-width:12;opacity:.32;}
+  .mw-neb2{fill:none;stroke:#FFFFFF;stroke-width:3.2;opacity:.12;}
+  .mw-rift{fill:none;stroke:rgba(4,2,14,.62);stroke-width:1.7;stroke-dasharray:10 4 18 6 5 11 3 8;}
+  .mw-f{fill:none;stroke:#F4F0FF;stroke-linecap:round;}
+  .mw-bs circle{fill:#FFFFFF;animation:tw 1.8s ease-in-out infinite alternate;}
+  .mw-tip{transform-origin:84px 84px;}
+  .mw-tip path{fill:#FFFFFF;}
+  .mw-tip circle{fill:url(#mwStarGlow);}
+
+  /* ════════ 1. 刻みが灯る天球儀 ════════ */
+  .p1-n{stroke:rgba(255,209,102,.18);stroke-width:1.1;stroke-linecap:round;transition:stroke .4s,stroke-width .4s;}
+  .p1-n.on{stroke:#FFE7A3;stroke-width:1.8;}
+  .p1-n.p1-fl{animation:p1Fl 1s ease-out;}
+  @keyframes p1Fl{0%{stroke:#FFFFFF;stroke-width:4;}100%{stroke:#FFE7A3;stroke-width:1.8;}}
+  .gauge[data-over] .p1-n.on{animation:p1Chase 2.4s linear infinite;animation-delay:calc(var(--i) * .2s);}
+  @keyframes p1Chase{0%,100%{stroke:#FFE7A3;}6%{stroke:#FFFFFF;stroke-width:3;}14%{stroke:#FFE7A3;stroke-width:1.8;}}
+  .p1-snap{transform-origin:84px 84px;transition:rotate .9s cubic-bezier(.3,1.7,.5,1);}
+  .p1-snap.long{transition:rotate 1.5s cubic-bezier(.2,.9,.3,1);}
+  .p1-rip{fill:none;stroke:#FFE7A3;stroke-width:1;transform-origin:84px 84px;animation:p1Rip 1s ease-out forwards;}
+  @keyframes p1Rip{from{scale:1;opacity:.9;}to{scale:1.1;opacity:0;}}
+
+  /* ════════ 2. 星の潮汐 ════════ */
+  .p2-wave{fill:none;stroke:#FFFFFF;stroke-width:12;stroke-linecap:round;stroke-dasharray:7 93;opacity:.3;animation:p2Wave 6s linear infinite;}
+  .p2-wave.soft{stroke-width:16;opacity:.12;stroke-dasharray:12 88;}
+  @keyframes p2Wave{to{stroke-dashoffset:-100;}}
+  .gauge[data-over] .p2-wave{animation-duration:3s;}
+  .gauge[data-over] .mw-neb{animation:p2Hue 9s linear infinite;}
+  @keyframes p2Hue{to{filter:hue-rotate(360deg);}}
+  .p2-met{stroke:#FFFFFF;stroke-width:.9;stroke-linecap:round;stroke-dasharray:.3 1.4;stroke-dashoffset:.3;opacity:0;animation:p2Met 9s linear infinite;}
+  @keyframes p2Met{0%{stroke-dashoffset:.3;opacity:1;}9%{stroke-dashoffset:-.8;opacity:1;}10%,100%{opacity:0;}}
+  .mw-lit.p2-surge{animation:p2Surge 1.5s cubic-bezier(.16,1,.3,1);}
+  @keyframes p2Surge{0%{scale:1;opacity:.9;}22%{scale:1.05;opacity:1;}100%{scale:1;opacity:.9;}}
+  .p2-rip{fill:none;stroke:#DCEBFF;stroke-width:1.2;transform-origin:84px 84px;animation:p2Rip 1.3s ease-out forwards;}
+  @keyframes p2Rip{from{scale:1;opacity:.8;}to{scale:.55;opacity:0;}}
+  .p2-loop{fill:none;stroke:#FFFFFF;stroke-width:5;stroke-linecap:round;stroke-dasharray:14 86;animation:p2Loop 1.4s cubic-bezier(.4,0,.2,1) forwards;}
+  @keyframes p2Loop{0%{stroke-dashoffset:0;opacity:1;}85%{opacity:1;}100%{stroke-dashoffset:-100;opacity:0;}}
+
+  /* ════════ 3. 星雲と星の誕生 ════════ */
+  .p3-neb{transform-box:fill-box;transform-origin:center;animation:p3Br 5s ease-in-out infinite alternate;}
+  @keyframes p3Br{from{opacity:.35;scale:.88;}to{opacity:.85;scale:1.12;}}
+  .p3-star{opacity:0;scale:.3;transform-box:fill-box;transform-origin:center;transition:opacity .4s .45s,scale .6s .45s cubic-bezier(.2,1.6,.4,1);}
+  .p3-star.on{opacity:1;scale:1;}
+  .p3-star.on .p3-x{animation:tw 2.2s ease-in-out infinite alternate;}
+  .gauge[data-over] .p3-star.on{animation:p3Pulse 2.6s ease-in-out infinite alternate;}
+  @keyframes p3Pulse{from{scale:1;}to{scale:1.35;}}
+  .p3-x{stroke:#FFFFFF;stroke-width:.7;stroke-linecap:round;}
+  .p3-col{fill:none;stroke:#FFC4EC;stroke-width:.9;transform-box:fill-box;transform-origin:center;animation:p3Col .5s ease-in forwards;}
+  @keyframes p3Col{from{scale:1;opacity:.2;}to{scale:.05;opacity:1;}}
+  .p3-burst{fill:none;stroke:#FFFFFF;stroke-width:1;transform-box:fill-box;transform-origin:center;opacity:0;animation:rip 1s .45s ease-out forwards;}
+  .p3-halo{fill:none;stroke:rgba(255,209,102,.55);stroke-width:.8;stroke-dasharray:2 5;opacity:0;transform-origin:84px 84px;transition:opacity .8s;}
+  .gauge[data-over] .p3-halo{opacity:1;animation:spin 50s linear infinite;}
+  .mw-lit.p3-bloom{animation:p2Surge 1.8s cubic-bezier(.16,1,.3,1);}
+
+  /* ════════ 4. 天球儀が開く ════════ */
+  .p4-s{transform-origin:84px 84px;}
+  .p4-w{transform-origin:84px 84px;}
+  .p4-ring{fill:none;stroke:rgba(255,215,130,.55);stroke-width:1;vector-effect:non-scaling-stroke;}
+  .p4-ring.h{stroke:rgba(150,220,255,.5);}
+  .p4-s.p4-lock .p4-ring{animation:p4Lock 1.1s ease-out;}
+  @keyframes p4Lock{0%{stroke:#FFFFFF;stroke-width:3.4;}100%{stroke-width:1;}}
+  .gauge[data-over] .p4-w{animation:p4Rot 12s linear infinite;}
+  @keyframes p4Rot{0%{scale:1 1;}25%{scale:0 1;}50%{scale:-1 1;}75%{scale:0 1;}100%{scale:1 1;}}
+  .gauge[data-over] .p4-w.h{animation-name:p4RotH;}
+  @keyframes p4RotH{0%{scale:1 1;}25%{scale:1 0;}50%{scale:1 -1;}75%{scale:1 0;}100%{scale:1 1;}}
+  .p4-sph{transform-origin:84px 84px;}
+  .p4-sph.p4-spin{animation:p4Rot 1.6s cubic-bezier(.45,0,.55,1);}
+  .p4-rip{fill:none;stroke:#FFE7A3;stroke-width:.9;transform-origin:84px 84px;animation:p1Rip 1.1s ease-out forwards;}
+
+  /* ════════ 5. 流れ星が天の川へ注ぐ ════════ */
+  .p5-m{stroke-linecap:round;stroke-dasharray:.28 1.5;stroke-dashoffset:.28;animation:p5Run .75s cubic-bezier(.5,0,.9,.6) forwards;}
+  .p5-m.c{stroke:#FFFFFF;stroke-width:1.1;}
+  .p5-m.s{stroke:#FFE7A3;stroke-width:3.2;opacity:.35;}
+  @keyframes p5Run{from{stroke-dashoffset:.28;}to{stroke-dashoffset:-1;}}
+  .p5-hit{fill:url(#mwStarGlow);transform-box:fill-box;transform-origin:center;opacity:0;animation:p5Hit .9s ease-out forwards;}
+  @keyframes p5Hit{0%{opacity:0;scale:.3;}25%{opacity:1;scale:1.6;}100%{opacity:0;scale:1;}}
+  .p5-idle{transform-origin:84px 84px;}
+  .p5-i{stroke:#FFFFFF;stroke-width:.8;stroke-linecap:round;stroke-dasharray:.3 1.4;stroke-dashoffset:.3;opacity:0;animation:p2Met 6s linear infinite;}
+  .gauge[data-over] .p5-i{animation-duration:2.6s;stroke:#FFE7A3;}
+  .mw-lit.p5-surge{animation:p2Surge 1.5s cubic-bezier(.16,1,.3,1);}
+</style>
+</head>
+<body>
+<h1>🌌 Celestial のヒーローゲージ 改善5案（現行ベース）</h1>
+<p class="note">
+  左上が<b>新しい基準</b>です（現行から子午環の菱形4つを削除し、D 案の<b>天の川だけ</b>を移植）。
+  5案はすべてこの基準に<b>足す</b>形で作っています（基準の部品は消していません）。
+  型はそろえてあります：<b>常時の動き</b>／<b>進むとき</b>／<b>25・50・75%の瞬間</b>／<b>100%到達</b>／<b>100%超</b>。
+  段と100%の演出は<b>数字が上がったときだけ</b>出ます（本番と同じ）。案5だけは、上がるたびに流れ星が飛んできます。
+</p>
+<div class="ctl">
+  <label>達成率 <input type="range" id="rg" min="0" max="160" step="1" value="0"> <output id="out">0%</output></label>
+  <button id="bSeq" class="hi">▶ 0→130% を順に</button>
+  <button data-add="10">＋10%</button>
+  <button data-add="5">＋5%（2問）</button>
+  <button data-add="-10">−10%</button>
+  <button id="bBloom">90→100%（到達だけ）</button>
+  <button data-set="130">130%（超過）</button>
+  <button data-set="0">0%へ</button>
+  <label><input type="checkbox" id="cbBig"> 大きく表示</label>
+</div>
+<div class="grid" id="grid"></div>
+
+<!-- 現行の Celestial ゲージ（index.html から写し、菱形4つを除いたもの・生成時に差し込む） -->
+<script type="text/plain" id="curTpl">              <g class="theme-gauge-celestial" id="gaugeCelestialCore">
+                <defs>
+                  <!-- 真鍮ゴールド・メタリックグラデーション -->
+                  <linearGradient id="celAstroGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FFFDF0"></stop>
+                    <stop offset="25%" stop-color="#FFE082"></stop>
+                    <stop offset="60%" stop-color="#FFD166"></stop>
+                    <stop offset="85%" stop-color="#D4AF37"></stop>
+                    <stop offset="100%" stop-color="#996515"></stop>
+                  </linearGradient>
+                  <!-- 蒼光エーテルシアン・グラデーション（黄道進捗アーク用） -->
+                  <linearGradient id="celEtherEclipticGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FFFDF0"></stop>
+                    <stop offset="25%" stop-color="#FFD166"></stop>
+                    <stop offset="65%" stop-color="#00F2FE"></stop>
+                    <stop offset="100%" stop-color="#8A2BE2"></stop>
+                  </linearGradient>
+                  <!-- アメジスト深遠ネビュラ背景 -->
+                  <radialGradient id="celCoreNebulaGrad" cx="50%" cy="50%" r="72%">
+                    <stop offset="0%" stop-color="#240B48" stop-opacity="0.85"></stop>
+                    <stop offset="50%" stop-color="#14062B" stop-opacity="0.9"></stop>
+                    <stop offset="80%" stop-color="#0A031A" stop-opacity="0.96"></stop>
+                    <stop offset="100%" stop-color="#05010E" stop-opacity="0.98"></stop>
+                  </radialGradient>
+                  <!-- 旧互換用グラデーション -->
+                  <linearGradient id="celMoonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FFFDF0"></stop>
+                    <stop offset="45%" stop-color="#FFD166"></stop>
+                    <stop offset="80%" stop-color="#8A2BE2"></stop>
+                    <stop offset="100%" stop-color="#1A0B2E"></stop>
+                  </linearGradient>
+                  <linearGradient id="celCometTailGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="rgba(255,209,102,0)"></stop>
+                    <stop offset="60%" stop-color="rgba(138,43,226,0.6)"></stop>
+                    <stop offset="100%" stop-color="#FFFDF0"></stop>
+                  </linearGradient>
+                  <mask id="celMoonMask">
+                    <rect x="0" y="0" width="168" height="168" fill="#FFF"></rect>
+                    <ellipse id="celMoonShadow" cx="84" cy="84" rx="0" ry="0" fill="#000"></ellipse>
+                  </mask>
+                </defs>
+
+                <!-- 1. 天球プレート地盤（Astral Sphere Base） -->
+                <circle class="cel-astral-plate" cx="84" cy="84" r="74" fill="url(#celCoreNebulaGrad)"></circle>
+
+                <!-- 2. 子午環外枠 ＆ 黄道十二宮精密ノッチ（Meridian Limb & Zodiac Ticks） -->
+                <circle class="cel-meridian-ring" cx="84" cy="84" r="72"></circle>
+                <circle class="cel-meridian-inner" cx="84" cy="84" r="67"></circle>
+                <path class="cel-zodiac-notches" d="M 84,12 L 84,17 M 114,20.1 L 111.5,24.4 M 136.3,42.4 L 132,44.9 M 156,84 L 151,84 M 136.3,125.6 L 132,123.1 M 114,147.9 L 111.5,143.6 M 84,156 L 84,151 M 54,147.9 L 56.5,143.6 M 31.7,125.6 L 36,123.1 M 12,84 L 17,84 M 31.7,42.4 L 36,44.9 M 54,20.1 L 56.5,24.4"></path>
+
+                <!-- 3. 八方位アストロラーベ照準軸（Cardinal & Octant Aspect Axes） -->
+                <path class="cel-aspect-axes" d="M 84,18 L 84,46 M 84,122 L 84,150 M 18,84 L 46,84 M 122,84 L 150,84 M 110.9,57.1 L 127.8,40.2 M 110.9,110.9 L 127.8,127.8 M 57.1,110.9 L 40.2,127.8 M 57.1,57.1 L 40.2,40.2"></path>
+
+                <!-- 4. 第1可動環：赤道儀ジンバル環（Equatorial Gimbal Ring） -->
+                <g class="cel-equatorial-gimbal">
+                  <ellipse class="cel-gimbal-ring" cx="84" cy="84" rx="64" ry="26"></ellipse>
+                  <ellipse class="cel-gimbal-inner" cx="84" cy="84" rx="60" ry="22"></ellipse>
+                </g>
+
+                <!-- 5. アスペクト調和幾何学（Aspect Harmonics Triangle） -->
+                <polygon class="cel-aspect-trine" id="celAspectTrine" points="84,44 118,102 50,102"></polygon>
+
+                <!-- 6. 第2可動環：黄道傾斜環（Ecliptic Zodiac Band）＆ 進捗インジケーター -->
+                <g class="cel-ecliptic-group">
+                  <!-- 黄道軌道ベース -->
+                  <ellipse class="cel-ecliptic-track" cx="84" cy="84" rx="63" ry="23"></ellipse>
+                  <!-- 黄道進捗光弧（0%〜100%） -->
+                  <ellipse class="cel-ecliptic-arc" id="celEclipticArc" cx="84" cy="84" rx="63" ry="23" stroke="url(#celEtherEclipticGrad)"></ellipse>
+                  <!-- 黄道を運行する太陽天体マーカー（Solar Chronos） -->
+                  <g class="cel-sun-chronos" id="celSunChronos">
+                    <polygon class="cel-sun-burst" points="84,54 85.5,58.5 90,60 85.5,61.5 84,66 82.5,61.5 78,60 82.5,58.5"></polygon>
+                    <circle class="cel-sun-core" cx="84" cy="60" r="2.8"></circle>
+                  </g>
+                </g>
+
+                <!-- 7. 第3可動環：透かし彫り天球レテ ＆ 星針（Rete & Star Pointers） -->
+                <g class="cel-rete-group" id="celReteGroup">
+                  <path class="cel-rete-arms" d="M 84,36 C 98,36 122,54 122,84 C 122,108 104,126 84,126 C 64,126 46,108 46,84 C 46,62 66,42 84,42 M 60,60 Q 84,72 108,60 M 60,108 Q 84,96 108,108"></path>
+                  <!-- 4大輝星ノード（Star Pointers） -->
+                  <g class="cel-star-pt sp-north">
+                    <polygon class="sp-spark" points="84,35 85.5,38 88,38 86,40 87,43 84,41 81,43 82,40 80,38 82.5,38"></polygon>
+                    <circle class="sp-core" cx="84" cy="39" r="1.5"></circle>
+                  </g>
+                  <g class="cel-star-pt sp-east">
+                    <polygon class="sp-spark" points="122,81 123.5,84 126,84 124,86 125,89 122,87 119,89 120,86 118,84 120.5,84"></polygon>
+                    <circle class="sp-core" cx="122" cy="85" r="1.5"></circle>
+                  </g>
+                  <g class="cel-star-pt sp-south">
+                    <polygon class="sp-spark" points="84,123 85.5,126 88,126 86,128 87,131 84,129 81,131 82,128 80,126 82.5,126"></polygon>
+                    <circle class="sp-core" cx="84" cy="127" r="1.5"></circle>
+                  </g>
+                  <g class="cel-star-pt sp-west">
+                    <polygon class="sp-spark" points="46,81 47.5,84 50,84 48,86 49,89 46,87 43,89 44,86 42,84 44.5,84"></polygon>
+                    <circle class="sp-core" cx="46" cy="85" r="1.5"></circle>
+                  </g>
+                </g>
+
+                <!-- 互換用hidden要素（外部スクリプト・過去仕様の安全ガード） -->
+                <circle class="cel-moon-base" id="celMoonBase" cx="84" cy="84" r="0" style="display:none"></circle>
+                <circle class="cel-moon-lit" id="celMoonLit" cx="84" cy="84" r="0" style="display:none"></circle>
+                <circle class="cel-moon-halo" id="celMoonHalo" cx="84" cy="84" r="0" style="display:none"></circle>
+                <g class="cel-comet-orbit" id="celCometOrbit" style="display:none">
+                  <path class="cel-comet-tail" d=""></path>
+                  <circle class="cel-comet-head" cx="0" cy="0" r="0"></circle>
+                  <circle class="cel-comet-spark" cx="0" cy="0" r="0"></circle>
+                </g>
+                <circle class="cel-orbit-rim" cx="84" cy="84" r="0" style="display:none"></circle>
+                <circle class="cel-orbit-track" cx="84" cy="84" r="0" style="display:none"></circle>
+                <path id="celStarlink" d="" style="display:none"></path>
+                <g id="celStarsGroup" style="display:none"></g>
+              </g></script>
+<style id="curCss">.theme-gauge-celestial { display: inline; }
+
+/* 1. 天球プレート地盤 */
+.cel-astral-plate {
+  filter: drop-shadow(0 0 16px rgba(138, 43, 226, 0.45));
+}
+
+/* 2. 子午環外枠 ＆ 黄道十二宮精密ノッチ */
+.cel-meridian-ring {
+  fill: none;
+  stroke: url(#celAstroGoldGrad);
+  stroke-width: 1.8;
+  filter: drop-shadow(0 0 6px rgba(255, 209, 102, 0.6)) drop-shadow(0 0 14px rgba(138, 43, 226, 0.4));
+  animation: astroMeridianBreath 3.5s ease-in-out infinite alternate;
+}
+@keyframes astroMeridianBreath {
+  0% { stroke-width: 1.6; opacity: 0.85; }
+  100% { stroke-width: 2.2; opacity: 1; filter: drop-shadow(0 0 10px #FFD166) drop-shadow(0 0 20px rgba(138, 43, 226, 0.6)); }
+}
+
+.cel-meridian-inner {
+  fill: none;
+  stroke: rgba(255, 209, 102, 0.35);
+  stroke-width: 0.8;
+}
+
+.cel-zodiac-notches {
+  fill: none;
+  stroke: #FFD166;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+/* 3. 八方位アストロラーベ照準軸 */
+.cel-aspect-axes {
+  fill: none;
+  stroke: rgba(255, 209, 102, 0.45);
+  stroke-width: 0.9;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 4px rgba(138, 43, 226, 0.5));
+}
+
+/* 4. 第1可動環：赤道儀ジンバル環 */
+.cel-equatorial-gimbal {
+  transform-origin: 84px 84px;
+  animation: astroGimbalDrift 16s ease-in-out infinite alternate;
+}
+@keyframes astroGimbalDrift {
+  0% { transform: rotate(-14deg) scaleY(0.95); }
+  50% { transform: rotate(-8deg) scaleY(1.05); }
+  100% { transform: rotate(-14deg) scaleY(0.95); }
+}
+.cel-gimbal-ring {
+  fill: none;
+  stroke: rgba(255, 209, 102, 0.5);
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 6px rgba(255, 209, 102, 0.3));
+}
+.cel-gimbal-inner {
+  fill: none;
+  stroke: rgba(138, 43, 226, 0.35);
+  stroke-width: 0.8;
+}
+
+/* 5. アスペクト調和幾何学（トライン） */
+.cel-aspect-trine {
+  fill: rgba(138, 43, 226, 0.08);
+  stroke: rgba(72, 202, 228, 0.35);
+  stroke-width: 1;
+  opacity: 0.4;
+  transform-origin: 84px 84px;
+  transition: stroke 0.6s, opacity 0.6s, filter 0.6s;
+}
+.gauge[data-tier="3"] .cel-aspect-trine,
+.gauge[data-tier="4"] .cel-aspect-trine {
+  opacity: 0.75;
+  stroke: #48CAE4;
+  filter: drop-shadow(0 0 6px #48CAE4);
+}
+.gauge[data-tier="5"] .cel-aspect-trine,
+.gauge[data-tier="6"] .cel-aspect-trine {
+  opacity: 0.95;
+  stroke: #FFD166;
+  fill: rgba(255, 209, 102, 0.12);
+  filter: drop-shadow(0 0 10px #FFD166) drop-shadow(0 0 18px #8A2BE2);
+  animation: astroTrinePulse 2.8s ease-in-out infinite alternate;
+}
+@keyframes astroTrinePulse {
+  0% { transform: scale(0.98); opacity: 0.8; }
+  100% { transform: scale(1.03); opacity: 1; }
+}
+
+/* 6. 第2可動環：黄道傾斜環 ＆ 進捗インジケーター */
+.cel-ecliptic-group {
+  transform-origin: 84px 84px;
+  transform: rotate(-32deg);
+}
+.cel-ecliptic-track {
+  fill: none;
+  stroke: rgba(138, 43, 226, 0.4);
+  stroke-width: 2.2;
+}
+.cel-ecliptic-arc {
+  fill: none;
+  stroke-width: 3.4;
+  stroke-linecap: round;
+  stroke-dasharray: 285;
+  stroke-dashoffset: 285;
+  filter: drop-shadow(0 0 8px #FFD166) drop-shadow(0 0 16px #00F2FE) drop-shadow(0 0 24px rgba(138, 43, 226, 0.8));
+  transition: stroke-dashoffset 0.85s cubic-bezier(0.2, 0.9, 0.3, 1), filter 0.5s;
+}
+.gauge[data-tier="5"] .cel-ecliptic-arc,
+.gauge[data-tier="6"] .cel-ecliptic-arc {
+  stroke-width: 4.2;
+  filter: drop-shadow(0 0 12px #FFFDF0) drop-shadow(0 0 24px #FFD166) drop-shadow(0 0 36px #00F2FE);
+}
+
+/* 太陽天体マーカー（Solar Chronos） */
+.cel-sun-chronos {
+  transform-origin: 84px 84px;
+  transition: transform 0.85s cubic-bezier(0.2, 0.9, 0.3, 1);
+  pointer-events: none;
+}
+.cel-sun-burst {
+  fill: #FFFDF0;
+  filter: drop-shadow(0 0 6px #FFFDF0) drop-shadow(0 0 12px #FFD166);
+  animation: astroSunPulse 1.6s ease-in-out infinite alternate;
+}
+.cel-sun-core {
+  fill: #FFD166;
+}
+@keyframes astroSunPulse {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  100% { transform: scale(1.18); opacity: 1; filter: drop-shadow(0 0 10px #FFFDF0) drop-shadow(0 0 20px #FFD166); }
+}
+
+/* 7. 第3可動環：透かし彫り天球レテ ＆ 星針 */
+.cel-rete-group {
+  transform-origin: 84px 84px;
+  animation: astroReteSpin 36s linear infinite;
+  pointer-events: none;
+}
+.gauge[data-tier="3"] .cel-rete-group { animation-duration: 26s; }
+.gauge[data-tier="4"] .cel-rete-group { animation-duration: 18s; }
+.gauge[data-tier="5"] .cel-rete-group,
+.gauge[data-tier="6"] .cel-rete-group { animation-duration: 11s; }
+@keyframes astroReteSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.cel-rete-arms {
+  fill: none;
+  stroke: rgba(255, 209, 102, 0.45);
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 4px rgba(138, 43, 226, 0.4));
+}
+.gauge[data-tier="5"] .cel-rete-arms,
+.gauge[data-tier="6"] .cel-rete-arms {
+  stroke: #FFE082;
+  filter: drop-shadow(0 0 8px #FFD166) drop-shadow(0 0 16px rgba(138, 43, 226, 0.7));
+}
+
+.cel-star-pt .sp-spark {
+  fill: #FFFDF0;
+  filter: drop-shadow(0 0 4px #FFFDF0) drop-shadow(0 0 8px #FFD166);
+}
+.cel-star-pt .sp-core {
+  fill: #00F2FE;
+  filter: drop-shadow(0 0 4px #00F2FE);
+}
+
+</style>
+
+<script>
+'use strict';
+const NS = 'http://www.w3.org/2000/svg';
+const rad = (d) => d * Math.PI / 180;
+const P = (r, d) => [84 + r * Math.sin(rad(d)), 84 - r * Math.cos(rad(d))];   // 0°＝真上・時計回り
+const fx = (n) => +(+n).toFixed(2);
+function rng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+const ARC = (r, cls, extra = '') => `<circle class="${cls}" cx="84" cy="84" r="${r}" pathLength="100" transform="rotate(-90 84 84)" ${extra}/>`;
+function dash(el, v) {
+  v = Math.max(0, Math.min(100, v));
+  el.setAttribute('stroke-dasharray', v.toFixed(2) + ' 100');
+  el.style.visibility = v > 0.05 ? '' : 'hidden';
+}
+function once(n, cls, ms) {
+  if (!n) return;
+  n.classList.remove(cls); void n.getBoundingClientRect(); n.classList.add(cls);
+  clearTimeout(n['_t' + cls]); n['_t' + cls] = setTimeout(() => n.classList.remove(cls), ms);
+}
+function spawn(parent, html, ms) {
+  const g = document.createElementNS(NS, 'g'); g.innerHTML = html; parent.appendChild(g);
+  setTimeout(() => g.remove(), ms); return g;
+}
+function rays(cx, cy, r0, r1, n, cls, rot = 0) {
+  let h = '';
+  for (let i = 0; i < n; i++) {
+    const a = rad(rot + i * 360 / n), s = Math.sin(a), c = -Math.cos(a);
+    h += `<line class="${cls}" pathLength="1" x1="${fx(cx + r0 * s)}" y1="${fx(cy + r0 * c)}" x2="${fx(cx + r1 * s)}" y2="${fx(cy + r1 * c)}"/>`;
+  }
+  return h;
+}
+function flow(el, gap, ms, dir = -1) {
+  return el.animate([{ strokeDashoffset: 0 }, { strokeDashoffset: dir * gap * 12 }], { duration: ms, iterations: Infinity });
+}
+
+/* ══════════════════════ 基準（現行−菱形＋天の川） ══════════════════════ */
+const MW_R = 60.5;   // 子午環の内縁（r=67）と照準軸の内端の間に収まる半径
+const CUR_MARKUP = document.getElementById('curTpl').textContent;
+const PLATE_RE = /(<circle class="cel-astral-plate"[^>]*><\/circle>)/;
+// 天の川の帯。lit＝進捗で切られる側に足す部品、tip＝流れの先頭の星と一緒に回る部品
+function milkyWay(id, lit = '') {
+  const R = rng(21);
+  let bs = '';
+  for (let i = 0; i < 14; i++) { const [x, y] = P(MW_R - 5 + R() * 10, R() * 360); bs += `<circle cx="${fx(x)}" cy="${fx(y)}" r="${(0.45 + R() * 0.55).toFixed(2)}" style="animation-delay:${(-R() * 2).toFixed(2)}s"/>`; }
+  const fl = [[55, 0.8, 5.3, .55], [57.2, 1.0, 7.1, .75], [59.4, 1.3, 3.9, .9], [61.6, 0.9, 6.2, .8], [63.8, 1.2, 8.7, .7], [66, 0.8, 4.6, .5]]
+    .map(([r, w, g, o]) => `<circle class="mw-f" cx="84" cy="84" r="${r}" stroke-width="${w}" stroke-dasharray=".01 ${g}" opacity="${o}" data-g="${g}"/>`).join('');
+  return `<defs>
+      <mask id="${id}"><circle class="mk" cx="84" cy="84" r="${MW_R}" fill="none" stroke="#fff" stroke-width="15" pathLength="100" transform="rotate(-90 84 84)" stroke-dasharray="0 100"/></mask>
+    </defs>
+    <circle class="mw-band0" cx="84" cy="84" r="${MW_R}"/>
+    <g mask="url(#${id})"><g class="mw-lit">
+      <circle class="mw-neb" cx="84" cy="84" r="${MW_R}"/><circle class="mw-neb2" cx="84" cy="84" r="${MW_R}"/>
+      <g transform="rotate(-90 84 84)">${fl}</g>
+      <circle class="mw-rift" cx="84" cy="84" r="${MW_R - 0.7}"/>
+      <g class="mw-bs">${bs}</g>
+      ${lit}
+    </g></g>
+    <g class="mw-tip"><circle cx="84" cy="${84 - MW_R}" r="7"/><path d="M 84,${fx(84 - MW_R - 5.5)} L 85,${fx(84 - MW_R - 1)} L 89.5,${fx(84 - MW_R)} L 85,${fx(84 - MW_R + 1)} L 84,${fx(84 - MW_R + 5.5)} L 83,${fx(84 - MW_R + 1)} L 78.5,${fx(84 - MW_R)} L 83,${fx(84 - MW_R - 1)} Z"/></g>`;
+}
+const SHARED_DEFS = `<defs>
+  <linearGradient id="mwNeb" gradientUnits="userSpaceOnUse" x1="20" y1="20" x2="148" y2="148"><stop offset="0" stop-color="#B98CFF"/><stop offset=".5" stop-color="#6FD3FF"/><stop offset="1" stop-color="#FFC98A"/></linearGradient>
+  <radialGradient id="mwStarGlow"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".9"/><stop offset=".35" stop-color="#CFE6FF" stop-opacity=".35"/><stop offset="1" stop-color="#CFE6FF" stop-opacity="0"/></radialGradient>
+  <radialGradient id="p3NebA"><stop offset="0" stop-color="#FF9BD8" stop-opacity=".7"/><stop offset="1" stop-color="#FF9BD8" stop-opacity="0"/></radialGradient>
+  <radialGradient id="p3NebB"><stop offset="0" stop-color="#9BE3FF" stop-opacity=".65"/><stop offset="1" stop-color="#9BE3FF" stop-opacity="0"/></radialGradient>
+</defs>`;
+// 基準の svg。under＝天の川の上・天球儀の部品の下（上が0%の座標）、over＝いちばん上（上が0%の座標）
+function baseSvg(id, { lit = '', under = '', over = '' } = {}) {
+  const inner = CUR_MARKUP.replace(PLATE_RE, (m) => m + `<g transform="rotate(90 84 84)">${milkyWay(id, lit)}${under}</g>`);
+  return `${SHARED_DEFS}<g transform="rotate(-90 84 84)">${inner}</g><g class="up">${over}</g><g class="fxl"></g>`;
+}
+const Base = {
+  init(g, s) {
+    g.arc = s.querySelector('#celEclipticArc'); g.sun = s.querySelector('#celSunChronos'); g.tri = s.querySelector('#celAspectTrine');
+    g.mask = s.querySelector('mask .mk'); g.lit = s.querySelector('.mw-lit'); g.tip = s.querySelector('.mw-tip'); g.fxl = s.querySelector('.fxl');
+    g.flows = [...s.querySelectorAll('.mw-f')].map((c, i) => flow(c, +c.dataset.g, 5200 + i * 1700));
+    g.over = false;
+  },
+  frame(g, b, v) {
+    // 現行（index.js の「6. Celestial」と同じ式）
+    if (g.arc) g.arc.style.strokeDashoffset = (285 * (1 - b / 100)).toFixed(1);
+    if (g.sun) g.sun.style.transform = 'rotate(' + (b * 3.6).toFixed(1) + 'deg)';
+    if (g.tri) g.tri.style.transform = 'rotate(' + (b * 1.2).toFixed(1) + 'deg)';
+    // 天の川
+    dash(g.mask, b);
+    g.tip.style.rotate = (b * 3.6) + 'deg'; g.tip.style.display = b > 0.3 && b < 100 ? '' : 'none';
+    const over = v > 100;
+    if (over !== g.over) { g.over = over; g.flows.forEach((a) => a.updatePlaybackRate(over ? 1.9 : 1)); }
+  }
+};
+function make(def) {
+  return Object.assign({
+    svg() { return baseSvg('mwM_' + this.key, this.parts ? this.parts() : {}); },
+    init(s) { Base.init(this, s); this.init2 && this.init2(s); },
+    frame(b, v) { Base.frame(this, b, v); this.frame2 && this.frame2(b, v); }
+  }, def);
+}
+
+const BASE = make({
+  key: '0', name: '新しい基準（現行−菱形＋天の川）', cur: true,
+  tag: '現行の絢爛アストロラーベから子午環の菱形4つを削除し、天の川の帯だけを移植したもの',
+  how: [['常時', '現行の動き（子午環の呼吸・レテの回転）＋天の川の星屑が時計回りに流れ続ける'],
+        ['進むとき', '黄道の光の弧と太陽の印（現行）に加えて、天の川が上から時計回りに満ちていく。流れの先頭で星がきらめく'],
+        ['25・50・75%', 'なし'], ['100%', 'なし'], ['100%超', '天の川の流れが速まる']]
+});
+
+/* ══════════════════════ 1. 刻みが灯る天球儀 ══════════════════════ */
+const P1 = make({
+  key: '1', name: '刻みが灯る天球儀', tag: '子午環の十二の刻みが1つずつ灯り、段ごとにレテが「カチッ」と噛み合う（機械の手応え）',
+  how: [['常時', '基準と同じ（灯った刻みはそのまま金に光る）'],
+        ['進むとき', '子午環の12の刻みが、進捗 1/12 ごとに1つずつ金に灯る（時計の文字盤のように読める）'],
+        ['25・50・75%', '透かし彫りのレテが 45° 跳ねるように回って噛み合い、その四半分の3つの刻みが白く閃き、子午環に波紋'],
+        ['100%', 'レテが勢いよく1回転し、12の刻みが一斉に閃く'],
+        ['100%超', '12の刻みを光が順に駆け巡り続ける']],
+  parts() {
+    let n = '';
+    for (let i = 0; i < 12; i++) { const a = (i + 1) * 30, [x1, y1] = P(66.5, a), [x2, y2] = P(72.5, a); n += `<line class="p1-n" style="--i:${i}" x1="${fx(x1)}" y1="${fx(y1)}" x2="${fx(x2)}" y2="${fx(y2)}"/>`; }
+    return { over: n };
+  },
+  init2(s) {
+    this.ns = [...s.querySelectorAll('.p1-n')];
+    const r = s.querySelector('.cel-rete-group'), w = document.createElementNS(NS, 'g');
+    w.setAttribute('class', 'p1-snap'); r.parentNode.insertBefore(w, r); w.appendChild(r);
+    this.snap = w; this.deg = 0;
+  },
+  frame2(b) { this.ns.forEach((n, i) => n.classList.toggle('on', b >= (i + 1) * 100 / 12 - 1e-6)); },
+  turn(d, long) { this.snap.classList.toggle('long', !!long); this.deg += d; this.snap.style.rotate = this.deg + 'deg'; },
+  stage(m) {
+    this.turn(45);
+    const q = m / 25; for (let i = q * 3 - 3; i < q * 3; i++) once(this.ns[i], 'p1-fl', 1000);
+    spawn(this.fxl, `<circle class="p1-rip" cx="84" cy="84" r="72"/>`, 1100);
+  },
+  bloom() {
+    this.turn(360, true);
+    this.ns.forEach((n) => once(n, 'p1-fl', 1000));
+    spawn(this.fxl, `<circle class="p1-rip" cx="84" cy="84" r="72"/><circle class="p1-rip" cx="84" cy="84" r="67" style="animation-delay:.15s"/>`, 1400);
+  }
+});
+
+/* ══════════════════════ 2. 星の潮汐 ══════════════════════ */
+const P2 = make({
+  key: '2', name: '星の潮汐', tag: '天の川に光の波がゆったり打ち寄せ、段ごとに潮が満ちる。帯から流れ星がこぼれる',
+  how: [['常時', '満ちた天の川の上を、光の波が6秒で一周し続ける（Frost の稜線を走る光と同じ役）。ときどき帯から内側へ流れ星がこぼれる'],
+        ['進むとき', '基準と同じ（天の川が満ちる）'],
+        ['25・50・75%', '潮が満ちる：天の川がふくらんで明るくなり、内側へ光の輪が寄せる'],
+        ['100%', '光の塊が天の川を一気に一周し、帯がふくらむ'],
+        ['100%超', '波が倍の速さで打ち寄せ、星雲の色がゆっくり移ろう（紫→青→金）']],
+  parts() {
+    const met = [[40, 0], [175, 3.1], [290, 6.2]].map(([a, d]) => {
+      const [x1, y1] = P(MW_R + 3, a), [x2, y2] = P(38, a + 16);
+      return `<line class="p2-met" pathLength="1" style="animation-delay:${d}s" x1="${fx(x1)}" y1="${fx(y1)}" x2="${fx(x2)}" y2="${fx(y2)}"/>`;
+    }).join('');
+    return { lit: ARC(MW_R, 'p2-wave soft') + ARC(MW_R, 'p2-wave'), under: met };
+  },
+  stage() {
+    once(this.lit, 'p2-surge', 1500);
+    spawn(this.fxl, `<circle class="p2-rip" cx="84" cy="84" r="${MW_R}"/><circle class="p2-rip" cx="84" cy="84" r="${MW_R}" style="animation-delay:.2s"/>`, 1600);
+  },
+  bloom() {
+    once(this.lit, 'p2-surge', 1500);
+    spawn(this.fxl, ARC(MW_R, 'p2-loop'), 1500);
+  }
+});
+
+/* ══════════════════════ 3. 星雲と星の誕生 ══════════════════════ */
+const P3 = make({
+  key: '3', name: '星雲と星の誕生', tag: '天の川の中で星雲が息づき、段ごとに星雲が縮んで新しい星が生まれる',
+  how: [['常時', '天の川の中の5つの星雲（桃・水色）が、それぞれの間合いでふくらみ・しぼむ'],
+        ['進むとき', '天の川が満ちると、その場所の星雲が姿を現す'],
+        ['25・50・75%', 'その位置で星雲がぎゅっと縮み（重力収縮）、閃光とともに新しい星が生まれて灯り続ける'],
+        ['100%', '中心から光芒が放たれ、生まれた3つの星が同時に閃き、天の川がふくらむ'],
+        ['100%超', '3つの星が脈打ち、外周に金の点線の環が現れてゆっくり回る']],
+  parts() {
+    let neb = '';
+    [[30, 'A', 9, 5], [100, 'B', 8, 4.5], [160, 'A', 10, 5.5], [230, 'B', 9, 5], [310, 'A', 8.5, 4.8]].forEach(([a, c, rx, ry], i) => {
+      const [x, y] = P(MW_R, a);
+      neb += `<ellipse class="p3-neb" cx="${fx(x)}" cy="${fx(y)}" rx="${rx}" ry="${ry}" transform="rotate(${a + 90} ${fx(x)} ${fx(y)})" fill="url(#p3Neb${c})" style="animation-delay:${-i * 1.3}s;animation-duration:${4 + i * 0.7}s"/>`;
+    });
+    let st = '';
+    [25, 50, 75].forEach((m) => {
+      const [x, y] = P(MW_R, m * 3.6);
+      st += `<g class="p3-star"><circle cx="${fx(x)}" cy="${fx(y)}" r="8" fill="url(#mwStarGlow)"/><path class="p3-x" d="M ${fx(x - 6.5)},${fx(y)} H ${fx(x + 6.5)} M ${fx(x)},${fx(y - 6.5)} V ${fx(y + 6.5)}"/><circle cx="${fx(x)}" cy="${fx(y)}" r="1.7" fill="#FFFFFF"/></g>`;
+    });
+    return { lit: neb, over: st + `<circle class="p3-halo" cx="84" cy="84" r="76"/>` };
+  },
+  init2(s) { this.st = [...s.querySelectorAll('.p3-star')]; },
+  frame2(b) { [25, 50, 75].forEach((m, i) => this.st[i].classList.toggle('on', b >= m)); },
+  stage(m) {
+    const [x, y] = P(MW_R, m * 3.6);
+    spawn(this.fxl, `<circle class="p3-col" cx="${fx(x)}" cy="${fx(y)}" r="11"/><circle class="p3-burst" cx="${fx(x)}" cy="${fx(y)}" r="4"/>`, 1600);
+  },
+  bloom() {
+    once(this.lit, 'p3-bloom', 1800);
+    let h = rays(84, 84, 24, 46, 12, 'ray', 15);
+    [25, 50, 75].forEach((m) => { const [x, y] = P(MW_R, m * 3.6); h += `<circle class="p3-burst" style="animation-delay:0s" cx="${fx(x)}" cy="${fx(y)}" r="4"/>`; });
+    spawn(this.fxl, h, 1500);
+  }
+});
+
+/* ══════════════════════ 4. 天球儀が開く ══════════════════════ */
+const P4 = make({
+  key: '4', name: '天球儀が開く', tag: '進むほど子午線の環が立ち上がり、天球が立体に組み上がっていく。100%で天球が一回転する',
+  how: [['常時', '基準と同じ（開いた環はそのまま天球の骨組みとして残る）'],
+        ['進むとき', '0〜25%で1本目、25〜50%で2本目の子午線の環が、線（真横から見た環）から円へと起き上がる。50〜75%で水平の環が開く'],
+        ['25・50・75%', '起き上がり切った環がカチッと止まって白く閃き、波紋が出る'],
+        ['100%', '組み上がった天球がくるりと一回転する'],
+        ['100%超', '3本の環がそれぞれの間合いで回り続け、天球が立体的に回転して見える']],
+  parts() {
+    const ring = (rot, h) => `<g transform="rotate(${rot} 84 84)"><g class="p4-s"><g class="p4-w${h ? ' h' : ''}"><circle class="p4-ring${h ? ' h' : ''}" cx="84" cy="84" r="64"/></g></g></g>`;
+    return { over: `<g class="p4-sph">${ring(30, false)}${ring(-30, false)}${ring(0, true)}</g>` };
+  },
+  init2(s) {
+    this.ss = [...s.querySelectorAll('.p4-s')]; this.sph = s.querySelector('.p4-sph');
+    this.ws = [...s.querySelectorAll('.p4-w')];
+    this.ws.forEach((w, i) => { w.style.animationDelay = (-i * 4) + 's'; });
+  },
+  frame2(b) {
+    this.ss.forEach((n, k) => {
+      const f = Math.max(0, Math.min(1, (b - 25 * k) / 25)), o = Math.sin(f * Math.PI / 2);
+      n.style.scale = k === 2 ? `1 ${Math.max(0.02, o).toFixed(3)}` : `${Math.max(0.02, o).toFixed(3)} 1`;
+      n.style.opacity = f > 0 ? '1' : '0';
+    });
+  },
+  stage(m) {
+    once(this.ss[m / 25 - 1], 'p4-lock', 1100);
+    spawn(this.fxl, `<circle class="p4-rip" cx="84" cy="84" r="64"/>`, 1200);
+  },
+  bloom() { once(this.sph, 'p4-spin', 1700); spawn(this.fxl, `<circle class="p4-rip" cx="84" cy="84" r="72"/>`, 1200); }
+});
+
+/* ══════════════════════ 5. 流れ星が天の川へ注ぐ ══════════════════════ */
+const P5 = make({
+  key: '5', name: '流れ星が天の川へ注ぐ', tag: '問題を解いて数字が上がるたびに、流れ星が飛んできて天の川の先頭に注ぎ込む',
+  how: [['常時', 'ときどき、天の川の先頭へ小さな流れ星がすっと落ちてくる'],
+        ['進むとき', '上がるたびに（＋1問でも）外から流れ星が飛んできて、天の川の先頭に当たって光る。上がり幅が大きいほど本数が増える（最大4本）'],
+        ['25・50・75%', '流星群：6本の流れ星が四方から先頭へ集まり、天の川がふくらむ'],
+        ['100%', '流星雨：16本の流れ星が天の川の全周へ降り注ぐ'],
+        ['100%超', '先頭へ落ちる流れ星が金色になり、頻度が上がる']],
+  parts() {
+    const [x2, y2] = P(MW_R + 2, 0);
+    return { over: `<g class="p5-idle"><line class="p5-i" pathLength="1" x1="${fx(x2 + 30)}" y1="${fx(y2 - 30)}" x2="${fx(x2 + 1.5)}" y2="${fx(y2 - 1.5)}"/></g>` };
+  },
+  init2(s) { this.idle = s.querySelector('.p5-idle'); this.seed = 0; },
+  frame2(b) { this.idle.style.rotate = (b * 3.6) + 'deg'; this.idle.style.display = b > 0.3 && b < 100 ? '' : 'none'; },
+  meteor(toDeg, delay, spread = 0) {
+    const R = rng(++this.seed * 7919);
+    const [x2, y2] = P(MW_R, toDeg);
+    const dir = toDeg + 50 + spread + (R() - 0.5) * 50, len = 38 + R() * 22;
+    const x1 = x2 + len * Math.sin(rad(dir)), y1 = y2 - len * Math.cos(rad(dir));
+    const st = `style="animation-delay:${delay}ms"`;
+    spawn(this.fxl, `<line class="p5-m s" pathLength="1" ${st} x1="${fx(x1)}" y1="${fx(y1)}" x2="${fx(x2)}" y2="${fx(y2)}"/>
+      <line class="p5-m c" pathLength="1" ${st} x1="${fx(x1)}" y1="${fx(y1)}" x2="${fx(x2)}" y2="${fx(y2)}"/>
+      <circle class="p5-hit" style="animation-delay:${delay + 560}ms" cx="${fx(x2)}" cy="${fx(y2)}" r="7"/>`, delay + 1600);
+  },
+  gain(from, to) {   // 数字が上がるたびに1回（段の演出とは別）
+    const b = Math.min(100, to); if (b <= 0 || from >= 100) return;
+    const n = Math.max(1, Math.min(4, Math.round((Math.min(100, to) - from) / 10)));
+    for (let i = 0; i < n; i++) this.meteor(b * 3.6, i * 160, i * 25);
+  },
+  stage(m) {
+    for (let i = 0; i < 6; i++) this.meteor(m * 3.6, 250 + i * 90, i * 60);
+    setTimeout(() => once(this.lit, 'p5-surge', 1500), 900);
+  },
+  bloom() {
+    for (let i = 0; i < 16; i++) this.meteor(i * 22.5 + 11, 200 + i * 70);
+    setTimeout(() => once(this.lit, 'p5-surge', 1500), 1300);
+  }
+});
+
+/* ══════════════════════ 再生器 ══════════════════════ */
+const GAUGES = [BASE, P1, P2, P3, P4, P5];
+const grid = document.getElementById('grid');
+function tier(v) { return v <= 0 ? 0 : v < 25 ? 1 : v < 50 ? 2 : v < 75 ? 3 : v < 100 ? 4 : v < 150 ? 5 : 6; }
+GAUGES.forEach((g) => {
+  const c = document.createElement('section');
+  c.className = 'card' + (g.cur ? ' cur' : '');
+  c.innerHTML = `<h2>${g.cur ? '' : g.key + '. '}${g.name}</h2><div class="tag">${g.tag}</div>
+    <div class="stage"><div class="gauge" data-tier="0"><div class="gauge-ring"><svg viewBox="0 0 168 168" aria-hidden="true">${g.svg()}</svg>
+    <span class="gauge-mid"><span class="pct">0</span><em>%</em></span></div>
+    <p class="gauge-cap">今日の目標</p><p class="gauge-goal"><b class="n">0</b> / 40問</p></div></div>
+    <dl class="how">${g.how.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl>`;
+  grid.appendChild(c);
+  g.el = c.querySelector('.gauge'); g.mid = c.querySelector('.gauge-mid'); g.pct = c.querySelector('.pct'); g.n = c.querySelector('.n');
+  g.init(c.querySelector('svg'));
+  g.frame(0, 0);
+});
+
+let cur = 0, raf = 0;
+const rg = document.getElementById('rg'), out = document.getElementById('out');
+function apply(v) {
+  const prev = cur; cur = v;
+  const b = Math.min(100, v), t = String(tier(v)), shown = Math.round(v);
+  GAUGES.forEach((g) => {
+    g.el.dataset.tier = t;
+    g.el.toggleAttribute('data-over', v > 100);
+    g.frame(b, v);
+    g.pct.textContent = shown; g.mid.classList.toggle('wide', shown >= 100);
+    g.n.textContent = Math.round(v * 40 / 100);
+    if (v > prev) {
+      [25, 50, 75].forEach((m) => { if (prev < m && v >= m && g.stage) g.stage(m); });
+      if (prev < 100 && v >= 100 && g.bloom) g.bloom();
+    }
+  });
+  rg.value = shown; out.textContent = shown + '%';
+}
+function go(to, dur = 1000) {
+  cancelAnimationFrame(raf);
+  to = Math.max(0, Math.min(160, to));
+  const from = cur, t0 = performance.now();
+  if (to > from) GAUGES.forEach((g) => g.gain && g.gain(from, to));
+  const step = (now) => {
+    const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+    apply(from + (to - from) * e);
+    if (k < 1) raf = requestAnimationFrame(step);
+  };
+  raf = requestAnimationFrame(step);
+}
+let seqT = [];
+function stopSeq() { seqT.forEach(clearTimeout); seqT = []; }
+function seq(list) {
+  stopSeq(); let t = 0;
+  list.forEach(([v, wait, dur]) => { seqT.push(setTimeout(() => go(v, dur), t)); t += wait; });
+}
+rg.addEventListener('change', () => { stopSeq(); go(+rg.value, 700); });
+document.querySelectorAll('[data-add]').forEach((b) => b.addEventListener('click', () => { stopSeq(); go(Math.round(cur) + +b.dataset.add); }));
+document.querySelectorAll('[data-set]').forEach((b) => b.addEventListener('click', () => { stopSeq(); go(+b.dataset.set, +b.dataset.set === 0 ? 700 : 1400); }));
+document.getElementById('bSeq').addEventListener('click', () => {
+  seq([[0, 900, 600], [18, 1500, 1000], [30, 2200, 1000], [45, 1500, 1000], [55, 2200, 1000], [70, 1500, 1000], [80, 2400, 1000], [92, 1600, 1000], [100, 3600, 1000], [130, 0, 1600]]);
+});
+document.getElementById('bBloom').addEventListener('click', () => { seq([[90, 1200, 700], [100, 0, 1000]]); });
+document.getElementById('cbBig').addEventListener('change', (e) => document.body.classList.toggle('big', e.target.checked));
+</script>
+</body>
+</html>
