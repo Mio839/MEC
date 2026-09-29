@@ -10,7 +10,8 @@
   調整（ユーザー指示）：
     ① 離れたかけらはもっと動く（塊のまわりを曲がりくねって泳ぐ・動く向きへ少し伸びる）
     ② 分裂はもっとゆっくり（ふくらむ 4.2秒・糸を引いて離れる 5.6秒）
-    ③ 見えているかけらは合計5つまで（0%で1つ・25%ごとに1つ増え、100%以上で5つ）。段・到達の演出もこの上限を越えない
+    ③ ちぎれ始めるのは一度に1つだけ（ふくらむ〜糸が切れるまでの間は次を出さない。段・到達の演出も順番待ち）
+    ③' 見えているかけらは合計5つまで（0%で1つ・25%ごとに1つ増え、100%以上で5つ）。段・到達の演出もこの上限を越えない
     ④ 中央の塊をもっと大きく
     ⑤ 塊の色を Liquid の配色（マゼンタ #FF007F・シアン #00F2FE・バイオレット #7928CA）に合わせる
        ＝縁はネオンのマゼンタ、内へ向かうほどバイオレット、芯は深い藍、縁にシアンの光。数字が読めるよう芯は暗く保つ
@@ -86,9 +87,10 @@
   採用された A 案の調整版です（左）。右は比較用の前回版。
   ① 離れたかけらは<b>塊のまわりを曲がりくねって泳ぎ</b>、動く向きへ少し伸びます。
   ② 分裂は<b>もっとゆっくり</b>（ふくらむのに約4秒、糸を引いて離れるのに約6秒）。
-  ③ 見えているかけらは<b>合計5つまで</b>（0%で1つ、25%ごとに1つ増え、100%以上で5つ）。段や到達の演出もこの上限を越えません。
+  ③ <b>ちぎれ始めるのは一度に1つだけ</b>、見えているかけらは<b>合計5つまで</b>（0%で1つ、25%ごとに1つ増え、100%以上で5つ）。段や到達の演出もこの上限を越えません。
   ④ 中央の塊を<b>大きく</b>しました。
   ⑤ 塊の色を <b>Liquid の配色</b>（縁はネオンのマゼンタ、内へ向かうほどバイオレット、芯は深い藍、縁にシアンの光）に合わせました。
+  ⑥ 縁の<b>ギザつきを直しました</b>（計算を画面の画素数に合わせ、縁を1画素ぶんなめらかにぼかす）。
   カードの下に、いま見えているかけらの数を出しています。
 </p>
 <div class="ctl">
@@ -154,22 +156,26 @@ const PAL = {
    場 f = Σ (r²/d²)²。f ≥ 1 が塊（2乗して遠くへ届かないようにした＝離れたかけらが塊とつながったままにならない）。
    陰影は場の勾配から法線を作って光を当てる。 */
 class Goo {
-  constructor(canvas, mode, N = 184) {
+  constructor(canvas, mode) {
     this.cv = canvas; this.ctx = canvas.getContext('2d'); this.mode = mode;
-    this.N = N; this.s = 168 / N;
-    this.off = document.createElement('canvas'); this.off.width = this.off.height = N;
-    this.octx = this.off.getContext('2d'); this.img = this.octx.createImageData(N, N);
-    this.f = new Float32Array(N * N); this.mask = new Uint8Array(N * N);
-    for (let py = 0; py < N; py++) for (let px = 0; px < N; px++)
-      this.mask[py * N + px] = Math.hypot((px + 0.5) * this.s - 84, (py + 0.5) * this.s - 84) < 71 ? 1 : 0;   // 弧の内側だけ
+    this.N = 0; this.off = document.createElement('canvas'); this.octx = this.off.getContext('2d');
     this.gold = 0; this.hot = 0;
     const L = [-0.45, -0.65, 0.62], l = Math.hypot(...L); this.L = L.map((v) => v / l);
     const H = [this.L[0], this.L[1], this.L[2] + 1], h = Math.hypot(...H); this.H = H.map((v) => v / h);
     this.resize();
   }
+  // 計算の解像度は画面の画素数に合わせる（以前は 184 マスを拡大していて、縁が階段状に見えた）。
+  // ⚠️ 本番では iPad・スマホの負荷を測ってから上限（ここでは 380）を決めること
   resize() {
     const r = this.cv.getBoundingClientRect(), d = Math.min(2, window.devicePixelRatio || 1);
     this.cv.width = Math.max(1, Math.round(r.width * d)); this.cv.height = Math.max(1, Math.round(r.height * d));
+    const N = clamp(this.cv.width, 180, 380);
+    if (N === this.N) return;
+    this.N = N; this.s = 168 / N;
+    this.off.width = this.off.height = N; this.img = this.octx.createImageData(N, N);
+    this.f = new Float32Array(N * N); this.mask = new Uint8Array(N * N);
+    for (let py = 0; py < N; py++) for (let px = 0; px < N; px++)
+      this.mask[py * N + px] = Math.hypot((px + 0.5) * this.s - 84, (py + 0.5) * this.s - 84) < 71 ? 1 : 0;   // 弧の内側だけ
   }
   render(B, cx = 84, cy = 84) {   // B = [x, y, r², …]・cx,cy＝塊の中心（数字の下だけ芯を暗くする）
     const N = this.N, s = this.s, f = this.f, mask = this.mask, nb = B.length;
@@ -197,12 +203,14 @@ class Goo {
         const i = py * N + px, o = i * 4, v = f[i];
         if (v < 0.4) { D[o + 3] = 0; continue; }
         const halo = v < 1 ? Math.pow((v - 0.4) / 0.6, 3) * (0.3 + hot * 0.25) : 0;
-        const body = clamp((v - 0.965) / 0.07, 0, 1);
-        if (body <= 0) { D[o] = Math.min(255, halo0[0] * 1.1); D[o + 1] = Math.min(255, halo0[1] * 1.1); D[o + 2] = Math.min(255, halo0[2] * 1.1); D[o + 3] = halo * 255; continue; }
         const gx = (px < N - 1 ? f[i + 1] : v) - (px > 0 ? f[i - 1] : v);
         const gy = (py < N - 1 ? f[i + N] : v) - (py > 0 ? f[i - N] : v);
         const g = Math.hypot(gx, gy) + 1e-6;
-        const t = clamp((v - 1) / 1.6, 0, 1), tilt = 1 - t * t * (3 - 2 * t);
+        // 縁（v=1）までの距離をおよそ (v-1)/(1画素あたりの勾配) で見積もり、ちょうど1画素でぼかす＝ギザつかない
+        const body = clamp(0.5 + (v - 1) / (g * 0.5), 0, 1);
+        if (body <= 0) { D[o] = Math.min(255, halo0[0] * 1.1); D[o + 1] = Math.min(255, halo0[1] * 1.1); D[o + 2] = Math.min(255, halo0[2] * 1.1); D[o + 3] = halo * 255; continue; }
+        // 面の傾きは場の4乗根（球なら r/d）で測る＝縁の照りが細い線にならず、なだらかに回り込む
+        const u4 = Math.sqrt(Math.sqrt(Math.max(v, 1))), t = liquid ? soft((u4 - 1) / 0.45) : clamp((v - 1) / 1.6, 0, 1), tilt = 1 - t * t * (3 - 2 * t);
         const nx = -gx / g * tilt, ny = -gy / g * tilt, nz = Math.sqrt(Math.max(0, 1 - tilt * tilt));
         const diff = Math.max(0, nx * Lg[0] + ny * Lg[1] + nz * Lg[2]);
         const sp = Math.pow(Math.max(0, nx * Hh[0] + ny * Hh[1] + nz * Hh[2]), 30);
@@ -345,8 +353,10 @@ class Blob {
 function makeGauge(key, name, tag, how, C, seed, old) {
   return {
     key, name, tag, how, C, old,
-    init() { this.blob = new Blob(seed, C); this.cd = 0.8; },
-    lobe(a0, o = {}) { if (this.blob.count() >= this.cap()) return false; this.blob.add(Object.assign({ a0 }, o)); return true; },
+    init() { this.blob = new Blob(seed, C); this.cd = 0.8; this.queue = []; },
+    // ちぎれ始めるのは一度に1つだけ（ふくらむ〜糸が切れるまでの間は次を出さない）。old は前回のまま
+    tearing() { return !old && this.blob.lobes.some((l) => l.st === 'bud' || l.st === 'out'); },
+    lobe(a0, o = {}) { if (this.blob.count() >= this.cap() || this.tearing()) return false; this.blob.add(Object.assign({ a0 }, o)); return true; },
     cap() { return C.cap(this.v, this.heat); },
     tick(dt) {
       const tgt = this.v > 100 ? 1.25 : 0.15 + 0.85 * Math.min(1, this.v / 100);
@@ -354,8 +364,14 @@ function makeGauge(key, name, tag, how, C, seed, old) {
       this.goo.gold += ((this.v > 100 ? 1 : 0) - this.goo.gold) * Math.min(1, dt * 0.9);
       this.goo.hot = Math.min(1, this.heat);
       const R = this.blob.R;
-      this.cd -= dt * C.rate(this.heat);
-      if (this.cd <= 0) { this.lobe(R() * TAU); this.cd = 1 + R() * 1.4; }
+      if (this.queue.length) {   // 段・到達のかけらは、前のかけらが離れ終わってから順に出す
+        const q = this.queue[0];
+        if (this.blob.count() >= this.cap()) this.queue.length = 0;
+        else if (this.lobe(q.a0, q.o)) { this.queue.shift(); if (q.glow) spawn(this.fxl, q.glow, 2800); }
+      } else {
+        this.cd -= dt * C.rate(this.heat);
+        if (this.cd <= 0) { this.lobe(R() * TAU); this.cd = 1 + R() * 1.4; }
+      }
       this.blob.step(dt, this.heat);
       const S = []; this.blob.sources(S); this.goo.render(S, this.blob.cx, this.blob.cy);
       const n = this.blob.count();
@@ -363,19 +379,21 @@ function makeGauge(key, name, tag, how, C, seed, old) {
     },
     stage(m) {
       const a = m / 100 * TAU;
-      if (this.lobe(a, { rT: C.rT[1] + 1.5, hold: 4 })) spawn(this.fxl, GLOW(...polar(58, a)), 2800);
+      if (old) { if (this.lobe(a, { rT: C.rT[1] + 1.5, hold: 4 })) spawn(this.fxl, GLOW(...polar(58, a)), 2800); return; }
+      this.queue.push({ a0: a, o: { rT: C.rT[1] + 1.5, hold: 6 }, glow: GLOW(...polar(58, a)) });
     },
     bloom() {
-      let k = 0;
-      for (const q of [0, 0.25, 0.5, 0.75]) if (this.lobe(q * TAU, { hold: 5 })) k++;
       spawn(this.fxl, GLOW(84, 84, 46, 400), 3000);
+      if (old) { for (const q of [0, 0.25, 0.5, 0.75]) this.lobe(q * TAU, { hold: 5 }); return; }
+      // 100%：上下左右へ1つずつ順にちぎれる（上限5つの内側で）
+      this.queue = [0, 0.25, 0.5, 0.75].map((q) => ({ a0: q * TAU, o: { hold: 9 } }));
     }
   };
 }
-const HOW_NEW = [['常時', '塊が揺れながら、縁の一点がゆっくりふくらみ（約4秒）、糸を引いて外へ離れる（約6秒）。離れたかけらは塊のまわりを曲がりくねって泳ぎ（7〜12秒）、少し先で塊へ戻って溶け込む'],
+const HOW_NEW = [['常時', '塊が揺れながら、縁の一点がゆっくりふくらみ（約4秒）、糸を引いて外へ離れる（約6秒）。ちぎれ始めるのは一度に1つだけ。離れたかけらは塊のまわりを曲がりくねって泳ぎ（7〜12秒）、少し先で塊へ戻って溶け込む'],
   ['進むとき', '外周の弧が伸び、ちぎれる間隔が短くなる。見えているかけらの上限が 0%で1つ → 25%ごとに1つ増え → 100%以上で5つ'],
-  ['25・50・75%', 'その目盛りの方向へ大きめのかけらが1つちぎれる（上限の内側で）'],
-  ['100%', '上下左右へ同時にちぎれる（合計5つを越えない数だけ）'],
+  ['25・50・75%', 'その目盛りの方向へ大きめのかけらが1つちぎれる（前のかけらが離れ終わるのを待ってから・上限の内側で）'],
+  ['100%', '上下左右へ1つずつ順にちぎれる（ちぎれ始めるのは一度に1つ・合計5つを越えない数だけ）'],
   ['100%超', '塊とかけらが金に変わる。外周に金の2周目']];
 const HOW_OLD = [['常時', '縁の一点がふくらみ（約2.4秒）、ひとかけらが離れ（約3.4秒）、4〜8秒漂って横へ流れ、塊へ戻る'],
   ['進むとき', '同時に離れるかけらは 0%で1つ・100%で2つ・超過で3つ'],
@@ -383,7 +401,7 @@ const HOW_OLD = [['常時', '縁の一点がふくらみ（約2.4秒）、ひと
   ['100%', '上下左右の4方向へ同時にちぎれる'],
   ['100%超', '塊が金に変わる']];
 const GAUGES = [
-  makeGauge('A', '調整後', '採用された「ひとかけらずつ」に ①〜⑤ の調整を入れたもの', HOW_NEW, CFG_NEW, 11, false),
+  makeGauge('A', '調整後', '採用された「ひとかけらずつ」に ①〜⑥ の調整を入れたもの', HOW_NEW, CFG_NEW, 11, false),
   makeGauge('A', '前回（比較用）', '第3版の「ひとかけらずつ」そのまま', HOW_OLD, CFG_OLD, 11, true)
 ];
 
