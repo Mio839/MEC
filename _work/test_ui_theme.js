@@ -100,8 +100,9 @@ test('🌌 賢者の星図・魔導書 (ui-celestial) の問題カード固有�
 test('🌊 深海アビス・発光生物 (ui-abyss) の問題カード固有装飾', () => {
   assert(themeCss.includes('html.ui-abyss .qc'), 'Missing html.ui-abyss .qc');
   assert(themeCss.includes('html.ui-abyss .qc::before'), 'Missing abyss edge flow');
-  assert(themeCss.includes('html.ui-abyss .qc::after'), 'Missing abyss sonar watermark');
-  assert(themeCss.includes('@keyframes abyssSonarRipple'), 'Missing sonar ripple animation');
+  // カード右上のソナーの透かし（.qc::after・abyssSonarRipple）は 2026-09-29 に撤去した（ユーザー判断）＝戻っていないことを見る
+  assert(!/html\.ui-abyss \.qc(\.[\w-]+)*::after\s*\{/.test(themeCss), 'abyss の .qc::after（撤去したソナーの透かし）が戻っている');
+  assert(!themeCss.includes('abyssSonarRipple') && !themeCss.includes('abyssWatermarkFlash'), '撤去した abyssSonarRipple / abyssWatermarkFlash が戻っている');
   assert(themeCss.includes('html.ui-abyss .qc .qn'), 'Missing capsule num badge in abyss');
   assert(themeCss.includes('html.ui-abyss .qc .ch2:hover'), 'Missing bioluminescent choice hover in abyss');
   assert(themeCss.includes('html.ui-abyss .qc .ab'), 'Missing abyss pod answer box in abyss');

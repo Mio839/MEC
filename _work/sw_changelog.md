@@ -9,6 +9,7 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-09-29s: Abyss の問題カード右上のソナーの透かし（.qc::after・abyssSonarRipple＝同心円が広がって回る模様）と、正解時にそれを光らせる abyssWatermarkFlash を撤去（ユーザー判断）。ui_theme.css から削除し theme_css を再生成。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-29r: Abyss の正解演出に全画面の「ホタルイカの群れ」（_abySquid・試験演出一覧の新案 第3弾⑦から採用）を足し、ソナーの反響と毎回重ねる（ユーザー判断）。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-29q: ハブのヒーローゲージ全体の鼓動（gaugeBeat・盤面ごと 1.05 倍まで脈打つ）を全テーマから撤去。高い段（tier 5/6）のテーマ別の脈動7つも拡大縮小（transform: scale）だけ外して光の強弱は残した。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-29p: Abyss の正解演出を「ソナーの反響」（_abyAbyssFx・_abySonar・試験演出一覧の新案 第1弾の B から採用）に置き換え。旧 MecFX.abyssSonarPulse（閃光・波紋・マリンスノー）と段4〜の輪3本（MecFX.rings）は正解演出から外した（結果画面では今も使う）。シェルのみ＝SHELL_VERSION だけ bump。

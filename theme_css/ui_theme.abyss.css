@@ -143,29 +143,6 @@ html.ui-abyss .qc::before {
   0% { background-position: 0 0, 0% 50%; }
   100% { background-position: 120px 0, 300% 50%; }
 }
-html.ui-abyss .qc::after {
-  content: ''; position: absolute; top: -60px; right: -60px; width: 280px; height: 280px;
-  background-image:
-  radial-gradient(circle at 50% 50%, rgba(0, 255, 163, 0.28) 0%, transparent 8%),
-  radial-gradient(circle at 50% 50%, transparent 22%, rgba(0, 229, 255, 0.28) 23%, transparent 24%),
-  radial-gradient(circle at 50% 50%, transparent 42%, rgba(0, 255, 163, 0.35) 43%, transparent 44%),
-  radial-gradient(circle at 50% 50%, transparent 62%, rgba(157, 78, 221, 0.25) 63%, transparent 64%),
-  radial-gradient(circle at 50% 50%, transparent 80%, rgba(0, 255, 163, 0.28) 81%, transparent 82%),
-  repeating-conic-gradient(from 0deg, rgba(0, 255, 163, 0.18) 0deg 1deg, transparent 1deg 30deg),
-  repeating-conic-gradient(from 15deg, rgba(0, 229, 255, 0.14) 0deg 0.8deg, transparent 0.8deg 30deg),
-  repeating-conic-gradient(from 7.5deg, rgba(157, 78, 221, 0.12) 0deg 1.2deg, transparent 1.2deg 15deg),
-  conic-gradient(from 90deg, rgba(0, 255, 163, 0.22) 0deg 40deg, transparent 40deg 360deg);
-  border: 1.5px solid rgba(0, 255, 163, 0.45);
-  pointer-events: none;
-  border-radius: 50%;
-  filter: blur(1px) drop-shadow(0 0 18px rgba(0, 255, 163, 0.4));
-  z-index: 0;
-  animation: abyssSonarRipple 6s ease-in-out infinite alternate;
-}
-@keyframes abyssSonarRipple {
-  0% { transform: scale(1) rotate(0deg); opacity: 0.75; }
-  100% { transform: scale(1.08) rotate(15deg); opacity: 1; filter: blur(0.8px) drop-shadow(0 0 26px rgba(0, 229, 255, 0.7)); }
-}
 html.ui-abyss .qc .qn {
   background:
   linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, transparent 40%),
@@ -752,8 +729,7 @@ body.ch-exam-mode .qc:not(.ch-exam-revealed) .ch2.ok:not(.exam-selected) {
   font-weight: inherit;
 }
 @media (prefers-reduced-motion: reduce) {
-  html.ui-abyss .qc::before,
-  html.ui-abyss .qc::after { animation: none !important; }
+  html.ui-abyss .qc::before { animation: none !important; }
 }
 @media (max-width: 600px) {
   .gauge {
@@ -1338,8 +1314,6 @@ html.ui-abyss .qc.exam-next-entering { animation: abyssNextEnter .42s ease-out b
 }
 #examEdgePulse.active { opacity: 1; }
 html.ui-abyss #examEdgePulse.active { box-shadow: inset 0 0 40px rgba(0, 255, 163, 0.95), inset 0 0 24px #00E5FF, inset 0 0 14px rgba(157, 78, 221, 0.7) !important; }
-html.ui-abyss .qc.fx-correct::after { animation: abyssWatermarkFlash .6s ease-out !important; }
-@keyframes abyssWatermarkFlash { 0% { opacity: 0.3; filter: brightness(1); } 40% { opacity: 1; filter: brightness(2.8) drop-shadow(0 0 35px #00FFA3) drop-shadow(0 0 22px #00E5FF) drop-shadow(0 0 16px #9D4EDD); transform: scale(1.08) rotate(10deg); } 100% { opacity: 0.3; filter: brightness(1); transform: scale(1) rotate(0deg); } }
 html.ui-abyss .qc.exam-wrong-hit { animation: abyssWrongDamage .4s ease-out !important; }
 @keyframes abyssWrongDamage { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(6px); filter: brightness(0.3) blur(3px); } }
 html.ui-abyss     body.exam-streak-zone { --zone-col: 0,255,163;   --zone-beat: 3.8s; --zone-a: .058; }
