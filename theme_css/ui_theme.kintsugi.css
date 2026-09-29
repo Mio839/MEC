@@ -717,10 +717,6 @@ body.ch-exam-mode .qc.ch-exam-revealed {
   transition: none !important;
 }
 html:not(.ui-brass) .gauge .gear { display: none !important; }
-@keyframes liquidDepthNear {
-  from { translate: -2.4px 1.6px; }
-  to { translate: 2.4px -1.6px; }
-}
 .qc,
 .ch2,
 .mec-grade-btn,
@@ -1155,8 +1151,7 @@ html.ui-kintsugi .gauge[data-tier="5"] .gauge-megaring,
 html.ui-kintsugi .gauge[data-tier="6"] .gauge-megaring { stroke: #FFF8DC !important; filter: drop-shadow(0 0 10px #F5D061) drop-shadow(0 0 16px rgba(217, 56, 58, 0.6)); }
 html.ui-kintsugi .gauge-aura { background: radial-gradient(circle, rgba(245, 208, 97, 0.45) 0%, rgba(217, 56, 58, 0.25) 50%, rgba(0, 0, 0, 0) 74%) !important; }
 .cyber-data-matrix,
-.cel-moon-phase,
-.liquid-bubble-layer { display: none !important; }
+.cel-moon-phase { display: none !important; }
 .frost-crust-crack {
   fill: none; stroke: rgba(255, 255, 255, 0.75); stroke-width: 1.5; stroke-dasharray: 6 3;
   opacity: 0.75; filter: drop-shadow(0 0 4px #70D6FF);

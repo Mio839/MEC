@@ -24,12 +24,13 @@ t('SVGマークアップに必要なグループ（doctorCasing, milestones, ove
   assert.ok(HTML.includes('id="gaugeSurgeWave"'), 'gaugeSurgeWave が見つからない');
 });
 
-t('全8テーマのケーシング（casing-*）とオーバードライブ（od-*）がマークアップに揃っている', () => {
-  const themes = ['brass', 'cyber', 'aurora', 'liquid', 'kintsugi', 'celestial', 'abyss', 'frost'];
+t('ケーシング（casing-*）とオーバードライブ（od-*）がマークアップに揃っている（Liquid は canvas のゲージへ置き換えて撤去）', () => {
+  const themes = ['brass', 'cyber', 'aurora', 'kintsugi', 'celestial', 'abyss', 'frost'];
   themes.forEach(th => {
     assert.ok(HTML.includes('class="casing-' + th + '"'), 'casing-' + th + ' が無い');
     assert.ok(HTML.includes('od-' + th), 'od-' + th + ' が無い');
   });
+  assert.ok(!HTML.includes('casing-liquid') && !HTML.includes('od-liquid'), 'Liquid のケーシング／オーバードライブが復活している');
 });
 
 t('4つのドクターランク（student, resident, specialist, professor）のパーツが定義されている', () => {
@@ -66,7 +67,7 @@ console.log('── 全8テーマ完全差別化（形状・進捗メカニク�
 
 t('全8テーマの独自形状グループ（theme-gauge-*）がマークアップに揃っている', () => {
   const cores = [
-    'gaugeBrassCore', 'gaugeCyberCore', 'gaugeAuroraCore', 'gaugeLiquidCore',
+    'gaugeBrassCore', 'gaugeCyberCore', 'gaugeAuroraCore', 'gaugeLiquidCanvas',
     'gaugeKintsugiCore', 'gaugeCelestialCore', 'gaugeAbyssCore', 'gaugeFrostCore'
   ];
   cores.forEach(id => {
@@ -78,7 +79,7 @@ t('全8テーマの独自進捗パーツ（針・セグメント・液面・亀�
   assert.ok(HTML.includes('id="brassNeedle"'), 'brassNeedle が見つからない');
   assert.ok(HTML.includes('id="cyberSegments"'), 'cyberSegments が見つからない');
   assert.ok(HTML.includes('id="auroraPrismFill"'), 'auroraPrismFill が見つからない');
-  assert.ok(HTML.includes('id="liquidFluidRect"'), 'liquidFluidRect が見つからない');
+  assert.ok(HTML.includes('id="gaugeLiquidCanvas"'), 'gaugeLiquidCanvas が見つからない');
   assert.ok(HTML.includes('id="ktCrack1"'), 'ktCrack1 が見つからない');
   assert.ok(HTML.includes('id="celStarlink"'), 'celStarlink が見つからない');
   assert.ok(HTML.includes('id="abyssDiveProg"'), 'abyssDiveProg が見つからない');
@@ -91,30 +92,15 @@ t('_driveThemeGauge 関数が存在し、_driveGauge 内で呼び出されてい
 });
 
 t('CSS内に全8テーマの表示切り替えと共通円形パーツ非表示化ルールが存在する', () => {
-  const themes = ['brass', 'cyber', 'aurora', 'liquid', 'kintsugi', 'celestial', 'abyss', 'frost'];
+  const themes = ['brass', 'cyber', 'aurora', 'kintsugi', 'celestial', 'abyss', 'frost'];
   themes.forEach(th => {
     assert.ok(HTML.includes('.theme-gauge-' + th), '.theme-gauge-' + th + ' のスタイルが無い');
   });
+  assert.ok(HTML.includes('html.ui-liquid .liq-canvas'), 'Liquid の canvas の表示切り替えが無い');
   assert.ok(HTML.includes('html.ui-cyber .gauge-trk'), '非Brassテーマでの共通丸パーツ非表示ルールが無い');
 });
 
 console.log('── プランB（非円形4種＋円形4種＆Lava Lamp流体）詳細検証 ──');
-
-t('Liquid: 外枠アメーバ変形と内部のオーガニック・ラバ・セル（アメーバ流体ジェル＆浮遊液滴）が定義されている', () => {
-  assert.ok(HTML.includes('id="lavaChamber"'), 'lavaChamber が見つからない');
-  assert.ok(HTML.includes('id="liquidBlobCoreGroup"'), 'liquidBlobCoreGroup が見つからない');
-  assert.ok(HTML.includes('id="lavaCellBody"'), 'lavaCellBody が見つからない');
-  assert.ok(HTML.includes('id="lavaCellNucleus"'), 'lavaCellNucleus が見つからない');
-  assert.ok(HTML.includes('id="liquidSatellites"'), 'liquidSatellites が見つからない');
-  assert.ok(HTML.includes('@keyframes lavaChamberMorph'), 'lavaChamberMorph アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes lavaContainerMorph'), 'lavaContainerMorph アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes lavaCellMorph'), 'lavaCellMorph アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes lavaMantleMorph'), 'lavaMantleMorph アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes lavaNucleusGlow'), 'lavaNucleusGlow アニメーションが無い');
-  assert.ok(!HTML.includes('vortex-mag-layer'), 'マゼンタ層が残存している');
-  assert.ok(!HTML.includes('vortex-cya-layer'), 'シアン層が残存している');
-  assert.ok(!HTML.includes('@keyframes vortexSpin'), 'vortexSpin（高速回転）が残存している');
-});
 
 t('非円形テーマ（Cyber, Frost, Abyss, Aurora）で共通円盤・メガリングが完全に解除・非表示化されている', () => {
   assert.ok(HTML.includes('html.ui-cyber .gauge-ring,'), '非円形テーマの gauge-ring リセットセレクタが無い');
@@ -423,9 +409,11 @@ t('Frost: 試験演出（chapter_exam.js, study_exam.js）からringsが完全�
   assert.ok(!seScatterFrostBlock.includes('rings('), 'study_exam.js の frost celebration に rings が残っている');
 });
 
-console.log('── Liquid新演出（ちぎれて戻る液滴分裂・再融合＆多層フヨフヨアメーバ流体＆他テーマ被り完全排除）検証 ──');
+console.log('── Liquid：canvas のゲージ（hub_liquid.js・2026-09-29）──');
+// 旧 Liquid ゲージ（ガラスの丸窓・ラバ・セル・膜のくびれ・真珠の輪・メニスカス・毛細管の弧）はユーザー判断で全部撤去した。
+// 動きの検査（止まらない・弧へはみ出さない・雫が塊へ戻る 等）は node _work/test_hub_liquid.js。
 
-// ── 🧬 外膜の千切れ（2026-09-14）──
+// 関数の本体（{ から対応する } まで）を切り出す（下の Frost の検査も使う）
 function fnBody(name) {
   const i = HTML.indexOf('function ' + name + '(');
   assert.ok(i >= 0, name + ' が無い');
@@ -437,279 +425,52 @@ function fnBody(name) {
   throw new Error(name + ' の終端が見つからない');
 }
 
-t('Liquid: 旧演出（中心から出入りする水疱・内側の弧の千切れ）が復活していない', () => {
-  ['fission-drop', 'liquidFissionPods', 'lava-tendril', 'liquidTendrils', 'fissionPinch', 'overdrivePinchSnap', 'overdriveTendril', 'tendrilPulse',
-   'id="liquidTear"', '.liquid-tear', 'LIQ_TEAR_STOPS']
-    .forEach(w => assert.ok(!HTML.includes(w), w + ' が残っている'));
-  assert.ok(!/strokeDasharray\s*=/.test(fnBody('_liqTearPlay')), '_liqTearPlay が進捗の弧の dasharray を書いている');
-});
-
-t('Liquid: 外膜（.gauge-ring::after）に conic-gradient の mask で切れ目を開ける（最大2つ）', () => {
-  const THEME = fs.readFileSync(path.join(__dirname, '..', 'ui_theme.css'), 'utf8');
-  assert.ok(/html\.ui-liquid \.gauge \.gauge-ring::after \{[^}]*border: 2px solid/.test(THEME), '外膜（::after の border）の定義が変わった＝千切れの素材を見直すこと');
-  const m = HTML.match(/html\.ui-liquid \.gauge \.gauge-ring\.lt-on::after \{([^}]*)\}/);
-  assert.ok(m, '.lt-on::after の mask ルールが無い');
-  ['-webkit-mask-image: var(--lt-mask', 'mask-image: var(--lt-mask']
-    .forEach(w => assert.ok(m[1].includes(w), '.lt-on::after に ' + w + ' が無い'));
-  assert.ok(fnBody('_liqConicMask').includes("'conic-gradient(from '"), '_liqConicMask が conic-gradient を組んでいない');
-  const play = fnBody('_liqTearPlay'), end = fnBody('_liqTearEnd'), render = fnBody('_liqTearRender');
-  assert.ok(play.includes("ring.classList.add('lt-on')") && render.includes("setProperty('--lt-mask'"), '切れ目を開けていない');
-  assert.ok(end.includes("ring.classList.remove('lt-on')") && end.includes("removeProperty('--lt-mask')"), '終了時に膜を元へ戻していない');
-  assert.ok(/setTimeout\(\(\) => _liqTearEnd\(o\), o\.dur \+ \d+\)/.test(play), '非表示タブ用の落とし所（setTimeout(_liqTearEnd)）が無い');
-  assert.ok(/Math\.random\(\)/.test(play) && /LIQ_TEAR_SEP/.test(play), '千切れる位置がランダム・互いに離れていない');
-  assert.ok(/const LIQ_TEAR_MAX = 2;/.test(HTML) && /const LIQ_TEAR_DUR = 14000;/.test(HTML), '最大2つ・14秒になっていない');
-});
-
-t('Liquid: 千切れるのは外膜と内側の空間だけ（液体の弧は欠けさせない・dash は触らない）', () => {
-  ['liquidArcTearMask', 'liquidArcTearWrap', 'liquidArcTearHole'].forEach(w => assert.ok(!HTML.includes(w), w + ' が残っている（弧は千切らない）'));
-  ['_liqTearPlay', '_liqTearRender', '_liqTearShape'].forEach(n => assert.ok(!/strokeDash(array|offset)\s*=/.test(fnBody(n)), n + ' が進捗の弧の dash を書いている'));
-  const ring = HTML.slice(HTML.indexOf('<div class="gauge-ring">'), HTML.indexOf('<span class="gauge-mid" id="gaugeMid">'));
-  [0, 1].forEach(i => assert.ok(ring.includes('id="liquidMembranePiece' + i + '"') && ring.includes('id="liquidMembraneFilm' + i + '"'), '泡' + i + ' の空間（塗り）と膜（線）が揃っていない'));
-  assert.ok(/\.lmt-film \{\s*fill: none;/.test(HTML), '膜の線に塗りがある');
-  const shape = fnBody('_liqTearShape');
-  assert.ok(/rbA \* 1\.05/.test(shape), '泡の後ろの端が膜の内側へ潜る（首すじが交差する）');
-  assert.ok(/const thCL = -Math\.PI \+ Math\.asin\(wc\)/.test(shape) && /const tanE = /.test(shape), '首すじが泡の輪郭の接線どおりに接続点へ入っていない（継ぎ目が「く」の字に折れる）');
-  // 口は狭く（100% で 14°）。広げると口の範囲の膜がまるごと持ち上がり、根元がテント状のこぶになる（2026-09-14 ユーザー指摘）
-  const sm = fnBody('_liqTearPlay').match(/const SPAN = \((\d+) \+ (\d+) \* k\)/);
-  assert.ok(sm && +sm[1] + +sm[2] <= 16, '膜の口が広すぎる（根元がテント状に持ち上がる）: ' + (sm && (+sm[1] + +sm[2]) + '°'));
-  assert.ok(/_liqTearBase >= 100 \? TAU : TAU \* _liqTearBase \/ 100/.test(fnBody('_liqTearPlay')), '位置を満ちた区間に面した膜に限っていない');
-});
-
-t('Liquid: 泡は内側の空間ごとちぎれる（見た目・口のなじみ）・中身の赤い球は撤去済み', () => {
-  const ring = HTML.slice(HTML.indexOf('<div class="gauge-ring">'), HTML.indexOf('<span class="gauge-mid" id="gaugeMid">'));
-  [0, 1].forEach(i => ['liquidMembraneBud', 'liquidMembraneGlow', 'liquidMembraneClip', 'liquidMembraneMask', 'liquidMembraneFade']
-    .forEach(w => assert.ok(ring.includes('id="' + w + i + '"'), w + i + ' が無い')));
-  const shape = fnBody('_liqTearShape');
-  assert.ok(/const normalAt = /.test(shape) && /vB = normalAt\(phiB\)/.test(shape), '泡の向きが膜の法線でない（膜は真円ではない＝放射方向だと傾く）');
-  ['liquidMembraneCore', 'lmt-core', 'cflow', 'csize', 'LIQ_TEAR_LAG', 'corePts']
-    .forEach(w => assert.ok(!HTML.includes(w), w + ' が残っている（ちぎれる時の赤い球はユーザーの判断で撤去）'));
-  const render = fnBody('_liqTearRender');
-  ['o.glow.setAttribute', 'o.clip.setAttribute', "o.fade.setAttribute('x1'"].forEach(w => assert.ok(render.includes(w), 'render が ' + w + ' を書いていない'));
-});
-
-t('Liquid: 離れて漂う時間は泡ごとにランダム（時間割を頂点で止めて漂わせる）', () => {
-  assert.ok(/const LIQ_TEAR_HOLD_MIN = 6000;/.test(HTML) && /const LIQ_TEAR_HOLD_MAX = 16000;/.test(HTML), '漂う時間の範囲が 6〜16 秒でない');
-  const play = fnBody('_liqTearPlay');
-  assert.ok(/hold: LIQ_TEAR_HOLD_MIN \+ Math\.random\(\) \* \(LIQ_TEAR_HOLD_MAX - LIQ_TEAR_HOLD_MIN\)/.test(play), '漂う時間がランダムでない');
-  assert.ok(/o\.dur = LIQ_TEAR_DUR \+ o\.hold;/.test(play), '落とし所（o.dur）に漂う時間が入っていない＝漂っている途中で消える');
-  // 時計：頂点まで進む → 止まって漂う → 再開、が連続していること
-  const clock = new Function('const LIQ_TEAR_DUR = 14000, LIQ_TEAR_HOLD_AT = .70;\n' + fnBody('_liqTearClock') + '\nreturn _liqTearClock;')();
-  const o = { hold: 9000 }, at = .70 * 14000;
-  clock(o, at - 1); const a = o.t;
-  clock(o, at + 4500); const b = o.t, hs = o.hs;
-  clock(o, at + 9000 + 1); const c = o.t;
-  assert.ok(Math.abs(a - .70) < .001 && b === .70 && hs === 4500 && Math.abs(c - .70) < .001, '時計が頂点で止まって再開していない');
-  clock(o, 14000 + 9000);
-  assert.ok(o.t === 1, '最後に t=1 へ届かない');
-  const keys = HTML.slice(HTML.indexOf('const LIQ_TEAR_KEYS'), HTML.indexOf('};', HTML.indexOf('const LIQ_TEAR_KEYS')));
-  assert.ok(/dist:[^\n]*\[\.70, 1\]/.test(keys) && /sway:[^\n]*\[\.70, 1\]/.test(keys), '止める時刻（.70）が dist/sway の節目でない＝止めた瞬間に動きが飛ぶ');
-});
-
-t('Liquid: ちぎれる時に首すじ（左右の膜の線）が入れ替わって交差しない', () => {
-  // 実ソースの形の関数を、時刻・位置・横ずれ・膜の形（円／楕円）を振って回す。
-  // 左の首すじが右の首すじより中心線の向こうへ 1px 以上はみ出したら交差（2026-09-14 に最大10pxの X 字が出ていた）。
-  const ks = HTML.slice(HTML.indexOf('const LIQ_TEAR_KEYS'), HTML.indexOf('};', HTML.indexOf('const LIQ_TEAR_KEYS')) + 2);
-  const shapeFn = new Function(fnBody('_liqKey') + '\n' + ks + '\nconst LIQ_TEAR_DUR = 14000;\n' + fnBody('_liqTearShape') + '\nreturn _liqTearShape;')();
-  const pts = (d) => { const n = (d.match(/-?[\d.]+/g) || []).map(Number); const p = []; for (let i = 0; i + 1 < n.length; i += 2) p.push([n[i], n[i + 1]]); return p; };
-  let frames = 0, worst = 0;
-  for (const [ax, ay] of [[1, 1], [1.12, .9]]) for (const phi0 of [-2.6, -.75, .9, 2.1]) for (const drift of [-.12, .12]) {
-    const R = 97, cx = 103, cy = 104;
-    const g = { R, cx, cy, point: (p) => [cx + Math.sin(p) * R * ax, cy - Math.cos(p) * R * ay], color: () => [1, 2, 3] };
-    const o = { phi0, SPAN: 38 * Math.PI / 180, D: R * .42, rb: R * .17, drift, wob: 1 };
-    for (let t = 0; t <= 1; t += .004) {
-      const s = shapeFn(o, t, g, { left: 400 }, 2000);
-      if (!s.film || /Z$/.test(s.film)) continue;
-      const p = pts(s.film), n = p.length, m = 34;
-      if (n < 2 * m) continue;
-      const L = p.slice(0, m), Rr = p.slice(n - m).reverse();
-      const Mm = [(p[0][0] + p[n - 1][0]) / 2, (p[0][1] + p[n - 1][1]) / 2], Nm = [(L[m - 1][0] + Rr[m - 1][0]) / 2, (L[m - 1][1] + Rr[m - 1][1]) / 2];
-      const al = Math.hypot(Nm[0] - Mm[0], Nm[1] - Mm[1]); if (al < 1) continue;
-      const nn = [-(Nm[1] - Mm[1]) / al, (Nm[0] - Mm[0]) / al];
-      const sd = (q) => (q[0] - Mm[0]) * nn[0] + (q[1] - Mm[1]) * nn[1];
-      const sign = sd(p[0]) < sd(p[n - 1]) ? 1 : -1;
-      frames++;
-      for (let k = 0; k < m; k++) worst = Math.max(worst, (sd(L[k]) - sd(Rr[k])) * sign);
-    }
-  }
-  assert.ok(frames > 1000, 'つながっている間のコマが少なすぎる: ' + frames);
-  assert.ok(worst <= 1, '首すじが入れ替わって交差している（最大 ' + worst.toFixed(2) + 'px）');
-});
-
-t('Liquid: かけらの svg は .gauge-ring 直下にあり、ゲージ svg の回転・円形クリップを打ち消している', () => {
-  const ring = HTML.slice(HTML.indexOf('<div class="gauge-ring">'), HTML.indexOf('<span class="gauge-mid" id="gaugeMid">'));
-  assert.ok(ring.includes('id="liquidMembraneTear"') && ring.includes('id="liquidMembranePiece0"') && ring.includes('id="liquidMembranePiece1"'), 'かけらの svg が .gauge-ring の中に無い');
-  const m = HTML.match(/\.gauge-ring svg\.liquid-membrane-tear \{([^}]*)\}/);
-  assert.ok(m && /transform: none/.test(m[1]) && /clip-path: none/.test(m[1]) && /position: absolute/.test(m[1]), '.gauge-ring svg の rotate(-90deg)/clip-path を打ち消していない');
-  assert.ok(/\.lmt-piece \{\s*stroke: none;/.test(HTML), 'かけらに縁取りがある（別の泡に見える）');
-});
-
-t('Liquid: 形は毎フレーム読み直し、読む→書くを1本の rAF にまとめる・横にはみ出さない', () => {
-  const geom = fnBody('_liqMembraneGeom');
-  assert.ok(geom.includes("getComputedStyle(ring, '::after')"), '::after の算出値を読んでいない');
-  ['borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomRightRadius', 'borderBottomLeftRadius', 'cs.transform']
-    .forEach(w => assert.ok(geom.includes(w), '_liqMembraneGeom が ' + w + ' を見ていない'));
-  const render = fnBody('_liqTearRender');
-  assert.ok(/const g = _liqMembraneGeom\(ring\);/.test(render), 'render で膜の形を読み直していない');
-  assert.ok(render.indexOf('_liqMembraneGeom(ring)') < render.indexOf("svg.setAttribute('viewBox'"), '読み（形）より先に書いている');
-  assert.ok(!/requestAnimationFrame/.test(fnBody('_liqTearShape')), '塊ごとに rAF を立てている');
-  assert.ok(/document\.documentElement\.clientWidth/.test(render) && /vw - 6 - rbA/.test(fnBody('_liqTearShape')), '塊が横にはみ出す（iOS の縮尺揺れ）');
-});
-
-t('Liquid: 千切れのタイマーは1本だけ・90%未満では張らない・reduced-motion で止まる', () => {
-  const arm = fnBody('_liqTearArm');
-  assert.ok(/if \(_liqTearTimer \|\| _liqTearBase < LIQ_TEAR_MIN\) return;/.test(arm), '_liqTearArm に多重防止・90%判定が無い');
-  assert.ok(/const LIQ_TEAR_MIN = 90;/.test(HTML), 'LIQ_TEAR_MIN が 90 でない');
-  const drive = fnBody('_driveThemeGauge');
-  assert.ok(/_liqTearBase = over > 0 \? 100 : base;\s*_liqTearArm\(\);/.test(drive), '_driveThemeGauge から千切れを張っていない（100%超も続ける）');
-  const ok = fnBody('_liqTearOk');
-  assert.ok(ok.includes("'ui-liquid'") && ok.includes('_reducedMotion()') && ok.includes('document.hidden'), '_liqTearOk がテーマ・reduced-motion・非表示タブを見ていない');
-  assert.ok(/@media\(prefers-reduced-motion:reduce\)\{[\s\S]*?\.liquid-membrane-tear \{ display: none !important; \}/.test(HTML), 'reduced-motion でかけらを止めていない');
-});
-
-t('Liquid: チャンバーの clip は r≦84 に戻っている（.gauge-ring svg の円形クリップの前提）', () => {
-  const m = HTML.match(/<clipPath id="liquidChamberClip">\s*<circle cx="84" cy="84" r="([\d.]+)"/);
-  assert.ok(m && +m[1] <= 84, 'liquidChamberClip の半径が 84 を超えている: ' + (m && m[1]));
-});
-
-t('Liquid: 多層アメーバ流体（中間層メソプラズム＆内層高密度エンドプラズム＆多層生体膜チャンバー）とフヨフヨ弾力キーフレームが定義されている', () => {
-  assert.ok(HTML.includes('id="lavaCellMesoplasm"'), 'lavaCellMesoplasm が見つからない');
-  assert.ok(HTML.includes('id="lavaCellEndoplasm"'), 'lavaCellEndoplasm が見つからない');
-  assert.ok(HTML.includes('id="lavaChamberOuter"'), 'lavaChamberOuter が見つからない');
-  assert.ok(HTML.includes('id="lavaChamberInner"'), 'lavaChamberInner が見つからない');
-  assert.ok(HTML.includes('@keyframes jellySquish'), 'jellySquish アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes jellyMicroJiggle'), 'jellyMicroJiggle アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes lavaMesoplasmFlow'), 'lavaMesoplasmFlow アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes lavaEndoplasmFlow'), 'lavaEndoplasmFlow アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes lavaChamberOuterMorph'), 'lavaChamberOuterMorph アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes lavaChamberInnerMorph'), 'lavaChamberInnerMorph アニメーションが無い');
-});
-
-t('Liquid: 内部生体小胞群（liquidVacuoles）と有機プルプルスペキュラ（liquidSpecularGroup）が定義されている', () => {
-  assert.ok(HTML.includes('id="liquidVacuoles"'), 'liquidVacuoles が見つからない');
-  assert.ok(HTML.includes('id="lavaVacuole1"'), 'lavaVacuole1 が見つからない');
-  assert.ok(HTML.includes('id="lavaVacuole2"'), 'lavaVacuole2 が見つからない');
-  assert.ok(HTML.includes('id="lavaVacuole3"'), 'lavaVacuole3 が見つからない');
-  assert.ok(HTML.includes('id="lavaVacuole4"'), 'lavaVacuole4 が見つからない');
-  assert.ok(HTML.includes('id="liquidSpecularGroup"'), 'liquidSpecularGroup が見つからない');
-  assert.ok(HTML.includes('class="lava-spec-wobble'), 'lava-spec-wobble が見つからない');
-  assert.ok(HTML.includes('class="lava-spec-glint"'), 'lava-spec-glint が見つからない');
-  assert.ok(HTML.includes('@keyframes vacuoleFloat1'), 'vacuoleFloat1 アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes specWobble'), 'specWobble アニメーションが無い');
-});
-
-t('Liquid: _driveThemeGauge内で新意匠（mesoplasm, endoplasm, vacuoles）の進捗連動制御が存在する', () => {
-  assert.ok(HTML.includes('const lMesoplasm = document.getElementById(\'lavaCellMesoplasm\');'), 'lMesoplasm取得が無い');
-  assert.ok(HTML.includes('const lEndoplasm = document.getElementById(\'lavaCellEndoplasm\');'), 'lEndoplasm取得が無い');
-  assert.ok(HTML.includes('const lVacuoles = document.getElementById(\'liquidVacuoles\');'), 'lVacuoles取得が無い');
-  assert.ok(HTML.includes('lVacuoles.style.transform'), 'lVacuolesの連動制御が無い');
-});
-
-t('Liquid: 他テーマの意匠（歯車・照準・金継ぎ・天体・舷窓・雪結晶・直線目盛り等）がLiquidゲージ内に一切混入していない', () => {
-  const liquidBlock = HTML.substring(HTML.indexOf('id="gaugeLiquidCore"'), HTML.indexOf('id="gaugeKintsugiCore"'));
-  assert.ok(!liquidBlock.includes('gear'), 'Liquidに歯車が混入している');
-  assert.ok(!liquidBlock.includes('crosshair'), 'Liquidに照準が混入している');
-  assert.ok(!liquidBlock.includes('bracket'), 'Liquidにブラケットが混入している');
-  assert.ok(!liquidBlock.includes('honeycomb'), 'Liquidにハニカムが混入している');
-  assert.ok(!liquidBlock.includes('crack'), 'Liquidにクラックが混入している');
-  assert.ok(!liquidBlock.includes('astrolabe'), 'Liquidにアストロラーベが混入している');
-  assert.ok(!liquidBlock.includes('zodiac'), 'Liquidに黄道十二宮が混入している');
-  assert.ok(!liquidBlock.includes('porthole'), 'Liquidに舷窓が混入している');
-  assert.ok(!liquidBlock.includes('snowflake'), 'Liquidに雪結晶が混入している');
-  assert.ok(!liquidBlock.includes('facet'), 'Liquidに多面体ファセットが混入している');
-  assert.ok(!liquidBlock.includes('kelvin'), 'Liquidにケルビン計が混入している');
-});
-
-t('Liquid: 外周二重毛細管フルイディック・ネオンゲージ（liquidFluidStream, liquidMeniscusHead, liquidOverdriveStream）と先端メニスカス公転が定義されている', () => {
-  assert.ok(HTML.includes('id="liquidCapillaryGauge"'), 'liquidCapillaryGauge が見つからない');
-  assert.ok(HTML.includes('id="liquidFluidStream"'), 'liquidFluidStream が見つからない');
-  assert.ok(HTML.includes('id="liquidMeniscusHead"'), 'liquidMeniscusHead が見つからない');
-  assert.ok(HTML.includes('id="liquidOverdriveStream"'), 'liquidOverdriveStream が見つからない');
-  assert.ok(HTML.includes('id="liquidStreamBubbles"'), 'liquidStreamBubbles が見つからない');
-  assert.ok(HTML.includes('class="liquid-tube-bg"'), 'liquid-tube-bg が見つからない');
-  assert.ok(HTML.includes('class="lmh-droplet"'), 'lmh-droplet が見つからない');
-  assert.ok(HTML.includes('@keyframes meniscusPulse'), 'meniscusPulse アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes meniscusSquish'), 'meniscusSquish アニメーションが無い');
-});
-
-t('Liquid: 表面張力メニスカス波紋（liquidMeniscusRipples）、対流マーブルスワール（liquidMarbleSwirls）、薄膜真珠光沢が定義されている', () => {
-  assert.ok(HTML.includes('id="liquidMeniscusRipples"'), 'liquidMeniscusRipples が見つからない');
-  assert.ok(HTML.includes('class="l-ripple r1"'), 'l-ripple が見つからない');
-  assert.ok(HTML.includes('id="liquidMarbleSwirls"'), 'liquidMarbleSwirls が見つからない');
-  assert.ok(HTML.includes('class="liquid-pearl-sheen"'), 'liquid-pearl-sheen が見つからない');
-  assert.ok(HTML.includes('@keyframes meniscusRippleSpread'), 'meniscusRippleSpread アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes marbleSwirlCW'), 'marbleSwirlCW アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes pearlSheenDrift'), 'pearlSheenDrift アニメーションが無い');
-});
-
-t('Liquid: 100%達成・Overdrive時の絢爛ミルククラウン・スプラッシュ（liquidCrownSplash）と超臨界シャンパン発泡（liquidEffervescence）が定義されている', () => {
-  assert.ok(HTML.includes('id="liquidCrownSplash"'), 'liquidCrownSplash が見つからない');
-  assert.ok(HTML.includes('class="crown-wave"'), 'crown-wave が見つからない');
-  assert.ok(HTML.includes('class="crown-bead'), 'crown-bead が見つからない');
-  assert.ok(HTML.includes('id="liquidEffervescence"'), 'liquidEffervescence が見つからない');
-  assert.ok(HTML.includes('class="eff-bubble eb1"'), 'eff-bubble が見つからない');
-  assert.ok(HTML.includes('@keyframes crownMorphPulse'), 'crownMorphPulse アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes effRise'), 'effRise アニメーションが無い');
-});
-
-t('Liquid: _driveThemeGauge内で外周流体ストリーム、メニスカスヘッド、クラウンスプラッシュの進捗連動制御が存在する', () => {
-  assert.ok(HTML.includes('const lStream = document.getElementById(\'liquidFluidStream\');'), 'lStream取得が無い');
-  assert.ok(HTML.includes('const lMeniscus = document.getElementById(\'liquidMeniscusHead\');'), 'lMeniscus取得が無い');
-  assert.ok(HTML.includes('const lCrown = document.getElementById(\'liquidCrownSplash\');'), 'lCrown取得が無い');
-  assert.ok(HTML.includes('lStream.style.strokeDashoffset'), 'lStreamの連動制御が無い');
-  assert.ok(HTML.includes('lMeniscus.style.transform'), 'lMeniscusの連動制御が無い');
-});
-
-t('Liquid: 100%超（Overdrive）における劇的有機変形（アメーバモーフィング＆チャンバー歪み脈動）が定義されている', () => {
-  assert.ok(HTML.includes('@keyframes overdriveAmoebaBodyMorph'), 'overdriveAmoebaBodyMorph アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes overdriveAmoebaMantleMorph'), 'overdriveAmoebaMantleMorph アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes overdriveChamberWobble'), 'overdriveChamberWobble アニメーションが無い');
-  assert.ok(HTML.includes('@keyframes overdriveJellyQuake'), 'overdriveJellyQuake アニメーションが無い');
-  assert.ok(HTML.includes('.gauge[data-overdrive] .lava-cell-body') || HTML.includes('html.ui-liquid #gaugeLiquidCore.overdrive .lava-cell-body'), 'Overdrive流体セル変形ルールが無い');
-});
-
-// ── 💎 Liquid 絢爛化（2026-09-14b） ─────────────────────────────
-t('Liquid絢爛: 弧の中を流れる光・真珠の輪・水面の光のマークアップが揃っている（内側へ落ちる雫は撤去済み）', () => {
-  ['id="liquidFlowGlint"', 'mask="url(#liquidGlintMask)"', 'id="liquidGlintMaskArc"', 'id="liquidPearlRing"',
-   'class="lmh-splash-ring"', 'class="liquid-caustics"', 'id="liquidDepthLensGrad"', 'id="liquidPearlBeadGrad"']
-    .forEach(w => assert.ok(HTML.includes(w), w + ' が無い'));
-  ['liquidDrips', 'ldrip', 'LIQ_DRIP_MARKS', 'liquidDripGrad', 'liqDripFall', 'liqDripRing']
-    .forEach(w => assert.ok(!HTML.includes(w), w + ' が残っている（内側へ落ちる雫はユーザーの判断で撤去）'));
-  // 光のマスクは流体の弧と同じ dashoffset を持つ（充填ぶんだけ光る）
-  assert.ok(/lGlintMask\.style\.strokeDashoffset = String\(sOffset\.toFixed\(2\)\)/.test(fnBody('_driveThemeGauge')), '光のマスクが弧の充填と連動していない');
-  // 光の模様の周期（dasharray の合計）は周の半分＝継ぎ目なく回る
-  const da = HTML.match(/\.liquid-flow-glint \{[^}]*stroke-dasharray: ([\d. ]+);/);
-  const sum = da[1].trim().split(/\s+/).map(Number).reduce((a, b) => a + b, 0);
-  assert.ok(Math.abs(sum - 179.07) < .01, '光の模様の周期が 179.07 でない: ' + sum);
-});
-
-t('Liquid絢爛: 進捗の演出は予定表1本・テーマ/reduced-motion/非表示タブの門を通る', () => {
-  const fx = fnBody('_liqProgressFx');
-  assert.ok(/!_liqTearOk\(\)/.test(fx), '_liqProgressFx が _liqTearOk の門を通っていない');
-  assert.ok(/if \(!\(base > prev\)/.test(fx), '進捗が伸びていないのに演出を出している（renderHero は同期のたびに走る）');
-  const later = fnBody('_liqFxLater');
-  assert.ok(/clearTimeout\(_liqFxTimer\)/.test(later), '_liqFxLater がタイマーを張り替える前に止めていない（多重発火）');
-  assert.ok(/try \{[^}]*\} catch/.test(fnBody('_liqFxPump')), '予定の1つが例外を投げると残りが止まる');
-});
-
-t('Liquid絢爛: 位置・大きさの演出は translate / scale で書く（transform は既存アニメが持つ）', () => {
-  ['liqSplashRing', 'liqSpray', 'liqDepthMid', 'liqDepthCore', 'liqCausticA', 'liqCausticB'].forEach(k => {
-    const m = HTML.match(new RegExp('@keyframes ' + k + ' \\{([\\s\\S]*?)\\n\\}'));
-    assert.ok(m, '@keyframes ' + k + ' が無い');
-    assert.ok(!/transform:/.test(m[1]), k + ' が transform を使っている');
+t('Liquid: 旧ゲージの部品が復活していない（マークアップ・JS・CSS）', () => {
+  ['gaugeLiquidCore', 'lavaCellBody', 'lavaChamber', 'liquidMembraneTear', 'liquidPearlRing', 'liquidMeniscusHead',
+   'liquidFluidStream', 'liquidCapillaryGauge', 'gaugeLiquidBubbles', 'liquidCrownSplash'].forEach((id) => {
+    assert.ok(!HTML.includes('id="' + id + '"'), id + ' が残っている');
   });
-  const THEME = fs.readFileSync(path.join(__dirname, '..', 'ui_theme.css'), 'utf8');
-  const near = THEME.match(/@keyframes liquidDepthNear \{([\s\S]*?)\n\}/);
-  assert.ok(near && !/transform:/.test(near[1]), 'liquidDepthNear が transform を使っている（liquidFluidMorph を殺す）');
-  // 膜が translate で揺れるので、かけらの位置計算も translate を足している
-  const geom = fnBody('_liqMembraneGeom');
-  assert.ok(geom.includes('cs.translate') && geom.includes('borderTopColor'), '_liqMembraneGeom が膜の translate・辺の色を読んでいない');
+  ['_liqTearRender', '_liqTearArm', '_liqProgressFx', 'LIQ_TEAR_'].forEach((k) => assert.ok(!HTML.includes(k), k + ' が残っている'));
+  ['lavaContainerMorph', 'lavaCellMorph', 'liquidFilmSpin', 'liquidTierSurge', 'liquidFluidMorph'].forEach((k) =>
+    assert.ok(!HTML.includes('@keyframes ' + k), '@keyframes ' + k + ' が残っている'));
 });
 
-t('Liquid絢爛: reduced-motion で新しい演出を止めている', () => {
-  const rm = HTML.match(/\.liquid-membrane-tear \{ display: none !important; \}([\s\S]{0,400})/);
-  assert.ok(rm, 'reduced-motion ブロックが見つからない');
-  ['.liquid-flow-glint', '.liquid-drips', '.lmh-splash-ring', '.lmh-spray', '.lpr-seal', '.liquid-caustics i', '.lpr-beads', '.liquid-metaball-layer']
-    .forEach(w => assert.ok(rm[1].includes(w), 'reduced-motion で ' + w + ' を止めていない'));
+t('Liquid: canvas は .gauge-ring の直下（svg の外）にあり、数字より手前に来ない', () => {
+  const i = HTML.indexOf('id="gaugeLiquidCanvas"');
+  assert.ok(i > 0, 'gaugeLiquidCanvas が無い');
+  const svgEnd = HTML.lastIndexOf('</svg>', i), svgOpen = HTML.lastIndexOf('<svg', i);
+  assert.ok(svgEnd > svgOpen, 'canvas が svg の中にある（rotate(-90deg) と円形クリップを受けてしまう）');
+  const mid = HTML.indexOf('id="gaugeMid"', i);
+  assert.ok(mid > i, 'canvas が数字（#gaugeMid）より後ろにある');
+});
+
+t('Liquid: hub_liquid.js を index.js より先に読み、_driveThemeGauge は値を渡すだけ', () => {
+  const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+  const a = html.indexOf('<script src="hub_liquid.js"></script>'), b = html.indexOf('<script src="index.js"></script>');
+  assert.ok(a > 0 && a < b, 'hub_liquid.js の読み込みが index.js より前に無い');
+  assert.ok(/MecLiquidGauge\.mount\(document\.getElementById\('gaugeLiquidCanvas'\)\)/.test(HTML), 'mount が無い');
+  assert.ok(/MecLiquidGauge\.set\(pct\)/.test(HTML), 'set(pct) が無い（100% 超もそのまま渡す）');
+});
+
+t('Liquid: canvas は Liquid のときだけ出し、ゲージ全体を脈打たせない', () => {
+  assert.ok(/\.liq-canvas\s*\{\s*display:\s*none;?\s*\}/.test(HTML), '既定で隠していない');
+  assert.ok(/html\.ui-liquid \.liq-canvas\s*\{[^}]*display:\s*block/.test(HTML), 'Liquid で出していない');
+  assert.ok(/html\.ui-liquid \.gauge-ring\s*\{\s*animation:\s*none/.test(HTML), 'gaugeBeat を止めていない（塊が自分で呼吸する）');
+});
+
+t('Liquid: 100% を超えても黄色にしない（数字の縁取りも含む）', () => {
+  const ui = fs.readFileSync(path.join(__dirname, '..', 'ui_theme.css'), 'utf8');
+  const m = ui.match(/html\.ui-liquid \.gauge \.gauge-mid \{[^}]*\}/);
+  assert.ok(m, 'Liquid の数字の規則が無い');
+  assert.ok(!/255,\s*209,\s*102|#FFD166/i.test(m[0]), '数字に金色が入っている');
+  assert.ok(!/html\.ui-liquid \.gauge\[data-tier="[56]"\] \.gauge-mid/.test(ui), '高い段で数字の色を変える規則が残っている');
+  const js = fs.readFileSync(path.join(__dirname, '..', 'hub_liquid.js'), 'utf8');
+  assert.ok(!/PALG|gold|#FFD166|255,\s*209,\s*102|255,\s*196,\s*80/i.test(js), 'hub_liquid.js に金色が残っている');
+});
+
+t('Liquid: 演出の予定表（_liqFxLater / _liqFxPulse）は Celestial・Frost のために残っている', () => {
+  assert.ok(HTML.includes('function _liqFxLater('), '_liqFxLater が無い');
+  assert.ok(HTML.includes('function _liqFxPulse('), '_liqFxPulse が無い');
 });
 
 // ── ❄️ Frost 絢爛化（2026-09-14c） ─────────────────────────────

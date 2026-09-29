@@ -9,6 +9,8 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-09-29p: Abyss の正解演出を「ソナーの反響」（_abyAbyssFx・_abySonar・試験演出一覧の新案 第1弾の B から採用）に置き換え。旧 MecFX.abyssSonarPulse（閃光・波紋・マリンスノー）と段4〜の輪3本（MecFX.rings）は正解演出から外した（結果画面では今も使う）。シェルのみ＝SHELL_VERSION だけ bump。
+2026-09-29o: ハブの Liquid ゲージを作り直し：旧ゲージ（ガラスの丸窓・ラバ・セル・膜のくびれ・真珠の輪・メニスカス・毛細管の弧・ネオン気泡）を撤去し、新設 hub_liquid.js が #gaugeLiquidCanvas（1枚の canvas）に描く。中央の塊がちぎれて漂い（回らない）戻る・小さな雫は塊へ吸い込まれる・中に光の網・弧 r=74（100% 超は外周 r=80）。100% を超えても色は変えず、勢いで派手にする。SHELL に hub_liquid.js を追加。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-29n: 週ごとの弱点の推移（mec_weekly_v1・progress.js の weekRecord／weekReport）。解答のたびに克服・忘却・取りこぼし・再発を判定して週の台帳へ貯め、stats.html の弱点分析タブに「📅 週ごとの弱点の推移」、ハブの先週の結果発表に克服・露呈の行を足す。過去問ビューアの生ログ書き込みも attStore を通すよう直した。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-29m: ハブの Celestial ゲージ：天の川を子午環の内側（r=60.5）からゲージの最外周（子午環 r=72 の外・中心 r=78.5・幅 r=73〜84）へ移した。星屑の流れ6本・帯の星・先頭の星も同じ半径へ。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-29l: ハブの Celestial ゲージ：100% 以上で出る外周の金の環（gyro-ring）を「天球儀が開く」の環と同じ立体回転に（celArmRot を共用・9秒で一回転・軸を 20° 傾ける・non-scaling-stroke）。シェルのみ＝SHELL_VERSION だけ bump。

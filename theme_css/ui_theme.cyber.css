@@ -967,10 +967,6 @@ html.ui-cyber .gauge .gauge-all {
   text-shadow: 0 0 8px rgba(0, 229, 255, 0.6) !important;
 }
 @keyframes cyberRadarSweep { to { transform: rotate(360deg); } }
-@keyframes liquidDepthNear {
-  from { translate: -2.4px 1.6px; }
-  to { translate: 2.4px -1.6px; }
-}
 .qc,
 .ch2,
 .mec-grade-btn,
@@ -1318,8 +1314,7 @@ html.ui-cyber .gauge[data-tier="5"] .gauge-megaring,
 html.ui-cyber .gauge[data-tier="6"] .gauge-megaring { filter: drop-shadow(0 0 10px #00E5FF) drop-shadow(0 0 18px #00FF9D); }
 html.ui-cyber .gauge-aura { background: radial-gradient(circle, rgba(0, 229, 255, 0.4) 0%, rgba(0, 255, 157, 0.25) 50%, rgba(0, 0, 0, 0) 74%) !important; }
 .cyber-data-matrix,
-.cel-moon-phase,
-.liquid-bubble-layer { display: none !important; }
+.cel-moon-phase { display: none !important; }
 html.ui-cyber .cyber-data-matrix { display: inline !important; }
 html.ui-cyber .cyber-matrix-orbit {
   fill: none; stroke: rgba(0, 229, 255, 0.45); stroke-width: 1.6;

@@ -985,10 +985,6 @@ html.ui-brass .gauge[data-tier="5"] .gauge-val,
 html.ui-brass .gauge[data-tier="6"] .gauge-val { stroke: #FFDF00; filter: drop-shadow(0 0 18px #FFD700) drop-shadow(0 0 32px rgba(255, 223, 0, 0.95)); }
 html.ui-brass .gauge .gauge-dot circle { fill: #FFD700; filter: drop-shadow(0 0 12px #FFD700); }
 html.ui-brass .gauge .gauge-dot .halo { fill: rgba(255, 215, 0, 0.5); filter: blur(3px); }
-@keyframes liquidDepthNear {
-  from { translate: -2.4px 1.6px; }
-  to { translate: 2.4px -1.6px; }
-}
 .qc,
 .ch2,
 .mec-grade-btn,
@@ -1321,8 +1317,7 @@ html.ui-brass .qc .eg {
   line-height: 1.85 !important;
 }
 .cyber-data-matrix,
-.cel-moon-phase,
-.liquid-bubble-layer { display: none !important; }
+.cel-moon-phase { display: none !important; }
 .frost-crust-crack {
   fill: none; stroke: rgba(255, 255, 255, 0.75); stroke-width: 1.5; stroke-dasharray: 6 3;
   opacity: 0.75; filter: drop-shadow(0 0 4px #70D6FF);

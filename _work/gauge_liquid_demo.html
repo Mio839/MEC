@@ -22,6 +22,19 @@
     泳ぐ時間を 14〜24秒に延ばした（7〜12秒では2つ以上が同時に泳ぐ時間が20分中17秒しかなく、出会いがほぼ起きなかった）。
     20分回して：60%〜130% でくっつくのは約2回/分・同時にちぎれ始めるのは0回・泳ぎ中に止まるのは1%未満・NaN 0。
     ⚠️ 溶け込み中の縁のふくらみは以前 l.a1（もう使っていない）を見ていて NaN になっていた。l.a を見ること。
+  第8版（ユーザー指示）：① ちぎれた塊をもっと自然に漂わせる＝float の間は角度を回すのをやめ、位置・速度を持つ 2D の運動に
+    （正弦の和のゆらぎ＋ゆっくり移る居場所へのゆるいばね＋帯へのやわらかい押し戻し＋減衰＋止まらない下支え。くっつきはばねと速度の同調）。
+    「ぐるぐる周りすぎ」（ユーザー）を受けて、泳ぐ向きへの流れをやめ、離れる・戻る段の泳ぎも 0.45 倍にした。
+    小さな雫はその場で消さない（ユーザー指示）：漂ったあと中央の塊へ引き寄せられ（近いほど強く）、縁に触れたら沈みながら溶ける。塊の縁も迎えに伸びる。
+      10分回して：雫はすべて縁より11以上内側で消える（外で消えるのは0）・引き寄せから吸収まで約3.5〜3.9秒・取り残し0。
+    10分回して：1つのかけらが帰るまでに回る角度は中央値 46〜93°（第7版は約290°＝ほぼ1周）・速さ1未満は約1%・弧へのはみ出し 0.04% 以下・NaN 0。
+    ② 100% 超で金色にしない（PALG・超過の弧の黄色を撤去）。③ 色は変えず、達成率（勢い e＝v/100・160% で頭打ち）で派手さを上げる：
+    揺れ・にじみ・縁の照り・弧の光・かけらの上限（150%で7）・ちぎれる頻度・中を昇る気泡・小さな雫（75%〜・最大8）。
+  第9版：この採用版を土台に、追加演出の案10個を1つずつ重ねて見比べる（ユーザー依頼）。土台の動きには手を入れず、差し込み口だけを足した
+    （Blob.ev＝溶け込みの出来事・render の hk＝under/inside/over・弧より手前の重ね canvas `.ov`・stage/bloom の転送）。
+    案は ADDONS に1つ1オブジェクト。画面外のカードは描かない・「このカードだけ動かす」で1枚に絞れる。11枚全部を描いて 1コマ約6ms（PC）。
+    ✅ 2026-09-29：案2「中を揺れる光の網」だけを採用し、土台＋案2を本番（hub_liquid.js）へ移した（ユーザー判断）。ほかの9案は不採用。
+    ⚠️ 本番の動きの正本はこのページ。土台（Blob・PathGoo・CFG）を直したら hub_liquid.js にも同じ変更を入れること。
   本物の index.js は呼ばず、このページの中だけで再生する（何も保存しない）。テストの対象ではない。
   ⚠️ 本番へ移すとき：本番の svg は transform: rotate(-90deg) を持つ。canvas は回さずに重ねる。
   ⚠️ 本番へ移すとき：画面外・非表示では描かない。
@@ -59,6 +72,12 @@
   .card .tag{font-size:12px;color:var(--sub);line-height:1.55;}
   .card .cnt{font-size:12px;color:#7EF3FF;font-variant-numeric:tabular-nums;margin-top:4px;}
   .stage{display:flex;justify-content:center;padding:14px 0 6px;}
+  .card .solo{float:right;margin:-2px 0 0 8px;padding:4px 9px;border-radius:10px;border:1.5px solid var(--line);background:#1C0E36;color:var(--tx);font-weight:700;font-size:12px;cursor:pointer;}
+  .card.soloOn{border-color:#FF007F;box-shadow:0 0 0 1px #FF007F,0 10px 30px rgba(0,0,0,.35);}
+  .card.soloOn .solo{border-color:#FF007F;background:#34104A;}
+  .card.base h2{color:#7EF3FF;}
+  h3.sec{font-size:15px;margin:22px 0 4px;color:#FFB3D6;}
+  .gauge-ring canvas.ov{pointer-events:none;}
 
   /* ── 本番のゲージの外形（index.css の .gauge / .gauge-mid と同じ組み方） ── */
   .gauge{position:relative;width:var(--gw);text-align:center;}
@@ -76,7 +95,7 @@
   /* ── 外周の弧（進捗を示すだけ） ── */
   .trk{fill:none;stroke:rgba(255,255,255,.08);stroke-width:3;}
   .val{fill:none;stroke:url(#gArc);stroke-width:3;stroke-linecap:round;filter:drop-shadow(0 0 2px rgba(255,0,127,.6));}
-  .ovf{fill:none;stroke:#FFD166;stroke-width:2;stroke-linecap:round;filter:drop-shadow(0 0 2px rgba(255,209,102,.8));}
+  .ovf{fill:none;stroke:url(#gArc);stroke-width:2;stroke-linecap:round;filter:drop-shadow(0 0 2px rgba(255,0,127,.6));}   /* 超過の弧も同じ配色（第8版で黄色をやめた） */
   .tick{stroke:rgba(255,255,255,.28);stroke-width:1;stroke-linecap:round;transition:stroke .6s;}
   .tick.on{stroke:#FF9ACB;}
   .soft{fill:url(#gSoft);transform-box:fill-box;transform-origin:center;animation:soft 2.6s cubic-bezier(.2,.7,.3,1) forwards;}
@@ -84,12 +103,18 @@
 </style>
 </head>
 <body>
-<h1>🫧 Liquid のヒーローゲージ — 採用版（輪郭を線で描く）</h1>
+<h1>🫧 Liquid のヒーローゲージ — 採用版＋追加演出の案10個</h1>
 <p class="note">
+  <b>第9版：一番上が土台（採用版）、その下に土台へ演出を1つずつ足した10案。</b>動きは11枚とも同じ種で揃えてあるので、違いは案の部分だけ。
+  「▶ 0→130% を順に」で段（25・50・75%）と 100% の演出も出ます。1枚をじっくり見るときは「このカードだけ動かす」。<br>
   中央の塊がフヨフヨ揺れ、一部がゆっくりちぎれて外へ泳ぎ出し、また戻って溶け込みます（ちぎれ始めるのは一度に1つ・見えるかけらは合計5つまで）。
   塊は<b>輪郭をなめらかな曲線にして塗る描き方</b>（第5版の比較で採用）。
   第6版で、<b>ちぎれたかけらがどの段階でも自分のペースで泳ぎ続ける</b>ようにしました（離れ始め・泳ぐ・戻る・溶け込むまで）。
   以前は、ちぎれるときの糸（尾）が切れないまま取り残されることがあり、それが止まった塊に見えていました。糸は離れ終わる前に必ず切れ、塊へ吸い戻ります。
+  第8版：<b>ちぎれたかけらは塊のまわりを回らず、ちぎれた場所のあたりで行きつ戻りつ漂う</b>（位置と速度を持ち、ゆらぐ流れに押されて慣性で動く・居場所はごくゆっくり移るだけ）。
+  <b>100% を超えても色は変えない</b>（金色をやめた）。代わりに<b>達成率が上がるほど派手に</b>：揺れが大きく速く・にじみの光が広く濃く・かけらが増える（150%で7つ）・
+  中を昇る気泡が増える・75% あたりから小さな雫が分かれて漂う（160%で最大8つ）。
+  小さな雫はその場で消えず、<b>しばらく漂ったあと中央の塊へ引き寄せられ、迎えに伸びた縁に吸い込まれます</b>。
   第7版：<b>かけら同士が出会うと、ゆっくり寄ってくっつき、しばらく一緒に泳いでから、またちぎれて離れます</b>（近くの相手にはゆるく引き寄せられる）。
   かけらが戻ってくるときは、<b>塊の縁もかけらの方へ伸びて迎えに行き</b>、つながってから溶け込みます。泳ぐ時間を長くしたので、段ごとの上限までかけらが揃って泳ぎます。
 </p>
@@ -145,9 +170,8 @@ const SVG_FG = () => `${SVG_DEFS}${TICKS()}${ARC(ARC_R, 'trk')}${ARC(ARC_R, 'val
 
 /* ══════════════════════ 配色（Liquid） ══════════════════════
    場の深さで色を決める：縁＝ネオンのマゼンタ → バイオレット。深い藍は塊の中心のまわり（数字の下）だけ。縁にシアンの照り返し。 */
+// 第8版：100% を超えても色は変えない（以前は金色へ移っていた＝撤去）。派手さは動き・光・かけらの数で上げる
 const PAL = { edgeT: [255, 60, 175], edgeB: [255, 0, 127], mid: [121, 40, 202], core: [18, 8, 46], rim: [0, 242, 254], halo: [255, 0, 127] };
-const PALG = { edgeT: [255, 226, 140], edgeB: [255, 196, 80], mid: [214, 140, 40], core: [52, 28, 8], rim: [255, 250, 220], halo: [255, 209, 102] };
-function palette(gk) { const o = {}; for (const k in PAL) o[k] = lerp3(PAL[k], PALG[k], gk); return o; }
 const LIGHT = (() => { const L = [-0.45, -0.65, 0.62], l = Math.hypot(...L), Ln = L.map((v) => v / l); const H = [Ln[0], Ln[1], Ln[2] + 1], h = Math.hypot(...H); return { L: Ln, H: H.map((v) => v / h) }; })();
 
 /* ══════════════════════ ② 輪郭を線で描く ══════════════════════
@@ -157,7 +181,7 @@ const LIGHT = (() => { const L = [-0.45, -0.65, 0.62], l = Math.hypot(...L), Ln 
 const CG = 1.5, CM = Math.round(168 / CG) + 1;
 const MS = { 1: [[3, 2]], 2: [[2, 1]], 3: [[3, 1]], 4: [[0, 1]], 6: [[0, 2]], 7: [[3, 0]], 8: [[3, 0]], 9: [[0, 2]], 11: [[0, 1]], 12: [[3, 1]], 13: [[2, 1]], 14: [[3, 2]] };
 class PathGoo {
-  constructor(canvas) { this.cv = canvas; this.ctx = canvas.getContext('2d'); this.gold = 0; this.hot = 0; this.F = new Float32Array(CM * CM); this.resize(); }
+  constructor(canvas) { this.cv = canvas; this.ctx = canvas.getContext('2d'); this.hot = 0; this.F = new Float32Array(CM * CM); this.resize(); }
   resize() {
     const r = this.cv.getBoundingClientRect(), d = Math.min(2, window.devicePixelRatio || 1);
     this.cv.width = Math.max(1, Math.round(r.width * d)); this.cv.height = Math.max(1, Math.round(r.height * d));
@@ -207,10 +231,11 @@ class PathGoo {
     }
     return out;
   }
-  render(B, cx, cy, heads) {
-    const c = this.ctx, W = this.cv.width, s = W / 168, P = palette(this.gold);
+  render(B, cx, cy, heads, bubbles, hk) {   // hk＝追加演出の差し込み口 { under（塊の後ろ）, inside（塊の中・切り抜き済み）, over（塊の上） }
+    const c = this.ctx, W = this.cv.width, s = W / 168, P = PAL, hot = this.hot;
     c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, W, this.cv.height);
     c.setTransform(s, 0, 0, s, 0, 0);
+    if (hk && hk.under) { c.save(); hk.under(c, s); c.restore(); }
     const path = new Path2D();
     for (const L of this.loops(B)) {
       const n = L.length;
@@ -225,20 +250,33 @@ class PathGoo {
     gr.addColorStop(0, rgba(P.core, 1)); gr.addColorStop(0.3, rgba(P.core, 1)); gr.addColorStop(0.5, rgba(P.mid, 1));
     gr.addColorStop(0.64, rgba(P.edgeB, 1)); gr.addColorStop(1, rgba(P.edgeT, 1));
     // にじみ（外の光）と塗り
-    c.save(); c.shadowColor = rgba(P.halo, 0.5 + this.hot * 0.25); c.shadowBlur = 10 * s; c.fillStyle = gr; c.fill(path); c.restore();
+    // にじみは達成率とともに広く濃くなる（色相は変えない）
+    c.save(); c.shadowColor = rgba(P.halo, 0.38 + hot * 0.42); c.shadowBlur = (6 + hot * 14) * s; c.fillStyle = gr; c.fill(path);
+    if (hot > 0.6) { c.shadowBlur = (4 + (hot - 0.6) * 30) * s; c.shadowColor = rgba(P.edgeT, (hot - 0.6) * 0.9); c.fill(path); }   // 100% を越えたあたりから二重の光
+    c.restore();
     c.save(); c.clip(path);
     // 縁の照り（内側にだけ）：太く淡いシアン＋細く明るい線
     c.lineJoin = 'round';
-    c.strokeStyle = rgba(P.rim, 0.14); c.lineWidth = 9; c.stroke(path);
-    c.strokeStyle = rgba(P.rim, 0.45); c.lineWidth = 2.6; c.stroke(path);
-    c.strokeStyle = rgba(P.edgeT, 0.55); c.lineWidth = 1.2; c.stroke(path);
+    c.strokeStyle = rgba(P.rim, 0.1 + hot * 0.1); c.lineWidth = 9; c.stroke(path);
+    c.strokeStyle = rgba(P.rim, 0.32 + hot * 0.3); c.lineWidth = 2.6; c.stroke(path);
+    c.strokeStyle = rgba(P.edgeT, 0.45 + hot * 0.25); c.lineWidth = 1.2; c.stroke(path);
+    // 中の気泡：塊の中をゆっくり昇る小さな泡（数は達成率で増える）
+    for (const b of bubbles) {
+      const al = b.al * Math.min(1, b.t / 0.8) * Math.min(1, (b.life - b.t) / 0.8);
+      if (al <= 0) continue;
+      const bg = c.createRadialGradient(b.x - b.r * 0.3, b.y - b.r * 0.3, 0, b.x, b.y, b.r);
+      bg.addColorStop(0, `rgba(255,255,255,${(al * 0.9).toFixed(3)})`); bg.addColorStop(0.6, rgba(P.rim, al * 0.35)); bg.addColorStop(1, rgba(P.rim, 0));
+      c.fillStyle = bg; c.beginPath(); c.arc(b.x, b.y, b.r, 0, TAU); c.fill();
+    }
     // 光沢：塊とかけらの左上に白い照り
     for (const [x, y, r] of heads) {
       const hx = x - r * 0.32, hy = y - r * 0.42, hg = c.createRadialGradient(hx, hy, 0, hx, hy, r * 0.55);
       hg.addColorStop(0, 'rgba(255,255,255,.55)'); hg.addColorStop(1, 'rgba(255,255,255,0)');
       c.fillStyle = hg; c.fillRect(hx - r, hy - r, r * 2, r * 2);
     }
+    if (hk && hk.inside) { c.save(); hk.inside(c, path, s); c.restore(); }
     c.restore();
+    if (hk && hk.over) { c.save(); hk.over(c, path, s); c.restore(); }
   }
 }
 
@@ -246,8 +284,8 @@ class PathGoo {
 const CFG = {
   core0: 28, E: 41, wobD: 17, wobA: 5, wobR: 20,
   bud: 4.2, tOut: 5.6, tBack: 4.6, melt: 3.2, hold: [14, 24], rT: [6, 8], out: [54, 60],   // 泳ぐ時間を長くして、上限までかけらが揃って泳ぐようにする
-  cap: (v) => Math.min(5, 1 + Math.floor(Math.min(100, v) / 25)),   // 見えるかけらは 0%で1つ → 25%ごとに1つ → 100%以上で5つ
-  rate: (heat) => 0.14 + heat * 0.2   // 前のかけらがちぎれ終わったら、あまり待たずに次がちぎれ始める
+  cap: (v) => Math.min(7, 1 + Math.floor(Math.min(150, v) / 25)),   // 見えるかけらは 0%で1つ → 25%ごとに1つ → 100%で5つ → 125%で6つ → 150%で7つ
+  rate: (e) => 0.14 + e * 0.22   // 前のかけらがちぎれ終わったら、あまり待たずに次がちぎれ始める（達成率が高いほど待たない）
 };
 
 /* ══════════════════════ 中央の塊 ══════════════════════
@@ -256,56 +294,148 @@ const CFG = {
 class Blob {
   constructor(seed, C) {
     const R = this.R = rng(seed);
-    this.C = C; this.t = 0; this.E = C.E; this.core0 = C.core0; this.amp = 1;
+    this.C = C; this.t = 0; this.E = C.E; this.core0 = C.core0; this.amp = 1; this.e = 0;
     this.wob = Array.from({ length: 5 }, (_, i) => ({ a: i * TAU / 5 + R() * 0.5, om: (R() < 0.5 ? -1 : 1) * (0.05 + R() * 0.07), w: 0.3 + R() * 0.3, w2: 0.2 + R() * 0.25, ph: R() * 6 }));
-    this.lobes = []; this.cx = 84; this.cy = 84;
+    this.lobes = []; this.drops = []; this.bubbles = []; this.dropCd = 2; this.cx = 84; this.cy = 84;
+    this.ev = [];   // 追加演出へ知らせる出来事（{k:'absorb', a, r}＝かけら・雫が塊に溶け込み始めた）。ゲージが毎コマ空にする
   }
   P(r, a) { return [this.cx + r * Math.sin(a), this.cy - r * Math.cos(a)]; }
+  polarOf(x, y) { const dx = x - this.cx, dy = y - this.cy; return [Math.atan2(dx, -dy), Math.hypot(dx, dy)]; }
   add(o) {
     const R = this.R, C = this.C;
-    const l = Object.assign({ st: 'bud', t: 0, r: 0, rT: lerp(C.rT[0], C.rT[1], R()), hold: lerp(C.hold[0], C.hold[1], R()), s: R() * 6, s2: R() * 6,
-      dir: R() < 0.5 ? -1 : 1, spd: 0.14 + R() * 0.1, rmid: lerp(C.out[0], C.out[1], R()) }, o);
+    const l = Object.assign({ st: 'bud', t: 0, r: 0, rT: lerp(C.rT[0], C.rT[1], R()), hold: lerp(C.hold[0], C.hold[1], R()), s: R() * 6, s2: R() * 6, s3: R() * 6,
+      dir: R() < 0.5 ? -1 : 1, spd: 0.14 + R() * 0.1, rmid: lerp(C.out[0], C.out[1], R()), vx: 0, vy: 0 }, o);
+    l.hold *= 1 + 0.6 * this.e;   // 達成率が高いほど長く漂う＝ちぎれ始めは一度に1つ・ゆっくりのまま、見えるかけらが増える
     l.a = l.a0; this.lobes.push(l); return l;
   }
   count() { return this.lobes.filter((l) => l.st !== 'gone' && l.st !== 'melt').length; }
-  // 泳ぐ向きと速さ（離れ始めから溶け込むまでずっと使う）。止まらないよう最低速度を持たせる
-  swimW(l) { return l.dir * (l.spd + 0.06 * Math.sin(l.t * 0.55 + l.s) + 0.05 * Math.sin(this.t * 0.9 + l.s2)); }
-  // かけら同士が出会ったら、ゆっくり寄ってくっつき（約1.4秒）、そろって泳ぎ（約2.2秒）、またちぎれて離れる（約1.6秒）。
-  // 離れたあと8秒は、どちらも次の相手とくっつかない（引き寄せも止める）。くっついている間の泳ぐ速さは、速いほうのかけらに合わせる。
+  // ふくらむ・離れる・戻るときの泳ぐ向きと速さ（角速度）。止まらないよう最低速度を持たせる
+  // 周回に見えないよう控えめ（第8版・改で 0.45 倍に）
+  swimW(l) { return 0.45 * l.dir * (l.spd + 0.06 * Math.sin(l.t * 0.55 + l.s) + 0.05 * Math.sin(this.t * 0.9 + l.s2)); }
+  // かけら同士の出会い：近づいたらくっつき（約1.4秒）、そろって漂い（約2.2秒）、またちぎれて離れる（約1.6秒）。
+  // 離れたあと8秒はどちらも次の相手とくっつかない。力は drift() の中でかける（ここは組と段階を決めるだけ）
   meet(dt) {
     const fl = this.lobes.filter((l) => l.st === 'float');
-    for (const l of this.lobes) { l.cool = Math.max(0, (l.cool || 0) - dt); l.attr = 0; }
-    // 近く（角度で約45°以内）にいる相手には、ゆるく引き寄せられる＝出会う機会を増やす
-    for (const a of fl) for (const b of fl) {
-      if (a === b || a.mate || b.mate || a.cool > 0 || b.cool > 0) continue;
-      const d = Math.atan2(Math.sin(b.a - a.a), Math.cos(b.a - a.a));
-      if (Math.abs(d) < 0.8) a.attr += Math.sign(d) * 0.1 * (1 - Math.abs(d) / 0.8 * 0.5);
-    }
+    for (const l of this.lobes) l.cool = Math.max(0, (l.cool || 0) - dt);
     for (let i = 0; i < fl.length; i++) for (let j = i + 1; j < fl.length; j++) {
       const a = fl[i], b = fl[j];
-      if (a.mate || b.mate || a.cool > 0 || b.cool > 0 || a.x == null || b.x == null) continue;
-      if (Math.hypot(a.x - b.x, a.y - b.y) < (a.rDraw + b.rDraw) * 1.9) {
-        a.mate = b; b.mate = a; a.mt = b.mt = 0;
-        const lead = a.spd >= b.spd ? a : b; a.lead = b.lead = lead;
-      }
+      if (a.mate || b.mate || a.cool > 0 || b.cool > 0) continue;
+      if (Math.hypot(a.x - b.x, a.y - b.y) < (a.rDraw + b.rDraw) * 1.9) { a.mate = b; b.mate = a; a.mt = b.mt = 0; }
     }
     for (const a of this.lobes) {
-      const b = a.mate;
-      if (!b) { a.paOff = (a.paOff || 0) * Math.max(0, 1 - dt * 3); a.prOff = (a.prOff || 0) * Math.max(0, 1 - dt * 3); continue; }
+      if (!a.mate) continue;
       a.mt += dt;
-      if (a.mt >= 5.2 || b.st !== 'float' || a.st !== 'float') { a.mate = null; a.cool = 8; continue; }
-      const k = a.mt < 1.4 ? ease(a.mt / 1.4) : a.mt < 3.6 ? 1 : 1 - ease((a.mt - 3.6) / 1.6);
-      a.pairW = a.mt < 3.6 ? this.swimW(a.lead) : this.swimW(a);   // 離れるときはそれぞれの向きへ戻る
-      // 2つの真ん中（角度・半径）へ、少し重なる間隔まで寄せる
-      const d = Math.atan2(Math.sin(b.a - a.a), Math.cos(b.a - a.a)), am = a.a + d / 2, rm = (a.rho + b.rho) / 2;
-      const hs = (a.r + b.r) * 0.3 / rm, ta = am - Math.sign(d || 1) * hs;
-      a.paOff = Math.atan2(Math.sin(ta - a.a), Math.cos(ta - a.a)) * k; a.prOff = (rm - a.rho) * k;
+      if (a.mt >= 5.2 || a.mate.st !== 'float' || a.st !== 'float') { a.mate = null; a.cool = 8; }
     }
   }
-  step(dt, heat) {
-    this.t += dt; const t = this.t, C = this.C;
+  // 漂う（第8版・改）：位置と速度を持ち、ゆらぐ流れ（周波数の違う正弦の和）に押されて慣性で動く。
+  // 周回はさせない：かけらには「居場所」（ちぎれた角度）があり、居場所はごくゆっくりしか移らない（1回の漂いで数十度）。
+  // かけらは居場所のまわりをゆらぎで行きつ戻りつし、ゆるいばねで居場所へ引き戻される。帯（塊と外周の弧のあいだ）からは押し戻す。
+  // 以前は泳ぐ向きへの流れを常にかけていたので、塊のまわりをぐるぐる回って見えた（ユーザー指摘）。
+  drift(l, dt) {
+    const e = this.e, t = l.t, dx = l.x - this.cx, dy = l.y - this.cy, rho = Math.hypot(dx, dy) || 1, ux = dx / rho, uy = dy / rho;
+    let fx = 0, fy = 0;
+    if (l.home == null) l.home = l.a;
+    l.home += l.dir * (0.018 + 0.014 * Math.sin(t * 0.11 + l.s3)) * (1 + 0.3 * e) * dt;
+    const [hx, hy] = this.P(l.rmid, l.home);
+    fx += (hx - l.x) * 0.3; fy += (hy - l.y) * 0.3;
+    const vr = l.vx * ux + l.vy * uy;
+    fx -= vr * ux * 0.5; fy -= vr * uy * 0.5;   // 内外へのふらつきは、じわっと止まる（弧へ飛び出さない）
+    // ゆらぐ流れ（乱数ではなく決定論の正弦の和）。達成率が上がると強い
+    const nA = 4.2 * (1 + 0.45 * e);
+    fx += nA * (Math.sin(t * 0.31 + l.s) + 0.7 * Math.sin(t * 0.67 + l.s2 * 1.7) + 0.4 * Math.sin(t * 1.29 + l.s3));
+    fy += nA * (Math.cos(t * 0.27 + l.s2) + 0.7 * Math.sin(t * 0.59 + l.s * 1.3) + 0.4 * Math.cos(t * 1.13 + l.s3 * 0.7));
+    // 帯：塊から離れすぎず、外周の弧に触れない（中ほどへもゆるく）
+    const lo = this.E + l.rDraw + 4, hi = 65.5 - l.rDraw;
+    let fr = (l.rmid - rho) * 0.4;
+    if (rho < lo) fr += (lo - rho) * 9; else if (rho > hi) fr -= (rho - hi) * 16;
+    fx += fr * ux; fy += fr * uy;
+    // 近くの相手へゆるく寄る（出会う機会を増やす）
+    if (!l.mate && !(l.cool > 0)) for (const o of this.lobes) {
+      if (o === l || o.st !== 'float' || o.mate || o.cool > 0) continue;
+      const ox = o.x - l.x, oy = o.y - l.y, d = Math.hypot(ox, oy);
+      if (d < 30 && d > 0.1) { const k = 1.1 * (1 - d / 30); fx += ox / d * k; fy += oy / d * k; }
+    }
+    // くっついている間：少し重なる間隔までばねで寄り、速度を揃える。離れる段では押し離す
+    if (l.mate) {
+      const o = l.mate, ox = o.x - l.x, oy = o.y - l.y, d = Math.hypot(ox, oy) || 1, d0 = (l.r + o.r) * 0.62;
+      if (l.mt < 3.6) {
+        const k = l.mt < 1.4 ? 0.6 + 1.4 * ease(l.mt / 1.4) : 2;
+        fx += ox / d * (d - d0) * k; fy += oy / d * (d - d0) * k;
+        fx += (o.vx - l.vx) * 1.2; fy += (o.vy - l.vy) * 1.2;
+      } else {
+        const k = 3.2 * Math.sin(Math.PI * clamp((l.mt - 3.6) / 1.6, 0, 1));
+        fx -= ox / d * k; fy -= oy / d * k;
+      }
+    }
+    // 下支え：ゆるんでも止まりはしない（速さ 3 未満なら、今の向きへそっと押す＝止まった塊に見せない）
+    const sp = Math.hypot(l.vx, l.vy);
+    if (sp < 3) { const k = (3 - sp) * 2.2, gx = sp > 0.05 ? l.vx / sp : -uy * l.dir, gy = sp > 0.05 ? l.vy / sp : ux * l.dir; fx += gx * k; fy += gy * k; }
+    const damp = Math.exp(-0.6 * dt);
+    l.vx = (l.vx + fx * dt) * damp; l.vy = (l.vy + fy * dt) * damp;
+    l.x += l.vx * dt; l.y += l.vy * dt;
+    [l.a, l.rho] = this.polarOf(l.x, l.y);
+  }
+  // 75% あたりから、漂うかけらから小さな雫が分かれて漂い、やがて中央の塊へ引き寄せられて吸い込まれる（数は達成率で増える：100%で2・130%で5・160%で8）
+  maxDrops() { return this.e < 0.75 ? 0 : Math.min(8, Math.round((this.e - 0.75) * 9.5)); }
+  stepDrops(dt) {
+    const R = this.R, fl = this.lobes.filter((l) => l.st === 'float' && l.r > 4);
+    this.dropCd -= dt * (0.4 + this.e * 0.5);
+    if (this.dropCd <= 0 && this.drops.length < this.maxDrops() && fl.length) {
+      const l = fl[Math.floor(R() * fl.length)], ux = (l.x - this.cx) / (l.rho || 1), uy = (l.y - this.cy) / (l.rho || 1);
+      const side = R() < 0.5 ? -1 : 1, nx = ux * 0.5 - uy * side * 0.85, ny = uy * 0.5 + ux * side * 0.85;
+      this.drops.push({ x: l.x + nx * l.rDraw * 0.6, y: l.y + ny * l.rDraw * 0.6, vx: l.vx + nx * 5, vy: l.vy + ny * 5, r: 0, rT: 2.6 + R() * 1.4,
+        t: 0, life: 4 + R() * 3.5, s: R() * 6, s2: R() * 6 });
+      this.dropCd = 0.8 + R() * 1.6;
+    }
+    // 雫の一生：分かれる（0.9秒でふくらむ）→ 漂う（life 秒）→ 中央の塊へ引き寄せられる → 縁に触れて吸い込まれる。
+    // その場で消えはしない（ユーザー指示・第8版）。塊の縁も近づいてきた雫の方へ少しふくらんで迎える。
+    for (const d of this.drops) {
+      d.t += dt;
+      const dx = d.x - this.cx, dy = d.y - this.cy, rho = Math.hypot(dx, dy) || 1, ux = dx / rho, uy = dy / rho, vr = d.vx * ux + d.vy * uy;
+      let fx = 0, fy = 0;
+      if (d.st === 'sink') {
+        // 縁に触れた：中へ沈みながら小さくなる（metaball なので塊の輪郭に溶け込んで見える）
+        const k = soft(d.tk / 1.1); d.tk += dt;
+        d.r = d.r0 * (1 - k); d.reach = d.rT * 0.7 * (1 - k);
+        fx -= ux * 14; fy -= uy * 14;
+        if (d.tk >= 1.1) d.dead = 1;
+      } else if (d.t < d.life) {
+        d.r = d.rT * soft(d.t / 0.9);
+        fx = 3.4 * (Math.sin(d.t * 0.6 + d.s) + 0.5 * Math.sin(d.t * 1.5 + d.s2)); fy = 3.4 * (Math.cos(d.t * 0.5 + d.s2) + 0.5 * Math.sin(d.t * 1.3 + d.s));
+        const lo = this.E + 8, hi = 66 - d.rT;
+        fx -= ux * vr * 0.8; fy -= uy * vr * 0.8;
+        if (rho < lo) { fx += ux * (lo - rho) * 9; fy += uy * (lo - rho) * 9; } else if (rho > hi) { fx -= ux * (rho - hi) * 16; fy -= uy * (rho - hi) * 16; }
+      } else {
+        // 引き寄せ：はじめはそっと、近づくほど強く（最後はすっと吸い込まれる）。横へのゆらぎは弱めて残す
+        const k = soft((d.t - d.life) / 2.2), gap = Math.max(0, rho - this.E);
+        const pull = (2 + 10 * k) * (1 + 18 / (gap + 6));
+        fx -= ux * pull; fy -= uy * pull;
+        fx += 1.6 * Math.sin(d.t * 0.9 + d.s) * (1 - k); fy += 1.6 * Math.cos(d.t * 0.8 + d.s2) * (1 - k);
+        d.r = d.rT;
+        d.reach = d.rT * 0.7 * soft(1 - (gap - d.rT) / 12);   // 縁が迎えに伸びる
+        if (rho < this.E + d.rT * 0.4) { d.st = 'sink'; d.tk = 0; d.r0 = d.r; this.ev.push({ k: 'absorb', a: d.a, r: d.rT * 0.6 }); }
+      }
+      const damp = Math.exp(-1.1 * dt);
+      d.vx = (d.vx + fx * dt) * damp; d.vy = (d.vy + fy * dt) * damp; d.x += d.vx * dt; d.y += d.vy * dt;
+      d.a = Math.atan2(d.x - this.cx, -(d.y - this.cy));
+    }
+    this.drops = this.drops.filter((d) => !d.dead);
+  }
+  // 塊の中をゆっくり昇る気泡（0% で1つ → 100% で6つ → 160% で9つ）
+  stepBubbles(dt) {
+    const R = this.R, want = Math.round(1 + this.e * 5.2);
+    if (this.bubbles.length < want && R() < dt * (0.6 + this.e)) {
+      const a = R() * TAU, d = Math.sqrt(R()) * this.E * 0.7;
+      this.bubbles.push({ x: this.cx + d * Math.sin(a), y: this.cy + d * 0.6 + 6, r: 1.1 + R() * 1.8, t: 0, life: 3 + R() * 3, al: 0.35 + R() * 0.35 + this.e * 0.12, s: R() * 6, up: 3 + R() * 4 });
+    }
+    for (const b of this.bubbles) { b.t += dt; b.y -= b.up * (0.8 + 0.4 * this.e) * dt; b.x += Math.sin(b.t * 2 + b.s) * 2.2 * dt; }
+    this.bubbles = this.bubbles.filter((b) => b.t < b.life);
+  }
+  step(dt, e) {
+    this.t += dt; this.e = e; const t = this.t, C = this.C;
     this.cx = 84 + Math.sin(t * 0.23) * 1.4; this.cy = 84 + Math.cos(t * 0.29) * 1.2;
-    this.amp = 1 + Math.min(1.25, heat) * 0.35;
+    this.amp = 1 + e * 0.38;   // 揺れの大きさ：0% で1倍 → 100% で1.38倍 → 160% で1.6倍
     this.meet(dt);
     for (const l of this.lobes) {
       l.t += dt;
@@ -325,22 +455,22 @@ class Blob {
           // 糸は伸びきったら切れる。届かなくても離れ終わる前には必ず切る（切れずに残った尾が止まった塊になっていた）
           if (Math.hypot(hx - l.tl.x, hy - l.tl.y) > l.rT * 1.35 || k > 0.8) l.tl.on = 0;
         }
-        if (l.t >= C.tOut) { l.st = 'float'; l.t = 0; l.fr = l.rho; }
+        if (l.t >= C.tOut) { l.st = 'float'; l.t = 0; }   // 速度（vx, vy）は直前のコマの動きを引き継ぐ
       } else if (l.st === 'float') {
-        // 塊のまわりを泳ぐ：回る速さも半径もそれぞれの揺れで変わり続ける（止まらない）
-        l.a += (l.mate ? l.pairW : this.swimW(l) + (l.attr || 0)) * dt;   // くっついている間は2つそろって泳ぐ（止まらない）
-        const want = l.rmid + 4 * Math.sin(l.t * 0.6 + l.s) + 2 * Math.sin(l.t * 1.3 + l.s2);
-        l.fr += (clamp(want, 52, 62) - l.fr) * Math.min(1, dt * 1.2);
-        l.rho = l.fr;
-        if (l.t >= l.hold && !l.mate) { l.st = 'back'; l.t = 0; l.rho0 = l.rho; }   // くっついている間は帰らない
+        this.drift(l, dt);
+        if (l.t >= l.hold && !l.mate) {   // くっついている間は帰らない
+          l.st = 'back'; l.t = 0; l.rho0 = l.rho;
+          // 漂っていた角速度から戻り始める（向きが折れ曲がらない）。角が増える向きの単位ベクトルは (cos a, sin a)
+          l.w0 = (l.vx * Math.cos(l.a) + l.vy * Math.sin(l.a)) / (l.rho || 1);
+        }
       } else if (l.st === 'back') {
         const k = ease(l.t / C.tBack);
         l.rho = lerp(l.rho0, E + l.rT * 0.25, k);
-        l.a += this.swimW(l) * dt * (1 - 0.5 * k);   // 泳ぎながら近づく
+        l.a += lerp(l.w0 || 0, this.swimW(l) * (1 - 0.5 * k), soft(l.t / 1.2)) * dt;   // 泳ぎながら近づく
         // 後半は塊の縁もかけらの方へふくらんで伸び、迎えに行く
         const rk = soft((k - 0.3) / 0.7);
         l.reachR = l.rT * 0.75 * rk; l.reachRho = E - 4 + l.rT * 0.9 * rk;
-        if (l.t >= C.tBack) { l.st = 'melt'; l.t = 0; l.rho0 = l.rho; }
+        if (l.t >= C.tBack) { l.st = 'melt'; l.t = 0; l.rho0 = l.rho; this.ev.push({ k: 'absorb', a: l.a, r: l.rT }); }
       } else if (l.st === 'melt') {
         const k = soft(l.t / C.melt);
         l.rho = lerp(l.rho0, E - 8, k); l.r = l.rT * (1 - k);
@@ -352,11 +482,13 @@ class Blob {
       if (l.st !== 'gone') {
         // ふわふわ：かけら自身もゆっくり息をするように大きさが揺れる
         const breathe = l.st === 'float' || l.st === 'back' ? 1 + 0.06 * Math.sin(l.t * 1.4 + l.s) : 1;
-        [l.x, l.y] = this.P(l.rho + (l.prOff || 0), l.a + (l.paOff || 0)); l.rDraw = l.r * breathe;
+        if (l.st !== 'float') [l.x, l.y] = this.P(l.rho, l.a);
+        l.rDraw = l.r * breathe;
       }
       // 動く向きへ少し伸びる（後ろに小さな球を引く）
       if (px != null && dt > 0 && l.st !== 'gone') {
         const vx = (l.x - px) / dt, vy = (l.y - py) / dt, sp = Math.hypot(vx, vy);
+        if (l.st !== 'float') { l.vx = vx; l.vy = vy; }
         const k = clamp(sp / 9, 0, 1) * (l.st === 'bud' ? 0 : 1);
         l.trail = k > 0.05 ? { x: l.x - vx / sp * l.rT * 0.6 * k, y: l.y - vy / sp * l.rT * 0.6 * k, r: l.rDraw * 0.7 } : null;
       }
@@ -368,6 +500,7 @@ class Blob {
       if (l.st === 'gone' && l.tl) l.tl.on = 0;
     }
     this.lobes = this.lobes.filter((l) => l.st !== 'gone' || l.tl);
+    this.stepDrops(dt); this.stepBubbles(dt);
   }
   sources(S) {
     const t = this.t, C = this.C;
@@ -375,8 +508,8 @@ class Blob {
     for (const l of this.lobes) if (l.st !== 'gone') lost += l.r * l.r;
     const core = Math.sqrt(Math.max(this.core0 * this.core0 * 0.6, this.core0 * this.core0 - lost * 0.5));
     S.push(this.cx, this.cy, core * core);
-    for (const w of this.wob) {
-      const a = w.a + t * w.om, d = C.wobD + C.wobA * this.amp * Math.sin(t * w.w + w.ph), r = C.wobR + 1.6 * Math.sin(t * w.w2 + w.ph * 2);
+    for (const w of this.wob) {   // 達成率が上がると、揺れが大きく・速くなる
+      const a = w.a + t * w.om * (1 + this.e * 0.4), d = C.wobD + C.wobA * this.amp * Math.sin(t * w.w * (1 + this.e * 0.25) + w.ph), r = C.wobR + 1.6 * Math.sin(t * w.w2 + w.ph * 2);
       const [x, y] = this.P(d, a); S.push(x, y, r * r);
     }
     for (const l of this.lobes) {
@@ -385,6 +518,10 @@ class Blob {
       if (l.tl) S.push(l.tl.x, l.tl.y, l.tl.r * l.tl.r);
       if (l.bulge > 0.2 && l.st === 'melt') { const [bx, by] = this.P(this.E - 3, l.a); S.push(bx, by, l.bulge * l.bulge); }   // 以前は使っていない l.a1 を見ていて NaN になっていた
       if (l.reachR > 0.2 && l.st !== 'gone') { const [rx, ry] = this.P(l.reachRho, l.a); S.push(rx, ry, l.reachR * l.reachR); }
+    }
+    for (const d of this.drops) {
+      if (d.r > 0.3) S.push(d.x, d.y, d.r * d.r);
+      if (d.reach > 0.3) { const [rx, ry] = this.P(this.E - 3, d.a); S.push(rx, ry, d.reach * d.reach); }   // 迎えに伸びる縁
     }
   }
   heads() {   // ② の光沢を置く場所（塊とかけらの頭）
@@ -395,19 +532,24 @@ class Blob {
 }
 
 /* ══════════════════════ ゲージ（A. ひとかけらずつ） ══════════════════════ */
-function makeGauge(key, name, tag, Rend) {
+function makeGauge(key, name, tag, Rend, ad = null) {
   return {
-    key, name, tag, Rend,
-    init() { this.blob = new Blob(11, CFG); this.cd = 0.8; this.queue = []; this.ms = 0; },
+    key, name, tag, Rend, ad,
+    init() { this.blob = new Blob(11, CFG); this.cd = 0.8; this.queue = []; this.ms = 0; this.X = {}; if (this.ad && this.ad.init) this.ad.init(this); },
     // ちぎれ始めるのは一度に1つだけ（ふくらむ〜糸が切れるまでの間は次を出さない）
     tearing() { return this.blob.lobes.some((l) => l.st === 'bud' || l.st === 'out'); },
     lobe(a0, o = {}) { if (this.blob.count() >= this.cap() || this.tearing()) return false; this.blob.add(Object.assign({ a0 }, o)); return true; },
     cap() { return CFG.cap(this.v); },
     tick(dt, draw) {
-      const tgt = this.v > 100 ? 1.25 : 0.15 + 0.85 * Math.min(1, this.v / 100);
-      this.heat += (tgt - this.heat) * Math.min(1, dt * 0.8);
-      this.goo.gold += ((this.v > 100 ? 1 : 0) - this.goo.gold) * Math.min(1, dt * 0.9);
-      this.goo.hot = Math.min(1, this.heat);
+      // 勢い e：達成率/100 を 1.6 で頭打ち（160%）。色は変えず、動き・光・かけらの数だけがこれで強くなる
+      this.heat += (clamp(this.v / 100, 0, 1.6) - this.heat) * Math.min(1, dt * 0.8);
+      this.goo.hot = this.heat / 1.6;
+      const gk = Math.round(this.goo.hot * 20) / 20;   // 弧の光も同じ色のまま広がる（変わったときだけ書く）
+      if (gk !== this.gk) {
+        this.gk = gk;
+        const f = `drop-shadow(0 0 ${(1.5 + gk * 4.5).toFixed(2)}px rgba(255,0,127,${(0.5 + gk * 0.4).toFixed(2)}))`;
+        this.valEl.style.filter = f; this.ovfEl.style.filter = f;
+      }
       const R = this.blob.R;
       if (this.queue.length) {   // 段・到達のかけらは、前のかけらが離れ終わってから順に出す
         const q = this.queue[0];
@@ -418,31 +560,292 @@ function makeGauge(key, name, tag, Rend) {
         if (this.cd <= 0) { this.lobe(R() * TAU); this.cd = 0.6 + R() * 0.8; }
       }
       this.blob.step(dt, this.heat);
+      const ad = this.ad;
+      if (ad && ad.step) ad.step(this, dt);
+      this.blob.ev.length = 0;
       if (draw) {
         const t0 = performance.now();
-        const S = []; this.blob.sources(S); this.goo.render(S, this.blob.cx, this.blob.cy, this.blob.heads());
+        const S = []; this.blob.sources(S); if (ad && ad.srcs) ad.srcs(this, S);
+        const hk = ad && { under: ad.under && ((c, s) => ad.under(this, c, s)), inside: ad.inside && ((c, p, s) => ad.inside(this, c, p, s)), over: ad.over && ((c, p, s) => ad.over(this, c, p, s)) };
+        this.goo.render(S, this.blob.cx, this.blob.cy, this.blob.heads(), this.blob.bubbles, hk);
+        if (ad && ad.overlay) { const o = this.ov, W = o.cv.width, sc = W / 168; o.ctx.setTransform(1, 0, 0, 1, 0, 0); o.ctx.clearRect(0, 0, W, o.cv.height); o.ctx.setTransform(sc, 0, 0, sc, 0, 0); ad.overlay(this, o.ctx, sc); }
         this.ms = this.ms * 0.9 + (performance.now() - t0) * 0.1;
       }
       const n = this.blob.count();
       this.cntEl.textContent = `見えているかけら ${n} ／ 上限 ${this.cap()}　・　描画 ${draw ? this.ms.toFixed(1) + ' ms' : '停止中'}`;
     },
-    stage(m) { const a = m / 100 * TAU; this.queue.push({ a0: a, o: { rT: CFG.rT[1] + 1.5, hold: 6 }, glow: GLOW(...polar(58, a)) }); },
-    bloom() { spawn(this.fxl, GLOW(84, 84, 46, 400), 3000); this.queue = [0, 0.25, 0.5, 0.75].map((q) => ({ a0: q * TAU, o: { hold: 9 } })); }
+    stage(m) { const a = m / 100 * TAU; this.queue.push({ a0: a, o: { rT: CFG.rT[1] + 1.5, hold: 6 }, glow: GLOW(...polar(58, a)) }); if (this.ad && this.ad.stage) this.ad.stage(this, m); },
+    bloom() { spawn(this.fxl, GLOW(84, 84, 46, 400), 3000); this.queue = [0, 0.25, 0.5, 0.75].map((q) => ({ a0: q * TAU, o: { hold: 9 } })); if (this.ad && this.ad.bloom) this.ad.bloom(this); }
   };
 }
+/* ══════════════════════ 追加演出の案（第9版・10案） ══════════════════════
+   どれも土台（採用版）の上に1つだけ足す。色は Liquid の配色（PAL）のまま、勢い e（g.heat・0〜1.6）で強くなる。
+   差し込み口：init（状態は g.X）／step（毎コマ・g.blob.ev に溶け込みの出来事）／srcs（塊の場へ球を足す）／
+     under（塊の後ろ）／inside（塊の中・切り抜き済み）／over（塊の上）／overlay（弧より手前の canvas）／stage（25・50・75%）／bloom（100%）。 */
+const hotOf = (g) => g.heat / 1.6;
+const tipOf = (g) => Math.min(100, g.v) / 100 * TAU;   // 弧の先端の角度（0＝真上・時計回り）
+function glowDot(c, x, y, r, col, al) {
+  const gr = c.createRadialGradient(x, y, 0, x, y, r);
+  gr.addColorStop(0, `rgba(255,255,255,${al.toFixed(3)})`); gr.addColorStop(0.35, rgba(col, al * 0.7)); gr.addColorStop(1, rgba(col, 0));
+  c.fillStyle = gr; c.fillRect(x - r, y - r, r * 2, r * 2);
+}
+// 塊から飛び出させる雫（土台の雫の仕組みにそのまま乗せる＝漂って、中央へ引き寄せられ、吸い込まれる）
+function launchDrop(g, a, sp, o = {}) {
+  const B = g.blob, R = B.R, [x, y] = B.P(B.E - 2, a), ux = Math.sin(a), uy = -Math.cos(a), t0 = o.t0 ?? 0.45;
+  B.drops.push(Object.assign({ x, y, vx: ux * sp, vy: uy * sp, r: 0, rT: 1.8 + R() * 1.8, t: t0, life: t0 + 0.7 + R() * 0.8, s: R() * 6, s2: R() * 6 }, o.d || {}));
+}
+
+const ADDONS = [
+{
+  name: '吸収の波紋',
+  tag: 'かけらや雫が塊に溶け込むたび、その場所から塊の表面に波紋が2重に広がる。段の到達・100% では中心から大きな波紋。% が上がるほど溶け込みが増えるので波紋も増え、線も明るくなる',
+  init(g) { g.X.rs = []; },
+  step(g, dt) {
+    const B = g.blob;
+    for (const ev of B.ev) if (ev.k === 'absorb') { const [x, y] = B.P(B.E - 2, ev.a); g.X.rs.push({ x, y, t: 0, R: 16 + ev.r * 3.2, T: 1.7 }); }
+    for (const r of g.X.rs) r.t += dt;
+    g.X.rs = g.X.rs.filter((r) => r.t < r.T);
+  },
+  inside(g, c) {
+    const hot = hotOf(g); c.globalCompositeOperation = 'lighter';
+    for (const r of g.X.rs) for (let j = 0; j < (r.n || 2); j++) {
+      const k = r.t / r.T - j * 0.16; if (k <= 0) continue;
+      const rad = r.R * (1 - Math.pow(1 - k, 2.2)), al = (1 - k) * (0.4 + 0.35 * hot);
+      c.strokeStyle = rgba(PAL.rim, al); c.lineWidth = 0.5 + 1.4 * (1 - k);
+      c.beginPath(); c.arc(r.x, r.y, rad, 0, TAU); c.stroke();
+    }
+  },
+  stage(g) { g.X.rs.push({ x: g.blob.cx, y: g.blob.cy, t: 0, R: 50, T: 2.2 }); },
+  bloom(g) { g.X.rs.push({ x: g.blob.cx, y: g.blob.cy, t: 0, R: 58, T: 2.8, n: 3 }); }
+},
+{
+  name: '中を揺れる光の網（コースティクス）',
+  tag: '水の底に映る光のように、塊の中に細い光の筋がゆらゆら重なって動く。% が上がるほど筋が増え（3→8本×2方向）、明るく速くなる',
+  inside(g, c) {
+    const B = g.blob, hot = hotOf(g), t = B.t * (0.8 + 0.6 * hot), n = 3 + Math.round(hot * 5);
+    c.globalCompositeOperation = 'lighter'; c.lineWidth = 0.8;
+    c.translate(B.cx, B.cy);
+    for (const [rot, col] of [[t * 0.05, PAL.rim], [t * 0.05 + 1.05, PAL.edgeT]]) {
+      c.save(); c.rotate(rot);
+      c.strokeStyle = rgba(col, 0.07 + 0.13 * hot);
+      for (let k = 0; k < n; k++) {
+        const y0 = -34 + k * (68 / Math.max(1, n - 1));
+        c.beginPath();
+        for (let x = -50; x <= 50; x += 4) {
+          const y = y0 + 3.5 * Math.sin(x * 0.09 + t * 0.8 + k * 1.7) + 2.5 * Math.sin(x * 0.15 - t * 0.55 + k);
+          x === -50 ? c.moveTo(x, y) : c.lineTo(x, y);
+        }
+        c.stroke();
+      }
+      c.restore();
+    }
+  }
+},
+{
+  name: '弧を流れる光の粒',
+  tag: '進捗の弧を、管の中を流れる液のように光の粒が始点から先端へ流れ、先端で小さく光って消える。% が上がるほど粒が増えて速くなる。100% を超えると外側の弧にも流れる',
+  init(g) { g.X.bs = []; g.X.cd = 0; g.X.fl = []; },
+  step(g, dt) {
+    const X = g.X, e = g.heat, tip = Math.min(100, g.v) / 100, R = g.blob.R;
+    X.cd -= dt * (0.5 + e * 1.1);
+    if (X.cd <= 0 && tip > 0.04) { X.bs.push({ p: 0, ring: 0, sp: 0.16 + 0.1 * e + R() * 0.05 }); if (g.v > 100) X.bs.push({ p: 0, ring: 1, sp: 0.12 + R() * 0.05 }); X.cd = 1; }
+    for (const b of X.bs) b.p += b.sp * dt;
+    X.bs = X.bs.filter((b) => { const end = b.ring ? Math.min(0.6, (g.v - 100) / 100) : tip; if (b.p >= end) { X.fl.push({ ring: b.ring, a: end * TAU, t: 0 }); return false; } return true; });
+    for (const f of X.fl) f.t += dt;
+    X.fl = X.fl.filter((f) => f.t < 0.5);
+  },
+  overlay(g, c) {
+    const hot = hotOf(g); c.globalCompositeOperation = 'lighter';
+    for (const b of g.X.bs) for (let j = 0; j < 4; j++) {
+      const a = (b.p - j * 0.012) * TAU; if (a < 0) continue;
+      const [x, y] = polar(b.ring ? 80 : ARC_R, a);
+      glowDot(c, x, y, (3.6 - j * 0.7) * (0.9 + 0.3 * hot), j ? PAL.edgeB : PAL.rim, (0.85 - j * 0.2) * (0.6 + 0.4 * hot));
+    }
+    for (const f of g.X.fl) { const [x, y] = polar(f.ring ? 80 : ARC_R, f.a); glowDot(c, x, y, 5 + 8 * f.t, PAL.edgeT, 0.8 * (1 - f.t / 0.5)); }
+  }
+},
+{
+  name: '弧の先端から滴る',
+  tag: '弧の先端に雫がふくらんでぶら下がり、ぽたりと落ちて中央の塊へ吸い込まれる（弧が塊に液を注いでいる見立て）。% が上がるほど間隔が短くなる',
+  init(g) { g.X.cd = 1.5; g.X.dr = null; },
+  step(g, dt) {
+    const X = g.X, e = g.heat;
+    if (!X.dr) { if (g.v >= 3) { X.cd -= dt * (0.35 + 0.45 * e); if (X.cd <= 0) X.dr = { t: 0 }; } return; }
+    X.dr.t += dt;
+    if (X.dr.t >= 1.5) {   // 落ちる：土台の雫として、塊へ引き寄せられる段から始める
+      const B = g.blob, a = tipOf(g), [x, y] = polar(ARC_R - 7, a);
+      B.drops.push({ x, y, vx: -Math.sin(a) * 10, vy: Math.cos(a) * 10, r: 3, rT: 3, t: 1, life: 1, s: B.R() * 6, s2: B.R() * 6 });
+      X.dr = null; X.cd = 1 + B.R();
+    }
+  },
+  overlay(g, c) {
+    const d = g.X.dr; if (!d) return;
+    const k = soft(d.t / 1.5), a = tipOf(g), ux = -Math.sin(a), uy = Math.cos(a);   // 内向き
+    const [ax, ay] = polar(ARC_R, a), r = 0.8 + 2.4 * k, dist = 1.5 + 5.5 * k;
+    const x = ax + ux * dist, y = ay + uy * dist;
+    c.save(); c.shadowColor = rgba(PAL.halo, 0.7); c.shadowBlur = 6 * (c.getTransform().a);
+    c.fillStyle = rgba(PAL.edgeB, 1);
+    c.beginPath(); c.moveTo(ax - uy * 1.3, ay + ux * 1.3); c.quadraticCurveTo(x - uy * r * 0.2, y + ux * r * 0.2, x - uy * r, y + ux * r);
+    c.arc(x, y, r, Math.atan2(ux, -uy), Math.atan2(ux, -uy) + Math.PI, true);
+    c.quadraticCurveTo(x + uy * r * 0.2, y - ux * r * 0.2, ax + uy * 1.3, ay - ux * 1.3); c.closePath(); c.fill(); c.restore();
+    glowDot(c, x - r * 0.3, y - r * 0.3, r * 0.8, PAL.rim, 0.6);
+  }
+},
+{
+  name: '泡がはじける',
+  tag: '塊の中を昇る気泡が表面まで届くと、ぷつっとはじけて小さなしぶきが外へ跳ね、塊へ落ちて戻る。% が上がるほど気泡が増えるので、はじける回数としぶきの数が増える',
+  init(g) { g.X.ps = []; g.X.rings = []; },
+  step(g, dt) {
+    const B = g.blob, X = g.X, R = B.R, hot = hotOf(g);
+    for (const b of B.bubbles) {
+      if (!b.pp) { b.pp = 1; b.life = Math.max(b.life, 30); }   // 表面まで昇りきるように寿命を延ばす
+      const dx = b.x - B.cx, dy = b.y - B.cy;
+      if (dy < 0 && Math.hypot(dx, dy) > B.E * 0.8 && b.t < b.life) {
+        b.t = b.life;   // はじける（土台が次のコマで取り除く）
+        const a = Math.atan2(dx, -dy), [sx, sy] = B.P(B.E + 1, a);
+        X.rings.push({ x: sx, y: sy, t: 0 });
+        const n = 3 + Math.round(hot * 4);
+        for (let i = 0; i < n; i++) { const aa = a + (R() - 0.5) * 1.2, sp = 12 + R() * 14; X.ps.push({ x: sx, y: sy, vx: Math.sin(aa) * sp, vy: -Math.cos(aa) * sp, t: 0, T: 0.7 + R() * 0.5, r: 0.7 + R() * 0.8 }); }
+      }
+    }
+    for (const p of X.ps) { p.t += dt; const dx = B.cx - p.x, dy = B.cy - p.y, d = Math.hypot(dx, dy) || 1; p.vx += dx / d * 55 * dt; p.vy += dy / d * 55 * dt; p.x += p.vx * dt; p.y += p.vy * dt; }
+    X.ps = X.ps.filter((p) => p.t < p.T);
+    for (const r of X.rings) r.t += dt;
+    X.rings = X.rings.filter((r) => r.t < 0.45);
+  },
+  over(g, c) {
+    const hot = hotOf(g); c.globalCompositeOperation = 'lighter';
+    for (const r of g.X.rings) { const k = r.t / 0.45; c.strokeStyle = rgba(PAL.rim, 0.7 * (1 - k)); c.lineWidth = 0.8; c.beginPath(); c.arc(r.x, r.y, 1 + 4.5 * k, 0, TAU); c.stroke(); }
+    for (const p of g.X.ps) glowDot(c, p.x, p.y, p.r * 3, PAL.edgeT, (0.7 + 0.3 * hot) * (1 - p.t / p.T));
+  }
+},
+{
+  name: '鼓動',
+  tag: '塊が心臓のように「ドクン、ドクン」と2拍ずつふくらみ、拍ごとに外へ光の輪が広がる。数字もわずかに脈打つ。% が上がるほど速く（毎分50→95拍）、強くなる',
+  init(g) { g.X.rings = []; g.X.ph = 0; g.X.p = 0; },
+  step(g, dt) {
+    const X = g.X, hot = hotOf(g), bpm = 50 + 45 * hot, prev = X.ph;
+    X.ph = (X.ph + dt * bpm / 60) % 1;
+    const gs = (x, c) => Math.exp(-Math.pow((x - c) / 0.045, 2));
+    X.p = gs(X.ph, 0.06) + 0.6 * gs(X.ph, 0.26);
+    if (prev < 0.06 && X.ph >= 0.06) X.rings.push({ t: 0 });
+    for (const r of X.rings) r.t += dt;
+    X.rings = X.rings.filter((r) => r.t < 1.1);
+    g.mid.style.scale = (1 + 0.03 * X.p * (0.5 + hot)).toFixed(4);
+  },
+  srcs(g, S) { const hot = hotOf(g), r = 12 * g.X.p * (0.55 + 0.8 * hot); if (r > 0.3) S.push(g.blob.cx, g.blob.cy, r * r); },
+  under(g, c, s) {
+    const hot = hotOf(g), B = g.blob;
+    for (const r of g.X.rings) {
+      const k = r.t / 1.1;
+      c.strokeStyle = rgba(PAL.halo, (0.2 + 0.35 * hot) * (1 - k)); c.lineWidth = 1 + 2.5 * (1 - k);
+      c.shadowColor = rgba(PAL.halo, 0.6); c.shadowBlur = 6 * s;
+      c.beginPath(); c.arc(B.cx, B.cy, B.E + 2 + 24 * ease(k), 0, TAU); c.stroke();
+    }
+  }
+},
+{
+  name: '中の渦',
+  tag: '塊の中にゆっくり回る渦の腕が浮かび、腕に沿って光の点線が中心へ流れ込む。% が上がるほど腕が増え（3→5本）、回転と流れが速くなる',
+  inside(g, c) {
+    const B = g.blob, hot = hotOf(g), n = 3 + Math.round(hot * 2), t = B.t;
+    c.globalCompositeOperation = 'lighter';
+    c.translate(B.cx, B.cy); c.rotate(t * (0.18 + 0.45 * hot));
+    for (let i = 0; i < n; i++) {
+      c.beginPath();
+      for (let r = 44; r >= 13; r -= 1.5) { const th = i * TAU / n + (44 - r) * 0.065; const x = r * Math.sin(th), y = -r * Math.cos(th); r === 44 ? c.moveTo(x, y) : c.lineTo(x, y); }
+      c.setLineDash([]); c.lineWidth = 3; c.strokeStyle = rgba(PAL.edgeT, 0.05 + 0.09 * hot); c.stroke();
+      c.setLineDash([3, 7]); c.lineDashOffset = -t * (10 + 22 * hot); c.lineWidth = 1; c.strokeStyle = rgba(PAL.rim, 0.18 + 0.3 * hot); c.stroke();
+    }
+  }
+},
+{
+  name: 'ネオンの糸',
+  tag: '近くにいるかけら同士・雫とかけらの間に、ネオン管のような細い光の糸が張り、ちらつきながら揺れる。近いほど濃く、離れると切れる。% が上がるとかけらが増えるので糸も増え、明るくなる',
+  over(g, c, p, s) {
+    const B = g.blob, hot = hotOf(g), t = B.t;
+    const pcs = B.lobes.filter((l) => (l.st === 'float' || l.st === 'back') && l.r > 2).map((l) => [l.x, l.y, l.rDraw]).concat(B.drops.filter((d) => d.r > 1).map((d) => [d.x, d.y, d.r]));
+    c.globalCompositeOperation = 'lighter'; c.lineCap = 'round';
+    let i = 0;
+    for (let a = 0; a < pcs.length; a++) for (let b = a + 1; b < pcs.length; b++) {
+      const [x1, y1, r1] = pcs[a], [x2, y2, r2] = pcs[b], d = Math.hypot(x2 - x1, y2 - y1), L = 40;
+      if (d > L || d < r1 + r2) continue;
+      i++;
+      const k = 1 - d / L, f = 0.55 + 0.45 * Math.sin(t * 23 + i * 7) * Math.sin(t * 7.3 + i * 3);
+      const mx = (x1 + x2) / 2 + (y2 - y1) / d * 3 * Math.sin(t * 3 + i), my = (y1 + y2) / 2 - (x2 - x1) / d * 3 * Math.sin(t * 3 + i);
+      const al = k * f * (0.3 + 0.5 * hot);
+      c.beginPath(); c.moveTo(x1, y1); c.quadraticCurveTo(mx, my, x2, y2);
+      c.shadowColor = rgba(PAL.rim, 0.9); c.shadowBlur = 5 * s;
+      c.strokeStyle = rgba(PAL.rim, al); c.lineWidth = 1.1; c.stroke();
+      c.shadowBlur = 0; c.strokeStyle = `rgba(255,255,255,${(al * 0.7).toFixed(3)})`; c.lineWidth = 0.4; c.stroke();
+    }
+  }
+},
+{
+  name: '残光の尾',
+  tag: '漂うかけらと雫の通り道に、ネオンの残像のような光の尾が残って薄れていく。% が上がるほど尾が長く（約2→4秒ぶん）、明るくなる',
+  step(g, dt) {
+    // かけらはゆっくり漂うので、毎コマ記録すると尾がかけら自身に隠れる＝0.06秒ごとに記録して長く引く
+    const B = g.blob, N = 32 + Math.round(hotOf(g) * 36);
+    g.X.acc = (g.X.acc || 0) + dt; if (g.X.acc < 0.06) return; g.X.acc = 0;
+    for (const o of B.lobes.concat(B.drops)) {
+      if (o.st === 'gone' || o.st === 'bud' || o.x == null) continue;
+      (o.hist || (o.hist = [])).push(o.x, o.y, o.rDraw ?? o.r);
+      while (o.hist.length > N * 3) o.hist.splice(0, 3);
+    }
+  },
+  under(g, c, s) {
+    const B = g.blob, hot = hotOf(g);
+    c.globalCompositeOperation = 'lighter'; c.lineCap = 'round'; c.shadowColor = rgba(PAL.halo, 0.8); c.shadowBlur = 4 * s;
+    for (const o of B.lobes.concat(B.drops)) {
+      const h = o.hist; if (!h || h.length < 6 || o.st === 'gone') continue;
+      const n = h.length / 3;
+      for (let j = 1; j < n; j++) {
+        const k = j / n;
+        c.strokeStyle = rgba(j % 2 ? PAL.halo : PAL.edgeT, Math.pow(k, 0.7) * (0.22 + 0.4 * hot));
+        c.lineWidth = Math.max(0.5, h[j * 3 + 2] * 0.9 * k);
+        c.beginPath(); c.moveTo(h[j * 3 - 3], h[j * 3 - 2]); c.lineTo(h[j * 3], h[j * 3 + 1]); c.stroke();
+      }
+    }
+  }
+},
+{
+  name: '段ごとの噴水',
+  tag: '25・50・75% に届くと、その方向へ塊が雫を噴き上げ、雫は漂ってから塊へ吸い込まれて戻る。100% では全方向へ大きく噴く。50% を超えると、ときどき小さく噴き出す（% が上がるほど頻繁に・数も多く）',
+  init(g) { g.X.cd = 4; },
+  step(g, dt) {
+    const e = g.heat;
+    if (g.v < 50) return;
+    g.X.cd -= dt * (0.25 + 0.5 * e);
+    if (g.X.cd <= 0) {
+      const R = g.blob.R, a = R() * TAU, n = 2 + Math.round(e * 2);
+      for (let i = 0; i < n; i++) launchDrop(g, a + (R() - 0.5) * 0.7, 26 + R() * 12);
+      g.X.cd = 1 + R();
+    }
+  },
+  stage(g, m) { const R = g.blob.R, a = m / 100 * TAU, n = 6 + Math.round(g.heat * 5); for (let i = 0; i < n; i++) launchDrop(g, a + (R() - 0.5) * 0.9, 30 + R() * 16); },
+  bloom(g) { const R = g.blob.R; for (let i = 0; i < 20; i++) launchDrop(g, i / 20 * TAU + (R() - 0.5) * 0.2, 30 + R() * 16, { d: { rT: 2.2 + R() * 1.6 } }); }
+}
+];
 const GAUGES = [
-  makeGauge('②', '輪郭を線で描く（採用）', '塊の輪郭をなめらかな曲線にして canvas のベクター描画で塗る', PathGoo)
+  makeGauge('土台', '採用版（追加演出なし）', '今の採用版そのもの。下の10案はすべてこの上に1つずつ足したもの（動きは同じ種・同じ時間で揃えてある）', PathGoo),
+  ...ADDONS.map((ad, i) => makeGauge('案' + (i + 1), ad.name, ad.tag, PathGoo, ad))
 ];
 
 /* ══════════════════════ 再生器 ══════════════════════ */
 const grid = document.getElementById('grid');
-GAUGES.forEach((g) => {
+class Ov { constructor(cv) { this.cv = cv; this.ctx = cv.getContext('2d'); this.resize(); } resize() { PathGoo.prototype.resize.call(this); } }
+let solo = null;
+const io = new IntersectionObserver((es) => es.forEach((en) => { const g = GAUGES.find((x) => x.card === en.target); if (g) g.vis = en.isIntersecting; }));
+GAUGES.forEach((g, gi) => {
+  if (gi === 1) { const h = document.createElement('h3'); h.className = 'sec'; h.style.gridColumn = '1 / -1'; h.textContent = '追加演出の案（土台＋1つずつ）'; grid.appendChild(h); }
   const c = document.createElement('section');
-  c.className = 'card';
-  c.innerHTML = `<h2>${g.key} ${g.name}</h2><div class="tag">${g.tag}</div>
+  c.className = 'card' + (g.ad ? '' : ' base');
+  c.innerHTML = `<button class="solo" type="button">このカードだけ動かす</button><h2>${g.key} ${g.name}</h2><div class="tag">${g.tag}</div>
     <div class="stage"><div class="gauge"><div class="gauge-ring">
       <canvas></canvas>
       <svg viewBox="0 0 168 168" aria-hidden="true">${SVG_FG()}</svg>
+      <canvas class="ov"></canvas>
       <span class="gauge-mid"><span class="pct">0</span><em>%</em></span></div>
     <p class="gauge-cap">今日の目標</p><p class="gauge-goal"><b class="n">0</b> / 40問</p><div class="cnt"></div></div></div>`;
   grid.appendChild(c);
@@ -450,8 +853,12 @@ GAUGES.forEach((g) => {
   g.root = c.querySelector('.gauge-ring'); g.fxl = c.querySelector('.fxl'); g.cntEl = c.querySelector('.cnt');
   g.valEl = c.querySelector('.val'); g.ovfEl = c.querySelector('.ovf');
   const cv = c.querySelector('canvas');
-  g.goo = new g.Rend(cv);
-  g.v = 0; g.heat = 0.15;
+  g.goo = new g.Rend(cv); g.ov = new Ov(c.querySelector('canvas.ov')); g.vis = true; io.observe(c);
+  c.querySelector('.solo').addEventListener('click', () => {
+    solo = solo === g ? null : g;
+    GAUGES.forEach((x) => { x.card.classList.toggle('soloOn', x === solo); x.card.classList.toggle('paused', !!solo && x !== solo); x.card.querySelector('.solo').textContent = x === solo ? '全部を動かす' : 'このカードだけ動かす'; });
+  });
+  g.v = 0; g.heat = 0;
   g.init();
   dash(g.valEl, 0); dash(g.ovfEl, 0);
 });
@@ -498,8 +905,8 @@ document.getElementById('bSeq').addEventListener('click', () => {
   seq([[0, 900, 600], [18, 4000, 1000], [30, 6000, 1000], [45, 4000, 1000], [55, 6000, 1000], [70, 4000, 1000], [80, 6000, 1000], [92, 4000, 1000], [100, 10000, 1000], [130, 0, 1600]]);
 });
 document.getElementById('bBloom').addEventListener('click', () => { seq([[90, 1200, 700], [100, 0, 1000]]); });
-document.getElementById('cbBig').addEventListener('change', (e) => { document.body.classList.toggle('big', e.target.checked); GAUGES.forEach((g) => g.goo.resize()); });
-window.addEventListener('resize', () => GAUGES.forEach((g) => g.goo.resize()));
+document.getElementById('cbBig').addEventListener('change', (e) => { document.body.classList.toggle('big', e.target.checked); GAUGES.forEach((g) => { g.goo.resize(); g.ov.resize(); }); });
+window.addEventListener('resize', () => GAUGES.forEach((g) => { g.goo.resize(); g.ov.resize(); }));
 
 // 常時の動き（非表示タブでは rAF が来ない＝そのまま止まる）。動きは3つとも同じ dt で進める
 let last = performance.now(), fAcc = 0, fN = 0;
@@ -508,7 +915,8 @@ function loop(now) {
   const raw = (now - last) / 1000, dt = Math.min(0.05, raw); last = now;
   fAcc += raw; fN++;
   if (fAcc >= 0.5) { fpsEl.textContent = Math.round(fN / fAcc) + ' コマ/秒'; fAcc = 0; fN = 0; }
-  GAUGES.forEach((g) => g.tick(dt, true));
+  // 画面外のカードは描かない（動きは進める）。「このカードだけ動かす」のときは、ほかのカードは止める
+  GAUGES.forEach((g) => { if (!solo || solo === g) g.tick(dt, g.vis); });
   requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
