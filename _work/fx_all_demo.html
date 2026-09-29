@@ -100,7 +100,7 @@
    使える名前: c＝いま画面にあるカード / ok＝正解の肢 / ng＝不正解の肢 / n＝連続正解 / t＝その段（_examTier(n)） ── */
 const TAG = { c: '共通', t: 'テーマ別', x: '旧・study.html' };
 /* 左側のタブ。台帳の各欄をどのタブに入れるかは placeOf が決める（「正解のたびに出る」はタグで テーマ別／共通 に分ける） */
-const TABS = [['theme', 'テーマ固有'], ['common', '共通'], ['wrong', '誤答・その他'], ['begin', '開始・結果']];
+const TABS = [['theme', 'テーマ固有'], ['common', '共通'], ['wrong', '誤答・その他'], ['begin', '開始・結果'], ['hover', 'ホバー']];
 const placeOf = (sec, tag) => sec === '正解のたびに出る' ? (tag === 't' ? 'theme' : 'common')
   : sec === '連続正解で出る' ? 'common' : sec === '始まりと終わり' ? 'begin' : 'wrong';
 const FX = [
@@ -190,7 +190,7 @@ window.__D = {
      _lqGiantBubble（大きな玉）は null を返させる。_lqJelly は肢の弾みだけを外せるよう包み直す。
    - frost：canvas に「どの層か」と「その時の __P」を貼っておき、描画の小関数（_frDrawFrost・_frDrawFlake・
      _frGlint・_frMelt）を種類で見分ける。霞は肢の層の fillRect（destination-out 以外）を止めて消す。
-   - abyss：ソナーの反響（_abySonar）を brass・celestial と同じく部品の関数として包む（2026-09-29〜）。
+   - abyss：ソナーの反響（_abySonar）・ホタルイカの群れ（_abySquid）を brass・celestial と同じく部品の関数として包む（2026-09-29〜）。
    - kintsugi・aurora・cyber：_spawnStreakParticles が呼ぶ MecFX の関数を包む。
    ⚠️ 見分け方は本物の引数（霜の不透明度 .7／.8、_frFlake を呼ぶ順番など）に寄りかかっている。
       study_exam.js の演出を作り直したら、ここも合わせて直すこと。 */
@@ -207,7 +207,7 @@ const PARTCTL = `
   [['_brsGearTrain', 'brs.gear'], ['_brsHallmark', 'brs.hall'], ['_brsFiligree', 'brs.fil'], ['_brsBigTrain', 'brs.bigtrain'],
    ['_brsMedallion', 'brs.medal'], ['_brsCornerCast', 'brs.corner'],
    ['_clxNova', 'clx.nova'], ['_clxGalaxy', 'clx.galaxy'], ['_clxTrails', 'clx.trails'], ['_clxZodiac', 'clx.zodiac'],
-   ['_clxWeb', 'clx.web'], ['_clxGrid', 'clx.grid'], ['_abySonar', 'aby.sonar']].forEach(([n, k]) => part(n, k));
+   ['_clxWeb', 'clx.web'], ['_clxGrid', 'clx.grid'], ['_abySonar', 'aby.sonar'], ['_abySquid', 'aby.squid']].forEach(([n, k]) => part(n, k));
   // celestial：超新星／銀河の渦はセッションごとの抽選（_clxSessionPick）。部品で片方だけを選んだときはその側に寄せる。
   // 重ねる4つ（CLX_EXTRAS）は正解のたびの抽選なので、部品で選んだものだけから抽選させる（配列の中身を一時的に差し替える）
   wrap('_clxCelestialFx', o => function () {
@@ -2244,6 +2244,70 @@ const ABYNEW3 = `
     _lqDrop(H, C, p.dur + 50);
   };
 })();`;
+/* ── 問題カードにマウスが載ったときの演出を調べる（2026-09-29）──
+   枠の中で実際に読み込まれている CSS（テーマ別の生成物 theme_css/* ＋ study.css）から :hover を含むルールを拾い、
+   今のカードの各部分（カード本体・見出し・選択肢・画像・ボタン）に当たるものを並べる＝テーマを切り替えても台帳を書き直さずに済む。
+   「再現」は、:hover を .__fxhov に置き換えた写しを**元のルールの直後に**差し込んでおき（カスケードの順番を崩さない）、
+   その部分と祖先すべてに .__fxhov を付ける（マウスが載ると祖先もまとめて :hover になるのと同じ）。
+   ⚠️ 中身はテンプレート文字列なので、中でバッククォートと ${…} を使わないこと（正規表現の \ は \\ と書く）。 */
+const HOVER = `
+(() => {
+  const CLS = '__fxhov', done = new WeakSet();
+  const isGroup = r => r.cssRules && !(r instanceof CSSStyleRule) && !(r instanceof CSSKeyframesRule);
+  const cloneIn = list => {
+    for (let i = list.cssRules.length - 1; i >= 0; i--) {
+      const r = list.cssRules[i];
+      if (r instanceof CSSStyleRule) {
+        if (!r.selectorText.includes(':hover')) continue;
+        const sel = r.selectorText.split(/,(?![^(]*\\))/).filter(x => x.includes(':hover')).map(x => x.replace(/:hover/g, '.' + CLS)).join(',');
+        try { list.insertRule(sel + ' {' + r.style.cssText + '}', i + 1); } catch (e) {}
+      } else if (isGroup(r)) cloneIn(r);
+    }
+  };
+  const ensure = () => { for (const sh of document.styleSheets) { if (done.has(sh)) continue; try { sh.cssRules; } catch (e) { done.add(sh); continue; } cloneIn(sh); done.add(sh); } };
+  const targets = c => [['card', 'カード本体', c], ['qh', 'カードの見出し', c.querySelector('.qh')], ['ok', '選択肢（正解）', c.querySelector('.ch2.ok')],
+    ['ng', '選択肢（不正解）', c.querySelector('.ch2:not(.ok)')], ['img', '画像', c.querySelector('.qimg')], ['grade', '× △ ボタン', c.querySelector('.mec-grade-btn')],
+    ['lap', '○ ボタン', c.querySelector('.mec-lap-btn')], ['flag', '🚩 ボタン', c.querySelector('.mec-flag-btn')], ['err', '⚠️ ボタン', c.querySelector('.mec-err-btn')]].filter(t => t[2]);
+  const MOVE = /^(animation|transform|translate|rotate|scale)/;
+  window.__hov = {
+    scan() {
+      ensure();
+      const c = __D.card(), T = targets(c), out = {};
+      T.forEach(([k, label, el]) => { const cs = getComputedStyle(el);
+        out[k] = { k, label, trans: cs.transitionDuration.split(',').some(d => parseFloat(d) > 0) ? cs.transitionProperty + ' ' + cs.transitionDuration : '', rules: [] }; });
+      const walk = list => { for (const r of list.cssRules) {
+        if (r instanceof CSSStyleRule) {
+          if (!r.selectorText.includes(':hover')) continue;
+          r.selectorText.split(/,(?![^(]*\\))/).forEach(sel => {
+            if (!sel.includes(':hover')) return;
+            const pm = sel.match(/::?(before|after)\\s*$/), base = sel.replace(/:hover/g, '').replace(/::?(before|after)\\s*$/, '').trim();
+            T.forEach(([k, label, el]) => {
+              let m = false; try { m = !!base && el.matches(base); } catch (e) {}
+              if (!m) return;
+              const props = [...r.style].map(p => p + ': ' + r.style.getPropertyValue(p) + (r.style.getPropertyPriority(p) ? ' !important' : ''));
+              const pseudo = pm ? '::' + pm[1] : '';
+              let anim = '';
+              if (pseudo) { const pc = getComputedStyle(el, pseudo); if (pc.animationName && pc.animationName !== 'none') anim = pc.animationName + ' ' + pc.animationDuration + ' ' + pc.animationIterationCount; }
+              const moving = props.some(p => MOVE.test(p) && !/: *none/.test(p)) || (!!anim && props.some(p => /animation-play-state: *running/.test(p)));
+              if (!out[k].rules.some(x => x.sel === sel.trim())) out[k].rules.push({ sel: sel.trim(), pseudo, props, anim, moving });
+            });
+          });
+        } else if (isGroup(r)) { if (r.media && !matchMedia(r.media.mediaText).matches) continue; walk(r); }
+      } };
+      for (const sh of document.styleSheets) { if (sh.disabled) continue; try { walk(sh); } catch (e) {} }
+      return Object.values(out);
+    },
+    // その部分と祖先すべてを :hover と同じ状態にする（k が空なら解除）
+    set(k) {
+      ensure();
+      document.querySelectorAll('.' + CLS).forEach(e => e.classList.remove(CLS));
+      if (!k) return;
+      const t = targets(__D.card()).find(x => x[0] === k); if (!t) return;
+      for (let e = t[2]; e && e.classList; e = e.parentElement) e.classList.add(CLS);
+      t[2].scrollIntoView({ block: 'center' });
+    }
+  };
+})();`;
 /* abyss 新案 第3弾（全画面）の台帳：[キー, 名前, 正解時, 連続正解時] */
 const ABY_NEW3 = [
   ['tide', '① 光の潮', '画面の下の縁から発光の幕が波打ちながら画面の上まで昇り、通った所の夜光虫が灯って瞬きながら漂う',
@@ -2258,8 +2322,7 @@ const ABY_NEW3 = [
     '段で光の筋とマリンスノーが増える。段が上がった瞬間は筋＋4本'],
   ['bell', '⑥ 巨大クラゲ', '画面の幅ほどもある発光クラゲが上から降りてきて、触手を画面の下まで垂らす。一度大きく脈打ち、光が触手を下っていく',
     '段で触手が増える。段が上がった瞬間は触手＋6本'],
-  ['squid', '⑦ ホタルイカの群れ', '画面の左下から右上へ、青い発光器を瞬かせたホタルイカの群れが噴射しながら泳ぎ、0.6秒で一斉に青く光る',
-    '段で群れが大きくなる。段が上がった瞬間は右からもう一群（14匹）が逆向きに泳ぐ'],
+  // ['squid', '⑦ ホタルイカの群れ'] は 2026-09-29 に本番へ（_abySquid・ソナーの反響に重ねる）
   ['oarfish', '⑧ リュウグウノツカイ', '銀に光る長い帯のような魚が、紅の背びれを波打たせながら画面を左下から右上へ横切る。画面の中央を通る瞬間に光と輪',
     '段でうねりが大きく、段3〜はシアンの2本目の輪。段が上がった瞬間は右上から左下へもう1匹'],
   ['vents', '⑨ 噴出孔の連なり', '画面の下の縁に並んだ噴出孔が中央から外へ順に開き、光る熱水が画面の上まで噴き上がる（泡ではなく光の粒）',
@@ -2348,6 +2411,7 @@ const PARTS = {
   ],
   abyss: [
     ['aby.sonar', 'ソナーの反響', '肢の左端でピンが鳴って輪が走り、目盛りの円と十字が浮かぶ。光の扇が1周して反射点が次々に光り、反響が中心へ戻ってもう一度光り、深度（連続数×100 m）が出る（段で範囲と反射点が増える／段が上がった瞬間は逆回りの扇がもう1本）', 1, false],
+    ['aby.squid', 'ホタルイカの群れ', '全画面：画面の左下から右上へ、青い発光器を瞬かせたホタルイカの群れが噴射しながら泳ぎ、0.6秒で一斉に青く光る（段で群れが大きく／段が上がった瞬間は右からもう一群）', 1, false],
   ],
   aurora: [
     ['aurora.auroraPrismSweep', 'プリズムの帯', 'プリズムの光が掃いてきらめく', 1, false],
@@ -2392,6 +2456,7 @@ function prepFrame() {
   W.eval(ABYNEW);
   W.eval(ABYNEW2);
   W.eval(ABYNEW3);
+  W.eval(HOVER);
   applyTheme();
   W.eval('startExam()');
   ready = true;
@@ -2565,7 +2630,7 @@ function renderParts() {
     const n0 = document.createElement('div'); n0.style.cssText = 'font-size:11px;color:var(--sub);margin:8px 8px 0;line-height:1.5';
     n0.textContent = '本番は「ソナーの反響」（第1弾の B・下の部品の欄）。新案は単独で再生する（本番のソナーとは重ねない）。連続数を 3/5/7/10… にすると「段が上がった瞬間」の版、5以上で段3〜の版。デモ専用で本番にはまだ入っていない。';
     partsBox.appendChild(n0);
-    const h3 = document.createElement('h2'); h3.textContent = 'abyss 正解演出の新案 第3弾（全画面の10個）'; partsBox.appendChild(h3);
+    const h3 = document.createElement('h2'); h3.textContent = 'abyss 正解演出の新案 第3弾（全画面・⑦ ホタルイカの群れは本番へ移した）'; partsBox.appendChild(h3);
     ABY_NEW3.forEach(([key, name, onOk, onStreak]) => {
       const row = document.createElement('div'); row.className = 'it';
       const b = document.createElement('button');
@@ -2620,11 +2685,60 @@ function renderParts() {
   });
 }
 renderParts();
+/* ── ホバー（問題カードにマウスが載ったとき）のタブ ── */
+const hovBox = document.createElement('div'); panes.hover.appendChild(hovBox);
+let hovOn = '';
+function renderHover(list) {
+  hovBox.innerHTML = '';
+  const h = document.createElement('h2'); h.textContent = '問題カードにマウスが載ったときの演出（' + document.getElementById('ui').value + '）'; hovBox.appendChild(h);
+  const note = document.createElement('div'); note.style.cssText = 'font-size:11px;color:var(--sub);margin:0 8px 6px;line-height:1.55';
+  note.textContent = '枠の中で読み込まれている CSS から :hover のルールを拾い、今のカードに当たるものを場所ごとに並べる。場所のボタンを押すと、そこにマウスを載せたのと同じ状態になる（もう一度押すと解除・枠の中に実際にマウスを載せても同じ）。⚡＝動く（アニメ・移動）／🎨＝色と影だけ。iPad・スマホにはホバーが無いので、PCだけで出る。';
+  hovBox.appendChild(note);
+  const top = document.createElement('div'); top.className = 'row'; top.style.margin = '0 6px 6px';
+  const bScan = document.createElement('button'); bScan.className = 'tbtn sm'; bScan.textContent = '今のカードで調べる'; bScan.onclick = scanHover;
+  const bOff = document.createElement('button'); bOff.className = 'tbtn sm'; bOff.textContent = '再現を解除';
+  bOff.onclick = () => { if (!ready) return; W.eval('__hov.set("")'); hovOn = ''; renderHover(list); say('ホバーの再現を解除しました'); };
+  top.append(bScan, bOff); hovBox.appendChild(top);
+  if (!list) return;
+  const mv = list.filter(g => g.rules.some(r => r.moving)).map(g => g.label);
+  const sum = document.createElement('div'); sum.style.cssText = 'font-size:12px;margin:2px 8px 8px;line-height:1.5';
+  sum.textContent = mv.length ? '⚡ 動くのは：' + mv.join('・') : '⚡ 動くものは無い（色と影が変わるだけ）';
+  hovBox.appendChild(sum);
+  list.forEach(g => {
+    const row = document.createElement('div'); row.className = 'it'; row.style.flexDirection = 'column'; row.style.alignItems = 'stretch';
+    const b = document.createElement('button');
+    const moving = g.rules.some(r => r.moving);
+    b.innerHTML = '<span class="tag ' + (moving ? 'x' : 'c') + '">' + (moving ? '⚡ 動く' : g.rules.length ? '🎨 色・影' : 'ホバー無し') + '</span>';
+    b.appendChild(document.createTextNode(g.label + (hovOn === g.k ? '（再現中）' : '')));
+    if (hovOn === g.k) b.style.borderColor = 'var(--ok)';
+    if (g.trans) { const s = document.createElement('small'); s.textContent = '変化のなめらかさ（transition）：' + g.trans; b.appendChild(s); }
+    g.rules.forEach(r => {
+      const s = document.createElement('small'); s.style.marginTop = '4px';
+      const keys = r.props.filter(p => /^(animation|transform|translate|rotate|scale|box-shadow|background|border|filter|opacity|color)/.test(p));
+      s.textContent = (r.moving ? '⚡ ' : '🎨 ') + (r.pseudo ? '模様 ' + r.pseudo + '：' : '') + (r.anim ? 'アニメ ' + r.anim + ' が再生／' : '') +
+        (keys.length ? keys.map(p => p.length > 90 ? p.slice(0, 90) + '…' : p).join('／') : r.props.slice(0, 3).join('／'));
+      b.appendChild(s);
+      const sel = document.createElement('small'); sel.style.cssText = 'opacity:.6;font-family:ui-monospace,Consolas,monospace;font-size:10px'; sel.textContent = r.sel; b.appendChild(sel);
+    });
+    b.onclick = () => {
+      if (!ready) { say('まだ準備中です', true); return; }
+      hovOn = hovOn === g.k ? '' : g.k; W.eval('__hov.set(' + JSON.stringify(hovOn) + ')');
+      renderHover(list); say(hovOn ? g.label + 'にマウスを載せた状態にしました' : 'ホバーの再現を解除しました');
+    };
+    row.append(b); hovBox.appendChild(row);
+  });
+}
+function scanHover() {
+  if (!ready) { say('まだ準備中です', true); return; }
+  try { W.eval('__hov.set("")'); hovOn = ''; renderHover(JSON.parse(W.eval('JSON.stringify(__hov.scan())'))); say('今のカードのホバーの演出を調べました'); }
+  catch (e) { say('エラー: ' + (e && e.message || e), true); }
+}
+renderHover(null);
 let tab0 = 'theme'; try { tab0 = localStorage.getItem(TAB_KEY) || 'theme'; } catch (e) {}
 showTab(tab0);
 updCount();
 
-document.getElementById('ui').onchange = () => { applyTheme(); renderParts(); updCount(); say('UIテーマを切り替えました（保存はしていません）'); };
+document.getElementById('ui').onchange = () => { applyTheme(); renderParts(); updCount(); hovOn = ''; if (ready) { try { W.eval('__hov.set("")'); } catch (e) {} } renderHover(null); say('UIテーマを切り替えました（保存はしていません）'); };
 document.getElementById('bReset').onclick = () => { if (ready) { try { W.eval('__D.reset()'); say('カードを元に戻しました'); } catch (e) { say('エラー: ' + e.message, true); } } };
 document.getElementById('bNext').onclick = () => { if (ready) { W.eval('__D.reset(); __D.next()'); say('次のカードへ'); } };
 document.getElementById('bReload').onclick = () => { ready = false; fr.contentWindow.location.reload(); };

@@ -3992,7 +3992,8 @@ function _clxCelestialFx(el, card, tier, promoted, budget) {
    - 光の扇が0.9秒で1周し、通った所の反射点が次々に光って小さな輪を出す。
    - 0.72秒から反響が外周から中心へ戻り、着いた瞬間にもう一度光って深度（連続数×100 m＝連続数の表示の DEPTH と同じ数）が出る。
    - 段で探知の範囲（画面の短辺×0.41→最大0.75）と反射点（6→最大16）が増える。段が上がった瞬間は1.2倍・逆回りの扇がもう1本・反射点＋6。
-   ⚠️ 描き方は celestial と同じ2層（肢の層は送る前に縮めて終わる／全画面の層は元の尺）。泡・全画面の閃光は使わない。 */
+   ⚠️ 描き方は celestial と同じ2層（肢の層は送る前に縮めて終わる／全画面の層は元の尺）。泡・全画面の閃光は使わない。
+   同日、全画面の「ホタルイカの群れ」（_abySquid・新案 第3弾⑦）を毎回重ねることにした（ユーザー判断）。 */
 const ABY_EM = '#00FFA3', ABY_CY = '#00E5FF', ABY_DC = '#00B4D8', ABY_BIO = '#64FFDA', ABY_PALE = '#D8FFF1';
 // 描画の小道具。どれも呼ぶ側で globalCompositeOperation = 'lighter' にしてある（_abyAbyssFx）
 function _abyGlow(c, x, y, r, a, col) {
@@ -4063,6 +4064,34 @@ function _abySonar(T, up, px, py, M, S, n) {
     }
   } };
 }
+/* ホタルイカの群れ（2026-09-29・試験演出一覧の新案 第3弾⑦からユーザーが採用・ソナーの反響に重ねる）。
+   全画面：画面の左下から右上へ、青い発光器を瞬かせたホタルイカの群れが噴射しながら泳ぎ、0.62秒で一斉に青く光る。
+   段で群れが大きくなる（19→最大40匹）。段が上がった瞬間は右からもう一群（14匹）が逆向きに泳ぐ。
+   ⚠️ 全画面の層にだけ描く（肢の層には描かない＝肢の左端から始まる絵ではないため）。 */
+const ABY_BLUE = '#3D9BFF';
+function _abySquid(T, up, CW, CH, S) {
+  const dur = up ? 2300 : 2000, n = Math.min(40, 14 + 5 * T) + (up ? 14 : 0), SYNC = 620;
+  const Q = Array.from({ length: n }, (_, i) => {
+    const back = up && i >= n - 14;
+    return { x0: back ? _frR(CW * .6, CW * 1.1) : _frR(-CW * .2, CW * .5), y0: _frR(CH * .5, CH * 1.1),
+      vx: (back ? -1 : 1) * _frR(.18, .32) * CW, vy: -_frR(.2, .35) * CH, ph: _frR(0, 6.28), s: _frR(.8, 1.3) * S, bl: _frR(0, 6.28) };
+  });
+  return { dur, draw(c, e) {
+    const fade = e < dur - 550 ? 1 : _frC((dur - e) / 550), t = e / 1000, sync = Math.exp(-Math.pow((e - SYNC) / 90, 2));   // sync＝一斉に光る
+    Q.forEach(q => {
+      const jet = t + .08 * Math.sin(t * 9 + q.ph);   // 噴射で進む
+      const x = q.x0 + q.vx * jet, y = q.y0 + q.vy * jet + Math.sin(t * 3 + q.ph) * 10 * S, s = q.s;
+      c.save(); c.translate(x, y); c.rotate(Math.atan2(q.vy, q.vx));
+      c.globalAlpha = .35 * fade; c.fillStyle = ABY_BIO; c.beginPath(); c.ellipse(0, 0, 9 * s, 2.8 * s, 0, 0, 7); c.fill();   // 外套
+      c.strokeStyle = ABY_BIO; c.lineWidth = .9 * s; c.globalAlpha = .4 * fade;
+      for (let k = -2; k <= 2; k++) { c.beginPath(); c.moveTo(-8 * s, k * .8 * s); c.lineTo(-15 * s, k * 1.6 * s + Math.sin(e / 80 + k) * s); c.stroke(); }   // 腕
+      const blink = Math.max(sync * 1.4, Math.sin(e / 140 + q.bl) > .6 ? .9 : .25);
+      if (sync > .05) _abyGlow(c, 0, 0, 16 * s, sync * .8 * fade, ABY_BLUE);
+      [[5, 0], [-1, -1.4], [-1, 1.4], [-6, 0]].forEach(([ax, ay], k) => _abyDot(c, ax * s, ay * s, (k ? 1.1 : 1.5) * s, blink * fade, k % 2 ? ABY_BLUE : ABY_CY));
+      c.restore();
+    });
+  } };
+}
 function _abyAbyssFx(el, card, tier, promoted, budget) {
   if (!el || !card || _fxOff()) return;
   const er = el.getBoundingClientRect();
@@ -4070,22 +4099,24 @@ function _abyAbyssFx(el, card, tier, promoted, budget) {
   const w = er.width, h = er.height;
   const CW = window.innerWidth, CH = window.innerHeight;
   if (!CW || !CH) return;
-  const M = Math.min(CW, CH), S = _frC(M / 480, 1, 2);
-  const p = _abySonar(Math.max(1, tier), promoted && tier >= 2, er.left, er.top + h / 2, M, S, examStreak);
+  const M = Math.min(CW, CH), S = _frC(M / 480, 1, 2), T = Math.max(1, tier), up = promoted && tier >= 2;
+  const p = _abySonar(T, up, er.left, er.top + h / 2, M, S, examStreak);
+  const sq = _abySquid(T, up, CW, CH, S);
   const lit = (c, fn) => { c.save(); c.globalCompositeOperation = 'lighter'; try { fn(); } finally { c.restore(); } };
   _rfFit(budget, p.dur + 50);
-  // ① 肢の層（画面の座標をずらして同じ絵を描く・送りまでに終える）
+  // ① 肢の層（ソナーだけ・画面の座標をずらして同じ絵を描く・送りまでに終える）
   const L = _lqLayer(el);
   const c1 = _frCtx(L, w, h);
   _frRun(c1, w, h, p.dur, (c, e) => lit(c, () => { c.translate(-er.left, -er.top); p.draw(c, e); }));
   _lqDrop(el, L, p.dur + 50);
-  // ② 全画面の層（ラボの尺のまま）
+  // ② 全画面の層（ソナー＋ホタルイカの群れ・ラボの尺のまま）
   _rfK = 1;
-  const H = _rfFullHost(p.dur + 50);
+  const dur = Math.max(p.dur, sq.dur);
+  const H = _rfFullHost(dur + 50);
   const C = _lqLayer(H, 'fr-card');
   const c2 = _frCtx(C, CW, CH, 0, 1.5);
-  _frRun(c2, CW, CH, p.dur, (c, e) => lit(c, () => p.draw(c, e)));
-  _lqDrop(H, C, p.dur + 50);
+  _frRun(c2, CW, CH, dur, (c, e) => lit(c, () => { if (e < p.dur) p.draw(c, e); sq.draw(c, e); }));
+  _lqDrop(H, C, dur + 50);
 }
 
 /* ══════════ Brass：歯車列＋刻印＋鋳込みの唐草（2026-09-26）══════════
@@ -5938,7 +5969,7 @@ function _rfCorrectFx(card, el, budget) {
   else if (_rfUi() === 'frost') _frFrostFx(el, card, tier, promoted, budget);   // 雪の結晶・霜・ダイヤモンドダスト（同上の frost 分岐を参照）
   else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted, budget);   // 超新星か銀河の渦（セッションごと・肢の左端）＋星の軌跡／十二宮の輪／星の網／経緯線から正解のたびに1つ
   else if (_rfUi() === 'brass') _brsBrassFx(el, card, tier, promoted, budget);   // 歯車列＋刻印＋鋳込みの唐草（同上の brass 分岐を参照）
-  else if (_rfUi() === 'abyss') _abyAbyssFx(el, card, tier, promoted, budget);   // ソナーの反響（肢の左端）
+  else if (_rfUi() === 'abyss') _abyAbyssFx(el, card, tier, promoted, budget);   // ソナーの反響（肢の左端）＋ホタルイカの群れ（全画面）
   _afterCorrectFx(card, el);
 
   // 肢から連続数へ光が走る演出（80ms・MecFX.ribbon）は 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。
