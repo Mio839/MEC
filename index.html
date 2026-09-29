@@ -1650,7 +1650,9 @@
               <!-- Celestial: 絢爛アストロラーベ・惑星直列（シジジー）超新星覚醒 -->
               <g class="od-layer od-celestial">
                 <circle cx="84" cy="84" r="78" class="gyro-ring"></circle>
-                <ellipse cx="84" cy="84" rx="74" ry="24" class="cel-od-syzygy-ring"></ellipse>
+                <!-- 2026-09-29: 旧は楕円（rx74・ry24）を回していた＝縦横の幅が入れ替わって見えた。正円の軌道と、その上を中心から回る光の弧2つにした -->
+                <circle cx="84" cy="84" r="74" class="cel-od-syzygy-ring"></circle>
+                <circle cx="84" cy="84" r="74" class="cel-od-syzygy-arc" pathLength="100"></circle>
                 <!-- 八芒星シジジー光芒（大・小の交差スターバースト） -->
                 <polygon class="cel-od-octagram-a" points="84,4 102,50 164,84 102,118 84,164 66,118 4,84 66,50"></polygon>
                 <polygon class="cel-od-octagram-b" points="84,16 118,34 152,84 118,134 84,152 50,134 16,84 50,34"></polygon>
