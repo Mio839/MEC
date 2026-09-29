@@ -1311,16 +1311,8 @@ html.ui-brass .brass-piston-layer{display:inline;}
 .gauge[data-tier="5"] .gear-c,.gauge[data-tier="6"] .gear-c{fill:var(--copper);}
 .gauge[data-tier="6"] .gear{filter:drop-shadow(0 0 13px rgba(224,194,94,.95));}
 
-/* 層3: 盤面そのものが脈打つ。tier が上がるほど速く深く（0%の日も静かに息をしている）。
-   ⚠️ 素の .gauge-ring で書くこと。.gauge .gauge-ring と詳細度を上げると
-      prefers-reduced-motion の animation:none（.gauge-ring）に勝ってしまう */
-.gauge-ring{animation:gaugeBeat 3.4s var(--ease-in-out) infinite;}
-.gauge[data-tier="2"] .gauge-ring{animation:gaugeBeat 3s var(--ease-in-out) infinite;}
-.gauge[data-tier="3"] .gauge-ring{animation:gaugeBeat 2.6s var(--ease-in-out) infinite;}
-.gauge[data-tier="4"] .gauge-ring{animation:gaugeBeat 2.1s var(--ease-in-out) infinite;}
-.gauge[data-tier="5"] .gauge-ring{animation:gaugeBeat 1.6s var(--ease-in-out) infinite;}
-.gauge[data-tier="6"] .gauge-ring{animation:gaugeBeat 1s var(--ease-in-out) infinite;}
-@keyframes gaugeBeat{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+/* ⚠️ 盤面ごと脈打つ鼓動（gaugeBeat・tier が上がるほど速く 1.05 倍まで）は 2026-09-29 に全テーマから撤去した
+   （「大きくなったり小さくなったりする表現がうるさい」＝ユーザー判断）。戻さないこと。 */
 
 /* 層4: 達成。中央の数字とキャプションが達成色になって明滅する */
 .gauge[data-tier="5"] .gauge-mid,.gauge[data-tier="6"] .gauge-mid{color:var(--gr);
@@ -2227,9 +2219,7 @@ html.ui-liquid .liq-canvas {
   height: 100%;
   pointer-events: none;
 }
-/* 塊そのものが呼吸するので、ゲージの鼓動（gaugeBeat）は掛けない。
-   数字の見た目（ガラス越しの屈折）は ui_theme.css の html.ui-liquid .gauge .gauge-mid。100% 超でも色を変えない */
-html.ui-liquid .gauge-ring { animation: none; }
+/* 数字の見た目（ガラス越しの屈折）は ui_theme.css の html.ui-liquid .gauge .gauge-mid。100% 超でも色を変えない */
 
 /* Hero の地に揺れる水面の光（タイルは1回だけラスタライズされ、動くのは translate だけ） */
 .liquid-caustics { display: none; }

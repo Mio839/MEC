@@ -1026,8 +1026,8 @@ html.ui-cyber .gauge .gauge-dot .halo { fill: rgba(0, 255, 157, 0.4); }
 html.ui-cyber .gauge[data-tier="5"] .gauge-ring,
 html.ui-cyber .gauge[data-tier="6"] .gauge-ring { animation: cyberTierGlitch 1.2s ease-in-out infinite alternate !important; }
 @keyframes cyberTierGlitch {
-  0% { transform: scale(1); filter: drop-shadow(0 0 18px rgba(0, 229, 255, 0.8)); }
-  100% { transform: scale(1.035); filter: drop-shadow(0 0 32px rgba(0, 255, 157, 1)) drop-shadow(0 0 50px rgba(0, 229, 255, 0.9)); }
+  0% { filter: drop-shadow(0 0 18px rgba(0, 229, 255, 0.8)); }
+  100% { filter: drop-shadow(0 0 32px rgba(0, 255, 157, 1)) drop-shadow(0 0 50px rgba(0, 229, 255, 0.9)); }
 }
 .gauge-cap {
   margin-top: 6px !important;

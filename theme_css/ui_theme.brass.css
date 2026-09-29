@@ -1043,8 +1043,8 @@ html.ui-brass .gauge .gauge-dot .halo { fill: rgba(255, 215, 0, 0.35); }
 html.ui-brass .gauge[data-tier="5"] .gauge-ring,
 html.ui-brass .gauge[data-tier="6"] .gauge-ring { animation: brassTierBeat 1.4s ease-in-out infinite alternate !important; }
 @keyframes brassTierBeat {
-  0% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(201, 162, 39, 0.8)); }
-  100% { transform: scale(1.03); filter: drop-shadow(0 0 30px rgba(255, 223, 0, 1)) drop-shadow(0 0 45px rgba(255, 180, 0, 0.7)); }
+  0% { filter: drop-shadow(0 0 15px rgba(201, 162, 39, 0.8)); }
+  100% { filter: drop-shadow(0 0 30px rgba(255, 223, 0, 1)) drop-shadow(0 0 45px rgba(255, 180, 0, 0.7)); }
 }
 .gauge-cap {
   margin-top: 6px !important;

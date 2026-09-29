@@ -1255,13 +1255,6 @@ a.tile:hover .tile-ar { transform:translateX(3px); }
 .gauge[data-tier="5"] .gear-c,
 .gauge[data-tier="6"] .gear-c { fill:var(--copper); }
 .gauge[data-tier="6"] .gear { filter:drop-shadow(0 0 13px rgba(224,194,94,.95)); }
-.gauge-ring { animation:gaugeBeat 3.4s var(--ease-in-out) infinite; }
-.gauge[data-tier="2"] .gauge-ring { animation:gaugeBeat 3s var(--ease-in-out) infinite; }
-.gauge[data-tier="3"] .gauge-ring { animation:gaugeBeat 2.6s var(--ease-in-out) infinite; }
-.gauge[data-tier="4"] .gauge-ring { animation:gaugeBeat 2.1s var(--ease-in-out) infinite; }
-.gauge[data-tier="5"] .gauge-ring { animation:gaugeBeat 1.6s var(--ease-in-out) infinite; }
-.gauge[data-tier="6"] .gauge-ring { animation:gaugeBeat 1s var(--ease-in-out) infinite; }
-@keyframes gaugeBeat { 0%,100%{transform:scale(1);}50%{transform:scale(1.05);} }
 .gauge[data-tier="5"] .gauge-mid,
 .gauge[data-tier="6"] .gauge-mid {
   color:var(--gr);

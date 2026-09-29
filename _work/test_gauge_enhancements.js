@@ -455,7 +455,18 @@ t('Liquid: hub_liquid.js を index.js より先に読み、_driveThemeGauge は�
 t('Liquid: canvas は Liquid のときだけ出し、ゲージ全体を脈打たせない', () => {
   assert.ok(/\.liq-canvas\s*\{\s*display:\s*none;?\s*\}/.test(HTML), '既定で隠していない');
   assert.ok(/html\.ui-liquid \.liq-canvas\s*\{[^}]*display:\s*block/.test(HTML), 'Liquid で出していない');
-  assert.ok(/html\.ui-liquid \.gauge-ring\s*\{\s*animation:\s*none/.test(HTML), 'gaugeBeat を止めていない（塊が自分で呼吸する）');
+  // 盤面ごと脈打つ鼓動は 2026-09-29 に全テーマから撤去した（ユーザー判断）
+  assert.ok(!/gaugeBeat/.test(HTML.replace(/\/\*[\s\S]*?\*\//g, '')), 'ゲージ全体の鼓動（gaugeBeat）が復活している');
+});
+
+t('全テーマ: ゲージ全体を拡大縮小させて脈打たせない（鼓動・高い段の脈動は光の強弱だけ）', () => {
+  const ui = fs.readFileSync(path.join(__dirname, '..', 'ui_theme.css'), 'utf8');
+  ['auroraTierPulse', 'brassTierBeat', 'cyberTierGlitch', 'kintsugiMaxEnsoPulse',
+   'celestialMaxMagicCirclePulse', 'abyssMaxAuroraPulse', 'frostMaxBlizzardPulse'].forEach((k) => {
+    const m = ui.match(new RegExp('@keyframes ' + k + ' \\{[\\s\\S]*?\\n\\}'));
+    assert.ok(m, '@keyframes ' + k + ' が無い');
+    assert.ok(!/scale/.test(m[0]), k + ' がゲージを拡大縮小している');
+  });
 });
 
 t('Liquid: 100% を超えても黄色にしない（数字の縁取りも含む）', () => {
