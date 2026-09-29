@@ -1238,15 +1238,84 @@ html.mec-jumping .qc{content-visibility:visible!important;}
 }
 @keyframes cdEnsoDraw{to{stroke-dashoffset:25;}}
 
-/* ── grimoire: 古代魔導書・星図魔法陣 ── */
-.cd-grimoire-circle{position:absolute;width:58vmin;height:58vmin;pointer-events:none;}
-.cd-magic-svg{width:100%;height:100%;transform-origin:100px 100px;animation:cdMagicSpin 14s linear infinite;}
-.cd-magic-svg .mc-outer{fill:none;stroke:var(--cd-col,#FFD166);stroke-width:1.5;stroke-dasharray:18 8;opacity:.7;}
-.cd-magic-svg .mc-inner{fill:none;stroke:var(--cd-col,#FFD166);stroke-width:1;opacity:.5;}
-.cd-magic-svg .mc-poly{fill:none;stroke:var(--cd-col,#FFD166);stroke-width:1.2;opacity:.65;transform-origin:100px 100px;animation:cdMagicRev 10s linear infinite;}
-.cd-magic-svg .mc-poly-rev{fill:none;stroke:var(--cd-col,#FFD166);stroke-width:1.2;opacity:.65;transform-origin:100px 100px;animation:cdMagicSpin 10s linear infinite;}
-@keyframes cdMagicSpin{to{transform:rotate(360deg)}}
-@keyframes cdMagicRev{to{transform:rotate(-360deg)}}
+/* ── grimoire＝Celestial（2026-09-29）: 4案から毎回1つ＝A 星座を結ぶ／B 天球儀／D 星図の魔導書／E 日周運動
+   （study_exam.js の CELESTIAL_BOOTS）。
+   ⚠️ 色は --cd-col（演出テーマ＝space の紫）を使わず、ここで Celestial の金・藍・紫に固定する。
+   ⚠️ 起動オーバーレイの外（筐体・.qc）には何も足さない。一度きりの層で、infinite は持たない。 */
+#examCountdown.cd-grimoire .cd-log,#examCountdown.cd-grimoire .cd-num,#examCountdown.cd-grimoire .cd-sub{z-index:6;}
+#examCountdown.cd-grimoire.cd-p2 .cd-log{top:17%;opacity:.6;}
+#examCountdown.cd-grimoire .cd-log{color:#E8DEFF;text-shadow:0 0 10px rgba(138,43,226,.8),0 0 4px rgba(0,0,0,.9);}
+#examCountdown.cd-grimoire .cd-num{font-family:'Cormorant Garamond','Times New Roman',Georgia,serif;font-weight:500;letter-spacing:0;color:#FFF3D1;
+  text-shadow:0 0 6px rgba(5,4,13,.95),0 0 26px rgba(255,209,102,.85),0 0 70px rgba(138,43,226,.55),0 4px 22px rgba(0,0,0,.7);}
+#examCountdown.cd-grimoire .cd-num.go{font-size:10vmin;letter-spacing:.28em;text-indent:.28em;}
+#examCountdown.cd-grimoire .cd-sub{bottom:22%;color:#FFE3A0;text-shadow:0 0 10px rgba(255,209,102,.8);}
+#examCountdown.cd-grimoire.cd-rematch .cd-num:not(.go){text-shadow:0 0 6px rgba(5,4,13,.95),0 0 22px rgba(255,160,140,.9),0 0 56px rgba(255,138,128,.45);}
+#examCountdown.cd-grimoire .clb-dash{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .38s cubic-bezier(.3,.7,.3,1);}
+#examCountdown.cd-grimoire .clb-dash.on{stroke-dashoffset:0;}
+
+/* A 星座を結ぶ：星（SVG）と結線。起動で線が金に灯る */
+#examCountdown.cd-cl-a{background:radial-gradient(ellipse at 50% 50%,rgba(20,12,48,.84),rgba(5,4,13,.93));}
+#examCountdown.cd-cl-a .clb-con{position:absolute;width:min(62vmin,500px);height:min(62vmin,500px);left:50%;top:calc(50% + 4vmin);translate:-50% -50%;overflow:visible;}
+#examCountdown.cd-cl-a .clb-con line{stroke:rgba(190,170,255,.75);stroke-width:.45;stroke-linecap:round;
+  transition:stroke-dashoffset .38s cubic-bezier(.3,.7,.3,1),stroke .25s,stroke-width .25s;}
+#examCountdown.cd-cl-a .clb-con.gold line{stroke:#FFE9A8;stroke-width:.8;filter:drop-shadow(0 0 1.2px rgba(255,209,102,.95));}
+#examCountdown.cd-cl-a .clb-con .st{transform-box:fill-box;transform-origin:center;opacity:0;}
+#examCountdown.cd-cl-a .clb-con .st .h{fill:rgba(255,230,170,.12);}
+#examCountdown.cd-cl-a .clb-con .st .c{fill:#FFF8E6;transform-box:fill-box;transform-origin:center;filter:drop-shadow(0 0 1.4px rgba(255,209,102,1));}
+#examCountdown.cd-cl-a .clb-cname{position:absolute;top:calc(50% + 4vmin + min(31vmin,250px) + 6px);left:50%;translate:-50% 0;z-index:6;opacity:0;
+  font-family:'Cormorant Garamond',Georgia,serif;font-size:15px;letter-spacing:.4em;text-indent:.4em;color:#CDBBFF;white-space:nowrap;}
+
+/* B 天球儀：3つの環（rx/ry と rotate を JS が毎フレーム書く）＋目盛りの輪＋起動の光条 */
+#examCountdown.cd-cl-b{background:radial-gradient(ellipse at 50% 50%,rgba(26,14,56,.84),rgba(5,4,13,.94));}
+#examCountdown.cd-cl-b .clb-arm{position:absolute;width:min(72vmin,580px);height:min(72vmin,580px);left:50%;top:50%;translate:-50% -50%;overflow:visible;}
+#examCountdown.cd-cl-b .rg{fill:none;stroke-width:1.6;}
+#examCountdown.cd-cl-b .rg.r0{stroke:#FFD166;filter:drop-shadow(0 0 2px rgba(255,209,102,.9));}
+#examCountdown.cd-cl-b .rg.r1{stroke:#48CAE4;filter:drop-shadow(0 0 2px rgba(72,202,228,.9));}
+#examCountdown.cd-cl-b .rg.r2{stroke:#B388FF;filter:drop-shadow(0 0 2px rgba(179,136,255,.9));}
+#examCountdown.cd-cl-b .clb-arm.go .rg{stroke:#FFF4D6;stroke-width:2.4;transition:stroke .2s,stroke-width .2s;}
+#examCountdown.cd-cl-b .dial{transform-box:view-box;transform-origin:center;}
+#examCountdown.cd-cl-b .dial circle{fill:none;stroke:rgba(255,209,102,.4);stroke-width:.7;}
+#examCountdown.cd-cl-b .dial line{stroke:rgba(255,209,102,.5);stroke-width:.6;}
+#examCountdown.cd-cl-b .dial line.m{stroke:rgba(255,209,102,.85);stroke-width:1.1;}
+#examCountdown.cd-cl-b .dial text{fill:rgba(255,220,150,.75);font-size:6px;font-family:Georgia,serif;text-anchor:middle;dominant-baseline:middle;}
+#examCountdown.cd-cl-b .ray{stroke:#FFE9A8;stroke-width:1.2;stroke-linecap:round;}
+#examCountdown.cd-cl-b .rip{fill:none;stroke:#FFE9A8;}
+
+/* D 星図の魔導書：頁の 3D は .clb-book（perspective）の中だけ */
+#examCountdown.cd-cl-d{background:radial-gradient(ellipse at 50% 55%,rgba(30,18,60,.84),rgba(5,4,13,.94));}
+#examCountdown.cd-cl-d .clb-book{position:absolute;left:50%;top:52%;width:min(84vmin,660px);aspect-ratio:1.5;translate:-75% -50%;perspective:1600px;opacity:.5;}
+#examCountdown.cd-cl-d.cd-p2 .clb-book{opacity:1;transition:opacity .3s;}
+#examCountdown.cd-cl-d .pg,#examCountdown.cd-cl-d .leaf{position:absolute;top:0;width:50%;height:100%;}
+#examCountdown.cd-cl-d .pg.L{left:0;opacity:0;}
+#examCountdown.cd-cl-d .pg.R,#examCountdown.cd-cl-d .leaf{left:50%;}
+#examCountdown.cd-cl-d .leaf{transform-origin:0 50%;transform-style:preserve-3d;}
+#examCountdown.cd-cl-d .face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;}
+#examCountdown.cd-cl-d .face.b{transform:rotateY(180deg);}
+#examCountdown.cd-cl-d .paper{background:linear-gradient(90deg,rgba(0,0,0,.35),transparent 12%),linear-gradient(160deg,#211A45,#150F30);
+  border:1px solid rgba(255,209,102,.35);border-radius:0 6px 6px 0;box-shadow:inset 0 0 30px rgba(0,0,0,.5);}
+#examCountdown.cd-cl-d .face.b.paper,#examCountdown.cd-cl-d .pg.L.paper{border-radius:6px 0 0 6px;
+  background:linear-gradient(270deg,rgba(0,0,0,.35),transparent 12%),linear-gradient(200deg,#211A45,#150F30);}
+#examCountdown.cd-cl-d .paper svg{position:absolute;inset:6%;width:88%;height:88%;}
+#examCountdown.cd-cl-d .paper svg .g{fill:none;stroke:rgba(255,209,102,.38);stroke-width:.5;}
+#examCountdown.cd-cl-d .paper svg .s{fill:#FFE9A8;}
+#examCountdown.cd-cl-d .paper svg .l{stroke:rgba(255,220,150,.6);stroke-width:.5;}
+#examCountdown.cd-cl-d .paper svg text{fill:rgba(255,209,102,.55);font-family:Georgia,serif;font-size:4.5px;text-anchor:middle;}
+#examCountdown.cd-cl-d .cover{border-radius:4px 10px 10px 4px;border:2px solid #B8902F;
+  background:radial-gradient(circle at 50% 45%,#3B1F6E,#1B0D3A 70%);box-shadow:inset 0 0 0 6px #140829,inset 0 0 0 7px rgba(255,209,102,.6),0 10px 40px rgba(0,0,0,.6);}
+#examCountdown.cd-cl-d .cover svg{position:absolute;inset:18% 14%;width:72%;height:64%;}
+#examCountdown.cd-cl-d .cover svg *{fill:none;stroke:#FFD166;stroke-width:1.1;}
+#examCountdown.cd-cl-d .clb-glow{position:absolute;left:50%;top:52%;width:min(84vmin,660px);height:min(56vmin,440px);translate:-50% -50%;z-index:4;opacity:0;
+  background:radial-gradient(ellipse 30% 60% at 50% 50%,rgba(255,240,200,.95),rgba(255,209,102,.4) 40%,transparent 72%);}
+#examCountdown.cd-cl-d .clb-glyph{position:absolute;z-index:5;font-family:'Segoe UI Symbol','Apple Symbols',Georgia,serif;color:#FFE9A8;
+  text-shadow:0 0 10px rgba(255,209,102,.95);opacity:0;}
+
+/* E 日周運動：光跡（canvas・z1）＋天文台の稜線（z3）＋北極星の閃光（z4） */
+#examCountdown.cd-cl-e{background:radial-gradient(ellipse 90% 80% at 50% 50%,rgba(18,12,46,.9),rgba(4,3,12,.96));}
+#examCountdown.cd-cl-e .clb-hz{position:absolute;left:0;right:0;bottom:0;width:100%;height:24vh;z-index:3;}
+#examCountdown.cd-cl-e .clb-hz path{fill:#05040D;}
+#examCountdown.cd-cl-e .clb-hz .rim{fill:none;stroke:rgba(138,43,226,.35);stroke-width:1;}
+#examCountdown.cd-cl-e .clb-flash{position:absolute;left:50%;top:50%;width:60vmin;height:60vmin;translate:-50% -50%;border-radius:50%;z-index:4;opacity:0;
+  background:radial-gradient(circle,#fff 0,rgba(255,240,200,.8) 12%,rgba(255,209,102,.3) 32%,rgba(138,43,226,.12) 52%,transparent 70%);}
 
 /* ── abyss: 深海ソナーパルス ── */
 .cd-abyss-sonar{position:absolute;width:56vmin;height:56vmin;pointer-events:none;}

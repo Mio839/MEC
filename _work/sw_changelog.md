@@ -9,6 +9,7 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-09-29h: Celestial の起動画面（試験開始の 3・2・1）を4案から毎回ランダムで1つに作り直し（study_exam.js の CELESTIAL_BOOTS・study.css の .cd-cl-a/b/d/e）。A 星座を結ぶ／B 天球儀／D 星図の魔導書／E 日周運動。デモ _work/boot_celestial_demo.html からユーザーが採用（C 皆既日食は不採用）。尺は据え置き。旧 grimoire 様式（紫の魔法陣・DIVE／GHOST LINK）は撤去。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-29g: Celestial の正解演出に「黄道十二宮の輪」（_clxZodiac・試験演出一覧の新案 第3弾から全画面に作り直して採用）を毎回重ねる。画面の中央に二重の輪と12の星座記号が回り込み、今日の星座が真上で止まって光る。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-29f: Frost の起動画面（試験開始の 3・2・1）を4案から毎回ランダムで1つに作り直し（study_exam.js の FROST_BOOTS・study.css の .cd-fr-a〜d）。A 結露の窓（締めは霜の昇華）／B 六花／C 絶対零度／D 氷盤。デモ _work/boot_frost_demo.html からユーザーが採用。尺は据え置き。旧 frost 様式（紫の文字・DIVE／GHOST LINK）は撤去。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-29e: Celestial の正解演出に「銀河の渦」（_clxGalaxy・試験演出一覧の新案 第2弾から採用）を足し、試験のセッションごとに超新星か銀河の渦を抽選（startExam・resumeExam で _clxSessionPick）。星の軌跡はどちらにも重ねる（ユーザー判断）。シェルのみ＝SHELL_VERSION だけ bump。

@@ -1726,14 +1726,6 @@ function _examRematchLines(style, qn) {
       'この ' + qn + ' 題を取り戻す'
     ];
   }
-  if (style === 'grimoire') {
-    return [
-      'CONSTELLATION REFORGE',
-      'LOST STARS ............. ' + qn + ' NODES',
-      'STELLAR ALIGNMENT ...... READY',
-      '取り落とした星々を再び結ぶ'
-    ];
-  }
   if (style === 'abyss') {
     return [
       'ABYSSAL SALVAGE PROTOCOL',
@@ -1787,15 +1779,6 @@ function _examBootLines(style, qn, subjLabel) {
       '出題帳簿 .............. ' + qn + ' 題',
       '科    目 .............. ' + subjLabel,
       '無心にて 挑む'
-    ];
-  }
-  if (style === 'grimoire') {
-    return [
-      'GRIMOIRE OF WISDOM',
-      'ASTROLABE SYNC ........ OK',
-      'STELLAR SECTOR ......... ' + subjLabel,
-      'STAR ATLAS ............. ' + qn + ' NODES',
-      'AWAKEN INTELLECT'
     ];
   }
   if (style === 'abyss') {
@@ -2161,6 +2144,296 @@ const FROST_BOOTS = [
     } }
 ];
 
+/* ══════════ Celestial の起動画面 4案（2026-09-29）══════════
+   デモ（_work/boot_celestial_demo.html）でユーザーが採用した4案から、試験ごとにランダムで1つ出す。
+   A 星座を結ぶ／B 天球儀／D 星図の魔導書／E 日周運動（デモの C 皆既日食は不採用）。
+   ⚠️ 尺・ctx の受け取り方・_cdLoop・ブートログの情報は FROST_BOOTS と同じ約束（上のコメント）。
+   ⚠️ 色は演出テーマ（space の紫）から取らず、Celestial の金・藍・紫で固定する。
+      旧 grimoire 様式は紫の魔法陣に「DIVE／GHOST LINK」の起動語（電脳ダイブの流用）だった。
+   ⚠️ 正解演出（超新星・銀河の渦・星の軌跡・十二宮の輪）と題材を被らせない。 */
+const CL_STAR_COLS = ['255,255,255', '255,236,190', '200,220,255', '214,190,255', '170,236,255'];
+let _clbGlintImg = null;
+function _clbGlintSprite() {   // 金の4本光条＋芯（粒ごとにグラデーションを作らない）
+  if (_clbGlintImg) return _clbGlintImg;
+  const s = 32, cv = document.createElement('canvas'); cv.width = cv.height = s;
+  const x = cv.getContext('2d'), m = s / 2, g = x.createRadialGradient(m, m, 0, m, m, m);
+  g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(.2, 'rgba(255,236,180,.85)'); g.addColorStop(1, 'rgba(255,209,102,0)');
+  x.fillStyle = g; x.beginPath(); x.arc(m, m, m * .5, 0, 7); x.fill();
+  x.strokeStyle = 'rgba(255,248,225,.9)'; x.lineWidth = 1;
+  x.beginPath(); x.moveTo(m, 1); x.lineTo(m, s - 1); x.moveTo(1, m); x.lineTo(s - 1, m); x.stroke();
+  return (_clbGlintImg = cv);
+}
+// 静止した星空を1回だけ描く（毎フレーム描き直さない）
+function _clbStarfield(parent, n) {
+  const w = innerWidth, h = innerHeight, x = _frCtx(parent, w, h, 0, 1.5);
+  for (let i = 0; i < n; i++) {
+    const r = Math.random() < .08 ? _cdR(1, 1.7) : _cdR(.35, .9);
+    x.fillStyle = 'rgba(' + CL_STAR_COLS[(Math.random() * CL_STAR_COLS.length) | 0] + ',' + _cdR(.35, .95).toFixed(2) + ')';
+    x.beginPath(); x.arc(_cdR(0, w), _cdR(0, h), r, 0, 7); x.fill();
+  }
+  parent.insertBefore(x.canvas, parent.firstChild);   // いちばん奥（星座・環・本より下）
+  return x.canvas;
+}
+const _clbStarN = k => Math.round(Math.min(420, innerWidth * innerHeight / k));
+// 金の粒が点から放たれて消える
+function _clbSparks(c, pts, per, dur) {
+  const w = innerWidth, h = innerHeight, x = _frCtx(c.host, w, h, 0, 1.5), spr = _clbGlintSprite(), P = [];
+  pts.forEach(([px, py]) => { for (let i = 0; i < per; i++) { const a = _cdR(0, 6.283), v = _cdR(40, 190); P.push({ x: px, y: py, vx: Math.cos(a) * v, vy: Math.sin(a) * v, s: _cdR(5, 14), ph: _cdR(0, 6) }); } });
+  _cdLoop(c, t => {
+    x.clearRect(0, 0, w, h);
+    const life = Math.min(1, t / dur), sec = t / 1000, dmp = 1 - life * .5;
+    P.forEach(p => {
+      x.globalAlpha = (1 - life) * (.6 + .4 * Math.sin(p.ph + sec * 14));
+      x.drawImage(spr, p.x + p.vx * sec * dmp - p.s / 2, p.y + p.vy * sec * dmp - p.s / 2, p.s, p.s);
+    });
+    x.globalAlpha = 1;
+    return t < dur;
+  });
+}
+// 数字は星が灯るように（小さく光ってから大きさが定まる）。起動語は共用の _cdGoIn
+function _clbNumIn(el) {
+  el.animate([
+    { opacity: 0, transform: 'scale(.6)', filter: 'blur(8px) brightness(2.2)' },
+    { opacity: 1, transform: 'scale(1.04)', filter: 'blur(0) brightness(1.4)', offset: .3 },
+    { opacity: 1, transform: 'scale(1)', filter: 'blur(0) brightness(1)', offset: .72 },
+    { opacity: 0, transform: 'scale(1.08)', filter: 'blur(3px) brightness(1)' }
+  ], { duration: 400, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
+}
+// ブートログは星明かりのように、ぼやけて灯ってから焦点が合う
+function _clbLineIn(d) {
+  d.animate([{ opacity: 0, filter: 'blur(4px)', letterSpacing: '.18em' }, { opacity: 1, filter: 'blur(0)', letterSpacing: '.02em' }],
+    { duration: 260, easing: 'cubic-bezier(.2,.8,.3,1)', fill: 'backwards' });
+}
+// A の星座（座標は 0〜100 の正方形・3番目は明るさ）と、3・2・1 で1組ずつ引く結線。へびつかい座は医神アスクレピオス
+const CL_CONSTS = [
+  { name: 'へびつかい座',
+    s: [[50, 8, 3], [67, 25, 2.2], [34, 24, 2.2], [31, 55, 2.4], [40, 62, 2], [60, 67, 2.4], [71, 50, 2.6], [64, 90, 1.8], [22, 40, 1.6], [83, 38, 1.6]],
+    e: [[[0, 2], [0, 1]], [[2, 3], [1, 6], [3, 4], [2, 8], [6, 9]], [[4, 5], [5, 6], [5, 7]]] },
+  { name: 'オリオン座',
+    s: [[30, 20, 3.2], [67, 23, 2.4], [49, 8, 1.8], [41, 50, 2.2], [50, 48, 2.4], [59, 46, 2.2], [36, 84, 2.2], [70, 82, 3.2], [50, 62, 1.5], [14, 16, 1.4], [85, 30, 1.4]],
+    e: [[[2, 0], [2, 1], [0, 9], [1, 10]], [[0, 3], [1, 5], [3, 4], [4, 5]], [[3, 6], [5, 7], [4, 8]]] },
+  { name: 'おおぐま座 ・ 北斗七星',
+    s: [[80, 30, 2.8], [82, 52, 2.4], [62, 57, 2.2], [58, 38, 1.8], [42, 35, 2.6], [27, 39, 2.4], [10, 53, 2.6], [30, 33, 1.2]],
+    e: [[[0, 1], [1, 2]], [[2, 3], [3, 0]], [[3, 4], [4, 5], [5, 6], [5, 7]]] }
+];
+// D の星図の頁（種から決まる＝同じ種なら同じ絵）
+function _clbChartSvg(seed) {
+  let s = seed * 9301 + 49297; const rnd = () => ((s = (s * 9301 + 49297) % 233280) / 233280);
+  let g = '<svg viewBox="0 0 100 140">';
+  g += '<circle class="g" cx="50" cy="64" r="40"/><circle class="g" cx="50" cy="64" r="26"/><circle class="g" cx="50" cy="64" r="12"/>';
+  for (let i = 0; i < 6; i++) { const a = i * Math.PI / 6; g += '<line class="g" x1="' + (50 + Math.cos(a) * 40).toFixed(1) + '" y1="' + (64 + Math.sin(a) * 40).toFixed(1) + '" x2="' + (50 - Math.cos(a) * 40).toFixed(1) + '" y2="' + (64 - Math.sin(a) * 40).toFixed(1) + '"/>'; }
+  const pts = [];
+  for (let i = 0; i < 26; i++) { const a = rnd() * 6.283, r = Math.sqrt(rnd()) * 38, p = [50 + Math.cos(a) * r, 64 + Math.sin(a) * r]; pts.push(p); g += '<circle class="s" cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="' + (rnd() * 1 + .35).toFixed(2) + '"/>'; }
+  for (let i = 0; i < 6; i++) { const a = pts[i * 2], b = pts[i * 2 + 1]; g += '<line class="l" x1="' + a[0].toFixed(1) + '" y1="' + a[1].toFixed(1) + '" x2="' + b[0].toFixed(1) + '" y2="' + b[1].toFixed(1) + '"/>'; }
+  const T = ['TABVLA ASTRORVM', 'SPHAERA MVNDI', 'MOTVS STELLARVM', 'CAELVM BOREALE', 'CAELVM AVSTRALE', 'HARMONIA MVNDI'];
+  g += '<text x="50" y="14">' + T[seed % 6] + '</text><text x="50" y="124">— ' + ['I', 'II', 'III', 'IV', 'V', 'VI'][seed % 6] + ' —</text>';
+  g += '<line class="g" x1="18" y1="18" x2="82" y2="18"/><line class="g" x1="18" y1="118" x2="82" y2="118"/>';
+  return g + '</svg>';
+}
+const CELESTIAL_BOOTS = [
+  /* A 星座を結ぶ：星が1つずつ灯り、3・2・1 で結線が1組ずつ引かれる。起動で線が金に灯り、星から光がこぼれる */
+  { key: 'a', prefix: '✦ ', lineIn: _clbLineIn,
+    lines: (qn, s) => ['CONSTELLATION ATLAS', '観 測 星 野 ........ ' + s, '恒 星 数 ............ ' + qn + ' 問', '赤 経 ・ 赤 緯 ..... 同期完了', '星を結び、形を読む'],
+    rematch: qn => ['CONSTELLATION REFORGE', '欠けた星 ............ 前回の誤答 ' + qn + ' 問', '再 結 線 ............ 準備完了', '取り落とした ' + qn + ' の星を結び直す'],
+    html: '',
+    build(c) {
+      _clbStarfield(c.host, _clbStarN(3200));
+      const C = CL_CONSTS[(Math.random() * CL_CONSTS.length) | 0];
+      c.con = C;
+      let g = '';
+      C.e.forEach((grp, gi) => grp.forEach(([a, b]) => {
+        g += '<line class="clb-dash g' + gi + '" pathLength="1" x1="' + C.s[a][0] + '" y1="' + C.s[a][1] + '" x2="' + C.s[b][0] + '" y2="' + C.s[b][1] + '"/>';
+      }));
+      C.s.forEach(([x, y, m]) => {
+        g += '<g class="st"><circle class="h" cx="' + x + '" cy="' + y + '" r="' + (m * 1.9).toFixed(1) + '"/><circle class="c" cx="' + x + '" cy="' + y + '" r="' + (m * .42).toFixed(2) + '"/></g>';
+      });
+      c.host.insertAdjacentHTML('afterbegin', '<svg class="clb-con" viewBox="0 0 100 100">' + g + '</svg><div class="clb-cname">' + C.name + '</div>');
+      const sv = c.host.querySelector('.clb-con'), st = sv.querySelectorAll('.st');
+      sv.animate([{ rotate: '-3deg', scale: '.96' }, { rotate: '2deg', scale: '1' }], { duration: c.endAt, easing: 'linear', fill: 'forwards' });
+      // 星はブートログの間に1つずつ灯る（明るい星から）
+      const order = C.s.map((s, i) => i).sort((a, b) => C.s[b][2] - C.s[a][2]);
+      order.forEach((i, k) => st[i].animate([{ opacity: 0, scale: '2.4' }, { opacity: 1, scale: '.8', offset: .5 }, { opacity: 1, scale: '1' }],
+        { duration: 360, delay: 90 + k * (c.t0 - 200) / order.length, easing: 'ease-out', fill: 'forwards' }));
+    },
+    num(c, i) {
+      c.host.querySelectorAll('.clb-con .g' + i).forEach(l => l.classList.add('on'));
+      _clbNumIn(c.num);
+    },
+    goWord: 'LINKED', goSub: '— 星 座 、結 ば れ り —',
+    go(c) {
+      const sv = c.host.querySelector('.clb-con');
+      sv.classList.add('gold');
+      sv.querySelectorAll('.st .c').forEach((s, i) => s.animate([{ scale: '1' }, { scale: '2.4' }, { scale: '1' }], { duration: 420, delay: i * 22, easing: 'ease-out' }));
+      c.host.querySelector('.clb-cname').animate([{ opacity: 0, letterSpacing: '.8em' }, { opacity: 1, letterSpacing: '.4em', offset: .35 }, { opacity: 1, offset: .75 }, { opacity: 0 }],
+        { duration: 780, easing: 'ease-out', fill: 'forwards' });
+      const r = sv.getBoundingClientRect();
+      _clbSparks(c, c.con.s.map(([x, y]) => [r.left + x / 100 * r.width, r.top + y / 100 * r.height]), 7, 760);
+      sv.animate([{ opacity: 1 }, { opacity: 1, offset: .6 }, { opacity: 0 }], { duration: 780, fill: 'forwards' });
+      _cdGoIn(c.num, c.sub);
+    } },
+
+  /* B 天球儀：金・青・紫の環（黄道・天の赤道・子午環）がばらばらに回り、3・2・1 で1本ずつ正面に据わって止まる。
+     起動で3本が1つの円に重なり、光条が放たれる（正解演出の ALIGNED と同じ語彙） */
+  { key: 'b', prefix: '☉ ', lineIn: _clbLineIn,
+    lines: (qn, s) => ['ARMILLARY SPHERE', '天 球 ............... ' + s, '恒 星 表 ............ ' + qn + ' 問', '黄道 ・ 赤道 ・ 子午環 ... 稼働', '環を一つに揃える'],
+    rematch: qn => ['ARMILLARY — RECALIBRATE', '狂った環 ............ 前回の誤答 ' + qn + ' 問', '再 較 正 ............ 準備完了', 'この ' + qn + ' 問で天球を合わせ直す'],
+    html: '',
+    build(c) {
+      _clbStarfield(c.host, _clbStarN(5000));
+      let d = '<g class="dial"><circle r="96"/><circle r="90"/>';
+      for (let i = 0; i < 72; i++) {
+        const a = i * 5 * Math.PI / 180, m = i % 6 === 0, r1 = m ? 87 : 90;
+        d += '<line class="' + (m ? 'm' : '') + '" x1="' + (Math.cos(a) * r1).toFixed(2) + '" y1="' + (Math.sin(a) * r1).toFixed(2) + '" x2="' + (Math.cos(a) * 96).toFixed(2) + '" y2="' + (Math.sin(a) * 96).toFixed(2) + '"/>';
+      }
+      ['XII', 'III', 'VI', 'IX'].forEach((t, i) => { const a = (i * 90 - 90) * Math.PI / 180; d += '<text x="' + (Math.cos(a) * 102).toFixed(1) + '" y="' + (Math.sin(a) * 102).toFixed(1) + '">' + t + '</text>'; });
+      d += '</g>';
+      for (let i = 0; i < 24; i++) {
+        const a = i * 15 * Math.PI / 180, r2 = i % 2 ? 100 : 112;
+        d += '<line class="ray clb-dash" pathLength="1" x1="' + (Math.cos(a) * 82).toFixed(2) + '" y1="' + (Math.sin(a) * 82).toFixed(2) + '" x2="' + (Math.cos(a) * r2).toFixed(2) + '" y2="' + (Math.sin(a) * r2).toFixed(2) + '"/>';
+      }
+      c.host.insertAdjacentHTML('afterbegin', '<svg class="clb-arm" viewBox="-115 -115 230 230">' + d
+        + '<ellipse class="rg r0"/><ellipse class="rg r1"/><ellipse class="rg r2"/></svg>');
+      const sv = c.host.querySelector('.clb-arm'), els = sv.querySelectorAll('.rg'), RR = 74;
+      sv.querySelector('.dial').animate([{ rotate: '0deg' }, { rotate: '-24deg' }], { duration: c.endAt, easing: 'linear', fill: 'forwards' });
+      sv.animate([{ opacity: 0, scale: '.9' }, { opacity: 1, scale: '1' }], { duration: 500, easing: 'ease-out' });
+      c.rings = [{ th0: -32, dth: 26, ph0: 1.0, w: 2.3 }, { th0: 38, dth: -34, ph0: .2, w: -2.9 }, { th0: 92, dth: 18, ph0: 2.1, w: 1.7 }]
+        .map(r => Object.assign(r, { lock: -1 }));
+      c.bt = 0;
+      _cdLoop(c, t => {
+        c.bt = t;
+        c.rings.forEach((r, i) => {
+          let th, ph;
+          if (r.lock < 0) { th = r.th0 + r.dth * t / 1000; ph = r.ph0 + r.w * t / 1000; }
+          else { const k = _frE(Math.min(1, (t - r.lock) / 380)); th = r.thL + (r.thT - r.thL) * k; ph = r.phL + (r.phT - r.phL) * k; }
+          els[i].setAttribute('rx', RR); els[i].setAttribute('ry', Math.max(.6, RR * Math.abs(Math.cos(ph))).toFixed(2));
+          els[i].setAttribute('transform', 'rotate(' + th.toFixed(2) + ')');
+          r.th = th; r.ph = ph;
+        });
+        return t < c.endAt;
+      });
+    },
+    num(c, i) {
+      const r = c.rings[i];
+      r.thL = r.th; r.phL = r.ph;
+      r.phT = Math.round(r.ph / Math.PI) * Math.PI;   // 正面（楕円が真円になる位相）の最寄りへ
+      r.thT = Math.round(r.th / 180) * 180;           // 楕円は180°で同じ形
+      r.lock = c.bt;
+      _clbNumIn(c.num);
+    },
+    goWord: 'ALIGNED', goSub: '天 球 儀 — 整 列 完 了',
+    go(c) {
+      const sv = c.host.querySelector('.clb-arm');
+      sv.classList.add('go');
+      sv.querySelectorAll('.ray').forEach((l, i) => c.at(c.goAt + i % 3 * 30, () => l.classList.add('on')));
+      [0, 110].forEach(dl => {
+        const cc = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); cc.setAttribute('class', 'rip'); cc.setAttribute('r', '74'); sv.appendChild(cc);
+        cc.animate([{ scale: '1', strokeWidth: 3, opacity: 1 }, { scale: '1.5', strokeWidth: .4, opacity: 0 }], { duration: 620, delay: dl, easing: 'cubic-bezier(.2,.8,.3,1)', fill: 'both' });
+      });
+      sv.animate([{ opacity: 1, filter: 'brightness(1)' }, { opacity: 1, filter: 'brightness(1.8)', offset: .15 }, { opacity: 1, filter: 'brightness(1)', offset: .55 }, { opacity: 0, filter: 'brightness(1)' }],
+        { duration: 780, easing: 'ease-out', fill: 'forwards' });
+      _cdGoIn(c.num, c.sub);
+    } },
+
+  /* D 星図の魔導書：閉じた本が 3 で開き、2・1 で星図の頁がめくれる。起動でのどから光があふれ、天体記号が立ち昇る。
+     ⚠️ 頁の 3D は .clb-book（perspective）の中だけ。body・html には何も掛けない */
+  { key: 'd', prefix: '§ ', lineIn: _clbLineIn,
+    lines: (qn, s) => ['LIBER CAELESTIS', '巻 ................. ' + s, '頁 ................. ' + qn + ' 問', '封 印 ............... 解除', '星図を、開く'],
+    rematch: qn => ['LIBER CAELESTIS — ERRATA', '折り目の頁 .......... 前回の誤答 ' + qn + ' 問', '読 み 直 し ......... 準備完了', 'この ' + qn + ' 頁を読み直す'],
+    html: '',
+    build(c) {
+      _clbStarfield(c.host, _clbStarN(5200));
+      const seed = (Math.random() * 6) | 0;
+      const cover = '<div class="face f cover"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44"/><circle cx="50" cy="50" r="30"/>'
+        + '<polygon points="50,6 88,72 12,72"/><polygon points="50,94 12,28 88,28"/><circle cx="50" cy="50" r="6"/></svg></div>';
+      const leaf = (f, b, z) => '<div class="leaf" style="z-index:' + z + '">' + f + '<div class="face b paper">' + _clbChartSvg(b) + '</div></div>';
+      c.host.insertAdjacentHTML('afterbegin', '<div class="clb-book">'
+        + '<div class="pg L paper">' + _clbChartSvg(seed) + '</div>'
+        + '<div class="pg R paper">' + _clbChartSvg(seed + 5) + '</div>'
+        + leaf('<div class="face f paper">' + _clbChartSvg(seed + 3) + '</div>', seed + 4, 3)
+        + leaf('<div class="face f paper">' + _clbChartSvg(seed + 1) + '</div>', seed + 2, 4)
+        + leaf(cover, seed, 5)
+        + '</div><div class="clb-glow"></div>');
+      c.host.querySelector('.clb-book').animate([{ translate: '-75% -46%', opacity: 0 }, { translate: '-75% -50%', opacity: .5 }], { duration: 420, easing: 'ease-out' });
+    },
+    num(c, i) {
+      const book = c.host.querySelector('.clb-book'), lf = book.querySelectorAll('.leaf')[2 - i];
+      if (i === 0) {   // 閉じた本（表紙が中央）→ 見開き（のどが中央）
+        book.animate([{ translate: '-75% -50%' }, { translate: '-50% -50%' }], { duration: 400, easing: 'cubic-bezier(.3,.7,.3,1)', fill: 'forwards' });
+        book.querySelector('.pg.L').animate([{ opacity: 0 }, { opacity: 1 }], { duration: 200, delay: 180, fill: 'forwards' });
+      }
+      lf.style.zIndex = 10 + i;
+      lf.animate([{ transform: 'rotateY(0deg)' }, { transform: 'rotateY(-90deg)', offset: .5 }, { transform: 'rotateY(-180deg)' }],
+        { duration: 400, easing: 'cubic-bezier(.45,.05,.3,1)', fill: 'forwards' });
+      _clbNumIn(c.num);
+    },
+    goWord: 'AWAKEN', goSub: '星 図 の 書 — 解 読 開 始',
+    go(c) {
+      const book = c.host.querySelector('.clb-book');
+      c.host.querySelector('.clb-glow').animate([{ opacity: 0, scale: '.6 1' }, { opacity: 1, scale: '1 1', offset: .25 }, { opacity: .5, offset: .6 }, { opacity: 0, scale: '1.2 1.1' }],
+        { duration: 760, easing: 'ease-out', fill: 'forwards' });
+      book.animate([{ opacity: 1, filter: 'brightness(1)' }, { opacity: 1, filter: 'brightness(1.6)', offset: .2 }, { opacity: 1, filter: 'brightness(1.1)', offset: .6 }, { opacity: 0, filter: 'brightness(1)' }],
+        { duration: 780, easing: 'ease-out', fill: 'forwards' });
+      const r = book.getBoundingClientRect(), GL = '☉☽☿♀♂♃♄✦✧⚹';
+      for (let i = 0; i < 26; i++) {
+        const s = document.createElement('span'); s.className = 'clb-glyph'; s.textContent = GL[(Math.random() * GL.length) | 0];
+        s.style.left = (r.left + r.width * _cdR(.08, .92)) + 'px'; s.style.top = (r.top + r.height * _cdR(.3, .8)) + 'px';
+        s.style.fontSize = _cdR(14, 30).toFixed(0) + 'px';
+        c.host.appendChild(s);
+        s.animate([{ opacity: 0, translate: '0 0', scale: '.6' }, { opacity: 1, offset: .25 },
+                   { opacity: 0, translate: _cdR(-30, 30).toFixed(0) + 'px ' + (-_cdR(90, 220)).toFixed(0) + 'px', scale: '1.1' }],
+          { duration: _cdR(560, 760), delay: _cdR(0, 140), easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'both' });
+      }
+      _cdGoIn(c.num, c.sub);
+    } },
+
+  /* E 日周運動：天の北極を中心に星が同心円の光跡を描いて巡る（長時間露光）。3・2・1 で回転が速まり、
+     起動で星が北極星へ吸い込まれて一点が輝く。数字は北極星の位置（画面の中央）に灯る。
+     ⚠️ 光跡は前のフレームを destination-out で少しずつ消して作る（背景は透かしたまま・全消去しない） */
+  { key: 'e', prefix: '✧ ', lineIn: _clbLineIn,
+    lines: (qn, s) => ['CELESTIAL POLE TRACKING', '赤 道 儀 ............ 極軸合わせ完了', '観 測 対 象 ........ ' + s, '露 光 ............... ' + qn + ' 問', '天が、巡りはじめる'],
+    rematch: qn => ['POLE — RE-EXPOSURE', 'ぶれた星 ............ 前回の誤答 ' + qn + ' 問', '再 露 光 ............ 準備完了', 'この ' + qn + ' 問で軌跡を描き直す'],
+    html: '<svg class="clb-hz" viewBox="0 0 1000 240" preserveAspectRatio="none"><path d="M0 150 C120 120 220 140 330 118 C420 100 470 128 560 130 L600 130 L600 96 A62 62 0 0 1 724 96 L724 130 C800 128 880 108 1000 124 L1000 240 L0 240 Z"/>'
+        + '<path class="rim" d="M0 150 C120 120 220 140 330 118 C420 100 470 128 560 130 L600 130 L600 96 A62 62 0 0 1 724 96 L724 130 C800 128 880 108 1000 124"/></svg><div class="clb-flash"></div>',
+    build(c) {
+      const w = innerWidth, h = innerHeight, cx = w / 2, cy = h / 2, x = _frCtx(c.host, w, h, 0, 1.5);
+      x.canvas.style.zIndex = 1;
+      const maxR = Math.hypot(w, h) * .56, P = [], n = Math.round(Math.min(340, 120 + w * h / 6000));
+      for (let i = 0; i < n; i++) {
+        P.push({ r: maxR * Math.pow(Math.random(), .8) + 8, a: _cdR(0, 6.283), lw: Math.random() < .1 ? _cdR(1.4, 2.2) : _cdR(.5, 1.1),
+                 col: CL_STAR_COLS[(Math.random() * CL_STAR_COLS.length) | 0], al: _cdR(.4, 1) });
+      }
+      c.wT = .12; c.pull = 0;
+      let last = 0, ang = 0, w0 = .12;
+      const spr = _clbGlintSprite();
+      _cdLoop(c, t => {
+        const dt = Math.min(50, t - last) / 1000; last = t;
+        w0 += (c.wT - w0) * Math.min(1, dt * 7);
+        ang += w0 * dt;
+        x.globalCompositeOperation = 'destination-out';
+        x.fillStyle = 'rgba(0,0,0,' + (c.pull ? .16 : .045) + ')'; x.fillRect(0, 0, w, h);
+        x.globalCompositeOperation = 'lighter';
+        const k = c.pull ? _frE(Math.min(1, (t - c.pull) / 420)) : 0;
+        P.forEach(p => {
+          const a1 = p.a + ang;
+          x.strokeStyle = 'rgba(' + p.col + ',' + (p.al * (c.pull ? 1 : .8)).toFixed(2) + ')'; x.lineWidth = p.lw;
+          x.beginPath(); x.arc(cx, cy, Math.max(.5, p.r * (1 - k)), a1 - w0 * dt, a1 + .004); x.stroke();
+        });
+        x.globalCompositeOperation = 'source-over';
+        const ps = 18 + k * 30;
+        x.drawImage(spr, cx - ps / 2, cy - ps / 2, ps, ps);
+        return t < c.endAt;
+      });
+    },
+    num(c, i) { c.wT = [.45, 1.1, 2.3][i]; _clbNumIn(c.num); },
+    goWord: 'POLARIS', goSub: '天 の 北 極 — 観 測 開 始',
+    go(c) {
+      c.wT = 4; c.pull = c.goAt;
+      c.host.querySelector('.clb-flash').animate([{ opacity: 0, scale: '.3' }, { opacity: 0, scale: '.3', offset: .35 }, { opacity: 1, scale: '1', offset: .55 }, { opacity: 0, scale: '1.5' }],
+        { duration: 780, easing: 'ease-out', fill: 'forwards' });
+      _cdGoIn(c.num, c.sub);
+    } }
+];
+
 // 戻り値 = カウントダウンが明けるまでのms（B6/B7 がこれに合わせて1問目を立ち上げる）
 function _examCountdown() {
   if (_fxOff()) return 0;
@@ -2169,8 +2442,9 @@ function _examCountdown() {
   const theme = _examTheme();
   const curUi = window.MecUITheme ? MecUITheme.get() : null;
   const style = _examStyleForTheme(curUi);
-  // Frost は4案（FROST_BOOTS）から毎回1つ。色・起動語・演出はその案が持つ
-  const fb = style === 'frost' ? FROST_BOOTS[(Math.random() * FROST_BOOTS.length) | 0] : null;
+  // Frost（FROST_BOOTS）と Celestial（CELESTIAL_BOOTS）は4案から毎回1つ。色・起動語・演出はその案が持つ
+  const fbs = style === 'frost' ? FROST_BOOTS : style === 'grimoire' ? CELESTIAL_BOOTS : null;
+  const fb = fbs ? fbs[(Math.random() * fbs.length) | 0] : null;
   const tok = ++_cdTok;
   let host = document.getElementById('examCountdown');
   if (!host) {
@@ -2208,7 +2482,7 @@ function _examCountdown() {
     }
   }
 
-  host.className = 'cd-' + style + (fb ? ' cd-fr-' + fb.key : '') + (_examIsRematch ? ' cd-rematch' : '');
+  host.className = 'cd-' + style + (fb ? (style === 'grimoire' ? ' cd-cl-' : ' cd-fr-') + fb.key : '') + (_examIsRematch ? ' cd-rematch' : '');
   host.style.setProperty('--cd-col', col);
   host.style.setProperty('--cd-glow', glow);
   host.style.display = 'flex';
@@ -2223,8 +2497,6 @@ function _examCountdown() {
       ? '<div class="cd-boiler"><i class="cd-bz"></i></div>'
       : style === 'zen'
       ? '<div class="cd-zen-enso"><svg viewBox="0 0 200 200" class="cd-enso-svg"><circle class="enso-circle" cx="100" cy="100" r="72"/></svg></div>'
-      : style === 'grimoire'
-      ? '<div class="cd-grimoire-circle"><svg viewBox="0 0 200 200" class="cd-magic-svg"><circle class="mc-outer" cx="100" cy="100" r="88"/><polygon class="mc-poly" points="100,16 172,142 28,142"/><polygon class="mc-poly-rev" points="100,184 28,58 172,58"/><circle class="mc-inner" cx="100" cy="100" r="54"/></svg></div>'
       : style === 'abyss'
       ? '<div class="cd-abyss-sonar"><svg viewBox="0 0 200 200" class="cd-sonar-svg"><circle class="sn-wave1" cx="100" cy="100" r="28"/><circle class="sn-wave2" cx="100" cy="100" r="58"/><circle class="sn-wave3" cx="100" cy="100" r="88"/><line x1="100" y1="8" x2="100" y2="192" class="sn-axis"/><line x1="8" y1="100" x2="192" y2="100" class="sn-axis"/></svg></div>'
       : style === 'prism'
@@ -2266,7 +2538,9 @@ function _examCountdown() {
     d.className = 'cd-line';
     d.textContent = (fb ? fb.prefix : style === 'mecha' ? '> ' : style === 'steam' ? '— ' : '// ') + ln;
     logEl.appendChild(d);
-    if (fb && fb.wipe) {
+    if (fb && fb.lineIn) {
+      fb.lineIn(d);
+    } else if (fb && fb.wipe) {
       // 左から拭われて現れる（A＝指でなぞった跡・D＝氷の中の文字）
       d.animate([{ clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0 0 0)' }],
         { duration: 240, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'backwards' });
