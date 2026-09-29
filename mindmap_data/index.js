@@ -27,5 +27,6 @@ window.MM_SUBJECTS = [
   { sid: "ph", label: "公衆衛生", icon: "🏛", color: "#3097CE", ready: false },
   { sid: "hisshu", label: "必修講座", icon: "🏅", color: "#D4AF37", ready: false },
   { sid: "hisshu2", label: "必修講座Part2", icon: "🎖️", color: "#B8A14A", ready: false },
+  { sid: "sumresp", label: "サマライズ呼吸器", icon: "🫁", color: "#4FB0D8", ready: false },
   { sid: "m121s", label: "第121回 夏メック模試", icon: "🏁", color: "#F0ABFC", ready: false },
 ];

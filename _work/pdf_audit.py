@@ -62,6 +62,8 @@ SUBJECTS = {
     # ⚠️ 必修講座は解説の無い講義テキスト（レジュメ＋問題）。図は画像の範囲を 300dpi で描き直している。
     'hisshu':  ('MEC必修講座Part1（表紙2026）.pdf', '必修講座'),
     'hisshu2': ('MEC必修講座Part2（表紙2026）.pdf', '必修講座Part2'),
+    # ⚠️ サマライズ呼吸器は2冊（サマライズ＋Lesson）。3つ目の要素は図の照合だけに使う追加の PDF
+    'sumresp': ('国試サマライズ・メジャー・呼吸器（表紙2026）.pdf', 'サマライズ呼吸器', ('2026Lesson呼吸器.pdf',)),
 }
 
 # PDFがベクター描画のため、こちらでレンダリング／手作りした画像。rasterと一致しなくて当然。
@@ -75,6 +77,8 @@ VECTOR_RENDERED = {
     # 画像の外に組まれた番号・見出しまで含めて切り出したもの（_work/build_hisshu_json.py の CLIP_FIX）
     'hisshu': {'108F-15_1.jpeg',                   # 5枚の写真を ①〜⑤ の番号ごと1枚に
                '117E-22_1.jpeg'},                  # 心音図の上の「Ⅰ音 Ⅱ音 Ⅰ音」
+    # 透過マスク付きの埋め込み画像。実体は黒地だが紙面では白地に見える＝紙面どおりに描き直した方が正しい
+    'sumresp': {'l10_1.jpeg', 'l17_1.jpeg'},
 }
 
 ANCHOR = re.compile(r'(\d{1,3})\s*[.．]\s*[（(]\s*(\d{2,3}[A-Z]-\d+)\s*[）)]')
@@ -159,8 +163,11 @@ def excluded(q):
 
 def multi_answer(q):
     """ok数 と「Nつ選べ」が一致しなくて正しい問題:
-    「複数正解」バッジ付き、または PDF 自身に「編註：現在の正答は1つ」と注記された問題。"""
+    「複数正解」バッジ付き、PDF 自身に「編註：現在の正答は1つ」と注記された問題、
+    または「すべて選べ」（正解数を明かさない問い・サマライズ呼吸器 Q.22）。"""
     if any(b['t'] == '複数正解' for b in q['badges']):
+        return True
+    if 'すべて選べ' in plain(q['qt']):
         return True
     return bool(re.search(r'編[註注]', plain(q['qt'])))
 
@@ -214,7 +221,8 @@ def _best_ncc(pil, vecs):
     return best
 
 def audit(sid, check_images=True):
-    pdf_name, img_dir_name = SUBJECTS[sid]
+    pdf_name, img_dir_name = SUBJECTS[sid][:2]
+    extra_pdfs = SUBJECTS[sid][2] if len(SUBJECTS[sid]) > 2 else ()
     pdf_path = os.path.join(PDF_DIR, pdf_name)
     json_path = os.path.join(BASE, f'questions_{sid}.json')
     img_dir = os.path.join(BASE, img_dir_name, 'images')
@@ -321,19 +329,24 @@ def audit(sid, check_images=True):
     if check_images and os.path.exists(pdf_path) and os.path.isdir(img_dir):
         import fitz
         from PIL import Image
-        doc = fitz.open(pdf_path)
-        hashes, pilimgs, seen = [], [], set()
-        for p in range(len(doc)):
-            for im in doc[p].get_images(full=True):
-                if im[0] in seen:
-                    continue
-                seen.add(im[0])
-                try:
-                    pi = Image.open(io.BytesIO(doc.extract_image(im[0])['image']))
-                    hashes.append(dhash(pi))
-                    pilimgs_append(pilimgs, pi)
-                except Exception:
-                    pass
+        hashes, pilimgs = [], []
+        for path in [pdf_path] + [os.path.join(PDF_DIR, e) for e in extra_pdfs]:
+            if not os.path.exists(path):
+                continue
+            doc = fitz.open(path)
+            seen = set()
+            for p in range(len(doc)):
+                for im in doc[p].get_images(full=True):
+                    if im[0] in seen:
+                        continue
+                    seen.add(im[0])
+                    try:
+                        pi = Image.open(io.BytesIO(doc.extract_image(im[0])['image']))
+                        hashes.append(dhash(pi))
+                        pilimgs_append(pilimgs, pi)
+                    except Exception:
+                        pass
+            doc.close()
         for f in sorted(used):
             fp = os.path.join(img_dir, f)
             if not os.path.exists(fp) or f in VECTOR_RENDERED.get(sid, ()):
@@ -354,7 +367,6 @@ def audit(sid, check_images=True):
                 continue
             issues.append(('画像', f'{img_dir_name}/images/{f}',
                            'PDF内のどの図とも一致しない（ページ描画のゴミ画像の疑い）'))
-        doc.close()
     return issues
 
 

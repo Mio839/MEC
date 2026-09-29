@@ -9,6 +9,7 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-09-29t / v671: サマライズ呼吸器(sumresp)を新科目として追加（🫁・#4FB0D8）。questions_sumresp.json を CARDS に加え、サマライズ呼吸器/images/（34枚）を追加したので CACHE を bump。PDF は「国試サマライズ・メジャー・呼吸器（表紙2026）」8章39問＋「2026Lesson呼吸器」19問＝58問（Lesson は ch09・Q.40〜58・紙面の番号はバッジ bb）。解説はテキスト（サマライズ本文・Lesson 参考資料）の引用＋1行の理由（_work/sumresp_notes.json）。⚠️ questions_sumresp.json は派生物（_work/build_sumresp_json.py）。
 2026-09-29s: Abyss の問題カード右上のソナーの透かし（.qc::after・abyssSonarRipple＝同心円が広がって回る模様）と、正解時にそれを光らせる abyssWatermarkFlash を撤去（ユーザー判断）。ui_theme.css から削除し theme_css を再生成。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-29r: Abyss の正解演出に全画面の「ホタルイカの群れ」（_abySquid・試験演出一覧の新案 第3弾⑦から採用）を足し、ソナーの反響と毎回重ねる（ユーザー判断）。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-29q: ハブのヒーローゲージ全体の鼓動（gaugeBeat・盤面ごと 1.05 倍まで脈打つ）を全テーマから撤去。高い段（tier 5/6）のテーマ別の脈動7つも拡大縮小（transform: scale）だけ外して光の強弱は残した。シェルのみ＝SHELL_VERSION だけ bump。

@@ -1491,6 +1491,68 @@ const MEC_CHAPTERS = [
     ]
   },
   {
+    "id": "sumresp",
+    "name": "サマライズ呼吸器",
+    "icon": "🫁",
+    "color": "#4FB0D8",
+    "chapters": [
+      {
+        "prefix": "sumresp_ch01",
+        "file": "study.html?sid=sumresp",
+        "title": "気管支喘息",
+        "count": 4
+      },
+      {
+        "prefix": "sumresp_ch02",
+        "file": "study.html?sid=sumresp",
+        "title": "肺気腫",
+        "count": 4
+      },
+      {
+        "prefix": "sumresp_ch03",
+        "file": "study.html?sid=sumresp",
+        "title": "過敏性肺炎（夏型過敏性肺炎）",
+        "count": 3
+      },
+      {
+        "prefix": "sumresp_ch04",
+        "file": "study.html?sid=sumresp",
+        "title": "じん肺",
+        "count": 4
+      },
+      {
+        "prefix": "sumresp_ch05",
+        "file": "study.html?sid=sumresp",
+        "title": "肺塞栓症",
+        "count": 3
+      },
+      {
+        "prefix": "sumresp_ch06",
+        "file": "study.html?sid=sumresp",
+        "title": "縦隔腫瘍",
+        "count": 4
+      },
+      {
+        "prefix": "sumresp_ch07",
+        "file": "study.html?sid=sumresp",
+        "title": "アレルギー性気管支肺アスペルギルス症",
+        "count": 3
+      },
+      {
+        "prefix": "sumresp_ch08",
+        "file": "study.html?sid=sumresp",
+        "title": "近年の国試で他に押さえておくべきもの",
+        "count": 14
+      },
+      {
+        "prefix": "sumresp_ch09",
+        "file": "study.html?sid=sumresp",
+        "title": "Lesson 呼吸器",
+        "count": 19
+      }
+    ]
+  },
+  {
     "id": "m121s",
     "name": "第121回 夏メック模試",
     "icon": "🏁",

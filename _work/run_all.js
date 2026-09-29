@@ -34,6 +34,7 @@ const PDF = {
   m121s: 'MEC問題文pdf/2026年度 夏メック模試_解説書.pdf',
   hisshu: 'MEC問題文pdf/MEC必修講座Part1（表紙2026）.pdf',
   hisshu2: 'MEC問題文pdf/MEC必修講座Part2（表紙2026）.pdf',
+  sumresp: 'MEC問題文pdf/国試サマライズ・メジャー・呼吸器（表紙2026）.pdf',
 };
 const hasPdf = k => fs.existsSync(path.join(ROOT, PDF[k]));
 
@@ -56,6 +57,7 @@ if (!QUICK) {
   gen('questions_m121s.json（模試の解説）', PY, ['_work/build_mock_m121s_json.py', '--check'], 'm121s');
   gen('questions_hisshu.json（必修講座Part1）', PY, ['_work/build_hisshu_json.py', '--check'], 'hisshu');
   gen('questions_hisshu2.json（必修講座Part2）', PY, ['_work/build_hisshu2_json.py', '--check'], 'hisshu2');
+  gen('questions_sumresp.json（サマライズ呼吸器）', PY, ['_work/build_sumresp_json.py', '--check'], 'sumresp');
   jobs.push({ group: '生成物', name: '画像の整合性（validate_images.py A・D）', cmd: PY, argv: ['_work/validate_images.py', '--only', 'A', 'D'],
               judge: out => !/! \[/.test(out) });
 }
