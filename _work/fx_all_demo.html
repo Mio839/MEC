@@ -1123,6 +1123,260 @@ const CLX_NEW5 = [
   ['orrery', 'Y 太陽系儀（積み上がる）', '肢の左端に小さな太陽が灯り、これまでの惑星が軌道を回っている。太陽から新しい惑星が渦を描いて飛び出して軌道に収まり、軌道が金に1周光って名前が添えられる',
     '水星→金星→地球→火星→木星→土星→天王星→海王星と1連続で1つずつ増え、8連続で完成＝内側から順に軌道が光って外へ輪が広がる', 9],
 ];
+/* ── celestial 正解演出の新案 第6弾・全画面の5つ（2026-09-29・デモ専用。study_exam.js にはまだ入れていない）──
+   第1〜5弾は発火位置が「正解の肢の左端」に寄っていた（ユーザー指摘）。今回は**肢に一切寄せず、画面そのものを舞台にする**。
+   肢の層は使わず、全画面の層（_rfFullHost）1枚だけに描く。黄道十二宮の輪（本番・画面の中央の輪）とは題材も形も重ならないもの。 */
+const CLXNEW6 = `
+(() => {
+  const GOLD = CLX_GOLD, PALE = CLX_PALE, CYAN = CLX_CYAN, VIO = '#B89CFF';
+  const dot = (c, x, y, r, a, col) => { if (!(a > 0) || !(r > 0)) return; c.globalAlpha = Math.min(1, a); c.fillStyle = col; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill(); };
+  const SERIF = '"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif';
+  const text = (c, s, x, y, px, a, col, sp) => {
+    if (!(a > 0)) return;
+    c.save(); c.globalAlpha = Math.min(1, a); c.font = '700 ' + Math.round(px) + 'px ' + SERIF; c.textAlign = 'center'; c.textBaseline = 'middle';
+    if (sp) c.letterSpacing = sp + 'px';
+    c.shadowColor = 'rgba(0,0,0,.9)'; c.shadowBlur = 8; c.fillStyle = col; c.fillText(s, x, y); c.restore();
+  };
+  const field = (CW, CH, k) => Array.from({ length: Math.round(CW * CH / 5200 * k) }, (_, i) => ({ x: Math.random() * CW, y: Math.random() * CH, r: _frR(.4, 1.2), tw: _frR(0, 6.28), col: CLX_STARCOL[i % 6] }));
+  const drawField = (c, F, e, a) => { c.save(); c.globalCompositeOperation = 'lighter'; F.forEach(p => dot(c, p.x, p.y, p.r, (.35 + .25 * Math.sin(e / 120 + p.tw)) * a, p.col)); c.restore(); };
+  const CON = [
+    { n: 'オリオン座', en: 'ORION', ar: .75, s: [[.48, .04, 3.2], [.22, .18, 6, '#FFB37A'], [.74, .22, 4.4, '#CFE6FF'], [.40, .53, 4, '#CFE6FF'], [.50, .50, 4.2, '#CFE6FF'], [.60, .47, 3.8, '#CFE6FF'], [.30, .90, 4.2, '#CFE6FF'], [.78, .86, 6, '#DDEBFF']],
+      e: [[0, 1], [0, 2], [1, 3], [2, 5], [3, 4], [4, 5], [3, 6], [5, 7]] },
+    { n: 'はくちょう座', en: 'CYGNUS', ar: 1, s: [[.50, .02, 5.6], [.50, .36, 4.4, '#FFD9A8'], [.26, .28, 3.8], [.06, .20, 3.2, '#CFE6FF'], [.72, .46, 3.8], [.94, .56, 3.2, '#CFE6FF'], [.50, .64, 3.2], [.50, .96, 4.4, GOLD]],
+      e: [[0, 1], [1, 2], [2, 3], [1, 4], [4, 5], [1, 6], [6, 7]] },
+    { n: 'カシオペヤ座', en: 'CASSIOPEIA', ar: 1.8, s: [[0, .30, 4.4], [.24, .78, 4.4], [.50, .45, 4.8], [.74, .85, 4], [1, .25, 4]], e: [[0, 1], [1, 2], [2, 3], [3, 4]] },
+    { n: 'おおぐま座 ─ 北斗七星', en: 'URSA MAJOR', ar: 1.9, s: [[0, .30, 4.2], [.17, .22, 4.4], [.33, .30, 4.4], [.48, .44, 3.6], [.52, .80, 4.4], [.86, .86, 4.4], [.92, .50, 4.6]],
+      e: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 3]] },
+    { n: 'さそり座', en: 'SCORPIUS', ar: .9, s: [[.12, .02, 3.6], [.18, .12, 4], [.10, .24, 3.6], [.34, .30, 6.2, '#FF9A6B'], [.42, .42, 3.8], [.46, .56, 3.8], [.48, .70, 3.8], [.56, .84, 3.8], [.70, .94, 4], [.86, .92, 4], [.94, .80, 4.4], [.88, .70, 4.4]],
+      e: [[0, 1], [1, 2], [1, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10], [10, 11]] },
+  ];
+  const NEW = {
+    /* ① 星の額縁：画面の左上と右下の角から光が同時に走り出し、画面の縁をぐるりと回って星を1つずつ灯していく。
+         2つの光が出会うと四隅に羅針盤の星が咲き、額縁全体が1回脈打つ */
+    frame(g) {
+      const { T, up, CW, CH, M, S } = g;
+      const RUN = 560;
+      const mk = (ins, dir, col, t0) => {
+        const w = CW - 2 * ins, h = CH - 2 * ins, P = 2 * (w + h), HP = P / 2;
+        const at = s => { s = ((s % P) + P) % P; if (s < w) return [ins + s, ins]; s -= w; if (s < h) return [ins + w, ins + s]; s -= h; if (s < w) return [ins + w - s, ins + h]; s -= w; return [ins, ins + h - s]; };
+        const n = Math.floor(P / (24 * S));
+        const pts = Array.from({ length: n }, (_, i) => { const s = i * P / n, d = dir > 0 ? s % HP : (HP - s % HP) % HP; const [x, y] = at(s); return { x, y, d, r: _frR(.8, 1.8), tw: _frR(0, 6.28), col: CLX_STARCOL[i % 6] }; });
+        return { ins, dir, col, t0, w, h, P, HP, at, pts };
+      };
+      const Fr = [mk(M * .035, 1, GOLD, 0)];
+      if (T >= 3) Fr.push(mk(M * .075, -1, CYAN, 110));
+      if (T >= 5) Fr.push(mk(M * .115, 1, VIO, 220));
+      return { dur: up ? 1950 : 1700, draw(c, e) {
+        const fade = e < 1150 ? 1 : _frC(1 - (e - 1150) / (up ? 780 : 530));
+        Fr.forEach(f => {
+          const k = _clxEio(_frC((e - f.t0) / RUN)), trav = k * f.HP, done = _frC((e - f.t0 - RUN) / 450), pulse = Math.sin(Math.PI * done);
+          const inward = up ? _frE(_frC((e - f.t0 - RUN - 150) / 700)) : 0;
+          const px = p => p.x + (CW / 2 - p.x) * .1 * inward, py = p => p.y + (CH / 2 - p.y) * .1 * inward;
+          c.save(); c.globalCompositeOperation = 'lighter';
+          f.pts.forEach(p => { if (p.d > trav) return; const age = (trav - p.d) / f.HP * RUN, fl = Math.exp(-age / 160);
+            dot(c, px(p), py(p), p.r * S * (1 + 1.6 * fl + .5 * pulse), (.55 + .25 * Math.sin(e / 90 + p.tw) + fl + .4 * pulse) * fade * (1 - .6 * inward), fl > .3 ? PALE : p.col); });
+          c.restore();
+          for (const s0 of [0, f.HP]) {
+            if (k >= 1) break;
+            for (let i = 0; i < 12; i++) { const a = f.at(s0 + f.dir * (trav - i * 9 * S)), b = f.at(s0 + f.dir * (trav - (i + 1) * 9 * S));
+              if (trav - (i + 1) * 9 * S < 0) break; _clxLine(c, a[0], a[1], b[0], b[1], (1 - i / 12) * .9, 1.2 - i * .06); }
+            const h = f.at(s0 + f.dir * trav); _clxStar(c, h[0], h[1], 5 * S, 1, e / 60, f.col === GOLD ? PALE : f.col);
+          }
+          if (done > 0) [[f.ins, f.ins], [f.ins + f.w, f.ins], [f.ins + f.w, f.ins + f.h], [f.ins, f.ins + f.h]].forEach(([x, y], i) => {
+            const kb = _frE(_frC(done * 1.6));
+            _clxGlow(c, x, y, 46 * S * kb, (pulse * 1.1 + .25) * fade, f.col);
+            _clxStar(c, x, y, 10 * S * kb * (1 + .1 * Math.sin(e / 80 + i)), fade, Math.PI / 4 + e / 1500, f.col === GOLD ? PALE : f.col);
+            _clxStar(c, x, y, 6 * S * kb, fade * .8, e / 1500, f.col);
+            _clxRing(c, x, y, 40 * S * _frE(done), (1 - done) * .9, f.col, 1.4 * S);
+          });
+        });
+      } };
+    },
+    /* ② 大星座：画面いっぱいに薄い星空が広がり、その上に大きな星座（オリオン・はくちょう・カシオペヤ・北斗七星・さそりから1つ）の
+         星が1つずつ灯って金の線で結ばれていく。結び終わると星座全体が光り、下に名前が浮かぶ */
+    bigcon(g) {
+      const { T, up, CW, CH, M, S } = g;
+      const K = CON[Math.floor(Math.random() * CON.length)], n = K.s.length;
+      const sc = Math.min(.9, .66 + .04 * T);
+      const bw = Math.min(CW * sc, CH * sc * .82 * K.ar), bh = bw / K.ar, ox = (CW - bw) / 2, oy = (CH - bh) / 2 - CH * .04;
+      const P = K.s.map(([x, y, s, col]) => ({ x: ox + x * bw, y: oy + y * bh, s, col: col || PALE }));
+      const STEP = 460 / Math.max(1, n - 1), ti = i => 90 + i * STEP, LOCK = ti(n - 1) + 220;
+      const F = field(CW, CH, 1 + .15 * Math.min(T, 6));
+      const my = _frR(.1, .3) * CH;
+      return { dur: up ? 2000 : 1800, draw(c, e) {
+        const fade = e < 1250 ? 1 : _frC(1 - (e - 1250) / (up ? 750 : 550)), ap = _frC(e / 260) * fade;
+        drawField(c, F, e, ap * .8);
+        const kf = _frC((e - LOCK) / 650), pk = Math.sin(Math.PI * kf);
+        K.e.forEach(([i, j]) => { const [a, b] = ti(i) < ti(j) ? [P[i], P[j]] : [P[j], P[i]], t0 = Math.max(ti(i), ti(j));
+          const k = _frE(_frC((e - t0) / 200)); if (k <= 0) return;
+          _clxLine(c, a.x, a.y, a.x + (b.x - a.x) * k, a.y + (b.y - a.y) * k, (.55 + .5 * pk) * fade, .9 + .5 * pk); });
+        P.forEach((p, i) => { const k = _frC((e - ti(i)) / 220); if (k <= 0) return;
+          const fl = Math.sin(Math.PI * Math.min(1, k * 1.2));
+          _clxGlow(c, p.x, p.y, (18 + 30 * fl + 16 * pk) * S * p.s / 4, (.35 + .8 * fl + .5 * pk) * fade, p.col);
+          _clxStar(c, p.x, p.y, p.s * S * (1 + .5 * fl + .25 * pk) * (1 + .05 * Math.sin(e / 90 + i)), fade * _frE(k), e / 1800 + i, p.col); });
+        const kn = _frC((e - LOCK) / 300) * fade;
+        text(c, K.n, CW / 2, Math.min(CH - 40 * S, oy + bh + 34 * S), 24 * S, kn, GOLD, 4 * S);
+        text(c, K.en, CW / 2, Math.min(CH - 14 * S, oy + bh + 60 * S), 11 * S, kn * .8, '#CFE6FF', 8 * S);
+        if (up) { const km = _frC((e - LOCK) / 520);
+          if (km > 0 && km < 1) { const x0 = -40, y0 = my, x1 = CW + 40, y1 = my + CH * .35, hx = x0 + (x1 - x0) * km, hy = y0 + (y1 - y0) * km;
+            for (let i = 0; i < 10; i++) { const k1 = Math.max(0, km - i * .018), k2 = Math.max(0, km - (i + 1) * .018);
+              _clxLine(c, x0 + (x1 - x0) * k1, y0 + (y1 - y0) * k1, x0 + (x1 - x0) * k2, y0 + (y1 - y0) * k2, (1 - i / 10), 1.3 - i * .08); }
+            _clxStar(c, hx, hy, 7 * S, 1, e / 50, PALE); } }
+      } };
+    },
+    /* ③ 星の網：画面の角から光が走り出し、画面いっぱいに散った星を近い順に次々と線で結んで広がっていく。
+         網が画面の反対の端まで届くと、全体が1回金に脈打つ（段3〜は反対の角からシアンの網も出て、真ん中で出会う） */
+    web(g) {
+      const { T, up, CW, CH, M, S } = g;
+      const sp = M * Math.max(.14, .2 - .01 * Math.min(T, 6)), cols = Math.max(3, Math.round(CW / sp)), rows = Math.max(3, Math.round(CH / sp));
+      const N = [];
+      for (let r = 0; r < rows; r++) for (let q = 0; q < cols; q++) N.push({ x: (q + .5 + _frR(-.38, .38)) * CW / cols, y: (r + .5 + _frR(-.38, .38)) * CH / rows, s: Math.random() < .2 ? 1 : 0, d: 1e9, col: GOLD });
+      const E = [], seen = new Set();
+      N.forEach((a, i) => { N.map((b, j) => [j, Math.hypot(a.x - b.x, a.y - b.y)]).filter(([j]) => j !== i).sort((p, q) => p[1] - q[1]).slice(0, 3)
+        .forEach(([j, l]) => { const key = Math.min(i, j) + '-' + Math.max(i, j); if (!seen.has(key)) { seen.add(key); E.push([i, j, l]); } }); });
+      const cornerNode = (x, y) => N.reduce((b, p, i) => Math.hypot(p.x - x, p.y - y) < Math.hypot(N[b].x - x, N[b].y - y) ? i : b, 0);
+      const flip = Math.random() < .5;
+      const SRC = [[cornerNode(flip ? CW : 0, 0), GOLD]].concat(T >= 3 ? [[cornerNode(flip ? 0 : CW, CH), CYAN]] : []);
+      SRC.forEach(([s]) => { N[s].d = 0; });
+      SRC.forEach(([s, col]) => { N[s].col = col; });
+      for (let it = 0; it < N.length; it++) E.forEach(([i, j, l]) => { if (N[i].d + l < N[j].d) { N[j].d = N[i].d + l; N[j].col = N[i].col; } if (N[j].d + l < N[i].d) { N[i].d = N[j].d + l; N[i].col = N[j].col; } });
+      const dmax = Math.max(...N.map(p => p.d)), V = dmax / 780, tn = p => p.d / V, END = 780 + 60;
+      return { dur: up ? 1950 : 1700, draw(c, e) {
+        const fade = e < 1200 ? 1 : _frC(1 - (e - 1200) / (up ? 750 : 500));
+        const kp = _frC((e - END) / 450), pk = Math.sin(Math.PI * kp);
+        E.forEach(([i, j, l]) => { let a = N[i], b = N[j]; if (tn(b) < tn(a)) [a, b] = [b, a];
+          const k = _frC((e - tn(a)) / (l / V)); if (k <= 0) return;
+          const bk = up ? Math.exp(-Math.pow((e - END - 250 - (780 - tn(b)) * .6) / 90, 2)) : 0;
+          _clxLine(c, a.x, a.y, a.x + (b.x - a.x) * k, a.y + (b.y - a.y) * k, (.2 + .28 * pk + .5 * bk) * fade, .45 + .2 * pk); });
+        N.forEach((p, i) => { const k = _frC((e - tn(p)) / 260); if (k <= 0) return; const fl = Math.exp(-(e - tn(p)) / 180);
+          if (p.s) { _clxGlow(c, p.x, p.y, (14 + 22 * fl) * S, (.2 + .9 * fl + .3 * pk) * fade, p.col); _clxStar(c, p.x, p.y, (3.5 + 2 * fl + 1.2 * pk) * S, fade, e / 1500 + i, fl > .3 ? PALE : p.col); }
+          else _clxDot(c, p.x, p.y, (1.2 + 1.4 * fl + .5 * pk) * S, (.7 + fl) * fade, fl > .3 ? PALE : p.col); });
+      } };
+    },
+    /* ④ 惑星の出：画面の下の縁から、環を持つ巨大な惑星の縁（大気の光る弧）がゆっくり昇ってくる。環が画面を斜めに横切り、
+         惑星の縁から太陽が顔を出した瞬間、光が横一文字に走る（段3〜は衛星も昇る／段が上がった瞬間は光が環をなぞって走る） */
+    planet(g) {
+      const { T, up, CW, CH, M, S } = g;
+      const Rp = Math.max(CW, CH) * .5, cx = CW * .25, top = CH * .6, RISE = 700;
+      const TIL = -.42, RX = Rp * 2.2, RY = Rp * .3;
+      const sa = -Math.PI / 2 + .35, GL = 520;
+      const cyAt = e => top + Rp + (1 - _clxEio(_frC(e / RISE))) * Rp * .32;
+      const ringPt = (cy, t) => { const x = Math.cos(t) * RX, y = Math.sin(t) * RY; return [cx + x * Math.cos(TIL) - y * Math.sin(TIL), cy + x * Math.sin(TIL) + y * Math.cos(TIL)]; };
+      return { dur: up ? 2050 : 1850, draw(c, e) {
+        const fade = e < 1300 ? 1 : _frC(1 - (e - 1300) / (up ? 750 : 550)), ap = _frC(e / 250) * fade, cy = cyAt(e);
+        c.save(); c.globalCompositeOperation = 'lighter';
+        // 惑星の内側（ごく淡い紫）と、大気の光る縁
+        let gr = c.createRadialGradient(cx, cy, Rp * .6, cx, cy, Rp);
+        gr.addColorStop(0, 'rgba(90,70,160,0)'); gr.addColorStop(1, _clxRgba('#6B5BC8', .16 * ap));
+        c.fillStyle = gr; c.beginPath(); c.arc(cx, cy, Rp, 0, 7); c.fill();
+        gr = c.createRadialGradient(cx, cy, Rp * .965, cx, cy, Rp * 1.05);
+        gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(.3, _clxRgba(CYAN, .55 * ap)); gr.addColorStop(.42, _clxRgba(PALE, .85 * ap)); gr.addColorStop(.6, _clxRgba('#8FA8FF', .3 * ap)); gr.addColorStop(1, 'rgba(0,0,0,0)');
+        c.fillStyle = gr; c.beginPath(); c.arc(cx, cy, Rp * 1.05, 0, 7); c.fill();
+        // 縞（惑星の中だけ）
+        c.save(); c.beginPath(); c.arc(cx, cy, Rp * .985, 0, 7); c.clip();
+        for (let i = 0; i < 6; i++) { const y = cy - Rp * (.97 - i * .045); c.globalAlpha = .06 * ap; c.strokeStyle = i % 2 ? GOLD : VIO; c.lineWidth = (8 + 6 * (i % 3)) * S;
+          c.beginPath(); c.moveTo(0, y); c.lineTo(CW, y); c.stroke(); }
+        c.restore();
+        // 環（惑星の後ろに回る所は描かない＝惑星の外だけに描く）
+        c.save(); c.beginPath(); c.rect(0, 0, CW, CH); c.arc(cx, cy, Rp * .99, 0, 7, true); c.clip('evenodd');
+        [[1, .5, GOLD, 3], [.95, .35, PALE, 2], [.9, .45, GOLD, 5], [.8, .25, '#FFD9A8', 4], [.74, .3, GOLD, 2]].forEach(([k, a, col, w]) => {
+          c.globalAlpha = a * ap; c.strokeStyle = col; c.lineWidth = w * S; c.beginPath(); c.ellipse(cx, cy, RX * k, RY * k, TIL, 0, 7); c.stroke(); });
+        c.restore();
+        // 手前側（楕円の下半分）は惑星の前を通る
+        [[1, .5, GOLD, 3], [.95, .35, PALE, 2], [.9, .45, GOLD, 5], [.8, .25, '#FFD9A8', 4], [.74, .3, GOLD, 2]].forEach(([k, a, col, w]) => {
+          c.globalAlpha = a * ap; c.strokeStyle = col; c.lineWidth = w * S; c.beginPath(); c.ellipse(cx, cy, RX * k, RY * k, TIL, 0, Math.PI); c.stroke(); });
+        c.restore();
+        if (T >= 3) { const km = _clxEio(_frC((e - 150) / RISE)), mx = CW * .82, my = CH * .3 + (1 - km) * M * .3, mr = M * .035;
+          _clxGlow(c, mx, my, mr * 2.4, .35 * ap, '#CFE6FF', .5);
+          c.save(); c.globalCompositeOperation = 'lighter'; c.globalAlpha = .75 * ap; const g2 = c.createRadialGradient(mx - mr * .4, my - mr * .4, 0, mx, my, mr);
+          g2.addColorStop(0, '#FFFFFF'); g2.addColorStop(1, 'rgba(200,210,230,.25)'); c.fillStyle = g2; c.beginPath(); c.arc(mx, my, mr, 0, 7); c.fill(); c.restore(); }
+        // 日の出（縁から太陽が顔を出す）
+        const kg = _frC((e - GL) / 800);
+        if (kg > 0) { const pk = Math.sin(Math.PI * Math.min(1, kg * 1.5)), gx = cx + Math.cos(sa) * Rp, gy = cy + Math.sin(sa) * Rp;
+          _clxGlow(c, gx, gy, M * .3 * (.4 + pk), (.4 + .9 * pk) * fade, GOLD, .15);
+          _clxLine(c, gx - CW * .5 * pk, gy, gx + CW * .5 * pk, gy, pk * .8 * fade, 1);
+          _clxLine(c, gx, gy - M * .12 * pk, gx, gy + M * .12 * pk, pk * .6 * fade, .8);
+          _clxStar(c, gx, gy, 16 * S * (.5 + pk), fade, kg);
+          if (up) { const kr = _frC((e - GL - 150) / 700);
+            if (kr > 0 && kr < 1) for (let i = 0; i < 16; i++) { const t = -1.5 + kr * 1.8 - i * .03, p1 = ringPt(cy, t), p2 = ringPt(cy, t - .03);
+              _clxLine(c, p1[0], p1[1], p2[0], p2[1], (1 - i / 16) * fade, 1.4 - i * .06); } } }
+      } };
+    },
+    /* ⑤ 天の赤道：画面をまたぐ大きな弧（天球の赤道）が左の地平から右の地平へ描かれ、目盛りと星が並ぶ。
+         左の地平から太陽が弧をたどって昇り、画面の真上（南中）で光を放つ（段3〜は月が、段5〜は惑星が後を追う／段が上がった瞬間は2本目の弧＝黄道も架かる） */
+    arc(g) {
+      const { T, up, CW, CH, M, S } = g;
+      const cx = CW / 2, zy = CH * .13, cy = CH * 1.25, Ra = cy - zy;
+      const A0 = Math.asin(_frC((CW / 2 + 20) / Ra, 0, 1)), a0 = -Math.PI / 2 - A0, a1 = -Math.PI / 2 + A0;
+      const pt = (a, r) => [cx + Math.cos(a) * (r || Ra), cy + Math.sin(a) * (r || Ra)];
+      const DRAW = 420, NOON = 820;
+      const ticks = Array.from({ length: 25 }, (_, i) => a0 + (a1 - a0) * i / 24);
+      const st = Array.from({ length: 40 }, (_, i) => ({ a: _frR(a0, a1), o: _frR(-.08, .08) * M, r: _frR(.7, 1.6), col: CLX_STARCOL[i % 6], tw: _frR(0, 6.28) }));
+      const bodies = [['sun', 0]].concat(T >= 3 ? [['moon', .16]] : []).concat(T >= 5 ? [['p', .26], ['p', .31]] : []);
+      return { dur: up ? 2050 : 1850, draw(c, e) {
+        const fade = e < 1300 ? 1 : _frC(1 - (e - 1300) / (up ? 750 : 550));
+        const kd = _clxEio(_frC(e / DRAW)), aE = a0 + (a1 - a0) * kd;
+        c.save(); c.globalCompositeOperation = 'lighter'; c.lineCap = 'round';
+        c.globalAlpha = .25 * fade; c.strokeStyle = GOLD; c.lineWidth = 7 * S; c.beginPath(); c.arc(cx, cy, Ra, a0, aE); c.stroke();
+        c.globalAlpha = .85 * fade; c.strokeStyle = PALE; c.lineWidth = 1.4 * S; c.beginPath(); c.arc(cx, cy, Ra, a0, aE); c.stroke();
+        c.restore();
+        if (kd < 1) { const h = pt(aE); _clxStar(c, h[0], h[1], 6 * S, 1, e / 60, PALE); }
+        ticks.forEach((a, i) => { if (a > aE) return; const L = (i % 6 ? 6 : 13) * S, p1 = pt(a, Ra - L), p2 = pt(a, Ra + L); _clxLine(c, p1[0], p1[1], p2[0], p2[1], (i % 6 ? .35 : .7) * fade, .6); });
+        c.save(); c.globalCompositeOperation = 'lighter';
+        st.forEach(s => { if (s.a > aE) return; const p = pt(s.a, Ra + s.o); dot(c, p[0], p[1], s.r * S, (.55 + .3 * Math.sin(e / 100 + s.tw)) * fade, s.col); });
+        c.restore();
+        if (up) { const k2 = _clxEio(_frC((e - 250) / DRAW)); c.save(); c.globalCompositeOperation = 'lighter';
+          c.globalAlpha = .7 * fade; c.strokeStyle = CYAN; c.lineWidth = 1.2 * S; c.beginPath();
+          for (let i = 0; i <= 60 * k2; i++) { const a = a0 + (a1 - a0) * i / 60, r = Ra + Math.sin((i / 60) * Math.PI * 2) * M * .06, p = pt(a, r); i ? c.lineTo(p[0], p[1]) : c.moveTo(p[0], p[1]); }
+          c.stroke(); c.restore(); }
+        bodies.forEach(([kind, lag]) => {
+          const kb = _clxEio(_frC((e - 150) / (NOON - 150))) - lag; if (kb <= 0) return;
+          const a = a0 + (-Math.PI / 2 - a0) * kb, p = pt(a);
+          if (kind === 'sun') {
+            _clxGlow(c, p[0], p[1], 50 * S, .9 * fade, GOLD, .3); _clxStar(c, p[0], p[1], 7 * S, fade, e / 900, GOLD);
+          } else if (kind === 'moon') {
+            _clxGlow(c, p[0], p[1], 26 * S, .5 * fade, '#CFE6FF', .4);
+            c.save(); c.globalCompositeOperation = 'lighter'; c.globalAlpha = .85 * fade; c.fillStyle = '#EDEFF5'; c.beginPath(); c.arc(p[0], p[1], 7 * S, 0, 7); c.fill(); c.restore();
+          } else _clxDot(c, p[0], p[1], 2.2 * S, fade, '#FFD9A8');
+        });
+        const kn = _frC((e - NOON) / 750);
+        if (kn > 0) { const pk = Math.sin(Math.PI * Math.min(1, kn * 1.4)), z = pt(-Math.PI / 2);
+          _clxGlow(c, z[0], z[1], M * .22 * (.4 + pk), (.3 + pk) * fade, GOLD, .18);
+          for (let i = 0; i < 12; i++) { const a = i / 12 * 6.28 + e / 2000, l = M * .12 * pk * (i % 2 ? .6 : 1);
+            _clxLine(c, z[0] + Math.cos(a) * 10 * S, z[1] + Math.sin(a) * 10 * S, z[0] + Math.cos(a) * l, z[1] + Math.sin(a) * l, pk * .7 * fade, .8); }
+          _clxRing(c, z[0], z[1], M * .25 * _frE(kn), (1 - kn) * 1.1, GOLD, 2 * S * (1 - .5 * kn));
+          _clxStar(c, z[0], z[1], 13 * S * (.6 + .5 * pk), fade, kn); }
+      } };
+    },
+  };
+  window.__clxNew6Draw = NEW;   // 検査用（静止画を撮る）
+
+  /* 全画面の層だけに描く（肢の層は使わない） */
+  window.__clxNew6 = function (kind, el, card, tier, promoted, budget) {
+    if (_fxOff()) return;
+    const CW = innerWidth, CH = innerHeight; if (!CW || !CH) return;
+    const M = Math.min(CW, CH);
+    const p = NEW[kind]({ T: Math.max(1, tier), up: promoted && tier >= 2, CW, CH, M, S: _frC(M / 480, 1, 2) });
+    _rfFit(budget, p.dur + 50);
+    _rfK = 1;
+    const H = _rfFullHost(p.dur + 50), C = _lqLayer(H, 'fr-card'), c2 = _frCtx(C, CW, CH, 0, 1.5);
+    _frRun(c2, CW, CH, p.dur, p.draw);
+    _lqDrop(H, C, p.dur + 50);
+  };
+})();`;
+/* 新案 第6弾（全画面）の台帳：[キー, 名前, 正解時, 連続正解時] */
+const CLX_NEW6 = [
+  ['frame', '① 星の額縁', '画面の左上と右下の角から光が同時に走り出し、画面の縁をぐるりと回って星を灯していく。2つの光が出会うと四隅に羅針盤の星が咲き、額縁全体が脈打つ',
+    '段3〜は内側にシアンの額縁が逆回りで、段5〜は紫の3本目も走る。段が上がった瞬間は、縁の星が少し内側へ流れ込みながら消える'],
+  ['bigcon', '② 大星座', '画面いっぱいに薄い星空が広がり、大きな星座（オリオン・はくちょう・カシオペヤ・北斗七星・さそりから1つ）の星が1つずつ灯って金の線で結ばれ、下に名前が浮かぶ',
+    '段で星座が大きく・背景の星が増える。段が上がった瞬間は、結び終えた星座を流れ星が横切る'],
+  ['web', '③ 星の網', '画面の角から光が走り出し、画面いっぱいの星を近い順に線で結んで網が広がる。反対の端まで届くと網全体が金に脈打つ',
+    '段で星が細かくなる。段3〜は反対の角からシアンの網も出て真ん中で出会う。段が上がった瞬間は、光が網を逆向きに駆け戻る'],
+  ['planet', '④ 惑星の出', '画面の下の縁から、環を持つ巨大な惑星の縁（大気の光る弧）が昇り、環が画面を斜めに横切る。惑星の縁から太陽が顔を出した瞬間、光が横一文字に走る',
+    '段3〜は左に衛星も昇る。段が上がった瞬間は、光が環をなぞって走る'],
+  ['arc', '⑤ 天の赤道', '画面をまたぐ大きな弧が左の地平から右へ描かれ、目盛りと星が並ぶ。太陽が弧をたどって昇り、画面の真上（南中）で光を放つ',
+    '段3〜は月が、段5〜は惑星が太陽の後を追う。段が上がった瞬間は、波打つ2本目の弧（黄道）もシアンで架かる'],
+];
 /* 部品の台帳：[キー, 名前, 説明, 要る段, 段が上がった瞬間が要るか] */
 const PARTS = {
   liquid: [
@@ -1208,6 +1462,7 @@ function prepFrame() {
   W.eval(CLXNEW3);
   W.eval(CLXNEW4);
   W.eval(CLXNEW5);
+  W.eval(CLXNEW6);
   applyTheme();
   W.eval('startExam()');
   ready = true;
@@ -1320,6 +1575,17 @@ function renderParts() {
     const n0 = document.createElement('div'); n0.style.cssText = 'font-size:11px;color:var(--sub);margin:8px 8px 0;line-height:1.5';
     n0.textContent = '新案は単独で再生する（本番の超新星／銀河の渦＋星の軌跡とは重ねない）。連続数を 3/5/7/10… にすると「段が上がった瞬間」の版。デモ専用で本番にはまだ入っていない。';
     partsBox.appendChild(n0);
+    const h6 = document.createElement('h2'); h6.textContent = 'celestial 正解演出の新案 第6弾（全画面・肢に寄せない5つ）'; partsBox.appendChild(h6);
+    CLX_NEW6.forEach(([key, name, onOk, onStreak]) => {
+      const row = document.createElement('div'); row.className = 'it';
+      const b = document.createElement('button');
+      b.innerHTML = '<span class="tag x" style="background:rgba(255,209,102,.2);color:#FFD166">全画面</span>';
+      b.appendChild(document.createTextNode(name));
+      const s1 = document.createElement('small'); s1.textContent = '正解時：' + onOk; b.appendChild(s1);
+      const s2 = document.createElement('small'); s2.textContent = '連続正解時：' + onStreak; b.appendChild(s2);
+      b.onclick = () => { stopSeq(); run(`__clxNew6('${key}', ok, c, t, up, RF_ADVANCE_MS.one)`, { autoUp: true }); };
+      row.append(b); partsBox.appendChild(row);
+    });
     const h5 = document.createElement('h2'); h5.textContent = 'celestial 正解演出の新案 第5弾（連続正解の見せ方を変えた5つ）'; partsBox.appendChild(h5);
     const n5 = document.createElement('div'); n5.style.cssText = 'font-size:11px;color:var(--sub);margin:0 8px 4px;line-height:1.5';
     n5.textContent = '「▶ 1→N を順に」は連続 1, 2, 3 … と1回ずつ自動で再生する（積み上がる・登っていく案で、連続正解がどう育つかを見る用）。もう一度押すか別のボタンを押すと止まる。';
