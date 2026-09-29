@@ -3227,6 +3227,31 @@ function _driveThemeGauge(pct, base, over, tier) {
     mShadow.setAttribute('rx', String(sRx.toFixed(1)));
     mShadow.setAttribute('cx', String(sCx.toFixed(1)));
   }
+  // 🌌 天の川（上から時計回りに満ちる）＆ 🪐 天球儀が開く（2026-09-29・_work/gauge_celestial_base_demo.html の案4）
+  // ⚠️ どちらも CSS は index.css の「8. 天の川」「9. 天球儀が開く」。値は1周目（pCel）だけで決める
+  const mwArc = document.getElementById('celMwMaskArc');
+  if (mwArc) mwArc.setAttribute('stroke-dasharray', pCel.toFixed(2) + ' 100');
+  const mwTip = document.getElementById('celMwTip');
+  if (mwTip) {
+    mwTip.style.rotate = (pCel * 3.6).toFixed(1) + 'deg';
+    mwTip.style.display = (pCel > 0.3 && pCel < 100) ? '' : 'none';
+  }
+  // 環 k は 25k〜25(k+1)% の間に、真横から見た線（scale 0）から円（scale 1）へ起き上がる。k=2 は水平の環＝縦に開く
+  for (let k = 0; k < 3; k++) {
+    const ring = document.getElementById('celArm' + k);
+    if (!ring) continue;
+    const f = Math.min(1, Math.max(0, (pCel - 25 * k) / 25));
+    const open = Math.max(0.02, Math.sin(f * Math.PI / 2)).toFixed(3);
+    ring.style.scale = k === 2 ? '1 ' + open : open + ' 1';
+    ring.style.opacity = f > 0 ? '1' : '0';
+  }
+  // 100% を超えている間だけ 3本の環が回り続け、天の川の流れが速まる（CSS は .gauge[data-cel-over]）
+  const celBox = document.getElementById('gaugeBox');
+  if (celBox) {
+    if (pct > 100) celBox.dataset.celOver = '1';
+    else if (celBox.removeAttribute) celBox.removeAttribute('data-cel-over');
+  }
+  _celProgressFx(base);
 
   // 7. Abyss: 超深海探査ポータル ＆ 生体発光アーク (C=402.12) & 潜航深度計 ＆ 水圧HUD
   const aBioArc = document.getElementById('abyssBioArc');
@@ -3311,6 +3336,45 @@ function _driveThemeGauge(pct, base, over, tier) {
     else if (fBox.removeAttribute) fBox.removeAttribute('data-frost-spin');
   }
   _frostProgressFx(base);
+}
+
+// ── 🪐 Celestial：段が上がった瞬間の演出（2026-09-29）─────────────────────────
+// 25/50/75% … 起き上がり切った環（#celArm0〜2）が白く閃いて止まり、波紋（#celArmRip）が出る
+// 100%      … 組み上がった天球（#celArm）がくるりと一回転する
+// ⚠️ 予定表は Liquid の _liqFxLater / _liqFxPulse を共用する（Frost と同じ）。最初の描画は 0% から伸びたものとして扱う。
+const CEL_ARM_MARKS = [25, 50, 75];
+let _celPrevBase = null;
+
+function _celFxOk() {
+  if (!document.documentElement.classList.contains('ui-celestial')) return false;
+  if (_reducedMotion() || document.hidden) return false;
+  const box = document.getElementById('gaugeBox');
+  if (!box) return false;
+  const r = box.getBoundingClientRect();
+  return r.width > 0 && r.bottom > 0 && r.top < innerHeight;
+}
+function _celProgressFx(base) {
+  const prev = _celPrevBase == null ? 0 : _celPrevBase;
+  _celPrevBase = base;
+  if (!(base > prev) || !_celFxOk()) return;
+  // 環は .85s の ease-out で開く＝割合 f に届くのはおおよそ 850·f² ms 後
+  const reach = (m) => 850 * Math.pow(Math.min(1, (m - prev) / (base - prev)), 2);
+  const rip = document.getElementById('celArmRip');
+  let n = 0;
+  CEL_ARM_MARKS.forEach((m, k) => {
+    if (!(prev < m && base >= m)) return;
+    // まとめて越えたときは1段ずつずらす（波紋は同じ要素を使い回すので、前の段を見せ切ってから次へ）
+    _liqFxLater(Math.max(reach(m), n++ * 520), () => {
+      _liqFxPulse(document.getElementById('celArm' + k), 'cel-lock', 1100);
+      _liqFxPulse(rip, 'cel-go', 1100);
+    });
+  });
+  if (prev < 100 && base >= 100) {
+    _liqFxLater(Math.max(900, n * 520), () => {
+      _liqFxPulse(document.getElementById('celArm'), 'cel-spin', 1600);
+      _liqFxPulse(rip, 'cel-go', 1100);
+    });
+  }
 }
 
 // ── ❄️ Frost：段が上がった瞬間の演出（2026-09-14c）─────────────────────────

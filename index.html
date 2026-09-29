@@ -993,15 +993,28 @@
                 <!-- 1. 天球プレート地盤（Astral Sphere Base） -->
                 <circle class="cel-astral-plate" cx="84" cy="84" r="74" fill="url(#celCoreNebulaGrad)"></circle>
 
+                <!-- 🌌 天の川（2026-09-29・_work/gauge_celestial_base_demo.html から移植）。進捗で上から時計回りに満ちる。
+                     svg は -90° 回っているので rotate(90) で包んで「上が 0%」にそろえる。帯の星屑は CSS の dashoffset で流す -->
+                <g class="cel-mw" transform="rotate(90 84 84)">
+                  <defs>
+                    <linearGradient id="celMwNebGrad" gradientUnits="userSpaceOnUse" x1="20" y1="20" x2="148" y2="148"><stop offset="0" stop-color="#B98CFF"></stop><stop offset=".5" stop-color="#6FD3FF"></stop><stop offset="1" stop-color="#FFC98A"></stop></linearGradient>
+                    <radialGradient id="celMwStarGlow"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".9"></stop><stop offset=".35" stop-color="#CFE6FF" stop-opacity=".35"></stop><stop offset="1" stop-color="#CFE6FF" stop-opacity="0"></stop></radialGradient>
+                    <mask id="celMwMask"><circle id="celMwMaskArc" cx="84" cy="84" r="60.5" fill="none" stroke="#fff" stroke-width="15" pathLength="100" transform="rotate(-90 84 84)" stroke-dasharray="0 100"></circle></mask>
+                  </defs>
+                  <circle class="cel-mw-band0" cx="84" cy="84" r="60.5"></circle>
+                  <g mask="url(#celMwMask)"><g class="cel-mw-lit">
+                    <circle class="cel-mw-neb" cx="84" cy="84" r="60.5"></circle><circle class="cel-mw-neb2" cx="84" cy="84" r="60.5"></circle>
+                    <g transform="rotate(-90 84 84)"><circle class="cel-mw-f cel-mw-f1" cx="84" cy="84" r="55" stroke-width="0.8" stroke-dasharray=".01 5.3" opacity="0.55"></circle><circle class="cel-mw-f cel-mw-f2" cx="84" cy="84" r="57.2" stroke-width="1.0" stroke-dasharray=".01 7.1" opacity="0.75"></circle><circle class="cel-mw-f cel-mw-f3" cx="84" cy="84" r="59.4" stroke-width="1.3" stroke-dasharray=".01 3.9" opacity="0.9"></circle><circle class="cel-mw-f cel-mw-f4" cx="84" cy="84" r="61.6" stroke-width="0.9" stroke-dasharray=".01 6.2" opacity="0.8"></circle><circle class="cel-mw-f cel-mw-f5" cx="84" cy="84" r="63.8" stroke-width="1.2" stroke-dasharray=".01 8.7" opacity="0.7"></circle><circle class="cel-mw-f cel-mw-f6" cx="84" cy="84" r="66" stroke-width="0.8" stroke-dasharray=".01 4.6" opacity="0.5"></circle></g>
+                    <circle class="cel-mw-rift" cx="84" cy="84" r="59.8"></circle>
+                    <g class="cel-mw-bs"><circle cx="136.93" cy="60.44" r="0.56" style="animation-delay:-0.89s"></circle><circle cx="137.05" cy="110.50" r="0.67" style="animation-delay:-1.76s"></circle><circle cx="28.24" cy="70.35" r="0.63" style="animation-delay:-0.24s"></circle><circle cx="43.42" cy="44.29" r="0.89" style="animation-delay:-0.61s"></circle><circle cx="36.56" cy="128.06" r="0.81" style="animation-delay:-0.53s"></circle><circle cx="126.80" cy="119.92" r="0.71" style="animation-delay:-1.51s"></circle><circle cx="67.74" cy="142.04" r="0.76" style="animation-delay:-1.44s"></circle><circle cx="118.45" cy="34.75" r="0.83" style="animation-delay:-0.56s"></circle><circle cx="123.53" cy="36.88" r="0.63" style="animation-delay:-0.01s"></circle><circle cx="108.64" cy="140.32" r="0.91" style="animation-delay:-1.28s"></circle><circle cx="22.80" cy="77.22" r="0.64" style="animation-delay:-1.01s"></circle><circle cx="134.07" cy="45.52" r="0.69" style="animation-delay:-0.03s"></circle><circle cx="66.46" cy="25.58" r="0.55" style="animation-delay:-0.43s"></circle><circle cx="34.79" cy="41.38" r="0.83" style="animation-delay:-0.50s"></circle></g>
+                  </g></g>
+                  <g class="cel-mw-tip" id="celMwTip"><circle cx="84" cy="23.5" r="7"></circle><path d="M 84,18.0 L 85,22.5 L 89.5,23.5 L 85,24.5 L 84,29.0 L 83,24.5 L 78.5,23.5 L 83,22.5 Z"></path></g>
+                </g>
+
                 <!-- 2. 子午環外枠 ＆ 黄道十二宮精密ノッチ（Meridian Limb & Zodiac Ticks） -->
                 <circle class="cel-meridian-ring" cx="84" cy="84" r="72"></circle>
                 <circle class="cel-meridian-inner" cx="84" cy="84" r="67"></circle>
                 <path class="cel-zodiac-notches" d="M 84,12 L 84,17 M 114,20.1 L 111.5,24.4 M 136.3,42.4 L 132,44.9 M 156,84 L 151,84 M 136.3,125.6 L 132,123.1 M 114,147.9 L 111.5,143.6 M 84,156 L 84,151 M 54,147.9 L 56.5,143.6 M 31.7,125.6 L 36,123.1 M 12,84 L 17,84 M 31.7,42.4 L 36,44.9 M 54,20.1 L 56.5,24.4"></path>
-                <!-- 四方位アンカーダイヤモンド -->
-                <polygon class="cel-meridian-diamond d-n" points="84,9 86.5,12 84,15 81.5,12"></polygon>
-                <polygon class="cel-meridian-diamond d-e" points="153,84 156,81.5 159,84 156,86.5"></polygon>
-                <polygon class="cel-meridian-diamond d-s" points="84,153 86.5,156 84,159 81.5,156"></polygon>
-                <polygon class="cel-meridian-diamond d-w" points="9,84 12,81.5 15,84 12,86.5"></polygon>
 
                 <!-- 3. 八方位アストロラーベ照準軸（Cardinal & Octant Aspect Axes） -->
                 <path class="cel-aspect-axes" d="M 84,18 L 84,46 M 84,122 L 84,150 M 18,84 L 46,84 M 122,84 L 150,84 M 110.9,57.1 L 127.8,40.2 M 110.9,110.9 L 127.8,127.8 M 57.1,110.9 L 40.2,127.8 M 57.1,57.1 L 40.2,40.2"></path>
@@ -1030,23 +1043,24 @@
 
                 <!-- 7. 第3可動環：透かし彫り天球レテ ＆ 星針（Rete & Star Pointers） -->
                 <g class="cel-rete-group" id="celReteGroup">
-                  <path class="cel-rete-arms" d="M 84,36 C 98,36 122,54 122,84 C 122,108 104,126 84,126 C 64,126 46,108 46,84 C 46,62 66,42 84,42 M 60,60 Q 84,72 108,60 M 60,108 Q 84,96 108,108"></path>
+                  <!-- 2026-09-29: 輪は正円（r=42）。旧版は始点と終点がずれた歪な輪で、回すと揺れて見えた -->
+                  <path class="cel-rete-arms" d="M 84,42 A 42 42 0 1 1 84,126 A 42 42 0 1 1 84,42 M 60,60 Q 84,72 108,60 M 60,108 Q 84,96 108,108"></path>
                   <!-- 4大輝星ノード（Star Pointers） -->
                   <g class="cel-star-pt sp-north">
-                    <polygon class="sp-spark" points="84,35 85.5,38 88,38 86,40 87,43 84,41 81,43 82,40 80,38 82.5,38"></polygon>
-                    <circle class="sp-core" cx="84" cy="39" r="1.5"></circle>
+                    <polygon class="sp-spark" points="84,38 85.5,41 88,41 86,43 87,46 84,44 81,46 82,43 80,41 82.5,41"></polygon>
+                    <circle class="sp-core" cx="84" cy="42" r="1.5"></circle>
                   </g>
                   <g class="cel-star-pt sp-east">
-                    <polygon class="sp-spark" points="122,81 123.5,84 126,84 124,86 125,89 122,87 119,89 120,86 118,84 120.5,84"></polygon>
-                    <circle class="sp-core" cx="122" cy="85" r="1.5"></circle>
+                    <polygon class="sp-spark" points="126,80 127.5,83 130,83 128,85 129,88 126,86 123,88 124,85 122,83 124.5,83"></polygon>
+                    <circle class="sp-core" cx="126" cy="84" r="1.5"></circle>
                   </g>
                   <g class="cel-star-pt sp-south">
-                    <polygon class="sp-spark" points="84,123 85.5,126 88,126 86,128 87,131 84,129 81,131 82,128 80,126 82.5,126"></polygon>
-                    <circle class="sp-core" cx="84" cy="127" r="1.5"></circle>
+                    <polygon class="sp-spark" points="84,122 85.5,125 88,125 86,127 87,130 84,128 81,130 82,127 80,125 82.5,125"></polygon>
+                    <circle class="sp-core" cx="84" cy="126" r="1.5"></circle>
                   </g>
                   <g class="cel-star-pt sp-west">
-                    <polygon class="sp-spark" points="46,81 47.5,84 50,84 48,86 49,89 46,87 43,89 44,86 42,84 44.5,84"></polygon>
-                    <circle class="sp-core" cx="46" cy="85" r="1.5"></circle>
+                    <polygon class="sp-spark" points="42,80 43.5,83 46,83 44,85 45,88 42,86 39,88 40,85 38,83 40.5,83"></polygon>
+                    <circle class="sp-core" cx="42" cy="84" r="1.5"></circle>
                   </g>
                 </g>
 
@@ -1063,6 +1077,16 @@
                 <circle class="cel-orbit-track" cx="84" cy="84" r="0" style="display:none"></circle>
                 <path id="celStarlink" d="" style="display:none"></path>
                 <g id="celStarsGroup" style="display:none"></g>
+
+                <!-- 🪐 天球儀が開く（2026-09-29・デモ案4を採用）。0〜25% で1本目・25〜50% で2本目の子午線の環が線から円へ起き上がり、
+                     50〜75% で水平の環が開く（scale は JS）。段で止まる瞬間に閃き、100% で天球が一回転、100% 超は3本が回り続ける -->
+                <g class="cel-arm" transform="rotate(90 84 84)"><g class="cel-arm-sph" id="celArm">
+                  <g transform="rotate(30 84 84)"><g class="cel-arm-s" id="celArm0"><g class="cel-arm-w"><circle class="cel-arm-ring" cx="84" cy="84" r="64"></circle></g></g></g>
+                  <g transform="rotate(-30 84 84)"><g class="cel-arm-s" id="celArm1"><g class="cel-arm-w"><circle class="cel-arm-ring" cx="84" cy="84" r="64"></circle></g></g></g>
+                  <g transform="rotate(0 84 84)"><g class="cel-arm-s" id="celArm2"><g class="cel-arm-w h"><circle class="cel-arm-ring h" cx="84" cy="84" r="64"></circle></g></g></g>
+                  </g>
+                  <circle class="cel-arm-rip" id="celArmRip" cx="84" cy="84" r="64"></circle>
+                </g>
               </g>
 
               <!-- 🌊 7. Abyss: 超深海探査ポータル ＆ バイオルミネセンス深度インジケーター -->

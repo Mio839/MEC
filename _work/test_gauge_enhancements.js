@@ -174,6 +174,37 @@ t('Celestial: 絢爛アストロラーベ（立体傾斜軌道・黄道十二宮
   assert.ok(HTML.includes('cArc.style.strokeDashoffset'), '_driveThemeGauge 内の黄道進捗計算が無い');
 });
 
+// 2026-09-29: 子午環の菱形4つを撤去・レテの輪を正円に・天の川と「天球儀が開く」を追加
+t('Celestial: 菱形4つが無く、レテの輪が正円（r=42）で、星針が同じ円の上にある', () => {
+  assert.ok(!HTML.includes('cel-meridian-diamond'), '子午環の菱形が残っている');
+  assert.ok(!HTML.includes('astroDiamondGlow'), '菱形のアニメが残っている');
+  assert.ok(HTML.includes('class="cel-rete-arms" d="M 84,42 A 42 42 0 1 1 84,126 A 42 42 0 1 1 84,42'), 'レテの輪が正円になっていない');
+  const cores = [...HTML.matchAll(/<circle class="sp-core" cx="([\d.]+)" cy="([\d.]+)"/g)];
+  assert.strictEqual(cores.length, 4, '星針の芯が4つ無い');
+  cores.forEach((m) => assert.ok(Math.abs(Math.hypot(+m[1] - 84, +m[2] - 84) - 42) < 0.01, '星針がレテの円の上に無い: ' + m[0]));
+});
+
+t('Celestial: 天の川（進捗のマスク・流れる星屑6本・先頭の星）が配線されている', () => {
+  assert.ok(HTML.includes('<mask id="celMwMask">'), '天の川のマスクが無い');
+  assert.ok(HTML.includes('id="celMwMaskArc"') && HTML.includes('id="celMwTip"'), '進捗の弧か先頭の星が無い');
+  for (let k = 1; k <= 6; k++) {
+    assert.ok(HTML.includes('cel-mw-f' + k + '"'), '星屑の流れ ' + k + ' が無い');
+    assert.ok(HTML.includes('@keyframes celMwFlow' + k), 'celMwFlow' + k + ' が無い');
+  }
+  assert.ok(HTML.includes("mwArc.setAttribute('stroke-dasharray'"), '天の川の進捗を JS が置いていない');
+});
+
+t('Celestial: 天球儀が開く（環3本・段の閃き・100%の一回転・100%超の回転）が配線されている', () => {
+  for (let k = 0; k < 3; k++) assert.ok(HTML.includes('id="celArm' + k + '"'), 'celArm' + k + ' が無い');
+  assert.ok(HTML.includes('id="celArm"') && HTML.includes('id="celArmRip"'), '天球の群か波紋が無い');
+  assert.ok(HTML.includes('function _celProgressFx(base)') && HTML.includes('_celProgressFx(base);'), '段の演出が呼ばれていない');
+  assert.ok(HTML.includes('.cel-arm-sph.cel-spin'), '100% の一回転が無い');
+  assert.ok(HTML.includes('.gauge[data-cel-over] .cel-arm-w'), '100% 超の回転が無い');
+  // transform 属性を持つ群に CSS の scale を当てない（合成がずれる）
+  assert.ok(!/<g class="cel-arm-s"[^>]*transform=/.test(HTML), '.cel-arm-s に transform 属性がある');
+  assert.ok(!/<g class="cel-arm-sph"[^>]*transform=/.test(HTML), '.cel-arm-sph に transform 属性がある');
+});
+
 t('Celestial: 祝砲から外枠点線円（astrolabeRings）が撤廃されステラダストに統一されている', () => {
   const celebrateFn = HTML.substring(HTML.indexOf('function _gaugeCelebrate(tier)'), HTML.indexOf('function _emberTier('));
   const celBoomBlock = celebrateFn.substring(celebrateFn.indexOf("curTheme === 'celestial'"), celebrateFn.indexOf("curTheme === 'abyss'"));
