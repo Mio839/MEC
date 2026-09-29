@@ -3328,7 +3328,7 @@ function _frFrostFx(el, card, tier, promoted, budget) {
   setTimeout(() => D.remove(), durC + 50);
 }
 
-/* ══════════ Celestial：（超新星 または 銀河の渦）＋星の軌跡（2026-09-29）══════════
+/* ══════════ Celestial：（超新星 または 銀河の渦）＋星の軌跡＋黄道十二宮の輪（2026-09-29）══════════
    試験演出一覧（_work/fx_all_demo.html）の新案5つ（一等星の点灯・流れ星の ✓・超新星・天球儀のロック・満月）から
    ユーザーが「超新星」だけを採用し、2026-09-25〜の「星座／惑星直列／星の軌跡から毎回ランダムで1つ」を置き換えた
    （旧3案は「おしゃれだが正解時のエフェクトっぽくない」＝ゆっくり描き上がるだけで山場が無かった）。
@@ -3337,6 +3337,8 @@ function _frFrostFx(el, card, tier, promoted, budget) {
    - さらに同日、第2弾の新案から「銀河の渦」を採用し、**試験のセッションごとに超新星か銀河の渦のどちらかを抽選**する
      （startExam で _clxSessionPick を決め、そのセッション中は同じもの・星の軌跡はどちらにも重ねる・ユーザー判断）。
      ⚠️ 1問ごとに抽選しないこと（セッションで揃える、がユーザーの指定）。銀河の渦も肢の左端・縦は中央から出る。
+   - さらに同日、第3弾の新案「黄道十二宮の輪」を**全画面（画面の中央）**に作り直して採用し、**毎回重ねる**（ユーザー判断）。
+     今日の星座が真上で止まる。⚠️ 全画面の絵なので、線と記号は細く・半透明のまま保つこと（カードの文字の上にも重なる）。
    - 0〜0.18秒：まわりの星屑が左端へ吸い込まれる → 弾けて金の衝撃波とシアンの衝撃波・放射する光の筋・紫の残光、
      星が外へ飛ぶ。1.5秒（段が上がった瞬間は1.8秒）で消える。
    - 段が上がるほど衝撃波が大きく（画面の短辺×0.3→最大0.62）・星と光の筋が増える。段が上がった瞬間は1.3倍＋3本目の輪。
@@ -3459,6 +3461,76 @@ function _clxGalaxy(T, up, px, py, M, S) {
   } };
 }
 
+/* 黄道十二宮の輪（全画面・画面の中央）。正解の肢の左端から光の糸が中央へ走り、画面いっぱいの二重の輪が時計回りに描かれ、
+   12の星座記号が1つずつ灯りながら輪ごと回り込んで、**今日の星座が真上**で止まる。止まった瞬間に中心の星と今日の星座が光り、輪が外へ広がる。
+   TIER3〜は内側に逆回りの点の輪、段が上がった瞬間は外側の点の輪と中心からの光の筋。
+   ⚠️ 記号は字形（U+2648〜2653＋U+FE0E）で描く。FE0E が無いと iOS で絵文字（色つきの四角）になる。 */
+const CLX_ZODIAC = ['♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓'].map(g => g + '︎');
+const CLX_SYMFONT = '"Segoe UI Symbol","Apple Symbols","Noto Sans Symbols 2","Noto Sans Symbols",serif';
+/* 今日の星座（0＝牡羊座 … 11＝魚座）。各星座の始まりの日（年による1日のずれは無視） */
+function _clxSignIdx(d) {
+  const m = d.getMonth() + 1, day = d.getDate();
+  let idx = 9;   // 1/1〜1/19 は山羊座
+  for (const [mm, dd, i] of [[1, 20, 10], [2, 19, 11], [3, 21, 0], [4, 20, 1], [5, 21, 2], [6, 22, 3], [7, 23, 4], [8, 23, 5], [9, 23, 6], [10, 24, 7], [11, 23, 8], [12, 22, 9]])
+    if (m > mm || (m === mm && day >= dd)) idx = i;
+  return idx;
+}
+function _clxZodiac(T, up, px, py, CW, CH, M, S) {
+  const cx = CW / 2, cy = CH / 2, R = M * .42, today = _clxSignIdx(new Date());
+  const off = _frR(1.4, 2.2) * (Math.random() < .5 ? -1 : 1);   // 回り込んでくる量と向き
+  const DRAW = 450, SETTLE = 650, hold = up ? 1450 : 1150, dur = up ? 2000 : 1700;
+  const fs = Math.round(Math.max(18, R * .1));
+  return { dur, draw(c, e) {
+    const fade = e < hold ? 1 : _frC(1 - (e - hold) / (dur - hold));
+    if (fade <= 0) return;
+    // 肢の左端から中央への光の糸
+    const kb = _frE(_frC(e / 220)), ab = _frC(1 - (e - 220) / 300);
+    if (ab > 0) _clxLine(c, px, py, px + (cx - px) * kb, py + (cy - py) * kb, ab * .9, 1);
+    const kd = _frE(_frC((e - 80) / DRAW)), kin = _frE(_frC((e - 80) / 400));
+    const ks = _frE(_frC(e / SETTLE)), rot = off * (1 - ks);
+    const angOf = i => -Math.PI / 2 + (i - today) * Math.PI / 6 + rot;
+    c.save(); c.globalCompositeOperation = 'lighter'; c.lineCap = 'round';
+    // 二重の輪（真上から時計回りに描く）
+    const a0 = -Math.PI / 2, a1 = a0 + 6.28 * kd;
+    for (const [rr, lw] of [[R, 1.6], [R * .78, 1.1]]) {
+      c.strokeStyle = CLX_GOLD;
+      c.globalAlpha = .22 * fade; c.lineWidth = lw * 4 * S; c.beginPath(); c.arc(cx, cy, rr, a0, a1); c.stroke();
+      c.globalAlpha = .75 * fade; c.lineWidth = lw * S; c.beginPath(); c.arc(cx, cy, rr, a0, a1); c.stroke();
+    }
+    // 目盛り（72）と宮の仕切り（12）。輪と一緒に回る
+    c.globalAlpha = .5 * kin * fade; c.strokeStyle = CLX_PALE; c.lineWidth = .8 * S; c.beginPath();
+    for (let j = 0; j < 72; j++) {
+      const a = angOf(0) + Math.PI / 12 + j * Math.PI / 36, l = j % 6 === 0 ? R * .22 : j % 3 === 0 ? 7 * S : 4 * S;
+      c.moveTo(cx + Math.cos(a) * R, cy + Math.sin(a) * R); c.lineTo(cx + Math.cos(a) * (R - l), cy + Math.sin(a) * (R - l));
+    }
+    c.stroke();
+    // 星座記号
+    c.textAlign = 'center'; c.textBaseline = 'middle';
+    const lit = _frC((e - SETTLE) / 520);
+    for (let i = 0; i < 12; i++) {
+      const j = (i - today + 12) % 12;   // 真上（今日の星座）から時計回りに灯る
+      const k = _frC((e - 60 - j * 28) / 180); if (k <= 0) continue;
+      const a = angOf(i), x = cx + Math.cos(a) * R * .89, y = cy + Math.sin(a) * R * .89, me = i === today;
+      const sz = fs * (me ? 1 + .45 * Math.sin(Math.PI * lit) : 1);
+      if (me && lit > 0) _clxGlow(c, x, y, fs * 2.2, Math.sin(Math.PI * lit) * fade, CLX_GOLD, .3);
+      c.globalAlpha = _frE(k) * fade * (me ? 1 : .8); c.fillStyle = me ? '#FFFFFF' : (i % 3 ? CLX_GOLD : CLX_PALE);
+      c.font = `${Math.round(sz)}px ${CLX_SYMFONT}`; c.fillText(CLX_ZODIAC[i], x, y);
+    }
+    c.restore();
+    // TIER3〜：内側の逆回りの点の輪／段が上がった瞬間：外側の点の輪
+    if (T >= 3) for (let i = 0; i < 48; i++) { const a = -rot * .7 + i / 48 * 6.28; _clxDot(c, cx + Math.cos(a) * R * .66, cy + Math.sin(a) * R * .66, .8, kin * fade * .7, i % 2 ? CLX_CYAN : CLX_PALE); }
+    if (up) for (let i = 0; i < 72; i++) { const a = rot * .5 + i / 72 * 6.28; _clxDot(c, cx + Math.cos(a) * R * 1.1, cy + Math.sin(a) * R * 1.1, .9, kin * fade * .8, i % 3 ? CLX_PALE : CLX_GOLD); }
+    // 止まった瞬間
+    if (lit > 0) {
+      const sn = Math.sin(Math.PI * lit);
+      _clxGlow(c, cx, cy, R * .35 * (.6 + .4 * _frE(lit)), sn * .9 * fade, CLX_GOLD, .2);
+      _clxRing(c, cx, cy, R * (1 + .25 * _frE(lit)), (1 - lit) * fade, CLX_PALE, 1.6 * S);
+      if (up) for (let i = 0; i < 12; i++) { const a = angOf(i) + Math.PI / 12; _clxLine(c, cx + Math.cos(a) * R * .2, cy + Math.sin(a) * R * .2, cx + Math.cos(a) * R * .76, cy + Math.sin(a) * R * .76, sn * .6 * fade, .6); }
+    }
+    _clxStar(c, cx, cy, (6 + 10 * Math.sin(Math.PI * lit)) * S, kin * fade, rot * .5);
+  } };
+}
+
 /* 星の軌跡（長時間露光）。弧の色は星の色温度。2026-09-29 に超新星と重ねる形で復活（ユーザー判断）。発火位置はタップ位置のまま */
 function _clxArcs(n, rMax, rMin) {
   return Array.from({ length: n }, () => ({
@@ -3508,6 +3580,7 @@ function _clxCelestialFx(el, card, tier, promoted, budget) {
     (_clxSessionPick || (_clxSessionPick = Math.random() < .5 ? 'nova' : 'galaxy')) === 'galaxy'
       ? _clxGalaxy(T, up, er.left, er.top + h / 2, M, S)
       : _clxNova(T, up, er.left, er.top + h / 2, CW, CH, M, S),
+    _clxZodiac(T, up, er.left, er.top + h / 2, CW, CH, M, S),   // 黄道十二宮の輪（画面の中央・毎回重ねる）
   ];
   const dur = Math.max(...parts.map(p => p.dur));
   const drawAll = (c, e) => parts.forEach(p => p.draw(c, e));
@@ -5370,7 +5443,7 @@ function _rfCorrectFx(card, el, budget) {
   _rfSweep(el, inCardMs);
   if (_rfUi() === 'liquid') _lqLiquidFx(el, card, tier, promoted, budget);   // ぷるん＋シャボン玉＋ガラスの衝撃波＋色収差＋ネオン管（_spawnStreakParticles の liquid 分岐を参照）
   else if (_rfUi() === 'frost') _frFrostFx(el, card, tier, promoted, budget);   // 雪の結晶・霜・ダイヤモンドダスト（同上の frost 分岐を参照）
-  else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted, budget);   // 超新星か銀河の渦（セッションごと・肢の左端）＋星の軌跡（タップ位置）
+  else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted, budget);   // 超新星か銀河の渦（セッションごと・肢の左端）＋星の軌跡（タップ位置）＋十二宮の輪（画面の中央）
   else if (_rfUi() === 'brass') _brsBrassFx(el, card, tier, promoted, budget);   // 歯車列＋刻印＋鋳込みの唐草（同上の brass 分岐を参照）
   _afterCorrectFx(card, el);
 
