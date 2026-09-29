@@ -2820,7 +2820,7 @@ function _spawnStreakParticles(tier, at, ctx) {
       if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 2, color: '#F5D061', thickness: 3, maxR: maxR * 1.05, additive: true });
       return;
     } else if (curUi === 'celestial') {
-      // 2026-09-29：超新星か銀河の渦（セッションごとに抽選・肢の左端）＋星の軌跡（タップ位置）（_clxCelestialFx）。liquid・frost と同じく
+      // 2026-09-29：超新星か銀河の渦（セッションごとに抽選・肢の左端）＋4つから正解のたびに1つ（_clxCelestialFx）。liquid・frost と同じく
       // _rfCorrectFx の 0ms で肢の位置に出している。旧 celestialAstrolabe（全画面の紫の閃光・約250粒）は正解演出から外した。
       return;
     } else if (curUi === 'abyss') {
@@ -3602,7 +3602,7 @@ function _frFrostFx(el, card, tier, promoted, budget) {
   setTimeout(() => D.remove(), durC + 50);
 }
 
-/* ══════════ Celestial：（超新星 または 銀河の渦）＋星の軌跡＋黄道十二宮の輪（2026-09-29）══════════
+/* ══════════ Celestial：（超新星 または 銀河の渦）＋（星の軌跡／黄道十二宮の輪／星の網／天球の経緯線 から1つ）（2026-09-29）══════════
    試験演出一覧（_work/fx_all_demo.html）の新案5つ（一等星の点灯・流れ星の ✓・超新星・天球儀のロック・満月）から
    ユーザーが「超新星」だけを採用し、2026-09-25〜の「星座／惑星直列／星の軌跡から毎回ランダムで1つ」を置き換えた
    （旧3案は「おしゃれだが正解時のエフェクトっぽくない」＝ゆっくり描き上がるだけで山場が無かった）。
@@ -3613,6 +3613,9 @@ function _frFrostFx(el, card, tier, promoted, budget) {
      ⚠️ 1問ごとに抽選しないこと（セッションで揃える、がユーザーの指定）。銀河の渦も肢の左端・縦は中央から出る。
    - さらに同日、第3弾の新案「黄道十二宮の輪」を**全画面（画面の中央）**に作り直して採用し、**毎回重ねる**（ユーザー判断）。
      今日の星座が真上で止まる。⚠️ 全画面の絵なので、線と記号は細く・半透明のまま保つこと（カードの文字の上にも重なる）。
+   - さらに同日、新案から「星の網」（第6弾・全画面）と「天球の経緯線」（第4弾・肢の左端）を採用し、星の軌跡・十二宮の輪を
+     毎回重ねるのをやめて、**この4つから正解のたびに1つを抽選**して超新星／銀河の渦に重ねる（CLX_EXTRAS・ユーザー判断）。
+     ⚠️ 4つの方はセッションで固定しないこと（ユーザー指定）。超新星／銀河の渦のセッションごとの抽選はそのまま。
    - 0〜0.18秒：まわりの星屑が左端へ吸い込まれる → 弾けて金の衝撃波とシアンの衝撃波・放射する光の筋・紫の残光、
      星が外へ飛ぶ。1.5秒（段が上がった瞬間は1.8秒）で消える。
    - 段が上がるほど衝撃波が大きく（画面の短辺×0.3→最大0.62）・星と光の筋が増える。段が上がった瞬間は1.3倍＋3本目の輪。
@@ -3834,6 +3837,105 @@ function _clxTrails(T, up, px, py, rMax, CW, CH, bigY) {
   } };
 }
 
+/* 星の網（全画面・2026-09-29 に試験演出一覧の新案 第6弾から採用）。画面の角から光が走り出し、画面いっぱいに散った星を
+   近い順に線で結んで網が広がる。反対の端まで届くと網全体が金に脈打つ。段で星が細かく、TIER3〜は反対の角からシアンの網も出て
+   真ん中で出会う。段が上がった瞬間は光が網を逆向きに駆け戻る。⚠️ 全画面でカードの文字に重なるので線は細く暗いまま保つ。 */
+function _clxWeb(T, up, CW, CH, M, S) {
+  const sp = M * Math.max(.14, .2 - .01 * Math.min(T, 6)), cols = Math.max(3, Math.round(CW / sp)), rows = Math.max(3, Math.round(CH / sp));
+  const N = [];
+  for (let r = 0; r < rows; r++) for (let q = 0; q < cols; q++)
+    N.push({ x: (q + .5 + _frR(-.38, .38)) * CW / cols, y: (r + .5 + _frR(-.38, .38)) * CH / rows, s: Math.random() < .2, d: 1e9, col: CLX_GOLD });
+  // 各点から近い3点へ辺を張る（重複は1本に）
+  const E = [], seen = new Set();
+  N.forEach((a, i) => {
+    N.map((b, j) => [j, Math.hypot(a.x - b.x, a.y - b.y)]).filter(([j]) => j !== i).sort((p, q) => p[1] - q[1]).slice(0, 3)
+      .forEach(([j, l]) => { const key = Math.min(i, j) + '-' + Math.max(i, j); if (!seen.has(key)) { seen.add(key); E.push([i, j, l]); } });
+  });
+  const near = (x, y) => N.reduce((b, p, i) => Math.hypot(p.x - x, p.y - y) < Math.hypot(N[b].x - x, N[b].y - y) ? i : b, 0);
+  const flip = Math.random() < .5;
+  const SRC = [[near(flip ? CW : 0, 0), CLX_GOLD]].concat(T >= 3 ? [[near(flip ? 0 : CW, CH), CLX_CYAN]] : []);
+  SRC.forEach(([s, col]) => { N[s].d = 0; N[s].col = col; });
+  // 始点からの道のり（辺の長さの和・ベルマン–フォード。点は最大でも百に届かない）
+  for (let it = 0; it < N.length; it++) E.forEach(([i, j, l]) => {
+    if (N[i].d + l < N[j].d) { N[j].d = N[i].d + l; N[j].col = N[i].col; }
+    if (N[j].d + l < N[i].d) { N[i].d = N[j].d + l; N[i].col = N[j].col; }
+  });
+  const dmax = Math.max(...N.map(p => p.d)), V = dmax / 780, tn = p => p.d / V, END = 840;
+  return { dur: up ? 1950 : 1700, draw(c, e) {
+    const fade = e < 1200 ? 1 : _frC(1 - (e - 1200) / (up ? 750 : 500));
+    const kp = _frC((e - END) / 450), pk = Math.sin(Math.PI * kp);
+    E.forEach(([i, j, l]) => {
+      let a = N[i], b = N[j]; if (tn(b) < tn(a)) [a, b] = [b, a];
+      const k = _frC((e - tn(a)) / (l / V)); if (k <= 0) return;
+      const bk = up ? Math.exp(-Math.pow((e - END - 250 - (780 - tn(b)) * .6) / 90, 2)) : 0;
+      _clxLine(c, a.x, a.y, a.x + (b.x - a.x) * k, a.y + (b.y - a.y) * k, (.2 + .28 * pk + .5 * bk) * fade, .45 + .2 * pk);
+    });
+    N.forEach((p, i) => {
+      if (e < tn(p)) return;
+      const fl = Math.exp(-(e - tn(p)) / 180), col = fl > .3 ? CLX_PALE : p.col;
+      if (p.s) { _clxGlow(c, p.x, p.y, (14 + 22 * fl) * S, (.2 + .9 * fl + .3 * pk) * fade, p.col); _clxStar(c, p.x, p.y, (3.5 + 2 * fl + 1.2 * pk) * S, fade, e / 1500 + i, col); }
+      else _clxDot(c, p.x, p.y, (1.2 + 1.4 * fl + .5 * pk) * S, (.7 + fl) * fade, col);
+    });
+  } };
+}
+
+/* 天球の経緯線（2026-09-29 に試験演出一覧の新案 第4弾から採用）。正解の肢の左端（縦は中央）を中心に、経線と緯線の球が
+   描き上がりながらゆっくり回る。描き上がると交点が1つずつ金に灯り（照準の輪が縮んで止まる）、最後に外周の輪が広がる。
+   段で球が大きく・灯る交点が増える（段が上がった瞬間は＋2・球1.2倍）。裏側の線は薄く描く。 */
+function _clxGrid(T, up, px, py, M, S) {
+  const R = M * Math.min(.3, .14 + .02 * T) * (up ? 1.2 : 1), EPS = .42, PSI = -.3, LOCK = 420;
+  const cE = Math.cos(EPS), sE = Math.sin(EPS), cP = Math.cos(PSI), sP = Math.sin(PSI);
+  const proj = (b, l, e) => {
+    const ll = l + .4 + e / 1400, x = Math.cos(b) * Math.sin(ll), y = Math.sin(b), z = Math.cos(b) * Math.cos(ll);
+    const y2 = y * cE - z * sE, z2 = y * sE + z * cE, sx = R * x, sy = -R * y2;
+    return { x: px + sx * cP - sy * sP, y: py + sx * sP + sy * cP, z: z2 };
+  };
+  const MER = Array.from({ length: 6 }, (_, i) => i * Math.PI / 6), PAR = [-60, -30, 0, 30, 60].map(d => d * Math.PI / 180);
+  const want = Math.min(7, T) + (up ? 2 : 0), LP = [];
+  for (let tries = 0; tries < 200 && LP.length < want; tries++) {
+    const b = PAR[Math.floor(Math.random() * PAR.length)], l = MER[Math.floor(Math.random() * MER.length)] + (Math.random() < .5 ? 0 : Math.PI);
+    if (proj(b, l, LOCK + 300).z < .25 || LP.some(q => q.b === b && q.l === l)) continue;   // 灯るときに表側にある交点だけ
+    LP.push({ b, l, t0: LOCK + LP.length * 70 });
+  }
+  const curve = (c, e, pts, kd, fade) => {
+    if (kd <= 0) return;
+    const m = Math.max(2, Math.floor(pts.length * kd));
+    c.save(); c.globalCompositeOperation = 'lighter'; c.lineCap = 'round'; c.lineJoin = 'round';
+    for (const front of [false, true]) {
+      c.beginPath(); let on = false;
+      for (let i = 0; i < m; i++) {
+        const q = proj(pts[i][0], pts[i][1], e);
+        if ((q.z > 0) === front) { if (!on) { c.moveTo(q.x, q.y); on = true; } else c.lineTo(q.x, q.y); } else on = false;
+      }
+      c.globalAlpha = (front ? .28 : .08) * fade; c.strokeStyle = CLX_GOLD; c.lineWidth = 4 * S; c.stroke();
+      c.globalAlpha = (front ? .9 : .25) * fade; c.strokeStyle = CLX_PALE; c.lineWidth = 1.1 * S; c.stroke();
+    }
+    c.restore();
+  };
+  const NS = 48;
+  const MP = MER.map(l => Array.from({ length: NS + 1 }, (_, i) => [-Math.PI / 2 + Math.PI * i / NS, l])
+    .concat(Array.from({ length: NS + 1 }, (_, i) => [Math.PI / 2 - Math.PI * i / NS, l + Math.PI])));
+  const PP = PAR.map(b => Array.from({ length: NS * 2 + 1 }, (_, i) => [b, 2 * Math.PI * i / (NS * 2)]));
+  return { dur: up ? 1850 : 1600, draw(c, e) {
+    const fade = e < 1100 ? 1 : _frC(1 - (e - 1100) / 500);
+    _clxGlow(c, px, py, R * 1.15, .22 * fade * _frC(e / 200), '#8FA8FF', .5);
+    MP.forEach((p, i) => curve(c, e, p, _frE(_frC((e - i * 25) / 330)), fade));
+    PP.forEach((p, i) => curve(c, e, p, _frE(_frC((e - 60 - i * 30) / 330)), fade));
+    _clxRing(c, px, py, R, .9 * fade * _frC(e / 250), CLX_GOLD, 1.8 * S);
+    LP.forEach((q, i) => {
+      const k = _frC((e - q.t0) / 260); if (k <= 0) return;
+      const p = proj(q.b, q.l, e), ka = _frE(k);
+      _clxRing(c, p.x, p.y, 7 * S * (1 + 3 * (1 - ka)), ka * fade, CLX_GOLD, 1.4 * S);
+      _clxStar(c, p.x, p.y, 5 * S * (k < 1 ? 1.5 - .5 * ka : 1 + .2 * Math.sin(e / 70 + i)), ka * fade, e / 800);
+    });
+    const kf = _frC((e - LOCK - 70 * LP.length) / 600);
+    if (kf > 0) { _clxRing(c, px, py, R * (1 + .6 * _frE(kf)), (1 - kf) * 1.1, CLX_PALE, 2 * S * (1 - .6 * kf)); _clxGlow(c, px, py, 40 * S, Math.sin(Math.PI * kf), CLX_GOLD); }
+    _clxStar(c, px, py, 7 * S, fade, e / 900);
+  } };
+}
+
+/* 超新星／銀河の渦に重ねる4つ。**正解のたびに**この中から1つを抽選する（セッションで固定しない・ユーザー指定 2026-09-29）。 */
+const CLX_EXTRAS = ['trails', 'zodiac', 'web', 'grid'];
 let _clxSessionPick = null;   // 'nova' | 'galaxy'。startExam で抽選し、そのセッション中は変えない
 function _clxCelestialFx(el, card, tier, promoted, budget) {
   if (!el || !card || _fxOff()) return;
@@ -3844,17 +3946,24 @@ function _clxCelestialFx(el, card, tier, promoted, budget) {
   if (!CW || !CH) return;
   const T = Math.max(1, tier), up = promoted && tier >= 2;
   const M = Math.min(CW, CH), S = _frC(M / 480, 1, 2), D = Math.hypot(CW, CH);
-  // 星の軌跡はタップ位置（無ければ肢の左寄り）・超新星／銀河の渦は肢の左端（縦は中央）。星の軌跡は毎回重ねる
-  let lx = w * .42, ly = h / 2;
-  const pt = _lqPtr;
-  if (pt && pt.el === el && performance.now() - pt.t < 2000) { lx = w * pt.fx; ly = h * pt.fy; }
-  const tx = er.left + lx, ty = er.top + ly;
+  // 超新星／銀河の渦は肢の左端（縦は中央）で毎回。そこに4つ（星の軌跡＝タップ位置・黄道十二宮の輪＝画面の中央・
+  // 星の網＝全画面・天球の経緯線＝肢の左端）から正解のたびに1つを抽選して重ねる
+  const ex = CLX_EXTRAS[Math.floor(Math.random() * CLX_EXTRAS.length)];
+  let extra;
+  if (ex === 'trails') {
+    let lx = w * .42, ly = h / 2;   // タップ位置（無ければ肢の左寄り）
+    const pt = _lqPtr;
+    if (pt && pt.el === el && performance.now() - pt.t < 2000) { lx = w * pt.fx; ly = h * pt.fy; }
+    const tx = er.left + lx, ty = er.top + ly;
+    extra = _clxTrails(T, up, tx, ty, Math.min(D * .75, D * (.3 + .06 * T)), CW, CH, _frC(ty, CH * .3, CH * .7));
+  } else if (ex === 'zodiac') extra = _clxZodiac(T, up, er.left, er.top + h / 2, CW, CH, M, S);
+  else if (ex === 'web') extra = _clxWeb(T, up, CW, CH, M, S);
+  else extra = _clxGrid(T, up, er.left, er.top + h / 2, M, S);
   const parts = [
-    _clxTrails(T, up, tx, ty, Math.min(D * .75, D * (.3 + .06 * T)), CW, CH, _frC(ty, CH * .3, CH * .7)),
+    extra,
     (_clxSessionPick || (_clxSessionPick = Math.random() < .5 ? 'nova' : 'galaxy')) === 'galaxy'
       ? _clxGalaxy(T, up, er.left, er.top + h / 2, M, S)
       : _clxNova(T, up, er.left, er.top + h / 2, CW, CH, M, S),
-    _clxZodiac(T, up, er.left, er.top + h / 2, CW, CH, M, S),   // 黄道十二宮の輪（画面の中央・毎回重ねる）
   ];
   const dur = Math.max(...parts.map(p => p.dur));
   const drawAll = (c, e) => parts.forEach(p => p.draw(c, e));
@@ -5717,7 +5826,7 @@ function _rfCorrectFx(card, el, budget) {
   _rfSweep(el, inCardMs);
   if (_rfUi() === 'liquid') _lqLiquidFx(el, card, tier, promoted, budget);   // ぷるん＋シャボン玉＋ガラスの衝撃波＋色収差＋ネオン管（_spawnStreakParticles の liquid 分岐を参照）
   else if (_rfUi() === 'frost') _frFrostFx(el, card, tier, promoted, budget);   // 雪の結晶・霜・ダイヤモンドダスト（同上の frost 分岐を参照）
-  else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted, budget);   // 超新星か銀河の渦（セッションごと・肢の左端）＋星の軌跡（タップ位置）＋十二宮の輪（画面の中央）
+  else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted, budget);   // 超新星か銀河の渦（セッションごと・肢の左端）＋星の軌跡／十二宮の輪／星の網／経緯線から正解のたびに1つ
   else if (_rfUi() === 'brass') _brsBrassFx(el, card, tier, promoted, budget);   // 歯車列＋刻印＋鋳込みの唐草（同上の brass 分岐を参照）
   _afterCorrectFx(card, el);
 

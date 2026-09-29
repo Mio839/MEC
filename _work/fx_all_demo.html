@@ -204,12 +204,17 @@ const PARTCTL = `
   });
   [['_brsGearTrain', 'brs.gear'], ['_brsHallmark', 'brs.hall'], ['_brsFiligree', 'brs.fil'], ['_brsBigTrain', 'brs.bigtrain'],
    ['_brsMedallion', 'brs.medal'], ['_brsCornerCast', 'brs.corner'],
-   ['_clxNova', 'clx.nova'], ['_clxGalaxy', 'clx.galaxy'], ['_clxTrails', 'clx.trails'], ['_clxZodiac', 'clx.zodiac']].forEach(([n, k]) => part(n, k));
-  // celestial：超新星／銀河の渦はセッションごとの抽選（_clxSessionPick）。部品で片方だけを選んだときはその側に寄せる
+   ['_clxNova', 'clx.nova'], ['_clxGalaxy', 'clx.galaxy'], ['_clxTrails', 'clx.trails'], ['_clxZodiac', 'clx.zodiac'],
+   ['_clxWeb', 'clx.web'], ['_clxGrid', 'clx.grid']].forEach(([n, k]) => part(n, k));
+  // celestial：超新星／銀河の渦はセッションごとの抽選（_clxSessionPick）。部品で片方だけを選んだときはその側に寄せる。
+  // 重ねる4つ（CLX_EXTRAS）は正解のたびの抽選なので、部品で選んだものだけから抽選させる（配列の中身を一時的に差し替える）
   wrap('_clxCelestialFx', o => function () {
     const P = window.__P;
     if (P && P.has('clx.nova') !== P.has('clx.galaxy')) _clxSessionPick = P.has('clx.galaxy') ? 'galaxy' : 'nova';
-    return o.apply(this, arguments);
+    const X = typeof CLX_EXTRAS !== 'undefined' ? CLX_EXTRAS : null, keep = X ? X.slice() : null;
+    const sel = X && P ? keep.filter(k => P.has('clx.' + k)) : [];
+    if (sel.length) X.splice(0, X.length, ...sel);
+    try { return o.apply(this, arguments); } finally { if (X) X.splice(0, X.length, ...keep); }
   });
   // liquid
   wrap('_lqSoapFilm', o => function () { return on('lq.film', window.__P) ? o.apply(this, arguments) : undefined; });
@@ -850,7 +855,7 @@ const CLX_NEW4 = [
   ['eclipse', 'Q 日食のダイヤモンドリング', '肢の左端に太陽が灯り、右から月が重なって暗くなり、縁にコロナが開く。月がわずかに抜けた瞬間、縁の1点がダイヤモンドのように光って輪が広がる（段で大きく／段が上がった瞬間はその前にベイリー・ビーズ）'],
   ['milkyway', 'R 天の川が架かる', '肢の左端で光が灯り、星の砂の帯が右上へ一気に流れて画面を横切る。架かりきると両岸で織姫と彦星が瞬く（段で帯が太く・星が増える／段が上がった瞬間はデネブも灯り夏の大三角が結ばれる）'],
   ['birth', 'S 星の誕生', '紫とシアンの星雲が渦を巻きながら肢の左端へ縮み、縮みきった瞬間に新しい星が点火して衝撃波が広がり、まわりを原始惑星が回る（段で星雲が大きく・惑星が増える／段が上がった瞬間は桃色の3本目の輪）'],
-  ['grid', 'T 天球の経緯線', '肢の左端を中心に、経線と緯線の球が描き上がりながらゆっくり回る。交点が1つずつ金に灯り（照準の輪が縮んで止まる）、最後に外周の輪が広がる（段で球が大きく・灯る交点が増える）'],
+  // ['grid', 'T 天球の経緯線'] は 2026-09-29 に本番へ（_clxGrid）
 ];
 /* ── celestial 正解演出の新案 第5弾・5つ（2026-09-29・デモ専用。study_exam.js にはまだ入れていない）──
    第1〜4弾はほとんどが「肢の左端で1回弾けて、段で大きくなる」形だったので、今回は連続正解の見せ方そのものを変える：
@@ -1370,8 +1375,7 @@ const CLX_NEW6 = [
     '段3〜は内側にシアンの額縁が逆回りで、段5〜は紫の3本目も走る。段が上がった瞬間は、縁の星が少し内側へ流れ込みながら消える'],
   ['bigcon', '② 大星座', '画面いっぱいに薄い星空が広がり、大きな星座（オリオン・はくちょう・カシオペヤ・北斗七星・さそりから1つ）の星が1つずつ灯って金の線で結ばれ、下に名前が浮かぶ',
     '段で星座が大きく・背景の星が増える。段が上がった瞬間は、結び終えた星座を流れ星が横切る'],
-  ['web', '③ 星の網', '画面の角から光が走り出し、画面いっぱいの星を近い順に線で結んで網が広がる。反対の端まで届くと網全体が金に脈打つ',
-    '段で星が細かくなる。段3〜は反対の角からシアンの網も出て真ん中で出会う。段が上がった瞬間は、光が網を逆向きに駆け戻る'],
+  // ['web', '③ 星の網'] は 2026-09-29 に本番へ（_clxWeb）
   ['planet', '④ 惑星の出', '画面の下の縁から、環を持つ巨大な惑星の縁（大気の光る弧）が昇り、環が画面を斜めに横切る。惑星の縁から太陽が顔を出した瞬間、光が横一文字に走る',
     '段3〜は左に衛星も昇る。段が上がった瞬間は、光が環をなぞって走る'],
   ['arc', '⑤ 天の赤道', '画面をまたぐ大きな弧が左の地平から右へ描かれ、目盛りと星が並ぶ。太陽が弧をたどって昇り、画面の真上（南中）で光を放つ',
@@ -1404,8 +1408,10 @@ const PARTS = {
   celestial: [
     ['clx.nova', '超新星', 'セッションごとに超新星か銀河の渦のどちらか：正解の肢の左端へ星屑が一瞬吸い込まれ、弾けて金とシアンの衝撃波・放射する光の筋・紫の残光（段が上がった瞬間は3本目の輪）', 1, false],
     ['clx.galaxy', '銀河の渦', 'セッションごとに超新星か銀河の渦のどちらか：星屑が渦を巻いて肢の左端へ集まり、傾いた渦巻き銀河になる。中心が光り、腕が回りながら広がる（段が上がった瞬間は腕が3本）', 1, false],
-    ['clx.trails', '星の軌跡', 'タップ位置を中心に、長時間露光のように同心円の光の弧が伸びる（毎回超新星と重なる・段が上がった瞬間は画面全体にもう一組）', 1, false],
-    ['clx.zodiac', '黄道十二宮の輪', '毎回重なる・画面の中央：肢の左端から光の糸が中央へ走り、画面いっぱいの二重の輪に12の星座記号が灯りながら回り込んで、今日の星座が真上で止まって光る（TIER3〜は内側の点の輪／段が上がった瞬間は外側の点の輪と光の筋）', 1, false],
+    ['clx.trails', '星の軌跡', '正解のたびに4つ（星の軌跡・十二宮の輪・星の網・経緯線）から1つ：タップ位置を中心に、長時間露光のように同心円の光の弧が伸びる（段が上がった瞬間は画面全体にもう一組）', 1, false],
+    ['clx.web', '星の網', '正解のたびに4つから1つ・全画面：画面の角から光が走り、画面いっぱいの星を近い順に線で結んで網が広がり、全体が金に脈打つ（TIER3〜は反対の角からシアンの網／段が上がった瞬間は光が網を駆け戻る）', 1, false],
+    ['clx.grid', '天球の経緯線', '正解のたびに4つから1つ・肢の左端：経線と緯線の球が描き上がって回り、交点が金に灯って外周の輪が広がる（段で球が大きく・交点が増える）', 1, false],
+    ['clx.zodiac', '黄道十二宮の輪', '正解のたびに4つから1つ・画面の中央：肢の左端から光の糸が中央へ走り、画面いっぱいの二重の輪に12の星座記号が灯りながら回り込んで、今日の星座が真上で止まって光る（TIER3〜は内側の点の輪／段が上がった瞬間は外側の点の輪と光の筋）', 1, false],
   ],
   brass: [
     ['brs.gear', '歯車列', '駆動歯車がはまり、左右へ噛み合って回る（接点の火花）', 1, false],
@@ -1575,7 +1581,7 @@ function renderParts() {
     const n0 = document.createElement('div'); n0.style.cssText = 'font-size:11px;color:var(--sub);margin:8px 8px 0;line-height:1.5';
     n0.textContent = '新案は単独で再生する（本番の超新星／銀河の渦＋星の軌跡とは重ねない）。連続数を 3/5/7/10… にすると「段が上がった瞬間」の版。デモ専用で本番にはまだ入っていない。';
     partsBox.appendChild(n0);
-    const h6 = document.createElement('h2'); h6.textContent = 'celestial 正解演出の新案 第6弾（全画面・肢に寄せない5つ）'; partsBox.appendChild(h6);
+    const h6 = document.createElement('h2'); h6.textContent = 'celestial 正解演出の新案 第6弾（全画面・③ 星の網は本番へ移した）'; partsBox.appendChild(h6);
     CLX_NEW6.forEach(([key, name, onOk, onStreak]) => {
       const row = document.createElement('div'); row.className = 'it';
       const b = document.createElement('button');
@@ -1619,7 +1625,7 @@ function renderParts() {
       }
       partsBox.appendChild(row);
     });
-    [['第4弾', CLX_NEW4, '__clxNew4'], ['第3弾（L 黄道十二宮の輪は本番へ移した）', CLX_NEW3, '__clxNew3'], ['第2弾（G 銀河の渦は本番へ移した）', CLX_NEW2, '__clxNew2']].forEach(([title, list, fn]) => {
+    [['第4弾（T 天球の経緯線は本番へ移した）', CLX_NEW4, '__clxNew4'], ['第3弾（L 黄道十二宮の輪は本番へ移した）', CLX_NEW3, '__clxNew3'], ['第2弾（G 銀河の渦は本番へ移した）', CLX_NEW2, '__clxNew2']].forEach(([title, list, fn]) => {
       const h0 = document.createElement('h2'); h0.textContent = 'celestial 正解演出の新案 ' + title; partsBox.appendChild(h0);
       list.forEach(([key, name, desc]) => {
         const row = document.createElement('div'); row.className = 'it';
