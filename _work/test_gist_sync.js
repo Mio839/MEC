@@ -239,7 +239,7 @@ function test(name, fn) {
 
   console.log('\n書き込み: ファイル分割');
 
-  await test('push は payload を4ファイルへ分け、どれも単独で JSON として妥当', async () => {
+  await test('push は payload を5ファイルへ分け、どれも単独で JSON として妥当', async () => {
     const env = makeEnv({ done_v2: JSON.stringify({ a: 1 }), mec_srs_v1: JSON.stringify({ a: { reps: 2 } }) },
       [[API, (u, o) => (o.method === 'PATCH' ? res({ id: GIST_ID }) : gistRes({
         'mec_progress.json': { content: '{}' },
@@ -248,7 +248,7 @@ function test(name, fn) {
     assert.strictEqual(r.status, 'ok');
     const files = env.pushedFiles();
     assert.deepStrictEqual(Object.keys(files).sort(),
-      ['mec_attempts.json', 'mec_progress.json', 'mec_rate.json', 'mec_srs.json']);
+      ['mec_attempts.json', 'mec_progress.json', 'mec_rate.json', 'mec_srs.json', 'mec_weekly.json']);
     for (const [n, f] of Object.entries(files)) JSON.parse(f.content); // 各ファイル単独で妥当
     assert(JSON.parse(files['mec_srs.json'].content).mec_srs_v1, 'srs が分割先にいない');
   });
@@ -259,7 +259,7 @@ function test(name, fn) {
     }))]]);
     await env.sync.pushToGist();
     const main = JSON.parse(env.pushedFiles()['mec_progress.json'].content);
-    ['mec_srs_v1', 'mec_attempts_v1', 'myrate_v1', 'mec_choice_v1'].forEach(k => {
+    ['mec_srs_v1', 'mec_attempts_v1', 'myrate_v1', 'mec_choice_v1', 'mec_weekly_v1'].forEach(k => {
       assert(!(k in main), k + ' が mec_progress.json に残っている');
     });
     assert('done_v2' in main && '_ts' in main, '小さいキーは本体に入る');

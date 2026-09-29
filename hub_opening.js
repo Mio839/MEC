@@ -57,6 +57,8 @@
       roll: (window.MecAttempts && MecAttempts.roll) ? MecAttempts.roll() : {},
       rate: window.MEC_RATE || {},
       subjects: window.MM_SUBJECTS || [],
+      // 週ごとの弱点の推移（progress.js の weekRecord が貯める台帳）
+      weekly: (window.MECSync && MECSync.weekRead) ? MECSync.weekRead() : null,
     };
   }
 
@@ -184,10 +186,20 @@
         if (d > 0 && (!up || d > up.d)) up = Object.assign({ sid, d: Math.round(d) }, name(sid));
       }
     });
+    // 克服と露呈（判定・集計は progress.js の weekReport が正本。ここは件数と先頭のマスを拾うだけ）
+    let weak = null;
+    if (src.weekly && window.MECSync && MECSync.weekReport) {
+      const r = MECSync.weekReport(src.weekly, monday), c = r.counts;
+      const hole = r.views.ch.chronic[0] || r.views.ch.exposed[0] || null;
+      if (c.R + c.L + c.M + c.X > 0 || hole) {
+        weak = { R: c.R, L: c.L, M: c.M, X: c.X, exp: c.L + c.M + c.X, hole: hole ? Object.assign({ key: hole.key, gap: hole.now.gap, chronic: !!hole.chronic,
+          ch: (hole.key.match(/_ch0*(\d+)$/) || [])[1] || '' }, hole.key.indexOf('kakumon_') === 0 ? { icon: '📝', label: '過去問 ' + hole.key.slice(8) } : name(hole.key.split('_ch')[0])) : null };
+      }
+    }
     return {
       monday, sunday, ans, ansPrev, at, prev, days, studyDays: days.filter(Boolean).length, minutes,
       missions, coreDone, coreTotal: coreDefs.length, hitCount: missions.filter(m => m.hit).length,
-      rank, best, up,
+      rank, best, up, weak,
     };
   }
 
@@ -377,6 +389,15 @@ html.op-fx .op-medal.hit{animation:opPop .5s cubic-bezier(.3,1.7,.5,1) both;anim
     if (w.best) subj += '<div class="op-row" style="--i:1"><span class="ic">' + w.best.icon + '</span><span class="tx">いちばん取れた科目は <b>' + _esc(w.best.label) + '</b>（正答率 ' + w.best.acc + '%・' + w.best.n + '問）</span></div>';
     if (w.up && (!w.best || w.up.sid !== w.best.sid)) subj += '<div class="op-row" style="--i:2"><span class="ic">📈</span><span class="tx">いちばん伸びた科目は <b>' + w.up.icon + ' ' + _esc(w.up.label) + '</b>（先週比 +' + w.up.d + 'pt）</span></div>';
     else if (w.up) subj += '<div class="op-row" style="--i:2"><span class="ic">📈</span><span class="tx">しかも先週から <b>+' + w.up.d + 'pt</b> 伸びています</span></div>';
+    if (w.weak) {
+      const k = w.weak;
+      subj += '<div class="op-row" style="--i:3"><span class="ic">🩹</span><span class="tx">克服 <b>' + k.R + '問</b>・露呈 <b>' + k.exp + '問</b>' +
+        (k.exp ? '（忘却 ' + k.L + '・取りこぼし ' + k.M + '・再発 ' + k.X + '）' : '') + '</span></div>';
+      if (k.hole) {
+        const nm = k.hole.icon + ' ' + k.hole.label + (k.hole.ch ? ' 第' + k.hole.ch + '章' : '');
+        subj += '<div class="op-row" style="--i:4"><span class="ic">🕳️</span><span class="tx">' + (k.hole.chronic ? '3週続く穴' : '最大の穴') + '：<b>' + _esc(nm) + '</b>（全国比 ' + (k.hole.gap > 0 ? '+' : k.hole.gap < 0 ? '−' : '±') + Math.abs(k.hole.gap) + 'pt）</span></div>';
+      }
+    }
     return '<div class="op-kick"><b>WEEKLY REPORT</b><span>' + shortDate(w.monday) + '〜' + shortDate(w.sunday) + '</span></div>' +
       '<div class="op-ttl">先週の結果発表</div>' +
       '<div class="op-rank" style="--rk:' + w.rank.col + '"><div class="op-rank-mark">' + w.rank.r + '</div>' +

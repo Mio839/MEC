@@ -150,6 +150,7 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
 - `mec_srs_v1` — SRS復習スケジュール ／ `mec_exam_resumes_v1` — 試験中断の再開データ ／ `mec_ch_exam_v1` — 章別試験履歴
 - `mec_attempts_v1` — 解答イベントログ（attempts.js）。`"uid|t|c|o|s|m|sess|n[|r]"` の文字列配列・上限5000件（9番目 `r`＝全国正答率は任意・2026-09-28〜）。追記専用なので同期は`sess+n`をキーにしたunion＋時刻昇順ソート
 - `mec_attempts_roll_v1` — 生ログの上限から**あふれた行をセッション単位に畳んだ集計**（2026-09-28〜・同期対象・Gist では `mec_attempts.json` に同居）。`{sess:{u,br,tr,l,d:{日:{sid:[解答,正解,難問,難問の正解]}}}}`。**試験日まで1件も捨てない**。規則の正本は `progress.js` の `attCompact`／`attMerge`／`attStore`（下記「解答ログの集計」）
+- `mec_weekly_v1` — **週ごとの弱点の推移**（2026-09-29〜・同期対象・Gist では `mec_weekly.json`）。解答のたびに克服／忘却／取りこぼし／再発を判定して週×端末ごとに貯める。書き口は `MecAttempts.log` → `MECSync.weekRecord` の1本だけ（詳細は `_work/仕様/統計と弱点分析.md`「週ごとの弱点の推移」）
 - `mec_mock_v1` — 模試の自己採点（mock.js）。`{examId:{cur,rounds:{rN:{started,graded,ans:{"A10":{p,t}}}},border}}`。**保存されるのは「何を選んだか」だけで正誤は入っていない**（正誤は解答表と突き合わせて毎回計算する）。マージは1問ごとの last-writer-wins（各エントリが時刻 `t` を持つ）
 - `error_reports_v1` — 問題エラー報告。1件＝`{uid, type, reported_at}`。**自由記述コメントも同じ配列に `type:'note'` の1レコードとして入る**（`text` を持つ・下記「エラー報告」） ／ `mec_err_cleared_at` — 一括消去のタイムスタンプ
 - `mec_gist_token` — GitHub PAT（gistスコープ）／ `mec_gist_id` — Gist ID ／ `mec_last_sync_v1` — 最終同期時刻
@@ -313,7 +314,9 @@ stats.html と弱点分析を触る前に読むこと。要点:
 - 判定と描画を分けたまま置く（`weakUnified` / `hmStat` / `wkPicks`・テストが関数を直接 eval する）。`HM_MIN_N` / `WK_GAP_PT` / `WK_LIMIT` は名前付きの定数のまま。
 - セクションをデータの有無で `display:none` から出し入れしない（中身だけ空の状態に差し替える）。裏のタブの canvas はタブを開いたときに描き直す。
 - 演出は `html.fx-on` の下にだけ書く。CSS だけで本文を隠さない。rAF には `setTimeout` の落とし所を添える。
-- テスト: `test_karte.js`・`test_stats_sections.js`。
+- **📅 週ごとの弱点の推移**（弱点分析タブの先頭・ハブの先週の結果発表・AI相談）：判定 `weekClassify`・集計 `weekReport` の正本は progress.js。
+  ⚠️ 記帳を採点経路に足さない（`MecAttempts.log` の1本）／study の `_recordMyRate` → `_logAttempt` → `_updateSRS` の順を変えない／画面側に境目の数字を書き写さない。
+- テスト: `test_karte.js`・`test_stats_sections.js`・`test_weekly_weak.js`。
 
 ## エラー報告（種別 ＋ 自由記述コメント・2026-09-09〜）
 
@@ -405,6 +408,7 @@ node _work/run_all.js --browser  # 実ブラウザのテストも（章ジャン
 node _work/run_all.js              ↓ 全部まとめて（終了コードで判定・生成物の食い違いも見る）
 node _work/test_attempts.js        解答イベントログ・今日の誤答 (18)
 node _work/test_attempts_roll.js   解答ログの集計（畳む・同期で二重に数えない・週の結果発表）(15)
+node _work/test_weekly_weak.js     週ごとの弱点の推移（克服・忘却・取りこぼし・再発の判定・端末別の同期・週の報告・配線）(24)
 node _work/test_karte.js           弱点カルテの集計・全国比    (19)
 node _work/test_merge_remote.js    Gist同期のマージ戦略        (64)
 node _work/test_streak.js          連続日数と activity_v1      (9)
@@ -579,7 +583,7 @@ GitHub Gist API で進捗を保存。`index.html` の「同期設定」から PA
   sha入りで推測できないためヘッダ無しで取ってよい（実測で 200・全文が返る）。
 - **書く側（`GIST_SHARDS`）** — 大きいキーを別ファイルへ分ける。現在は
   `mec_srs.json`（srs）／`mec_attempts.json`（attempts）／`mec_rate.json`（myrate＋choice）／
-  残り全部が `mec_progress.json`。狙いは切り詰め回避ではなく、**1ファイルの肥大で書き込み側の
+  `mec_weekly.json`（週ごとの弱点の推移・2026-09-29〜）／残り全部が `mec_progress.json`。狙いは切り詰め回避ではなく、**1ファイルの肥大で書き込み側の
   上限に当たるのを防ぐこと**と、**取り直す raw の量をそのファイルぶんに抑えること**。
   読む側は**全ファイルを浅くマージして1つの payload に戻す**ので `_mergeRemote` は分割を知らない。
   旧形式（全キーが `mec_progress.json`）もそのまま読める。混在時は `mec_progress.json` が勝つ。

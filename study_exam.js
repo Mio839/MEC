@@ -729,6 +729,8 @@ function startExam(overrideUids = null) {
   window._srsHostShow?.();
   document.getElementById('examFinishBtn')?.remove(); // 前回の結果ボタンが残っていれば除去
   document.getElementById('examPendingBand')?.remove();
+  // 週ごとの弱点の推移で使う設問形式（qmeta.json）を、最初の解答より前に取りに行っておく
+  try { window.MECSync?.weekPrefetch?.(); } catch (e) {}
   _prepareSelectSound();
   _prepareWavSound(_sndFind('correct', _correctSound));
   _prepareResultSound();
@@ -4429,6 +4431,11 @@ function _logAttempt(card, isCorrect, choiceStr) {
       n: examAnswered,
       // 上限からあふれて集計へ畳むときの難問判定に使う（study.html は rate_index.js を読まないため）
       rate: _cardRate(card),
+      // 週ごとの弱点の推移（progress.js の weekRecord）の判定材料。呼び出し順が
+      // _recordMyRate → ここ → _updateSRS なので、myrate は今回を含んだ後・SRS は更新前の値になる。
+      // ⚠️ この順番を入れ替えないこと（weekRecord は myrate から今回ぶんを引いて「直前」を作る）
+      mr: _myrate[uid] || null,
+      srs: (typeof _srsData !== 'undefined' && _srsData) ? (_srsData[uid] || null) : null,
     });
   } catch {}
 }

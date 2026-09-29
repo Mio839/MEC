@@ -4670,6 +4670,8 @@ function exportBackup() {
   try { payload['mec_attempts_v1'] = JSON.parse(localStorage.getItem('mec_attempts_v1') || '[]'); } catch { payload['mec_attempts_v1'] = []; }
   // 上限からあふれて畳まれた分（progress.js の attCompact）。生ログだけでは古い日が欠ける
   try { payload['mec_attempts_roll_v1'] = JSON.parse(localStorage.getItem('mec_attempts_roll_v1') || '{}'); } catch { payload['mec_attempts_roll_v1'] = {}; }
+  // 週ごとの弱点の推移（progress.js の weekRecord）。生ログからは作り直せない
+  if (window.MECSync && MECSync.weekRead) payload['mec_weekly_v1'] = MECSync.weekRead();
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -4717,6 +4719,10 @@ function _applyBackupData(data) {
     const m = MECSync.attMerge(la, MECSync.attReadRoll(),
       Array.isArray(data.mec_attempts_v1) ? data.mec_attempts_v1 : [], data.mec_attempts_roll_v1 || {});
     MECSync.attStore(m.lines, m.roll);
+  }
+  // 週ごとの弱点の推移：規則は progress.js の weekMerge（同期と同じ関数を通す）
+  if (data.mec_weekly_v1 && data.mec_weekly_v1.w && window.MECSync && MECSync.weekMerge) {
+    try { localStorage.setItem(MECSync.WEEKLY_KEY, JSON.stringify(MECSync.weekMerge(MECSync.weekRead(), data.mec_weekly_v1))); } catch {}
   }
   showSyncResult('ok', `✅ 復元完了。ページを再読み込みします…`);
   setTimeout(() => location.reload(), 1200);

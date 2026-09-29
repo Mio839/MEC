@@ -851,6 +851,13 @@
   }
 
   // ─── myrate tracking & attempt logging ─────────────────────────
+  function ceRateOf(uid) {
+    try {
+      var c = document.querySelector('.qc[data-uid="' + uid + '"]');
+      var n = c ? parseFloat(c.dataset.rate) : NaN;
+      return isFinite(n) ? n : undefined;
+    } catch (e) { return undefined; }
+  }
   function logCeAttempt(uid, ok) {
     if (!uid) return;
     try {
@@ -862,7 +869,9 @@
           seenAt: _ceSeenAt[uid],
           mode: 'c',
           sess: exam.sess || '',
-          n: exam.answered || 1
+          n: exam.answered || 1,
+          // 全国正答率（難問の判定と、週ごとの弱点の推移の全国差に使う）
+          rate: ceRateOf(uid)
         });
       } else {
         var nowMin = Math.floor(Date.now() / 60000);
@@ -883,9 +892,32 @@
         ].join('|');
         var att = JSON.parse(localStorage.getItem('mec_attempts_v1') || '[]');
         if (!Array.isArray(att)) att = [];
+        // 週ごとの弱点の推移（progress.js の weekRecord）。attempts.js の log と同じく、
+        // 直前の解答は追記する前の生ログから拾う（このページは attempts.js を読まない）
+        if (window.MECSync && window.MECSync.weekRecord) {
+          try {
+            var last = null, pre = uid + '|';
+            for (var i = att.length - 1; i >= 0; i--) {
+              if (typeof att[i] === 'string' && att[i].indexOf(pre) === 0) {
+                var p = att[i].split('|');
+                last = { t: Number(p[1]) || 0, ok: p[3] === '1' };
+                break;
+              }
+            }
+            window.MECSync.weekRecord({ uid: uid, ok: !!ok, nat: ceRateOf(uid), last: last });
+          } catch (e) {}
+        }
+        var rt = ceRateOf(uid);
+        if (rt !== undefined) line += '|' + Math.round(rt);
         att.push(line);
-        if (att.length > 5000) att = att.slice(-5000);
-        localStorage.setItem('mec_attempts_v1', JSON.stringify(att));
+        // ⚠️ 上限からあふれた行は捨てずに集計へ畳む（CLAUDE.md「解答ログの集計」：生ログを書く経路は
+        //    全部 attStore を通す）。progress.js が無いときだけ従来の切り詰めに落とす
+        if (window.MECSync && window.MECSync.attStore) {
+          window.MECSync.attStore(att);
+        } else {
+          if (att.length > 5000) att = att.slice(-5000);
+          localStorage.setItem('mec_attempts_v1', JSON.stringify(att));
+        }
       }
     } catch (e) {}
 

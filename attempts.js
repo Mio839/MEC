@@ -144,6 +144,21 @@
       if (sec === undefined && a.seenAt) sec = Math.round((Date.now() - a.seenAt) / 1000);
       if (typeof sec !== 'number' || !isFinite(sec) || sec < 0 || sec > MAX_SEC) sec = null;
       const arr = read();
+      // 週ごとの弱点の推移（progress.js の weekRecord）。直前の解答は追記する前の生ログから拾う。
+      // ⚠️ 記帳の口はここ1本（study と過去問ビューアの両方が通る）。失敗しても解答ログは必ず書く。
+      if (window.MECSync && window.MECSync.weekRecord) {
+        try {
+          let last = null;
+          const pre = a.uid + '|';
+          for (let i = arr.length - 1; i >= 0; i--) {
+            if (typeof arr[i] === 'string' && arr[i].indexOf(pre) === 0) { const d = decode(arr[i]); if (d) last = { t: d.t, ok: d.ok }; break; }
+          }
+          window.MECSync.weekRecord({
+            uid: a.uid, ok: !!a.ok, nat: a.rate, last,
+            mr: a.mr, srs: a.srs,
+          });
+        } catch (e) {}
+      }
       arr.push(encode({
         uid: a.uid,
         choice: (a.choice || '').toLowerCase(),

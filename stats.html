@@ -783,6 +783,61 @@ body {
   border: 1px dashed rgba(255,255,255,0.16); border-radius: var(--r-md);
 }
 
+/* ── 週ごとの弱点の推移（weekTrend）── 克服＝青、露呈＝暖色（赤緑は使わない＝カルテと同じ） */
+.wt-nav { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.wt-nav-btn {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.16); background: rgba(255,255,255,0.05);
+  color: var(--tx); font-size: 18px; font-weight: 800; cursor: pointer;
+}
+.wt-nav-btn:disabled { opacity: .3; cursor: default; }
+.wt-range { flex: 1; text-align: center; font-size: 13px; font-weight: 800; }
+.wt-range small { display: block; font-size: 10px; font-weight: 600; color: var(--ts); }
+.wt-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.wt-tile {
+  --wt-c: var(--stat-warn);
+  padding: 8px 6px; border-radius: var(--r-md); text-align: center;
+  background: color-mix(in srgb, var(--wt-c) 12%, var(--card-bg));
+  border: 1px solid color-mix(in srgb, var(--wt-c) 34%, transparent);
+}
+.wt-tile.is-R { --wt-c: #60A5FA; }
+.wt-tile.is-L { --wt-c: var(--stat-bad); }
+.wt-tile.is-X { --wt-c: #F472B6; }
+.wt-tile-lbl { font-size: 10px; font-weight: 700; color: var(--ts); }
+.wt-tile-num { font-size: 22px; font-weight: 900; line-height: 1.15; color: var(--wt-c); font-variant-numeric: tabular-nums; }
+.wt-tile-sub { font-size: 9.5px; color: var(--ts); }
+.wt-say { font-size: 11.5px; line-height: 1.65; margin: 10px 0 12px; color: var(--tx); }
+.wt-say b { color: #FFD166; }
+.wt-seg { display: inline-flex; gap: 4px; margin-bottom: 10px; }
+.wt-seg-btn {
+  font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 999px; cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.16); background: transparent; color: var(--ts);
+}
+.wt-seg-btn.active { background: rgba(255,255,255,0.12); color: var(--tx); }
+.wt-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.wt-row {
+  --wt-c: var(--stat-warn);
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px;
+  padding: 8px 12px; border-radius: var(--r-md); color: var(--tx); text-decoration: none;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--wt-c) 14%, transparent) 0%, var(--card-bg) 60%);
+  border: 1px solid color-mix(in srgb, var(--wt-c) 30%, transparent);
+}
+.wt-row.is-up { --wt-c: #60A5FA; }
+.wt-row.is-bad { --wt-c: var(--stat-bad); }
+.wt-name { font-size: 12px; font-weight: 800; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wt-meta { font-size: 10px; color: var(--ts); margin-top: 2px; }
+.wt-meta b { color: var(--tx); }
+.wt-chip { display: inline-block; font-size: 9.5px; font-weight: 800; padding: 1px 6px; border-radius: 999px; margin-left: 4px;
+  background: color-mix(in srgb, var(--stat-bad) 22%, transparent); color: #FFB4B4; vertical-align: 1px; }
+.wt-val { font-size: 18px; font-weight: 900; color: var(--wt-c); font-variant-numeric: tabular-nums; text-align: right; }
+.wt-val small { font-size: 9.5px; font-weight: 800; margin-left: 1px; }
+.wt-events details { margin-bottom: 6px; border: 1px solid rgba(255,255,255,0.10); border-radius: var(--r-md); }
+.wt-events summary { cursor: pointer; font-size: 11.5px; font-weight: 800; padding: 8px 12px; }
+.wt-events ul { margin: 0; padding: 0 12px 8px 26px; font-size: 11px; line-height: 1.7; color: var(--ts); }
+.wt-events a { color: var(--tx); }
+.wt-rule { font-size: 10px; color: var(--ts); line-height: 1.6; margin-top: 10px; }
+@media (max-width: 420px) { .wt-tile-num { font-size: 19px; } }
+
 /* 自分⇔全国の2本を1本の目盛りに重ねる。斜線＝全国に届かなかった幅（＝取りこぼしの量） */
 .cmp-bar {
   position: relative;
@@ -1593,6 +1648,37 @@ html.fx-on .ai-card-btn:active { scale: .98; }
 
   <!-- ══════════════ TAB 2: 弱点分析 ══════════════ -->
   <div class="tab-pane" id="pane-weakness">
+
+    <section class="sec" data-sec-id="weekTrend">
+      <div class="sec-hd">
+        <h2 class="sec-title">📅 週ごとの弱点の推移 <span class="sec-note">（克服したもの・露呈したもの）</span></h2>
+        <button type="button" class="sec-toggle-btn" aria-label="開閉"><span class="sec-toggle-icon">▾</span></button>
+      </div>
+      <div class="sec-body">
+        <div id="wtEmpty" class="sec-empty">試験モード・SRS復習・過去問で解くと、週ごとに「何を克服し、どこで弱点が露呈したか」がここに貯まります（2026-09-29 から記録）。</div>
+        <div id="wtBody" hidden>
+          <div class="wt-nav">
+            <button type="button" class="wt-nav-btn" id="wtPrev" aria-label="前の週">‹</button>
+            <div class="wt-range" id="wtRange"></div>
+            <button type="button" class="wt-nav-btn" id="wtNext" aria-label="次の週">›</button>
+          </div>
+          <div class="wt-tiles fxb" id="wtTiles"></div>
+          <p class="wt-say" id="wtSay"></p>
+          <div class="wt-seg" id="wtSeg">
+            <button type="button" class="wt-seg-btn active" data-v="ch">章ごと</button>
+            <button type="button" class="wt-seg-btn" data-v="ty">科目×設問形式</button>
+          </div>
+          <h3 class="k-sub-title">📉 露呈しているところ <small>今週、同じ問題の全国正答率を下回ったマス（失点の多い順）</small></h3>
+          <div class="wt-list" id="wtExposed"></div>
+          <h3 class="k-sub-title">📈 縮んだ <small>直前4週より全国との差が縮んだマス</small></h3>
+          <div class="wt-list" id="wtImproved"></div>
+          <h3 class="k-sub-title">🔻 広がった <small>直前4週より全国との差が広がったマス</small></h3>
+          <div class="wt-list" id="wtWorsened"></div>
+          <div class="wt-events" id="wtEvents"></div>
+          <p class="wt-rule" id="wtRule"></p>
+        </div>
+      </div>
+    </section>
 
     <section class="sec" data-sec-id="karte">
       <div class="sec-hd">
@@ -3156,6 +3242,8 @@ html.fx-on .ai-card-btn:active { scale: .98; }
     });
     L.push('');
 
+    weekTrendMarkdown().forEach(x => L.push(x));
+
     L.push('---');
     L.push('上記のデータを基に、私の強み・弱点を分析し、医師国試に向けた優先度の高い学習アドバイスを提示してください。');
     return L.join('\n');
@@ -3333,7 +3421,160 @@ html.fx-on .ai-card-btn:active { scale: .98; }
     };
   }
 
+  // ── 📅 週ごとの弱点の推移（mec_weekly_v1・2026-09-29〜） ──
+  /* 判定・集計の正本は progress.js（weekClassify / weekReport）。ここは並べるだけで式を持たない。
+     ⚠️ 境目（3日・7日・80%・8回・5pt）を書き写さないこと。説明文も MECSync.WEEK_RULE から作る。 */
+  const WT_LIMIT = 8;          // 1つの一覧に出す行数
+  const WT_EV_LIMIT = 40;      // 出来事ごとに出す問題数
+  const WT_EV = [
+    { k: 'R', icon: '🩹', label: '克服',     note: '弱点だった問題を、日をあけて正解' },
+    { k: 'L', icon: '🌀', label: '忘却',     note: '定着しかけていた問題を落とした' },
+    { k: 'M', icon: '🕳️', label: '取りこぼし', note: '初見、または全国が取る問題を落とした' },
+    { k: 'X', icon: '🔁', label: '再発',     note: '克服したはずの問題をまた落とした' },
+  ];
+  let _wtWeeks = [], _wtIdx = -1, _wtView = 'ch';
+  const wtSign = v => { const r = Math.round(v); return (r > 0 ? '+' : r < 0 ? '−' : '±') + Math.abs(r); };
+  const wtShort = d => { const x = new Date(d + 'T00:00:00Z'); return (x.getUTCMonth() + 1) + '/' + x.getUTCDate(); };
+  const wtSubj = sid => (typeof MEC_CHAPTERS !== 'undefined' && MEC_CHAPTERS.find(s => s.id === sid)) || null;
+  function wtCellLabel(view, key) {
+    if (view === 'ty') {
+      const [sid, ty] = key.split('|');
+      const s = wtSubj(sid), t = QTYPES.find(q => q.k === ty);
+      return { name: (s ? s.icon + ' ' + s.name : sid) + ' × ' + (t ? t.label : ty), sid: s ? sid : null };
+    }
+    if (key.indexOf('kakumon_') === 0) return { name: '📝 過去問 ' + key.slice(8), sid: null };
+    const c = chMap[key];
+    if (!c) return { name: key, sid: null };
+    return { name: `${c.subjIcon} ${c.subjName} 第${c.chNum}章 ${cleanChTitle(c.chTitle, c.subjName)}`, sid: c.subjId };
+  }
+  function wtUidLabel(uid) {
+    if (uid.indexOf('kakumon_') === 0) return '📝 過去問 ' + uid.slice(8).replace('_q', ' No.');
+    const u = uidInfo(uid);
+    return u.info ? `${u.info.subjIcon} ${u.info.subjName} 第${u.info.chNum}章 Q.${u.qNum}` : uid;
+  }
+  function wtRow(view, r, mode) {
+    const lb = wtCellLabel(view, r.key);
+    const tag = lb.sid ? 'a' : 'div';
+    const href = lb.sid ? ` href="study.html?sid=${lb.sid}"` : '';
+    const now = r.now;
+    const cls = mode === 'up' ? 'is-up' : (now.gap != null && now.gap <= -20 ? 'is-bad' : '');
+    const chronic = r.chronic ? '<span class="wt-chip">3週連続</span>' : '';
+    const vs = (r.delta != null) ? `・直前4週 ${wtSign(r.base.gap)}pt → 今週 ${wtSign(now.gap)}pt` : '';
+    const val = mode === 'exposed'
+      ? `${wtSign(now.gap)}<small>pt</small>`
+      : `${wtSign(r.delta)}<small>pt</small>`;
+    const lossTxt = (mode === 'exposed' && now.loss >= 1) ? `・全国並みより <b>${Math.round(now.loss)}問</b> 多く失点` : '';
+    return `<${tag} class="wt-row ${cls}"${href}>
+      <div style="min-width:0"><div class="wt-name">${lb.name}${chronic}</div>
+      <div class="wt-meta">自分 <b>${now.acc}%</b>（${now.n}回）${lossTxt}${vs}</div></div>
+      <div class="wt-val">${val}</div></${tag}>`;
+  }
+  function wtList(el, view, rows, mode, emptyTxt) {
+    if (!el) return;
+    el.innerHTML = rows.length ? rows.slice(0, WT_LIMIT).map(r => wtRow(view, r, mode)).join('') : `<div class="kt-empty" style="margin-bottom:0">${emptyTxt}</div>`;
+  }
+  // 1週ぶんの読み取り（文章）。数字は全部 weekReport から
+  function wtSentence(rep, view, dayN) {
+    const c = rep.counts, p = rep.prevCounts;
+    const exp = c.L + c.M + c.X;
+    const parts = [];
+    parts.push(`解答 <b>${rep.total.n}問</b>（正答率 ${rep.total.acc}%${rep.total.gap != null ? '・全国比 ' + wtSign(rep.total.gap) + 'pt' : ''}）。`);
+    parts.push(`克服 <b>${c.R}問</b> に対して、露呈 <b>${exp}問</b>（忘却 ${c.L}・取りこぼし ${c.M}・再発 ${c.X}）。`);
+    // 途中の週（今週）は丸1週の先週と件数を比べない（少なく見えるだけで意味が無い）
+    if (dayN) parts.push(`今週はまだ ${dayN}日目です。`);
+    else if (p.R + p.L + p.M + p.X) {
+      const dR = c.R - p.R, dL = c.L - p.L;
+      parts.push(`先週より克服 ${dR >= 0 ? '+' : '−'}${Math.abs(dR)}・忘却 ${dL >= 0 ? '+' : '−'}${Math.abs(dL)}。`);
+    }
+    const v = rep.views[view];
+    if (v.chronic.length) parts.push(`<b>${wtCellLabel(view, v.chronic[0].key).name}</b> は3週続けて全国を下回っている——いちばん根の深い穴です。`);
+    else if (v.exposed.length) parts.push(`今週いちばん失点したのは <b>${wtCellLabel(view, v.exposed[0].key).name}</b>（${wtSign(v.exposed[0].now.gap)}pt）。`);
+    if (v.improved.length) parts.push(`いちばん縮んだのは ${wtCellLabel(view, v.improved[0].key).name}（${wtSign(v.improved[0].delta)}pt）。`);
+    if (c.X > 0) parts.push('再発した問題は「克服」が短期記憶だった可能性が高いので、優先して解き直してください。');
+    return parts.join('');
+  }
+  function renderWeekTrend() {
+    const empty = document.getElementById('wtEmpty'), body = document.getElementById('wtBody');
+    if (!empty || !body || !window.MECSync || !MECSync.weekReport) return;
+    const led = MECSync.weekRead();
+    _wtWeeks = MECSync.weekList(led);
+    if (!_wtWeeks.length) { empty.hidden = false; body.hidden = true; return; }
+    empty.hidden = true; body.hidden = false;
+    if (_wtIdx < 0 || _wtIdx >= _wtWeeks.length) _wtIdx = _wtWeeks.length - 1;
+    const mon = _wtWeeks[_wtIdx];
+    const rep = MECSync.weekReport(led, mon);
+    const thisMon = MECSync.weekMonday(today);
+    const when = mon === thisMon ? '今週' : (MECSync.weekMonday(new Date(Date.parse(thisMon + 'T00:00:00Z') - 7 * 86400000).toISOString().slice(0, 10)) === mon ? '先週' : '');
+    document.getElementById('wtRange').innerHTML = `${wtShort(rep.monday)}〜${wtShort(rep.sunday)}${when ? '（' + when + '）' : ''}<small>${_wtIdx + 1} / ${_wtWeeks.length} 週</small>`;
+    document.getElementById('wtPrev').disabled = _wtIdx <= 0;
+    document.getElementById('wtNext').disabled = _wtIdx >= _wtWeeks.length - 1;
+    document.getElementById('wtTiles').innerHTML = WT_EV.map((e, i) => {
+      const n = rep.counts[e.k], p = rep.prevCounts[e.k];
+      return `<div class="wt-tile is-${e.k}" style="--i:${i}" title="${e.note}"><div class="wt-tile-lbl">${e.icon} ${e.label}</div>
+        <div class="wt-tile-num"><span data-cu>${n}</span></div><div class="wt-tile-sub">先週 ${p}</div></div>`;
+    }).join('');
+    const dayN = mon === thisMon ? Math.round((Date.parse(today + 'T00:00:00Z') - Date.parse(mon + 'T00:00:00Z')) / 86400000) + 1 : 0;
+    document.getElementById('wtSay').innerHTML = wtSentence(rep, _wtView, dayN);
+    const v = rep.views[_wtView], R = MECSync.WEEK_RULE;
+    wtList(document.getElementById('wtExposed'), _wtView, v.exposed, 'exposed', `全国を${R.deltaPt}pt以上下回ったマスはありません（${R.cellMin}回以上解いたマスで判定）。`);
+    wtList(document.getElementById('wtImproved'), _wtView, v.improved, 'up', `直前4週と比べられるマス（今週・直前4週とも${R.cellMin}回以上）で、${R.deltaPt}pt以上縮んだものはまだありません。`);
+    wtList(document.getElementById('wtWorsened'), _wtView, v.worsened, 'down', `${R.deltaPt}pt以上広がったマスはありません。`);
+    document.getElementById('wtEvents').innerHTML = WT_EV.map(e => {
+      const list = rep.events[e.k];
+      if (!list.length) return '';
+      const items = list.slice(0, WT_EV_LIMIT).map(u => {
+        const s = subjIdOfUid(u);
+        const lb = wtUidLabel(u), nat = RATE[u];
+        const natTxt = nat != null ? `（全国 ${Math.round(nat)}%）` : '';
+        return s && wtSubj(s) ? `<li><a href="study.html?sid=${s}">${lb}</a>${natTxt}</li>` : `<li>${lb}${natTxt}</li>`;
+      }).join('');
+      const more = list.length > WT_EV_LIMIT ? `<li>…ほか ${list.length - WT_EV_LIMIT}問</li>` : '';
+      return `<details><summary>${e.icon} ${e.label}した問題 ${list.length}問 <span style="font-weight:400;color:var(--ts)">— ${e.note}</span></summary><ul>${items}${more}</ul></details>`;
+    }).join('');
+    document.getElementById('wtRule').textContent =
+      `判定：克服＝弱点だった問題（苦手タグ付き・前回誤答）を前回から${R.recoverDays}日以上あけて正解（同じ日の解き直しは数えない）／` +
+      `忘却＝復習間隔が${R.lapseIvl}日以上に育った問題を誤答／取りこぼし＝初見、または全国${R.missNat}%以上の問題を誤答／` +
+      `再発＝克服した問題を再び誤答。マスの数字は同じ問題の全国正答率との差（pt）。`;
+    fxArm(document.getElementById('wtTiles'));
+  }
+  (function wireWeekTrend() {
+    const prev = document.getElementById('wtPrev'), next = document.getElementById('wtNext');
+    if (prev) prev.onclick = () => { if (_wtIdx > 0) { _wtIdx--; renderWeekTrend(); } };
+    if (next) next.onclick = () => { if (_wtIdx < _wtWeeks.length - 1) { _wtIdx++; renderWeekTrend(); } };
+    document.querySelectorAll('#wtSeg .wt-seg-btn').forEach(b => {
+      b.onclick = () => {
+        _wtView = b.dataset.v;
+        document.querySelectorAll('#wtSeg .wt-seg-btn').forEach(x => x.classList.toggle('active', x === b));
+        renderWeekTrend();
+      };
+    });
+  })();
+  // AI相談用のMarkdown（今週と先週の2週ぶん）。問題文は送らない＝ラベルと数字だけ
+  function weekTrendMarkdown() {
+    if (!window.MECSync || !MECSync.weekReport) return [];
+    const led = MECSync.weekRead();
+    const weeks = MECSync.weekList(led).slice(-2);
+    if (!weeks.length) return [];
+    const L = ['## 週ごとの弱点の推移（克服・露呈）'];
+    weeks.forEach(mon => {
+      const r = MECSync.weekReport(led, mon), c = r.counts;
+      L.push(`### ${r.monday}〜${r.sunday}`);
+      L.push(`- 解答 ${r.total.n}問・正答率 ${r.total.acc}%${r.total.gap != null ? '・全国比 ' + wtSign(r.total.gap) + 'pt' : ''}`);
+      L.push(`- 克服 ${c.R} ／ 忘却 ${c.L} ／ 取りこぼし ${c.M} ／ 再発 ${c.X}`);
+      ['ch', 'ty'].forEach(view => {
+        const v = r.views[view], nm = view === 'ch' ? '章' : '科目×設問形式';
+        const fmt = (x, d) => `${wtCellLabel(view, x.key).name}（${d ? '差の変化 ' + wtSign(x.delta) : '全国比 ' + wtSign(x.now.gap)}pt・${x.now.n}回${x.chronic ? '・3週連続' : ''}）`;
+        if (v.exposed.length) L.push(`- 露呈（${nm}）: ` + v.exposed.slice(0, 5).map(x => fmt(x)).join('、'));
+        if (v.improved.length) L.push(`- 縮んだ（${nm}）: ` + v.improved.slice(0, 5).map(x => fmt(x, true)).join('、'));
+        if (v.worsened.length) L.push(`- 広がった（${nm}）: ` + v.worsened.slice(0, 5).map(x => fmt(x, true)).join('、'));
+      });
+    });
+    L.push('');
+    return L;
+  }
+
   // 初期化実行
+  renderWeekTrend();
   renderDiagnostic();
   renderHero();
   renderForecast();

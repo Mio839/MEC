@@ -24,6 +24,8 @@
   const K_ATT_ROLL = 'mec_attempts_roll_v1'; // 生ログからあふれた分のセッション単位の集計（attCompact・下の「解答ログの集計」）
   const ATT_HARD_RATE = 60;         // 集計で数える難問の境目。study_exam.js の EXAM_HARD_RATE・gamify.js の HARD_RATE と一致させること
   const K_MISSIONS = 'mec_missions_v1'; // 日次/週次ミッション進捗（端末別G-counter・同一(期間,端末,カウンタ)はmax）＋達成ボーナスXP台帳
+  const K_WEEKLY = 'mec_weekly_v1';     // 週ごとの弱点の推移（克服・忘却・取りこぼし・再発＋章×形式の全国差）。下の「週ごとの弱点の推移」
+  const K_WEEKLY_DEV = 'mec_weekly_dev_v1'; // ↑の端末ID（UIローカル・同期しない）
   // 模試の自己採点（mock.js / mock.html）。{ examId: { cur, rounds:{ rN:{started,graded,ans:{"A10":{p,t}}} }, border } }。
   // ⚠️ 保存されているのは「何を選んだか」だけで正誤は入っていない（正誤は mock.js が解答表と
   //    突き合わせて毎回計算する）。したがってここで解決すべきは1問ぶんの解答の衝突だけで、
@@ -179,7 +181,8 @@ const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変え�
     [K_ATT]: 'mec_attempts.json',
     [K_ATT_ROLL]: 'mec_attempts.json',
     [KR]: 'mec_rate.json',
-    'mec_choice_v1': 'mec_rate.json'
+    'mec_choice_v1': 'mec_rate.json',
+    [K_WEEKLY]: 'mec_weekly.json'
   };
   const GIST_FILE_WARN = 800 * 1024; // 1ファイルがこれを超えたら GIST_SHARDS の割り直しを検討する
 
@@ -308,6 +311,7 @@ const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変え�
     try { payload[KER] = JSON.parse(localStorage.getItem(KER) || '[]'); } catch { payload[KER] = []; }
     try { payload[K_ATT] = JSON.parse(localStorage.getItem(K_ATT) || '[]'); } catch { payload[K_ATT] = []; }
     payload[K_ATT_ROLL] = attReadRoll();
+    payload[K_WEEKLY] = weekRead();
     try { payload['mec_ch_exam_v1'] = JSON.parse(localStorage.getItem('mec_ch_exam_v1') || '{}'); } catch { payload['mec_ch_exam_v1'] = {}; }
     payload._errClearedAt = localStorage.getItem(K_ERR_CLEARED) || '';
     payload._examDate = { d: localStorage.getItem(K_EXAM_DATE) || '', t: _examDateAt() };
@@ -575,6 +579,11 @@ const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変え�
     if ((Array.isArray(ratt) && ratt.length) || (rroll && typeof rroll === 'object' && Object.keys(rroll).length)) {
       const m = attMerge(latt, attReadRoll(), Array.isArray(ratt) ? ratt : [], rroll || {});
       attStore(m.lines, m.roll);
+    }
+    // weekly: 週ごとの弱点の推移。端末別の台帳なので (週, 端末) の中だけで解決する（weekMerge）
+    const rwk = remote[K_WEEKLY];
+    if (rwk && typeof rwk === 'object' && rwk.w && Object.keys(rwk.w).length) {
+      lsRaw(K_WEEKLY, weekMerge(weekRead(), rwk));
     }
     // chapter exam history: 章ごとに bestScore の最大値を保持、sessions は最大値、日付は新しい方
     const lch = JSON.parse(localStorage.getItem('mec_ch_exam_v1') || '{}');
@@ -1582,6 +1591,278 @@ const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変え�
     return { cap, newToday, due, left: Math.max(0, cap - newToday) };
   }
 
+  // ── 週ごとの弱点の推移（mec_weekly_v1・2026-09-29〜） ─────────────────────
+  // 生ログは3〜4日分、集計(roll)は科目単位、myrate_v1 は累計、mec_srs_v1 は現在の状態しか持たない＝
+  // 「どの週に何を克服し、何が露呈したか」を後から復元できない。そこで**解答した瞬間に**、その解答の
+  // 直前の状態から出来事を1つ判定して週ごとの台帳へ貯める。
+  //
+  //   { v:1, w: { '月曜のYYYY-MM-DD': { 端末ID: {
+  //       c: { 'circ_ch03|tx': [解答, 正解, 全国率あり解答, そのうち正解, 全国率の合計] },
+  //       e: { uid: [出来事, 分単位epoch] } } } } }
+  //
+  // 出来事（weekClassify が正本・ページ側に書き写さないこと）:
+  //   R 克服   … 弱点だった問題（weakTags が付く／前回が誤答）を、前回から WK_RECOVER_DAYS 日以上あけて正解
+  //   L 忘却   … 復習間隔が WK_LAPSE_IVL 日以上に育っていた問題を落とした
+  //   M 取りこぼし … 初めて解いた問題、または全国 WK_MISS_NAT% 以上の問題を落とした
+  //   X 再発   … 直近の出来事が「克服」だった問題をまた落とした
+  //   優先は X > L > M。同じ週に同じ問題で何度起きても、その端末では最後の出来事だけ残す。
+  //
+  // ⚠️ 同じ日の解き直し（今日の誤答の再履修など）の正解は「克服」に数えない（短期記憶と区別できない）。
+  // ⚠️ 記帳の口は MecAttempts.log の1本だけ（study・過去問ビューアの両方が通る）。採点経路ごとに足さない。
+  // ⚠️ 同期で二重に数えないため**端末別**に持つ（ミッションと同じ）。1つの (週, 端末) は1台でしか
+  //    増えないので、マスは解答数の多い方・出来事は時刻の新しい方を採れば必ず上位集合になる。
+  // ⚠️ 設問形式（qmeta の ty）は study 側では qmeta.json を遅れて読む。読み終える前の解答は形式が
+  //    空（''）で入る＝章の集計には入るが形式の集計には入らない。
+  const WK_RECOVER_DAYS = 3;
+  const WK_LAPSE_IVL = 7;
+  const WK_MISS_NAT = 80;      // weakTags の「取りこぼし」と同じ境目
+  const WK_KEEP_WEEKS = 30;    // 試験日（2027-02）までの約20週を丸ごと持てる長さ
+  const WK_CELL_MIN = 8;       // マスを評価する最低受験数（stats.html の KARTE_TOP_MIN_N と同じ）
+  const WK_DELTA_PT = 5;       // 「縮んだ／広がった」「下回る」の境目（KARTE_TOP_GAP と同じ）
+  const WK_BASE_WEEKS = 4;     // 比べる相手＝その週より前の4週の合計
+
+  function weekMonday(day) {
+    const d = new Date(day + 'T00:00:00Z');
+    d.setUTCDate(d.getUTCDate() - (d.getUTCDay() + 6) % 7);
+    return d.toISOString().slice(0, 10);
+  }
+  function _wkAddDays(day, n) { const d = new Date(day + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
+  function _wkDayDiff(a, b) { return Math.round((Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / 86400000); }
+  // uid → 章のキー（'circ_ch03_q12' → 'circ_ch03'）。章を持たない uid は丸ごと
+  function weekChapOf(uid) { const i = uid.lastIndexOf('_q'); return i > 0 ? uid.slice(0, i) : uid; }
+
+  function weekRead() {
+    try {
+      const v = JSON.parse(localStorage.getItem(K_WEEKLY) || 'null');
+      if (v && typeof v === 'object' && v.w && typeof v.w === 'object') return v;
+    } catch {}
+    return { v: 1, w: {} };
+  }
+  function _wkDev() {
+    try {
+      let id = localStorage.getItem(K_WEEKLY_DEV);
+      if (!id) { id = 'd' + Math.random().toString(36).slice(2, 10); localStorage.setItem(K_WEEKLY_DEV, id); }
+      return id;
+    } catch { return 'd0'; }
+  }
+  function _wkPrune(led) {
+    const ks = Object.keys(led.w).sort();
+    while (ks.length > WK_KEEP_WEEKS) delete led.w[ks.shift()];
+    return led;
+  }
+
+  // 設問形式（qmeta.json の ty）。study では読んでいないので、最初の解答で遅れて取りに行く。
+  // ⚠️ 過去問（kakumon_）は qmeta に無いので取りに行かない（過去問ビューアで 560KB を無駄に読まない）。
+  const _wkScriptSrc = (typeof document !== 'undefined' && document.currentScript && document.currentScript.src) || '';
+  let _wkTyMap = null, _wkTyLoading = false;
+  function weekPrefetch() {
+    if (_wkTyMap || _wkTyLoading || typeof fetch !== 'function' || !_wkScriptSrc) return;
+    _wkTyLoading = true;
+    try {
+      fetch(new URL('qmeta.json', _wkScriptSrc).href)
+        .then(r => r.ok ? r.json() : null)
+        .then(doc => {
+          const m = {}, q = (doc && doc.q) || {};
+          for (const u in q) if (q[u] && q[u].ty) m[u] = q[u].ty;   // ty だけ残して本体は捨てる
+          _wkTyMap = m;
+        })
+        .catch(() => { _wkTyLoading = false; });
+    } catch { _wkTyLoading = false; }
+  }
+  function _wkTyOf(uid) {
+    if (uid.indexOf('kakumon_') === 0) return '';
+    if (!_wkTyMap) { weekPrefetch(); return ''; }
+    return _wkTyMap[uid] || '';
+  }
+
+  // 直近の出来事（全端末・全週で時刻が最新のもの）
+  function _wkLastEv(led, uid) {
+    let best = null;
+    for (const wk in led.w) for (const dev in led.w[wk]) {
+      const x = led.w[wk][dev] && led.w[wk][dev].e && led.w[wk][dev].e[uid];
+      if (x && (!best || (x[1] || 0) >= (best[1] || 0))) best = x;
+    }
+    return best ? best[0] : '';
+  }
+
+  // 1解答の出来事を判定する（純関数）。
+  //   ok    … 今回の正誤
+  //   prev  … この解答を含まない myrate_v1 の値 {correct,total}（無ければ null）
+  //   nat   … 全国正答率（無ければ null）
+  //   srs   … この解答で更新される前の mec_srs_v1 のエントリ
+  //   last  … 生ログに残っている直前の解答 {t, ok}（分単位epoch）
+  //   t     … 今回の時刻（分単位epoch）
+  //   lastEv… 直近の出来事（_wkLastEv）
+  function weekClassify(o) {
+    const prev = o.prev || { correct: 0, total: 0 };
+    const nat = (typeof o.nat === 'number' && isFinite(o.nat)) ? Math.round(o.nat) : null;
+    const srs = o.srs || null, last = o.last || null;
+    const day = _attDay(o.t);
+    // 前回からの日数。生ログと SRS の最終閲覧（通常モードの自己採点を含む）の近い方
+    let gap = null;
+    if (last) gap = (o.t - last.t) / 1440;
+    if (srs && srs.lastSeen) { const g = _wkDayDiff(srs.lastSeen, day); if (gap == null || g < gap) gap = g; }
+    const answered = (prev.total || 0) > 0 || !!last;
+    const lastWrong = last ? !last.ok : ((prev.total || 0) > (prev.correct || 0) && !!srs && (srs.reps || 0) === 0);
+    if (o.ok) {
+      const weak = lastWrong || weakTags(prev, nat == null ? undefined : nat).length > 0;
+      return (weak && gap != null && gap >= WK_RECOVER_DAYS) ? 'R' : '';
+    }
+    if (o.lastEv === 'R') return 'X';
+    if (srs && (srs.reps || 0) > 0 && (srs.interval || 0) >= WK_LAPSE_IVL) return 'L';
+    if (!answered || (nat != null && nat >= WK_MISS_NAT)) return 'M';
+    return '';
+  }
+
+  // 1解答を台帳へ記帳する（MecAttempts.log から呼ばれる）。返り値は出来事（無ければ ''）。
+  //   mr … この解答を**含んだ**後の myrate_v1 の値（study も過去問ビューアも myrate を先に書く）。
+  //        渡さなければ localStorage から読む。
+  function weekRecord(o) {
+    if (!o || !o.uid) return '';
+    const uid = o.uid;
+    if (uid.indexOf('custom_') === 0 || uid.indexOf('memo_') === 0) return '';
+    const t = o.t || Math.floor(Date.now() / 60000);
+    let mr = o.mr;
+    if (mr === undefined) { try { mr = (JSON.parse(localStorage.getItem(KR) || '{}') || {})[uid]; } catch { mr = null; } }
+    const prev = (mr && mr.total) ? { total: Math.max(0, mr.total - 1), correct: Math.max(0, (mr.correct || 0) - (o.ok ? 1 : 0)) } : null;
+    const nat = (typeof o.nat === 'number' && isFinite(o.nat) && o.nat >= 0) ? Math.round(o.nat) : null;
+    const led = weekRead();
+    const code = weekClassify({ ok: !!o.ok, prev, nat, srs: o.srs, last: o.last, t, lastEv: _wkLastEv(led, uid) });
+    const wk = weekMonday(_attDay(t)), dev = _wkDev();
+    const W = led.w[wk] = led.w[wk] || {};
+    const D = W[dev] = W[dev] || { c: {}, e: {} };
+    D.c = D.c || {}; D.e = D.e || {};
+    const key = weekChapOf(uid) + '|' + (o.ty != null ? o.ty : _wkTyOf(uid));
+    const c = D.c[key] = D.c[key] || [0, 0, 0, 0, 0];
+    c[0]++; if (o.ok) c[1]++;
+    if (nat != null) { c[2]++; if (o.ok) c[3]++; c[4] += nat; }
+    if (code) D.e[uid] = [code, t];
+    _wkPrune(led);
+    lsRaw(K_WEEKLY, led);
+    return code;
+  }
+
+  // 2つの台帳を合わせる（同期・バックアップの復元）。どちらも書き換えない。
+  function weekMerge(a, b) {
+    const out = { v: 1, w: {} };
+    [a, b].forEach(src => {
+      const w = (src && src.w) || {};
+      for (const wk in w) {
+        const OW = out.w[wk] = out.w[wk] || {};
+        for (const dev in w[wk]) {
+          const S = w[wk][dev] || {};
+          const O = OW[dev] = OW[dev] || { c: {}, e: {} };
+          for (const k in S.c || {}) {
+            const x = S.c[k], y = O.c[k];
+            if (Array.isArray(x) && (!y || (x[0] || 0) > (y[0] || 0))) O.c[k] = x.slice();
+          }
+          for (const u in S.e || {}) {
+            const x = S.e[u], y = O.e[u];
+            if (Array.isArray(x) && (!y || (x[1] || 0) > (y[1] || 0))) O.e[u] = x.slice();
+          }
+        }
+      }
+    });
+    return _wkPrune(out);
+  }
+
+  // ── 読む側（純関数。led を渡す） ──
+  function weekList(led) {
+    return Object.keys((led && led.w) || {}).filter(wk => {
+      const W = led.w[wk];
+      return Object.keys(W).some(dev => Object.keys((W[dev] && W[dev].c) || {}).length);
+    }).sort();
+  }
+  // 1週ぶんを端末横断で合計する。cells は保存したキーのまま、ev は uid → [出来事, 時刻]
+  function _wkAgg(led, wk) {
+    const W = (led && led.w && led.w[wk]) || {};
+    const cells = {}, ev = {};
+    for (const dev in W) {
+      const D = W[dev] || {};
+      for (const k in D.c || {}) {
+        const x = D.c[k], y = cells[k] = cells[k] || [0, 0, 0, 0, 0];
+        for (let i = 0; i < 5; i++) y[i] += x[i] || 0;
+      }
+      for (const u in D.e || {}) {
+        const x = D.e[u];
+        if (!ev[u] || (x[1] || 0) > (ev[u][1] || 0)) ev[u] = x;
+      }
+    }
+    return { cells, ev };
+  }
+  // 保存キー 'circ_ch03|tx' を2つの見方へ畳む: ch＝章（'circ_ch03'）／ty＝科目×形式（'circ|tx'・形式が空なら入れない）
+  function _wkViews(cells) {
+    const ch = {}, ty = {};
+    const add = (m, k, x) => { const y = m[k] = m[k] || [0, 0, 0, 0, 0]; for (let i = 0; i < 5; i++) y[i] += x[i] || 0; };
+    for (const k in cells) {
+      const bar = k.lastIndexOf('|');
+      const chap = k.slice(0, bar), t = k.slice(bar + 1);
+      add(ch, chap, cells[k]);
+      if (t) add(ty, attSid(chap + '_q0') + '|' + t, cells[k]);
+    }
+    return { ch, ty };
+  }
+  function _wkStat(x) {
+    if (!x) return null;
+    const [n, c, nn, nc, ns] = x;
+    return {
+      n, c, nn,
+      acc: n ? Math.round(c / n * 100) : null,
+      gap: nn ? Math.round((nc * 100 - ns) / nn) : null,   // 自分 − 全国（同じ問題どうし・pt）
+      loss: nn ? Math.round((ns / 100 - nc) * 10) / 10 : 0, // 全国並みなら取れていた問題数との差
+    };
+  }
+
+  // 1週ぶんの報告。monday はその週の月曜。
+  //   counts/prevCounts … 出来事の件数（今週／先週）
+  //   events           … 出来事ごとの uid（新しい順）
+  //   total            … 今週の解答全体（acc・gap）
+  //   views.ch / views.ty … マスごとに { key, now, base, delta, chronic }
+  //       exposed  … 今週 WK_CELL_MIN 回以上・全国を WK_DELTA_PT 以上下回る（失点の多い順）
+  //       improved … 前4週より全国差が WK_DELTA_PT 以上縮んだ（伸びの大きい順）
+  //       worsened … 前4週より全国差が WK_DELTA_PT 以上広がった（悪化の大きい順）
+  //       chronic  … 今週・先週・先々週の3週続けて下回っている
+  function weekReport(led, monday) {
+    const cur = _wkAgg(led, monday);
+    const prevWk = _wkAgg(led, _wkAddDays(monday, -7));
+    const count = ev => { const r = { R: 0, L: 0, M: 0, X: 0 }; for (const u in ev) if (r[ev[u][0]] != null) r[ev[u][0]]++; return r; };
+    const events = { R: [], L: [], M: [], X: [] };
+    Object.keys(cur.ev).sort((a, b) => (cur.ev[b][1] || 0) - (cur.ev[a][1] || 0)).forEach(u => {
+      const k = cur.ev[u][0]; if (events[k]) events[k].push(u);
+    });
+    // 比べる相手＝前4週の合計
+    const baseCells = {};
+    for (let i = 1; i <= WK_BASE_WEEKS; i++) {
+      const a = _wkAgg(led, _wkAddDays(monday, -7 * i)).cells;
+      for (const k in a) { const y = baseCells[k] = baseCells[k] || [0, 0, 0, 0, 0]; for (let j = 0; j < 5; j++) y[j] += a[k][j] || 0; }
+    }
+    const vNow = _wkViews(cur.cells), vBase = _wkViews(baseCells);
+    const vW1 = _wkViews(prevWk.cells), vW2 = _wkViews(_wkAgg(led, _wkAddDays(monday, -14)).cells);
+    const below = s => !!s && s.nn >= WK_CELL_MIN && s.gap != null && s.gap <= -WK_DELTA_PT;
+    const views = {};
+    ['ch', 'ty'].forEach(v => {
+      const rows = Object.keys(vNow[v]).map(key => {
+        const now = _wkStat(vNow[v][key]), base = _wkStat(vBase[v][key]);
+        const delta = (now.nn >= WK_CELL_MIN && base && base.nn >= WK_CELL_MIN) ? now.gap - base.gap : null;
+        const chronic = below(now) && below(_wkStat(vW1[v][key])) && below(_wkStat(vW2[v][key]));
+        return { key, now, base, delta, chronic };
+      });
+      views[v] = {
+        exposed: rows.filter(r => below(r.now)).sort((a, b) => b.now.loss - a.now.loss || a.now.gap - b.now.gap),
+        improved: rows.filter(r => r.delta != null && r.delta >= WK_DELTA_PT).sort((a, b) => b.delta - a.delta),
+        worsened: rows.filter(r => r.delta != null && r.delta <= -WK_DELTA_PT).sort((a, b) => a.delta - b.delta),
+        chronic: rows.filter(r => r.chronic).sort((a, b) => b.now.loss - a.now.loss),
+      };
+    });
+    const tot = [0, 0, 0, 0, 0];
+    for (const k in cur.cells) for (let i = 0; i < 5; i++) tot[i] += cur.cells[k][i] || 0;
+    return {
+      monday, sunday: _wkAddDays(monday, 6),
+      counts: count(cur.ev), prevCounts: count(prevWk.ev),
+      events, total: _wkStat(tot), views,
+    };
+  }
+
   // 読み込み時に一度揃える（同期を待たずに、既に分かれている予定を1つにする）
   try { const s0 = lsGet(K_SRS); if (srsUnifyDups(s0)) lsRaw(K_SRS, s0); } catch (e) {}
 
@@ -1598,6 +1879,18 @@ const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変え�
     attStore,
     attReadRoll,
     ATT_ROLL_KEY: K_ATT_ROLL,
+    // 週ごとの弱点の推移（mec_weekly_v1）
+    WEEKLY_KEY: K_WEEKLY,
+    WEEK_RULE: { recoverDays: WK_RECOVER_DAYS, lapseIvl: WK_LAPSE_IVL, missNat: WK_MISS_NAT, cellMin: WK_CELL_MIN, deltaPt: WK_DELTA_PT, baseWeeks: WK_BASE_WEEKS },
+    weekMonday,
+    weekChapOf,
+    weekClassify,
+    weekRecord,
+    weekRead,
+    weekMerge,
+    weekList,
+    weekReport,
+    weekPrefetch,
     NEW_CAP: { max: NEW_CAP_MAX, min: NEW_CAP_MIN, lowDue: NEW_CAP_LOW_DUE, highDue: NEW_CAP_HIGH_DUE },
     weakTags,
     WK_GAP_PT,
