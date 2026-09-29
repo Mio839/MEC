@@ -2789,7 +2789,7 @@ const BRSNEW = `
 })();`;
 /* ── brass 正解演出の新案 第2弾・10個（2026-09-29・デモ専用。study_exam.js にはまだ入れていない）──
    第1弾（BRSNEW）の枠組み（__brsChoice／__brsFull）と小道具（window.__brsKit）をそのまま使い、案を __brsNewDraw.C／F に足す。
-   発火位置の割り振りは気にせず題材で選んだ（肢の左端4つ・全画面6つ）。肢の左端のものは第1弾と同じく送る前に消える（尺 320ms）。
+   発火位置の割り振りは気にせず題材で選んだ（肢の左端5つ・全画面5つ。⑳ 歯車の曼荼羅は初版の全画面から肢の左端へ移した）。肢の左端のものは第1弾と同じく送る前に消える（尺 320ms）。
    ⚠️ 肢の中を横に走る長い線は作らない。放電・鎖は縦、羅針盤の針・調速機の球は短い。
    ⚠️ 中身はテンプレート文字列なので、中でバッククォートと ${…} を使わないこと。 */
 const BRSNEW2 = `
@@ -3038,45 +3038,45 @@ const BRSNEW2 = `
   };
   /* ⑱ 階差機関の数字輪：画面の中央に真鍮の計算機が現れ、縦に回る数字輪が左から順にカチリと止まって、連続数と問題番号を示す */
   F.difference = g => {
-    const { T, up, CW, CH, S, n, serial, tier } = g;
+    const { T, up, CW, CH, n, serial, tier } = g, S = g.S * .5;   // 大きさは初版の半分（2026-09-29・ユーザー判断）
     const rows = [['STREAK', String(Math.min(9999, n)).padStart(4, '0')], ['No.', (serial.match(/\\d+/) || ['0'])[0].slice(-4).padStart(4, '0')]]
       .concat(up ? [['TIER', String(Math.min(99, tier)).padStart(4, '0')]] : []);
-    const w = 30 * S, h = 42 * S, gx = 8 * S, gy = 14 * S, lab = 64 * S, W = lab + 4 * w + 3 * gx + 40 * S, H = rows.length * h + (rows.length - 1) * gy + 40 * S;
-    const x0 = CW / 2 - W / 2, y0 = CH * .44 - H / 2, dur = 2700;
+    const w = 30 * S, h = 42 * S, gx = 8 * S, gy = 14 * S, lab = Math.max(42, 64 * S), W = lab + 4 * w + 3 * gx + 40 * S, H = rows.length * h + (rows.length - 1) * gy + 40 * S;
+    const x0 = CW / 2 - W / 2, y0 = CH * .26 - H / 2, dur = 2700;
     const cells = []; rows.forEach((r, ri) => Array.from(r[1]).forEach((d, j) => cells.push({ ri, j, d: +d, lock: 450 + (ri * 4 + j) * 115, sp: 1.5 + _frR(0, 1.5) })));
     const SP = [].concat(...cells.map(q => sparks(x0 + 20 * S + lab + q.j * (w + gx) + w / 2, y0 + 20 * S + q.ri * (h + gy), 3, q.lock, 300, 280)));
     const lastLock = Math.max(...cells.map(q => q.lock));
     return { dur, hits: [lastLock], draw(c, e) {
       const fade = fadeOut(e, dur, 600), sc = .85 + .15 * _brsBack(_frC(e / 300)), ka = _frC(e / 200) * fade;
       c.save(); c.globalAlpha = ka; c.translate(CW / 2, y0 + H / 2); c.scale(sc, sc); c.translate(-CW / 2, -(y0 + H / 2));
-      c.fillStyle = 'rgba(10,6,2,.8)'; rrect(c, x0 + 3, y0 + 4, W, H, 10); c.fill();
-      c.globalAlpha = ka * .88; c.fillStyle = metal(c, x0, y0, x0 + W * .6, y0 + H * 1.5); rrect(c, x0, y0, W, H, 10); c.fill(); c.globalAlpha = ka;
-      c.strokeStyle = 'rgba(40,26,6,.9)'; c.lineWidth = 1.2; rrect(c, x0, y0, W, H, 10); c.stroke();
-      c.strokeStyle = 'rgba(255,243,196,.5)'; rrect(c, x0 + 6, y0 + 6, W - 12, H - 12, 7); c.stroke();
-      [[x0 + 11, y0 + 11], [x0 + W - 11, y0 + 11], [x0 + 11, y0 + H - 11], [x0 + W - 11, y0 + H - 11]].forEach(p => dome(c, p[0], p[1], 3.2 * S, 1, ka));
+      c.fillStyle = 'rgba(10,6,2,.8)'; rrect(c, x0 + 2, y0 + 3, W, H, 6); c.fill();
+      c.globalAlpha = ka * .88; c.fillStyle = metal(c, x0, y0, x0 + W * .6, y0 + H * 1.5); rrect(c, x0, y0, W, H, 6); c.fill(); c.globalAlpha = ka;
+      c.strokeStyle = 'rgba(40,26,6,.9)'; c.lineWidth = 1.2; rrect(c, x0, y0, W, H, 6); c.stroke();
+      c.strokeStyle = 'rgba(255,243,196,.5)'; rrect(c, x0 + 4, y0 + 4, W - 8, H - 8, 4); c.stroke();
+      [[x0 + 7, y0 + 7], [x0 + W - 7, y0 + 7], [x0 + 7, y0 + H - 7], [x0 + W - 7, y0 + H - 7]].forEach(p => dome(c, p[0], p[1], 3.2 * S, 1, ka));
       rows.forEach((r, ri) => { const yy = y0 + 20 * S + ri * (h + gy);
-        c.font = '700 ' + Math.round(12 * S) + 'px ' + SERIF; c.textAlign = 'right'; c.textBaseline = 'middle';
+        c.font = '700 ' + Math.max(9, Math.round(12 * S)) + 'px ' + SERIF; c.textAlign = 'right'; c.textBaseline = 'middle';
         engrave((dx, dy, col) => { c.fillStyle = col; c.fillText(r[0], x0 + 12 * S + lab + dx, yy + h / 2 + dy); }, '#4A370C'); });
       cells.forEach(q => {
         const xx = x0 + 20 * S + lab + q.j * (w + gx), yy = y0 + 20 * S + q.ri * (h + gy);
-        c.fillStyle = 'rgba(14,9,3,.9)'; rrect(c, xx, yy, w, h, 4); c.fill();
+        c.fillStyle = 'rgba(14,9,3,.9)'; rrect(c, xx, yy, w, h, 2.5); c.fill();
         const pos = e >= q.lock ? q.d + Math.sin((e - q.lock) / 18) * .12 * Math.exp(-(e - q.lock) / 60) : q.d - (q.lock - e) / 1000 * 10 * q.sp;
         const kl = _frC((e - q.lock) / 700);
-        c.save(); rrect(c, xx, yy, w, h, 4); c.clip();
+        c.save(); rrect(c, xx, yy, w, h, 2.5); c.clip();
         c.font = '700 ' + Math.round(h * .62) + 'px ' + MONO; c.textAlign = 'center'; c.textBaseline = 'middle';
         const base = Math.floor(pos), fr = pos - base;
         for (let k = -1; k <= 1; k++) { const dgt = (((base + k) % 10) + 10) % 10, yc = yy + h / 2 + (k - fr) * h;
           c.fillStyle = e >= q.lock ? hot(kl) : 'rgba(224,194,94,.75)'; c.fillText(String(dgt), xx + w / 2, yc); }
         const sh = c.createLinearGradient(0, yy, 0, yy + h); sh.addColorStop(0, 'rgba(0,0,0,.7)'); sh.addColorStop(.3, 'rgba(0,0,0,0)'); sh.addColorStop(.7, 'rgba(0,0,0,0)'); sh.addColorStop(1, 'rgba(0,0,0,.7)');
         c.fillStyle = sh; c.fillRect(xx, yy, w, h); c.restore();
-        c.strokeStyle = 'rgba(255,243,196,.5)'; c.lineWidth = .8; rrect(c, xx, yy, w, h, 4); c.stroke();
+        c.strokeStyle = 'rgba(255,243,196,.5)'; c.lineWidth = .8; rrect(c, xx, yy, w, h, 2.5); c.stroke();
         if (e >= q.lock && kl < .4) glow(c, xx + w / 2, yy + h / 2, w, .45 * (1 - kl / .4));
       });
       const cr = e < lastLock ? e / 1000 * 9 : lastLock / 1000 * 9, hx = x0 + W + 4 * S, hy = y0 + H / 2;   // 右のクランク
       c.strokeStyle = 'rgba(10,6,2,.85)'; c.lineWidth = 5 * S; c.lineCap = 'round'; c.beginPath(); c.moveTo(hx, hy); c.lineTo(hx + Math.cos(cr) * 16 * S, hy + Math.sin(cr) * 16 * S); c.stroke();
       c.strokeStyle = B; c.lineWidth = 3.4 * S; c.stroke();
       ball(c, hx, hy, 4.5 * S, 1); ball(c, hx + Math.cos(cr) * 16 * S, hy + Math.sin(cr) * 16 * S, 4 * S, 1);
-      c.save(); rrect(c, x0, y0, W, H, 10); c.clip(); _brsSheen(c, CW, y0, H, _frC((e - lastLock - 150) / 700), .3); c.restore();
+      c.save(); rrect(c, x0, y0, W, H, 6); c.clip(); _brsSheen(c, CW, y0, H, _frC((e - lastLock - 150) / 700), .3); c.restore();
       c.restore();
       drawSparks(c, e, SP, 600);
     } };
@@ -3129,29 +3129,31 @@ const BRSNEW2 = `
       drawSparks(c, e, SP, 500);
     } };
   };
-  /* ⑳ 歯車の曼荼羅：画面の中央で、歯車と唐草が万華鏡のように対称に咲き、輪ごとに逆向きに回って、最後に内側へ畳まれて消える */
-  F.mandala = g => {
-    const { T, up, CW, CH, M } = g;
-    const cx = CW / 2, cy = CH * .46, K = up ? 12 : 8, dur = 2600;
-    const rings = [{ R: M * .13, r: M * .034, n: K, off: 0 }, { R: M * .25, r: M * .05, n: K, off: PI / K }].concat(T >= 3 || up ? [{ R: M * .37, r: M * .028, n: K * 2, off: 0 }] : []);
-    const vine = _brsVine(M * .05, 0, -.25, M * .16, 5, M * .025, 1.2, 150, .35, 1.8, 1), vine2 = _brsVine(M * .05, 0, .25, M * .16, 5, M * .025, 1.2, 150, .35, 1.8, -1);
-    const V = [vine, vine2].concat(T >= 3 || up ? [_brsVine(M * .27, 0, 0, M * .1, 4, M * .02, 1.1, 450, .3, 1.4, 1)] : []);
-    const SP = sparks(cx, cy, 14 + T * 2, 120, 460, 420);
+  /* ⑳ 歯車の曼荼羅：肢の左端で、歯車と唐草が万華鏡のように対称に咲き、輪ごとに逆向きに回って、内側へ畳まれて消える。
+        2026-09-29 に「画面の中央・2.6秒」から「肢の左端・半分の大きさ」へ作り直した（ユーザー判断）。肢で発火するので送る前に消える（尺 320ms） */
+  C.mandala = g => {
+    const { T, up, px, py, CW, CH } = g;
+    const m = Math.min(CW, CH) * .5, K = up ? 12 : 8, dur = 320;
+    const rings = [{ R: m * .13, r: m * .034, n: K, off: 0 }, { R: m * .25, r: m * .05, n: K, off: PI / K }].concat(T >= 3 || up ? [{ R: m * .37, r: m * .028, n: K * 2, off: 0 }] : []);
+    const V = [_brsVine(m * .05, 0, -.25, m * .16, 5, m * .025, 1.2, 20, 1, 1.5, 1), _brsVine(m * .05, 0, .25, m * .16, 5, m * .025, 1.2, 20, 1, 1.5, -1)]
+      .concat(T >= 3 || up ? [_brsVine(m * .27, 0, 0, m * .1, 4, m * .02, 1.1, 70, 1, 1.2, 1)] : []);
+    V.forEach(v => { v.speed = v.total / 110; });
+    const SP = sparks(px, py, 8 + T + (up ? 4 : 0), 40, 340, 170);
     return { dur, draw(c, e) {
-      const fade = fadeOut(e, dur, 500), close = _frC((e - 1900) / 650), spin = e / 3200;
+      const fade = fadeOut(e, dur, 40), close = _frC((e - 225) / 95), spin = e / 900;
       c.save(); c.globalAlpha = fade;
-      c.translate(cx, cy); c.scale(1 - .35 * _frE(close), 1 - .35 * _frE(close)); c.rotate(spin);
-      for (let k = 0; k < K; k++) { c.save(); c.rotate(k / K * TAU); _brsDrawVines(c, e, V, (1 - close) * .9, 700); c.restore(); }
-      rings.forEach((rg, i) => { const ki = _frC((e - 100 - i * 170) / 380); if (ki <= 0) return; const s = _brsBack(ki), dir = i % 2 ? -1 : 1, nt = _brsTeeth(rg.r);
+      c.translate(px, py); c.scale(1 - .45 * _frE(close), 1 - .45 * _frE(close)); c.rotate(spin);
+      for (let k = 0; k < K; k++) { c.save(); c.rotate(k / K * TAU); _brsDrawVines(c, e, V, (1 - close) * .9, 150); c.restore(); }
+      rings.forEach((rg, i) => { const ki = _frC((e - 10 - i * 35) / 90); if (ki <= 0) return; const s = _brsBack(ki), dir = i % 2 ? -1 : 1, nt = _brsTeeth(rg.r);
         for (let k = 0; k < rg.n; k++) { const a = rg.off + k / rg.n * TAU;
-          _brsDrawGear(c, Math.cos(a) * rg.R * s, Math.sin(a) * rg.R * s, rg.r, nt, dir * e / 400 + k, _frE(ki) * (1 - close) * .8, s, i !== 0); }
-        c.strokeStyle = rgba(.45 * _frE(ki) * (1 - close), 224, 194, 94); c.lineWidth = 1; c.beginPath(); c.arc(0, 0, rg.R * s + rg.r + 4, 0, TAU); c.stroke(); });
-      const kc = _frC(e / 300), cr = M * .07;
-      _brsDrawGear(c, 0, 0, cr, _brsTeeth(cr), -e / 300, _frE(kc) * (1 - close * .6), _brsBack(kc));
+          _brsDrawGear(c, Math.cos(a) * rg.R * s, Math.sin(a) * rg.R * s, rg.r, nt, dir * e / 70 + k, _frE(ki) * (1 - close) * .8, s, i !== 0); }
+        c.strokeStyle = rgba(.45 * _frE(ki) * (1 - close), 224, 194, 94); c.lineWidth = 1; c.beginPath(); c.arc(0, 0, rg.R * s + rg.r + 3, 0, TAU); c.stroke(); });
+      const kc = _frC(e / 70), cr = m * .07;
+      _brsDrawGear(c, 0, 0, cr, _brsTeeth(cr), -e / 60, _frE(kc) * (1 - close * .6), _brsBack(kc));
       c.restore();
-      const kg = _frC(e / 700); glow(c, cx, cy, M * .2, .55 * (1 - kg) * fade);
-      if (close > 0) glow(c, cx, cy, M * .12 * (1 - close * .5), .6 * Math.sin(PI * close) * fade);
-      drawSparks(c, e, SP, 500);
+      glow(c, px, py, m * .2, .55 * (1 - _frC(e / 160)) * fade);
+      if (close > 0) glow(c, px, py, m * .12 * (1 - close * .5), .6 * Math.sin(PI * close) * fade);
+      drawSparks(c, e, SP);
     } };
   };
 })();`;
@@ -3171,12 +3173,12 @@ const BRS_NEW2 = [
     '段で蜻蛉が大きくなる。段が上がった瞬間は3匹が別々の弧で飛ぶ', false],
   ['bulbs', '⑰ エジソン電球', '画面の上の縁から長さの違う電線で電球が降りてきて揺れ、フィラメントが1つずつちらついて橙に灯る。全部灯ると一度そろって明るむ',
     '段で電球が増える（最大11）。段が上がった瞬間は左から順に灯り、灯りきった後に光が左右へ流れる', false],
-  ['difference', '⑱ 階差機関の数字輪', '画面の中央に真鍮の計算機が現れ、縦に回る数字輪が左から順にカチリと止まって白熱し、連続数（STREAK）と問題番号（No.）を示す。右のクランクが回る',
+  ['difference', '⑱ 階差機関の数字輪', '画面の上寄り（中央より上）に小さな真鍮の計算機が現れ、縦に回る数字輪が左から順にカチリと止まって白熱し、連続数（STREAK）と問題番号（No.）を示す。右のクランクが回る',
     '段が上がった瞬間は3段目に TIER の数字輪', false],
   ['cuckoo', '⑲ からくり時計の鳩', '画面の右上に鳩時計が降りてきて扉が開き、真鍮の鳩が飛び出して2回おじぎする（鳴き声の弧が左へ広がる）。戻って扉が閉まる。振り子と錘が揺れる',
     '段3〜は時計が一回り大きい。段が上がった瞬間は3回おじぎ', false],
-  ['mandala', '⑳ 歯車の曼荼羅', '画面の中央で、歯車と唐草が万華鏡のように8方向へ対称に咲き、輪ごとに逆向きに回る。最後に内側へ畳まれて消える',
-    '段3〜は外側にもう1つ歯車の輪。段が上がった瞬間は12方向', false],
+  ['mandala', '⑳ 歯車の曼荼羅', '肢の左端で、歯車と唐草が万華鏡のように8方向へ対称に咲き、輪ごとに逆向きに回る。最後に内側へ畳まれて、送る前に消える',
+    '段3〜は外側にもう1つ歯車の輪。段が上がった瞬間は12方向', true],
 ];
 /* brass 新案の台帳：[キー, 名前, 正解時, 連続正解時] */
 const BRS_NEW_CHOICE = [
