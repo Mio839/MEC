@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liquid ゲージの5案</title>
+<!--
+  ハブのヒーローゲージ（index.html #gaugeBox）を UIテーマ Liquid 向けに「ラバランプ」として作り直す案を5つ並べて見比べるページ（2026-09-29）。
+  共通のテーマは「ちぎれては元に戻る」：塊がくびれて細くなり、ぷつんと切れ、離れた先でまた溶け合う。
+  5案とも Celestial の案と同じ「動きの型」をそろえてある：
+    常時 … ゆっくり動き続けるもの（止まった絵にしない）
+    進むとき … 形そのものが進捗を表す
+    25・50・75% … 段を越えた瞬間の一度きりの演出
+    100% … 到達の演出
+    100%超 … 超えている間だけの常時演出＋金
+  描き方：各案とも canvas にメタボール（球・床・天井・弧の「場」の和が 1 を超えたところを液体とする）を毎フレーム描く。
+    くびれ・ちぎれ・再融合は場の和がしきい値をまたぐことで自然に起きる。塊は「頭」と、切れる直前まで元の液面に
+    残る「尾」の2球で持ち、切れた尾は液面へ吸い戻す（＝ぷつんと切れて戻る糸）。
+  本物の index.js は呼ばず、このページの中だけで再生する（何も保存しない）。テストの対象ではない。
+  ⚠️ 本番へ移すとき：本番の svg は transform: rotate(-90deg) を持つ。canvas は回さない（場の向き＝重力の向きが変わる）。
+  ⚠️ 本番へ移すとき：rAF で数字を動かしているのはこのページの都合。本番は CSS の transition で弧を動かし、段の演出は
+     「届く時刻の見積もり」で出す（非表示タブでは rAF が来ない）。canvas の描画は rAF で良いが、画面外・非表示では止めること。
+  ⚠️ 本番へ移すとき：1枚あたり約3万画素×球の数を毎フレーム計算する。iPad・スマホ（html.mec-lite）では解像度を下げるか 30fps に落とす。
+-->
+<style>
+  :root{--tx:#F4ECFF;--sub:#B7A6D6;--line:rgba(255,0,127,.3);--mag:#FF007F;--cy:#00F2FE;--gw:208px;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{min-height:100vh;padding:16px;color:var(--tx);font-family:-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif;
+    background:radial-gradient(ellipse 90% 60% at 20% -10%,rgba(255,0,127,.32) 0%,transparent 64%),
+               radial-gradient(circle at 85% 30%,rgba(0,242,254,.2) 0%,transparent 55%),
+               radial-gradient(circle at 30% 85%,rgba(121,40,202,.35) 0%,transparent 60%),
+               linear-gradient(180deg,#0E0724 0%,#06030F 100%);background-attachment:fixed;}
+  body.big{--gw:320px;}
+  h1{font-size:17px;margin:0 0 4px;}
+  p.note{font-size:12.5px;color:var(--sub);margin:0 0 12px;line-height:1.65;max-width:980px;}
+  p.note b{color:#FFB3D6;}
+  .ctl{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:13px;margin:0 0 14px;
+    padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:rgba(16,8,34,.94);max-width:1300px;}
+  .ctl label{white-space:nowrap;display:flex;align-items:center;gap:6px;}
+  .ctl input[type=range]{width:min(320px,70vw);accent-color:#FF007F;}
+  .ctl output{font-variant-numeric:tabular-nums;font-weight:800;color:#FF7AB8;min-width:3.5em;display:inline-block;}
+  .ctl button{padding:7px 11px;border-radius:12px;border:1.5px solid var(--line);background:#1C0E36;color:var(--tx);
+    font-weight:700;font-size:13px;cursor:pointer;}
+  .ctl button:active{background:#321858;}
+  .ctl button.hi{border-color:#FF007F;background:#34104A;}
+  input[type=checkbox]{width:18px;height:18px;accent-color:#FF007F;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:14px;max-width:1300px;}
+  .card{background:linear-gradient(160deg,rgba(70,20,90,.5),rgba(14,8,32,.9));border:1px solid var(--line);border-radius:20px;
+    padding:14px 14px 16px;box-shadow:inset 0 1px 0 rgba(255,120,190,.16),0 10px 30px rgba(0,0,0,.35);}
+  .card h2{font-size:15.5px;margin:0 0 2px;color:#FF7AB8;}
+  .card .tag{font-size:12px;color:var(--sub);line-height:1.5;}
+  .stage{display:flex;justify-content:center;padding:14px 0 6px;}
+  dl.how{font-size:12px;line-height:1.6;margin:8px 0 0;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;}
+  dl.how dt{color:#7EF3FF;font-weight:700;white-space:nowrap;}
+  dl.how dd{margin:0;color:#E4D6F5;}
+
+  /* ── 本番のゲージの外形（index.css の .gauge / .gauge-mid と同じ組み方） ── */
+  .gauge{position:relative;width:var(--gw);text-align:center;}
+  .gauge-ring{position:relative;aspect-ratio:1;}
+  .gauge-ring svg,.gauge-ring canvas{position:absolute;inset:0;width:100%;height:100%;display:block;overflow:visible;}
+  .gauge-mid{position:absolute;inset:0;display:grid;grid-auto-flow:column;align-content:center;justify-content:center;align-items:baseline;
+    font-size:calc(var(--gw)*.183);font-weight:800;letter-spacing:-.03em;color:#FFFFFF;font-variant-numeric:tabular-nums;line-height:1;
+    text-shadow:0 0 10px rgba(10,2,26,.95),0 0 3px rgba(10,2,26,.95),0 1px 1px rgba(10,2,26,.9);pointer-events:none;}
+  .gauge-mid.wide{font-size:calc(var(--gw)*.144);}
+  .gauge-mid em{font-style:normal;font-size:.5em;color:#FFD0E8;margin-left:1px;}
+  .gauge-cap{margin:8px 0 0;font-size:11px;font-weight:700;letter-spacing:.12em;color:#C9A8DA;}
+  .gauge-goal{margin:2px 0 0;font-size:12px;font-weight:700;color:#C9A8DA;}
+  .gauge-goal b{color:#FFFFFF;}
+
+  /* ── 共通の部品 ── */
+  .trk{fill:none;stroke:rgba(255,255,255,.09);stroke-width:2.6;}
+  .val{fill:none;stroke:url(#gArc);stroke-width:2.6;stroke-linecap:round;}
+  .ovf{fill:none;stroke:#FFD166;stroke-width:2.8;stroke-linecap:round;filter:drop-shadow(0 0 2px rgba(255,209,102,.8));}
+  .tick{stroke:rgba(255,255,255,.35);stroke-width:1;stroke-linecap:round;transition:stroke .4s;}
+  .tick.on{stroke:#7EF3FF;}
+  .glass{fill:none;stroke:rgba(255,255,255,.28);stroke-width:1.1;}
+  .glass2{fill:none;stroke:rgba(0,242,254,.22);stroke-width:3;}
+  .shine{fill:none;stroke:rgba(255,255,255,.55);stroke-width:2.2;stroke-linecap:round;}
+  .shine2{fill:none;stroke:rgba(255,255,255,.25);stroke-width:1.2;stroke-linecap:round;}
+  .rip{fill:none;stroke:#7EF3FF;stroke-width:1.1;transform-box:fill-box;transform-origin:center;animation:rip 1.2s cubic-bezier(.2,.8,.3,1) forwards;}
+  .rip.m{stroke:#FF7AB8;}
+  .rip.g{stroke:#FFD166;}
+  @keyframes rip{from{scale:.4;opacity:1;}to{scale:2.6;opacity:0;}}
+  .flash{fill:#FFE3F1;animation:flash 1.1s ease-out forwards;}
+  @keyframes flash{from{opacity:.38;}to{opacity:0;}}
+  .glow{transition:opacity 1.2s;}
+  .lbl{font-size:9px;font-weight:800;letter-spacing:.14em;fill:#FFFFFF;paint-order:stroke;stroke:rgba(20,4,40,.9);stroke-width:2.4px;
+    animation:lbl 1.8s ease forwards;}
+  @keyframes lbl{0%{opacity:0;translate:0 4px;}15%{opacity:1;translate:0 0;}70%{opacity:1;}100%{opacity:0;translate:0 -3px;}}
+
+  /* C の筐体 */
+  .c-metal{fill:url(#cMetal);stroke:rgba(255,255,255,.35);stroke-width:.6;}
+  .c-win{fill:url(#cWin);transition:opacity 1s;}
+</style>
+</head>
+<body>
+<h1>🫧 Liquid のヒーローゲージ 5案（ラバランプ）</h1>
+<p class="note">
+  ハブ上部の「今日の目標」ゲージを、<b>ラバランプ</b>として作り直す案です。どの案も<b>塊がくびれて細くなり、ぷつんと切れ、離れた先でまた溶け合う</b>動きを軸にしています。
+  型は Celestial の案と同じ（<b>常時の動き</b>／<b>進むほど形が育つ</b>／<b>25・50・75%の瞬間</b>／<b>100%の到達</b>／<b>100%超の常時演出と金</b>）。
+  スライダーや「0→130%を順に」で動かして比べてください。段と100%の演出は<b>数字が上がったときだけ</b>出ます（本番と同じ）。
+  現行の Liquid ゲージはハブ本体でテーマを Liquid にして見比べてください（現行は SVG と CSS アニメの部品が多く、このページには写していません）。
+</p>
+<div class="ctl">
+  <label>達成率 <input type="range" id="rg" min="0" max="160" step="1" value="0"> <output id="out">0%</output></label>
+  <button id="bSeq" class="hi">▶ 0→130% を順に</button>
+  <button data-add="10">＋10%</button>
+  <button data-add="5">＋5%（2問）</button>
+  <button data-add="-10">−10%</button>
+  <button id="bBloom">90→100%（到達だけ）</button>
+  <button data-set="130">130%（超過）</button>
+  <button data-set="0">0%へ</button>
+  <label><input type="checkbox" id="cbBig"> 大きく表示</label>
+</div>
+<div class="grid" id="grid"></div>
+
+<script>
+'use strict';
+const NS = 'http://www.w3.org/2000/svg';
+const TAU = Math.PI * 2;
+const fx = (n) => +(+n).toFixed(2);
+const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+const lerp = (a, b, k) => a + (b - a) * k;
+const ease = (k) => k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+const polar = (r, a) => [84 + r * Math.sin(a), 84 - r * Math.cos(a)];   // a はラジアン・0＝真上・時計回り
+function rng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+const ARC = (r, cls) => `<circle class="${cls}" cx="84" cy="84" r="${r}" pathLength="100" transform="rotate(-90 84 84)"/>`;
+function dash(el, v) {
+  v = clamp(v, 0, 100);
+  el.setAttribute('stroke-dasharray', v.toFixed(2) + ' 100');
+  el.style.visibility = v > 0.05 ? '' : 'hidden';
+}
+function spawn(parent, html, ms) {
+  const g = document.createElementNS(NS, 'g'); g.innerHTML = html; parent.appendChild(g);
+  setTimeout(() => g.remove(), ms); return g;
+}
+const RIP = (x, y, r, cls = '', delay = 0) => `<circle class="rip ${cls}" cx="${fx(x)}" cy="${fx(y)}" r="${r}" style="animation-delay:${delay}ms"/>`;
+const TICKS = (r0, r1) => [0.25, 0.5, 0.75].map((k) => {
+  const [x0, y0] = polar(r0, k * TAU), [x1, y1] = polar(r1, k * TAU);
+  return `<line class="tick" data-m="${k * 100}" x1="${fx(x0)}" y1="${fx(y0)}" x2="${fx(x1)}" y2="${fx(y1)}"/>`;
+}).join('');
+const DEFS = `<defs>
+  <linearGradient id="gArc" gradientUnits="userSpaceOnUse" x1="10" y1="10" x2="158" y2="158">
+    <stop offset="0" stop-color="#00F2FE"/><stop offset=".5" stop-color="#B04CFF"/><stop offset="1" stop-color="#FF007F"/></linearGradient>
+  <radialGradient id="gPool" cx="50%" cy="42%" r="60%"><stop offset="0" stop-color="#1D0B3C"/><stop offset=".7" stop-color="#10062A"/><stop offset="1" stop-color="#07031A"/></radialGradient>
+  <radialGradient id="gHeat" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FF3D8B" stop-opacity=".75"/><stop offset=".5" stop-color="#FF007F" stop-opacity=".25"/><stop offset="1" stop-color="#FF007F" stop-opacity="0"/></radialGradient>
+  <radialGradient id="gGold" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFD166" stop-opacity=".6"/><stop offset="1" stop-color="#FFD166" stop-opacity="0"/></radialGradient>
+</defs>`;
+
+/* ══════════════════════ メタボールの描画器 ══════════════════════
+   場 f = Σ 球 r²/d² ＋ 床・天井 (k/(d+k))² ＋ 弧 w²/d²。f ≥ 1 が液体。
+   陰影は場の勾配から法線を作って光を当てる（f が大きい芯ほど正面を向く＝ぷるんとした塊に見える）。 */
+class Goo {
+  constructor(canvas, N = 176) {
+    this.cv = canvas; this.ctx = canvas.getContext('2d');
+    this.N = N; this.s = 168 / N;
+    this.off = document.createElement('canvas'); this.off.width = this.off.height = N;
+    this.octx = this.off.getContext('2d'); this.img = this.octx.createImageData(N, N);
+    this.f = new Float32Array(N * N); this.mask = new Uint8Array(N * N).fill(1);
+    this.rho = new Float32Array(N * N); this.phi = new Float32Array(N * N);
+    this.xs = new Float32Array(N); this.col = new Float32Array(N);
+    for (let px = 0; px < N; px++) this.xs[px] = (px + 0.5) * this.s;
+    for (let py = 0; py < N; py++) for (let px = 0; px < N; px++) {
+      const dx = (px + 0.5) * this.s - 84, dy = (py + 0.5) * this.s - 84, i = py * N + px;
+      this.rho[i] = Math.hypot(dx, dy);
+      let a = Math.atan2(dx, -dy); if (a < 0) a += TAU; this.phi[i] = a;
+    }
+    this.pal = { top: [180, 30, 200], bot: [255, 20, 120], rim: [0, 242, 254], dark: 0.2 };
+    this.gpal = { top: [255, 200, 80], bot: [255, 170, 40], rim: [255, 255, 220] };
+    this.gold = 0; this.hot = 0;
+    const L = [-0.45, -0.65, 0.62], l = Math.hypot(...L); this.L = L.map((v) => v / l);
+    const H = [this.L[0], this.L[1], this.L[2] + 1], h = Math.hypot(...H); this.H = H.map((v) => v / h);
+    this.resize();
+  }
+  setMask(fn) { const N = this.N; for (let py = 0; py < N; py++) for (let px = 0; px < N; px++) this.mask[py * N + px] = fn((px + 0.5) * this.s, (py + 0.5) * this.s) ? 1 : 0; }
+  resize() {
+    const r = this.cv.getBoundingClientRect(), d = Math.min(2, window.devicePixelRatio || 1);
+    this.cv.width = Math.max(1, Math.round(r.width * d)); this.cv.height = Math.max(1, Math.round(r.height * d));
+  }
+  // S = { balls:[x,y,r²,…], floors:[Surf], ceils:[Surf], arcs:[{R,a0,a1,w}] , t }
+  render(S) {
+    const N = this.N, s = this.s, f = this.f, mask = this.mask, B = S.balls, nb = B.length;
+    const floors = (S.floors || []).map((u) => { const a = new Float32Array(N); for (let i = 0; i < N; i++) a[i] = u.at(this.xs[i], S.t); return [a, u.k]; });
+    const ceils = (S.ceils || []).map((u) => { const a = new Float32Array(N); for (let i = 0; i < N; i++) a[i] = u.at(this.xs[i], S.t); return [a, u.k]; });
+    const arcs = (S.arcs || []).filter((a) => a.a1 - a.a0 > 0.005).map((a) => {
+      const full = a.a1 - a.a0 >= TAU - 0.001, e0 = polar(a.R, a.a0), e1 = polar(a.R, a.a1);
+      return { R: a.R, a0: a.a0, a1: a.a1, w2: a.w * a.w, full, e0, e1 };
+    });
+    for (let py = 0; py < N; py++) {
+      const y = (py + 0.5) * s;
+      for (let px = 0; px < N; px++) {
+        const i = py * N + px;
+        if (!mask[i]) { f[i] = 0; continue; }
+        const x = this.xs[px]; let v = 0;
+        for (let k = 0; k < nb; k += 3) { const dx = x - B[k], dy = y - B[k + 1]; v += B[k + 2] / (dx * dx + dy * dy + 0.4); }
+        for (const [a, kk] of floors) { const d = a[px] - y; v += d <= 0 ? 1.4 - d * 0.1 : (kk / (d + kk)) ** 2; }
+        for (const [a, kk] of ceils) { const d = y - a[px]; v += d <= 0 ? 1.4 - d * 0.1 : (kk / (d + kk)) ** 2; }
+        for (const a of arcs) {
+          let d; const ph = this.phi[i];
+          if (a.full || (ph >= a.a0 && ph <= a.a1)) d = Math.abs(this.rho[i] - a.R);
+          else d = Math.min(Math.hypot(x - a.e0[0], y - a.e0[1]), Math.hypot(x - a.e1[0], y - a.e1[1]));
+          v += a.w2 / (d * d + 0.3);
+        }
+        f[i] = v;
+      }
+    }
+    // 陰影
+    const D = this.img.data, P = this.pal, G = this.gpal, gk = this.gold, Lg = this.L, Hh = this.H, hot = this.hot;
+    for (let py = 0; py < N; py++) {
+      const ty = py / (N - 1);
+      const br = lerp(lerp(P.top[0], P.bot[0], ty), lerp(G.top[0], G.bot[0], ty), gk);
+      const bg = lerp(lerp(P.top[1], P.bot[1], ty), lerp(G.top[1], G.bot[1], ty), gk);
+      const bb = lerp(lerp(P.top[2], P.bot[2], ty), lerp(G.top[2], G.bot[2], ty), gk);
+      const rr = lerp(P.rim[0], G.rim[0], gk), rg = lerp(P.rim[1], G.rim[1], gk), rb = lerp(P.rim[2], G.rim[2], gk);
+      for (let px = 0; px < N; px++) {
+        const i = py * N + px, o = i * 4, v = f[i];
+        if (v < 0.42) { D[o + 3] = 0; continue; }
+        // 縁の外のにじみ（光の暈）
+        const halo = v < 1 ? Math.pow((v - 0.42) / 0.58, 3) * (0.3 + hot * 0.25) : 0;
+        const body = clamp((v - 0.965) / 0.07, 0, 1);
+        if (body <= 0) {
+          D[o] = Math.min(255, br * 1.15); D[o + 1] = Math.min(255, bg * 1.15); D[o + 2] = Math.min(255, bb * 1.15); D[o + 3] = halo * 255; continue;
+        }
+        const gx = (px < N - 1 ? f[i + 1] : v) - (px > 0 ? f[i - 1] : v);
+        const gy = (py < N - 1 ? f[i + N] : v) - (py > 0 ? f[i - N] : v);
+        const g = Math.hypot(gx, gy) + 1e-6;
+        const t = clamp((v - 1) / 1.5, 0, 1), tilt = 1 - t * t * (3 - 2 * t);
+        const nx = -gx / g * tilt, ny = -gy / g * tilt, nz = Math.sqrt(Math.max(0, 1 - tilt * tilt));
+        const diff = Math.max(0, nx * Lg[0] + ny * Lg[1] + nz * Lg[2]);
+        const sp = Math.pow(Math.max(0, nx * Hh[0] + ny * Hh[1] + nz * Hh[2]), 30);
+        const rim = Math.pow(tilt, 3);
+        const core = 1 - P.dark * t;
+        const shade = (0.42 + 0.7 * diff + gk * 0.18) * core;
+        let cr = br * shade + rr * rim * 0.55 + sp * 255 * 0.9;
+        let cg = bg * shade + rg * rim * 0.55 + sp * 255 * 0.9;
+        let cb = bb * shade + rb * rim * 0.55 + sp * 255 * 0.9;
+        const k = body;
+        D[o] = Math.min(255, lerp(br * 1.15, cr, k)); D[o + 1] = Math.min(255, lerp(bg * 1.15, cg, k)); D[o + 2] = Math.min(255, lerp(bb * 1.15, cb, k));
+        D[o + 3] = 255 * Math.max(halo, k * 0.97);
+      }
+    }
+    this.octx.putImageData(this.img, 0, 0);
+    const c = this.ctx; c.clearRect(0, 0, this.cv.width, this.cv.height);
+    c.imageSmoothingEnabled = true; c.imageSmoothingQuality = 'high';
+    c.drawImage(this.off, 0, 0, this.cv.width, this.cv.height);
+  }
+}
+
+/* 液面（床 sign=+1／天井 sign=-1）。bump は「ぷつん」「どぷん」で立つ減衰振動 */
+class Surf {
+  constructor(base, k = 8) { this.base = base; this.k = k; this.bumps = []; }
+  at(x, t) {
+    let L = this.base + Math.sin(x * 0.11 + t * 1.1) * 0.7 + Math.sin(x * 0.05 - t * 0.7) * 0.6;
+    for (const u of this.bumps) { const dx = x - u.x; L += u.a * Math.exp(-dx * dx / (u.w * u.w)) * Math.exp(-u.age * 2.4) * Math.cos(u.age * 8); }
+    return L;
+  }
+  bump(x, a, w = 10) { this.bumps.push({ x, a, w, age: 0 }); if (this.bumps.length > 10) this.bumps.shift(); }
+  step(dt) { this.bumps.forEach((u) => { u.age += dt; }); this.bumps = this.bumps.filter((u) => u.age < 2.4); }
+}
+
+/* ══════════════════════ ラバランプの対流（A・C・E が使う） ══════════════════════
+   塊＝頭の球＋尾の球。床から「頭」が浮き、尾は液面に残ってくびれを作る。
+   離れすぎたら尾が切れて液面へ吸い戻る（ぷつん）。上で冷えた塊はときどき2つにちぎれ、引き合ってまた1つに戻る。 */
+let BID = 0;
+class Lamp {
+  constructor(o) {
+    Object.assign(this, { max: 4, rMin: 5, rMax: 8, top: () => 0, wall: () => [0, 168], spawnX: null, seed: 3, auto: true, ceil: null, riseV: 1 }, o);
+    this.R = rng(this.seed); this.b = []; this.cd = 0.4; this.t = 0;
+  }
+  launch(o = {}) {
+    const R = this.R, r = o.r || lerp(this.rMin, this.rMax, R());
+    const x = o.x != null ? o.x : this.spawnX(R, r);
+    const L = this.floor.at(x, this.t);
+    const b = { id: ++BID, x, y: L + r * 0.35, vx: 0, vy: 0, r0: r, r, ph: 'rise', sp: o.sp || 1, s: R() * 6, wt: 9, cool: 0, mate: null, st: 0,
+      tl: { x, y: L + r * 0.55, r: r * 0.85, on: 1, vy: 0 }, onTop: o.onTop || null };
+    this.b.push(b); return b;
+  }
+  split(b, n = 2, kick = 14) {
+    const R = this.R, r = b.r0 / Math.sqrt(n), a0 = R() * Math.PI, kids = [b];
+    b.r0 = r;
+    for (let k = 1; k < n; k++) kids.push({ ...b, id: ++BID, tl: null, s: b.s + k });
+    kids.forEach((c, k) => {
+      const a = a0 + k * TAU / n;
+      c.vx += Math.cos(a) * kick; c.vy += Math.sin(a) * kick * 0.7; c.wt = 0; c.st = this.t; c.onTop = null;
+    });
+    for (let k = 0; k < n; k++) kids[k].mate = kids[(k + 1) % n];
+    kids.slice(1).forEach((c) => this.b.push(c));
+    return kids;
+  }
+  step(dt, heat) {
+    this.t += dt; const R = this.R, t = this.t;
+    if (this.auto) {
+      this.cd -= dt * (0.3 + heat * 0.9);
+      if (this.cd <= 0) { if (this.b.length < this.max * (0.35 + Math.min(1, heat) * 0.65) + 0.5) this.launch(); this.cd = 0.9 + R() * 1.8; }
+    }
+    for (const b of this.b) {
+      if (b.ph === 'gone') continue;
+      const L = this.floor.at(b.x, t);
+      b.wt += dt;
+      if (b.ph === 'rise') {
+        const vt = -(6 + heat * 10) * b.sp * this.riseV;
+        b.vy += (vt - b.vy) * Math.min(1, dt * 1.3);
+        b.vx += (Math.sin(t * 0.6 + b.s) * 3 - b.vx) * dt;
+        const tl = b.tl;
+        if (tl && tl.on) {
+          tl.x += (b.x - tl.x) * Math.min(1, dt * 4);
+          tl.y += (b.y + b.r0 * 1.05 - tl.y) * Math.min(1, dt * 2.4);
+          tl.y = Math.max(tl.y, L - b.r0 * 0.3);
+          if (tl.y - b.y > b.r0 * 2.45) { tl.on = 0; tl.vy = 26; this.floor.bump(b.x, -2.2, 9); b.wt = 0; b.vy -= 5; }
+        }
+        const ty = this.ceil ? this.ceil.at(b.x, t) : this.top(b.x) + b.r0;
+        if (this.ceil) {
+          if (b.y < ty + b.r0 * 0.2) { b.ph = 'gone'; this.ceil.bump(b.x, 2.4, 10); if (b.onTop) b.onTop(b); }
+        } else if (b.y <= ty + 1.5) {
+          b.ph = 'top'; b.cool = 1.4 + R() * 2.6;
+          if (b.onTop) { const f = b.onTop; b.onTop = null; f(b); }
+        }
+      } else if (b.ph === 'top') {
+        b.vy += (0 - b.vy) * dt * 2;
+        b.vx += (Math.sin(t * 0.4 + b.s) * 5 - b.vx) * dt;
+        b.cool -= dt;
+        if (!b.mate && b.r0 >= 6 && R() < dt * 0.14 * (0.5 + heat)) this.split(b);
+        if (b.cool <= 0 && !b.mate) b.ph = 'sink';
+      } else if (b.ph === 'sink') {
+        const vt = 4 + heat * 5;
+        b.vy += (vt - b.vy) * dt * 0.8; b.vx *= 1 - dt;
+        if (b.y > L + b.r0 * 1.15) { b.ph = 'gone'; this.floor.bump(b.x, 1.8, 10); }
+      }
+      // ちぎれた相方と引き合って、また1つに戻る
+      const m = b.mate;
+      if (m) {
+        if (m.ph === 'gone' || m.mate == null) { b.mate = null; }
+        else if (t - b.st > 0.9) {
+          const dx = m.x - b.x, dy = m.y - b.y, d = Math.hypot(dx, dy);
+          b.vx += dx * dt * 2.4; b.vy += dy * dt * 2.4;
+          if (d < (b.r0 + m.r0) * 0.3) {
+            b.r0 = Math.hypot(b.r0, m.r0); b.x = (b.x + m.x) / 2; b.y = (b.y + m.y) / 2;
+            b.vx = (b.vx + m.vx) / 2; b.vy = (b.vy + m.vy) / 2; b.wt = 0; b.cool = Math.max(b.cool, m.cool);
+            m.ph = 'gone';
+            // 輪（3つ以上）に分かれていたら、残りをこちらへつなぎ直す
+            const nx = m.mate; m.mate = null;
+            b.mate = nx && nx !== b && nx.ph !== 'gone' ? nx : null;
+            if (b.mate) { b.st = t - 1; }
+            else { for (const o of this.b) if (o.mate === m) o.mate = o === b ? null : b; }
+          }
+        }
+      }
+      if (b.ph === 'gone') continue;
+      b.x += b.vx * dt; b.y += b.vy * dt;
+      const [x0, x1] = this.wall(b.y);
+      if (b.x < x0 + b.r0) { b.x = x0 + b.r0; b.vx = Math.abs(b.vx) * 0.3; }
+      if (b.x > x1 - b.r0) { b.x = x1 - b.r0; b.vx = -Math.abs(b.vx) * 0.3; }
+      if (!this.ceil) { const ty = this.top(b.x) + b.r0 * 0.95; if (b.y < ty) { b.y = ty; if (b.vy < 0) b.vy = 0; } }
+      b.r = b.r0 * (1 + 0.13 * Math.exp(-b.wt * 3.2) * Math.sin(b.wt * 17));
+      if (b.tl && !b.tl.on) { b.tl.y += b.tl.vy * dt; b.tl.r -= dt * b.r0 * 2.2; if (b.tl.r < 0.3) b.tl = null; }
+    }
+    this.b = this.b.filter((b) => b.ph !== 'gone');
+  }
+  sources(out) {
+    for (const b of this.b) {
+      out.push(b.x, b.y, b.r * b.r);
+      if (b.tl) out.push(b.tl.x, b.tl.y, b.tl.r * b.tl.r);
+    }
+  }
+}
+
+/* 共通：熱と金の追従 */
+function warm(g, dt) {
+  const tgt = g.v > 100 ? 1.25 : 0.12 + 0.88 * Math.min(1, g.v / 100);
+  g.heat += (tgt - g.heat) * Math.min(1, dt * 0.9);
+  g.goo.gold += ((g.v > 100 ? 1 : 0) - g.goo.gold) * Math.min(1, dt * 1.1);
+  g.goo.hot = Math.min(1, g.heat);
+}
+function circleWall(R) { return (y) => { const dy = y - 84, hw = Math.sqrt(Math.max(0, R * R - dy * dy)); return [84 - hw, 84 + hw]; }; }
+function circleTop(R) { return (x) => 84 - Math.sqrt(Math.max(0, R * R - (x - 84) * (x - 84))); }
+function outerArc() { return `${ARC(79, 'trk')}${ARC(79, 'val')}${ARC(79, 'ovf')}`; }
+function tickLight(g, m) { g.svg.querySelectorAll(`.tick[data-m="${m}"]`).forEach((n) => n.classList.add('on')); }
+function tickSync(g, b) { g.svg.querySelectorAll('.tick').forEach((n) => n.classList.toggle('on', b >= +n.dataset.m)); }
+
+/* ══════════════════════ A. 丸窓のラバランプ ══════════════════════ */
+const A = {
+  key: 'A', name: '丸窓のラバランプ', tag: '丸いガラス窓の底に溶岩が溜まっていく。溜まるほど熱くなり、塊がちぎれて昇っては戻ってくる',
+  how: [['常時', '底の溜まりから塊がくびれて浮き、ぷつんと切れて昇る（切れた糸は底へ吸い戻る）。上で冷えた塊は2つにちぎれ、引き合ってまた1つになってから沈む'],
+        ['進むとき', '底の溶岩の溜まりが上がり、熱で昇る塊の数と速さが増える。外周の弧が進捗'],
+        ['25・50・75%', '大きな塊がどぷんと1つ跳ね上がり、液面に波紋。外周の目盛りが灯る'],
+        ['100%', '窓の中の塊がいっせいに2つ・3つにちぎれ、ひと呼吸おいて全部また溶け合う。窓が一度光る'],
+        ['100%超', '溶岩が金色に変わり、対流が速くなる。外周は金の2周目']],
+  svgBg: () => `<circle cx="84" cy="84" r="67" fill="url(#gPool)"/>
+    <ellipse class="glow a-heat" cx="84" cy="150" rx="60" ry="26" fill="url(#gHeat)" opacity=".3"/>`,
+  svgFg: () => `<circle class="glass2" cx="84" cy="84" r="67.5"/><circle class="glass" cx="84" cy="84" r="68"/>
+    <path class="shine" d="M 40,52 A 56 56 0 0 1 72,30"/><path class="shine2" d="M 118,138 A 60 60 0 0 0 138,112"/>
+    ${TICKS(72, 75)}${outerArc()}<g class="fxl"></g>`,
+  init() {
+    this.goo.pal = { top: [170, 40, 230], bot: [255, 20, 110], rim: [0, 242, 254], dark: 0.15 };
+    this.goo.setMask((x, y) => Math.hypot(x - 84, y - 84) < 66.5);
+    this.floor = new Surf(146, 8);
+    this.lamp = new Lamp({ floor: this.floor, max: 6, rMin: 5, rMax: 8.5, seed: 11, wall: circleWall(65), top: circleTop(65),
+      spawnX: (R, r) => 84 + (R() * 2 - 1) * 30 });
+    this.heatEl = this.svg.querySelector('.a-heat');
+  },
+  frame(b, v) { dash(this.val, b); dash(this.ovf, v - 100); tickSync(this, b); },
+  tick(dt) {
+    warm(this, dt);
+    this.floor.base += (146 - 24 * Math.min(1, this.v / 100) - this.floor.base) * Math.min(1, dt * 2);
+    this.floor.step(dt); this.lamp.step(dt, this.heat);
+    this.heatEl.setAttribute('opacity', (0.25 + this.heat * 0.5).toFixed(2));
+    const S = []; this.lamp.sources(S);
+    this.goo.render({ balls: S, floors: [this.floor], t: this.lamp.t });
+  },
+  stage(m) {
+    const x = 84 + (m - 50) * 0.5;
+    this.lamp.launch({ x, r: 10, sp: 1.8 });
+    this.floor.bump(x, -4, 14);
+    spawn(this.fxl, RIP(x, this.floor.base, 8) + RIP(x, this.floor.base, 8, 'm', 180), 1600);
+  },
+  bloom() {
+    this.lamp.b.forEach((b) => { if (!b.mate && b.r0 > 4) this.lamp.split(b, b.r0 > 7 ? 3 : 2, 18); });
+    this.lamp.launch({ x: 70, r: 9, sp: 1.5 }); this.lamp.launch({ x: 100, r: 8, sp: 1.3 });
+    spawn(this.fxl, `<circle class="flash" cx="84" cy="84" r="67"/>` + RIP(84, 84, 30, 'm') + RIP(84, 84, 30, '', 200), 1500);
+  }
+};
+
+/* ══════════════════════ B. 滴る溶岩の輪 ══════════════════════ */
+const Bg = {
+  key: 'B', name: '滴る溶岩の輪', tag: '進捗の弧そのものが溶岩。先端がふくらんで雫がちぎれ、中心の溜まりへ落ちる。溜まりからは雫が弧へ戻っていく',
+  how: [['常時', '弧の中を塊が流れ、先端がふくらむ。雫が内側へ垂れてくびれ、ぷつんと切れて中心へ落ちる（切れた糸は弧へ吸い戻る）。ときどき中心から雫が弧へ打ち返されて溶け込む'],
+        ['進むとき', '溶岩の弧が時計回りに伸び、中心の溜まりが太る（数字の後ろ＝芯は暗く、縁だけ光る）'],
+        ['25・50・75%', '先端から雫が3つ続けて落ち、先端に波紋'],
+        ['100%', '弧の頭と尾がつながって輪になり、中心から雫が8方向へ飛んで輪に溶け込む'],
+        ['100%超', '輪が金になり、太った塊が輪を周回する。外に金の細い2周目']],
+  svgBg: () => `<circle cx="84" cy="84" r="74" fill="url(#gPool)" opacity=".75"/>`,
+  svgFg: () => `<circle class="glass" cx="84" cy="84" r="74"/><path class="shine2" d="M 30,60 A 58 58 0 0 1 60,28"/>
+    ${TICKS(74.5, 77.5)}${ARC(79, 'ovf')}<g class="fxl"></g>`,
+  init() {
+    this.goo.pal = { top: [255, 20, 140], bot: [150, 40, 230], rim: [0, 242, 254], dark: 0.55 };
+    this.goo.setMask((x, y) => Math.hypot(x - 84, y - 84) < 73.5);
+    this.R = 64; this.w = 3.3; this.th = 0; this.core = 7; this.cp = 0; this.t = 0; this.cd = 1.2; this.ret = 3; this.drops = []; this.rb = []; this.rand = rng(23);
+  },
+  frame(b, v) { this.thT = b / 100 * TAU; dash(this.ovf, v - 100); tickSync(this, b); },
+  drip(a, fast) {
+    this.drops.push({ k: 'drip', a, rho: this.R - 1, r: 0.5, rT: fast ? 5 : 4.2 + this.rand() * 1.8, st: 'swell', vr: 0, tl: null, fast });
+  },
+  shoot(a, v = 42) {
+    this.drops.push({ k: 'shot', a, rho: this.core * 0.4, r: 3.6, vr: v, st: 'out', tl: { rho: this.core * 0.4, r: 3.2, on: 1, vr: 0 } });
+  },
+  tick(dt) {
+    warm(this, dt); this.t += dt; const R = this.rand, t = this.t;
+    this.th += ((this.thT || 0) - this.th) * Math.min(1, dt * 5);
+    this.core += (7 + 7 * Math.min(1, this.v / 100) - this.core) * Math.min(1, dt * 1.5);
+    this.cp *= Math.exp(-dt * 3);
+    if (this.th > 0.12) {
+      this.cd -= dt * (0.35 + this.heat * 0.75);
+      if (this.cd <= 0 && this.drops.filter((d) => d.k === 'drip').length < 2) { this.drip(this.th); this.cd = 2 + R() * 1.4; }
+      this.ret -= dt * (0.25 + this.heat * 0.4);
+      if (this.ret <= 0 && this.th > 0.4) { this.shoot(R() * this.th * 0.9 + 0.05); this.ret = 3 + R() * 3; }
+    }
+    const anchor = this.R - this.w;
+    for (const d of this.drops) {
+      if (d.k === 'drip') {
+        if (d.st === 'swell') {
+          d.r = Math.min(d.rT, d.r + dt * d.rT * (d.fast ? 2.6 : 1.1));
+          d.rho = this.R - this.w * 0.2 - d.r * 0.55;
+          if (d.r >= d.rT) { d.st = 'hang'; d.tl = { rho: anchor, r: d.r * 0.8, on: 1, vr: 0 }; }
+        } else if (d.st === 'hang') {
+          d.rho -= dt * (d.fast ? 14 : 5 + this.heat * 5);
+          const tl = d.tl; tl.rho += (d.rho + d.r * 1.05 - tl.rho) * Math.min(1, dt * 2.5);
+          tl.rho = Math.min(Math.max(tl.rho, anchor - d.r * 0.25), anchor + 1);
+          if (anchor - d.rho > d.r * 2.45) { tl.on = 0; tl.vr = 24; d.st = 'fall'; d.vr = -4; this.rb.push({ a: d.a, age: 0, amp: 0.7 }); }
+        } else if (d.st === 'fall') {
+          d.vr -= dt * 75; d.rho += d.vr * dt;
+          if (d.rho < this.core + d.r * 0.2) { d.st = 'gone'; this.cp = Math.min(1.4, this.cp + 0.6); }
+        }
+      } else {
+        // 中心から弧へ打ち返される雫（中心の溜まりからくびれて離れる）
+        d.vr = Math.max(8, d.vr - dt * 22); d.rho += d.vr * dt;
+        const tl = d.tl;
+        if (tl && tl.on) { tl.rho += (d.rho - d.r * 1.05 - tl.rho) * Math.min(1, dt * 3); tl.rho = Math.min(tl.rho, this.core - d.r * 0.2);
+          if (d.rho - this.core > d.r * 2.5) { tl.on = 0; tl.vr = -18; this.cp += 0.3; } }
+        if (d.rho >= this.R - this.w * 0.6) {
+          d.st = 'gone'; this.rb.push({ a: d.a, age: 0, amp: 1 });
+          if (d.a > this.th + 0.02) this.rb[this.rb.length - 1].amp = 0;   // 弧の外に届いた雫は溶ける場所が無いので消えるだけ
+        }
+      }
+      if (d.tl && !d.tl.on) { d.tl.rho += d.tl.vr * dt; d.tl.r -= dt * 12; if (d.tl.r < 0.3) d.tl = null; }
+    }
+    this.drops = this.drops.filter((d) => d.st !== 'gone' || d.tl);
+    this.rb.forEach((u) => { u.age += dt; }); this.rb = this.rb.filter((u) => u.age < 1.6);
+
+    const S = [];
+    const ball = (rho, a, r) => { const [x, y] = polar(rho, a); S.push(x, y, r * r); };
+    const cr = this.core * (1 + 0.12 * this.cp * Math.sin(t * 16) + 0.04 * Math.sin(t * 2.1));
+    S.push(84, 84, cr * cr);
+    if (this.th > 0.02) {
+      ball(this.R, this.th, this.w * (1.3 + 0.08 * Math.sin(t * 3)));   // 先端のふくらみ
+      const nF = this.v > 100 ? 4 : 2;                                   // 弧の中を流れる塊
+      for (let k = 0; k < nF; k++) {
+        const u = ((t * (0.05 + this.heat * 0.05) + k / nF) % 1);
+        ball(this.R, u * this.th, this.w * (1.05 + 0.25 * Math.sin(u * Math.PI)));
+      }
+    }
+    for (const u of this.rb) if (u.amp) ball(this.R, u.a, this.w * (1 + u.amp * 0.9 * Math.exp(-u.age * 3) * (1 + Math.sin(u.age * 14) * 0.3)));
+    for (const d of this.drops) {
+      if (d.st !== 'gone') ball(d.rho, d.a, d.r);
+      if (d.tl) ball(d.tl.rho, d.a, d.tl.r);
+    }
+    this.goo.render({ balls: S, arcs: [{ R: this.R, a0: 0, a1: Math.min(TAU, this.th), w: this.w }], t });
+  },
+  stage(m) {
+    const a = m / 100 * TAU;
+    [0, 260, 520].forEach((ms) => setTimeout(() => this.drip(this.th, true), ms));
+    const [x, y] = polar(this.R, a);
+    spawn(this.fxl, RIP(x, y, 5, 'm') + RIP(x, y, 5, '', 200), 1600);
+  },
+  bloom() {
+    for (let k = 0; k < 8; k++) setTimeout(() => this.shoot(k * TAU / 8 + 0.2, 70), 350 + k * 40);
+    const [x, y] = polar(this.R, 0);
+    spawn(this.fxl, RIP(x, y, 6, 'm') + `<circle class="flash" cx="84" cy="84" r="74"/>` + RIP(84, 84, 36, '', 400), 1700);
+  }
+};
+
+/* ══════════════════════ C. 本物のラバランプ ══════════════════════ */
+const hwC = (y) => 10 + (y - 34) / 94 * 14;   // ガラスの半幅（上が細く下が太い円錐）
+const C = {
+  key: 'C', name: '本物のラバランプ', tag: 'ゲージの中に、上すぼまりのガラス瓶と金属の台座を持つ、あの形のランプを1本立てる',
+  how: [['常時', '瓶の底のワックスがくびれて昇り、ぷつんと切れる。上で冷えた塊は細い瓶の中で2つにちぎれ、また1つに戻って沈む'],
+        ['進むとき', '外周の弧が進捗。台座の電球が明るくなり、ワックスが冷たい紫から熱いマゼンタへ、動きも速くなる'],
+        ['25・50・75%', '電球がカチッと一段明るくなり、大きな塊が1つ昇る'],
+        ['100%', 'ランプ全体が灯り、昇った大きな塊が瓶の上で3つにちぎれて、また1つに溶け合う'],
+        ['100%超', 'ワックスが金色に。瓶のまわりに金の光がにじみ、外周は金の2周目']],
+  svgBg: () => `<defs>
+      <linearGradient id="cMetal" x1="0" x2="1"><stop offset="0" stop-color="#3A2A5C"/><stop offset=".35" stop-color="#E9D8FF"/><stop offset=".55" stop-color="#8C74B8"/><stop offset=".8" stop-color="#FF7AB8"/><stop offset="1" stop-color="#2A1C44"/></linearGradient>
+      <linearGradient id="cLiq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B0E3E"/><stop offset="1" stop-color="#3A0F4E"/></linearGradient>
+      <radialGradient id="cWin" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFF1C9"/><stop offset=".5" stop-color="#FF7AB8" stop-opacity=".7"/><stop offset="1" stop-color="#FF007F" stop-opacity="0"/></radialGradient>
+    </defs>
+    <circle cx="84" cy="84" r="74" fill="url(#gPool)" opacity=".6"/>
+    <ellipse class="glow c-amb" cx="84" cy="96" rx="42" ry="60" fill="url(#gHeat)" opacity=".2"/>
+    <ellipse class="glow c-gold" cx="84" cy="84" rx="44" ry="62" fill="url(#gGold)" opacity="0"/>
+    <path d="M 74,34 L 94,34 L 108,128 L 60,128 Z" fill="url(#cLiq)" opacity=".85"/>`,
+  svgFg: () => `
+    <path d="M 74,34 L 94,34 L 108,128 L 60,128 Z" fill="none" stroke="rgba(255,255,255,.3)" stroke-width=".8"/>
+    <path d="M 78,40 L 70,120" stroke="rgba(255,255,255,.28)" stroke-width="2" stroke-linecap="round"/>
+    <path class="c-metal" d="M 77,20 L 91,20 L 95,34 L 73,34 Z"/>
+    <path class="c-metal" d="M 60,128 L 108,128 L 112,137 L 104,146 L 64,146 L 56,137 Z"/>
+    <ellipse class="c-win" cx="84" cy="128.5" rx="22" ry="2.6" opacity=".4"/>
+    ${TICKS(72, 75)}${outerArc()}<g class="fxl"></g>`,
+  init() {
+    this.goo.pal = { top: [120, 60, 240], bot: [255, 30, 130], rim: [255, 170, 220], dark: 0.1 };
+    this.goo.gpal = { top: [255, 170, 50], bot: [255, 220, 120], rim: [255, 255, 230] };
+    this.goo.setMask((x, y) => y > 34.5 && y < 127.5 && Math.abs(x - 84) < hwC(y) - 0.6);
+    this.floor = new Surf(126, 6);
+    this.lamp = new Lamp({ floor: this.floor, max: 4, rMin: 4, rMax: 6.5, seed: 5, riseV: 0.85,
+      wall: (y) => { const h = hwC(clamp(y, 34, 128)); return [84 - h + 0.8, 84 + h - 0.8]; }, top: () => 35.5,
+      spawnX: (R, r) => 84 + (R() * 2 - 1) * Math.max(0, hwC(124) - r - 2) });
+    this.amb = this.svg.querySelector('.c-amb'); this.win = this.svg.querySelector('.c-win'); this.gl = this.svg.querySelector('.c-gold');
+    this.pal0 = { top: [70, 90, 220], bot: [150, 50, 220] }; this.pal1 = { top: [200, 30, 190], bot: [255, 40, 110] };
+  },
+  frame(b, v) { dash(this.val, b); dash(this.ovf, v - 100); tickSync(this, b); },
+  tick(dt) {
+    warm(this, dt);
+    const h = Math.min(1, this.heat);
+    this.goo.pal.top = this.pal0.top.map((c, i) => lerp(c, this.pal1.top[i], h));
+    this.goo.pal.bot = this.pal0.bot.map((c, i) => lerp(c, this.pal1.bot[i], h));
+    this.floor.base += (126 - 5 * Math.min(1, this.v / 100) - this.floor.base) * Math.min(1, dt * 2);
+    this.floor.step(dt); this.lamp.step(dt, this.heat);
+    this.amb.setAttribute('opacity', (0.12 + h * 0.5).toFixed(2));
+    this.win.setAttribute('opacity', (0.3 + h * 0.7).toFixed(2));
+    this.gl.setAttribute('opacity', (this.goo.gold * 0.8).toFixed(2));
+    const S = []; this.lamp.sources(S);
+    this.goo.render({ balls: S, floors: [this.floor], t: this.lamp.t });
+  },
+  stage() {
+    this.lamp.launch({ r: 7.5, sp: 1.6, x: 84 });
+    this.win.animate([{ opacity: 1 },{ opacity: this.win.getAttribute('opacity') }], { duration: 900, easing: 'ease-out' });
+    spawn(this.fxl, RIP(84, 128, 6, 'm'), 1400);
+  },
+  bloom() {
+    this.lamp.launch({ r: 9.5, sp: 2.2, x: 84, onTop: (b) => { this.lamp.split(b, 3, 10); } });
+    spawn(this.fxl, `<ellipse class="flash" cx="84" cy="82" rx="30" ry="56"/>` + RIP(84, 84, 28, 'm') + RIP(84, 84, 28, '', 250), 1600);
+  }
+};
+
+/* ══════════════════════ D. 分裂する細胞と雫の輪 ══════════════════════ */
+const D = {
+  key: 'D', name: '分裂する細胞と雫の輪', tag: '外周に24粒の雫が浮かび、進捗のぶんだけ1本の帯に溶け込む。中心の細胞は2つにちぎれてはまた1つに戻る',
+  how: [['常時', '中心の細胞がゆっくり引き伸ばされ、くびれて2つにちぎれ、しばらく漂ってまた1つに融合する（段が上がるほど周期が速い）。帯の先の雫が先端に手を伸ばし、触れて糸を引き、ぷつんと切れて戻る'],
+        ['進むとき', '外周の雫が1粒ずつ帯に吸い込まれて、帯が伸びる（粒＝約4%）'],
+        ['25・50・75%', '細胞がちぎれたとき3つ目の娘ができ、帯の先端まで飛んで溶け込む'],
+        ['100%', '最後の1粒が吸い込まれて輪が閉じ、細胞が花のように4つに開いて、また1つに戻る'],
+        ['100%超', '輪と細胞が金に。輪の中を塊が巡り、細胞の分裂が拍を刻む']],
+  svgBg: () => `<circle cx="84" cy="84" r="74" fill="url(#gPool)" opacity=".75"/>`,
+  svgFg: () => `<circle class="glass" cx="84" cy="84" r="74"/><path class="shine2" d="M 118,26 A 62 62 0 0 1 144,56"/>
+    ${ARC(79, 'ovf')}<g class="fxl"></g>`,
+  init() {
+    this.goo.pal = { top: [0, 200, 245], bot: [110, 50, 235], rim: [255, 80, 170], dark: 0.5 };
+    this.goo.gpal = { top: [255, 190, 60], bot: [255, 140, 60], rim: [255, 250, 220] };
+    this.goo.setMask((x, y) => Math.hypot(x - 84, y - 84) < 73.5);
+    this.R = 63; this.w = 3; this.th = 0; this.t = 0; this.cyc = 0.6; this.axis = 0.5; this.rand = rng(41);
+    this.beads = Array.from({ length: 24 }, (_, i) => ({ a: (i + 0.5) * TAU / 24, st: 'loose', k: 0, fk: -1 }));
+    this.fcd = 1.5; this.fly = []; this.rb = []; this.extra = false; this.flower = -1;
+  },
+  frame(b, v) { this.thT = b / 100 * TAU; dash(this.ovf, v - 100); },
+  tick(dt) {
+    warm(this, dt); this.t += dt; const t = this.t, R = this.rand;
+    this.th += ((this.thT || 0) - this.th) * Math.min(1, dt * 5);
+    // 雫の吸い込みと、先端への「手を伸ばす」
+    for (const b of this.beads) {
+      if (b.a <= this.th && b.st === 'loose') { b.st = 'join'; b.k = 0; b.fk = -1; }
+      if (b.a > this.th + 0.01 && b.st !== 'loose') { b.st = 'loose'; }
+      if (b.st === 'join') { b.k += dt * 2.4; if (b.k >= 1) { b.st = 'in'; this.rb.push({ a: b.a, age: 0 }); } }
+    }
+    const next = this.beads.find((b) => b.st === 'loose');
+    this.fcd -= dt * (0.5 + this.heat * 0.5);
+    if (next && this.th > 0.02 && this.fcd <= 0 && next.fk < 0) { next.fk = 0; this.fcd = 2.2 + R() * 1.5; }
+    if (next && next.fk >= 0) { next.fk += dt / 1.9; if (next.fk >= 1) next.fk = -1; }
+    // 細胞分裂の周期
+    const T = 6.5 - Math.min(1.25, this.heat) * 2.6;
+    const prev = this.cyc; this.cyc += dt / T;
+    if (Math.floor(this.cyc) !== Math.floor(prev)) { this.axis = R() * Math.PI; this.extra = false; }
+    const u = this.cyc % 1;
+    let sep = 0;
+    if (u < 0.12) sep = 0;
+    else if (u < 0.42) sep = ease((u - 0.12) / 0.3) * 3;
+    else if (u < 0.58) sep = 3 + 0.15 * Math.sin((u - 0.42) * 40);
+    else if (u < 0.9) sep = 3 * (1 - ease((u - 0.58) / 0.32));
+    const rc = 11 + 4 * Math.min(1, this.v / 100);
+    const S = [];
+    const dx = Math.cos(this.axis), dy = Math.sin(this.axis);
+    if (this.flower >= 0) {
+      this.flower += dt / 2.4; const k = this.flower, open = k < 0.35 ? ease(k / 0.35) : k < 0.6 ? 1 : 1 - ease((k - 0.6) / 0.4);
+      const r = rc / 2, d = open * rc * 2.4;
+      for (let i = 0; i < 4; i++) { const a = i * TAU / 4 + this.axis; S.push(84 + Math.cos(a) * d, 84 + Math.sin(a) * d, r * r * (1 + 0.1 * Math.sin(t * 9 + i))); }
+      if (this.flower >= 1) this.flower = -1;
+    } else if (sep < 0.01) {
+      const r = rc * (1 + 0.03 * Math.sin(t * 2.3)); S.push(84, 84, r * r);
+    } else {
+      const r = rc / Math.SQRT2, h = sep * rc / 2;
+      const wob = 1 + 0.05 * Math.sin(t * 7);
+      S.push(84 + dx * h, 84 + dy * h, (r * wob) ** 2, 84 - dx * h, 84 - dy * h, (r / wob) ** 2);
+      if (this.extra === 'go' && sep > 2.2) {        // 25/50/75%：3つ目の娘が帯の先端へ
+        this.extra = true;
+        this.fly.push({ x: 84 + dx * h, y: 84 + dy * h, a: this.th, k: 0, r: r * 0.8 });
+      }
+    }
+    // 飛ぶ娘
+    for (const f of this.fly) {
+      f.k += dt / 1.1; const [tx, ty] = polar(this.R, f.a);
+      const e = ease(Math.min(1, f.k));
+      f.cx = lerp(f.x, tx, e); f.cy = lerp(f.y, ty, e);
+      if (f.k >= 1 && !f.done) { f.done = true; this.rb.push({ a: f.a, age: 0, big: 1 });
+        const [x, y] = polar(this.R, f.a); spawn(this.fxl, RIP(x, y, 5, this.v > 100 ? 'g' : 'm'), 1400); }
+      if (!f.done) S.push(f.cx, f.cy, f.r * f.r);
+    }
+    this.fly = this.fly.filter((f) => !f.done);
+    // 帯・先端・雫
+    if (this.th > 0.02) {
+      const [x, y] = polar(this.R, this.th); const r = this.w * 1.35; S.push(x, y, r * r);
+      if (this.v > 100) for (let k = 0; k < 3; k++) { const u2 = (t * 0.12 + k / 3) % 1; const [bx, by] = polar(this.R, u2 * TAU); const rr = this.w * 1.5; S.push(bx, by, rr * rr); }
+    }
+    for (const b of this.beads) {
+      if (b.st === 'in') continue;
+      const i = b.a;
+      let a = i + Math.sin(t * 0.7 + i * 5) * 0.025, rho = this.R + Math.sin(t * 1.1 + i * 7) * 1.6, r = 2.5 + 0.35 * Math.sin(t * 1.7 + i * 3);
+      if (b.st === 'join') { const e = ease(Math.min(1, b.k)); rho = lerp(rho, this.R, e); r = lerp(r, this.w * 1.2, e); }
+      if (b.fk >= 0) { const reach = Math.sin(Math.PI * b.fk) ** 1.3; a = lerp(a, this.th + 0.035, reach * 0.9); rho = lerp(rho, this.R, reach); r *= 1 + reach * 0.25; }
+      const [x, y] = polar(rho, a); S.push(x, y, r * r);
+    }
+    this.rb.forEach((u2) => { u2.age += dt; }); this.rb = this.rb.filter((u2) => u2.age < 1.4);
+    for (const u2 of this.rb) { const [x, y] = polar(this.R, u2.a); const r = this.w * (1 + (u2.big ? 1.1 : 0.6) * Math.exp(-u2.age * 3.2) * (1 + 0.3 * Math.sin(u2.age * 15))); S.push(x, y, r * r); }
+    this.goo.render({ balls: S, arcs: [{ R: this.R, a0: 0, a1: Math.min(TAU, this.th), w: this.w }], t });
+  },
+  stage() {
+    this.extra = 'go';
+    // ちぎれる途中でなければ、すぐ次の分裂へ送る
+    const u = this.cyc % 1; if (u > 0.5) this.cyc = Math.floor(this.cyc) + 0.999;
+  },
+  bloom() {
+    setTimeout(() => { this.flower = 0; }, 450);
+    spawn(this.fxl, `<circle class="flash" cx="84" cy="84" r="74"/>` + RIP(84, 84, 30, 'm', 300) + RIP(84, 84, 30, '', 550), 1800);
+  }
+};
+
+/* ══════════════════════ E. しずく時計 ══════════════════════ */
+const E = {
+  key: 'E', name: 'しずく時計', tag: '上の溜まりから雫が垂れて下の溜まりへ落ちる、砂時計のような窓。下が満ちるほど進んでいる',
+  how: [['常時', '天井の溜まりから雫が垂れ、糸を引いてぷつんと切れ（糸は上へ吸い戻る）、落ちて下の溜まりへどぷん。はねた小粒もまた溶け戻る。ときどき下から熱い塊が昇って上へ戻る'],
+        ['進むとき', '下の溜まりの液面が上がり、上の溜まりが減る（冷たい上＝シアン、熱い下＝マゼンタ）。外周の弧が進捗'],
+        ['25・50・75%', '雫が3つ続けて落ち、液面に波紋。外周の目盛りが灯る'],
+        ['100%', '最後の大粒が落ちて王冠のようにはね、大きな塊が下から上まで昇ってまた溶け込む'],
+        ['100%超', '流れが逆転し、金の塊が下から次々と昇っていく。外周は金の2周目']],
+  svgBg: () => `<circle cx="84" cy="84" r="67" fill="url(#gPool)"/>`,
+  svgFg: () => `<circle class="glass2" cx="84" cy="84" r="67.5"/><circle class="glass" cx="84" cy="84" r="68"/>
+    <path class="shine" d="M 36,70 A 50 50 0 0 1 50,42"/><path class="shine2" d="M 126,124 A 58 58 0 0 1 108,140"/>
+    ${TICKS(72, 75)}${outerArc()}<g class="fxl"></g>`,
+  init() {
+    this.goo.pal = { top: [0, 215, 250], bot: [255, 10, 120], rim: [255, 255, 255], dark: 0.15 };
+    this.goo.gpal = { top: [255, 236, 170], bot: [255, 196, 70], rim: [255, 250, 220] };
+    this.goo.setMask((x, y) => Math.hypot(x - 84, y - 84) < 66.5);
+    this.floor = new Surf(146, 7); this.ceil = new Surf(62, 7);
+    this.lamp = new Lamp({ floor: this.floor, ceil: this.ceil, auto: false, rMin: 5, rMax: 7, seed: 9, wall: circleWall(65), top: () => 0,
+      spawnX: (R) => 84 + (R() * 2 - 1) * 24 });
+    this.drops = []; this.cd = 1; this.cd2 = 5; this.side = 0; this.t = 0; this.rand = rng(77);
+  },
+  frame(b, v) { dash(this.val, b); dash(this.ovf, v - 100); tickSync(this, b); },
+  drop(x, big) { this.drops.push({ x, y: this.ceil.at(x, this.t), r: 0.4, rT: big ? 7.5 : 4.4 + this.rand() * 1.4, st: 'form', vy: 0, tl: null, fast: big }); },
+  tick(dt) {
+    warm(this, dt); this.t += dt; const t = this.t, R = this.rand;
+    const pp = Math.min(1, this.v / 100);
+    this.ceil.base += (24 + 38 * (1 - pp) - this.ceil.base) * Math.min(1, dt * 2);
+    this.floor.base += (146 - 42 * pp - this.floor.base) * Math.min(1, dt * 2);
+    this.floor.step(dt); this.ceil.step(dt);
+    this.cd -= dt * (0.35 + Math.min(1, this.heat) * 0.6);
+    if (this.cd <= 0) { this.side ^= 1; this.drop(this.side ? 58 + R() * 6 : 104 + R() * 6); this.cd = 1.8 + R() * 1.4; }
+    this.cd2 -= dt * (0.08 + this.heat * 0.2 + (this.v > 100 ? 0.9 : 0));
+    if (this.cd2 <= 0) { this.lamp.launch({ r: this.v > 100 ? 5 + R() * 2 : undefined }); this.cd2 = 1 + R() * 2; }
+    this.lamp.step(dt, this.heat);
+    for (const d of this.drops) {
+      const Cx = this.ceil.at(d.x, t), Lx = this.floor.at(d.x, t);
+      if (d.st === 'form') {
+        d.r = Math.min(d.rT, d.r + dt * d.rT * (d.fast ? 2.4 : 1));
+        d.y = Cx + d.r * 0.45;
+        if (d.r >= d.rT) { d.st = 'hang'; d.tl = { y: Cx + d.r * 0.3, r: d.r * 0.78, on: 1, vy: 0 }; }
+      } else if (d.st === 'hang') {
+        d.y += dt * (d.fast ? 9 : 4 + this.heat * 5);
+        const tl = d.tl; tl.y += (d.y - d.r * 1.05 - tl.y) * Math.min(1, dt * 2.5); tl.y = Math.min(tl.y, Cx + d.r * 0.3);
+        if (d.y - Cx > d.r * 2.9) { tl.on = 0; tl.vy = -26; this.ceil.bump(d.x, -1.6, 8); d.st = 'fall'; d.vy = 2; }
+      } else if (d.st === 'fall') {
+        d.vy += dt * 110; d.y += d.vy * dt;
+        if (d.y > Lx + d.r * 0.25) {
+          d.st = 'gone'; this.floor.bump(d.x, d.fast ? 4.5 : 2.6, d.fast ? 14 : 9);
+          const n = d.fast ? 4 : 2;
+          for (let k = 0; k < n; k++) { const s = (k % 2 ? 1 : -1) * (14 + k * 6); this.drops.push({ x: d.x, y: Lx - 2, r: d.fast ? 2.6 : 2, st: 'spl', vx: s, vy: -(34 + k * 8), tl: null }); }
+          if (d.fast) this.lamp.launch({ x: d.x, r: 9, sp: 1.6 });
+        }
+      } else if (d.st === 'spl') {
+        d.vy += dt * 120; d.x += d.vx * dt; d.y += d.vy * dt;
+        if (d.vy > 0 && d.y > Lx + d.r) d.st = 'gone';
+      }
+      if (d.tl && !d.tl.on) { d.tl.y += d.tl.vy * dt; d.tl.r -= dt * 11; if (d.tl.r < 0.3) d.tl = null; }
+    }
+    this.drops = this.drops.filter((d) => d.st !== 'gone' || d.tl);
+    const S = []; this.lamp.sources(S);
+    for (const d of this.drops) { if (d.st !== 'gone') S.push(d.x, d.y, d.r * d.r); if (d.tl) S.push(d.x, d.tl.y, d.tl.r * d.tl.r); }
+    this.goo.render({ balls: S, floors: [this.floor], ceils: [this.ceil], t });
+  },
+  stage() {
+    [0, 280, 560].forEach((ms, k) => setTimeout(() => this.drop(k % 2 ? 108 : 60, false), ms));
+    setTimeout(() => spawn(this.fxl, RIP(60, this.floor.base, 7, 'm') + RIP(108, this.floor.base, 7, '', 200), 1600), 1300);
+  },
+  bloom() {
+    this.drop(84, true);
+    setTimeout(() => spawn(this.fxl, `<circle class="flash" cx="84" cy="84" r="67"/>` + RIP(84, this.floor.base, 10, 'm') + RIP(84, this.floor.base, 10, '', 220), 1600), 1500);
+  }
+};
+
+/* ══════════════════════ 再生器 ══════════════════════ */
+const GAUGES = [A, Bg, C, D, E];
+const grid = document.getElementById('grid');
+function tier(v) { return v <= 0 ? 0 : v < 25 ? 1 : v < 50 ? 2 : v < 75 ? 3 : v < 100 ? 4 : v < 150 ? 5 : 6; }
+GAUGES.forEach((g) => {
+  const c = document.createElement('section');
+  c.className = 'card';
+  c.innerHTML = `<h2>${g.key}. ${g.name}</h2><div class="tag">${g.tag}</div>
+    <div class="stage"><div class="gauge" data-tier="0"><div class="gauge-ring">
+      <svg viewBox="0 0 168 168" aria-hidden="true">${DEFS}${g.svgBg()}</svg>
+      <canvas></canvas>
+      <svg viewBox="0 0 168 168" aria-hidden="true" class="fg">${g.svgFg()}</svg>
+      <span class="gauge-mid"><span class="pct">0</span><em>%</em></span></div>
+    <p class="gauge-cap">今日の目標</p><p class="gauge-goal"><b class="n">0</b> / 40問</p></div></div>
+    <dl class="how">${g.how.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl>`;
+  grid.appendChild(c);
+  g.el = c.querySelector('.gauge'); g.mid = c.querySelector('.gauge-mid'); g.pct = c.querySelector('.pct'); g.n = c.querySelector('.n');
+  g.svg = c.querySelector('.gauge-ring'); g.fxl = c.querySelector('.fxl');
+  g.val = c.querySelector('.fg .val'); g.ovf = c.querySelector('.fg .ovf');
+  g.goo = new Goo(c.querySelector('canvas'));
+  g.v = 0; g.heat = 0.12;
+  g.init();
+  g.frame(0, 0);
+});
+
+let cur = 0, raf = 0;
+const rg = document.getElementById('rg'), out = document.getElementById('out');
+function apply(v) {
+  const prev = cur; cur = v;
+  const b = Math.min(100, v), t = String(tier(v)), shown = Math.round(v);
+  GAUGES.forEach((g) => {
+    g.v = v;
+    g.el.dataset.tier = t;
+    g.el.toggleAttribute('data-over', v > 100);
+    g.frame(b, v);
+    g.pct.textContent = shown; g.mid.classList.toggle('wide', shown >= 100);
+    g.n.textContent = Math.round(v * 40 / 100);
+    if (v > prev) {
+      [25, 50, 75].forEach((m) => { if (prev < m && v >= m && g.stage) g.stage(m); });
+      if (prev < 100 && v >= 100 && g.bloom) g.bloom();
+    }
+  });
+  rg.value = shown; out.textContent = shown + '%';
+}
+function go(to, dur = 1000) {
+  cancelAnimationFrame(raf);
+  to = clamp(to, 0, 160);
+  const from = cur, t0 = performance.now();
+  const step = (now) => {
+    const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+    apply(from + (to - from) * e);
+    if (k < 1) raf = requestAnimationFrame(step);
+  };
+  raf = requestAnimationFrame(step);
+}
+let seqT = [];
+function stopSeq() { seqT.forEach(clearTimeout); seqT = []; }
+function seq(list) {
+  stopSeq(); let t = 0;
+  list.forEach(([v, wait, dur]) => { seqT.push(setTimeout(() => go(v, dur), t)); t += wait; });
+}
+rg.addEventListener('input', () => { stopSeq(); go(+rg.value, 500); });
+document.querySelectorAll('[data-add]').forEach((b) => b.addEventListener('click', () => { stopSeq(); go(Math.round(cur) + +b.dataset.add); }));
+document.querySelectorAll('[data-set]').forEach((b) => b.addEventListener('click', () => { stopSeq(); go(+b.dataset.set, +b.dataset.set === 0 ? 700 : 1400); }));
+document.getElementById('bSeq').addEventListener('click', () => {
+  seq([[0, 900, 600], [18, 2000, 1000], [30, 2600, 1000], [45, 2000, 1000], [55, 2600, 1000], [70, 2000, 1000], [80, 2800, 1000], [92, 2000, 1000], [100, 4200, 1000], [130, 0, 1600]]);
+});
+document.getElementById('bBloom').addEventListener('click', () => { seq([[90, 1200, 700], [100, 0, 1000]]); });
+document.getElementById('cbBig').addEventListener('change', (e) => { document.body.classList.toggle('big', e.target.checked); GAUGES.forEach((g) => g.goo.resize()); });
+window.addEventListener('resize', () => GAUGES.forEach((g) => g.goo.resize()));
+
+// 常時の動き（非表示タブでは rAF が来ない＝そのまま止まる）
+let last = performance.now();
+function loop(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  GAUGES.forEach((g) => g.tick(dt));
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+// ?v=70 で開くとその達成率から始める（スクリーンショット用）
+// ?v=70&ff=8 はその達成率にして 8 秒ぶん時間を先送りする（ヘッドレスでの検査用）
+const qs = new URLSearchParams(location.search), qv = +qs.get('v'), qff = +qs.get('ff');
+if (qv && qff) { cur = qv; apply(qv); for (let i = 0; i < qff * 60; i++) GAUGES.forEach((g) => g.tick(1 / 60)); }
+else if (qv) go(qv, 1500);
+</script>
+</body>
+</html>
