@@ -736,7 +736,8 @@ function startExam(overrideUids = null) {
   _prepareResultSound();
   // 起動音は「開始を押した」このタップの中で選んで用意する＝iOS の自動再生制限を通せる
   // 唯一の機会。⚠️ ランダムの抽選もここで済ませること（_playBootSound では遅い）。
-  _pendingBootSpec = _pickBootSpec(); _prepareWavSound(_pendingBootSpec);
+  // テーマ固有の起動画面（Frost・Celestial・Liquid）では鳴らさないので、選びも読み込みもしない
+  _pendingBootSpec = _examBootTable(_examStyleForTheme(window.MecUITheme ? MecUITheme.get() : null)) ? null : _pickBootSpec(); _prepareWavSound(_pendingBootSpec);
   _clxSessionPick = Math.random() < .5 ? 'nova' : 'galaxy';   // Celestial の正解演出（セッションごとに超新星か銀河の渦）
   const chFilter = !overrideUids ? _examChPrefix : null;
   _examActiveChPrefix = chFilter;
@@ -1744,14 +1745,6 @@ function _examRematchLines(style, qn) {
       '散乱した ' + qn + ' 問を収束する'
     ];
   }
-  if (style === 'liquid') {
-    return [
-      'LIQUID RE-FLOW PROTOCOL',
-      'FADED PIGMENTS ......... ' + qn + ' MARKS',
-      'CANVAS PREPARATION ..... OK',
-      '滲んだ ' + qn + ' 問を鮮やかに塗り替える'
-    ];
-  }
   return ['再戦 / REMATCH', '対象：前回落とした ' + qn + ' 問', 'この ' + qn + ' 問を取り返す'];
 }
 
@@ -1799,15 +1792,6 @@ function _examBootLines(style, qn, subjLabel) {
       'SPECTRUM ............... ' + subjLabel,
       'REFRACTION INDEX ....... 100%',
       'ILLUMINATE THE PATH'
-    ];
-  }
-  if (style === 'liquid') {
-    return [
-      'LIQUID ART CANVASES',
-      'INK INJECTION .......... COMPLETED',
-      'PALETTE ................ ' + subjLabel,
-      'COLOR CARDS ............ ' + qn + ' LAYERS',
-      'PAINT THE TRUTH'
     ];
   }
   return ['接続確立 / LINK ESTABLISHED', '電脳ダイブ ... STAND BY', 'BANK ' + qn + ' Q  //  ' + subjLabel];
@@ -2436,16 +2420,234 @@ const CELESTIAL_BOOTS = [
     } }
 ];
 
+/* ══════════ Liquid の起動画面 2案（2026-09-30）══════════
+   デモ（_work/boot_liquid_demo.html）でユーザーが採用した A・B から、試験ごとにランダムで1つ出す。
+   A インクの花／B 雫が集まる（デモの C マーブリング・D 充填・E ミルククラウンは不採用）。
+   ⚠️ 尺・ctx の受け取り方・_cdLoop・ブートログの情報は FROST_BOOTS と同じ約束。
+   ⚠️ 色は演出テーマ（classic の橙）から取らず、Liquid のマゼンタ・バイオレット・シアンで固定する。
+      旧 liquid 様式は橙の文字に「DIVE／GHOST LINK」の起動語（電脳ダイブの流用）だった。
+   ⚠️ 正解演出（シャボン玉・ぷるん・ガラスの衝撃波・色収差・ネオン管）と題材を被らせない。
+   ⚠️ B の場（メタボール）は雫ごとに自分のまわり（半径の5倍）の升だけへ足し込む＝全画面×全雫を回さない。 */
+const LQB_MAG = [255, 0, 127], LQB_PINK = [255, 60, 175], LQB_VIO = [178, 96, 255], LQB_CYA = [0, 223, 216], LQB_CORE = [18, 8, 46];
+const _lqbRgba = (c, a) => 'rgba(' + (c[0] | 0) + ',' + (c[1] | 0) + ',' + (c[2] | 0) + ',' + a + ')';
+const _lqbSoft = k => { k = k < 0 ? 0 : k > 1 ? 1 : k; return k * k * (3 - 2 * k); };
+const _lqbEase = k => 1 - Math.pow(1 - (k < 0 ? 0 : k > 1 ? 1 : k), 3);
+const _lqbSprCache = {};
+function _lqbSprite(col) {   // ぼかした丸（色ごとに1枚だけ作る。粒ごとにグラデーションを作らない）
+  const key = col.join();
+  if (_lqbSprCache[key]) return _lqbSprCache[key];
+  const s = 64, cv = document.createElement('canvas'); cv.width = cv.height = s;
+  const x = cv.getContext('2d'), g = x.createRadialGradient(32, 32, 0, 32, 32, 32);
+  g.addColorStop(0, _lqbRgba(col, 1)); g.addColorStop(.4, _lqbRgba(col, .5)); g.addColorStop(1, _lqbRgba(col, 0));
+  x.fillStyle = g; x.fillRect(0, 0, s, s);
+  return (_lqbSprCache[key] = cv);
+}
+// 数字：A はにじんで現れにじんで消える／B は液面から浮かび上がる。起動語は共用の _cdGoIn
+function _lqbNumInk(el) {
+  el.animate([
+    { opacity: 0, transform: 'scale(.92)', filter: 'blur(12px)' },
+    { opacity: 1, transform: 'scale(1)', filter: 'blur(0)', offset: .34 },
+    { opacity: 1, transform: 'scale(1)', filter: 'blur(0)', offset: .7 },
+    { opacity: 0, transform: 'scale(1.1)', filter: 'blur(10px)' }
+  ], { duration: 400, easing: 'cubic-bezier(.3,.8,.3,1)', fill: 'forwards' });
+}
+function _lqbNumRise(el) {
+  el.animate([
+    { opacity: 0, transform: 'translateY(9vmin)', clipPath: 'inset(100% 0 0 0)' },
+    { opacity: 1, transform: 'translateY(0)', clipPath: 'inset(0 0 0 0)', offset: .38 },
+    { opacity: 1, transform: 'translateY(0)', offset: .72 },
+    { opacity: 0, transform: 'translateY(-2vmin)', filter: 'blur(4px)' }
+  ], { duration: 400, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
+}
+function _lqbLineBleed(d) {
+  d.animate([{ opacity: 0, filter: 'blur(5px)' }, { opacity: 1, filter: 'blur(0)' }], { duration: 260, easing: 'cubic-bezier(.2,.8,.3,1)', fill: 'backwards' });
+}
+function _lqbLineRise(d) {
+  d.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 240, easing: 'cubic-bezier(.2,.9,.3,1)', fill: 'backwards' });
+}
+const LIQUID_BOOTS = [
+  /* A インクの花：水の中にインクが1滴ずつ落ち、渦の輪を作りながら花のように広がる（3＝マゼンタ・2＝シアン・1＝バイオレット）。
+     起動の瞬間は3色が中央でゆっくり巻かれ、そのまま溶けて消える。 */
+  { key: 'a', prefix: '~ ', lineIn: _lqbLineBleed,
+    lines: (qn, s) => ['INK DROP SEQUENCE', 'PIGMENT ........... ' + s, 'VOLUME ............ ' + qn + ' Q', 'DISPERSION ........ READY', 'LET IT BLOOM'],
+    rematch: qn => ['INK RE-DROP', 'FADED STAINS ...... 前回の誤答 ' + qn + ' 問', 'PIGMENT ........... REFILLED', '滲んだ ' + qn + ' 問をもう一度咲かせる'],
+    html: '',
+    build(c) {
+      const w = innerWidth, h = innerHeight, cx = w / 2, cy = h / 2, m = Math.min(w, h), x = _frCtx(c.host, w, h, 0, 1.5);
+      const P = [], D = [];
+      c.bloom = (col, px, py, n, pow, t0) => {
+        D.push({ col, x: px, y: py, t0 });
+        const spr = _lqbSprite(col), spr2 = _lqbSprite([col[0] + (255 - col[0]) * .45, col[1] + (255 - col[1]) * .45, col[2] + (255 - col[2]) * .45]);
+        for (let i = 0; i < n; i++) {
+          const kind = i < n * .4 ? 'ring' : i < n * .7 ? 'plume' : 'mist';
+          const a = kind === 'plume' ? Math.PI / 2 + _cdR(-.9, .9) : _cdR(0, 6.283);
+          P.push({ kind, t0, spr: Math.random() < .25 ? spr2 : spr, x0: px, y0: py, a,
+            v: m * pow * (kind === 'ring' ? _cdR(.13, .17) : kind === 'plume' ? _cdR(.08, .26) : _cdR(.03, .2)),
+            sink: m * (kind === 'plume' ? _cdR(.05, .12) : _cdR(.01, .04)), curl: _cdR(-1, 1) * m * .03, fw: _cdR(3, 7), ph: _cdR(0, 6),
+            s0: _cdR(10, 22), gs: _cdR(40, 110) * pow, al: _cdR(.05, .11) });
+        }
+      };
+      c.swirl = 0;
+      _cdLoop(c, t => {
+        x.clearRect(0, 0, w, h);
+        D.forEach(d => {   // 落ちてくる滴（着水の 180ms 前から）
+          const k = (t - d.t0 + 180) / 180;
+          if (k < 0 || k > 1) return;
+          const y = -30 + (d.y + 30) * k * k;
+          x.fillStyle = _lqbRgba(d.col, .95); x.beginPath(); x.ellipse(d.x, y, 5, 9, 0, 0, 7); x.fill();
+          x.fillStyle = _lqbRgba(d.col, .3); x.beginPath(); x.ellipse(d.x, y - 22, 2.5, 20, 0, 0, 7); x.fill();
+        });
+        x.globalCompositeOperation = 'lighter';
+        const sw = c.swirl ? _lqbEase((t - c.swirl) / 780) : 0, fade = c.swirl ? 1 - _lqbSoft((t - c.swirl - 250) / 530) : 1;
+        P.forEach(p => {
+          const a = (t - p.t0) / 1000;
+          if (a < 0) return;
+          const r = p.v * (1 - Math.exp(-a * 3.2)) / 3.2 * 3;   // 急に広がって、水の抵抗で止まる
+          let px, py;
+          if (p.kind === 'ring') {   // 渦の輪：横に開き、沈みながら少し巻き込む
+            px = p.x0 + Math.cos(p.a) * r;
+            py = p.y0 + Math.sin(p.a) * r * .38 + p.sink * a * 2 + Math.sin(p.a) * r * .1 * Math.sin(a * 6);
+          } else {
+            px = p.x0 + Math.cos(p.a) * r + Math.sin(a * p.fw + p.ph) * p.curl * a * 2;
+            py = p.y0 + Math.sin(p.a) * r + p.sink * a * a * 3;
+          }
+          if (sw) {   // 起動：中央へ巻く
+            const dx = px - cx, dy = py - cy, th = sw * 2.4 * Math.exp(-Math.hypot(dx, dy) / (m * .5)), pull = 1 - sw * .35;
+            px = cx + (dx * Math.cos(th) - dy * Math.sin(th)) * pull; py = cy + (dx * Math.sin(th) + dy * Math.cos(th)) * pull;
+          }
+          const s = p.s0 + p.gs * Math.min(a, 1.4);
+          x.globalAlpha = p.al * Math.min(1, a * 10) * fade;
+          x.drawImage(p.spr, px - s / 2, py - s / 2, s, s);
+        });
+        x.globalAlpha = 1; x.globalCompositeOperation = 'source-over';
+        return t < c.endAt;
+      });
+      [[LQB_MAG, cx - m * .15, cy - m * .03], [LQB_CYA, cx + m * .15, cy - m * .07], [LQB_VIO, cx + m * .02, cy + m * .07]]
+        .forEach((s, i) => c.bloom(s[0], s[1], s[2], 150, 1, c.t0 + i * 420));
+    },
+    num(c) { _lqbNumInk(c.num); },
+    goWord: 'BLOOM', goSub: 'INK — IN FULL BLOOM',
+    go(c) {
+      c.swirl = c.goAt;
+      c.bloom(LQB_PINK, innerWidth / 2, innerHeight / 2, 120, 1.4, c.goAt);
+      _cdGoIn(c.num, c.sub);
+    } },
+
+  /* B 雫が集まる：画面に散った雫が 3・2・1 で3分の1ずつ中央の液だまりへ吸い寄せられ、くっついて大きくなる。
+     起動で液だまりが表面張力を切られたように四方へはじけ、雫になって飛び散る。
+     液だまりの中心はハブの Liquid ゲージと同じ深い藍へ沈める（数字が読めるように）。 */
+  { key: 'b', prefix: '· ', lineIn: _lqbLineRise,
+    lines: (qn, s) => ['LIQUID COALESCENCE', 'DROPLETS .......... ' + qn, 'MEDIUM ............ ' + s, 'SURFACE TENSION ... STABLE', 'MERGE INTO ONE'],
+    rematch: qn => ['LIQUID RE-MERGE', 'SCATTERED ......... 前回の誤答 ' + qn + ' 問', 'SURFACE TENSION ... STABLE', '散った ' + qn + ' 問をひとつに集める'],
+    html: '',
+    build(c) {
+      const w = innerWidth, h = innerHeight, cx = w / 2, cy = h / 2, m = Math.min(w, h), x = _frCtx(c.host, w, h, 0, 1.5);
+      c.cv = x.canvas;
+      const cell = Math.max(2.5, Math.max(w, h) / 640), gw = Math.ceil(w / cell), gh = Math.ceil(h / cell), N = gw * gh;
+      const F = new Float32Array(N), CR = new Float32Array(N), CG = new Float32Array(N), CB = new Float32Array(N), WS = new Float32Array(N);
+      const off = document.createElement('canvas'); off.width = gw; off.height = gh;
+      const ox = off.getContext('2d'), img = ox.createImageData(gw, gh), px = img.data;
+      const COLS = [LQB_MAG, LQB_CYA, LQB_VIO], drops = [], splash = [], hl = _lqbSprite([255, 255, 255]);
+      for (let i = 0; i < 27; i++) {
+        const a = i / 27 * 6.283 + _cdR(-.1, .1), d = _cdR(.55, 1);
+        drops.push({ g: i % 3, col: COLS[i % 3], x0: cx + Math.cos(a) * d * w * .42, y0: cy + Math.sin(a) * d * h * .38,
+          r: m * _cdR(.022, .038), ph: _cdR(0, 6), fw: _cdR(.8, 1.6), dr: m * _cdR(.01, .025), born: _cdR(0, 500) });
+      }
+      let poolR = 0;
+      c.pull = []; c.splash = splash;
+      _cdLoop(c, t => {
+        // 雫と液だまりの今の位置（B＝[x, y, 半径, 色] の並び）
+        const B = [];
+        let poolArea = 0;
+        drops.forEach(d => {
+          let dx = d.x0 + Math.sin(t / 1000 * d.fw + d.ph) * d.dr, dy = d.y0 + Math.cos(t / 1000 * d.fw * .8 + d.ph) * d.dr;
+          const pt = c.pull[d.g];
+          if (pt != null) {
+            const k = (t - pt - (d.born % 90)) / 330;   // 同じ組でも少しずつずれて吸われる
+            if (k >= 1) { poolArea += d.r * d.r; return; }
+            const e = k > 0 ? k * k * k : 0;
+            dx += (cx - dx) * e; dy += (cy - dy) * e;
+          }
+          B.push(dx, dy, d.r * _lqbSoft((t - d.born) / 300), d.col);
+        });
+        if (poolArea) poolR += (Math.sqrt(poolArea) * 1.05 - poolR) * .22;
+        const pr = poolR * (c.go ? 1 - _lqbEase((t - c.go) / 420) : 1);
+        if (c.go) splash.forEach(s => {
+          const a = (t - c.go) / 1000, e = 1 - Math.exp(-a * 3);
+          B.push(cx + s.vx * e, cy + s.vy * e + a * a * m * .15, s.r * Math.max(0, 1 - a * 1.1), s.col);
+        });
+        // 液だまりはマゼンタに固定（3色の平均は灰色に濁る。混ざるのは吸い込まれる途中の縁だけ）
+        if (pr > 1) B.push(cx, cy + Math.sin(t / 240) * 1.5, pr * (1 + .03 * Math.sin(t / 130)), LQB_PINK);
+        // 場（f = Σ r²/d²）を格子へ足し込む。色の重みは頭打ちにして、雫の芯の色が斑点で浮かないようにする
+        F.fill(0); CR.fill(0); CG.fill(0); CB.fill(0); WS.fill(0);
+        for (let k = 0; k < B.length; k += 4) {
+          const bx = B[k], by = B[k + 1], r2 = B[k + 2] * B[k + 2], col = B[k + 3], reach = B[k + 2] * 5;
+          if (r2 < .25) continue;
+          const i0 = Math.max(0, ((bx - reach) / cell) | 0), i1 = Math.min(gw - 1, ((bx + reach) / cell) | 0);
+          const j0 = Math.max(0, ((by - reach) / cell) | 0), j1 = Math.min(gh - 1, ((by + reach) / cell) | 0);
+          for (let j = j0; j <= j1; j++) {
+            const dy = (j + .5) * cell - by, row = j * gw;
+            for (let i = i0; i <= i1; i++) {
+              const dx = (i + .5) * cell - bx, q = r2 / (dx * dx + dy * dy + 1), o = row + i, wq = q < 1.5 ? q : 1.5;
+              F[o] += q; CR[o] += col[0] * wq; CG[o] += col[1] * wq; CB[o] += col[2] * wq; WS[o] += wq;
+            }
+          }
+        }
+        for (let j = 0; j < gh; j++) {
+          const pdy = (j + .5) * cell - cy;
+          for (let i = 0; i < gw; i++) {
+            const o = j * gw + i, f = F[o], p4 = o * 4;
+            if (f < .35) { px[p4 + 3] = 0; continue; }
+            const pdx = (i + .5) * cell - cx, pq = pr > 1 ? pr * pr / (pdx * pdx + pdy * pdy + 1) : 0, ws = WS[o] || 1;
+            // 深い藍へ沈めるのは液だまりの中心だけ（小さな雫まで沈めると輪に見える）
+            const deep = _lqbSoft((pq - 1.4) / 2.5) * .78, rim = f > .9 ? Math.max(0, 1 - (f - .9) / .3) * .3 : 0;
+            let r = CR[o] / ws, g = CG[o] / ws, b = CB[o] / ws;
+            r += (LQB_CORE[0] - r) * deep; g += (LQB_CORE[1] - g) * deep; b += (LQB_CORE[2] - b) * deep;
+            r += (200 - r) * rim; g += (255 - g) * rim; b += (250 - b) * rim;   // 縁のシアンの照り返し
+            px[p4] = r; px[p4 + 1] = g; px[p4 + 2] = b;
+            px[p4 + 3] = Math.max(245 * _lqbSoft((f - .9) / .16), 90 * Math.pow((f - .35) / .65, 2));
+          }
+        }
+        ox.putImageData(img, 0, 0);
+        x.clearRect(0, 0, w, h);
+        x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+        x.drawImage(off, 0, 0, gw * cell, gh * cell);
+        x.globalAlpha = .38;   // 雫の照り（左上に白い光）
+        for (let k = 0; k < B.length; k += 4) { const r = B[k + 2]; if (r >= 3) x.drawImage(hl, B[k] - r * .62, B[k + 1] - r * .7, r * .6, r * .6); }
+        x.globalAlpha = 1;
+        if (!B.length && c.go) return false;
+        return t < c.endAt;
+      });
+    },
+    num(c, i) { c.pull[i] = c.t0 + i * 420; _lqbNumRise(c.num); },
+    goWord: 'FLOW', goSub: 'SURFACE TENSION — RELEASED',
+    go(c) {
+      const m = Math.min(innerWidth, innerHeight), COLS = [LQB_MAG, LQB_CYA, LQB_VIO, LQB_PINK];
+      for (let i = 0; i < 22; i++) {
+        const a = i / 22 * 6.283 + _cdR(-.12, .12), v = m * _cdR(.35, .75);
+        c.splash.push({ vx: Math.cos(a) * v * (innerWidth / m) * .8, vy: Math.sin(a) * v, r: m * _cdR(.02, .045), col: COLS[i % 4] });
+      }
+      c.go = c.goAt;
+      c.cv.animate([{ opacity: 1 }, { opacity: 0 }], { duration: c.endAt - c.goAt - 380, delay: 380, easing: 'ease-in', fill: 'forwards' });
+      _cdGoIn(c.num, c.sub);
+    } }
+];
+// テーマ固有の起動画面（作り直した案の表）。これがある様式では起動音を鳴らさない（2026-09-30・ユーザー判断）
+function _examBootTable(style) {
+  return style === 'frost' ? FROST_BOOTS : style === 'grimoire' ? CELESTIAL_BOOTS : style === 'liquid' ? LIQUID_BOOTS : null;
+}
+
 // 戻り値 = カウントダウンが明けるまでのms（B6/B7 がこれに合わせて1問目を立ち上げる）
 function _examCountdown() {
   if (_fxOff()) return 0;
-  // 起動音は演出と一蓮托生（reduced-motion で演出ごと出ないときは鳴らさない）
-  _playBootSound();
   const theme = _examTheme();
   const curUi = window.MecUITheme ? MecUITheme.get() : null;
   const style = _examStyleForTheme(curUi);
-  // Frost（FROST_BOOTS）と Celestial（CELESTIAL_BOOTS）は4案から毎回1つ。色・起動語・演出はその案が持つ
-  const fbs = style === 'frost' ? FROST_BOOTS : style === 'grimoire' ? CELESTIAL_BOOTS : null;
+  // Frost（FROST_BOOTS）・Celestial（CELESTIAL_BOOTS）・Liquid（LIQUID_BOOTS）は案の表から毎回1つ。色・起動語・演出はその案が持つ
+  const fbs = _examBootTable(style);
+  // 起動音は演出と一蓮托生（reduced-motion で演出ごと出ないときは鳴らさない）。
+  // ⚠️ テーマ固有の起動画面（案の表がある様式）では鳴らさない（2026-09-30・ユーザー判断）
+  if (!fbs) _playBootSound();
   const fb = fbs ? fbs[(Math.random() * fbs.length) | 0] : null;
   const tok = ++_cdTok;
   let host = document.getElementById('examCountdown');
@@ -2484,7 +2686,7 @@ function _examCountdown() {
     }
   }
 
-  host.className = 'cd-' + style + (fb ? (style === 'grimoire' ? ' cd-cl-' : ' cd-fr-') + fb.key : '') + (_examIsRematch ? ' cd-rematch' : '');
+  host.className = 'cd-' + style + (fb ? (style === 'grimoire' ? ' cd-cl-' : style === 'liquid' ? ' cd-lq-' : ' cd-fr-') + fb.key : '') + (_examIsRematch ? ' cd-rematch' : '');
   host.style.setProperty('--cd-col', col);
   host.style.setProperty('--cd-glow', glow);
   host.style.display = 'flex';
@@ -2503,8 +2705,6 @@ function _examCountdown() {
       ? '<div class="cd-abyss-sonar"><svg viewBox="0 0 200 200" class="cd-sonar-svg"><circle class="sn-wave1" cx="100" cy="100" r="28"/><circle class="sn-wave2" cx="100" cy="100" r="58"/><circle class="sn-wave3" cx="100" cy="100" r="88"/><line x1="100" y1="8" x2="100" y2="192" class="sn-axis"/><line x1="8" y1="100" x2="192" y2="100" class="sn-axis"/></svg></div>'
       : style === 'prism'
       ? '<div class="cd-prism-field"><div class="cd-prism-ray ray-1"></div><div class="cd-prism-ray ray-2"></div><div class="cd-prism-ray ray-3"></div></div>'
-      : style === 'liquid'
-      ? '<div class="cd-liquid-bloom"><div class="cd-drop drop-1"></div><div class="cd-drop drop-2"></div><div class="cd-drop drop-3"></div></div>'
       : '<div class="cd-cyber-hud"><div class="hud-frame"></div><div class="hud-corner hc-tl"></div><div class="hud-corner hc-tr"></div><div class="hud-corner hc-bl"></div><div class="hud-corner hc-br"></div><div class="hud-cross-h"></div><div class="hud-cross-v"></div><div class="hud-scanner-bar"></div></div>'))) +
     '<div class="cd-log"></div>' +
     '<div class="cd-num"></div>' +

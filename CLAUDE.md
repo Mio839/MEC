@@ -58,7 +58,7 @@ CLAUDE.md に残してあるのは各領域の不変条件の要約だけで、*
 | `calc_input.js` | 計算問題の桁入力エンジン（`window.MecCalc`）。原文がマークシートの計算問題50問（科目33＋過去問17）は選択肢を持たないため試験モードで解答不能だった。正解は `.ac`（ans_label）の `計算答：<桁文字列>` が正本。**study.html と 国家試験過去問/*.html の両方が読む共有ファイル**（演出テーマのようなミラー乖離を作らないため）。CSSは自前で注入する |
 | `card_renderer.js` | JSON→カードHTML描画（`window._renderSubjectFromJson`、エスケープ処理あり） |
 | `fx_engine.js` | エフェクトのCanvas描画エンジン（`window.MecFX`：粒子・花火・グリフバースト等）。ハブのゲージ用に `gears`／`gearRain`／`steam`（真鍮の歯車・蒸気）を、2026-08-14に `shatter`（破片）／`ribbon`（2点間を走る光）／`stamp`（刻印）／`orbit`（極座標で回る粒）／`wave`（走査する波形）を足した。**エミッタの追加は常に純増で行うこと**——study.html／chapter_exam.js の試験演出が同じエンジンを共用しているので、既存関数の引数や既定値を変えると7テーマ全部に波及する。⚠️ **位置を自前で持つ型（ribbon/wave/stamp/bar/bolt/ring）は `STATIC_TYPES` に登録すること**——登録し忘れると step() の物理を通り、重力で画面外へ落ちて1フレームで消える |
-| `sounds/` ＋ `sounds_index.js` | 効果音。実体は `sounds/{正解音,起動音,選択音,結果画面}/` の**4フォルダ**（`結果画面/` は 2026-08-21 に追加）、台帳は `sounds/meta.json`、一覧は `_work/build_sounds_index.js` が生成する `sounds_index.js`（**派生物**・`window.MecSounds`）。**ファイル名・キー・音量の唯一の正本**で、study.html／index.html／chapter_exam.js の3つが全部これを読む。⚠️ 音を足すのは「フォルダに置く→meta.json に1行→生成スクリプト」の3手順でコードは触らない。⚠️ 起動音は設定で選ばせず毎回ランダム |
+| `sounds/` ＋ `sounds_index.js` | 効果音。実体は `sounds/{正解音,起動音,選択音,結果画面}/` の**4フォルダ**（`結果画面/` は 2026-08-21 に追加）、台帳は `sounds/meta.json`、一覧は `_work/build_sounds_index.js` が生成する `sounds_index.js`（**派生物**・`window.MecSounds`）。**ファイル名・キー・音量の唯一の正本**で、study.html／index.html／chapter_exam.js の3つが全部これを読む。⚠️ 音を足すのは「フォルダに置く→meta.json に1行→生成スクリプト」の3手順でコードは触らない。⚠️ 起動音は設定で選ばせず毎回ランダム（テーマ固有の起動画面＝Frost・Celestial・Liquid では鳴らさない） |
 | `image_dims.json` | 問題画像の実寸（パス→[w,h]・約109KB・**派生物**。`_work/build_image_dims.py`が生成）。`card_renderer.js`が`<img width height>`を出す材料。これが無いと遅延読込の画像でレイアウトが後からずれ、章ジャンプが目標に収束しない。**画像を差し替え・追加したら必ず再生成** |
 | `sw.js` | Service Worker（オフラインキャッシュ）。`CACHE`版数は**questions_*.json・画像を更新した時にbump**（bumpで全キャッシュ削除＝再DL）。SHELL/CARDSにパス列挙。相対パス必須。⚠️⚠️ **変更履歴はここに書かず `_work/sw_changelog.md` の先頭へ**（sw.js はページを開くたびに更新確認で取り直される＝コメントも毎回ダウンロードされる。2026-09-28 に 238KB を移した。`test_theme_css.js` が 20KB を超えたら落ちる） |
 | `chapters_meta.js` / `rate_index.js` | 章メタ（`_work/build.py`系で再生成）と**全国正答率の索引**（**派生物**・`node _work/build_natrate_index.js`。uid→% を章ごとの数値列に畳み、読み込み時に `window.MEC_RATE` へ展開する）。索引は stats.html の弱点カルテと index.html の実力レーダーが読む |
@@ -530,7 +530,7 @@ study_exam.js / study.css / fx_engine.js / chapter_exam.js / ui_theme.css / gami
   カードの中で出していた層は全画面でラボの尺のまま再生する（2026-09-28・ユーザー判断）。
 - ⚠️ 2026-09-28 に全テーマ共通の正解演出（明るさフラッシュ・ゾーン・グリッチ／墨・背景の呼吸・暗転・神速の稲妻）と、liquid/frost/celestial/brass の ui_theme.css 旧正解層（試験モードのみ）を外した。戻さない（詳細は `_work/仕様/演出.md`）。
 - 効果音の正本は `sounds_index.js`（足す手順は「フォルダに置く → `sounds/meta.json` に1行 → `node _work/build_sounds_index.js`」）。
-  ⚠️ ファイル名の表を2本目に書かない／「無音」と合成音を戻さない／キーを改名しない。起動音は毎回ランダム（抽選は `startExam` の中）。`vol>1` は GainNode でしか効かない。
+  ⚠️ ファイル名の表を2本目に書かない／「無音」と合成音を戻さない／キーを改名しない。起動音は毎回ランダム（抽選は `startExam` の中）。テーマ固有の起動画面（`_examBootTable` が表を返す Frost・Celestial・Liquid）では鳴らさない。`vol>1` は GainNode でしか効かない。
 - 過去問ビューア（`chapter_exam.js`）は意図的に旧演出のまま。
 - CSS の削除・分割のときは `python _work/visual_snapshot.py` で見た目の前後を比べる（手順は詳細ファイル）。
 

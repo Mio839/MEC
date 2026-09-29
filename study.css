@@ -1423,13 +1423,21 @@ html.mec-jumping .qc{content-visibility:visible!important;}
 .cd-prism-ray.ray-3{top:75%;left:-35%;background:linear-gradient(90deg,#0070F3,#00DFD8,#7928CA);animation:cdRayFloat 4s ease-in-out infinite alternate;}
 @keyframes cdRayFloat{0%{transform:rotate(-35deg) translateY(-20px);}100%{transform:rotate(-35deg) translateY(20px);}}
 
-/* ── liquid: 幻想フルイドブルーム ── */
-.cd-liquid-bloom{position:absolute;width:52vmin;height:52vmin;pointer-events:none;}
-.cd-liquid-bloom .cd-drop{position:absolute;inset:0;border-radius:50%;filter:blur(14px);opacity:0;}
-.cd-liquid-bloom .drop-1{background:radial-gradient(circle,rgba(255,0,127,.4) 0%,transparent 65%);animation:cdBloom 2.4s ease-out infinite;}
-.cd-liquid-bloom .drop-2{background:radial-gradient(circle,rgba(121,40,202,.4) 0%,transparent 65%);animation:cdBloom 2.4s ease-out .8s infinite;}
-.cd-liquid-bloom .drop-3{background:radial-gradient(circle,rgba(0,223,216,.35) 0%,transparent 65%);animation:cdBloom 2.4s ease-out 1.6s infinite;}
-@keyframes cdBloom{0%{transform:scale(.4);opacity:.85;}100%{transform:scale(1.2);opacity:0;}}
+/* ── liquid＝Liquid（2026-09-30）: 2案から毎回1つ＝A インクの花／B 雫が集まる（study_exam.js の LIQUID_BOOTS）。
+   ⚠️ 色は --cd-col（演出テーマ＝classic の橙）を使わず、ここで Liquid のマゼンタ・バイオレット・シアンに固定する。
+   ⚠️ 絵は canvas 1枚（_frCtx）。起動オーバーレイの外（筐体・.qc）には何も足さない。 */
+#examCountdown.cd-liquid .cd-log,#examCountdown.cd-liquid .cd-num,#examCountdown.cd-liquid .cd-sub{z-index:6;}
+#examCountdown.cd-liquid.cd-p2 .cd-log{top:17%;opacity:.6;}
+#examCountdown.cd-liquid .cd-log{color:#FFE3F2;text-shadow:0 0 3px rgba(10,3,18,.95),0 0 12px rgba(255,0,127,.75);}
+#examCountdown.cd-liquid .cd-num{font-family:-apple-system,'Helvetica Neue','Hiragino Sans',sans-serif;color:#FFF0F8;
+  text-shadow:0 0 5px rgba(10,3,18,.95),0 0 2px rgba(10,3,18,.95),0 0 24px rgba(255,0,127,.9),0 0 70px rgba(121,40,202,.7),0 5px 22px rgba(0,0,0,.6);}
+#examCountdown.cd-liquid .cd-num.go{font-size:min(10vmin,13vw);letter-spacing:.16em;text-indent:.16em;white-space:nowrap;}
+#examCountdown.cd-liquid .cd-sub{bottom:22%;color:#9FFBF6;text-shadow:0 0 3px rgba(10,3,18,.95),0 0 10px rgba(0,223,216,.9);}
+#examCountdown.cd-liquid.cd-rematch .cd-num:not(.go){text-shadow:0 0 5px rgba(10,3,18,.95),0 0 22px rgba(255,160,140,.9),0 0 56px rgba(255,138,128,.45);}
+/* A インクの花 */
+#examCountdown.cd-lq-a{background:radial-gradient(ellipse at 50% 45%,rgba(22,6,34,.86),rgba(8,2,14,.95));}
+/* B 雫が集まる */
+#examCountdown.cd-lq-b{background:radial-gradient(ellipse at 50% 50%,rgba(26,8,40,.82),rgba(8,2,14,.94));}
 
 @media (max-width:480px){
   .cd-sub{font-size:10px;letter-spacing:.22em;}

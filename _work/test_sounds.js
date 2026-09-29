@@ -111,8 +111,14 @@ t('study_exam.js が抽選する（_pickBootSpec）', () => {
   ok(/Math\.random\(\) \* l\.length/.test(studyExam), '抽選していない');
 });
 t('抽選は startExam のタップの中で行い prepare してある（iOS の自動再生制限）', () => {
-  ok(/function startExam[\s\S]*?_pendingBootSpec = _pickBootSpec\(\); _prepareWavSound\(_pendingBootSpec\)/.test(studyExam),
+  ok(/function startExam[\s\S]*?_pendingBootSpec = [^;]*_pickBootSpec\(\); _prepareWavSound\(_pendingBootSpec\)/.test(studyExam),
     'startExam の中で抽選＋prepare していない');
+});
+t('テーマ固有の起動画面（Frost・Celestial・Liquid）では起動音を鳴らさない（2026-09-30・ユーザー判断）', () => {
+  ok(/function _examBootTable\(style\)[\s\S]*?'frost'[\s\S]*?'grimoire'[\s\S]*?'liquid'/.test(studyExam), '_examBootTable が3様式を返していない');
+  ok(/_pendingBootSpec = _examBootTable\([^;]*\) \? null : _pickBootSpec\(\)/.test(studyExam), 'startExam が案の表のある様式でも起動音を選んでいる');
+  ok(/const fbs = _examBootTable\(style\);[\s\S]{0,200}if \(!fbs\) _playBootSound\(\);/.test(studyExam), '_examCountdown が案の表のある様式でも起動音を鳴らしている');
+  ok((studyExam.match(/_playBootSound\(\)/g) || []).length === 2, '_playBootSound を呼ぶ経路が増えている（定義＋_examCountdown の1か所だけのはず）');
 });
 t('boot はファイルのキーを保存しない（ボタンは試聴の1つだけ）', () => {
   ok(studyHtml.includes('data-bsound="on"'), 'study.html に起動音のボタンが無い');
