@@ -9,6 +9,7 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-09-29f: Frost の起動画面（試験開始の 3・2・1）を4案から毎回ランダムで1つに作り直し（study_exam.js の FROST_BOOTS・study.css の .cd-fr-a〜d）。A 結露の窓（締めは霜の昇華）／B 六花／C 絶対零度／D 氷盤。デモ _work/boot_frost_demo.html からユーザーが採用。尺は据え置き。旧 frost 様式（紫の文字・DIVE／GHOST LINK）は撤去。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-29e: Celestial の正解演出に「銀河の渦」（_clxGalaxy・試験演出一覧の新案 第2弾から採用）を足し、試験のセッションごとに超新星か銀河の渦を抽選（startExam・resumeExam で _clxSessionPick）。星の軌跡はどちらにも重ねる（ユーザー判断）。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-29d: Celestial の正解演出に旧案の「星の軌跡」（_clxTrails・タップ位置）だけを戻し、超新星（肢の左端）と毎回重ねる（ユーザー判断）。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-29c: Celestial の正解演出を「超新星」に置き換え（_clxCelestialFx・_clxNova）。旧「星座／惑星直列／星の軌跡から毎回ランダムで1つ」は撤去。発火位置はタップ位置ではなく正解の肢の左端（縦は中央）。試験演出一覧の新案5つからユーザーが採用。シェルのみ＝SHELL_VERSION だけ bump。

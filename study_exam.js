@@ -1742,14 +1742,6 @@ function _examRematchLines(style, qn) {
       '沈んだ ' + qn + ' 問を引き揚げる'
     ];
   }
-  if (style === 'frost') {
-    return [
-      'THERMAL RESET PROTOCOL',
-      'FROZEN ANOMALIES ....... ' + qn + ' TARGETS',
-      'CRYSTALLINE RECOVERY ... STANDBY',
-      '凍てついた ' + qn + ' 問を砕き直す'
-    ];
-  }
   if (style === 'prism') {
     return [
       'AURORA REFLECTION PROTOCOL',
@@ -1815,15 +1807,6 @@ function _examBootLines(style, qn, subjLabel) {
       'DEEP FOCUS ENGAGED'
     ];
   }
-  if (style === 'frost') {
-    return [
-      'CRYOGENIC CORE SEQUENCE',
-      'CORE TEMP .............. ABSOLUTE ZERO',
-      'CRYSTAL MATRIX ......... ' + qn + ' UNITS',
-      'SUBJECT ................ ' + subjLabel,
-      'INTELLECT FROZEN PURE'
-    ];
-  }
   if (style === 'prism') {
     return [
       'AURORA PRISM ALIGNMENT',
@@ -1845,6 +1828,339 @@ function _examBootLines(style, qn, subjLabel) {
   return ['接続確立 / LINK ESTABLISHED', '電脳ダイブ ... STAND BY', 'BANK ' + qn + ' Q  //  ' + subjLabel];
 }
 
+/* ══════════ Frost の起動画面 4案（2026-09-29）══════════
+   デモ（_work/boot_frost_demo.html）でユーザーが採用した4案から、試験ごとにランダムで1つ出す。
+   A 結露の窓（締めくくりはデモの ⑤ 霜が昇華する）／B 六花／C 絶対零度／D 氷盤。
+   ⚠️ 尺は他の様式と同じ。時刻は _examCountdown の t0・goAt・endAt を ctx で受け取るだけで、ここでは持たない
+      （起動演出は待ち時間＝1msも増やさない）。
+   ⚠️ 色は演出テーマから取らず氷の色で固定する。Frost の演出テーマは celestial と共用の space（紫）なので、
+      旧 frost 様式は紫の文字・「DIVE／GHOST LINK」の起動語（電脳ダイブの流用）になっていた。
+   ⚠️ ブートログには出題数と科目名を必ず入れる（実用を兼ねている）。
+   ⚠️ rAF のループは _cdLoop だけで回し、ctx.alive() が偽になったら止める（kill() で _cdTok が進む）。
+   ⚠️ きらめきは Frost の正解演出と同じスプライト（_frGlint）を貼る。粒ごとにグラデーションを作らない。 */
+let _cdTok = 0;
+const _cdR = (a, b) => a + Math.random() * (b - a);
+function _cdLoop(ctx, fn) {
+  const st = performance.now();
+  const tick = now => { if (!ctx.alive() || fn(now - st) === false) return; requestAnimationFrame(tick); };
+  requestAnimationFrame(tick);
+}
+// 数字（3・2・1）と起動語の出し方。全様式で共用する
+function _cdNumIn(el) {
+  el.animate([
+    { opacity: 0, transform: 'scale(2.1)', filter: 'blur(6px)' },
+    { opacity: 1, transform: 'scale(1)', filter: 'blur(0)', offset: .32 },
+    { opacity: 1, transform: 'scale(1)', offset: .72 },
+    { opacity: 0, transform: 'scale(.88)' }
+  ], { duration: 400, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
+}
+function _cdGoIn(num, sub) {
+  num.animate([
+    { opacity: 0, transform: 'scale(1.5) translateY(6px)' },
+    { opacity: 1, transform: 'scale(1)', offset: .3 },
+    { opacity: 1, offset: .72 },
+    { opacity: 0, transform: 'scale(1.06)' }
+  ], { duration: 760, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
+  sub.animate([{ opacity: 0 }, { opacity: 1, offset: .35 }, { opacity: 1, offset: .7 }, { opacity: 0 }],
+    { duration: 760, easing: 'ease-out', fill: 'forwards' });
+}
+function _cdFadeLog(c) { c.log.animate([{ opacity: .5 }, { opacity: 0 }], { duration: 300, fill: 'forwards' }); }
+function _frbHex(cx, cy, r) {
+  let d = '';
+  for (let i = 0; i < 6; i++) { const a = Math.PI / 6 + i * Math.PI / 3; d += (i ? 'L' : 'M') + (cx + r * Math.cos(a)).toFixed(2) + ' ' + (cy + r * Math.sin(a)).toFixed(2); }
+  return d + 'Z';
+}
+// B の雪の結晶。上向きの腕を1本だけ作って60°ずつ回す＝完全な6回対称。枝ぶりは毎回ちがう。
+// 段 s0＝核（最初から）／s1＝腕（3）／s2＝枝（2）／s3＝孫枝と先端の六角板（1）
+function _frbFlakeSvg() {
+  const L = 90, s = [[], [], [], []];
+  s[0].push(_frbHex(100, 100, 10), _frbHex(100, 100, 5));
+  s[1].push('M100 90 L100 ' + (100 - L));
+  const nb = 2 + (Math.random() * 2 | 0), ts = [];
+  for (let i = 0; i < nb; i++) ts.push(_cdR(.28, .8));
+  ts.sort((a, b) => a - b);
+  const sin = Math.sin(Math.PI / 3), cos = Math.cos(Math.PI / 3);
+  ts.forEach(t => {
+    const y = 100 - L * t, bl = L * (1 - t) * _cdR(.35, .62);
+    [-1, 1].forEach(sg => {
+      s[2].push('M100 ' + y.toFixed(2) + ' L' + (100 + sg * bl * sin).toFixed(2) + ' ' + (y - bl * cos).toFixed(2));
+      const mx = 100 + sg * bl * .55 * sin, my = y - bl * .55 * cos, tl = bl * _cdR(.25, .4);
+      s[3].push('M' + mx.toFixed(2) + ' ' + my.toFixed(2) + ' L' + mx.toFixed(2) + ' ' + (my - tl).toFixed(2));
+    });
+  });
+  s[3].push(_frbHex(100, 100 - L, 4.5));
+  const yv = 100 - L * .16;
+  s[3].push('M100 ' + yv + ' L93 ' + (yv - 4) + ' M100 ' + yv + ' L107 ' + (yv - 4));
+  let g = '';
+  s.forEach((ps, k) => {
+    g += '<g class="s' + k + '">';
+    (k === 0 ? [0] : [0, 60, 120, 180, 240, 300]).forEach(a => ps.forEach(d => {
+      g += '<path class="frb-dash" pathLength="1" transform="rotate(' + a + ' 100 100)" d="' + d + '"/>';
+    }));
+    g += '</g>';
+  });
+  return '<svg class="frb-flake" viewBox="0 0 200 200">' + g + '</svg>';
+}
+
+const FROST_BOOTS = [
+  /* A 結露の窓：画面が曇りガラスになり、縁から霜が這い込む。ログと数字は指でなぞった跡で、しずくが垂れる。
+     起動で曇りと霜がきらめく粒になって上へ舞い上がる（昇華）。
+     ⚠️ 曇りは backdrop-filter の全画面1枚。約2.7秒で消える一度きりの層なので許している。 */
+  { key: 'a', prefix: '', wipe: true,
+    lines: (qn, s) => ['FROSTED GLASS  //  結露の窓', '外 気 温 ............ −18 °C', '出 題 数 ............ ' + qn + ' 問', '科    目 ............ ' + s, '窓を拭う'],
+    rematch: qn => ['FROSTED GLASS  //  再 走', '曇った跡 ............ 前回の誤答 ' + qn + ' 問', '指 で 拭 う ......... 準備完了', 'この ' + qn + ' 問をはっきり見る'],
+    html: '<div class="frb-pane"><div class="frb-fog"></div></div>',
+    build(c) {
+      const pane = c.host.querySelector('.frb-pane');
+      pane.firstChild.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 650, easing: 'ease-out', fill: 'forwards' });
+      // 縁から内へ伸びる霜の羽。点列を先に作り、伸びた分だけ描き足す（毎フレーム描き直さない）
+      const w = innerWidth, h = innerHeight, x = _frCtx(pane, w, h, 0, 1.5), depth = Math.min(w, h) * .3, paths = [];
+      const grow = (x0, y0, a, len, lvl) => {
+        const pts = [[x0, y0]]; let px = x0, py = y0, d = 0, ang = a;
+        while (d < len) {
+          ang += _cdR(-.22, .22); px += Math.cos(ang) * 6; py += Math.sin(ang) * 6; d += 6; pts.push([px, py]);
+          if (lvl < 2 && d > 10 && Math.random() < .2) grow(px, py, ang + (Math.random() < .5 ? -1 : 1) * _cdR(.8, 1.1), (len - d) * _cdR(.3, .55), lvl + 1);
+        }
+        // 伸びる順は「画面の縁からの距離」で決める（枝も幹と同じ前線で伸びる）
+        pts.forEach(q => q.push(Math.min(q[0], w - q[0], q[1], h - q[1])));
+        paths.push({ pts, i: 1 });
+      };
+      const edge = (n, f) => { for (let i = 0; i < n; i++) f((i + Math.random()) / n); };
+      edge(Math.ceil(w / 30), t => grow(t * w, 0, Math.PI / 2, depth * _cdR(.35, 1), 0));
+      edge(Math.ceil(w / 30), t => grow(t * w, h, -Math.PI / 2, depth * _cdR(.35, 1), 0));
+      edge(Math.ceil(h / 30), t => grow(0, t * h, 0, depth * _cdR(.35, 1), 0));
+      edge(Math.ceil(h / 30), t => grow(w, t * h, Math.PI, depth * _cdR(.35, 1), 0));
+      x.strokeStyle = 'rgba(240,250,255,.62)'; x.lineCap = 'round'; x.lineWidth = 1.1;
+      _cdLoop(c, t => {
+        const G = depth * Math.min(1, Math.pow(t / c.goAt, .7));
+        x.beginPath();
+        paths.forEach(p => {
+          while (p.i < p.pts.length && p.pts[p.i][2] <= G) {
+            const a = p.pts[p.i - 1], b = p.pts[p.i]; x.moveTo(a[0], a[1]); x.lineTo(b[0], b[1]); p.i++;
+          }
+        });
+        x.stroke();
+        return t < c.goAt;
+      });
+    },
+    num(c) {
+      const el = c.num;
+      el.animate([
+        { opacity: 0, clipPath: 'inset(0 100% 0 0)' },
+        { opacity: 1, clipPath: 'inset(0 0 0 0)', offset: .35 },
+        { opacity: 1, clipPath: 'inset(0 0 0 0)', filter: 'blur(0)', offset: .7 },
+        { opacity: 0, clipPath: 'inset(0 0 0 0)', filter: 'blur(5px)' }
+      ], { duration: 400, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' });
+      // なぞった跡の下端からしずくが1〜2粒垂れる
+      const r = el.getBoundingClientRect(), k = Math.random() < .5 ? 2 : 1;
+      for (let j = 0; j < k; j++) {
+        const d = document.createElement('i'); d.className = 'frb-drip';
+        d.style.left = (r.left + r.width * _cdR(.25, .75)) + 'px'; d.style.top = (r.bottom - r.height * .12) + 'px';
+        c.host.appendChild(d);
+        d.animate([{ opacity: 0, transform: 'translateY(0) scaleY(.6)' }, { opacity: 1, offset: .2 },
+                   { opacity: .9, transform: 'translateY(' + (innerHeight * _cdR(.05, .09)) + 'px) scaleY(1.25)' }],
+          { duration: 400, delay: 120 + j * 60, easing: 'cubic-bezier(.5,0,.8,.6)', fill: 'forwards' });
+      }
+    },
+    goWord: 'CLEAR', goSub: '視 界 良 好 — VISIBILITY CLEAR',
+    go(c) {
+      c.host.querySelectorAll('.frb-drip').forEach(d => d.remove());
+      _cdFadeLog(c);
+      const pane = c.host.querySelector('.frb-pane'), cv = pane.querySelector('canvas');
+      pane.firstChild.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 560, easing: 'ease-in', fill: 'forwards' });
+      if (cv) cv.animate([{ opacity: 1, translate: '0 0' }, { opacity: 0, translate: '0 -24px' }], { duration: 520, easing: 'ease-in', fill: 'forwards' });
+      // 昇華：縁（霜のあった場所）に寄せて生まれた粒が上へ舞い上がって消える
+      const W = innerWidth, H = innerHeight, x = _frCtx(c.host, W, H, 0, 1.5), P = [];
+      const n = Math.round(Math.min(220, 90 + W * H / 9000));
+      for (let i = 0; i < n; i++) {
+        const e = Math.random(), m = Math.min(W, H) * .28 * Math.pow(Math.random(), 1.6);
+        P.push({ x: e < .25 ? m : e < .5 ? W - m : _cdR(0, W), y: e < .5 ? _cdR(0, H) : e < .75 ? m : H - m,
+                 vx: _cdR(-20, 20), vy: -_cdR(60, 190), s: _cdR(1.1, 3.2), ph: _cdR(0, 6.28), f: _cdR(10, 20), d: _cdR(0, 180) });
+      }
+      _cdLoop(c, t => {
+        x.clearRect(0, 0, W, H);
+        P.forEach(p => {
+          const tt = t - p.d; if (tt < 0) return;
+          const sec = tt / 1000, life = Math.min(1, tt / 600);
+          _frGlint(x, p.x + p.vx * sec, p.y + p.vy * sec, p.s, Math.sin(life * Math.PI) * (.6 + .4 * Math.sin(p.ph + sec * p.f)));
+        });
+        return t < 780;
+      });
+      _cdGoIn(c.num, c.sub);
+    } },
+
+  /* B 六花：中央で雪の結晶の核ができ、3で腕・2で枝・1で孫枝と先端の六角板が伸びる。
+     起動で結晶がほどけてダイヤモンドダストになり舞い落ちる。 */
+  { key: 'b', prefix: '· ',
+    lines: (qn, s) => ['SIX-FOLD CRYSTAL GROWTH', '過 冷 却 ............ −15 °C', '結 晶 核 ............ ' + qn + ' 問', '科    目 ............ ' + s, '六花、成長開始'],
+    rematch: qn => ['RE-CRYSTALLIZATION', '欠けた枝 ............ 前回の誤答 ' + qn + ' 問', '再 結 晶 ............ 準備完了', 'この ' + qn + ' 問で結晶を完成させる'],
+    html: '',
+    build(c) {
+      c.host.insertAdjacentHTML('afterbegin', _frbFlakeSvg());
+      const f = c.host.querySelector('.frb-flake');
+      f.animate([{ rotate: '-8deg' }, { rotate: '14deg' }], { duration: c.endAt, easing: 'linear', fill: 'forwards' });
+      c.at(80, () => f.querySelectorAll('.s0 .frb-dash').forEach(p => p.classList.add('on')));
+    },
+    num(c, i) {
+      c.host.querySelectorAll('.frb-flake .s' + (i + 1) + ' .frb-dash').forEach(p => p.classList.add('on'));
+      _cdNumIn(c.num);
+    },
+    goWord: 'CRYSTAL', goSub: '六 花 — 結 晶 完 了',
+    go(c) {
+      c.host.querySelector('.frb-flake').animate([
+        { scale: '1', opacity: .8, filter: 'drop-shadow(0 0 6px rgba(158,227,255,.85)) brightness(1)' },
+        { scale: '1.06', opacity: 1, filter: 'drop-shadow(0 0 14px rgba(255,255,255,1)) brightness(1.8)', offset: .18 },
+        { scale: '1.4', opacity: 0, filter: 'drop-shadow(0 0 6px rgba(158,227,255,.5)) brightness(1)' }
+      ], { duration: 700, easing: 'cubic-bezier(.3,.6,.3,1)', fill: 'forwards' });
+      // ダイヤモンドダスト：結晶のあった円の中から生まれ、ゆっくり舞い落ちて瞬く
+      const w = innerWidth, h = innerHeight, cx = w / 2, cy = h / 2, x = _frCtx(c.host, w, h, 0, 1.5);
+      const rad = Math.min(Math.min(w, h) * .32, 260), P = [], n = Math.round(Math.min(160, 60 + w * h / 12000));
+      for (let i = 0; i < n; i++) {
+        const a = _cdR(0, 6.283), r = rad * Math.sqrt(Math.random());
+        P.push({ x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r, vx: Math.cos(a) * _cdR(10, 50), vy: _cdR(20, 70), s: _cdR(.9, 2.8), ph: _cdR(0, 6.28), f: _cdR(8, 16) });
+      }
+      _cdLoop(c, t => {
+        x.clearRect(0, 0, w, h);
+        const sec = t / 1000, life = Math.min(1, t / 780);
+        P.forEach(p => _frGlint(x, p.x + p.vx * sec + Math.sin(p.ph + sec * 3) * 6, p.y + p.vy * sec, p.s,
+          (1 - life) * (.55 + .45 * Math.sin(p.ph + sec * p.f))));
+        return t < 780;
+      });
+      _cdGoIn(c.num, c.sub);
+    } },
+
+  /* C 絶対零度：冷却装置の計器。温度計が体温 36.5 ℃ から下がり、3＝N₂・2＝H₂・1＝He の沸点を通り、起動で 0 K。 */
+  { key: 'c', prefix: '> ',
+    lines: (qn, s) => ['CRYOGENIC SEQUENCE', '冷 却 材 ............ LN₂ 充填', '試 料 数 ............ ' + qn + ' 問', '科    目 ............ ' + s, '絶対零度へ'],
+    rematch: qn => ['CRYO RE-SCAN', '解凍した標本 ........ 前回の誤答 ' + qn + ' 問', '再 凍 結 ............ STANDBY', 'この ' + qn + ' 問を凍結し直す'],
+    html: '<div class="frb-grid"></div><div class="frb-vig"></div>',
+    build(c) {
+      let tk = '';
+      for (let i = 0; i < 60; i++) {
+        const a = i * Math.PI / 30, m = i % 5 === 0, r1 = m ? 86 : 88;
+        tk += '<line class="tk' + (m ? ' m' : '') + '" x1="' + (100 + r1 * Math.sin(a)).toFixed(2) + '" y1="' + (100 - r1 * Math.cos(a)).toFixed(2)
+            + '" x2="' + (100 + 94 * Math.sin(a)).toFixed(2) + '" y2="' + (100 - 94 * Math.cos(a)).toFixed(2) + '"/>';
+      }
+      c.host.insertAdjacentHTML('afterbegin',
+        '<svg class="frb-gauge" viewBox="0 0 200 200"><defs><linearGradient id="frbCryoG" x1="0" y1="0" x2="1" y2="1">'
+        + '<stop offset="0" stop-color="#70D6FF"/><stop offset="1" stop-color="#FFFFFF"/></linearGradient></defs>'
+        + tk + '<circle class="trk" cx="100" cy="100" r="78"/>'
+        + '<circle class="arc" pathLength="1" cx="100" cy="100" r="78" transform="rotate(-90 100 100)"/></svg>');
+      c.host.insertAdjacentHTML('beforeend', '<div class="frb-temp"><b>+36.5 °C</b><span>BODY TEMP</span></div>');
+      const arc = c.host.querySelector('.frb-gauge .arc'), tb = c.host.querySelector('.frb-temp b'),
+            sp = c.host.querySelector('.frb-temp span'), vig = c.host.querySelector('.frb-vig');
+      const KF = [[0, 36.5], [c.t0, -196], [c.t0 + 420, -253], [c.t0 + 840, -269], [c.goAt, -273.15]];
+      _cdLoop(c, t => {
+        let v = KF[KF.length - 1][1];
+        for (let i = 1; i < KF.length; i++) if (t < KF[i][0]) {
+          const u = (t - KF[i - 1][0]) / (KF[i][0] - KF[i - 1][0]);
+          v = KF[i - 1][1] + (KF[i][1] - KF[i - 1][1]) * (1 - Math.pow(1 - u, 2)); break;
+        }
+        const fr = Math.min(1, (36.5 - v) / 309.65);
+        arc.style.strokeDashoffset = String(1 - fr);
+        vig.style.opacity = String(Math.pow(fr, 3) * .9);
+        tb.textContent = (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(1) + ' °C';
+        if (t < c.t0) sp.textContent = v > 30 ? 'BODY TEMP' : 'COOLING';
+        return t < c.goAt;
+      });
+    },
+    num(c, i) {
+      c.host.querySelector('.frb-temp span').textContent = ['N₂ 沸点 −196 °C', 'H₂ 沸点 −253 °C', 'He 沸点 −269 °C'][i];
+      c.host.querySelector('.frb-gauge').animate([{ scale: '1.035' }, { scale: '1' }], { duration: 300, easing: 'cubic-bezier(.2,1,.3,1)' });
+      _cdNumIn(c.num);
+    },
+    goWord: '0 K', goSub: 'ABSOLUTE ZERO — 雑 念 停 止',
+    go(c) {
+      c.host.querySelector('.frb-temp b').textContent = '−273.15 °C';
+      c.host.querySelector('.frb-temp span').textContent = '0 KELVIN';
+      c.host.querySelector('.frb-gauge').animate([
+        { scale: '1', opacity: 1, filter: 'brightness(1)' }, { scale: '1.04', opacity: 1, filter: 'brightness(2.2)', offset: .15 },
+        { scale: '1.22', opacity: 0, filter: 'brightness(1)' }
+      ], { duration: 700, easing: 'cubic-bezier(.3,.6,.3,1)', fill: 'forwards' });
+      c.host.querySelector('.frb-vig').animate([{ opacity: .9 }, { opacity: 1, offset: .15 }, { opacity: 0 }], { duration: 760, fill: 'forwards' });
+      c.host.querySelector('.frb-temp').animate([{ opacity: 1 }, { opacity: 1, offset: .6 }, { opacity: 0 }], { duration: 760, fill: 'forwards' });
+      _cdGoIn(c.num, c.sub);
+    } },
+
+  /* D 氷盤：画面が厚い氷に閉ざされ、文字は氷の中に封じられて見える。3・2・1 で亀裂が広がり、起動で割れ落ちる。
+     破片は亀裂と同じ角度・同じ輪で切る（亀裂と破片の形が揃う）。 */
+  { key: 'd', prefix: '— ', wipe: true,
+    lines: (qn, s) => ['ICE SHEET  //  氷盤', '氷    厚 ............ 1.2 m', '封じた問題 .......... ' + qn + ' 問', '科    目 ............ ' + s, '亀裂、走る'],
+    rematch: qn => ['ICE SHEET  //  再 凍 結', '閉じ込めた誤答 ...... ' + qn + ' 問', '砕    氷 ............ 準備完了', 'この ' + qn + ' 問を割り出す'],
+    html: '<div class="frb-slab frb-ice"></div>',
+    build(c) {
+      const w = innerWidth, h = innerHeight, cx = w / 2, cy = h / 2, diag = Math.hypot(w, h);
+      c.host.querySelector('.frb-slab').animate([{ opacity: 0, scale: '1.03' }, { opacity: 1, scale: '1' }], { duration: 480, easing: 'cubic-bezier(.2,.8,.3,1)', fill: 'forwards' });
+      const N = 7, base = _cdR(0, 6.283), ang = [];
+      for (let i = 0; i < N; i++) ang.push(base + i * 6.283 / N + _cdR(-.22, .22));
+      const r1 = Math.min(w, h) * _cdR(.13, .17), r2 = Math.min(w, h) * _cdR(.32, .38);
+      c.ice = { cx, cy, ang, r1, r2, diag };
+      const P = (a, r) => [cx + Math.cos(a) * r, cy + Math.sin(a) * r];
+      const jag = (a, rA, rB) => {
+        let d = ''; const n = Math.max(2, Math.round((rB - rA) / 26));
+        for (let i = 0; i <= n; i++) {
+          const [x, y] = P(a + ((i === 0 || i === n) ? 0 : _cdR(-.035, .035)), rA + (rB - rA) * i / n);
+          d += (i ? 'L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1);
+        }
+        return d;
+      };
+      // 3：3本が中心から r2 まで／2：残り4本と、最初の3本の続きが画面の外まで／1：蜘蛛の巣（r1・r2 の輪）
+      const st = [[], [], []];
+      [0, 3, 5].forEach(i => st[0].push(jag(ang[i], 0, r2)));
+      [1, 2, 4, 6].forEach(i => st[1].push(jag(ang[i], 0, diag * .75)));
+      [0, 3, 5].forEach(i => st[1].push(jag(ang[i], r2, diag * .75)));
+      [r1, r2].forEach(r => { for (let i = 0; i < N; i++) {
+        const a2 = ang[(i + 1) % N] + (i === N - 1 ? 6.283 : 0);
+        const [x1, y1] = P(ang[i], r), [x2, y2] = P(a2, r), [mx, my] = P((ang[i] + a2) / 2, r * _cdR(.9, .97));
+        st[2].push('M' + x1.toFixed(1) + ' ' + y1.toFixed(1) + ' L' + mx.toFixed(1) + ' ' + my.toFixed(1) + ' L' + x2.toFixed(1) + ' ' + y2.toFixed(1));
+      } });
+      let svg = '<svg class="frb-cracks" viewBox="0 0 ' + w + ' ' + h + '">';
+      st.forEach((ps, k) => {
+        svg += '<g class="k' + k + '">';
+        ps.forEach(d => { svg += '<path class="d frb-dash" pathLength="1" d="' + d + '"/><path class="w frb-dash" pathLength="1" d="' + d + '"/>'; });
+        svg += '</g>';
+      });
+      c.host.insertAdjacentHTML('beforeend', svg + '</svg>');
+    },
+    num(c, i) {
+      c.host.querySelectorAll('.frb-cracks .k' + i + ' .frb-dash').forEach(p => p.classList.add('on'));
+      const slab = c.host.querySelector('.frb-slab');
+      if (slab) slab.animate([{ translate: '0 0' }, { translate: (i % 2 ? 3 : -3) + 'px 2px' }, { translate: '0 0' }], { duration: 120, easing: 'ease-out' });
+      c.num.animate([
+        { opacity: 0, filter: 'blur(8px)', transform: 'scale(1.08)' },
+        { opacity: 1, filter: 'blur(0)', transform: 'scale(1)', offset: .3 },
+        { opacity: 1, offset: .72 },
+        { opacity: 0, filter: 'blur(4px)' }
+      ], { duration: 400, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
+    },
+    goWord: 'BREAK', goSub: '氷 解 — THE ICE BREAKS',
+    go(c) {
+      const { cx, cy, ang, r1, r2, diag } = c.ice, N = ang.length, Rb = diag * 1.2;
+      const slab = c.host.querySelector('.frb-slab'); if (slab) slab.remove();
+      c.host.querySelector('.frb-cracks').animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, fill: 'forwards' });
+      c.log.animate([{ opacity: .5 }, { opacity: 0 }], { duration: 160, fill: 'forwards' });
+      const P = (a, r) => (cx + Math.cos(a) * r).toFixed(1) + 'px ' + (cy + Math.sin(a) * r).toFixed(1) + 'px';
+      for (let i = 0; i < N; i++) {
+        const a1 = ang[i], a2 = ang[(i + 1) % N] + (i === N - 1 ? 6.283 : 0), am = (a1 + a2) / 2;
+        [[[cx.toFixed(1) + 'px ' + cy.toFixed(1) + 'px', P(a1, r1), P(a2, r1)], 30, 0, r1 * .6],
+         [[P(a1, r1), P(a1, r2), P(a2, r2), P(a2, r1)], 90, 30, (r1 + r2) / 2],
+         [[P(a1, r2), P(a1, Rb), P(a2, Rb), P(a2, r2)], 170, 60, r2 * 1.4]].forEach(([poly, dist, dl, ro]) => {
+          const s = document.createElement('div'); s.className = 'frb-shard frb-ice';
+          s.style.clipPath = 'polygon(' + poly.join(',') + ')';
+          s.style.transformOrigin = P(am, ro);
+          c.host.insertBefore(s, c.log);
+          const dx = Math.cos(am) * dist * _cdR(.8, 1.2), dy = Math.sin(am) * dist * _cdR(.8, 1.2);
+          s.animate([{ translate: '0 0', rotate: '0deg', opacity: 1 },
+                     { translate: dx + 'px ' + (dy + innerHeight * .28) + 'px', rotate: _cdR(-16, 16) + 'deg', opacity: 0 }],
+            { duration: 680, delay: dl, easing: 'cubic-bezier(.35,.1,.6,1)', fill: 'both' });
+        });
+      }
+      const fl = document.createElement('div'); fl.className = 'frb-flash'; c.host.appendChild(fl);
+      fl.animate([{ opacity: 0, scale: '.4' }, { opacity: 1, scale: '1', offset: .15 }, { opacity: 0, scale: '2.2' }], { duration: 520, easing: 'ease-out', fill: 'forwards' });
+      _cdGoIn(c.num, c.sub);
+    } }
+];
+
 // 戻り値 = カウントダウンが明けるまでのms（B6/B7 がこれに合わせて1問目を立ち上げる）
 function _examCountdown() {
   if (_fxOff()) return 0;
@@ -1853,6 +2169,9 @@ function _examCountdown() {
   const theme = _examTheme();
   const curUi = window.MecUITheme ? MecUITheme.get() : null;
   const style = _examStyleForTheme(curUi);
+  // Frost は4案（FROST_BOOTS）から毎回1つ。色・起動語・演出はその案が持つ
+  const fb = style === 'frost' ? FROST_BOOTS[(Math.random() * FROST_BOOTS.length) | 0] : null;
+  const tok = ++_cdTok;
   let host = document.getElementById('examCountdown');
   if (!host) {
     host = document.createElement('div');
@@ -1889,11 +2208,11 @@ function _examCountdown() {
     }
   }
 
-  host.className = 'cd-' + style + (_examIsRematch ? ' cd-rematch' : '');
+  host.className = 'cd-' + style + (fb ? ' cd-fr-' + fb.key : '') + (_examIsRematch ? ' cd-rematch' : '');
   host.style.setProperty('--cd-col', col);
   host.style.setProperty('--cd-glow', glow);
   host.style.display = 'flex';
-  host.innerHTML =
+  host.innerHTML = (fb ? fb.html : (
     '<div class="cd-scan"></div>' +
     (style === 'cyber' ? '<div class="cd-stream">' + cols.join('') + '</div>' : '') +
     '<i class="cd-br tl"></i><i class="cd-br tr"></i><i class="cd-br bl"></i><i class="cd-br br"></i>' +
@@ -1908,13 +2227,11 @@ function _examCountdown() {
       ? '<div class="cd-grimoire-circle"><svg viewBox="0 0 200 200" class="cd-magic-svg"><circle class="mc-outer" cx="100" cy="100" r="88"/><polygon class="mc-poly" points="100,16 172,142 28,142"/><polygon class="mc-poly-rev" points="100,184 28,58 172,58"/><circle class="mc-inner" cx="100" cy="100" r="54"/></svg></div>'
       : style === 'abyss'
       ? '<div class="cd-abyss-sonar"><svg viewBox="0 0 200 200" class="cd-sonar-svg"><circle class="sn-wave1" cx="100" cy="100" r="28"/><circle class="sn-wave2" cx="100" cy="100" r="58"/><circle class="sn-wave3" cx="100" cy="100" r="88"/><line x1="100" y1="8" x2="100" y2="192" class="sn-axis"/><line x1="8" y1="100" x2="192" y2="100" class="sn-axis"/></svg></div>'
-      : style === 'frost'
-      ? '<div class="cd-frost-frame"><i class="ff-crystal tl"></i><i class="ff-crystal tr"></i><i class="ff-crystal bl"></i><i class="ff-crystal br"></i><div class="ff-cooling-bar"><div class="ff-cool-fill"></div></div></div>'
       : style === 'prism'
       ? '<div class="cd-prism-field"><div class="cd-prism-ray ray-1"></div><div class="cd-prism-ray ray-2"></div><div class="cd-prism-ray ray-3"></div></div>'
       : style === 'liquid'
       ? '<div class="cd-liquid-bloom"><div class="cd-drop drop-1"></div><div class="cd-drop drop-2"></div><div class="cd-drop drop-3"></div></div>'
-      : '<div class="cd-cyber-hud"><div class="hud-frame"></div><div class="hud-corner hc-tl"></div><div class="hud-corner hc-tr"></div><div class="hud-corner hc-bl"></div><div class="hud-corner hc-br"></div><div class="hud-cross-h"></div><div class="hud-cross-v"></div><div class="hud-scanner-bar"></div></div>') +
+      : '<div class="cd-cyber-hud"><div class="hud-frame"></div><div class="hud-corner hc-tl"></div><div class="hud-corner hc-tr"></div><div class="hud-corner hc-bl"></div><div class="hud-corner hc-br"></div><div class="hud-cross-h"></div><div class="hud-cross-v"></div><div class="hud-scanner-bar"></div></div>'))) +
     '<div class="cd-log"></div>' +
     '<div class="cd-num"></div>' +
     '<div class="cd-sub"></div>';
@@ -1936,25 +2253,35 @@ function _examCountdown() {
   const logEl = host.querySelector('.cd-log');
   const numEl = host.querySelector('.cd-num');
   const subEl = host.querySelector('.cd-sub');
-  const lines = _examIsRematch ? _examRematchLines(style, qn) : _examBootLines(style, qn, subjLabel);
+  const lines = fb ? (_examIsRematch ? fb.rematch(qn) : fb.lines(qn, subjLabel))
+              : _examIsRematch ? _examRematchLines(style, qn) : _examBootLines(style, qn, subjLabel);
 
   const timers = [];
-  const kill = () => { timers.forEach(clearTimeout); host.style.display = 'none'; host.innerHTML = ''; host.className = ''; };
+  const kill = () => { if (tok === _cdTok) _cdTok++; timers.forEach(clearTimeout); host.style.display = 'none'; host.innerHTML = ''; host.className = ''; };
   const at = (ms, fn) => timers.push(setTimeout(() => { if (!examMode) { kill(); return; } fn(); }, ms));
 
   // ① ブートログを1行ずつ点灯
   lines.forEach((ln, i) => at(60 + i * 105, () => {
     const d = document.createElement('div');
     d.className = 'cd-line';
-    d.textContent = (style === 'mecha' ? '> ' : style === 'steam' ? '— ' : '// ') + ln;
+    d.textContent = (fb ? fb.prefix : style === 'mecha' ? '> ' : style === 'steam' ? '— ' : '// ') + ln;
     logEl.appendChild(d);
-    d.animate([{ opacity: 0, transform: 'translateX(-8px)' }, { opacity: 1, transform: 'none' }],
-      { duration: 200, easing: 'ease-out' });
+    if (fb && fb.wipe) {
+      // 左から拭われて現れる（A＝指でなぞった跡・D＝氷の中の文字）
+      d.animate([{ clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0 0 0)' }],
+        { duration: 240, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'backwards' });
+    } else {
+      d.animate([{ opacity: 0, transform: 'translateX(-8px)' }, { opacity: 1, transform: 'none' }],
+        { duration: 200, easing: 'ease-out' });
+    }
   }));
 
   // ② 3 → 2 → 1 → 起動語
-  const goWord = style === 'mecha' ? 'ALL GREEN' : style === 'steam' ? '全速' : 'DIVE';
+  const goWord = fb ? fb.goWord : style === 'mecha' ? 'ALL GREEN' : style === 'steam' ? '全速' : 'DIVE';
   const t0 = 60 + lines.length * 105 + 120;
+  const fbc = fb && { host, log: logEl, num: numEl, sub: subEl, t0, goAt: t0 + 3 * 420, endAt: t0 + 3 * 420 + 780,
+                      at, alive: () => tok === _cdTok && examMode };
+  if (fb) fb.build(fbc);
   ['3', '2', '1'].forEach((n, i) => at(t0 + i * 420, () => {
     host.classList.add('cd-p2');   // ログを上へ退かせて中央を数字に譲る
     // S8: 3・2・1 で絞りが1段ずつ閉じる。⚠️ 尺は増やさない＝既存のカウントに相乗りするだけ
@@ -1962,12 +2289,8 @@ function _examCountdown() {
     numEl.textContent = n;
     numEl.className = 'cd-num';
     void numEl.offsetWidth;
-    numEl.animate([
-      { opacity: 0, transform: 'scale(2.1)', filter: 'blur(6px)' },
-      { opacity: 1, transform: 'scale(1)', filter: 'blur(0)', offset: .32 },
-      { opacity: 1, transform: 'scale(1)', offset: .72 },
-      { opacity: 0, transform: 'scale(.88)' }
-    ], { duration: 400, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
+    if (fb) { fb.num(fbc, i); return; }
+    _cdNumIn(numEl);
     if (window.MecFX) {
       try {
         window.MecFX.rings(window.innerWidth / 2, window.innerHeight / 2,
@@ -1980,6 +2303,7 @@ function _examCountdown() {
   at(t0 + 3 * 420, () => {
     numEl.textContent = goWord;
     numEl.className = 'cd-num go';
+    if (fb) { subEl.textContent = fb.goSub; void numEl.offsetWidth; fb.go(fbc); return; }
     subEl.textContent = style === 'mecha' ? 'COMBAT MODE ENGAGED'
                       : style === 'steam' ? 'BOILER — FULL PRESSURE'
                       : 'GHOST LINK — ONLINE';
@@ -2000,14 +2324,7 @@ function _examCountdown() {
       } catch (e) {}
     }
     void numEl.offsetWidth;
-    numEl.animate([
-      { opacity: 0, transform: 'scale(1.5) translateY(6px)' },
-      { opacity: 1, transform: 'scale(1)', offset: .3 },
-      { opacity: 1, offset: .72 },
-      { opacity: 0, transform: 'scale(1.06)' }
-    ], { duration: 760, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
-    subEl.animate([{ opacity: 0 }, { opacity: 1, offset: .35 }, { opacity: 1, offset: .7 }, { opacity: 0 }],
-      { duration: 760, easing: 'ease-out', fill: 'forwards' });
+    _cdGoIn(numEl, subEl);
     const sw = document.createElement('div');
     sw.className = 'cd-sweep';
     host.appendChild(sw);

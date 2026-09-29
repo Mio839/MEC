@@ -1262,16 +1262,89 @@ html.mec-jumping .qc{content-visibility:visible!important;}
   100%{transform:scale(1.15);opacity:0;stroke-width:1;}
 }
 
-/* ── frost: 氷晶フレーム＋冷却ゲージ ── */
-.cd-frost-frame{position:absolute;inset:0;pointer-events:none;}
-.cd-frost-frame .ff-crystal{position:absolute;width:40px;height:40px;border:2px solid var(--cd-col,#70D6FF);opacity:.75;}
-.cd-frost-frame .ff-crystal.tl{top:20px;left:20px;clip-path:polygon(0 0, 100% 0, 0 100%);background:linear-gradient(135deg,rgba(112,214,255,.25),transparent);}
-.cd-frost-frame .ff-crystal.tr{top:20px;right:20px;clip-path:polygon(0 0, 100% 0, 100% 100%);background:linear-gradient(225deg,rgba(112,214,255,.25),transparent);}
-.cd-frost-frame .ff-crystal.bl{bottom:20px;left:20px;clip-path:polygon(0 0, 0 100%, 100% 100%);background:linear-gradient(45deg,rgba(112,214,255,.25),transparent);}
-.cd-frost-frame .ff-crystal.br{bottom:20px;right:20px;clip-path:polygon(100% 0, 0 100%, 100% 100%);background:linear-gradient(315deg,rgba(112,214,255,.25),transparent);}
-.ff-cooling-bar{position:absolute;bottom:14%;left:25%;right:25%;height:4px;border-radius:2px;background:rgba(255,255,255,.12);overflow:hidden;}
-.ff-cool-fill{width:0%;height:100%;background:linear-gradient(90deg,#70D6FF,#FFFFFF);animation:cdCoolProgress 2.2s ease-out forwards;}
-@keyframes cdCoolProgress{to{width:100%;}}
+/* ── frost（2026-09-29）: 4案から毎回1つ＝A 結露の窓／B 六花／C 絶対零度／D 氷盤（study_exam.js の FROST_BOOTS）──
+   ⚠️ 色は --cd-col（演出テーマ＝space の紫）を使わず、ここで氷の色に固定する。
+   ⚠️ 起動オーバーレイの外（筐体・.qc）には何も足さない。一度きりの層で、infinite は持たない。 */
+#examCountdown.cd-frost .frb-dash{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .38s cubic-bezier(.3,.7,.3,1);}
+#examCountdown.cd-frost .frb-dash.on{stroke-dashoffset:0;}
+#examCountdown.cd-frost.cd-p2 .cd-log{top:17%;opacity:.6;}
+#examCountdown.cd-frost.cd-rematch .cd-line{color:inherit;}
+#examCountdown.cd-frost.cd-rematch .cd-num:not(.go){text-shadow:0 0 22px rgba(255,160,140,.9),0 0 56px rgba(255,138,128,.45);}
+#examCountdown.cd-frost .cd-sub{bottom:22%;}
+
+/* A 結露の窓：曇りガラス（backdrop-filter の全画面1枚）＋縁の霜（canvas）。文字は指でなぞった跡＝暗い字 */
+#examCountdown.cd-fr-a{background:rgba(3,12,26,.3);}
+#examCountdown.cd-fr-a .frb-pane{position:absolute;inset:0;}
+#examCountdown.cd-fr-a .frb-fog{position:absolute;inset:0;opacity:0;-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);
+  background:radial-gradient(ellipse 75% 65% at 50% 50%,rgba(206,232,248,.52),rgba(222,240,252,.68) 68%,rgba(240,249,255,.84));}
+#examCountdown.cd-fr-a .cd-log{color:rgba(5,22,42,.9);font-weight:700;text-shadow:0 1px 0 rgba(255,255,255,.5);}
+#examCountdown.cd-fr-a .cd-num{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:800;color:rgba(6,26,48,.8);
+  text-shadow:0 0 2px rgba(255,255,255,.55),0 2px 0 rgba(255,255,255,.4);}
+#examCountdown.cd-fr-a .cd-num.go{color:#fff;font-weight:300;text-shadow:0 0 26px rgba(158,227,255,.95),0 4px 22px rgba(0,0,0,.55);}
+#examCountdown.cd-fr-a .cd-sub{color:#EAF8FF;text-shadow:0 0 12px rgba(158,227,255,.9),0 2px 10px rgba(0,0,0,.6);}
+#examCountdown.cd-fr-a .frb-drip{position:absolute;z-index:6;width:7px;height:11px;border-radius:50% 50% 50% 50%/62% 62% 38% 38%;
+  background:rgba(6,26,48,.62);box-shadow:inset -1px -2px 0 rgba(255,255,255,.35);}
+
+/* B 六花：中央の雪の結晶（SVG・段ごとに stroke-dashoffset で描き上がる） */
+#examCountdown.cd-fr-b{background:radial-gradient(ellipse at 50% 50%,rgba(10,34,62,.82),rgba(2,9,20,.9));}
+#examCountdown.cd-fr-b .frb-flake{position:absolute;width:min(64vmin,520px);height:min(64vmin,520px);left:50%;top:50%;
+  translate:-50% -50%;opacity:.8;filter:drop-shadow(0 0 6px rgba(158,227,255,.85));}
+#examCountdown.cd-fr-b .frb-flake path{fill:none;stroke:#DDF4FF;stroke-linecap:round;stroke-linejoin:round;}
+#examCountdown.cd-fr-b .frb-flake .s0 path{stroke-width:1.1;}
+#examCountdown.cd-fr-b .frb-flake .s1 path{stroke-width:2.1;}
+#examCountdown.cd-fr-b .frb-flake .s2 path{stroke-width:1.5;}
+#examCountdown.cd-fr-b .frb-flake .s3 path{stroke-width:1;}
+#examCountdown.cd-fr-b .cd-log{color:#CFEFFF;text-shadow:0 0 12px rgba(112,214,255,.7);}
+#examCountdown.cd-fr-b .cd-num{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:300;color:#F4FBFF;letter-spacing:0;
+  text-shadow:0 0 6px rgba(2,9,20,.9),0 0 24px rgba(158,227,255,.95),0 0 60px rgba(112,214,255,.5),0 4px 20px rgba(0,0,0,.6);}
+#examCountdown.cd-fr-b .cd-num.go{letter-spacing:.3em;text-indent:.3em;}
+#examCountdown.cd-fr-b .cd-sub{color:#BEEBFF;text-shadow:0 0 10px rgba(112,214,255,.8);}
+
+/* C 絶対零度：円い計器（目盛り60本＋冷却の弧）と温度計 */
+#examCountdown.cd-fr-c{background:rgba(2,10,22,.8);}
+#examCountdown.cd-fr-c .frb-grid{position:absolute;inset:0;opacity:.35;
+  background:linear-gradient(rgba(112,214,255,.08) 1px,transparent 1px) 0 0/40px 40px,
+             linear-gradient(90deg,rgba(112,214,255,.08) 1px,transparent 1px) 0 0/40px 40px;}
+#examCountdown.cd-fr-c .frb-vig{position:absolute;inset:0;opacity:0;
+  background:radial-gradient(circle at 0 0,rgba(235,248,255,.55),transparent 32%),radial-gradient(circle at 100% 0,rgba(235,248,255,.55),transparent 32%),
+             radial-gradient(circle at 0 100%,rgba(235,248,255,.55),transparent 32%),radial-gradient(circle at 100% 100%,rgba(235,248,255,.55),transparent 32%);}
+#examCountdown.cd-fr-c .frb-gauge{position:absolute;width:56vmin;height:56vmin;left:50%;top:50%;translate:-50% -50%;opacity:.16;transition:opacity .4s;}
+#examCountdown.cd-fr-c.cd-p2 .frb-gauge{opacity:1;}
+#examCountdown.cd-fr-c .frb-gauge .trk{fill:none;stroke:rgba(112,214,255,.16);stroke-width:5;}
+#examCountdown.cd-fr-c .frb-gauge .arc{fill:none;stroke:url(#frbCryoG);stroke-width:5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;}
+#examCountdown.cd-fr-c .frb-gauge .tk{stroke:rgba(158,227,255,.45);stroke-width:1;}
+#examCountdown.cd-fr-c .frb-gauge .tk.m{stroke:rgba(158,227,255,.8);stroke-width:1.6;}
+#examCountdown.cd-fr-c .frb-temp{position:absolute;bottom:9%;left:50%;translate:-50% 0;z-index:6;text-align:center;
+  font-family:'SFMono-Regular',Menlo,Consolas,monospace;color:#EAF8FF;white-space:nowrap;}
+#examCountdown.cd-fr-c .frb-temp b{display:block;font-size:clamp(22px,6vmin,40px);font-weight:600;letter-spacing:.04em;text-shadow:0 0 16px rgba(112,214,255,.8);}
+#examCountdown.cd-fr-c .frb-temp span{display:block;font-size:12px;letter-spacing:.24em;color:#9EE3FF;min-height:1.4em;margin-top:2px;}
+#examCountdown.cd-fr-c .cd-log{color:#9EE3FF;text-shadow:0 0 10px rgba(112,214,255,.6);}
+#examCountdown.cd-fr-c .cd-num{font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-weight:600;font-size:17vmin;color:#EAF8FF;letter-spacing:0;
+  text-shadow:0 0 22px rgba(112,214,255,.9),0 0 50px rgba(112,214,255,.4);}
+#examCountdown.cd-fr-c .cd-num.go{font-size:12vmin;letter-spacing:.08em;color:#fff;}
+#examCountdown.cd-fr-c .cd-sub{bottom:26%;color:#BEEBFF;}
+
+/* D 氷盤：全画面の氷（地の絵は .frb-ice を破片と共用）＋亀裂（SVG）。文字は氷の中に封じた濃紺 */
+#examCountdown.cd-fr-d{background:rgba(2,8,18,.35);}
+#examCountdown.cd-fr-d .frb-ice{position:absolute;inset:0;
+  background:radial-gradient(circle at 21% 31%,rgba(255,255,255,.5) 0 2px,transparent 3px),
+             radial-gradient(circle at 73% 22%,rgba(255,255,255,.45) 0 1.5px,transparent 2.5px),
+             radial-gradient(circle at 64% 77%,rgba(255,255,255,.5) 0 2.5px,transparent 3.5px),
+             radial-gradient(circle at 33% 70%,rgba(255,255,255,.4) 0 1.5px,transparent 2.5px),
+             radial-gradient(circle at 86% 55%,rgba(255,255,255,.4) 0 2px,transparent 3px),
+             repeating-linear-gradient(118deg,rgba(255,255,255,.07) 0 2px,transparent 2px 26px),
+             linear-gradient(160deg,rgba(206,238,255,.8),rgba(120,180,222,.7) 46%,rgba(214,242,255,.8));}
+#examCountdown.cd-fr-d .frb-slab{box-shadow:inset 0 0 120px rgba(230,248,255,.55),inset 0 0 16px rgba(255,255,255,.75);}
+#examCountdown.cd-fr-d .frb-cracks{position:absolute;inset:0;width:100%;height:100%;z-index:4;}
+#examCountdown.cd-fr-d .frb-cracks .d{fill:none;stroke:rgba(14,52,92,.4);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;}
+#examCountdown.cd-fr-d .frb-cracks .w{fill:none;stroke:rgba(255,255,255,.95);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;}
+#examCountdown.cd-fr-d .cd-log{color:rgba(8,32,60,.88);font-weight:700;text-shadow:0 0 3px rgba(8,32,60,.25),0 1px 0 rgba(255,255,255,.55);}
+#examCountdown.cd-fr-d .cd-num{font-family:'Helvetica Neue',Arial,sans-serif;font-weight:800;color:rgba(10,48,88,.82);
+  text-shadow:0 1px 0 rgba(255,255,255,.75),0 0 20px rgba(255,255,255,.55);}
+#examCountdown.cd-fr-d .cd-num.go{color:#fff;text-shadow:0 0 26px rgba(158,227,255,.95),0 4px 24px rgba(0,0,0,.7);}
+#examCountdown.cd-fr-d .cd-sub{color:#EAF8FF;text-shadow:0 0 10px rgba(158,227,255,.9),0 2px 10px rgba(0,0,0,.7);}
+#examCountdown.cd-fr-d .frb-flash{position:absolute;left:50%;top:50%;width:40vmin;height:40vmin;translate:-50% -50%;border-radius:50%;z-index:5;
+  background:radial-gradient(circle,rgba(255,255,255,.95),rgba(190,235,255,.4) 40%,transparent 70%);opacity:0;}
 
 /* ── prism: オーロラプリズム光芒 ── */
 .cd-prism-field{position:absolute;inset:0;pointer-events:none;overflow:hidden;opacity:.38;}
