@@ -3,25 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Liquid ゲージの5案</title>
+<title>Liquid ゲージ A案の調整</title>
 <!--
-  ハブのヒーローゲージ（index.html #gaugeBox）を UIテーマ Liquid 向けに作り直す案を5つ並べて見比べるページ（2026-09-29・第3版）。
-  主役は「ゲージ中央の丸っぽい塊」（ユーザー判断）。塊はフヨフヨと形を変え続け、一部が外側へちぎれて離れ、また元の塊へ戻る。
-  ラバランプそのもの（瓶・ガラス・台座）は描かない。外周の弧は進捗を示すだけで、ちぎれたりしない。
+  ハブのヒーローゲージ（index.html #gaugeBox）を UIテーマ Liquid 向けに作り直す案（2026-09-29・第4版）。
+  第3版の5案から「A. ひとかけらずつ」が採用された（ユーザー判断）。このページはその調整版と前回版を並べる。
+  調整（ユーザー指示）：
+    ① 離れたかけらはもっと動く（塊のまわりを曲がりくねって泳ぐ・動く向きへ少し伸びる）
+    ② 分裂はもっとゆっくり（ふくらむ 4.2秒・糸を引いて離れる 5.6秒）
+    ③ 見えているかけらは合計5つまで（0%で1つ・25%ごとに1つ増え、100%以上で5つ）。段・到達の演出もこの上限を越えない
+    ④ 中央の塊をもっと大きく
+    ⑤ 塊の色を Liquid の配色（マゼンタ #FF007F・シアン #00F2FE・バイオレット #7928CA）に合わせる
+       ＝縁はネオンのマゼンタ、内へ向かうほどバイオレット、芯は深い藍、縁にシアンの光。数字が読めるよう芯は暗く保つ
   動きは「ゆっくり・ねっとり」（index.js「膜のくびれ」の注記＝「ぷつっと切れる・ぷるぷる震える」形は求められていない）。
-  5案とも Celestial の案と同じ「動きの型」をそろえてある：
-    常時 … 塊が揺れ続け、ときどき一部がちぎれて戻る／進むとき … 外周の弧が伸び、ちぎれる頻度・数が増える
-    25・50・75% … 段を越えた瞬間の一度きり／100% … 到達の演出／100%超 … 超えている間だけの常時演出＋金
-  描き方：canvas にメタボール（球の「場」の和が 1 を超えたところを塊とする）を毎フレーム描く。
-    中央の塊＝芯の球＋ゆっくり巡る5つの球（形がフヨフヨ変わる）。ちぎれる一部＝頭の球＋尾の球。
-    尾は切れるまで塊の縁に残ってくびれを作り、切れたら塊へゆっくり吸い戻る。離れている間は芯が少し痩せる（重さが移る）。
-    芯は暗く縁だけ光る陰影にして、上に重なる数字を読めるようにしている。
+  描き方：canvas にメタボール（場 f = Σ (r²/d²)²。f ≥ 1 が塊）を毎フレーム描く。
+    中央の塊＝芯の球＋ゆっくり巡る5つの球。ちぎれる一部＝頭の球＋尾の球（尾は切れるまで塊の縁に残ってくびれを作り、
+    切れたら塊へゆっくり吸い戻る）。離れている間は芯が少し痩せる（重さが外へ移っている）。
   本物の index.js は呼ばず、このページの中だけで再生する（何も保存しない）。テストの対象ではない。
-  ⚠️ 本番へ移すとき：本番の svg は transform: rotate(-90deg) を持つ。canvas は回さずに重ねる（E は上下＝浮力の向きを使う）。
+  ⚠️ 本番へ移すとき：本番の svg は transform: rotate(-90deg) を持つ。canvas は回さずに重ねる。
   ⚠️ 本番へ移すとき：canvas の描画は rAF で良いが、画面外・非表示では止める。iPad・スマホでは解像度か fps を落とす。
 -->
 <style>
-  :root{--tx:#F4ECFF;--sub:#B7A6D6;--line:rgba(255,0,127,.3);--gw:208px;}
+  :root{--tx:#F4ECFF;--sub:#B7A6D6;--line:rgba(255,0,127,.3);--gw:260px;}
   *{box-sizing:border-box;}
   html,body{margin:0;}
   body{min-height:100vh;padding:16px;color:var(--tx);font-family:-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif;
@@ -29,7 +31,7 @@
                radial-gradient(circle at 85% 30%,rgba(0,242,254,.18) 0%,transparent 55%),
                radial-gradient(circle at 30% 85%,rgba(121,40,202,.32) 0%,transparent 60%),
                linear-gradient(180deg,#0E0724 0%,#06030F 100%);background-attachment:fixed;}
-  body.big{--gw:320px;}
+  body.big{--gw:360px;}
   h1{font-size:17px;margin:0 0 4px;}
   p.note{font-size:12.5px;color:var(--sub);margin:0 0 12px;line-height:1.65;max-width:980px;}
   p.note b{color:#FFB3D6;}
@@ -43,11 +45,13 @@
   .ctl button:active{background:#321858;}
   .ctl button.hi{border-color:#FF007F;background:#34104A;}
   input[type=checkbox]{width:18px;height:18px;accent-color:#FF007F;}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:14px;max-width:1300px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,400px),1fr));gap:14px;max-width:1300px;}
   .card{background:linear-gradient(160deg,rgba(70,20,90,.5),rgba(14,8,32,.9));border:1px solid var(--line);border-radius:20px;
     padding:14px 14px 16px;box-shadow:inset 0 1px 0 rgba(255,120,190,.16),0 10px 30px rgba(0,0,0,.35);}
+  .card.old{border-style:dashed;opacity:.9;}
   .card h2{font-size:15.5px;margin:0 0 2px;color:#FF7AB8;}
   .card .tag{font-size:12px;color:var(--sub);line-height:1.5;}
+  .card .cnt{font-size:12px;color:#7EF3FF;font-variant-numeric:tabular-nums;margin-top:4px;}
   .stage{display:flex;justify-content:center;padding:14px 0 6px;}
   dl.how{font-size:12px;line-height:1.6;margin:8px 0 0;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;}
   dl.how dt{color:#7EF3FF;font-weight:700;white-space:nowrap;}
@@ -77,12 +81,15 @@
 </style>
 </head>
 <body>
-<h1>🫧 Liquid のヒーローゲージ 5案（中央の塊がちぎれては戻る）</h1>
+<h1>🫧 Liquid のヒーローゲージ — A「ひとかけらずつ」の調整</h1>
 <p class="note">
-  <b>ゲージ中央の丸っぽい塊</b>がフヨフヨと形を変え続け、<b>一部が外側へちぎれて離れ、また元の塊へ戻る</b>案です。外周の弧は進捗を示すだけで、ちぎれたりしません。
-  5案は「どこへちぎれて、どう戻るか」の違いです。ちぎれかけの間は塊の縁から糸を引き、切れた糸は塊へゆっくり吸い戻されます。離れている間は塊が少し痩せます。
-  動きは<b>ゆっくり・ねっとり</b>（ぷつっと切れたり、ぷるぷる震えたりはしない）。進むほど、ちぎれる頻度と数が増えます。
-  段と100%の演出は<b>数字が上がったときだけ</b>出ます（本番と同じ）。動きが遅いので、1つの案を10〜20秒ほど眺めてください。
+  採用された A 案の調整版です（左）。右は比較用の前回版。
+  ① 離れたかけらは<b>塊のまわりを曲がりくねって泳ぎ</b>、動く向きへ少し伸びます。
+  ② 分裂は<b>もっとゆっくり</b>（ふくらむのに約4秒、糸を引いて離れるのに約6秒）。
+  ③ 見えているかけらは<b>合計5つまで</b>（0%で1つ、25%ごとに1つ増え、100%以上で5つ）。段や到達の演出もこの上限を越えません。
+  ④ 中央の塊を<b>大きく</b>しました。
+  ⑤ 塊の色を <b>Liquid の配色</b>（縁はネオンのマゼンタ、内へ向かうほどバイオレット、芯は深い藍、縁にシアンの光）に合わせました。
+  カードの下に、いま見えているかけらの数を出しています。
 </p>
 <div class="ctl">
   <label>達成率 <input type="range" id="rg" min="0" max="160" step="1" value="0"> <output id="out">0%</output></label>
@@ -104,11 +111,11 @@ const TAU = Math.PI * 2;
 const fx = (n) => +(+n).toFixed(2);
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 const lerp = (a, b, k) => a + (b - a) * k;
+const lerp3 = (a, b, k) => [lerp(a[0], b[0], k), lerp(a[1], b[1], k), lerp(a[2], b[2], k)];
 const ease = (k) => { k = clamp(k, 0, 1); return k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; };
 const soft = (k) => { k = clamp(k, 0, 1); return k * k * (3 - 2 * k); };
 const polar = (r, a) => [84 + r * Math.sin(a), 84 - r * Math.cos(a)];   // a はラジアン・0＝真上・時計回り
 const wrap = (a) => ((a % TAU) + TAU) % TAU;
-const angDiff = (a, b) => { let d = wrap(a - b); return d > Math.PI ? d - TAU : d; };
 function rng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
 function dash(el, v) {
   v = clamp(v, 0, 100);
@@ -120,33 +127,41 @@ function spawn(parent, html, ms) {
   setTimeout(() => g.remove(), ms); return g;
 }
 const GLOW = (x, y, size = 14, delay = 0) => `<circle class="soft" cx="${fx(x)}" cy="${fx(y)}" r="${size}" style="animation-delay:${delay}ms"/>`;
-const ARC_R = 73;
-const SVG_BG = `<defs>
+const ARC_R = 74;
+const SVG_DEFS = `<defs>
     <linearGradient id="gArc" gradientUnits="userSpaceOnUse" x1="10" y1="10" x2="158" y2="158">
       <stop offset="0" stop-color="#00F2FE"/><stop offset=".5" stop-color="#B04CFF"/><stop offset="1" stop-color="#FF007F"/></linearGradient>
     <radialGradient id="gSoft"><stop offset="0" stop-color="#FFB6DA" stop-opacity=".8"/><stop offset=".5" stop-color="#FF007F" stop-opacity=".25"/><stop offset="1" stop-color="#FF007F" stop-opacity="0"/></radialGradient>
   </defs>`;
 const TICKS = () => [0.25, 0.5, 0.75].map((k) => {
-  const [x0, y0] = polar(66.5, k * TAU), [x1, y1] = polar(69.5, k * TAU);
+  const [x0, y0] = polar(67.5, k * TAU), [x1, y1] = polar(70.5, k * TAU);
   return `<line class="tick" data-m="${k * 100}" x1="${fx(x0)}" y1="${fx(y0)}" x2="${fx(x1)}" y2="${fx(y1)}"/>`;
 }).join('');
 const ARC = (r, cls) => `<circle class="${cls}" cx="84" cy="84" r="${r}" pathLength="100" transform="rotate(-90 84 84)"/>`;
-const SVG_FG = () => `${TICKS()}${ARC(ARC_R, 'trk')}${ARC(ARC_R, 'val')}${ARC(79.5, 'ovf')}<g class="fxl"></g>`;
+const SVG_FG = () => `${SVG_DEFS}${TICKS()}${ARC(ARC_R, 'trk')}${ARC(ARC_R, 'val')}${ARC(80, 'ovf')}<g class="fxl"></g>`;
+
+/* ══════════════════════ 配色 ══════════════════════
+   liquid … 調整後。場の深さ t（0＝縁・1＝芯）で色を決める：縁＝ネオンのマゼンタ → バイオレット → 芯（数字の下だけ）＝深い藍。縁にシアンの光。
+   old    … 前回。縦の位置で色を決め、芯は同じ色を暗くするだけ（＝赤茶っぽく沈んでいた）。 */
+const PAL = {
+  liquid: { edgeT: [255, 60, 175], edgeB: [255, 0, 127], mid: [121, 40, 202], core: [18, 8, 46], rim: [0, 242, 254], halo: [255, 0, 127] },
+  liquidGold: { edgeT: [255, 226, 140], edgeB: [255, 196, 80], mid: [214, 140, 40], core: [52, 28, 8], rim: [255, 250, 220], halo: [255, 209, 102] },
+  old: { top: [255, 40, 150], bot: [120, 50, 235], rim: [0, 242, 254], dark: 0.62 },
+  oldGold: { top: [255, 214, 110], bot: [255, 160, 40], rim: [255, 255, 225] }
+};
 
 /* ══════════════════════ メタボールの描画器 ══════════════════════
-   場 f = Σ (r²/d²)²。f ≥ 1 が塊（2乗して遠くへ届かないようにした＝離れたかけらが塊とつながったままにならない）。陰影は場の勾配から法線を作って光を当てる。
-   芯（f が大きいところ）は暗く沈め、縁だけを光らせる＝上に重なる数字が読める。 */
+   場 f = Σ (r²/d²)²。f ≥ 1 が塊（2乗して遠くへ届かないようにした＝離れたかけらが塊とつながったままにならない）。
+   陰影は場の勾配から法線を作って光を当てる。 */
 class Goo {
-  constructor(canvas, N = 176) {
-    this.cv = canvas; this.ctx = canvas.getContext('2d');
+  constructor(canvas, mode, N = 184) {
+    this.cv = canvas; this.ctx = canvas.getContext('2d'); this.mode = mode;
     this.N = N; this.s = 168 / N;
     this.off = document.createElement('canvas'); this.off.width = this.off.height = N;
     this.octx = this.off.getContext('2d'); this.img = this.octx.createImageData(N, N);
     this.f = new Float32Array(N * N); this.mask = new Uint8Array(N * N);
     for (let py = 0; py < N; py++) for (let px = 0; px < N; px++)
-      this.mask[py * N + px] = Math.hypot((px + 0.5) * this.s - 84, (py + 0.5) * this.s - 84) < 70 ? 1 : 0;   // 弧の内側だけ
-    this.pal = { top: [255, 40, 150], bot: [120, 50, 235], rim: [0, 242, 254], dark: 0.62 };
-    this.gpal = { top: [255, 214, 110], bot: [255, 160, 40], rim: [255, 255, 225] };
+      this.mask[py * N + px] = Math.hypot((px + 0.5) * this.s - 84, (py + 0.5) * this.s - 84) < 71 ? 1 : 0;   // 弧の内側だけ
     this.gold = 0; this.hot = 0;
     const L = [-0.45, -0.65, 0.62], l = Math.hypot(...L); this.L = L.map((v) => v / l);
     const H = [this.L[0], this.L[1], this.L[2] + 1], h = Math.hypot(...H); this.H = H.map((v) => v / h);
@@ -156,7 +171,7 @@ class Goo {
     const r = this.cv.getBoundingClientRect(), d = Math.min(2, window.devicePixelRatio || 1);
     this.cv.width = Math.max(1, Math.round(r.width * d)); this.cv.height = Math.max(1, Math.round(r.height * d));
   }
-  render(B) {   // B = [x, y, r², …]
+  render(B, cx = 84, cy = 84) {   // B = [x, y, r², …]・cx,cy＝塊の中心（数字の下だけ芯を暗くする）
     const N = this.N, s = this.s, f = this.f, mask = this.mask, nb = B.length;
     for (let py = 0; py < N; py++) {
       const y = (py + 0.5) * s;
@@ -168,19 +183,22 @@ class Goo {
         f[i] = v;
       }
     }
-    const D = this.img.data, P = this.pal, G = this.gpal, gk = this.gold, Lg = this.L, Hh = this.H, hot = this.hot;
+    const D = this.img.data, gk = this.gold, Lg = this.L, Hh = this.H, hot = this.hot, liquid = this.mode === 'liquid';
+    const P = liquid ? PAL.liquid : PAL.old, G = liquid ? PAL.liquidGold : PAL.oldGold;
+    const rimC = lerp3(P.rim, G.rim, gk);
     for (let py = 0; py < N; py++) {
       const ty = py / (N - 1);
-      const br = lerp(lerp(P.top[0], P.bot[0], ty), lerp(G.top[0], G.bot[0], ty), gk);
-      const bg = lerp(lerp(P.top[1], P.bot[1], ty), lerp(G.top[1], G.bot[1], ty), gk);
-      const bb = lerp(lerp(P.top[2], P.bot[2], ty), lerp(G.top[2], G.bot[2], ty), gk);
-      const rr = lerp(P.rim[0], G.rim[0], gk), rg = lerp(P.rim[1], G.rim[1], gk), rb = lerp(P.rim[2], G.rim[2], gk);
+      // 縁の色（liquid は上ほど桃・下ほど濃いマゼンタ）／ old は縦のグラデーション
+      const edge = liquid ? lerp3(lerp3(P.edgeT, P.edgeB, ty), lerp3(G.edgeT, G.edgeB, ty), gk)
+                          : lerp3(lerp3(P.top, P.bot, ty), lerp3(G.top, G.bot, ty), gk);
+      const mid = liquid ? lerp3(P.mid, G.mid, gk) : null, core = liquid ? lerp3(P.core, G.core, gk) : null;
+      const halo0 = liquid ? lerp3(P.halo, G.halo, gk) : edge;
       for (let px = 0; px < N; px++) {
         const i = py * N + px, o = i * 4, v = f[i];
-        if (v < 0.42) { D[o + 3] = 0; continue; }
-        const halo = v < 1 ? Math.pow((v - 0.42) / 0.58, 3) * (0.3 + hot * 0.25) : 0;
+        if (v < 0.4) { D[o + 3] = 0; continue; }
+        const halo = v < 1 ? Math.pow((v - 0.4) / 0.6, 3) * (0.3 + hot * 0.25) : 0;
         const body = clamp((v - 0.965) / 0.07, 0, 1);
-        if (body <= 0) { D[o] = Math.min(255, br * 1.15); D[o + 1] = Math.min(255, bg * 1.15); D[o + 2] = Math.min(255, bb * 1.15); D[o + 3] = halo * 255; continue; }
+        if (body <= 0) { D[o] = Math.min(255, halo0[0] * 1.1); D[o + 1] = Math.min(255, halo0[1] * 1.1); D[o + 2] = Math.min(255, halo0[2] * 1.1); D[o + 3] = halo * 255; continue; }
         const gx = (px < N - 1 ? f[i + 1] : v) - (px > 0 ? f[i - 1] : v);
         const gy = (py < N - 1 ? f[i + N] : v) - (py > 0 ? f[i - N] : v);
         const g = Math.hypot(gx, gy) + 1e-6;
@@ -189,9 +207,22 @@ class Goo {
         const diff = Math.max(0, nx * Lg[0] + ny * Lg[1] + nz * Lg[2]);
         const sp = Math.pow(Math.max(0, nx * Hh[0] + ny * Hh[1] + nz * Hh[2]), 30);
         const rim = Math.pow(tilt, 3);
-        const shade = (0.42 + 0.7 * diff + gk * 0.12) * (1 - P.dark * t);
-        const cr = br * shade + rr * rim * 0.5 + sp * 210, cg = bg * shade + rg * rim * 0.5 + sp * 210, cb = bb * shade + rb * rim * 0.5 + sp * 210;
-        D[o] = Math.min(255, lerp(br * 1.15, cr, body)); D[o + 1] = Math.min(255, lerp(bg * 1.15, cg, body)); D[o + 2] = Math.min(255, lerp(bb * 1.15, cb, body));
+        let cr, cg, cb;
+        if (liquid) {
+          // 深さで色を決める（縁→バイオレット→藍）。暗くするのは色を藍へ寄せることで行い、赤茶に沈めない
+          // 縁からの深さ（u＝場の4乗根＝球なら r/d）でマゼンタ→バイオレット。芯の藍は塊の中心のまわり（数字の下）だけに掛ける
+          //   ＝かけらは中までジェルの色で、中空の泡に見えない
+          const u = Math.sqrt(Math.sqrt(v)), tt = soft((u - 1) / 0.9);
+          const dc = soft((36 - Math.hypot((px + 0.5) * s - cx, (py + 0.5) * s - cy)) / 20) * 0.9;
+          const c = lerp3(lerp3(edge, mid, tt), core, dc);
+          const sh = 0.62 + 0.5 * diff;
+          const rimK = rim * 0.75 + Math.pow(Math.max(0, -nx * 0.6 - ny * 0.8), 2) * rim * 0.5;   // 右下からのシアンの照り返し
+          cr = c[0] * sh + rimC[0] * rimK * 0.55 + sp * 235; cg = c[1] * sh + rimC[1] * rimK * 0.55 + sp * 235; cb = c[2] * sh + rimC[2] * rimK * 0.55 + sp * 235;
+        } else {
+          const shade = (0.42 + 0.7 * diff + gk * 0.12) * (1 - P.dark * t);
+          cr = edge[0] * shade + rimC[0] * rim * 0.5 + sp * 210; cg = edge[1] * shade + rimC[1] * rim * 0.5 + sp * 210; cb = edge[2] * shade + rimC[2] * rim * 0.5 + sp * 210;
+        }
+        D[o] = Math.min(255, lerp(halo0[0] * 1.1, cr, body)); D[o + 1] = Math.min(255, lerp(halo0[1] * 1.1, cg, body)); D[o + 2] = Math.min(255, lerp(halo0[2] * 1.1, cb, body));
         D[o + 3] = 255 * Math.max(halo, body * 0.97);
       }
     }
@@ -202,319 +233,196 @@ class Goo {
   }
 }
 
+/* ══════════════════════ 設定（調整後／前回） ══════════════════════ */
+const CFG_NEW = {
+  mode: 'liquid', core0: 28, E: 41, wobD: 17, wobA: 5, wobR: 20,
+  bud: 4.2, tOut: 5.6, tBack: 4.6, melt: 3.2, hold: [7, 12], rT: [6, 8], out: [54, 60],
+  swim: true, cap: (v) => Math.min(5, 1 + Math.floor(Math.min(100, v) / 25)),
+  rate: (heat) => 0.08 + heat * 0.13
+};
+const CFG_OLD = {
+  mode: 'old', core0: 27, E: 36, wobD: 12, wobA: 3.4, wobR: 17,
+  bud: 2.4, tOut: 3.4, tBack: 3.4, melt: 2.4, hold: [4, 8], rT: [6.5, 8.5], out: [54, 58],
+  swim: false, cap: (v, heat) => 1 + Math.floor(Math.min(1.25, heat) * 1.7),
+  rate: (heat) => 0.1 + heat * 0.16
+};
+
 /* ══════════════════════ 中央の塊 ══════════════════════
    芯の球＋ゆっくり巡る5つの球＝輪郭がフヨフヨ変わる。塊の中心もゆっくり漂う。
-   ちぎれる一部（lobe）は次の順に進む：
-     bud  … 縁の一点がふくらむ（2.4秒）
-     out  … 糸を引きながら外へ離れる。尾が塊の縁に残ってくびれを作り、離れすぎたら切れて塊へ吸い戻る
-     float… 離れたまま漂う（案ごとの動き）
-     back … 塊の縁へ戻る
-     melt … 塊に溶け込む（縁がいったんふくらんでから均される）
-   離れている間は芯が少し痩せる（重さが外へ移っている）。 */
+   ちぎれる一部（lobe）は bud（縁がふくらむ）→ out（糸を引いて離れる）→ float（泳ぐ）→ back（戻る）→ melt（溶け込む）。 */
 class Blob {
-  constructor(seed) {
+  constructor(seed, C) {
     const R = this.R = rng(seed);
-    this.t = 0; this.E = 36; this.core0 = 27; this.breath = 0; this.amp = 1;
+    this.C = C; this.t = 0; this.E = C.E; this.core0 = C.core0; this.amp = 1;
     this.wob = Array.from({ length: 5 }, (_, i) => ({ a: i * TAU / 5 + R() * 0.5, om: (R() < 0.5 ? -1 : 1) * (0.05 + R() * 0.07), w: 0.3 + R() * 0.3, w2: 0.2 + R() * 0.25, ph: R() * 6 }));
-    this.lobes = []; this.extra = [];
-    this.cx = 84; this.cy = 84;
+    this.lobes = []; this.cx = 84; this.cy = 84;
   }
   P(r, a) { return [this.cx + r * Math.sin(a), this.cy - r * Math.cos(a)]; }
   add(o) {
-    const R = this.R;
-    const l = Object.assign({ st: 'bud', t: 0, r: 0, rT: lerp(6.5, 8.5, R()), tOut: 3.4, hold: lerp(4, 8, R()), tBack: 3.4, s: R() * 6 }, o);
+    const R = this.R, C = this.C;
+    const l = Object.assign({ st: 'bud', t: 0, r: 0, rT: lerp(C.rT[0], C.rT[1], R()), hold: lerp(C.hold[0], C.hold[1], R()), s: R() * 6, s2: R() * 6,
+      dir: R() < 0.5 ? -1 : 1, spd: 0.13 + R() * 0.1, rmid: lerp(C.out[0], C.out[1], R()) }, o);
     l.a = l.a0; this.lobes.push(l); return l;
   }
+  count() { return this.lobes.filter((l) => l.st !== 'gone' && l.st !== 'melt').length; }
   step(dt, heat) {
-    this.t += dt; const t = this.t;
+    this.t += dt; const t = this.t, C = this.C;
     this.cx = 84 + Math.sin(t * 0.23) * 1.4; this.cy = 84 + Math.cos(t * 0.29) * 1.2;
     this.amp = 1 + Math.min(1.25, heat) * 0.35;
     for (const l of this.lobes) {
       l.t += dt;
-      const E = this.E;
+      const E = this.E, px = l.x, py = l.y;
       if (l.st === 'bud') {
-        const k = ease(l.t / 2.4);
-        [l.x, l.y] = this.P(E - 5 + l.rT * 0.95 * k, l.a0); l.r = l.rT * k;
-        if (l.t >= 2.4) { l.st = 'out'; l.t = 0; l.sx = l.x; l.sy = l.y; [l.tx, l.ty] = l.out(l); l.tl = { x: l.x, y: l.y, r: l.rT * 0.82, on: 1 }; }
+        const k = ease(l.t / C.bud);
+        [l.x, l.y] = this.P(E - 6 + l.rT * 0.95 * k, l.a0); l.r = l.rT * k;
+        if (l.t >= C.bud) { l.st = 'out'; l.t = 0; l.sx = l.x; l.sy = l.y; [l.tx, l.ty] = this.P(l.rmid, l.a0 + l.dir * (C.swim ? 0.25 : 0)); l.tl = { x: l.x, y: l.y, r: l.rT * 0.84, on: 1 }; }
       } else if (l.st === 'out') {
-        const k = ease(l.t / l.tOut);
+        const k = ease(l.t / C.tOut);
         l.x = lerp(l.sx, l.tx, k); l.y = lerp(l.sy, l.ty, k);
         if (l.tl && l.tl.on) {
           const [ox, oy] = this.P(E - 3, l.a0);
-          l.tl.x = lerp(ox, l.x, 0.4); l.tl.y = lerp(oy, l.y, 0.4); l.tl.r = l.rT * (0.82 - 0.32 * k);
-          if (Math.hypot(l.x - l.tl.x, l.y - l.tl.y) > l.rT * 1.75) l.tl.on = 0;
+          l.tl.x = lerp(ox, l.x, 0.42); l.tl.y = lerp(oy, l.y, 0.42); l.tl.r = l.rT * (0.84 - 0.34 * k);
+          if (Math.hypot(l.x - l.tl.x, l.y - l.tl.y) > l.rT * 1.8) l.tl.on = 0;
         }
-        if (l.t >= l.tOut) { l.st = 'float'; l.t = 0; l.fx = l.x; l.fy = l.y; if (l.onFloat) l.onFloat(l); }
+        if (l.t >= C.tOut) { l.st = 'float'; l.t = 0; l.a = Math.atan2(l.x - this.cx, this.cy - l.y); l.fr = Math.hypot(l.x - this.cx, l.y - this.cy); }
       } else if (l.st === 'float') {
-        if (l.float) l.float(l, dt);
-        else { const d = Math.sin(l.t * 0.5 + l.s) * 1.3; l.x = l.fx + d * 0.6; l.y = l.fy + Math.cos(l.t * 0.4 + l.s) * 1.3; }
-        if (l.t >= l.hold) { l.st = 'back'; l.t = 0; l.sx = l.x; l.sy = l.y; l.a1 = l.back ? l.back(l) : wrap(Math.atan2(l.x - this.cx, this.cy - l.y)); }
+        if (C.swim) {
+          // 塊のまわりを曲がりくねって泳ぐ：回る速さも半径も、それぞれの揺れで変わり続ける
+          const w = l.dir * (l.spd + 0.12 * Math.sin(l.t * 0.55 + l.s)) + 0.08 * Math.sin(l.t * 1.1 + l.s2);
+          l.a += w * dt;
+          const want = l.rmid + 4 * Math.sin(l.t * 0.6 + l.s) + 2 * Math.sin(l.t * 1.3 + l.s2);
+          l.fr += (clamp(want, 52, 62) - l.fr) * Math.min(1, dt * 1.2);
+          [l.x, l.y] = this.P(l.fr, l.a);
+        } else {
+          l.a +=(l.drift ?? (l.drift = (this.R() * 2 - 1) * 0.06)) * dt;
+          const rr = l.fr + Math.sin(l.t * 0.5 + l.s) * 1.3; [l.x, l.y] = this.P(rr, l.a);
+        }
+        if (l.t >= l.hold) { l.st = 'back'; l.t = 0; l.sx = l.x; l.sy = l.y; l.a1 = wrap(Math.atan2(l.x - this.cx, this.cy - l.y) + (C.swim ? l.dir * 0.2 : 0)); }
       } else if (l.st === 'back') {
-        const [ex, ey] = this.P(E + l.rT * 0.25, l.a1), k = ease(l.t / l.tBack);
+        const [ex, ey] = this.P(E + l.rT * 0.25, l.a1), k = ease(l.t / C.tBack);
         l.x = lerp(l.sx, ex, k); l.y = lerp(l.sy, ey, k);
-        if (l.t >= l.tBack) { l.st = 'melt'; l.t = 0; l.sx = l.x; l.sy = l.y; }
+        if (l.t >= C.tBack) { l.st = 'melt'; l.t = 0; l.sx = l.x; l.sy = l.y; }
       } else if (l.st === 'melt') {
-        const k = soft(l.t / 2.4), [ex, ey] = this.P(E - 7, l.a1);
+        const k = soft(l.t / C.melt), [ex, ey] = this.P(E - 8, l.a1);
         l.x = lerp(l.sx, ex, k); l.y = lerp(l.sy, ey, k); l.r = l.rT * (1 - k);
-        l.bulge = l.rT * 0.75 * Math.sin(Math.PI * k);
-        if (l.t >= 2.4) { l.st = 'gone'; if (l.onDone) l.onDone(l); }
+        l.bulge = l.rT * 0.8 * Math.sin(Math.PI * k);
+        if (l.t >= C.melt) l.st = 'gone';
+      }
+      // 動く向きへ少し伸びる（泳いでいる間だけ・後ろに小さな球を引く）
+      if (C.swim && px != null && dt > 0) {
+        const vx = (l.x - px) / dt, vy = (l.y - py) / dt, sp = Math.hypot(vx, vy);
+        const k = clamp(sp / 9, 0, 1) * (l.st === 'float' || l.st === 'back' ? 1 : 0);
+        l.trail = k > 0.05 ? { x: l.x - vx / sp * l.rT * 0.6 * k, y: l.y - vy / sp * l.rT * 0.6 * k, r: l.r * 0.7 } : null;
       }
       if (l.tl && !l.tl.on) {   // 切れた糸は塊へゆっくり吸い戻る
-        const [hx, hy] = this.P(E - 7, l.a0);
-        l.tl.x += (hx - l.tl.x) * Math.min(1, dt * 1.4); l.tl.y += (hy - l.tl.y) * Math.min(1, dt * 1.4); l.tl.r -= dt * 2;
+        const [hx, hy] = this.P(E - 8, l.a0);
+        l.tl.x += (hx - l.tl.x) * Math.min(1, dt * 1.2); l.tl.y += (hy - l.tl.y) * Math.min(1, dt * 1.2); l.tl.r -= dt * 1.6;
         if (l.tl.r < 0.3) l.tl = null;
       }
     }
     this.lobes = this.lobes.filter((l) => l.st !== 'gone' || l.tl);
   }
   sources(S) {
-    const t = this.t;
+    const t = this.t, C = this.C;
     let lost = 0;
     for (const l of this.lobes) if (l.st !== 'gone') lost += l.r * l.r;
-    for (const e of this.extra) lost += e.r * e.r * (e.mass ?? 1);
-    const core = Math.sqrt(Math.max(this.core0 * this.core0 * 0.55, this.core0 * this.core0 * (1 + this.breath * 0.12) - lost * 0.5));
+    const core = Math.sqrt(Math.max(this.core0 * this.core0 * 0.6, this.core0 * this.core0 - lost * 0.5));
     S.push(this.cx, this.cy, core * core);
     for (const w of this.wob) {
-      const a = w.a + t * w.om, d = 12 + 3.4 * this.amp * Math.sin(t * w.w + w.ph), r = (17 + 1.6 * Math.sin(t * w.w2 + w.ph * 2)) * (1 + this.breath * 0.05);
+      const a = w.a + t * w.om, d = C.wobD + C.wobA * this.amp * Math.sin(t * w.w + w.ph), r = C.wobR + 1.6 * Math.sin(t * w.w2 + w.ph * 2);
       const [x, y] = this.P(d, a); S.push(x, y, r * r);
     }
     for (const l of this.lobes) {
       if (l.st !== 'gone' && l.r > 0.2) S.push(l.x, l.y, l.r * l.r);
+      if (l.trail && l.st !== 'gone' && l.trail.r > 0.2) S.push(l.trail.x, l.trail.y, l.trail.r * l.trail.r);
       if (l.tl) S.push(l.tl.x, l.tl.y, l.tl.r * l.tl.r);
       if (l.bulge > 0.2 && l.st === 'melt') { const [bx, by] = this.P(this.E - 3, l.a1); S.push(bx, by, l.bulge * l.bulge); }
     }
   }
-  live() { return this.lobes.filter((l) => l.st !== 'gone' && l.st !== 'melt').length; }
 }
 
-/* 共通：熱・金の追従と外周の弧 */
-function common(g, dt) {
-  const tgt = g.v > 100 ? 1.25 : 0.15 + 0.85 * Math.min(1, g.v / 100);
-  g.heat += (tgt - g.heat) * Math.min(1, dt * 0.8);
-  g.goo.gold += ((g.v > 100 ? 1 : 0) - g.goo.gold) * Math.min(1, dt * 0.9);
-  g.goo.hot = Math.min(1, g.heat);
+/* ══════════════════════ ゲージ（A. ひとかけらずつ） ══════════════════════ */
+function makeGauge(key, name, tag, how, C, seed, old) {
+  return {
+    key, name, tag, how, C, old,
+    init() { this.blob = new Blob(seed, C); this.cd = 0.8; },
+    lobe(a0, o = {}) { if (this.blob.count() >= this.cap()) return false; this.blob.add(Object.assign({ a0 }, o)); return true; },
+    cap() { return C.cap(this.v, this.heat); },
+    tick(dt) {
+      const tgt = this.v > 100 ? 1.25 : 0.15 + 0.85 * Math.min(1, this.v / 100);
+      this.heat += (tgt - this.heat) * Math.min(1, dt * 0.8);
+      this.goo.gold += ((this.v > 100 ? 1 : 0) - this.goo.gold) * Math.min(1, dt * 0.9);
+      this.goo.hot = Math.min(1, this.heat);
+      const R = this.blob.R;
+      this.cd -= dt * C.rate(this.heat);
+      if (this.cd <= 0) { this.lobe(R() * TAU); this.cd = 1 + R() * 1.4; }
+      this.blob.step(dt, this.heat);
+      const S = []; this.blob.sources(S); this.goo.render(S, this.blob.cx, this.blob.cy);
+      const n = this.blob.count();
+      if (n !== this.lastN) { this.lastN = n; this.cntEl.textContent = `見えているかけら ${n} ／ 上限 ${this.cap()}`; }
+    },
+    stage(m) {
+      const a = m / 100 * TAU;
+      if (this.lobe(a, { rT: C.rT[1] + 1.5, hold: 4 })) spawn(this.fxl, GLOW(...polar(58, a)), 2800);
+    },
+    bloom() {
+      let k = 0;
+      for (const q of [0, 0.25, 0.5, 0.75]) if (this.lobe(q * TAU, { hold: 5 })) k++;
+      spawn(this.fxl, GLOW(84, 84, 46, 400), 3000);
+    }
+  };
 }
-function baseFrame(g, b, v) {
-  dash(g.valEl, b); dash(g.ovfEl, v - 100); g.thT = b / 100 * TAU;
-  g.root.querySelectorAll('.tick').forEach((n) => n.classList.toggle('on', b >= +n.dataset.m));
-}
-const maxLive = (heat) => 1 + Math.floor(Math.min(1.25, heat) * 1.7);   // 0% で1つ・100% で2つ・超過で3つ
-
-/* ══════════════════════ A. ひとかけらずつ ══════════════════════ */
-const A = {
-  key: 'A', name: 'ひとかけらずつ', tag: '塊の縁のどこかがふくらみ、ひとかけらが外へちぎれて漂い、少し横へずれた場所から塊へ戻る',
-  how: [['常時', '塊が揺れながら、ときどき縁の一点がふくらんで糸を引き、ひとかけらが外へ離れる。4〜8秒漂って横へ流れ、塊へ戻って溶け込む'],
-        ['進むとき', '外周の弧が伸び、ちぎれる間隔が短くなる。同時に離れるかけらが増える（0%で1つ・100%で2つ）'],
-        ['25・50・75%', 'その目盛りの方向へ大きなかけらが1つちぎれ、目盛りのそばで漂ってから戻る'],
-        ['100%', '塊が上下左右の4方向へ同時にちぎれ、そろって戻る'],
-        ['100%超', '塊が金に変わり、3つまで同時に離れる。外周に金の2周目']],
-  init() { this.blob = new Blob(11); this.cd = 0.8; },
-  lobe(a0, o = {}) {
-    const R = this.blob.R, drift = (R() * 2 - 1) * 0.06;
-    this.blob.add(Object.assign({ a0, out: (l) => this.blob.P(lerp(54, 58, R()), l.a0),
-      float: (l, dt) => { l.a = wrap((l.a ?? l.a0) + drift * dt); const rr = Math.hypot(l.fx - this.blob.cx, l.fy - this.blob.cy) + Math.sin(l.t * 0.5 + l.s) * 1.3; [l.x, l.y] = this.blob.P(rr, l.a); } }, o));
-  },
-  tick(dt) {
-    common(this, dt); const R = this.blob.R;
-    this.cd -= dt * (0.1 + this.heat * 0.16);
-    if (this.cd <= 0) { if (this.blob.live() < maxLive(this.heat)) this.lobe(R() * TAU); this.cd = 1 + R() * 1.4; }
-    this.blob.step(dt, this.heat);
-    const S = []; this.blob.sources(S); this.goo.render(S);
-  },
-  stage(m) { const a = m / 100 * TAU; this.lobe(a, { rT: 9.5, hold: 3 }); spawn(this.fxl, GLOW(...polar(58, a)), 2800); },
-  bloom() { [0, 0.25, 0.5, 0.75].forEach((k) => this.lobe(k * TAU, { rT: 8, hold: 3, tOut: 3.8 })); spawn(this.fxl, GLOW(84, 84, 40, 400), 3000); }
-};
-
-/* ══════════════════════ B. 息をして、対にちぎれる ══════════════════════ */
-const Bg = {
-  key: 'B', name: '息をして、対にちぎれる', tag: '塊がゆっくり呼吸する。吐くたびに向かい合う2か所がふくらんでちぎれ、吸うと戻ってくる（細胞分裂がほどけるような動き）',
-  how: [['常時', '塊がゆっくりふくらんで縮む（1呼吸 約9秒）。吐き切ったところで向かい合う2か所がちぎれ、吸うあいだに戻って溶け込む。ちぎれる向きは呼吸ごとに回っていく'],
-        ['進むとき', '外周の弧が伸び、呼吸が少し速くなる。50%を越えるとちぎれる対が2組（十字）になる'],
-        ['25・50・75%', 'その呼吸を待たずに、目盛りの方向とその向かいへ大きな対がちぎれる'],
-        ['100%', '深く一呼吸して、4組8つのかけらが花びらのようにちぎれ、そろって戻る'],
-        ['100%超', '塊が金に。3組がちぎれて戻る呼吸を続ける。外周に金の2周目']],
-  init() { this.blob = new Blob(23); this.ph = 0.1; this.cyc = 0; this.rot = 0; },
-  pair(a, o = {}) {
-    for (const s of [0, Math.PI]) this.blob.add(Object.assign({ a0: wrap(a + s), out: (l) => this.blob.P(55, l.a0), hold: 2.2, tOut: 3, tBack: 3.2, rT: 7.5 }, o));
-  },
-  tick(dt) {
-    common(this, dt);
-    const T = 9 - Math.min(1.25, this.heat) * 2.4;
-    const prev = this.ph; this.ph += dt / T;
-    this.blob.breath = Math.sin(TAU * this.ph);
-    if (Math.floor(prev + 0.75) !== Math.floor(this.ph + 0.75)) {   // 吐き始め（位相 .25 の少し前）で対を出す
-      this.rot += 0.7;
-      const n = this.v > 100 ? 3 : this.v >= 50 ? 2 : 1;
-      if (this.blob.live() <= 2 * (n - 1)) for (let k = 0; k < n; k++) this.pair(this.rot + k * Math.PI / n);   // 前の対が戻りきっていなければ見送る
-    }
-    this.blob.step(dt, this.heat);
-    const S = []; this.blob.sources(S); this.goo.render(S);
-  },
-  stage(m) { const a = m / 100 * TAU; this.pair(a, { rT: 8.5, hold: 2.6 }); spawn(this.fxl, GLOW(...polar(54, a)) + GLOW(...polar(54, a + Math.PI)), 2800); },
-  bloom() {
-    for (let k = 0; k < 4; k++) this.pair(k * Math.PI / 4 + 0.2, { rT: 6.5, hold: 3, tOut: 3.6 });
-    spawn(this.fxl, GLOW(84, 84, 42, 300), 3000);
-  }
-};
-
-/* ══════════════════════ C. 進む先へ手を伸ばす ══════════════════════ */
-const C = {
-  key: 'C', name: '進む先へ手を伸ばす', tag: 'ちぎれるかけらは、いつも外周の弧の先端のほうへ伸びる。先端の近くで漂い、弧が伸びればそれについていき、やがて塊へ戻る',
-  how: [['常時', '塊の縁の、弧の先端に向いた側がふくらんで、先端のほうへちぎれ出る。先端の少し内側で漂い（4〜7秒）、塊へ戻る。0%のときは真上へ'],
-        ['進むとき', '外周の弧が伸びると、漂っているかけらも先端を追って横へ流れる'],
-        ['25・50・75%', 'かけらが弧の先端に触れるところまで伸び、光ってから戻る'],
-        ['100%', '先端が一周して真上に戻ったところへ、塊の上から大きなかけらが伸び、左右の2つを連れて戻る'],
-        ['100%超', '塊が金に。かけらが金の2周目の先端を追いかけて、塊のまわりをゆっくり巡る']],
-  init() { this.blob = new Blob(41); this.cd = 0.6; this.th = 0; },
-  tip() { return this.v > 100 ? wrap(this.th + (this.v - 100) / 100 * TAU) : this.th; },
-  lobe(o = {}) {
-    const R = this.blob.R, a0 = wrap(this.tip() + (R() * 2 - 1) * 0.3);
-    this.blob.add(Object.assign({ a0, hold: lerp(4, 7, R()), out: (l) => this.blob.P(o.reach || 57, l.a0),
-      float: (l, dt) => {
-        const tgt = o.fixed != null ? o.fixed : this.tip() - 0.12;
-        l.a = wrap((l.a ?? l.a0) + angDiff(tgt, l.a ?? l.a0) * Math.min(1, dt * 0.45));
-        const rr = (o.reach || 57) + Math.sin(l.t * 0.5 + l.s) * 1.3; [l.x, l.y] = this.blob.P(rr, l.a);
-      } }, o));
-  },
-  tick(dt) {
-    common(this, dt); const R = this.blob.R;
-    this.th += ((this.thT || 0) - this.th) * Math.min(1, dt * 3);
-    this.cd -= dt * (0.1 + this.heat * 0.14);
-    if (this.cd <= 0) { if (this.blob.live() < Math.min(2, maxLive(this.heat))) this.lobe(); this.cd = 1 + R() * 1.4; }
-    this.blob.step(dt, this.heat);
-    const S = []; this.blob.sources(S); this.goo.render(S);
-  },
-  stage(m) { const a = m / 100 * TAU; this.lobe({ reach: 62, rT: 8.5, hold: 2.2, fixed: a - 0.08 }); spawn(this.fxl, GLOW(...polar(ARC_R, a), 12, 3000), 6000); },
-  bloom() {
-    setTimeout(() => { this.lobe({ reach: 58, rT: 9.5, hold: 3, fixed: 0 });
-      [-0.9, 0.9].forEach((d) => this.blob.add({ a0: wrap(d), rT: 6.5, hold: 3.4, out: (l) => this.blob.P(52, l.a0) })); }, 900);
-    spawn(this.fxl, GLOW(...polar(ARC_R, 0), 16, 700), 3200);
-  }
-};
-
-/* ══════════════════════ D. かけらを連れて巡る ══════════════════════ */
-const D = {
-  key: 'D', name: 'かけらを連れて巡る', tag: '25%ごとにかけらが1つ塊からちぎれて、塊のまわりを巡りはじめる。巡るかけらはときどき塊に寄って溶け合い、また引きちぎれて離れる',
-  how: [['常時', '巡っているかけらが、ときどき塊に寄っていって縁と溶け合い、しばらくつながったあと、糸を引いてまたちぎれて軌道へ戻る。25%未満は小さなかけらがちぎれて戻るだけ'],
-        ['進むとき', '外周の弧が伸びる。巡るかけらの数が進捗の段を表す（25%で1つ〜100%で4つ）'],
-        ['25・50・75%', '新しいかけらが塊からちぎれて、軌道に加わる'],
-        ['100%', '4つ目がちぎれて加わり、4つが同時に塊へ寄って溶け合い、そろってまた離れる'],
-        ['100%超', '塊とかけらが金に。巡る速さが上がり、寄っては離れる間隔が短くなる']],
-  init() { this.blob = new Blob(57); this.sats = []; this.cd = 1; this.orb = 0; },
-  addSat(a0) {
-    const blob = this.blob;
-    blob.add({ a0, rT: 7, hold: 0.1, out: (l) => blob.P(55, l.a0), onFloat: (l) => {
-      l.st = 'gone';   // ちぎれ終わったら軌道のかけらに引き継ぐ（尾はそのまま吸い戻る）
-      this.sats.push({ off: wrap(l.a0 - this.orb), rho: 55, r: l.rT, st: 'orbit', t: 0, next: 5 + blob.R() * 6 });
-    } });
-  },
-  tick(dt) {
-    common(this, dt); const blob = this.blob, R = blob.R;
-    const want = Math.min(4, Math.floor(this.v / 25));
-    const have = this.sats.filter((s) => s.st !== 'merge').length + blob.lobes.filter((l) => l.onFloat && l.st !== 'gone').length;
-    if (have < want) this.addSat(wrap(this.orb + have * TAU / 4 + 0.4));
-    if (have > want) { const s = this.sats.find((x) => x.st !== 'merge'); if (s) { s.st = 'merge'; s.t = 0; s.rho0 = s.rho; } }
-    if (want === 0) {   // 25% 未満：小さなかけらがちぎれて戻るだけ
-      this.cd -= dt * 0.16;
-      if (this.cd <= 0) { if (blob.live() < 1) blob.add({ a0: R() * TAU, rT: 5.5, out: (l) => blob.P(53, l.a0) }); this.cd = 1 + R(); }
-    }
-    this.orb += dt * (0.1 + (this.v > 100 ? 0.08 : 0));
-    const E = blob.E;
-    blob.extra = [];
-    for (const s of this.sats) {
-      s.t += dt;
-      if (s.st === 'orbit') { s.rho = 55 + Math.sin(s.t * 0.5 + s.off * 3) * 1.4; if (s.t >= s.next) { s.st = 'dive'; s.t = 0; s.rho0 = s.rho; } }
-      else if (s.st === 'dive') { s.rho = lerp(s.rho0, E + s.r * 0.3, ease(s.t / 3.2)); if (s.t >= 3.2) { s.st = 'stick'; s.t = 0; } }
-      else if (s.st === 'stick') { s.rho = E + s.r * 0.3 + Math.sin(s.t * 1.2) * 0.6; if (s.t >= 1.8) { s.st = 'rise'; s.t = 0; } }
-      else if (s.st === 'rise') { s.rho = lerp(E + s.r * 0.3, 55, ease(s.t / 3.8)); if (s.t >= 3.8) { s.st = 'orbit'; s.t = 0; s.next = (this.v > 100 ? 4 : 7) + R() * 6; } }
-      else if (s.st === 'merge') { const k = soft(s.t / 4); s.rho = lerp(s.rho0, E - 6, k); s.fade = 1 - k; if (s.t >= 4) s.gone = true; }
-      const [x, y] = blob.P(s.rho, this.orb + s.off);
-      const r = s.r * (s.fade ?? 1);
-      blob.extra.push({ x, y, r, mass: s.st === 'merge' ? 1 : 0.8 });
-    }
-    this.sats = this.sats.filter((s) => !s.gone);
-    blob.step(dt, this.heat);
-    const S = []; blob.sources(S);
-    for (const e of blob.extra) if (e.r > 0.2) S.push(e.x, e.y, e.r * e.r);
-    this.goo.render(S);
-  },
-  stage(m) { spawn(this.fxl, GLOW(84, 84, 38, 200), 2800); },
-  bloom() {
-    setTimeout(() => { for (const s of this.sats) if (s.st === 'orbit' || s.st === 'rise') { s.st = 'dive'; s.t = 0; s.rho0 = s.rho; } }, 6500);
-    spawn(this.fxl, GLOW(84, 84, 42, 300), 3000);
-  }
-};
-
-/* ══════════════════════ E. 昇って、脇を沈んで戻る ══════════════════════ */
-const E = {
-  key: 'E', name: '昇って、脇を沈んで戻る', tag: 'ラバランプの中身の対流。温まった塊の上側からかけらがちぎれて昇り、冷えて脇をゆっくり沈み、塊の下側から戻って溶け込む',
-  how: [['常時', '塊のてっぺん近くがふくらみ、かけらがちぎれて上へ昇る。上で横へ流れ、左か右の脇をゆっくり沈んでいき、塊の下側に触れて溶け込む（1周 約15秒）'],
-        ['進むとき', '外周の弧が伸び、昇るかけらが増える（0%で1つ・100%で2つが左右に分かれて）'],
-        ['25・50・75%', '大きなかけらが1つ昇り、目盛りのある側へ流れて沈む'],
-        ['100%', '左右へ同時に大きなかけらが昇って分かれ、両脇を沈んで下からそろって戻る'],
-        ['100%超', '塊が金に。昇って沈む流れが3つまで途切れなく続く。外周に金の2周目']],
-  init() { this.blob = new Blob(71); this.cd = 0.5; this.side = 1; },
-  lobe(o = {}) {
-    const blob = this.blob, R = blob.R, side = o.side || (this.side = -this.side);
-    const a0 = wrap(side * lerp(0.1, 0.4, R()));
-    blob.add(Object.assign({ a0, rT: lerp(6.5, 8, R()), tOut: 3.6, hold: 7, tBack: 3,
-      out: (l) => [84 + side * lerp(6, 12, R()), 23],
-      float: (l, dt) => {   // 上で横へ流れ、脇を沈む（弧の内側・数字の外側を通る）
-        const k = ease(l.t / l.hold);
-        const px = lerp(l.fx, 84 + side * 50, soft(k * 1.6)), py = l.fy + (110 - l.fy) * Math.max(0, (k - 0.25) / 0.75) ** 1.2;
-        l.x = px + Math.sin(l.t * 0.6 + l.s) * 1; l.y = py;
-      },
-      back: () => wrap(Math.PI - side * 0.8) }, o));
-  },
-  tick(dt) {
-    common(this, dt); const R = this.blob.R;
-    this.cd -= dt * (0.1 + this.heat * 0.15);
-    if (this.cd <= 0) { if (this.blob.live() < maxLive(this.heat)) this.lobe(); this.cd = 1 + R() * 1.2; }
-    this.blob.step(dt, this.heat);
-    const S = []; this.blob.sources(S); this.goo.render(S);
-  },
-  stage(m) { const side = m === 50 ? 1 : m < 50 ? 1 : -1; this.lobe({ side, rT: 9.5 }); spawn(this.fxl, GLOW(84, 30, 16), 2800); },
-  bloom() { this.lobe({ side: 1, rT: 9 }); this.lobe({ side: -1, rT: 9 }); spawn(this.fxl, GLOW(84, 30, 22, 300), 3000); }
-};
+const HOW_NEW = [['常時', '塊が揺れながら、縁の一点がゆっくりふくらみ（約4秒）、糸を引いて外へ離れる（約6秒）。離れたかけらは塊のまわりを曲がりくねって泳ぎ（7〜12秒）、少し先で塊へ戻って溶け込む'],
+  ['進むとき', '外周の弧が伸び、ちぎれる間隔が短くなる。見えているかけらの上限が 0%で1つ → 25%ごとに1つ増え → 100%以上で5つ'],
+  ['25・50・75%', 'その目盛りの方向へ大きめのかけらが1つちぎれる（上限の内側で）'],
+  ['100%', '上下左右へ同時にちぎれる（合計5つを越えない数だけ）'],
+  ['100%超', '塊とかけらが金に変わる。外周に金の2周目']];
+const HOW_OLD = [['常時', '縁の一点がふくらみ（約2.4秒）、ひとかけらが離れ（約3.4秒）、4〜8秒漂って横へ流れ、塊へ戻る'],
+  ['進むとき', '同時に離れるかけらは 0%で1つ・100%で2つ・超過で3つ'],
+  ['25・50・75%', 'その目盛りの方向へ大きなかけらが1つちぎれる'],
+  ['100%', '上下左右の4方向へ同時にちぎれる'],
+  ['100%超', '塊が金に変わる']];
+const GAUGES = [
+  makeGauge('A', '調整後', '採用された「ひとかけらずつ」に ①〜⑤ の調整を入れたもの', HOW_NEW, CFG_NEW, 11, false),
+  makeGauge('A', '前回（比較用）', '第3版の「ひとかけらずつ」そのまま', HOW_OLD, CFG_OLD, 11, true)
+];
 
 /* ══════════════════════ 再生器 ══════════════════════ */
-const GAUGES = [A, Bg, C, D, E];
 const grid = document.getElementById('grid');
-function tier(v) { return v <= 0 ? 0 : v < 25 ? 1 : v < 50 ? 2 : v < 75 ? 3 : v < 100 ? 4 : v < 150 ? 5 : 6; }
 GAUGES.forEach((g) => {
   const c = document.createElement('section');
-  c.className = 'card';
-  c.innerHTML = `<h2>${g.key}. ${g.name}</h2><div class="tag">${g.tag}</div>
-    <div class="stage"><div class="gauge" data-tier="0"><div class="gauge-ring">
+  c.className = 'card' + (g.old ? ' old' : '');
+  c.innerHTML = `<h2>${g.key}. ひとかけらずつ — ${g.name}</h2><div class="tag">${g.tag}</div>
+    <div class="stage"><div class="gauge"><div class="gauge-ring">
       <canvas></canvas>
-      <svg viewBox="0 0 168 168" aria-hidden="true">${SVG_BG}${SVG_FG()}</svg>
+      <svg viewBox="0 0 168 168" aria-hidden="true">${SVG_FG()}</svg>
       <span class="gauge-mid"><span class="pct">0</span><em>%</em></span></div>
-    <p class="gauge-cap">今日の目標</p><p class="gauge-goal"><b class="n">0</b> / 40問</p></div></div>
+    <p class="gauge-cap">今日の目標</p><p class="gauge-goal"><b class="n">0</b> / 40問</p><div class="cnt"></div></div></div>
     <dl class="how">${g.how.map(([a, b]) => `<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl>`;
   grid.appendChild(c);
   g.el = c.querySelector('.gauge'); g.mid = c.querySelector('.gauge-mid'); g.pct = c.querySelector('.pct'); g.n = c.querySelector('.n');
-  g.root = c.querySelector('.gauge-ring'); g.fxl = c.querySelector('.fxl');
+  g.root = c.querySelector('.gauge-ring'); g.fxl = c.querySelector('.fxl'); g.cntEl = c.querySelector('.cnt');
   g.valEl = c.querySelector('.val'); g.ovfEl = c.querySelector('.ovf');
-  g.goo = new Goo(c.querySelector('canvas'));
-  g.v = 0; g.heat = 0.15; g.thT = 0;
+  g.goo = new Goo(c.querySelector('canvas'), g.C.mode);
+  g.v = 0; g.heat = 0.15;
   g.init();
-  baseFrame(g, 0, 0);
+  dash(g.valEl, 0); dash(g.ovfEl, 0);
 });
 
 let cur = 0, raf = 0;
 const rg = document.getElementById('rg'), out = document.getElementById('out');
 function apply(v) {
   const prev = cur; cur = v;
-  const b = Math.min(100, v), t = String(tier(v)), shown = Math.round(v);
+  const b = Math.min(100, v), shown = Math.round(v);
   GAUGES.forEach((g) => {
     g.v = v;
-    g.el.dataset.tier = t;
-    baseFrame(g, b, v);
+    dash(g.valEl, b); dash(g.ovfEl, v - 100);
+    g.root.querySelectorAll('.tick').forEach((n) => n.classList.toggle('on', b >= +n.dataset.m));
     g.pct.textContent = shown; g.mid.classList.toggle('wide', shown >= 100);
     g.n.textContent = Math.round(v * 40 / 100);
     if (v > prev) {
-      [25, 50, 75].forEach((m) => { if (prev < m && v >= m && g.stage) g.stage(m); });
-      if (prev < 100 && v >= 100 && g.bloom) g.bloom();
+      [25, 50, 75].forEach((m) => { if (prev < m && v >= m) g.stage(m); });
+      if (prev < 100 && v >= 100) g.bloom();
     }
   });
   rg.value = shown; out.textContent = shown + '%';
@@ -540,7 +448,7 @@ rg.addEventListener('input', () => { stopSeq(); go(+rg.value, 500); });
 document.querySelectorAll('[data-add]').forEach((b) => b.addEventListener('click', () => { stopSeq(); go(Math.round(cur) + +b.dataset.add); }));
 document.querySelectorAll('[data-set]').forEach((b) => b.addEventListener('click', () => { stopSeq(); go(+b.dataset.set, +b.dataset.set === 0 ? 700 : 1400); }));
 document.getElementById('bSeq').addEventListener('click', () => {
-  seq([[0, 900, 600], [18, 3000, 1000], [30, 4500, 1000], [45, 3000, 1000], [55, 4500, 1000], [70, 3000, 1000], [80, 4500, 1000], [92, 3000, 1000], [100, 8000, 1000], [130, 0, 1600]]);
+  seq([[0, 900, 600], [18, 4000, 1000], [30, 6000, 1000], [45, 4000, 1000], [55, 6000, 1000], [70, 4000, 1000], [80, 6000, 1000], [92, 4000, 1000], [100, 10000, 1000], [130, 0, 1600]]);
 });
 document.getElementById('bBloom').addEventListener('click', () => { seq([[90, 1200, 700], [100, 0, 1000]]); });
 document.getElementById('cbBig').addEventListener('change', (e) => { document.body.classList.toggle('big', e.target.checked); GAUGES.forEach((g) => g.goo.resize()); });
