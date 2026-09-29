@@ -2732,9 +2732,9 @@ html.ui-celestial .theme-gauge-celestial { display: inline; }
   fill: #00F2FE;
   filter: drop-shadow(0 0 4px #00F2FE);
 }
-.cel-mw-band0 { fill: none; stroke: rgba(190, 180, 255, .07); stroke-width: 13; }
+.cel-mw-band0 { fill: none; stroke: rgba(190, 180, 255, .07); stroke-width: 11; }
 .cel-mw-lit { opacity: .9; }
-.cel-mw-neb { fill: none; stroke: url(#celMwNebGrad); stroke-width: 12; opacity: .32; }
+.cel-mw-neb { fill: none; stroke: url(#celMwNebGrad); stroke-width: 10.5; opacity: .32; }
 .cel-mw-neb2 { fill: none; stroke: #FFFFFF; stroke-width: 3.2; opacity: .12; }
 .cel-mw-rift { fill: none; stroke: rgba(4, 2, 14, .62); stroke-width: 1.7; stroke-dasharray: 10 4 18 6 5 11 3 8; }
 #celMwMaskArc { transition: stroke-dasharray 0.85s cubic-bezier(0.2, 0.9, 0.3, 1); }
