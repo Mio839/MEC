@@ -111,11 +111,12 @@ const FX = [
     ['c-card', 't', 'カードの正解表示', '毎回：カードと正解の肢の色・発光（UIテーマの CSS）。3/5/10連続でカードの段が上がる', `_applyCardThemeComboFx(c, n)`],
     ['c-sweep', 'c', '正解の肢の縁を光が1周', '毎回・0.3秒（_rfSweep）', `_rfSweep(ok, RF_ADVANCE_MS.one - RF_FX_END_MARGIN)`],
     ['c-particles', 't', 'UIテーマの粒子', '毎回・肢の位置：照準・金継ぎ・氷晶・歯車など（_spawnStreakParticles）', `_spawnStreakParticles(Math.max(1, t), _rfCenter(ok), { el: ok, card: c, promoted: up })`],
-    ['c-theme', 't', 'UIテーマ固有の正解演出', 'liquid・frost・celestial・brass だけ：肢の層は送る前に終わり、全画面の層は元の尺（2〜3秒）で重なる',
+    ['c-theme', 't', 'UIテーマ固有の正解演出', 'liquid・frost・celestial・brass・abyss だけ：肢の層は送る前に終わり、全画面の層は元の尺（2〜3秒）で重なる',
       `const u = _rfUi(), B = RF_ADVANCE_MS.one;
        if (u === 'liquid') _lqLiquidFx(ok, c, t, up, B); else if (u === 'frost') _frFrostFx(ok, c, t, up, B);
        else if (u === 'celestial') _clxCelestialFx(ok, c, t, up, B); else if (u === 'brass') _brsBrassFx(ok, c, t, up, B);
-       else throw new Error('このUIテーマには固有の正解演出が無い（liquid / frost / celestial / brass で試す）')`],
+       else if (u === 'abyss') _abyAbyssFx(ok, c, t, up, B);
+       else throw new Error('このUIテーマには固有の正解演出が無い（liquid / frost / celestial / brass / abyss で試す）')`],
   ]],
   ['連続正解で出る', [
     ['s-streak', 'c', '連続数の表示', '2連続〜・ヘッダーの下（_rfShowStreak）', `_rfShowStreak(Math.max(2, n), _examTier(Math.max(2, n)), false)`],
@@ -189,7 +190,8 @@ window.__D = {
      _lqGiantBubble（大きな玉）は null を返させる。_lqJelly は肢の弾みだけを外せるよう包み直す。
    - frost：canvas に「どの層か」と「その時の __P」を貼っておき、描画の小関数（_frDrawFrost・_frDrawFlake・
      _frGlint・_frMelt）を種類で見分ける。霞は肢の層の fillRect（destination-out 以外）を止めて消す。
-   - kintsugi・abyss・aurora・cyber：_spawnStreakParticles が呼ぶ MecFX の関数を包む。
+   - abyss：ソナーの反響（_abySonar）を brass・celestial と同じく部品の関数として包む（2026-09-29〜）。
+   - kintsugi・aurora・cyber：_spawnStreakParticles が呼ぶ MecFX の関数を包む。
    ⚠️ 見分け方は本物の引数（霜の不透明度 .7／.8、_frFlake を呼ぶ順番など）に寄りかかっている。
       study_exam.js の演出を作り直したら、ここも合わせて直すこと。 */
 const PARTCTL = `
@@ -205,7 +207,7 @@ const PARTCTL = `
   [['_brsGearTrain', 'brs.gear'], ['_brsHallmark', 'brs.hall'], ['_brsFiligree', 'brs.fil'], ['_brsBigTrain', 'brs.bigtrain'],
    ['_brsMedallion', 'brs.medal'], ['_brsCornerCast', 'brs.corner'],
    ['_clxNova', 'clx.nova'], ['_clxGalaxy', 'clx.galaxy'], ['_clxTrails', 'clx.trails'], ['_clxZodiac', 'clx.zodiac'],
-   ['_clxWeb', 'clx.web'], ['_clxGrid', 'clx.grid']].forEach(([n, k]) => part(n, k));
+   ['_clxWeb', 'clx.web'], ['_clxGrid', 'clx.grid'], ['_abySonar', 'aby.sonar']].forEach(([n, k]) => part(n, k));
   // celestial：超新星／銀河の渦はセッションごとの抽選（_clxSessionPick）。部品で片方だけを選んだときはその側に寄せる。
   // 重ねる4つ（CLX_EXTRAS）は正解のたびの抽選なので、部品で選んだものだけから抽選させる（配列の中身を一時的に差し替える）
   wrap('_clxCelestialFx', o => function () {
@@ -281,9 +283,8 @@ const PARTCTL = `
     else if (c.__fr === 'dust') { const i = c.__gi++; k = (i === 0 && c.__e < 600) ? 'fr.cglint' : rot === undefined ? 'fr.wave' : 'fr.dust'; }
     return on(k, c.__P) ? o.apply(this, arguments) : undefined;
   });
-  // kintsugi・abyss・aurora・cyber（MecFX）
-  const FXK = { kintsugi: ['kintsugiCrack', 'dust', 'rings'], abyss: ['abyssSonarPulse', 'bubbles', 'rings'],
-                aurora: ['auroraPrismSweep', 'diamondSparkle', 'rings'], cyber: ['cyberTargetLock', 'glitchBars', 'rings'] };
+  // kintsugi・aurora・cyber（MecFX）
+  const FXK = { kintsugi: ['kintsugiCrack', 'dust', 'rings'], aurora: ['auroraPrismSweep', 'diamondSparkle', 'rings'], cyber: ['cyberTargetLock', 'glitchBars', 'rings'] };
   const names = new Set(Object.values(FXK).flat());
   names.forEach(m => {
     const o = window.MecFX && window.MecFX[m]; if (typeof o !== 'function') return;
@@ -1381,7 +1382,7 @@ const CLX_NEW6 = [
   ['arc', '⑤ 天の赤道', '画面をまたぐ大きな弧が左の地平から右へ描かれ、目盛りと星が並ぶ。太陽が弧をたどって昇り、画面の真上（南中）で光を放つ',
     '段3〜は月が、段5〜は惑星が太陽の後を追う。段が上がった瞬間は、波打つ2本目の弧（黄道）もシアンで架かる'],
 ];
-/* ── abyss 正解演出の新案・5つ（2026-09-29・デモ専用。study_exam.js にはまだ入れていない）──
+/* ── abyss 正解演出の新案 第1弾・5つ（2026-09-29・デモ専用。B ソナーの反響だけ本番へ移した）──
    今の本番（_spawnStreakParticles の abyss 分岐＝MecFX.abyssSonarPulse：エメラルドの閃光＋波紋＋マリンスノー・段4〜輪3本）を
    置き換える候補。題材は深海の生物発光。発火位置は celestial の新案と同じ「正解の肢の左端・縦は中央」。
    描き方も celestial の新案と同じ2層（肢の文字の裏＝送る前に縮めて終わる／全画面＝元の尺のまま）。単独で再生する。
@@ -1455,7 +1456,7 @@ const ABYNEW = `
     c.restore();
   };
 
-  const NEW = {
+  const NEW = window.__abyKinds = Object.assign(window.__abyKinds || {}, {
     /* A 発光クラゲ */
     jelly(g) {
       const { T, up, px, py, CW, CH, M, S } = g;
@@ -1473,55 +1474,7 @@ const ABYNEW = `
         J.forEach(j => jellyOne(c, j, e - j.t0, fade, S));
       } };
     },
-    /* B ソナーの反響 */
-    sonar(g) {
-      const { T, up, px, py, M, S, n } = g;
-      const R = M * Math.min(.75, .36 + .05 * T) * (up ? 1.2 : 1);
-      const nb = Math.min(16, 4 + 2 * T) + (up ? 6 : 0), a0 = -Math.PI / 2, SW = 900, dur = up ? 2100 : 1800;
-      const bl = Array.from({ length: nb }, () => { const a = _frR(0, 6.28), d = _frR(.3, .95) * R;
-        return { ra: ((a - a0) % 6.28 + 6.28) % 6.28, x: px + Math.cos(a) * d, y: py + Math.sin(a) * d }; });
-      const sweeps = up ? [1, -1] : [1];
-      return { dur, draw(c, e) {
-        const fade = fadeOut(e, dur, 500), kg = _frE(_frC(e / 300));
-        for (let i = 1; i <= 3; i++) ring(c, px, py, R * i / 3 * kg, .3 * fade, DC, 1 * S);   // 目盛り
-        c.globalAlpha = .22 * fade; c.strokeStyle = DC; c.lineWidth = 1 * S; c.beginPath();
-        c.moveTo(px - R * kg, py); c.lineTo(px + R * kg, py); c.moveTo(px, py - R * kg); c.lineTo(px, py + R * kg); c.stroke();
-        const kp = _frC(e / 520);   // ピン
-        glow(c, px, py, (26 + 40 * (1 - kp)) * S, (1.2 - .6 * kp) * fade, EM);
-        ring(c, px, py, R * _frE(kp), (1 - kp) * 1.2, EM, 2.6 * S * (1 - .5 * kp));
-        const sw = Math.min(e / SW, 1) * 6.28;   // 掃引（光の扇が1周）
-        if (e < SW + 250) sweeps.forEach(dir => {
-          const ang = a0 + dir * sw, ka = e < SW ? 1 : _frC(1 - (e - SW) / 250);
-          for (let k = 0; k < 14; k++) {
-            const a1 = ang - dir * k * .06, a2 = a1 - dir * .06;
-            c.globalAlpha = .26 * (1 - k / 14) * ka * fade; c.fillStyle = k < 2 ? BIO : EM;
-            c.beginPath(); c.moveTo(px, py); c.arc(px, py, R, Math.min(a1, a2), Math.max(a1, a2)); c.closePath(); c.fill();
-          }
-          c.globalAlpha = .9 * ka * fade; c.strokeStyle = PALE; c.lineWidth = 1.6 * S;
-          c.beginPath(); c.moveTo(px, py); c.lineTo(px + Math.cos(ang) * R, py + Math.sin(ang) * R); c.stroke();
-        });
-        bl.forEach(b => {   // 反射点：掃引が通ったときに光って小さな輪を出す
-          let tb = Infinity;
-          sweeps.forEach(dir => { const ra = dir > 0 ? b.ra : (6.28 - b.ra) % 6.28; if (sw >= ra) tb = Math.min(tb, e - ra / 6.28 * SW); });
-          if (!isFinite(tb)) return;
-          const kb = _frC(tb / 500), br = Math.exp(-tb / 700);
-          glow(c, b.x, b.y, 14 * S, br * 1.1 * fade, EM);
-          dot(c, b.x, b.y, 2 * S, br * 1.2 * fade, PALE);
-          ring(c, b.x, b.y, 18 * S * _frE(kb), (1 - kb) * .9 * fade, BIO, 1.2 * S);
-        });
-        const kr = _frC((e - 720) / 450);   // 反響が戻る
-        if (kr > 0 && kr < 1) ring(c, px, py, R * (1 - _clxEio(kr)), .9 * fade, CY, 2 * S);
-        const kh = _frC((e - 1170) / 520);
-        if (kh > 0) {
-          glow(c, px, py, 80 * S * _frE(kh), Math.sin(Math.PI * kh) * 1.2, CY);
-          ring(c, px, py, R * .5 * _frE(kh), (1 - kh) * 1.1, PALE, 1.8 * S);
-          // 深度の読み（連続数×100 m＝連続数の表示の DEPTH と同じ数）
-          c.globalAlpha = _frC(kh * 4) * fade; c.fillStyle = EM; c.textBaseline = 'bottom';
-          c.font = '700 ' + Math.round(13 * S) + 'px ui-monospace,Consolas,monospace';
-          c.fillText('▼ ' + (Math.max(1, n) * 100) + ' m', px + 12 * S, py - 10 * S);
-        }
-      } };
-    },
+    // B ソナーの反響は 2026-09-29 に本番へ（study_exam.js の _abySonar／_abyAbyssFx）
     /* C 夜光虫の航跡 */
     wake(g) {
       const { T, up, px, py, CW, CH, M, S, er } = g;
@@ -1667,15 +1620,16 @@ const ABYNEW = `
         });
       } };
     },
-  };
+  });
 
-  /* 起動の枠組みは celestial の新案（__clxNew2）と同じ。発火位置は肢の左端・縦は中央 */
+  /* 起動の枠組みは celestial の新案（__clxNew2）と同じ。発火位置は肢の左端・縦は中央。
+     案は window.__abyKinds に登録する（第2弾 ABYNEW2 もここへ足す） */
   window.__abyNew = function (kind, el, card, tier, promoted, budget) {
     if (!el || !card || _fxOff()) return;
     const er = el.getBoundingClientRect(); if (!er.width || !er.height) return;
     const w = er.width, h = er.height, CW = innerWidth, CH = innerHeight; if (!CW || !CH) return;
     const M = Math.min(CW, CH);
-    const p = NEW[kind]({ T: Math.max(1, tier), up: promoted && tier >= 2, px: er.left, py: er.top + h / 2, CW, CH, M,
+    const p = window.__abyKinds[kind]({ T: Math.max(1, tier), up: promoted && tier >= 2, px: er.left, py: er.top + h / 2, CW, CH, M,
       S: _frC(M / 480, 1, 2), er, n: examStreak });
     const lit = (c, fn) => { c.save(); c.globalCompositeOperation = 'lighter'; try { fn(); } finally { c.restore(); } };
     _rfFit(budget, p.dur + 50);
@@ -1688,12 +1642,328 @@ const ABYNEW = `
     _lqDrop(H, C, p.dur + 50);
   };
 })();`;
+/* ── abyss 正解演出の新案 第2弾・10個（2026-09-29・デモ専用。study_exam.js にはまだ入れていない）──
+   第1弾（発光クラゲ・ソナーの反響＝本番・夜光虫の航跡・提灯の灯・管クラゲの連鎖）に無い題材で10個。
+   単独で再生する（本番のソナーの反響とは重ねない）。起動の枠組みは第1弾の __abyNew（案を window.__abyKinds に足す）。
+   描画の小道具は本番の _abyGlow／_abyRing／_abyDot と色 ABY_* を借りる。発火位置は「正解の肢の左端・縦は中央」。
+   ⚠️ 肢の中を横に走る長い線は作らない（下線・取り消し線に見える。brass のラボで踏んだ）。 */
+const ABYNEW2 = `
+(() => {
+  const EM = ABY_EM, CY = ABY_CY, DC = ABY_DC, BIO = ABY_BIO, PALE = ABY_PALE, BLUE = '#3D9BFF', CORAL = '#FF7AD9';
+  const rgba = _clxRgba, glow = _abyGlow, ring = _abyRing, dot = _abyDot;
+  const fadeOut = (e, dur, len) => e < dur - len ? 1 : _frC((dur - e) / len);
+  const fish = (c, x, y, ang, a, col, S, k) => {   // 光る小魚（k＝大きさの倍率）
+    if (!(a > 0)) return;
+    k = k || 1;
+    c.save(); c.translate(x, y); c.rotate(ang); c.globalAlpha = Math.min(1, a); c.fillStyle = col;
+    c.beginPath(); c.ellipse(0, 0, 5 * S * k, 1.8 * S * k, 0, 0, 7); c.fill();
+    c.beginPath(); c.moveTo(-4 * S * k, 0); c.lineTo(-8 * S * k, -2.4 * S * k); c.lineTo(-8 * S * k, 2.4 * S * k); c.closePath(); c.fill();
+    c.restore();
+  };
+  // 着地の一撃（光＋輪。段3〜はシアンの2本目・段が上がった瞬間は3本目）
+  const hit = (c, e, t0, px, py, R, T, up, S, col) => {
+    const k = _frC((e - t0) / 650); if (k <= 0) return;
+    glow(c, px, py, 90 * S * _frE(k), Math.sin(Math.PI * Math.min(1, k * 1.6)) * 1.2, col || EM);
+    ring(c, px, py, R * _frE(k), (1 - k) * 1.1, BIO, 2.2 * S * (1 - .6 * k));
+    if (T >= 3 || up) { const k2 = _frC((e - t0 - 120) / 700); ring(c, px, py, R * 1.35 * _frE(k2), (1 - k2) * .9, CY, 1.6 * S); }
+    if (up) { const k3 = _frC((e - t0 - 240) / 750); ring(c, px, py, R * 1.7 * _frE(k3), (1 - k3) * .8, EM, 1.4 * S); }
+  };
+
+  Object.assign(window.__abyKinds, {
+    /* F 探照灯：画面の上の潜水艇から光の筋が2本（段3〜は3本）振れて肢の左端に集まり、光の中のマリンスノーが浮かぶ */
+    search(g) {
+      const { T, up, px, py, CW, CH, M, S } = g;
+      const nL = (T >= 3 ? 3 : 2) + (up ? 1 : 0), R = M * Math.min(.45, .22 + .04 * T) * (up ? 1.25 : 1), dur = up ? 2000 : 1700, B = 380;
+      const L = Array.from({ length: nL }, (_, i) => {
+        const lx = _frC(px + M * (.1 + .35 * i) + _frR(-20, 20), 10, CW - 10), ly = -8;
+        const ta = Math.atan2(py - ly, px - lx);
+        return { lx, ly, ta, a0: ta + (i % 2 ? -1 : 1) * _frR(.5, .8), len: Math.hypot(px - lx, py - ly) * 1.25 };
+      });
+      const snow = Array.from({ length: 120 + 20 * T }, () => ({ x: _frR(0, CW), y: _frR(0, CH), r: _frR(.8, 1.8) * S, vy: _frR(4, 14), ph: _frR(0, 6.28) }));
+      const half = .09 + (up ? .03 : 0);
+      return { dur, draw(c, e) {
+        const fade = fadeOut(e, dur, 550), k = _clxEio(_frC(e / B)), ba = (e < 1000 ? 1 : _frC(1 - (e - 1000) / 500)) * fade;
+        const angs = L.map(l => l.a0 + (l.ta - l.a0) * k);
+        L.forEach((l, i) => {
+          const a = angs[i], ex = l.lx + Math.cos(a) * l.len, ey = l.ly + Math.sin(a) * l.len;
+          const gr = c.createLinearGradient(l.lx, l.ly, ex, ey);
+          gr.addColorStop(0, rgba(PALE, .38 * ba)); gr.addColorStop(.7, rgba(BIO, .12 * ba)); gr.addColorStop(1, rgba(BIO, 0));
+          c.globalAlpha = 1; c.fillStyle = gr; c.beginPath(); c.moveTo(l.lx, l.ly); c.arc(l.lx, l.ly, l.len, a - half, a + half); c.closePath(); c.fill();
+          glow(c, l.lx, l.ly + 4, 22 * S, .9 * ba, CY);
+        });
+        snow.forEach(p => {   // 光の筋の中にあるものだけ見える
+          const y = p.y + p.vy * e / 1000, x = p.x + Math.sin(e / 700 + p.ph) * 4;
+          let v = 0;
+          L.forEach((l, i) => { const d = Math.atan2(y - l.ly, x - l.lx) - angs[i]; if (Math.abs(d) < half) v = Math.max(v, 1 - Math.abs(d) / half); });
+          if (v > 0) dot(c, x, y, p.r, v * ba, PALE);
+        });
+        hit(c, e, B, px, py, R, T, up, S);
+      } };
+    },
+    /* G 潜航の深度計：肢の左に目盛りが縦に流れ（潜っていく）、減速して止まると今の深度（連続数×100 m）で光る */
+    gauge(g) {
+      const { T, up, px, py, M, S, n } = g;
+      const gap = 9 * S, span = M * Math.min(.42, .26 + .03 * T), total = gap * (40 + 10 * T), stop = 650, dur = up ? 2000 : 1750;
+      const x0 = Math.max(46 * S, px - 16 * S), D =Math.max(1, n) * 100, R = M * Math.min(.4, .2 + .04 * T) * (up ? 1.25 : 1);
+      return { dur, draw(c, e) {
+        const fade = fadeOut(e, dur, 550), off = total * _frE(_frC(e / stop)), kin = _frE(_frC(e / 180));
+        const i0 = Math.ceil((off - span) / gap), i1 = Math.floor((off + span) / gap), iz = total / gap;
+        c.strokeStyle = EM; c.lineWidth = 1.2 * S; c.fillStyle = EM; c.textBaseline = 'middle'; c.textAlign = 'right';
+        c.font = '600 ' + Math.round(9 * S) + 'px ui-monospace,Consolas,monospace';
+        for (let i = i0; i <= i1; i++) {
+          const y = py + i * gap - off, d = Math.abs(y - py) / span; if (d > 1) continue;
+          const a = (1 - d * d) * fade * kin, big = i % 5 === 0;
+          c.globalAlpha = a * (big ? 1 : .6); c.beginPath(); c.moveTo(x0, y); c.lineTo(x0 - (big ? 12 : 6) * S, y); c.stroke();
+          if (big) { c.globalAlpha = a * .85; c.fillText(String(Math.round(D + (i - iz) * 2)), x0 - 15 * S, y); }
+        }
+        const sp = _frC(1 - e / stop);   // 流れている間の速度線
+        if (sp > 0) for (let k = 0; k < 6; k++) { const y = py + ((k * 37 + e * 1.3) % (span * 2)) - span; c.globalAlpha = .35 * sp * fade; c.strokeStyle = BIO; c.beginPath(); c.moveTo(x0 + 4 * S, y); c.lineTo(x0 + 4 * S, y - 26 * S * sp); c.stroke(); }
+        // 指針（三角）
+        c.globalAlpha = fade * kin; c.fillStyle = PALE; c.beginPath(); c.moveTo(x0 + 2 * S, py); c.lineTo(x0 + 10 * S, py - 5 * S); c.lineTo(x0 + 10 * S, py + 5 * S); c.closePath(); c.fill();
+        hit(c, e, stop, x0 + 6 * S, py, R, T, up, S);
+        const kt = _frC((e - stop) / 200);
+        if (kt > 0) { c.globalAlpha = kt * fade; c.fillStyle = EM; c.textAlign = 'left'; c.textBaseline = 'bottom';
+          c.font = '700 ' + Math.round(14 * S) + 'px ui-monospace,Consolas,monospace'; c.fillText(D + ' m', px + 10 * S, py - 12 * S); }
+        c.textAlign = 'start';
+      } };
+    },
+    /* H 熱水噴出孔：肢の左端から光る熱水が噴き上がり、渦を巻いて広がりながら昇る */
+    vent(g) {
+      const { T, up, px, py, CW, CH, M, S } = g;
+      const V = M * Math.min(1.1, .6 + .08 * T), dur = up ? 2100 : 1800, R = M * Math.min(.36, .16 + .04 * T);
+      const src = [[px, py]].concat(up ? [[_frC(px + M * .45, 30, CW - 30), _frC(py + M * .12, 30, CH - 20)], [_frC(px + M * .85, 30, CW - 30), _frC(py + M * .05, 30, CH - 20)]] : []);
+      const P = [];
+      src.forEach(([sx, sy], si) => { const nn = (si ? 50 : 70) + 15 * T;
+        for (let i = 0; i < nn; i++) P.push({ sx, sy, t0: si * 150 + _frR(0, 650), v: V * _frR(.6, 1.1), sp: _frR(.15, .45), ph: _frR(0, 6.28), r: _frR(1.2, 2.6) * S, col: i % 4 ? (i % 2 ? EM : BIO) : PALE }); });
+      return { dur, draw(c, e) {
+        const fade = fadeOut(e, dur, 550);
+        src.forEach(([sx, sy], si) => { const k = _frC((e - si * 150) / 500);
+          glow(c, sx, sy, (30 + 30 * Math.sin(e / 70) * .2) * S, (k > 0 ? .7 + .5 * Math.sin(Math.PI * Math.min(1, k)) : 0) * fade, EM);
+          if (k > 0 && k < 1) ring(c, sx, sy, R * _frE(k), (1 - k), BIO, 2 * S); });
+        P.forEach(p => {
+          const t = (e - p.t0) / 1000; if (t <= 0) return;
+          const h = p.v * t, w = h * p.sp, y = p.sy - h, x = p.sx + Math.sin(t * 5 + p.ph) * w;
+          const life = _frC(1 - t / 1.3); if (life <= 0 || y < -10) return;
+          dot(c, x, y, p.r * (1 + t * 1.5), life * fade * .8, p.col);
+        });
+      } };
+    },
+    /* I 魚群のトルネード：散っていた光る小魚が肢の左端のそばへ集まって竜巻のように回り、最後に一斉に散る */
+    school(g) {
+      const { T, up, px, py, CW, CH, M, S } = g;
+      const cx = px + M * .1, n = Math.min(90, 36 + 10 * T) + (up ? 30 : 0), H = M * Math.min(.36, .2 + .03 * T), rad = M * .09;
+      const A = 400, B = 1150, dur = up ? 2100 : 1850, R = M * Math.min(.45, .22 + .04 * T) * (up ? 1.2 : 1);
+      const F = Array.from({ length: n }, (_, i) => ({ sx: _frR(0, CW), sy: _frR(0, CH), h: _frR(-1, 1), th: _frR(0, 6.28), w: _frR(4.5, 6.5) * (up && i % 2 ? -1 : 1),
+        out: _frR(.8, 1.6), col: i % 5 ? (i % 2 ? BIO : EM) : PALE }));
+      const pos = (f, e) => {
+        const th = f.th + f.w * e / 1000, yy = cy0 + f.h * H, r = rad * (.6 + .6 * (1 - Math.abs(f.h)));
+        return { x: cx + Math.cos(th) * r, y: yy + Math.sin(th) * r * .28, z: Math.sin(th), th };
+      };
+      const cy0 = py;
+      return { dur, draw(c, e) {
+        const fade = fadeOut(e, dur, 500);
+        glow(c, cx, cy0, rad * 2.2, .35 * _frC(e / A) * fade * (e < B ? 1 : 0), EM);
+        F.forEach(f => {
+          const p = pos(f, e); let x = p.x, y = p.y, ang = p.th + (f.w > 0 ? Math.PI / 2 : -Math.PI / 2), a = .55 + .45 * (p.z + 1) / 2;
+          if (e < A) { const k = _clxEio(e / A); x = f.sx + (p.x - f.sx) * k; y = f.sy + (p.y - f.sy) * k; ang = Math.atan2(p.y - f.sy, p.x - f.sx); a *= .4 + .6 * k; }
+          else if (e > B) { const k = _frE(_frC((e - B) / 600)), dx = p.x - cx, dy = p.y - cy0, d = Math.hypot(dx, dy) || 1;
+            x = p.x + dx / d * R * f.out * k; y = p.y + dy / d * R * f.out * k; ang = Math.atan2(dy, dx); a *= 1 - k; }
+          fish(c, x, y, ang, a * fade, f.col, S, .9);
+        });
+        hit(c, e, B, cx, cy0, R, T, up, S);
+      } };
+    },
+    /* J ウミホタルの青い雲：肢の左端から青い光の粒がまかれ、止まった所で1つずつ青い雲がふわっと広がって溶ける */
+    ostracod(g) {
+      const { T, up, px, py, CW, CH, M, S } = g;
+      const n = Math.min(30, 12 + 4 * T) + (up ? 16 : 0), spread = M * Math.min(.55, .28 + .05 * T) * (up ? 1.3 : 1), dur = up ? 2100 : 1850;
+      const P = Array.from({ length: n }, (_, i) => { const a = _frR(0, 6.28), d = spread * Math.sqrt(_frR(.05, 1));
+        return { x: _frC(px + Math.cos(a) * d, 10, CW - 10), y: _frC(py + Math.sin(a) * d * .8, 10, CH - 10), t1: _frR(180, 420), t2: 0, r: _frR(28, 60) * S * (up ? 1.2 : 1), col: i % 3 ? BLUE : CY }; });
+      return { dur, draw(c, e) {
+        const fade = fadeOut(e, dur, 550), k0 = _frC(e / 300);
+        glow(c, px, py, 46 * S * _frE(k0), Math.sin(Math.PI * k0) * 1.1, BLUE);
+        P.forEach((p, i) => {
+          const km = _clxEio(_frC(e / p.t1)), x = px + (p.x - px) * km, y = py + (p.y - py) * km;
+          if (km < 1) { dot(c, x, y, 1.8 * S, fade, PALE); return; }
+          const t = e - p.t1, kc = _frC(t / 1250), a = kc < .18 ? kc / .18 : 1 - (kc - .18) / .82;
+          glow(c, x, y - kc * 10 * S, p.r * (.35 + .9 * _frE(kc)), a * .9 * fade, p.col);
+          dot(c, x, y, 1.6 * S * (1 - kc), (1 - kc) * fade, PALE);
+        });
+      } };
+    },
+    /* K 水面のゆらめき：肢の左端から丸く広がる範囲に、水底へ落ちる光の網（コースティクス）が揺れながら浮かぶ */
+    caustic(g) {
+      const { T, up, px, py, CW, CH, M, S } = g;
+      const Rm = up ? Math.hypot(CW, CH) : M * Math.min(.8, .42 + .06 * T), dur = up ? 2100 : 1800, cell = 34 * S;
+      const nl = Math.ceil(Rm * 2 / cell) + 2;
+      return { dur, draw(c, e) {
+        const fade = fadeOut(e, dur, 600), kr = _frE(_frC(e / (up ? 900 : 600))), r = Rm * kr;
+        if (!(r > 1)) return;
+        c.save(); c.beginPath(); c.arc(px, py, r, 0, 7); c.clip();
+        c.lineCap = 'round';
+        [[1.05, EM], [-1.05, BIO], [Math.PI / 2, CY]].forEach(([ang, col], li) => {   // 3方向の波打つ線を重ねる（水平の線は作らない）
+          const dx = Math.cos(ang), dy = Math.sin(ang), nx = -dy, ny = dx;
+          c.strokeStyle = col;
+          for (let i = -nl / 2; i <= nl / 2; i++) {
+            const o = i * cell;
+            c.beginPath();
+            for (let s = -Rm; s <= Rm; s += 10 * S) {
+              const w = Math.sin(s / (cell * .9) + e / 260 + i * 1.7 + li) * cell * .28;
+              const x = px + nx * (o + w) + dx * s, y = py + ny * (o + w) + dy * s;
+              s === -Rm ? c.moveTo(x, y) : c.lineTo(x, y);
+            }
+            c.globalAlpha = .22 * fade; c.lineWidth = 4 * S; c.stroke();
+            c.globalAlpha = .55 * fade; c.lineWidth = 1.2 * S; c.stroke();
+          }
+        });
+        c.restore();
+        ring(c, px, py, r, (1 - kr * .6) * fade, BIO, 1.6 * S);
+        const k0 = _frC(e / 420);
+        glow(c, px, py, 60 * S * _frE(k0), Math.sin(Math.PI * k0) * 1.1, EM);
+      } };
+    },
+    /* L 鯨の歌：肢の左端から音の弧が右へ広がり、肢の上に3本の波形がうねりながら右へ流れていく */
+    whale(g) {
+      const { T, up, px, py, CW, M, S, er } = g;
+      const V = Math.max(CW, 400) / .8, dur = up ? 2100 : 1800, amp = Math.min(er.height * .6, 20 * S) * (1 + .08 * T);
+      const rows = [[er.top - amp * 1.6, EM]].concat(up ? [[er.bottom + amp * 1.6, CY]] : []);
+      const harm = [[1, 1, .95], [2.1, .5, .6], [3.3, .3, .4]];
+      return { dur, draw(c, e) {
+        const fade = fadeOut(e, dur, 550), head = px + V * e / 1000;
+        for (let k = 0; k < 4 + Math.min(3, T); k++) {   // 音の弧（右向き）
+          const kk = _frC((e - k * 120) / 900); if (kk <= 0 || kk >= 1) continue;
+          c.globalAlpha = (1 - kk) * .8 * fade; c.strokeStyle = k % 2 ? CY : BIO; c.lineWidth = 1.8 * S;
+          c.beginPath(); c.arc(px, py, M * .6 * _frE(kk), -.7, .7); c.stroke();
+        }
+        c.lineCap = 'round';
+        rows.forEach(([y0, col]) => harm.forEach(([f, am, al], hi) => {
+          c.beginPath();
+          for (let x = px; x <= Math.min(head, CW + 10); x += 5) {
+            const d = head - x, env = Math.exp(-Math.pow((d - 160 * S) / (140 * S), 2)) + .25 * Math.exp(-d / (400 * S));
+            const y = y0 + Math.sin(x / (22 * S) * f - e / 90) * amp * am * env;
+            x === px ? c.moveTo(x, y) : c.lineTo(x, y);
+          }
+          c.strokeStyle = hi ? BIO : col;
+          c.globalAlpha = al * .3 * fade; c.lineWidth = 5 * S; c.stroke();
+          c.globalAlpha = al * fade; c.lineWidth = 1.5 * S; c.stroke();
+        }));
+        const k0 = _frC(e / 420);
+        glow(c, px, py, 60 * S * _frE(k0), Math.sin(Math.PI * k0) * 1.1, EM);
+      } };
+    },
+    /* M 海面からの光の柱：画面の上から光の柱が降りて肢の左端に届き、柱の中を光の粒がゆっくり沈む */
+    pillar(g) {
+      const { T, up, px, py, CW, M, S } = g;
+      const W0 = M * Math.min(.16, .08 + .015 * T), B = 320, dur = up ? 2100 : 1800, R = M * Math.min(.42, .2 + .04 * T) * (up ? 1.25 : 1);
+      const cols = [[px, W0, 1]].concat(up ? [0, 1, 2, 3].map(i => [_frC(px + M * (.25 + .3 * i), 20, CW - 20), W0 * .7, .55]) : []);
+      const motes = Array.from({ length: 40 + 10 * T }, () => ({ fx: _frR(-.5, .5), y: _frR(0, 1), v: _frR(10, 30), r: _frR(.8, 1.8) * S, ph: _frR(0, 6.28) }));
+      return { dur, draw(c, e) {
+        const fade = fadeOut(e, dur, 600), kd = _frE(_frC(e / B));
+        cols.forEach(([x, W, al], ci) => {
+          const bot = py * kd, a = al * fade * (e < 1100 ? 1 : _frC(1 - (e - 1100) / 500) * .6 + .4);
+          const gr = c.createLinearGradient(0, 0, 0, bot);
+          gr.addColorStop(0, rgba(PALE, .05 * a)); gr.addColorStop(.7, rgba(BIO, .22 * a)); gr.addColorStop(1, rgba(PALE, .5 * a));
+          c.globalAlpha = 1; c.fillStyle = gr;
+          c.beginPath(); c.moveTo(x - W * .9, 0); c.lineTo(x + W * .9, 0); c.lineTo(x + W * .5, bot); c.lineTo(x - W * .5, bot); c.closePath(); c.fill();
+          if (!ci) motes.forEach(m => { const y = (m.y * py + m.v * e / 1000) % Math.max(1, py); if (y > bot) return;
+            const w = W * (.9 - .4 * y / Math.max(1, py)); dot(c, x + m.fx * w * 2 + Math.sin(e / 500 + m.ph) * 3, y, m.r, .8 * a * (.6 + .4 * Math.sin(e / 80 + m.ph)), PALE); });
+        });
+        hit(c, e, B, px, py, R, T, up, S);
+      } };
+    },
+    /* N 発光サンゴ：肢の左端からサンゴが枝分かれしながら上下へ伸び、枝先のポリプが順に灯って瞬く */
+    coral(g) {
+      const { T, up, px, py, M, S } = g;
+      const depth = Math.min(6, 4 + Math.floor(T / 2)) + (up ? 1 : 0), L0 = M * Math.min(.13, .08 + .01 * T) * (up ? 1.2 : 1), vel = M * 1.4;
+      const segs = [], tips = [];
+      const grow = (x, y, a, len, d, t0) => {
+        const x2 = x + Math.cos(a) * len, y2 = y + Math.sin(a) * len, t1 = t0 + len / vel * 1000;
+        segs.push({ x, y, x2, y2, t0, t1, w: (1 + d * .5) * S });
+        if (d <= 0) { tips.push({ x: x2, y: y2, t: t1, col: tips.length % 3 ? BIO : CORAL }); return; }
+        const sp = _frR(.3, .6);
+        grow(x2, y2, a - sp + _frR(-.1, .1), len * _frR(.68, .8), d - 1, t1);
+        grow(x2, y2, a + sp + _frR(-.1, .1), len * _frR(.68, .8), d - 1, t1);
+      };
+      [-2.05, -1.35, 1.35, 2.05].forEach(a => grow(px, py, a + _frR(-.12, .12), L0, depth - 1, 0));
+      const dur = up ? 2100 : 1850;
+      return { dur, draw(c, e) {
+        const fade = fadeOut(e, dur, 550), k0 = _frC(e / 380);
+        glow(c, px, py, 50 * S * _frE(k0), Math.sin(Math.PI * k0) * 1.1, EM);
+        c.lineCap = 'round'; c.strokeStyle = EM;
+        segs.forEach(s => {
+          if (e <= s.t0) return;
+          const k = _frC((e - s.t0) / (s.t1 - s.t0)), x = s.x + (s.x2 - s.x) * k, y = s.y + (s.y2 - s.y) * k;
+          c.beginPath(); c.moveTo(s.x, s.y); c.lineTo(x, y);
+          c.globalAlpha = .25 * fade; c.lineWidth = s.w * 3.5; c.stroke();
+          c.globalAlpha = .8 * fade; c.lineWidth = s.w; c.stroke();
+        });
+        tips.forEach((p, i) => {
+          const t = e - p.t; if (t <= 0) return;
+          const b = t < 120 ? t / 120 * 1.4 : .7 + .3 * Math.sin(e / 90 + i);
+          dot(c, p.x, p.y, 2.2 * S, b * fade, p.col);
+          if (t < 400) ring(c, p.x, p.y, 12 * S * _frE(t / 400), (1 - t / 400) * fade, p.col, 1 * S);
+        });
+      } };
+    },
+    /* O 深海の眼：暗がりのあちこちで光る眼が一斉に開き、肢の左端を見つめ、光の筋になって吸い寄せられて弾ける */
+    eyes(g) {
+      const { T, up, px, py, CW, CH, M, S } = g;
+      const n = Math.min(12, 4 + 2 * T) + (up ? 6 : 0), A = 180, B = 700, C2 = 950, dur = up ? 2000 : 1750, R = M * Math.min(.45, .22 + .04 * T) * (up ? 1.25 : 1);
+      const E = Array.from({ length: n }, (_, i) => { const a = _frR(0, 6.28), d = M * _frR(.2, .55);
+        return { x: _frC(px + Math.cos(a) * d, 20, CW - 20), y: _frC(py + Math.sin(a) * d * .7, 20, CH - 20), t0: _frR(0, 250), s: _frR(.8, 1.3) * S, col: i % 3 ? EM : CY }; });
+      return { dur, draw(c, e) {
+        const fade = fadeOut(e, dur, 500);
+        E.forEach(o => {
+          const t = e - o.t0; if (t <= 0) return;
+          if (e < B) {
+            const open = t < A ? _frE(t / A) : (t > B - 260 && t < B - 180 ? .15 : 1);   // 開いて、一度まばたき
+            const ang = Math.atan2(py - o.y, px - o.x), look = _frC((t - A) / 200) * 1.6 * o.s;
+            [-1, 1].forEach(sd => {
+              const ex = o.x + sd * 7 * o.s, ey = o.y;
+              c.save(); c.translate(ex, ey); c.scale(1, Math.max(.06, open));
+              glow(c, 0, 0, 9 * o.s, .7 * fade, o.col);
+              c.globalAlpha = fade; c.fillStyle = PALE; c.beginPath(); c.ellipse(0, 0, 3.6 * o.s, 2.4 * o.s, 0, 0, 7); c.fill();
+              c.fillStyle = '#022'; c.globalCompositeOperation = 'source-over'; c.beginPath(); c.arc(Math.cos(ang) * look, Math.sin(ang) * look * .6, 1.3 * o.s, 0, 7); c.fill();
+              c.restore(); c.globalCompositeOperation = 'lighter';
+            });
+          } else {
+            const k = _clxEio(_frC((e - B) / (C2 - B))), x = o.x + (px - o.x) * k, y = o.y + (py - o.y) * k, kq = Math.max(0, k - .25);
+            const qx = o.x + (px - o.x) * kq, qy = o.y + (py - o.y) * kq;
+            if (k < 1) { c.globalAlpha = .8 * fade; c.strokeStyle = o.col; c.lineWidth = 1.6 * S; c.beginPath(); c.moveTo(qx, qy); c.lineTo(x, y); c.stroke(); dot(c, x, y, 2 * S, fade, PALE); }
+          }
+        });
+        hit(c, e, C2, px, py, R, T, up, S);
+      } };
+    },
+  });
+})();`;
+/* abyss 新案 第2弾の台帳：[キー, 名前, 正解時, 連続正解時] */
+const ABY_NEW2 = [
+  ['search', 'F 探照灯', '画面の上の潜水艇から光の筋が2本振れて肢の左端に集まり、筋の中にだけマリンスノーが浮かぶ。集まった所で光と輪が弾ける',
+    '段3〜は光の筋が3本・シアンの2本目の輪。段が上がった瞬間は筋が4本で太くなり、3本目の輪'],
+  ['gauge', 'G 潜航の深度計', '肢の左に深度の目盛りが縦に流れ（潜っていく）、減速して止まると指針が光り、今の深度（連続数×100 m）が出る',
+    '段が上がるほど長く潜り、目盛りの範囲も広がる。段が上がった瞬間は輪が3本'],
+  ['vent', 'H 熱水噴出孔', '肢の左端から光る熱水が噴き上がり、揺らぎながら広がって昇る（泡ではなく光の粒）',
+    '段で勢いと粒が増える。段が上がった瞬間は画面の右にも噴出孔が2つ開く'],
+  ['school', 'I 魚群のトルネード', '画面に散っていた光る小魚が肢の左端のそばへ集まり、竜巻のように回ってから一斉に散る。散る瞬間に光と輪',
+    '段で魚が増え竜巻が高くなる。段が上がった瞬間は魚＋30で、半分が逆回り'],
+  ['ostracod', 'J ウミホタルの青い雲', '肢の左端から青い光の粒がまかれ、止まった所で1つずつ青い雲がふわっと広がって溶ける',
+    '段で粒が増え、広くまかれる。段が上がった瞬間は粒＋16で雲が大きい'],
+  ['caustic', 'K 水面のゆらめき', '肢の左端から丸く広がる範囲に、水底へ落ちる光の網（コースティクス）が揺れながら浮かぶ（水平の線は作らない）',
+    '段で範囲が広がる。段が上がった瞬間は画面全体に広がる'],
+  ['whale', 'L 鯨の歌', '肢の左端から音の弧が右へ広がり、肢の上に3本の波形（倍音）がうねりながら右へ流れていく',
+    '段で波形が大きく・弧が増える。段が上がった瞬間は肢の下にもシアンの波形'],
+  ['pillar', 'M 海面からの光の柱', '画面の上から光の柱が降りて肢の左端に届き、柱の中を光の粒がゆっくり沈む。届いた所で光と輪',
+    '段で柱が太くなる。段が上がった瞬間は右にも細い柱が4本降りる'],
+  ['coral', 'N 発光サンゴ', '肢の左端からサンゴが枝分かれしながら上下へ伸び、枝先のポリプが順に灯って瞬く（青緑と桃色）',
+    '段で枝分かれが深く・枝が長くなる。段が上がった瞬間はもう一段枝分かれ'],
+  ['eyes', 'O 深海の眼', '暗がりのあちこちで光る眼が開いて肢の左端を見つめ、一度まばたきしてから光の筋になって吸い寄せられ、弾ける',
+    '段で眼が増える（最大12対）。段が上がった瞬間は眼＋6対・輪が3本'],
+];
 /* abyss 新案の台帳：[キー, 名前, 正解時, 連続正解時] */
-const ABY_NEW = [
+const ABY_NEW = [   // B ソナーの反響は 2026-09-29 に本番へ（_abyAbyssFx）
   ['jelly', 'A 発光クラゲ', '肢の左端で光が灯って輪が広がり、その中からクラゲが傘を開く。傘を縮めるたびに1段ずつ昇り、8本の触手を光の粒が下っていく',
     '段3〜はまわりに小さなクラゲが増える（最大4匹）。段が上がった瞬間は親クラゲが大きくなり、エメラルドの2本目の輪と小さなクラゲの群れ（＋6匹）'],
-  ['sonar', 'B ソナーの反響', '肢の左端でピンが鳴って輪が走り、目盛りの円と十字が浮かぶ。光の扇が1周して、通った所の反射点が次々に光る。最後に反響が中心へ戻ってもう一度光り、深度（連続数×100 m）が出る',
-    '段で探知の範囲と反射点が増える。段が上がった瞬間は扇が2本（逆回り）・反射点＋6'],
   ['wake', 'C 夜光虫の航跡', '肢の左端から波頭が左右へ走り、通った所の夜光虫が青緑に灯って瞬きながら漂い、消えていく。肢の縁も波が通った順に光る',
     '段3〜は上下にもう1本ずつ光の帯。段が上がった瞬間は画面全体に波紋が広がり、画面じゅうの夜光虫が灯る'],
   ['lure', 'D 提灯の灯', '上から釣り竿のような光の糸が垂れ、肢の左端で提灯が2回瞬く間に小魚が寄ってくる。3回目で大きく灯ってはじけ、小魚が散り、光の粒が広がる',
@@ -1747,8 +2017,7 @@ const PARTS = {
     ['kintsugi.rings', '金の輪', '段4〜：金の輪が2本広がる', 4, false],
   ],
   abyss: [
-    ['abyss.abyssSonarPulse', 'ソナー', 'ソナーの波紋＋マリンスノー', 1, false],
-    ['abyss.rings', '輪', '段4〜：輪が3本広がる', 4, false],
+    ['aby.sonar', 'ソナーの反響', '肢の左端でピンが鳴って輪が走り、目盛りの円と十字が浮かぶ。光の扇が1周して反射点が次々に光り、反響が中心へ戻ってもう一度光り、深度（連続数×100 m）が出る（段で範囲と反射点が増える／段が上がった瞬間は逆回りの扇がもう1本）', 1, false],
   ],
   aurora: [
     ['aurora.auroraPrismSweep', 'プリズムの帯', 'プリズムの光が掃いてきらめく', 1, false],
@@ -1764,6 +2033,7 @@ const PARTS = {
 const THEME_FX_CODE = `const u = _rfUi(), B = RF_ADVANCE_MS.one;
   if (u === 'liquid') _lqLiquidFx(ok, c, t, up, B); else if (u === 'frost') _frFrostFx(ok, c, t, up, B);
   else if (u === 'celestial') _clxCelestialFx(ok, c, t, up, B); else if (u === 'brass') _brsBrassFx(ok, c, t, up, B);
+  else if (u === 'abyss') _abyAbyssFx(ok, c, t, up, B);
   else _spawnStreakParticles(Math.max(1, t), _rfCenter(ok), { el: ok, card: c, promoted: up });`;
 
 function prepFrame() {
@@ -1790,6 +2060,7 @@ function prepFrame() {
   W.eval(CLXNEW5);
   W.eval(CLXNEW6);
   W.eval(ABYNEW);
+  W.eval(ABYNEW2);
   applyTheme();
   W.eval('startExam()');
   ready = true;
@@ -1961,10 +2232,11 @@ function renderParts() {
   }
   if (ui === 'abyss') {   // 新案。本番の部品（ソナー・輪）の上に並べる。段と「段が上がった瞬間」は上の連続数の設定どおり
     const n0 = document.createElement('div'); n0.style.cssText = 'font-size:11px;color:var(--sub);margin:8px 8px 0;line-height:1.5';
-    n0.textContent = '今の「ソナー＋輪」を置き換える候補。新案は単独で再生する（本番のソナーとは重ねない）。連続数を 3/5/7/10… にすると「段が上がった瞬間」の版、5以上で段3〜の版。デモ専用で本番にはまだ入っていない。';
+    n0.textContent = '本番は「ソナーの反響」（第1弾の B・下の部品の欄）。新案は単独で再生する（本番のソナーとは重ねない）。連続数を 3/5/7/10… にすると「段が上がった瞬間」の版、5以上で段3〜の版。デモ専用で本番にはまだ入っていない。';
     partsBox.appendChild(n0);
-    const ha = document.createElement('h2'); ha.textContent = 'abyss 正解演出の新案（5つ）'; partsBox.appendChild(ha);
-    ABY_NEW.forEach(([key, name, onOk, onStreak]) => {
+    [['abyss 正解演出の新案 第2弾（10個）', ABY_NEW2], ['abyss 正解演出の新案 第1弾（B ソナーの反響は本番へ移した）', ABY_NEW]].forEach(([title, list]) => {
+    const ha = document.createElement('h2'); ha.textContent = title; partsBox.appendChild(ha);
+    list.forEach(([key, name, onOk, onStreak]) => {
       const row = document.createElement('div'); row.className = 'it';
       const b = document.createElement('button');
       b.innerHTML = '<span class="tag x" style="background:rgba(0,255,163,.16);color:#64FFDA">新案</span>';
@@ -1973,6 +2245,7 @@ function renderParts() {
       const s2 = document.createElement('small'); s2.textContent = '連続正解時：' + onStreak; b.appendChild(s2);
       b.onclick = () => { stopSeq(); run(`__abyNew('${key}', ok, c, t, up, RF_ADVANCE_MS.one)`, { autoUp: true }); };
       row.append(b); partsBox.appendChild(row);
+    });
     });
   }
   const h = document.createElement('h2'); h.textContent = 'UIテーマ固有の正解演出を部品ごとに（' + ui + '）'; partsBox.appendChild(h);

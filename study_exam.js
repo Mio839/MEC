@@ -2826,9 +2826,9 @@ function _spawnStreakParticles(tier, at, ctx) {
       // _rfCorrectFx の 0ms で肢の位置に出している。旧 celestialAstrolabe（全画面の紫の閃光・約250粒）は正解演出から外した。
       return;
     } else if (curUi === 'abyss') {
-      if (window.MecFX.abyssSonarPulse) window.MecFX.abyssSonarPulse(cx, cy, { maxR: maxR, marineSnowCount: 18 + tier * 6 });
-      // 泡（MecFX.bubbles）は 2026-09-28 にデモページで部品ごとに見て撤去した（ユーザー判断）。戻さないこと。
-      if (tier >= 4 && window.MecFX.rings) window.MecFX.rings(cx, cy, { count: 3, color: '#00FFA3', thickness: 3, maxR: maxR * 1.05, additive: true });
+      // 2026-09-29：ソナーの反響（_abyAbyssFx）。liquid・frost・celestial・brass と同じく _rfCorrectFx の 0ms で
+      // 肢の位置に出している。旧 abyssSonarPulse（閃光・波紋・マリンスノー）と段4〜の輪3本は正解演出から外した（ユーザー判断）。
+      // 泡（MecFX.bubbles）は 2026-09-28 に撤去済み。どれも戻さないこと。
       return;
     } else if (curUi === 'frost') {
       // 2026-09-25：六花＋霜華＋ダイヤモンドダスト（_frFrostFx）。liquid と同じく _rfCorrectFx の 0ms で
@@ -3983,6 +3983,109 @@ function _clxCelestialFx(el, card, tier, promoted, budget) {
   const c2 = _frCtx(C, CW, CH, 0, 1.5);
   _frRun(c2, CW, CH, dur, drawAll);
   _lqDrop(H, C, dur + 50);
+}
+
+/* ══════════ Abyss：ソナーの反響（2026-09-29）══════════
+   試験演出一覧（_work/fx_all_demo.html「abyss 正解演出の新案」の B）でユーザーが採用。旧 MecFX.abyssSonarPulse
+   （エメラルドの閃光＋波紋＋マリンスノー）と段4〜の輪3本（MecFX.rings）は正解演出から外した（結果画面では今も使う）。
+   - 正解の肢の左端（縦は中央）でピンが鳴って輪が走り、目盛りの円3本と十字が浮かぶ。
+   - 光の扇が0.9秒で1周し、通った所の反射点が次々に光って小さな輪を出す。
+   - 0.72秒から反響が外周から中心へ戻り、着いた瞬間にもう一度光って深度（連続数×100 m＝連続数の表示の DEPTH と同じ数）が出る。
+   - 段で探知の範囲（画面の短辺×0.41→最大0.75）と反射点（6→最大16）が増える。段が上がった瞬間は1.2倍・逆回りの扇がもう1本・反射点＋6。
+   ⚠️ 描き方は celestial と同じ2層（肢の層は送る前に縮めて終わる／全画面の層は元の尺）。泡・全画面の閃光は使わない。 */
+const ABY_EM = '#00FFA3', ABY_CY = '#00E5FF', ABY_DC = '#00B4D8', ABY_BIO = '#64FFDA', ABY_PALE = '#D8FFF1';
+// 描画の小道具。どれも呼ぶ側で globalCompositeOperation = 'lighter' にしてある（_abyAbyssFx）
+function _abyGlow(c, x, y, r, a, col) {
+  if (!(a > 0) || !(r > 0)) return;
+  c.globalAlpha = Math.min(1, a);
+  const g = c.createRadialGradient(x, y, 0, x, y, r);
+  g.addColorStop(0, _clxRgba(ABY_PALE, 1)); g.addColorStop(.28, _clxRgba(col, .7)); g.addColorStop(1, _clxRgba(col, 0));
+  c.fillStyle = g; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill();
+}
+function _abyRing(c, x, y, r, a, col, lw) {
+  if (!(a > 0) || !(r > 0)) return;
+  c.strokeStyle = col;
+  c.globalAlpha = Math.min(1, a) * .3; c.lineWidth = lw * 4; c.beginPath(); c.arc(x, y, r, 0, 7); c.stroke();
+  c.globalAlpha = Math.min(1, a); c.lineWidth = lw; c.beginPath(); c.arc(x, y, r, 0, 7); c.stroke();
+}
+function _abyDot(c, x, y, r, a, col) {
+  if (!(a > 0) || !(r > 0)) return;
+  c.fillStyle = col;
+  c.globalAlpha = Math.min(1, a) * .28; c.beginPath(); c.arc(x, y, r * 2.8, 0, 7); c.fill();
+  c.globalAlpha = Math.min(1, a); c.beginPath(); c.arc(x, y, r, 0, 7); c.fill();
+}
+/* ソナーの反響。px/py＝発火位置（画面の座標）・M＝画面の短辺・S＝線の倍率・n＝連続数 */
+function _abySonar(T, up, px, py, M, S, n) {
+  const R = M * Math.min(.75, .36 + .05 * T) * (up ? 1.2 : 1);
+  const nb = Math.min(16, 4 + 2 * T) + (up ? 6 : 0), a0 = -Math.PI / 2, SW = 900, dur = up ? 2100 : 1800;
+  const bl = Array.from({ length: nb }, () => {
+    const a = _frR(0, 6.28), d = _frR(.3, .95) * R;
+    return { ra: ((a - a0) % 6.28 + 6.28) % 6.28, x: px + Math.cos(a) * d, y: py + Math.sin(a) * d };
+  });
+  const sweeps = up ? [1, -1] : [1];
+  return { dur, draw(c, e) {
+    const fade = e < dur - 500 ? 1 : _frC((dur - e) / 500), kg = _frE(_frC(e / 300));
+    for (let i = 1; i <= 3; i++) _abyRing(c, px, py, R * i / 3 * kg, .3 * fade, ABY_DC, 1 * S);   // 目盛り
+    c.globalAlpha = .22 * fade; c.strokeStyle = ABY_DC; c.lineWidth = 1 * S; c.beginPath();
+    c.moveTo(px - R * kg, py); c.lineTo(px + R * kg, py); c.moveTo(px, py - R * kg); c.lineTo(px, py + R * kg); c.stroke();
+    const kp = _frC(e / 520);   // ピン
+    _abyGlow(c, px, py, (26 + 40 * (1 - kp)) * S, (1.2 - .6 * kp) * fade, ABY_EM);
+    _abyRing(c, px, py, R * _frE(kp), (1 - kp) * 1.2, ABY_EM, 2.6 * S * (1 - .5 * kp));
+    const sw = Math.min(e / SW, 1) * 6.28;   // 掃引（光の扇が1周）
+    if (e < SW + 250) sweeps.forEach(dir => {
+      const ang = a0 + dir * sw, ka = e < SW ? 1 : _frC(1 - (e - SW) / 250);
+      for (let k = 0; k < 14; k++) {
+        const a1 = ang - dir * k * .06, a2 = a1 - dir * .06;
+        c.globalAlpha = .26 * (1 - k / 14) * ka * fade; c.fillStyle = k < 2 ? ABY_BIO : ABY_EM;
+        c.beginPath(); c.moveTo(px, py); c.arc(px, py, R, Math.min(a1, a2), Math.max(a1, a2)); c.closePath(); c.fill();
+      }
+      c.globalAlpha = .9 * ka * fade; c.strokeStyle = ABY_PALE; c.lineWidth = 1.6 * S;
+      c.beginPath(); c.moveTo(px, py); c.lineTo(px + Math.cos(ang) * R, py + Math.sin(ang) * R); c.stroke();
+    });
+    bl.forEach(b => {   // 反射点：掃引が通ったときに光って小さな輪を出す
+      let tb = Infinity;
+      sweeps.forEach(dir => { const ra = dir > 0 ? b.ra : (6.28 - b.ra) % 6.28; if (sw >= ra) tb = Math.min(tb, e - ra / 6.28 * SW); });
+      if (!isFinite(tb)) return;
+      const kb = _frC(tb / 500), br = Math.exp(-tb / 700);
+      _abyGlow(c, b.x, b.y, 14 * S, br * 1.1 * fade, ABY_EM);
+      _abyDot(c, b.x, b.y, 2 * S, br * 1.2 * fade, ABY_PALE);
+      _abyRing(c, b.x, b.y, 18 * S * _frE(kb), (1 - kb) * .9 * fade, ABY_BIO, 1.2 * S);
+    });
+    const kr = _frC((e - 720) / 450);   // 反響が戻る
+    if (kr > 0 && kr < 1) _abyRing(c, px, py, R * (1 - _clxEio(kr)), .9 * fade, ABY_CY, 2 * S);
+    const kh = _frC((e - 1170) / 520);
+    if (kh > 0) {
+      _abyGlow(c, px, py, 80 * S * _frE(kh), Math.sin(Math.PI * kh) * 1.2, ABY_CY);
+      _abyRing(c, px, py, R * .5 * _frE(kh), (1 - kh) * 1.1, ABY_PALE, 1.8 * S);
+      c.globalAlpha = _frC(kh * 4) * fade; c.fillStyle = ABY_EM; c.textBaseline = 'bottom';
+      c.font = '700 ' + Math.round(13 * S) + 'px ui-monospace,Consolas,monospace';
+      c.fillText('▼ ' + (Math.max(1, n) * 100) + ' m', px + 12 * S, py - 10 * S);
+    }
+  } };
+}
+function _abyAbyssFx(el, card, tier, promoted, budget) {
+  if (!el || !card || _fxOff()) return;
+  const er = el.getBoundingClientRect();
+  if (!er.width || !er.height) return;
+  const w = er.width, h = er.height;
+  const CW = window.innerWidth, CH = window.innerHeight;
+  if (!CW || !CH) return;
+  const M = Math.min(CW, CH), S = _frC(M / 480, 1, 2);
+  const p = _abySonar(Math.max(1, tier), promoted && tier >= 2, er.left, er.top + h / 2, M, S, examStreak);
+  const lit = (c, fn) => { c.save(); c.globalCompositeOperation = 'lighter'; try { fn(); } finally { c.restore(); } };
+  _rfFit(budget, p.dur + 50);
+  // ① 肢の層（画面の座標をずらして同じ絵を描く・送りまでに終える）
+  const L = _lqLayer(el);
+  const c1 = _frCtx(L, w, h);
+  _frRun(c1, w, h, p.dur, (c, e) => lit(c, () => { c.translate(-er.left, -er.top); p.draw(c, e); }));
+  _lqDrop(el, L, p.dur + 50);
+  // ② 全画面の層（ラボの尺のまま）
+  _rfK = 1;
+  const H = _rfFullHost(p.dur + 50);
+  const C = _lqLayer(H, 'fr-card');
+  const c2 = _frCtx(C, CW, CH, 0, 1.5);
+  _frRun(c2, CW, CH, p.dur, (c, e) => lit(c, () => p.draw(c, e)));
+  _lqDrop(H, C, p.dur + 50);
 }
 
 /* ══════════ Brass：歯車列＋刻印＋鋳込みの唐草（2026-09-26）══════════
@@ -5835,6 +5938,7 @@ function _rfCorrectFx(card, el, budget) {
   else if (_rfUi() === 'frost') _frFrostFx(el, card, tier, promoted, budget);   // 雪の結晶・霜・ダイヤモンドダスト（同上の frost 分岐を参照）
   else if (_rfUi() === 'celestial') _clxCelestialFx(el, card, tier, promoted, budget);   // 超新星か銀河の渦（セッションごと・肢の左端）＋星の軌跡／十二宮の輪／星の網／経緯線から正解のたびに1つ
   else if (_rfUi() === 'brass') _brsBrassFx(el, card, tier, promoted, budget);   // 歯車列＋刻印＋鋳込みの唐草（同上の brass 分岐を参照）
+  else if (_rfUi() === 'abyss') _abyAbyssFx(el, card, tier, promoted, budget);   // ソナーの反響（肢の左端）
   _afterCorrectFx(card, el);
 
   // 肢から連続数へ光が走る演出（80ms・MecFX.ribbon）は 2026-09-28 に撤去した（ユーザー判断）。戻さないこと。
