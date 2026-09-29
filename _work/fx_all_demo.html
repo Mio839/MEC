@@ -204,7 +204,7 @@ const PARTCTL = `
     const p = o.apply(this, [...arguments].map(a => typeof a === 'function' ? () => {} : a));
     return Object.assign({}, p, { draw() {} });
   });
-  [['_brsGearTrain', 'brs.gear'], ['_brsHallmark', 'brs.hall'], ['_brsFiligree', 'brs.fil'], ['_brsBigTrain', 'brs.bigtrain'],
+  [['_brsGearTrain', 'brs.gear'], ['_brsHallmark', 'brs.hall'], ['_brsFiligree', 'brs.fil'], ['_brsGearWall', 'brs.gearwall'],
    ['_brsMedallion', 'brs.medal'], ['_brsCornerCast', 'brs.corner'],
    ['_clxNova', 'clx.nova'], ['_clxGalaxy', 'clx.galaxy'], ['_clxTrails', 'clx.trails'], ['_clxZodiac', 'clx.zodiac'],
    ['_clxWeb', 'clx.web'], ['_clxGrid', 'clx.grid'], ['_abySonar', 'aby.sonar'], ['_abySquid', 'aby.squid']].forEach(([n, k]) => part(n, k));
@@ -2245,7 +2245,7 @@ const ABYNEW3 = `
   };
 })();`;
 /* ── brass 正解演出の新案・10個（2026-09-29・デモ専用。study_exam.js にはまだ入れていない）──
-   今の本番（_brsBrassFx：歯車列・刻印・唐草＋段が上がった瞬間の大きな歯車列・メダル・四隅の金具）の意匠
+   今の本番（_brsBrassFx：歯車列・刻印・唐草＋段が上がった瞬間の歯車の壁（旧 大きな歯車列）・メダル・四隅の金具）の意匠
    （噛み合う歯車・白熱 → 橙 → 真鍮色へ冷える金属・彫りの影と縁の光・serif の刻字・斜めの光沢・火花）をもとに作り直す候補。
    - 肢の左端の5つ（__brsChoice）：発火位置は正解の肢の左端・縦は中央。**次のカードへ送る前に再生が終わる**
      （_rfFit で送りの RF_FX_END_MARGIN 手前に収める。ラボの尺は 320ms で、単一 403ms の送りなら縮めずにそのまま終わり、
@@ -2751,7 +2751,8 @@ const BRSNEW = `
       } };
     },
   };
-  window.__brsNewDraw = { C, F };   // 検査用
+  window.__brsNewDraw = { C, F };   // 検査用。第2弾（BRSNEW2）はここへ案を足す
+  window.__brsKit = { metal, roman, sparks, drawSparks, ringFx, engrave, rrect, dome, dial, puff, fadeOut, rgba };
 
   /* 肢の左端の5つ：全画面の固定の層に描くが、尺は送りの手前まで（_rfFit）。肢を沈ませる押し込みも同じ係数で縮める */
   window.__brsChoice = function (kind, el, card, tier, promoted, budget) {
@@ -2775,7 +2776,8 @@ const BRSNEW = `
     if (_fxOff()) return;
     const CW = innerWidth, CH = innerHeight; if (!CW || !CH) return;
     const M = Math.min(CW, CH), qn = card && card.querySelector('.qn'), num = qn && (qn.textContent.match(/\\d+/) || [])[0];
-    const p = F[kind]({ T: Math.max(1, tier), up: promoted && tier >= 2, tier: Math.max(1, tier), CW, CH, M, S: _frC(M / 480, 1, 2),
+    const er = el && el.getBoundingClientRect(), px = er && er.width ? er.left : CW * .1, py = er && er.width ? er.top + er.height / 2 : CH / 2;
+    const p = F[kind]({ T: Math.max(1, tier), up: promoted && tier >= 2, tier: Math.max(1, tier), CW, CH, M, S: _frC(M / 480, 1, 2), px, py,
       n: Math.max(1, examStreak || 1), serial: 'No.' + String(num || examAnswered || 0).padStart(4, '0') });
     _rfK = 1;
     (p.hits || []).forEach(ms => setTimeout(() => { if (card && card.isConnected && card.animate)
@@ -2785,6 +2787,397 @@ const BRSNEW = `
     _lqDrop(H, L, p.dur + 50);
   };
 })();`;
+/* ── brass 正解演出の新案 第2弾・10個（2026-09-29・デモ専用。study_exam.js にはまだ入れていない）──
+   第1弾（BRSNEW）の枠組み（__brsChoice／__brsFull）と小道具（window.__brsKit）をそのまま使い、案を __brsNewDraw.C／F に足す。
+   発火位置の割り振りは気にせず題材で選んだ（肢の左端4つ・全画面6つ）。肢の左端のものは第1弾と同じく送る前に消える（尺 320ms）。
+   ⚠️ 肢の中を横に走る長い線は作らない。放電・鎖は縦、羅針盤の針・調速機の球は短い。
+   ⚠️ 中身はテンプレート文字列なので、中でバッククォートと ${…} を使わないこと。 */
+const BRSNEW2 = `
+(() => {
+  const { metal, roman, sparks, drawSparks, ringFx, engrave, rrect, dome, puff, fadeOut, rgba } = window.__brsKit;
+  const B = BRS_BRASS, D = BRS_DARK, PALE = BRS_PALE, SERIF = BRS_SERIF, MONO = BRS_MONO;
+  const PI = Math.PI, TAU = PI * 2, hot = _brsHeat, glow = _brsGlow;
+  const ball = (c, x, y, r, a, heat) => { if (!(a > 0) || !(r > 0)) return;   // 真鍮の球（heat を渡すと白熱色）
+    c.save(); c.globalAlpha = _frC(a);
+    c.fillStyle = 'rgba(10,6,2,.8)'; c.beginPath(); c.arc(x + 1, y + 1.3, r + .8, 0, TAU); c.fill();
+    const g = c.createRadialGradient(x - r * .35, y - r * .4, r * .08, x, y, r);
+    if (heat != null && heat < 1) { g.addColorStop(0, '#FFFFFF'); g.addColorStop(.5, hot(heat)); g.addColorStop(1, hot(Math.min(1, heat + .3))); }
+    else { g.addColorStop(0, '#FFF6D0'); g.addColorStop(.45, B); g.addColorStop(1, '#4A370C'); }
+    c.fillStyle = g; c.beginPath(); c.arc(x, y, r, 0, TAU); c.fill(); c.restore(); };
+  const seeded = seed => { let r = seed % 233280; return () => { r = (r * 9301 + 49297) % 233280; return r / 233280; }; };
+  const C = window.__brsNewDraw.C, F = window.__brsNewDraw.F;
+
+  /* ════ 肢の左端（320ms・送る前に消える） ════ */
+  /* ⑪ 放電球：肢の左端の上下に真鍮の放電球が立ち、その間を白熱した稲妻が縦に何度も走る。止んだ瞬間に両方の球から輪と火花 */
+  C.tesla = g => {
+    const { T, up, px, py, hs } = g;
+    const gap = Math.max(hs * .5 + 10, 30) + T * 1.5, top = [px, py - gap], bot = [px, py + gap], sr = 5 + T * .5 + (up ? 1.5 : 0), dur = 320;
+    const nA = up ? 3 : T >= 3 ? 2 : 1, A0 = 70, A1 = 250;
+    const ext = up ? [[px - gap * 1.25, py - gap * .35], [px - gap * 1.1, py + gap * .55]] : [];
+    const SP = sparks(top[0], top[1], 4 + T, A1, 320, 160).concat(sparks(bot[0], bot[1], 4 + T, A1, 320, 160));
+    const bolt = (c, x1, y1, x2, y2, seed, a) => {
+      const rnd = seeded(seed), n = 9, pts = [[x1, y1]], dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy), nx = -dy / L, ny = dx / L;
+      for (let i = 1; i < n; i++) { const u = i / n, off = (rnd() - .5) * L * .38 * Math.sin(PI * u); pts.push([x1 + dx * u + nx * off, y1 + dy * u + ny * off]); }
+      pts.push([x2, y2]);
+      const path = () => { c.beginPath(); pts.forEach((p, i) => i ? c.lineTo(p[0], p[1]) : c.moveTo(p[0], p[1])); };
+      c.save(); c.globalCompositeOperation = 'lighter'; c.lineJoin = 'round';
+      path(); c.strokeStyle = rgba(.35 * a, 255, 160, 64); c.lineWidth = 6; c.stroke();
+      path(); c.strokeStyle = rgba(.9 * a, 255, 236, 190); c.lineWidth = 2; c.stroke();
+      path(); c.strokeStyle = rgba(a, 255, 255, 255); c.lineWidth = .8; c.stroke(); c.restore();
+    };
+    return { dur, hits: [A1], draw(c, e) {
+      const fade = fadeOut(e, dur, 60), sc = _brsBack(_frC(e / 70)); if (sc <= 0) return;
+      const arcing = e >= A0 && e < A1, kE = _frC((e - A1) / 70);
+      c.save(); c.globalAlpha = fade;
+      [[top, -1], [bot, 1]].forEach(([p, s]) => {   // 支柱（外へ向かって短く）
+        c.fillStyle = 'rgba(10,6,2,.8)'; c.fillRect(p[0] - 1.5 + 1, p[1] + s * sr * sc + 1, 3, s * 10 * sc);
+        c.fillStyle = metal(c, p[0] - 2, 0, p[0] + 2, 0); c.fillRect(p[0] - 1.5, p[1] + s * sr * sc, 3, s * 10 * sc); });
+      c.restore();
+      if (arcing) { const bk = Math.floor(e / 28), fl = .75 + .25 * Math.sin(e / 9);
+        for (let i = 0; i < nA; i++) bolt(c, top[0], top[1] + sr, bot[0], bot[1] - sr, bk * 31 + i * 7 + 3, fl * fade);
+        ext.forEach((q, i) => bolt(c, (i ? bot : top)[0], (i ? bot : top)[1], q[0], q[1], bk * 17 + i * 5 + 11, .8 * fade)); }
+      [top, bot].forEach(p => { if (arcing || kE < 1) glow(c, p[0], p[1], sr * 3.2, (arcing ? .6 : .6 * (1 - kE)) * fade);
+        ball(c, p[0], p[1], sr * sc, fade, arcing ? .15 : e >= A1 ? .15 + .85 * kE : null);
+        if (e >= A1) ringFx(c, p[0], p[1], sr * (1 + kE * 2.4), .8 * (1 - kE), 1.4); });
+      drawSparks(c, e, SP);
+    } };
+  };
+  /* ⑫ 羅針盤：肢の左端に羅針盤がはまり、針が2周回って減速し、東（肢の文字の側）を指して小さく揺れて止まる */
+  C.compass = g => {
+    const { T, up, px, py, hs } = g;
+    const R = Math.min(34, Math.max(17, hs * .44) + T * 1.4) * (up ? 1.12 : 1), dur = 320, SET = 225;
+    const a0 = _frR(0, TAU), total = (((0 - a0) % TAU) + TAU) % TAU + (2 + (up ? 1 : 0)) * TAU;
+    const SP = sparks(px + R * .7, py, 4 + T + (up ? 4 : 0), SET, 300, 160);
+    return { dur, hits: [SET], draw(c, e) {
+      const fade = fadeOut(e, dur, 60), sc = _brsBack(_frC(e / 70)); if (sc <= 0) return;
+      const u = _frC(e / SET), osc = e > SET ? Math.sin((e - SET) / 13) * .28 * Math.exp(-(e - SET) / 40) : 0, ang = a0 + total * _frE(u) + osc, ks = _frC((e - SET) / 90);
+      c.save(); c.globalAlpha = fade; c.translate(px, py); c.scale(sc, sc);
+      c.fillStyle = 'rgba(10,6,2,.8)'; c.beginPath(); c.arc(1.2, 1.5, R * 1.1, 0, TAU); c.fill();
+      c.fillStyle = '#F3E6C4'; c.beginPath(); c.arc(0, 0, R, 0, TAU); c.fill();
+      c.lineWidth = R * .16; c.strokeStyle = metal(c, -R, -R, R, R); c.beginPath(); c.arc(0, 0, R, 0, TAU); c.stroke();
+      c.strokeStyle = '#2A1A06';
+      for (let i = 0; i < 32; i++) { const an = i / 32 * TAU, r1 = i % 8 ? R * .8 : R * .7; c.lineWidth = i % 8 ? .6 : 1.2;
+        c.beginPath(); c.moveTo(Math.cos(an) * r1, Math.sin(an) * r1); c.lineTo(Math.cos(an) * R * .88, Math.sin(an) * R * .88); c.stroke(); }
+      for (let i = 0; i < 8; i++) { const an = i / 8 * TAU - PI / 2, L = i % 2 ? R * .36 : R * .6, w = R * (i % 2 ? .08 : .12);   // 八方位の星
+        c.fillStyle = i % 2 ? 'rgba(140,109,31,.55)' : 'rgba(140,109,31,.8)'; c.beginPath(); c.moveTo(Math.cos(an) * L, Math.sin(an) * L);
+        c.lineTo(Math.cos(an + PI / 2) * w, Math.sin(an + PI / 2) * w); c.lineTo(Math.cos(an - PI / 2) * w, Math.sin(an - PI / 2) * w); c.closePath(); c.fill(); }
+      c.font = '700 ' + Math.round(R * .22) + 'px ' + SERIF; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = '#5A3A10';
+      c.fillText('N', 0, -R * .66); c.fillText('S', 0, R * .66); c.fillText('W', -R * .66, 0); c.fillText('E', R * .66, 0);
+      c.rotate(ang);   // 針（赤い先が指す向き）
+      c.fillStyle = 'rgba(10,6,2,.6)'; c.beginPath(); c.moveTo(R * .74 + 1, 1.5); c.lineTo(1, R * .09 + 1.5); c.lineTo(-R * .55 + 1, 1.5); c.lineTo(1, -R * .09 + 1.5); c.closePath(); c.fill();
+      c.fillStyle = '#B3261E'; c.beginPath(); c.moveTo(R * .74, 0); c.lineTo(0, R * .09); c.lineTo(0, -R * .09); c.closePath(); c.fill();
+      c.fillStyle = '#2A1A06'; c.beginPath(); c.moveTo(-R * .55, 0); c.lineTo(0, R * .09); c.lineTo(0, -R * .09); c.closePath(); c.fill();
+      c.rotate(-ang); c.fillStyle = metal(c, -4, -4, 4, 4); c.beginPath(); c.arc(0, 0, R * .1, 0, TAU); c.fill();
+      c.strokeStyle = 'rgba(255,255,255,.35)'; c.lineWidth = R * .06; c.beginPath(); c.arc(0, 0, R * .84, PI * 1.1, PI * 1.45); c.stroke();
+      c.restore();
+      if (e > SET) { glow(c, px + Math.cos(ang) * R * .74, py + Math.sin(ang) * R * .74, R * .9, .6 * (1 - ks) * fade); ringFx(c, px, py, R * (1.1 + ks * .8), .7 * (1 - ks), 1.4); }
+      drawSparks(c, e, SP);
+    } };
+  };
+  /* ⑬ 調速機（ガバナー）：肢の左端に蒸気機関の調速機が立ち、2つの錘の球が回り始め、速くなるほど外へ開いて持ち上がる */
+  C.governor = g => {
+    const { T, up, px, py, hs } = g;
+    const H = Math.min(58, hs * .95 + T * 2) * (up ? 1.12 : 1), L = H * .58, br = H * .13 + 1, dur = 320;
+    const yTop = py - H * .55, yBot = py + H * .55, thMax = up ? 1.2 : Math.min(1.1, .75 + .06 * T);
+    const SP = sparks(px, yTop, 5 + T + (up ? 4 : 0), 250, 300, 160);
+    const phi = e => e / 1000 * 10 + Math.pow(e / 1000, 3) * 420;
+    return { dur, hits: [250], draw(c, e) {
+      const fade = fadeOut(e, dur, 60), sc = _brsBack(_frC(e / 70)); if (sc <= 0) return;
+      const th = .22 + (thMax - .22) * _frE(_frC((e - 30) / 220)), ph = phi(e), ks = _frC((e - 250) / 70);
+      const colY = yTop + H * .62 - (th - .22) * H * .3;
+      c.save(); c.globalAlpha = fade; c.translate(px, py); c.scale(sc, sc); c.translate(-px, -py);
+      c.fillStyle = 'rgba(10,6,2,.8)'; c.fillRect(px - 1.8 + 1, yTop + 1, 3.6, yBot - yTop);
+      c.fillStyle = metal(c, px - 2, 0, px + 2, 0); c.fillRect(px - 1.8, yTop, 3.6, yBot - yTop);
+      c.fillStyle = metal(c, px - 9, yBot, px + 9, yBot + 5); c.fillRect(px - 9, yBot, 18, 4);
+      const balls = [0, PI].map(o => { const q = ph + o; return { x: px + Math.sin(th) * L * Math.cos(q), y: yTop + Math.cos(th) * L, z: Math.sin(q) }; }).sort((a, b) => a.z - b.z);
+      balls.forEach(b => {
+        const mx = px + (b.x - px) * .5, my = yTop + (b.y - yTop) * .5;
+        c.lineCap = 'round'; c.strokeStyle = 'rgba(10,6,2,.7)'; c.lineWidth = 2.6; c.beginPath(); c.moveTo(px, yTop); c.lineTo(b.x, b.y); c.stroke();
+        c.strokeStyle = B; c.lineWidth = 1.8; c.beginPath(); c.moveTo(px, yTop); c.lineTo(b.x, b.y); c.stroke();
+        c.lineWidth = 1.1; c.beginPath(); c.moveTo(px, colY); c.lineTo(mx, my); c.stroke();
+        const ghost = phi(Math.max(0, e - 14)) - ph;   // 速さの残像
+        c.save(); c.globalAlpha = .3 * fade; ball(c, px + (b.x - px) * Math.cos(ghost), b.y, br * (1 + .12 * b.z), 1); c.restore();
+        ball(c, b.x, b.y, br * (1 + .12 * b.z), 1, up ? _frC(e / dur) : null);
+      });
+      c.fillStyle = metal(c, px - 5, colY - 3, px + 5, colY + 3); c.fillRect(px - 5, colY - 2.5, 10, 5);
+      c.fillStyle = metal(c, px - 4, yTop - 4, px + 4, yTop + 4); c.beginPath(); c.arc(px, yTop, 3.5, 0, TAU); c.fill();
+      c.restore();
+      if (e > 250) { glow(c, px, yTop, H * .7, .6 * (1 - ks) * fade); ringFx(c, px, yTop, 6 + ks * H * .6, .75 * (1 - ks), 1.3); }
+      drawSparks(c, e, SP);
+    } };
+  };
+  /* ⑭ 滑車の鎖：画面の上から鎖が一気に降りて、鉤が肢の左端に掛かってガチャリと弾み、すぐに巻き上げられる */
+  C.chain = g => {
+    const { T, up, px, py } = g;
+    const x = px + 2, yS = -30, DROP = 140, HOLD = 215, dur = 320, lk = 9, hr = 6 + T * .5;
+    const yH = e => e < DROP ? yS + (py - yS) * Math.pow(_frC(e / DROP), 2)
+      : e < HOLD ? py - Math.sin(PI * (e - DROP) / (HOLD - DROP)) * 9 * Math.exp(-(e - DROP) / 50)
+      : py - (py - yS + 40) * Math.pow(_frC((e - HOLD) / (dur - HOLD)), 2);
+    const SP = sparks(x, py, 6 + T + (up ? 5 : 0), DROP, 340, 170);
+    return { dur, hits: [DROP], draw(c, e) {
+      const fade = fadeOut(e, dur, 50), y = yH(e), kd = _frC((e - DROP) / 110);
+      c.save(); c.globalAlpha = fade;
+      for (let yy = y - hr - 4, i = 0; yy > -20; yy -= lk, i++) {
+        const heat = up ? _frC((y - yy) / 160) : 1;
+        if (i % 2 === 0) { c.strokeStyle = 'rgba(10,6,2,.8)'; c.lineWidth = 2.6; c.beginPath(); c.ellipse(x + .8, yy + 1, 3.2, 5.6, 0, 0, TAU); c.stroke();
+          c.strokeStyle = heat < 1 ? hot(heat) : B; c.lineWidth = 1.7; c.beginPath(); c.ellipse(x, yy, 3.2, 5.6, 0, 0, TAU); c.stroke(); }
+        else { c.fillStyle = 'rgba(10,6,2,.8)'; c.fillRect(x - .6, yy - 5.5 + 1, 2.4, 11); c.fillStyle = heat < 1 ? hot(heat) : D; c.fillRect(x - 1.2, yy - 5.5, 2.4, 11); }
+      }
+      c.lineCap = 'round';   // 鉤
+      const hook = (dx, dy, col, w) => { c.strokeStyle = col; c.lineWidth = w; c.beginPath(); c.moveTo(x + dx, y - hr - 4 + dy); c.lineTo(x + dx, y + dy);
+        c.arc(x - hr + dx, y + dy, hr, 0, PI * .95); c.stroke(); };
+      hook(.9, 1.2, 'rgba(10,6,2,.85)', 3.4); hook(0, 0, metal(c, x - hr * 2, y - hr, x + 2, y + hr), 2.6);
+      c.restore();
+      if (e >= DROP) { glow(c, x, py, 22 + T * 2, .6 * (1 - kd) * fade); ringFx(c, x, py, 5 + kd * 26, .8 * (1 - kd), 1.4); }
+      drawSparks(c, e, SP);
+    } };
+  };
+
+  /* ════ 全画面（元の尺） ════ */
+  /* ⑮ 飛行船：画面の上の方を真鍮の骨組みの飛行船が右から左へ横切る。プロペラが回り、ゴンドラの窓が順に灯る */
+  F.airship = g => {
+    const { T, up, CW, CH, S } = g;
+    const dur = 2700, mk = (sc, dy, delay) => ({ Lb: Math.min(CW * .42, 300) * sc * (T >= 3 ? 1.1 : 1), dy, delay });
+    const ships = [mk(1, 0, 0)].concat(up ? [mk(.6, 1.5, 380)] : []), nWin = Math.min(7, 2 + T);
+    const PF = [];
+    return { dur, draw(c, e) {
+      const fade = fadeOut(e, dur, 500);
+      ships.forEach((sh, si) => {
+        const t = e - sh.delay; if (t < 0) return;
+        const Lb = sh.Lb, Hb = Lb * .34, span = CW + Lb * 1.8, x = CW + Lb * .8 - span * _frC(t / (dur - sh.delay - 100)), y = CH * .2 + sh.dy * Hb + Math.sin(t / 420) * 6 * S;
+        if (si === 0 && Math.floor(t / 90) !== Math.floor((t - 16) / 90)) PF.push({ x: x + Lb * .56, y, t0: e });
+        c.save(); c.globalAlpha = fade * (si ? .8 : 1);
+        c.strokeStyle = 'rgba(40,26,6,.7)'; c.lineWidth = 1;   // 吊り索
+        [-.22, 0, .22].forEach(f => { c.beginPath(); c.moveTo(x + Lb * f, y + Hb * .42); c.lineTo(x + Lb * f * .5, y + Hb * .78); c.stroke(); });
+        c.fillStyle = metal(c, x - Lb * .2, y + Hb * .72, x + Lb * .2, y + Hb * .98); rrect(c, x - Lb * .2, y + Hb * .72, Lb * .4, Hb * .24, 5); c.fill();
+        for (let i = 0; i < nWin; i++) { const wx = x - Lb * .16 + (i + .5) * Lb * .32 / nWin, lit = _frC((t - 400 - i * 140) / 200);
+          c.fillStyle = lit > 0 ? hot(1 - lit * .6) : 'rgba(30,20,6,.9)'; c.fillRect(wx - Lb * .012, y + Hb * .79, Lb * .024, Hb * .09);
+          if (lit > 0) glow(c, wx, y + Hb * .83, Lb * .04, .5 * lit); }
+        c.fillStyle = 'rgba(10,6,2,.7)'; c.beginPath(); c.ellipse(x + 2, y + 3, Lb / 2, Hb / 2, 0, 0, TAU); c.fill();
+        const gr = c.createLinearGradient(0, y - Hb / 2, 0, y + Hb / 2); gr.addColorStop(0, '#F6E7B8'); gr.addColorStop(.4, B); gr.addColorStop(1, D);
+        c.fillStyle = gr; c.beginPath(); c.ellipse(x, y, Lb / 2, Hb / 2, 0, 0, TAU); c.fill();
+        c.strokeStyle = 'rgba(74,55,12,.6)'; c.lineWidth = .9;
+        for (let k = 1; k <= 5; k++) { c.beginPath(); c.ellipse(x, y, Lb / 2 * k / 6, Hb / 2, 0, 0, TAU); c.stroke(); }
+        c.beginPath(); c.ellipse(x, y, Lb / 2, Hb / 2 * .45, 0, 0, TAU); c.stroke();
+        c.strokeStyle = 'rgba(40,26,6,.9)'; c.lineWidth = 1.2; c.beginPath(); c.ellipse(x, y, Lb / 2, Hb / 2, 0, 0, TAU); c.stroke();
+        c.fillStyle = metal(c, x + Lb * .4, y - Hb * .6, x + Lb * .6, y + Hb * .6);   // 尾翼
+        [-1, 1].forEach(s => { c.beginPath(); c.moveTo(x + Lb * .36, y + s * Hb * .2); c.lineTo(x + Lb * .56, y + s * Hb * .62); c.lineTo(x + Lb * .54, y + s * Hb * .12); c.closePath(); c.fill(); c.stroke(); });
+        const pr = x + Lb * .56, bl = Math.abs(Math.cos(t / 22));   // プロペラ
+        c.fillStyle = metal(c, pr - 3, y - Hb * .3, pr + 3, y + Hb * .3); c.beginPath(); c.ellipse(pr + 3, y, 2.4, Hb * .34 * bl + 1, 0, 0, TAU); c.fill();
+        c.fillStyle = 'rgba(255,243,196,.18)'; c.beginPath(); c.ellipse(pr + 3, y, 3, Hb * .34, 0, 0, TAU); c.fill();
+        _brsSheen(c, CW, y - Hb / 2, Hb, _frC((t - 800) / 900), .25);
+        c.restore();
+      });
+      PF.forEach(p => { const lt = (e - p.t0) / 900; if (lt < 0 || lt > 1) return; puff(c, p.x + lt * 40, p.y + lt * 6, 6 * S + lt * 22 * S, .3 * (1 - lt) * fade); });
+    } };
+  };
+  /* ⑯ ぜんまい仕掛けの蜻蛉：肢の左端から真鍮の蜻蛉が羽ばたいて浮き上がり、弧を描いて画面の右上へ飛び去る。小さな歯車をこぼしていく */
+  F.dragonfly = g => {
+    const { T, up, CW, CH, S, px, py } = g;
+    const dur = 2400, n = up ? 3 : 1, sz = (24 + T * 1.5) * S;
+    const flies = Array.from({ length: n }, (_, i) => { const ex = CW + 80, ey = -60 + i * CH * .18;
+      return { p0: [px, py], p1: [px + CW * (.15 + .1 * i), py - CH * (.55 - .1 * i)], p2: [CW * (.7 - .15 * i), CH * (.05 + .25 * i)], p3: [ex, ey], d: i * 160 }; });
+    const bz = (f, u) => { const m = 1 - u, a = m * m * m, b = 3 * m * m * u, cc = 3 * m * u * u, d = u * u * u;
+      return [a * f.p0[0] + b * f.p1[0] + cc * f.p2[0] + d * f.p3[0], a * f.p0[1] + b * f.p1[1] + cc * f.p2[1] + d * f.p3[1]]; };
+    const drops = [];
+    flies.forEach(f => { for (let t = 400; t < 2100; t += 90) drops.push({ f, t0: t + f.d, rot: _frR(0, 6), vx: _frR(-20, 20) }); });
+    const posAt = (f, t) => { const u = t < 350 ? 0 : _frC((t - 350) / 1750); return bz(f, u * u * (3 - 2 * u)); };
+    return { dur, draw(c, e) {
+      const fade = fadeOut(e, dur, 400);
+      drops.forEach(d => { const lt = (e - d.t0) / 800; if (lt < 0 || lt > 1) return; const p = posAt(d.f, d.t0 - d.f.d);
+        _brsDrawGear(c, p[0] + d.vx * lt, p[1] + 120 * lt * lt + 10, 4 * S, 8, d.rot + lt * 6, (1 - lt) * .9 * fade, 1); });
+      flies.forEach(f => {
+        const t = e - f.d; if (t < 0) return;
+        const p = posAt(f, t), q = posAt(f, t + 30), ang = t < 350 ? -.4 : Math.atan2(q[1] - p[1], q[0] - p[0]), hover = t < 350 ? Math.sin(t / 60) * 3 : 0;
+        const kin = _brsBack(_frC(t / 220)), fl = .3 + .7 * Math.abs(Math.sin(t / 16));
+        if (t < 260) glow(c, p[0], p[1], sz * 2.4, .5 * (1 - t / 260) * fade);
+        c.save(); c.globalAlpha = fade; c.translate(p[0], p[1] + hover); c.rotate(ang); c.scale(kin, kin);
+        [[-.35, 1], [.35, 1], [-.75, .8], [.75, .8]].forEach(([a, k]) => {   // 羽（透けた膜と真鍮の脈）
+          c.save(); c.translate(sz * .05, 0); c.rotate(PI / 2 * Math.sign(a) + a * .3); c.scale(1, fl);
+          c.fillStyle = 'rgba(255,243,196,.2)'; c.strokeStyle = B; c.lineWidth = .9;
+          c.beginPath(); c.ellipse(0, -sz * .9 * k, sz * .22, sz * .9 * k, 0, 0, TAU); c.fill(); c.stroke();
+          c.beginPath(); c.moveTo(0, 0); c.lineTo(0, -sz * 1.7 * k); c.stroke(); c.restore(); });
+        for (let i = 0; i < 7; i++) { const r = sz * (.14 - i * .012); ball(c, -sz * (.25 + i * .22), 0, r, 1); }   // 腹
+        ball(c, sz * .08, 0, sz * .2, 1); ball(c, sz * .38, 0, sz * .16, 1);
+        c.fillStyle = '#C8102E'; [-1, 1].forEach(s => { c.beginPath(); c.arc(sz * .44, s * sz * .09, sz * .06, 0, TAU); c.fill(); });
+        c.restore();
+      });
+    } };
+  };
+  /* ⑰ エジソン電球：画面の上の縁から電球が長さの違う電線で降りてきて揺れ、フィラメントが1つずつ橙に灯る。全部灯ると一度そろって明るむ */
+  F.bulbs = g => {
+    const { T, up, CW, CH, S } = g;
+    const nB = Math.min(11, 4 + T + (up ? 2 : 0)), dur = 2600, br = 13 * S;
+    const Bs = Array.from({ length: nB }, (_, i) => ({ x: CW * (i + .5) / nB, h: CH * (.08 + .13 * (((i * 37) % 7) / 6)), t0: i * 55, on: 480 + (up ? i : ((i * 5) % nB)) * 120, ph: _frR(0, 6) }));
+    const ALL = 480 + nB * 120 + 150;
+    return { dur, draw(c, e) {
+      const fade = fadeOut(e, dur, 600), pulse = Math.exp(-Math.pow((e - ALL) / 160, 2));
+      Bs.forEach(b => {
+        const kd = _frC((e - b.t0) / 420), yb = b.h * (kd < 1 ? _brsBack(kd) : 1), sw = Math.sin(e / 520 + b.ph) * .06 * Math.max(.3, 1 - e / dur);
+        const x = b.x + Math.sin(sw) * yb, y = Math.cos(sw) * yb;
+        if (kd <= 0) return;
+        const lt = e - b.on, lit = lt < 0 ? 0 : lt < 90 ? (Math.floor(lt / 25) % 2 ? .2 : 1) : 1;   // 灯るときに一度ちらつく
+        const chase = up && e > ALL ? .6 + .4 * Math.sin((e - ALL) / 90 - b.x / CW * 8) : 1;
+        c.save(); c.globalAlpha = fade;
+        c.strokeStyle = 'rgba(30,20,6,.9)'; c.lineWidth = 1.2; c.beginPath(); c.moveTo(b.x, 0); c.lineTo(x, y); c.stroke();
+        c.translate(x, y); c.rotate(-sw);
+        c.fillStyle = metal(c, -br * .4, 0, br * .4, br * .6); c.fillRect(-br * .38, 0, br * .76, br * .62);
+        c.strokeStyle = 'rgba(40,26,6,.8)'; c.lineWidth = .7; for (let k = 1; k < 4; k++) { c.beginPath(); c.moveTo(-br * .38, k * br * .15); c.lineTo(br * .38, k * br * .15); c.stroke(); }
+        const cy = br * .62 + br * 1.05;
+        c.fillStyle = lit ? rgba(.18 * lit * chase, 255, 200, 120) : 'rgba(255,240,210,.06)';
+        c.beginPath(); c.moveTo(-br * .34, br * .62); c.bezierCurveTo(-br * 1.05, cy - br * .2, -br * .7, cy + br * .95, 0, cy + br * .95);
+        c.bezierCurveTo(br * .7, cy + br * .95, br * 1.05, cy - br * .2, br * .34, br * .62); c.closePath(); c.fill();
+        c.strokeStyle = 'rgba(255,243,220,.45)'; c.lineWidth = 1; c.stroke();
+        c.strokeStyle = lit ? hot(.3 - .25 * pulse, 1) : 'rgba(90,58,16,.9)'; c.lineWidth = lit ? 1.6 : 1;   // フィラメント（縦のジグザグ）
+        c.beginPath(); c.moveTo(-br * .12, br * .7); c.lineTo(-br * .12, cy - br * .2);
+        for (let k = 0; k < 5; k++) c.lineTo((k % 2 ? -1 : 1) * br * .18, cy - br * .2 + k * br * .14); c.lineTo(br * .12, br * .7); c.stroke();
+        c.restore();
+        if (lit) glow(c, x, y + cy, br * (2.6 + 1.2 * pulse), (.5 + .45 * pulse) * lit * chase * fade);
+      });
+    } };
+  };
+  /* ⑱ 階差機関の数字輪：画面の中央に真鍮の計算機が現れ、縦に回る数字輪が左から順にカチリと止まって、連続数と問題番号を示す */
+  F.difference = g => {
+    const { T, up, CW, CH, S, n, serial, tier } = g;
+    const rows = [['STREAK', String(Math.min(9999, n)).padStart(4, '0')], ['No.', (serial.match(/\\d+/) || ['0'])[0].slice(-4).padStart(4, '0')]]
+      .concat(up ? [['TIER', String(Math.min(99, tier)).padStart(4, '0')]] : []);
+    const w = 30 * S, h = 42 * S, gx = 8 * S, gy = 14 * S, lab = 64 * S, W = lab + 4 * w + 3 * gx + 40 * S, H = rows.length * h + (rows.length - 1) * gy + 40 * S;
+    const x0 = CW / 2 - W / 2, y0 = CH * .44 - H / 2, dur = 2700;
+    const cells = []; rows.forEach((r, ri) => Array.from(r[1]).forEach((d, j) => cells.push({ ri, j, d: +d, lock: 450 + (ri * 4 + j) * 115, sp: 1.5 + _frR(0, 1.5) })));
+    const SP = [].concat(...cells.map(q => sparks(x0 + 20 * S + lab + q.j * (w + gx) + w / 2, y0 + 20 * S + q.ri * (h + gy), 3, q.lock, 300, 280)));
+    const lastLock = Math.max(...cells.map(q => q.lock));
+    return { dur, hits: [lastLock], draw(c, e) {
+      const fade = fadeOut(e, dur, 600), sc = .85 + .15 * _brsBack(_frC(e / 300)), ka = _frC(e / 200) * fade;
+      c.save(); c.globalAlpha = ka; c.translate(CW / 2, y0 + H / 2); c.scale(sc, sc); c.translate(-CW / 2, -(y0 + H / 2));
+      c.fillStyle = 'rgba(10,6,2,.8)'; rrect(c, x0 + 3, y0 + 4, W, H, 10); c.fill();
+      c.globalAlpha = ka * .88; c.fillStyle = metal(c, x0, y0, x0 + W * .6, y0 + H * 1.5); rrect(c, x0, y0, W, H, 10); c.fill(); c.globalAlpha = ka;
+      c.strokeStyle = 'rgba(40,26,6,.9)'; c.lineWidth = 1.2; rrect(c, x0, y0, W, H, 10); c.stroke();
+      c.strokeStyle = 'rgba(255,243,196,.5)'; rrect(c, x0 + 6, y0 + 6, W - 12, H - 12, 7); c.stroke();
+      [[x0 + 11, y0 + 11], [x0 + W - 11, y0 + 11], [x0 + 11, y0 + H - 11], [x0 + W - 11, y0 + H - 11]].forEach(p => dome(c, p[0], p[1], 3.2 * S, 1, ka));
+      rows.forEach((r, ri) => { const yy = y0 + 20 * S + ri * (h + gy);
+        c.font = '700 ' + Math.round(12 * S) + 'px ' + SERIF; c.textAlign = 'right'; c.textBaseline = 'middle';
+        engrave((dx, dy, col) => { c.fillStyle = col; c.fillText(r[0], x0 + 12 * S + lab + dx, yy + h / 2 + dy); }, '#4A370C'); });
+      cells.forEach(q => {
+        const xx = x0 + 20 * S + lab + q.j * (w + gx), yy = y0 + 20 * S + q.ri * (h + gy);
+        c.fillStyle = 'rgba(14,9,3,.9)'; rrect(c, xx, yy, w, h, 4); c.fill();
+        const pos = e >= q.lock ? q.d + Math.sin((e - q.lock) / 18) * .12 * Math.exp(-(e - q.lock) / 60) : q.d - (q.lock - e) / 1000 * 10 * q.sp;
+        const kl = _frC((e - q.lock) / 700);
+        c.save(); rrect(c, xx, yy, w, h, 4); c.clip();
+        c.font = '700 ' + Math.round(h * .62) + 'px ' + MONO; c.textAlign = 'center'; c.textBaseline = 'middle';
+        const base = Math.floor(pos), fr = pos - base;
+        for (let k = -1; k <= 1; k++) { const dgt = (((base + k) % 10) + 10) % 10, yc = yy + h / 2 + (k - fr) * h;
+          c.fillStyle = e >= q.lock ? hot(kl) : 'rgba(224,194,94,.75)'; c.fillText(String(dgt), xx + w / 2, yc); }
+        const sh = c.createLinearGradient(0, yy, 0, yy + h); sh.addColorStop(0, 'rgba(0,0,0,.7)'); sh.addColorStop(.3, 'rgba(0,0,0,0)'); sh.addColorStop(.7, 'rgba(0,0,0,0)'); sh.addColorStop(1, 'rgba(0,0,0,.7)');
+        c.fillStyle = sh; c.fillRect(xx, yy, w, h); c.restore();
+        c.strokeStyle = 'rgba(255,243,196,.5)'; c.lineWidth = .8; rrect(c, xx, yy, w, h, 4); c.stroke();
+        if (e >= q.lock && kl < .4) glow(c, xx + w / 2, yy + h / 2, w, .45 * (1 - kl / .4));
+      });
+      const cr = e < lastLock ? e / 1000 * 9 : lastLock / 1000 * 9, hx = x0 + W + 4 * S, hy = y0 + H / 2;   // 右のクランク
+      c.strokeStyle = 'rgba(10,6,2,.85)'; c.lineWidth = 5 * S; c.lineCap = 'round'; c.beginPath(); c.moveTo(hx, hy); c.lineTo(hx + Math.cos(cr) * 16 * S, hy + Math.sin(cr) * 16 * S); c.stroke();
+      c.strokeStyle = B; c.lineWidth = 3.4 * S; c.stroke();
+      ball(c, hx, hy, 4.5 * S, 1); ball(c, hx + Math.cos(cr) * 16 * S, hy + Math.sin(cr) * 16 * S, 4 * S, 1);
+      c.save(); rrect(c, x0, y0, W, H, 10); c.clip(); _brsSheen(c, CW, y0, H, _frC((e - lastLock - 150) / 700), .3); c.restore();
+      c.restore();
+      drawSparks(c, e, SP, 600);
+    } };
+  };
+  /* ⑲ からくり時計の鳩：画面の右上に鳩時計が降りてきて扉が開き、真鍮の鳩が飛び出して2回おじぎ（鳴き声の弧が広がる）、戻って扉が閉まる */
+  F.cuckoo = g => {
+    const { T, up, CW, CH, S } = g;
+    const W = 84 * S * (T >= 3 ? 1.12 : 1), x = CW - W * .75 - 10, yT = CH * .14, dur = 2700, bows = up ? 3 : 2, OPEN = 420, OUT = 560, B0 = 780, BG = 380;
+    const BACK = B0 + bows * BG + 150, CLOSE = BACK + 250;
+    const SP = sparks(x - W * .55, yT + W * .42, 8 + T, B0, 380, 360);
+    return { dur, draw(c, e) {
+      const fade = fadeOut(e, dur, 500), kd = _frC(e / 380), dy = (1 - (kd < 1 ? _brsBack(kd) : 1)) * -(yT + W * 1.6);
+      c.save(); c.globalAlpha = fade; c.translate(0, dy);
+      c.strokeStyle = 'rgba(30,20,6,.8)'; c.lineWidth = 1; [-.25, .25].forEach(f => { c.beginPath(); c.moveTo(x + W * f, yT + W * 1.15); c.lineTo(x + W * f, yT + W * 1.75); c.stroke(); });
+      [-.25, .25].forEach((f, i) => { const wy = yT + W * 1.75 + (i ? 4 : -4) * Math.sin(e / 300);
+        c.fillStyle = metal(c, x + W * f - 5, wy, x + W * f + 5, wy + W * .3); c.beginPath(); c.ellipse(x + W * f, wy + W * .14, W * .07, W * .16, 0, 0, TAU); c.fill(); });
+      const pa = Math.sin(e / 260) * .35;   // 振り子
+      c.save(); c.translate(x, yT + W * 1.12); c.rotate(pa); c.strokeStyle = B; c.lineWidth = 1.6; c.beginPath(); c.moveTo(0, 0); c.lineTo(0, W * .5); c.stroke(); ball(c, 0, W * .55, W * .1, 1); c.restore();
+      c.fillStyle = 'rgba(10,6,2,.8)'; c.fillRect(x - W / 2 + 3, yT + W * .35 + 4, W, W * .8);
+      c.fillStyle = metal(c, x - W / 2, yT, x + W / 2, yT + W * 1.2); c.fillRect(x - W / 2, yT + W * .35, W, W * .8);
+      c.strokeStyle = 'rgba(40,26,6,.9)'; c.lineWidth = 1; c.strokeRect(x - W / 2, yT + W * .35, W, W * .8);
+      c.fillStyle = metal(c, x - W * .7, yT - W * .1, x + W * .7, yT + W * .4); c.beginPath(); c.moveTo(x - W * .68, yT + W * .4); c.lineTo(x, yT - W * .12); c.lineTo(x + W * .68, yT + W * .4); c.closePath(); c.fill(); c.stroke();
+      c.strokeStyle = 'rgba(255,243,196,.55)'; for (let k = 1; k < 6; k++) { const f = k / 6; c.beginPath(); c.arc(x - W * .68 + W * 1.36 * f, yT + W * .4 - Math.min(f, 1 - f) * W * 1.04 + 3, 3, 0, PI); c.stroke(); }
+      const dx = x, dyy = yT + W * .88, dr = W * .22;   // 文字盤
+      c.fillStyle = '#F3E6C4'; c.beginPath(); c.arc(dx, dyy, dr, 0, TAU); c.fill(); c.strokeStyle = B; c.lineWidth = 2; c.stroke();
+      c.strokeStyle = '#2A1A06'; c.lineWidth = 1.4; c.beginPath(); c.moveTo(dx, dyy); c.lineTo(dx, dyy - dr * .75); c.moveTo(dx, dyy); c.lineTo(dx + dr * .5 * Math.cos(e / 400), dyy + dr * .5 * Math.sin(e / 400)); c.stroke();
+      const doorY = yT + W * .38, dw = W * .2, dh = W * .24, ko = e < CLOSE ? _frC((e - OPEN) / 140) : 1 - _frC((e - CLOSE) / 140);
+      c.fillStyle = 'rgba(14,9,3,.95)'; c.fillRect(x - dw, doorY, dw * 2, dh);
+      const bo = e < BACK ? _frE(_frC((e - OUT) / 200)) : 1 - _frE(_frC((e - BACK) / 200));   // 鳩
+      if (bo > 0) {
+        const bi = Math.floor((e - B0) / BG), bt = (e - B0) - bi * BG, bow = e >= B0 && bi < bows ? Math.sin(PI * _frC(bt / 260)) : 0;
+        const bx = x - bo * W * .55, by = doorY + dh * .55;
+        c.strokeStyle = B; c.lineWidth = 1.6; c.beginPath(); c.moveTo(x, by); c.lineTo(bx, by); c.stroke();
+        c.save(); c.translate(bx, by); c.rotate(-bow * .5);
+        c.fillStyle = metal(c, -W * .15, -W * .1, W * .15, W * .1); c.beginPath(); c.ellipse(W * .04, 0, W * .14, W * .08, -.2, 0, TAU); c.fill();
+        c.beginPath(); c.moveTo(W * .15, -W * .02); c.lineTo(W * .28, -W * .1); c.lineTo(W * .26, W * .02); c.closePath(); c.fill();
+        c.beginPath(); c.arc(-W * .1, -W * .06, W * .06, 0, TAU); c.fill();
+        c.fillStyle = '#C8102E'; c.beginPath(); c.arc(-W * .12, -W * .07, W * .012 + .8, 0, TAU); c.fill();
+        c.fillStyle = hot(bow > 0 ? .2 : 1); c.beginPath(); c.moveTo(-W * .16, -W * .07); c.lineTo(-W * .24, -W * .05 + bow * W * .04); c.lineTo(-W * .16, -W * .03); c.closePath(); c.fill();
+        c.strokeStyle = 'rgba(40,26,6,.8)'; c.lineWidth = .8; c.beginPath(); c.arc(W * .06, -W * .01, W * .06, PI * .9, PI * 1.9); c.stroke();
+        c.restore();
+      }
+      [-1, 1].forEach(s => { const f = 1 - ko; if (f <= .02) return; c.fillStyle = metal(c, x - dw, doorY, x + dw, doorY + dh);   // 扉
+        c.fillRect(s < 0 ? x - dw : x + dw - dw * f, doorY, dw * f, dh); });
+      c.restore();
+      for (let i = 0; i < bows; i++) { const t0 = B0 + i * BG + 60;   // 鳴き声の弧
+        for (let k = 0; k < 3; k++) { const kk = _frC((e - t0 - k * 70) / 600); if (kk <= 0 || kk >= 1) continue;
+          c.save(); c.globalCompositeOperation = 'lighter'; c.strokeStyle = rgba(.8 * (1 - kk) * fade, 255, 220, 140); c.lineWidth = 2;
+          c.beginPath(); c.arc(x - W * .8, yT + W * .42 + dy, 10 + kk * W * 1.1, PI * .72, PI * 1.28); c.stroke(); c.restore(); } }
+      drawSparks(c, e, SP, 500);
+    } };
+  };
+  /* ⑳ 歯車の曼荼羅：画面の中央で、歯車と唐草が万華鏡のように対称に咲き、輪ごとに逆向きに回って、最後に内側へ畳まれて消える */
+  F.mandala = g => {
+    const { T, up, CW, CH, M } = g;
+    const cx = CW / 2, cy = CH * .46, K = up ? 12 : 8, dur = 2600;
+    const rings = [{ R: M * .13, r: M * .034, n: K, off: 0 }, { R: M * .25, r: M * .05, n: K, off: PI / K }].concat(T >= 3 || up ? [{ R: M * .37, r: M * .028, n: K * 2, off: 0 }] : []);
+    const vine = _brsVine(M * .05, 0, -.25, M * .16, 5, M * .025, 1.2, 150, .35, 1.8, 1), vine2 = _brsVine(M * .05, 0, .25, M * .16, 5, M * .025, 1.2, 150, .35, 1.8, -1);
+    const V = [vine, vine2].concat(T >= 3 || up ? [_brsVine(M * .27, 0, 0, M * .1, 4, M * .02, 1.1, 450, .3, 1.4, 1)] : []);
+    const SP = sparks(cx, cy, 14 + T * 2, 120, 460, 420);
+    return { dur, draw(c, e) {
+      const fade = fadeOut(e, dur, 500), close = _frC((e - 1900) / 650), spin = e / 3200;
+      c.save(); c.globalAlpha = fade;
+      c.translate(cx, cy); c.scale(1 - .35 * _frE(close), 1 - .35 * _frE(close)); c.rotate(spin);
+      for (let k = 0; k < K; k++) { c.save(); c.rotate(k / K * TAU); _brsDrawVines(c, e, V, (1 - close) * .9, 700); c.restore(); }
+      rings.forEach((rg, i) => { const ki = _frC((e - 100 - i * 170) / 380); if (ki <= 0) return; const s = _brsBack(ki), dir = i % 2 ? -1 : 1, nt = _brsTeeth(rg.r);
+        for (let k = 0; k < rg.n; k++) { const a = rg.off + k / rg.n * TAU;
+          _brsDrawGear(c, Math.cos(a) * rg.R * s, Math.sin(a) * rg.R * s, rg.r, nt, dir * e / 400 + k, _frE(ki) * (1 - close) * .8, s, i !== 0); }
+        c.strokeStyle = rgba(.45 * _frE(ki) * (1 - close), 224, 194, 94); c.lineWidth = 1; c.beginPath(); c.arc(0, 0, rg.R * s + rg.r + 4, 0, TAU); c.stroke(); });
+      const kc = _frC(e / 300), cr = M * .07;
+      _brsDrawGear(c, 0, 0, cr, _brsTeeth(cr), -e / 300, _frE(kc) * (1 - close * .6), _brsBack(kc));
+      c.restore();
+      const kg = _frC(e / 700); glow(c, cx, cy, M * .2, .55 * (1 - kg) * fade);
+      if (close > 0) glow(c, cx, cy, M * .12 * (1 - close * .5), .6 * Math.sin(PI * close) * fade);
+      drawSparks(c, e, SP, 500);
+    } };
+  };
+})();`;
+/* brass 新案 第2弾の台帳：[キー, 名前, 正解時, 連続正解時, 肢の左端か] */
+const BRS_NEW2 = [
+  ['tesla', '⑪ 放電球', '肢の左端の上下に真鍮の放電球が立ち、その間を白熱した稲妻が縦に何度も走る。止んだ瞬間に両方の球が白熱から冷え、輪と火花',
+    '段3〜は稲妻が2本。段が上がった瞬間は3本で、球から左の空中へも枝の稲妻が飛ぶ', true],
+  ['compass', '⑫ 羅針盤', '肢の左端に羅針盤がはまり、針が2周回って減速し、東（肢の文字の側）を指して小さく揺れて止まる。止まった瞬間に針先が光る',
+    '段で羅針盤が大きくなる。段が上がった瞬間は針が3周し、火花が散る', true],
+  ['governor', '⑬ 調速機（ガバナー）', '肢の左端に蒸気機関の調速機が立ち、2つの錘の球が回り始め、速くなるほど外へ開いて持ち上がる。回りきった瞬間に頂部から輪と火花',
+    '段で球が大きく開く。段が上がった瞬間は球が白熱から冷えていき、いちばん大きく開く', true],
+  ['chain', '⑭ 滑車の鎖', '画面の上から鎖が一気に降り、鉤が肢の左端に掛かってガチャリと弾み、すぐに巻き上げられる。掛かった瞬間に輪と火花',
+    '段で鉤が大きく火花が増える。段が上がった瞬間は鎖が鉤の側から白熱している', true],
+  ['airship', '⑮ 飛行船', '画面の上の方を真鍮の骨組みの飛行船が右から左へ横切る。プロペラが回って蒸気を吐き、ゴンドラの窓が順に灯り、胴を斜めの光沢が走る',
+    '段で窓が増える（最大7）。段3〜は船が一回り大きい。段が上がった瞬間は小さな2隻目が後ろに続く', false],
+  ['dragonfly', '⑯ ぜんまい仕掛けの蜻蛉', '肢の左端から真鍮の蜻蛉が羽ばたいて浮き上がり、弧を描いて画面の右上へ飛び去る。小さな歯車をこぼしていく',
+    '段で蜻蛉が大きくなる。段が上がった瞬間は3匹が別々の弧で飛ぶ', false],
+  ['bulbs', '⑰ エジソン電球', '画面の上の縁から長さの違う電線で電球が降りてきて揺れ、フィラメントが1つずつちらついて橙に灯る。全部灯ると一度そろって明るむ',
+    '段で電球が増える（最大11）。段が上がった瞬間は左から順に灯り、灯りきった後に光が左右へ流れる', false],
+  ['difference', '⑱ 階差機関の数字輪', '画面の中央に真鍮の計算機が現れ、縦に回る数字輪が左から順にカチリと止まって白熱し、連続数（STREAK）と問題番号（No.）を示す。右のクランクが回る',
+    '段が上がった瞬間は3段目に TIER の数字輪', false],
+  ['cuckoo', '⑲ からくり時計の鳩', '画面の右上に鳩時計が降りてきて扉が開き、真鍮の鳩が飛び出して2回おじぎする（鳴き声の弧が左へ広がる）。戻って扉が閉まる。振り子と錘が揺れる',
+    '段3〜は時計が一回り大きい。段が上がった瞬間は3回おじぎ', false],
+  ['mandala', '⑳ 歯車の曼荼羅', '画面の中央で、歯車と唐草が万華鏡のように8方向へ対称に咲き、輪ごとに逆向きに回る。最後に内側へ畳まれて消える',
+    '段3〜は外側にもう1つ歯車の輪。段が上がった瞬間は12方向', false],
+];
 /* brass 新案の台帳：[キー, 名前, 正解時, 連続正解時] */
 const BRS_NEW_CHOICE = [
   ['rivet', '① 鋲打ち', '型の影が近づき、肢の左端に白熱した鋲が打ち込まれて真鍮色へ冷える。打った瞬間に肢が沈み、輪と火花',
@@ -2799,8 +3192,7 @@ const BRS_NEW_CHOICE = [
     '段で座金が大きくなる。段が上がった瞬間は座金の縁に鋲が並び、火花が多い'],
 ];
 const BRS_NEW_FULL = [
-  ['gearwall', '⑥ 歯車の壁', '画面の左右の端から歯車が1枚ずつ噛み合って中央へ届き、最後に中央の大歯車がはまって白熱し、全体が歯数比どおりに回る',
-    '段2〜は大歯車に段のローマ数字。段3〜は上下の端からも。段が上がった瞬間は大歯車が一回り大きい'],
+  // ['gearwall', '⑥ 歯車の壁'] は 2026-09-29 に本番へ（段が上がった瞬間の大きな歯車列を差し替え・_brsGearWall）
   ['loco', '⑦ 機関車の動輪', '画面の下端に半分沈んだ、連結棒でつながった真鍮の動輪が左から右へ転がり抜ける。シリンダーから蒸気を吐き、レールに火花',
     '段3〜は動輪が3つ。段が上がった瞬間は4つで、動輪が白熱から冷え、最初の2回の蒸気が大きい'],
   ['plaque', '⑧ 銘板の打刻', '画面の中央に真鍮の銘板が打ち下ろされ、四隅の鋲が順に打たれ、「CORRECT」が1字ずつ白熱して刻まれ真鍮色へ冷える。問題番号と連続数、最後に斜めの光沢',
@@ -2966,7 +3358,7 @@ const PARTS = {
     ['brs.gear', '歯車列', '駆動歯車がはまり、左右へ噛み合って回る（接点の火花）', 1, false],
     ['brs.hall', '刻印', '肢の右端に MEC の刻印が打たれ白熱→真鍮色へ冷える（問題番号・星・月桂樹）', 1, false],
     ['brs.fil', '唐草', 'タップ位置から溶けた真鍮の蔓が斜め4方向へ伸びて渦を巻く', 1, false],
-    ['brs.bigtrain', '大きな歯車列', '段が上がった瞬間：大きな歯車列が画面を横切る', 2, true],
+    ['brs.gearwall', '歯車の壁', '段が上がった瞬間：画面の端から歯車が噛み合って中央へ届き、メダルの外周に噛む大歯車がはまって白熱する（TIER3〜は上下の端からも）', 2, true],
     ['brs.medal', 'ローマ数字のメダル', '段が上がった瞬間：中央にメダルが打刻される', 2, true],
     ['brs.corner', '四隅の飾り金具', '段が上がった瞬間：四隅から唐草の金具が鋳込まれ、斜めの光沢が走る', 2, true],
   ],
@@ -3023,6 +3415,7 @@ function prepFrame() {
   W.eval(ABYNEW2);
   W.eval(ABYNEW3);
   W.eval(BRSNEW);
+  W.eval(BRSNEW2);
   W.eval(HOVER);
   applyTheme();
   W.eval('startExam()');
@@ -3197,9 +3590,12 @@ function renderParts() {
     const n0 = document.createElement('div'); n0.style.cssText = 'font-size:11px;color:var(--sub);margin:8px 8px 0;line-height:1.5';
     n0.textContent = '新案は単独で再生する（本番の歯車列・刻印・唐草とは重ねない）。肢の左端の5つは次のカードへ送る前に再生が終わる（押すと下に終わる時刻を出す）。全画面の5つは元の尺のまま。連続数を 3/5/7/10… にすると「段が上がった瞬間」の版、5以上で段3〜の版。デモ専用で本番にはまだ入っていない。';
     partsBox.appendChild(n0);
-    [['brass 正解演出の新案（肢の左端・送る前に終わる）', BRS_NEW_CHOICE, '肢の左端', '__brsChoice'], ['brass 正解演出の新案（全画面）', BRS_NEW_FULL, '全画面', '__brsFull']].forEach(([title, list, tag, fn]) => {
+    [['brass 正解演出の新案 第2弾（10個）', BRS_NEW2, null, null],
+     ['brass 正解演出の新案 第1弾（肢の左端・送る前に終わる）', BRS_NEW_CHOICE, '肢の左端', '__brsChoice'],
+     ['brass 正解演出の新案 第1弾（全画面・⑥ 歯車の壁は本番へ移した）', BRS_NEW_FULL, '全画面', '__brsFull']].forEach(([title, list, tag0, fn0]) => {
       const hb = document.createElement('h2'); hb.textContent = title; partsBox.appendChild(hb);
-      list.forEach(([key, name, onOk, onStreak]) => {
+      list.forEach(([key, name, onOk, onStreak, atChoice]) => {
+        const tag = tag0 || (atChoice ? '肢の左端' : '全画面'), fn = fn0 || (atChoice ? '__brsChoice' : '__brsFull');
         const row = document.createElement('div'); row.className = 'it';
         const b = document.createElement('button');
         b.innerHTML = '<span class="tag x" style="background:rgba(224,194,94,.2);color:#E0C25E">' + tag + '</span>';

@@ -4127,8 +4127,9 @@ function _abyAbyssFx(el, card, tier, promoted, budget) {
    - 刻印：肢の右端に「MEC」の楕円の刻印が打たれ、白熱 → 橙 → 真鍮色へ冷える。左に紙面の問題番号（No.0214）。
             段の数だけ星、TIER2〜は月桂樹の葉。TIER3〜は肢からはみ出す大きさ。
    - 唐草：タップ位置から斜め4方向へ溶けた真鍮の蔓が伸びて渦を巻き、冷えて固まる（十字の飾り＝フルーロン）。
-   - 段が上がった瞬間：大きな歯車列がカードの裏を横切り、カードの中央にローマ数字のメダルが打刻され、
-            四隅から唐草の飾り金具が鋳込まれて斜めの光沢が走る。
+   - 段が上がった瞬間：画面の端から歯車が噛み合って中央へ届く「歯車の壁」（_brsGearWall）、その中央の大歯車の内側に
+            ローマ数字のメダルが打刻され、四隅から唐草の飾り金具が鋳込まれて斜めの光沢が走る。
+            （2026-09-29 に「大きな歯車列」＝_brsBigTrain を歯車の壁へ差し替えた・ユーザー判断。デモ fx_all_demo.html の新案⑥）
    ⚠️ 肢の中を横に走る長い線を作らないこと（唐草の初版が肢の文字の取り消し線・下線に見えた＝ラボで踏んだ）。
       下線部はこの教材では意味を持つ記号（Phase 5 の R6 と同じ理由）。
    ⚠️ 描くのはカードの裏1枚だけ（.lq-layer.fr-card）。brass の肢の地は半透明なので、frost・celestial のように
@@ -4241,18 +4242,68 @@ function _brsGearTrain(T, px, py, lo, CW, spark) {
     G.forEach((g, i) => { const ki = _frC((e - g.depth * STEP) / 240); _brsDrawGear(c, g.x, g.y, g.r, g.n, ph[i], _frE(ki) * .95 * fade, _brsBack(ki)); });
   } };
 }
-function _brsBigTrain(CW, y) {
-  const r0 = Math.min(CW * .13, 70), root = { x: -r0 * .15, y, r: r0, n: _brsTeeth(r0), depth: 0, theta: 0 };
-  const G = [root]; let par = root;
-  for (let i = 1; i < 7; i++) {
-    const r = r0 * [0, .62, 1.05, .55, .95, .7, 1][i], theta = _frR(-.55, .55), d = par.r + r - BRS_DEPTH * .95;
-    const g = { r, theta, n: _brsTeeth(r), parent: G.length - 1, depth: i, x: par.x + Math.cos(theta) * d, y: par.y + Math.sin(theta) * d };
-    G.push(g); par = g; if (g.x - g.r > CW) break;
-  }
-  return { dur: 2600, draw(c, e) {
-    const fade = e < 2000 ? 1 : _frC(1 - (e - 2000) / 600);
-    const ph = _brsPhases(G, Math.PI * 1.1 * _brsEio(_frC(e / 2400)));
-    G.forEach((g, i) => { const ki = _frC((e - 120 - i * 90) / 320); _brsDrawGear(c, g.x, g.y, g.r, g.n, ph[i], _frE(ki) * .5 * fade, .85 + .15 * _brsBack(ki), true); });
+/* 火花（canvas に描く短い筋・白熱 → 真鍮色）。MecFX.sparks と違い、描いている層と一緒に消える。
+   右へほぼ水平に飛ぶ向きは除く（肢の文字に線が走って見える） */
+function _brsSparkSet(x, y, n, t0, v0, life) {
+  return Array.from({ length: n }, () => {
+    let a; do a = _frR(-Math.PI, Math.PI); while (Math.cos(a) > .7 && Math.abs(Math.sin(a)) < .55);
+    const v = v0 * _frR(.55, 1);
+    return { x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, t0: t0 + _frR(0, 25), life: life * _frR(.6, 1) };
+  });
+}
+function _brsDrawSparks(c, e, P, grav) {
+  c.save(); c.globalCompositeOperation = 'lighter'; c.lineCap = 'round';
+  P.forEach(s => {
+    const lt = (e - s.t0) / s.life; if (lt <= 0 || lt >= 1) return;
+    const at = t => [s.x + s.vx * t, s.y + s.vy * t + (grav || 700) * t * t / 2];
+    const t = (e - s.t0) / 1000, p = at(t), q = at(Math.max(0, t - .022));
+    c.strokeStyle = _brsHeat(lt * .9, 1 - lt * lt); c.lineWidth = 1.7 * (1 - lt * .5);
+    c.beginPath(); c.moveTo(q[0], q[1]); c.lineTo(p[0], p[1]); c.stroke();
+  });
+  c.restore();
+}
+/* 歯車の壁（段が上がった瞬間）：画面の左右（TIER3〜は上下も）の端から歯車が1枚ずつ噛み合って中央へ届き、
+   最後に中央の大歯車がはまって白熱し、全体が歯数比どおりに回る。大歯車はメダルの外周に噛ませる大きさ（R0）で、
+   その内側にメダルが打刻される＝数字はメダル側だけに出す（デモ版は大歯車に数字を刻んでいた）。
+   大歯車がはまる時刻 TR はメダルを打つ時刻 hit に合わせる（STEP を枝の長さから逆算）。
+   枝の歯車の大きさは Rc（画面の短辺の 15%・最大 90px）が基準＝大歯車に合わせて大きくしない。 */
+function _brsGearWall(T, CW, CH, cx, cy, R0, Rc, hit) {
+  const root = { x: cx, y: cy, r: R0, n: _brsTeeth(R0), depth: 0, theta: 0 };
+  const G = [root];
+  [0, Math.PI].concat(T >= 3 ? [-Math.PI / 2, Math.PI / 2] : []).forEach(d => {
+    let pi = 0;
+    for (let i = 0; i < 14; i++) {
+      const par = G[pi]; let ok = null;
+      for (let a = 0; a < 6 && !ok; a++) {
+        const r = Rc * _frR(.42, .78), theta = d + (i ? _frR(-.55, .55) : _frR(-.12, .12)), dd = par.r + r - BRS_DEPTH * .95;
+        const x = par.x + Math.cos(theta) * dd, y = par.y + Math.sin(theta) * dd;
+        if (!G.some(o => o !== par && Math.hypot(o.x - x, o.y - y) < o.r + r + 3)) ok = { x, y, r, theta, n: _brsTeeth(r), parent: pi, depth: par.depth + 1 };
+      }
+      if (!ok) break;
+      G.push(ok); pi = G.length - 1;
+      if (ok.x < -ok.r * .5 || ok.x > CW + ok.r * .5 || ok.y < -ok.r * .5 || ok.y > CH + ok.r * .5) break;
+    }
+  });
+  const maxD = Math.max(1, ...G.map(o => o.depth)), STEP = _frC(hit / maxD, 60, 110);
+  const at = o => (maxD - o.depth) * STEP, TR = at(root), dur = TR + 1900;
+  const SP = [].concat(...G.filter(o => o.parent != null).map(o => {
+    const p = G[o.parent];
+    return _brsSparkSet(p.x + Math.cos(o.theta) * (p.r - BRS_DEPTH / 2), p.y + Math.sin(o.theta) * (p.r - BRS_DEPTH / 2), p === root ? 7 : 3, at(p) + 60, 420, 380);
+  }));
+  const turn = (.45 + .08 * T) * Math.PI * 2;
+  return { dur, draw(c, e) {
+    const fade = e < dur - 600 ? 1 : _frC((dur - e) / 600), ph = _brsPhases(G, turn * _brsEio(_frC(e / (dur - 300))));
+    G.forEach((o, i) => { if (!i) return; const ki = _frC((e - at(o)) / 260); _brsDrawGear(c, o.x, o.y, o.r, o.n, ph[i], _frE(ki) * .55 * fade, .85 + .15 * _brsBack(ki), true); });
+    const kr = _frC((e - TR) / 300), kh = _frC((e - TR) / 1100);
+    if (kr > 0) {
+      _brsGlow(c, cx, cy, R0 * 1.6, .45 * (1 - kh) * fade);
+      _brsDrawGear(c, cx, cy, R0, root.n, ph[0], _frE(kr) * .6 * fade, .8 + .2 * _brsBack(kr), true);
+      c.save(); c.globalAlpha = _frE(kr) * fade; c.translate(cx, cy); c.rotate(ph[0]); _brsGearShape(c, R0, root.n, Math.max(1.6, R0 * .16));
+      c.strokeStyle = _brsHeat(kh, 1 - kh * .6); c.lineWidth = 2.4; c.stroke(); c.restore();
+      const ks = _frC((e - TR) / 300);
+      if (ks < 1) { c.save(); c.globalCompositeOperation = 'lighter'; c.strokeStyle = `rgba(255,220,140,${.7 * (1 - ks)})`; c.lineWidth = 2; c.beginPath(); c.arc(cx, cy, R0 * (1 + ks * .9), 0, Math.PI * 2); c.stroke(); c.restore(); }
+    }
+    _brsDrawSparks(c, e, SP, 500);
   } };
 }
 
@@ -4447,7 +4498,10 @@ function _brsBrassFx(el, card, tier, promoted, budget) {
   const serial = 'No.' + String(num || examAnswered || 0).padStart(4, '0');
 
   const parts = [];
-  if (up) parts.push(_brsMedallion(tier, CW, CH, bigY, spark, press), _brsCornerCast(CW, CH, top === 0, top + CH >= CHf), _brsBigTrain(CW, bigY));
+  if (up) {
+    const mR = Math.min(CW * .33, CH * .38, 150), Rc = Math.min(Math.min(CW, CH) * .15, 90) * 1.12;   // mR はメダルの半径（_brsMedallion と同じ式）
+    parts.push(_brsGearWall(T, CW, CH, CW / 2, bigY, mR * 1.1, Rc, 300), _brsMedallion(tier, CW, CH, bigY, spark, press), _brsCornerCast(CW, CH, top === 0, top + CH >= CHf));
+  }
   parts.push(_brsFiligree(T, px, lo), _brsGearTrain(T, px, py, lo, CW, spark), _brsHallmark(T, lo, serial, spark, press));
   const dur = Math.max(...parts.map(p => p.dur));
   _rfK = 1;
