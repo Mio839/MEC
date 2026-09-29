@@ -1364,7 +1364,8 @@ html.ui-cyber .od-cyber { display:inline; }
 .od-celestial .gyro-ring {
   fill:none;stroke:url(#celAstroGoldGrad);stroke-width:2.2;stroke-dasharray:none;opacity:.95;
   filter:drop-shadow(0 0 10px #FFD166) drop-shadow(0 0 20px #8A2BE2);
-  animation:celHaloBreathe 1.8s ease-in-out infinite alternate;
+  vector-effect:non-scaling-stroke;transform-origin:84px 84px;rotate:20deg;
+  animation:celHaloBreathe 1.8s ease-in-out infinite alternate,celArmRot 9s linear infinite;
 }
 .od-celestial .cel-od-syzygy-ring {
   fill:none;stroke:rgba(0,242,254,.3);stroke-width:1.1;

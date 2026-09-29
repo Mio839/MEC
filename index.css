@@ -1480,7 +1480,11 @@ html.ui-frost .od-frost{display:inline;}
 .od-celestial .gyro-ring{
   fill:none;stroke:url(#celAstroGoldGrad);stroke-width:2.2;stroke-dasharray:none;opacity:.95;
   filter:drop-shadow(0 0 10px #FFD166) drop-shadow(0 0 20px #8A2BE2);
-  animation:celHaloBreathe 1.8s ease-in-out infinite alternate;
+  /* 2026-09-29: 「天球儀が開く」の環と同じく、横幅を 1→0→-1→0→1 と潰して立体的に一回転させる（celArmRot を共用）。
+     軸は 20° 傾ける（独立プロパティは rotate→scale の順に効く＝傾いた軸のまわりで回って見える）。
+     ⚠️ 基準点は必ず中心（84px 84px）。線は non-scaling-stroke（潰れた向きで細らないように） */
+  vector-effect:non-scaling-stroke;transform-origin:84px 84px;rotate:20deg;
+  animation:celHaloBreathe 1.8s ease-in-out infinite alternate,celArmRot 9s linear infinite;
 }
 /* 2026-09-29: 楕円を回すのをやめ、正円の軌道（-ring）の上を光の弧2つ（-arc・180°離れる）が中心のまわりを回る形にした。
    ⚠️ 回転は独立プロパティ rotate＋transform-origin:84px 84px（基準点を必ず中心に置く） */
