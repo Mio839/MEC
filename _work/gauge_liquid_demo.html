@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Liquid ゲージの描き方比較</title>
+<title>Liquid ゲージ 採用版</title>
 <!--
   ハブのヒーローゲージ（index.html #gaugeBox）を UIテーマ Liquid 向けに作り直す案（2026-09-29・第5版）。
   採用は「A. ひとかけらずつ」（中央の丸い塊がフヨフヨ揺れ、一部が外へちぎれて泳ぎ、また戻る）。
@@ -14,10 +14,17 @@
     ① WebGL  … GPU のシェーダで画面の画素ごとに場を計算する。勾配は解析的に出し、縁は勾配で1画素ぶんだけぼかす。
     ② 輪郭    … 粗い格子で場を計算し、等高線（f=1）を拾って曲線でつなぎ、canvas のベクター描画で塗る。
     ③ 今の版  … JavaScript で1画素ずつ計算して画像として貼る（第4版のまま）。
-  各カードに描画1回あたりの時間、上部にページのコマ数を出す。「動かす版」で1つだけ描かせると、その版だけの重さが測れる。
+  第5版の比較で ② 輪郭が採用された（ユーザー判断）。① WebGL と ③ は第5版（5240bd9）に残っている。
+  第6版：ちぎれたかけらは離れ始めから溶け込むまでずっと泳ぐ（Blob.swimW）。切れずに残った尾が止まった塊に見えていたので、
+    糸は離れ終わる前に必ず切る（out の k > 0.8）。10分回して、止まって残る塊が 0 になることを確かめた。
+  第7版（ユーザーが意見1・2を採用）：① かけら同士が出会うとくっつき、そろって泳いで、またちぎれる（Blob.meet・離れたあと8秒は再会しない・
+    角度で約45°以内の相手にはゆるく引き寄せられる）② 戻るとき塊の縁が伸びて迎えに行く（reachR / reachRho）。
+    泳ぐ時間を 14〜24秒に延ばした（7〜12秒では2つ以上が同時に泳ぐ時間が20分中17秒しかなく、出会いがほぼ起きなかった）。
+    20分回して：60%〜130% でくっつくのは約2回/分・同時にちぎれ始めるのは0回・泳ぎ中に止まるのは1%未満・NaN 0。
+    ⚠️ 溶け込み中の縁のふくらみは以前 l.a1（もう使っていない）を見ていて NaN になっていた。l.a を見ること。
   本物の index.js は呼ばず、このページの中だけで再生する（何も保存しない）。テストの対象ではない。
   ⚠️ 本番へ移すとき：本番の svg は transform: rotate(-90deg) を持つ。canvas は回さずに重ねる。
-  ⚠️ 本番へ移すとき（① を選んだ場合）：WebGL が無い・文脈を失ったときは ③ に落とす。画面外・非表示では描かない。
+  ⚠️ 本番へ移すとき：画面外・非表示では描かない。
 -->
 <style>
   :root{--tx:#F4ECFF;--sub:#B7A6D6;--line:rgba(255,0,127,.3);--gw:260px;}
@@ -77,12 +84,14 @@
 </style>
 </head>
 <body>
-<h1>🫧 Liquid のヒーローゲージ — 塊の描き方を比べる</h1>
+<h1>🫧 Liquid のヒーローゲージ — 採用版（輪郭を線で描く）</h1>
 <p class="note">
-  採用した「ひとかけらずつ」を、<b>3つの描き方</b>で並べています。動きは3つとも<b>まったく同じ</b>で、違うのは塊の描き方だけです。
-  <b>① WebGL</b>＝GPU で画面の画素ごとに直接描く／<b>② 輪郭を線で描く</b>＝塊の輪郭を曲線にして塗る／<b>③ 今の版</b>＝比較用。
-  縁の滑らかさと、動きのなめらかさ（カクつき）を見比べてください。
-  3つ同時に動かすと互いに重さを奪い合うので、動きのなめらかさは「動かす版」で1つだけにして見るのがおすすめです。カードの「描画」は1回描くのにかかった時間（16ms 以下なら60コマ/秒に間に合う）。
+  中央の塊がフヨフヨ揺れ、一部がゆっくりちぎれて外へ泳ぎ出し、また戻って溶け込みます（ちぎれ始めるのは一度に1つ・見えるかけらは合計5つまで）。
+  塊は<b>輪郭をなめらかな曲線にして塗る描き方</b>（第5版の比較で採用）。
+  第6版で、<b>ちぎれたかけらがどの段階でも自分のペースで泳ぎ続ける</b>ようにしました（離れ始め・泳ぐ・戻る・溶け込むまで）。
+  以前は、ちぎれるときの糸（尾）が切れないまま取り残されることがあり、それが止まった塊に見えていました。糸は離れ終わる前に必ず切れ、塊へ吸い戻ります。
+  第7版：<b>かけら同士が出会うと、ゆっくり寄ってくっつき、しばらく一緒に泳いでから、またちぎれて離れます</b>（近くの相手にはゆるく引き寄せられる）。
+  かけらが戻ってくるときは、<b>塊の縁もかけらの方へ伸びて迎えに行き</b>、つながってから溶け込みます。泳ぐ時間を長くしたので、段ごとの上限までかけらが揃って泳ぎます。
 </p>
 <div class="ctl">
   <label>達成率 <input type="range" id="rg" min="0" max="160" step="1" value="0"> <output id="out">0%</output></label>
@@ -92,7 +101,6 @@
   <button id="bBloom">90→100%（到達だけ）</button>
   <button data-set="130">130%（超過）</button>
   <button data-set="0">0%へ</button>
-  <label>動かす版 <select id="selRun"><option value="all">3つとも</option><option value="0">① だけ</option><option value="1">② だけ</option><option value="2">③ だけ</option></select></label>
   <label><input type="checkbox" id="cbBig"> 大きく表示</label>
   <span class="fps" id="fps">— コマ/秒</span>
 </div>
@@ -141,84 +149,6 @@ const PAL = { edgeT: [255, 60, 175], edgeB: [255, 0, 127], mid: [121, 40, 202], 
 const PALG = { edgeT: [255, 226, 140], edgeB: [255, 196, 80], mid: [214, 140, 40], core: [52, 28, 8], rim: [255, 250, 220], halo: [255, 209, 102] };
 function palette(gk) { const o = {}; for (const k in PAL) o[k] = lerp3(PAL[k], PALG[k], gk); return o; }
 const LIGHT = (() => { const L = [-0.45, -0.65, 0.62], l = Math.hypot(...L), Ln = L.map((v) => v / l); const H = [Ln[0], Ln[1], Ln[2] + 1], h = Math.hypot(...H); return { L: Ln, H: H.map((v) => v / h) }; })();
-
-/* ══════════════════════ ① WebGL ══════════════════════
-   場 f = Σ (r²/d²)² と、その勾配を解析的に出す（差分で近似しない＝法線がなめらか）。
-   縁までの距離 ≒ (f−1)/|∇f| を画素に直して、ちょうど1画素でぼかす。 */
-const MAXB = 48;
-const FRAG = `
-precision highp float;
-uniform vec2 uRes; uniform vec3 uB[${MAXB}]; uniform int uNB;
-uniform vec3 uEdgeT, uEdgeB, uMid, uCore, uRim, uHalo, uL, uH; uniform float uHot; uniform vec2 uC;
-void main() {
-  float ppu = uRes.y / 168.0;
-  vec2 p = vec2(gl_FragCoord.x, uRes.y - gl_FragCoord.y) / ppu;
-  float rho = length(p - vec2(84.0));
-  if (rho > 72.0) { gl_FragColor = vec4(0.0); return; }
-  float f = 0.0; vec2 g = vec2(0.0);
-  for (int k = 0; k < ${MAXB}; k++) {
-    if (k >= uNB) break;
-    vec2 d = p - uB[k].xy; float den = dot(d, d) + 0.4; float q = uB[k].z / den;
-    f += q * q; g += -4.0 * q * q * d / den;
-  }
-  if (f < 0.4) { gl_FragColor = vec4(0.0); return; }
-  float gl = length(g) + 1e-6;
-  float body = clamp(0.5 + (f - 1.0) / gl * ppu, 0.0, 1.0);
-  float halo = f < 1.0 ? pow((f - 0.4) / 0.6, 3.0) * (0.3 + uHot * 0.25) : 0.0;
-  vec3 edge = mix(uEdgeT, uEdgeB, p.y / 168.0);
-  vec3 haloC = min(uHalo * 1.1, vec3(1.0));
-  float u = sqrt(sqrt(max(f, 1.0)));
-  float tt = smoothstep(0.0, 1.0, (u - 1.0) / 0.9);
-  float t = smoothstep(0.0, 1.0, (u - 1.0) / 0.45);
-  float tilt = 1.0 - t * t * (3.0 - 2.0 * t);
-  vec3 n = vec3(-g / gl * tilt, sqrt(max(0.0, 1.0 - tilt * tilt)));
-  float diff = max(0.0, dot(n, uL));
-  float sp = pow(max(0.0, dot(n, uH)), 30.0);
-  float rim = tilt * tilt * tilt;
-  float dc = smoothstep(0.0, 1.0, (36.0 - length(p - uC)) / 20.0) * 0.9;
-  vec3 c = mix(mix(edge, uMid, tt), uCore, dc);
-  float rimK = rim * 0.75 + pow(max(0.0, -n.x * 0.6 - n.y * 0.8), 2.0) * rim * 0.5;
-  vec3 col = min(c * (0.62 + 0.5 * diff) + uRim * rimK * 0.55 + vec3(sp * 0.92), vec3(1.0));
-  float mask = clamp((71.0 - rho) * ppu, 0.0, 1.0);
-  float a = max(halo, body * 0.97) * mask;
-  gl_FragColor = vec4(mix(haloC, col, body) * a, a);
-}`;
-class GLGoo {
-  constructor(canvas) {
-    this.cv = canvas; this.gold = 0; this.hot = 0; this.ok = false;
-    const gl = this.gl = canvas.getContext('webgl', { premultipliedAlpha: true, antialias: false, alpha: true });
-    if (!gl) return;
-    const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; };
-    const pr = this.pr = gl.createProgram();
-    gl.attachShader(pr, sh(gl.VERTEX_SHADER, 'attribute vec2 a; void main(){ gl_Position = vec4(a, 0.0, 1.0); }'));
-    gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FRAG));
-    gl.linkProgram(pr); gl.useProgram(pr);
-    const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-    const loc = gl.getAttribLocation(pr, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    this.u = {}; for (const n of ['uRes', 'uB', 'uNB', 'uEdgeT', 'uEdgeB', 'uMid', 'uCore', 'uRim', 'uHalo', 'uL', 'uH', 'uHot', 'uC']) this.u[n] = gl.getUniformLocation(pr, n);
-    gl.uniform3fv(this.u.uL, LIGHT.L); gl.uniform3fv(this.u.uH, LIGHT.H);
-    this.balls = new Float32Array(MAXB * 3);
-    canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); this.ok = false; });
-    this.ok = true; this.resize();
-  }
-  resize() {
-    const r = this.cv.getBoundingClientRect(), d = Math.min(2, window.devicePixelRatio || 1);
-    this.cv.width = Math.max(1, Math.round(r.width * d)); this.cv.height = Math.max(1, Math.round(r.height * d));
-    if (this.gl) this.gl.viewport(0, 0, this.cv.width, this.cv.height);
-  }
-  render(B, cx, cy) {
-    if (!this.ok) return;
-    const gl = this.gl, u = this.u, n = Math.min(MAXB, B.length / 3), P = palette(this.gold);
-    this.balls.fill(0); this.balls.set(B.slice(0, n * 3));
-    gl.uniform2f(u.uRes, this.cv.width, this.cv.height);
-    gl.uniform3fv(u.uB, this.balls); gl.uniform1i(u.uNB, n);
-    for (const [k, nm] of [['edgeT', 'uEdgeT'], ['edgeB', 'uEdgeB'], ['mid', 'uMid'], ['core', 'uCore'], ['rim', 'uRim'], ['halo', 'uHalo']]) gl.uniform3f(u[nm], P[k][0] / 255, P[k][1] / 255, P[k][2] / 255);
-    gl.uniform1f(u.uHot, this.hot); gl.uniform2f(u.uC, cx, cy);
-    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
-  }
-}
 
 /* ══════════════════════ ② 輪郭を線で描く ══════════════════════
    1.5 単位の格子で場を計算し、マーチングスクエアで f=1 の等高線を拾う。点をつないで閉じた輪にし、
@@ -312,76 +242,12 @@ class PathGoo {
   }
 }
 
-/* ══════════════════════ ③ 今の版（1画素ずつ JavaScript で計算） ══════════════════════ */
-class CpuGoo {
-  constructor(canvas) {
-    this.cv = canvas; this.ctx = canvas.getContext('2d');
-    this.N = 0; this.off = document.createElement('canvas'); this.octx = this.off.getContext('2d');
-    this.gold = 0; this.hot = 0; this.resize();
-  }
-  resize() {
-    const r = this.cv.getBoundingClientRect(), d = Math.min(2, window.devicePixelRatio || 1);
-    this.cv.width = Math.max(1, Math.round(r.width * d)); this.cv.height = Math.max(1, Math.round(r.height * d));
-    const N = clamp(this.cv.width, 180, 380);
-    if (N === this.N) return;
-    this.N = N; this.s = 168 / N;
-    this.off.width = this.off.height = N; this.img = this.octx.createImageData(N, N);
-    this.f = new Float32Array(N * N); this.mask = new Uint8Array(N * N);
-    for (let py = 0; py < N; py++) for (let px = 0; px < N; px++)
-      this.mask[py * N + px] = Math.hypot((px + 0.5) * this.s - 84, (py + 0.5) * this.s - 84) < 71 ? 1 : 0;
-  }
-  render(B, cx, cy) {
-    const N = this.N, s = this.s, f = this.f, mask = this.mask, nb = B.length;
-    for (let py = 0; py < N; py++) {
-      const y = (py + 0.5) * s;
-      for (let px = 0; px < N; px++) {
-        const i = py * N + px;
-        if (!mask[i]) { f[i] = 0; continue; }
-        const x = (px + 0.5) * s; let v = 0;
-        for (let k = 0; k < nb; k += 3) { const dx = x - B[k], dy = y - B[k + 1], q = B[k + 2] / (dx * dx + dy * dy + 0.4); v += q * q; }
-        f[i] = v;
-      }
-    }
-    const D = this.img.data, P = palette(this.gold), Lg = LIGHT.L, Hh = LIGHT.H, hot = this.hot;
-    for (let py = 0; py < N; py++) {
-      const edge = lerp3(P.edgeT, P.edgeB, py / (N - 1)), mid = P.mid, core = P.core, halo0 = P.halo, rimC = P.rim;
-      for (let px = 0; px < N; px++) {
-        const i = py * N + px, o = i * 4, v = f[i];
-        if (v < 0.4) { D[o + 3] = 0; continue; }
-        const halo = v < 1 ? Math.pow((v - 0.4) / 0.6, 3) * (0.3 + hot * 0.25) : 0;
-        const gx = (px < N - 1 ? f[i + 1] : v) - (px > 0 ? f[i - 1] : v);
-        const gy = (py < N - 1 ? f[i + N] : v) - (py > 0 ? f[i - N] : v);
-        const g = Math.hypot(gx, gy) + 1e-6;
-        const body = clamp(0.5 + (v - 1) / (g * 0.5), 0, 1);
-        if (body <= 0) { D[o] = Math.min(255, halo0[0] * 1.1); D[o + 1] = Math.min(255, halo0[1] * 1.1); D[o + 2] = Math.min(255, halo0[2] * 1.1); D[o + 3] = halo * 255; continue; }
-        const u4 = Math.sqrt(Math.sqrt(Math.max(v, 1))), t = soft((u4 - 1) / 0.45), tilt = 1 - t * t * (3 - 2 * t);
-        const nx = -gx / g * tilt, ny = -gy / g * tilt, nz = Math.sqrt(Math.max(0, 1 - tilt * tilt));
-        const diff = Math.max(0, nx * Lg[0] + ny * Lg[1] + nz * Lg[2]);
-        const sp = Math.pow(Math.max(0, nx * Hh[0] + ny * Hh[1] + nz * Hh[2]), 30);
-        const rim = Math.pow(tilt, 3);
-        const tt = soft((u4 - 1) / 0.9);
-        const dc = soft((36 - Math.hypot((px + 0.5) * s - cx, (py + 0.5) * s - cy)) / 20) * 0.9;
-        const c = lerp3(lerp3(edge, mid, tt), core, dc);
-        const sh = 0.62 + 0.5 * diff;
-        const rimK = rim * 0.75 + Math.pow(Math.max(0, -nx * 0.6 - ny * 0.8), 2) * rim * 0.5;
-        const cr = c[0] * sh + rimC[0] * rimK * 0.55 + sp * 235, cg = c[1] * sh + rimC[1] * rimK * 0.55 + sp * 235, cb = c[2] * sh + rimC[2] * rimK * 0.55 + sp * 235;
-        D[o] = Math.min(255, lerp(halo0[0] * 1.1, cr, body)); D[o + 1] = Math.min(255, lerp(halo0[1] * 1.1, cg, body)); D[o + 2] = Math.min(255, lerp(halo0[2] * 1.1, cb, body));
-        D[o + 3] = 255 * Math.max(halo, body * 0.97);
-      }
-    }
-    this.octx.putImageData(this.img, 0, 0);
-    const c = this.ctx; c.clearRect(0, 0, this.cv.width, this.cv.height);
-    c.imageSmoothingEnabled = true; c.imageSmoothingQuality = 'high';
-    c.drawImage(this.off, 0, 0, this.cv.width, this.cv.height);
-  }
-}
-
 /* ══════════════════════ 設定 ══════════════════════ */
 const CFG = {
   core0: 28, E: 41, wobD: 17, wobA: 5, wobR: 20,
-  bud: 4.2, tOut: 5.6, tBack: 4.6, melt: 3.2, hold: [7, 12], rT: [6, 8], out: [54, 60],
+  bud: 4.2, tOut: 5.6, tBack: 4.6, melt: 3.2, hold: [14, 24], rT: [6, 8], out: [54, 60],   // 泳ぐ時間を長くして、上限までかけらが揃って泳ぐようにする
   cap: (v) => Math.min(5, 1 + Math.floor(Math.min(100, v) / 25)),   // 見えるかけらは 0%で1つ → 25%ごとに1つ → 100%以上で5つ
-  rate: (heat) => 0.08 + heat * 0.13
+  rate: (heat) => 0.14 + heat * 0.2   // 前のかけらがちぎれ終わったら、あまり待たずに次がちぎれ始める
 };
 
 /* ══════════════════════ 中央の塊 ══════════════════════
@@ -398,59 +264,108 @@ class Blob {
   add(o) {
     const R = this.R, C = this.C;
     const l = Object.assign({ st: 'bud', t: 0, r: 0, rT: lerp(C.rT[0], C.rT[1], R()), hold: lerp(C.hold[0], C.hold[1], R()), s: R() * 6, s2: R() * 6,
-      dir: R() < 0.5 ? -1 : 1, spd: 0.13 + R() * 0.1, rmid: lerp(C.out[0], C.out[1], R()) }, o);
+      dir: R() < 0.5 ? -1 : 1, spd: 0.14 + R() * 0.1, rmid: lerp(C.out[0], C.out[1], R()) }, o);
     l.a = l.a0; this.lobes.push(l); return l;
   }
   count() { return this.lobes.filter((l) => l.st !== 'gone' && l.st !== 'melt').length; }
+  // 泳ぐ向きと速さ（離れ始めから溶け込むまでずっと使う）。止まらないよう最低速度を持たせる
+  swimW(l) { return l.dir * (l.spd + 0.06 * Math.sin(l.t * 0.55 + l.s) + 0.05 * Math.sin(this.t * 0.9 + l.s2)); }
+  // かけら同士が出会ったら、ゆっくり寄ってくっつき（約1.4秒）、そろって泳ぎ（約2.2秒）、またちぎれて離れる（約1.6秒）。
+  // 離れたあと8秒は、どちらも次の相手とくっつかない（引き寄せも止める）。くっついている間の泳ぐ速さは、速いほうのかけらに合わせる。
+  meet(dt) {
+    const fl = this.lobes.filter((l) => l.st === 'float');
+    for (const l of this.lobes) { l.cool = Math.max(0, (l.cool || 0) - dt); l.attr = 0; }
+    // 近く（角度で約45°以内）にいる相手には、ゆるく引き寄せられる＝出会う機会を増やす
+    for (const a of fl) for (const b of fl) {
+      if (a === b || a.mate || b.mate || a.cool > 0 || b.cool > 0) continue;
+      const d = Math.atan2(Math.sin(b.a - a.a), Math.cos(b.a - a.a));
+      if (Math.abs(d) < 0.8) a.attr += Math.sign(d) * 0.1 * (1 - Math.abs(d) / 0.8 * 0.5);
+    }
+    for (let i = 0; i < fl.length; i++) for (let j = i + 1; j < fl.length; j++) {
+      const a = fl[i], b = fl[j];
+      if (a.mate || b.mate || a.cool > 0 || b.cool > 0 || a.x == null || b.x == null) continue;
+      if (Math.hypot(a.x - b.x, a.y - b.y) < (a.rDraw + b.rDraw) * 1.9) {
+        a.mate = b; b.mate = a; a.mt = b.mt = 0;
+        const lead = a.spd >= b.spd ? a : b; a.lead = b.lead = lead;
+      }
+    }
+    for (const a of this.lobes) {
+      const b = a.mate;
+      if (!b) { a.paOff = (a.paOff || 0) * Math.max(0, 1 - dt * 3); a.prOff = (a.prOff || 0) * Math.max(0, 1 - dt * 3); continue; }
+      a.mt += dt;
+      if (a.mt >= 5.2 || b.st !== 'float' || a.st !== 'float') { a.mate = null; a.cool = 8; continue; }
+      const k = a.mt < 1.4 ? ease(a.mt / 1.4) : a.mt < 3.6 ? 1 : 1 - ease((a.mt - 3.6) / 1.6);
+      a.pairW = a.mt < 3.6 ? this.swimW(a.lead) : this.swimW(a);   // 離れるときはそれぞれの向きへ戻る
+      // 2つの真ん中（角度・半径）へ、少し重なる間隔まで寄せる
+      const d = Math.atan2(Math.sin(b.a - a.a), Math.cos(b.a - a.a)), am = a.a + d / 2, rm = (a.rho + b.rho) / 2;
+      const hs = (a.r + b.r) * 0.3 / rm, ta = am - Math.sign(d || 1) * hs;
+      a.paOff = Math.atan2(Math.sin(ta - a.a), Math.cos(ta - a.a)) * k; a.prOff = (rm - a.rho) * k;
+    }
+  }
   step(dt, heat) {
     this.t += dt; const t = this.t, C = this.C;
     this.cx = 84 + Math.sin(t * 0.23) * 1.4; this.cy = 84 + Math.cos(t * 0.29) * 1.2;
     this.amp = 1 + Math.min(1.25, heat) * 0.35;
+    this.meet(dt);
     for (const l of this.lobes) {
       l.t += dt;
       const E = this.E, px = l.x, py = l.y;
       if (l.st === 'bud') {
         const k = ease(l.t / C.bud);
-        [l.x, l.y] = this.P(E - 6 + l.rT * 0.95 * k, l.a0); l.r = l.rT * k;
-        if (l.t >= C.bud) { l.st = 'out'; l.t = 0; l.sx = l.x; l.sy = l.y; [l.tx, l.ty] = this.P(l.rmid, l.a0 + l.dir * 0.25); l.tl = { x: l.x, y: l.y, r: l.rT * 0.84, on: 1 }; }
+        l.rho = E - 6 + l.rT * 0.95 * k; l.r = l.rT * k;
+        l.a += this.swimW(l) * dt * 0.15 * k;   // ふくらみながら、わずかに横へずれはじめる
+        if (l.t >= C.bud) { l.st = 'out'; l.t = 0; l.rho0 = l.rho; const [x, y] = this.P(l.rho, l.a); l.tl = { x, y, r: l.rT * 0.84, on: 1, a: l.a }; }
       } else if (l.st === 'out') {
         const k = ease(l.t / C.tOut);
-        l.x = lerp(l.sx, l.tx, k); l.y = lerp(l.sy, l.ty, k);
+        l.rho = lerp(l.rho0, l.rmid, k);
+        l.a += this.swimW(l) * dt * (0.15 + 0.85 * k);   // 離れながら泳ぎ出す
         if (l.tl && l.tl.on) {
-          const [ox, oy] = this.P(E - 3, l.a0);
-          l.tl.x = lerp(ox, l.x, 0.42); l.tl.y = lerp(oy, l.y, 0.42); l.tl.r = l.rT * (0.84 - 0.34 * k);
-          if (Math.hypot(l.x - l.tl.x, l.y - l.tl.y) > l.rT * 1.8) l.tl.on = 0;
+          const [ox, oy] = this.P(E - 3, l.tl.a), [hx, hy] = this.P(l.rho, l.a);
+          l.tl.x = lerp(ox, hx, 0.42); l.tl.y = lerp(oy, hy, 0.42); l.tl.r = l.rT * (0.84 - 0.34 * k);
+          // 糸は伸びきったら切れる。届かなくても離れ終わる前には必ず切る（切れずに残った尾が止まった塊になっていた）
+          if (Math.hypot(hx - l.tl.x, hy - l.tl.y) > l.rT * 1.35 || k > 0.8) l.tl.on = 0;
         }
-        if (l.t >= C.tOut) { l.st = 'float'; l.t = 0; l.a = Math.atan2(l.x - this.cx, this.cy - l.y); l.fr = Math.hypot(l.x - this.cx, l.y - this.cy); }
+        if (l.t >= C.tOut) { l.st = 'float'; l.t = 0; l.fr = l.rho; }
       } else if (l.st === 'float') {
-        // 塊のまわりを曲がりくねって泳ぐ：回る速さも半径も、それぞれの揺れで変わり続ける
-        const w = l.dir * (l.spd + 0.12 * Math.sin(l.t * 0.55 + l.s)) + 0.08 * Math.sin(l.t * 1.1 + l.s2);
-        l.a += w * dt;
+        // 塊のまわりを泳ぐ：回る速さも半径もそれぞれの揺れで変わり続ける（止まらない）
+        l.a += (l.mate ? l.pairW : this.swimW(l) + (l.attr || 0)) * dt;   // くっついている間は2つそろって泳ぐ（止まらない）
         const want = l.rmid + 4 * Math.sin(l.t * 0.6 + l.s) + 2 * Math.sin(l.t * 1.3 + l.s2);
         l.fr += (clamp(want, 52, 62) - l.fr) * Math.min(1, dt * 1.2);
-        [l.x, l.y] = this.P(l.fr, l.a);
-        if (l.t >= l.hold) { l.st = 'back'; l.t = 0; l.sx = l.x; l.sy = l.y; l.a1 = wrap(Math.atan2(l.x - this.cx, this.cy - l.y) + l.dir * 0.2); }
+        l.rho = l.fr;
+        if (l.t >= l.hold && !l.mate) { l.st = 'back'; l.t = 0; l.rho0 = l.rho; }   // くっついている間は帰らない
       } else if (l.st === 'back') {
-        const [ex, ey] = this.P(E + l.rT * 0.25, l.a1), k = ease(l.t / C.tBack);
-        l.x = lerp(l.sx, ex, k); l.y = lerp(l.sy, ey, k);
-        if (l.t >= C.tBack) { l.st = 'melt'; l.t = 0; l.sx = l.x; l.sy = l.y; }
+        const k = ease(l.t / C.tBack);
+        l.rho = lerp(l.rho0, E + l.rT * 0.25, k);
+        l.a += this.swimW(l) * dt * (1 - 0.5 * k);   // 泳ぎながら近づく
+        // 後半は塊の縁もかけらの方へふくらんで伸び、迎えに行く
+        const rk = soft((k - 0.3) / 0.7);
+        l.reachR = l.rT * 0.75 * rk; l.reachRho = E - 4 + l.rT * 0.9 * rk;
+        if (l.t >= C.tBack) { l.st = 'melt'; l.t = 0; l.rho0 = l.rho; }
       } else if (l.st === 'melt') {
-        const k = soft(l.t / C.melt), [ex, ey] = this.P(E - 8, l.a1);
-        l.x = lerp(l.sx, ex, k); l.y = lerp(l.sy, ey, k); l.r = l.rT * (1 - k);
+        const k = soft(l.t / C.melt);
+        l.rho = lerp(l.rho0, E - 8, k); l.r = l.rT * (1 - k);
+        l.a += this.swimW(l) * dt * 0.5 * (1 - k);   // 溶けながら流れが止まっていく
         l.bulge = l.rT * 0.8 * Math.sin(Math.PI * k);
-        if (l.t >= C.melt) l.st = 'gone';
+        l.reachR = l.rT * 0.75 * (1 - k); l.reachRho = E - 4 + l.rT * 0.9 * (1 - 0.6 * k);   // 伸ばした縁も一緒に引いていく
+        if (l.t >= C.melt) { l.st = 'gone'; l.reachR = 0; }
       }
-      // 動く向きへ少し伸びる（泳いでいる間だけ・後ろに小さな球を引く）
-      if (px != null && dt > 0) {
+      if (l.st !== 'gone') {
+        // ふわふわ：かけら自身もゆっくり息をするように大きさが揺れる
+        const breathe = l.st === 'float' || l.st === 'back' ? 1 + 0.06 * Math.sin(l.t * 1.4 + l.s) : 1;
+        [l.x, l.y] = this.P(l.rho + (l.prOff || 0), l.a + (l.paOff || 0)); l.rDraw = l.r * breathe;
+      }
+      // 動く向きへ少し伸びる（後ろに小さな球を引く）
+      if (px != null && dt > 0 && l.st !== 'gone') {
         const vx = (l.x - px) / dt, vy = (l.y - py) / dt, sp = Math.hypot(vx, vy);
-        const k = clamp(sp / 9, 0, 1) * (l.st === 'float' || l.st === 'back' ? 1 : 0);
-        l.trail = k > 0.05 ? { x: l.x - vx / sp * l.rT * 0.6 * k, y: l.y - vy / sp * l.rT * 0.6 * k, r: l.r * 0.7 } : null;
+        const k = clamp(sp / 9, 0, 1) * (l.st === 'bud' ? 0 : 1);
+        l.trail = k > 0.05 ? { x: l.x - vx / sp * l.rT * 0.6 * k, y: l.y - vy / sp * l.rT * 0.6 * k, r: l.rDraw * 0.7 } : null;
       }
       if (l.tl && !l.tl.on) {   // 切れた糸は塊へゆっくり吸い戻る
-        const [hx, hy] = this.P(E - 8, l.a0);
-        l.tl.x += (hx - l.tl.x) * Math.min(1, dt * 1.2); l.tl.y += (hy - l.tl.y) * Math.min(1, dt * 1.2); l.tl.r -= dt * 1.6;
+        const [hx, hy] = this.P(E - 8, l.tl.a);
+        l.tl.x += (hx - l.tl.x) * Math.min(1, dt * 1.4); l.tl.y += (hy - l.tl.y) * Math.min(1, dt * 1.4); l.tl.r -= dt * 2.2;
         if (l.tl.r < 0.3) l.tl = null;
       }
+      if (l.st === 'gone' && l.tl) l.tl.on = 0;
     }
     this.lobes = this.lobes.filter((l) => l.st !== 'gone' || l.tl);
   }
@@ -465,15 +380,16 @@ class Blob {
       const [x, y] = this.P(d, a); S.push(x, y, r * r);
     }
     for (const l of this.lobes) {
-      if (l.st !== 'gone' && l.r > 0.2) S.push(l.x, l.y, l.r * l.r);
+      if (l.st !== 'gone' && l.r > 0.2) S.push(l.x, l.y, l.rDraw * l.rDraw);
       if (l.trail && l.st !== 'gone' && l.trail.r > 0.2) S.push(l.trail.x, l.trail.y, l.trail.r * l.trail.r);
       if (l.tl) S.push(l.tl.x, l.tl.y, l.tl.r * l.tl.r);
-      if (l.bulge > 0.2 && l.st === 'melt') { const [bx, by] = this.P(this.E - 3, l.a1); S.push(bx, by, l.bulge * l.bulge); }
+      if (l.bulge > 0.2 && l.st === 'melt') { const [bx, by] = this.P(this.E - 3, l.a); S.push(bx, by, l.bulge * l.bulge); }   // 以前は使っていない l.a1 を見ていて NaN になっていた
+      if (l.reachR > 0.2 && l.st !== 'gone') { const [rx, ry] = this.P(l.reachRho, l.a); S.push(rx, ry, l.reachR * l.reachR); }
     }
   }
   heads() {   // ② の光沢を置く場所（塊とかけらの頭）
     const h = [[this.cx, this.cy, this.E * 0.95]];
-    for (const l of this.lobes) if (l.st !== 'gone' && l.r > 1.5) h.push([l.x, l.y, l.r]);
+    for (const l of this.lobes) if (l.st !== 'gone' && l.r > 1.5) h.push([l.x, l.y, l.rDraw]);
     return h;
   }
 }
@@ -499,13 +415,12 @@ function makeGauge(key, name, tag, Rend) {
         else if (this.lobe(q.a0, q.o)) { this.queue.shift(); if (q.glow) spawn(this.fxl, q.glow, 2800); }
       } else {
         this.cd -= dt * CFG.rate(this.heat);
-        if (this.cd <= 0) { this.lobe(R() * TAU); this.cd = 1 + R() * 1.4; }
+        if (this.cd <= 0) { this.lobe(R() * TAU); this.cd = 0.6 + R() * 0.8; }
       }
       this.blob.step(dt, this.heat);
       if (draw) {
         const t0 = performance.now();
         const S = []; this.blob.sources(S); this.goo.render(S, this.blob.cx, this.blob.cy, this.blob.heads());
-        if (this.goo.gl) this.goo.gl.finish();   // GPU の仕事も時間に含める
         this.ms = this.ms * 0.9 + (performance.now() - t0) * 0.1;
       }
       const n = this.blob.count();
@@ -516,9 +431,7 @@ function makeGauge(key, name, tag, Rend) {
   };
 }
 const GAUGES = [
-  makeGauge('①', 'WebGL（GPU で画素ごとに描く）', 'GPU のシェーダが画面の画素ごとに直接計算する。縁は場の勾配から1画素ぶんだけぼかす。拡大しないので縁が最も滑らかで、GPU なので iPad でも速い見込み', GLGoo),
-  makeGauge('②', '輪郭を線で描く', '塊の輪郭を曲線にして canvas のベクター描画で塗る。縁はどの大きさでも鋭く滑らかで、計算も軽い。立体感は塗りと照りの重ね塗りで出すので①より平板', PathGoo),
-  makeGauge('③', '今の版（比較用）', 'JavaScript で1画素ずつ計算して画像として貼る。画素数が多いと重い', CpuGoo)
+  makeGauge('②', '輪郭を線で描く（採用）', '塊の輪郭をなめらかな曲線にして canvas のベクター描画で塗る', PathGoo)
 ];
 
 /* ══════════════════════ 再生器 ══════════════════════ */
@@ -537,11 +450,7 @@ GAUGES.forEach((g) => {
   g.root = c.querySelector('.gauge-ring'); g.fxl = c.querySelector('.fxl'); g.cntEl = c.querySelector('.cnt');
   g.valEl = c.querySelector('.val'); g.ovfEl = c.querySelector('.ovf');
   const cv = c.querySelector('canvas');
-  try { g.goo = new g.Rend(cv); } catch (e) { console.error(e); g.goo = null; }
-  if (!g.goo || (g.goo.gl !== undefined && !g.goo.ok)) {   // WebGL が使えない環境では ③ に落とす
-    const nc = document.createElement('canvas'); cv.replaceWith(nc); g.goo = new CpuGoo(nc);
-    c.querySelector('.tag').textContent += '（⚠️ この端末では WebGL が使えないため ③ の描き方で表示しています）';
-  }
+  g.goo = new g.Rend(cv);
   g.v = 0; g.heat = 0.15;
   g.init();
   dash(g.valEl, 0); dash(g.ovfEl, 0);
@@ -591,11 +500,6 @@ document.getElementById('bSeq').addEventListener('click', () => {
 document.getElementById('bBloom').addEventListener('click', () => { seq([[90, 1200, 700], [100, 0, 1000]]); });
 document.getElementById('cbBig').addEventListener('change', (e) => { document.body.classList.toggle('big', e.target.checked); GAUGES.forEach((g) => g.goo.resize()); });
 window.addEventListener('resize', () => GAUGES.forEach((g) => g.goo.resize()));
-let run = 'all';
-document.getElementById('selRun').addEventListener('change', (e) => {
-  run = e.target.value;
-  GAUGES.forEach((g, i) => g.card.classList.toggle('paused', run !== 'all' && +run !== i));
-});
 
 // 常時の動き（非表示タブでは rAF が来ない＝そのまま止まる）。動きは3つとも同じ dt で進める
 let last = performance.now(), fAcc = 0, fN = 0;
@@ -604,7 +508,7 @@ function loop(now) {
   const raw = (now - last) / 1000, dt = Math.min(0.05, raw); last = now;
   fAcc += raw; fN++;
   if (fAcc >= 0.5) { fpsEl.textContent = Math.round(fN / fAcc) + ' コマ/秒'; fAcc = 0; fN = 0; }
-  GAUGES.forEach((g, i) => g.tick(dt, run === 'all' || +run === i));
+  GAUGES.forEach((g) => g.tick(dt, true));
   requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
