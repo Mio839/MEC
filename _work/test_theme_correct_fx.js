@@ -43,8 +43,9 @@ themes.forEach(theme => {
   // 画面枠パルス
   assert(uiThemeCss.includes(`html.ui-${theme} #examEdgePulse.active`), `Missing edge pulse for ${theme}`);
   
-  // 透かし活性化
-  assert(uiThemeCss.includes(`html.ui-${theme} .qc.fx-correct::after`), `Missing watermark flash for ${theme}`);
+  // 透かし活性化（abyss は 2026-09-29 に透かしごと撤去した＝ユーザー判断。戻っていないことを見る）
+  if (theme === 'abyss') assert(!uiThemeCss.includes(`html.ui-${theme} .qc.fx-correct::after`), 'abyss の透かし活性化（撤去済み）が戻っている');
+  else assert(uiThemeCss.includes(`html.ui-${theme} .qc.fx-correct::after`), `Missing watermark flash for ${theme}`);
   
   // 誤答ダメージ
   assert(uiThemeCss.includes(`html.ui-${theme} .qc.exam-wrong-hit`), `Missing wrong hit damage animation for ${theme}`);
