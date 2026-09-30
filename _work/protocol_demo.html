@@ -3,171 +3,183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>定着プロトコル ラグジュアリー</title>
+<title>病棟回診の拡張5案</title>
 <!--
-  SRS復習（2026-09-30 に「定着プロトコル」へ改名）の見せ方を、ward.js の「病棟回診」から作り直すデモ（第6版）。
-  本物の関数は呼ばず、このページの中だけで再生する（何も保存しない）。
-  経緯：第1〜5版はどれも却下。雰囲気の見本帳（_work/protocol_mood.html）から「2 ラグジュアリー」が選ばれ、
-    「ラグジュアリーにグラフや円ゲージを組み合わせて」と指示された。
-  意匠：黒とシャンパンゴールド・細い明朝・金の細線。演出はゆっくり（1〜2秒）、ぼかしから焦点が合う・細線が伸びる・数字が数え上がる。
-    ① 開始前：30本の目盛りの円ゲージ（1問＝1目盛り・遅れ具合で色分け）＋遅れの帯グラフ＋科目の縦棒グラフ
-    ② 解答中：細い黒の帯。小さな円ゲージに進みの金の弧、1問ごとに目盛りが灯る
-    ③ 結果：定着率の円ゲージ＋三つの数字＋科目の横棒＋「次に会う日」の14日間の棒グラフ
-  色：金（#C8B68A）＝定着・遅れ、銅（#C98E72）＝大きく遅れ・もう一度、灰（#5E574B）＝予定どおり。
-  ⚠️ 演出はどれも時間の決まった一回きり（infinite なし）。画面下の帯は表示だけ（pointer-events:none）。
-  ⚠️ 非表示タブでは rAF が来ないので、カウントアップには setTimeout の落とし所を付けてある。
-  材料は ward.js と同じ（状態3段＝severityOf、正解／誤答）。SRS の採点と出題順は変えない。テストの対象ではない。
+  SRS復習の見せ方（ward.js「病棟回診」）の拡張案を見比べるデモ（第7版・2026-09-30）。
+  経緯：第1〜6版で作り直しを試したが、最後に「やっぱ現行のやつが一番見やすい。現行を拡張する方針で」と決まった。
+  このページは ward.js の CSS を**そのまま写して**現行の3画面（朝の申し送り・画面下の病棟ボード・結果画面の回診ブロック）を再現し、
+  その上に拡張を1つずつ重ねて見比べる：
+    A 動きを足す／B 円ゲージを足す／C 病棟ボードを大きく／D 結果にグラフを足す／E 名前と言葉を「定着プロトコル」に揃える
+  「現行」と「全部入り」も選べる。拡張どうしは独立していて、組み合わせて採れる。
+  ⚠️ ward.js の約束を守る：画面下のボードは表示だけ（pointer-events:none）／infinite のアニメなし／新しい localStorage キーなし／SRS の採点を変えない。
+  本物の関数は呼ばない。何も保存しない。テストの対象ではない。
 -->
 <style>
-  :root{
-    --serif:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
-    --grot:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans","Yu Gothic",sans-serif;
-    --sans:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic UI",sans-serif;
-    --ease:cubic-bezier(.16,1,.3,1);
-    --ink:#EDE6D6;--ink-2:#F4EEE1;--muted:#A99F8C;--dim:#6F675A;--gold:#C8B68A;--gold-hi:#E9D9AE;--copper:#C98E72;--stone:#4E483E;
-    --hair:rgba(200,182,138,.18);--panel:#12100D;
-  }
+  body{margin:0;min-height:100vh;padding:18px 16px 190px;color:#E8F6F8;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic UI",sans-serif;
+    background:radial-gradient(ellipse 95% 65% at 50% -18%,rgba(121,40,202,.5),transparent 68%),radial-gradient(circle at 15% 22%,rgba(0,229,255,.28),transparent 52%),radial-gradient(circle at 85% 32%,rgba(0,112,243,.32),transparent 56%),linear-gradient(180deg,#050814,#03050c);}
   *{box-sizing:border-box;}
-  html,body{margin:0;overflow-x:clip;}
-  body{min-height:100vh;padding:18px 16px 170px;font-family:var(--sans);color:var(--ink);background:#08070A;}
+  html,body{overflow-x:clip;}
   .harness{max-width:860px;margin:0 auto;}
-  .harness h1{font-size:15px;margin:0 0 4px;font-weight:600;}
-  .harness p{font-size:12.5px;line-height:1.7;color:var(--muted);margin:0 0 14px;}
-  .stages{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
-  .stages button{padding:8px 14px;border-radius:99px;border:1px solid rgba(200,182,138,.35);background:none;color:var(--ink);font:inherit;font-size:13px;cursor:pointer;white-space:nowrap;}
-  .stages button.on{background:var(--gold);color:#12100D;border-color:var(--gold);}
+  .harness h1{font-size:15px;margin:0 0 4px;}
+  .harness p{font-size:12.5px;line-height:1.7;opacity:.72;margin:0 0 14px;}
+  .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px;margin-bottom:10px;}
+  .plans button{padding:9px 10px;border-radius:12px;border:1px solid rgba(126,214,223,.28);background:rgba(18,48,58,.5);color:#E8F6F8;font:inherit;text-align:left;cursor:pointer;}
+  .plans button b{display:block;font-size:13px;}
+  .plans button small{display:block;font-size:10.5px;opacity:.7;margin-top:2px;line-height:1.4;}
+  .plans button.on{background:#7ED6DF;color:#06201F;border-color:#7ED6DF;}
+  .stages{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+  .stages button{padding:8px 13px;border-radius:99px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.05);color:inherit;font:inherit;font-size:13px;cursor:pointer;white-space:nowrap;}
+  .stages button.on{background:#E8F6F8;color:#06201F;}
   .stages .replay{margin-left:auto;}
-  .hint{font-size:12px;color:var(--muted);line-height:1.7;margin:8px 0;}
-  .mockq{border-radius:16px;padding:16px 18px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.1);}
-  .mockq .qn{display:inline-block;font-size:11px;font-weight:800;padding:2px 8px;border-radius:5px;margin-bottom:8px;border:1px solid rgba(255,255,255,.4);}
+  .desc{font-size:12.5px;line-height:1.75;padding:10px 12px;border-radius:12px;background:rgba(126,214,223,.08);border:1px solid rgba(126,214,223,.25);margin-bottom:14px;}
+  .desc b{color:#7ED6DF;}
+  .mockq{border-radius:16px;padding:16px 18px;background:rgba(14,16,30,.78);border:1px solid rgba(255,255,255,.14);}
+  .mockq .qn{display:inline-block;font-size:11px;font-weight:800;padding:2px 8px;border-radius:5px;margin-bottom:8px;border:1px solid rgba(255,255,255,.5);}
   .mockq .qt{font-size:14px;line-height:1.8;}
-  .mockq .ch{font-size:13.5px;padding:9px 12px;border-radius:10px;margin-top:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);}
+  .mockq .ch{font-size:13.5px;padding:9px 12px;border-radius:10px;margin-top:7px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);}
   .sim{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0;}
-  .sim button{flex:1 1 110px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:inherit;font:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;}
-  .sumwrap{border-radius:16px;padding:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);}
-  .sumwrap .fake{font-size:12px;color:var(--muted);padding:8px 10px;border:1px dashed rgba(255,255,255,.2);border-radius:10px;margin-bottom:12px;line-height:1.6;}
-  .num{font-variant-numeric:tabular-nums;}
+  .sim button{flex:1 1 110px;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);color:inherit;font:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;}
+  .hint{font-size:12px;opacity:.7;line-height:1.7;margin:8px 0;}
+  /* 結果画面の外側（今の結果画面の上半分の見本） */
+  .sumfake{border-radius:18px;padding:16px;background:rgba(10,14,28,.78);border:1px solid rgba(255,255,255,.12);}
+  .sumfake h2{margin:0 0 10px;font-size:18px;text-align:center;}
+  .sumfake .fake{font-size:12px;opacity:.7;padding:8px 10px;border:1px dashed rgba(255,255,255,.25);border-radius:10px;margin-bottom:12px;line-height:1.6;text-align:center;}
 
-  /* ══ パネル（開始前・結果で共通の地） ══ */
-  .ov{position:fixed;inset:0;z-index:9500;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(4,3,2,.78);animation:fade .5s var(--ease) both;}
-  .lux{position:relative;color:var(--ink);background:radial-gradient(120% 60% at 50% 0%,#211D17,#0E0C0A 62%,#0A0908);border:1px solid rgba(200,182,138,.28);
-    box-shadow:0 30px 80px rgba(0,0,0,.7),inset 0 0 0 1px rgba(0,0,0,.6);}
-  .lux::before{content:'';position:absolute;inset:8px;border:1px solid rgba(200,182,138,.1);pointer-events:none;}
-  .box{width:min(460px,100%);max-height:100%;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:rgba(200,182,138,.35) transparent;padding:34px 26px 24px;border-radius:4px;animation:rise 1s var(--ease) both;}
-  .box::-webkit-scrollbar{width:6px;} .box::-webkit-scrollbar-thumb{background:rgba(200,182,138,.3);border-radius:3px;}
-  .eye{font-family:var(--grot);font-size:9.5px;letter-spacing:.5em;text-indent:.5em;color:var(--gold);text-align:center;}
-  .date{font-family:var(--serif);font-size:11.5px;color:var(--muted);text-align:center;margin-top:8px;letter-spacing:.2em;}
-  .gauge{position:relative;width:min(250px,76%);margin:18px auto 0;aspect-ratio:1;}
-  .gauge svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
-  .gauge .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-  .gauge .big{font-family:var(--serif);font-weight:200;font-size:clamp(64px,19vw,86px);line-height:1;color:var(--ink-2);letter-spacing:-.02em;}
-  .gauge .big small{font-size:.24em;letter-spacing:0;margin-left:2px;color:var(--muted);}
-  .gauge .cap{font-family:var(--serif);font-size:12px;letter-spacing:.42em;text-indent:.42em;margin-top:8px;color:var(--ink);}
-  .tk{stroke-linecap:round;transition:stroke .5s,stroke-width .5s;}
-  .tk.stable{stroke:var(--stone);stroke-width:1.2;} .tk.warn{stroke:var(--gold);stroke-width:1.3;} .tk.crit{stroke:var(--copper);stroke-width:2;}
-  .tk.ok{stroke:var(--gold-hi);stroke-width:2.2;filter:drop-shadow(0 0 3px rgba(233,217,174,.7));} .tk.ng{stroke:var(--copper);stroke-width:1.4;opacity:.55;} .tk.now{stroke:#fff;stroke-width:2.4;}
-  .orbit{fill:none;stroke:rgba(200,182,138,.22);stroke-width:.8;}
-  .arc{fill:none;stroke:url(#gGold);stroke-width:2.4;stroke-linecap:round;}
-  .hair{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:22px 0 18px;transform-origin:center;}
-  .sec{font-family:var(--grot);font-size:9px;letter-spacing:.36em;color:var(--muted);margin:0 0 10px;}
-  /* 遅れの帯グラフ */
-  .band{display:flex;gap:3px;height:3px;}
-  .band i{display:block;height:100%;transform-origin:left;}
-  .legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:10px;}
-  .legend div{padding:2px 0 0 10px;border-left:1px solid var(--hair);font-size:10.5px;color:var(--muted);letter-spacing:.06em;}
-  .legend div:first-child{border-left:0;padding-left:0;}
-  .legend b{display:block;font-family:var(--serif);font-weight:400;font-size:22px;color:var(--ink);letter-spacing:0;line-height:1.3;}
-  .legend .c1 b{color:var(--copper);}
-  /* 科目の縦棒（金の細線と点） */
-  .cols{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));align-items:end;height:92px;border-bottom:1px solid var(--hair);}
-  .col{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;}
-  .col .v{font-family:var(--serif);font-size:13px;color:var(--ink);margin-bottom:4px;}
-  .col .st{width:1px;background:linear-gradient(180deg,var(--gold-hi),rgba(200,182,138,.25));transform-origin:bottom;}
-  .col .st::before{content:'';position:absolute;left:50%;width:5px;height:5px;margin:-2px 0 0 -2.5px;border-radius:50%;background:var(--gold-hi);box-shadow:0 0 8px rgba(233,217,174,.7);}
-  .col .st{position:relative;}
-  .names{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));margin-top:6px;}
-  .names span{font-family:var(--serif);font-size:10.5px;color:var(--muted);text-align:center;white-space:nowrap;}
-  .how{font-family:var(--serif);font-size:12.5px;line-height:2;color:var(--muted);text-align:center;margin:18px 0 0;}
-  .how em{font-style:normal;color:var(--copper);}
-  .go{position:relative;overflow:hidden;display:block;width:100%;margin-top:22px;padding:15px;background:none;border:1px solid var(--gold);color:var(--gold);font-family:var(--serif);font-size:15px;letter-spacing:.6em;text-indent:.6em;cursor:pointer;white-space:nowrap;transition:background .4s var(--ease),color .4s var(--ease);}
-  .go:hover{background:var(--gold);color:#12100D;}
-  .go::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 38%,rgba(233,217,174,.35) 50%,transparent 62%);translate:-120% 0;}
-  .go.shine::after{animation:shine 1.6s var(--ease) forwards;}
-  .go:focus-visible,.back:focus-visible{outline:1px solid var(--gold-hi);outline-offset:4px;}
-  .back{display:block;margin:12px auto 0;background:none;border:0;padding:4px 8px;font-family:var(--serif);font-size:12px;letter-spacing:.3em;color:var(--dim);cursor:pointer;}
+  /* ════════ ここから ward.js の CSS をそのまま写したもの（現行） ════════ */
+#wardHud{position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));translate:-50% 0;z-index:8000;
+  width:min(600px,calc(100% - 20px));box-sizing:border-box;padding:9px 12px 10px;border-radius:16px;
+  background:linear-gradient(170deg,#12303A 0%,#0C2129 60%,#0F2630 100%);
+  border:1px solid rgba(126,214,223,.55);box-shadow:inset 0 0 0 3px rgba(6,16,20,.85),inset 0 0 0 4px rgba(126,214,223,.22),0 12px 30px rgba(0,0,0,.55);
+  color:#E8F6F8;pointer-events:none;transition:opacity .3s ease,translate .4s cubic-bezier(.2,1.3,.4,1);}
+#wardHud.hide{opacity:0;translate:-50% 140%;}
+#wardHud .wh-top{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:900;white-space:nowrap;}
+#wardHud .wh-tag{font-size:9.5px;letter-spacing:.28em;color:#7ED6DF;}
+#wardHud .wh-cnt{margin-left:auto;font-variant-numeric:tabular-nums;font-size:11.5px;color:rgba(232,246,248,.8);overflow:hidden;text-overflow:ellipsis;}
+#wardHud .wh-cnt b{font-size:13px;}
+#wardHud .wh-cnt .d{color:#6EE7B7}#wardHud .wh-cnt .s{color:#FCA5A5}
+#wardHud .wh-beds{display:flex;flex-wrap:wrap;gap:3px;margin-top:7px;}
+#wardHud .wh-bed{width:9px;height:9px;border-radius:3px;background:rgba(255,255,255,.12);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);transition:background .35s ease,scale .35s ease;}
+#wardHud .wh-bed.crit{box-shadow:inset 0 0 0 1.5px #F87171}
+#wardHud .wh-bed.warn{box-shadow:inset 0 0 0 1.5px #FBBF24}
+#wardHud .wh-bed.now{scale:1.35;background:rgba(126,214,223,.55)}
+#wardHud .wh-bed.discharge{background:#34D399;box-shadow:none}
+#wardHud .wh-bed.stay{background:#F87171;box-shadow:none}
+.wh-pop{position:fixed;z-index:8001;pointer-events:none;font-weight:900;font-size:15px;white-space:nowrap;translate:-50% 0;
+  padding:3px 10px;border-radius:99px;background:rgba(6,16,20,.85);border:1px solid currentColor;animation:whPop 1.1s cubic-bezier(.2,1,.3,1) forwards;}
+.wh-pop.discharge{color:#6EE7B7}.wh-pop.stay{color:#FCA5A5}
+@keyframes whPop{0%{opacity:0;transform:translateY(6px)}18%{opacity:1;transform:translateY(-6px)}75%{opacity:1}100%{opacity:0;transform:translateY(-30px)}}
+#wardBrief{position:fixed;left:0;top:0;width:100%;height:100dvh;z-index:9500;display:flex;align-items:center;justify-content:center;padding:14px;box-sizing:border-box;
+  background:rgba(4,12,16,.72);animation:wbIn .25s ease both;}
+#wardBrief .wb-box{width:min(620px,100%);max-height:100%;overflow-y:auto;box-sizing:border-box;padding:20px 18px 16px;border-radius:18px;
+  background:linear-gradient(170deg,#12303A,#0B1E25 70%);border:1px solid rgba(126,214,223,.6);
+  box-shadow:inset 0 0 0 3px rgba(6,16,20,.85),inset 0 0 0 4px rgba(126,214,223,.22),0 20px 50px rgba(0,0,0,.6);color:#E8F6F8;animation:wbRise .35s cubic-bezier(.2,1.2,.4,1) both;}
+#wardBrief .wb-tag{font-size:10px;font-weight:900;letter-spacing:.32em;color:#7ED6DF;}
+#wardBrief h3{margin:4px 0 2px;font-size:22px;font-weight:900;}
+#wardBrief .wb-date{font-size:12px;color:rgba(232,246,248,.65);}
+#wardBrief .wb-sum{display:flex;gap:8px;margin:14px 0 12px;}
+#wardBrief .wb-k{flex:1;padding:8px 6px;border-radius:12px;text-align:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);}
+#wardBrief .wb-k b{display:block;font-size:22px;font-variant-numeric:tabular-nums;line-height:1.1;}
+#wardBrief .wb-k span{font-size:10.5px;font-weight:800;opacity:.75;}
+#wardBrief .wb-k.crit b{color:#F87171}#wardBrief .wb-k.warn b{color:#FBBF24}#wardBrief .wb-k.stable b{color:#6EE7B7}
+#wardBrief .wb-rooms{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:7px;}
+#wardBrief .wb-room{padding:8px 9px;border-radius:11px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-left:3px solid var(--rc,#7ED6DF);
+  animation:wbIn .3s ease both;animation-delay:calc(var(--i,0) * 40ms);}
+#wardBrief .wb-rn{font-size:12px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#wardBrief .wb-rn small{font-weight:700;opacity:.6;margin-left:4px;}
+#wardBrief .wb-beds{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px;}
+#wardBrief .wb-bed{width:10px;height:10px;border-radius:3px;background:#34D399;}
+#wardBrief .wb-bed.warn{background:#FBBF24}#wardBrief .wb-bed.crit{background:#F87171}
+#wardBrief .wb-more{font-size:11.5px;color:rgba(232,246,248,.65);margin-top:10px;}
+#wardBrief .wb-howto{margin-top:12px;padding:9px 11px;border-radius:11px;font-size:12px;line-height:1.6;background:rgba(126,214,223,.08);border:1px dashed rgba(126,214,223,.4);}
+#wardBrief .wb-howto b{color:#7ED6DF;}
+#wardBrief .wb-btns{display:flex;gap:8px;margin-top:14px;}
+#wardBrief .wb-go{flex:1;padding:12px;border:0;border-radius:12px;font:inherit;font-size:15px;font-weight:900;cursor:pointer;color:#06201F;
+  background:linear-gradient(180deg,#8BE9F0,#4FC3CF);box-shadow:0 4px 16px rgba(79,195,207,.4);}
+#wardBrief .wb-back{padding:12px 14px;border-radius:12px;font-size:13px;font-weight:800;color:#E8F6F8;text-decoration:none;border:1px solid rgba(255,255,255,.25);}
+@keyframes wbIn{from{opacity:0}to{opacity:1}}
+@keyframes wbRise{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
+.exam-ward-res{margin:4px 0 12px;padding:14px 14px 12px;border-radius:14px;text-align:left;
+  background:linear-gradient(170deg,#12303A,#0B1E25 70%);border:1px solid rgba(126,214,223,.6);color:#E8F6F8;
+  box-shadow:inset 0 0 0 3px rgba(6,16,20,.85),inset 0 0 0 4px rgba(126,214,223,.22);}
+.exam-ward-res .ewr-tag{font-size:10px;font-weight:900;letter-spacing:.3em;color:#7ED6DF;}
+.exam-ward-res .ewr-sum{display:flex;gap:6px;margin:8px 0 10px;}
+.exam-ward-res .ewr-k{flex:1;text-align:center;padding:6px 4px;border-radius:10px;background:rgba(255,255,255,.05);}
+.exam-ward-res .ewr-k b{display:block;font-size:20px;font-variant-numeric:tabular-nums;}
+.exam-ward-res .ewr-k span{font-size:10.5px;font-weight:800;opacity:.75;}
+.exam-ward-res .ewr-k.d b{color:#6EE7B7}.exam-ward-res .ewr-k.s b{color:#FCA5A5}
+.exam-ward-res .ewr-h{font-size:11.5px;font-weight:900;margin:10px 0 5px;color:#BDEFF3;}
+.exam-ward-res .ewr-row{display:flex;align-items:center;gap:8px;font-size:12px;margin:3px 0;}
+.exam-ward-res .ewr-row .l{width:92px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:800;}
+.exam-ward-res .ewr-row .bar{flex:1;height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;display:flex;}
+.exam-ward-res .ewr-row .bar i{display:block;height:100%}
+.exam-ward-res .ewr-row .v{width:74px;flex-shrink:0;text-align:right;font-variant-numeric:tabular-nums;opacity:.85;}
+.exam-ward-res .ewr-note{font-size:12px;line-height:1.6;margin-top:6px;padding:7px 9px;border-radius:9px;background:rgba(255,255,255,.05);}
+.exam-ward-res .ewr-note.alert{background:rgba(248,113,113,.14);border:1px solid rgba(248,113,113,.45);}
+  /* ════════ ここまで現行 ════════ */
 
-  /* ══ 画面下の帯 ══ */
-  .hud{position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));translate:-50% 0;z-index:8000;width:min(560px,calc(100% - 20px));
-    display:flex;align-items:center;gap:14px;padding:8px 18px 8px 10px;border-radius:2px;pointer-events:none;
-    background:linear-gradient(180deg,#1A1713,#0D0B09);border:1px solid rgba(200,182,138,.3);box-shadow:0 14px 40px rgba(0,0,0,.6);
-    transition:opacity .6s var(--ease),translate .8s var(--ease);}
-  .hud.hide{opacity:0;translate:-50% 130%;}
-  .hud .mg{width:52px;height:52px;flex-shrink:0;}
-  .hud .mg svg{width:100%;height:100%;overflow:visible;}
-  .hud .mid{flex:1;min-width:0;}
-  .hud .t{font-family:var(--grot);font-size:8.5px;letter-spacing:.42em;color:var(--gold);}
-  .hud .k{font-family:var(--serif);font-size:24px;font-weight:300;line-height:1.2;white-space:nowrap;}
-  .hud .k small{font-size:12px;color:var(--muted);margin-left:4px;}
-  .hud .r{text-align:right;font-family:var(--serif);font-size:11.5px;color:var(--muted);line-height:1.7;white-space:nowrap;}
-  .hud .r b{font-weight:400;font-size:15px;color:var(--gold-hi);margin-left:6px;display:inline-block;}
-  .hud .r .x b{color:var(--copper);}
-  .hud .line{position:absolute;left:0;bottom:0;height:1px;background:var(--gold);transition:width 1s var(--ease);}
-  .whisper{position:fixed;z-index:8001;pointer-events:none;translate:-50% 0;font-family:var(--serif);font-size:15px;letter-spacing:.5em;text-indent:.5em;white-space:nowrap;
-    text-shadow:0 0 18px rgba(0,0,0,.9);animation:whisper 1.6s var(--ease) forwards;}
-  .whisper.ok{color:var(--gold-hi);} .whisper.ng{color:var(--copper);}
-  .spark{position:fixed;z-index:8001;left:0;top:0;width:4px;height:4px;margin:-2px 0 0 -2px;border-radius:50%;background:var(--gold-hi);box-shadow:0 0 6px var(--gold-hi);pointer-events:none;}
+  /* ══ A 動きを足す ══ */
+  .x-anim #wardBrief .wb-go{position:relative;overflow:hidden;}
+  .x-anim #wardBrief .wb-go::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.7) 50%,transparent 65%);translate:-110% 0;}
+  .x-anim #wardBrief .wb-go.shine::after{animation:xShine .9s cubic-bezier(.16,1,.3,1) forwards;}
+  @keyframes xShine{from{translate:-110% 0}to{translate:110% 0}}
+  .xpt{position:fixed;left:0;top:0;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;pointer-events:none;z-index:8002;}
 
-  /* ══ 結果 ══ */
-  .res{padding:32px 22px 24px;border-radius:4px;overflow:hidden;}
-  .res .gauge{width:min(240px,74%);}
-  .res .big{font-size:clamp(58px,17vw,78px);}
-  .res .hl{font-family:var(--serif);font-size:17px;text-align:center;margin-top:18px;letter-spacing:.12em;line-height:1.8;}
-  .res .hl b{font-weight:400;font-size:24px;color:var(--gold-hi);margin:0 2px;}
-  .trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:4px;}
-  .trio div{text-align:center;padding:0 4px;}
-  .trio div + div{border-left:1px solid var(--hair);}
-  .trio b{display:block;font-family:var(--serif);font-weight:300;font-size:28px;color:var(--ink-2);}
-  .trio b small{font-size:13px;color:var(--muted);}
-  .trio span{font-size:10.5px;color:var(--muted);letter-spacing:.08em;display:block;line-height:1.5;}
-  .rows .rw{display:grid;grid-template-columns:4.6em minmax(0,1fr) 3em;gap:12px;align-items:center;padding:6px 0;font-family:var(--serif);font-size:12px;border-bottom:1px solid rgba(200,182,138,.08);}
-  .rows .tr{position:relative;height:1px;background:rgba(200,182,138,.18);}
-  .rows .tr i{position:absolute;left:0;top:-1px;height:3px;background:linear-gradient(90deg,rgba(200,182,138,.5),var(--gold-hi));width:0;transition:width 1.4s var(--ease);}
-  .rows .tr i::after{content:'';position:absolute;right:-3px;top:-2px;width:7px;height:7px;border-radius:50%;background:var(--gold-hi);box-shadow:0 0 8px rgba(233,217,174,.8);}
-  .rows .v{text-align:right;color:var(--muted);}
-  .cal{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));align-items:end;gap:3px;height:70px;border-bottom:1px solid var(--hair);}
-  .cal .d{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;}
-  .cal .d i{display:block;width:100%;max-width:10px;background:linear-gradient(180deg,var(--gold-hi),rgba(200,182,138,.3));transform-origin:bottom;}
-  .cal .d i.ng{background:var(--copper);}
-  .cal .d em{font-style:normal;font-family:var(--serif);font-size:10px;color:var(--ink);margin-bottom:3px;}
-  .calx{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:3px;margin-top:5px;}
-  .calx span{font-size:9px;color:var(--dim);text-align:center;font-variant-numeric:tabular-nums;}
-  .calx span.w{color:var(--muted);}
-  .calleg{display:flex;justify-content:center;gap:18px;font-size:10.5px;color:var(--muted);margin-top:10px;}
-  .calleg i{display:inline-block;width:8px;height:8px;margin-right:6px;vertical-align:0;}
+  /* ══ B 円ゲージを足す ══ */
+  .wb-donut{flex:0 0 96px;position:relative;}
+  .wb-donut svg,.ewr-ring svg,.wh-ring svg{display:block;width:100%;height:auto;overflow:visible;}
+  .wb-donut .c,.ewr-ring .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05;}
+  .wb-donut .c b{font-size:24px;font-variant-numeric:tabular-nums;}
+  .wb-donut .c span,.ewr-ring .c span{font-size:9.5px;font-weight:800;opacity:.7;}
+  .x-gauge #wardBrief .wb-sum{align-items:center;}
+  .x-gauge #wardBrief .wb-sum .wb-ks{flex:1;display:flex;flex-direction:column;gap:5px;}
+  .x-gauge #wardBrief .wb-sum .wb-k{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;text-align:left;}
+  .x-gauge #wardBrief .wb-sum .wb-k b{font-size:18px;order:2;}
+  .wh-ring{width:40px;flex-shrink:0;}
+  .x-gauge #wardHud{display:flex;align-items:center;gap:10px;}
+  .x-gauge #wardHud .wh-main{flex:1;min-width:0;}
+  .ewr-ring{position:relative;width:104px;flex-shrink:0;}
+  .ewr-ring .c b{font-size:22px;color:#6EE7B7;font-variant-numeric:tabular-nums;}
+  .x-gauge .exam-ward-res .ewr-top{display:flex;align-items:center;gap:12px;margin:8px 0 10px;}
+  .x-gauge .exam-ward-res .ewr-top .ewr-sum{flex:1;flex-direction:column;margin:0;}
+  .seg{fill:none;stroke-width:9;transition:stroke-dasharray .6s cubic-bezier(.16,1,.3,1);}
 
-  /* ══ 動き ══ */
-  @keyframes fade{from{opacity:0}to{opacity:1}}
-  @keyframes rise{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
-  @keyframes shine{from{translate:-120% 0}to{translate:120% 0}}
-  @keyframes whisper{0%{opacity:0;transform:translateY(8px);letter-spacing:.9em}25%{opacity:1;transform:translateY(0);letter-spacing:.5em}75%{opacity:1}100%{opacity:0;transform:translateY(-10px)}}
-  .rv{opacity:0;}
-  .rv.on{animation:rv 1.2s var(--ease) both;}
-  @keyframes rv{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  .blurin{animation:blurin 1.8s var(--ease) both;}
-  @keyframes blurin{from{opacity:0;filter:blur(14px);transform:scale(1.08)}to{opacity:1;filter:none;transform:none}}
-  .spread{animation:spread 2s var(--ease) both;}
-  @keyframes spread{from{opacity:0;letter-spacing:1.3em}}
-  .draw{animation:draw 1.6s var(--ease) both;}
-  @keyframes draw{from{transform:scaleX(0)}}
-  @media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important;}}
+  /* ══ C 病棟ボードを大きく ══ */
+  .x-board #wardHud .wh-beds{display:none;}
+  .wh-wards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 12px;margin-top:7px;}
+  .wh-ward{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:800;min-width:0;padding:2px 4px;border-radius:6px;transition:background .3s;}
+  .wh-ward .n{width:4.6em;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.8;}
+  .wh-ward .bs{display:flex;gap:3px;flex-wrap:wrap;}
+  .wh-ward .k{margin-left:auto;font-variant-numeric:tabular-nums;opacity:.7;white-space:nowrap;}
+  .wh-ward.cur{background:rgba(126,214,223,.14);box-shadow:inset 0 0 0 1px rgba(126,214,223,.4);}
+  .wh-ward.cur .n{opacity:1;color:#7ED6DF;}
+  .wh-now{font-size:11px;color:#7ED6DF;margin-left:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+  /* ══ D 結果にグラフを足す ══ */
+  .ewr-sev{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;}
+  .ewr-sev > div{padding:6px 8px;border-radius:9px;background:rgba(255,255,255,.05);font-size:10.5px;font-weight:800;}
+  .ewr-sev .sb{height:5px;border-radius:99px;background:rgba(255,255,255,.1);margin-top:5px;overflow:hidden;}
+  .ewr-sev .sb i{display:block;height:100%;background:#34D399;border-radius:99px;}
+  .ewr-sev b{float:right;font-variant-numeric:tabular-nums;}
+  .ewr-cal{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:3px;align-items:end;height:64px;padding-bottom:2px;border-bottom:1px solid rgba(126,214,223,.3);}
+  .ewr-cal .d{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;}
+  .ewr-cal .d i{display:block;width:100%;max-width:12px;border-radius:3px 3px 0 0;background:#34D399;transform-origin:bottom;}
+  .ewr-cal .d i.st{background:#F87171;}
+  .ewr-cal .d em{font-style:normal;font-size:9.5px;font-weight:800;margin-bottom:2px;opacity:.85;}
+  .ewr-calx{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:3px;margin-top:3px;font-size:9px;text-align:center;opacity:.6;font-variant-numeric:tabular-nums;}
+  .ewr-ba{display:flex;align-items:center;gap:8px;font-size:11.5px;}
+  .ewr-ba .bar2{flex:1;height:10px;border-radius:99px;background:rgba(255,255,255,.08);display:flex;overflow:hidden;}
+  .ewr-ba .bar2 i{display:block;height:100%;}
+  .ewr-ba .l{width:3.4em;flex-shrink:0;font-weight:800;opacity:.8;}
 </style>
 </head>
 <body>
 <div class="harness">
-  <h1>定着プロトコル — ラグジュアリー × 円ゲージとグラフ（第6版）</h1>
-  <p>黒とシャンパンゴールドに、30本の目盛りの円ゲージ・遅れの帯グラフ・科目の棒グラフ・次に会う日の棒グラフを組み合わせました。① 開始前・② 解答中・③ 結果を切り替えて見てください。「↻ もう一度再生」で演出を頭から見られます。</p>
+  <h1>病棟回診 — 現行を拡張する5案</h1>
+  <p>今の ward.js の見た目をそのまま土台にして、足すものだけを変えた5案です。「現行」と見比べてください。案どうしは独立しているので、組み合わせて採れます（「全部入り」で全部重ねた姿も見られます）。</p>
+  <div class="plans" id="plans"></div>
+  <div class="desc" id="desc"></div>
   <div class="stages" id="stages">
-    <button data-s="brief">① 開始前</button><button data-s="run">② 解答中</button><button data-s="res">③ 結果</button><button class="replay" id="replay">↻ もう一度再生</button>
+    <button data-s="brief">① 朝の申し送り</button><button data-s="run">② 回診中（画面下）</button><button data-s="res">③ 結果</button><button class="replay" id="replay">↻ もう一度再生</button>
   </div>
   <div id="stage"></div>
 </div>
@@ -176,8 +188,9 @@
 'use strict';
 // ── 見本のデータ（決定論。本物の SRS は読まない） ─────────────────────
 const SUBJ = [
-  { id:'resp', name:'呼吸器' }, { id:'circ', name:'循環器' }, { id:'neur', name:'神経' },
-  { id:'endo', name:'内分泌' }, { id:'dige', name:'消化器' }, { id:'hema', name:'血液' },
+  { id:'resp', name:'呼吸器', icon:'🌬️', color:'#3B82F6' }, { id:'circ', name:'循環器', icon:'❤️', color:'#EF4444' },
+  { id:'neur', name:'神経',   icon:'🧠', color:'#22C55E' }, { id:'endo', name:'内分泌', icon:'⚗️', color:'#00A5B5' },
+  { id:'dige', name:'消化器', icon:'🌿', color:'#A855F7' }, { id:'hema', name:'血液',   icon:'🩸', color:'#DC2626' },
 ];
 function hash(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619);} return h>>>0; }
 const ITEMS = (() => {
@@ -187,193 +200,208 @@ const ITEMS = (() => {
     const uid = s.id+'_ch0'+(1+i%3)+'_q'+(11+i*7);
     const h = hash(uid);
     const sev = h%10<2 ? 'crit' : h%10<7 ? 'warn' : 'stable';
-    const late = sev==='crit' ? 7+(h>>>4)%6 : sev==='warn' ? 1+(h>>>4)%6 : 0;
-    out.push({ uid, sid:s.id, sev, late, h });
+    out.push({ uid, sid:s.id, sev, h });
   }});
-  return out.sort((a,b)=>b.late-a.late || a.h-b.h);   // 本物は _srsUrgency の降順
+  return out.sort((a,b)=>({crit:0,warn:1,stable:2}[a.sev]-{crit:0,warn:1,stable:2}[b.sev]) || a.h-b.h);   // 本物は _srsUrgency の降順
 })();
 const N = ITEMS.length;
 function autoOk(it){ return (it.h>>>8)%100 < (it.sev==='crit'?55:it.sev==='warn'?72:88); }
 function nextDays(it){ return it.sev==='crit'?3:it.sev==='warn'?6+(it.h%3):9+(it.h%6); }
 const subj = id => SUBJ.find(s=>s.id===id);
 const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function counts(){ const c={crit:0,warn:0,stable:0}; ITEMS.forEach(i=>c[i.sev]++); return c; }
-function groups(){ const m=new Map(); ITEMS.forEach(i=>{ if(!m.has(i.sid)) m.set(i.sid,[]); m.get(i.sid).push(i); }); return [...m.entries()].map(([sid,pts])=>({sid,pts})).sort((a,b)=>b.pts.length-a.pts.length); }
-const JD = () => new Date(Date.now()+9*3600000);
-const KANJI_M = ['一','二','三','四','五','六','七','八','九','十','十一','十二'];
-function dateStr(){ const d=JD(); return (d.getUTCMonth()+1)+'月'+d.getUTCDate()+'日　'+'日月火水木金土'[d.getUTCDay()]+'曜日'; }
-const f1 = x => x.toFixed(1);
 const $ = (s,r) => (r||document).querySelector(s);
 const $$ = (s,r) => [...(r||document).querySelectorAll(s)];
+function rooms(){ const m=new Map(); ITEMS.forEach(i=>{ if(!m.has(i.sid)) m.set(i.sid,[]); m.get(i.sid).push(i); }); return [...m.entries()].map(([sid,pts])=>({sid,pts})).sort((a,b)=>b.pts.length-a.pts.length); }
+function counts(){ const c={crit:0,warn:0,stable:0}; ITEMS.forEach(i=>c[i.sev]++); return c; }
+
+// ── 用語（E で差し替える） ───────────────────────────────────────────
+const TERMS = {
+  ward: { tag:'WARD ROUNDS', title:'🏥 朝の回診', crit:'重症', warn:'要注意', stable:'安定', unit:'名', pts:'入院患者', rooms:'病棟', ok:'退院', ng:'入院継続', ngS:'継続',
+    go:'回診を始める ▶', hud:'🏥 回診中', seen:'診察', res:'🏥 本日の回診', byRoom:'病棟ごとの転帰', next:'次の外来', popOk:'🏠 退院', popNg:'🛏 入院継続',
+    how:'重症（期限を大きく過ぎた問題）から順に回ります。正解で<b>退院</b>、誤答は<b>入院継続</b>（明日また回ります）。' },
+  proto:{ tag:'RETENTION PROTOCOL', title:'♾️ 定着プロトコル', crit:'大きく遅れ', warn:'遅れ', stable:'予定どおり', unit:'問', pts:'今日の問題', rooms:'科目', ok:'定着', ng:'もう一度', ngS:'もう一度',
+    go:'はじめる ▶', hud:'♾️ 定着プロトコル', seen:'解答', res:'♾️ 本日のプロトコル', byRoom:'科目ごとの定着', next:'次に会う日', popOk:'✓ 定着', popNg:'↻ もう一度',
+    how:'予定より大きく遅れた問題から順に出します。正解で<b>定着</b>、誤答は<b>もう一度</b>（明日また出ます）。' },
+};
+
+// ── 5案 ──────────────────────────────────────────────────────────
+const PLANS = {
+  cur:  { name:'現行', desc:'今の ward.js そのまま', flags:[] ,
+          text:'今の ward.js をそのまま写したものです。ここに足していきます。' },
+  A:    { name:'A 動きを足す', desc:'現れ方・はじけ・伸びる棒', flags:['anim'],
+          text:'<b>① ベッドが1床ずつ現れ</b>、重症・要注意・安定の数字が数え上がり、重症のベッドが2回点滅、最後にボタンに光が走ります。<b>② 解答のたび</b>に、そのベッドがはじけて粒が散り、数字が跳ねます。<b>③ 結果</b>は数字が数え上がり、病棟ごとの棒が左から伸びます。見た目の部品は1つも増やしません。' },
+  B:    { name:'B 円ゲージを足す', desc:'病状ドーナツ・進みのリング・退院率', flags:['gauge'],
+          text:'<b>① 申し送り</b>の3つの数字の左に、病状の内訳のドーナツ（中央に総数）。<b>② 病棟ボード</b>の左端に、退院（緑）と継続（赤）が伸びる小さなリング。<b>③ 結果</b>の退院・入院継続の横に、退院率のリング。' },
+  C:    { name:'C 病棟ボードを大きく', desc:'画面下を病棟ごとの段組みに', flags:['board'],
+          text:'<b>② 画面下の病棟ボード</b>を、病棟（科目）ごとの2列の段組みにします。いま診ている病棟が光り、上に「いま：❤️ 循環器 3/7」と出ます。どの科目がどこまで進んだか、ひと目で分かります（高さは少し増えます）。' },
+  D:    { name:'D 結果にグラフを足す', desc:'病状別の退院率・前後比較・14日', flags:['graphs'],
+          text:'<b>③ 結果</b>に3つのグラフを足します：病状（重症・要注意・安定）ごとの退院率、重症だった患者の「回診前→回診後」の比較、次の外来がこれから14日のどこに来るかの棒グラフ。' },
+  E:    { name:'E 名前と言葉を揃える', desc:'見た目は現行・言葉を定着プロトコルに', flags:['terms'],
+          text:'見た目は現行のまま、見出しと言葉をハブのボタン「♾️ 定着プロトコル」に揃えます：朝の回診→定着プロトコル、重症/要注意/安定→大きく遅れ/遅れ/予定どおり、退院/入院継続→定着/もう一度、病棟→科目。ベッドの見た目は残します。' },
+  all:  { name:'全部入り', desc:'A〜E をすべて重ねる', flags:['anim','gauge','board','graphs','terms'],
+          text:'A〜E をすべて重ねた姿です。実際には必要なものだけを選んで採れます。' },
+};
 
 // ── 演出の道具（時間の決まった一回きり） ────────────────────────────
-let TIMERS = [];
-const later = (fn, ms) => { const t=setTimeout(fn, ms); TIMERS.push(t); return t; };
+let TIMERS=[];
+const later=(fn,ms)=>{ const t=setTimeout(fn,ms); TIMERS.push(t); return t; };
 function clearTimers(){ TIMERS.forEach(clearTimeout); TIMERS=[]; }
-function anim(el, kf, opt){ try { return el.animate(kf, Object.assign({ fill:'both', easing:'cubic-bezier(.16,1,.3,1)' }, opt)); } catch(e){ return null; } }
-function countUp(el, to, dur, fmt){
-  if(!el) return; fmt=fmt||(v=>String(v)); const t0=performance.now(); let done=false;
-  const fin=()=>{ if(done) return; done=true; el.textContent=fmt(to); };
-  const step=now=>{ if(done) return; const p=Math.min(1,(now-t0)/dur); el.textContent=fmt(Math.round(to*(1-Math.pow(1-p,4)))); if(p<1) requestAnimationFrame(step); else fin(); };
-  requestAnimationFrame(step); later(fin, dur+400);
-}
-// .rv を順に浮かび上がらせる
-function reveal(root, start, gap){ $$('.rv',root).forEach((e,i)=>later(()=>e.classList.add('on'), start+i*gap)); }
+function anim(el,kf,opt){ try{ return el.animate(kf,Object.assign({fill:'both',easing:'cubic-bezier(.16,1,.3,1)'},opt)); }catch(e){ return null; } }
+function countUp(el,to,dur,fmt){ if(!el) return; fmt=fmt||(v=>String(v)); const t0=performance.now(); let done=false;
+  const fin=()=>{ if(done) return; done=true; el.textContent=fmt(to); anim(el,[{transform:'scale(1.25)'},{transform:'scale(1)'}],{duration:350}); };
+  const step=now=>{ if(done) return; const p=Math.min(1,(now-t0)/dur); el.textContent=fmt(Math.round(to*(1-Math.pow(1-p,3)))); if(p<1) requestAnimationFrame(step); else fin(); };
+  requestAnimationFrame(step); later(fin,dur+400); }
+function burst(x,y,color,n){ for(let i=0;i<n;i++){ const p=document.createElement('i'); p.className='xpt'; p.style.background=color; p.style.boxShadow='0 0 6px '+color; document.body.appendChild(p);
+  const a=Math.random()*Math.PI*2, d=18+Math.random()*26; anim(p,[{transform:'translate('+x+'px,'+y+'px)',opacity:1},{transform:'translate('+(x+Math.cos(a)*d)+'px,'+(y+Math.sin(a)*d)+'px) scale(0)',opacity:0}],{duration:600+Math.random()*300}); later(()=>p.remove(),1000); } }
 
-// ── 円ゲージ（1問＝1目盛り） ──────────────────────────────────────
-// st(it) … 目盛りの状態／arcPct … 金の弧（0〜100・null なら描かない）
-function gaugeSvg(st, arcPct, size){
-  const c=size/2, R1=size*.43, R2=size*.49, R2c=size*.51, Ro=size*.395;
-  let s='<defs><linearGradient id="gGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8E7A4E"/><stop offset=".5" stop-color="#E9D9AE"/><stop offset="1" stop-color="#C8B68A"/></linearGradient></defs>';
-  s+='<circle class="orbit" cx="'+c+'" cy="'+c+'" r="'+f1(Ro)+'" pathLength="1"/>';
-  if(arcPct!=null) s+='<circle class="arc" cx="'+c+'" cy="'+c+'" r="'+f1(Ro)+'" pathLength="100" stroke-dasharray="'+arcPct+' 100" transform="rotate(-90 '+c+' '+c+')"/>';
-  ITEMS.forEach((it,k)=>{ const a=-Math.PI/2+(k+.5)/N*Math.PI*2, r2=it.sev==='crit'?R2c:R2;
-    s+='<line class="tk '+st(it)+'" data-b="'+it.sev+'" data-u="'+esc(it.uid)+'" x1="'+f1(c+R1*Math.cos(a))+'" y1="'+f1(c+R1*Math.sin(a))+'" x2="'+f1(c+r2*Math.cos(a))+'" y2="'+f1(c+r2*Math.sin(a))+'"/>'; });
-  return '<svg viewBox="0 0 '+size+' '+size+'">'+s+'</svg>';
-}
-// 目盛りを12時から時計回りに1本ずつ灯し、細い円を一周描く
-function lightTicks(root, start, per){
-  $$('.tk',root).forEach((t,k)=>{ t.style.opacity='0'; later(()=>{ t.style.opacity=''; anim(t,[{opacity:0},{opacity:1}],{duration:500}); }, start+k*per); });
-  const o=$('.orbit',root); if(o){ o.style.strokeDasharray='1'; o.style.strokeDashoffset='1'; anim(o,[{strokeDashoffset:1},{strokeDashoffset:0}],{duration:N*per+400,delay:start,easing:'cubic-bezier(.45,0,.2,1)'}); }
-}
+// 円（ドーナツ・リング）：parts=[[値, 色], ...]、total を一周とする
+function donut(parts, total, size, sw){ const r=(size-sw)/2, c=size/2; let off=0, s='<circle cx="'+c+'" cy="'+c+'" r="'+r+'" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="'+sw+'"/>';
+  parts.forEach(([v,col,cls])=>{ const p=total?v/total*100:0; s+='<circle class="seg '+(cls||'')+'" cx="'+c+'" cy="'+c+'" r="'+r+'" pathLength="100" stroke="'+col+'" stroke-width="'+sw+'" stroke-dasharray="'+p.toFixed(2)+' 100" stroke-dashoffset="'+(-off).toFixed(2)+'" transform="rotate(-90 '+c+' '+c+')"/>'; off+=p; });
+  return '<svg viewBox="0 0 '+size+' '+size+'">'+s+'</svg>'; }
 
 // ── 状態 ───────────────────────────────────────────────────────────
-let stage='brief', S;
-function reset(){ S={ recs:[], i:0 }; }
+let plan='cur', stage='brief', S;
+function reset(){ S={ res:{}, recs:[], i:0 }; }
 reset();
-const nowUid = () => S.i < N ? ITEMS[S.i].uid : null;
-const outN = k => S.recs.filter(r=>r.o===k).length;
+const F = f => PLANS[plan].flags.includes(f);
+const T = () => F('terms') ? TERMS.proto : TERMS.ward;
 const $stage = () => document.getElementById('stage');
+function dateLine(){ const d=new Date(Date.now()+9*3600000); return (d.getUTCMonth()+1)+'月'+d.getUTCDate()+'日('+'日月火水木金土'[d.getUTCDay()]+')'; }
 
-function report(){
-  const recs = S.recs.length ? S.recs : ITEMS.map(it=>({ uid:it.uid, o:autoOk(it)?'ok':'ng' }));
-  const res={}; recs.forEach(r=>res[r.uid]=r.o);
-  const done=ITEMS.filter(i=>res[i.uid]);
-  const byG=new Map(); done.forEach(i=>{ if(!byG.has(i.sid)) byG.set(i.sid,{ok:0,n:0}); const b=byG.get(i.sid); if(res[i.uid]==='ok') b.ok++; b.n++; });
-  const crit=done.filter(i=>i.sev==='crit'), critOk=crit.filter(i=>res[i.uid]==='ok').length;
-  const nx=done.filter(i=>res[i.uid]==='ok').map(nextDays).sort((a,b)=>a-b);
-  const cal={}; done.forEach(i=>{ const d=res[i.uid]==='ok'?nextDays(i):1; (cal[d]=cal[d]||{ok:0,ng:0})[res[i.uid]]++; });
-  const ok=done.filter(i=>res[i.uid]==='ok').length;
-  return { res, n:done.length, ok, ng:done.length-ok, pct:Math.round(ok/Math.max(1,done.length)*100), grp:[...byG.entries()].sort((a,b)=>b[1].n-a[1].n), crit, critOk, med:nx.length?nx[Math.floor(nx.length/2)]:null, cal };
-}
-
-// ── ① 開始前 ────────────────────────────────────────────────────────
+// ── ① 朝の申し送り（ward.js の briefing と同じ組み立て＋拡張） ─────────
 function showBrief(){
-  clearLayers();
-  const c=counts(), g=groups(), mx=Math.max(...g.map(x=>x.pts.length));
-  const ov=document.createElement('div'); ov.className='ov'; ov.setAttribute('role','dialog'); ov.setAttribute('aria-modal','true');
-  ov.innerHTML='<div class="box lux">'+
-    '<div class="eye spread">DAILY RETENTION</div>'+
-    '<div class="date rv">'+dateStr()+'</div>'+
-    '<div class="gauge">'+gaugeSvg(it=>it.sev, null, 250)+'<div class="c"><div class="big blurin" style="animation-delay:.3s"><span class="num" id="bN">0</span><small>問</small></div><div class="cap rv">定着プロトコル</div></div></div>'+
-    '<div class="hair draw" style="animation-delay:1.1s"></div>'+
-    '<div class="rv"><div class="sec">遅れの内訳</div>'+
-      '<div class="band"><i style="flex:'+c.crit+';background:var(--copper)"></i><i style="flex:'+c.warn+';background:var(--gold)"></i><i style="flex:'+c.stable+';background:var(--stone)"></i></div>'+
-      '<div class="legend"><div class="c1"><b class="num">'+c.crit+'</b>大きく遅れ</div><div><b class="num">'+c.warn+'</b>遅れ</div><div><b class="num">'+c.stable+'</b>予定どおり</div></div></div>'+
-    '<div class="rv" style="margin-top:22px"><div class="sec">科目</div>'+
-      '<div class="cols">'+g.map(x=>'<div class="col"><span class="v num">'+x.pts.length+'</span><span class="st" style="height:'+Math.round(x.pts.length/mx*62)+'px"></span></div>').join('')+'</div>'+
-      '<div class="names">'+g.map(x=>'<span>'+esc(subj(x.sid).name)+'</span>').join('')+'</div></div>'+
-    '<p class="how rv">目盛りの一本一本が、今日の問題です。<br><em>銅色</em>は、約束の日を大きく過ぎた記憶。<br>遅れの大きい順にお出しします。</p>'+
-    '<button class="go rv">はじめる</button><button class="back rv">あとで</button></div>';
-  document.body.appendChild(ov);
-  const box=$('.box',ov);
-  $('.go',ov).onclick=()=>{ ov.remove(); setStage('run'); };
-  $('.back',ov).onclick=()=>{ clearTimers(); ov.remove(); };
-  ov.addEventListener('click',e=>{ if(e.target===ov){ clearTimers(); ov.remove(); } });
-  // 演出：目盛りが一周灯る → 数字が数え上がる → 帯グラフ・棒グラフ → ボタンに光が走る
-  lightTicks(box, 350, 38);
-  countUp($('#bN',box), N, 1500);
-  reveal(box, 500, 170);
-  later(()=>{ $$('.band i',box).forEach((i,k)=>anim(i,[{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:1200,delay:k*120})); }, 1250);
-  later(()=>{ $$('.col .st',box).forEach((s,k)=>anim(s,[{transform:'scaleY(0)'},{transform:'scaleY(1)'}],{duration:1100,delay:k*90})); $$('.col .v',box).forEach((v,k)=>anim(v,[{opacity:0},{opacity:1}],{duration:700,delay:500+k*90})); }, 1500);
-  later(()=>$('.go',box).classList.add('shine'), 2700);
-  $stage().innerHTML='<p class="hint">開始前の画面は全画面で重なります。背景か「あとで」で閉じ、「はじめる」で②へ進みます。</p>';
+  clearLayers(); const t=T(), c=counts(), rs=rooms();
+  const kbox = '<div class="wb-k crit"><b class="num">'+c.crit+'</b><span>'+t.crit+'</span></div><div class="wb-k warn"><b class="num">'+c.warn+'</b><span>'+t.warn+'</span></div><div class="wb-k stable"><b class="num">'+c.stable+'</b><span>'+t.stable+'</span></div>';
+  const el=document.createElement('div'); el.id='wardBrief'; el.setAttribute('role','dialog'); el.setAttribute('aria-modal','true');
+  el.innerHTML='<div class="wb-box">'+
+    '<div class="wb-tag">'+t.tag+'</div><h3>'+t.title+'</h3>'+
+    '<div class="wb-date">'+dateLine()+'　'+t.pts+' '+N+t.unit+'・'+rs.length+t.rooms+'</div>'+
+    (F('gauge')
+      ? '<div class="wb-sum"><div class="wb-donut">'+donut([[c.crit,'#F87171'],[c.warn,'#FBBF24'],[c.stable,'#34D399']],N,96,11)+'<div class="c"><b class="num">'+N+'</b><span>'+t.unit+'</span></div></div><div class="wb-ks">'+kbox+'</div></div>'
+      : '<div class="wb-sum">'+kbox+'</div>')+
+    '<div class="wb-rooms">'+rs.map((r,i)=>{ const s=subj(r.sid);
+      return '<div class="wb-room" style="--rc:'+s.color+';--i:'+i+'"><div class="wb-rn">'+esc(s.icon+' '+s.name)+'<small>'+r.pts.length+t.unit+'</small></div><div class="wb-beds">'+r.pts.map(p=>'<i class="wb-bed '+p.sev+'"></i>').join('')+'</div></div>'; }).join('')+'</div>'+
+    '<div class="wb-howto">'+t.how+'</div>'+
+    '<div class="wb-btns"><a class="wb-back" href="#">ハブへ</a><button type="button" class="wb-go">'+t.go+'</button></div></div>';
+  document.body.appendChild(el);
+  $('.wb-go',el).onclick=()=>{ el.remove(); setStage('run'); };
+  $('.wb-back',el).onclick=e=>{ e.preventDefault(); clearTimers(); el.remove(); };
+  el.addEventListener('click',e=>{ if(e.target===el){ clearTimers(); el.remove(); } });
+  if(F('gauge')) $$('.wb-donut .seg',el).forEach((s,i)=>{ const d=s.getAttribute('stroke-dasharray'); s.setAttribute('stroke-dasharray','0 100'); later(()=>s.setAttribute('stroke-dasharray',d), 250+i*180); });
+  if(F('anim')){
+    $$('.wb-k b',el).forEach((b,i)=>{ const v=+b.textContent; b.textContent='0'; later(()=>countUp(b,v,900),200+i*120); });
+    let n=0; $$('.wb-bed',el).forEach(b=>{ b.style.opacity='0'; const k=n++; later(()=>{ b.style.opacity=''; anim(b,[{transform:'scale(0)'},{transform:'scale(1.5)',offset:.6},{transform:'scale(1)'}],{duration:360});
+      if(b.classList.contains('crit')) later(()=>anim(b,[{opacity:1},{opacity:.25},{opacity:1},{opacity:.25},{opacity:1}],{duration:900}),380); }, 300+k*32); });
+    later(()=>$('.wb-go',el).classList.add('shine'), 300+N*32+500);
+  }
+  $stage().innerHTML='<p class="hint">朝の申し送りは全画面で重なります。背景か「ハブへ」で閉じ、開始のボタンで②へ進みます。</p>';
 }
 
-// ── ② 解答中の画面下の帯 ────────────────────────────────────────────
+// ── ② 画面下の病棟ボード ────────────────────────────────────────────
 function hudEl(){
-  let h=document.getElementById('hud');
-  if(!h){ h=document.createElement('div'); h.id='hud'; h.className='hud hide'; h.setAttribute('role','status');
-    h.innerHTML='<div class="mg">'+gaugeSvg(it=>it.sev, 0, 52)+'</div>'+
-      '<div class="mid"><div class="t">RETENTION</div><div class="k"><span class="num kk">0</span><small>/ '+N+'</small></div></div>'+
-      '<div class="r"><div>定着<b class="num ko">0</b></div><div class="x">もう一度<b class="num kx">0</b></div></div><div class="line"></div>';
-    document.body.appendChild(h); requestAnimationFrame(()=>requestAnimationFrame(()=>h.classList.remove('hide'))); }
+  let h=document.getElementById('wardHud');
+  if(h) return h;
+  const t=T(); h=document.createElement('div'); h.id='wardHud'; h.className='hide'; h.setAttribute('role','status');
+  const beds='<div class="wh-beds">'+ITEMS.map(i=>'<i class="wh-bed '+i.sev+'" data-u="'+esc(i.uid)+'"></i>').join('')+'</div>';
+  const board=F('board')?'<div class="wh-wards">'+rooms().map(r=>{ const s=subj(r.sid); return '<div class="wh-ward" data-sid="'+r.sid+'"><span class="n">'+esc(s.icon+' '+s.name)+'</span><span class="bs">'+r.pts.map(i=>'<i class="wh-bed '+i.sev+'" data-u="'+esc(i.uid)+'"></i>').join('')+'</span><span class="k num"></span></div>'; }).join('')+'</div>':'';
+  const main='<div class="wh-top"><span class="wh-tag">'+t.hud+'</span>'+(F('board')?'<span class="wh-now"></span>':'')+'<span class="wh-cnt"></span></div>'+(F('board')?board:beds);
+  h.innerHTML = F('gauge') ? '<div class="wh-ring">'+donut([[0,'#34D399','rd'],[0,'#F87171','rs']],N,40,6)+'</div><div class="wh-main">'+main+'</div>' : main;
+  document.body.appendChild(h); later(()=>h.classList.remove('hide'), 60);
   return h;
 }
 function paint(){
-  const h=hudEl(), res={}, now=nowUid(); S.recs.forEach(r=>res[r.uid]=r.o);
-  $$('.tk',h).forEach(t=>{ const u=t.dataset.u; t.setAttribute('class','tk '+(res[u]||t.dataset.b)+(!res[u]&&u===now?' now':'')); });
-  const arc=$('.arc',h); if(arc) arc.setAttribute('stroke-dasharray', f1(S.recs.length/N*100)+' 100');
-  $('.kk',h).textContent=S.recs.length; $('.ko',h).textContent=outN('ok'); $('.kx',h).textContent=outN('ng');
-  $('.line',h).style.width=(S.recs.length/N*100)+'%';
+  const h=hudEl(), t=T(); const now=S.i<N?ITEMS[S.i].uid:null; const d=S.recs.filter(r=>r.o==='discharge').length, st=S.recs.length-d;
+  $('.wh-cnt',h).innerHTML=t.seen+' <b>'+S.recs.length+'</b>/'+N+'　<span class="d">'+t.ok+' <b>'+d+'</b></span>　<span class="s">'+t.ngS+' <b>'+st+'</b></span>';
+  $$('.wh-bed',h).forEach(b=>{ const it=ITEMS.find(i=>i.uid===b.dataset.u), r=S.res[it.uid]; b.className='wh-bed '+(r?r:it.sev)+(!r&&it.uid===now?' now':''); });
+  if(F('gauge')){ const [rd,rs]=$$('.wh-ring .seg',h); rd.setAttribute('stroke-dasharray',(d/N*100).toFixed(2)+' 100'); rs.setAttribute('stroke-dasharray',(st/N*100).toFixed(2)+' 100'); rs.setAttribute('stroke-dashoffset',(-(d/N*100)).toFixed(2)); }
+  if(F('board')){ const cur=now?ITEMS.find(i=>i.uid===now).sid:null;
+    $$('.wh-ward',h).forEach(w=>{ const pts=ITEMS.filter(i=>i.sid===w.dataset.sid), done=pts.filter(i=>S.res[i.uid]).length; $('.k',w).textContent=done+'/'+pts.length; w.classList.toggle('cur', w.dataset.sid===cur); });
+    const nw=$('.wh-now',h); if(cur){ const s=subj(cur), pts=ITEMS.filter(i=>i.sid===cur); nw.textContent='いま：'+s.icon+' '+s.name+' '+(pts.filter(i=>S.res[i.uid]).length+1)+'/'+pts.length; } else nw.textContent='';
+  }
 }
 function answer(ok){
-  if(S.i>=N) return; const it=ITEMS[S.i++], o=ok?'ok':'ng', h=hudEl();
-  S.recs.push({uid:it.uid,o}); paint();
-  const t=$('[data-u="'+it.uid+'"]',h), r=t.getBoundingClientRect(), x=r.left+r.width/2, y=r.top+r.height/2;
-  // 静かな演出：目盛りが灯り、金の粒がこぼれ、言葉が一つ浮かぶ（誤答は銅色で沈む）
-  if(o==='ok'){ for(let i=0;i<8;i++){ const s=document.createElement('i'); s.className='spark'; document.body.appendChild(s); const a=Math.random()*Math.PI*2, d=14+Math.random()*22;
-      anim(s,[{transform:'translate('+x+'px,'+y+'px)',opacity:1},{transform:'translate('+(x+Math.cos(a)*d)+'px,'+(y+Math.sin(a)*d-10)+'px) scale(.3)',opacity:0}],{duration:900+Math.random()*500}); later(()=>s.remove(),1500); }
-    anim($('.ko',h),[{transform:'scale(1.4)',color:'#fff'},{transform:'scale(1)'}],{duration:700}); }
-  else { anim(h,[{boxShadow:'0 0 0 1px rgba(201,142,114,.9),0 14px 40px rgba(0,0,0,.6)'},{boxShadow:'0 0 0 1px rgba(201,142,114,0),0 14px 40px rgba(0,0,0,.6)'}],{duration:1100,fill:'none'}); anim($('.kx',h),[{transform:'scale(1.3)'},{transform:'scale(1)'}],{duration:600}); }
-  const hr=h.getBoundingClientRect(), w=document.createElement('div'); w.className='whisper '+o; w.textContent=o==='ok'?'定着':'もう一度';
-  w.style.left=(hr.left+hr.width/2)+'px'; w.style.top=(hr.top-40)+'px'; document.body.appendChild(w); later(()=>w.remove(),1700);
+  if(S.i>=N) return; const it=ITEMS[S.i++], o=ok?'discharge':'stay', t=T();
+  S.res[it.uid]=o; S.recs.push({uid:it.uid,o}); paint();
+  const h=hudEl(), r=h.getBoundingClientRect();
+  const p=document.createElement('div'); p.className='wh-pop '+o; p.textContent=o==='discharge'?t.popOk:t.popNg; p.style.left=(r.left+r.width/2)+'px'; p.style.top=(r.top-34)+'px'; document.body.appendChild(p); later(()=>p.remove(),1200);
+  if(F('anim')){ const b=$('.wh-bed[data-u="'+it.uid+'"]',h), br=b.getBoundingClientRect(), x=br.left+br.width/2, y=br.top+br.height/2;
+    anim(b,[{transform:'scale(2.4)'},{transform:'scale(1)'}],{duration:500});
+    if(o==='discharge') burst(x,y,'#6EE7B7',10); else anim(h,[{transform:'translateX(0)'},{transform:'translateX(-5px)'},{transform:'translateX(4px)'},{transform:'translateX(0)'}],{duration:300,fill:'none'});
+    const bb=$('.wh-cnt '+(o==='discharge'?'.d':'.s')+' b',h); if(bb) anim(bb,[{transform:'scale(1.5)'},{transform:'scale(1)'}],{duration:350}); }
   renderRun();
 }
 function renderRun(){
   const it=ITEMS[S.i];
-  $stage().innerHTML=(it?'<div class="mockq"><span class="qn">Q.'+it.uid.split('_q')[1]+'</span>　<span style="font-size:12px;opacity:.7">'+esc(subj(it.sid).name)+'</span><div class="qt">（問題文の見本）62歳の男性。……最も考えられるのはどれか。</div>'+
+  $stage().innerHTML=(it?'<div class="mockq"><span class="qn">Q.'+it.uid.split('_q')[1]+'</span>　<span style="font-size:12px;opacity:.7">'+esc(subj(it.sid).icon+' '+subj(it.sid).name)+'</span><div class="qt">（問題文の見本）62歳の男性。……最も考えられるのはどれか。</div>'+
       ['a','b','c','d','e'].map(k=>'<div class="ch">'+k+'　選択肢</div>').join('')+'</div>'
       :'<div class="mockq"><div class="qt">全'+N+'問を解き終えました。③ 結果へ。</div></div>')+
     '<div class="sim"><button class="ok">正解させる</button><button class="ng">誤答させる</button><button class="auto">残りを自動で</button><button class="rst">最初から</button></div>'+
-    '<p class="hint">画面下の帯は表示だけで押せません。</p>';
+    '<p class="hint">画面下が病棟ボードです（表示だけで押せません）。</p>';
   const st=$stage();
   $('.ok',st).onclick=()=>answer(true);
   $('.ng',st).onclick=()=>answer(false);
-  $('.auto',st).onclick=()=>{ const step=()=>{ if(S.i>=N||stage!=='run') return; answer(autoOk(ITEMS[S.i])); later(step,520); }; step(); };
-  $('.rst',st).onclick=()=>{ reset(); document.getElementById('hud')?.remove(); paint(); renderRun(); };
+  $('.auto',st).onclick=()=>{ const step=()=>{ if(S.i>=N||stage!=='run') return; answer(autoOk(ITEMS[S.i])); later(step,380); }; step(); };
+  $('.rst',st).onclick=()=>{ reset(); document.getElementById('wardHud')?.remove(); paint(); renderRun(); };
 }
 function showRun(){ clearLayers(); paint(); renderRun(); }
 
-// ── ③ 結果 ─────────────────────────────────────────────────────────
+// ── ③ 結果（ward.js の decorateSummary と同じ組み立て＋拡張） ───────────
 function showRes(){
-  clearLayers(); const R=report();
-  const t=JD(); let cal='', calx='', mx=1;
-  for(let d=1;d<=14;d++){ const c=R.cal[d]; if(c) mx=Math.max(mx,c.ok+c.ng); }
-  for(let d=1;d<=14;d++){ const c=R.cal[d]||{ok:0,ng:0}, x=new Date(t.getTime()+d*86400000), wk=x.getUTCDay()===0||x.getUTCDay()===6;
-    cal+='<div class="d">'+((c.ok+c.ng)?'<em class="num">'+(c.ok+c.ng)+'</em>':'')+(c.ng?'<i class="ng" style="height:'+Math.round(c.ng/mx*48)+'px"></i>':'')+(c.ok?'<i style="height:'+Math.round(c.ok/mx*48)+'px"></i>':'')+'</div>';
-    calx+='<span class="'+(wk?'w':'')+'">'+(d===1?'明日':x.getUTCDate())+'</span>'; }
-  $stage().innerHTML='<div class="sumwrap"><div class="fake">ここより上に今の結果画面（正答率・所要時間など）が並び、下のブロックが差し替わります。'+(S.recs.length?'':'②で解いていないので見本の正誤で埋めています。')+'</div>'+
-    '<div class="res lux">'+
-      '<div class="eye spread">RETENTION REPORT</div><div class="date rv">'+dateStr()+'</div>'+
-      '<div class="gauge">'+gaugeSvg(it=>R.res[it.uid]||'stable', 0, 240)+'<div class="c"><div class="big blurin" style="animation-delay:.3s"><span class="num" id="rP">0</span><small>%</small></div><div class="cap rv">定着率</div></div></div>'+
-      '<div class="hl rv"><b class="num">'+R.n+'</b>問のうち、<b class="num" id="rOk">0</b>問が定着。</div>'+
-      '<div class="hair draw" style="animation-delay:1.6s"></div>'+
-      '<div class="trio rv"><div><b class="num">'+R.ng+'</b><span>明日もう一度</span></div><div><b class="num">'+R.critOk+'<small>/'+R.crit.length+'</small></b><span>大きく遅れていた記憶</span></div><div><b class="num">'+(R.med!=null?R.med:'—')+'<small>日</small></b><span>次に会うまで</span></div></div>'+
-      '<div class="rv" style="margin-top:24px"><div class="sec">科目ごとの定着</div><div class="rows">'+R.grp.map(([sid,b])=>'<div class="rw"><span>'+esc(subj(sid).name)+'</span><span class="tr"><i data-w="'+(b.ok/b.n*100).toFixed(1)+'"></i></span><span class="v num">'+b.ok+'/'+b.n+'</span></div>').join('')+'</div></div>'+
-      '<div class="rv" style="margin-top:24px"><div class="sec">次に会う日（これから14日）</div><div class="cal">'+cal+'</div><div class="calx">'+calx+'</div>'+
-        '<div class="calleg"><span><i style="background:var(--gold)"></i>定着（間隔が伸びた）</span><span><i style="background:var(--copper)"></i>もう一度</span></div></div>'+
-    '</div></div>';
-  const res=$('.res');
-  // 演出：目盛りが元の灰で一周灯る → 正解の目盛りが順に金に変わり、金の弧が伸びる → 数字が数え上がる → グラフが伸びる
-  lightTicks(res, 200, 30);
-  $$('.tk',res).forEach(t=>t.setAttribute('class','tk stable'));
-  let lit=0; const arc=$('.arc',res);
-  ITEMS.forEach((it,k)=>{ const o=R.res[it.uid]; if(!o) return; later(()=>{ const tk=$('[data-u="'+it.uid+'"]',res); tk.setAttribute('class','tk '+o); if(o==='ok'){ lit++; arc.setAttribute('stroke-dasharray', f1(lit/R.n*100)+' 100'); } }, 1300+k*45); });
-  arc.style.transition='stroke-dasharray .5s cubic-bezier(.16,1,.3,1)';
-  later(()=>countUp($('#rP',res), R.pct, 1600), 1300);
-  later(()=>countUp($('#rOk',res), R.ok, 1400), 1500);
-  reveal(res, 400, 200);
-  later(()=>$$('.rows .tr i',res).forEach((i,k)=>later(()=>i.style.width=i.dataset.w+'%', k*120)), 2200);
-  later(()=>$$('.cal .d i',res).forEach((i,k)=>anim(i,[{transform:'scaleY(0)'},{transform:'scaleY(1)'}],{duration:900,delay:k*50})), 2500);
+  clearLayers(); const t=T();
+  const recs = S.recs.length ? S.recs : ITEMS.map(it=>({uid:it.uid,o:autoOk(it)?'discharge':'stay'}));
+  const res={}; recs.forEach(r=>res[r.uid]=r.o);
+  const out={discharge:0,stay:0}; recs.forEach(r=>out[r.o]++);
+  const byRoom=new Map(); recs.forEach(r=>{ const sid=r.uid.split('_ch')[0]; if(!byRoom.has(sid)) byRoom.set(sid,{discharge:0,stay:0,n:0}); const b=byRoom.get(sid); b[r.o]++; b.n++; });
+  const roomHtml=[...byRoom.entries()].sort((a,b)=>b[1].n-a[1].n).map(([sid,b])=>{ const s=subj(sid), w=k=>(b[k]/b.n*100).toFixed(1)+'%';
+    return '<div class="ewr-row"><span class="l">'+esc(s.icon+' '+s.name)+'</span><span class="bar"><i data-w="'+w('discharge')+'" style="width:'+w('discharge')+';background:#34D399"></i><i data-w="'+w('stay')+'" style="width:'+w('stay')+';background:#F87171"></i></span><span class="v">'+t.ok+' '+b.discharge+'/'+b.n+'</span></div>'; }).join('');
+  const done=ITEMS.filter(i=>res[i.uid]);
+  const nx=done.filter(i=>res[i.uid]==='discharge').map(nextDays).sort((a,b)=>a-b), med=nx.length?nx[Math.floor(nx.length/2)]:null;
+  const crit=done.filter(i=>i.sev==='crit'), critOut=crit.filter(i=>res[i.uid]==='discharge').length;
+  let notes='';
+  if(crit.length) notes+='<div class="ewr-note'+(critOut<crit.length?' alert':'')+'">🚨 '+t.crit+' '+crit.length+t.unit+'のうち <b>'+critOut+t.unit+'が'+t.ok+'</b>'+(critOut<crit.length?'。残る '+(crit.length-critOut)+t.unit+'は明日も'+(F('terms')?'出ます。':'回ります。'):'。')+'</div>';
+  if(med!=null) notes+='<div class="ewr-note">🏠 '+t.ok+'した '+nx.length+t.unit+'の'+t.next+'は 中央値 <b>'+med+'日後</b>。</div>';
+  const pct=Math.round(out.discharge/recs.length*100);
+  const sumHtml='<div class="ewr-sum"><div class="ewr-k d"><b class="num">'+out.discharge+'</b><span>'+t.ok+'</span></div><div class="ewr-k s"><b class="num">'+out.stay+'</b><span>'+t.ng+'</span></div></div>';
+  let graphs='';
+  if(F('graphs')){
+    const sevRate=['crit','warn','stable'].map(sv=>{ const g=done.filter(i=>i.sev===sv), k=g.filter(i=>res[i.uid]==='discharge').length; return '<div>'+t[sv]+'<b class="num">'+k+'/'+g.length+'</b><div class="sb"><i data-w="'+(g.length?k/g.length*100:0).toFixed(1)+'%" style="width:'+(g.length?k/g.length*100:0).toFixed(1)+'%"></i></div></div>'; }).join('');
+    const cal={}; done.forEach(i=>{ const d=res[i.uid]==='discharge'?nextDays(i):1; (cal[d]=cal[d]||{d:0,s:0})[res[i.uid]==='discharge'?'d':'s']++; });
+    let mx=1; for(let d=1;d<=14;d++) if(cal[d]) mx=Math.max(mx,cal[d].d+cal[d].s);
+    const base=new Date(Date.now()+9*3600000); let cb='', cx='';
+    for(let d=1;d<=14;d++){ const c=cal[d]||{d:0,s:0}; cb+='<div class="d">'+((c.d+c.s)?'<em>'+(c.d+c.s)+'</em>':'')+(c.s?'<i class="st" style="height:'+Math.round(c.s/mx*44)+'px"></i>':'')+(c.d?'<i style="height:'+Math.round(c.d/mx*44)+'px"></i>':'')+'</div>'; cx+='<span>'+(d===1?'明日':new Date(base.getTime()+d*86400000).getUTCDate())+'</span>'; }
+    graphs='<div class="ewr-h">'+(F('terms')?'遅れ具合':'病状')+'ごとの'+t.ok+'率</div><div class="ewr-sev">'+sevRate+'</div>'+
+      '<div class="ewr-h">'+t.crit+'だった'+(F('terms')?'問題':'患者')+'（前→後）</div>'+
+      '<div class="ewr-ba"><span class="l">前</span><span class="bar2"><i style="width:100%;background:#F87171"></i></span><span class="num">'+crit.length+'</span></div>'+
+      '<div class="ewr-ba" style="margin-top:4px"><span class="l">後</span><span class="bar2"><i data-w="'+(crit.length?critOut/crit.length*100:0)+'%" style="width:'+(crit.length?critOut/crit.length*100:0)+'%;background:#34D399"></i><i data-w="'+(crit.length?(crit.length-critOut)/crit.length*100:0)+'%" style="width:'+(crit.length?(crit.length-critOut)/crit.length*100:0)+'%;background:#F87171"></i></span><span class="num">'+t.ok+' '+critOut+'</span></div>'+
+      '<div class="ewr-h">'+t.next+'（これから14日）</div><div class="ewr-cal">'+cb+'</div><div class="ewr-calx">'+cx+'</div>';
+  }
+  const html='<div class="exam-ward-res"><div class="ewr-tag">'+t.res+'</div>'+
+    (F('gauge') ? '<div class="ewr-top"><div class="ewr-ring">'+donut([[out.discharge,'#34D399'],[out.stay,'#F87171']],recs.length,104,10)+'<div class="c"><b class="num">'+pct+'%</b><span>'+t.ok+'率</span></div></div>'+sumHtml+'</div>' : sumHtml)+
+    '<div class="ewr-h">'+t.byRoom+'</div>'+roomHtml+graphs+notes+'</div>';
+  $stage().innerHTML='<div class="sumfake"><h2>'+(F('terms')?'♾️ 定着プロトコルの結果':'🔔 復習セッション結果')+'</h2><div class="fake">ここより上に今の結果画面（正答率・所要時間・次に戻ってくる日の分布など）が並び、下のブロックが ward.js の差し込む部分です。'+(S.recs.length?'':'②で解いていないので見本の正誤で埋めています。')+'</div>'+html+'</div>';
+  const R=$('.exam-ward-res');
+  if(F('gauge')) $$('.ewr-ring .seg',R).forEach((s,i)=>{ const d=s.getAttribute('stroke-dasharray'); s.setAttribute('stroke-dasharray','0 100'); later(()=>s.setAttribute('stroke-dasharray',d), 300+i*400); });
+  if(F('anim')){
+    anim(R,[{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'none'}],{duration:500});
+    $$('.ewr-k b',R).forEach(b=>{ const v=+b.textContent; b.textContent='0'; later(()=>countUp(b,v,900),300); });
+    const bars=$$('.ewr-row .bar i, .ewr-sev .sb i, .ewr-ba i[data-w]',R); bars.forEach(i=>{ i.style.transition='width .9s cubic-bezier(.16,1,.3,1)'; i.style.width='0'; });
+    later(()=>bars.forEach((i,k)=>later(()=>i.style.width=i.dataset.w, k*60)), 500);
+    $$('.ewr-cal .d i',R).forEach((i,k)=>anim(i,[{transform:'scaleY(0)'},{transform:'scaleY(1)'}],{duration:700,delay:900+k*40}));
+    $$('.ewr-note',R).forEach((n,k)=>anim(n,[{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:500,delay:1300+k*150}));
+  }
 }
 
-function clearLayers(){ clearTimers(); document.querySelectorAll('.ov,.hud,.whisper,.spark').forEach(e=>e.remove()); }
+function clearLayers(){ clearTimers(); document.querySelectorAll('#wardBrief,#wardHud,.wh-pop,.xpt').forEach(e=>e.remove()); }
 function setStage(s){ stage=s; $$('#stages button[data-s]').forEach(b=>b.classList.toggle('on',b.dataset.s===s));
   if(s==='brief') showBrief(); else if(s==='run') showRun(); else showRes(); }
+function setPlan(k){ plan=k; document.body.className=PLANS[k].flags.map(f=>'x-'+f).join(' ');
+  $$('#plans button').forEach(b=>b.classList.toggle('on',b.dataset.k===k)); $('#desc').innerHTML=PLANS[k].text; reset(); setStage(stage); }
+
+document.getElementById('plans').innerHTML=Object.entries(PLANS).map(([k,p])=>'<button data-k="'+k+'"><b>'+esc(p.name)+'</b><small>'+esc(p.desc)+'</small></button>').join('');
+$$('#plans button').forEach(b=>b.onclick=()=>setPlan(b.dataset.k));
 $$('#stages button[data-s]').forEach(b=>b.onclick=()=>{ reset(); setStage(b.dataset.s); });
-$('#replay').onclick=()=>{ if(stage==='run'){ reset(); } setStage(stage); };
-setStage('brief');
+$('#replay').onclick=()=>{ reset(); setStage(stage); };
+setPlan('cur');
 </script>
 </body>
 </html>
