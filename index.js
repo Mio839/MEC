@@ -122,7 +122,7 @@ function getSrsRiskBreakdown(sessionLimit = 50) {
 // （late＝昨日以前が期限だったぶん）。科目の内訳は「いま復習待ちのもの」全部（出題50問に限らない）。
 // ⚠️ 重複コピーの影は数えない（getSRSDueCount と同じ数え方＝0日目の合計は due と必ず一致する）。
 function getSrsForecast(days = 14) {
-  const out = { days: [], late: 0, maxLate: 0, subj: [] };
+  const out = { days: [], late: 0, maxLate: 0, odd: 0, subj: [] };
   const today = _jstDay(Date.now());
   const base = Date.parse(today + 'T00:00:00Z');
   for (let d = 0; d < days; d++) {
@@ -132,6 +132,16 @@ function getSrsForecast(days = 14) {
     const srs = JSON.parse(localStorage.getItem('mec_srs_v1') || '{}');
     const bySid = {};
     const shadow = window.MECSync && MECSync.srsIsShadow;
+    // 「最大の遅れ」の下限。予定日は必ず「最後に解いた日＋1日以上」なので、それより前の予定日はありえない
+    // （2026-10-01、今年から使っているのに「最大の遅れ 2465日」＝予定日 2020-01-01 の札が実データに混じっていた。
+    //  書き込み口は study.html の _updateSRS だけで、そこからは出ない値＝出どころ不明の外れ値）。
+    // そういう札は、最後に解いた日（無ければ学習記録 activity_v1 の最初の日）を期限だったとみなして遅れを測る。
+    // ⚠️ 件数（復習待ち・0日目）からは外さない＝上段の数字と食い違わせない。直すのは遅れの日数だけ。
+    let firstDay = '';
+    try {
+      const act = JSON.parse(localStorage.getItem('activity_v1') || '{}');
+      for (const k in act) if (/^\d{4}-\d{2}-\d{2}$/.test(k) && (!firstDay || k < firstDay)) firstDay = k;
+    } catch (e) {}
     for (const uid in srs) {
       const e = srs[uid];
       if (!e || !e.nextReview) continue;
@@ -140,7 +150,13 @@ function getSrsForecast(days = 14) {
       if (shadow && MECSync.srsIsShadow(uid)) continue;
       if (d <= 0) {
         out.days[0].n++;
-        if (d < 0) { out.late++; if (-d > out.maxLate) out.maxLate = -d; }
+        if (d < 0) {
+          out.late++;
+          const floor = e.lastSeen || firstDay;
+          let lateD = -d;
+          if (floor && e.nextReview < floor) { out.odd++; lateD = Math.max(0, _diffDaysStr(floor, today)); }
+          if (lateD > out.maxLate) out.maxLate = lateD;
+        }
         const sid = _noteSid(uid);
         bySid[sid] = (bySid[sid] || 0) + 1;
       } else {
@@ -168,11 +184,11 @@ function _srsVizHtml(done, goal, fc, due) {
   const ok = goal > 0 && done >= goal;
   const ring =
     '<div class="srs-viz-ring' + (ok ? ' is-ok' : '') + '">' +
-      '<svg viewBox="0 0 92 92" aria-hidden="true">' +
+      '<span class="vr-box"><svg viewBox="0 0 92 92" aria-hidden="true">' +
         '<circle class="vr-track" cx="46" cy="46" r="' + ringR + '"></circle>' +
         '<circle class="vr-fill" cx="46" cy="46" r="' + ringR + '" stroke-dasharray="' + ringC.toFixed(2) + '" stroke-dashoffset="' + (ringC * (1 - ratio)).toFixed(2) + '"></circle>' +
       '</svg>' +
-      '<span class="vr-mid"><b>' + _fmtN(done) + '</b>' + (goal > 0 ? '<small>/ ' + _fmtN(goal) + '問</small>' : '<small>問</small>') + '</span>' +
+      '<span class="vr-mid"><b>' + _fmtN(done) + '</b>' + (goal > 0 ? '<small>/ ' + _fmtN(goal) + '問</small>' : '<small>問</small>') + '</span></span>' +
       '<span class="srs-viz-cap">本日消化' + (goal > 0 ? ' <b>' + Math.round(ratio * 100) + '%</b>' : '') + '</span>' +
     '</div>';
 
@@ -1480,7 +1496,7 @@ function renderHero() {
           '<span class="srs-stat-lbl">明日の予定</span>' +
           '<span class="srs-stat-val"><b>' + _fmtN(fc.days[1] ? fc.days[1].n : 0) + '</b><small>問</small></span>' +
         '</div>' +
-        '<div class="srs-stat-cell srs-stat-extra srs-stat-late' + (fc.maxLate >= 7 ? ' is-bad' : '') + '" title="期限切れの問題のうち、いちばん長く期限を過ぎている日数">' +
+        '<div class="srs-stat-cell srs-stat-extra srs-stat-late' + (fc.maxLate >= 7 ? ' is-bad' : '') + '" title="期限切れの問題のうち、いちばん長く期限を過ぎている日数' + (fc.odd ? '（予定日が記録より前になっている ' + fc.odd + '問は、最後に解いた日から数えた）' : '') + '">' +
           '<span class="srs-stat-lbl">最大の遅れ</span>' +
           '<span class="srs-stat-val"><b>' + _fmtN(fc.maxLate) + '</b><small>日</small></span>' +
         '</div>' +

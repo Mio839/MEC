@@ -357,8 +357,9 @@ html:not([class*="ui-"]) .hero-num .dg {
 .srs-viz-ring .vr-track { fill:none;stroke:rgba(var(--glass-rgb),.14);stroke-width:8; }
 .srs-viz-ring .vr-fill { fill:none;stroke:var(--or,#f97316);stroke-width:8;stroke-linecap:round; }
 .srs-viz-ring.is-ok .vr-fill { stroke:var(--gr,#22c55e); }
+.srs-viz-ring .vr-box { position:relative;width:84px;height:84px;display:block; }
 .srs-viz-ring .vr-mid {
-  position:absolute;top:4px;left:0;right:0;height:84px;display:flex;flex-direction:column;
+  position:absolute;inset:0;display:flex;flex-direction:column;
   align-items:center;justify-content:center;font-feature-settings:"tnum";
 }
 .srs-viz-ring .vr-mid b { font-size:21px;font-weight:800;line-height:1;color:rgba(var(--glass-rgb),1);text-shadow:0 1px 3px rgba(0,0,0,.6); }
