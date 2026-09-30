@@ -5,17 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>定着プロトコルの5案</title>
 <!--
-  SRS復習（2026-09-30 に「定着プロトコル」へ改名）の見せ方を、ward.js の「病棟回診」から作り直すデモ（第4版）。
+  SRS復習（2026-09-30 に「定着プロトコル」へ改名）の見せ方を、ward.js の「病棟回診」から作り直すデモ（第5版）。
   本物の関数は呼ばず、このページの中だけで再生する（何も保存しない）。
-  経緯：第1版（暗い箱＋ネオン）・第2版（紙・スイス等）は「微妙」、第3版（UIテーマ8種ごとの意匠）は
-    「テーマごとに分けるのは見づらい。共通の1つでよい」と言われた。第3版の「1問＝1つの図が、解くたびに
-    変わる」考え方は残し、UIテーマに関係なく同じ見た目の5案を作った：
-      A 心電図モニター（1問＝1拍）／B DNA 二重らせん（1問＝1本の塩基対）／C 分割リング（1問＝1区画）
-      D カードの束（1問＝1枚。定着ともう一度の山に分かれる）／E ニューロン網（1問＝1個。正解で発火）
-  どの案も3枚（開始前・解答中の画面下のボード・結果）で、材料は ward.js と同じ（状態3段＝severityOf、正解／誤答）。
-  パネルは不透明に近い暗色＝どの UIテーマの背景の上に置いても読める。SRS の採点と出題順は変えない。
-  ⚠️ 画面下のボードは表示だけ（pointer-events:none）／infinite のアニメなし／新しい localStorage キーなし。
-  テストの対象ではない。
+  経緯：第1〜4版はすべて「微妙」。第4版のあとに聞いたところ、問題は「地味・演出が足りない」の1点だった
+    （情報量・構成・開始前の画面の有無は問題ではない）。第5版は演出を主役に作り直した：
+      A スキャン＆ロックオン／B 心電図がライブで描かれる／C カードを配る・仕分ける／D リングが満ちる／E ニューロンの発火が連鎖する
+    3枚それぞれに動きを入れる：開始前＝図が組み上がる導入（約1.5〜2秒）／解答中＝1問ごとに問題から光がボードへ飛び、
+    正解ははじけ・誤答は揺れる／結果＝図が結果どおりに変わっていく締めの演出＋数字のカウントアップ。
+  ⚠️ どれも時間の決まった演出で、infinite のアニメは置かない。画面下のボードは表示だけ（pointer-events:none）。
+  ⚠️ 非表示タブでは rAF が来ないので、rAF で動かすものには setTimeout の落とし所を付けてある。
+  材料は ward.js と同じ（状態3段＝severityOf、正解／誤答）。SRS の採点と出題順は変えない。テストの対象ではない。
 -->
 <style>
   :root{
@@ -37,9 +36,10 @@
   .plans button small{display:block;font-size:11px;color:var(--sub);margin-top:2px;line-height:1.45;}
   .plans button.on{background:#E9EDF4;border-color:#E9EDF4;}
   .plans button.on b{color:#0B0E14;} .plans button.on small{color:#4A5363;}
-  .stages{display:flex;gap:6px;margin-bottom:16px;}
+  .stages{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
   .stages button{padding:8px 13px;border-radius:99px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.04);color:inherit;font:inherit;font-size:13px;cursor:pointer;white-space:nowrap;}
   .stages button.on{background:#E9EDF4;color:#0B0E14;border-color:#E9EDF4;}
+  .stages .replay{margin-left:auto;}
   .hint{font-size:12px;color:var(--sub);line-height:1.7;margin:8px 0;}
   .mockq{border-radius:16px;padding:16px 18px;background:rgba(14,16,30,.78);border:1px solid rgba(255,255,255,.14);}
   .mockq .qn{display:inline-block;font-size:11px;font-weight:800;padding:2px 8px;border-radius:5px;margin-bottom:8px;border:1px solid rgba(255,255,255,.5);}
@@ -51,8 +51,8 @@
   .sumwrap{border-radius:16px;padding:12px;background:rgba(10,12,22,.55);border:1px solid rgba(255,255,255,.12);}
   .sumwrap .fake{font-size:12px;color:var(--sub);padding:8px 10px;border:1px dashed rgba(255,255,255,.25);border-radius:10px;margin-bottom:12px;line-height:1.6;}
 
-  /* ══ 共通のパネル（5案とも同じ骨組み。変わるのは中央の図とアクセント色だけ） ══ */
-  .ov{position:fixed;inset:0;z-index:9500;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(3,4,10,.66);animation:fadeIn .25s var(--ease-out) both;}
+  /* ══ 共通のパネル ══ */
+  .ov{position:fixed;inset:0;z-index:9500;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(3,4,10,.7);animation:fadeIn .25s var(--ease-out) both;}
   .box,.res,.hud{color:var(--tx);background:linear-gradient(180deg,var(--panel-hi),var(--panel-lo));border:1px solid var(--line);
     box-shadow:0 24px 60px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.07);}
   .box{position:relative;width:min(560px,100%);max-height:100%;overflow-y:auto;overflow-x:hidden;padding:22px 20px 18px;border-radius:22px;animation:rise .45s var(--ease-out) both;}
@@ -62,10 +62,11 @@
   .dt{font-size:12px;color:var(--sub);margin-top:2px;}
   .head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;}
   .count{text-align:right;line-height:1;white-space:nowrap;}
-  .count b{font-size:52px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;}
+  .count b{font-size:52px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;display:inline-block;}
   .count span{font-size:13px;margin-left:3px;color:var(--sub);}
-  .sig{margin:14px -4px 4px;}
-  .sig svg{display:block;width:100%;height:auto;overflow:visible;}
+  .sig{position:relative;margin:14px -4px 4px;aspect-ratio:320/180;}
+  .sig svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
+  .sig .layer{position:absolute;inset:0;pointer-events:none;}
   .sev{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 16px;font-size:12px;color:var(--sub);margin-top:4px;}
   .sev i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:1px;}
   .sev b{color:var(--tx);font-variant-numeric:tabular-nums;margin-left:4px;}
@@ -76,104 +77,123 @@
   .how b{color:var(--accent);font-weight:700;}
   .btns{display:flex;gap:10px;margin-top:16px;}
   .back{padding:12px 16px;border-radius:14px;font:inherit;font-size:13px;cursor:pointer;background:none;color:var(--sub);border:1px solid rgba(255,255,255,.16);white-space:nowrap;}
-  .go{flex:1;padding:13px;border:0;border-radius:14px;font:inherit;font-size:15.5px;font-weight:900;letter-spacing:.12em;cursor:pointer;white-space:nowrap;color:#0A0D13;background:var(--accent);
+  .go{position:relative;overflow:hidden;flex:1;padding:13px;border:0;border-radius:14px;font:inherit;font-size:15.5px;font-weight:900;letter-spacing:.12em;cursor:pointer;white-space:nowrap;color:#0A0D13;background:var(--accent);
     box-shadow:0 8px 24px color-mix(in srgb,var(--accent) 35%,transparent),inset 0 1px 0 rgba(255,255,255,.4);}
+  .go::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.65) 50%,transparent 65%);translate:-110% 0;}
+  .go.shine::after{animation:shine .9s var(--ease-out) forwards;}
   .go:focus-visible,.back:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+  .banner{position:absolute;left:50%;top:50%;translate:-50% -50%;font-weight:900;letter-spacing:.3em;text-indent:.3em;white-space:nowrap;font-size:clamp(16px,5.4vw,26px);color:var(--accent);
+    text-shadow:0 0 18px color-mix(in srgb,var(--accent) 70%,transparent),0 2px 0 rgba(0,0,0,.6);opacity:0;pointer-events:none;}
   .hud{position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));translate:-50% 0;z-index:8000;width:min(600px,calc(100% - 20px));
     padding:9px 14px 10px;border-radius:16px;pointer-events:none;transition:opacity .3s var(--ease-out),translate .45s var(--ease-out);}
   .hud.hide{opacity:0;translate:-50% 130%;}
   .hud .row{display:flex;align-items:baseline;gap:10px;white-space:nowrap;}
   .hud .tag{font-size:10px;font-weight:900;letter-spacing:.22em;color:var(--accent);}
   .hud .cnt{margin-left:auto;font-size:12px;color:var(--sub);overflow:hidden;text-overflow:ellipsis;}
-  .hud .cnt b{font-size:17px;color:var(--tx);font-variant-numeric:tabular-nums;}
+  .hud .cnt b{font-size:17px;color:var(--tx);font-variant-numeric:tabular-nums;display:inline-block;}
   .hud .cnt .o{color:var(--accent);} .hud .cnt .x{color:var(--crit);}
   .hud .mini{margin-top:6px;}
-  .hud .mini svg{display:block;width:100%;height:auto;}
+  .hud .mini svg{display:block;width:100%;height:auto;overflow:visible;}
   .pop{position:fixed;z-index:8001;pointer-events:none;white-space:nowrap;translate:-50% 0;font-size:13.5px;font-weight:900;padding:4px 12px;border-radius:99px;
     background:var(--panel-hi);border:1px solid currentColor;animation:pop 1s var(--ease-out) forwards;}
   .pop.ok{color:var(--accent);} .pop.ng{color:var(--crit);}
   .res{position:relative;overflow:hidden;padding:20px 18px 18px;border-radius:20px;}
   .res .hl{font-size:22px;font-weight:900;margin:6px 0 0;line-height:1.4;}
-  .res .hl .num{font-size:30px;color:var(--accent);}
+  .res .hl .num{font-size:30px;color:var(--accent);display:inline-block;}
   .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:12px;}
-  .stats div{padding:8px 6px;border-radius:12px;text-align:center;min-width:0;background:var(--chip);border:1px solid rgba(255,255,255,.07);}
+  .stats div{padding:8px 6px;border-radius:12px;text-align:center;min-width:0;background:var(--chip);border:1px solid rgba(255,255,255,.07);opacity:0;}
   .stats b{display:block;font-size:20px;font-variant-numeric:tabular-nums;}
   .stats span{font-size:10.5px;color:var(--sub);display:block;line-height:1.4;}
   .bars{margin-top:12px;}
   .bars .rw{display:grid;grid-template-columns:5em minmax(0,1fr) 3.2em;gap:10px;align-items:center;font-size:12px;padding:4px 0;}
   .bars .tr{height:6px;border-radius:99px;overflow:hidden;background:rgba(255,255,255,.08);}
-  .bars .tr i{display:block;height:100%;border-radius:99px;background:var(--accent);}
+  .bars .tr i{display:block;height:100%;border-radius:99px;background:var(--accent);width:0;transition:width .9s var(--ease-out);}
   .bars .v{text-align:right;font-variant-numeric:tabular-nums;color:var(--sub);}
   .num{font-variant-numeric:tabular-nums;}
-  .n{transition:fill .35s,stroke .35s,opacity .35s,stroke-width .35s;}
+  .n{transition:fill .35s,stroke .35s,opacity .35s;}
+  .fb{transform-box:fill-box;transform-origin:center;}
   .lbl{fill:var(--sub);font-size:8.5px;font-family:var(--sans);}
+  /* 全画面の粒子・飛ぶ光の層（位置は JS が持つ） */
+  #fx{position:fixed;inset:0;z-index:9000;pointer-events:none;overflow:hidden;}
+  .pt{position:absolute;left:0;top:0;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;}
+  .orb{position:absolute;left:0;top:0;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:#fff;}
   @keyframes pop{0%{opacity:0;transform:translateY(6px)}20%{opacity:1;transform:translateY(0)}70%{opacity:1}100%{opacity:0;transform:translateY(-16px)}}
   @keyframes fadeIn{from{opacity:0}to{opacity:1}}
   @keyframes rise{from{opacity:0;translate:0 12px}to{opacity:1;translate:0 0}}
-  @media (prefers-reduced-motion:reduce){.ov,.box,.pop,.hud,.n{animation-duration:.01s!important;transition-duration:.01s!important;}}
+  @keyframes shine{from{translate:-110% 0}to{translate:110% 0}}
 
-  /* ══ A 心電図モニター ══ */
-  .pA{--accent:#3DF2A0;--crit:#FF5D6C;}
-  .pA .sig svg,.pA .mini svg{background:#070B0A;border-radius:10px;}
-  .pA .n{fill:none;stroke-linejoin:round;stroke-linecap:round;}
-  .pA .n.stable{stroke:rgba(61,242,160,.28);stroke-width:1.2;} .pA .n.warn{stroke:rgba(61,242,160,.6);stroke-width:1.3;} .pA .n.crit{stroke:var(--crit);stroke-width:1.4;}
-  .pA .n.now{stroke:#fff;stroke-width:1.8;}
-  .pA .n.ok{stroke:var(--accent);stroke-width:2;filter:drop-shadow(0 0 3px rgba(61,242,160,.8));} .pA .n.ng{stroke:var(--crit);stroke-width:1.6;stroke-dasharray:2 2;}
-  .pA .grid{stroke:rgba(61,242,160,.08);stroke-width:.6;}
-  .pA .mon{fill:rgba(61,242,160,.7);font-family:var(--mono);font-size:8px;letter-spacing:1px;}
+  /* ══ A スキャン＆ロックオン ══ */
+  .pA{--accent:#35E8FF;--crit:#FF4D6A;}
+  .pA .fr{rx:3;}
+  .pA .n.stable{fill:#243244;} .pA .n.warn{fill:#2E6E86;} .pA .n.crit{fill:#5A1E2C;stroke:var(--crit);stroke-width:1.2;}
+  .pA .n.now{fill:#fff;} .pA .n.ok{fill:var(--accent);} .pA .n.ng{fill:var(--crit);opacity:.55;}
+  .pA .lock{fill:none;stroke:var(--crit);stroke-width:1.4;}
+  .pA .warnTxt{fill:var(--crit);font:900 10px var(--mono);letter-spacing:3px;}
+  .pA .scanL{stroke:var(--accent);stroke-width:1.5;}
+  .pA .gridA{stroke:rgba(53,232,255,.07);stroke-width:.6;}
+  .pA .mks{display:flex;gap:3px;margin-top:8px;}
+  .pA .mk{display:block;flex:1;max-width:14px;aspect-ratio:1;border-radius:3px;background:#243244;transition:background .3s;}
+  .pA .mk.crit{background:#5A1E2C;box-shadow:inset 0 0 0 1px var(--crit);} .pA .mk.warn{background:#2E6E86;}
+  .pA .mk.now{background:#fff;} .pA .mk.ok{background:var(--accent);box-shadow:0 0 8px var(--accent);} .pA .mk.ng{background:var(--crit);}
 
-  /* ══ B DNA 二重らせん ══ */
-  .pB{--accent:#7AA2FF;--crit:#FF6B8B;}
-  .pB .strand{fill:none;stroke-width:2.2;stroke-linecap:round;}
-  .pB .n{stroke-linecap:round;}
-  .pB .n.stable{stroke:rgba(255,255,255,.16);stroke-width:2.4;} .pB .n.warn{stroke:rgba(122,162,255,.45);stroke-width:2.4;} .pB .n.crit{stroke:var(--crit);stroke-width:2.6;}
-  .pB .n.now{stroke:#fff;stroke-width:3.2;}
-  .pB .n.ok{stroke:var(--accent);stroke-width:3.4;filter:drop-shadow(0 0 3px rgba(122,162,255,.8));} .pB .n.ng{stroke:var(--crit);stroke-width:1.6;opacity:.45;stroke-dasharray:3 3;}
+  /* ══ B 心電図 ══ */
+  .pB{--accent:#3DF2A0;--crit:#FF5D6C;}
+  .pB .monbg{fill:#060A09;}
+  .pB .gridB{stroke:rgba(61,242,160,.08);stroke-width:.6;}
+  .pB .n{fill:none;stroke-linejoin:round;stroke-linecap:round;}
+  .pB .n.stable{stroke:rgba(61,242,160,.35);stroke-width:1.3;} .pB .n.warn{stroke:rgba(61,242,160,.7);stroke-width:1.4;} .pB .n.crit{stroke:var(--crit);stroke-width:1.5;}
+  .pB .n.now{stroke:#fff;stroke-width:1.8;} .pB .n.ok{stroke:var(--accent);stroke-width:2.1;filter:drop-shadow(0 0 3px rgba(61,242,160,.9));} .pB .n.ng{stroke:var(--crit);stroke-width:1.6;stroke-dasharray:2 2;}
+  .pB .mon{fill:rgba(61,242,160,.75);font:700 8px var(--mono);letter-spacing:1px;}
+  .pB .hr{fill:var(--accent);font:800 22px var(--mono);}
+  .pB .cur{fill:#fff;filter:drop-shadow(0 0 4px #3DF2A0);}
 
-  /* ══ C 分割リング ══ */
-  .pC{--accent:#62E6FF;--crit:#FF8A5C;}
-  .pC .n.stable{fill:#2B3342;} .pC .n.warn{fill:#56657C;} .pC .n.crit{fill:var(--crit);}
-  .pC .n.now{fill:#fff;}
-  .pC .n.ok{fill:var(--accent);filter:drop-shadow(0 0 4px rgba(98,230,255,.7));} .pC .n.ng{fill:var(--crit);opacity:.4;}
-  .pC .cnum{fill:var(--tx);font-size:34px;font-weight:800;font-family:var(--sans);}
-  .pC .csub{fill:var(--sub);font-size:9px;letter-spacing:2px;font-family:var(--sans);}
+  /* ══ C カードを配る ══ */
+  .pC{--accent:#F5C451;--crit:#FF6B6B;}
+  .pC .cd{position:absolute;left:0;top:0;width:8.2%;aspect-ratio:26/36;margin:-5.6% 0 0 -4.1%;border-radius:4px;border:1px solid #3A4456;background:linear-gradient(160deg,#232B3B,#171C27);
+    box-shadow:0 2px 6px rgba(0,0,0,.4);transition:border-color .3s,background .3s;}
+  .pC .cd::after{content:'';position:absolute;inset:3px;border-radius:2px;border:1px solid rgba(255,255,255,.06);background:repeating-linear-gradient(45deg,rgba(255,255,255,.035) 0 2px,transparent 2px 5px);}
+  .pC .cd.warn{border-color:#6B7A93;} .pC .cd.crit{border-color:var(--crit);background:linear-gradient(160deg,#3A2029,#1C1519);}
+  .pC .cd.ok{border-color:var(--accent);background:linear-gradient(160deg,#3B3218,#211C10);} .pC .cd.ng{border-color:var(--crit);background:linear-gradient(160deg,#3A2029,#1C1519);}
+  .pC .pl{position:absolute;bottom:2%;translate:-50% 0;text-align:center;font-size:11px;color:var(--sub);opacity:0;}
+  .pC .pl b{display:block;font-size:22px;color:var(--tx);font-variant-numeric:tabular-nums;}
+  .pC .piles{display:flex;align-items:center;gap:12px;margin-top:6px;font-size:12px;color:var(--sub);}
+  .pC .stk{position:relative;width:22px;height:28px;flex-shrink:0;}
+  .pC .stk i{position:absolute;inset:0;border-radius:4px;border:1px solid;background:#1C2230;}
+  .pC .stk i:nth-child(2){translate:2px -2px;} .pC .stk i:nth-child(3){translate:4px -4px;}
+  .pC .stk.deck i{border-color:#6B7A93;} .pC .stk.ok i{border-color:var(--accent);background:#2A2414;} .pC .stk.ng i{border-color:var(--crit);background:#2A1E24;}
+  .pC .piles b{font-size:17px;color:var(--tx);font-variant-numeric:tabular-nums;margin-left:2px;display:inline-block;}
+  .pC .piles .sp{flex:1;}
+  .pC .piles .o b{color:var(--accent);} .pC .piles .x b{color:var(--crit);}
 
-  /* ══ D カードの束 ══ */
-  .pD{--accent:#F5C451;--crit:#FF6B6B;}
-  .pD .n{stroke-width:1;}
-  .pD .n.stable{fill:#1C2230;stroke:#3A4456;} .pD .n.warn{fill:#232B3B;stroke:#6B7A93;} .pD .n.crit{fill:#2A1E24;stroke:var(--crit);}
-  .pD .n.now{fill:#2E3850;stroke:#fff;}
-  .pD .n.ok{fill:#2A2414;stroke:var(--accent);} .pD .n.ng{fill:#2A1E24;stroke:var(--crit);}
-  .pD .pile{fill:var(--sub);font-size:10px;font-family:var(--sans);text-anchor:middle;}
-  .pD .pile b,.pD .pn{fill:var(--tx);font-size:18px;font-weight:800;}
-  .pD .hud .piles{display:flex;align-items:center;gap:14px;margin-top:6px;font-size:12px;color:var(--sub);}
-  .pD .stk{position:relative;width:22px;height:28px;flex-shrink:0;}
-  .pD .stk i{position:absolute;inset:0;border-radius:4px;border:1px solid;background:#1C2230;}
-  .pD .stk i:nth-child(2){translate:2px -2px;} .pD .stk i:nth-child(3){translate:4px -4px;}
-  .pD .stk.deck i{border-color:#6B7A93;} .pD .stk.ok i{border-color:var(--accent);background:#2A2414;} .pD .stk.ng i{border-color:var(--crit);background:#2A1E24;}
-  .pD .piles b{font-size:17px;color:var(--tx);font-variant-numeric:tabular-nums;margin-left:2px;}
-  .pD .piles .sp{flex:1;}
-  .pD .piles .o b{color:var(--accent);} .pD .piles .x b{color:var(--crit);}
+  /* ══ D リングが満ちる ══ */
+  .pD{--accent:#62E6FF;--crit:#FF8A5C;}
+  .pD .n.stable{fill:#2B3342;} .pD .n.warn{fill:#56657C;} .pD .n.crit{fill:var(--crit);}
+  .pD .n.now{fill:#fff;} .pD .n.ok{fill:var(--accent);filter:drop-shadow(0 0 4px rgba(98,230,255,.8));} .pD .n.ng{fill:var(--crit);opacity:.35;}
+  .pD .vb{transform-box:view-box;}
+  .pD .cnum{fill:var(--tx);font-size:34px;font-weight:800;font-family:var(--sans);}
+  .pD .csub{fill:var(--sub);font-size:9px;letter-spacing:2px;font-family:var(--sans);}
+  .pD .wave{fill:none;stroke:var(--accent);stroke-width:2;}
 
-  /* ══ E ニューロン網 ══ */
+  /* ══ E ニューロン ══ */
   .pE{--accent:#B18CFF;--crit:#FF7A90;}
-  .pE .syn{stroke:rgba(177,140,255,.16);stroke-width:1;fill:none;}
-  .pE .syn.on{stroke:var(--accent);stroke-width:1.6;opacity:.9;}
+  .pE .syn{stroke:rgba(177,140,255,.18);stroke-width:1;fill:none;}
+  .pE .syn.on{stroke:var(--accent);stroke-width:1.7;}
   .pE .n.stable{fill:#3A3550;} .pE .n.warn{fill:#7E6BB5;} .pE .n.crit{fill:var(--crit);}
-  .pE .n.now{fill:#fff;}
-  .pE .n.ok{fill:#E7DCFF;filter:drop-shadow(0 0 5px rgba(177,140,255,.95));} .pE .n.ng{fill:var(--crit);opacity:.4;}
+  .pE .n.now{fill:#fff;} .pE .n.ok{fill:#E7DCFF;filter:drop-shadow(0 0 5px rgba(177,140,255,.95));} .pE .n.ng{fill:var(--crit);opacity:.4;}
+  .pE .pulse{fill:#fff;filter:drop-shadow(0 0 4px #B18CFF);}
 </style>
 </head>
 <body>
 <div class="harness">
-  <h1>定着プロトコル — 5案（第4版・どの UIテーマでも同じ見た目）</h1>
-  <p>どの案も「1問＝1つ」の図が中央にあり、解くたびにその図が変わります。案と画面を切り替えて見てください（② では「正解」「誤答」で画面下のボードが動きます）。</p>
+  <h1>定着プロトコル — 5案（第5版・演出を主役に）</h1>
+  <p>3枚それぞれに動きがあります。① は開くたびに図が組み上がり、② は1問ごとにボードへ光が飛び、③ は結果どおりに図が変わっていきます。「もう一度再生」で何度でも見られます。</p>
   <div class="plans" id="plans"></div>
   <div class="stages" id="stages">
-    <button data-s="brief">① 開始前</button><button data-s="run">② 解答中</button><button data-s="res">③ 結果</button>
+    <button data-s="brief">① 開始前</button><button data-s="run">② 解答中</button><button data-s="res">③ 結果</button><button class="replay" id="replay">↻ もう一度再生</button>
   </div>
   <div id="stage"></div>
 </div>
+<div id="fx"></div>
 
 <script>
 'use strict';
@@ -206,108 +226,233 @@ function counts(){ const c={crit:0,warn:0,stable:0}; ITEMS.forEach(i=>c[i.sev]++
 function groups(){ const m=new Map(); ITEMS.forEach(i=>{ if(!m.has(i.sid)) m.set(i.sid,[]); m.get(i.sid).push(i); }); return [...m.entries()].map(([sid,pts])=>({sid,pts})).sort((a,b)=>b.pts.length-a.pts.length); }
 function dateStr(){ const d=new Date(Date.now()+9*3600000); return (d.getUTCMonth()+1)+'月'+d.getUTCDate()+'日（'+'日月火水木金土'[d.getUTCDay()]+'）'; }
 const f1 = x => x.toFixed(1);
-// 図の要素：data-u（どの問題か）と data-b（元の状態）。ボードの paint が同じ規則で塗り替える
-const nd = (tag, it, st, attrs) => '<'+tag+' class="n '+st+'" data-b="n '+it.sev+'" data-u="'+esc(it.uid)+'" '+attrs+'/>';
+const nd = (tag, it, st, attrs, extra) => '<'+tag+' class="n '+st+(extra?' '+extra:'')+'" data-b="n '+it.sev+'" data-u="'+esc(it.uid)+'" '+attrs+'/>';
+const $ = (sel, root) => (root||document).querySelector(sel);
+const $$ = (sel, root) => [...(root||document).querySelectorAll(sel)];
 
-// ── A 心電図：1問＝1拍 ───────────────────────────────────────────────
-// 大きく遅れた問題は幅の広い乱れた拍（期外収縮の形）、それ以外は整った QRS
-function beat(x, b, it, st, h){
-  const k = h || 1;
-  const d = it.sev==='crit' && st!=='ok'
+// ── 演出の道具（どれも時間の決まった一回きり） ────────────────────────
+let TIMERS = [];
+const later = (fn, ms) => { const t=setTimeout(fn, ms); TIMERS.push(t); return t; };
+function clearTimers(){ TIMERS.forEach(clearTimeout); TIMERS=[]; }
+function anim(el, kf, opt){ try { return el.animate(kf, Object.assign({ fill:'both', easing:'cubic-bezier(.16,1,.3,1)' }, opt)); } catch(e){ return null; } }
+// 数字のカウントアップ。rAF が来なくても（非表示タブ）setTimeout で最後の値に着地させる
+function countUp(el, to, dur, fmt){
+  if(!el) return; fmt=fmt||(v=>String(v)); const t0=performance.now(); let done=false;
+  const fin=()=>{ if(done) return; done=true; el.textContent=fmt(to); anim(el,[{transform:'scale(1.18)'},{transform:'scale(1)'}],{duration:380}); };
+  const step=now=>{ if(done) return; const p=Math.min(1,(now-t0)/dur); el.textContent=fmt(Math.round(to*(1-Math.pow(1-p,3)))); if(p<1) requestAnimationFrame(step); else fin(); };
+  requestAnimationFrame(step); later(fin, dur+400);
+}
+const FX = () => document.getElementById('fx');
+function burst(x, y, color, n, spread){
+  for(let i=0;i<n;i++){ const p=document.createElement('i'); p.className='pt'; p.style.background=color; p.style.boxShadow='0 0 6px '+color; FX().appendChild(p);
+    const a=Math.random()*Math.PI*2, d=(spread||46)*(.4+Math.random()*.8), s=.5+Math.random()*.9;
+    const an=anim(p,[{transform:'translate('+x+'px,'+y+'px) scale('+s+')',opacity:1},{transform:'translate('+(x+Math.cos(a)*d)+'px,'+(y+Math.sin(a)*d)+'px) scale(0)',opacity:0}],{duration:520+Math.random()*380,easing:'cubic-bezier(.2,.8,.3,1)'});
+    later(()=>p.remove(), 1000); }
+}
+function ring(x, y, color, r){
+  const p=document.createElement('i'); p.className='pt'; p.style.cssText='width:'+r*2+'px;height:'+r*2+'px;margin:-'+r+'px 0 0 -'+r+'px;border:2px solid '+color+';background:none;';
+  FX().appendChild(p); anim(p,[{transform:'translate('+x+'px,'+y+'px) scale(.2)',opacity:1},{transform:'translate('+x+'px,'+y+'px) scale(1.6)',opacity:0}],{duration:620}); later(()=>p.remove(),700);
+}
+// 問題（画面中央付近）からボードの印へ光を飛ばす
+function flyTo(from, toEl, color, cb){
+  const r=toEl.getBoundingClientRect(), tx=r.left+r.width/2, ty=r.top+r.height/2, o=document.createElement('i');
+  o.className='orb'; o.style.background=color; o.style.boxShadow='0 0 14px 4px '+color; FX().appendChild(o);
+  const mx=(from[0]+tx)/2+(tx>from[0]?-60:60), my=Math.min(from[1],ty)-40;
+  anim(o,[{transform:'translate('+from[0]+'px,'+from[1]+'px) scale(.6)'},{transform:'translate('+mx+'px,'+my+'px) scale(1.1)',offset:.45},{transform:'translate('+tx+'px,'+ty+'px) scale(.5)'}],{duration:480,easing:'cubic-bezier(.5,0,.4,1)'});
+  later(()=>{ o.remove(); cb&&cb(tx,ty); }, 470);
+}
+function center(el){ const r=el.getBoundingClientRect(); return [r.left+r.width/2, r.top+r.height/2]; }
+// SVG の座標 → 画面の座標
+function svgPt(svg, x, y){ const r=svg.getBoundingClientRect(); return [r.left+x/320*r.width, r.top+y/180*r.height]; }
+
+// ════════════════ A スキャン＆ロックオン ════════════════
+function posA(k){ const it=ITEMS[k], c=k%10, r=Math.floor(k/10); return [22+c*30.6+(rnd(it,'jx')-.5)*8, 50+r*46+(rnd(it,'jy')-.5)*10]; }
+function svgA(st){
+  let s=''; for(let x=0;x<=320;x+=16) s+='<line class="gridA" x1="'+x+'" x2="'+x+'" y1="0" y2="180"/>'; for(let y=0;y<=180;y+=16) s+='<line class="gridA" x1="0" x2="320" y1="'+y+'" y2="'+y+'"/>';
+  s+='<text class="warnTxt" x="160" y="18" text-anchor="middle" opacity="0" id="aWarn">WARNING　大きく遅れ '+counts().crit+'</text>';
+  ITEMS.forEach((it,k)=>{ const [x,y]=posA(k); s+=nd('rect', it, st(it), 'x="'+f1(x-9)+'" y="'+f1(y-9)+'" width="18" height="18" rx="3"', 'fb fr');
+    if(it.sev==='crit' && st(it)==='crit') s+='<path class="lock fb" data-lk="'+esc(it.uid)+'" opacity="0" d="M'+f1(x-14)+' '+f1(y-8)+'v-6h6 M'+f1(x+8)+' '+f1(y-14)+'h6v6 M'+f1(x+14)+' '+f1(y+8)+'v6h-6 M'+f1(x-8)+' '+f1(y+14)+'h-6v-6"/>'; });
+  s+='<g id="aScan" opacity="0"><rect x="-40" y="0" width="40" height="180" fill="url(#aG)"/><line class="scanL" x1="0" x2="0" y1="0" y2="180"/></g>';
+  return '<defs><linearGradient id="aG" x1="0" x2="1"><stop offset="0" stop-color="#35E8FF" stop-opacity="0"/><stop offset="1" stop-color="#35E8FF" stop-opacity=".28"/></linearGradient></defs>'+s;
+}
+// 走査線を左→右へ。通過した瞬間に onPass(k) を呼ぶ
+function sweepA(root, dur, onPass){
+  const g=$('#aScan',root); g.setAttribute('opacity','1');
+  anim(g,[{transform:'translateX(0px)'},{transform:'translateX(360px)'}],{duration:dur,easing:'linear'});
+  ITEMS.forEach((it,k)=>{ const [x]=posA(k); later(()=>onPass(k,it), x/360*dur); });
+  later(()=>g.setAttribute('opacity','0'), dur);
+}
+const A = {
+  cls:'pA', name:'A スキャン＆ロックオン', desc:'走査線が記憶を1つずつ検出し、遅れた記憶をロックオン。正解で確保',
+  eye:'MEMORY SCAN', sev:['#FF4D6A','#2E6E86','#243244'],
+  how:'走査で見つかった四角の1つ1つが今日の問題です。<b>赤い枠</b>は予定より大きく遅れている記憶。正解した記憶は確保され、青く光ります。',
+  svg:svgA,
+  intro(box){
+    const sig=$('.sig svg',box), cnt=$('.count b',box); let seen=0;
+    $$('.n',sig).forEach(e=>e.style.opacity='0'); cnt.textContent='0';
+    sweepA(sig, 1500, (k,it)=>{ const e=$('[data-u="'+it.uid+'"]',sig); e.style.opacity='';
+      anim(e,[{transform:'scale(.1)',opacity:0},{transform:'scale(1.35)',opacity:1,offset:.6},{transform:'scale(1)',opacity:1}],{duration:380});
+      cnt.textContent=String(++seen);
+      const lk=$('[data-lk="'+it.uid+'"]',sig); if(lk){ anim(lk,[{opacity:0,transform:'scale(1.8)'},{opacity:1,transform:'scale(1)',offset:.35},{opacity:.3},{opacity:1},{opacity:.3},{opacity:1}],{duration:1100}); } });
+    later(()=>{ anim($('#aWarn',sig),[{opacity:0},{opacity:1},{opacity:.2},{opacity:1},{opacity:.2},{opacity:1}],{duration:900}); }, 700);
+    later(()=>banner(box,'LOCK ON'), 1600);
+    later(()=>$('.go',box).classList.add('shine'), 1900);
+  },
+  hud(){ return '<div class="mks">'+ITEMS.map(i=>'<i class="mk '+i.sev+'" data-b="mk '+i.sev+'" data-u="'+esc(i.uid)+'"></i>').join('')+'</div>'; },
+  result(res, R){
+    const sig=$('.sig svg',res);
+    $$('.n',sig).forEach(e=>{ const it=ITEMS.find(i=>i.uid===e.dataset.u); e.setAttribute('class','n fb fr '+it.sev); });
+    later(()=>sweepA(sig, 1700, (k,it)=>{ const o=R.res[it.uid]; if(!o) return; const e=$('[data-u="'+it.uid+'"]',sig); e.setAttribute('class','n fb fr '+o);
+      if(o==='ok'){ anim(e,[{transform:'scale(1.6)'},{transform:'scale(1)'}],{duration:420}); const [x,y]=svgPt(sig,...posA(k)); ring(x,y,'#35E8FF',14); burst(x,y,'#35E8FF',6,26); }
+      else anim(e,[{transform:'translateX(-3px)'},{transform:'translateX(3px)'},{transform:'translateX(0)'}],{duration:260}); }), 300);
+    later(()=>banner(res,'SECURED '+R.ok+' / '+R.n), 2100);
+  },
+};
+
+// ════════════════ B 心電図がライブで描かれる ════════════════
+function beatD(x, b, it, st, h){
+  const k=h||1;
+  return it.sev==='crit' && st!=='ok'
     ? 'M'+f1(x)+' '+b+' L'+f1(x+4)+' '+b+' Q'+f1(x+8)+' '+f1(b-22*k)+' '+f1(x+11)+' '+f1(b+9*k)+' L'+f1(x+15)+' '+b+' L'+f1(x+20)+' '+b
     : 'M'+f1(x)+' '+b+' L'+f1(x+5)+' '+b+' Q'+f1(x+6)+' '+f1(b-3*k)+' '+f1(x+7)+' '+b+' L'+f1(x+9)+' '+f1(b+3*k)+' L'+f1(x+10.5)+' '+f1(b-24*k)+' L'+f1(x+12)+' '+f1(b+7*k)+' L'+f1(x+13.5)+' '+b+' Q'+f1(x+16)+' '+f1(b-5*k)+' '+f1(x+18)+' '+b+' L'+f1(x+20)+' '+b;
-  return nd('path', it, st, 'd="'+d+'"');
 }
-function sigA(st){
-  let s=''; for(let x=0;x<=320;x+=10) s+='<line class="grid" x1="'+x+'" x2="'+x+'" y1="0" y2="180"/>'; for(let y=0;y<=180;y+=10) s+='<line class="grid" x1="0" x2="320" y1="'+y+'" y2="'+y+'"/>';
-  s+='<text class="mon" x="8" y="14">II　定着プロトコル</text><text class="mon" x="312" y="14" text-anchor="end">'+N+' BEATS</text>';
-  ITEMS.forEach((it,k)=>{ const row=k<15?0:1; s+=beat(10+(k%15)*20, row?140:78, it, st(it)); });
+const posB = k => [10+(k%15)*20, k<15?80:142];
+function svgB(st){
+  let s='<rect class="monbg" x="0" y="0" width="320" height="180" rx="10"/>';
+  for(let x=0;x<=320;x+=10) s+='<line class="gridB" x1="'+x+'" x2="'+x+'" y1="0" y2="180"/>'; for(let y=0;y<=180;y+=10) s+='<line class="gridB" x1="0" x2="320" y1="'+y+'" y2="'+y+'"/>';
+  s+='<text class="mon" x="10" y="16">II　定着プロトコル</text><text class="mon" x="238" y="16">HR</text><text class="hr" id="bHr" x="310" y="30" text-anchor="end">0</text>';
+  ITEMS.forEach((it,k)=>{ const [x,b]=posB(k); s+=nd('path', it, st(it), 'pathLength="1" d="'+beatD(x,b,it,st(it))+'"'); });
+  s+='<circle class="cur" id="bCur" r="3" cx="0" cy="0" opacity="0"/>';
   return s;
 }
-function miniA(){ let s=''; ITEMS.forEach((it,k)=>{ s+=beat(k*20, 26, it, it.sev, .8); }); return '<svg viewBox="0 -2 600 40">'+s+'</svg>'; }
+// 拍を左から順に描き、先頭の光点を走らせる
+function drawB(sig, per, only){
+  const cur=$('#bCur',sig); cur.setAttribute('opacity','1');
+  ITEMS.forEach((it,k)=>{ const e=$('[data-u="'+it.uid+'"]',sig); if(only && !only(it)) return;
+    e.style.strokeDasharray='1'; e.style.strokeDashoffset='1'; e.style.opacity='0';
+    later(()=>{ e.style.opacity=''; anim(e,[{strokeDashoffset:1},{strokeDashoffset:0}],{duration:per*1.1,easing:'linear'}); const [x,b]=posB(k); cur.setAttribute('cx',x+20); cur.setAttribute('cy',b); anim(cur,[{transform:'translateX(-20px)'},{transform:'translateX(0)'}],{duration:per,easing:'linear'}); }, k*per); });
+  later(()=>cur.setAttribute('opacity','0'), N*per+60);
+}
+const B = {
+  cls:'pB', name:'B 心電図', desc:'1問＝1拍。モニターに拍がライブで描かれ、正解で整った波形になる',
+  eye:'RHYTHM STRIP', sev:['#FF5D6C','rgba(61,242,160,.7)','rgba(61,242,160,.35)'],
+  how:'1拍が1問です。<b>赤い乱れた拍</b>は予定より大きく遅れている問題。正解すると整った緑の波形に戻り、誤答は点線の拍として残ります。',
+  svg:svgB,
+  intro(box){ const sig=$('.sig svg',box); $('.count b',box).textContent='0';
+    drawB(sig, 55); countUp($('#bHr',sig), N, N*55, v=>String(v)); countUp($('.count b',box), N, N*55);
+    later(()=>banner(box,'RHYTHM READY'), N*55+150); later(()=>$('.go',box).classList.add('shine'), N*55+450); },
+  mini(){ return '<svg viewBox="0 -2 600 40">'+ITEMS.map((it,k)=>nd('path', it, it.sev, 'd="'+beatD(k*20,26,it,it.sev,.8)+'"')).join('')+'</svg>'; },
+  hud(){ return '<div class="mini">'+this.mini()+'</div>'; },
+  onMark(el, it, o){ if(o==='ok'){ const k=ITEMS.indexOf(it); el.setAttribute('d', beatD(k*20,26,it,'ok',.8)); el.setAttribute('pathLength','1'); el.style.strokeDasharray='1'; anim(el,[{strokeDashoffset:1},{strokeDashoffset:0}],{duration:360,easing:'linear'}); } },
+  result(res, R){ const sig=$('.sig svg',res);
+    ITEMS.forEach(it=>{ const e=$('[data-u="'+it.uid+'"]',sig); if(R.res[it.uid]==='ok'){ const k=ITEMS.indexOf(it), [x,b]=posB(k); e.setAttribute('d', beatD(x,b,it,'ok')); } });
+    $('#bHr',sig).textContent='0';
+    later(()=>{ drawB(sig, 60); countUp($('#bHr',sig), R.ok, N*60); }, 250);
+    later(()=>banner(res, R.pct>=70 ? '良好なリズム' : 'リズム回復中'), N*60+400);
+  },
+};
 
-// ── B DNA：1問＝1本の塩基対 ───────────────────────────────────────────
-function helix(W, cy, A, per, st, rw){
-  const y1=x=>cy+A*Math.sin(x/per), y2=x=>cy-A*Math.sin(x/per);
-  let s1='', s2='';
-  for(let x=0;x<=W;x+=4){ s1+=(x?'L':'M')+x+' '+f1(y1(x)); s2+=(x?'L':'M')+x+' '+f1(y2(x)); }
-  let r='';
-  ITEMS.forEach((it,k)=>{ const x=8+k*((W-16)/(N-1)); r+=nd('line', it, st(it), 'x1="'+f1(x)+'" y1="'+f1(y1(x))+'" x2="'+f1(x)+'" y2="'+f1(y2(x))+'"'); });
-  return '<path class="strand" d="'+s1+'" stroke="#7AA2FF" stroke-opacity=".85" stroke-width="'+rw+'"/><path class="strand" d="'+s2+'" stroke="#B7C8FF" stroke-opacity=".45" stroke-width="'+rw+'"/>'+r;
-}
-const sigB = st => helix(320, 92, 52, 26, st, 2.2);
-const miniB = () => '<svg viewBox="0 0 600 44">'+helix(600, 22, 16, 30, it=>it.sev, 1.6)+'</svg>';
+// ════════════════ C カードを配る・仕分ける ════════════════
+function fanPos(k){ const a=(-42+k/(N-1)*84)*Math.PI/180; return [160+172*Math.sin(a), 222-172*Math.cos(a)+26, a*180/Math.PI]; }
+const pct = (x,y) => 'left:'+f1(x/320*100)+'%;top:'+f1(y/180*100)+'%;';
+const C = {
+  cls:'pC', name:'C カードを配る', desc:'1問＝1枚。手札が配られ、解いたカードが「定着」と「もう一度」の山へ飛ぶ',
+  eye:'TODAY\'S DECK', sev:['#FF6B6B','#6B7A93','#3A4456'],
+  how:'手札の1枚が1問です。左端から＝遅れの大きい順に出題し、正解したカードは<b>定着の山</b>へ、誤答は「もう一度」の山へ（明日また配られます）。',
+  svg(){ return ''; },
+  layer(st){ return ITEMS.map((it,k)=>{ const [x,y,r]=fanPos(k); return '<i class="cd '+st(it)+'" data-u="'+esc(it.uid)+'" style="'+pct(x,y)+'transform:rotate('+f1(r)+'deg)"></i>'; }).join('')+
+      '<div class="pl" style="left:25%" id="cOk"><b>0</b>定着</div><div class="pl" style="left:75%" id="cNg"><b>0</b>もう一度</div>'; },
+  intro(box){ const lay=$('.sig .layer',box), cnt=$('.count b',box); cnt.textContent='0'; const w=lay.getBoundingClientRect();
+    $$('.cd',lay).forEach((c,k)=>{ const [x,y,r]=fanPos(k); const dx=(160-x)/320*w.width, dy=(176-y)/180*w.height;
+      c.style.opacity='0';
+      later(()=>{ c.style.opacity=''; anim(c,[{transform:'translate('+dx+'px,'+dy+'px) rotate(0deg) scale(.7)'},{transform:'translate(0,0) rotate('+r+'deg) scale(1)'}],{duration:420,easing:'cubic-bezier(.2,.9,.3,1.1)'}); cnt.textContent=String(k+1);
+        if(ITEMS[k].sev==='crit') later(()=>anim(c,[{boxShadow:'0 0 0 0 rgba(255,107,107,0)'},{boxShadow:'0 0 14px 3px rgba(255,107,107,.9)'},{boxShadow:'0 2px 6px rgba(0,0,0,.4)'}],{duration:600}),380); }, 80+k*45); });
+    later(()=>banner(box,'DEAL COMPLETE'), 80+N*45+300); later(()=>$('.go',box).classList.add('shine'), 80+N*45+600); },
+  hud(){ return '<div class="piles"><span class="stk deck"><i></i><i></i><i></i></span><span>山札<b class="dk">'+N+'</b></span><span class="sp"></span><span class="stk ok" data-pile="ok"><i></i><i></i><i></i></span><span class="o">定着<b class="ko">0</b></span><span class="stk ng" data-pile="ng"><i></i><i></i><i></i></span><span class="x">もう一度<b class="kx">0</b></span></div>'; },
+  target(h, it, o){ return $('[data-pile="'+o+'"]',h); },
+  paintExtra(h){ $('.dk',h).textContent=N-S.recs.length; $('.ko',h).textContent=outN('ok'); $('.kx',h).textContent=outN('ng'); },
+  result(res, R){ const lay=$('.sig .layer',res), w=lay.getBoundingClientRect(); let io=0, ix=0;
+    $$('.cd',lay).forEach(c=>{ const it=ITEMS.find(i=>i.uid===c.dataset.u); c.className='cd '+it.sev; });
+    ITEMS.forEach((it,k)=>{ const o=R.res[it.uid]; if(!o) return; const c=$('[data-u="'+it.uid+'"]',lay); const [x,y,r]=fanPos(k);
+      const n = o==='ok' ? io++ : ix++; const tx=(o==='ok'?80:240)+n*1.2, ty=74-n*2.4, rr=(rnd(it,'r')-.5)*14;
+      later(()=>{ c.className='cd '+o; anim(c,[{transform:'translate(0,0) rotate('+r+'deg)'},{transform:'translate('+((tx-x)/320*w.width)+'px,'+((ty-y)/180*w.height-26)+'px) rotate('+(rr+(o==='ok'?-20:20))+'deg) scale(1.15)',offset:.6},{transform:'translate('+((tx-x)/320*w.width)+'px,'+((ty-y)/180*w.height)+'px) rotate('+rr+'deg) scale(1)'}],{duration:520,easing:'cubic-bezier(.3,.8,.3,1)'});
+        c.style.zIndex=String(100+n); const el=$(o==='ok'?'#cOk b':'#cNg b',res); el.textContent=String(n+1); anim(el,[{transform:'scale(1.3)'},{transform:'scale(1)'}],{duration:260}); }, 300+k*70); });
+    $$('.pl',res).forEach(p=>anim(p,[{opacity:0},{opacity:1}],{duration:400,delay:200}));
+    later(()=>{ const [x,y]=center($('#cOk',res)); burst(x,y-40,'#F5C451',18,70); ring(x,y-40,'#F5C451',30); banner(res,'定着 '+R.ok+' 枚'); }, 300+N*70+300); },
+};
 
-// ── C 分割リング：1問＝1区画 ────────────────────────────────────────
-function arcSeg(cx, cy, r0, r1, a0, a1){
-  const p=(r,a)=>f1(cx+r*Math.cos(a))+' '+f1(cy+r*Math.sin(a));
-  return 'M'+p(r1,a0)+' A'+r1+' '+r1+' 0 0 1 '+p(r1,a1)+' L'+p(r0,a1)+' A'+r0+' '+r0+' 0 0 0 '+p(r0,a0)+' Z';
-}
-function ring(cx, cy, r0, r1, st, gap){
-  let s=''; ITEMS.forEach((it,k)=>{ const a0=-Math.PI/2+k/N*Math.PI*2+gap, a1=-Math.PI/2+(k+1)/N*Math.PI*2-gap; s+=nd('path', it, st(it), 'd="'+arcSeg(cx,cy,r0,r1,a0,a1)+'"'); }); return s;
-}
-function sigC(st, R){
-  return ring(160, 90, 62, 82, st, .022)+
-    '<text class="cnum" x="160" y="98" text-anchor="middle">'+(R ? R.pct+'%' : N)+'</text><text class="csub" x="160" y="116" text-anchor="middle">'+(R ? '定着率' : '問')+'</text>';
-}
-const miniC = () => '<svg viewBox="0 0 600 30"><g>'+ITEMS.map((it,k)=>nd('rect', it, it.sev, 'x="'+(k*20)+'" y="10" width="17" height="10" rx="3"')).join('')+'</g></svg>';
+// ════════════════ D リングが満ちる ════════════════
+function arcSeg(cx, cy, r0, r1, a0, a1){ const p=(r,a)=>f1(cx+r*Math.cos(a))+' '+f1(cy+r*Math.sin(a)); return 'M'+p(r1,a0)+' A'+r1+' '+r1+' 0 0 1 '+p(r1,a1)+' L'+p(r0,a1)+' A'+r0+' '+r0+' 0 0 0 '+p(r0,a0)+' Z'; }
+function ringSegs(cx, cy, r0, r1, st, gap, cls){ return ITEMS.map((it,k)=>{ const a0=-Math.PI/2+k/N*Math.PI*2+gap, a1=-Math.PI/2+(k+1)/N*Math.PI*2-gap; return nd('path', it, st(it), 'd="'+arcSeg(cx,cy,r0,r1,a0,a1)+'"', cls); }).join(''); }
+const D = {
+  cls:'pD', name:'D リングが満ちる', desc:'1問＝1区画。区画が回りながら現れ、正解で光って輪が満ちる',
+  eye:'RETENTION RING', sev:['#FF8A5C','#56657C','#2B3342'],
+  how:'リングの1区画が1問です。12時から時計回りに、遅れの大きい順に並んでいます。正解した区画が<b>光って</b>、輪が満ちていきます。',
+  svg(st, R){ return '<g id="dSweep" class="vb" style="transform-origin:160px 90px" opacity="0"><path d="'+arcSeg(160,90,58,86,-Math.PI/2-.5,-Math.PI/2)+'" fill="url(#dG)"/></g>'+
+      '<defs><linearGradient id="dG" x1="0" x2="1"><stop offset="0" stop-color="#62E6FF" stop-opacity="0"/><stop offset="1" stop-color="#62E6FF" stop-opacity=".55"/></linearGradient></defs>'+
+      ringSegs(160,90,62,82,st,.022,'vb')+
+      '<circle class="wave" id="dWave" cx="160" cy="90" r="84" opacity="0"/>'+
+      '<text class="cnum" id="dNum" x="160" y="98" text-anchor="middle">'+(R?'0%':N)+'</text><text class="csub" x="160" y="116" text-anchor="middle">'+(R?'定着率':'問')+'</text>'; },
+  noCount:true,
+  intro(box){ const sig=$('.sig svg',box), num=$('#dNum',sig);
+    $$('.n',sig).forEach((e,k)=>{ e.style.transformOrigin='160px 90px'; e.style.opacity='0';
+      later(()=>{ e.style.opacity=''; anim(e,[{transform:'rotate(-40deg) scale(.6)',opacity:0},{transform:'rotate(0) scale(1)',opacity:1}],{duration:520}); num.textContent=String(k+1);
+        if(ITEMS[k].sev==='crit') later(()=>anim(e,[{opacity:1},{opacity:.3},{opacity:1},{opacity:.3},{opacity:1}],{duration:700}),450); }, k*42); });
+    later(()=>{ const g=$('#dSweep',sig); g.setAttribute('opacity','1'); anim(g,[{transform:'rotate(0deg)'},{transform:'rotate(360deg)'}],{duration:900,easing:'cubic-bezier(.5,0,.3,1)'}); later(()=>g.setAttribute('opacity','0'),900); }, N*42+200);
+    later(()=>$('.go',box).classList.add('shine'), N*42+900); },
+  mini(){ return '<svg viewBox="0 0 600 30">'+ITEMS.map((it,k)=>nd('rect', it, it.sev, 'x="'+(k*20)+'" y="10" width="17" height="10" rx="3"', 'fb')).join('')+'</svg>'; },
+  hud(){ return '<div class="mini">'+this.mini()+'</div>'; },
+  result(res, R){ const sig=$('.sig svg',res), num=$('#dNum',sig); let lit=0;
+    $$('.n',sig).forEach(e=>{ const it=ITEMS.find(i=>i.uid===e.dataset.u); e.setAttribute('class','n vb '+it.sev); e.style.transformOrigin='160px 90px'; });
+    ITEMS.forEach((it,k)=>{ const o=R.res[it.uid]; if(!o) return; later(()=>{ const e=$('[data-u="'+it.uid+'"]',sig); e.setAttribute('class','n vb '+o);
+        if(o==='ok'){ lit++; num.textContent=Math.round(lit/R.n*100)+'%'; anim(e,[{transform:'scale(1.12)'},{transform:'scale(1)'}],{duration:360}); } }, 300+k*55); });
+    later(()=>{ num.textContent=R.pct+'%'; anim(num,[{transform:'scale(1.25)'},{transform:'scale(1)'}],{duration:420}); const w=$('#dWave',sig); anim(w,[{opacity:.9,transform:'scale(1)'},{opacity:0,transform:'scale(1.55)'}],{duration:800,easing:'ease-out'}); w.style.transformOrigin='160px 90px'; w.classList.add('vb');
+      const [x,y]=svgPt(sig,160,90); burst(x,y,'#62E6FF',26,120); banner(res, R.pct>=80?'EXCELLENT':R.pct>=60?'GOOD':'KEEP GOING'); }, 300+N*55+200); },
+};
 
-// ── D カードの束：1問＝1枚 ──────────────────────────────────────────
-function card(it, st, x, y, rot){ return nd('rect', it, st, 'x="'+f1(x-13)+'" y="'+f1(y-18)+'" width="26" height="36" rx="4" transform="rotate('+f1(rot)+' '+f1(x)+' '+f1(y)+')"'); }
-function sigD(st, R){
-  if(!R){ // 扇形の手札
-    let s=''; ITEMS.forEach((it,k)=>{ const a=(-42+k/(N-1)*84)*Math.PI/180; const x=160+178*Math.sin(a), y=212-178*Math.cos(a)+34; s+=card(it, st(it), x, y, a*180/Math.PI); });
-    return s+'<text class="lbl" x="160" y="176" text-anchor="middle">左端から＝遅れの大きい順に配られます</text>';
-  }
-  // 結果：2つの山に分かれる
-  let s='', io=0, ix=0;
-  ITEMS.forEach(it=>{ const o=R.res[it.uid]; if(!o) return;
-    if(o==='ok'){ s+=card(it, 'ok', 92+io*1.2, 86-io*2.2, (rnd(it,'r')-.5)*14); io++; }
-    else { s+=card(it, 'ng', 232+ix*1.2, 86-ix*2.2, (rnd(it,'r')-.5)*14); ix++; } });
-  return s+'<text class="pn" x="92" y="150" text-anchor="middle" fill="#F5C451">'+R.ok+'</text><text class="pile" x="92" y="166">定着</text>'+
-    '<text class="pn" x="232" y="150" text-anchor="middle" fill="#FF6B6B">'+R.ng+'</text><text class="pile" x="232" y="166">もう一度（明日）</text>';
-}
-
-// ── E ニューロン網：1問＝1個 ──────────────────────────────────────────
+// ════════════════ E ニューロンの発火が連鎖する ════════════════
 const E_C=[[64,56],[164,44],[262,62],[86,132],[190,124],[276,140]];
 function netPos(){ const pos={}; groups().forEach((g,gi)=>{ const [cx,cy]=E_C[gi]; g.pts.forEach(it=>{ const a=rnd(it,'a')*Math.PI*2, r=10+rnd(it,'r')*24; pos[it.uid]=[cx+r*Math.cos(a), cy+r*Math.sin(a)*.8]; }); }); return pos; }
-function sigE(st, R){
-  const pos=netPos(); let syn='', nodes='', lab='';
-  const on=(a,b)=> R ? (R.res[a.uid]==='ok' && R.res[b.uid]==='ok') : false;
-  const curve=(p,q)=>{ const mx=(p[0]+q[0])/2+(q[1]-p[1])*.18, my=(p[1]+q[1])/2-(q[0]-p[0])*.18; return 'M'+f1(p[0])+' '+f1(p[1])+' Q'+f1(mx)+' '+f1(my)+' '+f1(q[0])+' '+f1(q[1]); };
-  groups().forEach((g,gi)=>{ const pts=g.pts;
-    pts.forEach((it,i)=>{ if(i) syn+='<path class="syn'+(on(pts[i-1],it)?' on':'')+'" d="'+curve(pos[pts[i-1].uid],pos[it.uid])+'"/>'; if(i>1&&i%2===0) syn+='<path class="syn'+(on(pts[i-2],it)?' on':'')+'" d="'+curve(pos[pts[i-2].uid],pos[it.uid])+'"/>'; });
-    if(gi<5){ const a=pts[0], b=groups()[gi+1].pts[0]; syn+='<path class="syn'+(on(a,b)?' on':'')+'" d="'+curve(pos[a.uid],pos[b.uid])+'"/>'; }
-    const [cx,cy]=E_C[gi]; lab+='<text class="lbl" x="'+cx+'" y="'+(cy+(gi<3?-30:40))+'" text-anchor="middle">'+esc(subj(g.sid).name)+'</text>';
-  });
-  ITEMS.forEach(it=>{ const [x,y]=pos[it.uid]; nodes+=nd('circle', it, st(it), 'cx="'+f1(x)+'" cy="'+f1(y)+'" r="'+(R&&R.res[it.uid]==='ok'?5.2:4.2)+'"'); });
-  return syn+nodes+lab;
+function netEdges(){ const E=[]; const gs=groups(); gs.forEach((g,gi)=>{ const p=g.pts; p.forEach((it,i)=>{ if(i) E.push([p[i-1],it]); if(i>1&&i%2===0) E.push([p[i-2],it]); }); if(gi<gs.length-1) E.push([p[0],gs[gi+1].pts[0]]); }); return E; }
+function curve(p,q){ const mx=(p[0]+q[0])/2+(q[1]-p[1])*.18, my=(p[1]+q[1])/2-(q[0]-p[0])*.18; return 'M'+f1(p[0])+' '+f1(p[1])+' Q'+f1(mx)+' '+f1(my)+' '+f1(q[0])+' '+f1(q[1]); }
+// 光の粒をシナプスに沿って走らせる（rAF。来なければ setTimeout で消える）
+function travel(svg, path, dur, rev){
+  const L=path.getTotalLength(), c=document.createElementNS('http://www.w3.org/2000/svg','circle'); c.setAttribute('r','2.4'); c.setAttribute('class','pulse'); svg.appendChild(c);
+  const t0=performance.now(); let done=false;
+  const step=now=>{ if(done) return; const p=Math.min(1,(now-t0)/dur), q=path.getPointAtLength(L*(rev?1-p:p)); c.setAttribute('cx',q.x); c.setAttribute('cy',q.y); if(p<1) requestAnimationFrame(step); else { done=true; c.remove(); } };
+  requestAnimationFrame(step); later(()=>{ done=true; c.remove(); }, dur+300);
 }
-function miniE(){ let s='', prev=null; ITEMS.forEach((it,k)=>{ const x=10+k*(580/(N-1)), y=16+(k%2?5:-5); if(prev) s+='<line class="syn" x1="'+f1(prev[0])+'" y1="'+f1(prev[1])+'" x2="'+f1(x)+'" y2="'+f1(y)+'"/>'; s+=nd('circle', it, it.sev, 'cx="'+f1(x)+'" cy="'+f1(y)+'" r="5"'); prev=[x,y]; }); return '<svg viewBox="0 0 600 32">'+s+'</svg>'; }
-
-// ── 5案 ──────────────────────────────────────────────────────────
-const PLANS = {
-  A:{ cls:'pA', name:'A 心電図モニター', desc:'1問＝1拍。正解で整った波形、誤答は乱れた拍',
-      eye:'RHYTHM STRIP', sev:['#FF5D6C','rgba(61,242,160,.6)','rgba(61,242,160,.28)'],
-      how:'1拍が1問です。<b>赤い乱れた拍</b>は予定より大きく遅れている問題。正解すると整った波形に戻り、誤答は点線の拍として残ります（明日もう一度）。',
-      sig:sigA, mini:miniA },
-  B:{ cls:'pB', name:'B DNA 二重らせん', desc:'1問＝1本の塩基対。正解で結合し、誤答はほどける',
-      eye:'DOUBLE HELIX', sev:['#FF6B8B','rgba(122,162,255,.55)','rgba(255,255,255,.25)'],
-      how:'らせんの横棒1本が1問です。遅れの大きい順（左から）に解き、正解した対は<b>青く結合</b>、誤答はほどけて明日もう一度出ます。',
-      sig:sigB, mini:miniB },
-  C:{ cls:'pC', name:'C 分割リング', desc:'1問＝リングの1区画。解くほど輪が満ちる',
-      eye:'RETENTION RING', sev:['#FF8A5C','#56657C','#2B3342'],
-      how:'リングの1区画が1問です。12時の位置から時計回りに、遅れの大きい順に並んでいます。正解した区画が<b>光って</b>、輪が満ちていきます。',
-      sig:sigC, mini:miniC },
-  D:{ cls:'pD', name:'D カードの束', desc:'1問＝1枚。解いたカードが「定着」と「もう一度」の山に分かれる',
-      eye:'TODAY\'S DECK', sev:['#FF6B6B','#6B7A93','#3A4456'],
-      how:'手札の1枚が1問です。正解したカードは<b>定着の山</b>へ、誤答は「もう一度」の山へ（明日また配られます）。',
-      sig:sigD },
-  E:{ cls:'pE', name:'E ニューロン網', desc:'1問＝1個の神経細胞。正解で発火し、シナプスがつながる',
-      eye:'NEURAL MAP', sev:['#FF7A90','#7E6BB5','#3A3550'],
-      how:'点の1つ1つが1問で、科目ごとに束になっています。正解した細胞が<b>発火</b>し、発火した細胞どうしがシナプスでつながります。',
-      sig:sigE, mini:miniE },
+const E = {
+  cls:'pE', name:'E ニューロンの発火', desc:'1問＝1個の神経細胞。正解で発火し、信号がシナプスを走って連鎖する',
+  eye:'NEURAL MAP', sev:['#FF7A90','#7E6BB5','#3A3550'],
+  how:'点の1つ1つが1問で、科目ごとに束になっています。正解した細胞が<b>発火</b>し、発火した細胞どうしのシナプスに信号が走ります。',
+  svg(st, R){ const pos=netPos(); let syn='', nodes='', lab='';
+    netEdges().forEach(([a,b])=>{ syn+='<path class="syn" data-e="'+esc(a.uid)+'|'+esc(b.uid)+'" pathLength="1" d="'+curve(pos[a.uid],pos[b.uid])+'"/>'; });
+    groups().forEach((g,gi)=>{ const [cx,cy]=E_C[gi]; lab+='<text class="lbl" x="'+cx+'" y="'+(cy+(gi<3?-30:40))+'" text-anchor="middle">'+esc(subj(g.sid).name)+'</text>'; });
+    ITEMS.forEach(it=>{ const [x,y]=pos[it.uid]; nodes+=nd('circle', it, st(it), 'cx="'+f1(x)+'" cy="'+f1(y)+'" r="4.4"', 'fb'); });
+    return syn+nodes+lab; },
+  intro(box){ const sig=$('.sig svg',box), cnt=$('.count b',box); cnt.textContent='0'; let n=0;
+    $$('.syn',sig).forEach(p=>{ p.style.strokeDasharray='1'; p.style.strokeDashoffset='1'; });
+    $$('.n',sig).forEach(e=>e.style.opacity='0');
+    groups().forEach((g,gi)=>{ later(()=>{ g.pts.forEach((it,i)=>later(()=>{ const e=$('[data-u="'+it.uid+'"]',sig); e.style.opacity=''; anim(e,[{transform:'scale(0)'},{transform:'scale(1.6)',offset:.55},{transform:'scale(1)'}],{duration:420}); cnt.textContent=String(++n); }, i*50));
+        $$('.syn',sig).filter(p=>g.pts.some(it=>p.dataset.e.split('|')[1]===it.uid)).forEach(p=>{ anim(p,[{strokeDashoffset:1},{strokeDashoffset:0}],{duration:500,delay:150}); later(()=>travel(sig,p,520), 500); }); }, gi*230); });
+    later(()=>banner(box,'NETWORK ONLINE'), 6*230+600); later(()=>$('.go',box).classList.add('shine'), 6*230+900); },
+  mini(){ let s='', prev=null; ITEMS.forEach((it,k)=>{ const x=10+k*(580/(N-1)), y=16+(k%2?5:-5); if(prev) s+='<line class="syn" x1="'+f1(prev[0])+'" y1="'+f1(prev[1])+'" x2="'+f1(x)+'" y2="'+f1(y)+'"/>'; s+=nd('circle', it, it.sev, 'cx="'+f1(x)+'" cy="'+f1(y)+'" r="5"', 'fb'); prev=[x,y]; }); return '<svg viewBox="0 0 600 32">'+s+'</svg>'; },
+  hud(){ return '<div class="mini">'+this.mini()+'</div>'; },
+  result(res, R){ const sig=$('.sig svg',res); let t=300;
+    $$('.n',sig).forEach(e=>{ const it=ITEMS.find(i=>i.uid===e.dataset.u); e.setAttribute('class','n fb '+it.sev); });
+    ITEMS.forEach(it=>{ const o=R.res[it.uid]; if(!o) return; later(()=>{ const e=$('[data-u="'+it.uid+'"]',sig); e.setAttribute('class','n fb '+o);
+        if(o==='ok'){ anim(e,[{transform:'scale(2.2)'},{transform:'scale(1.15)'}],{duration:480}); const [x,y]=svgPt(sig,+e.getAttribute('cx'),+e.getAttribute('cy')); burst(x,y,'#B18CFF',6,24);
+          $$('.syn',sig).forEach(p=>{ const [a,b]=p.dataset.e.split('|'); const other = a===it.uid ? b : b===it.uid ? a : null; if(other && R.res[other]==='ok' && !p.classList.contains('on')){ p.classList.add('on'); travel(sig,p,480,a===it.uid); } }); } }, t); t+=110; });
+    later(()=>banner(res,'発火 '+R.ok+' / '+R.n), t+300); },
 };
+
+const PLANS = { A, B, C, D, E };
+
+function banner(root, text){
+  const sig=$('.sig',root); if(!sig) return; let b=$('.banner',sig); if(!b){ b=document.createElement('div'); b.className='banner'; sig.appendChild(b); }
+  b.textContent=text; anim(b,[{opacity:0,transform:'scale(1.8)',letterSpacing:'.6em'},{opacity:1,transform:'scale(1)',letterSpacing:'.3em',offset:.35},{opacity:1,offset:.8},{opacity:0}],{duration:1600,fill:'forwards'});
+}
 
 // ── 状態 ───────────────────────────────────────────────────────────
 let plan='A', stage='brief', S;
@@ -328,6 +473,7 @@ function report(){
   const ok=done.filter(i=>res[i.uid]==='ok').length;
   return { res, n:done.length, ok, ng:done.length-ok, pct:Math.round(ok/Math.max(1,done.length)*100), grp:[...byG.entries()].sort((a,b)=>b[1].n-a[1].n), crit, critOk, med:nx.length?nx[Math.floor(nx.length/2)]:null };
 }
+function sigHtml(st, R){ const p=P(); return '<div class="sig"><svg viewBox="0 0 320 180">'+p.svg(st, R)+'</svg>'+(p.layer?'<div class="layer">'+p.layer(st)+'</div>':'')+'</div>'; }
 
 // ── ① 開始前 ────────────────────────────────────────────────────────
 function showBrief(){
@@ -336,16 +482,18 @@ function showBrief(){
   ov.className='ov '+p.cls; ov.setAttribute('role','dialog'); ov.setAttribute('aria-modal','true');
   ov.innerHTML='<div class="box">'+
     '<div class="head"><div><div class="eye">'+p.eye+'</div><h3 class="ttl">定着プロトコル</h3><div class="dt">'+dateStr()+'</div></div>'+
-      (plan==='C'?'':'<div class="count"><b>'+N+'</b><span>問</span></div>')+'</div>'+
-    '<div class="sig"><svg viewBox="0 0 320 180">'+p.sig(it=>it.sev, null)+'</svg></div>'+
+      (p.noCount?'':'<div class="count"><b>'+N+'</b><span>問</span></div>')+'</div>'+
+    sigHtml(it=>it.sev, null)+
     '<div class="sev"><span><i style="background:'+p.sev[0]+'"></i>大きく遅れ<b>'+c.crit+'</b></span><span><i style="background:'+p.sev[1]+'"></i>遅れ<b>'+c.warn+'</b></span><span><i style="background:'+p.sev[2]+'"></i>予定どおり<b>'+c.stable+'</b></span></div>'+
     '<div class="subs">'+groups().map(g=>'<div>'+esc(subj(g.sid).name)+'<b>'+g.pts.length+'</b></div>').join('')+'</div>'+
     '<div class="how">'+p.how+'</div>'+
     '<div class="btns"><button class="back">あとで</button><button class="go">開始</button></div></div>';
   document.body.appendChild(ov);
-  ov.querySelector('.go').onclick=()=>{ ov.remove(); setStage('run'); };
-  ov.querySelector('.back').onclick=()=>ov.remove();
-  ov.addEventListener('click',e=>{ if(e.target===ov) ov.remove(); });
+  const box=$('.box',ov);
+  $('.go',ov).onclick=()=>{ ov.remove(); setStage('run'); };
+  $('.back',ov).onclick=()=>{ clearTimers(); ov.remove(); };
+  ov.addEventListener('click',e=>{ if(e.target===ov){ clearTimers(); ov.remove(); } });
+  later(()=>p.intro(box), 350);
   $stage().innerHTML='<p class="hint">開始前の画面は全画面で重なります。背景か「あとで」で閉じ、「開始」で②へ進みます。</p>';
 }
 
@@ -353,28 +501,33 @@ function showBrief(){
 function hudEl(){
   let h=document.getElementById('hud');
   if(!h){ const p=P(); h=document.createElement('div'); h.id='hud'; h.className='hud hide '+p.cls; h.setAttribute('role','status');
-    h.innerHTML = plan==='D'
-      ? '<div class="row"><span class="tag">∞ 定着プロトコル</span><span class="cnt"></span></div><div class="piles"><span class="stk deck"><i></i><i></i><i></i></span><span>山札<b class="dk"></b></span><span class="sp"></span><span class="stk ok"><i></i><i></i><i></i></span><span class="o">定着<b class="ko"></b></span><span class="stk ng"><i></i><i></i><i></i></span><span class="x">もう一度<b class="kx"></b></span></div>'
-      : '<div class="row"><span class="tag">∞ 定着プロトコル</span><span class="cnt"></span></div><div class="mini">'+p.mini()+'</div>';
+    h.innerHTML='<div class="row"><span class="tag">∞ 定着プロトコル</span><span class="cnt"></span></div>'+p.hud();
     document.body.appendChild(h); requestAnimationFrame(()=>requestAnimationFrame(()=>h.classList.remove('hide'))); }
   return h;
 }
 function paint(){
-  const h=hudEl(), res={}, now=nowUid(); S.recs.forEach(r=>res[r.uid]=r.o);
-  h.querySelector('.cnt').innerHTML='<b>'+S.recs.length+'</b> / '+N+'　<span class="o">定着 '+outN('ok')+'</span>　<span class="x">もう一度 '+outN('ng')+'</span>';
-  h.querySelectorAll('[data-u]').forEach(el=>{ const [b,...rest]=el.dataset.b.split(' '), u=el.dataset.u; el.setAttribute('class', b+' '+(res[u]||rest.join(' '))+(!res[u]&&u===now?' now':'')); });
-  if(plan==='A'){ // 正解した拍は整った波形に描き直す
-    h.querySelectorAll('path[data-u]').forEach(el=>{ const it=ITEMS.find(i=>i.uid===el.dataset.u); const k=ITEMS.indexOf(it); if(res[it.uid]==='ok'){ const t=document.createElement('div'); t.innerHTML='<svg>'+beat(k*20,26,it,'ok',.8)+'</svg>'; el.setAttribute('d', t.querySelector('path').getAttribute('d')); } });
-  }
-  if(plan==='D'){ h.querySelector('.dk').textContent=N-S.recs.length; h.querySelector('.ko').textContent=outN('ok'); h.querySelector('.kx').textContent=outN('ng'); }
+  const h=hudEl(), p=P(), res={}, now=nowUid(); S.recs.forEach(r=>res[r.uid]=r.o);
+  $('.cnt',h).innerHTML='<b class="kc">'+S.recs.length+'</b> / '+N+'　<span class="o">定着 '+outN('ok')+'</span>　<span class="x">もう一度 '+outN('ng')+'</span>';
+  $$('[data-u]',h).forEach(el=>{ const [b,...rest]=el.dataset.b.split(' '), u=el.dataset.u; const extra = el.classList.contains('fb') ? ' fb' : '';
+    el.setAttribute('class', b+extra+' '+(res[u]||rest.join(' '))+(!res[u]&&u===now?' now':'')); });
+  if(p.paintExtra) p.paintExtra(h);
 }
-function pop(o){
-  const r=hudEl().getBoundingClientRect(), el=document.createElement('div');
-  el.className='pop '+P().cls+' '+o; el.textContent=OUT[o];
-  el.style.left=(r.left+r.width/2)+'px'; el.style.top=(r.top-38)+'px';
-  document.body.appendChild(el); setTimeout(()=>el.remove(),1100);
+function answer(ok){
+  if(S.i>=N) return; const it=ITEMS[S.i++], o=ok?'ok':'ng', p=P(), h=hudEl();
+  const q=$('.mockq'); const from = q ? center(q) : [innerWidth/2, innerHeight/2];
+  const target = p.target ? p.target(h, it, o) : $('[data-u="'+it.uid+'"]',h);
+  const col = o==='ok' ? getComputedStyle(h).getPropertyValue('--accent').trim() : getComputedStyle(h).getPropertyValue('--crit').trim();
+  S.recs.push({uid:it.uid,o});
+  flyTo(from, target, col, (x,y)=>{
+    paint(); const m = p.target ? target : $('[data-u="'+it.uid+'"]',h);
+    if(p.onMark) p.onMark(m, it, o);
+    if(o==='ok'){ burst(x,y,col,12,40); ring(x,y,col,16); anim(m,[{transform:'scale(1.9)'},{transform:'scale(1)'}],{duration:420}); }
+    else { anim(h,[{transform:'translateX(0)'},{transform:'translateX(-7px)'},{transform:'translateX(6px)'},{transform:'translateX(-3px)'},{transform:'translateX(0)'}],{duration:340,fill:'none'}); anim(m,[{transform:'scale(1.5)'},{transform:'scale(1)'}],{duration:300}); }
+    const kc=$('.kc',h); if(kc) anim(kc,[{transform:'scale(1.35)'},{transform:'scale(1)'}],{duration:300});
+    const po=document.createElement('div'); const r=h.getBoundingClientRect(); po.className='pop '+p.cls+' '+o; po.textContent=OUT[o]; po.style.left=(r.left+r.width/2)+'px'; po.style.top=(r.top-38)+'px'; document.body.appendChild(po); later(()=>po.remove(),1100);
+  });
+  renderRun();
 }
-function answer(ok){ if(S.i>=N) return; const it=ITEMS[S.i++], o=ok?'ok':'ng'; S.recs.push({uid:it.uid,o}); pop(o); paint(); renderRun(); }
 function renderRun(){
   const it=ITEMS[S.i];
   $stage().innerHTML=(it?'<div class="mockq"><span class="qn">Q.'+it.uid.split('_q')[1]+'</span>　<span style="font-size:12px;opacity:.7">'+esc(subj(it.sid).name)+'</span><div class="qt">（問題文の見本）62歳の男性。……最も考えられるのはどれか。</div>'+
@@ -383,10 +536,10 @@ function renderRun(){
     '<div class="sim"><button class="ok">正解させる</button><button class="ng">誤答させる</button><button class="auto">残りを自動で</button><button class="rst">最初から</button></div>'+
     '<p class="hint">画面下がボードです（表示だけで押せません）。</p>';
   const st=$stage();
-  st.querySelector('.ok').onclick=()=>answer(true);
-  st.querySelector('.ng').onclick=()=>answer(false);
-  st.querySelector('.auto').onclick=()=>{ const step=()=>{ if(S.i>=N||stage!=='run') return; answer(autoOk(ITEMS[S.i])); setTimeout(step,240); }; step(); };
-  st.querySelector('.rst').onclick=()=>{ reset(); document.getElementById('hud')?.remove(); paint(); renderRun(); };
+  $('.ok',st).onclick=()=>answer(true);
+  $('.ng',st).onclick=()=>answer(false);
+  $('.auto',st).onclick=()=>{ const step=()=>{ if(S.i>=N||stage!=='run') return; answer(autoOk(ITEMS[S.i])); later(step,420); }; step(); };
+  $('.rst',st).onclick=()=>{ reset(); document.getElementById('hud')?.remove(); paint(); renderRun(); };
 }
 function showRun(){ clearLayers(); paint(); renderRun(); }
 
@@ -396,21 +549,28 @@ function showRes(){
   const st = it => R.res[it.uid] || it.sev;
   $stage().innerHTML='<div class="sumwrap"><div class="fake">ここより上に今の結果画面（正答率・所要時間など）が並び、下のブロックが差し替わります。'+(S.recs.length?'':'②で解いていないので見本の正誤で埋めています。')+'</div>'+
     '<div class="res '+p.cls+'"><div class="eye">'+p.eye+' · 結果</div>'+
-      '<div class="hl"><span class="num">'+R.n+'</span>問のうち <span class="num">'+R.ok+'</span>問が定着</div>'+
-      '<div class="sig"><svg viewBox="0 0 320 180">'+p.sig(st, R)+'</svg></div>'+
-      '<div class="stats"><div><b>'+R.pct+'%</b><span>定着率</span></div><div><b>'+R.ng+'</b><span>明日もう一度</span></div><div><b>'+R.critOk+'/'+R.crit.length+'</b><span>大きく遅れ→定着</span></div><div><b>'+(R.med!=null?R.med+'日':'—')+'</b><span>次に会うまで</span></div></div>'+
-      '<div class="bars">'+R.grp.map(([sid,b])=>'<div class="rw"><span>'+esc(subj(sid).name)+'</span><span class="tr"><i style="width:'+(b.ok/b.n*100).toFixed(1)+'%"></i></span><span class="v">'+b.ok+'/'+b.n+'</span></div>').join('')+'</div>'+
+      '<div class="hl"><span class="num" id="rN">'+R.n+'</span>問のうち <span class="num" id="rOk">0</span>問が定着</div>'+
+      sigHtml(st, R)+
+      '<div class="stats"><div><b id="rPct">0%</b><span>定着率</span></div><div><b>'+R.ng+'</b><span>明日もう一度</span></div><div><b>'+R.critOk+'/'+R.crit.length+'</b><span>大きく遅れ→定着</span></div><div><b>'+(R.med!=null?R.med+'日':'—')+'</b><span>次に会うまで</span></div></div>'+
+      '<div class="bars">'+R.grp.map(([sid,b])=>'<div class="rw"><span>'+esc(subj(sid).name)+'</span><span class="tr"><i data-w="'+(b.ok/b.n*100).toFixed(1)+'"></i></span><span class="v">'+b.ok+'/'+b.n+'</span></div>').join('')+'</div>'+
     '</div></div>';
+  const res=$('.res'); anim(res,[{opacity:0,transform:'translateY(14px)'},{opacity:1,transform:'none'}],{duration:500});
+  countUp($('#rOk'), R.ok, 1400);
+  later(()=>p.result(res, R), 200);
+  $$('.stats div',res).forEach((d,i)=>anim(d,[{opacity:0,transform:'translateY(10px)'},{opacity:1,transform:'none'}],{duration:450,delay:900+i*120}));
+  later(()=>countUp($('#rPct'), R.pct, 1000, v=>v+'%'), 900);
+  later(()=>$$('.bars .tr i',res).forEach(i=>i.style.width=i.dataset.w+'%'), 1300);
 }
 
-function clearLayers(){ document.querySelectorAll('.ov,.hud,.pop').forEach(e=>e.remove()); }
-function setStage(s){ stage=s; document.querySelectorAll('#stages button').forEach(b=>b.classList.toggle('on',b.dataset.s===s));
+function clearLayers(){ clearTimers(); document.querySelectorAll('.ov,.hud,.pop').forEach(e=>e.remove()); FX().innerHTML=''; }
+function setStage(s){ stage=s; $$('#stages button[data-s]').forEach(b=>b.classList.toggle('on',b.dataset.s===s));
   if(s==='brief') showBrief(); else if(s==='run') showRun(); else showRes(); }
-function setPlan(k){ plan=k; document.querySelectorAll('#plans button').forEach(b=>b.classList.toggle('on',b.dataset.k===k)); reset(); setStage(stage); }
+function setPlan(k){ plan=k; $$('#plans button').forEach(b=>b.classList.toggle('on',b.dataset.k===k)); reset(); setStage(stage); }
 
 document.getElementById('plans').innerHTML=Object.entries(PLANS).map(([k,p])=>'<button data-k="'+k+'"><b>'+esc(p.name)+'</b><small>'+esc(p.desc)+'</small></button>').join('');
-document.querySelectorAll('#plans button').forEach(b=>b.onclick=()=>setPlan(b.dataset.k));
-document.querySelectorAll('#stages button').forEach(b=>b.onclick=()=>setStage(b.dataset.s));
+$$('#plans button').forEach(b=>b.onclick=()=>setPlan(b.dataset.k));
+$$('#stages button[data-s]').forEach(b=>b.onclick=()=>setStage(b.dataset.s));
+$('#replay').onclick=()=>setStage(stage);
 setPlan('A');
 </script>
 </body>
