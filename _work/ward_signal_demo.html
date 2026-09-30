@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>並び終わりの合図 5案</title>
+<!--
+  定着プロトコル（ward.js）の申し送りで「科目のベッドが並び終わった瞬間」の合図を見比べるデモ（2026-09-30）。
+  2026-09-30f で入れた合図（最後の床から輪が広がる・粒・縁の光・数字の跳ね）は「分かりづらい」と言われた。
+  一瞬で消えるので「揃った後の状態」が何も残らないのが原因と見て、5案は合図のあとも状態が残るものを中心にした：
+    1 ✓ 揃いました（見出しの右に ✓ が押され、縁が科目の色で点いたまま）
+    2 床が波打つ（揃った瞬間に床が左から一斉に跳ね、カードの地が科目の色に染まったまま）
+    3 枠が描かれる（最後の床から科目の色の線がカードの縁を一周し、点いたまま）
+    4 READY の判子（カードの右上に科目の色の判子が押される）
+    5 カードが浮く（カードが持ち上がって光り、床が白く瞬いてから着地・縁は点いたまま）
+  ward.js の CSS（申し送りの部分）をそのまま写してある。床の並べ方・時間は本物と同じ（300ms 後から・1床 min(40, 1000/最多) ms）。
+  本物の関数は呼ばない。何も保存しない。テストの対象ではない。
+-->
+<style>
+  body{margin:0;min-height:100vh;padding:18px 16px 60px;color:#E8F6F8;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic UI",sans-serif;
+    background:radial-gradient(ellipse 95% 65% at 50% -18%,rgba(121,40,202,.5),transparent 68%),radial-gradient(circle at 15% 22%,rgba(0,229,255,.28),transparent 52%),linear-gradient(180deg,#050814,#03050c);}
+  *{box-sizing:border-box;}
+  html,body{overflow-x:clip;}
+  .harness{max-width:680px;margin:0 auto;}
+  .harness h1{font-size:15px;margin:0 0 4px;}
+  .harness p{font-size:12.5px;line-height:1.7;opacity:.72;margin:0 0 12px;}
+  .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:6px;margin-bottom:10px;}
+  .plans button{padding:9px 10px;border-radius:12px;border:1px solid rgba(126,214,223,.28);background:rgba(18,48,58,.5);color:#E8F6F8;font:inherit;text-align:left;cursor:pointer;}
+  .plans button b{display:block;font-size:13px;}
+  .plans button small{display:block;font-size:10.5px;opacity:.7;margin-top:2px;line-height:1.4;}
+  .plans button.on{background:#7ED6DF;color:#06201F;border-color:#7ED6DF;}
+  .ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px;}
+  .ctl button{padding:9px 16px;border-radius:99px;border:0;background:#E8F6F8;color:#06201F;font:inherit;font-size:13px;font-weight:800;cursor:pointer;}
+  .ctl label{font-size:13px;display:flex;align-items:center;gap:6px;cursor:pointer;}
+  .ctl input{width:18px;height:18px;accent-color:#7ED6DF;}
+  .desc{font-size:12.5px;line-height:1.75;padding:10px 12px;border-radius:12px;background:rgba(126,214,223,.08);border:1px solid rgba(126,214,223,.25);margin-bottom:12px;}
+  .desc b{color:#7ED6DF;}
+
+  /* ═══ ward.js の申し送りの CSS をそのまま写したもの ═══ */
+  .wb-box{width:100%;box-sizing:border-box;padding:20px 18px 16px;border-radius:18px;
+    background:linear-gradient(170deg,#12303A,#0B1E25 70%);border:1px solid rgba(126,214,223,.6);
+    box-shadow:inset 0 0 0 3px rgba(6,16,20,.85),inset 0 0 0 4px rgba(126,214,223,.22),0 20px 50px rgba(0,0,0,.6);color:#E8F6F8;}
+  .wb-tag{font-size:10px;font-weight:900;letter-spacing:.32em;color:#7ED6DF;}
+  .wb-box h3{margin:4px 0 2px;font-size:22px;font-weight:900;}
+  .wb-date{font-size:12px;color:rgba(232,246,248,.65);}
+  .wb-rooms{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:7px;margin-top:14px;}
+  .wb-room{padding:8px 9px;border-radius:11px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-left:3px solid var(--rc,#7ED6DF);position:relative;overflow:hidden;
+    transition:background .5s ease,border-color .5s ease,box-shadow .5s ease;}
+  .wb-rn{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:900;white-space:nowrap;min-width:0;}
+  .wb-rn .nm{overflow:hidden;text-overflow:ellipsis;}
+  .wb-rn small{display:inline-block;font-weight:700;opacity:.6;margin-left:2px;}
+  .wb-beds{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px;}
+  .wb-bed{width:10px;height:10px;border-radius:3px;background:#34D399;}
+  .wb-bed.warn{background:#FBBF24}.wb-bed.crit{background:#F87171}
+  .wb-howto{margin-top:12px;padding:9px 11px;border-radius:11px;font-size:12px;line-height:1.6;background:rgba(126,214,223,.08);border:1px dashed rgba(126,214,223,.4);}
+  .wb-howto b{color:#7ED6DF;}
+  .wb-go{display:block;width:100%;margin-top:14px;padding:12px;border:0;border-radius:12px;font:inherit;font-size:15px;font-weight:900;color:#06201F;background:linear-gradient(180deg,#8BE9F0,#4FC3CF);}
+  .pt{position:fixed;left:0;top:0;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;pointer-events:none;z-index:50;}
+
+  /* 現行（2026-09-30f）：輪 */
+  .wave{position:absolute;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,transparent 38%,var(--wc) 58%,transparent 72%);opacity:0;}
+
+  /* 1 ✓ 揃いました */
+  .ok-badge{margin-left:auto;display:inline-flex;align-items:center;gap:3px;padding:1px 7px 1px 5px;border-radius:99px;font-size:10px;font-weight:900;color:#06201F;background:var(--rc);opacity:0;}
+  .p1 .wb-room.done{border-color:color-mix(in srgb,var(--rc) 70%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--rc) 55%,transparent),0 0 14px color-mix(in srgb,var(--rc) 30%,transparent);}
+
+  /* 2 床が波打つ・地が染まる */
+  .p2 .wb-room.done{background:linear-gradient(135deg,color-mix(in srgb,var(--rc) 26%,transparent),color-mix(in srgb,var(--rc) 8%,transparent));border-color:color-mix(in srgb,var(--rc) 55%,transparent);}
+
+  /* 3 枠が描かれる */
+  .frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;}
+  .frame rect{fill:none;stroke:var(--rc);stroke-width:2;filter:drop-shadow(0 0 4px var(--rc));}
+
+  /* 4 READY の判子 */
+  .stamp{position:absolute;right:6px;top:5px;padding:2px 7px;border:2px solid var(--rc);border-radius:6px;color:var(--rc);font-size:10.5px;font-weight:900;letter-spacing:.14em;rotate:-12deg;opacity:0;
+    background:rgba(6,16,20,.6);text-shadow:0 0 6px color-mix(in srgb,var(--rc) 70%,transparent);}
+
+  /* 5 カードが浮く */
+  .p5 .wb-room.done{border-color:color-mix(in srgb,var(--rc) 70%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--rc) 50%,transparent);}
+</style>
+</head>
+<body>
+<div class="harness">
+  <h1>申し送り — 科目のベッドが並び終わった合図の5案</h1>
+  <p>今の合図（一瞬の輪と光）は、消えたあとに何も残らないので分かりにくいと考え、合図のあとも「この科目は揃った」と分かる状態が残る案を中心に作りました。「スロー」にすると半分の速さで見られます。</p>
+  <div class="plans" id="plans"></div>
+  <div class="desc" id="desc"></div>
+  <div class="ctl"><button id="replay">↻ もう一度再生</button><label><input type="checkbox" id="slow">スロー（×0.5）</label></div>
+  <div id="stage"></div>
+</div>
+<script>
+'use strict';
+const ROOMS = [
+  { name:'呼吸器', icon:'🌬️', color:'#3B82F6', beds:['crit','crit','warn','crit','warn','crit','warn','stable','warn','stable'] },
+  { name:'循環器', icon:'❤️', color:'#EF4444', beds:['warn','warn','warn','crit','warn','warn','stable','stable'] },
+  { name:'神経',   icon:'🧠', color:'#22C55E', beds:['warn','crit','warn','stable','crit','stable'] },
+  { name:'内分泌', icon:'⚗️', color:'#00A5B5', beds:['warn','crit','stable','warn'] },
+  { name:'消化器', icon:'🌿', color:'#A855F7', beds:['warn','stable','stable'] },
+  { name:'血液',   icon:'🩸', color:'#DC2626', beds:['crit','stable'] },
+];
+const PLANS = {
+  cur:{ name:'現行', desc:'今の合図', text:'今の合図です。最後の床から科目の色の輪が広がり、粒がはじけ、縁が一瞬光り、問題数が跳ねます。<b>消えると何も残りません。</b>' },
+  1:{ name:'1 ✓ 揃いました', desc:'見出しに ✓ ・縁が点いたまま', text:'並び終わった瞬間に、見出しの右へ科目の色の<b>「✓ 揃った」バッジ</b>が弾んで押され、カードの縁が科目の色で<b>点いたまま</b>になります。どの科目が揃ったかが後からでも一目で分かります。' },
+  2:{ name:'2 床が波打つ', desc:'床が一斉に跳ね・地が染まる', text:'最後の床が置かれた瞬間に、<b>その科目の床が左から順に一斉に跳ね</b>（ウェーブ）、カードの地が科目の色に<b>染まったまま</b>になります。' },
+  3:{ name:'3 枠が描かれる', desc:'最後の床から縁を一周', text:'最後の床の位置から、<b>科目の色の線がカードの縁をぐるっと一周</b>して閉じ、光る枠が<b>残ります</b>。「囲まれた＝完成」と読めます。' },
+  4:{ name:'4 READY の判子', desc:'右上に判子が押される', text:'カードの右上に、科目の色の<b>「READY」の判子</b>が大きい所から押し付けられるように押されます。判子は<b>残ります</b>。' },
+  5:{ name:'5 カードが浮く', desc:'持ち上がって光り・着地', text:'並び終わった科目の<b>カードがふわっと持ち上がって光り</b>、床が白く瞬いてから着地します。縁は科目の色で<b>点いたまま</b>になります。' },
+};
+let plan='1', TIMERS=[];
+const later=(f,ms)=>{ const t=setTimeout(f,ms*SPD()); TIMERS.push(t); return t; };
+const SPD=()=>document.getElementById('slow').checked?2:1;
+function anim(el,kf,opt){ opt=Object.assign({fill:'both',easing:'cubic-bezier(.16,1,.3,1)'},opt); opt.duration*=SPD(); if(opt.delay) opt.delay*=SPD(); return el.animate(kf,opt); }
+function burst(x,y,c,n){ for(let i=0;i<n;i++){ const p=document.createElement('i'); p.className='pt'; p.style.background=c; p.style.boxShadow='0 0 6px '+c; document.body.appendChild(p);
+  const a=Math.random()*Math.PI*2,d=18+Math.random()*26; anim(p,[{transform:'translate('+x+'px,'+y+'px)',opacity:1},{transform:'translate('+(x+Math.cos(a)*d)+'px,'+(y+Math.sin(a)*d)+'px) scale(0)',opacity:0}],{duration:700}); setTimeout(()=>p.remove(),1600); } }
+
+// ── 並び終わりの合図（room・その床・科目の色） ─────────────────────
+const SIGNAL = {
+  cur(room, beds, c){ const last=beds[beds.length-1], rr=room.getBoundingClientRect(), br=last.getBoundingClientRect(), x=br.left+br.width/2, y=br.top+br.height/2;
+    const w=document.createElement('i'); w.className='wave'; w.style.cssText='--wc:'+c+';left:'+(x-rr.left)+'px;top:'+(y-rr.top)+'px;'; room.appendChild(w);
+    anim(w,[{transform:'scale(.3)',opacity:.9},{transform:'scale('+(rr.width/9)+')',opacity:0}],{duration:750,easing:'cubic-bezier(.2,.8,.3,1)'});
+    anim(last,[{transform:'scale(1)'},{transform:'scale(1.9)',offset:.35},{transform:'scale(1)'}],{duration:420,fill:'none'}); burst(x,y,c,9);
+    anim(room,[{boxShadow:'0 0 0 0 transparent'},{boxShadow:'0 0 0 1px '+c+', 0 0 18px '+c,offset:.35},{boxShadow:'0 0 0 0 transparent'}],{duration:900,fill:'none'});
+    anim(room.querySelector('small'),[{transform:'scale(1)'},{transform:'scale(1.35)',opacity:1,offset:.4},{transform:'scale(1)'}],{duration:450,fill:'none'}); },
+  1(room, beds, c){ room.classList.add('done'); const b=room.querySelector('.ok-badge');
+    anim(b,[{opacity:0,transform:'scale(2.4) rotate(-14deg)'},{opacity:1,transform:'scale(.9) rotate(0)',offset:.55},{opacity:1,transform:'scale(1)'}],{duration:520});
+    const r=b.getBoundingClientRect(); later(()=>burst(r.left+r.width/2,r.top+r.height/2,c,8),150);
+    anim(room,[{boxShadow:'0 0 0 1px '+c+', 0 0 22px '+c},{boxShadow:'0 0 0 1px color-mix(in srgb,'+c+' 55%,transparent), 0 0 14px color-mix(in srgb,'+c+' 30%,transparent)'}],{duration:800,fill:'none'}); },
+  2(room, beds, c){ beds.forEach((b,k)=>anim(b,[{transform:'translateY(0)'},{transform:'translateY(-7px) scale(1.25)',offset:.4},{transform:'translateY(0)'}],{duration:420,delay:k*45,fill:'none'}));
+    later(()=>room.classList.add('done'), beds.length*45); },
+  3(room, beds, c){ const last=beds[beds.length-1], rr=room.getBoundingClientRect(), br=last.getBoundingClientRect();
+    const W=rr.width, H=rr.height, ns='http://www.w3.org/2000/svg', svg=document.createElementNS(ns,'svg'); svg.setAttribute('class','frame'); svg.setAttribute('viewBox','0 0 '+W+' '+H);
+    // 最後の床の真下（下の辺）から時計回りに一周する角丸の枠
+    const x0=Math.max(12,Math.min(W-12,br.left+br.width/2-rr.left)), r=10, p='M'+x0+' '+(H-1)+' H'+r+' Q1 '+(H-1)+' 1 '+(H-r)+' V'+r+' Q1 1 '+r+' 1 H'+(W-r)+' Q'+(W-1)+' 1 '+(W-1)+' '+r+' V'+(H-r)+' Q'+(W-1)+' '+(H-1)+' '+(W-r)+' '+(H-1)+' Z';
+    svg.innerHTML='<path d="'+p+'" pathLength="1" fill="none" stroke="'+c+'" stroke-width="2" stroke-linejoin="round" style="filter:drop-shadow(0 0 4px '+c+')"/>'; room.appendChild(svg);
+    const path=svg.querySelector('path'); path.style.strokeDasharray='1'; anim(path,[{strokeDashoffset:1},{strokeDashoffset:0}],{duration:650,easing:'cubic-bezier(.5,0,.3,1)'});
+    anim(last,[{transform:'scale(1)'},{transform:'scale(1.8)',offset:.3},{transform:'scale(1)'}],{duration:400,fill:'none'});
+    later(()=>anim(room,[{boxShadow:'0 0 20px '+c},{boxShadow:'0 0 0 transparent'}],{duration:700,fill:'none'}),650); },
+  4(room, beds, c){ const s=room.querySelector('.stamp');
+    anim(s,[{opacity:0,transform:'scale(3)'},{opacity:1,transform:'scale(.92)',offset:.6},{opacity:1,transform:'scale(1)'}],{duration:420,easing:'cubic-bezier(.3,1.4,.5,1)'});
+    later(()=>{ anim(room,[{transform:'translateX(0)'},{transform:'translate(1px,1px)'},{transform:'translate(-1px,0)'},{transform:'translateX(0)'}],{duration:160,fill:'none'}); const r=s.getBoundingClientRect(); burst(r.left+r.width/2,r.top+r.height/2,c,7); },250); },
+  5(room, beds, c){ anim(room,[{transform:'translateY(0) scale(1)',boxShadow:'0 0 0 transparent'},{transform:'translateY(-6px) scale(1.04)',boxShadow:'0 10px 24px rgba(0,0,0,.45), 0 0 18px '+c,offset:.4},{transform:'translateY(0) scale(1)',boxShadow:'0 0 0 transparent'}],{duration:800,fill:'none'});
+    beds.forEach(b=>anim(b,[{filter:'brightness(1)'},{filter:'brightness(2.4)',offset:.4},{filter:'brightness(1)'}],{duration:600,fill:'none'}));
+    later(()=>room.classList.add('done'),500); },
+};
+
+function render(){
+  TIMERS.forEach(clearTimeout); TIMERS=[]; document.querySelectorAll('.pt').forEach(p=>p.remove());
+  const st=document.getElementById('stage');
+  st.className='p'+plan;
+  st.innerHTML='<div class="wb-box"><div class="wb-tag">RETENTION PROTOCOL</div><h3>♾️ 定着プロトコル</h3><div class="wb-date">9月30日(水)　今日の問題 33問・6科目</div>'+
+    '<div class="wb-rooms">'+ROOMS.map(r=>'<div class="wb-room" style="--rc:'+r.color+'"><div class="wb-rn"><span class="nm">'+r.icon+' '+r.name+'</span><small>'+r.beds.length+'問</small>'+
+      (plan==='1'?'<span class="ok-badge">✓ 揃った</span>':'')+'</div><div class="wb-beds">'+r.beds.map(b=>'<i class="wb-bed '+b+'"></i>').join('')+'</div>'+
+      (plan==='4'?'<span class="stamp">READY</span>':'')+'</div>').join('')+'</div>'+
+    '<div class="wb-howto">予定より大きく遅れた問題から順に出します。正解で<b>定着</b>、誤答は<b>もう一度</b>（明日また出ます）。</div><button class="wb-go">はじめる ▶</button></div>';
+  // 本物と同じ並べ方：全科目同時・科目の中だけ左から順
+  const rooms=[...st.querySelectorAll('.wb-room')], roomBeds=rooms.map(r=>[...r.querySelectorAll('.wb-bed')]);
+  const most=Math.max(...roomBeds.map(b=>b.length)), per=Math.min(40,1000/most);
+  roomBeds.forEach(beds=>beds.forEach((b,k)=>{ b.style.opacity='0'; later(()=>{ b.style.opacity=''; anim(b,[{transform:'scale(0)'},{transform:'scale(1.5)',offset:.6},{transform:'scale(1)'}],{duration:360,fill:'none'}); },300+k*per); }));
+  rooms.forEach((room,i)=>later(()=>SIGNAL[plan](room, roomBeds[i], ROOMS[i].color), 300+(roomBeds[i].length-1)*per+340));
+}
+function setPlan(k){ plan=k; document.querySelectorAll('#plans button').forEach(b=>b.classList.toggle('on',b.dataset.k===k)); document.getElementById('desc').innerHTML=PLANS[k].text; render(); }
+document.getElementById('plans').innerHTML=Object.entries(PLANS).map(([k,p])=>'<button data-k="'+k+'"><b>'+p.name+'</b><small>'+p.desc+'</small></button>').join('');
+document.querySelectorAll('#plans button').forEach(b=>b.onclick=()=>setPlan(b.dataset.k));
+document.getElementById('replay').onclick=render;
+document.getElementById('slow').onchange=render;
+setPlan('1');
+</script>
+</body>
+</html>
