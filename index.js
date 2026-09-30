@@ -117,6 +117,119 @@ function getSrsRiskBreakdown(sessionLimit = 50) {
   }
 }
 
+// ── SRS の予定表（プロトコル待機列の図の材料）─────────────────────
+// 今日を0として days 日ぶん、nextReview がその日に来る件数を数える。0日目は期限切れ込み
+// （late＝昨日以前が期限だったぶん）。科目の内訳は「いま復習待ちのもの」全部（出題50問に限らない）。
+// ⚠️ 重複コピーの影は数えない（getSRSDueCount と同じ数え方＝0日目の合計は due と必ず一致する）。
+function getSrsForecast(days = 14) {
+  const out = { days: [], late: 0, subj: [] };
+  const today = _jstDay(Date.now());
+  const base = Date.parse(today + 'T00:00:00Z');
+  for (let d = 0; d < days; d++) {
+    out.days.push({ date: new Date(base + d * 86400000).toISOString().slice(0, 10), n: 0 });
+  }
+  try {
+    const srs = JSON.parse(localStorage.getItem('mec_srs_v1') || '{}');
+    const bySid = {};
+    const shadow = window.MECSync && MECSync.srsIsShadow;
+    for (const uid in srs) {
+      const e = srs[uid];
+      if (!e || !e.nextReview) continue;
+      const d = _diffDaysStr(today, e.nextReview);
+      if (d >= days) continue;
+      if (shadow && MECSync.srsIsShadow(uid)) continue;
+      if (d <= 0) {
+        out.days[0].n++;
+        if (d < 0) out.late++;
+        const sid = _noteSid(uid);
+        bySid[sid] = (bySid[sid] || 0) + 1;
+      } else {
+        out.days[d].n++;
+      }
+    }
+    out.subj = Object.keys(bySid).map(sid => ({ sid, n: bySid[sid] })).sort((a, b) => b.n - a.n);
+  } catch (e) {}
+  return out;
+}
+
+// 科目色。正本は gamify.js の SUBJECTS（→ mindmap_data/index.js の MM_SUBJECTS）。
+// 過去問・実力試験Ⅰなどそこに載らない科目は灰色でまとめて見せる。
+function _srsSubjColor(sid) {
+  const s = (window.MM_SUBJECTS || []).find(x => x.sid === sid);
+  return s && s.color ? s.color : '#8a8fa3';
+}
+
+// プロトコル待機列の図: 本日消化のリング・14日の予定・科目の内訳帯。
+// ⚠️ 数字の正本はカード上段（本日消化・復習待ち）と同じ値を受け取って描くだけ＝ここで数え直さない。
+function _srsVizHtml(done, goal, fc, due) {
+  const ringR = 26, ringC = 2 * Math.PI * ringR;
+  const ratio = goal > 0 ? Math.min(1, done / goal) : (done > 0 ? 1 : 0);
+  const ok = goal > 0 && done >= goal;
+  const ring =
+    '<div class="srs-viz-ring' + (ok ? ' is-ok' : '') + '" title="本日消化 ' + _fmtN(done) + (goal > 0 ? ' / ' + _fmtN(goal) : '') + '問">' +
+      '<svg viewBox="0 0 64 64" aria-hidden="true">' +
+        '<circle class="vr-track" cx="32" cy="32" r="' + ringR + '"></circle>' +
+        '<circle class="vr-fill" cx="32" cy="32" r="' + ringR + '" stroke-dasharray="' + ringC.toFixed(2) + '" stroke-dashoffset="' + (ringC * (1 - ratio)).toFixed(2) + '"></circle>' +
+      '</svg>' +
+      '<span class="vr-mid"><b>' + (goal > 0 ? Math.round(ratio * 100) : '--') + '</b><small>%</small></span>' +
+      '<span class="srs-viz-cap">本日消化</span>' +
+    '</div>';
+
+  // 14日の予定。0日目は「期限切れ」と「今日が期限」を積み上げる
+  const maxN = Math.max(1, ...fc.days.map(d => d.n));
+  const top = Math.max(maxN, fc.days[0].n);
+  const showTarget = maxN >= SRS_DAILY_TARGET;
+  const bars = fc.days.map((d, i) => {
+    const h = d.n / top * 100;
+    const md = Number(d.date.slice(8, 10));
+    const lbl = i === 0 ? '今日' : String(md);
+    let inner;
+    if (i === 0 && fc.late > 0) {
+      const lateH = fc.late / Math.max(1, d.n) * 100;
+      inner = '<span class="fb-bar is-today" style="height:' + h.toFixed(1) + '%">' +
+                '<span class="fb-late" style="height:' + lateH.toFixed(1) + '%"></span></span>';
+    } else {
+      inner = '<span class="fb-bar' + (i === 0 ? ' is-today' : '') + '" style="height:' + h.toFixed(1) + '%"></span>';
+    }
+    const tip = (i === 0 ? '今日（期限切れ ' + _fmtN(fc.late) + '問を含む）' : d.date.slice(5).replace('-', '/')) + ': ' + _fmtN(d.n) + '問';
+    return '<div class="fb-col" title="' + tip + '"><div class="fb-slot">' + inner + '</div><span class="fb-lbl' + (i === 0 ? ' is-today' : i === 1 ? ' is-next' : '') + '">' + lbl + '</span></div>';
+  }).join('');
+  const peak = fc.days.slice(1).reduce((m, d) => d.n > m.n ? d : m, { n: 0, date: '' });
+  const forecast =
+    '<div class="srs-viz-fc">' +
+      '<div class="srs-viz-hd"><span>今後14日の予定</span>' +
+        (peak.n > 0 ? '<span class="srs-viz-note">山 ' + peak.date.slice(5).replace('-', '/') + ' <b>' + _fmtN(peak.n) + '</b>問</span>' : '') +
+      '</div>' +
+      '<div class="fb-chart">' +
+        (showTarget ? '<span class="fb-plot"><span class="fb-target" style="bottom:' + (SRS_DAILY_TARGET / top * 100).toFixed(1) + '%" title="1日の目標 ' + SRS_DAILY_TARGET + '問"></span></span>' : '') +
+        bars +
+      '</div>' +
+    '</div>';
+
+  // 科目の内訳帯（復習待ちがある日だけ）。上位4科目に名前を添え、残りは「ほか」にまとめる
+  let band = '';
+  if (due > 0 && fc.subj.length) {
+    const total = fc.subj.reduce((s, x) => s + x.n, 0) || 1;
+    const segs = fc.subj.map(x => {
+      const sj = _noteSubj(x.sid);
+      return '<span style="flex:' + x.n + ';background:' + _srsSubjColor(x.sid) + '" title="' + sj.label + ' ' + _fmtN(x.n) + '問"></span>';
+    }).join('');
+    const top4 = fc.subj.slice(0, 4);
+    const rest = total - top4.reduce((s, x) => s + x.n, 0);
+    const legend = top4.map(x => {
+      const sj = _noteSubj(x.sid);
+      return '<span class="sb-lg"><i style="background:' + _srsSubjColor(x.sid) + '"></i>' + sj.label + ' <b>' + _fmtN(x.n) + '</b></span>';
+    }).join('') + (rest > 0 ? '<span class="sb-lg is-rest">ほか <b>' + _fmtN(rest) + '</b></span>' : '');
+    band =
+      '<div class="srs-viz-sb">' +
+        '<div class="srs-viz-hd"><span>復習待ちの科目内訳</span><span class="srs-viz-note">' + fc.subj.length + '科目</span></div>' +
+        '<div class="sb-bar">' + segs + '</div>' +
+        '<div class="sb-legend">' + legend + '</div>' +
+      '</div>';
+  }
+  return '<div class="srs-viz' + (band ? '' : ' no-band') + '">' + ring + forecast + band + '</div>';
+}
+
 // ── 今日の学習量とXP ──────────────────────────────────────────
 // ⚠️ 数字の出どころ（ここを崩すと嘘の数字が出る）:
 //   ・試験/SRS/章別試験は mec_attempts_v1 に1解答=1行で時刻付きで残る＝今日ぶんは正確。
@@ -1330,6 +1443,7 @@ function renderHero() {
     if (nb) newBudgetHtml = '<div class="srs-card-new' + (nb.left <= 0 ? ' is-full' : '') + '" title="復習待ちが多い日は新しく覚える問題の上限が下がる（上限を超えた新規は誤答だけ復習予定に入る）">新規 <b>' + _fmtN(nb.newToday) + '</b><span class="srs-goal">/ ' + _fmtN(nb.cap) + '</span>問</div>';
   } catch (e) {}
 
+  const fc = getSrsForecast(14);
   if (due > 0) {
     const risk = getSrsRiskBreakdown(sessionLimit);
     say.classList.remove('is-clear');
@@ -1373,7 +1487,8 @@ function renderHero() {
         '<span class="rb-high" style="flex:' + risk.high + '"></span>' +
         '<span class="rb-mid" style="flex:' + risk.mid + '"></span>' +
         '<span class="rb-due" style="flex:' + risk.dueToday + '"></span>' +
-      '</div>';
+      '</div>' +
+      _srsVizHtml(srsDoneToday, srsGoal, fc, due);
   } else {
     say.classList.add('is-clear');
     say.innerHTML =
@@ -1387,7 +1502,8 @@ function renderHero() {
           newBudgetHtml +
         '</div>' +
       '</div>' +
-      '<p class="srs-card-hint">現在、復習期限を迎えた問題はありません。全 ' + _fmtN(totalQ) + '問から新しい問題を進めましょう！</p>';
+      '<p class="srs-card-hint">現在、復習期限を迎えた問題はありません。全 ' + _fmtN(totalQ) + '問から新しい問題を進めましょう！</p>' +
+      _srsVizHtml(srsDoneToday, srsGoal, fc, 0);
   }
 
   // ボタンは3つとも席が固定: 主＝いま一番やるべきこと／副＝復習／3つ目＝今日の誤答。

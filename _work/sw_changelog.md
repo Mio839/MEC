@@ -9,6 +9,7 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-09-30k: ハブのプロトコル待機列（#heroSay）を .hero-console から出して2列ぶち抜きに（右のゲージの下＝「今日の誤答」の上まで）。本日消化のリング・今後14日の予定の棒グラフ（今日は期限切れを赤で積む）・復習待ちの科目内訳帯を追加（index.js の getSrsForecast / _srsVizHtml）。
 2026-09-30j: Liquid の起動画面に C 雨の窓 を追加（study_exam.js の LIQUID_BOOTS が A・B・C の3案に。デモ _work/boot_liquid_demo2.html の5案 F〜J から H だけをユーザーが採用）。夜の雨の窓ごしに街の灯、3・2・1 で灯りが1色ずつ点り、起動でワイパーが扇形に拭う。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-30i: 版数バッジを作り直し（study.html のヘッダー右端＋ハブの ♻️ の隣）。手で上げる MEC_BUILD（08-26 から止まっていた）を廃止し、この画面を配った SW の SHELL_VERSION と、sw.js を取り直して読んだ Pages の SHELL_VERSION を比べる。Pages のほうが新しければ「↑版数」を琥珀色で出すだけ（自分では再読込しない）。sw.js に版数の問い合わせ口（message "mec-ver"）を足し、sw.js への fetch は横取りしないようにした。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-30h: 定着プロトコル（ward.js）の申し送りで科目の枠が閉じた直後に READY の判子を押す（29c879c）。同じコミットに sw.js の版数の問い合わせ口（message "mec-ver"・sw.js を横取りしない）も入った＝ページ側のバッジは 09-30i。シェルのみ＝SHELL_VERSION だけ bump。

@@ -139,7 +139,6 @@
                （overflow:hidden）の中ではなく、その外に重ねる -->
           <i class="lv-burst" id="heroLvBurst" aria-hidden="true"></i>
         </div>
-        <div class="hero-say srs-card" id="heroSay"></div>
       </div>
       <!-- ゲージ＝「今日やるべき問題数のうち何％まで来たか」。
            数字の出どころは MecGamify.dailyGoal()（日次ミッション ans が正本）で、
@@ -1346,6 +1345,10 @@
         <p class="gauge-cap" id="gaugeCap">今日の目標</p>
         <p class="gauge-goal"><b id="gaugeDoneN">0</b> / <span id="gaugeGoalN">100</span>問</p>
       </div>
+      <!-- プロトコル待機列。2026-09-30 に .hero-console の中から出して2列ぶち抜きにした
+           （右のゲージの下＝「今日の誤答」ボタンの上まで使って、リング・14日の予定・科目の内訳帯を載せる）。
+           中身は renderHero() が入れる -->
+      <div class="hero-say srs-card" id="heroSay"></div>
     </div>
 
     <div class="hero-cta">
