@@ -155,7 +155,7 @@ body.ward-on .ct{padding-bottom:130px;}
 #wardBrief .wb-k.crit b{color:#F87171}#wardBrief .wb-k.warn b{color:#FBBF24}#wardBrief .wb-k.stable b{color:#6EE7B7}
 #wardBrief .wb-rooms{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:7px;}
 #wardBrief .wb-room{padding:8px 9px;border-radius:11px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-left:3px solid var(--rc,#7ED6DF);
-  animation:wbIn .3s ease both;animation-delay:calc(var(--i,0) * 40ms);}
+  animation:wbIn .3s ease both;}
 #wardBrief .wb-rn{font-size:12px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 #wardBrief .wb-rn small{font-weight:700;opacity:.6;margin-left:4px;}
 #wardBrief .wb-beds{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px;}
@@ -273,12 +273,14 @@ body.ward-on .ct{padding-bottom:130px;}
     // 演出：ドーナツが伸びる → 数字が数え上がる → 床が1つずつ現れ、大きく遅れた床が点滅 → ボタンに光
     _growSegs(el, 250, 180);
     [...el.querySelectorAll('.wb-k b')].forEach((b, i) => { const v = +b.textContent; b.textContent = '0'; _later(() => _countUp(b, v, 900), 200 + i * 120); });
-    const beds = [...el.querySelectorAll('.wb-bed')];
-    const per = Math.min(32, 1400 / Math.max(1, beds.length));   // 床が多い日も1.5秒ほどで並び終える
-    beds.forEach((b, k) => { b.style.opacity = '0'; _later(() => { b.style.opacity = '';
+    // 床は全科目で同時に並べる（科目の中だけ左から順に・2026-09-30 ユーザー指定＝科目を1つずつ待たせない）
+    const roomBeds = [...el.querySelectorAll('.wb-room')].map(r => [...r.querySelectorAll('.wb-bed')]);
+    const most = Math.max(1, ...roomBeds.map(b => b.length));
+    const per = Math.min(40, 1000 / most);   // いちばん床の多い科目も1秒ほどで並び終える
+    roomBeds.forEach(beds => beds.forEach((b, k) => { b.style.opacity = '0'; _later(() => { b.style.opacity = '';
       _anim(b, [{ transform: 'scale(0)' }, { transform: 'scale(1.5)', offset: .6 }, { transform: 'scale(1)' }], { duration: 360 });
-      if (b.classList.contains('crit')) _later(() => _anim(b, [{ opacity: 1 }, { opacity: .25 }, { opacity: 1 }, { opacity: .25 }, { opacity: 1 }], { duration: 900 }), 380); }, 300 + k * per); });
-    _later(() => go.classList.add('shine'), 300 + beds.length * per + 500);
+      if (b.classList.contains('crit')) _later(() => _anim(b, [{ opacity: 1 }, { opacity: .25 }, { opacity: 1 }, { opacity: .25 }, { opacity: 1 }], { duration: 900 }), 380); }, 300 + k * per); }));
+    _later(() => go.classList.add('shine'), 300 + most * per + 500);
   }
 
   // ── 帯（病棟ボード） ─────────────────────────────────────────────────
@@ -467,7 +469,7 @@ body.ward-on .ct{padding-bottom:130px;}
     [...R.querySelectorAll('.ewr-k b')].forEach(b => { const v = +b.textContent; b.textContent = '0'; _later(() => _countUp(b, v, 900), 300); });
     const bars = [...R.querySelectorAll('i[data-w]')];
     bars.forEach(i => { i.style.width = '0'; });
-    _later(() => bars.forEach((i, k) => _later(() => { i.style.width = i.dataset.w; }, k * 50)), 500);
+    _later(() => bars.forEach(i => { i.style.width = i.dataset.w; }), 500);   // 全科目の棒を同時に伸ばす
     [...R.querySelectorAll('.ewr-cal .d i')].forEach((i, k) => _anim(i, [{ transform: 'scaleY(0)' }, { transform: 'scaleY(1)' }], { duration: 700, delay: 900 + k * 40 }));
     [...R.querySelectorAll('.ewr-note')].forEach((el, k) => _anim(el, [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 500, delay: 1300 + k * 150 }));
     // rAF・WAAPI が止まっても（非表示タブ）棒は必ず最終値に着地させる
