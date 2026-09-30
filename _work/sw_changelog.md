@@ -9,6 +9,7 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-09-30b: ハブのゲージ中央の数字が 100% 超で拍動する覚醒パルス（overdriveMidPulse・1.08 倍）を index.css から撤去（ユーザー判断）。
 2026-09-30a: Liquid の試験の起動画面を2案（A インクの花・B 雫が集まる／デモ _work/boot_liquid_demo.html から採用）から毎回1つに（LIQUID_BOOTS）。旧 liquid 様式（ぼやけた3色の丸・橙の文字・DIVE／GHOST LINK）は撤去。あわせてテーマ固有の起動画面（Frost・Celestial・Liquid）では起動音を鳴らさないよう統一（_examBootTable）。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-29u: Brass の正解演出の「段が上がった瞬間」の大きな歯車列（_brsBigTrain）を「歯車の壁」（_brsGearWall・試験演出一覧の brass 新案⑥から採用）に差し替え。画面の端から歯車が噛み合って中央へ届き、中央の大歯車はメダルの外周に噛む大きさで、メダルを打つ瞬間（300ms）にはまる。数字はメダル側だけ。火花は canvas に描く（_brsSparkSet／_brsDrawSparks）。シェルのみ＝SHELL_VERSION だけ bump。
 2026-09-29t / v671: サマライズ呼吸器(sumresp)を新科目として追加（🫁・#4FB0D8）。questions_sumresp.json を CARDS に加え、サマライズ呼吸器/images/（34枚）を追加したので CACHE を bump。PDF は「国試サマライズ・メジャー・呼吸器（表紙2026）」8章39問＋「2026Lesson呼吸器」19問＝58問（Lesson は ch09・Q.40〜58・紙面の番号はバッジ bb）。解説はテキスト（サマライズ本文・Lesson 参考資料）の引用＋1行の理由（_work/sumresp_notes.json）。⚠️ questions_sumresp.json は派生物（_work/build_sumresp_json.py）。

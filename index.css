@@ -1597,17 +1597,8 @@ html.ui-frost .od-frost{display:inline;}
   100% { opacity: 0.9; }
 }
 
-/* オーバードライブ時の中央数字の覚醒パルス */
-.gauge[data-overdrive] .gauge-mid{
-  animation:overdriveMidPulse 1.2s ease-in-out infinite alternate!important;
-}
-.gauge[data-overdrive="hyper"] .gauge-mid{
-  animation:overdriveMidPulse .7s ease-in-out infinite alternate!important;
-}
-@keyframes overdriveMidPulse{
-  0%{transform:scale(1);filter:drop-shadow(0 0 4px var(--gr));}
-  100%{transform:scale(1.08);filter:drop-shadow(0 0 16px var(--gr)) drop-shadow(0 0 28px #FFF);}
-}
+/* ⚠️ 100% 超（data-overdrive）で中央の数字が 1.08 倍まで拍動する覚醒パルス（overdriveMidPulse）は
+   2026-09-30 に撤去した（ユーザー判断・盤面の鼓動 gaugeBeat の撤去と同じ理由）。戻さないこと。 */
 
 /* ═══════════════════════════════════════════════════════════════
    🌌 全8テーマ完全差別化：独自形状フレーム＆進捗描画スタイル

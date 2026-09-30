@@ -1471,12 +1471,6 @@ html.ui-brass .od-brass { display:inline; }
   0% { opacity: 0.3; }
   100% { opacity: 0.9; }
 }
-.gauge[data-overdrive] .gauge-mid { animation:overdriveMidPulse 1.2s ease-in-out infinite alternate!important; }
-.gauge[data-overdrive="hyper"] .gauge-mid { animation:overdriveMidPulse .7s ease-in-out infinite alternate!important; }
-@keyframes overdriveMidPulse {
-  0%{transform:scale(1);filter:drop-shadow(0 0 4px var(--gr));}
-  100%{transform:scale(1.08);filter:drop-shadow(0 0 16px var(--gr)) drop-shadow(0 0 28px #FFF);}
-}
 .theme-gauge-layer > g { display: none; }
 html.ui-brass .theme-gauge-brass { display: inline; }
 .brass-dial-arc { stroke: var(--brass); opacity: .7; }
