@@ -357,8 +357,9 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 .srs-viz-pane{min-width:0;display:flex;flex-direction:column;padding:7px 9px 6px;border-radius:4px;
   background:rgba(0,0,0,.34);border:1px solid rgba(var(--glass-rgb),.10);}
 .srs-viz-hd{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:5px;white-space:nowrap;}
+/* ⚠️ 見出しの左の差し色（border-left）は 2026-10-01 に撤去（「左上に線が入っていて見づらい」） */
 .srs-viz-t{font-size:11.5px;font-weight:700;letter-spacing:.02em;color:rgba(var(--glass-rgb),.95);
-  padding-left:6px;border-left:2px solid var(--or,#f97316);line-height:1.2;text-shadow:0 1px 2px rgba(0,0,0,.6);}
+  line-height:1.2;text-shadow:0 1px 2px rgba(0,0,0,.6);}
 .srs-viz-note{font-size:10.5px;color:rgba(var(--glass-rgb),.8);font-feature-settings:"tnum";display:inline-flex;align-items:center;gap:3px;}
 .srs-viz-note b{color:rgba(var(--glass-rgb),1);font-weight:800;font-size:11.5px;}
 .sv-dot{width:7px;height:7px;border-radius:2px;display:inline-block;}
@@ -394,9 +395,6 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 .fb-lbl{font-size:10px;height:14px;line-height:14px;text-align:center;color:rgba(var(--glass-rgb),.75);
   font-feature-settings:"tnum";white-space:nowrap;overflow:visible;}
 .fb-lbl.is-today{color:var(--or,#f97316);font-weight:800;}
-/* 目標線は棒の描画域（上の件数13px・下のラベル14pxを除く）に重ねる */
-.fb-plot{position:absolute;left:0;right:0;top:13px;bottom:14px;pointer-events:none;z-index:1;}
-.fb-target{position:absolute;left:0;right:0;height:0;border-top:1px dashed rgba(var(--glass-rgb),.55);}
 /* 科目別の横棒 */
 .srs-viz-sb{gap:4px;}
 .sv-sr{display:grid;grid-template-columns:5.6em minmax(0,1fr) 2.4em;gap:6px;align-items:center;
@@ -415,6 +413,8 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
   .srs-card-stat:has(.srs-stat-extra) .srs-risk-cell{margin-left:0;}
 }
 .srs-stat-late.is-bad .srs-stat-val b{color:#f87171;}
+.srs-stat-extra.is-ok .srs-stat-val b{color:var(--gr,#22c55e);}
+.srs-stat-extra .srs-stat-val small:first-child{margin:0 2px 0 0;}
 @media (max-width:560px){
   .srs-viz{grid-template-columns:auto minmax(0,1fr);}
   .srs-viz-sb{grid-column:1/-1;}

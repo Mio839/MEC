@@ -196,7 +196,6 @@ function _srsVizHtml(done, goal, fc, due) {
   const top = Math.max(1, ...fc.days.map(d => d.n));
   let peakI = 0;
   for (let i = 1; i < fc.days.length; i++) if (fc.days[i].n > (peakI ? fc.days[peakI].n : 0)) peakI = i;
-  const showTarget = top >= SRS_DAILY_TARGET;
   const cols = fc.days.map((d, i) => {
     const h = d.n / top * 100;
     const tip = (i === 0 ? '今日（期限切れ ' + _fmtN(fc.late) + '問を含む）' : d.date.slice(5).replace('-', '/')) + ': ' + _fmtN(d.n) + '問';
@@ -213,7 +212,6 @@ function _srsVizHtml(done, goal, fc, due) {
         (fc.late > 0 ? '<span class="srs-viz-note"><i class="sv-dot is-late"></i>期限切れ <b>' + _fmtN(fc.late) + '</b></span>' : '') +
       '</div>' +
       '<div class="fb-chart">' +
-        (showTarget ? '<span class="fb-plot"><span class="fb-target" style="bottom:' + (SRS_DAILY_TARGET / top * 100).toFixed(1) + '%" title="1日の目標 ' + SRS_DAILY_TARGET + '問"></span></span>' : '') +
         cols +
       '</div>' +
     '</div>';
@@ -1483,7 +1481,7 @@ function renderHero() {
           '<span class="srs-stat-val"><b>優先 ' + _fmtN(sessionCount) + '</b><small>問</small></span>' +
         '</div>' +
         // 「今回の出題」と「忘却リスク内訳」の間の空き（2026-10-01 ユーザー指摘）に、数え方が見てすぐ分かる数字だけを置く:
-        //   終わると残り＝復習待ち − 今回の出題／明日の予定＝明日が期限の問題数／最大の遅れ＝いちばん長く放置している問題の遅れ日数。
+        //   終わると残り＝復習待ち − 今回の出題／目標まで＝今日の復習目標までの残り／最大の遅れ＝いちばん長く放置している問題の遅れ日数。
         // ⚠️ 推定値（所要時間の見込み等）は置かない（2026-10-01「算出法が謎」で撤去）。
         // ⚠️ 1行死守の行なので、狭い画面（≤560px）では .srs-stat-extra ごと隠す（index.css）。
         '<span class="srs-stat-sep srs-stat-extra" aria-hidden="true">➔</span>' +
@@ -1492,9 +1490,13 @@ function renderHero() {
           '<span class="srs-stat-val"><b>' + _fmtN(due - sessionCount) + '</b><small>問</small></span>' +
         '</div>' +
         '<span class="srs-stat-divider srs-stat-extra" aria-hidden="true"></span>' +
-        '<div class="srs-stat-cell srs-stat-extra" title="明日が復習期限になる問題の数（今日の分とは別）">' +
-          '<span class="srs-stat-lbl">明日の予定</span>' +
-          '<span class="srs-stat-val"><b>' + _fmtN(fc.days[1] ? fc.days[1].n : 0) + '</b><small>問</small></span>' +
+        // 「明日の予定」は 2026-10-01 に撤去（目標 200 と並ぶと「明日は115問しかやらない」と読めて紛らわしい）。
+        // 代わりに今日の目標までの残り（上の「本日消化 N / 目標」と同じ数から引くだけ）。
+        '<div class="srs-stat-cell srs-stat-extra' + (srsGoal > 0 && srsDoneToday >= srsGoal ? ' is-ok' : '') + '" title="今日の復習目標（' + _fmtN(srsGoal) + '問）までの残り">' +
+          '<span class="srs-stat-lbl">目標まで</span>' +
+          (srsGoal > 0 && srsDoneToday >= srsGoal
+            ? '<span class="srs-stat-val"><b>達成</b><small>✓</small></span>'
+            : '<span class="srs-stat-val"><small>あと</small><b>' + _fmtN(Math.max(0, srsGoal - srsDoneToday)) + '</b><small>問</small></span>') +
         '</div>' +
         '<div class="srs-stat-cell srs-stat-extra srs-stat-late' + (fc.maxLate >= 7 ? ' is-bad' : '') + '" title="期限切れの問題のうち、いちばん長く期限を過ぎている日数' + (fc.odd ? '（予定日が記録より前になっている ' + fc.odd + '問は、最後に解いた日から数えた）' : '') + '">' +
           '<span class="srs-stat-lbl">最大の遅れ</span>' +

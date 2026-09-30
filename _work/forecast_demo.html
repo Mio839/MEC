@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ja" class="ui-aurora">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>14日の予定 5案</title>
+<!--
+  ハブ「プロトコル待機列」の「今後14日の予定」（index.js _srsVizHtml）の表現を見比べるデモ（2026-10-01）。
+  経緯：今日以外の棒が薄くてグラフとして見づらい・意味があまりない、と言われたので表現ごと5案を並べる。
+  カードは現行（2026-10-01d）をそのまま再現し、14日の予定の区画だけを差し替える。本物のテーマCSSを読む。
+  数字はすべて架空（復習が溜まっている日を想定）。本物の関数は呼ばない。何も保存しない。テストの対象ではない。
+-->
+<link rel="stylesheet" href="../vars.css">
+<link rel="stylesheet" id="cssUi" href="../theme_css/ui_theme.aurora.css">
+<link rel="stylesheet" id="cssHub" href="../theme_css/index.aurora.css">
+<script src="../mindmap_data/index.js"></script>
+<style>
+  body{min-height:100vh;}
+  .harness{max-width:640px;margin:0 auto;padding:16px 16px 6px;color:var(--t1,#eee);font-size:13px;}
+  .harness h1{font-size:15px;margin:0 0 4px;}
+  .harness p.lead{font-size:12px;line-height:1.7;opacity:.75;margin:0 0 10px;}
+  .plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:8px;}
+  .plans button{padding:8px 9px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.28);color:inherit;font:inherit;text-align:left;cursor:pointer;}
+  .plans button b{display:block;font-size:12.5px;}
+  .plans button small{display:block;font-size:10px;opacity:.7;margin-top:2px;line-height:1.35;}
+  .plans button.on{background:rgba(255,255,255,.9);color:#111;}
+  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;font-size:12px;}
+  .row select{font:inherit;padding:4px 6px;border-radius:6px;}
+  .desc{font-size:12px;line-height:1.75;padding:9px 11px;border-radius:10px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.14);}
+  .desc b{color:var(--or,#f97316);}
+  .stage{max-width:640px;margin:12px auto 60px;padding:0 16px;}
+  .hero-say.srs-card{max-width:none;margin-top:0;}
+
+  /* 共通 */
+  .fx-n{font-size:10px;font-weight:700;color:rgba(var(--glass-rgb),.95);font-feature-settings:"tnum";text-align:center;white-space:nowrap;line-height:13px;height:13px;}
+  .fx-d{font-size:10px;color:rgba(var(--glass-rgb),.8);text-align:center;white-space:nowrap;line-height:14px;height:14px;font-feature-settings:"tnum";}
+  .fx-d.now{color:var(--or,#f97316);font-weight:800;}
+  .fx-chart{flex:1;min-height:84px;display:flex;align-items:stretch;gap:3px;}
+  .fx-col{flex:1;min-width:0;display:flex;flex-direction:column;}
+  .fx-slot{flex:1;display:flex;align-items:flex-end;border-bottom:1px solid rgba(var(--glass-rgb),.25);}
+  .fx-bar{width:100%;min-height:2px;border-radius:2px 2px 0 0;display:flex;flex-direction:column;overflow:hidden;}
+  .fx-late{display:block;width:100%;background:#ef4444;}
+  .fx-leg{display:flex;gap:9px;flex-wrap:wrap;font-size:10px;color:rgba(var(--glass-rgb),.85);margin-top:5px;}
+  .fx-leg i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:3px;vertical-align:-1px;}
+
+  /* B 今日を切り離す */
+  .vb{display:flex;gap:8px;flex:1;min-height:84px;}
+  .vb-today{flex:0 0 74px;display:flex;flex-direction:column;justify-content:center;align-items:center;border-radius:4px;
+    background:linear-gradient(180deg,rgba(239,68,68,.22),rgba(249,115,22,.16));border:1px solid rgba(239,68,68,.45);}
+  .vb-today .l{font-size:10px;color:var(--or,#f97316);font-weight:800;}
+  .vb-today b{font-size:22px;font-weight:800;color:#fff;line-height:1.1;font-feature-settings:"tnum";}
+  .vb-today small{font-size:9.5px;color:#fca5a5;white-space:nowrap;}
+
+  /* C カレンダー */
+  .vc{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;flex:1;}
+  .vc-h{font-size:9.5px;color:rgba(var(--glass-rgb),.7);text-align:center;}
+  .vc-c{border-radius:4px;padding:3px 2px 2px;text-align:center;display:flex;flex-direction:column;justify-content:center;min-height:32px;
+    border:1px solid rgba(var(--glass-rgb),.1);}
+  .vc-c .d{font-size:9px;color:rgba(255,255,255,.85);line-height:1.1;}
+  .vc-c b{font-size:12px;font-weight:800;color:#fff;font-feature-settings:"tnum";line-height:1.2;text-shadow:0 1px 2px rgba(0,0,0,.5);}
+  .vc-c.now{outline:2px solid var(--or,#f97316);outline-offset:-1px;}
+
+  /* D 積み残しの見通し */
+  .vd-sum{font-size:10.5px;color:rgba(var(--glass-rgb),.9);margin-top:4px;}
+  .vd-sum b{color:#fff;}
+
+  /* E 横棒の週 */
+  .ve{display:flex;flex-direction:column;gap:3px;flex:1;justify-content:center;}
+  .ve-r{display:grid;grid-template-columns:3.4em minmax(0,1fr) 2.6em;gap:6px;align-items:center;font-size:10.5px;color:rgba(var(--glass-rgb),.9);white-space:nowrap;}
+  .ve-r.now{color:var(--or,#f97316);font-weight:800;}
+  .ve-t{display:flex;width:100%;height:9px;border-radius:2px;background:rgba(var(--glass-rgb),.08);overflow:hidden;}
+  .ve-t i{display:block;height:100%;}
+  .ve-r b{text-align:right;color:#fff;font-weight:800;font-feature-settings:"tnum";}
+  .ve-more{font-size:10px;color:rgba(var(--glass-rgb),.75);margin-top:2px;}
+  .ve-more b{color:#fff;}
+</style>
+</head>
+<body>
+<div class="harness">
+  <h1>「今後14日の予定」：5案</h1>
+  <p class="lead">カードはいまのハブと同じもの（テーマCSSも本物）で、真ん中の「今後14日の予定」だけを差し替えています。数字は架空で、復習が溜まっている日を想定しています。</p>
+  <div class="plans" id="plans"></div>
+  <div class="row">テーマ <select id="theme"></select></div>
+  <div class="desc" id="desc"></div>
+</div>
+<div class="stage" id="stage"></div>
+
+<script>
+const D = {
+  done: 0, goal: 200, newToday: 0, newCap: 72, due: 455, session: 50, maxLate: 20,
+  pills: { high: 50, mid: 0, today: 0 },
+  fc: [455, 115, 88, 41, 52, 132, 30, 77, 95, 60, 45, 18, 29, 70], late: 395,
+  subj: [['hema',46],['circ',42],['endo',41],['obg',41],['kakumon',41],['resp',40],['neur',38],['dige',36],['kansen',35],['peds',33],['psy',32],['uro',30]],
+};
+const TODAY = new Date('2026-10-01T00:00:00+09:00');
+const dt = off => new Date(TODAY.getTime() + off * 86400000);
+const md = off => (dt(off).getMonth() + 1) + '/' + dt(off).getDate();
+const WD = '日月火水木金土';
+const wd = off => WD[dt(off).getDay()];
+const SUBJ = {}; (window.MM_SUBJECTS || []).forEach(s => SUBJ[s.sid] = s);
+const sName = sid => sid === 'kakumon' ? '国試過去問' : (SUBJ[sid] ? SUBJ[sid].label : sid);
+const sColor = sid => SUBJ[sid] ? SUBJ[sid].color : '#8a8fa3';
+const n = v => v.toLocaleString('ja-JP');
+const G = D.goal;
+
+// ── いまのカード（index.js の出力と同じ組み立て）──
+function card(fcPane) {
+  const p = D.pills;
+  const R = 2 * Math.PI * 40;
+  const rows = D.subj.slice(0, 5).map(([s, v]) => '<div class="sv-sr"><span class="sv-sn">' + sName(s) + '</span><span class="sv-track"><i style="width:' + (v / D.subj[0][1] * 100) + '%;background:' + sColor(s) + '"></i></span><b>' + v + '</b></div>').join('') +
+    '<div class="sv-sr is-rest"><span class="sv-sn">ほか' + (D.subj.length - 5) + '科目</span><span></span><b>' + D.subj.slice(5).reduce((a, x) => a + x[1], 0) + '</b></div>';
+  return '<div class="hero-say srs-card"><span class="srs-deco" aria-hidden="true"></span>' +
+    '<div class="srs-card-hdr"><div class="srs-card-title-grp"><span class="srs-card-ttl"><span class="srs-ttl-ic">♾️</span>プロトコル待機列</span>' +
+      '<span class="srs-tag srs-tag-cross">科目横断</span><span class="srs-tag srs-tag-risk">忘却リスク順</span></div>' +
+      '<div class="srs-card-counts"><div class="srs-card-today">本日消化 <b>' + D.done + '</b><span class="srs-goal">/ ' + G + '</span>問</div>' +
+      '<div class="srs-card-new">新規 <b>' + D.newToday + '</b><span class="srs-goal">/ ' + D.newCap + '</span>問</div></div></div>' +
+    '<div class="srs-card-stat">' +
+      '<div class="srs-stat-cell"><span class="srs-stat-lbl">復習待ち</span><span class="srs-stat-val"><b>' + D.due + '</b><small>問</small></span></div>' +
+      '<span class="srs-stat-sep">➔</span><div class="srs-stat-cell highlight"><span class="srs-stat-lbl">今回の出題</span><span class="srs-stat-val"><b>優先 ' + D.session + '</b><small>問</small></span></div>' +
+      '<span class="srs-stat-sep srs-stat-extra">➔</span><div class="srs-stat-cell srs-stat-extra"><span class="srs-stat-lbl">終わると残り</span><span class="srs-stat-val"><b>' + (D.due - D.session) + '</b><small>問</small></span></div>' +
+      '<span class="srs-stat-divider srs-stat-extra"></span><div class="srs-stat-cell srs-stat-extra"><span class="srs-stat-lbl">目標まで</span><span class="srs-stat-val"><small>あと</small><b>' + (G - D.done) + '</b><small>問</small></span></div>' +
+      '<div class="srs-stat-cell srs-stat-extra srs-stat-late is-bad"><span class="srs-stat-lbl">最大の遅れ</span><span class="srs-stat-val"><b>' + D.maxLate + '</b><small>日</small></span></div>' +
+      '<span class="srs-stat-divider"></span><div class="srs-stat-cell srs-risk-cell"><span class="srs-stat-lbl">忘却リスク内訳</span><div class="srs-risk-pills">' +
+      '<span class="srs-risk-pill risk-high"><span class="srs-pi">🔥</span> 超危険 <b>' + p.high + '</b></span>' +
+      '<span class="srs-risk-pill risk-mid is-zero"><span class="srs-pi">⚠️</span> 期限切れ <b>0</b></span>' +
+      '<span class="srs-risk-pill risk-due is-zero"><span class="srs-pi">📅</span> 本日 <b>0</b></span></div></div></div>' +
+    '<div class="srs-risk-bar"><span class="rb-high" style="flex:50"></span></div>' +
+    '<div class="srs-viz">' +
+      '<div class="srs-viz-ring"><span class="vr-box"><svg viewBox="0 0 92 92"><circle class="vr-track" cx="46" cy="46" r="40"></circle><circle class="vr-fill" cx="46" cy="46" r="40" stroke-dasharray="' + R + '" stroke-dashoffset="' + R + '"></circle></svg>' +
+        '<span class="vr-mid"><b>0</b><small>/ ' + G + '問</small></span></span><span class="srs-viz-cap">本日消化 <b>0%</b></span></div>' +
+      '<div class="srs-viz-fc srs-viz-pane">' + fcPane + '</div>' +
+      '<div class="srs-viz-sb srs-viz-pane"><div class="srs-viz-hd"><span class="srs-viz-t">科目別の復習待ち</span><span class="srs-viz-note"><b>' + D.subj.length + '</b>科目</span></div>' + rows + '</div>' +
+    '</div></div>';
+}
+const hd = (title, note) => '<div class="srs-viz-hd"><span class="srs-viz-t">' + title + '</span>' + (note ? '<span class="srs-viz-note">' + note + '</span>' : '') + '</div>';
+const lateNote = '<i class="sv-dot is-late"></i>期限切れ <b>' + D.late + '</b>';
+
+// 現行（2026-10-01d・破線と差し色は撤去済み）
+function fcNow() {
+  const top = Math.max(...D.fc);
+  let peak = 1; for (let i = 2; i < 14; i++) if (D.fc[i] > D.fc[peak]) peak = i;
+  const cols = D.fc.map((v, i) => '<div class="fb-col"><span class="fb-n' + (i === 0 ? ' is-today' : '') + '">' + (i === 0 || i === peak ? v : '') + '</span>' +
+    '<div class="fb-slot"><span class="fb-bar' + (i === 0 ? ' is-today' : '') + '" style="height:' + (v / top * 100) + '%">' + (i === 0 ? '<span class="fb-late" style="height:' + (D.late / v * 100) + '%"></span>' : '') + '</span></div>' +
+    '<span class="fb-lbl' + (i === 0 ? ' is-today' : '') + '">' + (i === 0 ? '今日' : (i % 2 ? '' : dt(i).getDate())) + '</span></div>').join('');
+  return hd('今後14日の予定', lateNote) + '<div class="fb-chart">' + cols + '</div>';
+}
+
+// 件数は全部の棒には載せない（14本だと3桁の数字が重なる）。今日・一番多い日・一番少ない日だけ
+function keyIdx(arr, from) {
+  let mx = from, mn = from;
+  for (let i = from; i < arr.length; i++) { if (arr[i] > arr[mx]) mx = i; if (arr[i] < arr[mn]) mn = i; }
+  return new Set([0, mx, mn]);
+}
+// A 負荷の色（目標200との比で塗る）
+const loadColor = v => v > G ? '#ef4444' : v > G / 2 ? '#f59e0b' : '#22c55e';
+function fcA() {
+  const top = Math.max(...D.fc), K = keyIdx(D.fc, 1);
+  const cols = D.fc.map((v, i) => '<div class="fx-col"><span class="fx-n">' + (K.has(i) ? v : '') + '</span><div class="fx-slot"><span class="fx-bar" style="height:' + (v / top * 100) + '%;background:' + loadColor(v) + '"></span></div>' +
+    '<span class="fx-d' + (i === 0 ? ' now' : '') + '">' + (i === 0 ? '今日' : dt(i).getDate()) + '</span></div>').join('');
+  return hd('今後14日の予定', lateNote) + '<div class="fx-chart">' + cols + '</div>' +
+    '<div class="fx-leg"><span><i style="background:#22c55e"></i>100問以下</span><span><i style="background:#f59e0b"></i>200問まで</span><span><i style="background:#ef4444"></i>目標200超え</span></div>';
+}
+
+// B 今日を切り離す（今日は数字の箱、明日以降は自分たちだけの縮尺で）
+function fcB() {
+  const fut = D.fc.slice(1);
+  const top = Math.max(...fut);
+  let peak = 0; fut.forEach((v, i) => { if (v > fut[peak]) peak = i; });
+  const K = keyIdx(fut, 0);
+  const cols = fut.map((v, i) => '<div class="fx-col"><span class="fx-n">' + (K.has(i) ? v : '') + '</span><div class="fx-slot"><span class="fx-bar" style="height:' + (v / top * 100) + '%;background:' + (i === peak ? 'linear-gradient(180deg,#60a5fa,#3b82f6)' : 'linear-gradient(180deg,#38bdf8,#0ea5e9)') + '"></span></div>' +
+    '<span class="fx-d">' + dt(i + 1).getDate() + '</span></div>').join('');
+  return hd('今後14日の予定') + '<div class="vb"><div class="vb-today"><span class="l">今日</span><b>' + D.fc[0] + '</b><small>期限切れ ' + D.late + '</small></div>' +
+    '<div class="fx-chart">' + cols + '</div></div>';
+}
+
+// C カレンダー（2週×7日のマス。色の濃さ＝件数・数字はマスの中）
+function fcC() {
+  const cell = (v, i) => {
+    const a = Math.min(1, v / G);
+    const bg = i === 0 ? 'linear-gradient(180deg,#b91c1c,#ea580c)' : 'rgba(59,130,246,' + (0.18 + a * 0.72).toFixed(2) + ')';
+    return '<div class="vc-c' + (i === 0 ? ' now' : '') + '" style="background:' + bg + '" title="' + md(i) + ' ' + v + '問"><span class="d">' + (i === 0 ? '今日' : md(i)) + '</span><b>' + v + '</b></div>';
+  };
+  const heads = Array.from({ length: 7 }, (_, i) => '<div class="vc-h">' + wd(i) + '</div>').join('');
+  return hd('今後14日の予定', lateNote) + '<div class="vc">' + heads + D.fc.map(cell).join('') + '</div>';
+}
+
+// D 積み残しの見通し（毎日200問解いたとき、各日の朝に残っている復習待ち）
+function fcD() {
+  const back = []; let left = 0;
+  D.fc.forEach((v, i) => { left = (i === 0 ? 0 : Math.max(0, left - G)) + v; back.push(left); });
+  const top = Math.max(...back);
+  const clearI = back.findIndex(v => v <= G);
+  const K = new Set([0, clearI > 0 ? clearI : 0, back.length - 1]);
+  const cols = back.map((v, i) => '<div class="fx-col"><span class="fx-n">' + (K.has(i) ? v : '') + '</span><div class="fx-slot"><span class="fx-bar" style="height:' + (v / top * 100) + '%;background:' + (v > G ? 'linear-gradient(180deg,#f87171,#dc2626)' : 'linear-gradient(180deg,#4ade80,#16a34a)') + '"></span></div>' +
+    '<span class="fx-d' + (i === 0 ? ' now' : '') + '">' + (i === 0 ? '今日' : dt(i).getDate()) + '</span></div>').join('');
+  return hd('毎日' + G + '問解いたときの残り') + '<div class="fx-chart">' + cols + '</div>' +
+    '<div class="vd-sum">' + (clearI > 0 ? '<b>' + md(clearI) + '</b>（' + clearI + '日後）に1日' + G + '問で回る量まで減る' : clearI === 0 ? '今日の分は目標の中に収まっている' : '14日以内には減りきらない') + '<span style="opacity:.7">　赤＝目標超え／緑＝目標内</span></div>';
+}
+
+// E 横棒の週（今日〜6日後を横棒で・残り7日は合計）
+function fcE() {
+  const top = Math.max(...D.fc.slice(0, 7));
+  const rows = D.fc.slice(0, 7).map((v, i) => {
+    const lateW = i === 0 ? D.late / top * 100 : 0;
+    const w = v / top * 100;
+    return '<div class="ve-r' + (i === 0 ? ' now' : '') + '"><span>' + (i === 0 ? '今日' : i === 1 ? '明日' : md(i) + wd(i)) + '</span>' +
+      '<span class="ve-t">' + (i === 0 ? '<i style="width:' + lateW + '%;background:#ef4444"></i><i style="width:' + (w - lateW) + '%;background:#f97316"></i>' : '<i style="width:' + w + '%;background:' + loadColor(v) + '"></i>') + '</span><b>' + v + '</b></div>';
+  }).join('');
+  const rest = D.fc.slice(7).reduce((a, b) => a + b, 0);
+  return hd('今後1週間の予定', lateNote) + '<div class="ve">' + rows + '<div class="ve-more">' + md(7) + '〜' + md(13) + ' の7日間 計 <b>' + rest + '</b>問</div></div>';
+}
+
+const PLANS = [
+  { id: 'now', name: '現行', sub: '今日以外が薄い棒', desc: 'いまハブに出ている形（左上の差し色と目標の破線は撤去済み）。比較用。', fc: fcNow },
+  { id: 'A', name: 'A 負荷の色', sub: '全部の棒を目標比で塗る', desc: '棒を薄くせず<b>全部はっきり塗る</b>。色は<b>1日の目標200問との比</b>（緑＝100問以下・黄＝200問まで・赤＝200問超え）で、件数は今日・一番多い日・一番少ない日に出す。「どの日が重いか」が色で分かる。', fc: fcA },
+  { id: 'B', name: 'B 今日を切り離す', sub: '今日は数字の箱・明日以降は別の縮尺', desc: '今日（期限切れ込み）だけ飛び抜けて大きいせいで、ほかの棒が潰れて見えていた。<b>今日は左の数字の箱に切り出し</b>、明日以降の13日は<b>自分たちだけの縮尺</b>でしっかり背を伸ばして描く。', fc: fcB },
+  { id: 'C', name: 'C カレンダー', sub: '2週×7日のマスに件数', desc: '棒をやめて<b>カレンダーのマス</b>にする。マスの中に日付と件数を大きく書き、<b>色の濃さ＝件数</b>（目標200問で最も濃く）。今日のマスは赤橙で枠つき。曜日の見出しで「来週の水曜が重い」のような読み方ができる。', fc: fcC },
+  { id: 'D', name: 'D 積み残しの見通し', sub: '毎日200問解いたら何日で減るか', desc: '「その日に期限が来る数」ではなく、<b>毎日200問ずつ解いたとき、各日の朝に残っている復習待ち</b>を描く。赤＝その日も目標を超えて溜まっている／緑＝1日200問で回る量。<b>何日で追いつくか</b>を1行で添える。', fc: fcD },
+  { id: 'E', name: 'E 横棒の週', sub: '1週間を横棒の表で', desc: '縦の棒14本をやめて、<b>今日〜6日後の7日を横棒の表</b>にする。曜日つきの日付・件数を大きめの文字で1行ずつ並べ、色は A と同じ目標比。残りの7日は合計だけ1行で。', fc: fcE },
+];
+
+const THEMES = ['aurora', 'brass', 'cyber', 'liquid', 'kintsugi', 'celestial', 'abyss', 'frost'];
+function show(id) {
+  const p = PLANS.find(x => x.id === id);
+  document.getElementById('stage').innerHTML = card(p.fc());
+  document.getElementById('desc').innerHTML = p.desc;
+  document.querySelectorAll('#plans button').forEach(b => b.classList.toggle('on', b.dataset.id === id));
+}
+function setTheme(t) {
+  THEMES.forEach(x => document.documentElement.classList.remove('ui-' + x));
+  document.documentElement.classList.add('ui-' + t);
+  document.getElementById('cssUi').href = '../theme_css/ui_theme.' + t + '.css';
+  document.getElementById('cssHub').href = '../theme_css/index.' + t + '.css';
+  document.getElementById('theme').value = t;
+}
+document.getElementById('plans').innerHTML = PLANS.map(p => '<button data-id="' + p.id + '"><b>' + p.name + '</b><small>' + p.sub + '</small></button>').join('');
+document.getElementById('plans').addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(b.dataset.id); });
+const sel = document.getElementById('theme');
+sel.innerHTML = THEMES.map(t => '<option>' + t + '</option>').join('');
+let t0 = 'aurora'; try { const s = localStorage.getItem('mec_ui_theme_v1'); if (THEMES.includes(s)) t0 = s; } catch (e) {}
+setTheme(t0);
+sel.addEventListener('change', () => setTheme(sel.value));
+show('now');
+</script>
+</body>
+</html>
