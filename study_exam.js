@@ -2420,9 +2420,10 @@ const CELESTIAL_BOOTS = [
     } }
 ];
 
-/* ══════════ Liquid の起動画面 2案（2026-09-30）══════════
-   デモ（_work/boot_liquid_demo.html）でユーザーが採用した A・B から、試験ごとにランダムで1つ出す。
-   A インクの花／B 雫が集まる（デモの C マーブリング・D 充填・E ミルククラウンは不採用）。
+/* ══════════ Liquid の起動画面 3案（2026-09-30）══════════
+   デモでユーザーが採用した A・B・C から、試験ごとにランダムで1つ出す。
+   A インクの花／B 雫が集まる（_work/boot_liquid_demo.html。C マーブリング・D 充填・E ミルククラウンは不採用）
+   C 雨の窓（第2弾 _work/boot_liquid_demo2.html の H。F 大波・G 液の数字・I 渦潮・J 磁性流体は不採用）。
    ⚠️ 尺・ctx の受け取り方・_cdLoop・ブートログの情報は FROST_BOOTS と同じ約束。
    ⚠️ 色は演出テーマ（classic の橙）から取らず、Liquid のマゼンタ・バイオレット・シアンで固定する。
       旧 liquid 様式は橙の文字に「DIVE／GHOST LINK」の起動語（電脳ダイブの流用）だった。
@@ -2629,6 +2630,78 @@ const LIQUID_BOOTS = [
       }
       c.go = c.goAt;
       c.cv.animate([{ opacity: 1 }, { opacity: 0 }], { duration: c.endAt - c.goAt - 380, delay: 380, easing: 'ease-in', fill: 'forwards' });
+      _cdGoIn(c.num, c.sub);
+    } }
+  ,
+  /* C 雨の窓（2026-09-30 追加・デモ _work/boot_liquid_demo2.html の H）：夜の雨の窓ごしに、にじんだ街の灯（マゼンタ・シアン・バイオレット）。
+     ガラスには大小の雫、ときどき筋を引いて流れ落ちる。3・2・1 で灯りが1色ずつ点り、起動でワイパーが扇形にガラスを拭い、曇りと雫が消える。
+     ⚠️ 雫のスプライトは色味違いの4枚を build のたびに作るだけ（粒ごとにグラデーションを作らない）。 */
+  { key: 'c', prefix: '╎ ', lineIn: _lqbLineBleed,
+    lines: (qn, s) => ['RAIN ON GLASS', 'CITY .............. ' + s, 'DROPS ............. ' + qn, 'VISIBILITY ........ LOW', 'CLEAR THE VIEW'],
+    rematch: qn => ['RAIN AGAIN', 'STREAKS ........... 前回の誤答 ' + qn + ' 問', 'WIPER ............. READY', '曇った ' + qn + ' 問を拭い去る'],
+    html: '',
+    build(c) {
+      const w = innerWidth, h = innerHeight, m = Math.min(w, h), x = _frCtx(c.host, w, h, 0, 1.5);
+      c.cv = x.canvas;
+      const COLS = [LQB_MAG, LQB_CYA, LQB_VIO], BK = [];
+      for (let i = 0; i < 27; i++) BK.push({ g: i % 3, x: _cdR(-.05, 1.05) * w, y: _cdR(.08, 1) * h, r: m * _cdR(.05, .15), spr: _lqbSprite(COLS[i % 3]), ph: _cdR(0, 6) });
+      const dropSpr = tint => {   // 雫：暗い芯に灯りの色がうっすら映り、下の縁が照り、左上に白い光
+        const s = 64, cv = document.createElement('canvas'); cv.width = cv.height = s;
+        const d = cv.getContext('2d'), g = d.createRadialGradient(32, 38, 2, 32, 34, 30);
+        g.addColorStop(0, _lqbRgba(tint, .35)); g.addColorStop(.75, 'rgba(10,3,18,.45)'); g.addColorStop(.95, 'rgba(255,200,235,.55)'); g.addColorStop(1, 'rgba(255,200,235,0)');
+        d.fillStyle = g; d.beginPath(); d.arc(32, 32, 30, 0, 7); d.fill();
+        d.fillStyle = 'rgba(255,255,255,.85)'; d.beginPath(); d.ellipse(23, 21, 6, 4, -.6, 0, 7); d.fill();
+        return cv;
+      };
+      const DS = [dropSpr(LQB_MAG), dropSpr(LQB_CYA), dropSpr(LQB_VIO), dropSpr([255, 255, 255])], D = [], RUN = [];
+      for (let i = 0; i < 260; i++) { const rr = Math.random() < .88 ? _cdR(1.5, 4.5) : _cdR(5, 10); D.push({ x: _cdR(0, w), y: _cdR(0, h), r: rr, e: _cdR(1, 1.25), s: DS[(Math.random() * 4) | 0] }); }
+      c.run = (n, t0) => { for (let i = 0; i < n; i++) RUN.push({ x: _cdR(.05, .95) * w, y: _cdR(-.1, .4) * h, r: _cdR(6, 11), t0: t0 + _cdR(0, 300), v: 0, s: DS[(Math.random() * 4) | 0], trail: [] }); };
+      c.lit = [0, 0, 0];
+      const px = w / 2, py = h + m * .12, LEN = Math.hypot(w / 2, h + m * .12) + 30;
+      const angOf = (xx, yy) => Math.atan2(py - yy, xx - px);   // 0＝右・π＝左（ワイパーの軸は画面の下の外）
+      let last = 0;
+      _cdLoop(c, t => {
+        const dt = Math.min(50, t - last) / 1000; last = t;
+        const wa = c.go ? Math.PI * (1 - _lqbSoft((t - c.go) / 520)) : Math.PI + 1;   // ワイパーの角度（π→0）
+        const wiped = (xx, yy) => c.go && angOf(xx, yy) > wa;
+        x.clearRect(0, 0, w, h);
+        x.globalCompositeOperation = 'lighter';   // 街の灯
+        BK.forEach(b => {
+          const lt = c.lit[b.g] ? _lqbSoft((t - c.lit[b.g]) / 220) : 0, fl = .85 + .15 * Math.sin(t / 90 + b.ph);
+          x.globalAlpha = (.16 + .62 * lt * fl) * (wiped(b.x, b.y) ? 1.25 : 1);
+          x.drawImage(b.spr, b.x - b.r, b.y - b.r, b.r * 2, b.r * 2);
+        });
+        x.globalAlpha = 1; x.globalCompositeOperation = 'source-over';
+        x.fillStyle = 'rgba(46,22,62,.34)';   // 曇り（まだ拭っていない扇だけ）
+        x.beginPath();
+        if (!c.go) x.rect(0, 0, w, h);
+        else if (wa > 0) { x.moveTo(px, py); x.lineTo(px + LEN, py); x.arc(px, py, LEN, 0, -wa, true); x.closePath(); }
+        x.fill();
+        D.forEach(d => { if (!wiped(d.x, d.y)) x.drawImage(d.s, d.x - d.r, d.y - d.r * d.e, d.r * 2, d.r * 2 * d.e); });
+        RUN.forEach(d => {
+          if (t < d.t0) return;
+          d.v = d.v < m * .05 ? d.v + m * .5 * dt : (Math.random() < .08 ? m * .02 : d.v + m * .9 * dt);   // 引っかかっては滑る
+          d.y += d.v * dt; d.x += Math.sin(d.y / 23) * .25;
+          if (!d.trail.length || d.y - d.trail[d.trail.length - 1][1] > d.r * 1.1) d.trail.push([d.x, d.y, d.r * _cdR(.25, .45)]);
+          d.trail.forEach(q => { if (!wiped(q[0], q[1])) x.drawImage(d.s, q[0] - q[2], q[1] - q[2], q[2] * 2, q[2] * 2); });
+          if (!wiped(d.x, d.y)) x.drawImage(d.s, d.x - d.r, d.y - d.r * 1.25, d.r * 2, d.r * 2.5);
+        });
+        if (c.go && wa > 0 && wa < Math.PI) {   // ワイパーの刃と、刃の手前に寄せられた水の筋
+          const ex = px + Math.cos(wa) * LEN, ey = py - Math.sin(wa) * LEN, a2 = wa - .012;
+          x.lineCap = 'round';
+          x.strokeStyle = 'rgba(8,2,14,.92)'; x.lineWidth = 9; x.beginPath(); x.moveTo(px, py); x.lineTo(ex, ey); x.stroke();
+          x.strokeStyle = 'rgba(255,170,220,.75)'; x.lineWidth = 1.5; x.beginPath(); x.moveTo(px, py); x.lineTo(ex, ey); x.stroke();
+          x.strokeStyle = 'rgba(200,250,255,.35)'; x.lineWidth = 5; x.beginPath(); x.moveTo(px, py); x.lineTo(px + Math.cos(a2) * LEN, py - Math.sin(a2) * LEN); x.stroke();
+        }
+        return t < c.endAt;
+      });
+      c.run(5, 0);
+    },
+    num(c, i) { c.lit[i] = c.t0 + i * 420; c.run(2, c.t0 + i * 420); _lqbNumInk(c.num); },
+    goWord: 'CLEAR', goSub: 'VIEW — WIPED CLEAN',
+    go(c) {
+      c.go = c.goAt;
+      c.cv.animate([{ opacity: 1 }, { opacity: 0 }], { duration: c.endAt - c.goAt - 520, delay: 520, easing: 'ease-in', fill: 'forwards' });
       _cdGoIn(c.num, c.sub);
     } }
 ];

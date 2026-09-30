@@ -1423,7 +1423,7 @@ html.mec-jumping .qc{content-visibility:visible!important;}
 .cd-prism-ray.ray-3{top:75%;left:-35%;background:linear-gradient(90deg,#0070F3,#00DFD8,#7928CA);animation:cdRayFloat 4s ease-in-out infinite alternate;}
 @keyframes cdRayFloat{0%{transform:rotate(-35deg) translateY(-20px);}100%{transform:rotate(-35deg) translateY(20px);}}
 
-/* ── liquid＝Liquid（2026-09-30）: 2案から毎回1つ＝A インクの花／B 雫が集まる（study_exam.js の LIQUID_BOOTS）。
+/* ── liquid＝Liquid（2026-09-30）: 3案から毎回1つ＝A インクの花／B 雫が集まる／C 雨の窓（study_exam.js の LIQUID_BOOTS）。
    ⚠️ 色は --cd-col（演出テーマ＝classic の橙）を使わず、ここで Liquid のマゼンタ・バイオレット・シアンに固定する。
    ⚠️ 絵は canvas 1枚（_frCtx）。起動オーバーレイの外（筐体・.qc）には何も足さない。 */
 #examCountdown.cd-liquid .cd-log,#examCountdown.cd-liquid .cd-num,#examCountdown.cd-liquid .cd-sub{z-index:6;}
@@ -1438,6 +1438,8 @@ html.mec-jumping .qc{content-visibility:visible!important;}
 #examCountdown.cd-lq-a{background:radial-gradient(ellipse at 50% 45%,rgba(22,6,34,.86),rgba(8,2,14,.95));}
 /* B 雫が集まる */
 #examCountdown.cd-lq-b{background:radial-gradient(ellipse at 50% 50%,rgba(26,8,40,.82),rgba(8,2,14,.94));}
+/* C 雨の窓（灯りと雫の絵は canvas。地は曇ったガラスの向こうの夜） */
+#examCountdown.cd-lq-c{background:rgba(8,3,16,.9);}
 
 @media (max-width:480px){
   .cd-sub{font-size:10px;letter-spacing:.22em;}

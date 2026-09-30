@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liquid 起動画面 第2弾</title>
+<!--
+  Liquid の起動画面（study_exam.js の LIQUID_BOOTS）に足す候補の第2弾・5案（2026-09-30）。
+  第1弾 _work/boot_liquid_demo.html で採用した A インクの花・B 雫が集まる は比較用にそのまま載せてある（C・D・E は不採用なので載せない）。
+  再生器・尺・ブートログの約束は第1弾と同じ（ブートログ 60+i×105ms → 3・2・1 を 420ms 間隔 → 起動語 780ms で消える）。
+  ⚠️ 不採用の C マーブリング・D 充填・E ミルククラウン、正解演出（シャボン玉・ぷるん・ガラスの衝撃波・色収差・ネオン管）、
+     ハブのゲージ（ちぎれて漂う塊・光の網）と題材を被らせていない。
+  2026-09-30 にユーザーが H 雨の窓 だけを採用し、study_exam.js の LIQUID_BOOTS に C として移した（F・G・I・J は不採用）。
+  テストの対象ではない。
+-->
+<style>
+  :root{--k:1;--tx:#FBE9F5;--sub:#C9A9C9;--line:rgba(255,0,128,.3);}
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{min-height:100vh;padding:16px;color:var(--tx);font-family:-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif;
+    background:radial-gradient(ellipse 70% 50% at 20% 10%,rgba(255,0,128,.5) 0%,transparent 65%),
+               radial-gradient(ellipse 60% 60% at 85% 85%,rgba(121,40,202,.52) 0%,transparent 65%),
+               radial-gradient(circle at 50% 50%,rgba(255,122,0,.35) 0%,transparent 70%),
+               radial-gradient(circle at 80% 20%,rgba(0,223,216,.28) 0%,transparent 55%),#0A0312;background-attachment:fixed;}
+  h1{font-size:17px;margin:0 0 4px;}
+  p.note{font-size:12.5px;color:var(--sub);margin:0 0 12px;line-height:1.65;max-width:900px;}
+  .ctl{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:13px;margin-bottom:14px;
+    padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.04);max-width:900px;}
+  .ctl label{white-space:nowrap;display:flex;align-items:center;gap:5px;}
+  select,input[type=number]{font-size:16px;padding:4px 6px;border-radius:8px;border:1px solid var(--line);background:#200C2E;color:var(--tx);}
+  input[type=number]{width:72px;}
+  input[type=checkbox]{width:18px;height:18px;accent-color:#FF007F;}
+  .btns{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-bottom:18px;max-width:1100px;}
+  .btns button{padding:12px 14px;border-radius:14px;border:1.5px solid var(--line);background:#200C2E;color:var(--tx);
+    font-weight:800;font-size:14.5px;text-align:left;line-height:1.45;cursor:pointer;}
+  .btns button small{display:block;font-weight:500;color:var(--sub);font-size:12px;margin-top:4px;line-height:1.55;}
+  .btns button:active{background:#361448;}
+  .btns button.cur{border-style:dashed;opacity:.85;}
+  .btns button.all{background:#3A0F3A;border-color:#FF007F;}
+  .mock{max-width:760px;}
+  .qc{background:linear-gradient(135deg,rgba(32,12,46,.94),rgba(16,6,24,.97));border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin-bottom:12px;
+    box-shadow:0 0 0 1px rgba(121,40,202,.25),0 10px 30px rgba(0,0,0,.45);}
+  .qn{font-weight:800;color:#FF5CA8;margin-bottom:6px;font-size:14px;}
+  .qt{font-size:14px;line-height:1.75;margin-bottom:10px;}
+  .ch2{padding:9px 12px;border-radius:12px;border:1px solid rgba(255,0,128,.3);margin-bottom:7px;font-size:14px;background:rgba(255,255,255,.04);}
+
+  /* ════════ 起動オーバーレイ（共通） ════════ */
+  #cd{position:fixed;inset:0;z-index:9400;display:none;align-items:center;justify-content:center;
+    pointer-events:none;overflow:hidden;}
+  #cd .cd-log{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:5;
+    font-family:'SFMono-Regular',Menlo,Consolas,monospace;font-size:clamp(13px,3.4vmin,20px);line-height:2;
+    letter-spacing:.02em;white-space:nowrap;text-align:left;
+    transition:top calc(var(--k)*.45s) cubic-bezier(.16,1,.3,1),font-size calc(var(--k)*.45s) cubic-bezier(.16,1,.3,1),opacity calc(var(--k)*.45s);}
+  #cd.p2 .cd-log{top:17%;font-size:clamp(10px,2vmin,13px);opacity:.6;}
+  #cd .cd-line{overflow:hidden;}
+  #cd .cd-num{position:relative;z-index:6;font-size:24vmin;font-weight:900;line-height:1;letter-spacing:-.04em;opacity:0;}
+  #cd .cd-num.go{font-size:11vmin;letter-spacing:.14em;}
+  #cd .cd-sub{position:absolute;bottom:22%;z-index:6;font-size:12px;font-weight:800;letter-spacing:.3em;text-indent:.3em;opacity:0;
+    font-family:'SFMono-Regular',Menlo,Consolas,monospace;white-space:nowrap;}
+  #cd canvas.full{position:absolute;inset:0;width:100%;height:100%;}
+  /* Liquid の文字（マゼンタの照り＋暗い縁取りで、背景の液に沈まない） */
+  #cd.lq .cd-log{color:#FFE3F2;text-shadow:0 0 3px rgba(10,3,18,.95),0 0 12px rgba(255,0,127,.75);}
+  #cd.lq .cd-sub{color:#9FFBF6;text-shadow:0 0 3px rgba(10,3,18,.95),0 0 10px rgba(0,223,216,.9);}
+  #cd.lq .cd-num{font-family:-apple-system,'Helvetica Neue','Hiragino Sans',sans-serif;color:#FFF0F8;
+    text-shadow:0 0 5px rgba(10,3,18,.95),0 0 2px rgba(10,3,18,.95),0 0 24px rgba(255,0,127,.9),0 0 70px rgba(121,40,202,.7),0 5px 22px rgba(0,0,0,.6);}
+  #cd.lq .cd-num.go{font-size:min(10vmin,13vw);letter-spacing:.16em;text-indent:.16em;white-space:nowrap;}
+
+  /* ── 現行（study.css の liquid 様式を写したもの。文字色は演出テーマ classic の橙が入る） ── */
+  #cd.sNow{background:rgba(2,5,12,.72);--c:#FF5820;--g:255,88,32;}
+  .sNow .scan{position:absolute;inset:0;opacity:.5;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.045) 0 1px,transparent 1px 3px);}
+  .sNow .br{position:absolute;width:26px;height:26px;border:2px solid var(--c);opacity:.85;}
+  .sNow .br.tl{top:14px;left:14px;border-right:none;border-bottom:none;}
+  .sNow .br.tr{top:14px;right:14px;border-left:none;border-bottom:none;}
+  .sNow .br.bl{bottom:14px;left:14px;border-right:none;border-top:none;}
+  .sNow .br.bb{bottom:14px;right:14px;border-left:none;border-top:none;}
+  .sNow .bloom{position:absolute;width:52vmin;height:52vmin;}
+  .sNow .bloom i{position:absolute;inset:0;border-radius:50%;filter:blur(14px);opacity:0;animation:nowBloom 2.4s ease-out infinite;}
+  .sNow .bloom .d1{background:radial-gradient(circle,rgba(255,0,127,.4) 0%,transparent 65%);}
+  .sNow .bloom .d2{background:radial-gradient(circle,rgba(121,40,202,.4) 0%,transparent 65%);animation-delay:.8s;}
+  .sNow .bloom .d3{background:radial-gradient(circle,rgba(0,223,216,.35) 0%,transparent 65%);animation-delay:1.6s;}
+  @keyframes nowBloom{0%{transform:scale(.4);opacity:.85;}100%{transform:scale(1.2);opacity:0;}}
+  .sNow .cd-log,.sNow .cd-num,.sNow .cd-sub{color:var(--c);}
+  .sNow .cd-log{text-shadow:0 0 12px rgba(var(--g),.65);}
+  .sNow .cd-num{text-shadow:0 0 28px rgba(var(--g),.85),0 0 70px rgba(var(--g),.4),0 6px 24px rgba(0,0,0,.75);}
+  .sNow .sweep{position:absolute;left:0;right:0;top:calc(50% - 2px);height:4px;
+    background:linear-gradient(90deg,transparent,var(--c),transparent);box-shadow:0 0 24px rgba(var(--g),.9);}
+
+  /* ── A インクの花 ── */
+  #cd.sA{background:radial-gradient(ellipse at 50% 45%,rgba(22,6,34,.86),rgba(8,2,14,.95));}
+  /* ── B 雫が集まる ── */
+  #cd.sB{background:radial-gradient(ellipse at 50% 50%,rgba(26,8,40,.82),rgba(8,2,14,.94));}
+  /* ── C マーブリング ── */
+  #cd.sC{background:rgba(10,3,18,.9);}
+  #cd.sC .cd-log{background:rgba(10,3,18,.55);padding:4px 14px;border-radius:12px;}
+  /* ── D 充填 ── */
+  #cd.sD{background:radial-gradient(ellipse at 50% 50%,rgba(24,8,38,.84),rgba(8,2,14,.95));}
+  /* ── E ミルククラウン ── */
+  #cd.sE{background:linear-gradient(180deg,rgba(10,3,18,.93) 0%,rgba(18,5,30,.9) 100%);}
+  #cd.sE .cd-sub{bottom:auto;top:59%;}   /* 下22%は液面の中＝王冠に重なる */
+  /* ── 第2弾 ── */
+  #cd.sF{background:linear-gradient(180deg,rgba(10,3,18,.9) 0%,rgba(20,6,34,.88) 100%);}
+  #cd.sG{background:radial-gradient(ellipse at 50% 50%,rgba(26,8,40,.84),rgba(8,2,14,.95));}
+  #cd.sH{background:rgba(8,3,16,.9);}
+  #cd.sI{background:transparent;}   /* 背景は canvas が塗る（渦の目で穴を開けるため） */
+  #cd.sJ{background:radial-gradient(ellipse at 50% 40%,rgba(24,8,38,.84),rgba(8,2,14,.95));}
+</style>
+</head>
+<body>
+<h1>💧 Liquid の起動画面 ― 第2弾の5案（F〜J）</h1>
+<p class="note">
+  採用済みの <b>A インクの花・B 雫が集まる</b> に足す候補です（本物は試験ごとにランダムで1つ出ます）。押すと全画面で再生します（約2.7秒）。<br>
+  尺・ブートログ（出題数と科目名）は A・B と同じ。不採用の C マーブリング・D 充填・E ミルククラウン、正解演出（シャボン玉・ぷるん・ガラスの衝撃波・色収差・ネオン管）、ハブのゲージとは題材を被らせていません。<br>
+  下の段の A・B は比較用です。Esc で止まります。
+</p>
+<div class="ctl">
+  <label>出題数 <input type="number" id="qn" value="50" min="1" max="999"></label>
+  <label>科目 <select id="subj">
+    <option>麻酔科</option><option>呼吸器</option><option>神経 他2</option><option>SRS REVIEW</option><option>TODAY'S MISSES</option>
+  </select></label>
+  <label><input type="checkbox" id="rem"> 再戦（前回の誤答）</label>
+  <label>速さ <select id="spd"><option value="1">等速</option><option value="2">1/2</option><option value="4">1/4</option></select></label>
+  <label><input type="checkbox" id="snd"> 起動音も鳴らす</label>
+</div>
+<div class="btns" id="btns"></div>
+<div class="mock">
+  <div class="qc"><div class="qn">Q.12　<span style="color:#C9A9C9;font-weight:600">麻酔科・周術期管理</span></div>
+    <div class="qt">68歳の男性。胃癌に対する幽門側胃切除術の術前評価のため来院した。<strong>術前に中止すべき薬剤はどれか。1つ選べ。</strong></div>
+    <div class="ch2">a　アムロジピン</div><div class="ch2">b　アトルバスタチン</div><div class="ch2">c　クロピドグレル</div><div class="ch2">d　ランソプラゾール</div><div class="ch2">e　レボチロキシン</div></div>
+  <div class="qc"><div class="qn">Q.13</div><div class="qt">起動画面が消えたあと、この問題カードがそのまま見えるのが本物の流れです（背景の透け具合の確認用）。</div></div>
+</div>
+<div id="cd"></div>
+
+<script>
+'use strict';
+/* ══════════ 共通の再生器（尺は study_exam.js の _examCountdown と同じ式・boot_frost_demo.html と同じ） ══════════ */
+const host = document.getElementById('cd');
+let K = 1, timers = [], run = 0;
+const ms = x => x * K;
+function at(t, fn) { const tok = run; timers.push(setTimeout(() => { if (tok === run) fn(); }, ms(t))); }
+function anim(el, kf, o) {
+  return el.animate(kf, Object.assign({}, o, { duration: ms(o.duration), delay: ms(o.delay || 0) }));
+}
+// rAF ループ。fn(論理ms＝再生開始からの時刻) が false を返すか、次の再生が始まったら止まる
+function loop(fn) {
+  const tok = run, st = performance.now();
+  const tick = now => { if (tok !== run) return; if (fn((now - st) / K) === false) return; requestAnimationFrame(tick); };
+  requestAnimationFrame(tick);
+}
+function kill() {
+  run++; timers.forEach(clearTimeout); timers = [];
+  host.getAnimations({ subtree: true }).forEach(a => a.cancel());
+  host.style.display = 'none'; host.innerHTML = ''; host.className = '';
+}
+function canvasFull(parent, dmax) {
+  const c = document.createElement('canvas'); c.className = 'full';
+  const d = Math.min(dmax || 1.5, window.devicePixelRatio || 1), w = innerWidth, h = innerHeight;
+  c.width = Math.ceil(w * d); c.height = Math.ceil(h * d);
+  parent.insertBefore(c, parent.querySelector('.cd-log'));
+  const x = c.getContext('2d'); x.setTransform(d, 0, 0, d, 0, 0);
+  return x;
+}
+const R = (a, b) => a + Math.random() * (b - a);
+const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+const lerp = (a, b, k) => a + (b - a) * k;
+const ease = k => 1 - Math.pow(1 - clamp(k, 0, 1), 3);
+const soft = k => { k = clamp(k, 0, 1); return k * k * (3 - 2 * k); };
+const rgba = (c, a) => 'rgba(' + (c[0] | 0) + ',' + (c[1] | 0) + ',' + (c[2] | 0) + ',' + a + ')';
+const mix = (p, q, k) => [lerp(p[0], q[0], k), lerp(p[1], q[1], k), lerp(p[2], q[2], k)];
+// Liquid の配色（ui_theme.css の html.ui-liquid とハブのゲージ hub_liquid.js の PAL から）
+const MAG = [255, 0, 127], PINK = [255, 60, 175], VIO = [121, 40, 202], LVIO = [178, 96, 255], CYA = [0, 223, 216], ORA = [255, 122, 0], CORE = [18, 8, 46];
+
+// ぼかした丸のスプライト（色ごとに1枚だけ作る。粒ごとにグラデーションを作らない）
+const _spr = {};
+function softSprite(col) {
+  const key = col.join();
+  if (_spr[key]) return _spr[key];
+  const s = 64, c = document.createElement('canvas'); c.width = c.height = s;
+  const x = c.getContext('2d'), g = x.createRadialGradient(32, 32, 0, 32, 32, 32);
+  g.addColorStop(0, rgba(col, 1)); g.addColorStop(.4, rgba(col, .5)); g.addColorStop(1, rgba(col, 0));
+  x.fillStyle = g; x.fillRect(0, 0, s, s);
+  return (_spr[key] = c);
+}
+
+function numDefault(el) {
+  anim(el, [
+    { opacity: 0, transform: 'scale(2.1)', filter: 'blur(6px)' },
+    { opacity: 1, transform: 'scale(1)', filter: 'blur(0)', offset: .32 },
+    { opacity: 1, transform: 'scale(1)', offset: .72 },
+    { opacity: 0, transform: 'scale(.88)' }
+  ], { duration: 400, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
+}
+// にじんで現れ、にじんで消える（インク）
+function numInk(el) {
+  anim(el, [
+    { opacity: 0, transform: 'scale(.92)', filter: 'blur(12px)' },
+    { opacity: 1, transform: 'scale(1)', filter: 'blur(0)', offset: .34 },
+    { opacity: 1, transform: 'scale(1)', filter: 'blur(0)', offset: .7 },
+    { opacity: 0, transform: 'scale(1.1)', filter: 'blur(10px)' }
+  ], { duration: 400, easing: 'cubic-bezier(.3,.8,.3,1)', fill: 'forwards' });
+}
+// 液面から浮かび上がる
+function numRise(el) {
+  anim(el, [
+    { opacity: 0, transform: 'translateY(9vmin)', clipPath: 'inset(100% 0 0 0)' },
+    { opacity: 1, transform: 'translateY(0)', clipPath: 'inset(0 0 0 0)', offset: .38 },
+    { opacity: 1, transform: 'translateY(0)', offset: .72 },
+    { opacity: 0, transform: 'translateY(-2vmin)', filter: 'blur(4px)' }
+  ], { duration: 400, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
+}
+// 上から落ちてきて、液面で止まる
+function numDrop(el) {
+  anim(el, [
+    { opacity: 0, transform: 'translateY(-14vmin) scale(.9,1.15)' },
+    { opacity: 1, transform: 'translateY(0) scale(1.06,.94)', offset: .28 },
+    { opacity: 1, transform: 'translateY(0) scale(1)', offset: .42 },
+    { opacity: 1, transform: 'translateY(0) scale(1)', offset: .72 },
+    { opacity: 0, transform: 'translateY(2vmin) scale(1)', filter: 'blur(3px)' }
+  ], { duration: 400, easing: 'cubic-bezier(.3,.7,.3,1)', fill: 'forwards' });
+}
+function goDefault(num, sub) {
+  anim(num, [
+    { opacity: 0, transform: 'scale(1.5) translateY(6px)', filter: 'blur(4px)' },
+    { opacity: 1, transform: 'scale(1)', filter: 'blur(0)', offset: .3 }, { opacity: 1, offset: .72 },
+    { opacity: 0, transform: 'scale(1.06)' }
+  ], { duration: 760, easing: 'cubic-bezier(.2,1,.3,1)', fill: 'forwards' });
+  anim(sub, [{ opacity: 0 }, { opacity: 1, offset: .35 }, { opacity: 1, offset: .7 }, { opacity: 0 }],
+    { duration: 760, easing: 'ease-out', fill: 'forwards' });
+}
+function lineDefault(d) {
+  anim(d, [{ opacity: 0, transform: 'translateX(-8px)' }, { opacity: 1, transform: 'none' }], { duration: 200, easing: 'ease-out' });
+}
+// インクがにじむように、ぼやけて灯ってから焦点が合う
+function lineBleed(d) {
+  anim(d, [{ opacity: 0, filter: 'blur(5px)' }, { opacity: 1, filter: 'blur(0)' }], { duration: 260, easing: 'cubic-bezier(.2,.8,.3,1)', fill: 'backwards' });
+}
+// 刷毛で塗るように、左から現れる
+function lineWipe(d) {
+  anim(d, [{ clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0 0 0)' }], { duration: 240, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'backwards' });
+}
+// 下から液面を昇ってくる
+function lineRise(d) {
+  anim(d, [{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 240, easing: 'cubic-bezier(.2,.9,.3,1)', fill: 'backwards' });
+}
+// 全体を最後にすっと引く（起動語の後半）
+function fadeOut(el, c, lead) {
+  anim(el, [{ opacity: 1 }, { opacity: 0 }], { duration: c.endAt - c.goAt - (lead || 300), delay: lead || 300, easing: 'ease-in', fill: 'forwards' });
+}
+
+/* ══════════ 現行（比較用） ══════════ */
+const S_NOW = {
+  key: 'now', cls: 'sNow', title: '現行', desc: '比較用。3色のぼやけた丸が脈打つ。文字は演出テーマ classic の橙、起動語は DIVE／GHOST LINK — ONLINE（本物はここで輪と粒子も出る）。',
+  prefix: '// ',
+  lines: (qn, s) => ['LIQUID ART CANVASES', 'INK INJECTION .......... COMPLETED', 'PALETTE ................ ' + s, 'COLOR CARDS ............ ' + qn + ' LAYERS', 'PAINT THE TRUTH'],
+  rematch: qn => ['LIQUID RE-FLOW PROTOCOL', 'FADED PIGMENTS ......... ' + qn + ' MARKS', 'CANVAS PREPARATION ..... OK', '滲んだ ' + qn + ' 問を鮮やかに塗り替える'],
+  html: '<div class="scan"></div><i class="br tl"></i><i class="br tr"></i><i class="br bl"></i><i class="br bb"></i>'
+      + '<div class="bloom"><i class="d1"></i><i class="d2"></i><i class="d3"></i></div>',
+  goWord: 'DIVE', goSub: 'GHOST LINK — ONLINE',
+  go(c) {
+    const sw = document.createElement('div'); sw.className = 'sweep'; c.host.appendChild(sw);
+    anim(sw, [{ transform: 'translateX(-110%)' }, { transform: 'translateX(110%)' }], { duration: 520, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' });
+    goDefault(c.num, c.sub);
+  }
+};
+
+/* ══════════ A インクの花 ══════════
+   水の中にインクが1滴ずつ落ちて、渦の輪を作りながら花のように広がる。3＝マゼンタ・2＝シアン・1＝バイオレット。
+   起動の瞬間は3色が中央でゆっくり巻かれ、そのまま溶けて消える。 */
+const S_A = {
+  key: 'A', cls: 'sA lq', title: '（採用済み）A インクの花', desc: '水の中にインクが1滴ずつ落ち、渦の輪を作りながら花のように広がる（3＝マゼンタ・2＝シアン・1＝バイオレット）。起動で3色が中央へ巻かれて溶ける。',
+  prefix: '~ ',
+  lines: (qn, s) => ['INK DROP SEQUENCE', 'PIGMENT ........... ' + s, 'VOLUME ............ ' + qn + ' Q', 'DISPERSION ........ READY', 'LET IT BLOOM'],
+  rematch: qn => ['INK RE-DROP', 'FADED STAINS ...... 前回の誤答 ' + qn + ' 問', 'PIGMENT ........... REFILLED', '滲んだ ' + qn + ' 問をもう一度咲かせる'],
+  html: '', lineFx: lineBleed,
+  build(c) {
+    const x = canvasFull(c.host), w = innerWidth, h = innerHeight, cx = w / 2, cy = h / 2, m = Math.min(w, h);
+    const P = [], D = [];
+    c.bloom = (col, px, py, n, pow, t0) => {
+      D.push({ col, x: px, y: py, t0 });
+      const spr = softSprite(col), spr2 = softSprite(mix(col, [255, 255, 255], .45));
+      for (let i = 0; i < n; i++) {
+        const kind = i < n * .4 ? 'ring' : i < n * .7 ? 'plume' : 'mist';
+        const a = kind === 'plume' ? Math.PI / 2 + R(-.9, .9) : R(0, 6.283);
+        P.push({ kind, t0, spr: Math.random() < .25 ? spr2 : spr, x0: px, y0: py, a,
+          v: m * pow * (kind === 'ring' ? R(.13, .17) : kind === 'plume' ? R(.08, .26) : R(.03, .2)),
+          sink: m * (kind === 'plume' ? R(.05, .12) : R(.01, .04)), curl: R(-1, 1) * m * .03, fw: R(3, 7), ph: R(0, 6),
+          s0: R(10, 22), gs: R(40, 110) * pow, al: R(.05, .11) });
+      }
+    };
+    c.swirl = 0;
+    loop(t => {
+      x.clearRect(0, 0, w, h);
+      // 落ちてくる滴（着水の 180ms 前から）
+      D.forEach(d => {
+        const k = (t - d.t0 + 180) / 180;
+        if (k < 0 || k > 1) return;
+        const y = lerp(-30, d.y, k * k);
+        x.fillStyle = rgba(d.col, .95);
+        x.beginPath(); x.ellipse(d.x, y, 5, 9, 0, 0, 7); x.fill();
+        x.fillStyle = rgba(d.col, .3);
+        x.beginPath(); x.ellipse(d.x, y - 22, 2.5, 20, 0, 0, 7); x.fill();
+      });
+      x.globalCompositeOperation = 'lighter';
+      const sw = c.swirl ? ease((t - c.swirl) / 780) : 0, fade = c.swirl ? 1 - soft((t - c.swirl - 250) / 530) : 1;
+      P.forEach(p => {
+        const a = (t - p.t0) / 1000;
+        if (a < 0) return;
+        const out = (1 - Math.exp(-a * 3.2)) / 3.2 * 3;   // 急に広がって、水の抵抗で止まる
+        let px, py;
+        if (p.kind === 'ring') {   // 渦の輪：横に開き、沈みながら少し巻き込む
+          const r = p.v * out;
+          px = p.x0 + Math.cos(p.a) * r;
+          py = p.y0 + Math.sin(p.a) * r * .38 + p.sink * a * 2 + Math.sin(p.a) * r * .1 * Math.sin(a * 6);
+        } else {
+          const r = p.v * out;
+          px = p.x0 + Math.cos(p.a) * r + Math.sin(a * p.fw + p.ph) * p.curl * a * 2;
+          py = p.y0 + Math.sin(p.a) * r + p.sink * a * a * 3;
+        }
+        if (sw) {   // 起動：中央へ巻く
+          const dx = px - cx, dy = py - cy, dd = Math.hypot(dx, dy), th = sw * 2.4 * Math.exp(-dd / (m * .5)), pull = 1 - sw * .35;
+          px = cx + (dx * Math.cos(th) - dy * Math.sin(th)) * pull; py = cy + (dx * Math.sin(th) + dy * Math.cos(th)) * pull;
+        }
+        const s = p.s0 + p.gs * Math.min(a, 1.4);
+        x.globalAlpha = p.al * Math.min(1, a * 10) * fade;
+        x.drawImage(p.spr, px - s / 2, py - s / 2, s, s);
+      });
+      x.globalAlpha = 1; x.globalCompositeOperation = 'source-over';
+      return t < c.endAt;
+    });
+    const spots = [[MAG, cx - m * .15, cy - m * .03], [CYA, cx + m * .15, cy - m * .07], [LVIO, cx + m * .02, cy + m * .07]];
+    spots.forEach((s, i) => c.bloom(s[0], s[1], s[2], 150, 1, c.t0 + i * 420));
+  },
+  num(c) { numInk(c.num); },
+  goWord: 'BLOOM', goSub: 'INK — IN FULL BLOOM',
+  go(c) {
+    c.swirl = c.goAt;
+    c.bloom(PINK, innerWidth / 2, innerHeight / 2, 120, 1.4, c.goAt);
+    goDefault(c.num, c.sub);
+  }
+};
+
+/* ══════════ B 雫が集まる ══════════
+   画面に散った雫が、3・2・1 で3分の1ずつ中央の液だまりへ吸い寄せられ、くっついて大きくなる（色は混ざる）。
+   起動で液だまりが表面張力を切られたように四方へはじけ、雫になって飛び散る。
+   場（メタボール）は低解像度の格子で計算して拡大する（全画面のピクセルを毎フレーム回さない）。 */
+const S_B = {
+  key: 'B', cls: 'sB lq', title: '（採用済み）B 雫が集まる', desc: '画面に散った雫が 3・2・1 で3分の1ずつ中央へ吸い寄せられ、くっついて液だまりが育つ（色が混ざる）。起動ではじけて四方へ飛び散る。',
+  prefix: '· ',
+  lines: (qn, s) => ['LIQUID COALESCENCE', 'DROPLETS .......... ' + qn, 'MEDIUM ............ ' + s, 'SURFACE TENSION ... STABLE', 'MERGE INTO ONE'],
+  rematch: qn => ['LIQUID RE-MERGE', 'SCATTERED ......... 前回の誤答 ' + qn + ' 問', 'SURFACE TENSION ... STABLE', '散った ' + qn + ' 問をひとつに集める'],
+  html: '', lineFx: lineRise,
+  build(c) {
+    const x = canvasFull(c.host), w = innerWidth, h = innerHeight, cx = w / 2, cy = h / 2, m = Math.min(w, h);
+    const cell = Math.max(2.5, Math.max(w, h) / 640), gw = Math.ceil(w / cell), gh = Math.ceil(h / cell);
+    const F = new Float32Array(gw * gh), CR = new Float32Array(gw * gh), CG = new Float32Array(gw * gh), CB = new Float32Array(gw * gh), WS = new Float32Array(gw * gh);
+    const off = document.createElement('canvas'); off.width = gw; off.height = gh;
+    const ox = off.getContext('2d'), img = ox.createImageData(gw, gh), px = img.data;
+    const COLS = [MAG, CYA, LVIO];
+    const drops = [];
+    for (let i = 0; i < 27; i++) {
+      const a = i / 27 * 6.283 + R(-.1, .1), d = R(.55, 1);
+      drops.push({ g: i % 3, col: COLS[i % 3], x0: cx + Math.cos(a) * d * w * .42, y0: cy + Math.sin(a) * d * h * .38,
+        r: m * R(.022, .038), ph: R(0, 6), fw: R(.8, 1.6), dr: m * R(.01, .025), born: R(0, 500) });
+    }
+    const pool = { r: 0, col: [0, 0, 0] };
+    const splash = [];
+    c.pull = [];
+    loop(t => {
+      // 雫と液だまりの今の位置
+      const B = [];
+      let poolTarget = 0, pc = [0, 0, 0], pn = 0;
+      drops.forEach(d => {
+        const born = soft((t - d.born) / 300);
+        let dx = d.x0 + Math.sin(t / 1000 * d.fw + d.ph) * d.dr, dy = d.y0 + Math.cos(t / 1000 * d.fw * .8 + d.ph) * d.dr;
+        const pt = c.pull[d.g];
+        if (pt != null) {
+          const k = (t - pt - (d.born % 90)) / 330;   // 同じ組でも少しずつずれて吸われる
+          if (k >= 1) { poolTarget += d.r * d.r; pc = [pc[0] + d.col[0], pc[1] + d.col[1], pc[2] + d.col[2]]; pn++; return; }
+          const e = k > 0 ? k * k * k : 0;
+          dx = lerp(dx, cx, e); dy = lerp(dy, cy, e);
+        }
+        B.push(dx, dy, d.r * born, d.col);
+      });
+      const goK = c.go ? (t - c.go) / 420 : 0;
+      if (pn) {
+        const tr = Math.sqrt(poolTarget) * 1.05;
+        pool.r = lerp(pool.r, tr, .22);
+        pool.col = PINK;   // 3色の平均は灰色に濁るので、液だまりはマゼンタに固定（混ざるのは吸い込まれる途中の縁だけ）
+      }
+      const pr = pool.r * (c.go ? 1 - ease(goK) : 1);
+      if (c.go) {
+        splash.forEach(s => {
+          const a = (t - c.go) / 1000, e = 1 - Math.exp(-a * 3);
+          B.push(cx + s.vx * e, cy + s.vy * e + a * a * m * .15, s.r * Math.max(0, 1 - a * 1.1), s.col);
+        });
+      }
+      if (pr > 1) B.push(cx, cy + Math.sin(t / 240) * 1.5, pr * (1 + .03 * Math.sin(t / 130)), pool.col);
+      // 場（f = Σ r²/d²）を格子に足し込む。雫ごとに自分のまわり（半径の5倍）の升だけを回す＝全画面×全雫を回さない。
+      // 色は寄与の重みで混ぜる（重みは頭打ちにして、雫の芯の色が斑点で浮かないようにする）。
+      const n = B.length / 4;
+      F.fill(0); CR.fill(0); CG.fill(0); CB.fill(0); WS.fill(0);
+      for (let k = 0; k < B.length; k += 4) {
+        const bx = B[k], by = B[k + 1], r2 = B[k + 2] * B[k + 2], col = B[k + 3], reach = B[k + 2] * 5;
+        if (r2 < .25) continue;
+        const i0 = Math.max(0, ((bx - reach) / cell) | 0), i1 = Math.min(gw - 1, ((bx + reach) / cell) | 0);
+        const j0 = Math.max(0, ((by - reach) / cell) | 0), j1 = Math.min(gh - 1, ((by + reach) / cell) | 0);
+        for (let j = j0; j <= j1; j++) {
+          const dy = (j + .5) * cell - by, row = j * gw;
+          for (let i = i0; i <= i1; i++) {
+            const dx = (i + .5) * cell - bx, q = r2 / (dx * dx + dy * dy + 1), o = row + i, wq = q < 1.5 ? q : 1.5;
+            F[o] += q; CR[o] += col[0] * wq; CG[o] += col[1] * wq; CB[o] += col[2] * wq; WS[o] += wq;
+          }
+        }
+      }
+      for (let j = 0; j < gh; j++) {
+        const pdy = (j + .5) * cell - cy;
+        for (let i = 0; i < gw; i++) {
+          const o = j * gw + i, f = F[o], p4 = o * 4;
+          if (f < .35) { px[p4 + 3] = 0; continue; }
+          const pdx = (i + .5) * cell - cx, pq = pr > 1 ? pr * pr / (pdx * pdx + pdy * pdy + 1) : 0, ws = WS[o] || 1;
+          // 深い藍へ沈めるのは液だまりの中心だけ（小さな雫まで沈めると輪に見える）
+          const deep = soft((pq - 1.4) / 2.5) * .78, rim = f > .9 ? Math.max(0, 1 - (f - .9) / .3) : 0;
+          let r = lerp(CR[o] / ws, CORE[0], deep), g = lerp(CG[o] / ws, CORE[1], deep), b = lerp(CB[o] / ws, CORE[2], deep);
+          r = lerp(r, 200, rim * .3); g = lerp(g, 255, rim * .3); b = lerp(b, 250, rim * .3);   // 縁のシアンの照り返し
+          px[p4] = r; px[p4 + 1] = g; px[p4 + 2] = b;
+          px[p4 + 3] = Math.max(245 * soft((f - .9) / .16), 90 * Math.pow((f - .35) / .65, 2));
+        }
+      }
+      ox.putImageData(img, 0, 0);
+      x.clearRect(0, 0, w, h);
+      x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+      x.drawImage(off, 0, 0, gw * cell, gh * cell);
+      // 雫の照り（左上に白い光）
+      const hl = softSprite([255, 255, 255]);
+      for (let k = 0; k < B.length; k += 4) {
+        const r = B[k + 2]; if (r < 3) continue;
+        x.globalAlpha = .38; x.drawImage(hl, B[k] - r * .62, B[k + 1] - r * .7, r * .6, r * .6);
+      }
+      x.globalAlpha = 1;
+      if (n === 0 && c.go) return false;
+      return t < c.endAt;
+    });
+    c.splash = splash;
+  },
+  num(c, i) { c.pull[i] = c.t0 + i * 420; numRise(c.num); },
+  goWord: 'FLOW', goSub: 'SURFACE TENSION — RELEASED',
+  go(c) {
+    const m = Math.min(innerWidth, innerHeight), COLS = [MAG, CYA, LVIO, PINK];
+    for (let i = 0; i < 22; i++) {
+      const a = i / 22 * 6.283 + R(-.12, .12), v = m * R(.35, .75);
+      c.splash.push({ vx: Math.cos(a) * v * (innerWidth / m) * .8, vy: Math.sin(a) * v, r: m * R(.02, .045), col: COLS[i % 4] });
+    }
+    c.go = c.goAt;
+    goDefault(c.num, c.sub);
+    fadeOut(c.host.querySelector('canvas'), c, 380);
+  }
+};
+
+
+/* ══════════ 第2弾の5案（2026-09-30）══════════
+   採用済みの A インクの花・B 雫が集まる に足す候補。不採用の C マーブリング・D 充填・E ミルククラウン、
+   正解演出（シャボン玉・ぷるん・ガラスの衝撃波・色収差・ネオン管）、ハブのゲージ（ちぎれて漂う塊・光の網）と題材を被らせない。 */
+
+// 渦に吸われるように回りながら現れ、回りながら抜ける
+function numVortex(el) {
+  anim(el, [
+    { opacity: 0, transform: 'rotate(-110deg) scale(.45)', filter: 'blur(8px)' },
+    { opacity: 1, transform: 'rotate(0deg) scale(1)', filter: 'blur(0)', offset: .36 },
+    { opacity: 1, transform: 'rotate(0deg) scale(1)', offset: .7 },
+    { opacity: 0, transform: 'rotate(40deg) scale(.7)', filter: 'blur(5px)' }
+  ], { duration: 400, easing: 'cubic-bezier(.2,.9,.3,1)', fill: 'forwards' });
+}
+// 下の磁石に引かれて縦に伸び、戻る
+function numPull(el) {
+  anim(el, [
+    { opacity: 0, transform: 'translateY(5vmin) scale(.9,.55)' },
+    { opacity: 1, transform: 'translateY(0) scale(.96,1.1)', offset: .22 },
+    { opacity: 1, transform: 'translateY(0) scale(1)', offset: .4 },
+    { opacity: 1, transform: 'translateY(0) scale(1)', offset: .72 },
+    { opacity: 0, transform: 'translateY(3vmin) scale(1.04,.8)' }
+  ], { duration: 400, easing: 'cubic-bezier(.3,.8,.3,1)', fill: 'forwards' });
+}
+
+/* ══════════ F 大波 ══════════
+   画面の下が海。3・2・1 のたびに右からうねりが通り抜け、1回ごとに高くなる。
+   起動で画面の高さほどの大波が右から立ち上がり、波頭を巻きながら左へ駆け抜けて、そのまま引いていく。 */
+const S_F = {
+  key: 'F', cls: 'sF lq', title: 'F 大波', desc: '画面の下が海。3・2・1 で右からうねりが通り抜け、1回ごとに高くなる。起動で画面いっぱいの大波が波頭を巻きながら左へ駆け抜け、そのまま引いていく。',
+  prefix: '≈ ', lineFx: lineRise,
+  lines: (qn, s) => ['TIDE FORECAST', 'CURRENT ........... ' + s, 'SWELL ............. ' + qn + ' Q', 'SURF .............. RISING', 'RIDE THE WAVE'],
+  rematch: qn => ['RETURNING TIDE', 'WASHED ASHORE ..... 前回の誤答 ' + qn + ' 問', 'SWELL ............. RISING', '打ち上げられた ' + qn + ' 問をさらいに行く'],
+  html: '',
+  build(c) {
+    const x = canvasFull(c.host), w = innerWidth, h = innerHeight, m = Math.min(w, h);
+    c.cv = x.canvas;
+    const SW = [], SPRAY = [];
+    // うねり：前（左）が切り立ち、後ろ（右）がなだらか。左へ進む
+    c.swell = (t0, A, W, dur) => SW.push({ t0, A, W, v: (w + W * 2.4) / dur * 1000, big: A > m * .3 });
+    const LAYERS = [   // 奥から手前へ（奥ほど低く・遅く・薄い）
+      { off: -m * .07, amp: .55, sp: .82, top: rgba(LVIO, .3), bot: rgba(VIO, .35), rim: 'rgba(210,170,255,.35)' },
+      { off: -m * .03, amp: .8, sp: .92, top: rgba(MAG, .55), bot: rgba(VIO, .6), rim: 'rgba(255,150,210,.5)' },
+      { off: 0, amp: 1, sp: 1, top: rgba(mix(MAG, [255, 255, 255], .12), .88), bot: rgba(CORE, .96), rim: 'rgba(255,215,240,.85)' }
+    ];
+    let last = 0;
+    const baseAt = t => h * .82 + (c.go ? soft((t - c.go - 420) / 360) * h * .2 : 0);   // 大波のあと水が引く
+    const crestOf = (s, t, L) => w + s.W * 1.2 - s.v * L.sp * (t - s.t0) / 1000;
+    const surf = (xx, t, L, li) => {
+      let y = baseAt(t) + L.off + Math.sin(xx / (m * .11) + t / 420 + li * 1.7) * m * .006 + Math.sin(xx / (m * .047) - t / 260 + li) * m * .003;
+      for (const s of SW) {
+        if (t < s.t0) continue;
+        const u = (xx - crestOf(s, t, L)) / s.W;
+        y -= s.A * L.amp * (u < 0 ? Math.exp(-(u / .42) * (u / .42)) : Math.exp(-(u / 1.3) * (u / 1.3)));
+      }
+      return y;
+    };
+    loop(t => {
+      const dt = Math.min(50, t - last) / 1000; last = t;
+      x.clearRect(0, 0, w, h);
+      LAYERS.forEach((L, li) => {
+        const g = x.createLinearGradient(0, h * .1, 0, h);
+        g.addColorStop(0, L.top); g.addColorStop(1, L.bot);
+        x.fillStyle = g;
+        x.beginPath(); x.moveTo(0, h);
+        for (let xx = 0; xx <= w + 6; xx += 6) x.lineTo(xx, surf(xx, t, L, li));
+        x.lineTo(w, h); x.closePath(); x.fill();
+        x.strokeStyle = L.rim; x.lineWidth = li === 2 ? 1.6 : 1;
+        x.beginPath();
+        for (let xx = 0; xx <= w + 6; xx += 6) { const y = surf(xx, t, L, li); xx ? x.lineTo(xx, y) : x.moveTo(xx, y); }
+        x.stroke();
+      });
+      // 大波の波頭：前へ巻き込む舌と、しぶき
+      const L = LAYERS[2];
+      SW.forEach(s => {
+        if (!s.big || t < s.t0) return;
+        const xc = crestOf(s, t, L), yT = surf(xc, t, L, 2), Wl = s.W, k = clamp((baseAt(t) - yT) / s.A, 0, 1);
+        if (k < .35 || xc < -Wl) return;
+        const lw = Wl * .5 * k;
+        const g = x.createLinearGradient(xc - lw, yT, xc, yT + lw);
+        g.addColorStop(0, 'rgba(255,225,245,.95)'); g.addColorStop(1, rgba(PINK, .9));
+        x.fillStyle = g;
+        x.beginPath(); x.moveTo(xc + lw * .1, yT);
+        x.bezierCurveTo(xc - lw * .7, yT - lw * .2, xc - lw * 1.15, yT + lw * .35, xc - lw * .8, yT + lw * .75);
+        x.quadraticCurveTo(xc - lw * .72, yT + lw * .3, xc - lw * .32, yT + lw * .38);
+        x.quadraticCurveTo(xc - lw * .12, yT + lw * .45, xc - lw * .08, yT + lw * .75);
+        x.lineTo(xc + lw * .12, yT + lw * .2); x.closePath(); x.fill();
+        for (let i = 0; i < 7; i++) SPRAY.push({ x: xc - lw * R(.2, .9), y: yT + lw * R(-.1, .5), vx: -s.v * R(.15, .6), vy: -m * R(.1, .9), s: R(1.2, 3.6), life: R(.35, .7), a: 0 });
+      });
+      x.fillStyle = 'rgba(255,230,246,.9)';
+      for (let i = SPRAY.length - 1; i >= 0; i--) {
+        const p = SPRAY[i]; p.a += dt; p.vy += m * 2.6 * dt; p.x += p.vx * dt; p.y += p.vy * dt;
+        if (p.a > p.life) { SPRAY.splice(i, 1); continue; }
+        x.globalAlpha = 1 - p.a / p.life; x.beginPath(); x.arc(p.x, p.y, p.s, 0, 7); x.fill();
+      }
+      x.globalAlpha = 1;
+      return t < c.endAt;
+    });
+  },
+  num(c, i) { c.swell(c.t0 + i * 420 - 120, m0() * [.05, .085, .13][i], m0() * .2, 900); numRise(c.num); },
+  goWord: 'SURGE', goSub: 'HIGH TIDE — BREAKING',
+  go(c) {
+    c.go = c.goAt;
+    c.swell(c.goAt - 80, innerHeight * .72, m0() * .34, 600);
+    goDefault(c.num, c.sub);
+    fadeOut(c.cv, c, 500);
+  }
+};
+function m0() { return Math.min(innerWidth, innerHeight); }
+
+/* ══════════ G 液の数字 ══════════
+   数字そのものが液でできている。上から細く注がれた液が型に溜まるように「3」を下から満たし、
+   2・1 では液のまま流れて形を変える。起動で型が外れ、液が重力で垂れ落ちる。
+   液の面は B と同じ場（メタボール）を低解像度の格子で計算して拡大する。 */
+const S_G = {
+  key: 'G', cls: 'sG lq', title: 'G 液の数字', desc: '数字そのものが液。上から注がれた液が型に溜まるように「3」を下から満たし、2・1 では液のまま流れて形を変える。起動で型が外れて垂れ落ちる。',
+  prefix: '▾ ', lineFx: lineWipe,
+  lines: (qn, s) => ['LIQUID TYPESETTING', 'SOURCE ............ ' + s, 'GLYPHS ............ ' + qn + ' Q', 'VISCOSITY ......... LOW', 'POUR THE COUNT'],
+  rematch: qn => ['RE-CAST', 'MELTED ............ 前回の誤答 ' + qn + ' 問', 'MOLD .............. READY', '溶けた ' + qn + ' 問をもう一度かたどる'],
+  html: '',
+  build(c) {
+    const x = canvasFull(c.host), w = innerWidth, h = innerHeight, cx = w / 2, cy = h / 2, m = Math.min(w, h);
+    c.cv = x.canvas;
+    const N = 440, GW = 200, GH = 230, S = m * .5 / 200;
+    const glyph = ch => {
+      const g = document.createElement('canvas'); g.width = GW; g.height = GH;
+      const gx = g.getContext('2d');
+      gx.fillStyle = '#fff'; gx.font = '900 210px -apple-system,"Helvetica Neue",Arial,sans-serif';
+      gx.textAlign = 'center'; gx.textBaseline = 'middle'; gx.fillText(ch, GW / 2, GH / 2 + 8);
+      const d = gx.getImageData(0, 0, GW, GH).data, pts = [];
+      for (let j = 0; j < GH; j += 2) for (let i = (j >> 1) & 1; i < GW; i += 2) if (d[(j * GW + i) * 4 + 3] > 150) pts.push([cx + (i - GW / 2) * S, cy + (j - GH / 2) * S]);
+      const out = [];
+      for (let k = 0; k < N; k++) out.push(pts[Math.floor((k + .5) * pts.length / N)]);
+      return out;   // 上の行から順（＝y の昇順）
+    };
+    const T = [glyph('3'), glyph('2'), glyph('1')];
+    // 粒 k は3つの型の「k 番目」を順にたどる（どれも上から順なので、上の液は上へ・下の液は下へ流れる）
+    const P = [];
+    for (let k = 0; k < N; k++) {
+      const fill = (N - 1 - k) / N;   // 型の下から満たす＝下の点ほど先に着く
+      P.push({ k, x: cx, y: -20, fx: cx + R(-4, 4), fy: -R(10, 40), seg: -1, ts: 0, dl: fill * 200 + R(0, 30), vx: 0, vy: 0, drop: 0 });
+    }
+    c.to = (i, t0) => P.forEach(p => {
+      const [px, py] = [p.x, p.y];
+      p.fx = px; p.fy = py; p.seg = i; p.ts = t0; p.pour = i === 0;
+      if (!p.pour) p.dl = (p.k / N) * 50 + R(0, 20);
+    });
+    const cell = Math.max(3, Math.max(w, h) / 480), gw = Math.ceil(w / cell), gh = Math.ceil(h / cell), NN = gw * gh;
+    const F = new Float32Array(NN);
+    const off = document.createElement('canvas'); off.width = gw; off.height = gh;
+    const ox = off.getContext('2d'), img = ox.createImageData(gw, gh), px = img.data;
+    const r = m * .0125, r2 = r * r, reach = r * 3.4;
+    let last = 0;
+    loop(t => {
+      const dt = Math.min(50, t - last) / 1000; last = t;
+      P.forEach(p => {
+        if (p.drop) {   // 起動：型が外れて垂れ落ちる
+          if (t < p.drop) return;
+          p.vy += m * 7 * dt; p.x += p.vx * dt; p.y += p.vy * dt; return;
+        }
+        if (p.seg < 0) return;
+        const [tx, ty] = T[p.seg][p.k];
+        if (p.pour) {   // 上から細い流れで落ち、型の中で横へ広がる
+          const k = clamp((t - p.ts - p.dl) / 280, 0, 1);
+          if (k <= 0) { p.x = cx; p.y = -80; return; }
+          p.x = lerp(cx + Math.sin(p.k) * 3, tx, soft((k - .45) / .55));
+          p.y = lerp(-20, ty, k * k);
+        } else {        // 次の数字へ流れて形を変える（途中で少し垂れる）
+          const k = soft((t - p.ts - p.dl) / 250);
+          p.x = lerp(p.fx, tx, k); p.y = lerp(p.fy, ty, k) + Math.sin(Math.PI * k) * m * .025;
+        }
+      });
+      F.fill(0);
+      for (const p of P) {
+        if (p.y < -reach || p.y > h + reach) continue;
+        const i0 = Math.max(0, ((p.x - reach) / cell) | 0), i1 = Math.min(gw - 1, ((p.x + reach) / cell) | 0);
+        const j0 = Math.max(0, ((p.y - reach) / cell) | 0), j1 = Math.min(gh - 1, ((p.y + reach) / cell) | 0);
+        for (let j = j0; j <= j1; j++) {
+          const dy = (j + .5) * cell - p.y, row = j * gw;
+          for (let i = i0; i <= i1; i++) { const dx = (i + .5) * cell - p.x; F[row + i] += r2 / (dx * dx + dy * dy + 1); }
+        }
+      }
+      for (let j = 0; j < gh; j++) {
+        const yk = clamp((j * cell - (cy - m * .28)) / (m * .56), 0, 1), cr = mix(PINK, LVIO, yk);
+        for (let i = 0; i < gw; i++) {
+          const o = j * gw + i, f = F[o], p4 = o * 4;
+          if (f < .5) { px[p4 + 3] = 0; continue; }
+          // 縁は白く照り、奥（場が濃いところ）は藍へ沈む
+          const rim = f < 1.5 ? clamp(1 - (f - 1) / .5, 0, 1) * .55 : 0, deep = soft((f - 3) / 6) * .45;
+          let rr = cr[0], gg = cr[1], bb = cr[2];
+          rr += (CORE[0] - rr) * deep; gg += (CORE[1] - gg) * deep; bb += (CORE[2] - bb) * deep;
+          rr += (255 - rr) * rim; gg += (235 - gg) * rim; bb += (248 - bb) * rim;
+          px[p4] = rr; px[p4 + 1] = gg; px[p4 + 2] = bb;
+          px[p4 + 3] = Math.max(250 * soft((f - .95) / .18), 70 * Math.pow((f - .5) / .5, 2));
+        }
+      }
+      ox.putImageData(img, 0, 0);
+      x.clearRect(0, 0, w, h);
+      x.imageSmoothingEnabled = true; x.imageSmoothingQuality = 'high';
+      x.drawImage(off, 0, 0, gw * cell, gh * cell);
+      return t < c.endAt;
+    });
+    c.to(0, c.t0 - 250);
+    c.P = P;
+  },
+  num(c, i) { if (i) c.to(i, c.t0 + i * 420 - 90); },   // 数字は液が描く（DOM の数字は出さない）
+  goWord: 'POUR', goSub: 'MOLD — RELEASED',
+  go(c) {
+    const m = m0();
+    c.P.forEach(p => { p.drop = c.goAt + (1 - (p.y - (innerHeight / 2 - m * .28)) / (m * .56)) * 70 + R(0, 30); p.vx = R(-.06, .06) * m; p.vy = R(.25, .6) * m; });
+    goDefault(c.num, c.sub);
+    fadeOut(c.cv, c, 420);
+  }
+};
+
+/* ══════════ H 雨の窓 ══════════
+   夜の雨の窓ごしに、にじんだ街の灯（マゼンタ・シアン・バイオレット）。ガラスには大小の雫、ときどき筋を引いて流れ落ちる。
+   3・2・1 で灯りが1色ずつ点り、起動でワイパーが扇形にガラスを拭い、曇りと雫が消えて向こうが見える。 */
+const S_H = {
+  key: 'H', cls: 'sH lq', title: 'H 雨の窓', desc: '夜の雨の窓ごしに、にじんだ街の灯。雫が筋を引いて流れる。3・2・1 で灯りが1色ずつ点り、起動でワイパーが扇形に拭って曇りと雫が消える。',
+  prefix: '╎ ', lineFx: lineBleed,
+  lines: (qn, s) => ['RAIN ON GLASS', 'CITY .............. ' + s, 'DROPS ............. ' + qn, 'VISIBILITY ........ LOW', 'CLEAR THE VIEW'],
+  rematch: qn => ['RAIN AGAIN', 'STREAKS ........... 前回の誤答 ' + qn + ' 問', 'WIPER ............. READY', '曇った ' + qn + ' 問を拭い去る'],
+  html: '',
+  build(c) {
+    const x = canvasFull(c.host), w = innerWidth, h = innerHeight, m = Math.min(w, h);
+    c.cv = x.canvas;
+    const COLS = [MAG, CYA, LVIO];
+    const BK = [];
+    for (let i = 0; i < 27; i++) BK.push({ g: i % 3, x: R(-.05, 1.05) * w, y: R(.08, 1) * h, r: m * R(.05, .15), spr: softSprite(COLS[i % 3]), ph: R(0, 6) });
+    // 雫のスプライト（色味違いを4枚だけ作る）
+    const dropSpr = tint => {
+      const s = 64, cv = document.createElement('canvas'); cv.width = cv.height = s;
+      const d = cv.getContext('2d');
+      let g = d.createRadialGradient(32, 38, 2, 32, 34, 30);
+      g.addColorStop(0, rgba(tint, .35)); g.addColorStop(.75, 'rgba(10,3,18,.45)'); g.addColorStop(.95, 'rgba(255,200,235,.55)'); g.addColorStop(1, 'rgba(255,200,235,0)');
+      d.fillStyle = g; d.beginPath(); d.arc(32, 32, 30, 0, 7); d.fill();
+      d.fillStyle = 'rgba(255,255,255,.85)'; d.beginPath(); d.ellipse(23, 21, 6, 4, -.6, 0, 7); d.fill();
+      return cv;
+    };
+    const DS = [dropSpr(MAG), dropSpr(CYA), dropSpr(LVIO), dropSpr([255, 255, 255])];
+    const D = [];
+    for (let i = 0; i < 260; i++) { const rr = Math.random() < .88 ? R(1.5, 4.5) : R(5, 10); D.push({ x: R(0, w), y: R(0, h), r: rr, e: R(1, 1.25), s: DS[(Math.random() * 4) | 0] }); }
+    const RUN = [];   // 流れ落ちる雫
+    c.run = (n, t0) => { for (let i = 0; i < n; i++) RUN.push({ x: R(.05, .95) * w, y: R(-.1, .4) * h, r: R(6, 11), t0: t0 + R(0, 300), v: 0, s: DS[(Math.random() * 4) | 0], trail: [] }); };
+    c.lit = [0, 0, 0];
+    const px = w / 2, py = h + m * .12, LEN = Math.hypot(w / 2, h + m * .12) + 30;
+    const angOf = (xx, yy) => Math.atan2(py - yy, xx - px);   // 0＝右・π＝左
+    let last = 0;
+    loop(t => {
+      const dt = Math.min(50, t - last) / 1000; last = t;
+      const wa = c.go ? Math.PI * (1 - soft((t - c.go) / 520)) : Math.PI + 1;   // ワイパーの角度（π→0）
+      const wiped = (xx, yy) => angOf(xx, yy) > wa;
+      x.clearRect(0, 0, w, h);
+      // 街の灯
+      x.globalCompositeOperation = 'lighter';
+      BK.forEach(b => {
+        const lt = c.lit[b.g] ? soft((t - c.lit[b.g]) / 220) : 0, fl = .85 + .15 * Math.sin(t / 90 + b.ph);
+        x.globalAlpha = (.16 + .62 * lt * fl) * (c.go && wiped(b.x, b.y) ? 1.25 : 1);
+        x.drawImage(b.spr, b.x - b.r, b.y - b.r, b.r * 2, b.r * 2);
+      });
+      x.globalAlpha = 1; x.globalCompositeOperation = 'source-over';
+      // 曇り（まだ拭っていない扇だけ）
+      x.fillStyle = 'rgba(46,22,62,.34)';
+      x.beginPath();
+      if (!c.go) x.rect(0, 0, w, h);
+      else if (wa > 0) { x.moveTo(px, py); x.lineTo(px + LEN, py); x.arc(px, py, LEN, 0, -wa, true); x.closePath(); }
+      x.fill();
+      // 雫
+      D.forEach(d => { if (c.go && wiped(d.x, d.y)) return; x.drawImage(d.s, d.x - d.r, d.y - d.r * d.e, d.r * 2, d.r * 2 * d.e); });
+      RUN.forEach(d => {
+        if (t < d.t0) return;
+        d.v = d.v < m * .05 ? d.v + m * .5 * dt : (Math.random() < .08 ? m * .02 : d.v + m * .9 * dt);   // 引っかかっては滑る
+        d.y += d.v * dt; d.x += Math.sin(d.y / 23) * .25;
+        if (!d.trail.length || d.y - d.trail[d.trail.length - 1][1] > d.r * 1.1) d.trail.push([d.x, d.y, d.r * R(.25, .45)]);
+        d.trail.forEach(q => { if (!(c.go && wiped(q[0], q[1]))) x.drawImage(d.s, q[0] - q[2], q[1] - q[2], q[2] * 2, q[2] * 2); });
+        if (!(c.go && wiped(d.x, d.y))) x.drawImage(d.s, d.x - d.r, d.y - d.r * 1.25, d.r * 2, d.r * 2.5);
+      });
+      // ワイパー
+      if (c.go && wa > 0 && wa < Math.PI) {
+        const ex = px + Math.cos(wa) * LEN, ey = py - Math.sin(wa) * LEN;
+        x.lineCap = 'round';
+        x.strokeStyle = 'rgba(8,2,14,.92)'; x.lineWidth = 9; x.beginPath(); x.moveTo(px, py); x.lineTo(ex, ey); x.stroke();
+        x.strokeStyle = 'rgba(255,170,220,.75)'; x.lineWidth = 1.5; x.beginPath(); x.moveTo(px, py); x.lineTo(ex, ey); x.stroke();
+        // 刃の手前に寄せられた水の筋
+        x.strokeStyle = 'rgba(200,250,255,.35)'; x.lineWidth = 5;
+        const a2 = wa - .012; x.beginPath(); x.moveTo(px, py); x.lineTo(px + Math.cos(a2) * LEN, py - Math.sin(a2) * LEN); x.stroke();
+      }
+      return t < c.endAt;
+    });
+    c.run(5, 0);
+  },
+  num(c, i) { c.lit[i] = c.t0 + i * 420; c.run(2, c.t0 + i * 420); numInk(c.num); },
+  goWord: 'CLEAR', goSub: 'VIEW — WIPED CLEAN',
+  go(c) { c.go = c.goAt; goDefault(c.num, c.sub); fadeOut(c.cv, c, 520); }
+};
+
+/* ══════════ I 渦潮 ══════════
+   上から見た渦。水の流線がゆっくり回り、3・2・1 のたびに外からマゼンタ・シアン・バイオレットの流れが注がれて、
+   腕を描きながら中心へ巻き込まれていく（1回ごとに回転が速くなる）。
+   起動で渦の目が一気に開き、穴の向こうに問題カードが見えて、そのまま画面が抜ける。
+   ⚠️ 穴を開けるため、この案だけ暗い背景を CSS ではなく canvas が塗る。 */
+const S_I = {
+  key: 'I', cls: 'sI lq', title: 'I 渦潮', desc: '上から見た渦。3・2・1 で外から1色ずつ流れが注がれ、腕を描いて中心へ巻き込まれる（回転が速くなる）。起動で渦の目が一気に開き、穴の向こうに問題が見える。',
+  prefix: '@ ', lineFx: lineBleed,
+  lines: (qn, s) => ['VORTEX FORMING', 'CURRENT ........... ' + s, 'INFLOW ............ ' + qn + ' Q', 'ROTATION .......... CW', 'INTO THE EYE'],
+  rematch: qn => ['VORTEX RETURNS', 'DRIFTED ........... 前回の誤答 ' + qn + ' 問', 'ROTATION .......... CW', '流された ' + qn + ' 問を渦の中心へ'],
+  html: '',
+  build(c) {
+    const x = canvasFull(c.host), w = innerWidth, h = innerHeight, cx = w / 2, cy = h / 2, m = Math.min(w, h), RM = Math.hypot(w, h) / 2;
+    const P = [];
+    const add = (col, n, th0, spread, r0, r1, al, lw, t0) => {
+      for (let i = 0; i < n; i++) P.push({ col: rgba(col, 1), r: RM * R(r0, r1), th: th0 + R(-spread, spread), al: al * R(.6, 1), lw: lw * R(.6, 1.3), t0: t0 + R(0, 120) });
+    };
+    add([170, 140, 215], 240, 0, Math.PI, .1, 1, .22, 1, -9999);   // 下地の流線
+    c.arm = (col, th0, t0) => add(col, 150, th0, .28, .62, 1, .75, 2.4, t0);
+    c.spin = 1;
+    const bg = x.createRadialGradient(cx, cy, 0, cx, cy, RM);
+    bg.addColorStop(0, 'rgba(8,2,16,.96)'); bg.addColorStop(.5, 'rgba(22,6,34,.88)'); bg.addColorStop(1, 'rgba(10,3,18,.94)');
+    let last = 0;
+    loop(t => {
+      const dt = Math.min(50, t - last) / 1000; last = t;
+      const e0 = m * .17 * (1 + .03 * Math.sin(t / 150));
+      const re = c.go ? e0 + (RM * 1.15 - e0) * ease((t - c.go) / 640) * soft((t - c.go) / 120 + .3) : e0;
+      x.clearRect(0, 0, w, h);
+      x.globalCompositeOperation = 'source-over';
+      x.fillStyle = bg; x.fillRect(0, 0, w, h);
+      x.globalCompositeOperation = 'lighter';
+      P.forEach(p => {
+        if (t < p.t0) return;
+        const om = c.spin * 2.6 * Math.pow((RM * .18) / Math.max(p.r, RM * .06), .85);   // 内ほど速い
+        p.th += om * dt;
+        p.r -= RM * .22 * c.spin * Math.pow(RM / Math.max(p.r, RM * .1), .25) * dt;
+        if (p.r < m * .03) { p.r = RM * R(.85, 1); if (p.al > .5) p.al *= .35; }   // 吸い込まれたら外へ戻す（色は薄く）
+        if (p.r < re * 1.02 && c.go) p.r = re * 1.02;
+        const a = p.al * Math.min(1, (t - p.t0) / 180) * soft((p.r - e0 * .9) / (m * .08) + (c.go ? 1 : 0)) * (c.go ? 1 - soft((t - c.go - 300) / 420) : 1);
+        if (a <= .01) return;
+        x.globalAlpha = a; x.strokeStyle = p.col; x.lineWidth = p.lw * (.5 + p.r / RM);
+        x.beginPath(); x.arc(cx, cy, p.r, p.th - Math.min(.9, om * .16 + .05), p.th); x.stroke();
+      });
+      x.globalAlpha = 1;
+      if (!c.go) {   // 渦の目（暗い芯＋縁の照り）
+        x.globalCompositeOperation = 'source-over';
+        const g = x.createRadialGradient(cx, cy, re * .6, cx, cy, re * 1.2);
+        g.addColorStop(0, 'rgba(6,1,12,.9)'); g.addColorStop(1, 'rgba(6,1,12,0)');
+        x.fillStyle = g; x.beginPath(); x.arc(cx, cy, re * 1.2, 0, 7); x.fill();
+        x.globalCompositeOperation = 'lighter';
+        x.strokeStyle = rgba(PINK, .45); x.lineWidth = 2; x.beginPath(); x.arc(cx, cy, re, 0, 7); x.stroke();
+        x.strokeStyle = rgba(CYA, .25); x.lineWidth = 1; x.beginPath(); x.arc(cx, cy, re * .93, 0, 7); x.stroke();
+      } else {       // 目が開く：穴を抜いて、向こうの問題カードを見せる
+        x.globalCompositeOperation = 'destination-out';
+        const g = x.createRadialGradient(cx, cy, re * .82, cx, cy, re);
+        g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+        x.fillStyle = g; x.beginPath(); x.arc(cx, cy, re, 0, 7); x.fill();
+        x.globalCompositeOperation = 'lighter';
+        x.strokeStyle = rgba(PINK, .7 * (1 - soft((t - c.go) / 600))); x.lineWidth = 3;
+        x.beginPath(); x.arc(cx, cy, re * .97, 0, 7); x.stroke();
+      }
+      x.globalCompositeOperation = 'source-over';
+      return t < c.endAt;
+    });
+  },
+  num(c, i) {
+    c.arm([MAG, CYA, LVIO][i], -Math.PI / 2 + i * 2.1, c.t0 + i * 420 - 60);
+    c.spin = 1 + (i + 1) * .45;
+    numVortex(c.num);
+  },
+  goWord: 'VORTEX', goSub: 'THE EYE — OPEN',
+  go(c) { c.go = c.goAt; c.spin = 3; goDefault(c.num, c.sub); }
+};
+
+/* ══════════ J 磁性流体 ══════════
+   画面の下に黒く光る磁性流体の液だまり。3・2・1 のたびに下の磁石が脈打ち、中央から外へ棘が 5→9→15 本と立ち上がる
+   （1回ごとに高く鋭く）。起動で棘が一瞬伸び切り、磁力が切れて平らに崩れ、波紋を残して引いていく。 */
+const S_J = {
+  key: 'J', cls: 'sJ lq', title: 'J 磁性流体', desc: '画面の下に黒く光る磁性流体。3・2・1 で下の磁石が脈打ち、棘が 5→9→15 本と立ち上がる。起動で一瞬伸び切り、磁力が切れて平らに崩れる。',
+  prefix: '⋀ ', lineFx: lineRise,
+  lines: (qn, s) => ['FERROFLUID', 'FIELD ............. ' + s, 'CHARGE ............ ' + qn + ' Q', 'MAGNET ............ ARMED', 'LET IT RISE'],
+  rematch: qn => ['RE-MAGNETIZE', 'RESIDUE ........... 前回の誤答 ' + qn + ' 問', 'MAGNET ............ ARMED', '沈んだ ' + qn + ' 問をもう一度立ち上げる'],
+  html: '',
+  build(c) {
+    const x = canvasFull(c.host), w = innerWidth, h = innerHeight, cx = w / 2, cy = h / 2, m = Math.min(w, h);
+    c.cv = x.canvas;
+    const base = Math.min(h - m * .08, cy + m * .38), gap = Math.min(m * .075, w / 16);
+    const LV = [.42, .7, 1];
+    const SP = [];
+    [[0, 1, -1, 2, -2], [3, -3, 4, -4], [5, -5, 6, -6, 7, -7]].forEach((row, act) => row.forEach(k => {
+      SP.push({ x: cx + k * gap + R(-.08, .08) * gap, wk: gap * .95, hk: m * .2 * (1 - .45 * Math.pow(Math.abs(k) / 8, 2)) * R(.88, 1.08), act });
+    }));
+    const T = [c.t0, c.t0 + 420, c.t0 + 840];
+    const resp = a => a <= 0 ? 0 : 1 - Math.exp(-a * 9) * Math.cos(a * 20);        // 立ち上がり（少し行き過ぎて戻る）
+    const fall = a => a <= 0 ? 0 : 1 - Math.exp(-a * 5) * Math.cos(a * 26);         // 崩れ（下まで行き過ぎて波打つ）
+    const Hk = (s, t) => {
+      let v = 0;
+      for (let j = s.act; j < 3; j++) v += (LV[j] - (j > s.act ? LV[j - 1] : 0)) * resp((t - T[j]) / 1000);
+      if (c.go) v += .55 * resp((t - c.go) / 1000) - 1.55 * fall((t - c.go - 170) / 1000);
+      return s.hk * v;
+    };
+    const pulse = t => T.reduce((a, tj) => a + (t >= tj ? Math.exp(-(t - tj) / 260) : 0), 0) + (c.go && t >= c.go ? 1.4 * Math.exp(-(t - c.go) / 200) : 0);
+    loop(t => {
+      x.clearRect(0, 0, w, h);
+      const pu = pulse(t);
+      // 磁力線（下の磁石から立ちのぼる点線の輪。脈打つたびに明るむ）
+      x.setLineDash([3, 6]); x.lineWidth = 1.6;
+      for (let k = 1; k <= 5; k++) {
+        x.strokeStyle = rgba(k % 2 ? LVIO : CYA, (.22 + .6 * Math.min(1, pu)) * (1 - k * .12));
+        const rx = gap * (1.6 + k * 1.5), ry = m * (.12 + k * .06);
+        [-1, 1].forEach(sg => { x.beginPath(); x.ellipse(cx + sg * rx, base + m * .04, rx, ry, 0, Math.PI, 2 * Math.PI); x.stroke(); });
+      }
+      x.setLineDash([]);
+      const glow = x.createRadialGradient(cx, base, 0, cx, base, m * .55);
+      glow.addColorStop(0, rgba(MAG, .32 * Math.min(1, pu))); glow.addColorStop(1, rgba(MAG, 0));
+      x.fillStyle = glow; x.fillRect(0, base - m * .55, w, m * .8);
+      // 液面
+      const H = SP.map(s => Hk(s, t));
+      const yAt = xx => {
+        let y = base + Math.sin(xx / (m * .07) + t / 300) * 1.2;
+        for (let i = 0; i < SP.length; i++) { const u = 1 - Math.abs(xx - SP[i].x) / SP[i].wk; if (u > 0) y -= H[i] * Math.pow(u, 1.7); }
+        return y;
+      };
+      const g = x.createLinearGradient(0, base - m * .3, 0, h);
+      g.addColorStop(0, '#1C1028'); g.addColorStop(.35, '#0C0616'); g.addColorStop(1, '#040108');
+      x.fillStyle = g;
+      x.beginPath(); x.moveTo(0, h);
+      for (let xx = 0; xx <= w + 3; xx += 3) x.lineTo(xx, yAt(xx));
+      x.lineTo(w, h); x.closePath(); x.fill();
+      x.strokeStyle = rgba(PINK, .55); x.lineWidth = 1.4;
+      x.beginPath(); for (let xx = 0; xx <= w + 3; xx += 3) { const y = yAt(xx); xx ? x.lineTo(xx, y) : x.moveTo(xx, y); } x.stroke();
+      // 棘の照り（左の面にマゼンタ、右の面にシアンの映り込み）
+      SP.forEach((s, i) => {
+        if (H[i] < 4) return;
+        const tip = yAt(s.x);
+        x.lineWidth = 1.6; x.strokeStyle = 'rgba(255,200,235,.85)';
+        x.beginPath(); x.moveTo(s.x - s.wk * .5, yAt(s.x - s.wk * .5)); x.quadraticCurveTo(s.x - s.wk * .12, yAt(s.x - s.wk * .12) + 1, s.x - 1, tip + H[i] * .08); x.stroke();
+        x.lineWidth = 1; x.strokeStyle = rgba(CYA, .5);
+        x.beginPath(); x.moveTo(s.x + s.wk * .45, yAt(s.x + s.wk * .45) + 2); x.quadraticCurveTo(s.x + s.wk * .14, yAt(s.x + s.wk * .14) + 2, s.x + 2, tip + H[i] * .22); x.stroke();
+      });
+      return t < c.endAt;
+    });
+  },
+  num(c) { numPull(c.num); },
+  goWord: 'PULSE', goSub: 'FIELD — FULL POWER',
+  go(c) { c.go = c.goAt; goDefault(c.num, c.sub); fadeOut(c.cv, c, 460); }
+};
+
+const STYLES = [S_F, S_G, S_H, S_I, S_J, S_A, S_B, S_NOW];
+
+/* ══════════ 再生 ══════════ */
+const BOOT_SOUNDS = ['MS起動.wav', 'アカツキ起動.wav', 'ゼロシステム.wav', 'トップをねらえ!.wav', 'ホワイトベース.wav', '巨大モーター起動.wav'];
+let _audio = null;
+function play(S) {
+  kill();
+  K = +document.getElementById('spd').value || 1;
+  const qn = Math.max(1, +document.getElementById('qn').value || 50);
+  const subj = document.getElementById('subj').value;
+  const rem = document.getElementById('rem').checked;
+  const lines = rem ? S.rematch(qn) : S.lines(qn, subj);
+  const t0 = 60 + lines.length * 105 + 120, goAt = t0 + 3 * 420, endAt = goAt + 780;
+
+  host.className = S.cls + (rem ? ' rem' : '');
+  host.style.setProperty('--k', K);
+  host.style.display = 'flex';
+  host.innerHTML = S.html + '<div class="cd-log"></div><div class="cd-num"></div><div class="cd-sub"></div>';
+  const c = { host, log: host.querySelector('.cd-log'), num: host.querySelector('.cd-num'), sub: host.querySelector('.cd-sub'), t0, goAt, endAt };
+  if (S.build) S.build(c);
+
+  if (document.getElementById('snd').checked) {
+    try {
+      if (_audio) _audio.pause();
+      _audio = new Audio('../sounds/起動音/' + encodeURIComponent(BOOT_SOUNDS[(Math.random() * BOOT_SOUNDS.length) | 0]));
+      _audio.volume = .6; _audio.play().catch(() => {});
+    } catch (e) {}
+  }
+
+  lines.forEach((ln, i) => at(60 + i * 105, () => {
+    const d = document.createElement('div'); d.className = 'cd-line'; d.textContent = S.prefix + ln;
+    c.log.appendChild(d); (S.lineFx || lineDefault)(d);
+  }));
+  ['3', '2', '1'].forEach((n, i) => at(t0 + i * 420, () => {
+    host.classList.add('p2');
+    c.num.textContent = n; c.num.className = 'cd-num';
+    if (S.num) S.num(c, i, n); else numDefault(c.num);
+  }));
+  at(goAt, () => {
+    c.num.textContent = S.goWord; c.num.className = 'cd-num go'; c.sub.textContent = S.goSub;
+    if (S.go) S.go(c); else goDefault(c.num, c.sub);
+  });
+  at(endAt, kill);
+  return endAt;
+}
+
+const btns = document.getElementById('btns');
+let chain = 0;
+STYLES.forEach(S => {
+  const b = document.createElement('button');
+  if (S.key === 'now') b.className = 'cur';
+  b.innerHTML = S.title + '<small>' + S.desc + '</small>';
+  b.onclick = () => { chain++; play(S); };
+  btns.appendChild(b);
+});
+const all = document.createElement('button');
+all.className = 'all';
+all.innerHTML = '▶ F〜J を順に再生<small>1案ごとに約1秒あけて5案を続けて流します。</small>';
+all.onclick = () => {
+  const my = ++chain; let i = 0;
+  const next = () => { if (my !== chain || i >= 5) return; const end = play(STYLES[i++]); setTimeout(next, ms(end) + 1000); };
+  next();
+};
+btns.insertBefore(all, btns.firstChild);
+/* 止め絵（確認用）：?shot=B@1600 で案 B の 1600ms の瞬間に止める（&rem=1 で再戦・rAF と setTimeout を仮想時計で進める） */
+(() => {
+  const m = /[?&]shot=([A-Jnow]+)@(\d+)/.exec(location.search);
+  if (!m) return;
+  const S = STYLES.find(x => x.key === m[1]), T = +m[2];
+  const oST = window.setTimeout, oRAF = window.requestAnimationFrame, tq = [], rq = [], born = new Map();
+  let vt = 0; const base = performance.now();
+  window.setTimeout = (f, d) => { tq.push({ f, due: vt + (d || 0) }); return tq.length; };
+  window.requestAnimationFrame = f => { rq.push(f); return 1; };
+  document.getElementById('rem').checked = /[?&]rem=1/.test(location.search);
+  const mark = () => host.getAnimations({ subtree: true }).forEach(a => { if (!born.has(a)) { born.set(a, vt); a.pause(); } });
+  play(S); mark();
+  while (vt < T) {
+    vt += 16;
+    tq.filter(x => x.due <= vt && !x.done).sort((p, q) => p.due - q.due).forEach(x => { x.done = 1; x.f(); });
+    mark(); rq.splice(0).forEach(f => f(base + vt));
+  }
+  host.getAnimations({ subtree: true }).forEach(a => { a.currentTime = Math.max(0, T - born.get(a)); });
+  window.setTimeout = oST; window.requestAnimationFrame = oRAF;
+})();
+// Esc で止める（デモだけの都合）
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { chain++; kill(); } });
+</script>
+</body>
+</html>
