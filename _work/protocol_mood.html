@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>定着プロトコルの雰囲気見本</title>
+<!--
+  定着プロトコル（SRS復習）の開始前の画面を、6つの「雰囲気」で見比べる見本帳（2026-09-30）。
+  _work/protocol_demo.html の第1〜5版はどれも「求めている雰囲気と違う」「おしゃれな感じに」と言われたので、
+  3画面を作り込む前に雰囲気の方向だけを先に決めるためのページ。本物の関数は呼ばない。何も保存しない。
+  6つ：1 Apple風ミニマル／2 ラグジュアリー／3 エディトリアル（雑誌）／4 グラデーションメッシュ／5 バウハウス／6 和モダン
+  ⚠️ 演出はどれも時間の決まった一回きり（infinite なし）。フォントは端末に入っているものだけ。テストの対象ではない。
+-->
+<style>
+  :root{--ease:cubic-bezier(.16,1,.3,1);--spring:cubic-bezier(.34,1.56,.64,1);
+    --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","Hiragino Sans","Yu Gothic UI","Segoe UI",sans-serif;
+    --serif:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
+    --grot:"Helvetica Neue",Helvetica,Arial,"Hiragino Sans","Yu Gothic",sans-serif;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;overflow-x:clip;}
+  body{min-height:100vh;padding:22px 16px 60px;background:#E9E9EC;color:#1D1D1F;font-family:var(--sans);}
+  header{max-width:1100px;margin:0 auto 18px;display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 20px;}
+  header h1{margin:0;font-size:17px;font-weight:700;}
+  header p{margin:0;font-size:12.5px;color:#6E6E73;line-height:1.7;flex:1 1 320px;}
+  header button{padding:9px 16px;border-radius:99px;border:0;background:#1D1D1F;color:#fff;font:inherit;font-size:13px;cursor:pointer;}
+  .grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px 20px;}
+  figure{margin:0;}
+  figcaption{margin-top:10px;font-size:13px;line-height:1.55;}
+  figcaption b{display:block;font-size:14.5px;}
+  figcaption span{color:#6E6E73;font-size:12px;}
+  .ph{position:relative;aspect-ratio:9/16.5;border-radius:30px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.18),0 0 0 1px rgba(0,0,0,.05);cursor:pointer;}
+  .ph *{box-sizing:border-box;}
+  .ph .in{position:absolute;inset:0;padding:30px 24px 24px;display:flex;flex-direction:column;}
+  .num{font-variant-numeric:tabular-nums;}
+  .go{border:0;font:inherit;cursor:pointer;white-space:nowrap;}
+  /* 再生：.play を付け直すと全部の animation が頭から走る */
+  .ph:not(.play) *{animation:none!important;}
+
+  /* ═════ 1 Apple風ミニマル ═════ */
+  .t1{background:#F5F5F7;color:#1D1D1F;}
+  .t1 .blob{position:absolute;border-radius:50%;filter:blur(38px);opacity:.75;}
+  .t1 .b1{width:62%;aspect-ratio:1;left:-12%;top:8%;background:#FF6FA5;}
+  .t1 .b2{width:55%;aspect-ratio:1;right:-14%;top:2%;background:#FFB35C;}
+  .t1 .b3{width:60%;aspect-ratio:1;left:22%;top:26%;background:#8C7BFF;}
+  .play.t1 .b1{animation:t1b1 2.4s var(--ease) both;} .play.t1 .b2{animation:t1b2 2.4s var(--ease) both;} .play.t1 .b3{animation:t1b3 2.4s var(--ease) both;}
+  @keyframes t1b1{from{transform:translate(-40%,30%) scale(.4);opacity:0}}
+  @keyframes t1b2{from{transform:translate(40%,-20%) scale(.4);opacity:0}}
+  @keyframes t1b3{from{transform:translate(0,40%) scale(.3);opacity:0}}
+  .t1 .glass{position:absolute;left:0;right:0;top:44%;bottom:0;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(30px) saturate(1.4);backdrop-filter:blur(30px) saturate(1.4);border-top:1px solid rgba(255,255,255,.9);}
+  .t1 .top{position:relative;font-size:13px;font-weight:600;color:rgba(29,29,31,.65);}
+  .t1 .big{position:relative;font-size:118px;font-weight:200;letter-spacing:-.06em;line-height:.9;margin-top:auto;}
+  .t1 .big small{font-size:22px;font-weight:500;letter-spacing:0;margin-left:4px;}
+  .t1 .ttl{position:relative;font-size:26px;font-weight:700;letter-spacing:-.01em;margin-top:22px;}
+  .t1 .sub{position:relative;font-size:14px;color:#6E6E73;margin-top:4px;}
+  .t1 .seg{position:relative;display:flex;gap:3px;height:6px;margin-top:22px;}
+  .t1 .seg i{border-radius:99px;}
+  .t1 .leg{position:relative;display:flex;gap:14px;font-size:11.5px;color:#6E6E73;margin-top:8px;}
+  .t1 .leg b{color:#1D1D1F;font-weight:600;}
+  .t1 .go{position:relative;margin-top:26px;padding:15px;border-radius:99px;background:#1D1D1F;color:#fff;font-size:16px;font-weight:600;}
+  .play.t1 .top,.play.t1 .big,.play.t1 .ttl,.play.t1 .sub,.play.t1 .seg,.play.t1 .leg,.play.t1 .go{animation:t1up .9s var(--spring) both;}
+  .play.t1 .big{animation-delay:.25s}.play.t1 .ttl{animation-delay:.35s}.play.t1 .sub{animation-delay:.42s}.play.t1 .seg{animation-delay:.5s}.play.t1 .leg{animation-delay:.56s}.play.t1 .go{animation-delay:.64s}
+  @keyframes t1up{from{opacity:0;transform:translateY(26px)}}
+  .play.t1 .seg i{animation:t1seg 1s var(--ease) both;animation-delay:.7s;transform-origin:left;}
+  @keyframes t1seg{from{transform:scaleX(0)}}
+
+  /* ═════ 2 ラグジュアリー ═════ */
+  .t2{background:radial-gradient(120% 70% at 50% 0%,#1E1B16,#0B0A09 70%);color:#EDE6D6;}
+  .t2 .in{align-items:center;text-align:center;padding-top:44px;}
+  .t2 .eye{font-family:var(--grot);font-size:9.5px;letter-spacing:.5em;text-indent:.5em;color:#C8B68A;}
+  .t2 .big{font-family:var(--serif);font-weight:200;font-size:150px;line-height:1;margin-top:34px;letter-spacing:-.02em;color:#F2EBDC;}
+  .t2 .ttl{font-family:var(--serif);font-size:17px;letter-spacing:.42em;text-indent:.42em;margin-top:8px;}
+  .t2 .hair{width:100%;height:1px;background:linear-gradient(90deg,transparent,#C8B68A,transparent);margin:30px 0 22px;}
+  .t2 .rows{width:100%;font-size:12px;color:#A99F8C;}
+  .t2 .rows div{display:flex;justify-content:space-between;padding:7px 2px;border-bottom:1px solid rgba(200,182,138,.16);letter-spacing:.08em;}
+  .t2 .rows b{font-family:var(--serif);font-weight:400;color:#EDE6D6;font-size:14px;}
+  .t2 .go{margin-top:auto;width:100%;padding:15px;background:none;border:1px solid #C8B68A;color:#C8B68A;font-family:var(--serif);font-size:14px;letter-spacing:.6em;text-indent:.6em;}
+  .play.t2 .eye{animation:t2sp 2s var(--ease) both;}
+  @keyframes t2sp{from{letter-spacing:1.4em;opacity:0}}
+  .play.t2 .big{animation:t2blur 1.8s var(--ease) .2s both;}
+  @keyframes t2blur{from{filter:blur(14px);opacity:0;transform:scale(1.08)}}
+  .play.t2 .ttl{animation:t2fade 1.4s var(--ease) .7s both;}
+  .play.t2 .hair{animation:t2line 1.6s var(--ease) .9s both;}
+  @keyframes t2line{from{transform:scaleX(0)}}
+  .play.t2 .rows div{animation:t2fade 1.2s var(--ease) both;}
+  .play.t2 .rows div:nth-child(1){animation-delay:1.1s}.play.t2 .rows div:nth-child(2){animation-delay:1.2s}.play.t2 .rows div:nth-child(3){animation-delay:1.3s}
+  .play.t2 .go{animation:t2fade 1.4s var(--ease) 1.5s both;}
+  @keyframes t2fade{from{opacity:0;transform:translateY(8px)}}
+
+  /* ═════ 3 エディトリアル（雑誌） ═════ */
+  .t3{background:#EFEDE6;color:#141414;}
+  .t3 .in{padding:24px 22px 22px;}
+  .t3 .top{display:flex;justify-content:space-between;font-family:var(--grot);font-size:10.5px;letter-spacing:.14em;border-bottom:1px solid #141414;padding-bottom:8px;}
+  .t3 .giant{position:absolute;left:-18px;top:62px;font-family:var(--grot);font-weight:800;font-size:250px;line-height:.8;letter-spacing:-.07em;}
+  .t3 .dot{position:absolute;left:192px;top:230px;width:16px;height:16px;border-radius:50%;background:#E0301E;}
+  .t3 .tate{position:absolute;right:22px;top:66px;writing-mode:vertical-rl;font-family:var(--serif);font-size:25px;font-weight:600;letter-spacing:.3em;}
+  .t3 .tate small{font-size:12px;font-weight:400;letter-spacing:.2em;margin-top:14px;color:#555;}
+  .t3 .body{margin-top:auto;font-family:var(--serif);font-size:13.5px;line-height:1.9;}
+  .t3 .body em{font-style:normal;color:#E0301E;font-weight:700;}
+  .t3 .meta{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #141414;margin-top:14px;font-family:var(--grot);}
+  .t3 .meta div{padding:8px 0 0;font-size:10px;letter-spacing:.08em;color:#555;}
+  .t3 .meta b{display:block;font-size:22px;color:#141414;letter-spacing:-.02em;}
+  .t3 .go{margin-top:16px;padding:14px 16px;background:#141414;color:#EFEDE6;font-family:var(--grot);font-size:14px;font-weight:700;letter-spacing:.1em;display:flex;justify-content:space-between;}
+  .play.t3 .giant{animation:t3in 1.2s var(--ease) both;}
+  @keyframes t3in{from{transform:translateX(-110%)}}
+  .play.t3 .dot{animation:t3dot .6s var(--spring) 1s both;}
+  @keyframes t3dot{from{transform:scale(0)}}
+  .play.t3 .tate{animation:t3tate 1.1s var(--ease) .5s both;}
+  @keyframes t3tate{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+  .play.t3 .body,.play.t3 .meta,.play.t3 .go{animation:t3up .8s var(--ease) both;}
+  .play.t3 .body{animation-delay:.9s}.play.t3 .meta{animation-delay:1.05s}.play.t3 .go{animation-delay:1.2s}
+  @keyframes t3up{from{opacity:0;transform:translateY(14px)}}
+  .play.t3 .top{animation:t3line .9s var(--ease) both;}
+  @keyframes t3line{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+
+  /* ═════ 4 グラデーションメッシュ ═════ */
+  .t4{background:#0B0B1A;color:#fff;}
+  .t4 .mesh{position:absolute;inset:-20%;background:
+      radial-gradient(40% 35% at 25% 25%,#6E5BFF 0%,transparent 70%),
+      radial-gradient(38% 34% at 78% 30%,#FF5CA8 0%,transparent 70%),
+      radial-gradient(45% 40% at 55% 70%,#1FC8FF 0%,transparent 70%),
+      radial-gradient(35% 30% at 20% 80%,#FF9F43 0%,transparent 70%);filter:blur(24px) saturate(1.2);opacity:.85;}
+  .play.t4 .mesh{animation:t4mesh 3.2s var(--ease) both;}
+  @keyframes t4mesh{from{transform:rotate(-25deg) scale(1.4);opacity:0}}
+  .t4 .grain{position:absolute;inset:0;background:repeating-radial-gradient(circle at 30% 30%,rgba(255,255,255,.03) 0 1px,transparent 1px 3px);mix-blend-mode:overlay;}
+  .t4 .card{position:relative;margin-top:auto;padding:22px 20px 20px;border-radius:26px;background:rgba(255,255,255,.12);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.28);box-shadow:inset 0 1px 0 rgba(255,255,255,.35);}
+  .t4 .chip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:99px;background:rgba(255,255,255,.18);font-size:11.5px;font-weight:600;}
+  .t4 .chip i{width:6px;height:6px;border-radius:50%;background:#7CFFB2;}
+  .t4 .big{font-size:84px;font-weight:700;letter-spacing:-.05em;line-height:1;margin-top:14px;}
+  .t4 .big small{font-size:20px;font-weight:500;letter-spacing:0;opacity:.8;margin-left:4px;}
+  .t4 .ttl{font-size:20px;font-weight:700;margin-top:6px;}
+  .t4 .pills{display:flex;gap:6px;margin-top:16px;}
+  .t4 .pills div{flex:1;padding:8px;border-radius:14px;background:rgba(255,255,255,.1);font-size:10.5px;opacity:.9;}
+  .t4 .pills b{display:block;font-size:18px;}
+  .t4 .go{margin-top:16px;width:100%;padding:15px;border-radius:18px;background:#fff;color:#0B0B1A;font-size:15.5px;font-weight:700;}
+  .t4 .top{position:relative;font-size:13px;font-weight:600;opacity:.85;}
+  .play.t4 .card{animation:t4card 1.1s var(--spring) .5s both;}
+  @keyframes t4card{from{opacity:0;transform:translateY(60px) scale(.94)}}
+  .play.t4 .big .num{display:inline-block;animation:t4num .9s var(--ease) .9s both;}
+  @keyframes t4num{from{opacity:0;filter:blur(8px);transform:translateY(12px)}}
+
+  /* ═════ 5 バウハウス ═════ */
+  .t5{background:#F2EBDD;color:#161616;}
+  .t5 .c1{position:absolute;right:-60px;top:-50px;width:230px;height:230px;border-radius:50%;background:#2548D8;}
+  .t5 .c2{position:absolute;left:24px;top:150px;width:110px;height:55px;border-radius:110px 110px 0 0;background:#E8402A;}
+  .t5 .c3{position:absolute;left:150px;top:120px;width:70px;height:70px;background:#F2B705;rotate:12deg;}
+  .t5 .ttl{position:relative;font-family:var(--grot);font-size:30px;font-weight:800;line-height:1.05;letter-spacing:-.02em;margin-top:200px;}
+  .t5 .ttl b{display:block;font-size:92px;letter-spacing:-.05em;}
+  .t5 .bars{position:relative;margin-top:16px;}
+  .t5 .bar{display:flex;align-items:center;gap:8px;font-family:var(--grot);font-size:11px;font-weight:700;margin-top:5px;}
+  .t5 .bar i{height:12px;display:block;}
+  .t5 .go{position:relative;margin-top:auto;padding:15px;border-radius:0;background:#161616;color:#F2EBDD;font-family:var(--grot);font-size:15px;font-weight:800;letter-spacing:.14em;}
+  .play.t5 .c1{animation:t5a .9s var(--spring) both;}
+  @keyframes t5a{from{transform:scale(0)}}
+  .play.t5 .c2{animation:t5b .8s var(--spring) .2s both;}
+  @keyframes t5b{from{transform:translateX(-160px) rotate(-90deg)}}
+  .play.t5 .c3{animation:t5c .8s var(--spring) .35s both;}
+  @keyframes t5c{from{transform:translateY(-200px) rotate(120deg)}}
+  .play.t5 .ttl{animation:t5up .7s var(--ease) .5s both;}
+  @keyframes t5up{from{opacity:0;transform:translateY(20px)}}
+  .play.t5 .bar i{animation:t5bar .8s var(--ease) both;transform-origin:left;}
+  .play.t5 .bar:nth-child(1) i{animation-delay:.8s}.play.t5 .bar:nth-child(2) i{animation-delay:.9s}.play.t5 .bar:nth-child(3) i{animation-delay:1s}
+  @keyframes t5bar{from{transform:scaleX(0)}}
+  .play.t5 .go{animation:t5up .6s var(--ease) 1.1s both;}
+
+  /* ═════ 6 和モダン ═════ */
+  .t6{background:#F3EEE3;color:#1E1B18;background-image:radial-gradient(rgba(120,100,70,.06) 1px,transparent 1px),radial-gradient(rgba(120,100,70,.05) 1px,transparent 1px);background-size:7px 7px,11px 11px;background-position:0 0,3px 5px;}
+  .t6 .enso{position:absolute;left:50%;top:70px;width:230px;translate:-50% 0;}
+  .t6 .enso path{fill:none;stroke:#1E1B18;stroke-linecap:round;}
+  .t6 .big{position:absolute;left:0;right:0;top:128px;text-align:center;font-family:var(--serif);font-size:84px;font-weight:500;line-height:1;}
+  .t6 .big small{font-size:18px;margin-left:2px;}
+  .t6 .tate{position:absolute;right:24px;top:30px;writing-mode:vertical-rl;font-family:var(--serif);font-size:15px;letter-spacing:.5em;color:#4A423A;}
+  .t6 .seal{position:absolute;left:24px;top:32px;width:34px;height:34px;border-radius:4px;background:#C8372D;color:#F7E7DA;font-family:var(--serif);font-size:19px;font-weight:700;display:grid;place-items:center;box-shadow:inset 0 0 0 2px #D9483E;}
+  .t6 .ttl{margin-top:auto;text-align:center;font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:.3em;text-indent:.3em;}
+  .t6 .sub{text-align:center;font-family:var(--serif);font-size:12.5px;color:#6A6159;margin-top:10px;line-height:1.9;}
+  .t6 .sub em{font-style:normal;color:#C8372D;}
+  .t6 .go{margin-top:20px;padding:14px;background:#1E1B18;color:#F3EEE3;font-family:var(--serif);font-size:15px;letter-spacing:.6em;text-indent:.6em;border-radius:2px;}
+  .play.t6 .enso path{stroke-dasharray:1;stroke-dashoffset:1;animation:t6draw 1.5s cubic-bezier(.6,.05,.3,1) .2s forwards;}
+  @keyframes t6draw{to{stroke-dashoffset:0}}
+  .play.t6 .big{animation:t6ink 1.4s var(--ease) .9s both;}
+  @keyframes t6ink{from{opacity:0;filter:blur(6px)}}
+  .play.t6 .seal{animation:t6seal .5s cubic-bezier(.2,1.6,.4,1) 1.6s both;}
+  @keyframes t6seal{from{transform:scale(2.4) rotate(-12deg);opacity:0}}
+  .play.t6 .tate{animation:t6tate 1.2s var(--ease) .4s both;}
+  @keyframes t6tate{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+  .play.t6 .ttl,.play.t6 .sub,.play.t6 .go{animation:t6up 1s var(--ease) both;}
+  .play.t6 .ttl{animation-delay:1.3s}.play.t6 .sub{animation-delay:1.45s}.play.t6 .go{animation-delay:1.6s}
+  @keyframes t6up{from{opacity:0;transform:translateY(10px)}}
+</style>
+</head>
+<body>
+<header>
+  <h1>定着プロトコル — 雰囲気の見本（開始前の画面）</h1>
+  <p>3画面を作り込む前に、雰囲気の方向を決めるための見本です。どれも開いたときに動きます。画面をタップ（クリック）するとその1枚が、右のボタンで全部がもう一度再生されます。</p>
+  <button id="all">↻ 全部もう一度再生</button>
+</header>
+<div class="grid">
+
+  <figure><div class="ph t1"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="glass"></div>
+    <div class="in"><div class="top">9月30日 水曜日</div>
+      <div class="big num">30<small>問</small></div>
+      <div class="ttl">定着プロトコル</div><div class="sub">忘れかけた記憶を、今日取り戻す。</div>
+      <div class="seg"><i style="flex:4;background:#FF6FA5"></i><i style="flex:17;background:#8C7BFF"></i><i style="flex:9;background:#D2D2D7"></i></div>
+      <div class="leg"><span>大きく遅れ <b>4</b></span><span>遅れ <b>17</b></span><span>予定どおり <b>9</b></span></div>
+      <button class="go">始める</button></div></div>
+    <figcaption><b>1 Apple風ミニマル</b><span>明るい曇りガラスと柔らかな色のにじみ。細く大きな数字、弾むように浮かび上がる文字。</span></figcaption></figure>
+
+  <figure><div class="ph t2"><div class="in">
+      <div class="eye">DAILY RETENTION</div>
+      <div class="big num">30</div>
+      <div class="ttl">定着プロトコル</div>
+      <div class="hair"></div>
+      <div class="rows"><div><span>大きく遅れ</span><b class="num">4</b></div><div><span>遅れ</span><b class="num">17</b></div><div><span>予定どおり</span><b class="num">9</b></div></div>
+      <button class="go">はじめる</button></div></div>
+    <figcaption><b>2 ラグジュアリー</b><span>黒とシャンパンゴールド、細い明朝。ぼかしから焦点が合う数字と、ゆっくり伸びる金の線。</span></figcaption></figure>
+
+  <figure><div class="ph t3"><div class="in">
+      <div class="top"><span>RETENTION ISSUE</span><span>2026.09.30</span></div>
+      <div class="giant num">30</div><div class="dot"></div>
+      <div class="tate">定着プロトコル<small>本日の復習</small></div>
+      <div class="body">忘れかけた記憶が三十。<br>うち<em>四つ</em>は、予定より大きく遅れている。</div>
+      <div class="meta"><div><b class="num">04</b>大きく遅れ</div><div><b class="num">17</b>遅れ</div><div><b class="num">09</b>予定どおり</div></div>
+      <button class="go"><span>READ ON</span><span>→</span></button></div></div>
+    <figcaption><b>3 エディトリアル（雑誌）</b><span>紙面から はみ出す巨大な数字と縦書き。数字が滑り込み、見出しが上から現れる。</span></figcaption></figure>
+
+  <figure><div class="ph t4"><div class="mesh"></div><div class="grain"></div>
+    <div class="in"><div class="top">9月30日</div>
+      <div class="card"><span class="chip"><i></i>今日の復習</span>
+        <div class="big"><span class="num">30</span><small>問</small></div>
+        <div class="ttl">定着プロトコル</div>
+        <div class="pills"><div><b class="num">4</b>大きく遅れ</div><div><b class="num">17</b>遅れ</div><div><b class="num">9</b>予定どおり</div></div>
+        <button class="go">始める</button></div></div></div>
+    <figcaption><b>4 グラデーションメッシュ</b><span>ゆっくり回り込む色のにじみの上に、すりガラスのカードがせり上がる。今どきのアプリの質感。</span></figcaption></figure>
+
+  <figure><div class="ph t5"><div class="c1"></div><div class="c2"></div><div class="c3"></div>
+    <div class="in">
+      <div class="ttl">定着<br>プロトコル<b class="num">30</b></div>
+      <div class="bars">
+        <div class="bar"><i style="width:28%;background:#E8402A"></i>大きく遅れ 4</div>
+        <div class="bar"><i style="width:80%;background:#2548D8"></i>遅れ 17</div>
+        <div class="bar"><i style="width:48%;background:#F2B705"></i>予定どおり 9</div></div>
+      <button class="go">START</button></div></div>
+    <figcaption><b>5 バウハウス</b><span>生成りの地に原色の丸・半円・四角。図形が弾んで飛び込み、棒が伸びる。</span></figcaption></figure>
+
+  <figure><div class="ph t6">
+    <svg class="enso" viewBox="0 0 230 230"><path pathLength="1" stroke-width="13" d="M150 30 C 95 12, 32 52, 34 120 C 36 180, 100 212, 158 196 C 204 182, 214 120, 196 82 C 186 60, 172 48, 162 44"/><path pathLength="1" stroke-width="5" opacity=".55" d="M162 44 C 168 48, 174 54, 178 60"/></svg>
+    <div class="seal">定</div>
+    <div class="tate">令和八年 九月三十日</div>
+    <div class="big num">30<small>問</small></div>
+    <div class="in"><div class="ttl">定着プロトコル</div>
+      <div class="sub">忘れかけた記憶を、今日ここで結び直す。<br>うち<em>四問</em>は、約束の日を大きく過ぎています。</div>
+      <button class="go">はじめる</button></div></div>
+    <figcaption><b>6 和モダン</b><span>和紙の地に墨の円相が一筆で描かれ、朱の印が押される。縦書きの日付。</span></figcaption></figure>
+
+</div>
+<script>
+'use strict';
+const phs=[...document.querySelectorAll('.ph')];
+function play(ph){ ph.classList.remove('play'); void ph.offsetWidth; ph.classList.add('play'); }
+phs.forEach((ph,i)=>{ ph.addEventListener('click',()=>play(ph)); setTimeout(()=>play(ph), 150+i*120); });
+document.getElementById('all').onclick=()=>phs.forEach(play);
+</script>
+</body>
+</html>
