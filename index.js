@@ -122,7 +122,7 @@ function getSrsRiskBreakdown(sessionLimit = 50) {
 // （late＝昨日以前が期限だったぶん）。科目の内訳は「いま復習待ちのもの」全部（出題50問に限らない）。
 // ⚠️ 重複コピーの影は数えない（getSRSDueCount と同じ数え方＝0日目の合計は due と必ず一致する）。
 function getSrsForecast(days = 14) {
-  const out = { days: [], late: 0, subj: [] };
+  const out = { days: [], late: 0, maxLate: 0, subj: [] };
   const today = _jstDay(Date.now());
   const base = Date.parse(today + 'T00:00:00Z');
   for (let d = 0; d < days; d++) {
@@ -140,7 +140,7 @@ function getSrsForecast(days = 14) {
       if (shadow && MECSync.srsIsShadow(uid)) continue;
       if (d <= 0) {
         out.days[0].n++;
-        if (d < 0) out.late++;
+        if (d < 0) { out.late++; if (-d > out.maxLate) out.maxLate = -d; }
         const sid = _noteSid(uid);
         bySid[sid] = (bySid[sid] || 0) + 1;
       } else {
@@ -157,25 +157,6 @@ function getSrsForecast(days = 14) {
 function _srsSubjColor(sid) {
   const s = (window.MM_SUBJECTS || []).find(x => x.sid === sid);
   return s && s.color ? s.color : '#8a8fa3';
-}
-
-// SRS復習1問あたりの所要秒の中央値（直近の SRS 解答から）。上段の「所要の目安」に使う。
-// 材料は mec_attempts_v1 の m=s（SRS復習）の行の s（所要秒）。10分超は放置とみなして外す。
-// ⚠️ 20件に満たないうちは null＝目安を出さない（当て推量の数字を置かない）。
-function _srsSecPerQ() {
-  try {
-    const att = JSON.parse(localStorage.getItem('mec_attempts_v1') || '[]');
-    const secs = [];
-    for (let i = att.length - 1; i >= 0 && secs.length < 300; i--) {
-      const p = typeof att[i] === 'string' ? att[i].split('|') : null;
-      if (!p || p[5] !== 's' || p[4] === '') continue;
-      const s = Number(p[4]);
-      if (s > 0 && s <= 600) secs.push(s);
-    }
-    if (secs.length < 20) return null;
-    secs.sort((a, b) => a - b);
-    return secs[secs.length >> 1];
-  } catch (e) { return null; }
 }
 
 // プロトコル待機列の図（2026-10-01・デモ _work/protocol_feed_demo.html の E 案）:
@@ -1460,8 +1441,6 @@ function renderHero() {
   const fc = getSrsForecast(14);
   if (due > 0) {
     const risk = getSrsRiskBreakdown(sessionLimit);
-    const secPerQ = _srsSecPerQ();
-    const estMin = secPerQ ? Math.max(1, Math.round(sessionCount * secPerQ / 60)) : 0;
     say.classList.remove('is-clear');
     say.innerHTML =
       // 意匠の内枠。中身を持たない飾りなので aria からは外す（読み上げに乗せない）
@@ -1487,18 +1466,24 @@ function renderHero() {
           '<span class="srs-stat-lbl">今回の出題</span>' +
           '<span class="srs-stat-val"><b>優先 ' + _fmtN(sessionCount) + '</b><small>問</small></span>' +
         '</div>' +
-        // 「今回の出題」と「忘却リスク内訳」の間の空き（2026-10-01 ユーザー指摘）に、終わった後の残りと所要の目安を置く。
+        // 「今回の出題」と「忘却リスク内訳」の間の空き（2026-10-01 ユーザー指摘）に、数え方が見てすぐ分かる数字だけを置く:
+        //   終わると残り＝復習待ち − 今回の出題／明日の予定＝明日が期限の問題数／最大の遅れ＝いちばん長く放置している問題の遅れ日数。
+        // ⚠️ 推定値（所要時間の見込み等）は置かない（2026-10-01「算出法が謎」で撤去）。
         // ⚠️ 1行死守の行なので、狭い画面（≤560px）では .srs-stat-extra ごと隠す（index.css）。
         '<span class="srs-stat-sep srs-stat-extra" aria-hidden="true">➔</span>' +
-        '<div class="srs-stat-cell srs-stat-extra" title="今回の' + _fmtN(sessionCount) + '問を終えたあとに残る復習待ち">' +
+        '<div class="srs-stat-cell srs-stat-extra" title="今回の' + _fmtN(sessionCount) + '問を終えたあとに残る復習待ち（復習待ち − 今回の出題）">' +
           '<span class="srs-stat-lbl">終わると残り</span>' +
           '<span class="srs-stat-val"><b>' + _fmtN(due - sessionCount) + '</b><small>問</small></span>' +
         '</div>' +
-        (estMin ? '<span class="srs-stat-divider srs-stat-extra" aria-hidden="true"></span>' +
-        '<div class="srs-stat-cell srs-stat-extra" title="直近のSRS復習の1問あたり所要時間（中央値 ' + secPerQ + '秒）から">' +
-          '<span class="srs-stat-lbl">所要の目安</span>' +
-          '<span class="srs-stat-val"><b>約' + estMin + '</b><small>分</small></span>' +
-        '</div>' : '') +
+        '<span class="srs-stat-divider srs-stat-extra" aria-hidden="true"></span>' +
+        '<div class="srs-stat-cell srs-stat-extra" title="明日が復習期限になる問題の数（今日の分とは別）">' +
+          '<span class="srs-stat-lbl">明日の予定</span>' +
+          '<span class="srs-stat-val"><b>' + _fmtN(fc.days[1] ? fc.days[1].n : 0) + '</b><small>問</small></span>' +
+        '</div>' +
+        '<div class="srs-stat-cell srs-stat-extra srs-stat-late' + (fc.maxLate >= 7 ? ' is-bad' : '') + '" title="期限切れの問題のうち、いちばん長く期限を過ぎている日数">' +
+          '<span class="srs-stat-lbl">最大の遅れ</span>' +
+          '<span class="srs-stat-val"><b>' + _fmtN(fc.maxLate) + '</b><small>日</small></span>' +
+        '</div>' +
         '<span class="srs-stat-divider" aria-hidden="true"></span>' +
         '<div class="srs-stat-cell srs-risk-cell">' +
           '<span class="srs-stat-lbl">忘却リスク内訳</span>' +

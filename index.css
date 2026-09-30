@@ -404,6 +404,14 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 .sv-sr b{text-align:right;font-weight:800;font-size:11px;color:rgba(var(--glass-rgb),1);font-feature-settings:"tnum";}
 .sv-sr.is-rest{color:rgba(var(--glass-rgb),.7);}
 .sv-sr.is-rest b{color:rgba(var(--glass-rgb),.8);}
+/* 上段の stat 行：足したセルがある日は、余った幅を右端に溜めず各セルの間へ均等に配る
+   （2026-10-01「所要の目安の右側に何もない空間が気になる」）。
+   ⚠️ .srs-risk-cell の margin-left:auto が残ると space-between が効かないので、ここで 0 に戻す。 */
+@media (min-width:561px){
+  .srs-card-stat:has(.srs-stat-extra){justify-content:space-between;}
+  .srs-card-stat:has(.srs-stat-extra) .srs-risk-cell{margin-left:0;}
+}
+.srs-stat-late.is-bad .srs-stat-val b{color:#f87171;}
 @media (max-width:560px){
   .srs-viz{grid-template-columns:auto minmax(0,1fr);}
   .srs-viz-sb{grid-column:1/-1;}
