@@ -127,7 +127,7 @@
 #wardHud .wh-bed.discharge{background:#34D399;box-shadow:none}
 #wardHud .wh-bed.stay{background:#F87171;box-shadow:none}
 .w-seg{fill:none;transition:stroke-dasharray .6s cubic-bezier(.16,1,.3,1),stroke-dashoffset .6s cubic-bezier(.16,1,.3,1);}
-.wh-pt{position:fixed;left:0;top:0;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;pointer-events:none;z-index:8002;}
+.wh-pt{position:fixed;left:0;top:0;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;pointer-events:none;z-index:9600;}
 .wh-pop{position:fixed;z-index:8001;pointer-events:none;font-weight:900;font-size:15px;white-space:nowrap;translate:-50% 0;
   padding:3px 10px;border-radius:99px;background:rgba(6,16,20,.85);border:1px solid currentColor;animation:whPop 1.1s cubic-bezier(.2,1,.3,1) forwards;}
 .wh-pop.discharge{color:#6EE7B7}.wh-pop.stay{color:#FCA5A5}
@@ -155,9 +155,12 @@ body.ward-on .ct{padding-bottom:130px;}
 #wardBrief .wb-k.crit b{color:#F87171}#wardBrief .wb-k.warn b{color:#FBBF24}#wardBrief .wb-k.stable b{color:#6EE7B7}
 #wardBrief .wb-rooms{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:7px;}
 #wardBrief .wb-room{padding:8px 9px;border-radius:11px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-left:3px solid var(--rc,#7ED6DF);
-  animation:wbIn .3s ease both;}
+  animation:wbIn .3s ease both;position:relative;overflow:hidden;}
 #wardBrief .wb-rn{font-size:12px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-#wardBrief .wb-rn small{font-weight:700;opacity:.6;margin-left:4px;}
+#wardBrief .wb-rn small{display:inline-block;font-weight:700;opacity:.6;margin-left:4px;}
+/* 科目のベッドが並び終わった合図：最後の床から科目の色の波紋が広がる（位置と色は JS が入れる） */
+#wardBrief .wb-wave{position:absolute;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,transparent 38%,var(--wc) 58%,transparent 72%);opacity:0;}
 #wardBrief .wb-beds{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px;}
 #wardBrief .wb-bed{width:10px;height:10px;border-radius:3px;background:#34D399;}
 #wardBrief .wb-bed.warn{background:#FBBF24}#wardBrief .wb-bed.crit{background:#F87171}
@@ -280,7 +283,26 @@ body.ward-on .ct{padding-bottom:130px;}
     roomBeds.forEach(beds => beds.forEach((b, k) => { b.style.opacity = '0'; _later(() => { b.style.opacity = '';
       _anim(b, [{ transform: 'scale(0)' }, { transform: 'scale(1.5)', offset: .6 }, { transform: 'scale(1)' }], { duration: 360 });
       if (b.classList.contains('crit')) _later(() => _anim(b, [{ opacity: 1 }, { opacity: .25 }, { opacity: 1 }, { opacity: .25 }, { opacity: 1 }], { duration: 900 }), 380); }, 300 + k * per); }));
-    _later(() => go.classList.add('shine'), 300 + most * per + 500);
+    // 科目のベッドが並び終わった合図（2026-09-30 ユーザー指定）：その科目の**最後の床を起点に**、
+    // 科目の色の波紋が広がり・粒がはじけ・カードの縁が光り・問題数が跳ねる。床の少ない科目から順に鳴る。
+    [...el.querySelectorAll('.wb-room')].forEach((room, i) => {
+      const beds = roomBeds[i]; if (!beds || !beds.length) return;
+      const last = beds[beds.length - 1], c = rooms[i] ? _subj(rooms[i].sid).color : '#7ED6DF';
+      _later(() => {
+        const rr = room.getBoundingClientRect(), br = last.getBoundingClientRect();
+        const x = br.left + br.width / 2, y = br.top + br.height / 2;
+        const w = document.createElement('i'); w.className = 'wb-wave';
+        w.style.cssText = '--wc:' + c + ';left:' + (x - rr.left) + 'px;top:' + (y - rr.top) + 'px;';
+        room.appendChild(w);
+        _anim(w, [{ transform: 'scale(.3)', opacity: .9 }, { transform: 'scale(' + (rr.width / 9) + ')', opacity: 0 }], { duration: 750, easing: 'cubic-bezier(.2,.8,.3,1)' });
+        setTimeout(() => w.remove(), 800);
+        _anim(last, [{ transform: 'scale(1)' }, { transform: 'scale(1.9)', offset: .35 }, { transform: 'scale(1)' }], { duration: 420, fill: 'none' });
+        _burst(x, y, c, 9);
+        _anim(room, [{ boxShadow: '0 0 0 0 transparent' }, { boxShadow: '0 0 0 1px ' + c + ', 0 0 18px ' + c, offset: .35 }, { boxShadow: '0 0 0 0 transparent' }], { duration: 900, fill: 'none' });
+        _anim(room.querySelector('.wb-rn small'), [{ transform: 'scale(1)' }, { transform: 'scale(1.35)', opacity: 1, offset: .4 }, { transform: 'scale(1)' }], { duration: 450, fill: 'none' });
+      }, 300 + (beds.length - 1) * per + 340);
+    });
+    _later(() => go.classList.add('shine'), 300 + most * per + 700);
   }
 
   // ── 帯（病棟ボード） ─────────────────────────────────────────────────
