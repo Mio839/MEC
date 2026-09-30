@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>定着プロトコルの5案</title>
+<!--
+  SRS復習（旧「復習をはじめる」＝2026-09-30 に「♾️ 定着プロトコル」へ改名）の見せ方を、ward.js の「病棟回診」から
+  作り直す案を5つ並べて見比べるページ（2026-09-30）。本物の関数は呼ばず、このページの中だけで再生する（何も保存しない）。
+  どの案も ward.js と同じ3枚（開始前の画面・解答中の画面下のボード・結果画面）を持ち、中身の材料も同じ：
+    ・状態（3段）… ward.js の severityOf（期限切れの日数と待たされ具合）をそのまま使う。呼び名だけ案ごとに変える
+    ・転帰（2つ）… 正解／誤答。SRS の採点・並び順（_srsUrgency の降順）は一切変えない
+  ⚠️ 5案とも ward.js の約束を守る：画面下のボードは表示だけ（pointer-events:none・押せる物を置かない）／
+     infinite のアニメを置かない（読む道具）／新しい localStorage キーを持たない／ヘッダの高さを変えない。
+  ⚠️ C の「推定保持率」は見せ方のための換算（待たされ具合 u から 100×0.5^((u−1)/1.5)）で、SRS の式ではない。
+  テストの対象ではない。
+-->
+<style>
+  :root{--tx:#E9EEF5;--sub:#9AA7B8;--line:rgba(255,255,255,.14);}
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{min-height:100vh;padding:16px;color:var(--tx);font-family:-apple-system,'Hiragino Sans','Noto Sans JP',sans-serif;background:#0B0F16;padding-bottom:140px;}
+  h1{font-size:17px;margin:0 0 4px;}
+  p.note{font-size:12.5px;color:var(--sub);margin:0 0 12px;line-height:1.65;max-width:900px;}
+  .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:12px;max-width:1100px;}
+  .plans button{padding:11px 12px;border-radius:12px;border:1.5px solid var(--line);background:#151B26;color:var(--tx);
+    font:inherit;font-weight:800;font-size:14px;text-align:left;line-height:1.4;cursor:pointer;}
+  .plans button small{display:block;font-weight:500;color:var(--sub);font-size:11.5px;margin-top:3px;line-height:1.5;}
+  .plans button.on{border-color:#7DD3FC;background:#16283A;}
+  .stages{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;max-width:1100px;}
+  .stages button{padding:9px 14px;border-radius:99px;border:1px solid var(--line);background:#151B26;color:var(--tx);font:inherit;font-size:13.5px;font-weight:800;cursor:pointer;}
+  .stages button.on{background:#E9EEF5;color:#0B0F16;}
+  #stage{max-width:760px;}
+  .mockq{background:#141A24;border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:10px;}
+  .mockq .qn{font-weight:800;font-size:13px;color:#93C5FD;margin-bottom:6px;}
+  .mockq .qt{font-size:14px;line-height:1.75;color:#CBD5E1;}
+  .mockq .ch{padding:8px 11px;border-radius:10px;border:1px solid var(--line);margin-top:6px;font-size:13.5px;color:#CBD5E1;}
+  .sim{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;}
+  .sim button{flex:1;min-width:120px;padding:11px;border-radius:12px;border:1px solid var(--line);font:inherit;font-weight:900;font-size:14px;cursor:pointer;color:#0B0F16;}
+  .sim .ok{background:#6EE7B7}.sim .ng{background:#FCA5A5}.sim .auto{background:#CBD5E1}.sim .rst{background:#334155;color:var(--tx)}
+  .sumwrap{background:#10151E;border:1px solid var(--line);border-radius:18px;padding:16px;}
+  .sumwrap h2{margin:0 0 10px;font-size:18px;}
+  .sumwrap .fake{font-size:12px;color:var(--sub);padding:8px 10px;border:1px dashed var(--line);border-radius:10px;margin-top:10px;}
+  .hint{font-size:12px;color:var(--sub);margin:6px 0 0;line-height:1.6;}
+
+  /* ════════ 共通の骨組み（中身の意匠は案ごと） ════════ */
+  .ov{position:fixed;left:0;top:0;width:100%;height:100dvh;z-index:9500;display:flex;align-items:center;justify-content:center;padding:14px;animation:ovIn .25s ease both;}
+  .ov .box{width:min(620px,100%);max-height:100%;overflow-y:auto;padding:20px 18px 16px;animation:ovRise .35s cubic-bezier(.2,1.2,.4,1) both;}
+  .hud{position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));translate:-50% 0;z-index:8000;width:min(600px,calc(100% - 20px));
+    pointer-events:none;transition:opacity .3s ease,translate .4s cubic-bezier(.2,1.3,.4,1);}
+  .hud.hide{opacity:0;translate:-50% 140%;}
+  .pop{position:fixed;z-index:8001;pointer-events:none;font-weight:900;white-space:nowrap;translate:-50% 0;animation:popUp 1.1s cubic-bezier(.2,1,.3,1) forwards;}
+  @keyframes popUp{0%{opacity:0;transform:translateY(6px)}18%{opacity:1;transform:translateY(-6px)}75%{opacity:1}100%{opacity:0;transform:translateY(-30px)}}
+  @keyframes ovIn{from{opacity:0}to{opacity:1}}
+  @keyframes ovRise{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
+  .btnrow{display:flex;gap:8px;margin-top:14px;}
+  .btnrow .back{padding:12px 14px;border-radius:12px;font-size:13px;font-weight:800;text-decoration:none;cursor:pointer;background:none;font-family:inherit;}
+  .btnrow .go{flex:1;padding:12px;border:0;border-radius:12px;font:inherit;font-size:15px;font-weight:900;cursor:pointer;}
+  .dom-row{display:flex;align-items:center;gap:8px;font-size:12px;margin:4px 0;}
+  .dom-row .l{width:92px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:800;}
+  .dom-row .bar{flex:1;height:8px;border-radius:99px;overflow:hidden;display:flex;}
+  .dom-row .bar i{display:block;height:100%}
+  .dom-row .v{width:80px;flex-shrink:0;text-align:right;font-variant-numeric:tabular-nums;opacity:.85;}
+  .rnote{font-size:12px;line-height:1.6;margin-top:6px;padding:7px 9px;border-radius:9px;}
+
+  /* ════════ A 記憶ラボの制御卓 ════════ */
+  .pa.ov{background:rgba(2,8,12,.78);}
+  .pa .box{border-radius:6px;background:linear-gradient(180deg,#0A1A22,#061017);border:1px solid rgba(45,225,252,.55);color:#DDF7FF;
+    box-shadow:0 0 0 1px rgba(45,225,252,.12) inset,0 20px 50px rgba(0,0,0,.6);
+    background-color:#071319;background-image:linear-gradient(rgba(45,225,252,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(45,225,252,.05) 1px,transparent 1px);background-size:18px 18px;}
+  .pa .tag{font:800 10px/1 'SFMono-Regular',Menlo,Consolas,monospace;letter-spacing:.3em;color:#2DE1FC;}
+  .pa h3{margin:6px 0 2px;font-size:22px;font-weight:900;}
+  .pa .meta{font:12px 'SFMono-Regular',Menlo,Consolas,monospace;color:rgba(221,247,255,.6);}
+  .pa .rd{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 12px;}
+  .pa .rd div{position:relative;padding:9px 6px 7px;text-align:center;border:1px solid rgba(45,225,252,.25);background:rgba(45,225,252,.04);}
+  .pa .rd div::before,.pa .rd div::after{content:'';position:absolute;width:8px;height:8px;border-color:currentColor;border-style:solid;}
+  .pa .rd div::before{left:-1px;top:-1px;border-width:2px 0 0 2px}.pa .rd div::after{right:-1px;bottom:-1px;border-width:0 2px 2px 0}
+  .pa .rd b{display:block;font:900 24px/1.1 'SFMono-Regular',Menlo,Consolas,monospace;}
+  .pa .rd span{font-size:10.5px;font-weight:800;opacity:.8;letter-spacing:.1em;}
+  .pa .rd .crit{color:#FF5470}.pa .rd .warn{color:#FFB547}.pa .rd .stable{color:#3DF5A7}
+  .pa .doms{display:flex;flex-direction:column;gap:5px;}
+  .pa .dom{display:flex;align-items:center;gap:8px;padding:6px 8px;border-left:2px solid var(--c);background:rgba(255,255,255,.03);font-size:12px;}
+  .pa .dom .n{width:86px;flex-shrink:0;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pa .dom .cells{flex:1;display:flex;flex-wrap:wrap;gap:3px;}
+  .pa .dom .k{font:11px 'SFMono-Regular',Menlo,Consolas,monospace;opacity:.7;}
+  .pa .c{width:10px;height:10px;background:rgba(221,247,255,.12);box-shadow:inset 0 0 0 1px rgba(221,247,255,.2);transition:background .3s,scale .3s;}
+  .pa .c.crit{background:#FF5470;box-shadow:none}.pa .c.warn{background:#FFB547;box-shadow:none}.pa .c.stable{background:#3DF5A7;box-shadow:none}
+  .pa .howto{margin-top:12px;padding:9px 11px;font-size:12px;line-height:1.6;border:1px dashed rgba(45,225,252,.4);background:rgba(45,225,252,.05);}
+  .pa .howto b{color:#2DE1FC}
+  .pa .back{color:#DDF7FF;border:1px solid rgba(221,247,255,.25);}
+  .pa .go{border-radius:4px!important;color:#021015;background:linear-gradient(180deg,#7CF0FF,#22C6E0);box-shadow:0 0 18px rgba(45,225,252,.45);letter-spacing:.08em;}
+  .pa.hud{padding:9px 12px 10px;border-radius:6px;background:linear-gradient(180deg,#0A1A22,#061017);border:1px solid rgba(45,225,252,.55);color:#DDF7FF;box-shadow:0 12px 30px rgba(0,0,0,.55);}
+  .pa.hud .top{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:900;white-space:nowrap;}
+  .pa.hud .top .t{font:800 9.5px 'SFMono-Regular',Menlo,Consolas,monospace;letter-spacing:.28em;color:#2DE1FC;}
+  .pa.hud .cnt{margin-left:auto;font:11.5px 'SFMono-Regular',Menlo,Consolas,monospace;color:rgba(221,247,255,.8);overflow:hidden;text-overflow:ellipsis;}
+  .pa.hud .cnt .d{color:#3DF5A7}.pa.hud .cnt .s{color:#FFB547}
+  .pa.hud .cells{display:flex;flex-wrap:wrap;gap:3px;margin-top:7px;}
+  .pa.hud .c{width:9px;height:9px;background:rgba(221,247,255,.1);}
+  .pa.hud .c.crit{box-shadow:inset 0 0 0 1.5px #FF5470;background:rgba(221,247,255,.1)}.pa.hud .c.warn{box-shadow:inset 0 0 0 1.5px #FFB547;background:rgba(221,247,255,.1)}.pa.hud .c.stable{background:rgba(221,247,255,.1);box-shadow:inset 0 0 0 1px rgba(221,247,255,.2)}
+  .pa.hud .c.now{scale:1.35;background:rgba(45,225,252,.6)}
+  .pa.hud .c.ok{background:#3DF5A7;box-shadow:none}.pa.hud .c.ng{background:#FFB547;box-shadow:none}
+  .pa.hud .prog{height:2px;margin-top:7px;background:rgba(45,225,252,.15);}
+  .pa.hud .prog i{display:block;height:100%;background:#2DE1FC;transition:width .4s ease;}
+  .pa.pop{font:900 15px 'SFMono-Regular',Menlo,Consolas,monospace;padding:3px 10px;background:rgba(2,8,12,.9);border:1px solid currentColor;}
+  .pa.pop.ok{color:#3DF5A7}.pa.pop.ng{color:#FFB547}
+  .pa.res{padding:14px;background:linear-gradient(180deg,#0A1A22,#061017);border:1px solid rgba(45,225,252,.55);color:#DDF7FF;border-radius:6px;}
+  .pa.res .sum2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0 10px;}
+  .pa.res .sum2 div{text-align:center;padding:6px;border:1px solid rgba(45,225,252,.25);}
+  .pa.res .sum2 b{display:block;font:900 20px 'SFMono-Regular',Menlo,Consolas,monospace;}
+  .pa.res .sum2 span{font-size:10.5px;font-weight:800;opacity:.8;}
+  .pa.res .h{font-size:11.5px;font-weight:900;margin:10px 0 5px;color:#9FEFFF;}
+  .pa.res .bar{background:rgba(255,255,255,.08);border-radius:0}
+  .pa.res .rnote{background:rgba(45,225,252,.06);border-left:2px solid #2DE1FC;border-radius:0}
+  .pa.res .rnote.alert{border-left-color:#FF5470;background:rgba(255,84,112,.1)}
+
+  /* ════════ B 軌道維持 ════════ */
+  .pb.ov{background:rgba(3,5,18,.8);}
+  .pb .box,.pb.hud,.pb.res{color:#EEF0FF;background:radial-gradient(1.2px 1.2px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 72% 12%,#fff,transparent),
+    radial-gradient(1px 1px at 38% 64%,rgba(255,255,255,.8),transparent),radial-gradient(1.4px 1.4px at 88% 76%,#fff,transparent),radial-gradient(1px 1px at 22% 88%,rgba(255,255,255,.7),transparent),
+    radial-gradient(120% 90% at 50% 0%,#1B2360,#0A0D2A 60%,#05061A);border:1px solid rgba(255,214,140,.45);}
+  .pb .box{border-radius:22px;box-shadow:0 20px 60px rgba(0,0,0,.6);}
+  .pb .tag{font-size:10px;font-weight:900;letter-spacing:.34em;color:#FFD68C;}
+  .pb h3{margin:4px 0 2px;font-size:22px;font-weight:900;}
+  .pb .meta{font-size:12px;color:rgba(238,240,255,.6);}
+  .pb .rd{display:flex;gap:8px;margin:14px 0 12px;}
+  .pb .rd div{flex:1;text-align:center;padding:8px 4px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);}
+  .pb .rd b{display:block;font-size:22px;font-variant-numeric:tabular-nums;}
+  .pb .rd span{font-size:10.5px;font-weight:800;opacity:.75;}
+  .pb .rd .crit b{color:#FF7A90}.pb .rd .warn b{color:#FFD68C}.pb .rd .stable b{color:#9FD8FF}
+  .pb .orbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;}
+  .pb .orb{padding:6px 6px 8px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);text-align:center;font-size:11.5px;font-weight:800;}
+  .pb .orb svg{display:block;width:84px;height:84px;margin:0 auto 2px;}
+  .pb .sat{transition:fill .3s,r .3s;}
+  .pb .sat.crit{fill:#FF7A90}.pb .sat.warn{fill:#FFD68C}.pb .sat.stable{fill:#9FD8FF}
+  .pb .sat.ok{fill:#FFFFFF}.pb .sat.ng{fill:#FF7A90;opacity:.45}.pb .sat.now{r:4.2}
+  .pb .howto{margin-top:12px;padding:9px 11px;border-radius:12px;font-size:12px;line-height:1.6;background:rgba(255,214,140,.07);border:1px solid rgba(255,214,140,.3);}
+  .pb .howto b{color:#FFD68C}
+  .pb .back{color:#EEF0FF;border:1px solid rgba(255,255,255,.25);border-radius:99px!important;}
+  .pb .go{border-radius:99px!important;color:#1A1230;background:linear-gradient(180deg,#FFE6B0,#F5B85A);box-shadow:0 4px 20px rgba(245,184,90,.45);}
+  .pb.hud{padding:8px 14px 8px;border-radius:18px;box-shadow:0 12px 30px rgba(0,0,0,.55);}
+  .pb.hud .top{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:900;white-space:nowrap;}
+  .pb.hud .top .t{font-size:9.5px;letter-spacing:.28em;color:#FFD68C;}
+  .pb.hud .cnt{margin-left:auto;font-size:11.5px;font-variant-numeric:tabular-nums;color:rgba(238,240,255,.8);}
+  .pb.hud .cnt .d{color:#fff}.pb.hud .cnt .s{color:#FF7A90}
+  .pb.hud svg{display:block;width:100%;height:auto;margin-top:4px;}
+  .pb.hud .sat.now{r:7}
+  .pb.pop{font-size:14px;padding:3px 12px;border-radius:99px;background:rgba(5,6,26,.88);border:1px solid currentColor;}
+  .pb.pop.ok{color:#FFE6B0}.pb.pop.ng{color:#FF9DB0}
+  .pb.res{padding:14px;border-radius:18px;}
+  .pb.res .sum2{display:flex;gap:6px;margin:8px 0 10px;}
+  .pb.res .sum2 div{flex:1;text-align:center;padding:6px;border-radius:12px;background:rgba(255,255,255,.05);}
+  .pb.res .sum2 b{display:block;font-size:20px;font-variant-numeric:tabular-nums;}
+  .pb.res .sum2 span{font-size:10.5px;font-weight:800;opacity:.75;}
+  .pb.res .h{font-size:11.5px;font-weight:900;margin:10px 0 5px;color:#FFE6B0;}
+  .pb.res .orbs{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));}
+  .pb.res .orb svg{width:70px;height:70px;}
+  .pb.res .rnote{background:rgba(255,255,255,.05);}
+  .pb.res .rnote.alert{background:rgba(255,122,144,.12);border:1px solid rgba(255,122,144,.4);}
+
+  /* ════════ C 忘却曲線 ════════ */
+  .pc.ov{background:rgba(8,10,14,.8);}
+  .pc .box,.pc.hud,.pc.res{color:#F1F3F7;background-color:#12151C;
+    background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:14px 14px;
+    border:1px solid rgba(241,243,247,.22);}
+  .pc .box{border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.6);}
+  .pc .tag{font-size:10px;font-weight:900;letter-spacing:.3em;color:#F472B6;}
+  .pc h3{margin:4px 0 2px;font-size:22px;font-weight:900;}
+  .pc .meta{font-size:12px;color:rgba(241,243,247,.6);}
+  .pc .plot{margin:12px 0 4px;padding:6px 6px 2px;border-radius:10px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.08);}
+  .pc .plot svg{display:block;width:100%;height:auto;}
+  .pc .dot{transition:cx .6s cubic-bezier(.2,1,.3,1),cy .6s cubic-bezier(.2,1,.3,1),fill .3s;}
+  .pc .dot.crit{fill:#F43F5E}.pc .dot.warn{fill:#F59E0B}.pc .dot.stable{fill:#38BDF8}.pc .dot.ok{fill:#34D399}.pc .dot.ng{fill:#F43F5E;opacity:.5}
+  .pc .rd{display:flex;gap:8px;margin:8px 0 10px;}
+  .pc .rd div{flex:1;text-align:center;padding:7px 4px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);}
+  .pc .rd b{display:block;font-size:21px;font-variant-numeric:tabular-nums;}
+  .pc .rd span{font-size:10.5px;font-weight:800;opacity:.75;}
+  .pc .rd .crit b{color:#F43F5E}.pc .rd .warn b{color:#F59E0B}.pc .rd .stable b{color:#38BDF8}
+  .pc .doms .dom-row .bar{background:rgba(255,255,255,.08);}
+  .pc .howto{margin-top:12px;padding:9px 11px;border-radius:10px;font-size:12px;line-height:1.6;background:rgba(244,114,182,.08);border:1px dashed rgba(244,114,182,.4);}
+  .pc .howto b{color:#F9A8D4}
+  .pc .back{color:#F1F3F7;border:1px solid rgba(255,255,255,.25);}
+  .pc .go{color:#1B0B14;background:linear-gradient(180deg,#FBCFE8,#F472B6);box-shadow:0 4px 16px rgba(244,114,182,.4);}
+  .pc.hud{padding:9px 12px 10px;border-radius:14px;box-shadow:0 12px 30px rgba(0,0,0,.55);}
+  .pc.hud .top{display:flex;align-items:baseline;gap:8px;font-size:12px;font-weight:900;white-space:nowrap;}
+  .pc.hud .top .t{font-size:9.5px;letter-spacing:.28em;color:#F472B6;}
+  .pc.hud .cnt{margin-left:auto;font-size:11.5px;font-variant-numeric:tabular-nums;color:rgba(241,243,247,.8);}
+  .pc.hud .ret{display:flex;align-items:center;gap:8px;margin-top:7px;font-size:11px;font-weight:800;}
+  .pc.hud .ret .rb{position:relative;flex:1;height:10px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;}
+  .pc.hud .ret .rb i{position:absolute;inset:0 auto 0 0;border-radius:99px;transition:width .6s cubic-bezier(.2,1,.3,1);}
+  .pc.hud .ret .rb .base{background:rgba(244,63,94,.55);}
+  .pc.hud .ret .rb .now{background:linear-gradient(90deg,#F472B6,#34D399);}
+  .pc.hud .ret .num{width:96px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .pc.hud .ret .num b{font-size:14px;color:#34D399;}
+  .pc.pop{font-size:14px;padding:3px 10px;border-radius:8px;background:rgba(10,12,16,.9);border:1px solid currentColor;}
+  .pc.pop.ok{color:#34D399}.pc.pop.ng{color:#FDA4AF}
+  .pc.res{padding:14px;border-radius:14px;}
+  .pc.res .ba{display:flex;align-items:center;justify-content:center;gap:14px;margin:8px 0 6px;}
+  .pc.res .ba div{text-align:center;}
+  .pc.res .ba b{display:block;font-size:26px;font-variant-numeric:tabular-nums;}
+  .pc.res .ba span{font-size:10.5px;font-weight:800;opacity:.75;}
+  .pc.res .ba .arr{font-size:22px;opacity:.6;}
+  .pc.res .h{font-size:11.5px;font-weight:900;margin:10px 0 5px;color:#F9A8D4;}
+  .pc.res .bar{background:rgba(255,255,255,.08);}
+  .pc.res .rnote{background:rgba(255,255,255,.05);}
+  .pc.res .rnote.alert{background:rgba(244,63,94,.12);border:1px solid rgba(244,63,94,.4);}
+
+  /* ════════ D ターミナル ════════ */
+  .pd.ov{background:rgba(0,0,0,.82);}
+  .pd .box,.pd.hud,.pd.res{color:#B9F8CF;background:#030806;border:1px solid rgba(57,255,136,.45);font-family:'SFMono-Regular',Menlo,Consolas,monospace;}
+  .pd .box{border-radius:4px;box-shadow:0 0 0 1px rgba(57,255,136,.1) inset,0 20px 50px rgba(0,0,0,.7);}
+  .pd .ln{font-size:12.5px;line-height:1.85;white-space:pre-wrap;word-break:break-all;opacity:0;animation:tIn .01s linear forwards;animation-delay:calc(var(--i) * 70ms);}
+  @keyframes tIn{to{opacity:1}}
+  .pd .ln .p{color:#39FF88}.pd .ln .dim{opacity:.55}.pd .ln .crit{color:#FF6B6B}.pd .ln .warn{color:#FFD166}.pd .ln .stable{color:#39FF88}
+  .pd .ln .big{font-size:18px;font-weight:900;color:#E7FFF0;}
+  .pd .back{color:#B9F8CF;border:1px solid rgba(57,255,136,.35);border-radius:2px!important;}
+  .pd .go{border-radius:2px!important;color:#021008;background:#39FF88;font-family:inherit;letter-spacing:.06em;}
+  .pd.hud{padding:8px 12px;border-radius:3px;box-shadow:0 12px 30px rgba(0,0,0,.6);font-size:12px;}
+  .pd.hud .row{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pd.hud .row .d{color:#39FF88}.pd.hud .row .s{color:#FFD166}.pd.hud .row .dim{opacity:.55}
+  .pd.hud .blk{margin-top:3px;letter-spacing:1px;white-space:normal;word-break:break-all;line-height:1.25;font-size:12px;}
+  .pd.hud .blk span{transition:color .2s;}
+  .pd.hud .blk .crit{color:#FF6B6B}.pd.hud .blk .warn{color:#FFD166}.pd.hud .blk .stable{color:rgba(185,248,207,.45)}
+  .pd.hud .blk .ok{color:#39FF88}.pd.hud .blk .ng{color:#FFD166}.pd.hud .blk .now{color:#fff;background:rgba(57,255,136,.35)}
+  .pd.pop{font:900 14px 'SFMono-Regular',Menlo,Consolas,monospace;padding:2px 8px;background:#030806;border:1px solid currentColor;}
+  .pd.pop.ok{color:#39FF88}.pd.pop.ng{color:#FFD166}
+  .pd.res{padding:12px 14px;border-radius:3px;font-size:12.5px;line-height:1.8;}
+  .pd.res .ln{opacity:1;animation:none;}
+
+  /* ════════ E ∞ループ ════════ */
+  .pe.ov{background:rgba(8,4,20,.8);}
+  .pe .box,.pe.hud,.pe.res{color:#F3EEFF;background:radial-gradient(90% 70% at 50% 30%,rgba(139,92,246,.28),transparent 70%),linear-gradient(170deg,#170E33,#0C0820 70%);
+    border:1px solid rgba(167,139,250,.55);}
+  .pe .box{border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.6);}
+  .pe .tag{font-size:10px;font-weight:900;letter-spacing:.34em;background:linear-gradient(90deg,#A78BFA,#22D3EE);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .pe h3{margin:4px 0 2px;font-size:22px;font-weight:900;}
+  .pe .meta{font-size:12px;color:rgba(243,238,255,.6);}
+  .pe .loop{margin:8px 0 2px;}
+  .pe .loop svg{display:block;width:100%;height:auto;}
+  .pe .track{fill:none;stroke:rgba(167,139,250,.28);stroke-width:1.5;}
+  .pe .trackon{fill:none;stroke:url(#peGrad);stroke-width:2.5;stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.2,1,.3,1);}
+  .pe .nd{transition:fill .3s,r .3s,opacity .3s;}
+  .pe .nd.crit{fill:#FB7185}.pe .nd.warn{fill:#FBBF24}.pe .nd.stable{fill:#67E8F9;opacity:.75}
+  .pe .nd.ok{fill:#22D3EE;opacity:1}.pe .nd.ng{fill:#FB7185;opacity:.4}.pe .nd.now{r:5.5;fill:#fff;opacity:1}
+  .pe .rd{display:flex;gap:8px;margin:8px 0 10px;}
+  .pe .rd div{flex:1;text-align:center;padding:7px 4px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);}
+  .pe .rd b{display:block;font-size:21px;font-variant-numeric:tabular-nums;}
+  .pe .rd span{font-size:10.5px;font-weight:800;opacity:.75;}
+  .pe .rd .crit b{color:#FB7185}.pe .rd .warn b{color:#FBBF24}.pe .rd .stable b{color:#67E8F9}
+  .pe .chips{display:flex;flex-wrap:wrap;gap:6px;}
+  .pe .chip{font-size:11.5px;font-weight:800;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.05);border:1px solid color-mix(in srgb,var(--c) 60%,transparent);}
+  .pe .howto{margin-top:12px;padding:9px 11px;border-radius:12px;font-size:12px;line-height:1.6;background:rgba(34,211,238,.07);border:1px solid rgba(34,211,238,.3);}
+  .pe .howto b{color:#67E8F9}
+  .pe .back{color:#F3EEFF;border:1px solid rgba(255,255,255,.25);border-radius:99px!important;}
+  .pe .go{border-radius:99px!important;color:#0C0820;background:linear-gradient(90deg,#C4B5FD,#67E8F9);box-shadow:0 4px 20px rgba(139,92,246,.45);}
+  .pe.hud{display:flex;align-items:center;gap:10px;padding:6px 14px 6px 8px;border-radius:18px;box-shadow:0 12px 30px rgba(0,0,0,.55);}
+  .pe.hud svg{flex-shrink:0;width:128px;height:52px;}
+  .pe.hud .mid{flex:1;min-width:0;}
+  .pe.hud .t{font-size:9.5px;font-weight:900;letter-spacing:.28em;color:#C4B5FD;}
+  .pe.hud .cnt{font-size:12px;font-weight:900;font-variant-numeric:tabular-nums;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .pe.hud .cnt .d{color:#22D3EE}.pe.hud .cnt .s{color:#FB7185}
+  .pe.hud .pct{font-size:22px;font-weight:900;font-variant-numeric:tabular-nums;background:linear-gradient(90deg,#C4B5FD,#67E8F9);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .pe.pop{font-size:14px;padding:3px 12px;border-radius:99px;background:rgba(12,8,32,.9);border:1px solid currentColor;}
+  .pe.pop.ok{color:#67E8F9}.pe.pop.ng{color:#FDA4AF}
+  .pe.res{padding:14px;border-radius:18px;}
+  .pe.res .h{font-size:11.5px;font-weight:900;margin:10px 0 5px;color:#C4B5FD;}
+  .pe.res .bar{background:rgba(255,255,255,.08);}
+  .pe.res .rnote{background:rgba(255,255,255,.05);}
+  .pe.res .rnote.alert{background:rgba(251,113,133,.12);border:1px solid rgba(251,113,133,.4);}
+  .pe.res .close{text-align:center;margin:4px 0 2px;}
+  .pe.res .close b{font-size:30px;font-weight:900;background:linear-gradient(90deg,#C4B5FD,#67E8F9);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .pe.res .close span{display:block;font-size:11px;font-weight:800;opacity:.75;}
+</style>
+</head>
+<body>
+<h1>♾️ 定着プロトコル — 見せ方の5案</h1>
+<p class="note">今の「病棟回診」（ward.js）を置き換える案です。どの案も同じ3枚＝<b>①開始前の画面</b>・<b>②解答中の画面下のボード</b>・<b>③結果画面</b>を持ち、中身の材料（期限切れ具合の3段・正解／誤答）は今と同じです。SRS の採点や出題順は変えません。<br>
+案を選んで、①〜③を切り替えて見てください。②では「正解」「誤答」を押すと画面下のボードが動きます（ボードは表示だけで、押せる物は置きません）。</p>
+
+<div class="plans" id="plans"></div>
+<div class="stages" id="stages">
+  <button data-s="brief">① 開始前の画面</button>
+  <button data-s="run">② 解答中</button>
+  <button data-s="res">③ 結果画面</button>
+</div>
+<div id="stage"></div>
+
+<script>
+'use strict';
+// ── 見本のデータ（決定論。本物の SRS は読まない） ─────────────────────
+const SUBJ = [
+  { id:'resp', name:'呼吸器', icon:'🌬️', color:'#3B82F6' },
+  { id:'circ', name:'循環器', icon:'❤️', color:'#EF4444' },
+  { id:'neur', name:'神経',   icon:'🧠', color:'#22C55E' },
+  { id:'endo', name:'内分泌', icon:'⚗️', color:'#00A5B5' },
+  { id:'dige', name:'消化器', icon:'🌿', color:'#A855F7' },
+  { id:'hema', name:'血液',   icon:'🩸', color:'#DC2626' },
+];
+const SEV_ORDER = { crit:0, warn:1, stable:2 };
+function hash(s){ let h=2166136261; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619);} return h>>>0; }
+const ITEMS = (() => {
+  const per = { resp:8, circ:7, neur:6, endo:4, dige:3, hema:2 };
+  const out = [];
+  SUBJ.forEach(s => { for (let i=0;i<per[s.id];i++){
+    const uid = s.id+'_ch0'+(1+i%3)+'_q'+(11+i*7);
+    const h = hash(uid);
+    const sev = h%10<3 ? 'crit' : h%10<7 ? 'warn' : 'stable';
+    // 待たされ具合 u（ward.js と同じ量）。crit ≥3・warn ≥1.5
+    const u = sev==='crit' ? 3 + (h>>>4)%40/10 : sev==='warn' ? 1.5 + (h>>>4)%15/10 : 1 + (h>>>4)%5/10;
+    out.push({ uid, sid:s.id, sev, u, h });
+  }});
+  // 出題順＝待たされ具合の降順（本物は _srsUrgency → _srsInterleave。見本なので素朴に）
+  return out.sort((a,b)=>b.u-a.u);
+})();
+// C 用：待たされ具合 → 推定保持率（見せ方のための換算・SRS の式ではない）
+function retOf(u){ return Math.round(100*Math.pow(0.5,(u-1)/1.5)); }
+// 正誤の見本（自動で解くとき）：難しいものほど外しやすい
+function autoOk(it){ return (it.h>>>8)%100 < (it.sev==='crit'?55:it.sev==='warn'?72:88); }
+const subj = id => SUBJ.find(s=>s.id===id);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function counts(){ const c={crit:0,warn:0,stable:0}; ITEMS.forEach(i=>c[i.sev]++); return c; }
+function rooms(){ const m=new Map(); ITEMS.forEach(i=>{ if(!m.has(i.sid)) m.set(i.sid,[]); m.get(i.sid).push(i); }); return [...m.entries()].map(([sid,pts])=>({sid,pts})).sort((a,b)=>b.pts.length-a.pts.length); }
+function dateStr(){ const d=new Date(Date.now()+9*3600000); return (d.getUTCMonth()+1)+'月'+d.getUTCDate()+'日('+'日月火水木金土'[d.getUTCDay()]+')'; }
+function nextDays(it){ return it.sev==='crit'?3:it.sev==='warn'?6:15+(it.h%9); }
+
+// ── 状態 ───────────────────────────────────────────────────────────
+let plan = 'A', stage = 'brief';
+let S = null;
+function reset(){ S = { res:{}, recs:[], i:0 }; }
+reset();
+const nowUid = () => S.i < ITEMS.length ? ITEMS[S.i].uid : null;
+function outN(k){ return S.recs.filter(r=>r.o===k).length; }
+
+// 結果画面の材料（全案共通）
+function report(){
+  const recs = S.recs.length ? S.recs : ITEMS.map(it=>({ uid:it.uid, o:autoOk(it)?'ok':'ng' }));
+  const res = {}; recs.forEach(r=>res[r.uid]=r.o);
+  const done = ITEMS.filter(i=>res[i.uid]);
+  const byDom = new Map();
+  done.forEach(i=>{ if(!byDom.has(i.sid)) byDom.set(i.sid,{ok:0,ng:0,n:0}); const b=byDom.get(i.sid); b[res[i.uid]]++; b.n++; });
+  const crit = done.filter(i=>i.sev==='crit'), critOk = crit.filter(i=>res[i.uid]==='ok').length;
+  const nx = done.filter(i=>res[i.uid]==='ok').map(nextDays).sort((a,b)=>a-b);
+  const med = nx.length ? nx[Math.floor(nx.length/2)] : null;
+  const retB = Math.round(done.reduce((s,i)=>s+retOf(i.u),0)/Math.max(1,done.length));
+  const retA = Math.round(done.reduce((s,i)=>s+(res[i.uid]==='ok'?100:retOf(i.u)),0)/Math.max(1,done.length));
+  return { res, done, ok:done.filter(i=>res[i.uid]==='ok').length, ng:done.filter(i=>res[i.uid]==='ng').length,
+    doms:[...byDom.entries()].sort((a,b)=>b[1].n-a[1].n), crit, critOk, med, nOk:nx.length, retB, retA };
+}
+function domRows(R, okLabel, okCol, ngCol){
+  return R.doms.map(([sid,b])=>{ const s=subj(sid); const w=k=>(b[k]/b.n*100).toFixed(1)+'%';
+    return '<div class="dom-row"><span class="l">'+esc(s.icon+' '+s.name)+'</span><span class="bar"><i style="width:'+w('ok')+';background:'+okCol+'"></i><i style="width:'+w('ng')+';background:'+ngCol+'"></i></span><span class="v">'+okLabel+' '+b.ok+'/'+b.n+'</span></div>'; }).join('');
+}
+
+// ── 図形のヘルパ ─────────────────────────────────────────────────
+function ringSvg(pts, color, size){ // B：惑星と衛星
+  const c=size/2, r=size*0.36;
+  return '<svg viewBox="0 0 '+size+' '+size+'"><circle cx="'+c+'" cy="'+c+'" r="'+(size*0.13)+'" fill="'+color+'"/>'+
+    '<circle cx="'+c+'" cy="'+c+'" r="'+r+'" fill="none" stroke="rgba(255,255,255,.22)" stroke-dasharray="2 3"/>'+
+    pts.map((p,k)=>{ const a=-Math.PI/2+k*2*Math.PI/pts.length; return '<circle class="sat '+p.cls+'" data-u="'+esc(p.uid)+'" cx="'+(c+r*Math.cos(a)).toFixed(1)+'" cy="'+(c+r*Math.sin(a)).toFixed(1)+'" r="3.2"/>'; }).join('')+'</svg>';
+}
+function lemni(t, a, cx, cy){ const s=Math.sin(t), d=1+s*s; return [cx+a*Math.cos(t)/d, cy+a*s*Math.cos(t)/d]; }
+function lemniPath(a,cx,cy){ let p=''; for(let k=0;k<=120;k++){ const [x,y]=lemni(k/120*2*Math.PI,a,cx,cy); p+=(k?'L':'M')+x.toFixed(1)+' '+y.toFixed(1); } return p; }
+function lemniSvg(w,h,a,rNode,cls){ // E：∞の上に全問を並べる
+  const cx=w/2, cy=h/2, path=lemniPath(a,cx,cy);
+  const nodes = ITEMS.map((it,k)=>{ const [x,y]=lemni(Math.PI/2 - (k+0.5)/ITEMS.length*2*Math.PI + Math.PI, a, cx, cy); return '<circle class="nd '+cls(it)+'" data-u="'+esc(it.uid)+'" cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="'+rNode+'"/>'; }).join('');
+  return '<svg viewBox="0 0 '+w+' '+h+'"><defs><linearGradient id="peGrad" x1="0" x2="1"><stop offset="0" stop-color="#A78BFA"/><stop offset="1" stop-color="#22D3EE"/></linearGradient></defs>'+
+    '<path class="track" d="'+path+'"/><path class="trackon" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" d="'+path+'"/>'+nodes+'</svg>';
+}
+function curveSvg(pos){ // C：忘却曲線と、その上の問題
+  const W=320,H=150,L=30,B=128,T=10,Rr=310;
+  const X=x=>L+(Rr-L)*x/6, Y=r=>B-(B-T)*r/100;
+  let p=''; for(let k=0;k<=60;k++){ const x=k/10; const r=100*Math.pow(0.5,x/1.5); p+=(k?'L':'M')+X(x).toFixed(1)+' '+Y(r).toFixed(1); }
+  const zones = '<rect x="'+L+'" y="'+Y(40)+'" width="'+(Rr-L)+'" height="'+(B-Y(40))+'" fill="rgba(244,63,94,.07)"/>'+
+    '<text x="'+(L+6)+'" y="'+(Y(40)+11)+'" text-anchor="start" font-size="8.5" fill="rgba(244,63,94,.8)" font-weight="700">危険域 &lt;40%</text>';
+  const axes = '<line x1="'+L+'" y1="'+B+'" x2="'+Rr+'" y2="'+B+'" stroke="rgba(255,255,255,.3)"/><line x1="'+L+'" y1="'+T+'" x2="'+L+'" y2="'+B+'" stroke="rgba(255,255,255,.3)"/>'+
+    [0,50,100].map(r=>'<text x="'+(L-4)+'" y="'+(Y(r)+3)+'" text-anchor="end" font-size="8" fill="rgba(255,255,255,.5)">'+r+'</text>').join('')+
+    '<text x="'+((L+Rr)/2)+'" y="'+(H-4)+'" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,.5)">前回から経った時間（予定の間隔を1として）→</text>'+
+    '<text x="'+Rr+'" y="'+(T+6)+'" text-anchor="end" font-size="8.5" fill="rgba(255,255,255,.5)">推定保持率 %</text>';
+  const dots = ITEMS.map(it=>{ const q=pos(it); const x=q.ok?0.08+((it.h>>>3)%10)/60:(it.u-1); const r=q.ok?100:retOf(it.u); const j=((it.h>>>12)%7)-3;
+    return '<circle class="dot '+q.cls+'" data-u="'+esc(it.uid)+'" cx="'+X(x).toFixed(1)+'" cy="'+(Y(r)+j).toFixed(1)+'" r="3.6"/>'; }).join('');
+  return '<svg viewBox="0 0 '+W+' '+H+'">'+zones+axes+'<path d="'+p+'" fill="none" stroke="#F472B6" stroke-width="2"/>'+dots+'</svg>';
+}
+
+// ── 5案 ──────────────────────────────────────────────────────────
+const PLANS = {
+  A: { cls:'pa', name:'A 記憶ラボの制御卓', desc:'黒地にシアンの細線・等幅の数字。問題＝記憶の標本。正解で「固定」、誤答は「再照射」',
+    sev:{crit:'減衰',warn:'不安定',stable:'安定'}, ok:'固定', ng:'再照射',
+    brief(){ const c=counts(), rs=rooms();
+      return '<div class="tag">RETENTION PROTOCOL // SESSION '+dateStr()+'</div><h3>♾️ 定着プロトコル</h3>'+
+        '<div class="meta">対象 '+ITEMS.length+'件 · '+rs.length+'領域 · 推定 '+Math.round(ITEMS.length*1.2)+'分</div>'+
+        '<div class="rd"><div class="crit"><b>'+c.crit+'</b><span>減衰</span></div><div class="warn"><b>'+c.warn+'</b><span>不安定</span></div><div class="stable"><b>'+c.stable+'</b><span>安定</span></div></div>'+
+        '<div class="doms">'+rs.map(r=>{const s=subj(r.sid); return '<div class="dom" style="--c:'+s.color+'"><span class="n">'+esc(s.icon+' '+s.name)+'</span><span class="cells">'+r.pts.map(p=>'<i class="c '+p.sev+'"></i>').join('')+'</span><span class="k">'+String(r.pts.length).padStart(2,'0')+'</span></div>';}).join('')+'</div>'+
+        '<div class="howto">減衰の大きい記憶から順に照合します。正解で<b>定着を固定</b>、誤答は<b>再照射</b>（明日もう一度）。</div>'+
+        '<div class="btnrow"><button class="back">ハブへ</button><button class="go">プロトコル起動 ▶</button></div>'; },
+    hud(){ return '<div class="top"><span class="t">♾️ PROTOCOL RUNNING</span><span class="cnt"></span></div><div class="cells">'+ITEMS.map(i=>'<i class="c" data-b="c '+i.sev+'" data-u="'+esc(i.uid)+'"></i>').join('')+'</div><div class="prog"><i></i></div>'; },
+    hudCnt(){ return '照合 <b>'+S.recs.length+'</b>/'+ITEMS.length+'　<span class="d">固定 '+outN('ok')+'</span>　<span class="s">再照射 '+outN('ng')+'</span>'; },
+    hudExtra(h){ h.querySelector('.prog i').style.width=(S.recs.length/ITEMS.length*100)+'%'; },
+    pop:{ ok:'◆ 固定', ng:'↻ 再照射' },
+    result(R){ return '<div class="tag">♾️ PROTOCOL REPORT</div>'+
+        '<div class="sum2"><div><b style="color:#3DF5A7">'+R.ok+'</b><span>固定</span></div><div><b style="color:#FFB547">'+R.ng+'</b><span>再照射</span></div></div>'+
+        '<div class="h">領域ごとの定着</div>'+domRows(R,'固定','#3DF5A7','#FFB547')+
+        (R.crit.length?'<div class="rnote'+(R.critOk<R.crit.length?' alert':'')+'">⚠ 減衰していた '+R.crit.length+'件のうち <b>'+R.critOk+'件を固定</b>'+(R.critOk<R.crit.length?'。残る '+(R.crit.length-R.critOk)+'件は明日もう一度照射します。':'。減衰をすべて取り戻しました。')+'</div>':'')+
+        (R.med!=null?'<div class="rnote">◆ 固定した '+R.nOk+'件の次の照合は 中央値 <b>'+R.med+'日後</b>。</div>':''); } },
+
+  B: { cls:'pb', name:'B 軌道維持', desc:'星空と金。問題＝軌道上の衛星、科目＝惑星。正解で「軌道固定」、誤答は「再投入」',
+    sev:{crit:'離脱寸前',warn:'揺らぎ',stable:'安定軌道'}, ok:'軌道固定', ng:'再投入',
+    brief(){ const c=counts(), rs=rooms();
+      return '<div class="tag">✦ ORBIT MAINTENANCE ✦</div><h3>♾️ 定着プロトコル</h3>'+
+        '<div class="meta">'+dateStr()+'　衛星 '+ITEMS.length+'基 · '+rs.length+'惑星</div>'+
+        '<div class="rd"><div class="crit"><b>'+c.crit+'</b><span>離脱寸前</span></div><div class="warn"><b>'+c.warn+'</b><span>揺らぎ</span></div><div class="stable"><b>'+c.stable+'</b><span>安定軌道</span></div></div>'+
+        '<div class="orbs">'+rs.map(r=>{const s=subj(r.sid); return '<div class="orb">'+ringSvg(r.pts.map(p=>({uid:p.uid,cls:p.sev})),s.color,84)+esc(s.icon+' '+s.name)+' · '+r.pts.length+'</div>';}).join('')+'</div>'+
+        '<div class="howto">離脱しかけた衛星から順に軌道修正します。正解で<b>軌道固定</b>、誤答は<b>再投入</b>（明日もう一度）。</div>'+
+        '<div class="btnrow"><button class="back">ハブへ</button><button class="go">軌道修正を開始 ▶</button></div>'; },
+    hud(){ const n=ITEMS.length;
+      return '<div class="top"><span class="t">✦ ORBIT</span><span class="cnt"></span></div><svg viewBox="0 0 600 50">'+
+        '<ellipse cx="300" cy="25" rx="285" ry="17" fill="none" stroke="rgba(255,255,255,.2)" stroke-dasharray="3 4"/><circle cx="300" cy="25" r="9" fill="#F5B85A"/>'+
+        ITEMS.map((it,k)=>{ const a=Math.PI/2+k*2*Math.PI/n; return '<circle class="sat" data-b="sat '+it.sev+'" data-u="'+esc(it.uid)+'" cx="'+(300+285*Math.cos(a)).toFixed(1)+'" cy="'+(25+17*Math.sin(a)).toFixed(1)+'" r="4.5"/>'; }).join('')+'</svg>'; },
+    hudCnt(){ return '修正 <b>'+S.recs.length+'</b>/'+ITEMS.length+'　<span class="d">固定 '+outN('ok')+'</span>　<span class="s">再投入 '+outN('ng')+'</span>'; },
+    pop:{ ok:'✦ 軌道固定', ng:'↺ 再投入' },
+    result(R){ return '<div class="tag">✦ 本日の軌道修正 ✦</div>'+
+        '<div class="sum2"><div><b style="color:#FFE6B0">'+R.ok+'</b><span>軌道固定</span></div><div><b style="color:#FF9DB0">'+R.ng+'</b><span>再投入</span></div></div>'+
+        '<div class="h">惑星ごとの軌道</div><div class="orbs">'+R.doms.map(([sid,b])=>{const s=subj(sid); const pts=ITEMS.filter(i=>i.sid===sid).map(i=>({uid:i.uid,cls:R.res[i.uid]||i.sev})); return '<div class="orb">'+ringSvg(pts,s.color,70)+esc(s.icon+' '+s.name)+' '+b.ok+'/'+b.n+'</div>';}).join('')+'</div>'+
+        (R.crit.length?'<div class="rnote'+(R.critOk<R.crit.length?' alert':'')+'">☄ 離脱寸前だった '+R.crit.length+'基のうち <b>'+R.critOk+'基を固定</b>'+(R.critOk<R.crit.length?'。残る '+(R.crit.length-R.critOk)+'基は明日また修正します。':'。全基を軌道に戻しました。')+'</div>':'')+
+        (R.med!=null?'<div class="rnote">✦ 固定した '+R.nOk+'基の次の点検は 中央値 <b>'+R.med+'日後</b>。</div>':''); } },
+
+  C: { cls:'pc', name:'C 忘却曲線', desc:'方眼紙に曲線。問題を「推定保持率」でプロットし、正解で曲線の頭へ戻す。いちばん“中身どおり”',
+    sev:{crit:'危険域',warn:'低下',stable:'保持'}, ok:'再充填', ng:'未回収',
+    brief(){ const c=counts(), rs=rooms(); const avg=Math.round(ITEMS.reduce((s,i)=>s+retOf(i.u),0)/ITEMS.length);
+      return '<div class="tag">FORGETTING CURVE</div><h3>♾️ 定着プロトコル</h3>'+
+        '<div class="meta">'+dateStr()+'　対象 '+ITEMS.length+'問 · 平均推定保持率 <b style="color:#F9A8D4">'+avg+'%</b></div>'+
+        '<div class="plot">'+curveSvg(it=>({ok:false,cls:it.sev}))+'</div>'+
+        '<div class="rd"><div class="crit"><b>'+c.crit+'</b><span>危険域</span></div><div class="warn"><b>'+c.warn+'</b><span>低下</span></div><div class="stable"><b>'+c.stable+'</b><span>保持</span></div></div>'+
+        '<div class="doms">'+rs.map(r=>{const s=subj(r.sid); const a=Math.round(r.pts.reduce((x,p)=>x+retOf(p.u),0)/r.pts.length); return '<div class="dom-row"><span class="l">'+esc(s.icon+' '+s.name)+'</span><span class="bar"><i style="width:'+a+'%;background:'+s.color+'"></i></span><span class="v">'+r.pts.length+'問 · '+a+'%</span></div>';}).join('')+'</div>'+
+        '<div class="howto">保持率の低い記憶から順に想起します。正解で保持率を<b>100%へ再充填</b>、誤答は<b>未回収</b>（明日もう一度）。</div>'+
+        '<div class="btnrow"><button class="back">ハブへ</button><button class="go">想起を開始 ▶</button></div>'; },
+    hud(){ return '<div class="top"><span class="t">♾️ RECALL</span><span class="cnt"></span></div>'+
+        '<div class="ret">平均保持率<span class="rb"><i class="base"></i><i class="now"></i></span><span class="num"></span></div>'; },
+    hudCnt(){ return '想起 <b>'+S.recs.length+'</b>/'+ITEMS.length+'　再充填 '+outN('ok')+'　未回収 '+outN('ng'); },
+    hudExtra(h){ const base=Math.round(ITEMS.reduce((s,i)=>s+retOf(i.u),0)/ITEMS.length);
+      const res={}; S.recs.forEach(r=>res[r.uid]=r.o);
+      const now=Math.round(ITEMS.reduce((s,i)=>s+(res[i.uid]==='ok'?100:retOf(i.u)),0)/ITEMS.length);
+      h.querySelector('.base').style.width=base+'%'; h.querySelector('.now').style.width=now+'%';
+      h.querySelector('.num').innerHTML=base+'% → <b>'+now+'%</b>'; },
+    pop:{ ok:'↑ 100%へ再充填', ng:'… 未回収' },
+    result(R){ return '<div class="tag">FORGETTING CURVE · 本日の想起</div>'+
+        '<div class="ba"><div><b style="color:#FDA4AF">'+R.retB+'%</b><span>開始時の平均保持率</span></div><span class="arr">→</span><div><b style="color:#34D399">'+R.retA+'%</b><span>終了時</span></div></div>'+
+        '<div class="plot">'+curveSvg(it=>({ok:R.res[it.uid]==='ok',cls:R.res[it.uid]||it.sev}))+'</div>'+
+        '<div class="h">科目ごとの再充填</div>'+domRows(R,'再充填','#34D399','#F43F5E')+
+        (R.crit.length?'<div class="rnote'+(R.critOk<R.crit.length?' alert':'')+'">危険域にあった '+R.crit.length+'問のうち <b>'+R.critOk+'問を再充填</b>'+(R.critOk<R.crit.length?'。残る '+(R.crit.length-R.critOk)+'問は明日もう一度。':'。危険域は空になりました。')+'</div>':'')+
+        (R.med!=null?'<div class="rnote">再充填した '+R.nOk+'問が次に曲線を下りきるのは 中央値 <b>'+R.med+'日後</b>。</div>':''); } },
+
+  D: { cls:'pd', name:'D ターミナル', desc:'黒に緑の等幅文字だけ。装飾を最小にして1行ずつログが流れる。いちばん軽い',
+    sev:{crit:'CRIT',warn:'WARN',stable:'OK'}, ok:'commit', ng:'retry',
+    brief(){ const c=counts(), rs=rooms(); let i=0; const L=s=>'<div class="ln" style="--i:'+(i++)+'">'+(s||'&nbsp;')+'</div>';
+      const bar=r=>r.pts.map(p=>'<span class="'+p.sev+'">█</span>').join('');
+      return L('<span class="p">$</span> protocol retention --date '+new Date(Date.now()+9*3600000).toISOString().slice(0,10))+
+        L('<span class="big">♾️ 定着プロトコル</span>')+
+        L('<span class="dim">queue ........</span> '+ITEMS.length+'　<span class="dim">domains ......</span> '+rs.length)+
+        L('<span class="crit">[CRIT] '+c.crit+'</span>  <span class="warn">[WARN] '+c.warn+'</span>  <span class="stable">[OK] '+c.stable+'</span>')+
+        L('')+rs.map(r=>{const s=subj(r.sid); return L(esc((s.id+'    ').slice(0,5))+' '+bar(r)+' <span class="dim">'+r.pts.length+'</span>');}).join('')+
+        L('')+L('<span class="dim"># CRIT から順に実行。正解で commit、誤答は retry（明日再実行）</span>')+
+        '<div class="btnrow"><button class="back">cd ~/hub</button><button class="go">[ ENTER ] 実行</button></div>'; },
+    hud(){ return '<div class="row"></div><div class="blk">'+ITEMS.map(i=>'<span data-b="b '+i.sev+'" data-u="'+esc(i.uid)+'">■</span>').join('')+'</div>'; },
+    hudCnt(){ return '<span class="dim">run</span> '+S.recs.length+'/'+ITEMS.length+'  <span class="d">commit '+outN('ok')+'</span>  <span class="s">retry '+outN('ng')+'</span>'; },
+    cntSel:'.row',
+    pop:{ ok:'[commit]', ng:'[retry]' },
+    result(R){ const L=s=>'<div class="ln">'+(s||'&nbsp;')+'</div>';
+      return L('<span class="p">$</span> protocol report')+
+        L('<span style="color:#39FF88">commit</span> '+R.ok+'   <span style="color:#FFD166">retry</span> '+R.ng)+L('')+
+        R.doms.map(([sid,b])=>{const s=subj(sid); return L(esc((s.id+'    ').slice(0,5))+' '+'<span style="color:#39FF88">'+'█'.repeat(b.ok)+'</span><span style="color:#FFD166">'+'█'.repeat(b.ng)+'</span> <span style="opacity:.55">'+b.ok+'/'+b.n+'</span>');}).join('')+L('')+
+        (R.crit.length?L('<span style="color:'+(R.critOk<R.crit.length?'#FF6B6B':'#39FF88')+'">[CRIT] '+R.critOk+'/'+R.crit.length+' commit</span>'+(R.critOk<R.crit.length?'  <span style="opacity:.55"># 残り '+(R.crit.length-R.critOk)+' は明日再実行</span>':'')):'')+
+        (R.med!=null?L('<span style="opacity:.55">next run (median) ....</span> '+R.med+'d'):''); } },
+
+  E: { cls:'pe', name:'E ∞ループ', desc:'名前の♾️そのものを進捗に。全問を∞の輪に並べ、正解で輪に光を通す',
+    sev:{crit:'断線',warn:'微弱',stable:'同期'}, ok:'同期', ng:'再同期',
+    brief(){ const c=counts(), rs=rooms();
+      return '<div class="tag">∞ RETENTION LOOP</div><h3>♾️ 定着プロトコル</h3>'+
+        '<div class="meta">'+dateStr()+'　ノード '+ITEMS.length+' · '+rs.length+'科目</div>'+
+        '<div class="loop">'+lemniSvg(320,130,150,4,it=>it.sev)+'</div>'+
+        '<div class="rd"><div class="crit"><b>'+c.crit+'</b><span>断線</span></div><div class="warn"><b>'+c.warn+'</b><span>微弱</span></div><div class="stable"><b>'+c.stable+'</b><span>同期</span></div></div>'+
+        '<div class="chips">'+rs.map(r=>{const s=subj(r.sid); return '<span class="chip" style="--c:'+s.color+'">'+esc(s.icon+' '+s.name)+' '+r.pts.length+'</span>';}).join('')+'</div>'+
+        '<div class="howto">途切れかけた回路から順に通電します。正解で<b>同期</b>、誤答は<b>再同期待ち</b>（明日もう一度）。全部つながると輪が閉じます。</div>'+
+        '<div class="btnrow"><button class="back">ハブへ</button><button class="go">ループ起動 ▶</button></div>'; },
+    hud(){ return lemniSvg(128,52,60,2.3,()=>'').replace(/class="nd "/g,'class="nd"')
+        .replace(/<circle class="nd" data-u="([^"]+)"/g,(m,u)=>'<circle class="nd" data-b="nd '+ITEMS.find(i=>i.uid===u.replace(/&amp;/g,'&')).sev+'" data-u="'+u+'"')+
+        '<div class="mid"><div class="t">∞ LOOP</div><div class="cnt"></div></div><div class="pct"></div>'; },
+    hudCnt(){ return '通電 <b>'+S.recs.length+'</b>/'+ITEMS.length+'　<span class="d">同期 '+outN('ok')+'</span>　<span class="s">再同期 '+outN('ng')+'</span>'; },
+    hudExtra(h){ const p=Math.round(outN('ok')/ITEMS.length*100); h.querySelector('.pct').textContent=p+'%'; h.querySelector('.trackon').setAttribute('stroke-dashoffset',String(100-p)); },
+    pop:{ ok:'∞ 同期', ng:'↻ 再同期待ち' },
+    result(R){ const p=Math.round(R.ok/ITEMS.length*100);
+      return '<div class="tag">∞ LOOP REPORT</div>'+
+        '<div class="loop" id="peResLoop">'+lemniSvg(320,130,150,4,it=>R.res[it.uid]||it.sev)+'</div>'+
+        '<div class="close"><b>'+p+'%</b><span>ループ閉合率（同期 '+R.ok+' ／ 再同期待ち '+R.ng+'）</span></div>'+
+        '<div class="h">科目ごとの同期</div>'+domRows(R,'同期','#22D3EE','#FB7185')+
+        (R.crit.length?'<div class="rnote'+(R.critOk<R.crit.length?' alert':'')+'">断線していた '+R.crit.length+'本のうち <b>'+R.critOk+'本を同期</b>'+(R.critOk<R.crit.length?'。残る '+(R.crit.length-R.critOk)+'本は明日また通電します。':'。断線はすべて繋ぎ直しました。')+'</div>':'')+
+        (R.med!=null?'<div class="rnote">同期した '+R.nOk+'本の次の点検は 中央値 <b>'+R.med+'日後</b>。</div>':''); } },
+};
+
+// ── 画面の組み立て ───────────────────────────────────────────────
+function clearLayers(){ document.querySelectorAll('.ov,.hud,.pop').forEach(e=>e.remove()); }
+function P(){ return PLANS[plan]; }
+
+function showBrief(){
+  clearLayers();
+  const p=P(); const ov=document.createElement('div');
+  ov.className='ov '+p.cls; ov.innerHTML='<div class="box">'+p.brief()+'</div>';
+  document.body.appendChild(ov);
+  ov.querySelector('.go').onclick=()=>{ ov.remove(); setStage('run'); };
+  ov.querySelector('.back').onclick=()=>ov.remove();
+  document.getElementById('stage').innerHTML='<p class="hint">開始前の画面は全画面で重なります（閉じたら上のボタンでもう一度出せます）。「'+esc(p.brief().match(/class="go">([^<]+)</)[1])+'」を押すと②へ進みます。</p>';
+}
+
+function hudEl(){
+  let h=document.getElementById('hud');
+  if(!h){ const p=P(); h=document.createElement('div'); h.id='hud'; h.className='hud hide '+p.cls; h.innerHTML=p.hud(); document.body.appendChild(h);
+    requestAnimationFrame(()=>requestAnimationFrame(()=>h.classList.remove('hide'))); }
+  return h;
+}
+function paint(){
+  const p=P(), h=hudEl(); const res={}; S.recs.forEach(r=>res[r.uid]=r.o); const now=nowUid();
+  h.querySelector(p.cntSel||'.cnt').innerHTML=p.hudCnt();
+  h.querySelectorAll('[data-u]').forEach(el=>{ const u=el.dataset.u; el.setAttribute('class', el.dataset.b.split(' ')[0]+' '+(res[u]||el.dataset.b.split(' ').slice(1).join(' '))+(!res[u]&&u===now?' now':'')); });
+  if(p.hudExtra) p.hudExtra(h);
+}
+function pop(o){
+  const p=P(), r=hudEl().getBoundingClientRect(); const el=document.createElement('div');
+  el.className='pop '+p.cls+' '+o; el.textContent=p.pop[o];
+  el.style.left=(r.left+r.width/2)+'px'; el.style.top=(r.top-34)+'px';
+  document.body.appendChild(el); setTimeout(()=>el.remove(),1200);
+}
+function answer(ok){
+  if(S.i>=ITEMS.length) return;
+  const it=ITEMS[S.i++]; const o=ok?'ok':'ng'; S.recs.push({uid:it.uid,o}); pop(o); paint(); renderRun();
+}
+function renderRun(){
+  const p=P(); const it=ITEMS[S.i]; const s=it?subj(it.sid):null;
+  document.getElementById('stage').innerHTML=
+    (it?'<div class="mockq"><div class="qn">'+esc(s.icon+' '+s.name)+' · Q.'+it.uid.split('_q')[1]+'　<span style="opacity:.6;font-weight:600">（状態：'+p.sev[it.sev]+'）</span></div><div class="qt">（問題文の見本）62歳の男性。…… 最も考えられるのはどれか。</div>'+
+      ['a','b','c','d','e'].map(k=>'<div class="ch">'+k+'　選択肢</div>').join('')+'</div>'
+      :'<div class="mockq"><div class="qt">全'+ITEMS.length+'問を解き終えました。③結果画面へ。</div></div>')+
+    '<div class="sim"><button class="ok">○ 正解させる</button><button class="ng">× 誤答させる</button><button class="auto">残りを自動で</button><button class="rst">最初から</button></div>'+
+    '<p class="hint">画面下が解答中のボードです（表示だけ）。正解で「'+p.ok+'」、誤答は「'+p.ng+'」。</p>';
+  const st=document.getElementById('stage');
+  st.querySelector('.ok').onclick=()=>answer(true);
+  st.querySelector('.ng').onclick=()=>answer(false);
+  st.querySelector('.auto').onclick=()=>{ const step=()=>{ if(S.i>=ITEMS.length||stage!=='run') return; answer(autoOk(ITEMS[S.i])); setTimeout(step,260); }; step(); };
+  st.querySelector('.rst').onclick=()=>{ reset(); document.getElementById('hud')?.remove(); paint(); renderRun(); };
+}
+function showRun(){ clearLayers(); paint(); renderRun(); }
+function showRes(){
+  clearLayers(); const p=P(); const R=report();
+  const pct=R.done.length?Math.round(R.ok/R.done.length*100):0;
+  document.getElementById('stage').innerHTML='<div class="sumwrap"><h2>♾️ 定着プロトコルの結果</h2>'+
+    '<div class="fake">（ここに今の結果画面の正答率 '+pct+'%・所要時間・次に戻ってくる日の分布などが並ぶ。下のブロックが案ごとに差し替わる部分）'+(S.recs.length?'':'　※②で解いていないので、見本の正誤で埋めています')+'</div>'+
+    '<div style="margin-top:12px" class="res '+p.cls+'">'+p.result(R)+'</div></div>';
+  // E はループの光を閉合率まで通す
+  const lo=document.querySelector('#peResLoop .trackon'); if(lo) setTimeout(()=>lo.setAttribute('stroke-dashoffset',String(100-Math.round(R.ok/ITEMS.length*100))),60);
+}
+
+function setStage(s){ stage=s; document.querySelectorAll('#stages button').forEach(b=>b.classList.toggle('on',b.dataset.s===s));
+  if(s==='brief') showBrief(); else if(s==='run') showRun(); else showRes(); }
+function setPlan(k){ plan=k; document.querySelectorAll('#plans button').forEach(b=>b.classList.toggle('on',b.dataset.k===k)); reset(); setStage(stage); }
+
+document.getElementById('plans').innerHTML=Object.entries(PLANS).map(([k,p])=>'<button data-k="'+k+'">'+esc(p.name)+'<small>'+esc(p.desc)+'</small></button>').join('');
+document.querySelectorAll('#plans button').forEach(b=>b.onclick=()=>setPlan(b.dataset.k));
+document.querySelectorAll('#stages button').forEach(b=>b.onclick=()=>setStage(b.dataset.s));
+setPlan('A');
+</script>
+</body>
+</html>
