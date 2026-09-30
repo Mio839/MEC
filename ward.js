@@ -33,6 +33,7 @@
 
   const SEV_LABEL = { crit: '大きく遅れ', warn: '遅れ', stable: '予定どおり' };
   const OUT_LABEL = { discharge: '定着', stay: 'もう一度' };
+  const SEV_ORDER = { stable: 0, warn: 1, crit: 2 };   // 申し送りの床の並び（緑→黄→赤）
   const C_OK = '#34D399', C_NG = '#F87171', C_WARN = '#FBBF24';
 
   let S = null;          // 状態。onExit 後も結果画面のために残す（active=false）
@@ -155,12 +156,14 @@ body.ward-on .ct{padding-bottom:130px;}
 #wardBrief .wb-k.crit b{color:#F87171}#wardBrief .wb-k.warn b{color:#FBBF24}#wardBrief .wb-k.stable b{color:#6EE7B7}
 #wardBrief .wb-rooms{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:7px;}
 #wardBrief .wb-room{padding:8px 9px;border-radius:11px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-left:3px solid var(--rc,#7ED6DF);
-  animation:wbIn .3s ease both;position:relative;overflow:hidden;}
+  animation:wbIn .3s ease both;position:relative;transition:background .5s ease,border-color .5s ease;}
 #wardBrief .wb-rn{font-size:12px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-#wardBrief .wb-rn small{display:inline-block;font-weight:700;opacity:.6;margin-left:4px;}
-/* 科目のベッドが並び終わった合図：最後の床から科目の色の波紋が広がる（位置と色は JS が入れる） */
-#wardBrief .wb-wave{position:absolute;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle,transparent 38%,var(--wc) 58%,transparent 72%);opacity:0;}
+#wardBrief .wb-rn small{font-weight:700;opacity:.6;margin-left:4px;}
+/* 科目のベッドが並び終わった合図（_work/ward_signal_demo.html の案2・3・5 を採用）。
+   残る状態＝カードの地が科目の色に染まる（案2）＋最後の床から一周して閉じた光る枠（案3・.wb-frame） */
+#wardBrief .wb-room.done{background:linear-gradient(135deg,color-mix(in srgb,var(--rc) 26%,transparent),color-mix(in srgb,var(--rc) 8%,transparent));border-color:color-mix(in srgb,var(--rc) 55%,transparent);}
+#wardBrief .wb-frame{position:absolute;inset:-1px;width:calc(100% + 2px);height:calc(100% + 2px);pointer-events:none;overflow:visible;}
+#wardBrief .wb-frame path{fill:none;stroke:var(--rc);stroke-width:2;stroke-linejoin:round;filter:drop-shadow(0 0 4px var(--rc));}
 #wardBrief .wb-beds{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px;}
 #wardBrief .wb-bed{width:10px;height:10px;border-radius:3px;background:#34D399;}
 #wardBrief .wb-bed.warn{background:#FBBF24}#wardBrief .wb-bed.crit{background:#F87171}
@@ -264,7 +267,9 @@ body.ward-on .ct{padding-bottom:130px;}
       '<div class="wb-rooms">' + rooms.map((r, i) => {
         const s = _subj(r.sid);
         return '<div class="wb-room" style="--rc:' + _esc(s.color) + ';--i:' + i + '"><div class="wb-rn">' + _esc(s.icon + ' ' + s.name) + '<small>' + r.pts.length + '問</small></div>' +
-          '<div class="wb-beds">' + r.pts.map(p => '<i class="wb-bed ' + p.sev + '" title="' + SEV_LABEL[p.sev] + '"></i>').join('') + '</div></div>';
+          // 床は 緑（予定どおり）→ 黄（遅れ）→ 赤（大きく遅れ）の順に並べる（2026-09-30 ユーザー指定。
+          //   見た目だけの並び＝試験の出題順〔遅れの大きい順〕とは同期させない）
+          '<div class="wb-beds">' + r.pts.slice().sort((a, b) => SEV_ORDER[a.sev] - SEV_ORDER[b.sev]).map(p => '<i class="wb-bed ' + p.sev + '" title="' + SEV_LABEL[p.sev] + '"></i>').join('') + '</div></div>';
       }).join('') + '</div>' +
       (remaining > 0 ? '<div class="wb-more">ほか ' + remaining + '問は次の回で（この回を終えると続けられます）</div>' : '') +
       '<div class="wb-howto">予定より大きく遅れた問題から順に出します。正解で<b>定着</b>、誤答は<b>もう一度</b>（明日また出ます）。</div>' +
@@ -283,26 +288,40 @@ body.ward-on .ct{padding-bottom:130px;}
     roomBeds.forEach(beds => beds.forEach((b, k) => { b.style.opacity = '0'; _later(() => { b.style.opacity = '';
       _anim(b, [{ transform: 'scale(0)' }, { transform: 'scale(1.5)', offset: .6 }, { transform: 'scale(1)' }], { duration: 360 });
       if (b.classList.contains('crit')) _later(() => _anim(b, [{ opacity: 1 }, { opacity: .25 }, { opacity: 1 }, { opacity: .25 }, { opacity: 1 }], { duration: 900 }), 380); }, 300 + k * per); }));
-    // 科目のベッドが並び終わった合図（2026-09-30 ユーザー指定）：その科目の**最後の床を起点に**、
-    // 科目の色の波紋が広がり・粒がはじけ・カードの縁が光り・問題数が跳ねる。床の少ない科目から順に鳴る。
+    // 科目のベッドが並び終わった合図（_work/ward_signal_demo.html の案2・3・5 をユーザーが採用・2026-09-30）。床の少ない科目から順に鳴る。
+    //   5 カードが持ち上がって光り、床が白く瞬いて着地する
+    //   2 床が左から順に一斉に跳ねる（ウェーブ）→ カードの地が科目の色に染まったまま（.done）
+    //   3 最後の床の真下から、科目の色の線がカードの縁を一周して閉じ、光る枠が残る（.wb-frame）
+    //   ⚠️ 一瞬で消える合図だけ（旧：輪・粒）は「分かりづらい」と言われた＝揃った状態を必ず残すこと
     [...el.querySelectorAll('.wb-room')].forEach((room, i) => {
       const beds = roomBeds[i]; if (!beds || !beds.length) return;
       const last = beds[beds.length - 1], c = rooms[i] ? _subj(rooms[i].sid).color : '#7ED6DF';
       _later(() => {
+        // 5 持ち上がる
+        _anim(room, [{ transform: 'translateY(0) scale(1)', boxShadow: '0 0 0 transparent' },
+          { transform: 'translateY(-6px) scale(1.04)', boxShadow: '0 10px 24px rgba(0,0,0,.45), 0 0 18px ' + c, offset: .4 },
+          { transform: 'translateY(0) scale(1)', boxShadow: '0 0 0 transparent' }], { duration: 800, fill: 'none' });
+        beds.forEach((b, k) => {
+          _anim(b, [{ filter: 'brightness(1)' }, { filter: 'brightness(2.4)', offset: .4 }, { filter: 'brightness(1)' }], { duration: 600, fill: 'none' });
+          // 2 ウェーブ
+          _anim(b, [{ transform: 'translateY(0)' }, { transform: 'translateY(-7px) scale(1.25)', offset: .4 }, { transform: 'translateY(0)' }], { duration: 420, delay: k * 45, fill: 'none' });
+        });
+        _later(() => room.classList.add('done'), Math.max(500, beds.length * 45));
+        // 3 枠：最後の床の真下（下の辺）から時計回りに一周する角丸の枠
         const rr = room.getBoundingClientRect(), br = last.getBoundingClientRect();
-        const x = br.left + br.width / 2, y = br.top + br.height / 2;
-        const w = document.createElement('i'); w.className = 'wb-wave';
-        w.style.cssText = '--wc:' + c + ';left:' + (x - rr.left) + 'px;top:' + (y - rr.top) + 'px;';
-        room.appendChild(w);
-        _anim(w, [{ transform: 'scale(.3)', opacity: .9 }, { transform: 'scale(' + (rr.width / 9) + ')', opacity: 0 }], { duration: 750, easing: 'cubic-bezier(.2,.8,.3,1)' });
-        setTimeout(() => w.remove(), 800);
-        _anim(last, [{ transform: 'scale(1)' }, { transform: 'scale(1.9)', offset: .35 }, { transform: 'scale(1)' }], { duration: 420, fill: 'none' });
-        _burst(x, y, c, 9);
-        _anim(room, [{ boxShadow: '0 0 0 0 transparent' }, { boxShadow: '0 0 0 1px ' + c + ', 0 0 18px ' + c, offset: .35 }, { boxShadow: '0 0 0 0 transparent' }], { duration: 900, fill: 'none' });
-        _anim(room.querySelector('.wb-rn small'), [{ transform: 'scale(1)' }, { transform: 'scale(1.35)', opacity: 1, offset: .4 }, { transform: 'scale(1)' }], { duration: 450, fill: 'none' });
+        const W = rr.width + 2, H = rr.height + 2, r = 11;
+        const x0 = Math.max(r + 1, Math.min(W - r - 1, br.left + br.width / 2 - rr.left + 1));
+        const d = 'M' + x0 + ' ' + (H - 1) + ' H' + r + ' Q1 ' + (H - 1) + ' 1 ' + (H - r) + ' V' + r + ' Q1 1 ' + r + ' 1 H' + (W - r) + ' Q' + (W - 1) + ' 1 ' + (W - 1) + ' ' + r +
+          ' V' + (H - r) + ' Q' + (W - 1) + ' ' + (H - 1) + ' ' + (W - r) + ' ' + (H - 1) + ' Z';
+        const ns = 'http://www.w3.org/2000/svg', svg = document.createElementNS(ns, 'svg');
+        svg.setAttribute('class', 'wb-frame'); svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H); svg.setAttribute('aria-hidden', 'true');
+        svg.innerHTML = '<path pathLength="1" d="' + d + '"/>';
+        room.appendChild(svg);
+        const p = svg.querySelector('path'); p.style.strokeDasharray = '1';
+        _anim(p, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 650, easing: 'cubic-bezier(.5,0,.3,1)' });
       }, 300 + (beds.length - 1) * per + 340);
     });
-    _later(() => go.classList.add('shine'), 300 + most * per + 700);
+    _later(() => go.classList.add('shine'), 300 + most * per + 1100);
   }
 
   // ── 帯（病棟ボード） ─────────────────────────────────────────────────
