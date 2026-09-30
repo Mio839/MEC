@@ -6,7 +6,7 @@ const CACHE = "mec-v672";
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-30g";
+const SHELL_VERSION = "2026-09-30h";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -146,11 +146,18 @@ function _putSafe(cache, req, res) {
   try { cache.put(req, res).catch(() => {}); } catch (e) {}
 }
 
+// 版数バッジ（progress.js）の問い合わせ口。この SW が配っている版＝SHELL_VERSION を返す。
+self.addEventListener("message", e => {
+  if (e.data && e.data.type === "mec-ver" && e.ports && e.ports[0]) e.ports[0].postMessage({ v: SHELL_VERSION });
+});
+
 self.addEventListener("fetch", e => {
   // GET かつ同一オリジンのみ（Gist API 等の POST/PATCH は cache.put が例外を投げる）
   if (e.request.method !== "GET") return;
   const url = new URL(e.request.url);
   if (url.origin !== location.origin) return;
+  // sw.js は横取りしない（版数バッジが毎回クエリ付きで取り直す＝キャッシュに溜めると増え続ける）
+  if (url.pathname.endsWith("/sw.js")) return;
   if (CARDS.some(c => url.pathname.endsWith(c))) {
     e.respondWith(
       caches.open(CACHE).then(c =>

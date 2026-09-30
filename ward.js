@@ -164,6 +164,9 @@ body.ward-on .ct{padding-bottom:130px;}
 #wardBrief .wb-room.done{background:linear-gradient(135deg,color-mix(in srgb,var(--rc) 26%,transparent),color-mix(in srgb,var(--rc) 8%,transparent));border-color:color-mix(in srgb,var(--rc) 55%,transparent);}
 #wardBrief .wb-frame{position:absolute;inset:-1px;width:calc(100% + 2px);height:calc(100% + 2px);pointer-events:none;overflow:visible;}
 #wardBrief .wb-frame path{fill:none;stroke:var(--rc);stroke-width:2;stroke-linejoin:round;filter:drop-shadow(0 0 4px var(--rc));}
+/* 案4：枠が閉じた直後に右上へ押される READY の判子（残る） */
+#wardBrief .wb-stamp{position:absolute;right:6px;top:5px;padding:2px 7px;border:2px solid var(--rc);border-radius:6px;color:var(--rc);font-size:10.5px;font-weight:900;letter-spacing:.14em;
+  rotate:-12deg;background:rgba(6,16,20,.6);text-shadow:0 0 6px color-mix(in srgb,var(--rc) 70%,transparent);pointer-events:none;}
 #wardBrief .wb-beds{display:flex;flex-wrap:wrap;gap:3px;margin-top:6px;}
 #wardBrief .wb-bed{width:10px;height:10px;border-radius:3px;background:#34D399;}
 #wardBrief .wb-bed.warn{background:#FBBF24}#wardBrief .wb-bed.crit{background:#F87171}
@@ -319,9 +322,15 @@ body.ward-on .ct{padding-bottom:130px;}
         room.appendChild(svg);
         const p = svg.querySelector('path'); p.style.strokeDasharray = '1';
         _anim(p, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 650, easing: 'cubic-bezier(.5,0,.3,1)' });
+        // 4 枠が閉じたら READY の判子を押す（大きい所から押し付け・粒が少し散る）
+        _later(() => {
+          const s = document.createElement('span'); s.className = 'wb-stamp'; s.textContent = 'READY'; room.appendChild(s);
+          _anim(s, [{ opacity: 0, transform: 'scale(3)' }, { opacity: 1, transform: 'scale(.92)', offset: .6 }, { opacity: 1, transform: 'scale(1)' }], { duration: 420, easing: 'cubic-bezier(.3,1.4,.5,1)' });
+          _later(() => { const sr = s.getBoundingClientRect(); _burst(sr.left + sr.width / 2, sr.top + sr.height / 2, c, 7); }, 250);
+        }, 650);
       }, 300 + (beds.length - 1) * per + 340);
     });
-    _later(() => go.classList.add('shine'), 300 + most * per + 1100);
+    _later(() => go.classList.add('shine'), 300 + most * per + 1500);
   }
 
   // ── 帯（病棟ボード） ─────────────────────────────────────────────────
