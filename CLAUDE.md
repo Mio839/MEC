@@ -38,7 +38,7 @@ CLAUDE.md に残してあるのは各領域の不変条件の要約だけで、*
 | `study.html` | 統合学習ツール（コア12科目＋マイナー講座・実力試験・自作・フィルター）。試験モードUI等のマークアップ＋インラインJS |
 | `study_exam.js` | study.htmlの試験モードロジック（state・効果音・演出エフェクト・SRS採点連携）。classic scriptでインライン<script>より前に読込み、共有グローバルスコープで相互参照 |
 | `study.css` | study.html専用のCSS（旧インライン<style>を2026-07-05に外出し）。⚠️ study.htmlはこれに依存＝両方一緒にcommit/push必須 |
-| `index.html` | ハブダッシュボード（全科目の進捗表示・ナビ・同期設定）。ヒーローのボタンは**席が固定の3つ**＝主（やるべきこと）・副（復習）・「🔁 今日の誤答を再履修」。0件の日も席を空けず `.is-off` で無効表示にする。⚠️ **統計への導線をここに置かないこと**（`_work/仕様/ハブ.md`「ヒーローのボタン」）。⚠️ **CSS は `index.css`・JS は `index.js`**（2026-09-28 にインラインから外出し。`index.css` は材料で、ページが読むのは生成物 `theme_css/index.{テーマ}.css`＝下の `ui_theme.css` の行）。テストは `_work/lib_hub_source.js` で元の1枚の形に組み立てて読む |
+| `index.html` | ハブダッシュボード（全科目の進捗表示・ナビ・同期設定）。ヒーローのボタンは**席が固定の3つ**＝主（due>0 なら復習／0なら全科目）・副（due>0 なら全科目／0なら無効の復習）・「🔁 今日の誤答を再履修」。0件の日も席を空けず `.is-off` で無効表示にする。⚠️ **統計への導線をここに置かないこと**（`_work/仕様/ハブ.md`「ヒーローのボタン」）。⚠️ **CSS は `index.css`・JS は `index.js`**（2026-09-28 にインラインから外出し。`index.css` は材料で、ページが読むのは生成物 `theme_css/index.{テーマ}.css`＝下の `ui_theme.css` の行）。テストは `_work/lib_hub_source.js` で元の1枚の形に組み立てて読む |
 | `progress.js` | 共有モジュール：localStorage + GitHub Gist 同期。localStorageキーは`K*`定数が正本。**「済」と全問題数の正本**（`MECSync.doneInScope`/`totalInScope`・下記「問題数」） |
 | `attempts.js` | 解答イベントログ（`mec_attempts_v1`・`window.MecAttempts`）。1解答=パイプ区切り1行の文字列で上限5000件のリングバッファ（2026-08-06に2000から引き上げ。1日1400解答の日があり2000件では約1.4日分しか持たず「昨日の誤答」がその日のうちに消えた。⚠️`attempts.js`の`CAP`と`progress.js`の`ATT_CAP`は一致必須）。集計値の`myrate_v1`と違い時刻・出題順・所要秒・選んだ肢を残す＝弱点分析の素材。study.html／stats.html／**index.html**が読込み。`todayWrongUids()`は「今日の誤答を再履修」の対象UIDの正本（ハブの件数表示と出題側が同じ関数を使う） |
 | `qmeta.json` | 設問メタ（全科目1ファイル・`_work/build_qmeta.py`が生成する**派生物**）。設問形式(診断/検査/治療/対応/知識)・否定形・複数選択・画像・症例・計算・採点除外を自動分類。stats.htmlの弱点カルテが使う。**questions_*.json は一切変更しない**（pdf_audit.pyの監査対象を汚さないため） |
@@ -54,13 +54,13 @@ CLAUDE.md に残してあるのは各領域の不変条件の要約だけで、*
 | `夏メック模試/images/` | 第121回 夏メック模試の設問図**138枚**（**派生物**・`_work/mock_pdf.py` が解説書PDFから生成）。ファイル名は `{ブロック}{番号}_{n}.jpeg`（例 `A25_1.jpeg`）で、**連問の兄弟は群の先頭の名前を共有する**。⚠️ **xref をそのまま保存せず、ページを clip して 300dpi で描き直している**（1つの別冊No.が複数パネルの図・ベクター描画の4問を同じ経路で扱うため）。手順と罠は `_work/夏メック模試_引き継ぎ.md` §6-2 が正本。テスト: `node _work/test_mock_figs.js` |
 | `questions_m121s.json` ＋ `夏メック模試/images/ex/` | **第121回 夏メック模試の解説400問**（2026-09-09新設・**派生物**）。`_work/build_mock_m121s_json.py` が解説書PDFから生成し、`_work/mock_m121s_overrides.json`（手書き）を最後に重ねる。A〜Fが ch01〜ch06、**番号は科目内で通し**（Q.1〜Q.400・規約②）。紙面の番号は新設バッジ `bb`「A問題 17」で別に出す。`images/ex/` は**画像診断ブロックの注釈付きの図140枚**（設問の図とは別物で、解説ブロックの中に出す）。⚠️ **questions_m121s.json を直接編集しないこと**（再生成で消える）。⚠️ `_work/仕様/模試.md`「模試の解説」の不変条件を読んでから触ること。テスト: `node _work/test_mock_questions.js` |
 | `mindmap.html` / `mindmap.js` / `mindmap.css` | 疾患マインドマップ。**1枚のページで科目マップ（`?sid=hema`）とハブ（引数なし＝全科目）の両方を描く**。2026-08-21に、9科目ぶんの自前エンジンを内蔵した `{科目}/mindmap.html` ＋ `mindmap_integrated.html` から移行した（旧ファイルは `_archive/mindmap_src/`・旧URLにはリダイレクトstubを置いてある）。⚠️ `_work/仕様/マインドマップ.md` の不変条件を読んでから触ること |
-| `mindmap_data/` | マインドマップのデータ。`index.js`（科目レジストリ22件＝**マップがあるのは `ready:true` の21件で、公衆衛生 `ph` だけ `ready:false`**・`gamify.js` の SUBJECTS から `_work/build_mindmap_index.js` が生成する**派生物**）／`{sid}.js`（科目1件ぶんの章・疾患・関連）／`_hub.js`（ハブの代表疾患。科目データの射影**ではなく**独立にキュレーションされたもの）。**新科目のマップを足す作業＝ここにファイルを1つ書くこと**（エンジンは触らない） |
+| `mindmap_data/` | マインドマップのデータ。`index.js`（科目レジストリ。**マップがあるのは `ready:true` の科目だけ**・`gamify.js` の SUBJECTS から `_work/build_mindmap_index.js` が生成する**派生物**）／`{sid}.js`（科目1件ぶんの章・疾患・関連）／`_hub.js`（ハブの代表疾患。科目データの射影**ではなく**独立にキュレーションされたもの）。**新科目のマップを足す作業＝ここにファイルを1つ書くこと**（エンジンは触らない） |
 | `calc_input.js` | 計算問題の桁入力エンジン（`window.MecCalc`）。原文がマークシートの計算問題50問（科目33＋過去問17）は選択肢を持たないため試験モードで解答不能だった。正解は `.ac`（ans_label）の `計算答：<桁文字列>` が正本。**study.html と 国家試験過去問/*.html の両方が読む共有ファイル**（演出テーマのようなミラー乖離を作らないため）。CSSは自前で注入する |
 | `card_renderer.js` | JSON→カードHTML描画（`window._renderSubjectFromJson`、エスケープ処理あり） |
 | `fx_engine.js` | エフェクトのCanvas描画エンジン（`window.MecFX`：粒子・花火・グリフバースト等）。ハブのゲージ用に `gears`／`gearRain`／`steam`（真鍮の歯車・蒸気）を、2026-08-14に `shatter`（破片）／`ribbon`（2点間を走る光）／`stamp`（刻印）／`orbit`（極座標で回る粒）／`wave`（走査する波形）を足した。**エミッタの追加は常に純増で行うこと**——study.html／chapter_exam.js の試験演出が同じエンジンを共用しているので、既存関数の引数や既定値を変えると7テーマ全部に波及する。⚠️ **位置を自前で持つ型（ribbon/wave/stamp/bar/bolt/ring）は `STATIC_TYPES` に登録すること**——登録し忘れると step() の物理を通り、重力で画面外へ落ちて1フレームで消える |
 | `sounds/` ＋ `sounds_index.js` | 効果音。実体は `sounds/{正解音,起動音,選択音,結果画面}/` の**4フォルダ**（`結果画面/` は 2026-08-21 に追加）、台帳は `sounds/meta.json`、一覧は `_work/build_sounds_index.js` が生成する `sounds_index.js`（**派生物**・`window.MecSounds`）。**ファイル名・キー・音量の唯一の正本**で、study.html／index.html／chapter_exam.js の3つが全部これを読む。⚠️ 音を足すのは「フォルダに置く→meta.json に1行→生成スクリプト」の3手順でコードは触らない。⚠️ 起動音は設定で選ばせず毎回ランダム（テーマ固有の起動画面＝Frost・Celestial・Liquid では鳴らさない） |
 | `image_dims.json` | 問題画像の実寸（パス→[w,h]・約109KB・**派生物**。`_work/build_image_dims.py`が生成）。`card_renderer.js`が`<img width height>`を出す材料。これが無いと遅延読込の画像でレイアウトが後からずれ、章ジャンプが目標に収束しない。**画像を差し替え・追加したら必ず再生成** |
-| `sw.js` | Service Worker（オフラインキャッシュ）。`CACHE`版数は**questions_*.json・画像を更新した時にbump**（bumpで全キャッシュ削除＝再DL）。SHELL/CARDSにパス列挙。相対パス必須。⚠️⚠️ **変更履歴はここに書かず `_work/sw_changelog.md` の先頭へ**（sw.js はページを開くたびに更新確認で取り直される＝コメントも毎回ダウンロードされる。2026-09-28 に 238KB を移した。`test_theme_css.js` が 20KB を超えたら落ちる） |
+| `sw.js` | Service Worker（オフラインキャッシュ）。`CACHE`版数は**questions_*.json・画像を更新した時にbump**（bumpで全キャッシュ削除＝再DL）。SHELL/CARDSにパス列挙。相対パス必須。⚠️ **変更履歴はここに書かず `_work/sw_changelog.md` の先頭へ**（sw.js はページを開くたびに更新確認で取り直される＝コメントも毎回ダウンロードされる。2026-09-28 に 238KB を移した。`test_theme_css.js` が 20KB を超えたら落ちる） |
 | `chapters_meta.js` / `rate_index.js` | 章メタ（`_work/build.py`系で再生成）と**全国正答率の索引**（**派生物**・`node _work/build_natrate_index.js`。uid→% を章ごとの数値列に畳み、読み込み時に `window.MEC_RATE` へ展開する）。索引は stats.html の弱点カルテと index.html の実力レーダーが読む |
 | `questions_*.json` | **問題データの正本**。study.htmlはこれを読み込んで表示。⚠️ 2026-07-24に`questions_*.js`（file://フォールバック用の同内容コピー・計約15MB）を廃止した。運用はGitHub Pages一本で、コピーはリポジトリを二重に太らせ更新のたびに再生成が要るだけだったため。`_work/gen_js_from_json.js`・`_work/check_json_js_sync.js`・pre-commitフックの自動生成ステップも同時に撤去済み |
 | `国家試験過去問/` | 過去問ビューアHTML（`chapter_exam.js`で試験モード）。PDFは`.gitignore`済み・追跡はhtmlのみ |
@@ -69,7 +69,7 @@ CLAUDE.md に残してあるのは各領域の不変条件の要約だけで、*
 | `産婦人科/` | 章別HTML(ch01〜ch13)＋`images/`＋`obg_questions.json`（メタ）。HTMLが`questions_obg.json`のソース＝`_work/build_obg_json.py`で再生成 |
 | `_archive/` | 到達不能になった旧・章別HTMLの保管先。編集対象外、読み物としてのみ残す |
 | `vars.css` | 共通CSSカスタムプロパティ（全ページ共通色変数） |
-| `ui_theme.css` / `ui_theme.js` | **UIテーマ（着せ替えスキン）全8種**（aurora／brass／cyber／liquid／kintsugi／celestial／abyss／frost）。`ui_theme.js` が `localStorage['mec_ui_theme_v1']` を読んで `<html>` に `ui-{id}` を付ける＝**必ず1つ適用される**（既定 `aurora`）。テスト: `node _work/test_ui_theme.js`・`node _work/test_theme_css.js`。⚠️⚠️ **`ui_theme.css`（と `index.css`）は材料で、ページは直接読まない**（2026-09-28〜）。`node _work/build_theme_css.js` が「ほかの7テーマのルールだけを落とした」生成物 `theme_css/{ui_theme,index}.{テーマ}.css` を作り、6ページ（study/index/stats/knowledge/mock/mock_karte）は元の `<link>` の位置の `<script>MecUITheme.css('ui_theme')</script>` で**使うテーマの1つだけ**を読む（347KB→約50KB）。**材料を直したら必ず生成器を流すこと**（`run_all.js` の `--check` が見張る）。ルールの並びは1つも入れ替えていない（共通のルールは各テーマのファイルに重複して入る）＝カスケードは元の1ファイルと同じ。テーマの切り替えは新しい CSS を読み終えてからクラスを付け替える（`apply`）。⚠️ 生成器は最上位の余った `}` で止まる（ブラウザは次のルールを黙って捨てる。2026-09-28 に frost で1件あった）。⚠️ **全8テーマが `.qc` に `animation: {id}CardEnter … both`（`from{opacity:0}`）と `overflow:hidden` を掛けている**。`.qc` を触るときは Phase 4/5/7 の「`.qc` の層は満杯」「`transform` は既存アニメに黙って殺される」がここと直接ぶつかることを思い出すこと。⚠️ `opacity:0` の backwards fill は**非表示タブではアニメが1frameも進まない**間そのまま残る（stats.html の `armReveal`・マインドマップと同型）。ここはアニメが自分で終わる形なのでタブを表に戻せば自力で復帰するが、**JSでクラスを外す形へ作り変えないこと**（落ちた日にカードが白紙になる）。⚠️ **iOS WebKit では `.qc` の `contain: layout` と `backdrop-filter` は必ず解除すること**（`study.css` 側で上書き）。残すと遅延ロード画像でカード高さが伸びた際に GPU 合成バッファが初期高さで固定され、装飾（`::before`/`::after`）が画像に被る。 |
+| `ui_theme.css` / `ui_theme.js` | **UIテーマ（着せ替えスキン）全8種**（aurora／brass／cyber／liquid／kintsugi／celestial／abyss／frost）。`ui_theme.js` が `localStorage['mec_ui_theme_v1']` を読んで `<html>` に `ui-{id}` を付ける＝**必ず1つ適用される**（既定 `aurora`）。テスト: `node _work/test_ui_theme.js`・`node _work/test_theme_css.js`。⚠️ **`ui_theme.css`（と `index.css`）は材料で、ページは直接読まない**（2026-09-28〜）。`node _work/build_theme_css.js` が「ほかの7テーマのルールだけを落とした」生成物 `theme_css/{ui_theme,index}.{テーマ}.css` を作り、6ページ（study/index/stats/knowledge/mock/mock_karte）は元の `<link>` の位置の `<script>MecUITheme.css('ui_theme')</script>` で**使うテーマの1つだけ**を読む（347KB→約50KB）。**材料を直したら必ず生成器を流すこと**（`run_all.js` の `--check` が見張る）。ルールの並びは1つも入れ替えていない（共通のルールは各テーマのファイルに重複して入る）＝カスケードは元の1ファイルと同じ。テーマの切り替えは新しい CSS を読み終えてからクラスを付け替える（`apply`）。⚠️ 生成器は最上位の余った `}` で止まる（ブラウザは次のルールを黙って捨てる。2026-09-28 に frost で1件あった）。⚠️ **全8テーマが `.qc` に `animation: {id}CardEnter … both`（`from{opacity:0}`）と `overflow:hidden` を掛けている**。`.qc` を触るときは Phase 4/5/7 の「`.qc` の層は満杯」「`transform` は既存アニメに黙って殺される」がここと直接ぶつかることを思い出すこと。⚠️ `opacity:0` の backwards fill は**非表示タブではアニメが1frameも進まない**間そのまま残る（stats.html の `armReveal`・マインドマップと同型）。ここはアニメが自分で終わる形なのでタブを表に戻せば自力で復帰するが、**JSでクラスを外す形へ作り変えないこと**（落ちた日にカードが白紙になる）。⚠️ **iOS WebKit では `.qc` の `contain: layout` と `backdrop-filter` は必ず解除すること**（`study.css` 側で上書き）。残すと遅延ロード画像でカード高さが伸びた際に GPU 合成バッファが初期高さで固定され、装飾（`::before`/`::after`）が画像に被る。 |
 | `_work/` | ビルド・検証・マージ用スクリプト（`build.py`・`pdf_audit.py`・`build_qmeta.py`・`build_image_dims.py`・`compress_images.py`・`fix_missing_bi_badges.py`・各`test_*.js`等）。⚠️**PDFから新科目の章別HTMLを作るときは先に `_work/新科目HTML生成ガイド.md` を読む**（抽出フロー・産婦人科水準の解説品質基準・統合チェックリスト・着手プロンプト。参照実装は精神科psy=`build_psy_ch01.py`／`build_psy_json.py`） |
 | `精神科/` | マイナー講座・精神科（prefix `psy`・💭・#7386F2）。章別HTML(`ch01_seishinka_kihon.html`〜`ch08_sonota.html`)＋`images/`＋`psy_questions.json`（章名メタ）。HTMLが`questions_psy.json`のソース＝`_work/build_psy_ch{NN}.py`→`_work/build_psy_json.py`で再生成。**全8章256問**。⚠️ **この科目の章を書く・直すときは `_work/精神科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・採点除外はそこが正本） |
 | `耳鼻咽喉科/` | マイナー講座・耳鼻咽喉科（prefix `ent`・👂・#549C93）。章別HTML(`ch01_mimi_kihon.html`〜)＋`images/`＋`ent_questions.json`（章名メタ）。HTMLが`questions_ent.json`のソース＝`_work/build_ent_ch{NN}.py`→`_work/build_ent_json.py`で再生成。**全8章214問**。抽出・照合は `_work/ent_pdf.py`／`_work/verify_ent_ch.py`。⚠️ **この科目の章を書く・直すときは `_work/耳鼻咽喉科_引き継ぎ.md` を読む**（章の軸・PDF固有の罠・最難問・採点除外はそこが正本） |
@@ -91,7 +91,7 @@ CLAUDE.md に残してあるのは各領域の不変条件の要約だけで、*
 
 ## 問題数
 
-⚠️⚠️ **ここに数字の表を置かないこと。** 章を足すたびに変わる数字を文書へ手で書くと必ず腐る——
+⚠️ **ここに数字の表を置かないこと。** 章を足すたびに変わる数字を文書へ手で書くと必ず腐る——
 2026-08-26 まで `ph` の行が `5章155問` のまま残っており、実際は `7章226問`（2章71問ぶんのずれ）だった。
 **正本は `questions_*.json` だけ**で、実測はいつでもこれで出る:
 
@@ -126,7 +126,7 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
 | 済 | `done_v2` のうち **自作問題(`custom_`)・暗記メモ(`memo_`) を除いた**もの（周回数0も除く） |
 | 全問題数 | `chapters_meta.js` の全章 ＋ 国試過去問（`MEC_KAKUMON_BLOCKS`）＋ 実力試験Ⅰ（`MEC_JITSU1_CHAPTERS`） |
 
-- ⚠️⚠️ **ページ側で `done_v2` のキー数を数え直さないこと。** 2026-09-11 まで4か所が別々に数えていて
+- ⚠️ **ページ側で `done_v2` のキー数を数え直さないこと。** 2026-09-11 まで4か所が別々に数えていて
   （全キー／自作・暗記メモを除く／周回数0を除く）、ハブと統合学習ツールの「済」が一致しなかった。
   しかも統合学習ツールの「済」は**開いた瞬間に1回数えるだけ**で、×△○や試験モードで解いても増えなかった。
 - ⚠️ 過去問・実力試験Ⅰの問題数の表は `progress.js` に移した（index.html は `window.MEC_KAKUMON_BLOCKS` を読むだけ）。
@@ -242,7 +242,7 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
 
 ヒーローのボタン・今日の所見・実力の輪郭（8軸レーダー）・円弧ゲージ・全国正答率の索引。ハブを触る前に読むこと。要点:
 
-- ヒーローのボタンは **席が固定の3つ**（主＝復習／副＝全科目／3つ目＝今日の誤答）。0件の日も `.is-off` で残し、href を外す。
+- ヒーローのボタンは **席が固定の3つ**（主・副は due の有無で中身が入れ替わる・3つ目＝今日の誤答）。0件の日も `.is-off` で残し、href を外す。
   ⚠️ 統計への導線をこの3席に置かない。粒子の色は席ではなく中身（`data-fx`）で決める。
 - 文言を入れる口は `_setCtaLabel()` だけ。ボタン用の CSS 変数は `--cta-` 接頭辞必須（vars.css のトークンを継承で拾う）。
   `.cta-sub` の `overflow:hidden` は `min-width:min-content` とセット。要素1つにつき層は3つ（本体＝入場／`::before`＝呼吸／`::after`＝光沢）。
@@ -289,12 +289,12 @@ node _work/test_subject_totals.js --table   # 区分別の一覧＋総合計＋�
 生ログ `mec_attempts_v1` は上限5,000件で、1日1,400問解く日があるので**3〜4日分しか残らない**。
 そのため「週の結果発表」（今週と先週）と「今日の所見」（直近14日の比較）が、よく解いた週ほど古い日を
 黙って取りこぼしていた。上限からあふれた行は**捨てずにセッション単位の集計へ畳む**。
-テスト: `node _work/test_attempts_roll.js`（15件）。
+テスト: `node _work/test_attempts_roll.js`。
 
-- ⚠️⚠️ **生ログを書く経路は全部 `MECSync.attStore` を通すこと**（attempts.js の追記・`_mergeRemote`・
+- ⚠️ **生ログを書く経路は全部 `MECSync.attStore` を通すこと**（attempts.js の追記・`_mergeRemote`・
   ハブのバックアップ復元・容量超過の処理）。`slice(-N)` で切り詰める書き方を足すと、そこで行が消える。
   旧実装はバックアップ復元だけ上限 2000 のまま取り残されていた。
-- ⚠️⚠️ **二重に数えない約束は2つ**：① 1つのセッションは1台の端末でしか生まれないので、同じ sess なら
+- ⚠️ **二重に数えない約束は2つ**：① 1つのセッションは1台の端末でしか生まれないので、同じ sess なら
   ウォーターマーク `u` の大きい集計が必ず上位集合＝マージは `u` の大きい方を採る
   ② 生ログ側は「sess が一致し n ≤ u の行」を必ず落とす。畳む単位は**同じ sess の n ≤ u 全部**
   （時刻は分単位なので、同じ分の行を途中で切ると①が崩れる）。
@@ -336,7 +336,7 @@ error_reports_v1 = [
 ]
 ```
 
-- ⚠️⚠️ **コメント用の localStorage キーを新設しないこと。** 一覧・テキスト/JSONコピー・全消去・
+- ⚠️ **コメント用の localStorage キーを新設しないこと。** 一覧・テキスト/JSONコピー・全消去・
   バッジ件数・同期マージが**全部この1本の配列**を見ている＝別キーにすると同じ配管を5か所で
   二重管理することになる。書き口は `mecSetErrorNote(uid, text)` / 読み口は `mecGetErrorNote(uid)`。
 - **種別を1つも選ばずコメントだけでも報告として成立する**（バッジも1件と数える）。
@@ -344,7 +344,7 @@ error_reports_v1 = [
   種別は「在るか無いか」しか持たないので union でよいが、コメントは**本文が書き換わる**ので
   union にすると別端末で直した本文が黙って巻き戻る。判定材料は `reported_at` だけなので、
   **書くたびに必ず時刻を更新すること**。
-- ⚠️⚠️ **コメントを消したときレコードごと捨てないこと。** union なので、捨てると「まだ持っている
+- ⚠️ **コメントを消したときレコードごと捨てないこと。** union なので、捨てると「まだ持っている
   端末」から次の同期で本文が復活する。**本文を空にしたレコード（`text:''`）を新しい時刻で残す**＝
   last-writer-wins がそのまま削除として働く。`mecGetErrorReports()` がその墓標を落として返すので、
   UI・件数・一覧には出ない。⚠️ **localStorage を直に読む経路を作らないこと**（`study.html` の
@@ -389,12 +389,12 @@ mock.html / mock.js / mock_karte.html / questions_m121s.json を触る前に読�
 ### 一括実行とフック・CI（2026-09-28〜）
 
 ```bash
-node _work/run_all.js            # テスト全部＋生成物の --check（約15秒）
+node _work/run_all.js            # テスト全部＋生成物の --check
 node _work/run_all.js --quick    # テストだけ
 node _work/run_all.js --browser  # 実ブラウザのテストも（章ジャンプの計測で約15分）
 ```
 
-- ⚠️⚠️ **合否は終了コードで決めること。出力の最後の行を信用しない。** 2026-09-28 まで8本のテストが、
+- ⚠️ **合否は終了コードで決めること。出力の最後の行を信用しない。** 2026-09-28 まで8本のテストが、
   失敗しても合格数だけを「全 N 件 ok」と最後に出していた（直した）。`run_all.js` は終了コードだけを見る。
 - **生成物の食い違い**も見る（rate_index / dup_index / sounds_index / mindmap の index / 模試の成績表 /
   qmeta / image_dims / 模試の解説 / 必修講座 Part1・Part2 / 画像の整合性）。⚠️ **生成物は連鎖する**——
@@ -409,71 +409,66 @@ node _work/run_all.js --browser  # 実ブラウザのテストも（章ジャン
 
 ```
 node _work/run_all.js              ↓ 全部まとめて（終了コードで判定・生成物の食い違いも見る）
-node _work/test_attempts.js        解答イベントログ・今日の誤答 (18)
-node _work/test_attempts_roll.js   解答ログの集計（畳む・同期で二重に数えない・週の結果発表）(15)
-node _work/test_weekly_weak.js     週ごとの弱点の推移（克服・忘却・取りこぼし・再発の判定・端末別の同期・週の報告・配線）(24)
-node _work/test_karte.js           弱点カルテの集計・全国比    (19)
-node _work/test_merge_remote.js    Gist同期のマージ戦略        (64)
-node _work/test_streak.js          連続日数と activity_v1      (9)
-node _work/test_copy.js            クリップボード/2段階タップ  (17)
+node _work/test_attempts.js        解答イベントログ・今日の誤答
+node _work/test_attempts_roll.js   解答ログの集計（畳む・同期で二重に数えない・週の結果発表）
+node _work/test_weekly_weak.js     週ごとの弱点の推移（克服・忘却・取りこぼし・再発の判定・端末別の同期・週の報告・配線）
+node _work/test_karte.js           弱点カルテの集計・全国比
+node _work/test_merge_remote.js    Gist同期のマージ戦略
+node _work/test_streak.js          連続日数と activity_v1
+node _work/test_copy.js            クリップボード/2段階タップ
 node _work/test_today_learning.js  ハブの「今日解いた問題」
-node _work/test_srs_grade.js       SRSの自己採点3段階・経過日数ゲート・ゆらぎ・並び・試験日ゲート・連問 (35)
-node _work/test_subject_totals.js  科目別問題数の三者一致      (3)
-node _work/test_card_render.js     カード描画（画像実寸・採点ボタン）(7)
-node _work/test_calc_input.js      計算問題の桁入力・データ整合      (29)
+node _work/test_srs_grade.js       SRSの自己採点3段階・経過日数ゲート・ゆらぎ・並び・試験日ゲート・連問
+node _work/test_subject_totals.js  科目別問題数の三者一致
+node _work/test_card_render.js     カード描画（画像実寸・採点ボタン）
+node _work/test_calc_input.js      計算問題の桁入力・データ整合
 python _work/test_jumps_browser.py 章・番号ジャンプを全科目で実ブラウザ計測（要 Chrome＋websockets・約15分）
-node _work/test_missions.js        日次/週次ミッション          (39)
-node _work/test_gamify_ceremony.js セレモニー/授与トレイ/スキップ (28)
-node _work/test_exam_prog.js       試験の進捗バー・難問の可視化  (29)
-node _work/test_exam_queue_scope.js 試験の出題範囲がキューに閉じているか (19)
-node _work/test_daily_goal.js      ハブのゲージ・歯車の意匠      (36)
-node _work/test_hero_cta.js        ハブのボタン・計器ベイの演出  (43)
-node _work/test_fx_band.js         試験演出の可視帯(発火位置)    (15)
-node _work/test_fx_additions.js    新エミッタ・tier7・難問/速答  (29)
-node _work/test_stats_sections.js  統計の4タブ構成・弱点リスト統合・演出の門 (28)
-node _work/test_gist_sync.js       Gistの分割保存・切り詰めの復旧 (15)
-node _work/test_exam_chassis.js    試験UIの筐体／盤面の分離      (25)
-node _work/test_exam_reading.js    読んでいる間の演出            (34)
-node _work/test_exam_brasswork.js  筐体の外へ広げた真鍮細工      (36)
-node _work/test_mindmap_layout.js  マインドマップのレイアウト/データ (248)
-node _work/test_sounds.js          効果音の一覧・音量・ランダム起動音  (28)
-node _work/test_ui_theme.js        UIテーマ全8種（.qc への干渉・ネタバレ防止）(14)
-node _work/test_theme_css.js       テーマ別 CSS の読み込み・切り替え・sw.js の大きさ (10)
+node _work/test_missions.js        日次/週次ミッション
+node _work/test_gamify_ceremony.js セレモニー/授与トレイ/スキップ
+node _work/test_exam_prog.js       試験の進捗バー・難問の可視化
+node _work/test_exam_queue_scope.js 試験の出題範囲がキューに閉じているか
+node _work/test_daily_goal.js      ハブのゲージ・歯車の意匠
+node _work/test_hero_cta.js        ハブのボタン・計器ベイの演出
+node _work/test_fx_band.js         試験演出の可視帯(発火位置)
+node _work/test_fx_additions.js    新エミッタ・tier7・難問/速答
+node _work/test_stats_sections.js  統計の4タブ構成・弱点リスト統合・演出の門
+node _work/test_gist_sync.js       Gistの分割保存・切り詰めの復旧
+node _work/test_exam_chassis.js    試験UIの筐体／盤面の分離
+node _work/test_exam_reading.js    読んでいる間の演出
+node _work/test_exam_brasswork.js  筐体の外へ広げた真鍮細工
+node _work/test_mindmap_layout.js  マインドマップのレイアウト/データ
+node _work/test_sounds.js          効果音の一覧・音量・ランダム起動音
+node _work/test_ui_theme.js        UIテーマ全8種（.qc への干渉・ネタバレ防止）
+node _work/test_theme_css.js       テーマ別 CSS の読み込み・切り替え・sw.js の大きさ
 python _work/measure_load.py       読み込みの重さを実ブラウザで測る（前後比較。最初の数回はフォントの冷えで遅いので捨てている）
-node _work/test_done_scope.js      「済」と全問題数の正本・全ページの一致 (5)
-node _work/test_hub_notes.js      ハブ「今日の所見」の集計と選抜        (29)
-node _work/test_hub_radar.js      ハブ「実力の輪郭」8軸レーダー・全国正答率の索引 (20)
-node _work/test_hub_opening.js    1日の最初のブリーフィング／週の結果発表 (37)
-node _work/test_hub_liquid.js     ハブの Liquid ゲージ（止まらない・回らない・はみ出さない・雫は塊へ戻る・金色なし）(12)
-node _work/test_trophy_boss.js    トロフィー棚（定着・章メダル）とボス戦 (40)
-node _work/test_ward.js           病棟回診（配線・確信度の撤去）(17)
-node _work/test_ach_theme.js      ACHIEVEMENTS の意匠がUIテーマ全種ぶんあるか (20)
-node _work/test_mock_score.js      模試の自己採点（データ検算・採点・同期・成績表）(46)
-node _work/test_mock_figs.js       模試の設問図が全部あるか（138枚）      (6)
-node _work/test_mock_wrong_filter.js  ❌模試誤答フィルタ（件数の一致・uid対応・配線）(21)
+node _work/test_done_scope.js      「済」と全問題数の正本・全ページの一致
+node _work/test_hub_notes.js      ハブ「今日の所見」の集計と選抜
+node _work/test_hub_radar.js      ハブ「実力の輪郭」8軸レーダー・全国正答率の索引
+node _work/test_hub_opening.js    1日の最初のブリーフィング／週の結果発表
+node _work/test_hub_liquid.js     ハブの Liquid ゲージ（止まらない・回らない・はみ出さない・雫は塊へ戻る・金色なし）
+node _work/test_trophy_boss.js    トロフィー棚（定着・章メダル）とボス戦
+node _work/test_ward.js           病棟回診（配線・確信度の撤去）
+node _work/test_ach_theme.js      ACHIEVEMENTS の意匠がUIテーマ全種ぶんあるか
+node _work/test_mock_score.js      模試の自己採点（データ検算・採点・同期・成績表）
+node _work/test_mock_figs.js       模試の設問図が全部あるか（138枚）
+node _work/test_mock_wrong_filter.js  ❌模試誤答フィルタ（件数の一致・uid対応・配線）
 node _work/test_body_containing_block.js  body/html を position:fixed の包含ブロックにしない
-node _work/test_glitch_bars.js     グリッチ帯の引数形・可視帯・幅（実ソースを回す）(14)
+node _work/test_glitch_bars.js     グリッチ帯の引数形・可視帯・幅（実ソースを回す）
 node _work/test_theme_correct_fx.js  UIテーマ8種の正解演出・study/chapter の同期
-node _work/test_rf_polish.js       正解・誤答の演出の仕上げ（連続数の置き場・進捗の桁・動きの規則・選び直しの意匠）(13)
+node _work/test_rf_polish.js       正解・誤答の演出の仕上げ（連続数の置き場・進捗の桁・動きの規則・選び直しの意匠）
 node _work/check_effect_themes_sync.js  演出テーマのミラー整合
-node _work/test_dead_fx.js         演出の死んだコード（読まれない設定値・呼ばれない関数・参照されない @keyframes）(4)
+node _work/test_dead_fx.js         演出の死んだコード（読まれない設定値・呼ばれない関数・参照されない @keyframes）
 python _work/visual_snapshot.py    見た目が変わっていないかを実ブラウザで比べる（CSS の削除・分割のとき。手順は `_work/仕様/演出.md`「演出の死んだコードと、見た目の前後比較」）
 
 # UIテーマの「自律進化ループ」（2026-08-23〜24）が置いていった検査。粒度が細かく
 # 個別の @keyframes 名を名指しするので、演出を作り直すとここが落ちる
-node _work/test_step1_fx.js        (10)   node _work/test_step2_fx.js       (6)
-node _work/test_step4_fx.js        (3)    node _work/test_new10_fx.js       (10)
-node _work/test_next10_fx.js       (9)    node _work/test_dynamic_fx.js     (10)
-node _work/test_concentric_fx.js   (4)
+node _work/test_step1_fx.js   node _work/test_step2_fx.js
+node _work/test_step4_fx.js    node _work/test_new10_fx.js
+node _work/test_next10_fx.js    node _work/test_dynamic_fx.js
+node _work/test_concentric_fx.js
 ```
 
-✅ **`node _work/check_themes.js`（ベース6テーマの配色検査）は 2026-09-09 に全テーマ合格へ戻した。**
-基準は**カード面に対して 4.5:1**（`--subj-ink #1A1206` を載せた側も 4.5:1）で、2.5:1 ではない。
-落ちていた原因はテーマ側ではなく**後から足した9科目の色**——`anes` `derm` `ent` `oph` `ortho`
-`ph` `psy` `rad` `uro` が Tailwind 700番台の暗色のまま入っており、1.95〜4.02:1 しかなかった。
-`3b258e9`（12科目を OKLCH で再導出した回）の方針に揃えて、**色相を保ったまま明度だけ上げて**
-再導出した（色相の移動は −4.9°〜+15.3°）。⚠️ **`ph` と `uro` は両方 `#0891B2` の完全な重複**
-だったので、`ph` を +15.3° 回して分けた。
+`node _work/check_themes.js` はベース6テーマの配色検査（基準はカード面に対して 4.5:1）。
+科目色は色相を保ったまま明度だけで調整する。
 
 ⚠️ **科目色を足すときはこの検査を通すこと。** 満たすべきは3つ:
 ① カード面に 4.5:1 以上（最も明るいのは `th-teal` の L=0.0210）
@@ -493,7 +488,7 @@ node _work/test_concentric_fx.js   (4)
 study_exam.js / study.css / fx_engine.js / chapter_exam.js / ui_theme.css / gamify.js の演出と効果音を触る前に必ず読むこと。要点:
 
 **全体**
-- ⚠️⚠️ `<body>` / `<html>` に `transform` `filter` `backdrop-filter` `perspective` `will-change:transform` `contain` を掛けない（JS でも CSS でも）。
+- ⚠️ `<body>` / `<html>` に `transform` `filter` `backdrop-filter` `perspective` `will-change:transform` `contain` を掛けない（JS でも CSS でも）。
   `position:fixed` の包含ブロックが変わり、演出と `#mecFxCanvas` が崩れる。画面を揺らすなら `_shakeFxLayers()` で演出レイヤーだけを揺らす
   （正解時・連続正解時は揺らさない）。検査は `test_body_containing_block.js`。
 - ⚠️ `transform` は既存のアニメーションに黙って上書きされる。移動・回転・拡大は独立プロパティ `translate` / `rotate` / `scale` で書く。
@@ -540,7 +535,7 @@ study.html の科目チップは**1科目だけ選べる**。「全科目」ボ�
 
 - **理由**: 全科目選択は最大5487問（約22万ノード）をDOMに載せ、iPad/iPhone がメモリ退避で
   タブを強制リロードする主因だった。実運用でも複数科目を同時に開く場面が無かった。
-- **効果**: DOMは常に1科目ぶん（最大594問・神経）に固定される。
+- **効果**: DOMは常に1科目ぶんに固定される（最大の科目は `node _work/test_subject_totals.js --table` で確認）。
 - `toggleSubjectChip` が「前の科目を `_unloadSubjectCards` で捨ててから次を読む」を担保する。
   同じチップの再タップで未選択に戻れる（`#mecNoSubj` の案内が出る）。
 - `applyFilters` は元々 `selectedSubjects` に限定されているため、難易度・状態・検索・
@@ -598,12 +593,12 @@ GitHub Gist API で進捗を保存。`index.html` の「同期設定」から PA
 まさにここを通っていた）。例外は「リモートが本当に壊れている(`kind==='parse'`)」ときだけで、
 これはマージのしようがないので上書きで修復する。
 
-テスト: `node _work/test_gist_sync.js`（14件・実ソースを vm で読み込み fetch だけスタブ）
+テスト: `node _work/test_gist_sync.js`（実ソースを vm で読み込み fetch だけスタブ）
 
 ## 大量ファイル変更時の注意
 
-章ファイルは78個ある（9科目）。共通パターンの変更はPythonスクリプトで一括処理すること。
-変更後は必ず数ファイルで動作確認してからコミットする。
+questions_*.json など多数のファイルに同じ変更を入れるときは、Pythonスクリプトで一括処理し、
+数ファイルで動作確認してからコミットする。
 
 ## 既存科目の HTML を作り直すとき（詳細 → `_work/仕様/採点データと科目の作り直し.md`）
 
