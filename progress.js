@@ -2006,3 +2006,69 @@ const K_EXAM_DATE_AT = 'mec_exam_date_at_v1';   // 試験日を最後に変え�
   });
 
 })();
+
+// ── 版数バッジ（study.html・ハブ共通・2026-09-30〜） ───────────────────────
+// push したものが Pages に出たか／この画面に届いたかを見分けるための表示。
+// 版数の正本は sw.js の SHELL_VERSION（shipのたびに必ず上げている）＝手で書く版数は持たない
+// （旧 study.html の MEC_BUILD は手で上げる方式で、2026-08-26 から止まっていた）。
+//   この画面の版 … このページを配った Service Worker に問い合わせる（読み込み直後に1回だけ聞く。
+//                   後から新しい SW が入っても、この画面の中身は古いままなので聞き直さない）
+//   Pages の版   … sw.js をキャッシュなしで取り直して SHELL_VERSION を読む
+// 違えば「↑新版あり」を出すだけで、自分では再読込しない（試験の途中で飛ばないように）。
+(function () {
+  // テストは window/document だけ差し替えた vm で読む＝navigator・fetch が無い環境では何もしない
+  if (typeof window === 'undefined' || typeof document === 'undefined' ||
+      typeof navigator === 'undefined' || typeof fetch === 'undefined') return;
+  const RE = /const SHELL_VERSION = "([^"]+)"/;
+  const sw = navigator.serviceWorker;
+  // ページの読み込み時点のコントローラー＝この画面を配った SW。即座に聞く
+  const localP = new Promise(res => {
+    const ctl = sw && sw.controller;
+    if (!ctl || typeof MessageChannel === 'undefined') return res(null);
+    const ch = new MessageChannel();
+    const t = setTimeout(() => res(null), 2500);   // 問い合わせ口の無い旧 SW は答えない
+    ch.port1.onmessage = e => { clearTimeout(t); res((e.data && e.data.v) || null); };
+    try { ctl.postMessage({ type: 'mec-ver' }, [ch.port2]); } catch (_) { clearTimeout(t); res(null); }
+  });
+  function fetchRemote() {
+    // クエリで CDN のキャッシュも外す（sw.js 側は sw.js への fetch を横取りしない＝キャッシュに溜めない）
+    return fetch('sw.js?mecver=' + Date.now(), { cache: 'no-store' })
+      .then(r => r.ok ? r.text() : null)
+      .then(t => { const m = t && t.match(RE); return m ? m[1] : null; })
+      .catch(() => null);
+  }
+  const short = v => String(v).replace(/^\d{4}-/, '');   // 2026-09-30g → 09-30g
+  let _lastCheck = 0;
+  function check(els) {
+    _lastCheck = Date.now();
+    Promise.all([localP, fetchRemote()]).then(([local, remote]) => {
+      // SW に配られていない画面（初回・♻️の直後）は、いま取ってきたものを見ている＝Pages の版と同じ
+      const mine = local || remote;
+      let state, text, title;
+      if (!mine) {
+        state = 'unknown'; text = '—'; title = '版数を確認できません（オフライン？）';
+      } else if (!remote) {
+        state = 'offline'; text = short(mine);
+        title = 'この画面の版 ' + mine + '\nPages に繋がらないので最新かは確認できません';
+      } else if (remote > mine) {
+        state = 'new'; text = '↑' + short(remote);
+        title = 'Pages に新しい版 ' + remote + ' が出ています（この画面は ' + mine + '）\n♻️ で更新してください';
+      } else {
+        state = 'same'; text = short(mine);
+        title = 'この画面の版 ' + mine + '\nPages の最新と同じです';
+      }
+      els.forEach(el => { el.textContent = text; el.title = title; el.dataset.state = state; });
+    });
+  }
+  function mount() {
+    const els = Array.from(document.querySelectorAll('.mec-build-ver'));
+    if (!els.length) return;
+    check(els);
+    // 開いたまま裏に回して戻ってきたときにも見直す（push の反映待ちで画面を開きっぱなしにする使い方）
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && Date.now() - _lastCheck > 60000) check(els);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
+  else mount();
+})();

@@ -105,7 +105,7 @@ if ('serviceWorker' in navigator) {
       <button class="hdr-btn hdr-sound-btn" onclick="openStudySoundOv()" title="効果音設定" aria-label="効果音設定">🔊 効果音</button>
       <button class="hdr-btn" id="mecRefreshBtn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）">♻️</button>
       <button class="hdr-toggle" id="hdrToggle" title="フィルター表示切替">▼</button>
-      <span id="mecBuildVer" title="読み込まれているstudy.htmlの版数（リロードで変われば最新が届いた証拠）" style="font-size:10px;font-weight:700;color:rgba(120,179,255,.85);align-self:center;letter-spacing:.5px;">b-0831a</span>
+      <span id="mecBuildVer" class="mec-build-ver" title="この画面の版数（Pages に新しい版が出ていれば ↑ で知らせる）">…</span>
     </div>
   </div>
   <div class="st-filter-panel" id="stFilterPanel">
@@ -1264,14 +1264,8 @@ let _deferredFullInit = null;
 function _runDeferredInit() { if (_deferredFullInit) _deferredFullInit(); }
 window._runDeferredInit = _runDeferredInit;
 
-// ビルド版数（画面右上バッジ）。各shipで sw.js の SHELL_VERSION と一緒に上げる。
-const MEC_BUILD = "b-0826l";
-
 document.addEventListener('DOMContentLoaded', () => {
-  // ビルド版数バッジ: study.html に直接埋め込んだ版数を表示（SWキャッシュに依存しない確実方式）。
-  // シェルは network-first なのでリロードで最新の study.html が届き、この値も最新になる。
-  // ⚠️ 各shipでこの MEC_BUILD と sw.js の SHELL_VERSION を一緒に上げること。
-  { const _bv = document.getElementById('mecBuildVer'); if (_bv) _bv.textContent = MEC_BUILD; }
+  // 版数バッジ（#mecBuildVer）は progress.js が入れる（sw.js の SHELL_VERSION が正本・手で上げる版数は持たない）。
 
   // file:// で開かれた場合はここで打ち切って理由を出す。
   // ブラウザは file:// オリジンからの fetch() を CORS で全面拒否するため、questions_*.json も

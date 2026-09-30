@@ -61,6 +61,8 @@
   <!-- 最終更新時刻の隣に「最新に更新」。キャッシュを捨てて再読込する（学習データは消えない）。
        ⚠️ _tapConfirm が textContent を書き換えるので子要素を持たせない（1回目で赤くなり再タップで実行） -->
   <button class="hub-upd-btn" onclick="mecForceRefresh(this)" title="キャッシュを削除して最新版を再読み込み（学習データは消えません）" aria-label="最新に更新">♻️</button>
+  <!-- 版数（progress.js が入れる）。Pages に新しい版が出ていれば「↑版数」になる＝push の反映確認 -->
+  <span class="hub-ver mec-build-ver" title="この画面の版数">…</span>
   <div class="hub-tools">
     <!-- 同期状態は常時見えていてほしい（stale/error を progress.js が data-status で塗る） -->
     <span class="mec-sync-badge">⚙️ 未設定</span>

@@ -1548,7 +1548,10 @@ html.mec-jumping .qc{content-visibility:visible!important;}
 
 
 /* ヘッダー右端の小要素も縦組みに潰さない（狭い画面で "b-" / "0720h" と2行に割れていた） */
-#mecBuildVer{white-space:nowrap;flex-shrink:0;}
+#mecBuildVer{white-space:nowrap;flex-shrink:0;font-size:10px;font-weight:700;color:rgba(120,179,255,.85);
+  align-self:center;letter-spacing:.5px;font-variant-numeric:tabular-nums;}
+/* Pages に新しい版が出ている（progress.js の版数バッジ）。♻️ で更新するまで琥珀色で知らせる */
+#mecBuildVer[data-state="new"]{color:#FFB547;}
 .mec-err-badge{white-space:nowrap;flex-shrink:0;}
 .vis-count{flex-shrink:0;}
 

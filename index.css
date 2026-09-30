@@ -68,6 +68,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
   transition:background-color .15s var(--ease-out),border-color .15s var(--ease-out);}
 .hub-upd-btn:hover{background:rgba(var(--glass-rgb),.12);border-color:var(--hair-2);}
 .hub-upd-btn:disabled{opacity:.6;cursor:default;}
+/* 版数（progress.js の版数バッジ）。Pages に新しい版が出ていれば琥珀色 */
+.hub-ver{flex-shrink:0;font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--ts);
+  white-space:nowrap;font-variant-numeric:tabular-nums;}
+.hub-ver[data-state="new"]{color:#FFB547;}
+/* スマホ幅では屋号と時刻がもう潰れている＝知らせる必要があるとき（新版あり）だけ出す */
+@media (max-width:430px){.hub-ver:not([data-state="new"]){display:none;}}
 /* 360px級では屋号・更新時刻・同期バッジ・道具2つが一行に収まらない。
    情報量の一番少ない「学習ハブ」を落として時刻のほうを残す（題はタブに出ている） */
 @media (max-width:430px){.hub-mark i,.hub-mark em{display:none;}}

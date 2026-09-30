@@ -49,6 +49,14 @@ body { font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;back
 }
 .hub-upd-btn:hover { background:rgba(var(--glass-rgb),.12);border-color:var(--hair-2); }
 .hub-upd-btn:disabled { opacity:.6;cursor:default; }
+.hub-ver {
+  flex-shrink:0;font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--ts);
+  white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+.hub-ver[data-state="new"] { color:#FFB547; }
+@media (max-width:430px) {
+  .hub-ver:not([data-state="new"]) { display:none; }
+}
 @media (max-width:430px) {
   .hub-mark i,
   .hub-mark em { display:none; }
