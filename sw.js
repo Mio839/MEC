@@ -1,12 +1,12 @@
 // MEC の Service Worker（オフラインキャッシュ）。
 // ⚠️ 変更履歴は _work/sw_changelog.md に書く（ここにコメントを積まない。sw.js はページを開くたびに
 //    更新確認で取り直されるので、コメントも毎回ダウンロードされる＝2026-09-28 に 238KB を移した）。
-const CACHE = "mec-v671";
+const CACHE = "mec-v672";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。
 // （questions_*.json を変えた時だけ CACHE 自体を bump ＝全再DL）
-const SHELL_VERSION = "2026-09-30b";
+const SHELL_VERSION = "2026-09-30c";
 // パスは相対必須: GitHub Pages のプロジェクトサイト（/MEC/ 配下）では
 // "/study.html" は 404 になり caches.addAll が失敗 → SW インストール自体が失敗する
 const SHELL = [
@@ -110,7 +110,7 @@ const CARDS = [
   "questions_imma.json","questions_kansen.json","questions_jitsu1.json",
   "questions_peds.json","questions_obg.json","questions_psy.json",
   "questions_derm.json","questions_oph.json","questions_ent.json","questions_uro.json","questions_ortho.json","questions_anes.json","questions_rad.json","questions_tox.json","questions_emg.json","questions_ph.json",
-  "questions_hisshu.json","questions_hisshu2.json","questions_sumresp.json","questions_m121s.json"
+  "questions_hisshu.json","questions_hisshu2.json","questions_sumresp.json","questions_lesdige.json","questions_m121s.json"
 ];
 
 self.addEventListener("install", e => {

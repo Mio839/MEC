@@ -64,6 +64,8 @@ SUBJECTS = {
     'hisshu2': ('MEC必修講座Part2（表紙2026）.pdf', '必修講座Part2'),
     # ⚠️ サマライズ呼吸器は2冊（サマライズ＋Lesson）。3つ目の要素は図の照合だけに使う追加の PDF
     'sumresp': ('国試サマライズ・メジャー・呼吸器（表紙2026）.pdf', 'サマライズ呼吸器', ('2026Lesson呼吸器.pdf',)),
+    # ⚠️ Lesson消化管の問題20（Q.20）の図は紙面に無く、消化器の 109A-18_1.jpeg を借りている
+    'lesdige': ('2026Lesson消化管.pdf', 'Lesson消化管'),
 }
 
 # PDFがベクター描画のため、こちらでレンダリング／手作りした画像。rasterと一致しなくて当然。
@@ -317,7 +319,8 @@ def audit(sid, check_images=True):
             # episode が複数の国試番号を持つ問題がある。ファイル名は代表の1つを名乗るので
             # 「・ または ／ 区切りのどれかに一致」で許す
             # （前方一致にすると 112D-3 が 112D-63 を通してしまうので使わない）。
-            ok_codes = set(re.split(r'[・／/]', eid)) | series_codes.get(q['uid'], set())
+            # Lesson の「109A-18 改変」も国試番号の部分だけで比べる
+            ok_codes = {c.split(' ')[0] for c in re.split(r'[・／/]', eid)} | series_codes.get(q['uid'], set())
             if m and m.group(1) not in ok_codes:
                 add('画像', q, f'ファイル名の問題コード {m.group(1)} ≠ {eid}')
     if os.path.isdir(img_dir):

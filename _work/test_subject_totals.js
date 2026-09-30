@@ -37,7 +37,7 @@ const GROUPS = [
   ['横断テーマ',    ['tox','emg']],
   ['公衆衛生講座',  ['ph']],
   ['必修講座',      ['hisshu','hisshu2']],
-  ['サマライズ',    ['sumresp']],
+  ['サマライズ・Lesson', ['sumresp','lesdige']],
   ['非コア',        ['jitsu1','custom','memo']],
 ];
 function printTable() {

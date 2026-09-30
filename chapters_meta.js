@@ -1553,6 +1553,20 @@ const MEC_CHAPTERS = [
     ]
   },
   {
+    "id": "lesdige",
+    "name": "Lesson消化管",
+    "icon": "🍙",
+    "color": "#E0829C",
+    "chapters": [
+      {
+        "prefix": "lesdige_ch01",
+        "file": "study.html?sid=lesdige",
+        "title": "Lesson 消化管",
+        "count": 21
+      }
+    ]
+  },
+  {
     "id": "m121s",
     "name": "第121回 夏メック模試",
     "icon": "🏁",
