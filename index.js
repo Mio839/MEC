@@ -1338,7 +1338,7 @@ function renderHero() {
       '<span class="srs-deco" aria-hidden="true"></span>' +
       '<div class="srs-card-hdr">' +
         '<div class="srs-card-title-grp">' +
-          '<span class="srs-card-ttl"><span class="srs-ttl-ic">🔔</span>復習キュー</span>' +
+          '<span class="srs-card-ttl"><span class="srs-ttl-ic">♾️</span>プロトコル待機列</span>' +
           '<span class="srs-tag srs-tag-cross">科目横断</span>' +
           '<span class="srs-tag srs-tag-risk">忘却リスク順</span>' +
         '</div>' +
@@ -1398,7 +1398,7 @@ function renderHero() {
   // 主: 期限が来た復習があればそれが最優先、無ければ科目を選ぶ導線
   // ⚠️ 文言は _setCtaLabel を通すこと（先頭の絵文字を跳ねる span に包む口がここ1つ）。
   //    textContent へ直接入れると、その席だけ絵文字が動かなくなる。
-  if (dueOn) { p1.href = 'study.html?mode=srs_review'; _setCtaLabel(p1, '🔔 復習をはじめる'); }
+  if (dueOn) { p1.href = 'study.html?mode=srs_review'; _setCtaLabel(p1, '♾️ 定着プロトコル'); }
   else       { p1.href = 'study.html';                 _setCtaLabel(p1, '📚 全科目から選ぶ'); }
   // E: 演出の色は「席」ではなく「中身」で決める。主ボタンは日によって復習と科目選びが
   //    入れ替わるので、席で色を固定すると同じ緑が復習を指す日ができて意味が濁る。
@@ -1407,7 +1407,7 @@ function renderHero() {
   if (dueOn) {
     p2.href = 'study.html'; _setCtaLabel(p2, '📚 全科目から選ぶ →');
   } else {
-    _setCtaLabel(p2, '🔔 今日の復習はなし');
+    _setCtaLabel(p2, '♾️ 定着プロトコル 完了');
     p2.removeAttribute('href');   // due 0 で起動すると通知だけ出して通常閲覧に戻るため、押させない
   }
   p2.dataset.fx = dueOn ? 'browse' : 'srs';

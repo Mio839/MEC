@@ -5676,7 +5676,7 @@ function showExamSummary() {
   document.querySelectorAll('#examOverlay .exam-rank-stamp, #examOverlay .exam-srs-done, #examOverlay .exam-srs-continue, #examOverlay .exam-boss-res, #examOverlay .exam-ward-res').forEach(el => el.remove());
   const titleEl = document.querySelector('#examOverlay h2');
   if (titleEl) titleEl.innerHTML =
-    _srsReviewMode  ? '🔔 <span class="grad-txt">復習セッション結果</span>' :
+    _srsReviewMode  ? '♾️ <span class="grad-txt">定着プロトコルの結果</span>' :
     _todayWrongMode ? '🔁 <span class="grad-txt">今日の誤答 再履修の結果</span>' :
     _bossMode === true ? '🏛️ <span class="grad-txt">統合カンファレンスの結果</span>' :
     _bossMode ? '🏛️ <span class="grad-txt">統合カンファレンス 再検討の結果</span>' :
@@ -5923,7 +5923,7 @@ function showExamSummary() {
     const note = document.getElementById('sumFlagNote');
     if (note) {
       note.insertAdjacentHTML('beforebegin',
-        '<div class="exam-srs-done">🔔 今日の復習、完了！' +
+        '<div class="exam-srs-done">♾️ 本日のプロトコル、完了' +
         '<span>' + examAnswered + '問すべて消化しました' +
         (_rest > 0 ? ' ／ 残り ' + _rest + '問' : '') + '</span></div>');
       // E1: 完了バナーの直後に「次に戻ってくる日」の分布を出す
@@ -5934,7 +5934,7 @@ function showExamSummary() {
       if (btn && btn.parentNode) {
         const cont = document.createElement('button');
         cont.className = 'exam-review-btn exam-srs-continue';
-        cont.textContent = '🔔 続けて次の' + Math.min(_rest, 50) + '問';
+        cont.textContent = '♾️ 続けて次の' + Math.min(_rest, 50) + '問';
         cont.onclick = () => { _closeSummaryOverlayOnly(); setTimeout(() => window.startSRSReview?.(), 120); };
         btn.parentNode.insertBefore(cont, btn);
       }

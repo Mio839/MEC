@@ -420,7 +420,7 @@ html.op-fx .op-medal.hit{animation:opPop .5s cubic-bezier(.3,1.7,.5,1) both;anim
     rows.push('<div class="op-row" style="--i:0"><span class="ic">🎯</span><span class="tx">今日の目標 <b>' + _fmt(t.goal.target) + '問</b>' + (t.goal.count ? '（すでに ' + _fmt(t.goal.count) + '問）' : '') + '</span></div>');
     rows.push('<div class="op-row" style="--i:1"><span class="ic">🔔</span><span class="tx">' + (t.due ? '復習待ち <b>' + _fmt(t.due) + '問</b>。忘れる前に取り返そう。' : '今日の復習はなし。新しい問題へ攻めよう。') + '</span></div>');
     t.core.forEach((m, i) => rows.push('<div class="op-row" style="--i:' + (i + 2) + '"><span class="ic">' + m.icon + '</span><span class="tx">' + _esc(m.label) + '</span></div>'));
-    const go = t.due ? '<a class="op-go" href="study.html?mode=srs_review">🔔 復習 ' + _fmt(t.due) + '問からはじめる</a>' : '';
+    const go = t.due ? '<a class="op-go" href="study.html?mode=srs_review">♾️ 定着プロトコル ' + _fmt(t.due) + '問</a>' : '';
     return '<div class="op-kick"><b>TODAY\'S BRIEFING</b><span>' + jaDate(t.today) + '</span></div>' +
       '<div class="op-ttl">今日のブリーフィング</div>' + cnt + rows.join('') +
       '<div class="op-line">' + _esc(lineFor(t.today, t.daysLeft)) + '</div>' + go;
