@@ -1256,18 +1256,23 @@
             },
             {
               "cls": "ep",
-              "h": "🩸 Mallory-Weiss症候群",
-              "c": "<span class=\"kw\">Mallory-Weiss症候群</span>：<br/>激しい嘔吐（飲酒後が多い）→ 食道内圧急上昇 → <span class=\"kw\">食道胃接合部（小弯側）の粘膜・粘膜下層の縦走裂傷</span><br/>→ 吐血（鮮血〜コーヒー残渣様）<br/><br/><span class=\"kw\">a正：自然治癒する</span><br/>・約80〜90%は自然止血（輸液・制酸薬のみで治癒）<br/>・再出血は少ない<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ b「裂創は横走する」→<span class=\"kw4\">縦走する</span>（嘔吐時の縦方向の力で縦裂傷）<br/>✗ c「壁全層に及ぶ」→粘膜・粘膜下層のみ（Boerhaaveは全層）<br/>✗ d「胃大彎側に好発」→<span class=\"kw4\">小彎側・後壁</span>（食道胃接合部）<br/>✗ e「十二指腸にも病変」→食道胃接合部限局"
+              "h": "🌿 Mallory-Weiss 症候群——噴門の粘膜が縦に裂ける",
+              "c": "<span class=\"kw3\"><b>嘔吐の瞬間、胃の上部が急に膨らんで胸腔側へ押し上げられ、食道胃接合部の粘膜が縦方向に引き伸ばされる</b></span>。<span class=\"kw4\"><b>伸びに弱い粘膜が縦に裂け、粘膜下の血管から出血する</b></span>。<br/><span class=\"kw\"><b>① 典型像</b></span><br/><span class=\"kw3\"><b>大量飲酒の後の嘔吐、つわり、乗り物酔い、内視鏡中のえずき</b></span><br/><span class=\"kw4\"><b>何度か吐いた後に、鮮血の吐血——最初の嘔吐には血が混じらないことが多い</b></span><br/><span class=\"kw3\"><b>食道裂孔ヘルニアがあると起こりやすい</b></span><br/><span class=\"kw\"><b>② 病変</b></span><br/><span class=\"kw4\"><b>食道胃接合部の、主に胃側（噴門部）の小弯側に、縦走する裂創が1〜数本</b></span><br/><span class=\"kw3\"><b>深さは粘膜〜粘膜下層</b></span><br/><span class=\"kw\"><b>③ 経過と治療</b></span><br/><span class=\"kw4\"><b>多く（8〜9割）は自然に止血し、数日で治る</b></span><br/><span class=\"kw3\"><b>絶食・輸液・酸分泌抑制薬</b></span><br/><span class=\"kw3\"><b>内視鏡で活動性の出血・露出血管があれば、クリップで裂創を閉じる（裂創を縫い合わせるように留める）</b></span><br/><span class=\"kw3\"><b>まれに大量出血でショックになる——肝硬変・凝固異常の人</b></span><br/><span class=\"kw\"><b>④ Boerhaave 症候群との違い（Q.101）</b></span><br/><span class=\"kw3\"><b>Mallory-Weiss：粘膜の裂創・吐血・噴門・自然に治る</b></span><br/><span class=\"kw3\"><b>Boerhaave：全層の破裂・胸痛と胸水・下部食道の左後壁・緊急手術</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　自然治癒する。</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>浅い粘膜の裂創で、多くは自然に止血し治る</b></span>。</td></tr><tr><td>ｂ　裂創は横走する。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>嘔吐で縦方向に引き伸ばされるので、縦に裂ける</b></span>。</td></tr><tr><td>ｃ　病変は壁全層に及ぶ。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>粘膜〜粘膜下層まで</b></span>。<span class=\"kw3\"><b>全層の破裂は Boerhaave 症候群</b></span>。</td></tr><tr><td>ｄ　胃大彎側に好発する。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道胃接合部の小弯側に多い</b></span>。</td></tr><tr><td>ｅ　十二指腸にも病変が存在する。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>病変は食道胃接合部に限られる</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 「吐いた後に吐血」——裂創・静脈瘤・潰瘍・AGML を見分ける",
+              "c": "<span class=\"kw4\"><b>嘔吐の後の吐血は Mallory-Weiss が典型だが、飲酒者では静脈瘤や潰瘍も同じ状況で起こる——内視鏡で確かめる</b></span>。<br/><span class=\"kw\"><b>① Mallory-Weiss 症候群</b></span><br/><span class=\"kw3\"><b>何度か吐いた後の鮮血。循環は保たれていることが多い</b></span><br/><span class=\"kw\"><b>② 食道静脈瘤の破裂（Q.94）</b></span><br/><span class=\"kw3\"><b>肝硬変の徴候（脾腫・血小板減少・黄疸・腹水）</b></span><br/><span class=\"kw4\"><b>大量の吐血でショックになりやすい——内視鏡の前から予防的抗菌薬・血管作動薬</b></span><br/><span class=\"kw\"><b>③ 消化性潰瘍の出血（Q.100）</b></span><br/><span class=\"kw3\"><b>心窩部痛の既往、NSAIDs の内服。コーヒー残渣様の吐物・タール便</b></span><br/><span class=\"kw\"><b>④ 急性胃粘膜病変〈AGML〉（Q.107）</b></span><br/><span class=\"kw3\"><b>飲酒・NSAIDs・ストレスの後の、急な心窩部痛と吐血</b></span><br/><span class=\"kw\"><b>⑤ 吐血に見えるもの</b></span><br/><span class=\"kw3\"><b>喀血（泡を含む鮮紅色・アルカリ性・咳とともに）、鼻出血を飲み込んだもの</b></span><br/><span class=\"kw\"><b>⑥ 内視鏡のタイミング</b></span><br/><span class=\"kw3\"><b>循環を安定させてから、24時間以内（静脈瘤を疑えば12時間以内）</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">Mallory-Weiss = 嘔吐後の食道胃接合部縦走裂傷 → 多くは自然止血</span><br/>Boerhaave（全層破裂）との違い：壁全層でない→縦隔炎・胸水は起こらない。"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "Mallory-Weiss症候群について正しいもの。<br/><b>b 裂創は横走（縦走）／c 全層に及ぶ／d 大彎に好発／e 十二指腸にも病変</b>：誤り。<br/><b>a 自然治癒する</b>：<span class=\"kw\">浅い粘膜裂傷で多くは自然止血</span>。✓"
+              "c": "<span class=\"kw4\"><b>Mallory-Weiss 症候群＝嘔吐による食道胃接合部（小弯側）の縦走する粘膜の裂創</b></span>。<br/><span class=\"kw3\"><b>深さは粘膜〜粘膜下層。全層なら Boerhaave 症候群</b></span>。<br/><span class=\"kw4\"><b>多くは自然に止血し治る。活動性出血ならクリップ</b></span>。<br/><span class=\"kw3\"><b>何度か吐いた後の鮮血の吐血。飲酒が誘因</b></span>。<br/><span class=\"kw3\"><b>飲酒者の吐血では静脈瘤・潰瘍・AGML も内視鏡で区別する</b></span>。"
             }
           ],
           "imgs": []

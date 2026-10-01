@@ -7367,22 +7367,27 @@
             }
           ],
           "ans_label": "ｃ　尿素窒素",
-          "ans_sub": "上部消化管出血（タール便）→ヘモグロビンが腸内で分解→アミノ酸→肝でBUN生成→BUN↑（腸管性氮素血症）。",
+          "ans_sub": "タール便は上部消化管出血のしるし。腸管内に流れた大量の血液の蛋白が消化・吸収されてアミノ酸になり、肝で尿素に変わる。出血による循環血液量の減少（腎前性）も加わって、<b>尿素窒素〈BUN〉が上がる</b>。クレアチニンは筋肉からできるので変わらず、BUN/Cr 比が上がる。LD は溶血・組織障害、ALP は胆汁うっ滞・骨の病気で上がり、アルブミンは出血・輸液でむしろ下がる。",
           "eg": [
             {
               "cls": "ep",
-              "h": "🩸 タール便とBUN上昇",
-              "c": "<span class=\"kw\">腸管性窒素血症（Prerenal azotemia）</span>：<br/>上部消化管出血 → 血液（ヘモグロビン）が腸管内に流入<br/>→ 消化・吸収 → アミノ酸 → 肝で尿素に変換 →<span class=\"kw\">BUN↑</span><br/>→ クレアチニンは変化なし → BUN/Cr比上昇（&gt;20：上部消化管出血を示唆）<br/><br/><span class=\"kw4\">他の選択肢</span>：<br/>✗ aLD：溶血・肝細胞障害で上昇（タール便とは無関係）<br/>✗ bALP：閉塞性黄疸・肝転移で上昇<br/>✗ dアルブミン：慢性肝疾患・低栄養で低下<br/>✗ eクレアチニン：腎機能の指標（GI出血では変化少）"
+              "h": "🌿 BUN が上がる理由——「食べた蛋白」と「腎血流」の2つ",
+              "c": "<span class=\"kw3\"><b>BUN は、蛋白質の分解でできたアンモニアが肝で尿素になったもので、腎から排泄される</b></span>。<span class=\"kw4\"><b>上がるのは「作られる量が増える」か「腎から出にくくなる」か</b></span>。<br/><span class=\"kw\"><b>① 上部消化管出血で BUN が上がるしくみ</b></span><br/><span class=\"kw4\"><b>腸管内の血液（血液100mL に蛋白約20g）が消化・吸収される——大量の高蛋白食を食べたのと同じ</b></span><br/><span class=\"kw3\"><b>出血で腎血流が減り、尿素の排泄が減る（腎前性）</b></span><br/><span class=\"kw4\"><b>クレアチニンは筋肉の量で決まり、出血では変わらない → BUN/Cr 比が上がる（30 以上なら上部消化管出血を強く示唆）</b></span><br/><span class=\"kw3\"><b>下部消化管の出血では、血液が吸収される前に排出されるので、BUN はあまり上がらない</b></span><br/><span class=\"kw\"><b>② 作られる量が増える、ほかの原因</b></span><br/><span class=\"kw3\"><b>高蛋白食・高カロリー輸液、異化の亢進（発熱・感染・手術・熱傷）、副腎皮質ステロイド、テトラサイクリン</b></span><br/><span class=\"kw\"><b>③ 出にくくなる原因</b></span><br/><span class=\"kw3\"><b>腎前性（脱水・心不全）：BUN/Cr 比が上がる</b></span><br/><span class=\"kw3\"><b>腎性（腎不全）：BUN・Cr ともに上がり、比はほぼ変わらない</b></span><br/><span class=\"kw3\"><b>腎後性（尿路の閉塞）</b></span><br/><span class=\"kw\"><b>④ BUN が下がる原因</b></span><br/><span class=\"kw3\"><b>低蛋白食、重い肝不全（尿素を作れない）、妊娠、多尿</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　LD</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>溶血・心筋や肝の障害・悪性腫瘍で上がる</b></span>。<span class=\"kw3\"><b>消化管出血で特徴的には上がらない</b></span>。</td></tr><tr><td>ｂ　ALP</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胆汁うっ滞・骨の病気（骨転移・骨軟化症）・成長期で上がる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　尿素窒素</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>腸管内の血液の蛋白の吸収と、腎血流の減少で上がる</b></span>。</td></tr><tr><td>ｄ　アルブミン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>出血で失われ、輸液で薄まって下がる</b></span>。</td></tr><tr><td>ｅ　クレアチニン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>筋肉の量で決まり、上部消化管出血だけでは変わらない</b></span>。<span class=\"kw2\"><b>大量出血で急性腎障害になれば上がる</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 出血の後の検査値の動き——止まったか、続いているかを読む",
+              "c": "<span class=\"kw4\"><b>消化管出血の経過は、症状だけでなく検査値の推移で判断する</b></span>。<br/><span class=\"kw\"><b>① BUN</b></span><br/><span class=\"kw3\"><b>出血から24時間前後で最も高くなる</b></span><br/><span class=\"kw4\"><b>出血が止まると、1〜2日で正常に戻っていく——BUN が上がり続ける・再び上がるなら出血が続いている・再出血</b></span><br/><span class=\"kw\"><b>② Hb</b></span><br/><span class=\"kw3\"><b>出血の直後は下がらず、数時間〜1日で血液が薄まって下がる（Q.98）</b></span><br/><span class=\"kw3\"><b>輸血の後に Hb が上がらない・下がり続けるなら出血が続いている</b></span><br/><span class=\"kw\"><b>③ 網赤血球</b></span><br/><span class=\"kw3\"><b>出血から数日で骨髄が反応して増え、1週間前後で最も多くなる</b></span><br/><span class=\"kw\"><b>④ 鉄</b></span><br/><span class=\"kw3\"><b>急な出血では、初めは正球性。慢性の失血が続くと鉄欠乏で小球性になる（Q.92）</b></span><br/><span class=\"kw\"><b>⑤ 血小板・白血球</b></span><br/><span class=\"kw3\"><b>出血の後に反応性に増えることがある</b></span><br/><span class=\"kw\"><b>⑥ 臨床の指標</b></span><br/><span class=\"kw3\"><b>新たな吐血・タール便・血便、頻脈・血圧低下、胃管からの血性排液——再出血のしるし</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">タール便（上部GI出血）→ BUN↑・クレアチニン正常 → BUN/Cr比上昇</span><br/>BUN/Cr&gt;20：上部消化管出血を強く示唆。"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "タール便（上部消化管出血）で高値を示す検査。<br/><b>a LD／b ALP／d アルブミン／e クレアチニン</b>：特徴的に上昇しない。<br/><b>c 尿素窒素</b>：<span class=\"kw\">腸管内の血液が吸収されBUNが上昇</span>。✓"
+              "c": "<span class=\"kw4\"><b>タール便（上部消化管出血）→ BUN↑（血液の蛋白の吸収＋腎前性）、Cr は不変 → BUN/Cr 比↑</b></span>。<br/><span class=\"kw3\"><b>下部消化管出血では BUN はあまり上がらない</b></span>。<br/><span class=\"kw3\"><b>BUN が下がらない・再上昇は出血の持続・再出血</b></span>。<br/><span class=\"kw3\"><b>腎前性は BUN/Cr 比↑、腎性は両方↑で比は不変</b></span>。<br/><span class=\"kw3\"><b>ほかの BUN 上昇：高蛋白食・異化亢進・ステロイド・テトラサイクリン</b></span>。"
             },
             {
               "cls": "ept",
