@@ -9784,22 +9784,27 @@
       }
      ],
      "ans_label": "ａ　萎縮性胃炎\nｄ　胃MALT リンパ腫",
-     "ans_sub": "H.pyloriは慢性胃炎→萎縮性胃炎→胃癌のカスケードを引き起こし、MALTリンパ腫の原因でもある。",
+     "ans_sub": "H. pylori の長い感染は、慢性胃炎から<b>萎縮性胃炎</b>へ進み、その萎縮した粘膜から胃癌ができやすくなる。また、胃粘膜に集まったリンパ球が腫瘍化して<b>胃 MALT リンパ腫</b>になる。胃アニサキス症は生魚の寄生虫、ダンピング症候群は胃切除の後に食物が急に小腸へ流れ込むこと、Mallory-Weiss 症候群は嘔吐による食道胃接合部の裂創で、いずれも H. pylori とは関係しない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🦠 H.pylori感染関連疾患",
-       "c": "<table class=\"tb\"><tr><th>疾患</th><th>H.pyloriとの関連</th></tr><tr><td>疾患</td><td>H.pyloriとの関連</td></tr><tr><td><span class=\"kw\">萎縮性胃炎（a）</span></td><td><span class=\"kw\">関連</span>：Hp慢性感染→胃体部萎縮性胃炎（Correa cascade）</td></tr><tr><td>慢性胃炎・消化性潰瘍</td><td><span class=\"kw\">関連</span>：最も多い関連疾患</td></tr><tr><td><span class=\"kw\">胃MALTリンパ腫（d）</span></td><td><span class=\"kw\">関連</span>：Hp慢性刺激→B細胞腫瘍化</td></tr><tr><td>早期胃癌</td><td><span class=\"kw\">関連</span>：Hp→萎縮→腸上皮化生→癌</td></tr><tr><td><span class=\"kw4\">胃アニサキス症（b）</span></td><td><span class=\"kw4\">非関連</span>（生魚摂取が原因）</td></tr><tr><td><span class=\"kw4\">ダンピング症候群（c）</span></td><td><span class=\"kw4\">非関連</span>（胃切除後の術後合併症）</td></tr><tr><td><span class=\"kw4\">Mallory-Weiss症候群（e）</span></td><td><span class=\"kw4\">非関連</span>（嘔吐による機械的損傷）</td></tr></table>"
+       "h": "🌿 同じ菌から十二指腸潰瘍と胃癌——胃炎の広がり方で行き先が分かれる",
+       "c": "<span class=\"kw3\"><b>除菌の適応となる病気は Q.129 で見た</b></span>。<span class=\"kw4\"><b>ここでは、H. pylori がなぜ正反対に見える病気（酸が多い十二指腸潰瘍と、酸が少ない胃癌）の両方を起こすのかを考える</b></span>。<br/><span class=\"kw\"><b>① 前庭部が主な胃炎</b></span><br/><span class=\"kw3\"><b>前庭部の炎症でソマトスタチンが減り、ガストリンが増える → 体部の壁細胞から胃酸が多く出る</b></span><br/><span class=\"kw4\"><b>十二指腸に酸が多く流れ込み、十二指腸潰瘍になる——若い人に多い</b></span><br/><span class=\"kw3\"><b>このタイプは胃癌になりにくい</b></span><br/><span class=\"kw\"><b>② 体部へ広がる胃炎（萎縮性胃炎）</b></span><br/><span class=\"kw3\"><b>壁細胞が減って胃酸が少なくなる</b></span><br/><span class=\"kw4\"><b>胃潰瘍・胃癌（特に分化型）ができやすい——中高年に多い</b></span><br/><span class=\"kw\"><b>③ 胃癌への道筋（Correa の仮説）</b></span><br/><span class=\"kw3\"><b>慢性活動性胃炎 → 萎縮性胃炎 → 腸上皮化生 → 異形成 → 分化型の胃癌</b></span><br/><span class=\"kw3\"><b>未分化型の胃癌は萎縮のない粘膜からも、炎症の強い胃から直接できる</b></span><br/><span class=\"kw\"><b>④ MALT リンパ腫</b></span><br/><span class=\"kw3\"><b>本来リンパ組織のない胃粘膜に、感染でリンパ組織ができ、B 細胞が腫瘍化する（Q.91）</b></span><br/><span class=\"kw\"><b>⑤ 除菌の時期</b></span><br/><span class=\"kw4\"><b>萎縮が進む前に除菌するほど、胃癌を防ぐ効果が大きい</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　萎縮性胃炎</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>H. pylori の長い感染で胃底腺が減り、粘膜が薄くなる</b></span>。</td></tr><tr><td>ｂ　胃アニサキス症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>生魚に寄生するアニサキスの幼虫が胃壁に刺さる（Q.139）</b></span>。</td></tr><tr><td>ｃ　ダンピング症候群</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃切除の後、食物が急に小腸へ流れ込んで起こる（Q.125）</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　胃MALT リンパ腫</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>除菌で寛解することが多い</b></span>。</td></tr><tr><td>ｅ　Mallory-Weiss 症候群</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>嘔吐による食道胃接合部の粘膜の裂創（Q.105）</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 胃の外の病気と H. pylori——関係が「ある」「ない」「逆」",
+       "c": "<span class=\"kw4\"><b>H. pylori は胃の外の病気とも関係が議論されている——確かなものと、逆の関係があるものを分ける</b></span>。<br/><span class=\"kw\"><b>① 関係が確かなもの</b></span><br/><span class=\"kw3\"><b>特発性血小板減少性紫斑病〈ITP〉：除菌で血小板が増える人がいる——保険で除菌できる</b></span><br/><span class=\"kw3\"><b>鉄欠乏性貧血（特に小児・思春期）：鉄の吸収が落ちる。鉄剤で治りにくい鉄欠乏で H. pylori を調べる</b></span><br/><span class=\"kw\"><b>② 関係が考えられているもの</b></span><br/><span class=\"kw3\"><b>慢性蕁麻疹の一部</b></span><br/><span class=\"kw\"><b>③ 逆の関係（感染があるほうが少ない）</b></span><br/><span class=\"kw4\"><b>逆流性食道炎・Barrett 食道・食道腺癌——体部の胃炎で酸が少ないと逆流の害が小さい</b></span><br/><span class=\"kw3\"><b>好酸球性食道炎</b></span><br/><span class=\"kw3\"><b>除菌の後に逆流性食道炎が出てくることがあるのはこのため（Q.129）</b></span><br/><span class=\"kw\"><b>④ 考え方</b></span><br/><span class=\"kw3\"><b>逆流性食道炎が増えることを理由に除菌をやめることはない——胃癌を防ぐ利益のほうが大きい</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">Hp関連：萎縮性胃炎・消化性潰瘍・MALTリンパ腫・胃癌・ITP</span><br/><span class=\"kw4\">Hp非関連：Mallory-Weiss・ダンピング症候群・アニサキス</span>"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "Helicobacter pylori感染が原因となるものを2つ。<br/><b>b 胃アニサキス症／c ダンピング症候群／e Mallory-Weiss症候群</b>：無関係。<br/><b>a 萎縮性胃炎</b>：<span class=\"kw\">H.pylori慢性感染による萎縮</span>。✓<br/><b>d 胃MALTリンパ腫</b>：<span class=\"kw\">H.pylori感染が原因</span>。✓"
+       "c": "<span class=\"kw4\"><b>H. pylori が原因：慢性胃炎・萎縮性胃炎・胃潰瘍・十二指腸潰瘍・胃癌・胃 MALT リンパ腫</b></span>。<br/><span class=\"kw3\"><b>前庭部の胃炎 → 酸が多い → 十二指腸潰瘍。体部へ広がる萎縮 → 酸が少ない → 胃潰瘍・胃癌</b></span>。<br/><span class=\"kw3\"><b>Correa：胃炎 → 萎縮 → 腸上皮化生 → 異形成 → 分化型胃癌</b></span>。<br/><span class=\"kw3\"><b>胃の外では ITP・鉄欠乏性貧血と関係。逆流性食道炎とは逆の関係</b></span>。<br/><span class=\"kw3\"><b>アニサキス・ダンピング症候群・Mallory-Weiss とは無関係</b></span>。"
       }
      ],
      "imgs": []
@@ -9845,22 +9850,27 @@
       }
      ],
      "ans_label": "ｄ　非ステロイド性抗炎症薬〈NSAIDs〉の内服歴",
-     "ans_sub": "NSAIDs使用中の高齢者に黒色便→NSAIDs潰瘍出血が最も可能性が高い。使用薬剤の確認が最重要。",
+     "ans_sub": "内視鏡像（A）では、前庭部に大きさのそろわない浅い潰瘍が<b>多発</b>し、底に黒い付着物（ヘマチン：酸で変色した血液）がある。（B）では不整形の大きな潰瘍の底に黒い凝血塊が付き、その縁から少し出血している。2年間、腰痛で診療所の治療を受けている78歳——<b>NSAIDs の内服歴</b>を最も重視する。胃がん検診歴・下部消化管の検査歴・癌の家族歴は、今の出血の原因の推定に直結しない。H. pylori の除菌歴は潰瘍の原因として確かめる価値はあるが、多発する潰瘍と腰痛の治療の組み合わせでは NSAIDs が最も疑わしい。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 NSAIDs使用と消化管出血",
-       "c": "<span class=\"kw\">d NSAIDs内服歴（正答）</span>：<br>・NSAIDs服用→消化管潰瘍出血リスク3〜5倍増<br>・高齢者・H.pylori陽性・高用量NSAIDs→さらにリスク高<br/>・黒色便（メレナ）→上部消化管出血→原因として最優先で確認<br/><br/><span class=\"kw4\">他の確認事項の優先度</span>：<br/>・胃がん検診歴：有用だが今回の急性出血原因としてNSAIDsが最優先<br/>・除菌歴：H.pylori関連だが、NSAIDsが明らかな原因候補</br></br>"
+       "h": "🌿 NSAIDs 潰瘍の「顔つき」——多発・浅い・前庭部・症状が乏しい",
+       "c": "<span class=\"kw3\"><b>見落とされやすい NSAIDs と危険因子は Q.139 で見た</b></span>。<span class=\"kw4\"><b>ここでは、内視鏡像と経過から NSAIDs 潰瘍を疑う手がかりを整理する</b></span>。<br/><span class=\"kw\"><b>① 内視鏡像</b></span><br/><span class=\"kw3\"><b>前庭部に、大きさ・形のそろわない浅い潰瘍やびらんが多発する</b></span><br/><span class=\"kw3\"><b>周りの粘膜の炎症や腫れが乏しいことが多い</b></span><br/><span class=\"kw3\"><b>H. pylori の潰瘍は、胃角部に単発で、周りに胃炎（萎縮）を伴うことが多い</b></span><br/><span class=\"kw\"><b>② 経過</b></span><br/><span class=\"kw4\"><b>痛みが乏しく、出血（黒色便・貧血）で初めて見つかることが多い——NSAIDs の鎮痛作用で痛みが隠れる</b></span><br/><span class=\"kw3\"><b>高齢者ほどこの傾向が強い</b></span><br/><span class=\"kw\"><b>③ 本例の所見</b></span><br/><span class=\"kw3\"><b>A：前庭部の多発潰瘍、底に黒いヘマチン</b></span><br/><span class=\"kw3\"><b>B：大きな不整形の潰瘍に凝血塊が付着し、縁からにじむ出血——再出血の危険があり、内視鏡的止血の対象</b></span><br/><span class=\"kw\"><b>④ 対応</b></span><br/><span class=\"kw3\"><b>内視鏡的止血 → PPI → NSAIDs を中止・変更（腰痛の治療は整形外科と相談）</b></span><br/><span class=\"kw3\"><b>H. pylori も調べ、陽性なら除菌</b></span><br/><span class=\"kw3\"><b>不整形の潰瘍は、癌を否定するため生検と治った後の確認を行う</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胃がん検診の受診歴</td><td><span class=\"kw4\">誤り</span>（最も重視すべきではない）。<span class=\"kw3\"><b>多発する浅い潰瘍は癌より NSAIDs 潰瘍らしい</b></span>。<span class=\"kw2\"><b>不整形の潰瘍は生検で癌を否定する</b></span>。</td></tr><tr><td>ｂ　下部消化管の検査歴</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>出血源は内視鏡で胃に見つかっている</b></span>。</td></tr><tr><td>ｃ　癌の家族歴</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>今の出血の原因の推定に直結しない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　非ステロイド性抗炎症薬〈NSAIDs〉の内服歴</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>腰痛の治療で長く NSAIDs を飲んでいる可能性が高い</b></span>。</td></tr><tr><td>ｅ　Helicobacter pylori 除菌歴</td><td><span class=\"kw4\">誤り</span>（最も重視すべきではない）。<span class=\"kw3\"><b>潰瘍の原因として確かめる価値はある</b></span>。<span class=\"kw3\"><b>ただし多発する前庭部の潰瘍と腰痛の治療から、まず NSAIDs を疑う</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 NSAIDs は小腸・大腸も傷つける",
+       "c": "<span class=\"kw4\"><b>NSAIDs の害は胃・十二指腸にとどまらない——カプセル内視鏡の普及で、小腸の障害が多いことが分かった</b></span>。<br/><span class=\"kw\"><b>① 小腸の障害</b></span><br/><span class=\"kw3\"><b>長く飲む人の半数以上に、小腸のびらん・潰瘍が見つかるとされる</b></span><br/><span class=\"kw3\"><b>しくみ：胆汁と一緒に腸へ出た NSAIDs と腸内細菌が粘膜を傷つける——胃酸ではないので PPI では防げない</b></span><br/><span class=\"kw3\"><b>鉄欠乏性貧血・便潜血陽性で、上下部の内視鏡で異常がない（Q.7）</b></span><br/><span class=\"kw\"><b>② 膜様狭窄（diaphragm disease）</b></span><br/><span class=\"kw4\"><b>小腸に、薄い膜が輪のように張り出した狭窄が多発する——NSAIDs に特徴的</b></span><br/><span class=\"kw3\"><b>腸閉塞やカプセル内視鏡の滞留を起こす</b></span><br/><span class=\"kw\"><b>③ 大腸の障害</b></span><br/><span class=\"kw3\"><b>右側結腸の潰瘍、腸炎、憩室出血の増加</b></span><br/><span class=\"kw\"><b>④ 検査と治療</b></span><br/><span class=\"kw3\"><b>カプセル内視鏡・小腸内視鏡</b></span><br/><span class=\"kw3\"><b>NSAIDs の中止が基本。ミソプロストールが効くことがある</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">黒色便＋NSAIDs使用中 → NSAIDs潰瘍出血が最有力</span><br/>NSAIDsの消化管合併症：潰瘍（上部GI）&gt;下部GI出血。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "消化性潰瘍出血で最も重視すべき病歴。<br/><b>a 胃がん検診歴／b 下部消化管検査歴／c 癌の家族歴／e 除菌歴</b>：本例で最重要でない。<br/><b>d NSAIDsの内服歴</b>：<span class=\"kw\">NSAIDsは潰瘍・出血の主要原因</span>。✓"
+       "c": "<span class=\"kw4\"><b>高齢者の黒色便＋多発する前庭部の浅い潰瘍 → NSAIDs の内服歴を確かめる</b></span>。<br/><span class=\"kw3\"><b>NSAIDs 潰瘍は痛みが乏しく、出血で見つかる</b></span>。<br/><span class=\"kw3\"><b>黒い付着物はヘマチン（酸で変色した血液）</b></span>。<br/><span class=\"kw3\"><b>NSAIDs は小腸も傷つける——PPI で防げない。膜様狭窄が特徴的</b></span>。<br/><span class=\"kw3\"><b>不整形の潰瘍は生検で癌を否定する</b></span>。"
       }
      ],
      "imgs": [
@@ -9909,17 +9919,27 @@
       }
      ],
      "ans_label": "ｄ　直　腸",
-     "ans_sub": "高齢女性の貧血精査では消化管出血（大腸癌等）を検索するために直腸指診が最優先。",
+     "ans_sub": "2週前からの頻脈、労作時の息切れ、眼瞼結膜の蒼白、胸骨左縁の収縮期雑音（貧血による機能性雑音）——貧血の症状。便は5日に1回で<b>黒色調</b>——上部消化管、または通過の遅い右側結腸からの出血が疑われる。最も重要なのは<b>直腸の診察（直腸指診）</b>で、指に付いた便の色を確かめ、便潜血を調べ、直腸の腫瘤を探す。上肢・乳房・脊柱・下肢の診察は、貧血と黒色便の原因の手がかりにならない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🩺 貧血患者の身体診察",
-       "c": "<span class=\"kw\">d直腸指診（正答）</span>：<br>・高齢者の貧血 → 消化管出血（大腸癌・痔核・潰瘍）を除外<br>・直腸指診：便の色（タール便・血便）・直腸腫瘤の確認<br/><br/><span class=\"kw4\">他の診察部位との比較</span>：<br/>✗ a上肢：神経症状で検査（貧血の直接原因でない）<br/>✗ b乳房：乳癌の確認→貧血への影響は少ない<br/>✗ c脊柱：骨転移・脊椎疾患→今回は消化管出血が最優先候補<br/>✗ e下肢：浮腫・DVT→貧血の精査として優先度低</br></br>"
+       "h": "🌿 貧血の症状が出るしくみ——ゆっくり進むと Hb が低くても耐えられる",
+       "c": "<span class=\"kw3\"><b>貧血の患者の診察で見る場所は Q.134 で見た</b></span>。<span class=\"kw4\"><b>ここでは、本例の頻脈・息切れ・心雑音が、なぜ貧血で起こるのかを考える</b></span>。<br/><span class=\"kw\"><b>① 酸素を運ぶ力が落ちると</b></span><br/><span class=\"kw3\"><b>心拍数と1回拍出量を増やして、運ぶ血液の量で補う → 頻脈・動悸</b></span><br/><span class=\"kw3\"><b>労作で酸素の需要が増えると補いきれず、息切れ</b></span><br/><span class=\"kw\"><b>② 機能性の心雑音</b></span><br/><span class=\"kw3\"><b>血液が薄く（粘稠度が低く）、速く流れるため、駆出性の収縮期雑音が聞こえる</b></span><br/><span class=\"kw3\"><b>特徴：収縮期のみ、Levine Ⅱ度以下が多い、スリルを触れない、貧血が治れば消える</b></span><br/><span class=\"kw4\"><b>拡張期雑音や Ⅲ度以上なら器質的な心疾患を考えて心エコー</b></span><br/><span class=\"kw\"><b>③ ゆっくり進む貧血</b></span><br/><span class=\"kw3\"><b>赤血球の 2,3-DPG が増えて、ヘモグロビンが組織で酸素を離しやすくなる</b></span><br/><span class=\"kw3\"><b>循環血漿量が増えて代償する</b></span><br/><span class=\"kw4\"><b>そのため Hb がかなり低くなるまで症状が出にくい——慢性の出血は気づかれにくい</b></span><br/><span class=\"kw\"><b>④ 急な出血</b></span><br/><span class=\"kw3\"><b>代償が間に合わず、Hb が下がる前に頻脈・血圧低下・起立時のふらつきが出る（Q.149）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　上　肢</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>貧血と黒色便の原因の手がかりにならない</b></span>。</td></tr><tr><td>ｂ　乳　房</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>今の病態と結びつかない</b></span>。</td></tr><tr><td>ｃ　脊　柱</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>骨転移・骨髄腫による貧血を考える場面もあるが、黒色便がある本例では直腸が先</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　直　腸</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>便の色、便潜血、直腸の腫瘤を確かめる</b></span>。</td></tr><tr><td>ｅ　下　肢</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>浮腫・深部静脈血栓症の評価には役立つが、原因の手がかりにならない</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "消化管出血が疑われる患者で最も重要な診察部位。<br/><b>a 上肢／b 乳房／c 脊柱／e 下肢</b>：優先でない。<br/><b>d 直腸</b>：<span class=\"kw\">直腸指診でメレナを確認</span>。✓"
+       "h": "🔍 「黒い便」は本当に血か——偽の黒色便と便潜血の落とし穴",
+       "c": "<span class=\"kw4\"><b>黒い便がすべて出血ではない。また、便潜血検査の種類によっては上部消化管の出血を見逃す</b></span>。<br/><span class=\"kw\"><b>① 出血による黒色便（タール便）</b></span><br/><span class=\"kw3\"><b>光沢があり粘り気がある黒色、独特のにおい</b></span><br/><span class=\"kw3\"><b>上部消化管で50〜100mL 以上の出血。右側結腸からでも通過が遅ければ黒くなる</b></span><br/><span class=\"kw\"><b>② 出血でない黒い便</b></span><br/><span class=\"kw4\"><b>鉄剤・ビスマス製剤・活性炭、ブルーベリーなどの食品——光沢・粘り気がなく、便潜血は陰性</b></span><br/><span class=\"kw3\"><b>まず「鉄剤を飲んでいませんか」と聞く</b></span><br/><span class=\"kw\"><b>③ 便潜血検査の2つの方法</b></span><br/><span class=\"kw3\"><b>免疫法（大腸癌検診）：ヒトのヘモグロビンに反応——食事の肉の影響がない</b></span><br/><span class=\"kw4\"><b>ただし上部消化管の血液は胃酸と消化酵素で分解され、免疫法では陰性になりやすい</b></span><br/><span class=\"kw3\"><b>化学法（グアヤック法）：ヘモグロビンのペルオキシダーゼ様の作用で反応——上部消化管の出血も拾うが、肉・鉄剤・ビタミン C の影響を受ける</b></span><br/><span class=\"kw\"><b>④ 本例</b></span><br/><span class=\"kw3\"><b>黒色便＋貧血——便潜血が陰性でも上部・下部の内視鏡で出血源を探す</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw4\"><b>貧血＋黒色便 → 直腸指診で便の性状・便潜血・直腸の腫瘤</b></span>。<br/><span class=\"kw3\"><b>貧血の症状：頻脈・労作時の息切れ・機能性の収縮期雑音（Ⅱ度以下、スリルなし）</b></span>。<br/><span class=\"kw3\"><b>慢性の貧血は代償され、Hb がかなり低くても症状が乏しい</b></span>。<br/><span class=\"kw4\"><b>鉄剤・ビスマスでも黒い便——光沢・粘り気がなく便潜血陰性</b></span>。<br/><span class=\"kw3\"><b>免疫法の便潜血は上部消化管の出血を拾いにくい</b></span>。"
       }
      ],
      "imgs": []
@@ -9969,22 +9989,27 @@
       }
      ],
      "ans_label": "ｃ　萎縮性胃炎",
-     "ans_sub": "萎縮性胃炎の内視鏡像：胃粘膜の菲薄化・血管透見性亢進・橙赤色に対し蒼白化・腸上皮化生（白濁した点状所見）。",
+     "ans_sub": "胃体下部の小弯で、粘膜が薄く、色がくすみ、<b>粘膜の下の血管が網目状に透けて見える</b>（血管透見像）。隆起・陥凹・白苔はない——<b>萎縮性胃炎</b>。胃潰瘍は白苔を伴う陥凹、進行胃癌は不整な隆起や周堤を伴う潰瘍、胃ポリープは粘膜の隆起、胃粘膜下腫瘍はなだらかな立ち上がりで正常粘膜に覆われた隆起で、いずれも写真の所見と合わない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔭 萎縮性胃炎の内視鏡所見",
-       "c": "<span class=\"kw\">萎縮性胃炎（c正答）の内視鏡像</span>：<br>・粘膜が菲薄化・蒼白化（血管透見性↑：粘膜下の血管が透けて見える）<br/>・腸上皮化生：白色の顆粒状・扁平な白色域<br/>・木目状の細かいひだ模様が消失<br/><br/><span class=\"kw4\">鑑別</span>：<br/>✗ a胃潰瘍：白苔を持つ凹陥性病変・周囲の浮腫<br/>✗ b進行胃癌：不整な隆起・陥凹・難治性潰瘍<br/>✗ d胃ポリープ：球状・有茎性の隆起<br/>✗ e粘膜下腫瘍：粘膜に覆われた球状隆起（架橋ひだあり）</br>"
+       "h": "🌿 萎縮の広がりを内視鏡で測る——木村・竹本分類",
+       "c": "<span class=\"kw4\"><b>H. pylori 胃炎の萎縮は前庭部から始まり、小弯を上り、やがて胃全体へ広がる——その境目（萎縮境界）の位置で萎縮の程度を表す</b></span>。<br/><span class=\"kw\"><b>① 萎縮した粘膜の見え方</b></span><br/><span class=\"kw3\"><b>色が褪せて黄白色っぽい、粘膜が薄い、血管が透けて見える</b></span><br/><span class=\"kw3\"><b>萎縮していない胃底腺の粘膜は赤く、厚く、血管が見えない——境目がはっきり分かる</b></span><br/><span class=\"kw\"><b>② 木村・竹本分類</b></span><br/><span class=\"kw3\"><b>閉鎖型（C-1〜C-3）：萎縮境界が小弯にとどまる。C-1 は前庭部だけ、C-3 は体部の小弯の上の方まで</b></span><br/><span class=\"kw3\"><b>開放型（O-1〜O-3）：境界が噴門を越えて大弯側へ広がる。O-3 は胃のほぼ全体</b></span><br/><span class=\"kw4\"><b>萎縮が広いほど（開放型ほど）胃癌の危険が高い</b></span><br/><span class=\"kw\"><b>③ 本例</b></span><br/><span class=\"kw3\"><b>胃体下部の小弯に血管透見——少なくとも C-2 以上の萎縮</b></span><br/><span class=\"kw\"><b>④ ほかの所見</b></span><br/><span class=\"kw3\"><b>腸上皮化生：灰白色の小さな扁平隆起、絨毛状の模様</b></span><br/><span class=\"kw3\"><b>現在の感染のしるし：びまん性の発赤、ひだの腫れ、粘液の付着</b></span><br/><span class=\"kw3\"><b>除菌後：発赤が消え、地図状の発赤が出ることがある</b></span><br/><span class=\"kw\"><b>⑤ 対応</b></span><br/><span class=\"kw3\"><b>H. pylori を調べて除菌、定期的な内視鏡</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胃潰瘍</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>白苔を伴う陥凹がない</b></span>。</td></tr><tr><td>ｂ　進行胃癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>不整な隆起・周堤・潰瘍がない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　萎縮性胃炎</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>粘膜が薄く、血管が網目状に透けて見える</b></span>。</td></tr><tr><td>ｄ　胃ポリープ</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>粘膜の隆起がない</b></span>。</td></tr><tr><td>ｅ　胃粘膜下腫瘍</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>正常粘膜に覆われたなだらかな隆起がない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 自己免疫性胃炎——萎縮が「逆」に広がる胃炎",
+       "c": "<span class=\"kw4\"><b>萎縮性胃炎には、H. pylori によるもの（B 型）のほかに、壁細胞への自己免疫による自己免疫性胃炎（A 型）がある</b></span>。<br/><span class=\"kw\"><b>① 萎縮の分布</b></span><br/><span class=\"kw3\"><b>H. pylori 胃炎：前庭部から体部へ広がる</b></span><br/><span class=\"kw4\"><b>自己免疫性胃炎：体部・胃底部が強く萎縮し、前庭部は保たれる（逆萎縮）</b></span><br/><span class=\"kw\"><b>② 検査</b></span><br/><span class=\"kw3\"><b>抗壁細胞抗体・抗内因子抗体</b></span><br/><span class=\"kw4\"><b>胃酸がほとんど出ないので、ガストリンが著しく高い</b></span><br/><span class=\"kw3\"><b>ペプシノゲン Ⅰ が低く、Ⅰ/Ⅱ 比が低い</b></span><br/><span class=\"kw\"><b>③ 合併症</b></span><br/><span class=\"kw3\"><b>内因子がなく B<sub>12</sub> を吸収できない → 悪性貧血（巨赤芽球性貧血・亜急性連合性脊髄変性症）</b></span><br/><span class=\"kw3\"><b>鉄の吸収も落ちる（鉄欠乏性貧血が先に出ることもある）</b></span><br/><span class=\"kw3\"><b>高ガストリンで ECL 細胞が増え、胃の神経内分泌腫瘍（1型）が多発する</b></span><br/><span class=\"kw3\"><b>胃癌の危険も上がる</b></span><br/><span class=\"kw3\"><b>橋本病・1型糖尿病など、ほかの自己免疫疾患を伴いやすい</b></span><br/><span class=\"kw\"><b>④ 治療</b></span><br/><span class=\"kw3\"><b>B<sub>12</sub> の注射（吸収できないので内服より注射）、定期的な内視鏡</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">萎縮性胃炎：血管透見性↑・粘膜蒼白・腸上皮化生</span><br/>Correa cascade：H.pylori感染→慢性胃炎→萎縮性胃炎→腸上皮化生→分化型胃癌。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃体下部小彎の内視鏡像の診断。<br/><b>a 胃潰瘍／b 進行胃癌／d 胃ポリープ／e 粘膜下腫瘍</b>：合わない。<br/><b>c 萎縮性胃炎</b>：<span class=\"kw\">粘膜の菲薄化・血管透見を伴う萎縮性胃炎</span>。✓"
+       "c": "<span class=\"kw4\"><b>萎縮性胃炎：粘膜が薄く褪色し、血管が透けて見える</b></span>。<br/><span class=\"kw3\"><b>木村・竹本分類：閉鎖型（C）は小弯まで、開放型（O）は大弯側まで——広いほど胃癌の危険が高い</b></span>。<br/><span class=\"kw3\"><b>腸上皮化生は灰白色の扁平隆起</b></span>。<br/><span class=\"kw4\"><b>自己免疫性胃炎（A 型）：体部優位の萎縮、高ガストリン、悪性貧血、神経内分泌腫瘍</b></span>。<br/><span class=\"kw3\"><b>H. pylori 胃炎（B 型）は前庭部から体部へ広がる</b></span>。"
       }
      ],
      "imgs": [
@@ -10032,17 +10057,27 @@
       }
      ],
      "ans_label": "ｅ　直腸指診",
-     "ans_sub": "消化管出血による貧血を疑う際は、直腸指診で便の性状（タール便・血便）と直腸腫瘤を確認する。",
+     "ans_sub": "立ちくらみ、脈拍128/分・血圧94/68mmHg、皮膚が冷たく湿っている、眼瞼結膜の貧血——<b>出血によるショック</b>。吐血はないが、1か月の食欲不振と体重減少、長い喫煙と飲酒、父の大腸癌——消化管からの出血を最も疑う。次に行う身体診察は<b>直腸指診</b>で、黒色便・血便を確かめる。眼底検査は高血圧・糖尿病の評価、温度眼振検査はめまいの原因の評価、握力・振動覚は神経・筋の評価で、出血源の手がかりにならない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🩺 消化管出血精査としての直腸指診",
-       "c": "<span class=\"kw\">e直腸指診（正答）</span>：<br>・指に付着した便の色（黒→上部GI出血、赤→下部GI出血）を確認<br>・直腸癌・直腸腫瘤の触診<br>・非常に重要な身体所見→侵襲なし・即座に情報が得られる<br><br><span class=\"kw4\">優先度が低い</span>：<br>✗ a眼底検査：高血圧性・糖尿病性変化→消化管出血の直接診断に関与しない<br>✗ b温度眼振検査：前庭機能評価（めまいの診察）<br/>✗ c握力検査：筋力評価（消化管出血とは無関係）<br/>✗ d四肢振動覚：神経障害の評価</br></br></br></br></br></br></br>"
+       "h": "🌿 見えない出血を探す——出血性ショックで血が「どこへ」行ったか",
+       "c": "<span class=\"kw4\"><b>吐血・下血がないショックでも、出血を疑ったら、体の中で血がたまりうる場所を順に探す</b></span>。<br/><span class=\"kw\"><b>① 消化管</b></span><br/><span class=\"kw3\"><b>吐血・黒色便がまだ出ていないことがある——直腸指診で確かめる。胃管で胃の内容を見ることもある</b></span><br/><span class=\"kw\"><b>② 胸腔</b></span><br/><span class=\"kw3\"><b>血胸——呼吸音の低下、胸部エックス線で胸水</b></span><br/><span class=\"kw\"><b>③ 腹腔</b></span><br/><span class=\"kw3\"><b>肝癌・脾の破裂、異所性妊娠の破裂——腹部の膨満、超音波で腹水（FAST）</b></span><br/><span class=\"kw\"><b>④ 後腹膜</b></span><br/><span class=\"kw4\"><b>腹部大動脈瘤の破裂——高齢・喫煙・高血圧の男性。腰背部痛、拍動する腫瘤</b></span><br/><span class=\"kw3\"><b>抗凝固薬を飲む人の後腹膜・腸腰筋の血腫</b></span><br/><span class=\"kw\"><b>⑤ 骨盤・大腿</b></span><br/><span class=\"kw3\"><b>骨盤骨折・大腿骨骨折——高齢者の転倒</b></span><br/><span class=\"kw\"><b>⑥ 本例</b></span><br/><span class=\"kw3\"><b>喫煙・高血圧の63歳男性——腹部大動脈瘤も鑑別に入るが、腹痛・腰痛がない</b></span><br/><span class=\"kw3\"><b>食欲不振・体重減少が先にあり、消化管の悪性腫瘍からの出血が最も疑わしい——まず直腸指診</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　眼底検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>高血圧・糖尿病の網膜症の評価——出血源は分からない</b></span>。</td></tr><tr><td>ｂ　温度眼振検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>前庭機能の評価——めまいの原因が内耳にあるかを調べる</b></span>。<span class=\"kw3\"><b>本例の立ちくらみは循環血液量の不足による</b></span>。</td></tr><tr><td>ｃ　握力検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>筋力の評価</b></span>。</td></tr><tr><td>ｄ　四肢の振動覚検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>末梢神経障害・脊髄後索の評価</b></span>。<span class=\"kw2\"><b>飲酒歴が長いのでアルコール性ニューロパチーは考えられるが、今の優先ではない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　直腸指診</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>黒色便・血便を確かめ、消化管出血を確かめる</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "消化管出血が疑われる患者で次に行うべき身体診察。<br/><b>a 眼底／b 温度眼振／c 握力／d 四肢振動覚</b>：優先でない。<br/><b>e 直腸指診</b>：<span class=\"kw\">メレナ（タール便）の確認</span>。✓"
+       "h": "🔍 喫煙＋飲酒——食道癌と、お酒で顔が赤くなる人",
+       "c": "<span class=\"kw4\"><b>本例は喫煙43年・日本酒2合を40年——上部消化管の癌、特に食道扁平上皮癌の危険が高い</b></span>。<br/><span class=\"kw\"><b>① 食道扁平上皮癌の危険因子</b></span><br/><span class=\"kw3\"><b>喫煙と飲酒——2つが重なると危険が掛け算で大きくなる</b></span><br/><span class=\"kw3\"><b>熱い飲食物、野菜・果物の不足</b></span><br/><span class=\"kw\"><b>② お酒で顔が赤くなる人（フラッシャー）</b></span><br/><span class=\"kw4\"><b>アルデヒド脱水素酵素2型（ALDH2）の働きが弱く、発癌物質のアセトアルデヒドが体にたまる</b></span><br/><span class=\"kw3\"><b>飲み始めの頃に赤くなった（今は慣れて赤くならない）人も含め、飲酒を続けると食道癌の危険が大きい</b></span><br/><span class=\"kw3\"><b>日本人の約4割は ALDH2 の働きが弱い</b></span><br/><span class=\"kw\"><b>③ 同時・異時の重複癌</b></span><br/><span class=\"kw3\"><b>頭頸部（咽頭・喉頭）と食道は同じ危険因子で癌ができる——一方を見つけたら他方も調べる</b></span><br/><span class=\"kw\"><b>④ 内視鏡での探し方</b></span><br/><span class=\"kw3\"><b>ヨード染色（正常な扁平上皮は茶色に染まり、癌は染まらない）、狭帯域光観察〈NBI〉</b></span><br/><span class=\"kw\"><b>⑤ 本例へのあてはめ</b></span><br/><span class=\"kw3\"><b>上部消化管内視鏡では、胃・十二指腸だけでなく食道と咽頭もよく見る</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw4\"><b>出血性ショック（頻脈・低血圧・冷汗・貧血）で吐血がなくても、直腸指診で消化管出血を確かめる</b></span>。<br/><span class=\"kw3\"><b>見えない出血の場所：消化管・胸腔・腹腔・後腹膜（大動脈瘤）・骨盤・大腿</b></span>。<br/><span class=\"kw3\"><b>喫煙・高血圧の高齢男性のショックでは腹部大動脈瘤の破裂も考える</b></span>。<br/><span class=\"kw4\"><b>喫煙＋飲酒は食道扁平上皮癌の危険。お酒で赤くなる人（ALDH2 の働きが弱い）で特に高い</b></span>。<br/><span class=\"kw3\"><b>頭頸部癌と食道癌は重複しやすい</b></span>。"
       }
      ],
      "imgs": []
@@ -10088,22 +10123,27 @@
       }
      ],
      "ans_label": "ｃ　生理食塩液の点滴静注",
-     "ans_sub": "出血性ショックの初期治療は生理食塩液等の細胞外液による急速輸液で循環血液量を補正する。",
+     "ans_sub": "脈拍128/分、血圧94/68mmHg、皮膚が冷たく湿っている、心胸郭比44％で頸静脈の怒張はない、洞性頻脈——循環血液量が減った<b>出血性ショック</b>。まず太い静脈路から<b>細胞外液（生理食塩液や乳酸リンゲル液）を急速に点滴</b>し、循環血液量を補う。アドレナリンはアナフィラキシー・心停止の薬で、血管を締めても足りない血液は補えない。ジゴキシンは心房細動の心拍数調整・心不全の薬、フェニトインは抗てんかん薬、ヘパリンは抗凝固薬で、出血を悪化させる。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🚨 出血性ショックの初期輸液療法",
-       "c": "<span class=\"kw\">c生理食塩液点滴（正答）</span>：<br>・出血性ショック → まず等張晶質液（生食・乳酸リンゲル）で急速補液<br>・循環血液量↑→血圧回復・臓器灌流改善<br>・2本以上の大口径（18G以上）静脈路から急速投与<br><br><span class=\"kw4\">誤りの選択肢</span>：<br>✗ aアドレナリン静注：アナフィラキシー・心停止に使用（出血性ショックの第一選択ではない）<br>✗ bジゴキシン静注：心不全・心房細動に使用（ショック時は禁忌の場合あり）<br/>✗ dフェニトイン筋注：抗てんかん薬<br/>✗ eヘパリン：抗凝固療法→出血性ショックには禁忌（出血を悪化させる）</br></br></br></br></br></br></br>"
+       "h": "🌿 最初の輸液——入れて、反応を見て、次を決める",
+       "c": "<span class=\"kw3\"><b>院内の急変での初動（人を集める・ABC）は Q.138 で見た</b></span>。<span class=\"kw4\"><b>ここでは、輸液の入れ方と、反応の見方を考える</b></span>。<br/><span class=\"kw\"><b>① 準備</b></span><br/><span class=\"kw3\"><b>太い（18G 以上）静脈路を2本、採血（血算・凝固・生化学・血液型と交差適合試験）</b></span><br/><span class=\"kw\"><b>② 最初の輸液</b></span><br/><span class=\"kw3\"><b>温めた細胞外液（生理食塩液・乳酸リンゲル液）を急速に、成人で1L 程度</b></span><br/><span class=\"kw3\"><b>ブドウ糖液（5％ブドウ糖など）は血管内にとどまらず、ショックの治療にならない</b></span><br/><span class=\"kw\"><b>③ 反応を見る</b></span><br/><span class=\"kw3\"><b>反応あり：血圧・脈拍が戻って保たれる——出血は止まっているか少ない</b></span><br/><span class=\"kw3\"><b>一時的な反応：一度戻ってまた悪くなる——出血が続いている。輸血と止血を急ぐ</b></span><br/><span class=\"kw3\"><b>反応なし：すぐに輸血、止血（内視鏡・IVR・手術）</b></span><br/><span class=\"kw\"><b>④ 入れすぎない</b></span><br/><span class=\"kw4\"><b>大量の晶質液は、血液を薄め、凝固因子を薄め、体温を下げ、再出血や肺水腫を起こす——早めに輸血へ切り替える</b></span><br/><span class=\"kw3\"><b>消化管出血の輸血の目安：Hb 7g/dL 未満（心疾患があれば 8 未満）</b></span><br/><span class=\"kw\"><b>⑤ 指標</b></span><br/><span class=\"kw3\"><b>脈拍・血圧・尿量（0.5mL/kg/時以上）・意識・皮膚の温かさ・乳酸値</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　アドレナリンの静注</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>アナフィラキシー・心停止の薬</b></span>。<span class=\"kw3\"><b>出血性ショックでは、まず失われた血液量を補う</b></span>。</td></tr><tr><td>ｂ　ジゴキシンの静注</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>心房細動の心拍数の調整・心不全の薬</b></span>。<span class=\"kw3\"><b>本例の頻脈は洞性頻脈で、出血への代償</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　生理食塩液の点滴静注</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>細胞外液で循環血液量を補う</b></span>。</td></tr><tr><td>ｄ　フェニトインの筋注</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>抗てんかん薬——けいれんはない</b></span>。</td></tr><tr><td>ｅ　ヘパリンの点滴静注</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>抗凝固薬で、出血を悪化させる</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 出血量を推し量る——出血性ショックの分類",
+       "c": "<span class=\"kw4\"><b>脈拍・血圧・呼吸・意識・尿量から、失った血液の量をおおまかに推し量れる（外傷の分類だが考え方は同じ）</b></span>。<br/><span class=\"kw\"><b>① クラスⅠ（循環血液量の15％未満）</b></span><br/><span class=\"kw3\"><b>ほぼ症状なし。脈拍もほぼ正常</b></span><br/><span class=\"kw\"><b>② クラスⅡ（15〜30％）</b></span><br/><span class=\"kw3\"><b>脈拍100以上、収縮期血圧は保たれる、脈圧が狭くなる、不安</b></span><br/><span class=\"kw\"><b>③ クラスⅢ（30〜40％）</b></span><br/><span class=\"kw4\"><b>脈拍120以上、収縮期血圧が下がる、呼吸が速い、尿量が減る、意識が混乱し始める</b></span><br/><span class=\"kw\"><b>④ クラスⅣ（40％超）</b></span><br/><span class=\"kw3\"><b>脈拍140以上、著しい低血圧、意識の低下、尿がほとんど出ない——命に関わる</b></span><br/><span class=\"kw\"><b>⑤ 本例に当てはめる</b></span><br/><span class=\"kw3\"><b>脈拍128、血圧94/68（脈圧26と狭い）、呼吸数24、意識は清明</b></span><br/><span class=\"kw4\"><b>クラスⅢに近い——体重65kg の循環血液量は約5L、その3割前後（1.5L 程度）を失った可能性</b></span><br/><span class=\"kw3\"><b>輸血の準備をしながら輸液し、出血源を内視鏡で探す</b></span><br/><span class=\"kw\"><b>⑥ 注意</b></span><br/><span class=\"kw3\"><b>β遮断薬を飲む人・高齢者では頻脈が出にくく、出血量を少なく見積もりやすい</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">出血性ショック → 生理食塩液（or乳酸リンゲル液）で急速輸液</span><br/>大量出血（Hb&lt;7g/dL、止血困難）→ 輸血（pRBC）追加。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "出血性ショック（頻脈・血圧低下）でまず行う治療。<br/><b>a アドレナリン／b ジゴキシン／d フェニトイン／e ヘパリン</b>：不適。<br/><b>c 生理食塩液の点滴静注</b>：<span class=\"kw\">細胞外液で循環血液量を補充</span>。✓"
+       "c": "<span class=\"kw4\"><b>出血性ショック → 太い静脈路2本から細胞外液（生理食塩液・乳酸リンゲル液）を急速に</b></span>。<br/><span class=\"kw3\"><b>反応を見て、一時的な反応・反応なしなら輸血と止血を急ぐ</b></span>。<br/><span class=\"kw3\"><b>大量の晶質液は希釈性凝固障害・低体温・再出血——早めに輸血へ</b></span>。<br/><span class=\"kw4\"><b>脈拍120以上・収縮期血圧の低下・尿量減少は循環血液量の30〜40％の喪失</b></span>。<br/><span class=\"kw3\"><b>アドレナリン・ジゴキシン・ヘパリンは出血性ショックの初期治療ではない</b></span>。"
       }
      ],
      "imgs": []
