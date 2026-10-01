@@ -160,6 +160,19 @@ function PRELUDE() {
   window.__figs = function () {
     return ['heroNum', 'heroAccVal'].map(function (id) { var n = document.getElementById(id); return n && n.closest('.hero-fig'); }).filter(Boolean);
   };
+  // 歯車列を枠の左下（.bl）と右上（.tr）に取り付ける（K6）。何度呼んでも1組ずつ。
+  // 各歯車は data-r（大歯車に対する回転比・負＝逆回り）と中心を持ち、回転は SVG の transform 属性で書く
+  window.__gearsOn = function () {
+    var g = function (cx, cy, rt, tp, n, hole, fill, r) {
+      return '<g data-r="' + r + '" data-cx="' + cx + '" data-cy="' + cy + '"><path fill="' + fill + '" fill-rule="evenodd" d="' + _gearPath(cx, cy, rt, tp, n) + _holePath(cx, cy, hole) + '"/></g>';
+    };
+    __figs().forEach(function (fig) {
+      if (!fig.querySelector('.__gt.bl')) fig.insertAdjacentHTML('beforeend', '<svg class="__gt bl" viewBox="0 0 44 34">' +
+        g(14, 18, 10, 13, 12, 3, '#E0C25E', 1) + g(31.5, 11, 6, 8.5, 8, 2, '#C9A227', -12 / 8) + g(29.5, 27, 5, 7.2, 7, 1.8, '#B87333', -12 / 7) + '</svg>');
+      if (!fig.querySelector('.__gt.tr')) fig.insertAdjacentHTML('beforeend', '<svg class="__gt tr" viewBox="0 0 44 34">' +
+        g(30, 16, 10, 13, 12, 3, '#E0C25E', 1) + g(12.5, 23, 6, 8.5, 8, 2, '#C9A227', -12 / 8) + g(14.5, 7, 5, 7.2, 7, 1.8, '#B87333', -12 / 7) + '</svg>');
+    });
+  };
   // デモの「数え上がる／数え下がる」
   window.__count = function (dir, N) {
     var pairs = [['heroNum', N], ['heroAccVal', 92]];
@@ -376,6 +389,87 @@ html.ui-brass .hero-num.__carry{translate:0 -2px;}`,
         end: function () {
           var f = fig && fig.getBoundingClientRect();
           if (f && _fxOk()) MecFX.sparks(f.left + 4, f.bottom - 4, { count: 8, colors: ['#FFF3C4', '#FFA040'] });
+        }
+      };
+    } },
+
+  /* K2＋K5。K5 単体で歯車が回って見えなかった原因は2つ：
+     ① 歯車の取り付け（deco）を DOMContentLoaded に積んでいたが、index.js の初期化が先に同じ合図で数え始めるので、
+        開いた瞬間の数え上がりの時点では歯車がまだ無かった（setup が null を掴んで何も回さない）
+     ② 回転を CSS の rotate＋style の transform-origin で書いていた。ここは SVG の transform 属性
+        （rotate(角 cx cy)）で書く＝中心がずれず、どのブラウザでも確実に効く
+     そこで setup の中で「無ければその場で取り付ける」形にし、回転は属性で書く。 */
+  { id: 'K6', nm: 'ニキシー管＋歯車連動', ds: 'K2 のニキシー管の数字に、K5 の歯車列を組み合わせたもの。歯車は数字の枠の左下と右上に1組ずつ付き、数える間は数えた分だけ回り（数え下がると逆回転）、止まるとぴたりと止まる。桁が上がるたびに管が明滅し、右上の歯車から蒸気がシュッと抜ける。',
+    css: `
+html.ui-brass .hero-num{background:none!important;-webkit-text-fill-color:#FFB36B!important;color:#FFB36B;}
+html.ui-brass .hero-num .__nx, html.ui-brass .hero-num .dg{display:inline-block;position:relative;margin:0 2px;padding:.06em .12em 0;
+  font-family:"Arial Narrow","Helvetica Neue",Arial,sans-serif!important;font-weight:300!important;
+  background:radial-gradient(ellipse at 50% 35%,rgba(255,140,60,.18) 0%,rgba(30,14,4,.55) 60%,rgba(10,6,2,.85) 100%),
+             repeating-linear-gradient(0deg,rgba(255,200,140,.07) 0 1px,transparent 1px 5px),
+             repeating-linear-gradient(90deg,rgba(255,200,140,.07) 0 1px,transparent 1px 5px)!important;
+  -webkit-background-clip:border-box!important;background-clip:border-box!important;
+  -webkit-text-fill-color:#FFB36B!important;color:#FFB36B;
+  border:1px solid rgba(255,220,180,.35);border-radius:45% 45% 10% 10% / 28% 28% 5% 5%;
+  box-shadow:inset 0 0 10px rgba(255,120,40,.35),inset 0 2px 3px rgba(255,255,255,.25),0 0 8px rgba(255,110,30,.25);
+  text-shadow:0 0 4px #FF8A3D,0 0 10px #FF6A00,0 0 22px rgba(255,80,0,.7);}
+html.ui-brass .hero-num .__nx::before, html.ui-brass .hero-num .dg::before{content:'8';position:absolute;left:.12em;right:.12em;top:.06em;text-align:center;
+  -webkit-text-fill-color:rgba(255,190,140,.09);text-shadow:none;}
+html.ui-brass .hero-num .__nx.flick{animation:__nxFlick .11s steps(2,end);}
+@keyframes __nxFlick{0%{opacity:.45;}100%{opacity:1;}}
+html.ui-brass .hero-num .__nx-sep{display:inline-block;color:#FF8A3D;text-shadow:0 0 8px #FF6A00;}
+html.ui-brass .hero-fig .__gt{position:absolute;width:44px;height:34px;pointer-events:none;z-index:2;overflow:visible;
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,.75));}
+html.ui-brass .hero-fig .__gt.bl{left:-14px;bottom:-14px;}
+html.ui-brass .hero-fig .__gt.tr{right:-14px;top:-14px;}
+html.ui-brass .hero-fig .__gt path{stroke:#3D2B0F;stroke-width:.8;}
+html.ui-brass .hero-num.__carry{translate:0 -2px;}`,
+    deco: function () { __gearsOn(); },
+    setup: function (el, from, to) {
+      var fig = el.closest('.hero-fig');
+      __gearsOn();
+      var sets = fig ? Array.from(fig.querySelectorAll('.__gt')) : [];
+      var base = (fig && fig.__ga) || 0, per = el.id === 'heroAccVal' ? 9 : 6;   // 1 増えるごとに回る角度
+      var n = String(Math.round(Math.max(from, to))).length, html = '';
+      for (var k = n - 1; k >= 0; k--) {
+        html += '<span class="__nx" data-k="' + k + '"> </span>';
+        if (k % 3 === 0 && k > 0) html += '<span class="__nx-sep">,</span>';
+      }
+      el.innerHTML = html;
+      var tubes = Array.from(el.querySelectorAll('.__nx')), lastTens = null;
+      var spin = function (a) {
+        if (fig) fig.__ga = a;
+        sets.forEach(function (gt) {
+          // 右上の組は左下と噛み合わない別の列なので逆向きに回す（左右で同じ向きだと鏡に見えない）
+          var s = gt.classList.contains('tr') ? -1 : 1;
+          Array.from(gt.querySelectorAll('g[data-r]')).forEach(function (g) {
+            g.setAttribute('transform', 'rotate(' + (s * a * +g.dataset.r) + ' ' + g.dataset.cx + ' ' + g.dataset.cy + ')');
+          });
+        });
+      };
+      return {
+        dur: 1050,
+        frame: function (v) {
+          spin(base + (v - from) * per);
+          var s = String(Math.round(v));
+          tubes.forEach(function (t) {
+            var k = +t.dataset.k, ch = k < s.length ? s[s.length - 1 - k] : ' ';
+            if (t.textContent !== ch) {
+              t.textContent = ch;
+              t.classList.remove('flick'); void t.offsetWidth; t.classList.add('flick');
+            }
+          });
+          var tens = Math.floor(Math.round(v) / 10);
+          if (lastTens != null && tens !== lastTens) {
+            el.classList.add('__carry'); setTimeout(function () { el.classList.remove('__carry'); }, 60);
+            var tr = fig && fig.querySelector('.__gt.tr');
+            if (tr && _fxOk()) { var r = tr.getBoundingClientRect(); MecFX.steam(r.left + r.width * .5, r.top + 4, { count: 1, w: 10, rise: 40, min: 8, max: 18, alpha: .4, vx: 30 }); }
+          }
+          lastTens = tens;
+        },
+        end: function () {
+          spin(base + (to - from) * per);
+          var bl = fig && fig.querySelector('.__gt.bl');
+          if (bl && _fxOk()) { var r = bl.getBoundingClientRect(); MecFX.sparks(r.left + r.width * .3, r.top + r.height * .5, { count: 8, colors: ['#FFF3C4', '#FFA040'] }); }
         }
       };
     } }
