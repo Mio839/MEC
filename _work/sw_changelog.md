@@ -9,6 +9,7 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-10-02 (CACHE v682): 消化器 dige 作り直し⑤ ch01 バッチ5（Q.25〜Q.30）。questions_knock.json（借用）を再生成。
 2026-10-02 (CACHE v681): 消化器 dige 作り直し⑤ ch01 バッチ4（Q.19〜Q.24）。questions_knock.json（借用）を再生成。
 2026-10-02 (CACHE v680): 消化器 dige 作り直し⑤ ch01 バッチ3（Q.13〜Q.18）。questions_knock.json（借用）を再生成。
 2026-10-02 (CACHE v679): 消化器 dige 作り直し⑤ ch01 バッチ2（Q.7〜Q.12）＋Q.2 の Sims 位の記述を正確に。questions_knock.json（借用）を再生成。
