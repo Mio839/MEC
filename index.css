@@ -4150,11 +4150,6 @@ html.ui-celestial .hero-fig{
   box-shadow:0 6px 24px rgba(0,0,0,.85),0 0 16px rgba(138,43,226,.4),inset 0 0 16px rgba(255,209,102,.15);
   position:relative;
 }
-/* 天球儀・星図の幾何学サークル */
-html.ui-celestial .hero-fig::after{
-  content:'';position:absolute;top:2px;right:6px;width:16px;height:16px;border-radius:50%;
-  border:1px dashed rgba(255,209,102,.4);pointer-events:none;
-}
 html.ui-celestial .hero-num, html.ui-celestial .hero-num .dg{
   font-family:"Cinzel","Palatino","Georgia",serif;font-weight:700;
   background:linear-gradient(135deg,#FFFFFF 0%,#FFF8E1 25%,#FFD166 60%,#C084FC 100%);
