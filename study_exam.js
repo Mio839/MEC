@@ -6085,18 +6085,7 @@ function showExamSummary() {
   // このセッションで新しく「定着」した問題を1件の通知にまとめて授与トレイへ（trophy.js）
   try { window.MecTrophy?.flushSession?.(); } catch {}
   try { window.MecGamify?.onExamFinish?.(examAnswered, examCorrect, { chPrefix: _gmChPrefix }); } catch {}
-  // Exam-to-Hub Absorber: 直前の学習成果をハブ帰還演出（Exam-to-Hub Absorber）用に記録
-  if (examAnswered > 0) {
-    try {
-      sessionStorage.setItem('mec_absorb_payload_v1', JSON.stringify({
-        count: examAnswered,
-        correct: examCorrect,
-        pct: pct,
-        xp: examAnswered * 10 + examCorrect * 15,
-        ts: Date.now()
-      }));
-    } catch(e) {}
-  }
+  // ハブの帰還注入（mec_absorb_payload_v1）は 2026-10-01 に撤去した（ユーザー判断）。記録もしない。
 }
 
 function closeExamSummary() {

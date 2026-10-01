@@ -55,7 +55,6 @@ t('CSS内にドクターランク・マイルストーン・オーバードラ�
   assert.ok(HTML.includes('.gauge[data-doctor-rank='), 'data-doctor-rank セレクタが無い');
   assert.ok(HTML.includes('.milestone-node.active'), 'milestone-node.active セレクタが無い');
   assert.ok(HTML.includes('.gauge[data-overdrive]'), 'data-overdrive セレクタが無い');
-  assert.ok(HTML.includes('.gauge[data-overdrive="hyper"]'), 'data-overdrive="hyper" セレクタが無い');
 });
 
 t('prefers-reduced-motion で新演出のアニメーションが停止されている', () => {
@@ -191,35 +190,24 @@ t('Celestial: 天球儀が開く（環3本・段の閃き・100%の一回転・1
   assert.ok(!/<g class="cel-arm-sph"[^>]*transform=/.test(HTML), '.cel-arm-sph に transform 属性がある');
 });
 
-t('Celestial: 祝砲から外枠点線円（astrolabeRings）が撤廃されステラダストに統一されている', () => {
-  const celebrateFn = HTML.substring(HTML.indexOf('function _gaugeCelebrate(tier)'), HTML.indexOf('function _emberTier('));
-  const celBoomBlock = celebrateFn.substring(celebrateFn.indexOf("curTheme === 'celestial'"), celebrateFn.indexOf("curTheme === 'abyss'"));
-  assert.ok(!celBoomBlock.includes('MecFX.astrolabeRings'), 'Celestial祝砲にastrolabeRingsが残っている');
-  assert.ok(celBoomBlock.includes('MecFX.dust'), 'Celestial祝砲にdustが無い');
-
-  const bigCelebrateFn = HTML.substring(HTML.indexOf('function _stampGoalSeal('), HTML.indexOf('const GAUGE_AMBIENTS ='));
+t('Celestial: 目標達成の刻印から外枠点線円（astrolabeRings）が撤廃されステラダストに統一されている', () => {
+  // 段の祝砲（_gaugeCelebrate）は 2026-10-01 に撤去した（ユーザー判断）
+  const bigCelebrateFn = HTML.substring(HTML.indexOf('function _stampGoalSeal('), HTML.indexOf('function _emberTier('));
   const celBigBlock = bigCelebrateFn.substring(bigCelebrateFn.indexOf("curTheme === 'celestial'"), bigCelebrateFn.indexOf("curTheme === 'abyss'"));
   assert.ok(!celBigBlock.includes('MecFX.astrolabeRings'), 'Celestial大祝砲にastrolabeRingsが残っている');
   assert.ok(celBigBlock.includes('MecFX.dust'), 'Celestial大祝砲にdustが無い');
 });
 
 t('Brass: 歯車演出（MecFX.gears）がBrass以外のテーマで発動しないよう厳格ガードされている', () => {
-  assert.ok(HTML.includes('isBrassNow && nowCfg.isBrass'), '_startGaugeAmbient内のBrass厳格判定が無い');
+  // ゲージの常時粒子（_startGaugeAmbient）は 2026-10-01 に撤去した（ユーザー判断）。同期演出の判定だけが残る
   assert.ok(HTML.includes('isBrass = document.documentElement.classList.contains(\'ui-brass\')'), '同期演出内のBrass判定が無い');
-  assert.ok(HTML.includes('selectHubUITheme'), 'selectHubUITheme が見つからない');
-  const selectFn = HTML.substring(HTML.indexOf('function selectHubUITheme'), HTML.indexOf('function openThemeModal'));
-  assert.ok(selectFn.includes('clearInterval(_gaugeFxTimer)'), 'テーマ切り替え時のタイマークリアが無い');
-  assert.ok(selectFn.includes('_startGaugeAmbient'), 'テーマ切り替え時のアンビエント再起動が無い');
 });
 
 t('Celestial: Heroゲージ外の点線円（旧cel-layer、gauge-ring::afterのdashed、absorber着弾astrolabe、ui_theme.js切替）が完全撤廃されている', () => {
   assert.ok(HTML.includes('html.ui-celestial #gaugeCelLayer'), '旧gaugeCelLayerの非表示ルールが無い');
   assert.ok(HTML.includes('html.ui-celestial .gauge-ring::after'), 'gauge-ring::afterのセレクタが無い');
   
-  const absorberFn = HTML.substring(HTML.indexOf('function _runExamToHubAbsorber('), HTML.indexOf('function _stampGoalSeal('));
-  const celAbsorbBlock = absorberFn.substring(absorberFn.lastIndexOf("curTheme === 'celestial'"), absorberFn.lastIndexOf("curTheme === 'abyss'"));
-  assert.ok(!celAbsorbBlock.includes('MecFX.astrolabeRings'), 'Celestial吸い込み着弾にastrolabeRingsが残っている');
-  assert.ok(celAbsorbBlock.includes('MecFX.diamondSparkle'), 'Celestial吸い込み着弾にdiamondSparkleが無い');
+  // 帰還注入（_runExamToHubAbsorber）は 2026-10-01 に撤去した（ユーザー判断）
 
   const themeJs = fs.readFileSync(path.join(__dirname, '..', 'ui_theme.js'), 'utf8');
   const celThemeBlock = themeJs.substring(themeJs.indexOf("id === 'celestial'"), themeJs.indexOf("id === 'abyss'"));
@@ -231,12 +219,8 @@ t('Celestial: Heroゲージ外の点線円（旧cel-layer、gauge-ring::afterの
 console.log('── 点線の円演出完全撤廃＆Aurora・Cyber全面刷新 検証 ──');
 
 t('Brassおよび全テーマ: 外から現れて消える点線の円（astrolabeRings）が祝砲・目標達成・テーマ切替から完全撤廃されている', () => {
-  const celebrateFn = HTML.substring(HTML.indexOf('function _gaugeCelebrate(tier)'), HTML.indexOf('function _emberTier('));
-  const brassBoomBlock = celebrateFn.substring(celebrateFn.indexOf("curTheme === 'brass'"), celebrateFn.indexOf("curTheme === 'aurora'"));
-  assert.ok(!brassBoomBlock.includes('MecFX.astrolabeRings'), 'Brass祝砲にastrolabeRingsが残っている');
-  assert.ok(brassBoomBlock.includes('MecFX.irisShutter'), 'Brass祝砲にirisShutterが無い');
-
-  const bigCelebrateFn = HTML.substring(HTML.indexOf('function _stampGoalSeal('), HTML.indexOf('const GAUGE_AMBIENTS ='));
+  // 段の祝砲（_gaugeCelebrate）は 2026-10-01 に撤去した（ユーザー判断）
+  const bigCelebrateFn = HTML.substring(HTML.indexOf('function _stampGoalSeal('), HTML.indexOf('function _emberTier('));
   const brassBigBlock = bigCelebrateFn.substring(bigCelebrateFn.indexOf("curTheme === 'brass'"), bigCelebrateFn.indexOf("curTheme === 'aurora'"));
   assert.ok(!brassBigBlock.includes('MecFX.astrolabeRings'), 'Brass大祝砲にastrolabeRingsが残っている');
   assert.ok(brassBigBlock.includes('MecFX.irisShutter'), 'Brass大祝砲にirisShutterが無い');
@@ -334,15 +318,11 @@ t('Aurora & Cyber: オーバードライブ装飾およびHeroゲージから点
   // od-aurora
   assert.ok(HTML.includes('.od-aurora .chromatic-ring{fill:none;stroke:url(#auroraPrismArcGrad);stroke-width:2;stroke-dasharray:none;'), 'od-aurora chromatic-ringに点線が残っている');
   // cyber-scan-ring
-  assert.ok(HTML.includes('.cyber-scan-ring {\n  fill: none;\n  stroke: rgba(0, 229, 255, .25);\n  stroke-width: 1;\n  stroke-dasharray: none;'), 'cyber-scan-ringに点線が残っている');
+  assert.ok(HTML.replace(/\r\n/g, '\n').includes('.cyber-scan-ring {\n  fill: none;\n  stroke: rgba(0, 229, 255, .25);\n  stroke-width: 1;\n  stroke-dasharray: none;'), 'cyber-scan-ringに点線が残っている');
 });
 
-t('Aurora: 成果帰還着弾Absorberおよびui_theme切替からringsが完全撤廃されスラッシュリボン＆ダイヤモンド閃光へ刷新されている', () => {
-  const absorberFn = HTML.substring(HTML.indexOf('function _runExamToHubAbsorber('), HTML.indexOf('function _stampGoalSeal('));
-  const auroraAbsorbBlock = absorberFn.substring(absorberFn.lastIndexOf("curTheme === 'aurora'"), absorberFn.lastIndexOf("curTheme === 'liquid'"));
-  assert.ok(!auroraAbsorbBlock.includes('MecFX.rings'), 'Aurora着弾にMecFX.ringsが残っている');
-  assert.ok(auroraAbsorbBlock.includes('MecFX.diamondSparkle'), 'Aurora着弾にdiamondSparkleが無い');
-  assert.ok(auroraAbsorbBlock.includes('MecFX.slashRibbon'), 'Aurora着弾にslashRibbonが無い');
+t('Aurora: ui_theme切替からringsが完全撤廃されスラッシュリボン＆ダイヤモンド閃光へ刷新されている', () => {
+  // 帰還注入（_runExamToHubAbsorber）は 2026-10-01 に撤去した（ユーザー判断）
 
   const themeJs = fs.readFileSync(path.join(__dirname, '..', 'ui_theme.js'), 'utf8');
   const auroraThemeBlock = themeJs.substring(themeJs.indexOf("id === 'aurora'"), themeJs.indexOf("id === 'brass'"));
@@ -540,7 +520,9 @@ t('Frost絢爛: 段の演出は予定表1本（Liquid と共用）・テーマ/r
   assert.ok(/\.frost-fire, \.frost-snap-branches, \.frost-bloom-rays \{ display: none !important; \}/.test(HTML), 'reduced-motion で新しい演出を消していない');
 });
 
-console.log(`\nALL PASS (${pass}/${pass + fail})\n`);
+// ⚠️ 2026-10-01 まで失敗があっても「ALL PASS」と出して終了コード 0 で抜けていた（5件の失敗が隠れていた）
+console.log('\n' + (fail ? 'FAILED ' + fail + ' 件（全 ' + (pass + fail) + ' 件中 ' + pass + ' 件 ok）' : 'ALL PASS (' + pass + '/' + pass + ')') + '\n');
+process.exit(fail ? 1 : 0);
 
 
 

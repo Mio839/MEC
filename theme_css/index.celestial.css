@@ -2894,92 +2894,6 @@ html.ui-celestial .theme-gauge-celestial { display: inline; }
   .aurora-jewel-flare,
   .aurora-prism-jewel { animation: none !important; }
 }
-.gauge.winding-up { --gear-t:.35s!important; }
-.gauge.winding-up .gauge-val { transition:stroke-dashoffset 1s cubic-bezier(.1,.85,.2,1)!important; }
-.gauge.winding-up .gauge-ovf { transition:stroke-dashoffset 1s cubic-bezier(.1,.85,.2,1)!important; }
-.gauge.winding-up .gauge-dot { transition:transform 1s cubic-bezier(.1,.85,.2,1)!important; }
-.gauge.absorb-impact .gauge-ring { animation:absorbImpact .32s cubic-bezier(.17,.89,.32,1.28)!important; }
-@keyframes absorbImpact {
-  0%{transform:scale(1);}
-  35%{transform:scale(1.12);}
-  70%{transform:scale(.95);}
-  100%{transform:scale(1);}
-}
-.absorber-orb {
-  position:fixed;
-  width:26px;
-  height:26px;
-  border-radius:50%;
-  pointer-events:none;
-  z-index:9085;
-  transform:translate(-50%,-50%);
-  animation:orbFlight .68s cubic-bezier(.22,.8,.2,1) forwards;
-}
-@keyframes orbFlight {
-  0%{
-  left:var(--orb-sx);
-  top:var(--orb-sy);
-  transform:translate(-50%,-50%) scale(.4);
-  opacity:0;
-  }
-  15%{
-  opacity:1;
-  transform:translate(-50%,-50%) scale(1.1);
-  }
-  75%{
-  opacity:1;
-  transform:translate(-50%,-50%) scale(1.2);
-  }
-  100%{
-  left:var(--orb-tx);
-  top:var(--orb-ty);
-  transform:translate(-50%,-50%) scale(.2);
-  opacity:0;
-  }
-}
-.absorber-orb.orb-brass {
-  background:radial-gradient(circle at 35% 35%,#FFF 0%,#FFD700 40%,#D97706 75%,#78350F 100%);
-  box-shadow:0 0 16px #FFD700,0 0 32px #F59E0B,inset 0 0 8px #FFF;
-  border:1.5px solid #FFE082;
-}
-.absorber-orb.orb-cyber {
-  border-radius:3px;
-  background:radial-gradient(circle,#00FF9D 20%,#00E5FF 65%,#0052CC 100%);
-  box-shadow:0 0 14px #00FF9D,0 0 28px #00E5FF,inset 0 0 6px #FFF;
-  border:1.5px solid #A7F3D0;
-  animation:orbFlight .68s cubic-bezier(.22,.8,.2,1) forwards,orbCyberSpin .34s linear infinite;
-}
-@keyframes orbCyberSpin { 0%{transform:translate(-50%,-50%) rotate(0deg);}100%{transform:translate(-50%,-50%) rotate(180deg);} }
-.absorber-orb.orb-aurora {
-  background:radial-gradient(circle at 30% 30%,#FFF,#00DFD8 35%,#7928CA 70%,#FF0080 100%);
-  box-shadow:0 0 18px #00DFD8,0 0 34px #7928CA,inset 0 0 8px #FFF;
-}
-.absorber-orb.orb-liquid {
-  border-radius:42% 58% 70% 30%/45% 45% 55% 55%;
-  background:radial-gradient(circle at 40% 30%,#FFF,#FF007F 45%,#00F2FE 85%);
-  box-shadow:0 0 16px #FF007F,0 0 30px #00F2FE;
-  animation:orbFlight .68s cubic-bezier(.22,.8,.2,1) forwards,liquidWobble .4s ease-in-out infinite alternate;
-}
-@keyframes liquidWobble { 0%{border-radius:42% 58% 70% 30%/45% 45% 55% 55%;}100%{border-radius:60% 40% 30% 70%/60% 30% 70% 40%;} }
-.absorber-orb.orb-kintsugi {
-  background:radial-gradient(circle at 35% 35%,#FFFDF0 0%,#F5D061 35%,#B45309 75%,#1C1917 100%);
-  box-shadow:0 0 18px #F5D061,0 0 36px #D4AF37,inset 0 0 8px #FFF;
-  border:1px solid #FDE68A;
-}
-.absorber-orb.orb-celestial {
-  background:radial-gradient(circle at 40% 40%,#FFF,#FFD166 30%,#8A2BE2 70%,#1E1B4B 100%);
-  box-shadow:0 0 18px #FFD166,0 0 36px #8A2BE2,0 0 50px #48CAE4;
-}
-.absorber-orb.orb-abyss {
-  background:radial-gradient(circle at 35% 35%,#E0F2FE,#00FFA3 40%,#0077B6 75%,#030712 100%);
-  box-shadow:0 0 16px #00FFA3,0 0 32px #0077B6,inset 0 0 8px #64FFDA;
-  border:1.5px solid #64FFDA;
-}
-.absorber-orb.orb-frost {
-  clip-path:polygon(50% 0%,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);
-  background:radial-gradient(circle at 35% 35%,#FFF,#70D6FF 45%,#0284C7 85%);
-  box-shadow:0 0 16px #70D6FF,0 0 30px #FFF,inset 0 0 6px #FFF;
-}
 html.ui-celestial .hero-console { border-left:2px solid #FFD166;padding-left:14px; }
 html.ui-celestial .hero-fig {
   padding:4px 18px 6px 14px;border-radius:12px;
@@ -3262,16 +3176,12 @@ html.ui-celestial .lv-burst::after { background-image:linear-gradient(90deg,tran
   .milestone-node .ms-glow,
   .gauge-overdrive-fx,
   .gauge-overdrive-fx *,
-  .absorber-orb,
-  .gauge.winding-up *,
-  .gauge.absorb-impact .gauge-ring { animation:none!important;transition:none!important; }
   .gauge-pulse-trk,
   .gauge-aura,
   .hero-shockwave-layer,
   .cta-tracer,
   .gauge-overdrive-fx,
-  .gauge-surge-wave,
-  .absorber-orb { display:none!important; }
+  .gauge-surge-wave { display:none!important; }
   .lv-burst,
   .lv-burst.on { display:none!important; }
   .exam-countdown::before,

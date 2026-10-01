@@ -121,7 +121,6 @@ h1{font-size:17px;margin-bottom:4px;}
         <option value="160">160%（大幅超過）</option>
       </select></label>
       <label><input type="checkbox" id="fOpening"> ブリーフィングを出す</label>
-      <label><input type="checkbox" id="fAbsorb"> 試験から戻った体にする</label>
       <label><input type="checkbox" id="fGrand"> ミッション全達成の儀式を出す</label>
     </div>
     <div class="status" id="status">読み込み中…</div>
@@ -140,7 +139,7 @@ h1{font-size:17px;margin-bottom:4px;}
 /* ═══ 演出の台帳 ═══
    off.js  … 外したときに index.js の後で実行する（関数を空にする）
    off.css … 外したときに </head> の直前へ足す（入場の @keyframes を空にする等）
-   need    … 「これだけ」で見るときに満たす条件（pct / opening / absorb / grand / theme）
+   need    … 「これだけ」で見るときに満たす条件（pct / opening / grand / theme）
    ⚠️ 名前は 2026-10-01q の index.js / index.css に合わせてある（2026-10-01q で撤去した9件は台帳から外した）。 */
 const FX = [
  { g:'入場（開いた瞬間・一度きり）', items:[
@@ -171,8 +170,6 @@ const FX = [
     js:'_stampGoalSeal=function(){};' },
   { id:'themegauge', nm:'Celestial／Frost の節目演出', ds:'Celestial＝天球儀の腕が節目ごとにロックし波紋、100%で回転。Frost＝節目で霜の枝がパキッと伸び、100%で雪の結晶が開いて光芒と氷片。', code:'index.js _celProgressFx / _frostProgressFx', cond:'Celestial か Frost', theme:true, need:{pct:110, theme:'celestial'},
     js:'_celProgressFx=function(){};_frostProgressFx=function(){};' },
-  { id:'absorb', nm:'帰還注入（試験から戻ったとき）', ds:'試験・復習から戻った直後、成果がテーマ色のオーブになってゲージへ吸い込まれ、着弾の衝撃とともにゲージが巻き上がる。', code:'index.js _runExamToHubAbsorber', cond:'試験から15分以内に戻った', theme:true, need:{absorb:true},
-    js:'_runExamToHubAbsorber=function(p){_driveGauge(p);};' },
   { id:'opening', nm:'1日の最初のブリーフィング', ds:'その日はじめて開いたとき、1.1秒後に全画面で「前回のリザルト／週の結果発表／今日のブリーフィング」。', code:'hub_opening.js MecOpening.maybeShow', cond:'その日はじめて開いた', need:{opening:true},
     js:'if(window.MecOpening)MecOpening.maybeShow=function(){return false;};' },
   { id:'spark', nm:'30日の波形が立ち上がる＋「+N問」', ds:'30日の学習記録の棒が左から順に伸び、今日の棒の上に「+N問」の札が浮かんで消える。', code:'index.css .bar / .spark-pop-badge',
@@ -315,14 +312,12 @@ async function play(opt) {
   let pct = $('pct').value;
   if (need.pct != null && (pct === '' || Number(pct) < need.pct)) pct = String(need.pct);
   const fOpening = $('fOpening').checked || !!need.opening;
-  const fAbsorb  = $('fAbsorb').checked  || !!need.absorb;
   const fGrand   = $('fGrand').checked   || !!need.grand;
 
   const ls = snapshot(), ss = {};
   if (theme) ls.mec_ui_theme_v1 = theme;
   if (fOpening) delete ls.mec_hub_opening_v1;
   else ls.mec_hub_opening_v1 = JSON.stringify({ day: today(), week: mondayOf(today()) });   // 見たことにして画面を塞がない
-  if (fAbsorb) ss.mec_absorb_payload_v1 = JSON.stringify({ ts: Date.now(), count: 10, correct: 9, xp: 180 });
 
   let css = '', js = '';
   ALL.forEach(it => { if (!off.has(it.id)) return; if (it.css) css += it.css + '\n'; if (it.js) js += it.js + '\n'; });
@@ -345,7 +340,6 @@ async function play(opt) {
   if (theme) conds.push('テーマ ' + theme);
   if (pct !== '') conds.push('達成率 ' + pct + '%');
   if (fOpening) conds.push('ブリーフィングあり');
-  if (fAbsorb) conds.push('帰還注入あり');
   if (fGrand) conds.push('全達成の儀式あり');
   $('status').innerHTML = '▶ ' + esc(what) + 'で再生' + (conds.length ? '（' + esc(conds.join('・')) + '）' : '');
   $('frame').srcdoc = h;

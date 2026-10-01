@@ -1,5 +1,6 @@
 /**
- * 学習成果の帰還注入トランジション（Exam-to-Hub Absorber）の検証テスト
+ * 学習成果の帰還注入トランジション（Exam-to-Hub Absorber）が撤去されたままかの検査
+ * 2026-10-01 に全テーマで撤去した（ユーザー判断）。作り直し案5つも全部不採用。戻さないこと。
  * Run: node _work/test_absorber_transition.js
  */
 'use strict';
@@ -9,6 +10,7 @@ const assert = require('assert');
 
 const HTML = require('./lib_hub_source')();
 const STUDY_EXAM = fs.readFileSync(path.join(__dirname, '..', 'study_exam.js'), 'utf8');
+const code = s => s.replace(/\/\/.*$/mg, '').replace(/\/\*[\s\S]*?\*\//g, '');
 
 let pass = 0, fail = 0;
 function t(name, fn) {
@@ -16,39 +18,21 @@ function t(name, fn) {
   catch (e) { console.log('  NG  - ' + name + '\n        ' + e.message); fail++; }
 }
 
-console.log('── Exam-to-Hub Absorber トランジション検証 ──');
+console.log('── 帰還注入（撤去済み）──');
 
-t('index.html に _runExamToHubAbsorber および _testAbsorber 関数が存在する', () => {
-  assert.ok(HTML.includes('function _runExamToHubAbsorber('), '_runExamToHubAbsorber が見つからない');
-  assert.ok(HTML.includes('window._testAbsorber ='), 'window._testAbsorber が見つからない');
+t('ハブに帰還注入の関数・オーブ・巻き上げの CSS が戻っていない', () => {
+  const c = code(HTML);
+  ['_runExamToHubAbsorber', '_testAbsorber', 'absorber-orb', 'absorb-impact', 'winding-up', 'mec_absorb_payload_v1']
+    .forEach(k => assert.ok(!c.includes(k), k + ' が戻っている'));
 });
 
-t('全8テーマのオーブスタイル（orb-*）がCSSに定義されている', () => {
-  const themes = ['brass', 'cyber', 'aurora', 'liquid', 'kintsugi', 'celestial', 'abyss', 'frost'];
-  themes.forEach(th => {
-    assert.ok(HTML.includes('.absorber-orb.orb-' + th), 'orb-' + th + ' のCSSクラスが無い');
-  });
+t('ゲージはいつも _driveGauge(goal.pct) で描く', () => {
+  assert.ok(/_driveGauge\(goal\.pct\);/.test(HTML), '_driveGauge(goal.pct) が無い');
 });
 
-t('ワインドアップ（winding-up）と着弾バウンド（absorb-impact）のCSSが存在する', () => {
-  assert.ok(HTML.includes('.gauge.winding-up'), '.gauge.winding-up が無い');
-  assert.ok(HTML.includes('.gauge.absorb-impact'), '.gauge.absorb-impact が無い');
-  assert.ok(HTML.includes('@keyframes absorbImpact'), '@keyframes absorbImpact が無い');
+t('study_exam.js が帰還注入の材料を記録しない', () => {
+  assert.ok(!code(STUDY_EXAM).includes('mec_absorb_payload_v1'), 'mec_absorb_payload_v1 をまだ書いている');
 });
 
-t('renderHero 内で mec_absorb_payload_v1 を取得・消費・分岐するコードが存在する', () => {
-  assert.ok(HTML.includes("sessionStorage.getItem('mec_absorb_payload_v1')"), 'sessionStorage取得コードが無い');
-  assert.ok(HTML.includes("sessionStorage.removeItem('mec_absorb_payload_v1')"), 'sessionStorage削除コードが無い');
-  assert.ok(HTML.includes('_runExamToHubAbsorber(goal.pct, absorbPayload)'), '吸入トランジション呼び出しが無い');
-});
-
-t('study_exam.js に学習成果ペイロードを sessionStorage に記録する処理が存在する', () => {
-  assert.ok(STUDY_EXAM.includes("sessionStorage.setItem('mec_absorb_payload_v1'"), 'study_exam.js にペイロード記録処理が無い');
-});
-
-t('prefers-reduced-motion でオーブおよびワインドアップが安全に停止・非表示化されている', () => {
-  assert.ok(HTML.includes('.absorber-orb'), 'reduced-motion に .absorber-orb が含まれていない');
-  assert.ok(HTML.includes('.gauge.winding-up'), 'reduced-motion に .gauge.winding-up が含まれていない');
-});
-
-console.log(`\nALL PASS (${pass}/${pass + fail})\n`);
+console.log('\n' + (fail ? 'FAILED ' + fail + ' 件（全 ' + (pass + fail) + ' 件中 ' + pass + ' 件 ok）' : '全 ' + pass + ' 件 ok') + '\n');
+process.exit(fail ? 1 : 0);
