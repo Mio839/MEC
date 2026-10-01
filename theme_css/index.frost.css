@@ -327,7 +327,7 @@ html:not([class*="ui-"]) .hero-num .dg {
 .srs-risk-bar .rb-due { background:linear-gradient(90deg,#3b82f6,#60a5fa); }
 .hero-body>.hero-say { grid-column:1/-1;max-width:none;margin-top:0; }
 @media (min-width:561px) {
-  .hero-body>.gauge { align-self:start;margin-top:-20px; }
+  .hero-body>.gauge { align-self:start;margin-top:-30px; }
 }
 @media (max-width:560px) {
   .hero-body>.hero-console { order:0; }
@@ -507,7 +507,7 @@ html:not([class*="ui-"]) .hero-num .dg {
   .srs-stat-extra { display:none; }
   .srs-viz-hd { flex-wrap:wrap;row-gap:2px; }
 }
-.gauge { width:clamp(148px,40vw,208px);flex-shrink:0;text-align:center; }
+.gauge { width:clamp(163px,44vw,229px);flex-shrink:0;text-align:center; }
 .gauge-ring { position:relative;border-radius:50%; }
 .gauge-ring svg {
   display:block;width:100%;height:auto;transform:rotate(-90deg);
@@ -548,7 +548,7 @@ html:not([class*="ui-"]) .hero-num .dg {
 .gauge-mid em { font-style:normal;font-size:.5em;color:var(--ts);margin-left:1px; }
 @media (max-width:560px) {
   .hero-body { grid-template-columns:minmax(0,1fr);gap:var(--sp-4); }
-  .gauge { width:min(172px,58vw);justify-self:end; }
+  .gauge { width:min(189px,64vw);justify-self:end; }
   .hero-label { gap:5px; }
   .hero-label-acc { margin-left:8px;padding-left:8px; }
   .hero-label-meta { gap:4px; }
