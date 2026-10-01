@@ -10824,22 +10824,27 @@
             }
           ],
           "ans_label": "ｅ　Courvoisier 徴候陽性",
-          "ans_sub": "Courvoisier徴候は閉塞性黄疸の所見（胆嚢腫大）。腹膜炎とは無関係。",
+          "ans_sub": "反跳痛・筋性防御・打診痛・踵下ろし試験陽性は、どれも<b>炎症のある腹膜が揺れて痛む</b>ことを見る腹膜刺激徴候。<b>Courvoisier 徴候</b>は「黄疸があり、<b>痛みのない腫れた胆嚢</b>を触れる」所見で、膵頭部癌・下部胆管癌など<b>胆嚢より下の悪性の閉塞</b>を示す——腹膜炎の所見ではない。",
           "eg": [
             {
               "cls": "ep",
-              "h": "🩺 腹膜炎の所見と非所見",
-              "c": "<span class=\"kw\">腹膜炎の典型的所見</span>：<br/>✅ a反跳痛（Blumberg徴候）：除圧時に痛みが増強<br/>✅ b筋性防御（muscle guarding）：腹壁硬直<br/>✅ c打診による圧痛：振動で腹膜刺激<br/>✅ d踵下ろし試験（heel drop test）：踵を落として振動→腹膜刺激で痛み<br/><br/><span class=\"kw4\">e Courvoisier徴候（腹膜炎の所見でない・正答）</span>：<br/>閉塞性黄疸の患者で触知する無痛性の胆嚢腫大<br/>→ 膵頭部癌・胆管癌による胆道閉塞の所見（腹膜炎とは無関係）"
+              "h": "🌿 Courvoisier 徴候——なぜ石ではなく癌か",
+              "c": "<span class=\"kw4\"><b>腹膜刺激徴候の取り方は Q.277——ここは Courvoisier 徴候</b></span>。<br/><span class=\"kw\"><b>① 所見</b></span><br/><span class=\"kw3\"><b>黄疸＋右上腹部に、痛みのない、腫れた胆嚢を触れる</b></span><br/><span class=\"kw\"><b>② 起こるところ</b></span><br/><span class=\"kw3\"><b>胆嚢管が合流したあとの総胆管より下での閉塞——胆汁が逆流して胆嚢が張る</b></span><br/><span class=\"kw3\"><b>膵頭部癌、下部胆管癌、十二指腸乳頭部癌</b></span><br/><span class=\"kw\"><b>③ 胆石では起こりにくい</b></span><br/><span class=\"kw3\"><b>胆石があると、長く続いた炎症で胆嚢の壁が線維化して硬い——閉塞しても膨らまない</b></span><br/><span class=\"kw3\"><b>胆石の発作は痛い——痛みがない点も悪性を示す</b></span><br/><span class=\"kw\"><b>④ 似た所見</b></span><br/><span class=\"kw3\"><b>Murphy 徴候：右季肋部を押さえて深呼吸させると痛みで息が止まる——急性胆嚢炎</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　反跳痛</td><td><span class=\"kw4\">誤り</span>（腹膜炎の所見）。<span class=\"kw3\"><b>押して離すと痛む</b></span>。</td></tr><tr><td>ｂ　筋性防御</td><td><span class=\"kw4\">誤り</span>（腹膜炎の所見）。<span class=\"kw3\"><b>押すと腹壁が反射で固くなる</b></span>。</td></tr><tr><td>ｃ　打診による圧痛</td><td><span class=\"kw4\">誤り</span>（腹膜炎の所見）。<span class=\"kw3\"><b>軽くたたくだけで痛む</b></span>。</td></tr><tr><td>ｄ　踵下ろし試験陽性</td><td><span class=\"kw4\">誤り</span>（腹膜炎の所見）。<span class=\"kw3\"><b>つま先立ちから踵を落とすと腹に響く</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　Courvoisier 徴候陽性</span></td><td><span class=\"kw3\">これが「腹膜炎の所見でない」（＝正解）</span>。<span class=\"kw3\"><b>悪性の下部胆道閉塞による無痛性の胆嚢腫大</b></span>。</td></tr></table>"
             },
             {
               "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "腹膜炎の所見で「ない」もの。a 反跳痛：腹膜刺激症状の代表。b 筋性防御：腹膜炎で腹壁筋が反射性に緊張する。c 打診による圧痛：腹膜刺激症状の一つ。d 踵下ろし試験陽性：踵を落とした衝撃で腹痛が誘発される腹膜刺激徴候。e Courvoisier徴候陽性：無痛性に腫大した胆囊を触知する所見で、膵頭部癌などの閉塞性黄疸を示す。腹膜炎の所見ではない。✓"
+              "h": "🔍 別軸：人名のついた腹部の徴候",
+              "c": "<span class=\"kw\"><b>① 胆嚢</b></span><br/><span class=\"kw3\"><b>Murphy 徴候：急性胆嚢炎</b></span><br/><span class=\"kw3\"><b>Courvoisier 徴候：悪性の下部胆道閉塞</b></span><br/><span class=\"kw\"><b>② 膵（出血性膵炎・後腹膜出血）</b></span><br/><span class=\"kw3\"><b>Cullen 徴候：臍の周りの皮下出血</b></span><br/><span class=\"kw3\"><b>Grey Turner 徴候：側腹部の皮下出血</b></span><br/><span class=\"kw\"><b>③ 虫垂</b></span><br/><span class=\"kw3\"><b>McBurney 点・Lanz 点の圧痛、Rovsing 徴候、Blumberg 徴候（反跳痛）</b></span><br/><span class=\"kw\"><b>④ 脾・腹腔内出血</b></span><br/><span class=\"kw3\"><b>Kehr 徴候：左肩の痛み——横隔膜の刺激が肩へ響く（脾損傷）</b></span><br/><span class=\"kw\"><b>⑤ 転移</b></span><br/><span class=\"kw3\"><b>Sister Mary Joseph 結節（臍の転移）、Virchow 転移（左鎖骨上）——一覧は Q.227</b></span>"
             },
             {
-              "cls": "em",
-              "h": "💡 各徴候の覚え方",
-              "c": "<span class=\"kw\">Courvoisier徴候</span>：膵頭部癌などで胆嚢が触れる（無痛性）<br/><span class=\"kw\">Murphy徴候</span>：深吸気時に胆嚢点を押すと疼痛→急性胆嚢炎<br/><span class=\"kw\">反跳痛</span>：腹膜炎の代表的サイン"
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "<span class=\"kw3\"><b>腹膜刺激徴候：反跳痛・筋性防御・打診痛・踵下ろし（heel drop）</b></span><br/><span class=\"kw3\"><b>Courvoisier 徴候＝黄疸＋無痛性の胆嚢腫大→膵頭部癌・下部胆管癌</b></span><br/><span class=\"kw4\"><b>胆石では胆嚢が線維化して腫れにくい</b></span>"
             },
             {
               "cls": "ept",

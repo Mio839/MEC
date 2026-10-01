@@ -38670,22 +38670,27 @@
             {
               "cls": "ept",
               "h": "📎 消化器 Q.284 の解説（同じ国試問題）",
-              "c": "この問題（110B-39）は <b>消化器 Q.284</b> と同じ国試問題なので、その解説を下に併記しています。<br/>McBurney切開（交叉切開）は外腹斜筋・内腹斜筋・腹横筋の3層を筋線維に沿って切開する。"
+              "c": "この問題（110B-39）は <b>消化器 Q.284</b> と同じ国試問題なので、その解説を下に併記しています。<br/>McBurney 交叉切開は、右下腹部で<b>筋を切らずに線維の向きに沿って分けて</b>入る切開。外腹斜筋（腱膜）、その下の<b>内腹斜筋</b>、さらに<b>腹横筋</b>を順に分け、腹横筋膜・腹膜を開いて虫垂に達する——3 枚の側腹筋の向きが互いに交わるので「交叉」切開。腹直筋・錐体筋は正中寄りの筋で、この切開では通らない。"
             },
             {
               "cls": "ep",
-              "h": "📐 McBurney切開の解剖",
-              "c": "<span class=\"kw\">McBurney切開（交叉切開/Grid-iron incision）</span>：<br/>McBurney点（臍と右腸骨前上棘を結ぶ外1/3）を中心に斜め切開<br/><br/><span class=\"kw\">切開する3層</span>：<br/>① <span class=\"kw\">外腹斜筋（d）</span>：皮膚・皮下脂肪の後に切開<br/>② <span class=\"kw\">内腹斜筋（e）</span>：筋線維の方向に沿って鈍的に開く<br/>③ <span class=\"kw\">腹横筋（b）</span>：同様に鈍的に開く→腹膜に到達<br/><br/><span class=\"kw4\">切開しない筋</span>：<br/>✗ a錐体筋：恥骨〜臍の白線側に存在（右下腹部でない）<br/>✗ c腹直筋：正中側（Pfannenstiel切開ではアクセスするが交叉切開では通らない）"
+              "h": "🌿 右下腹部の腹壁を外から内へ",
+              "c": "<span class=\"kw\"><b>① 層の順</b></span><br/><span class=\"kw3\"><b>皮膚→皮下脂肪（Camper 筋膜・Scarpa 筋膜）</b></span><br/><span class=\"kw3\"><b>外腹斜筋（このあたりでは腱膜）——線維は外上から内下へ（ポケットに手を入れる向き）</b></span><br/><span class=\"kw3\"><b>内腹斜筋——線維は外下から内上へ（外腹斜筋とほぼ直角）</b></span><br/><span class=\"kw3\"><b>腹横筋——線維はほぼ横向き</b></span><br/><span class=\"kw3\"><b>腹横筋膜→腹膜前脂肪→腹膜</b></span><br/><span class=\"kw\"><b>② 交叉切開の考え方</b></span><br/><span class=\"kw3\"><b>それぞれの筋を線維に沿って裂くように分け、鉤で広げる</b></span><br/><span class=\"kw3\"><b>筋を横に切らないので、閉じたあとの強度が保たれ、ヘルニアになりにくい</b></span><br/><span class=\"kw\"><b>③ 位置</b></span><br/><span class=\"kw3\"><b>McBurney 点（臍と右上前腸骨棘を結ぶ線の外側 1/3）を通る斜めの切開</b></span><br/><span class=\"kw3\"><b>皮膚の割線に沿う横向きにしたものが Lanz 切開</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　錐体筋</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>恥骨の上、腹直筋の下端の前にある小さな三角の筋</b></span>。<span class=\"kw3\"><b>正中寄りで、この切開では通らない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　腹横筋</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>いちばん内側の側腹筋——線維に沿って分ける</b></span>。</td></tr><tr><td>ｃ　腹直筋</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>正中のそばの縦の筋</b></span>。<span class=\"kw3\"><b>交叉切開はその外側を通る</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　外腹斜筋</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>いちばん外側（このあたりは腱膜）</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　内腹斜筋</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>外腹斜筋の下、線維の向きが交わる</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 別軸：開腹の切開の種類",
+              "c": "<span class=\"kw\"><b>① 正中切開</b></span><br/><span class=\"kw3\"><b>白線を縦に開く——速く、広く、どこへでも届く。緊急手術・診断のつかない腹膜炎</b></span><br/><span class=\"kw3\"><b>欠点：創のヘルニア（腹壁瘢痕ヘルニア）が起こりやすい</b></span><br/><span class=\"kw\"><b>② 傍腹直筋切開</b></span><br/><span class=\"kw3\"><b>腹直筋の外側縁や鞘を縦に開く</b></span><br/><span class=\"kw\"><b>③ 肋骨弓下切開（Kocher）</b></span><br/><span class=\"kw3\"><b>右なら胆嚢・肝、左なら脾</b></span><br/><span class=\"kw\"><b>④ Pfannenstiel 切開</b></span><br/><span class=\"kw3\"><b>恥骨の上の横切開——帝王切開・婦人科手術。傷が目立たない</b></span><br/><span class=\"kw\"><b>⑤ 右下腹部（McBurney・Lanz）</b></span><br/><span class=\"kw4\"><b>腸骨下腹神経・腸骨鼡径神経を傷つけると、鼠径部のしびれや鼠径ヘルニアの原因に</b></span><br/><span class=\"kw\"><b>⑥ いまの虫垂切除</b></span><br/><span class=\"kw3\"><b>多くは腹腔鏡——臍などに 3 か所程度の小さな穴</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">McBurney交叉切開：外腹斜筋→内腹斜筋→腹横筋の3層を通過</span><br/>「交叉」とは筋線維に沿った鈍的分離を指す（切開でなく分離）。"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "McBurney交叉切開で切開する筋を3つ。<br/><b>a 錐体筋／c 腹直筋</b>：交叉切開で切開しない。<br/><b>b 腹横筋</b>：<span class=\"kw\">側腹壁の筋</span>。✓<br/><b>d 外腹斜筋</b>：<span class=\"kw\">腱膜を割く</span>。✓<br/><b>e 内腹斜筋</b>：<span class=\"kw\">筋線維方向に沿って割る</span>。✓"
+              "c": "<span class=\"kw3\"><b>McBurney 交叉切開：外腹斜筋（腱膜）→内腹斜筋→腹横筋を線維に沿って分ける</b></span><br/><span class=\"kw3\"><b>筋を切らない——術後のヘルニアが少ない</b></span><br/><span class=\"kw4\"><b>腹直筋・錐体筋は正中寄りで、通らない</b></span>"
             }
           ],
           "imgs": []

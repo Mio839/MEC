@@ -293,18 +293,23 @@
             },
             {
               "cls": "ep",
-              "h": "💊 偽膜性腸炎（CDI）の治療",
-              "c": "<span class=\"kw\">a バンコマイシン（経口）（正答）</span>：<br>・C. difficile腸炎の標準治療薬<br/>・経口投与（消化管吸収されないので局所高濃度→効果的）<br/>・125mg×4回/日×10〜14日間<br/><br/><span class=\"kw\">d メトロニダゾール（正答）</span>：<br/>・軽症〜中等症CDIに使用可（フィダキソマイシンも選択肢）<br/>・経口or静注（腸管内で効果）<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ bクリンダマイシン：C.difficileを増殖させる元凶の1つ（使ってはならない）<br/>✗ cエリスロマイシン：CDIの治療薬ではない<br/>✗ eペニシリンG：CDI治療薬ではない</br>"
+              "h": "🌿 CDI に効く薬・効かない薬——腸の中に届くか",
+              "c": "<span class=\"kw4\"><b>偽膜性腸炎の成り立ち・症状・診断・治療の全体は Q.270——ここは薬の選び方</b></span>。<br/><span class=\"kw\"><b>① バンコマイシン</b></span><br/><span class=\"kw4\"><b>内服で使う——腸からほとんど吸収されず、腸の中で高い濃度になる</b></span><br/><span class=\"kw3\"><b>点滴では腸の中に出ていかないので効かない</b></span><br/><span class=\"kw\"><b>② メトロニダゾール</b></span><br/><span class=\"kw3\"><b>内服でも点滴でも効く（点滴でも胆汁や腸壁から腸内に届く）</b></span><br/><span class=\"kw3\"><b>軽症〜中等症向け。重症や再発ではバンコマイシンやフィダキソマイシンを優先</b></span><br/><span class=\"kw3\"><b>長く使うと末梢神経障害、飲酒でジスルフィラム様反応</b></span><br/><span class=\"kw\"><b>③ フィダキソマイシン</b></span><br/><span class=\"kw3\"><b>腸内の他の細菌を壊しにくく、再発が少ない</b></span><br/><span class=\"kw\"><b>④ 原因の抗菌薬</b></span><br/><span class=\"kw3\"><b>肺炎が治りかけていれば、元の抗菌薬はやめるか、狭い範囲に効くものに替える</b></span>"
             },
             {
               "cls": "ee",
-              "h": "□ C.difficile感染症（CDI）の治療",
-              "c": "<table class=\"tb\"><tr><th>重症度</th><th>治療薬</th></tr><tr><td>重症度</td><td>治療薬</td></tr><tr><td>軽症</td><td>メトロニダゾール 500mg×3回/日×10〜14日</td></tr><tr><td>中等〜重症</td><td><span class=\"kw\">バンコマイシン経口 125mg×4回/日×10〜14日</span></td></tr><tr><td>重症（難治）</td><td>フィダキソマイシン or バンコ増量</td></tr><tr><td>再発予防</td><td>フィダキソマイシン・ベズロトクスマブ</td></tr></table>"
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　バンコマイシン</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>内服で腸内の C. difficile に効く</b></span>。</td></tr><tr><td>ｂ　クリンダマイシン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>CDI を起こしやすい抗菌薬の代表——悪化させる</b></span>。</td></tr><tr><td>ｃ　エリスロマイシン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>C. difficile には効かない</b></span>。<span class=\"kw3\"><b>腸内細菌をさらに乱す</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　メトロニダゾール</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>嫌気性菌に効き、軽症〜中等症の CDI に使う</b></span>。</td></tr><tr><td>ｅ　ベンジルペニシリン〈ペニシリン G〉</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>C. difficile には効かない</b></span>。</td></tr></table>"
             },
             {
               "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "Clostridioides difficileトキシン陽性に有効な薬剤を2つ。<br/><b>b クリンダマイシン／c エリスロマイシン／e ペニシリンG</b>：無効（むしろ原因薬）。<br/><b>a バンコマイシン</b>：<span class=\"kw\">経口バンコマイシンが第一選択</span>。✓<br/><b>d メトロニダゾール</b>：<span class=\"kw\">CD腸炎に有効</span>。✓"
+              "h": "🔍 別軸：病棟で広げないための感染対策",
+              "c": "<span class=\"kw\"><b>① 芽胞を作る</b></span><br/><span class=\"kw3\"><b>C. difficile は芽胞の形で環境に長く残る</b></span><br/><span class=\"kw4\"><b>芽胞はアルコールで死なない——手指衛生は石けんと流水で洗い流す</b></span><br/><span class=\"kw\"><b>② 接触予防策</b></span><br/><span class=\"kw3\"><b>個室か同じ病気の人の同室、手袋・ガウン</b></span><br/><span class=\"kw3\"><b>聴診器・体温計などは患者専用に</b></span><br/><span class=\"kw\"><b>③ 環境</b></span><br/><span class=\"kw3\"><b>ベッド周り・トイレは次亜塩素酸ナトリウムで拭く</b></span><br/><span class=\"kw\"><b>④ 予防</b></span><br/><span class=\"kw3\"><b>不要な抗菌薬を使わない・早めにやめる（抗菌薬適正使用）</b></span><br/><span class=\"kw3\"><b>PPI の漫然とした使用も CDI を増やす</b></span><br/><span class=\"kw\"><b>⑤ 再発をくり返すとき</b></span><br/><span class=\"kw3\"><b>フィダキソマイシン、ベズロトクスマブ（毒素 B の抗体）、便移植</b></span>"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "<span class=\"kw3\"><b>CDI の治療：バンコマイシン内服・メトロニダゾール・フィダキソマイシン</b></span><br/><span class=\"kw3\"><b>バンコマイシンは内服（点滴は腸に届かない）</b></span><br/><span class=\"kw4\"><b>芽胞にはアルコールが効かない——石けんと流水で手洗い</b></span>"
             }
           ],
           "imgs": []
