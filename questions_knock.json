@@ -40072,27 +40072,27 @@
             {
               "cls": "ept",
               "h": "📎 消化器 Q.93 の解説（同じ国試問題）",
-              "c": "この問題（120F-15）は <b>消化器 Q.93</b> と同じ国試問題なので、その解説を下に併記しています。<br/>Red color signは静脈瘤出血リスクが高いことを示す。EIS（内視鏡的硬化療法）で予防的治療を行う。"
+              "c": "この問題（120F-15）は <b>消化器 Q.93</b> と同じ国試問題なので、その解説を下に併記しています。<br/>食道静脈瘤に red color sign（RC sign：静脈瘤表面の発赤＝壁が薄くなった所）がある——<b>破裂の危険が高く、予防的な内視鏡治療の適応</b>。選択肢では<b>内視鏡的静脈瘤硬化療法〈EIS〉</b>（ほかに内視鏡的静脈瘤結紮術〈EVL〉）。静脈瘤の生検は大出血を起こすので禁忌。ステントは食道の狭窄（癌）に使う。トロンビン末の散布は胃・十二指腸の出血の補助で、静脈瘤には効かない。PPI は静脈瘤を小さくしない。"
             },
             {
               "cls": "ep",
-              "h": "🔴 食道静脈瘤のred color signと治療",
-              "c": "<span class=\"kw\">Red color sign（RC sign）</span>：静脈瘤表面の赤色調変化（血マメ・赤色条線）<br>→ 静脈瘤壁が菲薄化し破裂リスク高 → <span class=\"kw\">内視鏡的治療の適応</span><br/><br/><span class=\"kw\">d EIS（内視鏡的静脈瘤硬化療法）（正答）</span>：<br/>食道静脈瘤（特に孤立した静脈瘤）→ 硬化剤（エタノールアミンオレイン酸等）を静脈瘤内に注入→血栓形成→消失<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a生検：静脈瘤を生検すると致死的出血を起こす→禁忌！<br/>✗ bステント留置：食道狭窄・癌に適応（静脈瘤ではない）<br/>✗ cトロンビン末散布：局所止血に使う場合があるが第一選択ではない<br/>✗ ePPI：内服では静脈瘤治療にならない</br>"
+              "h": "🌿 食道静脈瘤の内視鏡所見の読み方——どこが破れやすいかを記号で書く",
+              "c": "<span class=\"kw3\"><b>門脈圧が上がると、門脈血は側副血行路を通って大循環へ戻る</b></span>。<span class=\"kw4\"><b>左胃静脈 → 食道の粘膜下の静脈 → 奇静脈 という経路が太り、食道下部に静脈瘤ができる</b></span>。<br/><span class=\"kw\"><b>① 記載基準（日本門脈圧亢進症学会）</b></span><br/><span class=\"kw3\"><b>占居部位 L：Ls（上部）・Lm（中部）・Li（下部）、胃では Lg-c（噴門部）・Lg-f（穹窿部）など</b></span><br/><span class=\"kw4\"><b>形態 F：F1 直線的で細い、F2 数珠状、F3 結節状・腫瘤状で太い</b></span><br/><span class=\"kw3\"><b>基本色調 C：Cw（白色）、Cb（青色＝壁が薄く緊満）</b></span><br/><span class=\"kw4\"><b>発赤所見 RC sign：ミミズ腫れ様（red wale marking）、チェリーレッドスポット、血マメ（hematocystic spot）——壁が最も薄く破裂しやすい所</b></span><br/><span class=\"kw3\"><b>出血所見：湧出性・噴出性出血、赤色栓・白色栓（出血後）</b></span><br/><span class=\"kw\"><b>② 予防的治療の適応</b></span><br/><span class=\"kw4\"><b>RC sign 陽性、または F2 以上——破裂する前に内視鏡治療を行う</b></span><br/><span class=\"kw3\"><b>本例：数珠状（F2）＋血マメ様の RC sign → 適応</b></span><br/><span class=\"kw\"><b>③ 使える治療</b></span><br/><span class=\"kw3\"><b>EIS（硬化療法）：静脈瘤の中・周りに硬化剤を注入して、供血路ごと固める</b></span><br/><span class=\"kw3\"><b>EVL（結紮術）：ゴムバンドで縛って壊死・脱落させる</b></span><br/><span class=\"kw3\"><b>肝硬変そのものの治療（禁酒・ウイルス治療）を並行する</b></span><br/><span class=\"kw2\"><b>血マメ様の所見から「出血しやすい」と見て生検したくなるが、絶対に行わない</b></span>"
             },
             {
               "cls": "ee",
-              "h": "□ 食道静脈瘤の内視鏡的治療",
-              "c": "<table class=\"tb\"><tr><th>治療</th><th>方法</th><th>特徴</th></tr><tr><td>治療</td><td>方法</td><td>特徴</td></tr><tr><td><span class=\"kw\">EIS（硬化療法）</span></td><td>硬化剤を静脈瘤内注射</td><td>孤立型・F3型に有効</td></tr><tr><td><span class=\"kw\">EVL（結紮術）</span></td><td>輪状ゴムで静脈瘤を結紮</td><td>出血合併症が少ない・繰り返し治療可</td></tr></table>"
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　生　検</td><td><span class=\"kw4\">誤り</span>（禁忌）。<span class=\"kw3\"><b>静脈瘤は壁の薄い太い静脈——針や鉗子で傷つけると大出血する</b></span>。</td></tr><tr><td>ｂ　ステント留置術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道癌などによる狭窄で、通過を保つために使う</b></span>。<span class=\"kw2\"><b>静脈瘤の破裂で他の方法が効かないとき、圧迫止血用の特殊なステントを使うことはあるが、予防治療には使わない</b></span>。</td></tr><tr><td>ｃ　トロンビン末の散布</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃・十二指腸の出血で補助的に使う止血薬</b></span>。<span class=\"kw3\"><b>出血していない静脈瘤には意味がなく、破裂の予防にもならない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　内視鏡的静脈瘤硬化療法</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>RC sign 陽性の静脈瘤は予防的治療の適応</b></span>。<span class=\"kw3\"><b>EIS は供血路まで固めるので、再発が少ない</b></span>。</td></tr><tr><td>ｅ　プロトンポンプ阻害薬の経口投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃酸を抑えても門脈圧は下がらず、静脈瘤は小さくならない</b></span>。<span class=\"kw2\"><b>EVL 後の潰瘍の治療に使うことはある</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 EIS と EVL——固めるか、縛るか",
+              "c": "<span class=\"kw4\"><b>どちらも内視鏡で行う静脈瘤の治療。得意な場面が違う</b></span>。<br/><span class=\"kw\"><b>① EIS（内視鏡的静脈瘤硬化療法）</b></span><br/><span class=\"kw3\"><b>硬化剤：静脈瘤の中に5％エタノールアミンオレイン酸（EO）、周りに1％ポリドカノール（AS）</b></span><br/><span class=\"kw4\"><b>利点：静脈瘤の中から供血路（左胃静脈など）まで固めるので、再発が少ない</b></span><br/><span class=\"kw4\"><b>欠点：肝・腎への負担がある——高度の肝障害（Child-Pugh C の一部）、腎不全では行いにくい</b></span><br/><span class=\"kw3\"><b>合併症：発熱・胸痛、溶血によるヘモグロビン尿と腎障害（ハプトグロビンを投与して防ぐ）、門脈血栓、食道潰瘍・狭窄</b></span><br/><span class=\"kw3\"><b>造影剤を混ぜ、透視で硬化剤の広がりを確かめながら注入する（EVIS）</b></span><br/><span class=\"kw\"><b>② EVL（内視鏡的静脈瘤結紮術）</b></span><br/><span class=\"kw4\"><b>利点：手技が簡単で、全身への負担が少なく、出血中でも行いやすい——緊急止血の第一選択（Q.94）</b></span><br/><span class=\"kw3\"><b>欠点：表面の静脈瘤だけを縛るので、供血路が残り再発しやすい</b></span><br/><span class=\"kw3\"><b>合併症：結紮後1〜2週で脱落した後の潰瘍からの出血</b></span><br/><span class=\"kw\"><b>③ 組み合わせ</b></span><br/><span class=\"kw3\"><b>EVL で止血してから、肝機能が許せば EIS で地固めする、などの使い分け</b></span><br/><span class=\"kw\"><b>④ 内視鏡以外の予防</b></span><br/><span class=\"kw3\"><b>非選択的β遮断薬（プロプラノロール・カルベジロール）：門脈血流を減らし、初回出血と再出血を減らす</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">食道静脈瘤RC sign（red color sign）陽性 → 出血リスク高 → EIS or EVL</span><br/><span class=\"kw4\">生検は絶対禁忌</span>（大量出血）。"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "食道静脈瘤にred color sign（破裂危険所見）。<br/><b>a 生検（禁忌）／b ステント／c トロンビン散布／e PPI経口</b>：不適。<br/><b>d 内視鏡的静脈瘤硬化療法</b>：<span class=\"kw\">破裂リスクの高い静脈瘤を硬化療法（またはEVL）で治療</span>。✓"
+              "c": "<span class=\"kw4\"><b>RC sign（ミミズ腫れ・チェリーレッドスポット・血マメ）陽性、または F2 以上 → 予防的内視鏡治療</b></span>。<br/><span class=\"kw4\"><b>静脈瘤の生検は禁忌</b></span>。<br/><span class=\"kw3\"><b>EIS：供血路まで固め再発が少ない。肝・腎の負担、溶血（ハプトグロビン）</b></span>。<br/><span class=\"kw3\"><b>EVL：簡便で負担が少なく、緊急止血の第一選択。再発しやすい</b></span>。<br/><span class=\"kw3\"><b>非選択的β遮断薬で門脈圧を下げ、出血を予防する</b></span>。"
             }
           ],
           "imgs": []

@@ -1,7 +1,7 @@
 // MEC の Service Worker（オフラインキャッシュ）。
 // ⚠️ 変更履歴は _work/sw_changelog.md に書く（ここにコメントを積まない。sw.js はページを開くたびに
 //    更新確認で取り直されるので、コメントも毎回ダウンロードされる＝2026-09-28 に 238KB を移した）。
-const CACHE = "mec-v692";
+const CACHE = "mec-v693";
 // シェル更新トリガ: この文字列を変えると sw.js のバイトが変わり SW 更新が走る。CACHE 名は
 // 据え置きなので CARDS(問題JSON 約15MB)は再DLされない。install が cache:'reload' でシェルだけ
 // 最新取得して上書きするため、シェル(html/css/js)を変えたらここを日付+連番で bump すれば確実に届く。

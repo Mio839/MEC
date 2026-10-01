@@ -6117,22 +6117,27 @@
       }
      ],
      "ans_label": "ｅ　Helicobacter pylori 除菌療法",
-     "ans_sub": "胃MALTリンパ腫はH.pylori感染に起因するものが多く、除菌療法だけで80%以上が完全寛解する。",
+     "ans_sub": "胃に限局した MALT リンパ腫で、迅速ウレアーゼ試験陽性——<b>Helicobacter pylori 除菌療法</b>がまず行う治療。H. pylori の慢性感染で胃粘膜にリンパ組織ができ、その B 細胞が腫瘍化したもので、<b>除菌だけで6〜8割が寛解</b>する。除菌が効かない・再発した例（t(11;18) 転座のある例に多い）に局所放射線照射、進行例にリツキシマブ・化学療法を使う。胃全摘は機能を大きく失うので、初回の治療にはしない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🦠 胃MALTリンパ腫とH.pylori除菌",
-       "c": "<span class=\"kw\">胃MALT（粘膜関連リンパ組織）リンパ腫</span>：<br>・H.pylori感染により慢性炎症→粘膜内のB細胞が腫瘍化<br>・H.pylori陽性例の<span class=\"kw\">80〜90%が除菌単独で完全寛解</span><br/>・除菌後の判定（3〜6か月後）→胃内視鏡＋生検で効果確認<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a胃全摘術：除菌前に外科手術は行わない（First lineは除菌）<br/>✗ b局所放射線：除菌無効・再発例に選択<br/>✗ cリツキシマブ：CD20陽性リンパ腫への抗体療法→除菌無効例に<br/>✗ d殺細胞性薬：除菌無効・進行例に選択</br></br>"
+       "h": "🌿 胃 MALT リンパ腫——菌が育てたリンパ腫は、菌を除くと消える",
+       "c": "<span class=\"kw3\"><b>胃粘膜にはもともとリンパ組織がほとんどない</b></span>。<span class=\"kw4\"><b>H. pylori の慢性感染でリンパ濾胞ができ（後天性の粘膜関連リンパ組織〈MALT〉）、抗原刺激を受け続けた B 細胞が腫瘍化する——節外性辺縁帯リンパ腫</b></span>。<br/><span class=\"kw\"><b>① 特徴</b></span><br/><span class=\"kw3\"><b>低悪性度で、ゆっくり進む。胃に限局していることが多い</b></span><br/><span class=\"kw3\"><b>内視鏡：褪色調の浅い陥凹・びらん、敷石状の粘膜、多発するびらん——早期胃癌（陥凹型）や胃炎に似る</b></span><br/><span class=\"kw3\"><b>診断は生検（リンパ上皮性病変：腫瘍細胞が腺管に入り込んで壊す）</b></span><br/><span class=\"kw\"><b>② 治療の順番</b></span><br/><span class=\"kw4\"><b>1. H. pylori 陽性で胃に限局（Lugano 分類 I 期）→ 除菌療法。6〜8割で寛解する</b></span><br/><span class=\"kw3\"><b>効果判定は除菌の成否を確かめ、数か月〜1年かけて内視鏡と生検で追う（消えるまで時間がかかる）</b></span><br/><span class=\"kw4\"><b>2. 除菌が効かない・陰性例・再発 → 局所放射線照射（30Gy 程度）</b></span><br/><span class=\"kw3\"><b>3. 進行例・全身に広がる → リツキシマブ（抗 CD20 抗体）単独、または化学療法との併用</b></span><br/><span class=\"kw3\"><b>手術は穿孔・大出血などに限る</b></span><br/><span class=\"kw\"><b>③ 除菌が効きにくい例</b></span><br/><span class=\"kw4\"><b>t(11;18)(q21;q21) 転座（API2-MALT1 融合遺伝子）がある——抗原刺激に頼らず増えるので、除菌で消えにくい</b></span><br/><span class=\"kw3\"><b>粘膜下層より深い浸潤、リンパ節転移、H. pylori 陰性</b></span><br/><span class=\"kw3\"><b>H. pylori 陰性でも、検出されない感染があり得るので除菌を試みることがある</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胃全摘術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>除菌・放射線で治る病気に、胃を失う手術は行わない</b></span>。<span class=\"kw3\"><b>穿孔・大出血などの合併症に限られる</b></span>。</td></tr><tr><td>ｂ　局所放射線照射</td><td><span class=\"kw4\">誤り</span>（まず行うものではない）。<span class=\"kw3\"><b>除菌が効かない・陰性・再発した胃限局例の治療で、局所制御は良好</b></span>。</td></tr><tr><td>ｃ　リツキシマブ治療</td><td><span class=\"kw4\">誤り</span>（まず行うものではない）。<span class=\"kw3\"><b>進行例・除菌と放射線で制御できない例に使う</b></span>。</td></tr><tr><td>ｄ　殺細胞性薬による治療</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>低悪性度で胃に限局した病変に、最初から化学療法は使わない</b></span>。<span class=\"kw2\"><b>大細胞型 B 細胞リンパ腫〈DLBCL〉に転化していれば R-CHOP</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　Helicobacter pylori 除菌療法</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>胃に限局し、迅速ウレアーゼ試験が陽性——除菌だけで寛解する可能性が高い</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 胃のリンパ腫と胃癌——同じ「胃の腫瘍」でも治療の道筋が違う",
+       "c": "<span class=\"kw4\"><b>胃は消化管で最もリンパ腫が多い臓器。主な型は MALT リンパ腫と DLBCL</b></span>。<br/><span class=\"kw\"><b>① MALT リンパ腫</b></span><br/><span class=\"kw3\"><b>低悪性度、H. pylori と関係、除菌が第一選択</b></span><br/><span class=\"kw\"><b>② DLBCL（びまん性大細胞型 B 細胞リンパ腫）</b></span><br/><span class=\"kw3\"><b>高悪性度で、大きな潰瘍・周堤を持つ腫瘤を作る——進行胃癌に似る</b></span><br/><span class=\"kw4\"><b>治療は R-CHOP（リツキシマブ＋化学療法）±放射線。手術は原則不要</b></span><br/><span class=\"kw2\"><b>MALT リンパ腫から転化することもある</b></span><br/><span class=\"kw\"><b>③ 内視鏡で癌と比べたときの手がかり</b></span><br/><span class=\"kw3\"><b>リンパ腫は粘膜の下を横に広がるので、病変が多発・広範で、境界が不明瞭</b></span><br/><span class=\"kw3\"><b>大きな潰瘍があっても胃壁が比較的柔らかく、空気で伸びる（スキルス胃癌は硬く伸びない）</b></span><br/><span class=\"kw4\"><b>生検でリンパ腫と分かれば、病期診断（CT・PET・骨髄）をしてから治療を選ぶ——手術ありきの胃癌とは違う</b></span><br/><span class=\"kw\"><b>④ ほかの消化管リンパ腫</b></span><br/><span class=\"kw3\"><b>腸管症関連 T 細胞リンパ腫（セリアック病と関係）、マントル細胞リンパ腫（多発性リンパ腫性ポリポーシス）、濾胞性リンパ腫（十二指腸に多い）</b></span><br/><span class=\"kw\"><b>⑤ H. pylori 除菌が効く病気のまとめ</b></span><br/><span class=\"kw3\"><b>胃・十二指腸潰瘍、胃 MALT リンパ腫、早期胃癌の内視鏡治療後、特発性血小板減少性紫斑病（ITP）、萎縮性胃炎</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">胃MALTリンパ腫 → H.pylori除菌が第一選択（80〜90%で完全寛解）</span><br/>除菌無効→放射線療法・リツキシマブ・化学療法。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃に限局したMALTリンパ腫。<br/><b>a 胃全摘／b 放射線／c リツキシマブ／d 殺細胞薬</b>：第一でない。<br/><b>e Helicobacter pylori除菌療法</b>：<span class=\"kw\">限局性胃MALTリンパ腫は除菌で退縮することが多い</span>。✓"
+       "c": "<span class=\"kw4\"><b>胃に限局した MALT リンパ腫で H. pylori 陽性 → まず除菌療法（6〜8割で寛解）</b></span>。<br/><span class=\"kw3\"><b>除菌無効・陰性・再発 → 局所放射線照射。進行例 → リツキシマブ・化学療法</b></span>。<br/><span class=\"kw3\"><b>t(11;18)（API2-MALT1）は除菌が効きにくい</b></span>。<br/><span class=\"kw3\"><b>内視鏡：褪色調の浅い陥凹・多発びらん、生検でリンパ上皮性病変</b></span>。<br/><span class=\"kw3\"><b>胃の DLBCL は R-CHOP。リンパ腫に手術ありきで臨まない</b></span>。"
       }
      ],
      "imgs": []
@@ -6182,22 +6187,27 @@
       }
      ],
      "ans_label": "ｃ　腹部造影CT\nｅ　小腸バルーン内視鏡検査",
-     "ans_sub": "上部・下部内視鏡で出血源不明の場合は小腸病変を疑い、腹部造影CTと小腸バルーン内視鏡で精査する。",
+     "ans_sub": "数か月にわたって繰り返す暗赤色の血便、鉄欠乏性貧血（Fe↓・TIBC↑・フェリチン↓）、DOAC の内服。上部・下部消化管内視鏡で出血源がない——<b>小腸出血</b>を疑う。<b>腹部造影 CT</b>で腫瘍・血管病変・活動性出血を探し、<b>小腸バルーン内視鏡</b>で小腸を直接観察し、生検や止血も行う（カプセル内視鏡も選択肢）。胆道鏡は胆管の検査、腹腔鏡は腸管の外側しか見えず、超音波内視鏡は壁の深さや壁外の病変を見る検査で、出血源の検索には使わない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔍 不明消化管出血（OGIB）の精査",
-       "c": "<span class=\"kw\">OGIB（Obscure GI Bleeding）</span>：上部・下部内視鏡で出血源不明の消化管出血<br>→ <span class=\"kw\">小腸病変を疑う</span><br><br><span class=\"kw\">c 腹部造影CT（正答）</span>：腫瘍・血管奇形・憩室等の形態的評価<br/><span class=\"kw\">e 小腸バルーン内視鏡（正答）</span>：小腸内腔を直接観察・生検・治療が可能<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a胆道鏡：胆管内病変（胆石・腫瘍）→消化管出血には不適<br/>✗ b腹腔鏡：腹腔内観察→消化管内腔の観察には不適<br/>✗ d超音波内視鏡：壁外病変・粘膜下腫瘍の評価→出血源精査の第一選択ではない</br></br></br>"
+       "h": "🌿 小腸出血の検査を選ぶ——「今出ているか」と「処置が要るか」",
+       "c": "<span class=\"kw3\"><b>上下部内視鏡で出血源がない消化管出血の考え方と、小腸出血の原因は Q.7 で見た</b></span>。<span class=\"kw4\"><b>ここでは、検査を選ぶ2つの軸を整理する</b></span>。<br/><span class=\"kw\"><b>① 軸1：出血の勢い</b></span><br/><span class=\"kw4\"><b>今まさに大量に出ている（循環が不安定）→ 造影 CT（動脈相を含む）で出血部位を探し、血管造影で塞栓、間に合わなければ手術</b></span><br/><span class=\"kw3\"><b>造影 CT は造影剤の漏れ出し（血管外漏出）で出血部位が分かる。腫瘍・血管奇形・Meckel 憩室・腸管の壁肥厚も見える</b></span><br/><span class=\"kw3\"><b>出血が止まっている・少量で繰り返す（本例）→ 造影 CT とカプセル内視鏡・バルーン内視鏡で計画的に調べる</b></span><br/><span class=\"kw2\"><b>出血から時間が経つほど出血源は見つかりにくい——できるだけ早く（出血後2週間以内、できれば数日以内）検査する</b></span><br/><span class=\"kw\"><b>② 軸2：処置まで行うか</b></span><br/><span class=\"kw3\"><b>カプセル内視鏡：全小腸を苦痛なく見る。処置はできない（Q.7）</b></span><br/><span class=\"kw4\"><b>バルーン内視鏡：口側・肛門側から挿入し、病変の生検・止血（アルゴンプラズマ凝固・クリップ）・ポリープ切除ができる</b></span><br/><span class=\"kw3\"><b>カプセルや CT で病変の場所の見当をつけてから、どちら側から入れるかを決めると効率がよい</b></span><br/><span class=\"kw\"><b>③ 本例の読み</b></span><br/><span class=\"kw3\"><b>2か月で3回の暗赤色便（小腸〜右側結腸の出血を示唆）、腸雑音の亢進、今は止まっている、DOAC を内服——小腸の血管拡張症・潰瘍・腫瘍を探す</b></span><br/><span class=\"kw3\"><b>LD がわずかに高い——腫瘍（リンパ腫など）も念頭に置く</b></span>"
       },
       {
        "cls": "ee",
-       "h": "□ 消化管出血の精査アルゴリズム",
-       "c": "<table class=\"tb\"><tr><th>ステップ</th><th>検査</th></tr><tr><td>ステップ</td><td>検査</td></tr><tr><td>Step1</td><td>上部消化管内視鏡（食道〜十二指腸）</td></tr><tr><td>Step2</td><td>下部消化管内視鏡（大腸）</td></tr><tr><td>Step3（OGIB）</td><td><span class=\"kw\">腹部造影CT</span>＋<span class=\"kw\">カプセル内視鏡or小腸バルーン内視鏡</span></td></tr><tr><td>出血が速い場合</td><td>腹部血管造影・核医学（Tc-99m RBC scan）</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　胆道鏡検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胆管内の結石・腫瘍を見る検査</b></span>。<span class=\"kw2\"><b>胆道出血（肝外傷・腫瘍・動脈瘤）はまれで、本例に示唆する所見（黄疸・胆道系酵素の上昇）がない</b></span>。</td></tr><tr><td>ｂ　腹腔鏡検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腹腔内から腸管の外側を見るだけで、粘膜の出血源は分からない</b></span>。<span class=\"kw3\"><b>検査を尽くしても分からない場合に、手術中の内視鏡と組み合わせることはある</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　腹部造影CT</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>小腸腫瘍・血管病変・壁肥厚・Meckel 憩室・活動性出血を評価する</b></span>。<span class=\"kw2\"><b>狭窄の有無を先に知ることで、カプセル滞留の危険も見積もれる</b></span>。</td></tr><tr><td>ｄ　超音波内視鏡検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>粘膜下腫瘍の性状・癌の深達度・膵胆道を調べる検査</b></span>。<span class=\"kw3\"><b>出血源を探す検査ではない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　小腸バルーン内視鏡検査</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>小腸を直接観察し、生検と止血まで行える</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "上下部内視鏡で出血源不明（中部消化管出血）で行うものを2つ。<br/><b>a 胆道鏡／b 腹腔鏡／d 超音波内視鏡</b>：本病態でない。<br/><b>c 腹部造影CT</b>：<span class=\"kw\">出血部位・血管病変の評価</span>。✓<br/><b>e 小腸バルーン内視鏡検査</b>：<span class=\"kw\">小腸の直接観察・止血</span>。✓"
+       "h": "🔍 消化管出血と抗血栓薬、そして鉄欠乏——検査の後にすること",
+       "c": "<span class=\"kw\"><b>① 抗凝固薬を続けるか</b></span><br/><span class=\"kw4\"><b>血栓の危険（心房細動の CHADS<sub>2</sub>・CHA<sub>2</sub>DS<sub>2</sub>-VASc スコア）と出血の重さを比べて決める</b></span><br/><span class=\"kw3\"><b>大量出血・循環不安定：一時中止し、必要なら中和（ダビガトラン → イダルシズマブ、Xa 阻害薬 → アンデキサネット アルファ）</b></span><br/><span class=\"kw3\"><b>少量で止まっている：休薬は最小限に。内視鏡処置の予定に合わせて調整する</b></span><br/><span class=\"kw4\"><b>止血を確認したら、早めに再開する——休薬が長いと脳梗塞などの血栓症が増える</b></span><br/><span class=\"kw2\"><b>PT-INR が正常（1.1）でも DOAC の効果は否定できない——DOAC は PT-INR で効果を測れない</b></span><br/><span class=\"kw\"><b>② 鉄欠乏性貧血の読み</b></span><br/><span class=\"kw4\"><b>Fe↓・TIBC↑・フェリチン↓——体の貯蔵鉄が減っている（慢性の失血）</b></span><br/><span class=\"kw3\"><b>炎症による貧血との区別：炎症では Fe↓ でも TIBC は低め、フェリチンは正常〜高値</b></span><br/><span class=\"kw3\"><b>小球性（MCV↓）になる。本例の MCV＝Ht 38％ ÷ 赤血球426万 × 1,000 ≒ 89fL——まだ正球性の範囲で、鉄欠乏が始まったばかりの段階と読める</b></span><br/><span class=\"kw\"><b>③ 鉄の補充</b></span><br/><span class=\"kw3\"><b>経口の鉄剤が基本（悪心・便秘・黒色便に注意）。消化器症状で飲めない・吸収されない・失血が多い場合は静注</b></span><br/><span class=\"kw4\"><b>鉄欠乏性貧血をみたら、成人男性・閉経後女性では必ず消化管の出血源を探す</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw4\"><b>上下部内視鏡で出血源がない → 小腸出血を疑い、造影 CT・カプセル内視鏡・バルーン内視鏡</b></span>。<br/><span class=\"kw3\"><b>処置（生検・止血）ができるのはバルーン内視鏡。カプセルは観察だけ</b></span>。<br/><span class=\"kw3\"><b>循環不安定な大量出血 → 造影 CT から血管造影（塞栓）</b></span>。<br/><span class=\"kw3\"><b>DOAC は PT-INR で効果を測れない。止血後は早めに再開</b></span>。<br/><span class=\"kw4\"><b>Fe↓・TIBC↑・フェリチン↓ は鉄欠乏——成人男性・閉経後女性なら消化管の出血源を探す</b></span>。"
       }
      ],
      "imgs": []
@@ -6247,27 +6257,27 @@
       }
      ],
      "ans_label": "ｄ　内視鏡的静脈瘤硬化療法",
-     "ans_sub": "Red color signは静脈瘤出血リスクが高いことを示す。EIS（内視鏡的硬化療法）で予防的治療を行う。",
+     "ans_sub": "食道静脈瘤に red color sign（RC sign：静脈瘤表面の発赤＝壁が薄くなった所）がある——<b>破裂の危険が高く、予防的な内視鏡治療の適応</b>。選択肢では<b>内視鏡的静脈瘤硬化療法〈EIS〉</b>（ほかに内視鏡的静脈瘤結紮術〈EVL〉）。静脈瘤の生検は大出血を起こすので禁忌。ステントは食道の狭窄（癌）に使う。トロンビン末の散布は胃・十二指腸の出血の補助で、静脈瘤には効かない。PPI は静脈瘤を小さくしない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔴 食道静脈瘤のred color signと治療",
-       "c": "<span class=\"kw\">Red color sign（RC sign）</span>：静脈瘤表面の赤色調変化（血マメ・赤色条線）<br>→ 静脈瘤壁が菲薄化し破裂リスク高 → <span class=\"kw\">内視鏡的治療の適応</span><br/><br/><span class=\"kw\">d EIS（内視鏡的静脈瘤硬化療法）（正答）</span>：<br/>食道静脈瘤（特に孤立した静脈瘤）→ 硬化剤（エタノールアミンオレイン酸等）を静脈瘤内に注入→血栓形成→消失<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a生検：静脈瘤を生検すると致死的出血を起こす→禁忌！<br/>✗ bステント留置：食道狭窄・癌に適応（静脈瘤ではない）<br/>✗ cトロンビン末散布：局所止血に使う場合があるが第一選択ではない<br/>✗ ePPI：内服では静脈瘤治療にならない</br>"
+       "h": "🌿 食道静脈瘤の内視鏡所見の読み方——どこが破れやすいかを記号で書く",
+       "c": "<span class=\"kw3\"><b>門脈圧が上がると、門脈血は側副血行路を通って大循環へ戻る</b></span>。<span class=\"kw4\"><b>左胃静脈 → 食道の粘膜下の静脈 → 奇静脈 という経路が太り、食道下部に静脈瘤ができる</b></span>。<br/><span class=\"kw\"><b>① 記載基準（日本門脈圧亢進症学会）</b></span><br/><span class=\"kw3\"><b>占居部位 L：Ls（上部）・Lm（中部）・Li（下部）、胃では Lg-c（噴門部）・Lg-f（穹窿部）など</b></span><br/><span class=\"kw4\"><b>形態 F：F1 直線的で細い、F2 数珠状、F3 結節状・腫瘤状で太い</b></span><br/><span class=\"kw3\"><b>基本色調 C：Cw（白色）、Cb（青色＝壁が薄く緊満）</b></span><br/><span class=\"kw4\"><b>発赤所見 RC sign：ミミズ腫れ様（red wale marking）、チェリーレッドスポット、血マメ（hematocystic spot）——壁が最も薄く破裂しやすい所</b></span><br/><span class=\"kw3\"><b>出血所見：湧出性・噴出性出血、赤色栓・白色栓（出血後）</b></span><br/><span class=\"kw\"><b>② 予防的治療の適応</b></span><br/><span class=\"kw4\"><b>RC sign 陽性、または F2 以上——破裂する前に内視鏡治療を行う</b></span><br/><span class=\"kw3\"><b>本例：数珠状（F2）＋血マメ様の RC sign → 適応</b></span><br/><span class=\"kw\"><b>③ 使える治療</b></span><br/><span class=\"kw3\"><b>EIS（硬化療法）：静脈瘤の中・周りに硬化剤を注入して、供血路ごと固める</b></span><br/><span class=\"kw3\"><b>EVL（結紮術）：ゴムバンドで縛って壊死・脱落させる</b></span><br/><span class=\"kw3\"><b>肝硬変そのものの治療（禁酒・ウイルス治療）を並行する</b></span><br/><span class=\"kw2\"><b>血マメ様の所見から「出血しやすい」と見て生検したくなるが、絶対に行わない</b></span>"
       },
       {
        "cls": "ee",
-       "h": "□ 食道静脈瘤の内視鏡的治療",
-       "c": "<table class=\"tb\"><tr><th>治療</th><th>方法</th><th>特徴</th></tr><tr><td>治療</td><td>方法</td><td>特徴</td></tr><tr><td><span class=\"kw\">EIS（硬化療法）</span></td><td>硬化剤を静脈瘤内注射</td><td>孤立型・F3型に有効</td></tr><tr><td><span class=\"kw\">EVL（結紮術）</span></td><td>輪状ゴムで静脈瘤を結紮</td><td>出血合併症が少ない・繰り返し治療可</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　生　検</td><td><span class=\"kw4\">誤り</span>（禁忌）。<span class=\"kw3\"><b>静脈瘤は壁の薄い太い静脈——針や鉗子で傷つけると大出血する</b></span>。</td></tr><tr><td>ｂ　ステント留置術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道癌などによる狭窄で、通過を保つために使う</b></span>。<span class=\"kw2\"><b>静脈瘤の破裂で他の方法が効かないとき、圧迫止血用の特殊なステントを使うことはあるが、予防治療には使わない</b></span>。</td></tr><tr><td>ｃ　トロンビン末の散布</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃・十二指腸の出血で補助的に使う止血薬</b></span>。<span class=\"kw3\"><b>出血していない静脈瘤には意味がなく、破裂の予防にもならない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　内視鏡的静脈瘤硬化療法</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>RC sign 陽性の静脈瘤は予防的治療の適応</b></span>。<span class=\"kw3\"><b>EIS は供血路まで固めるので、再発が少ない</b></span>。</td></tr><tr><td>ｅ　プロトンポンプ阻害薬の経口投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃酸を抑えても門脈圧は下がらず、静脈瘤は小さくならない</b></span>。<span class=\"kw2\"><b>EVL 後の潰瘍の治療に使うことはある</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 EIS と EVL——固めるか、縛るか",
+       "c": "<span class=\"kw4\"><b>どちらも内視鏡で行う静脈瘤の治療。得意な場面が違う</b></span>。<br/><span class=\"kw\"><b>① EIS（内視鏡的静脈瘤硬化療法）</b></span><br/><span class=\"kw3\"><b>硬化剤：静脈瘤の中に5％エタノールアミンオレイン酸（EO）、周りに1％ポリドカノール（AS）</b></span><br/><span class=\"kw4\"><b>利点：静脈瘤の中から供血路（左胃静脈など）まで固めるので、再発が少ない</b></span><br/><span class=\"kw4\"><b>欠点：肝・腎への負担がある——高度の肝障害（Child-Pugh C の一部）、腎不全では行いにくい</b></span><br/><span class=\"kw3\"><b>合併症：発熱・胸痛、溶血によるヘモグロビン尿と腎障害（ハプトグロビンを投与して防ぐ）、門脈血栓、食道潰瘍・狭窄</b></span><br/><span class=\"kw3\"><b>造影剤を混ぜ、透視で硬化剤の広がりを確かめながら注入する（EVIS）</b></span><br/><span class=\"kw\"><b>② EVL（内視鏡的静脈瘤結紮術）</b></span><br/><span class=\"kw4\"><b>利点：手技が簡単で、全身への負担が少なく、出血中でも行いやすい——緊急止血の第一選択（Q.94）</b></span><br/><span class=\"kw3\"><b>欠点：表面の静脈瘤だけを縛るので、供血路が残り再発しやすい</b></span><br/><span class=\"kw3\"><b>合併症：結紮後1〜2週で脱落した後の潰瘍からの出血</b></span><br/><span class=\"kw\"><b>③ 組み合わせ</b></span><br/><span class=\"kw3\"><b>EVL で止血してから、肝機能が許せば EIS で地固めする、などの使い分け</b></span><br/><span class=\"kw\"><b>④ 内視鏡以外の予防</b></span><br/><span class=\"kw3\"><b>非選択的β遮断薬（プロプラノロール・カルベジロール）：門脈血流を減らし、初回出血と再出血を減らす</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">食道静脈瘤RC sign（red color sign）陽性 → 出血リスク高 → EIS or EVL</span><br/><span class=\"kw4\">生検は絶対禁忌</span>（大量出血）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "食道静脈瘤にred color sign（破裂危険所見）。<br/><b>a 生検（禁忌）／b ステント／c トロンビン散布／e PPI経口</b>：不適。<br/><b>d 内視鏡的静脈瘤硬化療法</b>：<span class=\"kw\">破裂リスクの高い静脈瘤を硬化療法（またはEVL）で治療</span>。✓"
+       "c": "<span class=\"kw4\"><b>RC sign（ミミズ腫れ・チェリーレッドスポット・血マメ）陽性、または F2 以上 → 予防的内視鏡治療</b></span>。<br/><span class=\"kw4\"><b>静脈瘤の生検は禁忌</b></span>。<br/><span class=\"kw3\"><b>EIS：供血路まで固め再発が少ない。肝・腎の負担、溶血（ハプトグロビン）</b></span>。<br/><span class=\"kw3\"><b>EVL：簡便で負担が少なく、緊急止血の第一選択。再発しやすい</b></span>。<br/><span class=\"kw3\"><b>非選択的β遮断薬で門脈圧を下げ、出血を予防する</b></span>。"
       }
      ],
      "imgs": []
@@ -6321,22 +6331,27 @@
       }
      ],
      "ans_label": "ｄ　内視鏡的結紮術",
-     "ans_sub": "食道静脈瘤出血の内視鏡的止血には、EVL（輪状ゴム結紮術）が第一選択。止血率が高く合併症が少ない。",
+     "ans_sub": "長年の大量飲酒、脾腫・血小板減少（肝硬変・門脈圧亢進症）。吐血・頻脈・血圧低下（出血性ショック）。内視鏡像では、食道に太く蛇行した結節状の静脈瘤があり、表面に発赤（RC sign）がある——<b>食道静脈瘤の破裂</b>。緊急止血の第一選択は<b>内視鏡的静脈瘤結紮術〈EVL〉</b>。クリッピングは潰瘍の露出血管に使う。ステント留置は狭窄に、BRTO は胃（穹窿部）静脈瘤に使う。開腹止血は内視鏡などが効かない場合の最後の手段。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🫀 食道静脈瘤出血の緊急治療",
-       "c": "<span class=\"kw\">d EVL（内視鏡的静脈瘤結紮術）（正答）</span>：<br>・輪状ゴムバンドで静脈瘤を結紮→虚血壊死→脱落<br>・緊急止血として最も安全・有効（止血率85〜90%）<br>・繰り返し施行可能<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a開腹止血術：内視鏡治療が不可能・失敗した場合に限る（緊急手術は最終手段）<br/>✗ bクリッピング：消化性潰瘍出血用（静脈瘤には無効）<br/>✗ cステント留置：食道閉塞・癌の緩和に使用<br/>✗ eBRTO：胃静脈瘤（噴門周囲型）に適応（食道静脈瘤には通常使用しない）</br></br></br>"
+       "h": "🌿 静脈瘤破裂の初期治療——輸血は控えめに、薬と内視鏡を急ぐ",
+       "c": "<span class=\"kw4\"><b>静脈瘤からの出血は止まりにくく、肝硬変で凝固能も落ちている——死亡率は今も高い</b></span>。<span class=\"kw3\"><b>内視鏡の前から、いくつもの治療を同時に始める</b></span>。<br/><span class=\"kw\"><b>① 循環の立て直し</b></span><br/><span class=\"kw3\"><b>太い静脈路を2本確保し、細胞外液を輸液する</b></span><br/><span class=\"kw4\"><b>輸血は Hb 7〜8g/dL を目標に控えめに——入れすぎると門脈圧が上がり再出血が増える</b></span><br/><span class=\"kw\"><b>② 薬</b></span><br/><span class=\"kw3\"><b>門脈圧を下げる薬（バソプレシン・ソマトスタチン類似薬）</b></span><br/><span class=\"kw4\"><b>予防的抗菌薬（セフトリアキソンなど）——肝硬変の消化管出血では細菌感染が多く、抗菌薬で再出血と死亡が減る</b></span><br/><span class=\"kw3\"><b>PPI（潰瘍の可能性と EVL 後の潰瘍に備える）</b></span><br/><span class=\"kw3\"><b>肝性脳症の予防：ラクツロース（腸内の血液は窒素源になりアンモニアを増やす）</b></span><br/><span class=\"kw\"><b>③ 内視鏡（12時間以内）</b></span><br/><span class=\"kw4\"><b>EVL が第一選択。出血点を含めて縛る</b></span><br/><span class=\"kw3\"><b>本例の内視鏡像：右側の壁に太く蛇行した静脈瘤（F3）があり、表面に小さな発赤（RC sign）が散在する。内腔には暗赤色の血液が残る</b></span><br/><span class=\"kw\"><b>④ 内視鏡で止まらないとき</b></span><br/><span class=\"kw3\"><b>S-B チューブ（Sengstaken-Blakemore）：胃と食道のバルーンで一時的に圧迫止血（24時間以内に次の治療へ）</b></span><br/><span class=\"kw3\"><b>TIPS（経頸静脈的肝内門脈大循環シャント）：肝内で門脈と肝静脈をつないで門脈圧を下げる</b></span><br/><span class=\"kw3\"><b>開腹手術（食道離断術など）は最後の手段</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　開腹止血術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>肝硬変・ショックの患者の開腹は危険が大きい</b></span>。<span class=\"kw3\"><b>内視鏡・S-B チューブ・TIPS が効かない場合に限る</b></span>。</td></tr><tr><td>ｂ　クリッピング</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>潰瘍の露出血管や小さな出血点を挟む止血法</b></span>。<span class=\"kw3\"><b>太い静脈瘤は挟みきれず、穴を広げることもある</b></span>。</td></tr><tr><td>ｃ　ステント留置術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道の悪性狭窄の通過を保つために使う</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　内視鏡的結紮術</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>食道静脈瘤からの出血の緊急止血の第一選択</b></span>。<span class=\"kw3\"><b>手技が簡単で、出血中でも行いやすく、全身への負担が少ない（Q.93）</b></span>。</td></tr><tr><td>ｅ　バルーン閉塞下逆行性経静脈塞栓術〈BRTO〉</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃腎シャントを持つ胃静脈瘤（穹窿部）の治療</b></span>。<span class=\"kw3\"><b>左腎静脈からバルーンカテーテルを入れ、逆行性に硬化剤を注入する（Q.152）</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 門脈圧亢進症——一つの原因から脾腫・血小板減少・静脈瘤が生まれる",
+       "c": "<span class=\"kw4\"><b>肝硬変で肝内の血流が通りにくくなり、門脈の圧が上がる（正常は約7mmHg 前後、静脈瘤は肝静脈圧較差10〜12mmHg 以上でできる）</b></span>。<br/><span class=\"kw\"><b>① 脾腫と血球減少</b></span><br/><span class=\"kw3\"><b>脾静脈の血流がうっ滞し脾臓が腫れる（本例は左肋骨弓下に2cm）</b></span><br/><span class=\"kw4\"><b>大きな脾臓が血球を溜め込み壊す（脾機能亢進）——血小板が最も早く減る（本例 7.2万）</b></span><br/><span class=\"kw3\"><b>肝で作られるトロンボポエチンが減ることも血小板減少に関わる</b></span><br/><span class=\"kw\"><b>② 側副血行路</b></span><br/><span class=\"kw3\"><b>食道・胃静脈瘤：左胃静脈・短胃静脈 → 奇静脈</b></span><br/><span class=\"kw3\"><b>腹壁の静脈怒張（メドゥーサの頭）：臍傍静脈 → 腹壁の静脈</b></span><br/><span class=\"kw3\"><b>直腸静脈瘤：上直腸静脈 → 中・下直腸静脈</b></span><br/><span class=\"kw3\"><b>胃腎シャント：胃静脈瘤 → 左腎静脈（BRTO の通り道：Q.152）</b></span><br/><span class=\"kw\"><b>③ そのほか</b></span><br/><span class=\"kw3\"><b>腹水（門脈圧の上昇と低アルブミン）、門脈圧亢進症性胃症（胃粘膜の発赤・モザイク模様からのじわじわした出血）</b></span><br/><span class=\"kw\"><b>④ 肝予備能の評価</b></span><br/><span class=\"kw4\"><b>Child-Pugh 分類（ビリルビン・アルブミン・PT・腹水・脳症）で A・B・C に分け、治療法の選択と予後の見積もりに使う</b></span><br/><span class=\"kw2\"><b>本例は黄疸がないが、肝機能の詳細は止血後に評価する</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">食道静脈瘤出血 → EVL（内視鏡的結紮術）が第一選択</span><br/>EIS vs EVL：EVLの方が出血合併症少なく繰り返し治療に適する。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "食道静脈瘤破裂（血小板低下＝肝硬変）。<br/><b>a 開腹止血／b クリッピング／c ステント／e BRTO（胃静脈瘤向け）</b>：第一でない。<br/><b>d 内視鏡的結紮術（EVL）</b>：<span class=\"kw\">食道静脈瘤出血の第一選択</span>。✓"
+       "c": "<span class=\"kw4\"><b>飲酒歴・脾腫・血小板減少＋吐血・ショック → 食道静脈瘤の破裂。緊急止血の第一選択は EVL</b></span>。<br/><span class=\"kw4\"><b>輸血は Hb 7〜8 を目標に控えめに。予防的抗菌薬、門脈圧を下げる薬、肝性脳症の予防</b></span>。<br/><span class=\"kw3\"><b>内視鏡で止まらなければ S-B チューブ → TIPS。開腹は最後の手段</b></span>。<br/><span class=\"kw3\"><b>BRTO は胃（穹窿部）静脈瘤、クリッピングは潰瘍の露出血管</b></span>。<br/><span class=\"kw3\"><b>脾機能亢進で血小板が最初に減る</b></span>。"
       }
      ],
      "imgs": [
@@ -6392,22 +6407,27 @@
       }
      ],
      "ans_label": "ｅ　⑤",
-     "ans_sub": "解釈モデルは患者自身が病気をどう理解・解釈しているかを問うもの。「なぜ/どうして」の問いが該当。",
+     "ans_sub": "解釈モデルは、<b>患者が自分の病気をどう理解し、何を心配しているか</b>——⑤「自分の病気についてどう考えていますか」がそれを尋ねる質問で、患者は「父と同じ胃癌ではないか」と答えている。①飲酒は生活歴、②便の色は症状の性状（黒色便＝上部消化管出血の確認）、③健康診断は受診歴、④服薬は薬歴（市販の鎮痛薬＝NSAIDs）を尋ねる質問で、いずれも医学的な情報を集めるためのもの。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🗣️ 解釈モデル（Explanatory Model）",
-       "c": "<span class=\"kw\">解釈モデル</span>：患者が自分の病気・症状についてどう理解しているかを表す<br>→ 「何が原因だと思いますか」「どんな病気だと思いますか」等<br><br><span class=\"kw\">CalmanらのICE（Ideas, Concerns, Expectations）モデル</span>：<br>・Ideas（考え・解釈）：病気の原因について患者の考え<br>・Concerns（心配・不安）：患者が最も心配していること<br>・Expectations（期待）：受診で期待していること<br><br>⑤の質問は「この出血の原因は何だと思いますか」や「自分ではどんな病気だと思っていますか」等、患者の解釈を問う質問。</br></br></br></br></br></br></br></br>"
+       "h": "🌿 解釈モデル——患者の「病気のとらえ方」を医師の診断と並べて聞く",
+       "c": "<span class=\"kw4\"><b>医師が考える病気（disease）と、患者が体験している病（illness）は違う</b></span>。<span class=\"kw3\"><b>患者は「なぜこうなったのか」「何の病気か」「これからどうなるか」を自分なりに考えている——それが解釈モデル</b></span>。<br/><span class=\"kw\"><b>① 聞き方</b></span><br/><span class=\"kw3\"><b>「ご自分では何が原因だと思われますか」「どんな病気を心配されていますか」「今日はどうしてほしいとお考えですか」</b></span><br/><span class=\"kw\"><b>② ICE（よく使う整理の型）</b></span><br/><span class=\"kw4\"><b>Ideas（考え）：病気についてどう考えているか</b></span><br/><span class=\"kw4\"><b>Concerns（心配）：何を一番心配しているか</b></span><br/><span class=\"kw4\"><b>Expectations（期待）：受診で何を望んでいるか</b></span><br/><span class=\"kw3\"><b>本例：Ideas＝胃癌ではないか、Concerns＝父と同じ病気で死ぬのではないか</b></span><br/><span class=\"kw\"><b>③ なぜ聞くのか</b></span><br/><span class=\"kw3\"><b>患者の不安の中身が分かり、説明の焦点が合う（「胃癌かどうか調べます」と明確に伝えられる）</b></span><br/><span class=\"kw3\"><b>治療への納得と協力が増える</b></span><br/><span class=\"kw4\"><b>聞かずに説明すると、患者の一番の心配に触れないまま終わる——「大丈夫です」と言われても安心できない</b></span><br/><span class=\"kw\"><b>④ ほかの下線部はどれか</b></span><br/><span class=\"kw3\"><b>①生活歴（飲酒）、②症状の性状（便の色）、③受診・健診歴、④薬歴——いずれも医学的な情報を集める質問</b></span><br/><span class=\"kw2\"><b>④は答えが重要で、NSAIDs 潰瘍を強く疑わせる（Q.96）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　①</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>飲酒歴（生活歴）を尋ねる閉じた質問</b></span>。<span class=\"kw2\"><b>飲酒量はアルコール性肝障害・静脈瘤・膵炎・胃粘膜障害の鑑別に役立つ</b></span>。</td></tr><tr><td>ｂ　②</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>症状の性状——黒色便（上部消化管出血）を確かめる質問</b></span>。</td></tr><tr><td>ｃ　③</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>受診歴・健診歴</b></span>。</td></tr><tr><td>ｄ　④</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>薬歴。市販薬・サプリメントまで聞くことが大切</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　⑤</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>患者自身の病気の考え方（胃癌ではないか）を尋ねている</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 医療面接の質問の型——開いた質問から閉じた質問へ",
+       "c": "<span class=\"kw4\"><b>医療面接の目的は、情報を集めること、関係を築くこと、患者に説明し行動を促すこと</b></span>。<br/><span class=\"kw\"><b>① 質問の型</b></span><br/><span class=\"kw3\"><b>開放型（開いた質問）：「どうされましたか」——患者が自由に話せる。面接の始めに</b></span><br/><span class=\"kw3\"><b>焦点を絞った開放型：「その痛みについてもう少し教えてください」</b></span><br/><span class=\"kw3\"><b>閉鎖型（閉じた質問）：「お酒は飲みますか」——はい・いいえで答える。確認に</b></span><br/><span class=\"kw4\"><b>避けるもの：誘導的な質問（「痛みは食後ですよね」）、一度に複数を尋ねる質問</b></span><br/><span class=\"kw\"><b>② 聞く技術</b></span><br/><span class=\"kw3\"><b>促し（うなずき・「それで？」）、繰り返し、要約（「つまり〜ということですね」）、沈黙を待つ</b></span><br/><span class=\"kw4\"><b>共感：「それは心配でしたね」——感情に名前をつけて返す</b></span><br/><span class=\"kw\"><b>③ 聞く内容の順</b></span><br/><span class=\"kw3\"><b>主訴 → 現病歴（OPQRST：発症・増悪寛解因子・性状・部位と放散・随伴症状・時間経過）→ 既往歴 → 薬歴・アレルギー → 家族歴 → 生活歴（飲酒・喫煙・職業）→ 解釈モデル</b></span><br/><span class=\"kw\"><b>④ 本例の家族歴</b></span><br/><span class=\"kw3\"><b>父の胃癌は、H. pylori の家族内感染と関係しうる——医学的にも意味がある情報</b></span><br/><span class=\"kw3\"><b>不安が強いので、検査（上部消化管内視鏡）の目的が「胃癌も含めて確かめるため」であると伝える</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">解釈モデルを問う質問 = 患者が自分の病気をどう解釈しているかを尋ねる</span><br/>医師の問診技術：open question・解釈モデル・ICEモデルが重要。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "医療面接で「解釈モデル」（患者自身の病気の受け止め）を問う質問。<br/><b>a ①〜d ④</b>：他の面接項目。<br/><b>e ⑤ 自分も胃癌ではと心配</b>：<span class=\"kw\">患者が考える病気の解釈＝解釈モデル</span>。✓"
+       "c": "<span class=\"kw4\"><b>解釈モデル＝患者が自分の病気をどう考え、何を心配しているか（「ご自分ではどう考えていますか」）</b></span>。<br/><span class=\"kw3\"><b>ICE：Ideas（考え）・Concerns（心配）・Expectations（期待）</b></span>。<br/><span class=\"kw3\"><b>開いた質問で始め、閉じた質問で確認する。誘導的な質問は避ける</b></span>。<br/><span class=\"kw3\"><b>共感・要約・促しで関係を築く</b></span>。<br/><span class=\"kw3\"><b>薬歴は市販薬まで聞く（NSAIDs 潰瘍の手がかり）</b></span>。"
       }
      ],
      "imgs": []
@@ -6461,22 +6481,27 @@
       }
      ],
      "ans_label": "ｅ　タール便",
-     "ans_sub": "上部消化管出血（食道・胃・十二指腸）→ 血液がヘモグロビン→ヘマチン（黒色）に変化→タール便（黒色粘稠便）。",
+     "ans_sub": "1か月前から市販の鎮痛薬（NSAIDs）を飲み、空腹時の心窩部痛と圧痛がある——<b>NSAIDs による胃・十二指腸潰瘍</b>。貧血様の眼瞼結膜、頻脈・やや低い血圧、心基部の収縮期雑音（貧血による機能性雑音）は、潰瘍からの出血を示す。上部消化管の出血は胃酸と腸内細菌でヘモグロビンが黒く変わり、<b>タール便（黒色の粘稠な便）</b>になる。脂肪便は膵外分泌不全・吸収不良、水様便は感染性腸炎など、粘血便は大腸の炎症（潰瘍性大腸炎・細菌性赤痢）、灰白色便は胆汁がうっ滞して腸に出ない状態。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💩 出血部位と便の性状",
-       "c": "<table class=\"tb\"><tr><th>出血部位</th><th>便の性状</th><th>特徴</th></tr><tr><td>出血部位</td><td>便の性状</td><td>特徴</td></tr><tr><td><span class=\"kw\">上部消化管（食道〜十二指腸）</span></td><td><span class=\"kw\">タール便（黒色）</span></td><td>ヘモグロビン→ヘマチン（酸・腸内細菌）→黒色</td></tr><tr><td>小腸〜右側結腸</td><td>暗赤色便</td><td>部分的に分解された血液</td></tr><tr><td>左側結腸〜直腸</td><td>鮮紅色血便</td><td>血液が分解されない</td></tr><tr><td>直腸・肛門</td><td>鮮血（排便時付着）</td><td>痔核・直腸癌</td></tr></table>"
+       "h": "🌿 NSAIDs 潰瘍——痛み止めで胃が荒れ、痛みが隠れたまま出血する",
+       "c": "<span class=\"kw3\"><b>NSAIDs は COX を阻害してプロスタグランジンを減らす</b></span>。<span class=\"kw4\"><b>胃粘膜を守るプロスタグランジン（粘液・重炭酸の分泌、粘膜血流）が減り、胃酸で潰瘍ができる</b></span>。<br/><span class=\"kw\"><b>① 特徴</b></span><br/><span class=\"kw3\"><b>胃の前庭部に多く、多発しやすい。浅い不整形の潰瘍</b></span><br/><span class=\"kw4\"><b>NSAIDs 自体の鎮痛作用で痛みが目立たず、出血や穿孔で見つかることが多い</b></span><br/><span class=\"kw3\"><b>高齢者に多い（腰痛・関節痛で飲む）</b></span><br/><span class=\"kw\"><b>② 危険因子</b></span><br/><span class=\"kw4\"><b>潰瘍の既往（特に出血）、高齢、高用量・複数の NSAIDs、抗凝固薬・抗血小板薬・ステロイドとの併用、H. pylori 感染</b></span><br/><span class=\"kw\"><b>③ 本例の所見の読み</b></span><br/><span class=\"kw3\"><b>空腹時の心窩部痛と圧痛：潰瘍</b></span><br/><span class=\"kw3\"><b>眼瞼結膜の貧血様所見：出血による貧血</b></span><br/><span class=\"kw3\"><b>脈拍96・血圧108/56（いつもは降圧薬を飲む高血圧）・呼吸数22：出血による循環血液量の減少を示唆</b></span><br/><span class=\"kw3\"><b>心基部の Levine 1/6 の収縮期雑音：貧血で血液が薄く速く流れる機能性雑音</b></span><br/><span class=\"kw\"><b>④ 治療</b></span><br/><span class=\"kw4\"><b>NSAIDs を中止し、PPI（またはボノプラザン）</b></span><br/><span class=\"kw3\"><b>出血していれば内視鏡で止血</b></span><br/><span class=\"kw3\"><b>NSAIDs を続けざるを得なければ、PPI を併用し、COX-2 選択的阻害薬に切り替える。痛み止めはアセトアミノフェンも選択肢</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　脂肪便</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>膵外分泌不全（慢性膵炎）・胆汁酸不足・小腸の吸収不良（セリアック病など）で、白っぽく油が浮く悪臭の便</b></span>。</td></tr><tr><td>ｂ　水様便</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>感染性腸炎・薬剤性・分泌性の下痢</b></span>。</td></tr><tr><td>ｃ　粘血便</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>大腸の粘膜の炎症（潰瘍性大腸炎・細菌性赤痢・アメーバ赤痢）で、粘液に血が混じる</b></span>。</td></tr><tr><td>ｄ　灰白色便</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胆汁が腸に出ない（閉塞性黄疸・胆道閉鎖症）——便を茶色にするステルコビリンができない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　タール便</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>胃・十二指腸からの出血は、胃酸でヘモグロビンがヘマチン（黒色）に変わり、腸を通る間にさらに分解されて黒くなる</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 便の色と性状から出血の場所を推し量る——ただし例外も多い",
+       "c": "<span class=\"kw4\"><b>便の色は、出血した場所だけでなく、出血の量と腸を通る速さでも変わる</b></span>。<br/><span class=\"kw\"><b>① 基本</b></span><br/><span class=\"kw3\"><b>食道〜十二指腸（Treitz 靱帯より口側）：タール便（黒色・粘稠・光沢・悪臭）。吐血を伴うことも</b></span><br/><span class=\"kw3\"><b>小腸〜右側結腸：暗赤色便（Q.92）</b></span><br/><span class=\"kw3\"><b>左側結腸〜直腸：鮮紅色の血便</b></span><br/><span class=\"kw3\"><b>肛門：排便時に便の表面につく・紙につく鮮血（痔核・裂肛）</b></span><br/><span class=\"kw\"><b>② 例外</b></span><br/><span class=\"kw4\"><b>上部消化管でも大量に出血すると、腸を速く通って赤い血便になる——血便でもショックがあれば上部を疑う</b></span><br/><span class=\"kw3\"><b>右側結腸でも出血が少なく通過が遅ければ黒っぽくなる</b></span><br/><span class=\"kw3\"><b>タール便になるには50〜100mL 以上の出血が必要。少量なら便潜血陽性だけ</b></span><br/><span class=\"kw\"><b>③ 黒い便の別の原因</b></span><br/><span class=\"kw3\"><b>鉄剤・ビスマス製剤・活性炭・イカ墨・ブルーベリー——タール便と違い粘稠でなく、便潜血は陰性</b></span><br/><span class=\"kw\"><b>④ 上部消化管出血の血液検査</b></span><br/><span class=\"kw4\"><b>BUN/Cr 比の上昇（30 以上）——腸に流れた血液の蛋白が吸収されて尿素になり、脱水も加わる</b></span><br/><span class=\"kw3\"><b>出血の直後は Hb が下がらない（血液がそのまま失われるため）。輸液で薄まって数時間後に下がる</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">上部消化管出血 → タール便（黒色粘稠・悪臭）</span><br>タール便 → 尿素窒素（BUN）↑（腸内でHbが分解されて窒素源になるため）</br>"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "上部消化管出血の患者の直腸指診で得られる便。<br/><b>a 脂肪便／b 水様便／c 粘血便／d 灰白色便</b>：合わない。<br/><b>e タール便</b>：<span class=\"kw\">上部消化管出血は黒色のタール便（メレナ）</span>。✓"
+       "c": "<span class=\"kw4\"><b>市販の鎮痛薬（NSAIDs）＋空腹時の心窩部痛＋貧血 → NSAIDs 潰瘍からの出血 → タール便</b></span>。<br/><span class=\"kw3\"><b>NSAIDs はプロスタグランジンを減らして粘膜防御を弱める。痛みが隠れ、出血・穿孔で見つかる</b></span>。<br/><span class=\"kw3\"><b>治療：NSAIDs 中止＋PPI。続けるなら PPI 併用・COX-2 選択的阻害薬</b></span>。<br/><span class=\"kw3\"><b>脂肪便＝吸収不良・膵、粘血便＝大腸の炎症、灰白色便＝胆汁うっ滞</b></span>。<br/><span class=\"kw4\"><b>上部消化管出血は BUN/Cr 比が上がる。大量なら血便でも上部を疑う</b></span>。"
       }
      ],
      "imgs": []
