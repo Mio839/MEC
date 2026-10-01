@@ -99,6 +99,12 @@ body{font-family:-apple-system,'Noto Sans JP','Helvetica Neue',sans-serif;backgr
 
 /* 上の余白は 19px（2026-10-01 に 24px から20%詰めた） */
 .hub-main{max-width:var(--hub-max);margin:0 auto;padding:19px var(--sp-4) var(--sp-7);}
+/* PC（>720px＝ヘッダーが1行）だけ、さらに20%詰める（2026-10-01・ユーザー指定）。
+   ヘッダー 47→37px（上下 8→3px・高さは道具の 30px が決める）／ヘッダーとフィードの間 19→15px */
+@media (min-width:721px){
+  .hub-header{padding-top:3px;padding-bottom:3px;}
+  .hub-main{padding-top:15px;}
+}
 
 /* ── Hero: 計器盤（大きな読み値ひとつ＋ゲージひとつ＋計器行＋30日の波形） ── */
 .hero{position:relative;isolation:isolate;overflow:hidden;
