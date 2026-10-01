@@ -7790,22 +7790,27 @@
       }
      ],
      "ans_label": "ａ　結紮術\nｂ　硬化療法",
-     "ans_sub": "食道静脈瘤出血の内視鏡的治療：EVL（結紮術）とEIS（硬化療法）の2択。",
+     "ans_sub": "黄疸・腹水・下腿浮腫・血小板4万・PT-INR 1.6・低アルブミン・高アンモニア血症——非代償性の肝硬変。吐血と黒色便があり、内視鏡像では食道に太い静脈瘤が並び、その上部に白い栓（白色栓：出血した直後に穴をふさいだ血栓）が見える——<b>食道静脈瘤の破裂</b>。内視鏡的止血は<b>結紮術〈EVL〉と硬化療法〈EIS〉</b>。ステントは悪性狭窄、ESD は早期癌・腺腫の切除に使う。Sengstaken-Blakemore チューブは内視鏡で止められないときの一時的な圧迫止血で、内視鏡治療の代わりにはならない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🫀 食道静脈瘤出血の内視鏡的止血",
-       "c": "<span class=\"kw\">a EVL（結紮術）（正答）</span>：輪状ゴムで静脈瘤を結紮→虚血壊死→止血<br>→ 緊急止血の第一選択（安全・有効）<br><br><span class=\"kw\">b EIS（硬化療法）（正答）</span>：硬化剤（オレイン酸エタノールアミン等）を静脈瘤内注射→血栓形成<br>→ EVLと同等の止血効果<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ cステント留置：食道狭窄・癌向け（静脈瘤には適応なし）<br/>✗ dESD：早期癌切除→静脈瘤には適応なし<br/>✗ eSB（Sengstaken-Blakemore）チューブ：内視鏡治療失敗後の緊急圧迫止血（bridge）</br></br></br></br>"
+       "h": "🌿 出血した静脈瘤を内視鏡で見つける——出血の跡と、肝の余力で治療を選ぶ",
+       "c": "<span class=\"kw3\"><b>静脈瘤の所見の書き方は Q.93、破裂の初期治療は Q.94 で見た</b></span>。<span class=\"kw4\"><b>ここでは、内視鏡のときに「どこから出たか」を見つける手がかりと、肝の状態で治療法をどう選ぶかを考える</b></span>。<br/><span class=\"kw\"><b>① 出血の跡（出血所見）</b></span><br/><span class=\"kw3\"><b>湧出性・噴出性の出血（今出ている）</b></span><br/><span class=\"kw4\"><b>赤色栓・白色栓：出血点をふさいだ血栓。出血が今止まっていても、ここが破れた場所——再出血しやすい</b></span><br/><span class=\"kw3\"><b>本例の像：食道の静脈瘤の上に乳白色の小さな突起（白色栓）がある</b></span><br/><span class=\"kw\"><b>② 治療法の選び方</b></span><br/><span class=\"kw4\"><b>EVL：手技が簡単で、肝・腎への負担が少ない——出血中、肝機能の悪い人でも行える</b></span><br/><span class=\"kw3\"><b>EIS：供血路まで固めて再発が少ないが、硬化剤による肝・腎の負担がある——高度の肝障害・黄疸・腎障害では行いにくい</b></span><br/><span class=\"kw3\"><b>本例は肝予備能が低い（Child-Pugh C 相当）——緊急の止血は EVL を優先し、落ち着いてから追加治療を考える</b></span><br/><span class=\"kw\"><b>③ 止まらないとき</b></span><br/><span class=\"kw3\"><b>S-B チューブで一時的に圧迫（24時間以内に抜く。長く使うと食道の壊死）、その間に TIPS などの次の治療を準備する</b></span><br/><span class=\"kw\"><b>④ 再出血の予防</b></span><br/><span class=\"kw3\"><b>止血後、数週ごとに EVL を繰り返して静脈瘤を消す。非選択的β遮断薬を併用する</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　結紮術</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>出血点（白色栓）を含めて静脈瘤を縛る——緊急止血の第一選択</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　硬化療法</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>硬化剤を注入して静脈瘤を固める</b></span>。<span class=\"kw2\"><b>本例のように肝予備能が低いと負担が大きく、使い方に注意する</b></span>。</td></tr><tr><td>ｃ　ステント留置</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道の悪性狭窄に使う</b></span>。</td></tr><tr><td>ｄ　内視鏡的粘膜下層剝離術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>早期癌・腺腫の切除法。静脈瘤に行うと大出血する</b></span>。</td></tr><tr><td>ｅ　Sengstaken-Blakemore チューブ留置</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>内視鏡で止められない場合の一時的な圧迫止血</b></span>。<span class=\"kw3\"><b>出血がいったん止まっている本例で、まず行う治療ではない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 Child-Pugh 分類を本例で数えてみる",
+       "c": "<span class=\"kw4\"><b>肝硬変の重症度（肝予備能）は5項目の合計点で A（5〜6点）・B（7〜9点）・C（10〜15点）に分ける</b></span>。<br/><span class=\"kw\"><b>① 項目と点数（1点／2点／3点）</b></span><br/><span class=\"kw3\"><b>総ビリルビン：2.0mg/dL 未満／2.0〜3.0／3.0 超</b></span><br/><span class=\"kw3\"><b>アルブミン：3.5g/dL 超／2.8〜3.5／2.8 未満</b></span><br/><span class=\"kw3\"><b>PT（INR）：1.7 未満／1.7〜2.3／2.3 超</b></span><br/><span class=\"kw3\"><b>腹水：なし／軽度（薬で治まる）／中等度以上</b></span><br/><span class=\"kw3\"><b>肝性脳症：なし／軽度（Ⅰ〜Ⅱ度）／昏睡（Ⅲ〜Ⅳ度）</b></span><br/><span class=\"kw\"><b>② 本例</b></span><br/><span class=\"kw3\"><b>総ビリルビン 3.1 → 3点、アルブミン 2.8 → 2点、PT-INR 1.6 → 1点、腹水（膨満・波動）→ 2〜3点、肝性脳症（JCS Ⅰ-2・アンモニア高値）→ 2点</b></span><br/><span class=\"kw4\"><b>合計 10点以上 → Child-Pugh C</b></span><br/><span class=\"kw\"><b>③ 何に使うか</b></span><br/><span class=\"kw3\"><b>治療法の選択（静脈瘤の EIS、肝細胞癌の切除・ラジオ波焼灼・塞栓の可否）、手術の危険の見積もり、予後</b></span><br/><span class=\"kw4\"><b>C は肝移植の検討の対象</b></span><br/><span class=\"kw2\"><b>MELD スコア（ビリルビン・INR・クレアチニン・Na）も予後と移植の優先度の評価に使う</b></span><br/><span class=\"kw\"><b>④ 本例のほかの所見</b></span><br/><span class=\"kw3\"><b>Na 131（低ナトリウム血症）は進行した肝硬変・予後不良のしるし</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">食道静脈瘤出血：EVL（第一選択）or EIS → 止血後に定期的EVL/EISで根治</span><br/>SBチューブは内視鏡治療が困難・失敗した場合の緊急措置（一時的）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "食道静脈瘤の治療を2つ。<br/><b>c ステント／d ESD／e SBチューブ（一時的止血）</b>：第一の内視鏡治療でない。<br/><b>a 結紮術（EVL）</b>：<span class=\"kw\">静脈瘤をゴムバンドで結紮</span>。✓<br/><b>b 硬化療法（EIS）</b>：<span class=\"kw\">硬化剤を注入</span>。✓"
+       "c": "<span class=\"kw4\"><b>食道静脈瘤の破裂 → 内視鏡的止血（EVL・EIS）。白色栓・赤色栓は出血点のしるし</b></span>。<br/><span class=\"kw3\"><b>肝予備能が低ければ EVL を優先（EIS は肝・腎の負担）</b></span>。<br/><span class=\"kw3\"><b>S-B チューブは内視鏡で止まらないときの一時的な圧迫（24時間以内）</b></span>。<br/><span class=\"kw4\"><b>Child-Pugh：ビリルビン・アルブミン・PT・腹水・脳症。A 5〜6、B 7〜9、C 10〜15</b></span>。<br/><span class=\"kw3\"><b>再出血予防に EVL の反復と非選択的β遮断薬</b></span>。"
       }
      ],
      "imgs": [
@@ -7853,22 +7858,27 @@
       }
      ],
      "ans_label": "ｄ　④",
-     "ans_sub": "早期胃癌ESD標本の病理像：異型腺管・核の大小不同・核小体明瞭・粘膜内浸潤を示す画像が④。",
+     "ans_sub": "内視鏡像（A）は、前庭部（奥に幽門輪が見える）の胃角寄りに盛り上がった発赤調の病変——ESD の適応の早期胃癌（隆起型、分化型腺癌が多い）。病理組織の5枚のうち、<b>④は不整な形の腺管が密に並んで増える管状〜乳頭状の腺癌</b>で、これが胃の分化型腺癌。①は重層扁平上皮の異型細胞が増える扁平上皮癌（食道など）、②は紡錘形の細胞が束になって増える間葉系腫瘍（GIST・平滑筋腫など）、③は肝細胞と門脈域が並ぶ肝臓、⑤は腺房細胞と Langerhans 島がある膵臓。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 早期胃癌の病理組織像",
-       "c": "<span class=\"kw\">早期胃癌（分化型腺癌）の典型的病理像</span>：<br>・不規則な腺管構造（異型腺管）<br>・核の大小不同・核小体明瞭<br>・粘膜内または粘膜下層浸潤（SM1以内がESD適応）<br><br><span class=\"kw\">ESD切除標本の評価</span>：<br>・水平切除断端（HM）：陽性→追加切除<br>・垂直切除断端（VM）：陽性→追加切除<br>・浸潤深度（M/SM）・脈管侵襲（ly, v）・分化度を評価</br></br></br></br></br></br></br></br>"
+       "h": "🌿 早期胃癌の内視鏡治療——適応と「治ったか」の判定",
+       "c": "<span class=\"kw4\"><b>早期胃癌は、リンパ節転移の可能性が極めて低ければ、胃を残したまま内視鏡で切除できる</b></span>。<br/><span class=\"kw\"><b>① ESD の適応（胃癌治療ガイドライン）</b></span><br/><span class=\"kw4\"><b>絶対適応：分化型、粘膜内癌（cT1a）、潰瘍なしは大きさを問わず、潰瘍ありは3cm 以下</b></span><br/><span class=\"kw3\"><b>未分化型は、粘膜内・潰瘍なし・2cm 以下なら適応（慎重に判断）</b></span><br/><span class=\"kw3\"><b>術前の深達度・組織型の推定は内視鏡（拡大・色素）と生検で行う</b></span><br/><span class=\"kw\"><b>② 切除後の病理で判定すること</b></span><br/><span class=\"kw3\"><b>組織型（分化型・未分化型）、深達度（粘膜内か、粘膜下層へ何μm 入っているか）</b></span><br/><span class=\"kw4\"><b>脈管侵襲（リンパ管 ly・静脈 v）、水平断端 HM・垂直断端 VM</b></span><br/><span class=\"kw\"><b>③ 根治度（eCura）</b></span><br/><span class=\"kw4\"><b>eCura A・B：治癒切除——経過観察と除菌</b></span><br/><span class=\"kw3\"><b>eCura C-1（側方断端陽性のみ）：追加の ESD・焼灼または経過観察</b></span><br/><span class=\"kw4\"><b>eCura C-2（脈管侵襲・深い粘膜下層浸潤・垂直断端陽性など）：リンパ節転移の危険がある → 追加の外科手術（リンパ節郭清つき胃切除）</b></span><br/><span class=\"kw\"><b>④ ESD の偶発症</b></span><br/><span class=\"kw3\"><b>出血（術中・術後）、穿孔、狭窄（噴門・幽門の広い切除）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　①</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>重層扁平上皮に異型の強い細胞が増える——扁平上皮癌の像（食道・頭頸部など）</b></span>。<span class=\"kw3\"><b>胃の粘膜は腺上皮で、扁平上皮はない</b></span>。</td></tr><tr><td>ｂ　②</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>紡錘形の細胞が束をなして交錯する——GIST・平滑筋腫・神経鞘腫などの間葉系腫瘍</b></span>。<span class=\"kw3\"><b>胃では粘膜下腫瘍として見え、ESD の対象の早期胃癌ではない</b></span>。</td></tr><tr><td>ｃ　③</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>肝細胞の索状の並びと門脈域（小葉間胆管・門脈・動脈）——肝臓</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　④</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>不整な形の腺管が密に増え、核が腫大・重層化している——分化型（管状〜乳頭状）腺癌</b></span>。<span class=\"kw2\"><b>隆起型の早期胃癌は分化型が多い</b></span>。</td></tr><tr><td>ｅ　⑤</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腺房細胞の集まりの中に、淡く染まる細胞の島（Langerhans 島）——膵臓</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 分化型と未分化型——胃癌の性格を二分する",
+       "c": "<span class=\"kw4\"><b>胃癌は、腺管を作るかどうかで分化型と未分化型に大きく分けられ、できる背景・広がり方・治療が違う</b></span>。<br/><span class=\"kw\"><b>① 分化型（腸型）</b></span><br/><span class=\"kw3\"><b>乳頭腺癌・管状腺癌</b></span><br/><span class=\"kw3\"><b>H. pylori による萎縮性胃炎・腸上皮化生を背景に、高齢者・男性に多い</b></span><br/><span class=\"kw3\"><b>隆起型や、境界のはっきりした陥凹型</b></span><br/><span class=\"kw3\"><b>血行性に肝へ転移しやすい</b></span><br/><span class=\"kw\"><b>② 未分化型（びまん型）</b></span><br/><span class=\"kw3\"><b>低分化腺癌・印環細胞癌</b></span><br/><span class=\"kw3\"><b>萎縮の少ない胃粘膜（胃底腺領域）から、若年者・女性にも多い</b></span><br/><span class=\"kw4\"><b>粘膜の下を横に広がり、境界が分かりにくい——スキルス胃癌（4型）になり、腹膜に播種しやすい</b></span><br/><span class=\"kw3\"><b>遺伝性びまん性胃癌：CDH1（E-カドヘリン）の変異</b></span><br/><span class=\"kw\"><b>③ 治療への影響</b></span><br/><span class=\"kw4\"><b>内視鏡治療の適応は分化型の方が広い（未分化型は範囲を読み違えやすく、リンパ節転移の危険も高い）</b></span><br/><span class=\"kw\"><b>④ 本例の背景</b></span><br/><span class=\"kw3\"><b>76歳女性、H. pylori 抗体陽性、母が胃癌——萎縮性胃炎を背景にした分化型癌として矛盾しない</b></span><br/><span class=\"kw3\"><b>家族に胃癌があると、H. pylori の家族内感染と体質の両方で危険が上がる</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">ESD後病理評価：HM・VM・浸潤深度・脈管侵襲</span><br>ESD根治基準：HM0・VM0・SM1以内（&lt;500μm）・脈管侵襲陰性。</br>"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "切除標本の病理組織像として考えられるもの。<br/><b>a ①／b ②／c ③／e ⑤</b>：所見が合わない。<br/><b>d ④</b>：<span class=\"kw\">本症例の組織像に一致する標本</span>。✓"
+       "c": "<span class=\"kw4\"><b>ESD の絶対適応：分化型・粘膜内癌・潰瘍なし（大きさ不問）または潰瘍あり3cm 以下</b></span>。<br/><span class=\"kw3\"><b>病理で組織型・深達度・脈管侵襲・断端を評価し、根治度（eCura）を決める</b></span>。<br/><span class=\"kw4\"><b>eCura C-2 はリンパ節郭清つきの追加外科切除</b></span>。<br/><span class=\"kw3\"><b>分化型＝腺管を作る（萎縮・腸上皮化生が背景）、未分化型＝印環細胞癌・スキルス・腹膜播種</b></span>。<br/><span class=\"kw3\"><b>紡錘形細胞＝GIST など、Langerhans 島＝膵臓、門脈域＝肝臓</b></span>。"
       }
      ],
      "imgs": [
@@ -7921,22 +7931,27 @@
       }
      ],
      "ans_label": "ｅ　⑤",
-     "ans_sub": "胃癌ESD後はH.pylori除菌成功後も胃内視鏡フォローが必要（異時性多発癌・再発の確認）。",
+     "ans_sub": "H. pylori の一次除菌は、<b>酸分泌抑制薬（ボノプラザンまたは PPI）＋アモキシシリン＋クラリスロマイシン</b>を<b>1日2回・7日間</b>——NSAIDs は使わず、抗菌薬は2種類、期間は1か月ではない（①②は誤り）。下痢・軟便は比較的よくあるが、発疹（アレルギー）・血便（出血性腸炎）・強い下痢は中止して受診してもらう（③は誤り）。除菌で胃癌の発生は減るが、<b>ゼロにはならない</b>（④は誤り）——特に ESD 後の胃には新たな癌（異時性多発癌）ができやすく、<b>定期的な内視鏡検査を続ける</b>（⑤が適切）。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔭 胃癌ESD後のフォローアップ",
-       "c": "<span class=\"kw\">ESD治癒切除後の管理</span>：<br>① H.pylori除菌（胃癌再発リスク↓）<br>② 除菌成功確認（尿素呼気試験または便中Hp抗原、除菌8週後以降）<br>③ <span class=\"kw\">定期的な上部消化管内視鏡</span>：異時性多発早期胃癌・局所再発の確認<br>（⑤の画像は上部消化管内視鏡の所見を示す）<br><br><span class=\"kw\">ESD後フォロー間隔</span>：通常6〜12か月ごとに内視鏡</br></br></br></br></br></br>"
+       "h": "🌿 除菌の処方と説明——飲み切ってもらうための話し方",
+       "c": "<span class=\"kw4\"><b>除菌の成否は、正しい薬を、正しい期間、飲み切れるかで決まる</b></span>。<span class=\"kw3\"><b>処方の内容と、副作用が出たときの対応をあらかじめ伝えておく</b></span>。<br/><span class=\"kw\"><b>① 一次除菌</b></span><br/><span class=\"kw4\"><b>ボノプラザン（または PPI）＋アモキシシリン＋クラリスロマイシン、1日2回、7日間</b></span><br/><span class=\"kw3\"><b>ボノプラザンは胃酸を強く安定して抑え、PPI より除菌率が高い</b></span><br/><span class=\"kw\"><b>② 二次除菌（一次が失敗したら）</b></span><br/><span class=\"kw3\"><b>クラリスロマイシンをメトロニダゾールに替える（禁酒を伝える：Q.97）</b></span><br/><span class=\"kw\"><b>③ 副作用の説明</b></span><br/><span class=\"kw3\"><b>軟便・下痢・味覚の異常：比較的多く、多くは軽い</b></span><br/><span class=\"kw4\"><b>発疹（薬疹・アレルギー）、血便・強い腹痛（抗菌薬による出血性腸炎）、強い下痢：服用をやめて受診してもらう</b></span><br/><span class=\"kw3\"><b>軽い症状でも自己判断でやめると、除菌が失敗し耐性菌が残る——迷ったら連絡してもらう</b></span><br/><span class=\"kw\"><b>④ 判定</b></span><br/><span class=\"kw3\"><b>治療終了から4週以上あけて、尿素呼気試験か便中抗原で判定（Q.118）</b></span><br/><span class=\"kw\"><b>⑤ 除菌後の説明</b></span><br/><span class=\"kw4\"><b>胃癌は減るがゼロにはならない——定期的な内視鏡を続けてもらう</b></span><br/><span class=\"kw3\"><b>除菌後に胃酸が戻り、胸やけ（逆流性食道炎）が出ることがある</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　①</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>NSAIDs は潰瘍を起こす薬で、除菌には使わない</b></span>。<span class=\"kw3\"><b>除菌は酸分泌抑制薬＋抗菌薬2種類</b></span>。</td></tr><tr><td>ｂ　②</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>1日2回（朝・夕）、7日間</b></span>。</td></tr><tr><td>ｃ　③</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>発疹・血便・強い下痢は服用を中止して受診してもらう</b></span>。<span class=\"kw3\"><b>我慢を強いると重い副作用を見逃す</b></span>。</td></tr><tr><td>ｄ　④</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>除菌で胃癌の発生は減るが、萎縮した粘膜は残り、なくならない</b></span>。<span class=\"kw4\"><b>この説明を信じた患者が内視鏡を受けなくなるのが一番の害</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　⑤</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>ESD 後・除菌後も、新たな胃癌を早く見つけるために定期的な内視鏡を続ける</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 ESD の後の胃——「残った胃」に次の癌ができる",
+       "c": "<span class=\"kw4\"><b>早期胃癌を内視鏡で治した後も、同じ萎縮した胃粘膜が残る——別の場所に新しい癌（異時性多発癌）が年に数％の割合でできる</b></span>。<br/><span class=\"kw\"><b>① 除菌の効果</b></span><br/><span class=\"kw3\"><b>早期胃癌の内視鏡治療後に除菌すると、異時性の胃癌が減る</b></span><br/><span class=\"kw3\"><b>それでも、萎縮が強い人・高齢者・男性では危険が残る</b></span><br/><span class=\"kw\"><b>② 除菌後の胃癌の特徴</b></span><br/><span class=\"kw4\"><b>除菌後の胃癌は、表面を正常に近い上皮が覆うなどして平坦で目立たないことがあり、見つけにくい</b></span><br/><span class=\"kw3\"><b>拡大内視鏡・画像強調（NBI など）を使って丁寧に観察する</b></span><br/><span class=\"kw\"><b>③ 経過観察</b></span><br/><span class=\"kw3\"><b>ESD の後は、局所の再発と異時性の癌を見るために、年に1回程度の内視鏡を続ける</b></span><br/><span class=\"kw3\"><b>eCura C-2 で追加手術をしなかった場合は、CT でのリンパ節・遠隔転移の確認も加える</b></span><br/><span class=\"kw\"><b>④ 家族への配慮</b></span><br/><span class=\"kw3\"><b>母が胃癌、本人も胃癌——家族にも H. pylori の検査と内視鏡を勧めることが予防になる</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">胃癌ESD後：H.pylori除菌＋定期内視鏡フォロー</span><br>除菌により胃癌発生リスクは低下するが、ゼロにはならない→継続的フォローが必須。</br>"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "H.pylori除菌とESD後フォローの説明で適切な下線部。a ①〜c ③：説明として不適切。d ④「除菌が成功すると胃癌は発生しなくなります」：除菌で発生リスクは下がるがゼロにはならず、異時性多発胃癌が起こりうるので誤り。e ⑤「1〜2年に1度は胃の内視鏡検査を受けることをお勧めします」：除菌後も定期的な内視鏡フォローが必要。✓"
+       "c": "<span class=\"kw4\"><b>一次除菌＝ボノプラザン（PPI）＋アモキシシリン＋クラリスロマイシン、1日2回・7日間</b></span>。<br/><span class=\"kw3\"><b>二次除菌はクラリスロマイシンをメトロニダゾールに替える（禁酒）</b></span>。<br/><span class=\"kw3\"><b>発疹・血便・強い下痢は中止して受診。自己判断で中断させない</b></span>。<br/><span class=\"kw4\"><b>除菌で胃癌は減るがゼロにはならない——ESD 後・除菌後も定期的に内視鏡</b></span>。<br/><span class=\"kw3\"><b>除菌後の胃癌は平坦で見つけにくい</b></span>。"
       }
      ],
      "imgs": [
@@ -7992,22 +8007,27 @@
       }
      ],
      "ans_label": "ｂ　尿素呼気試験\nｅ　便中Helicobacter pylori 抗原測定",
-     "ans_sub": "除菌後判定には除菌後も変動する検査が必要。尿素呼気試験と便中Hp抗原が適切（血中抗体は長期陽性が続くため不可）。",
+     "ans_sub": "除菌の判定は、<b>治療終了から4週以上あけて</b>、胃の中に菌が今いるかを全体として調べる検査で行う——<b>尿素呼気試験</b>と<b>便中抗原測定</b>。血中抗体は除菌が成功しても長く陽性が続く（下がるのに1年以上かかる）ので判定に使えない。迅速ウレアーゼ試験と培養は内視鏡の生検で行う検査で、除菌後は菌が少なくまだらに残るので、採った場所によって偽陰性になりやすい。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🦠 H.pylori除菌後の判定法",
-       "c": "<table class=\"tb\"><tr><th>検査法</th><th>除菌後判定</th><th>備考</th></tr><tr><td>検査法</td><td>除菌後判定</td><td>備考</td></tr><tr><td><span class=\"kw\">尿素呼気試験（UBT）（b正答）</span></td><td><span class=\"kw\">適切</span></td><td>ゴールドスタンダード。除菌8週後以降に実施</td></tr><tr><td><span class=\"kw\">便中Hp抗原（e正答）</span></td><td><span class=\"kw\">適切</span></td><td>除菌8週後以降に実施</td></tr><tr><td>迅速ウレアーゼ試験（RUT）（c）</td><td><span class=\"kw4\">不適切</span></td><td>内視鏡生検が必要。除菌後も偽陽性が多い</td></tr><tr><td>血中Hp抗体（d）</td><td><span class=\"kw4\">不適切</span></td><td><span class=\"kw4\">除菌成功後も1〜2年間陽性が続く</span>→判定不可</td></tr><tr><td>培養法（a）</td><td>可能だが困難</td><td>感度低い・培養に時間がかかる</td></tr></table>"
+       "h": "🌿 除菌の判定——「今いるか」を「胃全体で」測る",
+       "c": "<span class=\"kw3\"><b>H. pylori の検査の種類と、PPI による偽陰性は Q.103 で見た</b></span>。<span class=\"kw4\"><b>ここでは、除菌の判定でなぜ尿素呼気試験と便中抗原が選ばれ、ほかの検査が向かないのかを考える</b></span>。<br/><span class=\"kw\"><b>① 判定の時期</b></span><br/><span class=\"kw4\"><b>除菌治療の終了から4週以上あけて行う——早すぎると、抑えられた菌が残っていても陰性に出る</b></span><br/><span class=\"kw3\"><b>PPI・ボノプラザンは2週間前から中止する</b></span><br/><span class=\"kw\"><b>② 尿素呼気試験</b></span><br/><span class=\"kw4\"><b>胃全体の菌のウレアーゼを測る——除菌後に菌がまだらに残っていても拾える</b></span><br/><span class=\"kw3\"><b>陰性なら除菌成功、境界値付近なら時間をおいて再検</b></span><br/><span class=\"kw\"><b>③ 便中抗原</b></span><br/><span class=\"kw3\"><b>今いる菌の抗原を測る。尿素呼気試験と同等に使える</b></span><br/><span class=\"kw\"><b>④ 血中・尿中抗体が使えない理由</b></span><br/><span class=\"kw4\"><b>抗体は感染が終わっても長く残る——除菌直後は陽性のまま</b></span><br/><span class=\"kw3\"><b>1年以上たって抗体価が十分（前の半分以下）に下がれば除菌成功の参考になる</b></span><br/><span class=\"kw\"><b>⑤ 生検で行う検査が向かない理由</b></span><br/><span class=\"kw3\"><b>除菌後は菌が減り、いても一部だけ——生検した場所に菌がいなければ偽陰性</b></span><br/><span class=\"kw3\"><b>判定のためだけに内視鏡を行う必要もない</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　培養法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>内視鏡で生検が必要で、除菌後は菌が少なく偽陰性になりやすい</b></span>。<span class=\"kw2\"><b>除菌に失敗した後に、抗菌薬の感受性を調べる目的で行う</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　尿素呼気試験</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>胃全体の菌の存在を非侵襲的に測る——除菌判定の標準</b></span>。</td></tr><tr><td>ｃ　迅速ウレアーゼ試験</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>生検した一部分だけを見る——まだらに残った菌を見逃しやすい</b></span>。</td></tr><tr><td>ｄ　血中Helicobacter pylori 抗体測定</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>除菌が成功しても長く陽性が続き、判定できない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　便中Helicobacter pylori 抗原測定</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>今いる菌の抗原を測る。非侵襲的</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 血中抗体の使いどころ——胃癌の危険を層別する検診",
+       "c": "<span class=\"kw4\"><b>血中抗体は除菌の判定には使えないが、感染しているか・したことがあるかを広く調べる目的には向く</b></span>。<br/><span class=\"kw\"><b>① 胃がんリスク層別化検査（ABC 検診）</b></span><br/><span class=\"kw3\"><b>血中 H. pylori 抗体と、血清ペプシノゲン（萎縮の程度を反映）を組み合わせる</b></span><br/><span class=\"kw3\"><b>ペプシノゲン法：ペプシノゲン Ⅰ が低く、Ⅰ/Ⅱ 比が低いほど萎縮が強い（陽性）</b></span><br/><span class=\"kw4\"><b>A 群（抗体陰性・ペプシノゲン陰性）：胃癌の危険が低い</b></span><br/><span class=\"kw3\"><b>B 群（抗体陽性・ペプシノゲン陰性）→ C 群（抗体陽性・ペプシノゲン陽性）→ D 群（萎縮が高度で菌もいなくなった・抗体陰性・ペプシノゲン陽性）の順に危険が高い</b></span><br/><span class=\"kw4\"><b>D 群は抗体が陰性でも最も危険——萎縮が進んで菌がすめなくなった状態</b></span><br/><span class=\"kw3\"><b>除菌後の人は A 群に見えても危険があり、この検査の対象外</b></span><br/><span class=\"kw\"><b>② 抗体が陰性でも感染を否定しにくいとき</b></span><br/><span class=\"kw3\"><b>高度の萎縮、PPI・抗菌薬の内服とは関係なく、抗体価の低い陽性（陰性高値）</b></span><br/><span class=\"kw\"><b>③ 除菌に失敗する理由</b></span><br/><span class=\"kw3\"><b>クラリスロマイシン耐性菌、飲み忘れ・中断、喫煙、酸の抑制が弱い（PPI の代謝が速い体質）</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">除菌後判定：尿素呼気試験or便中Hp抗原（除菌8週後以降）</span><br><span class=\"kw4\">血中Hp抗体は除菌後も長期陽性 → 除菌判定に使えない</span><br>PPI・抗菌薬は検査前に一定期間中止（偽陰性防止）。</br></br>"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "除菌判定に適切な検査を2つ。<br/><b>a 培養法／c 迅速ウレアーゼ試験（内視鏡が必要）／d 抗体測定（判定に不向き）</b>：判定に不適。<br/><b>b 尿素呼気試験</b>：<span class=\"kw\">除菌判定の標準法</span>。✓<br/><b>e 便中抗原測定</b>：<span class=\"kw\">非侵襲的な判定法</span>。✓"
+       "c": "<span class=\"kw4\"><b>除菌判定は治療終了から4週以上あけて、尿素呼気試験か便中抗原</b></span>。<br/><span class=\"kw4\"><b>血中抗体は除菌後も長く陽性——判定に使えない</b></span>。<br/><span class=\"kw3\"><b>迅速ウレアーゼ試験・培養は生検の一部分だけ——除菌後は偽陰性になりやすい</b></span>。<br/><span class=\"kw3\"><b>PPI・ボノプラザンは判定の2週間前から中止</b></span>。<br/><span class=\"kw3\"><b>ABC 検診：抗体とペプシノゲンで胃癌の危険を層別（D 群が最も危険）</b></span>。"
       }
      ],
      "imgs": [
@@ -8055,22 +8075,27 @@
       }
      ],
      "ans_label": "ｂ　「打撲して最も痛い部位はどこですか」",
-     "ans_sub": "打撲痛の部位は転倒の「結果」（受傷部位）であり、「原因」の評価には直接寄与しない。",
+     "ans_sub": "転倒の原因を調べるには、<b>転倒の前後に何が起きたか</b>を聞く——意識を失ったか（a：失神・痙攣）、つまずいたか（c：環境・歩行の問題）、手足のしびれや動かしにくさ（d：脳卒中・神経疾患）、痙攣の既往（e：てんかん）。<b>「打撲して最も痛い部位」</b>は転倒による怪我（結果）の評価には必要だが、転倒の原因を探る質問ではない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🗣️ 転倒原因の評価（問診）",
-       "c": "<span class=\"kw\">転倒原因の評価に有用な質問</span>：<br>a「転倒した時のことを覚えていますか」→ 意識消失・失神の確認（同期性転倒）<br>c「何かにつまずきましたか」→ 環境因子（外因性）の確認<br>d「手足のしびれや動かしづらさ」→ 神経障害・脳卒中（内因性）の確認<br>e「痙攣発作を起こしたことがありますか」→ てんかん・失神の確認<br><br><span class=\"kw4\">b「打撲して最も痛い部位はどこですか」→ 有用性低</span>：<br>・これは転倒後の受傷部位の評価（治療に必要）<br>・転倒の<span class=\"kw4\">原因</span>ではなく転倒の<span class=\"kw4\">結果（損傷部位）</span>を問う質問</br></br></br></br></br></br></br></br>"
+       "h": "🌿 高齢者の転倒——「なぜ倒れたか」を外因と内因に分けて聞く",
+       "c": "<span class=\"kw4\"><b>高齢者の転倒は怪我だけでなく、その裏にある病気のサインのことがある——原因を探すことが再発予防になる</b></span>。<br/><span class=\"kw\"><b>① 意識を失ったか</b></span><br/><span class=\"kw4\"><b>失神：一過性に意識を失い自然に戻る——心原性（不整脈・弁膜症）・起立性低血圧（出血・脱水・薬）・反射性（迷走神経）</b></span><br/><span class=\"kw3\"><b>痙攣・てんかん、低血糖</b></span><br/><span class=\"kw3\"><b>「倒れた時のことを覚えているか」が最初の質問</b></span><br/><span class=\"kw\"><b>② 内因（体の問題）</b></span><br/><span class=\"kw3\"><b>脳卒中・Parkinson 病・末梢神経障害（しびれ・脱力）、関節・筋力の低下、視力低下、認知症</b></span><br/><span class=\"kw3\"><b>貧血、心不全</b></span><br/><span class=\"kw\"><b>③ 外因（環境）</b></span><br/><span class=\"kw3\"><b>段差・敷物・暗い廊下・履物——つまずいたか、滑ったか</b></span><br/><span class=\"kw\"><b>④ 薬</b></span><br/><span class=\"kw4\"><b>ベンゾジアゼピン系睡眠薬（ふらつき・筋弛緩）、降圧薬、血糖降下薬（低血糖）、抗精神病薬、多剤併用</b></span><br/><span class=\"kw\"><b>⑤ 本例の手がかり</b></span><br/><span class=\"kw3\"><b>半年前からの労作時の息切れ、眼瞼結膜の貧血——慢性の貧血</b></span><br/><span class=\"kw3\"><b>ワルファリンの内服——出血しやすい（Q.120）</b></span><br/><span class=\"kw3\"><b>睡眠薬・降圧薬——ふらつきの原因になりうる</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　「転倒した時のことを覚えていますか」</td><td><span class=\"kw3\">有用</span>。<span class=\"kw3\"><b>意識消失（失神・痙攣）の有無を確かめる——原因の大きな分かれ目</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　「打撲して最も痛い部位はどこですか」</span></td><td><span class=\"kw3\">これが「有用性が低い」（＝正解）</span>。<span class=\"kw3\"><b>怪我の評価（骨折・頭部外傷）には必要だが、倒れた原因は分からない</b></span>。</td></tr><tr><td>ｃ　「転倒するときに何かにつまずきましたか」</td><td><span class=\"kw3\">有用</span>。<span class=\"kw3\"><b>環境・歩行の問題（外因）か、体の問題（内因）かを分ける</b></span>。</td></tr><tr><td>ｄ　「手足のしびれや、動かしづらさはありませんか」</td><td><span class=\"kw3\">有用</span>。<span class=\"kw3\"><b>脳卒中・脊髄・末梢神経の障害を探る</b></span>。</td></tr><tr><td>ｅ　「これまで痙攣発作を起こしたと言われたことがありますか」</td><td><span class=\"kw3\">有用</span>。<span class=\"kw3\"><b>てんかん発作による転倒を探る</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 転倒した高齢者の怪我の評価——抗凝固薬と骨粗鬆症に注意",
+       "c": "<span class=\"kw4\"><b>原因の検索と並行して、怪我を見落とさない</b></span>。<br/><span class=\"kw\"><b>① 頭部外傷</b></span><br/><span class=\"kw4\"><b>抗凝固薬（ワルファリンなど）・抗血小板薬を飲んでいる高齢者は、軽い打撲でも頭部 CT を撮る——頭蓋内出血が多い</b></span><br/><span class=\"kw3\"><b>慢性硬膜下血腫は数週〜数か月後に、認知機能の低下・歩行障害・頭痛で出てくる</b></span><br/><span class=\"kw\"><b>② 骨折</b></span><br/><span class=\"kw4\"><b>大腿骨近位部骨折（立てない・股関節の痛み）、脊椎の圧迫骨折、橈骨遠位端骨折、上腕骨近位部骨折</b></span><br/><span class=\"kw3\"><b>骨粗鬆症があると軽い転倒で骨折する（脆弱性骨折）</b></span><br/><span class=\"kw\"><b>③ 長く倒れていた場合</b></span><br/><span class=\"kw3\"><b>横紋筋融解（CK の上昇・腎障害）、低体温、脱水、褥瘡</b></span><br/><span class=\"kw\"><b>④ 転倒の予防</b></span><br/><span class=\"kw3\"><b>睡眠薬などの減量・中止、筋力とバランスの訓練、住環境の整備（手すり・照明・段差の解消）、視力の矯正</b></span><br/><span class=\"kw3\"><b>骨粗鬆症の治療を続ける</b></span><br/><span class=\"kw2\"><b>ビスホスホネート製剤は食道の潰瘍を起こすことがある——起床時にコップ1杯の水で飲み、30分は横にならない</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">転倒の原因評価 = 内因性（意識消失・神経症状・薬剤）＋外因性（環境・つまずき）</span><br>High-yield転倒リスク：ポリファーマシー（睡眠薬・降圧薬）・神経障害・視力低下。</br>"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "転倒の原因評価の質問として有用性が「低い」もの。<br/><b>a 転倒時の記憶／c つまずき／d しびれ・運動障害／e 痙攣既往</b>：原因評価に有用。<br/><b>b 「打撲して最も痛い部位はどこですか」</b>：<span class=\"kw\">外傷の評価であり転倒の原因検索でない</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw4\"><b>転倒の原因は「意識を失ったか」から聞く——失神（心原性・起立性・反射性）、痙攣、低血糖</b></span>。<br/><span class=\"kw3\"><b>内因（神経・筋・視力・貧血）と外因（つまずき・環境）を分ける</b></span>。<br/><span class=\"kw4\"><b>ベンゾジアゼピン系・降圧薬・血糖降下薬・多剤併用は転倒の原因</b></span>。<br/><span class=\"kw3\"><b>抗凝固薬の内服者は軽い頭部打撲でも CT</b></span>。<br/><span class=\"kw3\"><b>受傷部位の質問は怪我の評価で、原因の評価ではない</b></span>。"
       }
      ],
      "imgs": []
@@ -8116,17 +8141,27 @@
       }
      ],
      "ans_label": "ｅ　上部消化管内視鏡検査",
-     "ans_sub": "起立性低血圧＋頻脈（出血性ショック）→消化管出血を疑い上部消化管内視鏡で出血源を検索。",
+     "ans_sub": "座位にすると血圧が 112/68 から 82/40 に下がり、心拍数が 72 から 120 に上がって目の前が暗くなる——<b>起立性低血圧</b>で、循環血液量が減っている。直腸診で<b>黒色便</b>、Hb 7.5 の貧血、<b>BUN 65・Cr 0.6（BUN/Cr 比 ≒ 108）</b>——ワルファリンを内服中の<b>上部消化管出血</b>が転倒の原因。出血源を探して止血するため、<b>上部消化管内視鏡検査</b>を優先する。頭部 MRI・頸動脈超音波は脳血管の評価、Holter 心電図は不整脈、腰椎 MRI は腰の病変の検査で、今の病態を説明しない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🚨 起立性低血圧と消化管出血",
-       "c": "<span class=\"kw\">起立性低血圧（orthostatic hypotension）</span>：<br>座位/立位での血圧↓・頻脈 → 循環血液量↓を示唆<br>本症例：HR120・BP82 → <span class=\"kw\">出血性ショック</span>を疑う<br><br><span class=\"kw\">e上部消化管内視鏡（正答）</span>：<br>転倒の「原因」として消化管出血→迷走神経反射→失神（vasovagal syncope due to GI bleeding）<br>→ 黒色便の有無確認→出血源同定のために緊急内視鏡<br><br><span class=\"kw4\">誤りの選択肢</span>：<br>✗ a頭部MRI・b腰椎MRI：頭部CTが陰性→MRIは優先度低<br>✗ cホルター心電図：不整脈評価→今回は出血性ショックの方が優先<br>✗ d頸動脈超音波：動脈硬化・TIA評価→今回は消化管出血が原因として最も蓋然性高</br></br></br></br></br></br></br></br></br></br></br>"
+       "h": "🌿 起立試験——寝ているときは正常でも、座ると見える出血",
+       "c": "<span class=\"kw4\"><b>循環血液量が減っても、寝ていれば血圧は保たれることがある——体を起こすと血液が下半身にたまり、代償しきれなくなって現れる</b></span>。<br/><span class=\"kw\"><b>① 起立性低血圧の基準</b></span><br/><span class=\"kw3\"><b>臥位から立位（座位）にして3分以内に、収縮期血圧が20mmHg 以上、または拡張期血圧が10mmHg 以上下がる</b></span><br/><span class=\"kw3\"><b>脈拍が30/分以上増えるのも循環血液量の減少のしるし</b></span><br/><span class=\"kw3\"><b>本例：収縮期 112 → 82、心拍 72 → 120——大きく陽性</b></span><br/><span class=\"kw\"><b>② 起立性低血圧の原因</b></span><br/><span class=\"kw4\"><b>循環血液量の減少：出血・脱水・利尿薬</b></span><br/><span class=\"kw3\"><b>自律神経障害：糖尿病・Parkinson 病・多系統萎縮症・高齢</b></span><br/><span class=\"kw3\"><b>薬：降圧薬（α遮断薬・利尿薬・血管拡張薬）、抗精神病薬、硝酸薬</b></span><br/><span class=\"kw\"><b>③ 本例で消化管出血と読む根拠</b></span><br/><span class=\"kw3\"><b>黒色便、Hb 7.5、BUN/Cr 比の著しい上昇（Q.106）</b></span><br/><span class=\"kw3\"><b>ワルファリンを内服——出血しやすく、止まりにくい</b></span><br/><span class=\"kw3\"><b>半年前からの息切れ・眼瞼結膜の貧血——慢性の出血が以前からあった可能性</b></span><br/><span class=\"kw\"><b>④ 次に行うこと</b></span><br/><span class=\"kw3\"><b>輸液・輸血、ワルファリンの拮抗（PT-INR を測る）、上部消化管内視鏡で出血源の検索と止血</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　頭部MRI</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>頭部 CT で頭蓋内に異常はなく、神経所見もない</b></span>。<span class=\"kw3\"><b>転倒の原因は消化管出血による起立性低血圧と読める</b></span>。</td></tr><tr><td>ｂ　腰椎MRI</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腰の痛み・下肢の神経症状はない</b></span>。</td></tr><tr><td>ｃ　Holter 心電図</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>不整脈による失神を調べる検査</b></span>。<span class=\"kw3\"><b>本例の頻脈は出血による反応で、洞調律（整）</b></span>。</td></tr><tr><td>ｄ　頸動脈超音波検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>頸動脈の狭窄を調べる検査で、本例の病態を説明しない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　上部消化管内視鏡検査</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>黒色便・BUN/Cr 比の著しい上昇——上部消化管出血の出血源を探して止血する</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "転倒・貧血の患者で次に優先すべき検査。<br/><b>a 頭部MRI／b 腰椎MRI／c Holter／d 頸動脈超音波</b>：本例で第一でない。<br/><b>e 上部消化管内視鏡検査</b>：<span class=\"kw\">消化管出血による貧血を疑い出血源を検索</span>。✓"
+       "h": "🔍 ワルファリン内服中の出血——拮抗のしかた",
+       "c": "<span class=\"kw4\"><b>ワルファリンはビタミン K に拮抗して、肝で作られる凝固因子（Ⅱ・Ⅶ・Ⅸ・Ⅹ）を減らす</b></span>。<br/><span class=\"kw\"><b>① まず PT-INR を測る</b></span><br/><span class=\"kw3\"><b>効きすぎ（INR の延長）で出血していないか</b></span><br/><span class=\"kw\"><b>② 重い出血の拮抗</b></span><br/><span class=\"kw4\"><b>プロトロンビン複合体製剤〈PCC〉（凝固因子Ⅱ・Ⅶ・Ⅸ・Ⅹを含む）——数十分で効く</b></span><br/><span class=\"kw4\"><b>ビタミン K の静注——効くまで数時間〜1日かかるが、効果を持続させるために併用する</b></span><br/><span class=\"kw3\"><b>新鮮凍結血漿は量が多く時間がかかるので、PCC が使えない場合に</b></span><br/><span class=\"kw\"><b>③ 効き方が変わる要因</b></span><br/><span class=\"kw3\"><b>作用を強める：抗菌薬・アゾール系抗真菌薬・アミオダロン、食事が取れない（ビタミン K の不足）</b></span><br/><span class=\"kw3\"><b>作用を弱める：ビタミン K を多く含む食品（納豆・青汁・クロレラ）、リファンピシン</b></span><br/><span class=\"kw\"><b>④ 再開</b></span><br/><span class=\"kw3\"><b>止血を確かめたら、血栓の危険（本例は深部静脈血栓症の既往）と出血の危険を比べて再開を判断する</b></span><br/><span class=\"kw\"><b>⑤ 本例のほかの薬</b></span><br/><span class=\"kw3\"><b>ビスホスホネート製剤：食道潰瘍の原因になりうる。ベンゾジアゼピン系：ふらつき（Q.119）</b></span><br/><span class=\"kw3\"><b>ビグアナイド薬（メトホルミン）：脱水・ショック・造影剤の使用時は乳酸アシドーシスの危険で中止する</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw4\"><b>起立で収縮期血圧が20mmHg 以上下がる・脈拍が大きく増える → 循環血液量の減少（出血・脱水）</b></span>。<br/><span class=\"kw4\"><b>黒色便・BUN/Cr 比の著しい上昇 → 上部消化管出血 → 上部消化管内視鏡</b></span>。<br/><span class=\"kw3\"><b>高齢者の転倒の原因に消化管出血がある</b></span>。<br/><span class=\"kw4\"><b>ワルファリン内服中の重い出血 → PCC＋ビタミン K 静注</b></span>。<br/><span class=\"kw3\"><b>メトホルミンはショック・脱水で中止（乳酸アシドーシス）</b></span>。"
       }
      ],
      "imgs": []
