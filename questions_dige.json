@@ -13847,22 +13847,27 @@
       }
      ],
      "ans_label": "ｂ　胃食道逆流症〈逆流性食道炎〉",
-     "ans_sub": "重症心身障害児は臥位・低緊張・体位変換困難・胃排出遅延→GERDが高頻度（80%以上に認める）。",
+     "ans_sub": "重症心身障害児（重い運動障害と重い知的障害が重なった子ども）では<b>胃食道逆流症</b>がとても多い。<b>寝たきりで重力の助けがない</b>、<b>側彎・筋緊張の亢進でお腹の圧が上がる</b>、<b>裂孔ヘルニアを伴いやすい</b>、<b>胃の動きが悪く排出が遅い</b>、けいれん・抗てんかん薬の影響——が重なる。逆流は誤嚥性肺炎を繰り返す原因になる。アカラシア・胃潰瘍・蛋白漏出性胃腸症・過敏性腸症候群が特に多いわけではない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🧒 重症心身障害児のGERD",
-       "c": "<span class=\"kw\">b GERD（胃食道逆流症）（正答）</span>：<br/>・常時臥位→重力で胃から食道への逆流しやすい<br/>・筋緊張低下（hypotonia）→LES圧↓→逆流↑<br/>・胃排出遅延→胃内容物の停滞→逆流↑<br/>・高頻度：80〜90%の重症心身障害児にGERD所見<br/><br/><span class=\"kw\">問題点</span>：誤嚥性肺炎（反復性）・食道炎・栄養障害<br/><span class=\"kw\">治療</span>：体位管理（頭部挙上30〜40°）＋PPI＋重症例では胃瘻＋Nissen手術"
+       "h": "🌿 重症心身障害児に逆流が多い理由——体の条件が全部そろっている",
+       "c": "<span class=\"kw4\"><b>子どもの逆流の一般論（乳児の吐き戻し、手術の適応）は Q.201——ここは重症心身障害児に絞る</b></span>。<br/><span class=\"kw\"><b>① 姿勢</b></span><br/><span class=\"kw3\"><b>寝たきりで、重力で胃の内容物を下へ保てない</b></span><br/><span class=\"kw\"><b>② お腹の圧</b></span><br/><span class=\"kw3\"><b>手足・体幹の筋緊張が強く、そり返り・側彎でお腹が押される</b></span><br/><span class=\"kw3\"><b>便秘のいきみ、泣いたり緊張したりするたびに腹圧が上がる</b></span><br/><span class=\"kw\"><b>③ 門の弱さ</b></span><br/><span class=\"kw3\"><b>食道裂孔ヘルニアを伴いやすい（Q.172）</b></span><br/><span class=\"kw\"><b>④ 胃の動き</b></span><br/><span class=\"kw3\"><b>胃からの排出が遅く、内容物が長く残る</b></span><br/><span class=\"kw\"><b>⑤ 気づかれにくい</b></span><br/><span class=\"kw4\"><b>胸やけを言葉で訴えられない——不機嫌、そり返り、食事を嫌がる、吐血・コーヒー残渣様の嘔吐、貧血、繰り返す肺炎で見つかる</b></span><br/><span class=\"kw\"><b>⑥ 逆流がもたらすもの</b></span><br/><span class=\"kw4\"><b>誤嚥性肺炎の繰り返し——重症心身障害児の主な死因の一つ</b></span><br/><span class=\"kw3\"><b>食道炎による出血・貧血、食道狭窄、栄養障害</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　食道アカラシア</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>まれな病気で、重症心身障害児に特に多いわけではない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　胃食道逆流症〈逆流性食道炎〉</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>寝たきり・腹圧の上昇・裂孔ヘルニア・胃の排出遅延が重なり非常に多い</b></span>。</td></tr><tr><td>ｃ　胃潰瘍</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>ストレス・薬で起こりうるが、逆流ほど多くない</b></span>。</td></tr><tr><td>ｄ　蛋白漏出性胃腸症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腸リンパ管拡張症などで起こるまれな病態</b></span>。</td></tr><tr><td>ｅ　過敏性腸症候群</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>ストレスで腸の動きが乱れる機能性の病気——症状を言葉で訴える必要があり、診断の対象になりにくい</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：重症心身障害児の消化管の問題と対応",
+       "c": "<span class=\"kw\"><b>① 逆流への対応</b></span><br/><span class=\"kw3\"><b>食事中・食後は上体を起こす（30 度以上）、とろみをつける、少量ずつ</b></span><br/><span class=\"kw3\"><b>酸分泌抑制薬（PPI など）</b></span><br/><span class=\"kw3\"><b>重症なら噴門形成術——口から食べられなければ胃瘻と同時に行う</b></span><br/><span class=\"kw\"><b>② 誤嚥</b></span><br/><span class=\"kw3\"><b>飲み込みの障害による誤嚥（唾液も含む）と、逆流物の誤嚥の両方がある</b></span><br/><span class=\"kw4\"><b>胃瘻にしても、逆流があれば誤嚥性肺炎は防げない——逆流の対策を同時に考える</b></span><br/><span class=\"kw\"><b>③ そのほか多い問題</b></span><br/><span class=\"kw3\"><b>便秘：運動不足・筋緊張・水分不足</b></span><br/><span class=\"kw3\"><b>上腸間膜動脈症候群：やせと側彎で十二指腸が挟まれ、胆汁性の嘔吐</b></span><br/><span class=\"kw3\"><b>呑気症：空気を飲み込み、お腹が張る</b></span><br/><span class=\"kw3\"><b>胃瘻のトラブル：漏れ・肉芽・チューブの事故抜去</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">重症心身障害児 → GERD（高頻度）</span><br/>GERDによる誤嚥性肺炎（反復性）→重症心身障害児の死因の主要原因。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "重症心身障害児で頻度が高いもの。<br/><b>a 食道アカラシア／c 胃潰瘍／d 蛋白漏出性胃腸症／e 過敏性腸症候群</b>：頻度が高くない。<br/><b>b 胃食道逆流症〈逆流性食道炎〉</b>：<span class=\"kw\">筋緊張・側彎等でGERDを合併しやすい</span>。✓"
+       "c": "<span class=\"kw3\"><b>重症心身障害児＝胃食道逆流症が非常に多い</b></span><br/><span class=\"kw3\"><b>理由＝寝たきり・筋緊張と側彎による腹圧上昇・裂孔ヘルニア・胃の排出遅延</b></span><br/><span class=\"kw4\"><b>訴えられないので、不機嫌・吐血・貧血・繰り返す誤嚥性肺炎で気づく</b></span><br/><span class=\"kw3\"><b>重症は胃瘻＋噴門形成術</b></span>"
       }
      ],
      "imgs": []
@@ -13908,22 +13913,27 @@
       }
      ],
      "ans_label": "ｅ　プロトンポンプ阻害薬",
-     "ans_sub": "逆流性食道炎（びらん確認）の第一選択治療はPPI。胃酸分泌を強力に抑制してびらんの治癒を促す。",
+     "ans_sub": "週 2 回の胸やけが増え、食後のもたれ・心窩部痛も加わった 54 歳男性。BMI 約 27.6 の肥満、血糖・コレステロール・ALT がやや高い。内視鏡では<b>食道胃接合部から口側へ、縦に伸びる発赤した粘膜傷害が複数あり、つながり合っている</b>——<b>逆流性食道炎</b>。治療は<b>プロトンポンプ阻害薬（PPI）</b>で胃酸を抑える。抗真菌薬はカンジダ食道炎、ステロイドは好酸球性食道炎、抗癌薬は癌の治療。アスピリンは粘膜を傷め、むしろ悪化させる。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 逆流性食道炎の薬物治療",
-       "c": "<span class=\"kw\">e PPI（正答）</span>：<br>・H⁺/K⁺-ATPase（プロトンポンプ）を不可逆的に阻害→最も強力な胃酸分泌抑制<br>・びらん治癒率：8週で80〜90%<br>・維持療法も必要（再発率高い）<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a抗真菌薬：食道カンジダ症に使用<br/>✗ bアスピリン：NSAIDs→逆流性食道炎を悪化させる可能性<br/>✗ c抗癌化学療法薬：癌への治療（逆流性食道炎には不要）<br/>✗ d副腎皮質ステロイド：免疫性疾患・好酸球性食道炎に使用（逆流性食道炎には不要）</br></br></br>"
+       "h": "🌿 PPI はどう効き、どう飲むと効くか",
+       "c": "<span class=\"kw4\"><b>治療期間・維持療法・P-CAB との違いは Q.197——ここは PPI という薬のしくみ</b></span>。<br/><span class=\"kw\"><b>① 写真の読み</b></span><br/><span class=\"kw3\"><b>接合部から口側へ、縦の赤い傷が数本伸び、一部はつながっている——逆流による粘膜傷害</b></span><br/><span class=\"kw\"><b>② どこに効くか</b></span><br/><span class=\"kw3\"><b>胃の壁細胞が酸（H<sup>+</sup>）を出す最後の出口＝プロトンポンプ（H<sup>+</sup>,K<sup>+</sup>-ATPase）を止める</b></span><br/><span class=\"kw3\"><b>ヒスタミン・ガストリン・アセチルコリンのどの刺激で出る酸も、最後の出口で止まる——H<sub>2</sub> 受容体拮抗薬より強い</b></span><br/><span class=\"kw\"><b>③ 飲み方</b></span><br/><span class=\"kw4\"><b>酸性の環境で活性型になり、動いているポンプにだけ結合する——ポンプが動き出す食事の前に飲むと効きやすい</b></span><br/><span class=\"kw3\"><b>結合は元に戻らず、新しいポンプが作られるまで効く——1 日 1 回でよい</b></span><br/><span class=\"kw3\"><b>効き切るまで数日かかる</b></span><br/><span class=\"kw\"><b>④ 効き方の個人差</b></span><br/><span class=\"kw3\"><b>肝臓の CYP2C19 で分解される——分解が速い体質の人では効きにくい</b></span><br/><span class=\"kw3\"><b>P-CAB はこの影響を受けにくい</b></span><br/><span class=\"kw\"><b>⑤ 相互作用</b></span><br/><span class=\"kw3\"><b>CYP2C19 で代謝される薬（クロピドグレルなど）との飲み合わせに注意</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　抗真菌薬</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>カンジダ食道炎の治療——白い苔が付着する像になる</b></span>。</td></tr><tr><td>ｂ　アスピリン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>粘膜を傷め、潰瘍・出血を起こしやすくする</b></span>。<span class=\"kw3\"><b>逆流性食道炎の治療にはならない</b></span>。</td></tr><tr><td>ｃ　抗癌化学療法薬</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腫瘤・潰瘍などの癌の所見はない</b></span>。</td></tr><tr><td>ｄ　副腎皮質ステロイド</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>好酸球性食道炎で局所（飲み込む形）に使う（Q.174）</b></span>。<span class=\"kw3\"><b>逆流には効かない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　プロトンポンプ阻害薬</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>酸を強く抑え、粘膜傷害を治す——第一選択</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：肥満・メタボリックシンドロームと逆流",
+       "c": "<span class=\"kw\"><b>① この症例の背景</b></span><br/><span class=\"kw3\"><b>BMI 約 27.6（78kg／1.68m の 2 乗）、空腹時でなくても血糖 138、総コレステロール 248、ALT 62 が AST より高い</b></span><br/><span class=\"kw3\"><b>内臓脂肪型肥満と脂肪肝（代謝異常関連脂肪性肝疾患）が疑われる</b></span><br/><span class=\"kw\"><b>② なぜ逆流が増えるか</b></span><br/><span class=\"kw3\"><b>内臓脂肪がお腹の圧を上げ、食道裂孔ヘルニアを起こしやすい</b></span><br/><span class=\"kw3\"><b>食事量・脂肪の多い食事が多い</b></span><br/><span class=\"kw\"><b>③ 逆流が続いた先</b></span><br/><span class=\"kw4\"><b>バレット食道・食道腺癌（Q.173）——肥満の男性は食道腺癌の危険因子</b></span><br/><span class=\"kw\"><b>④ 指導</b></span><br/><span class=\"kw3\"><b>減量は逆流・脂肪肝・血糖・脂質のすべてに効く——薬と並行して勧める（Q.197）</b></span><br/><span class=\"kw3\"><b>食後すぐに横にならない、夕食を早めに</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">逆流性食道炎 → PPI（第一選択）8週間治療→維持療法</span><br/>PPI効果不十分 → 倍量PPI or vonoprazan（カリウムイオン競合型酸ブロッカー）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "内視鏡で逆流性食道炎の所見。<br/><b>a 抗真菌薬（カンジダ）／b アスピリン／c 抗癌薬／d ステロイド</b>：本病態の治療でない。<br/><b>e プロトンポンプ阻害薬</b>：<span class=\"kw\">酸分泌抑制で逆流性食道炎を治療</span>。✓"
+       "c": "<span class=\"kw3\"><b>逆流性食道炎の第一選択＝PPI（プロトンポンプ＝H<sup>+</sup>,K<sup>+</sup>-ATPase を阻害）</b></span><br/><span class=\"kw3\"><b>PPI は食前に飲むと効きやすく、CYP2C19 の体質で効き方が違う</b></span><br/><span class=\"kw4\"><b>カンジダ食道炎＝抗真菌薬、好酸球性食道炎＝ステロイド——像で治療が分かれる</b></span>"
       }
      ],
      "imgs": [
@@ -13967,22 +13977,27 @@
       }
      ],
      "ans_label": "ｂ　粘膜切除",
-     "ans_sub": "早期食道癌（粘膜内癌・T1a）はEMR（内視鏡的粘膜切除術）またはESD（内視鏡的粘膜下層剥離術）で根治切除。",
+     "ans_sub": "早期食道癌（粘膜内にとどまる癌）は、内視鏡で<b>粘膜を切り取る（内視鏡的粘膜切除術 EMR・内視鏡的粘膜下層剝離術 ESD）</b>ことで治せる。凝固（アルゴンプラズマ凝固など）は止血や小さな病変を焼く手技、硬化療法は静脈瘤、ステントは悪性狭窄、クリッピングは止血・穿孔の閉鎖に使う。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 早期食道癌の内視鏡治療",
-       "c": "<span class=\"kw\">b粘膜切除（EMR/ESD）（正答）</span>：<br/>・T1a（粘膜内癌）：リンパ節転移リスク低→内視鏡切除で根治可能<br/>・EMR：スネアを用いて切除<br/>・ESD：大型・広基性病変でも一括切除可能<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a凝固：止血に使用（切除でなく）<br/>✗ c硬化療法：静脈瘤に使用<br/>✗ dステント留置：狭窄・緩和目的<br/>✗ eクリッピング：止血に使用"
+       "h": "🌿 消化管の内視鏡治療を「目的」で整理する",
+       "c": "<span class=\"kw4\"><b>ESD の適応となる深さは Q.181——ここは選択肢に並んだ手技を一覧にする</b></span>。<br/><span class=\"kw\"><b>① 切り取る（腫瘍）</b></span><br/><span class=\"kw3\"><b>ポリペクトミー：茎のあるポリープを輪（スネア）で切る</b></span><br/><span class=\"kw3\"><b>EMR：粘膜の下に液を入れて浮かせ、スネアで切る——小さな病変向き</b></span><br/><span class=\"kw3\"><b>ESD：病変の周りを専用のナイフで切り、粘膜の下の層をはがして一括で取る——大きな病変も一つの塊で取れる</b></span><br/><span class=\"kw\"><b>② 止める（出血）</b></span><br/><span class=\"kw3\"><b>クリッピング：血管を金属のクリップで挟む</b></span><br/><span class=\"kw3\"><b>凝固：熱で血管を焼く（アルゴンプラズマ凝固・熱凝固）</b></span><br/><span class=\"kw3\"><b>局注：高張ナトリウム・エピネフリン液を注射</b></span><br/><span class=\"kw\"><b>③ 静脈瘤</b></span><br/><span class=\"kw3\"><b>硬化療法（EIS）：静脈瘤に硬化剤を注射</b></span><br/><span class=\"kw3\"><b>結紮術（EVL）：ゴムの輪で縛る</b></span><br/><span class=\"kw\"><b>④ 通す（狭窄）</b></span><br/><span class=\"kw3\"><b>バルーン拡張（良性）、ステント（悪性）（Q.191）</b></span><br/><span class=\"kw\"><b>⑤ ふさぐ</b></span><br/><span class=\"kw3\"><b>クリップで穿孔・瘻孔を閉じる</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　凝　固</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>止血や、残った小さな病変を焼く補助的な手技</b></span>。<span class=\"kw3\"><b>組織が取れず、癌の深さを病理で確かめられない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　粘膜切除</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>EMR・ESD で粘膜内の癌を取り、切り取った標本で深さと断端を確かめる</b></span>。</td></tr><tr><td>ｃ　硬化療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道静脈瘤の治療</b></span>。</td></tr><tr><td>ｄ　ステント留置</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>切除できない癌の狭窄を広げる緩和の手段（Q.191）</b></span>。</td></tr><tr><td>ｅ　クリッピング</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>出血の血管や穿孔を挟んで閉じる</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：食道の ESD のあとに起こること",
+       "c": "<span class=\"kw\"><b>① 切り取った標本で決まること</b></span><br/><span class=\"kw3\"><b>深さ・脈管への侵襲・切り口に癌が残っていないか——追加治療（手術・化学放射線療法）が要るかを判断する</b></span><br/><span class=\"kw4\"><b>切ってみたら深かった場合は追加治療——「取ったら終わり」ではない</b></span><br/><span class=\"kw\"><b>② 狭窄</b></span><br/><span class=\"kw4\"><b>食道の周りの 3/4 を超えて切ると、傷が縮んで高い確率で狭窄する</b></span><br/><span class=\"kw3\"><b>予防：ステロイドの局所注射・内服、早めのバルーン拡張</b></span><br/><span class=\"kw\"><b>③ 穿孔</b></span><br/><span class=\"kw3\"><b>食道の壁は薄く、外側に漿膜がない——小さければクリップで閉じる</b></span><br/><span class=\"kw3\"><b>皮下気腫・縦隔気腫が出ることがある</b></span><br/><span class=\"kw\"><b>④ 異時性の多発癌</b></span><br/><span class=\"kw3\"><b>まだら食道（Q.181）の人は、別の場所に新しい癌が出やすい——定期的な内視鏡を続ける</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">早期食道癌（T1a=粘膜内）→ EMR/ESD（内視鏡切除）</span><br/>T1b（SM2以深）→ リンパ節転移リスク↑→ 手術or化学放射線療法。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "早期食道癌の内視鏡治療。<br/><b>a 凝固／c 硬化療法／d ステント／e クリッピング</b>：早期癌の切除法でない。<br/><b>b 粘膜切除</b>：<span class=\"kw\">EMR/ESDで粘膜内癌を切除</span>。✓"
+       "c": "<span class=\"kw3\"><b>早期食道癌の内視鏡治療＝EMR・ESD（粘膜切除）</b></span><br/><span class=\"kw3\"><b>静脈瘤＝硬化療法・結紮術、出血＝クリップ・凝固、悪性狭窄＝ステント</b></span><br/><span class=\"kw4\"><b>食道の周りの 3/4 を超える ESD は狭窄に注意</b></span>"
       }
      ],
      "imgs": []
@@ -14028,22 +14043,27 @@
       }
      ],
      "ans_label": "ａ　食道癌",
-     "ans_sub": "55歳男性・喫煙＋飲酒歴・急速に進行する嚥下困難（固体→液体も困難）→食道扁平上皮癌が最有力。",
+     "ans_sub": "1 日 30 本を 35 年の喫煙歴がある 55 歳男性。2 か月前からつかえ、5 日前からは<b>固形物で吐き、水分だけが通る</b>。やせ（BMI 約 19.5）と貧血。内視鏡では<b>不整に盛り上がる腫瘤が内腔を狭くし</b>、表面は発赤し、もろく崩れている——<b>食道癌</b>。異物は急に始まり飲み込んだ物が見える、静脈瘤は青く数珠状に盛り上がる静脈、逆流性食道炎は線状の粘膜傷害、アカラシアは腫瘤のない拡張した食道。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏥 食道癌の診断",
-       "c": "<span class=\"kw\">a食道癌（正答）</span>：<br>・リスク因子：喫煙＋飲酒（最重要）<br/>・急速進行の嚥下困難（2か月で固体→液体も困難）<br/>・体重減少（栄養摂取困難）<br/><br/><span class=\"kw4\">アカラシアとの鑑別</span>：<br/>・アカラシア：緩徐進行（年単位）・固体≦液体<br/>・食道癌：急速進行（週〜月単位）・固体＞液体<br/><br/><span class=\"kw4\">他の選択肢</span>：<br/>✗ b食道異物：急性発症・飲み込んだものがある<br/>✗ c食道静脈瘤：吐血が主症状（嚥下困難は主体でない）<br/>✗ dGERD：胸やけが主体（急速な嚥下困難は呈しない）<br/>✗ eアカラシア：緩徐進行・若年に多い（55歳男性の急速進行は癌が疑わしい）</br>"
+       "h": "🌿 食道癌の疫学——「誰の・どこに・どの組織型」",
+       "c": "<span class=\"kw4\"><b>肉眼型と嚥下困難の聞き方は Q.192、危険因子と防御因子は Q.186——ここは日本の食道癌の全体像</b></span>。<br/><span class=\"kw\"><b>① 誰に</b></span><br/><span class=\"kw3\"><b>男性が女性の約 5 倍、60〜70 歳代に多い</b></span><br/><span class=\"kw3\"><b>喫煙・飲酒（特に飲むと赤くなる人：Q.149）</b></span><br/><span class=\"kw\"><b>② 組織型</b></span><br/><span class=\"kw3\"><b>日本では扁平上皮癌が約 9 割</b></span><br/><span class=\"kw3\"><b>欧米では腺癌が多い——逆流・バレット食道・肥満が背景（Q.173）</b></span><br/><span class=\"kw\"><b>③ 場所</b></span><br/><span class=\"kw3\"><b>胸部中部食道が最も多く、次いで胸部下部</b></span><br/><span class=\"kw\"><b>④ 見つかり方</b></span><br/><span class=\"kw4\"><b>食道は柔らかく広がるので、嚥下困難が出たときにはたいてい進行癌</b></span><br/><span class=\"kw3\"><b>早期のうちは症状が乏しく、検診や他の目的の内視鏡で見つかる</b></span><br/><span class=\"kw\"><b>⑤ この症例</b></span><br/><span class=\"kw3\"><b>固形物で吐き、水分だけが通る——内腔がかなり狭くなっている</b></span><br/><span class=\"kw3\"><b>貧血：腫瘍からの出血と、食べられないことによる栄養不足</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　食道癌</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>不整な隆起性腫瘤が内腔を狭くしている</b></span>。<span class=\"kw3\"><b>喫煙歴、月単位で進む嚥下困難、貧血、やせも合う</b></span>。</td></tr><tr><td>ｂ　食道異物</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>飲み込んだ直後から急に始まり、異物そのものが見える</b></span>。</td></tr><tr><td>ｃ　食道静脈瘤</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>下部食道を縦に走る青白い数珠状の隆起（Q.196）</b></span>。<span class=\"kw3\"><b>嚥下困難ではなく吐血で見つかる</b></span>。</td></tr><tr><td>ｄ　胃食道逆流症〈逆流性食道炎〉</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胸やけが主で、内視鏡では線状の粘膜傷害</b></span>。</td></tr><tr><td>ｅ　食道アカラシア</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腫瘤はなく、拡張した食道に食物が残る</b></span>。<span class=\"kw3\"><b>年単位の経過（Q.194）</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：食道癌の人が吐くとき——吐物の中身で場所が分かる",
+       "c": "<span class=\"kw\"><b>① 食道の狭窄（この症例）</b></span><br/><span class=\"kw3\"><b>食べてすぐ、飲み込んだままの食物が戻る——胃に届いていないので酸っぱくない</b></span><br/><span class=\"kw3\"><b>吐き気を伴わず、だらっと戻る（逆流）</b></span><br/><span class=\"kw\"><b>② 胃の出口の狭窄（幽門狭窄）</b></span><br/><span class=\"kw3\"><b>食後しばらくして、前の食事を含む大量の酸っぱい嘔吐——胆汁は混じらない</b></span><br/><span class=\"kw3\"><b>低クロール性代謝性アルカローシス</b></span><br/><span class=\"kw\"><b>③ 十二指腸乳頭より下の閉塞</b></span><br/><span class=\"kw3\"><b>胆汁が混じった緑色の嘔吐</b></span><br/><span class=\"kw\"><b>④ 下部の腸閉塞</b></span><br/><span class=\"kw3\"><b>便の臭いのする嘔吐、お腹が張る</b></span><br/><span class=\"kw\"><b>⑤ 食道の狭窄で気をつけること</b></span><br/><span class=\"kw4\"><b>吐いた物が気管に入る誤嚥性肺炎、唾液も飲み込めなくなる——水分が通らなくなる前に栄養と水分の経路を考える（Q.210）</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">急速進行の嚥下困難＋体重減少＋喫煙飲酒歴 → 食道癌を疑う</span><br/>内視鏡+生検→確定診断。CT/EUSでステージング。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "貧血を伴う食道内視鏡（不整な腫瘤）。<br/><b>b 食道異物／c 食道静脈瘤／d 逆流性食道炎／e 食道アカラシア</b>：合わない。<br/><b>a 食道癌</b>：<span class=\"kw\">慢性出血による貧血を伴う進行食道癌</span>。✓"
+       "c": "<span class=\"kw3\"><b>日本の食道癌＝男性・高齢・喫煙と飲酒・扁平上皮癌・胸部中部食道</b></span><br/><span class=\"kw3\"><b>月単位で進む固形物の嚥下困難＋体重減少＋貧血＝食道癌</b></span><br/><span class=\"kw4\"><b>嚥下困難で見つかる食道癌はたいてい進行癌</b></span><br/><span class=\"kw3\"><b>欧米で多い腺癌はバレット食道が背景</b></span>"
       }
      ],
      "imgs": [
@@ -14091,22 +14111,27 @@
       }
      ],
      "ans_label": "ａ　胃食道逆流症〈逆流性食道炎〉",
-     "ans_sub": "内視鏡で食道下部の縦走するびらん（Z線より口側）→逆流性食道炎の典型像。",
+     "ans_sub": "1 年前から食後の胸やけがある 54 歳男性。内視鏡では<b>食道胃接合部から口側へ、縦に伸びる赤い線状の粘膜傷害</b>が複数あり、周りは白い扁平上皮——<b>逆流性食道炎</b>（Q.196 と同じ写真）。不整な腫瘤（食道癌）、青白く数珠状の隆起（静脈瘤）はない。裂孔ヘルニアは接合部が横隔膜より上にずれる所見、バレット食道は接合部より口側に<b>サーモンピンクの円柱上皮</b>が広がる所見で、線状の傷とは違う。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 逆流性食道炎の内視鏡所見",
-       "c": "<span class=\"kw\">a逆流性食道炎（正答）</span>：<br>内視鏡像：食道下部のびらん（縦走する発赤・粘膜欠損）<br/>→ Z線（食道胃接合部）より口側にびらんが見られる<br/>→ Los Angeles分類でGrade A〜D<br/><br/><span class=\"kw4\">鑑別</span>：<br/>✗ b食道癌：不整な隆起・凹陥性病変・狭窄<br/>✗ c食道裂孔ヘルニア：胃が胸腔内へ脱出（造影で確認）<br/>✗ d食道静脈瘤：青色〜青紫色の隆起（太い血管が縦走）<br/>✗ eBarrett食道：Z線より口側に円柱上皮化生（サーモン色の粘膜）</br>"
+       "h": "🌿 逆流が続いた先——合併症の連鎖",
+       "c": "<span class=\"kw4\"><b>この写真の読み方は Q.196、LA 分類は Q.168——ここは逆流性食道炎がどこへ進むか</b></span>。<br/><span class=\"kw\"><b>① 粘膜傷害（びらん）</b></span><br/><span class=\"kw3\"><b>接合部から口側への縦の傷——この写真</b></span><br/><span class=\"kw\"><b>② 潰瘍・出血</b></span><br/><span class=\"kw3\"><b>傷が深くなると潰瘍——黒色便・貧血、ときに吐血</b></span><br/><span class=\"kw\"><b>③ 狭窄</b></span><br/><span class=\"kw3\"><b>潰瘍が治るときに瘢痕で縮む——固形物のつかえ。治療はバルーン拡張（Q.191）</b></span><br/><span class=\"kw\"><b>④ バレット食道</b></span><br/><span class=\"kw3\"><b>傷んだ扁平上皮が、酸に強い円柱上皮に置き換わる（Q.173）</b></span><br/><span class=\"kw4\"><b>食道腺癌の母地になる</b></span><br/><span class=\"kw\"><b>⑤ 食道外の合併症</b></span><br/><span class=\"kw3\"><b>慢性咳嗽・嗄声（Q.195）、喘息の悪化、歯の酸蝕</b></span><br/><span class=\"kw\"><b>⑥ 止めるには</b></span><br/><span class=\"kw3\"><b>PPI で傷を治し、重症なら維持療法を続ける（Q.197）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　胃食道逆流症〈逆流性食道炎〉</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>接合部から口側へ縦に伸びる線状の粘膜傷害</b></span>。<span class=\"kw3\"><b>食後の胸やけとも合う</b></span>。</td></tr><tr><td>ｂ　食道癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>不整な隆起・潰瘍・狭窄がない</b></span>。</td></tr><tr><td>ｃ　食道裂孔ヘルニア</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃の一部が横隔膜より上にずれる</b></span>。<span class=\"kw3\"><b>内視鏡では接合部と横隔膜の締め付けの位置がずれて見え、胃の中で反転すると裂孔がゆるく開いて見える</b></span>。<span class=\"kw3\"><b>逆流性食道炎の原因にはなるが、この写真の所見は粘膜傷害</b></span>。</td></tr><tr><td>ｄ　食道静脈瘤</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>青白く数珠状に盛り上がる太い静脈</b></span>。</td></tr><tr><td>ｅ　Barrett 食道</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>接合部より口側に、サーモンピンクの円柱上皮が帯状・舌状に広がる</b></span>。<span class=\"kw3\"><b>線状の傷（びらん）ではない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：内視鏡写真で「赤い」ものを見分ける",
+       "c": "<span class=\"kw\"><b>① 線状の赤い傷</b></span><br/><span class=\"kw3\"><b>逆流性食道炎の粘膜傷害——接合部から口側へ、下ほど強い</b></span><br/><span class=\"kw\"><b>② サーモンピンクの粘膜</b></span><br/><span class=\"kw3\"><b>バレット食道——表面はなめらかで、傷ではなく粘膜の種類が違う</b></span><br/><span class=\"kw3\"><b>柵状血管（食道下端の縦に並ぶ細い血管）が透けて見える範囲まで円柱上皮があれば、バレット食道と判断する</b></span><br/><span class=\"kw\"><b>③ 境界のはっきりした赤い平らな領域</b></span><br/><span class=\"kw4\"><b>表在癌のことがある——NBI で茶色、ルゴールで不染（Q.181）</b></span><br/><span class=\"kw\"><b>④ 赤い斑点が静脈の上にある</b></span><br/><span class=\"kw3\"><b>静脈瘤の発赤所見——出血の危険が高い</b></span><br/><span class=\"kw\"><b>⑤ 全体に赤くもろい</b></span><br/><span class=\"kw3\"><b>感染性食道炎、放射線による食道炎</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">逆流性食道炎の内視鏡：Z線より口側の縦走するびらん</span><br/>Barrett食道：Z線口側の円柱上皮（サーモン色）→腺癌リスク。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "食後の胸やけ＋食道内視鏡でびらん。<br/><b>b 食道癌／c 食道裂孔ヘルニア／d 食道静脈瘤／e Barrett食道</b>：合わない。<br/><b>a 胃食道逆流症〈逆流性食道炎〉</b>：<span class=\"kw\">下部食道のびらん</span>。✓"
+       "c": "<span class=\"kw3\"><b>逆流性食道炎＝接合部から口側への縦の線状の粘膜傷害</b></span><br/><span class=\"kw3\"><b>バレット食道＝接合部より口側のサーモンピンクの円柱上皮（食道腺癌の母地）</b></span><br/><span class=\"kw4\"><b>逆流の合併症＝潰瘍・出血・狭窄・バレット食道</b></span>"
       }
      ],
      "imgs": [
@@ -14154,17 +14179,27 @@
       }
      ],
      "ans_label": "ｅ　中心静脈栄養",
-     "ans_sub": "固形物・液体とも嚥下不能の進行食道癌→経口不能→中心静脈栄養（TPN）で全身栄養管理。",
+     "ans_sub": "喫煙・飲酒歴のある 68 歳男性。1 か月で固形物がつかえるようになり、5kg やせ、<b>2 日前から水分しか通らない</b>。造影で<b>食道中部〜下部に高度の不整狭窄</b>——進行食道癌。アルブミン 2.9 の低栄養に加え、<b>Na 146・尿素窒素 22（クレアチニン 1.0）と脱水の徴候</b>。このままでは水分も通らなくなる。狭窄が強く管を通しにくい今は、<b>中心静脈栄養</b>で水分と栄養を確実に入れ、精査と治療に備える。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💉 嚥下不能進行食道癌の栄養管理",
-       "c": "<span class=\"kw\">e中心静脈栄養（TPN）（正答）</span>：<br>完全嚥下不能（液体も困難）→経口・経管栄養も困難<br>→ <span class=\"kw\">中心静脈カテーテル（CVC）を用いた高カロリー輸液が必要</span><br><br><span class=\"kw4\">誤りの選択肢</span>：<br>✗ a経過観察：嚥下不能で栄養摂取できず→低栄養が進行する→不適切<br>✗ b流動食：液体も飲み込めない状態では不可<br>✗ c輸血：貧血がなければ不要<br/>✗ d経鼻経管栄養：胃管を挿入できれば使用可能だが、食道狭窄が強い場合は困難</br></br></br></br></br></br></br>"
+       "h": "🌿 「水分しか通らない」——いま何が足りないか",
+       "c": "<span class=\"kw4\"><b>栄養経路の選び方の一般論は Q.193——ここはこの症例の数字から、急ぐ理由を読む</b></span>。<br/><span class=\"kw\"><b>① 経過</b></span><br/><span class=\"kw3\"><b>1 か月前に肉片がつかえ、固形物がしばしばつかえ、2 日前から水分のみ——急速に狭窄が進んでいる</b></span><br/><span class=\"kw3\"><b>1 か月で 5kg（体重の約 7%）の減少</b></span><br/><span class=\"kw\"><b>② 脱水</b></span><br/><span class=\"kw3\"><b>Na 146：水が足りず、血液が濃くなっている</b></span><br/><span class=\"kw3\"><b>尿素窒素 22 に対しクレアチニン 1.0——比が 20 を超え、腎臓の前の脱水を示す</b></span><br/><span class=\"kw\"><b>③ 低栄養と貧血</b></span><br/><span class=\"kw3\"><b>総蛋白 5.8、アルブミン 2.9、Hb 10.9</b></span><br/><span class=\"kw\"><b>④ だから中心静脈栄養</b></span><br/><span class=\"kw3\"><b>狭窄が高度で、鼻からの管も通りにくい</b></span><br/><span class=\"kw3\"><b>口からの流動食はやがて通らなくなり、誤嚥のおそれもある</b></span><br/><span class=\"kw3\"><b>水分・電解質・栄養をまとめて確実に入れられる</b></span><br/><span class=\"kw\"><b>⑤ その先</b></span><br/><span class=\"kw3\"><b>内視鏡・生検・病期診断（Q.188）を進め、治療（手術・化学放射線療法）を決める</b></span><br/><span class=\"kw3\"><b>狭窄が通せれば、経腸栄養（細い管・胃瘻・腸瘻）へ切り替える</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　経過観察</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>狭窄は進み、脱水と低栄養が悪化する</b></span>。</td></tr><tr><td>ｂ　流動食</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>今は通っても、すぐに通らなくなる</b></span>。<span class=\"kw3\"><b>狭窄の上にたまって誤嚥するおそれ</b></span>。</td></tr><tr><td>ｃ　輸　血</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>Hb 10.9 で、急な出血の徴候もない</b></span>。<span class=\"kw3\"><b>今いちばん足りないのは水分と栄養</b></span>。</td></tr><tr><td>ｄ　経鼻経管栄養</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>高度の不整狭窄で管が通りにくく、無理に通すと穿孔のおそれ</b></span>。<span class=\"kw3\"><b>通せれば選択肢になるが、最も適切とは言えない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　中心静脈栄養</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>水分・電解質・栄養を確実に補い、精査と治療に備える</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "食道中〜下部の高度不整狭窄（進行食道癌）で経口摂取困難。<br/><b>a 経過観察／b 流動食／c 輸血／d 経鼻経管栄養（狭窄で通過困難）</b>：不適。<br/><b>e 中心静脈栄養</b>：<span class=\"kw\">経口・経管が困難な場合は中心静脈栄養</span>。✓"
+       "h": "🔍 別軸：脱水を検査値から読む",
+       "c": "<span class=\"kw\"><b>① 尿素窒素とクレアチニンの比</b></span><br/><span class=\"kw3\"><b>ふだんは 10 前後——20 を超えると、腎臓に流れる血液が減った状態（脱水・心不全）か、消化管出血・蛋白の取りすぎ</b></span><br/><span class=\"kw3\"><b>本例は 22——脱水を考える</b></span><br/><span class=\"kw\"><b>② ナトリウム</b></span><br/><span class=\"kw4\"><b>水だけが足りない脱水では高ナトリウム血症——飲めない高齢者に多い</b></span><br/><span class=\"kw3\"><b>水と塩が両方失われる（嘔吐・下痢）とナトリウムは保たれるか下がる</b></span><br/><span class=\"kw\"><b>③ そのほかの手がかり</b></span><br/><span class=\"kw3\"><b>ヘマトクリット・アルブミンの上昇（濃縮）——本例は低栄養で隠れている</b></span><br/><span class=\"kw3\"><b>尿量の減少、尿の比重・浸透圧の上昇</b></span><br/><span class=\"kw3\"><b>口の中の乾燥、脇の下の乾燥、体重減少</b></span><br/><span class=\"kw\"><b>④ 注意</b></span><br/><span class=\"kw4\"><b>低アルブミン血症の人は、脱水でもアルブミンが上がらない——数字を組み合わせて読む</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>食道癌で固形物が通らず水分のみ＝完全閉塞が近い——栄養と水分の経路を確保する</b></span><br/><span class=\"kw3\"><b>高度狭窄で管が通らない、口から入らない＝中心静脈栄養</b></span><br/><span class=\"kw4\"><b>尿素窒素／クレアチニン比 20 以上・高ナトリウム＝脱水</b></span><br/><span class=\"kw3\"><b>狭窄が通せれば経腸栄養に切り替える</b></span>"
       }
      ],
      "imgs": []
