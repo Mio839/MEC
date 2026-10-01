@@ -9,6 +9,7 @@
 書式は移す前のまま（新しいものが上。ただし途中に古い版の塊が混ざっている）。
 
 ```
+2026-10-02 (CACHE v684): 消化器 dige 作り直し⑤ ch01 バッチ7（Q.37〜Q.42）。questions_knock.json・questions_hisshu2.json（借用）を再生成。
 2026-10-02 (CACHE v683): 消化器 dige 作り直し⑤ ch01 バッチ6（Q.31〜Q.36）。questions_knock.json・questions_lesdige.json（借用）を再生成。
 2026-10-02 (CACHE v682): 消化器 dige 作り直し⑤ ch01 バッチ5（Q.25〜Q.30）。questions_knock.json（借用）を再生成。
 2026-10-02 (CACHE v681): 消化器 dige 作り直し⑤ ch01 バッチ4（Q.19〜Q.24）。questions_knock.json（借用）を再生成。
