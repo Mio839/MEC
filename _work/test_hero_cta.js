@@ -544,6 +544,17 @@ t('Liquid の着地はインクが満ちる（桁の中をのぼる泡は出さ�
   assert.ok(/_tweenNum\(accNumEl[\s\S]{0,60}_landHeroNumber\(accNumEl\)/.test(HTML), '正答率に着地の演出が掛かっていない');
 });
 
+// 2026-10-01: Brass の読み値の着地は「焼き入れ」（_work/hub_land_demo.html の B4 を採用）
+t('Brass の着地は焼き入れ（熱して蒸気で冷やす・予定表を通す）', () => {
+  const land = extract('_landHeroNumber');
+  assert.ok(/theme === 'brass'[\s\S]{0,80}_brQuenchLand/.test(land), 'Brass が焼き入れへ回っていない');
+  assert.ok(!/brassClockworkBurst/.test(land), '旧 brassClockworkBurst が残っている');
+  const q = extract('_brQuenchLand');
+  assert.ok(/br-heat/.test(q) && /MecFX\.steam/.test(q), '熱する・蒸気のどちらかが無い');
+  assert.ok(/_liqFxLater/.test(q) && !/setTimeout/.test(q), '予定表（_liqFxLater）を通していない');
+  assert.ok(/html\.ui-brass \.hero-num\.br-heat\{animation:brHeat/.test(HTML), '焼き入れの CSS が無い');
+});
+
 t('_tweenNum に非表示タブ用の落とし所がある', () => {
   const src = extract('_tweenNum');
   assert.ok(/setTimeout\(finish, dur \+ \d+\)/.test(src),

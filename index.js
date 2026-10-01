@@ -2325,6 +2325,31 @@ function _lvBurstFx(fx, p) {
   (LV_BURST_FX[theme] || LV_BURST_FX.aurora)(r.left + r.width * p, r.top + r.height / 2, r);
 }
 
+/* ══════════ Brass の読み値の着地：焼き入れ（2026-10-01 採用）══════════
+   _work/hub_land_demo.html の5案（ドラムカウンター・プレス・歯車・焼き入れ・溶接）からユーザーが選んだもの。
+   ① 数字が赤く、さらに白く光るまで熱され（.br-heat の filter）、火の粉がふつふつと上がる
+   ② 0.88 秒で一瞬に冷やされ、数字の全面からジュッと蒸気が立ちのぼって真鍮色に戻る（戻り際に表面を光がすべる）
+   目標達成の日は蒸気と火の粉が多い。
+   ⚠️ 熱の色は filter の animation（!important で .hero-num の filter と目標達成の脈に勝つ）。予定は _liqFxLater の1本。 */
+const BR_QUENCH = { hi: '#FFF3C4', orange: '#FFA040', ember: '#FF3D00', white: '#FFFFFF' };
+function _brQuenchLand(el, g) {
+  if (!el || !_fxOk()) return;
+  const c = _centerOf(el);
+  if (!c) return;
+  const B = BR_QUENCH;
+  _liqFxPulse(el, 'br-heat', 1650);
+  const ne = g ? 16 : 10;
+  for (let i = 0; i < ne; i++) {
+    _liqFxLater(120 + i * 45, () => MecFX.burst(c.r.left + Math.random() * c.r.width, c.r.top + c.r.height * (.2 + Math.random() * .6),
+      { count: 1, tier: 1, speed: 40, upBias: 140, gravity: -160, colors: [B.ember, B.orange, B.hi], shapes: ['circle'], glow: true }));
+  }
+  _liqFxLater(880, () => {
+    const n = Math.max(3, Math.round(c.r.width / 26)) + (g ? 2 : 0);
+    for (let k = 0; k < n; k++) MecFX.steam(c.r.left + c.r.width * (k + .5) / n, c.r.top + c.r.height * .3, { count: g ? 3 : 2, w: c.r.width / n, rise: 110, min: 18, max: 40, alpha: .42 });
+    MecFX.sparks(c.x, c.y, { count: 18, colors: [B.white, B.hi, B.orange] });
+  });
+}
+
 /* ══════════ Liquid の読み値の着地：インクが満ちる（2026-10-01 採用）══════════
    _work/hub_land_demo.html の5案（しずくの着水・ゼリーの震え・溶けて固まる・インクが満ちる・ちぎれて戻る）から
    ユーザーが選んだもの。
@@ -2406,19 +2431,6 @@ function _landHeroNumber(el) {
       shapes: ['circle', 'star'],
       action: (x, y) => { if (window.MecFX && MecFX.auroraPrismSweep) MecFX.auroraPrismSweep(x, y); }
     },
-    brass: {
-      color: '#E0C25E',
-      ringColor: 'rgba(201,162,39,.85)',
-      glyphs: ['⚙️', '✦', '・'],
-      burstColors: ['#E0C25E', '#C9A227', '#FFB347', '#FFFFFF'],
-      shapes: ['circle'],
-      action: (x, y) => {
-        if (!window.MecFX) return;
-        if (MecFX.brassClockworkBurst) MecFX.brassClockworkBurst(x, y);
-        if (MecFX.gears) MecFX.gears(x, y, 3);
-        if (MecFX.steam) MecFX.steam(x, y - 10, 1);
-      }
-    },
     cyber: {
       color: '#00FF9D',
       ringColor: 'rgba(0,255,157,.85)',
@@ -2465,6 +2477,8 @@ function _landHeroNumber(el) {
   if (theme === 'celestial') { _liqFxLater(d * 55 + 120, () => _celSupernovaLand(el, g)); return; }
   // Liquid は「インクが満ちる」（2026-10-01 採用）。数字が輪郭だけになり、下からネオンのインクが満ちてあふれる
   if (theme === 'liquid') { _liqFxLater(d * 55 + 120, () => _lqInkFillLand(el, g)); return; }
+  // Brass は「焼き入れ」（2026-10-01 採用）。数字が赤から白へ熱され、蒸気とともに冷えて真鍮色に戻る
+  if (theme === 'brass') { _liqFxLater(d * 55 + 120, () => _brQuenchLand(el, g)); return; }
 
   const cfg = THEME_LANDING_CONFIG[theme] || THEME_LANDING_CONFIG.aurora;
 

@@ -2903,6 +2903,15 @@ html.ui-brass .hero-num .dg {
 }
 html.ui-brass .hero-num { filter:drop-shadow(0 2px 0 #3D2B0F) drop-shadow(0 0 10px rgba(224,194,94,.65)); }
 html.ui-brass .hero-num:has(.dg) { background:none !important;-webkit-text-fill-color:initial !important; }
+html.ui-brass .hero-num.br-heat { animation:brHeat 1.6s ease-in-out!important; }
+@keyframes brHeat {
+  0%{filter:drop-shadow(0 2px 0 #3D2B0F) drop-shadow(0 0 10px rgba(224,194,94,.65));}
+  22%{filter:brightness(1.7) saturate(2) hue-rotate(-18deg) drop-shadow(0 0 12px #FF3D00) drop-shadow(0 0 26px #FF2A00);}
+  42%,52%{filter:brightness(2.6) saturate(1.2) drop-shadow(0 0 16px #FFE0B0) drop-shadow(0 0 34px #FF6A00);}
+  66%{filter:brightness(.8) saturate(.7) drop-shadow(0 0 4px rgba(255,255,255,.3));}
+  82%{filter:brightness(1.5) drop-shadow(0 0 12px #FFF3C4);}
+  100%{filter:drop-shadow(0 2px 0 #3D2B0F) drop-shadow(0 0 10px rgba(224,194,94,.65));}
+}
 html.ui-brass .hero-num .dg { padding:0 2px; }
 html.ui-brass .hero-unit {
   color:#E0C25E;font-family:"Georgia",serif;font-weight:700;
