@@ -32,6 +32,7 @@ PDFS = {
     'hbp': os.path.join('MEC問題文pdf', 'MEC臓器別講座・肝胆膵_問題（表紙2026）.pdf'),
     'neur': os.path.join('MEC問題文pdf', 'MEC臓器別講座・神経_問題（表紙2026）.pdf'),
     'endo': os.path.join('MEC問題文pdf', 'MEC臓器別講座・内分泌代謝_問題（表紙2026）(1).pdf'),
+    'dige': os.path.join('MEC問題文pdf', 'MEC臓器別講座・消化管_問題（表紙2026）.pdf'),
 }
 
 COLS = [('no', 0), ('ans', 62), ('kid', 95), ('type', 145), ('cbt', 165),
