@@ -399,7 +399,7 @@ html.ui-brass .hero-num.__carry{translate:0 -2px;}`,
      ② 回転を CSS の rotate＋style の transform-origin で書いていた。ここは SVG の transform 属性
         （rotate(角 cx cy)）で書く＝中心がずれず、どのブラウザでも確実に効く
      そこで setup の中で「無ければその場で取り付ける」形にし、回転は属性で書く。 */
-  { id: 'K6', nm: 'ニキシー管＋歯車連動', ds: 'K2 のニキシー管の数字に、K5 の歯車列を組み合わせたもの。歯車は数字の枠の左下と右上に1組ずつ付き、数える間は数えた分だけ回り（数え下がると逆回転）、止まるとぴたりと止まる。桁が上がるたびに管が明滅し、右上の歯車から蒸気がシュッと抜ける。',
+  { id: 'K6', nm: 'ニキシー管＋歯車連動', ds: 'K2 のニキシー管の数字に、K5 の歯車列を組み合わせたもの。歯車は数字の枠の左下と右上に1組ずつ付き、数える間は数えた分だけ回り（数え下がると逆回転）、止まるとぴたりと止まる。桁が上がるたびに管が明滅し、右上の歯車から蒸気がシュッと抜ける。数え終わって焼き入れが済んだあとも、ときどきランダムな管がランダムな数字にチカチカ切り替わって戻る（1度に1本だけ）。',
     css: `
 html.ui-brass .hero-num{background:none!important;-webkit-text-fill-color:#FFB36B!important;color:#FFB36B;}
 html.ui-brass .hero-num .__nx, html.ui-brass .hero-num .dg{display:inline-block;position:relative;margin:0 2px;padding:.06em .12em 0;
@@ -414,8 +414,10 @@ html.ui-brass .hero-num .__nx, html.ui-brass .hero-num .dg{display:inline-block;
   text-shadow:0 0 4px #FF8A3D,0 0 10px #FF6A00,0 0 22px rgba(255,80,0,.7);}
 html.ui-brass .hero-num .__nx::before, html.ui-brass .hero-num .dg::before{content:'8';position:absolute;left:.12em;right:.12em;top:.06em;text-align:center;
   -webkit-text-fill-color:rgba(255,190,140,.09);text-shadow:none;}
-html.ui-brass .hero-num .__nx.flick{animation:__nxFlick .11s steps(2,end);}
+html.ui-brass .hero-num .__nx.flick,html.ui-brass .hero-num .dg.flick{animation:__nxFlick .11s steps(2,end);}
 @keyframes __nxFlick{0%{opacity:.45;}100%{opacity:1;}}
+/* 止まったあとの「ちらつき」中の管：一瞬だけ別の数字に変わり、光が弱く揺れる */
+html.ui-brass .hero-num .dg.__nxIdle{opacity:.78;text-shadow:0 0 3px #FF8A3D,0 0 14px #FF6A00,0 0 30px rgba(255,80,0,.85);}
 html.ui-brass .hero-num .__nx-sep{display:inline-block;color:#FF8A3D;text-shadow:0 0 8px #FF6A00;}
 html.ui-brass .hero-fig .__gt{position:absolute;width:44px;height:34px;pointer-events:none;z-index:2;overflow:visible;
   filter:drop-shadow(0 2px 3px rgba(0,0,0,.75));}
@@ -426,6 +428,7 @@ html.ui-brass .hero-num.__carry{translate:0 -2px;}`,
     deco: function () { __gearsOn(); },
     setup: function (el, from, to) {
       var fig = el.closest('.hero-fig');
+      if (el.__nxIdleStop) el.__nxIdleStop();   // 数え直すときは止まったあとのちらつきを止める
       __gearsOn();
       var sets = fig ? Array.from(fig.querySelectorAll('.__gt')) : [];
       var base = (fig && fig.__ga) || 0, per = el.id === 'heroAccVal' ? 9 : 6;   // 1 増えるごとに回る角度
@@ -470,6 +473,46 @@ html.ui-brass .hero-num.__carry{translate:0 -2px;}`,
           spin(base + (to - from) * per);
           var bl = fig && fig.querySelector('.__gt.bl');
           if (bl && _fxOk()) { var r = bl.getBoundingClientRect(); MecFX.sparks(r.left + r.width * .3, r.top + r.height * .5, { count: 8, colors: ['#FFF3C4', '#FFA040'] }); }
+          // 止まったあとも、ときどきランダムな管がランダムな数字にチカチカ切り替わって戻る。
+          // 焼き入れ（約1.6秒）が終わってから始める。1度に動かすのは1本だけ＝数字はいつも読める。
+          // 非表示タブでは何もしない。数え直す（setup）と止まる。
+          // ⚠️ 数え上げが2本重なる（開いた瞬間の数え上げと同期の再描画など）と、先に終わった方のちらつきが
+          //    取り残されて2本が同じ管を奪い合い、取り違えた数字のまま戻らなくなった。始める前に必ず前のを止める
+          if (el.__nxIdleStop) el.__nxIdleStop();
+          var timer = null, alive = true;
+          el.__nxIdleStop = function () { alive = false; clearTimeout(timer); el.__nxIdleStop = null;
+            Array.from(el.querySelectorAll('.dg')).forEach(function (d) { if (d.dataset.real != null) { d.textContent = d.dataset.real; } d.classList.remove('__nxIdle', 'flick'); }); };
+          var flick = function (d) {
+            d.classList.remove('flick'); void d.offsetWidth; d.classList.add('flick');
+          };
+          var burst = function () {
+            var ds = Array.from(el.querySelectorAll('.dg')).filter(function (x) { return x.dataset.real == null && /\d/.test(x.textContent); });
+            if (!ds.length) { loop(); return; }
+            var d = ds[Math.floor(Math.random() * ds.length)], real = d.textContent;
+            d.dataset.real = real;
+            d.classList.add('__nxIdle');
+            var n = 2 + Math.floor(Math.random() * 4), i = 0;
+            (function swap() {
+              if (!alive) return;
+              if (i++ < n) {
+                var r; do { r = String(Math.floor(Math.random() * 10)); } while (r === real);
+                d.textContent = r; flick(d);
+                timer = setTimeout(swap, 45 + Math.random() * 50);
+              } else {
+                d.textContent = real; flick(d); d.classList.remove('__nxIdle'); delete d.dataset.real;
+                loop();
+              }
+            })();
+          };
+          var loop = function () {
+            if (!alive) return;
+            timer = setTimeout(function () {
+              if (!alive) return;
+              if (document.hidden) { loop(); return; }
+              burst();
+            }, 600 + Math.random() * 1800);
+          };
+          timer = setTimeout(loop, 1700);
         }
       };
     } }
