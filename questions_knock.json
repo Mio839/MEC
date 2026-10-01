@@ -37807,22 +37807,27 @@
             {
               "cls": "ept",
               "h": "📎 消化器 Q.314 の解説（同じ国試問題）",
-              "c": "この問題（108G-35）は <b>消化器 Q.314</b> と同じ国試問題なので、その解説を下に併記しています。<br/>偽膜性腸炎（C.difficile感染症）の治療薬：バンコマイシン（経口）とメトロニダゾールが標準治療。"
+              "c": "この問題（108G-35）は <b>消化器 Q.314</b> と同じ国試問題なので、その解説を下に併記しています。<br/>偽膜性腸炎（C. difficile 感染症）の治療薬は<b>バンコマイシン（内服）</b>と<b>メトロニダゾール</b>。今の第一選択はバンコマイシン内服かフィダキソマイシンで、メトロニダゾールは軽症で他が使えないときの選択肢。クリンダマイシンはむしろ<b>CDI を起こしやすい</b>抗菌薬。"
             },
             {
               "cls": "ep",
-              "h": "💊 偽膜性腸炎（CDI）の治療薬",
-              "c": "<span class=\"kw\">bバンコマイシン（正答）</span>：<br/>経口投与（消化管吸収ほぼなし→腸管内高濃度）→C.difficileに直接作用<br/>125mg×4回/日×10〜14日間<br/><br/><span class=\"kw\">eメトロニダゾール（正答）</span>：<br/>軽症〜中等症CDIに有効（嫌気性菌・原虫にも有効）<br/>500mg×3回/日×10〜14日間<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ aセフメタゾール：第二世代セフェム→腸内フローラ乱す→CDIリスク上昇させる<br/>✗ cミノサイクリン：テトラサイクリン系（CDI治療薬ではない）<br/>✗ dクリンダマイシン：CDIの原因となる抗菌薬の代表（<span class=\"kw4\">CDIを増悪させる！</span>)"
+              "h": "🌿 3 つの治療薬——どこに届き、何が違うか",
+              "c": "<span class=\"kw4\"><b>内服でなければ届かない話は Q.283、重症度で薬を選ぶ話は Q.296——ここは薬の性質</b></span>。<br/><span class=\"kw\"><b>① バンコマイシン</b></span><br/><span class=\"kw3\"><b>腸からほとんど吸収されない——内服すると腸の中で濃くなる</b></span><br/><span class=\"kw3\"><b>点滴では腸の中に出てこない——CDI には効かない</b></span><br/><span class=\"kw3\"><b>内服でも腸の炎症が強いと少し吸収されることがあり、腎機能が悪い人では血中濃度に注意</b></span><br/><span class=\"kw\"><b>② フィダキソマイシン</b></span><br/><span class=\"kw3\"><b>腸から吸収されず、C. difficile に狭く効く——他の腸内細菌を乱しにくく、再発が少ない</b></span><br/><span class=\"kw\"><b>③ メトロニダゾール</b></span><br/><span class=\"kw3\"><b>よく吸収され、腸の中の濃度は下がっていく——治りが少し劣り、再発も多い</b></span><br/><span class=\"kw3\"><b>点滴でも胆汁や炎症のある腸壁から腸に出る——劇症でイレウスのとき、バンコマイシンに加えて点滴で使う</b></span><br/><span class=\"kw3\"><b>副作用：金属のような味、アルコールで悪酔い（ジスルフィラム様）、長く使うと末梢神経障害</b></span>"
             },
             {
               "cls": "ee",
-              "h": "□ CDI治療薬のまとめ",
-              "c": "<table class=\"tb\"><tr><th>薬剤</th><th>役割</th></tr><tr><td>薬剤</td><td>役割</td></tr><tr><td><span class=\"kw\">バンコマイシン（経口）</span></td><td>標準治療（中等〜重症）</td></tr><tr><td><span class=\"kw\">メトロニダゾール</span></td><td>軽症〜中等症に有効</td></tr><tr><td>フィダキソマイシン</td><td>再発率が低い（近年推奨）</td></tr><tr><td><span class=\"kw4\">クリンダマイシン</span></td><td>CDIの原因薬（使用禁忌）</td></tr><tr><td><span class=\"kw4\">第三世代セフェム</span></td><td>CDIリスク上昇（原因薬のひとつ）</td></tr></table>"
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　セフメタゾール</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腹腔内感染などに使うセフェム系</b></span>。<span class=\"kw3\"><b>CDI の原因になる側</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　バンコマイシン</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>内服で使う</b></span>。</td></tr><tr><td>ｃ　ミノサイクリン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>テトラサイクリン系——リケッチア・マイコプラズマなど</b></span>。</td></tr><tr><td>ｄ　クリンダマイシン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>CDI を最も起こしやすい抗菌薬の一つ</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　メトロニダゾール</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>軽症で他が使えないとき、劇症で点滴を追加</b></span>。</td></tr></table>"
             },
             {
               "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "偽膜性腸炎の治療薬を2つ。<br/><b>a セフメタゾール／c ミノサイクリン／d クリンダマイシン（原因薬）</b>：不適。<br/><b>b バンコマイシン</b>：<span class=\"kw\">経口バンコマイシン</span>。✓<br/><b>e メトロニダゾール</b>：<span class=\"kw\">CD腸炎に有効</span>。✓"
+              "h": "🔍 別軸：メトロニダゾールが効く病気",
+              "c": "<span class=\"kw\"><b>① 嫌気性菌</b></span><br/><span class=\"kw3\"><b>腹腔内感染・肝膿瘍・誤嚥でできた膿瘍——Bacteroides fragilis に効く</b></span><br/><span class=\"kw\"><b>② 原虫</b></span><br/><span class=\"kw3\"><b>赤痢アメーバ（アメーバ性大腸炎・肝膿瘍）</b></span><br/><span class=\"kw3\"><b>ランブル鞭毛虫（ジアルジア）、腟トリコモナス</b></span><br/><span class=\"kw\"><b>③ 細菌性腟症</b></span><br/><span class=\"kw\"><b>④ ピロリ菌の二次除菌</b></span><br/><span class=\"kw3\"><b>一次除菌（PPI か P-CAB＋アモキシシリン＋クラリスロマイシン）が失敗したら、クラリスロマイシンをメトロニダゾールに替える</b></span><br/><span class=\"kw\"><b>⑤ CDI</b></span><br/><span class=\"kw4\"><b>飲酒は治療中と終了後しばらく控える</b></span>"
+            },
+            {
+              "cls": "ept",
+              "h": "🎯 国試ポイント",
+              "c": "<span class=\"kw3\"><b>CDI の治療：バンコマイシン内服・フィダキソマイシン・（メトロニダゾール）</b></span><br/><span class=\"kw4\"><b>バンコマイシンの点滴は腸に届かない</b></span><br/><span class=\"kw3\"><b>クリンダマイシンは CDI を起こしやすい、メトロニダゾールはアメーバ・嫌気性菌・ピロリ二次除菌にも</b></span>"
             }
           ],
           "imgs": []

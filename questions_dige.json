@@ -21239,22 +21239,27 @@
       }
      ],
      "ans_label": "ｂ　偽膜性腸炎",
-     "ans_sub": "セファゾリン（セフェム系）投与後の発熱・頻回水様下痢→偽膜性腸炎（C.difficile感染症）が最も疑わしい。",
+     "ans_sub": "蜂窩織炎にセファゾリンを使ったあと、38.5℃、1 日 10 回の下痢、白血球 19,300、<b>クレアチニンが 5 日で 0.8→3.8</b>。内視鏡では赤い粘膜に<b>黄白色の丸く盛り上がった斑点（偽膜）が散らばる</b>——<b>偽膜性腸炎（重症の C. difficile 感染症）</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🦠 偽膜性腸炎（CDI）の診断基準",
-       "c": "<span class=\"kw\">b偽膜性腸炎（正答）</span>：<br>抗菌薬使用（特にセフェム系・クリンダマイシン・キノロン系）後1日〜8週間以内<br>1日3回以上の水様下痢・腹痛・発熱<br/>確定：便中CDトキシン陽性 or 内視鏡で偽膜（黄白色斑点）確認<br/><br/><span class=\"kw4\">鑑別</span>：<br/>✗ aCrohn病：慢性経過・腹痛・体重減少・若年・抗菌薬との関連なし<br/>✗ c虚血性大腸炎：腹痛先行→血便・高齢・動脈硬化背景<br/>✗ d潰瘍性大腸炎：慢性経過・粘血便・再燃<br/>✗ e腸管出血性大腸菌感染症：血便・腹痛・HUSリスク（抗菌薬との関連は直接的でない）</br></br>"
+       "h": "🌿 偽膜とは何か、内視鏡でどう見えるか",
+       "c": "<span class=\"kw4\"><b>CDI の全体は Q.270、重症度の数字は Q.296——ここは偽膜そのものと、この患者の腎障害</b></span>。<br/><span class=\"kw\"><b>① 偽膜の正体</b></span><br/><span class=\"kw3\"><b>毒素で粘膜の表面が傷み、そこから噴き出したフィブリン・粘液・好中球・壊れた細胞が固まったもの</b></span><br/><span class=\"kw3\"><b>病理では、傷んだ腺管から火山の噴火のように噴き出す像（volcano lesion）</b></span><br/><span class=\"kw\"><b>② 内視鏡での見え方</b></span><br/><span class=\"kw3\"><b>黄白色で、数 mm の丸い盛り上がり（プラーク）が散らばる</b></span><br/><span class=\"kw3\"><b>進むと融合して膜のように広がる</b></span><br/><span class=\"kw3\"><b>はがすと下の粘膜は赤くただれ、出血しやすい</b></span><br/><span class=\"kw3\"><b>直腸・S 状結腸に多いが、右側だけのこともある</b></span><br/><span class=\"kw\"><b>③ この患者の腎障害</b></span><br/><span class=\"kw3\"><b>クレアチニン 0.8→3.8、BUN 50——下痢の脱水による急性腎障害</b></span><br/><span class=\"kw4\"><b>クレアチニン 1.5 超・白血球 15,000 以上で重症——輸液と、バンコマイシン内服かフィダキソマイシン</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　Crohn 病</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>縦走潰瘍・敷石像——抗菌薬のあとの急な発症ではない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　偽膜性腸炎</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>抗菌薬のあと、黄白色の偽膜が散らばる</b></span>。</td></tr><tr><td>ｃ　虚血性大腸炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>突然の腹痛と血便、縦に走る発赤・潰瘍——左側結腸に多い</b></span>。</td></tr><tr><td>ｄ　潰瘍性大腸炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>直腸から続くびまん性の発赤・びらん</b></span>。</td></tr><tr><td>ｅ　腸管出血性大腸菌感染症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>血便が主で、右側の結腸に強いむくみ・出血</b></span>。<span class=\"kw3\"><b>発熱は軽いことが多い</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：「偽膜」が出るのは CDI だけではない",
+       "c": "<span class=\"kw\"><b>① 偽膜様の所見が出るもの</b></span><br/><span class=\"kw3\"><b>虚血性腸炎（壊死した粘膜が膜状に）</b></span><br/><span class=\"kw3\"><b>腸管出血性大腸菌、赤痢、サイトメガロウイルス（まれ）</b></span><br/><span class=\"kw3\"><b>膠原線維性大腸炎（collagenous colitis）では、粘膜がはがれた跡のような裂け目</b></span><br/><span class=\"kw\"><b>② 逆に偽膜がない CDI</b></span><br/><span class=\"kw3\"><b>CDI のうち偽膜が見えるのは一部——軽症では粘膜はほぼ正常か、軽い発赤だけ</b></span><br/><span class=\"kw4\"><b>偽膜がないことで CDI を否定しない——診断は便の毒素・遺伝子検査</b></span><br/><span class=\"kw\"><b>③ 内視鏡の位置づけ</b></span><br/><span class=\"kw3\"><b>便の検査で決まらないとき、他の病気と区別したいとき、すぐ診断が要る重症のとき</b></span><br/><span class=\"kw3\"><b>重症例では送気で穿孔の危険——慎重に、短く</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">抗菌薬使用後の頻回水様下痢 → 偽膜性腸炎（C.difficile感染症）</span><br/>治療：原因抗菌薬中止→バンコマイシン経口（or フィダキソマイシン）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "下部消化管内視鏡で黄白色の偽膜。<br/><b>a Crohn病／c 虚血性大腸炎／d 潰瘍性大腸炎／e 腸管出血性大腸菌</b>：合わない。<br/><b>b 偽膜性腸炎</b>：<span class=\"kw\">C. difficileによる黄白色偽膜</span>。✓"
+       "c": "<span class=\"kw3\"><b>抗菌薬のあと、黄白色の丸い盛り上がりが散らばる→偽膜性腸炎</b></span><br/><span class=\"kw3\"><b>偽膜＝フィブリン・粘液・好中球（volcano lesion）</b></span><br/><span class=\"kw4\"><b>偽膜がなくても CDI は否定できない</b></span>"
       }
      ],
      "imgs": [
@@ -21302,22 +21307,27 @@
       }
      ],
      "ans_label": "ｂ　バンコマイシン\nｅ　メトロニダゾール",
-     "ans_sub": "偽膜性腸炎（C.difficile感染症）の治療薬：バンコマイシン（経口）とメトロニダゾールが標準治療。",
+     "ans_sub": "偽膜性腸炎（C. difficile 感染症）の治療薬は<b>バンコマイシン（内服）</b>と<b>メトロニダゾール</b>。今の第一選択はバンコマイシン内服かフィダキソマイシンで、メトロニダゾールは軽症で他が使えないときの選択肢。クリンダマイシンはむしろ<b>CDI を起こしやすい</b>抗菌薬。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 偽膜性腸炎（CDI）の治療薬",
-       "c": "<span class=\"kw\">bバンコマイシン（正答）</span>：<br/>経口投与（消化管吸収ほぼなし→腸管内高濃度）→C.difficileに直接作用<br/>125mg×4回/日×10〜14日間<br/><br/><span class=\"kw\">eメトロニダゾール（正答）</span>：<br/>軽症〜中等症CDIに有効（嫌気性菌・原虫にも有効）<br/>500mg×3回/日×10〜14日間<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ aセフメタゾール：第二世代セフェム→腸内フローラ乱す→CDIリスク上昇させる<br/>✗ cミノサイクリン：テトラサイクリン系（CDI治療薬ではない）<br/>✗ dクリンダマイシン：CDIの原因となる抗菌薬の代表（<span class=\"kw4\">CDIを増悪させる！</span>)"
+       "h": "🌿 3 つの治療薬——どこに届き、何が違うか",
+       "c": "<span class=\"kw4\"><b>内服でなければ届かない話は Q.283、重症度で薬を選ぶ話は Q.296——ここは薬の性質</b></span>。<br/><span class=\"kw\"><b>① バンコマイシン</b></span><br/><span class=\"kw3\"><b>腸からほとんど吸収されない——内服すると腸の中で濃くなる</b></span><br/><span class=\"kw3\"><b>点滴では腸の中に出てこない——CDI には効かない</b></span><br/><span class=\"kw3\"><b>内服でも腸の炎症が強いと少し吸収されることがあり、腎機能が悪い人では血中濃度に注意</b></span><br/><span class=\"kw\"><b>② フィダキソマイシン</b></span><br/><span class=\"kw3\"><b>腸から吸収されず、C. difficile に狭く効く——他の腸内細菌を乱しにくく、再発が少ない</b></span><br/><span class=\"kw\"><b>③ メトロニダゾール</b></span><br/><span class=\"kw3\"><b>よく吸収され、腸の中の濃度は下がっていく——治りが少し劣り、再発も多い</b></span><br/><span class=\"kw3\"><b>点滴でも胆汁や炎症のある腸壁から腸に出る——劇症でイレウスのとき、バンコマイシンに加えて点滴で使う</b></span><br/><span class=\"kw3\"><b>副作用：金属のような味、アルコールで悪酔い（ジスルフィラム様）、長く使うと末梢神経障害</b></span>"
       },
       {
        "cls": "ee",
-       "h": "□ CDI治療薬のまとめ",
-       "c": "<table class=\"tb\"><tr><th>薬剤</th><th>役割</th></tr><tr><td>薬剤</td><td>役割</td></tr><tr><td><span class=\"kw\">バンコマイシン（経口）</span></td><td>標準治療（中等〜重症）</td></tr><tr><td><span class=\"kw\">メトロニダゾール</span></td><td>軽症〜中等症に有効</td></tr><tr><td>フィダキソマイシン</td><td>再発率が低い（近年推奨）</td></tr><tr><td><span class=\"kw4\">クリンダマイシン</span></td><td>CDIの原因薬（使用禁忌）</td></tr><tr><td><span class=\"kw4\">第三世代セフェム</span></td><td>CDIリスク上昇（原因薬のひとつ）</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　セフメタゾール</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腹腔内感染などに使うセフェム系</b></span>。<span class=\"kw3\"><b>CDI の原因になる側</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　バンコマイシン</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>内服で使う</b></span>。</td></tr><tr><td>ｃ　ミノサイクリン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>テトラサイクリン系——リケッチア・マイコプラズマなど</b></span>。</td></tr><tr><td>ｄ　クリンダマイシン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>CDI を最も起こしやすい抗菌薬の一つ</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　メトロニダゾール</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>軽症で他が使えないとき、劇症で点滴を追加</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "偽膜性腸炎の治療薬を2つ。<br/><b>a セフメタゾール／c ミノサイクリン／d クリンダマイシン（原因薬）</b>：不適。<br/><b>b バンコマイシン</b>：<span class=\"kw\">経口バンコマイシン</span>。✓<br/><b>e メトロニダゾール</b>：<span class=\"kw\">CD腸炎に有効</span>。✓"
+       "h": "🔍 別軸：メトロニダゾールが効く病気",
+       "c": "<span class=\"kw\"><b>① 嫌気性菌</b></span><br/><span class=\"kw3\"><b>腹腔内感染・肝膿瘍・誤嚥でできた膿瘍——Bacteroides fragilis に効く</b></span><br/><span class=\"kw\"><b>② 原虫</b></span><br/><span class=\"kw3\"><b>赤痢アメーバ（アメーバ性大腸炎・肝膿瘍）</b></span><br/><span class=\"kw3\"><b>ランブル鞭毛虫（ジアルジア）、腟トリコモナス</b></span><br/><span class=\"kw\"><b>③ 細菌性腟症</b></span><br/><span class=\"kw\"><b>④ ピロリ菌の二次除菌</b></span><br/><span class=\"kw3\"><b>一次除菌（PPI か P-CAB＋アモキシシリン＋クラリスロマイシン）が失敗したら、クラリスロマイシンをメトロニダゾールに替える</b></span><br/><span class=\"kw\"><b>⑤ CDI</b></span><br/><span class=\"kw4\"><b>飲酒は治療中と終了後しばらく控える</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>CDI の治療：バンコマイシン内服・フィダキソマイシン・（メトロニダゾール）</b></span><br/><span class=\"kw4\"><b>バンコマイシンの点滴は腸に届かない</b></span><br/><span class=\"kw3\"><b>クリンダマイシンは CDI を起こしやすい、メトロニダゾールはアメーバ・嫌気性菌・ピロリ二次除菌にも</b></span>"
       }
      ],
      "imgs": []
@@ -21363,22 +21373,27 @@
       }
      ],
      "ans_label": "ｃ　急性虫垂炎",
-     "ans_sub": "心窩部→右下腹部への痛みの移動・腹膜刺激症状（反跳痛）は急性虫垂炎の典型的経過。",
+     "ans_sub": "24 歳女性、心窩部の不快感→翌朝に右下腹部痛、歩くと響いて前かがみになる、右下腹部が硬く圧痛と反跳痛、腸雑音が聞こえず腹部がやや張る、白血球 16,300、CRP 8.9。妊娠反応は陰性。単純 CT（冠状断）で右下腹部に<b>腫れた管状の虫垂と周りの脂肪の濁り</b>——<b>急性虫垂炎</b>で、炎症は腹膜に及んでいる。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🩺 急性虫垂炎の典型的経過（Cope徴候）",
-       "c": "<span class=\"kw\">c急性虫垂炎（正答）</span>：<br><span class=\"kw\">痛みの移動パターン</span>：心窩部（始まり）→臍周囲→右下腹部（移動）<br>発熱（37.5〜38.5℃）・白血球増多（好中球優位）<br>腹膜刺激症状：McBurney圧痛・Blumberg徴候（反跳痛）・筋性防御<br><br><span class=\"kw4\">鑑別</span>：<br/>✗ a急性腸炎：水様下痢・嘔吐（腹膜刺激症状なし）<br/>✗ bCrohn病：慢性経過・腸管狭窄・腸外合併症<br/>✗ d骨盤腹膜炎：女性・性感染症・両側付属器圧痛（性感染症歴確認）<br/>✗ e大腸憩室炎：高齢者・左下腹部痛が多い（若年女性の急性腹症では虫垂炎を先に疑う）</br></br></br></br></br>"
+       "h": "🌿 腸雑音が消え、お腹が張る——腹膜炎が腸を止める",
+       "c": "<span class=\"kw4\"><b>痛みが移る仕組みは Q.275、女性の右下腹部痛の鑑別と糞石は Q.308——ここは腸雑音と歩き方が示すもの</b></span>。<br/><span class=\"kw\"><b>① 麻痺性イレウス</b></span><br/><span class=\"kw3\"><b>腹膜の炎症が腸に広がると、腸の動きが止まる</b></span><br/><span class=\"kw3\"><b>腸雑音が弱まり・消え、ガスがたまって腹部が張る</b></span><br/><span class=\"kw3\"><b>機械的な腸閉塞（金属音・高い腸雑音）とは逆</b></span><br/><span class=\"kw4\"><b>腸雑音の消失は炎症の広がり（穿孔の可能性）を示す</b></span><br/><span class=\"kw\"><b>② 前かがみの歩き方</b></span><br/><span class=\"kw3\"><b>腸腰筋の前に炎症のある虫垂があると、股関節を伸ばすと痛む——体を曲げて歩く</b></span><br/><span class=\"kw3\"><b>診察では腸腰筋徴候（左を下にして右脚を後ろへ伸ばすと痛む）</b></span><br/><span class=\"kw\"><b>③ 歩くと響く</b></span><br/><span class=\"kw3\"><b>振動で腹膜が揺れて痛む——腹膜刺激のサイン</b></span><br/><span class=\"kw\"><b>④ 妊娠反応陰性・月経の中間</b></span><br/><span class=\"kw3\"><b>異所性妊娠は否定的、排卵期の卵巣出血は考えておく</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　急性腸炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>下痢が主で、反跳痛・筋性防御は乏しい</b></span>。</td></tr><tr><td>ｂ　Crohn 病</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>慢性の下痢・体重減少・肛門病変——1 日の経過ではない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　急性虫垂炎</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>痛みの移動、腹膜刺激、CT の腫れた虫垂</b></span>。</td></tr><tr><td>ｄ　骨盤腹膜炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>両側の下腹部痛、帯下、子宮を動かすと痛む</b></span>。<span class=\"kw3\"><b>CT で虫垂に炎症がある</b></span>。</td></tr><tr><td>ｅ　大腸憩室炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>痛みが移らない、CT で結腸の憩室に炎症</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：腸雑音の聞き方",
+       "c": "<span class=\"kw\"><b>① 聞き方</b></span><br/><span class=\"kw3\"><b>触診の前に聴く——触ると腸が動いて変わる</b></span><br/><span class=\"kw3\"><b>1 か所で 1 分以上</b></span><br/><span class=\"kw\"><b>② 正常</b></span><br/><span class=\"kw3\"><b>数秒〜十数秒ごとにゴロゴロ</b></span><br/><span class=\"kw\"><b>③ 亢進</b></span><br/><span class=\"kw3\"><b>胃腸炎・下痢、機械的腸閉塞の初期</b></span><br/><span class=\"kw3\"><b>金属音（高く響く音）——閉塞の手前で腸がガスと液を押し出そうとする</b></span><br/><span class=\"kw\"><b>④ 減弱・消失</b></span><br/><span class=\"kw3\"><b>腹膜炎、麻痺性イレウス、手術のあと、低カリウム、オピオイド</b></span><br/><span class=\"kw4\"><b>閉塞が長引いて腸が疲れたり、血流が悪くなる（絞扼）と、閉塞でも腸雑音が消える——危険なサイン</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">心窩部→右下腹部への痛みの移動 ＋ 腹膜刺激症状 → 急性虫垂炎</span><br/>若年女性：卵巣嚢腫茎捻転・異所性妊娠も鑑別（hCG・超音波で鑑別）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "腹部単純CTで右下腹部の炎症。<br/><b>a 急性腸炎／b Crohn病／d 骨盤腹膜炎／e 大腸憩室炎</b>：合わない。<br/><b>c 急性虫垂炎</b>：<span class=\"kw\">腫大した虫垂・周囲の炎症</span>。✓"
+       "c": "<span class=\"kw3\"><b>痛みの移動＋腹膜刺激＋CT で腫れた虫垂→急性虫垂炎</b></span><br/><span class=\"kw3\"><b>腸雑音の消失・腹部膨満＝腹膜炎による麻痺性イレウス</b></span><br/><span class=\"kw4\"><b>閉塞で腸雑音が消えたら絞扼を疑う</b></span>"
       }
      ],
      "imgs": [
@@ -21426,22 +21441,27 @@
       }
      ],
      "ans_label": "ｅ　手術可能な医療機関へ紹介する。",
-     "ans_sub": "上腹部痛→右下腹部への痛みの移動は急性虫垂炎の典型的経過→緊急手術が必要な医療機関への紹介が必須。",
+     "ans_sub": "前日の上腹部痛が<b>今朝から右下腹部へ移り</b>、右下腹部に限局した圧痛——<b>急性虫垂炎</b>の典型的な経過。手術が要る可能性が高く、診療所で様子を見るのではなく、<b>手術ができる医療機関へ紹介</b>する。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🚨 急性虫垂炎の対応",
-       "c": "<span class=\"kw\">e手術可能な医療機関へ紹介（正答）</span>：<br>右下腹部への痛みの移動→急性虫垂炎の典型経過<br/>→ 虫垂切除術（緊急手術）が必要→手術対応可能な病院へ紹介<br/>→ 在宅での経過観察・鎮痛薬で帰宅は<span class=\"kw4\">危険（穿孔のリスク）</span><br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a診療所で経過観察：手術ができない→不適切<br/>✗ b翌日の再受診：虫垂炎が進行→穿孔のリスク→遅すぎる<br/>✗ c鎮痛薬処方で帰宅：診断が遅れる・穿孔を見逃す可能性<br/>✗ d数時間後の再受診：炎症が進行してから再来院→手遅れになる可能性</br>"
+       "h": "🌿 診療所の役割——見つけて、すぐ送る",
+       "c": "<span class=\"kw4\"><b>痛みの移動の仕組みは Q.275——ここは「どこで診るか」の判断</b></span>。<br/><span class=\"kw\"><b>① なぜ送るか</b></span><br/><span class=\"kw3\"><b>虫垂炎の診断には血液検査・CT が要り、治療は手術か入院での抗菌薬</b></span><br/><span class=\"kw3\"><b>時間がたつほど壊疽・穿孔が増える（Q.299）</b></span><br/><span class=\"kw\"><b>② 前日の受診をどう扱うか</b></span><br/><span class=\"kw3\"><b>前日は上腹部の軽い圧痛だけ——虫垂炎の初期は診断できないことが多い</b></span><br/><span class=\"kw4\"><b>だから「悪くなったらすぐ来て」と伝えることが大切——この患者はそれで戻ってきた</b></span><br/><span class=\"kw\"><b>③ 送るときに伝えること</b></span><br/><span class=\"kw3\"><b>経過（いつから、痛みの移動）、所見、飲んだ薬、最後に食べた時刻（麻酔のため）</b></span><br/><span class=\"kw\"><b>④ 鎮痛薬</b></span><br/><span class=\"kw3\"><b>痛み止めで虫垂炎の診断が遅れることはない——診察のために痛みを我慢させる必要はない</b></span><br/><span class=\"kw3\"><b>ただし痛み止めを出して帰すのは別の話——診断がついていない</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　診療所で経過観察する。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>検査も手術もできない場で待つと、穿孔の危険</b></span>。</td></tr><tr><td>ｂ　翌日の再受診を指示する。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>1 日で穿孔に進みうる</b></span>。</td></tr><tr><td>ｃ　鎮痛薬を処方し帰宅させる。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>手術が要る病気を見逃して帰す</b></span>。</td></tr><tr><td>ｄ　数時間後の再受診を指示する。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>すでに典型的な経過——待つ理由がない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　手術可能な医療機関へ紹介する。</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>診断と手術ができる場所へ</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：外来の腹痛で、すぐ送るべきサイン",
+       "c": "<span class=\"kw\"><b>① バイタル</b></span><br/><span class=\"kw3\"><b>血圧低下・頻脈・意識の変化——ショック</b></span><br/><span class=\"kw\"><b>② 痛み</b></span><br/><span class=\"kw3\"><b>突然の激痛（穿孔・血管の病気）、痛みが続き強くなる</b></span><br/><span class=\"kw3\"><b>痛みの割にお腹の所見が軽い——腸間膜虚血を疑う</b></span><br/><span class=\"kw\"><b>③ 腹部</b></span><br/><span class=\"kw3\"><b>反跳痛・筋性防御・板状硬——腹膜炎</b></span><br/><span class=\"kw3\"><b>拍動する腫瘤——腹部大動脈瘤</b></span><br/><span class=\"kw\"><b>④ 嘔吐と便</b></span><br/><span class=\"kw3\"><b>胆汁や便の混じった嘔吐、排ガスがない——腸閉塞</b></span><br/><span class=\"kw3\"><b>吐血・下血</b></span><br/><span class=\"kw\"><b>⑤ 人</b></span><br/><span class=\"kw3\"><b>高齢者、妊娠の可能性、免疫抑制——軽く見えても重い</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">急性虫垂炎を疑ったら：①即座に診療所では手術不可→緊急紹介 ②帰宅・待機は禁忌</span><br/>痛みの移動（心窩部→右下腹部）は急性虫垂炎の最も重要な臨床的特徴。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "右下腹部に限局した圧痛（急性虫垂炎疑い）で次に最も適切な対応。<br/><b>a 経過観察／b 翌日再受診／c 鎮痛薬処方し帰宅／d 数時間後再受診</b>：不適（手術遅延のリスク）。<br/><b>e 手術可能な医療機関へ紹介する</b>：<span class=\"kw\">虫垂炎は手術可能施設へ速やかに紹介</span>。✓"
+       "c": "<span class=\"kw3\"><b>上腹部→右下腹部へ移る痛み＋限局した圧痛→手術可能な医療機関へ紹介</b></span><br/><span class=\"kw3\"><b>初期の虫垂炎は診断できないことが多い——悪化したらすぐ受診するよう伝える</b></span><br/><span class=\"kw4\"><b>鎮痛薬で虫垂炎の診断は遅れないが、診断のつかない腹痛を鎮痛薬だけで帰さない</b></span>"
       }
      ],
      "imgs": []
@@ -21487,22 +21507,27 @@
       }
      ],
      "ans_label": "ｄ　バンコマイシン",
-     "ans_sub": "第三世代セフェム系抗菌薬使用後の下痢→偽膜性腸炎（C.difficile感染）→バンコマイシン経口が第一選択。",
+     "ans_sub": "第 3 世代セフェムで市中肺炎を治療したあと、1 日 10 回以上の下痢。内視鏡では粘膜一面に<b>黄色い盛り上がった偽膜が密に並ぶ</b>——<b>偽膜性腸炎</b>。治療は<b>バンコマイシンの内服</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💊 偽膜性腸炎（CDI）の治療薬選択",
-       "c": "<span class=\"kw\">dバンコマイシン（正答）</span>：<br>経口バンコマイシン（消化管非吸収型）→腸管内でC.difficileを直接殺菌<br/>第三世代セフェム系（CDIリスク高い抗菌薬）使用後の下痢→CDIを強く疑う<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ aアムホテリシンB：真菌感染（アスペルギルス・カンジダ）の治療薬<br/>✗ bアンピシリン：ペニシリン系（CDI治療には使用しない）<br/>✗ cガンシクロビル：サイトメガロウイルス（CMV）感染の治療薬<br/>✗ eリファンピシン：結核・MRSAの治療薬（CDI第一選択ではない）</br>"
+       "h": "🌿 バンコマイシン内服の使い方",
+       "c": "<span class=\"kw4\"><b>薬の性質の比較は Q.314、原因薬の中止は Q.303——ここは内服の実際</b></span>。<br/><span class=\"kw\"><b>① 量と期間</b></span><br/><span class=\"kw3\"><b>1 回 125mg を 1 日 4 回、10 日間が基本</b></span><br/><span class=\"kw3\"><b>劇症では量を増やし、イレウスで飲めなければ注腸で入れる</b></span><br/><span class=\"kw\"><b>② 効果の見方</b></span><br/><span class=\"kw3\"><b>数日で熱と下痢の回数が減ってくる</b></span><br/><span class=\"kw3\"><b>便の毒素の陰性化は確かめない（Q.289）</b></span><br/><span class=\"kw\"><b>③ 飲めないとき</b></span><br/><span class=\"kw3\"><b>経鼻胃管から入れる</b></span><br/><span class=\"kw\"><b>④ この患者</b></span><br/><span class=\"kw3\"><b>原因の抗菌薬は 3 日前に終了済み</b></span><br/><span class=\"kw3\"><b>腹部は軟らかく圧痛もない、熱も軽い——重症の指標はなく、内服で治療する</b></span><br/><span class=\"kw\"><b>⑤ 耐性菌への配慮</b></span><br/><span class=\"kw3\"><b>バンコマイシンの内服は腸の中の腸球菌にも働き、バンコマイシン耐性腸球菌（VRE）を選び出すおそれがある——必要なときに必要な期間だけ</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　アムホテリシン B</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>抗真菌薬——カンジダやアスペルギルス</b></span>。</td></tr><tr><td>ｂ　アンピシリン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>ペニシリン系——むしろ CDI の原因になる</b></span>。</td></tr><tr><td>ｃ　ガンシクロビル</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>サイトメガロウイルスの薬——免疫不全の人の腸炎で使う</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　バンコマイシン</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>内服で腸の中に届く</b></span>。</td></tr><tr><td>ｅ　リファンピシン</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>結核の薬</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：免疫の弱った人の腸炎——CMV 腸炎",
+       "c": "<span class=\"kw\"><b>① 誰に</b></span><br/><span class=\"kw3\"><b>臓器移植後、HIV 感染、ステロイド・免疫抑制薬、潰瘍性大腸炎の悪化時</b></span><br/><span class=\"kw\"><b>② 症状</b></span><br/><span class=\"kw3\"><b>下痢・血便・腹痛・発熱</b></span><br/><span class=\"kw\"><b>③ 内視鏡</b></span><br/><span class=\"kw3\"><b>境界のはっきりした打ち抜いたような潰瘍（打ち抜き潰瘍）、地図状の潰瘍</b></span><br/><span class=\"kw\"><b>④ 診断</b></span><br/><span class=\"kw3\"><b>生検で核の中に封入体のある大きな細胞（フクロウの目）、免疫染色</b></span><br/><span class=\"kw3\"><b>血液の CMV 抗原（アンチゲネミア）</b></span><br/><span class=\"kw\"><b>⑤ 治療</b></span><br/><span class=\"kw3\"><b>ガンシクロビル（副作用は骨髄抑制）、ホスカルネット（腎障害）</b></span><br/><span class=\"kw4\"><b>潰瘍性大腸炎がステロイドで良くならないときは CMV の再活性化を疑う</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">セフェム系抗菌薬後の下痢 → 偽膜性腸炎 → バンコマイシン経口</span><br/>CDIリスクの高い抗菌薬：第三世代セフェム系・クリンダマイシン・キノロン系（3大リスク）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "下部消化管内視鏡で偽膜性腸炎。経口投与する薬。<br/><b>a アムホテリシンB／b アンピシリン／c ガンシクロビル／e リファンピシン</b>：不適。<br/><b>d バンコマイシン</b>：<span class=\"kw\">経口バンコマイシンで治療</span>。✓"
+       "c": "<span class=\"kw3\"><b>偽膜性腸炎→バンコマイシン内服（125mg×4 回×10 日）</b></span><br/><span class=\"kw3\"><b>ガンシクロビル＝CMV、アムホテリシン B＝真菌、リファンピシン＝結核</b></span><br/><span class=\"kw4\"><b>免疫不全の腸炎・ステロイド抵抗性の潰瘍性大腸炎では CMV を疑う</b></span>"
       }
      ],
      "imgs": [
@@ -21550,22 +21575,27 @@
       }
      ],
      "ans_label": "ｂ　無治療で経過観察",
-     "ans_sub": "無症状の大腸憩室→治療不要。生活習慣改善（食物繊維摂取）を指導し定期的に経過観察する。",
+     "ans_sub": "便潜血陽性で精密検査。注腸造影では右側の結腸（上行結腸〜肝弯曲）に、<b>腸の輪郭から外へ突き出た小さな丸いバリウムのたまり</b>が多数——<b>大腸憩室（憩室症）</b>。腫瘍を示す欠損や狭窄はなく、炎症もない——<b>無治療で経過観察</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 大腸内視鏡での偶発的憩室発見の管理",
-       "c": "<span class=\"kw\">b無治療で経過観察（正答）</span>：<br>無症状の大腸憩室→<span class=\"kw\">治療不要</span><br>生活習慣指導：食物繊維摂取↑（20〜35g/日）・水分補給・便秘解消<br/>定期的な大腸内視鏡（大腸癌の除外目的）<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a内視鏡的ポリペクトミー：大腸ポリープ（腺腫）の切除（憩室には不適）<br/>✗ c腹腔ドレナージ：膿瘍形成時（無症状では不要）<br/>✗ d結腸右半切除術：右側結腸・回盲部の切除（過剰治療）<br/>✗ e抗癌化学療法：悪性腫瘍の治療（憩室は非腫瘍性）</br></br>"
+       "h": "🌿 注腸造影で憩室とポリープを見分ける",
+       "c": "<span class=\"kw4\"><b>症状のない憩室の扱いと検診の流れは Q.311——ここは注腸造影の像</b></span>。<br/><span class=\"kw\"><b>① 憩室</b></span><br/><span class=\"kw3\"><b>腸の輪郭の外へ突き出す丸い袋——中にバリウムがたまる（突出像）</b></span><br/><span class=\"kw3\"><b>正面から見ると、バリウムの輪（リング）に見える</b></span><br/><span class=\"kw3\"><b>首（口）があり、腸とつながる</b></span><br/><span class=\"kw\"><b>② ポリープ・腫瘍</b></span><br/><span class=\"kw3\"><b>腸の内側へ盛り上がる——バリウムの抜け（陰影欠損）</b></span><br/><span class=\"kw3\"><b>大きな癌は腸を締めつける（りんごの芯の形＝apple core sign）</b></span><br/><span class=\"kw\"><b>③ 見分け方</b></span><br/><span class=\"kw3\"><b>外へ出ていれば憩室、内へ出ていればポリープ</b></span><br/><span class=\"kw3\"><b>正面から見るとどちらも輪になる——向きを変えて撮って確かめる</b></span><br/><span class=\"kw\"><b>④ この患者</b></span><br/><span class=\"kw3\"><b>突出像だけで、欠損・狭窄はない</b></span><br/><span class=\"kw4\"><b>便潜血陽性の原因が憩室で説明できるとは限らない——写っていない部分も含めて大腸全体に腫瘍がないことを確かめる</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　内視鏡的ポリペクトミー</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>ポリープがない</b></span>。<span class=\"kw4\"><b>憩室を切ると穿孔する</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　無治療で経過観察</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>症状のない憩室</b></span>。</td></tr><tr><td>ｃ　腹腔ドレナージ</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>膿瘍がない</b></span>。</td></tr><tr><td>ｄ　結腸右半切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>盲腸・上行結腸の癌の手術——癌がない</b></span>。</td></tr><tr><td>ｅ　抗癌化学療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>癌がない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：注腸造影はいま何に使うか",
+       "c": "<span class=\"kw\"><b>① 内視鏡に置きかわった</b></span><br/><span class=\"kw3\"><b>大腸の精密検査の主役は内視鏡——組織を取れて、そのまま切除もできる</b></span><br/><span class=\"kw\"><b>② 注腸造影が役立つ場面</b></span><br/><span class=\"kw3\"><b>腸の全体の形と位置——手術前の病変の位置決め、長さ</b></span><br/><span class=\"kw3\"><b>狭窄で内視鏡が通らないとき、その先を見る</b></span><br/><span class=\"kw3\"><b>瘻孔（腸と膀胱・腟・皮膚）の確認</b></span><br/><span class=\"kw3\"><b>腸重積の整復（造影と治療を兼ねる——Q.278）</b></span><br/><span class=\"kw3\"><b>S 状結腸軸捻転（鳥のくちばしの形）</b></span><br/><span class=\"kw\"><b>③ 使ってはいけないとき</b></span><br/><span class=\"kw4\"><b>穿孔を疑うとき——バリウムが腹腔に漏れると重い腹膜炎、水溶性の造影剤に替える</b></span><br/><span class=\"kw3\"><b>中毒性巨大結腸症、強い炎症の急性期</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">便潜血陽性精査で偶発的に発見した無症状大腸憩室 → 無治療・経過観察</span><br/>便潜血陽性→大腸癌精査が目的（癌がなければ憩室は経過観察）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "注腸造影で炎症のない大腸憩室。<br/><b>a ポリペクトミー／c 腹腔ドレナージ／d 結腸右半切除／e 抗癌化学療法</b>：不要。<br/><b>b 無治療で経過観察</b>：<span class=\"kw\">無症候性の憩室は経過観察</span>。✓"
+       "c": "<span class=\"kw3\"><b>注腸で輪郭の外へ突き出すバリウムのたまり＝憩室→無治療で経過観察</b></span><br/><span class=\"kw3\"><b>内側への陰影欠損＝ポリープ・腫瘍、apple core sign＝進行癌</b></span><br/><span class=\"kw4\"><b>穿孔を疑えばバリウムは使わない（水溶性造影剤）</b></span>"
       }
      ],
      "imgs": [
