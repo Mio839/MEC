@@ -25,6 +25,11 @@ ok(W.severityOf(null, T) === 'stable', 'エントリなし＝安定（落ちな�
 
 // [2] 転帰
 ok(W.outcomeOf(true) === 'discharge' && W.outcomeOf(false) === 'stay', '転帰：正解＝退院／誤答＝入院継続');
+// [2b] 結果画面の追加の段（2026-10-01）の材料
+ok(W.dueCount({ a: { nextReview: '2026-09-20' }, b: { nextReview: T }, c: { nextReview: '2026-09-26' }, d: {} }, T) === 2, '期限切れ＝予定日が今日以前（未来・予定なしは数えない）');
+ok(W.bestRun([{ ok: 1 }, { ok: 1 }, { ok: 0 }, { ok: 1 }, { ok: 1 }, { ok: 1 }, { ok: 0 }]) === 3 && W.bestRun([]) === 0, '最長の連続定着＝解いた順で途切れずに続いた数');
+const cd = W.chainDays({ '2026-09-25': 3, '2026-09-23': 1, '2026-09-19': 2, '2026-09-18': 9 }, T);
+ok(cd.length === 7 && cd[0].ds === '2026-09-19' && cd[6].ds === T && cd.map(d => d.on ? 1 : 0).join('') === '1000101', '連続の鎖＝直近7日（古い順・今日が右端）');
 // 確信度の宣言は 2026-09-25 に撤去（キー操作が面倒＝ユーザー判断）。戻っていないこと
 const WARD = read('ward.js');
 ok(!/wh-cb|setConf|gradeFor|srsGrade|keydown/.test(WARD), '確信度の宣言（ボタン・キー・SRSの段）が残っていない');

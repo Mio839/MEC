@@ -1,4 +1,4 @@
-// ward.js — 定着プロトコル（旧・病棟回診。今日の復習＝SRS復習セッションの見せ方）（2026-09-25 新設・2026-09-30 拡張・2026-10-01 結果画面の仕上げ）
+// ward.js — 定着プロトコル（旧・病棟回診。今日の復習＝SRS復習セッションの見せ方）（2026-09-25 新設・2026-09-30 拡張・2026-10-01 結果画面の仕上げと追加の段）
 //
 // 今日 due の問題を病棟（科目）のベッドに並べ、1問解く＝1床を診る。
 //   ・正解 … 定着。次に会う日＝SRS の次回予定日
@@ -64,15 +64,31 @@
     return 'stable';
   }
   function outcomeOf(isCorrect) { return isCorrect ? 'discharge' : 'stay'; }
+  // 期限切れの数（ハブの待機列・復習キューと同じ数え方＝重複コピーは代表だけ）
+  function dueCount(srs, today) {
+    let n = 0;
+    for (const uid in srs || {}) { const e = srs[uid];
+      if (e && e.nextReview && e.nextReview <= today && !(typeof window !== 'undefined' && window.MECSync && MECSync.srsIsShadow && MECSync.srsIsShadow(uid))) n++; }
+    return n;
+  }
+  // 解いた順で、定着が途切れずに続いた最長の数
+  function bestRun(recs) { let run = 0, best = 0; (recs || []).forEach(r => { run = r.ok ? run + 1 : 0; if (run > best) best = run; }); return best; }
+  // 直近7日の学習日（activity_v1）：古い順に [{ds, on}]
+  function chainDays(act, today) {
+    const base = Date.parse(today + 'T00:00:00Z'), out = [];
+    for (let i = 6; i >= 0; i--) { const ds = new Date(base - i * 86400000).toISOString().slice(0, 10); out.push({ ds, on: !!(act && act[ds] > 0) }); }
+    return out;
+  }
+  function _act() { try { return JSON.parse(localStorage.getItem('activity_v1') || '{}') || {}; } catch (e) { return {}; } }
 
   // ── 演出の道具（時間の決まった一回きり） ────────────────────────────
   function _later(fn, ms) { const t = setTimeout(fn, ms); TIMERS.push(t); return t; }
   function _clearTimers() { TIMERS.forEach(clearTimeout); TIMERS = []; }
   function _anim(el, kf, opt) { try { return el && el.animate ? el.animate(kf, Object.assign({ fill: 'both', easing: 'cubic-bezier(.16,1,.3,1)' }, opt)) : null; } catch (e) { return null; } }
-  function _countUp(el, to, dur, fmt) {
-    if (!el) return; fmt = fmt || (v => String(v)); const t0 = performance.now(); let done = false;
+  function _countUp(el, to, dur, fmt, from) {
+    if (!el) return; fmt = fmt || (v => String(v)); from = from || 0; const t0 = performance.now(); let done = false;
     const fin = () => { if (done) return; done = true; el.textContent = fmt(to); _anim(el, [{ transform: 'scale(1.25)' }, { transform: 'scale(1)' }], { duration: 350 }); };
-    const step = now => { if (done) return; const p = Math.min(1, (now - t0) / dur); el.textContent = fmt(Math.round(to * (1 - Math.pow(1 - p, 3)))); if (p < 1) requestAnimationFrame(step); else fin(); };
+    const step = now => { if (done) return; const p = Math.min(1, (now - t0) / dur); el.textContent = fmt(Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3)))); if (p < 1) requestAnimationFrame(step); else fin(); };
     requestAnimationFrame(step); _later(fin, dur + 400);
   }
   function _burst(x, y, color, n) {
@@ -234,6 +250,46 @@ body.ward-on .ct{padding-bottom:130px;}
 .exam-ward-res .ewr-glint{position:absolute;top:0;bottom:0;left:-30px;width:26px;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);mix-blend-mode:screen;}
 .exam-ward-res .ewr-frame{position:absolute;inset:-1px;width:calc(100% + 2px);height:calc(100% + 2px);pointer-events:none;overflow:visible;}
 .exam-ward-res .ewr-frame path{fill:none;stroke:#7ED6DF;stroke-width:2;vector-effect:non-scaling-stroke;filter:drop-shadow(0 0 5px #7ED6DF);}
+/* 結果画面の追加（_work/ward_result_demo2.html の 2・3・4・5 をユーザーが採用・2026-10-01） */
+/* 2 期限切れが減る */
+.exam-ward-res .ewr-bl{margin:0 0 6px;padding:8px 10px;border-radius:10px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);}
+.exam-ward-res .ewr-bl .t{display:flex;align-items:baseline;gap:8px;font-size:11px;font-weight:800;}
+.exam-ward-res .ewr-bl .t b{font-size:22px;font-variant-numeric:tabular-nums;color:#FCD34D;}
+.exam-ward-res .ewr-bl .t s{opacity:.55;font-size:13px;font-variant-numeric:tabular-nums;}
+.exam-ward-res .ewr-bl .t .dl{margin-left:auto;font-size:15px;font-weight:900;color:#6EE7B7;font-variant-numeric:tabular-nums;}
+.exam-ward-res .ewr-bl .m{position:relative;height:9px;border-radius:99px;background:rgba(255,255,255,.08);margin-top:6px;overflow:hidden;}
+.exam-ward-res .ewr-bl .m i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;background:linear-gradient(90deg,#F59E0B,#FCD34D);transition:width 1.4s cubic-bezier(.6,0,.3,1);}
+.exam-ward-res .ewr-bl .m u{position:absolute;top:0;bottom:0;right:0;background:repeating-linear-gradient(45deg,rgba(110,231,183,.55) 0 4px,rgba(110,231,183,.2) 4px 8px);opacity:0;transition:opacity .5s ease;}
+.exam-ward-res .ewr-bl .f{font-size:10.5px;opacity:.7;margin-top:4px;}
+/* 3 連続の鎖 */
+.exam-ward-res .ewr-chain{display:flex;align-items:center;margin:0 0 6px;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.05);}
+.exam-ward-res .ewr-chain .lbl{font-size:11px;font-weight:900;margin-right:8px;white-space:nowrap;}
+.exam-ward-res .ewr-chain .lbl b{font-size:18px;color:#FDBA74;font-variant-numeric:tabular-nums;}
+.exam-ward-res .ewr-chain .days{flex:1;display:flex;align-items:center;min-width:0;}
+.exam-ward-res .ewr-chain .dy{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9px;opacity:.75;flex-shrink:0;}
+.exam-ward-res .ewr-chain .dy i{width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:10px;}
+.exam-ward-res .ewr-chain .dy.on{opacity:1;}
+.exam-ward-res .ewr-chain .dy.on i{background:#FB923C;box-shadow:0 0 8px rgba(251,146,60,.7);}
+.exam-ward-res .ewr-chain .dy.today i{background:#FDE68A;box-shadow:0 0 12px #FDBA74;}
+.exam-ward-res .ewr-chain .ln{flex:1;min-width:4px;height:2px;background:rgba(255,255,255,.12);margin:0 2px 12px;position:relative;overflow:hidden;}
+.exam-ward-res .ewr-chain .ln::after{content:"";position:absolute;inset:0;background:#FB923C;transform-origin:left;scale:var(--lf,0) 1;transition:scale .25s ease;}
+/* 4 今日のハイライト */
+.exam-ward-res .ewr-hl{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:6px;margin:0 0 6px;}
+.exam-ward-res .ewr-hl > div{position:relative;overflow:hidden;padding:8px 9px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid rgba(126,214,223,.25);min-width:0;}
+.exam-ward-res .ewr-hl .k{font-size:9.5px;font-weight:900;letter-spacing:.1em;color:#7ED6DF;}
+.exam-ward-res .ewr-hl .v{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;margin-top:2px;}
+.exam-ward-res .ewr-hl .v small{font-size:11px;opacity:.75;margin-left:2px;}
+.exam-ward-res .ewr-hl .s{font-size:10.5px;opacity:.8;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.exam-ward-res .ewr-hl .run{display:flex;flex-wrap:wrap;gap:2px;margin-top:5px;}
+.exam-ward-res .ewr-hl .run i{width:7px;height:7px;border-radius:2px;background:#34D399;}
+.exam-ward-res .ewr-hl .spot{position:absolute;inset:0;pointer-events:none;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.22) 50%,transparent 70%);opacity:0;}
+/* 5 科目の点灯 */
+.exam-ward-res .ewr-row{position:relative;border-radius:7px;padding:1px 4px;margin-left:-4px;margin-right:-4px;transition:background .5s ease,box-shadow .5s ease,margin .4s cubic-bezier(.16,1,.3,1);}
+.exam-ward-res .ewr-row.lit{background:linear-gradient(90deg,color-mix(in srgb,var(--rc) 28%,transparent),transparent 75%);box-shadow:inset 3px 0 0 var(--rc);}
+.exam-ward-res .ewr-row.mvp{margin-top:12px;box-shadow:inset 3px 0 0 var(--rc),0 0 0 1px rgba(253,230,138,.55),0 0 12px rgba(253,230,138,.25);}
+.exam-ward-res .ewr-medal{position:absolute;right:-6px;top:50%;margin-top:-9px;font-size:13px;line-height:18px;pointer-events:none;}
+.exam-ward-res .ewr-mvp{position:absolute;left:2px;top:-12px;display:flex;align-items:center;gap:3px;font-size:9px;font-weight:900;letter-spacing:.12em;color:#FDE68A;white-space:nowrap;pointer-events:none;}
+.exam-ward-res .ewr-mvp b{font-size:12px;letter-spacing:0;}
 .exam-ward-res .ewr-done{position:absolute;right:12px;top:11px;font-size:10px;font-weight:900;letter-spacing:.28em;color:#6EE7B7;text-shadow:0 0 8px rgba(110,231,183,.7);pointer-events:none;}
 /* 細い画面：科目名はアイコンだけ・ベッドを小さく（2列のまま1行に収める） */
 @media (max-width:560px){#wardHud .wh-ward .n{width:auto;}#wardHud .wh-ward .n .nm{display:none;}#wardHud .wh-ward .bs{gap:2px;}#wardHud .wh-wards .wh-bed{width:7px;height:7px;border-radius:2px;}#wardHud .wh-wards{gap:3px 8px;}}
@@ -410,7 +466,11 @@ body.ward-on .ct{padding-bottom:130px;}
     const srs = _srs();
     const sev = {};
     uids.forEach(u => { sev[u] = severityOf(srs[u], today); });
-    S = { active: true, order: uids.slice(), sev, res: {}, recs: [], out: { discharge: 0, stay: 0 }, now: null, today };
+    // 結果画面の材料：開始時点の期限切れの数・各問の遅れの日数・今日がもう学習日だったか
+    const late = {};
+    uids.forEach(u => { const e = srs[u]; late[u] = e && e.nextReview ? Math.max(0, _dd(e.nextReview, today)) : 0; });
+    S = { active: true, order: uids.slice(), sev, res: {}, recs: [], out: { discharge: 0, stay: 0 }, now: null, today,
+      dueBefore: dueCount(srs, today), late, actBefore: !!(_act()[today] > 0) };
     document.body.classList.add('ward-on');
     clearInterval(S._t); S._t = setInterval(_trackFocus, 400);
     _hud().innerHTML = '';
@@ -479,7 +539,7 @@ body.ward-on .ct{padding-bottom:130px;}
     const roomHtml = rooms.map(([sid, b]) => {
       const s = _subj(sid);
       const w = k => (b[k] / b.n * 100).toFixed(1) + '%';
-      return '<div class="ewr-row"><span class="l">' + _esc(s.icon + ' ' + s.name) + '</span><span class="bar">' +
+      return '<div class="ewr-row" data-full="' + (b.discharge === b.n ? 1 : 0) + '" data-rate="' + (b.discharge / b.n).toFixed(4) + '" data-n="' + b.n + '" style="--rc:' + _esc(s.color) + '"><span class="l">' + _esc(s.icon + ' ' + s.name) + '</span><span class="bar">' +
         '<i data-w="' + w('discharge') + '" style="background:' + C_OK + '"></i><i data-w="' + w('stay') + '" style="background:' + C_NG + '"></i></span>' +
         '<span class="v">定着 ' + b.discharge + '/' + b.n + '</span></div>';
     }).join('');
@@ -514,9 +574,32 @@ body.ward-on .ct{padding-bottom:130px;}
       (critOut < crit.length ? '。残る ' + (crit.length - critOut) + '問は明日また出ます。' : '。遅れを取り戻しました。') + '</div>';
     if (med != null) notes += '<div class="ewr-note">📅 定着した ' + next.length + '問に次に会うのは 中央値 <b>' + med + '日後</b>。</div>';
 
+    // 2 期限切れが減る（開始時 → 今）
+    const dueAfter = dueCount(srs, S.today), dueGone = S.dueBefore - dueAfter;
+    const perRun = (typeof SRS_SESSION_LIMIT !== 'undefined' && SRS_SESSION_LIMIT) || 50;
+    const blHtml = S.dueBefore > 0 && dueGone > 0 ? '<div class="ewr-bl"><div class="t"><span>期限切れ</span><s>' + S.dueBefore + '</s><span>→</span><b data-from="' + S.dueBefore + '">' + dueAfter + '</b><span>問</span><span class="dl">−' + dueGone + '</span></div>' +
+      '<div class="m"><i data-w="' + (dueAfter / S.dueBefore * 100).toFixed(1) + '%"></i><u style="left:' + (dueAfter / S.dueBefore * 100).toFixed(1) + '%"></u></div>' +
+      '<div class="f">' + (dueAfter ? '残りはあと約 ' + Math.ceil(dueAfter / perRun) + '回ぶん（1回 ' + perRun + '問）' : '期限切れはゼロになりました') + '</div></div>' : '';
+    // 3 連続の鎖（直近7日の学習日・連続日数は MECSync.calcStreak と同じ）
+    const days = chainDays(_act(), S.today);
+    let streak = 0; try { streak = window.MECSync && MECSync.calcStreak ? MECSync.calcStreak() : 0; } catch (e) {}
+    const wdj = '日月火水木金土';
+    const chainHtml = streak > 0 ? '<div class="ewr-chain"><div class="lbl">🔥 <b>' + streak + '</b>日連続</div><div class="days">' + days.map((d, i) =>
+      (i ? '<span class="ln"></span>' : '') + '<span class="dy" data-on="' + (d.on ? 1 : 0) + '"><i></i>' + (i === 6 ? '今日' : wdj[new Date(d.ds + 'T00:00:00Z').getUTCDay()]) + '</span>').join('') + '</div></div>' : '';
+    // 4 今日のハイライト（最長の連続定着・いちばん遅れていたのに定着した1問）
+    const run = bestRun(S.recs);
+    let back = null; S.recs.forEach(r => { if (r.ok && (S.late[r.uid] || 0) > 0 && (!back || S.late[r.uid] > S.late[back.uid])) back = r; });
+    let hlHtml = '';
+    if (run >= 2) hlHtml += '<div><span class="spot"></span><div class="k">最長の連続定着</div><div class="v"><b>' + run + '</b><small>問</small></div><div class="run">' + '<i></i>'.repeat(Math.min(run, 60)) + '</div></div>';
+    if (back) { const s = _subj(_sidOf(back.uid)), qn = (String(back.uid).match(/_q(\d+)$/) || [])[1], e = srs[back.uid], nx = e && e.nextReview ? _dd(S.today, e.nextReview) : null;
+      hlHtml += '<div><span class="spot"></span><div class="k">いちばん遅れを取り戻した</div><div class="v"><b>' + S.late[back.uid] + '</b><small>日遅れ</small></div><div class="s">' +
+        _esc(s.icon + ' ' + s.name) + (qn ? ' Q.' + qn : '') + (nx != null && nx > 0 ? ' → 次は ' + nx + '日後' : '') + '</div></div>'; }
+    if (hlHtml) hlHtml = '<div class="ewr-hl">' + hlHtml + '</div>';
+
     const html = '<div class="exam-ward-res"><div class="ewr-tag">♾️ 本日のプロトコル</div>' +
       '<div class="ewr-top"><div class="ewr-ring">' + _donut([[S.out.discharge, C_OK], [S.out.stay, C_NG]], n, 104, 10) + '<div class="c"><b>' + pct + '%</b><span>定着率</span></div></div>' +
         '<div class="ewr-sum"><div class="ewr-k d"><b>' + S.out.discharge + '</b><span>定着</span></div><div class="ewr-k s"><b>' + S.out.stay + '</b><span>もう一度</span></div></div></div>' +
+      blHtml + chainHtml + hlHtml +
       '<div class="ewr-h">科目ごとの定着</div>' + roomHtml +
       '<div class="ewr-h">遅れ具合ごとの定着率</div><div class="ewr-sev">' + sevHtml + '</div>' +
       critHtml +
@@ -529,7 +612,7 @@ body.ward-on .ct{padding-bottom:130px;}
     if (!R || !R.classList.contains('exam-ward-res')) return;
     _growSegs(R, 300, 400);
     [...R.querySelectorAll('.ewr-k b')].forEach(b => { const v = +b.textContent; b.textContent = '0'; _later(() => _countUp(b, v, 900), 300); });
-    const bars = [...R.querySelectorAll('i[data-w]')];
+    const bars = [...R.querySelectorAll('i[data-w]')].filter(i => !i.closest('.ewr-bl'));   // 期限切れの帯は _animExtras が動かす
     bars.forEach(i => { i.style.width = '0'; });
     _later(() => bars.forEach(i => { i.style.width = i.dataset.w; }), 500);   // 全科目の棒を同時に伸ばす
     [...R.querySelectorAll('.ewr-cal .d i')].forEach((i, k) => _anim(i, [{ transform: 'scaleY(0)' }, { transform: 'scaleY(1)' }], { duration: 700, delay: 1000 + k * 40 }));
@@ -545,7 +628,7 @@ body.ward-on .ct{padding-bottom:130px;}
     _later(() => [...R.querySelectorAll('.bar')].forEach((bar, k) => { const gl = document.createElement('span'); gl.className = 'ewr-glint'; bar.appendChild(gl);
       const a = _anim(gl, [{ left: '-30px' }, { left: 'calc(100% + 4px)' }], { duration: 900, delay: k * 70, easing: 'cubic-bezier(.5,0,.3,1)', fill: 'none' });
       if (a) a.onfinish = () => gl.remove(); else gl.remove(); }), 1400);
-    // 最後に枠を光が一周して COMPLETE を残す（枠は viewBox を引き伸ばす＝後で高さが変わってもずれない）
+    // 最後に（追加の段が出そろってから）枠を光が一周して COMPLETE を残す（枠は viewBox を引き伸ばす＝後で高さが変わってもずれない）
     _later(() => {
       if (!R.isConnected) return;
       const W = 400, H = Math.max(40, Math.round(400 * R.offsetHeight / Math.max(1, R.offsetWidth))), r = 14 * 400 / Math.max(1, R.offsetWidth);
@@ -558,15 +641,73 @@ body.ward-on .ct{padding-bottom:130px;}
       _anim(p, [{ strokeDashoffset: 1, opacity: 1 }, { strokeDashoffset: 0, opacity: 1, offset: .75 }, { strokeDashoffset: 0, opacity: .35 }], { duration: 1300, easing: 'cubic-bezier(.5,0,.3,1)' });
       const tag = document.createElement('span'); tag.className = 'ewr-done'; tag.textContent = 'COMPLETE'; R.appendChild(tag);
       _anim(tag, [{ opacity: 0, letterSpacing: '.8em' }, { opacity: 1, letterSpacing: '.28em' }], { duration: 700, delay: 950 });
-    }, 2200);
+    }, 3400);
+    _animExtras(R);
     [...R.querySelectorAll('.ewr-note')].forEach((el, k) => _anim(el, [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 500, delay: 1300 + k * 150 }));
     // rAF・WAAPI が止まっても（非表示タブ）棒は必ず最終値に着地させる
     setTimeout(() => bars.forEach(i => { i.style.width = i.dataset.w; }), 2600);
   }
 
+  // 結果画面の追加の段の演出（2 期限切れが減る・3 連続の鎖・4 今日のハイライト・5 科目の点灯）
+  // ⚠️ どれも一回きり。数字・帯は setTimeout の落とし所で必ず最終値に着地させる（非表示タブ）
+  function _animExtras(R) {
+    const rise = (el, delay) => _anim(el, [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }], { duration: 420, delay });
+    // 2 期限切れ：開始時の数から数え下がり、帯が縮んで、減った分が緑の斜線に変わり「−N」が弾む
+    const bl = R.querySelector('.ewr-bl');
+    if (bl) {
+      const b = bl.querySelector('.t b'), dl = bl.querySelector('.dl'), bar = bl.querySelector('.m i'), u = bl.querySelector('.m u');
+      const to = +b.textContent, from = +b.dataset.from, fin = () => { bar.style.width = bar.dataset.w; u.style.opacity = '1'; dl.style.opacity = ''; };
+      b.textContent = from; bar.style.width = '100%'; dl.style.opacity = '0';
+      rise(bl, 300);
+      _later(() => { bar.style.width = bar.dataset.w; _countUp(b, to, 1400, null, from); }, 900);
+      _later(() => { fin(); _anim(dl, [{ transform: 'scale(2)', opacity: 0 }, { transform: 'scale(1)', opacity: 1 }], { duration: 420, easing: 'cubic-bezier(.3,1.4,.5,1)' });
+        const r = dl.getBoundingClientRect(); _burst(r.left + r.width / 2, r.top + r.height / 2, '#6EE7B7', 10); }, 2300);
+      setTimeout(() => { fin(); b.textContent = to; }, 4000);
+    }
+    // 3 連続の鎖：左から灯ってつながり、最後に今日の丸が点火する（今日がこの回で学習日になったなら数字が1つ増える）
+    const ch = R.querySelector('.ewr-chain');
+    if (ch) {
+      const dys = [...ch.querySelectorAll('.dy')], lns = [...ch.querySelectorAll('.ln')], nb = ch.querySelector('.lbl b'), st = +nb.textContent;
+      const grew = !S.actBefore && dys[6] && dys[6].dataset.on === '1' && st > 0;
+      if (grew) nb.textContent = st - 1;
+      rise(ch, 450);
+      const light = (i, fx) => { const d = dys[i]; if (!d || d.dataset.on !== '1') return; const dot = d.querySelector('i');
+        if (i === 6) { d.classList.add('on', 'today'); dot.textContent = '🔥';
+          if (fx) { _anim(dot, [{ transform: 'scale(.3)' }, { transform: 'scale(1.7)', offset: .5 }, { transform: 'scale(1)' }], { duration: 560, easing: 'cubic-bezier(.3,1.4,.5,1)' });
+            const r = dot.getBoundingClientRect(); _burst(r.left + 8, r.top + 8, '#FDBA74', 14); if (grew) _countUp(nb, st, 500, null, st - 1); }
+        } else { d.classList.add('on'); if (fx) _anim(dot, [{ transform: 'scale(.5)' }, { transform: 'scale(1)' }], { duration: 260 }); }
+        if (lns[i] && dys[i + 1] && dys[i + 1].dataset.on === '1') lns[i].style.setProperty('--lf', '1'); };
+      dys.forEach((d, i) => _later(() => light(i, true), 900 + i * 150));
+      setTimeout(() => { dys.forEach((d, i) => { if (!d.classList.contains('on')) light(i, false); }); nb.textContent = st; }, 4000);
+    }
+    // 4 ハイライト：左右から差し込み、数字が数え上がり、光が順に撫でる
+    const hl = R.querySelector('.ewr-hl');
+    if (hl) {
+      [...hl.children].forEach((c, k) => {
+        _anim(c, [{ opacity: 0, transform: 'translateX(' + (k ? 24 : -24) + 'px)' }, { opacity: 1, transform: 'none' }], { duration: 500, delay: 1600 + k * 180 });
+        const v = c.querySelector('.v b'), to = +v.textContent; v.textContent = '0'; _later(() => _countUp(v, to, 700), 1700 + k * 180);
+        _anim(c.querySelector('.spot'), [{ opacity: 0, transform: 'translateX(-100%)' }, { opacity: 1, offset: .3 }, { opacity: 0, transform: 'translateX(100%)' }], { duration: 900, delay: 2500 + k * 450 });
+        _later(() => _anim(c, [{ boxShadow: '0 0 0 0 rgba(126,214,223,0)' }, { boxShadow: '0 0 0 1px #7ED6DF, 0 0 16px rgba(126,214,223,.45)', offset: .4 }, { boxShadow: '0 0 0 0 rgba(126,214,223,0)' }], { duration: 900, fill: 'none' }), 2500 + k * 450);
+      });
+      [...hl.querySelectorAll('.run i')].forEach((i, k) => _anim(i, [{ transform: 'scale(0)' }, { transform: 'scale(1.5)', offset: .6 }, { transform: 'scale(1)' }], { duration: 300, delay: 1800 + k * 45 }));
+    }
+    // 5 科目の点灯：上から科目の色で灯り、全問定着に🏅、定着率のいちばん高い科目に👑 MVP（2科目以上のときだけ）
+    const rows = [...R.querySelectorAll('.ewr-row')];
+    let top = null;
+    if (rows.length >= 2) rows.forEach(r => { const a = +r.dataset.rate, n = +r.dataset.n; if (a > 0 && (!top || a > +top.dataset.rate || (a === +top.dataset.rate && n > +top.dataset.n))) top = r; });
+    rows.forEach((row, k) => _later(() => {
+      row.classList.add('lit'); _anim(row.querySelector('.l'), [{ transform: 'translateX(-4px)' }, { transform: 'none' }], { duration: 300 });
+      if (row.dataset.full === '1') { const m = document.createElement('span'); m.className = 'ewr-medal'; m.textContent = '🏅'; row.appendChild(m);
+        _anim(m, [{ opacity: 0, transform: 'scale(2.4) rotate(-30deg)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 420, easing: 'cubic-bezier(.3,1.4,.5,1)' });
+        const r = m.getBoundingClientRect(); _burst(r.left + r.width / 2, r.top + r.height / 2, '#FDE68A', 8); }
+    }, 1500 + k * 160));
+    if (top) _later(() => { top.classList.add('mvp'); const t = document.createElement('span'); t.className = 'ewr-mvp'; t.innerHTML = '<b>👑</b>MVP'; top.appendChild(t);
+      _anim(t, [{ opacity: 0, transform: 'translateY(-10px) scale(1.6)' }, { opacity: 1, transform: 'none' }], { duration: 450, easing: 'cubic-bezier(.3,1.4,.5,1)' }); }, 1500 + rows.length * 160 + 200);
+  }
+
   window.MecWard = {
     briefing, start, onAnswer, active, onExit, decorateSummary,
-    severityOf, outcomeOf,
+    severityOf, outcomeOf, dueCount, bestRun, chainDays,
     state: () => S,
   };
 })();
