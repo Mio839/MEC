@@ -15053,22 +15053,27 @@
       }
      ],
      "ans_label": "ａ　胆　石\nｃ　貧　血\nｄ　耐糖能異常",
-     "ans_sub": "胃全摘後：内因子消失→B12欠乏→巨赤芽球性貧血、胆汁酸循環変化→胆石、消化・吸収変化→耐糖能異常。",
+     "ans_sub": "胃全摘のあとは、①<b>胆石</b>（迷走神経の枝やリンパ節郭清で胆嚢が縮みにくくなり、胆汁がうっ滞）、②<b>貧血</b>（酸がなく鉄が吸収されにくい鉄欠乏性貧血、内因子がなくビタミン B<sub>12</sub> が吸収されない巨赤芽球性貧血）、③<b>耐糖能異常</b>（食物が一気に小腸へ入り血糖が急上昇し、その後インスリン過剰で低血糖）が起こりうる。食べられる量が減ってむしろやせ、肥満にはなりにくい。門脈圧亢進は肝臓の病気で、胃の切除とは関係しない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 胃全摘術後の合併症",
-       "c": "<span class=\"kw\">a胆石（正答）</span>：<br/>迷走神経切断→胆嚢収縮力↓→胆汁うっ滞→コレステロール胆石形成<br/><br/><span class=\"kw\">c貧血（正答）</span>：<br/>① 内因子（intrinsic factor）産生消失→ビタミンB12吸収不能→<span class=\"kw\">巨赤芽球性貧血</span><br/>② 鉄吸収↓→鉄欠乏性貧血<br/><br/><span class=\"kw\">d耐糖能異常（正答）</span>：<br/>急速な食物流入→インスリン分泌タイミング異常→後期ダンピングや高血糖<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ b肥満：胃全摘後は体重減少（食事摂取量↓）→肥満にならない<br/>✗ e門脈圧亢進：肝硬変の合併症（胃全摘術との直接関係なし）"
+       "h": "🌿 3つの合併症を「しくみ」と「出る時期」で押さえる",
+       "c": "<span class=\"kw4\"><b>胃切除後症候群の一覧とダンピングは Q.222——ここは選択肢の3つを掘り下げる</b></span>。<br/><span class=\"kw\"><b>① 胆石</b></span><br/><span class=\"kw3\"><b>胃の周りのリンパ節郭清で迷走神経の肝枝が切れる→胆嚢の収縮が弱まる→胆汁がたまり濃くなる</b></span><br/><span class=\"kw3\"><b>再建で十二指腸を食物が通らない（ルーワイ法）と、胆嚢を縮めるホルモン（コレシストキニン）が出にくい</b></span><br/><span class=\"kw3\"><b>術後 1〜2 年に多い——術後の超音波で経過を見る</b></span><br/><span class=\"kw\"><b>② 貧血</b></span><br/><span class=\"kw3\"><b>鉄欠乏性：術後早期から——酸が鉄を吸収しやすい形にする働きと、鉄を吸収する十二指腸の通過が失われる</b></span><br/><span class=\"kw4\"><b>巨赤芽球性：体内の B<sub>12</sub> の蓄え（数年分）が尽きる術後 3〜5 年以降</b></span><br/><span class=\"kw3\"><b>B<sub>12</sub> は内因子がないと口から吸収されない——注射で補う（大量の内服で補う方法もある）</b></span><br/><span class=\"kw\"><b>③ 耐糖能異常</b></span><br/><span class=\"kw3\"><b>食後すぐ血糖が急に上がり（oxyhyperglycemia）、その後インスリンが出すぎて下がる（後期ダンピング）</b></span><br/><span class=\"kw3\"><b>ブドウ糖負荷試験で、早い時刻に高く上がり、後で低くなる形</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　胆　石</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>迷走神経の切離・十二指腸を通らない再建で胆嚢が縮みにくい</b></span>。</td></tr><tr><td>ｂ　肥　満</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>一度に食べられる量が減り、吸収も落ちて体重は減る</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　貧　血</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>鉄欠乏性（早期）と巨赤芽球性（数年後）</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　耐糖能異常</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>食後の急な高血糖と、その後の低血糖</b></span>。</td></tr><tr><td>ｅ　門脈圧亢進</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>肝硬変・門脈の閉塞で起こる——胃の切除では起こらない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：胃切除後の骨の病気",
+       "c": "<span class=\"kw\"><b>① 起こるしくみ</b></span><br/><span class=\"kw3\"><b>カルシウムの吸収は十二指腸・上部空腸が中心——再建で食物がそこを通らないと吸収が落ちる</b></span><br/><span class=\"kw3\"><b>脂肪の吸収不良でビタミン D も吸収されにくい</b></span><br/><span class=\"kw\"><b>② 何が起こるか</b></span><br/><span class=\"kw3\"><b>骨粗鬆症・骨軟化症——術後数年〜十数年で骨折しやすい</b></span><br/><span class=\"kw3\"><b>骨軟化症では ALP の上昇、骨の痛み、筋力低下</b></span><br/><span class=\"kw\"><b>③ 対策</b></span><br/><span class=\"kw3\"><b>カルシウム・ビタミン D の補充、骨密度の定期的な測定</b></span><br/><span class=\"kw\"><b>④ まとめ：胃全摘後に足りなくなるもの</b></span><br/><span class=\"kw4\"><b>鉄・ビタミン B<sub>12</sub>・カルシウム・ビタミン D——どれも「胃と十二指腸を通らない」ことが原因</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">胃全摘後の3大合併症：①巨赤芽球性貧血（B12欠乏）②胆石③耐糖能異常</span><br/>ビタミンB12補充：筋注（内因子なしのため経口吸収不可）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃全摘術後にみられる可能性があるものを3つ。<br/><b>b 肥満／e 門脈圧亢進</b>：起こらない。<br/><b>a 胆石</b>：<span class=\"kw\">迷走神経切離等で胆石を生じやすい</span>。✓<br/><b>c 貧血</b>：<span class=\"kw\">鉄・ビタミンB12吸収障害による貧血</span>。✓<br/><b>d 耐糖能異常</b>：<span class=\"kw\">ダンピングに伴う血糖変動</span>。✓"
+       "c": "<span class=\"kw3\"><b>胃全摘後＝胆石・貧血（鉄欠乏性→数年後に巨赤芽球性）・耐糖能異常（後期ダンピング）・骨粗鬆症</b></span><br/><span class=\"kw4\"><b>B<sub>12</sub> 欠乏は術後数年たって出る——内因子がないので注射で補う</b></span><br/><span class=\"kw3\"><b>体重は減る（肥満にはならない）</b></span>"
       }
      ],
      "imgs": []
@@ -15118,22 +15123,27 @@
       }
      ],
      "ans_label": "ｅ　中心静脈栄養による高カロリー輸液",
-     "ans_sub": "胃癌による幽門部閉塞で経口・経腸摂取不能→中心静脈栄養（TPN）が唯一の栄養補給経路。",
+     "ans_sub": "上腹部に 10cm の腫瘤を触れ、CT では胃の出口付近（前庭部）の壁が厚く腫瘍になり、その口側の<b>胃が大きく拡張して液体がたまっている</b>——幽門狭窄を伴う胃癌。3 か月の嘔吐でやせ（BMI 約 16.4）、低アルブミン、<b>低ナトリウム・低カリウム・低クロール</b>。口からも、胃管からの栄養も十二指腸へ流れない。10 日間で手術に耐える栄養を確実に入れるには、<b>中心静脈からの高カロリー輸液</b>。末梢静脈栄養では濃い液を入れられず、エネルギーが足りない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "💉 幽門閉塞と栄養管理",
-       "c": "<span class=\"kw\">e中心静脈栄養（TPN）（正答）</span>：<br>幽門閉塞→胃から十二指腸に食物が通過しない→経口・経腸管栄養ともに不可<br/>→ 中心静脈カテーテルからの高カロリー輸液が必要<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a末梢静脈栄養：カロリーが不十分（維持程度）→長期には不適<br/>✗ b栄養補助食品の経口摂取：幽門閉塞→嘔吐して経口不可<br/>✗ c経鼻胃管による経腸栄養：幽門閉塞なら胃管を留置しても十二指腸以降に送れない<br/>✗ dアルブミン製剤：低アルブミンを一時的に是正するのみ（カロリー補給にならない）</br>"
+       "h": "🌿 嘔吐が続く幽門狭窄——栄養の前に「体液」を直す",
+       "c": "<span class=\"kw4\"><b>栄養経路の選び方の一般論は Q.193、食道の高度狭窄は Q.210——ここは胃の出口がふさがったときの特徴</b></span>。<br/><span class=\"kw\"><b>① CT</b></span><br/><span class=\"kw3\"><b>前庭部の壁が厚く不整に腫れ、胃全体が拡張して液面（ニボー）を作る——出口がふさがっている</b></span><br/><span class=\"kw\"><b>② 嘔吐で失うもの</b></span><br/><span class=\"kw3\"><b>胃液：水・塩酸（H<sup>+</sup> と Cl<sup>−</sup>）・カリウム</b></span><br/><span class=\"kw4\"><b>低クロール性・低カリウム性の代謝性アルカローシス——本例は Cl 96・K 3.4・Na 131</b></span><br/><span class=\"kw3\"><b>カリウムが足りないと、腎臓がナトリウムを取り込む代わりに H<sup>+</sup> を出し、アルカリ血症なのに酸性尿になる（奇異性酸性尿）</b></span><br/><span class=\"kw\"><b>③ まず補うもの</b></span><br/><span class=\"kw3\"><b>生理食塩水とカリウム——クロールを補うとアルカローシスが治る</b></span><br/><span class=\"kw\"><b>④ 栄養</b></span><br/><span class=\"kw3\"><b>胃管は減圧（たまった胃液を抜く）に使い、栄養は入れない</b></span><br/><span class=\"kw3\"><b>中心静脈栄養で 7〜14 日ほど術前の栄養を整える</b></span><br/><span class=\"kw3\"><b>長く食べていない——少ない量から上げて再栄養症候群を防ぐ（Q.193）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　末梢静脈栄養</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>血管炎を起こすので濃い液を入れられない</b></span>。<span class=\"kw3\"><b>1 日のエネルギーを満たせず、術前の栄養改善には足りない</b></span>。</td></tr><tr><td>ｂ　栄養補助食品の経口摂取</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>出口がふさがり、飲んでも吐く</b></span>。</td></tr><tr><td>ｃ　経鼻胃管による経腸栄養</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃に入れても十二指腸へ流れず、たまって嘔吐・誤嚥する</b></span>。<span class=\"kw3\"><b>胃管は減圧に使う</b></span>。</td></tr><tr><td>ｄ　アルブミン製剤の静脈投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>入れたアルブミンは分解され、栄養にならない</b></span>。<span class=\"kw3\"><b>低アルブミン血症は栄養で治す</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　中心静脈栄養による高カロリー輸液</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>腸を使えない間に、十分なエネルギーと蛋白を確実に入れられる</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：手術を前提にしない幽門狭窄の手当て",
+       "c": "<span class=\"kw\"><b>① 治せない胃癌で出口がふさがったとき</b></span><br/><span class=\"kw3\"><b>胃空腸吻合術（バイパス手術）：胃と空腸をつなぎ、腫瘍を迂回させる</b></span><br/><span class=\"kw3\"><b>十二指腸ステント：内視鏡で金属ステントを入れて出口を広げる——体への負担が小さい</b></span><br/><span class=\"kw\"><b>② どちらを選ぶか</b></span><br/><span class=\"kw3\"><b>余命が短い・全身状態が悪い→ステント（すぐ食べられる）</b></span><br/><span class=\"kw3\"><b>余命が比較的長い→バイパス手術（長く通りが保たれる）</b></span><br/><span class=\"kw\"><b>③ 癌以外の幽門狭窄</b></span><br/><span class=\"kw3\"><b>十二指腸潰瘍・幽門前庭部の潰瘍の瘢痕——内視鏡のバルーン拡張、除菌</b></span><br/><span class=\"kw3\"><b>乳児の肥厚性幽門狭窄症——生後 2〜3 週の噴水状嘔吐、同じアルカローシス</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">経口・経腸摂取不能 → 中心静脈栄養（TPN）が適応</span><br/>幽門閉塞の緩和：姑息的バイパス手術（胃空腸吻合）やステント留置も選択肢。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "低栄養の胃癌患者の術前栄養（一定期間）。<br/><b>a 末梢静脈栄養（不十分）／b 経口／c 経鼻胃管（通過障害）／d アルブミン製剤</b>：不十分/不適。<br/><b>e 中心静脈栄養による高カロリー輸液</b>：<span class=\"kw\">十分なエネルギーを確保して術前栄養状態を改善</span>。✓"
+       "c": "<span class=\"kw3\"><b>幽門狭窄で口から・胃管から栄養できない＝中心静脈栄養</b></span><br/><span class=\"kw4\"><b>嘔吐が続く＝低クロール性・低カリウム性代謝性アルカローシス（生理食塩水とカリウムで補正）</b></span><br/><span class=\"kw3\"><b>末梢静脈栄養は濃い液を入れられず、術前の栄養改善には不十分</b></span><br/><span class=\"kw3\"><b>アルブミン製剤は栄養にならない</b></span>"
       }
      ],
      "imgs": [
@@ -15185,22 +15195,27 @@
       }
      ],
      "ans_label": "ｃ　胃部分切除術",
-     "ans_sub": "胃GISTの基本手術は腫瘍を含む胃部分切除（局所切除）。リンパ節郭清は不要。",
+     "ans_sub": "内視鏡（A）では、<b>正常の粘膜に覆われたなめらかな隆起</b>（粘膜下腫瘍）で、頂上に小さなくぼみがある。生検（B）では<b>紡錘形の細胞が束になって増え</b>、<b>KIT が陽性・αSMA（平滑筋アクチン）が陰性</b>——平滑筋腫ではなく<b>GIST（消化管間質腫瘍）</b>。5.5cm で転移はない。GIST はリンパ節に転移しにくく、<b>腫瘍を被膜ごと破らずに取る胃部分切除</b>（リンパ節郭清は不要）が標準。放射線・殺細胞性抗癌薬は効きにくい。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🏥 胃GISTの治療",
-       "c": "<span class=\"kw\">c胃部分切除術（正答）</span>：<br>・GIST→<span class=\"kw\">腫瘍辺縁を含む局所切除（胃部分切除）</span><br>・リンパ節転移はまれ→D0〜D1（リンパ節郭清最小限）<br>・開腹 or 腹腔鏡下手術（2cm以上 or 増大傾向）<br><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a経過観察：2cm以上のGISTは手術適応（2cm以下でもリスク因子あれば手術）<br/>✗ b放射線療法：GISTは放射線抵抗性<br/>✗ d殺細胞性薬：切除不能・再発GISTにイマチニブ（分子標的薬）<br/>✗ eホルモン薬：GISTには適応なし<br/><br/><span class=\"kw\">イマチニブ（グリベック）</span>：切除不能・転移性GISTの第一選択。c-kit阻害薬。</br></br></br></br>"
+       "h": "🌿 粘膜下腫瘍の正体を免疫染色で決める",
+       "c": "<span class=\"kw\"><b>① 内視鏡（A）</b></span><br/><span class=\"kw3\"><b>表面は周りと同じ正常の粘膜——腫瘍は粘膜の下にある（粘膜下腫瘍）</b></span><br/><span class=\"kw3\"><b>なだらかに立ち上がり、ひだが腫瘍に向かって伸びる（架橋ひだ）</b></span><br/><span class=\"kw3\"><b>頂上の小さなくぼみ（デレ）：腫瘍が大きくなり粘膜が薄く傷んだ所——出血の原因になる</b></span><br/><span class=\"kw\"><b>② 生検（B）</b></span><br/><span class=\"kw3\"><b>H-E：紡錘形の細胞が束になって流れるように並ぶ</b></span><br/><span class=\"kw3\"><b>KIT（CD117）：細胞が茶色く濃く染まる＝陽性</b></span><br/><span class=\"kw3\"><b>αSMA：ほとんど染まらない＝陰性</b></span><br/><span class=\"kw\"><b>③ 紡錘形細胞の腫瘍の見分け</b></span><br/><span class=\"kw4\"><b>GIST：KIT 陽性（DOG1・CD34 も陽性になりやすい）——カハールの介在細胞が由来</b></span><br/><span class=\"kw3\"><b>平滑筋腫：αSMA・デスミン陽性、KIT 陰性——食道に多い</b></span><br/><span class=\"kw3\"><b>神経鞘腫：S-100 蛋白陽性</b></span><br/><span class=\"kw\"><b>④ 治療</b></span><br/><span class=\"kw3\"><b>リンパ節転移はまれ——腫瘍を破らずに取る部分切除・局所切除（腹腔鏡でも行う）</b></span><br/><span class=\"kw4\"><b>腫瘍を破ると腹膜に散らばり再発しやすい——手術で被膜を傷つけない</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　経過観察</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>5.5cm の GIST は大きく、悪性度が高い可能性がある</b></span>。<span class=\"kw3\"><b>2cm 以上の GIST は手術が原則</b></span>。</td></tr><tr><td>ｂ　放射線療法</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>GIST には効きにくい</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　胃部分切除術</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>腫瘍を破らずに取り切る——リンパ節郭清は要らない</b></span>。</td></tr><tr><td>ｄ　殺細胞性薬による治療</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>従来の抗癌薬は GIST に効かない</b></span>。<span class=\"kw3\"><b>切除できない・再発した GIST には KIT を狙う分子標的薬（イマチニブ）</b></span>。</td></tr><tr><td>ｅ　内分泌（ホルモン）薬による治療</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>GIST はホルモンに依存しない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：GIST の「たちの悪さ」と術後の治療",
+       "c": "<span class=\"kw\"><b>① 悪性度（再発の危険）を決めるもの</b></span><br/><span class=\"kw3\"><b>大きさ：大きいほど危ない</b></span><br/><span class=\"kw3\"><b>細胞分裂の多さ（核分裂像の数）</b></span><br/><span class=\"kw3\"><b>場所：胃より小腸のほうが悪い</b></span><br/><span class=\"kw4\"><b>手術中・前の腫瘍の破裂——それだけで高い危険</b></span><br/><span class=\"kw\"><b>② 術後</b></span><br/><span class=\"kw3\"><b>再発の危険が高い人には、イマチニブを術後 3 年飲む（補助療法）</b></span><br/><span class=\"kw\"><b>③ 転移</b></span><br/><span class=\"kw3\"><b>肝臓と腹膜に多い——リンパ節には少ない（癌と違う）</b></span><br/><span class=\"kw\"><b>④ 遺伝子</b></span><br/><span class=\"kw3\"><b>KIT または PDGFRA の遺伝子変異で、増殖の信号が出っぱなしになる——イマチニブはこれを止める</b></span><br/><span class=\"kw3\"><b>変異の種類でイマチニブの効き方が違う</b></span><br/><span class=\"kw\"><b>⑤ 小さい GIST</b></span><br/><span class=\"kw3\"><b>2cm 未満で悪い所見がなければ、内視鏡・超音波内視鏡で経過を見ることもある</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">GIST：胃が最多（60%）→局所切除（リンパ節郭清不要）</span><br/>切除不能GIST→イマチニブ（KIT/PDGFRA阻害）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "腫瘍径5.5cm・転移なし（胃GIST）。<br/><b>a 経過観察／b 放射線／d 殺細胞薬／e ホルモン薬</b>：第一でない。<br/><b>c 胃部分切除術</b>：<span class=\"kw\">GISTはリンパ節郭清不要で部分（局所）切除</span>。✓"
+       "c": "<span class=\"kw3\"><b>粘膜下腫瘍＋紡錘形細胞＋KIT 陽性＝GIST（αSMA・デスミン陽性なら平滑筋腫、S-100 陽性なら神経鞘腫）</b></span><br/><span class=\"kw3\"><b>GIST の治療＝腫瘍を破らない部分切除（リンパ節郭清は不要）</b></span><br/><span class=\"kw4\"><b>切除できない・再発・高リスクの術後＝イマチニブ</b></span><br/><span class=\"kw3\"><b>放射線・従来の抗癌薬は効かない</b></span>"
       }
      ],
      "imgs": [
@@ -15253,22 +15268,27 @@
       }
      ],
      "ans_label": "ａ　1 年後の再検査",
-     "ans_sub": "胃底腺ポリープは良性病変で悪性化リスクが極めて低い（PPI使用や散発性）。経過観察が原則。",
+     "ans_sub": "内視鏡では、胃体部に<b>数 mm の、周りと同じ色のなめらかな半球状の小さな隆起が多発</b>している。萎縮のない胃に多い<b>胃底腺ポリープ</b>——ほとんど癌にならず、症状もない。治療は要らず、検診として<b>1 年後に内視鏡で再検査</b>すればよい。PPI はむしろポリープを増やす。胃底腺ポリープはピロリ菌のいない胃にできるので除菌の対象でなく、切除・胃切除も不要。",
      "eg": [
       {
        "cls": "ep",
-       "h": "📋 胃底腺ポリープの管理",
-       "c": "<span class=\"kw\">a1年後の再検査（正答）</span>：<br>胃底腺ポリープの特徴：<br/>・胃底部・胃体部に多発する小隆起病変（直径数mm〜1cm）<br/>・表面平滑・有茎性は稀<br/>・PPI長期使用者・FAPで増加<br/>・<span class=\"kw\">悪性化リスクは極めて低い</span>（観察のみ）<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ bPPI投与：PPI使用で増加するので不適切<br/>✗ cH.pylori除菌：胃底腺ポリープはH.pylori非関連（過形成性ポリープはHp関連）<br/>✗ d内視鏡的切除：良性病変なので原則不要<br/>✗ e胃切除：過剰な治療</br>"
+       "h": "🌿 胃のポリープは「背景の胃」で見分ける",
+       "c": "<span class=\"kw\"><b>① この写真</b></span><br/><span class=\"kw3\"><b>胃体部に、数 mm の半球状の隆起が散らばる</b></span><br/><span class=\"kw3\"><b>色は周りの粘膜と同じ、表面はなめらか——胃底腺ポリープの典型</b></span><br/><span class=\"kw3\"><b>周りの粘膜は萎縮が目立たない——ピロリ菌のいない胃</b></span><br/><span class=\"kw\"><b>② 胃底腺ポリープ</b></span><br/><span class=\"kw3\"><b>胃体部・胃底部に多発する数 mm の小さなポリープ、中年女性に多い</b></span><br/><span class=\"kw3\"><b>ピロリ菌のいない（萎縮のない）胃にできる——除菌後に増えることもある</b></span><br/><span class=\"kw3\"><b>PPI を長く使うと増える・大きくなる</b></span><br/><span class=\"kw4\"><b>癌化はほとんどない——経過観察</b></span><br/><span class=\"kw\"><b>③ 過形成性ポリープ</b></span><br/><span class=\"kw3\"><b>ピロリ菌のいる萎縮した胃——赤く、表面にびらん・白苔、大きくなると有茎</b></span><br/><span class=\"kw3\"><b>除菌で小さくなることがある、2cm 以上・出血は切除</b></span><br/><span class=\"kw\"><b>④ 腺腫</b></span><br/><span class=\"kw3\"><b>萎縮・腸上皮化生のある胃——白っぽい平らな隆起</b></span><br/><span class=\"kw4\"><b>癌になりうる・癌が混じる——内視鏡で切除</b></span>"
       },
       {
        "cls": "ee",
-       "h": "□ 胃ポリープの種類と対応",
-       "c": "<table class=\"tb\"><tr><th>種類</th><th>特徴</th><th>対応</th></tr><tr><td>種類</td><td>特徴</td><td>対応</td></tr><tr><td><span class=\"kw\">胃底腺ポリープ</span></td><td>PPI使用・FAP・多発</td><td><span class=\"kw\">経過観察</span></td></tr><tr><td>過形成性ポリープ</td><td>H.pylori関連・単発〜多発</td><td>H.pylori除菌（縮小する場合あり）</td></tr><tr><td>胃腺腫</td><td>腸上皮化生背景・平坦隆起</td><td><span class=\"kw\">内視鏡切除（悪性化リスクあり）</span></td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　1 年後の再検査</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>胃底腺ポリープは癌化がまれで治療不要</b></span>。<span class=\"kw3\"><b>検診として定期的に見ればよい</b></span>。</td></tr><tr><td>ｂ　プロトンポンプ阻害薬投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>症状がなく、PPI はむしろポリープを増やす</b></span>。</td></tr><tr><td>ｃ　Helicobacter pylori 除菌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃底腺ポリープはピロリ菌のいない胃にできる</b></span>。<span class=\"kw3\"><b>除菌で小さくなるのは過形成性ポリープ</b></span>。</td></tr><tr><td>ｄ　内視鏡的ポリープ切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>良性で多発し、切る必要がない</b></span>。</td></tr><tr><td>ｅ　胃切除術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>癌ではない</b></span>。</td></tr></table>"
       },
       {
        "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "内視鏡で良性所見（胃底腺ポリープ等）。<br/><b>b PPI／c H.pylori除菌／d ポリープ切除／e 胃切除</b>：不要。<br/><b>a 1年後の再検査</b>：<span class=\"kw\">良性で経過観察（定期内視鏡）</span>。✓"
+       "h": "🔍 別軸：胃にポリープが「たくさん」あるとき",
+       "c": "<span class=\"kw\"><b>① 胃底腺ポリープの多発</b></span><br/><span class=\"kw3\"><b>ふつうは良性で心配ない</b></span><br/><span class=\"kw4\"><b>若い人に非常に多い（数十〜数百）とき——家族性大腸腺腫症（FAP）を考え、大腸内視鏡を行う</b></span><br/><span class=\"kw\"><b>② 家族性大腸腺腫症</b></span><br/><span class=\"kw3\"><b>APC 遺伝子の変異——大腸に 100 個以上の腺腫、放置するとほぼ全員が大腸癌</b></span><br/><span class=\"kw3\"><b>胃底腺ポリープ・十二指腸腺腫（乳頭部の癌）・デスモイド腫瘍・骨腫を伴う</b></span><br/><span class=\"kw\"><b>③ ポイツ・イェガース症候群</b></span><br/><span class=\"kw3\"><b>唇・口の中・指先の色素斑＋消化管の過誤腫性ポリープ——腸重積を起こす</b></span><br/><span class=\"kw\"><b>④ クロンカイト・カナダ症候群</b></span><br/><span class=\"kw3\"><b>消化管のポリープの多発＋脱毛・爪の萎縮・皮膚の色素沈着・下痢（蛋白漏出）——遺伝しない</b></span>"
+      },
+      {
+       "cls": "ept",
+       "h": "🎯 国試ポイント",
+       "c": "<span class=\"kw3\"><b>胃底腺ポリープ＝ピロリ菌のいない胃の体部に多発する数 mm の同色の隆起——経過観察</b></span><br/><span class=\"kw3\"><b>PPI の長期使用で増える</b></span><br/><span class=\"kw3\"><b>過形成性ポリープ＝ピロリ菌のいる胃、除菌で縮むことがある</b></span><br/><span class=\"kw4\"><b>腺腫は癌化しうる——切除</b></span><br/><span class=\"kw3\"><b>若年者の多発＝家族性大腸腺腫症を考える</b></span>"
       }
      ],
      "imgs": [
@@ -15316,22 +15336,27 @@
       }
      ],
      "ans_label": "ｄ　胆　囊",
-     "ans_sub": "胃体部は膵・大網・横行結腸・肝（左葉）に隣接するが、胆囊は右上腹部で胃体部からは距離がある。",
+     "ans_sub": "胃体部の周りには、<b>上前方に肝臓（左葉）</b>、<b>後ろに膵臓（体部・尾部）</b>、<b>下の大弯から大網が垂れ下がり</b>、<b>その下に横行結腸</b>（胃結腸間膜でつながる）がある——進行癌が壁を破ると、これらに直接浸潤する。<b>胆嚢</b>は肝臓の右葉の下面にあり、胃の前庭部〜十二指腸の右側に近く、<b>胃体部からは離れている</b>。",
      "eg": [
       {
        "cls": "ep",
-       "h": "📐 胃体部の解剖と隣接臓器",
-       "c": "<span class=\"kw\">胃体部に隣接・浸潤しやすい臓器</span>：<br/>・a肝臓（左葉）：胃の前上方<br/>・b膵臓：胃後壁→膵体部と直接接触<br/>・c大網：胃前壁・大彎から垂れ下がる<br/>・e横行結腸：胃前下壁に接触<br/><br/><span class=\"kw\">d胆囊（浸潤しにくい・正答）</span>：<br/>胆囊は肝右葉下面に付着→右上腹部<br/>胃体部（左〜中腹部）とは距離があり直接浸潤は起こりにくい"
+       "h": "🌿 胃の「お隣さん」——部位ごとの位置関係",
+       "c": "<span class=\"kw\"><b>① 胃体部</b></span><br/><span class=\"kw3\"><b>前上：肝臓の左葉</b></span><br/><span class=\"kw3\"><b>後ろ：膵臓（体部・尾部）——網嚢を挟んで接する</b></span><br/><span class=\"kw3\"><b>下（大弯）：大網、その奥に横行結腸と横行結腸間膜</b></span><br/><span class=\"kw3\"><b>左：脾臓（胃脾間膜）</b></span><br/><span class=\"kw\"><b>② 前庭部・幽門</b></span><br/><span class=\"kw3\"><b>右：肝臓・胆嚢・十二指腸</b></span><br/><span class=\"kw3\"><b>後ろ：膵頭部</b></span><br/><span class=\"kw\"><b>③ 噴門・胃上部</b></span><br/><span class=\"kw3\"><b>横隔膜・食道・脾臓</b></span><br/><span class=\"kw\"><b>④ だから</b></span><br/><span class=\"kw4\"><b>胃体部の進行癌は膵・横行結腸・肝左葉・脾臓に浸潤しやすい——手術でまとめて切除することがある（他臓器合併切除）</b></span><br/><span class=\"kw3\"><b>胆嚢は胃の右端（幽門側）の癌や十二指腸の病気で問題になる</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　肝　臓</td><td><span class=\"kw4\">誤り</span>（浸潤しやすい）。<span class=\"kw3\"><b>左葉が胃体部の前上方に接する</b></span>。</td></tr><tr><td>ｂ　膵　臓</td><td><span class=\"kw4\">誤り</span>（浸潤しやすい）。<span class=\"kw3\"><b>胃の後壁と網嚢を挟んで接する</b></span>。<span class=\"kw3\"><b>後壁の潰瘍・癌は膵に及ぶ</b></span>。</td></tr><tr><td>ｃ　大　網</td><td><span class=\"kw4\">誤り</span>（浸潤しやすい）。<span class=\"kw3\"><b>大弯から垂れ下がり、胃と直接つながる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　胆　囊</span></td><td><span class=\"kw3\">これが「浸潤しにくい」（＝正解）</span>。<span class=\"kw3\"><b>肝右葉の下面にあり、胃体部から離れている</b></span>。</td></tr><tr><td>ｅ　横行結腸</td><td><span class=\"kw4\">誤り</span>（浸潤しやすい）。<span class=\"kw3\"><b>胃結腸間膜でつながり、大弯の下にある</b></span>。<span class=\"kw3\"><b>浸潤すると胃結腸瘻を作ることがある</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：胃癌が「離れた場所」へ広がるとき——名前のついた転移",
+       "c": "<span class=\"kw\"><b>① リンパ行性</b></span><br/><span class=\"kw4\"><b>ウィルヒョウ転移：左鎖骨上窩のリンパ節——胸管が左の静脈角に注ぐため</b></span><br/><span class=\"kw3\"><b>シスター・メアリー・ジョセフ結節：へその転移</b></span><br/><span class=\"kw\"><b>② 腹膜播種（癌細胞が腹腔にこぼれる）</b></span><br/><span class=\"kw3\"><b>シュニッツラー転移：直腸の前（ダグラス窩）——直腸診で硬い棚状の腫瘤</b></span><br/><span class=\"kw3\"><b>クルーケンベルグ腫瘍：卵巣への転移（両側が多い）——未分化型（印環細胞癌）で多い</b></span><br/><span class=\"kw3\"><b>癌性腹膜炎：腹水、腸閉塞、水腎症</b></span><br/><span class=\"kw\"><b>③ 血行性</b></span><br/><span class=\"kw3\"><b>肝臓（門脈経由）が最多、次いで肺・骨</b></span><br/><span class=\"kw\"><b>④ 直接浸潤</b></span><br/><span class=\"kw3\"><b>この問題の膵臓・横行結腸・肝臓</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">胃体部癌の直接浸潤：膵・肝左葉・横行結腸・大網・脾臓</span><br/><span class=\"kw4\">胆囊：胃体部から離れており直接浸潤は起こりにくい</span>。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃体部進行癌が浸潤し「にくい」もの。<br/><b>a 肝臓／b 膵臓／c 大網／e 横行結腸</b>：近接し浸潤しやすい。<br/><b>d 胆囊</b>：<span class=\"kw\">胃体部癌が直接浸潤しにくい</span>。✓（これが正解肢）"
+       "c": "<span class=\"kw3\"><b>胃体部の隣＝肝左葉・膵体尾部・大網・横行結腸・脾臓</b></span><br/><span class=\"kw3\"><b>胆嚢は肝右葉の下——胃体部から離れている</b></span><br/><span class=\"kw4\"><b>ウィルヒョウ（左鎖骨上）・シュニッツラー（ダグラス窩）・クルーケンベルグ（卵巣）・シスター・メアリー・ジョセフ（臍）</b></span>"
       }
      ],
      "imgs": []
@@ -15381,22 +15406,27 @@
       }
      ],
      "ans_label": "ａ　拡大内視鏡\nｃ　超音波内視鏡",
-     "ans_sub": "早期胃癌のESD適応判断：拡大内視鏡で組織型・範囲、超音波内視鏡（EUS）で浸潤深度を評価。",
+     "ans_sub": "前庭部の 2cm の胃癌。内視鏡治療（ESD）ができるかは、<b>癌の範囲・組織型（分化型か）</b>と<b>深さ（粘膜内か粘膜下層か）</b>で決まる。<b>拡大内視鏡</b>（狭帯域光観察を併用）で表面の模様と血管から癌の境界・組織型を見極め、<b>超音波内視鏡</b>で壁の層構造から深さを見る。経鼻内視鏡は細く苦痛の少ないスクリーニング用、カプセル内視鏡・バルーン内視鏡は主に小腸を見る検査。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 早期胃癌のESD適応評価",
-       "c": "<span class=\"kw\">a拡大内視鏡（正答）</span>：<br>・NBI（狭帯域光）＋拡大で腺管開口部（pit pattern）・血管パターンを詳細評価<br/>・組織型（分化型/未分化型）・癌の範囲（水平断端）確認に有用<br/><br/><span class=\"kw\">c超音波内視鏡（EUS）（正答）</span>：<br/>・消化管壁の各層を描出→<span class=\"kw\">浸潤深度（T分類）を評価</span><br/>・M（粘膜内）かSM（粘膜下層）かの判断→ESD適応決定の要<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ b経鼻内視鏡：細径内視鏡→治療適応評価には不十分<br/>✗ dカプセル内視鏡：小腸用（胃の詳細評価には不向き）<br/>✗ eバルーン内視鏡：小腸用</br>"
+       "h": "🌿 内視鏡の「種類」と「何に使うか」",
+       "c": "<span class=\"kw4\"><b>ESD の適応の条件は Q.220——ここは治療方針を決めるための検査道具</b></span>。<br/><span class=\"kw\"><b>① 拡大内視鏡（＋狭帯域光観察 NBI）</b></span><br/><span class=\"kw3\"><b>粘膜を数十倍に拡大し、表面の模様（微細構造）と細い血管（微小血管）を見る</b></span><br/><span class=\"kw3\"><b>癌は周りとの境界線（デマルケーションライン）がはっきりし、模様・血管が不規則</b></span><br/><span class=\"kw3\"><b>→ 癌かどうか、どこまで広がっているか（切る範囲）</b></span><br/><span class=\"kw\"><b>② 超音波内視鏡（EUS）</b></span><br/><span class=\"kw3\"><b>胃の壁を 5 層に描き出す——癌が粘膜内か、粘膜下層まで入ったか</b></span><br/><span class=\"kw\"><b>③ 経鼻内視鏡</b></span><br/><span class=\"kw3\"><b>細く、鼻から入れて吐き気が少ない——検診向き、画質・処置の能力は劣る</b></span><br/><span class=\"kw\"><b>④ カプセル内視鏡</b></span><br/><span class=\"kw3\"><b>飲み込んで小腸を撮影——原因不明の消化管出血</b></span><br/><span class=\"kw\"><b>⑤ バルーン内視鏡（ダブルバルーン・シングルバルーン）</b></span><br/><span class=\"kw3\"><b>風船で腸をたぐり寄せて小腸の奥まで届く——小腸の生検・止血・ポリープ切除</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　拡大内視鏡</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>癌の境界と組織型を見て、切る範囲と ESD の可否を決める</b></span>。</td></tr><tr><td>ｂ　経鼻内視鏡</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>細く、検診・スクリーニング向き</b></span>。<span class=\"kw3\"><b>精密な評価には向かない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　超音波内視鏡</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>深さ（粘膜内か粘膜下層か）を見る</b></span>。</td></tr><tr><td>ｄ　カプセル内視鏡</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>主に小腸を見る</b></span>。<span class=\"kw3\"><b>胃は観察しにくく、生検もできない</b></span>。</td></tr><tr><td>ｅ　バルーン内視鏡</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>小腸の奥を見る・処置するための内視鏡</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 別軸：深さの見当は普通の内視鏡でもつけられる",
+       "c": "<span class=\"kw\"><b>① 粘膜下層へ深く入った癌を疑う所見</b></span><br/><span class=\"kw3\"><b>病変が硬く、空気を入れても伸びない</b></span><br/><span class=\"kw3\"><b>集まってくるひだの先が太る・くっつく・途切れる</b></span><br/><span class=\"kw3\"><b>陥凹の中に盛り上がり（台状の挙上）がある</b></span><br/><span class=\"kw3\"><b>大きさが 3cm を超える</b></span><br/><span class=\"kw\"><b>② 超音波内視鏡の限界</b></span><br/><span class=\"kw3\"><b>潰瘍の瘢痕があると深さを読み違えやすい</b></span><br/><span class=\"kw4\"><b>最終的な深さは切り取った標本の病理で決まる——ESD 後に深かったと分かれば追加の手術（Q.207）</b></span><br/><span class=\"kw\"><b>③ 未分化型癌</b></span><br/><span class=\"kw3\"><b>粘膜の下を横に広がりやすく、境界が見えにくい——範囲を決めるため周りの生検を追加することがある</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">早期胃癌のESD適応判断：拡大内視鏡（組織型・範囲）＋EUS（浸潤深度）</span><br/>ESD絶対適応：分化型・腫瘍≤2cm・潰瘍なし・cT1a。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胃癌の治療方針決定に有用な検査を2つ。<br/><b>b 経鼻内視鏡／d カプセル内視鏡／e バルーン内視鏡</b>：本目的でない。<br/><b>a 拡大内視鏡</b>：<span class=\"kw\">表面構造から範囲・組織を評価</span>。✓<br/><b>c 超音波内視鏡</b>：<span class=\"kw\">深達度（T因子）を評価</span>。✓"
+       "c": "<span class=\"kw3\"><b>早期胃癌の治療方針＝拡大内視鏡（範囲・組織型）＋超音波内視鏡（深さ）</b></span><br/><span class=\"kw3\"><b>カプセル内視鏡・バルーン内視鏡＝小腸の検査</b></span><br/><span class=\"kw4\"><b>最終的な深さは ESD 標本の病理で決まる</b></span>"
       }
      ],
      "imgs": []

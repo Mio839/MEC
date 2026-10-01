@@ -59,18 +59,23 @@
             },
             {
               "cls": "ep",
-              "h": "📐 胃体部の解剖と隣接臓器",
-              "c": "<span class=\"kw\">胃体部に隣接・浸潤しやすい臓器</span>：<br/>・a肝臓（左葉）：胃の前上方<br/>・b膵臓：胃後壁→膵体部と直接接触<br/>・c大網：胃前壁・大彎から垂れ下がる<br/>・e横行結腸：胃前下壁に接触<br/><br/><span class=\"kw\">d胆囊（浸潤しにくい・正答）</span>：<br/>胆囊は肝右葉下面に付着→右上腹部<br/>胃体部（左〜中腹部）とは距離があり直接浸潤は起こりにくい"
+              "h": "🌿 胃の「お隣さん」——部位ごとの位置関係",
+              "c": "<span class=\"kw\"><b>① 胃体部</b></span><br/><span class=\"kw3\"><b>前上：肝臓の左葉</b></span><br/><span class=\"kw3\"><b>後ろ：膵臓（体部・尾部）——網嚢を挟んで接する</b></span><br/><span class=\"kw3\"><b>下（大弯）：大網、その奥に横行結腸と横行結腸間膜</b></span><br/><span class=\"kw3\"><b>左：脾臓（胃脾間膜）</b></span><br/><span class=\"kw\"><b>② 前庭部・幽門</b></span><br/><span class=\"kw3\"><b>右：肝臓・胆嚢・十二指腸</b></span><br/><span class=\"kw3\"><b>後ろ：膵頭部</b></span><br/><span class=\"kw\"><b>③ 噴門・胃上部</b></span><br/><span class=\"kw3\"><b>横隔膜・食道・脾臓</b></span><br/><span class=\"kw\"><b>④ だから</b></span><br/><span class=\"kw4\"><b>胃体部の進行癌は膵・横行結腸・肝左葉・脾臓に浸潤しやすい——手術でまとめて切除することがある（他臓器合併切除）</b></span><br/><span class=\"kw3\"><b>胆嚢は胃の右端（幽門側）の癌や十二指腸の病気で問題になる</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　肝　臓</td><td><span class=\"kw4\">誤り</span>（浸潤しやすい）。<span class=\"kw3\"><b>左葉が胃体部の前上方に接する</b></span>。</td></tr><tr><td>ｂ　膵　臓</td><td><span class=\"kw4\">誤り</span>（浸潤しやすい）。<span class=\"kw3\"><b>胃の後壁と網嚢を挟んで接する</b></span>。<span class=\"kw3\"><b>後壁の潰瘍・癌は膵に及ぶ</b></span>。</td></tr><tr><td>ｃ　大　網</td><td><span class=\"kw4\">誤り</span>（浸潤しやすい）。<span class=\"kw3\"><b>大弯から垂れ下がり、胃と直接つながる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　胆　囊</span></td><td><span class=\"kw3\">これが「浸潤しにくい」（＝正解）</span>。<span class=\"kw3\"><b>肝右葉の下面にあり、胃体部から離れている</b></span>。</td></tr><tr><td>ｅ　横行結腸</td><td><span class=\"kw4\">誤り</span>（浸潤しやすい）。<span class=\"kw3\"><b>胃結腸間膜でつながり、大弯の下にある</b></span>。<span class=\"kw3\"><b>浸潤すると胃結腸瘻を作ることがある</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 別軸：胃癌が「離れた場所」へ広がるとき——名前のついた転移",
+              "c": "<span class=\"kw\"><b>① リンパ行性</b></span><br/><span class=\"kw4\"><b>ウィルヒョウ転移：左鎖骨上窩のリンパ節——胸管が左の静脈角に注ぐため</b></span><br/><span class=\"kw3\"><b>シスター・メアリー・ジョセフ結節：へその転移</b></span><br/><span class=\"kw\"><b>② 腹膜播種（癌細胞が腹腔にこぼれる）</b></span><br/><span class=\"kw3\"><b>シュニッツラー転移：直腸の前（ダグラス窩）——直腸診で硬い棚状の腫瘤</b></span><br/><span class=\"kw3\"><b>クルーケンベルグ腫瘍：卵巣への転移（両側が多い）——未分化型（印環細胞癌）で多い</b></span><br/><span class=\"kw3\"><b>癌性腹膜炎：腹水、腸閉塞、水腎症</b></span><br/><span class=\"kw\"><b>③ 血行性</b></span><br/><span class=\"kw3\"><b>肝臓（門脈経由）が最多、次いで肺・骨</b></span><br/><span class=\"kw\"><b>④ 直接浸潤</b></span><br/><span class=\"kw3\"><b>この問題の膵臓・横行結腸・肝臓</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">胃体部癌の直接浸潤：膵・肝左葉・横行結腸・大網・脾臓</span><br/><span class=\"kw4\">胆囊：胃体部から離れており直接浸潤は起こりにくい</span>。"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "胃体部進行癌が浸潤し「にくい」もの。<br/><b>a 肝臓／b 膵臓／c 大網／e 横行結腸</b>：近接し浸潤しやすい。<br/><b>d 胆囊</b>：<span class=\"kw\">胃体部癌が直接浸潤しにくい</span>。✓（これが正解肢）"
+              "c": "<span class=\"kw3\"><b>胃体部の隣＝肝左葉・膵体尾部・大網・横行結腸・脾臓</b></span><br/><span class=\"kw3\"><b>胆嚢は肝右葉の下——胃体部から離れている</b></span><br/><span class=\"kw4\"><b>ウィルヒョウ（左鎖骨上）・シュニッツラー（ダグラス窩）・クルーケンベルグ（卵巣）・シスター・メアリー・ジョセフ（臍）</b></span>"
             }
           ],
           "imgs": []
@@ -212,18 +217,23 @@
             },
             {
               "cls": "ep",
-              "h": "🔬 早期胃癌のESD適応評価",
-              "c": "<span class=\"kw\">a拡大内視鏡（正答）</span>：<br>・NBI（狭帯域光）＋拡大で腺管開口部（pit pattern）・血管パターンを詳細評価<br/>・組織型（分化型/未分化型）・癌の範囲（水平断端）確認に有用<br/><br/><span class=\"kw\">c超音波内視鏡（EUS）（正答）</span>：<br/>・消化管壁の各層を描出→<span class=\"kw\">浸潤深度（T分類）を評価</span><br/>・M（粘膜内）かSM（粘膜下層）かの判断→ESD適応決定の要<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ b経鼻内視鏡：細径内視鏡→治療適応評価には不十分<br/>✗ dカプセル内視鏡：小腸用（胃の詳細評価には不向き）<br/>✗ eバルーン内視鏡：小腸用</br>"
+              "h": "🌿 内視鏡の「種類」と「何に使うか」",
+              "c": "<span class=\"kw4\"><b>ESD の適応の条件は Q.220——ここは治療方針を決めるための検査道具</b></span>。<br/><span class=\"kw\"><b>① 拡大内視鏡（＋狭帯域光観察 NBI）</b></span><br/><span class=\"kw3\"><b>粘膜を数十倍に拡大し、表面の模様（微細構造）と細い血管（微小血管）を見る</b></span><br/><span class=\"kw3\"><b>癌は周りとの境界線（デマルケーションライン）がはっきりし、模様・血管が不規則</b></span><br/><span class=\"kw3\"><b>→ 癌かどうか、どこまで広がっているか（切る範囲）</b></span><br/><span class=\"kw\"><b>② 超音波内視鏡（EUS）</b></span><br/><span class=\"kw3\"><b>胃の壁を 5 層に描き出す——癌が粘膜内か、粘膜下層まで入ったか</b></span><br/><span class=\"kw\"><b>③ 経鼻内視鏡</b></span><br/><span class=\"kw3\"><b>細く、鼻から入れて吐き気が少ない——検診向き、画質・処置の能力は劣る</b></span><br/><span class=\"kw\"><b>④ カプセル内視鏡</b></span><br/><span class=\"kw3\"><b>飲み込んで小腸を撮影——原因不明の消化管出血</b></span><br/><span class=\"kw\"><b>⑤ バルーン内視鏡（ダブルバルーン・シングルバルーン）</b></span><br/><span class=\"kw3\"><b>風船で腸をたぐり寄せて小腸の奥まで届く——小腸の生検・止血・ポリープ切除</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　拡大内視鏡</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>癌の境界と組織型を見て、切る範囲と ESD の可否を決める</b></span>。</td></tr><tr><td>ｂ　経鼻内視鏡</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>細く、検診・スクリーニング向き</b></span>。<span class=\"kw3\"><b>精密な評価には向かない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　超音波内視鏡</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>深さ（粘膜内か粘膜下層か）を見る</b></span>。</td></tr><tr><td>ｄ　カプセル内視鏡</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>主に小腸を見る</b></span>。<span class=\"kw3\"><b>胃は観察しにくく、生検もできない</b></span>。</td></tr><tr><td>ｅ　バルーン内視鏡</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>小腸の奥を見る・処置するための内視鏡</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 別軸：深さの見当は普通の内視鏡でもつけられる",
+              "c": "<span class=\"kw\"><b>① 粘膜下層へ深く入った癌を疑う所見</b></span><br/><span class=\"kw3\"><b>病変が硬く、空気を入れても伸びない</b></span><br/><span class=\"kw3\"><b>集まってくるひだの先が太る・くっつく・途切れる</b></span><br/><span class=\"kw3\"><b>陥凹の中に盛り上がり（台状の挙上）がある</b></span><br/><span class=\"kw3\"><b>大きさが 3cm を超える</b></span><br/><span class=\"kw\"><b>② 超音波内視鏡の限界</b></span><br/><span class=\"kw3\"><b>潰瘍の瘢痕があると深さを読み違えやすい</b></span><br/><span class=\"kw4\"><b>最終的な深さは切り取った標本の病理で決まる——ESD 後に深かったと分かれば追加の手術（Q.207）</b></span><br/><span class=\"kw\"><b>③ 未分化型癌</b></span><br/><span class=\"kw3\"><b>粘膜の下を横に広がりやすく、境界が見えにくい——範囲を決めるため周りの生検を追加することがある</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">早期胃癌のESD適応判断：拡大内視鏡（組織型・範囲）＋EUS（浸潤深度）</span><br/>ESD絶対適応：分化型・腫瘍≤2cm・潰瘍なし・cT1a。"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "胃癌の治療方針決定に有用な検査を2つ。<br/><b>b 経鼻内視鏡／d カプセル内視鏡／e バルーン内視鏡</b>：本目的でない。<br/><b>a 拡大内視鏡</b>：<span class=\"kw\">表面構造から範囲・組織を評価</span>。✓<br/><b>c 超音波内視鏡</b>：<span class=\"kw\">深達度（T因子）を評価</span>。✓"
+              "c": "<span class=\"kw3\"><b>早期胃癌の治療方針＝拡大内視鏡（範囲・組織型）＋超音波内視鏡（深さ）</b></span><br/><span class=\"kw3\"><b>カプセル内視鏡・バルーン内視鏡＝小腸の検査</b></span><br/><span class=\"kw4\"><b>最終的な深さは ESD 標本の病理で決まる</b></span>"
             }
           ],
           "imgs": []
