@@ -436,9 +436,11 @@ t('週次にはペース目盛りと残り日数を出す', () => {
 t('達成済みの行にはペース目盛りを出さない（意味が無く紛らわしいため）', () => {
   const ctx = makeCtx();
   const g = ctx.window.MecGamify;
-  for (let i = 0; i < 260; i++) g.onAnswer('a_ch01_q' + i, true); // 週次 w_ans(250) を達成
+  // ⚠️ 件数とラベルは defs から引く（2026-10-01 に 250→1000 へ上げたとき決め打ちで落ちた）
+  const W = g._defs.weekly.find(d => d.id === 'w_ans');
+  for (let i = 0; i < W.target + 10; i++) g.onAnswer('a_ch01_q' + i, true); // 週次 w_ans を達成
   const html = renderInto(g, {});
-  const row = html.slice(html.indexOf('今週 250問'));
+  const row = html.slice(html.indexOf(W.label));
   assert.ok(row.slice(0, 400).indexOf('gm-pace') < 0);
 });
 

@@ -1087,7 +1087,8 @@ html.ui-frost .gm-ach-emblem span{filter:drop-shadow(0 1px 0 #fff);}
 
   const MISSIONS_DAILY = _getDailyMissions();
   const MISSIONS_WEEKLY = [
-    { id: 'w_ans',     tier: 'core',  xp: 150, icon: '📅', label: '今週 250問 解答する',         target: 250, counter: 'ans' },
+    // 2026-10-01 に 250→1000（日次の ans を 200 に上げたので 250 だと2日で届いてしまう＝1日200問×5日）
+    { id: 'w_ans',     tier: 'core',  xp: 150, icon: '📅', label: '今週 1000問 解答する',        target: 1000, counter: 'ans' },
     { id: 'w_cor',     tier: 'core',  xp: 200, icon: '✅', label: '今週 試験で120問 正解',       target: 120, counter: 'cor' },
     { id: 'w_exam',    tier: 'core',  xp: 150, icon: '🎓', label: '今週 試験セッション7回',      target: 7,   counter: 'exam' },
     { id: 'w_srs',     tier: 'bonus', xp: 200, icon: '🔁', label: '今週 SRS復習を150問',         target: 150, counter: 'srs' },

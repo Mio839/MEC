@@ -1700,16 +1700,12 @@ function renderHero() {
 
   // ⚠️ 100%で頭打ちにしないこと。超えた日は 130% と出す（弧だけが2周目に回る）
   document.getElementById('statPct').textContent    = goal.pct;
-  // ゲージ下の「N / 目標問」の行は 2026-10-01 に撤去（待機列の「本日消化 N / 200問」と数字が二重に並ぶため）。
+  // ゲージ下の「N / 目標問」の行と見出しは 2026-10-01 に撤去（待機列の「本日消化 N / 200問」と数字が二重に並ぶため）。
   // 数字はゲージに触れたとき title で読める。
   const gBox = document.getElementById('gaugeBox');
   if (gBox) gBox.title = '今日の目標 ' + _fmtN(goal.count) + ' / ' + _fmtN(goal.target) + '問（日次ミッション「' + _fmtN(goal.target) + '問 解答する」）';
   document.getElementById('gaugeMid').classList.toggle('wide', goal.pct >= 100);
-  const gCapEl = document.getElementById('gaugeCap');
-  if (gCapEl) {
-    gCapEl.textContent = goal.pct >= 100 ? '🎉 目標達成' : '今日の目標';
-    gCapEl.classList.toggle('is-done', goal.pct >= 100);
-  }
+  // ゲージ下の見出し「今日の目標／🎉 目標達成」（旧 #gaugeCap）も 2026-10-01 に撤去（ユーザー判断）。
 
   // 帰還注入トランジション（Exam-to-Hub Absorber）のチェック
   let absorbPayload = null;
