@@ -305,11 +305,13 @@ t('科目全体の試験（chPrefixなし）では chexam80 は増えない', ()
 // ── 達成とボーナスXP ──────────────────────────────────────────────────────
 console.log('達成とボーナスXP');
 
-// 日次 core（100問解答 / 試験セッション1本 / 試験で20問正解）を満たすところまで回す
+// 日次 core（N問解答 / 試験セッション1本 / 試験で20問正解）を満たすところまで回す。
+// ⚠️ N は defs から引く（2026-10-01 に 100→200 へ上げたとき、ここが 100 の決め打ちで落ちた）
 function driveDailyCore(g) {
-  for (let i = 0; i < 80; i++) g.onAnswer('a_ch01_q' + i, false);
-  for (let i = 80; i < 100; i++) g.onAnswer('a_ch01_q' + i, true);
-  g.onExamFinish(100, 20, {});
+  const N = g._defs.daily.find(d => d.counter === 'ans').target;
+  for (let i = 0; i < N - 20; i++) g.onAnswer('a_ch01_q' + i, false);
+  for (let i = N - 20; i < N; i++) g.onAnswer('a_ch01_q' + i, true);
+  g.onExamFinish(N, 20, {});
 }
 
 t('bonus未達でも core が揃えば日次のコンプリートXPが入る', () => {

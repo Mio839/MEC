@@ -498,9 +498,6 @@ html:not([class*="ui-"]) .hero-num, html:not([class*="ui-"]) .hero-num .dg{
 .gauge-cap{margin-top:var(--sp-2);font-size:11px;font-weight:700;letter-spacing:.12em;
   color:var(--ts);white-space:nowrap;transition:color var(--dur-med) var(--ease-out);}
 .gauge-cap.is-done{color:var(--or, #F5D061);font-weight:800;}
-.gauge-goal{margin-top:2px;font-size:12px;font-weight:700;color:var(--ts);
-  font-variant-numeric:tabular-nums;white-space:nowrap;}
-.gauge-goal b{color:var(--tx);font-size:14px;font-weight:800;}
 
 /* 狭い画面ではゲージを数字の下へ落とす。横に並べたままだと巨大な数字の幅が足りない。
    ⚠️ 閾値は 440px → 560px（2026-08-13）。盤面を 152px→208px に広げたぶん、

@@ -142,7 +142,7 @@
       </div>
       <!-- ゲージ＝「今日やるべき問題数のうち何％まで来たか」。
            数字の出どころは MecGamify.dailyGoal()（日次ミッション ans が正本）で、
-           下に並ぶ「今日のミッション」の 40問 の行と必ず同じ数になる。
+           下に並ぶ「今日のミッション」の「200問 解答する」の行と必ず同じ数になる（数字の行は 2026-10-01 に撤去・title で読める）。
            達成率は 100% で頭打ちにしない（超えた日はそのまま 130% 等を出す）。 -->
       <div class="gauge" id="gaugeBox" data-tier="0" data-time="day">
         <div class="gauge-aura" id="gaugeAura" aria-hidden="true"></div>
@@ -1343,7 +1343,6 @@
           <span class="gauge-mid" id="gaugeMid"><span id="statPct">0</span><em>%</em></span>
         </div>
         <p class="gauge-cap" id="gaugeCap">今日の目標</p>
-        <p class="gauge-goal"><b id="gaugeDoneN">0</b> / <span id="gaugeGoalN">100</span>問</p>
       </div>
       <!-- プロトコル待機列。2026-09-30 に .hero-console の中から出して2列ぶち抜きにした
            （右のゲージの下＝「今日の誤答」ボタンの上まで使って、リング・14日の予定・科目の内訳帯を載せる）。
@@ -1380,7 +1379,7 @@
           <span class="spark-hdr-record" id="heroSparkRecord"></span>
         </div>
         <div class="spark-container" id="heroSparkContainer">
-          <div class="spark-target-line" id="heroSparkTargetLine" title="デイリー目標（40問）">
+          <div class="spark-target-line" id="heroSparkTargetLine" title="デイリー目標（200問）">
             <span class="spark-target-lbl">目標 40</span>
           </div>
           <div class="spark-bars" id="heroSpark" role="img" aria-label="直近14日間の学習量"></div>

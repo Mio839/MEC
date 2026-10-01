@@ -461,11 +461,6 @@ html:not([class*="ui-"]) .hero-num .dg {
   color:var(--ts);white-space:nowrap;transition:color var(--dur-med) var(--ease-out);
 }
 .gauge-cap.is-done { color:var(--or, #F5D061);font-weight:800; }
-.gauge-goal {
-  margin-top:2px;font-size:12px;font-weight:700;color:var(--ts);
-  font-variant-numeric:tabular-nums;white-space:nowrap;
-}
-.gauge-goal b { color:var(--tx);font-size:14px;font-weight:800; }
 @media (max-width:560px) {
   .hero-body { grid-template-columns:minmax(0,1fr);gap:var(--sp-4); }
   .gauge { width:min(172px,58vw);justify-self:end; }

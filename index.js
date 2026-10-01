@@ -356,8 +356,8 @@ let _heroSettled = false;
 const GAUGE_C = 339.29;
 
 // gamify.js が読めなかったときだけ使うゲージの分母。
-// 正本は gamify.js の MISSIONS_DAILY の ans（100問）で、通常はそちらが使われる。
-const DAILY_GOAL_FALLBACK = 100;
+// 正本は gamify.js の MISSIONS_DAILY の ans（200問）で、通常はそちらが使われる。
+const DAILY_GOAL_FALLBACK = 200;
 
 // 直近14日の学習量・ペース分析・連続学習トラック。素材は activity_v1（日→解答回数）。
 let _sparkRecordShown = false;
@@ -464,7 +464,7 @@ function _renderSpark() {
     paceBanner.hidden = false;
   }
 
-  // 3. デイリー目標ライン（MecGamify.dailyGoal() と連動、既定100問）＆ オーバードライブ判定
+  // 3. デイリー目標ライン（MecGamify.dailyGoal() と連動、既定200問）＆ オーバードライブ判定
   const targetGoal = (window.MecGamify && MecGamify.dailyGoal) ? MecGamify.dailyGoal().target : DAILY_GOAL_FALLBACK;
   const scaleMax = Math.max(targetGoal * 1.15, mx);
   if (targetLine) {
@@ -1700,8 +1700,10 @@ function renderHero() {
 
   // ⚠️ 100%で頭打ちにしないこと。超えた日は 130% と出す（弧だけが2周目に回る）
   document.getElementById('statPct').textContent    = goal.pct;
-  document.getElementById('gaugeDoneN').textContent = _fmtN(goal.count);
-  document.getElementById('gaugeGoalN').textContent = _fmtN(goal.target);
+  // ゲージ下の「N / 目標問」の行は 2026-10-01 に撤去（待機列の「本日消化 N / 200問」と数字が二重に並ぶため）。
+  // 数字はゲージに触れたとき title で読める。
+  const gBox = document.getElementById('gaugeBox');
+  if (gBox) gBox.title = '今日の目標 ' + _fmtN(goal.count) + ' / ' + _fmtN(goal.target) + '問（日次ミッション「' + _fmtN(goal.target) + '問 解答する」）';
   document.getElementById('gaugeMid').classList.toggle('wide', goal.pct >= 100);
   const gCapEl = document.getElementById('gaugeCap');
   if (gCapEl) {

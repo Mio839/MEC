@@ -1062,7 +1062,9 @@ html.ui-frost .gm-ach-emblem span{filter:drop-shadow(0 1px 0 #fff);}
     const quest = DAILY_QUEST_POOL[seed % DAILY_QUEST_POOL.length];
     const fx = _focusAxis(dk);
     return [
-      { id: 'ans',        tier: 'core',  xp: 100, icon: '📝', label: '100問 解答する',          target: 100, counter: 'ans' },
+      // 2026-10-01 に 100→200（ユーザー判断）。待機列の復習目標 SRS_DAILY_TARGET（200）とそろえ、ハブの
+      // ゲージと待機列が同じゴールを指すようにした（100 のままだと復習の途中で毎日ゲージが満タンになっていた）。
+      { id: 'ans',        tier: 'core',  xp: 100, icon: '📝', label: '200問 解答する',          target: 200, counter: 'ans' },
       { id: 'exam',       tier: 'core',  xp: 40, icon: '🎓', label: '試験セッション1本(10問+)', target: 1,  counter: 'exam' },
       { id: 'cor',        tier: 'core',  xp: 60, icon: '✅', label: '試験で20問 正解',          target: 20, counter: 'cor' },
       { id: 'srs',        tier: 'bonus', xp: 60, icon: '🔁', label: 'SRS復習を20問 こなす',     target: 20, counter: 'srs' },
