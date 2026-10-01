@@ -2613,22 +2613,27 @@
             }
           ],
           "ans_label": "ｄ　抗菌薬の中止",
-          "ans_sub": "偽膜性腸炎（C.difficile感染）を疑う場合、まず原因となっている抗菌薬を中止することが最優先。",
+          "ans_sub": "前立腺炎でキノロンを 10 日使用中に、頻回の水様下痢と発熱、白血球 21,000、クレアチニン 2.8——<b>重症の C. difficile 感染症</b>を疑う。前立腺炎は軽快しており、まず<b>原因の抗菌薬を中止</b>する。止痢薬は使わない。",
           "eg": [
             {
               "cls": "ep",
-              "h": "💊 偽膜性腸炎の初期対応",
-              "c": "<span class=\"kw\">d抗菌薬の中止（正答）</span>：<br>偽膜性腸炎の最初の対応は<span class=\"kw\">原因抗菌薬を中止</span><br>→ 腸内フローラの回復→C.difficileの増殖が抑制される<br>→ 軽症CDIは抗菌薬中止だけで回復することも<br><br><span class=\"kw4\">誤りの選択肢</span>：<br>✗ a便潜血検査：CDIの初期対応ではない<br>✗ b腹部CT：病態評価には有用だが最初にするのは抗菌薬中止<br>✗ c止痢薬：CDIでは<span class=\"kw4\">止痢薬は禁忌</span>（腸管内で毒素が蓄積→重症化）<br/>✗ e広域抗菌薬への変更：CDIは広域抗菌薬で悪化する→中止が先</br></br></br></br></br></br></br></br>"
+              "h": "🌿 CDI と分かったら、最初にやめるもの",
+              "c": "<span class=\"kw4\"><b>治療薬は Q.283、重症度の決め方は Q.296——ここは「やめる」ことの意味</b></span>。<br/><span class=\"kw\"><b>① 原因の抗菌薬をやめる</b></span><br/><span class=\"kw3\"><b>腸内細菌の乱れが続く限り、C. difficile は増え続ける</b></span><br/><span class=\"kw3\"><b>やめられないとき（他の感染が治っていない）は、CDI を起こしにくい薬に替える</b></span><br/><span class=\"kw3\"><b>この患者は前立腺炎が軽快しており、やめられる</b></span><br/><span class=\"kw\"><b>② 止痢薬（ロペラミドなど）をやめる</b></span><br/><span class=\"kw4\"><b>腸の動きを止めると毒素が腸にとどまり、中毒性巨大結腸症の危険</b></span><br/><span class=\"kw\"><b>③ PPI を見直す</b></span><br/><span class=\"kw3\"><b>胃酸を抑えると C. difficile が腸まで届きやすい——必要がなければやめる</b></span><br/><span class=\"kw\"><b>④ そのうえで治療</b></span><br/><span class=\"kw3\"><b>白血球 21,000、クレアチニン 2.8 で重症——バンコマイシン内服かフィダキソマイシン</b></span><br/><span class=\"kw\"><b>⑤ 脱水の補正</b></span><br/><span class=\"kw3\"><b>尿のケトン体陽性、BUN・クレアチニン上昇——輸液</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　便潜血検査</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>原因がわからず、治療も変わらない</b></span>。</td></tr><tr><td>ｂ　腹部 CT 検査</td><td><span class=\"kw4\">誤り</span>（まずではない）。<span class=\"kw3\"><b>腹部は平坦・軟——巨大結腸症や穿孔を疑えば撮る</b></span>。</td></tr><tr><td>ｃ　止痢薬の投与</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>毒素がとどまり悪化させる</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　抗菌薬の中止</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>CDI の原因を取り除く</b></span>。</td></tr><tr><td>ｅ　広域スペクトル抗菌薬への変更</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>腸内細菌をさらに乱して CDI を悪化させる</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 別軸：再発する CDI",
+              "c": "<span class=\"kw\"><b>① 再発は多い</b></span><br/><span class=\"kw3\"><b>治療が終わって 8 週以内に 2 割前後が再発——再発するほど次も再発しやすい</b></span><br/><span class=\"kw3\"><b>芽胞が腸に残り、乱れた腸内細菌が戻りきらないため</b></span><br/><span class=\"kw\"><b>② 再発の危険</b></span><br/><span class=\"kw3\"><b>65 歳以上、抗菌薬の継続、PPI、重症、過去の再発</b></span><br/><span class=\"kw\"><b>③ 再発の治療</b></span><br/><span class=\"kw3\"><b>フィダキソマイシン（再発が少ない）</b></span><br/><span class=\"kw3\"><b>バンコマイシンを少しずつ減らす・間をあける飲み方</b></span><br/><span class=\"kw3\"><b>ベズロトクスマブ（トキシン B に対する抗体）を加える</b></span><br/><span class=\"kw3\"><b>繰り返す再発には便微生物移植（健康な人の便の細菌を移す）</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">偽膜性腸炎の初期対応：①原因抗菌薬を中止 ②便中CDトキシン確認 ③バンコマイシン経口</span><br/><span class=\"kw4\">止痢薬は禁忌</span>（毒素の排出を妨げ重症化）。"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "抗菌薬関連下痢（CD腸炎）への対応。<br/><b>a 便潜血／b 腹部CT／c 止痢薬（毒素貯留で禁忌）／e 広域抗菌薬へ変更</b>：不適。<br/><b>d 抗菌薬の中止</b>：<span class=\"kw\">原因抗菌薬の中止（＋CD治療薬）</span>。✓"
+              "c": "<span class=\"kw3\"><b>CDI ではまず原因の抗菌薬を中止（やめられなければ替える）</b></span><br/><span class=\"kw4\"><b>止痢薬は禁忌——中毒性巨大結腸症</b></span><br/><span class=\"kw3\"><b>再発にはフィダキソマイシン・ベズロトクスマブ・便微生物移植</b></span>"
             },
             {
               "cls": "ept",
@@ -2675,22 +2680,27 @@
             }
           ],
           "ans_label": "ｄ　院内感染対策チーム〈ICT〉",
-          "ans_sub": "院内での感染症集団発生→院内感染対策チーム（ICT）に報告し、拡大防止策（コホーティング等）を実施。",
+          "ans_sub": "入院中に発症した C. difficile 感染症——病院の中で広がる危険がある感染症なので、<b>院内感染対策チーム（ICT）</b>に相談し、接触予防策や環境の消毒、同じ病棟での発生の監視を一緒に行う。保健所への届け出は不要で、医療事故でも倫理の問題でもない。",
           "eg": [
             {
               "cls": "ep",
-              "h": "🏥 院内感染対策チーム（ICT）",
-              "c": "<span class=\"kw\">d ICT（Infection Control Team）（正答）</span>：<br>・院内感染の発生・拡大を監視・対策する多職種チーム<br>・構成：感染症専門医・看護師（ICD）・薬剤師・臨床検査技師<br>・役割：院内感染サーベイランス・抗菌薬適正使用・感染対策教育<br><br><span class=\"kw4\">誤りの選択肢</span>：<br>✗ a保健所：食中毒・法定伝染病の届け出先（院内感染はICT）<br>✗ b倫理審査委員会：臨床研究・治験の倫理審査<br>✗ c医療安全支援センター：医療事故・苦情対応<br/>✗ eNST（栄養サポートチーム）：栄養管理（感染対策ではない）</br></br></br></br></br></br></br></br>"
+              "h": "🌿 病院の中のチームと、何を相談するか",
+              "c": "<span class=\"kw4\"><b>接触予防策の中身は Q.295・300——ここはそれを動かす組織</b></span>。<br/><span class=\"kw\"><b>① 院内感染対策チーム（ICT）</b></span><br/><span class=\"kw3\"><b>医師・看護師・薬剤師・臨床検査技師</b></span><br/><span class=\"kw3\"><b>院内感染の監視、発生時の対策、病棟の巡回、職員教育</b></span><br/><span class=\"kw3\"><b>CDI・耐性菌（MRSA など）・結核・ノロウイルスの発生で相談する</b></span><br/><span class=\"kw\"><b>② 抗菌薬適正使用支援チーム（AST）</b></span><br/><span class=\"kw3\"><b>抗菌薬の選び方・量・期間を助言——CDI の予防にもつながる</b></span><br/><span class=\"kw\"><b>③ 栄養サポートチーム（NST）</b></span><br/><span class=\"kw3\"><b>低栄養・経管栄養・静脈栄養の管理</b></span><br/><span class=\"kw\"><b>④ 緩和ケアチーム</b></span><br/><span class=\"kw3\"><b>痛みや苦痛——この患者は肺癌の骨転移があり、別の場面で関わる</b></span><br/><span class=\"kw\"><b>⑤ 医療安全管理部門</b></span><br/><span class=\"kw3\"><b>医療事故・ヒヤリハットの報告と再発防止</b></span>"
+            },
+            {
+              "cls": "ee",
+              "h": "□ 選択肢の検討",
+              "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　保健所</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>CDI は感染症法の届出対象ではない</b></span>。<span class=\"kw3\"><b>地域の感染症の集団発生・届出対象の病気で連絡する</b></span>。</td></tr><tr><td>ｂ　倫理審査委員会</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>研究や新しい治療の倫理を審査する</b></span>。</td></tr><tr><td>ｃ　医療安全支援センター</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>患者・住民からの医療の相談窓口（都道府県などが設置）</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　院内感染対策チーム〈ICT〉</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>院内で広がりうる感染症の対策</b></span>。</td></tr><tr><td>ｅ　栄養サポートチーム〈NST〉</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>栄養管理のチーム</b></span>。</td></tr></table>"
+            },
+            {
+              "cls": "em",
+              "h": "🔍 別軸：保健所に届け出る腸の感染症",
+              "c": "<span class=\"kw\"><b>① 直ちに届け出る（全数）</b></span><br/><span class=\"kw3\"><b>3 類：コレラ、細菌性赤痢、腸管出血性大腸菌感染症、腸チフス、パラチフス</b></span><br/><span class=\"kw3\"><b>4 類：A 型肝炎・E 型肝炎、ボツリヌス症</b></span><br/><span class=\"kw\"><b>② 7 日以内に届け出る（全数）</b></span><br/><span class=\"kw3\"><b>5 類：アメーバ赤痢、ジアルジア症、クリプトスポリジウム症</b></span><br/><span class=\"kw\"><b>③ 定点で報告</b></span><br/><span class=\"kw3\"><b>感染性胃腸炎（ノロウイルスなど）——指定された医療機関が数を報告</b></span><br/><span class=\"kw\"><b>④ 食中毒</b></span><br/><span class=\"kw3\"><b>食中毒を疑えば 24 時間以内に保健所へ（食品衛生法）</b></span><br/><span class=\"kw\"><b>⑤ CDI</b></span><br/><span class=\"kw3\"><b>届出の対象ではない——院内の ICT で対応する</b></span>"
             },
             {
               "cls": "ept",
               "h": "🎯 国試ポイント",
-              "c": "<span class=\"kw\">院内感染集団発生 → ICT（院内感染対策チーム）に報告・対応</span><br/>CDI院内感染対策：接触予防・手洗い徹底・環境消毒（次亜塩素酸）・個室隔離。"
-            },
-            {
-              "cls": "em",
-              "h": "🔍 選択肢解説",
-              "c": "院内発生の感染性下痢について相談する組織。<br/><b>a 保健所／b 倫理審査委員会／c 医療安全支援センター／e NST</b>：本目的でない。<br/><b>d 院内感染対策チーム〈ICT〉</b>：<span class=\"kw\">院内感染の制御・相談</span>。✓"
+              "c": "<span class=\"kw3\"><b>院内の感染症（CDI・耐性菌）→院内感染対策チーム（ICT）</b></span><br/><span class=\"kw3\"><b>AST＝抗菌薬の使い方、NST＝栄養</b></span><br/><span class=\"kw4\"><b>保健所は届出対象の感染症と食中毒（24 時間以内）</b></span>"
             },
             {
               "cls": "ept",
