@@ -576,6 +576,12 @@ t('Brass の読み値はニキシー管＋歯車連動（ちらつきは一定�
   assert.ok(/document\.hidden/.test(idle), '非表示タブでも動かしている');
   assert.ok(/br-nx-glint/.test(idle) && /\.dg\.br-nx-glint\{animation:brNxGlint/.test(HTML), '正しい数字へ戻る瞬間に煌めかせていない');
   assert.ok(!/\.dg\.br-nx-idle\{[^}]*opacity:\./.test(HTML), 'ちらつき中の管を暗くしている（煌々と光らせる）');
+  // チカチカで動かすのは数字だけ。opacity・filter は管ごと消えたり光ったりする（2026-10-01 ユーザー指摘）
+  for (const k of ['brNxFlick', 'brNxGlint']) {
+    const kf = (HTML.match(new RegExp('@keyframes ' + k + '\\{[\\s\\S]*?\\}\\}')) || [''])[0];
+    assert.ok(kf && !/opacity|filter/.test(kf), k + ' が管ごと動かしている（opacity / filter）');
+  }
+  assert.ok(!/\.dg\.br-nx-idle\{[^}]*filter/.test(HTML), 'ちらつき中に管ごと filter で光らせている');
   assert.ok(/theme === 'brass'[\s\S]{0,80}_brNixieIdle\(el\)/.test(extract('_landHeroNumber')), '着地のあとにちらつきを始めていない');
   assert.ok(/\.hero-fig \.br-gt\{display:none;\}/.test(HTML), 'Brass 以外でも歯車が見えている');
   assert.ok(!/html\.ui-brass \.hero-num\[data-goal="\d"\][^{]*\{[^}]*background-clip:text/.test(HTML), '目標達成の日に桁を文字で切り抜いている（管が消える）');
