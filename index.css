@@ -4182,6 +4182,16 @@ html.ui-celestial .hero-num[data-goal="2"]{
   filter:drop-shadow(0 0 24px #FFD166) drop-shadow(0 0 46px #8A2BE2) drop-shadow(0 0 65px rgba(255,209,102,.8));
   animation:celestialOverdrivePulse 1.5s var(--ease-in-out) infinite alternate;
 }
+/* 読み値の着地：超新星（2026-10-01 採用・index.js の _celSupernovaLand）。
+   ⚠️ 縮む・戻るは独立プロパティ scale。!important は目標達成の脈（animation の filter）に勝つため */
+html.ui-celestial .hero-num.cel-nova-in{transition:scale .34s cubic-bezier(.6,0,.9,.4), filter .34s ease-in;scale:.1;
+  filter:brightness(3) drop-shadow(0 0 18px #FFFFFF) drop-shadow(0 0 30px #FFD166)!important;transform-origin:50% 55%;}
+html.ui-celestial .hero-num.cel-nova-out{animation:celNovaOut .7s cubic-bezier(.2,1.5,.4,1) both!important;transform-origin:50% 55%;}
+@keyframes celNovaOut{0%{scale:.1;filter:brightness(3) drop-shadow(0 0 18px #FFFFFF);}55%{scale:1.16;}100%{scale:1;}}
+.cel-nova-core{position:fixed;z-index:61;pointer-events:none;border-radius:50%;
+  background:radial-gradient(circle,#FFFFFF 0%,rgba(255,248,225,.9) 18%,rgba(255,209,102,.55) 38%,rgba(138,43,226,.25) 60%,transparent 72%);
+  animation:celNovaCore .65s cubic-bezier(.1,.7,.3,1) forwards;}
+@keyframes celNovaCore{from{scale:.2;opacity:1;}to{scale:2.6;opacity:0;}}
 @keyframes celestialGoalPulse{
   0%{filter:drop-shadow(0 0 10px rgba(255,209,102,.7)) drop-shadow(0 0 20px rgba(138,43,226,.6));}
   100%{filter:drop-shadow(0 0 22px rgba(255,209,102,1)) drop-shadow(0 0 36px rgba(138,43,226,1));}

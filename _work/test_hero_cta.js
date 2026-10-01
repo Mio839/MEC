@@ -512,6 +512,19 @@ t('入場は .num-in / .cta-in で走らせ、最初の描画まで止めてお�
   assert.ok(/setTimeout\(mark, \d+\)/.test(extract('_markHubPainted')), '描画を観測できないとき止めっぱなしになる');
 });
 
+// 2026-10-01: Celestial の読み値の着地は「超新星」（_work/hub_land_demo.html の C3 を採用）
+t('Celestial の着地は超新星（数字が縮んで爆発して戻る・画面全体は光らせない）', () => {
+  const land = extract('_landHeroNumber');
+  assert.ok(/theme === 'celestial'[\s\S]{0,80}_celSupernovaLand/.test(land), 'Celestial が超新星へ回っていない');
+  assert.ok(!/celestialAstrolabe/.test(land), '旧 celestialAstrolabe（全画面の閃光）が残っている');
+  const nova = extract('_celSupernovaLand');
+  assert.ok(/cel-nova-in/.test(nova) && /cel-nova-out/.test(nova) && /cel-nova-core/.test(nova), '縮む・戻る・閃光のどれかが無い');
+  assert.ok(/_liqFxLater/.test(nova) && !/setTimeout/.test(nova), '予定表（_liqFxLater）を通していない');
+  assert.ok(/\.hero-num\.cel-nova-in\{[^}]*scale:\.1/.test(HTML), '縮みを scale で書いていない');
+  assert.ok(/@keyframes celNovaOut\{[^}]*scale/.test(HTML), '戻りを scale で書いていない');
+  assert.ok(!/MecFX\.flashScreen/.test(nova), '画面全体を光らせている');
+});
+
 t('_tweenNum に非表示タブ用の落とし所がある', () => {
   const src = extract('_tweenNum');
   assert.ok(/setTimeout\(finish, dur \+ \d+\)/.test(src),

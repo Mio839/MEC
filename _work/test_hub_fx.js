@@ -60,7 +60,9 @@ THEMES.forEach(t => {
   assert(html.includes(`html.ui-${t} .hero-num[data-goal="2"]`), `${t}: .hero-num[data-goal="2"] テーマ別オーバードライブが定義されていること`);
 
   // カウントアップ着地時演出の設定
-  assert(html.includes(`${t}: {`), `${t}: THEME_LANDING_CONFIG に着地演出設定が存在すること`);
+  // Celestial は表を使わず超新星（_celSupernovaLand・2026-10-01 採用）へ回す
+  if (t === 'celestial') assert(html.includes('function _celSupernovaLand('), 'celestial: 着地の超新星が無いこと');
+  else assert(html.includes(`${t}: {`), `${t}: THEME_LANDING_CONFIG に着地演出設定が存在すること`);
 
   console.log(`  ok  - ${t}: 全要素のテーマ差別化スタイル（数字・プレート・目標オーラ含む）が完備`);
 });

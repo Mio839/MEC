@@ -3051,6 +3051,12 @@ html.ui-cyber .srs-risk-bar .rb-due { background:linear-gradient(90deg,#006E80,#
 html.ui-cyber .hero-say.srs-card.is-clear { background:linear-gradient(135deg,#00FF9D 0%,#008855 55%,#00E5FF 100%); }
 html.ui-cyber .hero-say.is-clear .srs-card-ttl { color:#00FF9D;text-shadow:0 0 9px #00FF9D; }
 html.ui-cyber .srs-card-hint { font-family:'Consolas','Monaco','Courier New',monospace;color:#6FD7E8; }
+.cel-nova-core {
+  position:fixed;z-index:61;pointer-events:none;border-radius:50%;
+  background:radial-gradient(circle,#FFFFFF 0%,rgba(255,248,225,.9) 18%,rgba(255,209,102,.55) 38%,rgba(138,43,226,.25) 60%,transparent 72%);
+  animation:celNovaCore .65s cubic-bezier(.1,.7,.3,1) forwards;
+}
+@keyframes celNovaCore { from{scale:.2;opacity:1;}to{scale:2.6;opacity:0;} }
 .lv-burst {
   position:absolute;left:0;right:0;bottom:0;height:6px;border-radius:3px;
   display:none;pointer-events:none;z-index:2;

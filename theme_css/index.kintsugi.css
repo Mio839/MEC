@@ -3053,6 +3053,12 @@ html.ui-kintsugi .srs-risk-bar .rb-due { background:linear-gradient(90deg,#4A5A6
 html.ui-kintsugi .hero-say.srs-card.is-clear { border-left-color:#7FA36B; }
 html.ui-kintsugi .hero-say.is-clear .srs-card-ttl { background:linear-gradient(180deg,#E9F6DE,#9CC188 45%,#5C7A4C 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent; }
 html.ui-kintsugi .srs-card-hint { font-family:"Yu Mincho","Hiragino Mincho ProN",serif;color:#C3B183;letter-spacing:.05em; }
+.cel-nova-core {
+  position:fixed;z-index:61;pointer-events:none;border-radius:50%;
+  background:radial-gradient(circle,#FFFFFF 0%,rgba(255,248,225,.9) 18%,rgba(255,209,102,.55) 38%,rgba(138,43,226,.25) 60%,transparent 72%);
+  animation:celNovaCore .65s cubic-bezier(.1,.7,.3,1) forwards;
+}
+@keyframes celNovaCore { from{scale:.2;opacity:1;}to{scale:2.6;opacity:0;} }
 .lv-burst {
   position:absolute;left:0;right:0;bottom:0;height:6px;border-radius:3px;
   display:none;pointer-events:none;z-index:2;

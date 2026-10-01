@@ -3042,6 +3042,12 @@ html.ui-brass .srs-risk-bar .rb-due { background:linear-gradient(90deg,#33586B,#
 html.ui-brass .hero-say.srs-card.is-clear { border-left-color:#7FA850; }
 html.ui-brass .hero-say.is-clear .srs-card-ttl { background:linear-gradient(180deg,#F0FFE1,#C4E08A 40%,#7FA850 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent; }
 html.ui-brass .srs-card-hint { color:#C8B27A;font-family:"Georgia",serif; }
+.cel-nova-core {
+  position:fixed;z-index:61;pointer-events:none;border-radius:50%;
+  background:radial-gradient(circle,#FFFFFF 0%,rgba(255,248,225,.9) 18%,rgba(255,209,102,.55) 38%,rgba(138,43,226,.25) 60%,transparent 72%);
+  animation:celNovaCore .65s cubic-bezier(.1,.7,.3,1) forwards;
+}
+@keyframes celNovaCore { from{scale:.2;opacity:1;}to{scale:2.6;opacity:0;} }
 .lv-burst {
   position:absolute;left:0;right:0;bottom:0;height:6px;border-radius:3px;
   display:none;pointer-events:none;z-index:2;

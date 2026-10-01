@@ -2904,6 +2904,12 @@ html.ui-frost .gauge[data-frost-spin] .gauge-ring > svg:not(.liquid-membrane-tea
   .aurora-jewel-flare,
   .aurora-prism-jewel { animation: none !important; }
 }
+.cel-nova-core {
+  position:fixed;z-index:61;pointer-events:none;border-radius:50%;
+  background:radial-gradient(circle,#FFFFFF 0%,rgba(255,248,225,.9) 18%,rgba(255,209,102,.55) 38%,rgba(138,43,226,.25) 60%,transparent 72%);
+  animation:celNovaCore .65s cubic-bezier(.1,.7,.3,1) forwards;
+}
+@keyframes celNovaCore { from{scale:.2;opacity:1;}to{scale:2.6;opacity:0;} }
 html.ui-frost .hero-console { border-left:2px solid #A0E7E5;padding-left:14px; }
 html.ui-frost .hero-fig {
   padding:4px 18px 6px 14px;border-radius:8px;

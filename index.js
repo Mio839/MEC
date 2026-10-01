@@ -2325,6 +2325,38 @@ function _lvBurstFx(fx, p) {
   (LV_BURST_FX[theme] || LV_BURST_FX.aurora)(r.left + r.width * p, r.top + r.height / 2, r);
 }
 
+/* ══════════ Celestial の読み値の着地：超新星（2026-10-01 採用）══════════
+   _work/hub_land_demo.html の5案（星座・日食・超新星・天球儀の環・流星群）からユーザーが選んだもの。
+   ① 数字が白い光の一点まで縮む（.cel-nova-in・0.34秒）。周りの星屑が中心へ引き込まれる
+   ② 一拍おいて爆発：中心の白い閃光（.cel-nova-core）・星と宝石の破片・金と菫の衝撃波の輪・火花、
+      数字は勢いよく元の大きさへ戻って少し行き過ぎる（.cel-nova-out）
+   目標達成の日（g）は破片と輪が増える。
+   ⚠️ 拡大縮小は独立プロパティ scale で書く（.hero-num の animation＝目標達成の脈と取り合わない）。
+   ⚠️ 予定は _liqFxLater の1本に積む（Celestial・Frost の段の演出と同じ予定表）。
+   ⚠️ 画面全体を光らせない（旧 celestialAstrolabe は全画面の閃光を出していた）。 */
+const CEL_NOVA = { gold: '#FFD166', pale: '#FFF8E1', lilac: '#C084FC', cyan: '#48CAE4', white: '#FFFFFF' };
+function _celSupernovaLand(el, g) {
+  if (!el || !_fxOk()) return;
+  const c = _centerOf(el);
+  if (!c) return;
+  const C = CEL_NOVA, H = c.r.height;
+  el.classList.add('cel-nova-in');
+  MecFX.orbit(c.x, c.y, { count: 14, r: H * 1.3, spread: H * .3, dr: -H * 3.4, va: 3.5, ttl: .38, colors: [C.gold, C.white, C.lilac], shapes: ['circle'], size: 3 });
+  _liqFxLater(360, () => {
+    el.classList.remove('cel-nova-in');
+    _liqFxPulse(el, 'cel-nova-out', 760);
+    const core = document.createElement('div');
+    core.className = 'cel-nova-core';
+    core.style.cssText = 'left:' + (c.x - H) + 'px;top:' + (c.y - H) + 'px;width:' + (H * 2) + 'px;height:' + (H * 2) + 'px;';
+    document.body.appendChild(core);
+    _liqFxLater(700, () => core.remove());
+    MecFX.burst(c.x, c.y, { tier: 4, count: g ? 60 : 42, colors: [C.gold, C.pale, C.lilac, C.cyan, C.white], shapes: ['star', 'gem'], speed: g ? 620 : 500, upBias: 60, gravity: 260, glow: true });
+    MecFX.rings(c.x, c.y, { count: g ? 3 : 2, maxR: H * 2.6, color: 'rgba(255,209,102,.9)', thickness: 2.6, additive: true, stagger: .1 });
+    MecFX.rings(c.x, c.y, { count: 1, maxR: H * 3.4, color: 'rgba(138,43,226,.75)', thickness: 3.2, additive: true });
+    MecFX.sparks(c.x, c.y, { count: 30, colors: [C.white, C.gold, C.cyan] });
+  });
+}
+
 // 大きな読み値の着地。桁を span に組み直して順に立ち上げ、全8テーマ固有のシグネチャーFXを発生
 function _landHeroNumber(el) {
   if (!el || _reducedMotion()) return;
@@ -2392,14 +2424,6 @@ function _landHeroNumber(el) {
       shapes: ['star'],
       action: (x, y) => { if (window.MecFX && MecFX.kintsugiCrack) MecFX.kintsugiCrack(x, y); }
     },
-    celestial: {
-      color: '#FFD166',
-      ringColor: 'rgba(255,209,102,.85)',
-      glyphs: ['★', '⭐', '✦'],
-      burstColors: ['#FFD166', '#8A2BE2', '#48CAE4', '#FFFFFF'],
-      shapes: ['star', 'circle'],
-      action: (x, y) => { if (window.MecFX && MecFX.celestialAstrolabe) MecFX.celestialAstrolabe(x, y); }
-    },
     abyss: {
       color: '#00FFA3',
       ringColor: 'rgba(0,255,163,.85)',
@@ -2421,6 +2445,9 @@ function _landHeroNumber(el) {
       action: (x, y) => { if (window.MecFX && MecFX.frostCrystalShatter) MecFX.frostCrystalShatter(x, y); }
     }
   };
+
+  // Celestial は「超新星」（2026-10-01 採用）。数字そのものが光の一点へ縮み、爆発して戻る
+  if (theme === 'celestial') { _liqFxLater(d * 55 + 120, () => _celSupernovaLand(el, g)); return; }
 
   const cfg = THEME_LANDING_CONFIG[theme] || THEME_LANDING_CONFIG.aurora;
 
