@@ -176,7 +176,7 @@ function _srsSubjColor(sid) {
 }
 
 // プロトコル待機列の図（2026-10-01・デモ _work/protocol_feed_demo.html の E 案）:
-//   本日消化の大きいリング／今後14日の予定（今日と山の日に件数）／科目別の復習待ち（上位5科目の横棒）。
+//   本日消化の大きいリング／今後14日の予定（今日は数字の箱・明日以降は別の縮尺の棒）／科目別の復習待ち（上位5科目の横棒）。
 // ⚠️ 数字の正本はカード上段（本日消化・復習待ち）と同じ値を受け取って描くだけ＝ここで数え直さない。
 function _srsVizHtml(done, goal, fc, due) {
   const ringR = 40, ringC = 2 * Math.PI * ringR;
@@ -192,28 +192,32 @@ function _srsVizHtml(done, goal, fc, due) {
       '<span class="srs-viz-cap">本日消化' + (goal > 0 ? ' <b>' + Math.round(ratio * 100) + '%</b>' : '') + '</span>' +
     '</div>';
 
-  // 14日の予定。0日目は「期限切れ」（赤）を「今日が期限」（橙）の上に積む。件数は今日と山の日だけ
-  const top = Math.max(1, ...fc.days.map(d => d.n));
-  let peakI = 0;
-  for (let i = 1; i < fc.days.length; i++) if (fc.days[i].n > (peakI ? fc.days[peakI].n : 0)) peakI = i;
-  const cols = fc.days.map((d, i) => {
+  // 14日の予定（2026-10-01・デモ _work/forecast_demo.html の B 案「今日を切り離す」）。
+  // 今日（期限切れ込み）だけ飛び抜けて大きく、同じ縮尺だと明日以降の棒が潰れて読めなかった。
+  // そこで今日は左の数字の箱に切り出し、明日以降の13日は自分たちだけの縮尺で描く。
+  // ⚠️ 件数を全部の棒に載せない（13本だと3桁が重なる）。明日・一番多い日・一番少ない日だけ。
+  const today0 = fc.days[0] || { n: 0 };
+  const fut = fc.days.slice(1);
+  const top = Math.max(1, ...fut.map(d => d.n));
+  let mxI = 0, mnI = 0;
+  fut.forEach((d, i) => { if (d.n > fut[mxI].n) mxI = i; if (d.n < fut[mnI].n) mnI = i; });
+  const cols = fut.map((d, i) => {
     const h = d.n / top * 100;
-    const tip = (i === 0 ? '今日（期限切れ ' + _fmtN(fc.late) + '問を含む）' : d.date.slice(5).replace('-', '/')) + ': ' + _fmtN(d.n) + '問';
-    const num = (i === 0 || i === peakI) && d.n > 0 ? _fmtN(d.n) : '';
-    const late = i === 0 && fc.late > 0 ? '<span class="fb-late" style="height:' + (fc.late / Math.max(1, d.n) * 100).toFixed(1) + '%"></span>' : '';
-    const lbl = i === 0 ? '今日' : (i % 2 === 0 ? String(Number(d.date.slice(8, 10))) : '');
-    return '<div class="fb-col" title="' + tip + '"><span class="fb-n' + (i === 0 ? ' is-today' : '') + '">' + num + '</span>' +
-      '<div class="fb-slot"><span class="fb-bar' + (i === 0 ? ' is-today' : '') + '" style="height:' + h.toFixed(1) + '%">' + late + '</span></div>' +
-      '<span class="fb-lbl' + (i === 0 ? ' is-today' : '') + '">' + lbl + '</span></div>';
+    const md = d.date.slice(5).replace('-', '/');
+    const num = (i === 0 || i === mxI || i === mnI) ? _fmtN(d.n) : '';
+    return '<div class="fb-col" title="' + md + ': ' + _fmtN(d.n) + '問"><span class="fb-n">' + num + '</span>' +
+      '<div class="fb-slot"><span class="fb-bar' + (i === mxI && d.n > 0 ? ' is-peak' : '') + '" style="height:' + h.toFixed(1) + '%"></span></div>' +
+      '<span class="fb-lbl">' + (i % 2 === 0 ? String(Number(d.date.slice(8, 10))) : '') + '</span></div>';
   }).join('');
+  const todayBox =
+    '<div class="fb-today' + (today0.n === 0 ? ' is-clear' : '') + '" title="今日が期限（期限切れ ' + _fmtN(fc.late) + '問を含む）">' +
+      '<span class="fbt-l">今日</span><b>' + _fmtN(today0.n) + '</b>' +
+      (fc.late > 0 ? '<small>期限切れ ' + _fmtN(fc.late) + '</small>' : '<small>' + (today0.n ? '問' : 'なし') + '</small>') +
+    '</div>';
   const forecast =
     '<div class="srs-viz-fc srs-viz-pane">' +
-      '<div class="srs-viz-hd"><span class="srs-viz-t">今後14日の予定</span>' +
-        (fc.late > 0 ? '<span class="srs-viz-note"><i class="sv-dot is-late"></i>期限切れ <b>' + _fmtN(fc.late) + '</b></span>' : '') +
-      '</div>' +
-      '<div class="fb-chart">' +
-        cols +
-      '</div>' +
+      '<div class="srs-viz-hd"><span class="srs-viz-t">今後14日の予定</span></div>' +
+      '<div class="fb-wrap">' + todayBox + '<div class="fb-chart">' + cols + '</div></div>' +
     '</div>';
 
   // 科目別の復習待ち（復習待ちがある日だけ）。上位5科目を横棒で、残りは「ほかN科目」にまとめる
