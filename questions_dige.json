@@ -11370,27 +11370,27 @@
       }
      ],
      "ans_label": "ｄ　食道アカラシア",
-     "ans_sub": "長期の嚥下困難（固体・液体とも）、食後嘔吐、食道拡張→下部食道括約筋弛緩不全のアカラシアが最有力。",
+     "ans_sub": "上部消化管造影では、食道全体が太く拡張してバリウムがたまり、下端（食道胃接合部）がなめらかに細くなって<b>鳥のくちばし</b>のような形になっている。粘膜の不整や途切れはない。15年前からのつかえ感、最近の食後の嘔吐——<b>食道アカラシア</b>。食道癌は不整な狭窄と粘膜の破壊、食道憩室は壁から外へ袋状に突出するバリウム、食道静脈瘤は数珠状・蛇行する透亮像、食道裂孔ヘルニアは横隔膜より上に胃が見える。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🫁 食道アカラシアの診断",
-       "c": "<span class=\"kw\">食道アカラシアの特徴</span>：<br>・<span class=\"kw\">下部食道括約筋（LES）の弛緩不全</span>＋食道蠕動の消失<br/>・嚥下困難（固体＝液体：両方とも困難）<br/>・嘔吐（食道に溜まった内容物）<br/>・食道の拡張（バリウム：bird beak像）<br/>・白色分泌物：食道内貯留物<br/><br/><span class=\"kw\">診断</span>：食道造影（bird beak像）＋食道内圧検査（LES弛緩不全）<br/><br/><span class=\"kw4\">鑑別</span>：<br/>✗ 食道癌：進行が速い・内視鏡で粘膜異常<br/>✗ 食道裂孔ヘルニア：胸やけ・逆流症状が主体</br>"
+       "h": "🌿 アカラシアの診断の決め手——内圧検査と、癌の否定",
+       "c": "<span class=\"kw3\"><b>アカラシアの症状・検査・治療のあらましは Q.157 で見た</b></span>。<span class=\"kw4\"><b>ここでは、診断をどう確定し、何と間違えてはいけないかを考える</b></span>。<br/><span class=\"kw\"><b>① 高解像度食道内圧検査（HRM）</b></span><br/><span class=\"kw4\"><b>飲み込んでも下部食道括約筋の圧が下がらない（統合弛緩圧の上昇）＋食道の正常な蠕動がない</b></span><br/><span class=\"kw\"><b>② シカゴ分類の3つの型</b></span><br/><span class=\"kw3\"><b>Ⅰ型（古典型）：食道の収縮がほとんどない</b></span><br/><span class=\"kw3\"><b>Ⅱ型：食道全体が一緒に圧が上がる——治療の効果が最も良い</b></span><br/><span class=\"kw3\"><b>Ⅲ型（痙攣型）：食道の下部が強く痙攣する——胸痛が強い。POEM で長く筋層を切る</b></span><br/><span class=\"kw\"><b>③ 偽性アカラシア（二次性）</b></span><br/><span class=\"kw4\"><b>噴門部の癌（胃癌・食道癌）が下部食道を締めつけ、アカラシアそっくりの像になる</b></span><br/><span class=\"kw3\"><b>疑う手がかり：60歳以上、症状が出てから短い（1年以内）、体重減少が大きい</b></span><br/><span class=\"kw3\"><b>内視鏡で噴門部をよく見る（反転観察）、超音波内視鏡・CT で壁の厚みを確かめる</b></span><br/><span class=\"kw\"><b>④ 本例</b></span><br/><span class=\"kw3\"><b>15年来の症状——アカラシアらしい。ただし77歳で最近悪くなっており、内視鏡で噴門部の癌と、長年の貯留による食道癌を否定する</b></span><br/><span class=\"kw3\"><b>BUN 30/Cr 1.1、Hb 10.7、アルブミン 3.3——嘔吐による脱水と栄養不良</b></span>"
       },
       {
        "cls": "ee",
-       "h": "□ アカラシアvs食道癌の鑑別",
-       "c": "<table class=\"tb\"><tr><th>特徴</th><th>アカラシア</th><th>食道癌</th></tr><tr><td>特徴</td><td><span class=\"kw\">アカラシア</span></td><td><span class=\"kw4\">食道癌</span></td></tr><tr><td>発症</td><td>緩徐（15年以上）</td><td>急速（2〜3か月）</td></tr><tr><td>嚥下困難</td><td>固体≦液体（両方困難）</td><td>固体＞液体（固体先に困難）</td></tr><tr><td>体重減少</td><td>少ない（初期）</td><td>著明</td></tr><tr><td>内視鏡</td><td>粘膜正常・食道拡張</td><td>粘膜異常・狭窄</td></tr></table>"
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　食道癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>不整な狭窄、粘膜の破壊、急に途切れる像——本例は下端がなめらかに細くなる</b></span>。</td></tr><tr><td>ｂ　食道憩室</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道の壁から外へ袋状にバリウムがたまる</b></span>。</td></tr><tr><td>ｃ　食道静脈瘤</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道の内側に数珠状・蛇行する透亮像</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　食道アカラシア</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>食道の拡張と、下端の鳥のくちばし状のなめらかな狭窄</b></span>。</td></tr><tr><td>ｅ　食道裂孔ヘルニア</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>横隔膜の上に胃のひだが見える</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 アカラシアの形と広がり——日本の分類",
+       "c": "<span class=\"kw4\"><b>日本の取扱い規約では、食道の「形」と「太さ」で進み具合を表す</b></span>。<br/><span class=\"kw\"><b>① 拡張型（形）</b></span><br/><span class=\"kw3\"><b>直線型（St）：食道がまっすぐ拡張している</b></span><br/><span class=\"kw3\"><b>シグモイド型（Sg）：拡張した食道が S 状に曲がる</b></span><br/><span class=\"kw3\"><b>進行シグモイド型（advanced Sg）：曲がりが強く、横隔膜の上で折れ曲がる</b></span><br/><span class=\"kw\"><b>② 拡張度（太さ：最も太いところの横径）</b></span><br/><span class=\"kw3\"><b>Ⅰ度：3.5cm 未満、Ⅱ度：3.5cm 以上6cm 未満、Ⅲ度：6cm 以上</b></span><br/><span class=\"kw\"><b>③ 本例</b></span><br/><span class=\"kw3\"><b>直線型で、大きく拡張している</b></span><br/><span class=\"kw\"><b>④ 進み具合と治療</b></span><br/><span class=\"kw4\"><b>シグモイド型・高度の拡張でも POEM が行える——曲がりが強く食物がたまるなら手術（食道切除）も考える</b></span><br/><span class=\"kw3\"><b>バルーン拡張は若い人では再発しやすい</b></span><br/><span class=\"kw3\"><b>治療後の逆流性食道炎（特に POEM 後）——PPI</b></span><br/><span class=\"kw\"><b>⑤ 長期の経過</b></span><br/><span class=\"kw3\"><b>食物の停滞で粘膜が荒れ、食道扁平上皮癌が多い——治療後も定期的な内視鏡</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">アカラシア = LES弛緩不全 → bird beak像 → 長年の嚥下困難（固体≦液体）</span><br/>内圧検査（マノメトリー）が確定診断。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "食道造影で先細り（鳥のくちばし様）狭窄。<br/><b>a 食道癌／b 食道憩室／c 食道静脈瘤／e 食道裂孔ヘルニア</b>：所見が合わない。<br/><b>d 食道アカラシア</b>：<span class=\"kw\">LES弛緩不全で下部食道が鳥のくちばし状に狭窄</span>。✓"
+       "c": "<span class=\"kw4\"><b>食道造影：食道の拡張＋下端の鳥のくちばし状のなめらかな狭窄 → 食道アカラシア</b></span>。<br/><span class=\"kw4\"><b>確定は高解像度食道内圧検査（下部食道括約筋の弛緩不全＋蠕動消失）。シカゴ分類Ⅰ〜Ⅲ型</b></span>。<br/><span class=\"kw4\"><b>偽性アカラシア（噴門部癌）：高齢・短い経過・体重減少——内視鏡で噴門部を反転観察</b></span>。<br/><span class=\"kw3\"><b>日本の分類：直線型・シグモイド型、拡張度Ⅰ〜Ⅲ度</b></span>。<br/><span class=\"kw3\"><b>長期の貯留で食道癌——定期的な内視鏡</b></span>。"
       }
      ],
      "imgs": [
@@ -11438,22 +11438,27 @@
       }
      ],
      "ans_label": "ｄ　④",
-     "ans_sub": "食道扁平上皮癌の最大リスク因子は飲酒と喫煙。④は飲酒または喫煙に該当するリスク因子。",
+     "ans_sub": "胸部中部食道の扁平上皮癌。手術で治せるかは、癌が切り取れる範囲にとどまっているか（遠隔転移がないか、切れない臓器に浸潤していないか）で決まる。<b>④右肺上葉の転移</b>は遠隔転移（M1）で、手術では取りきれない——手術適応とならない理由。①胃切除の既往は再建の方法（結腸・空腸を使う）に影響するが手術はできる。②SCC の高値は腫瘍マーカーで病期を決めない。③大動脈に接しているが浸潤していない——T4b ではない。⑤所属リンパ節の転移は、多くても手術（＋術前の化学療法）の対象になる。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🚬 食道癌（扁平上皮癌）のリスク因子",
-       "c": "<span class=\"kw\">日本の食道癌の90%は扁平上皮癌</span>：<br>主要リスク因子：<br>① <span class=\"kw\">飲酒</span>（最大リスク）：アルコール代謝産物アセトアルデヒドが発癌に関与<br/>② <span class=\"kw\">喫煙</span>：飲酒と相加的（重喫煙＋重飲酒→リスク数百倍）<br/>③ 熱い食べ物・飲み物（粘膜熱傷）<br/>④ ビタミンA・C・E欠乏<br/><br/><span class=\"kw\">腺癌のリスク</span>：Barrett食道→逆流性食道炎→腺癌（欧米に多い）<br/><br/><span class=\"kw\">④が正答</span>：飲酒または喫煙が最重要リスクとして該当</br></br>"
+       "h": "🌿 食道癌の治療は病期で決まる——手術の「壁」はどこか",
+       "c": "<span class=\"kw4\"><b>食道癌の治療は、深さ（T）・リンパ節（N）・遠隔転移（M）で決まる病期と、体の状態で選ぶ</b></span>。<br/><span class=\"kw\"><b>① 粘膜にとどまる癌（cStage 0・一部の Ⅰ）</b></span><br/><span class=\"kw3\"><b>内視鏡治療（ESD）——粘膜上皮・粘膜固有層まで</b></span><br/><span class=\"kw\"><b>② 切除できる癌（cStage Ⅰ〜Ⅲ）</b></span><br/><span class=\"kw4\"><b>術前化学療法（3剤：ドセタキセル・シスプラチン・5-FU など）→ 食道切除＋リンパ節郭清</b></span><br/><span class=\"kw3\"><b>手術に耐えられない・希望しない人は根治的化学放射線療法</b></span><br/><span class=\"kw\"><b>③ 手術で取りきれない癌</b></span><br/><span class=\"kw4\"><b>T4b：大動脈・気管・気管支・椎体など切除できない臓器への浸潤（cStage ⅣA）——化学放射線療法</b></span><br/><span class=\"kw4\"><b>遠隔転移（M1：肺・肝・骨・遠くのリンパ節）（cStage ⅣB）——化学療法（免疫チェックポイント阻害薬を含む）、症状を和らげる放射線</b></span><br/><span class=\"kw\"><b>④ 本例</b></span><br/><span class=\"kw3\"><b>④の肺転移で M1——切除の対象外。化学放射線療法を選んだ</b></span><br/><span class=\"kw3\"><b>日常生活に制限がなく（PS 良好）、強い治療に耐えられる</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　①</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>胃切除の後は胃で再建できないので、結腸・空腸を使って再建する——手術の妨げにはならない</b></span>。</td></tr><tr><td>ｂ　②</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>SCC は扁平上皮癌の腫瘍マーカー——病期や手術の可否は決めず、治療の効果判定・再発の目安に使う</b></span>。</td></tr><tr><td>ｃ　③</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>大動脈に接していても浸潤がなければ T4b ではない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｄ　④</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>肺への遠隔転移（M1）——手術で取りきれない</b></span>。</td></tr><tr><td>ｅ　⑤</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>所属リンパ節の転移（N）は、数が多くても手術（＋術前化学療法）の対象</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 食道癌が広がりやすい理由——漿膜がなく、リンパ管が豊か",
+       "c": "<span class=\"kw4\"><b>食道は胃・腸と違って漿膜がなく、粘膜下層のリンパ管が縦に長くつながっている——早くから周りの臓器と遠くのリンパ節へ広がる</b></span>。<br/><span class=\"kw\"><b>① 周りの臓器への浸潤</b></span><br/><span class=\"kw3\"><b>気管・気管支：咳、気管食道瘻（飲むとむせる、肺炎）</b></span><br/><span class=\"kw3\"><b>反回神経：声がれ（左の反回神経は大動脈弓を回るので、胸部の癌で麻痺しやすい）</b></span><br/><span class=\"kw3\"><b>大動脈：大出血</b></span><br/><span class=\"kw\"><b>② リンパ節転移</b></span><br/><span class=\"kw4\"><b>頸部・胸部・腹部の3か所に飛ぶ——手術では3領域のリンパ節を郭清することがある</b></span><br/><span class=\"kw3\"><b>粘膜下層に入ると、それだけでリンパ節転移が多くなる</b></span><br/><span class=\"kw\"><b>③ 多発・重複</b></span><br/><span class=\"kw3\"><b>食道の中に離れて多発する、頭頸部癌・胃癌と重複する（Q.149）——ヨード染色で探す</b></span><br/><span class=\"kw\"><b>④ 本例の危険因子</b></span><br/><span class=\"kw3\"><b>喫煙50年・焼酎2合を40年——扁平上皮癌の典型的な背景</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">食道扁平上皮癌リスク：飲酒＞喫煙（相乗的）</span><br/>食道腺癌（Barrett食道関連）：逆流性食道炎・肥満が主リスク。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "食道癌で手術適応とならなかった理由（下線）。<br/><b>a ①〜c ③、e ⑤</b>：手術適応を否定する所見でない。<br/><b>d ④</b>：<span class=\"kw\">遠隔転移/重要臓器浸潤など根治切除不能を示す所見</span>。✓"
+       "c": "<span class=\"kw4\"><b>食道癌の手術の対象外：遠隔転移（M1）、切除できない臓器への浸潤（T4b：大動脈・気管・椎体）</b></span>。<br/><span class=\"kw3\"><b>切除できる cStage Ⅱ・Ⅲ：術前化学療法 → 手術。耐えられなければ化学放射線療法</b></span>。<br/><span class=\"kw3\"><b>粘膜にとどまる癌は ESD</b></span>。<br/><span class=\"kw3\"><b>腫瘍マーカーは病期を決めない。胃切除後は結腸・空腸で再建</b></span>。<br/><span class=\"kw3\"><b>漿膜がなく早くから浸潤・3領域のリンパ節転移。左反回神経麻痺で声がれ</b></span>。"
       }
      ],
      "imgs": []
@@ -11499,22 +11504,27 @@
       }
      ],
      "ans_label": "ｂ　食道ステント留置術",
-     "ans_sub": "手術不能進行食道癌による嚥下困難には、緩和的ステント留置で食道開存を保ち経口摂取を維持する。",
+     "ans_sub": "87歳、喫煙・飲酒歴の長い胸部中部食道癌で、内視鏡も通らない高度の狭窄があり、食べられず体重が減っている。高齢で根治の治療が難しく、まず口から食べられるようにするには、狭窄部に金属の網の筒を広げて内腔を保つ<b>食道ステント留置術</b>。口腔ケア・嚥下リハビリテーションは癌の狭窄を広げない。内視鏡的筋層切開術はアカラシアの治療。胃瘻は栄養の入り口にはなるが、口から食べられるようにはならない（内視鏡が通らないと通常の方法では造れない）。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔧 進行食道癌の緩和治療",
-       "c": "<span class=\"kw\">b食道ステント留置（正答）</span>：<br>・腫瘍による食道閉塞→金属ステント（SEMS）を留置して内腔を確保<br>・経口摂取が可能になる→QOL向上<br/>・緩和的目的（根治ではない）<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ a口腔ケア：術前・術後感染予防（今回は緩和目的）<br/>✗ c内視鏡的筋層切開術（POEM）：アカラシアの治療（癌には不適）<br/>✗ d嚥下リハビリ：機能的嚥下障害に有効（腫瘍性閉塞には効果なし）<br/>✗ ePEG（胃瘻造設）：栄養ルートとしては有効だが、食道の開存を保てない</br></br>"
+       "h": "🌿 食べられない進行食道癌——どの手段で「食べる」を取り戻すか",
+       "c": "<span class=\"kw4\"><b>進行食道癌で食べられないとき、残された時間・体の状態・治療の予定で、食道の通りを良くする方法を選ぶ</b></span>。<br/><span class=\"kw\"><b>① 食道ステント（自己拡張型金属ステント）</b></span><br/><span class=\"kw4\"><b>数日のうちに食べられるようになる——高齢・体力が落ちている・残された時間が短い人に向く</b></span><br/><span class=\"kw3\"><b>気管食道瘻があれば、膜で覆ったステントで瘻孔もふさげる</b></span><br/><span class=\"kw3\"><b>合併症：胸痛、ステントのずれ・脱落、食物の詰まり、腫瘍が網の目から入り込む（再狭窄）、出血・穿孔</b></span><br/><span class=\"kw3\"><b>食道の入口に近い（頸部）癌では、違和感が強く使いにくい</b></span><br/><span class=\"kw\"><b>② 化学放射線療法</b></span><br/><span class=\"kw3\"><b>腫瘍を小さくして通りを良くする——効果が出るまで数週かかる</b></span><br/><span class=\"kw4\"><b>放射線治療の前後にステントを入れると、穿孔・瘻孔の危険が高い——順番に注意</b></span><br/><span class=\"kw\"><b>③ 栄養の入り口を別に作る</b></span><br/><span class=\"kw3\"><b>胃瘻（内視鏡が通らなければ、透視下・外科的に造る）、経鼻胃管、腸瘻</b></span><br/><span class=\"kw\"><b>④ 本例</b></span><br/><span class=\"kw3\"><b>口から食べたい・すぐに食べられるようにしたい——ステント</b></span><br/><span class=\"kw3\"><b>あわせて、本人・家族と今後の治療の希望を話し合う</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　口腔ケア</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>誤嚥性肺炎を防ぐために大切だが、狭窄は広がらない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｂ　食道ステント留置術</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>狭窄部を内側から広げ、口から食べられるようにする</b></span>。</td></tr><tr><td>ｃ　内視鏡的筋層切開術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>アカラシアの治療（POEM）</b></span>。</td></tr><tr><td>ｄ　嚥下リハビリテーション</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>飲み込む機能の障害に対する訓練——癌の機械的な狭窄には効かない</b></span>。</td></tr><tr><td>ｅ　経皮内視鏡的胃瘻造設術</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>栄養の入り口にはなるが、口から食べられるようにはならない</b></span>。<span class=\"kw3\"><b>内視鏡が狭窄を通らないと、通常の方法では造れない</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 胃瘻〈PEG〉——向く人、向かない人",
+       "c": "<span class=\"kw4\"><b>胃瘻は、口から十分に食べられないが、腸は使える人の長期の栄養の入り口</b></span>。<br/><span class=\"kw\"><b>① 向く人</b></span><br/><span class=\"kw3\"><b>脳卒中・神経難病などで飲み込めないが、4週以上の経腸栄養が必要と見込まれる人</b></span><br/><span class=\"kw3\"><b>頭頸部癌・食道癌の治療中の栄養（狭窄が軽く内視鏡が通る時期に造る）</b></span><br/><span class=\"kw3\"><b>腸閉塞の減圧（減圧用の胃瘻）</b></span><br/><span class=\"kw\"><b>② 造れない・難しい人</b></span><br/><span class=\"kw4\"><b>内視鏡が咽頭・食道を通らない（本例）——透視下・外科的に造る、経皮経食道胃管挿入術〈PTEG〉</b></span><br/><span class=\"kw3\"><b>胃の前に肝・大腸がある、胃切除後、大量の腹水、出血傾向</b></span><br/><span class=\"kw\"><b>③ 合併症</b></span><br/><span class=\"kw3\"><b>創の感染、瘻孔からの漏れ、誤嚥性肺炎（胃瘻でも逆流で起こる）、チューブの事故抜去</b></span><br/><span class=\"kw3\"><b>胃壁と腹壁がくっつく前（2週以内）に抜けると腹膜炎</b></span><br/><span class=\"kw\"><b>④ 決めるとき</b></span><br/><span class=\"kw4\"><b>延命の意味をもつ処置——本人の意思・価値観、回復の見込みを話し合って決める（意思決定支援）</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">手術不能食道癌+嚥下困難 → 緩和的食道ステント留置</span><br/>ステント合併症：ステント移動・腫瘍内増殖（ingrowth）・出血。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "内視鏡が通過できない食道狭窄で経口摂取を可能にする対応。<br/><b>a 口腔ケア／c 筋層切開（アカラシア向け）／d 嚥下リハ／e 胃瘻造設（経口でない）</b>：本目的でない。<br/><b>b 食道ステント留置術</b>：<span class=\"kw\">狭窄部を拡張し経口摂取を可能にする</span>。✓"
+       "c": "<span class=\"kw4\"><b>進行食道癌で食べられない → 食道ステント（数日で経口摂取が可能に）</b></span>。<br/><span class=\"kw3\"><b>気管食道瘻には膜で覆ったステント</b></span>。<br/><span class=\"kw3\"><b>放射線治療の前後のステントは穿孔・瘻孔の危険</b></span>。<br/><span class=\"kw3\"><b>POEM はアカラシア、嚥下リハビリは機能的な嚥下障害</b></span>。<br/><span class=\"kw4\"><b>内視鏡が通らなければ PEG は造れない——透視下・外科的・PTEG</b></span>。"
       }
      ],
      "imgs": []
@@ -11564,22 +11574,27 @@
       }
      ],
      "ans_label": "ｅ　食道裂孔ヘルニア",
-     "ans_sub": "逆流性食道炎の既往＋高齢女性＋下部食道のniche像→食道裂孔ヘルニア（胃が横隔膜を超えて胸腔へ）。",
+     "ans_sub": "CT の水平断（A）では、心臓のすぐ後ろ（下行大動脈の横）に、空気を含んだ大きな構造が横に広がっている。冠状断（B）では、横隔膜より上の胸腔の中に、ひだと空気を含む<b>胃</b>が大きく入り込んでいる——<b>食道裂孔ヘルニア</b>（胃の大部分が胸腔へ脱出した大きなもの）。逆流性食道炎の既往、肥満、高齢の女性、つかえ感、左下前胸部の呼吸音の減弱（胃が肺を圧迫）と合う。食道癌は食道の壁の厚み、食道憩室は小さな袋、中縦隔腫瘍は充実性の腫瘤、アカラシアは拡張した食道で、胃が胸腔へ上がる像ではない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🕳️ 食道裂孔ヘルニア",
-       "c": "<span class=\"kw\">食道裂孔ヘルニア（Hiatal hernia）</span>：<br>胃の一部が食道裂孔を通じて胸腔内に脱出<br><br/><span class=\"kw\">種類</span>：<br/>① <span class=\"kw\">滑脱型（Sliding type）：最多（95%）</span>。GEJ（食道胃接合部）が胸腔内へ→逆流しやすい<br/>② 傍食道型（Paraesophageal type）：胃底部が脱出。GEJは正常位置<br/><br/><span class=\"kw\">症状</span>：胸やけ（GERD）・嚥下障害・前胸部痛<br/><span class=\"kw\">治療</span>：生活習慣改善＋PPI。症状強い場合は手術（腹腔鏡下Nissen手術）</br></br>"
+       "h": "🌿 食道裂孔ヘルニアの4つの型——大きくなると「上下逆さまの胃」",
+       "c": "<span class=\"kw4\"><b>食道裂孔ヘルニアは、どこが胸腔へ上がるかで4つに分ける</b></span>。<br/><span class=\"kw\"><b>① Ⅰ型：滑脱型（最も多い）</b></span><br/><span class=\"kw3\"><b>食道胃接合部ごと胃の上部が胸腔へずれる</b></span><br/><span class=\"kw3\"><b>逆流しやすく、逆流性食道炎の原因になる</b></span><br/><span class=\"kw\"><b>② Ⅱ型：傍食道型</b></span><br/><span class=\"kw3\"><b>食道胃接合部は正しい位置のまま、胃底部が食道の横から胸腔へ脱出する</b></span><br/><span class=\"kw\"><b>③ Ⅲ型：混合型</b></span><br/><span class=\"kw3\"><b>Ⅰ型とⅡ型の両方——高齢者の大きなヘルニアの多く</b></span><br/><span class=\"kw\"><b>④ Ⅳ型</b></span><br/><span class=\"kw3\"><b>胃に加え、大腸・小腸・大網・脾なども胸腔へ入る</b></span><br/><span class=\"kw\"><b>⑤ 大きなヘルニア（Ⅱ〜Ⅳ型）の危険</b></span><br/><span class=\"kw4\"><b>胃の軸捻転・嵌頓・絞扼（壊死・穿孔）——症状がなくても手術を考える</b></span><br/><span class=\"kw3\"><b>胃が胸腔で上下逆さまになる（upside-down stomach）</b></span><br/><span class=\"kw3\"><b>食後の胸部の膨満・つかえ感、息切れ（肺の圧迫）、貧血</b></span><br/><span class=\"kw\"><b>⑥ 治療</b></span><br/><span class=\"kw3\"><b>腹腔鏡下にヘルニアを腹腔へ戻し、裂孔を縫い縮め、噴門形成術を加える</b></span><br/><span class=\"kw3\"><b>高齢・軽症なら PPI と生活の工夫で経過観察</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　食道癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道の壁の不整な肥厚が所見——胃が胸腔に入る像ではない</b></span>。<span class=\"kw3\"><b>喫煙・飲酒歴もない</b></span>。</td></tr><tr><td>ｂ　食道憩室</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道の壁から出る小さな袋——胃のひだはない</b></span>。</td></tr><tr><td>ｃ　中縦隔腫瘍</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>充実性・嚢胞性の腫瘤——空気とひだを含む胃の像ではない</b></span>。</td></tr><tr><td>ｄ　食道アカラシア</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>拡張した食道に食物がたまる像——横隔膜の上に胃はない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　食道裂孔ヘルニア</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>横隔膜より上に胃が大きく脱出している</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 Cameron 潰瘍と胃軸捻転——大きなヘルニアの見落とされやすい合併症",
+       "c": "<span class=\"kw4\"><b>大きな食道裂孔ヘルニアは、逆流だけでなく、貧血や急性腹症の原因にもなる</b></span>。<br/><span class=\"kw\"><b>① Cameron 潰瘍（Cameron 病変）</b></span><br/><span class=\"kw3\"><b>ヘルニアの胃が横隔膜の裂孔で締めつけられる部分に、線状のびらん・潰瘍ができる</b></span><br/><span class=\"kw3\"><b>呼吸で横隔膜が動くたびにこすれ、虚血になる</b></span><br/><span class=\"kw4\"><b>慢性の出血で鉄欠乏性貧血——原因不明の貧血の高齢者で見落とされやすい</b></span><br/><span class=\"kw3\"><b>内視鏡では、裂孔の位置の小さな病変を意識して探す</b></span><br/><span class=\"kw\"><b>② 胃軸捻転</b></span><br/><span class=\"kw3\"><b>胃がねじれて、出入口が閉じる</b></span><br/><span class=\"kw4\"><b>Borchardt の三徴：吐こうとしても吐けない・激しい上腹部〜胸部の痛み・胃管が入らない</b></span><br/><span class=\"kw3\"><b>放置すると胃の壊死・穿孔——緊急で減圧・手術</b></span><br/><span class=\"kw\"><b>③ 本例の注意</b></span><br/><span class=\"kw3\"><b>つかえ感と胸部の呼吸音の減弱——ヘルニアが大きい</b></span><br/><span class=\"kw3\"><b>急な痛み・嘔吐できない状態になれば、すぐ受診するよう説明する</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">食道裂孔ヘルニア = 食道裂孔から胃が胸腔へ脱出 → GERD症状</span><br/>高齢・肥満・妊娠・慢性咳嗽で横隔膜が弱くなり発症しやすい。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "胸腹部CTで胃が縦隔内へ脱出。<br/><b>a 食道癌／b 食道憩室／c 中縦隔腫瘍／d 食道アカラシア</b>：合わない。<br/><b>e 食道裂孔ヘルニア</b>：<span class=\"kw\">横隔膜食道裂孔から胃が胸腔へ脱出</span>。✓"
+       "c": "<span class=\"kw4\"><b>CT で横隔膜より上に胃 → 食道裂孔ヘルニア。高齢女性・肥満・逆流性食道炎の既往</b></span>。<br/><span class=\"kw3\"><b>Ⅰ型（滑脱型）が最多。Ⅱ型（傍食道型）・Ⅲ型（混合型）・Ⅳ型（他臓器も）</b></span>。<br/><span class=\"kw4\"><b>大きなヘルニアは軸捻転・嵌頓の危険——手術を考える</b></span>。<br/><span class=\"kw3\"><b>Cameron 潰瘍：裂孔での締めつけによる潰瘍で鉄欠乏性貧血</b></span>。<br/><span class=\"kw3\"><b>胃軸捻転：吐けない嘔吐・激痛・胃管が入らない（Borchardt の三徴）</b></span>。"
       }
      ],
      "imgs": [
@@ -11636,22 +11651,27 @@
       }
      ],
      "ans_label": "ａ　食道に胃から連続した円柱上皮がみられる。\nｃ　胃酸が食道へ逆流しやすい。\nｅ　肥満が関与している。",
-     "ans_sub": "Barrett食道はGERDによる食道下部の扁平→円柱上皮化生。肥満・逆流が原因。腺癌リスク上昇。",
+     "ans_sub": "内視鏡像の上段では、食道胃接合部から食道の上へ向かって、白っぽい扁平上皮の中に<b>オレンジ〜サーモンピンク色の円柱上皮</b>が舌状・島状に伸びている——<b>Barrett 食道</b>。下段では、食道胃接合部に赤く不整に盛り上がる腫瘍があり、生検で腺癌——Barrett 食道から生じた<b>Barrett 腺癌</b>。背景は長年の胸やけ（胃酸の逆流）と<b>肥満</b>（BMI 27）。下部食道括約筋が弛緩しにくいのはアカラシアで、逆に逆流しにくい。遺伝性疾患ではない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔥 Barrett食道の病態",
-       "c": "<span class=\"kw\">a正：食道に胃から連続した円柱上皮</span>：<br>Barrett食道=正常扁平上皮が逆流による刺激で<span class=\"kw\">円柱上皮（腸型上皮化生）</span>に置き換わる<br>→ 食道腺癌（adenocarcinoma）のリスク（正常の30〜125倍）<br/><br/><span class=\"kw\">c正：胃酸が食道へ逆流しやすい</span>：<br/>GERDが原因→LES（下部食道括約筋）機能低下→酸逆流→粘膜化生<br/><br/><span class=\"kw\">e正：肥満が関与</span>：<br/>腹圧↑→胃内圧↑→逆流↑→Barrett食道リスク<br/><br/><span class=\"kw4\">誤りの選択肢</span>：<br/>✗ bLESが弛緩しにくい：アカラシアの特徴（GERDはLES弛緩し過ぎ）<br/>✗ d遺伝性疾患：一般的には遺伝性ではない</br></br>"
+       "h": "🌿 Barrett 食道——逆流が上皮を置き換える",
+       "c": "<span class=\"kw4\"><b>胃酸・胆汁の逆流に長くさらされると、食道下部の扁平上皮が、胃から続く円柱上皮に置き換わる（化生）——それが Barrett 食道</b></span>。<br/><span class=\"kw\"><b>① 定義（日本）</b></span><br/><span class=\"kw3\"><b>胃から連続して食道へ伸びる円柱上皮。生検の腸上皮化生は必須としない</b></span><br/><span class=\"kw3\"><b>3cm 以上が全周にある：LSBE（長い Barrett 食道）——癌の危険が高い</b></span><br/><span class=\"kw3\"><b>3cm 未満、または全周でない：SSBE——日本ではこちらが大部分</b></span><br/><span class=\"kw\"><b>② 境目の決め方</b></span><br/><span class=\"kw4\"><b>食道胃接合部は、食道下部の柵状血管の下端（見えなければ胃のひだの上端）</b></span><br/><span class=\"kw3\"><b>そこより口側にある円柱上皮が Barrett 粘膜</b></span><br/><span class=\"kw\"><b>③ 危険因子</b></span><br/><span class=\"kw3\"><b>長い GERD、食道裂孔ヘルニア、肥満（特に内臓脂肪）、男性、白人、喫煙</b></span><br/><span class=\"kw\"><b>④ 癌への道</b></span><br/><span class=\"kw3\"><b>Barrett 粘膜 → 異形成 → 腺癌</b></span><br/><span class=\"kw3\"><b>LSBE は定期的な内視鏡、SSBE も接合部の右前壁（0〜3時方向）に癌ができやすいので丁寧に見る</b></span><br/><span class=\"kw\"><b>⑤ 治療</b></span><br/><span class=\"kw3\"><b>PPI で逆流を抑える。粘膜にとどまる癌・高度の異形成は ESD</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td><span class=\"kw3\">◯ ａ　食道に胃から連続した円柱上皮がみられる。</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>Barrett 食道の定義そのもの</b></span>。</td></tr><tr><td>ｂ　下部食道括約筋が弛緩しにくい。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>アカラシアの病態——逆流はむしろ起こりにくい</b></span>。<span class=\"kw3\"><b>本例は逆に括約筋が緩みやすく逆流する</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　胃酸が食道へ逆流しやすい。</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>長年の胸やけ——Barrett 食道の原因</b></span>。</td></tr><tr><td>ｄ　遺伝性疾患と考えられる。</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>逆流と肥満による後天的な変化</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｅ　肥満が関与している。</span></td><td><span class=\"kw3\">正しい</span>。<span class=\"kw3\"><b>腹圧が上がり逆流が増える。内臓脂肪そのものも危険因子</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 食道胃接合部癌——増えている「境目の癌」",
+       "c": "<span class=\"kw4\"><b>食道と胃の境目（食道胃接合部の上下2cm）にできる癌は、食道癌とも胃癌とも違う扱いをする</b></span>。<br/><span class=\"kw\"><b>① 増えている理由</b></span><br/><span class=\"kw3\"><b>H. pylori の感染者が減り、胃酸がよく出る人が増えた（Q.145）</b></span><br/><span class=\"kw3\"><b>肥満の増加、GERD の増加</b></span><br/><span class=\"kw\"><b>② 組織型</b></span><br/><span class=\"kw3\"><b>多くは腺癌（Barrett 腺癌、噴門部の腺癌）</b></span><br/><span class=\"kw\"><b>③ 場所の分け方（Siewert 分類）</b></span><br/><span class=\"kw3\"><b>Ⅰ型：接合部の上1〜5cm——食道の腺癌（Barrett 腺癌）</b></span><br/><span class=\"kw3\"><b>Ⅱ型：接合部の上1cm〜下2cm——本当の接合部の癌</b></span><br/><span class=\"kw3\"><b>Ⅲ型：接合部の下2〜5cm——噴門部の胃癌</b></span><br/><span class=\"kw\"><b>④ 治療に影響すること</b></span><br/><span class=\"kw3\"><b>どちらへ広がるかで、リンパ節郭清の範囲（縦隔か腹部か）と切除の方法（食道側か胃側か）が変わる</b></span><br/><span class=\"kw\"><b>⑤ 症状</b></span><br/><span class=\"kw3\"><b>つかえ感・胸やけ・貧血。本例のように長い胸やけが続いた後に見つかる</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">Barrett食道 = GERD→扁平→円柱上皮化生→食道腺癌リスク</span><br/>PPI治療＋定期内視鏡フォロー（異形成→ESD）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "下部食道の腺癌（Barrett腺癌）で考えられるものを3つ。<br/><b>b 下部食道括約筋が弛緩しにくい（アカラシア）／d 遺伝性疾患</b>：該当しない。<br/><b>a 食道に胃から連続した円柱上皮</b>：<span class=\"kw\">Barrett食道（円柱上皮化生）</span>。✓<br/><b>c 胃酸が食道へ逆流しやすい</b>：<span class=\"kw\">慢性の胃酸逆流が背景</span>。✓<br/><b>e 肥満が関与している</b>：<span class=\"kw\">肥満は逆流・Barrett腺癌の危険因子</span>。✓"
+       "c": "<span class=\"kw4\"><b>Barrett 食道：胃から連続して食道へ伸びる円柱上皮（サーモンピンク色）。食道腺癌の母地</b></span>。<br/><span class=\"kw3\"><b>LSBE（全周3cm 以上）と SSBE。接合部は柵状血管の下端</b></span>。<br/><span class=\"kw4\"><b>危険因子：GERD・食道裂孔ヘルニア・肥満・男性・喫煙</b></span>。<br/><span class=\"kw3\"><b>下部食道括約筋が弛緩しにくいのはアカラシア</b></span>。<br/><span class=\"kw3\"><b>食道胃接合部癌は H. pylori の減少・肥満で増加。Siewert 分類Ⅰ〜Ⅲ型</b></span>。"
       }
      ],
      "imgs": [
@@ -11703,22 +11723,27 @@
       }
      ],
      "ans_label": "ｃ　好酸球性食道炎",
-     "ans_sub": "アレルギー素因＋嚥下困難＋内視鏡で輪状溝・縦走溝・白色滲出物→好酸球性食道炎（EoE）。",
+     "ans_sub": "内視鏡像（A）では、食道に気管のような<b>輪状のくびれ（リング）</b>が何重にも並び、縦に走る<b>溝（縦走溝）</b>と小さな白い点が見える。生検（B）では、食道の扁平上皮の中に赤く染まる<b>好酸球が多数浸潤</b>している。アトピー性皮膚炎のある40歳の男性、つかえ感・胸やけ、PPI が効かない——<b>好酸球性食道炎</b>。食道癌は不整な腫瘤・潰瘍、逆流性食道炎は食道下部のびらん、アカラシアは食道の拡張、食道カンジダ症は白い苔のような付着物で、いずれも像が合わない。",
      "eg": [
       {
        "cls": "ep",
-       "h": "🔬 好酸球性食道炎（EoE）",
-       "c": "<span class=\"kw\">好酸球性食道炎（Eosinophilic Esophagitis）</span>：<br>・アレルギー体質（アトピー・喘息・食物アレルギー）に多い<br>・主症状：嚥下困難（固体）、胸やけ、食物嵌頓（food impaction）<br><br><span class=\"kw\">内視鏡所見</span>：<br/>・<span class=\"kw\">輪状溝（trachealization）</span>：気管様外観<br/>・縦走溝（linear furrow）<br/>・白色滲出物（白い点状所見）<br/>・食道壁の脆弱化（内視鏡通過で裂傷）<br/><br/><span class=\"kw\">診断</span>：生検で好酸球≥15個/HPF<br/><span class=\"kw\">治療</span>：PPI（第一選択）＋食事療法（原因食物除去）＋ステロイド</br></br></br></br>"
+       "h": "🌿 好酸球性食道炎——食物などへのアレルギーが食道で起こる",
+       "c": "<span class=\"kw4\"><b>食物の抗原などに対する Th2 型のアレルギー反応で、食道の上皮に好酸球がたまり、炎症と線維化で食道が硬く狭くなる</b></span>。<br/><span class=\"kw\"><b>① 患者像</b></span><br/><span class=\"kw3\"><b>30〜50歳代の男性に多い。アトピー性皮膚炎・喘息・アレルギー性鼻炎・食物アレルギーを合併しやすい</b></span><br/><span class=\"kw\"><b>② 症状</b></span><br/><span class=\"kw4\"><b>つかえ感・嚥下困難、食物が詰まる（食物嵌頓）、胸やけ、胸痛</b></span><br/><span class=\"kw\"><b>③ 内視鏡</b></span><br/><span class=\"kw3\"><b>輪状溝（リング）、縦走溝、白色の小さな滲出物、浮腫（血管が見えにくい）</b></span><br/><span class=\"kw3\"><b>食道全体に広がる——逆流性食道炎は下部が中心</b></span><br/><span class=\"kw3\"><b>内視鏡が正常に見えることもある——疑えば生検する</b></span><br/><span class=\"kw\"><b>④ 診断</b></span><br/><span class=\"kw4\"><b>食道の生検で上皮内の好酸球が15個以上/高倍率視野</b></span><br/><span class=\"kw3\"><b>食道の複数の場所（上部・下部）から生検する</b></span><br/><span class=\"kw3\"><b>血液の好酸球は増えないことも多い（本例は8％）</b></span><br/><span class=\"kw\"><b>⑤ 治療</b></span><br/><span class=\"kw3\"><b>PPI（効く人が多い）、局所作用のステロイドを飲み込む（ブデソニドなど）</b></span><br/><span class=\"kw3\"><b>原因食物の除去（牛乳・小麦・卵・大豆・ナッツ・魚介）、狭窄にはバルーン拡張</b></span><br/><span class=\"kw3\"><b>重症例にデュピルマブ（IL-4/IL-13 を抑える）</b></span>"
+      },
+      {
+       "cls": "ee",
+       "h": "□ 選択肢の検討",
+       "c": "<table class=\"tb\"><tr><th>選択肢</th><th>解説</th></tr><tr><td>ａ　食道癌</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>不整な隆起・潰瘍・狭窄——生検で癌細胞</b></span>。</td></tr><tr><td>ｂ　逆流性食道炎</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道下部のびらんが中心——輪状溝・縦走溝は典型ではない</b></span>。<span class=\"kw3\"><b>PPI が効かない</b></span>。</td></tr><tr><td><span class=\"kw3\">◯ ｃ　好酸球性食道炎</span></td><td><span class=\"kw3\">これが正解</span>。<span class=\"kw3\"><b>輪状溝・縦走溝と、上皮内の好酸球の多数浸潤</b></span>。</td></tr><tr><td>ｄ　食道アカラシア</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>食道の拡張と食物の貯留</b></span>。</td></tr><tr><td>ｅ　食道カンジダ症</td><td><span class=\"kw4\">誤り</span>。<span class=\"kw3\"><b>白い苔のような付着物がこびりつく——生検で菌糸</b></span>。<span class=\"kw3\"><b>ステロイドの吸入・免疫不全・糖尿病の人に多い</b></span>。</td></tr></table>"
+      },
+      {
+       "cls": "em",
+       "h": "🔍 好酸球性胃腸炎——好酸球が食道より下でたまると",
+       "c": "<span class=\"kw4\"><b>胃・小腸・大腸に好酸球がたまる病気は好酸球性胃腸炎と呼び、食道の病気とは症状が違う</b></span>。<br/><span class=\"kw\"><b>① 患者像</b></span><br/><span class=\"kw3\"><b>日本では好酸球性食道炎より多いとされ、女性にもよく見られる</b></span><br/><span class=\"kw3\"><b>アレルギー疾患の合併が多い</b></span><br/><span class=\"kw\"><b>② 好酸球がたまる層で症状が変わる</b></span><br/><span class=\"kw3\"><b>粘膜型：腹痛・下痢・吸収不良・蛋白漏出・鉄欠乏性貧血</b></span><br/><span class=\"kw3\"><b>筋層型：腸の壁が厚くなり、狭窄・腸閉塞</b></span><br/><span class=\"kw4\"><b>漿膜型：腹水——腹水の中に好酸球が多い</b></span><br/><span class=\"kw\"><b>③ 検査</b></span><br/><span class=\"kw4\"><b>血液の好酸球の増加（好酸球性食道炎より目立つ）</b></span><br/><span class=\"kw3\"><b>内視鏡で複数の場所から生検——高倍率視野あたり20〜30個以上の好酸球</b></span><br/><span class=\"kw3\"><b>寄生虫症（糞線虫・アニサキスなど）、薬剤、好酸球増多症候群、血管炎（好酸球性多発血管炎性肉芽腫症）を除く</b></span><br/><span class=\"kw\"><b>④ 治療</b></span><br/><span class=\"kw3\"><b>ステロイドの内服がよく効く。原因食物の除去</b></span>"
       },
       {
        "cls": "ept",
        "h": "🎯 国試ポイント",
-       "c": "<span class=\"kw\">好酸球性食道炎：アレルギー体質＋嚥下困難＋輪状溝・縦走溝（内視鏡）</span><br/>PPI非応答例→ブデソニド（局所ステロイド）。"
-      },
-      {
-       "cls": "em",
-       "h": "🔍 選択肢解説",
-       "c": "内視鏡で輪状溝＋生検で好酸球浸潤。<br/><b>a 食道癌／b 逆流性食道炎／d 食道アカラシア／e 食道カンジダ症</b>：合わない。<br/><b>c 好酸球性食道炎</b>：<span class=\"kw\">食道上皮への好酸球浸潤（輪状溝・縦走溝）</span>。✓"
+       "c": "<span class=\"kw4\"><b>アレルギー疾患＋つかえ感・食物嵌頓＋内視鏡で輪状溝・縦走溝・白色滲出物 → 好酸球性食道炎</b></span>。<br/><span class=\"kw4\"><b>診断：食道の生検で上皮内の好酸球 15個以上/高倍率視野</b></span>。<br/><span class=\"kw3\"><b>治療：PPI、局所ステロイドを飲み込む、原因食物の除去、狭窄はバルーン拡張</b></span>。<br/><span class=\"kw3\"><b>逆流性食道炎は下部中心、好酸球性食道炎は全体</b></span>。<br/><span class=\"kw3\"><b>好酸球性胃腸炎：粘膜型・筋層型・漿膜型（腹水）。血液の好酸球が増える</b></span>。"
       }
      ],
      "imgs": [
